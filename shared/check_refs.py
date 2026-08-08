@@ -4925,10 +4925,11 @@ def check_edit_track_chain():
         print('❌ 편집 자동 가림 체인 게이트 — 층 파일 결손:', e)
         return 1
     checks = [
-        ('① 뷰어 송신', 'function xtrOpts(' in vw and 'o.xtr=xo' in vw),
-        ('② api 화이트리스트', 'opts.xtr = xt' in ae and '!opts.xtr' in ae),   # 후자 = 발사 게이트가 xtr 단독을 유효로 인정(빠지면 "적용할 처리가 없어" 400 = 주 시나리오 전면 거절)
+        ('① 뷰어 송신', 'function xtrOpts(' in vw and 'o.xtr=xo' in vw and '!xtrOpts()' in vw),   # 셋째 = **뷰어 발사 게이트**가 xtr 단독을 유효로 인정(빠지면 ORDER 검사에서 "처리를 하나는 넣어줘"로 막혀 서버에 도달조차 못 한다 — 실측 260808: 서버 게이트만 고치고 이걸 빠뜨려 주 시나리오가 통째로 거절됐다)
+        ('② api 화이트리스트', 'opts.xtr = xt' in ae and '!opts.xtr' in ae),   # 후자 = 서버 발사 게이트의 같은 축(①과 한 쌍 — 한쪽만 고치면 여기서 막히거나 저기서 400)
         ('③ 러너 스크립트 골격', all(k in et for k in ('def norm_xtr', 'LOCAL_OUT', 'track_analyze.py', 'track_render.py', 'ly_out'))),
-        ('④ 워크플로 배선', _has_exec_line(wf, '.github/scripts/edit_track.py') and 'apps/track' in wf and 'ly_final_path.txt' in wf),
+        ('④ 워크플로 배선', _has_exec_line(wf, '.github/scripts/edit_track.py') and 'apps/track' in wf and 'ly_final_path.txt' in wf
+            and 'EDIT_SRC' in wf.split('edit_track.py')[0].rsplit('자동 가림 적용', 1)[-1]),   # 원본 폴백 = 실효 조건(가림만 켜면 편집 축이 0이라 ly_burn이 합성물을 안 만든다 → 폴백이 없으면 그 자리에서 조용히 스킵 = 주 시나리오 무동작)
         ('⑤ 컴포즈 산출 도장', 'ly_final_path.txt' in lb),   # 후속 스텝의 입력 앵커 — 빠지면 폴백 경로 추정에 의존(음량 통일 분기로 경로가 갈린다)
         ('⑥ 크로마 강도 단위', 'o.similarity > 1' in at),   # 구판 직접 클램프 부활 = 크로마키 전면 무동작 회귀
     ]

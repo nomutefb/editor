@@ -486,11 +486,15 @@ jobs:
         run: |
           [ -n "$IN_ID" ] || exit 0
           case "$IN_ID" in *[!0-9a-f-]*) exit 0;; esac
-          # 입력 = 컴포즈 최종본(ly_burn이 도장한 경로 · 없으면 음량통일본 → 합성본 순 폴백)
+          # 입력 = 컴포즈 최종본(ly_burn이 도장한 경로 · 없으면 음량통일본 → 합성본 순 폴백) → **최후 폴백 = 원본**
+          #   ⚠ 원본 폴백이 실효 조건이다 — 추가 옵션만 켜고 생성하면(= 운영자 주 시나리오 "모자이크만") 편집 축이 하나도 없어서
+          #     ly_burn이 합성할 게 없다: 실측 260808 = video.json에 "자막 타이밍 데이터 없음"만 쓰고 끝나 도장·산출이 **둘 다 없다**.
+          #     그때 원본에 바로 가림을 걸면 된다(크롭·해상도 변경이 없으니 분석 좌표도 원본 기준이 정확).
           SRC_IN=""
           if [ -s /tmp/ly_final_path.txt ]; then SRC_IN="$(cat /tmp/ly_final_path.txt)"; fi
           if [ ! -s "$SRC_IN" ]; then for c in /tmp/ly_an.mp4 /tmp/ly_subbed.mp4; do [ -s "$c" ] && SRC_IN="$c" && break; done; fi
-          [ -s "$SRC_IN" ] || { echo "::warning::컴포즈 산출을 못 찾아 자동 가림 스킵"; exit 0; }
+          if [ ! -s "$SRC_IN" ] && [ -s "${EDIT_SRC:-}" ]; then SRC_IN="$EDIT_SRC"; echo "[xtr] 컴포즈 산출 없음 → 원본에 직접 적용"; fi
+          [ -s "$SRC_IN" ] || { echo "::warning::영상 소스를 못 찾아 자동 가림 스킵"; exit 0; }
           python3 .github/scripts/edit_track.py "$IN_ID" "$SRC_IN"
 
       - name: 실패 기록(error.log) — 프론트가 폴링해 즉시 표시

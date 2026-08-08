@@ -151,9 +151,12 @@ def main():
         vj = json.load(open(vj_p, encoding="utf-8"))
     except Exception:
         vj = {}
-    if vj.get("error"):   # 컴포즈가 이미 실패 = 얹을 영상이 없다
-        log("컴포즈 실패 상태 — 스킵")
-        return 0
+    # ⚠ 컴포즈 error가 있어도 **진행한다** — 편집 축 없이 가림만 켜고 생성하면(운영자 주 시나리오) ly_burn은 합성할 게 없어
+    #   "자막 타이밍 데이터 없음"을 error로 쓰고 끝난다(실측 260808). 그건 이 잡의 실패가 아니라 **컴포즈할 게 없었다**는 뜻이고,
+    #   호출자가 유효한 입력 영상을 쥐어준 이상 가림 산출물이 곧 이 잡의 결과다. 성공하면 그 error를 걷어낸다(아래 vj.pop).
+    #   실패하면 기존 error가 그대로 남아 화면 문구가 종전과 동일 = 회귀 0.
+    if vj.get("error"):
+        log("컴포즈 산출 없음(error=%s) — 입력 영상에 직접 적용" % str(vj.get("error"))[:40])
 
     tid = vid_id   # 트래킹 작업폴더 = 같은 id(viewer/track_out/<id> · 커밋 스텝은 ly_out만 add = 레포 무오염)
     order = [m for m in ("mosaic", "pinset") if on[m]]
@@ -274,6 +277,8 @@ def main():
     if not url:
         vj["note"] = "master-lost"   # 뷰어가 정직 표시(다운로드용 알파 마스터 없음 · 화면 재생은 프리뷰) — track_keying·track_chroma 동일 문자열
     vj.pop("xtr_note", None)
+    vj.pop("error", None)   # 산출이 실제로 나왔으니 컴포즈 단계의 "합성할 게 없었다" 기록은 걷는다(남기면 뷰어가 실패로 표시 = 결과가 있는데 못 보는 사고)
+    vj.pop("skip", None)
     json.dump(vj, open(vj_p, "w", encoding="utf-8"), ensure_ascii=False)
     log("완료 — " + ",".join(done) + " · " + str(os.path.getsize(cur) // 1048576) + "MB")
     return 0
