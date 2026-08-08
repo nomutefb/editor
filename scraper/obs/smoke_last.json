@@ -1,7 +1,7 @@
 {
- "updated": "2026-08-08T12:21:23+09:00",
+ "updated": "2026-08-09T04:18:31+09:00",
  "rc": 1,
- "fail": "2종 실패 — smoke_fire(1), smoke_rank(1) · ── smoke_fire FAIL 1건 (서버 종료됨)",
+ "fail": "1종 실패 — smoke_fire(1) · ABORT | page.evaluate: Execution context was destroyed, most likely because of a navigation",
  "jobs": {
   "smoke_chan": "0",
   "smoke_clickshield": "0",
@@ -17,7 +17,7 @@
   "smoke_photoflow": "0",
   "smoke_popup": "0",
   "smoke_preview": "0",
-  "smoke_rank": "1",
+  "smoke_rank": "0",
   "smoke_studioshell": "0",
   "smoke_sweep": "0",
   "smoke_tabdz": "0",
@@ -29,10 +29,11 @@
   "smoke_wip": "0"
  },
  "failed": [
-  "smoke_fire",
-  "smoke_rank"
+  "smoke_fire"
  ],
  "flaky": [
+  "smoke_ghead",
+  "smoke_rank",
   "smoke_studioshell"
  ],
  "details": [
@@ -40,20 +41,13 @@
    "job": "smoke_fire",
    "rc": "1",
    "lines": [
+    "ABORT | page.evaluate: Execution context was destroyed, most likely because of a navigation",
     "── smoke_fire FAIL 1건 (서버 종료됨)"
-   ]
-  },
-  {
-   "job": "smoke_rank",
-   "rc": "1",
-   "lines": [
-    "FAIL | 하네스 | browserType.launch: Failed to launch chromium because executable doesn't exist at /opt/pw-browsers/chromium",
-    "── smoke_rank FAIL (1건)"
    ]
   }
  ],
  "run": {
-  "id": "31236664571",
-  "url": "https://github.com/muteno/nomute-editor/actions/runs/31236664571"
+  "id": "31273670835",
+  "url": "https://github.com/muteno/nomute-editor/actions/runs/31273670835"
  }
 }
