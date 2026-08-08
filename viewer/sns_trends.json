@@ -8589,8 +8589,14 @@
   {
    "query": "회사",
    "traffic": "20000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/trend/2f379ee01c.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://news.nate.com/view/20260808n07676",
+     "source": ""
+    }
+   ],
    "vol": 20000,
    "started": "2026-08-08T15:10:00+09:00",
    "delta": 2,
@@ -8690,8 +8696,14 @@
   {
    "query": "암",
    "traffic": "10000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/trend/7f709a701b.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.newsis.com/view/NISX20260803_0003733403",
+     "source": ""
+    }
+   ],
    "vol": 10000,
    "started": "2026-08-09T05:10:00+09:00",
    "delta": -15,
@@ -9524,7 +9536,8 @@
      "source": "Yahoo Sports"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "아론 놀라"
   },
   {
    "query": "richie miranda",
@@ -9542,7 +9555,8 @@
      "source": "Sports Gambling Podcast"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "리치 미란다"
   },
   {
    "query": "morgan freeman",
@@ -9560,7 +9574,8 @@
      "source": "Yahoo"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "모건 프리먼"
   },
   {
    "query": "max scherzer",
@@ -9578,7 +9593,8 @@
      "source": "FOX Sports"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "맥스 슈어저"
   },
   {
    "query": "aeropuerto internacional de miami",
@@ -9596,7 +9612,8 @@
      "source": "Diario Las Américas"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "마이애미 국제공항"
   },
   {
    "query": "july 4",
@@ -9614,7 +9631,8 @@
      "source": "WTOP"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "7월 4일"
   },
   {
    "query": "inter miami vs monterrey",
@@ -9632,7 +9650,8 @@
      "source": "Inter Miami CF"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "인터 마이애미 대 몬테레이"
   },
   {
    "query": "the agency",
@@ -9650,7 +9669,8 @@
      "source": "PBS"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "대행사"
   },
   {
    "query": "dci finals 2026",
@@ -9668,7 +9688,8 @@
      "source": "FloMarching"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "2026년 DCI 결승전"
   },
   {
    "query": "yankees vs braves",
@@ -9686,7 +9707,8 @@
      "source": "ESPN"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "양키스 vs 브레이브스"
   },
   {
    "query": "沖縄天気",
@@ -9704,7 +9726,8 @@
      "source": "Yahoo!ニュース"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "오키나와 날씨"
   },
   {
    "query": "長崎原爆",
@@ -9722,14 +9745,16 @@
      "source": "日本経済新聞"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "나가사키 원폭"
   },
   {
    "query": "手数料",
    "traffic": "200+",
    "picture": "",
    "news": [],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "수수료"
   },
   {
    "query": "女子オールスター競輪",
@@ -9747,7 +9772,8 @@
      "source": "Yahoo!ニュース"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "여자 올스타 경륜"
   },
   {
    "query": "中央道 渋滞",
@@ -9765,7 +9791,8 @@
      "source": "TVer"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "중앙도 정체"
   },
   {
    "query": "t シャツ が 乾く まで 6 話",
@@ -9783,7 +9810,8 @@
      "source": "ｄメニューニュース"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "티셔츠가 마를 때까지 6화"
   },
   {
    "query": "vote",
@@ -9801,7 +9829,8 @@
      "source": "Democracy Docket"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "투표"
   },
   {
    "query": "大韓サッカー協会",
@@ -9819,7 +9848,8 @@
      "source": "西日本新聞me"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "대한축구협회"
   },
   {
    "query": "バスケットボール 男子日本代表",
@@ -9837,7 +9867,8 @@
      "source": "TVer"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "농구 남자 일본 대표"
   },
   {
    "query": "長野県知事選挙",
@@ -9855,7 +9886,8 @@
      "source": "TVer"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "나가노현 지사 선거"
   },
   {
    "query": "steven asplund",
@@ -9868,7 +9900,8 @@
      "source": "Bettingstugan.se"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "스티븐 아스플런드"
   },
   {
    "query": "john wick",
@@ -9886,7 +9919,8 @@
      "source": "MovieWeb"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "존 윅"
   },
   {
    "query": "islam makhachev",
@@ -9904,7 +9938,8 @@
      "source": "MMA Fighting"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "이슬람 마하체프"
   },
   {
    "query": "chris hemsworth",
@@ -9922,7 +9957,8 @@
      "source": "MovieWeb"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "크리스 헴스워스"
   },
   {
    "query": "mateusz gamrot",
@@ -9940,7 +9976,8 @@
      "source": "MMA Fighting"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "마테우스 감로트"
   },
   {
    "query": "jose montanha",
@@ -9958,7 +9995,8 @@
      "source": "DraftKings Network"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "호세 몬테"
   },
   {
    "query": "ewc",
@@ -9976,7 +10014,8 @@
      "source": "Manchester City FC"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "으악"
   },
   {
    "query": "belfast live",
@@ -9994,7 +10033,8 @@
      "source": "NorthernIrelandWorld"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "벨파스트 라이브"
   },
   {
    "query": "louie sutherland",
@@ -10012,7 +10052,8 @@
      "source": "UFC.com"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "루이 서덜랜드"
   }
  ],
  "yt_cids": {
@@ -18842,7 +18883,8 @@
      20,
      20
     ],
-    "first_seen": "2026-08-08T20:42:26+09:00"
+    "first_seen": "2026-08-08T20:42:26+09:00",
+    "ko": "Gemini 3.6 Flash를 사용하면 실제 유기적 패턴을 사용 가능한 인쇄 및 디자인 요소로 바꿀 수 있습니다."
    },
    {
     "account": "openai",
@@ -18871,7 +18913,8 @@
      21,
      21
     ],
-    "first_seen": "2026-08-08T18:37:46+09:00"
+    "first_seen": "2026-08-08T18:37:46+09:00",
+    "ko": "자연스러운 인간-AI ​​상호작용을 위한 차세대 음성 모델인 GPT-Live를 소개합니다."
    },
    {
     "account": "openai",
@@ -18900,7 +18943,8 @@
      22,
      22
     ],
-    "first_seen": "2026-08-08T18:37:46+09:00"
+    "first_seen": "2026-08-08T18:37:46+09:00",
+    "ko": "이것은 새로운 ChatGPT 작업입니다."
    },
    {
     "account": "runwayapp",
@@ -18929,7 +18973,8 @@
      23,
      23
     ],
-    "first_seen": "2026-08-08T18:37:46+09:00"
+    "first_seen": "2026-08-08T18:37:46+09:00",
+    "ko": "이야기가 있다면 생생하게 전달하세요. 아이디어부터 실행까지 이 단편은 단 몇 시간 만에 하나의 광고 소재로 제작되었습니다."
    },
    {
     "account": "runwayapp",
@@ -18951,7 +18996,8 @@
      24,
      24
     ],
-    "first_seen": "2026-08-09T00:43:22+09:00"
+    "first_seen": "2026-08-09T00:43:22+09:00",
+    "ko": "Seedance 2.5가 Runway에 게시되었습니다."
    }
   ],
   "youtube": [
@@ -20665,7 +20711,8 @@
     9,
     9
    ],
-   "first_seen": "2026-08-09T06:44:57+09:00"
+   "first_seen": "2026-08-09T06:44:57+09:00",
+   "ko": "#BornToShineSomething"
   }
  ],
  "bsky_trends": [
@@ -20678,7 +20725,8 @@
    "rh": [
     1
    ],
-   "first_seen": "2026-08-09T07:43:19+09:00"
+   "first_seen": "2026-08-09T07:43:19+09:00",
+   "ko": "트럼프 수사"
   },
   {
    "query": "Newcastle United",
