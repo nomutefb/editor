@@ -50,6 +50,13 @@ IMG_MODEL = os.environ.get("RESIZE_IMG_MODEL", "").strip()   # 이미지 모델 
 #     260808 «3.1 pro를 쓰든 3.1 flash를 쓰든 다 테스트해서 최대한 자연스럽게» — 비교하려면 씨앗·프롬프트·
 #     판정을 고정한 채 모델만 갈아끼우는 축이 있어야 하는데, API가 모듈 상수라 실험 축 자체가 없었다.
 JUDGE_MODEL = os.environ.get("RESIZE_JUDGE_MODEL", "").strip()   # 판정 모델(빈값 = 생성과 같은 모델 = 종전)
+TRIES = max(1, min(5, int(os.environ.get("RESIZE_TRIES", "3") or 3)))   # 생성 시도 상한(260808 실측 상향 2→3)
+#   ⚠ 근거 = 같은 사진·같은 배치·같은 프롬프트 5회 실호출 실측 = **모델이 확률적**이다:
+#     1타 통과 3건(cmp-flash·rep-mirror·rep-916big) / 2타 통과 1건(rep-a2) / 2타까지 실패 1건(rep-a3).
+#     상한 2에서 성공 4/5 — 그런데 **실패했을 때가 가장 비싸다**: 생성 2 + 판정 2콜을 전액 태우고
+#     산출은 무과금 씨앗과 똑같은 그림이 나간다(운영자 260808 "실패해도 과금이 나갈텐데").
+#     한 번 더 주는 비용은 실패 건에만 붙고, 그 1콜이 폴백(=돈만 쓰고 결과 0)을 줄인다.
+#   ⚠ 상한 5 = 폭주 차단(무한 재시도로 과금이 열리는 길 봉인) · RESIZE_TRIES=2 = 종전 동작 즉시 원복.
 _CALLS = {"gen": 0, "judge": 0}   # 회차 과금 실측(생성·판정 발사 수 · 성패 무관 = 실제 청구 단위)
 STREAK_MAX = 0.50   # 여백 clamp 줄무늬 잔류 상한 — 초과 = 「모델 무동작」(260807 실측: 무동작 0.983 vs 정상 재작성 0.000 · JPEG 왕복 후에도 성립)
 
@@ -687,7 +694,7 @@ def main():
             #   텍스트로 "두 번째 몸통 금지"라고 말해도 시각 증거가 이긴다(260806 실사고).
             feed_parts = [ref_jpg, jpg_bytes(feed)] if SEED_ON else jpg_bytes(feed)
             out_cand, fb, qa_fail, qa_note = None, "", False, "NONE"   # NONE = 렌더 자체가 0회 성공
-            for attempt in (1, 2):   # 생성→자가 QA→실패 사유 피드백 재생성 1회(exp r8 검증 · 운영자 '검증하면서 뽑기')
+            for attempt in range(1, TRIES + 1):   # 생성→자가 QA→실패 사유 피드백 재생성(exp r8 검증 · 운영자 '검증하면서 뽑기' · 상한 = TRIES)
                 p = base_prompt + ((" IMPORTANT — the previous attempt FAILED quality review for this "
                                     "reason: \"" + fb + "\". Fix exactly that issue this time.") if fb else "")
                 cand = tg.gemini_image(p, image_size=size, tag="resize:t{}".format(attempt),
