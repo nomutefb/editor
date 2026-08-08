@@ -44,7 +44,13 @@ HEAD_RE = re.compile(r"^════\s+(\S+)\s+\(rc=(\S+?)(\s+·\s+재시도 통
 SUMM_RE = re.compile(r"^──\s+smoke_all\s+FAIL\s+\((.*?)\)")
 PASS_RE = re.compile(r"^──\s+smoke_all\s+전부 PASS")
 # 실패 표식 — 스모크마다 문법이 다르다(❌ 미사용 15종 실측)라 넓게 잡는다. `✅`는 성공 줄이라 제외.
-HIT_RE = re.compile(r"(❌|✗|\bFAIL\b|실패|예외|Error:|Timeout|timeout|미검출|불일치|어긋)")
+# ⚠ `ABORT`·`Failed` 편입 = 260809 실사고 봉합. smoke_fire 가 러너에서 FAIL 1건인데 사유 칸에 꼬리 줄
+#   (`── smoke_fire FAIL 1건 (서버 종료됨)`)만 실려 **무엇이 죽였는지가 원장에도 안 남았다**(실측
+#   scraper/obs/smoke_last.json details). 원인 = 예외 경로의 출력 문법이 `ABORT | <메시지>` 인데 그 어휘가
+#   여기 없어 ①축이 통째로 미스 → ②축(꼬리 줄)이 받아 **fail-closed 는 지켜졌지만 사유는 소실**됐다.
+#   `ABORT |` 보유 = 7종 실측(chan·fire·geni·parity·preview·studioshell·trend) = 이 레포 예외 관용구.
+#   `Failed` = playwright launch 실패 문구(`Failed to launch chromium …`)가 대문자 `\bFAIL\b` 에 안 걸린다.
+HIT_RE = re.compile(r"(❌|✗|\bFAIL\b|\bABORT\b|Failed|실패|예외|Error:|Timeout|timeout|미검출|불일치|어긋)")
 MAXLINE = 220   # 줄 1개 상한(문자 단위 절단 = 한글 파손 0 · analyze `_why` 관용구 계승)
 MAXPER = 4      # 종목당 사유 줄 상한
 MAXJOBS = 6     # 진단서에 실을 실패 종목 상한(그 이상은 개수로 표기)

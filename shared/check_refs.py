@@ -4881,6 +4881,19 @@ def check_smoke_chromium_path():
             m = re.search(r'''executablePath\s*:\s*['"]([^'"]+)['"]''', ln)
             if m:
                 bad.append('%s:%d  executablePath:%r = 리터럴 경로(폴백 0)' % (rel, i, m.group(1)))
+        # ②축 = 해석기 **몸통** 정합(260809 실사고 봉합 · 위 ①축의 사각).
+        #   ⚠ 260808 봉합은 「executablePath 에 리터럴을 박았나」= **호출부**만 봤다. 그런데 실패는
+        #     `chromiumPath()` 라는 **정본 이름을 그대로 달고** 다시 났다 — 몸통이 `return cands.find(Boolean)`
+        #     이라 존재 검사 없이 첫 truthy(= '/opt/pw-browsers/chromium')를 그대로 뱉는 사본이었다.
+        #     호출부는 정본과 글자 하나 안 다르고(`executablePath: chromiumPath()`), 로컬엔 그 경로가
+        #     실재해 **로컬 PASS·러너만 FAIL** → 게이트·사람 눈 양쪽의 사각(260809 실측 = smoke_rank·smoke_favtab
+        #     2종 · 나이틀리 런 31236664571 `smoke_rank=1`). = 「같은 병의 형제」가 아니라 **같은 병의 변종**.
+        #   술어 = chromiumPath() 를 정의하면 그 몸통은 후보를 **실존 검사**한다(정본 = shared/smoke_parity.js).
+        mb = re.search(r'function\s+chromiumPath\s*\([^)]*\)\s*\{(.*?)\n\}', src, re.S)
+        if mb:
+            body = '\n'.join(x for x in mb.group(1).splitlines() if not x.lstrip().startswith('//'))
+            if 'existsSync' not in body:
+                bad.append('%s  chromiumPath() 몸통에 실존 검사 0 = 리터럴을 그대로 반환(로컬 PASS·러너 FAIL)' % rel)
     if bad:
         print('❌ 스모크 크로미엄 경로 게이트 — 리터럴 경로 하드코딩(러너에 그 경로가 없으면 매 나이틀리 확정 실패):')
         for b in bad:

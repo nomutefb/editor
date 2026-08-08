@@ -54,7 +54,8 @@ function loadPlaywright() {
 function chromiumPath() {
   const cands = [process.env.CHROMIUM_PATH, '/opt/pw-browsers/chromium'];
   try { cands.push(execSync('which chromium chromium-browser google-chrome 2>/dev/null | head -1').toString().trim()); } catch (_) {}
-  return cands.find(Boolean);
+  for (const c of cands) { if (c && fs.existsSync(c)) return c; }
+  throw new Error('크로미엄 실행 파일을 못 찾음 — CHROMIUM_PATH env로 지정해라');
 }
 async function startServer() {
   for (const port of [8811, 8812, 8813, 8814, 8815]) {
