@@ -1,5 +1,28 @@
 [
   {
+    "url": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/resize/rep-a3/4x5-3c313915.jpg",
+    "srcUrl": "uploads/260808115819-914ca2/src.jpg",
+    "aspect": "4:5",
+    "size": "1K",
+    "lock": true,
+    "route": "seed_pad",
+    "fill": "ai",
+    "qa": "FAIL",
+    "calls": {
+      "gen": 2,
+      "judge": 2
+    },
+    "model": "gemini-3.1-flash-image-preview",
+    "box": [
+      0.22589,
+      0.02146,
+      0.77411,
+      0.68301
+    ],
+    "id": "rep-a3",
+    "ts": "2026-08-09T02:27:04+09:00"
+  },
+  {
     "url": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/resize/rep-a2/4x5-3c4a018a.jpg",
     "srcUrl": "uploads/260808115819-914ca2/src.jpg",
     "aspect": "4:5",
@@ -347,17 +370,5 @@
     "box": null,
     "id": "fill916",
     "ts": "2026-08-07T10:39:47+09:00"
-  },
-  {
-    "url": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/resize/fill45/4x5-2ccc8a76.jpg",
-    "srcUrl": "uploads/fill45/src.jpg",
-    "aspect": "4:5",
-    "size": "1K",
-    "lock": true,
-    "route": "blur_pad",
-    "fill": "auto",
-    "box": null,
-    "id": "fill45",
-    "ts": "2026-08-07T10:07:59+09:00"
   }
 ]
