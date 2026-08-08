@@ -1426,8 +1426,13 @@ function renderXtr(){   // 가로 3분할 + 라벨|OFF·ON 순환값 문법(운�
     /* 실루엣 = 숨김(운영자 260728 Q12 "일단 숨김 — 내가 어떻게 할지 알려줌" · XTR.silh 상태·세부 카드·트래킹 핸드오프 전부 보존 · 복원 = tg('silh','실루엣','픽셀 실루엣 추종 모자이크·가면') 1줄) · 번역(trans) 카드 = 삭제(운영자 260728 Q06 "아래에 있는 번역은 삭제" — 하이라이트 자막 번역 토글이 대체 · XTR.trans 배타 코드 보존) */
     +(det?'<div class="scard"><div class="prm">'+det+'</div></div>':'')
     +'</div>'
-    +(any?'<div class="xnote">켠 옵션은 <strong>생성</strong>에 그대로 실려 — 인물을 자동으로 찾아 처리해. 인물을 직접 골라 세밀하게 하려면 아래.</div>':'')   // 운영자 260808 "모자이크 누르고 옵션 선택한 다음에 생성 누르면 트래킹해서 모자이크까지 자동으로" — 구판은 이 카드가 발사 옵션이 아니어서 켜도 생성에 안 실렸고, [트래킹] 버튼으로 넘어가 재첨부·재분석·수동선택을 다시 해야 했다(= "목업만 뜨고 진행 불가"의 실체). 부품 = 기존 .xnote 계승(신규 창작 0)
-    +'<button class="xgo" id="xtrGo" type="button"'+(any?'':' disabled')+'>트래킹</button>';   // 라벨 = 한 단어(운영자 260712 "'트래킹에서 이어서~' 말 필요없음") · 미선택 = disabled 흐림(어포던스가 설명) · 260808부터 = **선택 경로**(자동이 기본 · 인물 개별 선택·수동 지정이 필요할 때만)
+    +(any?'<div class="xnote">켠 옵션은 <strong>생성</strong>에 그대로 실려 — 인물을 자동으로 찾아 처리해.</div>':'')   // 운영자 260808 "모자이크 누르고 옵션 선택한 다음에 생성 누르면 트래킹해서 모자이크까지 자동으로" — 구판은 이 카드가 발사 옵션이 아니어서 켜도 생성에 안 실렸고, [트래킹] 버튼으로 넘어가 재첨부·재분석·수동선택을 다시 해야 했다(= "목업만 뜨고 진행 불가"의 실체). 부품 = 기존 .xnote 계승(신규 창작 0)
+    /* [트래킹] 진입 버튼 = **도먼트**(운영자 260808 2차 "저 버튼누르면 이상한곳으로 이동이되고") — 자동 처리가 기본이 된 뒤 이 버튼은 혼란만 준다:
+       ⓐ 눌러도 편집에 첨부한 영상이 안 넘어가(옵션값만 핸드오프) track.html에서 **재첨부 → 재분석 → 수동선택**을 처음부터 다시 해야 한다
+       ⓑ 라벨이 위 토글 '트래킹'(핀셋 이름표)과 **같은 단어**라 무엇을 여는 버튼인지 읽히지 않는다.
+       핸들러·핸드오프(nm_track_preset)·track.html 파이프는 전부 보존 = 복원 = 아래 hidden 한 낱말 제거(레포 도먼트 관례).
+       ⚠ 재점등 조건 = 편집 첨부분(R2 키·파일)을 track.html이 이어받아 「재첨부 0」이 될 때 — 그때야 이 버튼이 선택 경로로서 값을 한다. */
+    +'<button class="xgo" id="xtrGo" type="button" hidden'+(any?'':' disabled')+'>트래킹</button>';   // 라벨 = 한 단어(운영자 260712 "'트래킹에서 이어서~' 말 필요없음") · 미선택 = disabled 흐림(어포던스가 설명) · 260808부터 = **선택 경로**(자동이 기본 · 인물 개별 선택·수동 지정이 필요할 때만)
 }
 function xtrOpts(){   // 발사 페이로드 축(운영자 260808) — 켠 축만 담고 값은 **폼 단위 그대로**(러너 edit_track이 배율·비율로 환산 = 단위 변환 1곳)
   if(!(XTR.mosaic||XTR.pinset||XTR.keying||XTR.silh||XTR.chroma)) return null;
@@ -1729,7 +1734,7 @@ $('#editGo').addEventListener('click',async()=>{
   const url=$('#url').value.trim();
   if(!url && !FILE_B64 && !FILE_R2 && !_lastFile) return errStatus('영상 URL이나 파일을 넣어줘');
   if(url && !/^https?:\/\//i.test(url)) return errStatus('URL은 http(s)로');
-  if(!ORDER.some(k=>ON[k])&&!CUT_REF) return errStatus('처리를 하나는 넣어줘');   // 승인 컷 렌더 = 컷 축이 opts에서 빠지므로 예외(260727 ③)
+  if(!ORDER.some(k=>ON[k])&&!CUT_REF&&!xtrOpts()) return errStatus('처리를 하나는 넣어줘');   // 승인 컷 렌더 = 컷 축이 opts에서 빠지므로 예외(260727 ③) · xtr(가림·키잉·크로마키) 단독도 유효(운영자 260808 주 시나리오 = "모자이크만 켜고 생성") — ⚠ ORDER는 자막·화면·소리 **편집 축** 목록이라 추가 옵션이 안 들어간다(넣으면 eta 합산·리드백 시트 계수까지 오염) → 발사 게이트에서만 별도 항으로 인정. 서버 api/edit.js의 같은 축 게이트(`!opts.xtr`)와 한 쌍 = 한쪽만 고치면 여기서 막히거나 저기서 400이다
   if(!_scan && !ON.clip && ON.trim && (P.segs||[]).length && !fireSegs().length) return errStatus('구간이 이상해 — 끝이 시작보다 커야 해');   // 전량 탈락 구간 = 정직 거절(평의회3 260731) — fireSegs가 유효하지 않은 구간을 continue로 버리면 vid_t0/t1이 **애초에 undefined**라 아래 1504행 역전 가드도, 서버 edit.js의 역전 검사도 발동하지 못한다. 다른 축이 하나라도 켜져 있으면 "처리 없음" 400에도 안 걸려, 사용자는 잘랐다고 믿는데 **원본 전체 길이로 렌더**되고 잡 시간만 태웠다
   const o=buildOpts(_scan);
   if(o.vid_t0!==undefined&&o.vid_t1!==undefined&&o.vid_t1<=o.vid_t0) return errStatus('끝이 시작보다 커야 해');
