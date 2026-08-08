@@ -8344,7 +8344,8 @@
     6,
     8
    ],
-   "first_seen": "2026-08-09T01:49:01+09:00"
+   "first_seen": "2026-08-09T01:49:01+09:00",
+   "ko": "TV에서"
   },
   {
    "query": "서하얀",
@@ -8399,8 +8400,14 @@
   {
    "query": "김희애",
    "traffic": "50000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/trend/cdda1c922c.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://news.nate.com/view/20260808n02230?mid=n1008",
+     "source": ""
+    }
+   ],
    "vol": 50000,
    "started": "2026-08-08T12:00:00+09:00",
    "rh": [
@@ -8426,8 +8433,14 @@
   {
    "query": "열대야",
    "traffic": "500000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/trend/887b608754.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008695523",
+     "source": ""
+    }
+   ],
    "vol": 500000,
    "started": "2026-08-08T15:40:00+09:00",
    "rh": [
@@ -8589,8 +8602,14 @@
   {
    "query": "산삼",
    "traffic": "5000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/trend/44692535e8.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008626474",
+     "source": ""
+    }
+   ],
    "vol": 5000,
    "started": "2026-08-08T18:20:00+09:00",
    "rh": [
@@ -8733,8 +8752,14 @@
   {
    "query": "이은형",
    "traffic": "5000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/trend/93a790d27d.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.tenasia.co.kr/article/2026080565044",
+     "source": ""
+    }
+   ],
    "vol": 5000,
    "started": "2026-08-08T16:40:00+09:00",
    "delta": -2,
@@ -9600,7 +9625,8 @@
      "source": "Stocktwits"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "푸보"
   },
   {
    "query": "cbs sports network",
@@ -9618,7 +9644,8 @@
      "source": "RotoWire"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "CBS 스포츠 네트워크"
   },
   {
    "query": "bill ackman",
@@ -9636,7 +9663,8 @@
      "source": "Fortune"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "빌 애크먼"
   },
   {
    "query": "randy moss",
@@ -9654,7 +9682,8 @@
      "source": "WSJ"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "랜디 모스"
   },
   {
    "query": "2026 nfl hall of fame class",
@@ -9672,7 +9701,8 @@
      "source": "CBS Sports"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "2026 NFL 명예의 전당 클래스"
   },
   {
    "query": "ferencváros vs real madrid",
@@ -9690,7 +9720,8 @@
      "source": "Managing Madrid"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "페렌츠바로스 vs 레알 마드리드"
   },
   {
    "query": "real madrid",
@@ -9708,7 +9739,8 @@
      "source": "Real Madrid CF | Web Oficial"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "레알 마드리드"
   },
   {
    "query": "firefighting",
@@ -9726,7 +9758,8 @@
      "source": "KUTV"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "소방"
   },
   {
    "query": "roger craig",
@@ -9744,7 +9777,8 @@
      "source": "Niners Nation"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "로저 크레이그"
   },
   {
    "query": "yankees old timers day 2026",
@@ -9762,21 +9796,24 @@
      "source": "Journal-News.com"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "2026년 양키스 올드 타이머 데이"
   },
   {
    "query": "大分地震",
    "traffic": "200+",
    "picture": "",
    "news": [],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "오이타 지진"
   },
   {
    "query": "大分 地震",
    "traffic": "200+",
    "picture": "",
    "news": [],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "오이타 지진"
   },
   {
    "query": "tシャツが乾くまで 蒼井優",
@@ -9794,7 +9831,8 @@
      "source": "Mantan Web"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "티셔츠가 마를 때까지 아오이 유"
   },
   {
    "query": "ブライトン 対 ローマ",
@@ -9812,7 +9850,8 @@
      "source": "Vietnam.vn"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "브라이튼 대 로마"
   },
   {
    "query": "トッテナム・ホットスパーfc",
@@ -9830,7 +9869,8 @@
      "source": "Vietnam.vn"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "토트넘 핫스퍼 FC"
   },
   {
    "query": "西村力",
@@ -9848,7 +9888,8 @@
      "source": "马来西亚东方日报"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "니시무라 힘"
   },
   {
    "query": "相葉 雅紀",
@@ -9866,7 +9907,8 @@
      "source": "Yahoo!ニュース"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "아이바 마사키"
   },
   {
    "query": "manchester united",
@@ -9884,7 +9926,8 @@
      "source": "Daily Star"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "맨체스터 유나이티드"
   },
   {
    "query": "フィギュア",
@@ -9902,7 +9945,8 @@
      "source": "ライブドアニュース"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "피규어"
   },
   {
    "query": "メッシ 父親",
@@ -9920,7 +9964,8 @@
      "source": "ｄメニューニュース"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "메시 아버지"
   },
   {
    "query": "jack p shepherd",
@@ -9938,7 +9983,8 @@
      "source": "AOL.co.uk"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "잭 P 셰퍼드"
   },
   {
    "query": "marta kostyuk",
@@ -9956,7 +10002,8 @@
      "source": "Action Network"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "마르타 코스츄크"
   },
   {
    "query": "bulls vs wolves",
@@ -9974,7 +10021,8 @@
      "source": "Warrington Wolves"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "황소 대 늑대"
   },
   {
    "query": "kosovo",
@@ -9992,7 +10040,8 @@
      "source": "Sky News"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "코소보"
   },
   {
    "query": "the last house 2026",
@@ -10010,7 +10059,8 @@
      "source": "Mashable"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "마지막 집 2026"
   },
   {
    "query": "private school",
@@ -10028,7 +10078,8 @@
      "source": "The Telegraph"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "사립학교"
   },
   {
    "query": "callum simpson",
@@ -10046,7 +10097,8 @@
      "source": "FightNews"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "칼럼 심슨"
   },
   {
    "query": "forest green rovers f.c. vs fc halifax town standings",
@@ -10064,7 +10116,8 @@
      "source": "Halifax Courier"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "포레스트 그린 로버스 FC vs FC 핼리팩스 타운 순위"
   }
  ],
  "yt_cids": {
@@ -19123,7 +19176,8 @@
      3,
      3
     ],
-    "first_seen": "2026-08-08T20:42:26+09:00"
+    "first_seen": "2026-08-08T20:42:26+09:00",
+    "ko": "전설적인 명단 ㅋㅋㅋ @fifaworldcup 식사는 6월 4일부터 시작됩니다. 현지 McD에서 이용 가능 여부를 확인하세요."
    },
    {
     "account": "bts.bighitofficial",
@@ -19144,7 +19198,8 @@
      4,
      4
     ],
-    "first_seen": "2026-08-08T20:42:26+09:00"
+    "first_seen": "2026-08-08T20:42:26+09:00",
+    "ko": "'NORMAL (한국어판)' 스테이지 캠 (#지민 포커스) @ BTS WORLD TOUR 'ARIRANG' IN BUSAN"
    },
    {
     "account": "bts.bighitofficial",
@@ -19165,7 +19220,8 @@
      5,
      5
     ],
-    "first_seen": "2026-08-08T20:42:26+09:00"
+    "first_seen": "2026-08-08T20:42:26+09:00",
+    "ko": "2026 FIFA 월드컵ㅣ파리부터 뉴욕까지 : 24시간 기록"
    },
    {
     "account": "newjeans_official",
@@ -19207,7 +19263,8 @@
      7,
      7
     ],
-    "first_seen": "2026-08-08T20:42:26+09:00"
+    "first_seen": "2026-08-08T20:42:26+09:00",
+    "ko": "'NORMAL (한국어판)' 스테이지캠 (#정국 포커스) @ BTS WORLD TOUR 'ARIRANG' IN BUSAN"
    },
    {
     "account": "bts.bighitofficial",
@@ -19228,7 +19285,8 @@
      8,
      8
     ],
-    "first_seen": "2026-08-08T20:42:26+09:00"
+    "first_seen": "2026-08-08T20:42:26+09:00",
+    "ko": "'NORMAL (한국어판)' 스테이지 캠 (#진 포커스) @ BTS WORLD TOUR 'ARIRANG' IN BUSAN"
    },
    {
     "account": "bts.bighitofficial",
@@ -19249,7 +19307,8 @@
      9,
      9
     ],
-    "first_seen": "2026-08-08T20:42:26+09:00"
+    "first_seen": "2026-08-08T20:42:26+09:00",
+    "ko": "'NORMAL (한국어판)' 스테이지 캠 (#jhope focus) @ BTS WORLD TOUR 'ARIRANG' IN BUSAN"
    },
    {
     "account": "bts.bighitofficial",
@@ -19270,7 +19329,8 @@
      10,
      10
     ],
-    "first_seen": "2026-08-08T20:42:26+09:00"
+    "first_seen": "2026-08-08T20:42:26+09:00",
+    "ko": "'NORMAL (한국어판)' 스테이지 캠 (#RM 포커스) @ BTS WORLD TOUR 'ARIRANG' IN BUSAN"
    },
    {
     "account": "bts.bighitofficial",
@@ -19291,7 +19351,8 @@
      11,
      11
     ],
-    "first_seen": "2026-08-08T20:42:26+09:00"
+    "first_seen": "2026-08-08T20:42:26+09:00",
+    "ko": "'NORMAL (한국어판)' 스테이지 캠 (#뷔포커스) @ BTS WORLD TOUR 'ARIRANG' IN BUSAN"
    },
    {
     "account": "bts.bighitofficial",
@@ -19312,7 +19373,8 @@
      12,
      12
     ],
-    "first_seen": "2026-08-08T20:42:26+09:00"
+    "first_seen": "2026-08-08T20:42:26+09:00",
+    "ko": "'NORMAL (한국어판)' 스테이지 캠 (#슈가 포커스) @ BTS WORLD TOUR 'ARIRANG' IN BUSAN"
    },
    {
     "account": "cristiano",
@@ -19354,7 +19416,8 @@
      14,
      14
     ],
-    "first_seen": "2026-08-08T20:42:26+09:00"
+    "first_seen": "2026-08-08T20:42:26+09:00",
+    "ko": "토론토 ❤️"
    },
    {
     "account": "cristiano",
@@ -19375,7 +19438,8 @@
      15,
      15
     ],
-    "first_seen": "2026-08-08T20:42:26+09:00"
+    "first_seen": "2026-08-08T20:42:26+09:00",
+    "ko": "모두를 위해. 작성자: 𝗣𝗢𝗥𝗧𝗨𝗚𝗔𝗟. 🌈️🇵🇹 #VaiDarPortugal"
    },
    {
     "account": "runwayapp",
@@ -19399,7 +19463,8 @@
      16,
      16
     ],
-    "first_seen": "2026-08-08T18:37:46+09:00"
+    "first_seen": "2026-08-08T18:37:46+09:00",
+    "ko": "큰 아이디어에는 큰 예산이 필요하지 않습니다. 훌륭한 스토리텔링이군요. 아이디어부터 실행까지 이 짧은 광고는 한 사람이 만들었습니다."
    },
    {
     "account": "cristiano",
@@ -19420,7 +19485,8 @@
      17,
      17
     ],
-    "first_seen": "2026-08-08T20:42:26+09:00"
+    "first_seen": "2026-08-08T20:42:26+09:00",
+    "ko": "위대함은 다양한 형태로 나타납니다 💪"
    },
    {
     "account": "cristiano",
@@ -19441,7 +19507,8 @@
      18,
      18
     ],
-    "first_seen": "2026-08-08T20:42:26+09:00"
+    "first_seen": "2026-08-08T20:42:26+09:00",
+    "ko": "내 Game Day Blast 레시피를 사용해 보세요. 예리함을 유지하세요. 준비하세요. #FuelLike호날두"
    },
    {
     "account": "googledeepmind",
@@ -19462,7 +19529,8 @@
      19,
      19
     ],
-    "first_seen": "2026-08-08T20:42:26+09:00"
+    "first_seen": "2026-08-08T20:42:26+09:00",
+    "ko": "펠레가 자신의 인생에서 가장 아름답다고 생각한 골은 촬영된 적이 없습니다."
    },
    {
     "account": "googledeepmind",
@@ -19483,7 +19551,8 @@
      20,
      20
     ],
-    "first_seen": "2026-08-08T20:42:26+09:00"
+    "first_seen": "2026-08-08T20:42:26+09:00",
+    "ko": "Gemini 3.6 Flash를 사용하면 실제 유기적 패턴을 사용 가능한 인쇄 및 디자인 요소로 바꿀 수 있습니다."
    },
    {
     "account": "openai",
@@ -19507,7 +19576,8 @@
      21,
      21
     ],
-    "first_seen": "2026-08-08T18:37:46+09:00"
+    "first_seen": "2026-08-08T18:37:46+09:00",
+    "ko": "자연스러운 인간-AI ​​상호작용을 위한 차세대 음성 모델인 GPT-Live를 소개합니다."
    },
    {
     "account": "openai",
@@ -19531,7 +19601,8 @@
      22,
      22
     ],
-    "first_seen": "2026-08-08T18:37:46+09:00"
+    "first_seen": "2026-08-08T18:37:46+09:00",
+    "ko": "이것은 새로운 ChatGPT 작업입니다."
    },
    {
     "account": "runwayapp",
@@ -19555,7 +19626,8 @@
      23,
      23
     ],
-    "first_seen": "2026-08-08T18:37:46+09:00"
+    "first_seen": "2026-08-08T18:37:46+09:00",
+    "ko": "이야기가 있다면 생생하게 전달하세요. 아이디어부터 실행까지 이 단편은 단 몇 시간 만에 하나의 광고 소재로 제작되었습니다."
    },
    {
     "account": "runwayapp",
@@ -19572,7 +19644,8 @@
      24,
      24
     ],
-    "first_seen": "2026-08-09T00:43:22+09:00"
+    "first_seen": "2026-08-09T00:43:22+09:00",
+    "ko": "Seedance 2.5가 Runway에 게시되었습니다."
    }
   ],
   "youtube": [
@@ -21206,7 +21279,8 @@
    "rh": [
     8
    ],
-   "first_seen": "2026-08-09T02:49:02+09:00"
+   "first_seen": "2026-08-09T02:49:02+09:00",
+   "ko": "#다이시로"
   },
   {
    "query": "#이준호",
