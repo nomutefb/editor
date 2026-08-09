@@ -244,6 +244,19 @@ def main():
             if not got:   # 이름이 하나도 없으면 종전대로 전원 번호표(1차 생성 = 누가 몇 번인지 보는 단계)
                 got = {str(p): "#%d" % p for p in pids}
             payload["names"] = got
+            cm = x.get("colors")   # 이름표 글자색 {pid:#hex}(운영자 260810) — 미동봉 pid = 렌더 기본(흰) · 6자리 hex만(track_render hex_bgr 계약)
+            if isinstance(cm, dict):
+                cols = {}
+                for k, v in cm.items():
+                    try:
+                        pid_i = int(k)
+                    except (TypeError, ValueError):
+                        continue
+                    v = str(v).strip()
+                    if pid_i in pids and len(v) == 7 and v[0] == "#" and all(c in "0123456789abcdefABCDEF" for c in v[1:]):
+                        cols[str(pid_i)] = v
+                if cols:
+                    payload["colors"] = cols
         got, _p = render(tid, payload, mode)
         if not got:
             log(mode + " 렌더 실패 — 직전 산출로 계속")

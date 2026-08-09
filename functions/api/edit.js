@@ -122,6 +122,16 @@ export async function onRequestPost({ request, env }) {
         }
         if (n) xt.names = nm;
       } else if (typeof x.names === 'string' && x.names.trim()) xt.names = x.names.trim().slice(0, 120);
+      // 이름표 글자색 = {pid:#hex} 맵(운영자 260810 «흰 기본 · 강조색1 · 강조색2») — 6자리 hex만 통과(track_render hex_bgr 계약)
+      if (x.colors && typeof x.colors === 'object' && !Array.isArray(x.colors)) {
+        const cm = {}; let cn = 0;
+        for (const [k, v] of Object.entries(x.colors)) {
+          if (!/^[0-9]{1,2}$/.test(k) || typeof v !== 'string' || !/^#[0-9a-fA-F]{6}$/.test(v)) continue;
+          cm[k] = v;
+          if (++cn >= 32) break;
+        }
+        if (cn) xt.colors = cm;
+      }
       if (x.ckcolor === 'blue' || x.ckcolor === 'green') xt.ckcolor = x.ckcolor;
       const xcs = num(x.cksim, 1, 50); if (xcs !== null) xt.cksim = Math.round(xcs);              // 크로마 강도 %
       const xcc = num(x.ckchoke, -4, 4); if (xcc !== null) xt.ckchoke = Math.round(xcc);

@@ -343,13 +343,20 @@ def assert_cjk_font():
 
 
 class PinsetPainter:
-    """핀셋 이름표 — 코너 브래킷 + 리더선 + 필(이름). 스타일 = viewer/track.html 목업 캔버스 계승."""
+    """핀셋 이름표 — **글자만**(운영자 260810 «동그라미에 알약 배경 필요없음 · 얼굴 네모 프레임·선 필요없음 ·
+    지금 크기보다 60%로 작게 · 그냥 자연스럽게 글자가 따라다니면 됨») — 260809 표기 개정(타이트 검정 50% 배경 ·
+    코너 브래킷 잔존)을 대체하는 최신 지시. 구조 축은 260809 계약 승계:
+      ⓐ **머리 위 고정** — 사람 박스 바로 위에 붙어 프레임마다 따라간다(겹침 밀어올리기 = 라벨 떨림 · 소속 단절이라 폐지 유지).
+      ⓒ **겹쳐도 안 사라진다** — 밀지도 지우지도 않고, 그리는 순서만 강조(색 직접 지정) > 움직임 큰 애 > 일반.
+    시각 축(260810) = 배경·브래킷·리더선·점 전부 0 · 글자색 = colors 맵(기본 흰 · 강조 토글) ·
+    가독 보강 = 얇은 어두운 스트로크만(ly 원문 줄 «그림자 조금» 관용 계승)."""
 
     def __init__(self, W, H):
         from PIL import ImageFont
         self.W, self.H = W, H
-        fs = int(max(18, min(44, H * 0.033)))
+        fs = max(11, int(round(int(max(18, min(44, H * 0.033))) * 0.6)))   # 구판 필 활자 산식 × 0.6(운영자 260810) · 하한 11 = 판독 바닥
         self.fs = fs
+        self.stw = max(1, int(round(fs * 0.09)))   # 스트로크 = 활자 대비 얇게(두꺼우면 사실상 배경 = 지시 위반)
         fp = find_font()
         try:
             self.font = ImageFont.truetype(fp, fs) if fp else ImageFont.load_default()
@@ -358,22 +365,11 @@ class PinsetPainter:
         except Exception:
             self.font = ImageFont.load_default()
             print("::warning::truetype 로드 실패 — 기본 비트맵 폴백", flush=True)
-        self.lw = max(2, int(round(H * 0.0035)))
         self._prev = {}   # pid → 직전 중심(움직임 산출)
         self._mv = {}     # pid → 평활 이동량(겹침 우선순위 ⓒ)
 
     def draw(self, frame, tags):
-        """tags = [(box[x,y,w,h], name, (r,g,b), pid, emph)] — PIL RGBA 오버레이 1회 합성.
-
-        운영자 260809 계약 3축:
-          ⓐ **머리 위 고정** — 이름표는 사람 박스 바로 위에 붙어 프레임마다 그 자리를 따라간다.
-             ⚠ 구판은 겹치면 위로 밀어 올렸다(while guard 40) → 사람이 가까워질수록 라벨이 머리에서 떨어져
-               「누구 이름인지」가 끊겼고, 밀린 높이가 프레임마다 달라 라벨이 위아래로 떨었다.
-          ⓑ **타이트 검정 50%** — 배경은 검정 알파 50%, 여백 최소, 모서리는 **아주 끝만** 둥글게.
-             색 구분은 글자색이 맡는다(구판의 색 테두리·컬러 점은 운영자 지시에 없어 제거 = 배경+글자만).
-          ⓒ **겹쳐도 안 사라진다** — 밀지도 지우지도 않고 제자리에 그리되, 누가 위로 올라오는지만 정한다:
-             강조(색 직접 지정) > 움직임 큰 애 > 일반. 나중에 그린 게 위로 온다.
-        """
+        """tags = [(box[x,y,w,h], name, (r,g,b), pid, emph)] — PIL RGBA 오버레이 1회 합성 · rgb = 글자색(뒤 2요소 생략 허용)."""
         from PIL import Image, ImageDraw
         im = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
         ov = Image.new("RGBA", im.size, (0, 0, 0, 0))
@@ -394,27 +390,14 @@ class PinsetPainter:
         for _e, _m, box, name, rgb in rank:
             x, y, w, h = box
             cx = x + w / 2
-            ex_w, ex_h = w * 1.5, h * 1.7
-            bx0, by0 = cx - ex_w / 2, y + h / 2 - h * 0.15 - ex_h / 2
-            bx1, by1 = bx0 + ex_w, by0 + ex_h
-            L = max(10, ex_w * 0.24)
-            lw = self.lw
-            col = rgb + (235,)
-            for (px, py, dx, dy) in ((bx0, by0, 1, 1), (bx1, by0, -1, 1), (bx0, by1, 1, -1), (bx1, by1, -1, -1)):
-                d.line([(px + dx * L, py), (px, py)], fill=col, width=lw)
-                d.line([(px, py), (px, py + dy * L)], fill=col, width=lw)
-            # 이름표 = 머리(사람 박스 상단) 바로 위 · 타이트 · 검정 50% · 끝만 둥글게
-            pad_x, pad_y = max(3, int(self.fs * 0.26)), max(2, int(self.fs * 0.14))
-            tb = d.textbbox((0, 0), name, font=self.font)
+            # 글자만 — 머리(사람 박스 상단) 바로 위 · 배경·브래킷·리더선 0(운영자 260810)
+            tb = d.textbbox((0, 0), name, font=self.font, stroke_width=self.stw)
             tw, th = tb[2] - tb[0], tb[3] - tb[1]
-            bw, bh = pad_x * 2 + tw, th + pad_y * 2
-            px0 = min(max(2, cx - bw / 2), self.W - bw - 2)
-            py0 = y - bh - max(4, self.fs * 0.22)             # ⓐ 머리 위 고정(구판 by0 확장박스 기준 + 겹침 밀어올리기 폐지)
-            py0 = min(max(2, py0), self.H - bh - 2)           # 화면 밖으로만 안 나가게(제자리 유지 = 겹쳐도 사라지지 않는다)
-            d.rounded_rectangle([px0, py0, px0 + bw, py0 + bh],
-                                radius=max(2, int(self.fs * 0.12)),   # ⓑ 「아주 끝에만」 = 알약(bh/2) 아님
-                                fill=(0, 0, 0, 128))                  # 검정 불투명도 50%
-            d.text((px0 + pad_x, py0 + pad_y - tb[1]), name, font=self.font, fill=rgb + (255,))
+            px0 = min(max(2, cx - tw / 2), self.W - tw - 2)
+            py0 = y - th - max(4, self.fs * 0.22)             # ⓐ 머리 위 고정(겹침 밀어올리기 폐지 유지)
+            py0 = min(max(2, py0), self.H - th - 2)           # 화면 밖으로만 안 나가게(제자리 유지 = 겹쳐도 사라지지 않는다)
+            d.text((px0 - tb[0], py0 - tb[1]), name, font=self.font, fill=rgb + (255,),
+                   stroke_width=self.stw, stroke_fill=(0, 0, 0, 185))
         im = Image.alpha_composite(im.convert("RGBA"), ov).convert("RGB")
         return cv2.cvtColor(np.asarray(im), cv2.COLOR_RGB2BGR)
 
@@ -600,7 +583,8 @@ def main():
         spans = build_spans_ext(p, fps, total, W=int(meta.get("w") or 0), H=int(meta.get("h") or 0),
                                 scope=scopes.get(p["pid"], "face"))
         cidx = (p["pid"] - 1) % len(PALETTE)
-        hexc = colors.get(str(p["pid"])) or PALETTE[cidx]
+        # 핀셋 기본 글자색 = 흰(운영자 260810 «일반은 다 흰색 기본») — colors 맵(강조 토글·track.html 명시 색)이 오면 그 값
+        hexc = colors.get(str(p["pid"])) or ("#ffffff" if mode == "pinset" else PALETTE[cidx])
         bgr = hex_bgr(hexc)
         emph = str(p["pid"]) in colors   # 「강조된 애」(운영자 260809) = 팔레트 자동배정이 아니라 **색을 직접 지정한** 인물
         plans.append((spans, names.get(str(p["pid"]), f"#{p['pid']}"), bgr, (bgr[2], bgr[1], bgr[0]), p["pid"], emph))
@@ -625,7 +609,7 @@ def main():
         while True:
             frame = frame[:H2, :W2]
             if mode == "mosaic":
-                for spans, _n, _bgr, _rgb in plans:
+                for spans, _n, _bgr, _rgb, _pid, _emph in plans:   # plans 6-튜플 정합(260809 pid·emph 증설이 이 줄을 빠뜨려 모자이크 언패킹 즉사 — 병합서 봉합)
                     for sp, is_body in spans:
                         b = sample(sp, f)
                         if b:

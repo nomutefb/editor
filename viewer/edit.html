@@ -251,6 +251,9 @@
   .xdrop .ph { color:var(--mut); font-size:var(--fs-xs); align-self:center; }
   .xtag { display:inline-flex; align-items:center; gap:4px; font-size:10px; font-weight:var(--fw-b); color:var(--accent);
     background:var(--accent-dim); border:1px solid rgba(var(--accent-rgb),.4); padding:2px 7px; border-radius:var(--r-pill); cursor:pointer; }
+  .xtag img { width:18px; height:18px /* raw-ok: 칩 활자(10px)+상하 패딩과 정합하는 원형 실측치(칩 높이 불변 상한) */; border-radius:50%; object-fit:cover; flex:none; }   /* 칩 안 얼굴 썸네일(운영자 260810 «썸네일이 # 자리에 큐잉 — #만 보고 계속 매칭하지 않게») — 원천 = .xface 크롭과 같은 url · 원형 = .swd 문법 계승 */
+  .xgrow .swc.xcol { flex:none; align-self:center; padding:5px /* raw-ok: 세로 5 = .swc 정본 패딩 동값 · 좌우도 5 = 라벨 없는 단독 점의 원점 대칭(정본 좌우 1은 9색 한 줄 수용용 — 여긴 그 제약이 없다) */; }   /* 이름 글자색 동그라미 토글(운영자 260810 «흰 기본 → 강조색1 → 강조색2 → 제자리 · 강조라는 인덱싱 필요없고 단순 동그라미») — 부품 = 자막 색 줄 .swc/.swd 정본 계승(같은 파일 · 신규 부품 0) · 자리만 이름칸 옆 */
+  .xgrow .swc.xcol::before { content:''; position:absolute; inset:-8px; }   /* 히트슬롭 = .swl i::before 문법 계승(점 10px 단독 컨트롤 탭 면적 보강) */
   .xface.used { opacity:.35; }
   .xface[draggable=true] { cursor:grab; }
   .xgadd { margin-top:var(--sp-1); }
@@ -1497,7 +1500,10 @@ function xscTick(on){
     if(t) t.textContent=fmtT((Date.now()-XTR_SCAN_T0)/1000); else renderXtr();   // 자리가 없으면(카드 재구성) 한 번 다시 그린다
   },1000);
 }   // 그 스캔의 작업 id(track_out/<id>) — crop 경로 기준
-let XTR_GRP=[{name:'',pids:[]},{name:'',pids:[]}];   // 이름 묶음 폼(기본 2 · [+]로 추가 · 어느 폼에도 안 담긴 #은 미지정 = 영상 표기 없음)
+let XTR_GRP=[{name:'',pids:[],col:0},{name:'',pids:[],col:0}];   // 이름 묶음 폼(기본 2 · [+]로 추가 · 어느 폼에도 안 담긴 #은 미지정 = 영상 표기 없음) · col = 글자색 사다리 인덱스(0 흰·1 강조1·2 강조2 — 운영자 260810)
+const _xcolTok=v=>(getComputedStyle(document.documentElement).getPropertyValue(v)||'').trim();   // 강조색 = :root 토큰 실값 참조(리터럴 0 = 토큰이 바뀌면 자동 추종)
+const XCOL_HEX=['#fff' /* OC_DEF.white 동값(콘텐츠 색 축 · 기본값이라 페이로드엔 안 실림) */,_xcolTok('--accent'),_xcolTok('--accent-4')];   // 이름표 글자색 사다리(운영자 260810 «일반 흰 기본 · 누르면 강조색1 · 두번 강조색2 · 세번 제자리») — 강조1 = --accent(track PALETTE[0] 동값) · 강조2 = --accent-4(track PALETTE[6] 동값) · 렌더 track_render colors {pid:#hex}로 전달
+const XCOL_CSS=['#fff','var(--accent)','var(--accent-4)'];   // 화면 견본 점(.swd --sw) = 토큰 참조(UI 축은 var 계승)
 let XTR_ACT=0;   // 활성 폼(폰 = 여기에 # 탭이 담긴다)
 let XTR_FACES=[];   // 직전 생성의 인물 얼굴(video.json faces) — 2트랙 ②에서 #N ↔ 얼굴 대조용
 try{ XTR_FACES=JSON.parse(localStorage.getItem('nm_xtr_faces')||'[]')||[]; }catch(e){ XTR_FACES=[]; }   // 탭 재진입 복원(생성 → 닫기 → 다시 열어 이름 넣기 = 실제 사용 흐름)
@@ -1530,8 +1536,9 @@ function renderXtr(){   // 가로 3분할 + 라벨|OFF·ON 순환값 문법(운�
     det+='<div class="plbl"'+(det?'':' style="margin-top:0"')+'>이름</div><div class="xgrp">'
       +XTR_GRP.map((g,i)=>'<div class="xgrow">'
         +'<input class="nmin" type="text" data-gn="'+i+'" value="'+esc(g.name)+'" placeholder="이름" aria-label="이름 '+(i+1)+'" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">'
+        +'<button type="button" class="swc xcol" data-gc="'+i+'" aria-label="이름 '+(i+1)+' 글자색 — 탭할 때마다 기본↔강조" title="글자색 — 탭할 때마다 기본→강조1→강조2"><span class="swd" style="--sw:'+XCOL_CSS[(g.col|0)%3]+'"></span></button>'   // 글자색 동그라미 토글(운영자 260810) — 부품 = 자막 색 줄 .swc/.swd 정본
         +'<div class="xdrop'+(XTR_ACT===i?' act':'')+'" data-gd="'+i+'" role="group" aria-label="이름 '+(i+1)+'에 담긴 번호">'
-        +(g.pids.length?g.pids.map(p=>'<span class="xtag" data-gt="'+i+'" data-pid="'+(p|0)+'" title="탭하면 제외됩니다">#'+(p|0)+'</span>').join('')
+        +(g.pids.length?g.pids.map(p=>{const fx=XTR_FACES.find(f=>(f.pid|0)===(p|0));return '<span class="xtag" data-gt="'+i+'" data-pid="'+(p|0)+'" title="탭하면 제외됩니다">'+(fx&&fx.url?'<img loading="lazy" alt="" src="'+esc(fx.url)+'">':'')+'#'+(p|0)+'</span>';}).join('')   // 칩 = 얼굴 썸네일 동반(운영자 260810 «썸네일이 # 자리에 큐잉» — 위 축적판을 오가며 대조하지 않게)
                        :'<span class="ph">'+(XTR_ACT===i?'#을 탭하거나 끌어다 놓으세요':'여기에 #을 담으세요')+'</span>')
         +'</div></div>').join('')
       +'</div><button type="button" class="pc xgadd" id="xgAdd">+ 이름 추가</button>';
@@ -1634,8 +1641,9 @@ function xtrOpts(){   // 발사 페이로드 축(운영자 260808) — 켠 축�
   const x={mosaic:!!XTR.mosaic, pinset:!!XTR.pinset, keying:!!XTR.keying, silh:!!XTR.silh, chroma:!!XTR.chroma};
   if(XTR.mosaic||XTR.pinset){ x.shape=XTR.shape; x.size=XTR.size; x.feather=XTR.feather; }
   if(XTR.pinset){   // 핀셋 라벨 = {pid: 이름} 맵 — 같은 사람이 #1·#3·#4로 쪼개지므로 여러 번호에 같은 이름을 준다(묶음)
-    const nm={}; XTR_GRP.forEach(g=>{ const n=(g.name||'').trim().slice(0,24); if(!n) return; g.pids.forEach(p=>{ nm[String(p|0)]=n; }); });
+    const nm={}, cols={}; XTR_GRP.forEach(g=>{ const n=(g.name||'').trim().slice(0,24); if(!n) return; const ci=(g.col|0)%3; g.pids.forEach(p=>{ nm[String(p|0)]=n; if(ci&&XCOL_HEX[ci]) cols[String(p|0)]=XCOL_HEX[ci]; }); });
     if(Object.keys(nm).length) x.names=nm;   // 어느 폼에도 안 담긴 # = 맵에 없음 = **영상에 표기 안 함**(운영자 260809 「미지정」)
+    if(Object.keys(cols).length) x.colors=cols;   // 이름별 글자색(운영자 260810) — 기본 흰은 미동봉(렌더 기본값) · 강조 토글 이름의 pid만 hex
   }
   if(XTR.keying) x.kfe=XTR.kfe;
   if(XTR.silh){ x.fill=XTR.fill; x.preset=XTR.preset; x.sfe=XTR.sfe; }
@@ -1657,13 +1665,15 @@ $('#xtrsec').addEventListener('click',e=>{
   const xf=e.target.closest('[data-xf]'); if(xf){ XTR.fill=xf.dataset.xf==='image'?'image':'mosaic'; renderXtr(); return; }
   const xp=e.target.closest('[data-xp]'); if(xp){ XTR.preset=['smile','black','heart'].includes(xp.dataset.xp)?xp.dataset.xp:'smile'; renderXtr(); return; }
   const xc=e.target.closest('[data-xc]'); if(xc){ XTR.ckcolor=xc.dataset.xc==='blue'?'blue':'green'; renderXtr(); return; }
+  const gc=e.target.closest('[data-gc]');   // 글자색 동그라미 토글(운영자 260810) — 탭마다 흰→강조1→강조2→흰 순환
+  if(gc){ const g=XTR_GRP[+gc.dataset.gc]; if(g){ g.col=((g.col|0)+1)%3; renderXtr(); } return; }
   const gd=e.target.closest('[data-gd]');   // 드롭존 탭 = 그 폼을 활성으로(폰 = 여기에 #을 담는다)
   if(gd&&!e.target.closest('[data-gt]')){ XTR_ACT=+gd.dataset.gd; renderXtr(); return; }
   const gt=e.target.closest('[data-gt]');   // 담긴 번호 탭 = 빼기
   if(gt){ const i=+gt.dataset.gt, pid=+gt.dataset.pid; if(XTR_GRP[i]) XTR_GRP[i].pids=XTR_GRP[i].pids.filter(p=>(p|0)!==pid); renderXtr(); return; }
   const fc=e.target.closest('.xface');   // 얼굴 탭 = 활성 폼에 담기(이미 담겼으면 그 자리에서 빼기 = 같은 동작의 역)
   if(fc){ xgPut(+fc.dataset.pid, XTR_ACT); return; }
-  if(e.target.closest('#xgAdd')){ if(XTR_GRP.length<12){ XTR_GRP.push({name:'',pids:[]}); XTR_ACT=XTR_GRP.length-1; renderXtr(); } return; }   // 상한 12 = 한 화면에 담기는 실질 한도(api 32키 예산 안)
+  if(e.target.closest('#xgAdd')){ if(XTR_GRP.length<12){ XTR_GRP.push({name:'',pids:[],col:0}); XTR_ACT=XTR_GRP.length-1; renderXtr(); } return; }   // 상한 12 = 한 화면에 담기는 실질 한도(api 32키 예산 안)
   if(e.target.closest('#xtrGo')){
     const mode=XTR.chroma?'chroma':XTR.silh?'maskfx':XTR.keying?'keying':XTR.pinset?'pinset':'mosaic';   // 다중 ON = 신규 모드 우선(서브뷰서 모드 재전환 자유)
     try{ localStorage.setItem('nm_track_preset', JSON.stringify({t0:Date.now(), mode, opts:{shape:XTR.shape,pxw:9,pxh:9,size:XTR.size,feather:XTR.feather}, kfe:XTR.kfe, fill:XTR.fill, preset:XTR.preset, sfe:XTR.sfe, ck:{color:XTR.ckcolor, similarity:XTR.cksim, choke:XTR.ckchoke, feather:XTR.ckfe}})); }catch(err){}
