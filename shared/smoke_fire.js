@@ -131,8 +131,13 @@ async function runOnce(pg, hits, fcs) {
       { src: s.src, title: s.title, key: s.key, tabs: s.tabs.map(t => ({ src: t.src, app: t.app, ko: t.ko })) });
     await settle(pg);
     // 셸 전환 플레이키 봉합(260803 실측 — 같은 트리에서 PASS↔FAIL 교차 · 부하 시 셸 재-open 직후 첫 탭 로케이터가 30s 클릭 대기를 넘김):
-    //   첫 탭 가시화를 명시 대기하고, 못 만나면 close→openTool **1회 재시도**(표면 무죄·계측기 타이밍 축 = smoke_fire 거짓 빨강 2회 자체 교정 선례 동문)
-    try { await pg.waitForSelector(s.pick(s.tabs[0]), { timeout: 8000 }); }
+    //   첫 탭을 명시 대기하고, 못 만나면 close→openTool **1회 재시도**(표면 무죄·계측기 타이밍 축 = smoke_fire 거짓 빨강 2회 자체 교정 선례 동문)
+    // ⚠ state:'attached' 가 실효 조건(260809 CI 실측 봉합 — @프레임이 139행 지목) — 260805 hdr-tabs 개편으로
+    //   이미지 셸 하단 도크(#toolTabs)가 소등돼 기본 대기(visible)는 **구조적으로 매번 8s 타임아웃** → 재시도
+    //   close→back() 춤이 상시 가동됐고, CI 의 느린 타이밍에서 그 back 연쇄가 최초 진입 칸까지 되감겨
+    //   최상위 내비게이션 = ABORT 였다. 라우팅 DOM 은 보존 계약(260805)이고 탭 클릭은 JS 클릭(가시성 무관)
+    //   이므로 attached 가 정확한 술어. 진짜 셸 미기동(탭 미조립)은 여전히 재시도로 간다.
+    try { await pg.waitForSelector(s.pick(s.tabs[0]), { timeout: 8000, state: 'attached' }); }
     catch (_) {
       await pg.evaluate(() => { try { if (tooldlg.open) tooldlg.close(); } catch (_) {} });
       await pg.waitForTimeout(400);
@@ -254,6 +259,16 @@ async function runOnce(pg, hits, fcs) {
         sessionStorage.setItem('nmShellHeal', '1');
         sessionStorage.setItem('nmAuthKick', '1');
         sessionStorage.setItem('nm_sync_heal', String(Date.now()));
+        // ⚠ 최상위 history.back 바닥 가드(260809 CI 실측 — 런 31316734505 @runOnce 139행) — tooldlg 는
+        //   pushState({tool})/close→back() 커플이고 back 은 비동기다. CI 의 느린 타이밍에선 재사용 iframe 의
+        //   src 폴백이 히스토리 칸을 얹고 close→back 이 엇갈려 **첫 진입 칸(about:blank)까지 되감기는 연쇄**가
+        //   실재한다(로컬 재현 0 = replace 경로가 빠름). 같은문서 pop 은 전부 통과시키고, 페이지를 떠나는
+        //   마지막 한 발(canGoBack===false)만 무시 = 앱 동작 등가 · 이탈만 구조적 불가능. Navigation API 부재
+        //   환경은 원본 그대로(가드 무효 = 종전 동작).
+        if (window.top === window) {
+          const _b = history.back.bind(history);
+          history.back = () => { try { if (window.navigation && window.navigation.canGoBack === false) return; } catch (_) {} _b(); };
+        }
       } catch (_) {} });
       const errs = [], ext = [], hits = [], fcs = [];
       pg.on('filechooser', fc => { fcs.push(1); try { fc.page(); } catch (_) {} });   // 파일 선택기 열림 = 「첨부 진입」 반응 신호(핸들 안 하면 자동 취소 = 실제 업로드 0)
