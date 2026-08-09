@@ -6491,6 +6491,26 @@ def check_brief_lib():
             fails.append('%s: 구판 절단 문법 「[:1500]」 부활 — 총론·전체가 다시 증발한다' % sh)
         if _has_exec_line(s, 'PREV_BLOCK'):
             fails.append('%s: 구판 PREV_BLOCK 부활 — 라이브러리로 대체된 축이다' % sh)
+    # ⑧ 저장 블록 정의-사용 대조(260809 실사고 봉합 — **이 게이트를 만든 그 커밋이 낸 사고**).
+    # 사고 = 판단 이력 배송을 걷으면서 `_libcard = None` ~ `if _libcard: doc['lib']` 사이에 끼어 있던
+    #   **`doc = {...}` 정의를 같이 지웠다** → 두 브리프 다 `NameError: name 'doc' is not defined`로 저장 직전에 죽었다.
+    # ⚠ 왜 아무도 안 울렸나 = 세 겹이 전부 이 자리를 못 본다:
+    #   ⓐ `bash -n` = 셸 문법만 본다(heredoc 안 파이썬은 그냥 문자열) ⓑ 정적 문자열 게이트 = 심볼 **존재**만 본다
+    #   ⓒ 셸 마지막 줄이 `echo "chan-brief: 갱신 완료($SHA)"` = **파이썬이 죽어도 찍히는 거짓 성공 로그**
+    #      (실측 = 런 31308318206 로그에 「갱신 완료」가 정상 출력됐는데 chan_brief.json은 안 바뀌었다).
+    #   → 워크플로는 success로 끝나고 화면은 직전 브리프가 남아 멀쩡해 보인다 = 이 레포가 반복해 겪은 무증상 죽음.
+    # 술어 = 「`json.dump(X, open(...))`로 저장하는 이름 X가 **같은 heredoc 안에서 할당**되는가」.
+    # compile()로는 못 잡는다(구문은 완전히 유효한 런타임 NameError) — 정의-사용 대조가 이 사고 클래스의 정확한 축이다.
+    for sh in ('.github/scripts/chan_brief.sh', '.github/scripts/fb_brief.sh'):
+        s = _read(sh)
+        if not s:
+            continue
+        for blk in re.findall(r"<<'PY'\n(.*?)\nPY\n", s, re.S):
+            for nm in set(re.findall(r'json\.dump\(\s*([A-Za-z_]\w*)\s*,', blk)):
+                if not re.search(r'^\s*%s\s*=' % re.escape(nm), blk, re.M):
+                    fails.append('%s: 저장 블록이 미정의 이름 「%s」를 json.dump 한다 — 런타임 NameError로 '
+                                 '브리프가 저장 직전에 죽는데 셸 echo는 「갱신 완료」를 찍는다(무증상)' % (sh, nm))
+
     # [3일] 실황 계약(운영자 260809 "수박 겉핥기 · 게시물 하나하나의 디테일 · 너무 돌려 말하니 유의미한 인사이트가 안 나온다").
     # ⚠ 진범은 두 겹이었고 둘 다 이 게이트가 안 보던 자리다 — ⓐ 데이터: 일별 조회(views)가 최근 30일 전건 결측 + follows 말미 0-fill이라
     #   짧은 창을 말할 근거가 0칸이었다(모델이 스냅샷 하나로 사흘을 논하다 "아직 하루가 안 찼으니" 류로 뭉갤 수밖에 없었다)

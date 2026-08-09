@@ -219,6 +219,8 @@ if secs and parts[0].strip():
 # 판단 이력 카드 = 화면 비노출로 전환(운영자 260809 "내가 볼 필요는 없음 · AI 요약을 진행하는 프로그램이 체킹하면 됨").
 # 뷰어 소비처(libCard)를 걷었으므로 doc['lib'] 배송도 같이 걷는다 — 아무도 안 읽는 데이터를 굽는 건 이 레포가 반복해 지적한 죽은 원장 축이다.
 # ⚠ 라이브러리 자신은 무접촉: brief_lib → LIB_BLOCK → PROMPT 경로가 이 파일 위쪽에 그대로 살아 있다(= 프로그램이 체킹하는 축).
+doc = {'text': t[:6000], 'updated': datetime.datetime.now(KST).isoformat(timespec='seconds'),
+       'src_hash': os.environ.get('BRIEF_SHA') or ''}
 if len(secs) >= 2: doc['sections'] = secs
 json.dump(doc, open('viewer/chan_brief_fb.json', 'w', encoding='utf-8'), ensure_ascii=False)
 import os.path
