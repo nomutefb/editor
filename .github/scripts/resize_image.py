@@ -58,6 +58,31 @@ TRIES = max(1, min(5, int(os.environ.get("RESIZE_TRIES", "3") or 3)))   # 생성
 #     한 번 더 주는 비용은 실패 건에만 붙고, 그 1콜이 폴백(=돈만 쓰고 결과 0)을 줄인다.
 #   ⚠ 상한 5 = 폭주 차단(무한 재시도로 과금이 열리는 길 봉인) · RESIZE_TRIES=2 = 종전 동작 즉시 원복.
 _CALLS = {"gen": 0, "judge": 0}
+KEEP_REJ = os.environ.get("RESIZE_KEEP_REJ", "1") != "0"   # 불합격본 보존 킬스위치(260809 2차 · 빈값 = ON)
+#   ⚠ 지금까지 불합격본을 out_cand=None으로 **버렸다** → 「판정기가 옳았나」를 사후에 알 방법이 0이었고,
+#     위양성(멀쩡한 렌더를 버리고 $0.067 재시도)은 원료가 없어 **원리적으로 측정 불가**였다. 2차 평의회가
+#     rep-mirror(궁수·병사 발명)·rep-916big(전폭 이음선)의 false PASS 2건을 육안 확정 = 판정기 검증이
+#     이 파이프의 구속 조건인데 그 검증의 유일한 원료가 불합격본이다. 이미 손에 든 bytes = Gemini 과금 0.
+#   ⚠ raw(pixel_lock 이전)까지 남기는 이유 = 이음선이 **모델이 그린 것**인지 **페더가 만든 것**인지가
+#     지금 구분 불가능하고, 원인이 후자면 처방은 프롬프트($0.067 재생성)가 아니라 페더($0)다.
+
+
+def keep_rej(img_or_bytes, rid, attempt, kind):
+    """불합격본 보존 — 반환 = url 또는 미보존 **사유 문자열**(관측은 지우지 않는다).
+    파일명 해시 접미 = 필수 — 같은 id 재발사가 원장에 실재(fill45·fill916 각 2회)라 rej-t1.jpg 고정이면
+    보존하려던 관측을 자기가 덮어쓴다."""
+    if not KEEP_REJ:
+        return "OFF"
+    if not tg.R2_ON:
+        return "R2-OFF"
+    try:
+        b = img_or_bytes if isinstance(img_or_bytes, (bytes, bytearray)) else jpg_bytes(img_or_bytes)
+        return tg.r2_upload(b, "resize/{}/{}-t{}-{}.jpg".format(
+            rid, kind, attempt, hashlib.sha1(b).hexdigest()[:8]), "image/jpeg") or "UPLOAD-FAIL"
+    except Exception as e:  # noqa: BLE001
+        return "ERR:{}".format(str(e)[:60])
+
+
 _QA_WHY = ""      # 마지막 판정 사유 원문(원장 반출용)
 _TRIES_LOG = []   # 회차별 관측(원장 반출용)   # 회차 과금 실측(생성·판정 발사 수 · 성패 무관 = 실제 청구 단위)
 STREAK_MAX = 0.50   # 여백 clamp 줄무늬 잔류 상한 — 초과 = 「모델 무동작」(260807 실측: 무동작 0.983 vs 정상 재작성 0.000 · JPEG 왕복 후에도 성립)
@@ -102,12 +127,12 @@ P_SEEDFILL = (
     # ① 캔버스 실측 서술 — 대명사 없이 %로 지목(구판 "extended above and below **it**" = 선행사 없는 순환문)
     "In Picture 2 the real photograph occupies only {keep}. {where} — those bands are not photographed "
     "content at all: each was produced by taking the single last row or column of the real photograph "
-    "and repeating it outward, so their colours are already correct but the texture is "
+    "and repeating it outward, so the texture is "
     "smeared into one-pixel streaks. Your ONLY job is to rebuild real texture inside those bands so "
     "the whole frame reads as one single continuous photograph. "
     # ② 줄무늬 해석 고정 — 「줄무늬는 물체가 아니다」
     "Read every streak as EMPTY space still waiting to be filled, never as an object. A streak depicts "
-    "nothing: it is one pixel repeated hundreds of times. A tall streak that happens to be skin-, hair- "
+    "nothing. A tall streak that happens to be skin-, hair- "
     "or suit-coloured is NOT a person, NOT a body and NOT a garment. "
     # ③ 개수 = 원본 대비 상대(절대수 금지 = 2명·0명 사진에서 거짓 지시가 된다)
     "Your output must contain exactly the same subjects as Picture 1 — the same people, the same number "
@@ -214,6 +239,9 @@ def gemini_judge(png_bytes, ref_bytes=None, model=None):
     try:
         with urllib.request.urlopen(req, timeout=60) as r:
             j = json.loads(r.read().decode())
+        tg._rec_usage(j.get("usageMetadata") or {}, "resize:judge")   # 판정 콜도 저울에(260809 2차) — 809행대 주석이
+        #   「usageMetadata가 유일하게 정확한 저울」이라 선언해 놓고 judge는 _rec_usage를 0회 불렀다 = 자기모순.
+        #   태그 접두 resize: = 원장 usage 필터에 배선 변경 0으로 합류.
         txt = "".join(p.get("text", "") for c in j.get("candidates", [])
                       for p in c.get("content", {}).get("parts", []))
         up = txt.upper()
@@ -396,25 +424,29 @@ def pixel_lock(gen_png, canvas_size, src_img, box, seed_img=None, feather=16):
     gap = {"left": x0 > 0, "right": x1 < cw, "top": y0 > 0, "bottom": y1 < ch}
     out = gen.copy()
     if seed_img is not None and any(gap.values()):
-        fx = min(feather, x0 if gap["left"] else feather, cw - x1 if gap["right"] else feather)
-        fy = min(feather, y0 if gap["top"] else feather, ch - y1 if gap["bottom"] else feather)
-        fx, fy = max(0, int(fx)), max(0, int(fy))
-        ex0, ey0 = x0 - (fx if gap["left"] else 0), y0 - (fy if gap["top"] else 0)
-        ex1, ey1 = x1 + (fx if gap["right"] else 0), y1 + (fy if gap["bottom"] else 0)
+        # ⚠ 260809 2차 봉합 = 페더 폭을 **변별로** 잰다 — 구판 fx는 좌·우 공용 min이라 우변 3px 여백이
+        #   좌 240px 밴드의 페더까지 16→3으로 붕괴시켰다(반대편 실오라기가 이쪽 이음선 완충을 죽이는 축).
+        fl = min(feather, x0) if gap["left"] else 0
+        fr = min(feather, cw - x1) if gap["right"] else 0
+        ft = min(feather, y0) if gap["top"] else 0
+        fb = min(feather, ch - y1) if gap["bottom"] else 0
+        fl, fr, ft, fb = (max(0, int(v)) for v in (fl, fr, ft, fb))
+        ex0, ey0 = x0 - fl, y0 - ft
+        ex1, ey1 = x1 + fr, y1 + fb
         m = np.ones((ey1 - ey0, ex1 - ex0), dtype=np.float32)
 
         def _smooth(n):
             t = np.linspace(0.0, 1.0, n, dtype=np.float32)
             return t * t * (3 - 2 * t)
 
-        if gap["left"] and fx:
-            m[:, :fx] = np.minimum(m[:, :fx], _smooth(fx)[None, :])
-        if gap["right"] and fx:
-            m[:, -fx:] = np.minimum(m[:, -fx:], _smooth(fx)[::-1][None, :])
-        if gap["top"] and fy:
-            m[:fy, :] = np.minimum(m[:fy, :], _smooth(fy)[:, None])
-        if gap["bottom"] and fy:
-            m[-fy:, :] = np.minimum(m[-fy:, :], _smooth(fy)[::-1][:, None])
+        if gap["left"] and fl:
+            m[:, :fl] = np.minimum(m[:, :fl], _smooth(fl)[None, :])
+        if gap["right"] and fr:
+            m[:, -fr:] = np.minimum(m[:, -fr:], _smooth(fr)[::-1][None, :])
+        if gap["top"] and ft:
+            m[:ft, :] = np.minimum(m[:ft, :], _smooth(ft)[:, None])
+        if gap["bottom"] and fb:
+            m[-fb:, :] = np.minimum(m[-fb:, :], _smooth(fb)[::-1][:, None])
         out.paste(seed_img.crop((ex0, ey0, ex1, ey1)), (ex0, ey0),
                   Image.fromarray((m * 255).astype("uint8"), "L"))
     out.paste(src_img, (x0, y0))   # ⚠ 순서 불변 — 박스는 **마지막에** 원본으로 덮는다(무손실 계약)
@@ -451,6 +483,36 @@ def gap_sides(img, ar, box):
     return {"left", "right"} if aw / ah >= W / H else {"top", "bottom"}
 
 
+def _luma(img):
+    a = np.asarray(img.convert("RGB"), dtype=np.float32)
+    return (0.299 * a[:, :, 0] + 0.587 * a[:, :, 1] + 0.114 * a[:, :, 2])
+
+
+def band_spec(box_px, canvas_size, src_img, plain_std=EDGE_SOLID_STD, feather=16):
+    """여백 밴드 1벌 — seed_dirs(프롬프트)와 줄무늬 검문이 **같은 목록**을 본다(술어 1곳 · 260809 2차).
+
+    told = 프롬프트가 이름 붙일 수 있는 밴드. 정수 % 서술이 "0%"로 떨어지고(<0.5%) 그 폭이
+      pixel_lock feather(16) 이하면 **밀착으로 접는다** — 실측(260809) = 우변 3px 배치에서
+      「keep에 밀착 선언 없음 ∧ where "the right 0% … are stretched bands" ∧ 그 0%를 재건하라」는
+      **한 프롬프트 안 3중 자기모순**이 나갔다(seed_dirs 독스트링이 box_dirs "central"을
+      「거짓말」로 판결한 것과 같은 축). 상한을 feather로 잡는 이유 = 상대 %는 캔버스가 커지면
+      같이 커져서(4096에서 0.5% = 20px) 진짜 여백을 밀착이라 부를 수 있다 · feather 이내면
+      페더 링이 모델 기여분을 어차피 삼킨다 = 새 값 창작 0.
+    kind = 그 변의 plain/busy(기존 edge_stats 재사용 · 과금 0)."""
+    x0, y0, x1, y1 = box_px
+    cw, ch = canvas_size
+    out = []
+    for side, gap, dim in (("top", y0, ch), ("bottom", ch - y1, ch),
+                           ("left", x0, cw), ("right", cw - x1, cw)):
+        if gap <= 1:
+            continue
+        pct = "{:.0f}%".format(100.0 * gap / dim)
+        out.append({"side": side, "gap": int(gap), "pct": pct,
+                    "told": (pct != "0%") or gap > feather,
+                    "kind": "plain" if edge_stats(src_img, {side})[0] < plain_std else "busy"})
+    return out
+
+
 def streak_frac(out_img, box_px, tol=1.0):
     """여백에 **clamp 줄무늬가 그대로 남은** 비율 — 「모델 무동작」 결정론 검출(과금 0).
 
@@ -466,63 +528,80 @@ def streak_frac(out_img, box_px, tol=1.0):
       실측(같은 앵커·JPEG 왕복 후) = 무동작 **0.983** vs 정상 재작성 **0.000** → 임계 0.5(양쪽 여유 ≈2배·∞).
     ⚠ 축별로 방향이 다르다 — 상/하 밴드는 clamp가 **행** 복제, 좌/우 밴드는 **열** 복제다.
     """
-    a = np.asarray(out_img.convert("RGB"), dtype=np.float32)
+    # ⚠ 축 = **Y(루마) 1채널**(260809 2차 이관 · 합산 계약·임계 0.50 불변) — 실측(리플레이 19행):
+    #   ⓐ 판정 뒤집힘 0건 ⓑ 성공본 밴드 최대 0.115(RGB) → 0.011(Y) = 아래 여유 4.3×→45×
+    #   ⓒ 결정적 근거 = **벤더 인코딩 실명**: 완전 무동작 씨앗을 4:2:0으로 왕복하면 크로마 업샘플
+    #     보간이 clamp 열에 ±2를 넣어 RGB 최대차 축은 좌밴드 1.000→0.000으로 **실명**하는데
+    #     Y축은 1.000을 유지한다(루마는 서브샘플링 대상이 아니다).
+    ya = _luma(out_img)
     x0, y0, x1, y1 = box_px
-    ch, cw = a.shape[:2]
     tot = flat = 0
-    for seg in (a[:y0], a[y1:]):                       # 세로 밴드 = 행 방향 복제
+    for seg in (ya[:y0], ya[y1:]):                     # 세로 밴드 = 행 방향 복제
         if seg.shape[0] > 1:
-            dv = np.abs(np.diff(seg, axis=0)).max(axis=(1, 2))
+            dv = np.abs(np.diff(seg, axis=0)).max(axis=1)
             tot += dv.size
             flat += int((dv <= tol).sum())
-    for seg in (a[:, :x0], a[:, x1:]):                 # 가로 밴드 = 열 방향 복제
+    for seg in (ya[:, :x0], ya[:, x1:]):               # 가로 밴드 = 열 방향 복제
         if seg.shape[1] > 1:
-            dh = np.abs(np.diff(seg, axis=1)).max(axis=(0, 2))
+            dh = np.abs(np.diff(seg, axis=1)).max(axis=0)
             tot += dh.size
             flat += int((dh <= tol).sum())
     return float(flat) / tot if tot else 0.0
 
 
-def seed_dirs(box_px, canvas_size, src_img, plain_std=EDGE_SOLID_STD):
-    """P_SEEDFILL 3슬롯(keep·where·edgerule) — 실측 기하를 **%로** 문장화.
+def streak_bands(out_img, box_px, tol=1.0):
+    """밴드별 줄무늬 잔류(같은 Y 술어) — 「한 밴드 통째 무동작」 전담(260809 2차).
+    합산(streak_frac)은 분모가 밴드 폭 가중이라 앵커 좌 240px가 100% 미수리여도 0.363으로
+    통과했다(1차 평의회 실측) = 구조적 사각. 실데이터 간극 = 성공 밴드 최대 0.011 vs 무동작
+    0.852~1.000 → 기존 임계 0.50이 그 사이에 있어 새 상수 0."""
+    ya = _luma(out_img)
+    x0, y0, x1, y1 = box_px
+    out = {}
+    for side, seg, ax in (("top", ya[:y0], 0), ("bottom", ya[y1:], 0),
+                          ("left", ya[:, :x0], 1), ("right", ya[:, x1:], 1)):
+        if seg.shape[ax] > 1:
+            d = np.abs(np.diff(seg, axis=ax)).max(axis=1 - ax)
+            out[side] = round(float((d <= tol).sum()) / d.size, 3)
+    return out
 
-    ⚠ `box_dirs`를 그대로 쓰면 안 된다 — 그건 P_PADFILL 문법 전용이라 선행사("an original photo")가
-      그 프롬프트 안에 있다. 씨앗 프롬프트엔 없어서 "extended above and below **it**" = 순환문이 됐다.
-      게다가 P_SEEDFILL은 {place}·{dirhint}를 안 쓰므로 배치 지정(box) 발사에서 고정 문구 "central"이
-      **거짓말**을 했고(원본이 중앙이 아닌데 중앙이라 단언), dirhint의 가장 강한 잠금 절이 통째로 버려졌다.
-    변별(`edgerule`)은 기존 `edge_stats`를 그 변에만 재사용 = 새 값·새 의존성·과금 0.
-      · 변이 단색 → 「그 밴드는 같은 민무늬 배경 그대로, 아무것도 넣지 마라」(P_PADFILL의 검증된 룰 이식)
-      · 변이 복잡 → 「배경으로 이어라 · 피사체가 닿았으면 **한 몸으로만** 연장」
+
+def seed_dirs(box_px, canvas_size, src_img, plain_std=EDGE_SOLID_STD):
+    """P_SEEDFILL 3슬롯(keep·where·edgerule) — 실측 기하를 **%로** 문장화 · 술어 = band_spec 1곳(260809 2차).
+
+    ⚠ 260809 2차 봉합 2건:
+      ⓐ 실오라기 접기 — 우변 3px 배치 실측 = 「keep에 밀착 선언 소실 ∧ where "the right 0% … are
+        stretched bands" ∧ 그 0%를 재건하라」는 3중 자기모순이 나갔다. band_spec.told=False 밴드는
+        **밀착으로 접어** flush 열거에 합류(접은 사실은 ::notice로 남긴다 — 안 남으면 다음 세션이
+        추측으로 메운다).
+      ⓑ busy 룰 전문 삭제(D-3 · plain 룰은 존치) — 한 문장에 결함 3개였다: 거짓 단언("the pixels are
+        busy" — 앵커 좌변은 실측상 매끈한 근흑 그라데이션) · 범주-추가 문법("rebuilt as more of that
+        same background" = 배경이 사람·건물이면 「더 그려라」 = 260807 진범 ⓐ `more of that same fabric`과
+        같은 병이 함수 하나 건너에 그대로 · 판정 (a)의 「대응물 없는 building = FAIL」과 정면 상충) ·
+        「한 몸 연장」 절이 템플릿 ④와 밴드 수만큼 중복. 그 내용(배경은 배경으로 · 한 몸만 연장)은
+        템플릿 ⑤·④가 이미 전역으로 말한다(실측 확인).
     """
+    spec = band_spec(box_px, canvas_size, src_img, plain_std)
+    told = [b for b in spec if b["told"]]
+    folded = [b for b in spec if not b["told"]]
+    if folded:
+        print("::notice::실오라기 접힘 = " + ", ".join("{}({}px)".format(b["side"], b["gap"]) for b in folded), flush=True)
+    if not told:   # 여백 0 또는 전 변 실오라기 = 이 문장은 호출자(NOCALL 분기)가 이미 걸렀다(방어)
+        return "the whole frame", "There are no stretched bands", ""
+
     x0, y0, x1, y1 = box_px
     cw, ch = canvas_size
 
     def pct(n, d):
         return "{:.0f}%".format(100.0 * n / d)
 
-    bands = []
-    if y0 > 1:
-        bands.append(("top", "the top " + pct(y0, ch) + " of the frame"))
-    if ch - y1 > 1:
-        bands.append(("bottom", "the bottom " + pct(ch - y1, ch) + " of the frame"))
-    if x0 > 1:
-        bands.append(("left", "the left " + pct(x0, cw) + " of the frame"))
-    if cw - x1 > 1:
-        bands.append(("right", "the right " + pct(cw - x1, cw) + " of the frame"))
-    if not bands:   # 여백 0 = 이 경로에 안 온다(방어)
-        return "the whole frame", "There are no stretched bands", ""
+    _txt = {"top": "the top {} of the frame", "bottom": "the bottom {} of the frame",
+            "left": "the left {} of the frame", "right": "the right {} of the frame"}
+    txt = _join_en([_txt[b["side"]].format(b["pct"]) for b in told])
+    where = (txt[0].upper() + txt[1:]) + (" is a stretched band" if len(told) == 1 else " are stretched bands")
 
-    txt = _join_en([t for _, t in bands])
-    where = (txt[0].upper() + txt[1:]) + (" is a stretched band" if len(bands) == 1 else " are stretched bands")
-
-    vert, horz = (y0 > 1 or ch - y1 > 1), (x0 > 1 or cw - x1 > 1)
+    told_sides = {b["side"] for b in told}
+    vert, horz = bool(told_sides & {"top", "bottom"}), bool(told_sides & {"left", "right"})
     hp, wp = pct(y1 - y0, ch), pct(x1 - x0, cw)
-    # ⚠ 260808 봉합 = 구판은 세 갈래 전부 **"the middle"** 하드코딩이라, 원본이 한쪽 변에 붙어 있어도
-    #   「가운데 사각형」이라고 단언했다(실사고 로그 = box x0=0.226·x1=1.0[우변 밀착]인데 "a rectangle in
-    #   the middle"). 모델은 그 말대로 사방 대칭 여백을 상정하고 좌측 23% 밴드를 「원본에 없던 새 영역」으로
-    #   다뤄 **건물을 복제**했다(QA t1 실패 사유 그대로). 이 파일 seed_dirs 독스트링이 box_dirs의 고정 문구
-    #   "central"을 두고 이미 「거짓말」이라 지목했는데, 봉합본이 같은 병을 그대로 안고 있었다.
-    #   → 위치를 **실측 구간 %**로 서술하고 맞닿은 변을 명시한다(가운데면 25%~75%로 저절로 드러난다 = 창작 0).
     if vert and not horz:
         keep = ("the horizontal strip from " + pct(y0, ch) + " to " + pct(y1, ch)
                 + " of the frame height, spanning the full width")
@@ -533,26 +612,18 @@ def seed_dirs(box_px, canvas_size, src_img, plain_std=EDGE_SOLID_STD):
         keep = ("the rectangle spanning " + pct(x0, cw) + " to " + pct(x1, cw) + " of the width and "
                 + pct(y0, ch) + " to " + pct(y1, ch) + " of the height")
     keep += " (" + wp + " of the width by " + hp + " of the height)"
-    flush = [sd for sd, on in (("left", x0 <= 1), ("right", cw - x1 <= 1),
-                               ("top", y0 <= 1), ("bottom", ch - y1 <= 1)) if on]
-    if flush:   # 밀착 변 = 「그쪽엔 채울 것이 없다」 = 모델이 그 변을 건드릴 이유를 없앤다
+    flush = [sd for sd in ("left", "right", "top", "bottom") if sd not in told_sides]   # 밀착 + 접힌 실오라기
+    if flush:
         keep += (", already flush against the " + _join_en(flush)
                  + (" edge" if len(flush) == 1 else " edges") + " of the frame")
 
     rules = []
-    for side, _ in bands:
-        std, _mean = edge_stats(src_img, {side})
-        if std < plain_std:
+    for b in told:
+        if b["kind"] == "plain":   # P_PADFILL 검증 룰 이식(별·성운·팔 봉합) = 존치
             rules.append("Along the {} edge of the real photograph the pixels are plain, even background, "
                          "so the {} band must stay that same plain background and contain nothing at all."
-                         .format(side, side))
-        else:
-            rules.append("Along the {} edge of the real photograph the pixels are busy, so the {} band must "
-                         "be rebuilt as more of that same background — and if part of a subject touches that "
-                         "edge, extend that one subject as a single continuous body, never as a second one."
-                         .format(side, side))
+                         .format(b["side"], b["side"]))
     return keep, where, " ".join(rules)
-
 
 def solid_pad(img, ar, color, box=None):
     if box:
@@ -688,96 +759,129 @@ def main():
                 canvas, bpx, src_img = place_canvas(img, aspect, box)
             else:
                 canvas, bpx, src_img = pad_canvas(img, aspect, size=size)   # 캡 걸리면 src_img = 축소본(픽셀락도 이걸 되붙인다)
-            place, where, dirhint = box_dirs(bpx, canvas.size)
+            spec = band_spec(bpx, canvas.size, src_img)   # 밴드 술어 1곳(260809 2차) — 프롬프트·결정론 검문이 같은 목록을 본다
             seed = seed_pad(canvas, bpx)   # 빈칸을 먼저 메꾼다(과금 0) → 모델은 「채우기」가 아니라 「다듬기」만 한다
-            if SEED_ON:
-                s_keep, s_where, s_edge = seed_dirs(bpx, canvas.size, src_img)
-                base_prompt = P_SEEDFILL.format(keep=s_keep, where=s_where, edgerule=s_edge)
-                print("씨앗 문구: 원본={} / {} / {}".format(s_keep, s_where, s_edge), flush=True)
+            if SEED_ON and not any(b["told"] for b in spec):
+                # 여백이 전부 실오라기(전 변 서술 불가) = 모델 기여분이 전량 페더 링 안 = pixel_lock이 씨앗으로
+                # 덮는다 = 기대가치 0. [668행대 선례 동축 = 「AI 지정이지만 무의미 콜 차단 우선」(운영자 260806
+                # "저비용일 수록 더 좋음")] ⚠ qa_note=NOCALL 신설이 실효 조건 — 없으면 「안 불렀다」와
+                # 「불렀다 실패했다」가 원장에서 같은 seed_pad로 뭉개진다(PASS·SKIP 합침병과 같은 축).
+                print("::notice::여백이 실오라기뿐(전 변 서술 불가) — 무과금 씨앗 확정(모델 스킵)", flush=True)
+                route, out_img, qa_note = "seed_pad", seed, "NOCALL"
             else:
-                base_prompt = P_PADFILL.format(place=place, where=where, dirhint=dirhint)
-                print("배치 문구: {} / 여백 {}".format(place, where), flush=True)   # 프롬프트가 캔버스를 정확히 묘사하는지 런 로그로 사후 대조(운영자 260806 "프롬프팅이 어떻게 고정되어있는지")
-            feed = seed if SEED_ON else canvas
-            ref_jpg = jpg_bytes(src_img)   # 원본 = 「피사체가 몇인가」의 정답지(생성·판정 양쪽에 같은 장을 준다)
-            # ⚠ 씨앗 경로는 [원본, 씨앗] 2장 — 씨앗만 주면 모델이 보는 유일한 증거가 「정장색 세로 밴드」라
-            #   텍스트로 "두 번째 몸통 금지"라고 말해도 시각 증거가 이긴다(260806 실사고).
-            feed_parts = [ref_jpg, jpg_bytes(feed)] if SEED_ON else jpg_bytes(feed)
-            out_cand, fb, qa_fail, qa_note = None, "", False, "NONE"   # NONE = 렌더 자체가 0회 성공
-            noimg = det = 0   # 2연속 = 딸꾹질이 아니라 **거부·무동작 서명**(tg.gemini_image가 내부에서 이미 1회 재시도한다)
-            tries_log = []    # 회차별 관측(260809 평의회 A-4) — 구판은 실패 회차가 로그에만 남고 원장에서 증발했다
-            for attempt in range(1, TRIES + 1):   # 생성→자가 QA→실패 사유 피드백 재생성(exp r8 검증 · 운영자 '검증하면서 뽑기' · 상한 = TRIES)
-                p = base_prompt + ((" IMPORTANT — the previous attempt FAILED quality review for this "
-                                    "reason: \"" + fb + "\". Fix exactly that issue this time.") if fb else "")
-                cand = tg.gemini_image(p, image_size=size, tag="resize:t{}".format(attempt),
-                                       aspect=aspect, ref_png=feed_parts, model=IMG_MODEL or None)
-                _CALLS["gen"] += 1   # 과금 실측(운영자 260808 "실패해도 과금이 나갈텐데") — 성공·실패 무관 발사 수
-                if not cand:
-                    noimg += 1
-                    tries_log.append({"t": attempt, "err": "no-image"})
-                    if noimg >= 2:   # 실측 = cmp-pro-914ca2(gen 2 · judge 0 · 산출 = 무과금 씨앗) — fb가 안 바뀌므로
-                        print("::warning::이미지 무반환 2연속 — 재시도 중단(같은 요청 반복 = 과금만 증가)", flush=True)
-                        break        #   **바이트 동일 요청**을 다시 쏘는 것이고, 그 콜은 정보 0으로 탄다
-                    continue
-                try:
-                    Image.open(io.BytesIO(cand)).verify()   # 손상본 차단(gen_cards.edit_one 계승)
-                except Exception:
-                    print("::warning::렌더 디코드 실패(t{})".format(attempt))
-                    continue
-                # ⚠ 판정 대상 = **출고물**(pixel_lock 이후). 구판은 락 이전 원시 렌더를 심사해서
-                #   페더가 만드는 단차·원본 침범이 영영 미심사였다(260807 평의회 = 16:9 크림 막대 실사고).
-                shipped = pixel_lock(cand, canvas.size, src_img, bpx, seed_img=seed) if lock else \
-                    Image.open(io.BytesIO(cand)).convert("RGB").resize(canvas.size, Image.LANCZOS)
-                # ── ⓐ 결정론 검문 먼저(과금 0) — 「모델 무동작」은 LLM 판정이 원리적으로 못 잡는다 ──
-                sk = streak_frac(shipped, bpx)
-                if sk > STREAK_MAX:
-                    out_cand, fb, qa_fail = shipped, "the stretched bands were left as raw streaks, not repaired", True
-                    qa_note = "DET-FAIL"
-                    print("  QA t{}: DET-FAIL — 줄무늬 잔류 {:.1%} > {:.0%}(모델 무동작)".format(attempt, sk, STREAK_MAX), flush=True)
-                    tries_log.append({"t": attempt, "streak": round(sk, 3), "qa": "DET-FAIL"})
-                    det += 1
-                    if det >= 2:   # ⚠ 260809 평의회 실측 = 이 주석이 「2연속이면 폴백」이라 단언했는데 **세는 코드가 없었다**
-                        print("  QA: DET-FAIL 2연속 — 모델 무동작 서명 · 중단(씨앗 폴백)", flush=True)
-                        break
-                    continue
-                det = noimg = 0   # 렌더가 정상으로 돌아오면 연속 카운터 초기화
-                # ── ⓑ 의미 판정(원본 동봉 2장 비교) ──
-                v = gemini_judge(jpg_bytes(shipped), ref_bytes=ref_jpg, model=JUDGE_MODEL or None); _CALLS["judge"] += 1
-                if v is None:
-                    # ⚠ 260807 봉합 = 구판은 PASS와 **판정 불가**를 같은 가지로 합치고 **둘 다 무출력**이라,
-                    #   유령이 「통과했는지 조용히 스킵됐는지」가 로그·원장 어디에도 안 남았다(평의회 5 실측).
-                    #   이 레포가 스레드 `[1차 실측]`·틱톡 `_e1`에서 두 번 진단한 「관측이 지워진다」와 같은 병.
-                    out_cand, qa_fail, qa_note = shipped, False, "SKIP"
-                    tries_log.append({"t": attempt, "streak": round(sk, 3), "qa": "SKIP"})
-                    print("  QA t{}: SKIP(판정 불가 — 형식 불량·콜 실패) → fail-soft 통과".format(attempt), flush=True)
-                    break
-                if v[0]:
-                    out_cand, qa_fail, qa_note = shipped, False, "PASS"
-                    tries_log.append({"t": attempt, "streak": round(sk, 3), "qa": "PASS", "why": v[1][:200]})
-                    print("  QA t{}: PASS — {}".format(attempt, v[1][:80]), flush=True)
-                    break
-                out_cand, qa_fail = shipped, True   # FAIL — 사유 피드백 재시도(최종 FAIL이면 아래서 폴백)
-                # ⚠ 퇴화 사유는 **프롬프트에 안 넣는다**(260809 평의회) — 구판 파서가 사유를 "FAIL" 한 단어로
-                #   퇴화시키는 케이스가 실재했고, 그 쓰레기를 먹은 재시도는 정보 0으로 $0.067을 태운다.
-                #   원문은 로그·원장(qa_why)에 그대로 남긴다 = 관측은 지우지 않는다.
-                fb = v[1] if (len(v[1]) >= 12 and "VERDICT" not in v[1].upper()) else ""
-                qa_note = "FAIL"
-                tries_log.append({"t": attempt, "streak": round(sk, 3), "qa": "FAIL", "why": v[1][:200]})
-                print("  QA t{}: FAIL — {}".format(attempt, fb), flush=True)
-            globals()["_TRIES_LOG"], globals()["_QA_WHY"] = tries_log, (tries_log[-1].get("why", "") if tries_log else "")
-            if out_cand is not None and qa_fail:   # 재시도까지 전부 FAIL = 불합격본 출력 금지 → 결정론 폴백(분신11 260709)
-                print("::warning::QA 최종 FAIL({}) — 씨앗 폴백".format(fb[:80]))
-                out_cand, qa_note = None, (qa_note if qa_note == "DET-FAIL" else "FAIL")
-            if out_cand is not None:
-                out_img = out_cand
-            else:
-                if SEED_ON:   # 씨앗은 「있는 픽셀만 재배치」라 블러 유령보다 언제나 선이 살아 있다(과금 0 · 260806 실호출 4:5 폴백 품질 봉합)
-                    print("::warning::Gemini 렌더/QA 실패 — seed-pad 폴백(가장자리 연장 씨앗 그대로)")
-                    route = "seed_pad"
-                    out_img = seed
+                place, where, dirhint = box_dirs(bpx, canvas.size)
+                if SEED_ON:
+                    s_keep, s_where, s_edge = seed_dirs(bpx, canvas.size, src_img)
+                    base_prompt = P_SEEDFILL.format(keep=s_keep, where=s_where, edgerule=s_edge)
+                    print("씨앗 문구: 원본={} / {} / {}".format(s_keep, s_where, s_edge), flush=True)
                 else:
-                    print("::warning::Gemini 렌더/QA 실패 — blur-pad 폴백(항상 결과)")
-                    route = "blur_pad"
-                    out_img = blur_pad(img, aspect, box)
+                    base_prompt = P_PADFILL.format(place=place, where=where, dirhint=dirhint)
+                    print("배치 문구: {} / 여백 {}".format(place, where), flush=True)   # 프롬프트가 캔버스를 정확히 묘사하는지 런 로그로 사후 대조(운영자 260806 "프롬프팅이 어떻게 고정되어있는지")
+                feed = seed if SEED_ON else canvas
+                ref_jpg = jpg_bytes(src_img)   # 원본 = 「피사체가 몇인가」의 정답지(생성·판정 양쪽에 같은 장을 준다)
+                # ⚠ 씨앗 경로는 [원본, 씨앗] 2장 — 씨앗만 주면 모델이 보는 유일한 증거가 「정장색 세로 밴드」라
+                #   텍스트로 "두 번째 몸통 금지"라고 말해도 시각 증거가 이긴다(260806 실사고).
+                feed_parts = [ref_jpg, jpg_bytes(feed)] if SEED_ON else jpg_bytes(feed)
+                out_cand, fb, qa_fail, qa_note = None, "", False, "NONE"   # NONE = 렌더 자체가 0회 성공
+                noimg = det = 0   # 2연속 = 딸꾹질이 아니라 **거부·무동작 서명**(tg.gemini_image가 내부에서 이미 1회 재시도한다)
+                tries_log = []    # 회차별 관측(260809 평의회 A-4) — 구판은 실패 회차가 로그에만 남고 원장에서 증발했다
+                for attempt in range(1, TRIES + 1):   # 생성→자가 QA→실패 사유 피드백 재생성(exp r8 검증 · 운영자 '검증하면서 뽑기' · 상한 = TRIES)
+                    enc = "?"   # 이 회차 렌더의 크로마 서브샘플링(원장 반출 · 아래 verify 직후 판독)
+                    p = base_prompt + ((" IMPORTANT — the previous attempt FAILED quality review for this "
+                                        "reason: \"" + fb + "\". Fix exactly that issue this time.") if fb else "")
+                    cand = tg.gemini_image(p, image_size=size, tag="resize:t{}".format(attempt),
+                                           aspect=aspect, ref_png=feed_parts, model=IMG_MODEL or None)
+                    _CALLS["gen"] += 1   # 과금 실측(운영자 260808 "실패해도 과금이 나갈텐데") — 성공·실패 무관 발사 수
+                    if not cand:
+                        noimg += 1
+                        tries_log.append({"t": attempt, "err": "no-image"})
+                        if noimg >= 2:   # 실측 = cmp-pro-914ca2(gen 2 · judge 0 · 산출 = 무과금 씨앗) — fb가 안 바뀌므로
+                            print("::warning::이미지 무반환 2연속 — 재시도 중단(같은 요청 반복 = 과금만 증가)", flush=True)
+                            break        #   **바이트 동일 요청**을 다시 쏘는 것이고, 그 콜은 정보 0으로 탄다
+                        continue
+                    try:
+                        Image.open(io.BytesIO(cand)).verify()   # 손상본 차단(gen_cards.edit_one 계승)
+                        _lay = getattr(Image.open(io.BytesIO(cand)), "layer", None)
+                        enc = "{}:{}".format(*_lay[0][1:3]) if _lay else "?"
+                        # ⚠ 벤더가 돌려준 **크로마 서브샘플링**을 기록한다(260809 2차 실측 · 과금 0). 신설 사유 =
+                        #   streak 검문이 이 값에 결과가 뒤집힌다: 같은 완전 무동작이 4:4:4면 좌밴드 1.000(검출) ·
+                        #   4:2:0이면 RGB축 0.000(무검문 통과 — Y축 이관으로 봉합)인데, 우리는 이 인코딩을 고른 적도
+                        #   잰 적도 없다. (1,1)=4:4:4 · (2,1)=4:2:2 · (2,2)=4:2:0.
+                    except Exception:
+                        print("::warning::렌더 디코드 실패(t{})".format(attempt))
+                        noimg += 1                                    # 손상본 = 무이미지와 같은 「정보 0」 회차(260809 2차 — 구판은 무기록·무카운트라 연속 손상이 TRIES 전량을 흔적 0으로 소각했다)
+                        tries_log.append({"t": attempt, "err": "decode"})
+                        if noimg >= 2:
+                            print("::warning::렌더 무효 2연속 — 중단(같은 요청 반복 = 과금만 증가)", flush=True)
+                            break
+                        continue
+                    # ⚠ 판정 대상 = **출고물**(pixel_lock 이후). 구판은 락 이전 원시 렌더를 심사해서
+                    #   페더가 만드는 단차·원본 침범이 영영 미심사였다(260807 평의회 = 16:9 크림 막대 실사고).
+                    shipped = pixel_lock(cand, canvas.size, src_img, bpx, seed_img=seed) if lock else \
+                        Image.open(io.BytesIO(cand)).convert("RGB").resize(canvas.size, Image.LANCZOS)
+                    # ── ⓐ 결정론 검문 먼저(과금 0) — 「모델 무동작」은 LLM 판정이 원리적으로 못 잡는다 ──
+                    sk = streak_frac(shipped, bpx)                     # 합산(종전 계약 · 축만 Y로)
+                    sb = streak_bands(shipped, bpx)                    # 밴드별 = 「한 밴드 통째 무동작」 전담(260809 2차)
+                    bad = [(b["side"], sb[b["side"]]) for b in spec
+                           if b["told"] and b["kind"] == "busy" and sb.get(b["side"], 0) > STREAK_MAX]
+                    # ⚠ 합산만으로는 한 밴드 통째 무동작을 구조적으로 못 잡는다 — 분모가 밴드 폭 가중이라 앵커
+                    #   좌 240px가 100% 미수리여도 0.363으로 통과했다(1차 평의회 실측). ⚠ **busy 변만** 검문 =
+                    #   plain 변은 seed_dirs가 「민무늬 그대로, 아무것도 넣지 마라」고 **명령**하므로 그 말을 옳게
+                    #   지킨 산출이 줄무늬 100%로 나올 수 있다(구조적 위양성 채널 · 코퍼스 실측 5.6%).
+                    if sk > STREAK_MAX or bad:
+                        out_cand, fb, qa_fail = shipped, "the stretched bands were left as raw streaks, not repaired", True
+                        qa_note = "DET-FAIL"
+                        print("  QA t{}: DET-FAIL — 줄무늬 잔류 합산 {:.1%} · 밴드 {}".format(attempt, sk, bad or "-"), flush=True)
+                        tries_log.append({"t": attempt, "streak": round(sk, 3), "bands": sb, "enc": enc, "qa": "DET-FAIL",
+                                          "rej": keep_rej(shipped, rid, attempt, "rej"), "raw": keep_rej(cand, rid, attempt, "raw")})
+                        det += 1
+                        if det >= 2:   # ⚠ 260809 평의회 실측 = 이 주석이 「2연속이면 폴백」이라 단언했는데 **세는 코드가 없었다**
+                            print("  QA: DET-FAIL 2연속 — 모델 무동작 서명 · 중단(씨앗 폴백)", flush=True)
+                            break
+                        continue
+                    det = noimg = 0   # 렌더가 정상으로 돌아오면 연속 카운터 초기화
+                    # ── ⓑ 의미 판정(원본 동봉 2장 비교) ──
+                    v = gemini_judge(jpg_bytes(shipped), ref_bytes=ref_jpg, model=JUDGE_MODEL or None); _CALLS["judge"] += 1
+                    if v is None:
+                        # ⚠ 260807 봉합 = 구판은 PASS와 **판정 불가**를 같은 가지로 합치고 **둘 다 무출력**이라,
+                        #   유령이 「통과했는지 조용히 스킵됐는지」가 로그·원장 어디에도 안 남았다(평의회 5 실측).
+                        #   이 레포가 스레드 `[1차 실측]`·틱톡 `_e1`에서 두 번 진단한 「관측이 지워진다」와 같은 병.
+                        out_cand, qa_fail, qa_note = shipped, False, "SKIP"
+                        tries_log.append({"t": attempt, "streak": round(sk, 3), "bands": sb, "enc": enc, "qa": "SKIP"})
+                        print("  QA t{}: SKIP(판정 불가 — 형식 불량·콜 실패) → fail-soft 통과".format(attempt), flush=True)
+                        break
+                    if v[0]:
+                        out_cand, qa_fail, qa_note = shipped, False, "PASS"
+                        tries_log.append({"t": attempt, "streak": round(sk, 3), "bands": sb, "enc": enc, "qa": "PASS", "why": v[1][:200]})
+                        print("  QA t{}: PASS — {}".format(attempt, v[1][:80]), flush=True)
+                        break
+                    out_cand, qa_fail = shipped, True   # FAIL — 사유 피드백 재시도(최종 FAIL이면 아래서 폴백)
+                    # ⚠ 퇴화 사유는 **프롬프트에 안 넣는다**(260809 평의회) — 구판 파서가 사유를 "FAIL" 한 단어로
+                    #   퇴화시키는 케이스가 실재했고, 그 쓰레기를 먹은 재시도는 정보 0으로 $0.067을 태운다.
+                    #   원문은 로그·원장(qa_why)에 그대로 남긴다 = 관측은 지우지 않는다.
+                    fb = v[1] if (len(v[1]) >= 12 and "VERDICT" not in v[1].upper()) else ""
+                    qa_note = "FAIL"
+                    tries_log.append({"t": attempt, "streak": round(sk, 3), "bands": sb, "enc": enc, "qa": "FAIL", "why": v[1][:200],
+                                      "rej": keep_rej(shipped, rid, attempt, "rej"), "raw": keep_rej(cand, rid, attempt, "raw")})
+                    print("  QA t{}: FAIL — {}".format(attempt, fb), flush=True)
+                globals()["_TRIES_LOG"] = tries_log
+                # ⚠ 마지막 회차가 no-image·DET-FAIL이면 그 레코드에 why 키가 없어 **사유가 통째로 증발**한다
+                #   (실측 = t1 FAIL(사유) → t2·t3 무이미지 = qa_why ''). 마지막 **유효** 사유를 싣는다(260809 2차).
+                globals()["_QA_WHY"] = next((t.get("why", "") for t in reversed(tries_log) if t.get("why")), "")
+                if out_cand is not None and qa_fail:   # 재시도까지 전부 FAIL = 불합격본 출력 금지 → 결정론 폴백(분신11 260709)
+                    print("::warning::QA 최종 FAIL({}) — 씨앗 폴백".format(fb[:80]))
+                    out_cand, qa_note = None, (qa_note if qa_note == "DET-FAIL" else "FAIL")
+                if out_cand is not None:
+                    out_img = out_cand
+                else:
+                    if SEED_ON:   # 씨앗은 「있는 픽셀만 재배치」라 블러 유령보다 언제나 선이 살아 있다(과금 0 · 260806 실호출 4:5 폴백 품질 봉합)
+                        print("::warning::Gemini 렌더/QA 실패 — seed-pad 폴백(가장자리 연장 씨앗 그대로)")
+                        route = "seed_pad"
+                        out_img = seed
+                    else:
+                        print("::warning::Gemini 렌더/QA 실패 — blur-pad 폴백(항상 결과)")
+                        route = "blur_pad"
+                        out_img = blur_pad(img, aspect, box)
 
     if not ratio_ok(out_img.size, aspect):   # 결정론 최종 검증(비율 ±2%)
         print("::warning::비율 불일치 {} — blur-pad 재폴백".format(out_img.size))

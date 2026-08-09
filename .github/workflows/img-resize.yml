@@ -59,6 +59,7 @@ jobs:
           RESIZE_JUDGE_MODEL: ${{ vars.RESIZE_JUDGE_MODEL }}
           RESIZE_SEED: ${{ vars.RESIZE_SEED }}
           RESIZE_TRIES: ${{ vars.RESIZE_TRIES }}   # 생성 시도 상한(빈값 = 3 · 260808 실측 근거는 resize_image.py TRIES 주석)
+          RESIZE_KEEP_REJ: ${{ vars.RESIZE_KEEP_REJ }}   # 불합격본 보존 킬스위치(빈값 = ON · 260809 2차 — 이게 없으면 keep_rej 주석이 머지 순간 거짓 서술이 된다 = RESIZE_SEED가 이름 붙인 병)
         run: python3 .github/scripts/resize_image.py
 
       - name: Commit results
