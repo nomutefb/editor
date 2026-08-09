@@ -3337,20 +3337,61 @@ function setImportRef(src, url) {   // 원본 없음(타 기기) → 합성본�
 const DRAFT_KEY = 'nomute_thumb_draft', DRAFT_MS = window.NM_DRAFT_MS;   // 보관 30분(운영자 '약 5분+' 요청 여유 상회 · 반나절 전 잔재 오염은 차단) — 값 정본 = draft.js NM_DRAFT_MS(운영자 260801 "30분 만료를 전역에" · 여기 상수 복제 폐지 = 드리프트 0 · 페이로드는 탭별 통이라 이 파일 자체 저장 유지)
 const _draftImgSaved = {};   // draftKey → 마지막 저장 b64(참조 비교 = 같은 이미지 IDB 재쓰기 스킵)
 let _draftT = 0, _draftReady = false;   // _draftReady = 초기 복원 뒤에만 저장(복원 전 빈 폼이 드래프트를 덮는 것 차단)
+// ⭐ 260809 봉합(운영자 "30분 지나면 기존에 입력했던 내용 휘발되게 · 필요없는데 남아있는 경우가 있음") — 실측 진범 2종:
+//   ⓐ **만료 시계가 「마지막 편집」이 아니라 「마지막 저장 호출」 기준**이었다. draftSave 트리거가
+//      input·change에 더해 **click·focusout·화면이탈(visibilitychange·pagehide)**까지라, 글자를 한 자도 안 고치고
+//      스튜디오를 열었다 닫기만 해도 `d.ts = Date.now()`가 찍혀 30분 창이 매번 리셋됐다(실측 = 25분 묵은 통에
+//      **클릭 1회** → 나이 0분 · 그 뒤 새 로드에서 옛 내용 그대로 복원). 사실상 영구 보관 = 운영자가 본 그 잔재.
+//   ⓑ **통(d.ts) 하나로만 재던 만료** = 다른 탭을 쓰면 묵은 탭 내용까지 같이 젊어진다(반대로 통이 만료되면
+//      멀쩡한 다른 탭 슬롯도 통째로 증발 = 주석이 약속한 "탭별 슬롯 보존"과 실제 동작이 어긋나 있었다).
+//   → 슬롯별 편집시각 `d.at[APP]`으로 옮기고, **페이로드가 직전과 같으면 시계를 갱신하지 않는다**(값이 실제로
+//     바뀐 순간만 30분이 새로 간다). SSOT 축(draft.js nmDraftSave)도 같은 규칙으로 동반 봉합 = index·k·sb 동시 해소.
+//   ⓒ 그리고 **세션 중 만료가 아예 없었다**(만료 판정이 로드 시점 1회뿐) → 창을 열어둔 채 30분이 지나도 칸의 글자는
+//     그대로 남는다. 운영자 화면이 정확히 그 상태다 → 무편집 30분 타이머(draftIdleArm)로 그 자리에서 비운다.
+let _draftIdleT = 0, _draftWiping = false;
+const _DRAFT_TXT = ['#lines', '#cSub', '#cTitle', '#cLines', '#warnLines'];   // 휘발 대상 = **입력한 글** 전부(포스트 텍스트·헤더 부제/제목·릴스 자막·안내문) · 사진·토글·설정은 비대상(선호 축 = draft.js "비대상: 선택 스냅샷" 관례 계승)
+function draftIdleArm(ms) {   // 마지막 편집 기준 남은 시간만큼 재무장(복원 직후엔 이미 흐른 시간을 뺀 잔여로)
+  clearTimeout(_draftIdleT);
+  _draftIdleT = setTimeout(draftIdleWipe, Math.max(1000, ms == null ? DRAFT_MS : ms));
+}
+function draftIdleWipe() {   // 30분 무편집 = 방치 → 입력한 글만 비운다(화면·저장 동시 = 화면엔 있는데 저장엔 없는 어긋남 0)
+  let hit = false;
+  _draftWiping = true;
+  try {
+    _DRAFT_TXT.forEach(sel => { const el = $(sel); if (el && el.value) { hit = true; el.value = ''; el.dispatchEvent(new Event('input', { bubbles: true })); } });   // input 재발화 = 미리보기·자간 힌트가 빈 값으로 재동기(비신뢰 이벤트라 입력 클램프 재차단 없음)
+    if (hit) { clearTimeout(_draftT); draftSave(); try { errStatus('30분 지나 입력 내용 비웠어', 'warn'); } catch (_) {} }   // 안내 = 기존 errStatus(warn) 정본 재사용(새 UI 창작 0) · 무증상 삭제 금지
+  } catch (_) {} finally { _draftWiping = false; }
+}
 function draftSave() {
   if (!_draftReady) return;
   let d; try { d = JSON.parse(localStorage.getItem(DRAFT_KEY) || 'null'); } catch { d = null; }
-  if (!d || !d.apps || Date.now() - (d.ts || 0) > DRAFT_MS) d = { apps: {} };   // 만료 통은 새로(탭별 슬롯 유지 = 다른 탭 작성분 보존)
-  try { d.apps[APP] = snapForm('draft_img_' + APP); } catch { return; }
-  d.app = APP; d.ts = Date.now();
+  if (!d || !d.apps) d = { apps: {}, at: {} };
+  if (!d.at) d.at = {};   // 구 형식(통 ts만) = 통 시각을 슬롯 시각으로 승계(잔재가 갑자기 만료돼 놀라는 일 0)
+  const now = Date.now();
+  Object.keys(d.apps).forEach(k => { if (!d.at[k]) d.at[k] = d.ts || now; });
+  Object.keys(d.apps).forEach(k => { if (k !== APP && now - d.at[k] > DRAFT_MS) { delete d.apps[k]; delete d.at[k]; } });   // 묵은 **다른 탭 슬롯만** 폐기(내 탭은 지금 쓰는 중)
+  let snap; try { snap = snapForm('draft_img_' + APP); } catch { return; }
+  const same = JSON.stringify(d.apps[APP] ?? null) === JSON.stringify(snap);   // snapForm은 결정론(드래프트 이미지 키가 탭별 고정) = 무변경 저장을 정확히 가려낸다
+  d.apps[APP] = snap;
+  if (!same || !d.at[APP]) { d.at[APP] = now; if (!_draftWiping) draftIdleArm(DRAFT_MS); }   // 시계 갱신 = 값이 실제로 바뀐 순간뿐(비우기 자신은 재무장 안 함 = 빈 폼이 타이머를 계속 물지 않게)
+  d.app = APP; d.ts = now;   // d.ts = 구판 호환 잔존 필드(만료 판정은 d.at 전담)
   try { localStorage.setItem(DRAFT_KEY, JSON.stringify(d)); } catch {}
 }
 function draftQueue() { clearTimeout(_draftT); _draftT = setTimeout(draftSave, 800); }
 function draftRestore() {
   let d; try { d = JSON.parse(localStorage.getItem(DRAFT_KEY) || 'null'); } catch { d = null; }
-  if (!d || !d.apps || Date.now() - (d.ts || 0) > DRAFT_MS) { try { localStorage.removeItem(DRAFT_KEY); } catch {} return; }
-  const apps = Object.keys(d.apps).filter(a => d.apps[a]);
-  apps.filter(a => a !== d.app).concat(apps.includes(d.app) ? [d.app] : []).forEach(a => { try { importToEditor(d.apps[a], undefined, true); } catch {} });   // quiet = 자동복원 문구 0(운영자 260707)
+  if (!d || !d.apps) { try { localStorage.removeItem(DRAFT_KEY); } catch {} return; }
+  const now = Date.now(), at = d.at || {};
+  const live = Object.keys(d.apps).filter(a => d.apps[a] && now - (at[a] || d.ts || 0) <= DRAFT_MS);   // 슬롯별 판정 = 묵은 탭만 떨어진다
+  if (!live.length) { try { localStorage.removeItem(DRAFT_KEY); } catch {} return; }
+  if (live.length !== Object.keys(d.apps).length) {   // 만료 슬롯은 그 자리에서 디스크에서도 폐기(다음 저장까지 잔재가 살아 있지 않게)
+    const na = {}, nt = {};
+    live.forEach(a => { na[a] = d.apps[a]; nt[a] = at[a] || d.ts || now; });
+    try { localStorage.setItem(DRAFT_KEY, JSON.stringify({ apps: na, at: nt, app: live.includes(d.app) ? d.app : live[0], ts: d.ts || now })); } catch {}
+  }
+  live.filter(a => a !== d.app).concat(live.includes(d.app) ? [d.app] : []).forEach(a => { try { importToEditor(d.apps[a], undefined, true); } catch {} });   // quiet = 자동복원 문구 0(운영자 260707)
+  const newest = Math.max(...live.map(a => at[a] || d.ts || 0));
+  draftIdleArm(DRAFT_MS - (now - newest));   // 복원분도 남은 시간만큼만 산다(리로드가 30분을 새로 주지 않는다)
 }
 ['input', 'change', 'click', 'focusout'].forEach(ev => document.addEventListener(ev, draftQueue, { passive: true, capture: true }));   // 위임+캡처 = 새 컨트롤·stopPropagation에도 커버(칩 에디터 blur 커밋 = focusout이 잡음)
 document.addEventListener('visibilitychange', () => { if (document.hidden) { clearTimeout(_draftT); draftSave(); } });   // 화면 이탈 직전 즉시 확보(디바운스 스킵 · pagehide 미발화 모바일 킬 대비)
@@ -4770,7 +4811,7 @@ const _TRK_HINT_OF = { cSub: '#cHdrTrk', cTitle: '#cHdrTrk', cLines: '#cLinesTrk
 function _blockNotice(el) {   // 차단 순간 안내 = 기존 .over(빨강) 스타일 재사용 — 새 색·새 UI 창작 0
   const sel = _TRK_HINT_OF[el.id]; if (!sel) return;
   const h = $(sel); if (!h) return;
-  const MSG = ' 한도 꽉 찼어 — 더는 안 들어가';
+  const MSG = ' 한도 초과';   // 운영자 260809 "한도 곽찼어 > 한도 초과 라고만" — ⚠ 아이콘·자리·색(over 빨강)은 종전 그대로, 문구만 축약
   if (h._icon !== 'warn') { h.innerHTML = WARN_SVG + '<span class="trkmsg"></span>'; h._icon = 'warn'; }
   const m = h.querySelector('.trkmsg');
   // ⭐ 260807 봉합(평의회6) — 구판은 **연타 중 매 타** textContent+classList를 재기입해 동기 스타일 무효화를 유발했다

@@ -19,8 +19,19 @@
   var MS = 30 * 60e3;   // 30분 — thumb DRAFT_MS 계승(값 창작 아님)
   g.NM_DRAFT_MS = MS;
 
+  // ⭐ 260809 봉합(운영자 "30분 지나면 기존에 입력했던 내용 휘발되게 · 필요없는데 남아있는 경우가 있음") —
+  //   구판은 저장할 때마다 ts를 무조건 now로 덮어 만료 시계가 **「마지막 편집」이 아니라 「마지막 저장 호출」** 기준이었다.
+  //   호출부가 값 변경과 무관한 자리(모달 close·flush·화면 이탈)에 붙어 있어서, 글자를 한 자도 안 고치고
+  //   창을 열었다 닫기만 해도 30분 창이 매번 리셋 = **사실상 영구 보관**(운영자가 겪은 "필요없는데 남아있는" 축).
+  //   → 내용이 직전 저장분과 **같으면 ts를 그대로 물려받는다**(= 시계 유지). 값이 실제로 바뀐 순간만 시계가 새로 간다.
+  //   ⚠ 만료된 ts를 물려받는 것도 의도 = 다음 nmDraftLoad가 정상적으로 폐기한다(무변 저장이 만료를 되살리지 못한다).
   g.nmDraftSave = function (key, val) {
-    try { localStorage.setItem(key, JSON.stringify({ v: val, ts: Date.now() })); } catch (e) {}   // 저장 실패(용량·프라이빗) = 조용히 포기(드래프트는 부가기능 · thumb 선례)
+    try {
+      var s = JSON.stringify(val), prev = null;
+      try { prev = JSON.parse(localStorage.getItem(key) || 'null'); } catch (e2) { prev = null; }
+      var ts = (prev && typeof prev === 'object' && prev.ts && JSON.stringify(prev.v) === s) ? prev.ts : Date.now();
+      localStorage.setItem(key, JSON.stringify({ v: val, ts: ts }));
+    } catch (e) {}   // 저장 실패(용량·프라이빗) = 조용히 포기(드래프트는 부가기능 · thumb 선례)
   };
 
   g.nmDraftLoad = function (key) {
