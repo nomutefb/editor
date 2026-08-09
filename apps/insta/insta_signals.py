@@ -273,15 +273,15 @@ def online_curve_kst(audience):
     return {str(h): round(merged.get(h, 0) / pk * 100, 1) for h in range(24)}, days
 
 
-def online_dow_kst():
+def online_dow_kst(peak_hours=None):
     """요일별 팔로워 접속 실측(KST 요일 7키 · 피크=100 · 운영자 260804 — 260803 시간대 실측 승격의 요일 짝).
     원천 = online_ledger.json 최근 60일. ⚠커버일 = 키−1일 — 원장 키 = 버킷 end_time 날짜(insta_fetch)이고 Graph
     인사이트 일버킷은 end_time에 *끝나는* 하루를 담는다(260803 판정 "일버킷 경계 = 07:00Z = PT 자정" = 종료 경계).
     시간대 곡선은 날 정체성 무관이라 이 구분이 필요 없었지만 요일은 하루 어긋나면 통째로 오귀속.
     요일 귀속 = 시각 단위 PT→KST 이동(_pt_kst_shift · 한 PT일이 KST 두 요일에 걸친다[+16h = 그날 16~23시 +
     이튿날 0~15시] → 날짜 단위 귀속은 구조적 오귀속이라 금지).
-    집계 = (요일,시) 셀 평균 → 요일값 = 24시 셀평균의 평균 — 부분 커버 날(새벽만 걷힌 날 등)이 요일 합계를
-    누르는 왜곡 차단. 채택 게이트 = 7요일×24시 전 셀 표본 ≥_DOW_MIN_SAMPLE(= 요일당 최소 2주)
+    집계 = (요일,시) 셀 평균 → 요일값 = **접속 피크대 셀평균의 평균**(peak_hours · 부재 = 종전 24시 전체)
+    — 부분 커버 날(새벽만 걷힌 날 등)이 요일 합계를 누르는 왜곡 차단. 채택 게이트 = 7요일×24시 전 셀 표본 ≥_DOW_MIN_SAMPLE(= 요일당 최소 2주)
     — 미달 = (None, n일) → 뷰어 SIG_GEN 벤치 유지(fail-soft · 창작 0). 60일창 = online_curve_kst 동일 사유(성장 왜곡).
     ⚠ 260809 개정(운영자 "일자로 된 부분이 왜 그런지 확인") — 구 게이트는 셀 표본 ≥1이라 **연속 7일 = 요일당 딱 1일**
     이면 통과했고, 그 상태로 화면에 「팔로워 접속」 요일선이 실측 승격돼 나갔다. 실측 260809 = 원장 7일 · 요일값
@@ -291,7 +291,15 @@ def online_dow_kst():
     ⚠ 남는 한계 = 표본이 차도 진폭은 작을 공산이 크다 — 요일값의 원재료가 '하루 24시간 총 접속량'인데 팔로워 풀
     (65,501)이 고정이라 하루 총량은 요일 무관 거의 같다(실측 날별 24시간 평균 22,194~23,177 = 편차 4.4%).
     즉 online_followers는 시간대 축엔 강한 신호(진폭 4.1배)를 주지만 **요일 축엔 구조적으로 신호가 약한 지표**다.
-    표본이 찬 뒤에도 진폭이 미미하면 요일 축은 벤치(SIG_GEN)로 되돌릴지 = 운영자 판정 축(미결)."""
+    표본이 찬 뒤에도 진폭이 미미하면 요일 축은 벤치(SIG_GEN)로 되돌릴지 = 운영자 판정 축(미결).
+    ⚠ 260809 2차 개정(운영자 "ㄱㄱ") — 집계창을 24시간 전체 → **접속 피크대**로 좁힌다. 24시간을 다 더하면
+    남는 건 '그 요일 하루의 총 접속량'이고 그건 팔로워 풀(고정)과 거의 동의어라 요일 신호가 산술적으로 상쇄된다
+    (위 ⓐ). 피크대만 보면 「내가 실제로 올릴 시간에 그 요일 사람들이 얼마나 붙어 있나」가 남아 게시 결정에 직접 쓰인다.
+    피크 시각 = 호출부가 넘기는 online_curve_kst 상위 3시각 = 노란선·핵심구간·접속피크와 **한 원천**
+    (260803 계약 계승 · 새 임계·새 시각 창작 0 · 인자 부재 = 종전 24시 전체 = 회귀 0).
+    ⚠ 실측 효과는 '개선'이지 '해결'이 아니다 — 260809 원장 7일 기준 진폭 2.7%p → 4.7%p(1.74배)로 늘었지만
+    벤치 실루엣(16%p)의 1/3 수준이라 **여전히 완만하다**. 지표 성질상(피크대엔 팔로워 풀이 거의 포화 = 최대
+    30,710/65,501 = 47%) 표본이 30일로 차도 큰 진폭은 기대하기 어렵다 = 그때 요일 축 존치 판정의 입력값."""
     led = jload('online_ledger.json')
     if not isinstance(led, dict):
         return None, 0
@@ -315,7 +323,8 @@ def online_dow_kst():
             dates.add(d)
     if len(cell) < 7 * 24 or min(len(s) for s in cell.values()) < _DOW_MIN_SAMPLE:
         return None, len(dates)
-    wk = {w: sum(statistics.mean(cell[(w, h)]) for h in range(24)) / 24 for w in range(7)}
+    hrs = sorted({int(h) % 24 for h in peak_hours}) if peak_hours else list(range(24))   # 피크대 한정(부재 = 종전 24시 전체)
+    wk = {w: sum(statistics.mean(cell[(w, h)]) for h in hrs) / len(hrs) for w in range(7)}
     pk = max(wk.values())
     if not pk > 0:
         return None, len(dates)
@@ -334,7 +343,7 @@ def audience_overlay(audience):
         out = {'online_peak_kst': [f'{h}시(KST)' for h, _ in top],
                'online_src': f'api-ledger({led_days}일)' if led_days else 'api',
                'online_curve_kst': curve}
-        dow, dow_days = online_dow_kst()   # 요일 실측(260804) — 게이트 통과 시만 동봉 = 뷰어 요일 노란선 실측 승격 · 미달 = 키 자체 부재 = 벤치 폴백
+        dow, dow_days = online_dow_kst([int(h) for h, _ in top])   # 피크대 = 이 곡선 상위 3시각 그대로(260809 2차 · 한 원천 계약) · 요일 실측(260804) — 게이트 통과 시만 동봉 = 뷰어 요일 노란선 실측 승격 · 미달 = 키 자체 부재 = 벤치 폴백
         if dow:
             out['online_dow_kst'] = dow
             out['online_dow_days'] = dow_days
