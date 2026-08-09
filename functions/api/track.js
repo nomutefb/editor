@@ -200,3 +200,61 @@ export async function onRequestPost({ request, env }) {
   if (upBranch) { try { await GH(env.GH_TOKEN, `git/refs/heads/${upBranch}`, 'DELETE'); } catch { /* 고아 잔존 무해 — 수동 정리 대상 */ } }
   return json({ error: `발사 실패 GitHub ${r.status}: ${(await r.text()).slice(0, 200)}` }, 502);
 }
+
+// ── 산출 라이브 서빙(빌드 우회) — 골격·폴백 체인·헤더 = functions/api/trends.js 정본 계승(새 문법 0) ──
+// 왜(260810 실측): 뷰어는 `track_out/<id>/tracks.json` 을 **정적 경로**로 폴링한다 → 러너가 커밋을 밀어도
+//   Cloudflare Pages 가 사이트를 다시 빌드해야만 카드가 뜬다(analyze 런 31321357588 배포 게이트 **134s** =
+//   전체 374s의 36% · 봇 커밋이 초당급이라 큐가 밀리면 그 이상). 실제 얼굴 검출·군집은 10s 뿐인데
+//   「분석은 끝났는데 화면이 못 받는」 구간이 그 13배였다. trends.js 헤더가 박제한 것과 **같은 병**이고,
+//   그쪽은 `check_coalesce_pair` 가 8표면에 라이브 서빙을 강제하는데 track_out 만 그 계약 밖이었다.
+// ⚠ crop 동반이 실효 조건 — tracks.json 만 라이브로 주면 얼굴 사진(`crops/p*.jpg`)이 빌드 전엔 404 =
+//   카드가 통째로 깨진 이미지가 된다(= 이 우회의 유일한 기능 저하 경로라 같은 함수에서 같이 서빙한다).
+// ⚠ 뷰어는 **라이브 우선 → 정적 폴백** 2단이라 이 함수가 죽어도 종전 동작으로 내려앉는다(악화 경로 0).
+const OUT_F = {   // 화이트리스트 — 임의 경로 주입 차단(trends.js FILES 관례 · 값 = track_out/<id>/ 하위 상대경로)
+  tracks: 'tracks.json',
+  error: 'error.log',
+  video: 'video.json',
+};
+export async function onRequestGet({ request, env }) {
+  const u = new URL(request.url).searchParams;
+  const id = String(u.get('id') || '').trim();
+  const f = String(u.get('f') || 'tracks');
+  const JH = { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' };   // 폴링 축 = 캐시 금지(옛 404/구본이 굳으면 그게 곧 지연)
+  if (!/^[0-9]{12}-[0-9a-f]{6}$/.test(id)) return new Response('{"error":"bad id"}', { status: 400, headers: JH });
+  let rel, bin = false;
+  if (f === 'crop') {
+    const n = String(u.get('n') || '');
+    if (!/^[ps][0-9]{1,3}\.jpg$/.test(n)) return new Response('{"error":"bad crop"}', { status: 400, headers: JH });   // 얼굴 p<N>.jpg · 피사체 s<N>.jpg 뿐(경로 탈출 차단)
+    rel = `crops/${n}`; bin = true;
+  } else if (Object.prototype.hasOwnProperty.call(OUT_F, f)) {   // hasOwnProperty = 프로토타입 키(`?f=constructor`) 누수 차단(trends.js P0 교훈)
+    rel = OUT_F[f];
+  } else {
+    return new Response('{"error":"unknown f"}', { status: 404, headers: JH });
+  }
+  const path = `viewer/track_out/${id}/${rel}`;
+  const tries = [];
+  if (env.GH_TOKEN) tries.push([   // 1순위 = contents API(토큰) — raw 는 ~5분 캐시라 폴링 1순위로 쓰면 그 캐시가 그대로 지연이 된다
+    `https://api.github.com/repos/${REPO}/contents/${path}?ref=${REF}`,
+    { authorization: `Bearer ${env.GH_TOKEN}`, accept: 'application/vnd.github.raw', 'user-agent': 'nomute-viewer' },
+  ]);
+  tries.push([`https://raw.githubusercontent.com/${REPO}/${REF}/${path}`, { 'user-agent': 'nomute-viewer' }]);
+  for (const [url, headers] of tries) {
+    try {
+      const r = await fetch(url, { headers, cf: { cacheTtl: bin ? 300 : 5, cacheEverything: true } });   // 크롭 = 불변 산출이라 캐시 · 폴링 산출 = 5s
+      if (!r.ok) continue;
+      if (bin) {
+        return new Response(r.body, { status: 200, headers: { 'content-type': 'image/jpeg', 'cache-control': 'public, max-age=600' } });
+      }
+      const body = await r.text();
+      if (f === 'error') {
+        if (!body.trim()) continue;
+        return new Response(body, { status: 200, headers: { 'content-type': 'text/plain; charset=utf-8', 'cache-control': 'no-store' } });
+      }
+      const j = JSON.parse(body);   // 유효 JSON 확인 — 깨진/부분 응답이면 throw → 다음 소스(trends.js 미러)
+      if (f === 'tracks' && !(j && Array.isArray(j.people))) continue;   // 뷰어 완료 술어와 **같은 축**(people 배열) — 반쪽 파일을 완료로 오판하지 않는다
+      if (f === 'video' && !(j && (j.url || j.error))) continue;
+      return new Response(body, { status: 200, headers: JH });
+    } catch { /* 다음 소스 */ }
+  }
+  return new Response('{"error":"not ready"}', { status: 404, headers: JH });   // 아직 커밋 전 = 404 = 뷰어 폴링 계속(정적 폴백도 그대로 시도된다)
+}

@@ -452,12 +452,29 @@ $('#analyze').addEventListener('click',async()=>{
   finally{ $('#analyze').disabled=false; }
 });
 
+// ── 산출 라이브 서빙 우선(빌드 우회 = /api/track GET) → 정적 폴백 2단 ──────────────────────────────
+//   왜 = 정적 `track_out/<id>/…` 만 보면 Cloudflare Pages 재빌드까지 화면이 못 받는다(실측 260810 배포 게이트
+//   **134s** · 봇 커밋 큐가 밀리면 그 이상). 실제 얼굴 검출은 10s 뿐이라 대기의 대부분이 이 구간이었다.
+//   ⚠ 2단인 게 핵심 = API 가 죽어도 정적 경로로 내려앉아 **종전 동작 그대로**(악화 경로 0).
+//   ⚠ viewer/edit.html 에 같은 4함수가 있다(미러 · 한쪽만 고치면 조용히 갈린다 = 이 레포 최빈 드리프트).
+function tkApi(id,f,n){ return '/api/track?id='+encodeURIComponent(id)+'&f='+f+(n?('&n='+encodeURIComponent(n)):''); }
+async function tkFetch(id,f,rel){   // 라이브 → 정적 순 · 둘 다 실패면 정적 응답 그대로 반환(폴링 판정은 호출부가)
+  if(id){ try{ const r=await fetch(tkApi(id,f)+'&t='+Date.now()); if(r.ok) return r; }catch(e){} }
+  return fetch(rel+'?t='+Date.now());
+}
+function tkCrop(id,crop,ver){   // 썸네일 = 라이브 우선(정적 폴백 = 아래 onerror 1회)
+  const n=String(crop||'').replace(/^crops\//,'');
+  return /^[ps][0-9]{1,3}\.jpg$/.test(n)?tkApi(id,'crop',n):('track_out/'+id+'/'+crop+'?v='+encodeURIComponent(ver||''));
+}
+function tkImgFb(el,rel){ if(el.dataset.rt) return; el.dataset.rt='1'; el.src=rel; }   // 라이브 실패 1회 → 정적(무한루프 0 = chThFail dataset.rt 관례 계승)
+
 // ── 분석 폴 (ly poll 문법 계승: error.log 우선·SPA 폴백 HTML 가드·연/경성 예산·await 후 live 재확인) ──
 function pollAnalyze(outPath, t0){
   if(_curStop)_curStop();
   const status=$('#astatus');
   const budget=BUDGET;   // 분석 1~2분 + Pages 배포 1~3분 — 소프트 초과 후에도 계속(하드 ×2)
   const errPath=outPath.replace(/[^/]+$/,'error.log');
+  const _pid=(/track_out\/([0-9]{12}-[0-9a-f]{6})\//.exec(outPath)||[])[1]||'';   // 라이브 서빙 키(빌드 우회) — 못 뽑으면 종전 정적 경로 그대로
   let live=true; const stop=()=>{ live=false; clearInterval(disp); goWait(false); $('#filmstage').hidden=true; }; _curStop=stop;
   goWait(true,t0); $('#filmstage').hidden=false;   // t0 전달 = 버튼 경과가 클릭 기점 그대로 이어짐(업로드→분석 전이·재개 클램프 포함)
   const draw=()=>{
@@ -471,7 +488,7 @@ function pollAnalyze(outPath, t0){
   const tick=async()=>{
     if(!live) return;
     try{   // 1) 실패 먼저 — error.log 뜨면 즉시(무한 폴 차단)
-      const er=await fetch(errPath+'?t='+Date.now());
+      const er=await tkFetch(_pid,'error',errPath);
       if(!live) return;
       if(er.ok){
         const ect=(er.headers.get('content-type')||'').toLowerCase();
@@ -482,7 +499,7 @@ function pollAnalyze(outPath, t0){
       }
     }catch(e){ /* 재시도 */ }
     try{   // 2) 결과(tracks.json)
-      const r=await fetch(outPath+'?t='+Date.now());
+      const r=await tkFetch(_pid,'tracks',outPath);
       if(!live) return;
       if(r.ok){
         const ct=(r.headers.get('content-type')||'').toLowerCase();
@@ -523,8 +540,9 @@ function buildKeyCards(){   // 키잉 = 피사체(전신·사물) + 얼굴 단�
     const sid=s.sid|0;
     const color=PALETTE[(sid-1+PALETTE.length*8)%PALETTE.length];
     const c=document.createElement('div'); c.className='card'; c.style.setProperty('--pc',color); c.dataset.sid=sid;
-    const img=s.crop?('track_out/'+TK.id+'/'+s.crop+'?v='+encodeURIComponent((TK.meta&&TK.meta.made)||'')):'';
-    c.innerHTML='<div class="avatar">'+(img?('<img alt="피사체 '+sid+'" loading="lazy" src="'+esc(img)+'">'):'')
+    const imgFb=s.crop?('track_out/'+TK.id+'/'+s.crop+'?v='+encodeURIComponent((TK.meta&&TK.meta.made)||'')):'';
+    const img=s.crop?tkCrop(TK.id,s.crop,(TK.meta&&TK.meta.made)||''):'';
+    c.innerHTML='<div class="avatar">'+(img?('<img alt="피사체 '+sid+'" loading="lazy" src="'+esc(img)+'" onerror="tkImgFb(this,\''+esc(imgFb)+'\')">'):'')
       +'<span class="selchk">'+CHECK_SVG+'</span><span class="subj-lb">'+esc(s.label||'피사체')+'</span>'
       +'<span class="rng">'+fmtT(s.first)+'–'+fmtT(s.last)+'</span><span class="hint">#'+sid+'</span></div>'
       +(s.cap?('<div class="cardcap">'+esc(s.cap)+'</div>'):'');   // AI 캡션(PR 1890 병합)
@@ -545,8 +563,9 @@ function buildKeyCards(){   // 키잉 = 피사체(전신·사물) + 얼굴 단�
     const pid=p.pid|0;
     const color=PALETTE[(pid-1+PALETTE.length*8)%PALETTE.length];
     const c=document.createElement('div'); c.className='card'; c.style.setProperty('--pc',color); c.dataset.kpid=pid;
-    const img=p.crop?('track_out/'+TK.id+'/'+p.crop+'?v='+encodeURIComponent((TK.meta&&TK.meta.made)||'')):'';
-    c.innerHTML='<div class="avatar">'+(img?('<img alt="얼굴 '+pid+'" loading="lazy" src="'+esc(img)+'">'):'')
+    const imgFb=p.crop?('track_out/'+TK.id+'/'+p.crop+'?v='+encodeURIComponent((TK.meta&&TK.meta.made)||'')):'';
+    const img=p.crop?tkCrop(TK.id,p.crop,(TK.meta&&TK.meta.made)||''):'';
+    c.innerHTML='<div class="avatar">'+(img?('<img alt="얼굴 '+pid+'" loading="lazy" src="'+esc(img)+'" onerror="tkImgFb(this,\''+esc(imgFb)+'\')">'):'')
       +'<span class="selchk">'+CHECK_SVG+'</span><span class="subj-lb">얼굴</span>'
       +'<span class="rng">'+fmtT(p.first)+'–'+fmtT(p.last)+'</span><span class="hint">#p'+pid+'</span></div>'
       +(p.cap?('<div class="cardcap">'+esc(p.cap)+'</div>'):'');   // AI 캡션 = subjects 카드와 동일 표기(PR 1890 병합 일관)
@@ -588,12 +607,13 @@ function buildCards(){
     const pid=p.pid|0;   // 서버 정수 계약 + 방어 강제(평의회5)
     const color=PALETTE[(pid-1+PALETTE.length*8)%PALETTE.length];
     const c=document.createElement('div'); c.className='card'; c.style.setProperty('--pc',color); c.dataset.pid=pid;
-    const img=p.crop?('track_out/'+TK.id+'/'+p.crop+'?v='+encodeURIComponent((TK.meta&&TK.meta.made)||'')):'';
+    const imgFb=p.crop?('track_out/'+TK.id+'/'+p.crop+'?v='+encodeURIComponent((TK.meta&&TK.meta.made)||'')):'';
+    const img=p.crop?tkCrop(TK.id,p.crop,(TK.meta&&TK.meta.made)||''):'';
     const hasBody=Array.isArray(p.body)&&p.body.length>0;   // 전신 데이터(v3) 있는 카드만 범위 토글 노출 — 구 v2 분석 = 미노출 = 구 동작 그대로(하위호환 · 260710)
     const isBody=TK.scope[pid]==='body';
     const mate=same.find(pr=>(pr[0]|0)===pid||(pr[1]|0)===pid);
     const mg=mate?('<span class="mghint">#'+esc(String((mate[0]|0)===pid?(mate[1]|0):(mate[0]|0)))+' 같을 수도</span>'):'';
-    c.innerHTML='<div class="avatar">'+(img?('<img alt="인물 '+pid+'" loading="lazy" src="'+esc(img)+'">'):'')
+    c.innerHTML='<div class="avatar">'+(img?('<img alt="인물 '+pid+'" loading="lazy" src="'+esc(img)+'" onerror="tkImgFb(this,\''+esc(imgFb)+'\')">'):'')
       +'<span class="selchk">'+CHECK_SVG+'</span>'+mg
       +'<span class="rng">'+fmtT(p.first)+'–'+fmtT(p.last)+'</span><span class="hint">#'+pid+'</span></div>'
       +(hasBody?('<div class="scoperow" role="group" aria-label="가림 범위">'

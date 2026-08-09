@@ -1479,7 +1479,7 @@ function renderXtr(){   // 가로 3분할 + 라벨|OFF·ON 순환값 문법(운�
         :XTR_SCAN.startsWith('err:')?esc(XTR_SCAN.slice(4))
         :'영상을 넣으면 인물을 찾아 #으로 표시합니다.')+'</div>';
     if(XTR_FACES.length) det+='<div class="plbl"'+(det?'':' style="margin-top:0"')+'>등장인물</div>'   // 직전 생성이 찾은 얼굴 = 묶음 폼 **위**(보면서 담는다)
-      +'<div class="xfaces">'+XTR_FACES.map(f=>'<span class="xface'+(used.has(f.pid|0)?' used':'')+'" draggable="true" data-pid="'+(f.pid|0)+'" title="끌어다 놓거나 탭해서 담습니다">'+(f.url?'<img loading="lazy" alt="인물 '+(f.pid|0)+'" src="'+esc(f.url)+'">':'')+'<span class="hint">#'+(f.pid|0)+'</span></span>').join('')+'</div>';
+      +'<div class="xfaces">'+XTR_FACES.map(f=>'<span class="xface'+(used.has(f.pid|0)?' used':'')+'" draggable="true" data-pid="'+(f.pid|0)+'" title="끌어다 놓거나 탭해서 담습니다">'+(f.url?'<img loading="lazy" alt="인물 '+(f.pid|0)+'" src="'+esc(f.url)+'"'+(f.fb?' onerror="tkImgFb(this,\''+esc(f.fb)+'\')"':'')+'>':'')+'<span class="hint">#'+(f.pid|0)+'</span></span>').join('')+'</div>';
     det+='<div class="plbl"'+(det?'':' style="margin-top:0"')+'>이름</div><div class="xgrp">'
       +XTR_GRP.map((g,i)=>'<div class="xgrow">'
         +'<input class="nmin" type="text" data-gn="'+i+'" value="'+esc(g.name)+'" placeholder="이름" aria-label="이름 '+(i+1)+'" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">'
@@ -1510,6 +1510,20 @@ function renderXtr(){   // 가로 3분할 + 라벨|OFF·ON 순환값 문법(운�
   const nmi=null;   // 클립 공식 전수 부착(운영자 260803 "붙어있어야돼 · 공식처럼가야함") — renderXtr가 innerHTML을 매번 다시 그리므로 그릴 때마다 붙인다 · 강제 = check_clip_coverage
 
 }
+// ── 산출 라이브 서빙 우선(빌드 우회 = /api/track GET) → 정적 폴백 2단 · viewer/track.html 미러(바이트 동일) ──
+//   왜 = 정적 경로만 보면 Cloudflare Pages 재빌드까지 화면이 못 받는다(실측 260810 배포 게이트 134s).
+//   ⚠ 2단인 게 핵심 = API 가 죽어도 정적으로 내려앉아 종전 동작 그대로(악화 경로 0).
+function tkApi(id,f,n){ return '/api/track?id='+encodeURIComponent(id)+'&f='+f+(n?('&n='+encodeURIComponent(n)):''); }
+async function tkFetch(id,f,rel){
+  if(id){ try{ const r=await fetch(tkApi(id,f)+'&t='+Date.now()); if(r.ok) return r; }catch(e){} }
+  return fetch(rel+'?t='+Date.now());
+}
+function tkCrop(id,crop,ver){
+  const n=String(crop||'').replace(/^crops\//,'');
+  return /^[ps][0-9]{1,3}\.jpg$/.test(n)?tkApi(id,'crop',n):('track_out/'+id+'/'+crop+'?v='+encodeURIComponent(ver||''));
+}
+function tkImgFb(el,rel){ if(el.dataset.rt) return; el.dataset.rt='1'; el.src=rel; }
+
 async function xtrScan(){   // 인물 분석 = /api/track analyze 발사 → track_out/<id>/tracks.json 폴 → 얼굴 줄(정본 문법 = track.html 폴 계승)
   if(XTR_SCAN==='run') return;
   const url=($('#url')&&$('#url').value.trim())||'';
@@ -1533,15 +1547,15 @@ async function xtrScan(){   // 인물 분석 = /api/track analyze 발사 → tra
     const tick=async()=>{
       if(XTR_SCAN!=='run') return;
       if(Date.now()-t0>1200e3){ XTR_SCAN='err:인물 분석이 지연되고 있습니다. 생성할 때 다시 시도합니다.'; renderXtr(); return; }
-      try{ const er=await fetch(errp+'?t='+Date.now());
+      try{ const er=await tkFetch(j.id,'error',errp);
         if(er.ok){ const ect=(er.headers.get('content-type')||'').toLowerCase(); const em=await er.text();
           if(em&&em.trim()&&!ect.includes('text/html')&&!/^\s*<!doctype/i.test(em)){ XTR_SCAN='err:'+em.trim().slice(0,80); renderXtr(); return; } } }catch(e){}
-      try{ const r=await fetch(out+'?t='+Date.now());
+      try{ const r=await tkFetch(j.id,'tracks',out);
         if(r.ok){ const ct=(r.headers.get('content-type')||'').toLowerCase(); const tx=await r.text();
           const isHtml=ct.includes('text/html')||/^\s*<!doctype/i.test(tx)||/<html[\s>]/i.test(tx.slice(0,300));
           if(tx&&tx.trim()&&!isHtml){ let d=null; try{ d=JSON.parse(tx); }catch(e){}
             if(d&&Array.isArray(d.people)){
-              XTR_FACES=d.people.filter(p=>p&&p.crop).slice(0,32).map(p=>({pid:p.pid|0, url:'track_out/'+j.id+'/'+p.crop, first:p.first, dur:p.dur}));
+              XTR_FACES=d.people.filter(p=>p&&p.crop).slice(0,32).map(p=>({pid:p.pid|0, url:tkCrop(j.id,p.crop,(d.meta&&d.meta.made)||''), fb:'track_out/'+j.id+'/'+p.crop, first:p.first, dur:p.dur}));
               try{ localStorage.setItem('nm_xtr_faces',JSON.stringify(XTR_FACES)); }catch(e){}
               XTR_SCAN=XTR_FACES.length?'':'err:인물을 찾지 못했습니다. 얼굴이 크게 보이는 구간이 필요합니다.';
               renderXtr(); return; } } } }catch(e){}
