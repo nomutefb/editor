@@ -26,7 +26,10 @@ export async function onRequestPost({ request, env }) {
   // 싼 선검증 = 게이트 앞(무효 요청이 GH GET 2콜을 안 태우게 — edit/conv와 대칭 · 검증 A4/A5) · 본검증은 아래 각 경로에 그대로(이중 방어)
   const _r0 = (body.render && typeof body.render === 'object') ? body.render : null;
   if (_r0 && !/^[0-9]{12}-[0-9a-f]{6}$/.test(String(_r0.id || '').trim())) return json({ error: '잘못된 작업 ID' }, 400);
-  if (!_r0 && !String(body.url || '').trim() && !String(body.fileB64 || '')) return json({ error: '영상 URL이나 파일이 필요해' }, 400);
+  // ⚠ r2key 축 포함(260809 실사고) — 이 선검증이 url·fileB64만 봐서 **R2 직업로드 키로 보낸 분석 요청이 전부 400**이었다.
+  //   아래 144행 본검증은 r2key를 정상으로 받는데 그 앞에서 막혀, 대용량(>28MB) 파일 분석은 track.html에서도 늘 실패했다
+  //   (운영자 260809 실측 = 영상이 붙어 있는데 "영상 URL이나 파일이 필요해"). 싼 선검증이 본검증보다 **좁으면** 그 차집합이 통째로 죽는다.
+  if (!_r0 && !String(body.url || '').trim() && !String(body.fileB64 || '') && !String(body.r2key || '')) return json({ error: '영상 URL이나 파일이 필요해' }, 400);
   const rl = await rateGate(GH, env.GH_TOKEN, 'track-make.yml');   // 발사 레이트리밋(렌더·분석 공통 초입 = 업로드 전 · fail-open · 260711)
   if (rl) return json({ error: rl.error }, 429);
 
