@@ -1,5 +1,57 @@
 [
   {
+    "url": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/resize/260809183717-320b54/4x5-0b6e9bb6.jpg",
+    "srcUrl": "uploads/260809183717-320b54/src.jpg",
+    "aspect": "4:5",
+    "size": "1K",
+    "lock": true,
+    "route": "gemini",
+    "fill": "auto",
+    "qa": "PASS",
+    "calls": {
+      "gen": 2,
+      "judge": 2
+    },
+    "model": "gemini-3.1-flash-image-preview",
+    "qa_why": "The image is uncropped as requested, showing more of the environment and the full bodies of the figures without adding any new separate subjects.",
+    "tries": [
+      {
+        "t": 1,
+        "streak": 0.0,
+        "qa": "FAIL",
+        "why": "A duplicated shoulder and arm are visible to the right of the central soldier's torso in Image 2."
+      },
+      {
+        "t": 2,
+        "streak": 0.0,
+        "qa": "PASS",
+        "why": "The image is uncropped as requested, showing more of the environment and the full bodies of the figures without adding any new separate subjects."
+      }
+    ],
+    "usage": [
+      {
+        "tag": "resize:t1",
+        "prompt": 1305,
+        "output": 1570,
+        "total": 2875
+      },
+      {
+        "tag": "resize:t2",
+        "prompt": 1348,
+        "output": 1609,
+        "total": 2957
+      }
+    ],
+    "box": [
+      0.22589,
+      0.0,
+      0.77411,
+      0.68301
+    ],
+    "id": "260809183717-320b54",
+    "ts": "2026-08-09T18:38:22+09:00"
+  },
+  {
     "url": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/resize/rep-a3/4x5-3c313915.jpg",
     "srcUrl": "uploads/260808115819-914ca2/src.jpg",
     "aspect": "4:5",
@@ -358,17 +410,5 @@
     "box": null,
     "id": "fill45",
     "ts": "2026-08-07T10:39:37+09:00"
-  },
-  {
-    "url": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/resize/fill916/9x16-a42fe0e8.jpg",
-    "srcUrl": "uploads/fill916/src.jpg",
-    "aspect": "9:16",
-    "size": "1K",
-    "lock": true,
-    "route": "gemini",
-    "fill": "auto",
-    "box": null,
-    "id": "fill916",
-    "ts": "2026-08-07T10:39:47+09:00"
   }
 ]
