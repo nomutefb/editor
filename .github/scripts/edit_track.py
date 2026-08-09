@@ -174,10 +174,14 @@ def main():
                 pre_done = json.load(open("/tmp/edit_track_done.json", encoding="utf-8"))
             except Exception:
                 pre_done = []
-            if pre_done:
-                vj["xtr"] = pre_done
+            faces = _pre_faces()
+            if pre_done or faces:
+                if pre_done:
+                    vj["xtr"] = pre_done
+                if faces:
+                    vj["faces"] = faces
                 json.dump(vj, open(vj_p, "w", encoding="utf-8"), ensure_ascii=False)
-                log("pre 적용분 기록: " + ",".join(pre_done))
+                log("pre 적용분 기록: %s · 얼굴 %d" % (",".join(pre_done), len(faces)))
         log("이 단계(%s)에서 적용할 축 없음 — 스킵" % phase)
         return 0
     log("[%s] 적용 축: %s" % (phase, ",".join(order + ([endpoint] if endpoint else []))))
@@ -263,6 +267,7 @@ def main():
         return 0
 
     if phase == "pre":
+        _publish_faces(vid_id, tid, doc, outdir, vj, vj_p)   # 얼굴 썸네일 게시(운영자 260809 "아이디어대로가 100% 맞음")
         # 컴포즈 입력으로 넘긴다 = 워크플로가 EDIT_SRC를 이 경로로 갈아끼운다 → ly_burn이 **이 위에** 자막을 얹는다.
         #   video.json은 손대지 않는다(그건 뒤따르는 컴포즈가 쓴다) · 적용 축만 남겨 post가 최종 기록에 합친다.
         keep = "/tmp/edit_track_pre.mp4"
@@ -317,11 +322,63 @@ def main():
     if not url:
         vj["note"] = "master-lost"   # 뷰어가 정직 표시(다운로드용 알파 마스터 없음 · 화면 재생은 프리뷰) — track_keying·track_chroma 동일 문자열
     vj.pop("xtr_note", None)
+    _f = _pre_faces()
+    if _f:
+        vj["faces"] = _f
     vj.pop("error", None)   # 산출이 실제로 나왔으니 컴포즈 단계의 "합성할 게 없었다" 기록은 걷는다(남기면 뷰어가 실패로 표시 = 결과가 있는데 못 보는 사고)
     vj.pop("skip", None)
     json.dump(vj, open(vj_p, "w", encoding="utf-8"), ensure_ascii=False)
     log("완료 — " + ",".join(done) + " · " + str(os.path.getsize(cur) // 1048576) + "MB")
     return 0
+
+
+def _pre_faces():
+    """pre가 남긴 얼굴 목록(컴포즈가 video.json을 새로 쓰므로 최종 기록은 post 몫)."""
+    try:
+        return json.load(open("/tmp/edit_track_faces.json", encoding="utf-8")) or []
+    except Exception:
+        return []
+
+
+def _publish_faces(vid_id, tid, doc, outdir, vj, vj_p):
+    """분석이 뽑아둔 인물 크롭을 편집 결과 자리로 옮겨 화면이 읽게 한다(운영자 260809 승인).
+    ⚠ 왜 필요한가 = 2트랙 ①에서 「#1이 누구냐」를 알려면 **영상을 재생해서 찾아야** 했다. 그런데 분석은
+      이미 인물별 얼굴 크롭(crops/pN.jpg)을 뽑아두고도 아무도 안 읽고 있었다 — 새 분석·새 과금 0, 파일 옮기기뿐.
+    ⚠ 거처가 ly_out인 이유 = edit-make의 Commit output은 `viewer/ly_out/<id>`만 add한다. track_out에 두면
+      커밋이 안 돼 **화면에서 영영 안 보인다**(조용한 죽음) · R2가 있으면 R2 우선(배포 지연 회피 · 실패 = git 폴백)."""
+    try:
+        people = doc.get("people") or []
+        if not people:
+            return
+        faces, fdir = [], os.path.join(outdir, "faces")
+        for p_ in people[:MAX_TARGETS]:
+            pid, rel = p_.get("pid"), p_.get("crop")
+            if not isinstance(pid, int) or not rel:
+                continue
+            srcp = os.path.join("viewer", "track_out", tid, rel)
+            if not os.path.isfile(srcp):
+                continue
+            key = "ly_out/%s/faces/p%d.jpg" % (vid_id, pid)
+            url = ""
+            try:
+                url = _upload(srcp, key, "image/jpeg") or ""
+            except Exception:
+                url = ""
+            if not url:
+                os.makedirs(fdir, exist_ok=True)
+                shutil.copyfile(srcp, os.path.join(fdir, "p%d.jpg" % pid))
+                url = key
+            faces.append({"pid": pid, "url": url,
+                          "first": round(float(p_.get("first") or 0), 1), "dur": round(float(p_.get("dur") or 0), 1)})
+        if faces:
+            # ⚠ video.json에 **직접 쓰지 않는다** — 이 시점은 컴포즈 앞이라 뒤따르는 ly_burn이 video.json을 새로 쓰면서
+            #   여기서 넣은 필드를 통째로 날린다(파일은 남고 목록만 사라져 화면엔 아무것도 안 뜨는 조용한 죽음).
+            #   pre 적용 축과 같은 방식으로 /tmp에 남기고 post가 최종 기록에 병합한다.
+            with open("/tmp/edit_track_faces.json", "w", encoding="utf-8") as f:
+                json.dump(faces, f, ensure_ascii=False)
+            log("얼굴 썸네일 %d명 게시" % len(faces))
+    except Exception as e:   # fail-soft — 썸네일은 보조 표시라 실패해도 가림·편집은 그대로 간다
+        log("얼굴 게시 실패(무해): " + str(e)[:80])
 
 
 def _upload(path, key, ctype):

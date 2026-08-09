@@ -219,6 +219,15 @@
   .xtr .xgo { margin-top:var(--sp-2); width:100%; padding:var(--sp-1); border-radius:var(--r-m); background:var(--accent-dim); border:1px solid rgba(var(--accent-rgb),.4); color:var(--accent); font:inherit; font-size:var(--fs-label); line-height:1; font-weight:var(--fw-x); cursor:pointer; transition:transform var(--dur-fast); }   /* 강조(발사류) = 구 .go 틴트 계승(운영자 260712 xtrGoStyle=acc) · 높이·모양 = 생성(#editGo) 규격 정합(운영자 260720 "같은 높이·버튼 모양도 같게" — padding var(--sp-1)+line-height:1+fs-label+radius var(--r-m) = #editGo 동일 박스모델 27px·r-m11 · 구 9/15·pill raw 폐지) */
   .xtr .xgo:active { transform:scale(var(--press-l)); }
   .xtr .xgo:disabled { opacity:.32; cursor:default; transform:none; }   /* 기능 미선택 = 흐림(.pc.dim 값 계승) — 어포던스로 설명(산문 0) */
+  /* 얼굴 줄 = 2트랙 ①의 「#N이 누구냐」를 영상 재생 없이 읽게 한다(운영자 260809 "아이디어대로가 100% 맞음") —
+     부품 = track.html 인물 카드 `.avatar`/`.hint` **정본 값 사본**(radius --r-m · img cover · 배지 10px/fw-b/rgba(0,0,0,.42)/1px rgba(255,255,255,.1)/2px 7px/--r-pill).
+     새 값 0 · 카드 전체가 아니라 「썸네일 + 번호」 두 조각만 가져온다(선택·범위·캡션은 이 화면의 일이 아니다). */
+  .xfaces { display:flex; gap:var(--sp-1); flex-wrap:wrap; margin-top:var(--sp-1); }
+  .xface { position:relative; width:56px; aspect-ratio:1/1.05; border-radius:var(--r-m); overflow:hidden; flex:none;
+    background:radial-gradient(120% 120% at 50% 22%, rgba(255,255,255,.1), rgba(255,255,255,.02)); }
+  .xface img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+  .xface .hint { position:absolute; bottom:3px; right:3px; font-size:10px; font-weight:var(--fw-b); color:var(--mut);
+    background:rgba(0,0,0,.42); border:1px solid rgba(255,255,255,.1); padding:2px 7px; border-radius:var(--r-pill); }
   .xnote { margin-top:var(--sp-1); color:var(--mut); font-size:var(--fs-xs); line-height:1.5; }  .topdock #editGo, .topdock #go, .topdock .go { border-radius:var(--r-s) /* 운영자 260731 "생성버튼 창 둥글기에 맞게" = thumb `.topdock[data-lay="edit"] #go` 정본 동값 사본(구 --r-m/--r-pill은 카드 제작과 갈림 · 실측 11px vs 기준 22px) */; min-height:30px /* raw-ok: 카드 제작 발사 버튼 **실측 정본 높이**(thumb는 `.makerow{align-items:stretch}` 행 늘어남으로 30이 되는데, 영상 셸엔 그 행이 없어 27로 갈렸다 — 구조를 옮기는 대신 결과값을 그대로 계승 · 운영자 260803 2차 "아예 동일하게") */; backdrop-filter:blur(var(--blur-s)); -webkit-backdrop-filter:blur(var(--blur-s)); /* 발사 유리(blur 8 = --blur-s) 동반 계승 — 260803 값사본 때 blur만 빠져 영상 셸 발사만 무유리로 갈렸다(실측 C7 스킨축 none vs 이미지 blur(8px)) · 운영자 260804 "항상 고정된 정본" = smoke_studioshell FIRE_CANON 고정축과 한 쌍 */}   /* ⬆ 운영자 260807 «생성이 돋보기랑 같은 테두리 모양을 가지고 있어야해(지금은 버튼 알약 모양)» — 라운드만 사다리 이동(--r-modal 22 → --r-s 9) = 레일 캡슐 `.trail` 정본 동일 토큰 계승 · 신규 값 0 · 8표면 동시 개정(발사 고정정본 = 2셸 공통 1벌 = FIRE_CANON·smoke_editdock C5 동반 개정) */  /* ── 발사 = 미리보기 창 **안** 세로 85% 오버레이(운영자 260806 "생성버튼 항상 사진 미리보기 부분 85%에 위치 · 사진 위에 오버레이 중첩") = 카드 제작 정본 값사본(§3-5 무조건 상속) ──
      앵커 = 미리보기 창 자신(.cpprev-box) = 창 폭·좌표 자동 추종(계산값 0 = 2셸 10탭 드리프트 0) · 세로 85% = 버튼 **중심** · 좌우 = --sp-2(구 미리보기↔발사 gap 동값 계승 = 신규 값 0) · z4 = 창 안 레이어 다음 단 · 버튼 기하·스킨(FIRE_CANON 6축) 무접촉. */
   /* ── 캡슐③ 생성 = 레일 세 번째 칸(운영자 260807 «영상도 ㄱ» · 이미지 스튜디오 정본 동문) ──
@@ -1405,6 +1414,8 @@ function recipe(r){
 })();
 
 /* ══ 기타 옵션(운영자 260712 2차 "번호 매겨 제일 아래" — 1차 소스 아래 선택 뒤집음) — 4번 섹션·스택 최하단 상시 카드 3장{모자이크·트래킹(핀셋)·키잉} = .sech/.scard/.pc 계승 · 트래킹 서브뷰 핸드오프(nm_track_preset 일회용 · 파이프 재사용 = 중복 배선 0 · 3탭 축소 후 트래킹 진입은 여기가 유일) ══ */
+let XTR_FACES=[];   // 직전 생성의 인물 얼굴(video.json faces) — 2트랙 ②에서 #N ↔ 얼굴 대조용
+try{ XTR_FACES=JSON.parse(localStorage.getItem('nm_xtr_faces')||'[]')||[]; }catch(e){ XTR_FACES=[]; }   // 탭 재진입 복원(생성 → 닫기 → 다시 열어 이름 넣기 = 실제 사용 흐름)
 const XTR={mosaic:false,pinset:false,keying:false, silh:false, chroma:false, trans:false, names:'', shape:'ellipse', size:115, feather:5, kfe:0, fill:'mosaic', preset:'smile', sfe:8, ckcolor:'green', cksim:18, ckchoke:0, ckfe:1};   // trans = 번역(운영자 260720 "빈자리에 번역") — 가림 계열과 배타(클릭 핸들러) · 트래킹 발사 축(any)엔 미포함   // 기본 = 트래킹 새 기본값과 동일(타원·115·5·키잉0 · 실루엣 페더8 · 크로마 그린/18/0/1 — 실루엣·크로마키 카드 = 운영자 260712 "한수 ㄱㄱ" 승인)
 function renderXtr(){   // 가로 3분할 + 라벨|OFF·ON 순환값 문법(운영자 260712 5차 "한줄 배치·끔 아니라 OFF>누르면 ON" — 이미지 모달 상태 인라인 틀 계승 · 구 끔/적용 2버튼 seg 폐지) · 세부 게이지 = 켠 것만 아래 전폭 카드(1/3폭엔 게이지 미달) · 2행 = 실루엣·크로마키 2분할(260712 2차 · tg 패턴 그대로)
   const el=$('#xtrsec'); if(!el) return;
@@ -1423,6 +1434,8 @@ function renderXtr(){   // 가로 3분할 + 라벨|OFF·ON 순환값 문법(운�
     +'<div class="grow"><span class="k">강도</span><input type="range" min="1" max="50" step="1" value="'+XTR.cksim+'" data-xg="cksim" aria-label="크로마키 강도"><span class="v">'+XTR.cksim+'</span></div>'
     +'<div class="grow"><span class="k">테두리</span><input type="range" min="-4" max="4" step="1" value="'+XTR.ckchoke+'" data-xg="ckchoke" aria-label="테두리 다듬기"><span class="v">'+XTR.ckchoke+'</span></div>'
     +'<div class="grow"><span class="k">부드럽게</span><input type="range" min="0" max="10" step="1" value="'+XTR.ckfe+'" data-xg="ckfe" aria-label="매트 블러"><span class="v">'+XTR.ckfe+'</span></div>'; }
+  if(XTR.pinset&&XTR_FACES.length) det+='<div class="plbl"'+(det?'':' style="margin-top:0"')+'>등장인물</div>'
+    +'<div class="xfaces">'+XTR_FACES.map(f=>'<span class="xface">'+(f.url?'<img loading="lazy" alt="인물 '+(f.pid|0)+'" src="'+esc(f.url)+'">':'')+'<span class="hint">#'+(f.pid|0)+'</span></span>').join('')+'</div>';   // 직전 생성이 찾은 얼굴 = 이름칸 **바로 위**(보면서 타이핑 = 결과 레일까지 스크롤 왕복 0)
   if(XTR.pinset) det+='<div class="plbl"'+(det?'':' style="margin-top:0"')+'>이름</div>'   // 핀셋 라벨(운영자 260809 2트랙 ②) — 비우면 #1·#2 번호표 그대로(1차 생성으로 누가 몇 번인지 확인 → 여기 채우고 다시 생성)
     +'<input class="nmin" id="xtrNames" type="text" value="'+esc(XTR.names)+'" placeholder="쉼표로 구분 — 등장 순서대로" aria-label="핀셋 이름(쉼표 구분)" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">';
   if(XTR.trans) det+='<div class="plbl"'+(det?'':' style="margin-top:0"')+'>번역</div><div class="xnote" style="margin-top:0">외국어 이미지에 한국어 번역을 덮어 씌워 — 켜면 가림(모자이크) 계열은 자동으로 꺼져.</div>';   // 번역 카드 상세(운영자 260720) · 렌더 엔진 = 별도 배선
@@ -1869,6 +1882,7 @@ function pollEdit(id, t0, minTs, wlbl, kind){
         const isHtml=ct.includes('text/html')||/^\s*<!doctype/i.test(tx)||/<html[\s>]/i.test(tx.slice(0,300));
         if(tx&&tx.trim()&&!isHtml){
           let d=null; try{ d=JSON.parse(tx); }catch(e){}
+          if(d&&Array.isArray(d.faces)){ XTR_FACES=d.faces.slice(0,32); try{ localStorage.setItem('nm_xtr_faces',JSON.stringify(XTR_FACES)); }catch(e){} renderXtr(); }   // 2트랙 ② 준비 — 직전 생성이 찾은 얼굴을 이름칸 위에 띄운다(운영자 260809) · 로컬 보존 = 탭을 닫았다 열어도 대조가 남는다
           if(d&&(kind==='clip'? Array.isArray(d.clips) : kind==='cutscan'? Array.isArray(d.rm) : (d.url||d.error||d.skip))){
             const ts=Date.parse(d.ts||'');
             if(!isNaN(ts)&&ts>=minTs){
