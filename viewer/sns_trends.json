@@ -8548,8 +8548,14 @@
   {
    "query": "산삼",
    "traffic": "10000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/trend/a3f113b947.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.munhwa.com/article/11608187",
+     "source": ""
+    }
+   ],
    "vol": 10000,
    "started": "2026-08-08T18:20:00+09:00",
    "rh": [
@@ -8716,8 +8722,14 @@
   {
    "query": "김하영",
    "traffic": "5000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/trend/f94171a0cd.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://news.nate.com/view/20260127n28513",
+     "source": ""
+    }
+   ],
    "vol": 5000,
    "started": "2026-08-08T21:30:00+09:00",
    "rh": [
@@ -9427,7 +9439,8 @@
      "source": "CNBC"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "교육"
   },
   {
    "query": "camera news",
@@ -9445,7 +9458,8 @@
      "source": "The Hill"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "카메라 뉴스"
   },
   {
    "query": "news internet",
@@ -9463,7 +9477,8 @@
      "source": "CNN"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "뉴스 인터넷"
   },
   {
    "query": "investing",
@@ -9481,7 +9496,8 @@
      "source": "TheStreet"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "투자하다"
   },
   {
    "query": "score",
@@ -9499,7 +9515,8 @@
      "source": "NOLA.com"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "점수"
   },
   {
    "query": "startup news",
@@ -9517,7 +9534,8 @@
      "source": "Unite.AI"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "스타트업 뉴스"
   },
   {
    "query": "car weather",
@@ -9535,7 +9553,8 @@
      "source": "Upper Michigan&apos;s Source"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "자동차 날씨"
   },
   {
    "query": "train news",
@@ -9553,7 +9572,8 @@
      "source": "Yahoo"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "기차 뉴스"
   },
   {
    "query": "weather study",
@@ -9571,7 +9591,8 @@
      "source": "World Weather Attribution"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "날씨 연구"
   },
   {
    "query": "market news",
@@ -9589,7 +9610,8 @@
      "source": "Inc.com"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "시장 뉴스"
   },
   {
    "query": "広島東洋カープ",
@@ -9607,7 +9629,8 @@
      "source": "スポーツナビ"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "히로시마 동양 잉어"
   },
   {
    "query": "吉村誠之助",
@@ -9625,7 +9648,8 @@
      "source": "ｄメニューニュース"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "요시무라 세이노스케"
   },
   {
    "query": "札幌記念",
@@ -9643,7 +9667,8 @@
      "source": "UMATOKU | 馬トク"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "삿포로 기념"
   },
   {
    "query": "古謝",
@@ -9661,14 +9686,16 @@
      "source": "ｄメニューニュース"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "고사"
   },
   {
    "query": "下院",
    "traffic": "200+",
    "picture": "",
    "news": [],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "하원"
   },
   {
    "query": "にじさんじ甲子園 2026",
@@ -9686,7 +9713,8 @@
      "source": "PASH! PLUS"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "니지산지 고시엔 2026"
   },
   {
    "query": "フロンターレ",
@@ -9704,7 +9732,8 @@
      "source": "タグマ！"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "프론탈레"
   },
   {
    "query": "メッシ 父",
@@ -9722,7 +9751,8 @@
      "source": "ｄメニューニュース"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "메시 아버지"
   },
   {
    "query": "横転",
@@ -9740,7 +9770,8 @@
      "source": "TBS NEWS DIG"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "수평"
   },
   {
    "query": "栃木sc",
@@ -9758,7 +9789,8 @@
      "source": "タグマ！"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "도치기 sc"
   },
   {
    "query": "cheltenham festival",
@@ -9776,7 +9808,8 @@
      "source": "Racing Post"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "첼튼엄 축제"
   },
   {
    "query": "football transfer news liverpool",
@@ -9794,7 +9827,8 @@
      "source": "Liverpool FC"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "축구 이적 소식 리버풀"
   },
   {
    "query": "british columbia",
@@ -9812,7 +9846,8 @@
      "source": "Al Jazeera"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "브리티시 컬럼비아"
   },
   {
    "query": "times",
@@ -9830,7 +9865,8 @@
      "source": "Lookout Landing"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "타임스"
   },
   {
    "query": "perez hilton news",
@@ -9848,7 +9884,8 @@
      "source": "Sky News"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "페레즈 힐튼 소식"
   },
   {
    "query": "météo",
@@ -9866,7 +9903,8 @@
      "source": "La Chaîne Météo"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "일기 예보"
   },
   {
    "query": "canal",
@@ -9884,7 +9922,8 @@
      "source": "Nantwich News"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "운하"
   },
   {
    "query": "why is gb news off air today",
@@ -9902,7 +9941,8 @@
      "source": "Essex Magazine"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "오늘 GB 뉴스는 왜 방송되지 않나요?"
   },
   {
    "query": "blade runner 2049",
@@ -9920,7 +9960,8 @@
      "source": "Collider"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "블레이드 러너 2049"
   },
   {
    "query": "lissie harper",
@@ -9938,7 +9979,8 @@
      "source": "The Telegraph"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "리시 하퍼"
   }
  ],
  "yt_cids": {
@@ -18143,7 +18185,8 @@
      15,
      15
     ],
-    "first_seen": "2026-08-09T15:38:29+09:00"
+    "first_seen": "2026-08-09T15:38:29+09:00",
+    "ko": "모든 도시. 모든 클럽. 모든 기회."
    },
    {
     "account": "mnet_official",
@@ -18159,7 +18202,8 @@
      16,
      16
     ],
-    "first_seen": "2026-08-09T15:38:29+09:00"
+    "first_seen": "2026-08-09T15:38:29+09:00",
+    "ko": "메가 콜라보레이션 REPUBLIC Collective X Mnet | 글로벌 걸그룹 데뷔 프로젝트 [걸스 플래닛 2027]"
    },
    {
     "account": "sbsnow_insta",
@@ -18215,7 +18259,8 @@
      19,
      19
     ],
-    "first_seen": "2026-08-09T12:37:23+09:00"
+    "first_seen": "2026-08-09T12:37:23+09:00",
+    "ko": "#엠카운트다운 940회"
    },
    {
     "account": "sbsnow_insta",
@@ -18275,7 +18320,8 @@
      22,
      22
     ],
-    "first_seen": "2026-08-09T12:37:23+09:00"
+    "first_seen": "2026-08-09T12:37:23+09:00",
+    "ko": "#엠카운트다운 940회"
    },
    {
     "account": "sbsnow_insta",
@@ -18311,7 +18357,8 @@
      24,
      24
     ],
-    "first_seen": "2026-08-09T12:37:23+09:00"
+    "first_seen": "2026-08-09T12:37:23+09:00",
+    "ko": "[#래퍼스GF] 나잇아웃 핏체크 #MnetPlus_Original"
    },
    {
     "account": "mnet_official",
