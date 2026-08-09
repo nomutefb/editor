@@ -1398,6 +1398,28 @@ def _GUEST_HDR(hdr):
     return {**hdr, "User-Agent": UA["User-Agent"]}
 
 
+def th_headers(ck="", ua=""):
+    """스레드 요청 헤더 **정본**(260809 평의회 3·4·8 만장일치 봉합) — 수집기·진단기 공용.
+
+    ⚠ 신설 사유 = 진단기가 **다른 조건을 재고 있었다**. `scripts/phone_check.sh` ⑦은 헤더를 손으로
+      재조립해 `{**UA}` 2키(User-Agent·Accept-Language)만 실었고, 수집기는 여기 8키를 싣는다.
+      실측 260809(같은 계정·같은 URL·같은 IP) = 진단기 **254KB·본인 글 0** vs 수집기 **904KB·본인 글 8**.
+      3배 격차의 진범은 UA가 아니라 아래 6키(Accept·Sec-Fetch 4종·Upgrade-Insecure-Requests)였고,
+      260723 주석이 그걸 「봇 챌린지 완화」 목적으로 넣었다고 이미 명시하고 있었다.
+    ⚠ 그런데 그 진단기는 자기 측정치에 대고 「이 줄을 그대로 클로드에게 넘겨라」까지 말한다
+      → 세션이 **다른 조건의 측정치**를 진단 근거로 받는다 = 260805~06 오진 3연속의 구조적 고리.
+    ⚠ 게이트 대신 SSOT인 이유 = 헤더 조립 문법은 매번 달라 정규식 술어가 성립하지 않는다(평의회 8 실측).
+      사본을 없애면 드리프트가 **물리적으로 불가능**해진다 = 이 레포가 nm-rail·nm-clip·nm-shared 에서
+      이미 여섯 번 쓴 계약(「정본 1개를 *참조*한다」)의 계승 · 값 창작 0(1448행 블록 그대로 이관).
+    """
+    h = {**UA, "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+         "Sec-Fetch-Dest": "document", "Sec-Fetch-Mode": "navigate", "Sec-Fetch-Site": "none",
+         "Sec-Fetch-User": "?1", "Upgrade-Insecure-Requests": "1"}   # 실브라우저 헤더 근접(운영자 260723 · 봇 챌린지 완화 · 게스트·쿠키 공통 경로)
+    if ck and ua:
+        h["User-Agent"] = ua   # 세션-UA 짝 맞춤(260729 useragent mismatch · insta L1144 사본) — 쿠키 있을 때만 = 게스트 경로 종전 불변
+    return h
+
+
 def _th_fetch(url, hdr, ck):
     """스레드 요청 = CookieJar 경유(260729 폰 실측 봉합 — 부계 쿠키를 고정 Cookie 헤더로 달자 4계정 전원
     「HTTP Error 302 … infinite loop」). Meta의 302 + Set-Cookie 챌린지 패턴: 체인 중간에 서버가 얹는
@@ -1445,11 +1467,7 @@ def threads_subs(accounts, limit=10, deadline=None):
         if i:
             time.sleep(4)
         try:
-            _hdr = {**UA, "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
-                    "Sec-Fetch-Dest": "document", "Sec-Fetch-Mode": "navigate", "Sec-Fetch-Site": "none",
-                    "Sec-Fetch-User": "?1", "Upgrade-Insecure-Requests": "1"}   # 실브라우저 헤더 근접(운영자 260723 · 봇 챌린지 완화 시도 · 게스트·쿠키 공통 경로)
-            if ck and _ua:
-                _hdr["User-Agent"] = _ua   # 세션-UA 짝 맞춤(260729 useragent mismatch · insta L1144 사본) — 쿠키 있을 때만 = 게스트 경로 종전 불변
+            _hdr = th_headers(ck, _ua)   # 헤더 정본 = th_headers()(260809 · 진단기와 같은 원천을 부른다 = 조건 드리프트 물리적 소멸)
             _u = "https://www.threads.com/@" + urllib.parse.quote(acc)
             _me = acc.lower().lstrip("@")   # 주인 판정 축(260804)
 

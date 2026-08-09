@@ -91,7 +91,10 @@ for f in "${RUN[@]}"; do
   if [ -f "$LOGDIR/$b.flaky" ]; then
     FLAKY=$((FLAKY + 1)); SUMMARY="$SUMMARY $b=0*"
     echo "   ⚠ 1차 병렬 FAIL → 단독 재시도 PASS = 플레이키(진짜 실패 아님). 1차 실패 지점:"
-    grep -E '^(❌|FAIL|✗)' "$LOGDIR/$b.first.log" 2>/dev/null | head -3 | sed 's/^/     /'
+    # ⚠ ABORT 편입(260809) — 260809에 .github/scripts/smoke_obs.py HIT_RE 에는 ABORT·Failed 를 넣었는데
+    #   **이 grep 은 안 따라왔다**(같은 병의 형제를 놓친 봉합 · 가족이 .py↔.sh 로 갈려 게이트도 침묵).
+    #   이 레포 예외 관용구가 `ABORT | <메시지>` 라, 빠지면 재시도 통과 회차마다 1차 실패 사유가 통째로 소각된다.
+    grep -E '^(❌|FAIL|✗|ABORT)' "$LOGDIR/$b.first.log" 2>/dev/null | head -3 | sed 's/^/     /'
   else
     SUMMARY="$SUMMARY $b=$rc"
   fi

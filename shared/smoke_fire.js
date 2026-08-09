@@ -203,10 +203,23 @@ async function runOnce(pg, hits, fcs) {
     dead.length ? '무반응 ' + dead.join(' ') : clicked.length + '탭 클릭 도달(실발사 ' + shot + ' · 입력 미충족 거부 ' + (clicked.length - shot) + ')');
 
   // ── C3 목적지가 그 탭 것(탭마다 다른 게 정상 · 허용표 밖 = 오배선) ──
+  // ⚠ 판정 대상 = **발사 요청만**(260809 · route.fallback 로 C3 가 처음 표본을 갖게 된 그 자리에서 실측 봉합).
+  //   구판은 `v.req` 전건을 봤는데, 그때는 hits 가 늘 비어 있어(캐치올 continue) **공허 통과**라 드러나지 않았다.
+  //   소생 직후 실측 = 클릭 1.5s 창에 발사와 무관한 **부수 요청**이 같이 잡힌다 —
+  //     · POST /api/spellcheck (맞춤법 = 입력 이벤트가 자동 발동 · 카드생성·특수)
+  //     · GET /api/thumb?recent=24 · /api/genihist · /api/edit?recent=24 (결과 레일 이력 조회)
+  //   진짜 발사는 실측 전건 POST 이고 목적지도 전건 정상이었다(genimg·sb·k·song).
+  //   → 부수를 그대로 세면 「오배선 4건」이라는 **가짜 빨강**이 매 회차 뜬다(C14 「자는 줄바꿈 무관 축이어야
+  //     한다」와 같은 축 = 판정축이 재려는 것만 재야 한다). 은폐가 아니다 — 발사 POST 는 전건 검사한다.
+  const _SIDE = ['/api/spellcheck'];   // 발사와 무관하게 자동 발동하는 공용 부수 엔드포인트(실측 · 늘리려면 사유 1줄)
   const wrong = [];
   for (const s of SHELLS) for (const t of s.tabs) {
     const v = out.m[KEY(s, t)]; if (!v) continue;
-    for (const r of v.req) if (!t.api.some(a => r.u.includes(a))) wrong.push(KEY(s, t) + ' → ' + r.u);
+    for (const r of v.req) {
+      if (r.m === 'GET') continue;                          // 이력 조회 등 부수 GET(발사는 실측 전건 POST)
+      if (_SIDE.some(x => r.u.includes(x))) continue;
+      if (!t.api.some(a => r.u.includes(a))) wrong.push(KEY(s, t) + ' → ' + r.u);
+    }
   }
   core('C3 발사 목적지 = 그 탭 허용 엔드포인트', wrong.length === 0, wrong.length ? wrong.slice(0, 4).join(' · ') : '오배선 0');
 
@@ -239,7 +252,12 @@ async function runOnce(pg, hits, fcs) {
       });
       await pg.route('**/*', route => {   // 외부 호스트 = 전량 차단(유출 0 · 로컬만 통과)
         const u = route.request().url();
-        if (u.startsWith('http://127.0.0.1:') || u.startsWith('data:') || u.startsWith('blob:') || u.startsWith('about:')) return route.continue();
+        // ⚠ fallback() 이 실효 조건(260809 평의회2 실측 봉합) — Playwright 라우트는 **등록 역순**으로 돌고
+        //   `route.continue()` 는 다른 핸들러를 호출하지 않는다. 즉 이 캐치올이 먼저 잡아 continue 하면
+        //   위의 `**/api/**` 핸들러가 **영원히 미발화**하고 `hits` 가 항상 빈다 → C3(목적지)·C4(payload)가
+        //   표본 0으로 공허 통과한다 = 이 스모크의 존재 이유(옵션이 실려 가는가)가 한 번도 돈 적이 없었다.
+        //   실측 = continue → `CATCHALL-continue …/api/thumb`(API 핸들러 미호출) / fallback → 스텁 200 정상.
+        if (u.startsWith('http://127.0.0.1:') || u.startsWith('data:') || u.startsWith('blob:') || u.startsWith('about:')) return route.fallback();
         ext.push(u.slice(0, 60)); return route.abort();
       });
       pg.on('pageerror', e => errs.push(String(e.message).slice(0, 100)));
@@ -265,7 +283,14 @@ async function runOnce(pg, hits, fcs) {
     if (a.errs && a.errs.length) console.log('── [참고] 페이지 에러 ' + a.errs.length + '건(스텁 응답 계약 불일치 포함 가능 · 판정축 아님): ' + a.errs.slice(0, 2).join(' · '));
     console.log('── 2회 판정 동일 = ' + (stable ? 'PASS' : 'FAIL(플레이크)'));
     if (!stable) fail++;
-  } catch (e) { console.log('ABORT | ' + String(e.message).slice(0, 200)); fail++; }
+  } catch (e) {
+    // ⚠ 스택 첫 프레임 동봉(260809 평의회2) — 구판은 message 만 실었는데 `Execution context was destroyed`
+    //   류는 메시지에 행 정보가 없다 → CI 로그를 아무리 봐도 **어느 evaluate 가 던졌는지 알 수 없다**
+    //   (260809 실사고 = 진범 행 판정이 구조적으로 봉쇄됐다). 사유를 갖고 나가게 하는 축의 계승.
+    const _fr = String(e.stack || '').split('\n').find(x => x.includes('smoke_fire.js')) || '';
+    console.log('ABORT | ' + String(e.message).slice(0, 200) + (_fr ? ' @' + _fr.trim().slice(0, 90) : ''));
+    fail++;
+  }
   finally { if (browser) { try { await browser.close(); } catch (_) {} } if (srv) { try { srv.kill(); } catch (_) {} } }
   console.log('── smoke_fire ' + (fail ? 'FAIL ' + fail + '건' : '코어 전부 PASS') + ' (서버 종료됨)');
   process.exit(fail ? 1 : 0);

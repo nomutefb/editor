@@ -159,14 +159,13 @@ except Exception as e:
     print("  ⚠  모듈 로드 실패: %s" % e); raise SystemExit(0)
 acc = sys.argv[1].lstrip("@")
 ck = (os.environ.get("THREADS_COOKIE") or "").strip()
-# ⚠ THREADS_UA 동반(260809 실사고 봉합) — 구판은 `{**s.UA}` 모듈 기본 UA로만 재서 **수집기와 다른 조건**을
-#   측정했다. 실측 260809 = 같은 계정 같은 URL인데 이 진단기 254KB(글 노드 0) vs 수집기 762~940KB(추천피드 5건)
-#   = 3배 차. 결론 방향이 우연히 같아 아무도 몰랐고, 그 상태로 "이 줄을 그대로 클로드에게 넘겨라"까지 말한다
-#   → 세션이 **다른 조건의 측정치**를 진단 근거로 받는다. 수집기(threads_subs)와 같은 문법으로 맞춘다.
-_hdr = {**s.UA}
+# ⚠ 헤더 = 수집기와 **같은 원천**(260809 평의회 3·4·8 봉합) — 구판은 `{**s.UA}` 2키로만 재서 수집기(8키)와
+#   다른 조건을 측정했다. 실측 = 같은 계정·같은 URL·같은 IP인데 2키 **254KB·본인 글 0** vs 8키 **904KB·본인 글 8**.
+#   진범은 UA가 아니라 Accept·Sec-Fetch 4종·Upgrade-Insecure-Requests 6키였다(1차 봉합이 UA만 맞춰 실패한 자리).
+#   → 사본을 재조립하지 않고 정본 th_headers() 를 부른다 = 드리프트가 물리적으로 불가능해진다.
 _ua = (os.environ.get("THREADS_UA") or "").strip()
-if _ua and ck:
-    _hdr["User-Agent"] = _ua
+_hdr = s.th_headers(ck, _ua)
+_uatag = "짝적용(THREADS_UA)" if (_ua and ck) else "모듈기본"
 try:
     h = s._th_fetch("https://www.threads.com/@" + acc, _hdr, ck)
 except Exception as e:
@@ -175,16 +174,27 @@ wall = bool(re.search(r"/accounts/login|barcelona_login|\"login_page\"|Log in", 
 _users = re.findall(r'"username":"([^"]+)"', h)
 mine = sum(1 for u in _users if u.lower() == acc.lower())
 alien = len(_users) - mine
-print("  · 응답 %dKB · 본인 글 노드 %d · 남의 글 노드 %d" % (len(h) // 1000, mine, alien))
+# ⚠ 측정 조건 동반 표기 = 필수 — 이 줄이 없으면 헤더·UA를 바꾼 뒤의 값과 과거 값을 **비교할 수 없다**
+#   (「관측이 지워지면 다음 세션이 추측으로 메운다」 = 스레드 `[1차 실측]`·틱톡 `_e1` 교훈의 계승).
+print("  · 응답 %dKB · 본인 글 노드 %d · 남의 글 노드 %d · 헤더 %d키/UA %s"
+      % (len(h) // 1000, mine, alien, len(_hdr), _uatag))
 if wall:
     print("  ❌ 로그인월에 막힘(wall) = 세션이 **거절**됐다 → 원인은 쿠키/UA 축이 맞다.")
     print("     조치: 쿠키를 뽑은 그 브라우저 콘솔에 copy(navigator.userAgent) → 그 값을")
     print("           echo 'export THREADS_UA=\"붙여넣기\"' >> ~/.nomute_phone_env")
 elif mine:
     print("  ✅ 세션 정상 — 본인 글이 실려 있다(이 회차 무소득은 24h 신선도 필터 때문일 수 있다)")
+elif alien:
+    # 추천 피드가 **실제로 있을 때만** 그렇게 부른다(정본 3분화 = sns_trends `_dx` 계승 · 창작 0)
+    print("  ❌ NO-WALL · 추천 피드 %d건 = 프로필 미도달(원인 미확정)." % alien)
+    print("     → 쿠키 재발급이 유효한지 아직 모른다 — 다음 회차 원장(push/threads_ck.jsonl)이 답한다.")
+    print("     이 줄을 그대로 클로드에게 넘겨라.")
 else:
-    print("  ❌ 로그인월 없음(NO-WALL)인데 본인 글 0 = 세션은 **수락**됐는데 프로필 대신 추천 피드를 받는 중.")
-    print("     → UA를 넣어도 안 고쳐진다(별개 봉합 필요). 이 줄을 그대로 클로드에게 넘겨라.")
+    # ⚠ 구판은 이 자리에서도 「추천 피드를 받는 중」이라고 **단정**했다 — 실측 alien=0(추천 피드가 아예 없다)인데도.
+    #   그 문장에 「이 줄을 그대로 클로드에게 넘겨라」가 붙어, 다음 세션이 **존재하지 않는 축**을 봉합하러 갔다
+    #   = 260805~06 세 처방이 연속으로 빗나간 그 고리. 노드 0은 별개 축(챌린지·셸)이므로 갈라 말한다.
+    print("  ❌ NO-WALL · 노드 0(본인 0 · 남 0) = 추천 피드가 아니다 — 챌린지·모바일 셸 의심.")
+    print("     → 헤더 축(현재 %d키)·UA 축을 먼저 의심하라. 이 줄을 그대로 클로드에게 넘겨라." % len(_hdr))
 PYEOF
   fi
 fi
