@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>요일 노란선 데이터원 — 수치별 반영 플레이그라운드</title>
+<!--
+  ═══════════════════════════════════════════════════════════════════════
+  노뮤트 플레이그라운드 템플릿 v1 (운영자 260713 정본 · §플레이그라운드 0-1)
+  ─ 사용법: 이 파일을 docs/reports/{yymmdd}_{라벨}_플레이그라운드.html로 복사한 뒤
+    맨 아래 "CONFIG(세션이 채우는 전부)" 블록만 교체한다.
+  ─ 동결 엔진(수정 금지): 컨트롤 빌더 · near() 계승판정 · 프리셋 양방향 동기 ·
+    선택값 복사 모달(역제안) · 재렌더 스크롤 보존 · 한글 열맞춤.
+    골격을 손으로 다시 쓰면 위반 = check_refs.check_playground() 게이트(rc=1).
+  ─ 철학(운영자): 완제품을 부품으로 쪼개 미세조정 = 무의미.
+    부품 1개당 "방식 N가지"를 실물로 나란히(변형 갤러리 = 발산) → 선택 → 7축 미세조정(수렴).
+    핵심 7축 = 자간 · 폰트 크기 · 위치 · 불투명도 · 블러 · 라인 · 액티브 효과.
+  ─ 색·값: 아래 --pg-*는 viewer/index.html :root 실측값의 복사(자기완결 스냅샷 · §핵심명령 3-c).
+  ═══════════════════════════════════════════════════════════════════════
+-->
+<style>
+:root{color-scheme:dark;
+  /* viewer :root 실측 사본(값 복사 = 계승 · 임의 창작 금지) */
+  --pg-bg:#0b0d0e; --pg-fg:#eef7f0; --pg-mut:#9aa39d; --pg-accent:#00EED2; --pg-accent-rgb:0,238,210;
+  --pg-gen:#FFE13D; --pg-core:#AC5CFF;   /* viewer :root 사본 = --accent-4(노란선) · --cat-tech(핵심 구간) · 창작 0 */
+  --pg-warn:#FFE13D; --pg-danger:#e23b2a; --pg-r-s:9px; --pg-r-m:11px; --pg-r-l:16px; --pg-r-modal:22px;
+}
+*{box-sizing:border-box;margin:0} button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+body{background:var(--pg-bg);color:var(--pg-fg);font:14px/1.5 "Apple SD Gothic Neo","Pretendard","Noto Sans KR","Malgun Gothic",system-ui,sans-serif;padding:14px}
+h1{font-size:17px}.sub{color:var(--pg-mut);font-size:11.5px;margin:3px 0 12px}
+.wrap{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap}
+.stagewrap{position:sticky;top:10px;flex:0 0 300px;align-self:flex-start;max-height:calc(100dvh - 20px);overflow:auto;scrollbar-width:none}
+.stagewrap::-webkit-scrollbar{width:0;height:0;display:none}
+/* ⑥ 미리보기 고정 = 폰 티어(세로형) — 상단 sticky · 아래 콘솔만 스크롤(운영자 260801 · 포터블 §3-1 ⑥).
+   PC sticky만 있으면 폭이 좁아질 때 flex-wrap으로 미리보기가 위로 빠지고 그대로 스크롤 밖으로 나간다. */
+@media (max-width:900px){
+  .wrap{padding-top:0}
+  .stagewrap{flex:1 1 100%;position:sticky;top:0;z-index:20;max-height:62dvh;background:var(--bg,#0b0d0c);padding:8px 0;box-shadow:0 10px 18px -12px rgba(0,0,0,.9)}
+  .console{flex:1 1 100%;max-width:none}
+}
+.frame{width:300px;height:560px;border:1px solid rgba(255,255,255,.14);border-radius:26px;overflow-y:auto;overflow-x:hidden;background:#0d1012;position:relative}
+.frame .app,.frame .baseline{min-height:100%}
+.frame .baseline{display:none}
+.frame.showcur .app{display:none}.frame.showcur .baseline{display:block}
+.stagebar{display:flex;gap:6px;margin-top:8px;align-items:center}
+.vseg{display:flex;border:1px solid rgba(255,255,255,.14);border-radius:999px;overflow:hidden;font-size:11.5px}
+.vseg button{padding:5px 12px;color:var(--pg-mut)}
+.vseg button.on{background:rgba(var(--pg-accent-rgb),.12);color:var(--pg-accent)}
+.finfo{color:var(--pg-mut);font-size:10.5px;font-variant-numeric:tabular-nums}
+.console{flex:1;min-width:320px;max-width:560px}
+.csec{background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.09);border-radius:var(--pg-r-l);padding:12px;margin-bottom:12px}
+.csec>h2{font-size:12.5px;font-weight:800;margin-bottom:9px}
+.csec>h2 .b{color:var(--pg-accent)}
+.pill{display:inline-block;border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:5px 12px;font-size:11.5px;color:var(--pg-mut);margin:0 6px 6px 0}
+.pill.on{border-color:rgba(var(--pg-accent-rgb),.55);color:var(--pg-accent);background:rgba(var(--pg-accent-rgb),.08)}
+.pill .st{color:var(--pg-warn)}
+/* 변형 갤러리 = 부품 1개당 방식 N개를 실물로 나란히 */
+.gal{margin-bottom:10px}
+.gal-t{font-size:11.5px;color:var(--pg-mut);margin-bottom:7px}
+.gal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.gcard{border:1px solid rgba(255,255,255,.11);border-radius:var(--pg-r-m);padding:10px 8px 8px;text-align:center;cursor:pointer;position:relative;background:rgba(255,255,255,.02)}
+.gcard.on{border-color:rgba(var(--pg-accent-rgb),.6);background:rgba(var(--pg-accent-rgb),.06)}
+.gcard .gnm{font-size:11px;margin-top:8px}
+.gcard .gtag{font-size:9.5px;color:var(--pg-mut);margin-top:2px}
+.gcard.on .gnm{color:var(--pg-accent)}
+.gcard .demo{min-height:44px;display:flex;align-items:center;justify-content:center}
+/* 축 컨트롤 */
+.grp-t{font-size:10.5px;color:var(--pg-mut);letter-spacing:.06em;margin:12px 0 6px;text-transform:uppercase}
+.axis{display:flex;align-items:center;gap:8px;padding:5px 0;font-size:12px;flex-wrap:wrap}
+.axis .nm{flex:0 0 96px}
+.axis input[type=range]{flex:1;min-width:110px;accent-color:var(--pg-accent)}
+.axis .v{font-variant-numeric:tabular-nums;min-width:58px;text-align:right;color:var(--pg-accent)}
+.axis .v.warn{color:var(--pg-warn)}
+.axis .tok{flex-basis:100%;font-size:10px;color:var(--pg-mut);padding-left:96px}
+.axis .seg{display:flex;border:1px solid rgba(255,255,255,.14);border-radius:999px;overflow:hidden}
+.axis .seg button{padding:4px 10px;font-size:11px;color:var(--pg-mut)}
+.axis .seg button.on{background:rgba(var(--pg-accent-rgb),.12);color:var(--pg-accent)}
+.axis select{background:#14171a;color:var(--pg-fg);border:1px solid rgba(255,255,255,.16);border-radius:8px;padding:4px 8px;font-size:11.5px}
+/* 출력·복사 */
+#outtxt{white-space:pre-wrap;font:11px/1.6 ui-monospace,Menlo,Consolas,monospace;background:#0d1012;border:1px solid rgba(255,255,255,.1);border-radius:var(--pg-r-m);padding:10px;max-height:260px;overflow:auto}
+.copybtn{margin-top:8px;border:1px solid rgba(var(--pg-accent-rgb),.5);color:var(--pg-accent);border-radius:999px;padding:7px 16px;font-size:12px}
+.copybtn.done{border-color:rgba(255,255,255,.2);color:var(--pg-mut)}
+.note{font-size:11px;color:var(--pg-mut);line-height:1.6}
+/* 복사 경고 모달(역제안) */
+#cmodal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.55);z-index:50}
+#cmodal.on{display:flex}
+#cmodal .box{background:#14171a;border:1px solid rgba(255,255,255,.14);border-radius:var(--pg-r-modal);padding:16px;max-width:340px;font-size:12.5px}
+#cmodal .box h3{font-size:13px;margin-bottom:8px}
+#cmodal .box .ls{color:var(--pg-warn);font-size:11.5px;margin-bottom:10px;white-space:pre-wrap}
+#cmodal .box .row{display:flex;gap:8px;flex-wrap:wrap}
+#cmodal .box button{border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:6px 12px;font-size:11.5px}
+#cmodal .box button.pri{border-color:rgba(var(--pg-accent-rgb),.5);color:var(--pg-accent)}
+/* ── 샘플 미리보기 전용(세션이 renderPreview와 함께 교체하는 영역) ── */
+.pgwrap{padding:2px 0}
+.pghead{display:flex;align-items:baseline;gap:8px;font-size:12px;font-weight:700;margin-bottom:4px}
+.pghead em{font-style:normal;color:var(--pg-mut);font-weight:400;font-size:11px}
+.pgchart{width:100%;height:auto;display:block}
+.pgcap{display:flex;flex-wrap:wrap;gap:10px;font-size:11px;margin-top:4px}
+.pgcap i{font-style:normal;color:var(--pg-mut);display:inline-flex;align-items:center;gap:5px}
+.pgcap i::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor}
+.pgcap .c-sh::before{background:var(--pg-accent)}
+.pgcap .c-gen::before{background:var(--pg-gen);width:14px;height:2px;border-radius:0}
+.pgcap .c-core::before{background:var(--pg-core)}
+.pgmeta{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;font-size:10.5px}
+.pgmeta span{border:1px solid var(--pg-line);border-radius:999px;padding:2px 8px;color:var(--pg-mut);font-variant-numeric:tabular-nums}
+.pgmeta .good{color:var(--pg-accent);border-color:var(--pg-accent)}
+.pgmeta .mid{color:var(--pg-gen);border-color:var(--pg-gen)}
+.pgmeta .bad{color:var(--pg-warn);border-color:var(--pg-warn)}
+</style>
+</head>
+<body data-pg-template="v1">
+<h1>요일 노란선 = <span style="color:var(--pg-accent)">무슨 수치를 쓸까</span></h1>
+<p class="sub">노란선 데이터원 <b>9종</b>을 갈아끼우며 요일 차트가 어떻게 변하는지 본다. 터콰이즈(내 공유 lift)는 고정 · 바뀌는 건 노란선뿐. 기본값 = <b>현행(앱 사용자 접속)</b> · 원천 = viewer/insta_data.json daily_series(282일) + online_ledger(7일).</p>
+<div class="wrap">
+  <section class="stagewrap">
+    <div class="frame" data-pg-scrollhost id="frame">
+      <div class="app" data-pg-preview id="pv"></div>
+      <div class="baseline" data-pg-baseline id="bl"></div>
+    </div>
+    <div class="stagebar">
+      <div class="vseg" id="vseg"><button data-v="prop" class="on">제안</button><button data-v="cur">현행(비교)</button></div>
+      <span class="finfo" id="finfo"></span>
+    </div>
+  </section>
+  <aside class="console">
+    <section class="csec" id="psec"><h2><span class="b">•</span> 프리셋</h2><div id="presets" data-pg-presets></div></section>
+    <section class="csec"><h2><span class="b">•</span> 변형 갤러리 — 부품별 방식 선택</h2><div id="gallery"></div></section>
+    <section class="csec"><h2><span class="b">•</span> 미세조정 (7축)</h2><div id="axes" data-pg-controls></div></section>
+    <section class="csec" data-pg-copy><h2><span class="b">•</span> 선택값 <span id="warnN" style="color:var(--pg-warn);font-size:10.5px"></span></h2>
+      <pre id="outtxt"></pre><button class="copybtn" id="copy">선택값 복사</button></section>
+    <section class="csec" data-pg-note><h2><span class="b">•</span> 재현 한계 각주</h2><div class="note" id="notes"></div></section>
+  </aside>
+</div>
+<div id="cmodal" data-pg-warnmodal><div class="box">
+  <h3>⚠ 확립 사다리 밖 값 포함</h3><div class="ls" id="cmLs"></div>
+  <div class="row"><button class="pri" id="cInc">역제안 포함 복사</button><button id="cOnly">계승분만 복사</button><button id="cNo">취소</button></div>
+</div></div>
+
+<script>
+/* ═══════════ 동결 엔진 v1 — 여기부터 CONFIG 전까지 수정 금지 ═══════════ */
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const near=(a,b,eps)=>Math.abs((+a)-(+b))<=((eps==null)?.26:eps);          // 계승판정(축별 eps)
+const kw=s=>[...String(s)].reduce((n,c)=>n+(c.charCodeAt(0)>127?2:1),0);   // 한글 2칸 폭
+const padK=(s,w)=>String(s)+' '.repeat(Math.max(0,w-kw(s)));
+const state={v:{},a:{}};
+function scrollGuard(fn){const h=$('#frame');const y=h?h.scrollTop:0;fn();if(h)h.scrollTop=y;} // 재렌더 스크롤 보존(§7-1-6)
+function initState(){CONFIG.AXES.forEach(ax=>state.a[ax.k]=CONFIG.DEFAULTS[ax.k]);
+  CONFIG.GALLERY.forEach(g=>state.v[g.comp]=CONFIG.DEFAULTS['v_'+g.comp]);}
+function fmt(ax,v){return (ax.step&&ax.step<1)?(+v).toFixed(ax.step<.01?3:2):String(v)}
+function applyAll(structural){
+  const pv=$('#pv');
+  CONFIG.AXES.forEach(ax=>pv.style.setProperty('--t-'+ax.k, state.a[ax.k]+(ax.u||'')));
+  if(structural){scrollGuard(()=>{pv.innerHTML=CONFIG.renderPreview(state);});}
+  syncPresets(); warnAxes(); buildOut();
+}
+function buildGallery(){
+  $('#gallery').innerHTML=CONFIG.GALLERY.map(g=>
+    '<div class="gal"><div class="gal-t">'+g.nm+(g.desc?' — '+g.desc:'')+'</div><div class="gal-grid">'+
+    g.variants.map(v=>'<div class="gcard'+(state.v[g.comp]===v.id?' on':'')+'" data-comp="'+g.comp+'" data-id="'+v.id+'">'+
+      '<div class="demo">'+v.r(state)+'</div><div class="gnm">'+v.nm+(v.id===(CONFIG.DEFAULTS['v_'+g.comp])?' <span style="color:var(--pg-mut)">(현행)</span>':'')+'</div>'+
+      (v.tag?'<div class="gtag">'+v.tag+'</div>':'')+'</div>').join('')+'</div></div>').join('');
+}
+function buildControls(){
+  let html='',grp='';
+  CONFIG.AXES.forEach(ax=>{
+    if(ax.grp!==grp){grp=ax.grp;html+='<div class="grp-t">'+grp+'</div>';}
+    html+='<div class="axis" data-k="'+ax.k+'"><span class="nm">'+ax.nm+'</span>';
+    if(ax.type==='seg'){html+='<div class="seg">'+ax.sg.map(o=>'<button data-val="'+o[0]+'"'+(String(state.a[ax.k])===String(o[0])?' class="on"':'')+'>'+o[1]+'</button>').join('')+'</div>';}
+    else if(ax.type==='select'){html+='<select>'+ (ax.pal||[]).map(o=>'<option value="'+o[0]+'"'+(String(state.a[ax.k])===String(o[0])?' selected':'')+'>'+o[1]+'</option>').join('')+'</select>';}
+    else{const lid=ax.lad?('lad-'+ax.k):'';
+      html+='<input type="range" min="'+ax.min+'" max="'+ax.max+'" step="'+(ax.step||1)+'" value="'+state.a[ax.k]+'"'+(lid?' list="'+lid+'"':'')+'>'
+        +(lid?'<datalist id="'+lid+'">'+ax.lad.map(v=>'<option value="'+v+'">').join('')+'</datalist>':'')
+        +'<span class="v">'+fmt(ax,state.a[ax.k])+(ax.u||'')+'</span>';}
+    if(ax.tok)html+='<span class="tok">'+ax.tok+'</span>';
+    html+='</div>';});
+  $('#axes').innerHTML=html;
+}
+function buildPresets(){
+  $('#presets').innerHTML=CONFIG.PRESETS.map((p,i)=>'<button class="pill" data-p="'+i+'">'+(p.star?'<span class="st">★</span> ':'')+p.nm+'</button>').join('');
+}
+/* 타입별 비교(포터블 §4 ⚠ "프리셋 비교 함수의 함정") — 세그/셀렉트 축은 값이 문자열이라
+   near()의 +'post' = NaN → NaN<=eps = false → **전 프리셋이 영원히 안 켜진다**(260805 실측 검출).
+   숫자면 near(오차 허용) · 아니면 문자열 동일성. near()는 그대로 살아 있다(계승판정·사다리 판정 공용). */
+const eqv=(a,b,eps)=>{const na=+a,nb=+b;return (Number.isFinite(na)&&Number.isFinite(nb)&&String(a).trim()!==''&&String(b).trim()!=='')?near(na,nb,eps):String(a)===String(b);};
+function presetMatch(p){
+  const st=Object.assign({},CONFIG.DEFAULTS,p.st||{});
+  return CONFIG.AXES.every(ax=>eqv(state.a[ax.k],st[ax.k],ax.eps))
+    && CONFIG.GALLERY.every(g=>state.v[g.comp]===(st['v_'+g.comp]!==undefined?st['v_'+g.comp]:CONFIG.DEFAULTS['v_'+g.comp]));
+}
+function syncPresets(){$$('#presets .pill').forEach((el,i)=>el.classList.toggle('on',presetMatch(CONFIG.PRESETS[i])));}
+function offLadder(ax,v){return ax.lad&&!ax.lad.some(l=>near(l,v,ax.eps));}
+function warnAxes(){
+  const ws=[];
+  CONFIG.AXES.forEach(ax=>{const v=state.a[ax.k];
+    const el=$('#axes .axis[data-k="'+ax.k+'"] .v');
+    const off=offLadder(ax,v);
+    if(el){el.classList.toggle('warn',!!off);el.textContent=fmt(ax,v)+(ax.u||'');}
+    if(off)ws.push({ax,v});});
+  $('#warnN').textContent=ws.length?('⚠ 사다리 밖 '+ws.length+'축'):'';
+  return ws;
+}
+function lineOut(ax){
+  const v=state.a[ax.k], cur=CONFIG.DEFAULTS[ax.k];
+  let judge;
+  if(ax.tokv!=null&&near(v,ax.tokv,ax.eps)) judge='계승 var('+ax.tokn+')';
+  else if(ax.lad&&!offLadder(ax,v)) judge='계승(확립 사다리)';
+  else if(ax.free) judge='자유(알파 변주)';
+  else judge='갱신 후보 ⚠';
+  return padK(ax.k,10)+': '+fmt(ax,v)+(ax.u||'')+'  [현행 '+fmt(ax,cur)+(ax.u||'')+'] · '+judge;
+}
+function buildOut(){
+  const L=['# '+CONFIG.META.label+' — 선택값 ('+new Date().toISOString().slice(0,10)+')','## 방식(변형 갤러리)'];
+  CONFIG.GALLERY.forEach(g=>{const v=g.variants.find(x=>x.id===state.v[g.comp]);
+    L.push(padK(g.comp,10)+': '+(v?v.nm:'-')+(state.v[g.comp]===CONFIG.DEFAULTS['v_'+g.comp]?'  [현행 유지]':'  [변경]'));});
+  L.push('## 미세조정(7축)');
+  CONFIG.AXES.forEach(ax=>L.push(lineOut(ax)));
+  $('#outtxt').textContent=L.join('\n');
+}
+function counterBlock(ws){
+  return '\n## ⚠ 기틀 갱신 역제안(사다리 밖 값 — 회신 = (갱신) 승인 정문)\n'+
+    ws.map(w=>'- '+w.ax.nm+'('+w.ax.k+') = '+fmt(w.ax,w.v)+(w.ax.u||'')+' — 근접: '+(w.ax.lad?w.ax.lad.join('/'):'-')+(w.ax.u||'')).join('\n');
+}
+function doCopy(txt,btn){
+  const done=()=>{btn.classList.add('done');btn.textContent='복사됨 ✓';setTimeout(()=>{btn.classList.remove('done');btn.textContent='선택값 복사';},1400);};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done).catch(()=>fallbackCopy(txt,done));}
+  else fallbackCopy(txt,done);
+}
+function fallbackCopy(txt,done){const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');}catch(e){}ta.remove();done();}
+/* 이벤트 위임(동결) */
+$('#gallery').addEventListener('click',e=>{const c=e.target.closest('.gcard');if(!c)return;
+  state.v[c.dataset.comp]=c.dataset.id;buildGallery();applyAll(true);});
+$('#gallery').addEventListener('pointerdown',e=>{const d=e.target.closest('.gcard .demo>*');if(d){d.classList.remove('go');void d.offsetWidth;d.classList.add('go');}});
+$('#axes').addEventListener('input',e=>{const ax=CONFIG.AXES.find(a=>a.k===e.target.closest('.axis')?.dataset.k);if(!ax)return;
+  state.a[ax.k]=e.target.value;applyAll(false);});
+$('#axes').addEventListener('click',e=>{const b=e.target.closest('.seg button');if(!b)return;
+  const ax=CONFIG.AXES.find(a=>a.k===b.closest('.axis').dataset.k);state.a[ax.k]=b.dataset.val;buildControls();applyAll(true);});
+$('#axes').addEventListener('change',e=>{if(e.target.tagName!=='SELECT')return;
+  const ax=CONFIG.AXES.find(a=>a.k===e.target.closest('.axis').dataset.k);state.a[ax.k]=e.target.value;applyAll(true);});
+$('#presets').addEventListener('click',e=>{const b=e.target.closest('.pill');if(!b)return;
+  const p=CONFIG.PRESETS[+b.dataset.p];Object.assign(state.a,{},CONFIG.DEFAULTS,p.st||{});
+  const st=Object.assign({},CONFIG.DEFAULTS,p.st||{});CONFIG.AXES.forEach(ax=>state.a[ax.k]=st[ax.k]);
+  CONFIG.GALLERY.forEach(g=>state.v[g.comp]=st['v_'+g.comp]!==undefined?st['v_'+g.comp]:CONFIG.DEFAULTS['v_'+g.comp]);
+  buildGallery();buildControls();applyAll(true);});
+$('#vseg').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+  $$('#vseg button').forEach(x=>x.classList.toggle('on',x===b));
+  $('#frame').classList.toggle('showcur',b.dataset.v==='cur');});
+$('#copy').addEventListener('click',()=>{
+  const ws=warnAxes(), base=$('#outtxt').textContent;
+  if(!ws.length){doCopy(base,$('#copy'));return;}
+  $('#cmLs').textContent=ws.map(w=>w.ax.nm+' = '+fmt(w.ax,w.v)+(w.ax.u||'')+' (사다리: '+(w.ax.lad||[]).join('/')+')').join('\n');
+  $('#cmodal').classList.add('on');
+  $('#cInc').onclick=()=>{doCopy(base+counterBlock(ws),$('#copy'));$('#cmodal').classList.remove('on');};
+  $('#cOnly').onclick=()=>{doCopy(base.split('\n').filter(l=>!l.includes('갱신 후보')).join('\n'),$('#copy'));$('#cmodal').classList.remove('on');};
+  $('#cNo').onclick=()=>$('#cmodal').classList.remove('on');
+});
+function boot(){initState();buildPresets();buildGallery();buildControls();
+  $('#bl').innerHTML=CONFIG.renderBaseline?CONFIG.renderBaseline():CONFIG.renderPreview(Object.assign({},{v:Object.fromEntries(CONFIG.GALLERY.map(g=>[g.comp,CONFIG.DEFAULTS['v_'+g.comp]])),a:Object.assign({},CONFIG.DEFAULTS)}));
+  $('#notes').innerHTML=(CONFIG.META.notes||[]).map(n=>'· '+n).join('<br>');
+  $('#finfo').textContent=CONFIG.META.frame.w+'×'+CONFIG.META.frame.h+' · SSOT='+CONFIG.META.ssot;
+  applyAll(true);}
+/* ═══════════ CONFIG — 세션이 채우는 전부(아래 샘플을 통째 교체) ═══════════ */
+const CONFIG={
+  META:{label:'요일 노란선 = 무슨 수치를 쓸까', frame:{w:660,h:250}, ssot:'viewer/index.html :root · chLiftChart 기하',
+    notes:['차트 기하 = chLiftChart 상수 그대로(W600·H154·mL46·mR16·mT16·mB26·ph112) 재현 — 색·라운드는 :root 토큰 사본(창작 0).',
+           '터콰이즈(강조색1 「팔로워」) = 내 채널 요일별 공유 lift = <b>고정</b>. 바뀌는 건 노란선 하나뿐이다.',
+           '값 = 요일별 평균을 그 축의 피크=100으로 정규화한 상대 강도(노란선은 원래 자체 정규화 축 = lift Y축과 별개).',
+           '⚠ 「앱 사용자 접속」만 <b>측정치가 아니다</b> — 코드에 박힌 국내 공개 벤치(오픈애즈·소셜비즈 2025 3Q · 와이즈앱·App Ape). Meta API는 전체 IG 이용자 통계를 주지 않는다.',
+           '⚠ 「게시 빈도」는 후보가 아니라 <b>교란 확인용</b> — 월요일 100은 내가 월요일에 많이 올린다는 뜻이고, 반응·조회의 월요일 100도 그 그림자일 수 있다.',
+           '⚠ 정규화 축(÷posts)을 켜면 반응 편차가 <b>39.0 → 16.4%p</b>로 준다 = 원래 편차의 절반 이상이 게시 빈도 교란이었다는 증거.',
+           '표본 n = 계정 일별 원장(daily_series) 일수 · 팔로워 접속만 7일(원장 축적 중 · 요일당 1일).'],
+    src:{"bench": {"nm": "앱 사용자 접속 (현행)", "tag": "국내 벤치 · 측정치 아님", "v": {"월": 84, "화": 86, "수": 88, "목": 90, "금": 94, "토": 100, "일": 96}, "n": null, "kind": "벤치"}, "foll": {"nm": "팔로워 접속", "tag": "online_followers 실측", "v": {"월": 99.6, "화": 100.0, "수": 99.9, "목": 99.8, "금": 98.1, "토": 97.3, "일": 99.7}, "n": 7, "kind": "내 계정"}, "inter": {"nm": "반응 수", "tag": "interactions", "v": {"월": 100.0, "화": 62.4, "수": 62.9, "목": 61.0, "금": 63.6, "토": 83.9, "일": 79.9}, "n": 254, "kind": "내 계정"}, "pview": {"nm": "프로필 방문", "tag": "profile_views", "v": {"월": 84.3, "화": 65.6, "수": 72.2, "목": 67.6, "금": 70.4, "토": 100.0, "일": 86.1}, "n": 254, "kind": "내 계정"}, "views": {"nm": "조회 수", "tag": "views", "v": {"월": 94.3, "화": 73.1, "수": 72.6, "목": 70.9, "금": 68.3, "토": 95.5, "일": 100.0}, "n": 254, "kind": "내 계정"}, "reach": {"nm": "도달", "tag": "reach", "v": {"월": 91.6, "화": 78.0, "수": 77.4, "목": 75.3, "금": 71.7, "토": 91.2, "일": 100.0}, "n": 281, "kind": "내 계정"}, "ipp": {"nm": "게시물당 반응", "tag": "interactions ÷ posts", "v": {"월": 100.0, "화": 83.6, "수": 92.8, "목": 95.5, "금": 93.2, "토": 86.9, "일": 88.5}, "n": 225, "kind": "내 계정·정규화"}, "vpp": {"nm": "게시물당 조회", "tag": "views ÷ posts", "v": {"월": 85.8, "화": 79.7, "수": 80.7, "목": 100.0, "금": 78.5, "토": 81.3, "일": 83.3}, "n": 225, "kind": "내 계정·정규화"}, "posts": {"nm": "게시 빈도 (교란 확인)", "tag": "posts", "v": {"월": 100.0, "화": 74.1, "수": 78.1, "목": 69.6, "금": 70.7, "토": 90.1, "일": 91.8}, "n": 281, "kind": "교란 변수"}}},
+  GALLERY:[{comp:'metric', nm:'노란선 데이터원 — 9종', desc:'카드를 눌러 갈아끼운다', variants:[
+    {id:"bench", nm:"앱 사용자 접속 (현행)", tag:"국내 벤치 · 측정치 아님", r:()=>CONFIG.chart("bench",0.85,2,1)},
+    {id:"foll", nm:"팔로워 접속", tag:"online_followers 실측", r:()=>CONFIG.chart("foll",0.85,2,1)},
+    {id:"inter", nm:"반응 수", tag:"interactions", r:()=>CONFIG.chart("inter",0.85,2,1)},
+    {id:"pview", nm:"프로필 방문", tag:"profile_views", r:()=>CONFIG.chart("pview",0.85,2,1)},
+    {id:"views", nm:"조회 수", tag:"views", r:()=>CONFIG.chart("views",0.85,2,1)},
+    {id:"reach", nm:"도달", tag:"reach", r:()=>CONFIG.chart("reach",0.85,2,1)},
+    {id:"ipp", nm:"게시물당 반응", tag:"interactions ÷ posts", r:()=>CONFIG.chart("ipp",0.85,2,1)},
+    {id:"vpp", nm:"게시물당 조회", tag:"views ÷ posts", r:()=>CONFIG.chart("vpp",0.85,2,1)},
+    {id:"posts", nm:"게시 빈도 (교란 확인)", tag:"posts", r:()=>CONFIG.chart("posts",0.85,2,1)},
+  ]}],
+  AXES:[
+    {k:'core', nm:'핵심 구간 임계', grp:'판정', type:'seg', sg:[['0.78','78% 넓게'],['0.85','85% (현행 ★)'],['0.90','90% 좁게']], tok:'CORE_TH 정본 = 0.85 · 3값 = 260801 플레이그라운드 실비교분 계승(창작 0)', eps:0.005},
+    {k:'lw',   nm:'노란선 굵기',   grp:'표면', type:'range', min:1, max:4, step:0.5, u:'px', tok:'chLiftChart gen 선 = 2px', eps:0.26},
+    {k:'op',   nm:'노란선 불투명도', grp:'표면', type:'range', min:0.4, max:1, step:0.02, u:'', free:true, tok:'같은 토큰 알파 변주 = 자유', eps:0.005},
+  ],
+  DEFAULTS:{core:'0.85', lw:2, op:1, v_metric:'bench'},
+  PRESETS:[
+    {nm:'현행(비교 기준) — 앱 사용자 접속', st:{}},
+    {nm:'편차 최대 — 반응 수', st:{v_metric:'inter'}},
+    {nm:'교란 제거 — 게시물당 반응', star:1, st:{v_metric:'ipp'}},
+    {nm:'왜 뺐나 — 팔로워 접속', st:{v_metric:'foll'}},
+  ],
+  renderPreview(s){
+    const key = s.v ? s.v.metric : state.v.metric, a = s.a || state.a;
+    return CONFIG.chart(key, +a.core, +a.lw, +a.op);
+  },
+  renderBaseline(){ return CONFIG.chart('bench', 0.85, 2, 1, '현행'); },
+  chart(key, core, lw, op, tag){
+    const D=['월','화','수','목','금','토','일'], m=CONFIG.META.src[key], gen=m.v, sh={"월": 0.9, "화": 0.75, "수": 1.1, "목": 1.2, "금": 0.88, "토": 1.05, "일": 1.09};
+    const W=600,H=154,mL=46,mR=16,mT=16,mB=26,pw=W-mL-mR,ph=H-mT-mB;
+    const sv=D.map(function(d){return sh[d];});
+    const lo=Math.max(0,Math.min.apply(null,sv.concat([1]))-0.1), hi=Math.max.apply(null,sv.concat([1]))+0.1;
+    const X=function(i){return mL+pw*(i*24+12)/168;}, Y=function(v){return mT+ph*(1-(v-lo)/(hi-lo));};
+    const GY=function(v){return mT+ph*(1-0.82*v/100);};
+    const gv=D.map(function(d){return gen[d];}), gmax=Math.max.apply(null,gv), gmin=Math.min.apply(null,gv);
+    const path=function(pts){return pts.map(function(p,i){return (i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1);}).join(' ');};
+    let s2='<svg viewBox="0 0 '+W+' '+H+'" class="pgchart" preserveAspectRatio="none">';
+    for(let g=0;g<=3;g++){const v=lo+(hi-lo)*g/3,y=Y(v);
+      s2+='<line x1="'+mL+'" y1="'+y.toFixed(1)+'" x2="'+(W-mR)+'" y2="'+y.toFixed(1)+'" stroke="var(--pg-line)" stroke-width="1" vector-effect="non-scaling-stroke"/>';
+      s2+='<text x="'+(mL-6)+'" y="'+(y+3).toFixed(1)+'" text-anchor="end" font-size="9" fill="var(--pg-mut)">×'+v.toFixed(2)+'</text>';}
+    const exp=D.map(function(d){return sh[d]*gen[d];}), emax=Math.max.apply(null,exp);
+    D.forEach(function(d,i){ if(exp[i]>=emax*core){ const x0=mL+pw*(i*24)/168, x1=mL+pw*((i+1)*24)/168;
+      s2+='<rect x="'+x0.toFixed(1)+'" y="'+mT+'" width="'+(x1-x0).toFixed(1)+'" height="'+ph+'" fill="var(--pg-core)" opacity=".13"/>';}});
+    s2+='<path d="'+path(D.map(function(d,i){return [X(i),GY(gen[d])];}))+'" fill="none" stroke="var(--pg-gen)" stroke-width="var(--t-lw,2px)" opacity="var(--t-op,1)" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>';
+    s2+='<path d="'+path(D.map(function(d,i){return [X(i),Y(sh[d])];}))+'" fill="none" stroke="var(--pg-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>';
+    D.forEach(function(d,i){ s2+='<circle cx="'+X(i).toFixed(1)+'" cy="'+Y(sh[d]).toFixed(1)+'" r="3.2" fill="var(--pg-accent)"/>';
+      s2+='<text x="'+X(i).toFixed(1)+'" y="'+(H-8)+'" text-anchor="middle" font-size="10" fill="var(--pg-mut)">'+d+'</text>';});
+    s2+='</svg>';
+    const amp=(gmax-gmin).toFixed(1);
+    return '<div class="pgwrap"><div class="pghead"><b>요일별 공유 수</b>'+(tag?'<em>'+tag+'</em>':'')+'</div>'+s2
+      +'<div class="pgcap"><i class="c-sh">팔로워</i><i class="c-gen">'+m.nm+'</i><i class="c-core">핵심 요일</i></div>'
+      +'<div class="pgmeta"><span class="'+(amp<8?'bad':(amp<18?'mid':'good'))+'">편차 '+amp+'%p</span>'
+      +'<span>'+m.kind+'</span><span>'+m.tag+'</span>'+(m.n?'<span>표본 '+m.n+'일</span>':'<span>표본 없음(상수)</span>')+'</div></div>';
+  },
+};
+boot();
+</script>
+</body>
+</html>
