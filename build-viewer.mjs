@@ -597,8 +597,8 @@ const LY_ROOT = 'viewer/ly_out';
 if (existsSync(LY_ROOT)) {
   const idTs = id => { const m = String(id).match(/^(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/); return m ? `20${m[1]}-${m[2]}-${m[3]}T${m[4]}:${m[5]}:${m[6]}+09:00` : ''; };   // id = KST 접두(§📐)
   const EO_FIT = { pad: '여백', blur: '블러 채움', crop: '크롭' };   // 라벨 어휘 = edit.html 비율 카드 문구 계승
-  const eoLabel = eo => {   // 편집 잡 라벨 폴백 — 운영자가 고른 레시피 요약(자막 없는 편집 산출이 '(제목 없음)'으로 뜨던 것 정정 · ly_burn EDIT_KEYS 스냅샷 소비)
-    if (!eo || typeof eo !== 'object') return '';
+  const eoParts = eo => {   // 편집 레시피 → 라벨 토큰 배열(운영자가 고른 처리 = '무슨 작업을 한 결과인지')
+    if (!eo || typeof eo !== 'object') return [];
     const p = [];
     if (eo.vid_ar) p.push(String(eo.vid_ar));
     if (EO_FIT[eo.vid_fit]) p.push(EO_FIT[eo.vid_fit]);
@@ -606,8 +606,12 @@ if (existsSync(LY_ROOT)) {
     if (eo.vid_fps) p.push(eo.vid_fps === '60i' ? '60fps 보간' : (/^\d+$/.test(String(eo.vid_fps)) ? eo.vid_fps + 'fps' : String(eo.vid_fps)));
     if (eo.vid_t0 != null || eo.vid_t1 != null) p.push('구간 컷');
     if (eo.aud_norm) p.push('음량 통일');
-    return p.join(' · ');
+    return p;
   };
+  const eoLabel = eo => eoParts(eo).join(' · ');   // 편집 잡 라벨 폴백 — 자막 없는 편집 산출이 '(제목 없음)'으로 뜨던 것 정정(ly_burn EDIT_KEYS 스냅샷 소비 · ly.html 소비 축 무변경)
+  // 추가 옵션 어휘 = edit.html XTR 카드 문구 정본 계승(운영자 260810 "적용된 효과를 #으로만") — 새 어휘 창작 0
+  const XTR_NM = { mosaic: '모자이크', pinset: '트래킹', keying: '키잉', silh: '실루엣', chroma: '크로마키', trans: '번역' };
+  const PV_OK = /\.(mp4|webm|m4v)(\?|$)/i;   // 브라우저가 첫 프레임을 그릴 수 있는 컨테이너만(⚠ .mov = 재생 불가 = 알파 산출의 preview.webm 동반 계약과 같은 축)
   const lyJobs = [];
   for (const id of readdirSync(LY_ROOT)) {
     const dir = join(LY_ROOT, id);
@@ -632,7 +636,12 @@ if (existsSync(LY_ROOT)) {
     else if ((v && (v.error || v.skip)) || existsSync(join(dir, 'error.log'))) st = 'fail';   // 산출물 없이 에러 기록만
     if (!title && v) title = eoLabel(v.edit_opts);
     const d = v && Number.isFinite(v.dur) ? Math.round(v.dur) : 0;
-    lyJobs.push({ id, t: title, ts: (v && v.ts) || idTs(id), st, ...(d ? { d } : {}) });
+    // 효과 태그(tg) = 레시피 + 자막 번인 + 추가 옵션 — 편집기 작업 내역 타일이 '#효과'로 그린다(운영자 260810).
+    // 썸네일(pv) = 재생 가능한 결과 미디어 URL 사다리 {알파 산출 preview.webm → 결과물 → 원본}. 없으면 빈 문자열 = 타일이 무지 플레이트로 강등(§디자인 빈 상태).
+    const tg = v ? [...eoParts(v.edit_opts), ...(v.sub ? ['자막'] : []), ...(Array.isArray(v.xtr) ? v.xtr.map(x => XTR_NM[x]).filter(Boolean) : [])] : [];
+    let pv = '';
+    if (v) { if (v.preview && PV_OK.test(String(v.preview))) pv = String(v.preview); else if (v.url && PV_OK.test(String(v.url))) pv = String(v.url); else if (v.src && PV_OK.test(String(v.src))) pv = String(v.src); }
+    lyJobs.push({ id, t: title, ts: (v && v.ts) || idTs(id), st, ...(d ? { d } : {}), ...(tg.length ? { tg } : {}), ...(pv ? { pv } : {}) });
   }
   lyJobs.sort((a, b) => (b.id || '').localeCompare(a.id || ''));           // 최신순(id = 시간 접두)
   writeFileSync(join(LY_ROOT, 'index.json'), JSON.stringify(lyJobs));

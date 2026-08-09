@@ -577,15 +577,24 @@
   @media (prefers-reduced-motion:reduce){ .lyseg-adj button { transition:none; } }
   .lyseg-d { font-size:var(--fs-xs); }   /* 조각 길이 = 보조 위계(fs-xs) — 헤더 앵커는 시작시각 bold(평의회R2 D1) */
   .lyseg-a { flex:none; width:var(--btn-xs); height:var(--btn-xs); display:grid; place-items:center; padding:0; background:transparent; border:none; border-radius:var(--r-s); color:var(--mut); cursor:pointer; position:relative; -webkit-tap-highlight-color:transparent; transition:color var(--dur), transform var(--dur-fast); }
-  /* 작업 내역 게시판(운영자 260707) — 행 = 일시(무트·tabular)·타이틀(생략)·상태 텍스트(무도형·색만 = index qico 결) · 빈 상태 = 섹션째 숨김(조용한 공백 §디자인) */
+  /* 작업 내역 = 3열 썸네일 그리드(운영자 260810 "sns에 보면 리스트 업 쭉 되있거든? 1행에 3개씩 · 적용된 효과를 #으로만") — 구 1행 텍스트 리스트(260707) 대체.
+     그리드·타일·오버레이 pill = nm-hist.css 정본 계승(`.hist-grid` 3열/폰 2열 · `.hist-it` · `.hist-cap`) = 값 신설 0 · 여기엔 **영상 축 오버라이드만** 잔류(정본 `.hist-thumb img`는 이미지 4/5 축).
+     ⚠ 비율 16/9 = 유튜브 축(운영자 지정) · 세로 쇼츠(9:16)도 같은 박스에 `object-fit:cover` = 폭맞춤 후 상하 크롭(정본 썸네일과 동일 문법 = 타일 높이 전건 동일).
+     오버레이 4모서리(운영자 260810 지정) = 좌상 실행 시각 · 우상 결과 여부(완료/실패) · 좌하 #효과 · 우하 영상 길이. 제목은 미표시(운영자 "제목은 거의 안나와도됨") — 타일 title/aria-label로 보존. */
   .lyjobs { margin-top:18px; }
-  .lyjob { display:flex; align-items:center; gap:10px; width:100%; padding:10px 2px; background:none; border:none; border-top:1px solid var(--line); color:var(--fg); font-family:inherit; font-size:13px; cursor:pointer; text-align:left; -webkit-tap-highlight-color:transparent; touch-action:manipulation; }
-  .lyjob:last-child { border-bottom:1px solid var(--line); }
-  .lyjob:active { background:rgba(255,255,255,.04); }
-  .lyjob .jts { flex:none; color:var(--mut); font-variant-numeric:tabular-nums; font-size:12px; }
-  .lyjob .jt { flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-weight:700; }
-  .lyjob .jst { flex:none; font-size:12px; font-weight:800; color:var(--mut); }
-  .lyjob .jst.done { color:var(--fg); } .lyjob .jst.fail { color:var(--danger); }   /* 완료 상태줄 = **흰색**(운영자 260731 · 정본 = nm-cards.css `.job.done .jst{color:var(--fg)}`) — 이 목록은 클래스가 `.job`이 아니라 `.lyjob`이라 SSOT 규칙이 아예 안 걸려 혼자 형광 민트로 남아 있었다: 같은 자리 이미지 스튜디오는 흰색인데 비디오 스튜디오만 달라 §0-B3 "같은 기능 = 같은 모양"을 이탈(평의회6 260731) */
+  .lyjob { display:block; width:100%; padding:0; background:none; border:none; color:var(--fg); font-family:inherit; font-size:var(--fs-label); cursor:pointer; text-align:left; -webkit-tap-highlight-color:transparent; touch-action:manipulation; transition:transform var(--dur-fast); }   /* reuse-ok: 계승원 = nm-hist.css `.hist-it` 타일(구 리스트 행 .lyjob의 거처만 그리드로 이동 · 새 부품 신설 0) */
+  .lyjob:active { transform:scale(var(--press-l)); }   /* 눌림 = 카드 표준(구 배경 플래시는 리스트 행 문법 = 타일에선 --press 사다리) */
+  .ljth { position:relative; }
+  .ljth .ljv, .ljth .ljph { width:100%; aspect-ratio:16/9; object-fit:cover; border:1px solid var(--line); border-radius:var(--r-s); display:block; background:var(--pan); }   /* 썸네일 = 결과 영상 첫 프레임(정본 `.hist-thumb img` 규격에서 aspect-ratio만 영상 축으로 교체) */
+  .ljth .ljph { display:grid; place-items:center; color:var(--mut); font-size:var(--fs-xs); font-weight:var(--fw-b); }   /* 미디어 없음(스캔 잡·실패·진행중) = 무지 플레이트(§디자인 빈 상태 — 타일 크기는 형제와 동일 유지) */
+  .ljth .hist-cap { max-width:calc(100% - 52px); }   /* 4모서리 동시 표시 = 반대편 캡슐 자리 확보(정본 `calc(100% - 42px)`가 우상단 버튼 1개 전제인 것과 같은 문법 · 52 = 우측 캡슐 실측 최대폭 34.5 + 좌우 여백 · ⚠ 균등 50% 분할은 폰 3열 122px에서 시각 캡슐까지 잘렸다 = 실측 봉합) */
+  .ljth .ljtr, .ljth .ljbr { max-width:calc(50% - 8px); }   /* 우측 2종 = 짧은 고정 어휘(완료/실패 · 0:11) */
+  .ljth .ljtr { left:auto; right:6px; color:var(--mut); }   /* 우상 = 결과 여부(완료/실패) */
+  .ljth .ljtr.done { color:var(--fg); }   /* 완료 = **흰색**(정본 = nm-cards.css `.job.done .jst{color:var(--fg)}` · 260731 평의회6 "같은 기능 = 같은 모양") */
+  .ljth .ljtr.fail { color:var(--danger); }
+  .ljth .ljbl { top:auto; bottom:6px; font-weight:600; }   /* 좌하 = #효과(태그는 본문보다 한 톤 낮게) */
+  .ljth .ljbr { top:auto; bottom:6px; left:auto; right:6px; font-variant-numeric:tabular-nums; }   /* 우하 = 영상 길이(유튜브 관례 자리) */
+  @media (max-width:480px){ #lyJobList { grid-template-columns:repeat(3,1fr); } }   /* 폰도 3열 고정(운영자 260810 "1행에 3개씩") — 정본 `.hist-grid` 폰 2열은 세로 4/5 이미지 타일 축이라 16:9 영상엔 과대(타일 높이 105.8 → 3열 67.5 = SNS 그리드 결) · 표면 오버라이드만 잔류(정본 무접촉) */
   .edfocus { animation:edfocus 2.2s ease both; border-radius:var(--r-m); }   /* 알림 ?done=<id> 착지 결과 강조 = '해당 작업' 식별(thumb .thfocus 정본 계승 · radius = 근접토큰 자동계승) */
   @keyframes edfocus { 0%,100%{ box-shadow:0 0 0 0 rgba(var(--accent-rgb),0); } 18%,46%{ box-shadow:0 0 0 3px rgba(var(--accent-rgb),.55); } }
   @media (prefers-reduced-motion:reduce){ .edfocus { animation:none; } }
@@ -754,7 +763,7 @@
       <span class="lyjobs-ttl"><span class="lyjobs-bul" aria-hidden="true">•</span>작업 내역 <span class="lyjobs-cnt" id="lyJobsCnt"></span></span>
       <svg class="lyjobs-ar" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
     </button>
-    <div id="lyJobList" hidden></div>
+    <div class="hist-grid" id="lyJobList" hidden></div><!-- 3열 썸네일 그리드(운영자 260810 "sns처럼 리스트업 · 1행에 3개") = nm-hist.css .hist-grid 정본 계승(값 신설 0 · 폰 480 이하 2열도 정본 동행) -->
   </div>
 </div>
 
@@ -3085,6 +3094,7 @@ render();   // 초기 렌더(빈 스택 = 운영자 260711 stackInit=empty 유�
 
 // ── 작업 내역 게시판(운영자 260712 "이미지 생성기처럼 최근·기존 제작 라이브러리화" · 자막 탭 260707 게시판 원문 계승) — ly_out/index.json(서버측 = 기기간 공유·만료 없음) 로드 · 행 = 일시(KST)·라벨·길이·상태 · 탭 = openJob(과거 산출 상시 재열람 — 종전엔 pend 24h·푸시 딥링크뿐이라 시간 지나면 접근 불가였던 공백 봉합) · 자막-전용(subs) 잡 = 자막 탭 전담이라 제외 ──
 let _jlSig='',_jlBusy=false;   // 무변경 감지 시그니처(재렌더 억제 = 깜빡임·스크롤 튐 0 · thumb pollServerHist sig 게이트 미러) + in-flight 가드(폴·수동 새로고침 동시 발동 코얼레싱)
+let _jlIO=null;   // 썸네일 지연 로딩 옵저버(운영자 260810 그리드) — 타일 60개 × 영상 메타 선다운로드 = 폰 발열·트래픽 축(C15 렌더 예산·C16 유휴 정숙과 같은 축)이라 뷰포트 진입분만 로드 · 재렌더마다 재생성(구 옵저버는 disconnect)
 const _r2Extra=new Map(),_jlIds=new Set();   // R2 즉시 발견 id→종류(video|clips|cuts · Pages 인덱스 합류 전 임시 행) · 인덱스 렌더 완료 id(합류 = 임시 축 자연 소거 — 같은 id는 인덱스 행이 대체)
 async function loadJobLib(){   // 재호출 가능(구 1회성 IIFE → 부모 셸 헤더 새로고침 #toolRf 훅 + 10s 자동 폴 · 운영자 260731 "동기화가 십초 단위로") — 서버 인덱스 재fetch = 타 기기·타 플랫폼 제작분 수신
   if(_jlBusy) return; _jlBusy=true;
@@ -3106,16 +3116,26 @@ async function loadJobLib(){   // 재호출 가능(구 1회성 IIFE → 부모 �
     _jlSig=sig;
     const box=$('#lyJobs'), list=$('#lyJobList'); if(!box||!list) return;
     list.textContent='';   // 재진입 = 비우고 재렌더(중복 누적 차단 · 접힘/펼침 상태는 list.hidden에 그대로 보존)
+    if(_jlIO) _jlIO.disconnect();   // 옛 타일 관측 해제(재렌더로 버려진 노드가 옵저버에 남아 살아있는 것 차단)
+    _jlIO=('IntersectionObserver' in window)? new IntersectionObserver((es,o)=>{ es.forEach(e=>{ if(!e.isIntersecting) return; const v=e.target; if(v.dataset.pv){ v.preload='metadata'; v.src=v.dataset.pv+'#t=0.1'; delete v.dataset.pv; } o.unobserve(v); }); },{rootMargin:'200px'}) : null;   // rootMargin 200 = 스크롤 도달 전 선로드(빈 칸 노출 0) · 미지원 브라우저 = 즉시 로드 폴백
     const ST={done:'완료',clip:'클립 후보',cut:'컷 후보',fail:'실패',gen:'진행중'};   // cut 합류(260731) = build-viewer 인덱서가 cuts.json을 읽게 된 짝 — 이게 없으면 완료된 컷 스캔이 `ST[j.st]||'진행중'` 폴백으로 다시 "진행중" 거짓말이 된다
     all.slice(0,60).forEach(j=>{   // 캡 20→60(전체 보관 취지 정합 · 운영자 260712 "항상 기존 작업분" — 인덱스 자체는 만료 없음)
       if(!/^[A-Za-z0-9_-]+$/.test(j.id||'')) return;   // 경로 화이트리스트(복원 정규식과 동일 정신)
       const b=document.createElement('button'); b.type='button'; b.className='lyjob';
-      const ts=String(j.ts||'');
-      b.innerHTML='<span class="jts"></span><span class="jt"></span><span class="jts jdur"></span><span class="jst"></span>';
-      b.querySelector('.jts').textContent=ts.length>=16? ts.slice(5,10)+' '+ts.slice(11,16):'';   // KST 도장 ISO를 문자열 절단 = 'MM-DD HH:MM'(TZ 재해석 함정 0 · §📐 KST)
-      b.querySelector('.jt').textContent=j.t||'편집 영상';
-      b.querySelector('.jdur').textContent=j.d? mmss(j.d):'';   // 길이 = 시각과 동급 보조정보(.jts 스타일 재사용 = 신규 CSS 0)
-      const stEl=b.querySelector('.jst'); stEl.textContent=ST[j.st]||'진행중'; if(ST[j.st]) stEl.classList.add(j.st);
+      const ts=String(j.ts||''), tsx=ts.length>=16? ts.slice(5,10)+' '+ts.slice(11,16):'';   // KST 도장 ISO를 문자열 절단 = 'MM-DD HH:MM'(TZ 재해석 함정 0 · §📐 KST)
+      const tags=Array.isArray(j.tg)? j.tg.map(x=>'#'+String(x).replace(/\s+/g,'')).join(' '):'';   // 효과 = 해시태그(운영자 260810 "#으로만") · 공백 제거 = '음량 통일' → '#음량통일'
+      const ttl=j.t||'편집 영상';
+      b.title=ttl; b.setAttribute('aria-label',[tsx,ttl,tags,ST[j.st]||'진행중'].filter(Boolean).join(' · '));   // 제목 미표시(운영자 "제목은 거의 안나와도됨") — 툴팁·스크린리더로는 보존
+      b.innerHTML='<div class="hist-thumb ljth">'
+        +(j.pv? '<video class="ljv" muted playsinline preload="none" tabindex="-1" aria-hidden="true"></video>':'<div class="ljph" aria-hidden="true">미리보기 없음</div>')
+        +'<span class="hist-cap ljts"></span><span class="hist-cap ljtr"></span><span class="hist-cap ljbl"></span><span class="hist-cap ljbr"></span></div>';
+      b.querySelector('.ljts').textContent=tsx;                                                   // 좌상 = 실행 시각
+      const stEl=b.querySelector('.ljtr'); stEl.textContent=ST[j.st]||'진행중'; if(ST[j.st]) stEl.classList.add(j.st);   // 우상 = 결과 여부
+      const tgEl=b.querySelector('.ljbl'); if(tags) tgEl.textContent=tags; else tgEl.hidden=true;  // 좌하 = #효과(없으면 캡슐째 소거 = 빈 캡슐 금지 §디자인)
+      const dEl=b.querySelector('.ljbr'); if(j.d) dEl.textContent=mmss(j.d); else dEl.hidden=true; // 우하 = 영상 길이(유튜브 관례 자리)
+      if(j.pv){ const vEl=b.querySelector('.ljv'); vEl.dataset.pv=j.pv;                            // 첫 프레임 = 미디어 프래그먼트 #t=0.1(포스터 자산 신설 0 · 재생 안 함 = muted·autoplay 없음)
+        vEl.onerror=()=>{ const ph=document.createElement('div'); ph.className='ljph'; ph.setAttribute('aria-hidden','true'); ph.textContent='미리보기 없음'; vEl.replaceWith(ph); };   // 코덱 미지원·URL 만료·오프라인 = 검은 빈 박스 대신 플레이트로 강등(타일 크기 불변 = 그리드 구멍 0 · `.ch-th.txt` 캡션 강등 선례)
+        if(_jlIO) _jlIO.observe(vEl); else { vEl.preload='metadata'; vEl.src=j.pv+'#t=0.1'; } }
       b.onclick=async()=>{
         if(_polling) return;   // 생성 진행 중 = 진행 UI 보호(자막 탭 LY_GEN 게이트 계승)
         USER_ACT=true;
