@@ -109,7 +109,19 @@ export async function onRequestPost({ request, env }) {
       const xsf = num(x.sfe, 0, 40); if (xsf !== null) xt.sfe = Math.round(xsf);                  // 실루엣 페더
       if (x.fill === 'image' || x.fill === 'mosaic') xt.fill = x.fill;
       if (['smile', 'black', 'heart'].includes(x.preset)) xt.preset = x.preset;                   // 가면 프리셋(py 화이트리스트와 이중)
-      if (typeof x.names === 'string' && x.names.trim()) xt.names = x.names.trim().slice(0, 120);   // 핀셋 라벨(쉼표 구분 · 등장 순서대로 배정) — 러너가 pid에 매핑 · 길이 상한 = 발사 payload 1400자 예산 안
+      // 핀셋 라벨 = {pid: 이름} 맵(운영자 260809 묶음) — 같은 사람이 #1·#3·#4로 쪼개지므로 여러 pid에 같은 이름을 준다.
+      //   맵에 없는 pid = 라벨 미표기(「미지정」 = 운영자 의도) · 문자열도 받는다(구판 쉼표 = 하위호환)
+      if (x.names && typeof x.names === 'object' && !Array.isArray(x.names)) {
+        const nm = {}; let n = 0;
+        for (const [k, v] of Object.entries(x.names)) {
+          if (!/^[0-9]{1,2}$/.test(k) || typeof v !== 'string') continue;
+          const lab = v.trim().slice(0, 24);
+          if (!lab) continue;
+          nm[k] = lab;
+          if (++n >= 32) break;
+        }
+        if (n) xt.names = nm;
+      } else if (typeof x.names === 'string' && x.names.trim()) xt.names = x.names.trim().slice(0, 120);
       if (x.ckcolor === 'blue' || x.ckcolor === 'green') xt.ckcolor = x.ckcolor;
       const xcs = num(x.cksim, 1, 50); if (xcs !== null) xt.cksim = Math.round(xcs);              // 크로마 강도 %
       const xcc = num(x.ckchoke, -4, 4); if (xcc !== null) xt.ckchoke = Math.round(xcc);

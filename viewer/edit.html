@@ -222,6 +222,23 @@
   /* 얼굴 줄 = 2트랙 ①의 「#N이 누구냐」를 영상 재생 없이 읽게 한다(운영자 260809 "아이디어대로가 100% 맞음") —
      부품 = track.html 인물 카드 `.avatar`/`.hint` **정본 값 사본**(radius --r-m · img cover · 배지 10px/fw-b/rgba(0,0,0,.42)/1px rgba(255,255,255,.1)/2px 7px/--r-pill).
      새 값 0 · 카드 전체가 아니라 「썸네일 + 번호」 두 조각만 가져온다(선택·범위·캡션은 이 화면의 일이 아니다). */
+  /* 이름 묶음 폼(운영자 260809 "같은 인물인데 #n개로 나올수도 있거든 · 이를 묶어서 하나의 이름으로") —
+     같은 사람이 화면 밖으로 나갔다 들어오면 분석이 **다른 #번호**로 준다(#1·#3·#4가 한 사람) → 번호를 담아 한 이름으로 묶는다.
+     ⚠ PC = 끌어놓기 / 폰 = 폼 고르고 # 탭 **둘 다** 지원(HTML5 DnD는 터치에서 동작하지 않아, 드래그만 두면 폰에서 이 기능이 통째로 죽는다).
+     부품 = 카드 면·선(.scard) · 입력칸(.nmin) · 칩(.xface) 값 계승 — 새 값 0. */
+  .xgrp { margin-top:var(--sp-1); }
+  .xgrow { display:flex; gap:var(--sp-1); align-items:flex-start; margin-top:var(--sp-1); }
+  .xgrow .nmin { flex:1 1 40%; min-width:0; }
+  .xdrop { flex:1 1 60%; min-height:47px; display:flex; flex-wrap:wrap; align-content:center; gap:6px;
+    padding:6px; border:1px dashed var(--line); border-radius:var(--r-s); background:rgba(255,255,255,.02);
+    transition:border-color var(--dur), background var(--dur); cursor:pointer; }
+  .xdrop.act { border-color:rgba(var(--accent-rgb),.55); background:var(--accent-dim); border-style:solid; }
+  .xdrop .ph { color:var(--mut); font-size:var(--fs-xs); align-self:center; }
+  .xtag { display:inline-flex; align-items:center; gap:4px; font-size:10px; font-weight:var(--fw-b); color:var(--accent);
+    background:var(--accent-dim); border:1px solid rgba(var(--accent-rgb),.4); padding:2px 7px; border-radius:var(--r-pill); cursor:pointer; }
+  .xface.used { opacity:.35; }
+  .xface[draggable=true] { cursor:grab; }
+  .xgadd { margin-top:var(--sp-1); }
   .xfaces { display:flex; gap:var(--sp-1); flex-wrap:wrap; margin-top:var(--sp-1); }
   .xface { position:relative; width:56px; aspect-ratio:1/1.05; border-radius:var(--r-m); overflow:hidden; flex:none;
     background:radial-gradient(120% 120% at 50% 22%, rgba(255,255,255,.1), rgba(255,255,255,.02)); }
@@ -1414,6 +1431,8 @@ function recipe(r){
 })();
 
 /* ══ 기타 옵션(운영자 260712 2차 "번호 매겨 제일 아래" — 1차 소스 아래 선택 뒤집음) — 4번 섹션·스택 최하단 상시 카드 3장{모자이크·트래킹(핀셋)·키잉} = .sech/.scard/.pc 계승 · 트래킹 서브뷰 핸드오프(nm_track_preset 일회용 · 파이프 재사용 = 중복 배선 0 · 3탭 축소 후 트래킹 진입은 여기가 유일) ══ */
+let XTR_GRP=[{name:'',pids:[]},{name:'',pids:[]}];   // 이름 묶음 폼(기본 2 · [+]로 추가 · 어느 폼에도 안 담긴 #은 미지정 = 영상 표기 없음)
+let XTR_ACT=0;   // 활성 폼(폰 = 여기에 # 탭이 담긴다)
 let XTR_FACES=[];   // 직전 생성의 인물 얼굴(video.json faces) — 2트랙 ②에서 #N ↔ 얼굴 대조용
 try{ XTR_FACES=JSON.parse(localStorage.getItem('nm_xtr_faces')||'[]')||[]; }catch(e){ XTR_FACES=[]; }   // 탭 재진입 복원(생성 → 닫기 → 다시 열어 이름 넣기 = 실제 사용 흐름)
 const XTR={mosaic:false,pinset:false,keying:false, silh:false, chroma:false, trans:false, names:'', shape:'ellipse', size:115, feather:5, kfe:0, fill:'mosaic', preset:'smile', sfe:8, ckcolor:'green', cksim:18, ckchoke:0, ckfe:1};   // trans = 번역(운영자 260720 "빈자리에 번역") — 가림 계열과 배타(클릭 핸들러) · 트래킹 발사 축(any)엔 미포함   // 기본 = 트래킹 새 기본값과 동일(타원·115·5·키잉0 · 실루엣 페더8 · 크로마 그린/18/0/1 — 실루엣·크로마키 카드 = 운영자 260712 "한수 ㄱㄱ" 승인)
@@ -1434,10 +1453,19 @@ function renderXtr(){   // 가로 3분할 + 라벨|OFF·ON 순환값 문법(운�
     +'<div class="grow"><span class="k">강도</span><input type="range" min="1" max="50" step="1" value="'+XTR.cksim+'" data-xg="cksim" aria-label="크로마키 강도"><span class="v">'+XTR.cksim+'</span></div>'
     +'<div class="grow"><span class="k">테두리</span><input type="range" min="-4" max="4" step="1" value="'+XTR.ckchoke+'" data-xg="ckchoke" aria-label="테두리 다듬기"><span class="v">'+XTR.ckchoke+'</span></div>'
     +'<div class="grow"><span class="k">부드럽게</span><input type="range" min="0" max="10" step="1" value="'+XTR.ckfe+'" data-xg="ckfe" aria-label="매트 블러"><span class="v">'+XTR.ckfe+'</span></div>'; }
-  if(XTR.pinset&&XTR_FACES.length) det+='<div class="plbl"'+(det?'':' style="margin-top:0"')+'>등장인물</div>'
-    +'<div class="xfaces">'+XTR_FACES.map(f=>'<span class="xface">'+(f.url?'<img loading="lazy" alt="인물 '+(f.pid|0)+'" src="'+esc(f.url)+'">':'')+'<span class="hint">#'+(f.pid|0)+'</span></span>').join('')+'</div>';   // 직전 생성이 찾은 얼굴 = 이름칸 **바로 위**(보면서 타이핑 = 결과 레일까지 스크롤 왕복 0)
-  if(XTR.pinset) det+='<div class="plbl"'+(det?'':' style="margin-top:0"')+'>이름</div>'   // 핀셋 라벨(운영자 260809 2트랙 ②) — 비우면 #1·#2 번호표 그대로(1차 생성으로 누가 몇 번인지 확인 → 여기 채우고 다시 생성)
-    +'<input class="nmin" id="xtrNames" type="text" value="'+esc(XTR.names)+'" placeholder="쉼표로 구분 — 등장 순서대로" aria-label="핀셋 이름(쉼표 구분)" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">';
+  if(XTR.pinset){
+    const used=new Set(); XTR_GRP.forEach(g=>g.pids.forEach(p=>used.add(p|0)));
+    if(XTR_FACES.length) det+='<div class="plbl"'+(det?'':' style="margin-top:0"')+'>등장인물</div>'   // 직전 생성이 찾은 얼굴 = 묶음 폼 **위**(보면서 담는다)
+      +'<div class="xfaces">'+XTR_FACES.map(f=>'<span class="xface'+(used.has(f.pid|0)?' used':'')+'" draggable="true" data-pid="'+(f.pid|0)+'" title="끌어놓거나 탭해서 담기">'+(f.url?'<img loading="lazy" alt="인물 '+(f.pid|0)+'" src="'+esc(f.url)+'">':'')+'<span class="hint">#'+(f.pid|0)+'</span></span>').join('')+'</div>';
+    det+='<div class="plbl"'+(det?'':' style="margin-top:0"')+'>이름</div><div class="xgrp">'
+      +XTR_GRP.map((g,i)=>'<div class="xgrow">'
+        +'<input class="nmin" type="text" data-gn="'+i+'" value="'+esc(g.name)+'" placeholder="이름" aria-label="이름 '+(i+1)+'" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">'
+        +'<div class="xdrop'+(XTR_ACT===i?' act':'')+'" data-gd="'+i+'" role="group" aria-label="이름 '+(i+1)+'에 담긴 번호">'
+        +(g.pids.length?g.pids.map(p=>'<span class="xtag" data-gt="'+i+'" data-pid="'+(p|0)+'" title="탭하면 뺀다">#'+(p|0)+'</span>').join('')
+                       :'<span class="ph">'+(XTR_ACT===i?'#을 탭하거나 끌어놔':'여기에 # 담기')+'</span>')
+        +'</div></div>').join('')
+      +'</div><button type="button" class="pc xgadd" id="xgAdd">+ 이름 추가</button>';
+  }
   if(XTR.trans) det+='<div class="plbl"'+(det?'':' style="margin-top:0"')+'>번역</div><div class="xnote" style="margin-top:0">외국어 이미지에 한국어 번역을 덮어 씌워 — 켜면 가림(모자이크) 계열은 자동으로 꺼져.</div>';   // 번역 카드 상세(운영자 260720) · 렌더 엔진 = 별도 배선
   el.innerHTML=
     '<div class="sech"><span class="nm">추가 옵션</span></div>'   // 개명(운영자 260728 Q11 '· 추가 옵션')
@@ -1454,14 +1482,37 @@ function renderXtr(){   // 가로 3분할 + 라벨|OFF·ON 순환값 문법(운�
        핸들러·핸드오프(nm_track_preset)·track.html 파이프는 전부 보존 = 복원 = 아래 hidden 한 낱말 제거(레포 도먼트 관례).
        ⚠ 재점등 조건 = 편집 첨부분(R2 키·파일)을 track.html이 이어받아 「재첨부 0」이 될 때 — 그때야 이 버튼이 선택 경로로서 값을 한다. */
     +'<button class="xgo" id="xtrGo" type="button" hidden'+(any?'':' disabled')+'>트래킹</button>';   // 라벨 = 한 단어(운영자 260712 "'트래킹에서 이어서~' 말 필요없음") · 미선택 = disabled 흐림(어포던스가 설명) · 260808부터 = **선택 경로**(자동이 기본 · 인물 개별 선택·수동 지정이 필요할 때만)
-  const nmi=el.querySelector('#xtrNames');   // 클립 공식 전수 부착(운영자 260803 "붙어있어야돼 · 공식처럼가야함") — renderXtr가 innerHTML을 매번 다시 그리므로 그릴 때마다 붙인다 · 강제 = check_clip_coverage
-  if(nmi&&window.attachCopyPaste) attachCopyPaste(nmi,true);
+  el.querySelectorAll('.nmin').forEach(i=>{ if(window.attachCopyPaste) attachCopyPaste(i,true); });   // 클립 공식 전수 부착 — renderXtr가 innerHTML을 매번 다시 그리므로 그릴 때마다 · 강제 = check_clip_coverage
+  xgWireDrag(el);
+  const nmi=null;   // 클립 공식 전수 부착(운영자 260803 "붙어있어야돼 · 공식처럼가야함") — renderXtr가 innerHTML을 매번 다시 그리므로 그릴 때마다 붙인다 · 강제 = check_clip_coverage
+
+}
+function xgPut(pid,gi){   // # 하나를 폼에 담는다 — 한 번호는 **한 폼에만**(다른 폼에 있으면 옮겨온다) · 같은 폼이면 빼기(토글)
+  pid=pid|0; if(!XTR_GRP[gi]) return;
+  const had=XTR_GRP[gi].pids.some(p=>(p|0)===pid);
+  XTR_GRP.forEach(g=>{ g.pids=g.pids.filter(p=>(p|0)!==pid); });
+  if(!had) XTR_GRP[gi].pids.push(pid);
+  renderXtr();
+}
+function xgWireDrag(el){   // PC 끌어놓기 — 폰은 위 탭 경로가 담당(HTML5 DnD는 터치 미지원 = 드래그만 두면 폰에서 기능이 죽는다)
+  el.querySelectorAll('.xface[draggable=true]').forEach(f=>{
+    f.addEventListener('dragstart',ev=>{ try{ ev.dataTransfer.setData('text/plain',f.dataset.pid); ev.dataTransfer.effectAllowed='move'; }catch(e){} });
+  });
+  el.querySelectorAll('[data-gd]').forEach(d=>{
+    d.addEventListener('dragover',ev=>{ ev.preventDefault(); try{ ev.dataTransfer.dropEffect='move'; }catch(e){} d.classList.add('act'); });
+    d.addEventListener('dragleave',()=>{ if(XTR_ACT!==+d.dataset.gd) d.classList.remove('act'); });
+    d.addEventListener('drop',ev=>{ ev.preventDefault(); let pid=0; try{ pid=+ev.dataTransfer.getData('text/plain'); }catch(e){}
+      if(pid){ XTR_ACT=+d.dataset.gd; xgPut(pid,XTR_ACT); } });
+  });
 }
 function xtrOpts(){   // 발사 페이로드 축(운영자 260808) — 켠 축만 담고 값은 **폼 단위 그대로**(러너 edit_track이 배율·비율로 환산 = 단위 변환 1곳)
   if(!(XTR.mosaic||XTR.pinset||XTR.keying||XTR.silh||XTR.chroma)) return null;
   const x={mosaic:!!XTR.mosaic, pinset:!!XTR.pinset, keying:!!XTR.keying, silh:!!XTR.silh, chroma:!!XTR.chroma};
   if(XTR.mosaic||XTR.pinset){ x.shape=XTR.shape; x.size=XTR.size; x.feather=XTR.feather; }
-  if(XTR.pinset&&XTR.names.trim()) x.names=XTR.names.trim().slice(0,120);   // 핀셋 라벨 = 쉼표 구분 문자열(러너가 등장 순서대로 pid에 배정 · 비면 #N 번호표)
+  if(XTR.pinset){   // 핀셋 라벨 = {pid: 이름} 맵 — 같은 사람이 #1·#3·#4로 쪼개지므로 여러 번호에 같은 이름을 준다(묶음)
+    const nm={}; XTR_GRP.forEach(g=>{ const n=(g.name||'').trim().slice(0,24); if(!n) return; g.pids.forEach(p=>{ nm[String(p|0)]=n; }); });
+    if(Object.keys(nm).length) x.names=nm;   // 어느 폼에도 안 담긴 # = 맵에 없음 = **영상에 표기 안 함**(운영자 260809 「미지정」)
+  }
   if(XTR.keying) x.kfe=XTR.kfe;
   if(XTR.silh){ x.fill=XTR.fill; x.preset=XTR.preset; x.sfe=XTR.sfe; }
   if(XTR.chroma){ x.ckcolor=XTR.ckcolor; x.cksim=XTR.cksim; x.ckchoke=XTR.ckchoke; x.ckfe=XTR.ckfe; }
@@ -1476,6 +1527,13 @@ $('#xtrsec').addEventListener('click',e=>{
   const xf=e.target.closest('[data-xf]'); if(xf){ XTR.fill=xf.dataset.xf==='image'?'image':'mosaic'; renderXtr(); return; }
   const xp=e.target.closest('[data-xp]'); if(xp){ XTR.preset=['smile','black','heart'].includes(xp.dataset.xp)?xp.dataset.xp:'smile'; renderXtr(); return; }
   const xc=e.target.closest('[data-xc]'); if(xc){ XTR.ckcolor=xc.dataset.xc==='blue'?'blue':'green'; renderXtr(); return; }
+  const gd=e.target.closest('[data-gd]');   // 드롭존 탭 = 그 폼을 활성으로(폰 = 여기에 #을 담는다)
+  if(gd&&!e.target.closest('[data-gt]')){ XTR_ACT=+gd.dataset.gd; renderXtr(); return; }
+  const gt=e.target.closest('[data-gt]');   // 담긴 번호 탭 = 빼기
+  if(gt){ const i=+gt.dataset.gt, pid=+gt.dataset.pid; if(XTR_GRP[i]) XTR_GRP[i].pids=XTR_GRP[i].pids.filter(p=>(p|0)!==pid); renderXtr(); return; }
+  const fc=e.target.closest('.xface');   // 얼굴 탭 = 활성 폼에 담기(이미 담겼으면 그 자리에서 빼기 = 같은 동작의 역)
+  if(fc){ xgPut(+fc.dataset.pid, XTR_ACT); return; }
+  if(e.target.closest('#xgAdd')){ if(XTR_GRP.length<12){ XTR_GRP.push({name:'',pids:[]}); XTR_ACT=XTR_GRP.length-1; renderXtr(); } return; }   // 상한 12 = 한 화면에 담기는 실질 한도(api 32키 예산 안)
   if(e.target.closest('#xtrGo')){
     const mode=XTR.chroma?'chroma':XTR.silh?'maskfx':XTR.keying?'keying':XTR.pinset?'pinset':'mosaic';   // 다중 ON = 신규 모드 우선(서브뷰서 모드 재전환 자유)
     try{ localStorage.setItem('nm_track_preset', JSON.stringify({t0:Date.now(), mode, opts:{shape:XTR.shape,pxw:9,pxh:9,size:XTR.size,feather:XTR.feather}, kfe:XTR.kfe, fill:XTR.fill, preset:XTR.preset, sfe:XTR.sfe, ck:{color:XTR.ckcolor, similarity:XTR.cksim, choke:XTR.ckchoke, feather:XTR.ckfe}})); }catch(err){}
@@ -1483,7 +1541,7 @@ $('#xtrsec').addEventListener('click',e=>{
     return; }
 });
 $('#xtrsec').addEventListener('input',e=>{
-  if(e.target && e.target.id==='xtrNames'){ XTR.names=e.target.value.slice(0,120); return; }   // 텍스트칸 = 값만 갱신(renderXtr 재호출 = 입력 중 포커스·캐럿 소실 · 슬라이더와 동일 관례)
+  if(e.target && e.target.dataset && e.target.dataset.gn!==undefined){ const i=+e.target.dataset.gn; if(XTR_GRP[i]) XTR_GRP[i].name=e.target.value.slice(0,24); return; }   // 이름칸 = 값만 갱신(renderXtr 재호출 = 입력 중 포커스·캐럿 소실 · 슬라이더와 동일 관례)
   const g=e.target.closest('[data-xg]'); if(!g) return; XTR[g.dataset.xg]=+g.value; const v=g.parentElement.querySelector('.v'); if(v) v.textContent=g.value+(g.dataset.xg==='size'?'%':''); });
 renderXtr();
 

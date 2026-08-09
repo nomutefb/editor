@@ -222,8 +222,28 @@ def main():
             #   ⚠ 이 배정이 없으면 sel이 공집합이라 "선택된 인물이 없어"로 그 단계가 통째로 스킵된다(실측 260808 체인 첫 실행).
             #   운영자가 넣은 이름(쉼표 구분)을 **등장 순서대로** 배정한다(운영자 260809 2트랙 ② — pids는 분석이 첫 등장 순으로 준다).
             #   모자란 자리는 track_render 폴백 표기 그대로 f"#{pid}"(문구 창작 0) = 1차 생성에서 누가 몇 번인지 확인하고 다시 넣으면 된다.
-            want = [n.strip()[:24] for n in str(x.get("names") or "").split(",") if n.strip()]
-            payload["names"] = {str(p): (want[i] if i < len(want) else "#%d" % p) for i, p in enumerate(pids)}
+            # 이름 = **{pid: 이름} 맵**(운영자 260809 "같은 인물인데 #n개로 나올수도 있거든 · 이를 묶어서 하나의 이름으로").
+            #   같은 사람이 화면 밖으로 나갔다 들어오면 분석은 그걸 **다른 pid로** 준다(#1·#3·#4가 사실 한 사람).
+            #   여러 pid에 같은 이름을 주면 track_render가 그대로 묶어 그린다 = 묶음은 이 맵 하나로 표현된다.
+            #   ⚠ 맵에 **없는 pid는 라벨을 안 그린다**(track_render sel = names 키 기반) = 「미지정 = 표기 안 함」이 곧 계약.
+            #     구판은 남는 자리를 "#N"으로 채워서 **원치 않는 번호표가 강제로 붙었다** — 그 폴백을 없앤다.
+            nm = x.get("names")
+            got = {}
+            if isinstance(nm, dict):
+                for k, v in nm.items():
+                    try:
+                        pid_i = int(k)
+                    except (TypeError, ValueError):
+                        continue
+                    lab = str(v).strip()[:24]
+                    if lab and pid_i in pids:
+                        got[str(pid_i)] = lab
+            elif isinstance(nm, str) and nm.strip():   # 구판 쉼표 문자열 = 등장 순 배정(하위호환 · 직접 dispatch 경로)
+                want = [n.strip()[:24] for n in nm.split(",") if n.strip()]
+                got = {str(p): want[i] for i, p in enumerate(pids) if i < len(want)}
+            if not got:   # 이름이 하나도 없으면 종전대로 전원 번호표(1차 생성 = 누가 몇 번인지 보는 단계)
+                got = {str(p): "#%d" % p for p in pids}
+            payload["names"] = got
         got, _p = render(tid, payload, mode)
         if not got:
             log(mode + " 렌더 실패 — 직전 산출로 계속")
