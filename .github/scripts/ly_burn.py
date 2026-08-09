@@ -1078,7 +1078,12 @@ def run(vid_id, video, outdir):
     V_AR = {"9:16": 9 / 16, "1:1": 1.0, "4:5": 4 / 5, "16:9": 16 / 9}
     vid_ar = opts.get("vid_ar") if opts.get("vid_ar") in V_AR else None
     vid_fit = opts.get("vid_fit") if opts.get("vid_fit") in ("crop", "pad", "blur") else "crop"   # blur = 원본 블러 확대 배경 여백(260711)
-    vid_res = {"1080": 1080, "720": 720, "src": 3840}.get(str(opts.get("vid_res") or ""))   # src = 원본 유지(4K 캡 3840 · 운영자 260711 — 결측 기본은 종전 1920)
+    vid_res = {"1080": 1080, "720": 720, "src": 3840, "up": 1920}.get(str(opts.get("vid_res") or ""))   # src = 원본 유지(4K 캡 3840 · 운영자 260711 — 결측 기본은 종전 1920) · up = 선명하게(긴 변 1920 목표 · 260809)
+    # 선명하게(운영자 260809 "선명하게를 넣을 수 있게") — 다른 값은 전부 **상한**이라 소스가 그보다 작으면 아무것도 안 한다(실측:
+    #   640×360에 1080을 골라도 640×360 그대로 나간다). up 만 그 상한을 **목표**로 읽어 작을 때 키운다(클수록은 종전대로 축소).
+    #   AI 아님 = 없던 디테일은 안 생긴다(Lanczos 보간 + 언샤프 = 계단·뭉개짐 정리). 실측 비용 = 60초 영상 +61초.
+    #   ⚠ Real-ESRGAN(=Upscayl 계열)은 이 자리에 못 온다 — 260809 실측 640×360 1프레임 40.49s = 60초 영상 20.2시간(잡 캡 105분).
+    vid_up = str(opts.get("vid_res") or "") == "up"
     vid_fps = opts.get("vid_fps") if opts.get("vid_fps") in ("60i", "30", "24") else None
     no_burn = opts.get("burn") is False   # 컷 단독(STT-only) 발사 신호(편집기 260711) — 전사 segs는 컷 계산에만 쓰고 번인 억제(키 부재 = 종전대로 번인 = ly·reburn 회귀 0)
     aud_on = bool(opts.get("aud_norm"))
@@ -1358,20 +1363,34 @@ def run(vid_id, video, outdir):
                 pw, ph = cw, int(round(cw / pad_t))
             else:
                 pw, ph = int(round(ch * pad_t)), ch
-            if max(pw, ph) > cap:
+            # 캔버스를 cap에 맞춘다 — 구판은 **초과분 축소**만 했다(`>`). up은 미달분도 키워야 한다:
+            #   실측 260809 = 640×360 + 9:16 패드 + up → 캔버스가 원본 폭 기준 640×1138에 머물러 k가 1.0으로 눌리고
+            #   **확대가 통째로 무동작**(패드만 붙었다). 여백 경로만 조용히 안 커지는 구멍이라 눈으로는 안 잡힌다.
+            if max(pw, ph) > cap or (vid_up and max(pw, ph) < cap):
                 if pw >= ph:
                     pw, ph = cap, max(2, int(round(cap / pad_t)) & ~1)
                 else:
                     pw, ph = max(2, int(round(cap * pad_t)) & ~1), cap
             pw, ph = max(2, pw & ~1), max(2, ph & ~1)
-            k = min(pw / cw, ph / ch, 1.0)
+            k = min(pw / cw, ph / ch) if vid_up else min(pw / cw, ph / ch, 1.0)   # up = 1.0 클램프 해제(캔버스를 꽉 채우게 키운다) · 그 외 = 종전 contain 축소 전용
             tw, th = max(2, int(cw * k) & ~1), max(2, int(ch * k) & ~1)
         elif max(cw, ch) > cap:
+            k = cap / max(cw, ch)
+            tw, th = max(2, int(cw * k) & ~1), max(2, int(ch * k) & ~1)
+        elif vid_up and max(cw, ch) < cap:   # 선명하게 = 긴 변을 cap(1920)까지 키운다 — 이미 1920 이상이면 위 가지가 받아 종전 동작(회귀 0)
             k = cap / max(cw, ch)
             tw, th = max(2, int(cw * k) & ~1), max(2, int(ch * k) & ~1)
         tw, th = tw & ~1, th & ~1
         if max(cw, ch) > cap and (not vid_res or vid_res == 3840):   # 침묵 다운스케일 표면화(운영자 260711 + src 초과 소스 평의회4) — 명시 1080/720 선택은 본인 선택이라 제외
             edit_notes.append("원본 {}×{} → 긴 변 {} 축소{}".format(w, h, cap, "" if vid_res else "(4K 유지 = 해상도 카드 '원본(4K)')"))
+        # 「기존 → 변경」 표기(운영자 260809 "해상도가 커질경우는 기존 > 변경 이걸 알려줄 수 있어야 함") — 축소 note 문법 사본.
+        #   ⚠ 안 커졌으면 안 쓴다(이미 1920 이상 소스 = 그대로 통과 = 알릴 변화가 없다 = 정직).
+        #   ⚠ up은 「1920으로 맞춘다」 = 작으면 키우고 **크면 줄인다**(위 축소 가지가 먼저 받는다). 줄어든 경우도 반드시 말한다 —
+        #     구판 축소 note는 `not vid_res or vid_res == 3840` 조건이라 up(1920)이 제외돼 **4K에 up을 걸면 절반으로 줄면서
+        #     아무 말도 안 하는** 상태였다(260809 실측). 그게 정확히 운영자가 막으라고 한 「모르고 지나가는 변화」다.
+        if vid_up and (pw or tw, ph or th) != (w, h):
+            _big = max(pw or tw, ph or th) > max(w, h)
+            edit_notes.append("선명하게 — {}×{} → {}×{} {}".format(w, h, pw or tw, ph or th, "확대" if _big else "축소"))
     else:         # 종전 ly 다운스케일 캡(비용 보호·업스케일 없음) 그대로 = 회귀 0
         tw, th = cw, ch
         if tw > 1080:
@@ -1425,7 +1444,11 @@ def run(vid_id, video, outdir):
                     "[bgb][fg0]overlay={px}:{py},setsar=1").format(pw=pw, ph=ph, rad=rad, px=px_, py=py_)
         else:
             padf = "pad={}:{}:{}:{}:black,setsar=1".format(pw, ph, px_, py_)   # setsar=1 = contain 짝수화 미세 SAR 제거(conv 동형)
-    scalef = "scale={}:{}:flags=lanczos".format(tw, th) if (tw, th) != (cw, ch) else ""   # lanczos = 다운스케일 표준(기본 bicubic 대비 선명 · 이 파이프는 업스케일 없음=링잉 저위험) · 비용 실측 ≈0(260722 4K→1080 2s: 1.3s 동일) · 블러 여백 bg 가지는 블러가 덮어 비대상(비용 절약)
+    # 확대일 때만 언샤프 동반 — 보간만 하면 뭉갠 채로 커지기만 한다(계단은 사라지고 흐려진다).
+    #   값 = apps/fx/fx_upscale.py Lanczos 폴백(GaussianBlur σ1.2 · addWeighted amount 0.4)의 ffmpeg 짝 = 창작 0.
+    #   ⚠ 축소 경로엔 절대 안 붙인다(종전 렌더 바이트 불변 = 회귀 0).
+    _upf = "," + "unsharp=5:5:0.4:5:5:0.0" if (has_vid and max(tw, th) > max(cw, ch)) else ""
+    scalef = "scale={}:{}:flags=lanczos{}".format(tw, th, _upf) if (tw, th) != (cw, ch) else ""   # lanczos = 다운스케일 표준(기본 bicubic 대비 선명 · 이 파이프는 업스케일 없음=링잉 저위험) · 비용 실측 ≈0(260722 4K→1080 2s: 1.3s 동일) · 블러 여백 bg 가지는 블러가 덮어 비대상(비용 절약)
     sarf = "setsar=1" if (has_vid and scalef and not padf) else ""   # 스케일 짝수화 잔여 SAR 제거 — 패드 경로(padf 내장)와 대칭(P2평의회9 실측)
     mid = ",".join(x for x in [cropf, scalef, fpsf, padf, sarf] if x)
     ass = build_ass(segs, canvas_w, canvas_h, opts) if (segs and not no_burn) else ""   # no_burn = 컷 계산용 전사만 · 번인 0

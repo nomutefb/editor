@@ -44,7 +44,7 @@ export async function onRequestPost({ request, env }) {
   for (const k of ['burn', 'filler', 'karaoke', 'pop', 'keyword', 'cut', 'bgm', 'aud_norm', 'clip', 'cutfill', 'take', 'cutscan']) { if (typeof o[k] === 'boolean') opts[k] = o[k]; }   // clip = 클리퍼 스캔(하이라이트 후보픽 · 260711) · cutfill=필러 컷 · take=반복 테이크 감지 · cutscan=컷 미리보기 스캔(260727)
   if (typeof o.clip_model === 'string' && ['fable', 'opus'].includes(o.clip_model)) opts.clip_model = o.clip_model;   // 클리퍼 감독 모델(fable/opus · 운영자 260722 · 배타 정규화에서 보존 → 워크플로가 CLIP_MODEL로 매핑)
   const STR = { lang: ['auto', 'ko', 'dual', 'src'], tone: ['sns', 'plain'], style: ['bold', 'clean', 'box'], cutlv: ['soft', 'std', 'hard'],
-    vid_ar: ['9:16', '1:1', '4:5', '16:9'], vid_fit: ['crop', 'pad', 'blur'], vid_res: ['src', '1080', '720'], vid_fps: ['60i', '30', '24'] };   // vid_res 'src' = 원본 유지(4K 캡 3840 · 260711) · vid_fit 'blur' = 원본 블러 확대 배경 여백(260711)
+    vid_ar: ['9:16', '1:1', '4:5', '16:9'], vid_fit: ['crop', 'pad', 'blur'], vid_res: ['src', '1080', '720', 'up'], vid_fps: ['60i', '30', '24'] };   // vid_res 'src' = 원본 유지(4K 캡 3840 · 260711) · 'up' = 선명하게(긴 변 1920 목표 확대 · 260809 — 다른 값은 전부 상한이라 소스가 작으면 무동작이었다) · vid_fit 'blur' = 원본 블러 확대 배경 여백(260711)
   for (const k in STR) { if (typeof o[k] === 'string' && STR[k].includes(o[k])) opts[k] = o[k]; }
   const pos = num(o.pos, 0, 100); if (pos !== null) opts.pos = Math.round(pos);          // 자막 세로 위치 %
   const bg = num(o.bg, 0, 100); if (bg !== null) opts.bg = Math.round(bg);               // 자막 배경 %
