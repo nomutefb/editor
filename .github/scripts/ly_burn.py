@@ -1078,12 +1078,14 @@ def run(vid_id, video, outdir):
     V_AR = {"9:16": 9 / 16, "1:1": 1.0, "4:5": 4 / 5, "16:9": 16 / 9}
     vid_ar = opts.get("vid_ar") if opts.get("vid_ar") in V_AR else None
     vid_fit = opts.get("vid_fit") if opts.get("vid_fit") in ("crop", "pad", "blur") else "crop"   # blur = 원본 블러 확대 배경 여백(260711)
-    vid_res = {"1080": 1080, "720": 720, "src": 3840, "up": 1920}.get(str(opts.get("vid_res") or ""))   # src = 원본 유지(4K 캡 3840 · 운영자 260711 — 결측 기본은 종전 1920) · up = 선명하게(긴 변 1920 목표 · 260809)
-    # 선명하게(운영자 260809 "선명하게를 넣을 수 있게") — 다른 값은 전부 **상한**이라 소스가 그보다 작으면 아무것도 안 한다(실측:
-    #   640×360에 1080을 골라도 640×360 그대로 나간다). up 만 그 상한을 **목표**로 읽어 작을 때 키운다(클수록은 종전대로 축소).
-    #   AI 아님 = 없던 디테일은 안 생긴다(Lanczos 보간 + 언샤프 = 계단·뭉개짐 정리). 실측 비용 = 60초 영상 +61초.
+    vid_res = {"1080": 1080, "720": 720, "src": 3840}.get(str(opts.get("vid_res") or ""))   # src = 원본 유지(4K 캡 3840 · 운영자 260711 — 결측 기본은 종전 1920)
+    # 「1080p」 = 상한이 아니라 **목표**(운영자 260809 "해상도를 키운다는거는 사실상 선명하게에 가까운거" · "선명하게를 별도로 넣을 필요가 있나").
+    #   구판은 전 값이 상한이라 640×360에 1080p를 골라도 **640×360 그대로 나갔다**(260809 실측 · 원본·4K·720p도 전건 동일) =
+    #   고른 이름과 결과가 어긋나는 자리였다. 1080p만 목표로 승격한다 — 720p = 줄이려는 의도라 상한 유지 · 4K = 키워도
+    #   화질 이득 없이 인코딩만 폭증하므로 상한 유지 · 원본 = 「건드리지 마」라 상한 유지.
+    #   ⚠ 확대는 AI 아님 = 없던 디테일은 안 생긴다(Lanczos 보간 + 언샤프 = 계단·뭉개짐 정리). 실측 비용 = 60초 영상 +61초.
     #   ⚠ Real-ESRGAN(=Upscayl 계열)은 이 자리에 못 온다 — 260809 실측 640×360 1프레임 40.49s = 60초 영상 20.2시간(잡 캡 105분).
-    vid_up = str(opts.get("vid_res") or "") == "up"
+    vid_up = str(opts.get("vid_res") or "") == "1080"
     vid_fps = opts.get("vid_fps") if opts.get("vid_fps") in ("60i", "30", "24") else None
     no_burn = opts.get("burn") is False   # 컷 단독(STT-only) 발사 신호(편집기 260711) — 전사 segs는 컷 계산에만 쓰고 번인 억제(키 부재 = 종전대로 번인 = ly·reburn 회귀 0)
     aud_on = bool(opts.get("aud_norm"))
@@ -1372,12 +1374,12 @@ def run(vid_id, video, outdir):
                 else:
                     pw, ph = max(2, int(round(cap * pad_t)) & ~1), cap
             pw, ph = max(2, pw & ~1), max(2, ph & ~1)
-            k = min(pw / cw, ph / ch) if vid_up else min(pw / cw, ph / ch, 1.0)   # up = 1.0 클램프 해제(캔버스를 꽉 채우게 키운다) · 그 외 = 종전 contain 축소 전용
+            k = min(pw / cw, ph / ch) if vid_up else min(pw / cw, ph / ch, 1.0)   # 1080p = 1.0 클램프 해제(캔버스를 꽉 채우게 키운다) · 그 외 = 종전 contain 축소 전용
             tw, th = max(2, int(cw * k) & ~1), max(2, int(ch * k) & ~1)
         elif max(cw, ch) > cap:
             k = cap / max(cw, ch)
             tw, th = max(2, int(cw * k) & ~1), max(2, int(ch * k) & ~1)
-        elif vid_up and max(cw, ch) < cap:   # 선명하게 = 긴 변을 cap(1920)까지 키운다 — 이미 1920 이상이면 위 가지가 받아 종전 동작(회귀 0)
+        elif vid_up and max(cw, ch) < cap:   # 1080p = 목표 = 긴 변을 1080까지 키운다 — 이미 1080 이상이면 위 가지가 받아 종전 축소(회귀 0)
             k = cap / max(cw, ch)
             tw, th = max(2, int(cw * k) & ~1), max(2, int(ch * k) & ~1)
         tw, th = tw & ~1, th & ~1
@@ -1385,12 +1387,12 @@ def run(vid_id, video, outdir):
             edit_notes.append("원본 {}×{} → 긴 변 {} 축소{}".format(w, h, cap, "" if vid_res else "(4K 유지 = 해상도 카드 '원본(4K)')"))
         # 「기존 → 변경」 표기(운영자 260809 "해상도가 커질경우는 기존 > 변경 이걸 알려줄 수 있어야 함") — 축소 note 문법 사본.
         #   ⚠ 안 커졌으면 안 쓴다(이미 1920 이상 소스 = 그대로 통과 = 알릴 변화가 없다 = 정직).
-        #   ⚠ up은 「1920으로 맞춘다」 = 작으면 키우고 **크면 줄인다**(위 축소 가지가 먼저 받는다). 줄어든 경우도 반드시 말한다 —
-        #     구판 축소 note는 `not vid_res or vid_res == 3840` 조건이라 up(1920)이 제외돼 **4K에 up을 걸면 절반으로 줄면서
+        #   ⚠ 1080p는 「1080으로 맞춘다」 = 작으면 키우고 **크면 줄인다**(위 축소 가지가 먼저 받는다). 줄어든 경우도 반드시 말한다 —
+        #     구판 축소 note는 `not vid_res or vid_res == 3840` 조건이라 명시 1080/720이 제외돼 **4K에 1080p를 걸면 줄면서
         #     아무 말도 안 하는** 상태였다(260809 실측). 그게 정확히 운영자가 막으라고 한 「모르고 지나가는 변화」다.
         if vid_up and (pw or tw, ph or th) != (w, h):
             _big = max(pw or tw, ph or th) > max(w, h)
-            edit_notes.append("선명하게 — {}×{} → {}×{} {}".format(w, h, pw or tw, ph or th, "확대" if _big else "축소"))
+            edit_notes.append("해상도 — {}×{} → {}×{} {}".format(w, h, pw or tw, ph or th, "확대" if _big else "축소"))
     else:         # 종전 ly 다운스케일 캡(비용 보호·업스케일 없음) 그대로 = 회귀 0
         tw, th = cw, ch
         if tw > 1080:
