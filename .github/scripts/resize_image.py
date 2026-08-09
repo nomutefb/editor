@@ -57,7 +57,9 @@ TRIES = max(1, min(5, int(os.environ.get("RESIZE_TRIES", "3") or 3)))   # 생성
 #     산출은 무과금 씨앗과 똑같은 그림이 나간다(운영자 260808 "실패해도 과금이 나갈텐데").
 #     한 번 더 주는 비용은 실패 건에만 붙고, 그 1콜이 폴백(=돈만 쓰고 결과 0)을 줄인다.
 #   ⚠ 상한 5 = 폭주 차단(무한 재시도로 과금이 열리는 길 봉인) · RESIZE_TRIES=2 = 종전 동작 즉시 원복.
-_CALLS = {"gen": 0, "judge": 0}   # 회차 과금 실측(생성·판정 발사 수 · 성패 무관 = 실제 청구 단위)
+_CALLS = {"gen": 0, "judge": 0}
+_QA_WHY = ""      # 마지막 판정 사유 원문(원장 반출용)
+_TRIES_LOG = []   # 회차별 관측(원장 반출용)   # 회차 과금 실측(생성·판정 발사 수 · 성패 무관 = 실제 청구 단위)
 STREAK_MAX = 0.50   # 여백 clamp 줄무늬 잔류 상한 — 초과 = 「모델 무동작」(260807 실측: 무동작 0.983 vs 정상 재작성 0.000 · JPEG 왕복 후에도 성립)
 
 P_PADFILL = (
@@ -100,7 +102,7 @@ P_SEEDFILL = (
     # ① 캔버스 실측 서술 — 대명사 없이 %로 지목(구판 "extended above and below **it**" = 선행사 없는 순환문)
     "In Picture 2 the real photograph occupies only {keep}. {where} — those bands are not photographed "
     "content at all: each was produced by taking the single last row or column of the real photograph "
-    "and repeating it outward, so their colours and layout are already correct but the texture is "
+    "and repeating it outward, so their colours are already correct but the texture is "
     "smeared into one-pixel streaks. Your ONLY job is to rebuild real texture inside those bands so "
     "the whole frame reads as one single continuous photograph. "
     # ② 줄무늬 해석 고정 — 「줄무늬는 물체가 아니다」
@@ -118,7 +120,7 @@ P_SEEDFILL = (
     "correctly proportioned body that simply leaves the frame, with the background continuing around "
     "it. Continuing one body is correct; starting a second body is not. "
     # ⑤ 텍스처 재건 — ⚠ 구판의 "if it is fabric, more of that same fabric" 삭제(진범)
-    "Work only inside the bands: keep each streak's colour and position, but rebuild its detail by "
+    "Work only inside the bands: keep each streak's colour, but rebuild its detail by "
     "continuing the neighbouring texture at the same scale, density, grain and focus. Background "
     "continues as background — a night skyline becomes more of that same skyline, a wall more of that "
     "same wall, out-of-focus bokeh more of that same bokeh. Never leave a smooth flat area where the "
@@ -127,7 +129,7 @@ P_SEEDFILL = (
     # ⑥ 종전 유지 절(회귀 0) — 「that is not already present」 꼬리절은 제거(유령을 면책하던 구멍)
     "Do NOT reimagine or replace the scene. Apart from background texture and that single continuation, "
     "do NOT add anything at all — no extra object, person, body part, star, light effect, furniture, "
-    "wall, panel, text or watermark. Keep the composition and every colour region exactly where it is. "
+    "wall, panel, text or watermark. Keep the composition exactly where it is. "
     "Straighten lines and horizons so they run continuously across the joins, and even out brightness "
     "so no seam or band remains. Preserve the existing lighting direction, perspective, grain and depth "
     "of field — if the neighbouring pixels are out of focus, the repaired bands must be equally out of "
@@ -217,9 +219,20 @@ def gemini_judge(png_bytes, ref_bytes=None, model=None):
         up = txt.upper()
         if "VERDICT" not in up:
             return None
-        passed = "PASS" in up.split("REASON")[0]
-        reason = (txt.split(":", 2)[-1].strip().splitlines()[0] if "REASON" in up else txt.strip())[:200]
-        return passed, reason
+        # 판정 = VERDICT 줄의 **PASS/FAIL 토큰**만 읽는다. bare substring 금지 — 260809 평의회 실행 검증 3종:
+        #   ⓐ "VERDICT: FAIL - the image does not PASS." → 구판은 PASS로 읽었다 = **위음성(결함을 그대로 출고)**
+        #   ⓑ 서두에 콜론이 있으면 사유가 "FAIL" 한 단어로 퇴화 → 그 쓰레기가 재시도 프롬프트에 실려 $0.067을 태운다
+        #   ⓒ "**REASON:**" 마크다운이 사유 앞에 "** "로 샌다
+        #   ⓓ 역방향 함정 = "VERDICT: PASS (no failures detected)"의 FAILURES를 FAIL로 읽으면 신규 위양성 → \b 경계 필수
+        head = up.split("REASON")[0]
+        vline = next((l for l in head.splitlines() if "VERDICT" in l), head)
+        vb = re.findall(r"\b(PASS|FAIL)\b", vline)
+        if not vb:
+            return None                      # 형식 불량 = 종전 SKIP 계약 그대로(관측은 SKIP으로 남는다)
+        m = re.search(r"REASON", txt, re.I)
+        raw = txt[m.end():].split(":", 1)[-1] if m else txt
+        reason = (raw.strip().lstrip("*#`> ").strip().splitlines() or [""])[0][:200]
+        return vb[0] == "PASS", reason
     except Exception as e:  # noqa: BLE001
         print("  ⚠️ QA 판정 콜 실패(스킵): {}".format(e), flush=True)
         return None
@@ -470,10 +483,6 @@ def streak_frac(out_img, box_px, tol=1.0):
     return float(flat) / tot if tot else 0.0
 
 
-def _join_en(xs):
-    return xs[0] if len(xs) == 1 else ", ".join(xs[:-1]) + " and " + xs[-1]
-
-
 def seed_dirs(box_px, canvas_size, src_img, plain_std=EDGE_SOLID_STD):
     """P_SEEDFILL 3슬롯(keep·where·edgerule) — 실측 기하를 **%로** 문장화.
 
@@ -694,6 +703,8 @@ def main():
             #   텍스트로 "두 번째 몸통 금지"라고 말해도 시각 증거가 이긴다(260806 실사고).
             feed_parts = [ref_jpg, jpg_bytes(feed)] if SEED_ON else jpg_bytes(feed)
             out_cand, fb, qa_fail, qa_note = None, "", False, "NONE"   # NONE = 렌더 자체가 0회 성공
+            noimg = det = 0   # 2연속 = 딸꾹질이 아니라 **거부·무동작 서명**(tg.gemini_image가 내부에서 이미 1회 재시도한다)
+            tries_log = []    # 회차별 관측(260809 평의회 A-4) — 구판은 실패 회차가 로그에만 남고 원장에서 증발했다
             for attempt in range(1, TRIES + 1):   # 생성→자가 QA→실패 사유 피드백 재생성(exp r8 검증 · 운영자 '검증하면서 뽑기' · 상한 = TRIES)
                 p = base_prompt + ((" IMPORTANT — the previous attempt FAILED quality review for this "
                                     "reason: \"" + fb + "\". Fix exactly that issue this time.") if fb else "")
@@ -701,6 +712,11 @@ def main():
                                        aspect=aspect, ref_png=feed_parts, model=IMG_MODEL or None)
                 _CALLS["gen"] += 1   # 과금 실측(운영자 260808 "실패해도 과금이 나갈텐데") — 성공·실패 무관 발사 수
                 if not cand:
+                    noimg += 1
+                    tries_log.append({"t": attempt, "err": "no-image"})
+                    if noimg >= 2:   # 실측 = cmp-pro-914ca2(gen 2 · judge 0 · 산출 = 무과금 씨앗) — fb가 안 바뀌므로
+                        print("::warning::이미지 무반환 2연속 — 재시도 중단(같은 요청 반복 = 과금만 증가)", flush=True)
+                        break        #   **바이트 동일 요청**을 다시 쏘는 것이고, 그 콜은 정보 0으로 탄다
                     continue
                 try:
                     Image.open(io.BytesIO(cand)).verify()   # 손상본 차단(gen_cards.edit_one 계승)
@@ -717,7 +733,13 @@ def main():
                     out_cand, fb, qa_fail = shipped, "the stretched bands were left as raw streaks, not repaired", True
                     qa_note = "DET-FAIL"
                     print("  QA t{}: DET-FAIL — 줄무늬 잔류 {:.1%} > {:.0%}(모델 무동작)".format(attempt, sk, STREAK_MAX), flush=True)
-                    continue   # 같은 사유 2연속이면 아래 폴백 — 모델 거부 서명이라 더 조를 이유가 없다
+                    tries_log.append({"t": attempt, "streak": round(sk, 3), "qa": "DET-FAIL"})
+                    det += 1
+                    if det >= 2:   # ⚠ 260809 평의회 실측 = 이 주석이 「2연속이면 폴백」이라 단언했는데 **세는 코드가 없었다**
+                        print("  QA: DET-FAIL 2연속 — 모델 무동작 서명 · 중단(씨앗 폴백)", flush=True)
+                        break
+                    continue
+                det = noimg = 0   # 렌더가 정상으로 돌아오면 연속 카운터 초기화
                 # ── ⓑ 의미 판정(원본 동봉 2장 비교) ──
                 v = gemini_judge(jpg_bytes(shipped), ref_bytes=ref_jpg, model=JUDGE_MODEL or None); _CALLS["judge"] += 1
                 if v is None:
@@ -725,15 +747,23 @@ def main():
                     #   유령이 「통과했는지 조용히 스킵됐는지」가 로그·원장 어디에도 안 남았다(평의회 5 실측).
                     #   이 레포가 스레드 `[1차 실측]`·틱톡 `_e1`에서 두 번 진단한 「관측이 지워진다」와 같은 병.
                     out_cand, qa_fail, qa_note = shipped, False, "SKIP"
+                    tries_log.append({"t": attempt, "streak": round(sk, 3), "qa": "SKIP"})
                     print("  QA t{}: SKIP(판정 불가 — 형식 불량·콜 실패) → fail-soft 통과".format(attempt), flush=True)
                     break
                 if v[0]:
                     out_cand, qa_fail, qa_note = shipped, False, "PASS"
+                    tries_log.append({"t": attempt, "streak": round(sk, 3), "qa": "PASS", "why": v[1][:200]})
                     print("  QA t{}: PASS — {}".format(attempt, v[1][:80]), flush=True)
                     break
-                out_cand, fb, qa_fail = shipped, v[1], True   # FAIL — 사유 피드백 재시도(최종 FAIL이면 아래서 폴백)
+                out_cand, qa_fail = shipped, True   # FAIL — 사유 피드백 재시도(최종 FAIL이면 아래서 폴백)
+                # ⚠ 퇴화 사유는 **프롬프트에 안 넣는다**(260809 평의회) — 구판 파서가 사유를 "FAIL" 한 단어로
+                #   퇴화시키는 케이스가 실재했고, 그 쓰레기를 먹은 재시도는 정보 0으로 $0.067을 태운다.
+                #   원문은 로그·원장(qa_why)에 그대로 남긴다 = 관측은 지우지 않는다.
+                fb = v[1] if (len(v[1]) >= 12 and "VERDICT" not in v[1].upper()) else ""
                 qa_note = "FAIL"
+                tries_log.append({"t": attempt, "streak": round(sk, 3), "qa": "FAIL", "why": v[1][:200]})
                 print("  QA t{}: FAIL — {}".format(attempt, fb), flush=True)
+            globals()["_TRIES_LOG"], globals()["_QA_WHY"] = tries_log, (tries_log[-1].get("why", "") if tries_log else "")
             if out_cand is not None and qa_fail:   # 재시도까지 전부 FAIL = 불합격본 출력 금지 → 결정론 폴백(분신11 260709)
                 print("::warning::QA 최종 FAIL({}) — 씨앗 폴백".format(fb[:80]))
                 out_cand, qa_note = None, (qa_note if qa_note == "DET-FAIL" else "FAIL")
@@ -773,6 +803,11 @@ def main():
     #   이 레포가 스레드 `[1차 실측]`·틱톡 `_e1`에서 두 번 겪은 「관측이 지워진다」와 같은 병이다.
     item = {"url": url, "srcUrl": src, "aspect": aspect, "size": size, "lock": lock, "route": route, "fill": fill,
             "qa": qa_note, "calls": {"gen": _CALLS["gen"], "judge": _CALLS["judge"]}, "model": IMG_MODEL or tg.MODEL,
+            "qa_why": (_QA_WHY or "")[:200],   # 판정 사유 원문 — 구판은 로그에만 남아 세션마다 R2에서 그림을 받아 눈으로 판독해야 했다
+            "tries": _TRIES_LOG,               # 회차별 [t·streak·qa·why] — 이식원 exp_resize_v0.gen_with_qa의 log[]가 프로덕션 이식에서 누락됐던 축
+            "usage": [u for u in getattr(tg, "_USAGE", []) if str(u.get("tag", "")).startswith("resize:")],
+            #   ⚠ _CALLS는 **이 루프가 센 발사 수**라 tg.gemini_image 내부 재시도(range(2))를 못 본다 = 최대 2배 과소.
+            #     벤더가 돌려준 usageMetadata가 유일하게 정확한 저울이다(260809 평의회 실측).
             "box": list(box) if box else None,
             "id": rid, "ts": datetime.datetime.now(KST).isoformat(timespec="seconds")}
     sjson = os.path.join(tdir, "resize.json")
