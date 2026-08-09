@@ -445,6 +445,23 @@ jobs:
       #        · 좌표는 원본 기준으로 잡지만 가림이 픽셀에 이미 구워져 있어 뒤따르는 크롭·해상도 변경을 그대로 따라간다
       #     ⓑ 알파를 만드는 계열(키잉·실루엣·크로마키) = 컴포즈 **뒤**(post) — 알파 산출은 종점이라 자막 번인 뒤가 맞다
       #   전면 fail-soft = 자동 가림이 실패해도 편집 산출물은 그대로 살아 있다(스크립트 rc 항상 0).
+      # 트래킹 캐시 = **track-make와 동일 키**(같은 레포 캐시 풀 공유 = 그쪽이 채운 걸 그대로 받고, 여기서 채운 것도 그쪽이 쓴다).
+      #   ⚠ 없으면 편집 경로는 **매 실행** 모델·스택을 새로 받는다(운영자 260809 "지금 미리 설치해놓으면 안돼" — 캐시가 그 답).
+      #   키의 h 접미 = 헤비/경량 분리(모자이크·크로마키가 1.6GB 헤비 캐시 복원 비용을 안 낸다 · track-make 관례 그대로).
+      - name: 트래킹 python deps 캐시
+        if: ${{ contains(inputs.opts, '"xtr"') && !contains(inputs.opts, '"clip":true') && !contains(inputs.opts, '"cutscan":true') }}
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.pythonLocation }}/lib/python3.12/site-packages
+          key: nomute-track-pydeps-${{ runner.os }}-py312-${{ hashFiles('apps/track/setup.sh') }}-h${{ (contains(inputs.opts, '"keying":true') || contains(inputs.opts, '"silh":true')) && '1' || '' }}-v1
+
+      - name: 트래킹 모델 캐시
+        if: ${{ contains(inputs.opts, '"xtr"') && !contains(inputs.opts, '"clip":true') && !contains(inputs.opts, '"cutscan":true') }}
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/nomute-track
+          key: nomute-track-models-${{ hashFiles('apps/track/setup.sh') }}-h${{ (contains(inputs.opts, '"keying":true') || contains(inputs.opts, '"silh":true')) && '1' || '' }}-v1
+
       - name: 트래킹 환경 (자동 가림·키잉·크로마키)
         if: ${{ contains(inputs.opts, '"xtr"') && !contains(inputs.opts, '"clip":true') && !contains(inputs.opts, '"cutscan":true') }}
         timeout-minutes: 15   # 콜드런 pip+모델 다운 여유(이후 캐시히트 즉시) — track-make 동문

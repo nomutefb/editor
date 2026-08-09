@@ -1,0 +1,71 @@
+name: track-warm
+
+# 트래킹 스택 캐시 워밍(운영자 260809 "지금 미리 설치해놓으면 안돼") —
+#   키잉 첫 런은 torch+ultralytics+SAM2(~1.6GB)를 받느라 10~20분이 통째로 대기다. 그걸 **미리** 받아 캐시에 넣어두면
+#   실제 작업의 첫 실행부터 캐시 히트로 시작한다. 산출물 0 · 커밋 0 · R2 0 = 설치와 캐시 저장만 하는 잡.
+#   ⚠ 캐시 키는 track-make/edit-make와 **완전히 동일**해야 의미가 있다(다르면 아무도 못 쓰는 캐시를 만들 뿐).
+#     그래서 key 식을 그 두 워크플로에서 글자 그대로 옮겼다 — setup.sh 해시 + h{1|빈값} 접미.
+#   수동 전용(workflow_dispatch) · 기본 heavy=1(키잉 스택) · heavy=0이면 분석 경로(얼굴 모델 232KB+37MB)만 데운다.
+on:
+  workflow_dispatch:
+    inputs:
+      heavy:
+        description: '1 = 키잉 스택(torch+SAM2 · 기본) · 0 = 분석 모델만'
+        type: string
+        default: '1'
+
+concurrency:
+  group: track-warm-${{ inputs.heavy }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read   # 워밍은 읽기만 — 산출·커밋이 없다(쓰기 권한을 안 준다 = 사고 표면 0)
+
+jobs:
+  warm:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30   # 콜드 torch+SAM2 여유
+    env:
+      TRACK_MODE: ${{ inputs.heavy == '1' && 'render' || 'analyze' }}   # ⚠ job level = composite/스크립트 양쪽에 상속(스텝 level은 composite 내부로 안 간다 · 260809 실사고)
+      TRACK_HEAVY: ${{ inputs.heavy == '1' && '1' || '' }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          sparse-checkout: apps/track
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'   # ⚠ track-make/edit-make와 동일 = 캐시 path(site-packages)가 같은 자리
+
+      - name: python deps 캐시
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.pythonLocation }}/lib/python3.12/site-packages
+          key: nomute-track-pydeps-${{ runner.os }}-py312-${{ hashFiles('apps/track/setup.sh') }}-h${{ env.TRACK_HEAVY }}-v1
+
+      - name: 모델 캐시
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/nomute-track
+          key: nomute-track-models-${{ hashFiles('apps/track/setup.sh') }}-h${{ env.TRACK_HEAVY }}-v1
+
+      - name: 설치(캐시 채우기)
+        run: bash apps/track/setup.sh   # setup.sh 정본 그대로 — 워밍 전용 사본을 만들면 실제 경로와 갈린다
+
+      - name: 확인
+        run: |
+          python3 - <<'PY'
+          import os
+          heavy = os.environ.get('TRACK_HEAVY') == '1'
+          if heavy:
+              import torch, ultralytics
+              print('torch', torch.__version__, '· ultralytics', ultralytics.__version__)
+              p = os.path.expanduser('~/.cache/nomute-track/sam2.1_t.pt')
+              print('SAM2', os.path.getsize(p) // 1048576, 'MB' if os.path.isfile(p) else '없음')
+          else:
+              import cv2
+              print('cv2', cv2.__version__)
+              for f in ('yunet_2023mar.onnx', 'sface_2021dec.onnx'):
+                  p = os.path.expanduser('~/.cache/nomute-track/' + f)
+                  print(f, os.path.getsize(p) // 1024, 'KB' if os.path.isfile(p) else '없음')
+          PY
