@@ -4905,6 +4905,25 @@ def check_smoke_chromium_path():
     return 0
 
 
+def _edit_track_phase_ok(wf, et):
+    """자동 가림 2단계 계약 = 「픽셀에 굽는 계열(모자이크·핀셋)은 자막보다 **먼저**」(운영자 260809
+    "모자이크가 자막 위로 올라가버려서 자막이 가려져").
+    ⚠ 이 축이 없으면 스텝을 한 줄만 옮겨도 구판 사고가 그대로 되살아나는데 **화면은 멀쩡히 산출이 나온다**
+      (모자이크도 자막도 다 보인다 — 겹친 순서만 틀렸을 뿐이라 rc·로그로는 안 잡힌다) = 운영자 눈이 유일한 검출기.
+    판정 = ⓐ 러너가 phase 인자를 갈라 받는다 ⓑ 워크플로에 pre·post 두 실행줄이 있다
+           ⓒ **pre 스텝이 컴포즈보다 앞** ⓓ post는 컴포즈보다 뒤 ⓔ pre 산출이 EDIT_SRC로 이어진다."""
+    if not ('"pre", "post"' in et and 'edit_track_pre.txt' in et):
+        return False
+    i_pre = wf.find('"$EDIT_SRC" pre')
+    i_cmp = wf.find('python3 .github/scripts/ly_burn.py')   # ⚠ 실행줄로 특정 — 그냥 'ly_burn.py'면 **파일 상단 설명 주석**이 먼저 잡혀 순서 비교가 통째로 무의미해진다(실측)
+    i_post = wf.find('"$SRC_IN" post')
+    if min(i_pre, i_cmp, i_post) < 0:
+        return False
+    if not (i_pre < i_cmp < i_post):   # 순서가 뒤집히면 자막이 다시 가려진다
+        return False
+    return 'EDIT_SRC=$NEWSRC' in wf
+
+
 def check_edit_track_chain():
     """편집 생성 = 자동 가림·키잉·크로마키 게이트(하드 · 운영자 260808 "모자이크 누르고 옵션 선택한 다음에 생성 누르면
     트래킹해서 모자이크까지 자동으로"). ⚠ 신설 사유 = **이 축은 화면이 멀쩡한 채로 조용히 죽는다** — 260808 이전 상태가
@@ -4932,6 +4951,7 @@ def check_edit_track_chain():
             and 'EDIT_SRC' in wf.split('edit_track.py')[0].rsplit('자동 가림 적용', 1)[-1]),   # 원본 폴백 = 실효 조건(가림만 켜면 편집 축이 0이라 ly_burn이 합성물을 안 만든다 → 폴백이 없으면 그 자리에서 조용히 스킵 = 주 시나리오 무동작)
         ('⑤ 컴포즈 산출 도장', 'ly_final_path.txt' in lb),   # 후속 스텝의 입력 앵커 — 빠지면 폴백 경로 추정에 의존(음량 통일 분기로 경로가 갈린다)
         ('⑥ 크로마 강도 단위', 'o.similarity > 1' in at),   # 구판 직접 클램프 부활 = 크로마키 전면 무동작 회귀
+        ('⑦ pre/post 2단계 + 순서', _edit_track_phase_ok(wf, et)),   # 픽셀 번인은 자막보다 **먼저** — 아래 헬퍼가 스텝 순서까지 본다
     ]
     for name, ok in checks:
         if not ok:

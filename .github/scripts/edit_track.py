@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 # 편집 발사 자동 트래킹 — 편집 폼(기타 옵션)에서 켠 가림·키잉·크로마키를 **트래킹 탭을 안 거치고** 그 자리에서 적용.
-#   사용: edit_track.py <id> <입력mp4>        (edit-make.yml 컴포즈 직후 스텝 전용)
+#   사용: edit_track.py <id> <입력mp4> [pre|post]
+#     pre  = **컴포즈 앞** — 픽셀에 굽는 계열(모자이크·핀셋). 산출 경로를 /tmp/edit_track_pre.txt 에 도장하면
+#            워크플로가 그걸 EDIT_SRC로 갈아끼워 ly_burn이 그 위에 자막을 얹는다 = **자막이 모자이크보다 위**.
+#     post = **컴포즈 뒤** — 알파를 만드는 계열(키잉·실루엣·크로마키). 알파 산출은 종점이라 자막 번인 뒤가 맞다.
 #   env: OPTS = 편집 옵션 JSON — 이 스크립트가 읽는 축은 opts.xtr 하나뿐
 #        R2_*  = 최종 산출 업로드(미설정 = ly_burn과 동일하게 git 폴백)
 #
@@ -14,7 +17,10 @@
 #   · 대상 자동 선정 = 검출 전원(가림은 빠뜨리는 쪽이 사고 · track_render 원칙 ③ 과잉 커버 편향 계승)
 #   · 체인 = 모자이크 → 핀셋 → (키잉|실루엣|크로마키 중 하나 = 알파 산출이라 종점)
 #   · 전면 fail-soft = 트래킹이 실패해도 **편집 산출물은 그대로 살아 있다**(rc 0 · video.json의 url 무접촉 + xtr_note 기록)
-#   · 좌표계 = 컴포즈 **뒤** 영상 기준(크롭·해상도 변경 후에 분석해야 박스가 맞는다 — 원본 기준 분석은 크롭 시 어긋난다)
+#   · 순서 = 픽셀 번인(모자이크·핀셋)은 **자막보다 먼저** 구워야 한다(운영자 260809 "모자이크가 자막 위로 올라가버려서
+#     자막이 가려져"). 구판은 컴포즈 뒤 한 지점에서 전부 처리해 **자막 위에 모자이크가 덮였다**.
+#   · 좌표계 = pre는 원본 기준으로 분석·번인한다. 크롭·해상도가 뒤에 와도 **모자이크가 픽셀에 이미 구워져 있어 같이 변형**되므로
+#     좌표가 어긋나지 않는다(구판 주석의 「원본 기준 분석은 크롭 시 어긋난다」는 가림을 컴포즈 뒤에 걸 때만 성립하던 이야기다)
 # CONTRACT: check_edit_track_chain — 뷰어 xtr 송신 → api 화이트리스트 → 이 스크립트 → 워크플로 스텝이 한 벌로 살아 있어야 한다
 import json
 import os
@@ -130,6 +136,7 @@ def main():
         log("인자 부족 — 스킵")
         return 0
     vid_id, src = sys.argv[1], sys.argv[2]
+    phase = sys.argv[3] if len(sys.argv) > 3 and sys.argv[3] in ("pre", "post") else "post"
     try:
         opts = json.loads(os.environ.get("OPTS") or "{}")
     except Exception:
@@ -159,9 +166,21 @@ def main():
         log("컴포즈 산출 없음(error=%s) — 입력 영상에 직접 적용" % str(vj.get("error"))[:40])
 
     tid = vid_id   # 트래킹 작업폴더 = 같은 id(viewer/track_out/<id> · 커밋 스텝은 ly_out만 add = 레포 무오염)
-    order = [m for m in ("mosaic", "pinset") if on[m]]
-    endpoint = "chroma" if on["chroma"] else "keying" if on["keying"] else "maskfx" if on["silh"] else ""
-    log("적용 축: " + (",".join(order + ([endpoint] if endpoint else [])) or "없음"))
+    order = [m for m in ("mosaic", "pinset") if on[m]] if phase == "pre" else []
+    endpoint = ("chroma" if on["chroma"] else "keying" if on["keying"] else "maskfx" if on["silh"] else "") if phase == "post" else ""
+    if not order and not endpoint:
+        if phase == "post":   # 알파 축이 없어도 pre가 구운 게 있으면 최종 기록에 남긴다(컴포즈가 video.json을 새로 쓰므로 여기서만 가능)
+            try:
+                pre_done = json.load(open("/tmp/edit_track_done.json", encoding="utf-8"))
+            except Exception:
+                pre_done = []
+            if pre_done:
+                vj["xtr"] = pre_done
+                json.dump(vj, open(vj_p, "w", encoding="utf-8"), ensure_ascii=False)
+                log("pre 적용분 기록: " + ",".join(pre_done))
+        log("이 단계(%s)에서 적용할 축 없음 — 스킵" % phase)
+        return 0
+    log("[%s] 적용 축: %s" % (phase, ",".join(order + ([endpoint] if endpoint else []))))
 
     need_analyze = bool(order) or endpoint in ("keying", "maskfx")
     doc = analyze(tid, src) if need_analyze else stub_tracks(tid, src)
@@ -237,8 +256,27 @@ def main():
                 vj["xtr_note"] = f"{endpoint} 처리에 실패해서 그 단계는 빠졌어."
 
     if not done:
-        json.dump(vj, open(vj_p, "w", encoding="utf-8"), ensure_ascii=False)
+        if phase == "post":
+            json.dump(vj, open(vj_p, "w", encoding="utf-8"), ensure_ascii=False)
         return 0
+
+    if phase == "pre":
+        # 컴포즈 입력으로 넘긴다 = 워크플로가 EDIT_SRC를 이 경로로 갈아끼운다 → ly_burn이 **이 위에** 자막을 얹는다.
+        #   video.json은 손대지 않는다(그건 뒤따르는 컴포즈가 쓴다) · 적용 축만 남겨 post가 최종 기록에 합친다.
+        keep = "/tmp/edit_track_pre.mp4"
+        if os.path.abspath(cur) != os.path.abspath(keep):
+            shutil.copyfile(cur, keep)
+        with open("/tmp/edit_track_pre.txt", "w", encoding="utf-8") as f:
+            f.write(keep)
+        with open("/tmp/edit_track_done.json", "w", encoding="utf-8") as f:
+            json.dump(done, f, ensure_ascii=False)
+        log("pre 완료 — " + ",".join(done) + " → 컴포즈 입력으로 전달")
+        return 0
+
+    try:   # pre 단계가 이미 구운 축을 최종 기록에 합친다(모자이크+키잉 동시 선택 시 둘 다 남아야 한다)
+        done = json.load(open("/tmp/edit_track_done.json", encoding="utf-8")) + done
+    except Exception:
+        pass
 
     # ── 산출 교체 = 편집 결과 자리(ly_out/<id>)에 덮어쓴다. 뷰어·알림·결과 레일 배선은 종전 그대로(경로 불변).
     import time
