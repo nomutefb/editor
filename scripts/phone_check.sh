@@ -159,8 +159,16 @@ except Exception as e:
     print("  ⚠  모듈 로드 실패: %s" % e); raise SystemExit(0)
 acc = sys.argv[1].lstrip("@")
 ck = (os.environ.get("THREADS_COOKIE") or "").strip()
+# ⚠ THREADS_UA 동반(260809 실사고 봉합) — 구판은 `{**s.UA}` 모듈 기본 UA로만 재서 **수집기와 다른 조건**을
+#   측정했다. 실측 260809 = 같은 계정 같은 URL인데 이 진단기 254KB(글 노드 0) vs 수집기 762~940KB(추천피드 5건)
+#   = 3배 차. 결론 방향이 우연히 같아 아무도 몰랐고, 그 상태로 "이 줄을 그대로 클로드에게 넘겨라"까지 말한다
+#   → 세션이 **다른 조건의 측정치**를 진단 근거로 받는다. 수집기(threads_subs)와 같은 문법으로 맞춘다.
+_hdr = {**s.UA}
+_ua = (os.environ.get("THREADS_UA") or "").strip()
+if _ua and ck:
+    _hdr["User-Agent"] = _ua
 try:
-    h = s._th_fetch("https://www.threads.com/@" + acc, {**s.UA}, ck)
+    h = s._th_fetch("https://www.threads.com/@" + acc, _hdr, ck)
 except Exception as e:
     print("  ⚠  요청 실패(@%s): %s" % (acc, e)); raise SystemExit(0)
 wall = bool(re.search(r"/accounts/login|barcelona_login|\"login_page\"|Log in", h))

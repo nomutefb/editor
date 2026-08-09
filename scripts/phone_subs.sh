@@ -67,7 +67,13 @@ elif ! git pull -q --rebase origin main 2>/dev/null; then   # 최신 계정 목�
 fi
 [ -n "$_heal" ] && echo "🔧 git 착지 자가복구: $_heal"
 python3 scripts/phone_subs.py || { _land "collect-fail" "python rc≠0(쿠키·429·네트워크)"; exit 0; }
+# ⚠ 원장 동반 착지(260809 실사고 봉합 · 관측 구멍 3세대) — `push/threads_ck.jsonl` 은 260806에
+#   「러너 로그는 흘러가서 소실된다 → 원장에 쌓으면 회차 분포가 곧 판별기가 된다」는 근거로 신설됐는데,
+#   그 원장을 **커밋하는 줄이 없어서** 폰 로컬에만 쌓이고 세션에는 영영 도달하지 않았다(실측 = 레포에 파일 0).
+#   결과 = 주석은 "사람이 아무것도 안 해도 시간이 답을 만든다"고 단언하는데 실제로는 답이 배달될 경로가 없다
+#   = 1세대(폴백이 사유를 가로챔)·2세대(로그 소실)와 **같은 병의 3세대**. 명시 경로만 add(무경로 -A 금지 = STT ⓕ).
 git add viewer/sns_subs_phone.json 2>/dev/null || { _land "add-fail" "인덱스 잠김·권한"; exit 0; }
+[ -f push/threads_ck.jsonl ] && git add push/threads_ck.jsonl 2>/dev/null || true
 git diff --cached --quiet && { _land "ok" "무변동"; exit 0; }   # 변동 없음 = 무커밋
 git commit -q -m "phone-subs: 구독·레딧·재난문자 폰 수집" 2>/dev/null || { _land "commit-fail" "pre-commit 게이트(check_refs)·훅"; exit 0; }
 for i in 1 2 3 4; do
