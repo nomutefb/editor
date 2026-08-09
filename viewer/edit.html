@@ -226,6 +226,13 @@
      같은 사람이 화면 밖으로 나갔다 들어오면 분석이 **다른 #번호**로 준다(#1·#3·#4가 한 사람) → 번호를 담아 한 이름으로 묶는다.
      ⚠ PC = 끌어놓기 / 폰 = 폼 고르고 # 탭 **둘 다** 지원(HTML5 DnD는 터치에서 동작하지 않아, 드래그만 두면 폰에서 이 기능이 통째로 죽는다).
      부품 = 카드 면·선(.scard) · 입력칸(.nmin) · 칩(.xface) 값 계승 — 새 값 0. */
+  .xnote .nm-shim { font-size:inherit; font-weight:inherit; line-height:inherit; transform:none; }
+  .xnote .xtime { margin-left:var(--sp-1); font-size:12.5px /* raw-ok: 경과 = 좁은 라벨과 같은 잉크선 = `.go .gtime` 정본 동값(track/edit 공통) */; font-variant-numeric:tabular-nums; }
+   /* 인물 분석 진행 문구 빛 스윕(운영자 260809 "거기 nm-shim 붙여줘") = nm-loader.js `.nm-shim` **도료만** 계승 —
+      활자는 안내문 정본(--fs-xs/400) 그대로. ⚠ 되돌리는 이유 = `.nm-shim`은 260731 개정에서 도료 + 활자(13.5px/700/lh1/-.049em)가
+      **한 벌**이 됐다(nm-loader.js "붙은 글자도 라벨과 같은 잉크선"). 그 전제는 「13.5px 로더 라벨 옆에 붙는 글자」인데
+      이 자리는 --fs-xs 안내문이라 그대로 물리면 진행 중일 때만 글자가 커져 다른 상태 문구와 활자가 갈린다.
+      관용구 = nm-job.css `.job .jst .nm-shim` 정본 값 사본(새 값 0). */
   .xgrp { margin-top:var(--sp-1); }
   .xgrow { display:flex; gap:var(--sp-1); align-items:flex-start; margin-top:var(--sp-1); }
   .xgrow .nmin { flex:1 1 40%; min-width:0; }
@@ -1432,7 +1439,17 @@ function recipe(r){
 
 /* ══ 기타 옵션(운영자 260712 2차 "번호 매겨 제일 아래" — 1차 소스 아래 선택 뒤집음) — 4번 섹션·스택 최하단 상시 카드 3장{모자이크·트래킹(핀셋)·키잉} = .sech/.scard/.pc 계승 · 트래킹 서브뷰 핸드오프(nm_track_preset 일회용 · 파이프 재사용 = 중복 배선 0 · 3탭 축소 후 트래킹 진입은 여기가 유일) ══ */
 let XTR_SCAN='';   // 인물 스캔 상태('' | 'run' | 'err:<사유>') — 트래킹 토글 즉시 분석(운영자 260809 "트래킹 누르면 바로 #이 뜨게끔")
-let XTR_SCAN_ID='';   // 그 스캔의 작업 id(track_out/<id>) — crop 경로 기준
+let XTR_SCAN_ID='';
+let XTR_SCAN_T0=0, _xscTick=null;   // 경과 기점·타이머 — 제작 틀(goWait) 관용구: **시간만** 갱신해 orb DOM을 유지한다(다시 그리면 도트 모션 위상이 리셋된다)
+function xscTick(on){
+  clearInterval(_xscTick); _xscTick=null;
+  if(!on) return;
+  _xscTick=setInterval(()=>{
+    if(XTR_SCAN!=='run'){ clearInterval(_xscTick); _xscTick=null; return; }
+    const t=document.querySelector('#xtrsec .xtime');
+    if(t) t.textContent=fmtT((Date.now()-XTR_SCAN_T0)/1000); else renderXtr();   // 자리가 없으면(카드 재구성) 한 번 다시 그린다
+  },1000);
+}   // 그 스캔의 작업 id(track_out/<id>) — crop 경로 기준
 let XTR_GRP=[{name:'',pids:[]},{name:'',pids:[]}];   // 이름 묶음 폼(기본 2 · [+]로 추가 · 어느 폼에도 안 담긴 #은 미지정 = 영상 표기 없음)
 let XTR_ACT=0;   // 활성 폼(폰 = 여기에 # 탭이 담긴다)
 let XTR_FACES=[];   // 직전 생성의 인물 얼굴(video.json faces) — 2트랙 ②에서 #N ↔ 얼굴 대조용
@@ -1458,7 +1475,7 @@ function renderXtr(){   // 가로 3분할 + 라벨|OFF·ON 순환값 문법(운�
   if(XTR.pinset){
     const used=new Set(); XTR_GRP.forEach(g=>g.pids.forEach(p=>used.add(p|0)));
     if(!XTR_FACES.length) det+='<div class="plbl"'+(det?'':' style="margin-top:0"')+'>등장인물</div>'
-      +'<div class="xnote" style="margin-top:0">'+(XTR_SCAN==='run'?'인물을 찾는 중입니다… 창을 닫아도 계속 진행됩니다.'
+      +'<div class="xnote" style="margin-top:0">'+(XTR_SCAN==='run'?(window.nmLoader?nmLoader('solving','인물을 찾는 중입니다…',{size:15,gap:7,fs:12.5}):'<span class="nm-shim">인물을 찾는 중입니다…</span>')+'<span class="xtime nm-shim">'+fmtT((Date.now()-XTR_SCAN_T0)/1000)+'</span>'
         :XTR_SCAN.startsWith('err:')?esc(XTR_SCAN.slice(4))
         :'영상을 넣으면 인물을 찾아 #으로 표시합니다.')+'</div>';
     if(XTR_FACES.length) det+='<div class="plbl"'+(det?'':' style="margin-top:0"')+'>등장인물</div>'   // 직전 생성이 찾은 얼굴 = 묶음 폼 **위**(보면서 담는다)
@@ -1499,7 +1516,7 @@ async function xtrScan(){   // 인물 분석 = /api/track analyze 발사 → tra
   // ⚠ 소스 판정 = **정본 술어 hasSrc()**(1107행 = 발사 검증과 같은 축). 구판은 `url||_lastFile`만 봐서
   //   FILE_B64·FILE_R2만 찬 상태(파일을 이미 올려둔 정상 상태)를 「소스 없음」으로 오판했다(운영자 260809 실측 = 영상이 붙어 있는데 필요하다고 떴다).
   if(!hasSrc()){ XTR_SCAN='err:영상이 로딩되지 않았습니다.'; renderXtr(); return; }
-  XTR_SCAN='run'; renderXtr();
+  XTR_SCAN='run'; XTR_SCAN_T0=Date.now(); renderXtr(); xscTick(true);
   try{
     let payload;
     // ⚠ 발사용 R2 키(FILE_R2)는 **재사용하지 않는다** — 러너가 잡 끝에 원본을 지우는 일회용이라, 여기서 쓰면 정작 생성 때 파일이 없다.
