@@ -8437,8 +8437,14 @@
   {
    "query": "택배기사",
    "traffic": "20000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/trend/60a7864872.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://imnews.imbc.com/replay/2026/nwtoday/article/6843052_37012.html",
+     "source": ""
+    }
+   ],
    "vol": 20000,
    "started": "2026-08-09T11:30:00+09:00",
    "delta": 1,
@@ -8571,8 +8577,14 @@
   {
    "query": "산삼",
    "traffic": "10000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/trend/a3f113b947.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.munhwa.com/article/11608187",
+     "source": ""
+    }
+   ],
    "vol": 10000,
    "started": "2026-08-08T18:20:00+09:00",
    "rh": [
@@ -8675,8 +8687,14 @@
   {
    "query": "로또 1236",
    "traffic": "10000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/trend/b299ebc1cb.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.khan.co.kr/article/202608082123001/",
+     "source": ""
+    }
+   ],
    "vol": 10000,
    "started": "2026-08-09T05:20:00+09:00",
    "rh": [
@@ -8693,8 +8711,14 @@
   {
    "query": "가능한 사랑",
    "traffic": "5000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/trend/7961c4ae23.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.tenasia.co.kr/article/2026080682144",
+     "source": ""
+    }
+   ],
    "vol": 5000,
    "started": "2026-08-09T00:40:00+09:00",
    "delta": 1,
@@ -8707,8 +8731,14 @@
   {
    "query": "하이브리드 차량",
    "traffic": "20000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/trend/0d906a938b.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://sports.khan.co.kr/article/202608051714003/",
+     "source": ""
+    }
+   ],
    "vol": 20000,
    "started": "2026-08-09T07:40:00+09:00",
    "delta": 1,
@@ -9451,7 +9481,8 @@
      "source": "The Weather Channel"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "과학 날씨"
   },
   {
    "query": "science",
@@ -9469,7 +9500,8 @@
      "source": "Big News Network.com"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "과학"
   },
   {
    "query": "nfl football",
@@ -9487,7 +9519,8 @@
      "source": "The New York Times"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "NFL 축구"
   },
   {
    "query": "hartsfield jackson delta flight emergency",
@@ -9505,7 +9538,8 @@
      "source": "CNN"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "하츠필드 잭슨 델타 비행 비상사태"
   },
   {
    "query": "hawaii election results",
@@ -9523,7 +9557,8 @@
      "source": "The Washington Post"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "하와이 선거 결과"
   },
   {
    "query": "las vegas weather",
@@ -9541,7 +9576,8 @@
      "source": "ABC News - Breaking News, Latest News and Videos"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "라스베가스 날씨"
   },
   {
    "query": "president trump guinness fireworks record",
@@ -9559,7 +9595,8 @@
      "source": "The Washington Post"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "트럼프 대통령 기네스 불꽃놀이 기록"
   },
   {
    "query": "laura wright",
@@ -9577,7 +9614,8 @@
      "source": "Michael Fairman TV"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "로라 라이트"
   },
   {
    "query": "andrew bosworth",
@@ -9595,7 +9633,8 @@
      "source": "Business Insider"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "앤드류 보스워스"
   },
   {
    "query": "dina thorslund",
@@ -9613,7 +9652,8 @@
      "source": "Yahoo Sports"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "너의 가시나무"
   },
   {
    "query": "uhb賞",
@@ -9631,14 +9671,16 @@
      "source": "馬トク"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "uhb 상"
   },
   {
    "query": "奥州市",
    "traffic": "2000+",
    "picture": "",
    "news": [],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "오슈시"
   },
   {
    "query": "rb大宮アルディージャ",
@@ -9656,7 +9698,8 @@
      "source": "ｄメニューニュース"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "rb 오미야 아르디자"
   },
   {
    "query": "東京ヴェルディ",
@@ -9674,7 +9717,8 @@
      "source": "タグマ！"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "도쿄 베르디"
   },
   {
    "query": "バドミントン",
@@ -9692,7 +9736,8 @@
      "source": "the-ans.jp"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "배드민턴"
   },
   {
    "query": "三四郎 豊田章男",
@@ -9710,7 +9755,8 @@
      "source": "トヨタイムズ"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "미시로 도요타 아키오"
   },
   {
    "query": "cbc",
@@ -9728,7 +9774,8 @@
      "source": "The Albertan"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "CBC"
   },
   {
    "query": "コントレイル",
@@ -9746,7 +9793,8 @@
      "source": "netkeiba"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "콘트레일"
   },
   {
    "query": "sbs歌謡祭 2026",
@@ -9764,7 +9812,8 @@
      "source": "BANGER!!!（バンガー!!!）映画評論・情報サイト"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "sbs 가요 축제 2026"
   },
   {
    "query": "大野 智 イベント",
@@ -9782,7 +9831,8 @@
      "source": "TBS NEWS DIG"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "오노 토모 이벤트"
   },
   {
    "query": "canal",
@@ -9800,7 +9850,8 @@
      "source": "Nantwich News"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "운하"
   },
   {
    "query": "emma carey radio 2",
@@ -9818,7 +9869,8 @@
      "source": "AOL.co.uk"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "엠마 캐리 라디오 2"
   },
   {
    "query": "why is gb news off air today",
@@ -9836,7 +9888,8 @@
      "source": "Essex Magazine"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "오늘 GB 뉴스는 왜 방송되지 않나요?"
   },
   {
    "query": "blade runner 2049",
@@ -9854,7 +9907,8 @@
      "source": "MovieWeb"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "블레이드 러너 2049"
   },
   {
    "query": "lissie harper",
@@ -9872,7 +9926,8 @@
      "source": "The Telegraph"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "리시 하퍼"
   },
   {
    "query": "leipzig halle airport drone explosive",
@@ -9890,7 +9945,8 @@
      "source": "Reuters"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "라이프치히 할레 공항 드론 폭발물"
   },
   {
    "query": "south west water hosepipe ban",
@@ -9908,7 +9964,8 @@
      "source": "South West Water"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "사우스 웨스트 물 호스 파이프 금지"
   },
   {
    "query": "meghan markle princess diana jewelry",
@@ -9926,7 +9983,8 @@
      "source": "Times Colonist"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "메건 마클 공주 다이애나 주얼리"
   },
   {
    "query": "jury duty",
@@ -9944,7 +10002,8 @@
      "source": "ABC27"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "배심원 의무"
   },
   {
    "query": "lucy letby",
@@ -9962,7 +10021,8 @@
      "source": "BBC"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "루시 렛비"
   }
  ],
  "yt_cids": {
@@ -17988,7 +18048,8 @@
     "rh": [
      14
     ],
-    "first_seen": "2026-08-09T15:38:29+09:00"
+    "first_seen": "2026-08-09T15:38:29+09:00",
+    "ko": "@hm_son7의 축하 행사에 새로운 것이 다가오고 있습니다 🙌 이전과는 전혀 다른 새로운 모습을 보여주세요."
    },
    {
     "account": "hm_son7",
@@ -18004,7 +18065,8 @@
     "rh": [
      15
     ],
-    "first_seen": "2026-08-09T15:38:29+09:00"
+    "first_seen": "2026-08-09T15:38:29+09:00",
+    "ko": "모든 도시. 모든 클럽. 모든 기회."
    },
    {
     "account": "mnet_official",
@@ -18020,7 +18082,8 @@
     "rh": [
      16
     ],
-    "first_seen": "2026-08-09T15:38:29+09:00"
+    "first_seen": "2026-08-09T15:38:29+09:00",
+    "ko": "메가 콜라보레이션 REPUBLIC Collective X Mnet | 글로벌 걸그룹 데뷔 프로젝트 [걸스 플래닛 2027]"
    },
    {
     "account": "sbsnow_insta",
@@ -18076,7 +18139,8 @@
      5,
      19
     ],
-    "first_seen": "2026-08-09T12:37:23+09:00"
+    "first_seen": "2026-08-09T12:37:23+09:00",
+    "ko": "#엠카운트다운 940회"
    },
    {
     "account": "sbsnow_insta",
@@ -18136,7 +18200,8 @@
      12,
      22
     ],
-    "first_seen": "2026-08-09T12:37:23+09:00"
+    "first_seen": "2026-08-09T12:37:23+09:00",
+    "ko": "#엠카운트다운 940회"
    },
    {
     "account": "sbsnow_insta",
@@ -18172,7 +18237,8 @@
      9,
      24
     ],
-    "first_seen": "2026-08-09T12:37:23+09:00"
+    "first_seen": "2026-08-09T12:37:23+09:00",
+    "ko": "[#래퍼스GF] 나잇아웃 핏 체크 #MnetPlus_Original"
    },
    {
     "account": "mnet_official",
