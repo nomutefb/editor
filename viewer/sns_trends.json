@@ -8408,8 +8408,14 @@
   {
    "query": "택배기사",
    "traffic": "50000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/trend/60a7864872.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://imnews.imbc.com/replay/2026/nwtoday/article/6843052_37012.html",
+     "source": ""
+    }
+   ],
    "vol": 50000,
    "started": "2026-08-09T11:30:00+09:00",
    "rh": [
@@ -8459,8 +8465,14 @@
   {
    "query": "장교",
    "traffic": "10000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/trend/70cc5c7d02.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://edaily.co.kr/News/Read?mediaCodeNo=257&newsId=01321846645545680",
+     "source": ""
+    }
+   ],
    "vol": 10000,
    "started": "2026-08-09T11:10:00+09:00",
    "rh": [
@@ -8504,8 +8516,14 @@
   {
    "query": "암",
    "traffic": "50000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/trend/fc8b8ac8ae.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://mydaily.co.kr/page/view/2026080713115774625",
+     "source": ""
+    }
+   ],
    "vol": 50000,
    "started": "2026-08-09T05:10:00+09:00",
    "rh": [
@@ -8683,8 +8701,14 @@
   {
    "query": "하이브리드 차량",
    "traffic": "20000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/trend/768190fd08.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://biz.heraldcorp.com/article/10828961",
+     "source": ""
+    }
+   ],
    "vol": 20000,
    "started": "2026-08-09T07:40:00+09:00",
    "isNew": true,
@@ -8696,8 +8720,14 @@
   {
    "query": "유태빈",
    "traffic": "10000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/trend/6d9edc4529.webp",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.xportsnews.com/article/2179404",
+     "source": ""
+    }
+   ],
    "vol": 10000,
    "started": "2026-08-09T05:50:00+09:00",
    "delta": -1,
@@ -9423,7 +9453,8 @@
      "source": "KRON4"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "자동차"
   },
   {
    "query": "car news",
@@ -9441,7 +9472,8 @@
      "source": "Yahoo Autos"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "자동차 뉴스"
   },
   {
    "query": "britney spears",
@@ -9459,7 +9491,8 @@
      "source": "HOLA"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "브리트니 스피어스"
   },
   {
    "query": "fashion news",
@@ -9477,7 +9510,8 @@
      "source": "Who What Wear"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "패션 뉴스"
   },
   {
    "query": "claressa shields",
@@ -9495,7 +9529,8 @@
      "source": "ClickOnDetroit | WDIV Local 4"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "클라레사 쉴즈"
   },
   {
    "query": "health",
@@ -9513,7 +9548,8 @@
      "source": "UA.NEWS"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "건강"
   },
   {
    "query": "smartphone market",
@@ -9531,7 +9567,8 @@
      "source": "PhoneArena"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "스마트폰 시장"
   },
   {
    "query": "weather sleep",
@@ -9549,7 +9586,8 @@
      "source": "Business Green"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "날씨 수면"
   },
   {
    "query": "paint news",
@@ -9567,7 +9605,8 @@
      "source": "Syracuse.com"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "페인트 뉴스"
   },
   {
    "query": "news science",
@@ -9585,7 +9624,8 @@
      "source": "Science News"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "뉴스 과학"
   },
   {
    "query": "新潟",
@@ -9603,7 +9643,8 @@
      "source": "ｄメニューニュース"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "니가타"
   },
   {
    "query": "徳山得点率",
@@ -9621,7 +9662,8 @@
      "source": "BOATNAVI報知"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "도쿠야마 득점률"
   },
   {
    "query": "いわきfc 対 今治",
@@ -9639,14 +9681,16 @@
      "source": "DAZN"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "이와키 FC 대 이마바리"
   },
   {
    "query": "今治fc",
    "traffic": "100+",
    "picture": "",
    "news": [],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "이마바리 fc"
   },
   {
    "query": "爆弾",
@@ -9664,7 +9708,8 @@
      "source": "朝日新聞"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "폭탄"
   },
   {
    "query": "ルケーシー",
@@ -9682,14 +9727,16 @@
      "source": "スポニチ Sponichi Annex"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "루케이시"
   },
   {
    "query": "うたであえたら",
    "traffic": "200+",
    "picture": "",
    "news": [],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "노래를 부르면"
   },
   {
    "query": "vファーレン長崎",
@@ -9707,7 +9754,8 @@
      "source": "スポーツナビ"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "v 파렌 나가사키"
   },
   {
    "query": "西武 対 ソフトバンク",
@@ -9725,7 +9773,8 @@
      "source": "ｄメニューニュース"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "세이부 vs 소프트뱅크"
   },
   {
    "query": "福岡 県議会",
@@ -9743,7 +9792,8 @@
      "source": "FNNプライムオンライン"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "후쿠오카 현 의회"
   },
   {
    "query": "fuel",
@@ -9761,7 +9811,8 @@
      "source": "Inquirer.com"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "연료"
   },
   {
    "query": "salford",
@@ -9779,7 +9830,8 @@
      "source": "Shrewsbury Town FC"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "샐퍼드"
   },
   {
    "query": "jordan james",
@@ -9797,7 +9849,8 @@
      "source": "The Independent"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "조던 제임스"
   },
   {
    "query": "financial times",
@@ -9815,7 +9868,8 @@
      "source": "Lavender Hotel"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "금융 시간"
   },
   {
    "query": "andy burnham uk tour",
@@ -9833,7 +9887,8 @@
      "source": "Sky News"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "앤디 번햄 영국 투어"
   },
   {
    "query": "melissa barrera",
@@ -9851,7 +9906,8 @@
      "source": "IMDb"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "멜리사 바레라"
   },
   {
    "query": "martin brundle",
@@ -9869,7 +9925,8 @@
      "source": "PlanetF1"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "마틴 브런들"
   },
   {
    "query": "bristol post",
@@ -9887,7 +9944,8 @@
      "source": "The Guardian"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "브리스톨 포스트"
   },
   {
    "query": "arsenal football transfer news",
@@ -9905,7 +9963,8 @@
      "source": "The Independent"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "아스날 축구 이적 소식"
   },
   {
    "query": "liverpool vs monaco",
@@ -9923,7 +9982,8 @@
      "source": "Liverpool FC"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "리버풀 대 모나코"
   }
  ],
  "yt_cids": {
@@ -18154,7 +18214,8 @@
     "rh": [
      24
     ],
-    "first_seen": "2026-08-09T17:58:19+09:00"
+    "first_seen": "2026-08-09T17:58:19+09:00",
+    "ko": "Uni-1이 왔습니다! 픽셀을 동시에 생각하고 생성하는 새로운 종류의 모델입니다. 덜 인공적입니다. 더 지능적입니다."
    },
    {
     "account": "lumalabsai",
@@ -18170,7 +18231,8 @@
     "rh": [
      25
     ],
-    "first_seen": "2026-08-09T17:58:19+09:00"
+    "first_seen": "2026-08-09T17:58:19+09:00",
+    "ko": "Luma 에이전트를 소개합니다. 당신을 성공으로 이끄는 크리에이티브 에이전트. 방향을 정하셨습니다. 그들은 당신과 함께 구축하고, 무엇을 보고"
    },
    {
     "account": "pika_labs",
@@ -18186,7 +18248,8 @@
     "rh": [
      26
     ],
-    "first_seen": "2026-08-09T17:58:19+09:00"
+    "first_seen": "2026-08-09T17:58:19+09:00",
+    "ko": "소문은 사실이다. Seedance 2.5가 곧 출시될 예정입니다. 피카에."
    },
    {
     "account": "runwayapp",
@@ -18202,7 +18265,8 @@
     "rh": [
      27
     ],
-    "first_seen": "2026-08-09T17:58:19+09:00"
+    "first_seen": "2026-08-09T17:58:19+09:00",
+    "ko": "Seedance 2.5가 곧 Runway에 출시될 예정입니다."
    },
    {
     "account": "midjourney",
@@ -18218,7 +18282,8 @@
     "rh": [
      28
     ],
-    "first_seen": "2026-08-09T17:58:19+09:00"
+    "first_seen": "2026-08-09T17:58:19+09:00",
+    "ko": "빛을 넘어서"
    },
    {
     "account": "midjourney",
@@ -18234,7 +18299,8 @@
     "rh": [
      29
     ],
-    "first_seen": "2026-08-09T17:58:19+09:00"
+    "first_seen": "2026-08-09T17:58:19+09:00",
+    "ko": "이클립스라 리빙"
    },
    {
     "account": "runwayapp",
@@ -18250,7 +18316,8 @@
     "rh": [
      30
     ],
-    "first_seen": "2026-08-09T17:58:19+09:00"
+    "first_seen": "2026-08-09T17:58:19+09:00",
+    "ko": "새로운 Max 플랜에 가입하고 출시 시 7일 동안 Unlimited Seedance 2.5를 받으세요."
    },
    {
     "account": "runwayapp",
@@ -18266,7 +18333,8 @@
     "rh": [
      31
     ],
-    "first_seen": "2026-08-09T17:58:19+09:00"
+    "first_seen": "2026-08-09T17:58:19+09:00",
+    "ko": "이제 MiniMax H3를 Runway에서 만나보실 수 있습니다."
    },
    {
     "account": "midjourney",
@@ -18282,7 +18350,8 @@
     "rh": [
      32
     ],
-    "first_seen": "2026-08-09T17:58:19+09:00"
+    "first_seen": "2026-08-09T17:58:19+09:00",
+    "ko": "혼돈의 시간이군요 🌺😇"
    }
   ],
   "youtube": [
@@ -19984,7 +20053,8 @@
    "rh": [
     7
    ],
-   "first_seen": "2026-08-09T17:58:19+09:00"
+   "first_seen": "2026-08-09T17:58:19+09:00",
+   "ko": "ATL을 경외하는 건호"
   },
   {
    "query": "세계 고양이",
