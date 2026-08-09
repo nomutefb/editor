@@ -263,6 +263,38 @@ def kst_now():
         return datetime.now(timezone(timedelta(hours=9))).isoformat(timespec="seconds")
 
 
+def poster_jpg(mp4_bytes):
+    """완성 영상 첫 프레임 → JPEG q90 포스터(운영자 260810 "영상 제작시 썸네일을 따로만들게 하던가").
+
+    ⚠ 왜 제작 시에 굽나 = 이게 없으면 편집기 「작업 내역」 타일이 썸네일을 얻으려 **영상 본체를 60개 받는다**.
+      운영자 실측 = "썸네일 불러오는게 항상 그렇게 폰이 뜨거워져야돼? 그때 썸네일이 만들어지는것도 아니고" —
+      매 열람마다 수십 MB 다운로드 + 비디오 디코더 가동인데 정작 그림은 매번 새로 안 만들어진다(순수 낭비).
+      포스터 1장(수십 KB)을 제작 때 한 번 구우면 열람은 <img> 한 줄 = 디코더 0 · 트래픽 3자릿수 배 감소.
+    ⚠ iOS 축 = Safari는 `preload="metadata"`만으론 첫 프레임을 안 그린다(사용자 제스처 정책) → <video> 방식은
+      폰에서 구조적으로 검은 박스다. <img>는 그 정책 자체가 없다.
+    JPEG q90 = tg.to_jpg90 정본 경유(CONTRACT: check_image_format — 전 JPEG 저장 경로 통일).
+    fail-soft = 실패해도 None(산출 무손상 · 타일은 플레이트로 강등).
+    """
+    import tempfile, subprocess
+    tmpv = tmpp = None
+    try:
+        with tempfile.NamedTemporaryFile(suffix=".mp4", delete=False) as f:
+            tmpv = f.name; f.write(mp4_bytes)
+        tmpp = tmpv + ".png"
+        subprocess.run(["ffmpeg", "-y", "-v", "error", "-ss", "0.1", "-i", tmpv, "-frames:v", "1",
+                        "-vf", "scale='min(640,iw)':-2", tmpp], check=True, timeout=120)   # 0.1s = 페이드인 첫 검은 프레임 회피 · 640 상한 = 타일 실측 최대 178.7px의 여유 배수(원본이 더 작으면 그대로)
+        with open(tmpp, "rb") as f:
+            return tg.to_jpg90(f.read())
+    except Exception as e:
+        print("::warning::포스터 생성 실패(타일은 플레이트로 강등·무해):", str(e)[:140]); return None
+    finally:
+        for p in (tmpv, tmpp):
+            try:
+                if p and os.path.isfile(p): os.remove(p)
+            except Exception:
+                pass
+
+
 def out_json(outdir, doc):
     doc["ts"] = kst_now()
     body = json.dumps(doc, ensure_ascii=False, separators=(",", ":"))
@@ -1603,8 +1635,15 @@ def run(vid_id, video, outdir):
     if tg.R2_ON:
         url = tg.r2_upload(data, "ly_out/{}/subbed.mp4".format(vid_id), "video/mp4")
         if url:
+            pt_url = ""   # 작업 내역 타일 썸네일(운영자 260810) — 열람 때 영상을 받지 않게 제작 시 1장 굽는다
+            try:
+                _pj = poster_jpg(data)
+                if _pj: pt_url = tg.r2_upload(_pj, "ly_out/{}/poster.jpg".format(vid_id), "image/jpeg") or ""
+            except Exception as e:
+                print("::warning::포스터 업로드 실패(무해):", str(e)[:120])
             out_json(outdir, dict({"url": url + "?v=" + bust, "src": src_url, "bytes": len(data), "dur": round(dur, 1), "note": note, "sub": sub_burned},
                                   **({"ovl": ovl_url + "?v=" + bust} if ovl_url else {}),
+                                  **({"poster": pt_url + "?v=" + bust} if pt_url else {}),
                                   **({"edit_opts": snap} if snap else {}))); return 0
         print("::warning::R2 업로드 실패 — git 폴백 시도")
     if len(data) <= GIT_FALLBACK_MAX:

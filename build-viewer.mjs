@@ -611,7 +611,6 @@ if (existsSync(LY_ROOT)) {
   const eoLabel = eo => eoParts(eo).join(' · ');   // 편집 잡 라벨 폴백 — 자막 없는 편집 산출이 '(제목 없음)'으로 뜨던 것 정정(ly_burn EDIT_KEYS 스냅샷 소비 · ly.html 소비 축 무변경)
   // 추가 옵션 어휘 = edit.html XTR 카드 문구 정본 계승(운영자 260810 "적용된 효과를 #으로만") — 새 어휘 창작 0
   const XTR_NM = { mosaic: '모자이크', pinset: '트래킹', keying: '키잉', silh: '실루엣', chroma: '크로마키', trans: '번역' };
-  const PV_OK = /\.(mp4|webm|m4v)(\?|$)/i;   // 브라우저가 첫 프레임을 그릴 수 있는 컨테이너만(⚠ .mov = 재생 불가 = 알파 산출의 preview.webm 동반 계약과 같은 축)
   const lyJobs = [];
   for (const id of readdirSync(LY_ROOT)) {
     const dir = join(LY_ROOT, id);
@@ -639,9 +638,14 @@ if (existsSync(LY_ROOT)) {
     // 효과 태그(tg) = 레시피 + 자막 번인 + 추가 옵션 — 편집기 작업 내역 타일이 '#효과'로 그린다(운영자 260810).
     // 썸네일(pv) = 재생 가능한 결과 미디어 URL 사다리 {알파 산출 preview.webm → 결과물 → 원본}. 없으면 빈 문자열 = 타일이 무지 플레이트로 강등(§디자인 빈 상태).
     const tg = v ? [...eoParts(v.edit_opts), ...(v.sub ? ['자막'] : []), ...(Array.isArray(v.xtr) ? v.xtr.map(x => XTR_NM[x]).filter(Boolean) : [])] : [];
-    let pv = '';
-    if (v) { if (v.preview && PV_OK.test(String(v.preview))) pv = String(v.preview); else if (v.url && PV_OK.test(String(v.url))) pv = String(v.url); else if (v.src && PV_OK.test(String(v.src))) pv = String(v.src); }
-    lyJobs.push({ id, t: title, ts: (v && v.ts) || idTs(id), st, ...(d ? { d } : {}), ...(tg.length ? { tg } : {}), ...(pv ? { pv } : {}) });
+    // 썸네일(pt) = **포스터 이미지 한 장**(운영자 260810 "영상 제작시 썸네일을 따로만들게 하던가").
+    // ⚠ 구판은 결과 영상 URL을 그대로 실어 뷰어가 <video>로 첫 프레임을 그렸는데, 그건 타일 60개마다 영상 본체를
+    //   받는다는 뜻이었다(운영자 실측 "폰이 뜨거워져" · 그러면서 정작 그림은 매번 새로 안 만들어진다) + iOS는
+    //   preload=metadata로 첫 프레임을 안 그려 폰에선 검은 박스였다. → 제작 시 1장 굽고 열람은 <img>.
+    // 원천 2갈래 = R2(신규분 = ly_burn.poster_jpg · 레포 용량 0) ∨ git 로컬(과거분 1회 백필분).
+    const ptLocal = existsSync(join(dir, 'poster.jpg')) ? `ly_out/${id}/poster.jpg` : '';
+    const pt = (v && typeof v.poster === 'string' && v.poster) || ptLocal || '';
+    lyJobs.push({ id, t: title, ts: (v && v.ts) || idTs(id), st, ...(d ? { d } : {}), ...(tg.length ? { tg } : {}), ...(pt ? { pt } : {}) });
   }
   lyJobs.sort((a, b) => (b.id || '').localeCompare(a.id || ''));           // 최신순(id = 시간 접두)
   writeFileSync(join(LY_ROOT, 'index.json'), JSON.stringify(lyJobs));
