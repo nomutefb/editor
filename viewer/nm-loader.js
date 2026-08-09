@@ -169,24 +169,33 @@
   function dotsSVG() {   // 통통 튀는 도트 3(흰 입자 .nm-dot · 기존 .nmld 바운스 계승) — 260731부터 **전 type 단일 그래픽**(운영자 승인)
     return '<svg viewBox="0 0 100 100"><circle class="nm-dot nm-bd" cx="21" cy="50" r="9.5"/><circle class="nm-dot nm-bd b2" cx="50" cy="50" r="9.5"/><circle class="nm-dot nm-bd b3" cx="79" cy="50" r="9.5"/></svg>';
   }
-  function orbType(t) { return t === 'solving' ? 'solving' : t === 'prompting' ? 'prompting' : t === 'loading' ? 'loading' : 'thinking'; }   // 의미 라벨(data-orb 계약 유지) — 그래픽 분기는 없다
+  /* 【260809 = 로더 1종 통일(운영자 "로더 - 1종으로 통일 > 솔빙")】 4종(loading·thinking·solving·prompting) → **solving 하나**.
+     260731에 그래픽은 이미 도트3으로 단일화됐고 type은 의미 라벨로만 남아 있었는데, 그 잔재가 딱 하나 실제 차이를 만들고 있었다 =
+     `loading`만 orb 없이 **글자 단독**(260731 "나우로딩은 그냥 글자만 — 옆에 ...이 있으니까"). 이 지시가 그 예외를 거둔다 →
+     이제 전 호출부가 도트3 + 빛 스윕 한 벌로 그려진다(글자만 분기 소멸).
+     ⚠ 인자 t는 계속 받는다 = **호출부 수정 0**(nmLoader('loading'|'thinking'|'prompting', …) 그대로 살아 있고 반환만 solving).
+        data-orb 속성도 'solving' 단일값이 된다 — 스모크·CSS 훅이 [data-orb] 존재만 보므로 계약 무손상. */
+  function orbType(t) { return 'solving'; }   // 1종 고정(260809) · 구 4분기 = 위 주석
   function orbHTML(type, size) { var sz = size ? ' style="width:' + size + 'px;height:' + size + 'px"' : ''; return '<span class="nm-orb" data-orb="' + orbType(type) + '"' + sz + '>' + dotsSVG() + '</span>'; }
   function esc(x) { return String(x == null ? '' : x).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
 
   // nmLoader(type,label[,opts]) — opts={size:orb px, gap, fs:글자 px}. 좁은 버튼 = size 18·fs 12.5, 기본 pill = 22·13.5
-  /* type='loading' = **글자만**(도트 픽토 미부착 · 운영자 260731 "나우로딩은 그냥 글자만 — 옆에 ...이 있으니까")
-     — 라벨 끝 말줄임(…)이 이미 점 3개라 도트3까지 붙으면 점이 두 벌로 읽힌다. 나머지 3종(thinking·solving·prompting)만 도트3. */
+  /* 【260809 = 1종 통일】 전 type이 도트3 + 빛 스윕 한 벌로 그려진다(위 orbType 주석).
+     구판은 여기서 `orbType(type)==='loading' ? '' : …` 삼항으로 loading만 글자 단독으로 갈랐다 —
+     orbType이 1종 고정이 된 지금 그 삼항은 **영원히 거짓인 죽은 가지**라, 남겨두면 「loading은 글자만」이라고
+     읽히는 코드가 계속 산다(주석·코드가 동작과 어긋나는 게 이 레포가 반복해 겪은 드리프트) → 삼항을 걷어낸다.
+     되돌리려면 orbType의 4분기를 복구하고 이 줄을 삼항으로 되돌리면 된다(호출부는 어느 쪽이든 무접촉). */
   window.nmLoader = function (type, label, opts) {
     opts = opts || {}; var g = opts.gap != null ? opts.gap : 9;
     var fs = opts.fs ? ' style="font-size:' + opts.fs + 'px"' : '';
-    var orb = orbType(type) === 'loading' ? '' : orbHTML(type, opts.size);
+    var orb = orbHTML(type, opts.size);
     return '<span class="nm-load" style="gap:' + g + 'px">' + orb + '<span class="nm-shim"' + fs + '>' + esc(label) + '</span></span>';
   };
   window.nmOrbHTML = orbHTML;   // orb만(버튼 좁은 폭 등)
   function hydrate(root) {   // 선언형: <span class="nm-load" data-orb="thinking" data-label="Thinking…"></span>
     var els = (root || document).querySelectorAll('.nm-load[data-orb]:not([data-nm-done])'), i, e;
     for (i = 0; i < els.length; i++) { e = els[i]; e.setAttribute('data-nm-done', '1');
-      e.innerHTML = (orbType(e.getAttribute('data-orb')) === 'loading' ? '' : orbHTML(e.getAttribute('data-orb'))) + '<span class="nm-shim">' + esc(e.getAttribute('data-label')) + '</span>'; }   // loading = 글자만(위 nmLoader와 동일 규칙)
+      e.innerHTML = orbHTML(e.getAttribute('data-orb')) + '<span class="nm-shim">' + esc(e.getAttribute('data-label')) + '</span>'; }   // 1종 통일(260809) = 선언형도 항상 도트3(위 nmLoader와 동일 규칙 · 구 loading 글자만 가지 제거)
   }
   window.nmLoaderHydrate = hydrate;
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { hydrate(); }); else hydrate();

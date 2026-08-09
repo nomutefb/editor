@@ -106,7 +106,7 @@ async function probe(browser, url) {
   //    260731: type=loading = **글자만**(도트 픽토 미부착 · 라벨 끝 …이 이미 점 3개) → 수화 판정 = .nm-shim 존재·도트 부재.
   const orbLoading = await page.evaluate(() => {
     const tl = document.querySelector('.tool-loading'); if (!tl) return { exists: false };
-    return { exists: true, op: getComputedStyle(tl).opacity, hydrated: !!tl.querySelector('.nm-shim'), noOrb: !tl.querySelector('.nm-orb'), label: (tl.querySelector('.nm-shim') || {}).textContent };
+    return { exists: true, op: getComputedStyle(tl).opacity, hydrated: !!tl.querySelector('.nm-shim'), hasOrb: !!tl.querySelector('.nm-orb'), label: (tl.querySelector('.nm-shim') || {}).textContent };
   });
 
   // ── .ready 재부여 → 프레임 페이드인 복귀 + orb 오버레이 은닉(리빌은 .ready가 전담함을 확인)
@@ -189,8 +189,12 @@ async function probeTr(browser, url) {
   A(r1.opGated.frameReadyOn && !r1.opGated.ready && hidden(r1.opGated.op),
     'C3 리빌 게이트 = 프레임별 .ready — 전역 frame-ready ON·.ready OFF면 opacity≈0(숨김 · 구 전역게이트 회귀 시 FAIL)', JSON.stringify(r1.opGated));
   A(shown(r1.opBack), 'C4 .ready 재부여 → opacity≈1(페이드인 복귀)', 'op=' + r1.opBack);
-  A(r1.orbLoading.exists && r1.orbLoading.hydrated && r1.orbLoading.noOrb && r1.orbLoading.label === '불러오는 중' && parseFloat(r1.orbLoading.op) > 0.9 && parseFloat(r1.orbHidden) < 0.1,
-    'C5 로딩중 nm-loader 오버레이 표시("불러오는 중" · loading = 글자만 = 도트 미부착 · 운영자 260731) + 준비되면 은닉(한수 260724)', JSON.stringify([r1.orbLoading, r1.orbHidden]));
+  // 【260809 계약 개정 — 운영자 "로더 1종으로 통일 > 솔빙"】 축을 뒤집는다: 구판은 `noOrb`(도트 **미**부착)를 요구했다.
+  //   그 요구는 260731 "나우로딩은 그냥 글자만 — 옆에 ...이 있으니까"의 강제였고, 1종 통일이 그 예외를 거뒀으므로
+  //   이제는 **도트가 붙어 있어야** 통과다(`hasOrb`). 나머지 축(존재·수화·라벨·불투명도·준비 후 은닉)은 그대로 =
+  //   게이트를 약화시키는 게 아니라 **새 계약을 같은 강도로** 강제한다.
+  A(r1.orbLoading.exists && r1.orbLoading.hydrated && r1.orbLoading.hasOrb && r1.orbLoading.label === '불러오는 중' && parseFloat(r1.orbLoading.op) > 0.9 && parseFloat(r1.orbHidden) < 0.1,
+    'C5 로딩중 nm-loader 오버레이 표시("불러오는 중" · 로더 1종 통일 = 도트3 **부착** · 운영자 260809 · 구 260731 「글자만」 대체) + 준비되면 은닉(한수 260724)', JSON.stringify([r1.orbLoading, r1.orbHidden]));
   const det = (hidden(r1.opGated.op) === hidden(r2.opGated.op)) && (shown(r1.opRevealed.op) === shown(r2.opRevealed.op)) && (parseFloat(r1.orbLoading.op) > 0.9) === (parseFloat(r2.orbLoading.op) > 0.9);   // 판정 불리언 동일(잔차 무관)
   A(det, 'C6 결정론(2런 동일)', JSON.stringify([r1.opGated.op, r2.opGated.op, r1.orbLoading.op, r2.orbLoading.op]));
 
