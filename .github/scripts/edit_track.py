@@ -347,7 +347,15 @@ def main():
         json.dump(vj, open(vj_p, "w", encoding="utf-8"), ensure_ascii=False)
         return 0
 
-    vj["url"] = (f"{url}?v={bust}" if url else f"{pv}?v={bust}")   # 마스터 유실 = 프리뷰라도 살린다(정본 계약 = track_keying "master-lost" 계승 — 알파 마스터는 수백 MB라 R2 미설정·대용량에서 흔히 못 올리는데, 구판은 그때 **프리뷰(1MB대)까지 통째로 버려** 운영자가 결과를 아예 못 봤다 · 실측 260808 = MOV 38MB 유실 ↔ webm 0.97MB 멀쩡)
+    # ⚠ 화면 재생 = **webm 프리뷰 우선**(260809 실사고) — 알파 마스터는 ProRes 4444 MOV라 **브라우저가 재생을 못 한다**.
+    #   러너 로그는 「크로마키 완료 · 마스터 71MB」로 성공인데 화면엔 아무것도 안 나와 운영자에겐 "작동 안 함"으로 보였다.
+    #   url = 재생 가능한 프리뷰 / master = 편집용 알파 원본(다운로드·후속 배선용 보존) · 비알파(모자이크·핀셋)는 종전 그대로.
+    if alpha and pv:
+        vj["url"] = f"{pv}?v={bust}"
+        if url:
+            vj["master"] = f"{url}?v={bust}"
+    else:
+        vj["url"] = (f"{url}?v={bust}" if url else f"{pv}?v={bust}")   # 마스터 유실 = 프리뷰라도 살린다(track_keying "master-lost" 계승)
     vj["bytes"] = os.path.getsize(cur if url else prev)
     vj["xtr"] = done
     if pv:
