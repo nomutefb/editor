@@ -239,8 +239,8 @@
   #editGo { border-radius:var(--r-m); padding:var(--sp-1); font-size:var(--fs-label); overflow:visible; }
   #editGo.busy { white-space:nowrap; padding-left:0; padding-right:0; }   /* 진행 라벨만 한 줄 고정(운영자 260809 「로드중… 이거로 줄여볼래?」의 실측 해) — ⚠ 문구를 줄이는 것만으로는 목적 미달이었다: 폭 70px 안에서 「업로드중…」도 「로드중…」도 **2줄로 꺾여** 버튼이 30 → **39px로 부풀었다**(실측). 업로드가 시작될 때마다 발사 버튼이 세로로 커졌다 놓이는 레이아웃 튐이 상시로 있었다(260716 「덜컹 원천 소멸」과 같은 축). nowrap이면 한 줄에 들어가 높이가 idle과 **완전 동일한 30px**로 유지된다(실측 70×30 · 넘침 0).
      ⚠ 스코프가 `.busy`인 이유 = 이 버튼은 **에러 문구도 담는다**(errStatus 「영상 URL이나 파일을 넣어줘」). 전역 nowrap이면 그 문구가 한 줄로 펴져 scrollW 149 vs clientW 68 = **79px가 화면으로 삐져나온다**(실측 · overflow:visible이라 잘리지도 않는다). 진행 표시(goUpBusy·생성중 상주)만 `.busy`를 쓰므로 여기에만 건다 — 에러·기본 라벨은 종전 감싸기 그대로 = 회귀 0.
-     ⚠ 좌우 padding 0(busy 한정) = 넘침 흡수 — orb(15)+gap(7)+「로드중…」 = **65px**인데 좌우 --sp-1(6+6)을 빼면 가용이 56px뿐이라
-       nowrap만으로는 말줄임표가 테두리에 2px 걸쳐 잘려 보였다(실측 scrollW 71 vs clientW 68). 세로 padding·min-height 30은 무접촉이라 높이는 그대로다.
+     ⚠ 좌우 padding 0(busy 한정) = 넘침 흡수 — 「업로드 중…」이 좌우 --sp-1(6+6)을 뺀 가용 56px에 안 들어간다(실측 = padding 0일 때
+       scrollW **68** = clientW 68로 정확히 한 줄). 세로 padding·min-height 30은 무접촉이라 높이는 idle과 동일한 30px 그대로다.
      스코프 = #editGo 단독(공유 .go 8뷰어 정본 무접촉) · 새 값 0(레이아웃 속성만 · 0은 신규 토큰이 아니다). */
   #editGo .gck { margin:-6.5px 0; }   /* raw-ok: (26−13)/2 — #editGo는 fs-label 13이라 .go 공통 −6(14 기준)에 0.5 보정 = ✓ 단계 높이 27px 동결(게이지 튐 0 · 실측 260722) */   /* 생성 버튼 디자인 = Image Studio 정본 계승(#geniGo→thumb #go 사다리 = r-m 11·sp-1 6·fs-label 13 · thumb #go id 스코프 동문 — 운영자 260718 "이미지·비디오 스튜디오 정합") · 공유 .go(8뷰어 pill 정본)는 무접촉 = #editGo id 스코프 · 발사 게이지·상태머신 = .go 정본 그대로 · overflow:visible = 아래 히트슬롭 통로(운영자 260719 승인 · thumb #go 공동 수선 — 게이지 goFill = background 애니라 radius 자동 클립 = 시각 불변) */
   #editGo::before { content:''; position:absolute; left:0; right:0; top:-9px; bottom:-9px; }   /* 탭존 45px(시각 27 불변) = 44px 관례 복원(평의회3 260718) · raw-ok: ±9 = .rm 히트슬롭 정본 동값(.scard .rm::before inset:-9px 동문) */
@@ -1641,14 +1641,18 @@ function goBusy(g){   // 생성중 상주 = orb 로더(Solving) 상주 + 비활�
   g.setAttribute('aria-busy','true');
 }
 function goUpBusy(g){   // 업로드중 상주(운영자 260731 "업로드 다 될 때까지는 생성도 못 하니 버튼에 '업로드중'이 떠야 함")
-  // 레퍼런스 = 바로 위 goBusy **그대로**(도트3 orb + 빛 스윕 글자 = 260731 로더 표기 정본 · nmLoader 문법·size 15·gap 7·fs 12.5 동일) — 라벨만 「로드중…」(운영자 260809 "로드중... 이거로 줄여볼래?" · 구 「업로드중…」 5자 → 3자 · 부품·값·모션 무접촉 = 문구 축만).
+  // 표기 = **글자 단독**(운영자 260809 2차 "앞에 점 3개 없애고 업로드 중... 으로 바꿔보자") — 구판은 goBusy와 같은 도트3 orb + 라벨이었다.
+  //   ⚠ orb 제거 = 260731 로더 표기 정본에서 **이 자리만** 이탈한다(운영자 지시 = 승인 근거). 형제인 goBusy('제작중…')는 orb 유지 =
+  //     업로드는 글자·생성중은 orb로 갈린다. 그 대비가 오히려 두 단계를 구분해준다는 판단이고, 되돌리려면 아래 한 줄을
+  //     `nmLoader('solving','업로드 중…',{size:15,gap:7,fs:12.5})`로 바꾸면 된다(폴백·게이트 무관 = 로딩 SSOT는 raw 마크업만 막는다).
+  //   라벨 = 「업로드 중…」(운영자 표기 그대로 · 말줄임표는 레포 관례 U+2026).
   // 구 동작 = `btn.disabled=true`뿐이라 버튼은 '생성' 글자 그대로 흐려지기만 했다 → 왜 안 눌리는지 화면에 이유가 없었다(진행률은 파일칩·#pvAttr에만).
   // disabled 대신 `.busy`(pointer-events:none) = goBusy와 동일 시각 계약(:disabled opacity .47 딤이 로더를 흐리는 겹침 회피 · .go.firing 주석과 동축).
   // 키보드 Enter·프로그램 .click()은 pointer-events가 못 막으므로 발사 핸들러 진입 가드(_uploading)가 짝으로 차단한다.
   if(!g) return;
   clearTimeout(_goFT2); clearTimeout(_goFT3);
   g.classList.remove('firing','okdone','checking','err','shake'); g.classList.add('busy');
-  g.innerHTML = window.nmLoader ? nmLoader('solving','로드중…',{size:15,gap:7,fs:12.5}) : '로드중<span class="gdots"><i>.</i><i>.</i><i>.</i></span>';
+  g.textContent = '업로드 중…';
   g.setAttribute('aria-busy','true'); g.setAttribute('aria-disabled','true');
 }
 function goUpDone(g){   // 업로드 종료(완료·실패·취소 공통) = 버튼 원복 — goFireDone 미러 + aria-disabled 해제
