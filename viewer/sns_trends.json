@@ -8481,8 +8481,14 @@
   {
    "query": "제니",
    "traffic": "10000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/trend/adc15ab0ef.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.tenasia.co.kr/article/2026080560224",
+     "source": ""
+    }
+   ],
    "vol": 10000,
    "started": "2026-08-09T19:20:00+09:00",
    "delta": -2,
@@ -8497,8 +8503,14 @@
   {
    "query": "장교",
    "traffic": "10000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/trend/9226d8e2c3.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.edaily.co.kr/News/Read?newsId=01321846645545680&mediaCodeNo=257",
+     "source": ""
+    }
+   ],
    "vol": 10000,
    "started": "2026-08-09T11:10:00+09:00",
    "rh": [
@@ -8636,8 +8648,14 @@
   {
    "query": "가능한 사랑",
    "traffic": "10000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/trend/2df1f2175a.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.khan.co.kr/article/202508051413001",
+     "source": ""
+    }
+   ],
    "vol": 10000,
    "started": "2026-08-09T00:40:00+09:00",
    "rh": [
@@ -9671,14 +9689,16 @@
      "source": "岩手日報"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "토사 재해"
   },
   {
    "query": "水曜どうでしょう",
    "traffic": "200+",
    "picture": "",
    "news": [],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "수요일 어때요"
   },
   {
    "query": "リヴァプール",
@@ -9696,7 +9716,8 @@
      "source": "DAZN"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "리버풀"
   },
   {
    "query": "宮下今日子",
@@ -9714,7 +9735,8 @@
      "source": "オリコンニュース"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "미야시타 쿄코"
   },
   {
    "query": "mansfield town vs sheffield united",
@@ -9732,7 +9754,8 @@
      "source": "Racing Post"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "맨스필드 타운 vs 셰필드 유나이티드"
   },
   {
    "query": "rangers vs hibernian",
@@ -9750,7 +9773,8 @@
      "source": "Racing Post"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "레인저스 vs 하이버니언"
   },
   {
    "query": "adam wharton",
@@ -9768,7 +9792,8 @@
      "source": "EPL Index"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "아담 와튼"
   },
   {
    "query": "spl",
@@ -9804,7 +9829,8 @@
      "source": "Bavarian Football Works"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "조아오 팔힌하"
   },
   {
    "query": "chermiti",
@@ -9822,7 +9848,8 @@
      "source": "The Rangers Review"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "체르미티"
   },
   {
    "query": "konstantinos karetsas",
@@ -9840,7 +9867,8 @@
      "source": "Yahoo Sports"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "콘스탄티노스 카레차스"
   },
   {
    "query": "prince philip",
@@ -9858,7 +9886,8 @@
      "source": "AOL.com"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "필립 왕자"
   },
   {
    "query": "motherwell vs falkirk",
@@ -9876,7 +9905,8 @@
      "source": "Racing Post"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "마더웰 vs 폴커크"
   },
   {
    "query": "ajax fc",
@@ -9894,7 +9924,8 @@
      "source": "OneFootball"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "아약스 FC"
   }
  ],
  "yt_cids": {
@@ -20373,7 +20404,8 @@
    "rh": [
     1
    ],
-   "first_seen": "2026-08-09T23:38:06+09:00"
+   "first_seen": "2026-08-09T23:38:06+09:00",
+   "ko": "엘 사이드"
   },
   {
    "query": "Liverpool FC",
@@ -20384,7 +20416,8 @@
    "rh": [
     2
    ],
-   "first_seen": "2026-08-09T23:38:06+09:00"
+   "first_seen": "2026-08-09T23:38:06+09:00",
+   "ko": "리버풀 FC"
   },
   {
    "query": "Book Discussions",
