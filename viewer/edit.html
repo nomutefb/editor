@@ -1431,6 +1431,8 @@ function recipe(r){
 })();
 
 /* ══ 기타 옵션(운영자 260712 2차 "번호 매겨 제일 아래" — 1차 소스 아래 선택 뒤집음) — 4번 섹션·스택 최하단 상시 카드 3장{모자이크·트래킹(핀셋)·키잉} = .sech/.scard/.pc 계승 · 트래킹 서브뷰 핸드오프(nm_track_preset 일회용 · 파이프 재사용 = 중복 배선 0 · 3탭 축소 후 트래킹 진입은 여기가 유일) ══ */
+let XTR_SCAN='';   // 인물 스캔 상태('' | 'run' | 'err:<사유>') — 트래킹 토글 즉시 분석(운영자 260809 "트래킹 누르면 바로 #이 뜨게끔")
+let XTR_SCAN_ID='';   // 그 스캔의 작업 id(track_out/<id>) — crop 경로 기준
 let XTR_GRP=[{name:'',pids:[]},{name:'',pids:[]}];   // 이름 묶음 폼(기본 2 · [+]로 추가 · 어느 폼에도 안 담긴 #은 미지정 = 영상 표기 없음)
 let XTR_ACT=0;   // 활성 폼(폰 = 여기에 # 탭이 담긴다)
 let XTR_FACES=[];   // 직전 생성의 인물 얼굴(video.json faces) — 2트랙 ②에서 #N ↔ 얼굴 대조용
@@ -1455,6 +1457,10 @@ function renderXtr(){   // 가로 3분할 + 라벨|OFF·ON 순환값 문법(운�
     +'<div class="grow"><span class="k">부드럽게</span><input type="range" min="0" max="10" step="1" value="'+XTR.ckfe+'" data-xg="ckfe" aria-label="매트 블러"><span class="v">'+XTR.ckfe+'</span></div>'; }
   if(XTR.pinset){
     const used=new Set(); XTR_GRP.forEach(g=>g.pids.forEach(p=>used.add(p|0)));
+    if(!XTR_FACES.length) det+='<div class="plbl"'+(det?'':' style="margin-top:0"')+'>등장인물</div>'
+      +'<div class="xnote" style="margin-top:0">'+(XTR_SCAN==='run'?'인물 찾는 중… 끝나면 #이 떠(닫아도 계속 돼)'
+        :XTR_SCAN.startsWith('err:')?esc(XTR_SCAN.slice(4))
+        :'영상을 넣으면 인물을 찾아 #을 띄워줄게')+'</div>';
     if(XTR_FACES.length) det+='<div class="plbl"'+(det?'':' style="margin-top:0"')+'>등장인물</div>'   // 직전 생성이 찾은 얼굴 = 묶음 폼 **위**(보면서 담는다)
       +'<div class="xfaces">'+XTR_FACES.map(f=>'<span class="xface'+(used.has(f.pid|0)?' used':'')+'" draggable="true" data-pid="'+(f.pid|0)+'" title="끌어놓거나 탭해서 담기">'+(f.url?'<img loading="lazy" alt="인물 '+(f.pid|0)+'" src="'+esc(f.url)+'">':'')+'<span class="hint">#'+(f.pid|0)+'</span></span>').join('')+'</div>';
     det+='<div class="plbl"'+(det?'':' style="margin-top:0"')+'>이름</div><div class="xgrp">'
@@ -1486,6 +1492,43 @@ function renderXtr(){   // 가로 3분할 + 라벨|OFF·ON 순환값 문법(운�
   xgWireDrag(el);
   const nmi=null;   // 클립 공식 전수 부착(운영자 260803 "붙어있어야돼 · 공식처럼가야함") — renderXtr가 innerHTML을 매번 다시 그리므로 그릴 때마다 붙인다 · 강제 = check_clip_coverage
 
+}
+async function xtrScan(){   // 인물 분석 = /api/track analyze 발사 → track_out/<id>/tracks.json 폴 → 얼굴 줄(정본 문법 = track.html 폴 계승)
+  if(XTR_SCAN==='run') return;
+  const url=($('#url')&&$('#url').value.trim())||'';
+  if(!url&&!_lastFile){ XTR_SCAN='err:영상을 먼저 넣어줘 — 그다음 트래킹을 켜면 인물을 찾아'; renderXtr(); return; }
+  XTR_SCAN='run'; renderXtr();
+  try{
+    let payload;
+    if(url) payload={url};
+    else{
+      // ⚠ 발사용 R2 키(FILE_R2)를 **재사용하지 않는다** — 러너가 잡 끝에 원본을 지우는 일회용이라, 여기서 쓰면 정작 생성 때 파일이 없다.
+      const up=await nmUpload(_lastFile); payload={r2key:up.key, name:_lastFile.name};
+    }
+    const res=await fetch('/api/track',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(payload)});
+    const j=await res.json();
+    if(!res.ok||j.error||!j.id){ XTR_SCAN='err:'+String(j.error||('인물 분석 발사 실패 '+res.status)); renderXtr(); return; }
+    XTR_SCAN_ID=j.id;
+    const t0=Date.now(), out='track_out/'+j.id+'/tracks.json', errp='track_out/'+j.id+'/error.log';
+    const tick=async()=>{
+      if(XTR_SCAN!=='run') return;
+      if(Date.now()-t0>1200e3){ XTR_SCAN='err:인물 분석이 오래 걸려 — 생성하면 그때 다시 붙어'; renderXtr(); return; }
+      try{ const er=await fetch(errp+'?t='+Date.now());
+        if(er.ok){ const ect=(er.headers.get('content-type')||'').toLowerCase(); const em=await er.text();
+          if(em&&em.trim()&&!ect.includes('text/html')&&!/^\s*<!doctype/i.test(em)){ XTR_SCAN='err:'+em.trim().slice(0,80); renderXtr(); return; } } }catch(e){}
+      try{ const r=await fetch(out+'?t='+Date.now());
+        if(r.ok){ const ct=(r.headers.get('content-type')||'').toLowerCase(); const tx=await r.text();
+          const isHtml=ct.includes('text/html')||/^\s*<!doctype/i.test(tx)||/<html[\s>]/i.test(tx.slice(0,300));
+          if(tx&&tx.trim()&&!isHtml){ let d=null; try{ d=JSON.parse(tx); }catch(e){}
+            if(d&&Array.isArray(d.people)){
+              XTR_FACES=d.people.filter(p=>p&&p.crop).slice(0,32).map(p=>({pid:p.pid|0, url:'track_out/'+j.id+'/'+p.crop, first:p.first, dur:p.dur}));
+              try{ localStorage.setItem('nm_xtr_faces',JSON.stringify(XTR_FACES)); }catch(e){}
+              XTR_SCAN=XTR_FACES.length?'':'err:사람을 못 찾았어 — 얼굴이 크게 나오는 구간이 필요해';
+              renderXtr(); return; } } } }catch(e){}
+      setTimeout(tick,5000);
+    };
+    tick();
+  }catch(e){ XTR_SCAN='err:'+String((e&&e.message)||e).slice(0,80); renderXtr(); }
 }
 function xgPut(pid,gi){   // # 하나를 폼에 담는다 — 한 번호는 **한 폼에만**(다른 폼에 있으면 옮겨온다) · 같은 폼이면 빼기(토글)
   pid=pid|0; if(!XTR_GRP[gi]) return;
@@ -1522,7 +1565,13 @@ function xtrOpts(){   // 발사 페이로드 축(운영자 260808) — 켠 축�
    술어 = 위 위임과 **같은 문법**(헤더의 유일한 자식이 워드 칩일 때만) → 라벨|값·칩 나열 헤더는 자식 2개 이상이라 미적중 = 종전 100% 불변. */
 const xoCap=(el)=>{ const h=el.closest&&el.closest('.hd.st'); return h?h.querySelector(':scope > .cyv[data-xo]:only-child'):null; };
 $('#xtrsec').addEventListener('click',e=>{
-  const t=e.target.closest('[data-xo]')||xoCap(e.target); if(t){ const k=t.dataset.xo; XTR[k]=!XTR[k]; if(XTR[k]){ if(k==='trans'){ XTR.mosaic=XTR.pinset=XTR.keying=XTR.silh=XTR.chroma=false; } else { XTR.trans=false; } } renderXtr(); return; }   // 탭 = OFF↔ON 토글(순환값 문법 · 260712 5차) · 번역 XOR 가림 계열 배타(운영자 260720 "번역 on = 모자이크 무조건 off" — 켜는 순간만 반대편 정리, 끄기는 자유)
+  const t=e.target.closest('[data-xo]')||xoCap(e.target);
+  if(t){ const k=t.dataset.xo; XTR[k]=!XTR[k];
+    if(XTR[k]){ if(k==='trans'){ XTR.mosaic=XTR.pinset=XTR.keying=XTR.silh=XTR.chroma=false; } else { XTR.trans=false; } }   // 탭 = OFF↔ON 토글(순환값 문법 · 260712 5차) · 번역 XOR 가림 계열 배타(운영자 260720)
+    // 트래킹 ON = **그 자리에서 인물 분석 발사**(운영자 260809 "트래킹 누르면 바로 #이 뜨게끔") — 구판은 XTR_FACES가 생성 폴 완료에서만 채워져
+    //   한 번 생성하기 전까진 #이 영영 안 떴다. 여기서 /api/track analyze를 걸어 생성을 기다리지 않는다.
+    if(k==='pinset'&&XTR[k]&&!XTR_FACES.length&&XTR_SCAN!=='run') setTimeout(xtrScan,0);
+    renderXtr(); return; }
   const sx=e.target.closest('[data-xs]'); if(sx){ XTR.shape=sx.dataset.xs; renderXtr(); return; }
   const xf=e.target.closest('[data-xf]'); if(xf){ XTR.fill=xf.dataset.xf==='image'?'image':'mosaic'; renderXtr(); return; }
   const xp=e.target.closest('[data-xp]'); if(xp){ XTR.preset=['smile','black','heart'].includes(xp.dataset.xp)?xp.dataset.xp:'smile'; renderXtr(); return; }
