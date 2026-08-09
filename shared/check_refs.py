@@ -6548,6 +6548,17 @@ def check_brief_lib():
             fails.append('%s: PROMPT에 강조 밀도 계약 소실 — 볼드 1~2개짜리 밋밋한 판으로 되돌아간다' % sh)
         if '기 대 기로' not in _p:
             fails.append('%s: PROMPT에 [3개월] 기 대 기 리듬 계약 소실 — 사다리가 그 창에서 끊긴다' % sh)
+        if "링크 {x.get('permalink')" not in s.split('post_refs')[0][-400:] and 'post_refs' in s and '} 링크 {' not in s:
+            fails.append('%s: 일별 「올린 것」 칸 permalink 미탑재 — [28일]이 전환점 게시물을 링크로 못 건다' % sh)
+    v = _read('viewer/index.html')
+    if v:
+        # 인앱 팝업(운영자 260809 "링크가 창 위에 팝업 · 다른 앱이나 웹 창으로 전환 안 되게") — 3층 중 하나만 빠져도
+        # 링크는 여전히 눌리지만 **앱 밖으로 튀어나간다**(에러 0·화면 정상 = 무증상 회귀 · 운영자 눈이 유일한 검출기).
+        for sym, why in (("openIgPost", '게시물 팝업 진입점'),
+                         ("a.tbrief-ref, a.ch-th", '브리프 참조·타일 12칸 클릭 위임'),
+                         ("instagram.com/p/' + m[1] + '/embed/", 'trEmbed 피드 게시물 임베드')):
+            if sym not in v:
+                fails.append('viewer/index.html: 인앱 팝업 심볼 「%s」(%s) 소실 — 링크가 다시 앱 밖 새 탭으로 나간다' % (sym, why))
     if fails:
         print('❌ 채널 요약 지식 라이브러리 결손 %d건 — 과거 회차의 판단이 다음 판단에 안 실린다:' % len(fails))
         for f in fails:

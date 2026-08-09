@@ -75,7 +75,7 @@ if series:
     #     그리고 그날 올린 게시물을 **실명·조회로**(post_refs) — "어느 날 뭘 올렸고 그날 계정이 어떻게 움직였나"가 한 줄에 붙는다.
     L.append('[최근 30일 일일 계정 실측 — 조회·도달·게시 수·팔로워 순증감·그날 올린 것(— = 미수집)]')
     for r in series[-30:]:
-        _rf = ' / '.join(f"«{str(x.get('name') or '(무캡션)')[:22]}» {fv(x.get('views'))}" for x in (r.get('post_refs') or [])[:3])
+        _rf = ' / '.join(f"«{str(x.get('name') or '(무캡션)')[:22]}» {fv(x.get('views'))} 링크 {x.get('permalink') or '—'}" for x in (r.get('post_refs') or [])[:3])
         _nt = r.get('follower_net')
         L.append(f"{str(r.get('date',''))[5:]} 조회 {fv(r.get('views')) if r.get('views') is not None else '—'}"
                  f" · 도달 {fv(r.get('reach')) if r.get('reach') is not None else '—'}"

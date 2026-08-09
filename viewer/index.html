@@ -13835,8 +13835,12 @@ function renderSnsTrends() {
 const trviewdlg = $('#trviewdlg');
 // ── 브리프 스크랩 팝업(#trefdlg — 운영자 260712 "참고 기사 = 뉴스 요약처럼 이미지+보도자료체 · 지금 창 위에") ──
 const trefdlg = $('#trefdlg');
-function openTref(i) {
-  const r = ((BRIEF && BRIEF.refs) || [])[i]; if (!r) return;
+function openTref(i) { const r = ((BRIEF && BRIEF.refs) || [])[i]; if (r) openTrefObj(r); }   // 인덱스 진입점(메뉴3 스크랩 원장)
+// 게시물 인앱 팝업(운영자 260809 "링크가 창 위에 팝업 · sns 요약에서 새창으로 안 넘어가는 것처럼") — 채널 요약 브리프의 골드 참조와 최근 게시물 타일 12칸이 함께 쓴다.
+// 부품·로직 = 아래 openTrefObj(= 구 openTref 본문) 그대로 = 마크업·CSS·모션 창작 0 · 임베드는 trEmbed가 릴스/피드 둘 다 처리.
+function openIgPost(url, cap) { if (!url) return; openTrefObj({ source: '노뮤트 게시물', title: (cap || '').slice(0, 120), body: '', url: url, image: '' }); }
+function openTrefObj(r) {
+  if (!r) return;
   $('#trefSrc').textContent = (r.source || '스크랩').slice(0, 40);   // 헤더 = 출처(매체·채널) — textContent = XSS 안전
   $('#trefTtl').textContent = (r.title || r.term || '').slice(0, 120);
   $('#trefBody').textContent = (r.body || '').slice(0, 900);
@@ -13866,7 +13870,8 @@ function trEmbed(url) {   // 임베드 전용 URL 변환 — 원 URL은 X-Frame-
   if ((m = url.match(/youtube\.com\/watch\?v=([\w-]{6,})/))) return { src: 'https://www.youtube.com/embed/' + m[1] + '?autoplay=1&playsinline=1', k: 'pt' };   // 유튜브도 세로 프레임 통일(운영자 260712 "창 다 다름 · 어차피 안 넓게 봄 · 세로면 제목 오버레이가 영상 안 덮음") — 16:9 = 세로 프레임 중앙 레터박스·임베드 제목 오버레이 = 상단 검정띠에 얹힘 · 구 k:'wd'는 유튜브 일반만 가로라 쇼츠·틱톡과 창 이원화 + pt 마커 못 받은 쇼츠가 16:9 속 좌우 필러박스("가운데만")로 보이던 원인
   if ((m = url.match(/youtube\.com\/shorts\/([\w-]{6,})/))) return { src: 'https://www.youtube.com/embed/' + m[1] + '?autoplay=1&playsinline=1', k: 'pt' };   // 쇼츠 원형 URL(브리프 refs = 비정규화 원형 보존 · 260713) — 대시보드 레인은 watch?v= 정규화라 기존 data-pt 경로 무영향·추가 매치는 순증(구 null=새탭 → 인앱)
   if ((m = url.match(/tiktok\.com\/@[^/]+\/video\/(\d+)/))) return { src: 'https://www.tiktok.com/embed/v2/' + m[1], k: 'pt' };
-  if ((m = url.match(/instagram\.com\/reel\/([\w-]+)/))) return { src: 'https://www.instagram.com/reel/' + m[1] + '/embed/', k: 'pt' };   // 릴스 임베드 = 간헐 로그인벽(임베드 변덕) — '원문' 새탭이 폴백
+  if ((m = url.match(/instagram\.com\/reel\/([\w-]+)/))) return { src: 'https://www.instagram.com/reel/' + m[1] + '/embed/', k: 'pt' };
+  if ((m = url.match(/instagram\.com\/p\/([\w-]+)/))) return { src: 'https://www.instagram.com/p/' + m[1] + '/embed/', k: 'pt' };   // 피드 게시물 = 위 릴스 줄 문법 사본(운영자 260809 "링크가 창 위에 팝업되게 · 다른 앱이나 웹 창으로 전환 안 되게") — 구 = 매치 없음 = 새 탭 이탈 · 폴백은 릴스와 동일('원문' 새탭)   // 릴스 임베드 = 간헐 로그인벽(임베드 변덕) — '원문' 새탭이 폴백
   if ((m = url.match(/x\.com\/[^/]+\/status\/(\d+)/))) return { src: 'https://platform.twitter.com/embed/Tweet.html?dnt=true&theme=dark&id=' + m[1], k: 'tw' };
   if ((m = url.match(/threads\.(?:com|net)\/(@[^/]+\/post\/[\w-]+)/))) return { src: '/api/thembed?u=' + encodeURIComponent(m[1]) + thDarkQ(), k: 'tw' };   // 스레드(운영자 260726 "x도 내부 창에서 뜨는데 스레드도 그렇게") — 프레임 종류 = X와 동일 tw(글 카드 = 영상 아님 → 높이 가변 내부 스크롤 + 다운로드·편집기 자동 숨김) · 클릭 경로는 .xcard 공용이라 이 한 줄로 배선 완료(구 = 매치 없음 = 새 탭) · 임베드 URL = 헤더 실측 260726(HTTP 200 · X-Frame-Options 없음 · CSP frame-ancestors 없음 = 프레임 허용) · .com/.net 양 도메인 수용(데이터는 .com) · 260727 다크 프록시 경유로 교체(운영자 "다크 모드로 · 사진도 엑스처럼") = 스레드 임베드엔 X의 theme=dark 같은 스위치가 없어(응답 실측 0건) cross-origin으론 못 칠함 → api/thembed.js가 받아서 :root 색 얹고 사진을 같은 오리진 경유로 갈아끼운다 · 프록시 실패 = 원본 임베드 302(라이트 = 종전 화면)
   return null;
@@ -15167,6 +15172,20 @@ function openChPost() { if (!((chActive() || {}).posts || []).length) return; re
   CHAN_SRC = CHAN_SRC === 'fb' ? 'ig' : 'fb'; const y = window.scrollY; renderChan(); window.scrollTo(0, y);   // 단일 IG⇄FB 토글 = 소스 순환(운영자 260720 — 구 2버튼 명시 선택[Q233] 대체 · 항상 점등 · 활성/라벨은 renderChan 갱신)
   if (CHAN_SRC === 'fb' && !CHAN_FB && !CHAN_LOADING) { CHAN_AT = 0; loadChan(); }   // fb 최초 탭 lazy 로드 유지
 }); }
+// 채널 요약 인스타 링크 = 인앱 팝업(운영자 260809 "링크가 창 위에 팝업되게 · sns 요약에서 새창으로 안 넘어가는 것처럼 · 다른 앱이나 웹 창으로 전환 안 되게").
+// 대상 2종 = ⓐ 브리프 본문의 골드 참조(a.tbrief-ref) ⓑ 최근 게시물 타일 12칸(a.ch-th — 운영자 "혹시 인스타 아래 12개도 그렇게 가능한지" = 같은 팝업 재사용이라 가능).
+// ⚠ 마크업은 <a href> 그대로 둔다(창작 0 · 접근성·공유·새 탭 폴백 보존) — 여기서 기본 동작만 가로챈다.
+// ⚠ 새 탭 의도(중·보조 클릭·Ctrl/Cmd/Shift·롱프레스 컨텍스트)는 통과시킨다 = trefdlg의 "롱프레스/새탭 = href 보존 폴백" 관례 계승.
+// ⚠ document 위임 1회 = renderChan이 innerHTML을 통째로 갈아끼워도 배선이 안 끊긴다(재렌더 무관 = 아래 #chpostdlg 관례 동축).
+document.addEventListener('click', e => {
+  if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+  const box = e.target.closest('#chanBox'); if (!box) return;   // 스코프 = 채널 요약 판(메뉴3 스크랩 참조는 openTref가 계속 담당)
+  const a = e.target.closest('a.tbrief-ref, a.ch-th'); if (!a) return;
+  const u = a.getAttribute('href') || '';
+  if (!/^https?:\/\/(?:www\.)?instagram\.com\/(?:p|reel|reels|tv)\//.test(u)) return;   // 인스타 게시물만(그 외 링크는 종전 동작)
+  e.preventDefault();
+  openIgPost(u, a.classList.contains('ch-th') ? (a.dataset.cap || '') : a.textContent);   // 타일 = data-cap(캡션) · 브리프 참조 = 링크 글자 자신
+});
 (() => { const w = $('#chpostdlg'); if (!w) return;   // 칩·세그 = 위임 1회 배선(재렌더 무관)
   w.addEventListener('click', e => {
     const f = e.target.closest('[data-f]'), c = e.target.closest('[data-c]'), s0 = e.target.closest('[data-s]');
