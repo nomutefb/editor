@@ -8151,7 +8151,8 @@
    "rh": [
     1
    ],
-   "first_seen": "2026-08-09T13:37:59+09:00"
+   "first_seen": "2026-08-09T13:37:59+09:00",
+   "ko": "인터 마이애미 대 CF 몬테레이 순위"
   },
   {
    "query": "개혁",
@@ -8567,8 +8568,14 @@
   {
    "query": "오상진",
    "traffic": "10000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/trend/1705b1596a.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.koreadaily.com/article/20260712184653582",
+     "source": ""
+    }
+   ],
    "vol": 10000,
    "started": "2026-08-09T03:20:00+09:00",
    "delta": 1,
@@ -8631,8 +8638,14 @@
   {
    "query": "로또 1236",
    "traffic": "10000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/trend/b299ebc1cb.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.khan.co.kr/article/202608082123001/",
+     "source": ""
+    }
+   ],
    "vol": 10000,
    "started": "2026-08-09T05:20:00+09:00",
    "rh": [
@@ -8704,8 +8717,14 @@
   {
    "query": "열혈농구단",
    "traffic": "5000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/trend/8619139c4d.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://news.nate.com/view/20260807n13984?mid=e1200",
+     "source": ""
+    }
+   ],
    "vol": 5000,
    "started": "2026-08-08T21:20:00+09:00",
    "delta": -3,
@@ -9457,7 +9476,8 @@
      "source": "Seattle Sports"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "시애틀 매리너스"
   },
   {
    "query": "star wars",
@@ -9475,7 +9495,8 @@
      "source": "MovieWeb"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "스타워즈"
   },
   {
    "query": "mariners score",
@@ -9493,7 +9514,8 @@
      "source": "MLB Draft League"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "매리너스 득점"
   },
   {
    "query": "x men",
@@ -9511,7 +9533,8 @@
      "source": "Deadline"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "엑스맨"
   },
   {
    "query": "mariners game",
@@ -9529,7 +9552,8 @@
      "source": "The Seattle Times"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "매리너스 게임"
   },
   {
    "query": "iphone ultra",
@@ -9547,7 +9571,8 @@
      "source": "AppleInsider"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "아이폰 울트라"
   },
   {
    "query": "mariners",
@@ -9565,7 +9590,8 @@
      "source": "Fox News"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "선원"
   },
   {
    "query": "desley robinson",
@@ -9583,7 +9609,8 @@
      "source": "FightPost"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "데슬리 로빈슨"
   },
   {
    "query": "mariners game today",
@@ -9601,7 +9628,8 @@
      "source": "MLB.com"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "오늘 매리너스 경기"
   },
   {
    "query": "outside lands schedule",
@@ -9619,14 +9647,16 @@
      "source": "Mission Local"
     }
    ],
-   "geo": "US"
+   "geo": "US",
+   "ko": "외부 토지 일정"
   },
   {
    "query": "吉村崇",
    "traffic": "200+",
    "picture": "",
    "news": [],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "요시무라 타카시"
   },
   {
    "query": "アジア バレーボール 連盟",
@@ -9644,7 +9674,8 @@
      "source": "Yahoo!ニュース"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "아시아 배구 연맹"
   },
   {
    "query": "吉澤柚月",
@@ -9662,7 +9693,8 @@
      "source": "スポニチ Sponichi Annex"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "요시자와 유즈키"
   },
   {
    "query": "バスケットボール男子日本代表",
@@ -9680,7 +9712,8 @@
      "source": "西日本新聞me"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "농구 남자 일본 대표"
   },
   {
    "query": "レイザーラモンhg",
@@ -9698,7 +9731,8 @@
      "source": "au Webポータル"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "레이저 라몬 hg"
   },
   {
    "query": "山本由伸",
@@ -9716,7 +9750,8 @@
      "source": "ｄメニューニュース"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "야마모토 유노부"
   },
   {
    "query": "ドジャース結果",
@@ -9734,7 +9769,8 @@
      "source": "Yahoo!ニュース"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "다저스 결과"
   },
   {
    "query": "フランス",
@@ -9752,7 +9788,8 @@
      "source": "ｄメニューニュース"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "프랑스"
   },
   {
    "query": "琵琶湖三市同時花火",
@@ -9770,7 +9807,8 @@
      "source": "京都新聞デジタル"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "비와코 3개 도시 동시 불꽃놀이"
   },
   {
    "query": "バイデン",
@@ -9788,7 +9826,8 @@
      "source": "FNNプライムオンライン"
     }
    ],
-   "geo": "JP"
+   "geo": "JP",
+   "ko": "바이덴"
   },
   {
    "query": "schools",
@@ -9806,7 +9845,8 @@
      "source": "The Guardian"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "학교"
   },
   {
    "query": "travel",
@@ -9824,7 +9864,8 @@
      "source": "AOL.com"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "여행하다"
   },
   {
    "query": "swimming",
@@ -9842,7 +9883,8 @@
      "source": "European Aquatics"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "수영"
   },
   {
    "query": "flights",
@@ -9860,7 +9902,8 @@
      "source": "Sky News"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "항공편"
   },
   {
    "query": "jobs",
@@ -9878,7 +9921,8 @@
      "source": "The New York Times"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "직업"
   },
   {
    "query": "coffee",
@@ -9896,7 +9940,8 @@
      "source": "The Times of India"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "커피"
   },
   {
    "query": "the financial times",
@@ -9914,7 +9959,8 @@
      "source": "CNBC"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "금융 시대"
   },
   {
    "query": "kick",
@@ -9932,7 +9978,8 @@
      "source": "Liverpool FC"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "차기"
   },
   {
    "query": "artificial intelligence news",
@@ -9950,7 +9997,8 @@
      "source": "The Guardian"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "인공지능 뉴스"
   }
  ],
  "yt_cids": {
@@ -17630,7 +17678,8 @@
      9,
      24
     ],
-    "first_seen": "2026-08-09T00:43:22+09:00"
+    "first_seen": "2026-08-09T00:43:22+09:00",
+    "ko": "Seedance 2.5가 Runway에 게시되었습니다."
    },
    {
     "account": "openai",
@@ -17646,7 +17695,8 @@
     "rh": [
      25
     ],
-    "first_seen": "2026-08-09T13:37:59+09:00"
+    "first_seen": "2026-08-09T13:37:59+09:00",
+    "ko": "평생 Rockaway 지역 주민인 @kookmike 및 @mikereinhardtt의 목표는 단순히 사업을 시작하는 것이 아니라 힘을 키우는 것이었습니다."
    },
    {
     "account": "lumalabsai",
@@ -17662,7 +17712,8 @@
     "rh": [
      26
     ],
-    "first_seen": "2026-08-09T13:37:59+09:00"
+    "first_seen": "2026-08-09T13:37:59+09:00",
+    "ko": "Uni-1이 왔습니다! 픽셀을 동시에 생각하고 생성하는 새로운 종류의 모델입니다. 덜 인공적입니다. 더 지능적입니다."
    },
    {
     "account": "lumalabsai",
@@ -17678,7 +17729,8 @@
     "rh": [
      27
     ],
-    "first_seen": "2026-08-09T13:37:59+09:00"
+    "first_seen": "2026-08-09T13:37:59+09:00",
+    "ko": "Luma 에이전트를 소개합니다. 당신을 성공으로 이끄는 크리에이티브 에이전트. 방향을 정하셨습니다. 그들은 당신과 함께 구축하고, 무엇을 보고"
    },
    {
     "account": "pika_labs",
@@ -17694,7 +17746,8 @@
     "rh": [
      28
     ],
-    "first_seen": "2026-08-09T13:37:59+09:00"
+    "first_seen": "2026-08-09T13:37:59+09:00",
+    "ko": "소문은 사실이다. Seedance 2.5가 곧 출시될 예정입니다. 피카에."
    },
    {
     "account": "runwayapp",
@@ -17710,7 +17763,8 @@
     "rh": [
      29
     ],
-    "first_seen": "2026-08-09T13:37:59+09:00"
+    "first_seen": "2026-08-09T13:37:59+09:00",
+    "ko": "Seedance 2.5가 곧 Runway에 출시될 예정입니다."
    },
    {
     "account": "midjourney",
@@ -17726,7 +17780,8 @@
     "rh": [
      30
     ],
-    "first_seen": "2026-08-09T13:37:59+09:00"
+    "first_seen": "2026-08-09T13:37:59+09:00",
+    "ko": "빛을 넘어서"
    },
    {
     "account": "midjourney",
@@ -17742,7 +17797,8 @@
     "rh": [
      31
     ],
-    "first_seen": "2026-08-09T13:37:59+09:00"
+    "first_seen": "2026-08-09T13:37:59+09:00",
+    "ko": "이클립스라 리빙"
    },
    {
     "account": "runwayapp",
@@ -17758,7 +17814,8 @@
     "rh": [
      32
     ],
-    "first_seen": "2026-08-09T13:37:59+09:00"
+    "first_seen": "2026-08-09T13:37:59+09:00",
+    "ko": "이제 MiniMax H3를 Runway에서 만나보실 수 있습니다."
    },
    {
     "account": "runwayapp",
@@ -17774,7 +17831,8 @@
     "rh": [
      33
     ],
-    "first_seen": "2026-08-09T13:37:59+09:00"
+    "first_seen": "2026-08-09T13:37:59+09:00",
+    "ko": "새로운 Max 플랜에 가입하고 출시 시 7일 동안 Unlimited Seedance 2.5를 받으세요."
    },
    {
     "account": "midjourney",
@@ -17790,7 +17848,8 @@
     "rh": [
      34
     ],
-    "first_seen": "2026-08-09T13:37:59+09:00"
+    "first_seen": "2026-08-09T13:37:59+09:00",
+    "ko": "혼돈의 시간이군요 🌺😇"
    },
    {
     "account": "runwayapp",
@@ -17806,7 +17865,8 @@
     "rh": [
      35
     ],
-    "first_seen": "2026-08-09T13:37:59+09:00"
+    "first_seen": "2026-08-09T13:37:59+09:00",
+    "ko": "Grok Imagine Video 1.5가 방금 런웨이에 상륙했습니다."
    }
   ],
   "youtube": [
