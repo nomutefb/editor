@@ -109,6 +109,7 @@ export async function onRequestPost({ request, env }) {
       const xsf = num(x.sfe, 0, 40); if (xsf !== null) xt.sfe = Math.round(xsf);                  // 실루엣 페더
       if (x.fill === 'image' || x.fill === 'mosaic') xt.fill = x.fill;
       if (['smile', 'black', 'heart'].includes(x.preset)) xt.preset = x.preset;                   // 가면 프리셋(py 화이트리스트와 이중)
+      if (typeof x.names === 'string' && x.names.trim()) xt.names = x.names.trim().slice(0, 120);   // 핀셋 라벨(쉼표 구분 · 등장 순서대로 배정) — 러너가 pid에 매핑 · 길이 상한 = 발사 payload 1400자 예산 안
       if (x.ckcolor === 'blue' || x.ckcolor === 'green') xt.ckcolor = x.ckcolor;
       const xcs = num(x.cksim, 1, 50); if (xcs !== null) xt.cksim = Math.round(xcs);              // 크로마 강도 %
       const xcc = num(x.ckchoke, -4, 4); if (xcc !== null) xt.ckchoke = Math.round(xcc);

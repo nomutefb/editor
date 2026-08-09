@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="nm-hist.css">   <!-- 결과·이전 제작 레일 CSS SSOT(이미지 스튜디오 공동 정본 · 운영자 260806 "영상끼리도 저렇게 공유") -->
 <link rel="stylesheet" href="nm-job.css">   <!-- 결과 요약 줄(잡 카드) CSS SSOT — 위와 한 세트 -->
 <link rel="stylesheet" href="nm-clip.css"><!-- 입력칸 클립 CSS SSOT(전 뷰어 공용) -->
+<link rel="stylesheet" href="nm-input.css"><!-- 스튜디오 텍스트 입력칸 SSOT(활자·박스·창 크기 정본 = thumb 카드 제작 입력칸 · 게이트 check_input_canon) -->
 <style>@font-face{font-family:'Pretendard Variable';font-weight:45 920;font-style:normal;font-display:swap;src:local('Pretendard Variable'),url(assets/fonts/pretendard.woff2) format('woff2-variations')}</style><!-- 본문 폰트 = index 정본 그대로 이식(운영자 260718 "이미지 스튜디오 통일 규격 → 비디오 스튜디오 정합" · thumb:10 이주 동문 — iframe이라 부모 index Pretendard 미상속 = 옵션 카드가 Image Studio와 글자부터 달랐던 원인 동일) · 자산·경로 = index @font-face 동일 · swap = 첫 페인트 무차단 -->
 <style>
   /* 팔레트·폼 = conv/track(영상 도구) 계승 verbatim · 구조토큰은 tokens.css
@@ -1404,7 +1405,7 @@ function recipe(r){
 })();
 
 /* ══ 기타 옵션(운영자 260712 2차 "번호 매겨 제일 아래" — 1차 소스 아래 선택 뒤집음) — 4번 섹션·스택 최하단 상시 카드 3장{모자이크·트래킹(핀셋)·키잉} = .sech/.scard/.pc 계승 · 트래킹 서브뷰 핸드오프(nm_track_preset 일회용 · 파이프 재사용 = 중복 배선 0 · 3탭 축소 후 트래킹 진입은 여기가 유일) ══ */
-const XTR={mosaic:false,pinset:false,keying:false, silh:false, chroma:false, trans:false, shape:'ellipse', size:115, feather:5, kfe:0, fill:'mosaic', preset:'smile', sfe:8, ckcolor:'green', cksim:18, ckchoke:0, ckfe:1};   // trans = 번역(운영자 260720 "빈자리에 번역") — 가림 계열과 배타(클릭 핸들러) · 트래킹 발사 축(any)엔 미포함   // 기본 = 트래킹 새 기본값과 동일(타원·115·5·키잉0 · 실루엣 페더8 · 크로마 그린/18/0/1 — 실루엣·크로마키 카드 = 운영자 260712 "한수 ㄱㄱ" 승인)
+const XTR={mosaic:false,pinset:false,keying:false, silh:false, chroma:false, trans:false, names:'', shape:'ellipse', size:115, feather:5, kfe:0, fill:'mosaic', preset:'smile', sfe:8, ckcolor:'green', cksim:18, ckchoke:0, ckfe:1};   // trans = 번역(운영자 260720 "빈자리에 번역") — 가림 계열과 배타(클릭 핸들러) · 트래킹 발사 축(any)엔 미포함   // 기본 = 트래킹 새 기본값과 동일(타원·115·5·키잉0 · 실루엣 페더8 · 크로마 그린/18/0/1 — 실루엣·크로마키 카드 = 운영자 260712 "한수 ㄱㄱ" 승인)
 function renderXtr(){   // 가로 3분할 + 라벨|OFF·ON 순환값 문법(운영자 260712 5차 "한줄 배치·끔 아니라 OFF>누르면 ON" — 이미지 모달 상태 인라인 틀 계승 · 구 끔/적용 2버튼 seg 폐지) · 세부 게이지 = 켠 것만 아래 전폭 카드(1/3폭엔 게이지 미달) · 2행 = 실루엣·크로마키 2분할(260712 2차 · tg 패턴 그대로)
   const el=$('#xtrsec'); if(!el) return;
   const any=XTR.mosaic||XTR.pinset||XTR.keying||XTR.silh||XTR.chroma;
@@ -1422,6 +1423,8 @@ function renderXtr(){   // 가로 3분할 + 라벨|OFF·ON 순환값 문법(운�
     +'<div class="grow"><span class="k">강도</span><input type="range" min="1" max="50" step="1" value="'+XTR.cksim+'" data-xg="cksim" aria-label="크로마키 강도"><span class="v">'+XTR.cksim+'</span></div>'
     +'<div class="grow"><span class="k">테두리</span><input type="range" min="-4" max="4" step="1" value="'+XTR.ckchoke+'" data-xg="ckchoke" aria-label="테두리 다듬기"><span class="v">'+XTR.ckchoke+'</span></div>'
     +'<div class="grow"><span class="k">부드럽게</span><input type="range" min="0" max="10" step="1" value="'+XTR.ckfe+'" data-xg="ckfe" aria-label="매트 블러"><span class="v">'+XTR.ckfe+'</span></div>'; }
+  if(XTR.pinset) det+='<div class="plbl"'+(det?'':' style="margin-top:0"')+'>이름</div>'   // 핀셋 라벨(운영자 260809 2트랙 ②) — 비우면 #1·#2 번호표 그대로(1차 생성으로 누가 몇 번인지 확인 → 여기 채우고 다시 생성)
+    +'<input class="nmin" id="xtrNames" type="text" value="'+esc(XTR.names)+'" placeholder="쉼표로 구분 — 등장 순서대로" aria-label="핀셋 이름(쉼표 구분)" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">';
   if(XTR.trans) det+='<div class="plbl"'+(det?'':' style="margin-top:0"')+'>번역</div><div class="xnote" style="margin-top:0">외국어 이미지에 한국어 번역을 덮어 씌워 — 켜면 가림(모자이크) 계열은 자동으로 꺼져.</div>';   // 번역 카드 상세(운영자 260720) · 렌더 엔진 = 별도 배선
   el.innerHTML=
     '<div class="sech"><span class="nm">추가 옵션</span></div>'   // 개명(운영자 260728 Q11 '· 추가 옵션')
@@ -1438,11 +1441,14 @@ function renderXtr(){   // 가로 3분할 + 라벨|OFF·ON 순환값 문법(운�
        핸들러·핸드오프(nm_track_preset)·track.html 파이프는 전부 보존 = 복원 = 아래 hidden 한 낱말 제거(레포 도먼트 관례).
        ⚠ 재점등 조건 = 편집 첨부분(R2 키·파일)을 track.html이 이어받아 「재첨부 0」이 될 때 — 그때야 이 버튼이 선택 경로로서 값을 한다. */
     +'<button class="xgo" id="xtrGo" type="button" hidden'+(any?'':' disabled')+'>트래킹</button>';   // 라벨 = 한 단어(운영자 260712 "'트래킹에서 이어서~' 말 필요없음") · 미선택 = disabled 흐림(어포던스가 설명) · 260808부터 = **선택 경로**(자동이 기본 · 인물 개별 선택·수동 지정이 필요할 때만)
+  const nmi=el.querySelector('#xtrNames');   // 클립 공식 전수 부착(운영자 260803 "붙어있어야돼 · 공식처럼가야함") — renderXtr가 innerHTML을 매번 다시 그리므로 그릴 때마다 붙인다 · 강제 = check_clip_coverage
+  if(nmi&&window.attachCopyPaste) attachCopyPaste(nmi,true);
 }
 function xtrOpts(){   // 발사 페이로드 축(운영자 260808) — 켠 축만 담고 값은 **폼 단위 그대로**(러너 edit_track이 배율·비율로 환산 = 단위 변환 1곳)
   if(!(XTR.mosaic||XTR.pinset||XTR.keying||XTR.silh||XTR.chroma)) return null;
   const x={mosaic:!!XTR.mosaic, pinset:!!XTR.pinset, keying:!!XTR.keying, silh:!!XTR.silh, chroma:!!XTR.chroma};
   if(XTR.mosaic||XTR.pinset){ x.shape=XTR.shape; x.size=XTR.size; x.feather=XTR.feather; }
+  if(XTR.pinset&&XTR.names.trim()) x.names=XTR.names.trim().slice(0,120);   // 핀셋 라벨 = 쉼표 구분 문자열(러너가 등장 순서대로 pid에 배정 · 비면 #N 번호표)
   if(XTR.keying) x.kfe=XTR.kfe;
   if(XTR.silh){ x.fill=XTR.fill; x.preset=XTR.preset; x.sfe=XTR.sfe; }
   if(XTR.chroma){ x.ckcolor=XTR.ckcolor; x.cksim=XTR.cksim; x.ckchoke=XTR.ckchoke; x.ckfe=XTR.ckfe; }
@@ -1463,7 +1469,9 @@ $('#xtrsec').addEventListener('click',e=>{
     try{ parent.postMessage({nm:'nmToolTab', src:'/track.html'}, location.origin); }catch(err){}
     return; }
 });
-$('#xtrsec').addEventListener('input',e=>{ const g=e.target.closest('[data-xg]'); if(!g) return; XTR[g.dataset.xg]=+g.value; const v=g.parentElement.querySelector('.v'); if(v) v.textContent=g.value+(g.dataset.xg==='size'?'%':''); });
+$('#xtrsec').addEventListener('input',e=>{
+  if(e.target && e.target.id==='xtrNames'){ XTR.names=e.target.value.slice(0,120); return; }   // 텍스트칸 = 값만 갱신(renderXtr 재호출 = 입력 중 포커스·캐럿 소실 · 슬라이더와 동일 관례)
+  const g=e.target.closest('[data-xg]'); if(!g) return; XTR[g.dataset.xg]=+g.value; const v=g.parentElement.querySelector('.v'); if(v) v.textContent=g.value+(g.dataset.xg==='size'?'%':''); });
 renderXtr();
 
 /* ══ 입력(파일 좌·URL 우 — 운영자 260710 · .file 픽토 계승) ══ */

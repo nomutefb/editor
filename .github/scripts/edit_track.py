@@ -215,9 +215,11 @@ def main():
         payload = {"mode": mode, "targets": pids, "invert": False, "opts": mo}
         if mode == "pinset":
             # 핀셋 대상 = **이름이 붙은 인물만**(track_render sel 산식 = names 키 기반 — 이름표 기능이라 이름이 없으면 그릴 라벨이 없다).
-            #   자동 경로엔 사람이 입력한 이름이 없으므로 track_render의 **폴백 표기 그대로**(f"#{pid}") 부여한다(문구 창작 0).
-            #   ⚠ 이 줄이 없으면 sel이 공집합이라 "선택된 인물이 없어"로 그 단계가 통째로 스킵된다(실측 260808 체인 첫 실행).
-            payload["names"] = {str(p): "#%d" % p for p in pids}
+            #   ⚠ 이 배정이 없으면 sel이 공집합이라 "선택된 인물이 없어"로 그 단계가 통째로 스킵된다(실측 260808 체인 첫 실행).
+            #   운영자가 넣은 이름(쉼표 구분)을 **등장 순서대로** 배정한다(운영자 260809 2트랙 ② — pids는 분석이 첫 등장 순으로 준다).
+            #   모자란 자리는 track_render 폴백 표기 그대로 f"#{pid}"(문구 창작 0) = 1차 생성에서 누가 몇 번인지 확인하고 다시 넣으면 된다.
+            want = [n.strip()[:24] for n in str(x.get("names") or "").split(",") if n.strip()]
+            payload["names"] = {str(p): (want[i] if i < len(want) else "#%d" % p) for i, p in enumerate(pids)}
         got, _p = render(tid, payload, mode)
         if not got:
             log(mode + " 렌더 실패 — 직전 산출로 계속")
