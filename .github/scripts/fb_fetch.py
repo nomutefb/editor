@@ -274,7 +274,10 @@ def main():
     rows = []
     for _lbl, _suf in _ENG_TIERS:
         try:
-            rows = api(f'{PID}/posts', fields=_BASE_F + _suf, limit=10).get('data', [])
+            # limit 25(260810 재발 봉합 · 구 10) — 이 응답이 곧 **IG 릴스 커버 회수원**(insta_signals
+            # `_fb_covers`)이라 창이 IG 최근 12칸의 기간을 덮어야 한다. 실측: FB 10건이 08-03까지인데
+            # IG 12칸은 08-02까지 내려가 결손건이 색인 밖 = ④층이 구조적으로 못 붙었다. 추가 API 콜 0.
+            rows = api(f'{PID}/posts', fields=_BASE_F + _suf, limit=25).get('data', [])
             print(f'fb-fetch: 게시물 참여 필드 = {_lbl} 성립({len(rows)}건)')
             break
         except Exception as e:

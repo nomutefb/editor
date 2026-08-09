@@ -700,6 +700,32 @@ def check_thumb_chain():
                      ("cache[str(m['id'])]", '③ 원장 write-back(다음 회차 방어선)')):
         if tok not in s:
             miss.append('insta_signals.py: %s (%s)' % (tok, why))
+    # ── 소유층(260810 재발 봉합) = 유일하게 **만료가 없는** 방어선 ──
+    # ⚠ 왜 게이트인가: 원장(③)은 남의 CDN URL을 저장하는데 그 URL엔 `oe=` 만료가 박혀 온다 — 260810 실측
+    #   = 03:32 저장분의 만료가 04:44(수명 1h12m)이고 만료 URL 실호출은 403. 이 워크플로 캐던스가 3h라
+    #   **원장은 다음 회차에 이미 죽어 있다** = 「한 번 성공하면 안 빈다」가 원리적으로 불가능했고, 그래서
+    #   260718 → 260803 → 260810으로 같은 결손이 세 번 재발했다. 소유층이 그 고리를 끊는 유일한 축이라
+    #   한 조각만 빠져도 재발이 **조용히** 복원된다(화면은 캡션 타일이라 멀쩡해 보인다 = 이 체인의 상시 사각).
+    # ⚠ 커밋 배선이 특히 조용하다 = 러너가 바이트를 받아 굽기까지 정상 성공하고 rc=0인데, 커밋이 안 되면
+    #   다음 체크아웃에서 증발해 화면엔 404. 로그·산출 어디에도 증상이 없어 정적 강제가 유일한 검출기다.
+    for tok, why in (('def _cover_own(', '④ 커버 바이트 소유(만료 없는 방어선)'),
+                     ("b'\\xff\\xd8\\xff'", '④ JPEG 매직바이트 판정(못 그리는 파일 굽기 차단)'),
+                     ("return own, 'own'", '④ 소유 바이트 채택 분기(원장 만료 회차의 마지막 방어)'),
+                     ("ent['f'] = own", '④ 원장에 소유 경로 기록(다음 회차 진입점)')):
+        if tok not in s:
+            miss.append('insta_signals.py: %s (%s)' % (tok, why))
+    yp = os.path.join(ROOT, '.github', 'workflows', 'insta-fetch.yml')
+    try:
+        y = open(yp, encoding='utf-8').read()
+    except Exception as e:
+        print('❌ check_thumb_chain insta-fetch.yml 읽기 실패(fail-closed):', e); return 1
+    land = [ln for ln in y.splitlines() if 'git_land.sh' in ln and not ln.lstrip().startswith('#')]
+    if not land:
+        miss.append('insta-fetch.yml: git_land 착지 줄(산출 커밋 경로) 소실')
+    for ln in land:
+        if 'viewer/insta_data.json' in ln and 'viewer/insta_covers' not in ln:
+            miss.append('insta-fetch.yml: git_land 인자에 viewer/insta_covers 누락 '
+                        '(④ 소유 커버가 커밋 안 됨 = 다음 체크아웃에서 증발 · 화면 404)')
     if 'function chThFail(' not in v:
         miss.append('index.html: chThFail (커버 실패 = 캡션 타일 강등)')
     if "'/media/?size=l'" not in v:

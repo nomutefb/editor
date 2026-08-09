@@ -8,6 +8,8 @@
       — lifetime 누적의 게시시점 편향 완화 — 축별 버킷 중앙값 ÷ 전체 중앙값 = 상대 lift,
       게시물 점수 = 강건 z(중앙값+MAD · 큐레이션 OUT 감쇠와 동일 하우스 표준)의 전략 가중합.
 호출: python3 apps/insta/insta_signals.py  → apps/insta/data/signals.json 갱신 + 한국어 요약 stdout.
+네트워크(정직) = 커버 바이트 소유(_cover_own) **신규 게시물분만** 1콜 — 그 외 전 계산은 로컬 파일뿐.
+      전 경로 fail-soft(네트워크 없음 = 종전 동작 그대로) · LLM 0콜 · stdlib only는 불변.
 한계(정직): n<5 버킷 = [표본부족](결론 금지 플래그) · 카테고리 = 키워드 휴리스틱(category_src='kw' —
       세션이 재라벨 가능) · 율·속도는 편향 *완화*지 노출량 통제 실험(A/B)이 아님 = 관찰 신호.
 """
@@ -18,6 +20,7 @@ import re
 import statistics
 import subprocess
 import sys
+import urllib.request
 from zoneinfo import ZoneInfo
 
 DATA = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
@@ -845,6 +848,53 @@ def main():
             exp = _url_expiry(u)
             return True if exp is None else exp > (datetime.datetime.now(KST).timestamp() + 3600)
 
+        # ── 회수 체인 **소유층** = 우리가 가진 커버 바이트(운영자 260810 "예전에 있던 문제가 재발했네") ──
+        # ⚠ 재발의 진짜 이유 = **원장(3층)이 재발을 막으라고 있는 층인데 구조적으로 불가능했다.** 원장이 저장
+        #   하는 건 남의 CDN URL이고 그 URL엔 `oe=` 만료가 박혀 온다 — 260810 실측: 03:32에 저장한 FB 커버
+        #   URL의 만료가 **04:44**(수명 1h12m)이고 만료분 실호출은 **403**. 이 워크플로 캐던스가 3h이므로
+        #   원장은 **다음 회차에 이미 죽어 있다** = 「한 번 성공하면 그 칸은 안 빈다」가 원리적으로 성립 못 했다.
+        # ⚠ 그래서 여섯 층이 같은 자리에서 한꺼번에 무너진다(260810 결손건 DbhiiVmRCv1 전 층 실측) —
+        #   ①②③ IG 계열 = 자산 부재(공개 커버 경로 실호출 = null.jpg · 260803과 동일) · ④ FB = 색인 창 밖
+        #   (FB 10건이 08-03까지인데 결손건은 08-02) · ⑤ 원장 = 만료 · ⑥ 뷰어 재시도 = ③과 같은 소스라 무의미.
+        #   **빌린 URL로는 영속이 불가능**하다는 게 이 사고의 결론이고, 그래서 바이트를 우리 것으로 만든다.
+        # → 커버를 얻은 회차에 이미지를 내려받아 `viewer/insta_covers/<id>.jpg`로 굽는다. 로컬 파일엔 만료가
+        #   없다 = 한 번 잡으면 그 칸은 영구히 안 빈다(뷰어 변경 0 — escUrl은 스킴 검사뿐이라 상대경로 통과).
+        # 비용 = **신규 게시물분만** 1콜(이미 있으면 스킵) · 보존 = 화면 12칸분뿐(그 밖은 삭제 = 무한 비대 0).
+        # ⚠ JPEG 매직바이트만 채택 = 확장자·Content-Type 불일치로 못 그리는 파일 0(실측 IG/FB 커버는 전부
+        #   JPEG — IG가 주는 `.heic` URL도 `stp=dst-jpg_e35`가 붙어 JPEG로 변환돼 온다). 비JPEG = 안 굽고
+        #   종전 동작(안전측 실패) · 재인코딩 0 = check_image_format 인코딩 축 무접촉.
+        COVER_DIR = os.path.abspath(os.path.join(DATA, '..', '..', '..', 'viewer', 'insta_covers'))
+        COVER_REL = 'insta_covers/'
+        COVER_MAX = 3 * 1024 * 1024   # 커버 1장 상한(비대·행 방지 · 실측 IG/FB 커버 60~400KB)
+
+        def _cover_own(mid, url):
+            """커버 바이트를 레포에 소유 — 성공 = 뷰어 상대경로, 실패 = ''(fail-soft = 종전 동작)."""
+            if not mid or not url or url.startswith(COVER_REL):
+                return ''   # 이미 우리 바이트 = 재취득 불요
+            rel, dst = COVER_REL + '%s.jpg' % mid, os.path.join(COVER_DIR, '%s.jpg' % mid)
+            try:
+                if os.path.getsize(dst) > 1024:
+                    return rel   # 이미 소유 = 네트워크 0
+            except OSError:
+                pass
+            try:
+                req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0 (compatible; nomute-editor/1.0)'})
+                with urllib.request.urlopen(req, timeout=15) as r:
+                    data = r.read(COVER_MAX + 1)
+            except Exception:
+                return ''
+            if not data.startswith(b'\xff\xd8\xff') or len(data) > COVER_MAX:
+                return ''   # 비JPEG·과대 = 안 굽는다(깨진 타일보다 캡션 타일이 낫다)
+            try:
+                os.makedirs(COVER_DIR, exist_ok=True)
+                tmp = dst + '.tmp'
+                with open(tmp, 'wb') as f:
+                    f.write(data)
+                os.replace(tmp, dst)   # 원자적 교체 = 중단 시 반쪽 파일 0
+                return rel
+            except Exception:
+                return ''
+
         try:
             with open(CACHE_P, encoding='utf-8') as f:
                 cache = json.load(f)
@@ -868,8 +918,19 @@ def main():
             fb = _fb_cover_for(m)
             if fb:
                 return fb, 'fb'
-            old = (cache.get(str(m.get('id'))) or {}).get('u') or ''
-            return (old, 'cache') if old and _url_alive(old) else ('', 'none')
+            ent = cache.get(str(m.get('id'))) or {}
+            old = ent.get('u') or ''
+            if old and _url_alive(old):
+                return old, 'cache'
+            # ④ 소유 바이트 = 만료가 없는 마지막 방어선(260810 재발 봉합) — 위 세 층이 전부 빈손이고
+            #    원장 URL마저 만료된 회차에도 이 칸은 그림을 유지한다. 파일이 실제로 있을 때만 채택.
+            # ⚠ 원장 `f`가 없어도 **파일 실존만으로** 채택한다 = 파일명이 `<media id>.jpg`로 결정적이라
+            #   원장 없이도 찾을 수 있기 때문. 이 한 줄이 없으면 원장이 리셋·유실된 회차에 바이트를 손에
+            #   쥐고도 칸이 빈다(260810 실측: 원장 원복 직후 시뮬에서 소유 11장이 멀쩡한데 own 채택 0건).
+            own = ent.get('f') or (COVER_REL + '%s.jpg' % m.get('id'))
+            if os.path.exists(os.path.join(COVER_DIR, os.path.basename(own))):
+                return own, 'own'
+            return '', 'none'
         # 최신 12개 원순서 유지 — 커버 없는 릴스도 제자리 보존(th='' → 뷰어가 캡션 텍스트 타일 · t 동봉). 영상URL 폴백·앞자름 결손 = 종식.
         # r = 릴스 플래그(뷰어가 릴스 커버에 ▶ 표식 · 피드 무표식 = 포맷 판별 · 운영자 260718)
         _srcs = []
@@ -889,8 +950,24 @@ def main():
             live_ids = [str(m.get('id')) for m in (med.get('media') or []) if m.get('id')]
             stamp_now = datetime.datetime.now(KST).isoformat(timespec='seconds')
             for m, t in zip((med.get('media') or [])[:12], thumbs):
-                if t['th'] and _url_alive(t['th']) and m.get('id'):
-                    cache[str(m['id'])] = {'u': t['th'], 't': stamp_now}
+                if not t['th'] or not m.get('id') or t['th'].startswith(COVER_REL):
+                    continue   # 결손 = 안 덮음(마지막 살아있던 값 보존) · 이미 소유분 = 갱신 대상 아님
+                if not _url_alive(t['th']):
+                    continue
+                ent = dict(cache.get(str(m['id'])) or {})
+                ent.update({'u': t['th'], 't': stamp_now})
+                own = _cover_own(str(m['id']), t['th'])   # 살아있는 지금 바이트를 확보 = 만료 무관 방어선
+                if own:
+                    ent['f'] = own
+                cache[str(m['id'])] = ent
+            # 소유 커버 프루닝 = 화면 12칸분만 보존(그 밖은 화면에 안 나오므로 파일도 불필요 = 무한 비대 0).
+            try:
+                keep_f = {'%s.jpg' % str(m.get('id')) for m in (med.get('media') or [])[:12] if m.get('id')}
+                for fn in os.listdir(COVER_DIR):
+                    if fn.endswith(('.jpg', '.tmp')) and fn not in keep_f:
+                        os.remove(os.path.join(COVER_DIR, fn))
+            except Exception:
+                pass
             keep = [i for i in live_ids if i in cache]
             rest = sorted((k for k in cache if k not in set(live_ids)),
                           key=lambda k: (cache[k] or {}).get('t') or '', reverse=True)
@@ -925,16 +1002,24 @@ def main():
                     + f" (총 {len(_srcs)}칸 · 집계 정본 = viewer/insta_data.json thumb_src)",
                     '[막힌 게시물] ' + (' / '.join(miss_list[:4]) or '(permalink 없음)'),
                     '',
-                    '[이미 시도한 6층 · 전부 빈손]',
+                    '[이미 시도한 7층 · 전부 빈손]',
                     ' ① Graph /media thumbnail_url  ② 미디어노드 재조회  ③ 인스타 공개 커버 경로(/p/<code>/media/?size=l)',
-                    ' ④ 페이스북 크로스포스트(캡션 프리픽스 ∨ 시각 ±3분 유일후보)  ⑤ 마지막 성공 커버 원장  ⑥ 뷰어 재시도',
+                    ' ④ 페이스북 크로스포스트(캡션 프리픽스 ∨ 시각 ±3분 유일후보)  ⑤ 마지막 성공 커버 원장(URL·만료 인지)',
+                    ' ⑥ 소유 커버 바이트(viewer/insta_covers/<id>.jpg · 만료 없음 · 260810)  ⑦ 뷰어 재시도',
+                    '',
+                    '⚠ 처방 전에 이것부터 갈라라(260810 계약) — ⑥ 소유층은 **한 번이라도 커버를 잡았으면** 그 칸을',
+                    '   영구히 채운다. 그러므로 여기까지 빈손 = 그 게시물은 **처음부터 한 번도** 커버가 없었다는 뜻이고,',
+                    '   그건 IG측 자산 부재 = **조치 불요**다(코드 결함 아님 · 260803·260810 실측 = 공개 경로 null.jpg).',
+                    '   반대로 「예전엔 보였는데 지금 빈칸」이면 ⑥이 일했어야 하는데 안 된 것 = 코드 축이다 →',
+                    '   viewer/insta_covers/ 에 그 id 파일이 있는지 · thumb_cache.json 그 id의 `f` 키가 있는지부터 본다.',
                     '',
                     '[다음 확인 순서]',
                     ' 1) 위 permalink를 브라우저에서 열어 커버가 실제로 보이는지 — 안 보이면 IG측 자산 부재 = 정상 동작(조치 불요).',
                     " 2) 보이는데 여기만 빈손이면 토큰·권한 의심 → apps/insta/data/media_latest.json 에서 그 id의",
                     '    thumbnail_url·media_url 유무 확인 · docs/인스타_직결_세팅.md §6 토큰 재발급.',
                     ' 3) 페이스북 크로스포스트가 있는데 못 붙었으면 viewer/fb_data.json 의 게시 시각을 비교',
-                    '    (매칭 창 = 캡션 프리픽스 12자 ∧ ±10분, 또는 ±3분 유일후보).',
+                    '    (매칭 창 = 캡션 프리픽스 12자 ∧ ±10분, 또는 ±3분 유일후보). FB 색인이 그 날짜까지',
+                    '    안 내려가면 창 부족 = .github/scripts/fb_fetch.py `limit`(현행 25).',
                     '',
                     '[재현] python3 apps/insta/insta_signals.py  → viewer/insta_data.json thumb_src 확인',
                     '[코드] apps/insta/insta_signals.py `_thumb_src` · .github/scripts/insta_fetch.py `_public_cover`'
