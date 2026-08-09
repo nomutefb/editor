@@ -1,7 +1,7 @@
 {
- "updated": "2026-08-09T04:18:31+09:00",
+ "updated": "2026-08-09T22:57:19+09:00",
  "rc": 1,
- "fail": "1종 실패 — smoke_fire(1) · ABORT | page.evaluate: Execution context was destroyed, most likely because of a navigation",
+ "fail": "1종 실패 — smoke_fire(1) · ABORT | page.evaluate: Execution context was destroyed, most likely because of a navigation @at runOnce (/home/runner/work/nomute-editor/nomute-editor/shared/smoke_fire.js:139:16)",
  "jobs": {
   "smoke_chan": "0",
   "smoke_clickshield": "0",
@@ -32,7 +32,6 @@
   "smoke_fire"
  ],
  "flaky": [
-  "smoke_ghead",
   "smoke_rank",
   "smoke_studioshell"
  ],
@@ -41,13 +40,13 @@
    "job": "smoke_fire",
    "rc": "1",
    "lines": [
-    "ABORT | page.evaluate: Execution context was destroyed, most likely because of a navigation",
+    "ABORT | page.evaluate: Execution context was destroyed, most likely because of a navigation @at runOnce (/home/runner/work/nomute-editor/nomute-editor/shared/smoke_fire.js:139:16)",
     "── smoke_fire FAIL 1건 (서버 종료됨)"
    ]
   }
  ],
  "run": {
-  "id": "31273670835",
-  "url": "https://github.com/muteno/nomute-editor/actions/runs/31273670835"
+  "id": "31316734505",
+  "url": "https://github.com/muteno/nomute-editor/actions/runs/31316734505"
  }
 }
