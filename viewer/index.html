@@ -13674,7 +13674,7 @@ function renderSnsTrends() {
     box._trBound = true;
     box.addEventListener('click', e => {
       const rf = e.target.closest('a.tbrief-ref');   // 브리프 스크랩 토픽 = 인앱 팝업(운영자 260712 "창 이동 없이 지금 창 위에") — 새탭 이동 대신 #trefdlg · 롱프레스/새탭 = href 보존 폴백
-      if (rf) { e.preventDefault(); openTref(+rf.dataset.tref); return; }
+      if (rf && rf.dataset.tref !== undefined) { e.preventDefault(); openTref(+rf.dataset.tref); return; }   // data-tref 가드(260809) = 채널 요약이 같은 골드·이탤릭 부품(.tbrief-ref)을 게시물 참조로 재사용하는데 그쪽은 스크랩 원장이 없다 → 짝 인덱스 없는 링크는 여기서 가로채지 않고 href(인스타 게시물) 새 탭으로 흘린다(openTref(NaN) 차단)
       const rgb = e.target.closest('.trail-rg [data-reg]');   // 지역 미니바(한국/세계) = 지역 전환(운영자 260713 헤더 세그 → 세로바 이관 · nm_trend_region 기억 + 즉시 재렌더 · .trail-i 점프보다 선처리 = data-tg 없어 오탐 차단)
       if (rgb) { if (!rgb.classList.contains('on')) { try { localStorage.setItem('nm_trend_region', rgb.dataset.reg); } catch {} renderSnsTrends(); } return; }
       const ri = e.target.closest('.trail-i');   // 책갈피 레일 = 그룹 점프(TOP = 최상단 · scroll-margin-top 계승)
@@ -14968,7 +14968,7 @@ function renderChan() {
           } else if (p) el.appendChild(document.createTextNode(p));
         });
       };
-      const addLink = (label, url) => { try { const u = new URL(url); if (u.protocol !== 'http:' && u.protocol !== 'https:') return addText(label); const a2 = document.createElement('a'); a2.href = u.href; a2.target = '_blank'; a2.rel = 'noopener noreferrer'; a2.textContent = label; el.appendChild(a2); } catch { addText(label); } };
+      const addLink = (label, url) => { try { const u = new URL(url); if (u.protocol !== 'http:' && u.protocol !== 'https:') return addText(label); const a2 = document.createElement('a'); a2.href = u.href; a2.target = '_blank'; a2.rel = 'noopener noreferrer'; a2.textContent = label; if (/(?:^|\.)instagram\.com$/.test(u.hostname) && /^\/(?:p|reel|reels|tv)\//.test(u.pathname)) a2.classList.add('tbrief-ref'); el.appendChild(a2); } catch { addText(label); } };
       let last = 0, m;
       while ((m = TOK.exec(s))) {
         addText(s.slice(last, m.index)); last = TOK.lastIndex;

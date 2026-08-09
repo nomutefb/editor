@@ -6538,6 +6538,16 @@ def check_brief_lib():
             fails.append('%s: PROMPT에 [7일] 게시물 개별 판정 계약 소실 — 그 창이 다시 4~6줄 겉핥기로 돌아간다' % sh)
         if '주 대 주로 읽어라' not in _p:
             fails.append('%s: PROMPT에 [28일] 주 대 주 대조 계약 소실 — 주 단위 블록을 실어놓고 안 쓰게 된다' % sh)
+        # 260809 3차(운영자 "게시물 얘기할 땐 이탤릭체 골드 링크 참조 · 포인트는 볼드 · 정말 중요한 건 강조색").
+        # ⚠ 링크는 **데이터 + 계약 + 뷰어 부착** 세 층이 다 살아야 화면에 뜬다 — 한 층만 빠져도 그냥 평범한 텍스트가 되고(무증상) 운영자 눈이 유일한 검출기가 된다.
+        if '· 링크 {x.get(' not in s:
+            fails.append('%s: 게시물 줄 permalink 미탑재 — 모델이 걸 링크 자체가 데이터에 없다' % sh)
+        if '링크로 건다' not in _p:
+            fails.append('%s: PROMPT에 게시물 링크 참조 계약 소실 — 게시물이 다시 맨 텍스트로만 언급된다' % sh)
+        if '2층(볼드)은' not in _p:
+            fails.append('%s: PROMPT에 강조 밀도 계약 소실 — 볼드 1~2개짜리 밋밋한 판으로 되돌아간다' % sh)
+        if '기 대 기로' not in _p:
+            fails.append('%s: PROMPT에 [3개월] 기 대 기 리듬 계약 소실 — 사다리가 그 창에서 끊긴다' % sh)
     if fails:
         print('❌ 채널 요약 지식 라이브러리 결손 %d건 — 과거 회차의 판단이 다음 판단에 안 실린다:' % len(fails))
         for f in fails:
