@@ -1129,7 +1129,7 @@
   .tbrief-prop li b { color:var(--accent); font-weight:var(--fw-x); }   /* *별표* 강조 = 본문(.tbrief-t b)과 동일 결 */
   .tbrief-act { display:inline-block; margin-left:var(--sp-1); vertical-align:1px; text-decoration:none; }   /* 행동 필(피크 예약) = .ch-mchip 칩 정본을 앵커로 계승 — 탭하면 캘린더 템플릿 */
   /* ── 브리프 스크랩 팝업(#trefdlg — 운영자 260712 "지금 창 위에 바로·보도자료 기사처럼") : 셸 = #trviewdlg 미러(base dialog 무채 글래스 + .modal-head 정본) ── */
-  #trefdlg { width:min(480px,94vw); padding:0; display:flex; flex-direction:column; overflow:hidden; }
+  #trefdlg { width:70vw; max-width:none; max-height:92dvh; padding:0; display:flex; flex-direction:column; overflow:hidden; }   /* 폭 = 화면의 70%(운영자 260809 "pc일 때는 화면을 좀 키워줘 · 전체 화면 기준 70% 정도") — 구 min(480px,94vw)는 큰 모니터에서 480px에 고정돼 인스타 임베드(세로형)가 우표만 하게 떴다 · 세로 상한 92dvh = 바로 아래 모바일 블록 값 사본(신규 값 0) · 모바일은 그 블록이 94vw로 되받아친다 = 지금 크기 유지(70%로 줄이면 오히려 작아져 "키워줘"와 반대) */
   #trefdlg:not([open]) { display:none; }   /* 유령 블록 차단(#tooldlg 가드 계승) */
   @media (max-width:640px) { #trefdlg { width:94vw; height:max-content; max-height:92dvh; margin:auto; border-radius:var(--r-modal); border:1px solid rgba(255,255,255,.13); } }   /* 전역 모바일 dialog 되받아치기(#trviewdlg 미러) */
   #trefdlg .modal-head b { flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; margin-right:8px; }
@@ -1139,7 +1139,9 @@
   .tref-body { margin:8px 0 0; font-size:var(--fs-sm); line-height:1.8; color:var(--fg); white-space:pre-line; word-break:break-word; }   /* 보도자료체 본문(뉴스 요약 문법 계승) */
   .tref-vid { margin:var(--sp-2) 0 0; border-radius:var(--r-m); overflow:hidden; background:var(--bg); }   /* 영상 임베드 = 요약 아래 인라인(운영자 260713 "요약 아래에 쇼츠 같이") · 간격·라운드 = 근접 토큰 계승 · 배경 = --bg(레터박스, 팔레트 밖 색 0) */
   .tref-vid.pt { aspect-ratio:9/16; height:min(62dvh,560px); max-width:100%; margin-inline:auto; }   /* 쇼츠·틱톡·릴스 = 원본 세로비 9:16 그대로(운영자 "쇼츠는 원본크기") · 높이 = 뷰포트 캡(모달 92dvh 안에서 헤더·요약과 공존, 폭은 비율 자동) */
-  .tref-vid.wd { width:100%; aspect-ratio:16/9; }   /* 유튜브 일반 = 16:9 비율 유지한 채 팝업 폭에 맞춤(운영자 "16대9는 그 크기에 맞춰 화면에 맞추기") */
+  .tref-vid.wd { width:100%; aspect-ratio:16/9; }
+  @media (min-width:641px) { .tref-vid.pt { height:70dvh; } }   /* PC 세로 임베드 = 화면의 70%(운영자 260809 "pc일 때는 화면을 좀 키워줘 · 전체 화면 기준 70% 정도") — 위 min(62dvh,560px)의 **560px 캡**이 병목이라 팝업 폭만 70vw로 키워도 임베드는 그대로 우표만 했다(9:16이라 폭도 315px에 고정) · 모바일(≤640)은 종전 값 그대로 = 작은 화면에서 세로 캡이 헤더·요약을 밀어내던 이유가 살아 있다 */
+   /* 유튜브 일반 = 16:9 비율 유지한 채 팝업 폭에 맞춤(운영자 "16대9는 그 크기에 맞춰 화면에 맞추기") */
   .tref-vid iframe { display:block; width:100%; height:100%; border:0; }
   /* (.tbrief-tm 폐지 260716 — 분석 시각이 단위 헤더 .tdash-time으로 승격, 본문 시각 표기 소멸) */
   /* ── 이미 다룬 이슈 접이(운영자 260714 "그렇게 하는것도 좋을듯") — 이슈 원장(sns_brief.json issues) 가시화: 감쇠로 조용히 빠진 이슈가 누락 아닌 '의도'임을 보이게. 판 분리 = .tbrief-prop 결(상단 line2 선) · 체브론 = CHEVRON_SVG 회전(.pm-chev 아코디언 계승) · 프레스 = 형제 디스클로저(.pmenu-sns·.geni-fold) 동일 무스케일 ── */
@@ -13849,7 +13851,7 @@ function openTrefObj(r) {
   const vb = $('#trefVid'); vb.hidden = true; vb.textContent = '';   // 열 때 초기화 = 직전 임베드 잔여 재생 차단(close 해제와 짝)
   const emb = trEmbed(r.url || '');   // 영상 플랫폼 refs = 요약 아래 인라인 임베드(운영자 260713 "요약 아래에 쇼츠 같이") · 트윗(tw)·기사(null) = 종전 그대로
   if (emb && emb.k !== 'tw') {
-    vb.className = 'tref-vid ' + (/youtube\.com\/shorts\/|tiktok\.com\/|instagram\.com\/reel\//.test(r.url || '') ? 'pt' : 'wd');   // 쇼츠·틱톡·릴스 = 원본 세로(9:16) / 유튜브 일반 = 16:9 폭맞춤(운영자 지시 2분기 · watch URL은 비율 미상이라 16:9 기본)
+    vb.className = 'tref-vid ' + (/youtube\.com\/shorts\/|tiktok\.com\/|instagram\.com\/(?:reel|p)\//.test(r.url || '') ? 'pt' : 'wd');   // 쇼츠·틱톡·릴스 = 원본 세로(9:16) / 유튜브 일반 = 16:9 폭맞춤(운영자 지시 2분기 · watch URL은 비율 미상이라 16:9 기본)
     const f = document.createElement('iframe');
     f.title = '임베드 콘텐츠'; f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen'; f.setAttribute('allowfullscreen', ''); f.referrerPolicy = 'strict-origin-when-cross-origin';   // #tvFrame 속성 1:1 계승 — strict-origin = 유튜브 '오류 153' 방지(트렌드 임베드 뷰어 주석 정본)
     f.src = emb.src;   // trEmbed 재사용(autoplay·playsinline 동일) — id = 정규식 [\w-] 추출이라 주입 안전
