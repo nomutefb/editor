@@ -136,10 +136,23 @@ def main():
                          period='day', metric_type='total_value', breakdown='follow_type',
                          since=str(int((day0 - datetime.timedelta(days=1)).timestamp())),
                          until=str(int(day0.timestamp())))
-    onl, _ = insights(f'{uid}/insights', ['online_followers'], period='lifetime')
+    # 접속 실측 = 최근 30일 창 명시(운영자 260809 "제대로 받아오게끔 조치해줘" — 실측 사고 = 8/8·8/9 빈 회신에
+    # 원장이 8/7에서 정지·7일 고정). ⚠ 무인자 호출은 Meta가 **최근 ~2일 버킷만** 준다 → 공회신이 3일 이상 이어지면
+    # 그 사이 날짜는 영영 복구 불가(다음 런도 다시 최근 2일만 본다 = 구멍이 원장에 영구히 남고 요일 표본이 요일당
+    # 1일에 갇힌다 = 요일 노란선이 일자로 죽는 진짜 원인). online_followers 보관창 = 최근 30일(Meta) → 창을 명시해
+    # 결측일을 소급 회수 = 바로 아래 일별 time_series '지난 3일 창 = 결측일 자가치유' 관용구 계승(창작 0).
+    # 창 회신이 전부 빈 값이면 종전 무인자 호출로 폴백 = 회귀 0(fail-soft).
+    now_ep = int(datetime.datetime.now(KST).timestamp())
+    onl, _ = insights(f'{uid}/insights', ['online_followers'], period='lifetime',
+                      since=str(now_ep - 30 * 86400), until=str(now_ep))
+    _ob = onl.get('online_followers')
+    if not any(isinstance((b or {}).get('value'), dict) and (b or {}).get('value')
+               for b in (_ob if isinstance(_ob, list) else [])):
+        onl2, _ = insights(f'{uid}/insights', ['online_followers'], period='lifetime')
+        if onl2.get('online_followers'):
+            onl = onl2
     # 일별 버킷(time_series · 운영자 260713 일일 추이) — since/until 명시 = 진짜 달력일 배열.
     # 지난 3일 창 = 결측일 자가치유 · 미지원 지표 = insights() 낱개 폴백이 dropped 기록 = fail-soft(기존 수집 무접촉).
-    now_ep = int(datetime.datetime.now(KST).timestamp())
     ts, drop3 = insights(
         f'{uid}/insights',
         ['views', 'reach', 'profile_views', 'accounts_engaged', 'total_interactions'],

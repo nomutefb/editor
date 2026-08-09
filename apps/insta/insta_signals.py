@@ -226,6 +226,9 @@ def online_peak_kst(audience):
         return None
 
 
+_DOW_MIN_SAMPLE = 2   # 요일 실측 채택 = (요일,시) 셀마다 표본 ≥2 = 같은 요일 2회 이상 관측(260809 · online_dow_kst 독스트링 ⚠ 참조)
+
+
 def _pt_kst_shift(date_str):
     """online_followers 히스토그램 시각 = 태평양(PT) 로컬시 판정(260803 실측 2증거: ① 일버킷 경계 = 07:00Z = PT 자정
     ② 운영자 앱 수기 KST 앵커 8점(audience_manual) 상관 = PDT+16 **+0.940** / PST+17 +0.799 / 현행 UTC+9 **−0.224**(음) /
@@ -278,8 +281,17 @@ def online_dow_kst():
     요일 귀속 = 시각 단위 PT→KST 이동(_pt_kst_shift · 한 PT일이 KST 두 요일에 걸친다[+16h = 그날 16~23시 +
     이튿날 0~15시] → 날짜 단위 귀속은 구조적 오귀속이라 금지).
     집계 = (요일,시) 셀 평균 → 요일값 = 24시 셀평균의 평균 — 부분 커버 날(새벽만 걷힌 날 등)이 요일 합계를
-    누르는 왜곡 차단. 채택 게이트 = 7요일×24시 전 셀 표본 ≥1(연속 ~8일부터 자연 충족 · 공회신 갭이면 더 걸림)
-    — 미달 = (None, n일) → 뷰어 SIG_GEN 벤치 유지(fail-soft · 창작 0). 60일창 = online_curve_kst 동일 사유(성장 왜곡)."""
+    누르는 왜곡 차단. 채택 게이트 = 7요일×24시 전 셀 표본 ≥_DOW_MIN_SAMPLE(= 요일당 최소 2주)
+    — 미달 = (None, n일) → 뷰어 SIG_GEN 벤치 유지(fail-soft · 창작 0). 60일창 = online_curve_kst 동일 사유(성장 왜곡).
+    ⚠ 260809 개정(운영자 "일자로 된 부분이 왜 그런지 확인") — 구 게이트는 셀 표본 ≥1이라 **연속 7일 = 요일당 딱 1일**
+    이면 통과했고, 그 상태로 화면에 「팔로워 접속」 요일선이 실측 승격돼 나갔다. 실측 260809 = 원장 7일 · 요일값
+    {월99.6 화100.0 수99.9 목99.8 금98.1 토97.3 일99.7} = 진폭 2.7%p = **사실상 수평선**. 표본 1일짜리를 '요일별
+    경향'이라 부르는 건 [1] 정직 위반이고, 재현성 확인이 원리적으로 불가능하다(그 요일에 무슨 일이 있었나 1회 관측).
+    → 요일당 2주(같은 요일 2회 이상 관측)부터 채택. 30일 창 백필(insta_fetch 260809)이 회신되면 자연 충족.
+    ⚠ 남는 한계 = 표본이 차도 진폭은 작을 공산이 크다 — 요일값의 원재료가 '하루 24시간 총 접속량'인데 팔로워 풀
+    (65,501)이 고정이라 하루 총량은 요일 무관 거의 같다(실측 날별 24시간 평균 22,194~23,177 = 편차 4.4%).
+    즉 online_followers는 시간대 축엔 강한 신호(진폭 4.1배)를 주지만 **요일 축엔 구조적으로 신호가 약한 지표**다.
+    표본이 찬 뒤에도 진폭이 미미하면 요일 축은 벤치(SIG_GEN)로 되돌릴지 = 운영자 판정 축(미결)."""
     led = jload('online_ledger.json')
     if not isinstance(led, dict):
         return None, 0
@@ -301,7 +313,7 @@ def online_dow_kst():
                 continue
             cell.setdefault((kd.weekday(), kh), []).append(c or 0)
             dates.add(d)
-    if len(cell) < 7 * 24:
+    if len(cell) < 7 * 24 or min(len(s) for s in cell.values()) < _DOW_MIN_SAMPLE:
         return None, len(dates)
     wk = {w: sum(statistics.mean(cell[(w, h)]) for h in range(24)) / 24 for w in range(7)}
     pk = max(wk.values())
