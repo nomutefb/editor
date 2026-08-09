@@ -66,9 +66,49 @@ if ev:
     L.append('[운영자 관측 변곡 이벤트] ' + ' / '.join(f"{e.get('date')} {e.get('label')}({e.get('note','')})" for e in ev))
 series = d.get('daily_series') or []
 if series:
-    L.append('[최근 30일 일일 계정 조회(만)·게시 수·새 팔로우(— = 미수집)]')
+    # ⚠ 260809 실사고 봉합(운영자 "너무 수박 겉핥기 · 2일째 거의 올린 게 없는 게 문제인데 너무 돌려 말한다"):
+    #   구판은 이 줄에 조회·게시수·follows만 실었는데 실측 = **views가 최근 30일 전건 결측**(7/13~8/9 · API 축 죽음)이고
+    #   follows도 말미 전건 0-fill(뷰어가 이미 결측 처리하는 그 축) → 모델이 사흘을 말할 일별 근거가 **한 칸도 없었다**.
+    #   그래서 [계정 지금]의 최근일 스냅샷 하나로 사흘을 논하다 "아직 하루가 안 찼으니 최종치는 아니다" 류로 뭉갤 수밖에 없었다
+    #   (= 겉핥기는 모델의 게으름이 아니라 **데이터가 지워진 자리**였다 · 스레드 `[1차 실측]`·틱톡 `_e1`과 같은 병).
+    #   → 살아있는 실측 2축을 싣는다: **도달(reach = 전건 실측)** + **팔로워 순증감(follower_net = 27일치 실측)**,
+    #     그리고 그날 올린 게시물을 **실명·조회로**(post_refs) — "어느 날 뭘 올렸고 그날 계정이 어떻게 움직였나"가 한 줄에 붙는다.
+    L.append('[최근 30일 일일 계정 실측 — 조회·도달·게시 수·팔로워 순증감·그날 올린 것(— = 미수집)]')
     for r in series[-30:]:
-        L.append(f"{str(r.get('date',''))[5:]} 조회 {fv(r.get('views')) if r.get('views') is not None else '—'} · 게시 {r.get('posts') if r.get('posts') is not None else 0} · 팔로우 {('+' + format(r['follows'], ',')) if isinstance(r.get('follows'), int) and r['follows'] > 0 else '—'}")
+        _rf = ' / '.join(f"«{str(x.get('name') or '(무캡션)')[:22]}» {fv(x.get('views'))}" for x in (r.get('post_refs') or [])[:3])
+        _nt = r.get('follower_net')
+        L.append(f"{str(r.get('date',''))[5:]} 조회 {fv(r.get('views')) if r.get('views') is not None else '—'}"
+                 f" · 도달 {fv(r.get('reach')) if r.get('reach') is not None else '—'}"
+                 f" · 게시 {r.get('posts') if r.get('posts') is not None else 0}"
+                 f" · 팔로워 {(('+' if _nt > 0 else '') + format(_nt, ',')) if isinstance(_nt, int) else '—'}"
+                 + (f" · 올린 것: {_rf}" if _rf else ''))
+    # [게시 리듬 ↔ 반응] — 운영자가 가장 알고 싶어 한 축("올리던 일일 게시가 낮아지니 조회 터지는 게 멈춰있는 실황").
+    # 표시용 합산만(신호 원본 = insta_signals · [기간 창별 실측]과 같은 관례) · 결측일은 분모에서 뺀다(0으로 세면 거짓 하락).
+    try:
+        import statistics as _stt, datetime as _dtr
+        _win = [r for r in series[-28:] if r.get('reach') is not None or r.get('views') is not None]
+        def _amt(r): return r.get('views') if r.get('views') is not None else r.get('reach')
+        _lbm = '조회' if all(r.get('views') is not None for r in _win) else '도달(조회 미수집 구간 = 도달로 대체)'
+        _on = [_amt(r) for r in _win if (r.get('posts') or 0) > 0]
+        _off = [_amt(r) for r in _win if not (r.get('posts') or 0)]
+        if len(_on) >= 3 and len(_off) >= 3:
+            _mo, _mf = _stt.median(_on), _stt.median(_off)
+            _last = next((r for r in reversed(series) if (r.get('posts') or 0) > 0), None)
+            _gap = ''
+            if _last and _last.get('date'):
+                _dd = (_dtr.date.fromisoformat(max(r['date'] for r in series if r.get('date'))) - _dtr.date.fromisoformat(_last['date'])).days
+                _gap = f" · 마지막 게시일 {_last['date'][5:]}(그로부터 {_dd}일) · 그 뒤 게시 0인 날 {_dd}일 연속"
+            _nets = [r['follower_net'] for r in series[-14:] if isinstance(r.get('follower_net'), int)]
+            _nline = ''
+            if _nets:
+                _nline = (f" || 같은 창 팔로워: 최근 {len(_nets)}일 순증 합 {('+' if sum(_nets) > 0 else '')}{sum(_nets):,}명"
+                          f"(줄어든 날 {sum(1 for x in _nets if x < 0)}일 · 최근 3일 {' · '.join(('+' if x > 0 else '') + str(x) for x in _nets[-3:])})"
+                          f" = 계정 {_lbm.split('(')[0]} 축과 팔로워 축은 **따로 움직인다**(각각 말할 것)")
+            L.append(f"[게시 리듬 ↔ 반응 실측(최근 {len(_win)}일 · 단위 = {_lbm})] "
+                     f"올린 날({len(_on)}일) 중앙 {fv(_mo)} vs 안 올린 날({len(_off)}일) 중앙 {fv(_mf)} = **{round(_mo / _mf, 2) if _mf else '—'}배**"
+                     f"{_gap}{_nline}")
+    except Exception:
+        pass
 # 게시-팔로워 인과 실측(insta_signals 산출 — 회초리의 '왜냐면' 근거 · 운영자 260715 Q02)
 tmg = d.get('timing') or {}
 if tmg:
@@ -164,16 +204,38 @@ if posts:
     L.append('[TOP 게시물(점수순 12) — 지문 = 반응한 표본의 결(공유형=지인에 퍼나름·저장형=모아둠·댓글형=참전·좋아요형=가볍게 호응) · 🚪확장문 = 주력 주제 밖에서 평소 2배↑ 터짐+저장 강세 = 기존 팔로워 밖 새 표본 유입 신호]')
     for i, x in enumerate(posts[:12]):
         L.append(f"{i+1}위 [{x.get('iso','')} {x.get('format','')}·{x.get('style','')}·{x.get('cat','')}·{x.get('era','')}] {str(x.get('name') or '(무캡션)')[:60]} · 조회 {fv(x.get('views'))} · 1천뷰당 공유 {pm(x.get('share_pm'))}·저장 {pm(x.get('save_pm'))}{tag(x)}")
-    L.append('[최근 게시물(최신 10)]')
-    for x in sorted(posts, key=lambda x: str(x.get('iso') or ''), reverse=True)[:10]:
-        L.append(f"[{x.get('iso','')} {x.get('format','')}·{x.get('style','')}·{x.get('cat','')}] {str(x.get('name') or '(무캡션)')[:60]} · 조회 {fv(x.get('views'))} · 1천뷰당 공유 {pm(x.get('share_pm'))}{tag(x)}")
+    # 최근 게시물 = 나이(경과)·채널 중앙 대비 배수 동반(운영자 260809 "각각의 게시물 조회가 어떤 게 유지되고").
+    # ⚠ 나이가 없으면 "아직 크는 중"과 "다 큰 것"을 구분할 수단이 아예 없어서 모델이 뭉갤 수밖에 없다(그게 겉핥기의 절반).
+    # 성숙 기준 48h = brief_lib RIPE_H 동값(원장 성과 비교의 그 축) — 사본이 아니라 같은 판정선을 쓴다는 뜻.
+    import datetime as _dta
+    _now = _dta.datetime.fromisoformat(str(d.get('generated_kst')))
+    _recent = sorted(posts, key=lambda x: str(x.get('iso') or ''), reverse=True)
+    _med20 = None
+    try:
+        import statistics as _st2
+        _vv = [x['views'] for x in _recent[:20] if x.get('views')]
+        _med20 = _st2.median(_vv) if len(_vv) >= 5 else None
+    except Exception:
+        _med20 = None
+    def _age(x):
+        try:
+            _h = (_now - _dta.datetime.fromisoformat(str(x.get('iso')).replace('Z', '+00:00')).astimezone(_now.tzinfo)).total_seconds() / 3600
+        except Exception:
+            return ''
+        _s = f" · 올린 지 {round(_h)}시간" if _h < 48 else f" · 올린 지 {round(_h / 24)}일"
+        return _s + ('(아직 크는 중 = 48시간 미만 · 최종치 아님)' if _h < 48 else '(다 큰 값)')
+    def _rel(x):
+        return f" · 최근 20개 중앙 대비 ×{round((x.get('views') or 0) / _med20, 2)}" if _med20 else ''
+    L.append(f"[최근 게시물(최신 10) — 나이·중앙 대비 동반 · 최근 20개 조회 중앙 {fv(_med20) if _med20 else '—'}]")
+    for x in _recent[:10]:
+        L.append(f"[{x.get('iso','')} {x.get('format','')}·{x.get('style','')}·{x.get('cat','')}] {str(x.get('name') or '(무캡션)')[:60]} · 조회 {fv(x.get('views'))}{_rel(x)} · 1천뷰당 공유 {pm(x.get('share_pm'))}{tag(x)}{_age(x)}")
     _exps = [x for x in posts if x.get('exp')]
     if _exps:
         L.append('[🚪확장문 게시물(최신 8) — 채널이 커지는 문 후보]')
         for x in sorted(_exps, key=lambda x: str(x.get('iso') or ''), reverse=True)[:8]:
             L.append(f"[{x.get('iso','')} {x.get('cat','')}] {str(x.get('name') or '(무캡션)')[:60]} · 조회 {fv(x.get('views'))}{tag(x)}")
 body = '\n'.join(L)
-PVER = 'chanbrief-v12-260808-thick'   # v12 = 총론 디테일 복원(운영자 260808 5차 실측 지적 — 게시물 실명·이유·바깥 시류·알고리즘 추정·흐름 제안 3문단 필수 · ⑦ 시류 원료 동반)   # 구   # v11/v5 = ⑥ 정체 축 → 오늘의 행동 1개 강제(운영자 260808 3차 — 반복만 하고 안 옮겨지던 고리 절단)   # 구   # v10 = 누적 지식 라이브러리(운영자 260808 — 직전 1회차 1500자[전문의 36%]만 보던 것을 24회차 판단 원장으로 교체: 정체성 궤적·총론 방향·반복 제안·갈린 축 · 정본 apps/insta/brief_lib.py)   # v9.4 = 팔로워 표본 기준일 딱지(운영자 260726 · 밀리면 ⚠N일 전 병기) · v9.3 = 총론 '→ 그래서 무엇을' 결론 1줄 필수 + 강조 밀도 상향(운영자 260717 — 총론이 최장 판인데 볼드 2개·강조색 0으로 밋밋 실측 → 볼드 넉넉히·핵심어 1층)   # v9.2 = 신뢰 게이트(운영자 260715 Q06 — 거의 확실만 해석·방향)   # v9.1 = 알고리즘 협착 가설+실측(운영자 260715 Q05) · v9 = 회초리·표본(운영자 260715 Q02·Q03 — 인과 실측·팔로워 표본·반응 지문·확장문)   # 프롬프트 버전 — 바뀌면 해시 불일치 = 다음 run 강제 재생성 · v8 = 총론 분리(운영자 260714 "총론=비전·방향성·미션 큰 그림 3~12개월 / 전체=전체 기간 분석 디테일" — [전체 총론] 1부 → [전체]+[총론] 2부 = 6부) · v7 = 강조 2층 · v6 = 시간대·요일교란 · v5 = 존재이유+연재+아카이브 · v4 = 3일신설 · v3 = 5부 · v2 = 프리앰블금지
+PVER = 'chanbrief-v13-260809-live'   # v13 = [3일] 실황 두껍게(운영자 260809 "수박 겉핥기 · 게시물 하나하나 디테일 · 너무 돌려 말한다") — 실측 진범 = 데이터 공백: views 최근 30일 전건 결측 + follows 말미 0-fill이라 모델이 사흘을 말할 일별 근거가 0칸이었다 → 살아있는 축(도달·팔로워 순증감·그날 올린 것 실명) 편입 + [게시 리듬 ↔ 반응] 신설 + 게시물 나이·중앙 대비 배수 + 완곡어법 금지 전 섹션 계약   # 구   # v12 = 총론 디테일 복원(운영자 260808 5차 실측 지적 — 게시물 실명·이유·바깥 시류·알고리즘 추정·흐름 제안 3문단 필수 · ⑦ 시류 원료 동반)   # 구   # v11/v5 = ⑥ 정체 축 → 오늘의 행동 1개 강제(운영자 260808 3차 — 반복만 하고 안 옮겨지던 고리 절단)   # 구   # v10 = 누적 지식 라이브러리(운영자 260808 — 직전 1회차 1500자[전문의 36%]만 보던 것을 24회차 판단 원장으로 교체: 정체성 궤적·총론 방향·반복 제안·갈린 축 · 정본 apps/insta/brief_lib.py)   # v9.4 = 팔로워 표본 기준일 딱지(운영자 260726 · 밀리면 ⚠N일 전 병기) · v9.3 = 총론 '→ 그래서 무엇을' 결론 1줄 필수 + 강조 밀도 상향(운영자 260717 — 총론이 최장 판인데 볼드 2개·강조색 0으로 밋밋 실측 → 볼드 넉넉히·핵심어 1층)   # v9.2 = 신뢰 게이트(운영자 260715 Q06 — 거의 확실만 해석·방향)   # v9.1 = 알고리즘 협착 가설+실측(운영자 260715 Q05) · v9 = 회초리·표본(운영자 260715 Q02·Q03 — 인과 실측·팔로워 표본·반응 지문·확장문)   # 프롬프트 버전 — 바뀌면 해시 불일치 = 다음 run 강제 재생성 · v8 = 총론 분리(운영자 260714 "총론=비전·방향성·미션 큰 그림 3~12개월 / 전체=전체 기간 분석 디테일" — [전체 총론] 1부 → [전체]+[총론] 2부 = 6부) · v7 = 강조 2층 · v6 = 시간대·요일교란 · v5 = 존재이유+연재+아카이브 · v4 = 3일신설 · v3 = 5부 · v2 = 프리앰블금지
 print(hashlib.sha256((PVER + '\n' + body).encode()).hexdigest()[:16])
 print(body)
 PY
@@ -216,7 +278,11 @@ PROMPT="너는 이 인스타 뉴스 채널(@no_mute)을 운영자와 같이 키�
 [3개월]
 [전체]
 [총론]
-- [3일] = 지난 사흘의 결. 여는 인사 한 줄로 시작 → 사흘 흐름이 7일·28일 추세와 같은 방향인지 어긋나는지(나무 vs 숲 대조)를 짚고, 그 움직임을 만든 게시물을 콕. 3~4줄.
+- [3일] = 지난 사흘의 **실황 중계**. 여는 인사 한 줄로 시작. ⚠ **운영자 260809 개정 — '수박 겉핥기 · 게시물 하나하나의 디테일을 잡아달라 · 너무 돌려 말하니 유의미한 인사이트가 안 나온다'는 실측 지적.** 아래 4개를 전부 넣는다(**6~9줄**):
+  ① **지금 무슨 상태인지 첫 줄에 직설로.** [게시 리듬 ↔ 반응 실측]에 게시 공백(마지막 게시로부터 N일)이 찍혀 있으면 **그것부터 그대로 말해라** — 운영자가 원하는 문장은 이 꼴이다: '올리던 리듬이 사흘째 끊겼고, 그래서 조회가 터지는 게 멈춰 있는 실황이다. 대신 팔로워는 유지되는 중.' 지표 탓·시장 탓으로 돌리거나 '아직 하루가 안 찼으니 최종치는 아니다' 류로 뭉개지 마라(그건 원인을 아는데 안 말하는 것이다).
+  ② **계정 축과 팔로워 축을 갈라서** 각각 한 줄 — 한쪽이 꺼져도 다른 쪽은 유지될 수 있고, 그 어긋남 자체가 이 창의 정보다(순증감 수치를 그대로 인용).
+  ③ **창 안 게시물을 하나하나 실명으로.** [최근 게시물]의 캡션 일부·조회·중앙 대비 배수·**나이**를 붙여 '이건 다 컸고 / 이건 아직 크는 중 / 이건 중앙의 절반에서 멈췄다'로 **개별 판정**하라. 창에 새 게시물이 없으면 '직전 게시물들이 지금 어디까지 와서 멈춰 있나'를 같은 방식으로 짚어라 — 창이 비었다고 할 말이 없는 게 아니다.
+  ④ 사흘 흐름이 7일·28일 추세와 같은 방향인지 어긋나는지(나무 vs 숲 대조) + 이 창에서만 보이는 시사점 한 줄.
 - [7일] = 이번 주 벌어진 일 — 최근 7일이 전 기간 평균 대비 어떤지, 뭐가 튀었는지, 원인 게시물을 TOP·최근 게시물에서 콕. 게시물 소재(사건)가 원인 이해에 필요하면 WebSearch로 그 사건을 확인해 한 줄로(확인된 것만). 4~6줄.
 - [28일] = 최근 한 달의 파도 — 추세·전환점·게시 리듬(게시 수와 조회의 맞물림). 3~5줄.
 - [3개월] = 중기 서사 — 성장 3기·운영자 관측 변곡 이벤트와 맞물려 채널이 지금 어디쯤인지. 4~6줄.
@@ -238,6 +304,7 @@ PROMPT="너는 이 인스타 뉴스 채널(@no_mute)을 운영자와 같이 키�
 - 애매하면 해석을 지어내지 말고 '이건 데이터로 아직 모른다'고 말해라 — 그게 회초리의 신뢰선이다. 확실 7할을 또렷하게 > 불확실 10할을 그럴듯하게.
 
 [회초리 — 잘한 건 콕 집고, 근거로만 때려라(운영자 260715)]
+- ⚠ **완곡어법 금지(운영자 260809 '너무 돌려 말하니까 유의미한 인사이트가 안 나온다') — 전 섹션 공통.** 원인이 운영자 자신의 운영(게시 공백·리듬 하락)에 있으면 **그 문장을 그대로 쓴다**: '올린 게 없어서 멈춰 있다'가 정답인 자리에 '외부 유입이 상대적으로 둔화됐다' 같은 말을 놓지 마라. 데이터가 가리키는 원인을 알면서 부드럽게 감싸는 순간 그 브리핑은 쓸모가 0이 된다 — 운영자는 위로가 아니라 실황을 보려고 이걸 연다. 단, 직설은 **근거와 한 몸**이다(수치 없이 훈계만 = 금지 · 신뢰 게이트는 그대로 적용).
 - 잘 터진 게시물 1~2개는 반드시: ① '이 부분이 터졌다' 콕(어느 게시물·수치) → ② 왜 터졌나 — 주제가 그 시기 흐름(사건·시류)을 탔는지 진단(외부 사건은 WebSearch로 확인된 것만·못 찾으면 지표만) → ③ 그 게시물의 '지문'으로 반응한 표본을 그려라(공유형 = 지인에게 퍼나르는 표본 · 저장형 = 모아두고 다시 보는 표본 · 댓글형 = 참전하는 표본) → ④ '~를 활용하면 더 좋겠다' 다음 수 1개까지. 칭찬으로 끝내지 말고 반드시 ④까지.
 - '그냥 자주 올려라' 류 일반 훈수 전면 금지 — 모든 지적·권고에는 [게시-팔로워 인과 실측]이나 지표 수치가 근거로 붙어야 한다(핵심 실측: 팔로워는 게시 *행위*가 아니라 조회가 터진 날 는다 — 다만 안 올리면 터질 것도 없다. [게시-팔로워 인과 실측]의 상관·휴식일 vs 게시일 중앙값을 그대로 인용해 근거를 대라).
 - 🚪확장문 딱지 게시물이 있으면 '지금 팔로워 밖에서 새 표본이 들어오는 문'으로 짚어라 — 특히 [3개월]·[총론]에서 채널이 커지는 방향의 근거로.
@@ -293,19 +360,9 @@ for i in range(1, len(parts) - 1, 2):
 secs = [{'k': k, 'label': lb, 'text': seen[lb][:1800]} for k, lb in SECS if seen.get(lb)]
 if secs and parts[0].strip():   # 첫 마커 위 잔여 서두(가드 뚫림 대비) = 첫 섹션에 흡수
     secs[0]['text'] = (parts[0].strip() + '\n' + secs[0]['text'])[:1800]
-# 판단 이력 카드(운영자 260808 4차 "라이브러리를 화면에도") — 뷰어 표시용 컴팩트(전문 아님 = 판 위계 보호)
-# ⚠ fail-soft: 카드 실패가 브리프 저장을 못 막는다(키 자체를 안 넣음 → 뷰어는 블록 미표시 = 조용한 공백 = 종전 화면)
-_libcard = None
-try:
-    import importlib.util as _ilu
-    _sp = _ilu.spec_from_file_location('brief_lib', 'apps/insta/brief_lib.py')
-    _bl = _ilu.module_from_spec(_sp); _sp.loader.exec_module(_bl)
-    _libcard = _bl.viewcard(_bl.load_rows(_bl.LOGS['ig']), 'ig')
-except Exception as _e:
-    print('lib card skip:', _e)
-doc = {'text': t[:6000], 'updated': datetime.datetime.now(KST).isoformat(timespec='seconds'),
-       'src_hash': os.environ.get('BRIEF_SHA') or ''}
-if _libcard: doc['lib'] = _libcard
+# 판단 이력 카드 = 화면 비노출로 전환(운영자 260809 "내가 볼 필요는 없음 · AI 요약을 진행하는 프로그램이 체킹하면 됨").
+# 뷰어 소비처(libCard)를 걷었으므로 doc['lib'] 배송도 같이 걷는다 — 아무도 안 읽는 데이터를 굽는 건 이 레포가 반복해 지적한 죽은 원장 축이다.
+# ⚠ 라이브러리 자신은 무접촉: brief_lib → LIB_BLOCK → PROMPT 경로가 이 파일 위쪽에 그대로 살아 있다(= 프로그램이 체킹하는 축).
 if len(secs) >= 2: doc['sections'] = secs
 json.dump(doc, open('viewer/chan_brief.json', 'w', encoding='utf-8'), ensure_ascii=False)
 # 인사이트 아카이브(운영자 260714 3차 "모으면 뭔가 나올수도") — 일자별 회차 축적 = 추이 비교·패턴 채굴 원료 · 같은 날 재생성 = 최신으로 교체 · 캡 180회차(파일 비대 가드) · 뷰어 미노출(겉면 불변)
