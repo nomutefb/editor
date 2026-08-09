@@ -142,6 +142,14 @@
   .sopts { display:flex; flex-wrap:wrap; gap:3px 4px /* raw-ok: 랩 밀집 3/4 = index .geni-opts 정본 exact(평의회 조정값 그대로) */; justify-content:flex-end; min-width:0; align-items:baseline; }   /* index .geni-opts exact(우측 끝 정렬) */
   .sopts .pc { height:auto; background:none; border:none; border-radius:0; padding:6px 7px /* raw-ok: 칩 6/7 = index .geni-opt 정본 exact(탭 타깃 평의회 상향값 그대로 · thumb 이식도 동값) */; font-weight:var(--fw-b); font-size:var(--fs-label); color:var(--mut); }   /* 값 = index .geni-opt exact(워드칩 — 박스 칩 소등·밝기/색으로 on/off) */
   .sopts .pc.on { color:var(--accent); font-weight:var(--fw-x); background:none; border:none; }   /* 선택 = 상태색(geni-opt.on exact) */
+  /* 해상도 사다리 방향색(운영자 260809 "업스케일 부분은 투명도 50% 강조색 1 · 다운스케일 부분은 투명도 50% 골드레몬") —
+     값 = :root 실측 토큰 그대로(--accent = 강조색1 · --accent-4 = 네온 골드레몬 · 새 색 창작 0 · hex는 여기 안 적는다 = 다음 세션이 복붙할 씨앗을 남기지 않는다).
+     ⚠ 거처 = `.pc.on` 규칙 **바로 뒤**(같은 특이도 0,3,0이라 순서가 승패를 가른다 · check_css_dead_state 축).
+     선택 시엔 같은 색을 불투명 100%로 = 소등/점등이 색상이 아니라 밝기로 갈리는 정본 문법 유지. */
+  .sopts .pc.rsup { color:rgba(var(--accent-rgb),.5); }
+  .sopts .pc.rsdn { color:rgba(var(--accent-4-rgb),.5); }
+  .sopts .pc.rsup.on { color:var(--accent); }
+  .sopts .pc.rsdn.on { color:var(--accent-4); }
   .ssep { font-size:var(--fs-label); font-weight:var(--fw-b); color:var(--mut); opacity:.35; pointer-events:none; }   /* 파이프 구분자 = index .geni-sep exact(장식 텍스트 · aria-hidden) */
   /* ── 순환값 문법(운영자 260712 5문법 — 도형/필 폐지 · 한 카테고리 = 값 하나·탭=한 바퀴 순환 · ovfmt 정본 결) ── */
   .scard.cyc .hd { gap:6px; flex-wrap:wrap; cursor:default; align-items:baseline; }   /* baseline = 라벨·구분자(|)·순환값 글리프 완전 정렬(thumb .csec 인라인 흐름과 동일 · flex 박스중앙은 파이프 글리프 +0.4px 편심 노출 = 실측 260712) */
@@ -858,14 +866,14 @@ function sum(k){
   if(k==='cut') return ({soft:'살짝',std:'기본',hard:'많이'})[P.cutlv]+(P.cutfill?'·필러':'')+(P.take?'·테이크':'');
   if(k==='trim') return (P.t0||0)+'~'+(P.t1||'끝')+'초';
   if(k==='screen') return P.ar+(P.fit==='pad'?' 검정 여백':P.fit==='blur'?' 블러 여백':' 자르기');   // 개명 동기(운영자 260712 3차)
-  if(k==='res') return P.res==='src'?'원본 유지(≤4K)':P.res==='1080'?'1080p로 맞춤(작으면 확대·선명화 · AI 아님)':P.res+'p 이하로';
+  if(k==='res'){ const r=RES_LADDER.find(a=>a[0]===P.res); return P.res==='src'?'원본 그대로':r?(r[2]+'로 맞춤 — 긴 변 '+r[1]+'px(작으면 확대·선명화 · AI 아님)'):''; }
   if(k==='fps') return P.fps==='60i'?'60fps 보간(부드러움)':P.fps+'fps';   // (부드러움) = 기대치 관리(운영자 260722 — 화질 옵션 오해로 켰다 실망 방지) · 요약 스트립 한정(전폭·ellipsis 안전) — 반폭 칩 라벨(CYL)은 줄바꿈 위험이라 무접촉
   if(k==='anorm') return '음량 강도 · 좌우 밸런스 보정';   // 문구 = 운영자 260712 선택값(구 '−14LUFS·좌우 통일' — 렌더 스펙 −14LUFS·TP−1.5는 audio_norm.py 불변)
   if(k==='bgm') return '목소리만';
   if(k==='clip') return '하이라이트 후보 3~5개';
   return '';
 }
-const pc=(k,v,on,dim,txt)=>'<button class="pc'+(on?' on':'')+(dim?' dim':'')+'" type="button" data-p="'+k+':'+v+'" aria-pressed="'+(on?'true':'false')+'"'+(dim?' disabled':'')+'>'+txt+'</button>';   // aria-pressed = 토글 상태 SR 공지(P2평의회5 a11y)
+const pc=(k,v,on,dim,txt,xcls)=>'<button class="pc'+(on?' on':'')+(dim?' dim':'')+(xcls?' '+xcls:'')+'" type="button" data-p="'+k+':'+v+'" aria-pressed="'+(on?'true':'false')+'"'+(dim?' disabled':'')+'>'+txt+'</button>';   // aria-pressed = 토글 상태 SR 공지(P2평의회5 a11y)
 function segs(k, arr, cur, dim){ return '<div class="prow">'+arr.map(a=>pc(k,a[0],String(cur)===a[0],dim,a[1])).join('')+'</div>'; }
 const srow=(lbl,chips)=>'<div class="srow"><span class="plbl">'+lbl+'</span><span class="sopts">'+chips.join('<span class="ssep" aria-hidden="true">|</span>')+'</span></div>';   // 자막 카드 행 = geni-row 정본 문법(운영자 260721 통일 — 라벨 pub-l·값 우측 워드칩·파이프 geni-sep)
 /* ── 색 한 줄(운영자 260729) — 음영 색·글자 색을 동그라미 한 줄로 겸함: 탭 = 음영(shc) · 우클릭/길게누르기 = 글자(fg).
@@ -936,7 +944,7 @@ function prm(k){
     +(ON.screen?('<div class="plbl plbl-nm">방식</div>'   // 방식 = 비율과 동급 위계 상향(운영자 260712 3차 — 카드 제목 .nm 미러)
     +'<div class="prow">'+[['crop','자르기'],['pad','검정 여백'],['blur','블러 여백']].map(a=>pc('fit',a[0],P.fit===a[0],false,a[1])).join('')+pc('genfill','x',false,true,'생성형')+'</div>'   // 검정/블러 여백 개명 + 생성형(dim·'준비중' 산문 제거) 같은 행 가로 배치(운영자 260712 3차 · 비활성 = 영상 생성 API 미보유 정직 불변)
     +(P.fit==='crop'?gauge('vpos','위치',0,100,P.vpos,'%'):'')):'');   // 크롭 위치 = 게이지만(운영자 260711 scrubBtn=off — 드래그 스크럽 코드는 보존·버튼만 미노출)
-  if(k==='res') return segs('res',[['off','원본'],['src','4K'],['1080','1080p'],['720','720p']],ON.res?P.res:'off');   // src = 원본 유지(긴 변 3840 캡 · 4K는 180초 게이트 — 운영자 260711) · 라벨 = CYL과 동일 통일(260712 5차)
+  if(k==='res') return segs('res',[['off','원본 유지']].concat(RES_LADDER.map(a=>[a[0],a[2]])),ON.res?P.res:'off');   // src = 원본 유지(긴 변 3840 캡 · 4K는 180초 게이트 — 운영자 260711) · 라벨 = CYL과 동일 통일(260712 5차)
   if(k==='fps') return segs('fps',[['off','원본'],['60i','60fps 보간'],['30','30']],ON.fps?P.fps:'off');   // 24fps 삭제(운영자 260712 통일 5문법)
   if(k==='clip') return segs('clip',[['off','OFF'],['on','후보 스캔 3~5개 (단독 실행)']],ON.clip?'on':'off')
     +(ON.clip?('<div class="plbl plbl-nm">감독</div><div class="prow">'+[['fable','Fable 5'],['opus','Opus 5']].map(a=>pc('clipmdl',a[0],P.clipmdl===a[0],false,a[1])).join('')+'</div>'):'');   // 클리퍼 감독 모델(운영자 260722 · sb 감독 선택기 개념 미러 · edit .plbl/.prow/.pc 네이티브 계승) → 발사 opts.clip_model
@@ -964,8 +972,8 @@ function setEta(){   // 도먼트(운영자 260722 "이미지 스튜디오처럼
 /* 섹션 상시 노출 IA(운영자 260712 — 시안 3분류 뷰 정합: "1 리사이징"류 번호 섹션이 항상 펼쳐져 축 칩이 바로 보임 · 빈 스택+시트 추가형 폐지) — 기본 = 음량 통일만 ON(운영자 260712 보정 기본)·나머지 축 '원본/그대로/끔' · 칩 선택 = ON[k] 파생이라 buildOpts·etaCalc·레시피·클리퍼 배타 전부 불변 */
 const IA=[['설계',['trim','sub','cut']],['기본',['screen','res']]];   // 소머리 '하이라이트' → '설계'(운영자 260804 "다른 부분하고 동일하게 용어 통일") = 콘티(sb)·프롬프팅(k)·음원(song) 「설계」 소머리와 한 어휘 — 라벨 1개만 교체(축 키 trim/sub/cut·카드·발사 페이로드 전부 불변)   // 섹션 재편(운영자 260803 7차) — ⓐ 번역 = 자막 **안**으로 이주("어짜피 자막에 포함되어 있는거니까") ⓑ 고프레임 = 레일 전용("네비게이션에서만 선택") ⓒ 음량 통일 = 기본값 고정·카드 삭제(ON.anorm 기본 true 불변) ⓓ 배경음 = 레일 전용(기본 활성 · 끄면 '배경음 제거') → 음향 섹션 통째 소멸 · 구 'hl3' 3분할 행 = 도먼트(hlRow 보존 · 복원 = 'sub' 자리에 'hl3' 1줄) · 클리퍼 = 숨김(Q08 · 복원 = 'cut' 뒤 'clip' 재추가 1줄 + PREC 쇼츠 클립 재추가) · 구 IA = git 이력
 /* ── 순환값 문법(운영자 260712 5문법 — 잔여 선택지 나열 폐지 · 탭=한 바퀴 · 단일축 카드 = 반폭 페어) ── */
-const CYC={ ar:['off','9:16','1:1','4:5','16:9'], fit:['crop','pad','blur'], res:['off','src','1080','720'], fps:['off','60i'], cutlv:['off','soft','std','hard'], clip:['off','on'], bgm:['off','on'], anorm:['off','on'], trim:['off','on'], sub:['off','on'], trn:['off','on'] };   // fps = 고프레임 OFF/ON 토글(운영자 260728 Q06 — 30fps 선택지 도먼트 · 복원 = '30' 재추가) · cutlv = 4값 복구(평의회⑦ 260728 — ['off','std']로 좁혔더니 게이지로 고른 '살짝/많이'가 헤더 탭 왕복 한 번에 말없이 '기본'으로 덮이던 것 · 게이지와 값 도메인 일치) · trn = 번역 토글 신설 · 24fps 삭제(운영자 260712) · trim = OFF/ON 토글(운영자 260713) · sub = OFF/ON(운영자 260721)
-const CYL={ ar:{off:'원본','9:16':'9:16','1:1':'1:1','4:5':'4:5','16:9':'16:9'}, fit:{crop:'자르기',pad:'검정 여백',blur:'블러 여백'}, res:{off:'원본',src:'4K','1080':'1080p','720':'720p'}, fps:{off:'OFF','60i':'ON','30':'30fps'}, cutlv:{off:'OFF',soft:'살짝',std:'기본',hard:'많이'}, clip:{off:'OFF',on:'후보 스캔'}, bgm:{off:'ON',on:'OFF'} /* ⚠ 의도적 반전(운영자 260803 7차 "배경음 > 활성화가 기본값, 비활성화 하면 > 배경음 제거") — 축 키 ON.bgm은 종전 그대로 **'배경음 제거' 플래그**(발사 페이로드·eta·요약 전부 무접촉)이고 표시만 뒤집는다: 제거 안 함(off) = 배경음 'ON'(점등·기본) · 제거함(on) = 배경음 'OFF'(소등) */, anorm:{off:'OFF',on:'ON'}, trim:{off:'OFF',on:'ON'}, sub:{off:'OFF',on:'ON'}, trn:{off:'OFF',on:'ON'} };   // fps 표기 = 고프레임 OFF/ON(운영자 260728 — '60fps 보간' 산문은 카드 title·요약 sum()이 전담 · '30' 라벨은 도먼트 짝) · trn 합류   // 말 통일(운영자 260712 5차): 미적용 = 비율과 동일 '원본'(res·fps — 구 '그대로' 폐지 · src는 '4K'로 개명 = '원본' 중복 회피·의미 동일 3840캡) · 이진/세기 축 미적용 = 'OFF'(구 '끔' — 이미지 모달 OFF/ON 문법 계승) · 적용 = 실값 or 'ON'
+const CYC={ ar:['off','9:16','1:1','4:5','16:9'], fit:['crop','pad','blur'], res:['off','src','720','1080','2k','4k'], fps:['off','60i'], cutlv:['off','soft','std','hard'], clip:['off','on'], bgm:['off','on'], anorm:['off','on'], trim:['off','on'], sub:['off','on'], trn:['off','on'] };   // fps = 고프레임 OFF/ON 토글(운영자 260728 Q06 — 30fps 선택지 도먼트 · 복원 = '30' 재추가) · cutlv = 4값 복구(평의회⑦ 260728 — ['off','std']로 좁혔더니 게이지로 고른 '살짝/많이'가 헤더 탭 왕복 한 번에 말없이 '기본'으로 덮이던 것 · 게이지와 값 도메인 일치) · trn = 번역 토글 신설 · 24fps 삭제(운영자 260712) · trim = OFF/ON 토글(운영자 260713) · sub = OFF/ON(운영자 260721)
+const CYL={ ar:{off:'원본','9:16':'9:16','1:1':'1:1','4:5':'4:5','16:9':'16:9'}, fit:{crop:'자르기',pad:'검정 여백',blur:'블러 여백'}, res:{off:'원본',src:'원본',720:'720p','1080':'FHD','2k':'2K','4k':'4K'}, fps:{off:'OFF','60i':'ON','30':'30fps'}, cutlv:{off:'OFF',soft:'살짝',std:'기본',hard:'많이'}, clip:{off:'OFF',on:'후보 스캔'}, bgm:{off:'ON',on:'OFF'} /* ⚠ 의도적 반전(운영자 260803 7차 "배경음 > 활성화가 기본값, 비활성화 하면 > 배경음 제거") — 축 키 ON.bgm은 종전 그대로 **'배경음 제거' 플래그**(발사 페이로드·eta·요약 전부 무접촉)이고 표시만 뒤집는다: 제거 안 함(off) = 배경음 'ON'(점등·기본) · 제거함(on) = 배경음 'OFF'(소등) */, anorm:{off:'OFF',on:'ON'}, trim:{off:'OFF',on:'ON'}, sub:{off:'OFF',on:'ON'}, trn:{off:'OFF',on:'ON'} };   // fps 표기 = 고프레임 OFF/ON(운영자 260728 — '60fps 보간' 산문은 카드 title·요약 sum()이 전담 · '30' 라벨은 도먼트 짝) · trn 합류   // 말 통일(운영자 260712 5차): 미적용 = 비율과 동일 '원본'(res·fps — 구 '그대로' 폐지 · src는 '4K'로 개명 = '원본' 중복 회피·의미 동일 3840캡) · 이진/세기 축 미적용 = 'OFF'(구 '끔' — 이미지 모달 OFF/ON 문법 계승) · 적용 = 실값 or 'ON'
 const HALF=new Set(['bgm','anorm']);   // 반폭 페어 = 배경음|음량만(운영자 260728 재편 — 비율·해상도 = 칩 나열 전폭 · 컷 편집 = 게이지 전폭 · 자막|번역|고프레임 = hl3 3분할 별도 행)
 const AXNM={ ar:'비율', fit:'방식', res:'해상도', fps:'고프레임', cutlv:'컷 편집', trim:'구간', clip:'클리퍼', bgm:'배경음', anorm:'음량', sub:'자막', trn:'번역' };   // fps = 고프레임 개명·trn 합류(운영자 260728)   // 축 이름(a11y+스트립 어휘 — CARD 키와 별개: ar/fit/cutlv는 CARD에 없음 · trim = 스트립 라벨 정식 등재 = 무언 폴백 제거 · 평의회2 260718) · cutlv = '컷 편집'(운영자 260724 — 스트립 라벨을 CARD.cut.nm '컷 편집'과 일치시켜 구 '컷 세기' 불일치 교정)
 function curCyc(k){ if(k==='ar')return ON.screen?P.ar:'off'; if(k==='res')return ON.res?P.res:'off'; if(k==='fps')return ON.fps?P.fps:'off'; if(k==='cutlv')return ON.cut?P.cutlv:'off'; if(k==='clip')return ON.clip?'on':'off'; if(k==='bgm')return ON.bgm?'on':'off'; if(k==='anorm')return ON.anorm?'on':'off'; if(k==='trim')return ON.trim?'on':'off'; if(k==='sub')return ON.sub?'on':'off'; if(k==='trn')return ON.trn?'on':'off'; if(k==='fit')return P.fit; return P[k]; }
@@ -1001,6 +1009,24 @@ function setAxis(k,v){   // 축 상태 단일 정본(순환값·잔존 chip 공�
   P[k]=v; if(k==='fit'&&v!=='crop') scrubClose();
 }
 const CARDAX={ res:'res', fps:'fps', cut:'cutlv', clip:'clip', bgm:'bgm', anorm:'anorm', trim:'trim', sub:'sub', trn:'trn' };   // 카드 키 → 순환 축 키(컷 = cutlv · trim = OFF/ON 토글 260713 · trn 합류 260728 · screen 별도)
+// 해상도 사다리 = 긴 변 K 축(러너 ly_burn._RES_LADDER 짝 · 운영자 260809 "720p FHD 원본 2K 4K").
+//   ⚠ 세로 숫자가 아니라 **긴 변**이다 — 16:9의 720p는 1280×720이라 긴 변 1280. 구판이 720/1080을 긴 변에 그대로 써서
+//     「1080p」가 1080×606을 내던 오류를 정정한 값(260809 실측).
+const RES_LADDER=[['720',1280,'720p'],['1080',1920,'FHD'],['2k',2560,'2K'],['4k',3840,'4K']];
+// 원본 = 사다리의 **중심축**(운영자 260809 "원본은 항상 화질의 중심 축에 위치") — 값 순서대로 제 자리에 꽂히므로
+//   왼쪽 = 전부 다운스케일 · 오른쪽 = 전부 업스케일이 된다. 원본과 **같은 급** 칩은 아예 안 그린다
+//   (운영자 "원본이 2k면 2k누르면 업스케일이 이미 아니고 왜곡만 되는거잖아" = 눌러도 의미 없는 선택지를 없앤다).
+//   ⚠ 같은 급 판정 = 3% 이내 — 1920 원본에 1900 같은 값을 「확대」라고 부르면 재인코딩만 하고 화질은 그대로다.
+//   ⚠ 원본 크기를 모르면(URL 소스·메타데이터 전) 방향을 알 수 없다 → 종전처럼 전 사다리를 무채로 그린다(추측 색칠 금지).
+function resChips(cur){
+  const L=Math.max(_vw||0,_vh||0);
+  const src=['src',L,'원본'];
+  if(!L) return hdChips('res',[['off','원본 유지']].concat(RES_LADDER.map(a=>[a[0],a[2]])),cur);
+  const rows=RES_LADDER.filter(a=>Math.abs(a[1]-L)/L>=0.03).concat([src]).sort((a,b)=>a[1]-b[1]);
+  return '<span class="cysep">|</span><span class="sopts">'
+    +rows.map(a=>pc('res',a[0],String(cur)===a[0],false,a[2],a[0]==='src'?'':(a[1]>L?'rsup':'rsdn'))).join('')
+    +'</span>';
+}
 const hdChips=(k,arr,cur)=>'<span class="cysep">|</span><span class="sopts">'+arr.map(a=>pc(k,a[0],String(cur)===a[0],false,a[1])).join('')+'</span>';   // 헤더 한 줄 칩 나열 = 이미지 스튜디오 #rszOpts/#upsOpts 형식(후보 상시·탭=즉시 선택 · 운영자 260728 Q10 "나타내는 형식 그대로") — 칩 사다리 = .sopts .pc(geni-opt 정본 = thumb .ropt 동일 원본) · 파이프 없음 = thumb 비율 행 동문
 const SEG_MAX=12;   // 구간 상한(클라 UI·발사·api/edit.js·ly_burn 4겹 동값 — 이 값 하나로 표면화)
 let _segHold=0;   // 룰러 탭·구간 입력 직후 유예(ms) — 그 시각을 실제로 보게(평의회⑤ 260728)
@@ -1042,22 +1068,23 @@ function hlRow(){   // ⚠ 도먼트(260803 7차 — IA에서 'hl3' 제거 = 미
 //   ⚠ 원본 크기를 모르면(URL 소스·메타데이터 전) 아무 말도 안 한다.
 function resNote(){
   if(!_vw||!_vh) return '';
-  const cap={src:3840,'1080':1080,'720':720}[P.res]; if(!cap) return '';
-  const L=Math.max(_vw,_vh), up=P.res==='1080', crop=ON.screen&&P.ar;   // up = 「목표로 맞추는 값」 = 1080p 하나(4K·720p·원본은 상한 = 축소 전용)
-  if(up&&L===cap) return '<div class="xnote">'+_vw+'×'+_vh+' — 이미 딱 맞아서 그대로</div>';
-  if(!up&&L<=cap) return '<div class="xnote">'+_vw+'×'+_vh+' — 그대로(줄일 것 없음)</div>';
+  const row=RES_LADDER.find(a=>a[0]===P.res); if(!row) return '';   // 원본(src)·미선택 = 바뀌는 게 없으니 아무 말도 안 한다
+  const cap=row[1], L=Math.max(_vw,_vh), crop=ON.screen&&P.ar;
+  const up=cap>L;   // ⚠ 방향은 **실측으로 정한다** — 구판은 목표 승격 뒤 up을 true로 고정해 1920→1280을 「확대」라고 말했다(260809 실측).
+                    //   리드백의 존재 이유가 정확한 사실이라 방향이 틀리면 숫자가 맞아도 거짓말이다.
+  if(L===cap) return '<div class="xnote">'+_vw+'×'+_vh+' — 이미 딱 맞아서 그대로</div>';
   // ⚠ 짝수 내림은 **러너와 같은 식**이어야 한다 = `int()`(내림) — Math.round로 두면 640×360이 러너 606인데 화면엔 608로
   //   떠서 「기존 → 변경」이 2px 거짓말을 한다(260809 실측). 리드백의 존재 이유가 정확한 숫자라 이 2px이 곧 결함.
   const k=cap/L, tw=Math.max(2,Math.floor(_vw*k)&~1), th=Math.max(2,Math.floor(_vh*k)&~1);
   return '<div class="xnote">'+(crop
     ? '긴 변 '+L+' → <b>'+cap+'</b>'+(up?' 확대':' 축소')+' (비율 자르기 뒤 기준)'
     : _vw+'×'+_vh+' → <b>'+tw+'×'+th+'</b>'+(up?' 확대':' 축소'))
-    +(up&&k>1?' · 선명화 동반(AI 아님 — 없던 디테일이 생기진 않아)':up?' · 1080p 기준이라 이건 줄어들어':'')+'</div>';
+    +(k>1?' · 선명화 동반(AI 아님 — 없던 디테일이 생기진 않아)':'')+'</div>';
 }
 function cardHtml(k,half){   // 한 줄 헤더(라벨|값 or 라벨|칩 나열 or 이진=워드 토글 단독) + 잔여(게이지·구간 입력·노트)만 아래
   let vals='',hdNm=true;   // hdNm=false = 이진 워드 토글이 라벨을 흡수(운영자 260803 · 아래 CARDAX 분기)
   if(k==='screen') vals=hdChips('ar',[['off','원본'],['9:16','9:16'],['1:1','1:1'],['4:5','4:5'],['16:9','16:9']],ON.screen?P.ar:'off');   // 비율 = 칩 상시 나열(운영자 260728 Q10 — 이미지 스튜디오 형식 · 값 축은 edit 기존 집합 유지)
-  else if(k==='res') vals=hdChips('res',[['off','원본'],['src','4K'],['1080','1080p'],['720','720p']],ON.res?P.res:'off');   // 1080p = **목표**(운영자 260809 "선명하게를 별도로 넣을 필요가 있나") — 구판은 전 값이 상한이라 640×360에 1080p를 골라도 그대로 나갔다 · 칩은 늘리지 않고 1080p가 제 이름값대로 동작한다
+  else if(k==='res') vals=resChips(ON.res?P.res:'off');   // 사다리 = 소스 실측 기준 동적(운영자 260809) — 원본이 중심축 · 위쪽 업스케일 · 아래쪽 다운스케일 · 같은 급 칩은 미표시
   else if(k==='cut') vals=hdChips('cutlv',[['off','OFF'],['std','기본'],['soft','살짝'],['hard','많이']],ON.cut?P.cutlv:'off');   // 컷 강도 = 비율·해상도와 같은 헤더 우측 칩 나열(운영자 260804) — 값·순서 = 구 cutBody segs 사본(백엔드 무변) · CARDAX 워드토글 분기보다 **앞**(같은 축을 두 문법으로 그리지 않는다)
   else if(CARDAX[k]){ const ax=CARDAX[k], v0=curCyc(ax), lab0=CYL[ax][v0]||String(v0); if(lab0==='OFF'||lab0==='ON'){ hdNm=false; vals=cyv(ax,CARD[k].nm); } else vals='<span class="cysep">|</span>'+cyv(ax); }   // 이진 상태 = 카드 라벨 자체가 토글 칩(운영자 260803 · #cnTog 문법 — 'nm | OFF' 이중 표기 폐지 · 칩 워딩 = CARD.nm 그대로) · 실값 상태(컷 살짝·배경음 목소리만)는 종전 라벨|값
   let body='';

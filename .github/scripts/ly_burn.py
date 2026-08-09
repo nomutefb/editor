@@ -1078,14 +1078,21 @@ def run(vid_id, video, outdir):
     V_AR = {"9:16": 9 / 16, "1:1": 1.0, "4:5": 4 / 5, "16:9": 16 / 9}
     vid_ar = opts.get("vid_ar") if opts.get("vid_ar") in V_AR else None
     vid_fit = opts.get("vid_fit") if opts.get("vid_fit") in ("crop", "pad", "blur") else "crop"   # blur = 원본 블러 확대 배경 여백(260711)
-    vid_res = {"1080": 1080, "720": 720, "src": 3840}.get(str(opts.get("vid_res") or ""))   # src = 원본 유지(4K 캡 3840 · 운영자 260711 — 결측 기본은 종전 1920)
+    # 해상도 사다리 = **긴 변 K 축**(운영자 260809 "720p FHD 원본 2K 4K … 원본은 항상 화질의 중심 축").
+    #   ⚠ 구판 값은 720/1080 = **세로 숫자를 긴 변에 그대로 쓴** 것이라 「1080p」를 골라도 실제론 1080×606이 나왔다(260809 실측).
+    #     16:9에서 720p = 1280×720 · FHD = 1920×1080 이므로 긴 변 축의 정답은 1280/1920이다. 이름값과 결과를 일치시킨다.
+    #   ⚠ src(원본) = **상한 없음**(구판 3840 캡) — 원본이 사다리의 기준축이고 「건드리지 마」가 그 뜻이다. 4K 캡이 필요하면 4k 칩이 그 일을 한다.
+    #   하위호환: 구 저장값 '1080'·'720'은 같은 키로 남기고 값만 정정(뷰어 localStorage 잔존분이 그대로 산다).
+    _RES_LADDER = {"720": 1280, "1080": 1920, "2k": 2560, "4k": 3840}
+    vid_res = dict(_RES_LADDER, src=0).get(str(opts.get("vid_res") or "")) or None   # src·미지정 = None = 종전 결측 기본(캡 1920)
     # 「1080p」 = 상한이 아니라 **목표**(운영자 260809 "해상도를 키운다는거는 사실상 선명하게에 가까운거" · "선명하게를 별도로 넣을 필요가 있나").
     #   구판은 전 값이 상한이라 640×360에 1080p를 골라도 **640×360 그대로 나갔다**(260809 실측 · 원본·4K·720p도 전건 동일) =
-    #   고른 이름과 결과가 어긋나는 자리였다. 1080p만 목표로 승격한다 — 720p = 줄이려는 의도라 상한 유지 · 4K = 키워도
-    #   화질 이득 없이 인코딩만 폭증하므로 상한 유지 · 원본 = 「건드리지 마」라 상한 유지.
+    #   고른 이름과 결과가 어긋나는 자리였다. → 사다리 값 **전부 목표**로 승격한다(운영자 260809 2차):
+    #   고른 칩이 원본보다 크면 확대·작으면 축소 = 「고른 이름 = 결과」. 뷰어가 원본과 같은 급 칩을 아예 숨기므로
+    #   「눌러도 아무 일 없는」 선택지는 화면에서 사라진다(무의미한 재인코딩 차단은 UI 축이 담당).
     #   ⚠ 확대는 AI 아님 = 없던 디테일은 안 생긴다(Lanczos 보간 + 언샤프 = 계단·뭉개짐 정리). 실측 비용 = 60초 영상 +61초.
     #   ⚠ Real-ESRGAN(=Upscayl 계열)은 이 자리에 못 온다 — 260809 실측 640×360 1프레임 40.49s = 60초 영상 20.2시간(잡 캡 105분).
-    vid_up = str(opts.get("vid_res") or "") == "1080"
+    vid_up = str(opts.get("vid_res") or "") in _RES_LADDER   # 사다리 값 전건 = 목표(확대·축소 양방향) · src·미지정 = 종전 상한
     vid_fps = opts.get("vid_fps") if opts.get("vid_fps") in ("60i", "30", "24") else None
     no_burn = opts.get("burn") is False   # 컷 단독(STT-only) 발사 신호(편집기 260711) — 전사 segs는 컷 계산에만 쓰고 번인 억제(키 부재 = 종전대로 번인 = ly·reburn 회귀 0)
     aud_on = bool(opts.get("aud_norm"))
@@ -1374,12 +1381,12 @@ def run(vid_id, video, outdir):
                 else:
                     pw, ph = max(2, int(round(cap * pad_t)) & ~1), cap
             pw, ph = max(2, pw & ~1), max(2, ph & ~1)
-            k = min(pw / cw, ph / ch) if vid_up else min(pw / cw, ph / ch, 1.0)   # 1080p = 1.0 클램프 해제(캔버스를 꽉 채우게 키운다) · 그 외 = 종전 contain 축소 전용
+            k = min(pw / cw, ph / ch) if vid_up else min(pw / cw, ph / ch, 1.0)   # 목표 = 1.0 클램프 해제(캔버스를 꽉 채우게 키운다) · src·미지정 = 종전 contain 축소 전용
             tw, th = max(2, int(cw * k) & ~1), max(2, int(ch * k) & ~1)
         elif max(cw, ch) > cap:
             k = cap / max(cw, ch)
             tw, th = max(2, int(cw * k) & ~1), max(2, int(ch * k) & ~1)
-        elif vid_up and max(cw, ch) < cap:   # 1080p = 목표 = 긴 변을 1080까지 키운다 — 이미 1080 이상이면 위 가지가 받아 종전 축소(회귀 0)
+        elif vid_up and max(cw, ch) < cap:   # 목표 = 긴 변을 그 값까지 키운다 — 이미 그 값 이상이면 위 가지가 받아 축소(양방향 = 이름값 일치)
             k = cap / max(cw, ch)
             tw, th = max(2, int(cw * k) & ~1), max(2, int(ch * k) & ~1)
         tw, th = tw & ~1, th & ~1
