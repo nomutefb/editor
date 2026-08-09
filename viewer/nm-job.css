@@ -31,6 +31,14 @@
   @keyframes thfocus { 0%,100%{ box-shadow:0 0 0 0 rgba(var(--accent-rgb),0); } 18%,46%{ box-shadow:0 0 0 3px rgba(var(--accent-rgb),.55); } }
   @media (prefers-reduced-motion:reduce){ .thfocus { animation:none; } .job .jst .jspin { animation:none; } }   /* 작업 스피너 회전 정지(260630 QA) */
   .job .jst .jsec { color:var(--fg); font-variant-numeric:tabular-nums; }   /* 진행 중 경과시간만 흰색(운영자 260728 "47s는 흰색으로") — 나머지 상태글자는 mut 유지 · 탭럴러 숫자 = 1s 틱마다 폭 안 흔들림(.abno 선례) */
+  .job .jst .nm-shim { font-size:inherit; font-weight:inherit; line-height:inherit; transform:none; }
+  /* 진행 상태줄 빛 스윕(운영자 260809 "그 빛 지나가는 모션 · 제작중 이 부분에도") = nm-loader.js `.nm-shim` **도료만** 계승 — 활자는 잡 행 정본(12px/400) 그대로.
+     왜 되돌리나 = `.nm-shim`은 260731 개정에서 도료 + 활자(13.5px/700/lh1/-.049em)가 **한 벌**이 됐다(nm-loader.js 154행 "붙은 글자도 라벨과 같은 잉크선").
+     그 전제는 「13.5px 로더 라벨 옆에 붙는 글자」인데 이 자리는 12px 잡 행이라 그대로 물리면 ⓐ 진행 행만 13.5/700이 돼 바로 위 완료 행(12/400)과 활자가 갈리고
+     ⓑ `.jst`가 nowrap·margin-left:auto라 폭이 늘어 폰에서 좌측 `.jlab`과 맞물린다. -.049em 보정도 제외 = 그 값은 13.5/12.5 두 티어에서 실측된 것이라(nm-loader.js 161행)
+     12px에 옮기면 근거 없는 보정이고, 완료 행 글자엔 안 걸려 진행 행만 0.59px 떠서 형제와 어긋난다.
+     계승 범위 = 그라디언트·nmshim 애니·투명 클립·tabular-nums(= `.jsec`가 이미 쓰던 축과 동의도) · reduced-motion 정지도 SSOT 그대로 따라온다.
+     새 값 0(전부 기존 값 복원 = inherit·none) · 정본은 nm-loader.js 한 곳 = 이 줄은 도료를 안 흔든다. */
   .job.err { border-color:rgba(var(--danger-rgb),.4); } .job.err .jst { color:var(--danger); }
   .job.err .jst { white-space:normal; text-align:right; min-width:0; }   /* 실패 사유가 상태줄에 들어오면서(운영자 260730) 폰 폭에서 접히게 — 형제 상태줄의 nowrap은 「제작 중 47s · 1/2장」처럼 짧은 상수뿐이라 유지, 실패 행만 해제. 색·간격·픽토는 위 규칙 그대로 계승(신설 값 0) */
   /* 실패 잡 재시도 = 같은 설정으로 재발사(운영자 260620 아이디어 3) */

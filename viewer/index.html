@@ -9356,13 +9356,13 @@ function _dgJobHtml(v, i) {
   //   ⚠ 완료면 **실측만**(없으면 빈칸) — 구판은 실측이 없을 때 요청 표기로 되돌아갔고, 그 경로엔 구 결과뿐 아니라
   //     **영상 0건 완료**(인스타·X·틱톡 사진 게시물 = 러너가 img를 성공으로 인정)가 들어와 「최대 4K 60fps」라고 말했다(평의회2 실측).
   const qLbl = v.st === 'done' ? _dgResActual(v.res) : (v.q === 'best' ? '최고 화질' : v.q ? '최대 ' + _dgQName(v.q) : '');   // best(스레드) = 「최고 화질」 — _dgQName의 4K 60fps 폴백을 타면 그게 또 거짓 표기가 된다
-  let ic, tx;
+  let ic, tx, shim = '';   // shim = 받는 중만 글자 위 빛 스윕(`.nm-shim` 도료 SSOT = nm-loader.js) — 이미지 스튜디오 잡 행(thumb renderJob)과 **한 벌**로 간다(같은 nm-job.css 부품인데 한쪽만 빛나면 조용히 갈린다 · 운영자 260809)
   if (v.st === 'fail') { ic = WARN_SVG; tx = '실패' + (v.msg ? ' · ' + esc(String(v.msg).slice(0, 60)) : ''); }
   else if (v.st === 'done') { ic = CHECK_SVG; tx = '완료 · ' + fs.length + '건' + (v.sec ? ' (' + _dgSecTxt(v.sec) + ')' : ''); }   // 「✓ 완료 · N장 (32s)」 정본 문법 · 단위만 이 화면 것(장→건)
-  else { ic = window.nmOrbHTML ? nmOrbHTML('solving', 14) : ''; tx = '받는 중 <b class="jsec">' + _dgSecTxt(sec) + '</b>' + (window.nmEta ? ' · ' + nmEta.label(_dgEtaKey(v)).trim() : ''); }   // 경과 = 흰색 .jsec(운영자 260728 정본) · 예상 = nmEta
+  else { ic = window.nmOrbHTML ? nmOrbHTML('solving', 14) : ''; tx = '받는 중 <b class="jsec">' + _dgSecTxt(sec) + '</b>' + (window.nmEta ? ' · ' + nmEta.label(_dgEtaKey(v)).trim() : ''); shim = ' class="nm-shim"'; }   // 경과 = 흰색 .jsec(운영자 260728 정본) · 예상 = nmEta → 진행 중이므로 빛 스윕(도료가 색을 대체 = thumb 잡 행과 한 벌)
   let h = '<div class="job' + (v.st === 'done' ? ' done' : '') + (v.st === 'fail' ? ' err' : '') + '" id="dgjob' + i + '">'
     + '<span class="jlab">' + esc(_dgVidPlatName(v.plat) || '링크') + ' · ' + modeLbl + (qLbl ? ' · ' + esc(qLbl) : '') + ' #' + (v.n || (i + 1)) + '</span>'
-    + '<span class="jst">' + ic + '<span>' + tx + '</span></span>';
+    + '<span class="jst">' + ic + '<span' + shim + '>' + tx + '</span></span>';   // shim = 받는 중만 빛 스윕(상수 문자열 = 주입 여지 0)
   // (받는 중 취소 X = 운영자 260802 미채택 — 러너를 실제로 멈추는 API가 없어 「이 화면의 추적만 끊는」 반쪽 취소였다.
   //  버튼이 없어도 40분 폴 상한이 스스로 실패로 닫고, 창을 닫으면 폴은 멈춘 채 잡만 보존된다 = 갇히는 상태 없음.)
   if (v.st === 'fail') h += '<button type="button" class="geni-opt" data-act="vidgo" data-i="' + i + '">다시 시도</button>';
