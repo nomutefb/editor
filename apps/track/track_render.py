@@ -359,15 +359,39 @@ class PinsetPainter:
             self.font = ImageFont.load_default()
             print("::warning::truetype 로드 실패 — 기본 비트맵 폴백", flush=True)
         self.lw = max(2, int(round(H * 0.0035)))
+        self._prev = {}   # pid → 직전 중심(움직임 산출)
+        self._mv = {}     # pid → 평활 이동량(겹침 우선순위 ⓒ)
 
     def draw(self, frame, tags):
-        """tags = [(box[x,y,w,h], name, (r,g,b))] — PIL RGBA 오버레이 1회 합성."""
+        """tags = [(box[x,y,w,h], name, (r,g,b), pid, emph)] — PIL RGBA 오버레이 1회 합성.
+
+        운영자 260809 계약 3축:
+          ⓐ **머리 위 고정** — 이름표는 사람 박스 바로 위에 붙어 프레임마다 그 자리를 따라간다.
+             ⚠ 구판은 겹치면 위로 밀어 올렸다(while guard 40) → 사람이 가까워질수록 라벨이 머리에서 떨어져
+               「누구 이름인지」가 끊겼고, 밀린 높이가 프레임마다 달라 라벨이 위아래로 떨었다.
+          ⓑ **타이트 검정 50%** — 배경은 검정 알파 50%, 여백 최소, 모서리는 **아주 끝만** 둥글게.
+             색 구분은 글자색이 맡는다(구판의 색 테두리·컬러 점은 운영자 지시에 없어 제거 = 배경+글자만).
+          ⓒ **겹쳐도 안 사라진다** — 밀지도 지우지도 않고 제자리에 그리되, 누가 위로 올라오는지만 정한다:
+             강조(색 직접 지정) > 움직임 큰 애 > 일반. 나중에 그린 게 위로 온다.
+        """
         from PIL import Image, ImageDraw
         im = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
         ov = Image.new("RGBA", im.size, (0, 0, 0, 0))
         d = ImageDraw.Draw(ov)
-        placed = []
-        for box, name, rgb in tags:
+        # 움직임 = 직전 프레임 대비 중심 이동량(px) — pid로 추적(이름은 여러 pid가 공유할 수 있어 키가 못 된다)
+        rank = []
+        for t in tags:
+            box, name, rgb = t[0], t[1], t[2]
+            pid = t[3] if len(t) > 3 else id(t)
+            emph = bool(t[4]) if len(t) > 4 else False
+            cx_, cy_ = box[0] + box[2] / 2, box[1] + box[3] / 2
+            pv = self._prev.get(pid)
+            mv = 0.0 if pv is None else ((cx_ - pv[0]) ** 2 + (cy_ - pv[1]) ** 2) ** 0.5
+            self._prev[pid] = (cx_, cy_)
+            self._mv[pid] = self._mv.get(pid, 0.0) * 0.7 + mv * 0.3   # 지수평활 = 한 프레임 튐으로 순서가 깜빡이지 않게
+            rank.append((1 if emph else 0, self._mv[pid], box, name, rgb))
+        rank.sort(key=lambda r: (r[0], r[1]))   # 낮은 우선순위부터 그린다 = 높은 쪽이 위에 남는다
+        for _e, _m, box, name, rgb in rank:
             x, y, w, h = box
             cx = x + w / 2
             ex_w, ex_h = w * 1.5, h * 1.7
@@ -379,33 +403,18 @@ class PinsetPainter:
             for (px, py, dx, dy) in ((bx0, by0, 1, 1), (bx1, by0, -1, 1), (bx0, by1, 1, -1), (bx1, by1, -1, -1)):
                 d.line([(px + dx * L, py), (px, py)], fill=col, width=lw)
                 d.line([(px, py), (px, py + dy * L)], fill=col, width=lw)
-            # 필(이름) — 박스 위
-            pad_x, pad_y = int(self.fs * 0.62), int(self.fs * 0.38)
+            # 이름표 = 머리(사람 박스 상단) 바로 위 · 타이트 · 검정 50% · 끝만 둥글게
+            pad_x, pad_y = max(3, int(self.fs * 0.26)), max(2, int(self.fs * 0.14))
             tb = d.textbbox((0, 0), name, font=self.font)
             tw, th = tb[2] - tb[0], tb[3] - tb[1]
-            dot = int(self.fs * 0.42)
-            bw = pad_x * 2 + dot + int(self.fs * 0.35) + tw
-            bh = th + pad_y * 2
-            px0 = min(max(4, cx - bw / 2), self.W - bw - 4)
-            py0 = by0 - bh - max(12, self.fs * 0.8)
-            # 겹침 회피(위로 밀기 · 목업 layoutTags 계승)
-            guard = 0
-            while guard < 40:
-                guard += 1
-                c = next((p for p in placed if px0 < p[0] + p[2] + 8 and p[0] < px0 + bw + 8 and py0 < p[1] + p[3] + 8 and p[1] < py0 + bh + 8), None)
-                if c is None:
-                    break
-                py0 = c[1] - bh - 8
-            py0 = max(4, py0)
-            placed.append((px0, py0, bw, bh))
-            # 리더선(필 하단 중앙 → 브래킷 상단 중앙)
-            d.line([(px0 + bw / 2, py0 + bh), (cx, by0 - 4)], fill=rgb + (150,), width=max(1, lw - 1))
-            d.ellipse([cx - 4, by0 - 8, cx + 4, by0], fill=rgb + (255,))
-            r = int(bh / 2)
-            d.rounded_rectangle([px0, py0, px0 + bw, py0 + bh], radius=r, fill=(17, 18, 20, 222), outline=rgb + (255,), width=max(1, lw - 1))
-            dy_c = py0 + bh / 2
-            d.ellipse([px0 + pad_x, dy_c - dot / 2, px0 + pad_x + dot, dy_c + dot / 2], fill=rgb + (255,))
-            d.text((px0 + pad_x + dot + int(self.fs * 0.35), py0 + pad_y - tb[1]), name, font=self.font, fill=(238, 247, 240, 255))
+            bw, bh = pad_x * 2 + tw, th + pad_y * 2
+            px0 = min(max(2, cx - bw / 2), self.W - bw - 2)
+            py0 = y - bh - max(4, self.fs * 0.22)             # ⓐ 머리 위 고정(구판 by0 확장박스 기준 + 겹침 밀어올리기 폐지)
+            py0 = min(max(2, py0), self.H - bh - 2)           # 화면 밖으로만 안 나가게(제자리 유지 = 겹쳐도 사라지지 않는다)
+            d.rounded_rectangle([px0, py0, px0 + bw, py0 + bh],
+                                radius=max(2, int(self.fs * 0.12)),   # ⓑ 「아주 끝에만」 = 알약(bh/2) 아님
+                                fill=(0, 0, 0, 128))                  # 검정 불투명도 50%
+            d.text((px0 + pad_x, py0 + pad_y - tb[1]), name, font=self.font, fill=rgb + (255,))
         im = Image.alpha_composite(im.convert("RGBA"), ov).convert("RGB")
         return cv2.cvtColor(np.asarray(im), cv2.COLOR_RGB2BGR)
 
@@ -593,7 +602,8 @@ def main():
         cidx = (p["pid"] - 1) % len(PALETTE)
         hexc = colors.get(str(p["pid"])) or PALETTE[cidx]
         bgr = hex_bgr(hexc)
-        plans.append((spans, names.get(str(p["pid"]), f"#{p['pid']}"), bgr, (bgr[2], bgr[1], bgr[0])))
+        emph = str(p["pid"]) in colors   # 「강조된 애」(운영자 260809) = 팔레트 자동배정이 아니라 **색을 직접 지정한** 인물
+        plans.append((spans, names.get(str(p["pid"]), f"#{p['pid']}"), bgr, (bgr[2], bgr[1], bgr[0]), p["pid"], emph))
 
     painter = None
     if mode == "pinset":
@@ -630,11 +640,11 @@ def main():
                                               feather=mo["feather"], shape=mo["shape"])
             else:
                 tags = []
-                for spans, name, _bgr, rgb in plans:
+                for spans, name, _bgr, rgb, pid, emph in plans:
                     for sp, _isb in spans:
                         b = sample(sp, f)
                         if b:
-                            tags.append((b, name, rgb))
+                            tags.append((b, name, rgb, pid, emph))
                             break   # 같은 사람이 동시 스팬 2개(scope=body의 전신+얼굴 병행 포함) = 첫 것만 라벨(중복 이름표 방지)
                 if tags:
                     frame = painter.draw(frame, tags)
