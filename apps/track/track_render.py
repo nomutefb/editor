@@ -342,6 +342,17 @@ def assert_cjk_font():
     raise RuntimeError("한글 폰트 준비 실패 — 잠시 후 다시 렌더해줘.")
 
 
+# 이름표 규격 SSOT(운영자 260809) — 뷰어 미리보기가 **같은 값**을 써야 「생성 전에 확인」이 성립한다.
+#   ⚠ 짝 = viewer/edit.html `PIN_SPEC` · 강제 = check_refs.check_pinset_parity(한쪽만 고치면 커밋 차단).
+#     미리보기가 결과와 다르면 없느니만 못하다 = 이 레포가 반복해 겪은 미러 드리프트를 여기서 미리 막는다.
+PIN_SPEC = {
+    "fs_ratio": 0.033, "fs_min": 18, "fs_max": 44,   # 기저 활자 = 영상 높이 비례(하한·상한)
+    "fs_mul": 0.6, "fs_floor": 11,                   # ×0.6 축소(운영자 260810) · 하한 11 = 판독 바닥
+    "stroke": 0.09, "stroke_alpha": 185,             # 검정 스트로크(배경 대신 = 두꺼우면 사실상 배경 = 지시 위반)
+    "gap": 0.22, "gap_min": 4,                       # 머리 위 띄움
+}
+
+
 class PinsetPainter:
     """핀셋 이름표 — **글자만**(운영자 260810 «동그라미에 알약 배경 필요없음 · 얼굴 네모 프레임·선 필요없음 ·
     지금 크기보다 60%로 작게 · 그냥 자연스럽게 글자가 따라다니면 됨») — 260809 표기 개정(타이트 검정 50% 배경 ·
@@ -354,9 +365,10 @@ class PinsetPainter:
     def __init__(self, W, H):
         from PIL import ImageFont
         self.W, self.H = W, H
-        fs = max(11, int(round(int(max(18, min(44, H * 0.033))) * 0.6)))   # 구판 필 활자 산식 × 0.6(운영자 260810) · 하한 11 = 판독 바닥
+        _base = int(max(PIN_SPEC["fs_min"], min(PIN_SPEC["fs_max"], H * PIN_SPEC["fs_ratio"])))
+        fs = max(PIN_SPEC["fs_floor"], int(round(_base * PIN_SPEC["fs_mul"])))   # 구판 필 활자 산식 × 0.6(운영자 260810) · 하한 11 = 판독 바닥
         self.fs = fs
-        self.stw = max(1, int(round(fs * 0.09)))   # 스트로크 = 활자 대비 얇게(두꺼우면 사실상 배경 = 지시 위반)
+        self.stw = max(1, int(round(fs * PIN_SPEC["stroke"])))   # 스트로크 = 활자 대비 얇게(두꺼우면 사실상 배경 = 지시 위반)
         fp = find_font()
         try:
             self.font = ImageFont.truetype(fp, fs) if fp else ImageFont.load_default()
@@ -394,10 +406,10 @@ class PinsetPainter:
             tb = d.textbbox((0, 0), name, font=self.font, stroke_width=self.stw)
             tw, th = tb[2] - tb[0], tb[3] - tb[1]
             px0 = min(max(2, cx - tw / 2), self.W - tw - 2)
-            py0 = y - th - max(4, self.fs * 0.22)             # ⓐ 머리 위 고정(겹침 밀어올리기 폐지 유지)
+            py0 = y - th - max(PIN_SPEC["gap_min"], self.fs * PIN_SPEC["gap"])             # ⓐ 머리 위 고정(겹침 밀어올리기 폐지 유지)
             py0 = min(max(2, py0), self.H - th - 2)           # 화면 밖으로만 안 나가게(제자리 유지 = 겹쳐도 사라지지 않는다)
             d.text((px0 - tb[0], py0 - tb[1]), name, font=self.font, fill=rgb + (255,),
-                   stroke_width=self.stw, stroke_fill=(0, 0, 0, 185))
+                   stroke_width=self.stw, stroke_fill=(0, 0, 0, PIN_SPEC["stroke_alpha"]))
         im = Image.alpha_composite(im.convert("RGBA"), ov).convert("RGB")
         return cv2.cvtColor(np.asarray(im), cv2.COLOR_RGB2BGR)
 
