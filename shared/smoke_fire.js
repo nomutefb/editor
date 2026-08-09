@@ -239,7 +239,22 @@ async function runOnce(pg, hits, fcs) {
     browser = await chromium.launch({ executablePath: chromiumPath(), args: ['--no-sandbox'] });
     const runs = [];
     for (let i = 0; i < 2; i++) {   // 결정론 2회
-      const pg = await browser.newPage({ viewport: { width: 1280, height: 900 } });
+      // ⚠ serviceWorkers:'block' 이 실효 조건(260809 나이틀리 ABORT 봉합 — 런 31273670835 「Execution context
+      //   was destroyed … navigation」). 이 스모크의 축은 발사 배선뿐인데 SW(sw.js 상시 등록 + clients.claim)가
+      //   살면 스텁 환경에서 자가치유 기계가 오발할 수 있다 — SW nm-auth-stale → 최상위 ?nosw=1 replace.
+      //   최상위가 이동하면 그 순간 걸쳐 있던 evaluate 가 전부 죽는다(= ABORT 의 유일한 사망 문법).
+      //   측정 대상(버튼→payload→목적지)에 SW 는 0관여 = 차단이 곧 결정론. Playwright 정본 옵션(1.24+).
+      const pg = await browser.newPage({ viewport: { width: 1280, height: 900 }, serviceWorkers: 'block' });
+      // 자가치유 잔여 2채널도 앱 자신의 가드로 무장 해제(라이브 0줄 · 각 채널이 이미 보유한 공식 스위치):
+      //   nmShellHeal = 부트 절단 재진입(index head heal) 1회 가드 선점 · nmAuthKick = auth-stale replace 가드 ·
+      //   nm_sync_heal = nm-sync ②(도구 iframe → window.top ?nosw=1)의 3분 루프 가드 선점(동일 origin =
+      //   iframe 과 sessionStorage 공유 · 걸리면 nmSyncWarn 경고줄 폴백 = 무이동). 판정축 무접촉 — 남는
+      //   미지의 최상위 이동은 그대로 ABORT + @스택 프레임으로 드러나는 게 계약(은폐 아님).
+      await pg.addInitScript(() => { try {
+        sessionStorage.setItem('nmShellHeal', '1');
+        sessionStorage.setItem('nmAuthKick', '1');
+        sessionStorage.setItem('nm_sync_heal', String(Date.now()));
+      } catch (_) {} });
       const errs = [], ext = [], hits = [], fcs = [];
       pg.on('filechooser', fc => { fcs.push(1); try { fc.page(); } catch (_) {} });   // 파일 선택기 열림 = 「첨부 진입」 반응 신호(핸들 안 하면 자동 취소 = 실제 업로드 0)
       // ⚠ 순서 = 안전장치: 라우트 가로채기를 **페이지 이동보다도 먼저** 건다(어떤 클릭도 실발사에 못 닿는다)
