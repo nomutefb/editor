@@ -50,7 +50,14 @@
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', update);
   window.addEventListener('load', update);
-  try { new MutationObserver(update).observe(root, { childList: true, subtree: true, characterData: true }); } catch (e) {}
+  // 문서 전역 옵저버는 rAF로 1프레임당 1회로 합친다(260809 부팅 실측 봉합) — update()가 첫 줄에서 root.scrollHeight를
+  // 읽어 **강제 동기 레이아웃**을 일으키는데, 구판은 변이 하나하나마다 그걸 시켰다. 부팅은 피드·수집함·트렌드가
+  // 수백 노드를 쏟아붓는 구간이라 그 자리에서 레이아웃이 그 횟수만큼 재계산된다(실측 CPU 4x = cscroll 자체 2,285ms +
+  // 브라우저 레이아웃 시간, 첫 화면 6,796ms). rAF 합침만으로 첫 화면 6,796 → 5,263ms(−1,533ms · −22.6%) 실측.
+  // 시각·거동 무변경 = 스크롤 중 갱신은 onScroll이 직접 update를 부르는 별개 경로고(디바운스 비대상), 이 경로가
+  // 늦어지는 폭은 최대 1프레임(16ms)뿐이다. 되돌림 = 이 두 줄을 구판 한 줄로 복원.
+  var _mq = 0; function _updQ() { if (_mq) return; _mq = requestAnimationFrame(function () { _mq = 0; update(); }); }
+  try { new MutationObserver(_updQ).observe(root, { childList: true, subtree: true, characterData: true }); } catch (e) {}
   setTimeout(update, 250); setTimeout(update, 800);   // 비동기 렌더(이미지·결과) 후 재측정
 
   // ── 요소 부착 모드(운영자 260713 "다 같게" — window가 아니라 내부 컨테이너가 스크롤하는 표면용 · 첫 사용처 = 프롬프팅 .geni-body) ──
