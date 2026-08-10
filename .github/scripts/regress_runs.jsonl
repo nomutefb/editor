@@ -1,0 +1,2 @@
+{"ts": "2026-08-10T20:01:08+09:00", "kind": "grade", "ver": "366890bfd7ee", "cases": 60, "runs": 3, "rcs": [0, 0, 0], "flips": [], "miss": [], "unstable": {"31": [1, 2, 1]}, "pass": true}
+{"ts": "2026-08-10T20:01:47+09:00", "kind": "breaking", "ver": "dc2612285401", "cases": 27, "runs": 3, "rcs": [0, 0, 0], "flips": [{"t": "러 모스크바 시내 카페에서 폭발…3명 사망·15명 부상", "expect": "YES", "got": "NO"}], "miss": [], "unstable": {"24": [true, false, false]}, "pass": false}
