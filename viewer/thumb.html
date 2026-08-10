@@ -4865,6 +4865,17 @@ function _rowOverAfter(el, ins) {
 const _TRK_HINT_OF = { cSub: '#cHdrTrk', cTitle: '#cHdrTrk', cLines: '#cLinesTrk', lines: '#linesTrk' };
 // 붙여넣기 계열 inputType(운영자 260810 = 한도 판정 면제 경로) — 타이핑·조합은 여기 없다 = 종전대로 한도에서 멈춘다
 const _PASTE_IT = { insertFromPaste: 1, insertFromPasteAsQuotation: 1, insertFromDrop: 1, insertReplacementText: 1 };
+// ⭐ 260810 2차(운영자 "텍스트를 한번 입력한 다음에 지우면 복사 붙여넣기가 실행이 안 돼 · **구분하는 방식이 애초에 잘못됐다**") —
+//   1차는 붙여넣기를 `beforeinput`의 inputType **한 축**으로만 갈랐다. 그 축은 세 가지로 조용히 무너진다:
+//     ⓐ 그 검사 앞줄이 `if (composing) return`이라 **IME 조합 플래그가 남아 있으면 통째로 건너뛴다**
+//        (조합을 끝내지 않고 지우는 폰 자판 경로 = 운영자가 말한 「한번 입력한 다음에 지우면」과 정확히 겹친다)
+//     ⓑ 브라우저·자판에 따라 붙여넣기가 `insertText`로 오거나 `beforeinput` 자체가 안 온다(사파리 계열 실측 보고 다수)
+//     ⓒ 클립보드 권한이 막혀 폴백 창을 거치면 또 다른 경로가 된다
+//   → 한 축을 고치는 대신 **어느 축이든 하나만 걸려도 붙여넣기로 본다**(3겹 + 길이 술어).
+//   ⚠ 길이 술어가 마지막 안전망 = 「한 번에 2글자 이상 늘어난 입력」은 사람 손가락이 만들 수 없다
+//     (한글 조합 확정도 글자당 +1 · 260808 「한 글자 더 써진다」 차단 계약은 +1 경로라 그대로 산다).
+//     이벤트 종류를 하나도 못 믿는 환경에서도 이 술어만으로 붙여넣기가 살아남는다.
+const _PASTE_MIN_RUN = 2;
 const _anyOverText = (el, s) => String(s).split('\n').some(ln => _isOverLine(el, ln));   // 값 어느 줄이든 초과인가(= 붙여넣기로 들어온 원문 상태)
 function _blockNotice(el) {   // 차단 순간 안내 = 기존 .over(빨강) 스타일 재사용 — 새 색·새 UI 창작 0
   const sel = _TRK_HINT_OF[el.id]; if (!sel) return;
@@ -4882,11 +4893,15 @@ function _blockNotice(el) {   // 차단 순간 안내 = 기존 .over(빨강) 스
 function bindOverClamp(sel) {
   const el = $(sel); if (!el) return;
   // preOver = '변경 전' 초과 여부만 차단 근거 — 초과를 *만드는* 그 글자는 통과시켜야 빨강 힌트가 먼저 뜬다(안내 없이 먹통 = 금지).
-  let composing = false, snap = el.value, preOver = false, pasteThru = false;
+  let composing = false, snap = el.value, preOver = false, pasteThru = false, pasteSeen = false;
   const sync = () => { snap = el.value; preOver = false; };
-  el.addEventListener('focus', sync);
+  el.addEventListener('focus', () => { composing = false; sync(); });   // 조합 플래그 오염 방어 — 포커스가 새로 들어오면 이전 조합 세션은 끝난 것(compositionend를 안 보내는 자판 대비)
+  // 붙여넣기·드롭의 **정본 신호** = 이 두 이벤트(inputType 추측이 필요 없고 조합 상태와 무관하다) · 캡처 단계 = beforeinput보다 먼저 도달
+  ['paste', 'drop'].forEach(ev => el.addEventListener(ev, () => { pasteSeen = true; setTimeout(() => { pasteSeen = false; }, 0); }, true));   // 같은 태스크 안에서만 유효 = 다음 타이핑으로 새지 않는다
   el.addEventListener('compositionstart', () => { composing = true; snap = el.value; preOver = _rowOverText(el); });   // 조합 세션 시작값 기준(조합 중 snap 갱신 금지 = 되돌림 표적 고정)
-  el.addEventListener('beforeinput', e => {   // 영문·숫자·붙여넣기 = 삽입 자체를 취소(값이 넘친 적 없음 = 깜빡임 0)
+  el.addEventListener('beforeinput', e => {   // 영문·숫자 = 삽입 자체를 취소(값이 넘친 적 없음 = 깜빡임 0) · 붙여넣기는 아래 첫 줄에서 통과
+    // ⚠ 이 두 줄은 `composing` 검사보다 **먼저** 와야 한다 — 조합 플래그가 남아 있어도 붙여넣기는 통과해야 하기 때문(260810 2차 ⓐ축)
+    if (pasteSeen || (e.inputType && _PASTE_IT[e.inputType]) || e.dataTransfer) { pasteThru = true; preOver = false; snap = el.value; return; }
     if (composing) return;
     if (!e.isTrusted || !e.inputType || !e.inputType.startsWith('insert')) return;
     if (e.inputType === 'insertLineBreak' || e.inputType === 'insertParagraph') { sync(); return; }   // 개행 = 차단 대상 아님(막는 건 '그 행'뿐 — 다음 줄로 넘어갈 길은 열어둔다)
@@ -4896,7 +4911,6 @@ function bindOverClamp(sel) {
     //   구판은 들어가는 만큼만 넣고 나머지를 버려서 ⓐ 원문이 칸에 안 남고 ⓑ 다시 붙여넣으면 앞부분이 이미 있어 중복 =
     //   운영자가 「사실상 붙여넣기를 못 한다」고 한 그 경로. 한계는 이제 **미리보기가 보여준다**(hdrFit·ovFit 절단 = 260807 3차 배선).
     //   ⚠ 타이핑(insertText 단일 글자)·한글 조합은 **종전대로 한도에서 멈춘다** — 운영자 지시가 「붙여넣기 한정」이다.
-    if (_PASTE_IT[e.inputType]) { pasteThru = true; preOver = false; return; }
     const ins = (e.data != null) ? e.data : (e.dataTransfer ? (e.dataTransfer.getData('text') || '') : '');   // 붙여넣기 = dataTransfer 실문자열(빈 문자열이면 삽입폭 0 = 통과 = 종전과 동일)
     preOver = _rowOverAfter(el, ins);   // 260807: '변경 전' → '변경 후' 판정(넘치는 그 글자부터 차단)
     if (preOver) {
@@ -4926,6 +4940,9 @@ function bindOverClamp(sel) {
     // ⭐ 260810 개정 ⓐ — 값이 안 늘어난 입력(지우기·짧은 치환)엔 개입 0.
     //   초과분 보존이 생기면서 「초과 상태에서 백스페이스가 안 먹는다」가 새 사고 경로가 된다(되돌림 표적이 직전 값이라 지운 게 되살아난다).
     if (el.value.length <= snap.length) { if (!composing) sync(); return; }
+    // ⭐ 260810 2차 안전망 — 한 번에 2글자 이상 늘어난 입력 = 사람 손가락이 못 만드는 유입 = 붙여넣기·드롭·자동완성
+    //   (이벤트 축이 전부 실패해도 여기서 살아남는다 · 타이핑·조합 확정은 +1이라 종전 차단 그대로)
+    if (el.value.length - snap.length >= _PASTE_MIN_RUN) { if (!composing) sync(); return; }
     const fixed = _fitRow(el);
     // ⭐ 260810 개정 ⓑ — 직전 값이 **이미 초과**면(= 붙여넣기로 들어온 원문) 표적을 절단본이 아니라 직전 값으로 둔다.
     //   _fitRow를 그대로 쓰면 초과 상태에서 한 글자만 쳐도 붙여넣은 원문이 한도까지 통째로 깎여 나간다(= 붙여넣기 허용의 무효화).
