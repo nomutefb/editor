@@ -27,6 +27,8 @@ def _clen_hard(s):
 
 _QUAL = r"(?:그룹|밴드|가수|배우|아이돌|기업|회사|의원|장관|시장|지사|교수|감독|대표|회장|사장|위원장|청장|서장|총장|주지사|대통령)"
 _SUBJ_LESS = re.compile(r"^[^은는이가\n]{0,60}?(?:에서|으로|로)\s+(?:시작됐다|번졌다|불거졌다|비롯됐다|출발했다)")
+# 한국 성씨(상위 — 인명 오탐 차단용 · thumb_gen `_subject_name` 4겹 게이트 관례 계승)
+_SURNAME = set("김이박최정강조윤장임한오서신권황안송류전홍고문양손배백허유남심노하곽성차주우구원탁진지엄채원천방공현함변염여추도소석선설마길연위표명기반라왕금옥육인맹제모남탄국여")
 
 
 def derive_check(path):
@@ -54,12 +56,19 @@ def derive_check(path):
     base_p = _prose(base)
     derived = {lab: _prose(_blk(body, lab) or "") for lab in ("IG", "Thread")}
     hits = []
-    # ① 누락 — 자유요약 「<소속·직함어> … <인명>」의 소속어가 파생본에서 통소실
+    # ① 누락 — 자유요약 「<소속·직함어> <고유명사>의 <인명>」의 소속어가 파생본에서 통소실
     #    (실사고 = 「그룹 슈퍼주니어의 김희철」 → 파생본 「김희철이」 맨몸)
-    for m in re.finditer(_QUAL + r"\s*[가-힣A-Za-z0-9]{0,12}\s*의?\s*([가-힣]{2,4})(?=이|가|은|는|을|를|씨|,|\s|$)", base_p):
+    #    ⚠️ 2겹 가드가 실효 조건(첫 전수 실측 = 179건 중 대부분 위양성이었다):
+    #      ⓐ 「의」 필수 — 없으면 `시장`(market)·`대표`(representative)처럼 _QUAL 어휘가
+    #        **다른 뜻**으로 쓰인 자리에서 뒤 단어를 인명으로 오독한다(실측 「빠르게」·「체코를」).
+    #      ⓑ 성씨 사전 — 인명 첫 글자가 한국 성씨여야 한다(thumb_gen `_subject_name`의
+    #        4겹 게이트 관례 계승 · 위양성이 게이트를 죽인다는 이 레포 반복 교훈).
+    #      ⓒ 조사 = 주격·주제격만(이/가/은/는/씨) — 인명 첫 등장은 그 자리가 정본이고,
+    #        목적격까지 열면 「원인을」(원=성씨) 같은 일반명사가 인명으로 샌다(실측 잔여 1건 봉합).
+    for m in re.finditer(_QUAL + r"\s+[가-힣A-Za-z0-9]{2,12}의\s*([가-힣]{2,4})(?=이|가|은|는|씨)", base_p):
         head = re.match(_QUAL, m.group(0)).group(0)
         name = m.group(1)
-        if name == head or len(name) < 2:
+        if name == head or len(name) < 2 or name[0] not in _SURNAME:
             continue
         for lab, d in derived.items():
             if d and name in d and head not in d:
