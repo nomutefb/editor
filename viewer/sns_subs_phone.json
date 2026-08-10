@@ -1,17 +1,5 @@
 {
- "x": [
-  {
-   "account": "64bitcoinkr",
-   "text": "김선태 유튜브 근황\n\n신임 충주시장이 김선태 유튜브에 다시 충주시청 돌아올 생각 없냐고 댓글닮 ㅋㅋㅋㅋㅋㅋㅋㅋ https://t.co/ExAhvN2Z8H",
-   "likes": 3500,
-   "rts": 353,
-   "cmts": 42,
-   "views": 0,
-   "time": "Sun Aug 09 06:39:29 +0000 2026",
-   "url": "https://x.com/64bitcoinkr/status/2086341578235564377",
-   "region": "kr"
-  }
- ],
+ "x": [],
  "insta": [
   {
    "account": "higgsfield.ai",
@@ -380,42 +368,62 @@
  "threads": [
   {
    "account": "aipeekme",
-   "text": "🔗 원문·자세히 보기\nhttps://github.com/Nutlope/hallmark",
+   "text": "🔗 원문·자세히 보기\nhttps://huggingface.co/deepgrove/maple-preview",
    "likes": 0,
    "cmts": 0,
-   "time": 1786332865,
+   "time": 1786345257,
    "thumb": "",
-   "url": "https://www.threads.com/@aipeekme/post/Db2DxvBHw-p",
+   "url": "https://www.threads.com/@aipeekme/post/Db2baW6HwPO",
    "region": "kr"
   },
   {
    "account": "aipeekme",
-   "text": "투게더 AI가 클로드 코드, 커서, 코덱스에서 AI가 짠 티가 나지 않게 코드를 짜주는 할마크(Hallmark)를 공개했습니다.\n기존 언어 모델들이 흔히 내놓는 뻔한 템플릿과 디자인 패턴을 거부하도록 설계됐습니다.\n내부적으로 21개의 테마를 갖추고 지시 사항에 맞춰 전체 구조를 잡는 방식입니다.\n코드를 출력하기 전 57개의 테스트 관문과 자체 검토를 거치는데요.\n그 결과 서로 다른 지시를 내리면 색상만 바뀐 게 아니라 아예 별개의 웹사이트처럼 결과물을 도출합니다.\n단순 생성 외에 총 4가지 명령어를 통해 기존 코드를 채점하거나 뼈대를 갈아엎는 리디자인 기능도 쓸 수 있습니다.\nAI 특유의 획일적인 산출물을 피하려는 시도가 UI 영역으로 본격적으로 넘어온 것 같습니다.\n시각적 고유성을 검증하는 57개의 테스트 기준이 구체적으로 어떻게 짜였는지가 성능을 가를 것으로 보입니다.\n\n📷 사진 출처: github.com",
-   "likes": 7,
+   "text": "딥그로브(deepgrove)가 오픈소스 추론 언어모델 메이플 프리뷰(Maple-Preview)를 공개했습니다.\n24개 레이어에 256개 전문가 중 8개를 활성화하는 구조를 채택했는데요.\n200억 개의 3진법 가중치를 써서 체급 대비 가장 높은 수준의 성능을 확보한 것이 특징입니다.\n국제수학올림피아드(IMO) 수준의 복잡한 문제도 풀어냅니다. 다만 에이전트 벤치마크 성능은 다소 낮을 수 있습니다.\n맥 미니 M4에서 초당 200토큰 이상을 생성하며, 이는 젬마 4, 큐웬 3.5, gpt-oss보다 5~16배 빠른 속도입니다.\n애플 실리콘에서의 테스트 결과는 별도의 온디바이스 런타임을 구동해 얻은 수치입니다.\n3진법 가중치와 다중 전문가 모델을 엮어 연산량을 크게 덜어낸 접근이 눈에 띕니다.\n대형 서버 없이 맥 미니 같은 기기에서 이 정도 속도가 나온다면 로컬 추론의 기준이 달라질 것 같습니다.\n\n📷 사진 출처: huggingface.co",
+   "likes": 0,
    "cmts": 1,
-   "time": 1786332854,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/771926432_18078025085407306_3246042466192707423_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk2MDM2OTQxMzM1OTY0NDI4Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=O0d9w-tNhNwQ7kNvwHyr6lP&_nc_oc=Adqe7VWjZE7mQXBiI86Ykjy6ddz2EnM0S5vmwFqCaxhu7gIbWduMIvD7Lx0AAviY5rzS-ZapIDWKa6yk-r8aux5D&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=8HMo80Zw_rOuKNdQLy8HYw&_nc_ss=7a22e&oh=00_AQGLEKSkT7-6xSe5AKjCTVUqWV3PqziSzowpG3pDJW55YA&oe=6A7F2CF4",
-   "url": "https://www.threads.com/@aipeekme/post/Db2Dv-en656",
+   "time": 1786345246,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/771694714_18078067865407306_2953266308628093091_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk2MDQ3MzM3Mjc2NjIwNTc0MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=hN4oUmG69FcQ7kNvwHbomjb&_nc_oc=AdrdIry0o-T5QQLXY3JZsMVLxH1VPlIfp7yOJ4tDg-uc4AGv9OE191FDNw8jW6TtrOo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=gUpaPo-r3byaOWV3fYsx-g&_nc_ss=7a22e&oh=00_AQHghJq-qwrZYYhd54BDAf_bwf0UgPedZ87dCaqqxkx1kg&oe=6A7F3D88",
+   "url": "https://www.threads.com/@aipeekme/post/Db2bYyOH3cs",
    "region": "kr"
   },
   {
    "account": "aipeekme",
-   "text": "🔗 원문·자세히 보기\nhttps://github.com/TauricResearch/TradingAgents",
-   "likes": 0,
+   "text": "Grok 4.5가 탑재된 Grok Build 환경에서 프롬프트 두 개로 3D 게임 프로토타입이 만들어졌습니다.\n전체 개발에 걸린 시간은 약 1시간 정도입니다.\n단순한 코드 생성을 넘어 AI가 상세한 맵을 구성하고, 적 인간형 캐릭터 리깅을 처리한 뒤 게임플레이 로직까지 추가했는데요.\n단순한 아이디어를 플레이 가능한 결과물로 구현하는 물리적 시간의 간극이 대폭 줄어든 것을 볼 수 있으며, 이는 Grok Build가 AI 게임 개발의 한계를 크게 넓히고 있음을 보여줍니다.\n다만 짧은 시간에 구축된 맵의 최적화 수준이나 로직의 정교함이 어느 정도인지는 겉으로 파악하기 어렵습니다.\n개인적으로는 초기 기획을 빠르게 시각화하는 뼈대용으로서의 쓰임새를 확인한 결과물에 가깝다고 봅니다.\n이후 상용 수준으로 끌어올리기 위한 수정 작업이 기존 방식보다 수월할지 직접 확인해봐야 진짜 가치를 판단할 수 있을 것 같습니다.",
+   "likes": 1,
    "cmts": 0,
-   "time": 1786323495,
-   "thumb": "",
-   "url": "https://www.threads.com/@aipeekme/post/Db1x57gH8kf",
+   "time": 1786344727,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/772305790_1074601988468054_6408153662878139683_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&ig_cache_key=Mzk2MDQ2ODg3NDI5NzY4NjIwNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=3psIrPCTdOkQ7kNvwFrnTI8&_nc_oc=AdoEBN4a--riPAt6RGS_1pKcDYUftl3iYgd5hYikhgOFwN_caeuzHXN0dq-gXZa2MH0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=gUpaPo-r3byaOWV3fYsx-g&_nc_ss=7a22e&oh=00_AQEseccMWHzn4oWXnj9KbxzMi5TBN6-eSdcJnawyBEvOIQ&oe=6A7F3FC1",
+   "url": "https://www.threads.com/@aipeekme/post/Db2aXUsgTi8",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "HD현대 조선소에서 용접하는 로봇",
-   "likes": 521,
-   "cmts": 28,
-   "time": 1786312813,
-   "thumb": "https://scontent.cdninstagram.com/v/t51.71878-15/769082864_1060707430066710_1452543650278941205_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk2MDIwMTM3MTM4NzI2NzUwMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=z9t1aROwdDsQ7kNvwHHDsfx&_nc_oc=Adp_kaV1OutAlyIxZ_SbpnjtnS-O0NU4OeJ9FNhobH2dCMS6kBr0lKhZKepV8XHYTgc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=DHGc48GpVGX-Ne2aJt1TeQ&_nc_ss=7a22e&oh=00_AQEPPTZ4BlD0hTq9GObmWuFess2gHCIcq64OuHFGob1-9g&oe=6A7F4355",
-   "url": "https://www.threads.com/@choi.openai/post/Db1dipMjYmt",
+   "text": "애플은 CXMT에 맞춤형 칩을 주문할 수 없습니다. 미국 수출통제상 기술 이전이 금지돼 범용 부품만 쓸 수 있고, 그러려면 기존 제품 설계를 일부 변경해야 합니다.\n\n제품 재설계 비용을 감수하고서라도 메모리를 확보해야 할 만큼 공급이 조여졌다는 뜻입니다. 미국 국방부는 CXMT를 중국 군사기업 명단에 올렸고 정치권은 부정적입니다.\n\nCXMT는 2028년까지 생산능력을 두 배로 늘릴 계획이지만, 지금 필요한 칩은 2028년에 오는 칩으로 해결되지 않습니다.\n\n8월 5일 삼성·SK하이닉스의 AMEC 장비 테스트, 8월 7일 TSMC의 D램 부족으로 인한 애플 프로세서 출하 지연, 그리고 이번 CXMT 보도까지. 한 주 동안 반도체 공급망의 세 층이 동시에 조여지고 있습니다.\n\n기사 :\nhttps://www.wsj.com/tech/apple-tests-chinese-memory-chips-as-supply-squeeze-bites-d292bb97",
+   "likes": 5,
+   "cmts": 0,
+   "time": 1786339844,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/Db2RGUtDXyM",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "애플이 중국 CXMT의 메모리 칩을 아이폰과 맥북에 테스트 중이라고 WSJ가 보도했습니다. 중국 판매 제품에 먼저 적용하고 백악관 승인을 받으려는 계획입니다.\n\nCXMT는 올해 생산 능력이 이미 풀가동 중입니다. HP와 에이서는 이미 CXMT 메모리를 확보했고, 일부 제품은 마이크론·SK하이닉스·삼성보다 비싸게 팔리고 있습니다. \"중국이 시장을 값싸게 잠식할 것\"이라는 예측은 현실에서 정반대로 가고 있습니다.\n\n더 깊은 층은 HBM과 범용 D램의 생산 능력이 제로섬이라는 점입니다. AI 데이터센터가 HBM을 빨아들이면서 삼성·SK하이닉스·마이크론은 웨이퍼 투입량을 HBM으로 돌렸고, 스마트폰·PC용 범용 D램은 상대적으로 줄었습니다.\n\n같은 공장, 같은 웨이퍼에서 HBM을 더 뽑으면 범용 D램은 덜 나옵니다. 애플의 자금력으로도 살 수 있는 칩이 없다는 뜻입니다.",
+   "likes": 14,
+   "cmts": 2,
+   "time": 1786339837,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/772074240_17981518854112832_2351029008609249356_n.jpg?stp=cp6_dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk2MDQyODA2NTEwNDcwMDQzMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI4Mi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=NfUtLu98xqoQ7kNvwFOfwkA&_nc_oc=Adr6jAyQZXNfJYkrmLrd2UWFU-Rj6pLMlwdNPgHFyyPKyg7Hg3QpJltHyXH0qwSypiY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=EMfQG1q4QhWGVJn4rYodtg&_nc_ss=7a22e&oh=00_AQGKuVUd4Kpzs1kUcuT-TfKuBfKYnD_inb3SYC7hISVPQw&oe=6A7F38AE",
+   "url": "https://www.threads.com/@choi.openai/post/Db2RFeLDaQQ",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "기사 :\nhttps://www.abc.net.au/news/2026-08-10/ai-assistant-hacks-gym-website-aus-cyber-attack/107007986",
+   "likes": 2,
+   "cmts": 0,
+   "time": 1786334469,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/Db2G2LLE6eP",
    "region": "kr"
   },
   {
@@ -439,6 +447,76 @@
    "region": "kr"
   },
   {
+   "account": "choi.openai",
+   "text": "법과 규칙이 있고, 그보다 더 일상적인 층위에서는 사회적 규범과 도덕성이 작동합니다.\n\n시스템에 빈틈이 있더라도 남의 예약을 몰래 취소하거나, 순서를 조작하거나, 다른 사람의 권리를 침해해서까지 내 목표를 달성해서는 안 된다고 대부분의 사람은 판단합니다.\n\n기술적으로 가능하더라도 하지 않는 행동들이 있고, 바로 그 자제력이 시스템을 떠받치는 일부이기도 합니다.\n\n문제는 개인에게 강하게 정렬된 AI 에이전트입니다. 에이전트가 이런 규범과 윤리적 판단을 충분히 공유하지 않은 채 사용자의 목표만 충실하게 추구한다면, 인간이라면 망설이거나 포기했을 수단도 거리낌 없이 선택할 수 있습니다. 취약점은 더 이상 방치된 빈틈으로 남지 않고, 목표를 달성하기 위한 수단이 됩니다.\n\n수백만 개의 에이전트가 각자의 사용자를 위해 그렇게 움직이기 시작하면, 지금까지 기술적 방어뿐 아니라 인간의 자제와 규범에 기대어 유지되던 시스템의 전제가 무너질 수 있습니다.",
+   "likes": 11,
+   "cmts": 1,
+   "time": 1786334459,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/Db2G06FE0z4",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "🔗 원문·자세히 보기\nhttps://github.com/Nutlope/hallmark",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1786332865,
+   "thumb": "",
+   "url": "https://www.threads.com/@aipeekme/post/Db2DxvBHw-p",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "호주에서 한 남성이 Claude에게 인기 헬스장 수업 예약을 맡겼습니다.\n\n에이전트는 소프트웨어 취약점을 찾아 몇 주 뒤 수업까지 미리 예약했고, 대기 순번을 올려달라는 요청을 받자 API에 권한 검증이 없다는 사실을 알아내어 1등의 예약을 취소하고 그 자리를 차지했습니다.\n\n에이전트는 사용자의 목표에 충실했습니다.\n시킨 일을 가장 효과적인 방법으로 해냈습니다. 문제는 이런 에이전트를 수백만 명이 하나씩 갖게 될 때입니다. 모두가 자기 이익을 위해 시스템의 빈틈을 찾아 움직이기 시작합니다.\n\n모두가 슈퍼가 되면 아무도 슈퍼가 아닙니다. 에이전트가 보편화될수록 시스템의 취약점은 곧 경쟁 수단이 되고, 한 사람의 편의는 다른 사람의 손해로 이어집니다.\n\n지금은 헬스장 예약이지만, 앞으로 항공권, 병원 예약, 콘서트 티켓, 입시 원서 접수까지 온갖 대기열이 에이전트들의 경쟁장이 될 수 있습니다.\n\n우리가 쓰는 수많은 시스템은 모든 악용 가능성을 기술적으로 차단해서 유지되는 게 아닙니다.",
+   "likes": 64,
+   "cmts": 6,
+   "time": 1786334449,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/769115072_17981516412112832_5687180108999042505_n.jpg?stp=cp6_dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk2MDM4Mjg2ODI2NjYyODA3Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI5NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Kktar9rRzWQQ7kNvwGSCt0Q&_nc_oc=Adr6gQLStLaGFBEXT5xxGC_sgO8y_j8ucv7GsHWNF8a9npGzS7esgIyalGZ9LcotRqU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=EMfQG1q4QhWGVJn4rYodtg&_nc_ss=7a22e&oh=00_AQHdOAni16Xw1ts0JetPlxXgjO6lo5kDRK-qJPvnnSzlEg&oe=6A7F45C7",
+   "url": "https://www.threads.com/@choi.openai/post/Db2GzxVkzPs",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "투게더 AI가 클로드 코드, 커서, 코덱스에서 AI가 짠 티가 나지 않게 코드를 짜주는 할마크(Hallmark)를 공개했습니다.\n기존 언어 모델들이 흔히 내놓는 뻔한 템플릿과 디자인 패턴을 거부하도록 설계됐습니다.\n내부적으로 21개의 테마를 갖추고 지시 사항에 맞춰 전체 구조를 잡는 방식입니다.\n코드를 출력하기 전 57개의 테스트 관문과 자체 검토를 거치는데요.\n그 결과 서로 다른 지시를 내리면 색상만 바뀐 게 아니라 아예 별개의 웹사이트처럼 결과물을 도출합니다.\n단순 생성 외에 총 4가지 명령어를 통해 기존 코드를 채점하거나 뼈대를 갈아엎는 리디자인 기능도 쓸 수 있습니다.\nAI 특유의 획일적인 산출물을 피하려는 시도가 UI 영역으로 본격적으로 넘어온 것 같습니다.\n시각적 고유성을 검증하는 57개의 테스트 기준이 구체적으로 어떻게 짜였는지가 성능을 가를 것으로 보입니다.\n\n📷 사진 출처: github.com",
+   "likes": 7,
+   "cmts": 1,
+   "time": 1786332854,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/771926432_18078025085407306_3246042466192707423_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk2MDM2OTQxMzM1OTY0NDI4Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=O0d9w-tNhNwQ7kNvwG2vORW&_nc_oc=AdoUUcZN0W94jhX72RA7v6-_VZ4jaxM7q03cIQENvh3Tp0SKAmB1RZbS6TApAQ9TLOY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=gUpaPo-r3byaOWV3fYsx-g&_nc_ss=7a22e&oh=00_AQFO0Wh8p9xvqK2oVv018voiFLcgECF2Mv3w58VZY34IRQ&oe=6A7F6534",
+   "url": "https://www.threads.com/@aipeekme/post/Db2Dv-en656",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "프로젝트 주소 :\nhttps://tencent-hunyuan.github.io/Hunyuan3D-Buffalo1.0/",
+   "likes": 2,
+   "cmts": 0,
+   "time": 1786329046,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/Db18gMjkpU7",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "🔗 원문·자세히 보기\nhttps://github.com/TauricResearch/TradingAgents",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1786323495,
+   "thumb": "",
+   "url": "https://www.threads.com/@aipeekme/post/Db1x57gH8kf",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "중국 진짜 잘한다..\n\n텐센트 훈위안이 Hunyuan3D-Buffalo 1.0을 공개했습니다.\n\n텍스트로 3D 자산을 만들고, 같은 파이프라인에서 구조를 이해하고 자연어로 국소 수정까지 하는 모델입니다.\n\n부품 단위로 분리·추출·교체가 되고, 선택한 영역만 고치면서 나머지 기하학은 유지한다고 설명합니다. Qwen-VL, TRELLIS, Hunyuan3D를 묶었고 학습 데이터는 8,700만 3D 샘플이라고 밝혔습니다.\n\n한 번 뽑고 버리는 mesh 생성보다, 만든 자산을 계속 편집할 수 있는 쪽이 실무에서는 더 큽니다. 다만 텍스처·리깅·애니메이션까지는 아직 별도 공정이 필요합니다.",
+   "likes": 57,
+   "cmts": 4,
+   "time": 1786329037,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/768763077_882832071568696_1767517692576576376_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk2MDMzNzQ2NDMzMDE4NjQ1NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=ZXExQo0VhOEQ7kNvwFCOh-8&_nc_oc=AdobLsYFcwcq6lwTBT-VW7O45es-k08BdCr3_3tTAcEs5TRLwdIzq1dqzqAkhouvlL4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=EMfQG1q4QhWGVJn4rYodtg&_nc_ss=7a22e&oh=00_AQG9rF0-BfYpMDjS1ALyKhFNytDYN5w0r7DfruqYdFz9ow&oe=6A7F4B10",
+   "url": "https://www.threads.com/@choi.openai/post/Db18fDoEm7X",
+   "region": "kr"
+  },
+  {
    "account": "aipeekme",
    "text": "TauricResearch가 다중 에이전트 기반 금융 트레이딩 프레임워크인 TradingAgents 0.3.1 버전을 배포했습니다.\n이번 업데이트는 기능 확장보다 시스템의 안정성과 정확도 개선에 초점을 맞추고 있습니다.\n알파밴티지 데이터의 룩어헤드 편향을 필터링하고 그래프 라우터의 크래시 방지 기능이 들어갔습니다.\n클로드 소넷 5와 파블 5를 새롭게 지원하며 베드록 API 키 인증 방식도 함께 도입했습니다.\n지난달 0.3.0 버전에서 프레드와 폴리마켓 등 여러 데이터 벤더를 연동하고 모델 제공자를 늘린 작업의 연장선입니다.\n최근 두 달간 암호화폐 심리 소스와 GPT-5.5, 큐원 등 멀티 모델 지원을 빠르게 추가해 왔습니다.\nLLM 재시도 예산을 직접 설정하도록 만든 점은 실무 환경의 API 호출 비용을 염두에 둔 설계로 읽힙니다.\n다중 에이전트 구조가 복잡해질수록 결국 모델 추론 비용과 시스템 복구 능력이 프레임워크의 실용성을 결정할 것 같습니다.",
    "likes": 0,
@@ -449,23 +527,23 @@
    "region": "kr"
   },
   {
-   "account": "aipeekme",
-   "text": "중국 연구진이 레이저를 활용해 모기를 퇴치하는 새로운 시스템을 개발했습니다.\n공중을 날아다니는 곤충을 레이더로 먼저 감지한 뒤 정밀하게 레이저 빔을 쏘아 요격하는 구조입니다.\n이 시스템을 활용하면 특정 구역 내에 진입한 모기 떼를 화학 약품 없이 신속하게 제거할 수 있습니다.\n살충제 오남용으로 인한 환경 오염이나 곤충의 약물 내성 증가 문제를 피할 수 있는 대안 하나가 추가된 셈입니다.\n레이더 탐지부터 타겟팅까지 걸리는 지연 시간을 얼마나 줄였는지가 향후 상용화의 관건일 것 같습니다.\n모기는 워낙 작고 비행 궤적도 불규칙해서 바람이 부는 실외 환경에서의 실제 명중률 데이터가 가장 궁금해집니다.\n화학 방제가 엄격히 제한되는 농가나 생태 보호 구역 등에서 우선적인 도입 테스트가 진행되지 않을까 싶습니다.",
-   "likes": 1,
-   "cmts": 1,
-   "time": 1786319514,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/770330781_27832945093035422_4992493997842303116_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk2MDI1NzM4ODA3MTQzNjM2MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=I_oq5IKwUKQQ7kNvwGTHfmT&_nc_oc=Ado9zcZx5l1KuAUOaZgv54Av6FYIq8pwYaFziDNG8B2xhbqO-O2K0uojHVkp4nwhwSN_vufXktmvW0zJEVVCSEfq&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=8HMo80Zw_rOuKNdQLy8HYw&_nc_ss=7a22e&oh=00_AQE41fAu2CnNMpUOIP-HkMoe_9L1qdVW39Ug3wuSwgRmXg&oe=6A7F29E5",
-   "url": "https://www.threads.com/@aipeekme/post/Db1qRyzHUBJ",
+   "account": "choi.openai",
+   "text": "프로젝트 주소 :\nhttps://humanaigc.github.io/wan-animate-2/",
+   "likes": 4,
+   "cmts": 0,
+   "time": 1786323619,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/Db1yJqqDjzP",
    "region": "kr"
   },
   {
-   "account": "aipeekme",
-   "text": "화웨이가 메이트북 노트북 카메라로 종이 문서를 캡처하여 스캔하는 데모를 공개했습니다.\n노트북 웹캠 앞에 종이를 비추면 소프트웨어가 문서 영역을 인식해 화면에 띄웁니다.\n전통적인 평판 스캐너를 거치지 않고 내장 카메라만으로 문서를 더 깔끔한 디지털 버전으로 변환하는 방식입니다.\n여기에 컴퓨터 비전 기술을 적용해 종이의 원근감을 자동으로 보정하는데요.\n종이를 반듯하게 정렬된 파일로 변환하여 서류를 디지털화하는 일상적인 작업을 더 빠르고 쉽게 만들어 주는 실용적인 사례입니다.\n실제 사용 환경에서는 렌즈의 빛 반사나 웹캠의 낮은 해상도를 어떻게 극복했을지가 관건일 것 같습니다.\n작은 글씨나 구겨진 서류에서도 데모만큼 선명한 텍스트 품질이 유지될지는 미지수입니다.\n웹캠의 물리적 한계를 소프트웨어로 온전히 메운 구조라면 업무용 쓰임새는 꽤 넓어 보입니다.",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1786317905,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/768787240_1982289825808057_2730039136622717456_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk2MDI0Mzg1NTAzOTE0MTk1Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=eC2hbynJrxYQ7kNvwF6uG-v&_nc_oc=AdqPvB3u_66paoHtoVVjzRvE_WfYoeI8KD2WPATynXjpWPXd87NsfduRrY2hq-R6yZXeJBJH8ZHxUb23qoeCzD7J&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=8HMo80Zw_rOuKNdQLy8HYw&_nc_ss=7a22e&oh=00_AQHDEzFD_4k18NMAXjU1kLPFfQLNd52mbJICMki9a5Dh0g&oe=6A7F3840",
-   "url": "https://www.threads.com/@aipeekme/post/Db1nM3LiBhF",
+   "account": "choi.openai",
+   "text": "알리바바가 Wan-Animate-2를 오픈소스로 공개했습니다.\n\n참조 이미지 하나와 동작 영상만 넣으면 캐릭터 애니메이션이 나옵니다. 포즈 추출기를 빼고 구동 영상을 Diffusion Transformer에 바로 넣는 구조라, 정체성 유지와 움직임 재현이 더 안정적이라고 설명합니다.\n\n텍스트로 카메라 시점을 따로 바꿀 수 있고, 블라인드 사용자 평가에서는 이전 Wan-Animate 대비 전체 품질 선호가 70%를 넘었다고 밝혔습니다.",
+   "likes": 59,
+   "cmts": 8,
+   "time": 1786323612,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/770739342_1025770380281109_835636401850921886_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk2MDI5MTk1ODI2MjI1NTgxMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=fmWJrqJHOoEQ7kNvwE8XYfz&_nc_oc=AdqGRfuZcAhv9ggYCa5ggGr490QcXcU63djtrCq2PAHNxmBHAFHV8tnO6iQJghVafzM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=EMfQG1q4QhWGVJn4rYodtg&_nc_ss=7a22e&oh=00_AQE7qcCKZzkW8wG3Ln9c2Bmnxr264_qERV6tvNq7o8E2AA&oe=6A7F4209",
+   "url": "https://www.threads.com/@choi.openai/post/Db1yI2zDtDE",
    "region": "kr"
   }
  ],
@@ -479,15 +557,6 @@
    "thumb": "https://preview.redd.it/osulhs9dtfih1.jpeg?width=640&crop=smart&auto=webp&s=41dfa68d2a50cded8a44e45157c942f2d7c7f293",
    "time": 1786319627,
    "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1vk56sj/my_wife_chews_off_the_chocolate_coating_of_ice/"
-  },
-  {
-   "sub": "cats",
-   "title": "What pattern is your cat?",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/f2b0mzgdzcih1.jpeg?width=640&crop=smart&auto=webp&s=6de97e5d5cff4e130fdb4ed3941bf193f16c9095",
-   "time": 1786285324,
-   "url": "https://www.reddit.com/r/cats/comments/1vjr577/what_pattern_is_your_cat/"
   },
   {
    "sub": "news",
@@ -526,13 +595,13 @@
    "url": "https://www.reddit.com/r/okbuddycinephile/comments/1vk8s6u/poverty_was_reserved_only_for_tobey_maguire/"
   },
   {
-   "sub": "MadeMeSmile",
-   "title": "Helping out ducks on a hot day",
+   "sub": "jobs",
+   "title": "Boss requiring me to attend a mandatory meeting, seeming to be unpaid; Looking for advice.",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/amU1Mm5vcTNzZmloMV8FTsb1a87P3nXqVkoZzjdF6aECIuvk8bTZ1ccZE5UM.png?width=320&crop=smart&auto=webp&s=90831f812aaa4338d4ad67744a80a6dadec619d8",
-   "time": 1786319215,
-   "url": "https://www.reddit.com/r/MadeMeSmile/comments/1vk51h4/helping_out_ducks_on_a_hot_day/"
+   "thumb": "https://preview.redd.it/jjeocepvpeih1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=378ca94eebe6ecd95146968a4781091b12d8cff8",
+   "time": 1786306347,
+   "url": "https://www.reddit.com/r/jobs/comments/1vjzzk6/boss_requiring_me_to_attend_a_mandatory_meeting/"
   },
   {
    "sub": "GirlDinnerDiaries",
@@ -544,15 +613,6 @@
    "url": "https://www.reddit.com/r/GirlDinnerDiaries/comments/1vk4l0b/my_parents_removed_me_from_their_will/"
   },
   {
-   "sub": "jobs",
-   "title": "Boss requiring me to attend a mandatory meeting, seeming to be unpaid; Looking for advice.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/jjeocepvpeih1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=378ca94eebe6ecd95146968a4781091b12d8cff8",
-   "time": 1786306347,
-   "url": "https://www.reddit.com/r/jobs/comments/1vjzzk6/boss_requiring_me_to_attend_a_mandatory_meeting/"
-  },
-  {
    "sub": "me_irl",
    "title": "Me_irl",
    "score": 0,
@@ -562,15 +622,6 @@
    "url": "https://www.reddit.com/r/me_irl/comments/1vk3bjm/me_irl/"
   },
   {
-   "sub": "cats",
-   "title": "Carlos beat ear cancer! His ears were removed during treatment, so his victory cake came with a tiny race car.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/e1tqnrlmjfih1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=3e1585e4360a52df1a28f7966dd834f2b2aab04c",
-   "time": 1786316350,
-   "url": "https://www.reddit.com/r/cats/comments/1vk3z83/carlos_beat_ear_cancer_his_ears_were_removed/"
-  },
-  {
    "sub": "HolUp",
    "title": "no vacancy",
    "score": 0,
@@ -578,6 +629,33 @@
    "thumb": "https://preview.redd.it/jizilp2fjdih1.jpeg?width=640&crop=smart&auto=webp&s=e08758bf0c032f329be1d00936170afad3de0259",
    "time": 1786292065,
    "url": "https://www.reddit.com/r/HolUp/comments/1vjtwyy/no_vacancy/"
+  },
+  {
+   "sub": "movies",
+   "title": "What is a movie with a \"happy ending\" that is actually incredibly depressing when you think about it for more than five minutes?",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1786327767,
+   "url": "https://www.reddit.com/r/movies/comments/1vk83m3/what_is_a_movie_with_a_happy_ending_that_is/"
+  },
+  {
+   "sub": "memes",
+   "title": "It was all a big fat lie",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/vuohjyiu9hih1.png?width=640&crop=smart&auto=webp&s=ce84aaf980f8181cf26c73933d559f7acb99a06b",
+   "time": 1786337275,
+   "url": "https://www.reddit.com/r/memes/comments/1vkb8rs/it_was_all_a_big_fat_lie/"
+  },
+  {
+   "sub": "AskReddit",
+   "title": "Your new super power is called Reload, it lets you refill anything you touch with whatever was previously inside how do you make use of this power and do you use it for good or evil?",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1786307716,
+   "url": "https://www.reddit.com/r/AskReddit/comments/1vk0jw4/your_new_super_power_is_called_reload_it_lets_you/"
   }
  ],
  "disaster": [],
@@ -624,10 +702,10 @@
    }
   },
   "landing": {
-   "at": "2026-08-10T15:01:31",
+   "at": "2026-08-10T15:31:28",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-10T15:31:21.420544+09:00"
+ "updated": "2026-08-10T16:01:21.163591+09:00"
 }
