@@ -1582,10 +1582,10 @@ const XTR_JOBSRC='nm_xtr_jobsrc';  // {작업id:소스키} — 뒤에서 끝난 
 let XTR_SRC='';                    // 지금 화면이 보고 있는 칸(빈 문자열 = 붙은 영상 없음)
 const XTR_RUN=Object.create(null); // 소스키 → {t0} = **그 영상의 인물 분석이 지금 도는 중**(메모리 · 화면을 옮겼다 돌아와도 중복 발사 0)
 try{ localStorage.removeItem('nm_xtr_faces'); }catch(e){}   // 구판 단일 칸 폐기 — 어느 영상 것인지 알 수 없는 값이라 되살리면 그 사고가 그대로 재현된다
-function xtrKey(){   // 소스 신원 = **업로드 전후로 안 바뀌는 값** 우선(파일 신원 → 주소 → 업로드 키 → 로컬 읽기). 업로드가 끝나며 키가 바뀌면 칸이 갈라져 방금 찾은 인물이 사라진다.
-  if(_lastFile) return 'f:'+_lastFile.name+':'+_lastFile.size+':'+(_lastFile.lastModified||0);
+function xtrKey(){   // 소스 신원 = **발사 페이로드와 같은 우선순위**(주소 → 파일 신원 → 업로드 키 → 로컬 읽기 · 2167행 payload가 url 우선이라 칸도 url이 먼저여야 이름·번호가 실제 발사되는 영상에 실린다). 260810 2차 봉합 — 구판은 파일이 먼저라, 파일을 붙여둔 채 **주소로** 두 번째 영상을 걸면 칸이 첫 파일에 남아 "추가 옵션이 1번 영상에 귀속"이 재현됐다. 파일 신원은 업로드 전후로 안 바뀌는 값 = 업로드가 끝나도 칸이 안 갈라진다(종전 계약 유지).
   const u=$('#url'), uv=u?u.value.trim():'';
-  if(uv) return 'u:'+uv;
+  if(uv&&/^https?:\/\//i.test(uv)) return 'u:'+uv;   // 유효한 주소만(발사 게이트 2137행 동일 술어) — 입력 중 반토막 주소가 칸을 흔들지 않게
+  if(_lastFile) return 'f:'+_lastFile.name+':'+_lastFile.size+':'+(_lastFile.lastModified||0);
   if(FILE_R2) return 'r:'+FILE_R2;
   if(FILE_B64) return 'b:'+(FILE_NAME||'')+':'+FILE_B64.length;
   return '';
@@ -1748,14 +1748,21 @@ async function xtrScan(){   // 인물 분석 = /api/track analyze 발사 → tra
   XTR_SCAN='run'; XTR_SCAN_T0=XTR_RUN[sk].t0; renderXtr(); xscTick(true);
   const done=(v)=>{ delete XTR_RUN[sk]; xtrScanSet(sk,v); };
   try{
+    // (260810 2차) 첨부 업로드가 도는 중 = **그 업로드를 기다렸다 키를 재사용한다** — 트래킹이 켜진 채 새 영상을 붙이면
+    //   1936행 renderXtr → xtrSync 자동 분석이 첨부 업로드(1940행)와 동시에 뛰는데, 구판은 FILE_R2가 아직 비어 있어
+    //   아래 _lastFile 분기로 떨어져 **같은 파일을 한 번 더 통째로 올렸다**(폰에서 GB급 이중 전송 + 늦게 끝난 쪽이
+    //   FILE_R2를 덮고 진 쪽 키는 회수 없는 고아). 가짜 데이터 직호출 검증에는 안 보이는 실흐름 전용 결함 — 실증 = smoke_editattach.
+    while(_uploading && Date.now()-XTR_RUN[sk].t0<1200e3){ await new Promise(r=>setTimeout(r,250)); if(!XTR_RUN[sk]) return; }
+    if(sk!==xtrKey()){ delete XTR_RUN[sk]; return; }   // 기다리는 사이 영상이 바뀜 = 이 분석 폐기(새 영상 첨부가 제 분석을 새로 건다)
     let payload;
     // (260810) 발사용 키를 **그대로 재사용한다** — 러너가 잡 끝에 원본을 지우지 않게 바뀌어서(나이 든 것만 청소 =
     //   shared/r2_upsrc_gc.sh) 분석하려고 같은 영상을 한 번 더 올릴 이유가 없다. 구판은 여기서 통째로 재업로드했고,
     //   그게 "인물 분석 눌렀는데 또 올라간다"의 정체였다. 키가 없어 새로 올리면 그 키를 FILE_R2에 심어 **다음 생성도** 재사용한다.
+    //   FILE_B64를 _lastFile보다 먼저 본다(260810 2차) — 로컬 읽기 폴백이 이미 성공한 상태는 R2가 안 되던 상태라, 재업로드 재도전보다 손에 든 바이트가 먼저다.
     if(url) payload={url};
     else if(FILE_R2) payload={r2key:FILE_R2, name:FILE_NAME||'video.mp4'};
-    else if(_lastFile){ const up=await nmUpload(_lastFile); FILE_R2=up.key; payload={r2key:up.key, name:_lastFile.name}; }
     else if(FILE_B64) payload={fileB64:FILE_B64, name:FILE_NAME||'video.mp4'};
+    else if(_lastFile){ const up=await nmUpload(_lastFile); FILE_R2=up.key; payload={r2key:up.key, name:_lastFile.name}; }
     else { done('err:영상 파일을 다시 선택해 주세요.'); return; }
     const res=await fetch('/api/track',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(payload)});
     const j=await res.json();
