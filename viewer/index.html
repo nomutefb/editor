@@ -14501,7 +14501,7 @@ function chLiftChart(buckets, ax, x2) {   // x2 = 오버레이 재료(운영자 
   const maxN = Math.max(...bs.map(b => b.n || 0), 1), bw = Math.min(26, pw / bs.length * .42);
   bs.forEach((b, i) => { const bh = (b.n || 0) / maxN * ph * .26; if (bh > 0) s += `<rect x="${(X(i) - bw / 2).toFixed(1)}" y="${(H - mB - bh).toFixed(1)}" width="${bw.toFixed(1)}" height="${bh.toFixed(1)}" rx="1" fill="var(--mut)" opacity=".13"/>`; });
   // 일반 인스타 이용자 평균선(운영자 260723 요청 → 260723 교정: 노랑 실선·저장 삭제 후 공유와 2선 비교) — 전체 IG 이용자 평균 이용 강도(SIG_GEN · 자체 정규화 피크=100 → 플롯 .82 높이 · 상단 콜아웃 선반 여유) · 볼륨 뒤 배경층(공유 곡선은 위 = 채널 실데이터 우선) · 실선 노랑(--accent-4 · 팔레트 정본 · 운영자 "노란색·실선") · 점·area 없음 = 공유(터콰이즈 선+점+area)와 형태 분리 · 결측 버킷 = 조용히 생략(fail-soft·창작 0)
-  const shoulder = pts => hlin ? [[mL, pts[0][1]], ...pts, [W - mR, pts[pts.length - 1][1]]] : pts;   // 선형 시간축 = 첫/끝 밴드 값을 플롯 양끝까지 수평 연장(밴드 대표값은 그 밴드 전 구간 유효 = 창작 아님) — 곡선·area가 스파인·우변에 붙는 기존 실루엣 유지 · 교차 산출은 원본 좌표만 사용
+  const shoulder = pts => { if (!hlin) return pts; const a = pts[0], b = pts[pts.length - 1], dl = a[0] - mL, dr = W - mR - b[0], D = dl + dr, yW = D > 0 ? b[1] + (a[1] - b[1]) * dr / D : (a[1] + b[1]) / 2; return [[mL, yW], ...pts, [W - mR, yW]]; };   // 선형 시간축 벽 종점 = 주기(순환) 보간 한 값(운영자 260810 "아이디어 ㄱ") — 구 「첫/끝 밴드 값 수평 연장」은 좌·우 벽이 같은 순간(자정 24=24 · 일24시=월0시)인데 서로 다른 밴드 값을 그려 이음매 절벽(실측 = 시간대 터콰이즈 ×1.00↔×0.68 · 노랑 ×0.32↔×1.12) → 끝 밴드 중심↔(한 바퀴 너머) 첫 밴드 중심을 벽 시각에서 선형 보간 = 곡선이 밴드 사이를 잇는 기존 문법을 자정 이음매에 동일 적용(새 데이터·상수 0 · 보간값은 항상 두 밴드 사이 = Y범위 이탈 0) · 좌·우 벽 동일값 = 순환 폐합 · 곡선·area가 스파인·우변에 붙는 실루엣·교차 산출 원본 좌표 사용 = 불변
   const gen = GEN_EFF;   // 단일 유효 소스(260803 실측 GEN_MEAS 우선 · 벤치 SIG_GEN 폴백 · FB = null 종전 경로 — 위 실측 우선 게이트) → 곡선·핵심구간·범례 자동 제거(gen null = fail-soft 그대로)
   let gpts = null, gl = '';
   if (gen) {
