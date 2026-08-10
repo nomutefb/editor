@@ -13236,7 +13236,8 @@ function renderSnsTrends() {
   const _subStale = new Set((((TRENDS && TRENDS.health) || {}).subs || {}).stale || []);
   const _PHONE_PLAT = { insta: 1, threads: 1 };   // 메타 데센 IP 차단 = 폰 전용 공급원(sysErrMsgs SYS_PHONE_PLAT과 동일 축)
   const subEmptySec = (key, lbl, plat) => {
-    if (!_subStale.has(plat)) return '';   // 계정 미등록·정상 = 종전대로 미표기
+    // 등록 0개 = 「구독 비움 상태」 명시(운영자 260810 "비었다고 - 구독 비움 상태 라고 뜨게해줘") — 구판은 여기서 ''를 반환해 **섹션을 통째로 안 그렸다**. `_subStale` 소스가 health.subs.stale = 「등록 계정 있음 ∧ 이번 런 0건」이라, 등록이 0개면 애초에 그 집합에 못 들어와 침묵이 유일한 출력이었다. ⚠ 실사고 260810 = 틱톡 등록 계정이 0개(`viewer/sns_accounts.json` tiktok {kr:[],gl:[]} · 형제는 x6·insta20·youtube30·threads5)라 「틱톡 - 구독」이 화면에서 사라졌고, 바로 옆 「틱톡 - 추천」(tikwm for-you 표본)이 그 자리를 대신하는 것처럼 보여 운영자가 **그것을 자기 구독 채널로 읽었다**. 화면이 침묵하면 사람이 옆 것으로 메운다 = 이 레포가 반복해 겪은 「관측이 지워지면 다음 사람이 추측으로 메운다」와 같은 축(스레드 `[1차 실측]`·틱톡 `_e1`·smoke 사유 0자). 부품 = 아래 stale 분기의 `sec()`+`.qempty` **그대로** = 신규 CSS·신규 셀렉터 0
+    if (!_subStale.has(plat)) return sec(key, lbl, '', 0, '<div class="qempty">구독 비움 상태<small>설정 → 구독 채널에서 계정을 추가하면 여기에 쌓여요</small></div>');
     const ph = ((TRENDS && TRENDS.health) || {}).phone;
     // 대기 사유는 알림함과 **같은 판정**으로 읽는다(260730 적대검증 C-D5) — 종전엔 입력이 health.phone 하나뿐이라
     //   폰이 살아 있으면 무조건 "막혀서 못 걷고 있어요"였고, 같은 상황에서 알림함은 "차례를 기다리는 중"이라
