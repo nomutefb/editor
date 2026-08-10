@@ -25,6 +25,67 @@ def _clen_hard(s):
     # 플랫폼 하드 상한 판정 = 물리 총량(면책 줄도 실제 게시물에 포함되므로 안 뺌·개행 포함 — 재검증11)
     return len(s)
 
+_QUAL = r"(?:그룹|밴드|가수|배우|아이돌|기업|회사|의원|장관|시장|지사|교수|감독|대표|회장|사장|위원장|청장|서장|총장|주지사|대통령)"
+_SUBJ_LESS = re.compile(r"^[^은는이가\n]{0,60}?(?:에서|으로|로)\s+(?:시작됐다|번졌다|불거졌다|비롯됐다|출발했다)")
+
+
+def derive_check(path):
+    """파생 무결성(자유요약 → IG·Thread) 비차단 경고 — 260810 신설.
+    ⚠️ 신설 사유 = 이 파이프라인의 검증은 **한 블록 안**만 본다(자수·⚡ 혼입·제목 복붙·자가표기 괴리).
+    「자유요약에 있던 것이 파생본에서 사라졌는가」는 축 자체가 없었다 — 그래서 실사고 260810
+    (김희철 태극기 건)에서 자유요약 「**그룹 슈퍼주니어의** 김희철」의 소속이 IG·Thread에서
+    통소실돼 「김희철이」로 맨몸 등장했는데 규격(자수·📍 골격·⚡ 줄)은 전부 통과했다.
+    01_지침 [지칭 260702]가 「자유요약이 정한 축을 IG·Thread가 **그대로 상속**」이라고
+    이미 못박은 계약인데 **위반을 잡는 장치가 없었다** = 운영자 눈이 유일한 검출기.
+    2방향(누락·날조)은 같은 축의 앞뒤다 — 누락 = 있던 게 사라짐 · 날조 = 없던 게 생김.
+    ⚠️ 비차단(경고 전용) — 정당한 축약이 섞이므로 하드면 파이프가 언다."""
+    try:
+        body = open(path, encoding="utf-8").read()
+    except Exception as e:
+        print("ℹ️ derive: 읽기 실패 %s" % e)
+        return 0
+    base = _blk(body, "자유요약")
+    if not base:
+        return 0
+    def _prose(s):
+        # ⚡ 출처 줄·면책 줄 제외 — 그 줄의 발행연도(2026)가 전건 위양성을 만든다(첫 실행 실측)
+        return "\n".join(l for l in s.split("\n") if not l.lstrip().startswith(("⚡", "ⓔ", "⚠️")))
+
+    base_p = _prose(base)
+    derived = {lab: _prose(_blk(body, lab) or "") for lab in ("IG", "Thread")}
+    hits = []
+    # ① 누락 — 자유요약 「<소속·직함어> … <인명>」의 소속어가 파생본에서 통소실
+    #    (실사고 = 「그룹 슈퍼주니어의 김희철」 → 파생본 「김희철이」 맨몸)
+    for m in re.finditer(_QUAL + r"\s*[가-힣A-Za-z0-9]{0,12}\s*의?\s*([가-힣]{2,4})(?=이|가|은|는|을|를|씨|,|\s|$)", base_p):
+        head = re.match(_QUAL, m.group(0)).group(0)
+        name = m.group(1)
+        if name == head or len(name) < 2:
+            continue
+        for lab, d in derived.items():
+            if d and name in d and head not in d:
+                hits.append("%s: 「%s」의 소속·직함(%s) 소실 — 자유요약엔 있다([정체성 최후순 보호] 위반)" % (lab, name, head))
+    # ② 무주어 개문 — 파생본 첫 칸이 주어 없이 「~에서 시작됐다」류로 열림
+    for lab, d in derived.items():
+        cells = [l.strip() for l in d.split("\n") if l.strip().startswith(("🔎", "📍"))]
+        if cells and _SUBJ_LESS.match(cells[0][1:].strip()):
+            hits.append("%s: 첫 칸 무주어 개문 — 「%s…」(무엇이 시작됐는지 주어 없음)" % (lab, cells[0][:34]))
+    # ③ 날조 — 파생본에만 있는 4자리 이상 수치(자유요약 미등장 · 산문부 한정)
+    for lab, d in derived.items():
+        for n in set(re.findall(r"\d[\d,]{3,}", d)):
+            if n.replace(",", "") not in base_p.replace(",", ""):
+                hits.append("%s: 자유요약에 없는 수치 「%s」 등장(날조 의심)" % (lab, n))
+    seen, out = set(), []
+    for h in hits:
+        if h not in seen:
+            seen.add(h)
+            out.append(h)
+    if out:
+        print("ℹ️ 파생 무결성 경고 %d건 — %s" % (len(out), os.path.basename(path)))
+        for h in out[:8]:
+            print("   · " + h)
+    return 0
+
+
 def _claim(body, name):
     """헤더의 자가표기 자수·분모 추출 — '약 460/500자'·'728/800자'·'936자' 대응.
     미치환 플레이스홀더(N/800자)는 claim=None(오파싱 방지·검증5)."""
@@ -170,6 +231,8 @@ if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("사용: digest_guard.py [--repair-check|--splice <후보>] <queue/xxx.md>"); sys.exit(0)
     try:
+        if sys.argv[1] == "--derive" and len(sys.argv) >= 3:
+            sys.exit(derive_check(sys.argv[2]))
         if sys.argv[1] == "--repair-check" and len(sys.argv) >= 3:
             sys.exit(repair_check(sys.argv[2]))
         if sys.argv[1] == "--splice" and len(sys.argv) >= 4:

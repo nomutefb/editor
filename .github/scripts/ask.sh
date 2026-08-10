@@ -419,6 +419,7 @@ else:
   if [ "$SECONDS" -le "$ASK_JOB_DEADLINE" ]; then summary_repair "$outfile" ask-repair; fi
   # 규격·자수 기계 린트(비차단 · analyze.sh 미러 · 분신술② NEW-1 · 260703) — ask 경로 다이제스트 사각지대 해소(검증4). 가드 뒤 = 최종본 실측.
   python3 shared/digest_guard.py "$outfile" 2>/dev/null | sed 's/^/  /' || true
+  python3 shared/digest_guard.py --derive "$outfile" 2>/dev/null | sed 's/^/  /' || true   # 파생 무결성(자유요약→IG·Thread 소속 소실·무주어 개문·날조 수치) 비차단 경고 · 260810
   rm -f "$f"
   rm -f "asks/failed/${base}.json" "asks/failed/${base}.log"   # 성공이 격리를 이긴다 — 병렬 중복 런의 성공/실패 발산 시 '피드 성공+대기열 FAIL' 공존 차단(적대검증 B1 · git add asks 가 삭제도 스테이지)
   title="$(grep -m1 '^title:' <<<"$out" | sed -E 's/^title:[[:space:]]*//; s/^"//; s/"$//')"

@@ -611,6 +611,7 @@ PY
   # 규격·자수 기계 린트(비차단 · 분신술② NEW-1 · 260703) — Thread/IG 실측 자수·자가표기 괴리·분모 드리프트·
   #   🔎 마커·⚡ 혼입·# 제목 [속보] 잔존을 Actions 로그로 가시화(자가 추정만 믿던 길이 룰의 기계 눈 · exit 항상 0).
   python3 shared/digest_guard.py "$outfile" 2>/dev/null | sed 's/^/  /' || true
+  python3 shared/digest_guard.py --derive "$outfile" 2>/dev/null | sed 's/^/  /' || true   # 파생 무결성(자유요약→IG·Thread 소속 소실·무주어 개문·날조 수치) 비차단 경고 · 260810
   rm -f "$f"
   rm -f "pending/${base}.retry"   # 과부하 후 회복 성공 = 재시도 마커 정리(뷰어 '재시도 중' 해제)
   echo "${title_ko:-${title:-$id}}" >> /tmp/analyzed_titles.txt   # 완료 푸시 = 외신이면 번역 제목(title_ko 비면 원문 → id 폴백)
