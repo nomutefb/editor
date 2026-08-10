@@ -129,7 +129,7 @@
   }
   /* 열어둔 상자 = 작업 번호별 전역(운영자 260810 "n개 결과를 열면 다 위아래로 순차적으로 적재") — 여러 개 동시 열림이 정본이라
      단일 값이 아니라 집합이다. 다시 그려도 살아남아야 해서 마운트 밖에 둔다(재렌더가 열림을 지우면 그게 곧 "눌러도 닫힌다"). */
-  var _open = {};
+  var _open = {};   // 기본 = 닫힘(운영자 260810 "박스를 누르는거에 따라 가려졌다가 나타났다가") · 자동 열기 없음
   function jobBodyFill(j, body) { try { if (typeof window.nmJobBody === 'function') window.nmJobBody(j, body); } catch (e) {} }
   function pendRows(m, host) {
     var a = pendList(m);

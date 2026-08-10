@@ -2242,20 +2242,17 @@ function pollEdit(id, t0, minTs, wlbl, kind, focus){
   const status=$('#cstatus'); status.classList.remove('err');
   if(kind==='clip'){ $('#cliplist').hidden=true; $('#cliplist').innerHTML=''; }
   if(kind==='cutscan'){ $('#cutlist').hidden=true; $('#cutlist').innerHTML=''; }
-  const vw=$('#vwrap'); vw.hidden=false; $('#dlVid').hidden=true; $('#dlVid').classList.remove('dl-done');   // (260804) `$('#pv').hidden=true` 제거 = **대기 중에도 미리보기 유지**(운영자 "계속 그 전 미리보기 화면처럼 유지되게") — 진행 표시는 이 아래 대기 스테이지가 맡고, 위 도크의 미리보기는 그대로 남아 다음 제작을 바로 이어갈 수 있다   // 구 `_ps.hidden=true`(하드 숨김) 제거 = 접힘 전환 복원(평의회⑨ 260728 — display:none 요소는 transition이 안 돌아 "자연스러운 접힘"이 **주 경로에서 통째로 사문**이었다) · ⚠ dockSync는 이 아래 대기 스테이지 주입 **뒤**에서 부른다(재검① 260728 — 갱신 전에 부르면 판정이 뒤집힌다)
-  const wsrc=FILE_URL||'';
-  vw.innerHTML=(wsrc?'<video class="wv" muted loop playsinline preload="metadata" src="'+esc(wsrc)+'"></video>':'')
-    +'<div class="wscrim"></div><div class="scanline"></div>'
-    +'<div class="wcorner" aria-hidden="true"></div>'   // 경과 = 좌상단 코너 네온레몬(운영자 260723 Q454/Q456)
-    +'<div class="wmsg">'+ (window.nmLoader? nmLoader('solving','제작중') : esc(wlbl||'편집 중')+'<span class="gdots"><i>.</i><i>.</i><i>.</i></span>') +'</div>';   // 중앙 = orb 로더(Solving · 운영자 260723 Q460) · '…'·예상 병기 제거 = 좌상단 wcorner가 전담(운영자 260731 "…안보이게·예상 빼줘 — 어짜피 좌측 상단에 나오니까") · 폴백 = 구 점3
-  dockSync();   // 대기 스테이지 주입 **뒤** 판정(재검① 260728) — _pollLive는 아직 false지만 .scanline이 들어와 res 판정이 정확해진다
-  const wv=vw.querySelector('.wv');
-  if(wv){ if(matchMedia('(prefers-reduced-motion:reduce)').matches){ wv.removeAttribute('loop'); wv.addEventListener('loadedmetadata',()=>{ try{ wv.currentTime=.01; }catch(e){} },{once:true}); } else { wv.play().catch(()=>{}); } }
+  /* (260810) 대기 스테이지를 **여기서 안 그린다** — 운영자 "추가 옵션 바로 아래에 따로 노는거 저건 이제 없어도 되는거고".
+     진행 표시는 결과 칸 상자 안으로 일원화됐다(위 nmJobBody = 상자 하나에 수정본 뷰어 1 + 원본 뷰어 1).
+     구판은 이 자리에 큰 스캔 화면을 하나 더 띄워서, 상자를 펼치면 같은 그림이 화면에 두 벌 떴다(실측 .vstage 3개).
+     ⚠ #vwrap 자체는 남긴다 = **완성 영상 전용**(showResult 3143행) · 접힘 판정(dockSync)·딥링크 포커싱 대상도 그대로. */
+  const vw=$('#vwrap'); vw.hidden=true; vw.innerHTML=''; $('#dlVid').hidden=true; $('#dlVid').classList.remove('dl-done');
+  dockSync();   // 대기 중 = `.scanline`이 없으므로 res=false = **안 접는다**(운영자 260804 "계속 그 전 미리보기 화면처럼 유지되게" 그대로)
   status.innerHTML='<span class="sronly">'+esc(wlbl||'편집 중')+'</span>';
   const wclear=()=>{ vw.innerHTML=''; vw.hidden=true; };
   const outPath='ly_out/'+id+'/'+(kind==='clip'?'clips.json':kind==='cutscan'?'cuts.json':'video.json');
   const errPath='ly_out/'+id+'/error.log';
-  _pollLive=!!wsrc; _polling=true;
+  _pollLive=!!(FILE_URL||''); _polling=true;   // 구 `wsrc`(대기 스테이지용 지역값) 이탈 = 그 스테이지를 여기서 안 그리게 된 뒤 남은 참조(같은 값을 원천에서 직접 읽는다)
   /* mine() = **지금도 내가 화면 주인인가**(운영자 260810 병렬) — 발사할 때마다 EDIT_ID가 새 작업으로 넘어가므로,
      앞 작업의 폴은 그 순간부터 '뒤에서 도는 작업'으로 강등된다. 강등된 폴은 대기 스테이지·상태줄·결과창을 건드리지 않고
      완료분만 결과 레일에 얹는다(구판은 이 판정이 없어 앞 작업이 끝나는 순간 뒤 작업의 진행 화면을 통째로 덮었다). */
@@ -2267,10 +2264,9 @@ function pollEdit(id, t0, minTs, wlbl, kind, focus){
     if(!live) return;
     const sec=Math.round((Date.now()-t0)/1000);
     if(sec>BUDGET*2){ const _m=mine(); stop(); pendClear(id); if(!_m) return; wclear(); goFireDone($('#editGo')); status.innerHTML=ERR_SVG+' 시간 초과 — 완성되면 다음에 열 때 이어받아'; status.classList.add('err'); return; }   // pendClear 추가(평의회7 260731) — 실패·성공 분기(1605·1631행)에만 있고 **타임아웃 경로만 빠져** 있었다. 재개(2569행)는 t0를 `max(t0, now-BUDGET)`로 클램프해 경과를 0 근처로 되돌리므로, 새로고침할 때마다 90분 헛폴이 되살아나 **24시간 동안 반복**됐다(그동안 _polling=true라 작업 내역 탭도 막힘). error.log를 안 남기는 실패 모드(Actions 런 취소·러너 킬·디스패치 후 미시작)엔 사실상 종료 조건이 없었다
-    if(!mine()) return;   // 강등분 = 남의 대기 스테이지에 내 경과를 쓰지 않는다
-    const ws=vw.querySelector('.wcorner'); if(ws){ const km=(x)=>{x=Math.max(0,x|0);return Math.floor(x/60)+'분 '+String(x%60).padStart(2,'0')+'초';};   // 분 = 한자리 기본(10분 넘으면 자연히 두자리 — 운영자 260731 "한자리 수 분으로, 넘어가면 십의자리 하나만 더")
-      const eta=(EDIT_STATS && EDIT_STATS['edit-make/edit'] && EDIT_STATS['edit-make/edit'].dur)|0;
-      ws.innerHTML='<span class="wc-hi">'+km(sec)+' 경과</span>'+(eta?' (예상 '+km(eta)+')':''); }   // 예상 배선(운영자 260727 "일부에서는 예상시간이 안 뜬다") — 표기 문법 = thumb .wip 좌상단 정본 그대로 · 앵커 = viewer/job_stats.json의 edit-make/edit(실측 중앙 소요) · 데이터 없으면 종전처럼 경과만   // 운영자 260727 전역 표기(00:00 진행시간) — 영상 잡 예상시간 앵커(edit-make/edit n=5)는 thumb 배선과 별개 축이라 이번 스코프 밖   // 경과 = 0:17 포맷 우상단 코너(운영자 260712 waitTimeFmt=mmss · 260723 Q454 코너 이주)
+    /* (260810) 경과 표기 = **결과 상자 안**이 전담(nmJobTick) — 구판은 여기서 #vwrap 좌상단 코너를 매초 갈아끼웠는데
+       그 스테이지를 이제 안 그리므로 대상이 영영 없다(조회는 항상 null = 죽은 코드). 표기 문법·예상 앵커는 nmJobTick이 바이트째 이어받았다.
+       이 타이머 자체는 남긴다 = 위 시간 초과 판정의 몸통. */
   };
   const disp=setInterval(draw,1000); draw();
   const tick=async()=>{
