@@ -89,7 +89,7 @@ const SCENARIOS = [
   { n: 'L8 헤더+사진·자막無 = 헤더만(사진 미동봉·오버레이 없음)★', setup: H + PHOTO,
     ok: o => { const it = batch0(o); return it.length === 1 && it[0].tag === '헤더' && !it.some(x => x.tag === '자막'); } },
   { n: 'L9 반쪽헤더(부제만) = 발사 차단(에러)', setup: "(function(){var cs=document.querySelector('#cSub');cs.value='부제만';cs.dispatchEvent(new Event('input',{bubbles:true}));})();",
-    ok: o => o.caps.length === 0 && /제목/.test(o.err || '') },
+    ok: o => o.caps.length === 0 && /입력 필요/.test(o.err || '') },   // 문구 = 260810 단축분(구 '제목을 넣어주세요' — 발사 버튼이 레일 캡슐 폭 70으로 이주해 한 줄 5자가 한계)
   { n: 'L10 자막 강조없음 = 발사 차단(에러)', setup: "(function(){var c=document.querySelector('#cLines');c.value='강조 없는 본문';c.dispatchEvent(new Event('input',{bubbles:true}));})();",
     ok: o => o.caps.length === 0 && /강조/.test(o.err || '') },
   // ── 배치 라벨 포맷 접두 정합(운영자 260720 Q323) — 균일=포맷명 · 혼합=접두 생략 ──

@@ -1445,7 +1445,7 @@ function armAfterAttach(run) {   // 편집 옵션 공용 소스 게이트(운영
   //   호출부 문법 = `if (armAfterAttach(() => 하려던것)) return;` 한 줄(true = 무장했으니 여기서 멈춰라 · false = 사진 있음 = 그냥 진행)
   //   ⚠ #cFile.click()은 **동기 호출** — setTimeout으로 미루면 사용자 제스처가 끊겨 iOS/Safari가 파일 창을 차단한다(경고는 이 줄 앞에서 이미 그려진다)
   if (CIMG.b64) return false;
-  errStatus('사진 없음');   // 막힘 피드백 = 카드 생성 메뉴와 동일 문법(빨강 테두리 + edshake .42s + 멘트 · 1.7s 뒤 '생성' 복귀)
+  errStatus('입력 필요');   // 막힘 피드백 = 카드 생성 메뉴와 동일 문법(빨강 테두리 + edshake .42s + 멘트 · 1.7s 뒤 '생성' 복귀)
   PENDACT = { at: Date.now(), run: typeof run === 'function' ? run : null };
   const f = $('#cFile'); if (f) f.click();   // 사진 입구 단일화(260713) 정본 위임 = .cpv-photobtn·#cpImgSwap과 같은 한 입구
   return true;
@@ -1769,8 +1769,8 @@ async function cpBake(fmt) {   // 배치를 **산출 좌표에 굽는다** — �
 }
 const cpFillRunning = () => JOBS.some(jb => jb && jb.rid && jb.status === 'run' && jb.payload && jb.payload.box);   // 채움 잡이 도는 중인가 — 술어 = `payload.box` 보유(box를 싣는 건 cpFillGap뿐이라 편집 탭 리사이즈·해상도 잡은 안 걸린다) · ⚠ **단일정본**: 아래 중복 가드와 #go 분기가 같은 술어를 쓴다(사본으로 두면 260810 rszWait↔goFire 사고가 그대로 재발)
 async function cpFillGap() {   // Q03 = 축소로 생긴 빈 여백을 AI(Gemini 3.1 Flash)로 채운다 — 호출자 = 「생성」(#go) 단독(운영자 260808 · 구판은 레일 칩 탭이 직접 불렀다) — 정본 파이프 재사용(/api/resize → img-resize.yml → resize_image.py 3층 라우팅·픽셀락) · 신규 렌더 로직 0
-  if (!CIMG.b64) return errStatus('사진을 먼저 넣어줘');
-  if (!cpPanGap()) return errStatus('초과', 'warn');
+  if (!CIMG.b64) return errStatus('입력 필요');
+  if (!cpPanGap()) return errStatus('여백 없음', 'warn');
   if (cpFillRunning()) return errStatus('진행중...', 'warn');   // 중복 발사 = 러너 잡 2벌·중복 과금(운영자 260808) · ⚠ 260810 2차부터 이 줄은 **방어선**이다 — #go 분기가 `!cpFillRunning()`을 먼저 보므로 채움이 도는 중의 클릭은 여기 안 오고 **카드 제작으로 흘러간다**(운영자 «대기열에 뭐 하나 있다고 다음 거 못 만드는 게 맞아?»). 남겨두는 이유 = 직접 호출·미래 호출자가 생겨도 중복 과금이 안 나게(술어는 위 단일정본 공용)
   const g = cpPanGeo(cpPanFmt); if (!g) return;
   const r5 = n => Math.round(n * 1e5) / 1e5;
@@ -1785,10 +1785,10 @@ async function cpFillGap() {   // Q03 = 축소로 생긴 빈 여백을 AI(Gemini
   try {
     const rq = await fetch('/api/resize', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(payload) });
     const j = await rq.json().catch(() => ({}));
-    if (!rq.ok || j.error) return errStatus(j.error || '발사 실패 — 재시도');
+    if (!rq.ok || j.error) return errStatus('재시도');
     rszWait(true); rszJob(j.id, payload, true);   // true = 완료 시 자동 재첨부(운영자 손 1회 절약 · 결과는 작업내역에도 그대로 남는다)
     { const jb = $('#jobs'); if (jb) { const r = jb.getBoundingClientRect(); if (r.bottom < 40 || r.top > innerHeight - 40) jb.scrollIntoView({ behavior: 'smooth', block: 'center' }); } }   // 「주방으로 데려간다」(운영자 260810 2차 «대기열을 넣으면 걔는 주방으로 가고, 주방에서 제작중이 뜨고, 접수창구는 다시 비어야지») — 보드는 이미 「제작중 · 0/1장」을 정상 렌더하는데 **화면 밖**이라 안 보였다(실측 = y978.5 vs 뷰포트 900) → 발사가 어디로 갔는지 눈으로 잇는다 · 부품 창작 0 = ieShowResult 5262행 scrollIntoView 문법 그대로 · **화면 밖일 때만**(이미 보이는 자리면 시야를 흔들지 않는다 = 2단 PC 무개입)
-  } catch { return errStatus('연결 끊김'); }
+  } catch { return errStatus('재시도'); }
 }
 function renderCpPrev() {   // app2 상시 표시(운영자 260714 Q03②) + 편집 탭 공용(운영자 260718 "미리보기 모든 PHASE 2 반영" — 같은 쉘 안 #cpPrevStage↔#iePrev 스왑) · 변형 선택칩 제거(Q293) = 우선순위 1개 변형(v[0])만 표시
   const pane = $('#cpPrev'); if (!pane) return;
@@ -3727,7 +3727,7 @@ async function reattachSrc(url, name, btn) {   // 편집(리사이즈·모자이
     slot._set(b64, name || 'edit.jpg');
     rszApply('orig'); if (APP !== '2') selApp('2');   // 새 소스 = 기본값 복귀(비율 원본·모자이크 OFF) + 제작 축 — 재첨부 직후 비율/모자이크/제작 어느 쪽이든 바로 이어감
     scrollMid(slot); flashEl(slot.closest('.covrow') || slot);   // 착지 = 슬롯 강조(이력 착지 flashEl 계승) — 갈아끼워진 걸 눈으로 확인
-  } catch (e) { errStatus('재첨부 실패 — ' + (e && e.message || '네트워크')); }
+  } catch (e) { errStatus('재시도'); }
   finally { if (btn) { btn._busy = 0; btn.classList.remove('busy'); } }
 }
 function carAppend(url, dlname, cap, job, varStr, o, restore, histCap, noExpand) {   // 완성 이미지 1장 캐러셀 추가(나온 순서). o=변형 객체. restore=true=복원(이전제작 재기록 안 함·운영자 260622). histCap=이전 제작 캡션 별도 지정(생략 = cap 그대로 · /7 원본 파일명 = 운영자 260710 축5). noExpand=복원이라도 접힌 채 유지(부팅 자동복원 전용 = 결과 기본 접힘 · 딥링크·새제작은 미전달 = 펼침 · 운영자 260710)
@@ -5292,7 +5292,7 @@ function ieRender() {
 function ieBusy(on, phase) { IE.busy = on; if (phase) IE.phase = phase; ieSyncGo(); if (APP === '8') renderCpPrev(); }   // 단계 전환 = 도크 동기 1곳(지정 단계 확대 ↔ 결과(done) 원복 · 운영자 260728)
 function ieGo() {
   if (IE.busy) return;
-  if (!CIMG.b64) return errStatus('이미지를 넣어줘');
+  if (!CIMG.b64) return errStatus('입력 필요');
   if (!IE.items.length) return ieFind();
   return ieRenderGo();
 }
@@ -5300,12 +5300,12 @@ async function ieFind() {
   ieBusy(true, 'finding');
   try {
     const r = await fetch('/api/imgedit', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ fileB64: CIMG.b64, name: CIMG.name }) }).then(x => x.json());
-    if (!r.ok) { ieBusy(false, 'idle'); return errStatus(r.error || '검출 발사 실패'); }
+    if (!r.ok) { ieBusy(false, 'idle'); return errStatus('재시도'); }
     IE.id = r.id; iePoll('boxes');
-  } catch { ieBusy(false, 'idle'); errStatus('연결 끊김'); }
+  } catch { ieBusy(false, 'idle'); errStatus('재시도'); }
 }
 async function ieRenderGo() {
-  if (!IE.sel.size) return errStatus((IE.op === 'cutout' ? '뗄' : '가릴') + ' 피사체를 탭해줘', 'warn');
+  if (!IE.sel.size) return errStatus('선택 필요', 'warn');
   ieBusy(true, 'rendering');
   // 재렌더 신선도 가드(스테일 result.json/error.log 오표시 차단 · 기틀검증 C1·C2) — 발사 직전 직전본 스냅 → 폴에서 이보다 새 것만 인정(같은 id 재사용이라 필수)
   IE.preTs = ''; IE.preErr = '';
@@ -5314,9 +5314,9 @@ async function ieRenderGo() {
   const opts = { pxw: IE.pxw, pxh: IE.pxw, size: 1.15, feather: 5, shape: IE.shape };
   try {
     const r = await fetch('/api/imgedit', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ render: { id: IE.id, targets: [...IE.sel], opts, precise: IE.precise, op: IE.op } }) }).then(x => x.json());   // op = 출력 모드(떼기 = 서버가 SAM2 정밀 강제 · 운영자 260726)
-    if (!r.ok) { ieBusy(false, 'found'); return errStatus(r.error || ((IE.op === 'cutout' ? '누끼' : '모자이크') + ' 발사 실패')); }
+    if (!r.ok) { ieBusy(false, 'found'); return errStatus('재시도'); }
     iePoll('result');
-  } catch { ieBusy(false, 'found'); errStatus('연결 끊김'); }
+  } catch { ieBusy(false, 'found'); errStatus('재시도'); }
 }
 function iePoll(kind) {
   if (IE.poll) clearInterval(IE.poll);
@@ -5324,7 +5324,7 @@ function iePoll(kind) {
   // 대기 상한 = 워크플로 실측 상한에 맞춤(260728 수리 — 구 전건 5분은 imgedit-make timeout-minutes 25보다 짧아, 콜드런(pip+모델 다운)·정밀(SAM2 torch 설치)이 5분을 넘기면 결과가 나와도 뷰어가 먼저 포기 = 결과 고아). 경량 10분 / 헤비(정밀·누끼) 20분.
   const limit = (kind !== 'boxes' && (IE.precise || IE.op === 'cutout')) ? 1200000 : 600000;
   IE.poll = setInterval(async () => {
-    if (Date.now() - t0 > limit) { clearInterval(IE.poll); IE.poll = null; ieBusy(false, kind === 'boxes' ? 'idle' : 'found'); return errStatus('재입력'); }
+    if (Date.now() - t0 > limit) { clearInterval(IE.poll); IE.poll = null; ieBusy(false, kind === 'boxes' ? 'idle' : 'found'); return errStatus('다시 시도'); }
     // error.log — boxes(새 id) = 항상 인정 / result(같은 id 재렌더) = 발사 전 스냅(preErr)과 다를 때만 인정(스테일 실패 고정 차단 · C1)
     try { const er = await fetch('imgedit_out/' + IE.id + '/error.log?t=' + Date.now()); if (er.ok) { const tx = (await er.text()).trim(); if (tx && tx[0] !== '<' && (kind === 'boxes' || tx !== IE.preErr)) { clearInterval(IE.poll); IE.poll = null; ieBusy(false, kind === 'boxes' ? 'idle' : 'found'); return errStatus(tx.slice(0, 120)); } } } catch { /* 폴 지속 */ }
     try {
@@ -5333,13 +5333,13 @@ function iePoll(kind) {
         if (!Array.isArray(j.items)) return;
         clearInterval(IE.poll); IE.poll = null;
         IE.items = j.items; IE.meta = j.meta || {}; IE.sel = new Set(j.items.filter(i => i.kind === 'face').map(i => i.id)); ieBusy(false, 'found');
-        if (!IE.items.length) errStatus('실패', 'warn');
+        if (!IE.items.length) errStatus('인물 없음', 'warn');
         ieRender();
       } else {
         if (!j.ts || j.ts === IE.preTs) return;   // 스테일(직전본·구본) = 새 산출 대기(C2) · 신 산출은 ts != preTs
         clearInterval(IE.poll); IE.poll = null;
         if (j.error) { ieBusy(false, 'found'); return errStatus(String(j.error).slice(0, 120)); }
-        if (!j.url) { ieBusy(false, 'found'); return errStatus('실패'); }
+        if (!j.url) { ieBusy(false, 'found'); return errStatus('재시도'); }
         ieBusy(false, 'done'); ieShowResult(j.url);
       }
     } catch { /* 폴 지속 */ }
@@ -5386,11 +5386,11 @@ $('#go').onclick = async () => {
     try {
       const r = await fetch('/api/resize', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(payload) });
       const j = await r.json().catch(() => ({}));
-      if (!r.ok || j.error) return errStatus(j.error || '발사 실패 — 재시도');   // errStatus가 goFire 타이머·클래스 정리(기존 계약)
+      if (!r.ok || j.error) return errStatus('재시도');   // errStatus가 goFire 타이머·클래스 정리(기존 계약)
       rszWait(true);   // '변환 중' 점등(genstat live) — 이 잡 완료/실패 시 rszJob이 소등 · 옛 #status 안내 산문 폐지(§디자인 e)
       rszJob(j.id, payload);   // 결과 = 표준 잡 흐름 합류: 잡 카드+캐러셀+이전 제작(운영자 260709 "다른 메뉴들하고 동일하게 작업내역으로")
     } catch (err) {
-      return errStatus('연결 끊김');
+      return errStatus('재시도');
     }
     return;
   }
@@ -5401,17 +5401,17 @@ $('#go').onclick = async () => {
     try {
       const r = await fetch('/api/upscale', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(payload) });
       const j = await r.json().catch(() => ({}));
-      if (!r.ok || j.error) return errStatus(j.error || '발사 실패 — 재시도');
+      if (!r.ok || j.error) return errStatus('재시도');
       rszWait(true);   // '변환 중' 점등(upsJob 완료/실패 시 소등 · rszWait는 rid 잡 공용)
       upsJob(j.id, payload);   // 결과 = 표준 잡 흐름 합류(잡 카드+캐러셀+다운로드)
     } catch (err) {
-      return errStatus('연결 끊김');
+      return errStatus('재시도');
     }
     return;
   }
   if (APP === '5') {   // 카드뉴스 = /api/compose (축약 미적용) · app2 카드뉴스 모드 발사 = 아래 app2 분기가 전담(헤더·저작권·안내문 동시 발사 매트릭스 · 운영자 260712 2차)
     if (!IMG.b64) return errStatus('선택 필요');
-    if (edAnyOver()) return errStatus('초과');
+    if (edAnyOver()) return errStatus('글자 초과');
     const clines = buildEmphText().split('\n').map(s => s.trim()).filter(Boolean);
     if (!clines.length) return errStatus('입력 필요');
     dispatchJob('/api/compose', { imageB64: IMG.b64, name: IMG.name, lines: clines }, '카드뉴스', SRC);
@@ -5435,10 +5435,10 @@ $('#go').onclick = async () => {
     const hasCard = A2M === 'c' && edLines.some(l => l.some(ch => (ch.text || '').trim()));   // 카드뉴스 칩 내용(운영자 260712 2차 — 헤더·저작권·안내문과 동시 발사 가능)
     const jj = cTpl === 'jinjja';   // 진짜예요 = 문구 1줄(제목칸) 단독 성립 · 부제는 잠겨 렌더 대상 아님(운영자 260726)
     const hasHeader = jj ? !!ctitle : !!(csub && ctitle), partHeader = !!(csub || ctitle), hasOverlay = clines.length > 0;
-    if (!jj && partHeader && !hasHeader) return errStatus(csub ? '제목을 넣어주세요' : '부제를 넣어주세요');   // 헤더 시작했으면 둘 다 필요(반쪽 헤더=흰칸 백엔드 불가) — 진짜예요는 1줄이라 미적용
+    if (!jj && partHeader && !hasHeader) return errStatus('입력 필요');   // 헤더 시작했으면 둘 다 필요(반쪽 헤더=흰칸 백엔드 불가) — 진짜예요는 1줄이라 미적용
     if (!hasHeader && !hasOverlay && !hasCard && cpThumb === 'off' && !guideMode) return errStatus(A2M === 'c' ? '입력 필요' : '입력 필요');   // 저작권·안내문만 켜도 발사 허용(운영자 260711 통합·260712 안내문 독립)
     if (hasCard && !CIMG.b64) return errStatus('선택 필요');   // 카드뉴스 = 배경 필수(우측 슬롯 · 운영자 7 "카드뉴스는 필수")
-    if (hasCard && edAnyOver()) return errStatus('초과');   // app5 발사 가드 동형
+    if (hasCard && edAnyOver()) return errStatus('글자 초과');   // app5 발사 가드 동형
     if (hasOverlay && !clines.some(hasEmph2)) return errStatus('강조 확인', 'warn');   // 자막 강조(*별표*) 필수 — parse2 기준(1~2델리미터·3+리터럴)·정규화 후 줄별 검사(260720) · 문구 = 4자(운영자 260810 «버튼 안에 3줄이 나오면서 밀리는데» — 발사 버튼이 레일 캡슐③(폭 --trailw 70)로 이주한 뒤 구 '강조를 넣어주세요'가 3줄로 접혀 캡슐을 밀어냈다 · 짝 = 아래 포스트 축 동일 문구)
     if ($('#abbr').checked) { csub = abbr(csub); ctitle = abbr(ctitle); clines = clines.map(abbr); }   // 축약 = 포스트·릴스 공통
     if (jj) ctitle = normEmph(stripStrayStars(ctitle));   // 진짜예요 문구 = 자막과 동일 강조 정규화(운영자 260730 "**로 하면 강조") — 오타 단일 *(빗금) 삭제 → 균형 단일 `*` 델리미터로 정규화 = 백엔드 nomute_overlay.parse와 1:1(미리보기 jjHdrEmph도 동일 순서) · 노뮤트 헤더는 강조 미사용이라 무접촉

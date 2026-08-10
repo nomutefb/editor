@@ -867,7 +867,7 @@ async function renderOut(md, refPath, outEl) {   // 결과 렌더 공통(폴 성
   rr.querySelectorAll('.rrbtn').forEach(b => b.onclick = () => {
     const g = $('#go');
     if (!g || g.disabled || _polling()) return;   // 진행 중·연타 = stale 축 잔류 봉합(detach된 행의 잔여 핸들러 경로 · 검증5 F3)
-    if (!$('#scene').value.trim()) { errStatus('내용을 입력해주세요'); return; }   // 빈 입력 리롤 = 복원 결과 소거 사고 차단(검증4 ⑥ — 재열람 화면 보존)
+    if (!$('#scene').value.trim()) { errStatus('입력 필요'); return; }   // 빈 입력 리롤 = 복원 결과 소거 사고 차단(검증4 ⑥ — 재열람 화면 보존)
     _reroll = b.dataset.ax; g.click(); try { g.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (e) {}
   });
 }
@@ -966,7 +966,7 @@ $('#go').onclick = async () => {
   status.classList.remove('err'); $('#out').innerHTML = '';
   const reroll = _reroll; _reroll = '';   // 읽는 즉시 비움 — 검증 실패·다음 일반 발사에 축 마커 잔류 오염 방지(260708)
   const scene = $('#scene').value.trim();
-  if (!scene) return errStatus('내용을 입력해주세요');   // 빈 입력 = 버튼 안 빨강+흔들림(thumb 통일·운영자 문구)
+  if (!scene) return errStatus('입력 필요');   // 빈 입력 = 버튼 안 빨강+흔들림(thumb 통일·운영자 문구)
   { const gb = document.getElementById('go'); gb.classList.remove('firing'); void gb.offsetWidth; gb.classList.add('firing'); setTimeout(() => gb.classList.remove('firing'), 760); }   // 누름 게이지 = 검증 통과 후(헛발사 방지·thumb 통일)
   $('#go').disabled = true; status.textContent = '생성 중…'; _fired = true;   // await 전 동기 세팅(재열람 레이스 가드 · 최종감사2 #2)
   try {
