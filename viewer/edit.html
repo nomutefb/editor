@@ -2210,6 +2210,30 @@ function editLbl(o){ return o.clip?'클립 후보 찾는 중':o.cutscan?'자를 
 /* focus=false = **뒤에서 도는 병렬 작업**(운영자 260810) — 화면(대기 스테이지·상태줄·결과창)을 한 톨도 안 건드리고 폴만 돈다.
    구판은 이 함수 첫 줄이 `if(_curStop)_curStop()`이라 두 번째 발사가 첫 번째 폴을 그 자리에서 죽였다(러너는 계속 도는데
    화면이 그 결과를 영영 안 봄 = "덮어씌워짐"의 실체). 이제 폴 핸들은 nm-jobs.js가 id별로 들고, 같은 id 재폴만 거절한다. */
+/* ══ 결과 상자 안(운영자 260810 "각각의 작업 내역이 박스로 들어가 있는거고, 그거를 누르면 원래처럼 크게 위아래로 보이게") ══
+   위 = 작업본(스캔 화면) · 아래 = 그 작업의 원본. 부품은 전부 이 파일 정본 값 사본(.vstage/.wscrim/.scanline/.wcorner/.wmsg · .lypv video) = 새 값 0.
+   그리는 자리 = nm-rail.js 진행 행 여닫이 훅. 훅이 없는 탭은 여닫이 자체가 안 붙어 종전 동작 100%(영상 4탭 무접촉).
+   ⚠ 새 타이머 0 — 경과 갱신은 레일 1초 틱에 편승한다(nmJobTick · 유휴 정숙 계약). */
+window.nmJobBody=(j,host)=>{
+  const src=String((j&&j.src)||'')||((EDIT_ID===((j&&j.id)||''))?FILE_URL:'')||'';
+  const st=document.createElement('div'); st.className='vstage';
+  st.innerHTML=(src?'<video class="wv" muted loop playsinline preload="metadata" src="'+esc(src)+'"></video>':'')
+    +'<div class="wscrim"></div><div class="scanline"></div>'
+    +'<div class="wcorner" aria-hidden="true"></div>'
+    +'<div class="wmsg">'+(window.nmLoader?nmLoader('solving','제작중'):'편집 중')+'</div>';
+  host.appendChild(st);
+  const wv=st.querySelector('.wv');
+  if(wv){ if(matchMedia('(prefers-reduced-motion:reduce)').matches){ wv.removeAttribute('loop'); } else { wv.play().catch(()=>{}); } }
+  if(src){ const og=document.createElement('div'); og.className='lypv jbody-og';   // 원본 = 자막 편집기 재생기 정본 사본(.lypv video = 폭 100%·세로 캡)
+    og.innerHTML='<video controls playsinline preload="metadata" src="'+esc(src)+'"></video>'; host.appendChild(og); }
+  try{ window.nmJobTick(j,host,(+j.t0)?Math.max(0,Math.round((Date.now()-(+j.t0))/1000)):0); }catch(e){}
+};
+window.nmJobTick=(j,host,sec)=>{
+  const ws=host.querySelector('.wcorner'); if(!ws) return;
+  const km=(x)=>{x=Math.max(0,x|0);return Math.floor(x/60)+'분 '+String(x%60).padStart(2,'0')+'초';};   // 표기 = 아래 포커스 폴 정본 동문(운영자 260731)
+  const eta=(EDIT_STATS && EDIT_STATS['edit-make/edit'] && EDIT_STATS['edit-make/edit'].dur)|0;
+  ws.innerHTML='<span class="wc-hi">'+km(sec)+' 경과</span>'+(eta?' (예상 '+km(eta)+')':'');
+};
 function pollEdit(id, t0, minTs, wlbl, kind, focus){
   focus = (focus !== false);
   if(window.nmJobs && nmJobs.busy(PEND_KEY,id)) return;   // 같은 작업 중복 폴 차단(재개 IIFE ↔ 발사 경로 겹침)

@@ -9,6 +9,13 @@
   /* 대기열/로그 — 제작 건별 행(동시 처리) */
   .jobs { display:flex; flex-direction:column; gap:6px; margin:10px 0 0; }
   .jobs[hidden] { display:none; }   /* hidden 가드 = nm-hist.css `.hist-grid[hidden]`과 한 축(display:flex가 UA hidden을 이기는 같은 함정 · 운영자 260806 평의회7) */
+  /* 진행 중 행 = 여닫이(운영자 260810 "각각의 작업 내역이 박스로 들어가 있는거고, 그거를 누르면 원래처럼 크게 위아래로 보이게 · n개 결과를 열면 다 위아래로 순차적으로 적재")
+     — 상자 **안**은 각 탭이 그린다(nm-rail.js `window.nmJobBody` 훅 · 훅 없는 탭은 여닫이 자체가 안 붙어 종전 동작 100%).
+     어포던스(cursor)는 `[role="button"]`이 붙은 행에만 = 실제로 눌리는 행에만 손 모양(어포던스 비계승 계약). */
+  .job[role="button"] { cursor:pointer; }
+  .job[role="button"]:hover { border-color:rgba(var(--accent-rgb),.35); }   /* 강조색 반투명 = 도크 구획선·드래그오버 링 정본 알파 동값(신규 값 0) */
+  .jbody { display:flex; flex-direction:column; gap:var(--sp-1); }
+  .jbody[hidden] { display:none; }   /* display:flex가 UA hidden을 이기는 같은 함정 = 위 .jobs[hidden] 동축 */
   .job { display:flex; flex-wrap:wrap; align-items:center; gap:8px; font-size:12px; padding:8px 11px; border-radius:var(--r-s); background:rgba(8,15,11,.34); border:1px solid var(--line); }   /* flex-wrap = 다중 변형(.jvars)이 아래 줄 전체폭으로 떨어짐 */
   .job .jlab { font-weight:800; color:var(--accent); }
   .job .jlab .tplnm { color:var(--accent-5); }   /* 템플릿 접두 #노뮤트 = 형광그린(운영자 260729 "#노뮤트는 강조색") — 색 = .csec .ovfmt.tplnm 토글 정본 토큰 그대로 계승(신규색 0) */

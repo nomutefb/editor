@@ -127,10 +127,18 @@
     } catch (e) { a = []; }
     return a.slice().sort(function (x, y) { return (+x.t0 || 0) - (+y.t0 || 0); });   // 순차 = **발사 순서**(먼저 건 게 위 · 운영자 260810 "순차적으로")
   }
+  /* 열어둔 상자 = 작업 번호별 전역(운영자 260810 "n개 결과를 열면 다 위아래로 순차적으로 적재") — 여러 개 동시 열림이 정본이라
+     단일 값이 아니라 집합이다. 다시 그려도 살아남아야 해서 마운트 밖에 둔다(재렌더가 열림을 지우면 그게 곧 "눌러도 닫힌다"). */
+  var _open = {};
+  function jobBodyFill(j, body) { try { if (typeof window.nmJobBody === 'function') window.nmJobBody(j, body); } catch (e) {} }
   function pendRows(m, host) {
     var a = pendList(m);
+    /* 상자 **안**을 그리는 건 각 탭 몫이다(탭마다 보여줄 게 다르다 = 편집은 작업본+원본, 콘티는 다른 것).
+       훅이 없으면 여닫이 자체를 안 단다 = 종전 동작 100% 그대로(다른 영상 탭 무접촉 · 롤백 = 그 탭에서 훅 제거 1줄). */
+    var can = (typeof window.nmJobBody === 'function');
     a.forEach(function (j) {
       var row = document.createElement('div'); row.className = 'job';
+      row.setAttribute('data-jid', String(j.id));   // 1초 틱이 **이 행만** 찾아 숫자를 갈아끼우는 손잡이(아래 tickSync)
       var lab = document.createElement('span'); lab.className = 'jlab'; lab.textContent = toText(j.lbl || j.label || j.cap || '제작');
       var st = document.createElement('span'); st.className = 'jst';
       var sec = (+j.t0) ? Math.max(0, Math.round((Date.now() - (+j.t0)) / 1000)) : 0;
@@ -138,7 +146,24 @@
         + '<span class="nm-shim">제작중' + (sec ? ' · <b class="jsec">' + jobDur(sec) + '</b>' : '') + '</span>';   // 문구·부품 = thumb 진행 행 정본(「제작중 · 21s」 · 빛 스윕 = 진행 중 전용)
       row.append(lab, st);
       host.appendChild(row);
+      if (!can) return;
+      row.setAttribute('role', 'button'); row.tabIndex = 0;
+      var on = !!_open[j.id];
+      row.setAttribute('aria-expanded', on ? 'true' : 'false');
+      var body = document.createElement('div'); body.className = 'jbody'; body.hidden = !on;
+      body.setAttribute('data-jbody', String(j.id));
+      host.appendChild(body);
+      if (on) jobBodyFill(j, body);
+      var tg = function () {
+        var nx = !_open[j.id];
+        if (nx) { _open[j.id] = 1; body.innerHTML = ''; jobBodyFill(j, body); } else { delete _open[j.id]; body.innerHTML = ''; }   // 닫으면 비운다 = 안 보이는 영상이 계속 도는 것 차단(유휴 정숙 계약)
+        body.hidden = !nx;
+        row.setAttribute('aria-expanded', nx ? 'true' : 'false');
+      };
+      row.addEventListener('click', tg);
+      row.addEventListener('keydown', function (ev) { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); tg(); } });
     });
+    m.psig = a.map(function (x) { return String(x.id); }).join(',');   // 이번에 그린 목록 = 아래 틱의 「바뀌었나」 기준
     return a.length;
   }
   var _tick = null;
@@ -149,7 +174,27 @@
     _tick = setInterval(function () {
       if (document.hidden) return;   // 가려진 동안은 안 그린다(보는 사람이 없다)
       if (!mounts.some(function (m) { return pendList(m).length; })) { clearInterval(_tick); _tick = null; return; }
-      mounts.forEach(function (m) { m.sig = null; render(m); });
+      /* ⚠ 숫자만 갈아끼운다 — 구판은 매초 `m.sig=null; render(m)`으로 **통째로 다시 그렸다**. 상자 여닫이가 붙은 뒤로는
+         그게 곧 「1초마다 펼친 상자가 닫히고 안의 영상이 처음으로 되돌아간다」가 된다(운영자 260810 여닫이 계약).
+         목록 자체가 바뀐 회차(발사·완료)만 통째로 다시 그리고, 그 외엔 경과 숫자와 상자 안 표시만 제자리 갱신한다. */
+      mounts.forEach(function (m) {
+        var host = document.getElementById(m.id + 'ResJobs'); if (!host) return;
+        var a = pendList(m);
+        var ids = a.map(function (x) { return String(x.id); }).join(',');
+        if (ids !== m.psig) { m.sig = null; render(m); return; }
+        var map = {}; a.forEach(function (j) { map[String(j.id)] = j; });
+        var rows = host.querySelectorAll('.job[data-jid]');
+        for (var i = 0; i < rows.length; i++) {
+          var j = map[rows[i].getAttribute('data-jid')]; if (!j) continue;
+          var sec = (+j.t0) ? Math.max(0, Math.round((Date.now() - (+j.t0)) / 1000)) : 0;
+          var b = rows[i].querySelector('.jsec'); if (b) b.textContent = jobDur(sec);
+          if (!_open[j.id]) continue;
+          var body = rows[i].nextElementSibling;
+          if (body && body.classList && body.classList.contains('jbody')) {
+            try { if (typeof window.nmJobTick === 'function') window.nmJobTick(j, body, sec); } catch (e) {}   // 상자 안 경과 표시 = 그 탭이 갱신(새 타이머 0 = 이 틱에 편승)
+          }
+        }
+      });
     }, 1000);   // raw-ok: 경과 표기 주기(ms — 지속시간 토큰 아님) · thumb 잡 행 틱 동값
   }
 
