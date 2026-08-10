@@ -42,7 +42,7 @@ function attachCopyPaste(el, withErase) {   // 빈칸=붙여넣기 / 내용 있�
   el.parentNode.insertBefore(wrap, el); wrap.appendChild(el);
   const split = true;   // 붙여넣기 항상 유지 + 복사 별도(좌측)
   const nBtn = (split ? 2 : 1) + (withErase ? 1 : 0);
-  el.style.paddingRight = (el.tagName !== 'TEXTAREA') ? (14 + nBtn * 32) + 'px' : '42px';   // 텍스트칸 = 버튼이 1행 위 테두리로 떠 안 겹침 → 42 유지
+  el.style.paddingRight = (el.tagName !== 'TEXTAREA' || el.classList.contains('ta1l')) ? (14 + nBtn * 32) + 'px' : '42px';   // 텍스트칸 = 버튼이 1행 위 테두리로 떠 안 겹침 → 42 유지   // ⚠ 판정 축 = 태그가 아니라 **첫 줄이 세로중앙인가** — `.ta1l`(자동 성장 한 줄 칸 · 260810)은 태그만 textarea고 빈 칸일 때 한 줄 높이라 42로 주면 첫 줄 글자가 클립 3종 밑으로 들어간다 · 짝 = thumb.html 정본 동문
   const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'iobtn iobtn-edge' + (withErase ? ' iobtn-pp' : ''); wrap.appendChild(btn);
   let copyB = null;
   if (split) {

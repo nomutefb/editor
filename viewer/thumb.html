@@ -196,6 +196,11 @@
   #rCombo .cf-sub { color:var(--fg); }        /* 부제 입력 = 흰색(결과물 흰색 미러) */
   #rCombo .cf-title { color:var(--accent); }   /* 제목 입력 = 강조색(결과물 초록 미러) */
   #rCombo .cf-title::placeholder { color:var(--accent); opacity:.5; }   /* 제목 예시도 강조색(부제 예시는 전역 mut) */
+  /* ── 한 줄 칸 = 자동 줄바꿈 + 내용만큼 성장(운영자 260810 "글자 허용 범위내에서 자동 줄바꿈") ──
+     구 한 줄 태그는 규격상 줄바꿈이 0이라 넘친 글자가 가로 스크롤로 숨는다(실측 폭 396 ↔ 내용 895 = 499px 실종).
+     → textarea로 교체하고 전역 `textarea{min-height:96px}`(3줄 기본)을 끈 뒤 1줄에서 시작해 내용만큼만 키운다.
+     상한 104 = `.covrow textarea` 3줄 정본 값 사본(신규 값 0) = 「1줄 아니면 3줄」 창 계약 사다리 안 · 넘치면 세로 스크롤. */
+  .ta1l { min-height:0; max-height:104px /* raw-ok: `.covrow textarea` 3줄 정본 min-height 동값 사본 — 3줄 창 계약의 상한을 그대로 쓴다(신규 값 0) */; overflow-y:auto; }
   .covrow { display:flex; gap:8px; align-items:stretch; margin-top:8px; }
   .covta { flex:2 1 0; min-width:0; }                      /* 자막 = 2/3(텍스트 짧음) */
   .covrow textarea { min-height:104px; }                   /* 자막 텍스트칸 = 3줄(콘텐츠 96px) 스크롤 없이 들어가게 +헤드룸(전역 96 → 104·운영자 260625). 슬롯도 ResizeObserver로 동기 */
@@ -1086,8 +1091,8 @@
         <input type="file" accept="image/*" id="cFile" hidden><!-- 사진 입구 단일창구(260713) — 260728 접이 편입으로 .covrow 안 → #rCombo 직계 이동: 오버레이 접이를 접으면 안쪽이 inert가 되어 도크(#cpImgSwap·.cpv-photobtn)의 cFile.click()이 죽는다(접이와 무관하게 항상 살아야 하는 입구) · hidden = 레이아웃 기여 0이라 위치 이동 부작용 없음 · 참조는 전부 $('#cFile') id 셀렉터 -->
         <div class="csec">헤더 <span id="cTplTog" class="ovfmt tplnm tpltog" role="button" tabindex="0" aria-label="템플릿 노뮤트 (탭=전환)" title="탭=노뮤트↔진짜예요 (템플릿 전환 · 진짜예요 = 부제 잠금·제목 1줄·가용폭 880·자간 −10~−45)">노뮤트</span><button type="button" class="cfold-chev" aria-expanded="true" aria-controls="cHdrSub" aria-label="헤더 접기·펼치기"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button></div>   <!-- ⚠배치(운영자 260726 "이미지 스튜디오 우측에 간격을 꽤 두고 거기서 토글하게") = '• 헤더' 행 우측 끝(margin-left:auto = .csec-chk 선례) · 도형 없는 글자 토글 = #ovFmtTog 문법 100% 계승(알약·스위치·라디오 신설 0) · 기본값 노뮤트(운영자 "단 기본값은 노뮤트") -->
         <div class="cfoldsub" id="cHdrSub"><div class="cfoldsub-in"><!-- 헤더 접이 내용 = index .geni-camsub/-in 정본 미러 -->
-        <input type="text" id="cSub" class="cf cf-sub" placeholder="부제" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false">
-        <input type="text" id="cTitle" class="cf cf-title" placeholder="제목" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false">
+        <textarea id="cSub" class="cf cf-sub ta1l" rows="1" placeholder="부제" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"></textarea>
+        <textarea id="cTitle" class="cf cf-title ta1l" rows="1" placeholder="제목" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"></textarea><!-- ⚠배치 input → textarea.ta1l 교체(운영자 260810 "붙여넣기 하면 글자가 한줄 범위를 벗어나면 잘려서 · 허용 범위내에서 자동 줄바꿈") — 실측 사고 = 폭 396px 칸에 내용 895px = **499px가 화면 밖**(input은 규격상 줄바꿈 0·가로 스크롤뿐) → 붙여넣은 글이 안 보여 다시 붙여넣으면 캐럿 삽입으로 중복 = 사실상 붙여넣기 불가. 값 축 무변경 = 개행은 attachOneLineGrow가 입력·붙여넣기 양쪽에서 공백으로 정규화(`.value`는 종전대로 한 줄 = 카드 렌더·발사 페이로드 무접촉) · 창 = 1줄에서 시작해 내용만큼 3줄(104px 정본값)까지만 성장 = 「1줄 아니면 3줄」 사다리 안 · 별표 하이라이트(attachStarHL)는 태그 축 분기(oneLine = INPUT)라 여러 줄 오버레이 경로로 자동 전환 · 클립 3종 자리·padding-right는 ta1l 술어로 종전(input) 값 유지 -->
         <span id="cHdrTrk" class="trk cmtrk"></span>   <!-- 부제/제목 자간 초과 안내(헤더 탭과 동일) -->
         </div></div>
         <div class="csec">오버레이 <span class="ovsep">|</span> <span id="ovFmtTog" class="ovfmt post" role="button" tabindex="0" title="탭=포스트(4:5)↔릴스(9:16) · 자간 한도 다름(−45/−30) · 헤더 입력 중엔 릴스 고정">포스트</span> <span class="ovsep none" id="cnSep">|</span> <span class="onoff none" id="cnTog" role="button" tabindex="0" aria-pressed="false" title="탭=카드뉴스 입력(칩 조합·4:5) 켜기/끄기 — ON=글자 점등">카드뉴스</span><button type="button" class="cfold-chev" aria-expanded="true" aria-controls="cOvSub" aria-label="오버레이 접기·펼치기"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button></div>   <!-- 선택 결합 블릿(운영자 260718 "오버레이 | 릴스(포스트) | 배경 합성 | 카드뉴스 — ON=글자 점등·OFF=소등 · 포스트/릴스 스위치 그대로"): 배경 합성=#cBg 워드칩 · 카드뉴스=구 ON/OFF 값 표기 폐지→라벨 자체 점등(#cnTog id·핸들러 불변 · cnLbl 흡수) · 포스트일 때만 등장(포스트 패밀리 260712 3차) 유지 -->
@@ -3002,7 +3007,7 @@ function attachCopyPaste(el, withErase) {   // 빈칸=붙여넣기 / 내용 있�
   el.parentNode.insertBefore(wrap, el); wrap.appendChild(el);
   const split = true;   // 전 입력칸 통일 = 붙여넣기 항상 유지 + 복사 별도(좌측) · warnLines(안내문/경고문)도 3종(운영자 260628)
   const nBtn = (split ? 2 : 1) + (withErase ? 1 : 0);   // 복사+붙여넣기(+지우개)
-  el.style.paddingRight = (el.tagName !== 'TEXTAREA') ? (14 + nBtn * 32) + 'px' : '42px';   // 입력칸(단일행)=버튼 수만큼 우측 폭 확보(글자 세로중앙=버튼과 겹침 방지) · 텍스트칸=버튼이 1행 위 테두리로 떠 안 겹침 → 42 유지(폭 보존 = 좁은 폰 줄바꿈 방지·운영자 260625)
+  el.style.paddingRight = (el.tagName !== 'TEXTAREA' || el.classList.contains('ta1l')) ? (14 + nBtn * 32) + 'px' : '42px';   // 입력칸(단일행)=버튼 수만큼 우측 폭 확보(글자 세로중앙=버튼과 겹침 방지) · 텍스트칸=버튼이 1행 위 테두리로 떠 안 겹침 → 42 유지(폭 보존 = 좁은 폰 줄바꿈 방지·운영자 260625)   // ⚠ 판정 축 = 태그가 아니라 **첫 줄이 세로중앙인가** — `.ta1l`(자동 성장 한 줄 칸 · 260810)은 태그만 textarea고 빈 칸일 때 한 줄 높이라 42로 주면 첫 줄 글자가 클립 3종 밑으로 들어간다(구 input 시절 값 110 유지가 정답) · 짝 = nm-clip.js 동문
   const btn = document.createElement('button'); btn.type = 'button'; btn.tabIndex = -1; btn.className = 'iobtn iobtn-edge' + (withErase ? ' iobtn-pp' : ''); wrap.appendChild(btn);   // 붙여넣기(분리 시 항상) / 토글(warnLines) = 테두리 걸친 동그라미(시안 2A·260624) · 지우개 동반 시 좌측(iobtn-pp) · tabIndex -1 = Tab은 입력창끼리만(운영자 260706)
   let copyB = null;
   if (split) {   // 복사 = 내용 있을 때만 노출·붙여넣기 좌측·동일 크기 (붙여넣기 유지 위해 별도 버튼 · 운영자 260627)
@@ -3062,6 +3067,32 @@ function attachCopyPaste(el, withErase) {   // 빈칸=붙여넣기 / 내용 있�
   };
   el.addEventListener('input', refresh); refresh();
 }
+// ── 한 줄 칸(헤더 부제·제목) = 자동 줄바꿈 + 내용만큼 성장(운영자 260810 "붙여넣기 하면 · 글자 허용 범위내에서 자동 줄바꿈 되게") ──
+//   왜 태그를 바꿨나 = 구 `input`은 규격상 줄바꿈이 0이라 넘친 글자가 **가로 스크롤로 숨는다**(실측 칸 396px ↔ 내용 895px = 499px 실종).
+//   운영자 경로 = 붙여넣음 → 뒷부분이 안 보임 → 다시 붙여넣기 누름 → 캐럿 삽입이라 **중복 누적** = 사실상 붙여넣기 불가.
+//   ⚠ 값 축은 종전 그대로 = 개행 0(`flat`) — 카드 합성기·발사 페이로드·자간 힌트·별표 하이라이트가 전부 「한 줄 문자열」 전제라 그 전제를 안 건드린다.
+//   창 = 빈 칸 1줄에서 시작해 내용만큼만 자라고 3줄(TA1L_MAX)에서 멈춘 뒤 세로 스크롤 = 「1줄 아니면 3줄」 창 계약 사다리 안.
+const TA1L_MAX = 104;   // = `.covrow textarea` 3줄 정본 min-height 동값 사본(신규 값 0)
+function attachOneLineGrow(el) {
+  if (!el || el._g1l) return;
+  const grow = () => {   // 내용 높이로 재계산 — border-box라 테두리 두께를 더해야 스크롤이 안 생긴다
+    el.style.height = 'auto';
+    const bd = el.offsetHeight - el.clientHeight;
+    el.style.height = Math.min(el.scrollHeight + bd, TA1L_MAX) + 'px';
+  };
+  const flat = () => {   // 붙여넣기로 들어온 개행 = 공백 1칸(캐럿 위치 보존) · 타이핑 개행은 아래 keydown이 먼저 막는다
+    if (!/[\r\n]/.test(el.value)) return;
+    const s = el.selectionStart, e = el.selectionEnd;
+    el.value = el.value.replace(/\r\n?|\n/g, ' ');
+    try { el.setSelectionRange(s, e); } catch {}
+  };
+  el._g1l = () => { flat(); grow(); };
+  el.addEventListener('keydown', ev => { if (ev.key === 'Enter' && !ev.isComposing) ev.preventDefault(); });   // 줄바꿈 입력 자체를 막음(구 input 동작 보존)
+  el.addEventListener('input', el._g1l);   // ⚠ 부착 순서 = 이 줄이 renderCpPrev·자간 힌트보다 **먼저** 등록돼야 그쪽이 개행 없는 값을 본다
+  let lastW = 0;
+  try { new ResizeObserver(() => { if (el.clientWidth !== lastW) { lastW = el.clientWidth; grow(); } }).observe(el); } catch {}   // 폭이 바뀌면 줄 수도 바뀐다 · 폭 축만 보는 이유 = grow가 높이를 바꾸므로 높이 축까지 보면 자기진동
+}
+['cSub', 'cTitle'].forEach(id => { const el = $('#' + id); if (el) attachOneLineGrow(el); });
 ['lines', 'warnLines', 'cSub', 'cTitle', 'cLines'].forEach(id => { const el = $('#' + id); if (el) attachCopyPaste(el, true); });   // covrow textarea(lines·cLines)도 클립 부착 — wrap이 covta 승계로 flex 유지(슬롯 호환·260624) · warnLines(안내문/경고문) 포함 전부 붙여넣기+복사+지우개 3종 통일(운영자 260628)
 ['cplat'].forEach(id => { const el = $('#' + id); if (el) attachCopyPaste(el, true); });   // 플랫폼 직접입력 = 「모든 텍스트 입력창에 클립」 공식(운영자 260803) 전수 부착분 — 이 칸만 빠져 있었다(숫자칩 #opaNum·#rszArW/H는 값 선택 UI = 면제)
 // 입력칸 별표(*) 강조색 하이라이트(운영자 260720) — 강조(*) 쓰는 textarea(lines·cLines)에만 부착. attachCopyPaste 후(wrap=.iowrap position:relative 존재)라 오버레이가 textarea 박스에 정확히 겹침. 타이포·패딩은 textarea computedStyle 복사 = 픽셀 정합(raw 창작 0).
@@ -3098,7 +3129,8 @@ function attachStarHL(ta) {
   try { new ResizeObserver(() => { sync(); syncBox(); }).observe(ta); } catch {}   // 탭 전환으로 입력칸 표시(높이 0→실측)될 때 정합 — sync 포함(구 syncBox 단독은 숨김 상태에서 clientHeight 0이라 한 줄 칸 세로중앙 line-height가 안 잡혔다 · 실측 260730) · 스타일 복사는 멱등
   sync(); syncBox(); paint();
 }
-['lines', 'cLines', 'cTitle'].forEach(id => { const el = $('#' + id); if (el) attachStarHL(el); });   // 강조(*) 쓰는 칸만 — cTitle 편입(운영자 260730 "문구칸에도 별표쌍 하이라이트" · 진짜예요에서만 색칠 = starOn) · 부제·안내문(cSub·warnLines)은 강조 미사용 = 제외
+['lines', 'cLines', 'cTitle'].forEach(id => { const el = $('#' + id); if (el) attachStarHL(el); });   // 강조(*) 쓰는 칸만
+['cSub', 'cTitle'].forEach(id => { const el = $('#' + id); if (el && el._g1l) el._g1l(); });   // 한 줄 칸 초기 창 크기 = 클립 부착(paddingRight 확정)·별표 오버레이 뒤에 1회 — 부팅 직후 값이 있는 경우(초안 복원 전 단계)에도 첫 페인트부터 정합 — cTitle 편입(운영자 260730 "문구칸에도 별표쌍 하이라이트" · 진짜예요에서만 색칠 = starOn) · 부제·안내문(cSub·warnLines)은 강조 미사용 = 제외
 // covrow: 이미지 슬롯(.covimg) 높이 = 텍스트칸(textarea) 높이로 동기화 — 수동 리사이즈 포함(stretch만으론 어긋난다는 운영자 실측 · 260624). textarea(클립 wrap 안)를 ResizeObserver로 추적해 형제 .covimg에 명시 height 부여.
 (function () {
   if (typeof ResizeObserver === 'undefined') return;
