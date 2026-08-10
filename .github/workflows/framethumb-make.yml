@@ -45,7 +45,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
         with:
-          fetch-depth: 0
+          fetch-depth: 1   # 최신 1커밋만 — 구 0은 원격 브랜치 567개 전체 히스토리를 받아 실측 105s를 먹었다(260810 · imggen run 30972520521 = 체크아웃 108s 중 워킹트리 쓰기는 3s뿐)
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -139,6 +139,7 @@ jobs:
           git diff --cached --quiet && { echo "변경 없음"; exit 0; }
           git commit -m "ft: 베스트컷 썸네일 산출 ($FT_ID)"
           for i in 1 2 3 4; do
+            git fetch --deepen=100 origin main 2>/dev/null || true   # 얕은 클론(fetch-depth:1) 짝 — 원격 새 커밋과 로컬 HEAD 사이가 끊겨 merge-base를 못 찾으면 아래 rebase가 통째로 실패한다(= 산출 유실). main 100커밋만이라 수 초 · 실패해도 무해(260810)
             git push origin HEAD:main && break || { git pull --rebase --autostash origin main; sleep $((i*2)); }
           done
 

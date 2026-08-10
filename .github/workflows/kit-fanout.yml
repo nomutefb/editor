@@ -58,7 +58,7 @@ jobs:
           repository: ${{ env.TARGET }}
           token: ${{ secrets.KIT_SYNC_TOKEN }}
           path: _target
-          fetch-depth: 0
+          fetch-depth: 1   # 최신 1커밋만 — 구 0은 원격 브랜치 567개 전체 히스토리를 받아 실측 105s를 먹었다(260810 · imggen run 30972520521 = 체크아웃 108s 중 워킹트리 쓰기는 3s뿐)
 
       - name: 킷 --install (대상에 설치/갱신)
         run: |

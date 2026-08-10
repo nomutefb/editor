@@ -45,7 +45,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5   # Node24 (6/16 러너 디폴트 전환 대응)
         with:
-          fetch-depth: 0
+          fetch-depth: 1   # 최신 1커밋만 — 구 0은 원격 브랜치 567개 전체 히스토리를 받아 실측 105s를 먹었다(260810 · imggen run 30972520521 = 체크아웃 108s 중 워킹트리 쓰기는 3s뿐)
           # 트리거 커밋(github.sha)이 아니라 체크아웃 시점의 최신 main을 받는다.
           # concurrency 순차 큐에서 뒤 run이 옛 커밋을 체크아웃하면 앞 run이 이미
           # 처리한 pending을 재분석 → failed 로그 add/add 충돌로 push 실패(run#5 원인).
@@ -138,6 +138,7 @@ jobs:
           # 실패하면 rebase --abort로 깨끗이 되돌린 뒤 재시도 — abort 없이 pull만 반복하면
           # "unmerged files" fatal로 전 재시도가 무력화된다(run#5 원인).
           for i in 1 2 3 4; do
+            git fetch --deepen=100 origin main 2>/dev/null || true   # 얕은 클론(fetch-depth:1) 짝 — 원격 새 커밋과 로컬 HEAD 사이가 끊겨 merge-base를 못 찾으면 아래 rebase가 통째로 실패한다(= 산출 유실). main 100커밋만이라 수 초 · 실패해도 무해(260810)
             if git pull --rebase --autostash -X theirs origin main && git push origin HEAD:main; then exit 0; fi
             git rebase --abort 2>/dev/null || true
             sleep $((2**i))
@@ -190,7 +191,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
         with:
-          fetch-depth: 0
+          fetch-depth: 1   # 최신 1커밋만 — 구 0은 원격 브랜치 567개 전체 히스토리를 받아 실측 105s를 먹었다(260810 · imggen run 30972520521 = 체크아웃 108s 중 워킹트리 쓰기는 3s뿐)
           ref: main           # analyze가 push한 최신 queue 포함
       - name: Setup Node
         uses: actions/setup-node@v5
@@ -296,7 +297,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
         with:
-          fetch-depth: 0
+          fetch-depth: 1   # 최신 1커밋만 — 구 0은 원격 브랜치 567개 전체 히스토리를 받아 실측 105s를 먹었다(260810 · imggen run 30972520521 = 체크아웃 108s 중 워킹트리 쓰기는 3s뿐)
           ref: main           # analyze가 push한 최신 queue 포함
       - name: 썸네일 후보 — 검색이미지(og:image) + AI 2화풍 생성 (신규 픽만)
         env:
@@ -329,6 +330,7 @@ jobs:
           if git diff --cached --quiet; then echo "썸네일 변경 없음"; exit 0; fi
           git commit -m "thumbs: AI 썸네일 후보 생성"
           for i in 1 2 3 4; do
+            git fetch --deepen=100 origin main 2>/dev/null || true   # 얕은 클론(fetch-depth:1) 짝 — 이 잡은 analyze와 **별도 러너·별도 클론**이라 앞 잡의 경계 확장이 안 미친다. 경계가 끊기면 merge-base 실종 = rebase 실패 = 썸네일 산출 유실(260810)
             git pull --rebase --autostash -X theirs origin main && git push origin HEAD:main && exit 0
             git rebase --abort 2>/dev/null || true; sleep $((2**i))
           done

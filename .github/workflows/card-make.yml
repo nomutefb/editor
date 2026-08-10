@@ -70,7 +70,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
         with:
-          fetch-depth: 0
+          fetch-depth: 1   # 최신 1커밋만 — 구 0은 원격 브랜치 567개 전체 히스토리를 받아 실측 105s를 먹었다(260810 · imggen run 30972520521 = 체크아웃 108s 중 워킹트리 쓰기는 3s뿐)
           ref: main   # 최신 main 기준(news-analyze와 동일 — 옛 커밋 체크아웃 금지)
 
       # edit 첨부 사진(uploads/<id>/src) — make-cards.js가 main에 선커밋한 직후 dispatch라 보통 체크아웃에 포함되나,
