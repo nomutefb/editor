@@ -118,22 +118,49 @@ def _req(url, *, data=None, token=None, method=None, timeout=120):
         return code, txt, None
 
 
+_B64SET = set("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=\n\r")
+
+
+def _mime_of(b):
+    """매직바이트로 형식을 가른다(허용 = JPEG·PNG·WebP).
+
+    ⚠ 전부 jpeg 로 굽던 첫 판은 PNG·WebP 원본에 거짓 형식을 붙였다 — 이 레포가 이미 겪은
+      「거짓 확장자」 사고와 같은 축이라 추측 대신 바이트를 본다.
+    """
+    if b[:2] == b"\xff\xd8":
+        return "image/jpeg"
+    if b[:8] == b"\x89PNG\r\n\x1a\n":
+        return "image/png"
+    if b[:4] == b"RIFF" and b[8:12] == b"WEBP":
+        return "image/webp"
+    return "image/jpeg"
+
+
 def _imgref(v):
     """그림 입력을 API 가 받는 **객체** 로 정규화한다.
 
     받는 값 = 공개 주소 문자열 · `data:image/…;base64,…` · 원바이트 · 파일번호 · 이미 만든 객체.
     ⚠ 맨 base64 를 그대로 보내면 안 된다 — **`data:` 접두가 붙은 형태**여야 한다(공식 예제).
+    ⚠ 해석 못 하는 문자열(로컬 경로 등)을 base64 로 넘겨짚지 않는다 — 그러면 서버가 400 을 주는데
+      사유가 엉뚱한 곳을 가리켜 추적이 통째로 헛돈다.
     """
     if isinstance(v, dict):
         return v
     if isinstance(v, (bytes, bytearray)):
-        return {"url": "data:image/jpeg;base64," + base64.b64encode(bytes(v)).decode()}
-    s = str(v)
+        b = bytes(v)
+        return {"url": f"data:{_mime_of(b)};base64," + base64.b64encode(b).decode()}
+    s = str(v).strip()
     if s.startswith("file_"):
         return {"file_id": s}
     if s.startswith("data:") or s.startswith("http://") or s.startswith("https://"):
         return {"url": s}
-    return {"url": "data:image/jpeg;base64," + s}   # 맨 base64 로 판단 → 접두를 붙여 구제
+    if len(s) > 64 and not (set(s) - _B64SET):   # 맨 base64 로 확정될 때만 구제
+        try:
+            return {"url": f"data:{_mime_of(base64.b64decode(s[:64] + '=' * 4, validate=False))};base64," + s}
+        except Exception:  # noqa: BLE001
+            pass
+    raise GrokError(0, f"그림 입력을 해석 못 했다(앞 40자: {s[:40]!r}) — 공개 주소·data URI·바이트·파일번호만 받는다",
+                    "imgref")
 
 
 def cost_usd(obj):
@@ -163,6 +190,97 @@ def access_token(refresh_token=None):
     if code != 200 or not obj or not obj.get("access_token"):
         raise GrokError(code, txt, "auth")
     return obj["access_token"], obj.get("refresh_token")
+
+
+TOKEN_STORE = os.environ.get("XAI_TOKEN_STORE") or os.path.join(
+    os.environ.get("GITHUB_WORKSPACE") or os.path.expanduser("~"), ".nomute_grok_token.json")
+
+
+def fresh_token(store=None):
+    """쓸 수 있는 액세스 토큰을 돌려준다. **갱신과 저장을 한 몸으로 묶는다.**
+
+    ⚠ 왜 한 함수인가 = 회전이 계약이라 「갱신했는데 저장을 안 한」 순간 그 자격은 죽는다.
+      호출부에 저장을 맡기면 언젠가 한 곳이 빼먹고, 증상은 며칠 뒤 조용한 정지다.
+    ⚠ 왜 잠그는가 = 이 레포는 이미 동시 3발사를 받는다(서버 rateGate cap=3 · 화면 다중 큐잉).
+      두 러너가 같은 리프레시 토큰으로 동시에 갱신하면 한쪽이 받은 새 토큰이 다른 쪽 저장에
+      덮여 **양쪽 다 죽는다**. 그래서 갱신 구간은 한 번에 한 명만 들어간다.
+    ⚠ `invalid_grant` 는 곧바로 포기하지 않는다 — 다른 러너가 방금 회전시켰을 수 있어
+      저장소를 다시 읽고 1회 재시도한다(그게 정확히 이 사고의 정상 복구 경로다).
+    """
+    path = store or TOKEN_STORE
+    lock = path + ".lock"
+    fd = None
+    try:
+        for _ in range(60):   # 최대 60초 대기(남의 갱신은 1~2초면 끝난다)
+            try:
+                fd = os.open(lock, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+                break
+            except FileExistsError:
+                try:   # 죽은 락 회수(30초 넘게 남아 있으면 주인이 죽은 것)
+                    if time.time() - os.path.getmtime(lock) > 30:
+                        os.unlink(lock)
+                        continue
+                except OSError:
+                    pass
+                time.sleep(1)
+        for attempt in (1, 2):
+            data = _read_store(path)
+            if data.get("access_token") and float(data.get("expires_at") or 0) - time.time() > 300:
+                return data["access_token"]   # 아직 살아 있다 = 갱신 횟수 자체를 줄인다
+            try:
+                at, rt = access_token(data.get("refresh_token"))
+            except GrokError as e:
+                if attempt == 1 and "invalid_grant" in str(e.body).lower():
+                    time.sleep(2)
+                    continue   # 다른 러너가 방금 회전시켰을 수 있다 → 저장소 재독
+                raise
+            data["access_token"] = at
+            data["expires_at"] = time.time() + 5 * 3600   # 실측 수명 약 6시간 · 여유 1시간
+            if rt:
+                data["refresh_token"] = rt
+            _write_store(path, data)
+            return at
+        raise GrokError(0, "자격 갱신 실패(다시 로그인해야 한다)", "auth")
+    finally:
+        if fd is not None:
+            os.close(fd)
+            try:
+                os.unlink(lock)
+            except OSError:
+                pass
+
+
+def _read_store(path):
+    try:
+        with open(path, encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:  # noqa: BLE001
+        rt = os.environ.get("XAI_REFRESH_TOKEN") or ""
+        return {"refresh_token": rt} if rt else {}
+
+
+def _write_store(path, data):
+    tmp = path + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(data, f)
+    os.replace(tmp, path)   # 원자적 교체 = 반쯤 쓰인 파일을 남기지 않는다
+    try:
+        os.chmod(path, 0o600)
+    except OSError:
+        pass
+
+
+def open_models(token, kind="video"):
+    """**이 자격에 실제로 열린 모델 목록**을 실측한다(공식 용도가 정확히 이것).
+
+    ⚠ 이게 배선의 첫 관문이다 — 구독 자격으로 챗이 통과했다고 그림·영상까지 열린 건 아니다.
+      xAI 백엔드가 이 통로에 자체 허용목록을 걸고 구독이 살아 있어도 거절한 사례가 보고돼 있다.
+    """
+    path = "video-generation-models" if kind == "video" else "image-generation-models"
+    code, txt, obj = _req(f"{API_BASE}/{path}", token=token, method="GET", timeout=60)
+    if code != 200 or not obj:
+        raise GrokError(code, txt, f"models-{kind}")
+    return [m.get("id") for m in (obj.get("models") or obj.get("data") or []) if m.get("id")]
 
 
 # ── 그림 ──────────────────────────────────────────────────────────────────────
@@ -198,12 +316,13 @@ def start_video(prompt, *, token, ratio="16:9", image=None, refs=None,
 
     image = 첫 프레임으로 삼을 그림. 그 그림이 **1프레임 그대로** 나오고 거기서부터 움직인다.
     refs  = 참조 그림 1~7장. 첫 프레임을 **고정하지 않고** 얼굴·물건·장소 같은 축만 가져온다
-            (프롬프트에서 `<IMAGE_1>` 처럼 번호로 지목).
+            (프롬프트 지목 = **0부터** 센다: 첫 장 `<IMAGE_0>` · 둘째 `<IMAGE_1>`).
     store_as = 파일명. 주면 산출을 xAI 쪽에 **영구 보관**시킨다.
 
     ⚠ **image 와 refs 는 한 요청에 같이 못 보낸다**(공식 명시) — 선택 축이 아니라 **분기**다.
-    ⚠ 이미지→영상이면 **결과 비율이 그 그림의 비율을 따라간다**(공식) → 그림이 있으면 비율을
-      아예 안 보낸다. 화면이 그걸 모르면 「9:16 골랐는데 16:9 가 나왔다」로 보인다.
+    ⚠ 이미지→영상은 기본으로 그림 비율을 따르는데, **비율을 보내면 무시가 아니라 그림을 그 비율로
+      잡아 늘인다**(공식 원문 "override this and stretch the image"). 즉 「무해한 무시」가 아니라
+      **얼굴이 늘어난 산출**이다 → 그림이 있으면 비율을 안 보낸다(이 분기를 지우면 그 사고가 난다).
     ⚠ 참조 모드는 **720p 가 상한**(공식).
     ⚠ 결과 주소는 **임시**이고 정확한 수명이 공식에 없다 → 받는 즉시 우리 저장소로 옮기거나
       store_as 로 영구 보관을 켠다(둘 중 하나는 반드시 · 안 하면 나중에 조용히 죽는다).
@@ -220,14 +339,16 @@ def start_video(prompt, *, token, ratio="16:9", image=None, refs=None,
         "duration": int(seconds or VID_SECONDS),
         "resolution": res or (VID_RES_REF if refs else VID_RES),
     }
-    if ratio in VID_RATIOS and not image:
+    if not image:
+        if ratio not in VID_RATIOS:
+            raise GrokError(0, f"비율 {ratio} 는 화면 계약 밖이다(허용 {VID_RATIOS})", "video-start")
         body["aspect_ratio"] = ratio
     if image:
         body["image"] = _imgref(image)
     if refs:
         body["reference_images"] = [_imgref(x) for x in refs]
     if store_as:
-        body["storage_options"] = {"filename": store_as}
+        body["storage_options"] = {"filename": store_as, "public_url": True}   # 공개 주소 없이 보관하면 무토큰으로 못 꺼낸다
     code, txt, obj = _req(f"{API_BASE}/videos/generations", data=body, token=token, timeout=120)
     if code != 200 or not obj or not obj.get("request_id"):
         raise GrokError(code, txt, "video-start")
@@ -247,7 +368,7 @@ def wait_video(request_id, *, token, on_tick=None, max_sec=POLL_MAX_SEC):
     while time.time() - t0 < max_sec:
         time.sleep(POLL_SEC)
         code, txt, obj = _req(f"{API_BASE}/videos/{request_id}", token=token, timeout=60)
-        if code in (401, 403, 404) or (code == 400 and "api key" in str(txt).lower()):
+        if code in (400, 401, 403, 404):   # 400 = 영구 오류(재시도로 안 변한다) · 사유 소실 차단
             raise GrokError(code, txt, "video-poll")
         if code not in (200, 202) or not obj:
             continue
@@ -265,12 +386,14 @@ def wait_video(request_id, *, token, on_tick=None, max_sec=POLL_MAX_SEC):
             if not v.get("url") and not ((v.get("file_output") or {}).get("public_url")):
                 raise GrokError(code, txt, "video-done-nourl")
             v["cost_usd"] = cost_usd(obj)
-            v.setdefault("url", (v.get("file_output") or {}).get("public_url"))
+            if not v.get("url"):   # null 로 실려오는 경우가 있다 → setdefault 로는 안 덮인다
+                v["url"] = (v.get("file_output") or {}).get("public_url")
+            if v.get("storage_error"):   # 보관 실패를 삼키면 「보관됐다」고 믿고 산출을 잃는다
+                v["storage_error"] = v["storage_error"]
             return v
-        if st in ("failed", "expired"):
+        if st == "failed":
             err = (obj.get("error") or {})
-            raise GrokError(code, f"{err.get('code') or st}: {err.get('message') or txt}",
-                            f"video-{st}")
+            raise GrokError(code, f"{err.get('code') or st}: {err.get('message') or txt}", "video-failed")
     raise GrokError(0, f"{max_sec}초 안에 안 끝났다(작업번호 {request_id})", "video-timeout")
 
 
