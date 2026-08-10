@@ -500,6 +500,7 @@
 
 <script src="nm-svg.js"></script><!-- 공유 아이콘 SSOT — COPY/CHECK/OK/ERR/WARN/DOWNLOAD_SVG -->
 <script src="nm-rail.js" data-scope="cap" data-dlname="song.mp3"></script><!-- 결과·이전 제작 레일 부품 SSOT(마크업·렌더·공유 이력 · 영상 스코프 = nomute_cap_hist = 사진과 분리) -->
+<script src="nm-jobs.js"></script><!-- 여러 작업 동시 추적 SSOT(운영자 260810 "동시에 병렬로 진행") — 재개 슬롯 다중화 + 폴 레지스트리 -->
 <script src="nm-clip.js"></script><!-- 입력칸 클립 SSOT(복사·붙여넣기·지우개/되돌리기) — nm-svg.js 뒤 = 아이콘 상수 의존 순서 · 운영자 260803 "공식처럼가야함" -->
 <script src="nm-sync.js"></script><!-- 동기화 생명선 SSOT(운영자 260803 4차 "전 스튜디오 상속") — 복귀 시 자동 재동기(nmRefresh)·로그인 만료 자가치유·새 배포 자동 탑재 -->
 <script src="nm-loader.js"></script><!-- 로딩 표기 SSOT(orb + shimmer · 운영자 260723 Q460) -->
@@ -513,7 +514,7 @@ const API='/api/song';
 const API_VOICE='/api/voice';
 const BUDGET=1000;   // 폴 예산(초) — 하드 ×2 = 2000s ≥ 잡 캡 25분(1500s)+디스패치+Pages 배포(conv 문법 · 재개 게이트는 24h 별도)
 const BUDGETS={voice:2600,'voice-train':5400};   // 클로닝 = Replicate 대기(apply 폴 ≤25분 · train ≤70분 + 잡 캡 85분) — 모드별 예산
-let USER_ACT=false, _curStop=null, RES=null, OPTS=[], PICK=null, SONG_ID='';
+let USER_ACT=false, RES=null, OPTS=[], PICK=null, SONG_ID='', FOCUS_ID='';   // FOCUS_ID = **지금 화면(상태줄·결과창)을 차지한 작업**(운영자 260810 병렬) — 구 전역 폴 중단 핸들 1개는 두 번째 발사가 첫 번째 폴을 그 자리에서 죽이던 자리라 이탈 · 폴 핸들은 nm-jobs.js가 id별로 든다
 const GAUGE={w:50,s:50,v:'',g:0,t:60};   // 고급 게이지(실험성·장르 충실·보컬 성별 g[-100~100]·목표 길이 t[초]) — 중립(50/50/0/60) = 안 만지면 종전 산출과 동일
 // ── 길이 축(운영자 260804) — 10~60초 5초 눈금 = 자(ruler) 10구간(정본 눈금 10% 그대로) · 기본 60 = 구 하드코딩 「60초 미만」 동값 ──
 const SONG_LEN_MIN=10, SONG_LEN_MAX=60, SONG_LEN_STEP=5, SONG_LEN_DEF=60, SONG_LEN_PTS=[10,20,30,40,50,60];
@@ -523,9 +524,11 @@ const vocLabel=g=>g===0?'중성':(vocName(g)+' '+Math.abs(g)+'%');
 const gaugeLive=()=>GAUGE.w<40||GAUGE.w>60||GAUGE.s<40||GAUGE.s>60||!!GAUGE.v||GAUGE.t!==SONG_LEN_DEF;
 let SPEC_READY=false;   // 리드백 배선 완료 플래그 — 4축 selCtl 초기화(set→updateGoSpec)가 auto4/자(ruler) 선언보다 **먼저** 도는 TDZ 사고 차단(부팅 리드백은 아래 배선 끝에서 1회 그린다)
 
-const pendSet=o=>{ try{ localStorage.setItem(PEND_KEY, JSON.stringify(o)); }catch(e){} };
-const pendGet=()=>{ try{ return JSON.parse(localStorage.getItem(PEND_KEY)||'null'); }catch(e){ return null; } };
-const pendClear=()=>{ try{ localStorage.removeItem(PEND_KEY); }catch(e){} };
+/* 진행 중 작업 슬롯 = **여러 개**(운영자 260810) — 구판 단일 객체는 두 번째 발사가 첫 번째 재개 포인터를 덮었다.
+   저장 키·24h TTL은 종전 그대로(nm-jobs.js가 구판 단일 객체도 배열 1개로 승격해 읽는다 = 이관 시점 진행분 유실 0). */
+const pendSet=o=>{ try{ nmJobs.add(PEND_KEY,o); }catch(e){} };
+const pendGet=()=>{ try{ return nmJobs.list(PEND_KEY)[0]||null; }catch(e){ return null; } };
+const pendClear=id=>{ try{ nmJobs.drop(PEND_KEY,id); }catch(e){} };
 
 // ── 선택자 = 옵션 카드 라벨│값 워드칩(콘티 「설계」 .ogrid 정본 배선 · 운영자 260803 5차 "다른 비디오 스튜디오와 동일하게 옵션 탭") ──
 //   구판(260712) = 인라인 텍스트 값 + 촤르륵 팝업. 값 집합·기본값·40자 절단·반환 계약(()=>val)은 **그대로** — 바뀐 건 그릇과 점등 대상뿐.
@@ -602,7 +605,7 @@ function btnErr(g,m){
 }
 // 대기 표기 = 버튼 아닌 상태줄(썸네일 발사 상태머신 계승 260712 — 버튼 = 풀필→접수 ✓→라벨 원복 · 상주 라벨 폐지)
 let _stTick=null;
-function statusWait(on,t0,label){
+function statusWait(on,t0,label,mode){   // mode = **인자로 받는다**(260810 실측 봉합) — 구판은 아래 예상시간 줄이 어디에도 없는 mode를 참조해 window.nmEta가 살아 있는 실환경에서 **호출 즉시 ReferenceError**였다: 발사는 접수됐는데 fireApi의 catch가 받아 화면엔 「요청 실패 — 재시도」가 뜨고 폴이 시작조차 안 됐다(= 곡·보이스 결과를 영영 못 봄 · 재개 경로도 같은 자리에서 죽어 다음 진입에도 복구 불가)
   const st=$('#sstatus');
   clearInterval(_stTick); _stTick=null;
   if(on){
@@ -666,19 +669,24 @@ $('#sunoGo').addEventListener('click',()=>fire('suno',$('#sunoGo')));
 $('#lyriaGo').addEventListener('click',()=>fire('lyria',$('#lyriaGo')));
 
 // ── 폴(conv pollConv 문법 계승: error.log 즉시 보고 · SPA-HTML 가드 — 빌드 전 200을 완료로 오인 금지) ──
-function pollSong(id, mode, t0, minTs, gb){
-  if(_curStop)_curStop();
-  SONG_ID=id;
+/* focus=false = **뒤에서 도는 병렬 작업**(운영자 260810) — 상태줄·결과창을 안 건드리고 폴만 돈다.
+   mine() = 지금도 내가 화면 주인인가(새 발사가 오면 FOCUS_ID가 넘어가 앞 작업은 자동 강등 = 남의 진행 화면을 안 덮는다). */
+function pollSong(id, mode, t0, minTs, gb, focus){
+  focus = (focus !== false);
+  try{ if(nmJobs.busy(PEND_KEY,id)) return; }catch(e){}   // 같은 작업 중복 폴 차단
+  if(focus){ SONG_ID=id; FOCUS_ID=id; }
+  const mine=()=>FOCUS_ID===id;
   const status=$('#sstatus');   // ⚠️ 스코프 필수 — 없으면 window.status(문자열)로 새서 에러·타임아웃 표면화가 조용히 죽음(260712 회귀 실측·수리)
-  statusWait(true, t0, WL[mode]||'생성 중');   // 대기 = 상태줄 정중앙(버튼 원복 = 썸네일 상태머신 계승)
+  if(focus) statusWait(true, t0, WL[mode]||'생성 중', mode);   // 대기 = 상태줄 정중앙(버튼 원복 = 썸네일 상태머신 계승)
   const outPath='song_out/'+id+'/'+(mode==='options'?'options.json':'song.json');
   const errPath='song_out/'+id+'/error.log';
-  let live=true; const stop=()=>{ live=false; statusWait(false); }; _curStop=stop;
+  let live=true; const stop=()=>{ live=false; if(mine()) statusWait(false); try{ nmJobs.free(PEND_KEY,id); }catch(e){} };
+  try{ nmJobs.hold(PEND_KEY,id,stop); }catch(e){}   // 폴 등록(구 전역 핸들 대체) — 남의 작업은 안 끊는다 = 병렬 성립
   const need=mode==='options'?'options':(mode==='voice'?'url':'lyrics');   // 완료 판정 필드(모드별) — 커버는 오디오(url)가 본질
   const budget=BUDGETS[mode]||BUDGET;
   const tick=async()=>{
     if(!live) return;
-    if(Date.now()-t0>budget*2000){ stop(); status.innerHTML=ERR_SVG+' 시간 초과 — 완성되면 다음에 열 때 이어받아'; status.classList.add('err'); return; }
+    if(Date.now()-t0>budget*2000){ const _m=mine(); stop(); pendClear(id); if(!_m) return; status.innerHTML=ERR_SVG+' 시간 초과 — 완성되면 다음에 열 때 이어받아'; status.classList.add('err'); return; }
     try{
       const er=await fetch(errPath+'?t='+Date.now());
       if(!live) return;
@@ -687,7 +695,7 @@ function pollSong(id, mode, t0, minTs, gb){
         const em=await er.text();
         if(!live) return;
         const eHtml=ect.includes('text/html')||/^\s*<!doctype/i.test(em)||/<html[\s>]/i.test(em.slice(0,300));
-        if(em&&em.trim()&&!eHtml){ stop(); pendClear(); status.innerHTML=ERR_SVG+' '+esc(em.trim().slice(0,300)); status.classList.add('err'); return; }
+        if(em&&em.trim()&&!eHtml){ const _m=mine(); stop(); pendClear(id); if(!_m) return; status.innerHTML=ERR_SVG+' '+esc(em.trim().slice(0,300)); status.classList.add('err'); return; }
       }
     }catch(e){ /* 재시도 */ }
     try{
@@ -703,7 +711,8 @@ function pollSong(id, mode, t0, minTs, gb){
           if(d&&d[need]){
             const ts=Date.parse(d.ts||'');
             if(!isNaN(ts)&&ts>=minTs){   // 원 디스패치 이후 산출만(과거 오인 차단 · ts=KST ISO)
-              stop(); pendClear();
+              const _m=mine(); stop(); pendClear(id);
+              if(!_m){ try{ if(d.url&&window.nmRail) nmRail.add({ url:String(d.url), cap:'음원', dlname:String(d.url).split('/').pop()||'song.mp3' }); }catch(e){} return; }   // 화면은 이미 다음 작업 것 = 결과 레일로 착지(운영자 260810 병렬 · 텍스트 산출인 옵션 모드는 얹을 파일이 없어 슬롯만 회수)
               if(window.nmEta) nmEta.done(mode&&/voice/.test(mode)?'song-voice':'song',(Date.now()-t0)/1000);   // 예상 학습 = 성공 완료만(sb·k 배선 그대로 · 실패·초과 경로엔 안 넣는다 = 평균 오염 차단)
               if(mode==='options') renderOptions(d, Math.round((Date.now()-t0)/1000));
               else if(d.engine==='lyria'||d.engine==='rvc'||d.url) showLyria(d, Math.round((Date.now()-t0)/1000));   // 오디오 있는 산출 = 완성곡 뷰(lyria·rvc 커버)
@@ -1136,16 +1145,20 @@ $('#vApply').addEventListener('click',()=>{
   fireApi(gb, API_VOICE, {mode:'apply', src:SONG_ID, vid:VSEL},
     (j,t0)=>{ pendSet({id:j.id, mode:'voice', t0}); pollSong(j.id, 'voice', t0, t0-90000, gb); });
 });
-function pollVoice(id, t0, minTs){   // 학습 폴 — pollSong 미러(voice_out 루트 · 완료 = model_url · 학습은 길어서 10s 간격)
-  if(_curStop)_curStop();
+function pollVoice(id, t0, minTs, focus){   // 학습 폴 — pollSong 미러(voice_out 루트 · 완료 = model_url · 학습은 길어서 10s 간격)
+  focus = (focus !== false);
+  try{ if(nmJobs.busy(PEND_KEY,id)) return; }catch(e){}   // 같은 작업 중복 폴 차단
+  if(focus) FOCUS_ID=id;
+  const mine=()=>FOCUS_ID===id;   // 화면 주인 판정(운영자 260810 병렬 · pollSong 동문)
   const status=$('#sstatus');
-  statusWait(true, t0, '보이스 학습 중');
+  if(focus) statusWait(true, t0, '보이스 학습 중', 'voice-train');
   const outPath='voice_out/'+id+'/voice.json', errPath='voice_out/'+id+'/error.log';
-  let live=true; const stop=()=>{ live=false; statusWait(false); }; _curStop=stop;
+  let live=true; const stop=()=>{ live=false; if(mine()) statusWait(false); try{ nmJobs.free(PEND_KEY,id); }catch(e){} };
+  try{ nmJobs.hold(PEND_KEY,id,stop); }catch(e){}
   const budget=BUDGETS['voice-train'];
   const tick=async()=>{
     if(!live) return;
-    if(Date.now()-t0>budget*2000){ stop(); status.innerHTML=ERR_SVG+' 시간 초과 — 완성되면 다음에 열 때 이어받아'; status.classList.add('err'); return; }
+    if(Date.now()-t0>budget*2000){ const _m=mine(); stop(); pendClear(id); if(!_m) return; status.innerHTML=ERR_SVG+' 시간 초과 — 완성되면 다음에 열 때 이어받아'; status.classList.add('err'); return; }
     try{
       const er=await fetch(errPath+'?t='+Date.now());
       if(!live) return;
@@ -1154,7 +1167,7 @@ function pollVoice(id, t0, minTs){   // 학습 폴 — pollSong 미러(voice_out
         const em=await er.text();
         if(!live) return;
         const eHtml=ect.includes('text/html')||/^\s*<!doctype/i.test(em)||/<html[\s>]/i.test(em.slice(0,300));
-        if(em&&em.trim()&&!eHtml){ stop(); pendClear(); status.innerHTML=ERR_SVG+' '+esc(em.trim().slice(0,300)); status.classList.add('err'); return; }
+        if(em&&em.trim()&&!eHtml){ const _m=mine(); stop(); pendClear(id); if(!_m) return; status.innerHTML=ERR_SVG+' '+esc(em.trim().slice(0,300)); status.classList.add('err'); return; }
       }
     }catch(e){ /* 재시도 */ }
     try{
@@ -1170,8 +1183,9 @@ function pollVoice(id, t0, minTs){   // 학습 폴 — pollSong 미러(voice_out
           if(d&&d.model_url){
             const ts=Date.parse(d.ts||'');
             if(!isNaN(ts)&&ts>=minTs){   // 원 디스패치 이후 산출만(과거 오인 차단)
-              stop(); pendClear();
+              const _m=mine(); stop(); pendClear(id);
               if(window.nmEta) nmEta.done('song-voice',(Date.now()-t0)/1000);   // 예상 학습 = 성공 완료만(sb·k 배선 그대로 · 실패·초과 경로엔 안 넣는다 = 평균 오염 차단)
+              if(!_m){ VSEL=id; vcLoad(); return; }   // 강등분 = 목록만 갱신(남의 상태줄에 내 완료를 안 쓴다)
               status.classList.remove('err');
               status.innerHTML=OK_SVG+' 보이스 학습 완료 — '+esc(d.name||'보이스');
               VSEL=id; vcLoad();   // 새 보이스 자동 선택 + 목록 갱신([보이스 입히기] 활성)
@@ -1192,7 +1206,7 @@ function edFocus(sel){ const el=$(sel); if(!el||el.hidden) return; try{ el.scrol
 (function(){
   const id=(location.search.match(/[?&]done=([\w-]+)\b/)||[])[1]||(location.hash.match(/^#done=([\w-]+)$/)||[])[1];   // 패턴 = thumb doneReq [\w-] 통일(Q176 — id 형식 변경 내성·경로 주입 동일 차단)
   if(!id) return;
-  USER_ACT=true; pendClear();   // 딥링크 = pend 재개보다 우선(그 작업 확정 랜딩)
+  USER_ACT=true; pendClear(id);   // 딥링크 = pend 재개보다 우선(그 작업 확정 랜딩) — 걷는 슬롯은 **그 작업 하나만**(구판 전체 비움은 같이 돌던 병렬 작업까지 버렸다 · 운영자 260810)
   (async()=>{
     try{
       const r=await fetch('song_out/'+id+'/song.json?t='+Date.now());
@@ -1206,13 +1220,19 @@ function edFocus(sel){ const el=$(sel); if(!el||el.hidden) return; try{ el.scrol
 
 // ── 재개(pend) — 리로드/재진입 시 진행 중 생성 폴 이어받기(conv 문법 · 24h 게이트) ──
 (function(){
-  const p=pendGet(); if(!p||!p.id||USER_ACT) return;
-  if(Date.now()-(p.t0||0)>24*3600e3){ pendClear(); return; }
-  if(p.story&&!$('#story').value) $('#story').value=p.story;   // 후속 발사 재료 복원(칩은 기본 유지 — 옵션/가사엔 story+pick이 본질)
-  if(p.mode==='voice-train'){ const t0c=Math.max(p.t0||0, Date.now()-BUDGETS['voice-train']*1000); pollVoice(p.id, t0c, (p.t0||0)-90000); return; }
-  if(p.mode!=='options'&&p.mode!=='voice'){ $('#optwrap').hidden=false; updateGoSpec(); }   // 엔진 진행 표시 위해 행 노출(커버 재개는 폼 노이즈 없이)
-  const t0c=Math.max(p.t0||0, Date.now()-(BUDGETS[p.mode]||BUDGET)*1000);   // 경과·타임아웃 기점 클램프 = 재개마다 폴 창 확보 · 신선도는 원 t0 기준(분리)
-  pollSong(p.id, p.mode||'suno', t0c, (p.t0||0)-90000, null);
+  // 진행 중이던 작업 **전부** 재개(운영자 260810) — 구판은 슬롯이 1개뿐이라 두 번째 발사에 덮인 첫 작업이 영영 안 돌아왔다.
+  // 화면(상태줄)은 가장 최근 1건만 차지하고 나머지는 뒤에서 돈다 · 딥링크 진입(USER_ACT)이면 전부 뒤에서만.
+  let all=[]; try{ all=nmJobs.list(PEND_KEY); }catch(e){ all=[]; }
+  all.forEach((p,i)=>{
+    if(!p||!p.id) return;
+    if(Date.now()-(p.t0||0)>24*3600e3){ pendClear(p.id); return; }
+    const focus=!USER_ACT&&i===0;
+    if(focus&&p.story&&!$('#story').value) $('#story').value=p.story;   // 후속 발사 재료 복원(칩은 기본 유지 — 옵션/가사엔 story+pick이 본질)
+    if(p.mode==='voice-train'){ const t0c=Math.max(p.t0||0, Date.now()-BUDGETS['voice-train']*1000); pollVoice(p.id, t0c, (p.t0||0)-90000, focus); return; }
+    if(focus&&p.mode!=='options'&&p.mode!=='voice'){ $('#optwrap').hidden=false; updateGoSpec(); }   // 엔진 진행 표시 위해 행 노출(커버 재개는 폼 노이즈 없이)
+    const t0c=Math.max(p.t0||0, Date.now()-(BUDGETS[p.mode]||BUDGET)*1000);   // 경과·타임아웃 기점 클램프 = 재개마다 폴 창 확보 · 신선도는 원 t0 기준(분리)
+    pollSong(p.id, p.mode||'suno', t0c, (p.t0||0)-90000, null, focus);
+  });
 })();
 // ── 미리보기 확대(돋보기) = viewer/tr.html `PVZOOM` 정본 동문 사본(운영자 260803 "카드 제작 부분과 동일하게") · 저장 차단 환경은 무저장 = 상시 축소(종전 동작) ──
 const PVZOOM = { K: 'nm.pvzoom',

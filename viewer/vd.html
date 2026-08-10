@@ -488,6 +488,7 @@
 
 <script src="nm-svg.js"></script><!-- 공유 아이콘 SSOT -->
 <script src="nm-rail.js" data-scope="cap" data-dlname="video.mp4" data-anchor="#srcList"></script><!-- 결과·이전 제작 레일 부품 SSOT -->
+<script src="nm-jobs.js"></script><!-- 여러 작업 동시 추적 SSOT(운영자 260810 "동시에 병렬로 진행") — 진행 중 렌더 전건 재개 + 같은 잡 중복 폴 차단 -->
 
 <script>
 const $ = s => document.querySelector(s);
@@ -721,6 +722,8 @@ function renderJobs() {
   paintMonitor();
 }
 async function poll(outPath, jid) {
+  // 같은 잡 중복 폴 차단(운영자 260810) — 발사 직후 폴과 부팅 재개 폴이 겹치면 같은 주소를 두 배로 두드린다.
+  try{ if(window.nmJobs && !nmJobs.hold(JKEY, jid, ()=>{})) return; }catch(e){}
   for (let i = 0; i < 240; i++) {
     await new Promise(r => setTimeout(r, 10000));
     let d = null;
@@ -733,6 +736,7 @@ async function poll(outPath, jid) {
     if (!d) continue;
     const a = jload(), j = a.find(x => x.id === jid); if (!j) return;
     if (d.error) { j.status = 'err'; } else { j.status = 'done'; j.files = d.files || []; j.n = (d.files || []).filter(u => !/\.md$/i.test(u)).length; }
+    try{ if(window.nmJobs) nmJobs.free(JKEY, jid); }catch(e){}
     try { if (j.status === 'done' && window.nmRail) (j.files || []).filter(u => !/\.md$/i.test(u)).forEach(u => nmRail.add({ url: u, cap: '큐영상', dlname: String(u).split('/').pop() || 'video.mp4' })); } catch (e) {}   /* 결과 레일 적재(운영자 260806 "영상끼리도 저렇게 공유") — nmRail.add 1줄 = 이 탭 완료분이 영상 5탭 공용 이력(nomute_cap_hist)에 즉시 합류 · 실패해도 종전 동작 무손상(fail-soft) */   // 편수 = 영상만(숏폼 팩 .md 동봉 시 files가 2배 = "완료 N편"이 부풀던 것 차단)
     jsave(a); renderJobs(); return;
   }
@@ -762,7 +766,7 @@ $('#go').addEventListener('click', fire);
 window.nmRefresh = renderJobs;   // 부모 셸 헤더 새로고침 훅(sb:568 계승)
 
 paintAxes(); loadList(); renderJobs(); syncSpec();
-const _run = jload().find(j => j.status === 'run'); if (_run) poll(_run.out, _run.id);
+jload().filter(j => j && j.status === 'run' && j.out && j.id).forEach(j => poll(j.out, j.id));   // 진행 중 렌더 **전건** 재개(운영자 260810 "동시에 병렬로 진행") — 구판 `.find(…)`는 **맨 앞 1건만** 이어받아, 같이 걸어둔 나머지 렌더는 완성돼도 목록이 영영 '만드는 중'에 멈춰 있었다(러너는 정상 완료 · 화면만 못 봄)
 // ── 미리보기 확대(돋보기) = viewer/tr.html `PVZOOM` 정본 동문 사본(운영자 260803 "카드 제작 부분과 동일하게") · 이 표면의 도크 = .dock ──
 const PVZOOM = { K: 'nm.pvzoom',
   get() { try { return localStorage.getItem(this.K) === '1'; } catch (_) { return false; } },

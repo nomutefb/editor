@@ -314,6 +314,7 @@
 <script src="nm-svg.js"></script><!-- 공유 아이콘 SSOT(§🎨 CII P1) — 인라인 복제 폐지·단일정본 -->
 <script src="nm-rail.js" data-scope="cap" data-dlname="storyboard.jpg"></script><!-- 결과·이전 제작 레일 부품 SSOT(마크업·렌더·공유 이력 · 영상 스코프 = nomute_cap_hist = 사진과 분리) -->
 <script src="nm-models.js"></script><!-- 모델 표시명 SSOT(운영자 260803 5차 "아이디어도 배선") — 아래 SB_DIRECTORS/SB_SHOOTS/DNM/SNM이 참조 · 강제 = check_model_names -->
+<script src="nm-jobs.js"></script><!-- 여러 작업 동시 추적 SSOT(운영자 260810 "동시에 병렬로 진행") — 폴 레지스트리(같은 잡 중복 폴 차단·남의 폴 안 끊음) -->
 <script src="nm-sync.js"></script><!-- 동기화 생명선 SSOT(운영자 260803 4차 "전 스튜디오 상속") — 복귀 시 자동 재동기(nmRefresh)·로그인 만료 자가치유·새 배포 자동 탑재 -->
 <script src="nm-loader.js"></script><!-- 로더 팩토리 SSOT(yeulmaru-promo mkLoader 이식) — .nmld 도트 · 강조색 --accent -->
 <script src="draft.js"></script><!-- 입력 드래프트 30분 만료 SSOT(운영자 260801) -->
@@ -728,21 +729,28 @@ function renderJobs() {
     row.appendChild(st); box.appendChild(row);
   });
 }
-let _curStop = null;   // 진행 폴 중단 핸들(k 계승)
+let FOCUS_JOB = '';    // **지금 화면(상태줄·결과창)을 차지한 잡**(운영자 260810 병렬) — 구 `_curStop`(전역 폴 중단 핸들 1개)은 두 번째 발사가 첫 번째 폴을 그 자리에서 죽이던 자리라 이탈
 let _fired = false;    // 발사 이력 — restoreLast 레이스 가드(k 계승)
-function poll(outPath, jid) {
-  if (_curStop) _curStop();
+const _polling = () => { try { return nmJobs.count(JKEY) > 0; } catch (e) { return false; } };   // 진행 중 폴이 하나라도 있나(구 `_curStop` 참조 자리 대체)
+/* focus=false = 뒤에서 도는 병렬 잡 — 상태줄·결과창을 안 건드리고 작업 내역만 갱신한다(운영자 260810). */
+function poll(outPath, jid, focus) {
+  focus = (focus !== false);
+  const pid = jid || outPath;
+  try { if (!nmJobs.hold(JKEY, pid, () => {})) return; } catch (e) {}   // 같은 잡 중복 폴 차단(재개 ↔ 발사 겹침)
+  if (focus) FOCUS_JOB = pid;
+  const mine = () => FOCUS_JOB === pid;   // 새 발사가 오면 화면 주인이 넘어가고 앞 잡은 자동 강등(남의 진행 화면을 안 덮는다)
   const t0 = Date.now(), status = $('#status'), out = $('#out');
   const budget = 1800;   // 워크플로 증발 백스톱(k 계승 — 초과 유실은 재열람이 2차 안전망)
   const fmtSec = s => { s = Math.max(0, Math.round(s)); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };   // 경과 = m:ss(track·conv·song fmtT 동문법 계승 · 운영자 260731 "0:42에 맞춰서 통일")
   const ETA = window.nmEta ? nmEta.label('sb') : ' (예상 : 3분 00초)';   // 예상 = nmEta(시드 3분 → 실측 평균으로 수렴 · 운영자 260731) · 형식 = (예상 : N분 NN초)
   const errPath = outPath.replace(/[^/]+$/, 'error.log');   // 같은 폴더 error.log = sbmake 실패 메시지(k 계승)
-  let live = true; const stop = () => { live = false; clearInterval(disp); status.removeAttribute('aria-busy'); if (_curStop === stop) _curStop = null; }; _curStop = stop;
-  status.setAttribute('aria-busy', 'true');   // 진행 표식 — 부모 뷰어 자동잠금 보류 신호(k 계승)
-  if (window.nmLoader) status.innerHTML = nmLoader('prompting','제작중…') + '<span class="sbtime nm-shim" style="margin-left:var(--sp-1)"></span>';   // 경과시간도 빛 스윕(운영자 260731) — color는 .nm-shim 그라디언트가 대체   // orb(Prompting · 콘티 설계) 1회 생성 · 시간만 갱신(운영자 260723 Q460)
+  let live = true; const stop = () => { live = false; clearInterval(disp); if (mine()) status.removeAttribute('aria-busy'); try { nmJobs.free(JKEY, pid); } catch (e) {} };
+  if (mine()) status.setAttribute('aria-busy', 'true');   // 진행 표식 — 부모 뷰어 자동잠금 보류 신호(k 계승)
+  if (mine() && window.nmLoader) status.innerHTML = nmLoader('prompting','제작중…') + '<span class="sbtime nm-shim" style="margin-left:var(--sp-1)"></span>';   // 경과시간도 빛 스윕(운영자 260731) — color는 .nm-shim 그라디언트가 대체   // orb(Prompting · 콘티 설계) 1회 생성 · 시간만 갱신(운영자 260723 Q460)
   const draw = () => {
     if (!live) return;
     const sec = Math.round((Date.now() - t0) / 1000);
+    if (!mine()) { if (sec > budget) stop(); return; }   // 강등분 = 남의 상태줄에 내 경과를 쓰지 않는다
     if (sec > budget) { stop(); status.textContent = '표시 시간 초과 — 생성은 계속 돌고 있을 수 있어. 잠시 뒤 다시 열어봐(바로 재클릭 = 이중 발사)'; status.classList.add('err'); return; }
     if (window.nmLoader) { const bt = status.querySelector('.sbtime'); if (bt) bt.textContent = fmtSec(sec) + ETA; }   // 경과 = m:ss 통일(0:42 기준) · 예상 = (예상 : N분 NN초) 통일(운영자 260731 — 구 '보통 1–3분' 범위·수식어를 상한 단일값으로: 예상보다 빨리 끝나는 쪽이 안전)
     else status.innerHTML = WAIT_SVG + ' 콘티 설계 중… ' + fmtSec(sec) + ETA;
@@ -756,7 +764,7 @@ function poll(outPath, jid) {
         const ect = (er.headers.get('content-type') || '').toLowerCase();
         const em = await er.text();
         const eHtml = ect.includes('text/html') || /^\s*<!doctype/i.test(em) || /<html[\s>]/i.test(em.slice(0, 300));
-        if (em && em.trim() && !eHtml) { stop(); status.innerHTML = ERR_SVG + ' ' + esc(em.trim()); status.classList.add('err'); out.innerHTML = ''; if (jid) jupd(jid, { status: 'err' }); return; }
+        if (em && em.trim() && !eHtml) { const _m = mine(); stop(); if (jid) jupd(jid, { status: 'err' }); if (!_m) return; status.innerHTML = ERR_SVG + ' ' + esc(em.trim()); status.classList.add('err'); out.innerHTML = ''; return; }
       }
     } catch (e) { /* 재시도 */ }
     try {   // 2) 결과 확인(SPA 폴백 오인 차단 = k 계승)
@@ -766,8 +774,9 @@ function poll(outPath, jid) {
         const md = await r.text();
         const isHtml = ct.includes('text/html') || /^\s*<!doctype/i.test(md) || /<html[\s>]/i.test(md.slice(0, 300));
         if (md && md.trim() && !isHtml) {
-          stop();
-          if (window.nmEta) nmEta.done('sb', (Date.now() - t0) / 1000);   // 성공 완료만 학습(실패·초과는 stop 경로가 달라 미계수 = 평균 오염 차단)
+          const _m = mine(); stop();
+          if (window.nmEta) nmEta.done('sb', (Date.now() - t0) / 1000);
+          if (!_m) { if (jid) jupd(jid, { status: 'done' }); return; }   // 화면은 이미 다음 잡 것 = 작업 내역만 완료로(운영자 260810 병렬 · 재열람은 그 행 탭)   // 성공 완료만 학습(실패·초과는 stop 경로가 달라 미계수 = 평균 오염 차단)
           status.innerHTML = OK_SVG + ' 완료 (' + Math.round((Date.now() - t0) / 1000) + 's)';
           try { localStorage.removeItem(CKEY); } catch (e) {}   // 새 생성 = 복사 표식 리셋(k 계승)
           await renderOut(md, out, outPath);   // outPath = sb_out/<id>/board.md → 같은 폴더 ref.json 조회
@@ -795,7 +804,7 @@ function errStatus(m) {   // 전송 막힘 = 버튼 안 빨강 액티브 + 흔�
 $('#go').onclick = async () => {
   const status = $('#status'); const g = document.getElementById('go');
   // 폴 진행 중 재클릭 = 재확인 암(k 계승 — 1탭 경고 4s·2탭 재발사)
-  if (_curStop && !g._arm) { if (!g.dataset.label) g.dataset.label = g.textContent; g.textContent = '설계 중 — 다시 누르면 재발사'; g._arm = setTimeout(() => { g._arm = null; g.textContent = g.dataset.label; }, 4000); return; }
+  if (_polling() && !g._arm) { if (!g.dataset.label) g.dataset.label = g.textContent; g.textContent = '설계 중 — 다시 누르면 재발사'; g._arm = setTimeout(() => { g._arm = null; g.textContent = g.dataset.label; }, 4000); return; }
   if (g._arm) { clearTimeout(g._arm); g._arm = null; g.textContent = g.dataset.label || g.textContent; }
   status.classList.remove('err'); $('#out').innerHTML = '';
   const story = $('#scene').value.trim();
@@ -819,8 +828,11 @@ $('#go').onclick = async () => {
   renderJobs();
   pollSrvJobs();   // 부팅 즉시 서버 인덱스 1회(전 기기 내역 · 10s 첫 틱 대기 없이 · 260731)
   const a = jload(); if (!a.length) return;
-  if (_fired || _curStop || $('#out').innerHTML) return;   // 새 생성 시작했으면 양보(레이스 가드 · k restoreLast 계승)
-  if (a[0].status === 'run') { poll(a[0].out, a[0].id); return; }   // 리로드로 끊긴 진행 잡 = 폴 재개(완료돼 있으면 즉시 done 전환)
+  if (_fired || _polling() || $('#out').innerHTML) return;   // 새 생성 시작했으면 양보(레이스 가드 · k restoreLast 계승)
+  if (a[0].status === 'run') {
+    a.filter(j => j && j.status === 'run' && j.out).forEach((j, i) => poll(j.out, j.id, i === 0));   // 진행 중 **전건** 재개(운영자 260810) — 화면은 최신 1건이 차지하고 나머지는 뒤에서 돈다(구판 `a[0]` 단건은 같이 걸어둔 잡을 영영 '진행중'에 묶어뒀다)
+    return;
+  }   // 리로드로 끊긴 진행 잡 = 폴 재개(완료돼 있으면 즉시 done 전환)
   const done = a.find(x => x.status === 'done'); if (done) await loadJob(done);
 })();
 // 빠른메뉴 — k.html #rfab 블록 바이트 계승(코어 토글·생성·탭 순환·최소화)

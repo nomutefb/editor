@@ -789,6 +789,7 @@
 
 <script src="nm-svg.js"></script><!-- 공유 아이콘 SSOT — CHECK/OK/ERR/WARN/DOWNLOAD_SVG -->
 <script src="nm-rail.js" data-scope="cap" data-dlname="video.mp4"></script><!-- 결과·이전 제작 레일 부품 SSOT(마크업·렌더·공유 이력 · 영상 스코프 = nomute_cap_hist = 사진과 분리) -->
+<script src="nm-jobs.js"></script><!-- 여러 작업 동시 추적 SSOT(운영자 260810 "동시에 병렬로 진행") — 재개 슬롯 다중화 + 폴 레지스트리(같은 id 중복 폴 차단) -->
 <script src="nm-clip.js"></script><!-- 입력칸 클립 SSOT(복사·붙여넣기·지우개/되돌리기) — nm-svg.js 뒤 = 아이콘 상수 의존 순서 · 운영자 260803 "공식처럼가야함" -->
 <script src="nm-sync.js"></script><!-- 동기화 생명선 SSOT(운영자 260803 4차 "전 스튜디오 상속") — 복귀 시 자동 재동기(nmRefresh)·로그인 만료 자가치유·새 배포 자동 탑재 -->
 <script src="nm-loader.js"></script><!-- 로딩 표기 SSOT(orb Thinking/Solving/Prompting + shimmer · 운영자 260723 Q460) — window.nmLoader(type,label,opts) -->
@@ -803,12 +804,16 @@ const X_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-w
 const PEND_KEY='nm_edit_pend';
 const API='/api/edit';
 const BUDGET=2700;   // 폴 예산(초) — 하드 ×2 = 5400s ≥ 잡 캡 85분(5100 · 4K+R2 선스텝 재산정 260711)+디스패치+배포 · 재개 게이트 24h 별도(conv 문법)
-let FILE_B64='', FILE_NAME='', FILE_URL='', _dur=0, USER_ACT=false, _curStop=null, _pollLive=false, _polling=false, EDIT_ID='', RESULT_URL='';   // _polling = 생성 진행 UI 보호 게이트(작업 내역 탭 차단 · 자막 탭 LY_GEN 계승)
+let FILE_B64='', FILE_NAME='', FILE_URL='', _dur=0, USER_ACT=false, _pollLive=false, _polling=false, EDIT_ID='', RESULT_URL='';   // _polling = 생성 진행 UI 보호 게이트(작업 내역 탭 차단 · 자막 탭 LY_GEN 계승) — **화면을 차지한 작업(포커스)** 기준(뒤에서 도는 병렬 작업은 화면을 안 건드리므로 이 게이트와 무관)   // 구 `_curStop`(전역 폴 중단 핸들 1개) 이탈 = 두 번째 발사가 첫 번째 폴을 죽이던 자리(운영자 260810) → 폴 레지스트리는 nm-jobs.js가 id별로 든다
 let FILE_R2='', _lastFile=null, _varea=0, _vw=0, _vh=0;   // _vw·_vh = 원본 가로·세로(운영자 260809 「기존 > 변경」 표기 — 구 _varea는 **곱**만 갖고 있어 W×H를 복원할 수 없다)   // FILE_R2 = R2 직업로드 키(보관 24h — 러너가 안 지운다(나이 든 것만 청소 = shared/r2_upsrc_gc.sh) · 만료 시에만 재업로드 — _lastFile로) · _varea = 원본 픽셀 수(4K급 판별 = 서버 is4k와 동형 — 긴 변 판별은 세로 1080×2340 오거절 · 재검증 260711)
 
-const pendSet=o=>{ try{ localStorage.setItem(PEND_KEY, JSON.stringify(o)); }catch(e){} };
-const pendGet=()=>{ try{ return JSON.parse(localStorage.getItem(PEND_KEY)||'null'); }catch(e){ return null; } };
-const pendClear=()=>{ try{ localStorage.removeItem(PEND_KEY); }catch(e){} };
+/* 진행 중 작업 슬롯 = **여러 개**(운영자 260810 "동시에 2가지 작업을 큐잉하면 첫번째거를 두번째꺼가 덮어씌워져").
+   구판은 이 자리가 localStorage 단일 객체라 두 번째 발사가 첫 번째 재개 포인터를 통째로 덮었다 —
+   러너는 계속 돌아 결과가 R2에 착지하는데 화면은 그 작업을 영영 못 찾았다. 저장 키·TTL은 종전 그대로(nm-jobs.js가
+   구판 단일 객체도 배열 1개로 승격해 읽는다 = 이관 시점 진행분 유실 0). */
+const pendSet=o=>{ try{ nmJobs.add(PEND_KEY,o); }catch(e){} };
+const pendGet=()=>{ try{ return nmJobs.list(PEND_KEY)[0]||null; }catch(e){ return null; } };
+const pendClear=id=>{ try{ nmJobs.drop(PEND_KEY,id); }catch(e){} };   // id 생략 = 전부 비움(딥링크 랜딩 = '재개 포기'가 의도인 자리)
 
 /* ══ 처리 스택 모델 — ORDER = 서버 처리 순서(캐노니컬·재정렬 없음 v1) ══ */
 const ORDER=['sub','trn','screen','res','fps','cut','trim','clip','bgm','anorm'];   // trn 합류(운영자 260728 번역 토글 — 발사 게이트·시트 계수용 · eta 0 = dual은 같은 전사·의역 파이프)   // sub 복원(운영자 260721 "자막 키잉도 쓸 때가 있거든 — 여기에 자막 프리셋도" · 260711 이관 때 도먼트 보존해둔 축 재점등 — eta·리드백 합류)   // 표시 순서 = IA(운영자 260711 secOrder=ia "리사이징 먼저" — 화면{비율·해상도·프레임}→컷·구간→소리 · 구 bgm 선두 재배열 = 평의회 260711 3차 · eta 합산·발사 게이트는 순서 무관 = 파급 0 · 서버 실처리 순서는 페이로드 키 기반이라 클라 순서 비의존) · 자막(sub) 카드 = 자막 탭 전담 이관(운영자 260711 3분류 m1Sub=m2 — 코드·프리셋·음영 3축은 도먼트 보존 · 복원 = 'sub' 재추가 한 줄)
@@ -2086,8 +2091,13 @@ $('#editGo').addEventListener('click',async()=>{
 function editLbl(o){ return o.clip?'클립 후보 찾는 중':o.cutscan?'자를 곳 찾는 중':'편집 중'; }   // 작업명 추정 라벨('60fps 보간 중'·'자막+보간 편집' 등) 폐지(운영자 260712) — 러너 단계 실측 채널이 없어(원샷 워크플로·클라가 받는 산출 = 끝의 video.json/error.log뿐) 어떤 단계가 도는지 확인 불가 = 옵션발 단정 대신 범용 '편집 중' 정직 표기 · 클립 스캔은 잡 전체가 후보픽이라 명명 유지
 
 /* ══ 폴(conv pollConv 문법 계승 — ly_out 계약 · error.log 즉시 · 대기 스캔라인) · kind='clip' = clips.json 소비(260711) ══ */
-function pollEdit(id, t0, minTs, wlbl, kind){
-  if(_curStop)_curStop();
+/* focus=false = **뒤에서 도는 병렬 작업**(운영자 260810) — 화면(대기 스테이지·상태줄·결과창)을 한 톨도 안 건드리고 폴만 돈다.
+   구판은 이 함수 첫 줄이 `if(_curStop)_curStop()`이라 두 번째 발사가 첫 번째 폴을 그 자리에서 죽였다(러너는 계속 도는데
+   화면이 그 결과를 영영 안 봄 = "덮어씌워짐"의 실체). 이제 폴 핸들은 nm-jobs.js가 id별로 들고, 같은 id 재폴만 거절한다. */
+function pollEdit(id, t0, minTs, wlbl, kind, focus){
+  focus = (focus !== false);
+  if(window.nmJobs && nmJobs.busy(PEND_KEY,id)) return;   // 같은 작업 중복 폴 차단(재개 IIFE ↔ 발사 경로 겹침)
+  if(!focus){ pollEditBg(id, t0, minTs, kind); return; }
   EDIT_ID=id;
   const status=$('#cstatus'); status.classList.remove('err');
   if(kind==='clip'){ $('#cliplist').hidden=true; $('#cliplist').innerHTML=''; }
@@ -2106,11 +2116,18 @@ function pollEdit(id, t0, minTs, wlbl, kind){
   const outPath='ly_out/'+id+'/'+(kind==='clip'?'clips.json':kind==='cutscan'?'cuts.json':'video.json');
   const errPath='ly_out/'+id+'/error.log';
   _pollLive=!!wsrc; _polling=true;
-  let live=true; const stop=()=>{ live=false; _pollLive=false; _polling=false; clearInterval(disp); }; _curStop=stop;   // 버튼 원복 불요(260712 — 버튼은 접수 시퀀스가 자체 원복·대기 표기는 wmsg 전담) · _polling = 작업 내역 행 탭 차단 게이트
+  /* mine() = **지금도 내가 화면 주인인가**(운영자 260810 병렬) — 발사할 때마다 EDIT_ID가 새 작업으로 넘어가므로,
+     앞 작업의 폴은 그 순간부터 '뒤에서 도는 작업'으로 강등된다. 강등된 폴은 대기 스테이지·상태줄·결과창을 건드리지 않고
+     완료분만 결과 레일에 얹는다(구판은 이 판정이 없어 앞 작업이 끝나는 순간 뒤 작업의 진행 화면을 통째로 덮었다). */
+  const mine=()=>EDIT_ID===id;
+  const bgLand=(d)=>{ try{ if(d&&d.url&&window.nmRail) nmRail.add({ url:String(d.url), poster:String(d.poster||''), cap:'편집', dlname:String(d.url).split('/').pop()||'video.mp4' }); }catch(e){} try{ loadJobLib(); }catch(e){} };   // 강등분 착지 = 결과 레일 + 작업 내역(fail-soft)
+  let live=true; const stop=()=>{ live=false; if(mine()){ _pollLive=false; _polling=false; } clearInterval(disp); try{ nmJobs.free(PEND_KEY,id); }catch(e){} };   // 버튼 원복 불요(260712 — 버튼은 접수 시퀀스가 자체 원복·대기 표기는 wmsg 전담) · _polling = 작업 내역 행 탭 차단 게이트(강등분은 남의 진행 게이트를 못 내린다)
+  try{ nmJobs.hold(PEND_KEY,id,stop); }catch(e){}   // 폴 등록(구 전역 _curStop 대체) — 남의 작업은 안 끊는다 = 병렬 성립
   const draw=()=>{
     if(!live) return;
     const sec=Math.round((Date.now()-t0)/1000);
-    if(sec>BUDGET*2){ stop(); wclear(); pendClear(); goFireDone($('#editGo')); status.innerHTML=ERR_SVG+' 시간 초과 — 완성되면 다음에 열 때 이어받아'; status.classList.add('err'); return; }   // pendClear 추가(평의회7 260731) — 실패·성공 분기(1605·1631행)에만 있고 **타임아웃 경로만 빠져** 있었다. 재개(2569행)는 t0를 `max(t0, now-BUDGET)`로 클램프해 경과를 0 근처로 되돌리므로, 새로고침할 때마다 90분 헛폴이 되살아나 **24시간 동안 반복**됐다(그동안 _polling=true라 작업 내역 탭도 막힘). error.log를 안 남기는 실패 모드(Actions 런 취소·러너 킬·디스패치 후 미시작)엔 사실상 종료 조건이 없었다
+    if(sec>BUDGET*2){ const _m=mine(); stop(); pendClear(id); if(!_m) return; wclear(); goFireDone($('#editGo')); status.innerHTML=ERR_SVG+' 시간 초과 — 완성되면 다음에 열 때 이어받아'; status.classList.add('err'); return; }   // pendClear 추가(평의회7 260731) — 실패·성공 분기(1605·1631행)에만 있고 **타임아웃 경로만 빠져** 있었다. 재개(2569행)는 t0를 `max(t0, now-BUDGET)`로 클램프해 경과를 0 근처로 되돌리므로, 새로고침할 때마다 90분 헛폴이 되살아나 **24시간 동안 반복**됐다(그동안 _polling=true라 작업 내역 탭도 막힘). error.log를 안 남기는 실패 모드(Actions 런 취소·러너 킬·디스패치 후 미시작)엔 사실상 종료 조건이 없었다
+    if(!mine()) return;   // 강등분 = 남의 대기 스테이지에 내 경과를 쓰지 않는다
     const ws=vw.querySelector('.wcorner'); if(ws){ const km=(x)=>{x=Math.max(0,x|0);return Math.floor(x/60)+'분 '+String(x%60).padStart(2,'0')+'초';};   // 분 = 한자리 기본(10분 넘으면 자연히 두자리 — 운영자 260731 "한자리 수 분으로, 넘어가면 십의자리 하나만 더")
       const eta=(EDIT_STATS && EDIT_STATS['edit-make/edit'] && EDIT_STATS['edit-make/edit'].dur)|0;
       ws.innerHTML='<span class="wc-hi">'+km(sec)+' 경과</span>'+(eta?' (예상 '+km(eta)+')':''); }   // 예상 배선(운영자 260727 "일부에서는 예상시간이 안 뜬다") — 표기 문법 = thumb .wip 좌상단 정본 그대로 · 앵커 = viewer/job_stats.json의 edit-make/edit(실측 중앙 소요) · 데이터 없으면 종전처럼 경과만   // 운영자 260727 전역 표기(00:00 진행시간) — 영상 잡 예상시간 앵커(edit-make/edit n=5)는 thumb 배선과 별개 축이라 이번 스코프 밖   // 경과 = 0:17 포맷 우상단 코너(운영자 260712 waitTimeFmt=mmss · 260723 Q454 코너 이주)
@@ -2126,7 +2143,7 @@ function pollEdit(id, t0, minTs, wlbl, kind){
         const em=await er.text();
         if(!live) return;
         const eHtml=ect.includes('text/html')||/^\s*<!doctype/i.test(em)||/<html[\s>]/i.test(em.slice(0,300));
-        if(em&&em.trim()&&!eHtml){ stop(); wclear(); pendClear(); goFireDone($('#editGo')); status.innerHTML=ERR_SVG+' '+esc(em.trim()); status.classList.add('err'); return; }
+        if(em&&em.trim()&&!eHtml){ const _m=mine(); stop(); pendClear(id); if(!_m){ try{ loadJobLib(); }catch(e){} return; } wclear(); goFireDone($('#editGo')); status.innerHTML=ERR_SVG+' '+esc(em.trim()); status.classList.add('err'); return; }
       }
     }catch(e){ /* 재시도 */ }
     try{
@@ -2153,11 +2170,70 @@ function pollEdit(id, t0, minTs, wlbl, kind){
           if(d&&(kind==='clip'? Array.isArray(d.clips) : kind==='cutscan'? Array.isArray(d.rm) : (d.url||d.error||d.skip))){
             const ts=Date.parse(d.ts||'');
             if(!isNaN(ts)&&ts>=minTs){
-              stop(); pendClear(); goFireDone($('#editGo'));   // 잡 완료 = 생성중 상주 해제(운영자 260723 Q454)
+              const _m=mine(); stop(); pendClear(id);
+              if(!_m){ bgLand(d); return; }   // 화면은 이미 다음 작업 것 = 결과 레일·작업 내역으로 착지(운영자 260810 병렬)
+              goFireDone($('#editGo'));   // 잡 완료 = 생성중 상주 해제(운영자 260723 Q454)
               if(kind==='clip'){ wclear(); showClips(d); }
               else if(kind==='cutscan'){ wclear(); showCuts(d, id); }
               else if(d.url){ showResult(d, Math.round((Date.now()-t0)/1000)); editSubsInit(id); }   // 자막 산출 동반이면 편집기 활성(B-2)
               else { wclear(); status.innerHTML=ERR_SVG+' '+esc(String(d.error||d.skip)); status.classList.add('err'); }
+              return;
+            }
+          }
+        }
+      }
+    }catch(e){ /* 재시도 */ }
+    if(live) setTimeout(tick,5000);
+  };
+  tick();
+}
+/* ══ 뒤에서 도는 병렬 작업 폴(운영자 260810 "동시에 병렬로 진행되는게 가장 좋고") ══
+   화면 점유 축(대기 스테이지·상태줄·결과창·도크)을 **한 톨도 안 건드린다** — 그 자리는 지금 보고 있는 작업(포커스) 것이다.
+   완료분 착지 = 결과 레일(nmRail = 영상 5탭 공용 이력 · 260806 정본)과 작업 내역 갱신. 실패분은 슬롯만 걷고 작업 내역이 사유를 갖는다.
+   경로·판정 문법은 위 pollEdit 그대로 계승(R2 우선 → Pages 폴백 · error.log 즉시 · ts 신선도 · SPA-HTML 가드) = 새 계약 0. */
+function pollEditBg(id, t0, minTs, kind){
+  const outPath='ly_out/'+id+'/'+(kind==='clip'?'clips.json':kind==='cutscan'?'cuts.json':'video.json');
+  const errPath='ly_out/'+id+'/error.log';
+  let live=true;
+  const stop=()=>{ live=false; try{ nmJobs.free(PEND_KEY,id); }catch(e){} };
+  try{ if(!nmJobs.hold(PEND_KEY,id,stop)) return; }catch(e){}
+  const tick=async()=>{
+    if(!live) return;
+    if(Date.now()-t0>BUDGET*2000){ stop(); pendClear(id); return; }   // 하드 상한 = 포커스 폴 동값(BUDGET×2) — 넘으면 슬롯만 걷는다(작업 내역·서버 인덱스가 이후를 맡는다)
+    try{
+      const er=await fetch(errPath+'?t='+Date.now());
+      if(!live) return;
+      if(er.ok){
+        const ect=(er.headers.get('content-type')||'').toLowerCase();
+        const em=await er.text();
+        if(!live) return;
+        const eHtml=ect.includes('text/html')||/^\s*<!doctype/i.test(em)||/<html[\s>]/i.test(em.slice(0,300));
+        if(em&&em.trim()&&!eHtml){ stop(); pendClear(id); try{ loadJobLib(); }catch(e){} return; }   // 실패 = 조용히 슬롯 회수(화면은 포커스 작업 것 · 사유는 작업 내역 행이 갖는다)
+      }
+    }catch(e){ /* 재시도 */ }
+    try{
+      let ct='', tx='', got=false;
+      if(kind!=='clip'&&kind!=='cutscan'){
+        try{
+          const rr=await fetch('/api/edit?stat='+encodeURIComponent(id)+'&t='+Date.now(), {cache:'no-store'});
+          if(!live) return;
+          if(rr.ok){ tx=await rr.text(); ct='application/json'; got=true; }
+        }catch(e){ /* 폴백 */ }
+      }
+      const r=got?null:await fetch(outPath+'?t='+Date.now());
+      if(!live) return;
+      if(got||(r&&r.ok)){
+        if(!got){ ct=(r.headers.get('content-type')||'').toLowerCase(); tx=await r.text(); }
+        if(!live) return;
+        const isHtml=ct.includes('text/html')||/^\s*<!doctype/i.test(tx)||/<html[\s>]/i.test(tx.slice(0,300));
+        if(tx&&tx.trim()&&!isHtml){
+          let d=null; try{ d=JSON.parse(tx); }catch(e){}
+          if(d&&(kind==='clip'? Array.isArray(d.clips) : kind==='cutscan'? Array.isArray(d.rm) : (d.url||d.error||d.skip))){
+            const ts=Date.parse(d.ts||'');
+            if(!isNaN(ts)&&ts>=minTs){
+              stop(); pendClear(id);
+              try{ if(d.url&&window.nmRail) nmRail.add({ url:String(d.url), poster:String(d.poster||''), cap:'편집', dlname:String(d.url).split('/').pop()||'video.mp4' }); }catch(e){}   // 완료 착지 = 결과 레일(fail-soft)
+              try{ loadJobLib(); }catch(e){}   // 스캔 산출(클립·컷 후보)도 여기서 목록에 오른다 — 후보 목록 화면은 그 작업을 다시 열 때(작업 내역 탭) 그린다
               return;
             }
           }
@@ -3139,16 +3215,21 @@ function edFocusResult(tries){   // 완성 결과 컨테이너로 스크롤+강�
   const q=(location.search.match(/[?&]done=([\w-]+)\b/)||[])[1];   // ?done= = 정본(Cloudflare Access 재로그인 하드 리다이렉트서 해시는 유실·쿼리는 생존 · thumb 260710) · 패턴 = thumb doneReq [\w-] 통일(Q176 — 구 12-6 하드코딩은 id 형식 변경 시 침묵 미착지·경로 주입은 [\w-]가 동일 차단)
   const h=(location.hash.match(/^#done=([\w-]+)$/)||[])[1];        // #done= = 기 발송 알림 호환
   const id=q||h; if(!id) return;
-  USER_ACT=true; pendClear();   // 딥링크 = pend 재개보다 우선(그 작업 확정 랜딩)
+  USER_ACT=true; pendClear(id);   // 딥링크 = pend 재개보다 우선(그 작업 확정 랜딩) — ⚠ 걷는 슬롯은 **그 작업 하나만**(구판 전체 비움은 같이 돌던 병렬 작업까지 버렸다 · 운영자 260810)
   (async()=>{ if(await openJob(id)) edFocusResult(8); })();   // 결과 열리면 완성 화면으로 이동+강조
 })();
 
 /* ══ 재개(pend) — conv 문법(24h 게이트·폴 창 클램프·신선도 분리) ══ */
 (function(){
-  const p=pendGet(); if(!p||!p.id||USER_ACT) return;
-  if(Date.now()-(p.t0||0)>24*3600e3){ pendClear(); return; }
-  const t0c=Math.max(p.t0||0, Date.now()-BUDGET*1000);
-  pollEdit(p.id, t0c, (p.t0||0)-90000, p.lbl||'편집 중', p.clip?'clip':p.cutscan?'cutscan':'');   // 컷 미리보기 재개(260727)   // 재개 표기 = 대기 스테이지(wmsg)만 — 버튼 상주 라벨(goWait) 폐지(260712)
+  // 진행 중이던 작업 **전부** 재개(운영자 260810) — 구판은 슬롯이 1개뿐이라 두 번째 발사에 덮인 첫 작업이 영영 안 돌아왔다.
+  // 화면(대기 스테이지)은 가장 최근 1건만 차지하고 나머지는 뒤에서 돈다 · 딥링크 진입(USER_ACT)이면 전부 뒤에서만 돈다.
+  let all=[]; try{ all=nmJobs.list(PEND_KEY); }catch(e){ all=[]; }
+  all.forEach((p,i)=>{
+    if(!p||!p.id) return;
+    if(Date.now()-(p.t0||0)>24*3600e3){ pendClear(p.id); return; }
+    const t0c=Math.max(p.t0||0, Date.now()-BUDGET*1000);
+    pollEdit(p.id, t0c, (p.t0||0)-90000, p.lbl||'편집 중', p.clip?'clip':p.cutscan?'cutscan':'', !USER_ACT&&i===0);   // 컷 미리보기 재개(260727)   // 재개 표기 = 대기 스테이지(wmsg)만 — 버튼 상주 라벨(goWait) 폐지(260712)
+  });
 })();
 
 render();   // 초기 렌더(빈 스택 = 운영자 260711 stackInit=empty 유지) — ⚠ 구 recipe('reels') 제거 때 이 초기 렌더 트리거까지 사라져 '처리 추가' 시트가 빈 채 열리던 회귀(운영자 260712 스샷 실증) 봉합: 프리필 없이 render()만 복원(스택·시트·eta·요약 전부 이 호출이 첫 페인트)

@@ -4561,6 +4561,67 @@ def check_branch_freshness():
     return 0
 
 
+def _js_code_part(ln):
+    """JS 한 줄에서 **코드부만** 남긴다(줄 끝 주석·인라인 블록 주석 제거 · `https://`의 // 는 보존).
+    이 레포는 규칙·선언 뒤에 개정 사유를 길게 붙이는 관례라, 심볼 부활 검사에 주석부가 섞이면 처방문 자신이 위반으로 잡힌다."""
+    t = re.sub(r'/\*.*?\*/', ' ', ln)
+    m = re.search(r'(?<!:)//', t)
+    if m:
+        t = t[:m.start()]
+    return t
+
+
+def check_nm_jobs():
+    """여러 작업 동시 추적 게이트(운영자 260810 "동시에 2가지 작업을 큐잉하면 첫번째거를 두번째꺼가 덮어씌워져") —
+    `viewer/nm-jobs.js` SSOT(슬롯 다중화 + 폴 레지스트리)를 스튜디오 5탭이 상속하는지, 그리고 **구판 단일 슬롯 문법이
+    되살아나지 않는지** 정적 강제. ⚠ 신설 사유 = 이 사고의 두 원인은 전부 「한 개만 든다」는 **코드 모양**이었다 —
+    ⓐ 재개 슬롯을 `localStorage.setItem(PEND_KEY, …)`로 직접 덮어쓰기 ⓑ 폴 중단 핸들 전역 1개(`_curStop`).
+    둘 다 화면 증상이 「아무 일도 안 일어남」뿐이라 렌더 스모크·정적 문자열 게이트가 전부 통과했고 운영자 눈이
+    유일한 검출기였다. 런타임 짝 = `shared/smoke_jobsq.js`(2건 동시 생존 실렌더) — 정적·런타임 두 겹이라야
+    새 탭이 조용히 빠질 구멍이 없다(check_nm_sync 자동발견 관례 계승 · 면책표 없이 하드 0)."""
+    core = ['edit.html', 'sb.html', 'k.html', 'song.html', 'vd.html']   # 영상 스튜디오 5탭 = 큐잉 표면
+    vdir = os.path.join(ROOT, 'viewer')
+    bad = []
+    mp = os.path.join(vdir, 'nm-jobs.js')
+    if not os.path.exists(mp):
+        print('❌ 동시 작업 추적 게이트 — viewer/nm-jobs.js 부재(SSOT 소실)')
+        return 1
+    msrc = open(mp, encoding='utf-8').read()
+    for lit in ('add:', 'list:', 'drop:', 'hold:', 'free:', 'count:', 'window.nmJobs'):
+        if lit not in msrc:
+            bad.append('nm-jobs.js 골격 소실: ' + lit)
+    if 'if (POLL[k]) return false;' not in msrc:
+        bad.append('nm-jobs.js — 같은 id 중복 폴 차단 술어 소실')
+    if 'stopAll(' in msrc.split('hold: function')[-1].split('free:')[0]:
+        bad.append('nm-jobs.js — hold()가 남의 폴을 끊는다(구판 _curStop 회귀 = 병렬 파괴)')
+    for f in core:
+        p2 = os.path.join(vdir, f)
+        if not os.path.exists(p2):
+            bad.append(f + ' 부재(고정 표면)')
+            continue
+        src = open(p2, encoding='utf-8').read()
+        if 'src="nm-jobs.js"' not in src:
+            bad.append(f + ' — nm-jobs.js 미상속')
+        # ⚠ **여러 줄 블록 주석을 먼저 지운다**(길이 보존 공백 마스킹 = css_hoist 관례) — 줄 단위로만 보면 블록 주석
+        #   가운데 줄엔 `/*`도 `//`도 없어 그 안의 구판 심볼 인용이 위반으로 잡힌다(첫 실행 실측 = 이 봉합의 설명 주석 자신).
+        src = re.sub(r'/\*.*?\*/', lambda m: re.sub(r'[^\n]', ' ', m.group(0)), src, flags=re.S)
+        for ln in src.split('\n'):
+            t = _js_code_part(ln).strip()   # ⚠ 주석부는 잘라낸다 — 이 봉합의 개정 사유 주석이 구판 심볼을 **인용**하므로(줄 끝 주석 포함) 줄 선두만 보면 자기 처방문에 걸린다(첫 실행 실측)
+            if not t:
+                continue
+            if 'localStorage.setItem(PEND_KEY' in t:
+                bad.append(f + ' — 구판 단일 슬롯 직접 저장 부활(setItem(PEND_KEY…) = 뒤 발사가 앞 작업을 덮는다)')
+            if '_curStop' in t:
+                bad.append(f + ' — 구판 전역 폴 중단 핸들(_curStop) 부활 = 뒤 폴이 앞 폴을 죽인다')
+    if bad:
+        print('❌ 동시 작업 추적 게이트 — 상속 누락·구판 회귀:')
+        for b in sorted(set(bad)):
+            print('   -', b)
+        return 1
+    print('✅ 동시 작업 추적 게이트 — 영상 스튜디오 5탭 전부 nm-jobs.js 상속 · 구판 단일 슬롯/전역 폴 중단 부활 0 · 모듈 골격 intact.')
+    return 0
+
+
 def check_nm_sync():
     """동기화 생명선 상속 게이트(운영자 260803 4차 "다른 스튜디오 탭에도 전부 상속") — `viewer/nm-sync.js` SSOT(복귀 자동 재동기 ·
     로그인 만료 자가치유 · 새 배포 자동 리로드)를 스튜디오 전 탭이 `<script src="nm-sync.js">`로 상속하는지 정적 강제.
@@ -6999,6 +7060,11 @@ def main():
             rc = 1
     except Exception as e:
         print('⚠️ 값축 거처 게이트 스킵:', e)
+    try:
+        if check_nm_jobs() != 0:   # 여러 작업 동시 추적(운영자 260810 — 5탭 nm-jobs.js 상속 + 구판 단일 슬롯·전역 폴 중단 부활 차단)
+            rc = 1
+    except Exception as e:
+        print('⚠️ 동시 작업 추적 게이트 스킵:', e)
     try:
         if check_nm_sync() != 0:   # 동기화 생명선 상속(운영자 260803 4차 — 스튜디오 전 탭 nm-sync.js 상속 + 모듈 3축 골격 · nmRefresh 자동발견)
             rc = 1
