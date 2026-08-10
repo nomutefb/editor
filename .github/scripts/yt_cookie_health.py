@@ -34,6 +34,7 @@ LEDGER = ROOT / "push" / "yt_cookie_health.json"   # 원장(기계산출물)
 MSG_PY = ROOT / "shared" / "msg.py"
 MSG_ID_BASE = "yt-cookie-dead"
 DEAD_MIN = 2      # 이 횟수 연속 사망부터 발화(1회성 딸꾹질 제외)
+ACCT_DOUBT = 5    # 이 횟수 연속 사망부터 「계정 축 의심」 안내 동반(재발급을 이미 해봤을 회차 = 자동 검사 하루 2회 × 2.5일)
 
 # 조치문 규약(👉 문단 · scraper/watchdog.py `PHONE_TODO` 문법 100% 계승 · 창작 0) — 알림 리포트의 조치주체
 #   분류(viewer/index.html `_rptWho`)는 **👉 문단이 있어야** '운영자가 할 일'로 가른다. 없으면 폴백이 '클로드가
@@ -117,11 +118,22 @@ def main():
             body = (f"유튜브 받기용 쿠키가 죽었어요(연속 {n}회 · 마지막 정상 {meta.get('last_ok') or '기록 없음'}"
                     + (f" · 계정 {meta.get('acct')}" if meta.get("acct") else "") + ").\n"
                     f"사유: {why[:120]}\n"
+                    # ⚠ 이 두 줄이 없으면 「방금 갈았는데 왜 또 뜨지」가 된다(운영자 260810 실측 — 자동 검사가
+                    #    하루 2회뿐이라 교체 직후 최대 12시간 동안 옛 판정이 화면에 그대로 남는다).
+                    f"이 판정을 낸 검사 시각 = {now} · 자동 검사는 하루 2회(09시·21시 KST)뿐이에요.\n"
+                    "⚠ 그 시각 뒤에 쿠키를 갈았다면 이 경고는 아직 옛 검사 결과예요 — 다음 검사까지 그대로 남아 있어요. "
+                    "지금 바로 확인하려면 아래 «확인» 경로로 한 번 돌리면 돼요(1분).\n"
                     "고치는 법(3동작): ① 시크릿 창에서 유튜브 로그인 → ② 주소창에 youtube.com/robots.txt 이동 후 "
                     "쿠키 내보내기(Get cookies.txt LOCALLY) → 창 닫기 → ③ GitHub Settings ▸ Secrets ▸ Actions 의 "
                     "YT_T_COOKIES 교체(youtube.com 줄만 · 48KB 상한).\n"
                     "확인: Actions ▸ yt-cookie-whoami ▸ Run workflow → 「④ LOGGED_IN: true」면 복구. "
                     "⚠ 로그인 창을 열어둔 채 내보내면 쿠키가 회전해 몇 시간 만에 또 죽어요(260804 실측)."
+                    # ⚠ 260810 실측 봉합 = 새로 뽑아 넣은 쿠키가 형식은 완벽한데(로그인 쿠키 10/10 · 만료 2027-01-24)
+                    #    유튜브가 세션을 거부했다. 이 상태에서 「뽑는 절차를 다시 하라」만 반복하면 운영자가
+                    #    같은 동작을 무한히 되풀이한다 — 회차가 쌓이면 계정 축을 같이 의심하게 알린다.
+                    + ("\n⚠ 새로 갈았는데도 계속 죽는다면 뽑는 절차가 아니라 **그 계정 쪽**일 수 있어요"
+                       "(유튜브가 그 계정 세션을 봇으로 보고 막는 상태 — 쿠키 형식이 멀쩡해도 거부돼요). "
+                       "다른 구글 계정으로 한 번 뽑아 넣어 보면 어느 쪽인지 갈려요." if n >= ACCT_DOUBT else "")
                     + COOKIE_TODO)
             msg("set", mid, body, "warn")
             meta["alert_id"] = mid
