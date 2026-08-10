@@ -79,10 +79,27 @@ def derive_check(path):
         if cells and _SUBJ_LESS.match(cells[0][1:].strip()):
             hits.append("%s: 첫 칸 무주어 개문 — 「%s…」(무엇이 시작됐는지 주어 없음)" % (lab, cells[0][:34]))
     # ③ 날조 — 파생본에만 있는 4자리 이상 수치(자유요약 미등장 · 산문부 한정)
+    #    ⚠️ 2겹 면제가 실효 조건(전수 16건 판독 = 대부분 **정당한 축약**이었다):
+    #      ⓐ 연도(19xx·20xx) 제외 — 「2014년이 2026년으로 바뀐 순간」류. 날조가 아니라 시점 서술이다.
+    #      ⓑ 반올림 허용 — 자유요약에 **같은 자릿수 · 상위 2자리 동일**한 수가 있으면 축약으로 본다
+    #        (실측 오탐 = 7500↔7506 「7500원대」 · 1700↔1,719 · 1,700↔1,708). 파생본은 압축이 본령이라
+    #        반올림은 규격 위반이 아니다 — 이걸 안 빼면 축이 「압축했다」를 「날조했다」로 부른다.
+    #      ⓒ 헤드(각 블록 첫 줄) 제외 — 헤드는 자유요약 파생이 아니라 Fact·원문 기반의
+    #        별도 규격이다(01_지침 [헤드·타이틀 공통 원칙]). 전수 잔여 8건이 전부 헤드였다
+    #        (「8500억 과징금」·「훔친 1400편」·「지하 1200m」) = 자유요약에 없는 게 정상.
+    base_digits = set(re.findall(r"\d[\d,]*", base_p))
+    base_norm = {x.replace(",", "") for x in base_digits}
     for lab, d in derived.items():
-        for n in set(re.findall(r"\d[\d,]{3,}", d)):
-            if n.replace(",", "") not in base_p.replace(",", ""):
-                hits.append("%s: 자유요약에 없는 수치 「%s」 등장(날조 의심)" % (lab, n))
+        d_body = "\n".join(d.split("\n")[1:]) if d else ""   # ⓒ 헤드 줄 제외
+        for n in set(re.findall(r"\d[\d,]{3,}", d_body)):
+            nn = n.replace(",", "")
+            if nn in base_p.replace(",", ""):
+                continue
+            if len(nn) == 4 and (nn.startswith("19") or nn.startswith("20")):
+                continue                                    # ⓐ 연도
+            if any(len(b) == len(nn) and b[:2] == nn[:2] for b in base_norm):
+                continue                                    # ⓑ 반올림
+            hits.append("%s: 자유요약에 없는 수치 「%s」 등장(날조 의심)" % (lab, n))
     seen, out = set(), []
     for h in hits:
         if h not in seen:
