@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # digest_guard.py — 다이제스트(queue/*.md) 규격·자수 기계 린트 (비차단 · 분신술② NEW-1 · 260703 · 검증5 정밀화)
 #
-# 왜: P1 길이 룰(Thread 450·IG 800·자유요약 850~1000)이 모델 '자가 추정'에만 의존 → 실측 괴리 −229~+88자
+# 왜: P1 길이 룰(Thread 430·IG 800·자유요약 850~1000)이 모델 '자가 추정'에만 의존 → 실측 괴리 −229~+88자
 #     (Thread 상한 초과 4/17건이 "약 430/450" 표기로 통과 = 자가검증 무력화·실측 260702). 지침 3연속 길이
 #     교정(v1.18.0/18.1/18.4)이 계측 부재로 계속 샜다 → 저장 직후 실측해 Actions 로그로 가시화.
 # 검사(전부 비차단·exit 항상 0): ⚠️급 = 상한 초과(하드 500은 개행 포함 실카운트)·⚡ 혼입·제목 복붙/[속보] 잔존
@@ -146,7 +146,7 @@ def lint(path):
     # IG 하한 550(지침 목표선 600에서 완충 — 600이면 최근 17건 중 10건 경고 = 늑대소년·검증9 실측 → 550이면 4건).
     for name, lo, hi, hard, denom_std in (("자유요약", 850, 1000, None, None),
                                           ("IG", 550, 800, None, 800),
-                                          ("Thread", 390, 450, 500, 450)):
+                                          ("Thread", 370, 430, 500, 430)):
         b = _blk(body, name)
         if b is None:
             infos.append("[{}] 코드블록 미검출 — 골격(### [{} …] + ```text) 확인".format(name, name))
@@ -191,8 +191,8 @@ def lint(path):
 #     진단 = docs/작업이력.md 260705). 보강 임계 = 지침 목표선 하단(IG 600·Thread 390) — lint 완충 550과
 #     별개 축(lint = 경고 소음 억제·guard = 재작성 발동, 값 다름 = 의도). 결빈약(자유요약<800) = 면제(지침
 #     "짧음의 근거 = 원문 결 부족" 존중). 호출 = shared/summary_repair.sh (ask.sh·analyze.sh 공용).
-REPAIR_IG_LO, REPAIR_TH_LO, REPAIR_FREE_MIN = 600, 390, 800
-REPAIR_IG_HI, REPAIR_TH_HI = 800, 450        # 상한(01_지침) — 초과도 교정 대상(260810)
+REPAIR_IG_LO, REPAIR_TH_LO, REPAIR_FREE_MIN = 600, 370, 800
+REPAIR_IG_HI, REPAIR_TH_HI = 800, 430        # 상한(01_지침) — 초과도 교정 대상(260810)
 
 def repair_check(path):
     """보강 필요 판정 — 'REPAIR ig=N thread=N free=N' 또는 'OK …'/'SKIP …' 1줄. 항상 exit 0(fail-soft)."""
@@ -223,13 +223,13 @@ def splice(path, cand_path):
     """보강 후보의 IG/Thread 코드블록 '내용'만 검증 후 원본에 이식(헤더·📊 줄·frontmatter 불변 ·
     헤더 자수 라벨은 실측으로 갱신). 블록별 독립 판정 — 검증 실패 블록 = 원본 유지(fail-soft·항상 exit 0).
     후보 펜스는 ```text·``` 둘 다 허용(평의회4 — 언어태그 누락 변동성 흡수 · 원본은 항상 ```text라 무영향).
-    Thread 상한·분모 = 현행 450(v1.18.4 정본) — 구 /500 표기 파일도 보강 성공 시 /450로 정규화(lint 드리프트 교정과 동방향)."""
+    Thread 상한·분모 = 현행 430(v1.19.2 정본) — 구 /500·/450 표기 파일도 보강 성공 시 /430로 정규화(lint 드리프트 교정과 동방향)."""
     raw = open(path, encoding="utf-8").read()
     raw_orig = raw
     cand = open(cand_path, encoding="utf-8").read()
     src_nums = _nums(raw_orig)   # 날조 경량 가드 기준 = 원본 다이제스트 전체(frontmatter·자유요약 포함)
     results = []
-    for name, hi, hard in (("IG", 800, None), ("Thread", 450, 500)):
+    for name, hi, hard in (("IG", 800, None), ("Thread", 430, 500)):
         pat = re.compile(r"(^###\s*\[" + name + r"[^\]]*\]\s*\n+```(?:text)?\n)(.*?)(\n```)", re.M | re.S)
         mc, mt = pat.search(cand), pat.search(raw)
         if not mc or not mt:
