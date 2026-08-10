@@ -5431,7 +5431,7 @@ $('#go').onclick = async () => {
     if (!hasHeader && !hasOverlay && !hasCard && cpThumb === 'off' && !guideMode) return errStatus(A2M === 'c' ? '헤더·카드 텍스트 또는 저작권·안내문을 넣어주세요' : '헤더·자막 또는 저작권·안내문을 넣어주세요');   // 저작권·안내문만 켜도 발사 허용(운영자 260711 통합·260712 안내문 독립)
     if (hasCard && !CIMG.b64) return errStatus('이미지를 선택해주세요');   // 카드뉴스 = 배경 필수(우측 슬롯 · 운영자 7 "카드뉴스는 필수")
     if (hasCard && edAnyOver()) return errStatus('빨간 글자 = 한 줄 한도(한글 18자) 초과 — 줄이거나 + 로 새 줄');   // app5 발사 가드 동형
-    if (hasOverlay && !clines.some(hasEmph2)) return errStatus('강조를 넣어주세요', 'warn');   // 자막 강조(*별표*) 필수 — parse2 기준(1~2델리미터·3+리터럴)·정규화 후 줄별 검사(260720)
+    if (hasOverlay && !clines.some(hasEmph2)) return errStatus('강조 확인', 'warn');   // 자막 강조(*별표*) 필수 — parse2 기준(1~2델리미터·3+리터럴)·정규화 후 줄별 검사(260720) · 문구 = 4자(운영자 260810 «버튼 안에 3줄이 나오면서 밀리는데» — 발사 버튼이 레일 캡슐③(폭 --trailw 70)로 이주한 뒤 구 '강조를 넣어주세요'가 3줄로 접혀 캡슐을 밀어냈다 · 짝 = 아래 포스트 축 동일 문구)
     if ($('#abbr').checked) { csub = abbr(csub); ctitle = abbr(ctitle); clines = clines.map(abbr); }   // 축약 = 포스트·릴스 공통
     if (jj) ctitle = normEmph(stripStrayStars(ctitle));   // 진짜예요 문구 = 자막과 동일 강조 정규화(운영자 260730 "**로 하면 강조") — 오타 단일 *(빗금) 삭제 → 균형 단일 `*` 델리미터로 정규화 = 백엔드 nomute_overlay.parse와 1:1(미리보기 jjHdrEmph도 동일 순서) · 노뮤트 헤더는 강조 미사용이라 무접촉
     // 자간 하한(헤더 -45 / 자막 포스트 -45·릴스 -30) 초과 게이트(운영자 260720) — 백엔드가 한도까지 압축해도 넘치면 글자가 마진 밖으로 잘림. 맞춤법 교정·축약이 끝난 '실제 발사 텍스트'로 estHeaderTr/estTracking(라이브 힌트 updateComboTrk와 동일 계산기) 재판정 → 초과면 발사 차단. 구: 경고(빨강 축약필요)만 뜨고 그대로 발사(불가한데 실행) · 특히 맞춤법 교정본은 교정 후 재검증이 없어 초과여도 통과했다. 인터페이스 불변 = 기존 추정기 재사용, 발사 앞을 감싸는 게이트만 신설.
@@ -5498,7 +5498,7 @@ $('#go').onclick = async () => {
   if (APP === '1' && Array.isArray(params.lines)) params.lines = normEmph(stripStrayStars($('#lines').value)).split('\n').map(s => s.trim()).filter(Boolean);   // 오타 단일 *(빗금) 자동삭제 후 강조 정규화(**·줄걸침 → 줄별 *…*)·백엔드 불변·260625
   if (APP === '1' && !(Array.isArray(params.lines) && params.lines.length)) return errStatus('텍스트를 넣어주세요');   // 포스트 = 텍스트 필수 — 빈 채 발사 차단 + 제작 버튼 흔들림(운영자 260622)
   if (APP === '1' && $('#abbr').checked && Array.isArray(params.lines)) params.lines = params.lines.map(abbr);   // 축약 = 포스트(정본 화이트리스트)
-  if (APP === '1' && !params.lines.some(hasEmph2)) return errStatus('강조를 넣어주세요', 'warn');   // 강조(*별표*) 필수 — parse2 기준(1~2델리미터·3+리터럴)·앰버 버튼 흔들림(운영자 260622·260720)
+  if (APP === '1' && !params.lines.some(hasEmph2)) return errStatus('강조 확인', 'warn');   // 강조(*별표*) 필수 — parse2 기준(1~2델리미터·3+리터럴)·앰버 버튼 흔들림(운영자 260622·260720)
   if (APP === '1' && estTracking(params.lines, 'post').over) return errStatus('자간 초과 — 글자 줄여줘', 'warn');   // 자간 하한(-45) 초과 = 압축해도 넘침(글자 잘림) → 발사 차단(축약·맞춤법 반영된 최종 텍스트 기준 · 라이브 힌트와 동일 estTracking · 운영자 260720)
   const payload = { app: APP, params };
   if (APP === '1' && PIMG.b64) { payload.imageB64 = PIMG.b64; payload.name = PIMG.name; }       // 포스트 배경 = 옵션(슬롯·PIMG)
