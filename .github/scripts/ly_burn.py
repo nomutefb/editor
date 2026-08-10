@@ -17,8 +17,10 @@
 # 연속 축 3종(운영자 260707 플레이그라운드 선택값 배선): size = 높이비 소수(0.035 등 · 구 s/m/l 문자열 하위호환) ·
 #   outline = 외곽선 두께 배율(×0.5 등 · bg=0 글리프 스트로크에만 의미) · pad = 박스 패딩 계수(fs×pad · bg>0 줄박스 패딩).
 #   + 중앙 불변 배치: 게이지 = 1줄 기준점 고정 · 줄이 늘면 초과분 절반씩 내려 블록 세로중심 유지(이벤트별 MarginV).
-# 팝 모드(opts.pop · 운영자 260707 배치 승인): 카라오케 대신 발화 중 어절만 콘텐츠 그린 점등 — 어절 창별 이벤트 분할(build_pop_frames) ·
-#   카라오케와 상호배타(동시 수신 = 팝 우선).
+# 자막 스타일 3택(운영자 260810): karaoke = 발화 따라 강조색이 차오름(\kf · \1c 도달분 강조색/\2c 미도달 글자색) ·
+#   hi(강조) = 말하는 그 어절만 딱 점등 · pop(툭 튀어나오기) = 점등 + 크기 튐. hi·pop은 어절 창별 이벤트 분할(build_pop_frames) 공유 ·
+#   셋 상호배타(동시 수신 우선순위 = pop > hi > karaoke) · 셋 다 꺼짐 = 일반 자막 · 자막 끊는 로직(prep_line 청킹)은 3택 전부 동일.
+#   keyword(강조 효과 · 별표 낱말 미리 채색)는 이 3택과 별개 축이고 **기본 꺼짐**.
 # 실싱크(운영자 260708 "어절 강조점 싱크"): 카라오케·팝의 어절 타이밍 = STT word 타임스탬프(ly_stt.py segments.json `w`)의
 #   발화 진행 곡선에 자막 어절을 글자 진행률로 투영 = 침묵·속도변화 반영(구 글자수 균등 분배 대체). word 없으면 글자수 비례 폴백(회귀 0).
 #   원문 모드(자막≈STT)=거의 정확 · 의역 모드=진행률 근사(균등보다 우수). segments.json word를 시간 겹침으로 subs 세그에 주입.
@@ -38,6 +40,8 @@ import thumb_gen as tg   # r2_upload · R2_ON 재사용(모듈 import = main 미
 
 GREEN_BGR = "&H02FD0F&"          # #0FFD02 → ASS BGR(콘텐츠 그린)
 KW = {"c": GREEN_BGR}            # 키워드 강조색 슬롯(운영자 260711 kwc — build_ass가 opts로 갱신 · 기본 그린 = 종전 바이트 동일)
+POP_SCALE = 112                  # 툭 튀어나오기 정점 배율 %(운영자 260810) — 뷰어 --gauge-pop(1.15) 사다리 한 단 아래(줄 안 어절이라 재배치 폭 최소)
+POP_MS = 140                     # 튐 → 제자리 복귀 시간(ms) — 뷰어 --dur-acc 계열 체감(짧고 탄력) · 어절 창보다 짧아야 다음 어절 전에 끝난다
 # 자막 음영(외곽선·그림자·박스) 색 — 닫힌 집합(260711 운영자 "음영 색상 조정"). BGR 6자리(#RRGGBB 역순).
 #   그린 #0FFD02(콘텐츠 그린)·핑크 #FF5EC8·블루 #3a6ddb·레몬 #FFE13D·레드 #e23b2a = 전부 콘텐츠 산출물 색 상수(§핵심명령 3-b-1 · UI 팔레트 비대상).
 #   결측/black = 종전 검정과 바이트 동일(회귀 0). bg>0 줄박스 색·bg=0 글리프 외곽선·bold 그림자색 전부 이 한 색을 따른다(= '주변부 음영' 단일 축).
@@ -809,11 +813,15 @@ def prep_line(text, seg_dur, keyword, fs, avail_px, seg_words=None):
     return words, hits, cs_list, lines, eff_fs
 
 
-def _word(w, green, eff_fs, fs):
+def _word(w, green, eff_fs, fs, bounce=False):
     # 어절 1개 렌더 — 그린 강조면 \1c + \r(축소 조각은 \fs 재적용 짝가드)
+    #   bounce = 툭 튀어나오기(운영자 260810) — 그 어절만 잠깐 커졌다 제자리(\fscx/\fscy + \t) · 되돌림 태그로 뒤 어절 무오염
+    pre = ("{\\fscx" + str(POP_SCALE) + "\\fscy" + str(POP_SCALE) +
+           "\\t(0," + str(POP_MS) + ",\\fscx100\\fscy100)}") if bounce else ""
+    post = "{\\fscx100\\fscy100}" if bounce else ""
     if green:
-        return "{\\1c" + KW["c"] + "}" + w + "{\\r" + ("" if eff_fs == fs else "}{\\fs" + str(eff_fs)) + "}"   # 강조색 = KW 슬롯(260711 kwc)
-    return w
+        return pre + "{\\1c" + KW["c"] + "}" + w + "{\\r" + ("" if eff_fs == fs else "}{\\fs" + str(eff_fs)) + "}" + post   # 강조색 = KW 슬롯(260711 kwc)
+    return pre + w + post
 
 
 def _assemble(rendered, lines, eff_fs, fs):
@@ -821,31 +829,43 @@ def _assemble(rendered, lines, eff_fs, fs):
     return ("{\\fs" + str(eff_fs) + "}" + body) if eff_fs != fs else body
 
 
-def build_line(text, seg_dur, karaoke, keyword, fs, avail_px, seg_words=None):
+def build_line(text, seg_dur, karaoke, keyword, fs, avail_px, seg_words=None, kara_fg=None):
     # 한 조각 → (ASS 텍스트, 줄 수, 실폰트크기): 수동 \N + 카라오케 \kf + 키워드 \1c(콘텐츠 그린)
     #   줄 수·실크기 반환 = 중앙 불변 배치(이벤트별 MarginV 보정)의 블록 높이 산정용(260707) · seg_words = 실싱크(260708)
+    #   ⚠ 카라오케 채색(운영자 260810 "지나간 자리에 강조색") = \kf는 SecondaryColour → PrimaryColour 로 채워지는 태그라
+    #     「아직 안 지난 글자 = 자막 글자색(\2c) · 지나간 글자 = 강조색(\1c)」로 두 슬롯을 줄 앞에서 바꿔 끼운다.
+    #     구본은 두 슬롯을 안 건드려 스타일 SecondaryColour(회록 &HB8C4BE)에서 흰색으로 밝아지기만 했다 = 강조색이 안 나옴.
+    #     키워드 어절은 \r(스타일 복귀)로 이 두 슬롯이 풀리므로 여기선 \r 대신 \2c 만 잠깐 강조색으로 바꿔 쓴다.
     prep = prep_line(text, seg_dur, keyword, fs, avail_px, seg_words)
     if not prep:
         return "", 0, fs
     words, hits, cs_list, lines, eff_fs = prep
+    fg = kara_fg or "&HFFFFFF&"
     rendered = []
     for k, w in enumerate(words):
-        seg = ("{\\kf" + str(cs_list[k]) + "}") if karaoke else ""
-        rendered.append(seg + _word(w, hits[k], eff_fs, fs))
-    return _assemble(rendered, lines, eff_fs, fs), len(lines), eff_fs
+        if karaoke:
+            seg = "{\\kf" + str(cs_list[k]) + "}"
+            rendered.append(seg + ("{\\2c" + KW["c"] + "}" + w + "{\\2c" + fg + "}" if hits[k] else w))
+        else:
+            rendered.append(_word(w, hits[k], eff_fs, fs))
+    body = _assemble(rendered, lines, eff_fs, fs)
+    if karaoke:
+        body = "{\\1c" + KW["c"] + "}{\\2c" + fg + "}" + body
+    return body, len(lines), eff_fs
 
 
-def build_pop_frames(text, seg_dur, keyword, fs, avail_px, seg_words=None):
-    # 팝 모드(운영자 260707 승인): 발화 중인 어절만 콘텐츠 그린 점등 — 어절 시간창마다 라인 전체를 다시 그린 이벤트 프레임 목록.
+def build_pop_frames(text, seg_dur, keyword, fs, avail_px, seg_words=None, bounce=False):
+    # 어절 점등 모드: 발화 중인 어절만 강조색 점등 — 어절 시간창마다 라인 전체를 다시 그린 이벤트 프레임 목록.
     #   창 경계 = \kf와 동일한 글자수 비례 분배(진짜 발화 싱크 = Whisper word 타임스탬프 후속) · 키워드(*별표*)는 전 창 상시 그린.
     #   레이아웃(청킹·축소·줄수)은 프레임 간 동일 → 박스·위치 픽셀 불변 = 창 전환 시 어절 색만 바뀜(깜빡임 0).
+    #   bounce=False = 자막 스타일 「강조」(운영자 260810 "딱딱 끊어져서 딱 말하고 있는 그 지점에 강조") · True = 「툭 튀어나오기」(색 + 크기 튐)
     prep = prep_line(text, seg_dur, keyword, fs, avail_px, seg_words)
     if not prep:
         return [], 0, fs
     words, hits, cs_list, lines, eff_fs = prep
     frames, off = [], 0   # (시작 오프셋 cs, 길이 cs, ASS 텍스트)
     for cur in range(len(words)):
-        rendered = [_word(w, k == cur or hits[k], eff_fs, fs) for k, w in enumerate(words)]
+        rendered = [_word(w, k == cur or hits[k], eff_fs, fs, bounce and k == cur) for k, w in enumerate(words)]
         frames.append((off, cs_list[cur], _assemble(rendered, lines, eff_fs, fs)))
         off += cs_list[cur]
     return frames, len(lines), eff_fs
@@ -946,11 +966,21 @@ def build_ass(segs, w, h, opts):
     except (TypeError, ValueError):
         glow = 0.0
     glow_tag = ("{\\blur%.1f}" % (fs * 0.0025 * glow)) if glow > 0 else ""   # ScaledBorderAndShadow yes 전제(헤더 상수) — 외곽선(bg=0)·줄박스(bg>0) 가장자리를 가우시안 번짐
-    karaoke = opts.get("karaoke", True)
-    pop = bool(opts.get("pop", False))   # 팝 = 발화 중 어절만 그린 점등(운영자 260707) — 카라오케와 상호배타(UI 동시 불가 · 동시 수신 시 팝 우선)
+    # 자막 스타일 3택(운영자 260810 "가라오케 | 강조 | 툭 튀어나오기 · 셋 다 안 고르면 일반 자막") — 셋 다 상호배타.
+    #   karaoke = 발화 진행에 맞춰 강조색이 차오름(\kf) · hi = 말하는 그 어절만 딱 점등(색만) · pop = 점등 + 크기 튐.
+    #   hi·pop은 어절 창별 이벤트 분할(build_pop_frames)로 같은 골격을 쓴다 = 자막 끊는 로직(prep_line 청킹) 3택 전부 동일.
+    #   동시 수신 시 우선순위 = pop > hi > karaoke(구 "팝 우선" 계약 연장).
+    karaoke = bool(opts.get("karaoke", True))
+    hi = bool(opts.get("hi", False))
+    pop = bool(opts.get("pop", False))
     if pop:
+        hi = False
+    if pop or hi:
         karaoke = False
-    keyword = opts.get("keyword", True)
+    snap = hi or pop            # 어절 점등 계열(창별 이벤트 분할)
+    keyword = bool(opts.get("keyword", False))   # 강조 효과(별표 낱말 미리 채색) = 위 3택과 **독립 축**이고 기본 꺼짐(운영자 260810 "기본은 그 강조효과는 off")
+    #   ⚠ 켜두면 말하는 지점이 아니라 미리 정해둔 낱말이 칠해져 「지금 어디를 말하는가」가 가려진다(운영자 "지금 말하고 있는 부분이 뭔지가 강조가 안됨") = 3택과 섞이면 안 되는 이유.
+    kara_fg = "&H" + fgc + "&"   # 카라오케 미도달 글자색 = 자막 글자색(\2c 슬롯) — 도달분은 KW 강조색(\1c)
     lang = opts.get("lang") or "auto"
     avail = max(200, w - 2 * margin_lr)   # 자막 가용 폭(px)
     head = "\n".join([
@@ -994,13 +1024,13 @@ def build_ass(segs, w, h, opts):
         frames = None
         sw_ts = sg.get("w")   # STT word 타임스탬프(실싱크 · 없으면 None → 글자수 비례 폴백)
         s, sw_ts = lead_trim(s, e, sw_ts)   # 리드인 침묵 제거 = 자막을 소리에 붙인다(운영자 260804 · 구본은 세그 s 직결이라 최대 10.26초 선행)
-        if pop and ko:
-            frames, n_main, m_fs = build_pop_frames(ko, e - s, keyword, fs, avail, sw_ts)
+        if snap and ko:
+            frames, n_main, m_fs = build_pop_frames(ko, e - s, keyword, fs, avail, sw_ts, pop)
             main = frames[0][2] if frames else ""
         else:
-            main, n_main, m_fs = build_line(ko, e - s, karaoke, keyword, fs, avail, sw_ts) if ko else ("", 0, fs)
+            main, n_main, m_fs = build_line(ko, e - s, karaoke, keyword, fs, avail, sw_ts, kara_fg) if ko else ("", 0, fs)
         if not main and src:
-            main, n_main, m_fs = build_line(src, e - s, karaoke, False, fs, avail, sw_ts)   # 원문 폴백 = STT 원문이라 word 1:1 = 최상 싱크
+            main, n_main, m_fs = build_line(src, e - s, karaoke, False, fs, avail, sw_ts, kara_fg)   # 원문 폴백 = STT 원문이라 word 1:1 = 최상 싱크
             src = ""
             frames = None
         if not main:

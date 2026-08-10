@@ -875,7 +875,7 @@ let CUT_REF=null;      // 승인 컷 참조 {id, off:[뺀 인덱스]} — 발사
 let CLIP_SAVE=null;   // 클리퍼 진입 직전 ON 스냅샷(운영자 260722 "도중에 누르면 다른 옵션값이 날아가 — 방지") — P값은 원래 보존이라 ON 플래그만 저장·복원
 function clipSnap(){ if(!ON.clip) CLIP_SAVE={...ON}; for(const kk in ON) ON[kk]=false; ON.clip=true; }   // 배타 진입 = 스냅샷 후 전축 off(발사 계약 불변 — buildOpts는 여전히 {clip:true} 단독)
 function clipRelease(){ if(!ON.clip) return; ON.clip=false; if(CLIP_SAVE){ for(const kk in CLIP_SAVE){ if(kk!=='clip') ON[kk]=CLIP_SAVE[kk]; } CLIP_SAVE=null; } }   // 배타 해제 = 스냅샷 복원(직후 탭한 축이 이겨야 하므로 호출측은 복원 뒤 자기 축 세팅)   // 음량 통일 = 기본 ON(운영자 260712 "음향 기본값 = 보정") — 나머지 축은 '원본/그대로/끔' 기본 유지 · 발사 게이트도 이 기본으로 통과(맨 발사 = 보정만 적용)
-let P={lang:'dual',tone:'sns',   /* 언어·톤 = **고정값**(운영자 260803 8차 "톤 > 의역 고정 · 언어 > 원문 포함 고정") — 선택 UI(자막 세부 언어·톤 행)는 삭제하고 이 두 값이 상시 발사된다(buildOpts o.lang/o.tone·lyOptsNow 경로 무접촉) · 톤 = 'plain'(직역) → 'sns'(의역) 변경분 · 언어 = 'dual'(원문 포함) 종전 유지 · 구 260731 19차 「기본값 최좌측」 나열 계약은 두 축에 한해 종료(칩 자체가 없어짐) · P는 영속 저장 안 함 = 매 진입 이 값 */filler:true,style:'clean',karaoke:false,pop:false,keyword:true,clipmdl:'fable',pos:57,size:35,bg:100,
+let P={lang:'dual',tone:'sns',   /* 언어·톤 = **고정값**(운영자 260803 8차 "톤 > 의역 고정 · 언어 > 원문 포함 고정") — 선택 UI(자막 세부 언어·톤 행)는 삭제하고 이 두 값이 상시 발사된다(buildOpts o.lang/o.tone·lyOptsNow 경로 무접촉) · 톤 = 'plain'(직역) → 'sns'(의역) 변경분 · 언어 = 'dual'(원문 포함) 종전 유지 · 구 260731 19차 「기본값 최좌측」 나열 계약은 두 축에 한해 종료(칩 자체가 없어짐) · P는 영속 저장 안 함 = 매 진입 이 값 */filler:true,style:'clean',karaoke:false,hi:false,pop:false,keyword:false,clipmdl:'fable',pos:57,size:35,bg:100,
   shtype:'box',   // 음영 종류(운영자 260729 "지금은 무조건 네모인데, 획·그림자 등 다른것도 · 기본값은 음영인데 기본도 있어야") — none 기본(효과 없음) | box 음영(네모 = 종전 동작·디폴트) | stroke 획(글자 외곽선) | shadow 그림자
   lgap:18,     // 한국어↔외국어 줄간격 %(한국어 글자 높이 기준 · 운영자 260729 게이지 승격 · 18 = 구 하드코딩 fs×0.18 동값 = 기본 렌더 불변) · 러너 dual_gap 짝
   srcsz:-50,   // 원문(외국어) 줄 크기 = 한국어 줄 대비 상대 %(운영자 260729 "한글 자막 기준해서 -50% 크기를 기준으로, -75%~00%까지") · 0 = 한글과 동일 · -75 = 한글의 25% · 러너 dual_small = (100+srcsz)/100
@@ -888,10 +888,10 @@ const SUBPRE={   // 자막 스타일 프리셋(운영자 260711 배치 승인 �
   //   기본 'box'가 그대로 남고 buildOpts가 `o.bg=Math.max(1,P.bg)=1`을 보냈다 → 러너 `back=&HFC`(사실상 완전 투명 박스)에
   //   외곽선색도 back 동일 → **핑크 외곽선도 그림자도 글로우(sh140·glow40)도 한 픽셀 안 그려지고 맨 노란 명조 글자만** 나왔다.
   //   4종 중 3종(예능·담백·감성 네온) 동시 파손 · 260729 이전엔 bg:0 → stroke 분기 = 정상이었다(평의회5 260731).
-  news:{nm:'속보체', style:'box', karaoke:false, pop:false, keyword:true, bg:100, shtype:'box', pos:57, size:38},
-  fun:{nm:'예능체', style:'bold', karaoke:false, pop:true, keyword:true, bg:0, shtype:'stroke', pos:24, size:46},
-  min:{nm:'담백체', style:'clean', karaoke:false, pop:false, keyword:false, bg:0, shtype:'stroke', pos:24, size:32},
-  mood:{nm:'감성 네온', style:'bold', karaoke:false, pop:false, keyword:false, bg:0, shtype:'stroke', pos:55, size:50, sh:140, shc:'pink', font:'serif', fg:'yellow', glow:40},   // 운영자 260721 — ly 감성 네온 파리티(노랑 글자·핑크 글로우 40%·명조·중단 55%·크기 5.0%) · 유일하게 색·폰트 동봉(fg = 색 UI 없는 프리셋 전용 축) · 네온 = 획(stroke) 위에 글로우가 얹히는 구조라 box면 성립 자체가 안 된다
+  news:{nm:'속보체', style:'box', karaoke:false, hi:false, pop:false, keyword:true, bg:100, shtype:'box', pos:57, size:38},
+  fun:{nm:'예능체', style:'bold', karaoke:false, hi:false, pop:true, keyword:true, bg:0, shtype:'stroke', pos:24, size:46},
+  min:{nm:'담백체', style:'clean', karaoke:false, hi:false, pop:false, keyword:false, bg:0, shtype:'stroke', pos:24, size:32},
+  mood:{nm:'감성 네온', style:'bold', karaoke:false, hi:false, pop:false, keyword:false, bg:0, shtype:'stroke', pos:55, size:50, sh:140, shc:'pink', font:'serif', fg:'yellow', glow:40},   // 운영자 260721 — ly 감성 네온 파리티(노랑 글자·핑크 글로우 40%·명조·중단 55%·크기 5.0%) · 유일하게 색·폰트 동봉(fg = 색 UI 없는 프리셋 전용 축) · 네온 = 획(stroke) 위에 글로우가 얹히는 구조라 box면 성립 자체가 안 된다
 };
 const preOn=k=>Object.entries(SUBPRE[k]).every(([p,v])=>p==='nm'||P[p]===v);
 /* ── 자막 음영 색·폰트 축 상수(운영자 260711 · 러너 ly_burn OC_BGR·FONT_FAMILY와 1:1 짝) ── */
@@ -921,7 +921,7 @@ function loadPvFont(k){   // 미리보기 폰트 지연 로드(기본 고딕 = �
 }
 
 function sum(k){
-  if(k==='sub') return ({bold:'기본',clean:'깔끔',box:'박스'})[P.style]+(P.karaoke?'·카라오케':P.pop?'·팝':'')+(P.keyword?'·키워드':'')+(P.font!=='gothic'?'·'+((FONT_PV[P.font]||{}).lbl||''):'')+' · '+P.pos+'%';
+  if(k==='sub') return ({bold:'기본',clean:'깔끔',box:'박스'})[P.style]+(P.karaoke?'·가라오케':P.hi?'·강조':P.pop?'·툭 튀어나오기':'')+(P.keyword?'·강조':'')+(P.font!=='gothic'?'·'+((FONT_PV[P.font]||{}).lbl||''):'')+' · '+P.pos+'%';
   if(k==='cut') return ({soft:'살짝',std:'기본',hard:'많이'})[P.cutlv]+(P.cutfill?'·필러':'')+(P.take?'·테이크':'');
   if(k==='trim') return (P.t0||0)+'~'+(P.t1||'끝')+'초';
   if(k==='screen') return P.ar+(P.fit==='pad'?' 검정 여백':P.fit==='blur'?' 블러 여백':' 자르기');   // 개명 동기(운영자 260712 3차)
@@ -932,6 +932,13 @@ function sum(k){
   if(k==='clip') return '하이라이트 후보 3~5개';
   return '';
 }
+/* 자막 스타일 3택(운영자 260810 «가라오케 | 강조 | 툭 튀어나오기») = **말하고 있는 그 어절**에 강조점이 오는 축 —
+   가라오케 = 발화 따라 강조색이 차오름 · 강조 = 딱딱 끊어져 그 어절만 점등 · 툭 튀어나오기 = 점등 + 크기 튐.
+   셋은 상호배타이고 켜진 칩을 다시 누르면 셋 다 꺼짐 = 일반 자막. 자막 끊는 로직(줄 나눔)은 3택 전부 동일.
+   ⚠ 별표 낱말 미리 채색(keyword)은 이 축과 **완전 별개**이고 기본 꺼짐(운영자 «기본은 그 강조효과는 off») —
+     켜두면 말하는 지점이 아니라 미리 정해둔 낱말이 칠해져서 「지금 어디를 말하는지」가 안 보인다. */
+const SUBSTY=['karaoke','hi','pop'];
+const SUBSTY_L={karaoke:'가라오케', hi:'강조', pop:'툭 튀어나오기'};
 const pc=(k,v,on,dim,txt,xcls)=>'<button class="pc'+(on?' on':'')+(dim?' dim':'')+(xcls?' '+xcls:'')+'" type="button" data-p="'+k+':'+v+'" aria-pressed="'+(on?'true':'false')+'"'+(dim?' disabled':'')+'>'+txt+'</button>';   // aria-pressed = 토글 상태 SR 공지(P2평의회5 a11y)
 function segs(k, arr, cur, dim){ return '<div class="prow">'+arr.map(a=>pc(k,a[0],String(cur)===a[0],dim,a[1])).join('')+'</div>'; }
 const srow=(lbl,chips)=>'<div class="srow"><span class="plbl">'+lbl+'</span><span class="sopts">'+chips.join('<span class="ssep" aria-hidden="true">|</span>')+'</span></div>';   // 자막 카드 행 = geni-row 정본 문법(운영자 260721 통일 — 라벨 pub-l·값 우측 워드칩·파이프 geni-sep)
@@ -985,7 +992,8 @@ function prm(k){
        ⚠ 축은 죽은 적이 없다 — `functions/api/edit.js` 화이트리스트(karaoke·filler)·러너 `ly_burn.build_line(karaoke…)`·재입히기 `lyOptsNow()`가 셋 다 상시 통과시켜 왔고,
          260731 19차에 **선택자만** 사라져 P 기본값(karaoke:false · filler:true)이 고정 발사되던 상태였다 = 화면에서만 증발한 6주.
        문법 = 컷 카드 서브 토글(`pc('cutfill',…,'필러')`) 정본 사본 = 워드 자체 점등(`check_onoff_literal` 계약 · ON/OFF 리터럴 0 · 신규 부품 0). */
-    +C(srow('강조', [pc('karaoke',P.karaoke?'0':'1',P.karaoke,false,'말 따라 이동'), pc('pop',P.pop?'0':'1',P.pop,false,'툭 튀어나오기')])
+    +C(srow('자막 스타일', SUBSTY.map(k=>pc(k,P[k]?'0':'1',P[k],false,SUBSTY_L[k])))
+       +srow('강조 효과', [pc('keyword',P.keyword?'0':'1',P.keyword,false,'강조')])
        +srow('군더더기', [pc('filler',P.filler?'0':'1',P.filler,false,'의성어·추임새 빼기')]))   // karaoke = 발화 진행에 맞춰 강조색이 옮겨붙는 축(러너 build_line 카라오케 채색) · pop = 조각마다 툭 나왔다 사라지는 릴스 등장 모션(러너 build_pop_frames) · filler = 의역 단계에서 군말을 걷어내는 축(소리 축인 컷 카드 '필러'와 독립 — 지침 e-1 ①) · karaoke↔pop 배타는 setAxis가 이미 담당(신규 배타 로직 0)
     +C(gauge('bg','배경',0,100,P.bg,'%')+gauge('pos','위치',0,100,P.pos,'%')+gauge('size','크기',20,70,P.size,'‰'))   // 위치·크기 3형제 = 한 카드(같은 축 묶음)
     +C(srow('음영', [['none','기본'],['box','음영'],['stroke','획'],['shadow','그림자']].map(a=>pc('shtype',a[0],P.shtype===a[0],false,a[1])))
@@ -1064,7 +1072,7 @@ function setAxis(k,v){   // 축 상태 단일 정본(순환값·잔존 chip 공�
     SWSNAP={shc:P.shc,fg:P.fg,kwc:P.kwc}; P.shc=SWDEF.shc; P.fg=SWDEF.fg; P.kwc=SWDEF.kwc; return;   // 기본으로 되돌리며 직전 3색을 통째로 보관
   }
   if(['cutfill','take'].includes(k)){ P[k]=v==='1'; return; }   // 컷 카드 서브 토글(260727) — ON.cut 종속이라 축 상태(ON) 무접촉
-  if(['filler','karaoke','pop','keyword'].includes(k)){ P[k]=v==='1'; if(k==='karaoke'&&P.karaoke)P.pop=false; if(k==='pop'&&P.pop)P.karaoke=false; return; }
+  if(['filler','karaoke','hi','pop','keyword'].includes(k)){ P[k]=v==='1'; if(P[k]&&SUBSTY.includes(k)) SUBSTY.forEach(x=>{ if(x!==k) P[x]=false; }); return; }   // 자막 스타일 3택 = 상호배타(운영자 260810) — 켜진 칩을 다시 누르면 셋 다 꺼짐 = 일반 자막 · 구 2축 짝배타(karaoke↔pop) 일반화
   P[k]=v; if(k==='fit'&&v!=='crop') scrubClose();
 }
 const CARDAX={ res:'res', fps:'fps', cut:'cutlv', clip:'clip', bgm:'bgm', anorm:'anorm', trim:'trim', sub:'sub', trn:'trn' };   // 카드 키 → 순환 축 키(컷 = cutlv · trim = OFF/ON 토글 260713 · trn 합류 260728 · screen 별도)
@@ -1275,7 +1283,7 @@ function pvSync(){
     sp.style.fontFamily=(FONT_PV[P.font]&&FONT_PV[P.font].ff)||'';   // 폰트 미러(기본 고딕 = 상속 · 비기본 = 동명 구글 웹폰트 지연 로드 · 260711)
     loadPvFont(P.font);
     const om=P.sh/100, padc=Math.min(.5,Math.max(0,P.sh/1000)), oc=ocRGB(P.shc);   // 음영 크기 배율·박스 패딩 계수(서버 coef 클램프 미러)·음영 색 — 100%·검정 = 종전 산식 그대로(260711) · (260729) 패딩 하한 .02→0 = 음영 0% 도달(게이지 하한 0 짝 · 서버 coef min도 동행)
-    sub.style.setProperty('--pvkw', P.keyword?('rgb('+ocRGB(P.kwc||'green')+')'):((P.fg&&P.fg!=='white')?('rgb('+ocRGB(P.fg)+')'):'#fff'));   // 강조색 미러(운영자 260804) — 키워드 강조가 꺼져 있으면(프리셋 담백체·감성 네온) 낱말도 **글자색과 같은 색** = 안 칠해질 것을 칠해 보이지 않는다 · ⚠ `inherit`/`currentColor`를 넣으면 var() 치환 뒤 `color:inherit`이 자기 자신을 가리켜 무효 → 폴백(그린)으로 되돌아온다(실측 260804) = 글자색 실값을 직접 실어야 한다
+    sub.style.setProperty('--pvkw', (P.keyword||P.karaoke||P.hi||P.pop)?('rgb('+ocRGB(P.kwc||'green')+')'):((P.fg&&P.fg!=='white')?('rgb('+ocRGB(P.fg)+')'):'#fff'));   // 강조색 미러(운영자 260804) — 키워드 강조가 꺼져 있으면(프리셋 담백체·감성 네온) 낱말도 **글자색과 같은 색** = 안 칠해질 것을 칠해 보이지 않는다 · ⚠ `inherit`/`currentColor`를 넣으면 var() 치환 뒤 `color:inherit`이 자기 자신을 가리켜 무효 → 폴백(그린)으로 되돌아온다(실측 260804) = 글자색 실값을 직접 실어야 한다
     sp.style.color=(P.fg&&P.fg!=='white')?('rgb('+ocRGB(P.fg)+')'):'';   // 글자색 미러(운영자 260721 — 기본 흰 = 상속 = 종전)
     const gpx=P.glow>0?Math.round(fs*0.0025*P.glow*10)/10:0;   // 글로우 = 번인 blur px 산식 동일(fs×0.0025×glow — 프리뷰 fs가 곧 스케일)
     // 음영 종류 분기(운영자 260729) — 구 'bg>0이면 네모 / 아니면 획' 암묵 결정을 명시 선택(P.shtype)으로 대체.
@@ -2110,7 +2118,7 @@ function buildOpts(scan){   // scan = 이번 발사가 '컷 미리보기 스캔'
   if(scan) return {cutscan:true, cut:!!ON.cut, cutlv:P.cutlv, cutfill:!!P.cutfill, take:!!P.take};   // 컷 미리보기 = 분석 전용 스캔(렌더 축 무시 = 서버 정규화와 계약 일치 · 260727 ③)
   if(ON.clip) return {clip:true, clip_model:P.clipmdl};   // 클리퍼 = 배타 스캔(후보만 · clip_model = 감독 모델 fable/opus · 운영자 260722)
   if(ON.sub){ o.burn=true; o.lang=P.lang; o.tone=P.tone; o.filler=P.filler; o.style=P.style;
-    o.karaoke=P.karaoke; o.pop=P.pop; o.keyword=P.keyword; o.pos=P.pos; o.bg=P.bg; o.size=Math.round(P.size)/1000;
+    o.karaoke=P.karaoke; o.hi=P.hi; o.pop=P.pop; o.keyword=P.keyword; o.pos=P.pos; o.bg=P.bg; o.size=Math.round(P.size)/1000;
     o.outline=Math.round(P.sh*10)/1000;   // 음영 게이지 % → 외곽선 배율(100% = ×1.0 = 종전 편집기 렌더 바이트 그대로 · 260711)
     o.pad=Math.min(.5,Math.max(0,Math.round(P.sh)/1000));   // 같은 게이지 → 박스 패딩 계수(100% = 0.10 종전) — bg>0 줄박스에선 패딩이 곧 '주변부 음영' · (260729) 하한 .02→0 = 음영 0% 도달(러너 coef 클램프 동행)
     o.oc=P.shc; o.font=P.font; o.fg=P.fg; o.kwc=P.kwc||'green'; if(P.glow>0) o.glow=Math.round(P.glow);   // kwc 합류(260804) — 러너 ly_burn KW 슬롯 짝 · api/edit.js 화이트리스트 동행
@@ -3059,7 +3067,7 @@ async function lyVidFetch(outPath) {   // video.json 1회 fetch — SPA 폴백(H
   });
 })();
 /* ── 어댑터(배치 B-2 신규 · 유일한 비원문 코드): 편집기 작업 ↔ 이식 자막 편집기 배선 ── */
-const lyOptsNow=()=>({ lang:(ON.trn?'dual':P.lang), tone:P.tone, filler:P.filler, style:P.style, pos:P.pos, size:Math.round(P.size)/1000, bg:P.bg, karaoke:P.karaoke, pop:P.pop, keyword:P.keyword, cut:ON.cut, cutlv:P.cutlv, bgm:ON.bgm,
+const lyOptsNow=()=>({ lang:(ON.trn?'dual':P.lang), tone:P.tone, filler:P.filler, style:P.style, pos:P.pos, size:Math.round(P.size)/1000, bg:P.bg, karaoke:P.karaoke, hi:P.hi, pop:P.pop, keyword:P.keyword, cut:ON.cut, cutlv:P.cutlv, bgm:ON.bgm,
   outline:Math.round(P.sh*10)/1000, pad:Math.min(.5,Math.max(0,Math.round(P.sh)/1000)), shtype:P.shtype, oc:P.shc, font:P.font, fg:P.fg, kwc:P.kwc||'green', glow:Math.round(P.glow||0), ...((ON.trn||P.lang==='dual')?{dual_small:Math.round(srcRatio()*100)/100, dual_gap:Math.round(Math.max(0,Math.min(60,+P.lgap||0)))/100}:{}) });   // 번역 토글 = 재입히기도 dual+50%(운영자 260728 Q06 · api/ly.js dual_small 화이트리스트 짝)   // +글자색·글로우(운영자 260721 — 재입히기도 카드 설정 그대로 · api/ly.js 화이트리스트 짝)   // 다시 입히기 옵션 = 스택 카드(P/ON)가 정본(운영자 260711 "관련된 거에 카테고라이징" — ly 행 덩어리를 카드 분류로 대체) · buildOpts 자막 축과 동일 규칙(음영·색·폰트 포함 = 재입히기도 카드 설정 그대로 · api/ly.js 화이트리스트 짝)
 let EDIT_SUB=false;   // 이번 작업이 자막 산출(subs.md) 동반인가 — 완성 영상 표시를 vstage↔lyBurn 중 하나로 라우팅(이중 표시 방지)
 async function editSubsInit(id){   // 완료 후 자막 편집기 활성(pollEdit 완료·#done 공용) — subs.md 있으면 ly 문법 그대로
