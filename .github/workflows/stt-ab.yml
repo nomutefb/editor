@@ -33,6 +33,18 @@ jobs:
         with:
           fetch-depth: 0
           filter: blob:none
+          # ⚡ 260810 sparse-checkout(ly-make·edit-make·nb-make 정본 계승 — 이 워크플로만 빠져 있던 누락 = 같은 병의 형제·check_seal_completeness 축).
+          #   실측 배경 = filter:blob:none 뒤 남은 시간의 정체는 **워킹트리 블롭 회수**다(형제 3종 실측 = Checkout 9s·6s·5s).
+          #   ⚠ 경로는 이 워크플로가 실제로 읽고/쓰는 것만 = 읽기 apps/ly/setup.sh(deps 캐시 키·설치) · 쓰기 docs/reports/*_STT정밀도AB.md.
+          #   fetch-depth·filter는 무접촉 = 커밋 그래프 전부 수신 유지 = rebase·push 전제 종전 그대로(형제와 동일 조합).
+          sparse-checkout: |
+            .github
+            shared
+            apps/ly
+            prompts
+            docs/reports
+            metrics
+            .claude
 
       - name: Setup Python
         uses: actions/setup-python@v5
