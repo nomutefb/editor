@@ -1000,7 +1000,7 @@ function cyv(k,word){ const v=curCyc(k); const lab=CYL[k][v]||String(v); const b
 // ── 선택 요약 스트립 리드백(운영자 260718 "이미지 스튜디오 통일 규격 → 비디오 정합") — thumb #editSpec 문법 계승: Q128 모든 옵션 나열·OFF도 표기 + Q144 슬래시 구분자·활성값(적용 중) .on accent · 값 어휘 = CYL·curCyc(카드와 동일 SSOT = 이중정의 0) · 방식 = 비율 ON일 때만(카드 조건부 등장 문법 동조) · 구 #pvAttr 명세줄 대체(도먼트) ──
 function updateOptStrip(){
   const el=document.getElementById('editSpec'); if(!el) return;
-  const axes=['ar','fit','res','fps','bgm','cutlv'];   // 노출 항목(운영자 260724 "옵션 선택자 = 비율·해상도·프레임·배경음·컷편집") — 편집 탭 잔류 코어 5축만 요약(자막·구간·클리퍼·음량 = 세부 탭 이관 방향[req5·6]) · fit = 비율 종속 조건부 · 순서 = 지시 원문 그대로 · 구 sub/trim/clip/anorm 리드백 = 도먼트(복원 = 이 배열 키 재추가 한 줄 · 축 상태·발사·카드 로직은 무접촉 = 요약만 축소)
+  const axes=['ar','fit','res','fps','bgm','anorm','cutlv'];   // 노출 항목(운영자 260724 "옵션 선택자 = 비율·해상도·프레임·배경음·컷편집") — 편집 탭 잔류 코어 축만 요약(자막·구간·클리퍼 = 세부 탭 이관 방향[req5·6]) · fit = 비율 종속 조건부 · 순서 = 지시 원문 그대로 · 구 sub/trim/clip 리드백 = 도먼트(복원 = 이 배열 키 재추가 한 줄 · 축 상태·발사·카드 로직은 무접촉 = 요약만 축소)   // ⚠ anorm 재점등(운영자 260810 "일단 1번대로 한번 누르는거로 배선 ㄱ" = 260803 7차 「음량 = 기본값 고정·카드 삭제」의 **끄는 수단만** 복구 · 기본 ON = ON.anorm 불변 = 평소 동작 100% 종전) — 사유 = 260810 소리 봉합으로 재압축이 3회 → 1회가 됐고 **남은 유일한 소리 가공이 이 축**이라, 음질이 의심될 때 그 마지막 하나를 꺼봐야 원인을 가릴 수 있다(운영자 "또 이상해지면 어떻게 해야돼?"). 거처 = 코너 레일 · 레퍼런스 = 바로 앞 'bgm' 그대로(같은 '소리' 그룹 · 같은 이진 워드 점등 문법 · 렌더 분기는 이 파일 971행에 이미 생존) = 신규 부품·신규 값 0 · 짝 = smoke_editdock C4 계약 동반 개정(5축·점등1 → 6축·점등2)
   const sig=axes.map(k=>k+':'+curCyc(k)).join('|')+(ON.screen?'|s':'');   // 서명 캐시 = 게이지 드래그(pvSync 연타 ~60/s) 중 동일 내용 innerHTML 재생성 낭비 제거(평의회7 260718 · 값 불변 = 조기 return)
   if(el._sig===sig) return; el._sig=sig;
   el.innerHTML=axes.filter(k=>k!=='fit'||ON.screen).map(k=>{
