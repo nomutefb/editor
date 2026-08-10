@@ -4863,6 +4863,9 @@ function _rowOverAfter(el, ins) {
   return false;
 }
 const _TRK_HINT_OF = { cSub: '#cHdrTrk', cTitle: '#cHdrTrk', cLines: '#cLinesTrk', lines: '#linesTrk' };
+// 붙여넣기 계열 inputType(운영자 260810 = 한도 판정 면제 경로) — 타이핑·조합은 여기 없다 = 종전대로 한도에서 멈춘다
+const _PASTE_IT = { insertFromPaste: 1, insertFromPasteAsQuotation: 1, insertFromDrop: 1, insertReplacementText: 1 };
+const _anyOverText = (el, s) => String(s).split('\n').some(ln => _isOverLine(el, ln));   // 값 어느 줄이든 초과인가(= 붙여넣기로 들어온 원문 상태)
 function _blockNotice(el) {   // 차단 순간 안내 = 기존 .over(빨강) 스타일 재사용 — 새 색·새 UI 창작 0
   const sel = _TRK_HINT_OF[el.id]; if (!sel) return;
   const h = $(sel); if (!h) return;
@@ -4879,7 +4882,7 @@ function _blockNotice(el) {   // 차단 순간 안내 = 기존 .over(빨강) 스
 function bindOverClamp(sel) {
   const el = $(sel); if (!el) return;
   // preOver = '변경 전' 초과 여부만 차단 근거 — 초과를 *만드는* 그 글자는 통과시켜야 빨강 힌트가 먼저 뜬다(안내 없이 먹통 = 금지).
-  let composing = false, snap = el.value, preOver = false;
+  let composing = false, snap = el.value, preOver = false, pasteThru = false;
   const sync = () => { snap = el.value; preOver = false; };
   el.addEventListener('focus', sync);
   el.addEventListener('compositionstart', () => { composing = true; snap = el.value; preOver = _rowOverText(el); });   // 조합 세션 시작값 기준(조합 중 snap 갱신 금지 = 되돌림 표적 고정)
@@ -4888,6 +4891,12 @@ function bindOverClamp(sel) {
     if (!e.isTrusted || !e.inputType || !e.inputType.startsWith('insert')) return;
     if (e.inputType === 'insertLineBreak' || e.inputType === 'insertParagraph') { sync(); return; }   // 개행 = 차단 대상 아님(막는 건 '그 행'뿐 — 다음 줄로 넘어갈 길은 열어둔다)
     snap = el.value;
+    // ⭐ 260810 개정(운영자 "붙여넣기의 경우 한정은 판정을 넘어가서도 가능하게 · 미리보기에는 한계까지만 보여야 함") —
+    //   260807이 세운 「입력 가능한 텍스트 ≡ 보이는 텍스트」 1:1 동기를 **붙여넣기 경로에 한해** 푼다.
+    //   구판은 들어가는 만큼만 넣고 나머지를 버려서 ⓐ 원문이 칸에 안 남고 ⓑ 다시 붙여넣으면 앞부분이 이미 있어 중복 =
+    //   운영자가 「사실상 붙여넣기를 못 한다」고 한 그 경로. 한계는 이제 **미리보기가 보여준다**(hdrFit·ovFit 절단 = 260807 3차 배선).
+    //   ⚠ 타이핑(insertText 단일 글자)·한글 조합은 **종전대로 한도에서 멈춘다** — 운영자 지시가 「붙여넣기 한정」이다.
+    if (_PASTE_IT[e.inputType]) { pasteThru = true; preOver = false; return; }
     const ins = (e.data != null) ? e.data : (e.dataTransfer ? (e.dataTransfer.getData('text') || '') : '');   // 붙여넣기 = dataTransfer 실문자열(빈 문자열이면 삽입폭 0 = 통과 = 종전과 동일)
     preOver = _rowOverAfter(el, ins);   // 260807: '변경 전' → '변경 후' 판정(넘치는 그 글자부터 차단)
     if (preOver) {
@@ -4914,10 +4923,17 @@ function bindOverClamp(sel) {
     //   지워 Ctrl+Z 복구도 0). 게다가 `length > snap.length` 길이 가드가 **선택 치환**을 못 봐서 반대 방향으로 초과가 새기도 했다.
     //   → 표적을 절단본(_fitRow)으로 바꾸면 ⓐ 유실 = 넘치는 만큼만 ⓑ 길이 가드 불요(안 넘치면 절단본 == 현재값 = 무동작)
     //     ⓒ 조합 중 과도상태의 칸↔미리보기 괴리도 확정 시점에 소멸 — 세 사고가 한 축으로 닫힌다.
+    // ⭐ 260810 개정 ⓐ — 값이 안 늘어난 입력(지우기·짧은 치환)엔 개입 0.
+    //   초과분 보존이 생기면서 「초과 상태에서 백스페이스가 안 먹는다」가 새 사고 경로가 된다(되돌림 표적이 직전 값이라 지운 게 되살아난다).
+    if (el.value.length <= snap.length) { if (!composing) sync(); return; }
     const fixed = _fitRow(el);
-    if (fixed !== el.value) {
-      const p = Math.min(el.selectionStart ?? fixed.length, fixed.length);
-      el.value = fixed;
+    // ⭐ 260810 개정 ⓑ — 직전 값이 **이미 초과**면(= 붙여넣기로 들어온 원문) 표적을 절단본이 아니라 직전 값으로 둔다.
+    //   _fitRow를 그대로 쓰면 초과 상태에서 한 글자만 쳐도 붙여넣은 원문이 한도까지 통째로 깎여 나간다(= 붙여넣기 허용의 무효화).
+    const target = _anyOverText(el, snap) ? snap : fixed;
+    if (target !== el.value) {
+      const fixed2 = target;
+      const p = Math.min(el.selectionStart ?? fixed2.length, fixed2.length);
+      el.value = fixed2;
       try { el.setSelectionRange(p, p); } catch (_) {}
       preOver = false;
       el.dispatchEvent(new Event('input', { bubbles: true }));   // 힌트·미리보기 = 되돌린 값으로 재동기(비신뢰 이벤트라 재차단 없음)
@@ -4935,7 +4951,11 @@ function bindOverClamp(sel) {
   //   ⚠ 정상 타이핑 IME 무간섭 = _fitRow가 **안 넘치면 현재값을 그대로 반환**(무동작)하므로 값 대입이 아예 없다 —
   //     조합이 끊기는 건 한도를 넘기는 그 순간뿐이고, 그게 곧 운영자가 요구한 "더는 안 들어감"이다.
   //   ⚠ 자간(estHeaderTr·estTracking) 축은 무접촉 = 하한까지 당겨 넣는 기능 그대로(차단 시점 = 종전과 같은 '자간 하한에서도 초과').
-  el.addEventListener('input', e => { if (!e.isTrusted) { if (!composing) sync(); return; } clamp(); });
+  el.addEventListener('input', e => {
+    if (!e.isTrusted) { if (!composing) sync(); return; }
+    if (pasteThru) { pasteThru = false; sync(); return; }   // 붙여넣기 통과분 = 절단 안 함 + **snap 재기준**(안 하면 다음 타이핑이 붙여넣기 직전 값으로 되돌린다) · 초과 안내는 updateTrkHint의 「N자 줄여줘」가 이미 낸다
+    clamp();
+  });
   el.addEventListener('compositionend', () => { composing = false; clamp(); });
 }
 ['#cSub', '#cTitle', '#cLines', '#lines'].forEach(bindOverClamp);   // 축약필요 힌트를 내는 행 전부(헤더 부제·제목 + 릴스 자막 + 포스트 텍스트) = 같은 축 통일
