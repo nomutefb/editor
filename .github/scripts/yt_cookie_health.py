@@ -33,6 +33,7 @@ WHOAMI = ROOT / ".github" / "scripts" / "yt_cookie_whoami.py"
 LEDGER = ROOT / "push" / "yt_cookie_health.json"   # 원장(기계산출물)
 MSG_PY = ROOT / "shared" / "msg.py"
 MSG_ID_BASE = "yt-cookie-dead"
+MSG_ID_HALF = "yt-cookie-half"   # 한쪽 계정만 죽음(받기는 됨) = 사망 경고와 다른 id · 수위 낮음
 DEAD_MIN = 2      # 이 횟수 연속 사망부터 발화(1회성 딸꾹질 제외)
 ACCT_DOUBT = 5    # 이 횟수 연속 사망부터 「계정 축 의심」 안내 동반(재발급을 이미 해봤을 회차 = 자동 검사 하루 2회 × 2.5일)
 
@@ -50,11 +51,16 @@ def msg(*args):
     subprocess.run([sys.executable, str(MSG_PY)] + list(args), check=False)
 
 
-def probe():
+# 계정 슬롯(운영자 260810 "구글 계정 2개로 돌리게 하자 하나가 죽는거일수도있으니까") — 2번은 **없어도 정상**
+#   (미설정 = 1계정 운영 = 종전 동작 100% 보존). 살아있는 슬롯이 하나라도 있으면 받기는 되므로 사망으로 안 센다.
+SLOTS = [("1", "YT_COOKIES"), ("2", "YT_COOKIES_2")]
+
+
+def probe(var="YT_COOKIES"):
     """whoami 1회 실행 → (ok, why, acct). 판정 정본은 whoami 쪽 단독(여기선 읽기만)."""
     try:
         r = subprocess.run([sys.executable, str(WHOAMI)], capture_output=True, text=True,
-                           timeout=180, env=dict(os.environ, REVEAL=""))
+                           timeout=180, env=dict(os.environ, REVEAL="", YT_CK_VAR=var))
     except Exception as e:
         return None, f"감시기 실행 실패({type(e).__name__})", ""   # None = 판정 불가(연속 카운터 건드리지 않음)
     out = (r.stdout or "") + (r.stderr or "")
@@ -90,10 +96,21 @@ def load():
 
 def main():
     now = datetime.now(KST).strftime("%Y-%m-%d %H:%M")
-    ok, why, acct = probe()
+    # 슬롯별 판정 — 1번은 항상 잰다(비어 있어도 사망) · 2번은 값이 있을 때만(미설정 = 1계정 운영 = 정상)
+    slots = [(t, v) for t, v in SLOTS if t == "1" or os.environ.get(v, "").strip()]
+    res = {t: probe(v) for t, v in slots}
+    alive = [t for t, (o, _, _) in res.items() if o is True]
+    dead = [t for t, (o, _, _) in res.items() if o is False]
+    # 하나라도 살아 있으면 받기는 된다 = 사망 아님. 전부 죽어야 사망. 그 밖(판정 불가 섞임) = 카운터 유지.
+    ok = True if alive else (False if dead else None)
+    why = " / ".join(f"{t}번: {res[t][1]}" for t in dead) or (res.get("1") or (None, "", ""))[1]
+    acct = next((res[t][2] for t in alive or list(res) if res[t][2]), "")
+    slotmap = {t: ("살아있음" if res[t][0] is True else "죽음" if res[t][0] is False else "판정불가")
+               for t in res}
     led = load()
     meta = led.setdefault("_meta", {})
-    led["runs"].append({"t": now, "ok": ok, "why": why[:200], "acct": acct})
+    meta["slots"] = slotmap
+    led["runs"].append({"t": now, "ok": ok, "why": why[:200], "acct": acct, "slots": slotmap})
     led["runs"] = led["runs"][-KEEP:]
     meta["last_run"] = now
 
@@ -105,7 +122,20 @@ def main():
         if meta.get("alert_id"):
             msg("clear", meta["alert_id"])   # 살아나면 자동 해소(사람이 지울 일 0)
             meta["alert_id"] = ""
-        print(f"[쿠키] 정상 · 계정={acct or '(미표기)'} · 연속사망 0")
+        # ⚠ 한쪽만 죽은 상태 = 받기는 되지만 **남은 한 장으로 버티는 중**이라 조용히 두면 그것마저 죽는 날
+        #   전면 정지가 된다(운영자 260810 2계정 신설 취지). 사망 경고와 **다른 id**로 낮은 수위로 알린다.
+        if dead:
+            msg("set", MSG_ID_HALF,
+                f"유튜브 쿠키 {'·'.join(dead)}번이 죽었어요 — 남은 {'·'.join(alive)}번으로 받기는 됩니다(지금 당장 멈추진 않아요).\n"
+                f"슬롯 상태: " + " · ".join(f"{t}번 {s}" for t, s in slotmap.items()) + "\n"
+                f"이 판정을 낸 검사 시각 = {now} · 자동 검사는 하루 2회(09시·21시 KST)뿐이에요.\n"
+                "👉 네가 할 일: 죽은 쪽 계정으로 쿠키를 다시 뽑아 그 시크릿을 갈아 줘"
+                f"({'YT_T_COOKIES' if '1' in dead else 'YT_T2_COOKIES'}). "
+                "한 장으로 버티다 그것마저 죽으면 유튜브 받기가 통째로 멈춰.", "warn")
+        elif meta.get("half_id"):
+            msg("clear", MSG_ID_HALF)
+        meta["half_id"] = MSG_ID_HALF if dead else ""
+        print(f"[쿠키] 정상 · 계정={acct or '(미표기)'} · 연속사망 0 · 슬롯 {slotmap}")
     elif ok is False:
         meta["dead_streak"] = int(meta.get("dead_streak") or 0) + 1
         n = meta["dead_streak"]
@@ -118,9 +148,11 @@ def main():
             body = (f"유튜브 받기용 쿠키가 죽었어요(연속 {n}회 · 마지막 정상 {meta.get('last_ok') or '기록 없음'}"
                     + (f" · 계정 {meta.get('acct')}" if meta.get("acct") else "") + ").\n"
                     f"사유: {why[:120]}\n"
+                    + (("슬롯 상태: " + " · ".join(f"{t}번 {s}" for t, s in slotmap.items())
+                        + "(둘 다 죽어서 유튜브 받기가 멈춰요)\n") if len(slotmap) > 1 else "")
                     # ⚠ 이 두 줄이 없으면 「방금 갈았는데 왜 또 뜨지」가 된다(운영자 260810 실측 — 자동 검사가
                     #    하루 2회뿐이라 교체 직후 최대 12시간 동안 옛 판정이 화면에 그대로 남는다).
-                    f"이 판정을 낸 검사 시각 = {now} · 자동 검사는 하루 2회(09시·21시 KST)뿐이에요.\n"
+                    + f"이 판정을 낸 검사 시각 = {now} · 자동 검사는 하루 2회(09시·21시 KST)뿐이에요.\n"
                     "⚠ 그 시각 뒤에 쿠키를 갈았다면 이 경고는 아직 옛 검사 결과예요 — 다음 검사까지 그대로 남아 있어요. "
                     "지금 바로 확인하려면 아래 «확인» 경로로 한 번 돌리면 돼요(1분).\n"
                     "고치는 법(3동작): ① 시크릿 창에서 유튜브 로그인 → ② 주소창에 youtube.com/robots.txt 이동 후 "

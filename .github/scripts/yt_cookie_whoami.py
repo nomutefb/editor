@@ -41,9 +41,13 @@ def bail(msg, code=1):
 
 
 # ── ① 시크릿 유무 ──────────────────────────────────────────────────────────
-raw = os.environ.get("YT_COOKIES", "")
+# ⚠ 읽을 env 이름을 인자화(운영자 260810 "구글 계정 2개로 돌리게 하자 하나가 죽는거일수도있으니까") —
+#   판정 로직을 복제하지 않고 같은 진단기로 2번 계정도 잰다(로직 2벌 = 한쪽만 고쳐져 조용히 갈리는 병).
+#   기본값 = YT_COOKIES 라 기존 호출부(vidl·health·워크플로) 전부 무접촉.
+_VAR = os.environ.get("YT_CK_VAR", "YT_COOKIES")
+raw = os.environ.get(_VAR, "")
 if not raw.strip():
-    bail("① 시크릿: 비어있음 — YT_T_COOKIES 미설정/공백. 쿠키를 등록해야 유튜브 경로가 산다.")
+    bail(f"① 시크릿: 비어있음 — {_VAR} 미설정/공백. 쿠키를 등록해야 유튜브 경로가 산다.")
 print(f"① 시크릿: 있음 · {len(raw.splitlines())}줄 · {len(raw)}B", flush=True)
 
 # ── ② Netscape 파싱 ────────────────────────────────────────────────────────
