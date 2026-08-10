@@ -1,5 +1,51 @@
 [
   {
+    "url": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/resize/260810131505-580c14/4x5-bc779b07.jpg",
+    "srcUrl": "uploads/260810131505-580c14/src.jpg",
+    "aspect": "4:5",
+    "size": "1K",
+    "lock": true,
+    "route": "gemini",
+    "fill": "auto",
+    "qa": "PASS",
+    "calls": {
+      "gen": 1,
+      "judge": 1
+    },
+    "model": "gemini-3.1-flash-image-preview",
+    "qa_why": "image 2 uncrops the original by continuing the man's leather armor downwards and showing more of the background.",
+    "tries": [
+      {
+        "t": 1,
+        "streak": 0.0,
+        "bands": {
+          "top": 0.0,
+          "bottom": 0.0
+        },
+        "enc": "2:2",
+        "qa": "PASS",
+        "why": "image 2 uncrops the original by continuing the man's leather armor downwards and showing more of the background."
+      }
+    ],
+    "usage": [
+      {
+        "tag": "resize:t1",
+        "prompt": 1180,
+        "output": 1560,
+        "total": 2740
+      },
+      {
+        "tag": "resize:judge",
+        "prompt": 921,
+        "output": 31,
+        "total": 952
+      }
+    ],
+    "box": null,
+    "id": "260810131505-580c14",
+    "ts": "2026-08-10T13:15:51+09:00"
+  },
+  {
     "url": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/resize/260810131057-0315b1/4x5-26f47005.jpg",
     "srcUrl": "uploads/260810131057-0315b1/src.jpg",
     "aspect": "4:5",
@@ -491,17 +537,5 @@
     "box": null,
     "id": "fill169",
     "ts": "2026-08-07T12:03:26+09:00"
-  },
-  {
-    "url": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/resize/fill916/9x16-8640a4fd.jpg",
-    "srcUrl": "uploads/fill916/src.jpg",
-    "aspect": "9:16",
-    "size": "1K",
-    "lock": true,
-    "route": "gemini",
-    "fill": "auto",
-    "box": null,
-    "id": "fill916",
-    "ts": "2026-08-07T12:03:23+09:00"
   }
 ]
