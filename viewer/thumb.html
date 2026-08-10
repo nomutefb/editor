@@ -1339,6 +1339,7 @@ async function upsLoad() {   // upscale.json 로드(잡 완료 신호 전용 · 
   } catch (e) { return []; }
 }
 function upsJob(rid, payload) {   // 발사 1건 = 표준 잡 카드(rszJob 미러 · 출력 URL 해시라 upscale.json id 매칭 tick · 카드·캐러셀·다운로드 정본 재사용)
+  clearRestored();   // 새 제작 = 부팅복원 고스트 치움(rszJob 짝 · 같은 반쪽 봉합 형제 = 260810 동반 봉합)
   const o = { path: '', label: payload.size };
   const job = { n: ++JOBSEQ, label: '해상도 (' + payload.size + ')', t0: Date.now(), outs: [o], done: [false], status: 'run', msg: '', rid, payload, endpoint: '/api/upscale' };
   JOBS.unshift(job); renderJob(job); jobUiPulse(job);
@@ -1369,7 +1370,7 @@ function upsJob(rid, payload) {   // 발사 1건 = 표준 잡 카드(rszJob 미�
   tick();
 }
 async function upsRefire(job) {   // 실패 화질 재발사 = 같은 설정·같은 행 in-place(rszRefire 미러 · endpoint /api/upscale)
-  goFire();
+  goFire(); clearRestored();   // 재발사도 복원 고스트 치움(genRefire 정본 사본 · 버그1)
   try {
     const r = await fetch('/api/upscale', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(job.payload) });
     const j = await r.json().catch(() => ({}));
@@ -2885,7 +2886,8 @@ async function rszLoad() {   // resize.json 로드(잡 완료 신호 전용 — 
   } catch (e) { return []; }
 }
 const rszRunning = () => JOBS.some(jb => jb && jb.rid && jb.status === 'run');   // 진행 중 리사이즈 잡 존재 여부 = 점등 유지 판정(동시 다발 발사 대응)
-function rszJob(rid, payload, autoAttach) {   // autoAttach = 완료 시 결과를 소스로 자동 재첨부(AI 채움 전용 · 운영자 260805 — 채움의 목적이 '이 사진으로 계속 만들기'라 손 왕복 1회 제거) · 발사 1건 = 표준 잡 카드(renderJob·JOBS 그대로). 출력 URL은 해시(h8)라 예측 불가 → pollJob(Image 폴링) 대신 resize.json id 매칭 tick — 표면(카드·캐러셀·이전 제작·다운로드·복원)은 전부 정본 재사용. payload 보관 = 실패 재시도(같은 설정 · compose 선례 · 운영자 260710 축10).
+function rszJob(rid, payload, autoAttach) {   // ⚠ 첫 줄 clearRestored = genJob·dispatchJob·dispatchBatch 정본 100% 계승(운영자 260810 "작업 이력에 그냥 순차적으로 들어가면 되는데 왜 이렇게 보이는거야") — 260710 「버그1 유령슬라이드」 봉합이 genJob에만 들어가고 rid 잡 형제(리사이즈·해상도)가 안 따라온 반쪽 봉합이었다: 복원 고스트(job-R)가 안 치워져 새 잡과 나란히 남고, 그 고스트는 라벨 원천이 서버 이력(cap)이라 「리사이즈 · 오늘 오후 1:15」 vs 「리사이즈 (4:5) #1 · 3m 21s」로 같은 작업이 두 문법으로 겹쳐 보였다(실측 캡처 = 결과 (2)). RESTORED=false면 즉시 return이라 라이브 발사분엔 무접촉 = 회귀 0   // autoAttach = 완료 시 결과를 소스로 자동 재첨부(AI 채움 전용 · 운영자 260805 — 채움의 목적이 '이 사진으로 계속 만들기'라 손 왕복 1회 제거) · 발사 1건 = 표준 잡 카드(renderJob·JOBS 그대로). 출력 URL은 해시(h8)라 예측 불가 → pollJob(Image 폴링) 대신 resize.json id 매칭 tick — 표면(카드·캐러셀·이전 제작·다운로드·복원)은 전부 정본 재사용. payload 보관 = 실패 재시도(같은 설정 · compose 선례 · 운영자 260710 축10).
+  clearRestored();   // 새 제작 = 부팅복원 고스트 치움(genJob·dispatchJob·dispatchBatch 동일 규약 · 형제 4곳 사본)
   const o = { path: '', label: payload.aspect + ' · ' + payload.size + (payload.lock ? ' · 보존' : ' · 확장') + (payload.fill && payload.fill !== 'auto' ? ' · ' + fillLabel(payload.fill) : '') };   // 변형 라벨 = 비율 · 해상도 · 보존/확장 항상 표기(운영자 260710 축3·4) + 채움(자동 아닐 때만 · 260803)
   const job = { n: ++JOBSEQ, label: '리사이즈 (' + payload.aspect + ')', t0: Date.now(), outs: [o], done: [false], status: 'run', msg: '', rid, payload, endpoint: '/api/resize' };   // 잡 라벨 = 리사이즈 (비율)(축1)
   JOBS.unshift(job); renderJob(job); jobUiPulse(job);
@@ -2922,7 +2924,7 @@ function rszJob(rid, payload, autoAttach) {   // autoAttach = 완료 시 결과�
   tick();
 }
 async function rszRefire(job) {   // 실패 리사이즈 재발사 = 같은 설정·같은 행 in-place(dispatchJob reuse 의미 · .jretry 정본 계승 · 운영자 260710 축10)
-  goFire();
+  goFire(); clearRestored();   // 재발사도 복원 고스트 치움(genRefire 정본 사본 · 버그1)
   try {
     const r = await fetch('/api/resize', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(job.payload) });
     const j = await r.json().catch(() => ({}));
