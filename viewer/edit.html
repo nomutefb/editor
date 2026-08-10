@@ -806,6 +806,8 @@ const X_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-w
 const PEND_KEY='nm_edit_pend';
 const API='/api/edit';
 const BUDGET=2700;   // 폴 예산(초) — 하드 ×2 = 5400s ≥ 잡 캡 85분(5100 · 4K+R2 선스텝 재산정 260711)+디스패치+배포 · 재개 게이트 24h 별도(conv 문법)
+const LEN_HARD=3601, LEN_STT=1201, LEN_WHOLE=601;   // 길이 상한 3단(운영자 260711 차등 캡 · 서버 선게이트 동형) = 구간≤10분이면 원본 60분 · 전사 도는 축 20분 · 통짜 10분
+//   ⚠ 이 숫자는 발사 게이트와 **첨부 즉시 검사** 두 곳이 같이 본다(운영자 260810 "원천 해결") — 한쪽에만 박으면 조용히 갈린다.
 let FILE_B64='', FILE_NAME='', FILE_URL='', _dur=0, USER_ACT=false, _pollLive=false, _polling=false, EDIT_ID='', RESULT_URL='';   // _polling = 생성 진행 UI 보호 게이트(작업 내역 탭 차단 · 자막 탭 LY_GEN 계승) — **화면을 차지한 작업(포커스)** 기준(뒤에서 도는 병렬 작업은 화면을 안 건드리므로 이 게이트와 무관)   // 구 `_curStop`(전역 폴 중단 핸들 1개) 이탈 = 두 번째 발사가 첫 번째 폴을 죽이던 자리(운영자 260810) → 폴 레지스트리는 nm-jobs.js가 id별로 든다
 let FILE_R2='', _lastFile=null, _varea=0, _vw=0, _vh=0;   // _vw·_vh = 원본 가로·세로(운영자 260809 「기존 > 변경」 표기 — 구 _varea는 **곱**만 갖고 있어 W×H를 복원할 수 없다)   // FILE_R2 = R2 직업로드 키(보관 24h — 러너가 안 지운다(나이 든 것만 청소 = shared/r2_upsrc_gc.sh) · 만료 시에만 재업로드 — _lastFile로) · _varea = 원본 픽셀 수(4K급 판별 = 서버 is4k와 동형 — 긴 변 판별은 세로 1080×2340 오거절 · 재검증 260711)
 
@@ -1870,7 +1872,9 @@ $('#file').addEventListener('change',async()=>{
   FILE_NAME=f.name; FILE_URL=URL.createObjectURL(f); render();   // 미리보기 버튼 노출(objectURL = 업로드 완료 전에도 로컬 프리뷰 가능)
   lrTiltApply(f);   // 좌우 쏠림 자동 감지(운영자 260810) — await 안 한다: 업로드·발사 흐름을 막지 않고, 측정이 끝나면 스스로 render()로 반영(fail-soft = 못 재면 무변화)
   const v=document.createElement('video'); v.preload='metadata'; v.src=FILE_URL;
-  v.onloadedmetadata=()=>{ if(_lastFile!==f) return; _dur=v.duration||0; _vw=v.videoWidth||0; _vh=v.videoHeight||0; _varea=_vw*_vh; setEta(); pvSync(); if(ON.res) render(); };   // 신선도 가드(평의회1 260731) — 파이프의 다른 곳(1248·1300·1301)이 다 가진 `_lastFile===f` 검사가 여기만 없어, A→B를 연달아 첨부하면 늦게 도착한 A의 메타데이터가 **B가 붙은 상태의 _dur/_varea를 덮었다**(길이 게이트·ETA가 남의 영상 값으로 판정)
+  v.onloadedmetadata=()=>{ if(_lastFile!==f) return; _dur=v.duration||0; _vw=v.videoWidth||0; _vh=v.videoHeight||0; _varea=_vw*_vh; setEta(); pvSync(); if(ON.res) render();
+    if(_dur>LEN_HARD) errStatus('길이 초과');   // 원천 봉합(운영자 260810) — 60분 초과는 **어떤 옵션 조합으로도** 안 된다 → 옵션을 고르고 발사를 눌러 막히기 전에, 길이를 안 그 순간 알린다(옵션 종속 상한 20분·10분·3분은 옵션이 나중에 바뀌므로 종전대로 발사 게이트가 본다)
+  };   // 신선도 가드(평의회1 260731) — 파이프의 다른 곳(1248·1300·1301)이 다 가진 `_lastFile===f` 검사가 여기만 없어, A→B를 연달아 첨부하면 늦게 도착한 A의 메타데이터가 **B가 붙은 상태의 _dur/_varea를 덮었다**(길이 게이트·ETA가 남의 영상 값으로 판정)
   const btn=$('#editGo'); _uploading=true; goUpBusy(btn);   // 업로드중 상주 표시(운영자 260731) — 구 `btn.disabled=true`는 '생성' 글자가 흐려질 뿐 **왜 안 눌리는지 이유가 화면에 없었다**
   _lastFile=f;
   if(!r2on){ legacyRead(f, btn); return; }
@@ -2082,9 +2086,9 @@ $('#editGo').addEventListener('click',async()=>{
     const stt=!!(o.burn||o.cut||o.clip||o.cutfill||o.take||o.cutscan);   // 전사 도는 축 전부(260727 — 서버 선게이트와 동형)
     const segSum=o.vid_segs? o.vid_segs.reduce((s,g)=>s+(g[1]-g[0]),0) : -1;   // n구간 = 합산 길이(운영자 260728)
     const span=segSum>=0? segSum : ((o.vid_t1!==undefined)? o.vid_t1-(o.vid_t0||0) : -1);
-    if(stt){ if(_dur>1201) return errStatus('길이 초과'); }
-    else if(span>=0&&span<=600){ if(_dur>3601) return errStatus('길이 초과'); }
-    else if(_dur>601) return errStatus('길이 초과');
+    if(stt){ if(_dur>LEN_STT) return errStatus('길이 초과'); }
+    else if(span>=0&&span<=600){ if(_dur>LEN_HARD) return errStatus('길이 초과'); }
+    else if(_dur>LEN_WHOLE) return errStatus('길이 초과');
   }
   if(o.vid_res==='src'&&!url&&_varea>2*2073600&&!o.cut){   // 4K 클라 선게이트(서버 180초 게이트 예고 · 컷은 길이가 줄어 서버 실측에 위임)
     const eff=o.vid_segs? o.vid_segs.reduce((s,g)=>s+(g[1]-g[0]),0) : (o.vid_t0!==undefined||o.vid_t1!==undefined)? Math.min(_dur||1e9, o.vid_t1||_dur||1e9)-(o.vid_t0||0) : _dur;

@@ -1477,6 +1477,14 @@ function ieSrcSync0(has) {   // 편집(비율·모자이크·해상도) 소스 =
 // ── 모자이크 옵션 토글(운영자 260712 3차 → 260718 편집 탭 1행) — ON = 비율 원본 강제 + selApp('8')(app8 발사·검출 로직 그대로 · 발사 버튼 = 피사체 찾기 문맥) · OFF = 편집 기본 축(7) 복귀
 //    사진 게이트(운영자 260803 개정) = 사진 없이 ON 탭 → {경고(errStatus) → 사진 입구(#cFile) 자동 개방 → 예약(IEPEND)} 3연 · **모자이크는 안 켜진다**(구판 = selApp('8') 선행이라 경고 무시 = 사진 없는 유령 ON) · 첨부되는 순간 ieSrcSync가 예약을 소비해 ON까지 이어붙인다 ──
 function syncIeTog() { const t = $('#ieTog'); if (!t) return; const on = APP === '8'; t.classList.toggle('on', on); t.setAttribute('aria-pressed', on); }   // 텍스트 = '모자이크' 고정(워드 토글 · 운영자 260803 — 도먼트 복원 대비 신문법 선반영)
+let _rszHintKey = '';   // 마지막으로 짚어준 사진(같은 사진에 두 번 짚지 않는다 = 렌더마다 반짝이는 사고 차단)
+function rszPickHint() {   // 「고를 게 남았다」 선안내 — 부품 = flashEl(.thfocus) 정본 그대로
+  const key = APP + '|' + (CIMG.name || '') + '|' + (CIMG.b64 || '').length;
+  if (!CIMG.b64 || _rszHintKey === key) return;
+  _rszHintKey = key;
+  if (rszAspect() !== 'orig') return;   // 이미 고른 상태 = 막힐 일이 없다
+  setTimeout(() => { const el = $('#rszOpts'); if (el && el.offsetParent !== null && rszAspect() === 'orig') flashEl(el); }, 420);   // 첨부 렌더가 자리를 잡은 뒤(레일 이주 포함)
+}
 function rszOrigSync() {   // 원본(무변환) = 보존 토글·라벨·구분자 무의미 → 숨김(조건부 토글 등장/소멸 = cnTog 문법)
   const orig = rszAspect() === 'orig';
   const sep = $('#rszSep'), lk = $('#rszLock'), ll = $('#rszLockLbl');
@@ -1814,6 +1822,7 @@ function renderCpPrev() {   // app2 상시 표시(운영자 260714 Q03②) + 편
       if (ipv) ipv.classList.remove('none');
       st.classList.add('none');   // 산출 스테이지 숨김(스왑) — 아래 카드 생성 렌더가 className 재설정으로 자동 복구
       rszPreview();
+      rszPickHint();   // 원천 봉합(운영자 260810 "원천 해결") — 비율이 '원본'이면 발사해도 할 일이 0이라 「선택 필요」로 막힌다 → 막힘을 기다리지 말고 사진 붙인 그 순간 비율 칩을 한 번 짚는다(사진 1장당 1회)
       cpToolSync(false);   // 교체·삭제 도구 = 편집 탭도 공유(운영자 260716 슬롯 이주 계승)
     } else {
       if (ipv) ipv.classList.add('none');
@@ -5380,7 +5389,7 @@ $('#go').onclick = async () => {
   const SRC = snapForm();   // 제작 조건 스냅샷(탭·모드·텍스트·OPA·토글) → 이력 동봉 → 나중에 '수정'으로 작성기 복원(운영자 260624)
   if (APP === '7') {   // 리사이즈 = /api/resize (비율 재구성 · 운영자 260708) — 발사 후 resize.json 폴링(잡 로그 아님) · 소스 = app2 첨부(CIMG · 운영자 260713 옵션 이식)
     if (!CIMG.b64) return errStatus('선택 필요', 'err', '.cpprev-box');
-    if (rszAspect() === 'orig') return errStatus('선택 필요', 'err', '#goSpec');   // 원본 유지 = 변환 없음(사실상 off · 운영자 260712 3차) — 발사할 작업이 없다
+    if (rszAspect() === 'orig') return errStatus('선택 필요', 'err', '#rszOpts');   // 원본 유지 = 변환 없음(사실상 off · 운영자 260712 3차) — 발사할 작업이 없다
     goFire();   // 전송 상태머신 정본 계승(게이지→✓체크→'전송됨'→라벨 = dispatchJob 동일 시점) — 옛 수동 firing 토글은 게이지만 찬 채 체크 없이 끊겨 폐지(260709)
     const payload = { imageB64: CIMG.b64, name: CIMG.name, aspect: rszAspect(), size: '1K', lock: $('#rszLock').classList.contains('on'), fill: fillV };   // 발사 스냅샷 + 재시도 보관(같은 설정 · compose 선례 · 운영자 260710 축10) · fill = 채움 오버라이드(260803 · auto = 종전)
     try {
