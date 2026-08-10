@@ -53,7 +53,7 @@ permissions:
 jobs:
   judge:
     runs-on: ubuntu-latest
-    timeout-minutes: 90   # 45→90(260810 · gate 가 opus+effort max 로 복귀 = 콜당 시간 배증 · 3청크×최대 15분 + 속보·묶기 여유). 구 사유 = 런당 상한 상향 25→45(운영자 260701 전수검증) — 속보 ≤2청크 + 경중 MAX_PER_RUN=200(≤5청크)+cat QUOTA=80(260713 재배분·총 pending ≤200 불변 = 청크 수 동일). sonnet 청크당 ~2-3분 → ~35분 내 · 나머지는 재디스패치
+    timeout-minutes: 150   # 45→90→150(260810 · **속보 판정까지** opus+effort max 복귀 = 두 판정기 모두 콜당 시간 배증). 최악 = 속보 2청크 + 경중 3청크 = 5콜 × 최대 15분 = 75분 + 묶기·커밋 여유. ⚠️ 속보는 스텝 순서상 **먼저** 돌고 직후 조기 커밋이 있어 뷰어·푸시 반영은 경중 채점을 기다리지 않는다(그 설계가 이 상한 상향의 안전판). 구 사유 = 런당 상한 상향 25→45(운영자 260701 전수검증) — 속보 ≤2청크 + 경중 MAX_PER_RUN=200(≤5청크)+cat QUOTA=80(260713 재배분·총 pending ≤200 불변 = 청크 수 동일). sonnet 청크당 ~2-3분 → ~35분 내 · 나머지는 재디스패치
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -127,7 +127,9 @@ jobs:
       - name: 속보 판정 (claude -p)
         if: steps.chk.outputs.pending != '0'
         env:
-          BREAKING_MODEL: claude-sonnet-5   # 룰북 이진 분류 = sonnet-5 운영(opus 대비 쿼터 대폭↓·다층 게이트가 오탐 흡수 · effort 미사용=코드 기본 · 260630 평의회). 롤백=이 줄 제거(코드 기본 opus 복귀).
+          BREAKING_MODEL: claude-opus-5   # **운영자 260810 "속보 판정도 오퍼스 5 노력도 max로 가자 어쩔수없다"** — 경중 채점(GATE)에 이어 속보 이진 판정도 260630 sonnet 강등을 되돌린다. 사유 = 이 판정이 **폰 긴급알림·자동요약의 유일한 문지기**라 오탐·누락 비용이 랭킹 오차보다 비싸다(경중은 순위가 좀 틀리는 것, 속보는 안 울려야 할 때 울리거나 울려야 할 때 안 울리는 것). ⚠️ 대가 = 쿼터 소모 복귀 · 롤백 = 이 값을 claude-sonnet-5 로.
+          BREAKING_EFFORT: max   # 운영자 260810 지정. 구 주석의 "이진 판정엔 추론 불필요"는 이번 지시로 무효 — 실제 판정은 게이트 8종(해외 군사·개별 강력범죄·증시·수사 절차·연예·기상·발행 12h·영문 문체)의 **우선순위 대조**라 추론이 듣는 자리다. ⚠️ 아래 BREAKING_TIMEOUT 동반 필수.
+          BREAKING_TIMEOUT: "900"   # 콜당 상한 300→900s(260810) — effort max 는 추론 토큰이 붙어 300s 를 넘길 수 있고, 초과하면 rc≠0 = 미도장 = 다음 런 재시도라 **증상 없이 영원히 재시도만 도는** 상태로 굳는다(gate GATE_TIMEOUT 과 동일 사유·동일 값).
           BREAKING_SAFE: '1'   # 승격 완료(260701 카나리아 실측 rc=0·OAuth 정상·cache_creation 53,855→1,512 −97.2%): 자동/예약 judge 런도 --safe-mode(CLAUDE.md 로드 스킵). 롤백=이 줄을 '' 또는 제거(코드 기본 OFF).
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets[format('CLAUDE_CODE_OAUTH_TOKEN_{0}', inputs.account || vars.ACTIVE_ACCOUNT || 'MUTENO')] }}
           CLAUDE_CODE_OAUTH_TOKEN_ALT: ${{ (inputs.account || vars.ACTIVE_ACCOUNT || 'MUTENO') == 'NOMUTEFB' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_NOMUTEFB }}   # 서브1 폴오버(활성 다음 우선순위 · 체인 MUTENO→NOMUTEFB→EMS1130G→MUTENONA)

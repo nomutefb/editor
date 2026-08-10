@@ -27,6 +27,7 @@ CAND = ROOT / "viewer" / "candidates.json"
 MODEL = os.environ.get("BREAKING_MODEL", "claude-opus-5")
 EFFORT = os.environ.get("BREAKING_EFFORT", "").strip()   # 이진 속보 판정엔 추론 불필요 = effort 미사용 기본(불필요 thinking 토큰·쿼터 차단 + sonnet effort 비호환 원천차단). 필요시 env로 부여(하위호환). 260630 평의회 — breaking은 sonnet-5 운영.
 SAFE = os.environ.get("BREAKING_SAFE", "0").strip().lower() not in ("0", "false", "no", "")   # --safe-mode: CLAUDE.md·skills·plugins·hooks·MCP 등 커스터마이징 비활성 = 분류에 안 쓰이는 라우터 99KB(~40k토큰) 컨텍스트 제거 → cache_w ~95%↓. ⚠️ --bare 아님(bare는 OAuth 안 읽어[strictly ANTHROPIC_API_KEY] 이 파이프라인선 인증 즉사 + built-in 도구 축소로 --disallowedTools 충돌 = 260701 사고). safe-mode는 Auth·built-in 도구·permissions 정상 유지. RUBRIC은 stdin이라 판정 무영향. 기본 OFF·카나리아 후 승격(§📰). 롤백=env BREAKING_SAFE=0.
+TIMEOUT_S = int(os.environ.get("BREAKING_TIMEOUT", "300"))      # 콜당 상한(s) — **opus + effort max 운영(260810)에서는 반드시 상향**(sonnet 기준 300은 추론 붙은 콜에 짧다 · 초과 = rc≠0 = 미도장 = 다음 런 재시도라 증상 없이 재시도만 도는 상태로 굳는다). gate_judge GATE_TIMEOUT 과 짝 · 워크플로 env 로 부여.
 CHUNK = int(os.environ.get("BREAKING_CHUNK", "40"))             # 한 Claude 콜당 제목 수(작을수록 출력 truncation 0 — gate_judge와 동일·후보 풀 커져도 절단 0)
 MAX_PER_RUN = int(os.environ.get("BREAKING_MAX_PER_RUN", "80")) # 한 런당 판정 상한(타임아웃 전 완료·커밋 보장 — 나머지는 self-gate 재디스패치가 점진 처리)
 
@@ -245,7 +246,7 @@ def judge(items):
             "Write,Edit,NotebookEdit,Bash,Task,WebFetch,WebSearch,Read,Glob,Grep",   # MultiEdit 제거: CLI 2.1.197에 없는 도구라 "matches no known tool" stderr 경고만 냄(비치명·모든 모드 공통 노이즈). 나머지는 실재 도구 = 계속 disallow(판정에 도구 불필요). 260701 실측.
             "--max-turns", "1"]
     p, rc, err = run_claude(
-        cmd, prompt, timeout=300, source="breaking")   # 쿼터 한도면 대체 계정 1단계씩 전환·재시도(서브1→서브2→서브3) · source=토큰 계측
+        cmd, prompt, timeout=TIMEOUT_S, source="breaking")   # 쿼터 한도면 대체 계정 1단계씩 전환·재시도(서브1→서브2→서브3) · source=토큰 계측
     if p is None:
         return {}, rc, err
     verdicts = {}
