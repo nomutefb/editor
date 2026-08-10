@@ -19,6 +19,10 @@ on:
         description: '추가 장수(기본 5)'
         default: '5'
         type: string
+      round:
+        description: '보충 세대(1 = 첫 발사 · 상한 도달 시 자동 정지)'
+        default: '1'
+        type: string
       account:
         description: '구독 OAuth 계정'
         type: choice
@@ -78,6 +82,7 @@ jobs:
           R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
           MOREIMG_STEM: ${{ github.event.inputs.stem }}
           MOREIMG_WANT: ${{ github.event.inputs.want || '5' }}
+          MOREIMG_ROUND: ${{ github.event.inputs.round || '1' }}
         run: |
           echo "활성 계정: ${ACTIVE_ACCOUNT} · stem=${MOREIMG_STEM} · want=${MOREIMG_WANT}"
           if [ -z "${CLAUDE_CODE_OAUTH_TOKEN}" ]; then
@@ -103,3 +108,24 @@ jobs:
             git push origin main && exit 0 || { echo "push 재시도 $i"; sleep $((2**i)); }
           done
           echo "::warning::push 실패(재시도 소진)"
+
+      # 아직 7장 미달이면 다음 라운드 자동 발사(운영자 260810 "해소 ㄱㄱ") — 수집 문턱(600)으로 후보 절반이
+      # 화질에서 잘려 1회 보충으로는 자리가 안 찬다. 대상 = more_images.py 가 RUNNER_TEMP/moreimg_again.txt 에
+      # 남긴 마커(정지 조건 3중 = 목표 달성·라운드 상한·새 소스 소진 → 스크립트가 안에서 판단해 마커를 안 쓴다).
+      # 커밋·push *뒤* 발사 = 다음 런 체크아웃이 이번 search.json 을 본다(즉발이면 add/add 경합 = news-analyze 동일 교훈).
+      - name: 미달 시 다음 라운드 발사
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          F="${RUNNER_TEMP:-/tmp}/moreimg_again.txt"
+          [ -s "$F" ] || { echo "추가 라운드 없음"; exit 0; }
+          [ -n "${GH_TOKEN}" ] || { echo "::warning::GH_TOKEN 없음 — 추가 라운드 생략(수동 '+N장 더' 폴백)"; exit 0; }
+          sort -u "$F" | while read -r stem want rnd; do
+            [ -n "$stem" ] || continue
+            curl -fsS -X POST -H "Authorization: Bearer ${GH_TOKEN}" \
+              -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" \
+              "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/workflows/moreimg.yml/dispatches" \
+              -d "{\"ref\":\"main\",\"inputs\":{\"stem\":\"${stem}\",\"want\":\"${want}\",\"round\":\"${rnd}\"}}" \
+              && echo "↻ ${stem} 라운드 ${rnd} 발사(want=${want})" || echo "::warning::${stem} 라운드 ${rnd} 발사 실패"
+          done

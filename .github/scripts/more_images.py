@@ -18,6 +18,8 @@ from claude_py import run_claude   # 폴오버 SSOT(쿼터 한도 시 백업계�
 
 STEM = os.environ.get("MOREIMG_STEM", "").strip()
 WANT = max(1, min(10, int(os.environ.get("MOREIMG_WANT", "5") or "5")))
+ROUND = max(1, min(9, int(os.environ.get("MOREIMG_ROUND", "1") or "1")))      # 보충 세대(1 = 첫 발사)
+MAX_ROUND = max(1, min(9, int(os.environ.get("MOREIMG_MAX_ROUND", "3") or "3")))  # 상한 = Claude 콜 상한(비용 바운드)
 MODEL = os.environ.get("PIPE_MODEL", "claude-opus-5")   # 모델 단일 원천 정합(shared/model_env.sh와 동일 키 · 260702 SYS-08 완결)
 
 
@@ -172,9 +174,38 @@ for i, c in enumerate(cand):
     new_items.append({"url": url, "link": c.get("link", ""), "label": "유사"})   # 신규 = '유사'(원본 대표 라벨 보존)
     existing_urls.add(tg._norm_key(url))
 
+def _again(total, round_no, got):
+    """아직 미달이면 **다음 라운드를 예약**한다(운영자 260810 5차 "해소 ㄱㄱ").
+
+    ⚠️ 신설 사유 = 보충이 **딱 1회만** 돌고 있었다. 수집 문턱(600) 도입 뒤로는 후보의 절반 가까이가
+       화질에서 잘려나가므로 1회로는 자리가 안 찬다(실측 = 기사당 2.55장 · 0장 기사 2건). 대표가
+       관련기사로 밀리는 것도 결국 「그 자리를 채울 좋은 사진을 덜 찾아본 것」이라 같은 축이다.
+       운영자 판단 = 작은 사진은 어차피 썸네일로 못 쓴다(다운로드해도 깨진다) → 살리지 말고 **더 찾아라**.
+    ⚠️ 정지 조건 3중(비용 폭주 차단) = ⓐ 목표(7장) 달성 ⓑ 라운드 상한 `MOREIMG_MAX_ROUND`
+       ⓒ **이번 라운드 수확 0 = 소스 소진**(더 돌려도 같은 결과 · Claude 콜만 태운다).
+    ⚠️ 발사 방식 = 마커 파일(news-analyze.yml 「검색이미지 미달 자동 보충」 문법 100% 계승 · 창작 0) —
+       스크립트 내 즉발이면 다음 런 체크아웃이 이 런의 미푸시 search.json 을 못 봐 add/add 경합이 난다.
+    """
+    if total >= 7 or round_no >= MAX_ROUND or got <= 0:
+        why = ("목표 달성" if total >= 7 else
+               "라운드 상한 {} 도달".format(MAX_ROUND) if round_no >= MAX_ROUND else "새 소스 소진")
+        print("· 보충 종료({} · 총 {}장)".format(why, total), flush=True); return
+    try:
+        mk = os.path.join(os.environ.get("RUNNER_TEMP") or "/tmp", "moreimg_again.txt")
+        with open(mk, "a", encoding="utf-8") as f:
+            f.write("{} {} {}\n".format(STEM, max(1, 7 - total), round_no + 1))
+        print("  ↻ 다음 라운드 예약(총 {}장 → want={} · round={})".format(
+            total, max(1, 7 - total), round_no + 1), flush=True)
+    except Exception as e:
+        print("::warning::보충 라운드 예약 실패(수동 '+N장 더' 폴백): {}".format(e), flush=True)
+
+
 if not new_items:
-    print("새 이미지 0(중복·차단·사진無) — 변경 없음"); sys.exit(0)
+    print("새 이미지 0(중복·차단·화질컷·사진無) — 변경 없음")
+    _again(len(existing), ROUND, 0)   # 수확 0 = 소스 소진 → 안에서 정지(비용 0)
+    sys.exit(0)
 
 merged = new_items + existing   # 앞쪽(좌측) prepend = 뷰어 카러셀 맨 앞에 신규 노출
 json.dump(merged, open(sjson, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
 print("✅ +{}장 → {} 총 {}장".format(len(new_items), sjson, len(merged)), flush=True)
+_again(len(merged), ROUND, len(new_items))

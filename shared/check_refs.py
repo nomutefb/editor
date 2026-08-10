@@ -5430,7 +5430,27 @@ def check_img_upsize():
 
     # ②-b 보충 체인 생존 — 컷으로 빈 자리를 메우는 유일한 수단(끊기면 컷이 곧 영구 결손)
     if 'thumb_topup.txt' not in body:
-        bad.append('보충 대상 마커(thumb_topup.txt) 소실 — 720 컷으로 빈 자리를 다시 검색해 채울 경로가 없다')
+        bad.append('보충 대상 마커(thumb_topup.txt) 소실 — 화질 컷으로 빈 자리를 다시 검색해 채울 경로가 없다')
+
+    # ②-c 보충 **다회전** 체인(운영자 260810 5차) — 1회 보충으로는 자리가 안 찬다(문턱 도입 뒤 후보 절반이
+    #     화질에서 잘린다). 라운드 예약(스크립트) ↔ 재발사(워크플로) 두 짝 중 하나만 빠져도 조용히 1회로 되돌아간다.
+    mi = os.path.join(ROOT, '.github', 'scripts', 'more_images.py')
+    yml = os.path.join(ROOT, '.github', 'workflows', 'moreimg.yml')
+    try:
+        mt = '\n'.join(l for l in open(mi, encoding='utf-8').read().splitlines()
+                       if l.strip() and not l.strip().startswith('#'))
+        yt = open(yml, encoding='utf-8').read()
+    except Exception as e:
+        bad.append('보충 라운드 체인 파일 읽기 실패: {}'.format(str(e)[:50]))
+    else:
+        if 'def _again(' not in mt or 'moreimg_again.txt' not in mt:
+            bad.append('more_images 라운드 예약(_again·moreimg_again.txt) 소실 — 보충이 1회로 되돌아간다')
+        if 'MAX_ROUND' not in mt or 'MOREIMG_ROUND' not in mt:
+            bad.append('보충 라운드 상한·세대(MAX_ROUND·MOREIMG_ROUND) 소실 — 정지 조건이 없으면 무한 발사')
+        if 'moreimg_again.txt' not in yt or 'workflows/moreimg.yml/dispatches' not in yt:
+            bad.append('moreimg.yml 다음 라운드 재발사 스텝 소실 — 예약만 되고 아무도 안 쏜다')
+        if 'round:' not in yt:
+            bad.append('moreimg.yml round 입력 소실 — 세대가 안 실려 라운드 상한이 영영 1에 머문다')
 
     # ③ 수집 문턱 = img_sizes SSOT 경유(값은 운영자가 바꾼다 — 게이트는 '한 곳에서 오는가'만 본다)
     if 'from img_sizes import COLLECT_MIN_H' not in body or '_MIN_H' not in body:
