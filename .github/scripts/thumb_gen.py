@@ -809,6 +809,14 @@ def _hq_cut(url, why=""):
     if not _UPSIZE_ON:
         return False                                        # 킬스위치 = 종전 동작(컷 없음) 100% 복귀
     h = _dim_probe(url)[1]
+    # ⚠️ 크기 미상 = 1회 재시도 후 판정(실측 260810 = 단독 프로브는 8/8 성공인데 같은 서버에 연속 요청이
+    #    몰리면 순간 거절[Errno 104]이 난다 → 그대로 컷하면 **관련성 좋은 멀쩡한 사진이 네트워크 딸꾹질로
+    #    버려진다**. 운영자 260810 "관련있는 쓸모있는 이미지를 가져와야되는데 그건 유지가 되는건지" =
+    #    fail-closed 의 대가를 여기서 흡수한다). 재시도해도 미상이면 그때 컷.
+    if not h:
+        _dim_cache.pop(url, None)
+        time.sleep(1.0)
+        h = _dim_probe(url)[1]
     if h >= _MIN_H:
         return False
     print("  ⏭ 화질 컷({} 세로 {} < {}): {}…".format(why or "유사", h or "미상", _MIN_H, url.split("/")[-1][:40]),
