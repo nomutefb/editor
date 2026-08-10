@@ -5729,6 +5729,94 @@ def check_rubric_regress():
     return 0
 
 
+_STYLE_BASE = {           # 260810 실측 스냅샷(queue 최근 60건) — 늘면 WARN · 줄면 낮추라고 알린다
+    'lead_date': 35.0,    # IG 🔎 리드가 날짜·시각으로 열림 (21/60)
+    'gloss': 1.7,         # 용어 풀이 문장 「~는 …하는 제도다」 (1/60)
+    'preach': 0.0,        # 마지막 📍이 훈계로 닫힘 (0/60)
+    'claim_p90': 136,     # 자수 표기 vs 실측 오차 p90 (블록 156개)
+}
+_STYLE_N = 60             # 표본 = queue 최근 N건
+
+
+def check_style_ratchet():
+    """요약 문체 회귀 래칫(WARN·비차단 · 운영자 260810 "ㄱㄱ" · 평의회 6 설계안 1안).
+    ⚠️ 신설 사유 = **이 레포 게이트 105개 중 요약 문체를 보는 축이 0개였다.** 그래서
+    260801 규칙 신설도·260810 제거도·260704 effort 하향도 전부 **무검증으로 라이브에 나갔다**
+    (260704 회귀는 IG 617→537 = −13%였는데 21일간 아무도 안 울렸고 digest_guard 주석에만 남았다).
+    운영자가 실제로 불만을 말한 축인데 회귀 하네스가 breaking·grade 룰북에만 있었다.
+    ⚠️ **정답지를 「좋은 글」이 아니라 「실패 모드」로 잡는 게 실효 조건** — 「이 리드가 좋은가」는
+    답이 여럿이라 정답 라벨이 원리적으로 불가능하지만, 「이 리드가 날짜로 여는가」는 답이 하나다.
+    260810 커밋이 겨눈 축 전부가 그 형태다(날짜 리드·용어 풀이·훈계 착지 = 전부 금지형).
+    ⚠️ **하드 금지** = 문체는 오탐이 구조적이다(속보·재난은 날짜 리드가 정본 예외 · 평의회 3 실측 =
+    재난 층 43.9% vs 그 외 11.5%). 하드면 레포가 언다 → 래칫이 유일한 정합 형태
+    (check_gate_hits·check_component_lock 선례). 판정은 사람이 하고 게이트는 보이게만 한다.
+    ⚠️ claim_gap 축 = 평의회 8 발견 — 모델 자가 자수 표기가 **전건 한 방향**(미달을 합격으로 위장)으로
+    어긋난다(260810 실측 최대 290자). 「N/800」이 규격 준수의 증거가 아니라 미달을 가리는 표지가 된다.
+    정적 · 렌더·LLM·네트워크 0."""
+    qd = os.path.join(ROOT, 'queue')
+    if not os.path.isdir(qd):
+        return 0
+    files = sorted(f for f in os.listdir(qd) if f.endswith('.md'))[-_STYLE_N:]
+    if len(files) < 20:
+        print("⏳ 문체 래칫 — 표본 %d건(<20) = 판정 유예." % len(files))
+        return 0
+    lead_re = re.compile(r'^\s*(?:\d+월\s*\d+일|\d+일\s|\d+시\s|지난\s*\d+|간밤|어젯밤|오늘\s*(?:새벽|오전|오후))')
+    gloss_re = re.compile(r'(?:는|은)\s*[^.]{0,40}?(?:하는|되는)\s*(?:제도|절차|조치|단계|경보령|규정)(?:다|이다)|을 뜻한다|를 말한다|이란\s')
+    preach_re = re.compile(r'(?:해야 한다|필요한 시점이다|묻고 있다|과제로 남았다|숙제다)\.?\s*$')
+
+    def _blk(t, lab):
+        m = re.search(r'### \[' + lab + r'[^\]]*\]\s*```text\n(.*?)```', t, re.S)
+        return m.group(1).strip() if m else None
+
+    n = lead = gloss = preach = 0
+    gaps = []
+    for fn in files:
+        try:
+            t = open(os.path.join(qd, fn), encoding='utf-8').read()
+        except Exception:
+            continue
+        ig = _blk(t, 'IG')
+        if not ig:
+            continue
+        n += 1
+        lines = [l for l in ig.split('\n') if l.strip()]
+        ld = next((l for l in lines if l.lstrip().startswith('🔎')), None)
+        if ld and lead_re.match(ld.lstrip()[1:].strip()):
+            lead += 1
+        if gloss_re.search(ig):
+            gloss += 1
+        ps = [l for l in lines if l.lstrip().startswith('📍')]
+        if ps and preach_re.search(ps[-1].strip()):
+            preach += 1
+        for lab in ('IG', 'Thread', '자유요약'):
+            b = _blk(t, lab)
+            cm = re.search(r'### \[' + lab + r' — 약 (\d+)', t)
+            if b and cm:
+                gaps.append(abs(int(cm.group(1)) - len(b)))
+    if n < 20:
+        print("⏳ 문체 래칫 — IG 블록 보유 %d건(<20) = 판정 유예." % n)
+        return 0
+    gaps.sort()
+    cur = {
+        'lead_date': round(lead / n * 100, 1),
+        'gloss': round(gloss / n * 100, 1),
+        'preach': round(preach / n * 100, 1),
+        'claim_p90': gaps[int(len(gaps) * 0.9)] if gaps else 0,
+    }
+    up = [(k, _STYLE_BASE[k], v) for k, v in cur.items() if v > _STYLE_BASE[k]]
+    down = [(k, _STYLE_BASE[k], v) for k, v in cur.items() if v < _STYLE_BASE[k]]
+    if up:
+        print("⚠️ 문체 래칫(WARN·비차단) — 금지형 술어 발생률 증가(표본 %d건):" % n)
+        for k, b, v in up:
+            print("   · %s: %s → %s (기준 초과 · 지침 개정이 의도한 방향인지 확인)" % (k, b, v))
+    if down:
+        print("✅ 문체 래칫 — 개선분 %d축(%s) → 해소분은 _STYLE_BASE를 그 자리에서 낮춰라(남겨두면 같은 회귀가 조용히 재통과)."
+              % (len(down), ' · '.join("%s %s→%s" % (k, b, v) for k, b, v in down)))
+    if not up and not down:
+        print("✅ 문체 래칫 — 4축 전건 스냅샷 동일(표본 %d건 · 신규 회귀 0)." % n)
+    return 0
+
+
 def check_grade_regress():
     """grade 룰북 회귀 게이트(하드 · 운영자 260807 "전부 반영" — 평의회 8인 · check_rubric_regress[breaking 전용]의 짝).
     gate_judge RUBRIC(경중 0~3 채점 프롬프트)이 바뀌면 운영자 수기 재채점 정답지(grade_regress_cases.json ·
@@ -6821,6 +6909,10 @@ def main():
             rc = 1
     except Exception as e:
         print('⚠️ grade 회귀 게이트 스킵:', e)
+    try:
+        check_style_ratchet()   # 요약 문체 회귀 래칫(운영자 260810 · 평의회 6 — 게이트 105개 중 요약 문체 축이 0개였다 · WARN 비차단 = rc 무영향)
+    except Exception as e:
+        print('⚠️ 문체 래칫 스킵:', e)
     try:
         if check_brk_misfire_chain() != 0:   # 긴급 오발 신고 폐루프(운영자 260803 4차 — 신고가 쌓이기만 하고 안 읽히는 죽은 원장 차단)
             rc = 1
