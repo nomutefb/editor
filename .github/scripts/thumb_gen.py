@@ -709,11 +709,10 @@ def _small_dim(u):
 #    우리 파이프는 받은 바이트를 **그대로** R2 에 올린다(압축·축소 0) → 화질 손실의 유일한 출처가 이 '어느 URL 을
 #    집었나' 한 축이다. 카드 산출물은 짧은변 1440(2K · thumb-make RES-SNAP)이라 300×200 배경은 5배 업샘플로 뭉갠다.
 #    → URL 에서 축소 신호를 지운 후보를 만들어 **실제로 받아 픽셀을 재고** 더 크면 교체(추측 채택 금지 · 운영자 260810).
-try:                                                    # 720 = img_sizes SSOT 값(새 상수 창작 0 · AI생성·편집과 같은 사다리)
-    from img_sizes import SIZE_SHORT as _SIZE_SHORT
-    _MIN_H = _SIZE_SHORT["720p"]
+try:                                                    # 수집 문턱 = img_sizes SSOT 값(리터럴 재창작 0)
+    from img_sizes import COLLECT_MIN_H as _MIN_H       # 600(운영자 260810 3차) · 산출 해상도 사다리와 다른 축
 except Exception:
-    _MIN_H = 720
+    _MIN_H = 600
 _UPSIZE_MAX = _int_env("THUMB_UPSIZE_MAX", 4)          # URL 1개당 승격 후보 상한(요청 폭주 차단)
 _REL_SCAN = _int_env("THUMB_REL_SCAN", 30)             # 관련소스 훑는 범위(720 컷으로 채택률이 반감 = 버린 만큼 더 훑는다)
 _UPSIZE_ON = os.environ.get("THUMB_UPSIZE", "1") != "0"  # 킬스위치(=0 → 종전 동작 100% 복귀)

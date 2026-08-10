@@ -5398,9 +5398,16 @@ def check_img_upsize():
     if 'thumb_topup.txt' not in body:
         bad.append('보충 대상 마커(thumb_topup.txt) 소실 — 720 컷으로 빈 자리를 다시 검색해 채울 경로가 없다')
 
-    # ③ 720 문턱 = img_sizes SSOT 경유
-    if 'from img_sizes import' not in body or '_MIN_H' not in body:
-        bad.append('720 문턱이 img_sizes SSOT 경유가 아니다 — 리터럴 재창작 = 해상도 사다리 드리프트')
+    # ③ 수집 문턱 = img_sizes SSOT 경유(값은 운영자가 바꾼다 — 게이트는 '한 곳에서 오는가'만 본다)
+    if 'from img_sizes import COLLECT_MIN_H' not in body or '_MIN_H' not in body:
+        bad.append('수집 문턱이 img_sizes.COLLECT_MIN_H 경유가 아니다 — 리터럴 재창작 = 문턱 드리프트')
+    try:
+        sys.path.insert(0, os.path.join(ROOT, '.github', 'scripts'))
+        import img_sizes as _isz
+        if not isinstance(getattr(_isz, 'COLLECT_MIN_H', None), int):
+            bad.append('img_sizes.COLLECT_MIN_H 소실 — 수집 문턱 SSOT 자체가 없다')
+    except Exception as e:
+        bad.append('img_sizes import 실패({}) — 수집 문턱 SSOT 도달 불가'.format(str(e)[:40]))
 
     if bad:
         print('❌ 검색 이미지 화질 승격 체인 — {}건'.format(len(bad)))
