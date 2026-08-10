@@ -23,6 +23,35 @@ FLOOR_I = -55.0   # 근사무음 게이트 — 이보다 조용하면(룸톤·�
 PRE = "aformat=channel_layouts=stereo,pan=stereo|c0=.5*c0+.5*c1|c1=.5*c0+.5*c1"
 
 
+# ── 소리 무재압축 통과(운영자 260810 "편집후에 음질이 엄청나게 망가지거든") ─────────────────────────
+# 손실 압축(AAC)은 되풀이할 때마다 깎인다. 그런데 이 레포의 편집 경로는 **소리를 건드리지 않는 단계에서도**
+# 매번 다시 구웠다 — 실측(260810) = 자막 번인 192k → 음량 통일 192k → 자동 가림/키잉 **160k**(비트레이트 강등까지)
+# = 한 번 편집에 소리가 최대 3회 재압축. 자막·모자이크·이름표는 **그림만** 바꾸는데 소리가 같이 깎여 나간 것.
+# → 소리 필터가 없는 단계는 원본 스트림을 그대로 복사한다(재압축 0 · 화면 결과 무변).
+# ⚠ mp4 컨테이너에 그대로 담을 수 있는 코덱일 때만 copy — 아니면 종전대로 굽되 비트레이트는 fallback_abr.
+#   (유튜브 원본이 Opus로 오는 축이 실재 = CLAUDE.md check_ytdlp_aac 항목 · Opus는 mp4 copy 불가라 폴백이 필수)
+MP4_SAFE_ACODECS = {"aac", "mp3", "alac", "ac3", "eac3"}   # mp4 먹싱 안전 목록(ffmpeg 실측 기준 · Opus/Vorbis 제외)
+
+
+def audio_codec(path, timeout=60):
+    """첫 오디오 스트림 코덱 이름 · 오디오 없음·판별 실패 = None."""
+    try:
+        r = subprocess.run(["ffprobe", "-v", "error", "-select_streams", "a:0", "-show_entries",
+                            "stream=codec_name", "-of", "csv=p=0", path],
+                           capture_output=True, text=True, timeout=timeout)
+        return ((r.stdout or "").strip() or None)
+    except Exception:
+        return None
+
+
+def audio_passthrough(src, fallback_abr="192k"):
+    """소리를 손대지 않는 인코딩 단계용 ffmpeg 인자 — 가능하면 ['-c:a','copy'](재압축 0).
+    mp4에 그대로 못 담는 코덱·판별 실패 = ['-c:a','aac','-b:a',fallback_abr] 폴백(종전 동작)."""
+    if audio_codec(src) in MP4_SAFE_ACODECS:
+        return ["-c:a", "copy"]
+    return ["-c:a", "aac", "-b:a", fallback_abr]
+
+
 def has_audio(path, timeout=60):
     """True/False = 오디오 스트림 유/무 · None = 판별 실패(ffprobe 이상 — 사유 구분용·평의회6)."""
     try:

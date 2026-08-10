@@ -25,7 +25,9 @@ import cv2
 import numpy as np
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", ".github", "scripts"))
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "shared"))
 import thumb_gen as tg   # r2_upload · R2_ON 재사용
+from audio_norm import audio_passthrough   # 소리 무재압축 통과 SSOT(모자이크·이름표는 그림만 바꾼다 = 소리 재압축 0 · 260810)
 
 PAD_SEC = 0.30           # 트랙 앞뒤 시간 안전마진
 EDGE_PAD_SEC = 0.5       # 화면 가장자리 접촉 트랙 추가 패딩 — 이탈/진입 슬리버(검출 불가 부분 얼굴)는 속도 외삽으로 추적 커버(평의회I 노출 적발 봉합)
@@ -611,7 +613,7 @@ def main():
          "-f", "rawvideo", "-pix_fmt", "bgr24", "-s", f"{W2}x{H2}", "-r", f"{fps:.4f}", "-i", "-",
          "-i", src, "-map", "0:v", "-map", "1:a?",
          "-c:v", "libx264", "-preset", "veryfast", "-crf", "19", "-pix_fmt", "yuv420p",
-         "-movflags", "+faststart", "-c:a", "aac", "-b:a", "160k", "-shortest", out_mp4],
+         "-movflags", "+faststart"] + audio_passthrough(src, "192k") + ["-shortest", out_mp4],
         stdin=subprocess.PIPE)
 
     f = 0

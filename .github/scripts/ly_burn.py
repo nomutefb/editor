@@ -1505,10 +1505,15 @@ def run(vid_id, video, outdir):
         # ⚠️ -shortest 금지: vocals가 영상보다 짧으면 영상을 절단(6.4s→5.0s 실측 회귀 · 평의회1 P1) — 영상 길이가 출력을 주도(꼬리 무음 = 무해)
         vf = ((mid + ",") if mid else "") + ("ass={}".format(ass_path) if ass else "")
         vf = vf.rstrip(",") or "null"   # 자막 없는 편집 경로에서 mid도 비면 무변환 통과(null) — 오디오만 손대는 조합
+        # 소리 축(운영자 260810 "편집후에 음질이 엄청나게 망가지거든") — 자막 번인·비율·해상도·프레임·트림은 **그림만** 바꾼다.
+        #   보컬 분리(vocals)가 걸린 경로만 소리 필터를 타므로 그때만 다시 굽고, 나머지는 원본 스트림 그대로 통과 = 재압축 0.
+        #   ⚠ 트림 동반 시 안전 실측(260810) = 영상·소리 시작 타임스탬프 **둘 다 0.000**(싱크 어긋남 0) · 꼬리만 12ms 길다
+        #     (AAC 프레임 경계 반올림 = 꼬리 무음 = 이 파일 -shortest 금지 주석의 "꼬리 무음 = 무해" 원칙과 동축).
+        acodec = ["-c:a", "aac", "-b:a", "192k"] if vocals else audio_norm.audio_passthrough(video, "192k")
         return ["ffmpeg", "-y"] + ins + ["-vf", vf] \
             + (["-map", "0:v:0", "-map", "1:a:0", "-af", "loudnorm=I=-14:TP=-1.5:LRA=11"] if vocals else []) \
-            + ["-c:v", "libx264", "-preset", "veryfast", "-crf", "18", "-pix_fmt", "yuv420p",   # crf 20→18 = 재인코딩 열화 체감 개선(운영자 260722 "자르기+60프레임 하면 원본 좋아도 화질 많이 저하" · 18 = 시각적 무손실 근접 · 파일 ~1.5× · preset veryfast 유지 = 잡 시간 예산 불변 = 속도는 preset이 지배·crf는 무영향)
-               "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart", out_mp4]
+            + ["-c:v", "libx264", "-preset", "veryfast", "-crf", "18", "-pix_fmt", "yuv420p"] \
+            + acodec + ["-movflags", "+faststart", out_mp4]   # crf 20→18 = 재인코딩 열화 체감 개선(운영자 260722 "자르기+60프레임 하면 원본 좋아도 화질 많이 저하" · 18 = 시각적 무손실 근접 · 파일 ~1.5× · preset veryfast 유지 = 잡 시간 예산 불변 = 속도는 preset이 지배·crf는 무영향)
 
     enc_base = min(2400, int(900 * max(1.0, canvas_px / 2073600.0)))   # 백스톱 = 캔버스 픽셀 비례(x264 실단가 비례 · FHD 900 → 4K 2400 캡 · 세로 2340 = ~1015 — 이진 오분류 없음 · 평의회4)
     enc_to = enc_base + int(interp_est * 1.5)   # 60i 보간 예산(≤900s)만큼 백스톱 연장(1080p 최대 2250s · 4K 2400s) — 스텝 내 최악 스택{probe+Demucs 분리(≤780)+본 인코딩+음량(≤270)}은 컴포즈 스텝 60분 캡이 수용(P2평의회2 산술 + 4K 260711)
