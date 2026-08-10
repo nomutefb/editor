@@ -14,6 +14,9 @@ import subprocess
 import sys
 import time
 
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "shared"))
+from audio_norm import audio_passthrough   # 소리 무재압축 통과 SSOT(가림·키잉·크로마키는 그림만 바꾼다 = 소리 재압축 0 · 260810)
+
 MAX_SEC = 300            # 길이 캡(변환·트래킹 분석 캡 선례 — 트림 후 유효 길이)
 MAX_LONG = 1920          # 입력 해상도 캡(키잉·변환 선례)
 FF_TIMEOUT = 1900        # ffmpeg 백스톱(conv 선례 — 스텝 타임아웃 전 정직 에러)
@@ -168,7 +171,7 @@ def run(src, opts, out_dir):
         r1 = subprocess.run(base + ["-map", "0:v:0", "-map", "0:a?", "-vf", vf + ",format=yuva444p10le",
                                     "-c:v", "prores_ks", "-profile:v", "4444", "-pix_fmt", "yuva444p10le",
                                     "-alpha_bits", "8", "-q:v", "11",
-                                    "-c:a", "aac", "-b:a", "160k", out_mov], timeout=FF_TIMEOUT)
+                                    *audio_passthrough(src, "192k"), out_mov], timeout=FF_TIMEOUT)
         r2 = subprocess.run(base + ["-map", "0:v:0", "-map", "0:a?",
                                     "-vf", vf + f",scale={pw}:{ph},format=yuva420p",
                                     "-c:v", "libvpx-vp9", "-pix_fmt", "yuva420p", "-crf", "34", "-b:v", "0",

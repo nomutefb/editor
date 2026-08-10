@@ -18,6 +18,8 @@ import cv2
 import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "shared"))
+from audio_norm import audio_passthrough   # 소리 무재압축 통과 SSOT(가림·키잉·크로마키는 그림만 바꾼다 = 소리 재압축 0 · 260810)
 # 키잉 심볼(전파 계획·캡 상수)은 run() 진입 시 lazy import — track_keying 로드가 thumb_gen(.github/scripts)을
 #   전이로 끌어와 모듈 로드만으로 결합되는 것 차단(track_render lazy 선례 · M4평의회1 ③)
 
@@ -234,7 +236,7 @@ def run(src, tracks, req, out_path):
          "-f", "rawvideo", "-pix_fmt", "bgr24", "-s", f"{W2}x{H2}", "-r", f"{fps:.4f}", "-i", "-",
          "-i", src, "-map", "0:v", "-map", "1:a?",
          "-c:v", "libx264", "-preset", "veryfast", "-crf", "19", "-pix_fmt", "yuv420p",
-         "-c:a", "aac", "-b:a", "160k", "-movflags", "+faststart", "-shortest", out_path], stdin=subprocess.PIPE)
+         *audio_passthrough(src, "192k"), "-movflags", "+faststart", "-shortest", out_path], stdin=subprocess.PIPE)
     cap.release()
     cap = cv2.VideoCapture(src)
     try:

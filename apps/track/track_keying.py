@@ -27,6 +27,8 @@ import numpy as np
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", ".github", "scripts"))
 import thumb_gen as tg   # r2_upload · R2_ON 재사용(track_render와 동일)
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "shared"))
+from audio_norm import audio_passthrough   # 소리 무재압축 통과 SSOT(가림·키잉·크로마키는 그림만 바꾼다 = 소리 재압축 0 · 260810)
 
 MODELS = os.environ.get("NOMUTE_TRACK_MODELS", os.path.expanduser("~/.cache/nomute-track"))
 SAM_CKPT = os.path.join(MODELS, "sam2.1_t.pt")
@@ -319,7 +321,7 @@ def run(vid_id, req, doc, outdir):
          "-f", "rawvideo", "-pix_fmt", "bgra", "-s", f"{W2}x{H2}", "-r", f"{fps:.4f}", "-i", "-",
          "-i", src, "-map", "0:v", "-map", "1:a?",
          "-c:v", "prores_ks", "-profile:v", "4444", "-pix_fmt", "yuva444p10le", "-alpha_bits", "8", "-q:v", "11",
-         "-c:a", "aac", "-b:a", "160k", "-shortest", out_mov], stdin=subprocess.PIPE)   # q11 = 기본比 −44% 용량·화질 고품질 구간(실측 260709)
+         *audio_passthrough(src, "192k"), "-shortest", out_mov], stdin=subprocess.PIPE)   # q11 = 기본比 −44% 용량·화질 고품질 구간(실측 260709)
     enc_p = subprocess.Popen(
         ["ffmpeg", "-y", "-loglevel", "error",
          "-f", "rawvideo", "-pix_fmt", "bgra", "-s", f"{PW}x{PH}", "-r", f"{fps:.4f}", "-i", "-",
