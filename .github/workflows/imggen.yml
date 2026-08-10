@@ -45,7 +45,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
         with:
-          fetch-depth: 0   # 최신 main 기준 rebase·push
+          fetch-depth: 1   # main 최신 1커밋만 — 구 0(전체 히스토리 + 원격 브랜치 전량)은 실측 105초를 먹었다(260810 · run 30972520521 = 체크아웃 108s 중 워킹트리 쓰기는 3s뿐, 나머지는 브랜치 567개 히스토리 수신).
+                           # ⚠ rebase 여유는 아래 Commit 스텝의 --deepen이 담당(shallow 경계와 원격 새 커밋이 안 이어지면 merge-base 실종 = rebase 실패 → 산출 유실).
 
       - name: Setup Node
         uses: actions/setup-node@v5
@@ -102,6 +103,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "변경 없음(생성 이미지 0)"; exit 0
           fi
+          git fetch --deepen=100 origin main 2>/dev/null || true   # shallow 경계 확장(260810 fetch-depth:1 전환 짝) — 얕은 클론은 원격 새 커밋과 로컬 HEAD 사이가 끊겨 merge-base를 못 찾으면 아래 rebase가 통째로 실패한다. main 단일 브랜치 100커밋만이라 수 초 · 실패해도 무해(구 동작 유지)
           for i in 1 2 3 4; do
             git pull --rebase --autostash -X ours origin main || echo "::warning::pull--rebase 실패(사유 = 위 로그) — 재시도 계속"
             # 자유 생성 유실 봉합(260707 실측): rebase -X ours = 원격 승 → free.json 내 신규 항목 드랍 가능

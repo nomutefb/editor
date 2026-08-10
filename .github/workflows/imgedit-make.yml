@@ -50,7 +50,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
         with:
-          fetch-depth: 0
+          fetch-depth: 1   # 출력 브랜치 rebase·push용 — 구 0(전체 히스토리 + 원격 브랜치 567개 전량)은 imggen 실측에서 105초를 먹었다(260810 · 워킹트리 쓰기는 3s뿐이고 나머지가 전부 수신 대기).
+                           # ⚠ rebase 여유는 아래 커밋 스텝의 --deepen이 담당(shallow 경계가 원격 새 커밋과 안 이어지면 merge-base 실종 = rebase 실패 = 출력 유실).
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -165,6 +166,7 @@ jobs:
           git add -A "viewer/imgedit_out/${IN_ID}" 2>/dev/null || true   # -A = 렌더 시작 시 제거한 스테일 error.log/result.json 삭제도 반영(C1·C2 위생)
           git commit -m "imgedit: ${IN_ID} ${IMG_MODE} 출력" || { echo "커밋할 것 없음"; exit 0; }
           pushed=0
+          git fetch --deepen=100 origin "$BRANCH" 2>/dev/null || true   # shallow 경계 확장(260810 fetch-depth:1 전환 짝) — 얕은 클론은 원격 새 커밋과 로컬 HEAD 사이가 끊겨 merge-base를 못 찾으면 아래 rebase가 통째로 실패한다(= 출력 유실). 단일 브랜치 100커밋만이라 수 초 · 실패해도 무해
           for i in 1 2 3 4 5; do
             if git fetch origin "$BRANCH" && git rebase "origin/$BRANCH" && git push origin "HEAD:$BRANCH"; then pushed=1; break; fi
             git rebase --abort 2>/dev/null || true; sleep $((i*3))
