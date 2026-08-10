@@ -1,0 +1,280 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark">
+<title>클러스터 오염·판정 비결정성 — 인수인계 진단서 260810</title><style>
+:root{color-scheme:dark}*{box-sizing:border-box;margin:0}
+body{background:#0b0d0e;color:#eef7f0;font:14px/1.55 "Apple SD Gothic Neo","Pretendard","Noto Sans KR","Malgun Gothic",system-ui,sans-serif;padding:18px;max-width:1100px;margin:0 auto}
+h1{font-size:19px;margin-bottom:4px}
+.sub{color:#9aa39d;font-size:12px;margin-bottom:14px}
+h2{font-size:15px;font-weight:700;margin:26px 0 8px;padding-top:14px;border-top:1px solid rgba(255,255,255,.1)}
+h3{font-size:13px;font-weight:700;margin:14px 0 6px;color:#00EED2}
+p{margin:6px 0}
+.kpi{display:inline-block;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:11px;padding:8px 12px;font-size:12px;margin:0 8px 8px 0;font-variant-numeric:tabular-nums}
+.kpi b{color:#00EED2}
+.kpi.bad b{color:#e23b2a}
+.kpi.warn b{color:#FFE13D}
+.tbl-wrap{overflow-x:auto;border:1px solid rgba(255,255,255,.1);border-radius:11px;margin:10px 0}
+table{border-collapse:collapse;width:100%;font-size:12px}
+th{background:#14171a;color:#9aa39d;font-weight:700;text-align:left;padding:8px 9px;border-bottom:1px solid rgba(255,255,255,.14);white-space:nowrap}
+td{padding:7px 9px;border-bottom:1px solid rgba(255,255,255,.06);vertical-align:top}
+td.n{color:#9aa39d;font-variant-numeric:tabular-nums;white-space:nowrap}
+td.it{background:rgba(0,238,210,.035)}
+td.bad{background:rgba(226,59,42,.06)}
+tr:hover td{background:rgba(255,255,255,.03)}
+.box{margin:10px 0;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:11px;padding:12px;font-size:12px}
+.box.red{border-color:rgba(226,59,42,.35);background:rgba(226,59,42,.06)}
+.box.gold{border-color:rgba(255,225,61,.3);background:rgba(255,225,61,.05)}
+.box h4{font-size:12px;margin-bottom:6px;color:#9aa39d;font-weight:700}
+code,pre{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px}
+code{background:rgba(255,255,255,.06);border-radius:5px;padding:1px 5px}
+pre{background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.08);border-radius:9px;padding:10px;overflow-x:auto;margin:6px 0;line-height:1.5}
+ol,ul{margin:6px 0 6px 20px}
+li{margin:3px 0}
+.done{color:#00EED2;font-weight:700}
+.notdone{color:#e23b2a;font-weight:700}
+.unk{color:#FFE13D;font-weight:700}
+.foot{color:#9aa39d;font-size:11px;margin-top:20px;padding-top:12px;border-top:1px solid rgba(255,255,255,.1)}
+</style></head><body>
+
+<h1>클러스터 오염 · 판정 비결정성 — 인수인계 진단서</h1>
+<p class="sub">2026-08-10 19:20 KST · 세션 종료(계정 한도) · 발단 = 운영자 «트와이스 정연 이적이 속보로 안 떴다» → 봉합 후 후속 조사에서 별건 2종 확정 · 평의회 8인 중 6인 완료(2인 세션한도 중단)</p>
+
+<span class="kpi bad">묶음 오염 <b>7/14 = 50%</b></span>
+<span class="kpi bad">판정 흔들림 <b>4.22%</b></span>
+<span class="kpi warn">형제제목 이득 <b>0건</b> / 손실 <b>2건</b></span>
+<span class="kpi">부실 제목 표본 <b>0/164</b></span>
+<span class="kpi">라이브 반영 <b>679f5fe</b></span>
+
+<h2>§0 한 줄 요약</h2>
+<div class="box gold">
+정연 미발 건은 <b>룰북 조항 부재</b>가 원인이었고 <b class="done">봉합·머지 완료</b>다.
+그 후속으로 「여러 기사 제목을 같이 보고 재검증하자」는 개선안을 A/B로 검증했는데 <b class="notdone">가설이 기각</b>됐고,
+그 과정에서 <b>더 큰 별건 2종</b>이 드러났다 — ⓐ 같은 사건으로 묶인 기사의 <b>절반이 다른 사건</b>이다 ⓑ 같은 제목·같은 룰북인데 <b>판정이 4.22% 흔들리고, 같이 채점되는 이웃 제목이 답을 바꾼다</b>.
+둘 다 지금 라이브에서 순위·속보 판정에 그대로 쓰이고 있고, 아무 게이트도 이 축을 보고 있지 않다.
+</div>
+
+<h2>§1 완료된 조치 (라이브 반영됨)</h2>
+
+<h3>연예 지위 변동 = 속보 축 신설</h3>
+<div class="tbl-wrap"><table>
+<tr><th>항목</th><th>내용</th></tr>
+<tr><td class="n">발단</td><td>«트와이스 정연, JYP 떠나 바로엔터와 전속계약 [공식]» (조선 13:27 발행 · 13:38 수집 · cross 8)이 2시간+ 무알림. 운영자가 수동 붙여넣기로 요약</td></tr>
+<tr><td class="n">3중 봉쇄 실측</td><td>ⓐ <code>breaking_candidate:false</code> (burst 2 &lt; <code>BREAKING_BURST</code> 3 · 제목 「[공식]」은 <code>BREAKING_TAG</code> 정규식 밖)<br>ⓑ <code>grade:0</code> — 진범 = gate RUBRIC 문화 조항 «경기 결과·<b>이적</b>은 최상급이어도 [0]»의 '이적'이 연예인 소속사 이동까지 먹음 → grade≥3 자동 승격 레일(<code>GRADE3_PROMOTE_H</code> 4h) 미탑승<br>ⓒ breaking RUBRIC 🎤 연예 게이트가 연예 콘텐츠 상시 X</td></tr>
+<tr><td class="n">봉합</td><td><b>룰북 2곳만 개정 · 코드 로직 무접촉</b><br>① gate RUBRIC — 연예 예외에 '지위 변동' 신설 = <b>[3]</b>(소속사 이탈·전속계약 체결/종료·재계약 결렬·팀 탈퇴·제명·해체·은퇴·활동 중단 · 확정 발표만 · 미확정 관측은 [0] 유지). 기존 '이적'은 <b>스포츠 선수 구단 이동만</b>으로 축소<br>② breaking RUBRIC — 🎤 연예 게이트에 '지위 변동 예외' = <b>O</b>. 열애·결별·결혼·이혼은 종전대로 X</td></tr>
+<tr><td class="n">이력</td><td><code>65150de</code>(1차 머지) → <code>b28f881</code>(<b>revert · 사유 본문 없음 = 미확인</b>) → <code>679f5fe</code>(재검증 후 복원 · PR #3946 merged)</td></tr>
+<tr><td class="n">기준 확정</td><td>운영자 260810 «정연 이적 = 화재로 6명 사망 정도랑 동급». 실호출 대조로 확인 — 정연 2제목·화재6명사망 2제목 <b>전건 grade 3 · 전건 속보 O</b> = 같은 칸</td></tr>
+<tr><td class="n">라이브 확인</td><td><span class="done">✅</span> <code>viewer/candidates.json</code>의 정연 항목 <code>grade 0 → 3</code> 실측 · <code>grade_rubric 78e0d444dc6d</code></td></tr>
+<tr><td class="n bad">미완</td><td><span class="notdone">❌</span> 오늘 그 기사의 🚨 긴급 표시는 <b>못 붙었다</b>. 승격 창(발행+4h = 17:27)을 놓침. 직접 원인 = <b>수집이 16:07 이후 갱신 정지</b>(수동 디스패치 2회에도 <code>last_seen</code> 불변) — <b>원인 미확인 · 별건</b></td></tr>
+</table></div>
+
+<h2>§2 확정된 별건 ⓐ — 클러스터 오염 (같은 사건 묶음의 50%가 다른 사건)</h2>
+
+<p>표본 14건 중 <b>7건(50%)</b>이 무관한 기사를 형제로 물고 있다. 같은 입력 2회 재실행으로 노이즈를 통제한 뒤 얻은 값이라 <b>재현되는 신호</b>다.</p>
+
+<div class="tbl-wrap"><table>
+<tr><th style="width:38%">대표 기사</th><th>「같은 사건」이라며 묶인 것</th><th style="width:22%">공유하는 것</th></tr>
+<tr><td class="bad">대동(농기계) 2분기 실적</td><td class="bad">SK바이오사이언스 2분기 매출 1557억 · 메디톡스 2분기 매출 687억</td><td>「2분기 실적」이라는 <b>틀뿐</b>. 회사·업종 무관</td></tr>
+<tr><td class="bad">레이델 창립 40주년 할인</td><td class="bad">유가협 창립 40주년 「기억은 역사가 되고」</td><td><b>「40주년」 숫자 하나</b></td></tr>
+<tr><td class="bad">DL이앤씨 폭염 현장점검</td><td class="bad">온누리 가맹점 14만 7천곳 첫 갱신</td><td>접점 <b>0</b></td></tr>
+<tr><td class="bad">대방건설 703억 수주</td><td class="bad">HD현대重 美 데이터센터 1.6조원 수주</td><td>「수주」. 다른 회사·23배 금액</td></tr>
+<tr><td class="bad">日증시 닛케이 0.45%↑</td><td class="bad">코스닥 5% 상승에 매수 사이드카 발동</td><td>「증시」. <b>다른 시장</b></td></tr>
+</table></div>
+
+<div class="box red">
+<h4>⚠ 왜 이게 제일 크냐</h4>
+클러스터가 만드는 <code>cross</code>(교차 매체 수)·<code>burst</code>(동시 보도 속도)·<code>arts</code>(묶음 크기)는 <b>지금도 라이브에서 쓰인다</b> —
+수집함 진입(<code>scFast</code> cross≥2) · 랭킹 가중 · 속보 1차 게이트(<code>burst ≥ BREAKING_BURST</code>) · 재채점 큐(<code>REGRADE_MIN_CROSS</code>).
+절반이 오염돼 있으면 <b>그 숫자 전체가 부풀려져 있다</b>. 무관한 기사 3건이 붙어 「4개 매체가 쓴 중요한 사건」으로 보인다.<br>
+<b>이 축을 보는 게이트가 하나도 없다.</b> <code>check_refs</code> 106개는 정적 문자열·경로 실존이고, <code>smoke_*</code>는 화면 렌더다.
+「묶음이 옳은가」는 축 자체가 없어서, 운영자 눈에도 안 보인다(화면엔 대표 제목만 뜨니까).
+</div>
+
+<h3>실측 규모 (라이브 800건)</h3>
+<div class="tbl-wrap"><table>
+<tr><th>지표</th><th class="n">값</th><th>비고</th></tr>
+<tr><td><code>cluster_members</code> ≥ 2</td><td class="n">526건 (65.8%)</td><td>중앙값 3 · 최대 40 · 평균 4.67</td></tr>
+<tr><td>멤버 0(mega 미직렬화)</td><td class="n">274건 (34.2%)</td><td><code>knews_scraper.py:396</code> <code>if len(members) &lt;= 40 else []</code> · <code>arts</code>는 43~274 = <b>클러스터가 클수록 형제가 없다</b>(역상관)</td></tr>
+<tr><td>저등급 의심군(grade 0/1 ∧ cross≥6)</td><td class="n">164건</td><td>그중 117건(71%)이 mega = 형제 URL 0</td></tr>
+<tr><td>대표 url 매체 ≠ 표시 매체</td><td class="n">524건 (65.5%)</td><td><code>_pick_rank</code> 메이저 픽이 <b>이미 표시 제목을 교체</b> 중(800건 전건 <code>title == breaking_pick.title</code>)</td></tr>
+</table></div>
+
+<h2>§3 확정된 별건 ⓑ — 판정 비결정성 (같은 입력 7% 흔들림)</h2>
+
+<div class="tbl-wrap"><table>
+<tr><th>측정</th><th class="n">결과</th><th>조건</th></tr>
+<tr><td>같은 입력 3회 전건 일치</td><td class="n">28/30 = 93%</td><td>배치 30건 · <code>gate_judge.judge()</code> 직접 호출(1차 측정)</td></tr>
+<tr><td><b>같은 입력 6회 전건 일치</b></td><td class="n"><b>27/30 = 90%</b></td><td>정밀 재측정 · 등급 폭은 전부 한 칸(0↔1 1건 · 1↔2 2건) · 두 칸 이상 튄 건 0</td></tr>
+<tr><td><b>단일 실행끼리 평균 불일치</b></td><td class="n bad"><b>4.22%</b> (1.27/30)</td><td>범위 0~3건 · <b>이것이 이 레포 모든 판정 A/B의 바닥 노이즈</b></td></tr>
+<tr><td class="bad">배치 40 → 10으로 축소</td><td class="n bad">14.44% (<b>3배 악화</b>)</td><td>⚠ <b>직관과 반대</b> — 같은 30건을 10건씩 셋으로 쪼개면 흔들림이 3배가 된다. 다수결끼리 비교해도 배치30 vs 배치10이 5/30(16.7%) 다르다 = <b>같이 묶인 이웃 제목이 판정을 바꾼다</b></td></tr>
+<tr><td>추론 강도 부여</td><td class="n">9.33%</td><td>노이즈 2배 · 다수결 답은 0/30 동일 = <b>기각</b></td></tr>
+<tr><td>3회 다수결</td><td class="n">3.33%</td><td>21% 감소에 비용 3배 · 진짜 반반인 건은 못 고침</td></tr>
+<tr><td>온도·시드 노브</td><td class="n">없음</td><td>호출부·<code>shared/claude_py.py</code> 전건 0</td></tr>
+<tr><td>grade 회귀 60건</td><td class="n bad">1차 FAIL / 2차 PASS</td><td>같은 RUBRIC·같은 케이스. 「하닉 하한가」 expect 1 → got 2</td></tr>
+<tr><td>breaking 회귀 27건</td><td class="n bad">2회 모두 1건 실패</td><td>「러 모스크바 카페 폭발 3명 사망·15명 부상」 expect YES → NO. <b>봉합 전 origin/main(rubric 6579ea12bb90·25케이스)에서도 동일 재현 = 선존</b></td></tr>
+</table></div>
+
+<div class="box red">
+<h4>⚠ 회귀 도장이 이미 거짓말을 하고 있다</h4>
+<code>check_rubric_regress</code>·<code>check_grade_regress</code>는 <b>스탬프 해시 대조만</b> 한다. 실행기가 n=1이라
+<b>초록이 나올 때까지 다시 돌리면 도장이 찍히고, 빨간 기록은 어디에도 안 남는다.</b>
+실제로 이 세션에서 grade 회귀가 1차 FAIL → 2차 PASS로 도장이 갱신됐다(내용 동일·<code>ts</code>만 변경 → <b>근거 없어 되돌림</b>).<br>
+<b>두 번째 사각</b> — 도장은 <code>RUBRIC</code> <b>문자열</b>만 해싱한다(<code>RUBRIC_VER = sha256(RUBRIC)[:12]</code>).
+프롬프트 <b>조립부</b>(<code>judge()</code>의 <code>listing</code>)를 바꾸면 해시가 안 바뀌어 <b>회귀 0회로 라이브에 나간다</b>. 킬테스트로 확인됨(형제 배선 심고 <code>check_refs</code> 110게이트 전건 rc=0).
+</div>
+
+<h2>§4 검증했으나 반영하지 않은 것 — 형제 제목 병기</h2>
+
+<p>가설 = 「같은 사건으로 묶인 다른 기사 제목을 같이 주면 부실한 제목도 정확히 판정된다」(운영자 260810 «기자들이 타이틀을 못 뽑는다»).</p>
+
+<h3>A/B 설계</h3>
+<pre>표본 = 오늘 12시간치 재수집 → 클러스터 대표 175건 → 형제 제목 3개+ 확보 94건 → 무작위 30건(seed 7)
+A안 = 대표 제목만 (현행)
+B안 = 대표 제목 + 〔같은 사건 다른 매체 제목: "…" / "…" / "…"〕 형제 3개
+대조군 = A안을 동일 입력으로 2회 더 실행 (노이즈 바닥 측정)</pre>
+
+<h3>결과</h3>
+<div class="tbl-wrap"><table>
+<tr><th>측정</th><th class="n">값</th><th>판독</th></tr>
+<tr><td>A vs B 판정 갈림</td><td class="n">3/30</td><td>전부 1→2 <b>상승</b> · 하락 0건 = <b>한쪽 쏠림</b></td></tr>
+<tr><td class="bad">그중 대조군에서도 갈린 건</td><td class="n bad">2/3</td><td>8번·11번 = <b>형제 때문이 아니라 원래 흔들리는 건</b></td></tr>
+<tr><td class="bad"><b>형제 제목의 순효과</b></td><td class="n bad"><b>1건</b></td><td>노이즈 2건보다 작다 = <b>검출 불가</b></td></tr>
+<tr><td class="bad">독립 표본(14건) 이득</td><td class="n bad">0건</td><td>노이즈 통제 후 재현 확인</td></tr>
+<tr><td class="bad">독립 표본(14건) 손실</td><td class="n bad">2건</td><td>둘 다 2회 재현</td></tr>
+</table></div>
+
+<h3>손실 실물</h3>
+<ul>
+<li>「日증시, 美증시 훈풍에 상승 출발…닛케이 0.45%↑」 <b>0 → 1 승급</b> · 카테고리 국제 → 경제. 오염원 = 형제 「코스닥 5% 상승에 매수 사이드카 발동」(<b>다른 시장</b>)</li>
+<li>「DL이앤씨 폭염 현장점검」(기업 홍보) 카테고리 <b>경제 → 사회</b>. 오염원 = 형제 「윤호중 장관 쉼터 점검」</li>
+<li>「전직 美정보당국자들 "트럼프 통치방식, 독재자와 비슷"」 <b>1 → 2</b> — ⚠ 형제 3개가 <b>전부 같은 내용의 다른 표현</b>(「독재자 닮은꼴」·「독재자 수순」×2). <b>새 정보 0인데 점수가 올랐다</b> = 정보가 아니라 「여러 매체가 썼다」에 반응</li>
+</ul>
+
+<div class="box red">
+<h4>⚠ 구조적 부결 사유 — 일부러 세운 벽을 뚫는다</h4>
+<code>.github/scripts/gate_judge.py</code> 55~57행 주석이 재채점 안전장치를 못박아 뒀다 —
+<b>«모델은 cross 를 모른다 … 다매체라는 이유로 홍보가 승급될 편향 원천 부재»</b>.
+형제 제목 3개 병기 = 모델이 「최소 4개 매체가 이걸 썼다」를 알게 되는 것 = <b>그 차단막을 정면으로 뚫는다</b>. 260803 평의회 3중 차단 ①번을 되돌리는 변경이다.
+갈린 건이 <b>전부 위로만</b> 올라간 것이 그 증상이다.
+</div>
+
+<h3>추가 부결 근거 (평의회 실측)</h3>
+<ul>
+<li><b>근거가 되는 현상 자체가 없다</b> — 저등급 의심군 164건을 4축(따옴표 시작 23 · 고유표지 전무 21 · 구호/의문형 · 최단 12)으로 전수 훑었으나 <b>「사람이 봐도 무슨 일인지 모르는 제목」 0건</b>. 저등급 사유는 제목 불명이 아니라 실적·시황·홍보였고(의심군 1위 = 경제 68/164 = 41%) <b>g1이 정답</b>이었다</li>
+<li><b>형제 제목 원천이 물리적으로 없다</b> — <code>cluster_members</code> 유니크 2,276 URL 전수 슬러그 판정 = <b>id-only 100%</b>(한글·영문 단어 슬러그 0). 제목 원천 <code>scraper/out/articles.json</code>은 <b>git 미추적</b>이고 <code>breaking-judge.yml</code>은 checkout만 한다 = 그 러너에 파일이 없다. <b>피드 재크롤 없이는 형제 제목이 존재하지 않는다</b></li>
+<li><b>더 센 동일 개입이 이미 0.9%였다</b> — 다매체 저등급 재채점 큐(<code>GATE_REGRADE_MIN_CROSS=8</code>) 설계 실측 = 블라인드 재채점 275건 → 플립 <b>0.9%</b>(1건), 그마저 top10 진입 실패(<code>gate_judge.py:60</code>)</li>
+<li><b>용량 한도</b> — <code>viewer/candidates.json</code> 실측 <b>919,884B / 예산 972,800B = 94.6% 소진</b>(여유 51.7KB). 형제 제목을 이 파일에 넣으면 +210KB = <code>to_candidates.py:394</code> 트림 루프가 <b>수집함 꼬리 20~38건을 조용히 삭제</b>. 증상 = 러너 로그 1줄뿐, 화면 정상</li>
+<li><b>정답지 검출력 0</b> — 회귀 27건에 형제를 붙여도 뒤집힘 동일(3회 실측). 위양성 유도(폭염 4건·시황·수사절차에 형제 3개씩 심음)에도 <b>한 건도 안 뒤집혔다</b>. 이 정답지는 형제 축의 개선도 사고도 검출 못 한다. 그리고 형제를 붙여도 <b>모스크바 건을 안 고친다</b>(진범은 🌐 게이트의 해외·사망 10명 미만 = NO)</li>
+</ul>
+
+<h2>§5 다음 세션 착수 순서 (권고)</h2>
+
+<div class="box gold">
+<h4>순서를 지켜야 하는 이유 + A/B를 실제로 가능하게 하는 설계</h4>
+지금은 <b>무슨 개선을 넣어도 노이즈(4.22%)에 묻혀 좋아졌는지 나빠졌는지 잴 수가 없다</b>. 기대 효과가 0.9%라 <b>노이즈가 효과의 4.7배</b>다.
+그리고 프롬프트 조립을 바꾸면 회귀가 안 울린다. <b>측정 가능성부터 복구하지 않으면 이후 모든 개선이 검증 불가 변경이 된다.</b>
+<br><br>
+<b>전수 A/B는 불가능하다</b> — 0.9%를 잡으려면 팔당 <b>4,141건</b>(노이즈까지 추정하면 8,300건)이고 스냅샷당 표본이 94건이라 44회분이다.<br>
+<b>유일하게 되는 설계 = 경합 건만 재기.</b> 두 번 돌려 답이 갈린 건(4.2%)만 평가하면 그 안에서 효과 크기가 <b>21%p</b>로 커져
+경합 <b>41건</b>(원자료 963건 = 스냅샷 10회분)이면 판정이 난다. <b>100배 싸진다.</b><br>
+⚠ <b>두 팔의 배치 구성을 고정하지 않은 A/B 결과는 전부 무효다</b>(아래 §3 배치 축 참조).
+</div>
+
+<ol>
+<li><b>[1순위] 클러스터 오염 진단</b> — 「2분기 실적」·「40주년」·「수주」 같은 <b>정형구로 묶이는 경로</b>를 <code>scraper/knews_scraper.py</code>에서 찾는다. 토큰화·<code>same_topic</code>·union-find 병합 임계가 후보.
+ <b>먼저 규모를 재라</b> — 형제와 대표의 <b>고유명사 공유 0개</b> 비율을 라이브 526건 전수로. 그게 오염률의 하한이다.
+ <b>주의</b>: <code>cluster_members</code> 구조를 바꾸면 안 된다(읽는 곳 20군데 · <code>to_candidates.py:246</code> 별칭 승계가 문자열 url 집합을 가정 → 바꾸면 기존 저장분과 영구 무교집합)</li>
+<li><b>[2순위] 배치 구성 고정</b> — <b>공짜이고 효과가 가장 확실한 유일한 수단</b>. 실측상 같이 채점되는 이웃 제목이 판정을 바꾼다(배치30 vs 배치10 다수결 답이 5/30 다름).
+ ⚠ <b>배치 축소는 거꾸로 간다</b>(4.22% → 14.44%) — <code>CHUNK</code>를 낮추지 마라. 3회 다수결도 21% 감소에 비용 3배라 효율이 나쁘고, 추론 강도 부여는 노이즈만 2배로 늘린다(다수결 답 0/30 동일 = <b>둘 다 기각</b>).
+ <b>지금 문제는 정렬이 <code>first_seen</code> 내림차순이라 매 런 이웃이 바뀐다는 것</b>(<code>gate_judge.py:359</code>) → 같은 건이 어제와 다른 이웃과 채점된다. 결정적 배치 키(예: 카테고리·해시 버킷)를 넣으면 재현성이 오른다</li>
+<li><b>[3순위] 회귀 도장 사각 봉합</b> — ⓐ <code>RUBRIC_VER</code>를 <code>RUBRIC + inspect.getsource(judge)</code>로 확장(조립부가 해시에 들어가야 한다) ⓑ 실행기를 <b>k회 반복·전건 통과</b>로 바꾼다(n=1이면 도장은 계속 코인플립) ⓒ 실패 회차를 원장에 남긴다(지금은 재실행하면 기록이 사라진다)</li>
+<li><b>[4순위] 판정 재료 보강 — 형제 제목이 아니라 「본문 첫 문단」</b>.
+ <b>이미 수집돼 있다</b> — 전체의 <b>92.2%</b>가 보유하고 중앙 200자다. <b>추가 수집·추가 콜 0</b>이고, 판정에 <b>새 사실</b>이 들어가는 유일한 안이다(형제 제목은 같은 말의 반복인 경우가 많았다).
+ 형제 제목 병기를 굳이 다시 잰다면 정제 규칙 필수 = <b>고유명사 1개 이상 공유할 때만</b>(무관 5건이 전부 이 술어에서 걸린다) + <b>정형구 클러스터 금지</b>(실적·시황·수주·시상 — 새 정규식 창작 0, <code>REGRADE_BIZ_RE</code>/<code>REGRADE_MKT_RE</code> 재사용) + 개수를 문장으로 노출 금지 + 저장은 <b>candidates.json 금지, 사이드카 파일</b></li>
+<li><b>[별건] 수집 정지</b> — 오늘 16:07 이후 <code>last_seen</code>이 갱신되지 않았다(수동 디스패치 2회에도 불변). <b>원인 미확인</b>. 정연 건이 승격 창을 놓친 직접 원인이고, 방치하면 뉴스 유입 자체가 멈춘다</li>
+</ol>
+
+<h2>§6 재현 명령</h2>
+
+<pre># ① 형제 제목이 든 표본 만들기 (수집기 직접 실행 · 러너 밖에서도 됨)
+pip install -q feedparser
+python3 scraper/knews_scraper.py --out /tmp/ab --hours 12 --min-cross 2
+# → /tmp/ab/articles.json (클러스터 + 각 기사 title 보유)
+
+# ② 대표 + 형제 제목 풀 추출
+python3 - &lt;&lt;'EOF'
+import json
+arts=json.load(open('/tmp/ab/articles.json'))
+arts=list(arts.values()) if isinstance(arts,dict) else arts
+byl={a['link']:a for a in arts if a.get('link')}
+rows=[]
+for a in arts:
+    if not a.get('is_cluster_rep') or not (3&lt;=(a.get('cluster_size') or 0)&lt;=40): continue
+    sib=[byl[u]['title'] for u in (a.get('cluster_members') or [])
+         if u in byl and u!=a.get('link') and byl[u].get('title')!=a.get('title')]
+    if len(sib)&gt;=3: rows.append({'title':a['title'],'sib':sib,'cross':a.get('cross_score')})
+json.dump(rows,open('/tmp/ab/pool.json','w'),ensure_ascii=False); print(len(rows))
+EOF
+
+# ③ 채점기 직접 호출 (A/B · 노이즈 측정 공용)
+python3 - &lt;&lt;'EOF'
+import importlib.util, json
+s=importlib.util.spec_from_file_location('gj','.github/scripts/gate_judge.py')
+gj=importlib.util.module_from_spec(s); s.loader.exec_module(gj)
+pool=json.load(open('/tmp/ab/pool.json'))[:30]
+A=[(str(i),r['title']) for i,r in enumerate(pool)]
+B=[(str(i), r['title']+' 〔같은 사건 다른 매체 제목: '+' / '.join('"%s"'%t for t in r['sib'][:3])+'〕')
+   for i,r in enumerate(pool)]
+g1,_,_,rc,_=gj.judge(A); g2,_,_,_,_=gj.judge(A)   # 노이즈 = g1 vs g2
+gb,_,_,_,_=gj.judge(B)                            # 효과 = g1 vs gb (단 노이즈보다 커야 유의)
+print('noise', sum(1 for k in g1 if g1[k]!=g2.get(k)), '/ effect', sum(1 for k in g1 if g1[k]!=gb.get(k)))
+EOF
+
+# ④ 속보 판정기 (3튜플 반환)
+#   bj.judge(items) -&gt; (dict, rc, err)
+
+# ⑤ 회귀 (LLM 1콜 · 스탬프 갱신됨 주의)
+python3 .github/scripts/grade_regress.py     # 60케이스
+python3 .github/scripts/rubric_regress.py    # 27케이스
+python3 .github/scripts/grade_regress.py --check   # 정적 대조만(LLM 0)</pre>
+
+<h2>§7 코드 위치</h2>
+<div class="tbl-wrap"><table>
+<tr><th>축</th><th>파일</th><th>지점</th></tr>
+<tr><td>클러스터링·묶음</td><td><code>scraper/knews_scraper.py</code></td><td>370~398행(대표 선정·<code>burst</code>·<code>breaking_pick</code>·<code>cluster_members</code> 직렬화) · <code>same_topic</code> · <code>_pick_rank</code>(311행 부근)</td></tr>
+<tr><td>속보 1차 게이트·승격</td><td><code>scraper/to_candidates.py</code></td><td>28행 <code>BREAKING_BURST=3</code> · 29행 <code>BREAKING_TAG</code> · 33행 <code>GRADE3_PROMOTE_H=4</code> · 239행 후보 산출 · 341~353행 grade3 승격 · 394행 트림 루프</td></tr>
+<tr><td>중요도 채점</td><td><code>.github/scripts/gate_judge.py</code></td><td>40행 <code>MODEL</code> · 43~47행 임계(<code>GATE_MIN_CROSS</code>·<code>CHUNK=40</code>·<code>MAX_PER_RUN=80</code>) · <b>55~57행 cross 비노출 계약</b> · 124~170행 RUBRIC · 170행 <code>RUBRIC_VER</code> · 212~255행 재채점 술어 · 355~375행 채점 큐 조립</td></tr>
+<tr><td>속보 판정</td><td><code>.github/scripts/breaking_judge.py</code></td><td>27행 <code>MODEL</code> · 95~110행 🎤 연예 게이트(지위 변동 예외 = 이번 봉합) · 183행 <code>RUBRIC_VER</code> · 234~313행 <code>judge()</code></td></tr>
+<tr><td>회귀</td><td><code>.github/scripts/{rubric,grade}_regress{,_cases,_stamp}.json/py</code></td><td>케이스 27·60건 · 스탬프 해시 대조</td></tr>
+<tr><td>게이트</td><td><code>shared/check_refs.py</code></td><td><code>check_rubric_regress</code> · <code>check_grade_regress</code>(스탬프 해시만 봄 = 조립부 사각)</td></tr>
+<tr><td>워크플로</td><td><code>.github/workflows/</code></td><td><code>scrape.yml</code>(15분 외부 타이머 · 미판정 있으면 디스패치) · <code>breaking-judge.yml</code>(gate_judge + breaking_judge)</td></tr>
+</table></div>
+
+<h2>§8 아직 모르는 것 (미확인 — 추측 금지)</h2>
+<ul>
+<li><span class="unk">?</span> <code>b28f881</code> revert 사유. 커밋 본문에 «This reverts commit…»뿐. 되돌린 주체는 Claude 세션</li>
+<li><span class="unk">?</span> 수집이 16:07 이후 멈춘 원인. 워크플로는 성공(<code>2b943cf</code> 커밋 착지)했는데 <code>last_seen</code> 불변</li>
+<li><span class="unk">?</span> 클러스터 오염률의 라이브 전수 값. 표본 14건에서 50%였으나 <b>전수 미측정</b></li>
+<li><span class="unk">?</span> 배치 구성을 어떤 키로 고정해야 최선인지. 「이웃이 판정을 바꾼다」는 <b>확정</b>이나, 어떤 정렬·버킷이 재현성을 가장 높이는지는 <b>미측정</b></li>
+<li><span class="unk">?</span> 「러 모스크바 카페 폭발 3명 사망·15명 부상」이 속보 NO로 떨어지는 건 — 해외·사망 10명 미만 게이트가 진범으로 보이나 <b>운영 방침인지 결함인지 미판정</b>(운영자 결정 사항)</li>
+<li><span class="unk">?</span> 평의회 8인 중 <b>2인(측정설계·비용지연)은 세션 한도로 중단</b>. 부분 관찰만 남음 — 측정설계: 분산 측정 중 / 비용지연: 「RUBRIC 변경 → 해시 변경 → 전건 재채점」 경고</li>
+</ul>
+
+<h2>§9 표본·수치 출처</h2>
+<div class="tbl-wrap"><table>
+<tr><th>수치</th><th>출처</th></tr>
+<tr><td>묶음 오염 7/14 = 50%</td><td>평의회 2번 · 대형 클러스터 4 + 연성·홍보·시황 7 + 속보형제 3 · A/B 각 2회 재실행으로 노이즈 통제</td></tr>
+<tr><td>판정 흔들림 4.22% · 배치 축 14.44%</td><td>본 세션 3회(2/30) + 평의회 7번 정밀 6회 반복(27/30 전건 일치) · 배치10 쪼개기·추론강도·3회 다수결 4조건 대조 · seed 7 무작위 30건</td></tr>
+<tr><td>형제 순효과 1건</td><td>본 세션 · A/B 갈림 3건 − 대조군 중복 2건</td></tr>
+<tr><td>부실 제목 0/164</td><td>평의회 6번 · <code>viewer/candidates.json</code> 저등급 의심군 전수 4축 판독</td></tr>
+<tr><td>URL 슬러그 id-only 100%</td><td>평의회 6번 · <code>cluster_members</code> 유니크 2,276 URL 전수</td></tr>
+<tr><td>용량 919,884B / 972,800B</td><td>평의회 5·8번 · 파일 실측</td></tr>
+<tr><td>재채점 큐 플립률 0.9%</td><td><code>gate_judge.py:60</code> 주석에 기록된 설계 실측(275건 블라인드 재채점)</td></tr>
+<tr><td>회귀 도장 사각</td><td>평의회 4·8번 · 킬테스트(형제 배선 심고 <code>check_refs</code> 110게이트 rc=0 확인)</td></tr>
+</table></div>
+
+<p class="foot">
+생성 = Claude Code 세션 2026-08-10 · 이 문서는 <b>docs/ 산출물이라 라이브 0</b>이다(<code>viewer/**</code>·<code>scraper/**</code> 무접촉).<br>
+라이브에 반영된 것은 <code>679f5fe</code> 하나뿐 = 연예 지위 변동 룰북 2곳. 그 외 §2~§4는 <b>진단이지 조치가 아니다</b>.<br>
+다음 세션은 §5 순서대로 착수하고, §8을 추측으로 메우지 마라 — 실측하거나 「미확인」이라고 쓴다.
+</p>
+
+</body></html>
