@@ -14453,13 +14453,12 @@ function chLiftChart(buckets, ax, x2) {   // x2 = 오버레이 재료(운영자 
   bs.forEach(b => { const s2 = val(b, 'share_pm'); if (s2 != null) vals.push(s2); });   // Y범위 = 공유 단독(운영자 260723 "저장 삭제·공유로 통일") — 저장 축 제거로 공유 곡선이 세로폭 최대 활용
   if (vals.length < 2) return '';
   const W = 600, H = 154, mL = 46, mR = 16, mT = 16, mB = 26, pw = W - mL - mR, ph = H - mT - mB;   // mB·H = 일일 추이(chChart) 단일줄 라벨 규격 계승 — n= 병기 줄 제거(운영자 260722)로 2줄 예약 해제 · 플롯 높이 ph=112 불변
-  const lo = Math.max(0, Math.min(...vals, 1) - .1), hi = Math.max(...vals, 1) + .1;
   const cH = [];   // 버킷 중심 좌표(h 단위) — hour: "새벽0-6" 범위 파싱 중심시각 · dow: 요일 인덱스×24+12(주간 168h 타임라인 · 운영자 260724 "요일별 0-8/8-16/16-24 3개씩") · 실패 밴드 있으면 선형축·시각 오버레이 전체 스킵 = fail-soft·창작 0
   if (ax === 'hour_band') bs.forEach(b => { const m = /(\d+)\s*-\s*(\d+)/.exec(b.bucket); cH.push(m ? (+m[1] + +m[2]) / 2 : null); });
   if (ax === 'dow') bs.forEach(b => { const di = ord.indexOf(b.bucket); cH.push(di < 0 ? null : di * 24 + 12); });
   const SPAN = ax === 'dow' ? 168 : 24;   // 선형축 전장 = 하루 24h / 한 주 168h
   const hlin = cH.length === bs.length && cH.length > 1 && !cH.some(c => c == null);   // 선형 시간축(운영자 260723 "24분할 해서 숫자만" · 260724 요일 3분할 동조) — X = 실제 시각 비례 배치 = 눈금·핵심 구간 경계 세로변·지금/오늘 마커가 같은 자 위에 정렬
-  const X = i => hlin ? mL + pw * cH[i] / SPAN : mL + pw * i / (bs.length - 1), Y = v => mT + ph * (1 - (v - lo) / (hi - lo));
+  const X = i => hlin ? mL + pw * cH[i] / SPAN : mL + pw * i / (bs.length - 1);   // Y·lo·hi = 아래 GEN_EFF 뒤로 이관(260809 6차 = 노란선이 같은 자를 쓰므로 Y범위 산출에 참여한다)
   // 실측 우선 게이트(운영자 260803 "내 팔로워 접속 실측이 있어? 그러면 그걸 붙이면 매우 좋을듯 · 그에 따라서 보라색 강조점도 맞춰") — x2.curve = online_curve_kst(내 팔로워 online_followers API 실측 · KST 24슬롯 · 피크=100 · insta_signals 산출). 시간대 축 한정: 24슬롯을 밴드 평균으로 내려 SIG_GEN(공개 벤치 실루엣) '값만' 대체 → 노란선·툴팁·핵심구간·접속피크가 한 실측 원천(시각 문법 전부 불변 = 260801 "표현방법은 기존과 동일" 동축). 6밴드 전원 산출일 때만 채택(부분 결측 = 벤치 폴백) · dow = 260804 실측 승격 배선(x2.curve = online_dow_kst 요일 7키 — 원장 7요일×24시 커버부터 산출기가 동봉 = 자동 전환 · 그전 = 종전 벤치) · FB = 종전 null 경로 · 곡선 부재 = 종전 100% 불변(fail-soft·창작 0)
   // ⚠ 260809 3차(운영자 "팔로워 접속이 아니구 · 팔로워 접속은 강조색1번이잖아 · 앱 사용자 접속인데") — 260803·260804 실측 승격 **철회**.
   //   이 노란선의 역할은 원래 「내 채널(터콰이즈 = 강조색1 = 팔로워) 위에 겹치는 **바깥 레퍼런스**」(운영자 260723 "일반적인 사용자들 기준으로 그 차트 위에 오버레이 · 어찌보면 이 평균이 더 중요")인데,
@@ -14469,7 +14468,26 @@ function chLiftChart(buckets, ax, x2) {   // x2 = 오버레이 재료(운영자 
   //   → 노란선 = 항상 SIG_GEN(앱 사용자 접속). 팔로워 접속 실측은 폐기하지 않고 **접속 피크 밴드**(아래 bandLabs = 내가 올릴 시각 결정)로 계속 산다 = 역할 분리.
   const GEN_MEAS = null;   // 승격 철회 = 항상 벤치 경로(아래 전 소비처가 이 값으로 분기 · 실측 재승격 시 여기만 되살린다)
   const GEN_EFF = CHAN_SRC === 'fb' ? null : (GEN_MEAS || SIG_GEN[ax] || null);   // 단일 유효 소스(아래 전 소비처 공용 — 실측 우선·벤치 폴백·FB null)
-  SIG_HIT[ax] = bs.map((b, i) => { const sv = val(b, 'share_pm'); return { x: X(i), y: sv != null ? Y(sv) : Y(1), bucket: b.bucket, share: sv, n: b.n, low: !!b.low_sample, gm: GEN_MEAS ? 1 : 0, gen: (GEN_EFF || {})[b.bucket] ?? null }; });   // FB 소스분기(평의회 260724 must-fix) — GEN_EFF가 FB=null → 툴팁 % 자동 생략(곡선·범례 제거와 단일 정합) · gm = 실측 채택 플래그(툴팁 라벨 분기)
+  // ⚠ 자 통일(운영자 260809 6차 "그렇게 아이디어 2) 보완해주고") — 두 곡선이 **서로 다른 자**를 쓰던 걸 하나로 합친다.
+  //   구판 = 터콰이즈는 데이터 산포(lo~hi) 자동 스케일 / 노랑은 0~100을 ph×.82에 **고정 매핑** → 두 선의 상하 관계에 물리적
+  //   의미가 없었다(260801 주석이 이미 인정한 사실 · 그래서 핵심 구간은 픽셀 교차를 버리고 곱셈[도달 기대값]으로 옮겼다).
+  //   그런데 260809 4차 「보완 필요」는 다시 그 픽셀 관계를 쓴다 = 눈에 보이는 그림과는 맞지만 자가 둘인 채였다.
+  //   → 노랑을 **자기 평균으로 나눠 ×배율**로 환산(시간대 22·60·74·82·100·78[평균 69.3] → ×0.32·0.87·1.07·1.18·1.44·1.13)하면
+  //   공유 lift와 **같은 단위**가 되어 같은 Y축에서 읽힌다("저녁엔 사람이 ×1.44 몰리는데 내 공유는 ×1.05" = 숫자로 확정).
+  //   새 상수·새 데이터 0 = 이미 그리는 값을 자기 평균으로 나누기 한 번. ⚠ 핵심 구간(sc = 공유 × gen/100)은 **완전 불변** —
+  //   전 버킷에 같은 상수가 곱해지므로 피크·임계 T·교차 보간이 모두 같은 배수로 스케일돼 산술적으로 약분된다(gpts[2] = 원 0~100 유지).
+  //   ⚠ 비용 = Y범위가 노랑 진폭까지 담아 넓어지므로 **터콰이즈 곡선이 그만큼 납작해진다**(시간대 실측 = 플롯 높이 점유 100%→38%).
+  //   요일 축은 노랑 ×0.93~1.11이 공유 산포(0.75~1.20) 안쪽이라 범위·모양 **변화 0**.
+  const genR = {};   // 버킷 → ×배율(gen ÷ 그 축 gen 평균)
+  if (GEN_EFF) {
+    const _gv = Object.values(GEN_EFF).filter(v => typeof v === 'number');
+    const _gm = _gv.length ? _gv.reduce((a, c) => a + c, 0) / _gv.length : 0;
+    if (_gm > 0) Object.keys(GEN_EFF).forEach(k => { if (typeof GEN_EFF[k] === 'number') genR[k] = GEN_EFF[k] / _gm; });
+  }
+  bs.forEach(b => { const r = genR[b.bucket]; if (r != null) vals.push(r); });   // Y범위 참여 = 같은 자 계약(구판은 공유 단독 · 노랑이 고정 매핑이라 범위 밖이었다)
+  const lo = Math.max(0, Math.min(...vals, 1) - .1), hi = Math.max(...vals, 1) + .1;
+  const Y = v => mT + ph * (1 - (v - lo) / (hi - lo));
+  SIG_HIT[ax] = bs.map((b, i) => { const sv = val(b, 'share_pm'); return { x: X(i), y: sv != null ? Y(sv) : Y(1), bucket: b.bucket, share: sv, n: b.n, low: !!b.low_sample, gm: GEN_MEAS ? 1 : 0, gen: genR[b.bucket] != null ? Math.round(genR[b.bucket] * 100) / 100 : null }; });   // gen = ×배율(구 0~100 % 표기 → 공유와 같은 자 · 툴팁 문법 동조)   // FB 소스분기(평의회 260724 must-fix) — GEN_EFF가 FB=null → 툴팁 % 자동 생략(곡선·범례 제거와 단일 정합) · gm = 실측 채택 플래그(툴팁 라벨 분기)
   let s = `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">`;
   for (let g = 0; g <= 3; g++) {   // hairline 격자 + ×배율 Y라벨(chChart 문법)
     const v = lo + (hi - lo) * g / 3, y = Y(v);
@@ -14486,7 +14504,7 @@ function chLiftChart(buckets, ax, x2) {   // x2 = 오버레이 재료(운영자 
   const gen = GEN_EFF;   // 단일 유효 소스(260803 실측 GEN_MEAS 우선 · 벤치 SIG_GEN 폴백 · FB = null 종전 경로 — 위 실측 우선 게이트) → 곡선·핵심구간·범례 자동 제거(gen null = fail-soft 그대로)
   let gpts = null, gl = '';
   if (gen) {
-    const _g = bs.map((b, i) => { const gv = gen[b.bucket]; return gv == null ? null : [X(i), (H - mB) - (gv / 100) * ph * .82, gv]; });
+    const _g = bs.map((b, i) => { const gv = gen[b.bucket], gr = genR[b.bucket]; return (gv == null || gr == null) ? null : [X(i), Y(gr), gv]; });   // y = 공유와 **같은 자**(Y · 260809 6차 자 통일) — 구 `(H-mB) − gv/100 × ph×.82` 고정 매핑 폐기 · [2] = 원 0~100 유지(핵심구간 sc 불변)
     if (_g.length >= 2 && _g.every(Boolean)) { gpts = _g; gl = chPath(shoulder(_g).map(p => [p[0], p[1]]), 1); }
   }
   const spts = []; bs.forEach((b, i) => { const v = val(b, 'share_pm'); if (v != null) spts.push([X(i), Y(v), !!b.low_sample]); });   // 팔로워(공유) 곡선 좌표 = 핵심 구간 산출·시리즈 렌더 공용(단일 산출)
@@ -14661,7 +14679,7 @@ function wireSigCharts(box) {   // 최근접 포인트 툴팁+호버점 = 일일
       let best = hits[0], bd = 1e9;
       hits.forEach(pt => { const dd = Math.abs(pt.x - px); if (dd < bd) { bd = dd; best = pt; } });
       const [tx, ty] = place(best.x, best.y);
-      tip.innerHTML = `<b>${esc(best.bucket)}</b><br><span style="color:var(--mut);font-size:10px">${CHAN_SRC === 'fb' ? '반응' : '공유'} ×${best.share ?? '—'}${best.gen != null ? ' · ' + (best.gm ? '접속 ' : '앱 사용자 ') + best.gen + '%' : ''} · n=${best.n}${best.low ? ' · 표본부족' : ''}</span>`;   // FB 소스분기(평의회 260724 must-fix) — eng lift를 '공유'로 오표기 방지 · gen(앱사용자%)은 11245 gen 게이트가 FB=null이라 자동 생략(곡선·범례 제거와 정합)
+      tip.innerHTML = `<b>${esc(best.bucket)}</b><br><span style="color:var(--mut);font-size:10px">${CHAN_SRC === 'fb' ? '반응' : '공유'} ×${best.share ?? '—'}${best.gen != null ? ' · ' + (best.gm ? '접속 ' : '앱 사용자 이용 ') + '×' + best.gen : ''} · n=${best.n}${best.low ? ' · 표본부족' : ''}</span>`;   // FB 소스분기(평의회 260724 must-fix) — eng lift를 '공유'로 오표기 방지 · gen(앱사용자%)은 11245 gen 게이트가 FB=null이라 자동 생략(곡선·범례 제거와 정합)
       const _hw = (tip.offsetWidth || 110) / 2; tip.style.left = Math.max(_hw + 2, Math.min(r.width - _hw - 2, tx)) + 'px'; tip.style.top = ty + 'px';   // 좌우 클램프(260720 평의회 F5 — translate(-50%)라 엣지 포인트서 화면 밖 잘림 실측 · innerHTML 후 실폭 측정)
       tip.style.opacity = '1';
       if (dot) { dot.style.left = tx + 'px'; dot.style.top = ty + 'px'; dot.style.opacity = '1'; }
