@@ -2771,7 +2771,7 @@ function lyBurnShow(j) {
   if (window.nmEta && _lyBurnT0) { nmEta.done('edit-burn', (Date.now() - _lyBurnT0) / 1000); _lyBurnT0 = 0; }   // 예상 학습 = 성공 완료만(ly 동문 · sb·k 배선 그대로)
   dockSync();   // 완성본 video가 실제로 노출된 **뒤** 판정(재검① 260728 — 앞에 두면 lv가 아직 hidden이라 접힘이 안 걸렸다)
   const dl = $('#lyBurnDl'); dl.hidden = false; if (!dl._icon) { dl.innerHTML = DOWNLOAD_SVG; dl._icon = 'dl'; } dl.dataset.url = j.url;
-  const rb = $('#lyReburn'); if (rb) rb.hidden = true;   // 다시 입히기(되돌이표)·삭제 컷 = 도먼트(운영자 260731 "삭제컷이랑 되돌이표 필요없을거같음" — 코드 보존 · 복원 = 구 조건 `!(j.src && /^https?:\/\//i.test(j.src))` 노출)
+  const rb = $('#lyReburn'); if (rb) rb.hidden = !(j.src && /^https?:\/\//i.test(j.src));   // 다시 입히기(되돌이표) = 260731 도먼트 **해제**(운영자 260810 "자막을 뽑은 다음에 그 결과물을 보고 일부 수정할 수 있는 방법이 없음") — 상세 편집기에서 고친 자막을 영상에 되입히는 **유일 경로**라 이게 숨으면 편집기 전체가 죽은 UI가 된다(실측 260810: 조각 8·단어칩 92 전부 정상 동작인데 적용 버튼만 부재 · 게다가 subs.md 개요가 "상세 편집기에서 그 조각만 고쳐 '다시 입히기'하면 재생성"이라고 **안내까지 하는데 그 버튼이 화면에 없었다** = 안내와 화면의 모순). 조건 = 주석에 보존돼 있던 구 조건 그대로(창작 0) = 원본이 R2에 보관된 잡만 노출(재번인 원료가 실존해야 누를 수 있다) · 삭제 컷은 그대로 도먼트(운영자 260731 지시 유지 = 최소 변경)
   const cdw = $('#lyCutDelW'); if (cdw) cdw.hidden = true;   // 삭제 컷 토글 = 위와 동행 도먼트(운영자 260711 텍스트 컷 축 보존)
   $('#lyBurnNote').textContent = (j.note ? j.note + ' · ' : '') + (j.bytes ? (j.bytes / 1048576).toFixed(1) + 'MB' : '');
 }
