@@ -31,7 +31,7 @@ CARD_TIMEOUT="${CARD_TIMEOUT:-1500}"
 # 카드 프롬프팅 추론 강도 = high 기본(운영자 260726 — 기사 요약(analyze/ask) 제외 opus 호출 전면 high · 구 max 정책 대체).
 #   노브는 4개 호출부(본생성·lint재생성·cov회수·edit) effort 단일 정본으로만 존치(흩어진 하드코딩 통합).
 #   ⚠️ 토큰 안전(CARD_BUDGET_SEC 25분 하드캡·CARD_FAIL_RETRY_MAX 0·타임아웃 재시도 봉인)은 effort와 무관하게 유지 = 별개 축.
-CARD_EFFORT="${CARD_EFFORT:-high}"
+CARD_EFFORT="${CARD_EFFORT:-max}"
 # 실패 카드 자동 재시도 상한(런간 · 운영자 260711 "자동 재시도 3회까지") — status.json fails(실패 누적)가 이 값
 # *이하*인 failed는 all 배치에 자동 재편입(fails=1→재시도#1 … fails=3→재시도#3 · fails=4부터 수동만).
 # fails 필드가 아예 없는 구 failed(신정책 이전 적체)는 *이 특례*로는 스킵 = 소급 없음(과금 서프라이즈 차단) —
