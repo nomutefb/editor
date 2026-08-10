@@ -938,10 +938,13 @@ def main():
         for m in (med.get('media') or [])[:12]:
             _u, _s = _thumb_src(m)
             _srcs.append(_s)
-            thumbs.append({'th': _u, 'u': m.get('permalink'),
-                           't': first_line(m.get('caption'))[:40],
-                           'r': 1 if (m.get('media_product_type') == 'REELS' or m.get('media_type') == 'VIDEO') else 0,
-                           's': _s})   # s = 이 커버를 어느 층이 채웠나(운영자 260803 카운터 · 뷰어 미사용 = 진단축)
+            _t = {'th': _u, 'u': m.get('permalink'),
+                  't': first_line(m.get('caption'))[:40],
+                  'r': 1 if (m.get('media_product_type') == 'REELS' or m.get('media_type') == 'VIDEO') else 0,
+                  's': _s}   # s = 이 커버를 어느 층이 채웠나(운영자 260803 카운터 · 뷰어 미사용 = 진단축)
+            if m.get('embed_dead'):
+                _t['e'] = 0   # 임베드 사망 확정분(insta_fetch._embed_alive 프로브 · 운영자 260810 "에러가 될 경우는 아예 링크를 하지마") — 뷰어가 이 도장만 소비해 무링크 타일로 그린다 · 무도장 = 종전 링크(fail-open)
+            thumbs.append(_t)
         # 원장 갱신 — 이번 회차에 실제로 화면에 나간 커버만 기록(살아있는 URL 확정분). 다음 회차에 API가 빠뜨려도
         # 이 값이 3층에서 받아낸다. 만료분·결손분은 안 덮어써 **마지막 살아있던 값**이 남는다(정보 손실 0).
         # 프루닝 = 최신 회차 표본 25개 안에 있는 id 우선 보존 → 나머지는 최근순 CACHE_KEEP개(무한 비대 방지).

@@ -16,6 +16,7 @@ import json
 import os
 import re
 import sys
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -55,6 +56,34 @@ def _public_cover(permalink):
         return final
     except Exception:
         return ''
+
+
+def _embed_alive(permalink):
+    """게시물 임베드 생사 프로브(운영자 260810 "이렇게 에러가 될 경우는 아예 링크를 하지마") → True/False/None(보류).
+    인스타는 특정 게시물을 **비로그인 공개 표면 전체**에서 내린다(실측 260810: 같은 IP·같은 순간에 형제 릴스는
+    shortcode_media 페이로드 정상 · Dbu6GxQzLjM만 「Instagram 방문」 에러 셸 — /p/·/embed/captioned/ 대안 경로 전멸
+    + 공개 커버도 null.jpg 종착 = 260803 커버 결손과 같은 가족). 그 게시물을 뷰어 인앱 팝업이 iframe으로 열면
+    인스타 서버의 에러 카드만 그려지므로, 수집 시점에 생사를 도장 찍어 뷰어가 링크 자체를 떼게 한다.
+    판정 = 임베드 HTML에 미디어 페이로드 마커 실존(3종 OR = 인스타 마크업 개편 시 오탐 완충 · 실측 260810 =
+    정상본 3마커 전부 실림·사망본 전부 0). UA = 실측에 쓴 iOS 사파리(봇 UA는 별도 셸 변형 위험 · _public_cover는
+    리다이렉트 종착만 봐서 봇 UA 무방하지만 이 프로브는 본문 마커를 읽는다). 예외·소형 응답 = None = 무도장(fail-open)."""
+    mo = _SHORTCODE_RE.search(permalink or '')
+    if not mo:
+        return None
+    url = f'https://www.instagram.com/p/{mo.group(1)}/embed/'
+    try:
+        req = urllib.request.Request(url, headers={
+            'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1',
+            'Accept-Language': 'ko-KR,ko;q=0.9'})
+        with urllib.request.urlopen(req, timeout=10) as r:
+            body = r.read(400000).decode('utf-8', 'replace')
+    except Exception:
+        return None   # 네트워크·HTTP 실패 = 판정 보류 — 링크 유지(종전 동작)가 안전측
+    if ('shortcode_media' in body) or ('EmbedFrame' in body) or ('WatchOnInstagram' in body):
+        return True
+    if len(body) < 8000:
+        return None   # 비정상 소형 응답(차단·챌린지 페이지류) = 보류
+    return False
 
 
 def api(path, **params):
@@ -197,6 +226,27 @@ def main():
         mi, _ = insights(f"{m['id']}/insights", base)
         mm['insights'] = mi
         items.append(mm)
+
+    # 임베드 생사 도장(운영자 260810 "이렇게 에러가 될 경우는 아예 링크를 하지마") — 최근 12개(= 뷰어 타일 표본)만.
+    # 사망 확정분만 embed_dead=1 · 판정 불가(None) = 무도장 = 뷰어 종전 링크(fail-open).
+    # ⚠ 전멸 가드 = 프로브 성립분이 전건 사망이면 게시물 축이 아니라 환경 축(로그인월·러너 IP 차단·마크업 개편)
+    #   → 전건 무도장. 멀쩡한 채널의 타일 12개 링크를 한 방에 다 떼는 오탐이 이 층의 최대 리스크라 그 방향만 구조로 막는다.
+    _prb = _dead = 0
+    for mm in items[:12]:
+        _st = _embed_alive(mm.get('permalink'))
+        if _st is None:
+            continue
+        _prb += 1
+        if not _st:
+            mm['embed_dead'] = 1
+            _dead += 1
+        time.sleep(.3)   # 12콜 연사 완화(공개 커버 프로브 0~2콜 대비 콜 수가 많다)
+    if _prb and _dead == _prb:
+        for mm in items[:12]:
+            mm.pop('embed_dead', None)
+        print(f'[embed] 프로브 전멸({_dead}/{_prb}) = 환경 축 판정 → 전건 무도장(fail-open)')
+    elif _dead:
+        print(f'[embed] 임베드 사망 도장 {_dead}/{_prb}건')
 
     stamp = now_kst()
     dropped = drop1 + drop2 + drop3 + drop4

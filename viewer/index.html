@@ -976,6 +976,7 @@
     .ch-th:hover img { transform:scale(1.03); transition:transform .3s var(--ease); }   /* raw-ok: 1.03 = .profile:hover 스케일 정본 사본 — overflow:hidden 안에서 커버만 미세 확대(액자 고정) */
   }
   .ch-th:active { transform:scale(.99); }   /* .card:active 정본 사본 */
+  .ch-th:not([href]) { pointer-events:none; }   /* 임베드 사망 타일(수집기 도장 e:0 = 무링크 · 운영자 260810 "이렇게 에러가 될 경우는 아예 링크를 하지마") — 커서·리프트·호버 오버레이 전부 소거 = 보이는데 안 눌리는 어포던스 거짓말 0(히트존 H3 축) */
   .ch-th.txt { display:flex; flex-direction:column; justify-content:flex-end; padding:var(--sp-2); text-decoration:none; background:linear-gradient(155deg, rgba(var(--accent-rgb),.15), rgba(255,255,255,.03)); border:1px solid rgba(var(--accent-rgb),.22); }   /* 커버 없는 릴스 폴백 타일(운영자 260718 승인) — 인스타가 thumbnail_url 미제공 시 캡션 노출 = 최근 게시물 100% 가시 */
   .ch-th.txt .cap { font-size:var(--fs-xs); line-height:1.34; color:var(--fg); font-weight:600; letter-spacing:-.01em; display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical; overflow:hidden; }
   .ch-th .rl { position:absolute; top:7px; left:7px; z-index:2; filter:drop-shadow(0 1px 2px rgba(0,0,0,.45)); }   /* 릴스 표식 ▶ — 커버 릴스 + 텍스트 타일 공용(drop-shadow = 밝은 커버 위 가독) */
@@ -14939,6 +14940,8 @@ function renderChan() {
   }).join('') + '<button class="ch-morelink ch-hdrmore" type="button" id="chPostMore" aria-label="게시물 탐색">내역<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.5 5l11 7-11 7z"/></svg></button>',
     tpSeg);   // 내역 ▶ = 헤더 타이틀 옆 이관(운영자 260722 "내역 ▶로 용어 변경해 타이틀 옆으로" — 구 '내역 확인 ›' 본문 하단 폐지) · ▶ = SVG 삼각(FIN_ARROW 문법 회전 · 문자 ▶ 금지 [3-1]) · id·핸들러·aria 불변 · 배치 = .ch-hdrmore 오버레이(daily #chDayMore 하단 잔류 = 무접촉)
   const th = (d.thumbs || []).slice(0, 12);   // 커버 없는 릴스도 보존(th='' → 캡션 텍스트 타일 · 운영자 260718)
+  const _embDead = new Set(th.filter(x => x.e === 0).map(x => (String(x.u || '').match(/instagram\.com\/(?:p|reel|reels|tv)\/([\w-]+)/) || [])[1]).filter(Boolean));   // 임베드 사망 숏코드 판(수집기 프로브 도장 e:0 재사용 · 운영자 260810 "이렇게 에러가 될 경우는 아예 링크를 하지마") — 타일과 같은 게시물을 브리프 골드 참조가 걸 때 링크를 떼는 조인 키
+  const _lnAttr = x => x.e === 0 ? '' : ` href="${escUrl(x.u || '#')}" target="_blank" rel="noopener"`;   // 사망 도장 타일 = href 자체를 안 단다 — 인앱 팝업 위임(인스타 URL 검사)·새탭 어느 쪽도 안 걸린다 · 무도장 = 종전 링크(fail-open · 260810 실측 = 임베드 사망 게시물은 팝업이 인스타 「Instagram 방문」 에러 카드만 그린다)
   const REELGLYPH = '<svg class="rl" width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="rgba(0,0,0,.42)"/><path d="M10 8.5v7l6-3.5z" fill="rgba(255,255,255,.96)"/></svg>';   // 릴스 표식 ▶ — 커버 릴스·텍스트 타일 공용(운영자 260718 통일)
   const POSTGLYPH = '<svg class="rl" width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="rgba(0,0,0,.42)"/><rect x="9.2" y="6.6" width="8.2" height="8.2" rx="1.8" fill="rgba(255,255,255,.55)"/><rect x="6.6" y="9.2" width="8.2" height="8.2" rx="1.8" fill="rgba(255,255,255,.96)"/></svg>';   // 포스트 표식 = 카드 스택(운영자 260722 "릴스 재생버튼처럼 포스트도 카드스택으로 동일하게") — 원판·크기·좌상단 앵커(.rl)·fill 문법 = REELGLYPH 100% 계승 · 뒤장 .55/앞장 .96 = 겹침 위계
   // 호버 지표 오버레이 재료(운영자 260805 "오 그렇게해줘") — 커버 타일 ↔ posts 조인 키 = permalink 한 개(수집기 무접촉 = 다음 수집 회차 기다림 0 · 미매칭·결측 = 칩 생략 fail-soft)
@@ -14959,8 +14962,8 @@ function renderChan() {
     return (dv || v || a) ? `<span class="ch-thm">${dv}${v}${a}</span>` : '';
   };
   if (th.length) h += gsec('recent', `최근 게시물`, '<div class="ch-grid">' + th.map(x => x.th
-    ? `<a class="ch-th" href="${escUrl(x.u || '#')}" target="_blank" rel="noopener" data-cap="${esc(x.t || '')}">${x.r ? REELGLYPH : POSTGLYPH}<img loading="lazy" referrerpolicy="no-referrer" src="${escUrl(x.th)}" onerror="chThFail(this)" alt="">${thMeta(x)}</a>`
-    : `<a class="ch-th txt" href="${escUrl(x.u || '#')}" target="_blank" rel="noopener">${x.r ? REELGLYPH : POSTGLYPH}<span class="cap">${esc(x.t || '')}</span></a>`).join('') + '</div>');   // 포스트 = 스택 배지(구 무표식 → 명시 표식 · 텍스트 타일도 동일 분기)
+    ? `<a class="ch-th"${_lnAttr(x)} data-cap="${esc(x.t || '')}">${x.r ? REELGLYPH : POSTGLYPH}<img loading="lazy" referrerpolicy="no-referrer" src="${escUrl(x.th)}" onerror="chThFail(this)" alt="">${thMeta(x)}</a>`
+    : `<a class="ch-th txt"${_lnAttr(x)}>${x.r ? REELGLYPH : POSTGLYPH}<span class="cap">${esc(x.t || '')}</span></a>`).join('') + '</div>');   // 포스트 = 스택 배지(구 무표식 → 명시 표식 · 텍스트 타일도 동일 분기)
   // 세로 책갈피 레일 = 메뉴3 .trailwrap/.trail 원문 계승(운영자 260713 "일치할수록 좋아" — CSS 클래스 공유 = 신규 스타일 0 · fixed는 chanview[hidden] 조상 연동 자동 소거 = trendview 동일 메커니즘 · 우측 배치 = #chanRailWrap → #trendRailWrap 동일 공식 합류 = 운영자 260720 "SNS 메뉴처럼 우측") · 버튼 = TOP 위화살(정본 SVG path 동일) + 단위 순번 숫자(헤더 배지 정체성 · 숫자 = 문자 렌더 허용 축)
   box.innerHTML = (RAIL.length > 1 ? '<div class="trailwrap" id="chanRailWrap"><nav class="trail" id="chanRail" aria-label="단위 바로가기"><button type="button" class="trail-i" data-tg="top" aria-label="맨 위"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V6M6 12l6-6 6 6"/></svg></button>' +
     RAIL.map(r => `<button type="button" class="trail-i" data-tg="${r.id}" aria-label="${r.lab}">${r.n}</button>`).join('') + '</nav></div>' : '') + h;   // 소스 세그 = 헤더 이주(Q157)로 콘텐츠부 주입 폐지
@@ -14982,7 +14985,9 @@ function renderChan() {
           } else if (p) el.appendChild(document.createTextNode(p));
         });
       };
-      const addLink = (label, url) => { try { const u = new URL(url); if (u.protocol !== 'http:' && u.protocol !== 'https:') return addText(label); const a2 = document.createElement('a'); a2.href = u.href; a2.target = '_blank'; a2.rel = 'noopener noreferrer'; a2.textContent = label; if (/(?:^|\.)instagram\.com$/.test(u.hostname) && /^\/(?:p|reel|reels|tv)\//.test(u.pathname)) a2.classList.add('tbrief-ref'); el.appendChild(a2); } catch { addText(label); } };
+      const addLink = (label, url) => { try { const u = new URL(url); if (u.protocol !== 'http:' && u.protocol !== 'https:') return addText(label); const igc = /(?:^|\.)instagram\.com$/.test(u.hostname) ? (u.pathname.match(/^\/(?:p|reel|reels|tv)\/([\w-]+)/) || [])[1] : '';
+        if (igc && _embDead.has(igc)) return addText(label);   // 임베드 사망 게시물 = 링크 자체를 안 건다(운영자 260810 "이렇게 에러가 될 경우는 아예 링크를 하지마") — 골드 참조로 걸면 인앱 팝업이 인스타 에러 카드만 그린다(260810 실측 = 임베드·공개커버 전 표면 결손 가족) · 도장 없는 URL = 종전 링크(fail-open)
+        const a2 = document.createElement('a'); a2.href = u.href; a2.target = '_blank'; a2.rel = 'noopener noreferrer'; a2.textContent = label; if (igc) a2.classList.add('tbrief-ref'); el.appendChild(a2); } catch { addText(label); } };
       let last = 0, m;
       while ((m = TOK.exec(s))) {
         addText(s.slice(last, m.index)); last = TOK.lastIndex;
