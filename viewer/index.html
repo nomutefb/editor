@@ -9803,7 +9803,7 @@ async function _dgVidFire(v, mode) {
 function _dgVidPoll(v) {   // v = 발사 시점 객체(identity 고정 · 평의회2) — **잡 목록에 살아 있을 때만** 진행(큐잉 편입 260802)
   if (!v || _dg.jobs.indexOf(v) < 0 || v.st !== 'run') return;
   if (!_dgAlive()) return;   // 창 닫으면 폴 멈춤 · job은 localStorage에 남아 재열람 시 복원(백그라운드 상주 아님) · **최소화 중은 살아 있다**(▲ 진행 표시가 얼지 않게 · 260803)
-  if (Date.now() - v.t0 > 40 * 60e3) { v.st = 'fail'; v.msg = '시간이 너무 오래 걸려요 — 잠시 후 다시 시도해줘'; _dgVidSaveJobs(); _dgPaintPic(); _dgRenderBody(); return; }
+  if (Date.now() - v.t0 > 40 * 60e3) { v.st = 'fail'; v.msg = '시간이 너무 오래 걸려요 — 재시도'; _dgVidSaveJobs(); _dgPaintPic(); _dgRenderBody(); return; }
   const ji = _dg.jobs.indexOf(v), row = $('#dgjob' + ji), st = row && row.querySelector('.jst .jsec');
   if (st) st.textContent = _dgSecTxt((Date.now() - v.t0) / 1000);   // 경과 = 잡 카드 상태줄 흰색 숫자만 제자리 갱신(전체 재렌더 0 = 접이·스크롤 안 튐 · thumb .jsec 문법)
   if (v.tm) clearTimeout(v.tm);
@@ -13962,7 +13962,7 @@ $('#tvDl').addEventListener('click', async () => {
   _tvTick = setInterval(() => { if (document.visibilityState !== 'visible' || isComposingModalOpen()) return;   // 모달 뒤 DOM 접촉 가드(13447행 유지보수 규칙 · 260807) — 경과는 t0 기준 산식이라 스킵분은 복귀 즉시 정확히 따라잡는다(표시 손실 0)
     st.textContent = '받는 중 (' + Math.round((Date.now() - t0) / 1000) + 's)'; }, 1000);
   _tvPoll = setInterval(async () => {
-    if (Date.now() - t0 > 420e3) { tvReset(); st.textContent = '시간 초과 — 잠시 후 다시'; st.classList.add('err'); return; }   // 420s = conv 일반 예산(300s)+여유
+    if (Date.now() - t0 > 420e3) { tvReset(); st.textContent = '시간 초과 — 재시도'; st.classList.add('err'); return; }   // 420s = conv 일반 예산(300s)+여유
     try {
       const er = await fetch(errP + '?t=' + Date.now());
       if (er.ok) { const em = await er.text(); if (em && em.trim() && !/^\s*</.test(em)) { tvReset(); st.textContent = '실패 — ' + em.trim().slice(0, 80); st.classList.add('err'); return; } }   // 러너 정직 실패(영상 없는 트윗·플랫폼 차단 등)

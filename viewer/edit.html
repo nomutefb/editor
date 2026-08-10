@@ -1189,9 +1189,16 @@ function pvSync(){
   const slot=document.getElementById('pvSlot');   // 미리보기 = 상단 PREVIEW 섹션 귀속(운영자 260712 "소스와 같은 등급 · 상단 고정은 프리뷰만" — 구 비율 카드 귀속 폐지)
   const sec=document.getElementById('pvsec');
   const _pe=document.getElementById('pvEmpty'), _sw=document.getElementById('pvSwap'), _dl=document.getElementById('pvDel');
-  if(!FILE_URL || !slot || _pollLive){ pv.hidden=true;
-    if(sec){ sec.hidden=!!_pollLive; const _pa0=document.getElementById('pvAttr'); if(_pa0) _pa0.innerHTML=''; }   // 상시 노출(운영자 260722 thumb 유닛 이식 — 빈 상태 = 박스+픽토 진입점 · 구 파일 있을 때만 = 폐지) · 대기/결과 중엔 종전대로 숨김(중복 화면 차단)
-    if(_pe) _pe.hidden=!!_pollLive; if(_sw){ _sw.hidden=false; _sw.disabled=false; } if(_dl){ _dl.hidden=false; _dl.disabled=!(($('#url')&&$('#url').value.trim())&&!_pollLive); }   /* 교체·삭제 = **상시 노출**·삭제만 비활성 토글(운영자 260803 "네비게이션에 이미지 교체와 휴지통 픽토그램 (기본)") = thumb cpToolSync 정본 계약 사본 — 구 hidden 토글은 빈 상태에서 픽토가 통째로 증발해 레일 높이가 흔들렸다 */   // 빈 상태 = 중앙 픽토 진입점만(thumb 빈상태 규칙 계승) · 단 **URL이 붙어 있으면 삭제 버튼 노출**(재검⑥ 260728 — 잘못 붙인 주소를 지울 수단이 없어 그대로 발사되던 것)
+  // ⚠ `_pollLive` 하드 숨김 제거(260810 실사고 봉합 · 운영자 «영상 업로드 2갠가 3개째에는 아예 넣으면 미리보기 화면이 날아가져버림»)
+  //   구 조건 `|| _pollLive`는 **폴링이 도는 동안 pvSync가 불릴 때마다 `#pvsec`을 통째로 숨겼다**(`.pvsec[hidden]{display:none}` = 도크 미리보기·레일·발사 동반 소멸).
+  //   재현 = ① 1번째 영상 발사 → 폴링 시작(_pollLive=true) ② 그 상태에서 2번째 영상 첨부 → `#file` change → render()/pvSync → **이 줄이 미리보기를 지운다**.
+  //   발사 직후엔 멀쩡한데(2083행이 하드 숨김을 이미 뺐다) **다음 첨부**에서 사라지니 「2~3개째부터」로 보였다.
+  //   = 260804 개정(운영자 "계속 그 전 미리보기 화면처럼 유지되게")이 **세 곳 중 두 곳만** 고친 반쪽 봉합이다:
+  //     ⓐ 발사 경로 2083 `_ps.hidden` 제거 ✓ ⓑ dockSync 1141 `_pollLive` 이탈 ✓ ⓒ **여기 pvSync = 미수정** ← 그 구멍.
+  //   구 사유였던 「대기 스테이지 ↔ 미리보기 중복 화면」은 같은 개정이 이미 폐기했다(1141행: "위 도크 = 입력 미리보기 / 아래 = 진행·결과로 자리가 갈려 중복이 아니라 공존이다").
+  if(!FILE_URL || !slot){ pv.hidden=true;
+    if(sec){ sec.hidden=false; const _pa0=document.getElementById('pvAttr'); if(_pa0) _pa0.innerHTML=''; }   // 상시 노출(운영자 260722 thumb 유닛 이식 — 빈 상태 = 박스+픽토 진입점 · 구 파일 있을 때만 = 폐지) · 제작 대기 중에도 유지(260804 계약 · 위 봉합)
+    if(_pe) _pe.hidden=false; if(_sw){ _sw.hidden=false; _sw.disabled=false; } if(_dl){ _dl.hidden=false; _dl.disabled=!($('#url')&&$('#url').value.trim()); }   /* 교체·삭제 = **상시 노출**·삭제만 비활성 토글(운영자 260803 "네비게이션에 이미지 교체와 휴지통 픽토그램 (기본)") = thumb cpToolSync 정본 계약 사본 — 구 hidden 토글은 빈 상태에서 픽토가 통째로 증발해 레일 높이가 흔들렸다 */   // 빈 상태 = 중앙 픽토 진입점만(thumb 빈상태 규칙 계승) · 단 **URL이 붙어 있으면 삭제 버튼 노출**(재검⑥ 260728 — 잘못 붙인 주소를 지울 수단이 없어 그대로 발사되던 것)
     const _pu=document.getElementById('pvUrl'); if(_pu){ const _uv=($('#url')&&$('#url').value.trim())||''; _pu.hidden=false; if(_uv){ let _h='URL 소스'; try{ _h='URL 소스 · '+new URL(_uv).hostname; }catch(_){} _pu.textContent=_h; } else _pu.textContent='주소 붙여넣기'; }   // URL 상태 표식 겸 진입로(Q01 · 평의회① — 상시 노출로 폰에서도 URL 경로 도달 가능 · 미리보기 픽셀은 없어 정직하게 텍스트만) · 업로드 진행률은 #pvAttr가 전담(재검⑤ — 구 data-up 가드는 실패 이탈 경로에서 해제가 안 돼 라벨이 '업로드 57%'로 영구 고착됐다)
     const _sr0=document.querySelector('.srcwrap'); if(_sr0) _sr0.style.display=''; if(!FILE_URL && vv.getAttribute('src')){ vv.removeAttribute('src'); vv.load(); } return; }   // _pollLive 게이트 = 대기 표시 중 재렌더가 미리보기 부활시키던 중복 화면 차단 · 소스 섹션 복원(첨부 해제 시 · 260722 도크 아래 이주로 라벨 포함 래퍼째 토글 — 행만 숨기면 'Contents' 소머리가 섹션 사이 고아로 부유)
   if(pv.parentElement!==slot) slot.appendChild(pv);   // 영속 노드 이주(재렌더에도 video 리로드 0)
@@ -2054,7 +2061,7 @@ $('#editGo').addEventListener('click',async()=>{
     const j=await res.json();
     if(!res.ok||j.error){
       goFireFail(gb);
-      const _msg=String(j.error||('서버 오류 '+res.status+' — 잠시 후 다시'));
+      const _msg=String(j.error||('서버 오류 '+res.status+' — 재시도'));
       status.innerHTML=WARN_SVG+' '+esc(_msg); status.classList.add('err');
       // 키 폐기는 **죽은 키일 때만**(구 코드는 모든 4xx/5xx에 무차별 `FILE_R2=''`). 429(동시 3개 초과)·502(dispatch 실패)는
       //   업로드 키가 멀쩡히 살아 있는 **일시 실패**인데, 폐기해버리면 다음 발사가 _lastFile 재업로드 경로로 떨어져
@@ -2068,7 +2075,7 @@ $('#editGo').addEventListener('click',async()=>{
     pendSet({id:j.id, t0, lbl:editLbl(o), clip:o.clip?1:0, cutscan:o.cutscan?1:0});
     goFireOk(gb);
     pollEdit(j.id, t0, t0-90000, editLbl(o), o.clip?'clip':o.cutscan?'cutscan':'');
-  }catch(e){ goFireFail(gb); const _to=(e&&(e.name==='TimeoutError'||e.name==='AbortError')); status.innerHTML=WARN_SVG+(_to?' 접수가 응답이 없어 — 회선 확인하고 다시 (버튼은 다시 눌러도 됨)':' 요청 실패 — 잠시 후 다시 ('+esc(e.message)+')'); status.classList.add('err'); }   // 타임아웃 = 원인 지목 문구(구 e.message는 "signal timed out" 원문이라 무슨 일인지 안 보였다) · 어느 경로든 goFireFail이 잠금을 벗겨 재시도 가능
+  }catch(e){ goFireFail(gb); const _to=(e&&(e.name==='TimeoutError'||e.name==='AbortError')); status.innerHTML=WARN_SVG+(_to?' 접수가 응답이 없어 — 회선 확인하고 다시 (버튼은 다시 눌러도 됨)':' 요청 실패 — 재시도 ('+esc(e.message)+')'); status.classList.add('err'); }   // 타임아웃 = 원인 지목 문구(구 e.message는 "signal timed out" 원문이라 무슨 일인지 안 보였다) · 어느 경로든 goFireFail이 잠금을 벗겨 재시도 가능
   finally{ _firing=false; $('#editGo').disabled=false; }
 });
 function editLbl(o){ return o.clip?'클립 후보 찾는 중':o.cutscan?'자를 곳 찾는 중':'편집 중'; }   // 작업명 추정 라벨('60fps 보간 중'·'자막+보간 편집' 등) 폐지(운영자 260712) — 러너 단계 실측 채널이 없어(원샷 워크플로·클라가 받는 산출 = 끝의 video.json/error.log뿐) 어떤 단계가 도는지 확인 불가 = 옵션발 단정 대신 범용 '편집 중' 정직 표기 · 클립 스캔은 잡 전체가 후보픽이라 명명 유지
@@ -3000,7 +3007,7 @@ function dlVerify(href, btn){   // 저장 실패를 드러낸다(평의회7 2607
   fetch(href,{method:'HEAD',cache:'no-store'}).then(r=>{
     if(r.ok) return;
     if(btn) btn.classList.remove('dl-done');
-    errStatus(r.status===502? '저장 실패 — 파일이 만료됐거나 지워졌어(다시 만들어야 해)' : '저장 실패 — 잠시 후 다시 ('+r.status+')');
+    errStatus(r.status===502? '저장 실패 — 파일이 만료됐거나 지워졌어(다시 만들어야 해)' : '저장 실패 — 재시도 ('+r.status+')');
   }).catch(()=>{ /* 네트워크 실패 = 판정 불가 → 침묵(오탐으로 성공을 실패라 하지 않는다) */ });
 }
 

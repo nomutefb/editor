@@ -377,7 +377,7 @@ $('#fPhoto').addEventListener('change',async e=>{
   let url='';
   try{
     await loadTess();
-    const w=await withCap(Tesseract.createWorker('kor+eng'),90000,'글자 인식 준비 지연(언어 데이터 내려받기) — 잠시 후 다시 시도해줘');   /* 한글 우선 = 자료화 소스가 국내 캡처 중심(tr.html eng 전용은 외신 번역 축) */
+    const w=await withCap(Tesseract.createWorker('kor+eng'),90000,'글자 인식 준비 지연(언어 데이터 내려받기) — 재시도');   /* 한글 우선 = 자료화 소스가 국내 캡처 중심(tr.html eng 전용은 외신 번역 축) */
     url=URL.createObjectURL(f);
     let data;
     try{ ({data}=await withCap(w.recognize(url),150000,'글자 읽기가 너무 오래 걸려 — 더 작은/선명한 이미지로 다시')); }
@@ -453,12 +453,12 @@ async function fire(){
   try{
     const res=await fetch(API,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(payload)});
     const j=await res.json();
-    if(!res.ok||j.error){ goIdle(gb); status.innerHTML=WARN_SVG+' '+esc(String(j.error||('서버 오류 '+res.status+' — 잠시 후 다시'))); status.classList.add('err'); return; }
+    if(!res.ok||j.error){ goIdle(gb); status.innerHTML=WARN_SVG+' '+esc(String(j.error||('서버 오류 '+res.status+' — 재시도'))); status.classList.add('err'); return; }
     goAccept(gb);   // 접수 = 게이지 100% 마무리 → ✓ 드로우(문구 무변)
     if(FILE_R2) FILE_R2='';   // R2 키 소진(러너가 잡 끝 원본 삭제 = 일회용 · edit/ly 동문)
     pendSet({id:j.id, t0, url:pendLb});
     pollNote(j.id, t0, t0-90000);   // 표시는 goEnd가 ✓ 홀드 뒤 버튼 인계(jobrun)
-  }catch(e){ goIdle(gb); status.innerHTML=WARN_SVG+' 요청 실패 — 잠시 후 다시 ('+esc(e.message)+')'; status.classList.add('err'); }
+  }catch(e){ goIdle(gb); status.innerHTML=WARN_SVG+' 요청 실패 — 재시도 ('+esc(e.message)+')'; status.classList.add('err'); }
 }
 $('#go').addEventListener('click',fire);
 $('#url').addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); fire(); } });
@@ -646,12 +646,12 @@ async function nbFeedFire(btn){
   try{
     const r=await fetch('/api/submit',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({text:buildNewsText(NOTE)})});
     const j=await r.json().catch(()=>({}));
-    if(!r.ok||j.error){ goIdle(btn); st.innerHTML=WARN_SVG+' '+esc(String(j.error||('서버 오류 '+r.status+' — 잠시 후 다시'))); st.classList.add('err'); return; }
+    if(!r.ok||j.error){ goIdle(btn); st.innerHTML=WARN_SVG+' '+esc(String(j.error||('서버 오류 '+r.status+' — 재시도'))); st.classList.add('err'); return; }
     goAccept(btn);   // 접수 = 게이지 100% 마무리 → ✓ 드로우(문구 무변)
     nbFedMark(NOTE.id);
     goEnd(btn, ()=>{ btn.classList.remove('okdone','checking'); btn.classList.add('fed'); btn.textContent='뉴스 요약 접수됨'; btn.disabled=true; });   // ✓ 홀드 뒤 접수 영속(fed — 종단 라벨은 상태 명사라 유지)
     st.innerHTML=OK_SVG+' 대기열 접수 — 분석되면 피드에 기사 카드로 떠';
-  }catch(e){ goIdle(btn); st.innerHTML=WARN_SVG+' 요청 실패 — 잠시 후 다시 ('+esc(e.message)+')'; st.classList.add('err'); }
+  }catch(e){ goIdle(btn); st.innerHTML=WARN_SVG+' 요청 실패 — 재시도 ('+esc(e.message)+')'; st.classList.add('err'); }
 }
 
 // ── 섹션 복사(클립보드 + CHECK 플래시 · 실패 = 무표식[거짓 체크 금지]) ──

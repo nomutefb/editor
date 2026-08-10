@@ -647,9 +647,9 @@ async function fireApi(gb, url, payload, onAccept){
   try{
     const res=await fetch(url,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(payload)});
     const j=await res.json();
-    if(!res.ok||j.error){ goIdle(gb); status.innerHTML=WARN_SVG+' '+esc(String(j.error||('서버 오류 '+res.status+' — 잠시 후 다시'))); status.classList.add('err'); return; }
+    if(!res.ok||j.error){ goIdle(gb); status.innerHTML=WARN_SVG+' '+esc(String(j.error||('서버 오류 '+res.status+' — 재시도'))); status.classList.add('err'); return; }
     onAccept(j, t0);   // 접수 성공 — 버튼은 goFire 시퀀스가 ✓→전송됨→원복 · 대기는 상태줄(statusWait — 폴이 켬)
-  }catch(e){ goIdle(gb); status.innerHTML=WARN_SVG+' 요청 실패 — 잠시 후 다시 ('+esc(e.message)+')'; status.classList.add('err'); }
+  }catch(e){ goIdle(gb); status.innerHTML=WARN_SVG+' 요청 실패 — 재시도 ('+esc(e.message)+')'; status.classList.add('err'); }
 }
 function fire(mode, gb){
   const story=$('#story').value.trim();
@@ -989,7 +989,7 @@ $('#maGo').addEventListener('click',async()=>{
   gb.disabled=true; $('#maDl').disabled=true; gb.setAttribute('aria-busy','true');
   const met=$('#maMet');
   try{
-    const step=m=>{ gb.innerHTML=window.nmLoader?nmLoader('solving',m,{size:15}):esc(m)+'…'; };   // 진행 표기 = orb 로더 SSOT(버튼 안팎 공통 · 평문 직접 표기 금지)
+    const step=m=>{ gb.textContent=String(m); };   // 버튼 표기 = **글자 단독**(운영자 260810) — 진행 상세는 상태줄(#status orb+경과)이 전담 · orb는 그쪽에 존치
     step('곡 읽는 중'); met.textContent='';
     const buf=await maLoad();
     const res=await nmMaster(buf, MA, step);

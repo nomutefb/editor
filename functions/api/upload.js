@@ -32,7 +32,7 @@ export async function onRequestPost({ request, env }) {
     try {
       const mp = await env.R2.createMultipartUpload(key);
       return json({ key, uploadId: mp.uploadId, part: CHUNK });
-    } catch (e) { return json({ error: '업로드 시작 실패 — 잠시 후 다시 (' + String(e && e.message || e).slice(0, 120) + ')' }, 502); }
+    } catch (e) { return json({ error: '업로드 시작 실패 — 재시도 (' + String(e && e.message || e).slice(0, 120) + ')' }, 502); }
   }
 
   const key = String(b.key || ''), uploadId = String(b.uploadId || '');

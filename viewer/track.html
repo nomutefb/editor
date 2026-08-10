@@ -440,7 +440,7 @@ $('#analyze').addEventListener('click',async()=>{
     const payload = url? {url} : FILE_R2? {r2key:FILE_R2, name:FILE_NAME} : {fileB64:FILE_B64, name:FILE_NAME};   // R2 직업로드 키 우선(대용량 · 260722)
     const res=await fetch(API,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(payload)});
     const j=await res.json();
-    if(!res.ok||j.error){ gaugeClear(gb); goWait(false); status.innerHTML=WARN_SVG+' '+esc(String(j.error||('서버 오류 '+res.status+' — 잠시 후 다시'))); status.classList.add('err'); if(!url) FILE_R2=''; return; }   // 실패 = 죽은 키 폐기(재사용 루프 차단 — 다음 발사 _lastFile 재업로드 · edit 평의회7 계승)
+    if(!res.ok||j.error){ gaugeClear(gb); goWait(false); status.innerHTML=WARN_SVG+' '+esc(String(j.error||('서버 오류 '+res.status+' — 재시도'))); status.classList.add('err'); if(!url) FILE_R2=''; return; }   // 실패 = 죽은 키 폐기(재사용 루프 차단 — 다음 발사 _lastFile 재업로드 · edit 평의회7 계승)
     if(!url) FILE_R2='';   // R2 키 소진(러너가 잡 끝 원본 삭제 = 일회용) — 재분석은 _lastFile 재업로드 경로(260722)
     TK.id=j.id; TK.sel=new Set(); TK.names={}; TK.invert=false; TK.scope={}; TK.resultUrl=''; TK.lastGot='';
     TK.keep=new Set(); TK.keepP=new Set(); TK.extra=[];   // 키잉·범위 선택도 영상 단위 — 미리셋 = 이전 영상 sid·pid·좌표 누출(평의회6 적발)
@@ -448,7 +448,7 @@ $('#analyze').addEventListener('click',async()=>{
     gaugeDone(gb);   // 응답 = 게이지 현위치→100% 급속 마무리
     pollAnalyze('track_out/'+j.id+'/tracks.json', t0);   // 같은 t0 = 버튼·상태줄 경과가 업로드~분석 끊김 없이 이어짐(구판 = 응답 시점 리셋)
     setTimeout(()=>{ gaugeClear(gb); },700);   // gdone(.3s) 채움이 눈에 따라온 뒤 게이지 정리(라벨은 goWait 타이머가 유지)
-  }catch(e){ gaugeClear(gb); goWait(false); status.innerHTML=WARN_SVG+' 요청 실패 — 잠시 후 다시 ('+esc(e.message)+')'; status.classList.add('err'); }
+  }catch(e){ gaugeClear(gb); goWait(false); status.innerHTML=WARN_SVG+' 요청 실패 — 재시도 ('+esc(e.message)+')'; status.classList.add('err'); }
   finally{ $('#analyze').disabled=false; }
 });
 
@@ -823,11 +823,11 @@ $('#toRender').addEventListener('click',async()=>{
   try{
     const res=await fetch(API,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(payload)});
     const j=await res.json();
-    if(!res.ok||j.error){ st.innerHTML=WARN_SVG+' '+esc(String(j.error||('서버 오류 '+res.status+' — 잠시 후 다시'))); st.classList.add('err'); recount(); return; }
+    if(!res.ok||j.error){ st.innerHTML=WARN_SVG+' '+esc(String(j.error||('서버 오류 '+res.status+' — 재시도'))); st.classList.add('err'); recount(); return; }
     const t0=Date.now();
     pendSet({id:TK.id, st:'render', t0, mode:TK.mode, sel:[...TK.sel], invert:TK.invert, names:TK.names, scope:TK.scope, opts:TK.opts, keep:[...TK.keep], keepP:[...TK.keepP], extra:TK.extra, kfe:TK.kfe, fill:TK.fill, preset:TK.preset, sfe:TK.sfe, ck:TK.ck, lastGot:TK.lastGot});
     unlocked[2]=true; go(2); pollRender(t0, prevUrl, t0-90000, TK.mode);
-  }catch(e){ st.innerHTML=WARN_SVG+' 요청 실패 — 잠시 후 다시 ('+esc(e.message)+')'; st.classList.add('err'); recount(); }
+  }catch(e){ st.innerHTML=WARN_SVG+' 요청 실패 — 재시도 ('+esc(e.message)+')'; st.classList.add('err'); recount(); }
 });
 
 function pollRender(t0, prevUrl, minTs, wantMode){

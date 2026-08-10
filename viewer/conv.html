@@ -481,13 +481,13 @@ $('#convGo').addEventListener('click',async()=>{
     const payload = url? {url, opts:o} : FILE_R2? {r2key:FILE_R2, name:FILE_NAME, opts:o} : {fileB64:FILE_B64, name:FILE_NAME, opts:o};
     const res=await fetch(API,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(payload)});
     const j=await res.json();
-    if(!res.ok||j.error){ gaugeClear(gb); goWait(false); status.innerHTML=WARN_SVG+' '+esc(String(j.error||('서버 오류 '+res.status+' — 잠시 후 다시'))); status.classList.add('err'); FILE_R2=''; return; }   // 실패 시 키 폐기 = 죽은 키 재사용 루프 차단 — 다음 발사는 _lastFile 재업로드(평의회7)
+    if(!res.ok||j.error){ gaugeClear(gb); goWait(false); status.innerHTML=WARN_SVG+' '+esc(String(j.error||('서버 오류 '+res.status+' — 재시도'))); status.classList.add('err'); FILE_R2=''; return; }   // 실패 시 키 폐기 = 죽은 키 재사용 루프 차단 — 다음 발사는 _lastFile 재업로드(평의회7)
     FILE_R2='';   // R2 키 소진(러너가 잡 끝에 원본 삭제 = 일회용) — 재발사는 _lastFile 재업로드 경로
     pendSet({id:j.id, t0, lbl:convLbl(o)});
     gaugeDone(gb);
     pollConv(j.id, t0, t0-90000, convLbl(o));
     setTimeout(()=>{ gaugeClear(gb); },700);
-  }catch(e){ gaugeClear(gb); goWait(false); status.innerHTML=WARN_SVG+' 요청 실패 — 잠시 후 다시 ('+esc(e.message)+')'; status.classList.add('err'); }
+  }catch(e){ gaugeClear(gb); goWait(false); status.innerHTML=WARN_SVG+' 요청 실패 — 재시도 ('+esc(e.message)+')'; status.classList.add('err'); }
   finally{ $('#convGo').disabled=false; }
 });
 function goLblFlash(g){ if(!g.dataset.label) g.dataset.label=g.textContent; g.innerHTML=CHECK_SVG; g._flash=true; setTimeout(()=>{ g._flash=false; },600); }   // 누른 즉시 ✓ 접수(track 계승)

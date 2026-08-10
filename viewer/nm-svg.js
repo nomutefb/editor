@@ -26,6 +26,8 @@ const FUNNEL_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" s
 const AI_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5l1.8 4.9 4.9 1.8-4.9 1.8L12 16.9l-1.8-4.9-4.9-1.8 4.9-1.8L12 3.5z"/><path d="M19.5 15l.8 2.1 2.1.8-2.1.8-.8 2.1-.8-2.1-2.1-.8 2.1-.8.8-2.1z"/></svg>';   // AI 스파클(큰 별+작은 별) = 스튜디오 타이틀 픽토(운영자 260712 8차 "AI 픽토그램 + Image/Video Studio"). 크기·색은 쓰는 쪽 CSS 지정(#toolTitle .tt-ai 등).
 const EDIT_SVG = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>';   // 연필 = 수정(index 카드 수정 · thumb 이전 제작 복원 · ly/edit 다시 입히기 — 구 index/thumb 인라인 2벌 → 260731 정본 승격 · thumb 사본은 경로 꼬리(12.5-12.5) 결손 드리프트 상태였음 = 통합으로 봉합)
 const LAYERS_SVG = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg>';   // 레이어(겹) = 오버레이 산출물 픽토(index '오버레이만 투명 PNG' + ly 자막 오버레이 영상 두 표면 공용 — 구 index 인라인 → 260731 정본 승격 · G_SVG 선례)
+const RETRY_SVG = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v6h6"/><path d="M3.51 14a9 9 0 1 0 .49-5"/></svg>';   // 재시도(반시계 화살) = 실패 잡 행 `.jretry` 픽토 — 값 = thumb.html 인라인 정본 exact 이관(신규 창작 0) · 승격 사유 = 번역 탭도 같은 실패 행을 그린다(운영자 260810 「'재시도'로 용어 변경」)
+const TRASH_SVG = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>';   // 휴지통(삭제) = 실패 잡 행 `.jdel` 픽토 — RETRY_SVG와 한 세트(그 행이 둘을 같이 단다)라 동반 승격 · 값 exact 이관
 // 자막(캡션) = 판 + 글줄 2행(운영자 260802 "자막 있으면 자막 픽토그램 활성화") — 레포에 자막 픽토가 없어 신설(DOWNLOAD_SVG 짝).
 //   문법 = LAYERS_SVG·EDIT_SVG 정본 그대로(14px · viewBox 24 · fill none · stroke currentColor · stroke-width 2 · round cap/join) = 다운로드 픽토와 나란히 놔도 같은 잉크 무게.
 const SUBS_SVG = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 14.5h5M15 14.5h2"/></svg>';
@@ -44,6 +46,6 @@ const GEMINI_SVG = G_SVG;
    폴백 인라인 SVG로 그려진다 = 아이콘 SSOT가 죽고 픽토가 갈린다(실측 = DOWNLOAD 밑변 `M5 21h14` 정본 vs 폴백 `M4 21h16`).
    ⚠ 값 복제 0 = 위 정본 상수를 그대로 내보내기만 한다(새 정의 금지) · 기존 bare 참조는 무영향. */
 (function (g) {
-  var EXPORTS = { CHECK_SVG: CHECK_SVG, COPY_SVG: COPY_SVG, PASTE_SVG: PASTE_SVG, ERASE_SVG: ERASE_SVG, DOWNLOAD_SVG: DOWNLOAD_SVG, EDIT_SVG: EDIT_SVG };
+  var EXPORTS = { CHECK_SVG: CHECK_SVG, COPY_SVG: COPY_SVG, PASTE_SVG: PASTE_SVG, ERASE_SVG: ERASE_SVG, DOWNLOAD_SVG: DOWNLOAD_SVG, EDIT_SVG: EDIT_SVG, RETRY_SVG: RETRY_SVG, TRASH_SVG: TRASH_SVG, WARN_SVG: WARN_SVG };
   Object.keys(EXPORTS).forEach(function (k) { if (g[k] === undefined) g[k] = EXPORTS[k]; });
 })(typeof window !== 'undefined' ? window : this);

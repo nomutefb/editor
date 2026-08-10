@@ -25,6 +25,14 @@ export async function onRequestGet({ request, env }) {
   };
   const plan = await read('plan.json');
   if (plan != null) { try { return j(JSON.parse(plan)); } catch { /* 파손 = 아래 계속(다음 폴 틱이 재시도) */ } }
-  if (await read('error.log') != null) return j({ fail: true });   // 러너가 실패 로그를 남김 = 클라에 실패 확정 전달(무한 대기 차단)
+  const el = await read('error.log');
+  if (el != null) {   // 러너가 실패 로그를 남김 = 클라에 실패 확정 전달(무한 대기 차단)
+    // ⚠ msg 동봉(260810 실사고 봉합) — 구판은 `{fail:true}`만 줘서 클라가 「AI 생성 실패 — 잠시 후 다시 시도해줘」라는 **고정 거짓 안내**를 그렸다.
+    //   실측(tr_out/260810130832-7c9445/error.log) = `TRAUTO_FAILED: OCR 라인 49줄 전부가 무작위 문자 조합 … 번역 플랜 생성 불가`
+    //   = 같은 사진으로 다시 눌러도 결정론적으로 같은 자리에서 죽는다. 사유는 러너 손에 있었는데 그 한 줄이 화면까지 못 왔다.
+    //   러너 문구는 이미 한국어 사용자 문장이라 가공 0(모델이 쓴다 · trauto.sh TRAUTO_FAILED 규약) · 없으면 빈 문자열 = 클라 일반 문구.
+    const m = /^TRAUTO_FAILED:\s*(.+)$/m.exec(el);
+    return j({ fail: true, msg: m ? m[1].trim().slice(0, 200) : '' });
+  }
   return j({ pending: true });   // 아직 산출 전 — 클라는 다음 틱 재폴
 }

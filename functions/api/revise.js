@@ -34,8 +34,8 @@ export async function onRequestPost({ request, env }) {
         body: JSON.stringify({ ref: 'main', inputs: { file, instruction } }),
       },
     );
-  } catch { return json({ error: 'GitHub 접속 실패(깃허브 장애 가능성) — 잠시 후 다시' }, 503); }
+  } catch { return json({ error: 'GitHub 접속 실패(깃허브 장애 가능성) — 재시도' }, 503); }
   if (r.status === 204) return json({ ok: true });
-  if (r.status >= 500) return json({ error: `GitHub 서버 장애(${r.status}) — 잠시 후 다시` }, 503);
+  if (r.status >= 500) return json({ error: `GitHub 서버 장애(${r.status}) — 재시도` }, 503);
   return json({ error: `GitHub ${r.status}: ${(await r.text()).slice(0, 300)}` }, 502);
 }
