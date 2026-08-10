@@ -4876,7 +4876,6 @@ const _PASTE_IT = { insertFromPaste: 1, insertFromPasteAsQuotation: 1, insertFro
 //     (한글 조합 확정도 글자당 +1 · 260808 「한 글자 더 써진다」 차단 계약은 +1 경로라 그대로 산다).
 //     이벤트 종류를 하나도 못 믿는 환경에서도 이 술어만으로 붙여넣기가 살아남는다.
 const _PASTE_MIN_RUN = 2;
-const _anyOverText = (el, s) => String(s).split('\n').some(ln => _isOverLine(el, ln));   // 값 어느 줄이든 초과인가(= 붙여넣기로 들어온 원문 상태)
 function _blockNotice(el) {   // 차단 순간 안내 = 기존 .over(빨강) 스타일 재사용 — 새 색·새 UI 창작 0
   const sel = _TRK_HINT_OF[el.id]; if (!sel) return;
   const h = $(sel); if (!h) return;
@@ -4943,10 +4942,19 @@ function bindOverClamp(sel) {
     // ⭐ 260810 2차 안전망 — 한 번에 2글자 이상 늘어난 입력 = 사람 손가락이 못 만드는 유입 = 붙여넣기·드롭·자동완성
     //   (이벤트 축이 전부 실패해도 여기서 살아남는다 · 타이핑·조합 확정은 +1이라 종전 차단 그대로)
     if (el.value.length - snap.length >= _PASTE_MIN_RUN) { if (!composing) sync(); return; }
+    // ⭐ 260810 3차(운영자 "붙여넣은 다음에 **엔터가 안 먹힌다** · 3줄이 다 차지도 않았는데") —
+    //   개행은 「그 줄」이 아니라 **다음 줄로 넘어가는 길**이라 한도 판정 대상이 아니다(beforeinput의 insertLineBreak
+    //   분기가 원래 그렇게 선언돼 있었는데, 2차의 보존 규칙이 input 쪽에서 그 계약을 덮어 되돌려버렸다).
+    //   ⚠ 줄 수로 본다 = 이벤트 축을 안 믿는다(2차 3겹 원칙 동축 · insertLineBreak를 안 보내는 자판에서도 산다).
+    if (el.value.split('\n').length > snap.split('\n').length) { if (!composing) sync(); return; }
     const fixed = _fitRow(el);
-    // ⭐ 260810 개정 ⓑ — 직전 값이 **이미 초과**면(= 붙여넣기로 들어온 원문) 표적을 절단본이 아니라 직전 값으로 둔다.
+    // ⭐ 260810 개정 ⓑ — 직전 값의 **캐럿이 놓인 그 줄**이 이미 초과면(= 붙여넣기로 들어온 원문 줄) 표적을 절단본이 아니라 직전 값으로 둔다.
     //   _fitRow를 그대로 쓰면 초과 상태에서 한 글자만 쳐도 붙여넣은 원문이 한도까지 통째로 깎여 나간다(= 붙여넣기 허용의 무효화).
-    const target = _anyOverText(el, snap) ? snap : fixed;
+    //   ⚠ 3차 봉합 = 술어를 「값 전체 어느 줄이든」에서 **「캐럿이 놓인 줄」**로 좁혔다 — 넓은 판이 엔터로 새 줄에 내려간
+    //     뒤의 **정상 타이핑까지 통째로 취소**했다(실측 = 붙여넣기 뒤 엔터 무동작 + 둘째 줄 「둘째줄」 3자 전부 유실).
+    //     _fitRow가 자르는 대상도 캐럿 줄 하나뿐이라 표적과 판정이 이제 같은 줄을 본다.
+    const _p0 = Math.min(el.selectionStart ?? snap.length, snap.length);
+    const target = _isOverLine(el, _lineAt(snap, _p0)) ? snap : fixed;
     if (target !== el.value) {
       const fixed2 = target;
       const p = Math.min(el.selectionStart ?? fixed2.length, fixed2.length);
