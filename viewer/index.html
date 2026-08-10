@@ -13365,8 +13365,10 @@ function renderSnsTrends() {
   const effF = z => (z._fresh && !z._pen) ? 1 : 0;   // 정렬용 유효 신선 — _pen = 가점만 회수(표시 나이 흐림 .old는 실나이 _fresh 그대로 = 1시간 전이 흐려지는 왜곡 차단)
   pool.sort((a, b2) => (effF(b2) - effF(a)) || ((a._pen || 0) - (b2._pen || 0)) || (b2.sc - a.sc) || (b2.ht - a.ht));   // 신선분 우선(운영자 260718 "신선 없으면 차순위 top 위로") → 강등 티어(_pen = 전 정상분 아래 · 강등끼리는 소스순위 유지) → 소스순위(sc) → 조회수(ht) · 24h+ = 입장 컷(TOP_MAX_H) · 24h 내 스테일 = 침몰만(컷 안에서 빈칸 채움 유지)
   const top = [], pcap = {};
-  for (const it of pool) { if ((pcap[it.plat] || 0) >= 4) continue; pcap[it.plat] = (pcap[it.plat] || 0) + 1; top.push(it); if (top.length >= 10) break; }
-  if (top.length < 10) for (const it of pool) { if (top.length >= 10) break; if (!top.includes(it)) top.push(it); }   // 2차 채움 = 캡 해제(운영자 260726 "실시간 top10 4개" 해소 — 24h컷 생존 플랫폼이 사실상 구글뿐인 국면이면 캡4에서 TOP이 4개로 굶주림) · 1차 캡4 = 독식 방지 원취지 그대로, 부족분만 풀 정렬 순서대로 추가 · 풀<10 = 있는 만큼(종전 조용한 공백)
+  // TOP 진입 자격 = 강등분(_pen) 배제(운영자 260810 "ㅇㅋ" 승인) — 260721 원설계는 「항목 제거는 안 함(하위 채움용 잔존 = 빈칸 회피)」였고 그게 옳았다: 그땐 **구글 확장 레인(11~25위)이 5천+ 이슈를 데려와** 강등분이 실제로 하위에만 앉았기 때문. 그 레인을 같은 날 폐지하자 풀이 41→17건으로 줄었고, 2차 채움(캡 해제)이 **강등분을 5~8위로 끌어올렸다**(실측 260810 = 검색량 200·200·1000·200이 유튜브 공식 40만 아래 4칸 점거) = 「5천 미만은 이슈가 아니다」 계약이 채움 경로에서 무력화된 상태. → 두 루프 공통으로 강등분을 걸러 **TOP은 정상분만**으로 채운다. 10칸이 안 차면 종전대로 조용한 공백(`kobL` "10개 안 나와도 괜찮아" 선례 · 빈칸 회피보다 「빈칸이 나을 만큼 약한 신호」가 우선). ⚠ 강등분을 **풀에서 지우지는 않는다** = `pool` 원본 불변이라 `xRest`·`_tsSeqX` 썸네일 스택엔 그대로 남는다(운영자 260810 "썸네일 부분을 날리라는 게 아니야" 계약 준수 = 260721 「하위 채움용 잔존」 취지는 스택이 흡수)
+  const topOk = pool.filter(p2 => !p2._pen);
+  for (const it of topOk) { if ((pcap[it.plat] || 0) >= 4) continue; pcap[it.plat] = (pcap[it.plat] || 0) + 1; top.push(it); if (top.length >= 10) break; }
+  if (top.length < 10) for (const it of topOk) { if (top.length >= 10) break; if (!top.includes(it)) top.push(it); }   // 2차 채움 = 캡 해제(운영자 260726 "실시간 top10 4개" 해소 — 24h컷 생존 플랫폼이 사실상 구글뿐인 국면이면 캡4에서 TOP이 4개로 굶주림) · 1차 캡4 = 독식 방지 원취지 그대로, 부족분만 풀 정렬 순서대로 추가 · 풀<10 = 있는 만큼(종전 조용한 공백)
   // ── 플랫폼 그룹 본문(대분류 = 플랫폼 · 중분류 = 소머리 details 그대로 = 접기 키·기억 보존) — 구 소스칩(.trend-srcbar)·vis() 폐지 = 점프는 좌측 레일 이관 ──
   let gGG = '', gYT = '', gTK = '', gCUR = '';   // gCUR = 큐레이션 게시물 대분류(운영자 260723 — 구독 전 플랫폼 집약 · 구 gIG/gX/gTH 흡수)
   // (구글 실검 클릭 URL = 위 ggUrl 정본 1곳 — 실시간 TOP(ggMap)과 공용 · 재선언 금지)
