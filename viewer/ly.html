@@ -699,7 +699,7 @@ function setBadge(type, name) {   // 업로드 완료 = 타입 색배지 + 파�
 
 let FILE_B64 = '', FILE_NAME = '', SRT_TEXT = '';   // SRT_TEXT = TXT/SRT 파일 텍스트(STT 건너뜀)
 let FILE_RAW = null;   // 첨부 원본 File(영상 한정) — '자막 붙이기'가 첨부 *뒤에* 켜져도 원본 영상으로 재전환(추출 mp3 업로드 = 러너에 영상 없음 = '자막만' 종결 사고 봉합 · 260721)
-let FILE_R2 = '';      // R2 직업로드 키(20MB 초과 영상 · 일회용 — 발사 소진 · FILE_RAW로 재업로드 — edit FILE_R2 동문 · 260722)
+let FILE_R2 = '';      // R2 직업로드 키(20MB 초과 영상 · 보관 24h — 러너가 안 지운다(나이 든 것만 청소 = shared/r2_upsrc_gc.sh) · 만료 시에만 재업로드 — FILE_RAW로 · edit FILE_R2 동문 · 260722→260810)
 const FILE_MAX = 20 * 1024 * 1024;     // 이하 = 직접 업로드 / 초과 = 브라우저서 음성만 추출
 const FILE_HARD = 250 * 1024 * 1024;   // 이 이상 영상은 브라우저 추출도 거부(URL로) — 폰 wasm 힙(~1GB)서 OOM 위험이라 보수적
 
@@ -986,7 +986,7 @@ $('#go').onclick = async () => {
     if (fsr === 'fail') return;
     if (fsr === 'big') { status.innerHTML = WARN_SVG + ' 이 영상은 20MB 초과 — 자막 합성은 URL 입력만 돼. 자막 텍스트만 원하면 \'자막 붙이기\'를 꺼줘.'; status.classList.add('err'); return errStatus('영상 20MB 초과'); }
   }
-  if (!url && !SRT_TEXT && !FILE_B64 && !FILE_R2 && FILE_RAW) {   // 소진된 R2 키 재업로드(edit 관례 — 러너가 잡 끝 원본 삭제 = 일회용 · 파일은 브라우저에 남아 재선택 불필요 · 260722)
+  if (!url && !SRT_TEXT && !FILE_B64 && !FILE_R2 && FILE_RAW) {   // 키가 없을 때만 재업로드(260810 = 만료·정리·URL 전환 뒤 · 정상 연속 작업은 키가 살아 있어 이 경로를 안 탄다 · 파일은 브라우저에 남아 재선택 불필요)
     try { await lyVideoUpload(FILE_RAW); } catch (err) { clearFile('파일 처리 실패 — 다시 선택해줘 (' + ((err && err.message) ? err.message.slice(0, 120) : 'error') + ')', true); return; }
     if (!FILE_B64 && !FILE_R2) return errStatus('파일 준비 실패 — 다시 선택해줘');
   }
@@ -1002,8 +1002,10 @@ $('#go').onclick = async () => {
     const wantVid = !!LY_OPTS.burn && (!!url || (!SRT_TEXT && /\.(mp4|mov|m4v|webm|mkv|avi|3gp)$/i.test(FILE_NAME)));   // 합성 기대 = URL 또는 영상 원본 업로드(추출 mp3는 러너에 영상 없음) · +3gp = 첨부 허용 목록과 정합(260721)
     const res = await fetch('/api/ly', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(payload) });
     const j = await res.json();
-    if (!res.ok || j.error) { goFireStop(); goLbl(null); status.innerHTML = WARN_SVG + ' ' + esc(String(j.error || res.status)); status.classList.add('err'); $('#out').innerHTML = ''; FILE_R2 = ''; return; }   // 실패 시 키 폐기 = 죽은 키(만료·소진) 재사용 루프 차단 — 다음 발사는 FILE_RAW 재업로드(edit 평의회7 계승)
-    if (FILE_R2) FILE_R2 = '';   // R2 키 소진(러너가 잡 끝 원본 삭제 = 일회용) — 재발사는 FILE_RAW 재업로드 경로(260722)
+    // (260810) 실패 = **죽은 키일 때만** 폐기(구 무차별 `FILE_R2=''`) — 429·5xx는 키가 멀쩡한 일시 실패인데 폐기하면
+    //   다음 발사가 재업로드로 떨어진다(edit 메인 발사 규칙 계승 · 판정 = 서버 정본 문구).
+    if (!res.ok || j.error) { goFireStop(); goLbl(null); const _m = String(j.error || res.status); status.innerHTML = WARN_SVG + ' ' + esc(_m); status.classList.add('err'); $('#out').innerHTML = ''; if (FILE_R2 && /업로드 키|업로드 파일이 없어|업로드 미설정/.test(_m)) { nmUpDrop(FILE_R2); FILE_R2 = ''; } return; }
+    // (260810) 성공 = **키 보존**(구 `if (FILE_R2) FILE_R2 = ''`) — 원본을 잡 끝에 안 지운다(나이 든 것만 청소 = shared/r2_upsrc_gc.sh).
     goFireStop();   // 접수 = 발사 시퀀스 종료 → poll 대기 라벨('자막 생성 중…')로 인계 — 체크는 게이지 직후 이미 그려짐(구 접수 체크 플래시(운영자 260707 "체크가 되야")는 260710 순서 확정으로 게이지 직후 단계로 이동)
     lyPendSet(j.out, j.url || j.file, wantVid);   // 진행 영속화(평의회R2 C1) — 완료/실패 시 poll이 해제·타임아웃은 유지(0 유실) · v = 합성 기대(리로드 이어받기)
     LY_WANTVID = wantVid ? j.out : '';

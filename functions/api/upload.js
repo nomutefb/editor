@@ -2,11 +2,14 @@
 // 요구: Pages 대시보드 → Settings → Bindings → R2 bucket, 변수명 R2(러너 시크릿 R2_BUCKET과 같은 버킷).
 //   바인딩 없음 = GET {ok:false} → 뷰어가 기존 30MB base64 경로로 자동 폴백(회귀 0 · 머지만으론 라이브 무영향).
 // 흐름: POST{action:create,name,size} → {key,uploadId,part} → PUT ?key&uploadId&n=1..64(원시 바디 · 32MB 균일 조각)
-//   → POST{action:complete,parts} → 러너가 aws s3 cp로 회수(up_src/* = 일회용 · 잡 끝 삭제 = up-<id> 브랜치와 동일 수명).
+//   → POST{action:complete,parts} → 러너가 aws s3 cp로 회수(**읽기만** — 수정 0).
+//   ⚠ (260810) up_src/* 는 **일회용이 아니다** — 잡 끝 즉시 삭제를 폐지하고 나이 기준 청소로 바꿨다(정본 = shared/r2_upsrc_gc.sh · TTL 24h).
+//   같은 영상으로 두 번째·세 번째 작업을 걸 때 전체 재업로드가 없어진다(운영자 260810 "한번 올린거 바로 휘발시키지말고 냅둬봐").
 // 보안: 키 = 서버 발급 up_src/<id>.<ext>만(정규식 강제 = ly_out 등 타 키 덮어쓰기 차단) · Access 게이트 뒤(뷰어 동일) ·
 //   총량 2GB 캡(기틀 캡 — 완화 = 운영자 확인 · 실질 제한은 각 도구의 길이 캡). 조각 32MB = 워커 메모리(128MB) 안전권.
 // 잔재 수명: 미완결 멀티파트 = R2 기본 수명규칙이 7일에 자동 중단(공식 문서 확인 · 평의회9) · 완결됐지만 미소비된 고아 객체 =
-//   뷰어가 delete 액션으로 즉시 정리(대체·URL 발사 시) + 백스톱으로 up_src/ prefix 1일 수명규칙 권장(대시보드 · 선택).
+//   뷰어가 delete 액션으로 즉시 정리(대체·URL 발사 시) + 백스톱 = 잡마다 도는 shared/r2_upsrc_gc.sh(24h 초과분 삭제 ·
+//   운영자 조치 0 = 대시보드 수명규칙을 안 걸어도 고아가 안 쌓인다 · 규칙을 따로 걸어도 둘 다 "나이 든 것만"이라 충돌 0).
 const KEY_RE = /^up_src\/\d{12}-[a-f0-9]{6}\.(mp4|mov|m4v|webm|mkv|avi|mp3|m4a|wav|ogg|aac|flac|jpg)$/;   // +오디오 6종(260722 song 보이스 학습 R2 편입) · +jpg(260810 번역카드 원본 사진 = 러너가 모델에게 직접 보여줄 소스 · dispatch inputs 64KB 상한을 b64로는 못 넘어 R2 경유 = edit r2key 정본 문법) — 각 API(edit·conv·framethumb=영상만 · voice=오디오)가 자기 확장자 셋을 재검증 = 교차 오용 차단
 const CHUNK = 32 * 1024 * 1024;             // 조각 크기 — R2 멀티파트는 마지막 외 균일 크기 요구(≥5MB)
 const MAX_TOTAL = 2 * 1024 * 1024 * 1024;   // 2GB(= 64조각) — 4K 10분(길이 캡)도 여유

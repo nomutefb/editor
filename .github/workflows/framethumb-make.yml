@@ -22,7 +22,7 @@ on:
         type: string
         default: ''
       r2_src:
-        description: 'R2 직업로드 키(up_src/<id>.<ext> · 대용량 ≤2GB — api/upload 발급 · 빈값=미사용 · 잡 끝 삭제)'
+        description: 'R2 직업로드 키(up_src/<id>.<ext> · 대용량 ≤2GB — api/upload 발급 · 빈값=미사용 · 보관 24h 뒤 자동 청소[260810 — 구 「잡 끝 삭제」 폐지])'
         type: string
         default: ''
       opts:
@@ -148,18 +148,16 @@ jobs:
           UP_BRANCH: ${{ inputs.up_branch }}
         run: git push origin --delete "$UP_BRANCH" 2>/dev/null || echo "up-브랜치 정리 스킵(이미 없음)"
 
-      - name: R2 원본 삭제 (일회용 — 클라는 키 소진 처리·재발사 = 재업로드)
-        if: ${{ always() && inputs.r2_src != '' }}
+      - name: 임시 업로드 청소 (R2 up_src · 나이 지난 것만)
+        # (260810 운영자 "한번 올린거 바로 휘발시키지말고 냅둬봐") 종전 = 이 잡이 쓴 원본을 그 자리에서 `aws s3 rm` →
+        #   러너는 원본을 **읽기만** 하는데도 같은 영상 두 번째 작업이 전체 재업로드였다(1GB면 1GB 다시).
+        #   지금 = 남겨두고 **나이 든 것만** 청소(정본 = shared/r2_upsrc_gc.sh · TTL 기본 24h · 삭제 상한 200).
+        #   만료 뒤 재발사는 api 쪽 head 검증이 "업로드 파일이 없어" 를 주고 뷰어가 자동 재업로드 = 종전 동작으로 폴백.
+        if: ${{ always() }}
         env:
-          R2_SRC: ${{ inputs.r2_src }}
           R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
           R2_BUCKET: ${{ secrets.R2_BUCKET }}
           AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
         run: |
-          case "$R2_SRC" in up_src/*) ;; *) echo "up_src/* 아님 — 스킵"; exit 0;; esac
-          case "$R2_SRC" in *..*|*' '*) exit 0;; esac
-          [ -n "$R2_BUCKET" ] || exit 0
-          export AWS_DEFAULT_REGION=auto AWS_REQUEST_CHECKSUM_CALCULATION=when_required AWS_RESPONSE_CHECKSUM_VALIDATION=when_required
-          aws s3 rm "s3://$R2_BUCKET/$R2_SRC" --endpoint-url "https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com" --only-show-errors \
-            || echo "원본 정리 실패(무해 — 수동 정리 대상): $R2_SRC"
+          [ -f shared/r2_upsrc_gc.sh ] && bash shared/r2_upsrc_gc.sh || echo "청소기 없음(체크아웃 전 실패) — 스킵"

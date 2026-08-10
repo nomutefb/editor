@@ -256,7 +256,7 @@ const AR_NUM={'9:16':9/16,'1:1':1,'4:5':4/5,'16:9':16/9};
 let OPT={fps:'keep', ar:'orig', fit:'crop', pos:50, res:'orig', q:'18', audio:'keep'};
 let FILE_B64='', FILE_NAME='', FILE_URL='';   // FILE_URL = objectURL(위치 미리보기용)
 let USER_ACT=false, _curStop=null, _dur=0, _pollLive=false;   // _pollLive = 대기 미리보기가 objectURL 사용 중(revoke 보류 신호 · 평의회5)
-let FILE_R2='', _lastFile=null, _varea=0;   // FILE_R2 = R2 직업로드 키(일회용 — 발사 소진 · _lastFile로 재업로드) · _varea = 원본 픽셀 수(4K급 판별 = 서버 is4k와 동형 — 긴 변 판별은 세로 1080×2340 오거절 · 재검증 260711)
+let FILE_R2='', _lastFile=null, _varea=0;   // FILE_R2 = R2 직업로드 키(보관 24h — 러너가 안 지운다(나이 든 것만 청소 = shared/r2_upsrc_gc.sh) · 만료 시에만 재업로드 — _lastFile로) · _varea = 원본 픽셀 수(4K급 판별 = 서버 is4k와 동형 — 긴 변 판별은 세로 1080×2340 오거절 · 재검증 260711)
 
 const pendSet=o=>{ try{ localStorage.setItem(PEND_KEY, JSON.stringify(o)); }catch(e){} };
 const pendGet=()=>{ try{ return JSON.parse(localStorage.getItem(PEND_KEY)||'null'); }catch(e){ return null; } };
@@ -468,7 +468,7 @@ $('#convGo').addEventListener('click',async()=>{
   const status=$('#cstatus'); status.classList.remove('err'); status.textContent='';
   const gb=$('#convGo'); gb.disabled=true;
   if(url && FILE_R2){ nmUpDrop(FILE_R2); FILE_R2=''; }   // URL 발사 = 첨부 R2 키 미소비 → 고아 정리(평의회7 F2)
-  if(!url && !FILE_B64 && !FILE_R2 && _lastFile){   // 소진된 R2 키 재업로드(러너가 잡 끝에 원본 삭제 = 일회용 · 파일은 브라우저에 남아 재선택 불필요)
+  if(!url && !FILE_B64 && !FILE_R2 && _lastFile){   // 키가 없을 때만 재업로드(260810 = 만료·정리·URL 전환 뒤 · 정상 연속 작업은 키가 살아 있어 이 경로를 안 탄다 · 파일은 브라우저에 남아 재선택 불필요)
     const f=_lastFile;
     try{ fileSlotPct(f,0); const up=await nmUpload(f,p=>{ if(_lastFile===f) fileSlotPct(f,p); }); FILE_R2=up.key; fileSlotName(f); }
     catch(e){ gb.disabled=false; return errStatus('재업로드 실패 — 다시 ('+String(e&&e.message||'').slice(0,60)+')'); }
@@ -481,8 +481,9 @@ $('#convGo').addEventListener('click',async()=>{
     const payload = url? {url, opts:o} : FILE_R2? {r2key:FILE_R2, name:FILE_NAME, opts:o} : {fileB64:FILE_B64, name:FILE_NAME, opts:o};
     const res=await fetch(API,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(payload)});
     const j=await res.json();
-    if(!res.ok||j.error){ gaugeClear(gb); goWait(false); status.innerHTML=WARN_SVG+' '+esc(String(j.error||('서버 오류 '+res.status+' — 재시도'))); status.classList.add('err'); FILE_R2=''; return; }   // 실패 시 키 폐기 = 죽은 키 재사용 루프 차단 — 다음 발사는 _lastFile 재업로드(평의회7)
-    FILE_R2='';   // R2 키 소진(러너가 잡 끝에 원본 삭제 = 일회용) — 재발사는 _lastFile 재업로드 경로
+    // (260810) 실패 = **죽은 키일 때만** 폐기(구 무차별 `FILE_R2=''`) — 429·5xx는 키가 살아 있는 일시 실패다(edit 규칙 계승).
+    if(!res.ok||j.error){ gaugeClear(gb); goWait(false); const _m=String(j.error||('서버 오류 '+res.status+' — 재시도')); status.innerHTML=WARN_SVG+' '+esc(_m); status.classList.add('err'); if(FILE_R2&&/업로드 키|업로드 파일이 없어|업로드 미설정/.test(_m)){ nmUpDrop(FILE_R2); FILE_R2=''; } return; }
+    // (260810) 성공 = **키 보존**(구 `FILE_R2=''`) — 원본을 잡 끝에 안 지운다 = 같은 파일 연속 변환에 재업로드 0.
     pendSet({id:j.id, t0, lbl:convLbl(o)});
     gaugeDone(gb);
     pollConv(j.id, t0, t0-90000, convLbl(o));

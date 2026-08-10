@@ -804,7 +804,7 @@ const PEND_KEY='nm_edit_pend';
 const API='/api/edit';
 const BUDGET=2700;   // 폴 예산(초) — 하드 ×2 = 5400s ≥ 잡 캡 85분(5100 · 4K+R2 선스텝 재산정 260711)+디스패치+배포 · 재개 게이트 24h 별도(conv 문법)
 let FILE_B64='', FILE_NAME='', FILE_URL='', _dur=0, USER_ACT=false, _curStop=null, _pollLive=false, _polling=false, EDIT_ID='', RESULT_URL='';   // _polling = 생성 진행 UI 보호 게이트(작업 내역 탭 차단 · 자막 탭 LY_GEN 계승)
-let FILE_R2='', _lastFile=null, _varea=0, _vw=0, _vh=0;   // _vw·_vh = 원본 가로·세로(운영자 260809 「기존 > 변경」 표기 — 구 _varea는 **곱**만 갖고 있어 W×H를 복원할 수 없다)   // FILE_R2 = R2 직업로드 키(일회용 — 발사 소진 · _lastFile로 재업로드) · _varea = 원본 픽셀 수(4K급 판별 = 서버 is4k와 동형 — 긴 변 판별은 세로 1080×2340 오거절 · 재검증 260711)
+let FILE_R2='', _lastFile=null, _varea=0, _vw=0, _vh=0;   // _vw·_vh = 원본 가로·세로(운영자 260809 「기존 > 변경」 표기 — 구 _varea는 **곱**만 갖고 있어 W×H를 복원할 수 없다)   // FILE_R2 = R2 직업로드 키(보관 24h — 러너가 안 지운다(나이 든 것만 청소 = shared/r2_upsrc_gc.sh) · 만료 시에만 재업로드 — _lastFile로) · _varea = 원본 픽셀 수(4K급 판별 = 서버 is4k와 동형 — 긴 변 판별은 세로 1080×2340 오거절 · 재검증 260711)
 
 const pendSet=o=>{ try{ localStorage.setItem(PEND_KEY, JSON.stringify(o)); }catch(e){} };
 const pendGet=()=>{ try{ return JSON.parse(localStorage.getItem(PEND_KEY)||'null'); }catch(e){ return null; } };
@@ -1651,10 +1651,12 @@ async function xtrScan(){   // 인물 분석 = /api/track analyze 발사 → tra
   XTR_SCAN='run'; XTR_SCAN_T0=Date.now(); renderXtr(); xscTick(true);
   try{
     let payload;
-    // ⚠ 발사용 R2 키(FILE_R2)는 **재사용하지 않는다** — 러너가 잡 끝에 원본을 지우는 일회용이라, 여기서 쓰면 정작 생성 때 파일이 없다.
-    //   그래서 파일은 분석용으로 다시 올린다. 파일 핸들이 없고 base64만 남은 경우(≤28MB 폴백 경로)는 그대로 실어 보낸다.
+    // (260810) 발사용 키를 **그대로 재사용한다** — 러너가 잡 끝에 원본을 지우지 않게 바뀌어서(나이 든 것만 청소 =
+    //   shared/r2_upsrc_gc.sh) 분석하려고 같은 영상을 한 번 더 올릴 이유가 없다. 구판은 여기서 통째로 재업로드했고,
+    //   그게 "인물 분석 눌렀는데 또 올라간다"의 정체였다. 키가 없어 새로 올리면 그 키를 FILE_R2에 심어 **다음 생성도** 재사용한다.
     if(url) payload={url};
-    else if(_lastFile){ const up=await nmUpload(_lastFile); payload={r2key:up.key, name:_lastFile.name}; }
+    else if(FILE_R2) payload={r2key:FILE_R2, name:FILE_NAME||'video.mp4'};
+    else if(_lastFile){ const up=await nmUpload(_lastFile); FILE_R2=up.key; payload={r2key:up.key, name:_lastFile.name}; }
     else if(FILE_B64) payload={fileB64:FILE_B64, name:FILE_NAME||'video.mp4'};
     else { XTR_SCAN='err:영상 파일을 다시 선택해 주세요.'; renderXtr(); return; }
     const res=await fetch('/api/track',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(payload)});
@@ -2047,7 +2049,7 @@ $('#editGo').addEventListener('click',async()=>{
   const status=$('#cstatus'); status.classList.remove('err'); status.textContent='';
   const gb=$('#editGo'); gb.disabled=true;
   if(url && FILE_R2){ nmUpDrop(FILE_R2); FILE_R2=''; }   // URL 발사 = 첨부 R2 키 미소비 → 고아 정리(평의회7 F2)
-  if(!url && !FILE_B64 && !FILE_R2 && _lastFile){   // 소진된 R2 키 재업로드(러너가 잡 끝에 원본 삭제 = 일회용 · 파일은 브라우저에 남아 재선택 불필요)
+  if(!url && !FILE_B64 && !FILE_R2 && _lastFile){   // 키가 없을 때만 재업로드(260810 = 만료·정리·URL 전환 뒤 · 정상 연속 작업은 위 키가 살아 있어 이 경로를 안 탄다 · 파일은 브라우저에 남아 재선택 불필요)
     const f=_lastFile;
     try{ fileSlotPct(f,0); const up=await nmUpload(f,p=>{ if(_lastFile===f) fileSlotPct(f,p); }); FILE_R2=up.key; fileSlotName(f); }
     catch(e){ gb.disabled=false; return errStatus('재업로드 실패 — 다시 ('+String(e&&e.message||'').slice(0,60)+')'); }
@@ -2069,7 +2071,10 @@ $('#editGo').addEventListener('click',async()=>{
       if(FILE_R2 && /업로드 키|업로드 파일이 없어|업로드 미설정/.test(_msg)){ nmUpDrop(FILE_R2); FILE_R2=''; }
       return;
     }
-    FILE_R2='';   // R2 키 소진(러너가 잡 끝에 원본 삭제 = 일회용) — 재발사는 _lastFile 재업로드 경로
+    // (260810) 발사 성공 = **키 보존**(구 `FILE_R2=''`) — 러너가 잡 끝에 원본을 지우던 걸 「나이 든 것만 청소」로
+    //   바꿔서(shared/r2_upsrc_gc.sh · TTL 24h) 같은 영상으로 두 번째·세 번째 작업을 걸 때 재업로드가 없다.
+    //   운영자 260810 "한번 올린거 바로 휘발시키지말고 냅둬봐 · 한개의 작업본으로 작업을 1개 밖에 못하는게 무슨 개떡같은 인터페이스야".
+    //   만료·정리된 뒤에는 서버 head 검증이 "업로드 파일이 없어"를 주고 아래 죽은 키 규칙이 폐기 → _lastFile 재업로드로 폴백(종전 동작).
     try{ EDIT_SUB=false; lyHideEditor(); lyBurnReset(); }catch(e){}   // 새 발사 = 이전 자막 편집기·완성 영상 정리(B-2 — 편집 스냅샷은 lyHideEditor가 flush 저장)
     CUT_REF=null;   // 승인 컷 소진(연속 발사에 딸려가지 않게 · FILE_R2 소진 문법 계승)
     pendSet({id:j.id, t0, lbl:editLbl(o), clip:o.clip?1:0, cutscan:o.cutscan?1:0});
@@ -2960,7 +2965,7 @@ $('#cutlist').addEventListener('click',e=>{
   if(!e.target.closest('#cutGo')||!CUTS) return;
   const rm=CUTS.rm||[];
   if(CUTOFF.size>=rm.length){ const st=$('#cstatus'); st.innerHTML=WARN_SVG+' 전부 뺐어 — 자를 게 없으면 컷 없이 편집해줘'; st.classList.add('err'); return; }
-  if(CUTS.src && !$('#url').value.trim() && !FILE_R2 && !FILE_B64 && !_lastFile) $('#url').value=CUTS.src;   // 스캔이 보관한 원본 승계(업로드 소스는 잡 끝 삭제 = 일회용 · 클립 후보 문법 동일)
+  if(CUTS.src && !$('#url').value.trim() && !FILE_R2 && !FILE_B64 && !_lastFile) $('#url').value=CUTS.src;   // 스캔이 보관한 원본 승계(업로드 소스는 24h 뒤 청소 · 클립 후보 문법 동일)
   if(!$('#url').value.trim() && !FILE_R2 && !FILE_B64 && !_lastFile){ const st=$('#cstatus'); st.innerHTML=WARN_SVG+' 원본 유실(보관 실패) — 파일 다시 선택 후 눌러줘'; st.classList.add('err'); return; }
   CUT_REF={id:CUTS.id||EDIT_ID, off:[...CUTOFF].sort((x,y)=>x-y)};
   ON.cut=true; render();
@@ -2978,7 +2983,7 @@ $('#cliplist').addEventListener('click',e=>{
   ON.trim=ON.screen=ON.anorm=true;   // 쇼츠 기본 스택 = 구간+비율+음량(자막 = 자막 탭 전담 · 운영자 260711 m1Sub=m2 — 무음컷은 하이라이트 구간이라 제외 · 스택에서 조정 가능)
   P.ar='9:16'; if(P.fit==='crop') P.fit='pad';
   OPEN='trim';
-  if(CLIPS.src && !$('#url').value.trim() && !FILE_R2 && !FILE_B64 && !_lastFile) $('#url').value=CLIPS.src;   // 스캔이 보관한 원본 승계(업로드 소스는 잡 끝 삭제 = 일회용이라)
+  if(CLIPS.src && !$('#url').value.trim() && !FILE_R2 && !FILE_B64 && !_lastFile) $('#url').value=CLIPS.src;   // 스캔이 보관한 원본 승계(업로드 소스가 24h 청소로 사라진 뒤라)
   $$('#cliplist .clip').forEach(x=>{ x.classList.toggle('on',x===b); x.setAttribute('aria-selected',x===b?'true':'false'); });
   render();
   const st=$('#cstatus'); st.classList.remove('err');
@@ -3021,7 +3026,7 @@ $('#ftGo').addEventListener('click', async e=>{
   $('#ftRes').innerHTML='';
   const fail=m=>{ st.innerHTML=ERR_SVG+' '+esc(String(m)); st.classList.add('err'); b.disabled=false; b.textContent='베스트컷'; };
   if(url && FILE_R2){ nmUpDrop(FILE_R2); FILE_R2=''; }   // URL 발사 = 첨부 R2 키 미소비 → 고아 정리(메인 발사 관례 계승)
-  if(!url && !FILE_B64 && !FILE_R2 && _lastFile){   // 소진된 R2 키 재업로드(메인 발사 동형 — 러너가 잡 끝 원본 삭제 = 일회용)
+  if(!url && !FILE_B64 && !FILE_R2 && _lastFile){   // 키가 없을 때만 재업로드(메인 발사 동형 · 260810)
     const f=_lastFile;
     try{ fileSlotPct(f,0); const up=await nmUpload(f,p=>{ if(_lastFile===f) fileSlotPct(f,p); }); FILE_R2=up.key; fileSlotName(f); }
     catch(err){ return fail('업로드 실패 — 다시 눌러줘'); }
@@ -3040,7 +3045,8 @@ $('#ftGo').addEventListener('click', async e=>{
         if(FILE_R2 && /업로드 키|업로드 파일이 없어|업로드 미설정/.test(_m)){ nmUpDrop(FILE_R2); FILE_R2=''; }   // 죽은 키만 폐기(메인 발사와 동일 규칙) — 429·5xx는 키가 멀쩡하니 보존해 재업로드를 막는다
         return fail(_m);
       }
-      if(!url) FILE_R2='';   // 성공 = 키 소진(러너가 잡 끝에 원본 삭제 = 일회용)
+      // (260810) 성공 = **키 보존**(구 `if(!url) FILE_R2=''`) — 원본을 잡 끝에 안 지운다(메인 발사와 동일 계약).
+      //   프레임 썸네일을 뽑은 뒤 곧바로 생성으로 이어가는 게 정상 동선인데, 종전엔 그 사이에 전체 재업로드가 끼었다.
       const t0=Date.now();
       (function tick(){
         if(Date.now()-t0>8*60000) return fail('시간 초과 — 잠시 뒤 다시 눌러줘');
