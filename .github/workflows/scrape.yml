@@ -44,6 +44,19 @@ jobs:
         with:
           ref: main
           fetch-depth: 1   # 최신 1커밋만 — 구 0은 원격 브랜치 567개 전체 히스토리를 받아 실측 105s를 먹었다(260810 · imggen run 30972520521 = 체크아웃 108s 중 워킹트리 쓰기는 3s뿐)
+          # ⚡ 260810 sparse-checkout(ly-make·edit-make·nb-make 정본 계승) — depth:1 뒤 남은 20s의 정체는 **워킹트리 블롭 회수**다.
+          #   추적 파일 실측 = _versions 437M · uploads 100M · docs 90M · 자료 75M · _산출 74M · apps 47M · .claude 38M · cards 12M
+          #   = 이 잡이 한 번도 안 여는 870M을 매 회차 받고 있었다. 남기는 것 = 이 워크플로가 실제로 읽고/쓰는 경로뿐.
+          #   ⚠ viewer는 통째 유지(126M) = 쓰기 대상 viewer/candidates.json이 cone 모드에선 파일 단위 지정 불가 · 빠지면 add 실패 = 수집분 유실.
+          #   ⚠ 삭제 커밋 사고 경로 없음 = 이 워크플로의 git add는 전건 **명시 경로**(add -A 없음 · 80·116·176행).
+          sparse-checkout: |
+            .github
+            shared
+            scraper
+            push
+            pending
+            messages
+            viewer
 
       - name: Setup Python
         uses: actions/setup-python@v5
