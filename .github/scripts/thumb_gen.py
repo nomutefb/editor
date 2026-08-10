@@ -702,6 +702,113 @@ def _small_dim(u):
     m2 = re.search(r"[?&]type=w(\d{1,4})", u, re.I)          # 네이버 mblogthumb type=w80
     return bool(m2 and int(m2.group(1)) < 400)
 
+# ⬆ 화질 승격(운영자 260810 "고화질을 가져오게 · 최소 세로 720p 이상") — CONTRACT: check_img_upsize
+# ⚠️ 매체 og:image 는 SNS 카드용 **축소판**인 경우가 많다(실측 260810: 헤럴드 og `_T1`=300×200 인데
+#    같은 CDN 에 `_R`=1280×853 원본이 그대로 있다 · 스포츠Q `/thumbnail/…_v150`=300×200 ↔ `/photo/…`=600×400 ·
+#    파이낸셜 `_l`=800×584 ↔ 접미사 제거=3165×2313 · 한겨레 `/flexible/normal/970/647/` ↔ 경로 제거=1280×854).
+#    우리 파이프는 받은 바이트를 **그대로** R2 에 올린다(압축·축소 0) → 화질 손실의 유일한 출처가 이 '어느 URL 을
+#    집었나' 한 축이다. 카드 산출물은 짧은변 1440(2K · thumb-make RES-SNAP)이라 300×200 배경은 5배 업샘플로 뭉갠다.
+#    → URL 에서 축소 신호를 지운 후보를 만들어 **실제로 받아 픽셀을 재고** 더 크면 교체(추측 채택 금지 · 운영자 260810).
+try:                                                    # 720 = img_sizes SSOT 값(새 상수 창작 0 · AI생성·편집과 같은 사다리)
+    from img_sizes import SIZE_SHORT as _SIZE_SHORT
+    _MIN_H = _SIZE_SHORT["720p"]
+except Exception:
+    _MIN_H = 720
+_UPSIZE_MAX = _int_env("THUMB_UPSIZE_MAX", 4)          # URL 1개당 승격 후보 상한(요청 폭주 차단)
+_UPSIZE_ON = os.environ.get("THUMB_UPSIZE", "1") != "0"  # 킬스위치(=0 → 종전 동작 100% 복귀)
+_dim_cache = {}                                          # URL → (w,h) 프로브 결과 재사용(같은 사진 반복 측정 0)
+
+def _upsize_urls(u):
+    """축소 신호를 지운 원본 후보 URL들(우선순위 순 · 순수 문자열 변환 = 네트워크 0).
+    매체별 하드코딩이 아니라 '축소를 뜻하는 표기를 지운다'는 한 가지 규칙 — 새 매체가 들어와도 같은 축으로 걸린다
+    (손 레지스트리는 새 매체가 조용히 빠진다 = 이 레포가 반복해 겪은 드리프트)."""
+    out, seen = [], set()
+    try:
+        p = urllib.parse.urlsplit(u)
+    except Exception:
+        return []
+    path, q = p.path, p.query
+    def add(v):
+        if v and v != u and v not in seen:
+            seen.add(v); out.append(v)
+    def P(np):
+        add(urllib.parse.urlunsplit((p.scheme, p.netloc, np, q, "")))
+    # 1) 쿼리 치수 제거(?w=640 · ?type=w640 · &width=800) — 리사이저 파라미터가 곧 축소 지시
+    if q and re.search(r'(?:^|&)(?:w|width|h|height|size|type|s)=', q, re.I):
+        keep = "&".join(x for x in q.split("&") if not re.match(r'(?:w|width|h|height|size|type|s)=', x, re.I))
+        add(urllib.parse.urlunsplit((p.scheme, p.netloc, path, keep, "")))
+    # 2) 한국 언론 CMS 표준: /thumbnail/ → /photo/ + `_v150` 꼬리 제거
+    if "/thumbnail/" in path:
+        P(re.sub(r'_v\d+(?=\.\w+$)', '', path.replace("/thumbnail/", "/photo/")))
+    # 3) 리사이저 세그먼트 제거(/r/700xX/ · /c/200x140/ · /resize/500x300/)
+    np = re.sub(r'/(?:r|c|resize|thumb|thumbs|crop)/\d{2,4}x(?:\d{2,4}|X)/', '/', path, flags=re.I)
+    if np != path: P(np)
+    # 4) 캐시 치수 디렉터리 제거(/.cache/512/ · /cache/800/)
+    np = re.sub(r'/\.?cache/\d{2,4}/', '/', path, flags=re.I)
+    if np != path: P(np)
+    # 5) flexible/normal/W/H/ 제거(한겨레 계열)
+    np = re.sub(r'/flexible/[a-z]+/\d{2,4}/\d{2,4}/', '/', path, flags=re.I)
+    if np != path: P(np)
+    # 6) 썸네일 접미사 → 원본 접미사(_T1/_T2 → _R·_P1 · 헤럴드·문화·조선 계열 CMS)
+    m = re.search(r'_T\d?(?=\.\w+$)', path)
+    if m:
+        P(path[:m.start()] + "_R" + path[m.end():])
+        P(path[:m.start()] + "_P1" + path[m.end():])
+    # 7) 크기 접미사 통째 제거(_l·_s·_m·_tc·_web·_thumb)
+    np = re.sub(r'_(?:l|s|m|sm|lg|th|tc|tn|thumb|thumbnail|web|small|medium|mini)(?=\.\w+$)', '', path, flags=re.I)
+    if np != path: P(np)
+    # 8) 치수 접미사 제거(-500x300.jpg 워드프레스 · _1200_669.jpg 이투데이 · _800x600.jpg)
+    np = re.sub(r'[-_]\d{2,4}[x_]\d{2,4}(?=\.\w+$)', '', path)
+    if np != path: P(np)
+    return out[:_UPSIZE_MAX]
+
+def _dim_probe(url):
+    """이미지 URL → 실측 (w,h). 앞 16KB(모자라면 64KB)만 Range 로 받아 헤더에서 치수만 읽는다.
+    ⚠️ 전체 다운로드 금지 = 승격 판정 비용이 원본 fetch 만큼 커지면 배보다 배꼽(실측 16KB 로 대부분 파싱된다 ·
+    3165×2313 같은 대형 JPEG 만 64KB 필요). 실패·PIL 부재 = (0,0) = 판정 보류(fail-soft = 원본 유지)."""
+    if url in _dim_cache:
+        return _dim_cache[url]
+    res = (0, 0)
+    if _url_ok(url):
+        try:
+            import io
+            from PIL import Image
+            for cap in (16384, 65536):
+                try:
+                    req = urllib.request.Request(url, headers={"User-Agent": UA,
+                                                               "Range": "bytes=0-{}".format(cap - 1)})
+                    with _OPENER.open(req, timeout=15) as r:
+                        b = r.read(cap)
+                    if not _img_type(b or b"")[0]:      # 매직바이트 = 이미지 아니면 즉시 포기(HTML 오류쪽 파싱 방지)
+                        break
+                    im = Image.open(io.BytesIO(b))
+                    res = (im.size[0], im.size[1]); break
+                except Exception:
+                    continue
+        except Exception:
+            res = (0, 0)
+    _dim_cache[url] = res
+    return res
+
+def _best_variant(url):
+    """URL → 같은 사진의 **가장 큰** 변형 URL. 후보가 원본보다 실제로 크지 않으면 원본 그대로.
+    ⚠️ 판정은 URL 추측이 아니라 실측 픽셀 — 접미사만 보고 채택하면 매체가 규칙을 바꾼 순간 404·엉뚱한 사진이 된다."""
+    if not _UPSIZE_ON:
+        return url
+    cands = _upsize_urls(url)
+    if not cands:
+        return url
+    bw, bh = _dim_probe(url)
+    best = url
+    for c in cands:
+        w, h = _dim_probe(c)
+        if h > bh and w >= bw:                          # 세로가 더 크고 가로가 안 줄 때만(크롭 변형 채택 방지)
+            best, bw, bh = c, w, h
+    if best != url:
+        print("  ⬆ 화질 승격 {}x{} → {}x{} ({}…)".format(
+            _dim_cache.get(url, (0, 0))[0], _dim_cache.get(url, (0, 0))[1], bw, bh, best.split("/")[-1][:36]), flush=True)
+    return best
+
 def _img_candidates(html, base):
     """기사 HTML → 이미지 후보(대표 먼저·중복제거). 대표(og/twitter/JSON-LD)=신뢰·최소필터 / 본문 img=엄격필터."""
     import html as _html
@@ -937,8 +1044,9 @@ def fetch_article_images(art_url, alt_urls=None, image_sources=None, want=7):
     # 1) 원기사 자체 대표(속보 배너면 컷) — URL 있고 fetch 되면(기존 동작 보존: og 대표 + 본문유사).
     if text is not None and not _is_breaking_article(text):
         for u in _img_candidates(text, art_url)[:want]:
-            k = _norm_key(u)
-            if k in seen:
+            u = _best_variant(u)      # 승격을 dedup **앞**에 = 같은 사진의 축소판·원본이 같은 URL 로 수렴
+            k = _norm_key(u)          #   → 문화일보 og(_R 1200×801) + twitter(_T1 300×200) 처럼 한 사진이
+            if k in seen:             #     슬롯 2개를 먹던 중복도 여기서 함께 해소(실측 260810)
                 continue
             seen.add(k)
             out.append({"src": u, "link": art_url, "label": "" if not out else "유사"})
@@ -950,6 +1058,11 @@ def fetch_article_images(art_url, alt_urls=None, image_sources=None, want=7):
         for u in (list(image_sources or []) + list(alt_urls or []) + (_related_urls(text, art_url) if text is not None else [])):
             if u and _url_ok(u) and u != art_url and u not in seen_u:
                 seen_u.add(u); related.append(u)
+        # ⚠️ 고화질 **우선 채움**(운영자 260810) — 구판은 '먼저 만난 순서'로 want 를 채우고 끝냈다. 그러면 앞쪽
+        #    소스가 저화질일 때 뒤쪽의 큰 사진을 **만날 기회조차 없다**(실측 260810 = 승격만으론 720 이상이
+        #    30%→39%에 그쳤는데, 원인의 절반이 이 조기 종료였다). → 720 이상은 즉시 담고, 720 미만은 `spare` 에
+        #    모아두었다가 **관련소스를 다 훑은 뒤** 남는 자리만 메운다(= 관련성 손실 0 · 같은 소스 풀에서 화질만 우선).
+        spare = []
         for ru in related[:15]:                             # 관련소스 상한 10→15(운영자 260622 — 더 많이)
             if len(out) >= want:
                 break
@@ -960,13 +1073,32 @@ def fetch_article_images(art_url, alt_urls=None, image_sources=None, want=7):
             for rog in _img_candidates(rhtml, ru):          # 페이지당 og 1장 → og+본문 다장 채움(운영자 260622)
                 if len(out) >= want:
                     break
-                if not rog or _norm_key(rog) in seen or _small_dim(rog) or _BODY_SKIP.search(rog):
+                if not rog or _BODY_SKIP.search(rog):       # 잡것(로고·광고·동영상)은 승격 **전**에 컷 = 무의미한 프로브 0
+                    continue
+                rog = _best_variant(rog)                    # 승격 뒤에 크기 컷 — `?w=300` 처럼 축소 **지시**가 붙은 URL 은
+                if _norm_key(rog) in seen or _small_dim(rog):   # 원본이 크므로, 승격 전 컷하면 멀쩡한 사진을 버린다
                     continue
                 if rep and not _vision_keep(rep, rog):
                     continue
                 seen.add(_norm_key(rog))
-                out.append({"src": rog, "link": ru, "label": "" if not out else "유사"})
-                print("  🔗 관련이미지 +1 ({}…)".format(ru[:42]))
+                item = {"src": rog, "link": ru, "label": "" if not out else "유사"}
+                if not _UPSIZE_ON or _dim_probe(rog)[1] >= _MIN_H or not out:
+                    out.append(item)                        # 고화질(또는 아직 대표 미확보) = 즉시 채택
+                    print("  🔗 관련이미지 +1 ({}…)".format(ru[:42]))
+                else:
+                    spare.append(item)                      # 저화질 = 예비 — 다 훑고도 자리가 남을 때만
+        for it in spare:                                    # 남는 자리 메움(장수는 종전과 동일하게 유지 = 관련성 손실 0)
+            if len(out) >= want:
+                break
+            it["label"] = "" if not out else "유사"
+            out.append(it)
+    # 3) 고화질 우선 배열(운영자 260810 "최소 세로 720p 이상") — **컷이 아니라 순서**다.
+    #    ⚠️ 720 미만을 버리면 '관련성은 유지'라는 전제가 깨진다(실측 260810 = 현행 코퍼스의 63%가 720 미만 →
+    #    하드 컷 시 관련 사진이 통째로 증발). 대신 720 이상을 앞으로 보내 want 상한에서 저화질이 **자연 절삭**되게 한다.
+    #    ⚠️ 첫 장(대표)은 고정 — label="" 대표는 THUMB_REF 참조 얼굴(그 기사 인물 실사진)로도 쓰여서
+    #    순서를 바꾸면 '누구 얼굴을 참조하나'가 같이 바뀐다. 재배열 대상은 '유사'뿐(안정 정렬 = 같은 급이면 기존 순서 보존).
+    if _UPSIZE_ON and len(out) > 2:
+        out = out[:1] + sorted(out[1:], key=lambda it: 0 if _dim_probe(it["src"])[1] >= _MIN_H else 1)
     return out
 
 def http_image(url):

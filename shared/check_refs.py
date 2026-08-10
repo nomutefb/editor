@@ -5342,6 +5342,66 @@ def check_thumb_vote_chain():
     return 0
 
 
+def check_img_upsize():
+    """검색 이미지 화질 승격 체인 게이트(하드 · 운영자 260810 "고화질을 가져오게 · 최소 세로 720p 이상").
+
+    매체 og:image 는 SNS 카드용 **축소판**인 경우가 많다(실측 260810 = 헤럴드 og `_T1` 300×200 인데
+    같은 CDN 에 `_R` 1280×853 원본이 그대로 있다 · 스포츠Q `/thumbnail/…_v150` 300×200 ↔ `/photo/…` 600×400 ·
+    파이낸셜 `_l` 800×584 ↔ 접미사 제거 3165×2313). 우리 파이프는 받은 바이트를 **그대로** R2 에 올리므로
+    (압축·축소 0) 화질의 유일한 결정 지점이 '어느 URL 을 집었나' 한 축이고, 카드 산출물은 짧은변 1440
+    (thumb-make RES-SNAP)이라 300×200 배경은 **5배 업샘플**로 뭉갠다.
+
+    ⚠️ 신설 사유 = **이 축은 조용히 죽는데 화면 증상이 0이다.** `_best_variant` 호출 한 줄만 빠져도
+       파이프는 정상 동작하고 로그도 정상이며 이미지도 나온다 — 다만 화질이 종전으로 되돌아갈 뿐이라
+       **운영자 눈이 유일한 검출기**가 된다(insta-thumb-miss·brk_misfire 동축). 기존 게이트는 전부
+       다른 축이다 — `check_image_format` = 포맷·품질(q90) · `check_thumb_redo_append` = 수정 누적 ·
+       `smoke_*` = 화면 렌더 → 「가져온 이미지가 그 사진의 **가장 큰 판인가**」는 축 자체가 없었다.
+
+    판정 3축(정적 · 렌더·LLM·네트워크 0 · **면책표 없이 하드 0** · 주석 줄 제외 = 주석 처리 우회 차단):
+      ① 승격 3부품 실존(`_upsize_urls` 후보 생성 · `_dim_probe` 실측 · `_best_variant` 채택)
+      ② `fetch_article_images` **안**에서 `_best_variant` 실호출 — 대표 경로·관련 경로 **둘 다**
+         (한쪽만 걸면 나머지 경로가 조용히 종전 화질로 남는다 = 이 레포 최빈 미러 드리프트)
+      ③ 720 문턱이 `img_sizes` SSOT 경유 — 리터럴 재창작 금지([4-3] 값 창작 0 · AI생성·편집과 같은 사다리)
+    """
+    tg = os.path.join(ROOT, '.github', 'scripts', 'thumb_gen.py')
+    try:
+        t = open(tg, encoding='utf-8').read()
+    except Exception as e:
+        print('❌ 화질 승격 게이트 — 파일 읽기 실패:', e)
+        return 1
+    live = [ln for ln in t.splitlines() if ln.strip() and not ln.strip().startswith('#')]
+    body = '\n'.join(live)
+    bad = []
+
+    # ① 승격 3부품 실존
+    for sym in ('def _upsize_urls(', 'def _dim_probe(', 'def _best_variant('):
+        if sym not in body:
+            bad.append('승격 부품 소실: {} — og:image 축소판을 그대로 쓰게 된다'.format(sym.replace('def ', '').rstrip('(')))
+
+    # ② fetch_article_images 안 두 경로 모두 _best_variant 실호출
+    m = re.search(r'^def fetch_article_images\(', body, re.M)
+    if not m:
+        bad.append('fetch_article_images 정의 소실 — 승격 배선 지점 자체가 사라졌다')
+    else:
+        nxt = re.search(r'^def \w+\(', body[m.end():], re.M)
+        fn = body[m.start(): m.end() + (nxt.start() if nxt else len(body))]
+        n = fn.count('_best_variant(')
+        if n < 2:
+            bad.append('fetch_article_images 안 _best_variant 호출 {}회(필요 2 = 대표 경로 + 관련소스 경로) — '
+                       '한쪽만 걸면 나머지가 조용히 종전 화질로 남는다'.format(n))
+
+    # ③ 720 문턱 = img_sizes SSOT 경유
+    if 'from img_sizes import' not in body or '_MIN_H' not in body:
+        bad.append('720 문턱이 img_sizes SSOT 경유가 아니다 — 리터럴 재창작 = 해상도 사다리 드리프트')
+
+    if bad:
+        print('❌ 검색 이미지 화질 승격 체인 — {}건'.format(len(bad)))
+        for b in bad:
+            print('   ·', b)
+        return 1
+    return 0
+
+
 def check_thumb_redo_append():
     """썸네일 '수정 = 덮어쓰기 아닌 +1 슬롯' 체인 게이트(하드 · 운영자 260807 "수정하면 원래 이미지는
     계속 보이게하고 수정된 이미지가 +1개로 생기는 개념이여야 되거든? 1/2 2/2 면 1/3 2/3 3/3").
@@ -6985,6 +7045,8 @@ def main():
         if check_thumb_redo_append() != 0:   # 썸네일 '수정 = +1 슬롯'(운영자 260807 "1/2 2/2 면 1/3 2/3 3/3" — 구판은 원본을 지우고 같은 R2 키에 덮어써 되돌릴 방법이 0이었다 · 파생 보존이 빠지면 수정본이 며칠 뒤 혼자 사라진다)
             rc = 1
         if check_grade_fix_chain() != 0:   # grade 수기 교정 폐루프(운영자 260807 — 12h 스윕 기록 체인 5층 생존 강제)
+            rc = 1
+        if check_img_upsize() != 0:   # 검색 이미지 화질 승격(운영자 260810 "최소 세로 720p 이상" — 매체 og:image 는 축소판인 경우가 많고 같은 CDN 에 원본이 그대로 있다 · 호출 한 줄만 빠져도 화면 증상 0으로 화질만 종전 복귀)
             rc = 1
     except Exception as e:
         print('⚠️ grade 교정 체인 게이트 스킵:', e)
