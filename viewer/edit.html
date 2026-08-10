@@ -256,7 +256,7 @@
   .xgrow .swc.xcol { flex:none; align-self:center; padding:5px /* raw-ok: 세로 5 = .swc 정본 패딩 동값 · 좌우도 5 = 라벨 없는 단독 점의 원점 대칭(정본 좌우 1은 9색 한 줄 수용용 — 여긴 그 제약이 없다) */; }   /* 이름 글자색 동그라미 토글(운영자 260810 «흰 기본 → 강조색1 → 강조색2 → 제자리 · 강조라는 인덱싱 필요없고 단순 동그라미») — 부품 = 자막 색 줄 .swc/.swd 정본 계승(같은 파일 · 신규 부품 0) · 자리만 이름칸 옆 */
   .xgrow .swc.xcol::before { content:''; position:absolute; inset:-8px; }   /* 히트슬롭 = .swl i::before 문법 계승(점 10px 단독 컨트롤 탭 면적 보강) */
   .xface.used { opacity:.35; }
-  .xface[draggable=true] { cursor:grab; }
+  .xface[draggable=true], .xtag[draggable=true] { cursor:grab; }   /* 담긴 칩도 끌 수 있다(운영자 260810 «이미 끌어서 놓아진 #도 다른 곳으로 드래그앤드랍») — 손 모양 = .xface 정본 값 사본(새 값 0) */
   .xgadd { margin-top:var(--sp-1); }
   .xfaces { display:flex; gap:var(--sp-1); flex-wrap:wrap; margin-top:var(--sp-1); }
   .xface { position:relative; width:56px; aspect-ratio:1/1.05; border-radius:var(--r-m); overflow:hidden; flex:none;
@@ -1694,7 +1694,7 @@ function renderXtr(){   // 가로 3분할 + 라벨|OFF·ON 순환값 문법(운�
         +'<input class="nmin" type="text" data-gn="'+i+'" value="'+esc(g.name)+'" placeholder="이름" aria-label="이름 '+(i+1)+'" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">'
         +'<button type="button" class="swc xcol" data-gc="'+i+'" aria-label="이름 '+(i+1)+' 글자색 — 탭할 때마다 기본↔강조" title="글자색 — 탭할 때마다 기본→강조1→강조2"><span class="swd" style="--sw:'+XCOL_CSS[(g.col|0)%3]+'"></span></button>'   // 글자색 동그라미 토글(운영자 260810) — 부품 = 자막 색 줄 .swc/.swd 정본
         +'<div class="xdrop'+(XTR_ACT===i?' act':'')+'" data-gd="'+i+'" role="group" aria-label="이름 '+(i+1)+'에 담긴 번호">'
-        +(g.pids.length?g.pids.map(p=>{const fx=XTR_FACES.find(f=>(f.pid|0)===(p|0));return '<span class="xtag" data-gt="'+i+'" data-pid="'+(p|0)+'" title="탭하면 제외됩니다">'+(fx&&fx.url?'<img loading="lazy" alt="" src="'+esc(fx.url)+'">':'')+'#'+(p|0)+'</span>';}).join('')   // 칩 = 얼굴 썸네일 동반(운영자 260810 «썸네일이 # 자리에 큐잉» — 위 축적판을 오가며 대조하지 않게)
+        +(g.pids.length?g.pids.map(p=>{const fx=XTR_FACES.find(f=>(f.pid|0)===(p|0));return '<span class="xtag" draggable="true" data-gt="'+i+'" data-pid="'+(p|0)+'" title="탭하면 제외 · 끌어다 놓으면 다른 이름으로 옮깁니다">'+(fx&&fx.url?'<img loading="lazy" alt="" src="'+esc(fx.url)+'">':'')+'#'+(p|0)+'</span>';}).join('')   // 칩 = 얼굴 썸네일 동반(운영자 260810 «썸네일이 # 자리에 큐잉» — 위 축적판을 오가며 대조하지 않게)
                        :'<span class="ph">'+(XTR_ACT===i?'#을 탭하거나 끌어다 놓으세요':'여기에 #을 담으세요')+'</span>')
         +'</div></div>').join('')
       +'</div><button type="button" class="pc xgadd" id="xgAdd">+ 이름 추가</button>'
@@ -1791,22 +1791,27 @@ async function xtrScan(){   // 인물 분석 = /api/track analyze 발사 → tra
     tick();
   }catch(e){ done('err:'+String((e&&e.message)||e).slice(0,80)); }
 }
-function xgPut(pid,gi){   // # 하나를 폼에 담는다 — 한 번호는 **한 폼에만**(다른 폼에 있으면 옮겨온다) · 같은 폼이면 빼기(토글)
+function xgPut(pid,gi,move){   // # 하나를 폼에 담는다 — 한 번호는 **한 폼에만**(다른 폼에 있으면 옮겨온다) · 같은 폼이면 빼기(토글)
+  // move=true = 끌어다 놓기 경로 → **토글 없이 항상 담는다**(운영자 260810 «이미 놓인 #도 다른 곳으로 드래그앤드랍»).
+  // ⚠ 왜 갈라야 하나 = 끌어놓기는 「여기에 둔다」는 뜻이라 제자리에 떨어뜨렸을 때 사라지면 안 된다. 토글은 탭 전용 뜻이다.
+  //   구판은 이 함수 하나를 탭·드롭이 같이 써서, 이미 담긴 칸에 도로 놓으면 그 자리에서 빠지는 결과가 됐다.
   pid=pid|0; if(!XTR_GRP[gi]) return;
   const had=XTR_GRP[gi].pids.some(p=>(p|0)===pid);
   XTR_GRP.forEach(g=>{ g.pids=g.pids.filter(p=>(p|0)!==pid); });
-  if(!had) XTR_GRP[gi].pids.push(pid);
+  if(move||!had) XTR_GRP[gi].pids.push(pid);
   renderXtr();
 }
 function xgWireDrag(el){   // PC 끌어놓기 — 폰은 위 탭 경로가 담당(HTML5 DnD는 터치 미지원 = 드래그만 두면 폰에서 기능이 죽는다)
-  el.querySelectorAll('.xface[draggable=true]').forEach(f=>{
+  // 끌 수 있는 것 = 위 등장인물 얼굴(.xface) + **이미 담긴 칩(.xtag)**(운영자 260810) — 둘 다 실어 보내는 값은 번호 하나로 같다.
+  //   구판은 얼굴만 걸어서, 잘못 담은 번호를 옮기려면 칩을 탭해 뺀 뒤 위 목록에서 다시 끌어와야 했다(왕복 2번).
+  el.querySelectorAll('.xface[draggable=true], .xtag[draggable=true]').forEach(f=>{
     f.addEventListener('dragstart',ev=>{ try{ ev.dataTransfer.setData('text/plain',f.dataset.pid); ev.dataTransfer.effectAllowed='move'; }catch(e){} });
   });
   el.querySelectorAll('[data-gd]').forEach(d=>{
     d.addEventListener('dragover',ev=>{ ev.preventDefault(); try{ ev.dataTransfer.dropEffect='move'; }catch(e){} d.classList.add('act'); });
     d.addEventListener('dragleave',()=>{ if(XTR_ACT!==+d.dataset.gd) d.classList.remove('act'); });
     d.addEventListener('drop',ev=>{ ev.preventDefault(); let pid=0; try{ pid=+ev.dataTransfer.getData('text/plain'); }catch(e){}
-      if(pid){ XTR_ACT=+d.dataset.gd; xgPut(pid,XTR_ACT); } });
+      if(pid){ XTR_ACT=+d.dataset.gd; xgPut(pid,XTR_ACT,true); } });   // 세 번째 인자 = 「끌어놓기다」 표식 → 제자리에 도로 놓아도 안 빠진다(위 xgPut 주석)
   });
 }
 function xtrOpts(){   // 발사 페이로드 축(운영자 260808) — 켠 축만 담고 값은 **폼 단위 그대로**(러너 edit_track이 배율·비율로 환산 = 단위 변환 1곳)
