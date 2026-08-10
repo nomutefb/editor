@@ -1780,6 +1780,9 @@
   .scrap-col.black .sc-item.rated { border-color:rgba(var(--accent-rgb),.45); }
   .scrap-col.green .sc-item.picked, .scrap-col.black .sc-item.picked { background:rgba(var(--accent-rgb),.06); border-color:var(--accent); }   /* 픽=양쪽 동일(초록 테두리) */
   .scrap-cols .sc-top { font-size:10px; gap:5px; }   /* wrap은 .sc-metal이 처리(시간 분리) */
+  /* 정렬 = 시작(운영자 260810 "2열로 밀리는 현상") — 구 center 는 metal 이 2줄로 접히는 순간 시간을 그 2줄의 **세로 중앙**(Δ+11px)으로 내려 카테고리와 계단이 졌다(실측 W412/390/375 전건) · 시작 정렬이면 접혀도 시간은 첫 줄 = 위 줄 주석이 선언한 "시간 분리" 계약의 세로축 몫 */
+  .scrap-cols .sc-top { align-items:flex-start; }
+  .scrap-cols .sc-metal .sc-sep { display:none; }   /* 좁은 2열 = 구분점 소거(운영자 260810) — 배지(이슈·긴급) 카드 메타가 폰에서 2줄로 밀리던 진범이 점 3개(3.1px×3 + 딸린 gap 5px×3 = 24.3px)였다: 실측 여유 W430 +5.5 / W412 −3.5 / W390 −14.5 / W375 −22 = 430 에서조차 살얼음이라 조금만 좁으면 무조건 접혔다 · 소거 후 W375 까지 한 줄 · 항목 구분은 색(카테고리 --cat-* / 배지 --warn·--danger)과 gap 이 이미 담당 · 문법 = `.sc-bot`「좁은 2열 = 패딩·폰트 축소해 한 줄 수용」과 같은 축(신규 값 0) */
   .scrap-cols .sc-cross { font-size:9.5px; }
   .scrap-cols .sc-media { font-size:9.5px; }
   .scrap-cols .sc-title { font-size:12.5px; line-height:1.35; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
