@@ -51,7 +51,15 @@ jobs:
         uses: actions/checkout@v5
         with:
           fetch-depth: 1   # 출력 브랜치 rebase·push용 — 구 0(전체 히스토리 + 원격 브랜치 567개 전량)은 imggen 실측에서 105초를 먹었다(260810 · 워킹트리 쓰기는 3s뿐이고 나머지가 전부 수신 대기).
-                           # ⚠ rebase 여유는 아래 커밋 스텝의 --deepen이 담당(shallow 경계가 원격 새 커밋과 안 이어지면 merge-base 실종 = rebase 실패 = 출력 유실).
+          # ⚠ rebase 여유는 아래 커밋 스텝의 --deepen이 담당(shallow 경계가 원격 새 커밋과 안 이어지면 merge-base 실종 = rebase 실패 = 출력 유실).
+          # ⚡ 260810 sparse-checkout(scrape 카나리아 실증 = 같은 잡 A/B 20s→9s · 삭제 커밋 0건) — 목록 = 이 잡이 실행줄에서 여는 폴더뿐.
+          #   빠지는 대형 = _versions 437M · docs 90M · 자료 75M · _산출 74M(어느 잡도 안 연다) · ⚠ git add/rm 대상은 전건 포함 검문 통과분.
+          sparse-checkout: |
+            .github
+            shared
+            apps
+            uploads
+            viewer
 
       - name: Setup Python
         uses: actions/setup-python@v5
