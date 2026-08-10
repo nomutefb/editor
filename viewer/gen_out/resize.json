@@ -1,5 +1,76 @@
 [
   {
+    "url": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/resize/260810142232-6836d9/4x5-fab3ee1f.jpg",
+    "srcUrl": "uploads/260810142232-6836d9/src.jpg",
+    "aspect": "4:5",
+    "size": "1K",
+    "lock": true,
+    "route": "gemini",
+    "fill": "auto",
+    "qa": "PASS",
+    "calls": {
+      "gen": 2,
+      "judge": 2
+    },
+    "model": "gemini-3.1-flash-image-preview",
+    "qa_why": "The image is extended naturally with the same background texture and no new subjects.",
+    "tries": [
+      {
+        "t": 1,
+        "streak": 0.0,
+        "bands": {
+          "top": 0.0,
+          "bottom": 0.0
+        },
+        "enc": "2:2",
+        "qa": "FAIL",
+        "why": "A duplicated pineapple-like element appears in the extended lower-right margin that does not continue from Image 1.",
+        "rej": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/resize/260810142232-6836d9/rej-t1-78a29a18.jpg",
+        "raw": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/resize/260810142232-6836d9/raw-t1-5c1f5d17.jpg"
+      },
+      {
+        "t": 2,
+        "streak": 0.001,
+        "bands": {
+          "top": 0.0,
+          "bottom": 0.003
+        },
+        "enc": "2:2",
+        "qa": "PASS",
+        "why": "The image is extended naturally with the same background texture and no new subjects."
+      }
+    ],
+    "usage": [
+      {
+        "tag": "resize:t1",
+        "prompt": 1180,
+        "output": 1462,
+        "total": 2642
+      },
+      {
+        "tag": "resize:judge",
+        "prompt": 921,
+        "output": 31,
+        "total": 952
+      },
+      {
+        "tag": "resize:t2",
+        "prompt": 1224,
+        "output": 1445,
+        "total": 2669
+      },
+      {
+        "tag": "resize:judge",
+        "prompt": 921,
+        "output": 23,
+        "total": 944
+      }
+    ],
+    "box": null,
+    "id": "260810142232-6836d9",
+    "ts": "2026-08-10T14:23:27+09:00"
+  },
+  {
     "url": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/resize/260810131505-580c14/4x5-bc779b07.jpg",
     "srcUrl": "uploads/260810131505-580c14/src.jpg",
     "aspect": "4:5",
@@ -525,17 +596,5 @@
     "box": null,
     "id": "g5916",
     "ts": "2026-08-07T14:48:39+09:00"
-  },
-  {
-    "url": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/resize/fill169/16x9-7a429953.jpg",
-    "srcUrl": "uploads/fill169/src.jpg",
-    "aspect": "16:9",
-    "size": "1K",
-    "lock": true,
-    "route": "gemini",
-    "fill": "auto",
-    "box": null,
-    "id": "fill169",
-    "ts": "2026-08-07T12:03:26+09:00"
   }
 ]
