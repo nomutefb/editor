@@ -130,9 +130,13 @@ export async function onRequestPost({ request, env }) {
   // ② 워크플로 폴백(구독 OAuth 무료 · 2~4분) — api/k.js 패턴 그대로
   if (!env.GH_TOKEN) return json({ error: '서버 미설정 — Cloudflare 환경변수 GH_TOKEN 필요' }, 500);
   const id = new Date(Date.now() + 9 * 3600e3).toISOString().replace(/[^0-9]/g, '').slice(2, 14) + '-' + crypto.randomUUID().slice(0, 6);   // YYMMDDHHMMSS = KST(+9h · api/k.js 규칙)
+  // 원본 사진 R2 키(260810) — 러너가 내려받아 **모델에게 직접 보여준다**(OCR = 좌표 앵커 · 모델 = 이미지 직독).
+  //   ⚠ 자기 확장자 재검증 = upload.js KEY_RE 관례(「각 API가 자기 확장자 셋을 재검증 = 교차 오용 차단」) — 번역은 jpg 단독.
+  //   ⚠ 미첨부·부적합 = 빈 문자열 = 종전 텍스트 전용 발사(악화 경로 0 · 뷰어 fail-soft와 이중).
+  const imgKey = /^up_src\/\d{12}-[a-f0-9]{6}\.jpg$/.test(String(body.imgKey || '')) ? String(body.imgKey) : '';
   const r = await GH(env.GH_TOKEN, 'actions/workflows/tr-auto.yml/dispatches', 'POST', {
     ref: REF,
-    inputs: { id, lines: JSON.stringify(lines), ctx: Object.keys(ctx).length ? JSON.stringify(ctx) : '' },
+    inputs: { id, lines: JSON.stringify(lines), ctx: Object.keys(ctx).length ? JSON.stringify(ctx) : '', imgkey: imgKey },
   });
   if (r.status !== 204) {
     const t = await r.text().catch(() => '');

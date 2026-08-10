@@ -2,7 +2,8 @@ name: tr-auto
 
 # 번역카드 자동 마커 번역(Pages Function /api/tr 발사) — OCR 라인 입력으로 claude -p(강조 선정+한글 번역)
 #   → viewer/tr_out/<id>/plan.json 커밋(tr.html이 폴링해 형광펜+칩 오버레이 합성).
-# 골격 = k-make.yml 그대로(구독 OAuth·4계정 폴오버·커밋 가드 — 운영자 260720 Q274 자동 엔진). 이미지·좌표는 러너로 안 옴(텍스트만).
+# 골격 = k-make.yml 그대로(구독 OAuth·4계정 폴오버·커밋 가드 — 운영자 260720 Q274 자동 엔진).
+# (260810) 원본 사진이 R2로 러너에 온다 = 모델이 **이미지를 직접 읽는다**(OCR = 좌표 앵커 전담) · 좌표는 여전히 브라우저 보관.
 on:
   workflow_dispatch:
     inputs:
@@ -14,6 +15,10 @@ on:
         type: string
       ctx:
         description: '컨텍스트 JSON {art:{t,m,b},note,redo} — 참고 기사 스탠스·재생성 지시(운영자 260721 v2 · 옵션)'
+        type: string
+        default: ''
+      imgkey:
+        description: 'R2 원본 사진 키(up_src/<id>.jpg · 모델이 직접 보는 소스 — 운영자 260810 · 빈값=텍스트 전용 종전 경로)'
         type: string
         default: ''
       account:
@@ -50,6 +55,27 @@ jobs:
       - name: Install claude-code
         run: npm install -g @anthropic-ai/claude-code
 
+      - name: Fetch source photo (R2)
+        if: inputs.imgkey != ''
+        env:
+          R2_SRC: ${{ inputs.imgkey }}
+          R2_BUCKET: ${{ secrets.R2_BUCKET }}
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+        run: |
+          # 정본 = edit-make.yml 「R2 직업로드 소스 받기」 스텝 문법 그대로(키 재검증 → aws s3 cp) · 확장자만 이 파이프 셋(jpg).
+          # ⚠ fail-soft = 못 받아도 잡을 죽이지 않는다(다음 스텝이 파일 유무로 분기 = 텍스트 전용 종전 경로).
+          printf '%s' "$R2_SRC" | grep -Eqx 'up_src/[0-9]{12}-[a-f0-9]{6}\.jpg' \
+            || { echo "::warning::imgkey 형식 밖 — 사진 없이 진행"; exit 0; }
+          [ -n "${R2_BUCKET:-}" ] && [ -n "${R2_ACCOUNT_ID:-}" ] \
+            || { echo "::warning::R2 미설정 — 사진 없이 진행"; exit 0; }
+          aws s3 cp "s3://$R2_BUCKET/$R2_SRC" "/tmp/tr_src.jpg" \
+            --endpoint-url "https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com" --only-show-errors \
+            || { echo "::warning::R2 내려받기 실패 — 사진 없이 진행"; rm -f /tmp/tr_src.jpg; exit 0; }
+          ls -l /tmp/tr_src.jpg
+
       - name: Make tr plan
         env:
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets[format('CLAUDE_CODE_OAUTH_TOKEN_{0}', inputs.account || vars.ACTIVE_ACCOUNT || 'MUTENO')] }}
@@ -60,6 +86,7 @@ jobs:
           LINES: ${{ inputs.lines }}
           CTX: ${{ inputs.ctx }}
           IN_ID: ${{ inputs.id }}
+          TR_SRC_IMG: /tmp/tr_src.jpg   # 위 스텝 산출(없으면 파일 부재 = trauto.sh가 텍스트 전용으로 분기)
         run: |
           [ -n "$IN_ID" ] || { echo "::error::id 없음"; exit 1; }
           if [ -z "$CLAUDE_CODE_OAUTH_TOKEN" ]; then

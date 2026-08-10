@@ -63,12 +63,37 @@ print('\n\n'.join(seg))
 PY
 )"
 
+# ── 원본 사진 = 원문 정본(운영자 260810 「될 수 있는 방안」) ──
+#   ⚠ 구판은 **모델이 사진을 한 번도 못 봤다** — 입력이 OCR 라인 텍스트뿐이라 Tesseract가 깨지면 그대로 끝이었다
+#     (260810 실사고 = 49줄 전부 무작위 문자 → 모델이 「판독 불가」로 정직하게 거절 · 같은 사진이면 재시도도 무효).
+#   → 사진이 오면 Read로 직접 읽게 하고 **OCR은 좌표 앵커로 강등**한다. 이 레포가 `ask_srcocr.py`에서 이미 쓰는 축
+#     (「Claude 헤드리스가 이미지의 글자를 읽는다」)의 이식이라 신규 벤더·과금 축 0(구독 OAuth 그대로).
+#   ⚠ Read 허용은 **사진이 실재할 때만** — 없으면 종전대로 도구 전무(헤드리스 무중단 · kmake 동일 축).
+SRC_IMG="${TR_SRC_IMG:-}"
+IMG_BLOCK=""
+DENY_TOOLS="Read,Glob,Grep,WebFetch,WebSearch,Write,Edit,NotebookEdit,Bash,Task"
+if [ -n "$SRC_IMG" ] && [ -s "$SRC_IMG" ]; then
+  DENY_TOOLS="Glob,Grep,WebFetch,WebSearch,Write,Edit,NotebookEdit,Bash,Task"   # Read만 개방(사진 1장 · 경로 고정)
+  IMG_BLOCK="## 원본 사진 = 원문 정본(가장 먼저 읽어라)
+경로: ${SRC_IMG}
+Read 도구로 이 사진을 열어 **네가 직접** 읽어라. 아래 OCR 라인은 형광펜을 칠할 **좌표 앵커**일 뿐이고,
+촬영각·조명·조밀한 인쇄 때문에 **글자가 깨져 있을 수 있다**. 내용 판단은 사진이 정본이고 OCR 텍스트는 참고다.
+- hl = 사진에서 읽은 핵심 문장이 **어느 라인 번호 자리에 있는지**로 고른다(그 줄의 OCR 글자가 깨졌어도 위치가 맞으면 그 번호를 쓴다).
+- chips = **사진에서 읽은 원문**을 번역한다(OCR 오탈자를 그대로 번역하지 마라).
+- 사진을 읽어도 글자를 알아볼 수 없을 때만 TRAUTO_FAILED로 사유를 적어라.
+"
+  echo "  🖼 원본 사진 동봉 = ${SRC_IMG} ($(wc -c < "$SRC_IMG") B) — 모델 직독 모드"
+else
+  echo "  · 사진 없음 — OCR 텍스트 전용 모드(종전 경로)"
+fi
+
 prompt="$(cat "$PROMPT_FILE")
+${IMG_BLOCK}
 ${NUM_LINES}
 
 ${CTX_TXT}"
 
-# 순수 텍스트 작업 = 도구 전부 불허(헤드리스 무중단 · kmake와 동일 축, 지침 Read조차 불요)
+# 도구 = 사진 있으면 Read 1종만·없으면 전무(위 DENY_TOOLS)
 inline_delay=15
 _to_tried=0
 TR_MODEL_FB="${TR_MODEL_FB:-claude-opus-5}"; _mfb_tried=0   # Fable 형식이탈/거절 시 Opus 1회 폴백(gen_image MODEL_FB 패턴 · 평의회 260722 P1 — 계정 폴오버는 모델 불변)
@@ -76,7 +101,7 @@ for attempt in $(seq 1 "$INLINE_TRIES"); do
   out="$(printf '%s' "$prompt" | METER_SRC=tr METER_REF="$ID" METER_MODEL="$MODEL" METER_EFFORT="$TR_EFFORT" claude_meter 600 \
         --model "$MODEL" \
         --effort "$TR_EFFORT" \
-        --disallowedTools "Read,Glob,Grep,WebFetch,WebSearch,Write,Edit,NotebookEdit,Bash,Task" \
+        --disallowedTools "$DENY_TOOLS" \
         --max-turns 8 \
         2> "${OUTDIR}/stderr.log")"
   rc=$?
