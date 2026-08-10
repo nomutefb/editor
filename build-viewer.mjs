@@ -177,6 +177,7 @@ for (const f of files) {
       breaking: BRK.has(meta.url || '') ? BRK.get(meta.url || '') : /\[\s*(속보|긴급)\s*\]|긴급\s*속보/.test(meta.title || ''),   // 긴급 = 매칭되면 AI breaking_judge 판정 따름(AI가 NO면 제목 [속보]여도 X) · 미매칭(직접공유)만 제목 표식 폴백.
       cross: CROSS.get(meta.url || '') || 0,                    // 수집함 매칭 매체 수(직접공유=0)
       event_key: meta.event_key || EKEY.get(_normEk(meta.url)) || '',   // 사건 그룹라벨 — frontmatter 우선(후속 파이프 배선 시) → 없으면 candidates url/cluster 매칭 스탬프. 뷰어 feedMatch event_key 티어(url 드리프트 요약을 제목폴백 전에 강한 식별로 재연결·260714) · 직접공유·미매칭은 빈 문자열(티어 자동 스킵)
+      grade: GRADE.has(meta.url || '') ? GRADE.get(meta.url || '') : null,   // 경중(gate_judge) 패스스루 — 피드 긴급/이슈 배지 grade 게이트용(운영자 260810 "g1급은 이슈 조건에서 배제"). 수집함은 candidates.grade를 직접 쓰는데 피드 인덱스엔 이 필드가 없어 brkIssueKind가 raw breaking으로 판정 = 'grade1 경미인데 ⚡이슈' 모순(260617 계약)이 피드에만 살아 있었다(실측 = [속보] 카카오게임즈 2분기 영업손실 g1·cr15). 직접공유·미매칭 = null(미채점 관용 = 종전 동작).
       issue: issEligible(meta.url),                             // index3: 이슈여부 = cross≥10 AND grade(null‖≥2) AND !badgeJunk(260702 옵션2 — 옛 cross≥8 단독은 홍보·시황이 다매체 동시배포만으로 배지 획득·수집확대 인플레로 남발). 직접공유분은 매칭 없어 false.
       summary: meta.summary || '',
       guidelines_version: meta.guidelines_version || '',

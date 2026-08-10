@@ -4560,7 +4560,7 @@ function render() {
     (!cardonly || hasCardImage(a)) &&
     (!q || ((a.title||'')+' '+(a.title_orig||'')+' '+(a.media||'')).toLowerCase().includes(q)) &&   // 외신 = 번역 제목(a.title)·원문(title_orig) 둘 다 검색 매칭(260703) · ||'' 가드+공백구분자(평의회4: null/undefined 리터럴 오매칭·필드경계 오매칭 차단 = scrap/sns 필터와 통일)
     (!FILTERS.cats.size || FILTERS.cats.has(articleCat(a))) &&
-    (!FILTERS.issue || a.breaking || a.issue || /속보/.test(a.title || '')));   // 이슈 필터 = 긴급(breaking·속보)+이슈(a.issue = 빌드타임 issEligible: cross≥10·grade게이트·정형컷 260702) 통합
+    (!FILTERS.issue || feedBrk(a) || a.issue));   // 이슈 필터 = 긴급(breaking·속보 — feedBrk = grade 게이트 내장 = 배지와 동일 술어)+이슈(a.issue = 빌드타임 issEligible: cross≥10·grade게이트·정형컷 260702) 통합. ⚠️ 구판 raw a.breaking||/속보/ 는 grade 무게이트라 g1 경미가 이슈 필터에 섞였다(운영자 260810 · 배지와 같은 축으로 통일)(a.issue = 빌드타임 issEligible: cross≥10·grade게이트·정형컷 260702) 통합
   const list = $('#list');
   if (!rows.length) { list.innerHTML = (q || cardonly || FILTERS.cats.size || FILTERS.issue) ? '<div class="empty">결과 없음</div>' : '<div class="ghost-card" aria-hidden="true"></div><div class="ghost-card" aria-hidden="true"></div>'; _feedSig = ''; return; }   // 빈 기본 탭 = 고스트 카드 실루엣 2장(운영자 260712 Q2-ⓐ 승인 — 평의회⑩ 1순위 '기본 착지 백지' · 산문 0 = §디자인 e 정신 유지 · 검색·필터 걸렸을 때만 '결과 없음' 피드백)
   // 깜빡임 방지: 행 구성·상태·필터가 직전 렌더와 동일하면 스태거(cardIn) 애니 생략 — 탭 전환·60초 폴의 *동일 데이터* 재렌더가 카드 페이드를 매번 재생해 미세 깜빡임. DOM은 항상 재구성(데이터 최신 보장), 애니만 게이트.
@@ -4896,8 +4896,11 @@ function feedAgeH(a) {
 }
 // 배지 = 상호배타·나이 전이(문서 §라벨 최종확정·수집함 scBadge와 동일): 긴급(breaking 신규<4h) → 이슈(4h~24h AND [a.issue 또는 aged breaking]) → 1일↑·신규(<4h)·비이슈는 없음. 둘 다 만족이면 긴급 우선.
 // 긴급/이슈 분류(상호배타·긴급우선) → 카드 테두리 점등 클래스. 'brk'(IN<4h breaking)·'iss'(4h~24h AND [a.issue 또는 aged breaking])·''(1일↑·신규<4h·비이슈). a.issue = build-viewer issEligible(cross≥10·grade게이트·정형컷 — 수집함 issCross와 규칙 동일·260702).
+// 피드 유효 breaking = 수집함 isBreaking(11242행) 정본 계승 = breaking(또는 제목 속보 폴백) AND 경중 게이트(grade 0·1 컷 · null 미채점=유보 통과).
+// ⚠️ 260617 계약("grade1 경미인데 ⚡이슈 모순 차단")이 수집함에만 적용돼 있었다 — 피드 인덱스에 grade 필드가 없어 raw a.breaking으로 판정했고, 그래서 g1 기사가 피드에서만 4~24h에 ⚡이슈(+<4h 🚨긴급)를 달았다(운영자 260810 "g1급은 이슈 조건에서 배제" · 실측 = [속보] 카카오게임즈 2분기 영업손실 g1·cr15 = 제목 [속보] 폴백으로 breaking true). build-viewer가 grade를 패스스루하면서 봉합 = 수집함↔피드 동일 규칙 복구.
+const feedBrk = a => (a.breaking || /속보/.test(a.title || '')) && (a.grade == null || a.grade >= 2);
 function brkIssueKind(a) {
-  const brk = a.breaking || /속보/.test(a.title || '');
+  const brk = feedBrk(a);
   // 긴급/이슈 나이 = IN(수집)나이·발행나이 中 *큰 값* → 둘 다 <4h여야 긴급(운영자 260623). 발행 16h 지난 syndication-지연 건을 방금 수집(IN<4h)했다고 IN만 보고 긴급 뜨던 버그 차단 — 화면 'N시간 전'(발행)과 배지 일치. 발행 무효(1e7)면 IN만(time 빈 매체 폴백 유지 = 옛 동작).
   const inAge = feedAgeH(a), pubAge = articleAgeH(a), ageH = Math.max(inAge, pubAge < 9e6 ? pubAge : 0);
   if (brk && ageH < FAST_MAX_H) return 'brk';            // breaking AND IN·발행 둘 다 <4h → 긴급(이슈도 만족이면 긴급 우선)
