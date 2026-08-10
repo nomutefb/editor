@@ -73,9 +73,20 @@ jobs:
           fetch-depth: 1   # 최신 1커밋만 — 구 0은 원격 브랜치 567개 전체 히스토리를 받아 실측 105s를 먹었다(260810 · imggen run 30972520521 = 체크아웃 108s 중 워킹트리 쓰기는 3s뿐)
           # ⚡ 260810 sparse-checkout(scrape 카나리아 실증 = 같은 잡 A/B 20s→9s · 삭제 커밋 0건) — 목록 = 이 잡이 실행줄에서 여는 폴더뿐.
           #   빠지는 대형 = _versions 437M · docs 90M · 자료 75M · _산출 74M(어느 잡도 안 연다) · ⚠ git add/rm 대상은 전건 포함 검문 통과분.
+          # ⚠ 260811 실사고 봉합 — 최초 목록이 {.github, shared, uploads} 3개뿐이라 이 잡이 **매 회 즉사**했다(run 31406384766 ·
+          #   `cat: prompts/card-make.md: No such file or directory` → `잘못된 대상` → exit 1 · 0초 실패라 로그를 열기 전엔 대기로 보인다).
+          #   실행줄이 실제로 여는 폴더 = cardmake.sh{prompts/card-make.md · queue/<대상>.md · cards/<슬러그>/ · shared/inject_guidelines →
+          #   apps/news/*.md 지침} + gen_cards.py{apps/comp/card_news.py 합성} + 커밋 대상{cards · metrics · messages}.
+          #   형제 대조 = news-ask/news-analyze의 카드 잡은 sparse 없이 전체 체크아웃이라 같은 스크립트가 정상 동작했다(이 파일만 갈렸다).
           sparse-checkout: |
             .github
             shared
+            apps
+            prompts
+            queue
+            cards
+            metrics
+            messages
             uploads
           ref: main   # 최신 main 기준(news-analyze와 동일 — 옛 커밋 체크아웃 금지)
 
