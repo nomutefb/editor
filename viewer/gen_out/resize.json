@@ -1,5 +1,76 @@
 [
   {
+    "url": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/resize/260810131057-0315b1/4x5-26f47005.jpg",
+    "srcUrl": "uploads/260810131057-0315b1/src.jpg",
+    "aspect": "4:5",
+    "size": "1K",
+    "lock": true,
+    "route": "gemini",
+    "fill": "auto",
+    "qa": "PASS",
+    "calls": {
+      "gen": 2,
+      "judge": 2
+    },
+    "model": "gemini-3.1-flash-image-preview",
+    "qa_why": "Image 2 correctly extends the scene by showing more of the subject's torso and the surrounding environment without introducing any prohibited artifacts or duplications.",
+    "tries": [
+      {
+        "t": 1,
+        "streak": 0.0,
+        "bands": {
+          "top": 0.0,
+          "bottom": 0.0
+        },
+        "enc": "2:2",
+        "qa": "FAIL",
+        "why": "An obvious visible seam is present in the top section of the image.",
+        "rej": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/resize/260810131057-0315b1/rej-t1-7e614610.jpg",
+        "raw": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/resize/260810131057-0315b1/raw-t1-193000fb.jpg"
+      },
+      {
+        "t": 2,
+        "streak": 0.002,
+        "bands": {
+          "top": 0.005,
+          "bottom": 0.0
+        },
+        "enc": "2:2",
+        "qa": "PASS",
+        "why": "Image 2 correctly extends the scene by showing more of the subject's torso and the surrounding environment without introducing any prohibited artifacts or duplications."
+      }
+    ],
+    "usage": [
+      {
+        "tag": "resize:t1",
+        "prompt": 1180,
+        "output": 1604,
+        "total": 2784
+      },
+      {
+        "tag": "resize:judge",
+        "prompt": 921,
+        "output": 22,
+        "total": 943
+      },
+      {
+        "tag": "resize:t2",
+        "prompt": 1215,
+        "output": 1617,
+        "total": 2832
+      },
+      {
+        "tag": "resize:judge",
+        "prompt": 921,
+        "output": 37,
+        "total": 958
+      }
+    ],
+    "box": null,
+    "id": "260810131057-0315b1",
+    "ts": "2026-08-10T13:12:07+09:00"
+  },
+  {
     "url": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/resize/260810130727-a88021/4x5-105124da.jpg",
     "srcUrl": "uploads/260810130727-a88021/src.jpg",
     "aspect": "4:5",
@@ -432,17 +503,5 @@
     "box": null,
     "id": "fill916",
     "ts": "2026-08-07T12:03:23+09:00"
-  },
-  {
-    "url": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/resize/fill45/4x5-31dc07fd.jpg",
-    "srcUrl": "uploads/fill45/src.jpg",
-    "aspect": "4:5",
-    "size": "1K",
-    "lock": true,
-    "route": "gemini",
-    "fill": "auto",
-    "box": null,
-    "id": "fill45",
-    "ts": "2026-08-07T12:03:06+09:00"
   }
 ]
