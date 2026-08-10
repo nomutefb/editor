@@ -8507,8 +8507,14 @@
   {
    "query": "오마이 뉴스",
    "traffic": "10000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/trend/86051ac314.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.ohmynews.com/NWS_Web/View/at_pg.aspx?CNTN_CD=A0003257419",
+     "source": ""
+    }
+   ],
    "vol": 10000,
    "started": "2026-08-09T16:20:00+09:00",
    "rh": [
@@ -8759,8 +8765,14 @@
   {
    "query": "뱅크 오브 아메리카",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/trend/c7233f2e86.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.hankookilbo.com/news/article/A2026080914050005913",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-08-10T02:30:00+09:00",
    "isNew": true,
@@ -9970,7 +9982,8 @@
      "source": "Sky Sports"
     }
    ],
-   "geo": "GB"
+   "geo": "GB",
+   "ko": "벤 쉘튼"
   }
  ],
  "yt_cids": {
