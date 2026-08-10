@@ -1,32 +1,33 @@
-# 🏛 태극기 뒤집혔다 화냈다가, 하루 만에 고개 숙인 김희철
+# 태극기 뒤집혔다 화냈다가, 하루 만에 고개 숙인 김희철
 
 **[프롬프트 설계]**
-- 화풍: A 수채화 — 잘못을 인정한 사람과 그 잘못을 만든 조건을 함께 다루는 이야기라, 고발보다 체온이 필요하다
-- 분위기: 늦은 밤 도심의 서늘한 정적. 화가 났던 순간의 열기는 파랗게 식어 있고, 태극의 빨강만 화면에서 유일하게 살아 있다
-- 연출 방향: 독자 다수가 같은 그림을 보고 같이 화냈던 사람들이다 — 그래서 이 카드는 '누가 틀렸나'가 아니라 '나도 저렇게 봤다'는 자리에 멈춰 세운다. 강조점은 세 가지 사물에 집중: 흔들리는 태극기 그림 한 장, 밤에 내려지는 현수막, 그리고 새벽의 휴대폰 화면. 인물의 얼굴보다 그 사물을 보는 눈과 손에 감정을 얹어, 화가 어디서 나와 어디로 갔는지를 따라가게 한다
-- 독자 동선: **발단** 카드1(현수막이 걸리고 그림이 이상해 보였다)→**전개** 카드2~3(격한 반응, 그리고 인천시의 해명과 철거)→**피크** 카드4(하루 만의 사과 — 시퀀스 최저 명도)→**해소** 카드5(쌓여 있던 화라는 배경)→**시사점** 카드6 · 훅=카드1 끝(질문형 1회)+카드3 끝(단서형) · 착지 = 현수막은 내려갔고 사과문은 올라갔는데, 내년에 같은 도안이 안 걸리게 하는 일은 아직 누구 몫도 아니다
-- 연속성 앵커: Recurring subject — a Korean man in his 40s with soft dark hair falling over his forehead, wearing a plain dark long-sleeve top, slim build, no glasses / Recurring place — a crosswalk beside a city hall back gate at night, banner post and street lamp
+- 화풍: A 한국 웹툰 수채화 — 고발이 아니라 한 사람이 제 성급함을 인정하는 결이라, 극화의 무게보다 수채화의 감정이입이 맞다
+- 분위기: 밤의 차가운 화면빛에서 아침의 옅은 온기로 풀리는 톤 — 억눌렸다가 내려놓는 호흡(thumb_dispatch LGT03의 차갑고 답답한 떨림을 밤 구간에 상속, EM-10의 '새어 나온 미세표정'을 감정 맺힘의 기준으로 계승)
+- 연출 방향: 뉴스를 안 보던 사람도 이 사건에 멈추는 이유는 "나도 저 그림을 그렇게 봤다"는 자리다 — 그래서 화면은 태극 문양의 빨강 하나, 그리고 그 빨강을 본 눈과 폰을 쥔 손에 의도를 몰아준다. 분노를 얼굴 정면으로 외치게 하지 않고 시선·손끝·몸이 물러선 거리로 말하게 해, 마지막에 빈 게시대만 남았을 때 독자가 '그래서 이건 누구 몫이지'로 착지하게 만든다
+- 독자 동선: **발단** 카드1→**전개** 카드2~3→**피크** 카드4→**해소** 카드5~6→**시사점** 카드7 · 훅=카드1 끝(단서형 '뒤집혀 보였다' — 사실을 유보한 채 넘김)+카드3 끝(미완 예고형 '틀렸다는 말은 끝내 없었다') 총 2개 · 착지 = 사과와 철거라는 두 물러섬 뒤에도 내년 도안을 걸러낼 몫은 아직 비어 있다
+- 연속성 앵커: Recurring subject - a Korean man in his late 30s with straight dark hair falling over his forehead, a slim build, wearing a plain dark hoodie. / Recurring place - a crosswalk beside a city hall back gate with two tall metal banner poles.
 
 ### [카드 1]
 **텍스트**
 ```text
 8월 6일 인천시청 후문 앞
-광복절 현수막이 걸렸다
+광복절 현수막 한 장이 걸렸다
 독립운동가가 흔드는 태극기
-*그런데 빨강과 파랑이 뒤집혀 보였다*
+*그 빨강과 파랑이 뒤집혀 보였다*
 ```
 **이미지 프롬프트**
 ```text
-korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn loose ink contours, emotive character expressions, warm ambient lighting
-Scene: Emotional focal point: the puzzled narrowing of a passerby's eyes as they tilt their head at the painted flag. A wide vertical banner hangs on a post beside a crosswalk at a city hall back gate in Korea, showing a painted independence activist raising a flag with both hands. Two pedestrians pause on the crossing and look up at the banner, one lowering a shopping bag. The circular emblem at the banner's center is the single point every gaze converges on.
-Camera: wide shot, full body, surrounding environment, movement, spatial context from eye-level shot, neutral perspective, realistic, balanced emotion, shot on 35mm lens, natural documentary perspective, balanced subject and background, minimal distortion
+korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn line work with loose ink contours, emotive character expressions, warm ambient lighting
+Scene: Emotional focal point: the taegeuk circle at the center of the painted banner, its red half sitting low and its blue half riding high. Recurring place - a crosswalk beside a city hall back gate with two tall metal banner poles. A wide fabric banner is strung between them, painted with an independence activist raising the national flag in both hands. Two passersby stand on the curb below and tilt their heads back to look up at it, one of them lifting a hand to shade their eyes. The banner carries only the painted illustration and nothing else.
+Camera: wide shot from a low angle, shot on 24mm wide lens
 Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood
-Accent: monochrome desaturated base with a single color accent (the deep red of the emblem), muted daylight contrast
-Text handling: avoid incidental background lettering by cropping signage out of frame and turning shopfront text away from the camera; no readable characters on the banner cloth.
+Accent: monochrome desaturated base with a single color accent (the deep red of the taegeuk), muted daylight contrast
+Korean street context: Korean-style crosswalk stripes, roadside railings and street signage shapes typical of a Korean city, all signage left blank.
+Text handling: render no text of any kind anywhere in the frame; no garbled or fake script, no meaningless letters, no random characters, no dense text. Figures are generic and resemble no specific real person.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the paved street and crosswalk) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the open overcast sky) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -41,23 +42,23 @@ NEGATIVE — strictly avoid:
 ### [카드 2]
 **텍스트**
 ```text
-그 게시글이 퍼지자
-김희철이 짧게 한 줄 남겼다
+거꾸로 그렸다는 지적이 퍼졌고
+김희철이 그 글을 공유했다
+그가 남긴 반응은 짧았다
 *"X 돌았네"*
-논란은 곧장 연예 뉴스가 됐다
 ```
 **이미지 프롬프트**
 ```text
-korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn loose ink contours, emotive character expressions, warm ambient lighting
-Scene: Emotional focal point: a thumb pressed hard against the phone screen, the knuckle gone pale. Recurring subject — a Korean man in his 40s with soft dark hair falling over his forehead, wearing a plain dark long-sleeve top, slim build, no glasses, sits alone on a low couch and holds the phone close to his chest. His brows are lowered and drawn together, his lips pressed and tightened, and his eyes stay locked on the small bright rectangle in his hands. The phone is the only light source in the dim room.
-Camera: medium close-up, chest-up framing, facial emotion, slight body context from three-quarter angle, natural face depth, dimensional portrait, shot on 50mm standard lens, minimal distortion, natural cinematic composition
+korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn line work with loose ink contours, emotive character expressions, warm ambient lighting
+Scene: Emotional focal point: his jaw tightening as the screen light strikes his face from below. Recurring subject - a Korean man in his late 30s with straight dark hair falling over his forehead, a slim build, wearing a plain dark hoodie. He sits alone in a dark room gripping a phone in both hands, staring down at the small image of the painted banner on the screen, his thumb frozen just above the glass. A plain dark wall runs behind him with nothing else on it.
+Camera: medium close-up from a three-quarter angle, shot on 50mm standard lens
 Lighting/mood: cold blue screen under-glow lighting the face from below in a dark room, restless paranoid unease
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
-Text handling: the phone screen is angled away so no characters are legible; keep the display as a soft glow only.
+Accent: monochrome desaturated base with a single color accent (the deep red of the taegeuk), film-noir low-key lighting, deep shadows
+Text handling: render no text of any kind anywhere in the frame, including on the phone screen; no garbled or fake script, no meaningless letters, no random characters, no dense text. Figures are generic and resemble no specific real person.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the dim interior wall behind him) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the plain dark wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -73,22 +74,23 @@ NEGATIVE — strictly avoid:
 **텍스트**
 ```text
 인천시는 잘못 그린 게 아니라고 했다
-*아래에서 위로 올려다본 구도*라는 것
-그래도 오해 소지는 인정했고
-이틀 만인 8일 현수막을 내렸다
+아래에서 올려다본 구도라고 했다
+*그러면서 이틀 만에 내려버렸다*
+틀렸다는 말은 끝내 없었다
 ```
 **이미지 프롬프트**
 ```text
-korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn loose ink contours, emotive character expressions, warm ambient lighting
-Scene: Emotional focal point: two gloved hands gripping the banner's top edge as the cloth folds and slackens downward. Two municipal workers in work vests stand on a short ladder at a crosswalk beside a city hall back gate at night, banner post and street lamp above them, and pull the large banner off its frame. Their faces are turned up toward the cloth, not toward the camera. The half-folded painted flag on the banner is the one shape still catching light.
-Camera: low angle shot, looking up, powerful subject, dominance, dramatic presence from profile shot, side view, clear silhouette, directional movement, shot on 24mm wide lens, cinematic wide shot, spatial context, subtle depth
-Lighting/mood: orange sodium streetlight from above at an angle, surrounding darkness, no fill, desolate stillness
-Accent: monochrome desaturated base with a single color accent (the deep red of the emblem), film-noir low-key lighting, deep shadows
-Text handling: the banner is folded so its surface is creased and turned partly away, keeping any lettering illegible; no readable characters anywhere.
+korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn line work with loose ink contours, emotive character expressions, warm ambient lighting
+Scene: Emotional focal point: the gloved hands of a worker folding the banner in on itself, the painted flag creasing straight through the middle. Recurring place - a crosswalk beside a city hall back gate with two tall metal banner poles. A maintenance worker stands on a short ladder and unhooks the fabric from the pole, while a city official in a windbreaker watches from the curb with a clipboard held low at his side. The bare poles are left standing against the open early sky.
+Camera: medium shot from a low angle, shot on 20mm wide lens
+Lighting/mood: cold blue pre-dawn tone, lone streetlight reflection on wet ground, desolate stillness
+Accent: monochrome desaturated base with a single color accent (the deep red of the taegeuk), muted daylight contrast
+Korean street context: Korean-style crosswalk stripes, roadside railings and street signage shapes typical of a Korean city, all signage left blank.
+Text handling: render no text of any kind anywhere in the frame, including on the clipboard; no garbled or fake script, no meaningless letters, no random characters, no dense text. Figures are generic and resemble no specific real person.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the night sky above the street) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the pale pre-dawn sky) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -103,22 +105,22 @@ NEGATIVE — strictly avoid:
 ### [카드 4]
 **텍스트**
 ```text
-그러자 화살이 자신에게 돌아왔다
-*"순간 태극 그림만 보고 화를 냈다"*
-하루 만에 올라온 사과문이었다
+화살은 곧 그에게로 돌아왔다
+정치색 시비에 출신 의혹까지 붙었다
+*"좌우를 떠나 우리나라 국기이지 않나"*
 ```
 **이미지 프롬프트**
 ```text
-korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn loose ink contours, emotive character expressions, warm ambient lighting
-Scene: Emotional focal point: eyes cast downward at the ground, the whole face gone still. Recurring subject — a Korean man in his 40s with soft dark hair falling over his forehead, wearing a plain dark long-sleeve top, slim build, no glasses, sits at the edge of a bed with the phone resting face-down on his knee, both hands loose and open. His shoulders are pulled in and his head hangs low, the body shrinking. The dark phone lying flat is the object his gaze falls beside.
-Camera: tight close-up, face fills frame, intense emotion, intimate pressure from front-on shot, direct gaze, symmetrical composition, facing camera, shot on 85mm portrait lens, flattering face, soft background separation, elegant focus
+korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn line work with loose ink contours, emotive character expressions, warm ambient lighting
+Scene: Emotional focal point: a fleeting crack of hurt crossing an otherwise composed face, lips pressed flat and eyes holding steady. Recurring subject - a Korean man in his late 30s with straight dark hair falling over his forehead, a slim build, wearing a plain dark hoodie. He stands inside a single narrow pool of light with darkness pressing in from every side, the phone lowered to his hip and his gaze fixed straight ahead instead of on it. Nothing else is visible around him but the bare dark wall.
+Camera: tight close-up from eye-level, shot on 85mm portrait lens
 Lighting/mood: single pool of hard light isolating the figure in surrounding blackness, claustrophobic loneliness
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
-Text handling: the phone lies screen-down and no documents are visible, so no lettering appears in frame.
+Accent: monochrome desaturated base with a single color accent (the deep red of the taegeuk), film-noir low-key lighting, deep shadows
+Text handling: render no text of any kind anywhere in the frame; no garbled or fake script, no meaningless letters, no random characters, no dense text. Figures are generic and resemble no specific real person.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the dark bedroom wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the bare dark wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -127,29 +129,29 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-사과문 SNS 게시
+김희철 태극기 논란
 ```
 
 ### [카드 5]
 **텍스트**
 ```text
-그가 댄 배경은 쌓여 있던 화였다
-거꾸로 달거나 그린 태극기를
-자꾸 보게 되면서 화가 쌓였다는 것
-*이번엔 그 화가 엉뚱한 데를 맞혔다*
+하루 만에 그가 사과문을 올렸다
+*"순간 태극 그림만 보고 화를 냈다"*
+공간 감각이 부족했고 성급했다고
+그는 제 잘못이라고 적었다
 ```
 **이미지 프롬프트**
 ```text
-korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn loose ink contours, emotive character expressions, warm ambient lighting
-Scene: Emotional focal point: a vacant thousand-yard stare aimed past the window glass at nothing. Recurring subject — a Korean man in his 40s with soft dark hair falling over his forehead, wearing a plain dark long-sleeve top, slim build, no glasses, stands at a window with one palm flat on the pane, seen from behind and slightly to the side. Beyond the glass a row of small flags on apartment balconies hangs in the early morning wind, some tilted at odd angles. His reflection sits faintly on the same pane.
-Camera: medium shot, waist-up framing, face and gestures, conversational from back shot, rear view, subject from behind, solitude, mystery, shot on 70mm short telephoto, gentle background compression, subject isolation
-Lighting/mood: cold blue pre-dawn tone, lone streetlight reflection on wet ground, desolate stillness
-Accent: monochrome desaturated base with a single color accent (the deep red of the emblems), film-noir low-key lighting, deep shadows
-Text handling: the distant balconies carry no signage and the window has no stickers, so no lettering appears anywhere.
+korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn line work with loose ink contours, emotive character expressions, warm ambient lighting
+Scene: Emotional focal point: his lowered eyes and the slow, careful travel of his thumb across the keyboard. Recurring subject - a Korean man in his late 30s with straight dark hair falling over his forehead, a slim build, wearing a plain dark hoodie. Seen from the side, he sits at a small desk under a warm lamp and types a long message on his phone, shoulders rounded forward and head bowed low. The plain wall of the room stretches behind him unbroken.
+Camera: medium shot from a profile angle, shot on 70mm short telephoto
+Lighting/mood: warm soft desk-lamp light, quiet wistful tone
+Accent: monochrome desaturated base with a single color accent (the deep red of the taegeuk), film-noir low-key lighting, deep shadows
+Text handling: render no text of any kind anywhere in the frame, including on the phone screen; no garbled or fake script, no meaningless letters, no random characters, no dense text. Figures are generic and resemble no specific real person.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the window pane and the wall it sits in) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the plain wall of the room) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -158,29 +160,29 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-아파트 베란다 태극기 게양
+김희철 사과문
 ```
 
 ### [카드 6]
 **텍스트**
 ```text
-현수막은 내려갔고 사과문은 올라갔다
-한쪽은 잘못을 말했고
-한쪽은 잘못이 아니라며 내렸을 뿐이다
-*내년에 같은 그림이 안 걸리게 하는 일은 아직 누구 몫도 아니다*
+그는 이유도 함께 적었다
+자꾸 거꾸로 걸리고 그려지는 태극기
+그걸 보며 속에 화가 쌓였다고 했다
+*그 화가 이번엔 엉뚱한 곳을 맞혔다*
 ```
 **이미지 프롬프트**
 ```text
-korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn loose ink contours, emotive character expressions, warm ambient lighting
-Scene: Emotional focal point: the empty gap between two bare banner brackets where the cloth used to hang. A crosswalk beside a city hall back gate in the morning, banner post and street lamp still standing, the frame now holding nothing. A single office worker walks past the post without looking up, coffee cup in hand, already half out of frame. The vacant metal frame occupies the upper center of the picture.
-Camera: extreme long shot, tiny subject, vast environment, scale, isolation from high angle shot, looking down, vulnerable subject, small, observed, shot on 20mm wide lens, subject and environment, documentary realism
-Lighting/mood: warm soft morning light, gentle and quiet, faint melancholy
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
-Text handling: all street signage is cropped out or turned away from the camera and the empty frame carries no cloth, so no lettering appears in frame.
+korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn line work with loose ink contours, emotive character expressions, warm ambient lighting
+Scene: Emotional focal point: his open palm resting flat beside the face-down phone, the fingers finally loose. Recurring subject - a Korean man in his late 30s with straight dark hair falling over his forehead, a slim build, wearing a plain dark hoodie. Looking down from above, he has leaned back from the desk with his eyes closed for a moment, the phone set face down near his hand and a folded paper flag lying at the edge of the desk. The wooden desk surface fills the frame from edge to edge beneath him.
+Camera: medium close-up from a high angle, shot on 50mm standard lens
+Lighting/mood: faded warm light, soft golden haze, gently nostalgic and wistful
+Accent: monochrome desaturated base with a single color accent (the deep red of the taegeuk), film-noir low-key lighting, deep shadows
+Text handling: render no text of any kind anywhere in the frame; no garbled or fake script, no meaningless letters, no random characters, no dense text. Figures are generic and resemble no specific real person.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the paved street and crosswalk) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the wooden desk surface) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -189,5 +191,37 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-빈 현수막 게시대
+거꾸로 걸린 태극기
+```
+
+### [카드 7]
+**텍스트**
+```text
+사과문은 올라왔고 현수막은 내려갔다
+한쪽은 제 잘못이라 했고
+한쪽은 틀렸다는 말 없이 걷었다
+*그 그림을 내년에 막을 몫은 아직 없다*
+```
+**이미지 프롬프트**
+```text
+korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn line work with loose ink contours, emotive character expressions, warm ambient lighting
+Scene: Emotional focal point: the quiet gap between the two bare poles where the banner used to hang. Recurring place - a crosswalk beside a city hall back gate with two tall metal banner poles, now carrying nothing between them. A single passerby has stopped in the middle of the crosswalk and looks up directly into the lens, while other people keep walking past on either side without slowing. The paved road surface runs unbroken from the top of the frame to the bottom.
+Camera: wide shot from a high angle, shot on 35mm lens
+Lighting/mood: warm soft morning light, gentle and quiet, faint melancholy
+Accent: monochrome desaturated base with a single color accent (the deep red of the taegeuk), muted daylight contrast
+Korean street context: Korean-style crosswalk stripes, roadside railings and street signage shapes typical of a Korean city, all signage left blank.
+Text handling: render no text of any kind anywhere in the frame; no garbled or fake script, no meaningless letters, no random characters, no dense text. Figures are generic and resemble no specific real person.
+Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
+MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
+Composition: ONE continuous surface (the paved road surface) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
+- no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
+- no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
+- no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
+- no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
+- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
+```
+**검색어**
+```text
+횡단보도 현수막 게시대
 ```
