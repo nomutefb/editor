@@ -5373,22 +5373,30 @@ def check_img_upsize():
     body = '\n'.join(live)
     bad = []
 
-    # ① 승격 3부품 실존
-    for sym in ('def _upsize_urls(', 'def _dim_probe(', 'def _best_variant('):
+    # ① 승격·컷 4부품 실존
+    for sym in ('def _upsize_urls(', 'def _dim_probe(', 'def _best_variant(', 'def _hq_cut('):
         if sym not in body:
-            bad.append('승격 부품 소실: {} — og:image 축소판을 그대로 쓰게 된다'.format(sym.replace('def ', '').rstrip('(')))
+            bad.append('승격·컷 부품 소실: {} — og:image 축소판을 그대로 쓰게 된다'.format(sym.replace('def ', '').rstrip('(')))
 
-    # ② fetch_article_images 안 두 경로 모두 _best_variant 실호출
+    # ② fetch_article_images 안 두 경로 모두 승격·컷 실호출
     m = re.search(r'^def fetch_article_images\(', body, re.M)
     if not m:
         bad.append('fetch_article_images 정의 소실 — 승격 배선 지점 자체가 사라졌다')
     else:
         nxt = re.search(r'^def \w+\(', body[m.end():], re.M)
         fn = body[m.start(): m.end() + (nxt.start() if nxt else len(body))]
-        n = fn.count('_best_variant(')
-        if n < 2:
-            bad.append('fetch_article_images 안 _best_variant 호출 {}회(필요 2 = 대표 경로 + 관련소스 경로) — '
-                       '한쪽만 걸면 나머지가 조용히 종전 화질로 남는다'.format(n))
+        for sym, why in (('_best_variant(', '종전 화질로 남는다'), ('_hq_cut(', '720 미달이 그대로 수집된다')):
+            n = fn.count(sym)
+            if n < 2:
+                bad.append('fetch_article_images 안 {} 호출 {}회(필요 2 = 대표 경로 + 관련소스 경로) — '
+                           '한쪽만 걸면 나머지 경로가 조용히 {}'.format(sym.rstrip('('), n, why))
+        # ⓑ 컷으로 후보가 반감하므로 훑는 범위 확대가 짝 계약 — 15 로 되돌리면 컷이 곧 장수 감소가 된다
+        if '_REL_SCAN' not in fn:
+            bad.append('관련소스 훑는 범위가 _REL_SCAN 경유가 아니다 — 720 컷 뒤 채택률 반감을 못 흡수해 장수가 준다')
+
+    # ②-b 보충 체인 생존 — 컷으로 빈 자리를 메우는 유일한 수단(끊기면 컷이 곧 영구 결손)
+    if 'thumb_topup.txt' not in body:
+        bad.append('보충 대상 마커(thumb_topup.txt) 소실 — 720 컷으로 빈 자리를 다시 검색해 채울 경로가 없다')
 
     # ③ 720 문턱 = img_sizes SSOT 경유
     if 'from img_sizes import' not in body or '_MIN_H' not in body:

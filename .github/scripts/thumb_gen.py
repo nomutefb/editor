@@ -715,6 +715,7 @@ try:                                                    # 720 = img_sizes SSOT �
 except Exception:
     _MIN_H = 720
 _UPSIZE_MAX = _int_env("THUMB_UPSIZE_MAX", 4)          # URL 1개당 승격 후보 상한(요청 폭주 차단)
+_REL_SCAN = _int_env("THUMB_REL_SCAN", 30)             # 관련소스 훑는 범위(720 컷으로 채택률이 반감 = 버린 만큼 더 훑는다)
 _UPSIZE_ON = os.environ.get("THUMB_UPSIZE", "1") != "0"  # 킬스위치(=0 → 종전 동작 100% 복귀)
 _dim_cache = {}                                          # URL → (w,h) 프로브 결과 재사용(같은 사진 반복 측정 0)
 
@@ -773,10 +774,14 @@ def _dim_probe(url):
         try:
             import io
             from PIL import Image
-            for cap in (16384, 65536):
+            # ⚠️ 마지막 단은 Range **없이** — 720 컷이 하드가 된 뒤로는 '못 잰 것'이 곧 '버리는 것'이라
+            #    Range 를 거부하는 서버의 멀쩡한 큰 사진이 통째로 날아간다(fail-closed 의 대가).
+            for cap, rng in ((16384, True), (65536, True), (262144, False)):
                 try:
-                    req = urllib.request.Request(url, headers={"User-Agent": UA,
-                                                               "Range": "bytes=0-{}".format(cap - 1)})
+                    hd = {"User-Agent": UA}
+                    if rng:
+                        hd["Range"] = "bytes=0-{}".format(cap - 1)
+                    req = urllib.request.Request(url, headers=hd)
                     with _OPENER.open(req, timeout=15) as r:
                         b = r.read(cap)
                     if not _img_type(b or b"")[0]:      # 매직바이트 = 이미지 아니면 즉시 포기(HTML 오류쪽 파싱 방지)
@@ -789,6 +794,26 @@ def _dim_probe(url):
             res = (0, 0)
     _dim_cache[url] = res
     return res
+
+def _hq_cut(url, why=""):
+    """세로가 `_MIN_H`(720) 미만이면 True(= 수집 배제 · 운영자 260810 2차 "720을 안넘을 경우에는 애초에
+    수집에서 배제 · 그 품질 만큼의 다른 이미지를 검색해서 찾아오게끔").
+
+    ⚠️ 이건 1차의 '순서'를 '컷'으로 바꾼 것이다 — 1차는 720 미만을 뒤로 미뤄 자리가 남으면 채웠는데,
+       운영자 판단은 **그 자리를 저화질로 메우지 말고 비워서 다른 사진을 찾아오라**는 것. 빈 자리는
+       thumb_gen main 의 기존 보충 체인(7장 미달 → thumb_topup.txt → moreimg 발사 → Claude 신규 소스 검색)이
+       메운다 = 새 배선 창작 0.
+    ⚠️ **크기 미상(0)도 컷** = fail-closed — 하드 컷 계약에선 '못 잰 것'을 통과시키면 문턱이 그냥 새는 구멍이
+       된다. 대신 `_dim_probe` 마지막 단을 Range 없이 두어 Range 거부 서버의 큰 사진이 억울하게 죽는 걸 막았다.
+    """
+    if not _UPSIZE_ON:
+        return False                                        # 킬스위치 = 종전 동작(컷 없음) 100% 복귀
+    h = _dim_probe(url)[1]
+    if h >= _MIN_H:
+        return False
+    print("  ⏭ 화질 컷({} 세로 {} < {}): {}…".format(why or "유사", h or "미상", _MIN_H, url.split("/")[-1][:40]),
+          flush=True)
+    return True
 
 def _best_variant(url):
     """URL → 같은 사진의 **가장 큰** 변형 URL. 후보가 원본보다 실제로 크지 않으면 원본 그대로.
@@ -1049,6 +1074,8 @@ def fetch_article_images(art_url, alt_urls=None, image_sources=None, want=7):
             if k in seen:             #     슬롯 2개를 먹던 중복도 여기서 함께 해소(실측 260810)
                 continue
             seen.add(k)
+            if _hq_cut(u, "대표"):    # 720 미달 = 수집 배제(대표도 예외 없음 · 운영자 260810 2차)
+                continue
             out.append({"src": u, "link": art_url, "label": "" if not out else "유사"})
     # 2) 관련 소스 보강(자리 남으면): AI image_sources 우선 → 클러스터 alt_urls → 마커매체 관련.
     #    paste·차단매체(art_url 無/막힘)는 여기서 대표부터 채운다(label = 첫 장 ''=대표 / 이후 '유사').
@@ -1058,12 +1085,10 @@ def fetch_article_images(art_url, alt_urls=None, image_sources=None, want=7):
         for u in (list(image_sources or []) + list(alt_urls or []) + (_related_urls(text, art_url) if text is not None else [])):
             if u and _url_ok(u) and u != art_url and u not in seen_u:
                 seen_u.add(u); related.append(u)
-        # ⚠️ 고화질 **우선 채움**(운영자 260810) — 구판은 '먼저 만난 순서'로 want 를 채우고 끝냈다. 그러면 앞쪽
-        #    소스가 저화질일 때 뒤쪽의 큰 사진을 **만날 기회조차 없다**(실측 260810 = 승격만으론 720 이상이
-        #    30%→39%에 그쳤는데, 원인의 절반이 이 조기 종료였다). → 720 이상은 즉시 담고, 720 미만은 `spare` 에
-        #    모아두었다가 **관련소스를 다 훑은 뒤** 남는 자리만 메운다(= 관련성 손실 0 · 같은 소스 풀에서 화질만 우선).
-        spare = []
-        for ru in related[:15]:                             # 관련소스 상한 10→15(운영자 260622 — 더 많이)
+        # ⚠️ 훑는 범위 15→`_REL_SCAN`(운영자 260810 2차) — 720 컷이 하드가 되면서 소스 1개당 채택률이 반토막
+        #    났다(실측 = 승격 후에도 720 이상은 54%). 범위를 그대로 두면 컷이 곧 '장수 감소'로 직결되므로,
+        #    **버린 만큼 더 훑어서** 같은 장수를 고화질로 채운다(그래도 모자라면 아래 보충 체인이 새 소스를 검색).
+        for ru in related[:_REL_SCAN]:                      # 관련소스 상한 10→15(운영자 260622) →30(260810 2차)
             if len(out) >= want:
                 break
             rhtml = _fetch_html(ru) or ""
@@ -1080,25 +1105,11 @@ def fetch_article_images(art_url, alt_urls=None, image_sources=None, want=7):
                     continue
                 if rep and not _vision_keep(rep, rog):
                     continue
+                if _hq_cut(rog):                            # 720 미달 = 배제(자리는 비워둔다 = 보충 체인이 메움)
+                    continue
                 seen.add(_norm_key(rog))
-                item = {"src": rog, "link": ru, "label": "" if not out else "유사"}
-                if not _UPSIZE_ON or _dim_probe(rog)[1] >= _MIN_H or not out:
-                    out.append(item)                        # 고화질(또는 아직 대표 미확보) = 즉시 채택
-                    print("  🔗 관련이미지 +1 ({}…)".format(ru[:42]))
-                else:
-                    spare.append(item)                      # 저화질 = 예비 — 다 훑고도 자리가 남을 때만
-        for it in spare:                                    # 남는 자리 메움(장수는 종전과 동일하게 유지 = 관련성 손실 0)
-            if len(out) >= want:
-                break
-            it["label"] = "" if not out else "유사"
-            out.append(it)
-    # 3) 고화질 우선 배열(운영자 260810 "최소 세로 720p 이상") — **컷이 아니라 순서**다.
-    #    ⚠️ 720 미만을 버리면 '관련성은 유지'라는 전제가 깨진다(실측 260810 = 현행 코퍼스의 63%가 720 미만 →
-    #    하드 컷 시 관련 사진이 통째로 증발). 대신 720 이상을 앞으로 보내 want 상한에서 저화질이 **자연 절삭**되게 한다.
-    #    ⚠️ 첫 장(대표)은 고정 — label="" 대표는 THUMB_REF 참조 얼굴(그 기사 인물 실사진)로도 쓰여서
-    #    순서를 바꾸면 '누구 얼굴을 참조하나'가 같이 바뀐다. 재배열 대상은 '유사'뿐(안정 정렬 = 같은 급이면 기존 순서 보존).
-    if _UPSIZE_ON and len(out) > 2:
-        out = out[:1] + sorted(out[1:], key=lambda it: 0 if _dim_probe(it["src"])[1] >= _MIN_H else 1)
+                out.append({"src": rog, "link": ru, "label": "" if not out else "유사"})
+                print("  🔗 관련이미지 +1 ({}…)".format(ru[:42]))
     return out
 
 def http_image(url):
