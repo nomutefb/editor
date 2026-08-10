@@ -55,11 +55,21 @@ def channel_diff_db(src, timeout=90):
 
 
 def stereo_pre(src):
-    """정규화 앞단 필터 — 좌우가 실제로 치우쳤을 때만 모노합, 아니면 좌우 보존."""
-    d = channel_diff_db(src)
-    if d is None or d >= BAL_DIFF_DB:
-        return PRE        # 측정 실패 = 종전 동작 유지(안전측) · 치우침 = 운영자 260710 목적대로 합침
+    """정규화 앞단 필터 — 좌우 보존이 정본. 모노합(PRE)은 도먼트(아래 tilt_skip 개정으로 발동 경로 없음).
+    ⚠ 260810 2차 개정 = 운영자 "음질 차이가 심할땐 자동으로 음량이 꺼지게 해줘(수정해서 맞춰야하니까)"
+      → 심한 쏠림은 **합치는 게 아니라 손대지 않는 것**이 답(사람이 직접 맞출 건)이므로 normalize가
+      아예 스킵한다. 그 문턱 아래(정상 스테레오)는 합칠 이유가 없으니 좌우 보존.
+      구 「치우치면 모노합」(260810 1차)은 이 지시로 대체 — PRE는 되살릴 때를 위해 보존(도먼트)."""
     return PRE_KEEP
+
+
+def tilt_skip(src):
+    """좌우가 심하게 어긋났나 — (True, dB) = 음량 통일을 걸면 안 되는 건(운영자 260810 2차).
+    측정 실패·모노 = (False, None) = 종전대로 정규화 진행(fail-soft)."""
+    d = channel_diff_db(src)
+    if d is None or d < BAL_DIFF_DB:
+        return False, d
+    return True, d
 
 
 # ── 소리 무재압축 통과(운영자 260810 "편집후에 음질이 엄청나게 망가지거든") ─────────────────────────
@@ -131,10 +141,16 @@ def normalize(src, out, abr="192k", timeout=180):
         return False, "음량 통일 건너뜀(오디오 확인 실패)"
     if not aud:
         return False, "음량 통일 건너뜀(오디오 없음)"
-    try:
-        pre = stereo_pre(src)   # 좌우 합치기 = 실제로 치우쳤을 때만(260810) · 측정·적용 동일 필터
+    try:   # 좌우가 심하게 어긋난 건 = 자동 보정 정지(운영자 260810 2차 "수정해서 맞춰야하니까")
+        tilted, tdb = tilt_skip(src)
     except Exception:
-        pre = PRE               # 판정 실패 = 종전 동작 유지(안전측)
+        tilted, tdb = False, None   # 판정 실패 = 종전대로 진행(fail-soft)
+    if tilted:
+        return False, "음량 통일 건너뜀(좌우 소리가 {:.1f}dB 어긋남 — 직접 맞춘 뒤 켜줘)".format(tdb)
+    try:
+        pre = stereo_pre(src)   # 좌우 보존이 정본(260810 2차) · 측정·적용 동일 필터
+    except Exception:
+        pre = PRE_KEEP          # 판정 실패 = 좌우 보존(안전측 = 원본 손대지 않음)
     try:
         meas = _measure(src, pre=pre)
     except Exception:

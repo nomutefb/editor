@@ -391,6 +391,8 @@
   .cpprev-box .trail-v .gs-v, .pvsec .trail-v .gs-v { position:relative /* reuse-ok: 신설 부품 아님 — 기존 리드백 칩(.gs-v) 그 노드에 정본 `.trail-i` 외형만 입힌 스킨 */; display:grid; place-items:center; min-width:22px; height:22px; padding:0 5px; border:0; background:none; border-radius:var(--r-l); color:var(--mut); font-size:10.5px; font-weight:var(--fw-x); font-family:inherit; letter-spacing:-.2px; line-height:1; white-space:nowrap; cursor:pointer; -webkit-tap-highlight-color:transparent; transition:color var(--dur) ease; }
   .cpprev-box .trail-v .gs-v, .pvsec .trail-v .gs-v, .cpprev-box .trail-v .ropt, .pvsec .trail-v .ropt { place-items:center; text-align:center; }   /* 옵션 중앙정렬(운영자 260802 6차 "중앙정렬로 할게" — 구 좌측정렬 지시 개정 · 정본 동문 사본) — 판정 축 = 잉크 중심 vs 캡슐 중심 Δ(smoke_parity C15 · smoke_studioshell C3) */
   .pvsec .trail-v .gs-v.on { color:var(--accent); font-weight:var(--fw-x); }
+  .pvsec .trail-v .gs-v.lrtilt, .gospec .gs-v.lrtilt { color:var(--accent-4); font-weight:var(--fw-x); }
+  /* 좌우 쏠림 자동 감지 표시(운영자 260810 "골드레몬색으로 강조색이 나오게 해줘(팔레트에 있는 골드)") — 바로 위 `.gs-v.on` 정본에서 **색 토큰만** 골드레몬으로 교체(굵기·기하·모션 전부 계승 = 신규 부품·신규 값 0) · 골드레몬 = --accent-4 · 같은 의미축 선례 = index `.fw-chip.on`(큐 넘김 = 조치가 끝난 건만 강조색) · 스코프 2벌 = 레일(.pvsec)과 요약 스트립(.gospec) 동반 = 한쪽만 칠하면 같은 축이 자리에 따라 다른 색으로 보인다 */
   .pvsec .trail-i { position:relative; display:grid; place-items:center; width:22px; height:22px; padding:0; border:0; background:none; border-radius:50%; color:var(--mut); font-size:10.5px /* raw-ok: 정본 .trail-i 활자 동값 */; font-weight:var(--fw-x); font-family:inherit; cursor:pointer; -webkit-tap-highlight-color:transparent; }
   .pvsec .trail-i::after { content:''; position:absolute; inset:-6px -4px; }
    /* 히트패드 = **정본 `.trail-i::after`(index:1237) 동값 계승** — 시각 22px 유지·실효 34×30.
@@ -815,6 +817,43 @@ const pendSet=o=>{ try{ nmJobs.add(PEND_KEY,o); }catch(e){} };
 const pendGet=()=>{ try{ return nmJobs.list(PEND_KEY)[0]||null; }catch(e){ return null; } };
 const pendClear=id=>{ try{ nmJobs.drop(PEND_KEY,id); }catch(e){} };   // id 생략 = 전부 비움(딥링크 랜딩 = '재개 포기'가 의도인 자리)
 
+/* ── 좌우 쏠림 자동 감지(운영자 260810 "좌우 음질 차이가 심한지는 업로드 하면 바로 알 수 있잖아? 음질 차이가 심할땐 자동으로 음량이 꺼지게 해줘(수정해서 맞춰야하니까)") ──
+   심하게 쏠린 소리는 자동 보정에 맡기면 안 된다 — 운영자가 직접 맞춰야 하는 건이므로 음량을 **끈 채로** 시작하고
+   레일 칩을 골드레몬으로 켜서 「이거 봐라」를 표시한다. 임계 6dB = 서버 shared/audio_norm.py BAL_DIFF_DB 동값
+   (⚠ 클라가 파이썬을 못 읽어 값이 두 곳에 산다 — 한쪽만 고치면 화면 표시와 실제 처리가 갈린다. 바꿀 땐 같은 커밋에서 둘 다).
+   측정 = 업로드한 파일을 브라우저가 직접 디코드해 좌우 평균 레벨 차이(dB) · 전 경로 fail-soft(못 재면 종전대로 = 음량 ON). */
+const LR_TILT_DB=6.0, LR_PROBE_MAX=180*1024*1024;   // 상한 = 이보다 큰 파일은 통째 디코드가 메모리를 먹어 스킵(못 재면 종전 동작)
+let LR_TILT=false, LR_TILT_VAL=0;   // true = 좌우가 심하게 쏠림 = 음량 자동 OFF + 골드 표시
+
+async function lrTiltProbe(file){   // 좌우 평균 레벨 차이(dB) · 모노·측정 실패·상한 초과 = null
+  try{
+    if(!file || file.size>LR_PROBE_MAX) return null;
+    const AC=window.AudioContext||window.webkitAudioContext; if(!AC) return null;
+    const ctx=new AC();
+    let aud;
+    try{ aud=await ctx.decodeAudioData(await file.arrayBuffer()); }
+    finally{ try{ ctx.close(); }catch(e){} }
+    if(!aud || aud.numberOfChannels<2) return null;   // 모노 = 쏠릴 좌우가 없다
+    const L=aud.getChannelData(0), R=aud.getChannelData(1);
+    const step=Math.max(1,Math.floor(L.length/200000));   // 균등 표본 20만점 = 긴 영상도 즉시(정밀도 충분)
+    let sl=0, sr=0, n=0;
+    for(let i=0;i<L.length;i+=step){ sl+=L[i]*L[i]; sr+=R[i]*R[i]; n++; }
+    if(!n) return null;
+    const db=v=>20*Math.log10(Math.max(Math.sqrt(v/n),1e-9));
+    const d=Math.abs(db(sl)-db(sr));
+    return isFinite(d)?d:null;
+  }catch(e){ return null; }   // 디코드 불가 코덱·메모리·보안 등 전부 종전 동작으로 흡수
+}
+
+async function lrTiltApply(file){   // 첨부 직후 1회 — 쏠렸으면 음량을 끄고 골드 표시를 켠다
+  LR_TILT=false; LR_TILT_VAL=0;
+  const d=await lrTiltProbe(file);
+  if(d===null) return;                      // 못 쟀다 = 종전대로(음량 기본 ON 유지)
+  LR_TILT_VAL=d;
+  if(d>=LR_TILT_DB){ LR_TILT=true; ON.anorm=false; }   // 쏠림 = 자동 보정 정지(운영자가 직접 맞출 건)
+  render();
+}
+
 /* ══ 처리 스택 모델 — ORDER = 서버 처리 순서(캐노니컬·재정렬 없음 v1) ══ */
 const ORDER=['sub','trn','screen','res','fps','cut','trim','clip','bgm','anorm'];   // trn 합류(운영자 260728 번역 토글 — 발사 게이트·시트 계수용 · eta 0 = dual은 같은 전사·의역 파이프)   // sub 복원(운영자 260721 "자막 키잉도 쓸 때가 있거든 — 여기에 자막 프리셋도" · 260711 이관 때 도먼트 보존해둔 축 재점등 — eta·리드백 합류)   // 표시 순서 = IA(운영자 260711 secOrder=ia "리사이징 먼저" — 화면{비율·해상도·프레임}→컷·구간→소리 · 구 bgm 선두 재배열 = 평의회 260711 3차 · eta 합산·발사 게이트는 순서 무관 = 파급 0 · 서버 실처리 순서는 페이로드 키 기반이라 클라 순서 비의존) · 자막(sub) 카드 = 자막 탭 전담 이관(운영자 260711 3분류 m1Sub=m2 — 코드·프리셋·음영 3축은 도먼트 보존 · 복원 = 'sub' 재추가 한 줄)
 const CARD={
@@ -1006,14 +1045,14 @@ function updateOptStrip(){
   el.innerHTML=axes.filter(k=>k!=='fit'||ON.screen).map(k=>{
     const v=curCyc(k); const lab=CYL[k][v]||String(v); const word=AXNM[k]||'구간';
     const act=' data-cyc="'+k+'" role="button" tabindex="0" aria-label="'+word+'"';   // 레일 칩 = 실컨트롤(운영자 260803 "옵션이 우측 상단 네비게이션에 들어갈 수 있게" — 탭 = doCyc 문서 위임[1215]에 그대로 합류 = 카드 칩과 상태·검증 1벌 · cursor·press 어포던스는 레일 정본 CSS(320행대)에 이미 존재 = 리드백만이던 칩의 배선 완성)
-    if(lab==='OFF'||lab==='ON') return '<span class="gs-v'+(lab==='ON'?' on':'')+'"'+act+' title="탭=켜기/끄기">'+word+'</span>';   // 점등 = 라벨이 곧 상태(cyv와 동식 · 260803 7차 배경음 반전 대응)   // 이진 축 = 워드 단독(운영자 260803 — 'OFF도 표기'(Q128)를 워드 소등 표기로 개정: 기능 워딩이 점등/소등으로 onoff · thumb #cnTog 문법 · 값 어휘 축(원본·살짝 등)은 아래 종전 라벨|값 유지)
+    if(lab==='OFF'||lab==='ON') return '<span class="gs-v'+(lab==='ON'?' on':'')+((k==='anorm'&&LR_TILT)?' lrtilt':'')+'"'+act+(((k==='anorm'&&LR_TILT))?' title="좌우 소리가 '+LR_TILT_VAL.toFixed(1)+'dB 어긋나 자동으로 껐어 — 직접 맞춘 뒤 켜줘"':' title="탭=켜기/끄기"')+'>'+word+'</span>';   // 점등 = 라벨이 곧 상태(cyv와 동식 · 260803 7차 배경음 반전 대응)   // 이진 축 = 워드 단독(운영자 260803 — 'OFF도 표기'(Q128)를 워드 소등 표기로 개정: 기능 워딩이 점등/소등으로 onoff · thumb #cnTog 문법 · 값 어휘 축(원본·살짝 등)은 아래 종전 라벨|값 유지)
     return '<span class="gs-lbl">'+word+'</span> <span class="gs-v'+((k==='fit'||v!=='off')?' on':'')+'"'+act+' title="탭=다음 값">'+esc(lab)+'</span>';
   }).join(' <span class="gs-sep">/</span> ');
 }
 function setAxis(k,v){   // 축 상태 단일 정본(순환값·잔존 chip 공유 — buildOpts/etaCalc/레시피/클리퍼 배타 계약 불변)
   if(k==='ar'){ if(v==='off')ON.screen=false; else {clipRelease();ON.screen=true;P.ar=v;} return; }
   if(k==='res'||k==='fps'){ if(v==='off')ON[k]=false; else {clipRelease();ON[k]=true;P[k]=v;} return; }
-  if(k==='cutlv'){ if(v==='off')ON.cut=false; else {clipRelease();ON.cut=true;P.cutlv=v;} return; }
+  if(k==='cutlv'){ if(v==='off'){ON.cut=false; if(!LR_TILT) ON.anorm=true;} else {clipRelease();ON.cut=true;P.cutlv=v;ON.anorm=false;} return; }   // 컷 ON = 음량 자동 OFF(운영자 260810 "컷편집 등 말 줄이기나 그런게 안들어가는 상황이면, 음량이 켜지는걸 기본으로") — 컷은 소리를 **잘라야** 해서 필터를 타므로 압축을 못 피한다(실측 260810: 컷만 1회 · 컷+음량 2회 · 압축 1회당 신호대잡음 15.2→11.4dB) → 둘이 겹칠 때 음량을 빼서 1회로 유지 · 컷 OFF 복귀 = 음량 자동 복원(단 좌우 쏠림 자동 OFF 상태면 그쪽이 우선 = 아래 LR_TILT) · 수동 재점등은 레일 탭으로 언제든 가능(이 줄은 **기본값**만 정한다)
   if(k==='clip'){ if(v==='on'){ clipSnap(); } else { const had=!!CLIP_SAVE; clipRelease(); if(!had) ON.anorm=true; } return; }   // 클립 = 배타 스캔 · 끔 = 스냅샷 복원(260722 — 없으면 종전 기본 음량 보정 복귀)
   if(k==='bgm'||k==='anorm'||k==='sub'){ if(v==='on'){clipRelease();ON[k]=true;} else { ON[k]=false; if(k==='sub') ON.trn=false; } return; }   // sub 합류(운영자 260721 자막 복원 — 이진 토글·클리퍼 배타 동일 문법) · 자막 OFF = 번역 동반 OFF(번역은 자막 위에 얹히는 줄 · Q06)
   if(k==='trn'){ if(v==='on'){clipRelease();ON.trn=true;ON.sub=true;} else ON.trn=false; return; }   // 번역 ON = 자막 자동 ON(운영자 260728 Q06 "사실상 자막의 옵션" — 번역 줄만 단독 번인 불가)
@@ -1779,6 +1818,7 @@ function legacyRead(f, btn){   // R2 미가용·실패 폴백 = 종전 base64 �
   sec.addEventListener('dragover',e=>{ const t=e.dataTransfer; if(t&&Array.from(t.types||[]).includes('Files')){ e.preventDefault(); t.dropEffect='copy'; sec.classList.add('dropping'); } });
   sec.addEventListener('dragleave',e=>{ if(!sec.contains(e.relatedTarget)) sec.classList.remove('dropping'); });
   sec.addEventListener('drop',e=>{ e.preventDefault(); sec.classList.remove('dropping'); const f=e.dataTransfer&&e.dataTransfer.files&&e.dataTransfer.files[0]; if(!f) return;
+    lrTiltApply(f);   // 드롭 입구도 동반(파일 선택 경로와 동작 동일 = 입구별 갈림 0 · 260810)
     if(!/^video\//.test(f.type||'') && !/\.(mp4|mov|m4v|webm|mkv|avi)$/i.test(f.name||'')) return errStatus('영상 파일만 돼 — mp4·mov·m4v·webm·mkv·avi 중에 골라줘');   // 구 코드는 여기서 **조용히 return**했다 — 드래그 하이라이트만 꺼지고 안내 한 줄이 없어 사용자는 "드롭이 안 먹네" 외엔 아무 정보도 못 얻었다(평의회2 260731). 확장자 폴백 = #file change와 동일 판정(OS가 .mkv/.avi MIME을 못 매핑해 f.type이 빈 문자열이 되는 환경 대응)
     const inp=$('#file'); try{ const dt=new DataTransfer(); dt.items.add(f); inp.files=dt.files; }catch(_){ return; } inp.dispatchEvent(new Event('change')); });
 })();
@@ -1828,6 +1868,7 @@ $('#file').addEventListener('change',async()=>{
   if(!r2on&&f.size>B64_MAX){ fileSlotClear(); $('#editGo').disabled=false; return errStatus('28MB 초과 — 대용량 저장 미설정(R2 바인딩 필요). URL로 해줘'); }   // 문구 = 실한도 표기(구 "30MB"는 서버 실한도 28.6MiB와 어긋나 29MB 파일이 "30MB까지 된다"는 안내를 받고도 거절당했다)
   segsReset();   // 새 소스 = 옛 구간 무효(평의회⑤ 260728 — 60초 영상 구간이 10초 영상에 그대로 발사되던 사고 차단) · ⚠ **첨부가 확정된 뒤**에 비운다(재검⑤ 260728 — 크기 거절 앞에 두면 첨부는 거절됐는데 기존 구간만 날아가 복구 불가)
   FILE_NAME=f.name; FILE_URL=URL.createObjectURL(f); render();   // 미리보기 버튼 노출(objectURL = 업로드 완료 전에도 로컬 프리뷰 가능)
+  lrTiltApply(f);   // 좌우 쏠림 자동 감지(운영자 260810) — await 안 한다: 업로드·발사 흐름을 막지 않고, 측정이 끝나면 스스로 render()로 반영(fail-soft = 못 재면 무변화)
   const v=document.createElement('video'); v.preload='metadata'; v.src=FILE_URL;
   v.onloadedmetadata=()=>{ if(_lastFile!==f) return; _dur=v.duration||0; _vw=v.videoWidth||0; _vh=v.videoHeight||0; _varea=_vw*_vh; setEta(); pvSync(); if(ON.res) render(); };   // 신선도 가드(평의회1 260731) — 파이프의 다른 곳(1248·1300·1301)이 다 가진 `_lastFile===f` 검사가 여기만 없어, A→B를 연달아 첨부하면 늦게 도착한 A의 메타데이터가 **B가 붙은 상태의 _dur/_varea를 덮었다**(길이 게이트·ETA가 남의 영상 값으로 판정)
   const btn=$('#editGo'); _uploading=true; goUpBusy(btn);   // 업로드중 상주 표시(운영자 260731) — 구 `btn.disabled=true`는 '생성' 글자가 흐려질 뿐 **왜 안 눌리는지 이유가 화면에 없었다**
