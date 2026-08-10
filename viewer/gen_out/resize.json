@@ -1,5 +1,51 @@
 [
   {
+    "url": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/resize/260810130727-a88021/4x5-105124da.jpg",
+    "srcUrl": "uploads/260810130727-a88021/src.jpg",
+    "aspect": "4:5",
+    "size": "1K",
+    "lock": true,
+    "route": "gemini",
+    "fill": "auto",
+    "qa": "PASS",
+    "calls": {
+      "gen": 1,
+      "judge": 1
+    },
+    "model": "gemini-3.1-flash-image-preview",
+    "qa_why": "The image successfully extends the frame on all sides to reveal more of the scene, including the full torso of the main subject and more of the background figures, without any defects.",
+    "tries": [
+      {
+        "t": 1,
+        "streak": 0.005,
+        "bands": {
+          "top": 0.005,
+          "bottom": 0.005
+        },
+        "enc": "2:2",
+        "qa": "PASS",
+        "why": "The image successfully extends the frame on all sides to reveal more of the scene, including the full torso of the main subject and more of the background figures, without any defects."
+      }
+    ],
+    "usage": [
+      {
+        "tag": "resize:t1",
+        "prompt": 1180,
+        "output": 1498,
+        "total": 2678
+      },
+      {
+        "tag": "resize:judge",
+        "prompt": 921,
+        "output": 43,
+        "total": 964
+      }
+    ],
+    "box": null,
+    "id": "260810130727-a88021",
+    "ts": "2026-08-10T13:08:19+09:00"
+  },
+  {
     "url": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/resize/260809183717-320b54/4x5-0b6e9bb6.jpg",
     "srcUrl": "uploads/260809183717-320b54/src.jpg",
     "aspect": "4:5",
@@ -398,17 +444,5 @@
     "box": null,
     "id": "fill45",
     "ts": "2026-08-07T12:03:06+09:00"
-  },
-  {
-    "url": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/resize/fill45/4x5-bc845d1d.jpg",
-    "srcUrl": "uploads/fill45/src.jpg",
-    "aspect": "4:5",
-    "size": "1K",
-    "lock": true,
-    "route": "gemini",
-    "fill": "auto",
-    "box": null,
-    "id": "fill45",
-    "ts": "2026-08-07T10:39:37+09:00"
   }
 ]
