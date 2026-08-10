@@ -21,6 +21,45 @@ TARGET_I, TARGET_TP, TARGET_LRA = -14.0, -1.5, 11.0
 FLOOR_I = -55.0   # 근사무음 게이트 — 이보다 조용하면(룸톤·히스뿐) 정규화가 노이즈만 +40dB 증폭 → 스킵(평의회4)
 # L/R 통일 = 스테레오 정규화 후 모노합(c0=c1) — 한쪽에 치우친 인터뷰/현장음 좌우 균일. 모노 소스는 aformat이 복제라 무해.
 PRE = "aformat=channel_layouts=stereo,pan=stereo|c0=.5*c0+.5*c1|c1=.5*c0+.5*c1"
+PRE_KEEP = "aformat=channel_layouts=stereo"   # 좌우 보존판(모노합 없음) — 아래 BAL_DIFF_DB 참조
+# ── 좌우 합치기 = 「실제로 치우쳤을 때만」(운영자 260810 승인 · 구판 = 항상 합침) ─────────────────
+# 구판은 소스를 안 가리고 늘 모노로 합쳤다 — 실측(260810) = 좌우 상관 0.407 → 0.994 · 좌우 RMS 완전 동일
+#   = 음악·현장음의 넓은 느낌이 통째로 사라진다. 운영자 260710 지시의 **원래 목적**은 「한쪽에 치우친
+#   인터뷰·현장음을 좌우 균일하게」였으므로(위 22행 주석 자신의 선언), 치우친 소스에만 걸면 그 목적은
+#   그대로 지키면서 멀쩡한 스테레오는 안 건드린다.
+# 임계 6.0dB 근거 = 실측 5케이스(260810) · 정상 스테레오 0.02 · 3dB 치우침 2.99 · 6dB 6.05 ·
+#   10dB 10.02 · 한쪽 무음 71.88 → 6dB = 「한쪽이 다른 쪽의 절반 크기」라는 물리적으로 명확한 경계이고
+#   자연스러운 스테레오 배치(0~3dB)와 사고(6dB+)가 그 사이에서 갈린다.
+# ⚠ 부수 효과 = 좌우 역위상 소스 구제. 역위상은 좌우 **레벨이 같아서**(실측 phase 케이스 0.00dB) 이 판정에
+#   안 걸리고 → 보존 경로로 가고 → 모노합 상쇄가 없으니 측정이 −inf로 죽지 않는다. 구판은 그런 소스를
+#   「소리 감지 안 됨」으로 스킵해 음량 맞추기 자체를 포기했다(75행 주석의 실측 사고).
+BAL_DIFF_DB = 6.0
+
+
+def channel_diff_db(src, timeout=90):
+    """좌우 평균 레벨 차이(dB) · 모노·측정 실패 = None(호출자는 안전측 = 종전 모노합 유지).
+    한쪽이 완전 무음이면 ffmpeg가 -inf를 주므로 큰 값으로 치환해 「치우침」으로 잡는다."""
+    try:
+        r = subprocess.run(["ffmpeg", "-hide_banner", "-nostats", "-i", src, "-map", "0:a:0",
+                            "-af", "astats=metadata=1:reset=0", "-f", "null", "-"],
+                           capture_output=True, text=True, timeout=timeout)
+    except Exception:
+        return None
+    lv = []
+    for m in re.finditer(r"RMS level dB:\s*(-?[\d.]+|-?inf|nan)", r.stderr or ""):
+        t = m.group(1)
+        lv.append(-99.0 if ("inf" in t or "nan" in t) else float(t))
+    if len(lv) < 2:
+        return None   # 모노(채널 1개)·측정 실패 — 모노는 어차피 합칠 것이 없다
+    return abs(lv[0] - lv[1])
+
+
+def stereo_pre(src):
+    """정규화 앞단 필터 — 좌우가 실제로 치우쳤을 때만 모노합, 아니면 좌우 보존."""
+    d = channel_diff_db(src)
+    if d is None or d >= BAL_DIFF_DB:
+        return PRE        # 측정 실패 = 종전 동작 유지(안전측) · 치우침 = 운영자 260710 목적대로 합침
+    return PRE_KEEP
 
 
 # ── 소리 무재압축 통과(운영자 260810 "편집후에 음질이 엄청나게 망가지거든") ─────────────────────────
@@ -63,10 +102,11 @@ def has_audio(path, timeout=60):
         return None   # 판별 실패 = 보정 스킵(원본 유지가 안전 — 없는 오디오에 -af 걸면 ffmpeg 실패로 전체가 죽는다)
 
 
-def _measure(src, timeout=90):
+def _measure(src, timeout=90, pre=None):
     # 1패스: 오디오만 디코드해 loudnorm 측정값 회수 — JSON은 stderr 꼬리 { } 블록(공식 print_format=json 동작)
     # timeout 90s = 캡 300초 클립 오디오 디코드 실측 수 초의 10배+ 마진(과대 provision이 성공영상 상실창 키우는 것 차단·평의회5)
-    af = "{},loudnorm=I={:g}:TP={:g}:LRA={:g}:print_format=json".format(PRE, TARGET_I, TARGET_TP, TARGET_LRA)
+    # ⚠ pre = 2패스와 **같은 앞단 필터**여야 한다 — 측정과 적용이 다른 필터를 타면 measured_* 가 통째로 어긋난다.
+    af = "{},loudnorm=I={:g}:TP={:g}:LRA={:g}:print_format=json".format(pre or PRE, TARGET_I, TARGET_TP, TARGET_LRA)
     r = subprocess.run(["ffmpeg", "-hide_banner", "-nostats", "-y", "-i", src, "-map", "0:a:0",
                         "-af", af, "-f", "null", "-"],
                        capture_output=True, text=True, timeout=timeout)
@@ -92,7 +132,11 @@ def normalize(src, out, abr="192k", timeout=180):
     if not aud:
         return False, "음량 통일 건너뜀(오디오 없음)"
     try:
-        meas = _measure(src)
+        pre = stereo_pre(src)   # 좌우 합치기 = 실제로 치우쳤을 때만(260810) · 측정·적용 동일 필터
+    except Exception:
+        pre = PRE               # 판정 실패 = 종전 동작 유지(안전측)
+    try:
+        meas = _measure(src, pre=pre)
     except Exception:
         meas = None   # 측정 인프라 실패 = 단일패스 폴백(비-Timeout 예외 포함 · 평의회6)
     ln = ""
@@ -112,7 +156,7 @@ def normalize(src, out, abr="192k", timeout=180):
             ln = ""
     if not ln:
         ln = "loudnorm=I={:g}:TP={:g}:LRA={:g}".format(TARGET_I, TARGET_TP, TARGET_LRA)   # 단일패스 폴백(다이내믹 모드)
-    af = "{},{},aresample=48000".format(PRE, ln)   # loudnorm 내부 192kHz 업샘플 → 48k 복원
+    af = "{},{},aresample=48000".format(pre, ln)   # loudnorm 내부 192kHz 업샘플 → 48k 복원
     try:
         r = subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", src,
                             "-map", "0:v:0", "-map", "0:a:0", "-c:v", "copy",
@@ -124,4 +168,4 @@ def normalize(src, out, abr="192k", timeout=180):
         return False, "음량 통일 건너뜀(처리 실패)"   # OSError 등 exec 계층 — fail-soft 완결(평의회6)
     if r.returncode != 0 or not os.path.isfile(out) or os.path.getsize(out) < 1024:
         return False, "음량 통일 건너뜀(처리 실패)"
-    return True, "음량 통일(−14LUFS·L/R)" + ("" if meas else " · 근사(1패스)")
+    return True, ("음량 통일(−14LUFS·L/R)" if pre == PRE else "음량 통일(−14LUFS·좌우 보존)") + ("" if meas else " · 근사(1패스)")
