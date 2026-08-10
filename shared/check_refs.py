@@ -5867,27 +5867,22 @@ def check_rubric_regress():
     # ⚠️ 케이스 **개수**도 함께 본다(평의회2 260803 실측 지적) — rubric_ver 만 보면 「케이스만 추가하고 회귀는
     # 안 돌린 커밋」이 조용히 통과했다가, 나중에 RUBRIC 을 한 글자 건드린 **다른 세션**이 그 미검증 케이스의
     # 뒤집힘으로 스탬프를 못 찍어 영구 rc=1 에 갇힌다(자기가 안 심은 지뢰를 밟는 구조). 스탬프는 이미 cases 를 굽는다.
-    # ⚠ 조립부 해시 축 승격 **보류**(260810) — 이 게이트만 구 축(rubric_ver)에 머문다. 짝인
-    # check_grade_regress 는 이미 승격했다(regress_ver). 「같은 병의 형제를 놓친 것」이 아니라
-    # **선존 결함 하나 때문에 승격이 막혀 있는 것**이라 사유를 여기 박아 둔다:
-    #   정답지 27건 중 「러 모스크바 시내 카페에서 폭발…3명 사망·15명 부상」(expect YES)이 현행
-    #   RUBRIC 에서 NO 로 떨어진다. 3회 다수결 실측 = [True, False, False] → NO 확정.
-    #   진범 = 🌐 해외 게이트의 「사망 10명 미만」 컷(진단서 260810 §8). 260802 에 **실제로 발송된**
-    #   건이라 정답지엔 YES 로 박혀 있어 둘이 어긋난 채였고, 봉합 전 origin/main 에서도 동일 재현
-    #   되므로 **이 세션 변경이 만든 회귀가 아니다**(드러냈을 뿐).
-    #   해소 = 운영 방침 결정(해외 폭발·테러에 사망자 수 예외를 둘 것인가) = 운영자 몫이라
-    #   세션이 룰북도 기대값도 임의로 못 바꾼다([4] 창작 금지 · 진단서 §8 「운영자 결정 사항」).
-    # ⚠ 승격을 강행하면 이 선존 결함이 **봉합 커밋 자신을 막는다**(check_disaster_lm_stale ② ·
-    #   check_thumb_prompt_sanity 짝 축과 같은 자기모순) → 방침 확정 후 아래 두 줄을 grade 판과
-    #   동일하게 바꾸고(`_regress_ver` 사용) 회귀를 돌려 도장을 받는다.
-    # ⚠ 그동안에도 **실행기는 이미 새 축이다** — rubric_regress.py 를 돌리면 3회 다수결·흔들림
-    #   검출·원장 적재가 전부 작동하고 실패가 regress_runs.jsonl 에 남는다(재실행 은폐 차단).
-    if st.get('rubric_ver') != mod.RUBRIC_VER or st.get('cases') != len(cases):
-        print('❌ 루브릭 회귀 게이트 — RUBRIC/케이스 변경 후 회귀 미실행(과거 정답 뒤집힘 미확인 = 커밋 차단).')
+    # 조립부 해시 축 승격 완료(260810) — 짝인 check_grade_regress와 동일 축.
+    # ⚠ 승격이 막혀 있던 사유(모스크바 건)는 해소됐다: 「러 모스크바 시내 카페 폭발 3명 사망·
+    # 15명 부상」이 🌐 해외 군사 게이트에 걸려 NO 로 떨어지던 건인데, 실측해 보니 그 게이트의
+    # 열거는 **군사충돌**(공습·폭격·미사일·드론·포격)이라 민간 카페 폭발은 애초에 대상이 아니었고
+    # 모델이 「러시아 = 전쟁 중」으로 읽어 군사충돌로 분류한 것이었다. 운영자 260810 판단
+    # 「긴급이 맞음」에 따라 RUBRIC 에 **민간 대상 폭발·테러는 이 게이트 미적용** 예외를 명문화
+    # (🔪 게이트의 「사고성은 그대로 O」 문법 계승 · 교전 지역 공습발 폭발은 🌐 유지 = 전쟁 피로 축 보존).
+    _rv = _regress_ver(mod)
+    _want = _rv or mod.RUBRIC_VER          # 정본 로드 실패 = 구 축으로 fail-soft
+    _got = st.get('regress_ver') if _rv else st.get('rubric_ver')
+    if _got != _want or st.get('cases') != len(cases):
+        print('❌ 루브릭 회귀 게이트 — RUBRIC/조립부/케이스 변경 후 회귀 미실행(과거 정답 뒤집힘 미확인 = 커밋 차단).')
         print('   → python3 .github/scripts/rubric_regress.py 실행(케이스 %d건 × 3회 다수결·전건 통과 시 도장) 후 스탬프 함께 커밋.' % len(cases))
-        print('   (stamp=%s · now=%s)' % (st.get('rubric_ver'), mod.RUBRIC_VER))
+        print('   (stamp=%s · now=%s)' % (_got, _want))
         return 1
-    print('✅ 루브릭 회귀 게이트 — RUBRIC %s = 회귀 도장 일치(케이스 %d건 · ⚠ 조립부 축 승격 보류 = 모스크바 건 방침 대기).' % (mod.RUBRIC_VER, len(cases)))
+    print('✅ 루브릭 회귀 게이트 — RUBRIC+조립부 %s = 회귀 도장 일치(케이스 %d건 · 판정 뒤집힘 확인 완료분).' % (_want, len(cases)))
     return 0
 
 
