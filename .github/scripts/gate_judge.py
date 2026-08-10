@@ -40,8 +40,9 @@ CAND = ROOT / "viewer" / "candidates.json"
 MODEL = os.environ.get("GATE_MODEL", "claude-opus-5")
 EFFORT = os.environ.get("GATE_EFFORT", "").strip()   # 기계적 룰북 분류엔 추론 불필요 = effort 미사용 기본(불필요 thinking 토큰·쿼터 차단 + sonnet effort 비호환 원천차단). 필요시 env로 부여(하위호환). 260630 평의회 — gate는 sonnet-5 운영.
 SAFE = os.environ.get("GATE_SAFE", "0").strip().lower() not in ("0", "false", "no", "")   # --safe-mode: CLAUDE.md·skills·plugins·hooks·MCP 등 커스터마이징 비활성 = 분류에 안 쓰이는 라우터 99KB(~40k토큰) 컨텍스트 제거 → cache_w ~95%↓. ⚠️ --bare 아님(bare는 OAuth 안 읽어[strictly ANTHROPIC_API_KEY] 이 파이프라인선 인증 즉사 + built-in 도구 축소로 --disallowedTools 충돌 = 260701 사고). safe-mode는 Auth·built-in 도구·permissions 정상 유지. RUBRIC은 stdin이라 판정 무영향. 기본 OFF·카나리아 후 승격(§📰). 롤백=env GATE_SAFE=0.
-GATE_MIN_CROSS = int(os.environ.get("GATE_MIN_CROSS", "3"))   # grade 채점 대상: cross 이 값 이상(노출권)
+GATE_MIN_CROSS = int(os.environ.get("GATE_MIN_CROSS", "2"))   # grade 채점 대상: cross 이 값 이상. **3→2(운영자 260810 "무조건 수집된 이상 미채점이 떠있으면 안 되게")** = 수집 하한(to_candidates CAND_MIN_CROSS 2)과 동값 → 수집된 전건이 채점 대상 = 화면 G–(미채점) 구조적 소멸. ⚠️ 구 3의 사유(cross-2는 grade 미기록 = 소프트뉴스가 0/1로 박제돼 랭킹·접힘서 침몰 방지)는 **이미 만료**됐다 — 그 침몰 경로였던 scFast grade 거부권이 260720에 폐지됐고 gradeW floor도 0.05→0.5라 곱셈 지배가 없다(구 주석이 스스로 "구 scFast 차단 — 260720 게이트 개정 후 진입은 grade 무관"이라 적어둔 그대로). ⚠️ 대가 = 미채점(1.0배 중립)이던 매체 2곳 카드가 실제 등급(대부분 0·1 = 0.5·0.7배)을 받아 **전반적으로 순위가 내려간다**(= 잡음 정리 방향 · 의도된 결과) + AI 콜 대상이 늘어난다(실측 800건 중 노출권 526 → 800).
 CAT_MIN_CROSS = int(os.environ.get("GATE_CAT_MIN_CROSS", "2"))   # 카테고리 구제: cross 이 값 이상이고 키워드가 모호(빈칸·문화)한 cross-2 후보는 AI 'cat만' 채점(grade 미기록=연예·스포츠 가십이 grade 0/1 기록 시 랭킹·접힘서 침몰 방지(구 scFast 차단 — 260720 게이트 개정 후 진입은 grade 무관)) — AI가 안 닿던 cross-2 분류를 교정(운영자 260628 근본레버 · 키워드 DB 확장 대체)
+TIMEOUT_S = int(os.environ.get("GATE_TIMEOUT", "300"))        # 콜당 상한(s) — **opus + effort max 운영(260810)에서는 반드시 상향**(sonnet 기준 300은 추론 붙은 콜에 짧다 · 초과 = rc≠0 = 미도장 = 다음 런 재시도라 조용한 무한 재시도로 굳는다). 워크플로 env GATE_TIMEOUT 로 부여.
 CHUNK = int(os.environ.get("GATE_CHUNK", "40"))               # 한 Claude 콜당 제목 수(작을수록 출력 truncation 0 — 120은 ~31에서 잘림 실측)
 MAX_PER_RUN = int(os.environ.get("GATE_MAX_PER_RUN", "80"))   # 한 런당 채점 상한(타임아웃 전 완료·커밋 보장 — 나머지는 self-gate 재디스패치가 점진 처리)
 GATE_CAT_QUOTA = int(os.environ.get("GATE_CAT_QUOTA", "40"))   # 한 런당 cat구제(비노출 cross-2) 최소 보장 슬롯 — 노출권 백로그가 MAX 초과여도 cat 기아 방지(감사5 실측: 노출권 1109>80이 cat 651을 0처리 → 347건 사회 오표시·운영자 260628). 260629 20→40 상향(분신술10 검증5·10: 오분류 71%가 AI 미채점 백로그 → cat 소화 가속·노출권 grade와 80캡 내 균형[surf 40+cat 40]·운영자 "AI 전수 재분류")
@@ -64,7 +65,15 @@ DAN = re.compile(r"\[\s*단독\s*\]")
 # 롤백 = env GATE_REGRADE=0 (도장·데이터 무접촉·큐만 소등).
 REGRADE_ON = os.environ.get("GATE_REGRADE", "1").strip().lower() not in ("0", "false", "no", "")
 REGRADE_MIN_CROSS = int(os.environ.get("GATE_REGRADE_MIN_CROSS", "8"))   # 누적 진입선(viewer CROSS_MIN)과 동값 — "세상이 대형으로 취급 중인데 등급은 경미"만
-GATE_REGRADE_QUOTA = int(os.environ.get("GATE_REGRADE_QUOTA", "12"))     # 런당 재채점 상한(신규 미채점 커버리지 우선 · 백로그는 다음 런)
+# ── 중간 재채점(2단 사다리 · 운영자 260810 "중간에 재채점 한번 더 · 매체 6곳이 넘을 경우 채점이 올바랐는지 다시") ──
+# 왜: 구판은 누적 진입선(8)에 닿아야 딱 1회 재채점 = 6~7곳 구간에서 이미 오채점이 굳어 있어도 손댈 창이 없었다
+#     (실측 260810 라이브 = 24h 내 grade0/1 중 cross 6~7 = 20건 · cross 8+ = 20건 → 사다리 절반이 사각이었다).
+# 계약: 6~7에서 1회(regraded_mid 도장) → 8+로 자라면 1회 더(regraded 도장) = rubric 세대당 **최대 2회**.
+#     8+에서 처음 걸린 건은 두 도장을 같이 찍어 1회로 끝낸다(3→9 점프가 연속 2콜을 부르는 낭비 차단).
+# 안전장치는 구판 3중 그대로 상속: 모델은 cross를 모른다(선정에만 사용) · 홍보/실적/시황/수주/기상 정형구 큐 진입 차단 ·
+#     새 grade 그대로 채택(상향 전용 아님 = 일방 펌프 불가) · 24h 창 · 런당 캡.
+REGRADE_MID_CROSS = int(os.environ.get("GATE_REGRADE_MID_CROSS", "6"))   # 중간 단 문턱(운영자 260810) — 이 값 이상 8 미만이 1단, 8 이상이 2단
+GATE_REGRADE_QUOTA = int(os.environ.get("GATE_REGRADE_QUOTA", "20"))     # 런당 재채점 상한(2단 사다리로 큐가 대략 2배 = 12→20 상향 · 신규 미채점 커버리지 우선은 유지·백로그는 다음 런)
 REGRADE_MAX_H = float(os.environ.get("GATE_REGRADE_MAX_H", "24"))        # first_seen 나이 창 — 24h+(배지 소멸선)는 랭킹 이득 0
 REGRADE_PR_RE = re.compile(r"업무협약|MOU|리브랜딩|품목허가|인증\s*획득|론칭|파트너십|특허\s*취득|신제품|출시|공모전|캠페인|프로모션|무순위\s*청약|줍줍")   # 보도자료 정형구 = 큐 하드 제외(viewer FB_HOLBO 계열 확장 · 오탐 비용 = 재채점 안 함 뿐 = 현행 유지라 안전)
 REGRADE_HEAD_RE = re.compile(r"^\s*[\[\(](표|포토|사진|그래픽|알림|공고|부고|부음|동정|인사|프로필|단신|게시판)")   # 정형 머리표 = 뷰어 JUNK_HEAD가 양 칼럼서 숨기는 부류 → 재채점 이득 0(첫 드라이런 실측: [표] 경선투표 cr17·[포토] 삭발식 cr9가 큐 진입 = 콜 낭비)
@@ -220,26 +229,52 @@ def _fresh_for_rejudge(c, stamp_key):
     return a is None or a < REJUDGE_MAX_H
 
 
+def regrade_stage(c):
+    """재채점 사다리 단수 — 'mid'(cross 6~7 · 도장 regraded_mid) / 'full'(cross≥8 · 도장 regraded) / None.
+    운영자 260810 "중간에 재채점 한번 더 · 매체 6곳이 넘을 경우 채점이 올바랐는지 다시"."""
+    x = c.get("cross") or 0
+    if x >= REGRADE_MIN_CROSS:
+        return "full"
+    if x >= REGRADE_MID_CROSS:
+        return "mid"
+    return None
+
+
 def regrade_due(c):
-    """다매체 저등급 재채점 큐(260803) — 현행 rubric 으로 정상 채점된 g0/g1 이 cross≥8 로 자랐으면 1회 더 채점.
-    보도자료 정형구는 진입 차단(운영자 우려 = 일괄 배포 홍보 구제 역류 · 상단 주석 3중 차단 참조).
-    나이 None = 재채점 안 함(비용·리스크 보수 — _fresh_for_rejudge 의 '채점 쪽 보수'와 반대 방향인 건 의도:
-    첫 채점은 커버리지가 우선이고, 재채점은 절약이 우선)."""
+    """다매체 재채점 큐 — 현행 rubric 으로 정상 채점된 건이 cross 6(중간)·8(누적 진입선)로 자랐으면 그 단마다 1회 더 채점.
+    ⚠️ 대상 = **전 등급**(운영자 260810 "채점이 올바랐는지 다시 채점" · 구판은 g0/g1 = *과소*채점만 봤다).
+       근거 = 운영자 지목 실사례 「트와이스 정연 전속계약 [공식]」 cross8 → **grade 3**인데 룰북 명문은
+       「이적은 인지도 최상급이어도 [0]」 = **과대**채점이고, 그건 g0/g1 큐에 구조적으로 못 들어와 영영 안 고쳐졌다.
+       3점이 1.7배(260810)로 오른 뒤엔 이 방향 오채점이 랭킹을 가장 세게 왜곡한다.
+    ⚠️ 정형구 필터는 **과소 방향(g0/g1)에만** 적용한다 — 그 필터의 존재 이유가 '일괄 배포 홍보의 구제 역류 차단'이라
+       방향이 반대인 g2/g3(=끌어내려야 하는 건)에 걸면 **고쳐야 할 것을 정확히 골라서 막는다**(홍보 정형구가
+       높은 등급을 받은 상태야말로 1순위 교정 대상). 나머지 안전장치(모델은 cross 미인지·새 grade 그대로 채택·
+       24h 창·런당 캡·세대당 단별 1회)는 구판 그대로 상속.
+    나이 None = 재채점 안 함(비용·리스크 보수 — 첫 채점은 커버리지 우선, 재채점은 절약 우선)."""
     if not REGRADE_ON:
         return False
-    if (c.get("cross") or 0) < REGRADE_MIN_CROSS or c.get("grade") not in (0, 1):
+    g = c.get("grade")
+    if g not in (0, 1, 2, 3):
         return False
-    if c.get("grade_rubric") != RUBRIC_VER or c.get("regraded") == RUBRIC_VER:   # 구 rubric 분은 일반 재채점 경로가 전담 · 세대당 1회
+    st = regrade_stage(c)
+    if st is None:
         return False
-    t = c.get("title") or ""
-    if REGRADE_PR_RE.search(t) or REGRADE_HEAD_RE.search(t) or REGRADE_BIZ_RE.search(t):
+    if c.get("grade_rubric") != RUBRIC_VER:   # 구 rubric 분은 일반 재채점 경로가 전담
         return False
-    if REGRADE_MKT_RE.search(t) and not REGRADE_CRASH_RE.search(t):
+    if c.get("regraded_mid") == RUBRIC_VER and st == "mid":   # 단별 세대당 1회
         return False
-    if "수주" in t and not REGRADE_DEF_EX_RE.search(t):
+    if c.get("regraded") == RUBRIC_VER and st == "full":
         return False
-    if REGRADE_WX_RE.search(t) and not REGRADE_WX_EX_RE.search(t):
-        return False
+    if g in (0, 1):                           # 과소 방향만 정형구 차단(위 ⚠️ — 과대 방향은 필터 없이 통과)
+        t = c.get("title") or ""
+        if REGRADE_PR_RE.search(t) or REGRADE_HEAD_RE.search(t) or REGRADE_BIZ_RE.search(t):
+            return False
+        if REGRADE_MKT_RE.search(t) and not REGRADE_CRASH_RE.search(t):
+            return False
+        if "수주" in t and not REGRADE_DEF_EX_RE.search(t):
+            return False
+        if REGRADE_WX_RE.search(t) and not REGRADE_WX_EX_RE.search(t):
+            return False
     a = _fs_age_h(c)
     return a is not None and a < REGRADE_MAX_H
 
@@ -283,7 +318,7 @@ def judge(items):
             "Write,Edit,NotebookEdit,Bash,Task,WebFetch,WebSearch,Read,Glob,Grep",   # MultiEdit 제거: CLI 2.1.197에 없는 도구라 "matches no known tool" stderr 경고만 냄(비치명·모든 모드 공통 노이즈). 나머지는 실재 도구 = 계속 disallow(판정에 도구 불필요). 260701 실측.
             "--max-turns", "1"]
     p, rc, err = run_claude(
-        cmd, prompt, timeout=300, source="gate")   # 쿼터 한도면 대체 계정 1단계씩 전환·재시도(서브1→서브2→서브3) · source=토큰 계측
+        cmd, prompt, timeout=TIMEOUT_S, source="gate")   # 쿼터 한도면 대체 계정 1단계씩 전환·재시도(서브1→서브2→서브3) · source=토큰 계측
     if p is None:
         return {}, {}, {}, rc, err
     grades, cats, trans = {}, {}, {}
@@ -406,7 +441,10 @@ def main():
             c["grade"] = g                # pending 은 cands 원소 참조 → 직접 반영
             c["grade_rubric"] = RUBRIC_VER    # 채점 도장(이 rubric 버전으로 채점됨)
             if id(c) in regr_ids:
-                c["regraded"] = RUBRIC_VER    # 재채점 소진 도장(rubric 세대당 1회 · 응답 온 줄만 = 실패분은 다음 런 재시도)
+                st = regrade_stage(c)         # 재채점 소진 도장 — 단별(rubric 세대당 1회 · 응답 온 줄만 = 실패분은 다음 런 재시도)
+                c["regraded_mid"] = RUBRIC_VER
+                if st == "full":
+                    c["regraded"] = RUBRIC_VER   # 8+ 는 두 도장 동시 = 3→9 점프가 연속 2콜을 부르는 낭비 차단(6~7을 실제로 거친 건만 2회)
                 og = regr_old.get(id(c))
                 if og is not None and g != og:   # 재채점 변경 관측 로그(상·하향 모두) — 운영자 우려(홍보 구제 역류)의 라이브 계측기(평의회 2차)
                     print(f"  재채점 {og}→{g} cr{c.get('cross')} | {(c.get('title') or '')[:50]}")

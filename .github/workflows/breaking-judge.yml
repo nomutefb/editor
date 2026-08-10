@@ -53,7 +53,7 @@ permissions:
 jobs:
   judge:
     runs-on: ubuntu-latest
-    timeout-minutes: 45   # 런당 상한 상향 25→45(운영자 260701 전수검증) — 속보 ≤2청크 + 경중 MAX_PER_RUN=200(≤5청크)+cat QUOTA=80(260713 재배분·총 pending ≤200 불변 = 청크 수 동일). sonnet 청크당 ~2-3분 → ~35분 내 · 나머지는 재디스패치
+    timeout-minutes: 90   # 45→90(260810 · gate 가 opus+effort max 로 복귀 = 콜당 시간 배증 · 3청크×최대 15분 + 속보·묶기 여유). 구 사유 = 런당 상한 상향 25→45(운영자 260701 전수검증) — 속보 ≤2청크 + 경중 MAX_PER_RUN=200(≤5청크)+cat QUOTA=80(260713 재배분·총 pending ≤200 불변 = 청크 수 동일). sonnet 청크당 ~2-3분 → ~35분 내 · 나머지는 재디스패치
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -161,10 +161,13 @@ jobs:
       - name: 경중 채점 (claude -p · AI 게이트 · 외신 번역 편승)
         if: steps.chk.outputs.pending != '0'
         env:
-          GATE_MODEL: claude-sonnet-5   # 룰북 0~3 분류 = sonnet-5 운영(빈도·쿼터 1위 호출 · gradeW완화·cat_force·grade게이트가 경계오차 흡수 · effort 미사용=코드 기본 · 260630 평의회). 롤백=이 줄 제거(코드 기본 opus 복귀).
+          GATE_MODEL: claude-opus-5   # **운영자 260810 "채점 소넷5가 아니라 오퍼스5 max로 해라"** — 260630 평의회의 sonnet 강등(쿼터 50~65% 절감)을 정면 되돌린다. 사유 = 그 강등의 전제였던 「다층 보정이 경계오차를 흡수한다」가 실사례로 깨졌다(운영자 지목 = 트와이스 전속계약 cross8이 grade **3** · 룰북 명문은 「이적 = [0]」 · 3점이 1.7배가 된 뒤엔 이 오차가 랭킹 최상단을 직접 오염). ⚠️ 대가 = 쿼터 소모가 강등 전 수준으로 복귀(gate = LLM 콜의 최대 축) · 롤백 = 이 값을 claude-sonnet-5 로.
+          GATE_EFFORT: max   # 운영자 260810 지정. 구 주석의 "분류엔 추론 불필요"는 **이번 지시로 무효**(경계 판정 = 룰북 예외 조항 대조라 추론이 실제로 듣는 자리). ⚠️ effort 부여 = 콜당 시간·토큰 증가 → 아래 GATE_TIMEOUT·MAX_PER_RUN 동반 조정이 필수(안 하면 콜 타임아웃 → 미도장 → 조용한 무한 재시도).
           TRANS_ON: ${{ inputs.trans_canary && '1' || env.TRANS_ON }}   # 외신 제목 번역 편승(같은 콜 · 번역도 sonnet 급 = 운영자 260703 "번역도 소넷"). 카나리아 = trans_canary 1런.
-          GATE_MAX_PER_RUN: "200"   # 한 런 노출권 경중 채점 상한 80→200(운영자 260701 전수검증 — 미채점 백로그 소진·수집함 노출건 다 AI 검증). sonnet 빠름·timeout 45로 커버. 롤백=이 줄 제거(코드 기본 80).
-          GATE_CAT_QUOTA: "80"      # 한 런 cross-2 cat 재판별 상한 120→80(운영자 260713 · 백로그 만재 시 가시 grade 노출권이 80으로 역차별되던 우선순위 역전 교정[평의회3] — surf 120/cat 80 = 가시 우선 복원 · cat 백로그 재적체 시 재상향 검토). 롤백=이 줄 제거(코드 기본 40).
+          GATE_MAX_PER_RUN: "120"   # 200→120(260810) — opus+effort max 는 콜당 시간이 sonnet의 배 이상이라 200(5청크)은 job timeout 을 넘긴다. 120 = 3청크 · 15분 주기 × 120 = 시간당 480건이라 실유입(회차당 수십)엔 충분하고 백로그도 몇 회차면 소진. 롤백=이 줄 제거(코드 기본 80).
+          GATE_REGRADE_QUOTA: "20"  # 재채점 2단 사다리(6곳·8곳 · 운영자 260810)로 큐가 대략 2배 = 12→20. 실측 260810 큐 48건(mid 32·full 16) → 3회차면 소진.
+          GATE_TIMEOUT: "900"       # 콜당 상한 300→900s(260810) — effort max 는 추론 토큰이 붙어 300s 를 넘길 수 있고, 초과하면 rc≠0 = 미도장 = 다음 런 재시도라 **증상 없이 영원히 재시도만 도는** 상태로 굳는다.
+          GATE_CAT_QUOTA: "80"      # ⚠️ 260810 이후 **무효 슬롯**(GATE_MIN_CROSS 3→2 로 cross-2 가 전부 노출권에 편입 = cat 전용 구제 대상이 0건). 값은 롤백(2→3) 대비 보존.
           GATE_SAFE: '1'   # 승격 완료(260701 카나리아 실측 rc=0·OAuth 정상·cache_creation 53,855→1,512 −97.2%): 자동/예약 judge 런도 --safe-mode(CLAUDE.md 로드 스킵). 롤백=이 줄을 '' 또는 제거(코드 기본 OFF).
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets[format('CLAUDE_CODE_OAUTH_TOKEN_{0}', inputs.account || vars.ACTIVE_ACCOUNT || 'MUTENO')] }}
           CLAUDE_CODE_OAUTH_TOKEN_ALT: ${{ (inputs.account || vars.ACTIVE_ACCOUNT || 'MUTENO') == 'NOMUTEFB' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_NOMUTEFB }}   # 서브1 폴오버(활성 다음 우선순위 · 체인 MUTENO→NOMUTEFB→EMS1130G→MUTENONA)
