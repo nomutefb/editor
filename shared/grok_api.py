@@ -6,20 +6,28 @@
   직접 구울 수 있으므로 **건너가는 단계 자체가 사라진다** — 그게 이 모듈의 존재 이유다.
 
   자격 = API 키(종량제)가 아니라 **구독 OAuth**. 260810 실호출로 통과 확인(계정 muteno@pm.me ·
-  grok-4.3 HTTP 200 · 판정기 = `scripts/노뮤트_그록자격_확인.bat`). 즉 이 통로로 나가는 그림·영상은
-  **추가 과금 0**(구독료 안에서 돈다) — 이 레포가 종량제로 쓰던 그림 벤더와 성격이 다르다.
+  grok-4.3 HTTP 200 · 판정기 = `scripts/노뮤트_그록자격_확인.bat`).
 
 ⚠ 이 모듈은 **프롬프트를 짓지 않는다.** 문장 설계는 별건(오퍼스 6인 수집 → 정제 → 페이블 검토 축)이고
-  여기는 「받은 문장을 어떻게 보내고 어떻게 받아오는가」만 책임진다. 그래야 프롬프트 개정이
-  통로를 안 건드린다(= 이 레포가 반복해 겪은 사본 드리프트 차단).
+  여기는 「받은 문장을 어떻게 보내고 어떻게 받아오는가」만 책임진다.
 
 ⚠ 계약 앵커(CONTRACT)는 짝 게이트를 만드는 커밋에 함께 단다 — 강제가 없는 선언은
   조용히 낡는다(`check_contract_anchors` 계약 = 고아 앵커 차단).
 
 ── 고정값(운영자 260810 "10초 720p는 고정(그록 선택 시), 비율만 선택할 수 있게")
   이 요금제(X Premium+)에서 실제로 도는 값만 화면이 약속한다 — 15초·1080p 를 옵션으로 열면
-  거절이 **옵션 화면이 아니라 발사 뒤에** 터진다. 슈퍼그록 승급 시 아래 두 상수만 바꾼다.
+  거절이 **옵션 화면이 아니라 발사 뒤에** 터진다. 슈퍼그록 승급 시 아래 상수만 바꾼다.
+
+── 260810 자료수집 실측이 잡은 **확정 결함 4종**(첫 판이 전부 틀렸다 · 전건 여기서 봉합)
+  ⓐ `image`·`reference_images` 는 **문자열이 아니라 객체**(`{"url":…}` 또는 `{"file_id":…}`)
+     → 문자열을 그대로 넣던 첫 판은 **무조건 거절**이었다.
+  ⓑ **키가 틀리면 401 이 아니라 400**(`code:"invalid-argument"`) — 401 만 확정 실패로 잡으면
+     키 오류를 영원히 재시도한다.
+  ⓒ 폴링이 진행 중일 때 **202** 를 준다 — 200 만 정상으로 보면 분기가 어긋난다.
+  ⓓ 완료 판정은 `status=="done"` 하나로 부족하다. **검열 차단분은 done 인데 url 이 빈다**
+     → `respect_moderation` ∧ url 실존까지 **3겹**으로 봐야 빈 파일이 착지하지 않는다.
 """
+import base64
 import json
 import os
 import time
@@ -36,12 +44,15 @@ API_BASE = os.environ.get("XAI_BASE_URL", "https://api.x.ai/v1")
 VID_MODEL = os.environ.get("GROK_VID_MODEL", "grok-imagine-video-1.5")
 VID_SECONDS = int(os.environ.get("GROK_VID_SECONDS", "10"))     # 슈퍼그록 = 15 까지
 VID_RES = os.environ.get("GROK_VID_RES", "720p")                # 슈퍼그록 = 1080p
+VID_RES_REF = "720p"                                            # 참조 모드는 720p 가 상한(공식)
 VID_RATIOS = ("16:9", "9:16", "1:1")                            # 화면이 고르게 하는 유일한 축
-IMG_MODEL = os.environ.get("GROK_IMG_MODEL", "grok-imagine-image")
-IMG_MODEL_HQ = os.environ.get("GROK_IMG_MODEL_HQ", "grok-imagine-image-quality")
+REF_MAX = 7                                                     # 참조 그림 장수 상한
+IMG_MODEL = os.environ.get("GROK_IMG_MODEL", "grok-imagine-image")            # $0.02/장
+IMG_MODEL_HQ = os.environ.get("GROK_IMG_MODEL_HQ", "grok-imagine-image-quality")  # $0.05/장
 
-POLL_SEC = 6            # 영상은 몇 분 걸린다(공식 문서) — 6초 간격이면 분당 10회
+POLL_SEC = 5            # 공식 예제와 같은 간격(SDK 기본 100ms 는 우리 축에 과하다)
 POLL_MAX_SEC = 900      # 15분 상한(러너 타임아웃보다 짧게)
+USD_TICKS = 1e10        # 응답 usage.cost_in_usd_ticks ÷ 이 값 = 달러(추정 금지 = 실값 원장 기록)
 
 
 class GrokError(RuntimeError):
@@ -54,20 +65,43 @@ class GrokError(RuntimeError):
         self.code, self.body, self.where = code, body, where
         super().__init__(f"[{where} HTTP {code}] {str(body)[:400]}")
 
+    @property
+    def dead_auth(self):
+        """자격이 죽었다 = 재시도 무의미, 다시 로그인해야 한다.
+
+        ⚠ 키 오류가 **400** 으로 온다(실측 `code:"invalid-argument"` + 「Incorrect API key」 문구)
+          → 401 만 보면 무한 재시도에 빠진다.
+        """
+        b = str(self.body).lower()
+        return self.code == 401 or (self.code == 400 and "api key" in b) or "invalid_grant" in b
+
+    @property
+    def tier_blocked(self):
+        """자격은 살아 있는데 xAI 가 이 통로를 안 열어준 것(403).
+
+        ⚠ **재시도·재로그인으로 안 풀린다.** 처방은 종량제 키 경로로 내려앉는 것뿐이라
+          호출부가 이 축을 따로 알아야 한다(구독 자격 배선의 유일한 구조적 위험).
+        """
+        return self.code == 403
+
 
 def _req(url, *, data=None, token=None, method=None, timeout=120):
-    """(코드, 본문, 파싱된 json|None). 예외는 안 던진다 — 판정은 호출부 몫."""
+    """(코드, 본문, 파싱된 json|None). 예외는 안 던진다 — 판정은 호출부 몫.
+
+    ⚠ 없는 경로의 404 는 **본문이 text/plain** 이라 json 파싱이 실패한다 → 파싱 실패를 오류로
+      올리지 않고 그대로 문자열로 돌려준다.
+    """
     hdr = {}
     if token:
         hdr["Authorization"] = f"Bearer {token}"
     body = None
-    if isinstance(data, dict) and method != "FORM":
-        body = json.dumps(data, ensure_ascii=False).encode()
-        hdr["Content-Type"] = "application/json"
-    elif method == "FORM":
+    if method == "FORM":
         body = urllib.parse.urlencode(data).encode()
         hdr["Content-Type"] = "application/x-www-form-urlencoded"
         method = "POST"
+    elif isinstance(data, dict):
+        body = json.dumps(data, ensure_ascii=False).encode()
+        hdr["Content-Type"] = "application/json"
     req = urllib.request.Request(url, data=body, headers=hdr,
                                  method=method or ("POST" if body else "GET"))
     try:
@@ -84,13 +118,39 @@ def _req(url, *, data=None, token=None, method=None, timeout=120):
         return code, txt, None
 
 
+def _imgref(v):
+    """그림 입력을 API 가 받는 **객체** 로 정규화한다.
+
+    받는 값 = 공개 주소 문자열 · `data:image/…;base64,…` · 원바이트 · 파일번호 · 이미 만든 객체.
+    ⚠ 맨 base64 를 그대로 보내면 안 된다 — **`data:` 접두가 붙은 형태**여야 한다(공식 예제).
+    """
+    if isinstance(v, dict):
+        return v
+    if isinstance(v, (bytes, bytearray)):
+        return {"url": "data:image/jpeg;base64," + base64.b64encode(bytes(v)).decode()}
+    s = str(v)
+    if s.startswith("file_"):
+        return {"file_id": s}
+    if s.startswith("data:") or s.startswith("http://") or s.startswith("https://"):
+        return {"url": s}
+    return {"url": "data:image/jpeg;base64," + s}   # 맨 base64 로 판단 → 접두를 붙여 구제
+
+
+def cost_usd(obj):
+    """응답이 실어준 **실제 청구액**(달러). 추정하지 마라 — 서버가 값을 준다."""
+    try:
+        return float((obj.get("usage") or {}).get("cost_in_usd_ticks") or 0) / USD_TICKS
+    except Exception:  # noqa: BLE001
+        return 0.0
+
+
 # ── 자격 갱신 ─────────────────────────────────────────────────────────────────
 def access_token(refresh_token=None):
     """리프레시 토큰으로 액세스 토큰을 받아온다.
 
     ⚠ **그록은 갱신할 때마다 리프레시 토큰을 새것으로 바꿔준다(회전).** 그래서 반환값 두 번째를
     호출부가 **반드시 다시 저장**해야 다음 런이 산다 — 안 하면 며칠 뒤 조용히 끊긴다(화면 증상 0).
-    저장 자리 = 러너 축이면 레포 시크릿(`.github/scripts/grok_token_store.py` 담당).
+    죽은 토큰의 실측 응답 = HTTP 400 `{"error":"invalid_grant",…}`.
 
     반환 = (액세스 토큰, 새 리프레시 토큰 or None)
     """
@@ -101,29 +161,31 @@ def access_token(refresh_token=None):
         "client_id": CLIENT_ID, "grant_type": "refresh_token", "refresh_token": rt,
     }, timeout=60)
     if code != 200 or not obj or not obj.get("access_token"):
-        # invalid_grant = 그 열쇠는 죽었다(재로그인 필요). 그 외 = 일시 장애일 수 있다.
         raise GrokError(code, txt, "auth")
     return obj["access_token"], obj.get("refresh_token")
 
 
 # ── 그림 ──────────────────────────────────────────────────────────────────────
-def make_image(prompt, *, token, n=1, hq=False, fmt="b64_json"):
-    """그림 생성. 반환 = [bytes 또는 url 문자열] n개.
+def make_image(prompt, *, token, n=1, hq=False, ratio="auto", res="1k", fmt="b64_json"):
+    """그림 생성(동기 = 폴링 없음). 반환 = [{bytes|url, mime}] n개.
 
-    ⚠ 우리 파이프는 받은 바이트를 그대로 R2 에 올린다(재인코딩 0 = `check_image_format` 계약).
+    ⚠ 크기는 `width`/`height` 가 아니라 **비율 + 해상도 두 축**이다(1k · 2k).
+    ⚠ 응답이 `mime_type` 을 준다 → **확장자를 추측하지 말고 그 값을 써라.** 이 레포가 겪은
+      「거짓 확장자」 사고(png 로 굽는데 실물은 jpeg = 6주 무증상)와 같은 축이다.
     """
     body = {"model": IMG_MODEL_HQ if hq else IMG_MODEL, "prompt": prompt,
-            "n": max(1, int(n)), "response_format": fmt}
+            "n": max(1, min(10, int(n))), "response_format": fmt,
+            "aspect_ratio": ratio, "resolution": res}
     code, txt, obj = _req(f"{API_BASE}/images/generations", data=body, token=token, timeout=180)
     if code != 200 or not obj:
         raise GrokError(code, txt, "image")
     out = []
     for d in (obj.get("data") or []):
+        mime = d.get("mime_type") or "image/jpeg"
         if d.get("b64_json"):
-            import base64
-            out.append(base64.b64decode(d["b64_json"]))
+            out.append({"bytes": base64.b64decode(d["b64_json"]), "mime": mime})
         elif d.get("url"):
-            out.append(d["url"])
+            out.append({"url": d["url"], "mime": mime})
     if not out:
         raise GrokError(code, txt, "image-empty")
     return out
@@ -131,26 +193,41 @@ def make_image(prompt, *, token, n=1, hq=False, fmt="b64_json"):
 
 # ── 영상 ──────────────────────────────────────────────────────────────────────
 def start_video(prompt, *, token, ratio="16:9", image=None, refs=None,
-                seconds=None, res=None):
-    """영상 발사. 반환 = 작업 번호(request_id).
+                seconds=None, res=None, store_as=None):
+    """영상 발사(비동기). 반환 = 작업 번호(request_id).
 
-    image = 첫 프레임으로 삼을 그림(data URI 또는 URL) — 운영자 260810 「이미지를 참고할 수 있게」.
-    refs  = 참조용 그림 목록(인물·화풍 유지 축 · 첫 프레임 고정과 다른 입력).
-    ⚠ 이미지→영상이면 **결과 비율이 그 그림의 비율을 따라간다**(공식 문서) → 비율 칩은 그림이
-      없을 때만 실효. 화면이 그걸 모르면 「9:16 골랐는데 16:9 가 나왔다」로 보인다.
+    image = 첫 프레임으로 삼을 그림. 그 그림이 **1프레임 그대로** 나오고 거기서부터 움직인다.
+    refs  = 참조 그림 1~7장. 첫 프레임을 **고정하지 않고** 얼굴·물건·장소 같은 축만 가져온다
+            (프롬프트에서 `<IMAGE_1>` 처럼 번호로 지목).
+    store_as = 파일명. 주면 산출을 xAI 쪽에 **영구 보관**시킨다.
+
+    ⚠ **image 와 refs 는 한 요청에 같이 못 보낸다**(공식 명시) — 선택 축이 아니라 **분기**다.
+    ⚠ 이미지→영상이면 **결과 비율이 그 그림의 비율을 따라간다**(공식) → 그림이 있으면 비율을
+      아예 안 보낸다. 화면이 그걸 모르면 「9:16 골랐는데 16:9 가 나왔다」로 보인다.
+    ⚠ 참조 모드는 **720p 가 상한**(공식).
+    ⚠ 결과 주소는 **임시**이고 정확한 수명이 공식에 없다 → 받는 즉시 우리 저장소로 옮기거나
+      store_as 로 영구 보관을 켠다(둘 중 하나는 반드시 · 안 하면 나중에 조용히 죽는다).
     """
+    refs = list(refs) if refs else None
+    if image and refs:
+        raise GrokError(0, "첫 프레임 그림과 참조 그림은 한 번에 못 보낸다(공식 제약) — 하나만 골라라",
+                        "video-start")
+    if refs and len(refs) > REF_MAX:
+        raise GrokError(0, f"참조 그림은 최대 {REF_MAX}장(받은 값 {len(refs)})", "video-start")
     body = {
         "model": VID_MODEL,
         "prompt": prompt,
         "duration": int(seconds or VID_SECONDS),
-        "resolution": res or VID_RES,
+        "resolution": res or (VID_RES_REF if refs else VID_RES),
     }
     if ratio in VID_RATIOS and not image:
         body["aspect_ratio"] = ratio
     if image:
-        body["image"] = image
+        body["image"] = _imgref(image)
     if refs:
-        body["reference_images"] = list(refs)
+        body["reference_images"] = [_imgref(x) for x in refs]
+    if store_as:
+        body["storage_options"] = {"filename": store_as}
     code, txt, obj = _req(f"{API_BASE}/videos/generations", data=body, token=token, timeout=120)
     if code != 200 or not obj or not obj.get("request_id"):
         raise GrokError(code, txt, "video-start")
@@ -158,43 +235,51 @@ def start_video(prompt, *, token, ratio="16:9", image=None, refs=None,
 
 
 def wait_video(request_id, *, token, on_tick=None, max_sec=POLL_MAX_SEC):
-    """완료까지 기다린다. 반환 = {url, duration, ...}.
+    """완료까지 기다린다. 반환 = {url, duration, ...} + `cost_usd` 첨부.
 
-    ⚠ 폴링 중 일시 오류(5xx·네트워크)는 삼키고 계속 돈다 — 몇 분짜리 작업을 한 번의 딸꾹질로
-      버리면 그 판이 통째로 날아간다. 확정 실패(failed·expired)와 상한 초과만 예외로 올린다.
+    ⚠ 진행 중이면 **202**, 완료·실패는 **200** 이다 — 둘 다 정상 응답으로 받는다.
+    ⚠ 완료 판정은 **3겹**이다: status 가 done · 검열을 통과했고(respect_moderation) · 주소가 있다.
+      검열 차단분은 **done 인데 주소가 빈다** → 한 겹만 보면 빈 파일이 그대로 착지한다.
+    ⚠ 폴링 중 일시 오류(5xx·네트워크)는 삼키고 계속 돈다 — 몇 분짜리 작업을 딸꾹질 한 번으로
+      버리면 그 판이 통째로 날아간다. 자격 죽음·미존재만 즉시 예외로 올린다.
     """
     t0 = time.time()
     while time.time() - t0 < max_sec:
         time.sleep(POLL_SEC)
         code, txt, obj = _req(f"{API_BASE}/videos/{request_id}", token=token, timeout=60)
-        if code != 200 or not obj:
-            if code in (401, 403, 404):
-                raise GrokError(code, txt, "video-poll")
+        if code in (401, 403, 404) or (code == 400 and "api key" in str(txt).lower()):
+            raise GrokError(code, txt, "video-poll")
+        if code not in (200, 202) or not obj:
             continue
         st = obj.get("status")
         if callable(on_tick):
             try:
-                on_tick(st, int(time.time() - t0))
+                on_tick(st, int(obj.get("progress") or 0), int(time.time() - t0))
             except Exception:  # noqa: BLE001
                 pass
         if st == "done":
-            v = obj.get("video") or {}
-            if not v.get("url"):
+            v = dict(obj.get("video") or {})
+            if v.get("respect_moderation") is False:
+                raise GrokError(code, "검열에 걸려 산출이 안 나왔다(프롬프트를 고쳐 다시 발사)",
+                                "video-moderated")
+            if not v.get("url") and not ((v.get("file_output") or {}).get("public_url")):
                 raise GrokError(code, txt, "video-done-nourl")
+            v["cost_usd"] = cost_usd(obj)
+            v.setdefault("url", (v.get("file_output") or {}).get("public_url"))
             return v
         if st in ("failed", "expired"):
-            raise GrokError(code, txt, f"video-{st}")
+            err = (obj.get("error") or {})
+            raise GrokError(code, f"{err.get('code') or st}: {err.get('message') or txt}",
+                            f"video-{st}")
     raise GrokError(0, f"{max_sec}초 안에 안 끝났다(작업번호 {request_id})", "video-timeout")
 
 
 def fetch(url, *, timeout=300):
-    """완성된 영상·그림 바이트를 받아온다(결과 주소는 수명이 있다 = 받는 즉시 R2 로 옮긴다)."""
-    code, txt, _ = 0, "", None
+    """완성된 영상·그림 바이트를 받아온다(결과 주소는 수명이 있다 = 받는 즉시 우리 쪽으로 옮긴다)."""
     try:
         with urllib.request.urlopen(urllib.request.Request(url), timeout=timeout) as r:
             return r.read()
     except urllib.error.HTTPError as e:
-        code, txt = e.code, e.read().decode("utf-8", "replace")[:300]
+        raise GrokError(e.code, e.read().decode("utf-8", "replace")[:300], "fetch") from None
     except Exception as e:  # noqa: BLE001
-        code, txt = 0, f"{type(e).__name__}: {e}"
-    raise GrokError(code, txt, "fetch")
+        raise GrokError(0, f"{type(e).__name__}: {e}", "fetch") from None
