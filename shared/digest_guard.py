@@ -192,6 +192,7 @@ def lint(path):
 #     별개 축(lint = 경고 소음 억제·guard = 재작성 발동, 값 다름 = 의도). 결빈약(자유요약<800) = 면제(지침
 #     "짧음의 근거 = 원문 결 부족" 존중). 호출 = shared/summary_repair.sh (ask.sh·analyze.sh 공용).
 REPAIR_IG_LO, REPAIR_TH_LO, REPAIR_FREE_MIN = 600, 390, 800
+REPAIR_IG_HI, REPAIR_TH_HI = 800, 450        # 상한(01_지침) — 초과도 교정 대상(260810)
 
 def repair_check(path):
     """보강 필요 판정 — 'REPAIR ig=N thread=N free=N' 또는 'OK …'/'SKIP …' 1줄. 항상 exit 0(fail-soft)."""
@@ -206,7 +207,12 @@ def repair_check(path):
         vals[n] = _clen(b)
     if vals["자유요약"] < REPAIR_FREE_MIN:
         print("OK 결빈약 면제 ig={} thread={} free={}".format(vals["IG"], vals["Thread"], vals["자유요약"])); return 0
-    tag = "REPAIR" if (vals["IG"] < REPAIR_IG_LO or vals["Thread"] < REPAIR_TH_LO) else "OK"
+    under = vals["IG"] < REPAIR_IG_LO or vals["Thread"] < REPAIR_TH_LO
+    # ⚠️ 초과 축(260810 신설) — 구판은 **미달만** 봤다. 그래서 상한 초과에는 자동 교정 경로가
+    #   아예 없었고, 260810 3세대 실측에서 Thread 500자(개행 포함 510)가 그대로 나갔다 =
+    #   플랫폼 하드 500 초과 = **게시 시 잘림**. 「짧으면 고치고 길면 방치」는 반쪽 가드다.
+    over = vals["IG"] > REPAIR_IG_HI or vals["Thread"] > REPAIR_TH_HI
+    tag = "REPAIR over" if over else ("REPAIR under" if under else "OK")
     print("{} ig={} thread={} free={}".format(tag, vals["IG"], vals["Thread"], vals["자유요약"]))
     return 0
 
