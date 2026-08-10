@@ -157,7 +157,7 @@ land)
     fetch_main; rebase_main; gate
     say "라운드 $r/$ROUNDS — ④ 브랜치 선착 → ⑤ main 후착(HEAD=$(git rev-parse --short HEAD))"
     if push_pair; then
-      say "✅ main 머지 완료 · SHA=$(git rev-parse HEAD) — 보고 6-1·6-5에 이 해시로 못박아라([7-5])"
+      say "✅ main 머지 완료 · SHA=$(git rev-parse HEAD) — 보고 6-1·6-4에 이 해시로 못박아라([7-5])"
       light_check; exit $?
     fi
     say "라운드 $r 경합 패배(origin/main=$(git rev-parse --short origin/main)) → 재시도"
