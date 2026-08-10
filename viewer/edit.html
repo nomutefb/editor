@@ -228,7 +228,6 @@
   .xtr .xgo:active { transform:scale(var(--press-l)); }
   .xtr .xgo:disabled { opacity:.32; cursor:default; transform:none; }
   /* 이름표 미리보기 캔버스(운영자 260809) — 값 = 기존 부품 계승(모서리 --r-s · 선 --line · 상단 여백 --sp-1 = .prow 리듬) · 새 값 창작 0 */
-  .pinpv { display:block; margin-top:var(--sp-1); border-radius:var(--r-s); border:1px solid var(--line); }   /* 바탕은 JS fillRect가 칠한다(러너 프레임과 같은 톤) = CSS background 불요 · --space-bg는 이 문서에 없는 토큰이라 댕글링 */   /* 기능 미선택 = 흐림(.pc.dim 값 계승) — 어포던스로 설명(산문 0) */
   /* 얼굴 줄 = 2트랙 ①의 「#N이 누구냐」를 영상 재생 없이 읽게 한다(운영자 260809 "아이디어대로가 100% 맞음") —
      부품 = track.html 인물 카드 `.avatar`/`.hint` **정본 값 사본**(radius --r-m · img cover · 배지 10px/fw-b/rgba(0,0,0,.42)/1px rgba(255,255,255,.1)/2px 7px/--r-pill).
      새 값 0 · 카드 전체가 아니라 「썸네일 + 번호」 두 조각만 가져온다(선택·범위·캡션은 이 화면의 일이 아니다). */
@@ -790,7 +789,7 @@
 </div>
 
 <script src="nm-svg.js"></script><!-- 공유 아이콘 SSOT — CHECK/OK/ERR/WARN/DOWNLOAD_SVG -->
-<script src="nm-rail.js" data-scope="cap" data-dlname="video.mp4"></script><!-- 결과·이전 제작 레일 부품 SSOT(마크업·렌더·공유 이력 · 영상 스코프 = nomute_cap_hist = 사진과 분리) -->
+<script src="nm-rail.js" data-scope="cap" data-dlname="video.mp4" data-jobkey="nm_edit_pend"></script><!-- 결과·이전 제작 레일 부품 SSOT(마크업·렌더·공유 이력 · 영상 스코프 = nomute_cap_hist = 사진과 분리) -->
 <script src="nm-jobs.js"></script><!-- 여러 작업 동시 추적 SSOT(운영자 260810 "동시에 병렬로 진행") — 재개 슬롯 다중화 + 폴 레지스트리(같은 id 중복 폴 차단) -->
 <script src="nm-clip.js"></script><!-- 입력칸 클립 SSOT(복사·붙여넣기·지우개/되돌리기) — nm-svg.js 뒤 = 아이콘 상수 의존 순서 · 운영자 260803 "공식처럼가야함" -->
 <script src="nm-sync.js"></script><!-- 동기화 생명선 SSOT(운영자 260803 4차 "전 스튜디오 상속") — 복귀 시 자동 재동기(nmRefresh)·로그인 만료 자가치유·새 배포 자동 탑재 -->
@@ -1571,49 +1570,11 @@ const XCOL_CSS=['#fff','var(--accent)','var(--accent-4)'];   // 화면 견본 �
 let XTR_ACT=0;   // 활성 폼(폰 = 여기에 # 탭이 담긴다)
 let XTR_FACES=[];   // 직전 생성의 인물 얼굴(video.json faces) — 2트랙 ②에서 #N ↔ 얼굴 대조용
 try{ XTR_FACES=JSON.parse(localStorage.getItem('nm_xtr_faces')||'[]')||[]; }catch(e){ XTR_FACES=[]; }   // 탭 재진입 복원(생성 → 닫기 → 다시 열어 이름 넣기 = 실제 사용 흐름)
-// 이름표 규격 = 러너 apps/track/track_render.py `PIN_SPEC` 의 **짝**(운영자 260809 "아이디어 배선").
-//   ⚠ 값이 갈리면 미리보기가 거짓말을 한다 = 없느니만 못하다 → check_refs.check_pinset_parity 가 한 값을 강제한다.
-//   ⚠ 이 미리보기의 존재 이유 = 렌더 한 번이 수십 분이라, 글자 크기·겹침을 **생성 전에** 눈으로 본다.
-const PIN_SPEC={fs_ratio:0.033, fs_min:18, fs_max:44, fs_mul:0.6, fs_floor:11, stroke:0.09, stroke_alpha:185, gap:0.22, gap_min:4};
-// 인물 색 = 러너 PALETTE 짝(자동 배정 = (pid-1) % len) — 게이트가 같이 대조한다.
-const PIN_PALETTE=['#00EED2','#e23b2a','#d8ff3d','#0FFD02','#38C6FF','#FF5EC8','#FFE13D','#AC5CFF','#2CF5A5','#ff7a6b','#3a6ddb','#eef7f0'];
-// 미리보기 = 실제 소스 해상도 기준으로 산식을 그대로 돌린다(축소해 보여줄 뿐 값은 실물).
-function pinPreview(){
-  const names=XTR_GRP.map(g=>(g.name||'').trim()).filter(Boolean);
-  if(!names.length) return '';
-  const H=_vh||1080, W=_vw||1920;                       // 원본 미상 = FHD 가정(그 사실을 문장에 밝힌다)
-  const base=Math.max(PIN_SPEC.fs_min,Math.min(PIN_SPEC.fs_max,H*PIN_SPEC.fs_ratio));
-  const fs=Math.max(PIN_SPEC.fs_floor,Math.round(base*PIN_SPEC.fs_mul));
-  return '<div class="plbl">이름표 미리보기</div>'
-    +'<canvas class="pinpv" id="pinPv" width="'+Math.round(Math.min(320,W)*2)+'" height="'+Math.round(Math.min(320,W)*2*H/W)+'" '
-    +'style="width:100%;aspect-ratio:'+W+'/'+H+'" data-fs="'+fs+'" aria-label="이름표 미리보기"></canvas>'
-    +'<div class="xnote">글자 '+fs+'px @ '+W+'×'+H+(_vh?'':' (원본 미상 = FHD 가정)')+' — 겹치면 강조 > 움직임 큰 순으로 위에 옵니다</div>';
-}
-function pinPvDraw(){
-  const c=$('#pinPv'); if(!c) return;
-  const names=XTR_GRP.map(g=>(g.name||'').trim()).filter(Boolean); if(!names.length) return;
-  const H=_vh||1080, W=_vw||1920, g=c.getContext('2d'), sc=c.width/W;
-  const fs=+c.dataset.fs||21, stw=Math.max(1,Math.round(fs*PIN_SPEC.stroke));
-  g.clearRect(0,0,c.width,c.height);
-  g.fillStyle='#1b1d20'; g.fillRect(0,0,c.width,c.height);
-  const n=names.length, slot=W/(n+1);
-  names.forEach((nm,i)=>{
-    const bx=slot*(i+0.5)+slot*0.5, bw=W*0.16, bh=H*0.42, by=H*0.34;   // 대역 인물 박스(머리 위치 기준점)
-    g.strokeStyle='rgba(255,255,255,.18)'; g.lineWidth=Math.max(1,sc);
-    g.strokeRect((bx-bw/2)*sc, by*sc, bw*sc, bh*sc);
-    g.font='700 '+(fs*sc)+'px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans KR",sans-serif';
-    g.textBaseline='top';
-    const tw=g.measureText(nm).width/sc, th=fs;
-    const lx=Math.min(Math.max(2,bx-tw/2), W-tw-2);
-    const ly=Math.min(Math.max(2, by-th-Math.max(PIN_SPEC.gap_min, fs*PIN_SPEC.gap)), H-th-2);   // 머리 위 고정 = 러너 ⓐ 동식
-    // 배경 없음 = 260810 정본(운영자 "배경·브래킷·리더선 0") · 판독은 검정 스트로크가 맡는다
-    g.lineJoin='round'; g.lineWidth=stw*2*sc;
-    g.strokeStyle='rgba(0,0,0,'+(PIN_SPEC.stroke_alpha/255).toFixed(3)+')';
-    g.strokeText(nm, lx*sc, ly*sc);
-    g.fillStyle=PIN_PALETTE[i%PIN_PALETTE.length];
-    g.fillText(nm, lx*sc, ly*sc);
-  });
-}
+/* (260810 제거) 이름표 미리보기 = 운영자 "트래킹 미리보기 없어도됨".
+   같이 나간 것 = `PIN_SPEC`·`PIN_PALETTE`(러너 규격의 뷰어 사본)·`pinPreview()`·`pinPvDraw()`·`.pinpv` CSS·짝 게이트 `check_pinset_parity`.
+   ⚠ 사본을 남기면 러너와 조용히 갈린다 — 그 드리프트를 막으려고 있던 게 그 게이트라, 미리보기가 없어지면 사본도 게이트도 존재 이유가 함께 사라진다.
+   렌더 규격의 유일 정본 = 러너 `apps/track/track_render.py` PIN_SPEC·PALETTE(뷰어는 이제 그 값을 아예 안 든다 = 갈릴 여지 0).
+   되살릴 때 = 두 함수와 상수를 되돌리고 게이트도 같이 되살린다(한쪽만 되살리면 그 순간부터 미리보기가 거짓말을 한다). */
 const XTR={mosaic:false,pinset:false,keying:false, silh:false, chroma:false, trans:false, names:'', shape:'ellipse', size:115, feather:5, kfe:0, fill:'mosaic', preset:'smile', sfe:8, ckcolor:'green', cksim:18, ckchoke:0, ckfe:1};   // trans = 번역(운영자 260720 "빈자리에 번역") — 가림 계열과 배타(클릭 핸들러) · 트래킹 발사 축(any)엔 미포함   // 기본 = 트래킹 새 기본값과 동일(타원·115·5·키잉0 · 실루엣 페더8 · 크로마 그린/18/0/1 — 실루엣·크로마키 카드 = 운영자 260712 "한수 ㄱㄱ" 승인)
 function renderXtr(){   // 가로 3분할 + 라벨|OFF·ON 순환값 문법(운영자 260712 5차 "한줄 배치·끔 아니라 OFF>누르면 ON" — 이미지 모달 상태 인라인 틀 계승 · 구 끔/적용 2버튼 seg 폐지) · 세부 게이지 = 켠 것만 아래 전폭 카드(1/3폭엔 게이지 미달) · 2행 = 실루엣·크로마키 2분할(260712 2차 · tg 패턴 그대로)
   const el=$('#xtrsec'); if(!el) return;
@@ -1649,7 +1610,6 @@ function renderXtr(){   // 가로 3분할 + 라벨|OFF·ON 순환값 문법(운�
                        :'<span class="ph">'+(XTR_ACT===i?'#을 탭하거나 끌어다 놓으세요':'여기에 #을 담으세요')+'</span>')
         +'</div></div>').join('')
       +'</div><button type="button" class="pc xgadd" id="xgAdd">+ 이름 추가</button>'
-      +pinPreview();   // 「생성 전에 본다」(운영자 260809) — 렌더 한 번이 수십 분이라 글자 크기·겹침을 여기서 확인한다
   }
   if(XTR.trans) det+='<div class="plbl"'+(det?'':' style="margin-top:0"')+'>번역</div><div class="xnote" style="margin-top:0">외국어 이미지에 한국어 번역을 덮어 씌워 — 켜면 가림(모자이크) 계열은 자동으로 꺼져.</div>';   // 번역 카드 상세(운영자 260720) · 렌더 엔진 = 별도 배선
   el.innerHTML=
@@ -1667,7 +1627,6 @@ function renderXtr(){   // 가로 3분할 + 라벨|OFF·ON 순환값 문법(운�
        핸들러·핸드오프(nm_track_preset)·track.html 파이프는 전부 보존 = 복원 = 아래 hidden 한 낱말 제거(레포 도먼트 관례).
        ⚠ 재점등 조건 = 편집 첨부분(R2 키·파일)을 track.html이 이어받아 「재첨부 0」이 될 때 — 그때야 이 버튼이 선택 경로로서 값을 한다. */
     +'<button class="xgo" id="xtrGo" type="button" hidden'+(any?'':' disabled')+'>트래킹</button>';
-  if(XTR.pinset) pinPvDraw();   // 캔버스는 DOM 삽입 **뒤**에 그린다(innerHTML 전에 그리면 그린 비트가 통째로 버려진다)
   void 0;   // 라벨 = 한 단어(운영자 260712 "'트래킹에서 이어서~' 말 필요없음") · 미선택 = disabled 흐림(어포던스가 설명) · 260808부터 = **선택 경로**(자동이 기본 · 인물 개별 선택·수동 지정이 필요할 때만)
   el.querySelectorAll('.nmin').forEach(i=>{ if(window.attachCopyPaste) attachCopyPaste(i,true); });   // 클립 공식 전수 부착 — renderXtr가 innerHTML을 매번 다시 그리므로 그릴 때마다 · 강제 = check_clip_coverage
   xgWireDrag(el);
@@ -2393,7 +2352,10 @@ async function lyResult(outPath, md, fresh, preSegs) {   // 완료(fresh 생략=
 function renderResult(md, segs) {   // 자막 결과 표시 라우터 — 세그먼트 없으면 종전(renderMd 단독) 경로 그대로
   LY_MD = md || '';
   const out = $('#out'); out.hidden = false; out.innerHTML = md ? renderMd(md) : ''; if (md) wireCopy();
-  try { if (fresh !== false && outPath && window.nmRail) nmRail.add({ url: String(outPath), cap: '편집', dlname: String(outPath).split('/').pop() || 'video.mp4' }); } catch (e) {}   /* 결과 레일 적재(운영자 260806 "영상끼리도 저렇게 공유") — nmRail.add 1줄 = 이 탭 완료분이 영상 5탭 공용 이력(nomute_cap_hist)에 즉시 합류 · 실패해도 종전 동작 무손상(fail-soft) */
+  /* ⚠ (260810 제거) 여기 있던 결과 레일 적재 1줄은 **한 번도 실행된 적이 없다** — 이 함수 스코프에 없는 `fresh`·`outPath`(둘 다 lyResult의 파라미터)를 참조해
+     매번 ReferenceError였고 감싼 try/catch가 그걸 통째로 삼켰다(콘솔 에러 0 = 무증상). 설령 실행됐어도 url 자리에 들어가던 값이
+     `ly_out/<id>/video.json`(결과 쪽지 **경로**·상대경로)이라 nm-rail SAFE_URL 스킴 검사에서 false로 떨어졌다 = 이중으로 죽은 코드.
+     완료 적재의 정본 자리는 **완성 영상 url을 실제로 쥔 곳** = showResult(3032행). 자막 렌더 라우터인 여기는 url을 모른다. */
   const has = !!(segs && segs.length);
   $('#lyTabs').classList.toggle('show', has);
   if (!has) { $('#lydet').hidden = true; lyPvSync(); return; }
@@ -3045,6 +3007,7 @@ function showResult(d, sec){
   vw.innerHTML='<video controls playsinline preload="metadata" src="'+esc(d.url)+'"></video>';
   dockSync();   // 대기 스테이지(.scanline)가 완성본 video로 교체된 **뒤** 판정(재검① 260728 — 앞에 두면 scanline이 살아 있어 완성본에서 되레 펼쳐졌다)
   $('#dlVid').hidden=false;
+  try{ if(d.url&&window.nmRail) nmRail.add({ url:String(d.url), poster:String(d.poster||''), cap:'편집', dlname:String(d.url).split('/').pop()||'video.mp4' }); }catch(e){}   /* ⚠ 화면 주인(포커스) 완료의 결과 레일 착지 — 이 한 줄이 **없어서** 정상 제작분이 이력에 한 건도 안 쌓였다(운영자 260810 "방금거가 유실된다"). 강등분(bgLand·pollEditBg)엔 있었고 여기만 빠져 있었다 = 반쪽 적재 · 짝 문법 = 2164행 bgLand 동문(fail-soft) */
 }
 /* ══ 클리퍼 후보(260711) — 스캔 결과 목록 · 탭 = 구간+쇼츠 기본 스택 적용(선택·렌더 = 운영자 2단 · 자동 발행 없음) ══ */
 let CLIPS=null;

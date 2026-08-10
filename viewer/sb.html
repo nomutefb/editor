@@ -312,7 +312,7 @@
 </div>
 
 <script src="nm-svg.js"></script><!-- 공유 아이콘 SSOT(§🎨 CII P1) — 인라인 복제 폐지·단일정본 -->
-<script src="nm-rail.js" data-scope="cap" data-dlname="storyboard.jpg"></script><!-- 결과·이전 제작 레일 부품 SSOT(마크업·렌더·공유 이력 · 영상 스코프 = nomute_cap_hist = 사진과 분리) -->
+<script src="nm-rail.js" data-scope="cap" data-dlname="storyboard.jpg" data-jobkey="sb_jobs"></script><!-- 결과·이전 제작 레일 부품 SSOT(마크업·렌더·공유 이력 · 영상 스코프 = nomute_cap_hist = 사진과 분리) -->
 <script src="nm-models.js"></script><!-- 모델 표시명 SSOT(운영자 260803 5차 "아이디어도 배선") — 아래 SB_DIRECTORS/SB_SHOOTS/DNM/SNM이 참조 · 강제 = check_model_names -->
 <script src="nm-jobs.js"></script><!-- 여러 작업 동시 추적 SSOT(운영자 260810 "동시에 병렬로 진행") — 폴 레지스트리(같은 잡 중복 폴 차단·남의 폴 안 끊음) -->
 <script src="nm-sync.js"></script><!-- 동기화 생명선 SSOT(운영자 260803 4차 "전 스튜디오 상속") — 복귀 시 자동 재동기(nmRefresh)·로그인 만료 자가치유·새 배포 자동 탑재 -->
@@ -618,6 +618,31 @@ function wireCopy() {
   });
 }
 
+/* 완료 착지 = 결과 레일(포커스·강등 **한 벌** · 운영자 260810 "방금거가 유실된다").
+   ⚠ 사본을 두 벌 두면 갈린다 — 실제로 갈려 있었다: 포커스 자리엔 `out`의 `img`만 보는 인라인 사본이 있었고(모션그래픽 video 산출은 통째로 누락),
+   강등 자리엔 아무것도 없었다(뒤에서 끝난 콘티가 이력에 영영 미착지). 여기 하나로 회수한다.
+   ⚠ 주소는 반드시 절대화한다 — nm-rail 적재는 스킴 화이트리스트(http/https/blob/data)라 `sb_out/…` 상대경로는 **조용히 거절**된다. */
+async function sbLand(outEl, outPath) {
+  if (!window.nmRail) return;
+  const abs = u => { try { return new URL(u, location.href).href; } catch (e) { return String(u || ''); } };
+  try {
+    if (outEl && outEl.querySelector) {   // 화면에 이미 그려진 산출(모션그래픽 우선 → 레퍼런스 이미지) = 추가 요청 0
+      const el = outEl.querySelector('video[src]') || outEl.querySelector('img[src]');
+      if (el && el.src) { nmRail.add({ url: abs(el.src), cap: '콘티', dlname: /\.mp4(\?|#|$)/i.test(el.src) ? 'motion.mp4' : 'storyboard.jpg' }); return; }
+    }
+    if (!outPath) return;
+    const base = outPath.replace(/board\.md$/, '');   // 강등분 = 화면에 안 그렸으니 산출을 직접 찾는다(renderOut과 같은 두 축·같은 순서)
+    try {
+      const mr = await fetch(base + 'motion.mp4?t=' + Date.now(), { method: 'HEAD' });
+      if (mr.ok && !(mr.headers.get('content-type') || '').includes('text/html')) { nmRail.add({ url: abs(base + 'motion.mp4'), cap: '콘티', dlname: 'motion.mp4' }); return; }
+    } catch (e) { /* 폴백 = 레퍼런스 축 */ }
+    const jr = await fetch(base + 'ref.json?t=' + Date.now());
+    if (!jr.ok) return;
+    const j = await jr.json();
+    const u = (j && Array.isArray(j.urls) && j.urls[0]) || (j && j.url) || '';
+    if (u) nmRail.add({ url: abs(u), cap: '콘티', dlname: 'storyboard.jpg' });
+  } catch (e) { /* 착지 실패 = 종전 동작 무손상(fail-soft) */ }
+}
 async function renderOut(md, outEl, outPath) {   // 결과 렌더 공통(폴 성공·재열람 재사용) — 텍스트 콘티 + (촬영=seedance면) 레퍼런스 이미지. AI 표기 오버레이는 k 레인 전담(콘티는 영상 산출물 아님)
   let html = renderMd(md);
   // 레퍼런스: R2 URL(ref.json — urls 배열 = 다장·url 단수 = 하위호환) 우선 · 없으면 git 폴백(ref.jpg). k.html renderOut 문법 계승(공용 수정 양쪽 동시)
@@ -662,7 +687,9 @@ async function renderOut(md, outEl, outPath) {   // 결과 렌더 공통(폴 성
 // ── 작업 내역(운영자 260714 5차 — Image Studio 배선 미러): 발사마다 누적 · 최신 done = #out에 우선 표시 · 라벨 탭 = 재열람 · 변형 = 그 콘티 기반 재설계 ──
 const JKEY = 'sb_jobs';
 const jload = () => { try { const a = JSON.parse(localStorage.getItem(JKEY) || '[]'); return Array.isArray(a) ? a.slice(0, 30) : []; } catch (e) { return []; } };   // 상한 30건(스토리지 보호)
-const jsave = a => { try { localStorage.setItem(JKEY, JSON.stringify(a.slice(0, 30))); } catch (e) {} };
+const jsave = a => { try { localStorage.setItem(JKEY, JSON.stringify(a.slice(0, 30))); } catch (e) {}
+  try { if (window.nmRail && typeof nmRail.refresh === 'function') nmRail.refresh(); } catch (e) {}   /* 결과 레일 통지(운영자 260810 "제작 중인거는 그위 결과에 큐잉") — 이 배열이 곧 이 탭의 진행 중 목록이라 저장 지점 1곳에서 건다(nm-jobs.js write 동문 · 호출부 사본 0) */
+};
 function jupd(id, patch) { const a = jload(); const j = a.find(x => x.id === id); if (j) { Object.assign(j, patch); jsave(a); } renderJobs(); }
 let sbBase = null;   // 변형 모드: {out, label} — 발사 시 base로 전달·발사 후 해제
 const DNM = { fable: NM_MODELS.fable, opus: NM_MODELS.opus, gpt: NM_MODELS.gpt }, SNM = { kling: NM_MODELS.kling, seedance: NM_MODELS.seedance, motion: NM_MODELS.motion };   // 잡 캡션 표시명 = NM_MODELS 사전 참조(운영자 260803 5차 배선 — 구 축약 Kling/Seedance 회수분의 사전 합류)
@@ -776,12 +803,12 @@ function poll(outPath, jid, focus) {
         if (md && md.trim() && !isHtml) {
           const _m = mine(); stop();
           if (window.nmEta) nmEta.done('sb', (Date.now() - t0) / 1000);
-          if (!_m) { if (jid) jupd(jid, { status: 'done' }); return; }   // 화면은 이미 다음 잡 것 = 작업 내역만 완료로(운영자 260810 병렬 · 재열람은 그 행 탭)   // 성공 완료만 학습(실패·초과는 stop 경로가 달라 미계수 = 평균 오염 차단)
+          if (!_m) { if (jid) jupd(jid, { status: 'done' }); sbLand(null, outPath); return; }   // 화면은 이미 다음 잡 것 = 작업 내역 + **결과 레일**로 착지(운영자 260810 "방금거가 유실된다" — 구판은 여기서 그냥 return이라 뒤에서 끝난 콘티가 이력에 한 건도 안 남았다 = 반쪽 적재) · 재열람은 그 행 탭   // 성공 완료만 학습(실패·초과는 stop 경로가 달라 미계수 = 평균 오염 차단)
           status.innerHTML = OK_SVG + ' 완료 (' + Math.round((Date.now() - t0) / 1000) + 's)';
           try { localStorage.removeItem(CKEY); } catch (e) {}   // 새 생성 = 복사 표식 리셋(k 계승)
           await renderOut(md, out, outPath);   // outPath = sb_out/<id>/board.md → 같은 폴더 ref.json 조회
           if (jid) jupd(jid, { status: 'done' });   // 작업 내역 완료 반영(아카이브 = 재열람 정본 · 구 LKEY 재열람 대체)
-          try { if (window.nmRail && typeof out !== 'undefined') { const _im = out.querySelector && out.querySelector('img'); if (_im && _im.src) nmRail.add({ url: _im.src, cap: '콘티', dlname: 'storyboard.jpg' }); } } catch (e) {}   /* 결과 레일 적재(운영자 260806 "영상끼리도 저렇게 공유") — nmRail.add 1줄 = 이 탭 완료분이 영상 5탭 공용 이력(nomute_cap_hist)에 즉시 합류 · 실패해도 종전 동작 무손상(fail-soft) */
+          sbLand(out, outPath);   /* 결과 레일 적재(운영자 260806 "영상끼리도 저렇게 공유") — 포커스·강등 **같은 함수 1벌**(구판은 이 자리에만 인라인 사본이 있었고 그 사본이 `img`만 봐서 모션그래픽 산출[video]은 통째로 빠졌다) */
           try { out.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (e) {}
           return;
         }

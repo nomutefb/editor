@@ -53,6 +53,7 @@
   .hist-hd { color:var(--fg); font-size:11.5px; font-weight:600; margin:0 0 6px 7px; }   /* 제작 시각 = 오전/오후 H:MM · 흰색 · 좌측 들여쓰기(운영자 260621) */
   .hist-thumb { position:relative; }
   .hist-thumb img { width:100%; aspect-ratio:4/5; object-fit:cover; border:1px solid var(--line); border-radius:var(--r-s); display:block; background:var(--pan); }
+  .hist-thumb video { width:100%; aspect-ratio:16/9; object-fit:cover; border:1px solid var(--line); border-radius:var(--r-s); display:block; background:var(--pan); }   /* reuse-ok: 계승원 = 바로 위 `.hist-thumb img` 정본 규격에서 **비율만** 영상 축으로 교체(edit.html `.ljth .ljv` 16/9 정본 값 사본 = 새 값 창작 0) · 거처 사유 = 영상 스튜디오 산출(mp4·mp3)은 img로 그릴 수 없어 nm-rail이 미디어 태그로 그린다(운영자 260810 "이전 제작이 안떠") */
   .hist-thumb .imgdl { top:6px; right:6px; width:28px; height:28px; }
   .hist-thumb .imgdl svg { width:12px; height:12px; }
   /* 수정(편집) = 다운로드 옆 — 이전 제작의 입력 조건을 작성기로 복원(운영자 260624). 색=accent 토큰(.dlbtn과 동일 계열·연필 아이콘으로 구분)·✓팝링 없음(다운로드 아님)

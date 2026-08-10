@@ -31,6 +31,16 @@
   function load(scope) { try { var a = JSON.parse(localStorage.getItem(KEYS[scope]) || '[]'); return Array.isArray(a) ? a : []; } catch (e) { return []; } }
   function save(scope, a) { try { localStorage.setItem(KEYS[scope], JSON.stringify(a)); return true; } catch (e) { return false; } }   // 성패 반환 = 쿼터 초과·프라이빗 모드에서 「성공한 척」 하지 않는다(운영자 260806 평의회1 ⑤)
   var SAFE_URL = /^(https?:|blob:|data:image\/)/i;   // 적재 허용 스킴 = 이미지·영상 산출이 실제로 오는 3종(javascript: 등 차단 · 평의회7 ④)
+  /* 영상·소리 판정(운영자 260810 "이전 제작이 안떠") — 이 레일은 이미지 스튜디오에서 왔고 타일을 `<img>`로만 그렸다.
+     영상 스튜디오 산출은 mp4·mp3라 img 디코드가 **반드시** 실패하고, 구 onerror가 그걸 「죽은 슬롯」으로 읽어 타일을 지웠다
+     → 저장소엔 남는데 화면은 영구 빈칸(무증상 = 콘솔 에러 0). 확장자 축으로 갈라 미디어 태그로 그린다. */
+  var AV_RE = /\.(mp4|webm|mov|m4v|mp3|m4a|wav|aac|ogg|flac)(\?|#|$)/i;
+  function isAV(u) { return AV_RE.test(String(u || '')); }
+  function mkAV(u) {   // 영상·소리 타일 = `<video>` 1종(소리 파일도 같은 태그 = 검은 판 + 캡션칩이 무엇인지 말한다 · 새 부품·값 창작 0)
+    var v = document.createElement('video');
+    v.muted = true; v.playsInline = true; v.setAttribute('playsinline', ''); v.preload = 'metadata'; v.src = u;
+    return v;   // ⚠ 실패해도 지우지 않는다 — 파일은 R2에 살아 있고 [↓] 다운로드는 그대로 동작한다(제작물이 목록에서 사라지는 쪽이 훨씬 비싼 사고)
+  }
   function prune(a) { var cut = Date.now() - HMS; return a.filter(function (e) { return e && e.ts && e.ts >= cut; }); }
 
   function histTime(ts) {   // 표기 = 이미지 정본 동문(오늘/어제 · M/D 접두 · 오전/오후 H:MM)
@@ -75,12 +85,18 @@
     var dl = document.createElement('a'); dl.className = 'imgdl dlbtn'; dl.href = e.url;
     dl.setAttribute('aria-label', '다운로드'); dl.innerHTML = DL_SVG();
     dl.addEventListener('click', function (ev) { ev.preventDefault(); ev.stopPropagation(); dlBlob(e.url, e.dlname || m.opt.dlname); });
-    var img = document.createElement('img'); img.loading = 'lazy'; img.alt = ''; img.src = e.poster || e.url;
-    img.onerror = function () {   // ⚠ 포스터 실패 ≠ 원본 실패(운영자 260806 평의회1 ② — 구판은 포스터 404 하나로 멀쩡한 영상 항목을 영구 삭제했고 같은 url 재적재도 중복차단에 막혀 리로드 전엔 복구 불가였다)
-      if (e.poster && img.src !== e.url && !img.dataset.rt) { img.dataset.rt = '1'; img.src = e.url; return; }   // 1회 원본 재시도 = index `chThFail` dataset.rt 문법 계승(무한루프 0)
-      it.remove(); m.dead[keyOf(e.url)] = 1;
-      var cc = document.getElementById(cntSel); var g = document.getElementById(gridSel); if (cc && g) cc.textContent = '(' + g.children.length + ')';
-    };   // 죽은 슬롯 제거 + 카운트 정정 = 이미지 정본 동문
+    var av = isAV(e.url);   // 영상·소리 산출 = `<img>`로는 **절대** 못 그린다(디코드 실패 = onerror 확정)
+    var img;
+    if (av && !e.poster) { img = mkAV(e.url); }   // 포스터 없는 영상·소리 = 미디어 자신으로 그린다(첫 프레임이 곧 포스터)
+    else {
+      img = document.createElement('img'); img.loading = 'lazy'; img.alt = ''; img.src = e.poster || e.url;
+      img.onerror = function () {   // ⚠ 포스터 실패 ≠ 원본 실패(운영자 260806 평의회1 ② — 구판은 포스터 404 하나로 멀쩡한 영상 항목을 영구 삭제했고 같은 url 재적재도 중복차단에 막혀 리로드 전엔 복구 불가였다)
+        if (av) { try { img.replaceWith(mkAV(e.url)); } catch (er) { it.remove(); } return; }   // ⚠ 영상·소리는 원본 재시도가 **구조적으로 무의미**하다(mp4를 img에 다시 넣는 것 = 같은 실패) → 미디어 태그로 강등해 타일을 살린다. 구판은 여기서 `it.remove()`까지 흘러 **저장소엔 2건인데 화면은 「아직 제작한 게 없습니다」**였다(운영자 260810 "이전 제작이 안떠" 실측 = 결과 0·이전 0·store 2)
+        if (e.poster && img.src !== e.url && !img.dataset.rt) { img.dataset.rt = '1'; img.src = e.url; return; }   // 1회 원본 재시도 = index `chThFail` dataset.rt 문법 계승(무한루프 0)
+        it.remove(); m.dead[keyOf(e.url)] = 1;
+        var cc = document.getElementById(cntSel); var g = document.getElementById(gridSel); if (cc && g) cc.textContent = '(' + g.children.length + ')';
+      };   // 죽은 슬롯 제거 + 카운트 정정 = 이미지 정본 동문
+    }
     var cap = document.createElement('span'); cap.className = 'hist-cap'; cap.textContent = toText(e.cap);
     if (e.varStr) { var v = document.createElement('span'); v.className = 'hist-cap-v'; v.textContent = e.varStr; cap.appendChild(v); }
     th.append(dl, img, cap);
@@ -96,9 +112,51 @@
     return it;
   }
 
+  /* ══ 진행 중 큐(운영자 260810 "제작 중인거는 그위 결과에 큐잉되어 들어가야해 순차적으로") ══
+     부품 = nm-job.css `.job`(진행 행) 그대로 = 이미지 스튜디오 잡 행과 **같은 부품**(새 클래스·값 창작 0).
+     읽는 곳 = 각 탭이 script 태그 `data-jobkey`로 선언한 슬롯 저장소 — 두 문법을 다 읽는다:
+       ⓐ nm-jobs 슬롯(`nm_edit_pend`·`nm_song_pend` = {id,t0,lbl}) ⓑ 탭 자체 작업 배열(`sb_jobs`·`vd_jobs` = {id,status:'run'}).
+     ⚠ 통지는 폴링이 아니라 **nm-jobs가 슬롯을 건드릴 때 부른다**(유휴 정숙 계약 = 가려진 동안 조용해야 한다). */
+  function jobDur(s) { return s < 60 ? s + 's' : Math.floor(s / 60) + 'm ' + (s % 60) + 's'; }   // 경과 표기 = thumb `jobDur` 정본 바이트 그대로(60초부터 분·초 · 운영자 260728)
+  function pendList(m) {
+    var k = m.opt.jobkey; if (!k) return [];
+    var a = [];
+    try {
+      if (window.nmJobs && /_pend$/.test(k)) a = nmJobs.list(k) || [];
+      else { var raw = JSON.parse(localStorage.getItem(k) || '[]'); if (Array.isArray(raw)) a = raw.filter(function (x) { return x && x.status === 'run'; }); }
+    } catch (e) { a = []; }
+    return a.slice().sort(function (x, y) { return (+x.t0 || 0) - (+y.t0 || 0); });   // 순차 = **발사 순서**(먼저 건 게 위 · 운영자 260810 "순차적으로")
+  }
+  function pendRows(m, host) {
+    var a = pendList(m);
+    a.forEach(function (j) {
+      var row = document.createElement('div'); row.className = 'job';
+      var lab = document.createElement('span'); lab.className = 'jlab'; lab.textContent = toText(j.lbl || j.label || j.cap || '제작');
+      var st = document.createElement('span'); st.className = 'jst';
+      var sec = (+j.t0) ? Math.max(0, Math.round((Date.now() - (+j.t0)) / 1000)) : 0;
+      st.innerHTML = (window.nmOrbHTML ? nmOrbHTML('solving', 14) : '')
+        + '<span class="nm-shim">제작중' + (sec ? ' · <b class="jsec">' + jobDur(sec) + '</b>' : '') + '</span>';   // 문구·부품 = thumb 진행 행 정본(「제작중 · 21s」 · 빛 스윕 = 진행 중 전용)
+      row.append(lab, st);
+      host.appendChild(row);
+    });
+    return a.length;
+  }
+  var _tick = null;
+  function tickSync() {   // 경과 1초 틱 = **진행 중이 있을 때만** 돈다(없으면 자기 손으로 끈다 = 유휴 rAF·타이머 0 계약)
+    var live = mounts.some(function (m) { return pendList(m).length; });
+    if (!live) { if (_tick) { clearInterval(_tick); _tick = null; } return; }
+    if (_tick) return;
+    _tick = setInterval(function () {
+      if (document.hidden) return;   // 가려진 동안은 안 그린다(보는 사람이 없다)
+      if (!mounts.some(function (m) { return pendList(m).length; })) { clearInterval(_tick); _tick = null; return; }
+      mounts.forEach(function (m) { m.sig = null; render(m); });
+    }, 1000);   // raw-ok: 경과 표기 주기(ms — 지속시간 토큰 아님) · thumb 잡 행 틱 동값
+  }
+
   function jobRow(m, a) {   // 요약 줄 = thumb `renderJob` 완료 행(.job.done > .jlab + .jst + .jsave-row) 마크업 그대로
     var host = document.getElementById(m.id + 'ResJobs'); if (!host) return;
     host.innerHTML = '';
+    var np = pendRows(m, host);   // 진행 중 = 완료 요약 줄 **위**(큐가 위에서 쌓여 내려온다)
     if (!a.length) return;
     var row = document.createElement('div'); row.className = 'job done';
     var lab = document.createElement('span'); lab.className = 'jlab'; lab.textContent = toText(a[0].cap) || '결과';
@@ -132,15 +190,19 @@
   function render(m) {
     var all = prune(load(m.opt.scope)).filter(function (e) { return e && e.url && !m.dead[keyOf(e.url)]; });
     all.sort(function (x, y) { return (y.ts || 0) - (x.ts || 0); });
-    var sig = all.length + ':' + ((all[0] || {}).url || '') + ':' + ((all[all.length - 1] || {}).url || '');   // 무변경 지문 = 이미지 정본 `_histSig` 문법(길이 + 첫/끝 url) — 사진 완료 1건마다 영상 5탭이 **안 바뀐 데이터를 통째로 재빌드**하며 img 1,200개를 재생성하던 축 봉합(운영자 260806 평의회6 ① 실측 CPU 104ms·깜빡임 창 실재)
-    if (m.sig === sig) { applyFold(m); return; }
+    var pend = pendList(m);
+    var sig = all.length + ':' + ((all[0] || {}).url || '') + ':' + ((all[all.length - 1] || {}).url || '')
+      + ':' + pend.length + ':' + pend.map(function (j) { return j.id; }).join(',');   // 무변경 지문 = 이미지 정본 `_histSig` 문법(길이 + 첫/끝 url) + **진행 중 슬롯**(새 발사·완료가 지문을 바꾼다) — 사진 완료 1건마다 영상 5탭이 **안 바뀐 데이터를 통째로 재빌드**하며 img 1,200개를 재생성하던 축 봉합(운영자 260806 평의회6 ① 실측 CPU 104ms·깜빡임 창 실재)
+    if (m.sig === sig && !pend.length) { applyFold(m); return; }               // 진행 중이 있으면 경과가 매초 바뀌므로 지문 스킵 대상 아님
     m.sig = sig;
-    var res = all.filter(function (e) { return (e.ts || 0) >= T0; });          // 결과 = 이번 세션 완료분
-    if (!res.length && all.length) res = [all[0]];                             // 세션분 0이면 최신 1건 추종 = 이미지 정본(followNewest) 동축 — 창을 다시 열어도 결과가 비지 않는다
+    var res = all.filter(function (e) { return (e.ts || 0) >= T0; });          // 결과 = **이번 세션 완료분만**
+    /* ⚠ (260810 제거) 「세션분 0이면 최신 1건 추종」 — 운영자 260810 "전에 제작한건 이전 제작에 남아있어야하고".
+       구판은 창을 다시 열 때마다 지난 제작 1건을 결과로 끌어올렸고, 그 1건은 이전 제작 목록에서 **빠졌다**(이중노출 차단 필터 때문).
+       그래서 어제 만든 게 오늘 「결과」에 있고 「이전 제작」은 그만큼 비는, 두 칸의 뜻이 뒤섞인 상태가 됐다. 이제 결과 = 이번 세션 것뿐. */
     var resK = {}; res.forEach(function (e) { resK[keyOf(e.url)] = 1; });
     var prev = all.filter(function (e) { return !resK[keyOf(e.url)]; });       // 이전 제작 = 결과에 뜬 것 제외(이중노출 차단 = 이미지 정본 동문)
 
-    var rc = document.getElementById(m.id + 'ResCnt'); if (rc) rc.textContent = '(' + res.length + ')';
+    var rc = document.getElementById(m.id + 'ResCnt'); if (rc) rc.textContent = '(' + (res.length + pend.length) + ')';   // 결과 개수 = 완료 + 진행 중(큐가 결과 칸에서 자란다)
     var re = document.getElementById(m.id + 'ResEmpty');
     var rg = document.getElementById(m.id + 'ResGrid');
     if (rg) { rg.innerHTML = ''; res.forEach(function (e) { rg.appendChild(tileEl(m, e, m.id + 'ResGrid', m.id + 'ResCnt')); }); }
@@ -150,8 +212,9 @@
     var pe = document.getElementById(m.id + 'PrevEmpty'); if (pe) pe.hidden = !!prev.length;
     var pg = document.getElementById(m.id + 'PrevGrid');
     if (pg) { pg.innerHTML = ''; prev.forEach(function (e) { pg.appendChild(tileEl(m, e, m.id + 'PrevGrid', m.id + 'PrevCnt')); }); }
-    if (re) re.dataset.has = res.length ? '1' : '0';   // 「결과가 있는가」를 DOM에 박아 접힘 재적용이 데이터와 접힘을 함께 본다
+    if (re) re.dataset.has = (res.length || pend.length) ? '1' : '0';   // 「결과가 있는가」를 DOM에 박아 접힘 재적용이 데이터와 접힘을 함께 본다 · 진행 중도 「있는 것」(제작 중인데 "아직 제작한 게 없습니다"가 뜨면 거짓말)
     applyFold(m);
+    tickSync();   // 경과 틱 = 진행 중이 있을 때만 켜지고 없으면 스스로 꺼진다
   }
 
   function bindFold(m) {   // 접이 = 이미지 정본 동문(hidden + closing 촤르륵 · reduced-motion 즉시)
@@ -186,7 +249,7 @@
       opt = opt || {};
       if (!Object.prototype.hasOwnProperty.call(KEYS, opt.scope)) return null;   // 미인식 스코프 = **마운트 거부**(운영자 260806 평의회2 ② — 구판 `|| 'cap'` 기본값은 오타 한 글자에 사진↔영상 격리가 깨지는 fail-open이었고, `data-scope="constructor"` 같은 프로토타입 키까지 통과해 쓰레기 localStorage 키를 만들었다)
       var scope = opt.scope;
-      var m = { id: 'nmr' + (mounts.length ? mounts.length + 1 : ''), opt: { scope: scope, dlname: opt.dlname || 'out', onEdit: opt.onEdit }, dead: {}, sig: null };   // id 유일화 = 이중 마운트 시 둘째 레일이 **첫 레일 DOM을 조작**하던 축 봉합(운영자 260806 평의회1·2·6·7 공통 · 구 고정 'nmr'은 getElementById가 항상 첫 것을 물어 둘째는 영구 빈칸 + PrevH에 리스너 2개 = 이전 제작이 열리자마자 닫혔다)
+      var m = { id: 'nmr' + (mounts.length ? mounts.length + 1 : ''), opt: { scope: scope, dlname: opt.dlname || 'out', onEdit: opt.onEdit, jobkey: opt.jobkey || '' }, dead: {}, sig: null };   // id 유일화 = 이중 마운트 시 둘째 레일이 **첫 레일 DOM을 조작**하던 축 봉합(운영자 260806 평의회1·2·6·7 공통 · 구 고정 'nmr'은 getElementById가 항상 첫 것을 물어 둘째는 영구 빈칸 + PrevH에 리스너 2개 = 이전 제작이 열리자마자 닫혔다)
       var wrap = document.createElement('div'); wrap.className = 'out nm-rail'; wrap.innerHTML = shellHTML(m.id);
       anchor.parentNode.insertBefore(wrap, anchor.nextSibling);
       m.el = wrap;
@@ -228,6 +291,7 @@
     var scope = (tag && tag.getAttribute('data-scope')) || 'cap';
     var dln = (tag && tag.getAttribute('data-dlname')) || 'out';
     var want = tag && tag.getAttribute('data-anchor');   // 문서가 자기 앵커를 지목할 수 있다(자동 탐색이 못 고르는 골격 = vd처럼 `#jobs`가 팝업 안에 있는 문서)
+    var jkey = (tag && tag.getAttribute('data-jobkey')) || '';   // 진행 중 슬롯 저장소(운영자 260810 "제작 중인거는 그위 결과에 큐잉") — 선언 없으면 진행 중 행 0 = 종전 동작
     var vis = function (e) { return !!(e && (e.offsetParent || e.getClientRects().length)); };   // 숨은 조상 안 앵커 = 레일도 같이 사라진다(실측 260806 큐영상: DOM엔 섰는데 rect 0 = 무증상 실종) → 가시성까지 판정
     var anchor = null;
     if (want) { var w = document.querySelector(want); if (vis(w)) anchor = w; }
@@ -237,7 +301,7 @@
       var wrapEl = document.querySelector('.wrap') || document.body;
       anchor = document.createElement('div'); anchor.className = 'nm-rail-anchor'; wrapEl.appendChild(anchor);
     }
-    api.mount(anchor, { scope: scope, dlname: dln });
+    api.mount(anchor, { scope: scope, dlname: dln, jobkey: jkey });
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', autoMount);
   else autoMount();

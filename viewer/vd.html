@@ -487,7 +487,7 @@
 </div>
 
 <script src="nm-svg.js"></script><!-- 공유 아이콘 SSOT -->
-<script src="nm-rail.js" data-scope="cap" data-dlname="video.mp4" data-anchor="#srcList"></script><!-- 결과·이전 제작 레일 부품 SSOT -->
+<script src="nm-rail.js" data-scope="cap" data-dlname="video.mp4" data-anchor="#srcList" data-jobkey="vd_jobs"></script><!-- 결과·이전 제작 레일 부품 SSOT -->
 <script src="nm-jobs.js"></script><!-- 여러 작업 동시 추적 SSOT(운영자 260810 "동시에 병렬로 진행") — 진행 중 렌더 전건 재개 + 같은 잡 중복 폴 차단 -->
 
 <script>
@@ -702,7 +702,9 @@ async function loadList() {
 /* ── 렌더 큐(작업 내역) = sb #jobs 문법 계승 ── */
 const JKEY = 'vd_jobs';
 const jload = () => { try { const a = JSON.parse(localStorage.getItem(JKEY) || '[]'); return Array.isArray(a) ? a.slice(0, 30) : []; } catch (e) { return []; } };
-const jsave = a => { try { localStorage.setItem(JKEY, JSON.stringify(a.slice(0, 30))); } catch (e) {} };
+const jsave = a => { try { localStorage.setItem(JKEY, JSON.stringify(a.slice(0, 30))); } catch (e) {}
+  try { if (window.nmRail && typeof nmRail.refresh === 'function') nmRail.refresh(); } catch (e) {}   /* 결과 레일 통지(운영자 260810 "제작 중인거는 그위 결과에 큐잉") — 이 배열이 곧 이 탭의 진행 중 목록이라 저장 지점 1곳에서 건다(nm-jobs.js write 동문 · 호출부 사본 0) */
+};
 function renderJobs() {
   const a = jload();
   $('#cntJob').textContent = a.length ? ' ' + a.length : '';

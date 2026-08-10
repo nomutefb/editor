@@ -135,7 +135,7 @@ _DESIGN_BASELINE = {
     'viewer/nb.html': {'accent_raw': 0, 'blur': 6, 'hex': 0, 'accent_hex': 0, 'green_wash': 0, 'legacy_green': 0},   # 자료화 뷰어 편입(260713 실측 seed — 평의회 F2/O6 발견: 신설 뷰어 미등재 = check_design 완전 사각. 이 카운트에서 늘면 잡힘 · 여타 게이트(autocomplete·soremeori 등) 편입은 위반 선정리 후 후속·glob fail-closed 구조 전환은 다이어트 PR에서).
     'viewer/sb.html': {'accent_raw': 0, 'blur': 12, 'hex': 4, 'accent_hex': 0, 'green_wash': 0, 'legacy_green': 0},   # blur12→10 = 도크 유리 폐지 미러(운영자 260802 4차 — .topdock backdrop blur(--blur-l)+webkit −2 · 알파 .72→1 · thumb 정본 동반).   # 콘티(스토리보드) 뷰어 편입(260717 실측 seed — 평의회 8인 arch 발견: 260714 신설분 미등재 = nb와 동일 사각 재발). blur12 = k.html 바이트 계승 사본분(iobtn류 13px/14px saturate 글래스 + var(--blur-s) 토큰 blur도 세는 카운터 특성 · 신규 창작 0) · hex1 = :root 밖 잔존 1(k 계승). 여타 게이트(autocomplete·soremeori 등) 편입은 nb 관례대로 위반 선정리 후 후속.   # blur10→12·hex1→4 = 미리보기 액자 **부활**(운영자 260803 "모든 메뉴의 미리보기 부분을 카드 제작과 동일하게" — Q1159 폐지분 개정): 코너 레일 캡슐 backdrop var(--blur-s)+webkit +2(토큰·raw 아님 = 카운터가 토큰 blur(도 세는 특성) + 쉘 필러 #121212·사유 주석 표기(thumb `.cpprev-box` 정본 동값 사본 · 창작 0).
     'viewer/tr.html': {'accent_raw': 0, 'blur': 7, 'hex': 10, 'accent_hex': 0, 'green_wash': 0, 'legacy_green': 0},   # blur4→7 = 코너 옵션 레일 이식(운영자 260802 "모든 페이지에 해당 미리보기 똑같이") — .trail 캡슐 글래스 backdrop var(--blur-s)+webkit +2(토큰·raw 아님 · 카운터는 토큰 blur(도 세는 특성) + 선존 슬랙 1 reconcile(§🎨 실측 조임 관례).   # hex9→10 = 빈 미리보기 4:5 무대(.cpv-empty) 순수 흑 배경 1(thumb .cpprev-stage.post 정본 동값 사본 — 카드 생성·편집 탭과 동일 세로 액자·양옆 스포티파이 블랙 레터박스 · 운영자 260723 "번역만 튄다" 교정 · §🎨 순수 흑 정당 raw · 창작 0). hex8→9 = 옵션부 편집 탭 정합(운영자 260721 "번역부 = 편집 탭 디자인") — 도크 요약 스트립 .optstrip background 순수 흑 1(thumb .optstrip 정본 exact 사본 · 미리보기 전경색 동일값 · §🎨 순수 흑 정당 raw). hex5→8 = 번역카드 v2 재편(band 반전 박스·미리보기 스테이지 콘텐츠 색축 추가 — 캔버스/발행 렌더 raw = var() 불가 · TR_* 동일 축 · 운영자 260721 4:5 기본+노토산스 확정 시 정렬). hex3→5 = 자동 마커 번역 오버레이 칩 색 2(OV_TEXT #f4f7f4·OV_EMPH #8dff6a — 운영자 승인 시안 dsp_ov3 그대로·캔버스 렌더 콘텐츠 색 = TR_GREEN 동일 축·Q274 260720).   # 번역카드 뷰어 신설 편입(신규 뷰어 게이트 사각 봉합 관례 · [4-1] · 260720). blur4 = .scnclip+.jbt 글래스 backdrop+webkit 각 2(k .scnclip 계승 사본분 — blur13 픽셀 패리티·신규 창작 0). hex3 = JS 콘텐츠 산출물 색 상수 TR_BLACK #000·TR_WHITE #fff·TR_GREEN(디스패치풍 발행 콘텐츠 색 — 캔버스 렌더라 var() 불가 = §핵심명령 3-b-1 축·track PALETTE 선례·UI 재유입 금지).
-    'viewer/edit.html': {'accent_raw': 0, 'blur': 11, 'hex': 10, 'accent_hex': 1, 'green_wash': 0, 'legacy_green': 1},   # accent_hex0→1·legacy_green0→1 = 핀셋 이름표 미리보기 팔레트(`PIN_PALETTE` · 운영자 260809 "아이디어 배선")가 러너 `apps/track/track_render.py` PALETTE **12색 바이트 사본**이다 — 이건 UI 색이 아니라 **러너가 영상에 굽는 산출물 색**이고, 토큰으로 바꾸면 그 순간 러너와 갈려 미리보기가 거짓말을 한다(= 이 미리보기의 존재 이유가 소멸 · thumb legacy_green:1 「콘텐츠 산출물 색 미러 = UI 재유입 아님」 선례 동축 · §핵심명령 3-b-1). 드리프트 차단 = `check_pinset_parity` 하드게이트가 py↔js 목록을 순서까지 대조한다(첫 배선이 실제로 8색 임의 목록으로 갈렸다가 그 게이트에 잡혔다).   # blur9→11 = 색 축 배지(.swax) 글래스 필 backdrop var(--blur-s)+webkit +2(토큰·raw 아님 — 카운터가 토큰 `blur(`도 세는 특성 · index `.sc-tg` 정본 값 사본 = 창작 0 · 운영자 260804 "글래스모피즘 도형 안에 색이 들어가게").   # hex9→10 = 빈 상태 16:9 기본 영역 스테이지(.cpv-empty .cpv-stage) 순흑 배경 1 = thumb .cpprev-stage 정본 동값 사본(운영자 260724 "영상은 16:9 기본 영역 · 검정하고 스포티파이 블랙 구분" — 매트 #121212 안 순흑 프레임)·창작 0.   # hex8→9 = 미리보기 유닛 이식(운영자 260722 "이미지 스튜디오 미리보기 동일하게" — thumb .cpprev-box 필러 #121212 정본 동값 사본 = 창작 0 · CII 「합성 미리보기 쉘」 사다리).   # hex7→8 = 선택 요약 스트립(.optstrip) 배경 순흑 1(운영자 260718 이미지→비디오 스튜디오 정합 — thumb .optstrip 정본 동값 사본 = 창작 0 · thumb hex17→19 스트립 편입과 동일 사유).   # hex5→7·blur11→9 = 미리보기 쉘 정본 통이식(운영자 260716 "자막(편집)도 동일하게" — CII 「합성 미리보기 쉘」 행 계승): .pvsec 액자 mat #121212(스포티파이 블랙 · thumb 필러 동일값 = 창작 아님) 규칙 1 + 사유 주석 표기 1(주석 hex 계수 특성 · ly PR번호 오탐 선례) · blur −2 = 구 stuck 글래스 필 폐지(mat 불투명이 커버 전담 = §🎨 "raw 줄면 baseline도 낮춰" 래칫).   # (구) blur9→11 = PREVIEW 고정 라벨 글래스 필(.pvsec.stuck .fl) backdrop var(--blur-m)+webkit +2(토큰·raw 아님 · thumb .platpop 무채 톤 계승 · 운영자 260712 3차 "예타 상단처럼 글래스모피즘 도형") — 260716 폐지로 회수.   # 편집기 탭 신설 편입(신규 뷰어 게이트 사각 봉합 관례 · 260710). blur4 = .urlclip 글래스 backdrop+webkit 2 + 대기 스크림(.wscrim) blur(5px) webkit+표준 2 = conv와 동수·전부 계승(신규 창작 0). hex4 = 입력 bg #0e0f11×2(URL·구간) + vstage #000×2 = conv 관행 내. +blur4·hex2 = 자막 편집기 이식(배치 B-2 260711 — ly.html 원문 CSS 그대로 = 창작 0·ly에서 검증된 값 복사 계승: .code 배경 #0e0f11·pre 색 #eef7f0 + 편집기 글래스 blur). hex6→8 = 자막 음영 색 선택지 OC_DEF의 순수 흑 #000·백 #fff 리터럴 2(콘텐츠 산출물 색 상수 = §핵심명령 3-b-1 · '순수 흑/백만' 마퀴 스티커 테두리 선례 — 그린·핑크·블루·레몬·레드는 :root 계승 var()라 순증 0 · 260711). blur8→9 = PREVIEW 여백(블러) 질감 연출(.pvbg) filter var(--blur-s) +1(토큰·raw 아님 · filter라 webkit 불요 · 운영자 260712 "블러일 때 옆 연출").
+    'viewer/edit.html': {'accent_raw': 0, 'blur': 11, 'hex': 10, 'accent_hex': 0, 'green_wash': 0, 'legacy_green': 0},   # accent_hex1→0·legacy_green1→0 = 이름표 미리보기 팔레트 제거로 **회수**(운영자 260810 "트래킹 미리보기 없어도됨" · §🎨 「raw 줄면 baseline도 낮춰」 래칫 — 남겨두면 같은 raw가 조용히 재유입된다). (구 사유) accent_hex0→1·legacy_green0→1 = 핀셋 이름표 미리보기 팔레트(`PIN_PALETTE` · 운영자 260809 "아이디어 배선")가 러너 `apps/track/track_render.py` PALETTE **12색 바이트 사본**이다 — 이건 UI 색이 아니라 **러너가 영상에 굽는 산출물 색**이고, 토큰으로 바꾸면 그 순간 러너와 갈려 미리보기가 거짓말을 한다(= 이 미리보기의 존재 이유가 소멸 · thumb legacy_green:1 「콘텐츠 산출물 색 미러 = UI 재유입 아님」 선례 동축 · §핵심명령 3-b-1). 드리프트 차단 = `check_pinset_parity` 하드게이트가 py↔js 목록을 순서까지 대조한다(첫 배선이 실제로 8색 임의 목록으로 갈렸다가 그 게이트에 잡혔다).   # blur9→11 = 색 축 배지(.swax) 글래스 필 backdrop var(--blur-s)+webkit +2(토큰·raw 아님 — 카운터가 토큰 `blur(`도 세는 특성 · index `.sc-tg` 정본 값 사본 = 창작 0 · 운영자 260804 "글래스모피즘 도형 안에 색이 들어가게").   # hex9→10 = 빈 상태 16:9 기본 영역 스테이지(.cpv-empty .cpv-stage) 순흑 배경 1 = thumb .cpprev-stage 정본 동값 사본(운영자 260724 "영상은 16:9 기본 영역 · 검정하고 스포티파이 블랙 구분" — 매트 #121212 안 순흑 프레임)·창작 0.   # hex8→9 = 미리보기 유닛 이식(운영자 260722 "이미지 스튜디오 미리보기 동일하게" — thumb .cpprev-box 필러 #121212 정본 동값 사본 = 창작 0 · CII 「합성 미리보기 쉘」 사다리).   # hex7→8 = 선택 요약 스트립(.optstrip) 배경 순흑 1(운영자 260718 이미지→비디오 스튜디오 정합 — thumb .optstrip 정본 동값 사본 = 창작 0 · thumb hex17→19 스트립 편입과 동일 사유).   # hex5→7·blur11→9 = 미리보기 쉘 정본 통이식(운영자 260716 "자막(편집)도 동일하게" — CII 「합성 미리보기 쉘」 행 계승): .pvsec 액자 mat #121212(스포티파이 블랙 · thumb 필러 동일값 = 창작 아님) 규칙 1 + 사유 주석 표기 1(주석 hex 계수 특성 · ly PR번호 오탐 선례) · blur −2 = 구 stuck 글래스 필 폐지(mat 불투명이 커버 전담 = §🎨 "raw 줄면 baseline도 낮춰" 래칫).   # (구) blur9→11 = PREVIEW 고정 라벨 글래스 필(.pvsec.stuck .fl) backdrop var(--blur-m)+webkit +2(토큰·raw 아님 · thumb .platpop 무채 톤 계승 · 운영자 260712 3차 "예타 상단처럼 글래스모피즘 도형") — 260716 폐지로 회수.   # 편집기 탭 신설 편입(신규 뷰어 게이트 사각 봉합 관례 · 260710). blur4 = .urlclip 글래스 backdrop+webkit 2 + 대기 스크림(.wscrim) blur(5px) webkit+표준 2 = conv와 동수·전부 계승(신규 창작 0). hex4 = 입력 bg #0e0f11×2(URL·구간) + vstage #000×2 = conv 관행 내. +blur4·hex2 = 자막 편집기 이식(배치 B-2 260711 — ly.html 원문 CSS 그대로 = 창작 0·ly에서 검증된 값 복사 계승: .code 배경 #0e0f11·pre 색 #eef7f0 + 편집기 글래스 blur). hex6→8 = 자막 음영 색 선택지 OC_DEF의 순수 흑 #000·백 #fff 리터럴 2(콘텐츠 산출물 색 상수 = §핵심명령 3-b-1 · '순수 흑/백만' 마퀴 스티커 테두리 선례 — 그린·핑크·블루·레몬·레드는 :root 계승 var()라 순증 0 · 260711). blur8→9 = PREVIEW 여백(블러) 질감 연출(.pvbg) filter var(--blur-s) +1(토큰·raw 아님 · filter라 webkit 불요 · 운영자 260712 "블러일 때 옆 연출").
     'viewer/ly.html': {'accent_raw': 0, 'blur': 20, 'hex': 18, 'accent_hex': 0, 'green_wash': 0, 'legacy_green': 0},   # blur16→20·hex19→18 = 소스부 개편(운영자 260717 Q11 — 첨부 확정: 소머리 우측 픽토 2 + 제작본 팝업 + 미리보기 쉘): .lypop 컨테이너+헤더 띠(.mh) backdrop var(--blur-l)+webkit 각 +2 = +4(전부 토큰·raw 아님 — index .qpop 대기열 창 동형 계승·카운터는 토큰 blur(도 세는 특성) · hex = 신규 +3{쉘 mat #121212 ×2 + 사유 주석 표기 1 — edit.html .pvsec 260716 통이식 동일 값·CII 「합성 미리보기 쉘」 행 계승·창작 아님}에도 실측 18 = 선존 슬랙 −4 회수(§🎨 실측 조임 관례 · 260717).   # hex16→22 = 배선평의회 미러 반영(260711) +6 = 순흑백 폴백만{color-mix var(--lypv-oc,#000) 4곳 + 미러 set '#000' 1 + .pv-src var(--lypv-fg,#fff) 1 — OC_DEF 선례 · 콘텐츠색은 전부 var()}.   # hex12→16 = 3분류 배선(운영자 260711): :root 콘텐츠 견본 3(--accent-6·--bias-l2·--warn = index 값 계승·edit 동형) + 강조/글자색 미러 _CC 순수 흑백 리터럴(#fff·#000 = OC_DEF 선례 · 콘텐츠 5색은 var() = 순증 0). # hex11→12 = PR번호 주석 `#1807` 2건이 hex 정규식 오탐(색 아님 · #1807 병합 세션이 baseline 미조정 = 선존 드리프트 260707 실측 — main 자체가 12였음). blur15→16 = 조기 전사 인계 직전 활성 칩 커밋의 JS a.blur() 1건(LY-EARLY 편집 유실 0 · 평의회3 — 동일 리터럴 카운트 특성·디자인 blur 아님·신규 CSS 0). blur14→15 = 자막 상세 편집기 칩 Enter 확정의 JS chip.blur() 호출 1건('blur(' 리터럴 카운트 특성 — 디자인 blur 아님·신규 CSS blur 0·신규 hex 0 = 편집기 색 전부 var()·260706). # 감사 배치3(260704): err빨강→var(--danger)[신설]·뜬회색#cfd2d7→--mut. # blur12→14·hex14→16 = 붙여넣기 폴백 모달(.pastefb) 신설 — backdrop blur(4px) webkit+표준 +2(ly엔 blur토큰 없어 raw) + 박스 배경 그라데이션 #14160f·#0c0f0c +2(기존 모달 배경 패턴·통일 기틀·운영자 260628)
     'viewer/k.html': {'accent_raw': 0, 'blur': 14, 'hex': 4, 'accent_hex': 0, 'green_wash': 0, 'legacy_green': 0},   # blur12→14 = 예시 칩(.seed 탭-투-필) 글래스 backdrop var(--blur-s)+webkit +2(토큰·raw 아님 · .sc-tg 글래스 필 계승 · 운영자 배치 승인 260708 — 빈 입력칸 예문 채움 전용·자동 발사 0)   # hex1→4 = 영상 5탭 미리보기 통일(운영자 260803) — 쉘 필러 #121212 = thumb `.cpprev-box` 정본 동값 사본 + 사유 주석 표기(창작 0 · song·sb 동일 사유).
     'viewer/track.html': {'accent_raw': 0, 'blur': 5, 'hex': 21, 'accent_hex': 1, 'green_wash': 0, 'legacy_green': 1},   # hex15→21 = edit .topdock 영상 미리보기 이식(운영자 260718 "트래킹도 영상 미리보기·영상 편집이랑 동일하게"): 상단 도크 mat #121212 + 하단 페이드 rgba(18,18,18)×2 + .trkpv/.trkpv video 레터박스 #000×2 = edit .topdock/.pvstage 정본 미러(§🎨 순수 흑·스포티파이 블랙 정당 raw·토큰 부재). 트래킹 실연결 편입(평의회6 상 — 신규 뷰어 게이트 사각 봉합·260708). accent_hex1·legacy_green1 = JS PALETTE 인물색 배열(track_render.py PALETTE와 1:1 짝 = 산출물 색 상수·§핵심명령 3-b-1 정당 raw — 카드색≠영상색 드리프트 방지가 목적이라 var() 불가). blur3→5 = 렌더 대기 미리보기 스크림(.wscrim) blur(5px) webkit+표준 +2(운영자 픽 260710 — 플레이그라운드 p2 선택값 답장 = 승인 갱신 · 근접토큰 --blur-s 8px과 확연히 달라 raw 유지 = index #sovl 딤블러 선례). 기존 blur3 = .urlclip 글래스 backdrop+webkit(ly 계승) + .ftype 1. hex17 = PALETTE 12 + 입력 bg #0e0f11×2 + filmstage #0a1a0d + vstage #000×2(ly 팔레트 계승 관행 내).
@@ -2850,6 +2850,103 @@ def check_result_rail_parity():
     return rc
 
 
+_CAP_LAND_EXEMPT = {   # 결과 레일을 상속하되 「완료 적재」가 정당하게 없는 표면 — 늘리려면 사유 1줄(값 사본 복귀의 뒷문이 되면 게이트가 죽는다)
+    'viewer/k.html': '프롬프팅 = 산출이 텍스트(프롬프트 문자열)라 썸네일 타일에 그릴 그림이 0 — 무리 적재 = 깨진 타일(CLAUDE.md 「완료 적재 = 파일 산출 탭만」)',
+}
+
+
+def check_cap_rail_land():
+    """영상 스튜디오 완료 적재 = **화면 주인·강등 양쪽**(하드 · 운영자 260810 "방금 1개를 제작하고, 추가로 뭐 하나 더 제작하면 방금거가 유실된다").
+
+    ⚠ 신설 사유 = 260810 실측에서 **다섯 탭 중 셋이 반쪽만 적재**하고 있었고 셋 다 화면 증상이 없었다:
+      ⓐ 편집 = 강등분(bgLand·pollEditBg)엔 있는데 **화면 주인 완료(showResult)에 없다** → 정상 제작분이 이력에 한 건도 안 쌓임.
+         그 자리를 메우라고 260806에 넣은 1줄은 `renderResult` 안에 있었는데 그 함수 스코프에 없는 `fresh`·`outPath`
+         (둘 다 lyResult의 파라미터)를 참조해 **매 호출 ReferenceError**였고 감싼 try/catch가 통째로 삼켰다(콘솔 에러 0).
+      ⓑ 음원 = 강등분만 적재(포커스 완료 누락) ⓒ 콘티 = 포커스만 적재(강등 누락 = 뒤에서 끝난 콘티 영영 미착지).
+    증상은 셋 다 「방금 만든 게 사라짐」 하나뿐이라 **운영자 눈이 유일한 검출기**였다(insta-thumb-miss·brk_misfire 동축).
+
+    기존 게이트는 전부 다른 축 — `check_result_rail_parity` = 레일 **부품**이 섰는가 · `check_nm_jobs` = 작업 **슬롯**이
+    안 덮이는가 · `smoke_*` = 화면 **렌더** → 「끝난 작업이 그 레일에 **실제로 얹히는가**」는 축 자체가 없었다.
+
+    판정 = 정적(렌더·LLM·네트워크 0) · 표면 **자동 발견**(`data-scope="cap"` 상속 뷰어 = 새 탭이 조용히 못 빠진다) ·
+    주석 줄 제외 · 표면 하한 고정(fail-closed) · **면책표 없이 하드 0**.
+    2축 = ① 대상 전건이 완료 착지 호출을 보유 ② 화면 주인 판정(`!_m`·`!mine()`)으로 갈리는 표면은
+    **그 분기 안**과 **분기 밖** 양쪽에 착지가 있다(= 위 ⓐⓑⓒ 세 실사고의 술어 그대로).
+    """
+    import glob as _g, re as _re
+    rc = 0
+    CAP_MIN = 5   # 하한 = 현행 영상 탭 수(상속이 조용히 빠지면 fail-closed · 신설 탭은 이 값을 올린다)
+    LAND = _re.compile(r'nmRail\.add\s*\(|(?<!function )\b[A-Za-z_$][\w$]*Land\s*\(')   # 착지 = 직접 적재 ∨ 착지 헬퍼 호출(sbLand·bgLand — 함수 **정의** 줄은 lookbehind로 제외)
+    DEMOTE = _re.compile(r'!\s*_m\b|!\s*mine\s*\(\s*\)')   # 강등 분기 = 「지금은 내가 화면 주인이 아니다」 판정
+    surfaces, bad = [], []
+    for p in sorted(_g.glob('viewer/*.html')):
+        try: t = open(p, encoding='utf-8').read()
+        except Exception: continue
+        tag = ''
+        for s in _re.findall(r'<script[^>]*>', t):
+            if _re.search(r'src="nm-rail\.js"', s):
+                m = _re.search(r'data-scope="([a-z]+)"', s); tag = m.group(1) if m else ''
+                break
+        if tag != 'cap': continue
+        surfaces.append(p)
+        if p in _CAP_LAND_EXEMPT: continue
+        code = [('' if ln.strip().startswith('//') else ln.split('//')[0]) for ln in t.split('\n')]   # 주석 줄·꼬리 주석 제거(주석 처리 우회 차단) · 인덱스는 원본과 1:1 유지
+        if not any(LAND.search(ln) for ln in code):
+            bad.append('%s = 완료 착지(nmRail.add·<이름>Land) 0줄 — 이 탭 제작분은 결과·이전 제작 레일에 영영 안 쌓인다' % p)
+            continue
+        """② 축 = **함수 범위 안**에서 본다(운영자 260810 실사고의 구조 그대로).
+        ⚠ 「파일 어딘가에 분기 밖 착지가 있으면 통과」로 두면 **진범을 못 잡는다** — 편집은 강등 전용 폴(pollEditBg)에도
+           착지가 있어서 화면 주인 완료(showResult)의 착지를 지워도 파일 단위로는 멀쩡해 보였다(첫 판 킬테스트 K1 미검출 = 죽은 게이트).
+           → 「착지를 가진 강등 분기」가 있는 **그 함수**의, 그 줄 **이후**에도 착지가 있어야 한다(직접 ∨ 거기서 호출한 함수가 보유 = 1단계 추적). """
+        starts = [i for i, ln in enumerate(code) if _re.match(r'\s{0,2}(async\s+)?function\s+\w+|\s{0,2}(const|let|var)\s+\w+\s*=\s*(async\s*)?(\(|function)', ln)]
+        def _rng(i):   # i가 속한 최상위 함수 범위
+            s = max([x for x in starts if x <= i] or [0])
+            nxt = [x for x in starts if x > i]
+            return s, (nxt[0] if nxt else len(code))
+        def _fn_has_land(name):   # 이름의 정의부에 착지가 있는가(1단계 추적)
+            for i, ln in enumerate(code):
+                if _re.match(r'\s{0,2}(async\s+)?function\s+%s\s*\(|\s{0,2}(const|let|var)\s+%s\s*=' % (name, name), ln):
+                    s, e = _rng(i)
+                    if any(LAND.search(x) for x in code[s:e]): return True
+            return False
+        for i, ln in enumerate(code):
+            if not (DEMOTE.search(ln) and LAND.search(ln)): continue   # 기준 = 「강등 착지를 실제로 가진 줄」(착지 없는 `if(!_m) return;` 류 = 타임아웃·실패 경로 = 무관)
+            s, e = _rng(i)
+            after = code[i + 1:e]
+            ok = any(LAND.search(x) for x in after)
+            if not ok:
+                """1단계 추적 = **완료 페이로드(d)를 넘겨받는 호출만**(`showResult(d, …)`·`showLyria(d, …)`).
+                ⚠ 호출 이름을 전부 추적하면 게이트가 죽는다 — 같은 함수 안의 형제 헬퍼(bgLand·stop 등)가 착지를 갖고 있어서
+                   **진범을 지운 판까지 통과**했다(첫 판 킬테스트 K1·K2 미검출 실측). 완료를 넘겨받는 놈만이 착지의 정당한 대리인이다."""
+                calls = set(_re.findall(r'\b([A-Za-z_$][\w$]*)\s*\(\s*d\s*[,)]', ' '.join(after)))
+                ok = any(_fn_has_land(c) for c in calls)
+            if not ok:
+                bad.append('%s:%d = 강등분만 착지 — 같은 완료 분기의 **화면 주인 경로**엔 착지가 없다(260810 ⓐ 편집·ⓑ 음원 실사고: 정상 제작분이 한 건도 안 쌓였다)' % (p, i + 1))
+        """거울 축 = 포커스만 착지(강등분이 영영 미착지 = ⓒ 콘티 실사고). 판정 단위 = **함수**다.
+        ⚠ 줄 단위로 「착지 없이 return 하는 강등 분기」를 세면 **실패 경로가 통째로 위양성**이 된다(실측 4건 =
+           error.log 분기의 `if(!_m){ … return; }` — 실패엔 얹을 산출이 애초에 0이다). 완료를 다루는 함수(= 착지를 가진 함수)가
+           강등 분기를 가졌다면 그 함수 안에 **착지를 가진 강등 줄이 최소 1개** 있어야 한다, 로 좁힌다."""
+        seen_fn = set()
+        for i, ln in enumerate(code):
+            if not DEMOTE.search(ln): continue
+            s, e = _rng(i)
+            if s in seen_fn: continue
+            seen_fn.add(s)
+            body = code[s:e]
+            if not any(LAND.search(x) for x in body): continue          # 착지를 안 하는 함수(실패 전용·판정 전용) = 무관
+            if any(DEMOTE.search(x) and LAND.search(x) for x in body): continue   # 강등 착지 보유 = 정합
+            bad.append('%s:%d = 완료를 다루는 함수인데 **강등 분기에 착지가 없다** — 뒤에서 끝난 작업이 이력에 영영 미착지(260810 ⓒ 콘티 실사고)' % (p, s + 1))
+    if len(surfaces) < CAP_MIN:
+        bad.append('영상 결과 레일 상속 표면 %d < 하한 %d(상속이 조용히 빠짐 = fail-closed)' % (len(surfaces), CAP_MIN))
+    if bad:
+        print('❌ 영상 완료 적재 게이트 — 반쪽 적재(끝난 작업이 결과 레일에 안 얹힌다 · 260810):')
+        for x in bad: print('   · ' + x)
+        rc = 1
+    else:
+        print('✅ 영상 완료 적재 게이트 — %d표면(면제 %d) 화면 주인·강등 양쪽 착지 보유 · 주석 줄 제외 · 하한 고정.' % (len(surfaces), len(_CAP_LAND_EXEMPT)))
+    return rc
+
+
 def check_trail_spec():
     """미리보기 코너 옵션 레일 사본 동일성 게이트(운영자 260802).
     3표면의 레일 캡슐·값 칩 규격이 정본 값에서 이탈하면 rc=1. 등재 = CII 「미리보기 코너 옵션 레일」 행."""
@@ -5012,76 +5109,13 @@ def _edit_track_phase_ok(wf, et):
     return 'EDIT_SRC=$NEWSRC' in wf
 
 
-def check_pinset_parity():
-    """핀셋 이름표 규격 = 러너↔뷰어 한 값(운영자 260809 "아이디어 배선").
-
-    ⚠ 신설 사유 = **미리보기의 존재 이유가 「결과와 같다」는 것 하나뿐이다.** 편집 렌더는 한 번에 수십 분이라
-      글자 크기·겹침을 생성 전에 보려고 뷰어에 캔버스를 붙였는데, 산식이 두 벌(py `PIN_SPEC`/`PALETTE` ↔
-      js `PIN_SPEC`/`PIN_PALETTE`)로 사는 순간 한쪽만 고치면 **미리보기가 조용히 거짓말**을 한다. 그러면
-      운영자는 미리보기를 믿고 렌더를 돌렸다가 다른 결과를 받는다 = 없느니만 못하다.
-      실제로 이 배선 첫 판이 그 사고를 냈다 — 뷰어 팔레트를 손으로 적다가 러너와 **순서·색이 갈렸고**
-      (8색 임의 vs 러너 12색) 육안으론 「색이 좀 다르네」로만 보였다.
-    ⚠ 기존 게이트는 전부 다른 축이다 — `check_edit_track_chain` = 옵션이 **러너까지 도달하는가**(체인 생존) ·
-      `smoke_*` = 화면 **렌더** → 「미리보기 산식이 실제 렌더와 같은 값인가」는 축 자체가 없었다.
-    판정 = 정적(렌더·LLM·네트워크 0) · 면책표 없이 하드 0 · 2축:
-      ① PIN_SPEC 9키 값 동일  ② 인물 팔레트 색 목록 동일(순서 포함 = 자동 배정이 (pid-1)%len 이라 순서가 곧 색)
+def _pinset_parity_removed():
+    """(260810 제거) 핀셋 이름표 규격 py↔js 대조 게이트 — 운영자 "트래킹 미리보기 없어도됨".
+    이 게이트의 존재 이유는 **뷰어 미리보기가 러너 렌더와 같은 값인가**였다. 미리보기를 걷어내면서 뷰어 쪽 사본
+    (`PIN_SPEC`·`PIN_PALETTE`)도 같이 나갔으므로 대조할 짝이 없다 = 규격 정본이 러너 한 곳뿐 = 갈릴 여지 0.
+    ⚠ 미리보기를 되살리면 이 게이트도 **같은 커밋에** 되살린다(한쪽만 되살아나면 그날부터 미리보기가 조용히 거짓말을 한다).
     """
-    rc = 0
-    py_p = os.path.join(ROOT, 'apps', 'track', 'track_render.py')
-    js_p = os.path.join(ROOT, 'viewer', 'edit.html')
-    try:
-        py_s = open(py_p, encoding='utf-8').read()
-        js_s = open(js_p, encoding='utf-8').read()
-    except Exception as e:
-        print("❌ 핀셋 규격 패리티 — 원본 파일을 못 읽음(%s)" % e)
-        return 1
-
-    def _py_spec():
-        m = re.search(r"^PIN_SPEC\s*=\s*\{(.*?)^\}", py_s, re.S | re.M)
-        if not m:
-            return None
-        return {k: float(v) for k, v in re.findall(r'"([a-z_]+)"\s*:\s*([0-9.]+)', m.group(1))}
-
-    def _js_spec():
-        m = re.search(r"const\s+PIN_SPEC\s*=\s*\{([^}]*)\}", js_s)
-        if not m:
-            return None
-        return {k: float(v) for k, v in re.findall(r"([a-z_]+)\s*:\s*([0-9.]+)", m.group(1))}
-
-    a, b = _py_spec(), _js_spec()
-    if a is None or b is None:
-        print("❌ 핀셋 규격 패리티 — PIN_SPEC 선언을 못 찾음(py=%s · js=%s) = 앵커 소실 fail-closed"
-              % ("있음" if a else "없음", "있음" if b else "없음"))
-        rc = 1
-    else:
-        diff = sorted(set(a) ^ set(b)) + sorted(k for k in set(a) & set(b) if a[k] != b[k])
-        if diff:
-            print("❌ 핀셋 규격 패리티 — PIN_SPEC 불일치 %s" % ", ".join(
-                "%s(py=%s js=%s)" % (k, a.get(k, "없음"), b.get(k, "없음")) for k in diff))
-            print("   · 미리보기가 결과와 다른 그림을 그린다 = 그 미리보기는 없느니만 못하다(양쪽을 같은 값으로).")
-            rc = 1
-
-    def _colors(txt, pat):
-        m = re.search(pat, txt, re.S | re.M)   # ⚠ re.M 필수 — PALETTE는 여러 줄에 걸친 선언이라 `^` 앵커가 MULTILINE 없이는 문자열 시작만 물어 **못 찾는다**(첫 실행 실측)
-        return [c.upper() for c in re.findall(r"#[0-9a-fA-F]{6}", m.group(1))] if m else None
-
-    pp = _colors(py_s, r"^PALETTE\s*=\s*\[(.*?)\]")
-    jp = _colors(js_s, r"const\s+PIN_PALETTE\s*=\s*\[(.*?)\]")
-    if pp is None or jp is None:
-        print("❌ 핀셋 규격 패리티 — 팔레트 선언을 못 찾음(py=%s · js=%s)"
-              % ("있음" if pp else "없음", "있음" if jp else "없음"))
-        rc = 1
-    elif pp != jp:
-        print("❌ 핀셋 규격 패리티 — 인물 팔레트 불일치(py %d색 ↔ js %d색)" % (len(pp), len(jp)))
-        print("   · 색 자동 배정 = (pid-1) mod len 이라 **순서가 곧 색**이다 — 목록이 갈리면 같은 인물이 다른 색으로 보인다.")
-        print("   · py: %s" % " ".join(pp[:6]))
-        print("   · js: %s" % " ".join(jp[:6]))
-        rc = 1
-    if rc == 0:
-        print("✅ 핀셋 규격 패리티 — PIN_SPEC %d키 · 인물 팔레트 %d색 러너↔뷰어 동일(미리보기 = 결과 보증)."
-              % (len(a or {}), len(pp or [])))
-    return rc
-
+    return 0
 
 def check_edit_track_chain():
     """편집 생성 = 자동 가림·키잉·크로마키 게이트(하드 · 운영자 260808 "모자이크 누르고 옵션 선택한 다음에 생성 누르면
@@ -7036,6 +7070,8 @@ def main():
     try:
         if check_result_rail_parity() != 0:   # 결과 레일 = 5탭 한 세트(운영자 260806 — 요약 줄+썸네일 부품 세트가 표면마다 갈라지던 축)
             rc = 1
+        if check_cap_rail_land() != 0:   # 영상 완료 적재 = 화면 주인·강등 양쪽(운영자 260810 — 끝난 작업이 결과 레일에 안 얹혀 「방금거가 유실」되던 축)
+            rc = 1
         if check_trail_spec() != 0:   # 미리보기 코너 옵션 레일 사본 동일성(운영자 260802 — thumb·tr·index 3표면 값 사본이 갈라지는 조용한 드리프트 차단)
             rc = 1
     except Exception as e:
@@ -7103,8 +7139,6 @@ def main():
             rc = 1
         check_seal_completeness()   # 봉합 완결성(WARN·비차단 · 운영자 260808 "idea go") — 「같은 병의 형제를 놓쳤나」를 커밋 그 자리에서 센다(102게이트가 전부 '최종 상태'만 보고 '방금 한 수정이 완결됐나'는 축이 없었다)
         if check_stt_engine_chain() != 0:   # STT 엔진 교체 계약(260808 · 평의회 8인 후속) — 층 하나가 빠져도 화면은 멀쩡한 채 조용히 죽는 축
-            rc = 1
-        if check_pinset_parity() != 0:   # 핀셋 이름표 규격 = 러너↔뷰어 한 값(운영자 260809) — 미리보기가 결과와 다르면 없느니만 못하다
             rc = 1
         if check_edit_track_chain() != 0:   # 편집 생성 = 자동 가림·키잉·크로마키(운영자 260808) — 구판은 옵션이 켜지는데 생성엔 아무 일도 안 생겼다(무증상 = 운영자 눈이 유일한 검출기)
             rc = 1

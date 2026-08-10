@@ -499,7 +499,7 @@
 </div>
 
 <script src="nm-svg.js"></script><!-- 공유 아이콘 SSOT — COPY/CHECK/OK/ERR/WARN/DOWNLOAD_SVG -->
-<script src="nm-rail.js" data-scope="cap" data-dlname="song.mp3"></script><!-- 결과·이전 제작 레일 부품 SSOT(마크업·렌더·공유 이력 · 영상 스코프 = nomute_cap_hist = 사진과 분리) -->
+<script src="nm-rail.js" data-scope="cap" data-dlname="song.mp3" data-jobkey="nm_song_pend"></script><!-- 결과·이전 제작 레일 부품 SSOT(마크업·렌더·공유 이력 · 영상 스코프 = nomute_cap_hist = 사진과 분리) -->
 <script src="nm-jobs.js"></script><!-- 여러 작업 동시 추적 SSOT(운영자 260810 "동시에 병렬로 진행") — 재개 슬롯 다중화 + 폴 레지스트리 -->
 <script src="nm-clip.js"></script><!-- 입력칸 클립 SSOT(복사·붙여넣기·지우개/되돌리기) — nm-svg.js 뒤 = 아이콘 상수 의존 순서 · 운영자 260803 "공식처럼가야함" -->
 <script src="nm-sync.js"></script><!-- 동기화 생명선 SSOT(운영자 260803 4차 "전 스튜디오 상속") — 복귀 시 자동 재동기(nmRefresh)·로그인 만료 자가치유·새 배포 자동 탑재 -->
@@ -714,6 +714,7 @@ function pollSong(id, mode, t0, minTs, gb, focus){
               const _m=mine(); stop(); pendClear(id);
               if(!_m){ try{ if(d.url&&window.nmRail) nmRail.add({ url:String(d.url), cap:'음원', dlname:String(d.url).split('/').pop()||'song.mp3' }); }catch(e){} return; }   // 화면은 이미 다음 작업 것 = 결과 레일로 착지(운영자 260810 병렬 · 텍스트 산출인 옵션 모드는 얹을 파일이 없어 슬롯만 회수)
               if(window.nmEta) nmEta.done(mode&&/voice/.test(mode)?'song-voice':'song',(Date.now()-t0)/1000);   // 예상 학습 = 성공 완료만(sb·k 배선 그대로 · 실패·초과 경로엔 안 넣는다 = 평균 오염 차단)
+              try{ if(d.url&&window.nmRail) nmRail.add({ url:String(d.url), cap:'음원', dlname:String(d.url).split('/').pop()||'song.mp3' }); }catch(e){}   /* ⚠ 화면 주인(포커스) 완료의 결과 레일 착지 — 바로 위 강등 분기엔 있는데 여기만 빠져 있었다(= 반쪽 적재 · 운영자 260810 "방금거가 유실된다"): 정상 완료한 곡이 이력에 한 건도 안 남아 다음 발사가 화면을 덮는 순간 사라졌다 · 옵션 모드는 산출이 텍스트라 d.url이 없어 자연 제외(얹을 파일 0) */
               if(mode==='options') renderOptions(d, Math.round((Date.now()-t0)/1000));
               else if(d.engine==='lyria'||d.engine==='rvc'||d.url) showLyria(d, Math.round((Date.now()-t0)/1000));   // 오디오 있는 산출 = 완성곡 뷰(lyria·rvc 커버)
               else showSuno(d, Math.round((Date.now()-t0)/1000));
