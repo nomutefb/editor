@@ -120,6 +120,32 @@
 /vd.html
   Cache-Control: no-cache
 
+# 260810 공유 부품 동일 계약 — ⚠ 실사고: 화면(html)만 no-cache라 **새 배포가 화면에만 반영되고 부품은 옛 판**으로 남았다.
+#   등재분(nm-svg·nm-loader·nm-cards·tokens)과 미등재분이 한 문서 안에 섞여 있어 "화면은 새것인데 동작·생김새는 옛것"이 되고,
+#   증상이 「고쳤다는데 그대로」 하나뿐이라 운영자 눈이 유일한 검출기였다(sb 260718 · tr 260723 · vd 260802에 이어 같은 누락 드리프트 4회째).
+#   ⚠ 특히 nm-sync.js = 새 배포 자동 반영 담당 부품 자신이 미등재였다 = 갱신기가 자기를 못 갱신하는 상태.
+#   강제 = check_refs 탭 헤더 게이트(뷰어가 실제로 물고 있는 nm-* 부품 자동 발견 = 새 부품이 조용히 못 빠진다).
+/nm-sync.js
+  Cache-Control: no-cache
+/nm-rail.js
+  Cache-Control: no-cache
+/nm-jobs.js
+  Cache-Control: no-cache
+/nm-clip.js
+  Cache-Control: no-cache
+/nm-models.js
+  Cache-Control: no-cache
+/nm-shared.css
+  Cache-Control: no-cache
+/nm-clip.css
+  Cache-Control: no-cache
+/nm-hist.css
+  Cache-Control: no-cache
+/nm-input.css
+  Cache-Control: no-cache
+/nm-job.css
+  Cache-Control: no-cache
+
 # 보안 헤더(평의회 260713 ⑥ — 무위험 3종 전 응답 적용 · 개별 Cache-Control 룰과 병합·충돌 0)
 # ⚠️ X-Frame-Options는 SAMEORIGIN 고정 — 이 앱은 도구(thumb/ly/k/edit …)를 same-origin iframe으로 품는 구조라 DENY면 스튜디오 전멸.
 /*

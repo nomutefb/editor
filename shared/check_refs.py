@@ -6146,7 +6146,33 @@ def check_tabs_headers():
         for r in missing:
             print('   -', r, '→ viewer/_headers에 "%s" + 다음 줄 "  Cache-Control: no-cache" 등재(형제 /thumb.html 계약 계승).' % r)
         return 1
-    print('✅ 탭 헤더 게이트 — 스튜디오 탭 src %d개 전부 _headers no-cache 등재(.html+clean 두 경로 · 캐시 계약 정합).' % len(srcs))
+    # ── 부품 축(운영자 260810 "모든 웹앱이 동시에 개선되어야해 · 안고쳤으면 버그인거임") ──
+    # ⚠ 실사고 = 화면(html)만 등재돼 있고 **그 화면이 물고 있는 공유 부품(nm-*.js/css)은 10종이 미등재**였다.
+    #   결과 = 새 배포가 화면에만 반영되고 부품은 옛 판 잔류 → "고쳤다는데 그대로"(운영자 눈이 유일한 검출기).
+    #   특히 nm-sync.js = 새 배포 자동 반영 담당 부품 자신이 미등재 = 갱신기가 자기를 못 갱신하는 상태였다.
+    #   ⚠ 구판은 **탭 src(.html)만** 봐서 이 축이 통째로 사각이었다 — 부품은 뷰어가 늘 때마다 조용히 늘고,
+    #   등재는 손 목록이라 새 부품이 매번 빠진다(sb 260718·tr 260723·vd 260802에 이은 같은 드리프트 4회째).
+    # 판정 = 표면 자동 발견(viewer/*.html이 실제로 참조하는 nm-* 부품 = 손 레지스트리 0) · 리터럴 `nm-` 앵커 스캔.
+    parts, users = set(), {}
+    for vp in sorted(glob.glob(os.path.join(ROOT, 'viewer', '*.html'))):
+        try:
+            vt = open(vp, encoding='utf-8').read()
+        except Exception:
+            continue
+        for p in re.findall(r'(?:src|href)="(nm-[a-z0-9_-]+\.(?:js|css))"', vt):
+            parts.add(p)
+            users.setdefault(p, set()).add(os.path.basename(vp))
+    pmiss = [p for p in sorted(parts)
+             if not re.search(r'^/%s\n[ \t]*Cache-Control:[ \t]*no-cache' % re.escape(p), hdr, re.M)]
+    if pmiss:
+        print('❌ 탭 헤더 게이트(부품 축) — 뷰어가 물고 있는 공유 부품이 _headers no-cache 미등재'
+              ' = 새 배포가 화면에만 반영되고 부품은 옛 판 잔류(운영자 260810):')
+        for p in pmiss:
+            print('   - /%s (쓰는 화면 %d개: %s) → viewer/_headers에 "/%s" + 다음 줄 "  Cache-Control: no-cache"'
+                  % (p, len(users[p]), ', '.join(sorted(users[p])[:4]), p))
+        return 1
+    print('✅ 탭 헤더 게이트 — 스튜디오 탭 src %d개 + 공유 부품 %d종 전부 _headers no-cache 등재'
+          '(.html+clean 두 경로 · 부품 = 뷰어 참조 자동 발견 · 캐시 계약 정합).' % (len(srcs), len(parts)))
     return 0
 
 
