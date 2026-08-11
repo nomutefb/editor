@@ -1,5 +1,5 @@
 #!/data/data/com.termux/files/usr/bin/sh
-# 드라이브 → 갤러리 다운싱크 (v1.8 · 정본 실물 — 문서 미러 = 드라이브싱크 플레이북 §1)
+# 드라이브 → 갤러리 다운싱크 (v1.9 · 정본 실물 — 문서 미러 = 드라이브싱크 플레이북 §1)
 # 설치(폰 한 줄): curl -fsSL https://raw.githubusercontent.com/muteno/nomute-editor/main/docs/drive-gallery-sync.sh -o ~/.termux/tasker/drive-gallery-sync.sh && chmod +x ~/.termux/tasker/drive-gallery-sync.sh
 #
 # ── v1.6 (2026-08-11) = 「계속 실패」 4중 봉합 ─────────────────────────────────
@@ -41,6 +41,24 @@
 # ⚠ SEEN 오염 동반 점검 = 이 사고가 난 회차에 rclone이 최종 rc=0을 반환했다면 v1.5가 그 zip을
 #   장부에 넣어버렸을 수 있다(= 영영 안 받아진다 · 260702·260719와 같은 병) →
 #   회수는 `docs/drivesync-fix.sh`가 로그의 실패 파일명을 실측해 자동으로 한다.
+# ── v1.9 (2026-08-11) = 자가 갱신 · 붙여넣기 깨짐을 코드가 흡수한다 ──────────────
+# 실사고 = v1.8 배포를 폰에 넣으려고 준 curl 한 줄이 **터미널 붙여넣기 신호문자에 깨졌다**
+#   (`~ $ [200~curl … | sh~` → `No command sh~ found` · 260719에 스크립트가 빈 파일로 깎였던
+#   그 사고와 같은 축). 같은 명령이 직전 실행에선 멀쩡했으니 재현이 불확실하고,
+#   **사람 손 붙여넣기를 배포 경로로 두는 한 이 사고는 계속 난다** = 코드로 흡수할 자리.
+# ▷ 동작 = 하루 1회, 정본 raw를 받아 3중 검문(크기>0 · 첫 줄 `#!` · 마지막 줄 `exit 0`)을
+#   통과하고 **내용이 실제로 다를 때만** 제자리 교체. 다음 틱(3분)부터 새 판이 돈다.
+#   ⚠ 그 자리에서 `exec` 재실행은 안 한다 — 방금 찍은 120초 디바운스에 걸려 어차피 즉시
+#   종료라 이득이 0이고, 교체 직후 재실행은 「반쯤 바뀐 상태로 도는」 창을 만든다.
+# ▷ 알림 = 갱신됐을 때 1장(`--id drivesync-up`). ⚠ 조용한 코드 교체는 금지 — 폰에서 도는
+#   코드가 언제 바뀌었는지 운영자가 모르면 안 된다.
+# ▷ 킬스위치 = `DS_SELFUP=0`(환경변수). 끄면 종전 동작 100%.
+# ⚠ 신뢰 모델은 **종전과 동일**(curl 한 줄 설치가 이미 같은 원천을 믿는다) — 늘어난 건
+#   「사람이 매번 붙여넣느냐」 하나뿐이다. 실패는 전부 fail-soft(받기 실패·검문 탈락 =
+#   종전 스크립트 그대로 · 동기화 무손상).
+SELF_URL="https://raw.githubusercontent.com/muteno/nomute-editor/main/docs/drive-gallery-sync.sh"
+SELFUP="$HOME/.drivesync.selfup"
+SELFUP_SEC=86400
 # ── 동기화 제외 칸(운영자 260811 "저런 압축파일은 동기화 안되게 조치해도됨 · 양방향 모두") ──
 #   묶음 파일은 갤러리에 갈 이유가 0이고, 실제로 260811 사고의 진범이 드라이브 웹의
 #   「여러 개 한꺼번에 받기」 산출물 `drive-download-*.zip`이었다(256M 초과 → 갈래받기 발동).
@@ -61,11 +79,31 @@ FAILC="$HOME/.drivesync.lsffail"
 CPFAIL="$HOME/.drivesync.copyfail"
 STUCK="$HOME/.drivesync.stuck"
 STUCK_N=10
-VER="v1.8"
+VER="v1.9"
 T=$(date +%s)
 if [ -f "$STAMP" ] && [ $((T - $(cat "$STAMP"))) -lt 120 ]; then exit 0; fi
 echo "$T" > "$STAMP"
 echo "$VER" > "$HOME/.drivesync.ver"
+# ── 자가 갱신(하루 1회 · 3중 검문 · fail-soft · 위 v1.9 칸) ──
+if [ "${DS_SELFUP:-1}" = 1 ] && [ -n "${0:-}" ] && [ -f "$0" ]; then
+  LU=$(cat "$SELFUP" 2>/dev/null || echo 0)
+  case "$LU" in *[!0-9]*|"") LU=0 ;; esac
+  if [ $((T - LU)) -gt "$SELFUP_SEC" ]; then
+    echo "$T" > "$SELFUP"
+    if curl -fsSL --max-time 30 "$SELF_URL" -o "$0.new" 2>/dev/null \
+       && [ -s "$0.new" ] \
+       && head -1 "$0.new" | grep -q '^#!' \
+       && [ "$(tail -1 "$0.new")" = "exit 0" ]; then
+      if ! cmp -s "$0.new" "$0"; then
+        NV=$(grep -m1 '^VER=' "$0.new" | cut -d'"' -f2)
+        mv "$0.new" "$0" && chmod +x "$0"
+        termux-notification --id drivesync-up -t "드라이브싱크 갱신됨" \
+          -c "$(TZ='Asia/Seoul' date '+[%I:%M %p]') $VER → ${NV:-새 판} · 다음 회차부터 적용" 2>/dev/null || true
+      fi
+    fi
+    rm -f "$0.new"
+  fi
+fi
 mkdir -p "$LOCAL"; touch "$SEEN"
 [ -s "$SEEN" ] || echo "__init__" > "$SEEN"
 if ! rclone lsf -R --files-only --contimeout 15s --timeout 60s --exclude "*.app/**" "$REMOTE" > "$NOW.raw" 2>>"$LOG"; then

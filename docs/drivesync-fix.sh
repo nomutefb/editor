@@ -117,6 +117,11 @@ fi
 
 echo ""
 echo "══════════ ④ 지금 한 번 돌린다 ══════════"
+# 다음 번엔 긴 주소를 다시 붙여넣지 않아도 되게 이 진단기를 폰에 남긴다
+# (260811 실사고 = 붙여넣기 신호문자가 `[200~curl … | sh~`로 명령을 깨뜨렸다 · 짧을수록 안전)
+curl -fsSL --max-time 30 "https://raw.githubusercontent.com/muteno/nomute-editor/main/docs/drivesync-fix.sh" -o "$HOME/dsfix" 2>/dev/null \
+  && [ -s "$HOME/dsfix" ] && head -1 "$HOME/dsfix" | grep -q '^#!' \
+  && { chmod +x "$HOME/dsfix"; echo "  ℹ 다음부터는 짧게:  sh ~/dsfix"; } || rm -f "$HOME/dsfix"
 rm -f "$HOME/.drivesync.last"
 sh "$SYNC"
 echo "  실행 끝 · 남은 배치: $(cnt "$NEW")건 / 못 받은 것: $(cnt "$MISS")건"
