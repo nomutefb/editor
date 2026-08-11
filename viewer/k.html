@@ -407,7 +407,7 @@
 </div>
 
 <script src="nm-svg.js"></script><!-- 공유 아이콘 SSOT(§🎨 CII P1·운영자 260628) — 인라인 복제 폐지·단일정본 -->
-<script src="nm-rail.js" data-scope="cap" data-dlname="prompt.txt"></script><!-- 결과·이전 제작 레일 부품 SSOT(마크업·렌더·공유 이력 · 영상 스코프 = nomute_cap_hist = 사진과 분리) -->
+<script src="nm-rail.js" data-scope="cap" data-dlname="prompt.txt" data-jobkey="k_pend"></script><!-- 결과·이전 제작 레일 부품 SSOT(마크업·렌더·공유 이력 · 영상 스코프 = nomute_cap_hist = 사진과 분리) · data-jobkey = 진행 중 큐 슬롯(260811 — 이 탭만 선언이 빠져 제작 중인 게 결과 칸에 안 떴다) -->
 <script src="nm-models.js"></script><!-- 모델 표시명 SSOT(운영자 260803 5차 "아이디어도 배선") — 아래 K_MODELS nm이 참조 · 강제 = check_model_names -->
 <script src="nm-jobs.js"></script><!-- 여러 작업 동시 추적 SSOT(운영자 260810 "동시에 병렬로 진행") — 폴 레지스트리(같은 잡 중복 폴 차단·남의 폴 안 끊음) -->
 <script src="nm-clip.js"></script><!-- 입력칸 클립 SSOT(복사·붙여넣기·지우개/되돌리기) — nm-svg.js 뒤 = 아이콘 상수 의존 순서 · 운영자 260803 "공식처럼가야함" -->
@@ -872,9 +872,31 @@ async function renderOut(md, refPath, outEl) {   // 결과 렌더 공통(폴 성
   });
 }
 let FOCUS_OUT = '';    // **지금 화면(상태줄·결과창)을 차지한 생성**(운영자 260810 병렬) — 구 `_curStop`(전역 폴 중단 핸들 1개)은 두 번째 발사가 첫 번째 폴을 그 자리에서 죽이던 자리라 이탈(러너는 계속 도는데 화면이 그 결과를 영영 안 봤다)
-const K_POLLS = 'k_polls';   // 폴 레지스트리 키(메모리 전용 — k엔 로컬 잡 원장이 없다)
+const K_POLLS = 'k_polls';   // 폴 레지스트리 키(메모리 전용 — 폴 핸들만 든다)
+/* 진행 중 슬롯(운영자 260811 "동일하게 그 부분에도 배치해주라") — 이 탭만 진행 중 목록이 **아예 없어서** 결과 칸에 제작 중인 게 안 떴고,
+   그래서 누를 줄도 없었다(형제 4탭은 전부 있었다). 저장 키 = 형제 문법 그대로 nm-jobs 슬롯 · 작업 번호 = 산출 경로(이 탭의 폴 키와 같은 축).
+   ⚠ 슬롯은 폴이 끝나는 자리(stop)에서 걷는다 — 남겨두면 끝난 생성이 결과 칸에 영원히 「제작중」으로 남는다. */
+const K_PEND = 'k_pend';
 const _polling = () => { try { return nmJobs.count(K_POLLS) > 0; } catch (e) { return false; } };
 let _fired = false;    // 이번 세션 발사 이력 — restoreLast가 발사 요청 await 창(아직 _curStop 미설정)에 지난 결과를 덮어그리는 잔여 레이스 봉합(최종감사2 #2)
+/* ══ 진행 중 행 탭 = 그 작업의 제작 화면으로 들어간다(운영자 260811 "동일하게 그 부분에도 배치해주라" — 편집 탭 정본의 프롬프팅판) ══
+   결과 레일(nm-rail.js)이 이 함수가 있을 때만 진행 중 행을 누를 수 있게 그린다(없으면 정적 행 = 갈 곳 없는 버튼 금지).
+   화면 주인만 넘긴다 — FOCUS_OUT이 넘어가면 뒤에서 돌던 그 생성의 폴이 상태줄을 그리기 시작하고 앞 생성은 자동 강등된다.
+   폴이 아예 없으면(새로고침으로 폴이 다 날아간 자리) 슬롯에 보관해 둔 참조 축과 함께 그 자리에서 새로 건다. */
+window.nmJobOpen = function (id) {
+  let p = null; try { p = nmJobs.get(K_PEND, id); } catch (e) {}
+  if (!p) return false;
+  let busy = false; try { busy = nmJobs.busy(K_POLLS, id); } catch (e) {}
+  const status = $('#status');
+  FOCUS_OUT = id;
+  if (busy) {   // 진행 표기 = poll 시작부 정본 바이트 그대로(새 문구·부품 0) — 폴이 시간만 갈아끼운다
+    status.classList.remove('err');
+    status.setAttribute('aria-busy', 'true');
+    if (window.nmLoader) status.innerHTML = nmLoader('prompting', '제작중…') + '<span class="ktime nm-shim" style="margin-left:var(--sp-1)"></span>';
+  } else poll(id, p.ref || null, true);
+  try { status.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion:reduce)').matches ? 'auto' : 'smooth', block: 'center' }); } catch (e) {}
+  return true;
+};
 /* focus=false = 뒤에서 도는 병렬 생성 — 상태줄·결과창을 안 건드린다(운영자 260810). 완료분은 작업 내역(서버 인덱스)에서 재열람. */
 function poll(outPath, refPath, focus) {
   focus = (focus !== false);
@@ -884,7 +906,7 @@ function poll(outPath, refPath, focus) {
   const t0 = Date.now(), status = $('#status'), out = $('#out');
   const budget = 1800;   // 컴팩트 백스톱 — 실패는 error.log로 즉시(아래) → budget은 '워크플로 증발'만 대비. 1800s = 잡 상한 30분과 통일(비-ref도 타임아웃 폴오버·재시도 붙으면 960s 초과 성공 가능 — B2 실측 · 초과 유실은 재열람(restoreLast)이 2차 안전망 · 260707 2차)
   const errPath = outPath.replace(/[^/]+$/, 'error.log');   // 같은 폴더 error.log = kmake 실패 메시지(있으면 즉시 표시 — budget 다 안 기다림·260619)
-  let live = true; const stop = () => { live = false; clearInterval(disp); if (mine()) status.removeAttribute('aria-busy'); try { nmJobs.free(K_POLLS, outPath); } catch (e) {} };   // 종료 시 잔존 핸들 해제 — 완료 후 재클릭·리롤이 '생성 중' 재확인 암으로 오인되는 것 차단(암은 진행 중에만 · 260708)
+  let live = true; const stop = () => { live = false; clearInterval(disp); if (mine()) status.removeAttribute('aria-busy'); try { nmJobs.free(K_POLLS, outPath); } catch (e) {} try { nmJobs.drop(K_PEND, outPath); } catch (e) {} };   // 종료 시 잔존 핸들 해제 + 진행 중 슬롯 회수(260811 — 안 걷으면 끝난 생성이 결과 칸에 영원히 「제작중」) — 완료 후 재클릭·리롤이 '생성 중' 재확인 암으로 오인되는 것 차단(암은 진행 중에만 · 260708)
   if (mine()) status.setAttribute('aria-busy', 'true');   // 생성 폴 진행 표식(ly goWait 짝) — 부모 뷰어 자동잠금이 '제작중'으로 읽어 보류(운영자 260707) · 해제 = stop(완료·실패·초과·재시도 전 경로)
   const fmtSec = s => { s = Math.max(0, Math.round(s)); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };   // 경과 = m:ss(track·conv·song fmtT 동문법 계승 · 운영자 260731 "0:42에 맞춰서 통일")
   const etaKey = refPath ? 'k-ref' : 'k-img';
@@ -985,7 +1007,9 @@ $('#go').onclick = async () => {
       try { $('#out').scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (e) {}
       return;
     }
-    poll(j.out, isReroll ? _lastRef : (j.refimage ? j.ref : null));   // 리롤 결과엔 직전 참조를 이월 표시(첫 생성분 재사용 — R2 URL 안정 · 검증5 F1 스펙A)
+    const _ref = isReroll ? _lastRef : (j.refimage ? j.ref : null);
+    try { nmJobs.add(K_PEND, { id: j.out, t0: Date.now(), lbl: '프롬프트', ref: _ref || '' }); } catch (e) {}   // 진행 중 슬롯 적립(260811) = 결과 칸에 「제작중」 줄로 선다 · ref 보관 = 그 줄을 눌러 다시 걸 때 참조 축이 살아야 예상시간·표시가 안 갈린다
+    poll(j.out, _ref);   // 리롤 결과엔 직전 참조를 이월 표시(첫 생성분 재사용 — R2 URL 안정 · 검증5 F1 스펙A)
   } catch (e) {
     status.innerHTML = WARN_SVG + ' 요청 실패: ' + esc(e.message); status.classList.add('err');
   } finally { $('#go').disabled = false; }

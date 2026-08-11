@@ -671,6 +671,22 @@ $('#lyriaGo').addEventListener('click',()=>fire('lyria',$('#lyriaGo')));
 // ── 폴(conv pollConv 문법 계승: error.log 즉시 보고 · SPA-HTML 가드 — 빌드 전 200을 완료로 오인 금지) ──
 /* focus=false = **뒤에서 도는 병렬 작업**(운영자 260810) — 상태줄·결과창을 안 건드리고 폴만 돈다.
    mine() = 지금도 내가 화면 주인인가(새 발사가 오면 FOCUS_ID가 넘어가 앞 작업은 자동 강등 = 남의 진행 화면을 안 덮는다). */
+/* ══ 진행 중 행 탭 = 그 작업의 제작 화면으로 들어간다(운영자 260811 "동일하게 그 부분에도 배치해주라" — 편집 탭 정본의 음원판) ══
+   결과 레일(nm-rail.js)이 이 함수가 있을 때만 진행 중 행을 누를 수 있게 그린다(없으면 정적 행 = 갈 곳 없는 버튼 금지).
+   화면 주인만 넘긴다 — FOCUS_ID가 넘어가면 뒤에서 돌던 그 작업의 폴이 상태줄을 그리기 시작하고 앞 작업은 자동 강등된다.
+   폴이 아예 없을 때만(재개 창 밖) 새로 건다. 경과·타임아웃 기점 클램프는 재개 경로 동값. */
+window.nmJobOpen=function(id){
+  let p=null; try{ p=nmJobs.get(PEND_KEY,id); }catch(e){}
+  if(!p) return false;
+  const md=p.mode||'suno', t0c=Math.max(p.t0||0, Date.now()-(BUDGETS[md]||BUDGET)*1000);
+  let busy=false; try{ busy=nmJobs.busy(PEND_KEY,id); }catch(e){}
+  FOCUS_ID=id; if(md!=='voice-train') SONG_ID=id;
+  if(busy) statusWait(true, t0c, md==='voice-train'?'보이스 학습 중':(WL[md]||'생성 중'), md);   // 진행 표기 = 각 폴 시작부 정본 그대로(새 문구 0)
+  else if(md==='voice-train') pollVoice(id, t0c, (p.t0||0)-90000, true);
+  else pollSong(id, md, t0c, (p.t0||0)-90000, null, true);
+  try{ $('#sstatus').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth',block:'center'}); }catch(e){}
+  return true;
+};
 function pollSong(id, mode, t0, minTs, gb, focus){
   focus = (focus !== false);
   try{ if(nmJobs.busy(PEND_KEY,id)) return; }catch(e){}   // 같은 작업 중복 폴 차단

@@ -731,7 +731,7 @@ function renderJobs() {
   a.forEach(j => {
     const row = document.createElement('div'); row.className = 'job' + (j.status === 'done' ? ' done' : j.status === 'err' ? ' err' : '');
     const lab = document.createElement('span'); lab.className = 'jlab'; lab.textContent = j.label; lab.title = '탭 = 이 콘티 불러오기'; lab.setAttribute('role', 'button'); lab.setAttribute('tabindex', '0');
-    lab.addEventListener('click', () => { if (j.status === 'run') { poll(j.out, j.id); } else { loadJob(j); } try { $('#out').scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (e) {} });
+    lab.addEventListener('click', () => { if (j.status === 'run') { sbOpenRun(j.id); return; } loadJob(j); try { $('#out').scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (e) {} });   /* ⚠ 진행 중 행 = 화면 주인 넘기기(260811) — 구 `poll(j.out, j.id)`는 이미 그 잡을 돌고 있으면 hold가 거절해 **그 자리에서 반환** = 눌러도 아무 일이 없었다(결과 레일 진행 중 행과 같은 병) */
     const v = document.createElement('span'); v.className = 'jvar'; v.textContent = j.srv ? '다른 기기' : (DNM[j.d] || j.d) + ' · ' + (SNM[j.sh] || j.sh) + (j.base ? ' · 변형' : '');   // 서버 인덱스 행 = 발사 스냅샷(감독·촬영) 미보존 → 출처 표기(260731)
     const st = document.createElement('span'); st.className = 'jst';
     const d = new Date(j.ts), p2 = n => String(n).padStart(2, '0');
@@ -759,6 +759,26 @@ function renderJobs() {
 let FOCUS_JOB = '';    // **지금 화면(상태줄·결과창)을 차지한 잡**(운영자 260810 병렬) — 구 `_curStop`(전역 폴 중단 핸들 1개)은 두 번째 발사가 첫 번째 폴을 그 자리에서 죽이던 자리라 이탈
 let _fired = false;    // 발사 이력 — restoreLast 레이스 가드(k 계승)
 const _polling = () => { try { return nmJobs.count(JKEY) > 0; } catch (e) { return false; } };   // 진행 중 폴이 하나라도 있나(구 `_curStop` 참조 자리 대체)
+/* ══ 진행 중 행 탭 = 그 작업의 제작 화면으로 들어간다(운영자 260811 "동일하게 그 부분에도 배치해주라" — 편집 탭 정본의 콘티판) ══
+   결과 레일(nm-rail.js)이 이 함수가 있을 때만 진행 중 행을 누를 수 있게 그린다(없으면 정적 행 = 갈 곳 없는 버튼 금지).
+   ⚠ 폴을 다시 걸지 않는다 — 이 탭의 폴 중단 핸들은 빈 함수라(hold 등록값) 새로 걸면 같은 잡을 두 벌 돌린다.
+   대신 **화면 주인만 넘긴다**: FOCUS_JOB이 넘어가는 순간 뒤에서 돌던 그 잡의 폴이 상태줄·결과창을 그리기 시작하고,
+   앞 잡은 자동 강등된다(260810 병렬 계약 그대로). 폴이 아예 없을 때만 새로 건다(재개 창 밖 = 화면이 영영 안 움직이는 자리). */
+function sbOpenRun(id) {
+  const j = jload().find(x => x && x.id === id && x.status === 'run');
+  if (!j) return false;
+  FOCUS_JOB = id;
+  const status = $('#status'), out = $('#out');
+  status.classList.remove('err');
+  status.setAttribute('aria-busy', 'true');
+  if (window.nmLoader) status.innerHTML = nmLoader('prompting', '제작중…') + '<span class="sbtime nm-shim" style="margin-left:var(--sp-1)"></span>';   // 진행 표기 = poll 시작부 정본 바이트 그대로(새 문구·부품 0)
+  if (out) out.innerHTML = '';   // 앞 잡의 결과가 남아 「제작중」과 겹쳐 보이는 것 차단(그 결과는 결과 레일·작업 내역에서 다시 연다)
+  let busy = false; try { busy = nmJobs.busy(JKEY, id); } catch (e) {}
+  if (!busy) poll(j.out, j.id, true);
+  try { status.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion:reduce)').matches ? 'auto' : 'smooth', block: 'center' }); } catch (e) {}
+  return true;
+}
+window.nmJobOpen = sbOpenRun;
 /* focus=false = 뒤에서 도는 병렬 잡 — 상태줄·결과창을 안 건드리고 작업 내역만 갱신한다(운영자 260810). */
 function poll(outPath, jid, focus) {
   focus = (focus !== false);

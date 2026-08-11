@@ -718,11 +718,27 @@ function renderJobs() {
     const _dlb = (u, lb) => '<a class="dlbtn jdl" href="' + esc(u) + '" download aria-label="' + lb + '" title="' + lb + '">' + DL_SVG + '</a>';
     const dl = _vid.map(u => _dlb(u, '영상 내려받기')).join('')
       + (_pak.length ? '<span class="jvar">팩</span>' + _pak.map(u => _dlb(u, '숏폼 팩 내려받기')).join('') : '');
-    return '<div class="job' + (j.status === 'err' ? ' err' : '') + '"><span class="jlab">' + esc(j.id) + '</span>'
+    return '<div class="job' + (j.status === 'err' ? ' err' : '') + '" data-jid="' + esc(j.id) + '"><span class="jlab">' + esc(j.id) + '</span>'   /* data-jid = 결과 레일 진행 중 행이 「그 작업 줄」을 찾아오는 이름표(운영자 260811) */
       + '<span class="jvar">' + (j.n || 0) + '건</span>' + dl + '<span class="jst">' + st + '</span></div>';
   }).join('') : '<div class="vdempty">아직 만든 영상이 없다.</div>';
   paintMonitor();
 }
+/* ══ 진행 중 행 탭 = 그 작업의 제작 화면으로 들어간다(운영자 260811 "동일하게 그 부분에도 배치해주라" — 편집 탭 정본의 큐영상판) ══
+   ⚠ 이 탭엔 작업별 대기 스테이지가 없다 — **렌더 큐 줄 자체가 진행 화면**이고 그 줄은 창(W) 메뉴 안에 산다.
+   그래서 「그 작업 화면으로 들어간다」 = 그 창을 열고 그 줄로 데려가 강조한다(강조 = nm-job.css `.thfocus` 정본 · 새 부품 0).
+   폴은 이미 돌고 있으므로 건드리지 않는다(hold 중복 차단이 있어 다시 걸어도 무동작 · 없으면 그 자리에서 새로 건다). */
+window.nmJobOpen = function (id) {
+  const j = jload().find(x => x && x.id === id && x.status === 'run');
+  if (!j) return false;
+  try { if (window.nmJobs && !nmJobs.busy(JKEY, id) && j.out) poll(j.out, j.id); } catch (e) {}
+  if (openM !== 'win') openMenu('win');
+  const row = $('#jobs').querySelector('[data-jid="' + (window.CSS && CSS.escape ? CSS.escape(id) : id) + '"]');
+  if (row) {
+    try { row.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion:reduce)').matches ? 'auto' : 'smooth', block: 'center' }); } catch (e) {}
+    row.classList.add('thfocus'); setTimeout(() => row.classList.remove('thfocus'), 2200);   // 착지 강조 시간 = nm-job.css thfocus 애니 길이 동값
+  }
+  return true;
+};
 async function poll(outPath, jid) {
   // 같은 잡 중복 폴 차단(운영자 260810) — 발사 직후 폴과 부팅 재개 폴이 겹치면 같은 주소를 두 배로 두드린다.
   try{ if(window.nmJobs && !nmJobs.hold(JKEY, jid, ()=>{})) return; }catch(e){}
