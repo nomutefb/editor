@@ -7,3 +7,4 @@
 {"ts": "2026-08-11T12:08:24+09:00", "kind": "breaking", "ver": "e825d5cf4e0c", "cases": 27, "runs": 3, "rcs": [0, 0, 0], "flips": [], "miss": [], "unstable": {"17": [true, false, true]}, "pass": true}
 {"ts": "2026-08-11T12:19:48+09:00", "kind": "breaking", "ver": "bb59af6ffa5a", "cases": 27, "runs": 3, "rcs": [0, 0, 0], "flips": [{"t": "伊 나폴리 인근 규모 4.7 강진 발생… 40년 만에 最强", "expect": "YES", "got": "NO"}], "miss": [], "unstable": {}, "pass": false}
 {"ts": "2026-08-11T12:20:31+09:00", "kind": "breaking", "ver": "bb59af6ffa5a", "cases": 27, "runs": 3, "rcs": [0, 0, 0], "flips": [], "miss": [], "unstable": {}, "pass": true}
+{"ts": "2026-08-11T12:48:33+09:00", "kind": "breaking", "ver": "a48379994333", "cases": 27, "runs": 3, "rcs": [0, 0, 0], "flips": [], "miss": [], "unstable": {}, "pass": true}
