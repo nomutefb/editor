@@ -8995,7 +8995,7 @@ if ('serviceWorker' in navigator) {
         sessionStorage.setItem('nmAuthKick', '1');   // 세션 1회 가드 = 리로드 루프 차단(SW의 nosw 조기 return이 1차 방어)
         const u = new URL(location.href); u.searchParams.set('nosw', '1'); location.replace(u.href);
       }
-      if (e.data && e.data.type === 'nm-shell-updated') { if (autoApplyUpdate()) return; flagShellUpdate(); showUpdateToast(); }   // 진입 직후 창이면 묻지 않고 그 자리 반영(운영자 260810) · 창 밖이면 종전 2채널 = 새 index 셸 배포 감지(SW SWR 백그라운드 재검증이 옛≠새 감지) → 메시지함 점등(260724 조용한 채널 유지) + 보라 토스트 재점등(운영자 260802 "새버전은 보라색 토스트 하면 됨") — 두 채널 병행 · 억제는 각자 보유
+      if (e.data && e.data.type === 'nm-shell-updated') { if (autoApplyUpdate()) return; flagShellUpdate(); showUpdateToast(); }   // 한가하면 묻지 않고 그 자리 반영(운영자 260810→260811 상시화) · 바쁘면 이월 + 종전 2채널 = 새 index 셸 배포 감지(SW SWR 백그라운드 재검증이 옛≠새 감지) → 메시지함 점등(260724 조용한 채널 유지) + 보라 토스트 재점등(운영자 260802 "새버전은 보라색 토스트 하면 됨") — 두 채널 병행 · 억제는 각자 보유
     } catch {}
   });
 }
@@ -9034,24 +9034,43 @@ async function applyShellUpdate(t) {
   try { sessionStorage.setItem('nmUpdCoolT', String(Date.now())); } catch {}   // 반영 직후 90s 재알림 억제 도장(무한루프 회로차단기 · 운영자 260717) — 그 사이 실배포가 와도 SWR 재검증 put이 캐시를 조용히 갱신 = 다음 진입 반영(수렴 보장 · 억제 = 표시만)
   location.reload();   // 성공 = 방금 꽂은 '현재 최신' 셸 즉시 서빙 + SWR 재검증도 동일 바이트 = 재알림 없음
 }
-// ── 진입 직후 자동 반영(운영자 260810 "새 버전이 있으면, 알아서 처음에 로딩할때 이를 갱신해서 받아오게") ──
-//    구 동작 = 새 셸을 SW가 백그라운드로 받아 캐시에 넣고 통지만 보냈다 → 보라 토스트 = *운영자가 탭해야* 반영(첫 진입은 늘 직전판 = SWR 계약의 대가).
-//    이제 '진입 직후 창'에 도착한 통지는 묻지 않고 그 자리에서 반영한다 = 앱을 여는 순간 최신 화면. 창 밖(이미 보고 있는 화면)은 종전 토스트 유지 —
-//    읽는 중에 화면이 제멋대로 갈아엎히지 않게(강제 이탈 0 = nm-sync ③ '한가할 때만' 계약과 같은 축).
-//    ⚠ 무한 리로드 회로차단 3중(260717 '탭하면 반영 무한루프' 실기록 계승) = ⓐ 부팅 15s 창 ⓑ 세션 1회 도장 ⓒ 반영 직후 90s 쿨다운(nmUpdCoolT 공용).
-//      ⓑ가 실효 조건 — 절단·put 실패로 캐시가 계속 옛 셸이면 매 진입 재검증이 또 '옛≠새'를 감지한다(수렴 실패 시 자동 반영이 곧 리로드 루프).
-//      2번째부터는 토스트로 내려 사람이 판단한다 = 자동은 한 번만, 못 고치면 조용히 안 고침이 아니라 종전 채널로 보이게.
-//    입력 중이면 자동 반영 금지 — 부팅 창 안이라도 검색칸에 타이핑을 시작했으면 그 글자가 날아간다(nm-sync busy 판정 계승).
-const AUTO_UPD_WIN = 15000;   // 부팅 후 자동 반영 창 = nm-sync ② 자가치유 창과 동값(값 창작 0)
-function autoApplyUpdate() {   // true = 자동 반영 발사(호출부는 토스트를 띄우지 않는다)
+// ── 새 버전 자동 반영(운영자 260811 "새 버전이 있는 경우, 알아서 이를 갱신해서 내가 갱신 버튼을 눌러서 새로고침 할 필요가 없게해줘") ──
+//    구판(260810) = '진입 직후 15s 창'에서만 자동 → **화면을 열어 둔 채 배포가 오는 실제 경로는 영영 수동이었다**:
+//      스탬프 자기확인(checkNewVersion)의 첫 발사가 부팅 45s라 그 호출부의 autoApplyUpdate는 `performance.now() > 15000`에 걸려
+//      **구조적으로 항상 false**였고(10분 주기·복귀 즉검도 전부 창 밖), 운영자에게 남는 건 보라 토스트 탭뿐이었다 = 이번 지시의 "갱신 버튼".
+//    이제 창 조건을 버리고 **한가 판정**으로 간다 = nm-sync ③ '한가할 때만 리로드' 계약과 같은 축(강제 이탈 0 · 값·문법 창작 0).
+//    바쁨 = 입력 중 ∨ 열린 모달(dialog[open] = 쓰는 중·읽는 중 공통) → 미루고 종전 토스트는 그대로 띄운다(운영자가 원하면 즉시 탭)
+//      + 한가해지는 순간 대기 틱이 자동 반영. 스크롤은 applyShellUpdate가 저장·복원(맨위 튕김 0).
+//    ⚠ 무한 리로드 회로차단 3중(260717 '탭하면 반영 무한루프' 실기록 계승) = ⓐ **배포 도장별 1회**(구 '세션 1회' 대체 — 세션 1회면
+//      두 번째 배포부터 다시 수동이 되어 이번 지시가 반나절 만에 되돌아간다. 반영 뒤에도 같은 도장이 새 것으로 보이면 = 수렴 실패
+//      = 그 판은 2회째부터 토스트로 내려 사람이 판단 = '자동은 한 판당 한 번, 못 고치면 조용히 안 고침이 아니라 보이게'는 그대로)
+//      ⓑ 반영 직후 90s 쿨다운(nmUpdCoolT 공용) ⓒ 적용 중 재진입 차단(_shellUpdApplying).
+const AUTO_UPD_RETRY = 60000;   // 미룬 건 재시도 주기 — 바쁠 때만 켜지고 반영·해소되면 스스로 끈다(nm-rail 경과 틱 관례 계승 · document.hidden 가드 = C16 유휴 정숙 동축)
+let _updWaitKey = '', _updWaitT = 0;
+function updBusy() {   // 한가 판정 = nm-sync busy 술어(입력 중) + 이 셸 고유축(열린 모달 = 작업·독서 중)
+  const a = document.activeElement;
+  if (a && (a.tagName === 'INPUT' || a.tagName === 'TEXTAREA' || a.isContentEditable)) return true;
+  try { if (document.querySelector('dialog[open]')) return true; } catch {}
+  return false;
+}
+function updWait(key) {   // 바쁨 = 이월(강제 이탈 0) · 한가해지는 순간 자동 반영
+  _updWaitKey = key;
+  if (_updWaitT) return;
+  _updWaitT = setInterval(() => {
+    if (!_updWaitKey || _shellUpdApplying) { clearInterval(_updWaitT); _updWaitT = 0; return; }   // 해소·반영 중 = 자기 소등
+    if (document.hidden || updBusy()) return;                                                    // 아직 바쁨 = 다음 틱(DOM 무접촉)
+    const k = _updWaitKey; _updWaitKey = ''; clearInterval(_updWaitT); _updWaitT = 0;
+    autoApplyUpdate(k);
+  }, AUTO_UPD_RETRY);
+}
+function autoApplyUpdate(stamp) {   // true = 자동 반영이 이 건을 맡음(호출부는 토스트를 띄우지 않는다)
   if (_shellUpdApplying) return true;                                          // 이미 반영 중 = 곧 reload
-  if (performance.now() > AUTO_UPD_WIN) return false;                          // 창 밖 = 운영자가 보고 있는 화면 = 종전 토스트(bfcache 복귀도 여기로 = '처음 로딩'이 아님)
-  try { if (sessionStorage.getItem('nmAutoUpd')) return false; } catch {}      // ⓑ 세션 1회 = 수렴 실패 시 리로드 루프 절단
-  try { if (Date.now() - (+sessionStorage.getItem('nmUpdCoolT') || 0) < 90000) return false; } catch {}   // ⓒ 반영 직후 억제(토스트 경로와 동값)
-  const a = document.activeElement;                                            // 입력 개시 = 자동 이탈 금지
-  if (a && (a.tagName === 'INPUT' || a.tagName === 'TEXTAREA' || a.isContentEditable)) return false;
-  try { sessionStorage.setItem('nmAutoUpd', '1'); } catch {}
-  console.log('[update] 새 버전 자동 반영 — 진입 직후 창 · 최신 셸 재확보 후 재진입');   // 계측 = 조용한 리로드 금지(nm-sync ③ 관례)
+  const key = stamp || 'sw';                                                   // SW 통지 경로는 도장을 모른다 = 고정 키(그 경로만 종전대로 세션 1회 강도 유지)
+  try { if (Date.now() - (+sessionStorage.getItem('nmUpdCoolT') || 0) < 90000) return false; } catch {}   // ⓑ 반영 직후 억제(토스트 경로와 동값)
+  try { if (sessionStorage.getItem('nmAutoUpd') === key) return false; } catch {}   // ⓐ 같은 도장 2회째 = 수렴 실패 → 토스트로 내려 사람이 판단
+  if (updBusy()) { updWait(key); return false; }                               // 바쁨 = 미룸 + 토스트 병행(선택지 보존) · 한가해지면 위 틱이 이어받는다
+  try { sessionStorage.setItem('nmAutoUpd', key); } catch {}
+  console.log('[update] 새 버전 자동 반영 — 한가 · 최신 셸 재확보 후 재진입');   // 계측 = 조용한 리로드 금지(nm-sync ③ 관례)
   applyShellUpdate(null);                                                      // 정본 재사용 = 최신 셸 fetch → SW 캐시 두 키 갱신 → reload(중첩 배포 N건 일괄 해소 · 신규 경로 0)
   return true;
 }
@@ -9097,7 +9116,7 @@ async function checkNewVersion(force) {
     const sv = m && m[1];
     if (!sv || sv === 'dev' || sv === BUILD_STAMP || sv === _verAlerted) return;   // 스탬프 = 진실 판정(ETag 변이·압축 변주는 여기서 걸러짐 = sw.js scrub와 같은 취지)
     _verAlerted = sv;
-    if (autoApplyUpdate()) return;          // 진입 직후 창이면 자동 반영(SW 통지 유실·SW 미등록 경로의 짝 — 한쪽만 배선하면 나머지가 조용히 종전 동작으로 남는다)
+    if (autoApplyUpdate(sv)) return;        // 한가하면 그 자리 자동 반영(SW 통지 유실·SW 미등록 경로의 짝 — 한쪽만 배선하면 나머지가 조용히 종전 동작으로 남는다) · 도장(sv) 전달 = 배포별 1회 회로차단의 키
     flagShellUpdate(); showUpdateToast();   // 메시지함(조용) + 보라 토스트(운영자 260802) 동시 — 억제 로직은 각자 보유
   } catch {}   // 오프라인·타임아웃 = 다음 주기 재시도(fail-soft)
 }
