@@ -474,22 +474,21 @@ def _daily_timeseries(daily):
         d = r.get('date') or ''
         for k in ('views', 'reach', 'profile_views', 'interactions', 'follows'):
             put(d, k, r.get(k))
+    # 팔로우/취소 날짜 원장(운영자 260719 Q171 · 260811 재봉합) — 취소는 **게시물별로는 API에 아예 없고**
+    # 이 계정 일별이 유일 원천이다. 하루창을 날짜별로 누적한 follow_ledger.json이 정본(수집 = insta_fetch).
+    # ⚠ 구판은 회차 행의 follows_split을 읽었는데 그 창(어제 하루)이 집계 지연 48h에 걸려 **1,009회 전건 빈손**이라
+    #   뷰어 취소 선이 284일 내내 결측이었다. 게다가 값이 왔어도 판정이 'UNFOLLOW' 부분일치라 실제 값 이름
+    #   NON_FOLLOWER를 못 잡고 그 다음 조건 'FOLLOW'에 걸려 **취소가 신규로 둔갑**하는 이중 결함이었다.
+    # 위치 = 과거 시드 뒤·봇 수집 앞(put은 선점자 우선) = 명시창 실측이 follower_count보다 신뢰축.
+    fled = jload('follow_ledger.json')
+    if isinstance(fled, dict):
+        for d, rec in fled.items():
+            if not isinstance(rec, dict) or len(d) != 10:
+                continue
+            put(d, 'follows', rec.get('f'))
+            put(d, 'unfollows', rec.get('u'))
     for row in daily:
         fd = (row.get('fetched_kst') or '')[:10]
-        # 팔로우/취소 분해 스냅샷(운영자 260719 Q171 · fetch follows_split — 어제 00:00~오늘 00:00 KST 명시창 = 완결일 확정 귀속) →
-        # UNFOLLOWER → unfollows(뷰어 취소 라인 신설 축) · FOLLOWER → follows. follower_count_series보다 먼저 처리(put 선점자 우선):
-        # 같은 날짜는 명시창 분해값이 신뢰축(follower_count = 창 경계 모호 + 260713 스톨 때 가짜 0 실측 — 0도 값이라 후순위론 못 이김) ·
-        # 과거 시드는 이 루프 이전 선점이라 종전대로 불변 · 분해 없는 날짜는 follower_count가 종전대로 채움.
-        fs = row.get('follows_split') or {}
-        d0 = fs.get('date') or ''
-        raw = fs.get('raw')
-        for br in (raw if isinstance(raw, list) else []):
-            for res in (br.get('results') or []):
-                dv = ' '.join(str(x) for x in (res.get('dimension_values') or [])).upper()
-                if 'UNFOLLOW' in dv:
-                    put(d0, 'unfollows', res.get('value'))
-                elif 'FOLLOW' in dv:
-                    put(d0, 'follows', res.get('value'))
         for p in (row.get('follower_count_series') or []):
             put((p.get('end_time') or '')[:10], 'follows', p.get('value'))
         ts = row.get('account_daily') or {}

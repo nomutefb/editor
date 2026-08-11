@@ -23,6 +23,10 @@ on:
         description: '채널 AI 브리프(chan_brief.sh · 1=생성) — §📰-e 카나리아: 기본 OFF 머지 → dispatch 실측 → 승격'
         type: string
         default: '0'
+      follow_backfill:
+        description: '팔로우/취소 일별 소급 일수(0=평시 · 180=반년 회수 · 운영자 260811 — 하루창 1콜×일수)'
+        type: string
+        default: '0'
 permissions:
   contents: write
 concurrency:
@@ -42,6 +46,7 @@ jobs:
         env:
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
           IG_USER_ID: ${{ vars.IG_USER_ID }}
+          IG_FOLLOW_BACKFILL: ${{ github.event_name == 'workflow_dispatch' && inputs.follow_backfill || '0' }}   # 평시 0 = 결측일만 소수 채움 · 수동 발사 시만 소급(하루창 1콜×일수 · 실측 보관 경계 최소 180일)
         run: python3 .github/scripts/insta_fetch.py
       - name: 전 게시물 백필(수동 발사 전용 · 운영자 260713 "기존꺼 파악")
         if: ${{ github.event_name == 'workflow_dispatch' && inputs.backfill }}

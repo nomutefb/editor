@@ -104,8 +104,22 @@ def api(path, **params):
         return None, str(e)
 
 
+def _bd_empty(bd):
+    """분해(breakdowns)가 **알맹이 없는 껍데기**인가 = 결과 칸이 통째로 비었나.
+    ⚠ 260811 실사고의 진범 판별자 — Meta는 아직 집계가 안 끝난 기간을 물으면 200에 이런 걸 준다:
+       [{"dimension_keys": ["follow_type"]}]   ← 이름만 있고 results 배열 자체가 없다.
+    구판은 이 리스트가 truthy라는 이유로 '값을 받았다'로 읽었고, 그래서 260719~260811 사이
+    **1,009회 전건이 빈손인데 dropped 경보가 0회**였다(화면 취소 선은 284일 내내 비어 있었다).
+    = 이 레포가 반복해 겪은 '관측이 지워지는 병'과 같은 축."""
+    if not isinstance(bd, list) or not bd:
+        return True
+    return not any((b or {}).get('results') for b in bd)
+
+
 def parse_ins(j):
-    """insights 응답 → {지표명: 값}. total_value·시계열 values 양식 모두 원형 보존."""
+    """insights 응답 → {지표명: 값}. total_value·시계열 values 양식 모두 원형 보존.
+    ⚠ 빈 껍데기 분해는 **획득으로 치지 않는다**(키를 안 만든다) → insights()의 낱개 재시도로 넘어가고,
+      그래도 없으면 dropped에 실려 경보가 된다. 조용한 죽음을 가시 경보로 바꾸는 자리."""
     out = {}
     for it in (j or {}).get('data', []):
         name = it.get('name')
@@ -113,7 +127,12 @@ def parse_ins(j):
             continue
         if 'total_value' in it:
             tv = it['total_value']
-            out[name] = tv.get('breakdowns') or tv.get('value')
+            bd, val = tv.get('breakdowns'), tv.get('value')
+            if bd is not None and not _bd_empty(bd):
+                out[name] = bd
+            elif val is not None:
+                out[name] = val
+            # 둘 다 없거나 껍데기 = 미획득(키 생성 안 함) = 낱개 재시도 → dropped 경보
         elif it.get('values'):
             vals = it['values']
             out[name] = vals if len(vals) > 1 else vals[0].get('value')
@@ -156,15 +175,81 @@ def main():
         ['views', 'reach', 'profile_views', 'accounts_engaged', 'total_interactions',
          'likes', 'comments', 'shares', 'saves', 'replies'],
         period='day', metric_type='total_value')
-    fc, _ = insights(f'{uid}/insights', ['follower_count'], period='day')
-    # 팔로우/취소 분해(운영자 260719 Q171 — 뷰어 '팔로워 증감' 카드 취소 라인 데이터원) — follows_and_unfollows
-    # = total_value 전용(일별 시계열 미지원)이라 어제 00:00~오늘 00:00 KST 1창을 명시해 달력일 확정 귀속.
-    # FOLLOWER 값 = follower_count 결측일 보강 겸용(병합은 선점자 우선 = 기존 수집 무접촉) · 실패 = dropped 가시 경보.
     day0 = datetime.datetime.now(KST).replace(hour=0, minute=0, second=0, microsecond=0)
-    fu, drop4 = insights(f'{uid}/insights', ['follows_and_unfollows'],
+    now_ep0 = int(datetime.datetime.now(KST).timestamp())
+    # 신규 팔로우 일별 = 창 명시(운영자 260811 실사고 봉합) — 구판은 무인자 호출이라 Meta가 **최근 2일 버킷만**
+    # 주는데 그 2일이 집계 미완결이라 **전부 0**이었다(실측: 뷰어 일별 신규가 8/04~8/11 전건 0 · 창을 30일로
+    # 명시하니 81·105·47·90·62·127로 멀쩡히 나온다). 260809에 접속 실측(online_followers)이 똑같은 병을
+    # 창 명시로 고쳤는데 이 지표는 안 따라왔다 = 「같은 병의 형제를 놓친」 축(check_seal_completeness 겨냥 모양).
+    fc, _ = insights(f'{uid}/insights', ['follower_count'], period='day',
+                     since=str(now_ep0 - 30 * 86400), until=str(now_ep0))
+    # 팔로우/취소 분해(운영자 260719 Q171 · 260811 재봉합) — 취소 = 게시물별로는 API에 아예 없고 이 계정 일별이 유일 원천.
+    # ⚠ 260811 실측으로 진범 확정 = **창 위치**. 이 지표는 집계가 48시간 지연돼 어제·당일을 물으면 200에
+    #   빈 껍데기(`[{"dimension_keys":["follow_type"]}]`)만 온다 → 구판은 어제 하루창만 물어서 260719 이후
+    #   **1,009회 전건 빈손**이었고 껍데기가 성공으로 통과해 경보도 0회였다(뷰어 취소 선 284일 결측).
+    #   실호출 실측: 1일 전 빈손 · 2일 전 127/74 · 3일 전 62/47 · 30일 전 264/94 · 90일 전 45/84 · **180일 전 193/56**
+    #   = 지연 경계 48h · 보관 경계는 최소 180일(문서상 90일보다 길다 · 그 너머는 미확인).
+    # → 하루창을 **원장에 누적**한다(통창은 합계만 줘서 일별로 못 쪼갠다 = 하루창 반복이 유일한 길).
+    #   매 런 = 결측일만 최대 FOLLOW_MAX_CALL콜(있는 날은 안 묻는다 = 하트비트 30분 런에도 평시 0~2콜) ·
+    #   소급 = 환경변수 IG_FOLLOW_BACKFILL 일수(1회성 · 180이면 180콜). online_ledger.json 누적 관용구 계승.
+    FOLLOW_LAG = 2            # 집계 지연(일) — 이 날짜 이후는 물어도 빈손이라 요청 자체를 안 한다
+    FOLLOW_KEEP = 400         # 원장 보관 일수(online_ledger 동값)
+    FOLLOW_MAX_CALL = 8       # 평시 런 1회 상한(결측 자가치유 속도 · 소급은 아래 환경변수로 별도)
+    fled_p = f'{OUT}/follow_ledger.json'
+    try:
+        fled = json.load(open(fled_p, encoding='utf-8'))
+        assert isinstance(fled, dict)
+    except Exception:
+        fled = {}
+    try:
+        back = max(0, int(os.environ.get('IG_FOLLOW_BACKFILL', '0') or 0))
+    except ValueError:
+        back = 0
+    span = max(back, FOLLOW_LAG + FOLLOW_MAX_CALL)
+    cap = back if back else FOLLOW_MAX_CALL
+    want = []
+    for k in range(FOLLOW_LAG, span + 1):
+        dd = (day0 - datetime.timedelta(days=k)).date().isoformat()
+        if dd not in fled:
+            want.append((k, dd))
+        if len(want) >= cap:
+            break
+    drop4, fu_new = [], 0
+    for k, dd in want:
+        g, dr = insights(f'{uid}/insights', ['follows_and_unfollows'],
                          period='day', metric_type='total_value', breakdown='follow_type',
-                         since=str(int((day0 - datetime.timedelta(days=1)).timestamp())),
-                         until=str(int(day0.timestamp())))
+                         since=str(int((day0 - datetime.timedelta(days=k)).timestamp())),
+                         until=str(int((day0 - datetime.timedelta(days=k - 1)).timestamp())))
+        raw = g.get('follows_and_unfollows')
+        if raw is None:
+            drop4 += [f'{x} [{dd}]' for x in dr]   # 빈 껍데기도 여기로 온다(parse_ins가 미획득 처리) = 가시 경보
+            continue
+        rec = {}
+        for br in (raw if isinstance(raw, list) else []):
+            for res in (br.get('results') or []):
+                dv = ' '.join(str(x) for x in (res.get('dimension_values') or [])).upper()
+                # ⚠ 값 이름은 FOLLOWER / NON_FOLLOWER / UNKNOWN 이다(실측). 'UNFOLLOW' 같은 낱말은 안 온다 —
+                #   구 소비 코드가 'UNFOLLOW' 부분일치로 취소를 찾다가 못 찾고, 그 다음 조건 'FOLLOW'에
+                #   **NON_FOLLOWER가 걸려 신규로 둔갑**하던 자리다(값이 왔어도 취소가 신규로 새는 이중 결함).
+                if dv == 'NON_FOLLOWER':
+                    rec['u'] = res.get('value')
+                elif dv == 'FOLLOWER':
+                    rec['f'] = res.get('value')
+                elif dv:
+                    rec[dv.lower()] = res.get('value')
+        if rec:
+            fled[dd] = rec
+            fu_new += 1
+    if fled:
+        for k2 in sorted(fled)[:-FOLLOW_KEEP]:
+            fled.pop(k2, None)
+        try:
+            with open(fled_p, 'w', encoding='utf-8') as f:
+                json.dump(fled, f, ensure_ascii=False, sort_keys=True)
+        except Exception as e:
+            print(f'follow_ledger 적재 실패(비치명): {e}')
+    print(f'[팔로우/취소] 원장 {len(fled)}일치 · 이번 회차 신규 {fu_new}일 · 요청 {len(want)}건'
+          + (f' · 소급 {back}일 모드' if back else ''))
     # 접속 실측 = 최근 30일 창 명시(운영자 260809 "제대로 받아오게끔 조치해줘" — 실측 사고 = 8/8·8/9 빈 회신에
     # 원장이 8/7에서 정지·7일 고정). ⚠ 무인자 호출은 Meta가 **최근 ~2일 버킷만** 준다 → 공회신이 3일 이상 이어지면
     # 그 사이 날짜는 영영 복구 불가(다음 런도 다시 최근 2일만 본다 = 구멍이 원장에 영구히 남고 요일 표본이 요일당
@@ -223,6 +308,17 @@ def main():
         base = ['views', 'reach', 'likes', 'comments', 'saved', 'shares', 'total_interactions']
         if m.get('media_product_type') == 'REELS':
             base += ['ig_reels_avg_watch_time', 'ig_reels_video_view_total_time']
+        else:
+            # 게시물이 데려온 신규 팔로우·프로필 방문(운영자 260811 "게시물당 팔로워 취소가 중요하다" —
+            # 취소는 게시물별로 API에 아예 없고, 그 목적("어떤 게시물이 결이 안 맞나")에 실제로 답하는 건
+            # 이 두 값이다. 실측 = 신규 48·26명 · 방문 292·270회 · 도달 1만당 신규가 0.3~1.7로 5.7배 갈린다).
+            # ⚠ 릴스 제외는 취향이 아니라 API 제약이다 — 실호출 실측에서 릴스는 전건 400을 준다:
+            #   "The Media Insights API does not support the follows metric for this media product type."
+            #   묶음에 그냥 넣으면 릴스마다 묶음이 통째로 실패하고 insights()가 지표를 낱개로 다시 물어
+            #   **회차당 요청이 25→100회대로 뛴다**(평의회 7번 지적) → 형식으로 갈라 애초에 안 묻는다.
+            # ⚠ 이 채널은 피드 491 : 릴스 493이라 이 축은 구조적으로 **게시물의 절반만** 덮는다.
+            #   릴스 쪽 대체 축은 별건(시청 유지·이탈률) = 미착수. 덮지 못하는 절반을 덮은 척하지 않는다.
+            base += ['follows', 'profile_visits']
         mi, _ = insights(f"{m['id']}/insights", base)
         mm['insights'] = mi
         items.append(mm)
@@ -253,8 +349,10 @@ def main():
     with open(f'{OUT}/insights_daily.jsonl', 'a', encoding='utf-8') as f:
         f.write(json.dumps({'fetched_kst': stamp, 'profile': prof, 'account_day': acc,
                             'follower_count_series': fc.get('follower_count'),
-                            'follows_split': {'date': (day0 - datetime.timedelta(days=1)).date().isoformat(),
-                                              'raw': fu.get('follows_and_unfollows')},
+                            # 팔로우/취소는 이제 날짜별 원장(follow_ledger.json)이 정본이다 — 여기엔 회차 요약만 남긴다.
+                            # 구판은 '어제 하루창 원본'을 매 회차 통째로 박았는데 그 창이 항상 빈손이라 1,009줄이 껍데기였다.
+                            'follows_led': {'days': len(fled), 'new': fu_new,
+                                            'last': (sorted(fled)[-1] if fled else None)},
                             'account_daily': ts,
                             'dropped': dropped}, ensure_ascii=False) + '\n')
     with open(f'{OUT}/media_latest.json', 'w', encoding='utf-8') as f:
