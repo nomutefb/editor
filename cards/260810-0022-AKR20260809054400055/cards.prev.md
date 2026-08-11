@@ -1,31 +1,32 @@
-# 16분 만에 2단계, 4시간 뒤 수산동은 사라졌다
+# 이전 논의 세 번 도는 사이, 30년 도매시장 수산동이 탔다
 
 **[프롬프트 설계]**
-- 화풍: A 한국 웹툰 수채화 — 인명피해 0의 안도와 생계 상실의 허탈이 같은 밤에 겹치는 휴먼 결이라, 극화의 고발보다 수채의 온도가 사건에 맞다
-- 분위기: 물비린내와 잿내가 섞인 심야에서 새벽으로 넘어가는 정적 — 불길의 격렬함보다 그 불이 지나간 뒤 남은 공기를 본다
-- 연출 방향: 뉴스를 안 보는 독자도 "밤 11시에 시장에 불이 났다"는 장면 하나로 멈춘다 — 그래서 카드1은 셔터 틈으로 새어나오는 첫 주황빛 하나에 시선을 걸고, 이후엔 불 자체가 아니라 **불이 향하던 방향**(맞닿은 주택가)과 **불이 비껴간 것**(사람)을 번갈아 보여준다. 시사점은 "절차가 지킨 것은 사람까지였다"이므로, 소방의 시간(시각·인원·장비)은 위에서 넓게 잡고 상인의 시간은 눈높이에서 좁게 잡아 두 시계가 다른 속도로 흐르게 한다. 악센트는 화재 상징색인 잉걸 주황 1색으로 통일해, 불이 꺼진 뒤 카드에도 그 색이 소방 호스·그을음으로 남게 한다
-- 독자 동선: **발단** 카드1→**전개** 카드2~3→**피크** 카드4→**해소** 카드5→**시사점** 카드6 · 훅=카드1 끝(단서형: 소방이 불보다 먼저 본 것 → 카드2가 "주택가와 맞닿아 있었다"로 즉시 회수)+카드3 끝(단서형: 그 4시간이 삼킨 자리 → 카드4가 "수산동은 전소됐다"로 즉시 회수) · 착지 한 줄 요지=소방의 밤이 끝난 시각에 상인의 밤이 시작됐다
-- 연속성 앵커: Recurring subject — a Korean man in his 60s, short gray hair, weathered face, wearing a faded navy work jacket over a rubber apron and rubber boots (카드4·5·6 등장) / 반복 장소 — a Korean wholesale seafood market lot with a low steel-framed hall and a fence line of two-story houses behind it
+- 화풍: B 극화 — 재난 현장의 사실성과 12년 지연이라는 구조 축을 함께 지고 가야 해서(추모가 아니라 고발 쪽 무게)
+- 분위기: 불이 꺼진 뒤의 차가운 새벽 — 뜨거웠던 자리에 물과 재만 남은 정조, 안도 바로 뒤에 오는 허탈
+- 연출 방향: 독자(수산동 상인·그 시장에서 물건 떼던 횟집 사장)가 멈추는 자리는 "사람은 다 무사한데 왜 이렇게 허탈한가"라는 낙차다. 그래서 화염 자체보다 **불이 지나간 뒤에 남은 것**(빈 활어 수조, 물 고인 바닥, 초점 없는 눈)에 강조점을 둔다. 시사점은 "청구서가 조사 결과보다 먼저 왔다" — 그래서 뜨거움(주황 잔불)과 차가움(새벽 청색)의 대비를 시퀀스 전체의 명도 아크로 깔고, 마지막에만 아침빛으로 푼다. 카드 전체가 공유할 키노트 = 어둠 속 단 하나의 주황.
+- 독자 동선: **발단** 카드1→**전개** 카드2→**피크** 카드3→**해소** 카드4→**시사점** 카드5~7 · 훅=카드1 끝(단서형 "대응 2단계"를 던지고 카드2 첫 줄이 즉시 회수)+카드2 끝(예고형 "밤새 매달렸다" → 카드3이 결과로 회수) · 착지 한 줄 요지 = 12년째 조사가 도는 사이 청구서는 27곳 상인에게 먼저 도착했다
+- 연속성 앵커: Recurring subject — a Korean man in his 60s, short greying hair, weathered square face, wearing a navy work vest over dark rubber waders (카드3·4·7) / 반복 장소 = the soot-blackened low market hall and its flooded concrete yard
 
 ### [카드 1]
 **텍스트**
 ```text
-9일 밤 11시 13분이었다
+8월 9일 밤 11시 13분이었다
 전주 송천동 농수산물시장
-활어동에서 불이 시작됐고
-*소방은 불보다 먼저 다른 걸 봤다*
+활어동에서 불이 시작됐다
+*16분 만에 대응 2단계였다*
 ```
 **이미지 프롬프트**
 ```text
-korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn line work with loose ink contours, emotive character expressions, warm ambient lighting
-Scene: Emotional focal point: the first orange glare bleeding out from under a half-closed roll-up shutter. Inside a night market hall, rows of live-fish tanks stand in the dark while thin smoke slides along the ceiling beams toward the right edge of the frame. No people are present, and a single overturned styrofoam fish box lies on the wet floor just beneath the shutter. The place is a Korean wholesale seafood market hall at midnight.
-Camera: wide shot from a low angle, shot on 24mm wide lens
-Lighting/mood: cold blue dim interior light, heavy and suffocating, faint trembling tension
-Accent: monochrome desaturated base with a single color accent (ember orange, the fire's symbolic color), film-noir low-key lighting, deep shadows
-Text handling: keep every surface free of writing; no shop signage lettering, no printed labels on the boxes, no banners.
+korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
+Scene: Emotional focal point: the single orange glow bleeding out of one low hall while everything around it stays black. A night wholesale market seen from directly above, long rows of shuttered stalls and empty loading bays laid out in a grid. One low hall in the middle vents fire-light through its roof vents and side windows. No people in frame; a few delivery trucks sit still on the wet asphalt yard, nose room on the right, the glow leaning toward the right edge.
+Camera: establishing wide shot from a bird's-eye view, shot on 20mm wide lens
+Lighting/mood: single pool of hard light isolating the burning hall in surrounding blackness, claustrophobic loneliness, orange sodium 2200K glow as the only source
+Accent: monochrome desaturated base with a single color accent of ember orange (the fire's symbolic color), film-noir low-key lighting, deep shadows
+Korean setting by default: Korean market architecture, Korean roll-down shutters and signage forms.
+Text handling: do not render any signage text or banner lettering; keep all lettering out of frame or cropped away by the overhead angle.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the wet market hall floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the asphalt market yard) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -35,28 +36,29 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-전주 송천동 농수산물시장
+전주 농수산물도매시장 화재
 ```
 
 ### [카드 2]
 **텍스트**
 ```text
-불이 난 지 16분 만에
-인근 소방서까지 총출동하는
-*소방 대응 2단계로 올라섰다*
-시장이 주택가와 맞닿아 있었다
+그건 인근 소방서 5~6곳을 한꺼번에
+불러 모으는 경보 단계다
+소방 88명 경찰 37명 등 125명과
+*장비 50대가 밤새 매달렸다*
 ```
 **이미지 프롬프트**
 ```text
-korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn line work with loose ink contours, emotive character expressions, warm ambient lighting
-Scene: Emotional focal point: a fire captain's eyes cutting away from the flames toward the low houses just past the market fence. He stands mid-frame in full turnout gear with a radio raised to his mouth, his gaze and body angled to the right edge where a row of two-story homes sits close behind the fence line. Two more firefighters run behind him dragging a hose across the wet asphalt street. The place is the front lot of a Korean wholesale market at night, with the burning hall glowing off-frame to the left.
-Camera: medium shot from eye level, three-quarter angle, shot on 35mm lens
-Lighting/mood: single hard side-light cutting across the subject, deep chiaroscuro shadows, tense atmosphere
-Accent: monochrome desaturated base with a single color accent (ember orange, the fire's symbolic color), film-noir low-key lighting, deep shadows
-Text handling: no lettering on the turnout gear, the radio, or the houses; keep all surfaces free of writing.
+korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
+Scene: Emotional focal point: the braced shoulders and locked forearms of a firefighter gripping a charged hose line. Seen from below, five firefighters in full turnout gear advance in a line toward the smoking hall, water arcing over them into thick smoke. Behind them, two uniformed police officers hold an empty cordon at the yard entrance, kept lower and softer so the firefighters stay the focus. Their bodies and the hose line all point toward the right edge of the frame, with nose room on the right.
+Camera: medium shot from a low angle, shot on 24mm wide lens
+Lighting/mood: cold blue dim light, heavy and suffocating, faint trembling tension, backlit by the fire behind the smoke
+Accent: monochrome desaturated base with a single color accent of ember orange (the fire's symbolic color), film-noir low-key lighting, deep shadows
+Korean setting by default: Korean firefighters and Korean market yard.
+Text handling: do not render any lettering on helmets, jackets, vehicles or signage; keep all text out of frame or obscured by smoke and angle.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the wet asphalt street) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the wet asphalt roadway) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -66,28 +68,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-전주 농수산물시장 화재 소방차
+소방 대응2단계 야간진화
 ```
 
 ### [카드 3]
 **텍스트**
 ```text
-소방과 경찰 125명이 밤을 샜다
-장비 50대가 물을 뿌렸고
-불은 새벽 3시 32분에야 꺼졌다
-*그 4시간이 삼킨 자리가 있었다*
+*하지만 건물은 남지 않았다*
+40개 점포 중 27곳이 장사 중이었다
+수조도 물건도 함께 탔다
 ```
 **이미지 프롬프트**
 ```text
-korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn line work with loose ink contours, emotive character expressions, warm ambient lighting
-Scene: Emotional focal point: the sprawl of hoses fanning out from one smoking roof like veins across the lot. Seen from directly overhead, dozens of firefighters in reflective gear work water lines while police officers in dark uniforms hold a perimeter at the outer edge, and pump trucks stand parked in a ring around the market building. Steam and smoke drift toward the right edge of the frame. The place is a Korean wholesale market complex in the middle of the night.
-Camera: extreme long shot from a bird's-eye view, shot on 14mm ultra-wide lens
-Lighting/mood: cold blue pre-dawn tone, lone streetlight reflection on wet ground, desolate stillness
-Accent: monochrome desaturated base with a single color accent (ember orange, the fire's symbolic color), film-noir low-key lighting, deep shadows
-Text handling: no markings or lettering on the trucks, uniforms, or road surface; keep all surfaces free of writing.
+korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
+Scene: Emotional focal point: his vacant thousand-yard stare, unfocused eyes looking past everything, jaw slack, soot smeared on one cheekbone. Recurring subject — a Korean man in his 60s, short greying hair, weathered square face, wearing a navy work vest over dark rubber waders. His face fills the frame in the upper-center. Behind his shoulder, thrown out of focus, a row of cracked and blackened fish tanks stands empty in the gutted hall. He does not blink.
+Camera: tight close-up from eye level, shot on 85mm portrait lens
+Lighting/mood: single hard side-light cutting across the subject, deep chiaroscuro shadows, tense atmosphere
+Accent: monochrome desaturated base with a single color accent of ember orange (the fire's symbolic color), film-noir low-key lighting, deep shadows
+Korean setting by default: a Korean fish-market vendor and a Korean wholesale hall interior.
+Text handling: do not render any lettering on the vest, tanks or walls; keep every surface free of characters.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the wet asphalt lot seen from above) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the soot-blackened interior wall behind him) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -97,27 +99,29 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-야간 화재 진압 소방 방수
+활어 수조 화재 잔해
 ```
 
 ### [카드 4]
 **텍스트**
 ```text
-*수산동은 전소됐다*
-아직 원인도 모르는 불에
-건물 한 동이 통째로 사라졌다
+그래도 사람은 다치지 않았다
+불이 났을 때 건물 안에 아무도 없었고
+*27곳 관계자 16명도 모두 무사했다*
+불은 10일 새벽 3시 32분에 꺼졌다
 ```
 **이미지 프롬프트**
 ```text
-korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn line work with loose ink contours, emotive character expressions, warm ambient lighting
-Scene: Emotional focal point: his unfocused eyes, looking past the burned hall at nothing. Recurring subject — a Korean man in his 60s, short gray hair, weathered face, wearing a faded navy work jacket over a rubber apron and rubber boots. He stands motionless with one hand hanging open at his side, facing the collapsed steel frame and soaked ash where the stalls used to be, a last ember glow low behind him. The place is the burned-out wing of a Korean wholesale seafood market before dawn.
-Camera: tight close-up from eye level, three-quarter angle, shot on 85mm portrait lens
-Lighting/mood: warm candlelight glow against soft dark background, solemn and tender
-Accent: monochrome desaturated base with a single color accent (ember orange, the fire's symbolic color), film-noir low-key lighting, deep shadows
-Text handling: no lettering on the jacket, the debris, or the ruined stalls; keep all surfaces free of writing.
+korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
+Scene: Emotional focal point: the small distance between four people standing apart in the flooded yard, none of them touching. Recurring subject — a Korean man in his 60s, short greying hair, weathered square face, wearing a navy work vest over dark rubber waders. Seen from behind, he and three other market vendors stand facing the soot-blackened hall, one of them lowering a phone from his ear. At the far edge fire trucks are packing up, their lights still turning over ankle-deep water on the ground.
+Camera: wide shot from eye level, back view, shot on 35mm lens
+Lighting/mood: cold blue pre-dawn tone, lone streetlight reflection on wet ground, desolate stillness
+Accent: monochrome desaturated base with a single color accent of ember orange (the fire's symbolic color), film-noir low-key lighting, deep shadows
+Korean setting by default: Korean market vendors and a Korean wholesale market yard.
+Text handling: do not render any lettering on the trucks, the hall or the shutters; keep all text out of frame.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the soot-covered concrete floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the flooded concrete yard) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -127,28 +131,29 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-수산시장 화재 전소 잔해
+새벽 화재현장 소방차
 ```
 
 ### [카드 5]
 **텍스트**
 ```text
-그런데 아무도 다치지 않았다
-40개 점포 중 27곳이 열려 있었고
-관계자 16명은 전원 연락이 닿았다
-*불이 앗아간 건 사람이 아니었다*
+이 시장이 문을 연 해는 1993년이다
+전주시는 리모델링에 70억을 쓰고도
+안전 위험이 커진다며 이전을 쟀다
+*2012년과 2017년에 이어 세 번째였다*
 ```
 **이미지 프롬프트**
 ```text
-korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn line work with loose ink contours, emotive character expressions, warm ambient lighting
-Scene: Emotional focal point: the small distance closing between two people who have just found each other. Recurring subject — a Korean man in his 60s, short gray hair, weathered face, wearing a faded navy work jacket over a rubber apron and rubber boots, stands at the edge of a group of about eight market vendors, counting heads with his lips moving. Several vendors hold phones to their ears and one older woman grips another vendor's forearm as they both look back toward the smoking building. The place is the open forecourt of a Korean wholesale market at first light.
-Camera: wide shot from eye level, shot on 35mm lens
+korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
+Scene: Emotional focal point: the sagging seam where an old corrugated roof meets a patched concrete wall. Seen from ground level looking up, a long low 1990s Korean wholesale market building stretches across the upper half of the frame, blue-painted metal roofing, rusted downpipes, rows of roll-down shutters. Two vendors in rubber aprons walk along the shutter line near the bottom edge, small against the building, kept low and soft so the aging structure stays the focus. Overcast sky fills the top.
+Camera: full shot from a worm's-eye ground-level view, shot on 14mm ultra-wide lens
 Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood
-Accent: monochrome desaturated base with a single color accent (ember orange, the fire's symbolic color), muted daylight contrast
-Text handling: no lettering on phones, clothing, or the building behind; keep all surfaces free of writing.
+Accent: monochrome desaturated base with a single color accent of ember orange (the fire's symbolic color, here surviving as rust on the downpipes), muted daylight contrast
+Korean setting by default: Korean wholesale market architecture, Korean roll-down shutters and rooftop forms.
+Text handling: do not render any signage text on the facade or shutters; keep lettering cropped away by the extreme low angle.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the wet market forecourt pavement) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the overcast sky) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -158,28 +163,29 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-시장 상인 새벽 대피
+전주 송천동 농수산물도매시장
 ```
 
 ### [카드 6]
 **텍스트**
 ```text
-16분과 125명이 지켜낸 건
-사람까지였다. 건물도 재고도
-그 바깥에 남아 있었다
-*소방의 밤이 끝나자 상인의 밤이 왔다*
+2019년엔 옮길 후보지까지 나왔다
+그러나 이듬해 상인들이 반대했다
+*논의는 지금도 조사 단계에 있다*
+화재 원인도 아직 밝혀지지 않았다
 ```
 **이미지 프롬프트**
 ```text
-korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn line work with loose ink contours, emotive character expressions, warm ambient lighting
-Scene: Emotional focal point: his squared shoulders held steady while everything behind him is already finished. Recurring subject — a Korean man in his 60s, short gray hair, weathered face, wearing a faded navy work jacket over a rubber apron and rubber boots. He stands centered and still, facing the viewer straight on, a coiled fire hose left behind at his feet and the blackened shutter of the seafood hall closed behind him. The place is a Korean wholesale market at daybreak, emptied of firefighters.
-Camera: full shot from eye level, front-on symmetrical composition, shot on 50mm standard lens
-Lighting/mood: warm soft morning light, gentle and quiet, faint melancholy
-Accent: monochrome desaturated base with a single color accent (ember orange, the fire's symbolic color), muted daylight contrast
-Text handling: no lettering on the shutter, the hose, or the jacket; keep all surfaces free of writing.
+korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
+Scene: Emotional focal point: a hand pausing mid-turn on the corner of a thick report, fingertips pressing the paper flat. Seen from directly above a desk, three stacked bound report volumes lie in a row across the upper-center of the frame, each thicker than the last, their covers cropped at the edges so no readable lettering is shown. Dust has settled along the top edge of the oldest one. Only a hand and forearm reach in from the right edge to rest on the topmost volume.
+Camera: extreme close-up from a high overhead angle, shot on 100mm macro lens
+Lighting/mood: flat sterile clinical fluorescent light, cold even greenish-white, emotionless institutional
+Accent: monochrome desaturated base with a single color accent of ember orange (the fire's symbolic color, here a single index tab on the oldest volume), muted daylight contrast
+Korean setting by default: a Korean municipal office desk.
+Text handling: crop all document lettering away at the frame edge and let the shallow macro focus dissolve any remaining marks; render no characters at all on the covers or tabs.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the wet asphalt forecourt) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the desk surface) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -189,5 +195,37 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-전주 수산동 화재 상인
+도매시장 이전 타당성조사
+```
+
+### [카드 7]
+**텍스트**
+```text
+12년째 같은 조사를 도는 사이
+건물은 낡았고 하룻밤에 탔다
+청구서는 조사 결과보다 먼저 왔다
+*받아 든 쪽은 27곳 상인들이다*
+```
+**이미지 프롬프트**
+```text
+korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
+Scene: Emotional focal point: his eyes looking straight out at the viewer, tired but steady, asking nothing. Recurring subject — a Korean man in his 60s, short greying hair, weathered square face, wearing a navy work vest over dark rubber waders. He stands square to the camera in the middle of the market yard at dawn, anchored in the upper-center of the frame, the burnt-out hall standing behind him. One salvaged plastic fish tank sits upright beside his boot. Morning light comes in low from the left across the concrete.
+Camera: wide shot from eye level, front-on, shot on 35mm lens
+Lighting/mood: warm soft morning light, gentle and quiet, faint melancholy
+Accent: monochrome desaturated base with a single color accent of ember orange (the fire's symbolic color, here the one salvaged tank), muted daylight contrast
+Korean setting by default: a Korean fish-market vendor and a Korean wholesale market yard.
+Text handling: do not render any lettering on the tank, the vest or the hall behind him; keep every surface free of characters.
+Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
+MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
+Composition: ONE continuous surface (the concrete market yard) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
+- no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
+- no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
+- no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
+- no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
+- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
+```
+**검색어**
+```text
+화재 피해 시장 상인
 ```
