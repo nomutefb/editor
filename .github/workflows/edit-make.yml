@@ -126,17 +126,19 @@ jobs:
         env:
           URL: ${{ inputs.url }}
           YT_COOKIES: ${{ secrets.YT_T2_COOKIES }}   # 지금 쓰는 살아있는 칸 = 1순위(260811 · 죽은 칸을 먼저 두드리면 매 런 4번 헛시도 + 유튜브에 같은 주소로 실패를 반복해 보인다)
+          YT_COOKIES_NAME: YT_T2_COOKIES
           YT_COOKIES_2: ${{ secrets.YT_T_COOKIES }}   # 예비 1 — 위가 죽으면 자동 회수
+          YT_COOKIES_2_NAME: YT_T_COOKIES
           YTF: ${{ contains(inputs.opts, '"vid_res":"src"') && 'bv*[height<=2160]+ba[ext=m4a]/bv*[height<=2160]+ba/b' || 'bv*[height<=1920]+ba[ext=m4a]/bv*[height<=1920]+ba/b' }}   # 해상도 '원본(4K)' 선택 시에만 4K 페치(그 외 1920 = 비용 보호) · ba[ext=m4a] 선행 = AAC 강제(알몸 ba는 Opus를 골라 mp4에 그대로 들어가고 프리미어가 오디오 트랙을 조용히 무시한다 · 260805)
         run: |
           set -e
           COOKIES=""
           if [ -n "$YT_COOKIES" ]; then printf '%s\n' "$YT_COOKIES" > /tmp/ck.txt; COOKIES="--cookies /tmp/ck.txt"; fi
           # 시도 사다리 = .github/scripts/ytdlp_try.sh(①쿠키+기본 ②쿠키+대체 ③무쿠키+기본 ④무쿠키+대체 · 260811)
-          YTDLP_ERR=/tmp/yt_err.txt YTDLP_LABEL="영상 받기" bash .github/scripts/ytdlp_try.sh -f "$YTF" --merge-output-format mp4 --no-playlist -o "/tmp/src.%(ext)s" "$URL" \
-            || { echo "영상 다운로드 실패 — 쿠키를 빼고도 다시 시도했는데 안 됐어. 파일 업로드로 해줘." > /tmp/edit_err.txt; echo "::error::yt-dlp 실패(4단 후): $URL"; exit 1; }
+          YTDLP_ERR=/tmp/yt_err.txt YTDLP_DIAG=/tmp/yt_diag.txt YTDLP_LABEL="영상 받기" bash .github/scripts/ytdlp_try.sh -f "$YTF" --merge-output-format mp4 --no-playlist -o "/tmp/src.%(ext)s" "$URL" \
+            || { { echo "영상 다운로드 실패 — 쿠키를 빼고도 다시 시도했는데 안 됐어. 파일 업로드로 해줘."; [ -s /tmp/yt_diag.txt ] && cat /tmp/yt_diag.txt || true; } > /tmp/edit_err.txt; echo "::error::yt-dlp 실패(4단 후): $URL"; exit 1; }
           SRC="$(ls /tmp/src.* 2>/dev/null | head -1 || true)"
-          [ -n "$SRC" ] || { echo "영상 다운로드 실패 — 파일 업로드로 해줘." > /tmp/edit_err.txt; echo "::error::다운 산출 없음"; exit 1; }
+          [ -n "$SRC" ] || { { echo "영상 다운로드 실패 — 파일 업로드로 해줘."; [ -s /tmp/yt_diag.txt ] && cat /tmp/yt_diag.txt || true; } > /tmp/edit_err.txt; echo "::error::다운 산출 없음"; exit 1; }
           echo "EDIT_SRC=$SRC" >> "$GITHUB_ENV"
 
       - name: 소스 확보 (업로드 파일)
@@ -148,12 +150,12 @@ jobs:
           set -e
           if [ -n "$UP_BRANCH" ]; then
             case "$UP_BRANCH" in up-*) ;; *) echo "::error::up_branch는 up-* 만 허용: $UP_BRANCH"; exit 1;; esac
-            git fetch origin "$UP_BRANCH" --depth=1 || { echo "업로드 파일이 유실됐어 — 다시 올려줘." > /tmp/edit_err.txt; echo "::error::업로드 브랜치 fetch 실패: $UP_BRANCH"; exit 1; }
+            git fetch origin "$UP_BRANCH" --depth=1 || { { echo "업로드 파일이 유실됐어 — 다시 올려줘."; [ -s /tmp/yt_diag.txt ] && cat /tmp/yt_diag.txt || true; } > /tmp/edit_err.txt; echo "::error::업로드 브랜치 fetch 실패: $UP_BRANCH"; exit 1; }
             EXT="${FILE##*.}"
-            git show "FETCH_HEAD:$FILE" > "/tmp/upsrc.$EXT" || { echo "업로드 파일 회수 실패 — 다시 올려줘." > /tmp/edit_err.txt; echo "::error::브랜치서 파일 회수 실패: $FILE"; exit 1; }
+            git show "FETCH_HEAD:$FILE" > "/tmp/upsrc.$EXT" || { { echo "업로드 파일 회수 실패 — 다시 올려줘."; [ -s /tmp/yt_diag.txt ] && cat /tmp/yt_diag.txt || true; } > /tmp/edit_err.txt; echo "::error::브랜치서 파일 회수 실패: $FILE"; exit 1; }
             FILE="/tmp/upsrc.$EXT"
           fi
-          [ -f "$FILE" ] || { echo "업로드 파일이 없어 — 다시 올려줘." > /tmp/edit_err.txt; echo "::error::업로드 파일 없음: $FILE"; exit 1; }
+          [ -f "$FILE" ] || { { echo "업로드 파일이 없어 — 다시 올려줘."; [ -s /tmp/yt_diag.txt ] && cat /tmp/yt_diag.txt || true; } > /tmp/edit_err.txt; echo "::error::업로드 파일 없음: $FILE"; exit 1; }
           echo "EDIT_SRC=$FILE" >> "$GITHUB_ENV"
 
       - name: 소스 확보 (R2 직업로드 — 대용량 ≤2GB)
@@ -170,11 +172,11 @@ jobs:
           [ -z "${EDIT_SRC:-}" ] || { echo "이미 소스 확보 — 스킵(다중 입력 방어)"; exit 0; }
           printf '%s' "$R2_SRC" | grep -Eqx 'up_src/[0-9]{12}-[a-f0-9]{6}\.(mp4|mov|m4v|webm|mkv|avi)' \
             || { echo "::error::잘못된 r2_src: $R2_SRC"; exit 1; }   # api 정규식과 동형 자체 재검증(개행·탭·확장자·문자셋 — 상류 신뢰 대신 최후 방어선 · 평의회1)
-          [ -n "$R2_BUCKET" ] || { echo "저장소(R2)가 설정 안 돼 있어 — 관리자 설정 후 다시." > /tmp/edit_err.txt; echo "::error::R2 시크릿 미설정"; exit 1; }
+          [ -n "$R2_BUCKET" ] || { { echo "저장소(R2)가 설정 안 돼 있어 — 관리자 설정 후 다시."; [ -s /tmp/yt_diag.txt ] && cat /tmp/yt_diag.txt || true; } > /tmp/edit_err.txt; echo "::error::R2 시크릿 미설정"; exit 1; }
           EXT="${R2_SRC##*.}"
           export AWS_DEFAULT_REGION=auto AWS_REQUEST_CHECKSUM_CALCULATION=when_required AWS_RESPONSE_CHECKSUM_VALIDATION=when_required
           aws s3 cp "s3://$R2_BUCKET/$R2_SRC" "/tmp/upsrc.$EXT" --endpoint-url "https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com" --only-show-errors \
-            || { echo "업로드 파일 회수 실패 — 다시 올려줘." > /tmp/edit_err.txt; echo "::error::R2 소스 회수 실패: $R2_SRC"; exit 1; }
+            || { { echo "업로드 파일 회수 실패 — 다시 올려줘."; [ -s /tmp/yt_diag.txt ] && cat /tmp/yt_diag.txt || true; } > /tmp/edit_err.txt; echo "::error::R2 소스 회수 실패: $R2_SRC"; exit 1; }
           echo "EDIT_SRC=/tmp/upsrc.$EXT" >> "$GITHUB_ENV"
 
       - name: 길이 선게이트 (차등 캡 — 운영자 260711 "잘라서 10분 이하로" 확정. 트림 구간≤10분+전사 없음 = 원본 60분 · 자막/컷/클리퍼 = 원본 20분{STT가 원본 전체 전사 = 비용 원본 비례·Whisper large-v3 ~0.8−2×RT 추정(260726 turbo→승격) = 스텝 45분 내·초과 = 정직 실패} · 그 외 통짜 = 종전 10분)
@@ -183,7 +185,7 @@ jobs:
           OPTS: ${{ inputs.opts }}
         run: |
           set -e
-          [ -n "${EDIT_SRC:-}" ] || { echo "영상 입력이 없어 — URL이나 파일을 넣어줘." > /tmp/edit_err.txt; echo "::error::EDIT_SRC 빈값"; exit 1; }
+          [ -n "${EDIT_SRC:-}" ] || { { echo "영상 입력이 없어 — URL이나 파일을 넣어줘."; [ -s /tmp/yt_diag.txt ] && cat /tmp/yt_diag.txt || true; } > /tmp/edit_err.txt; echo "::error::EDIT_SRC 빈값"; exit 1; }
           DUR="$(ffprobe -v error -show_entries format=duration -of default=nw=1:nk=1 "$EDIT_SRC" 2>/dev/null | cut -d. -f1 || true)"
           case "$DUR" in ''|*[!0-9]*) DUR="";; esac   # ffprobe가 webm 등에서 내는 'N/A' 정규화(재검③ 260728 — 비숫자면 아래 float()가 터져 segs 합산까지 -1로 떨어진다)
           SPAN="$(DUR="$DUR" python3 -c "import json,os;o=json.loads(os.environ.get('OPTS') or '{}');d=float(os.environ.get('DUR') or 0);c=(lambda v: min(v,d) if d>0 else v);sg=o.get('vid_segs');t1=o.get('vid_t1');t0=float(o.get('vid_t0') or 0);print(int(sum(max(0.0,c(float(b))-float(a)) for a,b in sg)) if isinstance(sg,list) and sg else (int(c(float(t1))-t0) if t1 else (int(d-t0) if (o.get('vid_t0') and d>t0) else -1)))" 2>/dev/null || echo -1)"   # n구간 = 합산 길이(260728) · **끝값을 실길이로 클램프**(재검③ 260728 — 「끝 공란」이 3600 센티널로 오는데 SPAN만 클램프를 안 해 SPAN이 부풀고 CAP이 600으로 강등돼 **구간 카드를 이미 쓴 사용자를 되레 더 많이 거절**했다 · 러너 ly_burn `min(t1_req,dur)`와 동일 산식) · 「시작만 지정」도 실길이로 산출

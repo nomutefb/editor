@@ -104,7 +104,9 @@ jobs:
           URL: ${{ inputs.url }}
           IN_ID: ${{ inputs.id }}
           YT_COOKIES: ${{ secrets.YT_T2_COOKIES }}   # 지금 쓰는 살아있는 칸 = 1순위(260811 · 죽은 칸을 먼저 두드리면 매 런 4번 헛시도 + 유튜브에 같은 주소로 실패를 반복해 보인다)
+          YT_COOKIES_NAME: YT_T2_COOKIES
           YT_COOKIES_2: ${{ secrets.YT_T_COOKIES }}   # 예비 1 — 위가 죽으면 자동 회수
+          YT_COOKIES_2_NAME: YT_T_COOKIES
           NB_MAX_SEC: ${{ vars.NB_MAX_SEC || 14400 }}
           NB_STT_MAX_SEC: ${{ vars.NB_STT_MAX_SEC || 3600 }}
           NB_LIST_MAX: ${{ vars.NB_LIST_MAX || 200 }}
@@ -126,18 +128,24 @@ jobs:
           #      260723 판례: 서명 챌린지를 '봇 인증'으로 오진해 반나절 소요).
           ydl() {   # $1=출력파일 $2=라벨 나머지=yt-dlp 인자
             local out="$1" label="$2"; shift 2
-            YTDLP_ERR=/tmp/nb_err.txt YTDLP_LABEL="$label" bash .github/scripts/ytdlp_try.sh "$@" > "$out" && return 0
+            YTDLP_ERR=/tmp/nb_err.txt YTDLP_DIAG=/tmp/nb_diag.txt YTDLP_LABEL="$label" bash .github/scripts/ytdlp_try.sh "$@" > "$out" && return 0
             local e; e="$(tail -c 800 /tmp/nb_err.txt | tr '\n' ' ')"
             local msg
             case "$e" in
               # ⚠ 여기 오면 **쿠키를 뺀 시도까지 전부 실패**한 상태다 = 쿠키 재발급으로 안 풀린다(260811 실측 봉합 ·
               #    종전 문구는 무조건 "쿠키 갱신해줘"라 나흘간 같은 헛처방을 반복시켰다).
-              *"Sign in to confirm"*|*"not a bot"*|*"consent"*) msg="유튜브가 이 영상에 로그인 확인을 요구해 — 쿠키를 빼고도 다시 시도해봤는데 같은 벽이야. 서버 IP가 잠깐 찍힌 상태일 수 있으니 몇 분 뒤 다시 해줘.";;
+              *"Sign in to confirm"*|*"not a bot"*|*"consent"*) msg="유튜브가 이 영상을 받으려면 로그인 확인이 필요하다고 응답했어. 가진 쿠키를 전부 써보고 쿠키 없이도 두 번 더 시도했는데 전부 같은 응답이었어.";;
               *Signature*|*nsig*|*JavaScript*|*"format is not available"*|*"Only images"*) msg="yt-dlp가 유튜브 서명 잠금을 못 풀었어 — 유튜브가 또 바꾼 거라 나이틀리 갱신 대기 중일 수 있어. 몇 시간 뒤 다시 하면 대개 자동 복구돼.";;
               *429*|*"Too Many Requests"*) msg="유튜브 요청 과다(429) — 서버 IP가 잠깐 막혔어. 잠시 후 다시 해줘.";;
               *"Private video"*|*"members-only"*|*removed*|*unavailable*) msg="이 영상을 볼 수 없어 — 비공개·삭제·회원전용·지역제한이거나 링크가 잘못됐어.";;
               *) msg="유튜브 정보 조회 실패 — $(printf '%s' "$e" | head -c 140)";;
             esac
+            # 쿠키 생사 진단을 화면 문구에 그대로 붙인다(운영자 260812) — 어느 저장소 칸이 죽었는지 이름으로 말한다.
+            #   ⚠ 이게 없으면 위 msg 는 「같은 응답이었어」까지만 말해서, 쿠키를 갈아야 하는 건지 아닌지를
+            #     운영자가 알 수 없다(260808~0812 = 멀쩡한 쿠키까지 재발급시킨 회차가 실재).
+            #   ⚠ 개행은 반드시 `$'\n'` 로 — 문자열 안에 진짜 줄바꿈을 쓰면 YAML 블록 스칼라의 들여쓰기가
+            #     끊겨 워크플로 전체가 파싱 불능이 된다(첫 판이 그렇게 깨졌다 = 실측 봉합).
+            [ -s /tmp/nb_diag.txt ] && msg="$msg"$'\n'"$(cat /tmp/nb_diag.txt)"
             printf '%s\n' "$msg" > "$ELOG"; echo "::error::${label} 실패(자가치유 재시도 후): $URL"; return 1
           }
           # ── 1차 flat 판정(운영자 260712 3차 "채널 넣으면 유튜브 다 긁어지게") — 채널/재생목록 = entries만 초고속 추출(영상 메타 전수 긁기·스크롤링 0)
@@ -210,13 +218,13 @@ jobs:
           #    언어 우선순위 = 원어(meta.lang) > ko > en — 다운로드·선택 둘 다 이 순서(외국어 영상 원어 자막 우선 · 자동번역 자막 회피)
           LANGP="$(python3 -c "import json;m=json.load(open('/tmp/nb_meta.json'));l=m.get('lang') or '';print((l+','+l.split('-')[0]+',' if l else '')+'ko,en')")"
           mkdir -p /tmp/nbsub_man /tmp/nbsub_auto
-          YTDLP_ERR=/tmp/nb_err.txt YTDLP_LABEL="수동자막" bash .github/scripts/ytdlp_try.sh --skip-download --no-playlist \
+          YTDLP_ERR=/tmp/nb_err.txt YTDLP_DIAG=/tmp/yt_diag.txt YTDLP_LABEL="수동자막" bash .github/scripts/ytdlp_try.sh --skip-download --no-playlist \
             --write-subs --no-write-auto-subs --sub-langs "$LANGP" --sub-format "vtt/srt/best" \
             -o "/tmp/nbsub_man/x.%(ext)s" "$URL" || true
           python3 .github/scripts/nb_sub.py --vtt /tmp/nbsub_man "$LANGP" subs > /tmp/nb_tr.json || echo '{"src":"","rows":[]}' > /tmp/nb_tr.json
           ROWS="$(python3 -c "import json;print(len(json.load(open('/tmp/nb_tr.json')).get('rows') or []))")"
           if [ "$ROWS" -lt 5 ]; then
-            YTDLP_ERR=/tmp/nb_err.txt YTDLP_LABEL="자동자막" bash .github/scripts/ytdlp_try.sh --skip-download --no-playlist \
+            YTDLP_ERR=/tmp/nb_err.txt YTDLP_DIAG=/tmp/yt_diag.txt YTDLP_LABEL="자동자막" bash .github/scripts/ytdlp_try.sh --skip-download --no-playlist \
               --write-auto-subs --no-write-subs --sub-langs "$LANGP" --sub-format "vtt/srt/best" \
               -o "/tmp/nbsub_auto/x.%(ext)s" "$URL" || true
             python3 .github/scripts/nb_sub.py --vtt /tmp/nbsub_auto "$LANGP" subs-auto > /tmp/nb_tr.json || echo '{"src":"","rows":[]}' > /tmp/nb_tr.json
@@ -334,11 +342,13 @@ jobs:
           URL: ${{ inputs.url }}
           IN_ID: ${{ inputs.id }}
           YT_COOKIES: ${{ secrets.YT_T2_COOKIES }}   # 지금 쓰는 살아있는 칸 = 1순위(260811 · 죽은 칸을 먼저 두드리면 매 런 4번 헛시도 + 유튜브에 같은 주소로 실패를 반복해 보인다)
+          YT_COOKIES_NAME: YT_T2_COOKIES
           YT_COOKIES_2: ${{ secrets.YT_T_COOKIES }}   # 예비 1 — 위가 죽으면 자동 회수
+          YT_COOKIES_2_NAME: YT_T_COOKIES
         run: |
           set -e
           # 시도 사다리 = .github/scripts/ytdlp_try.sh(①쿠키+기본 ②쿠키+대체 ③무쿠키+기본 ④무쿠키+대체 · 260811)
-          YTDLP_ERR=/tmp/nb_err.txt YTDLP_LABEL="오디오" bash .github/scripts/ytdlp_try.sh \
+          YTDLP_ERR=/tmp/nb_err.txt YTDLP_DIAG=/tmp/yt_diag.txt YTDLP_LABEL="오디오" bash .github/scripts/ytdlp_try.sh \
             -x --audio-format mp3 --postprocessor-args "ffmpeg:-ar 16000 -ac 1 -b:a 48k" --no-playlist \
             -o "/tmp/audio.%(ext)s" "$URL" \
             || { echo "유튜브 오디오 다운로드 실패 — 쿠키를 빼고도 다시 시도했는데 안 됐어(유튜브 서명 잠금이거나 링크 문제). 자막 있는 영상으로 해줘." > "viewer/nb_out/${IN_ID}/error.log"; echo "::error::yt-dlp 오디오 실패(자가치유 4단 후): $URL"; exit 1; }

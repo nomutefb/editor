@@ -136,7 +136,7 @@ jobs:
           SRC="$(python3 -c "import json;print(json.load(open('viewer/ly_out/${IN_ID}/video.json')).get('src') or '')" 2>/dev/null || true)"
           case "$SRC" in https://*) ;; *) echo "재합성 원본 보관본이 없어 — 새로 생성해줘." > /tmp/ly_err.txt; echo "::error::src 없음/비https: $SRC"; exit 1;; esac
           EXT="${SRC##*.}"; case "$EXT" in mp4|webm|mov|mkv|m4v) ;; *) EXT=mp4;; esac
-          curl -fsSL --max-time 300 "$SRC" -o "/tmp/upsrc.$EXT" || { echo "원본 다운로드 실패 — 새로 생성해줘." > /tmp/ly_err.txt; echo "::error::src 다운 실패"; exit 1; }
+          curl -fsSL --max-time 300 "$SRC" -o "/tmp/upsrc.$EXT" || { { echo "원본 다운로드 실패 — 새로 생성해줘."; [ -s /tmp/yt_diag.txt ] && cat /tmp/yt_diag.txt || true; } > /tmp/ly_err.txt; echo "::error::src 다운 실패"; exit 1; }
           echo "LY_VIDEO=/tmp/upsrc.$EXT" >> "$GITHUB_ENV"
           echo "REBURN=1" >> "$GITHUB_ENV"
 
@@ -239,7 +239,9 @@ jobs:
           LY_STT_MAX_SEC: ${{ vars.LY_STT_MAX_SEC }}   # 전사 길이 하드 캡(빈값 = 3600s) — Scribe 속도가 종전 비용 브레이크를 없앤 자리 방어
           URL: ${{ inputs.url }}
           YT_COOKIES: ${{ secrets.YT_T2_COOKIES }}   # 지금 쓰는 살아있는 칸 = 1순위(260811 · 죽은 칸을 먼저 두드리면 매 런 4번 헛시도 + 유튜브에 같은 주소로 실패를 반복해 보인다)
+          YT_COOKIES_NAME: YT_T2_COOKIES
           YT_COOKIES_2: ${{ secrets.YT_T_COOKIES }}   # 예비 1 — 위가 죽으면 자동 회수
+          YT_COOKIES_2_NAME: YT_T_COOKIES
           IN_ID: ${{ inputs.id }}
           OPTS: ${{ inputs.opts }}
           LY_STT_PRECISION: ${{ inputs.stt_prec }}   # 빈값 = ly_stt.py 기본(int8_float32) · A/B 시에만 지정
@@ -256,7 +258,7 @@ jobs:
           BURN="$(printf '%s' "${OPTS:-}" | jq -r 'try .burn catch empty' 2>/dev/null || true)"
           if [ "$BURN" = "true" ]; then
             # 시도 사다리 = .github/scripts/ytdlp_try.sh(①쿠키+기본 ②쿠키+대체 ③무쿠키+기본 ④무쿠키+대체 · 260811 · --socket-timeout 30은 래퍼 안에 있다 = 스톨 링크 무한 행 차단 유지)
-            YTDLP_ERR=/tmp/yt_err.txt YTDLP_LABEL="번인 영상" bash .github/scripts/ytdlp_try.sh -f "bv*[height<=1920]+ba[ext=m4a]/bv*[height<=1920]+ba/b" --merge-output-format mp4 --no-playlist -o "/tmp/src.%(ext)s" "$URL" || true
+            YTDLP_ERR=/tmp/yt_err.txt YTDLP_DIAG=/tmp/yt_diag.txt YTDLP_LABEL="번인 영상" bash .github/scripts/ytdlp_try.sh -f "bv*[height<=1920]+ba[ext=m4a]/bv*[height<=1920]+ba/b" --merge-output-format mp4 --no-playlist -o "/tmp/src.%(ext)s" "$URL" || true
             SRC="$(ls /tmp/src.* 2>/dev/null | head -1 || true)"
             if [ -n "$SRC" ]; then
               # 길이 선게이트(평의회9 260709) — 10분(MAX_DUR) 초과는 어차피 번인 거절 → 제일 비싼 스텝(STT·claude) *앞*에서 번인만 스킵 확정(자막 텍스트는 계속 · 사유 = video.json 선기록)
@@ -273,8 +275,8 @@ jobs:
               fi
             fi
           fi
-          [ -s /tmp/audio.mp3 ] || YTDLP_ERR=/tmp/yt_err.txt YTDLP_LABEL="오디오" bash .github/scripts/ytdlp_try.sh -x --audio-format mp3 --postprocessor-args "ffmpeg:-ar 16000 -ac 1 -b:a 48k" --no-playlist -o "/tmp/audio.%(ext)s" "$URL" \
-            || { echo "유튜브 다운로드 실패 — 쿠키를 빼고도 다시 시도했는데 같은 벽이야. 파일 업로드나 SRT 텍스트로 해줘." > /tmp/ly_err.txt; echo "::error::yt-dlp 다운로드 실패(4단 후): $URL"; exit 1; }
+          [ -s /tmp/audio.mp3 ] || YTDLP_ERR=/tmp/yt_err.txt YTDLP_DIAG=/tmp/yt_diag.txt YTDLP_LABEL="오디오" bash .github/scripts/ytdlp_try.sh -x --audio-format mp3 --postprocessor-args "ffmpeg:-ar 16000 -ac 1 -b:a 48k" --no-playlist -o "/tmp/audio.%(ext)s" "$URL" \
+            || { { echo "유튜브 다운로드 실패 — 쿠키를 빼고도 다시 시도했는데 같은 벽이야. 파일 업로드나 SRT 텍스트로 해줘."; [ -s /tmp/yt_diag.txt ] && cat /tmp/yt_diag.txt || true; } > /tmp/ly_err.txt; echo "::error::yt-dlp 다운로드 실패(4단 후): $URL"; exit 1; }
           SEGJSON=""; [ -n "$IN_ID" ] && SEGJSON="viewer/ly_out/${IN_ID}/segments.json"   # word 타임스탬프 사이드카(상세 편집기) — 트랜스크립트 포맷 불변·타임코드/경계는 word 정렬로 미세 변동 가능(ly_stt.py 헤더 참조·위험 수용 기록)
           # ── STT 캐시(260728 Q999 · edit-make 정본 계승) — 키 = 추출 오디오 sha256(+모델+연산 정밀도).
           #    같은 소스를 다시 굽는 재작업이 large-v3를 통째로 재전사하던 낭비 제거(41초 클립 실측 STT 62초 · 10분급 ~7분).
@@ -304,7 +306,7 @@ jobs:
             echo "::error::STT 길이 상한 초과(${ADUR}s > ${LY_STT_MAX_SEC}s)"; exit 1
           fi
           python3 .github/scripts/ly_stt.py /tmp/audio.mp3 "$SEGJSON" > /tmp/transcript.txt \
-            || { echo "전사에 실패했어 — 소리가 또렷한 소스로 다시 해줘(엔진 로그는 Actions 참조)." > /tmp/ly_err.txt; echo "::error::STT 실패"; exit 1; }
+            || { { echo "전사에 실패했어 — 소리가 또렷한 소스로 다시 해줘(엔진 로그는 Actions 참조)."; [ -s /tmp/yt_diag.txt ] && cat /tmp/yt_diag.txt || true; } > /tmp/ly_err.txt; echo "::error::STT 실패"; exit 1; }
           echo "LY_TRANSCRIPT=/tmp/transcript.txt" >> "$GITHUB_ENV"
           echo "STT 완료 — $(wc -l < /tmp/transcript.txt)줄"
           if [ -n "$CKEY" ] && [ -s "$SEGJSON" ]; then
@@ -326,11 +328,11 @@ jobs:
           set -e
           printf '%s' "$R2_SRC" | grep -Eqx 'up_src/[0-9]{12}-[a-f0-9]{6}\.(mp4|mov|m4v|webm|mkv|avi)' \
             || { echo "::error::잘못된 r2_src: $R2_SRC"; exit 1; }   # api 정규식과 동형 자체 재검증(상류 신뢰 대신 최후 방어선 · edit-make 평의회1 계승)
-          [ -n "$R2_BUCKET" ] || { echo "저장소(R2)가 설정 안 돼 있어 — 관리자 설정 후 다시." > /tmp/ly_err.txt; echo "::error::R2 시크릿 미설정"; exit 1; }
+          [ -n "$R2_BUCKET" ] || { { echo "저장소(R2)가 설정 안 돼 있어 — 관리자 설정 후 다시."; [ -s /tmp/yt_diag.txt ] && cat /tmp/yt_diag.txt || true; } > /tmp/ly_err.txt; echo "::error::R2 시크릿 미설정"; exit 1; }
           EXT="${R2_SRC##*.}"
           export AWS_DEFAULT_REGION=auto AWS_REQUEST_CHECKSUM_CALCULATION=when_required AWS_RESPONSE_CHECKSUM_VALIDATION=when_required
           aws s3 cp "s3://$R2_BUCKET/$R2_SRC" "/tmp/upsrc.$EXT" --endpoint-url "https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com" --only-show-errors \
-            || { echo "업로드 파일 회수 실패 — 다시 올려줘." > /tmp/ly_err.txt; echo "::error::R2 소스 회수 실패: $R2_SRC"; exit 1; }
+            || { { echo "업로드 파일 회수 실패 — 다시 올려줘."; [ -s /tmp/yt_diag.txt ] && cat /tmp/yt_diag.txt || true; } > /tmp/ly_err.txt; echo "::error::R2 소스 회수 실패: $R2_SRC"; exit 1; }
           echo "LY_UPSRC=/tmp/upsrc.$EXT" >> "$GITHUB_ENV"
 
       - name: STT (업로드 파일 → ffmpeg 오디오추출 → Whisper)
@@ -356,9 +358,9 @@ jobs:
           # 일회용 업로드 브랜치(up-<id>) 경로 = 파일을 브랜치에서 /tmp로 회수(main 워킹트리엔 없음 · 잡 끝에 브랜치 삭제)
           if [ -n "$UP_BRANCH" ]; then
             case "$UP_BRANCH" in up-*) ;; *) echo "::error::up_branch는 up-* 만 허용: $UP_BRANCH"; exit 1;; esac
-            git fetch origin "$UP_BRANCH" --depth=1 || { echo "업로드 파일이 유실됐어 — 다시 올려줘." > /tmp/ly_err.txt; echo "::error::업로드 브랜치 fetch 실패: $UP_BRANCH"; exit 1; }
+            git fetch origin "$UP_BRANCH" --depth=1 || { { echo "업로드 파일이 유실됐어 — 다시 올려줘."; [ -s /tmp/yt_diag.txt ] && cat /tmp/yt_diag.txt || true; } > /tmp/ly_err.txt; echo "::error::업로드 브랜치 fetch 실패: $UP_BRANCH"; exit 1; }
             EXT="${FILE##*.}"
-            git show "FETCH_HEAD:$FILE" > "/tmp/upsrc.$EXT" || { echo "업로드 파일 회수 실패 — 다시 올려줘." > /tmp/ly_err.txt; echo "::error::브랜치서 파일 회수 실패: $FILE"; exit 1; }
+            git show "FETCH_HEAD:$FILE" > "/tmp/upsrc.$EXT" || { { echo "업로드 파일 회수 실패 — 다시 올려줘."; [ -s /tmp/yt_diag.txt ] && cat /tmp/yt_diag.txt || true; } > /tmp/ly_err.txt; echo "::error::브랜치서 파일 회수 실패: $FILE"; exit 1; }
             FILE="/tmp/upsrc.$EXT"
           fi
           [ -n "$FILE" ] || FILE="${LY_UPSRC:-}"   # R2 직업로드 경로(r2_src) = 위 R2 소스 회수 스텝이 /tmp에 내려둔 원본 인계(260722 — file 입력 공백일 때만)
@@ -379,7 +381,7 @@ jobs:
             fi
           fi
           ffmpeg -y -i "$FILE" -vn -ar 16000 -ac 1 -b:a 48k /tmp/audio.mp3 \
-            || { echo "오디오 추출 실패 — 지원 안 되는 형식일 수 있어. 다른 파일이나 SRT 텍스트로 해줘." > /tmp/ly_err.txt; echo "::error::ffmpeg 오디오 추출 실패: $FILE"; exit 1; }
+            || { { echo "오디오 추출 실패 — 지원 안 되는 형식일 수 있어. 다른 파일이나 SRT 텍스트로 해줘."; [ -s /tmp/yt_diag.txt ] && cat /tmp/yt_diag.txt || true; } > /tmp/ly_err.txt; echo "::error::ffmpeg 오디오 추출 실패: $FILE"; exit 1; }
           SEGJSON=""; [ -n "$IN_ID" ] && SEGJSON="viewer/ly_out/${IN_ID}/segments.json"   # word 타임스탬프 사이드카(상세 편집기) — 트랜스크립트 포맷 불변·타임코드/경계는 word 정렬로 미세 변동 가능(ly_stt.py 헤더 참조·위험 수용 기록)
           # ── STT 캐시(260728 Q999 · edit-make 정본 계승) — 키 = 추출 오디오 sha256(+모델+연산 정밀도).
           #    같은 소스를 다시 굽는 재작업이 large-v3를 통째로 재전사하던 낭비 제거(41초 클립 실측 STT 62초 · 10분급 ~7분).
@@ -409,7 +411,7 @@ jobs:
             echo "::error::STT 길이 상한 초과(${ADUR}s > ${LY_STT_MAX_SEC}s)"; exit 1
           fi
           python3 .github/scripts/ly_stt.py /tmp/audio.mp3 "$SEGJSON" > /tmp/transcript.txt \
-            || { echo "전사에 실패했어 — 소리가 또렷한 소스로 다시 해줘(엔진 로그는 Actions 참조)." > /tmp/ly_err.txt; echo "::error::STT 실패"; exit 1; }
+            || { { echo "전사에 실패했어 — 소리가 또렷한 소스로 다시 해줘(엔진 로그는 Actions 참조)."; [ -s /tmp/yt_diag.txt ] && cat /tmp/yt_diag.txt || true; } > /tmp/ly_err.txt; echo "::error::STT 실패"; exit 1; }
           echo "LY_TRANSCRIPT=/tmp/transcript.txt" >> "$GITHUB_ENV"
           echo "STT(파일) 완료 — $(wc -l < /tmp/transcript.txt)줄"
           if [ -n "$CKEY" ] && [ -s "$SEGJSON" ]; then

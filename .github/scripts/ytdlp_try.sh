@@ -44,17 +44,24 @@ TMPOUT="$CKDIR/out.$$"                       # 단별 stdout 임시 받이(성�
 trap 'rm -f "$TMPOUT"' EXIT
 
 # 쿠키 슬롯 수집 — 값이 실제로 있는 것만(빈 시크릿은 조용히 건너뛴다)
+#   ⚠ 표시 이름(<슬롯>_NAME)은 **운영자가 실제로 여는 저장소 칸 이름**이다. 진단문이 "1번 쿠키" 같은
+#     대명사 대신 `YT_T2_COOKIES` 로 말해야 운영자가 어느 칸을 갈지 그 문장만 보고 안다(260812 지시).
 CK_ARGS=()
+CK_VARS=()
 CK_NAMES=()
+CK_FILES=()
 slot=0
 for var in YT_COOKIES YT_COOKIES_2 YT_COOKIES_3; do
   val="${!var:-}"   # bash 간접 확장 — eval 금지(쿠키 본문에 따옴표·개행·백틱이 들어오면 그 자리에서 실행된다)
   [ -n "$val" ] || continue
+  nvar="${var}_NAME"
   slot=$((slot + 1))
   f="$CKDIR/ck$slot.txt"
   printf '%s\n' "$val" > "$f"
   CK_ARGS+=("--cookies $f")
-  CK_NAMES+=("$var")
+  CK_VARS+=("$var")
+  CK_NAMES+=("${!nvar:-$var}")   # 워크플로가 알려준 저장소 칸 이름(없으면 환경변수 이름 그대로)
+  CK_FILES+=("$f")
 done
 
 attempt() {   # $1=사람이 읽을 단 이름  $2=쿠키 인자(빈 문자열이면 무쿠키)  나머지=yt-dlp 인자
@@ -88,6 +95,40 @@ if [ "${#CK_ARGS[@]}" -gt 0 ]; then
 fi
 attempt "쿠키 없이" "" "$@" && exit 0
 attempt "쿠키 없이·대체 클라이언트" "--extractor-args $ALT" "$@" && exit 0
+
+# ── 쿠키 생사 진단(운영자 260812 «죽은 쿠키인지 안 죽은 쿠키인지 먼저 확인하고 · 대명사 쓰지 말고 명시») ──
+#  왜: 종전 실패 문구는 「쿠키를 빼고도 같은 벽이야」까지만 말해서 **쿠키가 죽어서 실패한 건지, 쿠키는
+#     멀쩡한데 다른 이유로 실패한 건지**를 운영자가 알 수 없었다. 그래서 260808~0812 내내 「일단 쿠키를
+#     다시 뽑아라」가 반복됐고, 실제로는 쿠키가 멀쩡했던 회차까지 재발급을 시켰다.
+#  판정 정본 = yt_cookie_whoami.py(로직 복제 0 · 건강검진이 쓰는 그 판정기 그대로) · 실패했을 때만 돈다.
+#  과금 0(LLM 미사용) · 유튜브 홈 1회 조회뿐 · 전 경로 fail-soft(진단이 실패해도 받기 실패 보고는 그대로).
+DIAG="${YTDLP_DIAG:-/tmp/ytdlp_diag.txt}"
+WHOAMI="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/yt_cookie_whoami.py"
+: > "$DIAG"
+if [ "${#CK_ARGS[@]}" -gt 0 ] && [ -f "$WHOAMI" ]; then
+  dead=0; alive=0; lines=""
+  i=0
+  while [ "$i" -lt "${#CK_VARS[@]}" ]; do
+    v="${CK_VARS[$i]}"; n="${CK_NAMES[$i]}"
+    out="$(YT_CK_VAR="$v" REVEAL="" timeout 90 python3 "$WHOAMI" 2>&1)" && rc=0 || rc=$?
+    if [ "$rc" = 0 ]; then
+      alive=$((alive + 1))
+      lines="${lines}저장소 칸 ${n} = 살아있음(유튜브가 로그인으로 인정). "
+    else
+      dead=$((dead + 1))
+      # 사유는 판정기가 이미 사람 말로 찍는다 — 첫 ::error:: 줄을 그대로 계승(문구 재창작 0)
+      why="$(printf '%s' "$out" | sed -n 's/.*::error:://p' | head -1 | cut -c1-110)"
+      lines="${lines}저장소 칸 ${n} = 죽음(${why:-판정 실패}). "
+    fi
+    i=$((i + 1))
+  done
+  if [ "$alive" = 0 ]; then
+    printf '%s\n' "${lines}유튜브 받기가 실패한 원인은 쿠키입니다. 위에 죽음이라고 적힌 저장소 칸을 새 쿠키로 교체하세요." > "$DIAG"
+  else
+    printf '%s\n' "${lines}쿠키는 정상입니다 — 유튜브 받기가 실패한 원인은 쿠키가 아닙니다(영상 자체가 비공개·삭제·회원전용이거나, 유튜브가 이 서버 주소를 일시 차단한 상태)." > "$DIAG"
+  fi
+  echo "::warning::${LABEL} 쿠키 진단 — $(cat "$DIAG")" >&2
+fi
 
 # 전 단계 실패 — 원문을 로그에 남긴다(분류 문구만 남기면 다음 세션이 또 추측으로 메운다)
 {

@@ -73,14 +73,16 @@ jobs:
         env:
           URL: ${{ inputs.url }}
           YT_COOKIES: ${{ secrets.YT_T2_COOKIES }}   # 지금 쓰는 살아있는 칸 = 1순위(260811 · 죽은 칸을 먼저 두드리면 매 런 4번 헛시도 + 유튜브에 같은 주소로 실패를 반복해 보인다)
+          YT_COOKIES_NAME: YT_T2_COOKIES
           YT_COOKIES_2: ${{ secrets.YT_T_COOKIES }}   # 예비 1 — 위가 죽으면 자동 회수
+          YT_COOKIES_2_NAME: YT_T_COOKIES
         run: |
           set -e
           timeout 180 pip install -q yt-dlp || { sleep 3; timeout 180 pip install -q yt-dlp; }
           COOKIES=""
           if [ -n "$YT_COOKIES" ]; then printf '%s\n' "$YT_COOKIES" > /tmp/ck.txt; COOKIES="--cookies /tmp/ck.txt"; fi
           # 시도 사다리 = .github/scripts/ytdlp_try.sh(①쿠키+기본 ②쿠키+대체 ③무쿠키+기본 ④무쿠키+대체 · 260811)
-          YTDLP_ERR=/tmp/yt_err.txt YTDLP_LABEL="영상 받기" bash .github/scripts/ytdlp_try.sh -f "bv*[height<=1920]+ba[ext=m4a]/bv*[height<=1920]+ba/b" --merge-output-format mp4 --no-playlist -o "/tmp/src.%(ext)s" "$URL" \
+          YTDLP_ERR=/tmp/yt_err.txt YTDLP_DIAG=/tmp/yt_diag.txt YTDLP_LABEL="영상 받기" bash .github/scripts/ytdlp_try.sh -f "bv*[height<=1920]+ba[ext=m4a]/bv*[height<=1920]+ba/b" --merge-output-format mp4 --no-playlist -o "/tmp/src.%(ext)s" "$URL" \
             || { echo "::error::yt-dlp 실패(4단 후): $URL"; exit 1; }
           SRC="$(ls /tmp/src.* 2>/dev/null | head -1 || true)"
           [ -n "$SRC" ] || { echo "::error::다운 산출 없음"; exit 1; }

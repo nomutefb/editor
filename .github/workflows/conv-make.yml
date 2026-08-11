@@ -73,16 +73,18 @@ jobs:
         env:
           URL: ${{ inputs.url }}
           YT_COOKIES: ${{ secrets.YT_T2_COOKIES }}   # 지금 쓰는 살아있는 칸 = 1순위(260811 · 죽은 칸을 먼저 두드리면 매 런 4번 헛시도 + 유튜브에 같은 주소로 실패를 반복해 보인다)
+          YT_COOKIES_NAME: YT_T2_COOKIES
           YT_COOKIES_2: ${{ secrets.YT_T_COOKIES }}   # 예비 1 — 위가 죽으면 자동 회수
+          YT_COOKIES_2_NAME: YT_T_COOKIES
         run: |
           set -e
           COOKIES=""
           if [ -n "$YT_COOKIES" ]; then printf '%s\n' "$YT_COOKIES" > /tmp/ck.txt; COOKIES="--cookies /tmp/ck.txt"; fi
           # 시도 사다리 = .github/scripts/ytdlp_try.sh(①쿠키+기본 ②쿠키+대체 ③무쿠키+기본 ④무쿠키+대체 · 260811)
-          YTDLP_ERR=/tmp/yt_err.txt YTDLP_LABEL="영상 받기" bash .github/scripts/ytdlp_try.sh -f "bv*[height<=1920]+ba[ext=m4a]/bv*[height<=1920]+ba/b" --merge-output-format mp4 --no-playlist -o "/tmp/src.%(ext)s" "$URL" \
-            || { echo "영상 다운로드 실패 — 쿠키를 빼고도 다시 시도했는데 안 됐어. 파일 업로드로 해줘." > /tmp/conv_err.txt; echo "::error::yt-dlp 실패(4단 후): $URL"; exit 1; }
+          YTDLP_ERR=/tmp/yt_err.txt YTDLP_DIAG=/tmp/yt_diag.txt YTDLP_LABEL="영상 받기" bash .github/scripts/ytdlp_try.sh -f "bv*[height<=1920]+ba[ext=m4a]/bv*[height<=1920]+ba/b" --merge-output-format mp4 --no-playlist -o "/tmp/src.%(ext)s" "$URL" \
+            || { { echo "영상 다운로드 실패 — 쿠키를 빼고도 다시 시도했는데 안 됐어. 파일 업로드로 해줘."; [ -s /tmp/yt_diag.txt ] && cat /tmp/yt_diag.txt || true; } > /tmp/conv_err.txt; echo "::error::yt-dlp 실패(4단 후): $URL"; exit 1; }
           SRC="$(ls /tmp/src.* 2>/dev/null | head -1 || true)"
-          [ -n "$SRC" ] || { echo "영상 다운로드 실패 — 파일 업로드로 해줘." > /tmp/conv_err.txt; echo "::error::다운 산출 없음"; exit 1; }
+          [ -n "$SRC" ] || { { echo "영상 다운로드 실패 — 파일 업로드로 해줘."; [ -s /tmp/yt_diag.txt ] && cat /tmp/yt_diag.txt || true; } > /tmp/conv_err.txt; echo "::error::다운 산출 없음"; exit 1; }
           echo "CONV_SRC=$SRC" >> "$GITHUB_ENV"
 
       - name: 소스 확보 (업로드 파일)
@@ -94,12 +96,12 @@ jobs:
           set -e
           if [ -n "$UP_BRANCH" ]; then
             case "$UP_BRANCH" in up-*) ;; *) echo "::error::up_branch는 up-* 만 허용: $UP_BRANCH"; exit 1;; esac
-            git fetch origin "$UP_BRANCH" --depth=1 || { echo "업로드 파일이 유실됐어 — 다시 올려줘." > /tmp/conv_err.txt; echo "::error::업로드 브랜치 fetch 실패: $UP_BRANCH"; exit 1; }
+            git fetch origin "$UP_BRANCH" --depth=1 || { { echo "업로드 파일이 유실됐어 — 다시 올려줘."; [ -s /tmp/yt_diag.txt ] && cat /tmp/yt_diag.txt || true; } > /tmp/conv_err.txt; echo "::error::업로드 브랜치 fetch 실패: $UP_BRANCH"; exit 1; }
             EXT="${FILE##*.}"
-            git show "FETCH_HEAD:$FILE" > "/tmp/upsrc.$EXT" || { echo "업로드 파일 회수 실패 — 다시 올려줘." > /tmp/conv_err.txt; echo "::error::브랜치서 파일 회수 실패: $FILE"; exit 1; }
+            git show "FETCH_HEAD:$FILE" > "/tmp/upsrc.$EXT" || { { echo "업로드 파일 회수 실패 — 다시 올려줘."; [ -s /tmp/yt_diag.txt ] && cat /tmp/yt_diag.txt || true; } > /tmp/conv_err.txt; echo "::error::브랜치서 파일 회수 실패: $FILE"; exit 1; }
             FILE="/tmp/upsrc.$EXT"
           fi
-          [ -f "$FILE" ] || { echo "업로드 파일이 없어 — 다시 올려줘." > /tmp/conv_err.txt; echo "::error::업로드 파일 없음: $FILE"; exit 1; }
+          [ -f "$FILE" ] || { { echo "업로드 파일이 없어 — 다시 올려줘."; [ -s /tmp/yt_diag.txt ] && cat /tmp/yt_diag.txt || true; } > /tmp/conv_err.txt; echo "::error::업로드 파일 없음: $FILE"; exit 1; }
           echo "CONV_SRC=$FILE" >> "$GITHUB_ENV"
 
       - name: 소스 확보 (R2 직업로드 — 대용량 ≤2GB)
@@ -116,11 +118,11 @@ jobs:
           [ -z "${CONV_SRC:-}" ] || { echo "이미 소스 확보 — 스킵(다중 입력 방어)"; exit 0; }
           printf '%s' "$R2_SRC" | grep -Eqx 'up_src/[0-9]{12}-[a-f0-9]{6}\.(mp4|mov|m4v|webm|mkv|avi)' \
             || { echo "::error::잘못된 r2_src: $R2_SRC"; exit 1; }   # api 정규식과 동형 자체 재검증(개행·탭·확장자·문자셋 — 상류 신뢰 대신 최후 방어선 · 평의회1)
-          [ -n "$R2_BUCKET" ] || { echo "저장소(R2)가 설정 안 돼 있어 — 관리자 설정 후 다시." > /tmp/conv_err.txt; echo "::error::R2 시크릿 미설정"; exit 1; }
+          [ -n "$R2_BUCKET" ] || { { echo "저장소(R2)가 설정 안 돼 있어 — 관리자 설정 후 다시."; [ -s /tmp/yt_diag.txt ] && cat /tmp/yt_diag.txt || true; } > /tmp/conv_err.txt; echo "::error::R2 시크릿 미설정"; exit 1; }
           EXT="${R2_SRC##*.}"
           export AWS_DEFAULT_REGION=auto AWS_REQUEST_CHECKSUM_CALCULATION=when_required AWS_RESPONSE_CHECKSUM_VALIDATION=when_required
           aws s3 cp "s3://$R2_BUCKET/$R2_SRC" "/tmp/upsrc.$EXT" --endpoint-url "https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com" --only-show-errors \
-            || { echo "업로드 파일 회수 실패 — 다시 올려줘." > /tmp/conv_err.txt; echo "::error::R2 소스 회수 실패: $R2_SRC"; exit 1; }
+            || { { echo "업로드 파일 회수 실패 — 다시 올려줘."; [ -s /tmp/yt_diag.txt ] && cat /tmp/yt_diag.txt || true; } > /tmp/conv_err.txt; echo "::error::R2 소스 회수 실패: $R2_SRC"; exit 1; }
           echo "CONV_SRC=/tmp/upsrc.$EXT" >> "$GITHUB_ENV"
 
       - name: 변환 (ffmpeg → R2 → video.json)
@@ -137,7 +139,7 @@ jobs:
           set -e
           [ -n "$IN_ID" ] || { echo "::error::id 없음"; exit 1; }
           case "$IN_ID" in *[!0-9a-f-]*) echo "::error::잘못된 id"; exit 1;; esac
-          [ -n "${CONV_SRC:-}" ] || { echo "영상 입력이 없어 — URL이나 파일을 넣어줘." > /tmp/conv_err.txt; echo "::error::CONV_SRC 빈값"; exit 1; }
+          [ -n "${CONV_SRC:-}" ] || { { echo "영상 입력이 없어 — URL이나 파일을 넣어줘."; [ -s /tmp/yt_diag.txt ] && cat /tmp/yt_diag.txt || true; } > /tmp/conv_err.txt; echo "::error::CONV_SRC 빈값"; exit 1; }
           python3 apps/conv/conv_run.py "$IN_ID" "$CONV_SRC"
 
       - name: 실패 기록(error.log) — 프론트가 폴링해 즉시 표시
