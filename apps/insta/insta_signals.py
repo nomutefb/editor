@@ -490,7 +490,14 @@ def _daily_timeseries(daily):
     for row in daily:
         fd = (row.get('fetched_kst') or '')[:10]
         for p in (row.get('follower_count_series') or []):
-            put((p.get('end_time') or '')[:10], 'follows', p.get('value'))
+            # ⚠ 0은 값이 아니라 **결측**이다(평의회 1·6·8 공통 실측) — Meta는 아직 집계가 안 끝난 버킷에
+            #   0을 실어 보내고, 같은 날짜를 나중에 다시 물으면 실값이 온다(32일 중 24일에서 0·실값 동시 관측).
+            #   구판은 그 0을 값으로 적재해 **"신규 팔로워 0명"** 으로 화면에 띄웠다(최근 32일 중 5일 영구 0
+            #   = 15.6% 결손인데 증상은 "그날 아무도 안 들어옴"으로 보인다 = 최악의 조용한 거짓말).
+            #   여기서 걸러도 하루창 원장(follow_ledger)이 같은 날짜를 실측값으로 채운다 = 손실 0.
+            v0 = p.get('value')
+            if v0:
+                put((p.get('end_time') or '')[:10], 'follows', v0)
         ts = row.get('account_daily') or {}
         for k_api, k_out in (('views', 'views'), ('reach', 'reach'), ('profile_views', 'profile_views'),
                              ('total_interactions', 'interactions'), ('accounts_engaged', 'engaged')):

@@ -192,9 +192,23 @@ def main():
     # → 하루창을 **원장에 누적**한다(통창은 합계만 줘서 일별로 못 쪼갠다 = 하루창 반복이 유일한 길).
     #   매 런 = 결측일만 최대 FOLLOW_MAX_CALL콜(있는 날은 안 묻는다 = 하트비트 30분 런에도 평시 0~2콜) ·
     #   소급 = 환경변수 IG_FOLLOW_BACKFILL 일수(1회성 · 180이면 180콜). online_ledger.json 누적 관용구 계승.
-    FOLLOW_LAG = 2            # 집계 지연(일) — 이 날짜 이후는 물어도 빈손이라 요청 자체를 안 한다
+    # ⚠⚠ 창 경계 = **07:00 UTC**(= 16:00 KST)다. 인스타의 하루는 자정이 아니라 오후 4시에 끊긴다 —
+    #   실측 근거 = follower_count 응답의 end_time이 전건 `T07:00:00+0000`. 그래서 KST 자정으로 창을 자르면
+    #   우리가 부르는 '하루'와 Meta가 세는 '하루'가 8시간 어긋난다. 평의회 1번 실측: 게시물의 **41.3%가
+    #   16시 이후 발행**이라 달력일과 집계일이 달라지고, 그 상태로 게시물↔이탈을 이으면 **어젯밤 릴스가 만든
+    #   이탈을 오늘 아침 피드가 뒤집어쓴다**(시뮬레이션에서 계수가 44%까지 축소 = 진짜 범인은 임계 아래로 숨고
+    #   엉뚱한 게시물이 지목된다 · 한 방향 계통 오차라 표본을 늘려도 안 사라진다).
+    #   → 창을 Meta 버킷 경계에 그대로 맞추고, 날짜 라벨도 Meta 관례(end_time 날짜 = 창 끝)를 따른다.
+    #     그래야 follower_count 시계열(end_time 라벨)과 같은 축에 눕는다.
+    BUCKET_H = 7              # Meta 일 버킷 경계(UTC 시각) — 실측 end_time T07:00:00+0000
+    FOLLOW_LAG = 3            # 집계 지연(일) — 이 날짜 이후는 물어도 빈손이라 요청 자체를 안 한다.
+    #   실측 지연은 48시간(어제=빈손·2일 전부터 값)인데 **3으로 잡는다** = 경계에 딱 붙이면 아직 안 익은 날을
+    #   매 런 물어 빈손을 받고, 그 빈손이 새 경보 문법(_bd_empty)에 걸려 **정당한 지연이 매 런 빨간불**이 된다
+    #   (평의회 6번 경고 — 그 빨간불은 다음 세션이 "껍데기 판정이 과하다"며 봉합을 되돌리는 압력이 된다).
     FOLLOW_KEEP = 400         # 원장 보관 일수(online_ledger 동값)
     FOLLOW_MAX_CALL = 8       # 평시 런 1회 상한(결측 자가치유 속도 · 소급은 아래 환경변수로 별도)
+    utc0 = datetime.datetime.now(datetime.timezone.utc).replace(
+        hour=BUCKET_H, minute=0, second=0, microsecond=0)   # 오늘 버킷 경계(UTC 07:00)
     fled_p = f'{OUT}/follow_ledger.json'
     try:
         fled = json.load(open(fled_p, encoding='utf-8'))
@@ -209,7 +223,8 @@ def main():
     cap = back if back else FOLLOW_MAX_CALL
     want = []
     for k in range(FOLLOW_LAG, span + 1):
-        dd = (day0 - datetime.timedelta(days=k)).date().isoformat()
+        # 창 = [utc0−k일, utc0−(k−1)일] = 정확히 버킷 1개 · 라벨 = 창 끝 날짜(Meta end_time 관례와 동일 축)
+        dd = (utc0 - datetime.timedelta(days=k - 1)).date().isoformat()
         if dd not in fled:
             want.append((k, dd))
         if len(want) >= cap:
@@ -218,11 +233,14 @@ def main():
     for k, dd in want:
         g, dr = insights(f'{uid}/insights', ['follows_and_unfollows'],
                          period='day', metric_type='total_value', breakdown='follow_type',
-                         since=str(int((day0 - datetime.timedelta(days=k)).timestamp())),
-                         until=str(int((day0 - datetime.timedelta(days=k - 1)).timestamp())))
+                         since=str(int((utc0 - datetime.timedelta(days=k)).timestamp())),
+                         until=str(int((utc0 - datetime.timedelta(days=k - 1)).timestamp())))
         raw = g.get('follows_and_unfollows')
         if raw is None:
-            drop4 += [f'{x} [{dd}]' for x in dr]   # 빈 껍데기도 여기로 온다(parse_ins가 미획득 처리) = 가시 경보
+            # 지연 경계 부근(FOLLOW_LAG+1일 이내)의 빈손은 **정당한 미완결**이라 경보로 안 올린다.
+            # 그보다 오래된 날짜가 빈손이면 그건 진짜 결손이므로 dropped에 실어 보이게 한다.
+            if k > FOLLOW_LAG + 1:
+                drop4 += [f'{x} [{dd}]' for x in dr]
             continue
         rec = {}
         for br in (raw if isinstance(raw, list) else []):
