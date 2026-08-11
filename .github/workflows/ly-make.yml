@@ -239,6 +239,8 @@ jobs:
           LY_STT_MAX_SEC: ${{ vars.LY_STT_MAX_SEC }}   # 전사 길이 하드 캡(빈값 = 3600s) — Scribe 속도가 종전 비용 브레이크를 없앤 자리 방어
           URL: ${{ inputs.url }}
           YT_COOKIES: ${{ secrets.YT_COOKIES }}
+          YT_COOKIES_2: ${{ secrets.YT_T_COOKIES }}    # 다운로더 슬롯 1 — 구 YT_COOKIES가 죽었을 때 회수(260811 · 건강검진이 보는 건 이쪽뿐이라 구 쿠키는 죽어도 무경보였다)
+          YT_COOKIES_3: ${{ secrets.YT_T2_COOKIES }}   # 다운로더 슬롯 2(미설정이면 빈값 = 건너뜀)
           IN_ID: ${{ inputs.id }}
           OPTS: ${{ inputs.opts }}
           LY_STT_PRECISION: ${{ inputs.stt_prec }}   # 빈값 = ly_stt.py 기본(int8_float32) · A/B 시에만 지정
@@ -254,7 +256,8 @@ jobs:
           # 번인 ON = 영상까지 다운(자막 합성용 · 실패 = 오디오-온리 폴백 → 자막 텍스트만 = 회귀 0)
           BURN="$(printf '%s' "${OPTS:-}" | jq -r 'try .burn catch empty' 2>/dev/null || true)"
           if [ "$BURN" = "true" ]; then
-            python3 -m yt_dlp -f "bv*[height<=1920]+ba[ext=m4a]/bv*[height<=1920]+ba/b" --merge-output-format mp4 --no-playlist --socket-timeout 30 $COOKIES -o "/tmp/src.%(ext)s" "$URL" || true   # --socket-timeout = 스톨 링크 무한 행 차단(track-make 관례 · 평의회9)
+            # 시도 사다리 = .github/scripts/ytdlp_try.sh(①쿠키+기본 ②쿠키+대체 ③무쿠키+기본 ④무쿠키+대체 · 260811 · --socket-timeout 30은 래퍼 안에 있다 = 스톨 링크 무한 행 차단 유지)
+            YTDLP_ERR=/tmp/yt_err.txt YTDLP_LABEL="번인 영상" bash .github/scripts/ytdlp_try.sh -f "bv*[height<=1920]+ba[ext=m4a]/bv*[height<=1920]+ba/b" --merge-output-format mp4 --no-playlist -o "/tmp/src.%(ext)s" "$URL" || true
             SRC="$(ls /tmp/src.* 2>/dev/null | head -1 || true)"
             if [ -n "$SRC" ]; then
               # 길이 선게이트(평의회9 260709) — 10분(MAX_DUR) 초과는 어차피 번인 거절 → 제일 비싼 스텝(STT·claude) *앞*에서 번인만 스킵 확정(자막 텍스트는 계속 · 사유 = video.json 선기록)
@@ -271,8 +274,8 @@ jobs:
               fi
             fi
           fi
-          [ -s /tmp/audio.mp3 ] || python3 -m yt_dlp -x --audio-format mp3 --postprocessor-args "ffmpeg:-ar 16000 -ac 1 -b:a 48k" --no-playlist --socket-timeout 30 $COOKIES -o "/tmp/audio.%(ext)s" "$URL" \
-            || { echo "유튜브 다운로드 실패 — YouTube가 봇 인증(로그인·쿠키)을 요구해. 파일 업로드나 SRT 텍스트로 해줘. (운영자: YT_COOKIES 시크릿 등록 시 URL 가능)" > /tmp/ly_err.txt; echo "::error::yt-dlp 다운로드 실패: $URL"; exit 1; }
+          [ -s /tmp/audio.mp3 ] || YTDLP_ERR=/tmp/yt_err.txt YTDLP_LABEL="오디오" bash .github/scripts/ytdlp_try.sh -x --audio-format mp3 --postprocessor-args "ffmpeg:-ar 16000 -ac 1 -b:a 48k" --no-playlist -o "/tmp/audio.%(ext)s" "$URL" \
+            || { echo "유튜브 다운로드 실패 — 쿠키를 빼고도 다시 시도했는데 같은 벽이야. 파일 업로드나 SRT 텍스트로 해줘." > /tmp/ly_err.txt; echo "::error::yt-dlp 다운로드 실패(4단 후): $URL"; exit 1; }
           SEGJSON=""; [ -n "$IN_ID" ] && SEGJSON="viewer/ly_out/${IN_ID}/segments.json"   # word 타임스탬프 사이드카(상세 편집기) — 트랜스크립트 포맷 불변·타임코드/경계는 word 정렬로 미세 변동 가능(ly_stt.py 헤더 참조·위험 수용 기록)
           # ── STT 캐시(260728 Q999 · edit-make 정본 계승) — 키 = 추출 오디오 sha256(+모델+연산 정밀도).
           #    같은 소스를 다시 굽는 재작업이 large-v3를 통째로 재전사하던 낭비 제거(41초 클립 실측 STT 62초 · 10분급 ~7분).

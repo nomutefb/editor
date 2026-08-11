@@ -1,63 +1,84 @@
 #!/usr/bin/env bash
-# 유튜브 받기 자가치유 래퍼 — 쿠키가 죽었을 때 **쿠키를 빼고** 다시 시도한다.
+# 유튜브 받기 자가치유 래퍼 — 가진 쿠키를 **전부** 돌려보고, 그래도 안 되면 쿠키를 빼고 시도한다.
 #
-# 왜(260811 실사고): 미디어 요약(nb) 자료화가 "유튜브 봇 인증 요구 — YT_COOKIES 갱신해줘"로 죽었다.
-#   그런데 같은 URL(watch?v=I7qW4WbKCAk)을 **쿠키 없이** 돌리면 rc=0으로 정상 취득된다(실측).
-#   즉 실패 원인이 「쿠키가 없어서」가 아니라 「죽은 쿠키를 붙여서」였다 — 유튜브는 무효 세션 쿠키가
-#   실린 요청을 봇 검문으로 떨군다(익명 요청은 통과시키면서).
-#   원장 push/yt_cookie_health.json 실측 = 260808~0811 내내 쿠키 사망(0810 23:31 잠깐 회복 → 0811 11:07 재사망)
-#   → 화면은 나흘째 "쿠키 갱신해줘"만 반복했고, 운영자가 실제로 갈아도 반나절 만에 또 죽었다.
-#   쿠키 재발급은 이미 실패가 확정된 처방이라, 코드가 스스로 회수하는 길을 낸다.
+# 왜(260811 실사고 · 러너 실측 2회로 확정): 미디어 요약(nb) 자료화가
+#   "유튜브 봇 인증 요구 — YT_COOKIES 갱신해줘"로 죽었다. 실측으로 두 가지가 갈렸다.
+#   ⓐ 이 컨테이너에서 **쿠키 없이** 같은 URL이 rc=0으로 취득된다 → 「쿠키가 없어서」가 아니다.
+#   ⓑ 러너에서 쿠키를 빼고 재시도해도 **같은 벽**이었다(run 31490030593 원문 4회 전건
+#      `Sign in to confirm you're not a bot`) → GitHub 러너 IP가 유튜브에 봇으로 찍힌 상태다.
+#   → 러너에서는 **살아있는 쿠키가 사실상 필수**인데, 종전 배선은 레일마다 **쿠키를 딱 한 벌만** 봤다.
 #
-# 4단 사다리(앞 단이 실패해야 다음 단):
-#   ① 쿠키 + 기본 클라이언트     ← 종전 1차(쿠키가 살아있을 때 가장 잘 된다)
-#   ② 쿠키 + 대체 클라이언트     ← 종전 2차(nsig·서명 챌린지 우회 · 260723 자가치유)
-#   ③ 무쿠키 + 기본 클라이언트   ← 신설(죽은 쿠키가 원인인 경우를 여기서 회수)
-#   ④ 무쿠키 + 대체 클라이언트   ← 신설(③ + 서명 챌린지가 겹친 경우)
-#   ⚠ ③④는 쿠키가 실제로 실렸을 때만 돈다(무쿠키 운영이면 ①②와 같은 명령이라 헛돈다).
+# ⚠ 그 「한 벌」이 이 레포에서 갈려 있었다(260804 다운로더 이관의 잔여):
+#     · 미디어 요약·요약 링크 전사·영상 받기 7레일 = 구 시크릿 YT_COOKIES
+#     · 다운로더(vidl)·쿠키 건강검진        = 신 시크릿 YT_T_COOKIES / YT_T2_COOKIES
+#   건강검진은 **신 쪽만** 본다 → 구 쿠키는 죽어도 아무도 안 울리고, 운영자가 신 쿠키를 새로 갈아도
+#   미디어 요약은 여전히 구 쿠키만 보고 죽는다(= 갈아도 안 고쳐지는 상태).
+#   → 여기서 **가진 쿠키를 전부 순서대로** 시도한다. 한 벌이라도 살아 있으면 그걸로 통과한다.
 #
-# 관측(이 레포가 반복해 겪은 「사유가 지워지는 병」 봉합 — 스레드 [1차 실측]·틱톡 _e1·스모크 사유 0자와 같은 축):
-#   ⚠ 종전 nb 래퍼는 stderr를 파일로만 삼키고 분류 문구만 남겨서, **유튜브가 실제로 뭐라 했는지가
-#     Actions 로그 어디에도 안 남았다**. 그래서 이번 사고도 "봇 인증"이라는 우리 분류만 보였고
-#     원문은 확인할 길이 없었다(nb-make 120행 주석의 260723 오진 판례와 같은 자리).
-#   → 전 단계 실패 시 원문 꼬리를 로그 그룹으로 찍는다(과금 0 · 네트워크 0).
+# 사다리(앞 단이 실패해야 다음 단 · 쿠키 슬롯은 값이 실제로 있는 것만 돈다):
+#   쿠키1 기본 → 쿠키1 대체 → 쿠키2 기본 → 쿠키2 대체 → 쿠키3 기본 → 쿠키3 대체
+#   → 무쿠키 기본 → 무쿠키 대체
+#   「대체」 = --extractor-args player_client=tv,mweb,web_safari,default (nsig·서명 챌린지 우회 · 260723)
+#   ⚠ 무쿠키 2단은 쿠키가 실제로 실렸을 때만 돈다(무쿠키 운영이면 앞 단과 같은 명령이라 헛돈다).
+#
+# 관측(이 레포가 반복해 겪은 「사유가 지워지는 병」 봉합 — 스레드 [1차 실측]·틱톡 _e1·스모크 사유 0자 동축):
+#   ⚠ 종전 nb 래퍼는 stderr를 파일로만 삼키고 분류 문구만 남겨서 **유튜브가 실제로 뭐라 했는지가
+#     Actions 로그 어디에도 안 남았다**. 그래서 이번 사고도 우리 분류("봇 인증")만 보였고, 그게 맞는지
+#     틀린지 확인할 길이 0이었다(nb-make 120행의 260723 오진 판례와 같은 자리).
+#   → 전 단계 실패 시 원문 꼬리를 로그 그룹으로 찍는다. 이 한 줄이 260811 진단을 확정시켰다.
 #
 # 계약: stdout = yt-dlp 출력 그대로(호출부가 `> file` 로 받는다) · 진행 메시지는 전부 stderr.
-#   입력 = 환경변수 YT_COOKIES(있으면 쿠키 파일 생성) · YTDLP_ERR(오류 누적 경로) · YTDLP_LABEL(로그 라벨).
-#   rc = 0(어느 단이든 성공) / 1(4단 전부 실패).
+#   입력 = YT_COOKIES / YT_COOKIES_2 / YT_COOKIES_3(쿠키 본문 · 빈 슬롯은 건너뛴다)
+#          YTDLP_ERR(오류 누적 경로) · YTDLP_LABEL(로그 라벨)
+#   rc = 0(어느 단이든 성공) / 1(전 단 실패).
 set -u
 
 ERRF="${YTDLP_ERR:-/tmp/ytdlp_err.txt}"
-CKF="${YTDLP_CK:-/tmp/ytdlp_ck.txt}"
+CKDIR="${YTDLP_CKDIR:-/tmp/ytdlp_ck}"
 LABEL="${YTDLP_LABEL:-yt-dlp}"
 ALT='youtube:player_client=tv,mweb,web_safari,default'
 
 : > "$ERRF"
+mkdir -p "$CKDIR"
 
-CK=""
-if [ -n "${YT_COOKIES:-}" ]; then
-  printf '%s\n' "$YT_COOKIES" > "$CKF"
-  CK="--cookies $CKF"
-fi
+# 쿠키 슬롯 수집 — 값이 실제로 있는 것만(빈 시크릿은 조용히 건너뛴다)
+CK_ARGS=()
+CK_NAMES=()
+slot=0
+for var in YT_COOKIES YT_COOKIES_2 YT_COOKIES_3; do
+  val="${!var:-}"   # bash 간접 확장 — eval 금지(쿠키 본문에 따옴표·개행·백틱이 들어오면 그 자리에서 실행된다)
+  [ -n "$val" ] || continue
+  slot=$((slot + 1))
+  f="$CKDIR/ck$slot.txt"
+  printf '%s\n' "$val" > "$f"
+  CK_ARGS+=("--cookies $f")
+  CK_NAMES+=("$var")
+done
 
-ok() {   # 성공 보고는 stderr 로만(stdout 오염 = 호출부 JSON 파싱 붕괴)
-  echo "::warning::${LABEL} 성공(${1})" >&2
+attempt() {   # $1=사람이 읽을 단 이름  $2=쿠키 인자(빈 문자열이면 무쿠키)  나머지=yt-dlp 인자
+  local name="$1" ck="$2"; shift 2
+  # shellcheck disable=SC2086 — $ck 는 "--cookies <경로>" 두 토큰으로 갈려야 한다(따옴표 금지)
+  python3 -m yt_dlp --socket-timeout 30 $ck "$@" 2>>"$ERRF" && {
+    echo "::warning::${LABEL} 성공(${name})" >&2
+    return 0
+  }
+  echo "::warning::${LABEL} 실패(${name})" >&2
+  return 1
 }
 
-# ① 쿠키 + 기본
-python3 -m yt_dlp --socket-timeout 30 $CK "$@" 2>>"$ERRF" && exit 0
-echo "::warning::${LABEL} 1차 실패 — 대체 클라이언트로 재시도" >&2
+i=0
+while [ "$i" -lt "${#CK_ARGS[@]}" ]; do
+  nm="${CK_NAMES[$i]}"
+  attempt "$nm" "${CK_ARGS[$i]}" "$@" && exit 0
+  attempt "$nm·대체 클라이언트" "${CK_ARGS[$i]} --extractor-args $ALT" "$@" && exit 0
+  i=$((i + 1))
+done
 
-# ② 쿠키 + 대체 클라이언트
-python3 -m yt_dlp --socket-timeout 30 $CK --extractor-args "$ALT" "$@" 2>>"$ERRF" && { ok "대체 클라이언트"; exit 0; }
-
-if [ -n "$CK" ]; then
-  echo "::warning::${LABEL} 2차 실패 — 쿠키를 빼고 재시도(죽은 쿠키가 원인인 경우 회수)" >&2
-  # ③ 무쿠키 + 기본
-  python3 -m yt_dlp --socket-timeout 30 "$@" 2>>"$ERRF" && { ok "쿠키 없이"; exit 0; }
-  # ④ 무쿠키 + 대체 클라이언트
-  python3 -m yt_dlp --socket-timeout 30 --extractor-args "$ALT" "$@" 2>>"$ERRF" && { ok "쿠키 없이·대체 클라이언트"; exit 0; }
+if [ "${#CK_ARGS[@]}" -gt 0 ]; then
+  echo "::warning::${LABEL} 쿠키 ${#CK_ARGS[@]}벌 전부 실패 — 쿠키를 빼고 재시도" >&2
 fi
+attempt "쿠키 없이" "" "$@" && exit 0
+attempt "쿠키 없이·대체 클라이언트" "--extractor-args $ALT" "$@" && exit 0
 
 # 전 단계 실패 — 원문을 로그에 남긴다(분류 문구만 남기면 다음 세션이 또 추측으로 메운다)
 {

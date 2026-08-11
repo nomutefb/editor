@@ -126,13 +126,16 @@ jobs:
         env:
           URL: ${{ inputs.url }}
           YT_COOKIES: ${{ secrets.YT_COOKIES }}
+          YT_COOKIES_2: ${{ secrets.YT_T_COOKIES }}    # 다운로더 슬롯 1 — 구 YT_COOKIES가 죽었을 때 회수(260811 · 건강검진이 보는 건 이쪽뿐이라 구 쿠키는 죽어도 무경보였다)
+          YT_COOKIES_3: ${{ secrets.YT_T2_COOKIES }}   # 다운로더 슬롯 2(미설정이면 빈값 = 건너뜀)
           YTF: ${{ contains(inputs.opts, '"vid_res":"src"') && 'bv*[height<=2160]+ba[ext=m4a]/bv*[height<=2160]+ba/b' || 'bv*[height<=1920]+ba[ext=m4a]/bv*[height<=1920]+ba/b' }}   # 해상도 '원본(4K)' 선택 시에만 4K 페치(그 외 1920 = 비용 보호) · ba[ext=m4a] 선행 = AAC 강제(알몸 ba는 Opus를 골라 mp4에 그대로 들어가고 프리미어가 오디오 트랙을 조용히 무시한다 · 260805)
         run: |
           set -e
           COOKIES=""
           if [ -n "$YT_COOKIES" ]; then printf '%s\n' "$YT_COOKIES" > /tmp/ck.txt; COOKIES="--cookies /tmp/ck.txt"; fi
-          python3 -m yt_dlp -f "$YTF" --merge-output-format mp4 --no-playlist --socket-timeout 30 $COOKIES -o "/tmp/src.%(ext)s" "$URL" \
-            || { echo "영상 다운로드 실패 — 사이트가 봇을 막았을 수 있어. 파일 업로드로 해줘." > /tmp/edit_err.txt; echo "::error::yt-dlp 실패: $URL"; exit 1; }
+          # 시도 사다리 = .github/scripts/ytdlp_try.sh(①쿠키+기본 ②쿠키+대체 ③무쿠키+기본 ④무쿠키+대체 · 260811)
+          YTDLP_ERR=/tmp/yt_err.txt YTDLP_LABEL="영상 받기" bash .github/scripts/ytdlp_try.sh -f "$YTF" --merge-output-format mp4 --no-playlist -o "/tmp/src.%(ext)s" "$URL" \
+            || { echo "영상 다운로드 실패 — 쿠키를 빼고도 다시 시도했는데 안 됐어. 파일 업로드로 해줘." > /tmp/edit_err.txt; echo "::error::yt-dlp 실패(4단 후): $URL"; exit 1; }
           SRC="$(ls /tmp/src.* 2>/dev/null | head -1 || true)"
           [ -n "$SRC" ] || { echo "영상 다운로드 실패 — 파일 업로드로 해줘." > /tmp/edit_err.txt; echo "::error::다운 산출 없음"; exit 1; }
           echo "EDIT_SRC=$SRC" >> "$GITHUB_ENV"

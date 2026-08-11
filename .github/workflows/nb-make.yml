@@ -104,6 +104,8 @@ jobs:
           URL: ${{ inputs.url }}
           IN_ID: ${{ inputs.id }}
           YT_COOKIES: ${{ secrets.YT_COOKIES }}
+          YT_COOKIES_2: ${{ secrets.YT_T_COOKIES }}    # 다운로더 슬롯 1 — 구 YT_COOKIES가 죽었을 때 회수(260811 · 건강검진이 보는 건 이쪽뿐이라 구 쿠키는 죽어도 무경보였다)
+          YT_COOKIES_3: ${{ secrets.YT_T2_COOKIES }}   # 다운로더 슬롯 2(미설정이면 빈값 = 건너뜀)
           NB_MAX_SEC: ${{ vars.NB_MAX_SEC || 14400 }}
           NB_STT_MAX_SEC: ${{ vars.NB_STT_MAX_SEC || 3600 }}
           NB_LIST_MAX: ${{ vars.NB_LIST_MAX || 200 }}
@@ -333,6 +335,8 @@ jobs:
           URL: ${{ inputs.url }}
           IN_ID: ${{ inputs.id }}
           YT_COOKIES: ${{ secrets.YT_COOKIES }}
+          YT_COOKIES_2: ${{ secrets.YT_T_COOKIES }}    # 다운로더 슬롯 1 — 구 YT_COOKIES가 죽었을 때 회수(260811 · 건강검진이 보는 건 이쪽뿐이라 구 쿠키는 죽어도 무경보였다)
+          YT_COOKIES_3: ${{ secrets.YT_T2_COOKIES }}   # 다운로더 슬롯 2(미설정이면 빈값 = 건너뜀)
         run: |
           set -e
           # 시도 사다리 = .github/scripts/ytdlp_try.sh(①쿠키+기본 ②쿠키+대체 ③무쿠키+기본 ④무쿠키+대체 · 260811)
