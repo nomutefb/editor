@@ -111,6 +111,27 @@ def vid_prompt(c, sound=True):
     return " ".join(parts)
 
 
+def _why(e):
+    """실패 사유를 **사람 말로** 옮긴다 — 코드만 남기면 운영자가 다음 수를 못 정한다.
+
+    ⚠ 이 레포가 세 번 봉합한 병(사유 0자 경보)과 같은 축이라, 분류를 못 해도 원문을 싣는다.
+    """
+    b = str(e.body)
+    if e.where == "video-moderated" or "moderat" in b.lower():
+        return "검열에 걸렸다 — 같은 문장으로 다시 쏴도 안 풀린다. 컷 내용을 바꿔야 한다(사람·폭력·실사 어휘 축)"
+    if e.tier_blocked:
+        return "구독은 살아 있는데 xAI 가 영상 통로를 이 계정에 안 열어줬다(403) — 재시도 무의미"
+    if e.dead_auth:
+        return "자격이 죽었다 — 판정기를 다시 돌려 열쇠를 새로 받아야 한다"
+    if e.code == 429:
+        return "한도에 걸렸다 — 잠시 뒤 손으로 다시 시도하면 된다"
+    if e.where == "video-timeout":
+        return "15분 안에 안 끝났다 — 서버가 밀린 상태다. 손으로 다시 시도"
+    if e.code in (500, 502, 503, 504) or e.code == 0:
+        return "서버·회선 일시 장애({}) — 손으로 다시 시도하면 대개 풀린다".format(e.code or "연결 실패")
+    return "HTTP {} · {}".format(e.code, b[:160])
+
+
 def strip_audio(path):
     """소리 끄기 = 산출 트랙을 버린다.
 
@@ -183,7 +204,11 @@ def main():
                 os.remove(local)   # R2 로 갔으면 레포에 안 남긴다(레포 비대 0 = k_refgen 관례)
             print("컷{} ✓ {}초 · {}".format(c["n"], c["sec"], rec["video"] or local))
         except gk.GrokError as e:
-            print("::warning::컷{} 영상 실패({}): {}".format(c["n"], e.where, str(e.body)[:200]))
+            # ⚠ 자동 재시도 없음(운영자 260811) — 다시 쏘면 돈이 또 나가고, 검열 차단은
+            #   같은 프롬프트로 몇 번을 쏴도 안 풀린다. 대신 **막힌 이유를 사람 말로 남겨**
+            #   운영자가 보고 손으로 다시 시도할지 정한다.
+            rec["fail"] = _why(e)
+            print("::warning::컷{} 영상 실패 — {}".format(c["n"], rec["fail"]))
             if e.tier_blocked or e.dead_auth:
                 # 자격 축이면 남은 컷도 전부 같은 이유로 죽는다 → 돈·시간을 더 쓰지 않는다.
                 print("::warning::자격 축 실패 — 남은 컷 중단")
@@ -192,6 +217,9 @@ def main():
         items.append(rec)
 
     done = sum(1 for r in items if r.get("video"))
+    for r in items:
+        if not r.get("video") and not r.get("fail"):
+            r["fail"] = r.get("fail") or "그림 단계에서 막혔다(위 경고 참조)"
     json.dump({"cuts": items, "done": done, "total": len(cuts), "sound": sound,
                "cost_usd": round(spent, 4)},
               open(os.path.join(out_dir, "video.json"), "w", encoding="utf-8"), ensure_ascii=False)
