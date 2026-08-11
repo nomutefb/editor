@@ -14294,8 +14294,11 @@ function renderSns() {
       else c.textContent = s;   // 커뮤니티 소스명
     });
     list.appendChild(el);
-    socClampChips(el.querySelector('.soc-srcs'));   // 부착 직후 = offsetTop 실측 가능 → 소스칩 2줄 클램프('…')
   });
+  list.querySelectorAll('.soc-srcs').forEach(socClampChips);   // 전 카드 부착을 끝낸 뒤 일괄 클램프(260811 실측 봉합) — 구판은 카드마다 `appendChild → offsetTop` 을 번갈아 해서
+  //   추가할 때마다 문서 레이아웃이 처음부터 다시 계산됐다(레이아웃 스래싱). 카드 수만큼 반복되니 SNS 탭 진입이 통째로 멈춘다
+  //   (실측 = 탭 전환 1회에 socClampChips 자체 443~678ms · 레이아웃 재계산 29~41회 241~363ms · 롱태스크 822~1,028ms).
+  //   클램프 결과는 각 카드의 `.soc-srcs` 안 칩 배치에만 달렸고 카드끼리는 서로 영향을 안 주므로 시점을 뒤로 미뤄도 결과는 같다(화면 무변경).
   list.classList.toggle('no-anim', _searchRender);   // 검색 타이핑 = 스태거 생략(동일 구성 케이스는 위 커밋 스킵이 흡수 · 분신술 A2 계승 · 평의회6 260707)
   _snsSig = _ss;
 }
