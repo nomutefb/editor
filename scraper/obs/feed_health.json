@@ -4,11 +4,6 @@
  "dead_feeds": [
   {
    "publisher": "국민일보",
-   "title": "전체기사",
-   "url": "http://rss.kmib.co.kr/data/kmibRssAll.xml"
-  },
-  {
-   "publisher": "국민일보",
    "title": "정치",
    "url": "http://rss.kmib.co.kr/data/kmibPolRss.xml"
   },
@@ -48,6 +43,11 @@
    "url": "http://rss.kmib.co.kr/data/kmibColRss.xml"
   },
   {
+   "publisher": "국민일보",
+   "title": "전체기사",
+   "url": "http://rss.kmib.co.kr/data/kmibRssAll.xml"
+  },
+  {
    "publisher": "시사저널",
    "title": "Health",
    "url": "http://www.sisajournal.com/rss/S2N106.xml"
@@ -73,9 +73,9 @@
    "url": "https://www.nocutnews.co.kr/rss/news"
   },
   {
-   "publisher": "전자신문",
-   "title": "IT·산업전반",
-   "url": "https://rss.etnews.com/Section901.xml"
+   "publisher": "머니투데이",
+   "title": "전체기사",
+   "url": "https://rss.mt.co.kr/mt_news.xml"
   },
   {
    "publisher": "스포티비뉴스",
@@ -136,11 +136,6 @@
   },
   {
    "publisher": "시사인",
-   "title": "전체기사",
-   "url": "https://www.sisain.co.kr/rss/allArticle.xml"
-  },
-  {
-   "publisher": "시사인",
    "title": "정치",
    "url": "https://www.sisain.co.kr/rss/S1N6.xml"
   },
@@ -173,6 +168,11 @@
    "publisher": "시사인",
    "title": "인터뷰/오피니언",
    "url": "https://www.sisain.co.kr/rss/S1N12.xml"
+  },
+  {
+   "publisher": "시사인",
+   "title": "전체기사",
+   "url": "https://www.sisain.co.kr/rss/allArticle.xml"
   },
   {
    "publisher": "시사저널",
