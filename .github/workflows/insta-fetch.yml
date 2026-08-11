@@ -15,6 +15,10 @@ on:
         description: '전 게시물 백필(페이지네이션+인사이트 확장 · 약 20~40콜)'
         type: boolean
         default: false
+      children:
+        description: '캐러셀 낱장 백필(카드뉴스 뒷장 URL 수집 · 약 20콜)'
+        type: boolean
+        default: false
       brief:
         description: '채널 AI 브리프(chan_brief.sh · 1=생성) — §📰-e 카나리아: 기본 OFF 머지 → dispatch 실측 → 승격'
         type: string
@@ -45,6 +49,12 @@ jobs:
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
           IG_USER_ID: ${{ vars.IG_USER_ID }}
         run: python3 .github/scripts/insta_backfill.py
+      - name: 캐러셀 낱장 백필(수동 발사 전용 · 운영자 260811 "낱장 조회하고 기존거 더 꺼내자" — 카드뉴스 뒷장은 이 축뿐 = 공개 커버·임베드는 표지만 준다)
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.children }}
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IG_USER_ID: ${{ vars.IG_USER_ID }}
+        run: python3 .github/scripts/insta_children.py
       - name: 페이스북 페이지 수집(채널 요약 1-2 · 시크릿 게이트 = 미등록 no-op · 운영자 260718 Q155 — 세팅 = docs/페이스북_직결_세팅.md)
         env:
           FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
