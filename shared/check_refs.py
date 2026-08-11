@@ -5164,7 +5164,9 @@ def check_grok_sb_chain():
                         ("shoot == 'grok'", "레인 게이트"),
                         ("sound:", "소리 입력"),
                         ("XAI_REFRESH_TOKEN", "구독 자격"),
-                        ("GROK_SOUND", "소리 전달")):
+                        ("GROK_SOUND", "소리 전달"),
+                        ("name: Storyboard sheet", "콘티 시트 스텝"),
+                        ("sb_sheet.py", "시트 러너 호출")):
         if needle not in wf:
             print("❌ 그록 콘티 레인 — sb-make.yml 에 {} 가 없다({})".format(why, needle)); rc = 1
 
@@ -5185,6 +5187,13 @@ def check_grok_sb_chain():
         print("❌ 그록 콘티 레인 — 컷 길이가 고정 상수로 박혔다(콘티가 적은 값을 써야 한다)"); rc = 1
 
     # ⑤ 감독 지침 = MOTION(영어 동작 줄) 규약. 빠지면 프롬프트가 한국어로 나간다.
+    sh = _t(".github/scripts/sb_sheet.py")
+    for needle, why in (("def sheet_prompt", "시트 프롬프트 조립"),
+                        ("gi.openai_image", "GPT Image 호출"),
+                        ("from grok_sb_video import cuts_of", "컷 파서 단일정본(사본 0)")):
+        if needle not in sh:
+            print("❌ 그록 콘티 레인 — sb_sheet.py 에 {} 가 없다({})".format(why, needle)); rc = 1
+
     if "MOTION:" not in _t("prompts/sb-make.md"):
         print("❌ 그록 콘티 레인 — prompts/sb-make.md 에 MOTION 규약이 없다(영상 프롬프트가 한국어로 나간다)"); rc = 1
 
