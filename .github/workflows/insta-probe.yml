@@ -1,0 +1,22 @@
+# 인스타 팔로워 취소(언팔) 지표 실호출 진단 — 수동 발사 전용 · 읽기 전용(커밋 0 · 파일 쓰기 0 · LLM 0콜)
+# 발단 = 운영자 260811 "팔로워 취소도 API로 조회 가능한가" · 실측 = follows_and_unfollows가 1,009회 전건 빈손
+# 산출 = 런 로그(진단표)뿐. 정본 = .github/scripts/insta_probe.py · 롤백 = 이 파일 삭제(수집 레인 무접촉)
+name: insta-probe
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: insta-probe
+  cancel-in-progress: false
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: 취소 지표 실호출 진단(시크릿 게이트 · 미등록 = no-op)
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IG_USER_ID: ${{ vars.IG_USER_ID }}
+        run: python3 .github/scripts/insta_probe.py
