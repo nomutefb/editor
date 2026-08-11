@@ -192,7 +192,7 @@ const SEL = {
     //   왜 = 260729 앵커 교정이 ▶·↻·카운터를 히어로 우변 `calc(56% + …)`로 당겨, ◀는 리스트 좌변 8px인데 ▶만 우변에서
     //   455px 안쪽(히어로 카드 위)에 박히는 비대칭이 났다(1280 실측). 그런데 `.tstk-g` 기하를 재는 스모크가 **하나도 없어서**
     //   운영자가 스샷을 찍어 지적할 때까지 아무도 못 봤다 — 이 축이 게이트 사각이었다(260804 실측: 전 스모크에 tstk/feednav 어서션 0).
-    //   판정 = ⓐ 대칭 |◀ 좌변거리 − ▶ 우변거리| ≤ 0.5 ⓑ 우측 열 축(▶·카운터·↻ 픽토 중심 x) 편차 ≤ 0.5(260716 "↻와 > 사이 열 축")
+    //   판정 = ⓐ 대칭 |◀ 좌변거리 − ▶ 우변거리| ≤ 0.5 ⓑ 좌열 축(◀·↻·카운터 픽토 중심 x) 편차 ≤ 0.5(260716 "같은 열 축" 계승 · 260811 좌열 이관)
     //          ⓒ 2단(≥640) 한정 — ▶ 좌변 ≥ 미니 열 좌변 = "리스트 우측 끝"(히어로 위 겹침 0 · 260804 계약).
     //   상태 = 히어로 10위로 고정(= ↻ home5 + 카운터 동시 노출 유일 구간). 데이터가 10위에 못 미치면 ↻·카운터가 안 떠서
     //          그 축만 N/A로 빠지고 대칭·겹침은 그대로 판정한다(수집 변동 플레이크 0 · 은폐 아님 = 로그에 N/A 명시).
@@ -217,7 +217,11 @@ const SEL = {
         const pv = shown(S.navP), nx = shown(S.navN), cnt = shown(S.tsCnt), rst = shown(S.tsRst);
         if (!nx) return { na: '▶ 비노출(폰 coarse 티어 = 스와이프 전담)' };
         const cx = r => r ? +(r.left + r.width / 2).toFixed(2) : null;
-        const axis = [cx(nx), cx(cnt), cx(rst)].filter(v => v != null);
+        // 열 축 = **좌측**(◀·↻·카운터) — 260811 개정. 구판은 우측(▶·↻·카운터)이었는데 그 묶음이 이번 사고의 씨앗이다:
+        // 260804에 ▶를 "리스트 우측 끝"으로 옮기자 같은 열이라는 이유로 ↻·카운터가 딸려가 미니 3열 마지막 카드(13위) 위에 얹혔고,
+        // 버튼이 얹힌 카드가 곧 그 버튼의 순위로 읽혀 "10위 버튼"이 화면에선 "13위 버튼"이 됐다(운영자 3회 지적).
+        // → ↻·카운터는 **현재 카드(히어로) 쪽 = ◀ 열**에 묶고, ▶만 우측 끝에 남긴다(260804 지시 보존).
+        const axis = [cx(pv), cx(cnt), cx(rst)].filter(v => v != null);
         const mini = wide ? shown(S.tsMini) : null;
         return {
           leftGap: pv ? +(pv.left - gr.left).toFixed(2) : null,
@@ -234,7 +238,62 @@ const SEL = {
       const end = !wide || a.onMini !== false;   // 2단만 — ▶가 미니 열(리스트 우측) 위 = 히어로 겹침 0
       ok(label, sym && col && end, JSON.stringify(a) + (a.axisN < 3 ? ' · 열 축 일부 N/A(데이터 10위 미만 = ↻·카운터 미노출)' : ''));
     };
-    await tstkAxis('T11 TOP스택 슬라이더@1280(◀↔▶ 대칭 Δ≤0.5 · ▶·카운터·↻ 열 축 Δ≤0.5 · ▶ = 리스트 우측 끝[미니 열 위])', true);
+    await tstkAxis('T11 TOP스택 슬라이더@1280(◀↔▶ 대칭 Δ≤0.5 · ◀·↻·카운터 좌열 축 Δ≤0.5 · ▶ = 리스트 우측 끝[미니 열 위])', true);
+
+    // ── ↻('처음으로') 노출 순위 + 얹힌 카드(운영자 260811 "13위째에 새로고침이 뜬다" 기계화) ──
+    //   왜 = 같은 지적이 세 번 왔다: 260718 "10이어야 하는데 12" · 260729 "10에 안 나오고 13에 나와" · 260811 "13위째에 뜬다".
+    //   앞 두 번은 JS 노출 산식(home5)을 고쳤는데 260811 실측에서 **산식은 내내 옳았다**(노출 히어로 순위 = 10·15·20 정확).
+    //   진짜 원인은 자리였다 — 우측 열(right15)이 가로 밴토에서 미니 3열 마지막 카드(= 히어로+3 = 13위) 위에 100% 겹쳤고,
+    //   버튼이 얹힌 카드가 곧 그 버튼의 순위로 읽히므로 "10위 버튼"이 화면에선 영영 "13위 버튼"이었다.
+    //   기존 T11은 **가로(x) 대칭·열 축**만 재서 「그 버튼이 누구 위에 있나」가 축 자체로 없었다 = 산식만 세 번 고치고 못 잡은 사각.
+    //   판정 2축 = ⓐ ↻ 노출 히어로 순위 == 데이터 범위 안 5의 배수 ∧ ≥10 전건(과부족 0)
+    //             ⓑ 노출된 매 회차에서 ↻ 중심이 **히어로 카드 rect 안**(미니 카드 위 = FAIL = 순위 오독의 기계적 정의).
+    //   티어 = 1280(가로 밴토) + 600(협폭 PC 세로 스택) 둘 다 — 260729 교정이 세로 스택만 고치고 가로를 놔둔 게 이번 재발이라
+    //          한 티어만 재면 같은 사고가 반대편 티어로 이사한다. 데이터 10위 미만 = ↻ 미노출이 정답이라 N/A로 명시 스킵.
+    const tstkHome = async (label, W) => {
+      await pg.setViewportSize({ width: W, height: 900 }); await pg.waitForTimeout(350);
+      const a = await pg.evaluate(async () => {
+        let b = document.querySelector('#tstk');
+        while (b && !b._tsAdv) b = b.parentElement;
+        if (!b || !b._tsAdv) return { na: '스택 핸들 없음(미렌더)' };
+        const total = (b._tsSeqX || []).length;
+        if (total < 10) return { na: `수집 ${total}건(10위 미만 = ↻ 미노출이 정답)` };
+        const sleep = ms => new Promise(r => setTimeout(r, ms));
+        const shownRks = [], offHero = [];
+        b._tsO = 0; b._tsMore = false; b._tsDraw();
+        for (let step = 0; step < total; step++) {
+          b._tsLast = Date.now();          // 6s 자동 순환 홀드(측정 중 자가 전진 차단)
+          await sleep(25);
+          const g = document.querySelector('.tstk-g');
+          const hero = g && g.querySelector('.tsk.mag');
+          const rst = g && g.querySelector('.feednav.tstk-rst-sm');
+          const rk = hero ? +(hero.querySelector('.tpc-rank') || {}).textContent : null;
+          if (rst && hero) {
+            const cs = getComputedStyle(rst), rr = rst.getBoundingClientRect();
+            if (cs.display !== 'none' && cs.visibility !== 'hidden' && rr.width > 0) {
+              shownRks.push(rk);
+              const hr = hero.getBoundingClientRect();
+              const cx = rr.left + rr.width / 2, cy = rr.top + rr.height / 2;
+              if (!(cx >= hr.left && cx <= hr.right && cy >= hr.top && cy <= hr.bottom)) {
+                const mini = [...g.querySelectorAll('.tsk.mini')].findIndex(m => {
+                  const r = m.getBoundingClientRect(); return cx >= r.left && cx <= r.right && cy >= r.top && cy <= r.bottom; });
+                offHero.push(`${rk}위→${mini >= 0 ? '미니' + (mini + 1) + '(=' + (rk + mini + 1) + '위)' : '카드밖'}`);
+              }
+            }
+          }
+          b._tsAdv(1);
+        }
+        const want = []; for (let r = 10; r <= total; r++) if (r % 5 === 0) want.push(r);
+        return { total, shownRks, want, offHero };
+      });
+      if (a.na) { ok(label, true, 'N/A — ' + a.na); return; }
+      const rkOk = JSON.stringify(a.shownRks) === JSON.stringify(a.want);
+      const homeOk = a.offHero.length === 0;
+      ok(label, rkOk && homeOk, `노출=[${a.shownRks}] 기대=[${a.want}] · 히어로밖=[${a.offHero.join(' ')}] · 수집 ${a.total}건`);
+    };
+    await tstkHome('T13 ↻ 노출 순위 = 5의 배수(≥10) 전건 · ↻는 현재 카드(히어로) 위@1280 가로 밴토', 1280);
+    await tstkHome('T13b 동축@600 협폭 PC 세로 스택(한 티어만 고치면 사고가 반대편으로 이사 · 260729 교훈)', 600);
+    await pg.setViewportSize({ width: 1280, height: 900 }); await pg.waitForTimeout(300);   // 뒤 축(T9m 등) 기준 뷰포트 복귀
 
     await pg.setViewportSize({ width: 390, height: 844 }); await pg.waitForTimeout(400);
     const t7 = await pg.evaluate(S => {
@@ -249,7 +308,7 @@ const SEL = {
 
     await alignAt('T9m 세로정렬@390 모바일(중분류 배지=블릿=순위 세로선·제목=쿼리·중분류 체브론=소주제 체브론 + 중분류간 배지 정렬 Δ≤0.5)', true);
 
-    await tstkAxis('T12 TOP스택 슬라이더@390 협폭(세로 스택 티어 — ◀↔▶ 대칭 · 우측 열 축 Δ≤0.5 · 260729 cqw 교정 보존)', false);
+    await tstkAxis('T12 TOP스택 슬라이더@390 협폭(세로 스택 티어 — ◀↔▶ 대칭 · 좌열 축 Δ≤0.5 · 260729 cqw 교정 보존)', false);
 
     let t8 = { skip: true };
     if (gtN) {
