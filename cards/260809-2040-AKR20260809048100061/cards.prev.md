@@ -1,32 +1,31 @@
 # 청소하러 들어간 연유 탱크, 50대 2명이 함께 쓰러졌다
 
 **[프롬프트 설계]**
-- 화풍: B 극화 — 사람이 설비 안으로 직접 들어가야 끝나는 작업 구조를 고발하는 사건이라, 무겁고 사실적인 극화 명암이 맞다
-- 분위기: 온기가 완전히 빠진 제도적 공기 — 스테인리스와 형광등의 무감정한 냉기, 사람이 있어야 할 자리만 비어 있는 정조
-- 연출 방향: 뉴스를 안 보는 독자도 "탱크 안에서 두 명이 같이 쓰러졌다"는 한 장면에서 멈춘다 — 혼자면 실수지만 둘이면 공기라는 직관이 스크롤을 잡는다. 그래서 카드 전체가 잡는 강조점은 **사람이 몸을 접어야 겨우 들어가는 좁은 입구 하나**와 그 입구를 향하는 시선·손끝이다. 사고의 순간이 아니라 입구 앞뒤(들어가기 직전 / 손을 뻗는 순간 / 아무도 없이 남은 자리)를 잡아 피해를 전시하지 않으면서 무게를 낸다. 명도는 起 형광 중간 → 承 하강 → 轉 광웅덩이 최저 → 結 여운광으로 한 곡선을 그린다
-- 독자 동선: **제시** 카드1→**발단·전개** 카드2→**피크** 카드3→**확장** 카드4~5→**해소** 카드6→**시사점** 카드7 · 훅=카드1 끝(단서형: "둘 다 같은 자세로") + 카드5 끝(단서형: 이 공장의 2022년) · 착지 한 줄 요지 = 막는 목록은 이미 다 나와 있는데 확인은 늘 사람이 실려 나온 뒤에 시작된다
-- 연속성 앵커: Recurring subject - two Korean men in their 50s in navy blue work coveralls with rolled sleeves and white rubber boots, one with short graying hair, the other with a towel around his neck / Recurring location - a dairy plant hall with tall cylindrical stainless steel storage tanks and exposed overhead pipework
+- 화풍: B 극화 — 개인의 실수가 아니라 반복돼 온 산업재해 구조를 고발하는 축이라, 사실성과 무게가 필요하다
+- 분위기: 공장 형광등 아래의 평평하고 차가운 정적. 사람이 빠져나간 자리만 남은 무정함
+- 연출 방향: 뉴스를 안 보는 독자도 "둘이 같이 쓰러졌다"는 한 문장에서 멈춘다 — 혼자면 실수로 읽히지만 둘이면 그 공간을 의심하게 되기 때문이다(독자훅). 전하려는 관점은 "막는 목록은 짧고 오래됐는데 확인은 늘 늦게 시작된다"(💡 시사점). 그래서 카메라는 사람이 아니라 **사람 하나 겨우 드나드는 좁은 맨홀의 검은 원**과 **그 앞뒤에서 사람이 사라진 자리**에 의도를 건다. 사고의 순간은 그리지 않고 직전과 직후로 감싸 긴장을 만든다. thumb_dispatch의 멸균 형광 톤(차갑고 균일한 청록빛 무정함)과 '부재·잔여' 정조를 전 카드 키노트로 상속하되, 앵글·샷은 카드마다 분산한다
+- 독자 동선: **발단** 카드1→**전개** 카드2→**피크** 카드3→(맥락 카드4)→**해소** 카드5→**시사점** 카드6 · 훅=카드1 끝(단서형: 왜 둘 다인가)+카드4 끝(단서형 수치: 여름에 몰린 32%) · 착지 한 줄 = 확인은 언제나 사람이 실려 나온 뒤다
+- 연속성 앵커: 반복 인물 (없음 — 당사자·발견자·조사관이 각각 1회 등장) / 반복 장소·복장 = Recurring location and wardrobe — a Korean dairy processing plant interior of brushed stainless steel tanks and epoxy-coated floor under overhead fluorescent fixtures, where workers wear white sanitary uniforms, hairnets and rubber boots
 
 ### [카드 1]
 **텍스트**
 ```text
-9일 오후 2시 58분, 평택의
-유제품 공장 저장탱크 안에서
-50대 노동자 두 명이 발견됐다
-*둘 다 같은 자세로 쓰러져 있었다*
+8월 9일 오후 2시 58분, 경기 평택
+높이 3.4m, 지름 1.9m 탱크 안이었다
+공장 직원이 두 사람을 발견했다
+*둘 다 바닥에 쓰러져 있었다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the frozen stillness of a worker's shoulders as he stares into a dark opening. Recurring location - a dairy plant hall with tall cylindrical stainless steel storage tanks and exposed overhead pipework. A Korean factory employee in a white sanitary coat and hairnet stands beside one tall tank, pushing his flashlight beam into the narrow open manhole hatch, his body locked mid-step and turned toward that hatch. The hall around him is empty, valves and pipes receding into the background. His gaze and the beam both point toward the right edge of the frame.
-Camera: wide shot from eye-level, shot on 35mm lens
+Scene: Emotional focal point: the black circular void of an open tank manhole with no one standing beside it. Recurring location and wardrobe — a Korean dairy processing plant interior of brushed stainless steel tanks and epoxy-coated floor under overhead fluorescent fixtures, where workers wear white sanitary uniforms, hairnets and rubber boots. Seen from directly overhead, the top deck of one large cylindrical storage tank fills the upper-center of the frame, its round hatch cover swung fully open and a coiled washing hose trailing away across the deck. A single rubber work glove lies near the rim with its cuff turned inside out, and not one worker stands anywhere on the deck.
+Camera: wide shot from bird's-eye overhead angle, shot on 20mm wide lens
 Lighting/mood: flat sterile clinical fluorescent light, cold even greenish-white, emotionless institutional
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the flashlight beam and a small hatch indicator lamp), muted daylight contrast
-Text handling: keep pipes, valves and wall panels as clean unmarked surfaces or simple pictogram shapes instead of characters. no garbled or fake script, no meaningless letters, no random characters, no dense text. nose room on the right, gaze directed toward the right edge.
-Korean default: Korean adult facial features and build, Korean industrial plant fittings and fixture shapes.
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) burning only along the rim of the open hatch, muted daylight contrast
+Text handling: avoid incidental lettering entirely — no signage, no printed labels, no documents in frame; meaning is carried by objects and composition only.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the polished stainless steel plant floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the stainless steel tank top deck) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -36,29 +35,28 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-매일유업 평택공장
+매일유업 평택공장 저장탱크
 ```
 
 ### [카드 2]
 **텍스트**
 ```text
-두 사람이 들어간 곳은
-*높이 3.4m, 지름 1.9m*
-연유를 담아두는 저장탱크
-안쪽을 청소하는 작업이었다
+두 사람이 하던 일은 탱크 청소였다
+경찰은 그러다 변을 당한 것으로 본다
+식품 탱크는 속을 주기적으로 닦는다
+*그 일은 사람이 들어가야 끝난다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the narrow gap between the two men's hands as the washing hose passes down. Recurring subject - two Korean men in their 50s in navy blue work coveralls with rolled sleeves and white rubber boots, one with short graying hair, the other with a towel around his neck. They stand at the foot of a towering cylindrical stainless steel tank inside the dairy plant hall, one gripping a coiled washing hose and feeding it into the narrow open manhole at the tank base, the other bent forward looking into the dark opening. The tank rises far above them and fills the upper frame, the floor around them bare.
-Camera: full shot from low angle, shot on 24mm wide lens
+Scene: Emotional focal point: a bare hand gripping the cold steel rim of a narrow oval hatch as the man folds his shoulders to fit through it. Recurring location and wardrobe — a Korean dairy processing plant interior of brushed stainless steel tanks and epoxy-coated floor under overhead fluorescent fixtures, where workers wear white sanitary uniforms, hairnets and rubber boots. A man in his fifties crouches at the base of a towering cylindrical tank and pushes his upper body into the opening, which is barely wider than his shoulders. A second worker of the same age stands just behind him holding out a washing hose, both of them looking toward the dark interior rather than at each other, the tank rising far above them out of the top of the frame.
+Camera: medium shot from low angle, shot on 24mm wide lens
 Lighting/mood: cold blue dim interior light, heavy and suffocating, faint trembling tension
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the hose coupling and a small gas detector clipped to a belt), film-noir low-key lighting, deep shadows
-Text handling: keep the tank shell, hatch ring and hose free of lettering, using plain metal surfaces and simple pictogram shapes only. no garbled or fake script, no meaningless letters, no random characters, no dense text.
-Korean default: Korean adult male facial features and build, Korean industrial plant fittings and fixture shapes.
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) on the rim of the hatch opening, film-noir low-key lighting, deep shadows
+Text handling: avoid incidental lettering entirely — no signage, no printed labels, no documents in frame; meaning is carried by objects and composition only.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the curved stainless steel tank wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the epoxy-coated factory floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -68,28 +66,27 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-스테인리스 저장탱크 맨홀
+식품공장 스테인리스 탱크 맨홀
 ```
 
 ### [카드 3]
 **텍스트**
 ```text
-*한 사람이 아니라*
-두 사람이 함께 쓰러졌다
-그중 한 명은 끝내 숨졌다
+*병원으로 옮겨진 A씨는 끝내 숨졌다*
+함께 있던 다른 50대는 경상을 입었다
+둘이 같은 자리에서 나란히 쓰러졌다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a single work glove lying open at the rim of the light, fingers slack. Recurring subject - two Korean men in their 50s in navy blue work coveralls with rolled sleeves and white rubber boots, one with short graying hair, the other with a towel around his neck; here only one gloved hand and one white rubber boot rest at the edge of a small pool of light, everything else swallowed by blackness with no bodies or faces shown. Seen from inside the curved tank wall, another worker's arm reaches down through the narrow manhole above, fingers stretched toward that darkness. The steel wall closes in on every side.
-Camera: close-up from eye-level, shot on 85mm portrait lens
-Lighting/mood: single pool of hard light isolating the space in surrounding blackness, claustrophobic loneliness
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the indicator light of a gas detector fallen at the edge of the pool), film-noir low-key lighting, deep shadows
-Text handling: no lettering anywhere on the detector, glove or steel wall; render them as plain shapes and simple pictogram marks. no garbled or fake script, no meaningless letters, no random characters, no dense text.
-Korean default: Korean adult male hand and build proportions, Korean industrial work glove and boot shapes.
+Scene: Emotional focal point: the widened eyes of a plant worker who has just looked inside, eyebrows raised and pulled together, the pupils shrunk to points. Recurring location and wardrobe — a Korean dairy processing plant interior of brushed stainless steel tanks and epoxy-coated floor under overhead fluorescent fixtures, where workers wear white sanitary uniforms, hairnets and rubber boots. His face fills the frame in the upper-center, one hand clamped white-knuckled on the steel rim at the lower edge, his mouth open on a shout that has not come out yet. Along the very bottom edge, inside the dark opening, two pairs of rubber boots rest side by side with only their soles catching the light, and everything past them stays unseen in the blackness.
+Camera: tight close-up from eye level, shot on 85mm portrait lens
+Lighting/mood: single pool of hard light isolating the figure in surrounding blackness, claustrophobic loneliness
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) at its strongest here, catching one edge of the steel rim, film-noir low-key lighting, deep shadows
+Text handling: avoid incidental lettering entirely — no signage, no printed labels, no documents in frame; meaning is carried by objects and composition only.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the curved dark interior wall of the tank) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the brushed stainless steel tank wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -99,29 +96,28 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-밀폐공간 질식 구조작업
+밀폐공간 질식사고 구조작업
 ```
 
 ### [카드 4]
 **텍스트**
 ```text
-그리고 이건 처음이 아니다
-10년간 밀폐공간 질식 154건,
+먼저 의심되는 건 그 안의 공기다
+밀폐공간 질식은 10년간 154건 있었고
 *사상자 315명 중 41.9%가 숨졌다*
-사고 셋 중 하나는 여름에 났다
+그중 32%는 6~8월 여름에 몰렸다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the identical bent posture repeated at every opening. Four Korean workers in different work uniforms crouch at four identical dark openings spaced along a long concrete plant corridor - a tank manhole, a sewer cover, a septic hatch, a pit entrance - each leaning into his own hole in exactly the same posture, none of them looking at the others. The corridor recedes toward the far end where more identical openings continue. Their bodies lean toward the right side of the frame.
-Camera: wide shot from high angle, shot on 20mm wide lens
+Scene: Emotional focal point: how small one lone worker looks at the far end of an aisle of identical tanks. Recurring location and wardrobe — a Korean dairy processing plant interior of brushed stainless steel tanks and epoxy-coated floor under overhead fluorescent fixtures, where workers wear white sanitary uniforms, hairnets and rubber boots. From near the ground the camera looks down a long corridor between two rows of identical cylindrical tanks that repeat toward a vanishing point, each one with a closed oval hatch at its base at exactly the same height. A single tiny figure walks away down the middle of that corridor with his back turned, dwarfed by the repeating steel, and no one else is anywhere in the aisle.
+Camera: extreme long shot from ground-level worm's-eye angle, shot on 14mm ultra-wide lens
 Lighting/mood: flat cold even surveillance light, no shadow no warmth, detached and watchful
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the rims of the open hatches), muted daylight contrast
-Text handling: keep every hatch cover, wall and uniform free of lettering, using plain surfaces and simple pictogram shapes. no garbled or fake script, no meaningless letters, no random characters, no dense text. nose room on the right.
-Korean default: Korean adult male facial features and build, Korean industrial plant fittings and fixture shapes.
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) marking the closed hatch handles down the row, muted daylight contrast
+Text handling: avoid incidental lettering entirely — no signage, no printed labels, no documents in frame; meaning is carried by objects and composition only.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the concrete plant corridor floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the epoxy-coated factory floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -131,29 +127,28 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-밀폐공간 작업 산소농도 측정
+유가공 공장 저장탱크 설비
 ```
 
 ### [카드 5]
 **텍스트**
 ```text
-이틀 전 평택의 다른 공장에선
-노동자가 끼여 숨진 사고로
-경찰과 노동부가 압수수색을 했다
-*이 공장도 2022년에 사람이 숨졌다*
+경찰은 이번에도 안전 수칙을 확인한다
+사인은 부검으로 밝히기로 했다
+사건은 중대재해수사팀으로 넘어간다
+*2022년에도 여기서 노동자가 죽었다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the lowered eyes of a plant manager as the boxes pass in front of him. Investigators in dark jackets carry brown cardboard evidence boxes out through a wide factory gate and load them onto a flat cart, moving in a steady line. To one side a Korean man in his 40s in a gray work jacket stands with his head lowered and hands clasped, watching the boxes without turning his face. The yard behind them is broad, grey and almost empty. The line of boxes moves toward the right edge of the frame.
-Camera: medium shot from three-quarter angle, shot on 50mm standard lens
-Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on a seal tag fastened to the top box), muted daylight contrast
-Text handling: keep the evidence boxes, jackets and gate free of lettering, showing plain cardboard and simple pictogram marks only. no garbled or fake script, no meaningless letters, no random characters, no dense text. nose room on the right.
-Korean default: Korean adult facial features and build, Korean industrial gate and yard fixture shapes.
+Scene: Emotional focal point: a gloved fingertip resting on the now-closed hatch while the other hand writes. Recurring location and wardrobe — a Korean dairy processing plant interior of brushed stainless steel tanks and epoxy-coated floor under overhead fluorescent fixtures, where workers wear white sanitary uniforms, hairnets and rubber boots. Two investigators in plain unmarked vests stand at the base of the sealed tank, one touching the shut hatch and the other bent over a clipboard, both looking down at the equipment instead of at each other. A length of cordon tape stretches across the aisle in front of them and the hatch is bolted shut, the tank looming above with nobody working anywhere in the hall.
+Camera: medium shot from high angle, shot on 50mm standard lens
+Lighting/mood: single hard side-light cutting across the subject, deep chiaroscuro shadows, tense atmosphere
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) on the cordon tape crossing the aisle, film-noir low-key lighting, deep shadows
+Text handling: avoid incidental lettering entirely — no signage, no printed labels, no agency emblems, no documents with visible writing; meaning is carried by objects and composition only.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the asphalt factory yard) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the epoxy-coated factory floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -163,29 +158,28 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-HL만도 평택사업장 압수수색
+공장 화학사고 경찰 현장감식
 ```
 
 ### [카드 6]
 **텍스트**
 ```text
-이번 사고의 원인은 아직 모른다
-다친 다른 한 명은 병원으로 갔고,
-*사건은 중대재해수사팀으로 간다*
-경찰은 안전 수칙부터 확인한다
+막는 방법은 이미 다 나와 있다
+들어가기 전에 공기를 재고, 환기하고
+밖에 사람을 세워두는 것, 목록은 짧다
+*확인은 언제나 사람이 실려 나온 뒤다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a pen held still above an unfilled line on the work permit sheet. Seen over the shoulder of a Korean police investigator in a dark jacket, a Korean man in his 50s in a company jacket sits across a plain table, hands clasped on his knees, eyes lowered to the papers between them. A thin folder of work permit sheets lies open on the table, tilted steeply away so its ruled lines read only as texture. The plain wall behind them fills the background.
-Camera: over-the-shoulder shot from eye-level, shot on 70mm short telephoto
-Lighting/mood: harsh single overhead light pooling on the table, deep surrounding black, oppressive interrogation
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the pen barrel), film-noir low-key lighting, deep shadows
-Text handling: the document is seen at a steep angle so its ruled lines read as texture only, with no readable characters anywhere. no garbled or fake script, no meaningless letters, no random characters, no dense text.
-Korean default: Korean adult male facial features and build, Korean office table and chair shapes.
+Scene: Emotional focal point: steady unwavering eyes looking straight into the camera, neither pleading nor angry. Recurring location and wardrobe — a Korean dairy processing plant interior of brushed stainless steel tanks and epoxy-coated floor under overhead fluorescent fixtures, where workers wear white sanitary uniforms, hairnets and rubber boots. One worker stands square in the middle of the aisle facing the viewer head-on, a small handheld gas meter held up in one hand at chest height and a coiled lifeline over the other shoulder. Behind him the tank hatch is closed and a ventilation duct runs into it, and the corridor stretches away empty on both sides of him.
+Camera: full shot from front-on eye level, shot on 40mm lens
+Lighting/mood: cold blue pre-dawn tone falling through a high window, desolate stillness
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) glowing on the small display of the gas meter, muted daylight contrast
+Text handling: avoid incidental lettering entirely — no signage, no printed labels, no readable digits on the meter display, no documents in frame; meaning is carried by objects and composition only.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the plain office wall behind them) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the epoxy-coated factory floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -195,37 +189,5 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-경기남부경찰청 중대재해수사팀
-```
-
-### [카드 7]
-**텍스트**
-```text
-그 수칙은 이미 다 나와 있다
-들어가기 전에 공기를 재고,
-환기하고, 밖에 사람을 세운다
-*확인은 늘 사람이 실려 나온 뒤다*
-```
-**이미지 프롬프트**
-```text
-korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: an empty folding stool left facing the open hatch. Recurring location - a dairy plant hall with tall cylindrical stainless steel storage tanks and exposed overhead pipework, now emptied of work. A manhole cover leans against the base of one tank beside its open hatch; on the floor sit a switched-off gas detector and a folding watchman's stool turned toward the opening, unoccupied. Far in the background a single worker walks out through the doorway, small and turned away from the camera. The floor runs unbroken to every frame edge and the composition is centered and still.
-Camera: wide shot from eye-level, front-on symmetrical framing, shot on 24mm wide lens
-Lighting/mood: warm soft late light, gentle and quiet, faint melancholy
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the fabric seat of the empty folding stool), muted daylight contrast
-Text handling: keep the detector, stool and tank shell free of lettering, using plain surfaces and simple pictogram shapes only. no garbled or fake script, no meaningless letters, no random characters, no dense text.
-Korean default: Korean adult build proportions, Korean industrial plant fittings and fixture shapes.
-Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
-MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the concrete plant floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
-- no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
-- no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
-- no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
-- no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
-- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
-```
-**검색어**
-```text
-밀폐공간 감시인 안전표지
+밀폐공간 산소농도 측정기
 ```
