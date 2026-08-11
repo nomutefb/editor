@@ -14170,7 +14170,13 @@ $('#accSave').addEventListener('click', async () => {
 // line-clamp가 안 먹어 실측 후처리. 3줄째로 넘어가는 칩부터 제거하고 끝에 '…' 배지. '…'가 3줄로 밀리면 앞칩을 더 뺀다.
 function socClampChips(box) {
   if (!box) return;
-  const old = box.querySelector('.soc-more'); if (old) old.remove();   // 재렌더 잔여 정리(멱등)
+  const old = box.querySelector('.soc-more'); if (old) old.remove();   // 재렌더 잔여 정리
+  // ⚠ 이 함수는 **멱등이 아니다**(260811 평의회5 실측 · 구 주석의 「멱등」 단언은 거짓이었다). 같은 상자에 두 번 부르면
+  //   넘침 배지 '…'가 되살아나지 않고 **사라진다** — 위에서 배지를 떼고 다시 재는데, 이미 잘려서 다 들어가는 상태라
+  //   아래 `every` 에서 그대로 반환하기 때문이다(실측 = 1회 배지 1개 → 2회 0개 → 3회 0개 · 칩 개수는 불변).
+  //   결과 = 소스가 잘려 있는데 잘렸다는 표시가 없어진다(화면 멀쩡·오류 0 = 조용한 무효화).
+  //   → 호출부는 **이번에 새로 만든 카드만** 대상으로 삼아야 한다(renderSns `_fresh` 참조). 목록 전체를 훑는 형태로 두면
+  //     「직전에 목록을 비웠다」는 적히지 않은 전제에 결과가 걸리고, 더보기·무한 스크롤·부분 갱신이 생기는 날 조용히 터진다.
   const chips = [...box.querySelectorAll('.soc-chip')];
   if (chips.length < 2) return;   // 1개 = 항상 1줄
   const rows = matchMedia('(max-width:559px)').matches ? 1 : 2;   // 모바일 = 1줄(운영자 260729) · PC(≥560) = 2줄 완화
@@ -14266,6 +14272,7 @@ function renderSns() {
   if (_ss === _snsSig && list.childElementCount) return;   // 구성 완전 동일 = DOM 무접촉 스킵(평의회6 260707)
   list.innerHTML = '';
   const _socEl = SOC_LM ? Math.max(0, (Date.now() - SOC_LM) / 3600000) : 0;   // 경과 보정(운영자 260721 승인 · Q359 ㉠) — age_h = 스캔 시점 스냅샷이라 json 나이만큼 젊게 표기되던 것을 실시간化(표시 나이 = 스냅샷 + 파일 경과) · 앵커 결측 = 0(종전 표기 fail-soft)
+  const _fresh = [];   // 이번 렌더가 만든 카드만 담는다 = 아래 일괄 클램프의 대상 집합(평의회5 260811 · 사유는 그 자리 주석)
   merged.forEach((r, i) => {
     const el = document.createElement('a');
     el.className = 'soc-item';
@@ -14294,8 +14301,9 @@ function renderSns() {
       else c.textContent = s;   // 커뮤니티 소스명
     });
     list.appendChild(el);
+    _fresh.push(el);
   });
-  list.querySelectorAll('.soc-srcs').forEach(socClampChips);   // 전 카드 부착을 끝낸 뒤 일괄 클램프(260811 실측 봉합) — 구판은 카드마다 `appendChild → offsetTop` 을 번갈아 해서
+  _fresh.forEach(el => socClampChips(el.querySelector('.soc-srcs')));   // 전 카드 부착을 끝낸 뒤 일괄 클램프(260811 실측 봉합) — 구판은 카드마다 `appendChild → offsetTop` 을 번갈아 해서
   //   추가할 때마다 문서 레이아웃이 처음부터 다시 계산됐다(레이아웃 스래싱). 카드 수만큼 반복되니 SNS 탭 진입이 통째로 멈춘다
   //   (실측 = 탭 전환 1회에 socClampChips 자체 443~678ms · 레이아웃 재계산 29~41회 241~363ms · 롱태스크 822~1,028ms).
   //   클램프 결과는 각 카드의 `.soc-srcs` 안 칩 배치에만 달렸고 카드끼리는 서로 영향을 안 주므로 시점을 뒤로 미뤄도 결과는 같다(화면 무변경).
