@@ -39,6 +39,7 @@
     background:linear-gradient(var(--accent),var(--accent)) left/0% 100% no-repeat, rgba(255,255,255,.05); animation:goFill .46s var(--gauge-ease) forwards; }
   @media (prefers-reduced-motion:reduce) { .hist-clr.firing { animation-duration:.15s; } }
   .hist-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px 10px; }
+  .jobs + .hist-grid { margin-top:var(--sp-3); }   /* 요약 줄 ↔ 첫 타일 시각 라벨이 붙어 있던 자리 띄우기(운영자 260811 "간격을 좀 더 확보해줘") — 값 = 이 그리드가 이미 쓰는 세로 간격(gap 18)과 같은 토큰 --sp-3 = 새 값 창작 0 · 인접 형제 선택자라 요약 줄이 없는 표면은 종전 그대로 */
   .nm-rail { display:flow-root; margin-top:var(--sp-3); }   /* 머리 여백 = 형제 `.out{margin-top:18}` 정본 동값(--sp-3=18) — song.html엔 `.out` 규칙 자체가 없어 그 문서만 0이었다(운영자 260806 평의회5 실측) · 여기 두면 표면별 사본 0 */   /* 레일 = 독립 BFC(운영자 260806 평의회8 실측 봉합) — 형제 4탭은 `html.inmodal .wrap{display:grid}`가 레일을 그리드 아이템으로 만들어 `.car-h{margin-top:14px}`를 레일 **안**에 가두는데, 큐영상(.src)만 평범한 블록이라 그 14가 무테·무패딩 레일 상단을 뚫고 **상쇄돼 나갔다**(실측 요약줄 55.8 vs 형제 69.8) · flow-root 1줄 = 그 14를 제자리에 가둔다(주입 후 실측 69.8·163.6·h219.4 = 형제 완전 동일 · 부모 무접촉) */
   .hist-grid[hidden] { display:none; }   /* hidden 가드 = `.hist-h[hidden]`(11행)·`#geniResBody[hidden]`(75행)와 같은 함정 — author display:grid가 UA `[hidden]{display:none}`을 이겨 **접어도 타일이 그대로 보이고 그대로 탭 된다**(운영자 260806 평의회7 실측: 결과 접이가 aria만 바뀌고 화면·tab-order는 무변 = 스크린리더에 거짓말). 신설 레일(nm-rail.js)이 이 접이를 쓰면서 드러난 축 */   /* 행간 여백 확보 — 각 카드 위 시각 라벨 숨쉬게(운영자 260621) */
   /* 이전 제작 펼침 = 촤르륵 스태거(요약 cardIn 결 계승 · #histBody 숨김→표시 시 재생 · 운영자 260626) */

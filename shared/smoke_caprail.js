@@ -209,6 +209,18 @@ function chk(cond, id, msg) { if (cond) okv.push(id); else fails.push(`${id} | $
       chk(st.stage && st.shown, 'C6 진입', '진행 중 행을 눌렀는데 그 작업의 제작 화면(대기 스테이지)이 안 뜬다');
       chk(/1분 5\d초 경과/.test(st.elapsed), 'C6 그 작업', `제작 화면이 **누른 그 작업**의 경과를 안 보여준다(코너 "${st.elapsed}" · 기대 = 1분 5x초 = 눌린 옛날 작업)`);
       chk(st.heads.length === 1 && /이전 제작/.test(st.heads[0]), 'C7 이력 칸', `이력 머리가 ${st.heads.length}개 — 같은 뜻의 칸이 갈렸다(${JSON.stringify(st.heads)})`);
+      /* C8 = 제작 중 1초 틱이 레일을 통째로 다시 그리지 않는다(운영자 260811 "이전 제작 계쏙 반짝거리는데").
+         구판은 매초 전면 재빌드라 이전 제작 타일이 매초 **새 노드**로 태어났다 — 영상 타일은 `<video>`라 그때마다 다시 로드돼 깜빡였다.
+         판정 = 같은 타일 노드가 3초 뒤에도 그대로 · 경과 숫자는 그 사이 정상으로 오른다(재빌드를 껐다고 표시가 멈추면 그것도 사고). */
+      const blink = await page.evaluate(async () => {
+        const g = document.querySelector('[id$="ResGrid"]');
+        const first = g && g.firstElementChild;
+        const s0 = ((document.querySelector('[id$="ResJobs"] .jsec') || {}).textContent) || '';
+        await new Promise(r => setTimeout(r, 2600));
+        return { keep: !!first && g.firstElementChild === first, s0: s0, s1: ((document.querySelector('[id$="ResJobs"] .jsec') || {}).textContent) || '', had: !!first };
+      });
+      chk(!blink.had || blink.keep, 'C8 깜빡임', '제작 중 1초 틱이 이전 결과 타일을 매초 새로 만든다(영상 타일이 다시 로드돼 깜빡인다)');
+      chk(blink.s1 && blink.s1 !== blink.s0, 'C8 경과', `재빌드를 껐더니 경과 표시까지 멈췄다(${blink.s0} → ${blink.s1})`);
       await page.close();
     }
     await ctx.close();

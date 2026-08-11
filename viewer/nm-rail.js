@@ -98,13 +98,17 @@
       };   // 죽은 슬롯 제거 + 카운트 정정 = 이미지 정본 동문
     }
     var cap = document.createElement('span'); cap.className = 'hist-cap'; cap.textContent = toText(e.cap);
-    if (e.varStr) { var v = document.createElement('span'); v.className = 'hist-cap-v'; v.textContent = e.varStr; cap.appendChild(v); }
+    if (e.varStr) { var v = document.createElement('span'); v.className = 'hist-cap-v'; v.textContent = (cap.textContent ? ' ' : '') + e.varStr; cap.appendChild(v); }   // 캡션과 값이 붙어 「편집9:16」으로 읽히던 자리(실측 260811) — 띄어쓰기 한 칸(값·부품 변경 0)
     th.append(dl, img, cap);
-    if (e.src && e.src.app && typeof m.opt.onEdit === 'function') {   // 수정(연필) = 복원 경로를 **가진 표면만** 그린다(갈 곳 없는 버튼 금지 = 이미지 정본 canEditSrc 계약 동문)
+    /* 수정(연필) = 복원 경로를 **가진 표면만** 그린다(갈 곳 없는 버튼 금지 = 이미지 정본 canEditSrc 계약 동문).
+       ⚠ 문서가 훅으로도 줄 수 있다(`window.nmJobEdit`) — 이 레일은 자동 마운트라 각 문서가 mount 옵션을 넘길 자리가 없다
+       (운영자 260811 "여기도 수정버튼 있게 해주고(원본을 가지고 있다면)" · 진행 중 행의 nmJobOpen과 같은 문법). */
+    var onEd = (typeof m.opt.onEdit === 'function') ? m.opt.onEdit : (typeof window.nmJobEdit === 'function' ? window.nmJobEdit : null);
+    if (e.src && e.src.app && onEd) {
       var ed = document.createElement('button'); ed.type = 'button'; ed.className = 'imgedit'; ed.title = '이 설정으로 수정'; ed.setAttribute('aria-label', '수정');
       if (window.EDIT_SVG) {   // 아이콘 SSOT 미도달 = 버튼을 **안 그린다**(구판 `|| ''`는 내용 0인 포커스 가능 버튼을 만들어 「갈 곳 없는 버튼 금지」 계약과 자기모순 · 운영자 260806 평의회7 ⑤)
         ed.innerHTML = window.EDIT_SVG;
-        ed.addEventListener('click', function (ev) { ev.preventDefault(); ev.stopPropagation(); m.opt.onEdit(e.src, e.url); });
+        ed.addEventListener('click', function (ev) { ev.preventDefault(); ev.stopPropagation(); onEd(e.src, e.url); });
         th.appendChild(ed);
       }
     }
@@ -156,6 +160,23 @@
     });
     return a.length;
   }
+  /* 1초 틱은 **경과 숫자만** 갈아끼운다(운영자 260811 "이전 제작 계쏙 반짝거리는데 확인좀 해줘").
+     ⚠ 구판은 매초 `m.sig=null; render(m)`으로 레일을 통째로 다시 그렸다 — 그 안엔 이전 제작 타일 재생성이 들어 있고
+     영상 타일은 `<video>`라 매초 새로 만들어져 **제작 중인 동안 이전 제작이 계속 깜빡였다**(콘솔 에러 0 = 무증상).
+     개수가 바뀌는 순간(발사·완료)엔 지문이 이미 달라지므로 render가 정상적으로 다시 그린다 = 표시 손실 0. */
+  function pendTick(m) {
+    var host = document.getElementById(m.id + 'ResJobs'); if (!host) return;
+    var rows = host.querySelectorAll('.job:not(.done)');
+    var a = pendList(m);
+    if (rows.length !== a.length) { m.sig = null; render(m); return; }   // 구성이 갈렸다 = 다시 그린다(방어)
+    for (var i = 0; i < rows.length; i++) {
+      var sec = (+a[i].t0) ? Math.max(0, Math.round((Date.now() - (+a[i].t0)) / 1000)) : 0;
+      var b = rows[i].querySelector('.jsec');
+      if (!b) { if (sec > 0) { m.sig = null; render(m); return; } continue; }   // 0초라 아직 숫자 자리가 없다 = 첫 숫자가 붙는 순간만 다시 그린다
+      var t = jobDur(sec);
+      if (b.textContent !== t) b.textContent = t;
+    }
+  }
   var _tick = null;
   function tickSync() {   // 경과 1초 틱 = **진행 중이 있을 때만** 돈다(없으면 자기 손으로 끈다 = 유휴 rAF·타이머 0 계약)
     var live = mounts.some(function (m) { return pendList(m).length; });
@@ -164,7 +185,7 @@
     _tick = setInterval(function () {
       if (document.hidden) return;   // 가려진 동안은 안 그린다(보는 사람이 없다)
       if (!mounts.some(function (m) { return pendList(m).length; })) { clearInterval(_tick); _tick = null; return; }
-      mounts.forEach(function (m) { m.sig = null; render(m); });
+      mounts.forEach(pendTick);
     }, 1000);   // raw-ok: 경과 표기 주기(ms — 지속시간 토큰 아님) · thumb 잡 행 틱 동값
   }
 
@@ -213,7 +234,7 @@
     var pend = pendList(m);
     var sig = all.length + ':' + ((all[0] || {}).url || '') + ':' + ((all[all.length - 1] || {}).url || '')
       + ':' + pend.length + ':' + pend.map(function (j) { return j.id; }).join(',');   // 무변경 지문 = 이미지 정본 `_histSig` 문법(길이 + 첫/끝 url) + **진행 중 슬롯**(새 발사·완료가 지문을 바꾼다) — 사진 완료 1건마다 영상 5탭이 **안 바뀐 데이터를 통째로 재빌드**하며 img 1,200개를 재생성하던 축 봉합(운영자 260806 평의회6 ① 실측 CPU 104ms·깜빡임 창 실재)
-    if (m.sig === sig && !pend.length) { applyFold(m); return; }               // 진행 중이 있으면 경과가 매초 바뀌므로 지문 스킵 대상 아님
+    if (m.sig === sig) { applyFold(m); return; }   // ⚠ 구판은 여기에 `&& !pend.length`가 붙어 **제작 중인 내내 지문 스킵이 통째로 꺼졌다**(= 매초 전면 재빌드 = 이전 제작 깜빡임 · 260811). 경과 숫자는 pendTick이 그 자리에서 갈아끼우고, 발사·완료는 지문(pend id·개수)이 바뀌어 정상 재빌드된다
     m.sig = sig;
     var res = all.filter(function (e) { return (e.ts || 0) >= T0; });          // 결과 = **이번 세션 완료분만**
     /* ⚠ (260810 제거) 「세션분 0이면 최신 1건 추종」 — 운영자 260810 "전에 제작한건 이전 제작에 남아있어야하고".
@@ -309,6 +330,21 @@
       if (m.adopt.indexOf(el) < 0) m.adopt.push(el);
       m.sig = null; render(m);
       return true;
+    },
+    /* 이미 얹은 항목의 값 칩만 갈아끼운다(운영자 260811 "비율, 해상도, 영상 길이가 각각 값만 나오게") —
+       그 값은 영상 메타가 와야 완성되는데, 적재는 그걸 기다리면 안 된다(기다리다 유실된 게 260810 사고). 그래서 **먼저 얹고 나중에 채운다**. */
+    meta: function (url, varStr) {
+      if (!url) return false;
+      var k = keyOf(url), hit = false;
+      var scopes = {};
+      mounts.forEach(function (m) { scopes[m.opt.scope] = 1; });
+      Object.keys(scopes).forEach(function (sc) {
+        var a = load(sc), ch = false;
+        a.forEach(function (e) { if (e && keyOf(e.url) === k && e.varStr !== varStr) { e.varStr = varStr || ''; ch = true; } });
+        if (ch) { save(sc, a); hit = true; }
+      });
+      if (hit) mounts.forEach(function (m) { m.sig = null; render(m); });
+      return hit;
     },
     /* 이 문서 스코프의 완료 이력 — 편입 목록이 **같은 작업을 두 번 그리지 않도록** 대조하는 용도.
        문서가 저장 키를 자기 손으로 읽으면 그 키가 갈린다(이 레포가 반복해 겪은 사본 드리프트) → 읽기 창구도 여기 하나. */

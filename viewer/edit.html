@@ -2215,7 +2215,7 @@ function pollEdit(id, t0, minTs, wlbl, kind, focus){
   const status=$('#cstatus'); status.classList.remove('err');
   if(kind==='clip'){ $('#cliplist').hidden=true; $('#cliplist').innerHTML=''; }
   if(kind==='cutscan'){ $('#cutlist').hidden=true; $('#cutlist').innerHTML=''; }
-  const vw=$('#vwrap'); vw.hidden=false; $('#dlVid').hidden=true; $('#dlVid').classList.remove('dl-done');   // (260804) `$('#pv').hidden=true` 제거 = **대기 중에도 미리보기 유지**(운영자 "계속 그 전 미리보기 화면처럼 유지되게") — 진행 표시는 이 아래 대기 스테이지가 맡고, 위 도크의 미리보기는 그대로 남아 다음 제작을 바로 이어갈 수 있다   // 구 `_ps.hidden=true`(하드 숨김) 제거 = 접힘 전환 복원(평의회⑨ 260728 — display:none 요소는 transition이 안 돌아 "자연스러운 접힘"이 **주 경로에서 통째로 사문**이었다) · ⚠ dockSync는 이 아래 대기 스테이지 주입 **뒤**에서 부른다(재검① 260728 — 갱신 전에 부르면 판정이 뒤집힌다)
+  const vw=$('#vwrap'); dlPark(); vw.hidden=false; $('#dlVid').hidden=true; $('#dlVid').classList.remove('dl-done');   // dlPark = 저장 버튼을 평소 자리로 되돌린 **뒤에** 대기 스테이지가 창을 갈아엎는다(안 되돌리면 버튼 노드가 통째로 사라진다 · 260811)   // (260804) `$('#pv').hidden=true` 제거 = **대기 중에도 미리보기 유지**(운영자 "계속 그 전 미리보기 화면처럼 유지되게") — 진행 표시는 이 아래 대기 스테이지가 맡고, 위 도크의 미리보기는 그대로 남아 다음 제작을 바로 이어갈 수 있다   // 구 `_ps.hidden=true`(하드 숨김) 제거 = 접힘 전환 복원(평의회⑨ 260728 — display:none 요소는 transition이 안 돌아 "자연스러운 접힘"이 **주 경로에서 통째로 사문**이었다) · ⚠ dockSync는 이 아래 대기 스테이지 주입 **뒤**에서 부른다(재검① 260728 — 갱신 전에 부르면 판정이 뒤집힌다)
   const wsrc=FILE_URL||'';
   vw.innerHTML=(wsrc?'<video class="wv" muted loop playsinline preload="metadata" src="'+esc(wsrc)+'"></video>':'')
     +'<div class="wscrim"></div><div class="scanline"></div>'
@@ -2225,7 +2225,7 @@ function pollEdit(id, t0, minTs, wlbl, kind, focus){
   const wv=vw.querySelector('.wv');
   if(wv){ if(matchMedia('(prefers-reduced-motion:reduce)').matches){ wv.removeAttribute('loop'); wv.addEventListener('loadedmetadata',()=>{ try{ wv.currentTime=.01; }catch(e){} },{once:true}); } else { wv.play().catch(()=>{}); } }
   status.innerHTML='<span class="sronly">'+esc(wlbl||'편집 중')+'</span>';
-  const wclear=()=>{ vw.innerHTML=''; vw.hidden=true; };
+  const wclear=()=>{ dlPark(); vw.innerHTML=''; vw.hidden=true; };   // dlPark = 저장 버튼 되돌리기 선행(창을 비우기 전 · 260811)
   const outPath='ly_out/'+id+'/'+(kind==='clip'?'clips.json':kind==='cutscan'?'cuts.json':'video.json');
   const errPath='ly_out/'+id+'/error.log';
   _pollLive=!!wsrc; _polling=true;
@@ -3086,7 +3086,7 @@ async function editSubsInit(id){   // 완료 후 자막 편집기 활성(pollEdi
     const ct=(r.headers.get('content-type')||'').toLowerCase(); const md=await r.text();
     if(!md.trim()||ct.includes('text/html')||/^\s*<!doctype/i.test(md)) return;   // SPA 폴백(HTML 200) 가드 = ly poll 동일
     EDIT_SUB=true;
-    $('#vwrap').hidden=true; $('#dlVid').hidden=true;   // 자막 작업 = 완성 영상·저장을 lyBurn(다시 입히기 UI 동반)이 전담
+    dlPark(); $('#vwrap').hidden=true; $('#dlVid').hidden=true;   // dlPark = 저장 버튼 되돌리기(숨는 창 안에 남으면 다시 켜도 안 보인다 · 260811) · 자막 작업 = 완성 영상·저장을 lyBurn(다시 입히기 UI 동반)이 전담
     await lyResult(out, md, false);   // 복원 모드(랜딩 스크롤 없음) — 편집 스냅샷(nm_lyedit_<id>) 있으면 그대로 이어짐(ly 탭과 키 공유 = 의도)
     await lyVidCheck(out);   // video.json 있으면 lyBurnShow(완성 영상 + 다시 입히기·삭제 컷 노출) — await = 딥링크 포커싱이 #lyBurn 최종 라우팅을 잡게(레이스 봉합)
   }catch(e){}
@@ -3132,11 +3132,45 @@ function showResult(d, sec){
   $('#cstatus').innerHTML=OK_SVG+' 완료'+(sec?(' · '+fmtDur(sec)):'')+(d.note?(' · '+esc(d.note)):'');   // 경과 = 00분 00초(운영자 260728) · 토큰·비용은 아래 부기 줄로 이관
   statusSub(d);   // 완료 후에만 노출
   const vw=$('#vwrap'); vw.hidden=false;   // (260804) `$('#pv').hidden=true` 제거 — 완성 시 도크가 접히는 건 그대로(아래 dockSync)지만, 하드 숨김까지 걸리면 요약 스트립으로 **다시 펼쳐도 미리보기가 빈 채**라 이어서 제작할 수가 없었다(접힘 ≠ 소멸)   // 결과 = 미리보기 도크 자동 접힘(운영자 260728 "완성본 보이는 타이밍에 자동으로 접히게 — 자연스럽게" · 구 _ps.hidden 즉시 소멸 → .fold 전환 · 재펼침 = 요약 스트립 탭)
-  vw.innerHTML='<video controls playsinline preload="metadata" src="'+esc(d.url)+'"></video>';
+  dlPark();   // ⚠ 저장 버튼 되돌리기 선행 — 이 줄 아래가 창을 통째로 갈아엎는다(연속 제작 2번째에서 버튼 노드가 사라지던 자리 · 스모크 실측 봉합)
+  vw.innerHTML='<video controls playsinline preload="metadata" src="'+esc(d.url)+'"></video>'
+    +'<span class="hist-cap vmeta" id="vMeta" hidden></span>';   /* 값 칩 = nm-hist.css `.hist-cap` 정본 그대로(좌상단 검은 알약 · 값 신설 0) — 우상단 저장 버튼 자리는 그 정본의 max-width가 이미 비워 둔다(운영자 260811 "영상 길이, 비율, 해상도 나오게") */
   dockSync();   // 대기 스테이지(.scanline)가 완성본 video로 교체된 **뒤** 판정(재검① 260728 — 앞에 두면 scanline이 살아 있어 완성본에서 되레 펼쳐졌다)
   $('#dlVid').hidden=false;
-  try{ if(d.url&&window.nmRail) nmRail.add({ url:String(d.url), poster:String(d.poster||''), cap:'편집', dlname:String(d.url).split('/').pop()||'video.mp4' }); }catch(e){}   /* ⚠ 화면 주인(포커스) 완료의 결과 레일 착지 — 이 한 줄이 **없어서** 정상 제작분이 이력에 한 건도 안 쌓였다(운영자 260810 "방금거가 유실된다"). 강등분(bgLand·pollEditBg)엔 있었고 여기만 빠져 있었다 = 반쪽 적재 · 짝 문법 = 2164행 bgLand 동문(fail-soft) */
+  dlOver();   // 저장 버튼 = 완성 영상 **우상단 오버레이**(운영자 260811 "다 만들어지고 우상단에 위치하게(영상에 오버렙되게)") — 자리·크기는 nm-hist.css `.imgdl` 정본
+  const _v=vw.querySelector('video');
+  try{ if(d.url&&window.nmRail) nmRail.add({ url:String(d.url), poster:String(d.poster||''), cap:'편집', varStr:vMetaStr(_v,d), dlname:String(d.url).split('/').pop()||'video.mp4',
+    src: jobCfgGet(EDIT_ID)? { app:'edit', id:String(EDIT_ID) } : null }); }catch(e){}   /* ⚠ 화면 주인(포커스) 완료의 결과 레일 착지 — 이 줄이 **없어서** 정상 제작분이 이력에 한 건도 안 쌓였다(운영자 260810 "방금거가 유실된다") · 강등분(bgLand·pollEditBg)과 짝. ⚠ **여기서 바로** 얹는다 — 영상 메타를 기다렸다 얹으면 메타가 안 오는 회선에서 통째로 유실된다(표기보다 적재가 위) · src = 그 작업 설정이 남아 있을 때만(운영자 260811 "원본을 가지고 있다면") = 그 타일에만 수정 연필이 뜬다 */
+  const _paint=()=>{ const s=vMetaStr(_v,d); if(!s) return; const el=document.getElementById('vMeta'); if(el){ el.textContent=s; el.hidden=false; }
+    try{ if(window.nmRail&&nmRail.meta) nmRail.meta(d.url,s); }catch(e){} };   // 값 세 개는 영상 메타가 와야 완성된다 → 화면 칩과 타일 값 칩을 **같은 문자열로** 함께 갱신(두 자리가 갈릴 여지 0)
+  if(_v) _v.addEventListener('loadedmetadata',_paint,{once:true});
+  setTimeout(_paint,1500);   /* raw-ok: 메타 대기 상한(ms — 지속시간 토큰 아님) · 이벤트를 놓친 회선의 마지막 기회 */
 }
+const RESNM={720:'720p',1080:'FHD',1440:'2K',2160:'4K'};   // 해상도 어휘 = 이 탭 「해상도」 카드 값 그대로(새 낱말 창작 0)
+const ARSNAP=[[9,16],[16,9],[1,1],[4,5],[5,4],[3,4],[4,3],[21,9]];   // 비율 어휘 = 이 탭 「비율」 카드 + 이미지 스튜디오 정본 값(가로·세로 짝까지)
+/* 완성 영상 값 세 개 = **비율 · 해상도 · 길이**(운영자 260811 "각각 값만 나오게" · "순서도 통일되어야 함").
+   순서 근거 = 이 탭 폼 카드 순서(비율 → 해상도)에 소스 속성인 길이를 뒤에 붙인 것 = 새 순서 창작 0.
+   같은 문자열을 결과·이전 제작 타일(varStr)에도 그대로 실어 두 자리가 절대 갈리지 않게 한다(한 곳에서 만든다). */
+function vMetaStr(v,d){
+  const w=(v&&v.videoWidth)|0, h=(v&&v.videoHeight)|0;
+  const dur=(v&&isFinite(v.duration)&&v.duration>0)?v.duration:(+((d||{}).dur)||0);
+  const p=[];
+  if(w&&h){
+    const r=w/h; let hit=null;
+    ARSNAP.forEach(a=>{ if(!hit && Math.abs(r-a[0]/a[1])/(a[0]/a[1])<=.02) hit=a; });   // 2% 안이면 정본 어휘로 스냅(1088×1920 같은 인코더 반올림이 「17:30」으로 새는 것 차단)
+    if(hit) p.push(hit[0]+':'+hit[1]);
+    else { const g=(a,b)=>b?g(b,a%b):a, k=g(w,h)||1; p.push((w/k)+':'+(h/k)); }
+    const s=Math.min(w,h); p.push(RESNM[s]||(s+'p'));
+  }
+  if(dur) p.push(mmss(dur));
+  return p.join(' · ');
+}
+/* 저장 버튼 자리 = 완성 영상 위 우상단 ↔ 평소 자리(하단 footer) 왕복(운영자 260811).
+   ⚠ 되돌리기가 실효 조건 — 대기 스테이지·초기화·다음 완성이 `#vwrap`을 innerHTML로 통째로 갈아엎으므로 그 안에 둔 채로 두면 버튼 노드가 **소멸**한다. */
+const DL_HOME=$('#dlVid').parentNode;
+function dlOver(){ const b=document.getElementById('dlVid'), vw=document.getElementById('vwrap'); if(!b||!vw||b.parentNode===vw) return; b.classList.remove('ghost'); b.classList.add('imgdl'); vw.appendChild(b); }
+function dlPark(){ const b=document.getElementById('dlVid'); if(!b||b.parentNode===DL_HOME) return; b.classList.remove('imgdl'); b.classList.add('ghost'); DL_HOME.appendChild(b); }
+window.nmJobEdit=(src,url)=>{ if(src&&src.id){ USER_ACT=true; openJob(String(src.id)); } };   // 타일 연필 = 그 작업을 다시 열기(openJob 안 jobCfgApply가 그때 설정을 되씌운다 · 운영자 260810 계약 재사용 = 새 경로 0)
 /* ══ 클리퍼 후보(260711) — 스캔 결과 목록 · 탭 = 구간+쇼츠 기본 스택 적용(선택·렌더 = 운영자 2단 · 자동 발행 없음) ══ */
 let CLIPS=null;
 const mmss=s=>{ s=Math.max(0,Math.round(s)); return Math.floor(s/60)+':'+String(s%60).padStart(2,'0'); };
