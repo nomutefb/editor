@@ -15,8 +15,6 @@
 #        바탕화면\그록토큰.json     (통과했을 때만 · 배선 재료 · 남에게 주지 마라)
 #        바탕화면\그록_그림.jpg      (그림이 열려 있으면 실물 1장)
 #        바탕화면\그록_영상.mp4      (영상이 열려 있으면 실물 1편 = 10초 720p · 소리 포함)
-#        바탕화면\그록_그림.jpg      (그림이 열려 있으면 실물 1장)
-#        바탕화면\그록_영상.mp4      (영상이 열려 있으면 실물 1편 = 10초 720p · 소리 포함)
 # 끄는 법: 안 돌리면 끝. 설치되는 것도, 자동 실행되는 것도 없다.
 
 $ErrorActionPreference = "Stop"
@@ -98,6 +96,34 @@ function Stop-Bad($title, $detail, $hint) {
   Read-Host "엔터를 누르면 창이 닫힌다"
   exit 1
 }
+
+# ── 저장된 열쇠가 있으면 로그인을 건너뛴다 ──────────────────────────────────
+# ⚠ 액세스 토큰(6시간)은 죽어도 **갱신 열쇠는 산다** → 한 번 로그인했으면 다시 시킬 이유가 없다.
+#   그록은 갱신할 때마다 열쇠를 새것으로 바꿔주므로(회전) 받은 새 열쇠를 그 자리에서 다시 저장한다.
+#   저장을 빼먹으면 다음 실행부터 조용히 끊긴다 — 그래서 갱신과 저장은 한 몸이다.
+function TryStored($tokUrl) {
+  if (-not (Test-Path -LiteralPath $TokenPath)) { return $null }
+  $keep = $null
+  try { $keep = Get-Content -LiteralPath $TokenPath -Raw -Encoding UTF8 | ConvertFrom-Json } catch { return $null }
+  if (-not $keep.refresh_token) { return $null }
+  Say "  저장된 열쇠를 찾았다 - 로그인을 건너뛴다"
+  $r = Web $tokUrl @{ client_id = $CLIENT_ID; grant_type = "refresh_token"; refresh_token = $keep.refresh_token } $null "POST"
+  if ($r.code -ne 200 -or -not $r.obj.access_token) {
+    Say "  (저장된 열쇠가 안 먹는다 HTTP $($r.code) - $(Cut $r.text 160)) -> 로그인부터 다시 한다"
+    return $null
+  }
+  $newRt = $r.obj.refresh_token
+  if ($newRt) {
+    try {
+      $keep | Add-Member -NotePropertyName refresh_token -NotePropertyValue $newRt -Force
+      $keep | Add-Member -NotePropertyName saved_at -NotePropertyValue (Get-Date).ToString("yyyy-MM-dd HH:mm:ss") -Force
+      $keep | ConvertTo-Json -Depth 5 | Out-File -FilePath $TokenPath -Encoding UTF8
+    } catch { Say "  [!] 새 열쇠 저장 실패 - 다음 실행 때 로그인이 필요할 수 있다 : $_" }
+  }
+  Say "  [OK] 자격 되살렸다"
+  return $r.obj.access_token
+}
+
 
 # ── 2단계 = 그림·영상이 이 자격에 열려 있나 + 실물까지 ──────────────────────
 # ⚠ 왜 실물까지 굽나(260810 페이블 검토 치명①) = 글 모델이 통과했다고 그림·영상까지 열린 게 아니다.
@@ -191,7 +217,24 @@ $whoUrl = $r.obj.userinfo_endpoint
 if (-not $devUrl -or -not $tokUrl) { Stop-Bad "이 서버는 코드 승인 방식을 안 받는다" $r.text "" }
 Say "  인증 서버 확인 완료"
 
-# (2) 코드 발급
+# (2) 저장된 열쇠 먼저 → 없거나 죽었을 때만 로그인
+$at = TryStored $tokUrl
+if ($at) {
+  Say ""
+  Say ("-" * 58)
+  Say "그림과 영상이 이 자격에 열려 있는지 본다"
+  Say ("-" * 58)
+  Media $at
+  Say ""
+  Say "  -> 기록 파일을 클로드 세션에 주면 그대로 배선한다."
+  Say "  기록 : $LogPath"
+  SaveLog
+  Write-Host ""
+  Read-Host "엔터를 누르면 창이 닫힌다"
+  exit 0
+}
+
+# (3) 코드 발급(저장된 열쇠가 없을 때만)
 $r = Web $devUrl @{ client_id = $CLIENT_ID; scope = $SCOPE } $null "POST"
 if ($r.code -ne 200 -or -not $r.obj.user_code) {
   Stop-Bad "로그인 코드 발급이 거절됐다" "HTTP $($r.code)`r`n$($r.text)" "잠시 뒤 다시 실행해봐라."
