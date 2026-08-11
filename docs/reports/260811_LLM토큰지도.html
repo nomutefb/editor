@@ -4,9 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="dark">
-<title>노뮤트 에디터 · LLM 활용 구조도 + 하루 토큰 지도 (260811)</title>
-<!-- 수치 원천 = metrics/token-usage.jsonl + metrics/usage/*.jsonl (claude_meter 실계측 · 260728~260811 15일 원장을 일평균으로 접음).
-     최근 24h 스냅샷 = viewer/token-usage.json (metrics-rollup 2h 주기 산출). 종량제(Gemini·STT 등)는 계측 원장이 없어 「산정」 표기.
+<title>노뮤트 에디터 · LLM 활용 구조도 + 하루 토큰 지도 (260811 · 평의회 반영 v2)</title>
+<!-- 수치 원천 = metrics/token-usage.jsonl + metrics/usage/*.jsonl (claude_meter 실계측 · 260728~0811 15일 원장을 일평균으로 접음 · 스냅샷 0811 10:59).
+     최근 24h 스냅샷 = viewer/token-usage.json (metrics-rollup 2h 주기 산출). 종량제(Gemini·STT 등)는 별도 원장 실측 + 「산정」 표기.
+     v2 = 평의회 8인(동일 모델 · effort max) 검증 반영 — 렌즈1 누락사냥 · 2 수치재검증 · 3 카드축 · 4 트렌드축 · 5 판정축 · 6 캐시경제 · 7 종량제 · 8 완결성비평.
      외형 = viewer/index.html :root 실측 토큰 계승(bg #121212 · accent #00EED2 · fg #eef7f0 · mut #8fa697 · line rgba(255,255,255,.08) · r 16/11).
      docs 리포트 = 라이브 아님(§7-2). -->
 <style>
@@ -15,7 +16,7 @@
     --accent:#00EED2; --fg:#eef7f0; --mut:#8fa697;
     --r-l:16px; --r-m:11px; --r-s:8px;
     --sub:#00EED2;            /* 구독 축(Claude) */
-    --paid:#e0a800;           /* 종량제 축(Gemini·STT·Lyria·RVC·GPT) */
+    --paid:#e0a800;           /* 종량제 축(실지불) */
     --zero:#5c6a63;           /* LLM 0 축 */
     --warn:#e05a4f;
   }
@@ -29,17 +30,21 @@
   .sub1{color:var(--mut);font-size:12px;margin:0 0 18px}
   h2{font-size:15px;margin:34px 0 10px;padding-left:10px;border-left:3px solid var(--accent)}
   h2 .en{color:var(--mut);font-weight:400;font-size:12px;margin-left:6px}
-  .note{color:var(--mut);font-size:12px;margin:6px 0 12px}
+  .note{color:var(--mut);font-size:12px;margin:6px 0 12px;line-height:1.7}
+  .note b{color:var(--fg)}
   code{background:rgba(255,255,255,.06);padding:1px 5px;border-radius:4px;font-size:12px}
 
   /* ── 스탯 타일 ── */
-  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:14px 0 6px}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:8px;margin:14px 0 6px}
   .st{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-m);padding:10px 12px}
   .st .k{color:var(--mut);font-size:11px}
-  .st .v{font-size:18px;font-weight:800;letter-spacing:-.4px;font-variant-numeric:tabular-nums}
+  .st .v{font-size:17px;font-weight:800;letter-spacing:-.4px;font-variant-numeric:tabular-nums}
   .st .v small{font-size:11px;color:var(--mut);font-weight:400}
+  .st .c{font-size:10.5px;color:var(--mut);margin-top:2px;line-height:1.45}
   .st.hot{border-color:rgba(224,90,79,.5)}
   .st.hot .v{color:var(--warn)}
+  .st.fut{border-color:rgba(224,168,0,.45)}
+  .st.fut .v{color:var(--paid)}
 
   /* ── 범례 ── */
   .legend{display:flex;gap:14px;flex-wrap:wrap;color:var(--mut);font-size:12px;margin:10px 0 0}
@@ -59,28 +64,32 @@
   .lanes{flex:1;display:flex;flex-direction:column;gap:10px;padding:4px 0}
   .lane{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-m);padding:10px 12px 12px}
   .lane::before{content:"";position:absolute;left:-14px;top:50%;width:14px;height:1px;background:var(--line)}
-  .lane .lh{display:flex;align-items:baseline;gap:8px;margin-bottom:8px}
+  .lane .lh{display:flex;align-items:baseline;gap:8px;margin-bottom:8px;flex-wrap:wrap}
   .lane .lh .nm{font-weight:800;font-size:13px}
   .lane .lh .cad{color:var(--mut);font-size:11px}
   .lane .lh .sum{margin-left:auto;font-size:11px;color:var(--mut);font-variant-numeric:tabular-nums}
   .lane .lh .sum b{color:var(--accent)}
+  .lane .lh .sum .w{color:var(--warn);font-weight:700}
   .flow{display:flex;flex-wrap:wrap;align-items:stretch;gap:6px;row-gap:10px}
   .arr{align-self:center;color:var(--mut);font-size:14px;padding:0 1px;flex:0 0 auto}
   .plus{align-self:center;color:var(--mut);font-size:11px;flex:0 0 auto}
 
   /* ── 노드 카드 ── */
-  .nd{flex:0 1 190px;min-width:150px;background:var(--panel2);border:1px solid var(--line);
+  .nd{flex:0 1 195px;min-width:150px;background:var(--panel2);border:1px solid var(--line);
     border-radius:var(--r-s);padding:8px 9px;border-top:2px solid var(--sub)}
   .nd.paid{border-top-color:var(--paid)}
   .nd.zero{border-top-color:var(--zero);opacity:.82}
+  .nd.warnbd{border-color:rgba(224,90,79,.45)}
   .nd .nm{font-weight:700;font-size:12.5px}
   .nd .nm .en{color:var(--mut);font-weight:400;font-size:10.5px;margin-left:4px}
   .nd .what{color:var(--mut);font-size:11px;line-height:1.45;margin:3px 0 5px}
+  .nd .what b{color:var(--fg)}
   .nd .num{font-size:11px;font-variant-numeric:tabular-nums;line-height:1.5}
   .nd .num b{color:var(--accent)}
+  .nd .num .w{color:var(--warn);font-weight:700}
   .nd.paid .num b{color:var(--paid)}
   .nd .mdl{display:inline-block;font-size:10px;color:var(--mut);border:1px solid var(--line);
-    border-radius:99px;padding:0 6px;margin-top:4px}
+    border-radius:99px;padding:0 6px;margin-top:4px;margin-right:3px}
   .nd .mdl.up{color:var(--warn);border-color:rgba(224,90,79,.45)}
   .bar{height:3px;background:rgba(255,255,255,.06);border-radius:2px;margin-top:6px;overflow:hidden}
   .bar i{display:block;height:100%;background:var(--accent);border-radius:2px}
@@ -88,17 +97,24 @@
 
   /* ── 표 ── */
   .tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r-m)}
-  table{border-collapse:collapse;width:100%;min-width:900px;font-size:12px}
-  th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+  table{border-collapse:collapse;width:100%;min-width:980px;font-size:12px}
+  th,td{padding:7px 9px;border-bottom:1px solid var(--line);text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
   th{color:var(--mut);font-weight:600;font-size:11px;background:var(--panel)}
   td:first-child,th:first-child{text-align:left}
-  td.l{text-align:left;white-space:normal;min-width:180px;color:var(--mut)}
+  td.l{text-align:left;white-space:normal;min-width:170px;color:var(--mut)}
   tr.tot td{font-weight:800;background:var(--panel);border-top:2px solid var(--line)}
   td .en{color:var(--mut);font-size:10.5px;margin-left:4px}
   .up{color:var(--warn);font-weight:700}
   .dim{color:var(--mut)}
+  .okc{color:#7fd8a8}
 
-  /* ── 절약안 ── */
+  /* ── 평의회·절약안 ── */
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-m);padding:13px 15px;margin:10px 0}
+  .panel ul{margin:6px 0 0;padding-left:18px}
+  .panel li{margin:5px 0;color:var(--mut);font-size:12px;line-height:1.65}
+  .panel li b{color:var(--fg)}
+  .panel li .w{color:var(--warn);font-weight:700}
+  .panel li .g{color:#7fd8a8}
   .sv{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-m);padding:12px 14px;margin:10px 0}
   .sv .h{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
   .sv .h .t{font-weight:800;font-size:13px}
@@ -117,22 +133,22 @@
 <div class="app">
 
 <h1>노뮤트 에디터 · <b>LLM 활용 구조도</b> + 하루 토큰 지도</h1>
-<p class="sub1">260811 · 수치 = 자체 계측 원장(claude_meter → metrics/) 260728~0811 <b>15일 실측을 일평균으로 접은 값</b> · 종량제 축은 「산정」 표기 · 환산 $ = claude CLI가 남긴 API 환산가(구독이라 실지불 0, 쿼터 부담의 대리 지표)</p>
+<p class="sub1">260811 작성 · 260812 평의회 8인 검증 반영 v2 — 수치 = 자체 계측 원장(claude_meter → metrics/) 260728~0811 <b>15일 실측 일평균</b>(스냅샷 0811 10:59) · 환산 $ = claude CLI가 남긴 API 정가 환산(구독이라 실지불 0 · 쿼터 부담의 대리 지표) · 종량제 축은 별도 원장 실측</p>
 
 <div class="stats">
-  <div class="st"><div class="k">하루 LLM 호출</div><div class="v">378회<small> /일</small></div></div>
+  <div class="st"><div class="k">하루 LLM 호출</div><div class="v">378회<small> /일</small></div><div class="c">15일 평균 · 검산 387회(중복 보정)</div></div>
   <div class="st"><div class="k">출력 토큰</div><div class="v">194만<small> /일</small></div></div>
-  <div class="st"><div class="k">신규 입력</div><div class="v">18.5만<small> /일</small></div></div>
-  <div class="st"><div class="k">캐시 읽기</div><div class="v">4,144만<small> /일</small></div></div>
-  <div class="st"><div class="k">캐시 쓰기</div><div class="v">1,187만<small> /일</small></div></div>
-  <div class="st"><div class="k">API 환산가(15일 평균)</div><div class="v">$199<small> /일</small></div></div>
-  <div class="st hot"><div class="k">⚠ 최근 24h(260810 승격 후)</div><div class="v">$601<small> · 출력 487만</small></div></div>
+  <div class="st"><div class="k">캐시 쓰기 <small>= 비용 1위</small></div><div class="v">1,187만<small> /일</small></div><div class="c">≈$104/일 = 환산가의 52%</div></div>
+  <div class="st"><div class="k">캐시 읽기</div><div class="v">4,144만<small> /일</small></div><div class="c">경량 · ≈$22/일</div></div>
+  <div class="st"><div class="k">API 환산가(15일 평균)</div><div class="v">$199<small> /일</small></div><div class="c">계측 밖 소비 있음 = <b>하한값</b></div></div>
+  <div class="st fut"><div class="k">승격 후 전망 런레이트</div><div class="v">≈$262<small> /일</small></div><div class="c">평균 물량 × 260810 승격 6축 단가</div></div>
+  <div class="st hot"><div class="k">⚠ 최근 24h 실측</div><div class="v">$601<small> · 출력 487만</small></div><div class="c">= 평균 199 + 물량 +260(65%) + 승격 +141(35%)</div></div>
 </div>
 <div class="legend">
   <span><i style="background:var(--sub)"></i>Claude 구독(쿼터)</span>
   <span><i style="background:var(--paid)"></i>종량제($ 실지불)</span>
   <span><i style="background:var(--zero)"></i>LLM 0(무과금)</span>
-  <span>막대 = 하루 환산가 비중(카드 텍스트 $55.7 = 100%)</span>
+  <span>막대 = 15일 평균 환산가 비중(최대 노드 카드 축 $64.3 = 100%)</span>
 </div>
 
 <h2>① 가로 구조도 — 프로세스별 LLM 소비<span class="en">왼쪽 뿌리 → 오른쪽으로 프로세스 흐름</span></h2>
@@ -141,69 +157,71 @@
   <div class="troot">
     <div class="t1">노뮤트 에디터<br>LLM 하루 소비</div>
     <div class="t2">15일 실측 일평균</div>
-    <div class="t3">호출 <b>378회</b><br>출력 <b>194만 tok</b><br>환산 <b>$199/일</b></div>
+    <div class="t3">호출 <b>378회</b><br>출력 <b>194만 tok</b><br>환산 <b>$199/일</b><br><span style="color:var(--mut);font-size:11px">전망 ≈$262/일</span></div>
   </div>
   <div class="trail-rail"></div>
 
   <div class="lanes">
 
     <div class="lane">
-      <div class="lh"><span class="nm">① 뉴스 감시·판정</span><span class="cad">자동 · SNS 감시 30분 백스톱 + 폰 하트비트마다</span><span class="sum">판정 5축 = <b>262콜/일 · $34.0</b></span></div>
+      <div class="lh"><span class="nm">① 뉴스 감시·판정</span><span class="cad">자동 · 판정 워크플로 하루 ≈87런(평균 16.6분 간격)</span><span class="sum">판정 5축 = <b>262콜/일 · $34.0</b> <span class="w">· 0811 실측 $127.3</span></span></div>
       <div class="flow">
         <div class="nd zero"><div class="nm">수집기<span class="en">scrape · sns-trends · social-scan</span></div><div class="what">뉴스·SNS·재난문자 수집, 토큰 클러스터링</div><div class="num"><b>LLM 0</b></div></div>
         <span class="arr">→</span>
-        <div class="nd"><div class="nm">속보 판정<span class="en">breaking</span></div><div class="what">속보후보 배치 1콜 = 긴급인가 이진 판정(푸시 문지기)</div><div class="num">70.8콜/일 · 출력 1.8만 · <b>$5.6</b></div><span class="mdl up">Opus max · 260810 승격</span><div class="bar"><i style="width:10%"></i></div></div>
+        <div class="nd"><div class="nm">속보 판정<span class="en">breaking</span></div><div class="what">속보후보 청크 40건 × 런당 1~2콜 이진 판정(푸시 문지기) · 룰북 해시 도장 = 재판정 0 실증</div><div class="num">70.8콜/일 · 출력 1.8만 · <b>$5.6</b></div><span class="mdl up">Opus max ↑260810 ×2.17</span><span class="mdl">safe</span><div class="bar"><i style="width:9%"></i></div></div>
         <span class="arr">→</span>
-        <div class="nd"><div class="nm">경중 채점<span class="en">gate</span></div><div class="what">노출 후보 배치 1콜 = 0~3 경중 + 카테고리 채점</div><div class="num">101.8콜/일 · 출력 27.9만 · <b>$12.8</b></div><span class="mdl up">Opus max · 260810 승격</span><div class="bar"><i style="width:23%"></i></div></div>
+        <div class="nd"><div class="nm">경중 채점<span class="en">gate</span></div><div class="what">노출 후보 청크 40건 × 런당 1~3콜 = 0~3 경중 + 카테고리 · 채점 도장 800/800 실증</div><div class="num">101.8콜/일 · 출력 27.9만 · <b>$12.8</b> <span class="w">· 0811 $32.2</span></div><span class="mdl up">Opus max ↑260810 ×2.90</span><span class="mdl">safe</span><div class="bar"><i style="width:20%"></i></div></div>
         <span class="arr">→</span>
-        <div class="nd"><div class="nm">사건 묶기<span class="en">group</span></div><div class="what">클러스터로 갈라진 「같은 사건」 후보를 YES/NO 확정</div><div class="num">74.7콜/일 · 출력 2.3만 · <b>$5.5</b></div><span class="mdl">Opus</span><div class="bar"><i style="width:10%"></i></div></div>
+        <div class="nd"><div class="nm">사건 묶기<span class="en">group</span></div><div class="what">클러스터로 갈라진 「같은 사건」 후보 YES/NO 확정 · 런당 1콜 · 구성해시 도장</div><div class="num">74.7콜/일 · 출력 2.3만 · <b>$5.5</b></div><span class="mdl">Opus</span><span class="mdl">safe</span><div class="bar"><i style="width:9%"></i></div></div>
         <span class="arr">→</span>
-        <div class="nd"><div class="nm">긴급 자동픽 중복검사<span class="en">autopick</span></div><div class="what">grade≥2 자동픽 직전, 최근 픽과 같은 사건인지 의미 비교 1콜</div><div class="num">11.3콜/일 · 출력 44 · <b>$8.1</b></div><span class="mdl">Opus high</span><div class="bar"><i style="width:15%"></i></div></div>
+        <div class="nd warnbd"><div class="nm">긴급 자동픽 중복검사<span class="en">autopick</span></div><div class="what">grade≥2 자동픽 직전 최근 픽과 같은 사건인지 1콜 — <b>⚠ 중복판정이 원장에 안 박혀 15분마다 재판정(≤4h 최대 16회)</b> + 비safe = 콜당 캐시쓰기 10.6만</div><div class="num">11.3콜/일 · 출력 44 · <b>$8.1</b> <span class="w">· 0811 67콜 $71.2</span></div><span class="mdl">Opus high</span><span class="mdl up">비safe</span><div class="bar"><i style="width:13%"></i></div></div>
         <span class="arr">→</span>
-        <div class="nd"><div class="nm">푸시 중복 검사<span class="en">pushdedup</span></div><div class="what">기기 알림 발사 전 같은 사건 재알림 차단</div><div class="num">3.4콜/일 · <b>$1.9</b></div><span class="mdl">Opus</span><div class="bar"><i style="width:3%"></i></div></div>
+        <div class="nd"><div class="nm">푸시 중복 검사<span class="en">pushdedup</span></div><div class="what">재알림 차단 판정 — 억제 도장 보유(루프 봉합 완료) · 비safe만 잔존</div><div class="num">3.4콜/일 · 출력 16 · <b>$1.9</b></div><span class="mdl">Opus</span><span class="mdl up">비safe</span><div class="bar"><i style="width:3%"></i></div></div>
       </div>
     </div>
 
     <div class="lane">
-      <div class="lh"><span class="nm">② SNS 트렌드 화면</span><span class="cad">자동 · 수집 회차마다 조건부</span><span class="sum">3축 = <b>53콜/일 · $64.0</b></span></div>
+      <div class="lh"><span class="nm">② SNS 트렌드 화면</span><span class="cad">자동 · 워크플로 런마다(신선도 게이트는 수집 스텝만 스킵)</span><span class="sum">3축 = <b>53콜/일 · $64.0</b> <span class="w">· trend 활동일 기준 $77.7</span></span></div>
       <div class="flow">
         <div class="nd zero"><div class="nm">실검·게시물 수집<span class="en">sns-trends</span></div><div class="what">구글 급상승·X·커뮤니티 수집</div><div class="num"><b>LLM 0</b></div></div>
         <span class="arr">→</span>
-        <div class="nd"><div class="nm">트렌드 이미지 백필<span class="en">trend</span></div><div class="what">실검 꼬리 키워드의 커버 결측분을 웹검색으로 뉴스이미지 매칭(배치 1콜 · 상한 14키워드)</div><div class="num">30.0콜/일 · 출력 24.5만 · 캐시읽기 2,113만 · <b>$46.6</b></div><span class="mdl">Sonnet + WebSearch</span><div class="bar"><i style="width:84%"></i></div></div>
+        <div class="nd warnbd"><div class="nm">트렌드 이미지 백필<span class="en">trend</span></div><div class="what">실검 커버 결측분 웹검색 매칭(상한 14키워드) — 비용의 <b>63%가 검색 회당 과금</b>(콜당 ≈98회) · <b>⚠ 리빌드가 커버를 지워 같은 키워드 재검색(결과 캐시 0)</b> · ⚠ 관측창 채움 0/28 = 백필 고사(세로600 컷 상속 유력·미확정)</div><div class="num">30.0콜/일 · <b>$46.6</b> <span class="w">· 계측 260803 시작 = 활동일 $77.7 · 최근 3일 $102</span></div><span class="mdl">Sonnet + WebSearch</span><span class="mdl">safe</span><div class="bar"><i style="width:72%"></i></div></div>
         <span class="arr">→</span>
-        <div class="nd"><div class="nm">게시물 한줄요약<span class="en">sns-sum</span></div><div class="what">X·스레드 구독 게시물에 키워드+한줄요약 부착</div><div class="num">8.9콜/일 · 출력 1.7만 · <b>$0.6</b></div><span class="mdl">Sonnet high</span><div class="bar"><i style="width:1%"></i></div></div>
+        <div class="nd"><div class="nm">게시물 한줄요약<span class="en">sns-sum</span></div><div class="what">X·스레드 구독 게시물 키워드+한줄요약 부착</div><div class="num">8.9콜/일 · 출력 1.7만 · <b>$0.6</b></div><span class="mdl">Sonnet high</span><span class="mdl">safe</span><div class="bar"><i style="width:1%"></i></div></div>
         <span class="arr">→</span>
-        <div class="nd"><div class="nm">SNS 브리프<span class="en">sns-brief</span></div><div class="what">TOP10·실검 스냅샷의 원인을 웹검색으로 역추적해 브리핑(다이제스트 동일 = 스킵)</div><div class="num">14.3콜/일 · 출력 16.3만 · <b>$16.8</b></div><span class="mdl">Opus max · 12턴</span><div class="bar"><i style="width:30%"></i></div></div>
+        <div class="nd"><div class="nm">SNS 브리프<span class="en">sns-brief</span></div><div class="what">TOP10·실검 원인 웹검색 역추적 브리핑(다이제스트 동일 = 스킵)</div><div class="num">14.3콜/일 · 출력 16.3만 · <b>$16.8</b></div><span class="mdl">Opus high · 최대 12턴</span><span class="mdl">safe</span><div class="bar"><i style="width:26%"></i></div></div>
+        <span class="plus">대기</span>
+        <div class="nd zero"><div class="nm">블스카이 번역<span class="en">bsky-tr</span></div><div class="what">인기 게시물 배치 번역 — 기본 꺼짐(운영자 260721 「실검만」) · 켜면 30분 크론 편승</div><div class="num">0콜 대기 축</div></div>
       </div>
     </div>
 
     <div class="lane">
-      <div class="lh"><span class="nm">③ 뉴스 제작 파이프</span><span class="cad">픽(수동+자동)마다 · 하루 픽 ≈ 10건</span><span class="sum">최대 소비 축 = <b>45콜/일 · $87.0</b></span></div>
+      <div class="lh"><span class="nm">③ 뉴스 제작 파이프</span><span class="cad">카드 세트 하루 ≈26(신규 픽·요청 15.5 + 지침 재생성 8.7)</span><span class="sum">최대 소비 축 = <b>45콜/일 · $86.5</b></span></div>
       <div class="flow">
-        <div class="nd"><div class="nm">분석·요약<span class="en">analyze</span></div><div class="what">픽 기사 1건 = 요약·시사점·이미지 소스 탐색(웹검색 포함)</div><div class="num">10.3콜/일 · 출력 13.8만 · <b>$19.2</b></div><span class="mdl">Opus max</span><div class="bar"><i style="width:34%"></i></div></div>
+        <div class="nd"><div class="nm">분석·요약<span class="en">analyze</span></div><div class="what">픽 기사 1건 = 요약·시사점·이미지 소스 탐색(웹검색 포함)</div><div class="num">10.3콜/일 · 출력 13.8만 · <b>$19.2</b></div><span class="mdl up">Opus max ↑260810 ×2.46</span><span class="mdl up">비safe</span><div class="bar"><i style="width:30%"></i></div></div>
         <span class="plus">+보강</span>
-        <div class="nd"><div class="nm">분량 보강<span class="en">analyze-repair · ask-repair</span></div><div class="what">자수 미달 요약 재보강</div><div class="num">2.9콜/일 · 출력 9.8만 · <b>$2.8</b></div><span class="mdl">Opus</span><div class="bar"><i style="width:5%"></i></div></div>
+        <div class="nd"><div class="nm">분량 보강<span class="en">analyze-repair</span></div><div class="what">자수 미달 요약 재보강(자기완결 콜)</div><div class="num">2.4콜/일 · 출력 7.9만 · <b>$2.3</b></div><span class="mdl">Opus</span><span class="mdl">safe</span><div class="bar"><i style="width:4%"></i></div></div>
         <span class="arr">→</span>
-        <div class="nd paid"><div class="nm">AI 썸네일 렌더<span class="en">thumb_gen → Gemini</span></div><div class="what">픽당 2화풍 이미지(1K) + 검색이미지 og 추출(LLM 0)</div><div class="num">≈21장/일 · <b>≈$1.4/일 (산정)</b></div><span class="mdl">Gemini 3.1 Flash Image · $0.067/장</span><div class="bar"><i style="width:3%"></i></div></div>
+        <div class="nd paid"><div class="nm">AI 이미지 렌더<span class="en">thumb_gen → Gemini</span></div><div class="what">픽당 2화풍 썸네일 + 카드 슛·리사이즈·뷰어 생성(og 추출은 LLM 0)</div><div class="num">≈23장/일 ≈ <b>$1.55/일 (실측)</b></div><span class="mdl">Gemini 3.1 Flash Image · $0.067/장</span><div class="bar"><i style="width:2%"></i></div></div>
         <span class="arr">→</span>
-        <div class="nd"><div class="nm">카드 텍스트<span class="en">card + card-cov</span></div><div class="what">카드뉴스 문구 작성 + 린트 재통과 콜 + 알맹이회수 — <b>단일 최대 출력 축(80만/일)</b></div><div class="num">32.0콜/일 · 출력 79.8만 · <b>$64.3</b></div><span class="mdl">Opus</span><div class="bar"><i style="width:100%"></i></div></div>
+        <div class="nd"><div class="nm">카드 텍스트<span class="en">card + card-cov</span></div><div class="what">본콜 26세트/일 + <b>위반시만</b> 린트 재통과(세트의 21%) + 알맹이회수 4.3콜 — 출력 최대 축(83만/일) · <b>$의 62%는 캐시쓰기</b>(고정부 200KB 잡 간 재사용 0 실측 · 같은 잡 린트 콜만 재사용 성립)</div><div class="num">32.0콜/일 · 출력 79.8만 · <b>$64.3</b> · 전망 $82</div><span class="mdl up">Opus max ↑260810 ×1.48 ⚠지시 명문 미확인</span><span class="mdl up">비safe</span><div class="bar"><i style="width:100%"></i></div></div>
         <span class="arr">→</span>
         <div class="nd"><div class="nm">수정 레일<span class="en">revise · revise-cards · card-edit</span></div><div class="what">운영자 수정 지시 반영(개별·일괄)</div><div class="num">0.6콜/일 · <b>$0.8</b></div><span class="mdl">Opus</span><div class="bar"><i style="width:1%"></i></div></div>
         <span class="plus">보충</span>
-        <div class="nd"><div class="nm">이미지 더 찾기<span class="en">moreimg</span></div><div class="what">검색이미지 미달 시 새 소스 웹검색(다회전 상한 3)</div><div class="num">저빈도(analyze에 합산 계측) · Opus high</div><div class="bar"><i style="width:1%"></i></div></div>
+        <div class="nd warnbd"><div class="nm">이미지 더 찾기<span class="en">moreimg</span></div><div class="what">검색이미지 미달 시 웹검색 다회전(상한 3) — <b>⚠ 워크플로가 계측 파일을 커밋 안 해 원장 0건 = 실소비 미상</b></div><div class="num">빈도·$ 미상 · Opus high</div><span class="mdl up">계측 유실</span><div class="bar"><i style="width:1%"></i></div></div>
       </div>
     </div>
 
     <div class="lane">
-      <div class="lh"><span class="nm">④ 요약 요청 레일</span><span class="cad">운영자 전송마다 · ≈3건/일</span><span class="sum"><b>4.1콜/일 · $6.1</b> + STT $</span></div>
+      <div class="lh"><span class="nm">④ 요약 요청 레일</span><span class="cad">운영자 전송마다 · ≈3건/일 · 요청발 카드가 카드 콜의 26%</span><span class="sum"><b>4.1콜/일 · $6.1</b></span></div>
       <div class="flow">
         <div class="nd zero"><div class="nm">본문·이미지 수확<span class="en">srcimg · fail_probe</span></div><div class="what">출처 페이지 취득, 본문 그림 수확, 실패 자동진단</div><div class="num"><b>LLM 0</b></div></div>
         <span class="arr">→</span>
-        <div class="nd"><div class="nm">그림 속 글자 추출<span class="en">askocr</span></div><div class="what">본문이 그림뿐일 때 문자열 추출해 원문 지위로 투입</div><div class="num">0.3콜/일 · <b>$0.03</b></div><span class="mdl">Sonnet</span><div class="bar"><i style="width:1%"></i></div></div>
+        <div class="nd"><div class="nm">그림 속 글자 추출<span class="en">askocr</span></div><div class="what">본문이 그림뿐일 때 문자열 추출해 원문 지위로 투입</div><div class="num">0.3콜/일 · <b>$0.03</b></div><span class="mdl">Sonnet</span><span class="mdl">safe</span><div class="bar"><i style="width:1%"></i></div></div>
         <span class="plus">+미디어</span>
-        <div class="nd paid"><div class="nm">받아쓰기<span class="en">STT · Scribe v2</span></div><div class="what">링크·영상 요청의 음성 전사(실패 시 무료 whisper 폴백)</div><div class="num">≈$0.22/시간 · 상한 1시간/건 · <b>일 $0.1~1 (산정)</b></div><span class="mdl">ElevenLabs 종량제</span><div class="bar"><i style="width:1%"></i></div></div>
+        <div class="nd paid"><div class="nm">받아쓰기<span class="en">STT · Scribe v2 5경로 공용</span></div><div class="what">음성 전사(실패 시 무료 whisper 폴백 · 같은 오디오 재전사 = 캐시 무과금) — 최대 빈도 축은 <b>영상 편집</b>(실측 3.3일 STT 런 25회 중 편집 19 · 자막 5 · 요약요청 0)</div><div class="num">≈$0.22/시간 · 일 <b>$0.03~0.25</b> · 장시간 링크요약 시 +$0.22/시간</div><span class="mdl">ElevenLabs 종량제</span><div class="bar"><i style="width:1%"></i></div></div>
         <span class="arr">→</span>
-        <div class="nd"><div class="nm">요약 생성<span class="en">ask</span></div><div class="what">요청문+수확 원문+전사문으로 뉴스 요약 작성</div><div class="num">3.3콜/일 · 출력 4.0만 · <b>$5.6</b></div><span class="mdl">Opus max</span><div class="bar"><i style="width:10%"></i></div></div>
+        <div class="nd"><div class="nm">요약 생성<span class="en">ask + ask-repair</span></div><div class="what">요청문+수확 원문+전사문으로 뉴스 요약 작성(+분량보강 0.5콜)</div><div class="num">3.8콜/일 · 출력 5.8만 · <b>$6.1</b></div><span class="mdl up">Opus max ↑260810 ×2.02</span><span class="mdl up">비safe</span><div class="bar"><i style="width:9%"></i></div></div>
       </div>
     </div>
 
@@ -212,35 +230,39 @@
       <div class="flow">
         <div class="nd zero"><div class="nm">IG·FB 수집 + 지식 라이브러리<span class="en">insta_fetch · brief_lib</span></div><div class="what">지표 수집, 과거 브리프 축적 원장(순수 파이썬)</div><div class="num"><b>LLM 0</b></div></div>
         <span class="arr">→</span>
-        <div class="nd"><div class="nm">IG 채널 브리프<span class="en">chan-brief</span></div><div class="what">계정·게시물 25건+실검 원료로 채널 전략 브리핑</div><div class="num">4.5콜/일 · 출력 6.1만 · <b>$3.2</b></div><span class="mdl">Opus</span><div class="bar"><i style="width:6%"></i></div></div>
+        <div class="nd"><div class="nm">IG 채널 브리프<span class="en">chan-brief</span></div><div class="what">계정·게시물 25건+실검 원료로 채널 전략 브리핑</div><div class="num">4.5콜/일 · 출력 6.1만 · <b>$3.2</b></div><span class="mdl">Opus</span><span class="mdl">safe</span><div class="bar"><i style="width:5%"></i></div></div>
         <span class="plus">+</span>
-        <div class="nd"><div class="nm">FB 채널 브리프<span class="en">fb-brief</span></div><div class="what">FB판 동축</div><div class="num">4.3콜/일 · 출력 4.5만 · <b>$2.4</b></div><span class="mdl">Opus</span><div class="bar"><i style="width:4%"></i></div></div>
+        <div class="nd"><div class="nm">FB 채널 브리프<span class="en">fb-brief</span></div><div class="what">FB판 동축</div><div class="num">4.3콜/일 · 출력 4.5만 · <b>$2.4</b></div><span class="mdl">Opus</span><span class="mdl">safe</span><div class="bar"><i style="width:4%"></i></div></div>
         <span class="plus">+</span>
-        <div class="nd"><div class="nm">FB 주제 분류<span class="en">fbcls</span></div><div class="what">발행 헤드라인 6주제 분류(캐시로 새 글만)</div><div class="num">0.7콜/일 · <b>$0.01</b></div><span class="mdl">Haiku</span><div class="bar"><i style="width:1%"></i></div></div>
+        <div class="nd"><div class="nm">FB 주제 분류<span class="en">fbcls</span></div><div class="what">발행 헤드라인 6주제 분류(캐시로 새 글만)</div><div class="num">0.7콜/일 · <b>$0.01</b></div><span class="mdl">Haiku</span><span class="mdl">safe</span><div class="bar"><i style="width:1%"></i></div></div>
+        <span class="plus">대기</span>
+        <div class="nd zero"><div class="nm">루시 스레드 봇<span class="en">lucy-gen · lucy-reply</span></div><div class="what">지식 후가공 발행+답글 자동 — 4중 게이트로 현재 꺼짐 · 켜지면 매일 밤 상시 소비처</div><div class="num">0콜 대기 축 · Opus high</div></div>
       </div>
     </div>
 
     <div class="lane">
-      <div class="lh"><span class="nm">⑥ 스튜디오 제작</span><span class="cad">운영자 발사마다 · 현재 저빈도</span><span class="sum"><b>3.9콜/일 · $3.1</b> + 종량제</span></div>
+      <div class="lh"><span class="nm">⑥ 스튜디오 제작</span><span class="cad">운영자 발사마다 · 최근 15일 저빈도</span><span class="sum"><b>3.8콜/일 · $3.1</b> + 발사 시 종량제</span></div>
       <div class="flow">
-        <div class="nd"><div class="nm">릴스 자막<span class="en">ly</span></div><div class="what">STT 전사문을 자막으로 조판·타이밍</div><div class="num">3.0콜/일 · <b>$2.4</b></div><span class="mdl">Opus</span><div class="bar"><i style="width:4%"></i></div></div>
+        <div class="nd"><div class="nm">릴스 자막<span class="en">ly</span></div><div class="what">STT 전사문을 자막으로 조판·타이밍</div><div class="num">3.0콜/일 · <b>$2.4</b></div><span class="mdl">Opus</span><span class="mdl up">비safe</span><div class="bar"><i style="width:4%"></i></div></div>
         <span class="plus">·</span>
-        <div class="nd"><div class="nm">이미지 생성 프롬프트<span class="en">genimg</span></div><div class="what">버튼 옵션+기사 요약으로 영문 프롬프트 1개 작성 → Gemini 렌더(종량제)</div><div class="num">0.3콜/일 · <b>$0.3</b></div><span class="mdl">Fable</span><div class="bar"><i style="width:1%"></i></div></div>
+        <div class="nd"><div class="nm">이미지 생성 프롬프트<span class="en">genimg</span></div><div class="what">버튼 옵션+요약으로 영문 프롬프트 작성 → 렌더는 Gemini 또는 <b>GPT Image 2 토글</b>(종량제)</div><div class="num">0.3콜/일 · <b>$0.3</b></div><span class="mdl">Fable</span><div class="bar"><i style="width:1%"></i></div></div>
         <span class="plus">·</span>
         <div class="nd"><div class="nm">번역·자료화·편집자막<span class="en">tr · nb · track-cap</span></div><div class="what">카드 번역, 자료화 탭, 편집 트래킹 자막</div><div class="num">0.5콜/일 · <b>$0.3</b></div><span class="mdl">Fable·Opus</span><div class="bar"><i style="width:1%"></i></div></div>
         <span class="plus">·</span>
-        <div class="nd"><div class="nm">영상 프롬프팅·콘티 감독<span class="en">k · sb</span></div><div class="what">영상 프롬프트 문서, 콘티 감독 3축(페이블·오퍼스·GPT) — 최근 15일 발사 0</div><div class="num">0콜/일 · GPT 감독만 종량제</div><span class="mdl">Fable/Opus/GPT 5.6</span><div class="bar"><i style="width:0%"></i></div></div>
+        <div class="nd warnbd"><div class="nm">영상 프롬프팅·콘티<span class="en">k · sb</span></div><div class="what">프롬프트 문서·콘티 감독 3축 — 발사 시 종량 = GPT 감독(OpenAI) + 레퍼런스 이미지(Gemini) · <b>⚠ 서버 즉답 직결 2경로(tr·k) = Anthropic API 실지불·계측 0</b></div><div class="num">15일 발사 0 · 직결 발동량 미상</div><span class="mdl">Fable/Opus/GPT 5.6</span><span class="mdl up">직결 미계측</span><div class="bar"><i style="width:0%"></i></div></div>
         <span class="plus">·</span>
-        <div class="nd paid"><div class="nm">음원·보이스 렌더<span class="en">Lyria · RVC</span></div><div class="what">곡 생성 ≈$0.08/곡, 보이스 클로닝 ≈$0.32/보이스 — 발사 시만</div><div class="num">최근 15일 0 · <b>$0 (산정)</b></div><span class="mdl">종량제</span><div class="bar"><i style="width:0%"></i></div></div>
+        <div class="nd zero"><div class="nm">쇼츠 클리퍼·테이크 감지<span class="en">clip · take</span></div><div class="what">편집 발사에 동반(하이라이트 구간픽·반복 테이크 제안) — 15일 발사 0</div><div class="num">0콜 대기 축 · Fable</div></div>
+        <span class="plus">·</span>
+        <div class="nd paid"><div class="nm">음원·보이스 렌더<span class="en">song-* · Lyria · RVC</span></div><div class="what">가사·옵션은 Claude, 곡 ≈$0.08(마지막 260712) · 보이스 ≈$0.32(마지막 260713)</div><div class="num">15일 발사 0 · <b>$0 (실측)</b></div><span class="mdl">종량제</span><div class="bar"><i style="width:0%"></i></div></div>
       </div>
     </div>
 
     <div class="lane">
       <div class="lh"><span class="nm">⑦ 거버넌스·품질</span><span class="cad">상시(커밋·나이틀리)</span><span class="sum"><b>LLM 0 · $0</b></span></div>
       <div class="flow">
-        <div class="nd zero"><div class="nm">정적 게이트 108종<span class="en">check_refs</span></div><div class="what">커밋마다 전 계약 검사 — 전부 문자열·정적 판정</div><div class="num"><b>LLM 0</b></div></div>
+        <div class="nd zero"><div class="nm">정적 게이트 108종<span class="en">check_refs</span></div><div class="what">커밋마다 전 계약 검사 — 전부 문자열·정적 판정(그렙 실측)</div><div class="num"><b>LLM 0</b></div></div>
         <span class="plus">·</span>
-        <div class="nd zero"><div class="nm">렌더 스모크 25종<span class="en">smoke_*</span></div><div class="what">실렌더 검증 — LLM 무접촉</div><div class="num"><b>LLM 0</b></div></div>
+        <div class="nd zero"><div class="nm">렌더 스모크 25종 + 사실 검증<span class="en">smoke_* · fact_guard</span></div><div class="what">실렌더 검증·수치 대조 — LLM 무접촉(순수 파이썬 실측)</div><div class="num"><b>LLM 0</b></div></div>
         <span class="plus">·</span>
         <div class="nd zero"><div class="nm">룰북 회귀 재판정<span class="en">rubric/grade_regress</span></div><div class="what">속보·경중 룰북 개정 시에만 드라이런 1회(평시 0)</div><div class="num">개정 시만 · 평시 <b>LLM 0</b></div></div>
       </div>
@@ -249,57 +271,110 @@
   </div>
 </div></div>
 
-<h2>② 실측 표 — 소비처 25종 전체<span class="en">15일 원장 일평균 · 환산가 내림차순</span></h2>
+<h2>② 실측 표 — 소비처 25종 전체<span class="en">15일 원장 일평균 · 환산가 내림차순 · 스냅샷 0811 10:59</span></h2>
 <div class="tblwrap"><table>
-  <tr><th>소비처</th><th style="text-align:left">하는 일</th><th>모델(현재)</th><th>콜/일</th><th>신규입력/일</th><th>출력/일</th><th>캐시읽기/일</th><th>캐시쓰기/일</th><th>환산 $/일</th></tr>
-  <tr><td>card<span class="en">카드 텍스트</span></td><td class="l">카드뉴스 문구 작성(본콜+린트 재통과)</td><td>Opus</td><td>27.7</td><td>83</td><td>755,025</td><td>3,965,478</td><td>3,477,154</td><td>55.71</td></tr>
-  <tr><td>trend<span class="en">트렌드 이미지</span></td><td class="l">실검 키워드 커버 결측분 웹검색 매칭</td><td>Sonnet+검색</td><td>30.0</td><td>134,743</td><td>245,239</td><td>21,128,567</td><td>1,784,891</td><td>46.60</td></tr>
-  <tr><td>analyze<span class="en">뉴스 분석</span></td><td class="l">픽 기사 요약·시사점·이미지 소스</td><td>Opus max</td><td>10.3</td><td>2,733</td><td>138,411</td><td>6,096,539</td><td>1,195,465</td><td>19.20</td></tr>
-  <tr><td>sns-brief<span class="en">SNS 브리프</span></td><td class="l">트렌드 원인 역추적 브리핑(웹검색)</td><td>Opus max·12턴</td><td>14.3</td><td>43,064</td><td>163,475</td><td>4,102,947</td><td>505,689</td><td>16.79</td></tr>
-  <tr><td>gate<span class="en">경중 채점</span></td><td class="l">노출 후보 0~3 채점+카테고리</td><td class="up">Opus max ↑260810</td><td>101.8</td><td>204</td><td>278,545</td><td>1,530,049</td><td>1,047,458</td><td>12.80</td></tr>
-  <tr><td>card-cov<span class="en">알맹이회수</span></td><td class="l">카드 알맹이(본문 반영) 회수 콜</td><td>Opus</td><td>4.3</td><td>9</td><td>43,238</td><td>96,315</td><td>742,196</td><td>8.55</td></tr>
-  <tr><td>autopick<span class="en">자동픽 중복검사</span></td><td class="l">긴급 자동픽 직전 같은 사건 의미 비교</td><td>Opus high</td><td>11.3</td><td>23</td><td>44</td><td>137,643</td><td>806,289</td><td>8.14</td></tr>
-  <tr><td>breaking<span class="en">속보 판정</span></td><td class="l">속보후보 긴급 여부 이진 판정</td><td class="up">Opus max ↑260810</td><td>70.8</td><td>142</td><td>17,942</td><td>1,053,135</td><td>710,023</td><td>5.63</td></tr>
-  <tr><td>ask<span class="en">요약 요청</span></td><td class="l">운영자 요청문 뉴스 요약</td><td>Opus max</td><td>3.3</td><td>898</td><td>39,828</td><td>1,547,356</td><td>356,347</td><td>5.57</td></tr>
-  <tr><td>group<span class="en">사건 묶기</span></td><td class="l">같은 사건 후보 그룹 YES/NO 확정</td><td>Opus</td><td>74.7</td><td>149</td><td>22,933</td><td>905,899</td><td>434,014</td><td>5.52</td></tr>
-  <tr><td>chan-brief<span class="en">IG 브리프</span></td><td class="l">IG 채널 전략 브리핑(3h 캐던스)</td><td>Opus</td><td>4.5</td><td>1,602</td><td>60,637</td><td>290,020</td><td>128,567</td><td>3.20</td></tr>
-  <tr><td>ly<span class="en">릴스 자막</span></td><td class="l">전사문 자막 조판</td><td>Opus</td><td>3.0</td><td>5</td><td>3,709</td><td>32,719</td><td>232,027</td><td>2.43</td></tr>
-  <tr><td>fb-brief<span class="en">FB 브리프</span></td><td class="l">FB 채널 전략 브리핑</td><td>Opus</td><td>4.3</td><td>1,433</td><td>45,156</td><td>302,566</td><td>87,466</td><td>2.39</td></tr>
-  <tr><td>analyze-repair<span class="en">분량보강</span></td><td class="l">자수 미달 요약 재보강</td><td>Opus</td><td>2.4</td><td>5</td><td>79,391</td><td>23,383</td><td>28,053</td><td>2.29</td></tr>
-  <tr><td>pushdedup<span class="en">푸시 중복</span></td><td class="l">재알림 차단 판정</td><td>Opus</td><td>3.4</td><td>7</td><td>16</td><td>41,369</td><td>190,063</td><td>1.92</td></tr>
-  <tr><td>sns-sum<span class="en">한줄요약</span></td><td class="l">X·스레드 게시물 키워드+요약</td><td>Sonnet high</td><td>8.9</td><td>18</td><td>16,729</td><td>134,848</td><td>51,022</td><td>0.62</td></tr>
-  <tr><td>ask-repair</td><td class="l">요약요청 분량보강</td><td>Opus</td><td>0.5</td><td>1</td><td>18,496</td><td>5,651</td><td>6,374</td><td>0.53</td></tr>
-  <tr><td>revise-cards</td><td class="l">카드 일괄수정</td><td>Opus</td><td>0.3</td><td>1</td><td>7,341</td><td>3,780</td><td>28,431</td><td>0.47</td></tr>
-  <tr><td>genimg</td><td class="l">이미지 생성 프롬프트 작성</td><td>Fable</td><td>0.3</td><td>1</td><td>647</td><td>4,748</td><td>14,453</td><td>0.31</td></tr>
-  <tr><td>revise</td><td class="l">요약 수정</td><td>Opus</td><td>0.3</td><td>1</td><td>1,694</td><td>3,802</td><td>23,840</td><td>0.28</td></tr>
-  <tr><td>tr<span class="en">번역</span></td><td class="l">카드 번역</td><td>Fable</td><td>0.1</td><td>0</td><td>68</td><td>1,625</td><td>10,627</td><td>0.22</td></tr>
-  <tr><td>nb-make<span class="en">자료화</span></td><td class="l">자료화 탭 생성</td><td>Opus</td><td>0.1</td><td>0</td><td>4</td><td>823</td><td>6,580</td><td>0.07</td></tr>
-  <tr><td>track-cap</td><td class="l">편집 트래킹 자막</td><td>Opus</td><td>0.3</td><td>1</td><td>470</td><td>8,964</td><td>2,743</td><td>0.04</td></tr>
-  <tr><td>askocr</td><td class="l">그림 속 글자 추출</td><td>Sonnet</td><td>0.3</td><td>1</td><td>923</td><td>13,740</td><td>1,808</td><td>0.03</td></tr>
-  <tr><td>fbcls</td><td class="l">FB 주제 분류</td><td>Haiku</td><td>0.7</td><td>7</td><td>282</td><td>13,003</td><td>2,825</td><td>0.01</td></tr>
-  <tr class="tot"><td>합계</td><td class="l">15일 일평균</td><td>—</td><td>377.9</td><td>185,128</td><td>1,940,245</td><td>41,444,969</td><td>11,874,403</td><td>199.32</td></tr>
+  <tr><th>소비처</th><th style="text-align:left">하는 일</th><th>모델(현재)</th><th>콜/일</th><th>출력/일</th><th>캐시읽기/일</th><th>캐시쓰기/일</th><th>캐시쓰기/콜</th><th>safe</th><th>환산 $/일</th></tr>
+  <tr><td>card<span class="en">카드 텍스트</span></td><td class="l">카드 문구 — 본콜 + 위반시만 린트 재통과(세트의 21%) · 세트당 6.3장</td><td class="up">Opus max ↑260810</td><td>27.7</td><td>755,025</td><td>3,965,478</td><td>3,477,154</td><td>125.5k</td><td>✗</td><td>55.71</td></tr>
+  <tr><td>trend<span class="en">트렌드 이미지</span></td><td class="l">실검 커버 결측분 웹검색 매칭 — 비용 63%는 검색 회당 과금</td><td>Sonnet+검색</td><td>30.0</td><td>245,239</td><td>21,128,567</td><td>1,784,891</td><td>59.5k</td><td class="okc">O</td><td>46.60</td></tr>
+  <tr><td>analyze<span class="en">뉴스 분석</span></td><td class="l">픽 기사 요약·시사점·이미지 소스</td><td class="up">Opus max ↑260810</td><td>10.3</td><td>138,411</td><td>6,096,539</td><td>1,195,465</td><td>116.1k</td><td>✗</td><td>19.20</td></tr>
+  <tr><td>sns-brief<span class="en">SNS 브리프</span></td><td class="l">트렌드 원인 역추적 브리핑(웹검색)</td><td>Opus high·최대 12턴</td><td>14.3</td><td>163,475</td><td>4,102,947</td><td>505,689</td><td>35.4k</td><td class="okc">O</td><td>16.79</td></tr>
+  <tr><td>gate<span class="en">경중 채점</span></td><td class="l">노출 후보 0~3 채점+카테고리 · 채점 도장으로 재판정 0</td><td class="up">Opus max ↑260810</td><td>101.8</td><td>278,545</td><td>1,530,049</td><td>1,047,458</td><td>10.3k</td><td class="okc">O</td><td>12.80</td></tr>
+  <tr><td>card-cov<span class="en">알맹이회수</span></td><td class="l">카드 알맹이 회수 — 지침 고정부 매콜 재기록(형제 린트는 캐시 재사용 실측)</td><td class="up">Opus max ↑260810</td><td>4.3</td><td>43,238</td><td>96,315</td><td>742,196</td><td>172.6k</td><td>✗</td><td>8.55</td></tr>
+  <tr><td>autopick<span class="en">자동픽 중복검사</span></td><td class="l">긴급 자동픽 직전 의미 비교 — ⚠ 중복판정 무도장 = 재판정 루프(0811 $71.2)</td><td>Opus high</td><td>11.3</td><td>44</td><td>137,643</td><td>806,289</td><td>71.4k</td><td>✗</td><td>8.14</td></tr>
+  <tr><td>breaking<span class="en">속보 판정</span></td><td class="l">속보후보 긴급 여부 이진 판정</td><td class="up">Opus max ↑260810</td><td>70.8</td><td>17,942</td><td>1,053,135</td><td>710,023</td><td>10.0k</td><td class="okc">O</td><td>5.63</td></tr>
+  <tr><td>ask<span class="en">요약 요청</span></td><td class="l">운영자 요청문 뉴스 요약</td><td class="up">Opus max ↑260810</td><td>3.3</td><td>39,828</td><td>1,547,356</td><td>356,347</td><td>108.0k</td><td>✗</td><td>5.57</td></tr>
+  <tr><td>group<span class="en">사건 묶기</span></td><td class="l">같은 사건 후보 그룹 YES/NO 확정</td><td>Opus</td><td>74.7</td><td>22,933</td><td>905,899</td><td>434,014</td><td>5.8k</td><td class="okc">O</td><td>5.52</td></tr>
+  <tr><td>chan-brief<span class="en">IG 브리프</span></td><td class="l">IG 채널 전략 브리핑(3h 캐던스)</td><td>Opus</td><td>4.5</td><td>60,637</td><td>290,020</td><td>128,567</td><td>28.6k</td><td class="okc">O</td><td>3.20</td></tr>
+  <tr><td>ly<span class="en">릴스 자막</span></td><td class="l">전사문 자막 조판</td><td>Opus</td><td>3.0</td><td>3,709</td><td>32,719</td><td>232,027</td><td>77.3k</td><td>✗</td><td>2.43</td></tr>
+  <tr><td>fb-brief<span class="en">FB 브리프</span></td><td class="l">FB 채널 전략 브리핑</td><td>Opus</td><td>4.3</td><td>45,156</td><td>302,566</td><td>87,466</td><td>20.3k</td><td class="okc">O</td><td>2.39</td></tr>
+  <tr><td>analyze-repair<span class="en">분량보강</span></td><td class="l">자수 미달 요약 재보강(자기완결)</td><td>Opus</td><td>2.4</td><td>79,391</td><td>23,383</td><td>28,053</td><td>11.7k</td><td class="okc">O</td><td>2.29</td></tr>
+  <tr><td>pushdedup<span class="en">푸시 중복</span></td><td class="l">재알림 차단 판정(억제 도장 보유)</td><td>Opus</td><td>3.4</td><td>16</td><td>41,369</td><td>190,063</td><td>55.9k</td><td>✗</td><td>1.92</td></tr>
+  <tr><td>sns-sum<span class="en">한줄요약</span></td><td class="l">X·스레드 게시물 키워드+요약</td><td>Sonnet high</td><td>8.9</td><td>16,729</td><td>134,848</td><td>51,022</td><td>5.7k</td><td class="okc">O</td><td>0.62</td></tr>
+  <tr><td>ask-repair</td><td class="l">요약요청 분량보강</td><td>Opus</td><td>0.5</td><td>18,496</td><td>5,651</td><td>6,374</td><td>12.7k</td><td class="okc">O</td><td>0.53</td></tr>
+  <tr><td>revise-cards</td><td class="l">카드 일괄수정</td><td>Opus</td><td>0.3</td><td>7,341</td><td>3,780</td><td>28,431</td><td>94.8k</td><td>✗</td><td>0.47</td></tr>
+  <tr><td>genimg</td><td class="l">이미지 생성 프롬프트 작성</td><td>Fable(1콜 Opus)</td><td>0.3</td><td>647</td><td>4,748</td><td>14,453</td><td>48.2k</td><td>—</td><td>0.31</td></tr>
+  <tr><td>revise</td><td class="l">요약 수정</td><td>Opus</td><td>0.3</td><td>1,694</td><td>3,802</td><td>23,840</td><td>79.5k</td><td>✗</td><td>0.28</td></tr>
+  <tr><td>tr<span class="en">번역</span></td><td class="l">카드 번역(서버 직결 실패 시 러너 폴백분)</td><td>Fable</td><td>0.1</td><td>68</td><td>1,625</td><td>10,627</td><td>106k</td><td>✗</td><td>0.22</td></tr>
+  <tr><td>nb-make<span class="en">자료화</span></td><td class="l">자료화 탭 생성</td><td>Opus</td><td>0.1</td><td>4</td><td>823</td><td>6,580</td><td>65.8k</td><td>✗</td><td>0.07</td></tr>
+  <tr><td>track-cap</td><td class="l">편집 트래킹 자막</td><td>Opus</td><td>0.3</td><td>470</td><td>8,964</td><td>2,743</td><td>9.1k</td><td class="okc">O</td><td>0.04</td></tr>
+  <tr><td>askocr</td><td class="l">그림 속 글자 추출</td><td>Sonnet</td><td>0.3</td><td>923</td><td>13,740</td><td>1,808</td><td>6.0k</td><td class="okc">O</td><td>0.03</td></tr>
+  <tr><td>fbcls</td><td class="l">FB 주제 분류</td><td>Haiku</td><td>0.7</td><td>282</td><td>13,003</td><td>2,825</td><td>4.0k</td><td class="okc">O</td><td>0.01</td></tr>
+  <tr class="tot"><td>합계</td><td class="l">15일 일평균 (신규입력 185,128/일 별도)</td><td>—</td><td>377.9</td><td>1,940,245</td><td>41,444,969</td><td>11,874,403</td><td>31.4k</td><td>—</td><td>199.32</td></tr>
 </table></div>
-<p class="note">모델 분포(15일 총콜) = Sonnet 2,945 · Opus 2,706 · Haiku 11 · Fable 6. ⚠ 260810 운영자 지시로 경중 채점(gate)·속보 판정(breaking)이 Sonnet → <b>Opus max로 승격</b> — 표의 $는 혼합 기간 평균이라 <b>승격 후 런레이트는 더 높다</b>(최근 24h 실측 = 653콜 · 출력 487만 · 캐시읽기 1.23억 · 환산 $601).</p>
+<p class="note">safe 열 = <code>--safe-mode</code>(레포 지침 문서를 콜에 안 싣는 모드) 여부 — ✗ 행은 지침 문서 약 200KB(≈9.5만 토큰)를 <b>콜마다 다시 캐시에 씀</b>(콜당 캐시쓰기 25배 차의 원인 축). 모델 분포(15일 총콜) = Sonnet 2,945 · Opus 2,706 · Haiku 11 · Fable 6.</p>
 
-<h2>③ 종량제(실지불) 축<span class="en">토큰이 아니라 장·초·분 단위 과금</span></h2>
+<div class="panel">
+  <b style="font-size:13px">평의회 검산 노트 — 표를 읽기 전에</b>
+  <ul>
+    <li><b>총액 검산 합치</b> — 독립 재집계 $200.99 · 387콜/일(오차 0.8%). 단 원장에 같은 콜의 2~3중 기록 227행(<b>$6.8/일 이중계상</b> · 롤업 접기 경합)이 실재 — trend +6.8% · sns-brief +6.7% · sns-sum +8.5% 과대. 중복 보정값 = trend 28.0콜/$43.6 · sns-brief 13.3콜/$15.7 · 신규입력 17.4만 · 캐시읽기 4,010만.</li>
+    <li><b>260810 승격은 2축이 아니라 6축</b> — 판정 2축(gate ×2.90 · breaking ×2.17 = 모델+노력도, 지시 명문) + 제작 4축(analyze ×2.46 · ask ×2.02 = 지시 주석 실존 / <span class="w">card ×1.48 · card-cov ×1.45 = 같은 날 12:16부터 max 실측이나 지시 명문 미확인 · 코드 주석(high 기본)과 모순 = 운영자 확인 대상</span>).</li>
+    <li><b>24h $601의 분해</b> — 평균 $199 + 그날 물량 +$260(65% · 카드 61콜 = 실측 1위 $139) + 승격 +$141(35%). 승격 후 평균 물량 기준 <b>전망 런레이트 ≈$262/일</b>이 쿼터 계획의 기준값.</li>
+    <li><b>trend는 표기보다 2배 무겁다</b> — 계측이 260803 시작(활동일 9일)이라 15일 나누기 $46.6은 활동일 $77.7/일 · 최근 3일 $102/일을 가린다(최근 사흘 카드와 1위 다툼). 브리프 4종도 같은 260803 시작.</li>
+    <li><b>비용류 1위 = 캐시쓰기</b> — 요율 역산(오차 ≤1%): 캐시쓰기 ≈$104/일(52%) &gt; 출력 ≈$45 &gt; 캐시읽기 ≈$22 &gt; 신규입력 ≈$0.8. 잔차 ≈$36/일 = 웹검색 서버 과금 추정. 캐시쓰기 3형 = 지침 적재형 59% · 웹검색 대화 성장형 21% · 판정 룰북형 18%.</li>
+    <li><b>계측 사각 4종 = 합계는 하한값</b> — ⓐ moreimg 계측 파일 미커밋(원장 0건 · 웹검색 다회전 소비 통째 누락) ⓑ 서버 직결 2경로(번역·영상프롬프트 즉답 = Anthropic API 실지불 · 계측 0) ⓒ 타임아웃으로 죽은 콜 무기록(흔적 47건) ⓓ 종량제 원장 분산(엔진 필드·합산 원장 부재).</li>
+    <li><b>라이브 경보 2건(돈은 나가는데 산출 0)</b> — <span class="w">자동픽 재판정 루프</span>(중복판정이 원장에 안 박혀 15분마다 재판정 · 0811 하루 $71.15 = 15일 치의 57%) · <span class="w">트렌드 백필 고사</span>(관측창 채움 0/28 · 결측 60%로 자체 경보 임계 40% 초과 — 260810 세로600 컷 상속이 유력·미확정).</li>
+  </ul>
+</div>
+
+<h2>③ 종량제(실지불) 축<span class="en">토큰이 아니라 장·초·분 단위 과금 · 합계 ≈$1.6/일 = 구독 환산의 0.8%</span></h2>
 <div class="tblwrap"><table>
-  <tr><th>축</th><th style="text-align:left">쓰는 곳</th><th>단가</th><th>하루 추정</th><th>근거</th></tr>
-  <tr><td>Gemini 3.1 Flash Image</td><td class="l">픽 썸네일 2화풍 · 뷰어 「이미지 생성」 · 수정(+1슬롯) · 비율 리사이즈(수동)</td><td>$0.067/장(1K)</td><td>≈21장 ≈ $1.4</td><td>픽 10.3건/일 × 2화풍 (산정)</td></tr>
-  <tr><td>ElevenLabs Scribe v2</td><td class="l">자막·편집·영상요약·링크요약·영상받기 STT 5경로(실패 시 무료 whisper 폴백)</td><td>≈$0.22/시간</td><td>$0.1~1 (산정)</td><td>자막 1.2회/일 + 요청 중 미디어분 · 상한 1시간/건</td></tr>
-  <tr><td>GPT 5.6 Sol</td><td class="l">콘티 감독 3축 중 GPT 선택 시만</td><td>OpenAI 토큰</td><td>$0 (최근 발사 0)</td><td>실측 15일 0회</td></tr>
-  <tr><td>Lyria 3</td><td class="l">음원 곡 생성 레인</td><td>≈$0.08/곡</td><td>$0 (최근 발사 0)</td><td>실측 15일 0회</td></tr>
-  <tr><td>RVC(replicate)</td><td class="l">보이스 클로닝 학습·적용</td><td>≈$0.32/보이스</td><td>$0 (최근 발사 0)</td><td>실측 15일 0회</td></tr>
-  <tr><td>Kling·Veo·Seedance·Suno</td><td class="l">영상·음원 엔진 — 레포 축은 프롬프트 산출까지, 발사는 외부 서비스 수동(모션그래픽 레인은 사내 렌더 = 외부 API 0)</td><td>—</td><td>레포 과금 0</td><td>콘티 「촬영」 레인 배선 주석 실측</td></tr>
+  <tr><th>축</th><th style="text-align:left">쓰는 곳</th><th>단가</th><th>하루 실측</th><th>근거</th></tr>
+  <tr><td>Gemini 3.1 Flash Image</td><td class="l">픽 썸네일 2화풍(21.1장/일) + 카드 슛 직영(0.5) + 리사이즈(1.2 · 전건 08-07~10 개발 burst) + 뷰어 생성(0.2) · 발사 시 = 레퍼런스 이미지·베스트컷 확장 · 수정 +1슬롯(실측 발사 0)</td><td>$0.067/장(1K)</td><td>≈23장 ≈ $1.55</td><td>gen.json 296장/14일 실측</td></tr>
+  <tr><td>ElevenLabs Scribe v2</td><td class="l">STT 5경로(자막·편집·영상요약·링크요약·영상받기) — 최대 빈도 축 = 편집 · 캐시 재전사 무과금 · 실패 시 무료 whisper 폴백</td><td>≈$0.22/시간</td><td>$0.03~0.25</td><td>STT 런 25회/3.3일 실측 · 산출 44건/14일</td></tr>
+  <tr><td>Anthropic API 직결</td><td class="l"><b>서버 즉답 2경로(번역 계획 · 영상 프롬프트)</b> — 실지불 키 · Opus 5 · 실패 시 구독 러너 폴백 · <span class="up">계측 0 = 이 지도 어느 표에도 안 잡히는 유일한 실지불 LLM 경로</span></td><td>Anthropic 토큰</td><td>미상</td><td>운영자 260721 즉답 승인 · 발동량 미계측</td></tr>
+  <tr><td>OpenAI(GPT 5.6 · GPT Image 2)</td><td class="l">콘티 감독 GPT 선택 시 + 뷰어 이미지 생성 GPT 엔진 토글(실패 시 Gemini 폴백)</td><td>OpenAI 토큰·장</td><td>$0 (15일 발사 0)</td><td>산출 디렉터리 0건 실측</td></tr>
+  <tr><td>Lyria 3</td><td class="l">음원 곡 생성 레인</td><td>≈$0.08/곡</td><td>$0 (마지막 260712)</td><td>산출 실측</td></tr>
+  <tr><td>RVC(replicate)</td><td class="l">보이스 클로닝 학습·적용</td><td>≈$0.32/보이스</td><td>$0 (마지막 260713)</td><td>산출 실측</td></tr>
+  <tr><td>Kling·Veo·Seedance·Suno</td><td class="l">영상·음원 엔진 — 레포 축은 프롬프트 산출까지, 실 API 과금 배선 0(전수 grep) · 모션그래픽 레인 = 사내 렌더 + 무료 온라인 TTS(edge-tts)</td><td>—</td><td>레포 과금 0</td><td>외부 종량 API = 4종뿐 실측</td></tr>
 </table></div>
 
-<h2>④ 절약안 — 품질 유지 전제<span class="en">평의회 8인 검증 결과</span></h2>
-<p class="note" id="council-note">평의회 8인(동일 모델 · 노력도 최대) 병렬 검증 진행 중 — 완료 시 이 섹션이 판정 결과로 채워진다.</p>
-<div id="savings"></div>
+<h2>④ 절약안 — 품질 유지 전제<span class="en">평의회 판정 · 절감치 = 15일 회계 기준(런레이트 기준은 더 큼)</span></h2>
+<p class="note"><b>요약</b> — 즉시 권고 6건 합 ≈ <b>$50~55/일</b>(품질 축 무접촉 · 문서 회계 기준 — 자동픽 버스트일·트렌드 런레이트 기준으론 그 이상). 캐시 재사용 계열(조건부 포함)까지 합치면 상한 ≈$90~100/일. 운영자 결정 대기 항목과 기각 7건(품질 우선)은 아래에 분리.</p>
+
+<div class="sv"><div class="h"><span class="t">권고 1 · 자동픽 중복판정에 원장 도장(재판정 루프 절단)</span><span class="save">버스트일 −$64/일 · 평시 −$5~7/일</span><span class="risk r0">리스크 낮음</span></div>
+<div class="b">중복으로 판정된 후보가 원장에 안 남아 <b>같은 후보를 15분마다 최대 16회 재판정</b>(0811 하루 $71.15 실측 = 15일 치의 57%). 쌍둥이인 푸시 중복 검사는 260722에 「억제 도장」으로 이미 봉합된 <b>같은 병의 형제</b> — 그 문법을 1줄 이식. ⚠ 가드 = 도장 키가 일일 픽 상한 카운터를 잠식하지 않게 접두 분리.</div></div>
+
+<div class="sv"><div class="h"><span class="t">권고 2 · 자동픽·푸시중복에 safe-mode 부착(지침 문서 적재 제거)</span><span class="save">−$9.5/일 · 런레이트 −$18/일</span><span class="risk r0">리스크 없음</span></div>
+<div class="b">출력 1~5토큰짜리 판정 콜이 지침 문서 약 200KB를 <b>콜마다 다시 캐시에 쓴다</b>(비용의 99%). 판정 3형제(속보·경중·묶기)는 260701 카나리아(캐시 조성 −97.2%)로 이미 승격 완료 — 이 둘만 안 따라온 상태. 플래그 1개 + 1런 카나리아.</div></div>
+
+<div class="sv"><div class="h"><span class="t">권고 3 · 트렌드 재검색 제거 3종(수집분당 1회 + 리빌드 커버 승계 + 실패 키워드 유예)</span><span class="save">−$33~37/일 · 런레이트 −$60~85/일</span><span class="risk r0">리스크 낮음</span></div>
+<div class="b">수집 리빌드가 직전 백필 커버를 지워 <b>같은 키워드를 회차마다 재검색</b>(7분 간격 2콜 $3.03이 같은 15키워드 재검색 실측 · 결과 캐시 0 · 실패 유예 0). 이론 필요 콜 3~8/일 vs 실측 59~75/일 = 낭비 85%+. 이 축 비용의 63%가 검색 회당 과금이라 <b>검색 횟수 절감이 곧 절감</b>. 가드 = 기존 커버율 경보(임계 40%)로 전후 대조.</div></div>
+
+<div class="sv"><div class="h"><span class="t">권고 4 · 카드 고정부 캐시 재사용 봉합(프로브 선행)</span><span class="save">≈−$19/일</span><span class="risk r0">리스크 없음</span></div>
+<div class="b">카드 축 $의 62%가 캐시쓰기 — 지침 고정부 200KB를 <b>잡이 다르면 전량 재기록</b>(60분 내 연속쌍 273/274 실측 · 같은 잡 안 린트 콜은 재사용 성립 실측 = 갈림 원인 미확정). 상이 다이제스트 2연발 프로브로 캐시 키가 갈리는 지점부터 실측 → 봉합. 실패해도 현상 유지 = 악화 경로 0.</div></div>
+
+<div class="sv"><div class="h"><span class="t">권고 5 · 카드 교정·회수 콜만 노력도 분리(본콜 max 유지)</span><span class="save">≈−$7.7/일</span><span class="risk r0">리스크 낮음</span></div>
+<div class="b">린트 재통과(5.4콜/일)·알맹이회수(4.3콜/일)는 「지적된 줄만 고쳐 재출력」하는 기계 작업인데 본콜과 같은 노브에 묶여 max로 승격됨. 별도 노브 신설로 본콜 max는 그대로 두고 교정·회수만 high. 가드 = 채택률 전후 대조 · 하락 시 원복 1줄.</div></div>
+
+<div class="sv"><div class="h"><span class="t">권고 6 · 계측 사각 봉합 3종(직접 절감 0 · 모든 후속 판단의 전제)</span><span class="save">계측 왜곡 −$6.8/일 제거 + 사각 가시화</span><span class="risk r0">리스크 없음</span></div>
+<div class="b">ⓐ moreimg 워크플로에 계측 파일 커밋 1경로 추가(현재 원장 0건 = 웹검색 다회전 소비 통째 누락) ⓑ 원장 접기 멱등화(같은 콜 2~3중 기록 $6.8/일 제거) ⓒ 종량제 일일 합산 원장 + 생성 원장에 엔진 필드(GPT/Gemini 과금 귀속) · 서버 직결 2경로 최소 로그.</div></div>
+
+<div class="sv"><div class="h"><span class="t">조건부(운영자 결정·실측 선행) 7건</span><span class="save">합산 상한 ≈+$90/일</span><span class="risk r1">개별 가드 필수</span></div>
+<div class="b">
+① <b>카드 본콜 노력도 원복(max→high)</b> ≈−$22/일 — <span class="up">260810 지시에 카드 포함 여부부터 운영자 확인</span>(포함이면 기각 · 6주 high 운영 실적이 근거).
+② <b>린트 재통과를 패치형으로</b>(전면 재출력 → 위반 항목만) ≈−$10~18/일 — 재통과 콜당 $1.92 = 본콜과 동급인 현 구조 개편 · 린트 게이트가 품질 바닥 유지.
+③ <b>알맹이회수 콜 재설계</b>(직전 덱 첨부 + 지침 재주입 제거) ≈−$6/일 — 현재 채택 3/51 = 맹목 재생성 결함이라 <b>절감과 품질 회복이 동시</b>.
+④ <b>생성 경로 지침문서 스킵 A/B</b>(카드·분석·요약·자막) ≈−$35/일 — 품질 정본은 주입 블록이라 이론상 무손실 · A/B + 품질 게이트 대조 선행. <span class="dim">(②·④와 권고 4는 같은 캐시쓰기 풀 $53/일을 겨냥 — 합산 불가 · 상한은 풀 크기)</span>
+⑤ <b>경중 채점 2단 판정</b>(소넷 바닥층 선별 → 문화·경계·상위 전건 Opus max) ≈−$8~11/일 — 골든 58케이스 통과 + 운영자 재승인 선행(승격 취지 보존형).
+⑥ <b>트렌드 세로600 컷 면제</b>(스텝 env 1줄) −$10~15/일 + 커버 품질 회복 — 「트렌드 타일도 컷 대상인가」 운영자 확인 1건.
+⑦ <b>지침 재생성 지평선 14→7일</b> ≈−$10/일 · <b>썸네일 화풍 2→1</b>(투표 표본 충족 후) ≈−$0.7/일 · <b>서버 직결 회수</b>(즉답 10초 → 러너 2~4분 후퇴 수용 시 실지불 $0) — 전부 운영자 값 결정.
+</div></div>
+
+<div class="sv"><div class="h"><span class="t">기각 7건 — 품질이 깎여서 안 하는 것(명시 보존)</span><span class="risk r2">품질 우선</span></div>
+<div class="b">
+· <b>경중·속보 소넷 단순 롤백</b>(−$23~25/일) — 운영자 260810 명시 결정(오탐·누락 비용 &gt; 랭킹 오차) 존중.
+· <b>속보·경중 배치 통합</b> — 속보 조기 커밋(푸시 문지기)이 경중 콜에 볼모 + 배치 이웃이 판정을 바꾸는 실측(불일치 4.2→14.4%).
+· <b>룰북 다이어트</b> — 전 조항이 날짜 박힌 운영자 판례 원장(삭제 = 오판 재발 축).
+· <b>카드 본콜 웹도구 차단</b> — 경위 자족성 게이트(실사고 봉합 장치) 파괴.
+· <b>트렌드 모델 하향</b> — 비용 지배가 검색 과금이라 실익 24%뿐 · 이미지 선별 기준 하락 리스크.
+· <b>STT를 whisper로 회귀</b> — 절약 $0.25/일 미만에 정확도(저확률 어절 3.4→11.5%)·속도(1.0→28.1초) 후퇴.
+· <b>판정 캐던스를 캐시 유효시간에 정렬</b> — 속보 지연 = 시의성 훼손이 곧 품질.
+</div></div>
 
 <div class="foot">
-  <b>산정 방법</b> — 구독 축 = claude_meter가 호출마다 남긴 실계측 원장(metrics/) 260728~0811 15일치를 일평균으로 접음(추정 0). 환산 $ = claude CLI의 total_cost_usd(API 정가 환산 · 구독이라 실지불 0 — 쿼터 부담 비교용 대리 지표). 종량제 축 = 계측 원장이 없어 빈도 실측 × 공개 단가로 산정(「산정」 표기).<br>
-  <b>미확인</b> — ① 요약요청·자막의 STT 실분수(원장 없음 → 상한·회수로 범위 산정) ② 스튜디오 발사 빈도는 최근 15일이 저활동 구간일 가능성(0회 = 그 기간 실측일 뿐 상시 0 아님).<br>
-  <b>읽는 법</b> — 캐시읽기는 같은 컨텍스트 재사용(경량), 캐시쓰기·신규입력·출력이 실부담 축. 구독 쿼터를 지배하는 건 <b>출력 194만/일</b>과 캐시쓰기 1,187만/일이고, 환산가 상위 5축(카드 텍스트·트렌드 이미지·뉴스 분석·SNS 브리프·경중 채점)이 하루의 76%를 차지한다.
+  <b>산정 방법</b> — 구독 축 = claude_meter 실계측 원장(metrics/) 15일 일평균(추정 0). 환산 $ = claude CLI의 API 정가 환산(구독이라 실지불 0 · 웹검색 서버 과금 포함 = 잔차 ≈$36/일). 종량제 축 = 산출물 원장(gen.json·usage.json·산출 디렉터리) 실측. <b>계측 한계</b> = JSON 반환 콜만 기록(타임아웃 콜 무기록) · 원장 중복 $6.8/일 미보정 · moreimg 유실 · 서버 직결 미계측 → <b>모든 $ 합계는 하한값</b>.<br>
+  <b>미확인</b> — ① 서버 직결 2경로의 실지불 규모(환경 키·계측 0) ② 카드·알맹이회수의 260810 max 승격이 운영자 지시 범위인지(주석 모순) ③ 트렌드 백필 고사의 지배 원인(세로600 컷 상속 유력 — 러너 로그 열람 필요) ④ 스튜디오 축 15일 0회는 그 기간 실측일 뿐 상시 0 아님.<br>
+  <b>읽는 법</b> — 비용류 1위 = <b>캐시쓰기 ≈$104/일(52%)</b> &gt; 출력 $45 &gt; 캐시읽기 $22 &gt; 신규입력 $0.8. 상위 5축(카드·트렌드·분석·SNS브리프·경중)이 하루의 76%. 트렌드·SNS브리프의 환산가는 토큰 외에 <b>웹검색 회당 요금</b>이 포함된다(트렌드 = 콜당 ≈98회 · 비용의 63%). 승격 후 쿼터 계획 기준값 = 전망 런레이트 ≈$262/일.
 </div>
 
 </div>
