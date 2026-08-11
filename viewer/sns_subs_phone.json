@@ -357,18 +357,28 @@
  "threads": [
   {
    "account": "choi.openai",
-   "text": "Dyna Robotics가 100만 시간의 인간 비디오로 사전학습한 세계-행동 모델 Dyna-2를 공개했습니다. 로봇공학에서 스케일링 법칙이 네 자릿수 범위에서 확인된 건 이번이 처음입니다.\n\n1,000시간부터 100만 시간까지, 데이터를 늘릴수록 로봇 성능이 예측 가능하게 향상됐습니다. 더 중요한 건 인간 데이터로 훈련한 스케일링 법칙이 한 번도 본 적 없는 로봇 데이터에서도 그대로 적용된 점입니다. 인간이 물건을 집는 영상을 많이 볼수록 로봇도 더 잘 집습니다. 이 크로스-임바디먼트 전이는 이전 소규모 연구에서는 확인되지 않았던 부분입니다.\n\nNVIDIA의 Egoscale 데이터셋이 2만 시간인데 Dyna-2는 그 50배입니다. 명령 수행률은 35%에서 96%로 올랐고, 한 번도 가본 적 없는 현장에서 제로샷으로 87% 품질을 기록했습니다. LLM의 스케일링 법칙이 로봇공학에서도 같은 패턴을 보이기 시작한 순간입니다.",
-   "likes": 0,
+   "text": "발표내용 :\nhttps://www.dyna.co/dyna-2",
+   "likes": 3,
    "cmts": 0,
+   "time": 1786442450,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/Db5UzgNCgch",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "Dyna Robotics가 100만 시간의 인간 비디오로 사전학습한 세계-행동 모델 Dyna-2를 공개했습니다. 로봇공학에서 스케일링 법칙이 네 자릿수 범위에서 확인된 건 이번이 처음입니다.\n\n1,000시간부터 100만 시간까지, 데이터를 늘릴수록 로봇 성능이 예측 가능하게 향상됐습니다. 더 중요한 건 인간 데이터로 훈련한 스케일링 법칙이 한 번도 본 적 없는 로봇 데이터에서도 그대로 적용된 점입니다. 인간이 물건을 집는 영상을 많이 볼수록 로봇도 더 잘 집습니다. 이 크로스-임바디먼트 전이는 이전 소규모 연구에서는 확인되지 않았던 부분입니다.\n\nNVIDIA의 Egoscale 데이터셋이 2만 시간인데 Dyna-2는 그 50배입니다. 명령 수행률은 35%에서 96%로 올랐고, 한 번도 가본 적 없는 현장에서 제로샷으로 87% 품질을 기록했습니다. LLM의 스케일링 법칙이 로봇공학에서도 같은 패턴을 보이기 시작한 순간입니다.",
+   "likes": 10,
+   "cmts": 1,
    "time": 1786442431,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/769168496_2041502829784429_3550379907709045125_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk2MTI4ODY4NjE2MzM1OTgxMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=LWa6MzIpRoUQ7kNvwG0TNd2&_nc_oc=Adre6JSOeLuPxPbdjIptCl90SLulGdYD8Eob3a1iK8GyZhOrxrW_lyfEeLQt7t4etd8FnCkjAw58m-6M1bdXLGTp&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Q-PYUWOZEXAgl9ia7pU7yg&_nc_ss=7a22e&oh=00_AQH0DHrari9Ix8s3Pm_zdaxNS5NZI5K5ZOcakBhfulxnVg&oe=6A80AF11",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/769168496_2041502829784429_3550379907709045125_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk2MTI4ODY4NjE2MzM1OTgxMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=LWa6MzIpRoUQ7kNvwG0TNd2&_nc_oc=Adre6JSOeLuPxPbdjIptCl90SLulGdYD8Eob3a1iK8GyZhOrxrW_lyfEeLQt7t4etd8FnCkjAw58m-6M1bdXLGTp&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=r58i46teZkYYTnSzy1tvmA&_nc_ss=7a22e&oh=00_AQFDAW89vCY7zMAIeKnlvEmkPn5f0kVZl3J_7GjfSDmiJw&oe=6A80E751",
    "url": "https://www.threads.com/@choi.openai/post/Db5UxJ_inhE",
    "region": "kr"
   },
   {
    "account": "aipeekme",
    "text": "🔗 원문·자세히 보기\nhttps://github.com/msitarzewski/agency-agents",
-   "likes": 0,
+   "likes": 1,
    "cmts": 0,
    "time": 1786440692,
    "thumb": "",
@@ -378,31 +388,21 @@
   {
    "account": "aipeekme",
    "text": "사용자의 요청사항(피드백 및 사고 프레임워크 연계 제안)을 함께 반영하여 답을 전달합니다.\n\n1. 교정된 본문 전문 (400~500자 준수)\n\nAgency Agents가 맥, 리눅스, 윈도우 지원 데스크톱 전용 앱을 출시했습니다.\n프론트엔드부터 레딧 커뮤니티 관리까지 영역별로 세분화된 AI 에이전트 목록을 확인하고 설치하는 프로그램입니다.\n저장소를 복사하거나 스크립트를 실행할 필요 없이 클릭 한번으로 설치됩니다.\n클로드 코드, 커서, 코덱스, 제미나이 등 주요 AI 도구에 에이전트를 설치할 수 있습니다.\n자동 업데이트를 지원하며, 맥 환경에서는 맥브루 명령어로도 설치가 가능합니다.\n클로드 코드 디렉토리에 직접 설치하거나 스크립트를 사용하는 방법도 제공됩니다.\n프롬프트 단순 복사보다 개발 환경 연결을 단순화하는 데 집중한 모양새입니다.\n프롬프트 품질보다 도구 간 연결 과정을 줄여준 점이 실용적으로 보입니다.\n\n📷 사진 출처: github.com",
-   "likes": 1,
+   "likes": 2,
    "cmts": 2,
    "time": 1786440681,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/773531292_18078435854407306_4536771924621343594_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk2MTI3MzkyODUyMjg5NjIxNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=uTjVAHmSiZQQ7kNvwETTYRR&_nc_oc=AdpaYgSzkHBEak36_yDjMT-ebo_oURmyxWQKlL-gxwmMss77urEZ6E1aKJUXONYg3xSvTxb-m9tm01wTii9xbZ9t&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=upPYVqk8rADJC-0EHQ-RpA&_nc_ss=7a22e&oh=00_AQGPO5pu5ermatc0oRlbCNBola3svfbKnSWK-9Mh8--tzQ&oe=6A80BAED",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/773531292_18078435854407306_4536771924621343594_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk2MTI3MzkyODUyMjg5NjIxNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=uTjVAHmSiZQQ7kNvwETTYRR&_nc_oc=AdpaYgSzkHBEak36_yDjMT-ebo_oURmyxWQKlL-gxwmMss77urEZ6E1aKJUXONYg3xSvTxb-m9tm01wTii9xbZ9t&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=kNScP0LiuGIDDCCRVHpvxg&_nc_ss=7a22e&oh=00_AQEF9LtKE4vLu9uhlpaIXNx1F2hi9fNwMpA7lJKZU5UmMA&oe=6A80BAED",
    "url": "https://www.threads.com/@aipeekme/post/Db5RaZ3n5NZ",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "마이크로소프트의 MAI-Image-2.6이 텍스트-이미지 아레나 2위에 올랐습니다.\nGPT Image 2에 45점 차, 3위 Grok Imagine보다 20점 앞섭니다.\n\n2.5 버전이 10위였는데 한 번에 2위로 점프했습니다. 3D 이미징·모델링은 1위, 카툰·애니메이션·판타지는 2위, 제품·브랜딩·상업 디자인도 2위, 텍스트 렌더링도 2위입니다. 다음 주 플레이그라운드와 API로 공개됩니다.\n\n무스타파 술레이만 CEO가 \"끊임없이 언덕을 올랐다\"고 표현한 이 결과는 마이크로소프트가 오픈AI 의존도를 줄이고 자체 이미지 모델을 키워온 결실입니다\n오픈AI, 메타, 구글, MS까지 모두가 각자 최선의 모델을 내놓는 구도가 됐습니다.",
-   "likes": 17,
+   "likes": 18,
    "cmts": 0,
    "time": 1786437029,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/771808401_17981640012112832_4804398286610235686_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk2MTI0MzM3MjQ5NzI1NjYxOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjA0OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=mUrMit-6wZsQ7kNvwGeWm2-&_nc_oc=Adp2l11LLquSIjomb7skU_LmkvyQqDSRd_U9BPTTG25fWfYU0LOtedN2QiRugb3Z1ouGHoexiCIdwAQVn06C51xb&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Q-PYUWOZEXAgl9ia7pU7yg&_nc_ss=7a22e&oh=00_AQE106jzmMTbQrQsrED0qaIKkZP7K_yB6vGEcH7yVicunw&oe=6A80BAB3",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/771808401_17981640012112832_4804398286610235686_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk2MTI0MzM3MjQ5NzI1NjYxOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjA0OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=mUrMit-6wZsQ7kNvwGeWm2-&_nc_oc=Adp2l11LLquSIjomb7skU_LmkvyQqDSRd_U9BPTTG25fWfYU0LOtedN2QiRugb3Z1ouGHoexiCIdwAQVn06C51xb&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=r58i46teZkYYTnSzy1tvmA&_nc_ss=7a22e&oh=00_AQE4YhacAt57rxF7NuDa1-M7ZhrlQU04ndHD5aGmwMLRJA&oe=6A80BAB3",
    "url": "https://www.threads.com/@choi.openai/post/Db5KdwWkcCr",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "Grok 4.6이 Cursor에 잠깐 올라왔다가 내려갔습니다. 실수로 먼저 배포된 걸로 보입니다.\n\n1.5T 파라미터, 256K 컨텍스트, Grok 4.5와 같은 기반 모델에 SFT·RL을 대폭 강화한 버전입니다. 머스크가 7월 29일 \"8월 7일 출시\"라고 했다가 8월 4일 \"다음 주\"로 미뤘고, 지금은 폴리마켓에서 이번 주 내 출시 확률 84%입니다. Grok 4.7은 2.1T로 몇 주 뒤 따라옵니다.\n\n잠깐 테스트한 사용자들 반응은 \"게으름 문제가 해결됐다\" \"전반적으로 괜찮은 개선\"이라고 평가했는데요.\n\n머스크의 출시 예고가 세 번이나 미뤄진 모델이지만, 실수로라도 Cursor에 올라왔다는 건 출시가 임박한 것으로 보입니다.",
-   "likes": 34,
-   "cmts": 7,
-   "time": 1786431623,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/771909960_17981641281112832_3591925561490205970_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk2MTE5ODAxNjU1MTEwMzY5OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuOTAxLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=aeh7trECFVsQ7kNvwEc7_Bh&_nc_oc=Ado-RkmoJaybMT5xzl8AVf3nvzcKDvGuHlRH7kFK7gL1sCkDS_ZjZoOAMZkry5pNr67vOOfsK_IPG-oBkBvL6j64&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Q-PYUWOZEXAgl9ia7pU7yg&_nc_ss=7a22e&oh=00_AQGZmO6SylszbMuQ1mAlS8Qgg5VrHRAYD98oKSZLKdzE8g&oe=6A80DD43",
-   "url": "https://www.threads.com/@choi.openai/post/Db5AJvVgqzS",
    "region": "kr"
   },
   {
@@ -436,23 +436,13 @@
    "region": "kr"
   },
   {
-   "account": "kopp",
-   "text": "https://www.details.so/inspo",
-   "likes": 1,
-   "cmts": 0,
-   "time": 1786357258,
-   "thumb": "",
-   "url": "https://www.threads.com/@kopp/post/Db2yUA6iNH9",
-   "region": "kr"
-  },
-  {
-   "account": "kopp",
-   "text": "i went through 200+ websites this week.\n\n50+ details made the cut.\n\nhere are 5 of the best ↓",
-   "likes": 24,
-   "cmts": 1,
-   "time": 1786357250,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/770775481_1758615625560591_944135476775014062_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk2MDU3MzkxNzU0NjQ4MTY1MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=O8hdec8Cjy0Q7kNvwEWGA9p&_nc_oc=AdqpgbilK9n7ISeLmrtEwPDS3K7r8yj8JWmfIq-xScV2tU-V7tpffvIoesg08uZGnLNwgndKFlYNyWDXY2Ek1DLh&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=_HWChq2VvhxJtmiy1c6DHA&_nc_ss=7a22e&oh=00_AQF6t4f5wUvdwcmqHMm7Jw_ddP9YXwZD_-F21vKA3tWFJQ&oe=6A80B0C0",
-   "url": "https://www.threads.com/@kopp/post/Db2yP52CQfz",
+   "account": "choi.openai",
+   "text": "Grok 4.6이 Cursor에 잠깐 올라왔다가 내려갔습니다. 실수로 먼저 배포된 걸로 보입니다.\n\n1.5T 파라미터, 256K 컨텍스트, Grok 4.5와 같은 기반 모델에 SFT·RL을 대폭 강화한 버전입니다. 머스크가 7월 29일 \"8월 7일 출시\"라고 했다가 8월 4일 \"다음 주\"로 미뤘고, 지금은 폴리마켓에서 이번 주 내 출시 확률 84%입니다. Grok 4.7은 2.1T로 몇 주 뒤 따라옵니다.\n\n잠깐 테스트한 사용자들 반응은 \"게으름 문제가 해결됐다\" \"전반적으로 괜찮은 개선\"이라고 평가했는데요.\n\n머스크의 출시 예고가 세 번이나 미뤄진 모델이지만, 실수로라도 Cursor에 올라왔다는 건 출시가 임박한 것으로 보입니다.",
+   "likes": 34,
+   "cmts": 7,
+   "time": 1786431623,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/771909960_17981641281112832_3591925561490205970_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk2MTE5ODAxNjU1MTEwMzY5OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuOTAxLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=aeh7trECFVsQ7kNvwEc7_Bh&_nc_oc=Ado-RkmoJaybMT5xzl8AVf3nvzcKDvGuHlRH7kFK7gL1sCkDS_ZjZoOAMZkry5pNr67vOOfsK_IPG-oBkBvL6j64&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=r58i46teZkYYTnSzy1tvmA&_nc_ss=7a22e&oh=00_AQGF7g7J4Z27mUr6FNpiHloOdkxT9rVq2eKm7eJzOOcwOg&oe=6A80DD43",
+   "url": "https://www.threads.com/@choi.openai/post/Db5AJvVgqzS",
    "region": "kr"
   },
   {
@@ -461,7 +451,7 @@
    "likes": 0,
    "cmts": 1,
    "time": 1786429892,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/771814752_18078401432407306_1303557229287733340_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk2MTE4MzQzMTI4MDIzNTU0Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=50tenDWAkAoQ7kNvwEWZJEa&_nc_oc=AdoyHkn0Ag9ZXD82NpdUgbnuL-z4lnTXlRR9yXMewEIJlrR-3KbO7epoO80yywL5Sxyif2jC_Zg319BVRSCSWLfE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=upPYVqk8rADJC-0EHQ-RpA&_nc_ss=7a22e&oh=00_AQFM1YkDVkUJAgncP3IB_S3ohNe9iEtgLnqG8ixy_TNEbA&oe=6A80C7CE",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/771814752_18078401432407306_1303557229287733340_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk2MTE4MzQzMTI4MDIzNTU0Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=50tenDWAkAoQ7kNvwEWZJEa&_nc_oc=AdoyHkn0Ag9ZXD82NpdUgbnuL-z4lnTXlRR9yXMewEIJlrR-3KbO7epoO80yywL5Sxyif2jC_Zg319BVRSCSWLfE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=kNScP0LiuGIDDCCRVHpvxg&_nc_ss=7a22e&oh=00_AQFHr_VbFmP3Zf4n0avvCF0PS-jbDYZnX_KrKWSr-fqhDA&oe=6A80C7CE",
    "url": "https://www.threads.com/@aipeekme/post/Db481fvnxQb",
    "region": "kr"
   },
@@ -471,18 +461,8 @@
    "likes": 2,
    "cmts": 1,
    "time": 1786425356,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/773509257_17981665986112832_8430100372374082560_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk2MTE0NTQ1MDcwNzI3MjAzOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=ra384H3GlpgQ7kNvwEJLaXP&_nc_oc=Ado-CvBjCGDgY0dtSp5saSnvxOQ6AEGDjCmLC2W8IX82mEFmLmGErnpn9xKufB8oEiXt9d_vsNNgZf_uQv8FMpLC&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Q-PYUWOZEXAgl9ia7pU7yg&_nc_ss=7a22e&oh=00_AQGjsSvaOxKy5j6yZYcDLVK_4M_copRV4d1zMxQTB8X58g&oe=6A80C78B",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/773509257_17981665986112832_8430100372374082560_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk2MTE0NTQ1MDcwNzI3MjAzOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=ra384H3GlpgQ7kNvwEJLaXP&_nc_oc=Ado-CvBjCGDgY0dtSp5saSnvxOQ6AEGDjCmLC2W8IX82mEFmLmGErnpn9xKufB8oEiXt9d_vsNNgZf_uQv8FMpLC&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=r58i46teZkYYTnSzy1tvmA&_nc_ss=7a22e&oh=00_AQE-Gpd1IttS4KE09SBY6YQgnKTjdUinJxld-uGA0Ze0kg&oe=6A80C78B",
    "url": "https://www.threads.com/@choi.openai/post/Db40MzlD8Fn",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "2/ 이번에 달라진 것은 모델 성능이 아니라 안전장치가 작동하는 방식입니다.\n\n오픈AI는 일반 배포 환경에서 사이버 관련 요청을 시스템 차원에서 걸러냅니다. 악용을 막기 위한 조치지만, 정상적인 방어 작업까지 함께 제한될 수 있습니다.\n\nDaybreak Blue는 이 시스템 필터를 완화합니다. 모델 자체는 GPT-5.6 Sol 그대로 두고, 침해 탐지와 대응, 조사, 취약점 관리, 보안 점검 같은 방어 작업에서 원래 성능을 더 넓게 쓸 수 있게 한 것입니다.\n\n그래도 Sol 자체가 거절하는 영역은 남습니다. 운영 중인 시스템을 대상으로 한 모의 침투처럼 공격과 방어의 경계가 가까운 요청이 대표적입니다. GPT-5.6-Cyber는 이런 작업에서 불필요한 거절을 줄이도록 따로 훈련한 모델입니다.",
-   "likes": 2,
-   "cmts": 1,
-   "time": 1786425348,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/772697586_17981667474112832_3495008189212660633_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk2MTE0NTM3OTI5NTAzMTU1NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjI0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=ykYbPOyXvLEQ7kNvwHDoYjK&_nc_oc=Adr8LIJ98xLg2v_N3uAnRfZLleqLcJSktnho7eLpugSntV-QSK-JpUU0OlLaK7DcETmds1e7GpiHvWxydM1-_FiA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Q-PYUWOZEXAgl9ia7pU7yg&_nc_ss=7a22e&oh=00_AQE1tUTEmMaVQF-RkoPppgO31sFL0_VShIbKHGklrepOGQ&oe=6A80C0F4",
-   "url": "https://www.threads.com/@choi.openai/post/Db40LxEj3EC",
    "region": "kr"
   },
   {
@@ -491,18 +471,18 @@
    "likes": 0,
    "cmts": 0,
    "time": 1786423842,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/770669538_1907122590201948_7273445681991109893_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk2MTEzMjUxNTI1NDczNjc1NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=oHdzXOxitdoQ7kNvwGtLeIl&_nc_oc=AdoNsm25LIQ2qNtCBZ813TD5R9Ma-C-j1IDLWc06--p7G0IVy-nJ2FdgC2vK6dnFBcohwRghkeshlJh8R5eEFfVr&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=upPYVqk8rADJC-0EHQ-RpA&_nc_ss=7a22e&oh=00_AQHD_Fte08c0asjjYgmvf7E2ENY5-k-F4mqhpNGrz0rpog&oe=6A80D4C9",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/770669538_1907122590201948_7273445681991109893_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk2MTEzMjUxNTI1NDczNjc1NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=oHdzXOxitdoQ7kNvwGtLeIl&_nc_oc=AdoNsm25LIQ2qNtCBZ813TD5R9Ma-C-j1IDLWc06--p7G0IVy-nJ2FdgC2vK6dnFBcohwRghkeshlJh8R5eEFfVr&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=kNScP0LiuGIDDCCRVHpvxg&_nc_ss=7a22e&oh=00_AQFz6C2_fA9AgMrYjboHW1lMp85bPd24_se60xGImgMBOg&oe=6A80D4C9",
    "url": "https://www.threads.com/@aipeekme/post/Db4xQkgAhdz",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "1/ 오픈AI는 8월 10일 사이버보안 프로그램 Daybreak를 두 등급으로 나눴습니다.\n원래는 승인받은 방어자에게 사이버 작업용 모델을 제공하는 단일 프로그램이었습니다.\n\n이제 Daybreak Blue는 GPT-5.6 Sol 같은 범용 프런티어 모델을 제공하고, Daybreak Red는 사이버보안에 특화해 훈련한 모델을 제공합니다. 이번에 Red에 추가된 신형 모델이 GPT-5.6-Cyber입니다.\n\nBlue는 취약점 탐색과 보안 코드 리뷰, 악성코드 분석, 침해 대응, 패치 검증 같은 작업에 권장됩니다. Red는 취약점 연구와 익스플로잇 검증, 보안 테스트처럼 더 높은 수준의 사이버 작업을 대상으로 합니다.\n\n프로그램을 둘로 나눈 것은 같은 방어 목적 안에서도 필요한 능력과 위험 수준이 크게 다르기 때문입니다. 오픈AI는 대부분의 방어자에게 Blue부터 시작하라고 권합니다.",
-   "likes": 7,
-   "cmts": 2,
-   "time": 1786425340,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/772154538_17981667144112832_5213210097029783768_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk2MTE0NTMxMzM5NDEwNjA3NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjEwMi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=rkmd5fG0JwgQ7kNvwEVBFwj&_nc_oc=Adr1cMj6UCqr8CPKE0OQ6nSyKvb5hVuUAiRuFyZ1tkiBtT_iCEGlfFQuG8HKnFP81bVkoXcJPA-KP2piwE2d0WM3&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Q-PYUWOZEXAgl9ia7pU7yg&_nc_ss=7a22e&oh=00_AQHRC0GXi_hQmKO2H1xPO4Hwz_GOugQucI5Xb7QVx_uJWA&oe=6A80DC79",
-   "url": "https://www.threads.com/@choi.openai/post/Db40Kzsjx7a",
+   "text": "2/ 이번에 달라진 것은 모델 성능이 아니라 안전장치가 작동하는 방식입니다.\n\n오픈AI는 일반 배포 환경에서 사이버 관련 요청을 시스템 차원에서 걸러냅니다. 악용을 막기 위한 조치지만, 정상적인 방어 작업까지 함께 제한될 수 있습니다.\n\nDaybreak Blue는 이 시스템 필터를 완화합니다. 모델 자체는 GPT-5.6 Sol 그대로 두고, 침해 탐지와 대응, 조사, 취약점 관리, 보안 점검 같은 방어 작업에서 원래 성능을 더 넓게 쓸 수 있게 한 것입니다.\n\n그래도 Sol 자체가 거절하는 영역은 남습니다. 운영 중인 시스템을 대상으로 한 모의 침투처럼 공격과 방어의 경계가 가까운 요청이 대표적입니다. GPT-5.6-Cyber는 이런 작업에서 불필요한 거절을 줄이도록 따로 훈련한 모델입니다.",
+   "likes": 2,
+   "cmts": 1,
+   "time": 1786425348,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/772697586_17981667474112832_3495008189212660633_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk2MTE0NTM3OTI5NTAzMTU1NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjI0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=ykYbPOyXvLEQ7kNvwHDoYjK&_nc_oc=Adr8LIJ98xLg2v_N3uAnRfZLleqLcJSktnho7eLpugSntV-QSK-JpUU0OlLaK7DcETmds1e7GpiHvWxydM1-_FiA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=r58i46teZkYYTnSzy1tvmA&_nc_ss=7a22e&oh=00_AQFODEsw2o5R0ww4sXzqC_b_9yW1hMeZzq5RxZjCDN7WRA&oe=6A80C0F4",
+   "url": "https://www.threads.com/@choi.openai/post/Db40LxEj3EC",
    "region": "kr"
   },
   {
@@ -511,32 +491,33 @@
    "likes": 0,
    "cmts": 0,
    "time": 1786421250,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/766544581_1333529841860643_5271980236018273920_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk2MTExMDc3OTI4OTg1OTA0Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=VjCKnmZhNNUQ7kNvwECFaGw&_nc_oc=AdrQQ-fHKZ6ZpaofS3AGfoBQBmVW5oc502v7kDjcvhMmwuW68Lopr_YUmvzcV1gawFh_OEADDG4014XY5kB1jCpC&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=upPYVqk8rADJC-0EHQ-RpA&_nc_ss=7a22e&oh=00_AQFqgFQEhuIcYjJv55O9sK4WwGVE2WOYvhW5IFXr-Ww-Lw&oe=6A80B59F",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/766544581_1333529841860643_5271980236018273920_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk2MTExMDc3OTI4OTg1OTA0Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=VjCKnmZhNNUQ7kNvwECFaGw&_nc_oc=AdrQQ-fHKZ6ZpaofS3AGfoBQBmVW5oc502v7kDjcvhMmwuW68Lopr_YUmvzcV1gawFh_OEADDG4014XY5kB1jCpC&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=kNScP0LiuGIDDCCRVHpvxg&_nc_ss=7a22e&oh=00_AQGIjxXUCt4G-M4ouiu4j03ZGSt9CpnnS6yQSGVnlz5Tbw&oe=6A80B59F",
    "url": "https://www.threads.com/@aipeekme/post/Db4sURTivPn",
    "region": "kr"
   },
   {
    "account": "choi.openai",
+   "text": "1/ 오픈AI는 8월 10일 사이버보안 프로그램 Daybreak를 두 등급으로 나눴습니다.\n원래는 승인받은 방어자에게 사이버 작업용 모델을 제공하는 단일 프로그램이었습니다.\n\n이제 Daybreak Blue는 GPT-5.6 Sol 같은 범용 프런티어 모델을 제공하고, Daybreak Red는 사이버보안에 특화해 훈련한 모델을 제공합니다. 이번에 Red에 추가된 신형 모델이 GPT-5.6-Cyber입니다.\n\nBlue는 취약점 탐색과 보안 코드 리뷰, 악성코드 분석, 침해 대응, 패치 검증 같은 작업에 권장됩니다. Red는 취약점 연구와 익스플로잇 검증, 보안 테스트처럼 더 높은 수준의 사이버 작업을 대상으로 합니다.\n\n프로그램을 둘로 나눈 것은 같은 방어 목적 안에서도 필요한 능력과 위험 수준이 크게 다르기 때문입니다. 오픈AI는 대부분의 방어자에게 Blue부터 시작하라고 권합니다.",
+   "likes": 7,
+   "cmts": 2,
+   "time": 1786425340,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/772154538_17981667144112832_5213210097029783768_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk2MTE0NTMxMzM5NDEwNjA3NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjEwMi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=rkmd5fG0JwgQ7kNvwEVBFwj&_nc_oc=Adr1cMj6UCqr8CPKE0OQ6nSyKvb5hVuUAiRuFyZ1tkiBtT_iCEGlfFQuG8HKnFP81bVkoXcJPA-KP2piwE2d0WM3&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=r58i46teZkYYTnSzy1tvmA&_nc_ss=7a22e&oh=00_AQFztNIDt6KySKyFYvZv31De6VlDAs0nz_mm08G7Sf889w&oe=6A80DC79",
+   "url": "https://www.threads.com/@choi.openai/post/Db40Kzsjx7a",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
    "text": "오픈AI가 Daybreak를 Blue와 Red로 나누고 GPT-5.6-Cyber를 공개했습니다.\n\nGPT-5.6-Cyber는 고위험 사이버 요청의 95%에 답했으며, 실제 Chrome V8 취약점 발견과 Google의 패치로도 이어졌는데요.\n\n핵심은 안전 관리 방식의 변화입니다. 모델이 요청 자체를 거부하는 대신 승인된 사용자에게만 접근권을 주고, 신원 확인·실행 감시·권한 제한으로 위험을 관리하는 방향입니다.\n\n오픈AI Daybreak 확장과 GPT-5.6-Cyber를 분석했습니다 🧵",
-   "likes": 44,
+   "likes": 45,
    "cmts": 18,
    "time": 1786425336,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/770830953_1079090661108825_1092309421490268495_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk2MTE0MTcxODEyMDIyMTEzNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=hMqGhNYpjiIQ7kNvwF3Tr5v&_nc_oc=AdoMorgxJTJcTs8r2_vgWHGn4biaU66I7FKMKhtkJXe1HwSIUCOLEMgkpjrngIRQmNGlCoO6lvLq9taiJlXfHsTF&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Q-PYUWOZEXAgl9ia7pU7yg&_nc_ss=7a22e&oh=00_AQFTHBBXs2THm0inaejz-h_FnjTluSDfPVwJTpy5-jCj9A&oe=6A80B96F",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/770830953_1079090661108825_1092309421490268495_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk2MTE0MTcxODEyMDIyMTEzNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=hMqGhNYpjiIQ7kNvwF3Tr5v&_nc_oc=AdoMorgxJTJcTs8r2_vgWHGn4biaU66I7FKMKhtkJXe1HwSIUCOLEMgkpjrngIRQmNGlCoO6lvLq9taiJlXfHsTF&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=r58i46teZkYYTnSzy1tvmA&_nc_ss=7a22e&oh=00_AQGvLvef_3sm1C7-0Jon3Yq2RaZ6cLNETrxL3wJArJJWRA&oe=6A80B96F",
    "url": "https://www.threads.com/@choi.openai/post/Db4zWfViUnO",
    "region": "kr"
   }
  ],
  "tiktok": [],
  "reddit": [
-  {
-   "sub": "CasualUK",
-   "title": "Hot air balloons can be genuinely terrifying if you're not expecting them.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/x56vzzjs2pih1.jpeg?width=640&crop=smart&auto=webp&s=3f120a4eca1e39cae8739d2b7d1a1bac56ecf7d3",
-   "time": 1786431799,
-   "url": "https://www.reddit.com/r/CasualUK/comments/1vla5md/hot_air_balloons_can_be_genuinely_terrifying_if/"
-  },
   {
    "sub": "AskReddit",
    "title": "If it weren't for modern medicine, how would you have died?",
@@ -592,15 +573,6 @@
    "url": "https://www.reddit.com/r/GetNoted/comments/1vktcid/x_community_note_provides_context_on_mention_of/"
   },
   {
-   "sub": "mildlyinfuriating",
-   "title": "The continuity error of her holding the phone with two hands",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/c2FhYWZ1cTB5b2loMeXsVflunzz9Aedq35RLCqA_HWR2bOS5wQHJS42OhlYf.png?width=640&crop=smart&auto=webp&s=4a149ce485beab49e0a824c5d54a9241100516a8",
-   "time": 1786430151,
-   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1vl9onc/the_continuity_error_of_her_holding_the_phone/"
-  },
-  {
    "sub": "TikTokCringe",
    "title": "“I’m in Japan, and when I say I’m American, people look at me with contempt, disdain and hatred...We Americans are now humiliated around the world.”",
    "score": 0,
@@ -610,31 +582,49 @@
    "url": "https://www.reddit.com/r/TikTokCringe/comments/1vkskca/im_in_japan_and_when_i_say_im_american_people/"
   },
   {
-   "sub": "SipsTea",
-   "title": "Digital Ownership Scam",
+   "sub": "GirlDinnerDiaries",
+   "title": "My 2 year old having chores is sending my family into tizzy!",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/de9hblq33oih1.jpeg?width=640&crop=smart&auto=webp&s=e8fd169d9c6839e3748c84665e38b672b9151520",
-   "time": 1786419755,
-   "url": "https://www.reddit.com/r/SipsTea/comments/1vl6go1/digital_ownership_scam/"
+   "thumb": "https://preview.redd.it/7ylvtjn5xlih1.jpeg?width=640&crop=smart&auto=webp&s=eb8ccab50ad0c5da4abd8ec82a93f34a91a905ea",
+   "time": 1786393541,
+   "url": "https://www.reddit.com/r/GirlDinnerDiaries/comments/1vkwahx/my_2_year_old_having_chores_is_sending_my_family/"
   },
   {
-   "sub": "funComunitty",
-   "title": "Settle this.",
+   "sub": "CasualUK",
+   "title": "Hot air balloons can be genuinely terrifying if you're not expecting them.",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/tgo9ucwkxlih1.jpeg?width=640&crop=smart&auto=webp&s=456633640e981ae4ba4e2308dbcf1e35854e2b72",
-   "time": 1786393717,
-   "url": "https://www.reddit.com/r/funComunitty/comments/1vkwddc/settle_this/"
+   "thumb": "https://preview.redd.it/x56vzzjs2pih1.jpeg?width=640&crop=smart&auto=webp&s=3f120a4eca1e39cae8739d2b7d1a1bac56ecf7d3",
+   "time": 1786431799,
+   "url": "https://www.reddit.com/r/CasualUK/comments/1vla5md/hot_air_balloons_can_be_genuinely_terrifying_if/"
   },
   {
-   "sub": "MadeMeSmile",
-   "title": "a friend in need is a friend indeed",
+   "sub": "TopCharacterTropes",
+   "title": "{Interesting Trope} Positive portrayals of consevatives",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/NW93eWJnOHVwb2loMdCf6FrB5z825-NZdqHWVYCkBB8zt6rtEkPnLT_GiA8T.jpeg?width=320&crop=smart&auto=webp&s=5095ba751a98eb85cc43809d2868f8d2b2796048",
-   "time": 1786427405,
-   "url": "https://www.reddit.com/r/MadeMeSmile/comments/1vl8vbt/a_friend_in_need_is_a_friend_indeed/"
+   "thumb": "https://preview.redd.it/qe7dda9tzlih1.jpg?width=140&height=93&auto=webp&s=6e83b86557a47a12010fd199519ab862e12a9c25",
+   "time": 1786394669,
+   "url": "https://www.reddit.com/r/TopCharacterTropes/comments/1vkwsn6/interesting_trope_positive_portrayals_of/"
+  },
+  {
+   "sub": "Amazing",
+   "title": "Dude's safe survived a wildfire.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1786370631,
+   "url": "https://www.reddit.com/r/Amazing/comments/1vkls17/dudes_safe_survived_a_wildfire/"
+  },
+  {
+   "sub": "interestingasfuck",
+   "title": "In Spain, 'gorrillas' are unofficial parking attendants who offer unsolicited help finding spaces in busy areas and expect a tip. Many drivers pay out of fear they'll come back to a scratched car",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/t5l9s08qakih1.png?width=640&crop=smart&auto=webp&s=a39eddd36b220c08e97351704e353a2a0043972b",
+   "time": 1786374052,
+   "url": "https://www.reddit.com/r/interestingasfuck/comments/1vknagu/in_spain_gorrillas_are_unofficial_parking/"
   }
  ],
  "disaster": [],
@@ -681,10 +671,10 @@
    }
   },
   "landing": {
-   "at": "2026-08-11T18:32:12",
+   "at": "2026-08-11T19:01:31",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-11T19:01:28.506429+09:00"
+ "updated": "2026-08-11T19:31:27.548242+09:00"
 }
