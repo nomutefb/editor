@@ -40,6 +40,8 @@ ALT='youtube:player_client=tv,mweb,web_safari,default'
 
 : > "$ERRF"
 mkdir -p "$CKDIR"
+TMPOUT="$CKDIR/out.$$"                       # 단별 stdout 임시 받이(성공분만 최종 stdout으로 흘린다)
+trap 'rm -f "$TMPOUT"' EXIT
 
 # 쿠키 슬롯 수집 — 값이 실제로 있는 것만(빈 시크릿은 조용히 건너뛴다)
 CK_ARGS=()
@@ -57,8 +59,15 @@ done
 
 attempt() {   # $1=사람이 읽을 단 이름  $2=쿠키 인자(빈 문자열이면 무쿠키)  나머지=yt-dlp 인자
   local name="$1" ck="$2"; shift 2
+  # ⚠ 각 시도의 stdout은 임시 파일로 받고 **성공한 단의 것만** 내보낸다(260811 실사고 봉합).
+  #   호출부는 래퍼 전체를 `> 결과파일` 로 받으므로, 실패한 단이 뱉은 부분 출력이 그대로 앞에 쌓이면
+  #   성공분과 겹쳐 「JSON이 두 벌」이 된다(실측 = 3단에서 성공했는데 파싱이 `Extra data: line 2 column 1`
+  #   으로 죽었다 · run 31496617671). 종전 인라인 판은 시도마다 `> "$out"` 으로 **덮어써서** 이 문제가
+  #   구조적으로 없었는데, 래퍼로 옮기며 누적으로 바뀐 것 = 이관이 만든 회귀다.
+  : > "$TMPOUT"
   # shellcheck disable=SC2086 — $ck 는 "--cookies <경로>" 두 토큰으로 갈려야 한다(따옴표 금지)
-  python3 -m yt_dlp --socket-timeout 30 $ck "$@" 2>>"$ERRF" && {
+  python3 -m yt_dlp --socket-timeout 30 $ck "$@" > "$TMPOUT" 2>>"$ERRF" && {
+    cat "$TMPOUT"
     echo "::warning::${LABEL} 성공(${name})" >&2
     return 0
   }
