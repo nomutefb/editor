@@ -347,7 +347,7 @@
   {
    "account": "choi.openai",
    "text": "3/ 41.6%가 얼마나 높은 기록이었는지 알아야 이번 성과의 크기가 보입니다.\n\n1914년 하디는 이 수직선 위에 영점이 무한히 많다는 사실을 처음 증명했습니다. 1942년 셀베르그는 전체 영점 가운데 일정 비율 이상이 이 선 위에 있다는 데까지 나아갔지만, 정확한 비율은 제시하지 않았습니다.\n\n큰 도약은 1974년 레빈슨이 새로운 방법으로 3분의 1 이상을 증명하면서 나왔습니다. 1989년 콘리는 이를 5분의 2까지 높였고, 이후 여러 수학자의 개선을 거쳐 2020년에는 12분의 5, 약 41.66%에 도달했습니다.\n\n이후 6년간 이 기록은 깨지지 않았습니다. 레빈슨의 33.3%에서 41.66%까지 46년에 걸쳐 오른 폭은 약 8.3%포인트입니다. 그런데 이번에는 41.6%에서 67.2%로 단번에 25.6%포인트가 뛰었습니다. 지난 46년간 수학자들이 끌어올린 폭의 세 배가 한 번에 나온 셈입니다.",
-   "likes": 1,
+   "likes": 3,
    "cmts": 1,
    "time": 1786404377,
    "thumb": "",
@@ -357,7 +357,7 @@
   {
    "account": "choi.openai",
    "text": "2/ 8월 10일 앤트로픽은 미공개 연구용 클로드가 리만 가설을 풀도록 시도하는 과정에서 뜻밖의 성과를 냈다고 발표했습니다. \n\n리만 제타 함수는 소수가 어디에, 어떤 간격으로 나타나는지에 대한 정보를 담고 있는 함수입니다.\n\n특히 이 함수의 값이 0이 되는 지점인 ‘영점’의 위치는 소수가 얼마나 규칙적으로 흩어져 있는지와 밀접하게 연결돼 있습니다.\n\n리만은 1859년 여덟 쪽짜리 논문에서 이 영점들이 모두 복소평면의 특정한 수직선 위에 놓일 것이라고 추측했습니다. 증명은 자신의 연구 목적에 필요하지 않다며 남기지 않았습니다. 이 짧은 추측이 바로 167년째 풀리지 않은 ‘리만 가설’입니다.\n\n클레이 수학연구소가 내건 상금은 100만 달러이며, 수많은 정수론 연구가 이 가설이 참일 때 더 강한 결론을 얻을 수 있습니다.\n\n이 수직선 위에 있다고 증명된 영점의 비율을 기존 41.6%에서 67.2%로 끌어올린 것입니다. 가설 자체를 풀지는 못했지만, 기존 기록을 크게 높였습니다.",
-   "likes": 3,
+   "likes": 6,
    "cmts": 1,
    "time": 1786404373,
    "thumb": "",
@@ -367,7 +367,7 @@
   {
    "account": "choi.openai",
    "text": "1/ 바쁘신 분들을 위해 핵심만 정리해드립니다.\n\n1. 앤트로픽 직원 재러드 섬너가 연구용 클로드에게 리만 가설을 풀어보라고 시킴.\n2. 클로드는 기존 아이디어 106개를 검토한 뒤 쓸 만한 증명 줄기가 없다고 판단함.\n3. 그래도 밀어붙이자 6단계로 60개 경로를 탐색했고 절반이 폐기됨.\n4. 한 실패에서 찾은 장애물을 넘기 위해 투입된 E2가 3시간 34분 만에 영점의 절반이 임계선 위에 있음을 증명함.\n5. 코디네이터는 틀렸을 가능성이 높다고 보고 적대적 심사자들을 붙였지만 논증이 버팀.\n6. 이후 다른 에이전트가 남긴 행렬 부등식을 발견해 작업을 이어가면서 2/3까지 올라감.\n7. 최종 하한은 41.6%에서 67.2%로 뛰었고 Lean 형식 검증도 통과함.\n\n→ 50년간 이어진 기존 방법 대신 쌍상관 계산을 선형대수로 새롭게 해석해 기록을 깼다.",
-   "likes": 5,
+   "likes": 12,
    "cmts": 1,
    "time": 1786404369,
    "thumb": "",
@@ -387,10 +387,10 @@
   {
    "account": "aipeekme",
    "text": "오픈소스 AI 인프라 프로젝트 Semantica가 공개되어 있습니다.\n기업 데이터를 입력받아 지식 그래프와 컨텍스트 그래프를 추출하고, 그래프 분석과 인과관계 추론을 수행하는 시스템입니다.\n'AI 에이전트를 위한 오픈소스 팔란티어'를 표방하고 있습니다.\npip install semantica 명령어로 설치할 수 있으며, 셀프 호스팅이 가능하고 벤더 락인이 없습니다.\nLLM 없이도 그래프 구축, 추론, 출처 추적이 가능하도록 결정론적 인프라 레이어로 동작합니다.\n추론 과정과 의사결정 이력의 완전한 추적 가능성을 제공하도록 설계되었습니다.\n금융, 의료, 법률, 정부, 국방 등 규제가 엄격한 분야를 타깃으로 삼았습니다.\nRDF와 LPG 방식을 모두 지원하며 W3C 표준 규격을 따릅니다.\n기존 에이전트는 결과물만 내놓고 왜 그런 판단을 했는지 파악하기 어려웠습니다.\n\n📷 사진 출처: github.com",
-   "likes": 1,
+   "likes": 2,
    "cmts": 1,
    "time": 1786402925,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/772663846_18078304292407306_6268340148929329122_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk2MDk1NzIzMjU0ODU2Nzc0Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=gvauG_0DXowQ7kNvwGR7YDJ&_nc_oc=Adp2IVm2XukjZjjQrhZNj2oVXulMq8XbWAlIqCkSIlMtrVdOVyEzTmHllgy7TT78k6c&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=tuTSaOCUz2w9HYwSwQRjyQ&_nc_ss=7a22e&oh=00_AQEg0owXBAIDTRDRbitOY_TCIhioIANEvlJkYWpCiGeenA&oe=6A801983",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/772663846_18078304292407306_6268340148929329122_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk2MDk1NzIzMjU0ODU2Nzc0Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=gvauG_0DXowQ7kNvwGWrcVK&_nc_oc=Ado_zbgsL3XMXt13NFy1IQ4_caauzGHke5OnjekjPI4PNvL2h_C1jPgC_7bDLUrlkF4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=ZqWxZ7uAEKG84iyOLUIjnA&_nc_ss=7a22e&oh=00_AQGSPwaJji9F2V-EAyV8bF2U-sfulLMq0n6HYZ_9tPxu0g&oe=6A8051C3",
    "url": "https://www.threads.com/@aipeekme/post/Db4JZ3wklq-",
    "region": "kr"
   },
@@ -440,17 +440,17 @@
    "likes": 17,
    "cmts": 1,
    "time": 1786357250,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/770775481_1758615625560591_944135476775014062_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk2MDU3MzkxNzU0NjQ4MTY1MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=O8hdec8Cjy0Q7kNvwGtIWb3&_nc_oc=AdqkbsGgGT83-_AL_9e2VvbKDMDaAO87-Nep8-FJdT3yUxRE69NF7izkY1s1exjQvsg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=aL1ufk8ADKRKBg6sRZYydg&_nc_ss=7a22e&oh=00_AQFIhGIzWivzkGlNR1TAKhwukch17pFhcfSIX9i2lqFqvA&oe=6A804040",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/770775481_1758615625560591_944135476775014062_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk2MDU3MzkxNzU0NjQ4MTY1MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=O8hdec8Cjy0Q7kNvwE39Xet&_nc_oc=AdrYKPE_MZSYUVv8TBfZN1z18lOkVdlWcylrHjdE0CJoVtdFWIwFXllvZc5LC-H7Z8I&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=VZyi4a9Yylam-7-dMQ0Lgg&_nc_ss=7a22e&oh=00_AQHwERkSOWOjcEltmT_Ewkzt7oI2f8s9P-7bbsjH_GB26A&oe=6A804040",
    "url": "https://www.threads.com/@kopp/post/Db2yP52CQfz",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "와.. 미친 하루입니다..\n리만 가설이 풀리는 날이 정말 올까요?\n\n앤트로픽이 미공개 Claude에게 167년째 풀리지 않은 리만 가설을 직접 풀어보라고 시켰습니다.\n가설 자체는 못 풀었지만, 6년간 멈춰 있던 관련 기록을 41.6%에서 67.2%까지 끌어올렸습니다.\n놀라운 과정을 정리했습니다🧵",
-   "likes": 12,
-   "cmts": 19,
+   "likes": 58,
+   "cmts": 22,
    "time": 1786404364,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/771822982_17981638626112832_2950920746616547539_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk2MDk2OTM1ODIxNDE0NzgxNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTk1NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=aA7jUMz6_8gQ7kNvwGyeoGv&_nc_oc=AdpTaDQzbdz2SbhOhsmZsLqFQau0ozRywmgG0NzWsZXY3XXfMKAh4CE8wlKVHDXU0UQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=3qLXRBoyybUf3hRJ9rmYZw&_nc_ss=7a22e&oh=00_AQHA65TOy6l1gRsRJwZM13mRxcDZG4o4edPxg4XH5gBmiA&oe=6A80279E",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/771822982_17981638626112832_2950920746616547539_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk2MDk2OTM1ODIxNDE0NzgxNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTk1NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=aA7jUMz6_8gQ7kNvwFbeP8m&_nc_oc=AdpoHnJ78_UCxDyuV5pr7yoTFmSDpFqxUrPoDMtCB1l75Eis6AAESO_-hJes-UJSaac&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Vic0dvxSzTkkz_-Y5UjnbQ&_nc_ss=7a22e&oh=00_AQFCytGOFP9ISVyRLsFBgRX_vrAA0aM9f8X4TWxHZuoW4Q&oe=6A80279E",
    "url": "https://www.threads.com/@choi.openai/post/Db4MKUqj67o",
    "region": "kr"
   },
@@ -460,7 +460,7 @@
    "likes": 0,
    "cmts": 1,
    "time": 1786400724,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/771110537_1700713447807844_5503363490976006765_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk2MDkzODYyMjY0NzgxNTE1Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=GII3wnFFQIkQ7kNvwEERGee&_nc_oc=Adp3pvOwsJByugLwutZa1xrrMgfpGGPTBdfj_4UDdMominYiWuqKplVI5U5Mw8VBAF8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=tuTSaOCUz2w9HYwSwQRjyQ&_nc_ss=7a22e&oh=00_AQECo1aMuvsSOO4CXur-Qi2_5BbZk3DeiCXSMJaZGU_hPg&oe=6A8045F2",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/771110537_1700713447807844_5503363490976006765_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk2MDkzODYyMjY0NzgxNTE1Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=GII3wnFFQIkQ7kNvwGk_NzC&_nc_oc=AdojWo9zYxfhz7CWq_fs1RvEFh9YubigcenFL1m_bCRljGLPT-svvcaCcBCZK5Aa_9M&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=ZqWxZ7uAEKG84iyOLUIjnA&_nc_ss=7a22e&oh=00_AQGZomyu8aVLkd6ngy1YAupVDMzB92KIfu1zK5C7bwGVlg&oe=6A8045F2",
    "url": "https://www.threads.com/@aipeekme/post/Db4FLD8DEv1",
    "region": "kr"
   },
@@ -490,7 +490,7 @@
    "likes": 48,
    "cmts": 1,
    "time": 1786384835,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/769175905_1279794427433303_8845905759335716344_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk2MDgwNTUzNzczNDAzNzU5OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=cqHUSMwoMNcQ7kNvwFIQPyu&_nc_oc=AdoElf2boJ030ylH5DMZUbOft3osin8pWWK-r2Fr74ApbSfGTyXkm3rRyDe70NbAtzU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=3qLXRBoyybUf3hRJ9rmYZw&_nc_ss=7a22e&oh=00_AQEJYlsgIjhhDfjJZ8aC3_vGPOGHDnnfhSa0TmAyvkoloQ&oe=6A8049CD",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/769175905_1279794427433303_8845905759335716344_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk2MDgwNTUzNzczNDAzNzU5OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=cqHUSMwoMNcQ7kNvwHBC7O6&_nc_oc=AdobmOfnBW5wUDM9vfe06_GQ-0N9LU6pHH8w-BDHYMq-UyDq4z856U7U_4fgJJZblOg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Vic0dvxSzTkkz_-Y5UjnbQ&_nc_ss=7a22e&oh=00_AQEboadxx_LalbcwEh9zHsyZiM5fya1MdnINabDTaeIBtQ&oe=6A8049CD",
    "url": "https://www.threads.com/@choi.openai/post/Db3m6a9CZBf",
    "region": "kr"
   },
@@ -530,7 +530,7 @@
    "likes": 45,
    "cmts": 2,
    "time": 1786379411,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/768667797_1607809587394626_1348951295127789305_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk2MDc2MDAzMTQ5MDgxMDU1OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Xu57y4cBwAgQ7kNvwFQW8PS&_nc_oc=AdrascemUvgeqigcH2y8tpfwBq78H3IEg25qLeY3j5lDwOWjzkRkMaQswp_1uhrgfHI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=3qLXRBoyybUf3hRJ9rmYZw&_nc_ss=7a22e&oh=00_AQF-ea6MnVSUMSH2RXYOBM7Sh_zgdsxK9W_rDN-p2kdmbQ&oe=6A802E0C",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/768667797_1607809587394626_1348951295127789305_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk2MDc2MDAzMTQ5MDgxMDU1OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Xu57y4cBwAgQ7kNvwEN7FD7&_nc_oc=AdpuHVEe1u3KguSWjn3HYMp8GoHJpLGWTClIQSpMdx20NVzUi2Dsd69jYxjTLoUiX1w&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Vic0dvxSzTkkz_-Y5UjnbQ&_nc_ss=7a22e&oh=00_AQHceDkj_URZvAvhPkxxZRoVsDKhWwjAAJwgr0CUqlH16w&oe=6A802E0C",
    "url": "https://www.threads.com/@choi.openai/post/Db3ckN9kyK_",
    "region": "kr"
   },
@@ -540,13 +540,22 @@
    "likes": 1,
    "cmts": 7,
    "time": 1786361182,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/768667794_18078127832407306_3191022292223635887_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk2MDYwNzA0Mzc4MzQ4NTAxNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuOTk2LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=D6er0YIz1KkQ7kNvwG6f3pK&_nc_oc=AdphoIUBUBaGI_HfuoL6xMrhnorM7pDSp_xlXOyHONMgK1SkF14VXijsOhCulsJeCEg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=tuTSaOCUz2w9HYwSwQRjyQ&_nc_ss=7a22e&oh=00_AQELzTY1IGmWP_sgJzAE4yWjCMVeBCB4-7L2KK_5bpK-4w&oe=6A803BBA",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/768667794_18078127832407306_3191022292223635887_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk2MDYwNzA0Mzc4MzQ4NTAxNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuOTk2LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=D6er0YIz1KkQ7kNvwGbvKqN&_nc_oc=AdqDSsIxgzT0ZyTOJ_KUH3xiyI-Vg7TzYhMkdgw2MJdke9EVUT0syuO5bKtunnERyLs&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=ZqWxZ7uAEKG84iyOLUIjnA&_nc_ss=7a22e&oh=00_AQEHsDTAwHzpFgW8H8vmaawTE0C-fMucHKUrghBmoXUgxw&oe=6A803BBA",
    "url": "https://www.threads.com/@aipeekme/post/Db25x9Dn-ZY",
    "region": "kr"
   }
  ],
  "tiktok": [],
  "reddit": [
+  {
+   "sub": "cats",
+   "title": "My cat Martin turned 16 years old and we did a photoshoot for him 🥰🤧🎂",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/5d0b7x9dkmih1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=6e5d51f23211eca61329975581567f041199fcaf",
+   "time": 1786401392,
+   "url": "https://www.reddit.com/r/cats/comments/1vkznk9/my_cat_martin_turned_16_years_old_and_we_did_a/"
+  },
   {
    "sub": "mildlyinfuriating",
    "title": "Slow car, meet even slower driver...",
@@ -557,24 +566,6 @@
    "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1vkn9d2/slow_car_meet_even_slower_driver/"
   },
   {
-   "sub": "interesting",
-   "title": "A grandson recorded his grandma’s nightly routine of checking every burner with a flashlight to make sure they’re all turned off",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/cWJjZzQ2b3MzbWloMRAxJ2EAy2C5CzE44zru3v0kBC5WV13Wd8o_Fk2y28XV.png?width=320&crop=smart&auto=webp&s=613314394070b7074c193e406cf5585ed8102e47",
-   "time": 1786395775,
-   "url": "https://www.reddit.com/r/interesting/comments/1vkxac4/a_grandson_recorded_his_grandmas_nightly_routine/"
-  },
-  {
-   "sub": "interestingasfuck",
-   "title": "In 2024, customs enforcement teams at Istanbul Airport found this baby gorilla in a small crate. She was being smuggled from Nigeria to Bangkok.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/MDh6YXdsem14bGloMfkm8Sjqq60IgDkH9OVVHcteZoV00CZL3oeLVJHNk5K7.png?width=640&crop=smart&auto=webp&s=a18ebd0d4fc21c77a564b7b9a093a857280b68ec",
-   "time": 1786393714,
-   "url": "https://www.reddit.com/r/interestingasfuck/comments/1vkwdbd/in_2024_customs_enforcement_teams_at_istanbul/"
-  },
-  {
    "sub": "PeterExplainsTheJoke",
    "title": "Petah what's that score meter below? im not from NA.",
    "score": 0,
@@ -582,6 +573,15 @@
    "thumb": "https://preview.redd.it/mcx9ora4djih1.jpeg?width=640&crop=smart&auto=webp&s=011875ce351fe4edff71f7a5a6975a4ecacb92ac",
    "time": 1786362589,
    "url": "https://www.reddit.com/r/PeterExplainsTheJoke/comments/1vkilfk/petah_whats_that_score_meter_below_im_not_from_na/"
+  },
+  {
+   "sub": "interesting",
+   "title": "A grandson recorded his grandma’s nightly routine of checking every burner with a flashlight to make sure they’re all turned off",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/cWJjZzQ2b3MzbWloMRAxJ2EAy2C5CzE44zru3v0kBC5WV13Wd8o_Fk2y28XV.png?width=320&crop=smart&auto=webp&s=613314394070b7074c193e406cf5585ed8102e47",
+   "time": 1786395775,
+   "url": "https://www.reddit.com/r/interesting/comments/1vkxac4/a_grandson_recorded_his_grandmas_nightly_routine/"
   },
   {
    "sub": "GirlDinnerDiaries",
@@ -602,15 +602,6 @@
    "url": "https://www.reddit.com/r/Music/comments/1vkighs/the_state_of_the_current_billboard_hot_100_is/"
   },
   {
-   "sub": "Damnthatsinteresting",
-   "title": "The transition from sodium lighting to LED changed the night time vibe significantly and explains why we look back on the past with an orange tinted vision. Los Angeles in 2014 VS 2021",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/44lr1ras8mih1.png?width=640&crop=smart&auto=webp&s=86b8aab983799162c0e549c168ea94daed505e8d",
-   "time": 1786397467,
-   "url": "https://www.reddit.com/r/Damnthatsinteresting/comments/1vky11s/the_transition_from_sodium_lighting_to_led/"
-  },
-  {
    "sub": "PopCultureV2",
    "title": "\"'CNN Shocked to See Americans Reject Israel': New Segment Highlights Major Shift in Public Opinion Between 2018 and 2026\"",
    "score": 0,
@@ -618,24 +609,6 @@
    "thumb": "https://external-preview.redd.it/NjhibXp5aDB2amloMa2-vMXqf84dhojB172wSLHz2COp_-Ivb0jzZIs3P89B.png?width=320&crop=smart&auto=webp&s=ee48ce389557a97e9bd4999198167b4bf57324d1",
    "time": 1786368631,
    "url": "https://www.reddit.com/r/PopCultureV2/comments/1vkkxfs/cnn_shocked_to_see_americans_reject_israel_new/"
-  },
-  {
-   "sub": "PopCultureV2",
-   "title": "Mayor Mamdani announces a plan to cool subway stations by capturing heat and reusing it to warm municipal buildings in the winter: \"This would be the first thermal energy system of its kind in any Ame",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/YTE5aXZwZnBqbGloMTVr41h4xaUFezTGbKiAbKKd0Cm6imAiGTE0jBsXo61y.png?width=640&crop=smart&auto=webp&s=78fdf24e764b28e88a16ba25d907f09f6d5b7739",
-   "time": 1786389021,
-   "url": "https://www.reddit.com/r/PopCultureV2/comments/1vku83v/mayor_mamdani_announces_a_plan_to_cool_subway/"
-  },
-  {
-   "sub": "meirl",
-   "title": "Meirl",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/0ua45jcsslih1.jpeg?width=640&crop=smart&auto=webp&s=684f3f81d274a5100ab44c99573ace5263a249b5",
-   "time": 1786392072,
-   "url": "https://www.reddit.com/r/meirl/comments/1vkvm6k/meirl/"
   },
   {
    "sub": "interestingasfuck",
@@ -647,6 +620,15 @@
    "url": "https://www.reddit.com/r/interestingasfuck/comments/1vkgwke/abacá_fibers_being_stripped_using_traditional/"
   },
   {
+   "sub": "interestingasfuck",
+   "title": "In 2024, customs enforcement teams at Istanbul Airport found this baby gorilla in a small crate. She was being smuggled from Nigeria to Bangkok.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/MDh6YXdsem14bGloMfkm8Sjqq60IgDkH9OVVHcteZoV00CZL3oeLVJHNk5K7.png?width=640&crop=smart&auto=webp&s=a18ebd0d4fc21c77a564b7b9a093a857280b68ec",
+   "time": 1786393714,
+   "url": "https://www.reddit.com/r/interestingasfuck/comments/1vkwdbd/in_2024_customs_enforcement_teams_at_istanbul/"
+  },
+  {
    "sub": "TikTokCringe",
    "title": "“I’m in Japan, and when I say I’m American, people look at me with contempt, disdain and hatred...We Americans are now humiliated around the world.”",
    "score": 0,
@@ -654,6 +636,24 @@
    "thumb": "https://external-preview.redd.it/dzBmb2ZmcXM4bGloMaQbpZA1vgZO6v4vwPXOW0ZgvKHDjBbgEe6Gix3VOfy-.png?width=320&crop=smart&auto=webp&s=89e2c524e2dd451189c26b3d392c5ae4a7403d16",
    "time": 1786385419,
    "url": "https://www.reddit.com/r/TikTokCringe/comments/1vkskca/im_in_japan_and_when_i_say_im_american_people/"
+  },
+  {
+   "sub": "AbsoluteUnits",
+   "title": "of a walrus",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/a3AwZ3JiaXBxa2loMRufODnRCm52lJ4ztddDz21s34v_6H8AHKPQCrFOHHGX.png?width=320&crop=smart&auto=webp&s=34bd2f94900937f21b1f5aa47cc4f7b6f050308e",
+   "time": 1786379269,
+   "url": "https://www.reddit.com/r/AbsoluteUnits/comments/1vkpogm/of_a_walrus/"
+  },
+  {
+   "sub": "GetNoted",
+   "title": "[X] Community note provides context on mention of Palestine made by Anne Frank",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/j2dytsl0elih1.jpeg?width=640&crop=smart&auto=webp&s=291266d6719374f296ea57617269210c27565535",
+   "time": 1786387104,
+   "url": "https://www.reddit.com/r/GetNoted/comments/1vktcid/x_community_note_provides_context_on_mention_of/"
   }
  ],
  "disaster": [],
@@ -667,13 +667,6 @@
     "jajaja7878uu",
     "kyunghyang"
    ],
-   "insta": [
-    "aespa_official",
-    "blackpinkofficial",
-    "bts.bighitofficial",
-    "koreadispatch",
-    "newjeans_official"
-   ],
    "threads": [
     "aicoffeechat",
     "aipeekme",
@@ -684,28 +677,33 @@
   },
   "why": {
    "insta": {
-    "jennierubyjane": "rotate",
-    "xxxibgdrgn": "rotate",
-    "hm_son7": "rotate",
-    "sbsnow_insta": "rotate",
-    "mnet_official": "rotate",
-    "openai": "rotate",
-    "runwayapp": "rotate",
-    "pika_labs": "rotate",
-    "lumalabsai": "rotate",
-    "midjourney": "rotate",
-    "klingai_official": "rotate",
-    "heygen_official": "rotate",
-    "higgsfield.ai": "rotate",
-    "googledeepmind": "rotate",
-    "cristiano": "rotate"
+    "koreadispatch": "gap",
+    "bts.bighitofficial": "gap",
+    "blackpinkofficial": "gap",
+    "newjeans_official": "gap",
+    "aespa_official": "gap",
+    "jennierubyjane": "gap",
+    "xxxibgdrgn": "gap",
+    "hm_son7": "gap",
+    "sbsnow_insta": "gap",
+    "mnet_official": "gap",
+    "openai": "gap",
+    "runwayapp": "gap",
+    "pika_labs": "gap",
+    "lumalabsai": "gap",
+    "midjourney": "gap",
+    "klingai_official": "gap",
+    "heygen_official": "gap",
+    "higgsfield.ai": "gap",
+    "googledeepmind": "gap",
+    "cristiano": "gap"
    }
   },
   "landing": {
-   "at": "2026-08-11T08:01:26",
+   "at": "2026-08-11T08:32:01",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-11T08:31:58.861778+09:00"
+ "updated": "2026-08-11T09:01:35.211590+09:00"
 }
