@@ -570,10 +570,11 @@ function setAuto4(on){
 }
 // ── 한 줄 가로 레일(잡고 끌기 / ‹› / 끝선 페이드) = viewer/index.html 「화풍·세부 화풍」 geniRailUpd·geniRailSetup 정본 **바이트 사본**(운영자 260803 6차 "이미지 스튜디오-AI 생성에 있는 코드를 사용해줘") ──
 function geniRailUpd(rail){   // 끝선 페이드 클래스 + 화살표 disabled(렌더/스크롤 후 갱신)
-  if(!rail) return; const max=rail.scrollWidth-rail.clientWidth;
-  rail.classList.toggle('atStart', rail.scrollLeft<=1);
-  rail.classList.toggle('atEnd', max<=1||rail.scrollLeft>=max-1);
-  const wrap=rail.closest('.geni-railwrap'); if(wrap){ const nv=wrap.querySelectorAll('.geni-nav'); if(nv[0]) nv[0].disabled=rail.scrollLeft<=1; if(nv[1]) nv[1].disabled=max<=1||rail.scrollLeft>=max-1; }
+  if(!rail) return; const max=rail.scrollWidth-rail.clientWidth, sl=rail.scrollLeft;   // 재는 것을 먼저 한 번에 = index 정본 동반 개정(260811 평의회1 · 사유 전문은 index geniRailUpd 주석 · 스크롤 신호마다 불리는 자리라 배치 계산 3회 → 1회)
+  const atS=sl<=1, atE=max<=1||sl>=max-1;
+  rail.classList.toggle('atStart', atS);
+  rail.classList.toggle('atEnd', atE);
+  const wrap=rail.closest('.geni-railwrap'); if(wrap){ const nv=wrap.querySelectorAll('.geni-nav'); if(nv[0]) nv[0].disabled=atS; if(nv[1]) nv[1].disabled=atE; }
 }
 function geniRailSetup(sel){
   const rail=$(sel); if(!rail||rail._railSet) return; rail._railSet=true;

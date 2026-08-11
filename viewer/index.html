@@ -5589,12 +5589,17 @@ function geniFreqSort(kind, items) {   // auto/기본 선두 고정 + 나머지 
 }
 // ── 가로 레일 = 드래그(마우스)·화살표(PC)·끝선 페이드(운영자 260713 전광판) · 폰 = 네이티브 터치 ──
 function geniRailUpd(rail) {   // 끝선 페이드 클래스 + 화살표 disabled(렌더/스크롤 후 갱신)
-  if (!rail) return; const max = rail.scrollWidth - rail.clientWidth;
-  rail.classList.toggle('atStart', rail.scrollLeft <= 1);
-  rail.classList.toggle('atEnd', max <= 1 || rail.scrollLeft >= max - 1);
-  const wrap = rail.closest('.geni-railwrap'); if (wrap) { const nv = wrap.querySelectorAll('.geni-nav'); if (nv[0]) nv[0].disabled = rail.scrollLeft <= 1; if (nv[1]) nv[1].disabled = max <= 1 || rail.scrollLeft >= max - 1; }
+  if (!rail) return;
+  const max = rail.scrollWidth - rail.clientWidth, sl = rail.scrollLeft;   // 재는 것을 **먼저 한 번에**(260811 평의회1 실측 봉합) — 구판은 `읽기 → 클래스 토글 → 또 읽기` 를 세 번 번갈아서 한 번 부를 때마다 배치 계산이 3회 돌았다(실측 3회 → 1회). 값은 그대로다(클래스 문자열·화살표 꺼짐 상태 양쪽 동일 실측)
+  const atS = sl <= 1, atE = max <= 1 || sl >= max - 1;
+  rail.classList.toggle('atStart', atS);
+  rail.classList.toggle('atEnd', atE);
+  const wrap = rail.closest('.geni-railwrap'); if (wrap) { const nv = wrap.querySelectorAll('.geni-nav'); if (nv[0]) nv[0].disabled = atS; if (nv[1]) nv[1].disabled = atE; }
 }
-function geniRailHome() { ['#geniStyle', '#geniSub'].forEach(s =>{ const r = $(s); if (r) { r.scrollLeft = 0; geniRailUpd(r); } }); }   // 폼 개막 = 두 레일 좌측 정렬선에서 시작(끌어둔 스크롤 잔존 = 열림 순간 첫 키워드가 선 밖 · 평의회⑦ 260714) + 페이드·화살표 실측 재계산(표시 후 호출 정본 — 숨김 중 계산 = scrollWidth 0 오판) · 호출 = 팝업 openGenIdlg·이식 geniMount 두 홈
+function geniRailHome() { ['#geniStyle', '#geniSub'].forEach(s =>{ const r = $(s); if (r) { r.scrollLeft = 0; requestAnimationFrame(() => geniRailUpd(r)); } }); }   // 폼 개막 = 두 레일 좌측 정렬선에서 시작(끌어둔 스크롤 잔존 = 열림 순간 첫 키워드가 선 밖 · 평의회⑦ 260714) + 페이드·화살표 실측 재계산(표시 후 호출 정본 — 숨김 중 계산 = scrollWidth 0 오판) · 호출 = 팝업 openGenIdlg·이식 geniMount 두 홈
+// ⚠ 재계산은 **다음 프레임**으로(260811 평의회3 실측 봉합) — AI 생성 탭은 이 직전에 노드 388개를 통째로 옮기고 호스트를 방금 켠 참이라 문서가 전부 더러운 상태다.
+//   그 자리에서 `scrollWidth` 를 읽으면 브라우저가 7,572노드 문서의 배치를 통째로 끝내야 한다(실측 = 노드 이동 자체는 0.4ms인데 이 한 줄이 43.3ms · 그 탭 강제 배치 412ms 전부가 여기 귀속).
+//   `scrollLeft = 0`(눈에 보이는 위치 되돌림)은 즉시 그대로 실행되고, 미뤄지는 것은 끝선 흐림 표시와 화살표 잠금 둘뿐이라 한 프레임(16ms) 늦게 붙는다 — cscroll.js:57 이 같은 판단을 이미 「시각·거동 무변경」으로 적어뒀다.
 function geniRailSetup(sel) {
   const rail = $(sel); if (!rail || rail._railSet) return; rail._railSet = true;
   let down = false, moved = false, sx = 0, sl = 0;
@@ -13709,6 +13714,7 @@ function renderSnsTrends() {
       const _t = setInterval(() => {
         try {
           if (!document.body.contains(_stkRows[0])) { clearInterval(_t); return; }   // box 이탈(재렌더로 교체·타 메뉴) = 자가 해제
+          if (!_stkRows[0].offsetParent) return;   // 그 줄이 지금 **화면에 그려지기는 하는가**(260811 평의회2 실측 봉합) — 아래 가드는 「브라우저 탭이 뒤로 갔나」와 「모달이 떴나」만 보고 **자기가 숨겨졌는지는 안 봤다**. 실측 = 4탭 전부에서 이 줄이 0×0px(조상 `#trendview` 가 display:none)인데 12초에 38~69회 갈아끼우고 있었다 · 이것만 멈추자 같은 유휴에서 화면 그리기 요청이 61→91 로 **늘었다**(안 보이는 것에 뺏기던 프레임을 진짜 화면이 되찾음 = 「버벅임」의 실체). 트렌드 탭으로 가면 다음 틱에 그대로 따라잡는다(값은 `finS` 에 이미 있고 표시만 미룬다 · `_si` 미증가 = 회전 순서 무손실)
           if (document.visibilityState !== 'visible' || isComposingModalOpen()) return;   // 게이트 = 아래 형제(_tu 갱신시각) 정본 동값 계승(260807) — #13447 유지보수 규칙 「모달 뒤 DOM 접촉 타이머 필수 가드」를 이 타이머만 안 지키고 있었다(260727 시계 봉합에 미동반). 스킵분은 다음 틱 따라잡음(_si는 스킵 시 미증가 = 회전 순서 무손실). 실측 = 스튜디오 열어둔 유휴 CPU −72%(평의회 260807 6번 조)
           const _ns = (_si + 1) % 3;
           _stkRows.forEach((r, i) => setTimeout(() => { r.classList.add('fin-swap'); setTimeout(() => { const v = r.querySelector('.fin-v'); if (v && finS[i]) v.innerHTML = _stCell(finS[i], _ns); r.classList.remove('fin-swap'); }, 210); }, i * 60));

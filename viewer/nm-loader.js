@@ -298,7 +298,7 @@
   var ALERT_BODY = ['has-sysbad', 'has-freshbad'];            // 미확인 시스템 알림 · 수집 고장(기어 빨강과 동축)
   var BLUE = 'favicon-globe-blue-260805.svg';
   var DANGER = '#e23b2a';   // = index :root --danger(accent-3) 값 복사 — 파비콘은 독립 문서라 var() 불가
-  var PX = 64, POLL = 350;
+  var PX = 64, POLL = 1000;   // 350 → 1000(260811 평의회2 실측 봉합) — 이 주기마다 문서 전체 + 전 iframe 을 훑는데(위 가시성 가드 주석 참조) 판정 대상은 「제작이 도는가 · 안 읽은 알림이 있는가」라 초 단위면 충분하다. 지연 상한 = 탭 아이콘 색이 최대 0.65초 늦게 바뀌는 것뿐(화면 본문 무관)
 
   var img = null, ready = false, redPNG = null, kept = [], cur = '', link = null;
 
@@ -360,7 +360,7 @@
   img.onload = function () { ready = true; };
   img.src = BLUE;
 
-  setInterval(function () { if (ready) show(state()); }, POLL);
+  setInterval(function () { if (!ready || document.hidden) return; show(state()); }, POLL);   // 가려진 동안 정지(260811 평의회2 실측 봉합) — `state()` 는 문서 전체 + 전 iframe 을 네 갈래 복합 셀렉터로 훑는다(실측 = 매치 없는 단순 검색의 10.6~13.9배 · 1초당 상시 23~31%). 탭이 뒤로 가 있으면 그 아이콘을 아무도 안 보므로 검사 자체가 낭비다. 복귀 = 다음 틱에 `show` 가 `cur` 대조로 정확히 따라잡는다(표시 손실 0 · `_tvTick` 가시성 가드 문법 계승)
   window.addEventListener('pagehide', function () { show(''); });
 
   // 진단용 — 구판 API(start/stop/busy/on) 이름 보존 = 호출처·스모크 계약 무손상
