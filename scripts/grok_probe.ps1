@@ -38,6 +38,12 @@ foreach ($c in @([Environment]::GetFolderPath("Desktop"),
 if (-not $Desk) { $Desk = "." }
 $LogPath   = Join-Path $Desk "그록확인_결과.txt"
 $TokenPath = Join-Path $Desk "그록토큰.json"
+# ⚠ 붙여넣기 전용 파일(260811 실측 봉합) — 갱신 열쇠는 **한 번 쓰면 새것으로 바뀌고 옛것은 죽는다**.
+#   러너는 작업이 끝나면 사라지므로 새 열쇠가 어디에도 안 남아 다음 발사가 「Refresh token has been
+#   revoked」로 죽었다(런 31545525981 실측). 그래서 레포 비밀값을 사람이 갈아 끼워야 하는데,
+#   구판은 열쇠가 큰 JSON 안에 섞여 있어 눈으로 찾아 잘라내야 했다 → **값 한 줄만** 담은 파일을 따로 낸다.
+#   ⚠ 이 파일은 결과 기록(공유용)과 **일부러 분리**한다 — 결과 파일을 세션에 붙여넣어도 열쇠가 안 샌다.
+$KeyPath   = Join-Path $Desk "그록열쇠_붙여넣기.txt"
 $ImgPath   = Join-Path $Desk "그록_그림.jpg"
 $VidPath   = Join-Path $Desk "그록_영상.mp4"
 $script:Log = New-Object System.Collections.ArrayList
@@ -118,9 +124,11 @@ function TryStored($tokUrl) {
       $keep | Add-Member -NotePropertyName refresh_token -NotePropertyValue $newRt -Force
       $keep | Add-Member -NotePropertyName saved_at -NotePropertyValue (Get-Date).ToString("yyyy-MM-dd HH:mm:ss") -Force
       $keep | ConvertTo-Json -Depth 5 | Out-File -FilePath $TokenPath -Encoding UTF8
+      $newRt | Out-File -FilePath $KeyPath -Encoding UTF8 -NoNewline   # 로그인을 건너뛴 판도 붙여넣을 값을 낸다
     } catch { Say "  [!] 새 열쇠 저장 실패 - 다음 실행 때 로그인이 필요할 수 있다 : $_" }
   }
   Say "  [OK] 자격 되살렸다"
+  $script:Renewed = $true
   return $r.obj.access_token
 }
 
@@ -321,6 +329,8 @@ foreach ($m in $order) {
       model_ok = $m; saved_at = (Get-Date).ToString("yyyy-MM-dd HH:mm:ss")
     }
     try { $keep | ConvertTo-Json -Depth 5 | Out-File -FilePath $TokenPath -Encoding UTF8 } catch {}
+    # 붙여넣을 값 한 줄만 따로 (JSON 안에서 눈으로 잘라내던 단계 제거)
+    try { $tokens.refresh_token | Out-File -FilePath $KeyPath -Encoding UTF8 -NoNewline } catch {}
     Say ""
     Say ("=" * 58)
     Say "[통과] 네 구독 자격으로 그록이 실제로 대답했다"
@@ -329,6 +339,10 @@ foreach ($m in $order) {
     Say "  대답 : $($say -replace '\s+',' ')"
     Say "  토큰 : $TokenPath  (갱신 열쇠 포함 - 남에게 주지 마라)"
     Say "  기록 : $LogPath"
+    Say ""
+    Say "  >> 다음 할 일 : 바탕화면 [그록열쇠_붙여넣기.txt] 를 열어 안에 있는 값을 통째로 복사해서"
+    Say "     깃허브 레포 Settings > Secrets and variables > Actions > XAI_REFRESH_TOKEN 에 덮어써라."
+    Say "     (이 값은 한 번 쓰면 바뀐다 - 영상을 쏘고 나면 이 판정기를 다시 돌려 값을 갈아 끼운다)"
     Say ""
     Say ("-" * 58)
     Say "2단계 - 그림과 영상이 이 자격에 열려 있는지 본다"
