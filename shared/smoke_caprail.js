@@ -16,8 +16,12 @@
 //   C1 영상 타일 생존   — mp4 항목이 타일로 남는다(ⓐ의 기계화)
 //   C2 이전 제작 보존   — 지난 세션 완료분은 「이전 제작」에 남고 결과 칸이 안 빼앗는다(ⓒ)
 //   C3 완료 착지        — 화면 주인 완료(edit showResult)가 레일에 얹힌다(ⓑ)
-//   C4 진행 중 큐       — 슬롯이 결과 칸에 **발사 순서대로** 잡 행으로 선다
+//   C4 진행 중 큐       — 슬롯이 결과 칸에 잡 행으로 서고 **최신이 맨 위**(옛날 게 아래 · 260811 개정)
 //   C5 연속 제작 무유실 — 2건 연속 완료가 둘 다 남는다(= 운영자가 말한 "방금거가 유실된다" 그 자체)
+//   C6 진행 중 행 진입  — 그 행을 누르면 **그 작업의 제작 화면**이 뜬다(운영자 260811 "결과 표시되는 박스를 눌렀을때 나오는 화면으로 들어가야")
+//   C7 이력 칸 하나     — 「이전 제작」과 뜻이 같은 별도 머리(구 「작업 내역」)가 없다(운영자 260811 "작업 내역은 > 이전 제작이랑 같은 의미")
+//   ⚠ C6·C7 신설 사유 = 셋 다 **화면 증상이 조용하다** — 행이 안 눌려도 아무 일이 안 일어나고(에러 0),
+//     이력 칸이 둘로 갈려도 각각은 멀쩡해 보인다(위 칸은 늘 「(0) 아직 제작한 게 없습니다」). 운영자 눈이 유일한 검출기였다.
 // ═══════════════════════════════════════════════════════════════════════════════
 const { spawn, execSync } = require('child_process');
 const fs = require('fs');
@@ -167,9 +171,44 @@ function chk(cond, id, msg) { if (cond) okv.push(id); else fails.push(`${id} | $
         };
       }, t.k);
       chk(r.rows === 2, `C4 ${t.name}`, `진행 중 큐 행 ${r.rows}개(기대 2) — 제작 중인 작업이 결과 칸에 안 뜬다`);
-      chk(r.order[0] === '먼저 건 작업', `C4 ${t.name} 순서`, `큐 순서가 발사 순이 아니다(${JSON.stringify(r.order)})`);
+      chk(r.order[0] === '나중 건 작업', `C4 ${t.name} 순서`, `큐 순서가 최신 먼저가 아니다 — 옛날 게 위로 올라왔다(${JSON.stringify(r.order)})`);   // 최신이 맨 위·옛날 게 아래(운영자 260811 "옛날거가 더 아래쪽에 배치되어야 함") — 바로 아래 완료 타일도 최신 먼저라 한 칸이 같은 방향으로 읽힌다(구 260810 판정 = 발사 순 오름차순)
       chk(r.running, `C4 ${t.name} 상태`, '진행 중 행에 「제작중」 표기가 없다');
       chk(r.emptyHidden, `C4 ${t.name} 빈안내`, '제작 중인데 「아직 제작한 게 없습니다」가 떠 있다');
+      await page.close();
+    }
+
+    // ── C6·C7 = 진행 중 행 탭이 그 작업의 제작 화면을 열고, 이력 칸은 하나다 ──────
+    {
+      const page = await ctx.newPage();
+      await page.goto(base + 'edit.html', { waitUntil: 'domcontentloaded' });
+      await page.waitForTimeout(600);
+      /* ⚠ 슬롯을 비우고 **다시 연다** = 재개 폴이 미리 켜 둔 제작 화면을 지운다(첫 판 실측 함정 —
+         앞 축이 남긴 슬롯을 이 페이지가 재개해 화면이 이미 떠 있었고, 훅을 죽인 킬테스트에서도 「진입」이 통과했다). */
+      await page.evaluate(() => { try { nmJobs.drop('nm_edit_pend'); } catch (e) {} localStorage.removeItem('nomute_cap_hist'); });
+      await page.reload({ waitUntil: 'domcontentloaded' });
+      await page.waitForTimeout(900);
+      const r = await page.evaluate(() => {
+        const pre = !!document.querySelector('#vwrap .scanline');
+        nmJobs.add('nm_edit_pend', { id: 'J-old', t0: Date.now() - 111000, lbl: '편집 중' });
+        nmJobs.add('nm_edit_pend', { id: 'J-new', t0: Date.now() - 14000, lbl: '편집 중' });
+        const rows = [...document.querySelectorAll('[id$="ResJobs"] .job:not(.done)')];
+        const out = { pre: pre, rows: rows.length, hook: typeof window.nmJobOpen === 'function', role: rows.map(x => x.getAttribute('role')).join(',') };
+        if (rows[1]) rows[1].click();   // **아래 행 = 옛날 작업** = 지금 화면 주인이 아닌 쪽(= 화면 주인 전환이 진짜로 일어나는지 재는 자리)
+        return out;
+      });
+      await page.waitForTimeout(700);
+      const st = await page.evaluate(() => ({
+        stage: !!document.querySelector('#vwrap .scanline'),
+        shown: !document.getElementById('vwrap').hidden,
+        elapsed: (document.querySelector('#vwrap .wcorner') || {}).textContent || '',
+        heads: [...document.querySelectorAll('button')].map(b => (b.textContent || '').replace(/\s+/g, ' ').trim()).filter(t => /작업 내역|이전 제작/.test(t)),
+      }));
+      chk(r.hook, 'C6 훅', '문서가 window.nmJobOpen을 안 준다 = 진행 중 행이 눌릴 곳이 없다');
+      chk(r.role === 'button,button', 'C6 어포던스', `진행 중 행이 눌리는 모양이 아니다(role=${r.role})`);
+      chk(!r.pre, 'C6 기저', '측정 시작부터 제작 화면이 떠 있다 = 이 축이 「눌러서 열렸다」를 못 가른다(가짜 통과 방지)');
+      chk(st.stage && st.shown, 'C6 진입', '진행 중 행을 눌렀는데 그 작업의 제작 화면(대기 스테이지)이 안 뜬다');
+      chk(/1분 5\d초 경과/.test(st.elapsed), 'C6 그 작업', `제작 화면이 **누른 그 작업**의 경과를 안 보여준다(코너 "${st.elapsed}" · 기대 = 1분 5x초 = 눌린 옛날 작업)`);
+      chk(st.heads.length === 1 && /이전 제작/.test(st.heads[0]), 'C7 이력 칸', `이력 머리가 ${st.heads.length}개 — 같은 뜻의 칸이 갈렸다(${JSON.stringify(st.heads)})`);
       await page.close();
     }
     await ctx.close();

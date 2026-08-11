@@ -39,6 +39,13 @@
      12px에 옮기면 근거 없는 보정이고, 완료 행 글자엔 안 걸려 진행 행만 0.59px 떠서 형제와 어긋난다.
      계승 범위 = 그라디언트·nmshim 애니·투명 클립·tabular-nums(= `.jsec`가 이미 쓰던 축과 동의도) · reduced-motion 정지도 SSOT 그대로 따라온다.
      새 값 0(전부 기존 값 복원 = inherit·none) · 정본은 nm-loader.js 한 곳 = 이 줄은 도료를 안 흔든다. */
+  /* 진행 중 행 = 눌러서 그 작업의 제작 화면으로 들어간다(운영자 260811 "결과 표시되는 박스를 눌렀을때 나오는 화면으로 들어가야 하거든?").
+     어포던스(손가락 커서·눌림·hover)는 **갈 곳이 실제로 있을 때만** 붙는다 = 문서가 window.nmJobOpen을 정의한 표면에서만
+     nm-rail.js가 이 클래스를 단다(어포던스 비계승 계약 · smoke_hitzone H3 동축). 값 신설 0 = hover 색은 바로 아래 `.jmore` 쌍 사본,
+     눌림은 카드 표준 사다리 --press-l. */
+  .job.job-go { cursor:pointer; -webkit-tap-highlight-color:transparent; transition:transform var(--dur-fast), background var(--dur), border-color var(--dur); }
+  .job.job-go:hover { background:rgba(var(--accent-rgb),.08); border-color:rgba(var(--accent-rgb),.34); }
+  .job.job-go:active { transform:scale(var(--press-l)); }
   .job.err { border-color:rgba(var(--danger-rgb),.4); } .job.err .jst { color:var(--danger); }
   .job.err .jst { white-space:normal; text-align:right; min-width:0; }   /* 실패 사유가 상태줄에 들어오면서(운영자 260730) 폰 폭에서 접히게 — 형제 상태줄의 nowrap은 「제작 중 47s · 1/2장」처럼 짧은 상수뿐이라 유지, 실패 행만 해제. 색·간격·픽토는 위 규칙 그대로 계승(신설 값 0) */
   /* 실패 잡 재시도 = 같은 설정으로 재발사(운영자 260620 아이디어 3) */

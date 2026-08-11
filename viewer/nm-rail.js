@@ -125,10 +125,17 @@
       if (window.nmJobs && /_pend$/.test(k)) a = nmJobs.list(k) || [];
       else { var raw = JSON.parse(localStorage.getItem(k) || '[]'); if (Array.isArray(raw)) a = raw.filter(function (x) { return x && x.status === 'run'; }); }
     } catch (e) { a = []; }
-    return a.slice().sort(function (x, y) { return (+x.t0 || 0) - (+y.t0 || 0); });   // 순차 = **발사 순서**(먼저 건 게 위 · 운영자 260810 "순차적으로")
+    /* 최신이 맨 위 · 옛날 게 아래(운영자 260811 "옛날거가 더 아래쪽에 배치되어야 함") —
+       바로 아래 완료 타일 그리드도 최신 먼저(render의 ts 내림차순)라 한 칸 안에서 두 목록이 같은 방향으로 읽힌다.
+       구판은 **발사 순서 오름차순**(먼저 건 게 위)이라 진행 중 줄만 혼자 반대로 흘렀다(260810 → 260811 개정). */
+    return a.slice().sort(function (x, y) { return (+y.t0 || 0) - (+x.t0 || 0); });
   }
+  /* 진행 중 행 탭 = **그 작업의 제작 화면으로 들어간다**(운영자 260811 "첨부2의 결과 표시되는 박스를 눌렀을때 나오는 화면으로 들어가야").
+     화면 주인 전환은 탭마다 생김새가 달라 이 모듈이 못 정한다 → 문서가 `window.nmJobOpen(id, job)`을 정의하면 그때만 누를 수 있게 그린다
+     (미정의 = 종전 그대로 정적 행 = 「갈 곳 없는 버튼 금지」 계약 · tileEl의 연필이 onEdit 유무로 갈리는 문법 동문). */
   function pendRows(m, host) {
     var a = pendList(m);
+    var open = (typeof window.nmJobOpen === 'function') ? window.nmJobOpen : null;
     a.forEach(function (j) {
       var row = document.createElement('div'); row.className = 'job';
       var lab = document.createElement('span'); lab.className = 'jlab'; lab.textContent = toText(j.lbl || j.label || j.cap || '제작');
@@ -137,6 +144,14 @@
       st.innerHTML = (window.nmOrbHTML ? nmOrbHTML('solving', 14) : '')
         + '<span class="nm-shim">제작중' + (sec ? ' · <b class="jsec">' + jobDur(sec) + '</b>' : '') + '</span>';   // 문구·부품 = thumb 진행 행 정본(「제작중 · 21s」 · 빛 스윕 = 진행 중 전용)
       row.append(lab, st);
+      if (open) {
+        row.className = 'job job-go';   // 어포던스(손가락 커서·눌림)는 **실제로 갈 곳이 있을 때만** 붙는다
+        row.setAttribute('role', 'button'); row.tabIndex = 0;
+        row.title = '탭 = 이 작업의 제작 화면 열기';
+        var go = function (ev) { if (ev) ev.preventDefault(); try { open(j.id, j); } catch (e) {} };
+        row.addEventListener('click', go);
+        row.addEventListener('keydown', function (ev) { if (ev.key === 'Enter' || ev.key === ' ') go(ev); });
+      }
       host.appendChild(row);
     });
     return a.length;
@@ -180,6 +195,11 @@
     host.appendChild(row);
   }
 
+  function adoptCount(m) {   // 편입 목록의 항목 수 — 화면에 실제로 붙어 있는 것만 센다(문서가 지웠으면 자동 0)
+    var n = 0;
+    (m.adopt || []).forEach(function (el) { if (el && el.parentNode) n += el.children.length; });
+    return n;
+  }
   function applyFold(m) {   // 접힘 상태 단일 원천 = 헤더 aria-expanded(운영자 260806 평의회1 ④·평의회7 ⑧) — 구판은 render가 접힘을 무시하고 빈 상태 안내를 접힌 섹션에 되살렸고, 다시 펼쳐도 안내가 안 돌아왔다
     var rh = document.getElementById(m.id + 'ResH'); if (!rh) return;
     var open = rh.getAttribute('aria-expanded') !== 'false';
@@ -208,8 +228,9 @@
     if (rg) { rg.innerHTML = ''; res.forEach(function (e) { rg.appendChild(tileEl(m, e, m.id + 'ResGrid', m.id + 'ResCnt')); }); }
     jobRow(m, res);
 
-    var pc = document.getElementById(m.id + 'PrevCnt'); if (pc) pc.textContent = '(' + prev.length + ')';
-    var pe = document.getElementById(m.id + 'PrevEmpty'); if (pe) pe.hidden = !!prev.length;
+    var ext = adoptCount(m);   // 문서가 편입시킨 목록(편집 탭 서버 인덱스 등) = 같은 「이전 제작」 칸의 일부 → 개수·빈 상태를 함께 센다
+    var pc = document.getElementById(m.id + 'PrevCnt'); if (pc) pc.textContent = '(' + (prev.length + ext) + ')';
+    var pe = document.getElementById(m.id + 'PrevEmpty'); if (pe) pe.hidden = !!(prev.length + ext);
     var pg = document.getElementById(m.id + 'PrevGrid');
     if (pg) { pg.innerHTML = ''; prev.forEach(function (e) { pg.appendChild(tileEl(m, e, m.id + 'PrevGrid', m.id + 'PrevCnt')); }); }
     if (re) re.dataset.has = (res.length || pend.length) ? '1' : '0';   // 「결과가 있는가」를 DOM에 박아 접힘 재적용이 데이터와 접힘을 함께 본다 · 진행 중도 「있는 것」(제작 중인데 "아직 제작한 게 없습니다"가 뜨면 거짓말)
@@ -276,6 +297,22 @@
       mounts.forEach(function (m) { m.sig = null; render(m); });   // sig 무효화 후 렌더 = 방금 적재분 반영 보장
       return ok;
     },
+    /* 문서 고유 「이전 제작」 목록을 이 칸 안으로 편입(운영자 260811 "작업 내역은 > 이전 제작이랑 같은 의미야. 그렇게 조치해줘야하고") —
+       ⚠ 칸이 둘이면 같은 뜻을 두 번 말하고, 데이터 원천이 달라 하나는 늘 비어 보인다(실측 = 「이전 제작 (0)」 바로 아래 「작업 내역 (N)」).
+       셸(머리·개수·접이)은 이 레일이 전담하고 문서는 자기 목록 요소만 넘긴다 = 머리 2개가 생길 여지 0. */
+    adopt: function (el) {
+      if (!el) return false;
+      var m = mounts[0]; if (!m) return false;
+      var body = document.getElementById(m.id + 'PrevBody'); if (!body) return false;
+      if (el.parentNode !== body) body.appendChild(el);
+      m.adopt = m.adopt || [];
+      if (m.adopt.indexOf(el) < 0) m.adopt.push(el);
+      m.sig = null; render(m);
+      return true;
+    },
+    /* 이 문서 스코프의 완료 이력 — 편입 목록이 **같은 작업을 두 번 그리지 않도록** 대조하는 용도.
+       문서가 저장 키를 자기 손으로 읽으면 그 키가 갈린다(이 레포가 반복해 겪은 사본 드리프트) → 읽기 창구도 여기 하나. */
+    items: function () { var m = mounts[0]; return m ? prune(load(m.opt.scope)) : []; },
     refresh: function () { mounts.forEach(render); }
   };
   window.nmRail = api;

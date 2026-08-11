@@ -584,7 +584,8 @@
      그리드·타일·오버레이 pill = nm-hist.css 정본 계승(`.hist-grid` 3열/폰 2열 · `.hist-it` · `.hist-cap`) = 값 신설 0 · 여기엔 **영상 축 오버라이드만** 잔류(정본 `.hist-thumb img`는 이미지 4/5 축).
      ⚠ 비율 16/9 = 유튜브 축(운영자 지정) · 세로 쇼츠(9:16)도 같은 박스에 `object-fit:cover` = 폭맞춤 후 상하 크롭(정본 썸네일과 동일 문법 = 타일 높이 전건 동일).
      오버레이 4모서리(운영자 260810 지정) = 좌상 실행 시각 · 우상 결과 여부(완료/실패) · 좌하 #효과 · 우하 영상 길이. 제목은 미표시(운영자 "제목은 거의 안나와도됨") — 타일 title/aria-label로 보존. */
-  .lyjobs { margin-top:18px; }
+  /* (260811) 구 「작업 내역」 셸(.lyjobs·.lyjobs-h·-ttl·-bul·-cnt·-ar) 규칙 제거 — 그 머리·접이가 결과 레일 「이전 제작」으로 합쳐져
+     이 문서엔 그 클래스를 단 요소가 하나도 없다(운영자 260811 "작업 내역은 > 이전 제작이랑 같은 의미야"). 되돌림 = 그 셸을 되살릴 때 같이 복원. */
   .lyjob { display:block; width:100%; padding:0; background:none; border:none; color:var(--fg); font-family:inherit; font-size:var(--fs-label); cursor:pointer; text-align:left; -webkit-tap-highlight-color:transparent; touch-action:manipulation; transition:transform var(--dur-fast); }   /* reuse-ok: 계승원 = nm-hist.css `.hist-it` 타일(구 리스트 행 .lyjob의 거처만 그리드로 이동 · 새 부품 신설 0) */
   .lyjob:active { transform:scale(var(--press-l)); }   /* 눌림 = 카드 표준(구 배경 플래시는 리스트 행 문법 = 타일에선 --press 사다리) */
   .ljth { position:relative; }
@@ -601,16 +602,7 @@
   .edfocus { animation:edfocus 2.2s ease both; border-radius:var(--r-m); }   /* 알림 ?done=<id> 착지 결과 강조 = '해당 작업' 식별(thumb .thfocus 정본 계승 · radius = 근접토큰 자동계승) */
   @keyframes edfocus { 0%,100%{ box-shadow:0 0 0 0 rgba(var(--accent-rgb),0); } 18%,46%{ box-shadow:0 0 0 3px rgba(var(--accent-rgb),.55); } }
   @media (prefers-reduced-motion:reduce){ .edfocus { animation:none; } }
-  /* 작업 내역 접기 토글 — 이미지 도구(thumb) '이전 제작' 접기 문법 계승(운영자 260712 "영상도 계승 — 토글 접힌채로, 펼치면 촤르륵") · 헤더 = 라임 블릿+개수+쉐브론(이력색 마커) · 펼침 = 행 스태거 histIn · 닫힘 = histOut 후 hidden */
-  .lyjobs-h:active { transform:scale(var(--press-l)); }   /* 접기 헤더 눌림 마감(전수감사 260713) */
-  .lyjobs-h { width:100%; display:flex; align-items:center; gap:8px; background:none; border:none; color:var(--fg); cursor:pointer; padding:10px 2px; font:inherit; font-size:var(--fs-label); font-weight:var(--fw-b); -webkit-tap-highlight-color:transparent; }
-  .lyjobs-ttl { display:inline-flex; align-items:center; gap:6px; transition:color .3s ease, text-shadow .3s ease; }
-  .lyjobs.open .lyjobs-ttl { color:var(--accent); text-shadow:0 0 10px rgba(var(--accent-rgb),.45); }   /* 펼침 = 점등(thumb .hist.open 계승) */
-  .lyjobs-bul { color:var(--hist-accent); font-size:var(--fs-label); font-weight:var(--fw-b); transition:color .3s ease; }
-  .lyjobs.open .lyjobs-bul { color:var(--accent); }
-  .lyjobs-cnt { color:var(--mut); font-weight:600; font-size:12px; }
-  .lyjobs-ar { margin-left:auto; color:var(--hist-accent); transition:transform var(--dur), color .3s ease; }
-  .lyjobs.open .lyjobs-ar { transform:rotate(180deg); }
+  /* (260811) 구 「작업 내역」 접기 토글 규칙 제거 — 접이·머리·개수는 결과 레일 「이전 제작」이 전담(위 .lyjob 주석 참조). */
   #lyJobList:not([hidden]) > .lyjob { animation:histIn .32s var(--gauge-ease) both; }   /* 촤르륵(thumb .hist-grid 스태거 원값 복사 · hidden 토글마다 재생) */
   #lyJobList:not([hidden]) > .lyjob:nth-child(2){ animation-delay:.04s } #lyJobList:not([hidden]) > .lyjob:nth-child(3){ animation-delay:.08s }
   #lyJobList:not([hidden]) > .lyjob:nth-child(4){ animation-delay:.12s } #lyJobList:not([hidden]) > .lyjob:nth-child(5){ animation-delay:.16s }
@@ -760,14 +752,11 @@
     <button class="lyreset" id="lyReset" type="button" hidden>편집 초기화 (처음 받아쓴 자막으로)</button>
   </div>
   <div class="out" id="out"></div>
-  <!-- 작업 내역(제작 라이브러리 · 운영자 260712 "이미지 생성기처럼 라이브러리화") — 데이터 = ly_out/index.json(build-viewer 스캔 · 서버측 인덱스 = 기기간 공유·만료 없음) · 자막 탭 게시판 원문 계승 · 탭 = 그 작업 결과 열기(openJob = 완료 푸시 딥링크와 동일 경로) · 자막-전용(st=subs) 잡은 자막 탭 전담이라 제외 · 비었으면 섹션째 숨김 · 기본 접힘 토글 + 펼침 촤르륵(thumb '이전 제작' 계승 · 운영자 260712) -->
-  <div class="lyjobs" id="lyJobs" hidden>
-    <button class="lyjobs-h" id="lyJobsH" type="button" aria-expanded="false">
-      <span class="lyjobs-ttl"><span class="lyjobs-bul" aria-hidden="true">•</span>작업 내역 <span class="lyjobs-cnt" id="lyJobsCnt"></span></span>
-      <svg class="lyjobs-ar" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
-    </button>
-    <div class="hist-grid" id="lyJobList" hidden></div><!-- 3열 썸네일 그리드(운영자 260810 "sns처럼 리스트업 · 1행에 3개") = nm-hist.css .hist-grid 정본 계승(값 신설 0 · 폰 480 이하 2열도 정본 동행) -->
-  </div>
+  <!-- 지난 제작 목록(제작 라이브러리 · 운영자 260712 "이미지 생성기처럼 라이브러리화") — 데이터 = ly_out/index.json(build-viewer 스캔 · 서버측 인덱스 = 기기간 공유·만료 없음) · 탭 = 그 작업 결과 열기(openJob = 완료 푸시 딥링크와 동일 경로) · 자막-전용(st=subs) 잡은 자막 탭 전담이라 제외.
+       ⚠ 머리(제목·개수·접이)는 여기 없다 — 결과 레일의 「이전 제작」이 전담하고 이 목록만 그 안으로 들어간다(nmRail.adopt · 운영자 260811 "작업 내역은 > 이전 제작이랑 같은 의미야").
+       구판은 「작업 내역」이라는 자기 머리를 따로 달아 같은 뜻의 칸이 둘이었고, 데이터 원천이 달라 위 칸은 늘 「이전 제작 (0)」인 채 아래 칸에만 목록이 쌓였다.
+       편입 전(레일 미로드)엔 제자리에 그대로 뜬다 = 이력 접근이 통째로 사라지지 않는다(fail-soft). -->
+  <div class="hist-grid" id="lyJobList" hidden></div><!-- 3열 썸네일 그리드(운영자 260810 "sns처럼 리스트업 · 1행에 3개") = nm-hist.css .hist-grid 정본 계승(값 신설 0 · 폰 480 이하 2열도 정본 동행) -->
 </div>
 
 <!-- (발사 바 '생성'(구 편집 시작) = 미리보기(.pvsec)와 함께 .topdock 안 상단 고정으로 이주 · 운영자 260718 "동영상 스튜디오도 미리보기 아래·상단 고정" · 구 .wrap 밖 하단 인라인 폐지) -->
@@ -2369,6 +2358,24 @@ function pollEditBg(id, t0, minTs, kind){
   };
   tick();
 }
+/* ══ 진행 중 행 탭 = 그 작업의 제작 화면으로 들어간다(운영자 260811 "첨부2의 결과 표시되는 박스를 눌렀을때 나오는 화면으로 들어가야 하거든?") ══
+   결과 레일(nm-rail.js)이 진행 중 행을 그릴 때 이 함수가 있으면 행을 누를 수 있게 그린다(없으면 정적 행 = 갈 곳 없는 버튼 금지).
+   ⓐ 이미 화면을 차지한 작업이면 그 자리로 데려가기만 한다(제작 화면은 이미 떠 있다).
+   ⓑ 뒤에서 돌던 작업이면 그 폴 하나만 걷고 **화면 주인으로 다시 건다** — 그 순간 EDIT_ID가 넘어가면서 종전 주인은 자동 강등된다
+      (강등분은 화면을 안 건드리고 완료 시 결과 레일로 착지 = 260810 병렬 계약 그대로 · 남의 폴은 안 끊는다). */
+window.nmJobOpen=function(id){
+  if(!id) return;
+  let p=null; try{ p=nmJobs.get(PEND_KEY,id); }catch(e){}
+  if(!p) return;                                      // 슬롯이 이미 걷혔다 = 끝났거나 만료 = 열 제작 화면이 없다
+  if(EDIT_ID!==id||!_polling){
+    try{ nmJobs.stopOne(PEND_KEY,id); }catch(e){}     // 그 작업의 뒤에서 도는 폴만 걷는다(다른 작업은 계속 돈다)
+    const t0c=Math.max(p.t0||0, Date.now()-BUDGET*1000);   // 경과 창 클램프 = 재개 경로 동값(오래 걸린 작업이 즉시 시간초과로 안 죽게)
+    pollEdit(id, t0c, (p.t0||0)-90000, p.lbl||'편집 중', p.clip?'clip':p.cutscan?'cutscan':'', true);
+  }
+  const el=$('#vwrap');
+  if(el&&!el.hidden){ try{ el.scrollIntoView({behavior:LY_RM.matches?'auto':'smooth',block:'center'}); }catch(e){}
+    el.classList.add('edfocus'); setTimeout(()=>el.classList.remove('edfocus'),2200); }   // 착지 강조 = 딥링크(edFocusResult) 문법 그대로
+};
 /* ══ 자막 편집기 이식(ly.html L798~1261 원문 · 배치 B-2 260711) — 조각 카드·어절 칩·타이밍·찾기·미리보기 싱크 ══ */
 // ══ 자막 상세 편집기 — 데이터 = viewer/ly_out/<id>/segments.json(Whisper word 타임스탬프·additive 사이드카) 또는 SRT 클라 파싱.
 // 편집(단어 제외·수정·분열·조각 병합·삭제·찾아바꾸기)은 전부 클라 로컬 = 파이프라인 되쓰기 0(subs.md 골격 불변) · localStorage 복원(탭 전환 리로드에도 유지).
@@ -3380,13 +3387,14 @@ async function loadJobLib(){   // 재호출 가능(구 1회성 IIFE → 부모 �
     vids.forEach(j=>{ if(j&&j.id) _jlIds.add(j.id); });   // 인덱스 보유 id 등재 = R2 임시 행과 중복 차단(합류 시 인덱스 행이 대체)
     const XK={video:{t:'편집 영상',st:'done'},clips:{t:'클립 후보',st:'clip'},cuts:{t:'컷 후보',st:'cut'}};   // R2 발견 종류 → 임시 라벨·상태(인덱스 ST 축과 동일 어휘)
     const extra=[..._r2Extra].filter(([id])=>!_jlIds.has(id)).map(([id,k])=>({ id, ts:'20'+id.slice(0,2)+'-'+id.slice(2,4)+'-'+id.slice(4,6)+'T'+id.slice(6,8)+':'+id.slice(8,10)+':'+id.slice(10,12), t:(XK[k]||XK.video).t, d:0, st:(XK[k]||XK.video).st }));   // R2 즉시 발견분 임시 행(운영자 260731 · 스캔 산출 합류 = clips/cuts 260731 2차) — 시각 = id 12자리 KST 도장 절단(인덱스 ts와 동일 문자열 문법) · 라벨·길이는 배포 합류 시 인덱스 값으로 자연 교체
-    const all=extra.concat(vids);   // 임시(최신) 먼저 — 인덱스 최신순 유지
+    const railIds=jlRailIds();   // 결과 레일이 이미 타일로 들고 있는 작업(같은 칸에 들어가므로 두 번 그리면 같은 제작이 두 개로 보인다)
+    const all=extra.concat(vids).filter(j=>!(j&&j.id&&railIds.has(j.id)));   // 임시(최신) 먼저 — 인덱스 최신순 유지
     if(!all.length) return;   // 빈 목록 = 조용한 공백(§디자인 빈 상태) — 재진입 시에도 기존 표시 유지(축소 스테일은 수용)
-    const sig=tx+'|'+extra.map(e=>e.id).join(',');   // 인덱스 원문 + 임시 행 구성 = 통합 무변경 감지(어느 축이 바뀌어도 재렌더 · 둘 다 그대로면 skip = 깜빡임 0)
+    const sig=tx+'|'+extra.map(e=>e.id).join(',')+'|'+[...railIds].sort().join(',');   // 인덱스 원문 + 임시 행 구성 + 레일 보유분 = 통합 무변경 감지(어느 축이 바뀌어도 재렌더 · 전부 그대로면 skip = 깜빡임 0)
     if(sig===_jlSig) return;
     _jlSig=sig;
-    const box=$('#lyJobs'), list=$('#lyJobList'); if(!box||!list) return;
-    list.textContent='';   // 재진입 = 비우고 재렌더(중복 누적 차단 · 접힘/펼침 상태는 list.hidden에 그대로 보존)
+    const list=$('#lyJobList'); if(!list) return;
+    list.textContent='';   // 재진입 = 비우고 재렌더(중복 누적 차단)
     const ST={done:'완료',clip:'클립 후보',cut:'컷 후보',fail:'실패',gen:'진행중'};   // cut 합류(260731) = build-viewer 인덱서가 cuts.json을 읽게 된 짝 — 이게 없으면 완료된 컷 스캔이 `ST[j.st]||'진행중'` 폴백으로 다시 "진행중" 거짓말이 된다
     all.slice(0,60).forEach(j=>{   // 캡 20→60(전체 보관 취지 정합 · 운영자 260712 "항상 기존 작업분" — 인덱스 자체는 만료 없음)
       if(!/^[A-Za-z0-9_-]+$/.test(j.id||'')) return;   // 경로 화이트리스트(복원 정규식과 동일 정신)
@@ -3415,22 +3423,25 @@ async function loadJobLib(){   // 재호출 가능(구 1회성 IIFE → 부모 �
       };
       list.appendChild(b);
     });
-    if(list.children.length){
-      box.hidden=false;
-      $('#lyJobsCnt').textContent='('+list.children.length+')';
-      // 접기 토글 — thumb '이전 제작' histH 로직 계승(기본 접힘 · 펼침 = 스태거 촤르륵 + 섹션 랜딩 · 닫힘 = histOut 후 hidden · 운영자 260712). 닫힘 시 상단 복귀는 미계승(편집 폼 맥락 = 제자리 유지 · 의도 divergence)
-      let closeT=null;
-      $('#lyJobsH').onclick=()=>{
-        const open=list.hidden;
-        clearTimeout(closeT); list.classList.remove('closing');   // 닫힘 중 재클릭 = 취소(다시 펼침)
-        $('#lyJobsH').setAttribute('aria-expanded',String(open)); box.classList.toggle('open',open);
-        const rm=matchMedia('(prefers-reduced-motion:reduce)').matches;
-        if(open){ list.hidden=false; requestAnimationFrame(()=>box.scrollIntoView({behavior:rm?'auto':'smooth',block:'start'})); }
-        else if(rm){ list.hidden=true; }
-        else { list.classList.add('closing'); closeT=setTimeout(()=>{ list.hidden=true; list.classList.remove('closing'); },270); }   // .26s 애니 + 여유(thumb 동값)
-      };
-    }
+    list.hidden=!list.children.length;   // 빈 목록 = 조용한 공백(머리·접이는 결과 레일 「이전 제작」이 전담 — 이 자리엔 목록만 있다)
+    railAdopt();                          // 그 칸 안으로 편입 + 개수 갱신(운영자 260811 "작업 내역은 > 이전 제작이랑 같은 의미")
   }catch(e){} finally{_jlBusy=false;}
+}
+/* ══ 지난 제작 목록 ↔ 결과 레일 「이전 제작」 합류(운영자 260811) ══
+   같은 뜻의 칸이 둘이면 하나는 늘 비어 보인다(실측 = 「이전 제작 (0)」 바로 아래 「작업 내역 (N)」).
+   셸(머리·개수·접이)은 레일이 전담하고 이 문서는 목록 요소만 넘긴다. 레일이 아직 안 섰으면 잠깐 뒤 다시 시도하고,
+   끝내 못 서면 목록은 제자리에 그대로 뜬다(fail-soft = 이력 접근이 통째로 사라지지 않는다). */
+function jlRailIds(){   // 레일이 이미 타일로 들고 있는 작업 번호 — 같은 칸에서 같은 제작을 두 번 그리지 않게(산출 주소 `…/ly_out/<번호>/…`에서 읽는다)
+  const s=new Set();
+  try{ (window.nmRail&&nmRail.items?nmRail.items():[]).forEach(e=>{ const m=/\/ly_out\/([A-Za-z0-9_-]+)\//.exec(String(e&&e.url||'')); if(m) s.add(m[1]); }); }catch(e){}
+  return s;
+}
+let _jlAdT=null;
+function railAdopt(tries){
+  const list=$('#lyJobList'); if(!list) return;
+  let ok=false; try{ ok=!!(window.nmRail&&nmRail.adopt&&nmRail.adopt(list)); }catch(e){}
+  if(ok||(tries|0)>=8) return;
+  clearTimeout(_jlAdT); _jlAdT=setTimeout(()=>railAdopt((tries|0)+1),400);   // 레일 마운트(DOMContentLoaded)보다 목록이 먼저 준비될 수 있다
 }
 let _r2eBusy=false;   // R2 즉시 발견 폴 in-flight 가드
 async function pollR2RecentEdit(){   // R2 즉시 발견(운영자 260731 "비디오 스튜디오도 즉시") — 최근 완성 영상 id를 배포 랙 없이 발견 → 임시 행. 열람 = openJob 기존 R2 폴백(?stat=)이 즉시 서빙 · Pages 인덱스 합류 시 정식 행으로 자연 교체
