@@ -17,6 +17,7 @@ import datetime
 import json
 import os
 import re
+import math
 import statistics
 import subprocess
 import sys
@@ -483,7 +484,7 @@ def _daily_timeseries(daily):
     fled = jload('follow_ledger.json')
     if isinstance(fled, dict):
         for d, rec in fled.items():
-            if not isinstance(rec, dict) or len(d) != 10:
+            if d == '_ver' or not isinstance(rec, dict) or len(d) != 10:
                 continue
             put(d, 'follows', rec.get('f'))
             put(d, 'unfollows', rec.get('u'))
@@ -652,6 +653,79 @@ def _timing_stats(series):
         'follows_per_post_by_era': {k: round(v['f'] / v['p']) for k, v in era_fp.items() if v['p']},
         'note': '휴식일 증가 사례는 직전 게시물 지연 바이럴(예: 7/11 무게시 +299 = 전일까지 릴스 재배급 조회 295만) — 휴식 자체가 증가 요인인 적 없음',
     }
+
+
+THEME_Z = 3.0          # 테마 이탈 판정 문턱(표준편차 배수) — 2.0 금지, 근거는 아래 독스트링
+THEME_MIN_DAY = 10     # 테마당 최소 게시일(미만 = 판정 유예 · 순위 출력 금지)
+THEME_MIN_BASE = 8     # 기저·산포 추정에 필요한 최소 무게시일(미만 = 축 전체 유예)
+
+
+def _theme_leak(series, posts):
+    """테마별 이탈 초과 실측(운영자 260811 "어떤 게시물이 톤이 안 맞느냐를 알려달라" · 평의회 8인).
+
+    ⚠ 이 함수는 **판정하지 않는다**. 「그 테마를 올린 날의 이탈이 안 올린 날보다 얼마나 많았나」를
+      숫자로 낼 뿐이고, "톤이 안 맞다"는 해석은 캡션을 같이 쥔 모델·사람 몫이다(brief_lib ③⑤⑦ 계약 동축).
+
+    설계가 이 모양인 이유(전부 평의회 실측 근거 · 어긋나면 조용히 거짓말한다):
+    ① **게시물 단위 지목 금지.** 게시물당 취소는 API에 아예 없고, 계정 일별 취소를 하루에 여러 장에
+       나눠 붙이는 건 실측이 아니라 창작이다(평의회 1번: 도달 비례 배분은 그날 취소의 중앙 56%를
+       **가장 터진 장**에 얹는다 = 운영자가 말한 "묻는 쪽"을 범인으로 만든다). 게시물 한 장의 자체
+       흔들림도 88%라 원리적으로 못 가른다(평의회 3번). → 판정 단위는 **테마**뿐이다.
+    ② **문턱 3.0σ.** 참효과가 0인 가짜 계열로 2,000회 돌린 결과 2.0σ면 회차당 오탐 33~60%,
+       2.5σ면 11~32%, 3.0σ라야 3~15%다(평의회 1번 플라시보). 운영자의 "가끔만"을 연 1회 미만으로
+       읽으면 3.0이 정답이다.
+    ③ **기저·산포는 무게시일에서만.** 아무것도 안 올린 날의 이탈이 곧 기저다(무게시일 46% = 공짜
+       대조군 · 평의회 2번). 게시일까지 섞어 산포를 재면 잡으려는 신호가 문턱 안으로 들어가
+       **자멸 문턱**이 된다(회복기 무게시일 2.29배 vs 전체 3.91배 = 그 차이가 곧 게시 효과 후보).
+    ④ **로버스트 산포(중앙값·중앙절대편차).** 이 계열엔 자릿수가 다른 날이 실재한다(실측 120일 전
+       유입 1086). 평균·표준편차로 재면 그 한 점이 경보 구간을 45% 넓혀 진짜 이상치를 숨긴다.
+    ⑤ **검출 하한을 같이 낸다.** 축마다 검출력이 4배 넘게 다르므로(평의회 1번) "경보 없음"이
+       "괜찮음"으로 읽히면 안 된다. 안 걸린 축엔 "이 축은 N명 미만이면 안 보인다"를 붙인다.
+    ⑥ **표본 미달은 침묵.** 없는 결론을 지어내지 않는다(brief_lib MIN_CELL 관례).
+
+    ⚠ 남는 한계(출력에 그대로 싣는다) = 취소 원문이 "unfollowed you **or left Instagram**"이라
+      인스타를 떠난 사람이 섞인다. 무게시일 대조가 그 상수분을 상쇄하지만 **차이만** 상쇄하지
+      수준은 못 지운다 → 절대 수치를 "이 테마가 뺏은 사람 수"로 읽으면 안 된다."""
+    rows = [r for r in series if isinstance(r.get('unfollows'), int)]
+    if len(rows) < THEME_MIN_BASE * 2:
+        return {'ready': False, 'why': f'이탈 관측 {len(rows)}일 — 판정에 최소 {THEME_MIN_BASE * 2}일 필요',
+                'n_days': len(rows)}
+    base_rows = [r for r in rows if not r.get('posts')]
+    if len(base_rows) < THEME_MIN_BASE:
+        return {'ready': False, 'why': f'무게시 대조일 {len(base_rows)}일 — 기저·산포 추정에 최소 {THEME_MIN_BASE}일 필요'
+                                       ' (이 축은 무게시일만 먹고 산다 — 게시를 늘리면 문턱을 갱신할 수단이 사라진다)',
+                'n_days': len(rows), 'base_days': len(base_rows)}
+    bu = [r['unfollows'] for r in base_rows]
+    base_med = statistics.median(bu)
+    mad = statistics.median([abs(x - base_med) for x in bu]) or 0.0
+    sd = mad * 1.4826 or (statistics.pstdev(bu) if len(bu) > 1 else 0.0)
+    if not sd:
+        return {'ready': False, 'why': '무게시일 이탈이 전부 같은 값 — 산포 추정 불가', 'n_days': len(rows)}
+    # 날짜별 테마 집합(그날 그 테마를 올렸나) — 게시물 날짜는 daily_series와 같은 축을 쓴다
+    day_cats = {}
+    for p in posts:
+        d, c = p.get('date_kst'), p.get('cat')
+        if d and c:
+            day_cats.setdefault(d, set()).add(c)
+    out, waived = [], []
+    for cat in sorted({c for cs in day_cats.values() for c in cs}):
+        on = [r['unfollows'] for r in rows if cat in day_cats.get(r['date'], ())]
+        if len(on) < THEME_MIN_DAY:
+            waived.append({'cat': cat, 'days': len(on)})
+            continue
+        med = statistics.median(on)
+        se = sd / math.sqrt(len(on))
+        z = (med - base_med) / se if se else 0.0
+        out.append({'cat': cat, 'days': len(on), 'med': round(med, 1),
+                    'excess': round(med - base_med, 1), 'z': round(z, 2),
+                    'floor': round(THEME_Z * se, 1),   # 이 축이 볼 수 있는 최소 초과 이탈(= 검출 하한)
+                    'flag': abs(z) >= THEME_Z})
+    out.sort(key=lambda x: -x['z'])
+    return {'ready': True, 'n_days': len(rows), 'base_days': len(base_rows),
+            'base_med': round(base_med, 1), 'sd': round(sd, 2), 'z_cut': THEME_Z,
+            'themes': out, 'waived': waived,
+            'note': '초과 = 그 테마를 올린 날의 이탈 중앙 − 무게시일 이탈 중앙. 게시물 단위 귀속은 원리적으로 불가'
+                    '(하루에 여러 장을 올리고 게시물별 취소 지표는 API에 없다). 취소엔 인스타를 떠난 사람이 섞인다.'}
 
 
 def _audience_sample(aud, followers=None):
@@ -1073,6 +1147,9 @@ def main():
         vdoc['topics'] = sig.get('topic_summary')  # 주제별 반응률(뉴스 분류기 계승)
         vdoc['eras'] = sig.get('era_summary')      # 알고리즘 3기 대비
         vdoc['timing'] = _timing_stats(series_daily)       # 게시-팔로워 인과 실측(회초리 근거 · 운영자 260715 Q02)
+        # 테마별 이탈 초과(운영자 260811 "어떤 게시물이 톤이 안 맞느냐" · 평의회 8인) — 판정 아닌 사실 스냅샷.
+        # 취소 원장이 안 찼으면 ready=False + 사유를 실어 보낸다(침묵하면 다음 세션이 "문제 없음"으로 읽는다).
+        vdoc['theme_leak'] = _theme_leak(series_daily, sig.get('posts') or [])
         vdoc['audience_sample'] = _audience_sample(aud, ((vdoc.get('profile') or {}).get('followers_count')))    # 팔로워 표본(인구통계+운영자 노트 · 운영자 260715 Q03) · 팔로워 총수 = 국가·도시 퍼센트 분모(Meta 화면 정합 · 260726)
         vdoc['echo'] = _echo_block(sig.get('topic_summary'), man)   # 알고리즘 협착 가설+실측(운영자 260715 Q05)
         vp = os.path.abspath(os.path.join(DATA, '..', '..', '..', 'viewer', 'insta_data.json'))

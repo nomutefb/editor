@@ -192,29 +192,41 @@ def main():
     # → 하루창을 **원장에 누적**한다(통창은 합계만 줘서 일별로 못 쪼갠다 = 하루창 반복이 유일한 길).
     #   매 런 = 결측일만 최대 FOLLOW_MAX_CALL콜(있는 날은 안 묻는다 = 하트비트 30분 런에도 평시 0~2콜) ·
     #   소급 = 환경변수 IG_FOLLOW_BACKFILL 일수(1회성 · 180이면 180콜). online_ledger.json 누적 관용구 계승.
-    # ⚠⚠ 창 경계 = **07:00 UTC**(= 16:00 KST)다. 인스타의 하루는 자정이 아니라 오후 4시에 끊긴다 —
-    #   실측 근거 = follower_count 응답의 end_time이 전건 `T07:00:00+0000`. 그래서 KST 자정으로 창을 자르면
-    #   우리가 부르는 '하루'와 Meta가 세는 '하루'가 8시간 어긋난다. 평의회 1번 실측: 게시물의 **41.3%가
-    #   16시 이후 발행**이라 달력일과 집계일이 달라지고, 그 상태로 게시물↔이탈을 이으면 **어젯밤 릴스가 만든
-    #   이탈을 오늘 아침 피드가 뒤집어쓴다**(시뮬레이션에서 계수가 44%까지 축소 = 진짜 범인은 임계 아래로 숨고
-    #   엉뚱한 게시물이 지목된다 · 한 방향 계통 오차라 표본을 늘려도 안 사라진다).
-    #   → 창을 Meta 버킷 경계에 그대로 맞추고, 날짜 라벨도 Meta 관례(end_time 날짜 = 창 끝)를 따른다.
-    #     그래야 follower_count 시계열(end_time 라벨)과 같은 축에 눕는다.
-    BUCKET_H = 7              # Meta 일 버킷 경계(UTC 시각) — 실측 end_time T07:00:00+0000
+    # ⚠⚠ 창은 **KST 자정 기준**이다. 이게 실측으로 확정된 유일한 정답이다.
+    #   경위 = Meta 응답의 end_time이 전건 `T07:00:00+0000`(=16:00 KST)라, 평의회 1번이 "인스타의 하루는
+    #   자정이 아니라 오후 4시에 끊기니 창도 07:00 UTC에 맞춰야 한다"고 판단했고 그대로 한 회차를 돌렸다.
+    #   **실호출 결과 그 정렬이 틀렸다** — 178일을 회수해 기존 실측과 대조하니 전건 과대였다:
+    #     날짜        follower_count   KST자정창   07:00Z창
+    #     2026-08-04        81            81         263
+    #     2026-08-07        90            90         137
+    #     2026-08-08        62            62         152
+    #     2026-08-09       127           127         189
+    #   KST 자정 창은 follower_count와 **3/3 정확 일치**하고(7일 통창 합 512도 일별 합 512와 일치),
+    #   07:00Z 창은 4/4 전건 과대다. Meta는 since/until을 받으면 그 범위에 걸치는 버킷을 알아서 고르는데,
+    #   경계에 정확히 맞춘 창이 오히려 인접 버킷까지 물어 이중 계상되는 것으로 보인다(원인은 **미확인**).
+    #   → **실측이 이긴다.** 창 = KST 자정, 라벨 = 창 시작 날짜(= follower_count end_time 날짜와 같은 축).
+    #   ⚠ 다만 평의회 1번의 관찰 자체는 유효하다 — 그 버킷의 실제 시간 범위는 16시~16시이므로,
+    #     **게시물을 이 날짜에 귀속시킬 때는** 16시 경계를 따져야 한다(그건 판정 단계 몫 · 수집은 라벨만 맞춘다).
     FOLLOW_LAG = 3            # 집계 지연(일) — 이 날짜 이후는 물어도 빈손이라 요청 자체를 안 한다.
     #   실측 지연은 48시간(어제=빈손·2일 전부터 값)인데 **3으로 잡는다** = 경계에 딱 붙이면 아직 안 익은 날을
     #   매 런 물어 빈손을 받고, 그 빈손이 새 경보 문법(_bd_empty)에 걸려 **정당한 지연이 매 런 빨간불**이 된다
     #   (평의회 6번 경고 — 그 빨간불은 다음 세션이 "껍데기 판정이 과하다"며 봉합을 되돌리는 압력이 된다).
     FOLLOW_KEEP = 400         # 원장 보관 일수(online_ledger 동값)
     FOLLOW_MAX_CALL = 8       # 평시 런 1회 상한(결측 자가치유 속도 · 소급은 아래 환경변수로 별도)
-    utc0 = datetime.datetime.now(datetime.timezone.utc).replace(
-        hour=BUCKET_H, minute=0, second=0, microsecond=0)   # 오늘 버킷 경계(UTC 07:00)
+    # 원장 판번호 — 창 정렬·값 의미가 바뀌면 올린다. 다르면 **통째로 버리고 재수집**한다.
+    # ⚠ 이게 없으면 잘못 채워진 회차가 영영 산다(원장은 "있는 날짜는 안 묻는다"가 규칙이라 자가 교정이 안 된다).
+    #   실제로 260811에 07:00 UTC 정렬로 178일을 채웠다가 전건 과대(81→263 등)로 폐기했다 = 판번호 2의 사유.
+    FLED_VER = 2
     fled_p = f'{OUT}/follow_ledger.json'
     try:
         fled = json.load(open(fled_p, encoding='utf-8'))
         assert isinstance(fled, dict)
     except Exception:
         fled = {}
+    if fled.get('_ver') != FLED_VER:
+        if fled:
+            print(f'[팔로우/취소] 원장 판번호 불일치({fled.get("_ver")}→{FLED_VER}) — {len(fled)}건 폐기 후 재수집')
+        fled = {'_ver': FLED_VER}
     try:
         back = max(0, int(os.environ.get('IG_FOLLOW_BACKFILL', '0') or 0))
     except ValueError:
@@ -223,8 +235,8 @@ def main():
     cap = back if back else FOLLOW_MAX_CALL
     want = []
     for k in range(FOLLOW_LAG, span + 1):
-        # 창 = [utc0−k일, utc0−(k−1)일] = 정확히 버킷 1개 · 라벨 = 창 끝 날짜(Meta end_time 관례와 동일 축)
-        dd = (utc0 - datetime.timedelta(days=k - 1)).date().isoformat()
+        # 창 = [day0−k일, day0−(k−1)일] KST · 라벨 = 창 시작 날짜(실측상 follower_count end_time 날짜와 일치)
+        dd = (day0 - datetime.timedelta(days=k)).date().isoformat()
         if dd not in fled:
             want.append((k, dd))
         if len(want) >= cap:
@@ -233,8 +245,8 @@ def main():
     for k, dd in want:
         g, dr = insights(f'{uid}/insights', ['follows_and_unfollows'],
                          period='day', metric_type='total_value', breakdown='follow_type',
-                         since=str(int((utc0 - datetime.timedelta(days=k)).timestamp())),
-                         until=str(int((utc0 - datetime.timedelta(days=k - 1)).timestamp())))
+                         since=str(int((day0 - datetime.timedelta(days=k)).timestamp())),
+                         until=str(int((day0 - datetime.timedelta(days=k - 1)).timestamp())))
         raw = g.get('follows_and_unfollows')
         if raw is None:
             # 지연 경계 부근(FOLLOW_LAG+1일 이내)의 빈손은 **정당한 미완결**이라 경보로 안 올린다.
@@ -259,14 +271,15 @@ def main():
             fled[dd] = rec
             fu_new += 1
     if fled:
-        for k2 in sorted(fled)[:-FOLLOW_KEEP]:
+        _days = sorted(k2 for k2 in fled if k2 != '_ver')
+        for k2 in _days[:-FOLLOW_KEEP]:
             fled.pop(k2, None)
         try:
             with open(fled_p, 'w', encoding='utf-8') as f:
                 json.dump(fled, f, ensure_ascii=False, sort_keys=True)
         except Exception as e:
             print(f'follow_ledger 적재 실패(비치명): {e}')
-    print(f'[팔로우/취소] 원장 {len(fled)}일치 · 이번 회차 신규 {fu_new}일 · 요청 {len(want)}건'
+    print(f'[팔로우/취소] 원장 {len(fled) - 1}일치 · 이번 회차 신규 {fu_new}일 · 요청 {len(want)}건'
           + (f' · 소급 {back}일 모드' if back else ''))
     # 접속 실측 = 최근 30일 창 명시(운영자 260809 "제대로 받아오게끔 조치해줘" — 실측 사고 = 8/8·8/9 빈 회신에
     # 원장이 8/7에서 정지·7일 고정). ⚠ 무인자 호출은 Meta가 **최근 ~2일 버킷만** 준다 → 공회신이 3일 이상 이어지면
@@ -369,8 +382,8 @@ def main():
                             'follower_count_series': fc.get('follower_count'),
                             # 팔로우/취소는 이제 날짜별 원장(follow_ledger.json)이 정본이다 — 여기엔 회차 요약만 남긴다.
                             # 구판은 '어제 하루창 원본'을 매 회차 통째로 박았는데 그 창이 항상 빈손이라 1,009줄이 껍데기였다.
-                            'follows_led': {'days': len(fled), 'new': fu_new,
-                                            'last': (sorted(fled)[-1] if fled else None)},
+                            'follows_led': {'days': len(fled) - 1, 'new': fu_new,
+                                            'last': (max((k2 for k2 in fled if k2 != '_ver'), default=None))},
                             'account_daily': ts,
                             'dropped': dropped}, ensure_ascii=False) + '\n')
     with open(f'{OUT}/media_latest.json', 'w', encoding='utf-8') as f:
