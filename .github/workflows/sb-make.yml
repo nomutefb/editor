@@ -176,7 +176,8 @@ jobs:
         if: inputs.shoot == 'grok' || inputs.shoot == 'seedance'
         env:
           IN_ID: ${{ inputs.id }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}   # 1순위(스킬 규격) — 미등록이면 아래 제미나이로 내려앉는다
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}   # 2순위 폴백 · 260811 실측에서 OPENAI 키가 없어 시트가 0장이었다
           R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
           R2_BUCKET: ${{ secrets.R2_BUCKET }}
           R2_PUBLIC_BASE: ${{ secrets.R2_PUBLIC_BASE }}

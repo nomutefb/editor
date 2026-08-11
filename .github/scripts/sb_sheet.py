@@ -110,17 +110,26 @@ def main():
     if not cuts:
         print("콘티 시트: 미시도(컷 0개) — board.md 형식 확인")
         return 0
-    if not os.environ.get("OPENAI_API_KEY", "").strip():
-        print("콘티 시트: 미시도(OPENAI_API_KEY 미등록)")
-        return 0
 
-    try:
-        png = gi.openai_image(sheet_prompt(md, cuts), None, SHEET_ASPECT)
-    except Exception as e:  # noqa: BLE001
-        print("::warning::콘티 시트 실패(비치명): {}".format(str(e)[:250]))
-        return 0
+    # ⚠ 엔진 2단(260811 실측 봉합) — 첫 실호출(run 31536019555)에서 이 스텝이 **1초 만에 끝났다**.
+    #   OPENAI_API_KEY 가 레포 시크릿에 없어서 통째로 미시도였고, 영상 12컷은 다 나왔는데
+    #   시트만 조용히 0장이었다(에러 0 · 잡은 초록). 없는 키를 기다리는 층은 죽은 층이라
+    #   **이미 있는 자격(Gemini)** 으로 내려앉는다 — 종전 정본(GPT Image)은 1순위 그대로다.
+    prompt = sheet_prompt(md, cuts)
+    png, engine = None, None
+    if os.environ.get("OPENAI_API_KEY", "").strip():
+        try:
+            png = gi.openai_image(prompt, None, SHEET_ASPECT)
+            engine = "gpt_image"
+        except Exception as e:  # noqa: BLE001
+            print("::warning::콘티 시트 GPT Image 실패 — 제미나이로 내려앉는다: {}".format(str(e)[:200]))
+    if not png and tg.KEY:
+        # 2K = 시트엔 칸마다 글자 세 줄이 들어가므로 1K 로는 뭉갠다(k_refgen 은 그림 한 장이라 1K).
+        png = tg.gemini_image(prompt, "2K", tag="sbsheet",
+                              aspect="{}:{}".format(*SHEET_ASPECT))
+        engine = "gemini"
     if not png:
-        print("::warning::콘티 시트 — 빈 산출")
+        print("콘티 시트: 미시도(OPENAI_API_KEY·GEMINI_API_KEY 둘 다 없음)")
         return 0
 
     url = None
@@ -134,12 +143,13 @@ def main():
         # R2 가 없으면 레포에 남긴다(대표 1장뿐이라 비대 위험이 작다 = k_refgen 폴백 관례)
         open(os.path.join(out_dir, "sheet.jpg"), "wb").write(png)
     try:
-        json.dump({"url": url, "cuts": len(cuts)},
+        json.dump({"url": url, "cuts": len(cuts), "engine": engine},
                   open(os.path.join(out_dir, "sheet.json"), "w", encoding="utf-8"),
                   ensure_ascii=False)
     except Exception:  # noqa: BLE001
         pass
-    print("콘티 시트: {}컷 1장 → {}".format(len(cuts), url or os.path.join(out_dir, "sheet.jpg")))
+    print("콘티 시트: {}컷 1장 · 엔진 {} → {}".format(
+        len(cuts), engine, url or os.path.join(out_dir, "sheet.jpg")))
     return 0
 
 

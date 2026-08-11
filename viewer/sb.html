@@ -649,6 +649,28 @@ async function renderOut(md, outEl, outPath) {   // 결과 렌더 공통(폴 성
   // 없으면(=kling 레인·GEMINI 키 미등록·생성 실패) 아무것도 안 붙는다 = 종전 동작 그대로(무회귀)
   if (outPath) {
     const base = outPath.replace(/board\.md$/, '');
+    // 🎬 그록 영상(촬영=grok): 같은 폴더 video.json = 컷별 산출 + **실제 청구액**(운영자 260811 "실제 제작할때도 표기해줫으면함").
+    //    ⚠ 금액은 우리가 계산한 추정이 아니라 xAI 가 응답에 실어 보낸 값이다(grok_api = usage.cost_in_usd_ticks ÷ 1e10).
+    //    없으면(=다른 레인·영상 실패) 아무것도 안 붙는다 = 무회귀. 부품 = 아래 레퍼런스 `.ref/.cap` 그대로(창작 0).
+    try {
+      const vr = await fetch(base + 'video.json?t=' + Date.now());
+      if (vr.ok) {
+        const v = await vr.json();
+        const cs = (v && Array.isArray(v.cuts)) ? v.cuts : [];
+        const ok = cs.filter(c => c && c.video);
+        if (ok.length) {
+          const cells = cs.map(c => (c && c.video)
+            ? '<video src="' + String(c.video).replace(/"/g, '%22') + '" controls playsinline preload="metadata" data-ix="' + (c.n || '') + '"></video>'
+            : '<div class="refmiss">컷 ' + ((c && c.n) || '?') + ' 실패 — ' + esc(String((c && c.fail) || '사유 미기록')) + '</div>').join('');
+          const secs = ok.reduce((a, c) => a + (+c.sec || 0), 0);
+          html = '<div class="ref multi">' + cells
+            + '<div class="cap">그록 영상 ' + ok.length + '/' + cs.length + '컷 · 합 ' + secs + '초 · 소리 ' + (v.sound === false ? '끔' : '켬')
+            + ' · 청구 $' + (Number(v.cost_usd) || 0).toFixed(2)
+            + (ok.length ? ' (컷당 $' + ((Number(v.cost_usd) || 0) / ok.length).toFixed(3) + ')' : '')
+            + '</div></div>' + html;
+        }
+      }
+    } catch (e) { /* 폴백 = 미부착 */ }
     // 모션그래픽 산출(촬영=motion): 같은 폴더의 motion.mp4 = 렌더 완료물. 없으면(=다른 레인·렌더 실패) 아무것도 안 붙는다 = 무회귀.
     // 실존 확인 = HEAD + content-type 가드(SPA 폴백이 HTML을 200으로 주는 함정 — 아래 ref.jpg 폴백과 동일 축).
     try {

@@ -5195,13 +5195,30 @@ def check_grok_sb_chain():
     if re.search(r"seconds\s*=\s*\d+", rn):
         print("❌ 그록 콘티 레인 — 컷 길이가 고정 상수로 박혔다(콘티가 적은 값을 써야 한다)"); rc = 1
 
+    # ⑥ 260811 첫 실호출 실측 봉합 2종 — 둘 다 빠져도 영상은 나온다(= 조용히 나빠진다)
+    for needle, why in (("def ref_ids", "참조 슬롯 정체 묶기(대명사 뒤바뀜 차단 · 실측 컷7)"),
+                        ("REF_CAP", "참조 장수 상한(운영자 260811 = 2 기본·3 이유 있을 때·4 금지)"),
+                        ("ref_reason", "장수 사유 기록(3장을 쓴 이유가 산출에 남는다)")):
+        if needle not in rn:
+            print("❌ 그록 콘티 레인 — grok_sb_video.py 에 {} 가 없다({})".format(why, needle)); rc = 1
+    # 정체 문장은 **동작 문장보다 앞**에 서야 한다(자기회귀 = 뒤에 두면 대명사가 가리킬 대상이 없다)
+    _vp = rn.split("def vid_prompt", 1)[-1].split("\ndef ", 1)[0]
+    if _vp and _vp.find("parts.extend(ids") > _vp.find('c["camera"]'):
+        print("❌ 그록 콘티 레인 — 등장 인물표가 동작 문장 뒤에 있다(앞에 와야 대명사가 묶인다)"); rc = 1
+    if "MOTION 3계약" not in _t("prompts/sb-make.md"):
+        print("❌ 그록 콘티 레인 — sb-make.md 에 MOTION 3계약이 없다(대명사·무인 컷·세트 조각)"); rc = 1
+
     # ⑤ 감독 지침 = MOTION(영어 동작 줄) 규약. 빠지면 프롬프트가 한국어로 나간다.
     sh = _t(".github/scripts/sb_sheet.py")
     for needle, why in (("def sheet_prompt", "시트 프롬프트 조립"),
-                        ("gi.openai_image", "GPT Image 호출"),
+                        ("gi.openai_image", "GPT Image 호출(1순위)"),
+                        ("tg.gemini_image", "제미나이 폴백(2순위 · 260811 실측 = OPENAI 키 없으면 시트 0장)"),
                         ("from grok_sb_video import cuts_of", "컷 파서 단일정본(사본 0)")):
         if needle not in sh:
             print("❌ 그록 콘티 레인 — sb_sheet.py 에 {} 가 없다({})".format(why, needle)); rc = 1
+    # 폴백이 살아 있어도 워크플로가 열쇠를 안 넘기면 그 자리에서 죽는다(같은 병의 짝)
+    if "GEMINI_API_KEY" not in wf.split("name: Storyboard sheet", 1)[-1].split("name: Grok video", 1)[0]:
+        print("❌ 그록 콘티 레인 — 시트 스텝이 GEMINI_API_KEY 를 안 받는다(폴백이 배선만 있고 못 돈다)"); rc = 1
 
     if "MOTION:" not in _t("prompts/sb-make.md"):
         print("❌ 그록 콘티 레인 — prompts/sb-make.md 에 MOTION 규약이 없다(영상 프롬프트가 한국어로 나간다)"); rc = 1

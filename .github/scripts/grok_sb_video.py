@@ -36,10 +36,17 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "shared"))
 import thumb_gen as tg          # noqa: E402  gemini_image · r2_upload · R2_ON (k_refgen 과 같은 배관)
 import grok_api as gk           # noqa: E402  구독 자격 통로
+import k_refgen as kr           # noqa: E402  extract_refs = 참조 블록 파서 단일정본(사본 0 · 순서 = ref.json 순서)
 
 CUT_MAX = int(os.environ.get("GROK_SB_CUT_MAX", "12"))     # 한 번에 굽는 컷 상한(비용·시간 가드)
 SEC_MIN, SEC_MAX = 1, 15                                   # 공식 허용 범위
 SEC_FALLBACK = 5                                           # 콘티가 시각을 안 적었을 때
+
+# 참조 그림 상한(운영자 260811 "3개 초과해서 만들면 실패고, 2개가 베스트야. 3개 뽑을 때는 이유가 있어야 해").
+# ⚠ 그록 API 자체는 7장까지 받지만(gk.REF_MAX) 그건 기술 한도이지 우리 계약이 아니다.
+#   그림 1장마다 제미나이 값이 나가고, 참조가 늘수록 「이 얼굴을 지켜라」의 힘이 오히려 흩어진다.
+#   2장 = 인물 1 + 장소 1 이 기본이고, 3장은 **등장인물이 둘일 때만** 정당하다.
+REF_CAP, REF_BEST = 3, 2
 
 # 컷 머리 = `### 컷3 · 4~7s · 한 줄 설명`(sb-make.md 출력 형식) — 시각 표기는 없을 수도 있다
 _CUT = re.compile(r"^###\s*컷\s*(\d+)\s*(?:·\s*([\d.]+)\s*~\s*([\d.]+)\s*s)?\s*(?:·\s*(.*))?$", re.M)
@@ -95,10 +102,39 @@ def refs_of(out_dir):
     urls = [u for u in (d.get("urls") or []) if u]
     if not urls and d.get("url"):
         urls = [d["url"]]
-    return urls[:gk.REF_MAX]
+    return urls[:REF_CAP]
 
 
-def vid_prompt(c, sound=True, nrefs=0):
+# 참조 문장 앞머리 상투구 — 잘라내야 「무엇을 잠그는 그림인지」가 첫 낱말로 온다(창작 0 · 잘라내기만)
+_REF_LEAD = re.compile(
+    r"^(?:a\s+|an\s+|the\s+)?(?:cinematic\s+|editorial\s+|photoreal\w*\s+|moody\s+)*"
+    r"(?:portrait|photograph|photo|shot|still|image|render)\s+of\s+", re.I)
+
+
+def ref_ids(md, n):
+    """참조 슬롯 n개를 **정체 문장**으로 묶는다 — `<IMAGE_0> 은 의수를 단 남자다` 식.
+
+    ⚠ 왜 필요했나(260811 실측 사고) = 참조 모드는 얼굴·옷·장소를 잠그지만 「이 컷에서 **누가**
+      움직이나」는 안 잠근다. 그 정보는 프롬프트 문장에만 있는데, 감독이 쓴 문장은 인물을
+      `He` · `She` 로만 가리킨다. 인물 참조가 둘이면 대명사는 둘 중 누구든 될 수 있고,
+      실제로 컷7에서 **남자가 응사하는 장면이 여자가 쏘는 장면으로 뒤집혔다**.
+      → 슬롯 번호에 정체를 못 박아 대명사가 갈 곳을 하나로 만든다.
+
+    출처 = board.md `## 🖼 레퍼런스` 절의 영어 문장 그대로(k_refgen 과 **같은 파서·같은 순서**라
+    슬롯 번호가 어긋날 수 없다). 새 문장 창작 0 · 앞머리 상투구만 잘라 짧게 만든다.
+    """
+    outs = []
+    for i, b in enumerate(kr.extract_refs(md)[:n]):
+        one = " ".join(b.split())
+        one = _REF_LEAD.sub("", one)
+        cut = one[:150]
+        if len(one) > 150:                      # 낱말 중간이 아니라 쉼표에서 끊는다
+            cut = cut[:cut.rfind(",")] if "," in cut else cut.rsplit(" ", 1)[0]
+        outs.append("<IMAGE_{}> shows {}.".format(i, cut.rstrip(" .,")))
+    return outs
+
+
+def vid_prompt(c, sound=True, nrefs=0, ids=None):
     """컷 영상 프롬프트 — 정본 `prompts/grok-make.md` 규칙 적용.
 
     ⚠ **바뀌는 것만 쓴다**(§3-1). 첫 프레임이 구도·조명·색을 이미 쥐고 있어서 그걸 다시 쓰면
@@ -108,16 +144,20 @@ def vid_prompt(c, sound=True, nrefs=0):
     ⚠ 소리 = 안 적으면 제네릭 배경음악이 붙는다(§0-③) → 켜기면 명시, 끄기면 4수법(§4-3).
     """
     parts = []
+    if nrefs:
+        # 참조 지목 = **0부터** 센다(공식 2거처 일치 · 260810 확인). 첫 장이 <IMAGE_0>.
+        # 잠금 지시문은 묘사가 아니라 명령이라 희석 축에 안 걸린다(정본 §3-1 예외).
+        # ⚠ **맨 앞이 자리다.** 그록 이미지 엔진은 앞에서 뒤로 읽어 나가므로(자기회귀 · 정본 §0-①)
+        #   등장 인물표를 동작 문장 **뒤에** 두면 `He` 를 읽는 시점에 그 낱말이 가리킬 대상이
+        #   아직 없다. 260811 실측에서 컷7 이 정확히 그렇게 뒤집혔다(남자 응사 → 여자 사격).
+        parts.extend(ids or [])
+        tags = ", ".join("<IMAGE_{}>".format(i) for i in range(nrefs))
+        parts.append("Keep the people, wardrobe, and setting identical to {}.".format(tags))
     mv = c.get("motion") or c["action"]   # 영어 줄 우선 · 없으면 한국어라도 보낸다(fail-soft)
     if mv:
         parts.append(mv.rstrip(". ") + ".")
     if c["camera"]:
         parts.append(c["camera"].rstrip(". ") + ".")
-    if nrefs:
-        # 참조 지목 = **0부터** 센다(공식 2거처 일치 · 260810 확인). 첫 장이 <IMAGE_0>.
-        # 잠금 지시문은 묘사가 아니라 명령이라 희석 축에 안 걸린다(정본 §3-1 예외).
-        tags = ", ".join("<IMAGE_{}>".format(i) for i in range(nrefs))
-        parts.append("Keep the people, wardrobe, and setting consistent with {}.".format(tags))
     if sound:
         # 컷이 대사를 적었어도 **말소리는 넣지 않는다** — 이미지→영상은 립싱크가 구조적으로
         # 불리하고(§4-3), 실존 인물 축 위험도 여기서 함께 차단된다(§7-3 ①).
@@ -192,19 +232,30 @@ def main():
         return 0
 
     refs = refs_of(out_dir)
+    ids = ref_ids(md, len(refs)) if refs else []
+    # 참조 장수 계약(운영자 260811) — 2장이 기본 · 3장은 이유가 있을 때만 · 3장 초과는 실패다.
+    #   이유 = 「인물이 몇 명인가」로 기계 판정한다(콘티 참조 절이 「인물:」·「배경:」으로 라벨을 단다).
+    people = len(re.findall(r"^\s*[①-⑦]\s*인물\s*[:：]", md, re.M))
+    if len(refs) > REF_BEST:
+        reason = ("등장인물 {}명 + 장소 1 = 슬롯 {}".format(people, len(refs)) if people >= REF_BEST
+                  else "인물 {}명뿐인데 참조가 {}장이다 — 줄일 여지가 있다".format(people, len(refs)))
+    else:
+        reason = "기본({}장 이하)".format(REF_BEST)
     if not refs:
         # ⚠ 콘티가 그림을 안 구웠으면(레퍼런스 OFF·Gemini 실패·R2 미설정) 참조가 0장이다.
         #   그래도 발사는 한다 — 그록이 컷 설명만으로 첫 장면을 스스로 만든다(텍스트→영상).
         #   다만 인물·화풍이 컷마다 흔들리므로 그 사실을 남긴다.
         print("::warning::참조 그림 0장(ref.json 없음) — 인물·화풍이 컷마다 흔들린다")
     else:
-        print("참조 {}장 공유(컷 수와 무관 = 그림 값 고정)".format(len(refs)))
+        print("참조 {}장 공유(컷 수와 무관 = 그림 값 고정) · 사유 {}".format(len(refs), reason))
+        for s in ids:
+            print("  · {}".format(s))
 
     items, spent = [], 0.0
     for c in cuts:
         rec = {"n": c["n"], "sec": c["sec"], "desc": c["desc"], "refs": len(refs), "video": None}
         try:
-            rid = gk.start_video(vid_prompt(c, sound, len(refs)), token=token,
+            rid = gk.start_video(vid_prompt(c, sound, len(refs), ids), token=token,
                                  refs=refs or None, seconds=c["sec"])
             v = gk.wait_video(rid, token=token)
             spent += float(v.get("cost_usd") or 0)
@@ -236,9 +287,10 @@ def main():
         if not r.get("video") and not r.get("fail"):
             r["fail"] = r.get("fail") or "그림 단계에서 막혔다(위 경고 참조)"
     json.dump({"cuts": items, "done": done, "total": len(cuts), "sound": sound,
-               "cost_usd": round(spent, 4)},
+               "cost_usd": round(spent, 4), "refs": len(refs), "ref_reason": reason},
               open(os.path.join(out_dir, "video.json"), "w", encoding="utf-8"), ensure_ascii=False)
-    print("영상 {}/{}컷 · 청구 {} 달러".format(done, len(cuts), round(spent, 4)))
+    print("영상 {}/{}컷 · 청구 {} 달러(컷당 {})".format(
+        done, len(cuts), round(spent, 4), round(spent / done, 4) if done else 0))
     return 0
 
 
