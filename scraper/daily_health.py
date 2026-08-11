@@ -98,6 +98,46 @@ def _cum_enter(x):
     return (x.get("cross") or 0) >= 8 or brk or fol
 
 
+def screen_merge(cands):
+    """화면 병합 재현 — 뷰어 applyAutoGroups+mergeDecorate 미러(같은 group_id 형제를 앵커로 접고
+    cross 는 **단순 합산**[정본 주석 = "union 아닌 합"]·breaking 은 OR·grade/report_count 는 max).
+    ⚠️ 신설 사유(260811) = `_cum_enter` 근사 2("병합 전 원자료라 과소계상")를 **알림 발화 축에서** 해소한다.
+       구판 buried_alert 는 그 한계를 본문에 「실물 렌더로 대조하세요」라는 **숙제**로 적어 보냈다 — 즉
+       알림이 스스로 답할 수 있는 값을 안 내고 매 회차 사람(또는 다음 세션)에게 같은 실측을 처음부터
+       다시 시켰고, 리포트 조치 칸도 「코드로 원인 판단 필요」로 고정됐다. 관측이 알림 **밖**에 있으면
+       다음 세션이 추측으로 메운다(스레드 `[1차 실측]`·틱톡 `_e1`·요약실패 `_fk=code` 동축).
+       계산은 **이미 손에 든 후보 파일만** 쓴다 = 추가 요청·네트워크·LLM 0.
+    ⚠️ 낱말 기반 병합 금지(260625 안산↔청주 선례) — group_judge 가 '같은 실제 사건' YES 확정한
+       group_id 만 접는다. 제목이 비슷하다는 이유로 접으면 다른 사건이 조용히 사라진다.
+    ⚠️ 잔여 과소계상 = 수동 병합(applyMerges)은 운영자 기기 저장소라 파이썬이 못 읽는다 = 미러 밖.
+    ⚠️ 랭킹 댐핑(_rankCross)은 미러 안 한다 — 진입 자격 게이트는 raw 합산값을 쓴다(정본 주석)."""
+    fam = {}
+    for i, x in enumerate(cands):
+        g = x.get("group_id")
+        if g:
+            fam.setdefault(g, []).append(i)
+    if not fam:
+        return list(cands)
+    drop, deco = set(), {}
+    for gid, idxs in fam.items():
+        if len(idxs) < 2:
+            continue
+        ai = next((i for i in idxs if cands[i].get("url") == gid), None)
+        if ai is None:
+            ai = sorted(idxs, key=lambda i: cands[i].get("cross") or 0, reverse=True)[0]
+        anchor, mem = cands[ai], [cands[i] for i in idxs if i != ai]
+        grades = [g for g in [anchor.get("grade")] + [m.get("grade") for m in mem] if g is not None]
+        deco[ai] = {**anchor,
+                    "cross": (anchor.get("cross") or 0) + sum((m.get("cross") or 0) for m in mem),
+                    "breaking": bool(anchor.get("breaking")) or any(m.get("breaking") for m in mem),
+                    "grade": max(grades) if grades else anchor.get("grade"),
+                    "report_count": max([anchor.get("report_count") or 0]
+                                        + [(m.get("report_count") or 0) for m in mem]),
+                    "_mergeCount": len(mem)}
+        drop.update(i for i in idxs if i != ai)
+    return [deco.get(i, x) for i, x in enumerate(cands) if i not in drop]
+
+
 def buried_counts(cands, now, intl_only=False):
     """묻힘(4h+ 인데 누적 칼럼 미진입) 집계 — (grade3 목록, grade2 건수).
     §1 "중요한 게 묻히면 안 됨"의 자동감시 실체. intl_only=True 면 260703 기지값과 이어지는 국제 스코프,
@@ -136,8 +176,10 @@ def buried_alert():
     except Exception as e:
         print(f"::warning::묻힘 감시 스킵(candidates 읽기 실패): {e}"); return 0   # fail-soft
     now = dt.datetime.now(KST)
-    g3, g2 = buried_counts(cands, now, intl_only=False)
-    print(f"· 묻힘(전 카테고리 4h+ 누적 미진입): grade3 {len(g3)}건 · grade2 {g2}건 (발화선 g3≥{warn_at})")
+    raw3, _ = buried_counts(cands, now, intl_only=False)                # 원자료(병합 전) = 계기판 기저값 연속성용
+    g3, g2 = buried_counts(screen_merge(cands), now, intl_only=False)   # 화면 재현 = 발화 판정 축(260811)
+    print(f"· 묻힘(전 카테고리 4h+ 누적 미진입): grade3 {len(g3)}건"
+          f"(원자료 {len(raw3)}건) · grade2 {g2}건 (발화선 g3≥{warn_at})")
     ids = [f"buried-g3-{n}" for n in range(0, 60)]                     # 회전 id 후보 = 이전 회차분 청소용
     for i in ids:                                                      # 구 건수 알림 제거(중복 점등 방지)
         if i != f"buried-g3-{len(g3)}":
@@ -147,14 +189,20 @@ def buried_alert():
         return 0
     lines = [f"묻힌 대형(grade3) {len(g3)}건 — 4시간이 지났는데 누적 칼럼에 못 들어간 사건입니다."
              f" (같은 시점 grade2 묻힘 {g2}건 · 260805 기저 = g3 3·g2 78)", "",
-             "⚠️ 이 집계는 병합 전 원자료 기준입니다 — 화면은 같은 사건의 갈라진 클러스터를 합쳐"
-             " cross 를 합산하므로, 여기 뜬 건이 실제로는 이미 노출 중일 수 있습니다(260805 실측)."
-             " 진입선을 손대기 전에 반드시 실물 렌더로 대조하세요.", ""]
+             f"✅ 화면 병합을 재현한 뒤의 숫자입니다(원자료 {len(raw3)}건 → 같은 사건 묶기 반영 {len(g3)}건)."
+             " 아래 건들은 갈라진 형제를 합산해도 진입선에 미달 = 지금 화면에 실제로 없습니다."
+             " 남은 오차 = 네 기기에만 있는 수동 병합(코드가 못 읽음).", ""]
     for x in g3[:8]:
+        _mc = x.get("_mergeCount")
         lines.append(f"· {(x.get('title') or '')[:52]}"
-                     f" (cr{x.get('cross') or 0}·rc{x.get('report_count') or 0}·{x.get('cat') or '?'})")
+                     f" (cr{x.get('cross') or 0}·rc{x.get('report_count') or 0}·{x.get('cat') or '?'}"
+                     + (f"·형제{_mc}건 합산" if _mc else "") + ")")
     lines += ["", "진입 자격 = cross≥8 OR 긴급 OR followEnters(cross≥4 ∧ [rc≥6 OR rc≥5+grade≥2 OR rc≥3+강지문]).",
               "위 건들은 셋 다 미달이라 화면에서 사라진 상태입니다.",
+              "",
+              "⚠️ 숫자만 보고 진입선을 내리지 마세요 — 260811 실측에서 5건 중 1건(연예 소속사 사명 변경)이"
+              " 대형(grade3) 오채점이었습니다. 목록에 채점이 어긋난 건이 섞이면 발화선이 그만큼 쉽게 넘습니다."
+              " 먼저 각 건의 등급이 맞는지 보고, 오채점이면 채점 축(grade RUBRIC)으로 가세요.",
               "확인 = python3 scraper/daily_health.py · 임계 정본 = docs/curation-algorithm.md §★"]
     subprocess.run([sys.executable, str(ROOT / "shared" / "msg.py"), "set",
                     f"buried-g3-{len(g3)}", "\n".join(lines), "warn"], capture_output=True)
