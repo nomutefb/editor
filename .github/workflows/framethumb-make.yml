@@ -72,9 +72,9 @@ jobs:
         timeout-minutes: 8
         env:
           URL: ${{ inputs.url }}
-          YT_COOKIES: ${{ secrets.YT_COOKIES }}
-          YT_COOKIES_2: ${{ secrets.YT_T_COOKIES }}    # 다운로더 슬롯 1 — 구 YT_COOKIES가 죽었을 때 회수(260811 · 건강검진이 보는 건 이쪽뿐이라 구 쿠키는 죽어도 무경보였다)
-          YT_COOKIES_3: ${{ secrets.YT_T2_COOKIES }}   # 다운로더 슬롯 2(미설정이면 빈값 = 건너뜀)
+          YT_COOKIES: ${{ secrets.YT_T2_COOKIES }}   # 지금 쓰는 살아있는 칸 = 1순위(260811 · 죽은 칸을 먼저 두드리면 매 런 4번 헛시도 + 유튜브에 같은 주소로 실패를 반복해 보인다)
+          YT_COOKIES_2: ${{ secrets.YT_T_COOKIES }}   # 예비 1 — 위가 죽으면 자동 회수
+          YT_COOKIES_3: ${{ secrets.YT_COOKIES }}   # 예비 2(구 시크릿)
         run: |
           set -e
           timeout 180 pip install -q yt-dlp || { sleep 3; timeout 180 pip install -q yt-dlp; }

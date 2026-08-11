@@ -238,9 +238,9 @@ jobs:
           LY_STT_ENGINE: ${{ vars.LY_STT_ENGINE }}
           LY_STT_MAX_SEC: ${{ vars.LY_STT_MAX_SEC }}   # 전사 길이 하드 캡(빈값 = 3600s) — Scribe 속도가 종전 비용 브레이크를 없앤 자리 방어
           URL: ${{ inputs.url }}
-          YT_COOKIES: ${{ secrets.YT_COOKIES }}
-          YT_COOKIES_2: ${{ secrets.YT_T_COOKIES }}    # 다운로더 슬롯 1 — 구 YT_COOKIES가 죽었을 때 회수(260811 · 건강검진이 보는 건 이쪽뿐이라 구 쿠키는 죽어도 무경보였다)
-          YT_COOKIES_3: ${{ secrets.YT_T2_COOKIES }}   # 다운로더 슬롯 2(미설정이면 빈값 = 건너뜀)
+          YT_COOKIES: ${{ secrets.YT_T2_COOKIES }}   # 지금 쓰는 살아있는 칸 = 1순위(260811 · 죽은 칸을 먼저 두드리면 매 런 4번 헛시도 + 유튜브에 같은 주소로 실패를 반복해 보인다)
+          YT_COOKIES_2: ${{ secrets.YT_T_COOKIES }}   # 예비 1 — 위가 죽으면 자동 회수
+          YT_COOKIES_3: ${{ secrets.YT_COOKIES }}   # 예비 2(구 시크릿)
           IN_ID: ${{ inputs.id }}
           OPTS: ${{ inputs.opts }}
           LY_STT_PRECISION: ${{ inputs.stt_prec }}   # 빈값 = ly_stt.py 기본(int8_float32) · A/B 시에만 지정
