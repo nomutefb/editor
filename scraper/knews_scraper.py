@@ -176,9 +176,20 @@ def jaccard(a, b):
 
 def same_topic(ta, tb):
     """두 제목 토큰집합이 같은 사건을 가리키는가."""
-    inter = len(ta & tb)
-    if inter == 0:
+    shared = ta & tb
+    if not shared:
         return False
+    # 공유가 전부 숫자면 같은 사건이 아니다(260811 · 평의회5 실측) — 정형 코너(만평·그림판·운세·
+    # 날씨·시각뉴스)는 tokenize가 대괄호 머리표를 통째로 지우고 나면 날짜 숫자만 남아, 그날 나온
+    # 온 신문의 코너가 서로 "겹침 3개"를 정확히 채워 한 덩어리로 뭉친다(실사고 = [김용민의 그림마당]
+    # 교차 12매체). ⚠️ 겹침 개수 축에서만 빼면 안 된다 — 실측 오염 40쌍 중 대부분이 자카드 보조
+    # 경로로 붙어서 0쌍이 끊긴다. 두 갈래보다 앞에 둬야 성립.
+    # 잃는 것 = 58일 코퍼스에서 진짜 사건 2건(파생결합증권 발행액·코스닥 시황 = 낱말이 전부 불용어라
+    # 숫자만 남은 건). 숫자가 낱말과 섞여 결정적인 정상 병합(기온·득표율·금액)은 무손상 = 여기서
+    # 걸러지지 않는다(공유에 낱말이 하나라도 있으면 통과).
+    if all(t.isdigit() for t in shared):
+        return False
+    inter = len(shared)
     if inter >= MIN_TOKEN_OVERLAP:
         return True
     return jaccard(ta, tb) >= JACCARD_BACKUP

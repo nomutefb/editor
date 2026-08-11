@@ -83,9 +83,12 @@ def _get_matcher():
             return {x for x in re.findall(r"[가-힣]{2,}|[A-Za-z]{2,}|[0-9]{2,}", t) if x not in stop}
 
         def same_topic(ta, tb):
-            inter = len(ta & tb)
-            if inter == 0:
+            shared = ta & tb
+            if not shared:
                 return False
+            if all(t.isdigit() for t in shared):   # 공유가 전부 숫자 = 정형 코너(만평·운세·날씨)의 날짜만 같은 것 = 다른 사건(정본 knews_scraper.same_topic 동기 · 260811)
+                return False
+            inter = len(shared)
             if inter >= 3:
                 return True
             return inter / len(ta | tb) >= 0.5

@@ -27,8 +27,10 @@ def tok(t, extra=frozenset()):
     return {x for x in re.findall(r"[가-힣]{2,}|[A-Za-z]{2,}|[0-9]{2,}", t) if x not in STOPWORDS and x not in extra}
 
 def same_topic(a, b):
-    i = len(a & b)
-    if i == 0: return False
+    sh = a & b
+    if not sh: return False
+    if all(t.isdigit() for t in sh): return False   # 공유가 전부 숫자 = 정형 코너(만평·운세·날씨)의 날짜만 같은 것 = 다른 사건(정본 knews_scraper.same_topic 동기 · 260811)
+    i = len(sh)
     if i >= MIN_TOKEN_OVERLAP: return True
     return (i / len(a | b)) >= JACCARD_BACKUP
 
