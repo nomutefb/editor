@@ -92,13 +92,19 @@ else
   else
     cp "$SEEN" "$SEEN.bak" 2>/dev/null
     cp "$SEEN" "$TMPD/seen.in"
-    grep -vxF -f "$TMPD/orphan" "$TMPD/seen.in" > "$TMPD/seen.out" 2>/dev/null
-    if [ -s "$TMPD/seen.out" ]; then
+    # ⚠ 재작성 = awk 대조(이 파이프라인의 정본 관용구 = drive-gallery-sync.sh 의 SEEN↔NOW 대조와 같은 문법).
+    #   구판 `grep -vxF -f`는 260811 실환경에서 **결과를 통째로 비웠다**(스텁에선 통과 · 폰에서 실패
+    #   = 안전장치가 회수를 건너뛰고 원본을 지켰다). grep 구현차에 기대지 않는 문법으로 교체한다.
+    IN=$(cnt "$TMPD/seen.in")
+    awk 'FNR==NR{o[$0]=1;next} !($0 in o)' "$TMPD/orphan" "$TMPD/seen.in" > "$TMPD/seen.out" 2>/dev/null
+    OUT=$(cnt "$TMPD/seen.out")
+    # 안전 검문 = 빠진 줄 수가 정확히 오염 건수여야 한다(과다 삭제 = 재다운로드 폭탄이라 절대 통과 금지)
+    if [ "$OUT" -gt 0 ] && [ $((IN - OUT)) -le "$ON" ] && [ $((IN - OUT)) -gt 0 ]; then
       mv "$TMPD/seen.out" "$SEEN"
-      echo "  ♻ ${ON}건을 장부에서 빼서 다시 받게 했다(장부 백업 = $SEEN.bak):"
+      echo "  ♻ ${ON}건을 장부에서 빼서 다시 받게 했다(장부 ${IN}→${OUT}줄 · 백업 = $SEEN.bak):"
       sed 's|^|     · |' "$TMPD/orphan"
     else
-      echo "  ⚠ 장부 재작성 결과가 비어 회수를 건너뛴다(원본 그대로 · 수동 확인 필요)"
+      echo "  ⚠ 회수 건너뜀 — 장부 ${IN}줄 → 재작성 ${OUT}줄이 예상(−${ON})과 안 맞는다. 원본 그대로 둔다."
     fi
   fi
 fi
