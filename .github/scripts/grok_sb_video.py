@@ -258,7 +258,14 @@ def main():
             rid = gk.start_video(vid_prompt(c, sound, len(refs), ids), token=token,
                                  refs=refs or None, seconds=c["sec"])
             v = gk.wait_video(rid, token=token)
-            spent += float(v.get("cost_usd") or 0)
+            # ⚠ 컷별 값을 적는다(운영자 260811 「최적의 순간을 찾는다」) — 합계만 적혀 있으면
+            #   「호출 1번에 고정인가 · 초당인가」를 영영 못 가른다(첫 판 실측 = 1초 6개 + 2초 6개
+            #   합 $2.88 이 고정 $0.24 와 초당 $0.16 양쪽에 다 맞아떨어져 판별 불가였다).
+            #   컷 길이가 서로 다른 판에서 컷별 값을 나란히 놓으면 그 자리에서 답이 나온다.
+            one = float(v.get("cost_usd") or 0)
+            rec["cost"] = round(one, 4)
+            rec["got_sec"] = v.get("duration")   # 서버가 실제로 만든 길이(요청 길이와 대조)
+            spent += one
             raw = gk.fetch(v["url"])
             local = os.path.join(out_dir, "cut{:02d}.mp4".format(c["n"]))
             open(local, "wb").write(raw)
@@ -268,7 +275,7 @@ def main():
             rec["video"] = tg.r2_upload(open(local, "rb").read(), vkey, "video/mp4") if tg.R2_ON else None
             if rec["video"]:
                 os.remove(local)   # R2 로 갔으면 레포에 안 남긴다(레포 비대 0 = k_refgen 관례)
-            print("컷{} ✓ {}초 · {}".format(c["n"], c["sec"], rec["video"] or local))
+            print("컷{} ✓ {}초 · ${} · {}".format(c["n"], c["sec"], rec["cost"], rec["video"] or local))
         except gk.GrokError as e:
             # ⚠ 자동 재시도 없음(운영자 260811) — 다시 쏘면 돈이 또 나가고, 검열 차단은
             #   같은 프롬프트로 몇 번을 쏴도 안 풀린다. 대신 **막힌 이유를 사람 말로 남겨**
@@ -289,8 +296,21 @@ def main():
     json.dump({"cuts": items, "done": done, "total": len(cuts), "sound": sound,
                "cost_usd": round(spent, 4), "refs": len(refs), "ref_reason": reason},
               open(os.path.join(out_dir, "video.json"), "w", encoding="utf-8"), ensure_ascii=False)
-    print("영상 {}/{}컷 · 청구 {} 달러(컷당 {})".format(
-        done, len(cuts), round(spent, 4), round(spent / done, 4) if done else 0))
+    # 과금 단위 판별 — 컷 길이가 두 종류 이상이면 그 자리에서 답이 나온다(길이별 값이 같으면
+    # 호출당 고정 · 길이에 비례하면 초당). 표본이 한 길이뿐이면 「판별 불가」라고 쓴다(추측 금지).
+    by = {}
+    for r in items:
+        if r.get("cost") is not None:
+            by.setdefault(r["sec"], []).append(r["cost"])
+    unit = "판별 불가(컷 길이가 한 종류)"
+    if len(by) >= 2:
+        avg = {s: sum(v) / len(v) for s, v in by.items()}
+        lo, hi = min(avg), max(avg)
+        unit = ("호출당 고정" if abs(avg[hi] - avg[lo]) < 0.02
+                else "초당 비례" if abs(avg[hi] / avg[lo] - hi / lo) < 0.25 else "혼합·불명")
+        unit += " (" + " · ".join("{}초 ${:.4f}".format(s, avg[s]) for s in sorted(avg)) + ")"
+    print("영상 {}/{}컷 · 청구 {} 달러(컷당 평균 {}) · 과금 단위 = {}".format(
+        done, len(cuts), round(spent, 4), round(spent / done, 4) if done else 0, unit))
     return 0
 
 
