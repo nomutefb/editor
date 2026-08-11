@@ -1,5 +1,5 @@
 #!/data/data/com.termux/files/usr/bin/sh
-# 드라이브 → 갤러리 다운싱크 (v1.6 · 정본 실물 — 문서 미러 = 드라이브싱크 플레이북 §1)
+# 드라이브 → 갤러리 다운싱크 (v1.8 · 정본 실물 — 문서 미러 = 드라이브싱크 플레이북 §1)
 # 설치(폰 한 줄): curl -fsSL https://raw.githubusercontent.com/muteno/nomute-editor/main/docs/drive-gallery-sync.sh -o ~/.termux/tasker/drive-gallery-sync.sh && chmod +x ~/.termux/tasker/drive-gallery-sync.sh
 #
 # ── v1.6 (2026-08-11) = 「계속 실패」 4중 봉합 ─────────────────────────────────
@@ -22,6 +22,33 @@
 #   ⚠ SEEN 등록은 여전히 **실제 도착을 확인한 뒤에만** 한다(260702·260719 SEEN 오염 교훈 = 낙관 기록 0).
 #   ⚠ 격리는 **조용한 실종이 아니다** — 알림이 그 파일 이름을 대고 원장에 사유까지 남긴다.
 #      되살리려면 `~/.drivesync.seen`에서 그 줄을 지운다(문서 §6).
+# ── v1.7 (2026-08-11) = 진범 봉합 · 큰 파일 갈래받기 비활성 ────────────────────
+# v1.6이 사유를 싣자마자 로그가 진범을 그대로 뱉었다(운영자 실행 실측):
+#   drive-download-20260811T121058Z-1-001.zip: Failed to copy:
+#   multi-thread copy: failed to find object after copy: object not found
+# ▷ 무슨 일인가 = rclone은 `--multi-thread-cutoff`(기본 **256M**)를 넘는 파일만 여러 갈래로
+#   쪼개 동시에 받는다. 다 쓴 뒤 대상 객체를 다시 조회해 검증하는데, 안드로이드 `/sdcard`는
+#   FUSE 에뮬레이트 계층이라 방금 쓴 파일의 즉시 조회가 어긋나 `object not found`로 죽는다.
+# ▷ **「말짱한데 갑자기」의 정체** = 코드·설정·인증 전부 무변경이고 **입력이 바뀐 것**이다.
+#   평소 사진·영상은 그 문턱 아래라 단일 스트림 경로로 조용히 잘 돌았고, 드라이브 웹의
+#   「여러 개 한꺼번에 받기」 산출물(drive-download-*.zip)이 Shared에 올라온 순간
+#   **그 파일 하나에만** 다른 코드 경로가 켜졌다 → 그날부터 배치 전체가 rc≠0.
+# ▷ 처방 = `--multi-thread-streams 0`(공식 문서 = "Set to 0 to disable multi thread transfers").
+#   ⚠ 대안 폐기 = `--multi-thread-cutoff` 상향은 문턱만 미루는 미봉이고(더 큰 파일에서 재발),
+#   `--transfers`는 **파일 병렬 수**라 이 축과 무관하다(줄여도 갈래받기는 그대로 켜진다).
+#   ⚠ 속도 손해 = 원격에서 큰 파일 하나를 받는 속도만 낮아진다. 폰 회선에선 체감 0에 가깝고,
+#   「안 받아지는 것」보다 「조금 느린 것」이 싸다.
+# ⚠ SEEN 오염 동반 점검 = 이 사고가 난 회차에 rclone이 최종 rc=0을 반환했다면 v1.5가 그 zip을
+#   장부에 넣어버렸을 수 있다(= 영영 안 받아진다 · 260702·260719와 같은 병) →
+#   회수는 `docs/drivesync-fix.sh`가 로그의 실패 파일명을 실측해 자동으로 한다.
+# ── 동기화 제외 칸(운영자 260811 "저런 압축파일은 동기화 안되게 조치해도됨 · 양방향 모두") ──
+#   묶음 파일은 갤러리에 갈 이유가 0이고, 실제로 260811 사고의 진범이 드라이브 웹의
+#   「여러 개 한꺼번에 받기」 산출물 `drive-download-*.zip`이었다(256M 초과 → 갈래받기 발동).
+#   ⚠ **셸 축으로 거른다**(rclone `--exclude` 아님) = `--files-from` 목록을 주는 순간 rclone 필터는
+#   우회되므로 목록을 만드는 자리에서 빼야 양쪽 다 확실하다.
+#   ⚠ 짝 = `drive-camera-up.sh`의 `EXC_RE` **동값 유지**(한쪽만 고치면 반대 방향이 조용히 샌다).
+#   늘리려면 이 한 줄에 확장자만 추가(대소문자는 -i가 흡수).
+EXC_RE='\.(zip|rar|7z|tar|gz|tgz|bz2|xz|zst|iso|dmg|apk|exe)$'
 REMOTE="gdrive:Shared"
 LOCAL="/sdcard/Pictures/DriveSync"
 SEEN="$HOME/.drivesync.seen"
@@ -34,14 +61,14 @@ FAILC="$HOME/.drivesync.lsffail"
 CPFAIL="$HOME/.drivesync.copyfail"
 STUCK="$HOME/.drivesync.stuck"
 STUCK_N=10
-VER="v1.6"
+VER="v1.8"
 T=$(date +%s)
 if [ -f "$STAMP" ] && [ $((T - $(cat "$STAMP"))) -lt 120 ]; then exit 0; fi
 echo "$T" > "$STAMP"
 echo "$VER" > "$HOME/.drivesync.ver"
 mkdir -p "$LOCAL"; touch "$SEEN"
 [ -s "$SEEN" ] || echo "__init__" > "$SEEN"
-if ! rclone lsf -R --files-only --contimeout 15s --timeout 60s --exclude "*.app/**" "$REMOTE" > "$NOW" 2>>"$LOG"; then
+if ! rclone lsf -R --files-only --contimeout 15s --timeout 60s --exclude "*.app/**" "$REMOTE" > "$NOW.raw" 2>>"$LOG"; then
   N=$(($(cat "$FAILC" 2>/dev/null || echo 0) + 1)); echo "$N" > "$FAILC"
   if [ "$N" -ge 3 ]; then
     termux-notification --id drivesync-fail -t "드라이브싱크 실패 ⚠️" \
@@ -50,12 +77,13 @@ if ! rclone lsf -R --files-only --contimeout 15s --timeout 60s --exclude "*.app/
   exit 1
 fi
 rm -f "$FAILC"
+grep -viE "$EXC_RE" "$NOW.raw" > "$NOW"   # 묶음 파일 제외(위 제외 칸)
 awk 'FNR==NR{s[$0]=1;next} !($0 in s)' "$SEEN" "$NOW" > "$NEW"
 if [ -s "$NEW" ]; then
   LOGSZ=0
   [ -f "$LOG" ] && LOGSZ=$(wc -c < "$LOG" 2>/dev/null | tr -d ' ')
   [ -n "$LOGSZ" ] || LOGSZ=0
-  if rclone copy "$REMOTE" "$LOCAL" --files-from "$NEW" --inplace \
+  if rclone copy "$REMOTE" "$LOCAL" --files-from "$NEW" --inplace --multi-thread-streams 0 \
       --contimeout 15s --timeout 60s --transfers 4 --log-file "$LOG" --log-level INFO; then
     cat "$NEW" >> "$SEEN"
     rm -f "$CPFAIL"
