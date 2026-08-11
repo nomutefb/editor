@@ -44,11 +44,16 @@ jobs:
           fetch-depth: 1   # 최신 1커밋만 — 구 0은 원격 브랜치 567개 전체 히스토리를 받아 실측 105s를 먹었다(260810 · imggen run 30972520521 = 체크아웃 108s 중 워킹트리 쓰기는 3s뿐)
           # ⚡ 260810 sparse-checkout(scrape 카나리아 실증 = 같은 잡 A/B 20s→9s · 삭제 커밋 0건) — 목록 = 이 잡이 실행줄에서 여는 폴더뿐.
           #   빠지는 대형 = _versions 437M · docs 90M · 자료 75M · _산출 74M(어느 잡도 안 연다) · ⚠ git add/rm 대상은 전건 포함 검문 통과분.
+          #   ⚠ prompts·apps/k 는 「실행줄에서 여는 폴더」가 아니라 **스크립트가 여는 폴더**라 260810 목록에서
+          #     빠졌다. kmake.sh 는 prompts/k-make.md 를 읽고, 그 지침 프리플라이트가 apps/k 두 벌
+          #     (00_지침·01_모델프로필)의 실존을 요구한다 → 없으면 첫 줄에서 exit 1(sb-make 실측 동형).
           sparse-checkout: |
             .github
             shared
             metrics
             viewer
+            prompts
+            apps/k
 
       - name: Setup Node
         uses: actions/setup-node@v5
