@@ -13,6 +13,10 @@
 #
 # 산출:  바탕화면\그록확인_결과.txt (기록 · 토큰은 앞 12자만 남기고 가린다)
 #        바탕화면\그록토큰.json     (통과했을 때만 · 배선 재료 · 남에게 주지 마라)
+#        바탕화면\그록_그림.jpg      (그림이 열려 있으면 실물 1장)
+#        바탕화면\그록_영상.mp4      (영상이 열려 있으면 실물 1편 = 10초 720p · 소리 포함)
+#        바탕화면\그록_그림.jpg      (그림이 열려 있으면 실물 1장)
+#        바탕화면\그록_영상.mp4      (영상이 열려 있으면 실물 1편 = 10초 720p · 소리 포함)
 # 끄는 법: 안 돌리면 끝. 설치되는 것도, 자동 실행되는 것도 없다.
 
 $ErrorActionPreference = "Stop"
@@ -36,10 +40,14 @@ foreach ($c in @([Environment]::GetFolderPath("Desktop"),
 if (-not $Desk) { $Desk = "." }
 $LogPath   = Join-Path $Desk "그록확인_결과.txt"
 $TokenPath = Join-Path $Desk "그록토큰.json"
+$ImgPath   = Join-Path $Desk "그록_그림.jpg"
+$VidPath   = Join-Path $Desk "그록_영상.mp4"
 $script:Log = New-Object System.Collections.ArrayList
 
 function Say($t) { Write-Host $t; [void]$script:Log.Add($t) }
 function Mask($s) { if ($s -and $s.Length -gt 12) { $s.Substring(0,12) + "…<" + $s.Length + "자 가림>" } else { $s } }
+function Cut($t, $n) { $t = "$t" -replace "\s+", " "; if ($t.Length -gt $n) { $t.Substring(0, $n) } else { $t } }
+function Cost($o) { try { return [Math]::Round([double]$o.usage.cost_in_usd_ticks / 1e10, 4) } catch { return 0 } }
 function SaveLog { try { $script:Log -join "`r`n" | Out-File -FilePath $LogPath -Encoding UTF8 } catch {} }
 
 # 상태코드까지 받아오는 요청기(파워셸 5.1 에선 실패 응답 본문을 직접 읽어야 한다)
@@ -91,9 +99,84 @@ function Stop-Bad($title, $detail, $hint) {
   exit 1
 }
 
+# ── 2단계 = 그림·영상이 이 자격에 열려 있나 + 실물까지 ──────────────────────
+# ⚠ 왜 실물까지 굽나(260810 페이블 검토 치명①) = 글 모델이 통과했다고 그림·영상까지 열린 게 아니다.
+#   xAI 가 구독 통로에 자체 허용목록을 걸어 구독이 살아 있어도 거절한 사례가 보고돼 있고,
+#   우리 화면·고정값·프롬프트 정본 전체가 「된다」를 전제로 서 있다. 여기가 첫 관문이다.
+function Media($at) {
+  foreach ($kind in @("image", "video")) {
+    $r = Web "$API_BASE/$kind-generation-models" $null $at "GET"
+    if ($r.code -eq 200 -and $r.obj) {
+      $ids = @()
+      foreach ($m in @($r.obj.models)) { if ($m -and $m.id) { $ids += $m.id } }
+      foreach ($m in @($r.obj.data))   { if ($m -and $m.id) { $ids += $m.id } }
+      Say "  [$kind] 열린 모델 $($ids.Count)개 : $($ids -join ', ')"
+    } else {
+      Say "  [$kind] 목록 실패 HTTP $($r.code) - $(Cut $r.text 200)"
+    }
+  }
+
+  Say ""
+  Say "  그림 굽는 중... (10초 안팎)"
+  $ip = @{ model = "grok-imagine-image"; prompt = "Editorial illustration of a quiet newsroom at dawn, one empty desk, warm amber light from the left, calm blue shadows."; n = 1; response_format = "b64_json"; aspect_ratio = "16:9"; resolution = "1k" } | ConvertTo-Json -Compress
+  $r = Web "$API_BASE/images/generations" $ip $at "POST"
+  if ($r.code -eq 200 -and $r.obj.data) {
+    try {
+      [IO.File]::WriteAllBytes($ImgPath, [Convert]::FromBase64String($r.obj.data[0].b64_json))
+      Say "  [OK] 그림 나왔다 -> $ImgPath   (청구 $(Cost $r.obj) 달러)"
+    } catch { Say "  [!] 그림은 받았는데 저장 실패 : $_" }
+  } else {
+    Say "  [X] 그림 거절 HTTP $($r.code) - $(Cut $r.text 300)"
+  }
+
+  Say ""
+  Say "  영상 발사... (몇 분 걸린다. 창 닫지 마라)"
+  $vp = @{ model = "grok-imagine-video-1.5"; prompt = "A single sheet of paper lifts off the desk and drifts slowly through still morning air. Camera holds locked and static. Warm amber light, calm blue shadows, pale grey walls. Sound: faint paper flutter, distant traffic muffled through glass, quiet room tone."; duration = 10; resolution = "720p"; aspect_ratio = "16:9" } | ConvertTo-Json -Compress
+  $r = Web "$API_BASE/videos/generations" $vp $at "POST"
+  if ($r.code -ne 200 -or -not $r.obj.request_id) {
+    Say "  [X] 영상 거절 HTTP $($r.code) - $(Cut $r.text 400)"
+    if ($r.code -eq 403) { Say "      403 = 구독은 살아 있는데 xAI 가 영상 통로를 이 계정에 안 열어준 것이다." }
+    return
+  }
+  $rid = $r.obj.request_id
+  Say "  접수됨 (작업번호 $rid) - 기다리는 중"
+  $t0 = Get-Date
+  while (((Get-Date) - $t0).TotalSeconds -lt 900) {
+    Start-Sleep -Seconds 5
+    $r = Web "$API_BASE/videos/$rid" $null $at "GET"
+    if (@(400, 401, 403, 404) -contains $r.code) {
+      Say "  [X] 조회 실패 HTTP $($r.code) - $(Cut $r.text 300)"
+      return
+    }
+    if (-not $r.obj) { continue }
+    $st = $r.obj.status
+    if ($st -eq "done") {
+      if ($r.obj.video.respect_moderation -eq $false) { Say "  [X] 검열에 걸려 산출이 비었다."; return }
+      $u = $r.obj.video.url
+      if (-not $u) { try { $u = $r.obj.video.file_output.public_url } catch {} }
+      if (-not $u) { Say "  [X] 완료라는데 주소가 없다."; return }
+      try {
+        Invoke-WebRequest -Uri $u -OutFile $VidPath -TimeoutSec 300 -UseBasicParsing
+        $sz = [Math]::Round((Get-Item $VidPath).Length / 1MB, 2)
+        Say "  [OK] 영상 나왔다 -> $VidPath   ($sz MB · 청구 $(Cost $r.obj) 달러)"
+        Say "       열어서 소리까지 들어보면 화질 판단이 끝난다."
+      } catch { Say "  [!] 영상 주소는 받았는데 내려받기 실패 : $_" }
+      return
+    }
+    if ($st -eq "failed") {
+      Say "  [X] 제작 실패 - $($r.obj.error.code) : $($r.obj.error.message)"
+      return
+    }
+    $el = [int]((Get-Date) - $t0).TotalSeconds
+    if ($el % 30 -lt 5) { Say "    ... 만드는 중 ($el 초)" }
+  }
+  Say "  [X] 15분 안에 안 끝났다."
+}
+
+
 Say ""
 Say "+----------------------------------------------------------+"
-Say "| 그록 구독 자격 판정기 - 로그인 1회 + 실제 호출 1회        |"
+Say "| 그록 자격 판정기 - 로그인 + 그림 1장 + 영상 1편 실물      |"
 Say "+----------------------------------------------------------+"
 Say ""
 
@@ -203,6 +286,11 @@ foreach ($m in $order) {
     Say "  대답 : $($say -replace '\s+',' ')"
     Say "  토큰 : $TokenPath  (갱신 열쇠 포함 - 남에게 주지 마라)"
     Say "  기록 : $LogPath"
+    Say ""
+    Say ("-" * 58)
+    Say "2단계 - 그림과 영상이 이 자격에 열려 있는지 본다"
+    Say ("-" * 58)
+    Media $at
     Say ""
     Say "  -> 기록 파일을 클로드 세션에 주면 그대로 배선한다."
     SaveLog
