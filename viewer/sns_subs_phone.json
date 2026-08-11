@@ -312,9 +312,19 @@
  ],
  "threads": [
   {
+   "account": "aipeekme",
+   "text": "젠슨 황 엔비디아 CEO가 골드만삭스, 블랙록, KKR 등 주요 금융사들과 연쇄 미팅을 진행했습니다.\nAI 컴퓨팅 자원을 단순 비용이 아닌 수익을 내는 인프라로 정의했습니다.\n발전소나 부동산처럼 고객 간 이전이 가능하며, CUDA 덕분에 내구연한도 늘어난다는 설명입니다.\n컴퓨팅 60년 역사상 처음 있는 플랫폼 전환기라는 점을 앞세웠습니다.\n여기에 5,000억 달러 규모의 민간 자본을 유치해 인프라 구축에 투입한다는 구상입니다.\nGPU 자체를 하나의 금융 자산군으로 편입하려는 시도로 보입니다.\n설비투자 부담을 금융권으로 넘기면서 판매처를 확보하려는 계산이 깔려 있습니다.\n빅테크의 자본지출 부담을 덜어준다는 점에서는 확실히 효과적인 모델로 느껴집니다.\n다만 칩 교체 주기가 빠른 AI 시장에서 감가상각 위험을 금융사가 온전히 안고 갈 수 있을지는 미심쩍습니다.",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1786449285,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/768586615_1060680223112872_7537033136848470307_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk2MTM0NTk4OTk0NDk1Nzg3OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=cSfCJC70UyoQ7kNvwHgDRKg&_nc_oc=AdovB7c30_bQLLOKsXy_mW8a3u-YOWDBRfkSVgBaTb1GCnzBaa8un4ygkpKtFDrrU4s&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=qAKh6rrHh9WDvcOMjhZ1VA&_nc_ss=7a22e&oh=00_AQGG5I_8C7YpTEIMAqtOuKaN5U5iV-wtaAwaqloo2X4-Jg&oe=6A80EBE2",
+   "url": "https://www.threads.com/@aipeekme/post/Db5hzCTFlu2",
+   "region": "kr"
+  },
+  {
    "account": "choi.openai",
    "text": "프로젝트 주소 :\nhttps://tencent-hunyuan.github.io/Hunyuan3D-WorldClaw/",
-   "likes": 0,
+   "likes": 3,
    "cmts": 0,
    "time": 1786447862,
    "thumb": "",
@@ -324,10 +334,10 @@
   {
    "account": "choi.openai",
    "text": "와.. 미래 게임 시장은 정말 중국이 다 먹을 것 같다..\n\n텐센트가 텍스트 한 줄로 3D 오픈월드를 생성하는 WorldClaw를 공개했습니다.\n영상도 Gaussian Splatting도 아닌, 편집 가능한 게임용 3D 에셋입니다.\n\n에이전트가 지형을 먼저 계획하고, 건물·식물·캐릭터를 배치하고, Blender에서 전체 장면을 조립합니다. 물체가 공중에 떠 있거나 겹치거나 비율이 틀리면 스스로 발견해서 고칩니다.\n나무 한 그루, 돌멩이 하나까지 개별 선택해 옮기거나 삭제하거나 교체할 수 있고, 다른 프로젝트에 재사용도 가능합니다.\n\n아직 코드와 가중치는 공개되지 않았고 논문과 프로젝트 페이지만 올라와 있습니다.\n월드모델부터, 3D 모델, Text To Animation 까지.. 정말 딸깍으로 나오는 날이 머지 않은 것 같습니다.",
-   "likes": 0,
-   "cmts": 1,
+   "likes": 28,
+   "cmts": 3,
    "time": 1786447852,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/773028345_1389333853164607_1816619218328451088_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk2MTMzNDE1NzEzMzY0MTM3MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=49xmvJWmhXAQ7kNvwFy8Hm3&_nc_oc=AdpW9NP53oxCMfhxFv9sJcm2_WjYQmVt61Fg4gTFYyTm1bjwaQgjXU7olE_9ILRovZE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=47TLAX8VejWO0gAvZHhkWA&_nc_ss=7a22e&oh=00_AQGIc0Xmnq3JUftkXBzx_iYmcpr76YiB2s8UJy2QDh8UMA&oe=6A80D4F4",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/773028345_1389333853164607_1816619218328451088_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk2MTMzNDE1NzEzMzY0MTM3MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=49xmvJWmhXAQ7kNvwFy8Hm3&_nc_oc=AdpW9NP53oxCMfhxFv9sJcm2_WjYQmVt61Fg4gTFYyTm1bjwaQgjXU7olE_9ILRovZE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=eNZEQd_jBbGkCjuBXRu3bA&_nc_ss=7a22e&oh=00_AQGqr2gv0W_6rv9GMODgShGY8kDBleBDYiva74uqJIFexA&oe=6A80D4F4",
    "url": "https://www.threads.com/@choi.openai/post/Db5fG2Iknaa",
    "region": "kr"
   },
@@ -337,7 +347,7 @@
    "likes": 0,
    "cmts": 0,
    "time": 1786447790,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/770544475_1355610100022345_7974069588914143191_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk2MTMzMzQyMjAyMjU3MDYxNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=cTOQ5hetuloQ7kNvwEg9Fpg&_nc_oc=Ado1w6nzJQQJOF3eqfK3xNb5n8-Dx-Er5CVzLfthRrLEEXevJ2cL34wksR3umRZ65Zk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=H-Lo_8wLPorAlIoaxMPDqA&_nc_ss=7a22e&oh=00_AQHTfgI20kbSkjgOKQcdNRb7gAE1xMvT3Xl37CZodQP3Eg&oe=6A80F230",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/770544475_1355610100022345_7974069588914143191_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk2MTMzMzQyMjAyMjU3MDYxNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=cTOQ5hetuloQ7kNvwEg9Fpg&_nc_oc=Ado1w6nzJQQJOF3eqfK3xNb5n8-Dx-Er5CVzLfthRrLEEXevJ2cL34wksR3umRZ65Zk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=qAKh6rrHh9WDvcOMjhZ1VA&_nc_ss=7a22e&oh=00_AQH7vY13gpB6A-QpFKj28tUX6y-EGfx9k24WRaNg-kDKYg&oe=6A80F230",
    "url": "https://www.threads.com/@aipeekme/post/Db5e8JgibJ5",
    "region": "kr"
   },
@@ -353,22 +363,12 @@
   },
   {
    "account": "aipeekme",
-   "text": "🔗 원문·자세히 보기\nhttps://github.com/msitarzewski/agency-agents",
-   "likes": 1,
+   "text": "🔗 원문·자세히 보기\nhttps://openai.com/index/building-an-ai-native-finance-function/",
+   "likes": 0,
    "cmts": 0,
-   "time": 1786440692,
+   "time": 1786429903,
    "thumb": "",
-   "url": "https://www.threads.com/@aipeekme/post/Db5RcOwH4L2",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
-   "text": "사용자의 요청사항(피드백 및 사고 프레임워크 연계 제안)을 함께 반영하여 답을 전달합니다.\n\n1. 교정된 본문 전문 (400~500자 준수)\n\nAgency Agents가 맥, 리눅스, 윈도우 지원 데스크톱 전용 앱을 출시했습니다.\n프론트엔드부터 레딧 커뮤니티 관리까지 영역별로 세분화된 AI 에이전트 목록을 확인하고 설치하는 프로그램입니다.\n저장소를 복사하거나 스크립트를 실행할 필요 없이 클릭 한번으로 설치됩니다.\n클로드 코드, 커서, 코덱스, 제미나이 등 주요 AI 도구에 에이전트를 설치할 수 있습니다.\n자동 업데이트를 지원하며, 맥 환경에서는 맥브루 명령어로도 설치가 가능합니다.\n클로드 코드 디렉토리에 직접 설치하거나 스크립트를 사용하는 방법도 제공됩니다.\n프롬프트 단순 복사보다 개발 환경 연결을 단순화하는 데 집중한 모양새입니다.\n프롬프트 품질보다 도구 간 연결 과정을 줄여준 점이 실용적으로 보입니다.\n\n📷 사진 출처: github.com",
-   "likes": 2,
-   "cmts": 2,
-   "time": 1786440681,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/773531292_18078435854407306_4536771924621343594_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk2MTI3MzkyODUyMjg5NjIxNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=uTjVAHmSiZQQ7kNvwE_h-ZG&_nc_oc=Adrsqa1W7hTJE4nBdum1982I6ajONBF5E-OeBQuYc1kXU3vPt1AYKBn319DJUP8m9lM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=H-Lo_8wLPorAlIoaxMPDqA&_nc_ss=7a22e&oh=00_AQE3mLV9A-6T_ELnOitrDdyguWqM-gKiiu64QL6dZuJ53w&oe=6A80F32D",
-   "url": "https://www.threads.com/@aipeekme/post/Db5RaZ3n5NZ",
+   "url": "https://www.threads.com/@aipeekme/post/Db483PIH7hh",
    "region": "kr"
   },
   {
@@ -394,31 +394,11 @@
   {
    "account": "choi.openai",
    "text": "Dyna Robotics가 100만 시간의 인간 비디오로 사전학습한 세계-행동 모델 Dyna-2를 공개했습니다. 로봇공학에서 스케일링 법칙이 네 자릿수 범위에서 확인된 건 이번이 처음입니다.\n\n1,000시간부터 100만 시간까지, 데이터를 늘릴수록 로봇 성능이 예측 가능하게 향상됐습니다. 더 중요한 건 인간 데이터로 훈련한 스케일링 법칙이 한 번도 본 적 없는 로봇 데이터에서도 그대로 적용된 점입니다. 인간이 물건을 집는 영상을 많이 볼수록 로봇도 더 잘 집습니다. 이 크로스-임바디먼트 전이는 이전 소규모 연구에서는 확인되지 않았던 부분입니다.\n\nNVIDIA의 Egoscale 데이터셋이 2만 시간인데 Dyna-2는 그 50배입니다. 명령 수행률은 35%에서 96%로 올랐고, 한 번도 가본 적 없는 현장에서 제로샷으로 87% 품질을 기록했습니다. LLM의 스케일링 법칙이 로봇공학에서도 같은 패턴을 보이기 시작한 순간입니다.",
-   "likes": 17,
+   "likes": 18,
    "cmts": 1,
    "time": 1786442431,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/769168496_2041502829784429_3550379907709045125_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk2MTI4ODY4NjE2MzM1OTgxMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=LWa6MzIpRoUQ7kNvwGgIiuN&_nc_oc=Adoqz-b2Rl1BDftz9n8qNSih8d9UDDN0KYfTklUalhC31iNAhwr5pEbXeI2aJYwCaI4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=47TLAX8VejWO0gAvZHhkWA&_nc_ss=7a22e&oh=00_AQFHDvGuzZ2JvbY4BdMyHkW5fbJ6xUkhXiNwBJ-gUbwhig&oe=6A80E751",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/769168496_2041502829784429_3550379907709045125_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk2MTI4ODY4NjE2MzM1OTgxMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=LWa6MzIpRoUQ7kNvwGgIiuN&_nc_oc=Adoqz-b2Rl1BDftz9n8qNSih8d9UDDN0KYfTklUalhC31iNAhwr5pEbXeI2aJYwCaI4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=eNZEQd_jBbGkCjuBXRu3bA&_nc_ss=7a22e&oh=00_AQGRMCQYXp5XbWWe4r496xkgxL9MMA_F2zj6ReL5AyQAzw&oe=6A80E751",
    "url": "https://www.threads.com/@choi.openai/post/Db5UxJ_inhE",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
-   "text": "🔗 원문·자세히 보기\nhttps://openai.com/index/building-an-ai-native-finance-function/",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1786429903,
-   "thumb": "",
-   "url": "https://www.threads.com/@aipeekme/post/Db483PIH7hh",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "마이크로소프트의 MAI-Image-2.6이 텍스트-이미지 아레나 2위에 올랐습니다.\nGPT Image 2에 45점 차, 3위 Grok Imagine보다 20점 앞섭니다.\n\n2.5 버전이 10위였는데 한 번에 2위로 점프했습니다. 3D 이미징·모델링은 1위, 카툰·애니메이션·판타지는 2위, 제품·브랜딩·상업 디자인도 2위, 텍스트 렌더링도 2위입니다. 다음 주 플레이그라운드와 API로 공개됩니다.\n\n무스타파 술레이만 CEO가 \"끊임없이 언덕을 올랐다\"고 표현한 이 결과는 마이크로소프트가 오픈AI 의존도를 줄이고 자체 이미지 모델을 키워온 결실입니다\n오픈AI, 메타, 구글, MS까지 모두가 각자 최선의 모델을 내놓는 구도가 됐습니다.",
-   "likes": 21,
-   "cmts": 0,
-   "time": 1786437029,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/771808401_17981640012112832_4804398286610235686_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk2MTI0MzM3MjQ5NzI1NjYxOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjA0OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=mUrMit-6wZsQ7kNvwFa0mZ_&_nc_oc=AdpypKpPpuDZ6-aRAUlx5TDPGOci75GzWHYFTd5j5536LEXX6iXHP6FAFjIGSEm3r18&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=47TLAX8VejWO0gAvZHhkWA&_nc_ss=7a22e&oh=00_AQFC7XSn8w3oFAWKNt1Ic8LmJl10NiiajRThuZ2omxQj6Q&oe=6A80F2F3",
-   "url": "https://www.threads.com/@choi.openai/post/Db5KdwWkcCr",
    "region": "kr"
   },
   {
@@ -427,8 +407,28 @@
    "likes": 1,
    "cmts": 1,
    "time": 1786429892,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/771814752_18078401432407306_1303557229287733340_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk2MTE4MzQzMTI4MDIzNTU0Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=50tenDWAkAoQ7kNvwFJtGzA&_nc_oc=Adq_SN1fRLwiArQXgRA0JEtQeOdTvlejJroNooSfZws9TzJ-OwszkSkSMvGXK90jO1w&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=H-Lo_8wLPorAlIoaxMPDqA&_nc_ss=7a22e&oh=00_AQFvkbGKPK4fePLTeWcUBJu-_MG-qwT5oOKZMK7ySrvZhw&oe=6A80C7CE",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/771814752_18078401432407306_1303557229287733340_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk2MTE4MzQzMTI4MDIzNTU0Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=50tenDWAkAoQ7kNvwFJtGzA&_nc_oc=Adq_SN1fRLwiArQXgRA0JEtQeOdTvlejJroNooSfZws9TzJ-OwszkSkSMvGXK90jO1w&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=qAKh6rrHh9WDvcOMjhZ1VA&_nc_ss=7a22e&oh=00_AQGKxngvrHFxKbF1nQg7vuiTGiCQIBxVU0GkB3D1KPPKfg&oe=6A80C7CE",
    "url": "https://www.threads.com/@aipeekme/post/Db481fvnxQb",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "마이크로소프트의 MAI-Image-2.6이 텍스트-이미지 아레나 2위에 올랐습니다.\nGPT Image 2에 45점 차, 3위 Grok Imagine보다 20점 앞섭니다.\n\n2.5 버전이 10위였는데 한 번에 2위로 점프했습니다. 3D 이미징·모델링은 1위, 카툰·애니메이션·판타지는 2위, 제품·브랜딩·상업 디자인도 2위, 텍스트 렌더링도 2위입니다. 다음 주 플레이그라운드와 API로 공개됩니다.\n\n무스타파 술레이만 CEO가 \"끊임없이 언덕을 올랐다\"고 표현한 이 결과는 마이크로소프트가 오픈AI 의존도를 줄이고 자체 이미지 모델을 키워온 결실입니다\n오픈AI, 메타, 구글, MS까지 모두가 각자 최선의 모델을 내놓는 구도가 됐습니다.",
+   "likes": 21,
+   "cmts": 0,
+   "time": 1786437029,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/771808401_17981640012112832_4804398286610235686_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk2MTI0MzM3MjQ5NzI1NjYxOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjA0OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=mUrMit-6wZsQ7kNvwFa0mZ_&_nc_oc=AdpypKpPpuDZ6-aRAUlx5TDPGOci75GzWHYFTd5j5536LEXX6iXHP6FAFjIGSEm3r18&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=eNZEQd_jBbGkCjuBXRu3bA&_nc_ss=7a22e&oh=00_AQGaQ254IwLni-M5nJUHj3M0t4amJMLulYm4GzrqieqUNg&oe=6A80F2F3",
+   "url": "https://www.threads.com/@choi.openai/post/Db5KdwWkcCr",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "마크 저커버그 메타 CEO가 모든 사람이 초지능에 접근할 수 있어야 한다는 글을 공개했습니다.\n누구나 기술 혜택을 누려야 한다는 메타의 미래 철학과 가치를 담았다고 밝혔는데요.\n구체적인 기술 사양이나 출시 일정 대신 오픈소스와 보편적 접근성을 강조하는 기존 기조를 재확인한 텍스트입니다.\n빅테크 간 폐쇄형 모델 경쟁이 심해지는 상황에서 나온 주장이기도 합니다.\n기술 독점을 막겠다는 명분은 명확합니다.\n하지만 실제 서버 인프라 비용과 막대한 전력 소비를 고려하면 보편적 접근이 말처럼 쉬울지는 두고 봐야 합니다.\n개인적으로는 명분보다 오픈소스 생태계를 통해 플랫폼 주도권을 유지하려는 계산이 더 짙어 보입니다.\n인프라 격차가 존재하는 한 말뿐인 접근권으로 남을 가능성도 확인해볼 대목입니다.",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1786421250,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/766544581_1333529841860643_5271980236018273920_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk2MTExMDc3OTI4OTg1OTA0Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=VjCKnmZhNNUQ7kNvwFm0ytV&_nc_oc=AdovQBdU5kYLKgFUNajBmwGmR0qcEdWCZqWzTj3Gq8HVlSikc-DR40WpBp8fBLav2jw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=qAKh6rrHh9WDvcOMjhZ1VA&_nc_ss=7a22e&oh=00_AQF80V9bK_jFBqGkQs_e4U4b_TxJm-5VkBE3T076XSzxWQ&oe=6A80EDDF",
+   "url": "https://www.threads.com/@aipeekme/post/Db4sURTivPn",
    "region": "kr"
   },
   {
@@ -437,18 +437,8 @@
    "likes": 36,
    "cmts": 7,
    "time": 1786431623,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/771909960_17981641281112832_3591925561490205970_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk2MTE5ODAxNjU1MTEwMzY5OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuOTAxLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=aeh7trECFVsQ7kNvwH_4OCR&_nc_oc=AdpjhnlwPmRLqMlF4aIrN_lG2jCU10eU6UdW9VQyKZsWQ4CAeU75M4lfRZ2cPgYZ2xc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=47TLAX8VejWO0gAvZHhkWA&_nc_ss=7a22e&oh=00_AQHkk5kT-VG6uAGEdbrR4RGOxJSpcAKj5_LsBiwrDc7v3g&oe=6A80DD43",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/771909960_17981641281112832_3591925561490205970_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk2MTE5ODAxNjU1MTEwMzY5OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuOTAxLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=aeh7trECFVsQ7kNvwH_4OCR&_nc_oc=AdpjhnlwPmRLqMlF4aIrN_lG2jCU10eU6UdW9VQyKZsWQ4CAeU75M4lfRZ2cPgYZ2xc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=eNZEQd_jBbGkCjuBXRu3bA&_nc_ss=7a22e&oh=00_AQH9xsXopL9nHkiuBLWqukfcaZwoA3Z4Slhmbo7sraQMsg&oe=6A80DD43",
    "url": "https://www.threads.com/@choi.openai/post/Db5AJvVgqzS",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
-   "text": "제출해주신 초안을 [자료]의 내용만 활용하여 보완하는 과정에서, 질문의 구조적 한계와 개선 가능한 방향에 대한 심층 분석 및 제안을 함께 작성하였습니다.\n\n1. 요청하신 조건에 따른 [본문 전문]\n\n구글이 통화 서비스인 구글 보이스에 제미나이 기반 AI 기능을 추가했습니다.\n이제 통화 내용을 녹음하면 트랜스크립트와 요약문이 자동으로 만들어집니다.\n대화 중에 언급된 주요 실행 과제나 할 일도 AI가 자동으로 추출해 줍니다.\n통화하면서 일일이 수동으로 메모를 남길 필요가 사라진 셈입니다.\n\n통화 요약 기능 자체는 새로운 개념이 아닙니다.\n다만 구글 보이스 서비스 안에서 녹음부터 트랜스크립트, 요약, 핵심 할 일 추출까지 이어지는 흐름은 확실히 유용해 보입니다.\n업무 통화가 많은 사람에게는 수동 메모 작성 시간을 줄여줄 도구가 될 것 같습니다.\n다만 대화 맥락이 복잡할 때 할 일을 정확히 판별해낼지는 실제 데이터를 더 지켜봐야겠습니다.\n\n2.",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1786423842,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/770669538_1907122590201948_7273445681991109893_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk2MTEzMjUxNTI1NDczNjc1NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=oHdzXOxitdoQ7kNvwEIIZjq&_nc_oc=AdpILuyKbTUeKX7Z_1_g2kRoFc_Lk9qmxrWkcp4qXZqvq11jLmbwT6dNvKkjooDy-Wk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=H-Lo_8wLPorAlIoaxMPDqA&_nc_ss=7a22e&oh=00_AQEFHks-tfE6gUW1ruDJsDJBN23gF_uKwYqLQWY4b-7LTw&oe=6A80D4C9",
-   "url": "https://www.threads.com/@aipeekme/post/Db4xQkgAhdz",
    "region": "kr"
   }
  ],
@@ -473,6 +463,24 @@
    "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1vkn9d2/slow_car_meet_even_slower_driver/"
   },
   {
+   "sub": "meirl",
+   "title": "Meirl",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/y4bi7pu46qih1.jpeg?width=640&crop=smart&auto=webp&s=2ceb24f1a28b0628f7be096b92e973239210963f",
+   "time": 1786444989,
+   "url": "https://www.reddit.com/r/meirl/comments/1vldxko/meirl/"
+  },
+  {
+   "sub": "NatureIsFuckingLit",
+   "title": "🔥Maned Wolf looks absolutely terrifying",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/MHJ3aHl1cGczcWloMVngJc810bojsiRmKuT8mk7dgiIERSGZoCFg5L5bsEfB.png?width=320&crop=smart&auto=webp&s=a4c034776758095eb313b21eac2d13139642e109",
+   "time": 1786444092,
+   "url": "https://www.reddit.com/r/NatureIsFuckingLit/comments/1vldnvu/maned_wolf_looks_absolutely_terrifying/"
+  },
+  {
    "sub": "CasualUK",
    "title": "Hot air balloons can be genuinely terrifying if you're not expecting them.",
    "score": 0,
@@ -489,6 +497,24 @@
    "thumb": "",
    "time": 1786421953,
    "url": "https://www.reddit.com/r/gaming/comments/1vl76f8/for_people_who_have_played_a_game_for_over_1000/"
+  },
+  {
+   "sub": "lotr",
+   "title": "Three hobbits were walking the streets of Boston and they found a certain tavern (photo from Billy's Instagram)",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/tji97c11tpih1.png?width=320&crop=smart&auto=webp&s=987965f5a2dd325b4230c845deeb4095cd718912",
+   "time": 1786440585,
+   "url": "https://www.reddit.com/r/lotr/comments/1vlcnh2/three_hobbits_were_walking_the_streets_of_boston/"
+  },
+  {
+   "sub": "mildlyinteresting",
+   "title": "Sunflower mutated to be surrounded by mini sunflowers",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/cvy9dse40pih1.jpeg?width=640&crop=smart&auto=webp&s=3064d4df6226181dca80c205a47040646513926c",
+   "time": 1786430858,
+   "url": "https://www.reddit.com/r/mildlyinteresting/comments/1vl9vtw/sunflower_mutated_to_be_surrounded_by_mini/"
   },
   {
    "sub": "interesting",
@@ -509,6 +535,15 @@
    "url": "https://www.reddit.com/r/PopCultureV2/comments/1vkkxfs/cnn_shocked_to_see_americans_reject_israel_new/"
   },
   {
+   "sub": "MadeMeSmile",
+   "title": "a friend in need is a friend indeed",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/NW93eWJnOHVwb2loMdCf6FrB5z825-NZdqHWVYCkBB8zt6rtEkPnLT_GiA8T.jpeg?width=320&crop=smart&auto=webp&s=5095ba751a98eb85cc43809d2868f8d2b2796048",
+   "time": 1786427405,
+   "url": "https://www.reddit.com/r/MadeMeSmile/comments/1vl8vbt/a_friend_in_need_is_a_friend_indeed/"
+  },
+  {
    "sub": "TikTokCringe",
    "title": "“I’m in Japan, and when I say I’m American, people look at me with contempt, disdain and hatred...We Americans are now humiliated around the world.”",
    "score": 0,
@@ -516,51 +551,6 @@
    "thumb": "https://external-preview.redd.it/dzBmb2ZmcXM4bGloMaQbpZA1vgZO6v4vwPXOW0ZgvKHDjBbgEe6Gix3VOfy-.png?width=320&crop=smart&auto=webp&s=89e2c524e2dd451189c26b3d392c5ae4a7403d16",
    "time": 1786385419,
    "url": "https://www.reddit.com/r/TikTokCringe/comments/1vkskca/im_in_japan_and_when_i_say_im_american_people/"
-  },
-  {
-   "sub": "GirlDinnerDiaries",
-   "title": "My 2 year old having chores is sending my family into tizzy!",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/7ylvtjn5xlih1.jpeg?width=640&crop=smart&auto=webp&s=eb8ccab50ad0c5da4abd8ec82a93f34a91a905ea",
-   "time": 1786393541,
-   "url": "https://www.reddit.com/r/GirlDinnerDiaries/comments/1vkwahx/my_2_year_old_having_chores_is_sending_my_family/"
-  },
-  {
-   "sub": "TopCharacterTropes",
-   "title": "{Interesting Trope} Positive portrayals of consevatives",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/qe7dda9tzlih1.jpg?width=140&height=93&auto=webp&s=6e83b86557a47a12010fd199519ab862e12a9c25",
-   "time": 1786394669,
-   "url": "https://www.reddit.com/r/TopCharacterTropes/comments/1vkwsn6/interesting_trope_positive_portrayals_of/"
-  },
-  {
-   "sub": "mildlyinteresting",
-   "title": "Sunflower mutated to be surrounded by mini sunflowers",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/cvy9dse40pih1.jpeg?width=640&crop=smart&auto=webp&s=3064d4df6226181dca80c205a47040646513926c",
-   "time": 1786430858,
-   "url": "https://www.reddit.com/r/mildlyinteresting/comments/1vl9vtw/sunflower_mutated_to_be_surrounded_by_mini/"
-  },
-  {
-   "sub": "Amazing",
-   "title": "Dude's safe survived a wildfire.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "",
-   "time": 1786370631,
-   "url": "https://www.reddit.com/r/Amazing/comments/1vkls17/dudes_safe_survived_a_wildfire/"
-  },
-  {
-   "sub": "interestingasfuck",
-   "title": "In Spain, 'gorrillas' are unofficial parking attendants who offer unsolicited help finding spaces in busy areas and expect a tip. Many drivers pay out of fear they'll come back to a scratched car",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/t5l9s08qakih1.png?width=640&crop=smart&auto=webp&s=a39eddd36b220c08e97351704e353a2a0043972b",
-   "time": 1786374052,
-   "url": "https://www.reddit.com/r/interestingasfuck/comments/1vknagu/in_spain_gorrillas_are_unofficial_parking/"
   }
  ],
  "disaster": [],
@@ -574,13 +564,6 @@
     "jajaja7878uu",
     "kyunghyang"
    ],
-   "insta": [
-    "cristiano",
-    "googledeepmind",
-    "heygen_official",
-    "higgsfield.ai",
-    "klingai_official"
-   ],
    "threads": [
     "aicoffeechat",
     "aipeekme",
@@ -591,28 +574,33 @@
   },
   "why": {
    "insta": {
-    "koreadispatch": "rotate",
-    "bts.bighitofficial": "rotate",
-    "blackpinkofficial": "rotate",
-    "newjeans_official": "rotate",
-    "aespa_official": "rotate",
-    "jennierubyjane": "rotate",
-    "xxxibgdrgn": "rotate",
-    "hm_son7": "rotate",
-    "sbsnow_insta": "rotate",
-    "mnet_official": "rotate",
-    "openai": "rotate",
-    "runwayapp": "rotate",
-    "pika_labs": "rotate",
-    "lumalabsai": "rotate",
-    "midjourney": "rotate"
+    "koreadispatch": "gap",
+    "bts.bighitofficial": "gap",
+    "blackpinkofficial": "gap",
+    "newjeans_official": "gap",
+    "aespa_official": "gap",
+    "jennierubyjane": "gap",
+    "xxxibgdrgn": "gap",
+    "hm_son7": "gap",
+    "sbsnow_insta": "gap",
+    "mnet_official": "gap",
+    "openai": "gap",
+    "runwayapp": "gap",
+    "pika_labs": "gap",
+    "lumalabsai": "gap",
+    "midjourney": "gap",
+    "klingai_official": "gap",
+    "heygen_official": "gap",
+    "higgsfield.ai": "gap",
+    "googledeepmind": "gap",
+    "cristiano": "gap"
    }
   },
   "landing": {
-   "at": "2026-08-11T20:01:33",
+   "at": "2026-08-11T20:31:57",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-11T20:31:54.618942+09:00"
+ "updated": "2026-08-11T21:01:27.744301+09:00"
 }
