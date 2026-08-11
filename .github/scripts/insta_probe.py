@@ -125,6 +125,42 @@ def main():
     print('     "200 응답 미포함"으로 드랍 중이라 그 축의 정답도 이 목록에 같이 실린다.')
     show('계정 지원목록', ins, metric='__nomute_probe__', period='day', metric_type='total_value')
 
+    print('\n\n═══ ⑤ 소급 경계 — 며칠 전까지 값이 오는가(설계를 가르는 축) ═══')
+    print('   ※ 왜 = 게시물별 이탈 판정은 표본이 생명이다. 90일치를 지금 회수할 수 있으면 설계가 통째로 달라진다.')
+    print('     지연 경계(앞쪽)와 보관 경계(뒤쪽)를 하루창으로 훑어 실측한다 — 문서 추정이 아니라 실호출.')
+    for d in (1, 2, 3, 4, 7, 14, 30, 60, 89, 90, 120, 180):
+        j, err = api(ins, metric='follows_and_unfollows', period='day', metric_type='total_value',
+                     breakdown='follow_type',
+                     since=epoch(d0 - datetime.timedelta(days=d)),
+                     until=epoch(d0 - datetime.timedelta(days=d - 1)))
+        if err:
+            print(f'   {d:3d}일 전: ✗ {err[:110]}')
+            continue
+        res = (((j or {}).get('data') or [{}])[0].get('total_value') or {}).get('breakdowns') or [{}]
+        rows = res[0].get('results') or []
+        if not rows:
+            print(f'   {d:3d}일 전: 빈손(results 없음)')
+        else:
+            got = {' '.join(str(x) for x in (r.get('dimension_values') or [])): r.get('value') for r in rows}
+            print(f'   {d:3d}일 전: {got}')
+
+    print('\n\n═══ ⑥ 게시물당 신규 = 나이 편향 실측(누적값 함정) ═══')
+    print('   ※ 왜 = follows는 period=lifetime 누적이다. 오래된 게시물일수록 크다면 최근 것과 같은 자로 못 잰다.')
+    print('     게시 시각이 다른 표본을 나란히 찍어 나이와 값의 관계를 눈으로 본다(판정은 평의회 몫).')
+    med2, _ = api(f'{uid}/media', fields='id,media_product_type,timestamp,permalink', limit='25')
+    ml = (med2 or {}).get('data', [])
+    for m in ml[:12]:
+        j, err = api(f"{m['id']}/insights", metric='follows,profile_visits,reach,views')
+        if err:
+            print(f"   {m.get('timestamp')} {m.get('media_product_type'):5s} ✗ {err[:80]}")
+            continue
+        g = {x.get('name'): ((x.get('values') or [{}])[0].get('value')) for x in (j or {}).get('data', [])}
+        fw, rc = g.get('follows'), g.get('reach')
+        rate = f'{fw / rc * 10000:.1f}' if (isinstance(fw, int) and isinstance(rc, int) and rc) else '—'
+        print(f"   {m.get('timestamp')} {str(m.get('media_product_type')):5s} "
+              f"신규{str(fw):>5s} 방문{str(g.get('profile_visits')):>6s} 도달{str(rc):>8s} 조회{str(g.get('views')):>8s} "
+              f"· 도달1만당 신규 {rate}")
+
     print('\n\n═══ 진단 끝 — 판독 기준 ═══')
     print('   · A~E 중 results가 실린 조합이 있으면 → 취소 수는 받아올 수 있고 현행 조합이 틀린 것.')
     print('   · A~E 전건 빈손인데 에러도 없으면 → Meta가 이 계정에 해당 분해를 안 주는 것(계정·권한 축).')
