@@ -124,7 +124,6 @@ jobs:
           ASK_MIN_AGE_MIN: ${{ inputs.min_age_min || '0' }}   # 스윕 신선 배제(dispatch 전용 — push 스코프엔 무관)
           YT_COOKIES: ${{ secrets.YT_T2_COOKIES }}   # 지금 쓰는 살아있는 칸 = 1순위(260811 · 죽은 칸을 먼저 두드리면 매 런 4번 헛시도 + 유튜브에 같은 주소로 실패를 반복해 보인다)
           YT_COOKIES_2: ${{ secrets.YT_T_COOKIES }}   # 예비 1 — 위가 죽으면 자동 회수
-          YT_COOKIES_3: ${{ secrets.YT_COOKIES }}   # 예비 2(구 시크릿)
           ASK_LINK_DIR: /tmp/asklink   # 미디어 링크 전사문 캐시 경로(ask.sh 링크 레일 · 운영자 260731)
           # 길이 정책(운영자 260731 실측 확정 · "자막있으면 영상길이 상관없이 / 자막없으면 영상길이 제한, 단 강제 활성화 가능"):
           #   실측 = 총소요 ≈ 요약 오버헤드 500s + 전사 1.5×영상길이(러너 large-v3 A/B 260728 = 40s 이상 구간 1.39×RT · 오늘 ask 2건 = 428s·594s).

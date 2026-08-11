@@ -29,8 +29,8 @@ jobs:
 
       - name: 쿠키 생사 점검 → 원장 → 알림
         env:
-          YT_COOKIES: ${{ secrets.YT_T_COOKIES }}   # vidl-make와 같은 시크릿(구 YT_COOKIES 무접촉)
-          YT_COOKIES_2: ${{ secrets.YT_T2_COOKIES }}   # 2번 계정(운영자 260810 · 미설정이면 빈값 = 종전 동작)
+          YT_COOKIES: ${{ secrets.YT_T2_COOKIES }}   # vidl-make와 같은 시크릿(구 YT_COOKIES 무접촉)
+          YT_COOKIES_2: ${{ secrets.YT_T_COOKIES }}   # 2번 계정(운영자 260810 · 미설정이면 빈값 = 종전 동작)
         run: python3 .github/scripts/yt_cookie_health.py   # 전 구간 fail-soft(rc 항상 0)
 
       - name: 착지(원장 + 알림)

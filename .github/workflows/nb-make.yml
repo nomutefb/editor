@@ -105,7 +105,6 @@ jobs:
           IN_ID: ${{ inputs.id }}
           YT_COOKIES: ${{ secrets.YT_T2_COOKIES }}   # 지금 쓰는 살아있는 칸 = 1순위(260811 · 죽은 칸을 먼저 두드리면 매 런 4번 헛시도 + 유튜브에 같은 주소로 실패를 반복해 보인다)
           YT_COOKIES_2: ${{ secrets.YT_T_COOKIES }}   # 예비 1 — 위가 죽으면 자동 회수
-          YT_COOKIES_3: ${{ secrets.YT_COOKIES }}   # 예비 2(구 시크릿)
           NB_MAX_SEC: ${{ vars.NB_MAX_SEC || 14400 }}
           NB_STT_MAX_SEC: ${{ vars.NB_STT_MAX_SEC || 3600 }}
           NB_LIST_MAX: ${{ vars.NB_LIST_MAX || 200 }}
@@ -336,7 +335,6 @@ jobs:
           IN_ID: ${{ inputs.id }}
           YT_COOKIES: ${{ secrets.YT_T2_COOKIES }}   # 지금 쓰는 살아있는 칸 = 1순위(260811 · 죽은 칸을 먼저 두드리면 매 런 4번 헛시도 + 유튜브에 같은 주소로 실패를 반복해 보인다)
           YT_COOKIES_2: ${{ secrets.YT_T_COOKIES }}   # 예비 1 — 위가 죽으면 자동 회수
-          YT_COOKIES_3: ${{ secrets.YT_COOKIES }}   # 예비 2(구 시크릿)
         run: |
           set -e
           # 시도 사다리 = .github/scripts/ytdlp_try.sh(①쿠키+기본 ②쿠키+대체 ③무쿠키+기본 ④무쿠키+대체 · 260811)
