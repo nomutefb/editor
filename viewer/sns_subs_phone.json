@@ -345,12 +345,32 @@
  ],
  "threads": [
   {
+   "account": "choi.openai",
+   "text": "Grok 4.6이 Cursor에 잠깐 올라왔다가 내려갔습니다. 실수로 먼저 배포된 걸로 보입니다.\n\n1.5T 파라미터, 256K 컨텍스트, Grok 4.5와 같은 기반 모델에 SFT·RL을 대폭 강화한 버전입니다. 머스크가 7월 29일 \"8월 7일 출시\"라고 했다가 8월 4일 \"다음 주\"로 미뤘고, 지금은 폴리마켓에서 이번 주 내 출시 확률 84%입니다. Grok 4.7은 2.1T로 몇 주 뒤 따라옵니다.\n\n잠깐 테스트한 사용자들 반응은 \"게으름 문제가 해결됐다\" \"전반적으로 괜찮은 개선\"이라고 평가했는데요.\n\n머스크의 출시 예고가 세 번이나 미뤄진 모델이지만, 실수로라도 Cursor에 올라왔다는 건 출시가 임박한 것으로 보입니다.",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1786431623,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/771909960_17981641281112832_3591925561490205970_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk2MTE5ODAxNjU1MTEwMzY5OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuOTAxLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=aeh7trECFVsQ7kNvwGLUOgW&_nc_oc=Adp2CXb2FIzQmU4bpnJDXWT2JcpujBm1nH-1NawHggL_rsrgG0aR55t6oOBShYNPXy8LvAu0I4M3KzUojUqJESBj&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=NK5MH-zCBnU8FTZE9g80Mw&_nc_ss=7a22e&oh=00_AQGFOmcmOUQ2EEOfzNjpSWa63pk49knxf_ESomQ175s7zw&oe=6A80A503",
+   "url": "https://www.threads.com/@choi.openai/post/Db5AJvVgqzS",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "🔗 원문·자세히 보기\nhttps://openai.com/index/building-an-ai-native-finance-function/",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1786429903,
+   "thumb": "",
+   "url": "https://www.threads.com/@aipeekme/post/Db483PIH7hh",
+   "region": "kr"
+  },
+  {
    "account": "aipeekme",
    "text": "OpenAI가 지난 2년간 AI 기반 재무 조직을 구축하며 얻은 5가지 교훈을 공개했습니다.\n의사결정 프로세스 전반을 재설계하고 재무 담당자가 직접 시스템을 구축하는 구조로 바꿨다고 하는데요.\n단순히 장부를 빠르게 마감하는 수준을 넘어 실시간 데이터로 경영진의 판단을 돕는 데 초점을 맞췄습니다.\n이를 위해 제로 데이 마감과 자동화된 상시 예측이라는 목표를 세우고 현재 구축 중이라고 합니다.\n모든 구성원에게 접근권을 준 뒤 사용 유인을 만들고, 속도와 책임·통제 장치를 함께 마련했습니다.\n지능 단위당 가치를 측정해 AI의 ROI를 제시한다는 대목도 담겼습니다.\n시스템 구축 방식 자체를 바꾼 점은 참고할 만하지만, 일반 기업의 재무 현장에 바로 적용하기에는 통제 수준이나 리스크 부담이 꽤 커 보입니다.\n실제 적용 시 데이터 정확도 검증 기준을 어디까지 설정했는지는 추가로 확인해보고 싶습니다.\n\n📷 사진 출처: openai.com",
    "likes": 0,
    "cmts": 1,
    "time": 1786429892,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/771814752_18078401432407306_1303557229287733340_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk2MTE4MzQzMTI4MDIzNTU0Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=50tenDWAkAoQ7kNvwF2M5h1&_nc_oc=AdpkxuRA0cykulIHFI5LVd2sC9__oCDTCz9SGkSdrhF73mbY-k5_IucD6-DA7-6hVkYR1CCKKoAcn9xlx1T7Syeo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=xr6K4b7c3sOLoXDNvr_FMg&_nc_ss=7a22e&oh=00_AQHI-cQ6tu6Ib8FNFkLvSwKnV-Lb_BTDFUnPNep-LF0a3Q&oe=6A808F8E",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/771814752_18078401432407306_1303557229287733340_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk2MTE4MzQzMTI4MDIzNTU0Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=50tenDWAkAoQ7kNvwG3uFxZ&_nc_oc=AdrNdVriQg3iGhDkXiGXAOsvktTjz4U3hWOtn25urD4lznTOkrvjldWc07YlJJ9Ri-euaioBhrFgdRuTEm5gt2jh&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=NBRHvs5lRLsYfgwaN9NGAA&_nc_ss=7a22e&oh=00_AQH3DVUsBMQJRVvmYyNzlQfQrmhfMVr9I2H8HDO4ZZk91Q&oe=6A808F8E",
    "url": "https://www.threads.com/@aipeekme/post/Db481fvnxQb",
    "region": "kr"
   },
@@ -360,7 +380,7 @@
    "likes": 2,
    "cmts": 1,
    "time": 1786425356,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/773509257_17981665986112832_8430100372374082560_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk2MTE0NTQ1MDcwNzI3MjAzOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=ra384H3GlpgQ7kNvwFSTAFh&_nc_oc=Ado38iDTCnJgvweAOKtWwjFpiUDeUm1u9ymdRQTnRfT_LEvdgVOXoMfOLX2MW-NEdeK5FrlIoU9xlAqGNTwiBp8b&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=5PQL8UsLvA2AsXOLwjiHDA&_nc_ss=7a22e&oh=00_AQGivttLLGbJTwibxZfbvPstT1wMopmswR-QWgNQXDg0Jw&oe=6A808F4B",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/773509257_17981665986112832_8430100372374082560_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk2MTE0NTQ1MDcwNzI3MjAzOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=ra384H3GlpgQ7kNvwFrFLYb&_nc_oc=AdpoSGG8fLDDjCHYTQ3CsKYv_0csNaG5p132AF9hO-CpmX9YaOI94850XxD8zKZOdbT67k0zmbBWITXRWHgMUvVL&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=NK5MH-zCBnU8FTZE9g80Mw&_nc_ss=7a22e&oh=00_AQHTAjniT_2JK0AyX0BQXEYzRmmwNTeUV3DCrXPvYyV5Rw&oe=6A808F4B",
    "url": "https://www.threads.com/@choi.openai/post/Db40MzlD8Fn",
    "region": "kr"
   },
@@ -370,18 +390,8 @@
    "likes": 2,
    "cmts": 1,
    "time": 1786425348,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/772697586_17981667474112832_3495008189212660633_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk2MTE0NTM3OTI5NTAzMTU1NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjI0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=ykYbPOyXvLEQ7kNvwHsrOsv&_nc_oc=AdoOkwh2JE8bDWc2LvRs5ELkYJJ2CIwEXiD4DfrVrW6ylf09VUe4Xi6sJtGBnwIWh6dFfhMYcHwJAVGkLp-raOS7&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=5PQL8UsLvA2AsXOLwjiHDA&_nc_ss=7a22e&oh=00_AQEskCcF_Ehf9AqCUYftgU0Enzyd89K8NuZGMK3G6K_ehA&oe=6A8088B4",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/772697586_17981667474112832_3495008189212660633_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk2MTE0NTM3OTI5NTAzMTU1NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjI0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=ykYbPOyXvLEQ7kNvwFE33w1&_nc_oc=Adoo2hYsFZy2adqUfyotSBWOwVFf9_NbA99TQfzNH371L734WANupc9S_QBfHbOn929AHRtU3aCwMTN7tIOnpFvh&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=NK5MH-zCBnU8FTZE9g80Mw&_nc_ss=7a22e&oh=00_AQFXWBCwHBujnHdTtttsHhLN2hZgWCKYD1ni0eVawtKFHw&oe=6A8088B4",
    "url": "https://www.threads.com/@choi.openai/post/Db40LxEj3EC",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "1/ 오픈AI는 8월 10일 사이버보안 프로그램 Daybreak를 두 등급으로 나눴습니다.\n원래는 승인받은 방어자에게 사이버 작업용 모델을 제공하는 단일 프로그램이었습니다.\n\n이제 Daybreak Blue는 GPT-5.6 Sol 같은 범용 프런티어 모델을 제공하고, Daybreak Red는 사이버보안에 특화해 훈련한 모델을 제공합니다. 이번에 Red에 추가된 신형 모델이 GPT-5.6-Cyber입니다.\n\nBlue는 취약점 탐색과 보안 코드 리뷰, 악성코드 분석, 침해 대응, 패치 검증 같은 작업에 권장됩니다. Red는 취약점 연구와 익스플로잇 검증, 보안 테스트처럼 더 높은 수준의 사이버 작업을 대상으로 합니다.\n\n프로그램을 둘로 나눈 것은 같은 방어 목적 안에서도 필요한 능력과 위험 수준이 크게 다르기 때문입니다. 오픈AI는 대부분의 방어자에게 Blue부터 시작하라고 권합니다.",
-   "likes": 6,
-   "cmts": 1,
-   "time": 1786425340,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/772154538_17981667144112832_5213210097029783768_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk2MTE0NTMxMzM5NDEwNjA3NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjEwMi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=rkmd5fG0JwgQ7kNvwHgRWVf&_nc_oc=Adp7jLJ_sq6HCGNpDKfvylNLtAUXXDlHnwdMBgETNkD6qBOMHcv0mK0l3sitte-mkh3Jgdsq2KPeInzX5yyjhDxf&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=5PQL8UsLvA2AsXOLwjiHDA&_nc_ss=7a22e&oh=00_AQFJF0S1UbaxfZk0SUFTQR-6kFTOK2rw58S4UKFmvV71Mw&oe=6A80A439",
-   "url": "https://www.threads.com/@choi.openai/post/Db40Kzsjx7a",
    "region": "kr"
   },
   {
@@ -390,18 +400,8 @@
    "likes": 0,
    "cmts": 0,
    "time": 1786423842,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/770669538_1907122590201948_7273445681991109893_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk2MTEzMjUxNTI1NDczNjc1NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=oHdzXOxitdoQ7kNvwHKmoHF&_nc_oc=AdoyBdv1ANDHYhF3WUhYK52GMW4j766PJOq-WbBWgjbrUQt1OuF-9ZrfrtJdJCGJVCoOKssZ8_HyWEVg_7f4mgx5&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=xr6K4b7c3sOLoXDNvr_FMg&_nc_ss=7a22e&oh=00_AQHklFoKAE7-pRSzTuw-TtFmrYxwcIxVJYvl9g5A40-xpA&oe=6A809C89",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/770669538_1907122590201948_7273445681991109893_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk2MTEzMjUxNTI1NDczNjc1NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=oHdzXOxitdoQ7kNvwE78GqD&_nc_oc=Adpy3gGLYAMdb2_8vPgZ7lGxrRa8Ufxtyae5MJhzJ5SfmzctzOyplmgl1uGRNP_jfVJBltx38VK-6-rCZavJFpEr&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=NBRHvs5lRLsYfgwaN9NGAA&_nc_ss=7a22e&oh=00_AQH9cnx3MRsx-d5u6hhpsKEklbjPPV-Zh8LFZFjd7Kyvlg&oe=6A809C89",
    "url": "https://www.threads.com/@aipeekme/post/Db4xQkgAhdz",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
-   "text": "마크 저커버그 메타 CEO가 모든 사람이 초지능에 접근할 수 있어야 한다는 글을 공개했습니다.\n누구나 기술 혜택을 누려야 한다는 메타의 미래 철학과 가치를 담았다고 밝혔는데요.\n구체적인 기술 사양이나 출시 일정 대신 오픈소스와 보편적 접근성을 강조하는 기존 기조를 재확인한 텍스트입니다.\n빅테크 간 폐쇄형 모델 경쟁이 심해지는 상황에서 나온 주장이기도 합니다.\n기술 독점을 막겠다는 명분은 명확합니다.\n하지만 실제 서버 인프라 비용과 막대한 전력 소비를 고려하면 보편적 접근이 말처럼 쉬울지는 두고 봐야 합니다.\n개인적으로는 명분보다 오픈소스 생태계를 통해 플랫폼 주도권을 유지하려는 계산이 더 짙어 보입니다.\n인프라 격차가 존재하는 한 말뿐인 접근권으로 남을 가능성도 확인해볼 대목입니다.",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1786421250,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/766544581_1333529841860643_5271980236018273920_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk2MTExMDc3OTI4OTg1OTA0Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=VjCKnmZhNNUQ7kNvwGNjy4F&_nc_oc=AdrInb1jK5Zl5Eom-gOFVQL765fOBBqnuWp-5sYsEF7cT3vDpcPicAfMMCmi9YuYs2VBbImaBZKFZLdei4XpdCjH&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=xr6K4b7c3sOLoXDNvr_FMg&_nc_ss=7a22e&oh=00_AQHf8XexictveESaQ463QWfc2wAib2jsytny1vN8o0b0TA&oe=6A807D5F",
-   "url": "https://www.threads.com/@aipeekme/post/Db4sURTivPn",
    "region": "kr"
   },
   {
@@ -440,17 +440,37 @@
    "likes": 22,
    "cmts": 1,
    "time": 1786357250,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/770775481_1758615625560591_944135476775014062_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk2MDU3MzkxNzU0NjQ4MTY1MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=O8hdec8Cjy0Q7kNvwGCbWLq&_nc_oc=Ado6_Db-hSbbSk23JJcAlJLfovzPYzmv7KXRripmF3fq58vH3frskHmw40RAJFsbdif_wKEmbrebqTZjYv0V7Fu5&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=gpG9W31anDnc7D_Kswsz6Q&_nc_ss=7a22e&oh=00_AQHO3FL1_5Rw5HdEPXm1dg1ahilkMB9j6z3EqP2lJ-4_UQ&oe=6A807880",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/770775481_1758615625560591_944135476775014062_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk2MDU3MzkxNzU0NjQ4MTY1MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=O8hdec8Cjy0Q7kNvwFTrfep&_nc_oc=AdpkphiC1J3FRfAqTj_AgLXaxBYco0aMaZy0d1XVL-gEmccq2fubtbulSOdiWeyUa327ESrujNXQswtlLF4TlVY6&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=YCO6UVO6Yxlvz519I7kqkQ&_nc_ss=7a22e&oh=00_AQFNAGuTiGXLLJoVenAjFXdGNMcM5IVImRKI8LR-RWKm8A&oe=6A80B0C0",
    "url": "https://www.threads.com/@kopp/post/Db2yP52CQfz",
    "region": "kr"
   },
   {
    "account": "choi.openai",
+   "text": "1/ 오픈AI는 8월 10일 사이버보안 프로그램 Daybreak를 두 등급으로 나눴습니다.\n원래는 승인받은 방어자에게 사이버 작업용 모델을 제공하는 단일 프로그램이었습니다.\n\n이제 Daybreak Blue는 GPT-5.6 Sol 같은 범용 프런티어 모델을 제공하고, Daybreak Red는 사이버보안에 특화해 훈련한 모델을 제공합니다. 이번에 Red에 추가된 신형 모델이 GPT-5.6-Cyber입니다.\n\nBlue는 취약점 탐색과 보안 코드 리뷰, 악성코드 분석, 침해 대응, 패치 검증 같은 작업에 권장됩니다. Red는 취약점 연구와 익스플로잇 검증, 보안 테스트처럼 더 높은 수준의 사이버 작업을 대상으로 합니다.\n\n프로그램을 둘로 나눈 것은 같은 방어 목적 안에서도 필요한 능력과 위험 수준이 크게 다르기 때문입니다. 오픈AI는 대부분의 방어자에게 Blue부터 시작하라고 권합니다.",
+   "likes": 7,
+   "cmts": 1,
+   "time": 1786425340,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/772154538_17981667144112832_5213210097029783768_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk2MTE0NTMxMzM5NDEwNjA3NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjEwMi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=rkmd5fG0JwgQ7kNvwHIJ3-y&_nc_oc=AdrCovtXwu8W0sly8XZ9ucl200b6sCkWg4YyLsJ5snUwOWwiJpEwZES1Zt6A0jmVpQzpqoe-5TmrsDd6y4ykJ2Eh&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=NK5MH-zCBnU8FTZE9g80Mw&_nc_ss=7a22e&oh=00_AQH70PfYP6eaneaZqHC4R8olDTeNekUjM0yqoqmOgLd6ww&oe=6A80A439",
+   "url": "https://www.threads.com/@choi.openai/post/Db40Kzsjx7a",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "마크 저커버그 메타 CEO가 모든 사람이 초지능에 접근할 수 있어야 한다는 글을 공개했습니다.\n누구나 기술 혜택을 누려야 한다는 메타의 미래 철학과 가치를 담았다고 밝혔는데요.\n구체적인 기술 사양이나 출시 일정 대신 오픈소스와 보편적 접근성을 강조하는 기존 기조를 재확인한 텍스트입니다.\n빅테크 간 폐쇄형 모델 경쟁이 심해지는 상황에서 나온 주장이기도 합니다.\n기술 독점을 막겠다는 명분은 명확합니다.\n하지만 실제 서버 인프라 비용과 막대한 전력 소비를 고려하면 보편적 접근이 말처럼 쉬울지는 두고 봐야 합니다.\n개인적으로는 명분보다 오픈소스 생태계를 통해 플랫폼 주도권을 유지하려는 계산이 더 짙어 보입니다.\n인프라 격차가 존재하는 한 말뿐인 접근권으로 남을 가능성도 확인해볼 대목입니다.",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1786421250,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/766544581_1333529841860643_5271980236018273920_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk2MTExMDc3OTI4OTg1OTA0Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=VjCKnmZhNNUQ7kNvwGW3h8A&_nc_oc=AdrP_hgOc9lwGW-W4jZfxxnGtkB03dgl8UvNRelwzJqJyvSWZQa9rMLLhmToOAJg96AyCLv3VL4DWqlZVngDvGPy&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=NBRHvs5lRLsYfgwaN9NGAA&_nc_ss=7a22e&oh=00_AQFq45wCft_JFaXPoKuWdu6Xb6xaG1vPcihXHujwKZTGpg&oe=6A80B59F",
+   "url": "https://www.threads.com/@aipeekme/post/Db4sURTivPn",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
    "text": "오픈AI가 Daybreak를 Blue와 Red로 나누고 GPT-5.6-Cyber를 공개했습니다.\n\nGPT-5.6-Cyber는 고위험 사이버 요청의 95%에 답했으며, 실제 Chrome V8 취약점 발견과 Google의 패치로도 이어졌는데요.\n\n핵심은 안전 관리 방식의 변화입니다. 모델이 요청 자체를 거부하는 대신 승인된 사용자에게만 접근권을 주고, 신원 확인·실행 감시·권한 제한으로 위험을 관리하는 방향입니다.\n\n오픈AI Daybreak 확장과 GPT-5.6-Cyber를 분석했습니다 🧵",
-   "likes": 28,
+   "likes": 34,
    "cmts": 17,
    "time": 1786425336,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/770830953_1079090661108825_1092309421490268495_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk2MTE0MTcxODEyMDIyMTEzNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Xg_4I6PkQ54Q7kNvwFbVuSY&_nc_oc=AdoGA76PVd9uEhZ32fX8eyeSpDz29LbHOsk4b4dZR7UaI7lbKsvTzlYeTbDmLcYhTr6XqT1MWBRHnqc_OCrRU13L&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=5PQL8UsLvA2AsXOLwjiHDA&_nc_ss=7a22e&oh=00_AQFxS-fDf9rYrKN-V49dA9agFP79pUWyFoRBMYooOKNdOw&oe=6A80812F",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/770830953_1079090661108825_1092309421490268495_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk2MTE0MTcxODEyMDIyMTEzNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Xg_4I6PkQ54Q7kNvwGi166m&_nc_oc=Ado8z6YQv5ZbgcE2JKqkJ8h16K52jJNlERmz4bOnC8HvW9R9zpIVDOec32LS3WM9HZK75uWPVdCNSG7GLrtWmCoR&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=NK5MH-zCBnU8FTZE9g80Mw&_nc_ss=7a22e&oh=00_AQFUGkojerCzVuRGT05iCX8PcLhPFTMXFJE_ouhtuMQ7_Q&oe=6A80812F",
    "url": "https://www.threads.com/@choi.openai/post/Db4zWfViUnO",
    "region": "kr"
   },
@@ -470,7 +490,7 @@
    "likes": 4,
    "cmts": 1,
    "time": 1786420943,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/772148138_17981661213112832_6177351586585415137_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk2MTEwODQyODg0NDE0NDg2NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjA0OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=K-cuxOTZIsQQ7kNvwHLvIEd&_nc_oc=AdrO6Fd7CyWZPSu8URCKDRe4ynjPOnfjpb3pzFGa4_PY3p3xmSDu4K4A8gnBHUjz9iSrl0iV7eQsubW0cYs49yAp&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=5PQL8UsLvA2AsXOLwjiHDA&_nc_ss=7a22e&oh=00_AQEMMeb_NMzKM9u5O4OSvXlUvv8OfIecUqT9efRuJcQfHQ&oe=6A809389",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/772148138_17981661213112832_6177351586585415137_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk2MTEwODQyODg0NDE0NDg2NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjA0OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=K-cuxOTZIsQQ7kNvwESvKHh&_nc_oc=AdpojVzINjmH6S3vymQJWFJ3Zi30niA8paF8jVvsFxBdbLIAQlUoNTsr2e0nv7CVEirjuAamDB9sDgOs1CQxAdit&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=NK5MH-zCBnU8FTZE9g80Mw&_nc_ss=7a22e&oh=00_AQHPvUWBoFKqNhp2KiYl35oGZnFBoHIrHAxtsYoBcUMVVw&oe=6A809389",
    "url": "https://www.threads.com/@choi.openai/post/Db4ryESD5jh",
    "region": "kr"
   },
@@ -480,7 +500,7 @@
    "likes": 1,
    "cmts": 1,
    "time": 1786419164,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/771651839_18078364403407306_1448239301286573163_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk2MTA5MzQ0Mjc4OTk1NTM5OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA3OS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=1F92GXuMSckQ7kNvwGuP6iB&_nc_oc=Adr_ik-Jv-PDYEAPEfuMneCtiJsPERnwyiuslKMwGnqkVjl3UBMtoEKhtzLNS8dRzPoz40a2J6iHzlrOm1B0Jiia&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=xr6K4b7c3sOLoXDNvr_FMg&_nc_ss=7a22e&oh=00_AQHtMmmHiIQiQG_yamqMwsJU9qTVkqmky2zyl7TmH5jirw&oe=6A8091E3",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/771651839_18078364403407306_1448239301286573163_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk2MTA5MzQ0Mjc4OTk1NTM5OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA3OS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=1F92GXuMSckQ7kNvwGkCC6-&_nc_oc=Adrj6uj5N5DjiCMmT_IXhQHjLEPwDvI2ItLxRKezW_5c2xyY8gIajMTKZB0EW4XP9_ubOKgDnyZY8JbHH2urGByw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=NBRHvs5lRLsYfgwaN9NGAA&_nc_ss=7a22e&oh=00_AQFWYm84wQqwkYVC6NNrxeI2WeLgH3xosntt8B26qfnLPQ&oe=6A8091E3",
    "url": "https://www.threads.com/@aipeekme/post/Db4oX_bn9dH",
    "region": "kr"
   },
@@ -500,48 +520,28 @@
    "likes": 6,
    "cmts": 1,
    "time": 1786420929,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/771494747_17981660016112832_1149057377791359993_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk2MTEwODMxMjIxNzMyNTAzOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTE3NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=uaCAkwxsPVsQ7kNvwENPjA_&_nc_oc=Adr4R3NVs44LzKXQ5ToqwR47wXRmG4TB2H0dFSdND8QwuZrFwmugu8qWmPLu4YvgbCSDiz3NCXi99gEzbyJg47av&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=5PQL8UsLvA2AsXOLwjiHDA&_nc_ss=7a22e&oh=00_AQGrsxp0k7GUwBl3AY6X9WKeLurx8anbNyCD-jx_dN5KmQ&oe=6A808312",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/771494747_17981660016112832_1149057377791359993_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk2MTEwODMxMjIxNzMyNTAzOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTE3NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=uaCAkwxsPVsQ7kNvwFqDSYW&_nc_oc=AdpQpQ4cTz3LmoeTPl9cHqUjFbkKDUqCis1bIdgTHgCfftIB0S2tbQWkC49eTpaJi2iQqSID9bVSCrz_ogFopKGa&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=NK5MH-zCBnU8FTZE9g80Mw&_nc_ss=7a22e&oh=00_AQFGZ0xsRrN3DjdELRP-Vhui76Ut8zXgdLXzti8tbhtw5w&oe=6A808312",
    "url": "https://www.threads.com/@choi.openai/post/Db4rwXqj43v",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "젠슨 황이 오늘 새벽 ‘AI 팩토리 컴퓨트는 투자 가능한 자산이 되고 있다’라는 글을 업로드 했는데요.\n전력, CUDA, 고객 사용량을 묶어 AI 컴퓨트를 장기 자본이 심사하는 인프라로 만들겠다고 선언했습니다.\n엔비디아가 GPU 다음에 설계하는 시장을 정리했습니다 🧵",
-   "likes": 31,
+   "likes": 32,
    "cmts": 10,
    "time": 1786420924,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/771726333_17981660001112832_1537934006669900975_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk2MTEwODI2OTMyNjMzNjg3NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuODIyLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=pItYyiN3sR0Q7kNvwFp7t25&_nc_oc=AdoU_k6ncsAibHfzzulruZLWVrX1hcCFj-nVkaFt9RddOAp4eGxHasX34QKqW99e8YKWROY8CtP4h9SEzuwjhO8Z&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=5PQL8UsLvA2AsXOLwjiHDA&_nc_ss=7a22e&oh=00_AQEScI1SPf8F1sn-7X843rD_JjsLesUY4-sruFuTaHGuKg&oe=6A80A970",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/771726333_17981660001112832_1537934006669900975_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk2MTEwODI2OTMyNjMzNjg3NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuODIyLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=pItYyiN3sR0Q7kNvwEkN1Sg&_nc_oc=AdrCrnPDf4iACGbSXa7f818T8FNXxUU9FzsM-lYr7tldO9nvu4oYdYOmWQjP0I5MrL__s0zuzWCj5bsyHUDrkXEs&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=NK5MH-zCBnU8FTZE9g80Mw&_nc_ss=7a22e&oh=00_AQGxhOfXIAOjomiOGO0ZPe_iPZO5X1L1zKirphj3d49OMQ&oe=6A80A970",
    "url": "https://www.threads.com/@choi.openai/post/Db4rvvuDwNq",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "🚨 앤트로픽, 9월 말에서 10월 초 IPO 추진 중\n\n사상 최대 규모의 앤트로픽 IPO가 코 앞으로 다가왔습니다.\n현재 투자자들은 다리오 아모데이에게 \"사람들 겁주는 걸 멈춰달라\"고 요청하고 있는 것으로 전해지고 있습니다.\n\nAI의 위험성을 경고해온 CEO의 메시지가 IPO를 앞두고 시장을 불안하게 만든다는 겁니다. 아모데이는 반대로 새 인재들이 사명감이 아니라 돈 때문에 오는 걸 우려하고 있다고 합니다.\n\nIPO를 앞두고 투자자들에게 \"헬스케어와 생물학에 집중하겠다\"고 설명한 점도 하사비스와 아이소모픽의 전략을 연상시키는데요.\n\n시장이 이 IPO를 어떻게 받아들일지는 SpaceX의 전례가 힌트를 줍니다.\n앤트로픽은 SpaceX보다 더 많은 역풍을 안고 있습니다. 중국 오픈웨이트 모델과의 가격 경쟁, 오픈AI와의 점유율 싸움, 상원의 개발 중단 압박까지.\n\nAI 안전을 외치는 회사가 월가에 \"안전한 투자처\"로 팔리는 모순을 시장이 어떻게 평가할지가 관건입니다.",
-   "likes": 21,
+   "likes": 22,
    "cmts": 2,
    "time": 1786417790,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/771757369_17981656107112832_366657170879166522_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk2MTA4MTk4MzE0NTA0MDI3MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuODE4LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=FK9guh30QzMQ7kNvwGu-xLp&_nc_oc=AdruxGQn1VrfFTIpUR9ZZc6VZ7La0Lj0YOiXlEbfNBrxpaoKq-W4Jd5I40WG8gFLNMZ_Pb7YS_16wrse4C-mY-4T&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=5PQL8UsLvA2AsXOLwjiHDA&_nc_ss=7a22e&oh=00_AQGZRZBW7VsergbTV02fO6XZapPOecY3FBa5H_vIPYVN4Q&oe=6A80847B",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/771757369_17981656107112832_366657170879166522_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk2MTA4MTk4MzE0NTA0MDI3MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuODE4LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=FK9guh30QzMQ7kNvwFXYTrp&_nc_oc=AdorjgImXnXQT6DC9QNmeFU1l73-JBLqVRnKb8cGbtk5bQESVFnBJziakADijiKwKBJS0s82hP3hKAOuZTH3MwP7&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=NK5MH-zCBnU8FTZE9g80Mw&_nc_ss=7a22e&oh=00_AQH6SN6gEkWQIT279_B8YDNg49U4hEF13WUI0GWfAffdbw&oe=6A80847B",
    "url": "https://www.threads.com/@choi.openai/post/Db4lxOzj1mP",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "약관 :\nhttps://support.claude.com/en/articles/16266773-how-claude-marks-ai-generated-content",
-   "likes": 5,
-   "cmts": 0,
-   "time": 1786415445,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/Db4hS7kj3Vb",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "앤트로픽이 Claude가 생성하는 모든 텍스트에 보이지 않는 워터마크를 심겠다고 발표했습니다. EU AI 법에 따른 조치지만 전 세계 적용입니다.\n\n워터마크는 텍스트 자체의 일부입니다. 복사해서 붙여넣어도 따라가고, 일부 편집을 해도 살아남습니다. 8월 2일 이후 출시된 모델부터 적용됩니다.\n\n오늘 Sonnet 5 가격 인상을 취소하며 경쟁 압박을 인정한 지 하루 만에, 이번에는 사용자 경험을 스스로 깎아내리는 발표를 했습니다.",
-   "likes": 112,
-   "cmts": 19,
-   "time": 1786415437,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/772547384_17981640024112832_6414651815580776650_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk2MTA2MjI0NTEwMjcyNDUxNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTc0Ni5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=EtDQr3lgOnAQ7kNvwFzIsFA&_nc_oc=AdphIQU5aVFCn7XiJn1gdU9wipw7LiLA12ROUmYCGziAaVT2UPgZrBtIrw1X1xS71pq20awIJ3wil9aLAH6LWW1C&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=5PQL8UsLvA2AsXOLwjiHDA&_nc_ss=7a22e&oh=00_AQF2hsfTXyn5PqB7ee_i-j0Wk5tL3K58rUsrREI63pondQ&oe=6A807E34",
-   "url": "https://www.threads.com/@choi.openai/post/Db4hSAUjyWk",
    "region": "kr"
   }
  ],
@@ -593,33 +593,6 @@
    "url": "https://www.reddit.com/r/PeterExplainsTheJoke/comments/1vkilfk/petah_whats_that_score_meter_below_im_not_from_na/"
   },
   {
-   "sub": "cats",
-   "title": "a cloud fell out of the sky",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/rk81ehw09nih1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=02dcf2c6a54d0578ede46d26957ea12e805392bd",
-   "time": 1786409643,
-   "url": "https://www.reddit.com/r/cats/comments/1vl2v7d/a_cloud_fell_out_of_the_sky/"
-  },
-  {
-   "sub": "technology",
-   "title": "Woman Calls Out Doctor Wearing Smart Glasses During Consultation Where She Had To Take Off Her Clothes: 'They Need To Be Banned'",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/owJ3SBk6n9G0ECGVWUNE5jQ9AGP5LGd4rE7ru-HurYo.png?width=640&crop=smart&auto=webp&s=2b101f15268c9f2e68e8be57003d877664167804",
-   "time": 1786406831,
-   "url": "https://www.reddit.com/r/technology/comments/1vl1tcf/woman_calls_out_doctor_wearing_smart_glasses/"
-  },
-  {
-   "sub": "MurderedByWords",
-   "title": "Worst Superman tries to lecture but fails",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/kic9irwlcnih1.jpeg?width=640&crop=smart&auto=webp&s=52224f53d056d5e750ae3c5876f869351ce77838",
-   "time": 1786410844,
-   "url": "https://www.reddit.com/r/MurderedByWords/comments/1vl3b7l/worst_superman_tries_to_lecture_but_fails/"
-  },
-  {
    "sub": "GirlDinnerDiaries",
    "title": "Blown away by European doctors visit cost",
    "score": 0,
@@ -627,15 +600,6 @@
    "thumb": "https://preview.redd.it/6o9r5s4w5jih1.jpeg?width=640&crop=smart&auto=webp&s=eb8c4db4a867846759a6f946bedb1ac698108aca",
    "time": 1786360166,
    "url": "https://www.reddit.com/r/GirlDinnerDiaries/comments/1vkhsy3/blown_away_by_european_doctors_visit_cost/"
-  },
-  {
-   "sub": "MaliciousCompliance",
-   "title": "I Was Asked to Monitor Employee Productivity. I Wasn't Told to Exclude Management.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "",
-   "time": 1786402417,
-   "url": "https://www.reddit.com/r/MaliciousCompliance/comments/1vl02jq/i_was_asked_to_monitor_employee_productivity_i/"
   },
   {
    "sub": "PopCultureV2",
@@ -654,6 +618,42 @@
    "thumb": "https://external-preview.redd.it/YTI0ZjNlMnk1bWloMbiXzVQ4wCAo10h7FFPX1Zyx6DRglbW_bLFX_RMsghzi.png?width=320&crop=smart&auto=webp&s=2e30ce85f6d94b0ac08351ba23832e3f97f412af",
    "time": 1786396500,
    "url": "https://www.reddit.com/r/interesting/comments/1vkxlqa/a_5_years_old_hamster/"
+  },
+  {
+   "sub": "cats",
+   "title": "a cloud fell out of the sky",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/rk81ehw09nih1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=02dcf2c6a54d0578ede46d26957ea12e805392bd",
+   "time": 1786409643,
+   "url": "https://www.reddit.com/r/cats/comments/1vl2v7d/a_cloud_fell_out_of_the_sky/"
+  },
+  {
+   "sub": "technology",
+   "title": "Woman Calls Out Doctor Wearing Smart Glasses During Consultation Where She Had To Take Off Her Clothes: 'They Need To Be Banned'",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/owJ3SBk6n9G0ECGVWUNE5jQ9AGP5LGd4rE7ru-HurYo.png?width=640&crop=smart&auto=webp&s=2b101f15268c9f2e68e8be57003d877664167804",
+   "time": 1786406831,
+   "url": "https://www.reddit.com/r/technology/comments/1vl1tcf/woman_calls_out_doctor_wearing_smart_glasses/"
+  },
+  {
+   "sub": "gaming",
+   "title": "For people who have played a game for over 1000 hours. Which game is it?",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1786421953,
+   "url": "https://www.reddit.com/r/gaming/comments/1vl76f8/for_people_who_have_played_a_game_for_over_1000/"
+  },
+  {
+   "sub": "TikTokCringe",
+   "title": "“I’m in Japan, and when I say I’m American, people look at me with contempt, disdain and hatred...We Americans are now humiliated around the world.”",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/dzBmb2ZmcXM4bGloMaQbpZA1vgZO6v4vwPXOW0ZgvKHDjBbgEe6Gix3VOfy-.png?width=320&crop=smart&auto=webp&s=89e2c524e2dd451189c26b3d392c5ae4a7403d16",
+   "time": 1786385419,
+   "url": "https://www.reddit.com/r/TikTokCringe/comments/1vkskca/im_in_japan_and_when_i_say_im_american_people/"
   }
  ],
  "disaster": [],
@@ -667,13 +667,6 @@
     "jajaja7878uu",
     "kyunghyang"
    ],
-   "insta": [
-    "aespa_official",
-    "blackpinkofficial",
-    "bts.bighitofficial",
-    "koreadispatch",
-    "newjeans_official"
-   ],
    "threads": [
     "aicoffeechat",
     "aipeekme",
@@ -684,28 +677,33 @@
   },
   "why": {
    "insta": {
-    "jennierubyjane": "rotate",
-    "xxxibgdrgn": "rotate",
-    "hm_son7": "rotate",
-    "sbsnow_insta": "rotate",
-    "mnet_official": "rotate",
-    "openai": "rotate",
-    "runwayapp": "rotate",
-    "pika_labs": "rotate",
-    "lumalabsai": "rotate",
-    "midjourney": "rotate",
-    "klingai_official": "rotate",
-    "heygen_official": "rotate",
-    "higgsfield.ai": "rotate",
-    "googledeepmind": "rotate",
-    "cristiano": "rotate"
+    "koreadispatch": "gap",
+    "bts.bighitofficial": "gap",
+    "blackpinkofficial": "gap",
+    "newjeans_official": "gap",
+    "aespa_official": "gap",
+    "jennierubyjane": "gap",
+    "xxxibgdrgn": "gap",
+    "hm_son7": "gap",
+    "sbsnow_insta": "gap",
+    "mnet_official": "gap",
+    "openai": "gap",
+    "runwayapp": "gap",
+    "pika_labs": "gap",
+    "lumalabsai": "gap",
+    "midjourney": "gap",
+    "klingai_official": "gap",
+    "heygen_official": "gap",
+    "higgsfield.ai": "gap",
+    "googledeepmind": "gap",
+    "cristiano": "gap"
    }
   },
   "landing": {
-   "at": "2026-08-11T15:01:29",
+   "at": "2026-08-11T15:32:05",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-11T15:31:58.634969+09:00"
+ "updated": "2026-08-11T16:01:23.702889+09:00"
 }
