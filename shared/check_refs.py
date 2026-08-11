@@ -5175,7 +5175,8 @@ def check_grok_sb_chain():
                         ("def strip_audio", "소리 끄기(산출 트랙 제거)"),
                         ("strip_audio(local)", "소리 끄기 실호출"),
                         ("gk.fresh_token", "자격 갱신·저장(회전 대응)"),
-                        ("image=rec[\"img\"]", "컷 그림을 첫 장면으로"),
+                        ("refs=refs or None", "참조 그림 공유(컷 수와 무관)"),
+                        ("def refs_of", "참조 목록 파서"),
                         ("seconds=c[\"sec\"]", "컷 길이 = 콘티 값")):
         if needle not in rn:
             print("❌ 그록 콘티 레인 — grok_sb_video.py 에 {} 가 없다({})".format(why, needle)); rc = 1

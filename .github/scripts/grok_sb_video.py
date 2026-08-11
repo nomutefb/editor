@@ -40,16 +40,10 @@ import grok_api as gk           # noqa: E402  구독 자격 통로
 CUT_MAX = int(os.environ.get("GROK_SB_CUT_MAX", "12"))     # 한 번에 굽는 컷 상한(비용·시간 가드)
 SEC_MIN, SEC_MAX = 1, 15                                   # 공식 허용 범위
 SEC_FALLBACK = 5                                           # 콘티가 시각을 안 적었을 때
-IMG_ASPECT = os.environ.get("REFGEN_ASPECT", "16:9")
 
 # 컷 머리 = `### 컷3 · 4~7s · 한 줄 설명`(sb-make.md 출력 형식) — 시각 표기는 없을 수도 있다
 _CUT = re.compile(r"^###\s*컷\s*(\d+)\s*(?:·\s*([\d.]+)\s*~\s*([\d.]+)\s*s)?\s*(?:·\s*(.*))?$", re.M)
 _FIELD = re.compile(r"^(ACTION|CAMERA|DIALOGUE|MOTION)\s*:\s*(.*)$", re.M)
-
-# 그림에 글자가 들어가면 영상에서 반드시 뭉개진다(정본 §6) → 그림 단계에서 억제한다.
-# ⚠ 이 부정문은 **그림 축 한정 허용**(정본 §5 표) — 영상 프롬프트엔 절대 넣지 않는다.
-IMG_TAIL = " 글자·자막·캡션·워터마크·로고 없이 깨끗한 장면만."
-
 
 def cuts_of(md):
     """board.md → [{n, sec, desc, action, camera, dialogue}] (문서 순)."""
@@ -79,13 +73,32 @@ def cuts_of(md):
     return out
 
 
-def img_prompt(c):
-    """컷 그림(첫 장면) 프롬프트. 구도·인물·공간을 여기서 확정한다."""
-    bits = [c["desc"], c["action"], c["camera"]]
-    return " ".join(b for b in bits if b) + IMG_TAIL
+def refs_of(out_dir):
+    """참조 그림 목록 = 콘티가 이미 구운 것들(`ref.json`). 추가 과금 0.
+
+    운영자 260811 = 「어짜피 시트가 저화질이여도 캐릭터가 비슷하게 나오면 됨 · 첨부가 2개면
+    시트 + 등장인물 고화질 표 두 개를 넣던지」 — 이게 정확히 그록 **참조 모드**다.
+    참조 1장이 **한 축을 잠근다**(얼굴 · 물건 · 장소) · 최대 7장.
+
+    ⚠ 왜 첫 프레임 모드를 안 쓰나 = 첫 프레임은 **1장뿐**이고 그 그림이 그대로 1프레임이 된다.
+      컷 수만큼 그림을 새로 구워야 해서 그림 값이 컷 수배로 뛴다(운영자 지적 = 「의미없이 열
+      몇 장을 만들어야 하잖아, 비용적으로 너무 손해」). 참조 모드는 **그림 몇 장을 컷 전체가
+      공유**하므로 콜이 컷 수와 무관해진다.
+    ⚠ 저화질 시트가 괜찮은 이유도 여기 있다 — 참조는 1프레임으로 박히는 게 아니라 「이 얼굴을
+      유지하라」는 잠금이라 해상도 요구가 첫 프레임보다 낮다(운영자 판단과 일치).
+    ⚠ 대가 = 구도는 고정되지 않는다. 그 컷의 구도는 프롬프트가 정한다.
+    """
+    try:
+        d = json.load(open(os.path.join(out_dir, "ref.json"), encoding="utf-8"))
+    except Exception:  # noqa: BLE001
+        return []
+    urls = [u for u in (d.get("urls") or []) if u]
+    if not urls and d.get("url"):
+        urls = [d["url"]]
+    return urls[:gk.REF_MAX]
 
 
-def vid_prompt(c, sound=True):
+def vid_prompt(c, sound=True, nrefs=0):
     """컷 영상 프롬프트 — 정본 `prompts/grok-make.md` 규칙 적용.
 
     ⚠ **바뀌는 것만 쓴다**(§3-1). 첫 프레임이 구도·조명·색을 이미 쥐고 있어서 그걸 다시 쓰면
@@ -100,6 +113,11 @@ def vid_prompt(c, sound=True):
         parts.append(mv.rstrip(". ") + ".")
     if c["camera"]:
         parts.append(c["camera"].rstrip(". ") + ".")
+    if nrefs:
+        # 참조 지목 = **0부터** 센다(공식 2거처 일치 · 260810 확인). 첫 장이 <IMAGE_0>.
+        # 잠금 지시문은 묘사가 아니라 명령이라 희석 축에 안 걸린다(정본 §3-1 예외).
+        tags = ", ".join("<IMAGE_{}>".format(i) for i in range(nrefs))
+        parts.append("Keep the people, wardrobe, and setting consistent with {}.".format(tags))
     if sound:
         # 컷이 대사를 적었어도 **말소리는 넣지 않는다** — 이미지→영상은 립싱크가 구조적으로
         # 불리하고(§4-3), 실존 인물 축 위험도 여기서 함께 차단된다(§7-3 ①).
@@ -173,24 +191,21 @@ def main():
         print("::warning::그록 자격 실패({}) — 영상 생략".format(e))
         return 0
 
+    refs = refs_of(out_dir)
+    if not refs:
+        # ⚠ 콘티가 그림을 안 구웠으면(레퍼런스 OFF·Gemini 실패·R2 미설정) 참조가 0장이다.
+        #   그래도 발사는 한다 — 그록이 컷 설명만으로 첫 장면을 스스로 만든다(텍스트→영상).
+        #   다만 인물·화풍이 컷마다 흔들리므로 그 사실을 남긴다.
+        print("::warning::참조 그림 0장(ref.json 없음) — 인물·화풍이 컷마다 흔들린다")
+    else:
+        print("참조 {}장 공유(컷 수와 무관 = 그림 값 고정)".format(len(refs)))
+
     items, spent = [], 0.0
     for c in cuts:
-        rec = {"n": c["n"], "sec": c["sec"], "desc": c["desc"], "img": None, "video": None}
+        rec = {"n": c["n"], "sec": c["sec"], "desc": c["desc"], "refs": len(refs), "video": None}
         try:
-            png = tg.gemini_image(img_prompt(c), aspect=IMG_ASPECT)
-            key = "{}/{}/cut{:02d}.jpg".format(prefix, stem, c["n"])
-            rec["img"] = tg.r2_upload(png, key, tg._img_type(png)[0] or "image/jpeg") if tg.R2_ON else None
-        except Exception as e:  # noqa: BLE001
-            print("::warning::컷{} 그림 실패: {}".format(c["n"], str(e)[:200]))
-            items.append(rec)
-            continue
-        if not rec["img"]:
-            # ⚠ 그록에 넘기려면 **공개 주소**여야 한다 → R2 없으면 이 레인은 성립하지 않는다.
-            print("::warning::컷{} 그림 주소 없음(R2 미설정) — 영상 생략".format(c["n"]))
-            items.append(rec)
-            continue
-        try:
-            rid = gk.start_video(vid_prompt(c, sound), token=token, image=rec["img"], seconds=c["sec"])
+            rid = gk.start_video(vid_prompt(c, sound, len(refs)), token=token,
+                                 refs=refs or None, seconds=c["sec"])
             v = gk.wait_video(rid, token=token)
             spent += float(v.get("cost_usd") or 0)
             raw = gk.fetch(v["url"])
