@@ -9,6 +9,7 @@ window.NM_MODELS = {
   kling: 'Kling 3.0 Omni',     // 비디오 엔진(콘티 촬영·프롬프팅 공통)
   veo: 'Veo 3.1',              // 비디오 엔진(프롬프팅 · 초안)
   seedance: 'Seedance 2.0',    // 비디오 엔진 — 버전 = 운영자 260803 5차 확정 "2.0이 맞고"(구 2.5 초안 표기 회수 · 2.5 승격 = 가용성 실측 후 여기 1줄)
+  grok: 'Grok',                // 비디오·이미지 엔진(콘티 촬영 — 구독 OAuth 직결 · 운영자 260811 확정 표기 "Grok")
   motion: '모션그래픽',          // 촬영 3레인(사내 렌더 — 외부 모델이 아니라 한글 고유명이 정식)
   gemini: 'Gemini 3.1 Flash',  // 이미지·레퍼런스 엔진(index GENI_ENG_ICO 동일 문자열)
   gpt_image: 'GPT Image 2.0',  // 이미지 엔진(index GENI_ENG_ICO 동일 문자열)
