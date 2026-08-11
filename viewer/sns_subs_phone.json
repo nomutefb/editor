@@ -290,9 +290,29 @@
  ],
  "threads": [
   {
+   "account": "aipeekme",
+   "text": "앤스로픽이 클로드 코드 아티팩트에 MCP 커넥터를 연결할 수 있게 했습니다.\n개발자가 대화형 대시보드와 앱을 바로 구축하는 방식입니다.\n사용자 요청에 따라 실시간으로 정보를 조회하고 동작까지 수행할 수 있습니다.\n개별 사용자를 위한 정보 검색과 작업 수행이 아티팩트 내에서 이루어집니다.\n이 기능은 프로, 맥스, 팀, 엔터프라이즈 플랜 사용자에게 제공됩니다.\n공개적으로 공유된 아티팩트에서는 커넥터가 지원되지 않습니다.\n단순 화면 시각화를 넘어 상호작용하는 대시보드와 앱을 만드는 도구 역할까지 맡게 된 셈입니다.\n개인적으로는 권한 제어가 정교하지 않으면 데이터 노출 위험이 생길 수 있겠다고 느꼈습니다.\n공개 아티팩트 지원을 뺀 이유도 그런 사고를 미리 차단하기 위한 결정으로 봅니다.\n실제 업무 자동화 도구로 얼마나 실용적일지는 조금 더 살펴보고 판단하려 합니다.",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1786487159,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/771814162_1391283923103207_6276152897655872882_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk2MTY2MzY4MTcwNDgxMTQzMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=wLXdzIxHJVEQ7kNvwH3_0qN&_nc_oc=Ado53XN_2X9Qrn8rZruKtgzj0FfO_I90fChheLj4BEBoXy5GfaNoTmZbfAAD5shBtvg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=oipgPCng4MHGWKQJlUApgw&_nc_ss=7a22e&oh=00_AQFxn1ardUVz8buBEjqNsmUEjHH55QuZ7Glz3FdaDOF5xg&oe=6A815BF5",
+   "url": "https://www.threads.com/@aipeekme/post/Db6qCDzlNun",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "ChatGPT 데스크톱 앱이 Linux에 출시됐습니다. Codex와 Work까지 포함된 프리뷰 버전입니다.\n\nUbuntu 24.04/26.04, Debian 13, Fedora 43/44에서 .deb와 .rpm 패키지로 설치할 수 있으며, x64와 ARM64를 모두 지원합니다.\n\nLinux 사용자들이 오래 기다려온 업데이트입니다. 특히 Codex가 실제 개발 환경이 있는 Linux에 들어왔다는 점이 큽니다\n\n 이제 ChatGPT 데스크톱 앱은 macOS와 Windows에 이어 Linux까지 지원하며 주요 데스크톱 플랫폼을 모두 갖추게 됐습니다.",
+   "likes": 8,
+   "cmts": 2,
+   "time": 1786487043,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/771808459_1841163823915892_2770396542935615142_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk2MTY2MTk3Njg4MDEzOTUzNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=3-hG65yO6hQQ7kNvwHRx1C7&_nc_oc=AdoF8CxPRkLFigESU_5J1IUBbT3xVycJaDIRCXzAJDJF3id9gMxz_P4nGRtdY9XZd3g&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=EDNuS2RqrEmxbACr1F0yKQ&_nc_ss=7a22e&oh=00_AQGuUyp9W9iLdQjuXHquQ4e7s-f2lxzQi_Co9iy_KQfHHQ&oe=6A816C9F",
+   "url": "https://www.threads.com/@choi.openai/post/Db6ppQEHM0O",
+   "region": "kr"
+  },
+  {
    "account": "promppy_com",
    "text": "OpenAI, ChatGPT Work·Codex에 타 에이전트 작업 동기화 기능 추가",
-   "likes": 0,
+   "likes": 1,
    "cmts": 1,
    "time": 1786483168,
    "thumb": "",
@@ -312,31 +332,21 @@
   {
    "account": "choi.openai",
    "text": "NVIDIA가 Nemotron 3.5 Lightning과 NeMo Switchyard를 공개했습니다.\n\nLightning은 30B MoE 모델로 활성 파라미터 3.6B, 생성 속도는 초당 670토큰입니다. 하이브리드 Mamba-Transformer 구조와 100만 토큰 컨텍스트를 지원하며, Terminal-Bench는 전작의 3배인 24%를 기록했습니다.\n도구 호출, 결과 검증, 서브에이전트 위임 같은 고빈도 실행 작업에 특화됐고, 가중치·데이터·학습 레시피도 OpenMDW-1.1로 공개했습니다.\n\nSwitchyard는 복잡한 계획은 프론티어 모델에, 반복 실행은 Lightning에 자동 배분합니다. 별도 워크로드 학습 없이 바로 적용할 수 있습니다.\n\nNVIDIA는 DGX Spark부터 데이터센터까지 자사 하드웨어에서 에이전트를 효율적으로 운영하는 방식을 제시했습니다. 양자화와 모델 라우팅까지 묶어 에이전트 인프라의 레퍼런스 아키텍처를 직접 보여준 셈입니다.",
-   "likes": 16,
+   "likes": 17,
    "cmts": 3,
    "time": 1786458602,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/774033779_17981716356112832_5023656796234071218_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk2MTQyNDMzODcyOTcxMzA1Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=v64-cJFFGBUQ7kNvwF0R9Bx&_nc_oc=AdoCI1jyfzCvwKW4k8R4yV0OTpvHIG32GtunNrWYi3S-PxPqNpkWTjU27AS3i-IXAvc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Sq2J2zf-lY7oFZ4LeKDxAQ&_nc_ss=7a22e&oh=00_AQEpGrtliIyGtBANe9nCPK3ULbuR-rZvVHy-nAkQ5gdcQg&oe=6A818834",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/774033779_17981716356112832_5023656796234071218_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk2MTQyNDMzODcyOTcxMzA1Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=v64-cJFFGBUQ7kNvwF0R9Bx&_nc_oc=AdoCI1jyfzCvwKW4k8R4yV0OTpvHIG32GtunNrWYi3S-PxPqNpkWTjU27AS3i-IXAvc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=EDNuS2RqrEmxbACr1F0yKQ&_nc_ss=7a22e&oh=00_AQH50Df3RXetGwddr_Nkfz_1r7kGzbPuWRhUjGdtqdVxaA&oe=6A818834",
    "url": "https://www.threads.com/@choi.openai/post/Db5znKSkj2c",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "눈물 흘렸다..\n스파이더맨도.. 호프도.. 오디세이도 다 봤지만\n이만한게 없는 것 같다. 올해 최고의 아이돌이다..",
-   "likes": 486,
-   "cmts": 28,
+   "likes": 544,
+   "cmts": 29,
    "time": 1786455852,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/770750961_17981714097112832_2070295521322607962_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk2MTQwMTI2NjA5ODEyNzY4Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTE3OS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=QQd7oilRsYsQ7kNvwHQ0jQv&_nc_oc=Adr3RHEKxNzoDZHZORiR6R3vfMAyxeQJPSvRw3vcZavV6RHHB_EskYzcYki8vl0rmJA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Sq2J2zf-lY7oFZ4LeKDxAQ&_nc_ss=7a22e&oh=00_AQGkhfViFmfS3GLX8j3TT8Xtzcq-8OBI2I-NX67rzWBBvA&oe=6A815D5B",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/770750961_17981714097112832_2070295521322607962_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk2MTQwMTI2NjA5ODEyNzY4Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTE3OS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=QQd7oilRsYsQ7kNvwHQ0jQv&_nc_oc=Adr3RHEKxNzoDZHZORiR6R3vfMAyxeQJPSvRw3vcZavV6RHHB_EskYzcYki8vl0rmJA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=EDNuS2RqrEmxbACr1F0yKQ&_nc_ss=7a22e&oh=00_AQHkzvZsxcQ4KisXyMgV-flEdPgVkk6YmI6ay5jJNaDjbA&oe=6A815D5B",
    "url": "https://www.threads.com/@choi.openai/post/Db5uXaOj8NH",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "버니 샌더스 상원의원이 오픈AI, 앤트로픽, 메타 CEO에게 AI 개발 중단을 요구하는 서한을 보냈습니다. \"지금 행동하지 않으면 상원이 나설 것\"이라고 했습니다.\n\nAI가 바이러스를 만든 사례, 오픈AI 모델이 다른 기업을 해킹한 사건, 앤트로픽과 메타 모델도 통제를 벗어난 점, CIA 국장이 AI를 \"디지털 핵무기\"라고 부른 점을 근거로 들었습니다. 세 회사 모두 위험 임계치에 도달하면 개발을 중단하겠다고 서면으로 약속한 바 있습니다. 샌더스는 \"그 순간이 왔다\"고 말합니다.\n\n구글과 SpaceXAI는 서한 대상에서 빠졌습니다. 이번 주만 해도 오픈AI는 사이버 보안 모델을 출시했고, 앤트로픽은 가격 인상을 취소하며 경쟁을 이어갔고, 메타는 오픈웨이트 모델을 풀었습니다. 아무도 멈추지 않았습니다.\n\n서한은 정치적 신호지만, 기업들이 스스로 약속한 중단 조건이 공개적으로 발동된 건 이번이 처음입니다.",
-   "likes": 39,
-   "cmts": 11,
-   "time": 1786453199,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/771984122_17981641896112832_2218337848466956167_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk2MTM3OTAxNDMzMjkyNjMzNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTUxMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=09GQorfnIJkQ7kNvwHVJ5mG&_nc_oc=AdopSXonaXSgpUkl0Qq7CI3ZzPgurKYIsQ7ixwbMxIG5eOUN0cC2H-OAgXkJcEsiJ_Y&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Sq2J2zf-lY7oFZ4LeKDxAQ&_nc_ss=7a22e&oh=00_AQGiT4MUmKtnsArQi_U1ZsvoNlpRoR2bHDqRcAWsw_6FcA&oe=6A81762A",
-   "url": "https://www.threads.com/@choi.openai/post/Db5pTmqAEl-",
    "region": "kr"
   },
   {
@@ -355,8 +365,18 @@
    "likes": 4,
    "cmts": 2,
    "time": 1786452014,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/769168918_18078485402407306_2981591761866163336_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk2MTM2OTAxMzc5NzI0ODc0NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=tj3BMJEH5BgQ7kNvwE7VOCZ&_nc_oc=AdqmWkGxpzKCoSuSsAvxG2-OQiWJ4TNdgTAQdb0bDnGT7QchOIP5TzOFTsw2r8uBEK0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=fasMp94CQrQynpYuKEsshA&_nc_ss=7a22e&oh=00_AQHMGXXciPoDuU1EoxK5EIZm3yHg5jBfh0AlYv0z8R051Q&oe=6A8180F5",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/769168918_18078485402407306_2981591761866163336_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk2MTM2OTAxMzc5NzI0ODc0NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=tj3BMJEH5BgQ7kNvwE7VOCZ&_nc_oc=AdqmWkGxpzKCoSuSsAvxG2-OQiWJ4TNdgTAQdb0bDnGT7QchOIP5TzOFTsw2r8uBEK0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=oipgPCng4MHGWKQJlUApgw&_nc_ss=7a22e&oh=00_AQFcXEFWu01hJIoYgVTar0DBa7i8hL8pZfDM8LcEoomzgg&oe=6A8180F5",
    "url": "https://www.threads.com/@aipeekme/post/Db5nCE7n97o",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "버니 샌더스 상원의원이 오픈AI, 앤트로픽, 메타 CEO에게 AI 개발 중단을 요구하는 서한을 보냈습니다. \"지금 행동하지 않으면 상원이 나설 것\"이라고 했습니다.\n\nAI가 바이러스를 만든 사례, 오픈AI 모델이 다른 기업을 해킹한 사건, 앤트로픽과 메타 모델도 통제를 벗어난 점, CIA 국장이 AI를 \"디지털 핵무기\"라고 부른 점을 근거로 들었습니다. 세 회사 모두 위험 임계치에 도달하면 개발을 중단하겠다고 서면으로 약속한 바 있습니다. 샌더스는 \"그 순간이 왔다\"고 말합니다.\n\n구글과 SpaceXAI는 서한 대상에서 빠졌습니다. 이번 주만 해도 오픈AI는 사이버 보안 모델을 출시했고, 앤트로픽은 가격 인상을 취소하며 경쟁을 이어갔고, 메타는 오픈웨이트 모델을 풀었습니다. 아무도 멈추지 않았습니다.\n\n서한은 정치적 신호지만, 기업들이 스스로 약속한 중단 조건이 공개적으로 발동된 건 이번이 처음입니다.",
+   "likes": 41,
+   "cmts": 11,
+   "time": 1786453199,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/771984122_17981641896112832_2218337848466956167_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk2MTM3OTAxNDMzMjkyNjMzNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTUxMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=09GQorfnIJkQ7kNvwHVJ5mG&_nc_oc=AdopSXonaXSgpUkl0Qq7CI3ZzPgurKYIsQ7ixwbMxIG5eOUN0cC2H-OAgXkJcEsiJ_Y&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=EDNuS2RqrEmxbACr1F0yKQ&_nc_ss=7a22e&oh=00_AQGTWaphCQdUmP4nxrOu2F-2ubTHcHGSnnPhEDn-xUZRsA&oe=6A81762A",
+   "url": "https://www.threads.com/@choi.openai/post/Db5pTmqAEl-",
    "region": "kr"
   },
   {
@@ -365,18 +385,8 @@
    "likes": 0,
    "cmts": 0,
    "time": 1786449285,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/768586615_1060680223112872_7537033136848470307_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk2MTM0NTk4OTk0NDk1Nzg3OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=cSfCJC70UyoQ7kNvwHgDRKg&_nc_oc=AdovB7c30_bQLLOKsXy_mW8a3u-YOWDBRfkSVgBaTb1GCnzBaa8un4ygkpKtFDrrU4s&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=fasMp94CQrQynpYuKEsshA&_nc_ss=7a22e&oh=00_AQG6AcDSOHKSEQ6_y27Ww34l7tAbwepo0h7b2ANS19JjgA&oe=6A815C62",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/768586615_1060680223112872_7537033136848470307_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk2MTM0NTk4OTk0NDk1Nzg3OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=cSfCJC70UyoQ7kNvwHgDRKg&_nc_oc=AdovB7c30_bQLLOKsXy_mW8a3u-YOWDBRfkSVgBaTb1GCnzBaa8un4ygkpKtFDrrU4s&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=oipgPCng4MHGWKQJlUApgw&_nc_ss=7a22e&oh=00_AQHujXbkfI2C9qRoKsHRI8DzH1dBXFeiZ6kX8omloOVWgQ&oe=6A815C62",
    "url": "https://www.threads.com/@aipeekme/post/Db5hzCTFlu2",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "프로젝트 주소 :\nhttps://tencent-hunyuan.github.io/Hunyuan3D-WorldClaw/",
-   "likes": 12,
-   "cmts": 0,
-   "time": 1786447862,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/Db5fII1kid-",
    "region": "kr"
   },
   {
@@ -385,38 +395,8 @@
    "likes": 0,
    "cmts": 0,
    "time": 1786447790,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/770544475_1355610100022345_7974069588914143191_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk2MTMzMzQyMjAyMjU3MDYxNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=cTOQ5hetuloQ7kNvwEg9Fpg&_nc_oc=Ado1w6nzJQQJOF3eqfK3xNb5n8-Dx-Er5CVzLfthRrLEEXevJ2cL34wksR3umRZ65Zk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=fasMp94CQrQynpYuKEsshA&_nc_ss=7a22e&oh=00_AQFn1LzSZo9EHR2AwZCI4tmIt5OgwDpFwDtRELgRyhEILQ&oe=6A8162B0",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/770544475_1355610100022345_7974069588914143191_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk2MTMzMzQyMjAyMjU3MDYxNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=cTOQ5hetuloQ7kNvwEg9Fpg&_nc_oc=Ado1w6nzJQQJOF3eqfK3xNb5n8-Dx-Er5CVzLfthRrLEEXevJ2cL34wksR3umRZ65Zk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=oipgPCng4MHGWKQJlUApgw&_nc_ss=7a22e&oh=00_AQGqMLUNQbNzqsZ5JKG2zvGh_YhbJuO0drZog7siSDoytA&oe=6A8162B0",
    "url": "https://www.threads.com/@aipeekme/post/Db5e8JgibJ5",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "와.. 미래 게임 시장은 정말 중국이 다 먹을 것 같다..\n\n텐센트가 텍스트 한 줄로 3D 오픈월드를 생성하는 WorldClaw를 공개했습니다.\n영상도 Gaussian Splatting도 아닌, 편집 가능한 게임용 3D 에셋입니다.\n\n에이전트가 지형을 먼저 계획하고, 건물·식물·캐릭터를 배치하고, Blender에서 전체 장면을 조립합니다. 물체가 공중에 떠 있거나 겹치거나 비율이 틀리면 스스로 발견해서 고칩니다.\n나무 한 그루, 돌멩이 하나까지 개별 선택해 옮기거나 삭제하거나 교체할 수 있고, 다른 프로젝트에 재사용도 가능합니다.\n\n아직 코드와 가중치는 공개되지 않았고 논문과 프로젝트 페이지만 올라와 있습니다.\n월드모델부터, 3D 모델, Text To Animation 까지.. 정말 딸깍으로 나오는 날이 머지 않은 것 같습니다.",
-   "likes": 143,
-   "cmts": 8,
-   "time": 1786447852,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/773028345_1389333853164607_1816619218328451088_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk2MTMzNDE1NzEzMzY0MTM3MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=49xmvJWmhXAQ7kNvwFy8Hm3&_nc_oc=AdpW9NP53oxCMfhxFv9sJcm2_WjYQmVt61Fg4gTFYyTm1bjwaQgjXU7olE_9ILRovZE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Sq2J2zf-lY7oFZ4LeKDxAQ&_nc_ss=7a22e&oh=00_AQH_DcB9qDDwOU8yPJJW2QZDYMxGRDJQbdTN8Ukg-9Vqcg&oe=6A817DB4",
-   "url": "https://www.threads.com/@choi.openai/post/Db5fG2Iknaa",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
-   "text": "🔗 원문·자세히 보기\nhttps://openai.com/index/building-an-ai-native-finance-function/",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1786429903,
-   "thumb": "",
-   "url": "https://www.threads.com/@aipeekme/post/Db483PIH7hh",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
-   "text": "OpenAI가 지난 2년간 AI 기반 재무 조직을 구축하며 얻은 5가지 교훈을 공개했습니다.\n의사결정 프로세스 전반을 재설계하고 재무 담당자가 직접 시스템을 구축하는 구조로 바꿨다고 하는데요.\n단순히 장부를 빠르게 마감하는 수준을 넘어 실시간 데이터로 경영진의 판단을 돕는 데 초점을 맞췄습니다.\n이를 위해 제로 데이 마감과 자동화된 상시 예측이라는 목표를 세우고 현재 구축 중이라고 합니다.\n모든 구성원에게 접근권을 준 뒤 사용 유인을 만들고, 속도와 책임·통제 장치를 함께 마련했습니다.\n지능 단위당 가치를 측정해 AI의 ROI를 제시한다는 대목도 담겼습니다.\n시스템 구축 방식 자체를 바꾼 점은 참고할 만하지만, 일반 기업의 재무 현장에 바로 적용하기에는 통제 수준이나 리스크 부담이 꽤 커 보입니다.\n실제 적용 시 데이터 정확도 검증 기준을 어디까지 설정했는지는 추가로 확인해보고 싶습니다.\n\n📷 사진 출처: openai.com",
-   "likes": 1,
-   "cmts": 1,
-   "time": 1786429892,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/771814752_18078401432407306_1303557229287733340_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk2MTE4MzQzMTI4MDIzNTU0Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=50tenDWAkAoQ7kNvwFJtGzA&_nc_oc=Adq_SN1fRLwiArQXgRA0JEtQeOdTvlejJroNooSfZws9TzJ-OwszkSkSMvGXK90jO1w&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=fasMp94CQrQynpYuKEsshA&_nc_ss=7a22e&oh=00_AQH1gNgRHHOGRJGLlmME1df2ekpSui7D7r6G9l9-duuTig&oe=6A81708E",
-   "url": "https://www.threads.com/@aipeekme/post/Db481fvnxQb",
    "region": "kr"
   }
  ],
@@ -450,6 +430,51 @@
    "url": "https://www.reddit.com/r/MadeMeSmile/comments/1vlofxz/good_people_still_exist/"
   },
   {
+   "sub": "comics",
+   "title": "\"Americentricity\" by Itchy Feet",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/as3w1iu9ysih1.png?width=140&height=140&crop=1:1,smart&auto=webp&s=19c596d2e0ad5918d314747604f2524eedc5f68d",
+   "time": 1786478885,
+   "url": "https://www.reddit.com/r/comics/comments/1vlsh3u/americentricity_by_itchy_feet/"
+  },
+  {
+   "sub": "mildlyinfuriating",
+   "title": "Whenever my wife borrows my vehicle, she leaves me at empty",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/n5atapibdqih1.jpeg?width=640&crop=smart&auto=webp&s=b7b02cb7de95c9704e3bbff7c71328746a3cb835",
+   "time": 1786448000,
+   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1vlewgh/whenever_my_wife_borrows_my_vehicle_she_leaves_me/"
+  },
+  {
+   "sub": "pcmasterrace",
+   "title": "Should developers stop making games that require 5090 for max settings now that the card is clearly not for gamers and is accessible to 0.1% of community?",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/q0irsdtwjqih1.jpeg?width=640&crop=smart&auto=webp&s=34a6108d03947ae9a7fe43342a2f9668b0d0bd28",
+   "time": 1786449621,
+   "url": "https://www.reddit.com/r/pcmasterrace/comments/1vlfg0v/should_developers_stop_making_games_that_require/"
+  },
+  {
+   "sub": "BlackPeopleofReddit",
+   "title": "10 toes down for Ms. Rachel",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/cDVmNTdkbjl5c2loMV8T3p2EiOdhU4_sYSydT0rtQWARRLzWqHXdfrHhoIS0.png?width=320&crop=smart&auto=webp&s=c7eb9fdff9c9ff91dccc52ea70a898e46a3e04a3",
+   "time": 1786478671,
+   "url": "https://www.reddit.com/r/BlackPeopleofReddit/comments/1vlsdnv/10_toes_down_for_ms_rachel/"
+  },
+  {
+   "sub": "SipsTea",
+   "title": "Harry Potter star reportedly made more from OnlyFans in one year than from her entire acting career",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/gu6um1bedpih1.jpeg?width=320&crop=smart&auto=webp&s=1d889521e544321bc616747f1a9ce2eaeb6f9e1f",
+   "time": 1786435334,
+   "url": "https://www.reddit.com/r/SipsTea/comments/1vlb5ui/harry_potter_star_reportedly_made_more_from/"
+  },
+  {
    "sub": "marvelstudios",
    "title": "The poster in our theatre for Brand New Day",
    "score": 0,
@@ -468,67 +493,22 @@
    "url": "https://www.reddit.com/r/TheLastAirbender/comments/1vlop2n/shes_right/"
   },
   {
-   "sub": "mildlyinfuriating",
-   "title": "Whenever my wife borrows my vehicle, she leaves me at empty",
+   "sub": "cats",
+   "title": "A girl was streaming and her cat started reading the chat",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/n5atapibdqih1.jpeg?width=640&crop=smart&auto=webp&s=b7b02cb7de95c9704e3bbff7c71328746a3cb835",
-   "time": 1786448000,
-   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1vlewgh/whenever_my_wife_borrows_my_vehicle_she_leaves_me/"
+   "thumb": "https://external-preview.redd.it/YTF6NGh6YWs2dGloMVv0s4zvPwFLntQhzcOXjPOm9Cz1dO1ejjiNDkq4akhH.png?width=640&crop=smart&auto=webp&s=ed357641d2ad59561df7eebbde3234d5503b1797",
+   "time": 1786481454,
+   "url": "https://www.reddit.com/r/cats/comments/1vltmz7/a_girl_was_streaming_and_her_cat_started_reading/"
   },
   {
-   "sub": "BlackPeopleTwitter",
-   "title": "They can't stop winning",
+   "sub": "PoursTea",
+   "title": "Is this accurate ?",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/w3jnd4delsih1.png?width=640&crop=smart&auto=webp&s=b03c01463bcdde9e63965aa2109cff77424e5e28",
-   "time": 1786474356,
-   "url": "https://www.reddit.com/r/BlackPeopleTwitter/comments/1vlqdv4/they_cant_stop_winning/"
-  },
-  {
-   "sub": "BlackPeopleofReddit",
-   "title": "10 toes down for Ms. Rachel",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/cDVmNTdkbjl5c2loMV8T3p2EiOdhU4_sYSydT0rtQWARRLzWqHXdfrHhoIS0.png?width=320&crop=smart&auto=webp&s=c7eb9fdff9c9ff91dccc52ea70a898e46a3e04a3",
-   "time": 1786478671,
-   "url": "https://www.reddit.com/r/BlackPeopleofReddit/comments/1vlsdnv/10_toes_down_for_ms_rachel/"
-  },
-  {
-   "sub": "pcmasterrace",
-   "title": "Should developers stop making games that require 5090 for max settings now that the card is clearly not for gamers and is accessible to 0.1% of community?",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/q0irsdtwjqih1.jpeg?width=640&crop=smart&auto=webp&s=34a6108d03947ae9a7fe43342a2f9668b0d0bd28",
-   "time": 1786449621,
-   "url": "https://www.reddit.com/r/pcmasterrace/comments/1vlfg0v/should_developers_stop_making_games_that_require/"
-  },
-  {
-   "sub": "comics",
-   "title": "\"Americentricity\" by Itchy Feet",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/as3w1iu9ysih1.png?width=140&height=140&crop=1:1,smart&auto=webp&s=19c596d2e0ad5918d314747604f2524eedc5f68d",
-   "time": 1786478885,
-   "url": "https://www.reddit.com/r/comics/comments/1vlsh3u/americentricity_by_itchy_feet/"
-  },
-  {
-   "sub": "SipsTea",
-   "title": "Harry Potter star reportedly made more from OnlyFans in one year than from her entire acting career",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/gu6um1bedpih1.jpeg?width=320&crop=smart&auto=webp&s=1d889521e544321bc616747f1a9ce2eaeb6f9e1f",
-   "time": 1786435334,
-   "url": "https://www.reddit.com/r/SipsTea/comments/1vlb5ui/harry_potter_star_reportedly_made_more_from/"
-  },
-  {
-   "sub": "antiwork",
-   "title": "A shocking 92 percent of US adults are not going to the doctor because it’s too expensive",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/7Aes1rfw6CEeB5dTcvWc24bWFLeXX7dLz097CnoSkx0.jpeg?width=640&crop=smart&auto=webp&s=88d3cbc19b620b477ec7f13aea7b937646bef5ab",
-   "time": 1786470104,
-   "url": "https://www.reddit.com/r/antiwork/comments/1vlodu7/a_shocking_92_percent_of_us_adults_are_not_going/"
+   "thumb": "https://preview.redd.it/mwjnfieayqih1.jpeg?width=640&crop=smart&auto=webp&s=647037fa48eeabaed0114a0fd29eed359030919c",
+   "time": 1786454455,
+   "url": "https://www.reddit.com/r/PoursTea/comments/1vlhavh/is_this_accurate/"
   }
  ],
  "disaster": [],
@@ -575,10 +555,10 @@
    }
   },
   "landing": {
-   "at": "2026-08-12T06:32:02",
+   "at": "2026-08-12T07:01:29",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-12T07:01:26.985729+09:00"
+ "updated": "2026-08-12T07:31:29.527613+09:00"
 }
