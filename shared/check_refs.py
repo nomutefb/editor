@@ -5117,6 +5117,81 @@ def _pinset_parity_removed():
     """
     return 0
 
+def check_grok_sb_chain():
+    """콘티 그록 레인 = 5층 생존(운영자 260811 「진행해보자」).
+
+    계약 = 「촬영=grok 을 고르면 컷마다 그림→영상이 실제로 나온다」. 그 흐름이 지나는 층 =
+    뷰어 칩 → 서버 화이트리스트 → 워크플로 스텝 → 러너 → 감독 지침. **한 층만 빠져도
+    조용히 죽는다** — 화면은 멀쩡히 칩이 눌리고 콘티까지 정상으로 나오는데 영상만 안 생긴다.
+    이 레포가 반복해 겪은 축이라(insta-thumb-miss·brk_misfire·nm-jobs 동축) 층별 생존을 못박는다.
+
+    ⚠ 기존 게이트는 전부 다른 축이다 — `check_model_names` = 표시명 문자 동기 ·
+      `check_k_models` = k 레인 값 3면 동기 · `smoke_*` = 화면 렌더 → 「그록 레인이 끝까지
+      이어져 있는가」는 축 자체가 없었다.
+
+    ⚠ 소리 축을 같이 본다 = 운영자 확정 옵션인데 층이 4개(뷰어→서버→워크플로→러너)라
+      중간 한 곳만 빠지면 **스위치가 무동작**이 된다(정본 §4-1 = 끄기의 확실한 수단은
+      산출 트랙 제거뿐이라 그 호출까지 검사).
+
+    정적 · 렌더·LLM·네트워크 0 · 면책표 없이 하드 0.
+    """
+    rc = 0
+    def _t(path):
+        try:
+            return pathlib.Path(path).read_text(encoding="utf-8", errors="replace")
+        except OSError:
+            return ""
+
+    # ① 뷰어 = 촬영 칩 + 표시명 사전
+    vt, nm = _t("viewer/sb.html"), _t("viewer/nm-models.js")
+    if "id: 'grok'" not in vt:
+        print("❌ 그록 콘티 레인 — viewer/sb.html SB_SHOOTS 에 grok 칩이 없다(촬영 선택 불가)"); rc = 1
+    if "grok:" not in nm:
+        print("❌ 그록 콘티 레인 — viewer/nm-models.js 에 grok 표시명이 없다(칩 라벨 undefined)"); rc = 1
+
+    # ② 서버 = 화이트리스트 + 소리 전달(둘 다 없으면 폼 값이 러너까지 못 간다)
+    sv = _t("functions/api/sb.js")
+    if "'grok'" not in sv:
+        print("❌ 그록 콘티 레인 — functions/api/sb.js SB_SHOOTS 에 grok 이 없다(발사 거절)"); rc = 1
+    for needle, why in (("const sound", "소리 값 파싱"), ("shoot, sound,", "소리 값 워크플로 전달")):
+        if needle not in sv:
+            print("❌ 그록 콘티 레인 — functions/api/sb.js 에 {} 가 없다(소리 스위치 무동작)".format(why)); rc = 1
+
+    # ③ 워크플로 = 스텝 + 입력 + 자격 시크릿
+    wf = _t(".github/workflows/sb-make.yml")
+    for needle, why in (("name: Grok video", "영상 스텝"),
+                        ("grok_sb_video.py", "러너 호출"),
+                        ("shoot == 'grok'", "레인 게이트"),
+                        ("sound:", "소리 입력"),
+                        ("XAI_REFRESH_TOKEN", "구독 자격"),
+                        ("GROK_SOUND", "소리 전달")):
+        if needle not in wf:
+            print("❌ 그록 콘티 레인 — sb-make.yml 에 {} 가 없다({})".format(why, needle)); rc = 1
+
+    # ④ 러너 = 골격(한 축만 빠져도 조용히 다른 동작이 된다)
+    rn = _t(".github/scripts/grok_sb_video.py")
+    for needle, why in (("def cuts_of", "컷 파서"),
+                        ("def vid_prompt", "영상 프롬프트 조립"),
+                        ("def strip_audio", "소리 끄기(산출 트랙 제거)"),
+                        ("strip_audio(local)", "소리 끄기 실호출"),
+                        ("gk.fresh_token", "자격 갱신·저장(회전 대응)"),
+                        ("image=rec[\"img\"]", "컷 그림을 첫 장면으로"),
+                        ("seconds=c[\"sec\"]", "컷 길이 = 콘티 값")):
+        if needle not in rn:
+            print("❌ 그록 콘티 레인 — grok_sb_video.py 에 {} 가 없다({})".format(why, needle)); rc = 1
+    # 구판 회귀 차단 = 컷 길이를 고정 상수로 박으면 12컷이 120초가 된다
+    if re.search(r"seconds\s*=\s*\d+", rn):
+        print("❌ 그록 콘티 레인 — 컷 길이가 고정 상수로 박혔다(콘티가 적은 값을 써야 한다)"); rc = 1
+
+    # ⑤ 감독 지침 = MOTION(영어 동작 줄) 규약. 빠지면 프롬프트가 한국어로 나간다.
+    if "MOTION:" not in _t("prompts/sb-make.md"):
+        print("❌ 그록 콘티 레인 — prompts/sb-make.md 에 MOTION 규약이 없다(영상 프롬프트가 한국어로 나간다)"); rc = 1
+
+    if rc == 0:
+        print("✅ 그록 콘티 레인 — 5층 생존(뷰어 칩·서버 전달·워크플로 스텝·러너 골격·감독 MOTION 규약) · 소리 4층 정합.")
+    return rc
+
+
 def check_edit_track_chain():
     """편집 생성 = 자동 가림·키잉·크로마키 게이트(하드 · 운영자 260808 "모자이크 누르고 옵션 선택한 다음에 생성 누르면
     트래킹해서 모자이크까지 자동으로"). ⚠ 신설 사유 = **이 축은 화면이 멀쩡한 채로 조용히 죽는다** — 260808 이전 상태가
@@ -7185,6 +7260,8 @@ def main():
             rc = 1
         check_seal_completeness()   # 봉합 완결성(WARN·비차단 · 운영자 260808 "idea go") — 「같은 병의 형제를 놓쳤나」를 커밋 그 자리에서 센다(102게이트가 전부 '최종 상태'만 보고 '방금 한 수정이 완결됐나'는 축이 없었다)
         if check_stt_engine_chain() != 0:   # STT 엔진 교체 계약(260808 · 평의회 8인 후속) — 층 하나가 빠져도 화면은 멀쩡한 채 조용히 죽는 축
+            rc = 1
+        if check_grok_sb_chain() != 0:   # 콘티 그록 레인(운영자 260811) — 한 층만 빠져도 칩은 눌리고 콘티도 나오는데 영상만 조용히 안 생긴다
             rc = 1
         if check_edit_track_chain() != 0:   # 편집 생성 = 자동 가림·키잉·크로마키(운영자 260808) — 구판은 옵션이 켜지는데 생성엔 아무 일도 안 생겼다(무증상 = 운영자 눈이 유일한 검출기)
             rc = 1

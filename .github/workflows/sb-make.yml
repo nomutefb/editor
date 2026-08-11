@@ -29,6 +29,10 @@ on:
           - kling
           - seedance
           - motion
+      sound:
+        description: '영상 소리(1 = 켜기 · 0 = 끄기 · 촬영=grok 전용)'
+        type: string
+        default: '1'
       refimage:
         description: '레퍼런스 이미지도 생성(Gemini 종량제 · 시댄스·그록=항상 true · 모션=항상 false)'
         type: string
@@ -155,6 +159,35 @@ jobs:
             echo "::warning::board.md 없음 — 모션 렌더 생략"; exit 0
           fi
           python3 .github/scripts/mg_render.py "$MD" "viewer/sb_out/${IN_ID}"
+
+      # 🎬 그록 영상 = 촬영=grok 전용 후속 스텝(운영자 260811 — 「제미나이가 그린거로 감독이
+      #    프롬프팅해서 영상 뽑는다」). 컷마다 [Gemini 그림 → 그 그림을 첫 장면으로 그록 영상].
+      #    ⚠ 자격 = 종량제 키가 아니라 **구독 OAuth**(XAI_REFRESH_TOKEN) = 추가 과금 0.
+      #    ⚠ 컷 길이는 콘티가 적은 `0~2s` 를 그대로 쓴다(고정값 아님 — grok_sb_video.py 머리 주석).
+      #    fail-soft(rc=0) = 영상이 죽어도 콘티·레퍼런스 산출은 그대로 살아야 한다.
+      - name: Grok video
+        if: inputs.shoot == 'grok'
+        env:
+          IN_ID: ${{ inputs.id }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          XAI_REFRESH_TOKEN: ${{ secrets.XAI_REFRESH_TOKEN }}
+          XAI_TOKEN_STORE: ${{ runner.temp }}/grok_token.json
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ secrets.R2_BUCKET }}
+          R2_PUBLIC_BASE: ${{ secrets.R2_PUBLIC_BASE }}
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          REFGEN_PREFIX: sb_out
+          GROK_SOUND: ${{ inputs.sound }}
+        run: |
+          MD="viewer/sb_out/${IN_ID}/board.md"
+          if [ ! -s "$MD" ]; then
+            echo "그록 영상: 0/0컷 — 미시도(board.md 없음)"   # 무성 스킵 금지(계측 문법 = motion 레인 동문)
+            echo "::warning::board.md 없음 — 그록 영상 생략"; exit 0
+          fi
+          [ -n "$XAI_REFRESH_TOKEN" ] || { echo "그록 영상: 0/0컷 — 미시도(XAI_REFRESH_TOKEN 미등록)"; echo "::warning::그록 자격 미등록 — 영상 생략"; exit 0; }
+          pip install --quiet requests pillow || { echo "::warning::deps 설치 실패 — 생략"; exit 0; }
+          python3 .github/scripts/grok_sb_video.py "$MD" "viewer/sb_out/${IN_ID}"
 
       - name: Commit output
         if: always()

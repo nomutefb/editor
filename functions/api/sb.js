@@ -53,6 +53,7 @@ export async function onRequestPost({ request, env }) {
   if (pairs.length) story += '\n\n[설정: ' + pairs.join(' · ') + ']';
   // 레퍼런스 이미지 생성 여부(운영자 Q1161): 시댄스 = 강제 ON(md만 산출하는 레인 = 이미지가 발사 필수 재료) · 클링 = 폼 선택값(옵션)
   // motion = 강제 false(플랫 그래픽 레인 = 실사 레퍼런스가 쓰이는 곳이 없다 → Gemini 미과금) · seedance = 강제 true · kling = 폼 선택값
+  const sound = (body.sound === false || body.sound === 'false' || body.sound === '0') ? '0' : '1';   // 운영자 260810 「소리 온오프도 옵션」 · 촬영=grok 전용(다른 레인은 러너가 무시)
   const refimage = (shoot === 'motion') ? 'false' : ((shoot === 'seedance' || shoot === 'grok') ? 'true' : ((body.ref === false || body.ref === 'false') ? 'false' : 'true'));   // grok = 콘티 컷 그림이 영상의 첫 장면 재료 = 강제 생성
   story += '\n\n[레퍼런스: ' + (refimage === 'true' ? 'ON' : 'OFF') + ']';   // 절 출력 게이트(prompts/sb-make.md)
   if (body.ad === true || body.ad === 'true') story += '\n\n[광고: ON]';   // 광고 모드 = 마지막 컷 키비주얼 의무(storyboard-v1 하드룰)
@@ -60,7 +61,7 @@ export async function onRequestPost({ request, env }) {
   const base = (typeof body.base === 'string' && /^sb_out\/[0-9]{12}-[0-9a-f]{6}\/board\.md$/.test(body.base)) ? body.base : '';
 
   const r = await GH(env.GH_TOKEN, 'actions/workflows/sb-make.yml/dispatches', 'POST', {
-    ref: REF, inputs: { id, story, director, shoot, refimage, base },   // shoot·refimage = 워크플로 입력(러너 조건 분기 — 마커와 별개 축).
+    ref: REF, inputs: { id, story, director, shoot, sound, refimage, base },   // shoot·refimage = 워크플로 입력(러너 조건 분기 — 마커와 별개 축).
   });
   if (r.status === 204) return json({ ok: true, id, out: `sb_out/${id}/board.md` });
   return json({ error: `발사 실패 GitHub ${r.status}: ${(await r.text()).slice(0, 200)}` }, 502);
