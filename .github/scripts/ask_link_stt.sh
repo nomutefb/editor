@@ -22,11 +22,12 @@ command -v yt-dlp >/dev/null 2>&1 || python3 -c "import yt_dlp" 2>/dev/null || t
 COOKIES=""
 if [ -n "${YT_COOKIES:-}" ]; then printf '%s\n' "$YT_COOKIES" > "$WD/ck.txt"; COOKIES="--cookies $WD/ck.txt"; fi
 
-# 자가치유 래퍼(nb-make 정본) — 1차 실패 시 대체 클라이언트(nsig/서명 우회) 재시도
+# 자가치유 래퍼 = .github/scripts/ytdlp_try.sh 정본(①쿠키+기본 ②쿠키+대체 ③무쿠키+기본 ④무쿠키+대체)
+#   ⚠ ③④ 신설 260811 — 죽은 쿠키를 붙인 요청만 봇 검문에 걸리고 익명 요청은 통과하는 사고가 실측됐다(nb 레일).
 ydl() {   # $1=출력파일 나머지=yt-dlp 인자
   local out="$1"; shift
-  python3 -m yt_dlp --socket-timeout 30 $COOKIES "$@" > "$out" 2>"$WD/err.txt" && return 0
-  python3 -m yt_dlp --socket-timeout 30 $COOKIES --extractor-args "youtube:player_client=tv,mweb,web_safari,default" "$@" > "$out" 2>>"$WD/err.txt" && return 0
+  YTDLP_ERR="$WD/err.txt" YTDLP_CK="$WD/ck.txt" YTDLP_LABEL="링크 전사" \
+    bash .github/scripts/ytdlp_try.sh "$@" > "$out" && return 0
   tail -c 400 "$WD/err.txt" >&2
   return 1
 }
@@ -51,13 +52,15 @@ LANGP="$(python3 -c "import json;m=json.load(open('$WD/meta.json'));l=m.get('lan
 
 # ── 자막 2패스(수동 → 자동) — 영상 다운로드 없음 ──
 mkdir -p "$WD/sub_man" "$WD/sub_auto"
-python3 -m yt_dlp --skip-download --no-playlist --socket-timeout 30 $COOKIES \
+YTDLP_ERR="$WD/err.txt" YTDLP_CK="$WD/ck.txt" YTDLP_LABEL="수동자막" \
+  bash .github/scripts/ytdlp_try.sh --skip-download --no-playlist \
   --write-subs --no-write-auto-subs --sub-langs "$LANGP" --sub-format "vtt/srt/best" \
   -o "$WD/sub_man/x.%(ext)s" "$URL" >/dev/null 2>&1 || true
 python3 .github/scripts/nb_sub.py --vtt "$WD/sub_man" "$LANGP" subs > "$WD/tr.json" 2>/dev/null || echo '{"src":"","rows":[]}' > "$WD/tr.json"
 ROWS="$(python3 -c "import json;print(len(json.load(open('$WD/tr.json')).get('rows') or []))" 2>/dev/null || echo 0)"
 if [ "$ROWS" -lt 5 ]; then
-  python3 -m yt_dlp --skip-download --no-playlist --socket-timeout 30 $COOKIES \
+  YTDLP_ERR="$WD/err.txt" YTDLP_CK="$WD/ck.txt" YTDLP_LABEL="자동자막" \
+    bash .github/scripts/ytdlp_try.sh --skip-download --no-playlist \
     --write-auto-subs --no-write-subs --sub-langs "$LANGP" --sub-format "vtt/srt/best" \
     -o "$WD/sub_auto/x.%(ext)s" "$URL" >/dev/null 2>&1 || true
   python3 .github/scripts/nb_sub.py --vtt "$WD/sub_auto" "$LANGP" subs-auto > "$WD/tr.json" 2>/dev/null || echo '{"src":"","rows":[]}' > "$WD/tr.json"
@@ -75,9 +78,11 @@ if [ "$ROWS" -lt 5 ]; then
   #   같은 잡은 HF 캐시 스텝을 껐으므로 **매 런 3.1GB를 새로 받고 저장도 안 했다**(= 최적화의 정반대). 여기서 자체 판정한다.
   LY_WHISPER_PREFETCH="${LY_WHISPER_PREFETCH:-$([ -n "${ELEVENLABS_API_KEY:-}" ] && [ "${LY_STT_ENGINE:-auto}" != "whisper" ] && echo false || echo true)}" \
     bash apps/ly/setup.sh >&2 || { echo "STT 환경 준비 실패" >&2; exit 1; }   # ffmpeg+faster-whisper+yt-dlp+large-v3(멱등·단일출처)
-  python3 -m yt_dlp -x --audio-format mp3 --postprocessor-args "ffmpeg:-ar 16000 -ac 1 -b:a 48k" --no-playlist --socket-timeout 30 $COOKIES -o "$WD/audio.%(ext)s" "$URL" >/dev/null 2>&1 \
-    || python3 -m yt_dlp -x --audio-format mp3 --postprocessor-args "ffmpeg:-ar 16000 -ac 1 -b:a 48k" --no-playlist --socket-timeout 30 $COOKIES --extractor-args "youtube:player_client=tv,mweb,web_safari,default" -o "$WD/audio.%(ext)s" "$URL" >/dev/null 2>&1 \
-    || { echo "오디오 다운로드 실패" >&2; exit 1; }
+  YTDLP_ERR="$WD/err.txt" YTDLP_CK="$WD/ck.txt" YTDLP_LABEL="오디오" \
+    bash .github/scripts/ytdlp_try.sh -x --audio-format mp3 \
+    --postprocessor-args "ffmpeg:-ar 16000 -ac 1 -b:a 48k" --no-playlist \
+    -o "$WD/audio.%(ext)s" "$URL" >/dev/null \
+    || { echo "오디오 다운로드 실패(쿠키 빼고도 재시도함)" >&2; tail -c 400 "$WD/err.txt" >&2; exit 1; }
   # ⚠ 평의회1 F5 — 구본 `2>/dev/null` 은 STT 폴백 사유(::warning::Scribe 실패 HTTP …)까지 통째로 버렸다.
   #   벤더가 죽어도 아무 신호가 안 남는 축(레포 관례 = 경보는 사유를 갖고 나간다) → stderr 통과시킨다.
   python3 .github/scripts/ly_stt.py "$WD/audio.mp3" "" > "$WD/stt.txt" || { echo "STT 전사 실패(엔진 로그는 위 stderr)" >&2; exit 1; }

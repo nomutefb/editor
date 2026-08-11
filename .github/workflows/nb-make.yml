@@ -117,16 +117,21 @@ jobs:
           COOKIES=""
           if [ -n "$YT_COOKIES" ]; then printf '%s\n' "$YT_COOKIES" > /tmp/ck.txt; COOKIES="--cookies /tmp/ck.txt"; fi
           ELOG="viewer/nb_out/${IN_ID}/error.log"
-          # ── 자가치유 yt-dlp 래퍼(운영자 260723): 1차 실패 → 대체 클라이언트(tv/mweb/web_safari) 재시도(nsig 우회) → 최종 실패 시 원인 분류 기록(오진 차단 · 오늘 판례: 서명 챌린지를 '봇 인증'으로 오진해 반나절 소요) ──
+          # ── 자가치유 yt-dlp 래퍼(운영자 260723 · 260811 4단 확장) — 시도 사다리 정본 = .github/scripts/ytdlp_try.sh
+          #    ①쿠키+기본 → ②쿠키+대체클라이언트(nsig 우회) → ③무쿠키+기본 → ④무쿠키+대체
+          #    ⚠ ③④ 신설 사유(260811 실사고) = 이 URL이 **쿠키 없이는 정상 취득**되는데 죽은 쿠키를 붙여서 봇 검문에
+          #      걸려 실패했다(실측). 종전 2단은 둘 다 쿠키를 붙여서 그 자리를 영영 못 빠져나갔다.
+          #    ⚠ 원문 오류는 래퍼가 로그 그룹으로 찍는다(종전엔 분류 문구만 남아 오진을 검증할 길이 없었다 ·
+          #      260723 판례: 서명 챌린지를 '봇 인증'으로 오진해 반나절 소요).
           ydl() {   # $1=출력파일 $2=라벨 나머지=yt-dlp 인자
             local out="$1" label="$2"; shift 2
-            python3 -m yt_dlp --socket-timeout 30 $COOKIES "$@" > "$out" 2>/tmp/nb_err.txt && return 0
-            echo "::warning::${label} 1차 실패 — 대체 클라이언트 자가치유 재시도"
-            python3 -m yt_dlp --socket-timeout 30 $COOKIES --extractor-args "youtube:player_client=tv,mweb,web_safari,default" "$@" > "$out" 2>>/tmp/nb_err.txt && { echo "::warning::${label} 자가치유 성공(대체 클라이언트)"; return 0; }
+            YTDLP_ERR=/tmp/nb_err.txt YTDLP_LABEL="$label" bash .github/scripts/ytdlp_try.sh "$@" > "$out" && return 0
             local e; e="$(tail -c 800 /tmp/nb_err.txt | tr '\n' ' ')"
             local msg
             case "$e" in
-              *"Sign in to confirm"*|*"not a bot"*|*"consent"*) msg="유튜브 봇 인증 요구 — YT_COOKIES가 만료됐거나 로그아웃 상태로 뽑힌 것 같아. 로그인 상태에서 쿠키를 다시 export해 갱신해줘.";;
+              # ⚠ 여기 오면 **쿠키를 뺀 시도까지 전부 실패**한 상태다 = 쿠키 재발급으로 안 풀린다(260811 실측 봉합 ·
+              #    종전 문구는 무조건 "쿠키 갱신해줘"라 나흘간 같은 헛처방을 반복시켰다).
+              *"Sign in to confirm"*|*"not a bot"*|*"consent"*) msg="유튜브가 이 영상에 로그인 확인을 요구해 — 쿠키를 빼고도 다시 시도해봤는데 같은 벽이야. 서버 IP가 잠깐 찍힌 상태일 수 있으니 몇 분 뒤 다시 해줘.";;
               *Signature*|*nsig*|*JavaScript*|*"format is not available"*|*"Only images"*) msg="yt-dlp가 유튜브 서명 잠금을 못 풀었어 — 유튜브가 또 바꾼 거라 나이틀리 갱신 대기 중일 수 있어. 몇 시간 뒤 다시 하면 대개 자동 복구돼.";;
               *429*|*"Too Many Requests"*) msg="유튜브 요청 과다(429) — 서버 IP가 잠깐 막혔어. 잠시 후 다시 해줘.";;
               *"Private video"*|*"members-only"*|*removed*|*unavailable*) msg="이 영상을 볼 수 없어 — 비공개·삭제·회원전용·지역제한이거나 링크가 잘못됐어.";;
@@ -204,13 +209,13 @@ jobs:
           #    언어 우선순위 = 원어(meta.lang) > ko > en — 다운로드·선택 둘 다 이 순서(외국어 영상 원어 자막 우선 · 자동번역 자막 회피)
           LANGP="$(python3 -c "import json;m=json.load(open('/tmp/nb_meta.json'));l=m.get('lang') or '';print((l+','+l.split('-')[0]+',' if l else '')+'ko,en')")"
           mkdir -p /tmp/nbsub_man /tmp/nbsub_auto
-          python3 -m yt_dlp --skip-download --no-playlist --socket-timeout 30 $COOKIES \
+          YTDLP_ERR=/tmp/nb_err.txt YTDLP_LABEL="수동자막" bash .github/scripts/ytdlp_try.sh --skip-download --no-playlist \
             --write-subs --no-write-auto-subs --sub-langs "$LANGP" --sub-format "vtt/srt/best" \
             -o "/tmp/nbsub_man/x.%(ext)s" "$URL" || true
           python3 .github/scripts/nb_sub.py --vtt /tmp/nbsub_man "$LANGP" subs > /tmp/nb_tr.json || echo '{"src":"","rows":[]}' > /tmp/nb_tr.json
           ROWS="$(python3 -c "import json;print(len(json.load(open('/tmp/nb_tr.json')).get('rows') or []))")"
           if [ "$ROWS" -lt 5 ]; then
-            python3 -m yt_dlp --skip-download --no-playlist --socket-timeout 30 $COOKIES \
+            YTDLP_ERR=/tmp/nb_err.txt YTDLP_LABEL="자동자막" bash .github/scripts/ytdlp_try.sh --skip-download --no-playlist \
               --write-auto-subs --no-write-subs --sub-langs "$LANGP" --sub-format "vtt/srt/best" \
               -o "/tmp/nbsub_auto/x.%(ext)s" "$URL" || true
             python3 .github/scripts/nb_sub.py --vtt /tmp/nbsub_auto "$LANGP" subs-auto > /tmp/nb_tr.json || echo '{"src":"","rows":[]}' > /tmp/nb_tr.json
@@ -330,11 +335,11 @@ jobs:
           YT_COOKIES: ${{ secrets.YT_COOKIES }}
         run: |
           set -e
-          COOKIES=""
-          if [ -n "$YT_COOKIES" ]; then printf '%s\n' "$YT_COOKIES" > /tmp/ck.txt; COOKIES="--cookies /tmp/ck.txt"; fi
-          python3 -m yt_dlp -x --audio-format mp3 --postprocessor-args "ffmpeg:-ar 16000 -ac 1 -b:a 48k" --no-playlist --socket-timeout 30 $COOKIES -o "/tmp/audio.%(ext)s" "$URL" \
-            || python3 -m yt_dlp -x --audio-format mp3 --postprocessor-args "ffmpeg:-ar 16000 -ac 1 -b:a 48k" --no-playlist --socket-timeout 30 $COOKIES --extractor-args "youtube:player_client=tv,mweb,web_safari,default" -o "/tmp/audio.%(ext)s" "$URL" \
-            || { echo "유튜브 오디오 다운로드 실패 — 유튜브 서명 잠금(나이틀리 갱신 대기)이거나 봇 인증(YT_COOKIES 갱신)·링크 문제야. 자막 있는 영상으로 해줘." > "viewer/nb_out/${IN_ID}/error.log"; echo "::error::yt-dlp 오디오 실패(자가치유 후): $URL"; exit 1; }
+          # 시도 사다리 = .github/scripts/ytdlp_try.sh(①쿠키+기본 ②쿠키+대체 ③무쿠키+기본 ④무쿠키+대체 · 260811)
+          YTDLP_ERR=/tmp/nb_err.txt YTDLP_LABEL="오디오" bash .github/scripts/ytdlp_try.sh \
+            -x --audio-format mp3 --postprocessor-args "ffmpeg:-ar 16000 -ac 1 -b:a 48k" --no-playlist \
+            -o "/tmp/audio.%(ext)s" "$URL" \
+            || { echo "유튜브 오디오 다운로드 실패 — 쿠키를 빼고도 다시 시도했는데 안 됐어(유튜브 서명 잠금이거나 링크 문제). 자막 있는 영상으로 해줘." > "viewer/nb_out/${IN_ID}/error.log"; echo "::error::yt-dlp 오디오 실패(자가치유 4단 후): $URL"; exit 1; }
           python3 .github/scripts/ly_stt.py /tmp/audio.mp3 "" > /tmp/nb_stt.txt \
             || { echo "Whisper STT 실패 — 오디오 인식 불가. 자막 있는 영상으로 해줘." > "viewer/nb_out/${IN_ID}/error.log"; echo "::error::Whisper STT 실패"; exit 1; }
           python3 .github/scripts/nb_sub.py --stt /tmp/nb_stt.txt > /tmp/nb_tr.json
