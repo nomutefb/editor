@@ -1,33 +1,33 @@
-# 배를 뜯던 불티 하나가 감천항을 15시간 태웠다
+# 🚢 배를 뜯던 불티 하나가 감천항을 15시간 태웠다
 
 **[프롬프트 설계]**
-- 화풍: B 극화 — 열작업으로 배를 해체하는 공정 자체가 발화원이 된 구조 사고라, 사실성과 고발 톤이 필요하다
-- 분위기: 낮에 시작해 밤을 통째로 넘긴 항만의 무거운 정적. 불꽃은 크게 그리지 않고, 불티가 사라진 갑판 아래 어둠과 젖은 철판·긴 그림자로 사건의 무게를 쌓는다
-- 연출 방향: 뉴스를 안 보는 독자도 첫 장에서 멈추는 이유는 "불이 밖에서 온 게 아니라 배를 뜯는 손에서 나왔다"는 역설이다. 그래서 카메라는 불길이 아니라 **불티가 떨어진 자리**를 계속 쫓는다 — 절단 토치를 쥔 손, 갑판 틈의 검은 구멍, 그 아래에서 새어 나오는 연기, 새벽에 그 구멍을 내려다보는 눈. 시사점(불티가 아니라 그 아래)이 이미지 축과 한 몸이 되도록, 전 카드가 '위에서 아래로 떨어지는 시선'을 공유한다. thumb_dispatch에서 차가운 새벽광의 황량한 정적(LGT02)·원인과 결과를 한 시선축에 두는 구성(SG-02)·허탈한 응시(EM-19)를 톤으로만 상속하고 앵글·샷은 카드마다 분산한다
-- 독자 동선: **발단** 카드1→**전개** 카드2~3→**피크** 카드4→**해소** 카드5→**시사점** 카드6~7 · 훅=카드1 끝(단서형: 이틀째 돌던 절단기)+카드3 끝(예고형: 그날 안에 안 끝났다) · 착지 = 불티는 예정된 일이었고 남는 건 갑판 아래를 누가 확인했어야 했나
-- 연속성 앵커: Recurring subject - a Korean firefighter in his 30s, soot-streaked cheeks, a chin-strapped helmet and a dark navy turnout coat with two reflective bands on the sleeve. / Recurring location - a Korean fishing port quay beside the rust-streaked steel hull of an old ocean-going trawler.
+- 화풍: B 극화 — 산업 현장의 작업이 곧 발화원이 된 구조 사고라, 사실성과 고발 톤이 필요하다
+- 분위기: 차가운 항만의 무거운 정적 위에 주황 불빛 하나만 살아 있는 대비. 소란이 아니라 하루를 태운 정적
+- 연출 방향: 뉴스 안 보는 독자가 멈추는 지점은 "불이 밖에서 들어온 게 아니라 배를 뜯는 그 작업에서 나왔다"는 역전이고, 감정은 작업자 11명이 전부 걸어 나왔다는 대목의 아찔함이다. 그래서 전 카드가 **갑판 아래로 뚫린 어두운 구멍 하나**를 시선의 중심에 두고, 그 구멍을 카드마다 다른 거리(멀리서 → 불티가 떨어지는 순간 → 들여다보는 눈 → 다 꺼진 뒤)로 반복해 보여준다. 불꽃의 스펙터클이 아니라 **아무도 안 들여다본 자리**가 이 기사의 주인공이다. thumb_dispatch의 차가운 새벽 톤(LGT02)과 원인→결과의 정조는 해소 카드에서 회수한다
+- 독자 동선: **발단** 카드1→**전개** 카드2~3→**피크** 카드4→**해소** 카드5→(반복 맥락 카드6)→**시사점** 카드7 · 훅=카드1 끝(예고형 "절단기가 배를 열었다")+카드2 끝(단서형 "불은 배 밖에서 오지 않았다") · 착지 한 줄 요지 = 물어야 할 건 불티가 아니라 그 아래 쌓여 있던 것들이다
+- 연속성 앵커: Recurring subject — a Korean firefighter in his 40s with short cropped hair and a soot-streaked face, wearing a navy fire suit with reflective bands and a yellow helmet (카드4·5·7) / Recurring location — the deck of a rust-streaked deep-sea fishing vessel moored at a working port quay
 
 ### [카드 1]
 **텍스트**
 ```text
-감천항에 배 한 척이 묶여 있었다
-1986년에 지어진 1572t 어선이었다
-5월 4일 들어와 18일 뜯기기 시작했다
-*이틀째 절단기가 돌고 있었다*
+1986년, 마흔 해 전에 만든 배였다
+국내 업체가 사들여 해체를 앞두고
+5월 4일부터 감천항에 정박했다
+*18일, 절단기가 배를 열었다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the worker's gloved hands closed tight around the cutting torch, steady and unhurried. Recurring location - a Korean fishing port quay beside the rust-streaked steel hull of an old ocean-going trawler. Two Korean shipbreaking workers in worn coveralls and hard hats stand at the base of the towering hull, one lifting the torch toward a cut line while the other follows the seam with his eyes, both looking upward along the plating. Coiled hose and stripped metal offcuts lie around their boots, and the enormous hull rises behind them and fills the frame.
-Camera: wide shot with full bodies and surrounding environment from a low angle looking up, shot on a 35mm lens with natural documentary perspective and minimal distortion
-Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood
-Accent: monochrome desaturated base with a single color accent (the story's symbolic ember orange of the cutting sparks), muted daylight contrast
-Korean setting: Korean workers, Korean port yard conventions.
-Text handling: no lettering anywhere; ship names, hull markings and signage are cropped out of frame or turned away from the camera.
+Scene: Emotional focal point: the blunt weight of a four-decade-old hull leaning over the two small men at its base. A rust-streaked deep-sea fishing vessel is moored hard against a concrete quay, its bow filling the upper half of the frame. Two dock workers in helmets and coveralls stand at the hull's foot and look up at the steel plating they are about to open, a coiled cutting-torch hose lying between their boots. Port cranes recede behind them, and there is nose room on the right with the workers' gaze directed toward the right edge.
+Camera: wide shot, full body, surrounding environment, spatial context from low angle shot, looking up, powerful subject, dominance, dramatic presence, shot on 20mm wide lens, subject and environment, documentary realism
+Lighting/mood: warm golden-hour sunlight, long soft shadows, nostalgic warmth
+Accent: monochrome desaturated base with a single color accent (ember orange, the story's symbolic color), muted daylight contrast
+Korean setting by default: Korean port and shipyard context, Korean dock workers, any signage rendered as blank plates without lettering.
+Text handling: avoid all incidental lettering - no hull name, no signboard text, no painted numbers; use shape and silhouette instead. no garbled or fake script, no meaningless letters, no random characters, no dense text.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the rust-streaked steel hull of the vessel) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the concrete quay pavement) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -36,30 +36,30 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-감천항 원양어선 해체 작업
+감천항 원양어선 정박
 ```
 
 ### [카드 2]
 **텍스트**
 ```text
-불은 배 밖에서 오지 않았다
 19일 오전 10시 20분이었다
-*절단 불티가 갑판 아래로 떨어졌다*
-거기엔 쓰레기 더미가 쌓여 있었다
+절단 불티가 갑판 아래로 튀었다
+거기엔 쓰레기가 쌓여 있었다
+*불은 배 밖에서 오지 않았다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a single spark falling away from the torch tip into the black gap of the deck, unwatched. A worker's forearms and the cutting torch enter the top of the frame as the flame bites through a deck plate, and his eyes stay on the cut line, not on the opening beside it. Through the narrow gap in the plating, a heap of discarded rags, boards and scrap can be seen piled in the dark hold directly below, on the same sightline as the falling spark.
-Camera: medium shot framing the hands and the deck opening from a high angle looking down, shot on a 24mm wide lens with deep focus connecting the near action to the far result
-Lighting/mood: cold blue dim interior light, heavy and suffocating, faint trembling tension
-Accent: monochrome desaturated base with a single color accent (the story's symbolic ember orange of the falling spark), film-noir low-key lighting, deep shadows
-Korean setting: Korean shipyard worker, Korean port yard conventions.
-Text handling: no lettering anywhere; stencilled hull markings and warning plates are cropped out of frame or turned away from the camera.
+Scene: Emotional focal point: one white-hot spark arcing off the torch tip and falling away into the dark gap below. A gloved hand grips a cutting torch hard against thick steel deck plating while molten sparks spray downward in a thin shower. Directly under the cut line a narrow opening drops into blackness where loose refuse is heaped, and the sparks are landing inside it. Nobody in the frame is looking down there, and there is nose room on the right along the direction the sparks travel.
+Camera: extreme close-up, single detail, hand, texture from high angle shot, looking down, shot on 100mm macro lens, fine detail, shallow depth of field, precise texture
+Lighting/mood: single hard side-light cutting across the subject, deep chiaroscuro shadows, tense atmosphere
+Accent: monochrome desaturated base with a single color accent (ember orange, the story's symbolic color), film-noir low-key lighting, deep shadows
+Korean setting by default: Korean shipbreaking work context, Korean worker's glove and sleeve, any marking rendered as blank plate without lettering.
+Text handling: avoid all incidental lettering - no equipment labels, no stenciled numbers, no warning placards; use shape and silhouette instead. no garbled or fake script, no meaningless letters, no random characters, no dense text.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the rusted steel deck plating) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the steel deck plate) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -68,30 +68,30 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-선박 갑판 절단 용접 불티
+선박 해체 절단 작업
 ```
 
 ### [카드 3]
 **텍스트**
 ```text
-뻥 뚫린 갑판 위가 아니었다
-*불은 그 아래에서 자라기 시작했다*
-장비 42대가 감천항으로 들어왔다
-진화는 그날 안에 끝나지 않았다
+그때 배 안엔 작업자 11명이 있었다
+그들은 모두 밖으로 빠져나왔다
+*한 사람도 남지 않았다*
+그런데 불은 배 안에 남아 있었다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: thin smoke seeping upward through the deck seams while nothing burns in the open. Recurring location - a Korean fishing port quay beside the rust-streaked steel hull of an old ocean-going trawler. Fire trucks and pumper units are parked in a row along the quay with hoses unrolled toward the vessel, and a cluster of firefighters stands looking up at the hull, their arms lowered, unable to reach what is under the deck. Water arcs strike the upper plating and run off it without effect.
-Camera: wide shot with the vessel and the deployed vehicles from a canted Dutch tilt angle, shot on a 14mm ultra-wide lens with vast environment and dramatic depth
-Lighting/mood: single hard side-light cutting across the subject, deep chiaroscuro shadows, tense atmosphere
-Accent: monochrome desaturated base with a single color accent (the story's symbolic ember orange glowing through the deck seams), film-noir low-key lighting, deep shadows
-Korean setting: Korean firefighters, Korean port yard conventions.
-Text handling: no lettering anywhere; vehicle markings, unit names and quay signage are cropped out of frame or turned away from the camera.
+Scene: Emotional focal point: the backward glance of the last worker as his boot leaves the gangway. About ten workers in helmets and coveralls come down the vessel's gangway onto the quay in a single hurried line, moving away from the ship. The man at the end turns his head back toward the deck, where one thin column of grey smoke is climbing out of an opening. Their tools lie abandoned on the concrete behind them.
+Camera: full shot, head-to-toe, full body, outfit visible, clear silhouette from eye-level shot, neutral perspective, realistic, balanced emotion, shot on 35mm lens, natural documentary perspective, balanced subject and background, minimal distortion
+Lighting/mood: harsh overexposed midday sunlight, hard shadows, oppressive heat
+Accent: monochrome desaturated base with a single color accent (ember orange, the story's symbolic color), muted daylight contrast
+Korean setting by default: Korean port quay context, Korean dock workers in helmets and coveralls, any signage rendered as blank plates without lettering.
+Text handling: avoid all incidental lettering - no hull name, no helmet markings, no signboard text; use shape and silhouette instead. no garbled or fake script, no meaningless letters, no random characters, no dense text.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the concrete quay apron) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the concrete quay pavement) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -100,29 +100,29 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-감천항 선박 화재 소방 진화
+선박 화재 작업자 대피
 ```
 
 ### [카드 4]
 **텍스트**
 ```text
-*불길은 밤을 넘겨서도 잡히지 않았다*
-124명이 매달린 현장 한복판에서
-소방관 한 명이 미끄러져 다쳤다
+*불은 갑판 위가 아니었다*
+그 아래에서 자라고 있었다
+진화가 하루를 넘긴 이유다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: his jaw clenched tight and his eyes unfocused, staring past everything. Recurring subject - a Korean firefighter in his 30s, soot-streaked cheeks, a chin-strapped helmet and a dark navy turnout coat with two reflective bands on the sleeve. He has come down onto one knee on the slick steel deck, one gloved hand braced flat against the wet plating to hold himself up, the other pressed to his side. Behind him and much smaller, a few colleagues in the same gear keep working the hose lines, kept dim and low-contrast so he stays the focus.
-Camera: tight close-up with the face filling the frame from eye level, shot on an 85mm portrait lens with soft background separation
+Scene: Emotional focal point: his eyes narrowed to slits as orange light climbs up out of the hatch and lands on his face from below. Recurring subject - a Korean firefighter in his 40s with short cropped hair and a soot-streaked face, wearing a navy fire suit with reflective bands and a yellow helmet, crouches over an open deck hatch and looks straight down into it. The glow reaching his chin comes from far below, not from the deck he kneels on, and thin ropes of smoke seep around the hatch rim. Everything beyond the hatch mouth is swallowed in black.
+Camera: tight close-up, face fills frame, intense emotion, intimate pressure from Dutch angle, tilted horizon, canted frame, unstable mood, shot on 85mm portrait lens, flattering face, soft background separation, elegant focus
 Lighting/mood: single pool of hard light isolating the figure in surrounding blackness, claustrophobic loneliness
-Accent: monochrome desaturated base with a single color accent (the story's symbolic ember orange reflected on his wet helmet), film-noir low-key lighting, deep shadows
-Korean setting: Korean firefighters, Korean port yard conventions.
-Text handling: no lettering anywhere; helmet markings, unit patches and coat labels are turned away from the camera or lost in shadow.
+Accent: monochrome desaturated base with a single color accent (ember orange, the story's symbolic color), film-noir low-key lighting, deep shadows
+Korean setting by default: Korean firefighter gear and Korean port vessel context, all agency insignia rendered as blank patches without lettering.
+Text handling: avoid all incidental lettering - no helmet lettering, no suit patch text, no stenciled deck markings; use shape and silhouette instead. no garbled or fake script, no meaningless letters, no random characters, no dense text.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the wet steel deck) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the steel deck plate) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -131,30 +131,30 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-선박 화재 진압 소방관 야간
+소방관 선박 갑판 진화
 ```
 
 ### [카드 5]
 **텍스트**
 ```text
-완전히 꺼진 건 20일 오전 2시였다
-불이 난 지 15시간 40분 만이었다
-*현장 작업자 11명은 모두 빠져나왔다*
-다친 사람은 그 소방관 한 명이었다
+꺼진 건 20일 오전 2시였다
+꼬박 15시간 40분이 걸렸다
+인력 124명과 장비 42대가 붙었고
+*소방관 한 명이 미끄러져 다쳤다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the distance between the group of workers and the ship they no longer look at. Recurring subject - a Korean firefighter in his 30s, soot-streaked cheeks, a chin-strapped helmet and a dark navy turnout coat with two reflective bands on the sleeve. He stands at the left edge in profile, helmet held under one arm, facing the dark hull. Beside him a group of shipbreaking workers in coveralls sits and stands on the wet pier, shoulders dropped, some rubbing their faces, none of them looking back at the vessel. Hoses lie slack across the ground between them.
-Camera: full shot head to toe in profile from eye level, shot on a 40mm lens with neutral human-vision perspective
+Scene: Emotional focal point: the loose weight of an injured man's arm slung over his colleague's shoulder. Recurring subject - a Korean firefighter in his 40s with short cropped hair and a soot-streaked face, wearing a navy fire suit with reflective bands and a yellow helmet, is walked slowly along the wet quay by another firefighter, favouring one leg and keeping his eyes down. Behind them the blackened hull stands quiet with the last thin smoke drifting off it, and flattened hoses lie in the standing water. A row of fire engines waits far off at the edge of the pier.
+Camera: medium shot, waist-up framing, face and gestures, conversational from profile shot, side view, clear silhouette, directional movement, shot on 70mm short telephoto, gentle background compression, subject isolation
 Lighting/mood: cold blue pre-dawn tone, lone streetlight reflection on wet ground, desolate stillness
-Accent: monochrome desaturated base with a single color accent (the story's symbolic ember orange of the last embers behind them), film-noir low-key lighting, deep shadows
-Korean setting: Korean firefighters and Korean shipbreaking workers, Korean port yard conventions.
-Text handling: no lettering anywhere; coveralls, helmets and quay signage carry no readable marks.
+Accent: monochrome desaturated base with a single color accent (ember orange, the story's symbolic color), film-noir low-key lighting, deep shadows
+Korean setting by default: Korean port quay at night, Korean firefighters and Korean fire engines, all agency insignia rendered as blank patches without lettering.
+Text handling: avoid all incidental lettering - no vehicle lettering, no suit patch text, no dock signage; use shape and silhouette instead. no garbled or fake script, no meaningless letters, no random characters, no dense text.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the wet asphalt of the pier) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the wet concrete quay pavement) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -163,30 +163,30 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-부산 감천항 화재 현장 부두
+감천항 화재 소방 진화
 ```
 
 ### [카드 6]
 **텍스트**
 ```text
-이런 불이 감천항에서 처음은 아니다
-2025년에도 폐선을 뜯다 불이 났다
-*그때는 작업자 2명이 화상을 입었다*
-소방 당국은 원인을 조사하고 있다
+*폐선을 뜯다 난 불은 처음이 아니다*
+지난해 같은 구평동 조선소에서도
+작업자 두 명이 화상을 입었다
+원인은 아직 조사 중이다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a bare fingertip in a latex glove resting on the burnt edge of the metal, unhurried and clinical. Two Korean fire investigators in plain jackets and gloves lean over a soot-blackened steel plate laid flat on an examination table, one pointing at a scorched pit in the surface while the other looks down at the same spot. A charred scrap of cloth and a cut-off piece of pipe sit beside it, and the burnt plate fills the frame beneath their hands.
-Camera: extreme close-up on the single detail from a high angle looking down, shot on a 100mm macro lens with fine texture and shallow depth of field
-Lighting/mood: flat sterile clinical fluorescent light, cold even greenish-white, emotionless institutional
-Accent: monochrome desaturated base with a single color accent (the story's symbolic ember orange of the scorch mark on the plate), muted daylight contrast
-Korean setting: Korean fire investigators, Korean institutional interior conventions.
-Text handling: no lettering anywhere; evidence tags, clipboards and jacket markings are cropped out of frame or turned away from the camera.
+Scene: Emotional focal point: the braced forearms of two paramedics carrying a fully blanket-covered figure away from a half-cut hull. In a different shipyard, the stretcher moves toward a waiting ambulance across an open concrete yard, the covered person shown only as a still shape under the blanket with no injury visible. A third worker in coveralls stands motionless beside a torch cart and watches them go, his tools still where he set them down. Cut steel plates lie in a row where the work stopped, and the scene is quiet and orderly rather than chaotic.
+Camera: wide shot, full body, surrounding environment, spatial context from high angle shot, looking down, shot on 35mm lens, natural documentary perspective, balanced subject and background, minimal distortion
+Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood
+Accent: monochrome desaturated base with a single color accent (ember orange, the story's symbolic color), muted daylight contrast
+Korean setting by default: Korean shipyard yard context, Korean paramedics and Korean ambulance form, all agency insignia rendered as blank patches without lettering.
+Text handling: avoid all incidental lettering - no ambulance lettering, no yard signage, no stenciled plate numbers; use shape and silhouette instead. no garbled or fake script, no meaningless letters, no random characters, no dense text.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the soot-blackened steel plate) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the shipyard concrete ground) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -195,30 +195,30 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-화재 원인 감식 조사관 선박
+구평동 폐선 해체 조선소
 ```
 
 ### [카드 7]
 **텍스트**
 ```text
-불티가 튀는 건 예정된 일이었다
-불을 키운 건 갑판 아래 쓰레기였다
-그게 언제부터 거기 있었는지
-*누가 확인했어야 했는지가 남는다*
+이 불엔 방화범도 고장도 없다
+예정대로 진행되던 해체 작업이
+그 자체로 불씨를 만들었을 뿐이다
+*남는 건 그 아래 쌓여 있던 것들이다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: one worker standing still in front of the gutted hull with his hands hanging empty at his sides. Recurring location - a Korean fishing port quay beside the rust-streaked steel hull of an old ocean-going trawler. Seen from ground level, a lone figure in coveralls and a hard hat stands high in the upper-center of the frame, small against the burnt-out vessel, looking up at the black opening cut into its deck. The morning sky spreads wide behind the hull and no one else is on the quay.
-Camera: extreme long shot with a tiny subject in a vast environment from a worm's-eye view near the ground, shot on a 20mm wide lens with documentary realism
+Scene: Emotional focal point: his steady, tired eyes meeting ours while the black square of the hatch stays open beside his boots. Recurring subject - a Korean firefighter in his 40s with short cropped hair and a soot-streaked face, wearing a navy fire suit with reflective bands and a yellow helmet, stands on the scorched deck facing the camera with his arms at his sides and his helmet held loose in one hand. Next to his boots the deck hatch is a plain black rectangle with no glow left in it, and a light film of ash covers the plating around it. Behind him the port opens flat to the morning water.
+Camera: full shot, head-to-toe, full body, clear silhouette from eye-level shot, front-on shot, direct gaze, symmetrical composition, facing camera, shot on 50mm standard lens, minimal distortion, natural cinematic composition
 Lighting/mood: warm soft morning light, gentle and quiet, faint melancholy
-Accent: monochrome desaturated base with a single color accent (the story's symbolic ember orange in the last warm light on the hull), muted daylight contrast
-Korean setting: Korean shipbreaking worker, Korean port yard conventions.
-Text handling: no lettering anywhere; hull markings and quay signage are cropped out of frame or turned away from the camera.
+Accent: monochrome desaturated base with a single color accent (ember orange, the story's symbolic color), muted daylight contrast
+Korean setting by default: Korean port vessel deck context, Korean firefighter gear, all agency insignia rendered as blank patches without lettering.
+Text handling: avoid all incidental lettering - no helmet lettering, no suit patch text, no stenciled deck markings; use shape and silhouette instead. no garbled or fake script, no meaningless letters, no random characters, no dense text.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the pale dawn sky) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the scorched steel deck plate) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -227,5 +227,5 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-감천항 폐선 잔해 새벽 부두
+선박 화재 현장 감식
 ```
