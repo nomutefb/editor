@@ -4,3 +4,4 @@
 {"ts": "2026-08-10T21:22:57+09:00", "kind": "grade", "ver": "59b49274c4e1", "cases": 69, "runs": 3, "rcs": [0, 0, 0], "flips": [{"t": "‘장윤기 사건’ 피해 여고생 구하려다 중상 입은 고교생, 의상자 인정", "expect": 2, "got": 1}, {"t": "美, 왜 20여년만에 엔화 방어 나섰나…국채·관세·중국까지 노렸다 [美슐랭]", "expect": 2, "got": 1}], "miss": [], "unstable": {"8": [1, 1, 2]}, "pass": false}
 {"ts": "2026-08-10T21:24:49+09:00", "kind": "grade", "ver": "1da3273f5950", "cases": 69, "runs": 3, "rcs": [0, 0, 0], "flips": [], "miss": [], "unstable": {}, "pass": true}
 {"ts": "2026-08-10T23:35:46+09:00", "kind": "grade", "ver": "ee634ab5a813", "cases": 71, "runs": 3, "rcs": [0, 0, 0], "flips": [], "miss": [], "unstable": {}, "pass": true}
+{"ts": "2026-08-11T12:08:24+09:00", "kind": "breaking", "ver": "e825d5cf4e0c", "cases": 27, "runs": 3, "rcs": [0, 0, 0], "flips": [], "miss": [], "unstable": {"17": [true, false, true]}, "pass": true}
