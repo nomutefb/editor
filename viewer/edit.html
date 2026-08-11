@@ -1632,7 +1632,7 @@ function xtrJobKey(id){ try{ const m=JSON.parse(localStorage.getItem(XTR_JOBSRC)
    발사할 때 그 작업의 **설정 한 벌**(켠 축·게이지·추가 옵션)을 작업 번호로 저장하고, 작업 내역에서 그 작업을 다시 열면 되불러온다.
    ⚠ 이름 묶음은 여기 안 넣는다 — 그건 사람 번호에 매인 값이라 **영상 칸**이 이미 들고 있고, 여기서 또 넣으면 두 곳이 갈린다(사본 금지). */
 const JOB_CFG='nm_edit_cfg';   // {작업id:{on,p,xtr,src,t}} · 최근 JOB_CFG_MAX개
-const JOB_CFG_MAX=24;
+const JOB_CFG_MAX=9;   // 보관 칸 24 → 9(운영자 260811 "수정같은건 최근 9개정도만 되도 되긴함") — 넘치면 오래된 것부터 지워지고 그 작업 타일의 연필이 사라진다(지워지는 건 설정뿐 · 결과 타일·내려받기는 그대로) · 실측 한 건 861자라 칸 수는 용량이 아니라 **쓸모**로 정한 값
 function jobCfgSet(id){
   if(!id) return;
   try{
@@ -3140,7 +3140,7 @@ function showResult(d, sec){
   dlOver();   // 저장 버튼 = 완성 영상 **우상단 오버레이**(운영자 260811 "다 만들어지고 우상단에 위치하게(영상에 오버렙되게)") — 자리·크기는 nm-hist.css `.imgdl` 정본
   const _v=vw.querySelector('video');
   try{ if(d.url&&window.nmRail) nmRail.add({ url:String(d.url), poster:String(d.poster||''), cap:'편집', varStr:vMetaStr(_v,d), dlname:String(d.url).split('/').pop()||'video.mp4',
-    src: jobCfgGet(EDIT_ID)? { app:'edit', id:String(EDIT_ID) } : null }); }catch(e){}   /* ⚠ 화면 주인(포커스) 완료의 결과 레일 착지 — 이 줄이 **없어서** 정상 제작분이 이력에 한 건도 안 쌓였다(운영자 260810 "방금거가 유실된다") · 강등분(bgLand·pollEditBg)과 짝. ⚠ **여기서 바로** 얹는다 — 영상 메타를 기다렸다 얹으면 메타가 안 오는 회선에서 통째로 유실된다(표기보다 적재가 위) · src = 그 작업 설정이 남아 있을 때만(운영자 260811 "원본을 가지고 있다면") = 그 타일에만 수정 연필이 뜬다 */
+    src: jobCfgGet(EDIT_ID)? { app:'edit', id:String(EDIT_ID), v:String(d.src||'') } : null }); }catch(e){}   /* v = 그 작업이 쓴 **원본 영상 주소**(러너가 결과 쪽지에 적어 준다) — 연필을 누르면 설정과 함께 이 원본을 다시 붙여 바로 생성이 되게 한다(운영자 260811) */   /* ⚠ 화면 주인(포커스) 완료의 결과 레일 착지 — 이 줄이 **없어서** 정상 제작분이 이력에 한 건도 안 쌓였다(운영자 260810 "방금거가 유실된다") · 강등분(bgLand·pollEditBg)과 짝. ⚠ **여기서 바로** 얹는다 — 영상 메타를 기다렸다 얹으면 메타가 안 오는 회선에서 통째로 유실된다(표기보다 적재가 위) · src = 그 작업 설정이 남아 있을 때만(운영자 260811 "원본을 가지고 있다면") = 그 타일에만 수정 연필이 뜬다 */
   const _paint=()=>{ const s=vMetaStr(_v,d); if(!s) return; const el=document.getElementById('vMeta'); if(el){ el.textContent=s; el.hidden=false; }
     try{ if(window.nmRail&&nmRail.meta) nmRail.meta(d.url,s); }catch(e){} };   // 값 세 개는 영상 메타가 와야 완성된다 → 화면 칩과 타일 값 칩을 **같은 문자열로** 함께 갱신(두 자리가 갈릴 여지 0)
   if(_v) _v.addEventListener('loadedmetadata',_paint,{once:true});
@@ -3170,7 +3170,22 @@ function vMetaStr(v,d){
 const DL_HOME=$('#dlVid').parentNode;
 function dlOver(){ const b=document.getElementById('dlVid'), vw=document.getElementById('vwrap'); if(!b||!vw||b.parentNode===vw) return; b.classList.remove('ghost'); b.classList.add('imgdl'); vw.appendChild(b); }
 function dlPark(){ const b=document.getElementById('dlVid'); if(!b||b.parentNode===DL_HOME) return; b.classList.remove('imgdl'); b.classList.add('ghost'); DL_HOME.appendChild(b); }
-window.nmJobEdit=(src,url)=>{ if(src&&src.id){ USER_ACT=true; openJob(String(src.id)); } };   // 타일 연필 = 그 작업을 다시 열기(openJob 안 jobCfgApply가 그때 설정을 되씌운다 · 운영자 260810 계약 재사용 = 새 경로 0)
+/* 타일 연필 = **설정과 원본을 같이 되돌린다**(운영자 260811 "일단 원본이 있으면 수정이 가능할텐데").
+   구판은 설정만 되돌려서, 첨부 칸이 비어 있으면 값만 돌아오고 생성은 바로 못 눌렀다 = 「수정」이라 부르기 어려운 상태였다.
+   ⓐ 원본 = 그 작업 결과 쪽지에 적힌 주소(적재 때 타일에 같이 실어 둔다) → 붙어 있던 소스를 **삭제 버튼 정본 경로**로 정리하고
+      (구간·클립·컷 후보 무효화까지 그대로 따라온다 = 사본 0) 주소 칸에 넣는다.
+   ⓑ 그다음 그 작업을 연다 → 결과 표시 + jobCfgApply가 그때 설정을 되씌운다(순서가 계약 = 소스 정리가 뒤에 오면 방금 되살린 설정을 도로 지운다).
+   ⚠ 원본은 올린 뒤 24시간만 서버에 남는다 — 그 뒤엔 주소가 죽어 미리보기가 안 뜨고 영상을 다시 올려야 한다(설정은 그대로 돌아온다). */
+window.nmJobEdit=(src,url)=>{
+  if(!src||!src.id) return;
+  USER_ACT=true;
+  const v=String(src.v||'');
+  if(/^https?:\/\//i.test(v)){
+    const d=document.getElementById('pvDel'); if(d&&!d.disabled) d.click();
+    const u=$('#url'); if(u){ u.value=v; pvSync(); }
+  }
+  openJob(String(src.id));
+};
 /* ══ 클리퍼 후보(260711) — 스캔 결과 목록 · 탭 = 구간+쇼츠 기본 스택 적용(선택·렌더 = 운영자 2단 · 자동 발행 없음) ══ */
 let CLIPS=null;
 const mmss=s=>{ s=Math.max(0,Math.round(s)); return Math.floor(s/60)+':'+String(s%60).padStart(2,'0'); };
