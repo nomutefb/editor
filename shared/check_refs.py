@@ -5159,6 +5159,14 @@ def check_grok_sb_chain():
 
     # ③ 워크플로 = 스텝 + 입력 + 자격 시크릿
     wf = _t(".github/workflows/sb-make.yml")
+    # ⚠ 선택지 목록 축(260811 실사고) = 설명·스텝이 다 맞아도 options 에 없으면 GitHub 이
+    #   422 로 거절한다. 설명 문자열만 보던 첫 판이 이걸 그대로 통과시켰다.
+    mo = re.search(r"^      shoot:\n(?:.*\n)*?        options:\n((?:          - \S+\n)+)", wf, re.M)
+    opts = re.findall(r"- (\S+)", mo.group(1)) if mo else []
+    if "grok" not in opts:
+        print("❌ 그록 콘티 레인 — sb-make.yml shoot 선택지에 grok 이 없다(발사가 422 로 거절된다 · 현재 {})".format(opts)); rc = 1
+    if "kling" in opts:
+        print("❌ 그록 콘티 레인 — sb-make.yml shoot 선택지에 kling 잔여(제거 확정분 회귀)"); rc = 1
     for needle, why in (("name: Grok video", "영상 스텝"),
                         ("grok_sb_video.py", "러너 호출"),
                         ("shoot == 'grok'", "레인 게이트"),

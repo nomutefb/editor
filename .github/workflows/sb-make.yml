@@ -24,9 +24,9 @@ on:
       shoot:
         description: '촬영 레인(grok = 구독 OAuth 직결 · seedance = 힉스필드 MCP · motion = 플랫 모션그래픽 사내 렌더 → mp4)'
         type: choice
-        default: kling
+        default: grok
         options:
-          - kling
+          - grok
           - seedance
           - motion
       sound:
