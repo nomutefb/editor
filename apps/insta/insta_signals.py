@@ -1171,6 +1171,7 @@ def main():
     #     그 안 = 무상태 청소) + 묵은 파일은 msg.py TTL 24h가 마저 소거. 전 경로 fail-soft(감시 실패 ≠ 산출 피해).
     try:
         _STALL_DAYS = 3
+        _TOKEN_AGE_D = 50   # 재발급 문턱 = 본문 [다음 확인 순서] 2)·docs/인스타_직결_세팅.md §6 동값(창작 0)
         _led = jload('online_ledger.json')
         _mdays = sorted(k for k in (_led if isinstance(_led, dict) else {})
                         if isinstance(_led.get(k), dict) and _led[k])
@@ -1199,6 +1200,38 @@ def main():
                     '[재현] python3 apps/insta/insta_signals.py → 이 메시지 갱신 · 원장 = apps/insta/data/online_ledger.json',
                     '[코드] .github/scripts/insta_fetch.py 원장 적재 · apps/insta/insta_signals.py online_curve_kst/online_dow_kst/정체 감시',
                 ]
+                # ── 조치문 규약(👉 문단 · scraper/watchdog.py `PHONE_TODO` 문법 100% 계승 · 창작 0) ──
+                # 왜: 리포트 조치주체 분류(viewer/index.html `_rptWho`)는 **👉 문단이 있어야** 가르고, 없으면 폴백이
+                #     '클로드가 볼 일'이다. 이 알림은 본문이 스스로 "빈 값이면 Meta측 공회신 = 코드 조치 불요"라고
+                #     말하면서도 👉가 없어서 클로드 칸에 앉았다 — 260808 실사고(`yt-cookie-dead`·`fire-*`)와 **같은 병**이고
+                #     그때 생산자 2곳(`yt_cookie_health.COOKIE_TODO`·`fire_watch.FIRE_TODO`)만 고쳐졌고 이 생산자는
+                #     안 따라왔다(= `check_seal_completeness`가 이름 붙인 「같은 병의 형제」).
+                #     비용 = 조치 불요 1건이 같은 칸의 **진짜 코드 건**을 가린다(260812 리포트 실측 = 클로드 2건 중 1건이
+                #     이 알림이었고, 나머지 1건[묻힌 대형 grade3]이 그만큼 묻혔다).
+                # ⚠ 👉를 무조건 붙이면 안 된다 — 이 알림은 **원인에 따라 조치 주체가 갈린다**(본문 [다음 확인 순서] 그대로):
+                #     ① 토큰 노후 = 재발급 = 운영자(op)  ② value가 빈 dict = Meta 공회신 = 손 쓸 게 없다(auto)
+                #     ③ 둘 다 아님 = 권한·지표 폐지 축 의심 = **코드 축** → 👉 안 붙임(cc 유지) = 규약 「원인이 코드
+                #     축이면 👉를 안 붙인다」(viewer/index.html 8308행). 하나로 뭉쳐 always-auto로 두면 ③이 자동 대기로
+                #     밀려 진짜 결함이 무증상이 된다(= 이 봉합이 막으려는 병을 반대 방향으로 재현하는 짓).
+                # 순서 = 토큰 먼저. 토큰이 늙으면 빈 회신의 **원인일 수 있어** 운영자 조치가 선행이다(빈 값 판정이
+                #     먼저 걸리면 갈아야 할 토큰을 "기다리면 된다"로 잘못 안내한다).
+                _tage = None
+                try:
+                    _fs = (jload('token_meta.json') or {}).get('first_seen_kst')
+                    if _fs:
+                        _tage = (datetime.datetime.now(KST) - datetime.datetime.fromisoformat(_fs)).days
+                except Exception:
+                    _tage = None
+                _of = (jload('audience.json') or {}).get('online_followers')
+                _tail = _of[-1] if isinstance(_of, list) and _of else None
+                _blank = isinstance(_tail, dict) and not _tail.get('value')
+                if _tage is not None and _tage >= _TOKEN_AGE_D:
+                    _lines += ['', f'👉 네가 할 일: 인스타 접근 토큰이 {_tage}일째라 만료 구간이야 — '
+                               'docs/인스타_직결_세팅.md §6 순서로 새로 발급해서 갈아 줘. '
+                               '토큰이 늙으면 메타가 이 지표만 조용히 빈 값으로 돌려주기도 해.']
+                elif _blank:
+                    _lines += ['', '👉 네가 할 일: 없어요 — 메타가 이 지표를 빈 값으로 돌려주는 중이라(우리 쪽 고장 아님) '
+                               '손댈 게 없어요. 회신이 돌아오면 원장이 저절로 다시 쌓이고 이 알림도 자동으로 사라져요.']
                 subprocess.run(['python3', _msg_py, 'set', f'insta-online-stall-{_last}', '\n'.join(_lines), 'warn'], check=False)
             else:
                 for _k in _mdays[-4:]:
