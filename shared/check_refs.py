@@ -5138,7 +5138,8 @@ def check_grok_sb_chain():
     rc = 0
     def _t(path):
         try:
-            return pathlib.Path(path).read_text(encoding="utf-8", errors="replace")
+            with open(path, encoding="utf-8", errors="replace") as f:
+                return f.read()
         except OSError:
             return ""
 
