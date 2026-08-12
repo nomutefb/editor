@@ -5038,6 +5038,78 @@ def check_seal_completeness():
     return 0
 
 
+# 운영자에게 「어느 칸을 갈지」 말하는 표면 = 칸 이름이 필수(면책표 아님 = 대상 목록).
+#   ⚠ 이름을 안 쓰는 표면(vidl-make·yt-cookie-whoami = 자기 문구에 칸을 안 말한다)은 여기 없다 —
+#     늘릴 땐 「그 표면이 운영자에게 칸을 지시하는가」로 판정한다.
+_YTCK_NAME_REQ = {os.path.join('.github', 'workflows', 'yt-cookie-health.yml')}
+_YTCK_LITERAL_FREE = {os.path.join('.github', 'scripts', 'yt_cookie_health.py')}
+
+
+def check_yt_cookie_slot_name():
+    """유튜브 쿠키 = 알림이 말하는 칸 이름이 실제 배선과 같다(하드 · 260812 실사고 봉합).
+
+    계약 = 「운영자에게 **어느 칸을 갈지** 말하는 문구는 그 칸 이름을 코드에 손으로 적지 않고,
+       워크플로가 알려준 `<슬롯>_NAME` 을 그대로 쓴다」. 문법 정본 = `.github/scripts/ytdlp_try.sh`
+       (운영자 260812 «죽은 쿠키인지 안 죽은 쿠키인지 먼저 확인하고 · 대명사 쓰지 말고 명시»).
+
+    ⚠️ 실사고 = 배선은 `YT_COOKIES(1번) ← YT_T2_COOKIES` / `YT_COOKIES_2(2번) ← YT_T_COOKIES` 인데
+       감시기 알림 문구는 `1번→YT_T_COOKIES · 2번→YT_T2_COOKIES` 로 **정확히 반대**를 지시했다.
+       실측 260812 11:24 = 알림은 「2번 죽음 → YT_T2_COOKIES 를 갈아라」인데 같은 시각 받기 레일 진단은
+       「YT_T2_COOKIES = 살아있음 · YT_T_COOKIES = 죽음」 — 두 시스템이 같은 상태를 정반대로 말했다.
+       비용 = 운영자가 **살아있는 칸을 갈고** 죽은 칸은 그대로 둬서 경고가 영영 안 꺼진다(실제로 그렇게 됐다).
+    ⚠️ 신설 사유 = 260812 지시가 받기 레일 8종에만 적용되고 **감시기는 안 따라왔는데 아무 게이트도 안 울렸다**
+       (`check_seal_completeness` 가 겨눈 「같은 병의 형제」 축 · 그쪽은 WARN이라 차단하지 못한다).
+       기존 게이트는 전부 다른 축 — `check_paths` = 경로 실존 · `check_workflow_yaml` = 문법 · `smoke_*` = 화면 렌더
+       → 「알림이 **맞는 칸 이름**을 말하는가」는 축 자체가 없었고, 증상이 「갈아도 경고가 안 꺼짐」뿐이라
+       운영자 눈이 유일한 검출기였다(insta-thumb-miss·brk_misfire 동축).
+
+    판정 3축(정적 · 렌더·LLM·네트워크 0 · 면책표 없이 하드 0):
+      ① `<슬롯>_NAME` 이 있으면 그 값 == 그 슬롯이 실제로 받는 secrets 이름(짝 뒤집힘 차단 · 현행 8워크플로 정합)
+      ② 알림·진단문을 내보내는 표면(`_YTCK_NAME_REQ`)은 `<슬롯>_NAME` 보유 필수
+         (빠지면 폴백이 env 이름 `YT_COOKIES` 로 말해서 운영자가 어느 칸인지 못 찾는다)
+      ③ 그 표면의 스크립트 **코드부**에 시크릿 이름 리터럴 0(주석은 제외 = 사고 기록의 거처)
+         — 손으로 적는 순간 다시 갈린다 = 이번 사고의 진범 그 자체.
+    """
+    import glob as _g
+    bad = []
+    sec_re = re.compile(r'^\s*(YT_COOKIES(?:_[23])?):\s*\$\{\{\s*secrets\.([A-Za-z0-9_]+)\s*\}\}', re.M)
+    nm_re = re.compile(r'^\s*(YT_COOKIES(?:_[23])?)_NAME:\s*([A-Za-z0-9_]+)', re.M)
+    for f in sorted(_g.glob(os.path.join(ROOT, '.github', 'workflows', '*.yml'))):
+        rel = os.path.relpath(f, ROOT)
+        txt = open(f, encoding='utf-8').read()
+        pairs = sec_re.findall(txt)
+        if not pairs:
+            continue
+        names = dict(nm_re.findall(txt))
+        for var, sec in pairs:
+            got = names.get(var)
+            if got is not None and got != sec:          # ① 짝 뒤집힘
+                bad.append(f'{rel}: {var} ← secrets.{sec} 인데 {var}_NAME={got} (알림이 반대 칸을 지시한다)')
+            elif got is None and rel in _YTCK_NAME_REQ:  # ② 알림 표면인데 이름 미지정
+                bad.append(f'{rel}: {var}_NAME 없음 — 알림이 저장소 칸을 env 이름으로 말하게 된다')
+    for rel in sorted(_YTCK_LITERAL_FREE):              # ③ 코드부 하드코딩 0
+        p = os.path.join(ROOT, rel)
+        if not os.path.exists(p):
+            bad.append(f'{rel}: 파일 없음(앵커 소실 = fail-closed)')
+            continue
+        src = open(p, encoding='utf-8').read()
+        # 독스트링·삼중따옴표 블록 = 설명문(사고 기록의 거처) → **길이 보존 공백 마스킹**(줄 번호가 안 어긋난다).
+        #   ⚠ 이 마스킹이 없으면 봉합 주석 자신이 위반으로 잡힌다(첫 실행 실측 = 4건 위양성).
+        src = re.sub(r'("""|\'\'\')(?:.|\n)*?\1',
+                     lambda m: re.sub(r'[^\n]', ' ', m.group(0)), src)
+        for i, ln in enumerate(src.splitlines(), 1):
+            code = ln.split('#', 1)[0]                  # 줄 주석 제외(처방문의 거처)
+            if re.search(r'\bYT_T2?_COOKIES\b', code):
+                bad.append(f'{rel}:{i}: 코드에 시크릿 이름을 손으로 적었다 → kan(<슬롯>) 경유로 바꿔라')
+    if bad:
+        print('❌ 유튜브 쿠키 칸 이름 정합 — 알림이 「갈아야 할 칸」을 틀리게 말한다(260812 실사고 축):')
+        for b in bad:
+            print('   -', b)
+        return 1
+    print('✅ 유튜브 쿠키 칸 이름 정합 — 슬롯↔시크릿 짝 전건 일치 · 알림 표면 이름 보유 · 코드 하드코딩 0.')
+    return 0
+
+
 def check_smoke_chromium_path():
     """스모크 크로미엄 경로 = 폴백 해석기 경유(하드 · 260808 실사고 봉합 · check_smoke_obs_chain 의 짝).
 
@@ -7578,6 +7650,8 @@ def main():
         if check_grade_fix_chain() != 0:   # grade 수기 교정 폐루프(운영자 260807 — 12h 스윕 기록 체인 5층 생존 강제)
             rc = 1
         if check_img_upsize() != 0:   # 검색 이미지 화질 승격(운영자 260810 "최소 세로 720p 이상" — 매체 og:image 는 축소판인 경우가 많고 같은 CDN 에 원본이 그대로 있다 · 호출 한 줄만 빠져도 화면 증상 0으로 화질만 종전 복귀)
+            rc = 1
+        if check_yt_cookie_slot_name() != 0:   # 유튜브 쿠키 알림이 「갈아야 할 칸」을 맞게 말하는가(260812 실사고 — 알림과 받기 진단이 같은 상태를 정반대로 말해 운영자가 살아있는 칸을 갈았다)
             rc = 1
     except Exception as e:
         print('⚠️ grade 교정 체인 게이트 스킵:', e)

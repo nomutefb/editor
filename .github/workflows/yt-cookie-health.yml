@@ -30,7 +30,9 @@ jobs:
       - name: 쿠키 생사 점검 → 원장 → 알림
         env:
           YT_COOKIES: ${{ secrets.YT_T2_COOKIES }}   # vidl-make와 같은 시크릿(구 YT_COOKIES 무접촉)
+          YT_COOKIES_NAME: YT_T2_COOKIES             # ⚠ 알림이 말할 **저장소 칸 이름** — 아래 짝과 함께 반드시 실제 시크릿과 같이 유지
           YT_COOKIES_2: ${{ secrets.YT_T_COOKIES }}   # 2번 계정(운영자 260810 · 미설정이면 빈값 = 종전 동작)
+          YT_COOKIES_2_NAME: YT_T_COOKIES            # 문법 정본 = ytdlp_try.sh 의 <슬롯>_NAME(260812 «대명사 쓰지 말고 명시») 계승
         run: python3 .github/scripts/yt_cookie_health.py   # 전 구간 fail-soft(rc 항상 0)
 
       - name: 착지(원장 + 알림)
