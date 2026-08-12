@@ -86,6 +86,7 @@ jobs:
             .claude/hooks
             .claude/skills/storyboard-v1
             .claude/skills/master-sheet-v2
+            messages
 
       - name: Setup Node
         uses: actions/setup-node@v5
@@ -248,6 +249,7 @@ jobs:
           git config user.name "nomute-bot"
           git config user.email "bot@nomute.local"
           git add "viewer/sb_out/${IN_ID}" 2>/dev/null || true
+          git add messages 2>/dev/null || true   # 영상 실패 알림(grok_sb_video.notify → shared/msg.py) 동반 커밋 — 경로를 못박는다(무경로 `git add -A` = sparse cone 밖 삭제 커밋 사고)
           git add metrics 2>/dev/null || true   # 토큰 계측 shard(claude_meter) 동반 커밋 — 있을 때만
           git commit -m "sb: ${IN_ID} 콘티 출력" || { echo "커밋할 것 없음"; exit 0; }
           pushed=0

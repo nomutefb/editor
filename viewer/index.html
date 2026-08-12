@@ -8859,6 +8859,10 @@ function _rptSrc(m) {
     cmd: 'python3 -c "import json;[print(x[\'kind\'],x[\'time\'],x.get(\'intl\'),x[\'title\']) for x in json.load(open(\'viewer/sns_trends.json\'))[\'disaster\'] if x[\'kind\']==\'지진\']"' };
   // _health 계열은 3종(새버전·갱신실패·맞춤법)이 같은 플래그를 공유 → 플래그별로 갈라야 한다. 뭉치면 "새 버전" 알림에 CAND_LIVE가 찍혀
   //   세션이 없는 고장(진단 스냅샷 후보라이브=true인데 적재 실패라고 지목)을 쫓는다(실증 260730 리포트 1번 항목).
+  // 콘티 영상 실패 = 러너가 발행한다(뷰어 생산 아님). 폴백으로 두면 상류가 scraper/msg.py 로 잘못 찍혀
+  //   세션이 진짜 생산자(.github/scripts/grok_sb_video.py notify())를 못 찾는다 — sys:fire: 오귀속과 같은 축.
+  if (id.startsWith('sb-video-fail-')) return { fn: '.github/scripts/grok_sb_video.py notify()', src: 'sb_out/<id>/video.json cuts[].video 결손(자동 1회 재시도 후에도 실패한 편)', up: '.github/workflows/sb-make.yml Grok video 스텝 → shared/msg.py',
+    cmd: 'python3 -c "import json;d=json.load(open(\'viewer/sb_out/<콘티id>/video.json\'));[print(c[\'n\'],c.get(\'retried\'),c.get(\'fail\')) for c in d[\'cuts\'] if not c.get(\'video\')]"' };
   if (m._shellupd) return { fn: 'viewer/index.html shellUpdMsg()', src: '_shellUpdPending(SW nm-shell-updated → flagShellUpdate)', up: 'sw.js 셸 SWR 재검증 + viewer/index.html 배포' };
   if (m._stale) return { fn: 'viewer/index.html staleDataMsg()', src: 'candStale() = 소스축 CAND_LIVE(정적 폴백) ∪ 시간축 CAND_TS(수신 경과 > CAND_STALE_MS)', up: 'functions/api + viewer/candidates.json' };   // 260731: src를 'CAND_LIVE' 단독으로 두면 새 조건(라이브인데 수신이 낡음 = CAND_LIVE **true**)에서 진단이 원인을 잘못 지목한다 — 260730 리포트 1번 항목("후보라이브=true인데 적재 실패로 지목")과 같은 모양의 재발이라 두 축을 병기(원값은 msgRptDiag.후보수신경과분)
   if (m._health) return { fn: 'viewer/index.html healthMsg()', src: "SHC(localStorage 'nomute_shc').healthy=false", up: 'thumb.html 맞춤법 검사기 + ?selftest 프로브' };

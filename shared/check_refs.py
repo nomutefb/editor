@@ -5186,7 +5186,7 @@ def check_grok_sb_chain():
                         ("def strip_audio", "소리 끄기(산출 트랙 제거)"),
                         ("strip_audio(local)", "소리 끄기 실호출"),
                         ("gk.fresh_token", "자격 갱신·저장(회전 대응)"),
-                        ("refs=refs or None", "참조 그림 공유(컷 수와 무관)"),
+                        ("refs=payload or None", "참조 그림 실어 보내기(컷 수와 무관)"),
                         ("def refs_of", "참조 목록 파서"),
                         ("seconds=c[\"sec\"]", "컷 길이 = 콘티 값")):
         if needle not in rn:
@@ -5236,6 +5236,36 @@ def check_grok_sb_chain():
             ("prompts/sb-make.md", "SFX:", "감독 SFX 규약")):
         if needle not in _t(path):
             print("❌ 그록 콘티 레인 — {} 가 없다({} · {})".format(why, path, needle)); rc = 1
+    # ⑨ 260812 실사고 3축 봉합 — 셋 다 빠져도 영상은 나온다(= 조용히 나빠진다 · 운영자 눈이 유일한 검출기)
+    #   ⓐ **참조를 주소로 보내면 xAI 가 우리 저장소를 내려받는다** = 남의 회선 딸꾹질 하나에 한 편이 통째로
+    #      죽는다(실측 `image_download_interrupted` · 같은 그림으로 다른 편은 성공 = 그림·주소 정상).
+    #      바이트로 실으면 그 다운로드 자체가 사라진다 = 실패 종류의 구조적 소멸.
+    #   ⓑ **실패한 그 편만 1회 재시도**(운영자 260812) — 구판 「재시도 0」의 전제(다시 쏘면 돈이 또 나간다)는
+    #      실측으로 틀렸다(실패 호출은 청구 0). 성공한 편은 손대지 않는다.
+    #   ⓒ **재시도까지 실패하면 웹앱 알림** — 구판은 사유가 `video.json` 안에만 있어 화면 증상이 0이었다
+    #      (20초가 나오면 「짧게 나왔나 보다」로 보인다 = 조용히 나빠지는 축).
+    #   ⚠ 판정은 **여는 괄호까지** 본다 — bare substring 이면 `def ref_send_OFF` 같은 개명이 그대로
+    #      통과한다(첫 킬테스트가 그 구멍을 자기적발했다 · `check_stt_engine_chain` 이 겪은 것과 같은 함정).
+    for needle, why in (("def ref_send(", "참조 바이트 적재(남의 다운로드 실패 축 소멸)"),
+                        ("REF_EMBED =", "바이트 전송 롤백 레버"),
+                        ("def _retryable(", "재시도 가능 축 판정(검열·자격은 다시 쏴도 같은 벽)"),
+                        ("RETRY_ONCE =", "실패한 그 편만 1회 재시도"),
+                        ("if attempt == 1 and RETRY_ONCE", "재시도 실분기(상수만 있고 안 도는 것 차단)"),
+                        ("def notify(", "재시도 초과 실패 = 웹앱 알림"),
+                        ("VID_TODO =", "조치주체 규약 👉 문단(없으면 「클로드가 볼 일」로 오분류)"),
+                        ("notify(stem, items)", "알림 실호출"),
+                        ("def pick_refs(", "편마다 시간대에 맞는 배경 참조(밤 컷이 해질녘으로 나온 축)"),
+                        ("def is_night(", "밤 축 판정")):
+        if needle not in rn:
+            print("❌ 그록 콘티 레인 — grok_sb_video.py 에 {} 가 없다({})".format(why, needle)); rc = 1
+    # 알림은 **커밋돼야** 화면에 뜬다(messages/ = 빌드 입력) — 한 줄만 빠져도 알림이 러너와 함께 증발한다.
+    if "git add messages" not in wf or "\n            messages" not in wf:
+        print("❌ 그록 콘티 레인 — sb-make.yml 이 messages/ 를 체크아웃·커밋 안 한다(알림이 러너와 함께 사라진다)"); rc = 1
+    if "sb-video-fail-" not in _t("viewer/index.html"):
+        print("❌ 그록 콘티 레인 — 뷰어 _rptSrc 에 영상 실패 알림 출처 분기가 없다(리포트가 거짓 상류를 준다)"); rc = 1
+    if "배경(밤)" not in _t("prompts/sb-make.md"):
+        print("❌ 그록 콘티 레인 — 콘티 규약에 밤 배경 참조 축이 없다(밤 컷이 참조 시간대에 끌려간다)"); rc = 1
+
     # ⑧ 열쇠 회전 = 러너 밖으로 살려 보내는 배선(없으면 두 번째 발사가 죽는다 · 260811 실사고)
     if "_persist_secret" not in _t("shared/grok_api.py"):
         print("❌ 그록 콘티 레인 — 갱신 열쇠 되쓰기(_persist_secret)가 없다 = 한 번만 쏠 수 있다"); rc = 1
