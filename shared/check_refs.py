@@ -5724,6 +5724,96 @@ def check_thumb_redo_append():
     return 0
 
 
+# 요약 요청 첨부 사진 판독 하한 — 값 원천 = 260812 실측(재현 = 폰 기사 스크롤 캡처 1080×{3000,5700,9000}을
+#   뷰어와 같은 산식으로 압축한 뒤 **실제로 판독**):
+#     세로 3000 → 461×1280(본문 15.4px) 또렷 · 5700 → 243×1280(8.1px) 읽힘 · 9000 → 154×1280(5.1px) 읽히나 흐림.
+#   ⚠ 면책표(baseline) 아님 = 단일 임계 상수(부채 원장 증가 0 · `RENDER_BUDGET` 선례). 낮추려면 같은 실측을
+#   다시 떠서 판독을 확인하고 이 주석의 근거를 갱신한다(값만 내리는 개정 = 이 게이트가 막으려는 바로 그 회귀).
+_ASKIMG_MIN_SIDE = 1280   # 긴 변 픽셀 하한
+_ASKIMG_MIN_Q = 0.6       # JPEG 화질 하한(0~1)
+
+
+def check_ask_img_legible():
+    """요약 요청에 붙인 사진 = 글자가 읽히는 크기로 나간다(하드 · 운영자 260812 "지금 된 부분을 앞으로 나올 수 있게 반영").
+
+    발단 = 운영자가 세로로 아주 긴 기사 캡처를 요약 요청에 붙이며 물었다 — "글자 못 읽을 만큼 압축돼서
+    왜곡될까봐". 실측 결과 **지금은 읽힌다**(위 상수 주석의 3케이스 실판독). 이 게이트는 그 「지금 되는
+    상태」를 앞으로도 나오게 고정한다.
+
+    ⚠ 신설 사유 = **이 축은 나빠져도 화면이 멀쩡하다.** 압축은 첨부 순간에 끝나고 화면엔 축소된 미리보기와
+      용량(KB)만 뜨므로, 누가 토큰을 아끼려고 긴 변이나 화질을 낮춰도 첨부 UI는 똑같이 동작한다. 증상은
+      **한참 뒤 요약 품질**로만 나타나고(숫자 오독·본문 누락), 그건 원인이 사진인지 기사인지 모델인지
+      구분이 안 된다 = 운영자 눈조차 검출기가 못 되는 자리.
+    ⚠ 기존 게이트는 전부 다른 축이다 — `check_ask_srcimg_chain` = 그림이 **실리는가**(층 생존) ·
+      `check_image_format` = **산출물** 포맷·품질(이건 산출물이 아니라 모델 입력이라 `q-ok` 면제 대상) ·
+      `smoke_*` = 화면 렌더 → 「그 입력이 **읽히는 크기인가**」는 축 자체가 없었다.
+
+    판정 = 정적(렌더·LLM·네트워크 0) · 면책표 없이 하드 0 · 3축:
+      ① 압축 함수 기본값이 하한 이상          ② 요약요청 호출부가 그 하한 밑으로 인자를 덮어쓰지 않음
+      ③ 서버가 받은 바이트를 그대로 저장(재압축 0 = 뷰어 하한이 곧 최종 화질이라는 전제의 성립 조건)
+    ⚠ ②가 실효 조건 = 기본값만 보면 `compressImg(f, 640, 0.4)` 한 줄로 조용히 우회된다(기본값은 그대로인데
+      실제로 나가는 사진만 나빠진다 = 정적 게이트의 전형적 사각).
+    """
+    v = os.path.join(ROOT, 'viewer', 'index.html')
+    a = os.path.join(ROOT, '.github', 'scripts', 'ask.sh')
+    bad = []
+    try:
+        vt = open(v, encoding='utf-8').read()
+        at = open(a, encoding='utf-8').read()
+    except Exception as e:
+        print('❌ 요약요청 첨부 판독 게이트 — 파일 열기 실패: %s' % e)
+        return 1
+
+    # ① 압축 함수 기본값(앵커 소실 = fail-closed — 함수가 개명·해체되면 하한이 어디에도 없다)
+    m = re.search(r'async\s+function\s+compressImg\s*\(\s*file\s*,\s*max\s*=\s*([0-9]+)\s*,\s*q\s*=\s*([0-9.]+)\s*\)', vt)
+    if not m:
+        bad.append('뷰어 압축 함수(compressImg) 선언을 못 찾음 — 앵커 소실 fail-closed(개명했으면 이 게이트도 같이 옮긴다)')
+    else:
+        side, q = int(m.group(1)), float(m.group(2))
+        if side < _ASKIMG_MIN_SIDE:
+            bad.append('첨부 사진 긴 변 기본값 %dpx < 하한 %dpx — 세로로 긴 기사 캡처의 가로가 그만큼 더 좁아져 글자가 뭉개진다'
+                       % (side, _ASKIMG_MIN_SIDE))
+        if q < _ASKIMG_MIN_Q:
+            bad.append('첨부 사진 화질 기본값 %s < 하한 %s — 작은 글자는 화질을 내리는 순간 먼저 무너진다'
+                       % (q, _ASKIMG_MIN_Q))
+
+    # ② 요약요청 호출부가 하한 밑으로 덮어쓰지 않는가(기본값 우회 차단)
+    ca = re.search(r'function\s+addAskImages\s*\([^)]*\)\s*\{(.*?)\n\}', vt, re.S)
+    if not ca:
+        bad.append('요약요청 첨부 경로(addAskImages)를 못 찾음 — 앵커 소실 fail-closed')
+    else:
+        body = ca.group(1)
+        if 'compressImg(' not in body:
+            bad.append('요약요청 첨부 경로가 압축 함수를 안 부른다 — 원본이 그대로 나가거나(용량 폭발) 다른 산식으로 갈렸다')
+        for call in re.findall(r'compressImg\(([^)]*)\)', body):
+            args = [x.strip() for x in call.split(',')]
+            if len(args) >= 2 and re.fullmatch(r'[0-9]+', args[1]) and int(args[1]) < _ASKIMG_MIN_SIDE:
+                bad.append('요약요청 호출부가 긴 변을 %s px로 덮어씀 < 하한 %d — 기본값은 그대로라 조용히 우회된다'
+                           % (args[1], _ASKIMG_MIN_SIDE))
+            if len(args) >= 3 and re.fullmatch(r'[0-9.]+', args[2]) and float(args[2]) < _ASKIMG_MIN_Q:
+                bad.append('요약요청 호출부가 화질을 %s 로 덮어씀 < 하한 %s — 기본값은 그대로라 조용히 우회된다'
+                           % (args[2], _ASKIMG_MIN_Q))
+
+    # ③ 서버 = 받은 바이트 그대로 저장(재압축 0). 이게 깨지면 ①②의 하한이 최종 화질을 뜻하지 않게 된다.
+    save = [ln for ln in at.splitlines() if 'img-' in ln and 'write' in ln and not ln.lstrip().startswith('#')]
+    if not save:
+        bad.append('서버 첨부 저장 줄을 못 찾음 — 앵커 소실 fail-closed(요약 파이프가 첨부 사진을 파일로 안 굽는다)')
+    elif not any('b64decode' in ln for ln in save):
+        bad.append('서버가 받은 바이트를 그대로 안 쓴다(디코드 후 재인코딩 의심) — 뷰어 하한이 최종 화질을 보장하지 못한다')
+
+    if bad:
+        print('❌ 요약요청 첨부 판독 — %d건' % len(bad))
+        for b in bad:
+            print('   · %s' % b)
+        print('   · 계약 = 붙인 사진의 글자가 요약 모델에 읽히는 크기로 간다(긴 변 ≥%d · 화질 ≥%s · 서버 재압축 0).'
+              % (_ASKIMG_MIN_SIDE, _ASKIMG_MIN_Q))
+        print('   · 이 축은 나빠져도 첨부 화면이 똑같이 동작한다 — 증상은 한참 뒤 요약 품질로만 나온다.')
+        return 1
+    print('✅ 요약요청 첨부 판독 — 긴 변 %dpx · 화질 %s · 서버 재압축 0(260812 실측 = 세로 9000 캡처도 판독 가능).'
+          % (_ASKIMG_MIN_SIDE, _ASKIMG_MIN_Q))
+    return 0
+
+
 def check_ask_srcimg_chain():
     """출처 글 본문 이미지 수확 체인 게이트(하드 · 운영자 260804 "확인해줘" → 사고 fail-2026-08-04-0239-297it).
 
@@ -7365,6 +7455,8 @@ def main():
         if check_thumb_vote_chain() != 0:   # 썸네일 화풍 투표 폐루프(운영자 260805 — 적재는 되는데 커밋이 없어 증발하거나, 쌓이는데 아무도 안 읽는 죽은 원장이 되는 두 축을 함께 막는다)
             rc = 1
         if check_ask_srcimg_chain() != 0:   # 출처 글 본문 이미지 수확(운영자 260804 — 본문이 그림뿐인 커뮤니티 글이 '읽을 글 0'으로 ANALYSIS_FAILED 되던 축 봉합 · 층 빠지면 무증상 재발)
+            rc = 1
+        if check_ask_img_legible() != 0:   # 요약요청에 붙인 사진이 읽히는 크기로 나가는가(운영자 260812 — 나빠져도 첨부 화면은 멀쩡하고 증상은 한참 뒤 요약 품질로만 나오는 축)
             rc = 1
     except Exception as e:
         print('⚠️ 출처 본문 이미지 수확 체인 게이트 스킵:', e)

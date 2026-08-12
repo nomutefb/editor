@@ -16591,6 +16591,13 @@ async function addAskImages(files) {
   renderAskImgs();
 }
 function shakeAskAttach() { const a = $('#askAttach'); if (!a) return; a.classList.remove('over'); void a.offsetWidth; a.classList.add('over'); setTimeout(() => a.classList.remove('over'), 700); }
+// CONTRACT: check_ask_img_legible — 요약 요청에 붙인 사진은 **글자가 읽히는 크기로** 나간다(긴 변 ≥1280 · 화질 ≥0.6 · 서버 재압축 0).
+//   ⚠ 이 두 값을 낮추지 마라. 토큰은 줄지만 **세로로 긴 기사 캡처가 먼저 죽는다** — 긴 변 기준 축소라
+//   세로가 길수록 가로가 좁아진다(운영자 260812 질문 = "글자 못 읽을 만큼 압축돼서 왜곡될까봐").
+//   260812 실측(폰 기사 스크롤 캡처 1080폭 · 본문 36px 기준 · 압축 후 실판독):
+//     세로 3000 → 461×1280(본문 15.4px) 또렷 · 5700 → 243×1280(8.1px) 읽힘 · 9000 → 154×1280(5.1px) 읽히나 흐림.
+//   ⚠ 나빠져도 이 화면은 똑같이 동작한다(축소 미리보기 + KB 배지만 뜬다) → 증상은 한참 뒤 요약 품질로만
+//   나오고 원인이 사진인지 기사인지 구분이 안 된다 = 사람 눈이 검출기가 못 되는 자리라 게이트가 유일한 방어.
 async function compressImg(file, max = 1280, q = 0.6) {   // 토큰 절약: 긴 변 1280px·JPEG로 압축(고품질 해석 불필요)
   const url = URL.createObjectURL(file);
   const img = await new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = url; });
