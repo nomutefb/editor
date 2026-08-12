@@ -5211,7 +5211,10 @@ def check_grok_sb_chain():
             (".github/scripts/grok_sb_video.py", 'sc.add(out_dir, "grok"', "영상 값 적재"),
             (".github/scripts/sb_sheet.py", 'sc.add(out_dir, "gemini", "sheet"', "시트 값 적재"),
             (".github/scripts/k_refgen.py", '"gemini", "ref"', "참조 그림 값 적재"),
-            ("viewer/sb.html", "cost.json", "화면이 원장을 읽는다")):
+            ("viewer/sb.html", "cost.json", "화면이 원장을 읽는다"),
+            ("viewer/sb.html", 'id="sndTg"', "소리 스위치(서버·러너는 받는데 화면에만 없던 축)"),
+            ("viewer/sb.html", "sound: (sbShoot === 'grok')", "소리 값이 발사 페이로드에 실린다"),
+            ("viewer/sb.html", "nmRail.add({ url: abs(c.video)", "만든 영상이 이전 제작에 착지한다")):
         if needle not in _t(path):
             print("❌ 그록 콘티 레인 — {} 가 없다({} · {})".format(why, path, needle)); rc = 1
     # ⑧ 열쇠 회전 = 러너 밖으로 살려 보내는 배선(없으면 두 번째 발사가 죽는다 · 260811 실사고)

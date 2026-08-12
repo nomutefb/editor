@@ -293,6 +293,7 @@
   <div class="geni-row"><span class="pub-l">화질</span><span class="geni-opts" id="axQ" role="group" aria-label="화질"></span></div><!-- 프롬프팅 이관 축(Q1145) -->
   <!-- 「프레임」 행 폐지(운영자 260804 "30fps 고정으로 하고 (네비에는 그대로 나오고) 아래 옵션선택자에서는 삭제") — 값은 SB_DEF 30fps 고정 · 리드백은 코너 레일 값 칩 존치(읽기 전용) -->
   <div class="geni-row"><span class="pub-l">길이</span><span class="geni-opts lenopts"><div class="lenrule" id="axLen" role="group" aria-label="길이 — 5초부터 15초까지 1초 눈금"></div><span class="lenrule-v" id="axLenV" aria-live="polite"></span></span></div><!-- 자(ruler) 선택자(운영자 260804) = edit `.tl` 구간 룰러 정본 사본(눈금 10%·트랙 26px·플레이헤드) + 포인트 라벨 점등 = edit `.glab4 i.on` 정본 · 값 리드백 = edit `.grow .v` 정본 문법 -->
+  <div class="geni-row rowtap" data-rowtap="sndTg"><span class="pub-l"></span><span class="geni-opts" role="group" aria-label="소리 — 영상 오디오 트랙"><button type="button" class="geni-opt on" id="sndTg" aria-pressed="true" title="켜짐 = 영상에 소리를 담는다 · 꺼짐 = 산출 트랙 자체를 뺀다(프롬프트 무음 지시가 아니라 확정 제거) · 촬영=Grok 전용">소리</button></span></div><!-- 운영자 260810 「소리 온오프도 옵션이여야 함」 — 서버·러너는 260811부터 이미 받고 있었는데 화면 스위치만 없었다(= 항상 켜기로 고정) · 부품 = 위 #refTg 워드 토글 정본 사본(새 클래스·값 0) -->
   <div class="geni-row rowtap" data-rowtap="adTg"><span class="pub-l"></span><span class="geni-opts"><button type="button" class="geni-opt" id="adTg" aria-pressed="false" title="켜짐 = 마지막 컷을 제품·슬로건 키비주얼로 (storyboard-v1 하드룰) · 켜짐=글자 점등">광고 모드</button></span></div>
   </div><!-- /.ogrid -->
 
@@ -372,7 +373,7 @@ const SB_DIRECTORS = [   // 표시명 = NM_MODELS 사전 참조(운영자 260803
   { id: 'gpt', nm: NM_MODELS.gpt, hint: '완급·액션 — API 종량' }
 ];
 const SB_SHOOTS = [
-  { id: 'grok', nm: NM_MODELS.grok, hint: '구독 자격 직결 · 영상 배선 중' },   // 운영자 260811 = 제미나이가 그린 콘티 컷을 첫 장면으로 넣고 감독이 프롬프팅해 영상까지(이 레인만 in-repo 완결 · 추가 과금 0)
+  { id: 'grok', nm: NM_MODELS.grok, hint: '구독 자격 직결 · 콘티→영상까지 여기서 끝난다(초당 약 $0.15)' },   // 운영자 260811 = 제미나이가 그린 콘티 컷을 첫 장면으로 넣고 감독이 프롬프팅해 영상까지(이 레인만 in-repo 완결 · 추가 과금 0)
   { id: 'seedance', nm: NM_MODELS.seedance, hint: 'MCP 자동 · 준비 중' },
   { id: 'motion', nm: NM_MODELS.motion, hint: '플랫 모션 · 사내 렌더 → mp4 즉시 · 0원' }   // 실사 생성 AI가 아닌 3번째 레인(정보전달형 플랫 모션 — 콘티 🎞 모션 스펙 → mg_render.py가 같은 잡에서 mp4까지 뽑음 · 외부 API 0 = 레퍼런스 이미지도 불요)
 ];
@@ -390,18 +391,18 @@ const SB_VALS = {
 const sbCutN = s => s <= 8 ? 6 : s <= 12 ? 9 : 12;   // 컷수 = storyboard-v1 밴드 정본(SKILL.md §컷 수 로직 — 6~8초=6컷 · 10~12초=9컷 · 15초=12컷) · 표 사이 초(5·9·13·14)는 **위 밴드로 올림** = 이 파일의 기존 「애매하면 위로(보수)」 규칙 동축(구 비용 산식 9s=10s가)
 const SB_CUTS = Object.fromEntries(SB_LENS.map(v => [v, sbCutN(parseInt(v, 10)) + '컷']));   // 길이→컷수 파생 맵(호출부 문법 불변 · 구 4값 하드코딩 표 대체 — 5~15s 11값 전건 정의)
 const SB_DEF = { '비율': '9:16', '화질': '2K', '프레임': '30fps', '길이': '10s' };   // 운영자 확정 기본값(Q1158 "2k · 30fps · 9:16 · 10s")
-let sbDirector = 'fable', sbShoot = 'grok', sbSet = Object.assign({}, SB_DEF), sbAd = false, sbRef = true;   // sbRef = 참조 이미지 생성(기본 ON · 운영자 Q1144·Q1161: 시댄스 = 강제 ON·비활성 / 클링 = 선택 가능)
+let sbDirector = 'fable', sbShoot = 'grok', sbSet = Object.assign({}, SB_DEF), sbAd = false, sbRef = true, sbSnd = true;   // sbSnd = 영상 소리(기본 켜기 · 운영자 260811 「소리는 기본 키게」 · 촬영=grok 전용 축)   // sbRef = 참조 이미지 생성(기본 ON · 운영자 Q1144·Q1161: 시댄스 = 강제 ON·비활성 / 클링 = 선택 가능)
 let sbArW = '1', sbArH = '1';   // 비율 직접 기본 = 1:1(index _geniSel.arW/arH 정본 동값 — 빈 칸이 아니라 값이 앉아 있고 탭하면 그 자리가 비며 바로 타이핑)
 function sbArVal() { const w = parseInt(sbArW, 10), h = parseInt(sbArH, 10); return (w >= 1 && w <= 99 && h >= 1 && h <= 99 && w / h >= 0.25 && w / h <= 4) ? w + ':' + h : null; }   // 직접 비율 유효값 = index geniArVal 정본 동일 계약(각 1~99 + 1:4~4:1) · 서버 api/sb.js가 같은 계약으로 재검증
 function sbRatio() { return sbSet['비율'] === 'custom' ? (sbArVal() || SB_DEF['비율']) : sbSet['비율']; }   // 발사·리드백 실값 — 직접 미완성 = 기본 비율 강하(k 「길이」 직접 선례 문법)
 function sbArFit(el) { if (el) el.style.width = Math.max(1, (el.value || '').length) + 'ch'; }   // 숫자칩 폭 = 값 길이 동기(index geniArFit 정본 미러)
 function sbPayload() {   // go 핸들러 페이로드(서버 api/sb.js가 화이트리스트 재검증)
   const set = Object.assign({}, sbSet); if (set['비율'] === 'custom') set['비율'] = sbRatio();   // 'custom' = 화면 상태값 → 발사 시 실 N:M으로 치환(k 「길이」 직접 = segTotal()+'s' 선례 문법)
-  return { director: sbDirector, shoot: sbShoot, set, ad: sbAd, ref: (sbShoot === 'seedance') ? true : (sbShoot === 'motion' ? false : (sbShoot === 'grok' ? true : sbRef)) };   // grok = 제미나이 콘티 컷이 첫 장면 재료라 강제 ON(시댄스 동축)   // ref = 레퍼런스 이미지 생성 여부(시댄스 강제 true · 모션 강제 false = 실사 레퍼런스 쓸 곳 없음 · 서버 api/sb.js가 워크플로 입력으로 재검증)
+  return { director: sbDirector, shoot: sbShoot, set, ad: sbAd, sound: (sbShoot === 'grok') ? sbSnd : true, ref: (sbShoot === 'seedance') ? true : (sbShoot === 'motion' ? false : (sbShoot === 'grok' ? true : sbRef)) };   // grok = 제미나이 콘티 컷이 첫 장면 재료라 강제 ON(시댄스 동축)   // ref = 레퍼런스 이미지 생성 여부(시댄스 강제 true · 모션 강제 false = 실사 레퍼런스 쓸 곳 없음 · 서버 api/sb.js가 워크플로 입력으로 재검증)
 }
 (function () {
   const dg = $('#dgrid'), sg = $('#sgrid'), axR = $('#axRatio'), axL = $('#axLen'), ad = $('#adTg'), spec = $('#gospec');
-  const axQ = $('#axQ'), axLv = $('#axLenV'), rf = $('#refTg');   // 프롬프팅 이관 축(Q1145 · 프레임은 260804 30fps 고정으로 선택 행 폐지) + 콘티 엔진 칩(Q1161)
+  const axQ = $('#axQ'), axLv = $('#axLenV'), rf = $('#refTg'), snd = $('#sndTg');   // 프롬프팅 이관 축(Q1145 · 프레임은 260804 30fps 고정으로 선택 행 폐지) + 콘티 엔진 칩(Q1161) + 소리 칩(260812)
   if (!dg || !sg || !axR || !axL || !axLv || !ad || !spec || !axQ || !rf) return;
   const KEY = 'sb_form';   // 선택 영속(k_form2 패턴 계승) · 복원 = 화이트리스트 재검증
   try {
@@ -412,9 +413,10 @@ function sbPayload() {   // go 핸들러 페이로드(서버 api/sb.js가 화이
     if (typeof s.arW === 'string' && /^[1-9][0-9]?$/.test(s.arW)) sbArW = s.arW;
     if (typeof s.arH === 'string' && /^[1-9][0-9]?$/.test(s.arH)) sbArH = s.arH;
     if (typeof s.ad === 'boolean') sbAd = s.ad;
+    if (typeof s.snd === 'boolean') sbSnd = s.snd;   // 소리 토글 영속(그록 레인에서만 의미)
     if (typeof s.ref === 'boolean') sbRef = s.ref;   // 참조 토글 영속(클링 레인에서만 의미 — 시댄스는 강제 ON으로 덮인다)
   } catch (e) {}
-  const save = () => { try { localStorage.setItem(KEY, JSON.stringify({ d: sbDirector, sh: sbShoot, set: sbSet, ad: sbAd, ref: sbRef, arW: sbArW, arH: sbArH, sv: 2 })); } catch (e) {} };
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify({ d: sbDirector, sh: sbShoot, set: sbSet, ad: sbAd, ref: sbRef, snd: sbSnd, arW: sbArW, arH: sbArH, sv: 2 })); } catch (e) {} };
   let sbFocusKey = null;   // 재렌더 포커스 복원(k 계승)
   const refocus = () => { if (!sbFocusKey) return; const el = document.querySelector('[data-fk="' + sbFocusKey + '"]'); sbFocusKey = null; if (el) try { el.focus({ preventScroll: true }); } catch (e) {} };
   const optBtn = (txt, on, fn, num) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'geni-opt' + (on ? ' on' : ''); if (num) b.dataset.num = '1'; b.textContent = txt; b.setAttribute('aria-pressed', String(!!on)); b.dataset.fk = 'opt|' + txt; b.addEventListener('click', () => { sbFocusKey = b.dataset.fk; fn(); }); return b; };   // 워드칩 = index .geni-opt 문법 계승(밝기·색 on/off · aria-pressed 하우스 패턴)
@@ -516,6 +518,14 @@ function sbPayload() {   // go 핸들러 페이로드(서버 api/sb.js가 화이
       : (sbShoot === 'motion'
           ? '모션그래픽 = 레퍼런스 이미지 강제 OFF — 플랫 도형·숫자·글자만 그리는 레인이라 실사 참조를 쓸 곳이 없다(켤 수 없음)'
           : 'Kling = 선택 가능 — ON이면 @참조용 레퍼런스 이미지를 함께 생성(Gemini 종량제)');
+    if (snd) {   // 소리 = 그록 레인 전용 축 — 다른 촬영은 이 값을 러너가 안 본다 → 강제 켜짐·비활성(#refTg 잠금 문법 동일)
+      const sOn = (sbShoot === 'grok') ? sbSnd : true;
+      snd.classList.toggle('on', sOn); snd.setAttribute('aria-pressed', String(sOn));
+      snd.disabled = (sbShoot !== 'grok');
+      snd.title = (sbShoot === 'grok')
+        ? (sbSnd ? '켜짐 = 영상에 소리를 담는다 · 탭=끄기' : '꺼짐 = 산출에서 소리 트랙을 뺀다(프롬프트 무음 지시가 아니라 확정 제거) · 탭=켜기')
+        : '소리 선택은 촬영=Grok 에서만 의미가 있다 — 다른 레인은 이 값을 안 본다(탭 무효)';
+    }
     ad.classList.toggle('on', sbAd); ad.setAttribute('aria-pressed', String(sbAd));   // 텍스트 = '광고 모드' 고정(워드 토글 · 운영자 260803 "기능 워딩이 점등하냐 안하냐로 onoff" — 구 ON/OFF 값 표기[한국웹툰화 ON 문법] 폐지 · 점등 = .on)
     drawSpec(); save(); refocus();
   }
@@ -530,6 +540,7 @@ function sbPayload() {   // go 핸들러 페이로드(서버 api/sb.js가 화이
     row.addEventListener('click', e => { if (e.target.closest('button')) return; const b = document.getElementById(row.dataset.rowtap); if (b && !b.disabled) b.click(); });
   });
   ad.addEventListener('click', () => { sbAd = !sbAd; render(); });
+  if (snd) snd.addEventListener('click', () => { if (sbShoot !== 'grok') return; sbSnd = !sbSnd; render(); });   // 그록 아니면 무시 — disabled와 이중 가드(#refTg 동문)
   rf.addEventListener('click', () => { if (sbShoot === 'seedance' || sbShoot === 'motion') return; sbRef = !sbRef; render(); });   // 시댄스(강제 ON)·모션(강제 OFF)이면 무시 — disabled와 이중 가드
   // ── 요약칸·코너 레일 값 = 「그 자리」 선택 변경(운영자 260803 5차 "지금 옵션칸에 있는 것들 누르면 다른 선택자로 변경가능하게") ──
   //   정본 = thumb 「편집 요약 스트립 그 자리 토글」(#goSpec `.gs-v.gs-tog` · 운영자 260725 "이거 다 토글 가능하게").
@@ -540,7 +551,7 @@ function sbPayload() {   // go 핸들러 페이로드(서버 api/sb.js가 화이
     q: { wrap: '#axQ' },   // 「프레임」 = 30fps 고정(운영자 260804)이라 순환 대상 자체가 없다 → 레일 칩도 읽기 전용(tapChip ro) = 여기서도 제거
     ar: { wrap: '#axRatio', skip: ['직접'] },   // 「직접」 = 값 입력이 필요한 칩 → 순환 밖(thumb cycle skip 문법 동일 · N:M 편집은 「설계」 비율 행 전담)
     len: { cyc: () => { const c = lenSec(); const nx = SB_LEN_PTS.find(s => s > c); setLen(nx === undefined ? SB_LEN_PTS[0] : nx); } },   // 자(ruler)는 칩 나열이 아니다 → 레일 탭 = **포인트 순환**(5→8→10→12→15→5 · 포인트 사이 값이면 바로 위 포인트로) · 1초 단위는 「설계」 자 전담
-    ref: { btn: '#refTg' }, ad: { btn: '#adTg' }   // 이진 축 = 정본 워드 토글 대리 클릭(강제 disabled = 무동작 = `.gs-locked` 표시와 한 몸)
+    ref: { btn: '#refTg' }, ad: { btn: '#adTg' }, snd: { btn: '#sndTg' }   // 이진 축 = 정본 워드 토글 대리 클릭(강제 disabled = 무동작 = `.gs-locked` 표시와 한 몸)
   };
   const sbTap = key => {
     const c = SB_TAP[key]; if (!c) return;
@@ -632,6 +643,20 @@ async function sbLand(outEl, outPath) {
     }
     if (!outPath) return;
     const base = outPath.replace(/board\.md$/, '');   // 강등분 = 화면에 안 그렸으니 산출을 직접 찾는다(renderOut과 같은 두 축·같은 순서)
+    // 🎬 그록 영상이 먼저다 — 이 레인의 산출은 mp4 이고, 없을 때만 아래 모션·레퍼런스 축으로 내려간다.
+    //    ⚠ 컷이 여러 개면 **전건** 얹는다(한 편만 얹으면 나머지 컷이 이전 제작에서 통째로 사라진다 =
+    //      영상 스튜디오가 260810 에 봉합한 「제작물이 목록에서 사라지는」 사고와 같은 축).
+    try {
+      const vr = await fetch(base + 'video.json?t=' + Date.now());
+      if (vr.ok) {
+        const v = await vr.json();
+        const got = ((v && Array.isArray(v.cuts)) ? v.cuts : []).filter(c => c && c.video);
+        if (got.length) {
+          got.forEach(c => nmRail.add({ url: abs(c.video), cap: '콘티', dlname: 'cut' + String(c.n || 1).padStart(2, '0') + '.mp4' }));
+          return;
+        }
+      }
+    } catch (e) { /* 폴백 = 모션 축 */ }
     try {
       const mr = await fetch(base + 'motion.mp4?t=' + Date.now(), { method: 'HEAD' });
       if (mr.ok && !(mr.headers.get('content-type') || '').includes('text/html')) { nmRail.add({ url: abs(base + 'motion.mp4'), cap: '콘티', dlname: 'motion.mp4' }); return; }
