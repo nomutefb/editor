@@ -23,7 +23,7 @@ export async function onRequestPost({ request, env }) {
   let body;
   try { body = await request.json(); } catch { return json({ error: '잘못된 요청' }, 400); }
 
-  let story = String(body.story || '').slice(0, 8000);
+  let story = String(body.story || '').slice(0, 16000);   // 상한 2배(260812) — 화면이 [지시]+[기사 요약] 두 칸을 합쳐 보낸다(각 8000) · 구 8000 이면 긴 기사 하나에 지시가 잘려 나갔다
   if (!story.trim()) return json({ error: '이야기/기사 입력이 필요해' }, 400);
 
   const id = new Date(Date.now() + 9 * 3600e3).toISOString().replace(/[^0-9]/g, '').slice(2, 14) + '-' + crypto.randomUUID().slice(0, 6);   // YYMMDDHHMMSS = KST(+9h · k.js 규칙)

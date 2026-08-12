@@ -5242,6 +5242,30 @@ def check_grok_sb_chain():
     if "XAI_SECRET_PAT" not in wf:
         print("❌ 그록 콘티 레인 — 워크플로가 XAI_SECRET_PAT 을 안 넘긴다(되쓰기가 배선만 있고 못 돈다)"); rc = 1
 
+    # ⚠ 연출 라이브러리(카메라 각도·수사학 54챕터)를 콘티가 훑는가 — 프롬프팅 탭과 뉴스 썸네일은
+    #   쓰는데 **콘티 경로만 안 봤다**(260812 실측). 배선이 빠져도 콘티는 멀쩡히 나오므로
+    #   조용히 낡는 축이다(운영자 눈이 유일한 검출기 = 이 레포 반복 사고).
+    _sb = _t("prompts/sb-make.md")
+    for needle, why in (("apps/k/library/00_module_index.tsv", "라이브러리 인덱스 진입점"),
+                        ("전체 로드 금지", "통Read 차단(54챕터 1.8MB)"),
+                        ("13_style_news_canon", "뉴스 비평 축 지목")):
+        if needle not in _sb:
+            print("❌ 그록 콘티 레인 — sb-make.md 에 {} 가 없다({})".format(why, needle)); rc = 1
+    # ⚠ 입력 2칸(요약·지시) — 둘 다 비면 발사가 막혀야 하고, 둘 중 하나만 와도 콘티는 나와야 한다.
+    #   한 축만 빠져도 화면은 멀쩡하다(칸은 보이고 버튼도 눌린다) → 정적 생존으로 강제한다.
+    for needle, why in (('id="sumTx"', "요약 입력칸"),
+                        ('id="sumPull"', "기사 요약 끌어오기"),
+                        ("articles.json", "요약 출처(분석 완료 기사 목록)"),
+                        ("function sbFireGate", "둘 다 비면 발사 잠금"),
+                        ("[기사 요약 — 참고 자료]", "요약·지시 구분 표기")):
+        if needle not in vt:
+            print("❌ 그록 콘티 레인 — sb.html 에 {} 가 없다({})".format(why, needle)); rc = 1
+    if "[기사 요약 — 참고 자료]" not in _sb:
+        print("❌ 그록 콘티 레인 — sb-make.md 가 입력 2칸 구조를 모른다(요약을 지시로 읽는다)"); rc = 1
+
+    if not os.path.exists("apps/k/library/00_module_index.tsv"):
+        print("❌ 그록 콘티 레인 — 라이브러리 인덱스 파일이 없다(경로 리네임?)"); rc = 1
+
     if "MOTION 3계약" not in _t("prompts/sb-make.md"):
         print("❌ 그록 콘티 레인 — sb-make.md 에 MOTION 3계약이 없다(대명사·무인 컷·세트 조각)"); rc = 1
 
