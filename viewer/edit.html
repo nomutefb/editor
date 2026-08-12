@@ -859,7 +859,7 @@ const CARD={
   anorm:{nm:'음량 통일', grp:'소리', eta:15},
   clip:{nm:'클리퍼', grp:'컷·구간', eta:230},   // 배타 스캔(STT→하이라이트 후보픽 · 260711) — 후보 탭 = 구간 적용 → 일반 렌더
 };
-let ON={sub:false,trn:false,bgm:false,cut:false,trim:false,screen:false,res:false,fps:false,anorm:true,clip:false};   // trn = 번역 토글(운영자 260728 Q06 — 켜면 자막 자동 ON·발사 lang dual+dual_small 0.5 · '사실상 자막의 옵션인데 토글로 뺌')
+let ON={sub:true,trn:true,bgm:false,cut:false,trim:false,screen:false,res:false,fps:false,anorm:true,clip:false};   /* ★ 자막·번역 기본 ON(운영자 260812 2차 "번역 기본값 켜짐으로 바꿔줘") — 번역은 자막 위에 얹히는 줄이라 둘은 한 몸이다(setAxis 계약 = trn ON 이면 sub 자동 ON) → 번역만 켜고 자막을 끄는 상태는 존재할 수 없어 둘을 같이 켠다. 파급 = 첫 진입 발사 기본값이 「자막 굽기 + 원문 병기」(구 = 둘 다 끔) · 끄면 종전 동작 그대로 */   // trn = 번역 토글(운영자 260728 Q06 — 켜면 자막 자동 ON·발사 lang dual+dual_small 0.5 · '사실상 자막의 옵션인데 토글로 뺌')
 let SCAN_ONCE=false;   // 다음 발사 1회를 '컷 미리보기 스캔'으로(버튼이 세움 · buildOpts가 읽고 즉시 내림 · 260727 ③)
 let CUT_REF=null;      // 승인 컷 참조 {id, off:[뺀 인덱스]} — 발사 성공 시 소진
 let CLIP_SAVE=null;   // 클리퍼 진입 직전 ON 스냅샷(운영자 260722 "도중에 누르면 다른 옵션값이 날아가 — 방지") — P값은 원래 보존이라 ON 플래그만 저장·복원
@@ -967,6 +967,19 @@ function swrow(){
 }
 const srcRatio=()=>Math.max(.25, Math.min(1, (100+(+P.srcsz||0))/100));   // 원문 줄 상대 크기 계수(운영자 260729 게이지 srcsz −75~0 → 0.25~1.0) — 미리보기 tfs·러너 dual_small 공용 단일 산식(두 곳이 갈리면 미리보기≠결과)
 const px1=v=>Math.max(0, Math.round(v*10)/10);   // 음영 px = 0.1 단위 연속(260729) — 구 Math.max(1,Math.round(…)) 정수 반올림이 게이지 여러 칸을 같은 1px에 뭉개 계단처럼 튀던 것(운영자 "딱딱 끊겨서 조절되는 게 아니라") + 하한 1px 탓에 0%에서도 외곽선이 남던 것 동시 해소
+function inkEven(el, pad){   /* ★ 음영 네모 여백 = **상하좌우 잉크 기준 한 값**(운영자 260812 2차 "상하좌우 마진을 픽셀 광학 잉크단위로 동일하게 · 항상 조정값에 따라 균일비율로 늘어나게")
+  ⚠ 왜 padding 한 값으로는 안 되나 = padding 은 **글자 상자** 기준인데 눈에 보이는 건 **글자 잉크**다. 줄 높이·글꼴 위아래 여백이 상자와 잉크 사이에 제각각 끼어 있어서
+    같은 값을 넣어도 위가 좁고 아래가 넓게 보인다(260812 실측 = 음영 300%에서 좌우 1.19 · 위 0.19 · 아래 0.77 = 위가 좌우의 6분의 1). 「위가 너무 좁다」의 실체가 이것이다.
+  → 잰 뒤 그만큼 되돌려 준다: 먼저 네 변에 목표값을 넣고 잉크가 실제로 얼마나 떨어졌는지 잰 다음, 모자란 만큼만 각 변에 더한다(넘치면 0). 결과는 네 변 전부 목표값 한 값.
+  ⚠ 목표값은 음영 세기 게이지에서 그대로 내려오므로 조절하면 사방이 같은 비율로 함께 늘고 준다(운영자 지시 후반부) · 새 값 창작 0 = 기존 여백 산식이 그대로 목표값이다.
+  판정 축 = 광학-잉크(§3-4-1 「박스가 아니라 글자 잉크」 계약 그대로 · 그 계약이 가로 정렬용이던 것을 같은 문법으로 여백에 적용). */
+  el.style.padding=pad+'px';
+  const rg=document.createRange(); rg.selectNodeContents(el);
+  const i=rg.getBoundingClientRect(), b=el.getBoundingClientRect();
+  if(!(i.height>0)||!(b.height>0)) return;   // 안 보이는 줄 = 잴 게 없다(종전 여백 유지)
+  const fix=g=>px1(Math.max(0, pad*2-g));
+  el.style.padding=fix(i.top-b.top)+'px '+fix(b.right-i.right)+'px '+fix(b.bottom-i.bottom)+'px '+fix(i.left-b.left)+'px';
+}
 const gvTxt=(k,v,u)=>v+u;   // (260729) 구 'sh 100% = 기본' 특례 폐지 — 운영자 "딱딱 끊겨서 조절되는 게 아니라 자연스럽게": 숫자가 도중에 낱말로 바뀌면 연속 조절이 끊겨 보인다 → 전 게이지 숫자 단일 · 기준선 안내는 게이지 title로 이관
 function gauge(k, lbl, min, max, val, unit, tip){ return '<div class="grow"><span class="k">'+lbl+'</span><input type="range" min="'+min+'" max="'+max+'" step="1" value="'+val+'" data-g="'+k+'" aria-label="'+lbl+(tip?(' — '+tip):'')+'"'+(tip?(' title="'+esc(tip)+'"'):'')+'><span class="v">'+gvTxt(k,val,unit)+'</span></div>'; }   // tip = 기준선 안내(260729 — 구 값칸 낱말 치환 대체)
 function prm(k){
@@ -1280,7 +1293,7 @@ function pvSync(){
     // 음영 종류 분기(운영자 260729) — 구 'bg>0이면 네모 / 아니면 획' 암묵 결정을 명시 선택(P.shtype)으로 대체.
     //   none 기본(아무것도 안 그림) · box 음영(줄박스 = 종전 bg>0 경로 그대로) · stroke 획(글리프 외곽선 = 종전 bg=0 경로) · shadow 그림자(오프셋 드롭)
     sp.style.background='transparent'; sp.style.padding='0'; sp.style.textShadow='none';
-    if(P.shtype==='box'){ sp.style.background='rgba('+oc+','+(Math.max(1,P.bg)/100)+')'; sp.style.padding=px1(fs*padc)+'px'; }   // 배경 알파는 bg 게이지 유지 · 하한 1 = '음영'을 골랐는데 bg 0이라 아무것도 안 보이는 죽은 조합 차단
+    if(P.shtype==='box'){ sp.style.background='rgba('+oc+','+(Math.max(1,P.bg)/100)+')'; inkEven(sp, px1(fs*padc)); }   // (260812 2차) 여백 = 잉크 기준 사방 한 값(구 padding 한 줄은 상자 기준이라 위가 좁았다 · 목표값 산식 fs×padc 는 그대로 = 음영 게이지 따라 균일 확대·축소)   // 배경 알파는 bg 게이지 유지 · 하한 1 = '음영'을 골랐는데 bg 0이라 아무것도 안 보이는 죽은 조합 차단
     else if(P.shtype==='stroke'){
       const o=px1(fs*(P.style==='bold'?0.064:0.032)*om);
       sp.style.textShadow='-'+o+'px 0 0 rgba('+oc+',1), '+o+'px 0 0 rgba('+oc+',1), 0 -'+o+'px 0 rgba('+oc+',1), 0 '+o+'px 0 rgba('+oc+',1)'+(P.style==='bold'?(', '+o+'px '+o+'px 0 rgba('+oc+',1)'):'')
@@ -1296,7 +1309,7 @@ function pvSync(){
       sp.style.marginBottom='0';   // 간격 주인이 tl의 marginTop으로 이동(원문이 흐름 밖이라 sp 마진은 캔버스 하단만 밀어냈다)
       tl.style.fontFamily=sp.style.fontFamily;
       tl.style.background='transparent'; tl.style.padding='0';   // 원문 줄 = 색·그림자 고정 축(운영자 260729 "영문은 항상 흰색 고정에, 그림자 조금 줘서 항상 고정으로") — 글자색(fg)·음영색(shc)·배경(bg)·음영 크기(sh)·글로우 어느 것도 안 따른다. 실제 색·그림자는 CSS .pvsub-tr가 전담(인라인으로 덮지 않는다 = 게이지를 만져도 원문 줄은 불변)
-      if(P.shtype==='box'){ tl.style.background='rgba('+oc+','+(Math.max(1,P.bg)/100)+')'; tl.style.padding=px1(Math.max(1,tfs*0.04))+'px'; }   // ★ 음영이 '네모'일 때만 원문 줄에도 자기 폭 박스(운영자 260812 "각각 글자들 뒤에만 음영이 각각") — 러너 BorderStyle 3 미러 · 패딩 = 러너 원문 줄 \bord(max(1, small×0.04)) 동값 산식(한국어 줄 fs×padc보다 얇은 위계도 그대로) · 다른 음영 종류(획·그림자·기본)에선 위 고정 축 그대로 = 종전 화면 불변
+      if(P.shtype==='box'){ tl.style.background='rgba('+oc+','+(Math.max(1,P.bg)/100)+')'; inkEven(tl, px1(Math.max(1,tfs*0.04))); }   // (260812 2차) 여백 = 한국어 줄과 같은 잉크 기준 사방 한 값(목표값 산식은 러너 원문 줄 값 그대로 유지 = 두 줄이 서로 다른 규칙으로 여백을 갖던 것만 해소)   // ★ 음영이 '네모'일 때만 원문 줄에도 자기 폭 박스(운영자 260812 "각각 글자들 뒤에만 음영이 각각") — 러너 BorderStyle 3 미러 · 패딩 = 러너 원문 줄 \bord(max(1, small×0.04)) 동값 산식(한국어 줄 fs×padc보다 얇은 위계도 그대로) · 다른 음영 종류(획·그림자·기본)에선 위 고정 축 그대로 = 종전 화면 불변
     } else { tl.hidden=true; sp.style.marginBottom='0'; } }   // 한 줄 모드 = 간격 회수
     sub.hidden=false;   // ★ 노출은 맨 끝 — 크기·색·배경·두 줄 배치가 전부 확정된 뒤라야 한다(운영자 260729 "처음에 들어갈때 흰색으로 길게" = 스타일 전 상태가 노출되던 통로 차단 · CSS .pvsub-tr font-size 폴백과 이중 방어)
   });
