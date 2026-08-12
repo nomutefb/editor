@@ -69,7 +69,7 @@ FAIL_COSTS = None      # ⚠ **미확인** — 실패분 크레딧 환불 여부
 COST_KIND = "credit"   # 크레딧 과금 · 달러 환산율은 요금제 종속이라 **지어내지 않는다**
 
 _TOK = {"access": None, "exp": 0.0}
-_SESS = {"id": None, "n": 0}
+_SESS = {"id": None, "n": 0, "ready": False}
 
 
 # ── 자격 ──────────────────────────────────────────────────────────────────────
@@ -176,17 +176,34 @@ def _rpc(method, params, token):
 
 
 def _handshake(token):
-    if _SESS["id"]:
+    """세션을 연다. **작업공간 선택까지가 한 몸이다.**
+
+    ⚠ 실측(260812) = 자격도 잔액도 통과하는데 모델만 「모르는 이름」으로 거절당했다. 같은 계정의
+      다른 통로(사람이 붙인 연결)에서는 같은 모델이 그대로 먹혔다 → 차이는 **세션 상태**뿐이고,
+      작업공간이 `is_selected: false` 로 열려 있었다. 갓 연 세션은 작업공간이 안 잡혀 있어서
+      모델 목록이 비는 것으로 보인다(확정 아님 — 아래 fail-soft 로 두고 다음 실행이 판정한다).
+    """
+    if _SESS["ready"]:
         return
     _rpc("initialize", {"protocolVersion": PROTO, "capabilities": {},
                         "clientInfo": {"name": "nomute-sb", "version": "1.0"}}, token)
     _post(MCP, {"jsonrpc": "2.0", "method": "notifications/initialized", "params": {}},
           token=token, accept="application/json, text/event-stream")
+    _SESS["ready"] = True
+    try:
+        ws = _tool("list_workspaces", {}, token)
+        arr = (ws or {}).get("workspaces") or []
+        pick_ws = next((w for w in arr if w.get("is_selected")), None) or (arr[0] if arr else None)
+        if pick_ws and not pick_ws.get("is_selected"):
+            _tool("select_workspace", {"workspace_id": pick_ws["id"]}, token)
+            print("  · 작업공간 선택 {}".format(pick_ws["id"][:8]))
+    except Exception as e:  # noqa: BLE001
+        # fail-soft = 선택이 안 돼도 발사는 시도한다(사유만 남긴다 · 조용한 중단 금지)
+        print("::warning::작업공간 선택 생략: {}".format(str(e)[:140]))
 
 
-def call(tool, args, token):
-    """도구 하나를 부른다. 회신 본문이 글자에 담긴 JSON 이면 풀어서 준다."""
-    _handshake(token)
+def _tool(tool, args, token):
+    """도구 호출 알맹이(악수 없이) — 악수 과정 자신이 도구를 부르므로 재귀를 피한다."""
     r = _rpc("tools/call", {"name": tool, "arguments": args}, token)
     for c in (r.get("content") or []):
         if c.get("type") == "text":
@@ -195,6 +212,12 @@ def call(tool, args, token):
             except Exception:  # noqa: BLE001
                 return {"text": c["text"]}
     return r.get("structuredContent") or r
+
+
+def call(tool, args, token):
+    """도구 하나를 부른다. 회신 본문이 글자에 담긴 JSON 이면 풀어서 준다."""
+    _handshake(token)
+    return _tool(tool, args, token)
 
 
 # ── 계약 구현 ────────────────────────────────────────────────────────────────
@@ -368,6 +391,12 @@ def _check():
     print("① 자격 ✓ (접속 열쇠 {}자)".format(len(tok)))
     b = balance(tok)
     print("② 잔액 ✓ {}".format(json.dumps(b, ensure_ascii=False)[:200]))
+    try:
+        ml = call("models_explore", {"action": "list", "type": "video"}, tok)
+        ids = [m.get("id") for m in (ml or {}).get("items", [])][:14] if isinstance(ml, dict) else None
+        print("②-b 모델 목록: {}".format(ids or json.dumps(ml, ensure_ascii=False)[:240]))
+    except Exception as e:  # noqa: BLE001
+        print("②-b 모델 목록 조회 실패: {}".format(str(e)[:160]))
     raw = call("generate_video", {"params": dict(_params(SHOT_SEC, os.environ.get("SD_RATIO") or "9:16",
                                                          cost_only=True), prompt="cost check")}, tok)
     cr = _credits(raw)
