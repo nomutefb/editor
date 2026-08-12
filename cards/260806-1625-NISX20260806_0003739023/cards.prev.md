@@ -1,31 +1,31 @@
-# 🚨 옆집 택배가 '피규어'였다…아파트로 배송된 코브라 200마리
+# 옆집 택배가 '피규어'였다…아파트로 배송된 코브라 200마리
 
 **[프롬프트 설계]**
-- 화풍: B 극화 — 밀수 조직·검찰 수사·유통 구조 고발이라 사실성과 무게가 필요하다
-- 분위기: 형광등 아래의 무표정한 위험 — 범죄 현장이 따로 있는 게 아니라 복도·현관·택배 상자 같은 일상 표면 위에서 벌어졌다는 서늘함
-- 연출 방향: 뉴스 안 보는 독자가 멈추는 이유는 '내 옆집일 수 있다'는 한 문장이다. 그래서 카메라는 조직도나 법정이 아니라 **상자**를 계속 따라간다 — 테이프로 봉해진 채 복도에 놓인 상자, 짐칸에 실린 상자, 손에 눌려 닫히는 과자통, 그리고 끝내 열리지 않은 옆집 문. 전하려는 관점은 '피규어'라는 상품명 한 줄이 국경·화물칸·현관을 차례로 통과시켰다는 것이라, 시선은 늘 사물의 겉면(라벨·테이프·뚜껑)에 걸리고 그 안은 끝까지 안 보여준다. thumb_dispatch의 임상 형광 톤(LGT12)을 전 카드의 기본 색온도로 깔고, 네온그린 악센트는 오직 상자의 테이프·틈에만 얹어 시선을 한 점으로 몬다.
-- 독자 동선: **제시** 카드1→**발단** 카드2→**전개** 카드3~4→**피크** 카드5→**해소** 카드6→**시사점** 카드7 · 훅=카드1 끝(단서형 — 옆집 현관 앞에 놓인 상자, 정체 유보)+카드4 끝(낙차 예고형 — 불송치 뒤에 200마리) · 착지 한 줄 요지: 나머지가 어디 있는지 아무도 모르고, 그 목록은 늘 뒤늦게 채워진다
-- 연속성 앵커: 반복 인물 (없음) / 반복 장소 — `Recurring location: a dim Korean apartment corridor with numbered steel doors and a flat fluorescent ceiling light.` (카드 1·5 Scene에 그대로 복사)
+- 화풍: B 극화 — 조직 밀수·처벌 회피라는 구조 고발이라 한국웹툰 극화의 굵은 먹선·명암으로 사건의 무게를 잡는다
+- 분위기: 생활공간 한복판에 놓인 서늘함 — 사건 현장이 공항·검찰이 아니라 옆집 현관이라는 데서 오는 조용한 공포
+- 연출 방향: 독자훅은 "내 옆집 택배 상자"다 — 뉴스 안 보는 사람도 자기 복도·자기 문 앞을 떠올리게 만들어야 멈춘다. 그래서 카메라는 뱀의 위협 자체보다 **상자·손·눈동자**를 잡는다. '피규어'라는 상품명 한 줄이 국경과 화물칸과 현관을 차례로 통과한 사건이므로, 카드마다 그 상자가 놓인 표면을 바꿔가며 같은 상자가 점점 집 안쪽으로 들어오는 동선을 시각 축으로 삼는다. thumb_dispatch의 차가운 형광 톤(제도의 무정함)과 폭로의 정조를 키노트로 계승하되, 악센트 네온그린은 '독'의 상징색으로 전 카드에 1점씩만 찍는다
+- 독자 동선: **발단** 카드2→**전개** 카드3~4→**피크** 카드5→**해소** 카드6→**시사점** 카드7 · 제시 도입 = 카드1 · 훅=카드1 끝(단서형: 상자의 행방)+카드4 끝(단서형: 그 안에 든 것) · 착지 한 줄 요지 = 200마리 중 95마리만 되찾았고 나머지 소재는 미상이다
+- 연속성 앵커: Recurring subject — a Korean man in his 30s with short cropped black hair, thin build, wearing a plain gray hoodie / Recurring location — a small dim Korean apartment room with a bare wall and a taped courier parcel on the floor
 
 ### [카드 1]
 **텍스트**
 ```text
-*파충류 카페 광고엔 '피규어'라고 적혔다*
-고속버스 택배로 전국에 배송됐다
-도착지는 아파트와 빌라, 고시원이었다
-그 상자가 옆집 현관 앞에 놓였다
+인터넷 파충류 카페 광고에는
+*'피규어'라고 적혀 있었다*
+거래가 끝나면 그 상자는
+고속버스 택배에 실려 떠났다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the resident's hand stopped in mid-air just above the taped seam of a parcel box, fingers not touching it. Recurring location: a dim Korean apartment corridor with numbered steel doors and a flat fluorescent ceiling light. A Korean man in his forties in a plain t-shirt crouches in front of the door next to his own, looking down at the courier box someone left on the floor, his gaze drifting toward the right edge of the frame. Identical steel doors recede behind him down the same continuous corridor floor.
-Camera: medium shot from eye-level, shot on 35mm lens
-Lighting/mood: flat sterile clinical fluorescent light, cold even greenish-white, emotionless institutional
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) confined to the packing tape sealing the box, muted low contrast
-Text handling: keep all incidental writing out of frame; the box, the tape and the doors carry no readable characters, shapes and pictograms only.
+Scene: Emotional focal point: his pupils lit cold from below by the phone screen he holds close to his face. Recurring subject — a Korean man in his 30s with short cropped black hair, thin build, wearing a plain gray hoodie. He sits on the floor of a small dim apartment room, hunched over the phone, eyes fixed on a listing thumbnail he is scrolling. Beside his knee rests a sealed courier parcel wrapped in packing tape, its shape too heavy and too still for its size, and his shoulder leans toward it. His gaze and the parcel both point toward the right edge of the frame.
+Camera: wide shot, full body with surrounding environment, from eye-level neutral perspective, three-quarter angle with natural face depth, shot on 35mm lens, natural documentary perspective, balanced subject and background, minimal distortion, nose room on the right, gaze directed toward the right edge
+Lighting/mood: cold blue screen under-glow lighting the face from below in a dark room, restless paranoid unease
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
+Text handling: no readable script anywhere; the phone screen is turned at an angle so only glow and blurred blocks are visible, the parcel label is creased and out of focus.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the apartment corridor floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the wooden floor of the small apartment room) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -35,28 +35,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-아파트 복도 택배상자
+파충류 분양 카페 게시글
 ```
 
 ### [카드 2]
 **텍스트**
 ```text
-그 상자들은 국경 너머에서 왔다
-인도네시아와 베트남, 태국이었다
-2023년 11월부터 2024년 8월까지
-*조직은 열네 번에 200마리를 들여왔다*
+이 상자들의 출발점은 공항이었다
+세관에 잡힌 밀수책은 한 명뿐이었다
+검찰은 혼자 한 일로 보지 않았다
+*보완수사 끝에 조직의 총책이 드러났다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: one taped suitcase among dozens, singled out only by a thin bright seam of tape while every other bag stays grey. Seen from high above, a long airport baggage conveyor belt runs diagonally across the whole frame, packed with identical hard-shell suitcases and wrapped boxes. Two handlers in work vests stand small at the far end, one reaching down toward a passing bag, both turned away from the camera. The belt is the only surface in view, sliding from the top of the frame toward the lower right.
-Camera: extreme long shot from a bird's-eye view, shot on 14mm ultra-wide lens
+Scene: Emotional focal point: a customs officer's gloved fingertips stopped in mid-air just above the opened seam of a suitcase. Two uniformed officers stand at a long stainless inspection counter in an airport screening hall, one lifting the lid while the other leans in and looks down, both jaws set. Inside the suitcase, folded clothes have been pushed aside to expose a dented metal biscuit tin bound with tape. Behind them the screening queue recedes out of focus.
+Camera: medium shot, waist-up framing with face and gestures, from a high angle looking down at the counter, shot on 50mm standard lens, minimal distortion, natural cinematic composition
 Lighting/mood: flat cold even surveillance light, no shadow no warmth, detached and watchful
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) on the tape of one single suitcase, muted low contrast
-Text handling: no luggage tags, no airline labels, no signage; all identifying marks resolved as blank surfaces or abstract stripes.
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
+Text handling: uniforms carry no legible insignia or agency lettering, all counter signage is cropped out of frame or blurred beyond reading.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the baggage conveyor belt) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the stainless steel customs inspection counter) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -66,28 +66,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-공항 수하물 컨베이어 벨트
+인천공항세관 수하물 검색대
 ```
 
 ### [카드 3]
 **텍스트**
 ```text
-세관을 피하려 동물의 입부터 묶었다
-어린 개체는 압박 포장돼 수하물이 됐다
-철제 과자통과 속옷 안에 숨겼다
-*그 상자 안에서 다수가 죽었다*
+그들은 2023년 11월부터 열 달 동안
+열네 번에 걸쳐 200마리를 들여왔다
+*입을 묶고 압박 포장해 과자통에 숨겼다*
+그 안에서 다수가 죽어 나갔다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a gloved thumb pressing the lid of a round steel biscuit tin down until the last gap closes. Two hands fill the upper frame, one holding the tin steady on a bare packing table, the other forcing the lid flat over crumpled cloth padding stuffed inside. Folded underwear and two more empty tins sit beside them on the same table, waiting. The person behind the hands is cropped out entirely, only forearms enter the frame from the top.
-Camera: extreme close-up from a high angle, shot on 100mm macro lens
-Lighting/mood: harsh single overhead light pooling on the table, deep surrounding black, oppressive interrogation
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) glinting along the rim of the closing tin, film-noir low-key lighting, deep shadows
-Text handling: the biscuit tin surface is plain worn metal with no brand markings, no printed characters anywhere on the props.
+Scene: Emotional focal point: two bare hands pressing a lid down onto a metal tin, knuckles pale with force. Seen from directly above a worn packing table, the hands work over an open round biscuit tin lined with crumpled padding and cloth strips, while a roll of tape and a folded undershirt wait beside it. Nothing inside the tin is visible, only the padding pushed up around the closing rim. The rest of the table is bare.
+Camera: close-up shot, hands and object centered with fine emotional detail, from an overhead bird's-eye view, shot on 100mm macro lens, fine detail, shallow depth of field, precise texture
+Lighting/mood: cold blue dim interior light, heavy and suffocating, faint trembling tension
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
+Text handling: the biscuit tin lid is scuffed and its printing is worn away to unreadable smears, no brand marks anywhere.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the packing table top) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the worn wooden packing table) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -97,28 +97,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-밀수 파충류 철제 과자통 은닉
+야생동물 밀수 은닉 과자통
 ```
 
 ### [카드 4]
 **텍스트**
 ```text
-조직 총책 A씨는 '스승'으로 불렸다
-공범이 공항에서 걸리면 혼자 떠났다
-과거 수사에선 공범이 대신 자백했다
-*그는 불송치됐고, 200마리는 그 뒤였다*
+그렇게 들어온 상자가 닿은 곳은
+*아파트와 빌라 그리고 고시원이었다*
+고속버스 택배로 전국에 배송됐고
+국내에 풀린 야생동물이 54마리였다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the widening distance between two men, one held at the counter and one already walking away without turning his head. In an airport customs inspection area, a younger man in his thirties stands pinned beside an opened suitcase on the inspection counter, shoulders pulled in, an officer's arm entering frame toward the bag. In the foreground a Korean man in his forties with a cap and a dark jacket walks out toward the right edge, jaw set, eyes fixed forward and away from the counter behind him. The polished terminal floor runs unbroken beneath both figures.
-Camera: medium close-up from a Dutch angle, shot on 50mm standard lens
-Lighting/mood: cold blue dim interior light, heavy and suffocating, faint trembling tension
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) on the inspection counter line between the two men, film-noir low-key lighting, deep shadows
-Text handling: no counter signage, no badges, no printed notices; the customs area reads through layout and uniforms only.
+Scene: Emotional focal point: a taped parcel left alone at the foot of a metal front door, its corner already split open. Seen from near the floor of a narrow apartment corridor, rows of identical steel doors run away into the depth of the hall. A delivery courier's back is turned far down the corridor, walking away with an empty hand cart, and the parcel sits in the near foreground with packing foam spilling from the split seam. No one has opened the door yet.
+Camera: full shot, head-to-toe with clear silhouette, from a ground-level worm's-eye view with exaggerated scale, shot on 20mm wide lens, subject and environment, documentary realism, nose room on the right, leading line running toward the right edge
+Lighting/mood: cold blue pre-dawn tone, lone corridor light reflecting on the polished floor, desolate stillness
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
+Text handling: door plates and unit numbers are shown at a steep angle so no characters resolve, the parcel waybill is torn and turned away from the camera.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the polished terminal floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the tiled apartment corridor floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -128,27 +128,26 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-인천공항 세관 검색대 적발
+고속버스 화물칸 택배 상자
 ```
 
 ### [카드 5]
 **텍스트**
 ```text
-*그 상자들이 도착한 곳은 옆집이었다*
-아파트와 고시원에 54마리가 흩어졌다
-그중에는 맹독을 가진 코브라도 있었다
+*그중엔 맹독을 가진 코브라도 있었다*
+누군가의 옆집 방 안에서 살고 있었다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a woman's pupils locked wide and unblinking, breath held, at the narrow dark gap under a neighbor's half-open door. Recurring location: a dim Korean apartment corridor with numbered steel doors and a flat fluorescent ceiling light. A Korean woman in her thirties stands frozen mid-step in the corridor, her face filling the upper frame, head turned toward the door beside her while her body still points the other way. A torn parcel box and scattered packing foam lie on the corridor floor at the edge of the light.
-Camera: tight close-up from eye-level, shot on 85mm portrait lens
+Scene: Emotional focal point: his eyes locked wide open, unblinking, breath held. Recurring subject — a Korean man in his 30s with short cropped black hair, thin build, wearing a plain gray hoodie. His face fills the frame in a tight close-up, half of it swallowed by shadow, the other half hard-lit. Across the wet surface of his eye a narrow reflection carries the coiled dark shape of a hooded snake rising inside a plastic terrarium that stands on the floor of the small room. The wall behind him is bare. Manhwa emphasis lines radiating toward the subject, no panel border.
+Camera: tight close-up, face fills the frame with intense emotion and intimate pressure, from a Dutch angle with tilted horizon and canted unstable framing, shot on 85mm portrait lens, soft background separation, cinematic depth
 Lighting/mood: single pool of hard light isolating the figure in surrounding blackness, claustrophobic loneliness
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) burning in the sliver of darkness under the open door, film-noir low-key lighting, deep shadows
-Text handling: no door numbers rendered as characters, no delivery labels; the torn box shows only plain torn cardboard.
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
+Text handling: no signage, no labels, no lettering of any kind anywhere in the frame.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the apartment corridor floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the bare wall of the small room) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -158,28 +157,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-아파트 현관 코브라 신고
+코브라 사육 테라리움
 ```
 
 ### [카드 6]
 **텍스트**
 ```text
-실마리는 공항에서 걸린 한 명이었다
-서울동부지검이 8월 6일 5명을 기소했다
-95마리는 압수돼 국립생태원으로 갔다
-*여주 샴악어도 같은 조직에서 나왔다*
+검찰은 8월 6일 이들 5명을 기소했다
+압수한 95마리는 국립생태원으로 갔다
+A씨는 전에도 같은 수사를 받았지만
+*공범이 대신 자백해 그때는 풀려났다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: two investigators' braced arms taking the weight of a stacked evidence box, knuckles tight, faces calm. Seen from below, three investigators in windbreakers carry brown cardboard evidence boxes and a ventilated animal transport crate out through a doorway, moving together toward the left of the frame. The crate is held highest, its grille facing the viewer, dark inside. Behind them the wall rises unbroken to the top of the frame.
-Camera: wide shot from a low angle, shot on 35mm lens
-Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) on the strapping band around the transport crate, muted daylight contrast
-Text handling: evidence boxes and crate carry no printed labels, agency marks or logos; blank cardboard and plain plastic only.
+Scene: Emotional focal point: a handler's steady hands lowering a ventilated transport crate onto a trolley, the grip careful and slow. In a long institutional corridor, two staff in plain work coveralls push a loaded trolley of stacked ventilated crates past a row of holding enclosures, one of them glancing back down the line. Behind them the crates continue in a receding row, more than the trolley can carry at once. Their faces are composed and tired.
+Camera: wide shot, full bodies with spatial context and movement, from a low angle looking up with dramatic presence, shot on 24mm wide lens, cinematic wide shot, spatial context, subtle depth
+Lighting/mood: flat sterile clinical fluorescent light, cold even greenish-white, emotionless institutional
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
+Text handling: crate tags are shown edge-on or folded so no characters resolve, no agency logos, no wall signage, coveralls are unmarked.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the corridor wall behind the investigators) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the polished concrete floor of the institutional corridor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -189,28 +188,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-검찰 압수 증거물 상자 반출
+국립생태원 압수 야생동물 보호
 ```
 
 ### [카드 7]
 **텍스트**
 ```text
-밀수는 200마리, 압수는 95마리다
-나머지가 어디 있는지 아무도 모른다
-집에서 뱀이 나와야 목록에 오른다
-*그 목록은 늘 뒤늦게 채워진다*
+코브라를 코브라가 아니게 만든 건
+기술이 아니라 상품명 한 줄이었다
+밀수된 200마리 중 95마리만 압수됐다
+*나머지가 어디 있는지는 아무도 모른다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: one lit window among hundreds of dark ones, a single small silhouette standing still behind its curtain. A vast Korean high-rise apartment facade fills the entire frame at night, rows of identical windows repeating upward and outward, most of them unlit. The lone silhouette faces straight out toward the viewer, motionless, neither leaving nor approaching. No other figure is visible anywhere on the facade.
-Camera: extreme long shot from eye-level, front-on shot, shot on 24mm wide lens
-Lighting/mood: cold blue pre-dawn tone, lone streetlight reflection on wet ground, desolate stillness
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) in the one lit window, film-noir low-key lighting, deep shadows
-Text handling: no building numbers, no signage, no shop lettering anywhere on the facade; windows and concrete only.
+Scene: Emotional focal point: one window still lit among hundreds of dark ones, small and stubborn in the middle of the block. Seen from high above at first light, rows of identical Korean high-rise apartment blocks fill the frame with their walkways and rooftops. Far below on the walkway between two blocks, a single delivery courier pushes a hand cart, tiny in the frame, moving toward the center of the complex. Nothing else moves.
+Camera: extreme long shot, tiny subject in a vast environment conveying scale and isolation, from an overhead bird's-eye view showing layout and geometry, shot on 14mm ultra-wide lens, vast environment, dramatic depth, strong spatial presence, subject centered and static
+Lighting/mood: warm soft morning light, gentle and quiet, faint melancholy
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
+Text handling: building numbers and any signage are seen from too far above to resolve into characters, no legible lettering anywhere.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the apartment building facade) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the apartment complex ground and walkways seen from above) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -220,5 +219,5 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-아파트 단지 야간 전경
+아파트 단지 항공 전경
 ```
