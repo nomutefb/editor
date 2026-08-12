@@ -238,7 +238,10 @@ def fresh_token(store=None):
             data["expires_at"] = time.time() + 5 * 3600   # 실측 수명 약 6시간 · 여유 1시간
             if rt:
                 data["refresh_token"] = rt
-                _persist_secret(rt)   # 러너 밖으로 살려 보낸다(아래 주석 = 이 한 줄이 있어야 두 번째 발사가 산다)
+                # ⚠ 결과를 **버리지 않는다** — 되쓰기가 실패하면 이번 판은 멀쩡히 끝나는데
+                #   다음 판이 확정으로 죽는다. 그 사실이 로그와 알림 양쪽에 남아야 한다.
+                if not _persist_secret(rt):   # 러너 밖으로 살려 보낸다(이 한 줄이 있어야 두 번째 발사가 산다)
+                    print("::warning::이번 판은 살지만 **다음 발사는 자격 오류로 죽는다** — 판정기로 열쇠를 갈아라")
             _write_store(path, data)
             return at
         raise GrokError(0, "자격 갱신 실패(다시 로그인해야 한다)", "auth")
@@ -249,6 +252,32 @@ def fresh_token(store=None):
                 os.unlink(lock)
             except OSError:
                 pass
+
+
+def _persist_alarm(name, why):
+    """되쓰기가 실패했다는 사실을 **운영자 화면까지** 내보낸다.
+
+    ⚠ 왜 필요했나(260812 8렌즈 검증) = 되쓰기 실패 경로가 전부 경고 한 줄이라 **런은 초록으로
+      끝나는데 다음 런은 확정 사망**이다(갱신 순간 옛 열쇠는 이미 죽었고 새 열쇠는 러너와 함께
+      사라진다). 증상이 「다음에 쐈더니 자격 오류」뿐이라 원인과 시점이 사람 눈에서 끊긴다.
+    ⚠ 조치 주체가 **운영자**다(코드로는 못 고친다 = 다시 로그인해야 새 열쇠가 나온다) → 👉 문단을
+      붙인다(안 붙이면 알림 분류가 「클로드가 볼 일」로 잘못 간다 = 알림 조치주체 계약).
+    ⚠ 알림 이름은 열쇠 이름별로 갈라 둔다 — 두 통로가 같은 칸을 쓰면 한쪽이 다른 쪽을 덮는다.
+    """
+    try:
+        import subprocess, sys as _sys   # noqa: PLC0415,E401  실패 경로에서만 부른다
+        msg = os.path.join(os.path.dirname(os.path.abspath(__file__)), "msg.py")
+        body = ("새 열쇠를 저장소 비밀값에 못 남겼어({}).\n"
+                "사유: {}\n"
+                "지금 상태 = 방금 쓴 열쇠는 이미 죽었고 새 열쇠는 어디에도 안 남았어. "
+                "다음 발사는 자격 오류로 죽어."
+                "\n\n👉 네가 할 일: 판정기(노뮤트_힉스필드자격_확인.bat 또는 그록 판정기)를 한 번 "
+                "돌려서 새 열쇠를 그 비밀값에 덮어써 줘. 코드로는 못 고치는 자리야."
+                ).format(name, str(why)[:200])
+        subprocess.run([_sys.executable, msg, "set", "key-persist-" + str(name).lower(),
+                        body, "warn"], check=False)
+    except Exception:  # noqa: BLE001
+        pass          # 알림 실패가 갱신 자체를 죽이지는 않는다
 
 
 def _persist_secret(rt, name=None):
@@ -275,11 +304,13 @@ def _persist_secret(rt, name=None):
         if os.environ.get("GITHUB_ACTIONS"):
             print("::warning::새 갱신 열쇠를 비밀값에 못 남긴다(XAI_SECRET_PAT 미등록) — "
                   "다음 발사 전에 판정기로 열쇠를 갈아 끼워야 한다")
+            _persist_alarm(name, "비밀값 쓰기 권한 토큰(XAI_SECRET_PAT)이 없다")
         return False
     try:
         from nacl import encoding, public   # noqa: PLC0415  선택 의존(없으면 아래에서 사유와 함께 넘어간다)
     except Exception as e:  # noqa: BLE001
         print("::warning::비밀값 봉인 도구 없음(pynacl) — 열쇠 되쓰기 생략: {}".format(str(e)[:120]))
+        _persist_alarm(name, "봉인 도구(pynacl) 설치 실패")
         return False
     api = "https://api.github.com/repos/{}/actions/secrets".format(repo)
     hdr = {"Authorization": "Bearer " + pat, "Accept": "application/vnd.github+json",
@@ -303,6 +334,7 @@ def _persist_secret(rt, name=None):
         code, k = _gh(api + "/public-key")
         if code != 200 or not k.get("key"):
             print("::warning::비밀값 공개키를 못 받았다(HTTP {}) — 열쇠 되쓰기 생략".format(code))
+            _persist_alarm(name, "저장소 공개키를 못 받았다(HTTP {})".format(code))
             return False
         sealed = public.SealedBox(public.PublicKey(k["key"].encode(), encoding.Base64Encoder))
         code2, _ = _gh("{}/{}".format(api, name), method="PUT", payload={
@@ -310,11 +342,13 @@ def _persist_secret(rt, name=None):
             "key_id": k["key_id"]})
         if code2 not in (201, 204):
             print("::warning::비밀값 쓰기 거절(HTTP {}) — 토큰 권한 Secrets:Read and write 확인".format(code2))
+            _persist_alarm(name, "저장소가 쓰기를 거절했다(HTTP {}) — 토큰 권한·만료 확인".format(code2))
             return False
         print("갱신 열쇠를 비밀값 {} 에 되썼다(다음 발사부터 손 안 대도 된다)".format(name))
         return True
     except Exception as e:  # noqa: BLE001
         print("::warning::열쇠 되쓰기 실패(비치명): {}".format(str(e)[:160]))
+        _persist_alarm(name, str(e)[:160])
         return False
 
 

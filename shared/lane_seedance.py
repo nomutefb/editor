@@ -134,9 +134,17 @@ def _persist(rt):
     """
     try:
         import grok_api as gk   # noqa: PLC0415  봉인·PUT 만 빌린다(깃허브 축이라 벤더 무관)
-        gk._persist_secret(rt, name=SECRET_NAME)
+        # ⚠ 결과를 **버리지 않는다** — 되쓰기가 실패하면 이번 판은 멀쩡히 끝나는데 다음 판이
+        #   확정으로 죽는다(갱신 순간 옛 열쇠는 이미 죽었다). 정본이 알림까지 내보낸다.
+        if not gk._persist_secret(rt, name=SECRET_NAME):
+            print("::warning::이번 판은 살지만 **다음 발사는 자격 오류로 죽는다** — 판정기로 열쇠를 갈아라")
     except Exception as e:      # noqa: BLE001
         print("::warning::갱신 열쇠 되쓰기 실패(다음 발사가 죽을 수 있다): {}".format(str(e)[:200]))
+        try:
+            import grok_api as gk2   # noqa: PLC0415
+            gk2._persist_alarm(SECRET_NAME, str(e)[:160])
+        except Exception:  # noqa: BLE001
+            pass
 
 
 def fresh_token():

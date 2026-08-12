@@ -5444,6 +5444,34 @@ def check_grok_sb_chain():
                 print("❌ 그록 콘티 레인 — 빈 값이 숫자 변환으로 새는 줄({}): {}".format(_p, _ln.strip()[:80]))
                 print("   · 「빈 값이면 기본값」으로 = os.environ.get(\"X\") or \"12\"")
                 rc = 1
+    # ⑩-d **회전 열쇠를 쓰는 워크플로는 한 줄로 선다**(260812 실사고 + 8렌즈 검증) — 이 열쇠들은
+    #   쓸 때마다 새것으로 바뀌고 옛것이 죽는다. 두 판이 겹치면 창구가 도난으로 보고 **사슬을
+    #   통째로 무효화**하고, 그 뒤로는 사람이 브라우저로 다시 로그인해야만 산다.
+    #   ⚠ 러너 안 파일 잠금은 **러너 사이를 못 건넌다**(판마다 새 기계 · 저장소 비밀값은 값 읽기
+    #     자체가 불가하고 되쓰기만 된다) → 순서를 워크플로 층에서 세우는 것이 유일한 구조 해다.
+    #   자동 발견 = 그 비밀값을 env 로 받는 워크플로 전부(새 워크플로가 조용히 빠질 자리가 없다).
+    import glob as _g4
+    for _wf in sorted(_g4.glob(os.path.join(ROOT, ".github", "workflows", "*.yml"))):
+        _wt = _t(os.path.relpath(_wf, ROOT))
+        _keys = [k for k in ("XAI_REFRESH_TOKEN", "HIGGSFIELD_REFRESH_TOKEN")
+                 if re.search(r"^\s*[A-Z_]+:\s*\$\{\{\s*secrets\." + k, _wt, re.M)]
+        if not _keys:
+            continue
+        _grp = re.search(r"^concurrency:\s*\n\s+group:\s*(.+)$", _wt, re.M)
+        if not _grp:
+            print("❌ 그록 콘티 레인 — {} 가 회전 열쇠({})를 쓰는데 순서를 안 세운다"
+                  "(두 판이 겹치면 열쇠 사슬이 통째로 죽는다)".format(os.path.basename(_wf), ", ".join(_keys)))
+            rc = 1
+        elif "-key" not in _grp.group(1):
+            print("❌ 그록 콘티 레인 — {} 의 순서 그룹이 열쇠 축이 아니다: {}"
+                  .format(os.path.basename(_wf), _grp.group(1).strip()[:70]))
+            rc = 1
+    # 되쓰기 실패는 **알림으로 나간다**(실패해도 런이 초록이라 다음 판이 확정으로 죽던 자리)
+    _gk = _t("shared/grok_api.py")
+    if "def _persist_alarm(" not in _gk or "👉" not in _gk:
+        print("❌ 그록 콘티 레인 — 열쇠 되쓰기 실패 알림이 없다(런은 초록인데 다음 발사가 죽는다)"); rc = 1
+    if "if not _persist_secret(rt)" not in _gk:
+        print("❌ 그록 콘티 레인 — 되쓰기 결과를 버린다(실패가 어디에도 안 남는다)"); rc = 1
     # 자격은 **편마다** 새로 받는다(열쇠 수명 < 한 편 대기 시간이면 뒤쪽 편이 자격 축으로 죽는다)
     _loop = rn.split("for c in shots:", 1)[-1]
     if "LANE.fresh_token()" not in _loop:
