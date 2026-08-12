@@ -33,6 +33,10 @@ on:
         description: '영상 소리(1 = 켜기 · 0 = 끄기 · 촬영=grok 전용)'
         type: string
         default: '1'
+      cutmax:
+        description: '영상으로 구울 컷 수 상한(빈값 = 12 · 배선 확인은 1 로 두면 1컷만 = 값 최소)'
+        type: string
+        default: ''
       refimage:
         description: '레퍼런스 이미지도 생성(Gemini 종량제 · 시댄스·그록=항상 true · 모션=항상 false)'
         type: string
@@ -216,6 +220,9 @@ jobs:
           R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
           REFGEN_PREFIX: sb_out
           GROK_SOUND: ${{ inputs.sound }}
+          # 배선 확인용 = 1 로 두면 1컷만 굽는다(값 최소로 자격·되쓰기·원장 전 층을 실제로 통과시킨다).
+          # 빈값이면 러너 기본값(12)이 그대로 산다 = 종전 동작 무회귀.
+          GROK_SB_CUT_MAX: ${{ inputs.cutmax }}
         run: |
           MD="viewer/sb_out/${IN_ID}/board.md"
           if [ ! -s "$MD" ]; then
