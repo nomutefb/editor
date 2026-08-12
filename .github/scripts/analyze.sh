@@ -70,6 +70,12 @@ emit_fail_msg() {
 source "$ROOT/shared/inject_guidelines.sh"
 source "$ROOT/shared/claude_transient.sh"  # is_transient() SSOT — analyze·ask·cardmake 공용(재시도 판정 드리프트 차단)
 source "$ROOT/shared/claude_meter.sh"      # claude_meter() SSOT — claude -p 토큰 사용량 계측(metrics shard · 옛 동작 호환)
+# 지침문서 스킵 카나리아(평의회 260812 조건부④ · cardmake CARD_SAFE_MODE 동형) — 캐시 프로브 run 31550098261
+#   실측 = 콜마다 ~11.6만tok(CLAUDE.md+동적부)이 캐시에 재기록. 품질 정본은 PROMPT_FILE+GBLOCK 주입 블록이라
+#   이론상 무손실이나 §📰-d 명문 준수 = 기본 OFF · 승격 = A/B(산출 diff+게이트 통과율 대조) 후 '1'.
+ANALYZE_SAFE_MODE="${ANALYZE_SAFE_MODE:-0}"
+ANALYZE_SAFE_ARGS=()
+if [ "$ANALYZE_SAFE_MODE" = "1" ]; then ANALYZE_SAFE_ARGS=(--safe-mode); fi
 source "$ROOT/shared/summary_repair.sh"    # 분량 가드 SSOT — IG/Thread 과소 시 1회 보강(기본 OFF·SUMMARY_LEN_GUARD='1' · 260705)
 source "$ROOT/shared/url_guard.sh"          # is_article_url() SSOT — 포털·도메인 루트(기사경로 없는 URL) 차단(폰·분석 공용)
 GVER="$(guidelines_version summary)"
@@ -346,6 +352,7 @@ ${extracted}"
           --allowedTools "WebFetch,WebSearch,Read,Glob,Grep" \
           --disallowedTools "Write,Edit,NotebookEdit,Bash,Task" \
           --max-turns 40 \
+          "${ANALYZE_SAFE_ARGS[@]}" \
           2> "/tmp/${base}.err")"
     rc=$?
     # 성공(정상종료+비어있지않음+frontmatter) 또는 모델의 명시적 실패신호 → 재시도 무의미·탈출

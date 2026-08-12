@@ -14,6 +14,10 @@ MODEL="$PIPE_MODEL"
 source "$ROOT/shared/inject_guidelines.sh"
 source "$ROOT/shared/claude_transient.sh"  # is_transient() SSOT — 일시 과부하(5xx/Overloaded) 인라인 재시도용(analyze와 공용)
 source "$ROOT/shared/claude_meter.sh"      # claude_meter() SSOT — claude -p 토큰 사용량 계측(metrics shard · 옛 동작 호환)
+# 지침문서 스킵 카나리아(평의회 260812 조건부④ · cardmake CARD_SAFE_MODE 동형 · 프로브 run 31550098261) — 기본 OFF · 승격 = A/B 후 '1'.
+ASK_SAFE_MODE="${ASK_SAFE_MODE:-0}"
+ASK_SAFE_ARGS=()
+if [ "$ASK_SAFE_MODE" = "1" ]; then ASK_SAFE_ARGS=(--safe-mode); fi
 source "$ROOT/shared/summary_repair.sh"    # 분량 가드 SSOT — IG/Thread 과소 시 1회 보강(기본 OFF·SUMMARY_LEN_GUARD='1' · 260705)
 INLINE_TRIES=4   # 인라인 재시도 = 4계정 폴오버 체인 깊이(서브3까지 실호출) + 일시 과부하(529/5xx)·타임아웃(rc=124)·버스트 ✨요약요청 유실 차단(analyze와 동일·260622·4계정 3→4)
 EFFORT="${PIPE_SEARCH_EFFORT:-max}"   # 검색·요약 추론깊이 — max 상향(운영자 260810 2차 지시 · analyze.sh 와 일괄 대칭). 타임아웃 재발 시 롤백 = env PIPE_SEARCH_EFFORT(high/medium).
@@ -302,6 +306,7 @@ $(printf '%b' "${imglist:-- (없음)\n}")"
           --allowedTools "WebFetch,WebSearch,Read,Glob,Grep" \
           --disallowedTools "Write,Edit,NotebookEdit,Bash,Task" \
           --max-turns 50 \
+          "${ASK_SAFE_ARGS[@]}" \
           2> "/tmp/${base}.err")"
     rc=$?
     if { [ $rc -eq 0 ] && [ -n "${out// }" ] && grep -qm1 '^---' <<<"$out"; } || grep -qm1 '^ANALYSIS_FAILED' <<<"$out"; then

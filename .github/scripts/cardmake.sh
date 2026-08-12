@@ -37,6 +37,14 @@ CARD_EFFORT="${CARD_EFFORT:-max}"
 #   ≈ 본콜 $2.04 = 사실상 전면 재작성 비용). 본콜 max는 유지하고 교정·회수만 high로 분리 — 품질 바닥은 동일 린트
 #   게이트 재검·6중 채택 게이트가 잡는다(불변). 가드 = 채택률 전후 대조 · 하락 시 CARD_FIX_EFFORT=max 원복 1줄.
 CARD_FIX_EFFORT="${CARD_FIX_EFFORT:-high}"
+# 지침문서 스킵 카나리아(평의회 260812 조건부④ · 캐시 프로브 run 31550098261 실측 근거) — 프로브 실측 = 같은 잡
+#   몇 초 간격 연속 콜도 콜마다 ~11.6만tok(CLAUDE.md+동적 시스템부 크기와 정합)을 캐시에 재기록 · 카드 고정부
+#   (10.7만)는 잡·러너를 넘어 재사용 성립. 품질 정본은 PROMPT_FILE+GBLOCK(주입 블록 스스로 「별도 파일 불요」
+#   선언)이라 이론상 무손실이나 §📰-d 「생성 경로 safe-mode 신중」 명문 준수 = **기본 OFF**. 승격 = 동일 기사
+#   A/B(산출 diff + lint/coverage/fact_guard 통과율 대조) 후 이 기본값 '1'(예상 절감 콜당 ~$1.0 × 32콜/일).
+CARD_SAFE_MODE="${CARD_SAFE_MODE:-0}"
+CARD_SAFE_ARGS=()
+if [ "$CARD_SAFE_MODE" = "1" ]; then CARD_SAFE_ARGS=(--safe-mode); fi
 # 실패 카드 자동 재시도 상한(런간 · 운영자 260711 "자동 재시도 3회까지") — status.json fails(실패 누적)가 이 값
 # *이하*인 failed는 all 배치에 자동 재편입(fails=1→재시도#1 … fails=3→재시도#3 · fails=4부터 수동만).
 # fails 필드가 아예 없는 구 failed(신정책 이전 적체)는 *이 특례*로는 스킵 = 소급 없음(과금 서프라이즈 차단) —
@@ -160,7 +168,7 @@ $(cat "queue/$stem.md" 2>/dev/null)
           --model "$MODEL" --effort "$CARD_EFFORT" \
           --allowedTools "WebFetch,WebSearch" \
           --disallowedTools "Write,Edit,NotebookEdit,Bash,Task,Read,Glob,Grep" \
-          --max-turns 20 2>"/tmp/editprompt_${stem}.err")"
+          --max-turns 20 "${CARD_SAFE_ARGS[@]}" 2>"/tmp/editprompt_${stem}.err")"
     if [ -z "${EDIT_PROMPT// }" ]; then
       echo "::warning::이미지 프롬프트 작성 실패 — 기존 카드 프롬프트로 폴백"; EDIT_PROMPT=""
     else
@@ -347,6 +355,7 @@ $(cat "$q")${disp_note}"
             --disallowedTools "Write,Edit,NotebookEdit,Bash,Task,Read,Glob,Grep" \
             --max-turns 40 \
             "${SYS_ARGS[@]}" \
+            "${CARD_SAFE_ARGS[@]}" \
             2> "/tmp/${stem}.err")"
       rc=$?
       if { [ $rc -eq 0 ] && [ -n "${out// }" ] && grep -qm1 '^### \[카드 1\]' <<<"$out"; } || grep -qm1 '^CARDS_FAILED' <<<"$out"; then
@@ -443,7 +452,7 @@ $(cat "/tmp/${stem}.cards.tmp")
             --model "$MODEL" --effort "$CARD_FIX_EFFORT" \
             --allowedTools "WebFetch,WebSearch" \
             --disallowedTools "Write,Edit,NotebookEdit,Bash,Task,Read,Glob,Grep" \
-            --max-turns 40 "${SYS_ARGS[@]}" 2>/dev/null)"
+            --max-turns 40 "${SYS_ARGS[@]}" "${CARD_SAFE_ARGS[@]}" 2>/dev/null)"
       if [ -n "${out2// }" ] && grep -qm1 '^### \[카드 1\]' <<<"$out2"; then
         printf '%s\n' "$out2" | sed -n '/^#/,$p' > "/tmp/${stem}.cards.retry"
         lint2_out="$(python3 .github/scripts/card_gate.py lint "/tmp/${stem}.cards.retry" 2>&1)"; lint2_rc=$?
@@ -496,20 +505,20 @@ $(cat "/tmp/${stem}.cards.tmp")
 ⚠️⚠️ [알맹이 회수 — 강제·최종 지시]: 위 지침·다이제스트로 직전에 생성된 카드가 자유요약의 핵심 수치를 누락했다. 아래 누락 목록의 수치(특히 ⚠️HS 표시)를 서사가 맞는 카드 텍스트에 자연스럽게 회수해, 같은 카드뉴스 MD 전체를 처음부터 다시 출력하라(⚠️HS 외 목록은 서사상 자연스러울 때만 · **카드 수 동일 유지**·구성·이미지 프롬프트는 유지 우선 · 합성기 규격 준수 · 응답 첫 글자부터 \`# {제목}\`). ⛔ 자유요약에 없는 새 사실·수치 추가 금지 — 추가하는 모든 문장은 자유요약 문장으로 소급 가능해야 한다.
 [누락 수치 목록]
 ${cov_out}
+[직전 산출물 전문 — 이걸 기준으로 지적된 수치만 회수해 다시 낸다]
+$(cat "cards/$stem/cards.md")
 "
+        # 직전 덱 전문 첨부(평의회 260812 조건부③) — 구판 cov는 덱을 안 보여주고 「카드 수·구성 유지」를 지시
+        #   = 맹목 재생성(린트 260728 수리가 지목한 그 결함의 형제 · 실측 채택 3/51스템). LINT_SUFFIX와 동일 문법.
         _cov_fp="${fp_base}${COV_SUFFIX}"
-        if [ "$CARD_SYS_PROMPT" = "1" ]; then
-          # cov는 SYS_ARGS 미부착(툴셋 상이 = 캐시 무익·평의회7) — 지침 인라인 구경로를 바이트 동일 재구성
-          _cov_fp="$(cat "$PROMPT_FILE")
-
-${GBLOCK}
-
-${fp_base}${COV_SUFFIX}"
-        fi
+        # cov도 SYS_ARGS 동승(평의회 260812) — 구 「툴셋 상이 = 캐시 무익·평의회7」 전제는 실측 반증: ⓐ 기저
+        #   캐시 세그먼트가 도구 구성 무관 히트(잡 shard 실측 · 렌즈6) ⓑ 캐시 프로브 run 31550098261 = 고정부
+        #   세그먼트가 잡·러너를 넘어 재사용 성립. 도구 차이로 미스나도 비용은 구경로(지침 인라인 재구성 = 콜당
+        #   cw 22만)와 같거나 낮다 = 악화 경로 0. 비 SYS 모드는 fp_base가 지침을 이미 인라인 보유 = 무변경.
         out3="$(printf '%s' "$_cov_fp" | METER_SRC=card-cov METER_REF="$stem" METER_MODEL="$MODEL" METER_EFFORT="$CARD_FIX_EFFORT" claude_meter 900 \
               --model "$MODEL" --effort "$CARD_FIX_EFFORT" \
               --disallowedTools "Write,Edit,NotebookEdit,Bash,Task,Read,Glob,Grep,WebFetch,WebSearch" \
-              --max-turns 40 2>/dev/null)" || true
+              --max-turns 40 "${SYS_ARGS[@]}" "${CARD_SAFE_ARGS[@]}" 2>/dev/null)" || true
         if [ -n "${out3//[[:space:]]/}" ] && grep -qm1 '^### \[카드 1\]' <<<"$out3"; then
           printf '%s\n' "$out3" | sed -n '/^#/,$p' > "/tmp/${stem}.cards.cov"
           n1="$(grep -c '^### \[카드' "/tmp/${stem}.cards.cov" || true)"

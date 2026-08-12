@@ -11,6 +11,10 @@ MODEL="${LY_MODEL:-$PIPE_MODEL}"     # 모델 토글(운영자 260722 · 소넷5
 LY_EFFORT="${LY_EFFORT:-high}"       # 자막(SRT/STT) 정형 = 정해진 변환 → high(운영자 260722 · max 헛사고 회피) · 토글 high/medium/low
 source "$ROOT/shared/claude_transient.sh"  # is_quota()/claude_failover()/is_transient() SSOT — 쿼터 한도 시 4계정 자동 로테이션·일시 과부하 재시도(analyze·ask·card와 통일·§📰)
 source "$ROOT/shared/claude_meter.sh"   # claude_meter() SSOT — claude -p 토큰 사용량 계측(metrics shard · 옛 동작 호환)
+# 지침문서 스킵 카나리아(평의회 260812 조건부④ · cardmake CARD_SAFE_MODE 동형 · 프로브 run 31550098261) — 기본 OFF · 승격 = A/B 후 '1'.
+LY_SAFE_MODE="${LY_SAFE_MODE:-0}"
+LY_SAFE_ARGS=()
+if [ "$LY_SAFE_MODE" = "1" ]; then LY_SAFE_ARGS=(--safe-mode); fi
 INLINE_TRIES="${INLINE_TRIES:-4}"   # 쿼터 폴오버(서브1→서브2→서브3 = 4계정 체인 깊이·서브3 실호출)·일시 과부하(5xx/Overloaded) 인라인 재시도(15s·30s 백오프) — analyze·ask·card와 동일
 ID="${1:?usage: lymake.sh <id> (SUBS=env)}"
 OUTDIR="viewer/ly_out/${ID}"; mkdir -p "$OUTDIR"
@@ -90,6 +94,7 @@ for attempt in $(seq 1 "$INLINE_TRIES"); do
         --allowedTools "Read,Glob,Grep" \
         --disallowedTools "Write,Edit,NotebookEdit,Bash,Task,WebFetch,WebSearch" \
         --max-turns 40 \
+        "${LY_SAFE_ARGS[@]}" \
         2> "${OUTDIR}/stderr.log")"
   rc=$?
   if { [ $rc -eq 0 ] && [ -n "${out// }" ] && grep -qm1 '^#' <<<"$out"; } || grep -qm1 '^LYMAKE_FAILED' <<<"$out"; then
