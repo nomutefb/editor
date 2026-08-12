@@ -74,8 +74,7 @@ def cuts_of(md):
                 sec = SEC_FALLBACK
         out.append({
             "n": int(m.group(1)),
-            "sec": CUT_SEC,                 # 고정 — 콘티 표기는 아래 board_sec 에 남겨 어긋남만 알린다
-            "board_sec": max(SEC_MIN, min(SEC_MAX, sec or SEC_FALLBACK)),
+            "sec": max(1, min(SEC_MAX, sec or 2)),   # 콘티가 적은 값 그대로(묶기가 10초를 만든다)
             "desc": (m.group(4) or "").strip(),
             "action": f.get("ACTION", ""),
             # MOTION = 촬영=grok 전용 **영어** 동작 줄(감독이 쓴다). 없으면 ACTION 폴백.
@@ -89,6 +88,34 @@ def cuts_of(md):
             "sfx": f.get("SFX", ""),
         })
     return out
+
+
+def group_shots(cuts, sec=None):
+    """콘티 컷을 **10초짜리 영상**으로 묶는다 — 이게 이 레인의 발사 단위다.
+
+    ⚠ 운영자 260812 = 「10초가 1컷이라기보다는 **10초가 하나의 영상**이고, 그 안에 다채로운
+      컷을 감독 프롬프트에 따라 구성할 수 있는 거다. 2초마다 카메라 구도를 바꿔 10초 안에
+      2초컷이 5개 들어가는 느낌을 만들었다면 **한 번에 5컷**일 수 있다.」
+    ⚠ 그래서 「컷」과 「영상」은 다른 축이다 — 컷은 카메라가 바뀌는 지점이고, 영상은 한 번 쏘는
+      단위다. 구판은 둘을 겸하게 해서 **컷 하나가 곧 호출 하나**였고, 그 결과 종이 콘티 칸 수를
+      그대로 받아 1.2초 조각이 열두 개 나왔다(260811 실측).
+    ⚠ 값도 이쪽이 싸다 — 호출당 $0.03 이 붙으므로 30초를 3발로 쏘면 12발보다 $0.27 아낀다.
+      다만 **값이 이 설계의 이유는 아니다**(그건 어제 내가 잘못 판단했던 축이다) — 이유는
+      한 클립 안에서 흐름이 이어지는 것이고, 클립 사이는 모델이 앞을 못 봐서 늘 끊긴다.
+
+    반환 = [{"n": 영상번호, "sec": 10, "cuts": [그 안의 컷들]}]
+    """
+    sec = sec or CUT_SEC
+    shots, cur, acc = [], [], 0
+    for c in cuts:
+        cur.append(c)
+        acc += c["sec"]
+        if acc >= sec:
+            shots.append({"n": len(shots) + 1, "sec": sec, "cuts": cur})
+            cur, acc = [], 0
+    if cur:   # 꼬리 = 10초에 못 미쳐도 한 편으로 쏜다(길이는 늘 10초 = 10의 배수 계약)
+        shots.append({"n": len(shots) + 1, "sec": sec, "cuts": cur})
+    return shots
 
 
 def refs_of(out_dir):
@@ -145,37 +172,43 @@ def ref_ids(md, n):
     return outs
 
 
-def vid_prompt(c, sound=True, nrefs=0, ids=None):
-    """컷 영상 프롬프트 — 정본 `prompts/grok-make.md` 규칙 적용.
+def vid_prompt(shot, sound=True, nrefs=0, ids=None):
+    """영상 **한 편**(10초)의 프롬프트 — 그 안의 컷을 시간순으로 이어 쓴다.
 
-    ⚠ **바뀌는 것만 쓴다**(§3-1). 첫 프레임이 구도·조명·색을 이미 쥐고 있어서 그걸 다시 쓰면
-      강화가 아니라 희석이다. 그래서 desc(장면 묘사)는 **일부러 뺀다** — ACTION(무엇이 움직이나)과
-      CAMERA(어떻게 보나) 둘만 간다.
-    ⚠ 어순 = 시간순(§0-②). 동작을 첫 문장에 둔다.
-    ⚠ 소리 = 안 적으면 제네릭 배경음악이 붙는다(§0-③) → 켜기면 명시, 끄기면 4수법(§4-3).
+    ⚠ 자리 = 등장 인물표 → 잠금 → **컷 시퀀스** → 소리(정본 `prompts/grok-make.md`).
+      인물표가 맨 앞인 이유는 이미지 엔진이 앞에서 뒤로 읽어서다 — 뒤에 두면 `He` 를 읽는
+      시점에 가리킬 대상이 없다(260811 실측 = 남녀가 뒤바뀌었다).
+    ⚠ 컷이 여러 개면 **시각을 붙여 시간순으로** 쓴다(`0-2s: … 2-4s: …`). 한 클립 안의 전환은
+      모델이 그 시각에 맞춰 끊어 준다 = 운영자가 말한 「10초 안에 2초컷 5개」가 이 형태다.
+    ⚠ 컷이 하나면 시각을 안 붙인다 — 한 호흡짜리에 눈금을 치면 오히려 끊어 그린다.
+    ⚠ 장면 묘사(구도·조명·색)는 **일부러 뺀다** — 참조 그림이 이미 쥐고 있어 재묘사는 희석이다.
     """
     parts = []
+    cuts = shot.get("cuts") or [shot]
     if nrefs:
-        # 참조 지목 = **0부터** 센다(공식 2거처 일치 · 260810 확인). 첫 장이 <IMAGE_0>.
-        # 잠금 지시문은 묘사가 아니라 명령이라 희석 축에 안 걸린다(정본 §3-1 예외).
-        # ⚠ **맨 앞이 자리다.** 그록 이미지 엔진은 앞에서 뒤로 읽어 나가므로(자기회귀 · 정본 §0-①)
-        #   등장 인물표를 동작 문장 **뒤에** 두면 `He` 를 읽는 시점에 그 낱말이 가리킬 대상이
-        #   아직 없다. 260811 실측에서 컷7 이 정확히 그렇게 뒤집혔다(남자 응사 → 여자 사격).
         parts.extend(ids or [])
         tags = ", ".join("<IMAGE_{}>".format(i) for i in range(nrefs))
         parts.append("Keep the people, wardrobe, and setting identical to {}.".format(tags))
-    mv = c.get("motion") or c["action"]   # 영어 줄 우선 · 없으면 한국어라도 보낸다(fail-soft)
-    if mv:
-        parts.append(mv.rstrip(". ") + ".")
-    if c["camera"]:
-        parts.append(c["camera"].rstrip(". ") + ".")
+
+    multi, t = len(cuts) > 1, 0
+    for c in cuts:
+        seg = []
+        mv = c.get("motion") or c.get("action") or ""
+        if mv:
+            seg.append(mv.rstrip(". ") + ".")
+        if c.get("camera"):
+            seg.append(c["camera"].rstrip(". ") + ".")
+        if seg:
+            body = " ".join(seg)
+            parts.append("{}-{}s: {}".format(t, t + c["sec"], body) if multi else body)
+        t += c["sec"]
+
     if sound:
         # 컷이 대사를 적었어도 **말소리는 넣지 않는다** — 이미지→영상은 립싱크가 구조적으로
         # 불리하고(§4-3), 실존 인물 축 위험도 여기서 함께 차단된다(§7-3 ①).
-        # ⚠ 감독이 SFX 를 적었으면 **그 문장을 쓴다** — 아래 폴백은 「알아서 골라라」라서
-        #   총성이 나야 할 컷에 빗소리만 실리는 식으로 갈린다(260811 실측 = 소리 축이 컷마다 흔들렸다).
-        sfx = (c.get("sfx") or "").strip()
-        parts.append("Sound: {} No music.".format(sfx.rstrip(". ") + ".") if sfx
+        # 감독이 컷마다 적은 SFX 를 모아 한 줄로 (없으면 뭉뚱그린 폴백).
+        sfx = [c.get("sfx", "").strip().rstrip(". ") for c in cuts if (c.get("sfx") or "").strip()]
+        parts.append("Sound: {}. No music.".format("; ".join(sfx)) if sfx
                      else "Sound: ambient room tone and the natural sounds of the action, no music.")
     else:
         # 끄기 = 4수법을 순서대로(마지막 부정문만 단독으로 쓰면 역효과 · §4-3)
@@ -265,18 +298,15 @@ def main():
     prefix = os.environ.get("REFGEN_PREFIX", "sb_out")
     sound = (os.environ.get("GROK_SOUND", "1") != "0")
 
-    cuts = cuts_of(md)[:CUT_MAX]
+    cuts = cuts_of(md)
     if not cuts:
         print("::warning::컷을 못 찾았다(board.md 형식 확인) — 영상 생략")
         return 0
-    print("컷 {}개 × {}초 고정 = 합 {}초 · 소리 {}".format(
-        len(cuts), CUT_SEC, len(cuts) * CUT_SEC, "켜기" if sound else "끄기"))
-    # 콘티가 10초 단위로 안 나눴으면 **말은 해준다** — 산출은 고정값으로 가지만, 감독 지침이
-    # 낡았다는 신호라 조용히 넘기면 다음 판도 같은 콘티가 온다(관측 소실 = 이 레포 반복 사고).
-    off = [c["n"] for c in cuts if c.get("board_sec") not in (None, CUT_SEC)]
-    if off:
-        print("::warning::콘티 컷 {}이 {}초 단위가 아니다(표기 무시하고 {}초로 굽는다) — "
-              "prompts/sb-make.md 컷 규칙 확인".format(off, CUT_SEC, CUT_SEC))
+    shots = group_shots(cuts)[:CUT_MAX]   # 발사 단위 = 영상 1편(10초) · 상한도 편 수로 센다
+    print("콘티 컷 {}개 → 영상 {}편 × {}초 = 합 {}초 · 소리 {}".format(
+        len(cuts), len(shots), CUT_SEC, len(shots) * CUT_SEC, "켜기" if sound else "끄기"))
+    for sh in shots:
+        print("  영상{} ← 컷 {}".format(sh["n"], [c["n"] for c in sh["cuts"]]))
 
     if not tg.KEY:
         print("::warning::GEMINI_API_KEY 미등록 — 컷 그림을 못 굽는다(영상 생략)")
@@ -309,8 +339,10 @@ def main():
             print("  · {}".format(s))
 
     items, spent, locals_ = [], 0.0, []   # locals_ = 이어붙이기 재료(업로드 뒤에도 마지막까지 들고 있는다)
-    for c in cuts:
-        rec = {"n": c["n"], "sec": c["sec"], "desc": c["desc"], "refs": len(refs), "video": None}
+    for c in shots:
+        rec = {"n": c["n"], "sec": c["sec"], "refs": len(refs), "video": None,
+               "cuts": [x["n"] for x in c["cuts"]],
+               "desc": " / ".join(x["desc"] for x in c["cuts"] if x.get("desc"))}
         try:
             rid = gk.start_video(vid_prompt(c, sound, len(refs), ids), token=token,
                                  refs=refs or None, seconds=c["sec"])
@@ -324,23 +356,23 @@ def main():
             rec["got_sec"] = v.get("duration")   # 서버가 실제로 만든 길이(요청 길이와 대조)
             spent += one
             raw = gk.fetch(v["url"])
-            local = os.path.join(out_dir, "cut{:02d}.mp4".format(c["n"]))
+            local = os.path.join(out_dir, "shot{:02d}.mp4".format(c["n"]))
             open(local, "wb").write(raw)
             if not sound:
                 strip_audio(local)
-            vkey = "{}/{}/cut{:02d}.mp4".format(prefix, stem, c["n"])
+            vkey = "{}/{}/shot{:02d}.mp4".format(prefix, stem, c["n"])
             rec["video"] = tg.r2_upload(open(local, "rb").read(), vkey, "video/mp4") if tg.R2_ON else None
             locals_.append(local)   # ⚠ 지우는 건 이어붙인 **뒤**다(구판은 여기서 바로 지워 완본을 만들 재료가 없었다)
-            print("컷{} ✓ {}초 · ${} · {}".format(c["n"], c["sec"], rec["cost"], rec["video"] or local))
+            print("영상{} ✓ {}초 · ${} · {}".format(c["n"], c["sec"], rec["cost"], rec["video"] or local))
         except gk.GrokError as e:
             # ⚠ 자동 재시도 없음(운영자 260811) — 다시 쏘면 돈이 또 나가고, 검열 차단은
             #   같은 프롬프트로 몇 번을 쏴도 안 풀린다. 대신 **막힌 이유를 사람 말로 남겨**
             #   운영자가 보고 손으로 다시 시도할지 정한다.
             rec["fail"] = _why(e)
-            print("::warning::컷{} 영상 실패 — {}".format(c["n"], rec["fail"]))
+            print("::warning::영상{} 실패 — {}".format(c["n"], rec["fail"]))
             if e.tier_blocked or e.dead_auth:
                 # 자격 축이면 남은 컷도 전부 같은 이유로 죽는다 → 돈·시간을 더 쓰지 않는다.
-                print("::warning::자격 축 실패 — 남은 컷 중단")
+                print("::warning::자격 축 실패 — 남은 영상 중단")
                 items.append(rec)
                 break
         items.append(rec)
@@ -370,7 +402,8 @@ def main():
                 pass
 
     sc.add(out_dir, "grok", "video", done, usd=spent, est=False)   # 응답 실값 = 계산 아님
-    json.dump({"cuts": items, "done": done, "total": len(cuts), "sound": sound,
+    json.dump({"cuts": items, "shots": len(shots), "board_cuts": len(cuts),
+               "done": done, "total": len(shots), "sound": sound,
                "cost_usd": round(spent, 4), "refs": len(refs), "ref_reason": reason,
                "full": full_url},
               open(os.path.join(out_dir, "video.json"), "w", encoding="utf-8"), ensure_ascii=False)
@@ -387,8 +420,8 @@ def main():
         unit = ("호출당 고정" if abs(avg[hi] - avg[lo]) < 0.02
                 else "초당 비례" if abs(avg[hi] / avg[lo] - hi / lo) < 0.25 else "혼합·불명")
         unit += " (" + " · ".join("{}초 ${:.4f}".format(s, avg[s]) for s in sorted(avg)) + ")"
-    print("영상 {}/{}컷 · 청구 {} 달러(컷당 평균 {}) · 과금 단위 = {}".format(
-        done, len(cuts), round(spent, 4), round(spent / done, 4) if done else 0, unit))
+    print("영상 {}/{}편 · 청구 {} 달러(편당 평균 {}) · 과금 단위 = {}".format(
+        done, len(shots), round(spent, 4), round(spent / done, 4) if done else 0, unit))
     return 0
 
 

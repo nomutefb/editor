@@ -389,8 +389,8 @@ const SB_VALS = {
   '프레임': ['30fps'],   // 30fps 고정(운영자 260804 "60fps 어짜피 불가하니까 30fps 고정으로 하고 (네비에는 그대로 나오고) 아래 옵션선택자에서는 삭제") — 값 1개 = 레일 리드백만 남고 「설계」 선택 행은 폐지 · 서버 화이트리스트 동반 축소
   '길이': SB_LENS
 };
-const sbCutN = s => Math.max(1, Math.round(s / SB_LEN_STEP));   // 컷 수 = 길이 ÷ 10 (구 종이 콘티 밴드[6~8초=6컷 …]는 260812 폐지 — 그 규칙은 종이에 그리는 칸 수라 칸마다 영상을 뽑으면 1.2초 조각이 열두 개가 된다)   // 컷수 = storyboard-v1 밴드 정본(SKILL.md §컷 수 로직 — 6~8초=6컷 · 10~12초=9컷 · 15초=12컷) · 표 사이 초(5·9·13·14)는 **위 밴드로 올림** = 이 파일의 기존 「애매하면 위로(보수)」 규칙 동축(구 비용 산식 9s=10s가)
-const SB_CUTS = Object.fromEntries(SB_LENS.map(v => [v, sbCutN(parseInt(v, 10)) + '컷']));   // 길이→컷수 파생 맵(호출부 문법 불변 · 구 4값 하드코딩 표 대체 — 5~15s 11값 전건 정의)
+const sbCutN = s => Math.max(1, Math.round(s / SB_LEN_STEP));   // **영상 편수** = 길이 ÷ 10(컷 수가 아니다 — 컷은 한 편 안의 카메라 전환이라 편수와 무관하다) (구 종이 콘티 밴드[6~8초=6컷 …]는 260812 폐지 — 그 규칙은 종이에 그리는 칸 수라 칸마다 영상을 뽑으면 1.2초 조각이 열두 개가 된다)   // 컷수 = storyboard-v1 밴드 정본(SKILL.md §컷 수 로직 — 6~8초=6컷 · 10~12초=9컷 · 15초=12컷) · 표 사이 초(5·9·13·14)는 **위 밴드로 올림** = 이 파일의 기존 「애매하면 위로(보수)」 규칙 동축(구 비용 산식 9s=10s가)
+const SB_CUTS = Object.fromEntries(SB_LENS.map(v => [v, sbCutN(parseInt(v, 10)) + '편']));   // 표기 = 「30s · 3편」(운영자 260812 「단일 영상으로 표현하는 게 왜곡이 없음」 — 구 「컷」 표기는 한 편 안의 전환 수와 뜻이 겹쳐 오독을 만든다)   // 길이→컷수 파생 맵(호출부 문법 불변 · 구 4값 하드코딩 표 대체 — 5~15s 11값 전건 정의)
 const SB_DEF = { '비율': '9:16', '화질': '2K', '프레임': '30fps', '길이': '10s' };   // 운영자 확정 기본값(Q1158 "2k · 30fps · 9:16 · 10s")
 let sbDirector = 'fable', sbShoot = 'grok', sbSet = Object.assign({}, SB_DEF), sbAd = false, sbRef = true, sbSnd = true;   // sbSnd = 영상 소리(기본 켜기 · 운영자 260811 「소리는 기본 키게」 · 촬영=grok 전용 축)   // sbRef = 참조 이미지 생성(기본 ON · 운영자 Q1144·Q1161: 시댄스 = 강제 ON·비활성 / 클링 = 선택 가능)
 let sbArW = '1', sbArH = '1';   // 비율 직접 기본 = 1:1(index _geniSel.arW/arH 정본 동값 — 빈 칸이 아니라 값이 앉아 있고 탭하면 그 자리가 비며 바로 타이핑)
@@ -656,7 +656,7 @@ async function sbLand(outEl, outPath) {
         if (got.length) {
           // 완본이 있으면 그 한 편만 얹는다 — 이전 제작은 「만든 것」 목록이지 조각 창고가 아니다.
           if (v.full) nmRail.add({ url: abs(v.full), cap: '콘티', dlname: 'storyboard.mp4' });
-          else got.forEach(c => nmRail.add({ url: abs(c.video), cap: '콘티', dlname: 'cut' + String(c.n || 1).padStart(2, '0') + '.mp4' }));
+          else got.forEach(c => nmRail.add({ url: abs(c.video), cap: '콘티', dlname: 'shot' + String(c.n || 1).padStart(2, '0') + '.mp4' }));
           return;
         }
       }
@@ -718,7 +718,7 @@ async function renderOut(md, outEl, outPath) {   // 결과 렌더 공통(폴 성
             }
           } catch (e) { /* 폴백 = 그록 몫만 */ }
           html = '<div class="ref multi">' + cells
-            + '<div class="cap">그록 영상 ' + ok.length + '/' + cs.length + '컷 · 합 ' + secs + '초 · 소리 ' + (v.sound === false ? '끔' : '켬')
+            + '<div class="cap">그록 영상 ' + ok.length + '/' + cs.length + '편 · 합 ' + secs + '초 · 소리 ' + (v.sound === false ? '끔' : '켬')
             + ' · ' + money + '</div></div>' + html;
         }
       }
