@@ -223,6 +223,50 @@ function chk(cond, id, msg) { if (cond) okv.push(id); else fails.push(`${id} | $
       chk(blink.s1 && blink.s1 !== blink.s0, 'C8 경과', `재빌드를 껐더니 경과 표시까지 멈췄다(${blink.s0} → ${blink.s1})`);
       await page.close();
     }
+
+    /* ── C9 = 완료 타일 탭이 **위 결과 창**에 그 제작물을 띄운다 ────────────────────
+       (운영자 260812 "해당 건을 클릭해도 바로 위에 보는 창에서 볼 수가 없거든? · 바로 위에 보는 창은 미리보기가 아니라, 제작 완료된 거 보여주는 부분임")
+       ⚠ 신설 사유 = C6는 **진행 중** 행만 잰다 — 「끝난 제작물을 다시 볼 수 있는가」는 축 자체가 없었고,
+       구판 타일은 [연필][↓] 두 버튼뿐이라 본체가 정적이었다(눌러도 무동작 · 콘솔 에러 0 = 무증상).
+       게다가 편집 탭은 레일이 든 작업을 작업 내역에서 빼기까지 해서(jlRailIds) **다시 열 길이 화면에 하나도 없었다**. */
+    {
+      const page = await ctx.newPage();
+      const JID = '260812093000-c9';
+      const MP4 = base + 'ly_out/' + JID + '/_caprail_a.mp4';
+      await ctx.route('**/ly_out/*/video.json*', r => r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ url: MP4, ts: new Date().toISOString() }) }));   // 과거 잡 쪽지 = 러너 산출 형태 그대로(openJob이 실제로 읽는 파일 · 발사 0)
+      await page.addInitScript(([k, seed]) => { localStorage.setItem(k, JSON.stringify(seed)); localStorage.removeItem('nm_edit_pend'); },
+        [CAP_KEY, [{ url: MP4, poster: '', cap: '편집', dlname: 'a.mp4', ts: Date.now() - 7200e3 }]]);   // 지난 세션 완료분 = 「이전 제작」 칸(운영자 화면의 그 상태) · 진행 중 슬롯은 비운다 = 앞 축이 남긴 잡의 재개 폴이 제작 화면을 미리 띄우면 기저가 무너진다(C6 실측 함정 동문)
+      await page.goto(base + 'edit.html', { waitUntil: 'domcontentloaded' });
+      await page.waitForTimeout(1400);
+      await page.evaluate(() => { const h = document.querySelector('[id$="PrevH"]'); if (h) h.click(); });
+      await page.waitForTimeout(400);
+      const r = await page.evaluate(() => {
+        const t = document.querySelector('[id$="PrevGrid"] .hist-it .hist-thumb');
+        const out = {
+          hook: typeof window.nmJobShow === 'function',
+          tile: !!t,
+          role: t ? t.getAttribute('role') : '',
+          go: !!(t && t.classList.contains('hist-go')),
+          pre: !document.getElementById('vwrap').hidden,   // 기저 = 아직 결과 창이 안 떠 있어야 「눌러서 열렸다」를 가른다(C6 pre 문법 계승 · 가짜 통과 방지)
+        };
+        if (t) t.click();
+        return out;
+      });
+      await page.waitForTimeout(1200);
+      const st = await page.evaluate(() => ({
+        shown: !document.getElementById('vwrap').hidden,
+        src: (document.querySelector('#vwrap video') || {}).src || '',
+        status: (document.getElementById('cstatus') || {}).textContent || '',
+      }));
+      chk(r.hook, 'C9 훅', '문서가 window.nmJobShow를 안 준다 = 완료 타일이 눌릴 곳이 없다');
+      chk(r.tile, 'C9 타일', '이전 제작 타일이 없다(앞 축이 못 잡은 시드 실패)');
+      chk(r.role === 'button' && r.go, 'C9 어포던스', `완료 타일이 눌리는 모양이 아니다(role=${r.role} · hist-go=${r.go})`);
+      chk(!r.pre, 'C9 기저', '측정 시작부터 결과 창이 떠 있다 = 이 축이 「눌러서 열렸다」를 못 가른다');
+      chk(st.shown, 'C9 진입', `완료 타일을 눌렀는데 위 결과 창이 안 뜬다(상태줄 "${st.status.trim().slice(0, 60)}")`);
+      chk(st.src.indexOf(JID) >= 0, 'C9 그 제작물', `결과 창이 **누른 그 제작물**을 안 보여준다(src "${st.src.slice(-40)}")`);
+      await page.unroute('**/ly_out/*/video.json*');
+      await page.close();
+    }
     await ctx.close();
   } catch (e) {
     fails.push('ABORT | ' + String(e && e.message || e).slice(0, 200));

@@ -112,6 +112,20 @@
         th.appendChild(ed);
       }
     }
+    /* 타일 탭 = **그 제작물을 위 결과 창에서 다시 본다**(운영자 260812 "해당 건을 클릭해도 바로 위에 보는 창에서 볼 수가 없거든? · 바로 위에 보는 창은 미리보기가 아니라, 제작 완료된 거 보여주는 부분임").
+       ⚠ 구판 타일엔 [연필][↓] 두 버튼뿐이고 **타일 본체는 정적**이었다 — 눌러도 아무 일이 없고 콘솔 에러도 0(무증상).
+       게다가 편집 탭은 레일이 든 작업을 작업 내역에서 **빼기까지 해서**(jlRailIds) 그 제작물을 다시 열 길이 화면에 **하나도 없었다**(딥링크뿐).
+       화면 주인 전환은 탭마다 생김새가 달라 이 모듈이 못 정한다 → 문서가 `window.nmJobShow(url, entry)`를 정의하면 그때만 누를 수 있게 그린다
+       (미정의 = 종전 정적 타일 = 회귀 0 · 진행 중 행의 nmJobOpen·연필의 nmJobEdit과 **같은 문법**). */
+    var onShow = (typeof m.opt.onShow === 'function') ? m.opt.onShow : (typeof window.nmJobShow === 'function' ? window.nmJobShow : null);
+    if (onShow) {
+      th.classList.add('hist-go');   // 어포던스(손가락 커서·눌림)는 **실제로 갈 곳이 있을 때만** 붙는다(어포던스 비계승 계약)
+      th.setAttribute('role', 'button'); th.tabIndex = 0;
+      th.title = '탭 = 이 제작물을 위 결과 창에서 보기';
+      var goT = function (ev) { if (ev) ev.preventDefault(); try { onShow(e.url, e); } catch (er) {} };
+      th.addEventListener('click', goT);
+      th.addEventListener('keydown', function (ev) { if (ev.key === 'Enter' || ev.key === ' ') goT(ev); });   // [↓]·[연필]은 각자 stopPropagation 보유 = 버튼을 눌렀을 때 타일까지 같이 열리지 않는다
+    }
     it.append(hd, th);
     return it;
   }

@@ -55,6 +55,13 @@
   .hist-thumb { position:relative; }
   .hist-thumb img { width:100%; aspect-ratio:4/5; object-fit:cover; border:1px solid var(--line); border-radius:var(--r-s); display:block; background:var(--pan); }
   .hist-thumb video { width:100%; aspect-ratio:16/9; object-fit:cover; border:1px solid var(--line); border-radius:var(--r-s); display:block; background:var(--pan); }   /* reuse-ok: 계승원 = 바로 위 `.hist-thumb img` 정본 규격에서 **비율만** 영상 축으로 교체(edit.html `.ljth .ljv` 16/9 정본 값 사본 = 새 값 창작 0) · 거처 사유 = 영상 스튜디오 산출(mp4·mp3)은 img로 그릴 수 없어 nm-rail이 미디어 태그로 그린다(운영자 260810 "이전 제작이 안떠") */
+  /* 타일 탭 = 그 제작물을 위 결과 창에서 다시 본다(운영자 260812 "해당 건을 클릭해도 바로 위에 보는 창에서 볼 수가 없거든?").
+     ⚠ 어포던스는 **갈 곳이 있을 때만** 붙는다 = nm-rail이 문서 훅(nmJobShow) 보유 시에만 `.hist-go`를 단다(진행 중 행 `.job-go` 계약 동문).
+     값 = nm-job.css `.job.job-go` 정본 사본(커서·탭하이라이트·전이·눌림·hover 테두리 accent .34) = 새 값 창작 0. */
+  .hist-thumb.hist-go { cursor:pointer; -webkit-tap-highlight-color:transparent; transition:transform var(--dur-fast); }
+  .hist-thumb.hist-go img, .hist-thumb.hist-go video { transition:border-color var(--dur); }
+  .hist-thumb.hist-go:hover img, .hist-thumb.hist-go:hover video { border-color:rgba(var(--accent-rgb),.34); }
+  .hist-thumb.hist-go:active { transform:scale(var(--press-l)); }
   .hist-thumb .imgdl { top:6px; right:6px; width:28px; height:28px; }
   .hist-thumb .imgdl svg { width:12px; height:12px; }
   /* 수정(편집) = 다운로드 옆 — 이전 제작의 입력 조건을 작성기로 복원(운영자 260624). 색=accent 토큰(.dlbtn과 동일 계열·연필 아이콘으로 구분)·✓팝링 없음(다운로드 아님)

@@ -3390,6 +3390,20 @@ async function openJob(id){
   return false;
 }
 
+/* ══ 완료 타일 탭 = 그 제작물을 **위 결과 창**에서 다시 본다(운영자 260812 "편집이 이렇게 있을 때, 해당 건을 클릭해도 바로 위에 보는 창에서 볼 수가 없거든? · 바로 위에 보는 창은 미리보기가 아니라, 제작 완료된 거 보여주는 부분임") ══
+   ⚠ 여는 경로는 **이미 있었다** = openJob(video.json → showResult → #vwrap). 없던 건 「타일을 눌렀을 때 그 경로로 가는 배선」 하나뿐이고,
+   그 사이 결과 레일 타일엔 [연필][↓] 두 버튼밖에 없어 본체는 정적이었다(눌러도 무동작 · 콘솔 에러 0 = 무증상).
+   게다가 이 탭은 레일이 든 작업을 작업 내역에서 **빼기까지 한다**(jlRailIds = 같은 칸 중복 표시 차단) → 그 제작물을 다시 열 길이 화면에 **하나도 없었다**(딥링크뿐).
+   잡 번호 = 타일에 실어 둔 설정(src.id) 우선, 없으면 산출 주소 `…/ly_out/<번호>/…`에서 읽는다(강등분·타 기기분도 열린다). */
+window.nmJobShow=(url,e)=>{
+  if(_polling) return false;                      // 제작 진행 중 = 진행 UI 보호(작업 내역 행 게이트 동문 — 결과 창을 뺏으면 돌던 제작 표시가 사라진다)
+  const id=(e&&e.src&&e.src.id)||(/\/ly_out\/([A-Za-z0-9_-]+)\//.exec(String(url||''))||[])[1]||'';
+  if(!/^[A-Za-z0-9_-]+$/.test(id)) return false;  // 경로 화이트리스트 = openJob 호출부 공통 정신(작업 내역 행 동문)
+  USER_ACT=true;
+  (async()=>{ if(await openJob(id)) edFocusResult(8); })();   // 결과 창에 그린 뒤 그 자리로 이동+강조 = 딥링크 착지 문법 그대로
+  return true;
+};
+
 /* ══ 완료 푸시 딥링크(?done=<id> · 구 #done 호환) — 알림 탭 = 그 작업 결과로 직행+강조(thumb 정본 계승 · 발송 = edit-make 완료 푸시 스텝) ══ */
 function edFocusResult(tries){   // 완성 결과 컨테이너로 스크롤+강조 = '그 작업' 핀포인트(thumb flashEl 미러). 우선순위 = 자막영상(#lyBurn) > 편집영상(#vwrap) > 클립(#cliplist) > 자막탭(#lyTabs) > 개요(#out) — editSubsInit(subs.md 라우팅)이 async라 보일 때까지 짧게 폴
   const el=['#lyBurn','#vwrap','#cliplist','#cutlist','#lyTabs','#out'].map(s=>$(s)).find(e=>e&&!e.hidden&&e.offsetParent!==null);
