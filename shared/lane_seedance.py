@@ -223,8 +223,8 @@ def estimate(seconds, ratio=None, token=None):
 def refs_payload(urls, embed=True):
     """참조 수송 — 창구가 **주소 직전달을 금지**한다(올려서 받은 번호로만 받는다).
 
-    ⚠ 올리기 도구 규격이 **미확인**이라 여기서 지어내지 않는다. 지금은 주소를 그대로 돌려주고
-      `start()` 가 번호로 바꾼다 — 그 자리에서 실패하면 사유가 남는다(조용한 무산출 금지).
+    ⚠ 올리기 도구 규격은 **실측 확인분**이다(260812 실호출 = 주소를 주면 `media_id` 를 돌려준다 ·
+      상한 50MB). 주소를 그대로 돌려주고 `start()` 가 번호로 바꾼다.
     """
     return list(urls), "주소(번호 변환은 발사 직전)"
 
@@ -241,15 +241,41 @@ def _media_ids(urls, token):
 
 
 def start(prompt, *, token, refs=None, seconds=None, ratio=None):
+    """발사 = **헤드리스 일괄 도구**로 쏜다.
+
+    ⚠ 단건 도구(`generate_video`)는 **화면 위젯용**이다(창구 설명 명시) — 사람 없는 러너는
+      일괄 도구를 써야 작업 번호를 그대로 돌려받는다. 대신 일괄에는 견적 값을 못 싣는다
+      (`get_cost` 미지원) → 견적은 단건 도구로 따로 부른다(`estimate`).
+    ⚠ 참조 역할 키는 **단수** `role` 이고 값은 **번호**다(주소 직전달 금지 = 창구 스키마 명시).
+    """
     args = dict(_params(seconds or SHOT_SEC, ratio), prompt=prompt)
     if refs:
-        args["medias"] = [{"value": m, "roles": ["image_references"]} for m in _media_ids(refs, token)]
-    d = call("generate_video", args, token)
-    jid = (d or {}).get("job_id") or (d or {}).get("id") or (d or {}).get("request_id")
+        args["medias"] = [{"value": m, "role": "image_references"} for m in _media_ids(refs, token)]
+    d = call("generate_video_batch", {"requests": [{"index": 0, "params": args}]}, token)
+    jid = _job_id(d)
     if not jid:
-        raise LaneError("발사는 됐는데 작업 번호가 없다 — 회신 모양을 확인해야 한다",
-                        body=json.dumps(d, ensure_ascii=False)[:300])
+        # ⚠ 회신 모양이 미확인 축이라 **원문을 그대로 남긴다** — 다음 세션이 추측으로 메우지 않게.
+        raise LaneError("발사는 됐는데 작업 번호를 못 찾았다 — 회신 모양을 확인해야 한다",
+                        body=json.dumps(d, ensure_ascii=False)[:600])
     return jid
+
+
+def _job_id(d):
+    """일괄 발사 회신에서 작업 번호를 꺼낸다(모양이 미확인이라 흔한 자리를 훑는다)."""
+    if not isinstance(d, dict):
+        return None
+    for key in ("jobs", "results", "requests"):
+        arr = d.get(key)
+        if isinstance(arr, list) and arr:
+            j = arr[0]
+            if isinstance(j, dict):
+                for k in ("job_id", "id", "request_id"):
+                    if j.get(k):
+                        return j[k]
+    for k in ("job_id", "id", "request_id"):
+        if d.get(k):
+            return d[k]
+    return None
 
 
 def wait(job_id, *, token):
@@ -257,7 +283,9 @@ def wait(job_id, *, token):
     cap = int(os.environ.get("SD_POLL_MAX_SEC", "1200"))
     t0 = time.time()
     while time.time() - t0 < cap:
-        d = call("jobs_wait", {"job_ids": [job_id]}, token)
+        # ⚠ 기다리기 도구는 **회당 15초가 상한**이다(창구 스키마) → 총상한은 우리가 센다.
+        #   상한 없이 붙이면 큐 고착이 잡 시간을 통째로 태운다.
+        d = call("jobs_wait", {"jobs": [{"index": 0, "job_id": job_id}], "timeout_seconds": 15}, token)
         jobs = (d or {}).get("jobs") or (d or {}).get("results") or []
         j = jobs[0] if jobs else (d or {})
         st = str(j.get("status") or "").lower()
@@ -266,7 +294,8 @@ def wait(job_id, *, token):
             return {"url": url, "duration": j.get("duration"), "cost": float(j.get("credits") or 0)}
         if st in ("failed", "error", "canceled", "cancelled"):
             raise LaneError("창구가 실패로 끝냈다 — {}".format(str(j.get("error") or st)[:160]),
-                            body=json.dumps(j, ensure_ascii=False)[:300])
+                            body=json.dumps(j, ensure_ascii=False)[:400])
+        time.sleep(max(1, int((d or {}).get("poll_after_seconds") or 3)))
     raise LaneError("{}분 안에 안 끝났다 — 큐가 밀린 상태다. 손으로 다시 시도".format(cap // 60))
 
 
