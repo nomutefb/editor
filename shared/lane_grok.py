@@ -22,11 +22,11 @@ from lane import LaneError     # noqa: E402
 # ── 상수 8 ────────────────────────────────────────────────────────────────────
 NAME = "grok"
 # ⚠ **한 발 = 10초 고정**(운영자 260812) — 콘티 컷을 이 초로 묶는다. 롤백 레버 = env 1줄.
-SHOT_SEC = int(os.environ.get("GROK_CUT_SEC", "10"))
+SHOT_SEC = int(os.environ.get("GROK_CUT_SEC") or "10")
 SEC_MAX = 15                   # 엔진 상한(260812 실측 = 15초까지 실제로 나온다) · SHOT_SEC 과 다른 값
 RATIOS = gk.VID_RATIOS
 REF_CAP_TECH = gk.REF_MAX      # 기술 한도 7 — 우리 운영 계약(2 기본·3 사유)과 별개
-EMBED_MAX = int(os.environ.get("GROK_REF_EMBED_MAX", "900000"))
+EMBED_MAX = int(os.environ.get("GROK_REF_EMBED_MAX") or "900000")
 EMBED_SIDE = 1280              # 줄일 때 긴 변(참조 모드 산출이 720p 상한이라 이만하면 넉넉)
 FAIL_COSTS = False             # 260812 실측 = 실패한 호출은 청구가 0(그래서 1회 재시도가 공짜에 가깝다)
 COST_KIND = "usd"              # 응답이 청구 실값을 실어 준다

@@ -394,7 +394,7 @@ def _job_id(d):
 
 def wait(job_id, *, token):
     """완료 대기 — 기다리기 도구가 **회당 상한**이 있어 총상한은 러너 몫이다."""
-    cap = int(os.environ.get("SD_POLL_MAX_SEC", "1200"))
+    cap = int(os.environ.get("SD_POLL_MAX_SEC") or "1200")
     t0 = time.time()
     while time.time() - t0 < cap:
         # ⚠ 기다리기 도구는 **회당 15초가 상한**이다(창구 스키마) → 총상한은 우리가 센다.

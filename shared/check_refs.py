@@ -5434,6 +5434,16 @@ def check_grok_sb_chain():
     _rn_code = [l for l in _aac_strip_py_docstrings(rn) if not l.strip().startswith("#")]
     if any("<IMAGE_" in l for l in _rn_code):
         print("❌ 그록 콘티 레인 — 러너에 그록 슬롯 문법(<IMAGE_n>)이 박혀 있다(통로 훅 우회)"); rc = 1
+    # ⑩-c **빈 값과 없는 값을 같게 다루지 마라**(260812 실사고) — 발사 폼이 「안 정함」을 빈 글자로
+    #   보내는데 `os.environ.get("X", "12")` 는 **빈 글자를 그대로 돌려준다**(없을 때만 기본값). 그
+    #   빈 글자가 숫자 변환에 들어가면 러너가 첫 줄에서 죽고, 그 줄은 함수 밖이라 fail-soft 그물에도
+    #   안 걸린다 = 콘티·참조 그림은 다 나오고 **영상만 0편**(화면 증상은 「그냥 안 나옴」 하나뿐).
+    for _p in ["shared/{}.py".format(m) for m in _lanes] + [".github/scripts/grok_sb_video.py"]:
+        for _ln in _t(_p).splitlines():
+            if re.search(r'int\(os\.environ\.get\(\s*["\'][^"\']+["\']\s*,', _ln) and not _ln.strip().startswith("#"):
+                print("❌ 그록 콘티 레인 — 빈 값이 숫자 변환으로 새는 줄({}): {}".format(_p, _ln.strip()[:80]))
+                print("   · 「빈 값이면 기본값」으로 = os.environ.get(\"X\") or \"12\"")
+                rc = 1
     # 자격은 **편마다** 새로 받는다(열쇠 수명 < 한 편 대기 시간이면 뒤쪽 편이 자격 축으로 죽는다)
     _loop = rn.split("for c in shots:", 1)[-1]
     if "LANE.fresh_token()" not in _loop:
