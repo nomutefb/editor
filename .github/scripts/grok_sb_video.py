@@ -174,6 +174,31 @@ _REF_LABEL = re.compile(r"^\s*[①-⑳]\s*([^\n:：]{1,30})\s*[:：]", re.M)
 _NIGHT = re.compile(r"night|nocturnal|after\s*dark|밤|야간|야경|심야", re.I)
 
 
+# 콘티 머리의 `비율: 16:9` 한 줄 — 감독이 선언하는 화면 규격
+_RATIO = re.compile(r"^비율\s*[:：]\s*(\d+\s*:\s*\d+)", re.M)
+
+
+def ratio_of(md):
+    """콘티가 선언한 비율을 그대로 읽는다.
+
+    ⚠ 실사고(260812 발견) = 구판은 이 줄을 **아예 안 읽었다**. 콘티 머리에 `비율: 9:16` 이라
+      적어도 러너가 전달을 안 해서 통로 기본값(가로)으로 나갔다 — 세로로 만들 방법이 코드에
+      없었던 것이다. 참조 그림은 세로로 굽고 있었으므로(레퍼런스 기본 9:16) **그림은 세로 ·
+      영상은 가로**로 갈린 채 살아 있었다. 쇼츠(세로 30초)가 산출 규격이 되는 순간 이건
+      그대로 사고다.
+    ⚠ 값 창작 0 = 콘티가 적은 값을 그대로 쓰고, 통로가 못 받는 값이면 기본값으로 내려앉되
+      **그 사실을 남긴다**(조용한 강등 금지).
+    """
+    m = _RATIO.search(md)
+    if not m:
+        return None
+    r = m.group(1).replace(" ", "")
+    if r not in gk.VID_RATIOS:
+        print("::warning::콘티 비율 {} 는 통로가 안 받는다(허용 {}) — 기본값으로 간다".format(r, gk.VID_RATIOS))
+        return None
+    return r
+
+
 def is_night(x):
     """이 컷(또는 참조 문장)이 밤을 말하는가."""
     if isinstance(x, dict):
@@ -477,8 +502,10 @@ def main():
         print("::warning::컷을 못 찾았다(board.md 형식 확인) — 영상 생략")
         return 0
     shots = group_shots(cuts)[:CUT_MAX]   # 발사 단위 = 영상 1편(10초) · 상한도 편 수로 센다
-    print("콘티 컷 {}개 → 영상 {}편 × {}초 = 합 {}초 · 소리 {}".format(
-        len(cuts), len(shots), CUT_SEC, len(shots) * CUT_SEC, "켜기" if sound else "끄기"))
+    ratio = ratio_of(md)                  # 콘티가 선언한 비율(없거나 통로가 못 받으면 None = 통로 기본값)
+    print("콘티 컷 {}개 → 영상 {}편 × {}초 = 합 {}초 · 비율 {} · 소리 {}".format(
+        len(cuts), len(shots), CUT_SEC, len(shots) * CUT_SEC,
+        ratio or "통로 기본", "켜기" if sound else "끄기"))
     for sh in shots:
         print("  영상{} ← 컷 {}".format(sh["n"], [c["n"] for c in sh["cuts"]]))
 
@@ -531,7 +558,8 @@ def main():
                 payload, mode = ref_send([s["url"] for s in use], embed) if use else ([], "없음")
                 rec["ref_mode"] = mode
                 rid = gk.start_video(vid_prompt(c, sound, len(use), ids), token=token,
-                                     refs=payload or None, seconds=c["sec"])
+                                     refs=payload or None, seconds=c["sec"],
+                                     **({"ratio": ratio} if ratio else {}))
                 v = gk.wait_video(rid, token=token)
                 # ⚠ 컷별 값을 적는다(운영자 260811 「최적의 순간을 찾는다」) — 합계만 적혀 있으면
                 #   「호출 1번에 고정인가 · 초당인가」를 영영 못 가른다(첫 판 실측 = 1초 6개 + 2초 6개
@@ -607,6 +635,7 @@ def main():
     json.dump({"cuts": items, "shots": len(shots), "board_cuts": len(cuts),
                "done": done, "total": len(shots), "sound": sound,
                "cost_usd": round(spent, 4), "refs": len(slots), "ref_reason": reason,
+               "ratio": ratio,
                "full": full_url},
               open(os.path.join(out_dir, "video.json"), "w", encoding="utf-8"), ensure_ascii=False)
     notify(stem, items)   # 재시도까지 실패한 편이 있으면 웹앱 알림 · 전건 성공이면 옛 알림을 끈다

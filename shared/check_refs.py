@@ -5389,6 +5389,13 @@ def check_grok_sb_chain():
         print("❌ 그록 콘티 레인 — sb-make.yml 이 messages/ 를 체크아웃·커밋 안 한다(알림이 러너와 함께 사라진다)"); rc = 1
     if "sb-video-fail-" not in _t("viewer/index.html"):
         print("❌ 그록 콘티 레인 — 뷰어 _rptSrc 에 영상 실패 알림 출처 분기가 없다(리포트가 거짓 상류를 준다)"); rc = 1
+    # ⚠ 비율 = 콘티가 선언하는데 러너가 안 읽던 축(260812 발견) — 참조 그림은 세로로 굽고
+    #   영상만 가로로 나가던 상태였다. 쇼츠(세로)가 산출 규격이면 그대로 사고다.
+    for needle, why in (("def ratio_of(", "콘티 선언 비율 판독"),
+                        ("ratio = ratio_of(md)", "비율 실판독"),
+                        ('"ratio": ratio', "발사 비율 전달")):
+        if needle not in rn:
+            print("❌ 그록 콘티 레인 — grok_sb_video.py 에 {} 가 없다({} · 콘티가 세로라 적어도 가로로 나간다)".format(why, needle)); rc = 1
     if "배경(밤)" not in _t("prompts/sb-make.md"):
         print("❌ 그록 콘티 레인 — 콘티 규약에 밤 배경 참조 축이 없다(밤 컷이 참조 시간대에 끌려간다)"); rc = 1
 
