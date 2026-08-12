@@ -49,12 +49,19 @@ jobs:
           # ⚠ rebase 여유는 아래 Commit 스텝의 --deepen이 담당(shallow 경계와 원격 새 커밋이 안 이어지면 merge-base 실종 = rebase 실패 → 산출 유실).
           # ⚡ 260810 sparse-checkout(scrape 카나리아 실증 = 같은 잡 A/B 20s→9s · 삭제 커밋 0건) — 목록 = 이 잡이 실행줄에서 여는 폴더뿐.
           #   빠지는 대형 = _versions 437M · docs 90M · 자료 75M · _산출 74M(어느 잡도 안 연다) · ⚠ git add/rm 대상은 전건 포함 검문 통과분.
+          # ⚠ metrics = 260812 실사고 봉합. Commit 스텝이 `for f in cards metrics viewer/gen_out`로 metrics를 add하는데
+          #   이 목록에만 빠져 있었다(260810 sparse 전환 누락) → git이 "sparse 정의 밖"이라 거부 → `bash -e`가 그 자리에서
+          #   죽어 **렌더는 성공했는데 산출이 main에 안 실린다**(run 31551908916 = 이미지 R2 업로드 완료 · free.json 미반영
+          #   = 뷰어 카러셀에서 영영 안 보임). 증상이 「생성했는데 목록에 없음」뿐이라 운영자 눈이 유일한 검출기였다.
+          #   형제 28개 워크플로 전수 대조 = 실제 경로 누락은 이 파일 단독(같은 병의 형제 0).
+          #   ⚠ 목록 줄에 인라인 주석 금지 — 각 줄이 그대로 sparse 패턴이 된다.
           sparse-checkout: |
             .github
             shared
             cards
             queue
             viewer
+            metrics
 
       - name: Setup Node
         uses: actions/setup-node@v5
