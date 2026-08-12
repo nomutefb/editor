@@ -5191,9 +5191,15 @@ def check_grok_sb_chain():
                         ("seconds=c[\"sec\"]", "컷 길이 = 콘티 값")):
         if needle not in rn:
             print("❌ 그록 콘티 레인 — grok_sb_video.py 에 {} 가 없다({})".format(why, needle)); rc = 1
-    # 구판 회귀 차단 = 컷 길이를 고정 상수로 박으면 12컷이 120초가 된다
-    if re.search(r"seconds\s*=\s*\d+", rn):
-        print("❌ 그록 콘티 레인 — 컷 길이가 고정 상수로 박혔다(콘티가 적은 값을 써야 한다)"); rc = 1
+    # ⚠ 컷 길이 = **10초 고정**(운영자 260812 「고정임 더 짧을수도 없고」) — 구판은 콘티가 적은
+    #   값을 그대로 썼고 그 컷 수 규칙이 종이 콘티용이라 1.2초 조각이 열두 개 나왔다(260811 실측).
+    #   그래서 이 축은 260812 에 **뒤집혔다**: 구 게이트(고정 상수 금지)를 회수하고 고정을 강제한다.
+    if "CUT_SEC" not in rn or '"sec": CUT_SEC' not in rn:
+        print("❌ 그록 콘티 레인 — 컷 길이 10초 고정(CUT_SEC)이 없다 = 콘티 표기대로 쪼개진다"); rc = 1
+    if "board_sec" not in rn:
+        print("❌ 그록 콘티 레인 — 콘티 표기와 어긋남을 안 알린다(board_sec) = 낡은 콘티가 조용히 통과"); rc = 1
+    if "sbCutN = s => Math.max(1, Math.round(s / SB_LEN_STEP))" not in vt:
+        print("❌ 그록 콘티 레인 — 뷰어 컷수 산식이 길이÷10 이 아니다(구 종이 콘티 밴드 잔존)"); rc = 1
 
     # ⑥ 260811 첫 실호출 실측 봉합 2종 — 둘 다 빠져도 영상은 나온다(= 조용히 나빠진다)
     for needle, why in (("def ref_ids", "참조 슬롯 정체 묶기(대명사 뒤바뀜 차단 · 실측 컷7)"),

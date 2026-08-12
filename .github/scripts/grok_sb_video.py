@@ -40,8 +40,15 @@ import k_refgen as kr           # noqa: E402  extract_refs = 참조 블록 파�
 import sb_cost as sc            # noqa: E402  벤더별 값 원장(제미나이 그림값까지 합산 = 운영자 260811)
 
 CUT_MAX = int(os.environ.get("GROK_SB_CUT_MAX", "12"))     # 한 번에 굽는 컷 상한(비용·시간 가드)
-SEC_MIN, SEC_MAX = 1, 15                                   # 공식 허용 범위
-SEC_FALLBACK = 5                                           # 콘티가 시각을 안 적었을 때
+SEC_MIN, SEC_MAX = 1, 15                                   # 엔진 허용 범위(260812 실측 = 15초까지 실제로 나온다)
+# ⚠ **컷 1개 = 10초 고정**(운영자 260812 「고정임 더 짧을수도 없고 그냥 고정」 ·
+#   「보드를 항상 10초를 기준으로 구성해서 10초짜리를 여러개 만드는거로」).
+#   구판은 콘티가 적은 `0~2s` 를 그대로 썼는데, 그 컷 수 규칙이 **종이 콘티용**이라
+#   15초를 12칸으로 나눴고 결과가 1.2초 조각 열두 개였다(260811 실측). 칸 수는 종이에선
+#   정상이지만 칸마다 영상을 뽑는 순간 호흡이 통째로 끊긴다 → 길이 축을 코드가 고정한다.
+#   총 길이 = 10 × 컷 수. 콘티는 컷을 10초 단위로만 나눈다(prompts/sb-make.md 동기).
+CUT_SEC = int(os.environ.get("GROK_CUT_SEC", "10"))         # 롤백 레버 = env 1줄
+SEC_FALLBACK = CUT_SEC                                     # 콘티가 시각을 안 적었을 때도 같은 값
 
 # 참조 그림 상한(운영자 260811 "3개 초과해서 만들면 실패고, 2개가 베스트야. 3개 뽑을 때는 이유가 있어야 해").
 # ⚠ 그록 API 자체는 7장까지 받지만(gk.REF_MAX) 그건 기술 한도이지 우리 계약이 아니다.
@@ -67,7 +74,8 @@ def cuts_of(md):
                 sec = SEC_FALLBACK
         out.append({
             "n": int(m.group(1)),
-            "sec": max(SEC_MIN, min(SEC_MAX, sec or SEC_FALLBACK)),
+            "sec": CUT_SEC,                 # 고정 — 콘티 표기는 아래 board_sec 에 남겨 어긋남만 알린다
+            "board_sec": max(SEC_MIN, min(SEC_MAX, sec or SEC_FALLBACK)),
             "desc": (m.group(4) or "").strip(),
             "action": f.get("ACTION", ""),
             # MOTION = 촬영=grok 전용 **영어** 동작 줄(감독이 쓴다). 없으면 ACTION 폴백.
@@ -261,7 +269,14 @@ def main():
     if not cuts:
         print("::warning::컷을 못 찾았다(board.md 형식 확인) — 영상 생략")
         return 0
-    print("컷 {}개 · 소리 {}".format(len(cuts), "켜기" if sound else "끄기"))
+    print("컷 {}개 × {}초 고정 = 합 {}초 · 소리 {}".format(
+        len(cuts), CUT_SEC, len(cuts) * CUT_SEC, "켜기" if sound else "끄기"))
+    # 콘티가 10초 단위로 안 나눴으면 **말은 해준다** — 산출은 고정값으로 가지만, 감독 지침이
+    # 낡았다는 신호라 조용히 넘기면 다음 판도 같은 콘티가 온다(관측 소실 = 이 레포 반복 사고).
+    off = [c["n"] for c in cuts if c.get("board_sec") not in (None, CUT_SEC)]
+    if off:
+        print("::warning::콘티 컷 {}이 {}초 단위가 아니다(표기 무시하고 {}초로 굽는다) — "
+              "prompts/sb-make.md 컷 규칙 확인".format(off, CUT_SEC, CUT_SEC))
 
     if not tg.KEY:
         print("::warning::GEMINI_API_KEY 미등록 — 컷 그림을 못 굽는다(영상 생략)")

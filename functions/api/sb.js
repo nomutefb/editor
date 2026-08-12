@@ -35,7 +35,7 @@ export async function onRequestPost({ request, env }) {
     '비율': ['9:16', '16:9', '1:1'],
     '화질': ['720p', '1080p', '2K', '4K'],     // 프롬프팅 이관 축(운영자 Q1145) — 값 집합 = api/k.js K_SET 동일
     '프레임': ['30fps'],                       // 30fps 고정(운영자 260804 "60fps 어짜피 불가하니까 30fps 고정") — 뷰어 「설계」 선택 행 폐지와 2면 동기(구 60fps 값은 화이트리스트에서도 회수 = 옛 폼·직접 호출이 몰래 60을 넣는 경로 차단)
-    '길이': ['5s', '6s', '7s', '8s', '9s', '10s', '11s', '12s', '13s', '14s', '15s'],   // 자(ruler) 축 = 5~15s 1초 눈금(운영자 260804 "5s ~ 15s 선택하게 · '자'(ruler) 선택자로") — 구 4값(8/10/15/30s) 대체 · 30s는 상한 15s 확정으로 폐지 · 컷수 하드룰 = 뷰어 SB_CUTS(밴드 = prompts/sb-make.md 동기)
+    '길이': ['10s', '20s', '30s', '40s', '50s', '60s'],   // 자(ruler) 축 = **10초 눈금 6칸 = 1~6컷**(운영자 260812 「컷 1개 = 10초 고정 · 10*n 개수로」) — 구 5~15s 1초 눈금 폐지(1초 눈금이면 10의 배수 아닌 값이 골라져 보드가 10초로 안 쪼개진다) · 컷수 = 길이 ÷ 10(뷰어 sbCutN · prompts/sb-make.md 동기)
   };
   const DIRECTOR_NM = { fable: 'Fable 5', opus: 'Opus 5', gpt: 'GPT 5.6 Sol' };   // 표시명 = 정식 모델명 단일화(운영자 260803 4차 · 뷰어 SB_DIRECTORS nm 2면 동기)
   const director = SB_DIRECTORS.includes(body.director) ? body.director : 'fable';

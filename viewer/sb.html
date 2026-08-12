@@ -379,16 +379,17 @@ const SB_SHOOTS = [
 ];
 // 축 = 프롬프팅(k) 이관분 흡수(운영자 Q1145 "프레임까지 콘티로 이동" · Q1147 "따로 노는걸 합치되 품질·기능성 유지").
 // 값 3면 동기: 이 표 = functions/api/sb.js SB_SET · 화질·프레임 값 집합 = viewer/k.html K_VALS 동일(드리프트 0).
-const SB_LEN_MIN = 5, SB_LEN_MAX = 15;   // 자(ruler) 범위(운영자 260804 "5s ~ 15s 선택하게 해주고, 이거 '자'(ruler) 선택자로") — 상한 15s = 촬영 엔진 실한계
-const SB_LEN_PTS = [5, 8, 10, 12, 15];   // 라벨 포인트(운영자 260804 "5 8 10 12 15 에만 포인트 잡아주고 나머지는 각 눈금 선택한 부분에 따라서 숫자가 정해지게") — 눈금은 1초 전건 선택 가능·숫자 표기만 이 5점
-const SB_LENS = Array.from({ length: SB_LEN_MAX - SB_LEN_MIN + 1 }, (_, i) => (SB_LEN_MIN + i) + 's');
+const SB_LEN_STEP = 10;                    // ⚠ 컷 1개 = **10초 고정**(운영자 260812 「고정임 더 짧을수도 없고」 · 「보드를 항상 10초를 기준으로 구성해서 10초짜리를 여러개」) — 총 길이는 10의 배수만 존재한다
+const SB_LEN_MIN = 10, SB_LEN_MAX = 60;   // 자(ruler) 범위 = 1컷~6컷(구 5~15s 1초 눈금은 260812 폐지 — 눈금이 1초면 10의 배수가 아닌 값이 골라져 보드가 10초로 안 쪼개진다)
+const SB_LEN_PTS = [10, 20, 30, 40, 50, 60];   // 라벨 포인트(운영자 260804 "5 8 10 12 15 에만 포인트 잡아주고 나머지는 각 눈금 선택한 부분에 따라서 숫자가 정해지게") — 눈금은 1초 전건 선택 가능·숫자 표기만 이 5점
+const SB_LENS = Array.from({ length: (SB_LEN_MAX - SB_LEN_MIN) / SB_LEN_STEP + 1 }, (_, i) => (SB_LEN_MIN + i * SB_LEN_STEP) + 's');
 const SB_VALS = {
   '비율': ['9:16', '16:9', '1:1'],
   '화질': ['720p', '1080p', '2K', '4K'],
   '프레임': ['30fps'],   // 30fps 고정(운영자 260804 "60fps 어짜피 불가하니까 30fps 고정으로 하고 (네비에는 그대로 나오고) 아래 옵션선택자에서는 삭제") — 값 1개 = 레일 리드백만 남고 「설계」 선택 행은 폐지 · 서버 화이트리스트 동반 축소
   '길이': SB_LENS
 };
-const sbCutN = s => s <= 8 ? 6 : s <= 12 ? 9 : 12;   // 컷수 = storyboard-v1 밴드 정본(SKILL.md §컷 수 로직 — 6~8초=6컷 · 10~12초=9컷 · 15초=12컷) · 표 사이 초(5·9·13·14)는 **위 밴드로 올림** = 이 파일의 기존 「애매하면 위로(보수)」 규칙 동축(구 비용 산식 9s=10s가)
+const sbCutN = s => Math.max(1, Math.round(s / SB_LEN_STEP));   // 컷 수 = 길이 ÷ 10 (구 종이 콘티 밴드[6~8초=6컷 …]는 260812 폐지 — 그 규칙은 종이에 그리는 칸 수라 칸마다 영상을 뽑으면 1.2초 조각이 열두 개가 된다)   // 컷수 = storyboard-v1 밴드 정본(SKILL.md §컷 수 로직 — 6~8초=6컷 · 10~12초=9컷 · 15초=12컷) · 표 사이 초(5·9·13·14)는 **위 밴드로 올림** = 이 파일의 기존 「애매하면 위로(보수)」 규칙 동축(구 비용 산식 9s=10s가)
 const SB_CUTS = Object.fromEntries(SB_LENS.map(v => [v, sbCutN(parseInt(v, 10)) + '컷']));   // 길이→컷수 파생 맵(호출부 문법 불변 · 구 4값 하드코딩 표 대체 — 5~15s 11값 전건 정의)
 const SB_DEF = { '비율': '9:16', '화질': '2K', '프레임': '30fps', '길이': '10s' };   // 운영자 확정 기본값(Q1158 "2k · 30fps · 9:16 · 10s")
 let sbDirector = 'fable', sbShoot = 'grok', sbSet = Object.assign({}, SB_DEF), sbAd = false, sbRef = true, sbSnd = true;   // sbSnd = 영상 소리(기본 켜기 · 운영자 260811 「소리는 기본 키게」 · 촬영=grok 전용 축)   // sbRef = 참조 이미지 생성(기본 ON · 운영자 Q1144·Q1161: 시댄스 = 강제 ON·비활성 / 클링 = 선택 가능)
@@ -469,13 +470,14 @@ function sbPayload() {   // go 핸들러 페이로드(서버 api/sb.js가 화이
   // ── 「길이」 자(ruler) 렌더(운영자 260804 "이거 '자'(ruler) 선택자로 고를수있게 · 5 8 10 12 15 에만 포인트 · 나머지는 각 눈금 선택한 부분에 따라서 숫자가 정해지게") ──
   //   구조 = 라벨(포인트 5개 · 눈금 위 정중앙) + 트랙(눈금 11 = 1초 · 채움 + 플레이헤드) + 투명 히트 버튼 11개(라벨+트랙 전체 높이).
   //   부품·값 = edit `.tl` 룰러 정본 사본(위 CSS 주석) · 상태·영속·발사는 기존 경로 1벌(sbSet['길이'] · save · sbPayload) = 드리프트 0.
-  const lenSec = () => { const n = parseInt(sbSet['길이'], 10); return (n >= SB_LEN_MIN && n <= SB_LEN_MAX) ? n : parseInt(SB_DEF['길이'], 10); };
+  const lenSec = () => { const n = parseInt(sbSet['길이'], 10); return (n >= SB_LEN_MIN && n <= SB_LEN_MAX && n % SB_LEN_STEP === 0) ? n : parseInt(SB_DEF['길이'], 10); };
   const lenPct = s => (s - SB_LEN_MIN) / (SB_LEN_MAX - SB_LEN_MIN) * 100;
+  //   ⚠ 눈금 = 10초 1칸(구 1초 1칸) · 자 위 히트 버튼도 같은 배열을 쓰므로 아래 SB_LENS 순회가 그대로 맞는다
   function drawLen() {
     const cur = lenSec(), half = 100 / (SB_LENS.length - 1) / 2;   // 눈금 1칸 = ±0.5초(양끝은 안쪽 반쪽만 = 자 밖으로 안 넘친다)
     const lbls = SB_LEN_PTS.map(s => '<i' + (s === cur ? ' class="on"' : '') + ' style="left:' + lenPct(s) + '%">' + s + '</i>').join('');
     const hits = SB_LENS.map((v, i) => {
-      const s = SB_LEN_MIN + i, p = lenPct(s), l = Math.max(0, p - half), r = Math.min(100, p + half);
+      const s = SB_LEN_MIN + i * SB_LEN_STEP, p = lenPct(s), l = Math.max(0, p - half), r = Math.min(100, p + half);
       return '<button type="button" data-s="' + s + '" data-fk="len|' + s + '" aria-pressed="' + (s === cur) + '" style="left:' + l + '%;width:' + (r - l) + '%"'
         + ' title="' + s + 's · ' + SB_CUTS[v] + '" aria-label="길이 ' + s + '초 · ' + SB_CUTS[v] + '"></button>';
     }).join('');
