@@ -1,5 +1,5 @@
 {
- "updated": "2026-08-12T04:41:12+09:00",
+ "updated": "2026-08-13T04:47:07+09:00",
  "rc": 0,
  "fail": "",
  "jobs": {
@@ -32,10 +32,12 @@
   "smoke_wip": "0"
  },
  "failed": [],
- "flaky": [],
+ "flaky": [
+  "smoke_studioshell"
+ ],
  "details": [],
  "run": {
-  "id": "31528556319",
-  "url": "https://github.com/muteno/nomute-editor/actions/runs/31528556319"
+  "id": "31633520952",
+  "url": "https://github.com/muteno/nomute-editor/actions/runs/31633520952"
  }
 }
