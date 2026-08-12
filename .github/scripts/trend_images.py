@@ -14,6 +14,7 @@ import re
 import json
 import subprocess
 import hashlib
+import datetime as _dt
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import thumb_gen as tg   # __main__ 가드 有 = import 안전. fetch_article_images·http_image·r2_upload·_is_logo_card·_norm_key·R2_ON 재사용.
@@ -23,6 +24,20 @@ from claude_py import run_claude   # 폴오버 SSOT(쿼터 한도 시 백업계�
 OUT = os.path.join("viewer", "sns_trends.json")
 MODEL = os.environ.get("TREND_IMG_MODEL", "claude-sonnet-5")   # 운영자 260718 "사진 안 중요하니 소넷으로"
 MAX_TARGETS = max(1, min(20, int(os.environ.get("TREND_IMG_MAX", "14") or "14")))   # 결측 대상 상한(꼬리 노출대 커버·LLM 예산 보호)
+KST = _dt.timezone(_dt.timedelta(hours=9))
+FAIL_TTL_H = max(0.0, float(os.environ.get("TREND_IMG_FAIL_TTL_H", "2") or "2"))   # 실패 키워드 재검색 유예(평의회 260812 권고3ⓒ · 0 = 유예 없음)
+
+
+def _fail_fresh(ts, now_iso):
+    """실패 도장 ts가 유예(TTL) 안인가 — 안이면 이번 배치에서 재검색 제외(네거티브 캐시).
+    구판은 실패 키워드를 무유예 재시도해 같은 키워드가 트렌드 체류시간 내내 회차마다 재검색됐다(평의회 260812 실측
+    = 이론 필요 콜 3~8/일 vs 실측 59~75/일 = 낭비 85%+). 파싱 불가 = 유예 없음(재시도 허용 = fail-open)."""
+    try:
+        if not ts:
+            return False
+        return (_dt.datetime.fromisoformat(now_iso) - _dt.datetime.fromisoformat(str(ts))).total_seconds() < FAIL_TTL_H * 3600
+    except Exception:
+        return False
 
 
 def _gate_on():
@@ -42,9 +57,25 @@ def main():
         print("::warning::sns_trends.json 로드 실패(스킵): {}".format(e))
         return
 
+    # ── 재검색 절단 상태(평의회 260812 권고3ⓐⓒ) — 파일 안 "_trend_img" = {tried: 수집분 마커, fail: {키워드: 실패시각}} ──
+    #   ⓐ 같은 수집분(updated)엔 LLM 1회만 — 신선도 스킵 런의 중복 발사(0811 실측 = 7분 간격 2콜 $3.03이 같은
+    #   15키워드 재검색·백필 0) 차단. 상태는 수집 리빌드가 보존(sns_trends.py data 조립 carry) · 기계산출물 손편집 금지.
+    st = d.get("_trend_img") if isinstance(d.get("_trend_img"), dict) else {}
+    upd = str(d.get("updated") or "")
+    if upd and st.get("tried") == upd:
+        print("같은 수집분({}) 이미 시도됨 — LLM 스킵(권고3ⓐ · 새 수집분 도착 시 1회 재시도)".format(upd[:19]))
+        return
+    now_iso = _dt.datetime.now(KST).isoformat(timespec="seconds")
+
     gt = d.get("gtrends") or []
     # 대상 = picture 결측 + 검색어 有(주로 11~25위 API산). 이미 커버 있는 항목은 무접촉.
     targets = [g for g in gt if isinstance(g, dict) and not (g.get("picture") or "").strip() and (g.get("query") or "").strip()]
+    # 실패 유예(TTL) 필터(권고3ⓒ) — 직전 시도에서 못 채운 키워드는 유예 동안 재검색 제외.
+    _fails = st.get("fail") if isinstance(st.get("fail"), dict) else {}
+    _ttl_cut = [g for g in targets if _fail_fresh(_fails.get((g.get("query") or "").strip()), now_iso)]
+    if _ttl_cut:
+        print("실패 유예 제외 {}건({}h): {}".format(len(_ttl_cut), FAIL_TTL_H, ", ".join((g.get("query") or "?") for g in _ttl_cut[:8])))
+        targets = [g for g in targets if g not in _ttl_cut]
     targets = targets[:MAX_TARGETS]
     if not targets:
         print("결측 이미지 0 — 변경 없음")
@@ -52,6 +83,19 @@ def main():
 
     queries = [g["query"].strip() for g in targets]
     qmap = {q: g for q, g in zip(queries, targets)}   # 마지막 동일 검색어 우선(중복 드묾)
+
+    def _persist_state(fail_stamp_queries=()):
+        # 시도 마커 + 실패 유예 도장(권고3ⓐⓒ) — 채움 0이어도 상태를 남겨야 같은 수집분 재발사·실패 재검색이 끊긴다.
+        #   호출 자체가 실패한 경우(fail_stamp_queries 빈 튜플)는 키워드 탓이 아니므로 유예를 안 찍고 이 수집분만 봉인.
+        st["tried"] = upd
+        _keep = {q: ts for q, ts in ((st.get("fail") or {}) if isinstance(st.get("fail"), dict) else {}).items() if _fail_fresh(ts, now_iso)}
+        for _q in fail_stamp_queries:
+            _g0 = qmap.get(_q)
+            if _g0 is None or not ((_g0.get("picture") or "").strip()):
+                _keep[_q] = now_iso
+        st["fail"] = _keep
+        d["_trend_img"] = st
+        json.dump(d, open(OUT, "w", encoding="utf-8", errors="replace"), ensure_ascii=False, indent=1)   # indent=1 = sns_trends.py 기록 포맷 미러(재포맷 차단)
 
     prompt = """다음은 지금 한국에서 급상승 중인 검색어 목록이다. 각 검색어를 **가장 잘 대표하는 최신 한국 뉴스기사 1개의 원문 URL**을 찾아라.
 
@@ -78,6 +122,7 @@ def main():
     out = (res.stdout if res else "") or ""
     if rc != 0 or not out.strip():
         print("::warning::claude rc={} · stderr: {} · stdout(head): {}".format(rc, (err or "")[:600], out[:600]), flush=True)
+        _persist_state(())   # 호출 실패 — 이 수집분 재발사만 봉인(키워드 유예 없음 · 다음 수집분에 재시도)
         return
 
     # 파싱: '검색어\tURL' (탭 없으면 '검색어 ... URL' 폴백) — 검색어는 목록 매칭으로만 수용(환각 방어).
@@ -99,7 +144,8 @@ def main():
         pairs.append((q, url))
 
     if not pairs:
-        print("URL 0 — 변경 없음")
+        print("URL 0 — 변경 없음(시도분 실패 유예 도장)")
+        _persist_state(queries)
         return
 
     filled = 0
@@ -139,11 +185,11 @@ def main():
                 print("  ✅ {} → {}".format(q, final), flush=True)
                 break
 
+    _persist_state(queries)   # 미채움 키워드 = 실패 유예 도장 · 채움분은 picture 실림(파일 기록은 이 한 곳)
     if filled:
-        json.dump(d, open(OUT, "w", encoding="utf-8", errors="replace"), ensure_ascii=False, indent=1)   # indent=1 = sns_trends.py 기록 포맷 미러(재포맷 차단)
         print("✅ 트렌드 이미지 {}개 백필 → {}".format(filled, OUT), flush=True)
     else:
-        print("백필 0(로고컷·사진無·차단·중복)")
+        print("백필 0(로고컷·사진無·차단·중복) — 실패 유예 도장(재검색은 {}h 뒤)".format(FAIL_TTL_H))
 
     # 산출물 워치독(운영자 260730 "재발 안하려면?") — 이 스텝이 파이프의 마지막 커버 채움 지점이라
     # **최종 사용자 화면 상태**를 여기서 판정한다(코드 경로가 아니라 결과물을 감시 = 260729~30 '조용한 0' 재발 차단).

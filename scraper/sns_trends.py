@@ -385,6 +385,34 @@ def merge_gtrends(rss, api, keep=25):
     return out, pool
 
 
+def carry_trend_covers(gt, prev_gt):
+    """리빌드 커버 승계(평의회 260812 권고3ⓑ) — 재조립된 gtrends의 picture 결측분에 직전분 같은 query(소문자 일치)의
+    **R2 백필 커버(trend/ 경로)만** 승계. 구판은 수집 리빌드가 백필 커버를 지워 같은 키워드를 회차마다 재검색했다
+    (0811 git 스냅샷 실측 = 백필 커버 4건이 다음 리빌드에서 전부 결측 회귀 → trend_images가 재검색·재과금).
+    R2 한정 = 자체 호스팅이라 만료 없음 · 뉴스 CDN URL은 승계 제외(만료 링크 재유입 차단) · 전 경로 fail-soft."""
+    try:
+        byq = {}
+        for p in (prev_gt or []):
+            if isinstance(p, dict):
+                q = str(p.get("query") or "").strip().lower()
+                if q and q not in byq:
+                    byq[q] = p
+        n = 0
+        for g in (gt or []):
+            if not isinstance(g, dict) or (g.get("picture") or "").strip():
+                continue
+            p = byq.get(str(g.get("query") or "").strip().lower())
+            pic = str((p or {}).get("picture") or "")
+            if pic.startswith("http") and "/trend/" in pic:
+                g["picture"] = pic
+                if not g.get("news") and p.get("news"):
+                    g["news"] = p["news"]
+                n += 1
+        return n
+    except Exception:
+        return 0
+
+
 def og_image(url, timeout=6):
     """기사 og:image 1회 추출 — 구글 검색어 관련이미지(picture) 결측 백필용(운영자 260716 "백필 ㄱ").
     property/name · content 선후 양어순 매치 · //스킴·상대경로 보정 · 실패 = "" (fail-soft · 백필이 수집을 못 깨뜨림)."""
@@ -2420,6 +2448,9 @@ def main():
         yt_src = "innertube" if yt_all else ""
     gt_rss = gtrends(limit=20)   # 종전 RSS 축 = 이미지·뉴스 도너 + API 사망 시 단독 폴백 본체(운영자 260717 "최대한 수집" — RSS 원천 10개 상한)
     gt, gt_pool = merge_gtrends(gt_rss, gtrends_api())   # 하이브리드(운영자 260717 Q06) — RSS 커버 계승 + API 검색량 승급·25위 꼬리·전량 풀(월드 축 = 종전 RSS)
+    _cc = carry_trend_covers(gt, prev.get("gtrends") or [])   # 리빌드 커버 승계(평의회 260812 권고3ⓑ — 백필 R2 커버 보존 = 같은 키워드 재검색·재과금 차단)
+    if _cc:
+        print("트렌드 커버 승계 {}건(R2 백필분 · 재검색 차단)".format(_cc))
     tk = tiktok(limit=60)   # 풀 15→60(운영자 260724 "틱톡 2일 이내 top20") — 구 15 = KR-우선·조회수순 절단이라 저조회 신선분(<48h)이 상록 메가바이럴[수백만뷰]에 밀려 저장 전 굶김 · 60 = 10콜 KR 풀 전량 보존 → 뷰어 48h+top20 필터가 최종 선별 · tikwm 인기피드 = 상록 편중이라 신선 희소 가능(조용한 공백 정상)
     # 신선분 런 간 이월(운영자 260726 "틱톡이 10개가 안맞춰지는 이유 — 해결" · 원인 실측 260726 = tikwm feed가
     # region=KR 실효 약한 글로벌 혼합이라 단발 런 KR ≈ 7개·그중 24h 내 3개 → 뷰어 국내 인기[top20]가 굶주림):
@@ -2815,6 +2846,7 @@ def main():
         "gtrends": gt or prev.get("gtrends") or [],
         "gtrends_pool": gt_pool or prev.get("gtrends_pool") or [],   # 트렌딩나우 API 풀(vol≥500 또는 6h내 신선 · q·vol·started 콤팩트) — 실검 교차 부스트 원료(운영자 260717 · 실패 = 직전분)
         "gtrends_pool_updated": (now if gt_pool else prev.get("gtrends_pool_updated") or ""),   # 풀 신선도 마커(평의회 260717) — 미래 소비처의 스테일 게이트 원천 + API 축 사망 가시화(health.gtrends_api와 교차 판독)
+        "_trend_img": (prev.get("_trend_img") if isinstance(prev.get("_trend_img"), dict) else {}),   # 트렌드 이미지 백필 상태(시도 마커·실패 유예 = trend_images.py 기록 · 리빌드 보존 = 평의회 260812 권고3 · 기계산출물 손편집 금지)
         "gtrends_gl": gt_gl or prev.get("gtrends_gl") or [],   # 월드 축(KR 제외 주요국 병합 · 실패 = 직전분 · 운영자 260712)
         "yt_cids": {**(prev.get("yt_cids") or {}), **YT_CID} if (YT_CID or prev.get("yt_cids")) else {},   # 핸들→채널ID 캐시(기계 산출 · 손편집 금지) — 병합 저장 = SUBS_ON OFF 런·예산 절단 런에서도 기존 캐시 무손실
         "youtube_gl": yt_gl or prev.get("youtube_gl") or [],   # 월드 축(공식 API 경로만 · 실패/무키 = 직전분)

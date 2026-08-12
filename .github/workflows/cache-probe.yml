@@ -1,0 +1,41 @@
+name: cache-probe
+
+# 카드 고정부 캐시 프로브(평의회 260812 권고4 · 수동 카나리아) — 잡 2개(러너 분리·순차)가 카드 본콜과 같은
+#   프리픽스로 서로 다른 다이제스트 콜을 발사해 usage(cache_creation/cache_read)를 **로그로만** 실측한다.
+#   커밋 0 · 산출물 0 · 총 3콜(A · B · B2 잡내 대조군) ≈ 환산 $4 · 과금 = 구독 쿼터(종량제 0).
+# 판독 = shared/cache_probe.sh 헤더 · 계정 = 카드 잡과 같은 ACTIVE_ACCOUNT(캐시는 계정 스코프 — 다르면 프로브 무효).
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cache-probe
+  cancel-in-progress: false
+
+jobs:
+  probeA:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm install -g @anthropic-ai/claude-code   # 러너엔 claude 미설치(없으면 exit 127)
+      - name: Probe A(첫 발사 = 캐시 조성 기대)
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets[format('CLAUDE_CODE_OAUTH_TOKEN_{0}', vars.ACTIVE_ACCOUNT || 'MUTENO')] }}
+        run: bash shared/cache_probe.sh A
+
+  probeB:
+    needs: probeA
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm install -g @anthropic-ai/claude-code
+      - name: Probe B(잡 간 재사용 판정) + B2(잡 내 대조군)
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets[format('CLAUDE_CODE_OAUTH_TOKEN_{0}', vars.ACTIVE_ACCOUNT || 'MUTENO')] }}
+        run: |
+          bash shared/cache_probe.sh B
+          bash shared/cache_probe.sh B2

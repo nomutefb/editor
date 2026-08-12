@@ -97,7 +97,7 @@ jobs:
         run: |
           git config user.name "nomute-bot"
           git config user.email "bot@users.noreply.github.com"
-          for f in cards queue; do if [ -e "$f" ]; then git add "$f"; fi; done   # 파일별 개별 add(Q980 전파: 결측 pathspec 1개 = add 전체 원자 abort 무음) · queue = 원문 URL 백필분(more_images.py · url:"" 기사 한정)
+          for f in cards queue metrics; do if [ -e "$f" ]; then git add "$f"; fi; done   # 파일별 개별 add(Q980 전파: 결측 pathspec 1개 = add 전체 원자 abort 무음) · queue = 원문 URL 백필분(more_images.py · url:"" 기사 한정) · metrics = claude_meter shard 계측 착지(평의회 260812 권고6 — 구판 미커밋 = moreimg 원장 all-time 0건 실측 = Opus·웹검색 소비가 지도 밖)
           if git diff --cached --quiet; then
             echo "변경 없음(새 이미지 0 · URL 백필 0)"; exit 0
           fi

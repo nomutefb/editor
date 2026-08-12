@@ -79,9 +79,24 @@ def _shards():
     return sorted(glob.glob(str(USAGE_DIR / "*.jsonl")))
 
 
+def _idem_key(r):
+    # 원장 멱등키(평의회 260812 권고6) — 롤업 접기 경합으로 같은 콜이 원장에 2~3중 기록되던 축
+    # (실측 = 15일 창 227행 · $6.76/일 이중계상 · token-usage.jsonl 12255·12504·12654행 = 같은 run 3중) 차단.
+    return (str(r.get("ts") or ""), str(r.get("src") or ""), str(r.get("run") or ""), str(r.get("job") or ""),
+            str(r.get("out") or ""), str(r.get("cost") or ""))
+
+
 def load_all():
+    # read-time dedup — 원장에 이미 박힌 과거 중복도 집계에서 제거(원장 파일 자체는 무수정 = 기계산출물 보존).
     paths = ([str(LEDGER)] if LEDGER.exists() else []) + _shards()
-    return list(_iter_records(paths))
+    seen, out = set(), []
+    for r in _iter_records(paths):
+        k = _idem_key(r)
+        if k in seen:
+            continue
+        seen.add(k)
+        out.append(r)
+    return out
 
 
 def _zero():
@@ -133,10 +148,13 @@ def aggregate(records, hours):
 
 
 def prune(hours):
-    """shard 중 가장 최신 레코드가 hours 보다 오래된 것 → 원장(LEDGER)에 접고 shard 삭제."""
+    """shard 중 가장 최신 레코드가 hours 보다 오래된 것 → 원장(LEDGER)에 접고 shard 삭제.
+    접기 = 멱등(평의회 260812 권고6) — 경합 리트라이로 같은 shard가 두 번 접혀도 원장에 이미 있는
+    레코드(_idem_key)는 건너뛴다(구판 = 무조건 append = 같은 콜 2~3중 기록 실측)."""
     cutoff = _now() - datetime.timedelta(hours=hours)
-    folded = 0
+    folded, skipped = 0, 0
     LEDGER.parent.mkdir(parents=True, exist_ok=True)
+    have = {_idem_key(r) for r in _iter_records([str(LEDGER)])} if LEDGER.exists() else set()
     for p in _shards():
         recs = list(_iter_records([p]))
         if not recs:
@@ -146,11 +164,16 @@ def prune(hours):
         if newest and newest < cutoff:
             with open(LEDGER, "a", encoding="utf-8") as f:
                 for r in recs:
+                    k = _idem_key(r)
+                    if k in have:
+                        skipped += 1
+                        continue
+                    have.add(k)
                     f.write(json.dumps(r, ensure_ascii=False) + "\n")
+                    folded += 1
             os.remove(p)
-            folded += len(recs)
-    if folded:
-        print(f"prune: {folded} 레코드를 원장으로 접고 shard 삭제")
+    if folded or skipped:
+        print(f"prune: {folded} 레코드를 원장으로 접고 shard 삭제(중복 스킵 {skipped})")
     return folded
 
 

@@ -32,6 +32,11 @@ CARD_TIMEOUT="${CARD_TIMEOUT:-1500}"
 #   노브는 4개 호출부(본생성·lint재생성·cov회수·edit) effort 단일 정본으로만 존치(흩어진 하드코딩 통합).
 #   ⚠️ 토큰 안전(CARD_BUDGET_SEC 25분 하드캡·CARD_FAIL_RETRY_MAX 0·타임아웃 재시도 봉인)은 effort와 무관하게 유지 = 별개 축.
 CARD_EFFORT="${CARD_EFFORT:-max}"
+# 교정·회수 전용 노력도(평의회 260812 권고5) — 린트 재통과(out2)·cov 회수(out3)는 「지적된 줄만 고쳐 재출력」하는
+#   기계 작업인데 본콜과 같은 노브(CARD_EFFORT)에 묶여 260810 max 승격에 편승했다(원장 실측 = 재통과 콜당 $1.92
+#   ≈ 본콜 $2.04 = 사실상 전면 재작성 비용). 본콜 max는 유지하고 교정·회수만 high로 분리 — 품질 바닥은 동일 린트
+#   게이트 재검·6중 채택 게이트가 잡는다(불변). 가드 = 채택률 전후 대조 · 하락 시 CARD_FIX_EFFORT=max 원복 1줄.
+CARD_FIX_EFFORT="${CARD_FIX_EFFORT:-high}"
 # 실패 카드 자동 재시도 상한(런간 · 운영자 260711 "자동 재시도 3회까지") — status.json fails(실패 누적)가 이 값
 # *이하*인 failed는 all 배치에 자동 재편입(fails=1→재시도#1 … fails=3→재시도#3 · fails=4부터 수동만).
 # fails 필드가 아예 없는 구 failed(신정책 이전 적체)는 *이 특례*로는 스킵 = 소급 없음(과금 서프라이즈 차단) —
@@ -434,8 +439,8 @@ ${lint_out}
 [직전 산출물 전문 — 이걸 고쳐서 다시 낸다]
 $(cat "/tmp/${stem}.cards.tmp")
 "
-      out2="$(printf '%s' "${fp_base}${LINT_SUFFIX}" | METER_SRC=card METER_REF="$stem" METER_MODEL="$MODEL" METER_EFFORT="$CARD_EFFORT" claude_meter "$CARD_TIMEOUT" \
-            --model "$MODEL" --effort "$CARD_EFFORT" \
+      out2="$(printf '%s' "${fp_base}${LINT_SUFFIX}" | METER_SRC=card METER_REF="$stem" METER_MODEL="$MODEL" METER_EFFORT="$CARD_FIX_EFFORT" claude_meter "$CARD_TIMEOUT" \
+            --model "$MODEL" --effort "$CARD_FIX_EFFORT" \
             --allowedTools "WebFetch,WebSearch" \
             --disallowedTools "Write,Edit,NotebookEdit,Bash,Task,Read,Glob,Grep" \
             --max-turns 40 "${SYS_ARGS[@]}" 2>/dev/null)"
@@ -501,8 +506,8 @@ ${GBLOCK}
 
 ${fp_base}${COV_SUFFIX}"
         fi
-        out3="$(printf '%s' "$_cov_fp" | METER_SRC=card-cov METER_REF="$stem" METER_MODEL="$MODEL" METER_EFFORT="$CARD_EFFORT" claude_meter 900 \
-              --model "$MODEL" --effort "$CARD_EFFORT" \
+        out3="$(printf '%s' "$_cov_fp" | METER_SRC=card-cov METER_REF="$stem" METER_MODEL="$MODEL" METER_EFFORT="$CARD_FIX_EFFORT" claude_meter 900 \
+              --model "$MODEL" --effort "$CARD_FIX_EFFORT" \
               --disallowedTools "Write,Edit,NotebookEdit,Bash,Task,Read,Glob,Grep,WebFetch,WebSearch" \
               --max-turns 40 2>/dev/null)" || true
         if [ -n "${out3//[[:space:]]/}" ] && grep -qm1 '^### \[카드 1\]' <<<"$out3"; then

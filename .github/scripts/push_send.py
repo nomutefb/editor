@@ -102,9 +102,13 @@ def _ai_same_event(title, recent_titles):
         f"대상: {str(title or '').replace(chr(10), ' ')}\n이미 다룬 사건들:\n{listing}\n\n"
         "출력은 정확히 토큰 하나 — 동일하면 그 번호(예: 2), 없으면 NONE. 다른 글자·설명·기호 금지."
     )
+    # --safe-mode(평의회 260812 권고2) — autopick과 동축: 자기완결 프롬프트·출력 1토큰 판정이 CLAUDE.md를 콜마다
+    #   재적재(콜당 캐시쓰기 ~5만tok = 비용의 99%)하던 축 절단. judge 3종 260701 카나리아(−97.2%) 문법 이식 ·
+    #   --bare 아님 · 롤백 = env PUSH_DEDUP_SAFE=0 1줄.
+    _safe = [] if os.environ.get("PUSH_DEDUP_SAFE", "1").strip() == "0" else ["--safe-mode"]
     p, rc, err = run_claude(
-        ["claude", "-p", "--model", os.environ.get("PUSH_DEDUP_MODEL", "claude-opus-5"), "--effort", "high",
-         "--disallowedTools", "Write,Edit,NotebookEdit,Bash,Task,WebFetch,WebSearch,Read,Glob,Grep",
+        ["claude", "-p", "--model", os.environ.get("PUSH_DEDUP_MODEL", "claude-opus-5"), "--effort", "high"] + _safe +
+        ["--disallowedTools", "Write,Edit,NotebookEdit,Bash,Task,WebFetch,WebSearch,Read,Glob,Grep",
          "--max-turns", "1"],
         prompt, timeout=120, source="pushdedup")
     if p is None or rc != 0:

@@ -143,9 +143,14 @@ def _ai_same(title, recent_titles):
         f"대상: {str(title or '').replace(chr(10), ' ')}\n이미 다룬 사건들:\n{listing}\n\n"
         "출력은 정확히 토큰 하나 — 동일하면 그 번호(예: 2), 없으면 NONE. 다른 글자·설명·기호 금지."
     )
+    # --safe-mode(평의회 260812 권고2) = CLAUDE.md/스킬/MCP 비적재 — 프롬프트가 자기완결(제목 목록뿐)이고 출력 1토큰인
+    #   판정 콜이 콜마다 캐시쓰기 ~10만tok(CLAUDE.md 재적재 · 비용의 99%)을 태우던 축 절단. judge 3종(gate/breaking/group)의
+    #   260701 카나리아(cache_creation −97.2%) 승격 문법 이식 · --bare 아님(OAuth·내장 도구 정상 = §📰-d 경계) ·
+    #   롤백 = env AUTOPICK_SAFE=0 1줄.
+    _safe = [] if os.environ.get("AUTOPICK_SAFE", "1").strip() == "0" else ["--safe-mode"]
     p, rc, err = run_claude(
-        ["claude", "-p", "--model", os.environ.get("AUTOPICK_MODEL", "claude-opus-5"), "--effort", "high",
-         "--disallowedTools", "Write,Edit,NotebookEdit,Bash,Task,WebFetch,WebSearch,Read,Glob,Grep",
+        ["claude", "-p", "--model", os.environ.get("AUTOPICK_MODEL", "claude-opus-5"), "--effort", "high"] + _safe +
+        ["--disallowedTools", "Write,Edit,NotebookEdit,Bash,Task,WebFetch,WebSearch,Read,Glob,Grep",
          "--max-turns", "1"],
         prompt, timeout=120, source="autopick")
     if p is None or rc != 0:
@@ -170,7 +175,10 @@ def main():
 
     def _age_days(iso):
         try:
-            return (now - dt.datetime.fromisoformat(iso)).total_seconds() / 86400
+            s = str(iso)
+            if s.startswith("d:"):   # 중복억제 도장 값(아래 ⊘ 분기 · 권고1) — 48h 정리는 도장 시각 기준 동일
+                s = s[2:]
+            return (now - dt.datetime.fromisoformat(s)).total_seconds() / 86400
         except Exception:
             return 0
 
@@ -216,6 +224,13 @@ def main():
             ai_idx = _ai_same(title, [e.get("title", "") for e in seen_events])
             if ai_idx is not None:
                 print(f"  ⊘ 사건중복 스킵(AI): {title[:34]} ≈ {str(seen_events[ai_idx].get('title', ''))[:28]}", file=sys.stderr)
+                # 중복억제 도장(평의회 260812 권고1) — 구판은 무도장 continue라 자격 유지(<4h) 동안 15분 런마다
+                #   같은 후보를 재판정했다(0811 실측 67콜/$71 = 15일 치의 57%). 같은 병의 형제 push_send.py의
+                #   억제 도장(운영자 260722 Q437 "억제 키는 원장 도장 = 이후 런 AI 0콜 스킵") 문법 이식.
+                #   값 접두 "d:" = ⓐ 일 상한 카운터 비오염(today_n은 값이 오늘 날짜로 시작하는 키만 셈 — 도장은 픽이 아니다)
+                #   ⓑ 48h 정리는 _age_days가 접두를 벗기고 판정. 키 존재만으로 다음 런 picks 필터가 걸러낸다.
+                for k in ekeys(c):
+                    led[k] = "d:" + stamp
                 continue
         bp = (c.get("breaking_pick") or {}).get("url")
         alts = ([bp] if isinstance(bp, str) else []) + [u for u in (c.get("cluster_members") or c.get("alt_urls") or []) if isinstance(u, str)]

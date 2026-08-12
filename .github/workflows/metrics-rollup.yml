@@ -45,6 +45,7 @@ jobs:
         run: |
           mkdir -p metrics/usage
           python3 shared/token_report.py --prune 3 --write viewer/token-usage.json --quiet
+          python3 shared/paid_ledger.py --write metrics/paid-usage.json || true   # 종량제(Gemini 등) 일 합산 원장(평의회 260812 권고6 · LLM 0·네트워크 0 — 산출물 원장 4종 합산 = 토큰 지도 ③표 「산정」→실측 · 실패 무해)
           echo "--- 최근 표 ---"
           python3 shared/token_report.py --hours 24 || true
 

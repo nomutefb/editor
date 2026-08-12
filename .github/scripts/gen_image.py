@@ -732,12 +732,17 @@ def _render(o, prompt, free, stem):
     ar_wh = _parse_aspect(o["aspect"]) or (4, 5)   # GPT Image 사이즈 선택 재료(요청비)
     for i in range(o["count"]):
         png = None
+        eng_used = ""   # 실제 렌더 엔진(과금 귀속 · 평의회 260812 권고6 — 구판 free.json은 엔진 미기록이라 GPT/Gemini 과금을 원장으로 못 갈랐다)
         if o.get("engine") == "gpt":   # 운영자 토글 = GPT Image(첨부 있으면 편집+input_fidelity high · 문서 §L2) · 실패 시 Gemini 폴백(기능 무중단)
             png = openai_image(prompt, ref_png, ar_wh)
+            if png:
+                eng_used = "gpt"
             if not png:
                 print("::warning::GPT Image 전건 실패 — Gemini로 폴백 렌더", flush=True)
         if not png:
             png = tg.gemini_image(prompt, image_size=render_size, tag="genimg", aspect=render_aspect, ref_png=ref_png)
+            if png:
+                eng_used = "gemini"
             if not png and tg.LAST_ERR:
                 fail_reasons.append(tg.LAST_ERR)
             # 역방향 폴백(운영자 260729 "AI 생성이 작동 안 함") — 기본 엔진 Gemini가 죽으면(실측 run 30457842395:
@@ -746,6 +751,8 @@ def _render(o, prompt, free, stem):
             if not png and o.get("engine") != "gpt":
                 print("::warning::Gemini 렌더 실패 — GPT Image로 폴백 렌더", flush=True)
                 png = openai_image(prompt, ref_png, ar_wh)
+                if png:
+                    eng_used = "gpt"
                 if not png:
                     fail_reasons.append("GPT Image 폴백도 실패")
         if not png:
@@ -762,7 +769,8 @@ def _render(o, prompt, free, stem):
                 f.write(png)
             url = ("gen_out/" + fname) if free else "cards/{}/thumbs/{}".format(stem, fname)
             print("  ⚠️ R2 불가 — git 폴백 저장: " + url, flush=True)
-        it = {"url": url, "link": "", "label": "생성", "style": o["style"], "prompt": prompt[:1500]}
+        it = {"url": url, "link": "", "label": "생성", "style": o["style"], "prompt": prompt[:1500],
+              "engine": eng_used or (o.get("engine") or "gemini")}   # 실제 렌더 엔진(폴백 반영) — 종량제 과금 귀속 실측용(평의회 260812 권고6)
         if free:
             it["ts"] = datetime.datetime.now(KST).isoformat(timespec="seconds")   # /6 그리드 표시·정렬용(§📐 KST)
         new_items.append(it)
