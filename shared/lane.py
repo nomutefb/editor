@@ -21,16 +21,23 @@
   FAIL_COSTS    실패한 호출에 돈이 나가는가 (재시도 정책의 전제)
   COST_KIND     값 단위 — 'usd'(실청구) | 'credit'(크레딧)
 
-**함수 9**
-  fresh_token()                     자격 한 줄
+**함수 11**
+  fresh_token()                     자격 한 줄 — **편마다 부른다**(열쇠 수명 < 한 편 대기 시간일
+                                    수 있다) · 살아 있으면 그대로 돌려주는 건 통로 몫
   refs_payload(urls, embed)         참조 수송 → (실어 보낼 것, 방식 이름)
-  start(prompt, token, refs, seconds, ratio)   발사 → 작업 번호
+  start(prompt, token, refs, seconds, ratio, sound)   발사 → 작업 번호
   wait(job_id, token)               완료 대기 → {url, duration, cost}
   fetch(url)                        결과 바이트
+  too_big(exc)                      몸집 축 거절인가(참이면 수송 방식을 갈아탄다)
   classify(exc)                     벤더 예외 → LaneError(3속성)
   ref_lock_clause(n)                프롬프트의 참조 잠금 절(벤더 문법)
+  ref_id_clause(i, text)            참조 i 번의 정체 문장(벤더 지목 문법)
   sound_clause(on, sfx)             프롬프트의 소리 절(벤더 문법)
   estimate(seconds, ratio)          발사 전 견적 — 못 재면 None(그록)
+
+⚠ **상수는 선언이 아니라 배선이다** — `FAIL_COSTS`·`COST_KIND` 는 러너가 실제로 읽어서
+  ⓐ 자동 재시도 여부 ⓑ 값 단위 표기를 가른다(260812 페이블 검증에서 둘 다 「선언만 있고
+  읽는 곳 0」으로 잡혔다 = 이 레포가 「강제 없는 선언」이라 부르는 그 모양).
 
 ## 예외 3속성 공통 계약
 

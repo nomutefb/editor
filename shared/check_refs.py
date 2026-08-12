@@ -5393,13 +5393,51 @@ def check_grok_sb_chain():
     ln_t, lg_t = _t("shared/lane.py"), _t("shared/lane_grok.py")
     if "class LaneError" not in ln_t or "def pick(" not in ln_t:
         print("❌ 그록 콘티 레인 — shared/lane.py 계약 골격(LaneError·pick)이 없다"); rc = 1
-    for k in ("NAME", "SHOT_SEC", "SEC_MAX", "RATIOS", "REF_CAP_TECH", "EMBED_MAX", "FAIL_COSTS", "COST_KIND"):
-        if k + " =" not in lg_t:
-            print("❌ 그록 콘티 레인 — 통로 상수 {} 가 lane_grok.py 에 없다(러너가 벤더 값을 직접 들게 된다)".format(k)); rc = 1
-    for f in ("fresh_token", "refs_payload", "start", "wait", "fetch", "classify",
-              "ref_lock_clause", "sound_clause", "estimate", "too_big"):
-        if "def {}(".format(f) not in lg_t:
-            print("❌ 그록 콘티 레인 — 통로 함수 {}() 가 lane_grok.py 에 없다".format(f)); rc = 1
+    # ⚠ **등록된 통로를 전부 본다**(손 목록 금지 · 260812 페이블 검증에서 이 게이트가 그록만 보고
+    #   시댄스는 한 줄도 안 보던 것이 잡혔다 = 「같은 병의 형제 누락」 축). 새 통로가 LANES 에
+    #   등록되면 그 순간부터 같은 계약으로 검사된다 — 조용히 빠질 자리가 없다.
+    _lanes = re.findall(r'^\s*"[a-z0-9_]+"\s*:\s*"(lane_[a-z0-9_]+)"', ln_t, re.M)
+    if len(_lanes) < 1:
+        print("❌ 그록 콘티 레인 — lane.py LANES 등록표를 못 읽었다(자동 발견 실패 = fail-closed)"); rc = 1
+    for _mod in _lanes:
+        _lt = _t("shared/{}.py".format(_mod))
+        if not _lt:
+            print("❌ 그록 콘티 레인 — 등록된 통로 shared/{}.py 가 없다".format(_mod)); rc = 1
+            continue
+        for k in ("NAME", "SHOT_SEC", "SEC_MAX", "RATIOS", "REF_CAP_TECH", "EMBED_MAX",
+                  "FAIL_COSTS", "COST_KIND"):
+            if k + " =" not in _lt:
+                print("❌ 그록 콘티 레인 — 통로 상수 {} 가 {}.py 에 없다(러너가 벤더 값을 직접 들게 된다)"
+                      .format(k, _mod)); rc = 1
+        for f in ("fresh_token", "refs_payload", "start", "wait", "fetch", "classify",
+                  "ref_lock_clause", "ref_id_clause", "sound_clause", "estimate", "too_big"):
+            if "def {}(".format(f) not in _lt:
+                print("❌ 그록 콘티 레인 — 통로 함수 {}() 가 {}.py 에 없다".format(f, _mod)); rc = 1
+    # ⑩-b **상수는 선언이 아니라 배선이다**(260812 페이블 검증 치명 2건) — 두 상수 다 「선언만 있고
+    #   읽는 곳 0」이었다. ⓐ COST_KIND 미배선 = 크레딧이 달러 칸에 적혀 화면이 「청구 $195」라고
+    #   그것도 실측인 척 말한다 ⓑ FAIL_COSTS 미배선 = 「실패는 공짜」라는 **그록 실측**이 환불
+    #   미확인 통로에 그대로 적용돼 이중 청구가 된다(재시도의 주 고객이 「실패로 보이지만 제출은
+    #   성공」한 경우라 환불과 무관하게 성공 두 발 값이 나간다).
+    for needle, why in (("LANE.FAIL_COSTS is False", "재시도가 실패분 청구 여부를 읽는다"),
+                        ("unit=LANE.COST_KIND", "값 원장이 단위를 통로에서 받는다"),
+                        ('LANE.COST_KIND == "credit"', "화면·산출 문구가 단위를 가른다"),
+                        ("LANE.estimate(", "발사 전 견적 검문(무검문 대량 발사 차단)"),
+                        ('rec["job"]', "작업 번호 기록(나간 값의 영수증 = 회수 수단)"),
+                        ("LANE.ref_id_clause(", "참조 지목 문법을 통로에서 받는다")):
+        if needle not in rn:
+            print("❌ 그록 콘티 레인 — grok_sb_video.py 에 {} 가 없다({})".format(why, needle)); rc = 1
+    if "unit" not in _t(".github/scripts/sb_cost.py") or 'row["cr" if unit' not in _t(".github/scripts/sb_cost.py"):
+        print("❌ 그록 콘티 레인 — 값 원장이 달러·크레딧을 한 칸에 섞는다(환산율 미확인인데 합산 = 거짓 금액)"); rc = 1
+    # 벤더 프롬프트 문법이 러너에 되살아나는 것 차단(통로가 일부러 뺀 문법이 러너에서 부활)
+    # ⚠ **코드부만 본다** — 이 문법이 왜 통로로 갔는지 설명하는 주석·독스트링은 사고 기록의
+    #   거처다(그걸 위반으로 세면 게이트가 자기 처방문을 잡는다 = 첫 실행 자기적발).
+    _rn_code = [l for l in _aac_strip_py_docstrings(rn) if not l.strip().startswith("#")]
+    if any("<IMAGE_" in l for l in _rn_code):
+        print("❌ 그록 콘티 레인 — 러너에 그록 슬롯 문법(<IMAGE_n>)이 박혀 있다(통로 훅 우회)"); rc = 1
+    # 자격은 **편마다** 새로 받는다(열쇠 수명 < 한 편 대기 시간이면 뒤쪽 편이 자격 축으로 죽는다)
+    _loop = rn.split("for c in shots:", 1)[-1]
+    if "LANE.fresh_token()" not in _loop:
+        print("❌ 그록 콘티 레인 — 편마다 자격을 갱신하지 않는다(긴 대기에서 열쇠가 먼저 죽는다)"); rc = 1
     # 러너가 벤더를 **직접** 부르면 계약이 뚫린 것이다(주석 줄 제외 = 사고 기록의 거처)
     _vend = [l for l in rn.splitlines()
              if ("gk." in l or "grok_api" in l) and not l.strip().startswith("#")]

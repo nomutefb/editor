@@ -443,11 +443,18 @@ const SB_DIRECTORS = [   // 표시명 = NM_MODELS 사전 참조(운영자 260803
 ];
 const SB_SHOOTS = [
   { id: 'grok', nm: NM_MODELS.grok, hint: '구독 자격 직결 · 콘티→영상까지 여기서 끝난다(초당 약 $0.15)' },   // 운영자 260811 = 제미나이가 그린 콘티 컷을 첫 장면으로 넣고 감독이 프롬프팅해 영상까지(이 레인만 in-repo 완결 · 추가 과금 0)
-  { id: 'seedance', nm: NM_MODELS.seedance, hint: 'MCP 자동 · 준비 중' },
+  // 운영자 260812 확정 프리셋 = 「2.5 720p」 또는 「2.0 표준 FHD ×2」 — 같은 30초를 이음매 없이
+  // 한 발로 갈지, 화질을 올리고 두 발로 나눌지의 선택이라 촬영 칸 자체를 둘로 나눈다(입력 신설 0).
+  // ⚠ 2.5 는 1080p 이상을 아예 지원하지 않는다(창구 목록 실측) — 「이음매 0」과 「FHD」는 동시에 안 된다.
+  { id: 'seedance', nm: NM_MODELS.seedance_2_5, hint: '30초 한 발 · 720p · 이음매 없음(30초 약 195크레딧)' },
+  { id: 'seedance_fhd', nm: NM_MODELS.seedance_2_0, hint: '15초 두 발 · 1080p · 화질 우선(30초 약 270크레딧)' },
   { id: 'motion', nm: NM_MODELS.motion, hint: '플랫 모션 · 사내 렌더 → mp4 즉시 · 0원' }   // 실사 생성 AI가 아닌 3번째 레인(정보전달형 플랫 모션 — 콘티 🎞 모션 스펙 → mg_render.py가 같은 잡에서 mp4까지 뽑음 · 외부 API 0 = 레퍼런스 이미지도 불요)
 ];
 // 축 = 프롬프팅(k) 이관분 흡수(운영자 Q1145 "프레임까지 콘티로 이동" · Q1147 "따로 노는걸 합치되 품질·기능성 유지").
 // 값 3면 동기: 이 표 = functions/api/sb.js SB_SET · 화질·프레임 값 집합 = viewer/k.html K_VALS 동일(드리프트 0).
+// 이 계열 = 두 프리셋이 한 통로다 — 조건마다 이름 두 개를 나열하면 다음에 프리셋이
+// 늘 때 한 곳이 조용히 빠진다(이 레포 최빈 드리프트). 술어를 한 곳에 둔다.
+const sbIsSd = s => (s === 'seedance' || s === 'seedance_fhd');
 const SB_LEN_STEP = 10;                    // ⚠ 컷 1개 = **10초 고정**(운영자 260812 「고정임 더 짧을수도 없고」 · 「보드를 항상 10초를 기준으로 구성해서 10초짜리를 여러개」) — 총 길이는 10의 배수만 존재한다
 const SB_LEN_MIN = 10, SB_LEN_MAX = 60;   // 자(ruler) 범위 = 1컷~6컷(구 5~15s 1초 눈금은 260812 폐지 — 눈금이 1초면 10의 배수가 아닌 값이 골라져 보드가 10초로 안 쪼개진다)
 const SB_LEN_PTS = [10, 20, 30, 40, 50, 60];   // 라벨 포인트(운영자 260804 "5 8 10 12 15 에만 포인트 잡아주고 나머지는 각 눈금 선택한 부분에 따라서 숫자가 정해지게") — 눈금은 1초 전건 선택 가능·숫자 표기만 이 5점
@@ -468,7 +475,7 @@ function sbRatio() { return sbSet['비율'] === 'custom' ? (sbArVal() || SB_DEF[
 function sbArFit(el) { if (el) el.style.width = Math.max(1, (el.value || '').length) + 'ch'; }   // 숫자칩 폭 = 값 길이 동기(index geniArFit 정본 미러)
 function sbPayload() {   // go 핸들러 페이로드(서버 api/sb.js가 화이트리스트 재검증)
   const set = Object.assign({}, sbSet); if (set['비율'] === 'custom') set['비율'] = sbRatio();   // 'custom' = 화면 상태값 → 발사 시 실 N:M으로 치환(k 「길이」 직접 = segTotal()+'s' 선례 문법)
-  return { director: sbDirector, shoot: sbShoot, set, ad: sbAd, sound: (sbShoot === 'grok') ? sbSnd : true, ref: (sbShoot === 'seedance') ? true : (sbShoot === 'motion' ? false : (sbShoot === 'grok' ? true : sbRef)) };   // grok = 제미나이 콘티 컷이 첫 장면 재료라 강제 ON(시댄스 동축)   // ref = 레퍼런스 이미지 생성 여부(시댄스 강제 true · 모션 강제 false = 실사 레퍼런스 쓸 곳 없음 · 서버 api/sb.js가 워크플로 입력으로 재검증)
+  return { director: sbDirector, shoot: sbShoot, set, ad: sbAd, sound: (sbShoot === 'grok') ? sbSnd : true, ref: (sbIsSd(sbShoot)) ? true : (sbShoot === 'motion' ? false : (sbShoot === 'grok' ? true : sbRef)) };   // grok = 제미나이 콘티 컷이 첫 장면 재료라 강제 ON(시댄스 동축)   // ref = 레퍼런스 이미지 생성 여부(시댄스 강제 true · 모션 강제 false = 실사 레퍼런스 쓸 곳 없음 · 서버 api/sb.js가 워크플로 입력으로 재검증)
 }
 (function () {
   const dg = $('#dgrid'), sg = $('#sgrid'), axR = $('#axRatio'), axL = $('#axLen'), ad = $('#adTg'), spec = $('#gospec');
@@ -507,10 +514,10 @@ function sbPayload() {   // go 핸들러 페이로드(서버 api/sb.js가 화이
     // 점등 문법 = 요약 스트립 활성값 정본 `.gs-v.on`(edit 계승 — 신규 클래스·신규 색 0).
     // 엔진 표기 = 정본 모델명 텍스트만 `Gemini 3.1 Flash`(index GENI_ENG_ICO 동일 문자열 — 줄임말·창작 라벨 금지) · 구 브랜드 픽토(G_SVG 조합)는 260803 3차 폐지(운영자 "제미나이 로고까지 붙을 필요는 없고 그냥 바로 모델명 써지면 됨").
     // 콘티 엔진 값. **시댄스 = 무조건 생성 / 클링 = 옵션**(운영자 Q1161 정정본 — 시댄스는 md만 산출해 이미지가 발사 필수 재료 · 클링은 프롬프트가 본체라 @참조 이미지는 옵션).
-    const gemOn = (sbShoot === 'seedance' || sbShoot === 'grok') ? true : (sbShoot === 'motion' ? false : sbRef);
-    const gemLock = (sbShoot === 'seedance' || sbShoot === 'motion' || sbShoot === 'grok');   // 강제 축(Seedance = 무조건 ON · 모션그래픽 = 무조건 OFF) = 탭 무효 잠금(정본 `.gs-locked` = 딤 + 핸들러 가드 한 몸)
+    const gemOn = (sbIsSd(sbShoot) || sbShoot === 'grok') ? true : (sbShoot === 'motion' ? false : sbRef);
+    const gemLock = (sbIsSd(sbShoot) || sbShoot === 'motion' || sbShoot === 'grok');   // 강제 축(Seedance = 무조건 ON · 모션그래픽 = 무조건 OFF) = 탭 무효 잠금(정본 `.gs-locked` = 딤 + 핸들러 가드 한 몸)
     const gemV = tapChip(NM_MODELS.gemini, 'ref',   // 표기 = 사전값 1벌(구 리터럴 2종 회수) · 꺼짐 = **같은 워딩 소등**(운영자 260803 "기능 워딩이 점등하냐 안하냐로 onoff" — 구 'Gemini OFF' 문자 갈아끼우기 폐지 · 아래 「콘티」 행 칩과 한 얼굴)
-      sbShoot === 'seedance'
+      sbIsSd(sbShoot)
         ? 'Seedance = 레퍼런스 이미지 무조건 생성(끌 수 없음 · sb_out/&lt;id&gt;/ref.json = 1-way 주입 필수 재료) · Gemini 종량제 과금 — 탭 무효'
         : (sbShoot === 'motion'
             ? '모션그래픽 = 실사 레퍼런스를 쓸 곳이 없다(플랫 도형·숫자·글자만) → 강제 OFF · Gemini 미과금 — 탭 무효'
@@ -580,11 +587,11 @@ function sbPayload() {   // go 핸들러 페이로드(서버 api/sb.js가 화이
     // 「프레임」 = 30fps 고정(운영자 260804) — 선택 행 폐지라 렌더할 칩이 없다(값은 SB_DEF·SB_VALS 1값이 담보 · 리드백은 레일 읽기 전용 칩).
     drawLen();   // 「길이」 = 자(ruler) 선택자(운영자 260804) — 칩 나열 대신 눈금 11개(5~15s)
     // 콘티 엔진 칩 — 시댄스 = 강제 ON·비활성(끌 수 없음) / 클링 = 선택 가능(운영자 Q1161)
-    const refOn = sbShoot === 'seedance' ? true : (sbShoot === 'motion' ? false : sbRef);
+    const refOn = sbIsSd(sbShoot) ? true : (sbShoot === 'motion' ? false : sbRef);
     rf.textContent = NM_MODELS.gemini;   // 표기 = 모델명 사전값(운영자 260804 「콘티 선택자」 신설 — 구 '참조 이미지' 기능어 라벨은 스트립 리드백 「콘티 : Gemini 3.1 Flash」와 이름이 갈렸다 · 점등/소등이 곧 ON/OFF = 워드 토글 정본 유지)
     rf.classList.toggle('on', refOn); rf.setAttribute('aria-pressed', String(refOn));
-    rf.disabled = (sbShoot === 'seedance' || sbShoot === 'motion');
-    rf.title = sbShoot === 'seedance'
+    rf.disabled = (sbIsSd(sbShoot) || sbShoot === 'motion');
+    rf.title = sbIsSd(sbShoot)
       ? 'Seedance = 레퍼런스 이미지 강제 ON — md만 산출하는 레인이라 이미지가 발사 필수 재료(끌 수 없음)'
       : (sbShoot === 'motion'
           ? '모션그래픽 = 레퍼런스 이미지 강제 OFF — 플랫 도형·숫자·글자만 그리는 레인이라 실사 참조를 쓸 곳이 없다(켤 수 없음)'
@@ -612,7 +619,7 @@ function sbPayload() {   // go 핸들러 페이로드(서버 api/sb.js가 화이
   });
   ad.addEventListener('click', () => { sbAd = !sbAd; render(); });
   if (snd) snd.addEventListener('click', () => { if (sbShoot !== 'grok') return; sbSnd = !sbSnd; render(); });   // 그록 아니면 무시 — disabled와 이중 가드(#refTg 동문)
-  rf.addEventListener('click', () => { if (sbShoot === 'seedance' || sbShoot === 'motion') return; sbRef = !sbRef; render(); });   // 시댄스(강제 ON)·모션(강제 OFF)이면 무시 — disabled와 이중 가드
+  rf.addEventListener('click', () => { if (sbIsSd(sbShoot) || sbShoot === 'motion') return; sbRef = !sbRef; render(); });   // 시댄스(강제 ON)·모션(강제 OFF)이면 무시 — disabled와 이중 가드
   // ── 요약칸·코너 레일 값 = 「그 자리」 선택 변경(운영자 260803 5차 "지금 옵션칸에 있는 것들 누르면 다른 선택자로 변경가능하게") ──
   //   정본 = thumb 「편집 요약 스트립 그 자리 토글」(#goSpec `.gs-v.gs-tog` · 운영자 260725 "이거 다 토글 가능하게").
   //   값 변경 로직은 **새로 짜지 않는다** — 아래 「설계」 칸의 정본 칩(`.geni-opt`)·워드 토글(#refTg·#adTg)을 **대신 눌러** 위임 =
@@ -769,7 +776,13 @@ async function renderOut(md, outEl, outPath) {   // 결과 렌더 공통(폴 성
           // 값은 **벤더별 원장**을 읽는다(운영자 260811 = 그림 엔진 호출값도 합쳐서 띄워라) —
           // video.json 의 금액은 그록 몫뿐이라 그것만 띄우면 화면 숫자가 실제보다 작다.
           // 원장이 없으면(구 산출·기록 실패) 종전대로 그록 몫만 = 무회귀.
-          let money = '청구 $' + (Number(v.cost_usd) || 0).toFixed(2);
+          // ⚠ **달러와 크레딧을 한 칸에 더하지 않는다**(260812 8렌즈 검증) — 환산율이 요금제
+          // 종속이라 우리가 모른다. 섞어 적으면 화면이 「청구 $195」처럼 **나간 적 없는 금액**을
+          // 그것도 실측인 척 말한다. 그래서 통화별로 따로 세고 따로 쓴다.
+          const won = n => (Number(n) || 0).toFixed(2);
+          let money = (v.cost_unit === 'credit')
+            ? ('청구 ' + won(v.cost_cr) + ' 크레딧')
+            : ('청구 $' + won(v.cost_usd));
           try {
             const cr = await fetch(base + 'cost.json?t=' + Date.now());
             if (cr.ok) {
@@ -778,16 +791,24 @@ async function renderOut(md, outEl, outPath) {   // 결과 렌더 공통(폴 성
               if (rows.length) {
                 // 벤더 표기 = NM_MODELS 사전 값만(§모델 표시명 SSOT · 음차 금지)
                 const vnm = v2 => ((window.NM_MODELS && window.NM_MODELS[v2]) || esc(String(v2)));
-                money = '청구 $' + (Number(led.total_usd) || 0).toFixed(2)
+                const amt = r => (r.unit === 'credit')
+                  ? (won(r.cr) + ' 크레딧') : ('$' + won(r.usd));
+                const tot = [];
+                if (Number(led.total_usd)) tot.push('$' + won(led.total_usd));
+                if (Number(led.total_cr)) tot.push(won(led.total_cr) + ' 크레딧');
+                money = '청구 ' + (tot.join(' + ') || '$0.00')
                   + ' (' + rows.map(r => vnm(r.vendor)
-                      + ' ' + r.n + (r.vendor === 'grok' ? '컷' : '장') + ' $' + (Number(r.usd) || 0).toFixed(2)
+                      + ' ' + r.n + (r.kind === 'video' ? '컷' : '장') + ' ' + amt(r)
                       + (r.est ? '*' : '')).join(' · ') + ')'
                   + (led.est_any ? ' · *표는 단가 계산값' : '');
               }
             }
-          } catch (e) { /* 폴백 = 그록 몫만 */ }
+          } catch (e) { /* 폴백 = 영상 몫만 */ }
+          // 촬영 엔진 이름도 산출에서 읽는다 — 구판은 한 엔진 이름을 문구에 박아 놔서, 다른
+          // 엔진으로 찍은 판도 그 이름으로 불렸다. 표기는 NM_MODELS 사전 값만(§표시명 SSOT).
+          const laneNm = (window.NM_MODELS && window.NM_MODELS[v.lane]) || esc(String(v.lane || ''));
           html = '<div class="ref multi">' + cells
-            + '<div class="cap">그록 영상 ' + ok.length + '/' + cs.length + '편 · 합 ' + secs + '초 · 소리 ' + (v.sound === false ? '끔' : '켬')
+            + '<div class="cap">' + esc(laneNm) + ' 영상 ' + ok.length + '/' + cs.length + '편 · 합 ' + secs + '초 · 소리 ' + (v.sound === false ? '끔' : '켬')
             + ' · ' + money + '</div></div>' + html;
         }
       }

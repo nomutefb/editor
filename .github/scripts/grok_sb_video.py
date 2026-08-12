@@ -84,6 +84,14 @@ REF_EMBED = (os.environ.get("GROK_REF_EMBED", "1") != "0")          # 롤백 레
 # ⚠ 다시 쏴도 같은 벽인 축(검열·자격·통로)은 재시도하지 않는다 = `_retryable()`.
 RETRY_ONCE = (os.environ.get("GROK_RETRY", "1") != "0")
 RETRY_WAIT = int(os.environ.get("GROK_RETRY_WAIT", "20"))           # 서버가 숨 돌릴 틈(초)
+# ⚠⚠ **재시도의 전제는 통로마다 다르다**(260812 페이블 검증 = 치명 2건 중 하나).
+#   위 문단의 「공짜에 가깝다」는 **그록 실측**이고, 그 사실을 통로가 `FAIL_COSTS` 로 말한다.
+#   그런데 재시도 분기가 그 값을 **한 번도 안 읽고 있었다** = 계약이 선언만 되고 강제가 없는 상태.
+#   값을 모르는 통로(시댄스 = 환불 여부 미확인)에서 이 전제를 그대로 쓰면 두 가지로 돈이 샌다 —
+#   ⓐ 실패분이 환불 안 되면 재시도가 곧 두 배 청구 ⓑ 더 나쁜 축 = 「실패로 보이지만 **제출은
+#   성공**」한 경우(작업 번호를 못 읽음·기다리기 시한)가 재시도의 주 고객이라, 환불과 무관하게
+#   **성공한 발사 두 개** 값이 나간다. → 실패가 공짜라고 **통로가 말한 경우에만** 자동 재시도.
+RETRY_PAID = (os.environ.get("SB_RETRY_PAID") == "1")               # 값이 나가도 재시도(손 레버)
 
 # 컷 머리 = `### 컷3 · 4~7s · 한 줄 설명`(sb-make.md 출력 형식) — 시각 표기는 없을 수도 있다
 _CUT = re.compile(r"^###\s*컷\s*(\d+)\s*(?:·\s*([\d.]+)\s*~\s*([\d.]+)\s*s)?\s*(?:·\s*(.*))?$", re.M)
@@ -140,11 +148,29 @@ def group_shots(cuts, sec=None):
         cur.append(c)
         acc += c["sec"]
         if acc >= sec:
-            shots.append({"n": len(shots) + 1, "sec": sec, "cuts": cur})
+            shots.append({"n": len(shots) + 1, "sec": sec, "cuts": cur, "cut_sec": acc})
             cur, acc = [], 0
     if cur:   # 꼬리 = 10초에 못 미쳐도 한 편으로 쏜다(길이는 늘 10초 = 10의 배수 계약)
-        shots.append({"n": len(shots) + 1, "sec": sec, "cuts": cur})
+        shots.append({"n": len(shots) + 1, "sec": sec, "cuts": cur, "cut_sec": acc})
     return shots
+
+
+def board_fit(shots):
+    """콘티 컷 경계가 이 통로의 한 발 길이와 맞물리나 — 안 맞으면 **이름을 대고 경고**한다.
+
+    ⚠ 왜 필요했나 = 콘티 규약이 컷을 10초 단위로 쓰는데, 통로에 따라 한 발이 15초일 수 있다.
+      그러면 20초어치 컷이 15초 클립 하나로 들어가 프롬프트가 「10~20초에 이 일이 벌어진다」고
+      적힌 채 15초짜리로 나간다 = 모델에게 앞뒤가 안 맞는 지시를 주는 것이고, 증상은 「좀
+      이상하게 나왔다」뿐이라 사람 눈이 유일한 검출기가 된다.
+    """
+    bad = [s for s in shots if abs((s.get("cut_sec") or s["sec"]) - s["sec"]) > 0.5]
+    if bad:
+        print("::warning::콘티 컷 경계가 한 발 {}초와 안 맞는다 — {}편이 어긋난다({}). "
+              "컷 초 합을 {}의 배수로 짠 콘티를 쓰거나 한 발이 {}초인 프리셋으로 쏴라".format(
+                  CUT_SEC, len(bad),
+                  " · ".join("영상{} 컷합 {}초→{}초".format(s["n"], s.get("cut_sec"), s["sec"]) for s in bad[:3]),
+                  CUT_SEC, int(bad[0].get("cut_sec") or CUT_SEC)))
+    return not bad
 
 
 def refs_of(out_dir):
@@ -278,7 +304,10 @@ def ref_ids(blocks):
         cut = one[:150]
         if len(one) > 150:                      # 낱말 중간이 아니라 쉼표에서 끊는다
             cut = cut[:cut.rfind(",")] if "," in cut else cut.rsplit(" ", 1)[0]
-        outs.append("<IMAGE_{}> shows {}.".format(i, cut.rstrip(" .,")))
+        # ⚠ 슬롯 지목 문법은 **통로마다 다르다** — 그록은 `<IMAGE_0>` 로 번호를 부르고, 시댄스는
+        #   그 문법을 받는지 미확인이라 순서말(첫 번째 참조)로 쓴다. 러너가 그록 문법을 박고
+        #   있으면 통로가 일부러 뺀 문법이 되살아난다(260812 페이블 검증).
+        outs.append(LANE.ref_id_clause(i, cut.rstrip(" .,")))
     return outs
 
 
@@ -429,6 +458,7 @@ def main():
         ratio or "통로 기본", "켜기" if sound else "끄기"))
     for sh in shots:
         print("  영상{} ← 컷 {}".format(sh["n"], [c["n"] for c in sh["cuts"]]))
+    board_fit(shots)   # 컷 경계와 한 발 길이가 어긋나면 그 자리에서 이름을 대고 경고
 
     if not tg.KEY:
         print("::warning::GEMINI_API_KEY 미등록 — 컷 그림을 못 굽는다(영상 생략)")
@@ -462,9 +492,38 @@ def main():
         print("참조 {}장 · 사유 {}{}".format(
             len(slots), reason, " · 편마다 시간대에 맞는 배경을 고른다" if nights else ""))
 
+    # ── 발사 전 견적 검문(과금 0) ──────────────────────────────────────────────
+    # ⚠ 구판은 통로가 내주는 견적을 **한 번도 안 불렀다** — 12편 × 30초짜리 판이 아무 검문 없이
+    #   통째로 나갈 수 있는 구조였다. 견적을 못 재는 통로(그록)는 None 을 주므로 그때는 종전대로.
+    plan_sec = sum(c["sec"] for c in shots)
+    try:
+        one = LANE.estimate(shots[0]["sec"], ratio) if shots else None
+    except Exception as e:  # noqa: BLE001
+        one, _ = None, print("::warning::견적 실패(발사는 진행): {}".format(str(e)[:160]))
+    if one is not None:
+        # 편마다 길이가 다를 수 있으므로 초당으로 환산해 총액을 센다(길이 비례 = 실측 요율 문법).
+        tot = one * (plan_sec / float(shots[0]["sec"] or 1))
+        unit_nm = "크레딧" if LANE.COST_KIND == "credit" else "달러"
+        print("견적 = {}편 {}초 = 약 {:.1f} {}(발사 전 · 크레딧 소모 0)".format(
+            len(shots), plan_sec, tot, unit_nm))
+        cap = float(os.environ.get("SB_COST_CAP") or 0)
+        if cap and tot > cap:
+            print("::warning::견적 {:.1f} {}가 상한 {:.0f}을 넘는다 — 발사하지 않는다"
+                  "(SB_COST_CAP 을 올리거나 콘티를 줄여라)".format(tot, unit_nm, cap))
+            return 0
+
     items, spent, locals_ = [], 0.0, []   # locals_ = 이어붙이기 재료(업로드 뒤에도 마지막까지 들고 있는다)
     stop = False
     for c in shots:
+        # ⚠ 편마다 자격을 새로 받는다 — 접속 열쇠 수명이 **한 편 기다리는 시간보다 짧을 수 있다**
+        #   (시댄스 실측 수명 15분 · 폴 상한 20분). 한 번 받아 끝까지 쓰면 뒤쪽 편이 자격 축으로
+        #   죽고, 자격 축은 「남은 편도 전부 같은 벽」이라 멀쩡한 편까지 중단시킨다.
+        #   통로가 아직 살아 있는 열쇠를 들고 있으면 그대로 돌려주므로 왕복 비용은 0에 가깝다.
+        try:
+            token = LANE.fresh_token()
+        except ln.LaneError as e:
+            print("::warning::자격 갱신 실패 — 남은 영상 중단: {}".format(e.why))
+            break
         use = pick_refs(slots, c)                       # 이 편에 실을 참조(밤·낮이 갈리면 여기서 갈린다)
         ids = ref_ids([s["block"] for s in use]) if use else []
         rec = {"n": c["n"], "sec": c["sec"], "refs": len(use), "video": None,
@@ -479,7 +538,11 @@ def main():
                 payload, mode = LANE.refs_payload([s["url"] for s in use], embed) if use else ([], "없음")
                 rec["ref_mode"] = mode
                 rid = LANE.start(vid_prompt(c, sound, len(use), ids), token=token,
-                                 refs=payload or None, seconds=c["sec"], ratio=ratio)
+                                 refs=payload or None, seconds=c["sec"], ratio=ratio, sound=sound)
+                # ⚠ 작업 번호를 그 자리에서 남긴다 — 구판은 지역변수로 끝나서, 발사는 됐는데
+                #   결과를 못 읽은 경우 **우리 산출물로는 회수할 길이 아예 없었다**(벤더 화면을
+                #   사람이 열어야만 보였다). 나간 돈의 영수증 번호라 성패와 무관하게 적는다.
+                rec["job"] = str(rid)[:80]
                 v = LANE.wait(rid, token=token)
                 # ⚠ 컷별 값을 적는다(운영자 260811 「최적의 순간을 찾는다」) — 합계만 적혀 있으면
                 #   「호출 1번에 고정인가 · 초당인가」를 영영 못 가른다(첫 판 실측 = 1초 6개 + 2초 6개
@@ -506,7 +569,19 @@ def main():
                 break
             except ln.LaneError as e:
                 rec["fail"] = e.why
-                if attempt == 1 and RETRY_ONCE and e.retryable:
+                # ⚠ 회신 **원문**을 산출에 남긴다 — 통로가 body 에 원문을 실어 주는데 러너가
+                #   그걸 버려서, 「작업 번호를 못 찾았다」류 실패에서 그 번호가 든 유일한 종이가
+                #   사라지고 있었다(= 돈은 나갔는데 무엇이 나갔는지 회수 불가).
+                if getattr(e, "body", ""):
+                    rec["fail_body"] = str(e.body)[:600]
+                free = (LANE.FAIL_COSTS is False) or RETRY_PAID
+                if attempt == 1 and RETRY_ONCE and e.retryable and not free:
+                    # 값이 나갈 수 있는 통로 = 자동 재시도 금지. 사유를 남겨 손으로 판단하게 한다.
+                    print("::warning::영상{} 실패 — 이 통로는 실패분 값이 {}라 자동 재시도를 안 한다"
+                          "(손으로 다시 쏘려면 SB_RETRY_PAID=1): {}".format(
+                              c["n"], "미확인" if LANE.FAIL_COSTS is None else "청구됨", rec["fail"]))
+                    rec["retry_skipped"] = "실패분 청구 미확인"
+                if attempt == 1 and RETRY_ONCE and e.retryable and free:
                     # ⚠ 실패한 호출은 청구가 0이다(260812 실측) → 재시도 값 = 성공했을 때만 나간다.
                     #   몸집 축이면 방식을 갈아탄다(바이트 → 주소) = 두 실패 종류가 서로를 메운다.
                     if LANE.too_big(e) and embed:
@@ -551,12 +626,17 @@ def main():
             except OSError:
                 pass
 
-    sc.add(out_dir, LANE.NAME, "video", done, usd=spent, est=False)   # 응답 실값 = 계산 아님
+    # ⚠ 값의 **단위**를 통로에서 받아 그대로 적는다 — 크레딧을 달러 칸에 적으면 화면이
+    #   「청구 $195」라고, 그것도 실측인 척(est=False) 말한다(260812 페이블 검증 치명 1).
+    sc.add(out_dir, LANE.NAME, "video", done, usd=spent, est=False, unit=LANE.COST_KIND)
+    money = ({"cost_cr": round(spent, 2)} if LANE.COST_KIND == "credit"
+             else {"cost_usd": round(spent, 4)})
     json.dump({"cuts": items, "shots": len(shots), "board_cuts": len(cuts),
                "done": done, "total": len(shots), "sound": sound,
-               "cost_usd": round(spent, 4), "refs": len(slots), "ref_reason": reason,
+               "cost_unit": LANE.COST_KIND, "lane": LANE.NAME,
+               "refs": len(slots), "ref_reason": reason,
                "ratio": ratio,
-               "full": full_url},
+               "full": full_url, **money},
               open(os.path.join(out_dir, "video.json"), "w", encoding="utf-8"), ensure_ascii=False)
     notify(stem, items)   # 재시도까지 실패한 편이 있으면 웹앱 알림 · 전건 성공이면 옛 알림을 끈다
     # 과금 단위 판별 — 컷 길이가 두 종류 이상이면 그 자리에서 답이 나온다(길이별 값이 같으면
@@ -572,8 +652,9 @@ def main():
         unit = ("호출당 고정" if abs(avg[hi] - avg[lo]) < 0.02
                 else "초당 비례" if abs(avg[hi] / avg[lo] - hi / lo) < 0.25 else "혼합·불명")
         unit += " (" + " · ".join("{}초 ${:.4f}".format(s, avg[s]) for s in sorted(avg)) + ")"
-    print("영상 {}/{}편 · 청구 {} 달러(편당 평균 {}) · 과금 단위 = {}".format(
-        done, len(shots), round(spent, 4), round(spent / done, 4) if done else 0, unit))
+    print("영상 {}/{}편 · 청구 {} {}(편당 평균 {}) · 과금 단위 = {}".format(
+        done, len(shots), round(spent, 4), "크레딧" if LANE.COST_KIND == "credit" else "달러",
+        round(spent / done, 4) if done else 0, unit))
     return 0
 
 

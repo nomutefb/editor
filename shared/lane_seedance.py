@@ -67,7 +67,10 @@ PRESETS = {
 PRESET = PRESETS.get((os.environ.get("SD_PRESET") or "A").strip().upper(), PRESETS["A"])
 
 # ── 상수 8(계약) ──────────────────────────────────────────────────────────────
-NAME = "seedance"
+# ⚠ 이름 = **찍은 판까지** 말한다(`seedance_2_5` · `seedance_2_0`) — 한 통로가 프리셋에 따라 두
+#   판을 쓰는데 이름이 하나면 2.5 로 찍고 화면은 2.0 이라 부른다. 화면 사전(nm-models.js)에
+#   같은 키가 있어 표기가 그대로 붙는다(§표시명 SSOT · 음차·창작 0).
+NAME = PRESET["model"]
 SHOT_SEC = int(os.environ.get("SD_SHOT_SEC") or PRESET["shot_sec"])
 SEC_MAX = PRESET["sec_max"]
 RATIOS = ("16:9", "9:16", "1:1", "4:3", "3:4", "21:9")   # 창구 목록 실측
@@ -227,6 +230,11 @@ def _handshake(token):
         if pick_ws and not pick_ws.get("is_selected"):
             _tool("select_workspace", {"workspace_id": pick_ws["id"]}, token)
             print("  · 작업공간 선택 {}".format(pick_ws["id"][:8]))
+        elif not arr:
+            # ⚠ 무음 통과 금지 — 회신이 글자로 오면 목록이 빈 배열로 보이고, 그 상태로 쏘면
+            #   「모르는 모델」 거절이 난다(작업공간이 안 잡힌 세션의 증상). 사유가 안 남으면
+            #   다음 세션이 그 거절을 모델 이름 문제로 오진한다.
+            print("::warning::작업공간 목록이 비었다(회신이 글자일 수 있다) — 선택 없이 진행한다")
     except Exception as e:  # noqa: BLE001
         # fail-soft = 선택이 안 돼도 발사는 시도한다(사유만 남긴다 · 조용한 중단 금지)
         print("::warning::작업공간 선택 생략: {}".format(str(e)[:140]))
@@ -251,10 +259,15 @@ def call(tool, args, token):
 
 
 # ── 계약 구현 ────────────────────────────────────────────────────────────────
-def _params(seconds, ratio, cost_only=False):
-    """견적과 발사가 **같은 조립 함수**를 쓴다 — 두 벌이면 「승인한 금액과 다른 금액이 나간다」."""
+def _params(seconds, ratio, cost_only=False, sound=None):
+    """견적과 발사가 **같은 조립 함수**를 쓴다 — 두 벌이면 「승인한 금액과 다른 금액이 나간다」.
+
+    ⚠ 소리는 **파라미터로** 끈다. 구판은 이 값이 참으로 고정이라, 소리 끄기로 쏜 판도 서버가
+      오디오를 굽고 우리가 나중에 지웠다(문장 절만 갈아입힌 반쪽 배선 = 260812 페이블 검증).
+    ⚠ 견적은 발사와 **같은 값**으로 물어야 하므로 소리 인자도 그대로 실어 보낸다.
+    """
     p = {"model": PRESET["model"], "duration": int(seconds), "resolution": PRESET["res"],
-         "generate_audio": True}
+         "generate_audio": True if sound is None else bool(sound)}
     p.update(PRESET["extra"])
     if ratio:
         p["aspect_ratio"] = ratio
@@ -323,7 +336,7 @@ def _media_ids(urls, token):
     return out
 
 
-def start(prompt, *, token, refs=None, seconds=None, ratio=None):
+def start(prompt, *, token, refs=None, seconds=None, ratio=None, sound=None):
     """발사 = **헤드리스 일괄 도구**로 쏜다.
 
     ⚠ 단건 도구(`generate_video`)는 **화면 위젯용**이다(창구 설명 명시) — 사람 없는 러너는
@@ -331,20 +344,33 @@ def start(prompt, *, token, refs=None, seconds=None, ratio=None):
       (`get_cost` 미지원) → 견적은 단건 도구로 따로 부른다(`estimate`).
     ⚠ 참조 역할 키는 **단수** `role` 이고 값은 **번호**다(주소 직전달 금지 = 창구 스키마 명시).
     """
-    args = dict(_params(seconds or SHOT_SEC, ratio), prompt=prompt)
+    args = dict(_params(seconds or SHOT_SEC, ratio, sound=sound), prompt=prompt)
     if refs:
         args["medias"] = [{"value": m, "role": "image_references"} for m in _media_ids(refs, token)]
     d = call("generate_video_batch", {"requests": [{"index": 0, "params": args}]}, token)
     jid = _job_id(d)
     if not jid:
         # ⚠ 회신 모양이 미확인 축이라 **원문을 그대로 남긴다** — 다음 세션이 추측으로 메우지 않게.
-        raise LaneError("발사는 됐는데 작업 번호를 못 찾았다 — 회신 모양을 확인해야 한다",
-                        body=json.dumps(d, ensure_ascii=False)[:600])
+        # ⚠ **다시 쏘지 않는다** — 이름 그대로 「발사는 됐는데」다. 여기서 재시도하면 이미 돌고
+        #   있는 발사 위에 하나를 더 얹어 성공 두 발 값이 나간다(260812 페이블 검증 = 재시도의
+        #   주 고객이 바로 이 자리였다). 회신 원문을 실어 보내 사람이 번호를 회수하게 한다.
+        raise LaneError("발사는 됐는데 작업 번호를 못 찾았다 — 회신 원문을 보고 번호를 회수하라",
+                        retryable=False, body=json.dumps(d, ensure_ascii=False)[:600])
     return jid
 
 
+_UUID = re.compile(r"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", re.I)
+
+
 def _job_id(d):
-    """일괄 발사 회신에서 작업 번호를 꺼낸다(모양이 미확인이라 흔한 자리를 훑는다)."""
+    """일괄 발사 회신에서 작업 번호를 꺼낸다(모양이 미확인이라 흔한 자리를 훑는다).
+
+    ⚠ **글자 회신 폴백이 필수다**(260812 페이블 검증) — 이 창구는 같은 회신을 사람 읽는 글자와
+      기계값 두 벌로 내며, 어느 쪽이 오는지가 통로마다 갈린다(잔액이 실제로 `Credits: 3060 |
+      Plan: ultra` 로 왔다). 번호를 못 읽으면 그 실패는 「다시 쏘면 되는 축」으로 분류돼
+      **이미 제출된 발사 위에 또 쏜다** = 성공 두 발 값. 잔액 파서엔 이 폴백을 달아 놓고
+      번호 파서엔 안 단 비대칭이 그 구멍이었다.
+    """
     if not isinstance(d, dict):
         return None
     for key in ("jobs", "results", "requests"):
@@ -358,7 +384,10 @@ def _job_id(d):
     for k in ("job_id", "id", "request_id"):
         if d.get(k):
             return d[k]
-    return None
+    # 글자로 온 회신 — 작업 번호는 UUID 모양이라 그것만 집는다(아무 숫자나 줍지 않는다).
+    txt = d.get("text") if isinstance(d.get("text"), str) else json.dumps(d, ensure_ascii=False)
+    m = _UUID.search(txt or "")
+    return m.group(0) if m else None
 
 
 def wait(job_id, *, token):
@@ -372,28 +401,79 @@ def wait(job_id, *, token):
         jobs = (d or {}).get("jobs") or (d or {}).get("results") or []
         j = jobs[0] if jobs else (d or {})
         st = str(j.get("status") or "").lower()
-        url = j.get("url") or j.get("output_url") or (j.get("result") or {}).get("url")
+        url = _url_of(j) or _url_of(d)
         if url:
-            return {"url": url, "duration": j.get("duration"), "cost": float(j.get("credits") or 0)}
-        if st in ("failed", "error", "canceled", "cancelled"):
+            cost = j.get("credits")
+            if cost is None:
+                cost = _credits(j) or _credits(d)
+                if cost is None:
+                    # ⚠ 조용한 0 금지 — 0 으로 적으면 원장·화면이 「청구 0」이라 거짓말한다.
+                    print("::warning::완료됐는데 회신에 값이 없다 — 청구액 미기록(잔액으로 대조하라)")
+            return {"url": url, "duration": j.get("duration"),
+                    "cost": float(cost or 0), "cost_known": cost is not None}
+        # ⚠ `lookup_failed` 는 **실측으로 확인한 종료 어휘**다(260812 페이블 · nil 번호 회신).
+        #   이게 목록에 없으면 「번호가 잘못됐다」가 끝날 줄 모르는 기다림이 되고, 그 기다림이
+        #   시한을 넘기면 재시도가 붙어 **이미 돌고 있는 발사 위에 또 쏜다**.
+        if st in ("failed", "error", "canceled", "cancelled", "lookup_failed", "not_found"):
             raise LaneError("창구가 실패로 끝냈다 — {}".format(str(j.get("error") or st)[:160]),
-                            body=json.dumps(j, ensure_ascii=False)[:400])
+                            # ⚠ 제출 뒤 실패다 = 값이 이미 나갔을 수 있다 → 자동 재시도 금지.
+                            retryable=False, body=json.dumps(j, ensure_ascii=False)[:400])
         time.sleep(max(1, int((d or {}).get("poll_after_seconds") or 3)))
-    raise LaneError("{}분 안에 안 끝났다 — 큐가 밀린 상태다. 손으로 다시 시도".format(cap // 60))
+    raise LaneError("{}분 안에 안 끝났다 — 큐가 밀린 상태다. 작업 번호로 결과를 확인한 뒤 판단하라"
+                    .format(cap // 60), retryable=False)
+
+
+def _url_of(j):
+    """산출물 주소를 꺼낸다 — 키 이름이 미확인이라 흔한 자리 + 마지막엔 글자에서 훑는다."""
+    if not isinstance(j, dict):
+        return None
+    for k in ("url", "output_url", "video_url", "result_url", "download_url"):
+        if j.get(k):
+            return j[k]
+    for k in ("result", "output", "media"):
+        v = j.get(k)
+        if isinstance(v, dict):
+            got = _url_of(v)
+            if got:
+                return got
+        if isinstance(v, list) and v and isinstance(v[0], dict):
+            got = _url_of(v[0])
+            if got:
+                return got
+    txt = j.get("text") if isinstance(j.get("text"), str) else ""
+    m = re.search(r"https?://\S+?\.(?:mp4|mov|webm)(?:\?\S*)?", txt)
+    return m.group(0) if m else None
 
 
 def fetch(url):
-    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (nomute)"})
+    # ⚠ 여기도 **브라우저 서명**이다 — 위 `_post` 가 못박은 그 함정(1010)을 이 함수만 반쪽
+    #   서명으로 두고 있었다. 여기서 막히면 **이미 값이 나간 발사**를 다운로드 딸꾹질 하나로
+    #   통째로 다시 쏘게 된다 = 이 파일에서 가장 비싼 실패 자리.
+    req = urllib.request.Request(url, headers={"User-Agent": UA})
     try:
         with urllib.request.urlopen(req, timeout=300) as r:
             return r.read()
     except Exception as e:  # noqa: BLE001
-        raise LaneError("산출물을 못 받았다: {}".format(str(e)[:160])) from None
+        # 제출·생성은 이미 끝난 뒤다 → 다시 쏘지 않는다(주소만 다시 받으면 되는 축).
+        raise LaneError("산출물을 못 받았다(발사는 끝났다 — 작업 번호로 다시 받아라): {}"
+                        .format(str(e)[:160]), retryable=False) from None
 
 
 def ref_lock_clause(n):
     """참조 잠금 절. ⚠ 시댄스가 그록의 슬롯 지목 문법을 받는지 **미확인** — 지목 없이 뜻만 쓴다."""
     return "Keep the people, wardrobe, and setting identical to the reference images."
+
+
+_ORD = ("first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth")
+
+
+def ref_id_clause(i, text):
+    """참조 i 번이 무엇인지 못 박는 문장 — **순서말**로 쓴다(번호 태그 문법은 미확인).
+
+    ⚠ 이 문장을 아예 빼면 안 된다 — 인물 참조가 둘일 때 `He`·`She` 가 갈 곳을 몰라 컷의 주체가
+      뒤집히는 사고(260811 실측)가 통로와 무관하게 재현된다. 지목 문법만 갈아입힌다.
+    """
+    return "The {} reference image shows {}.".format(_ORD[i] if i < len(_ORD) else "next", text)
 
 
 def sound_clause(on, sfx):
@@ -409,7 +489,21 @@ def too_big(e):
 
 
 def classify(e):
-    return e if isinstance(e, LaneError) else LaneError(str(e)[:200])
+    """벤더 예외 → 통로 무관 3속성.
+
+    ⚠ 기본값이 「다시 쏘면 된다」라 **분류를 안 하면 전건이 재시도 대상**이 된다 — 값이 나가는
+      통로에서 그건 그냥 이중 청구다(260812 페이블 검증). 그래서 모르는 것은 **안 쏘는 쪽**으로
+      기울인다: 다시 쏴서 풀리는 축(회선·한도)만 재시도로 남기고 나머지는 손에 맡긴다.
+    """
+    if isinstance(e, LaneError):
+        return e
+    b = str(getattr(e, "body", "") or e)
+    low = b.lower()
+    if "rate" in low and "limit" in low or "429" in low or "too many" in low:
+        return LaneError("한도에 걸렸다 — 잠시 뒤 다시 시도하면 된다", body=b[:300])
+    if any(k in low for k in ("timed out", "timeout", "connection", "temporarily", "502", "503", "504")):
+        return LaneError("서버·회선 일시 장애 — 다시 시도하면 대개 풀린다", body=b[:300])
+    return LaneError("시댄스 통로 오류 — {}".format(b[:160]), retryable=False, body=b[:300])
 
 
 # ── 자격·견적 확인(과금 0) ────────────────────────────────────────────────────

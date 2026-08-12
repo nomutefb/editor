@@ -11,8 +11,8 @@
 # 정본과 다른 점 = **설치가 아니라 1회 실행**이다. 시작프로그램 등록 0 · 남는 것 0 ·
 #   임시 파일은 실행 후 지운다(판정기는 상주물이 아니다).
 #
-# 산출물 = scripts/노뮤트_그록자격_확인.bat  ← 기계산출물. 손편집 금지.
-#   값을 바꾸려면 grok_probe.ps1 을 고치고 이 스크립트를 다시 돌린다.
+# 산출물 = scripts/노뮤트_힉스필드자격_확인.bat  ← 기계산출물. 손편집 금지.
+#   값을 바꾸려면 hf_probe.ps1 을 고치고 이 스크립트를 다시 돌린다.
 #
 # 사용:  python3 scripts/build_hf_probe_bundle.py          (생성)
 #        python3 scripts/build_hf_probe_bundle.py --check  (레포 산출물이 최신인지 · rc=1이면 낡음)
@@ -39,9 +39,10 @@ def build() -> str:
 REM ===========================================================================
 REM  nomute - Higgsfield entitlement probe : DOUBLE-CLICK, RUN ONCE
 REM
-REM  What it does: opens the Higgsfield device-code login in your browser, then
-REM  exchanges your approval for a refresh token the CI runner can use, and
-REM  verifies it with one free validate call. Spends NO credits.
+REM  What it does: opens the Higgsfield sign-in page in your browser, exchanges
+REM  your approval for a refresh token the CI runner can use, and then proves
+REM  that token really unlocks Seedance before asking you to paste it anywhere.
+REM  Spends NO credits (balance + cost preflight only, no job is submitted).
 REM
 REM  Installs nothing. Registers nothing. Nothing is left running.
 REM  Results are written to your Desktop.

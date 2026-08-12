@@ -85,7 +85,9 @@ def refs_payload(urls, embed=True):
 
 
 # ── 발사·대기·받기 ───────────────────────────────────────────────────────────
-def start(prompt, *, token, refs=None, seconds=None, ratio=None):
+def start(prompt, *, token, refs=None, seconds=None, ratio=None, sound=None):
+    # ⚠ `sound` 는 받되 안 쓴다 — 그록 영상 창구에는 **오디오 끄기 값이 아예 없다**(xAI 스스로
+    #   무음 프롬프트가 실패할 수 있다고 인정). 끄기의 확실한 수단은 산출 트랙 제거다.
     try:
         return gk.start_video(prompt, token=token, refs=refs or None, seconds=seconds,
                               **({"ratio": ratio} if ratio else {}))
@@ -118,6 +120,15 @@ def ref_lock_clause(n):
     """참조 잠금 절 — 그록 공식 문법(슬롯 지목은 0부터 센다)."""
     tags = ", ".join("<IMAGE_{}>".format(i) for i in range(n))
     return "Keep the people, wardrobe, and setting identical to {}.".format(tags)
+
+
+def ref_id_clause(i, text):
+    """참조 i 번이 무엇인지 못 박는 문장 — 그록은 **번호로 지목**한다(공식 문법).
+
+    ⚠ 이 한 줄이 260811 실사고의 봉합이다(인물 참조가 둘일 때 `He`·`She` 가 갈 곳을 몰라
+      남자가 쏘는 컷이 여자가 쏘는 컷으로 뒤집혔다) — 번호에 정체를 묶어 대명사를 하나로 만든다.
+    """
+    return "<IMAGE_{}> shows {}.".format(i, text)
 
 
 def sound_clause(on, sfx):

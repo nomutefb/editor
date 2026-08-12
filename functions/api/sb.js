@@ -30,7 +30,7 @@ export async function onRequestPost({ request, env }) {
   // 화이트리스트 = 임의 문자열 주입 차단(k.js 패턴 계승 — 키는 서버 목록만 순회 = 사용자 키 자체를 안 읽음).
   // 값 2면 동기: 이 표 = viewer/sb.html SB_DIRECTORS/SB_SHOOTS/SB_VALS.
   const SB_DIRECTORS = ['fable', 'opus', 'gpt'];   // gpt = OpenAI API 레인(운영자 260714 "지피티도 가능하게" — 러너 시크릿 OPENAI_API_KEY 필요 · sbmake.sh 분기)
-  const SB_SHOOTS = ['grok', 'seedance', 'motion'];   // 운영자 260811 = kling 제거(종량제 미사용 = 이 메뉴에서 의미 0) · grok 신설(구독 OAuth 직결 · 그림→영상)   // motion = 플랫 모션그래픽 사내 렌더 레인(실사 생성 AI 아님 · 콘티 「## 🎞 모션 스펙」 → 같은 잡의 mg_render.py가 mp4까지 · 외부 API 0)
+  const SB_SHOOTS = ['grok', 'seedance', 'seedance_fhd', 'motion'];   // seedance_fhd = 같은 통로의 두 번째 프리셋(2.0 · 1080p · 15초 두 발) — 입력 칸을 새로 만들지 않고 촬영 칸을 나눈 것(발사 입력은 10칸이 상한이라 신설이 곧 상한 소모)   // 운영자 260811 = kling 제거(종량제 미사용 = 이 메뉴에서 의미 0) · grok 신설(구독 OAuth 직결 · 그림→영상)   // motion = 플랫 모션그래픽 사내 렌더 레인(실사 생성 AI 아님 · 콘티 「## 🎞 모션 스펙」 → 같은 잡의 mg_render.py가 mp4까지 · 외부 API 0)
   const SB_SET = {
     '비율': ['9:16', '16:9', '1:1'],
     '화질': ['720p', '1080p', '2K', '4K'],     // 프롬프팅 이관 축(운영자 Q1145) — 값 집합 = api/k.js K_SET 동일
@@ -54,7 +54,7 @@ export async function onRequestPost({ request, env }) {
   // 레퍼런스 이미지 생성 여부(운영자 Q1161): 시댄스 = 강제 ON(md만 산출하는 레인 = 이미지가 발사 필수 재료) · 클링 = 폼 선택값(옵션)
   // motion = 강제 false(플랫 그래픽 레인 = 실사 레퍼런스가 쓰이는 곳이 없다 → Gemini 미과금) · seedance = 강제 true · kling = 폼 선택값
   const sound = (body.sound === false || body.sound === 'false' || body.sound === '0') ? '0' : '1';   // 운영자 260810 「소리 온오프도 옵션」 · 촬영=grok 전용(다른 레인은 러너가 무시)
-  const refimage = (shoot === 'motion') ? 'false' : ((shoot === 'seedance' || shoot === 'grok') ? 'true' : ((body.ref === false || body.ref === 'false') ? 'false' : 'true'));   // grok = 콘티 컷 그림이 영상의 첫 장면 재료 = 강제 생성
+  const refimage = (shoot === 'motion') ? 'false' : ((shoot.startsWith('seedance') || shoot === 'grok') ? 'true' : ((body.ref === false || body.ref === 'false') ? 'false' : 'true'));   // grok = 콘티 컷 그림이 영상의 첫 장면 재료 = 강제 생성
   story += '\n\n[레퍼런스: ' + (refimage === 'true' ? 'ON' : 'OFF') + ']';   // 절 출력 게이트(prompts/sb-make.md)
   if (body.ad === true || body.ad === 'true') story += '\n\n[광고: ON]';   // 광고 모드 = 마지막 컷 키비주얼 의무(storyboard-v1 하드룰)
   // 변형(운영자 260714 5차 — 작업 내역에서 이전 콘티 기반 재설계): 경로 화이트리스트 정규식 = sb_out 산출물만(임의 파일 읽기 차단)
