@@ -972,6 +972,15 @@ def build_ass(segs, w, h, opts):
     except (TypeError, ValueError):
         glow = 0.0
     glow_tag = ("{\\blur%.1f}" % (fs * 0.0025 * glow)) if glow > 0 else ""   # ScaledBorderAndShadow yes 전제(헤더 상수) — 외곽선(bg=0)·줄박스(bg>0) 가장자리를 가우시안 번짐
+    # ── 줄박스 **상단만** 깎기(운영자 260812 "글자 상단의 영역이 좀 두터워 · 좀 더 깎아줘 · 상단만 그럼 하단은 아니고")
+    #   ⚠ 원인은 패딩이 아니라 **폰트 세로 여백**이다 — 박스 높이는 글리프의 어센트~디센트 기준이고, 한글은 라틴 어센더 높이를
+    #     안 쓰므로 글자 윗변 위로 빈 칸이 남는다(실측 fs67: 위 23 / 아래 16 / 좌우 9 = 위가 아래보다 7px 두껍다).
+    #     그래서 패딩(pad 게이지)을 줄이면 **위아래가 같이** 줄어 하단이 먼저 사라진다 = 상단만 못 깎는다.
+    #   → 세로 패딩만 0으로 죽이고(\ybord0 = 위아래 동시 −pad) 하단은 **아래로만 드리운 그림자**로 되돌린다(\xshad0\yshad<pad>).
+    #     그림자는 BorderStyle 3에서 박스를 그대로 복제해 오프셋하므로 색·알파가 박스와 같다 = 아래로 연장한 것과 같은 그림.
+    #     실측(fs67 · pad 6.7): 현행 위23/아래16/좌우9 → 적용 후 **위17 / 아래16 / 좌우9**(상단만 6px 감소 · 나머지 축 불변).
+    #   가로 패딩(\xbord)은 손대지 않는다 = 좌우 여백 종전 그대로. box가 아닌 모양엔 태그 자체를 안 붙인다(렌더 바이트 동일).
+    box_tag = ("{\\ybord0\\xshad0\\yshad%s}" % ass_px(fs * pad)) if shtype == "box" else ""
     # 자막 스타일 3택(운영자 260810 "가라오케 | 강조 | 툭 튀어나오기 · 셋 다 안 고르면 일반 자막") — 셋 다 상호배타.
     #   karaoke = 발화 진행에 맞춰 강조색이 차오름(\kf) · hi = 말하는 그 어절만 딱 점등(색만) · pop = 점등 + 크기 튐.
     #   hi·pop은 어절 창별 이벤트 분할(build_pop_frames)로 같은 골격을 쓴다 = 자막 끊는 로직(prep_line 청킹) 3택 전부 동일.
@@ -1074,9 +1083,9 @@ def build_ass(segs, w, h, opts):
                 if fst >= e - 0.004:
                     break   # 초단컷(0.05s대) 보호 — cs 하한 분배가 실구간을 넘치면 잔여 창 스킵
                 fe = e if fi == len(frames) - 1 else min(e, s + (off + dur) / 100.0)
-                lines.append("Dialogue: 0,{},{},nomute,,0,0,{},,{}".format(ass_time(fst), ass_time(fe), mv_e, glow_tag + ftxt + src_suf))
+                lines.append("Dialogue: 0,{},{},nomute,,0,0,{},,{}".format(ass_time(fst), ass_time(fe), mv_e, glow_tag + box_tag + ftxt + src_suf))
         else:
-            lines.append("Dialogue: 0,{},{},nomute,,0,0,{},,{}".format(ass_time(s), ass_time(e), mv_e, glow_tag + main + src_suf))
+            lines.append("Dialogue: 0,{},{},nomute,,0,0,{},,{}".format(ass_time(s), ass_time(e), mv_e, glow_tag + box_tag + main + src_suf))
     return head + "\n" + "\n".join(lines) + "\n"
 
 
