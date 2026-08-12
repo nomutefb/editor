@@ -5202,6 +5202,11 @@ def check_grok_sb_chain():
         print("❌ 그록 콘티 레인 — 발사 단위가 영상 편이 아니다(컷을 그대로 쏜다)"); rc = 1
     if '"{}-{}s: {}".format' not in rn:
         print("❌ 그록 콘티 레인 — 묶음 안 컷에 시각을 안 붙인다(한 편 안 전환이 안 선다)"); rc = 1
+    # ⚠ ffmpeg = 러너 기본 이미지에 **없다**(260812 실측) — 없으면 완본 이어붙이기와 소리 끄기가
+    #   둘 다 조용히 걸린다. 소리 쪽이 더 비싸다(꺼달라고 했는데 실린 채 나간다).
+    _gv = wf.split("name: Grok video", 1)[-1]
+    if "ffmpeg" not in _gv.split("name: Commit output", 1)[0]:
+        print("❌ 그록 콘티 레인 — 영상 스텝이 ffmpeg 을 안 깐다(완본·소리 끄기가 조용히 걸린다)"); rc = 1
     if "sbCutN = s => Math.max(1, Math.round(s / SB_LEN_STEP))" not in vt:
         print("❌ 그록 콘티 레인 — 뷰어 편수 산식이 길이÷10 이 아니다(구 종이 콘티 밴드 잔존)"); rc = 1
 

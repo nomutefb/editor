@@ -232,6 +232,11 @@ jobs:
           [ -n "$XAI_REFRESH_TOKEN" ] || { echo "그록 영상: 0/0컷 — 미시도(XAI_REFRESH_TOKEN 미등록)"; echo "::warning::그록 자격 미등록 — 영상 생략"; exit 0; }
           # pynacl = 비밀값 봉인(깃허브가 요구하는 libsodium sealed box) — 없으면 되쓰기만 생략되고 영상은 그대로 간다
           pip install --quiet requests pillow pynacl || { echo "::warning::deps 설치 실패 — 생략"; exit 0; }
+          # ⚠ ffmpeg = **러너 기본 이미지에 없다**(260812 실측 = `[Errno 2] No such file or directory: 'ffmpeg'`
+          #   → 3편이 다 나왔는데 완본 이어붙이기만 조용히 걸렀다). 소리 끄기(산출 트랙 제거)도 같은 도구를
+          #   쓰므로 없으면 **꺼달라고 했는데 소리가 실린 채 나간다** = 더 비싼 쪽. 그래서 여기서 깐다.
+          command -v ffmpeg >/dev/null 2>&1 || sudo apt-get install -y -qq ffmpeg >/dev/null 2>&1 \
+            || echo "::warning::ffmpeg 설치 실패 — 완본 이어붙이기·소리 끄기 생략(조각은 그대로 나온다)"
           python3 .github/scripts/grok_sb_video.py "$MD" "viewer/sb_out/${IN_ID}"
 
       - name: Commit output
