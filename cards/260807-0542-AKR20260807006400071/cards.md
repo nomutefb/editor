@@ -1,31 +1,38 @@
-# ⚖ 대법원이 닫은 문, 이번엔 산모의 서류를 겨눴다
+# ⚖ 대법원이 닫은 문, 이번엔 산모를 겨눴다
 
 **[프롬프트 설계]**
-- 화풍: B 극화 — 헌법 원칙과 행정권이 맞부딪히는 법리·권력 구조 기사라 선의 무게와 명암 대비가 사건을 그대로 옮긴다
-- 분위기: 제도의 차가운 절차감 위에 개인의 불안이 한 점으로 맺히는 톤. 관료적 무표정(멸균 형광)에서 출발해 한 사람의 젖은 눈에서 최저점을 찍고, 한국의 작은 방에서 온기 한 줄로 풀린다
-- 연출 방향: 뉴스를 안 보는 독자도 "미국에서 낳으면 미국인"이라는 한 문장은 안다 — 그 문장은 그대로 두고 *그 문장에 닿는 길*만 하나씩 좁아지는 구조가 이 기사의 정체다. 그래서 강조점은 '금지'가 아니라 **거쳐야 하는 자리들**(법대·서명하는 손·부처 회의 테이블·귀화 서류·심사대 창구·달력의 날짜)에 둔다. 사람이 통과해야 하는 관문을 카드마다 하나씩 보여주고, 그 관문이 좁아질수록 화면의 명도를 떨어뜨려 독자가 '길이 막히는 감각'을 읽게 한다. 마지막에만 정면으로 돌아서 독자에게 날짜를 건넨다
-- 독자 동선: **발단** 카드1 → **전개** 카드2~3 → **피크** 카드4 → **해소** 카드5 → **시사점** 카드6~7 · 훅=카드1 끝(예고형 "그리고 37일이 지났다")+카드3 끝(예고형 "칼끝은 거기서 멈추지 않았다") · 질문형 0 · 피크 카드4 무훅 · 착지 한 줄 요지 = 미국 병원 예약보다 국적이탈 마감일이 먼저 온다
-- 연속성 앵커: Recurring subject A — a Korean woman in her mid-30s with shoulder-length dark hair tied back, wearing a plain beige knit cardigan (카드 4·5) / Recurring subject B — a Korean woman in her late 40s with short permed hair, wearing a dark gray cardigan (카드 6·7) / 반복 장소 (없음)
+- 화풍: B 극화 — 법리·행정권력·구조 비판이 사건의 뼈대라 사실성과 무게가 필요하다
+- 분위기: 관공서의 무표정한 냉기 위에 한 사람의 불안이 얹힌 톤 — 제도는 조용히 움직이는데 개인의 시간표만 급해진다
+- 연출 방향: 뉴스 안 보는 독자도 "미국에서 낳으면 미국인"이라는 한 줄은 안다 — 그 원칙이 지켜졌다는 안도와 "그런데 왜 불안하지"의 균열 사이에서 멈춘다. 사건의 강조점은 사람이 아니라 **문(門)과 서류**다: 정문은 잠겼고 옆의 작은 창구들이 하나씩 좁아지는 그림, 그리고 그 좁아진 창구 끝에 산모 본인의 귀화 서류가 놓이는 순간. 판결문·행정명령 서명펜·비자 창구 유리·달력 한 장이 카드마다 바통을 넘기며, 마지막엔 한국 부모의 손에 놓인 날짜로 착지한다. thumb_dispatch에서 상속하는 것은 형광등의 차갑고 감정 없는 관공서 조명 톤과, 권한이 위에서 내려다보는 무게감뿐이다
+- 독자 동선: **제시** 카드1(원칙 확인) → **발단** 카드2(6월 30일 6대 3 패배) → **전개** 카드3(8월 6일 명령 2건의 실제 내용) → **피크** 카드4(칼끝이 산모 개인에게) → **해소** 카드5(사실 금지는 원래 있었다·바뀐 건 강도) → **시사점** 카드6(한국 부모 앞의 두 기한) · 훅=카드1 끝(단서형: "37일 뒤"라는 숫자만 던지고 무엇인지 유보 — 카드2 첫 줄이 즉시 회수)+카드3 끝(예고형: 표적이 옮겨간다) · 착지 = 미국 병원 예약보다 국적이탈 기한이 먼저 온다
+- 연속성 앵커: Recurring subject — a Korean woman in her 30s with shoulder-length dark hair tied back, wearing a plain beige cardigan over a white blouse / 반복 장소: a cold fluorescent-lit government office corridor with a row of glass service windows
 
 ### [카드 1]
 **텍스트**
 ```text
-지난 6월 30일 연방대법원이 못 박았다
 미국에서 태어나면 미국 시민이다
-*6대 3, 원칙은 지켜졌다*
-그리고 37일이 지났다
+지난 6월 30일 연방대법원은
+이 원칙을 *6대 3으로 지켜냈다*
+그리고 37일이 흘렀다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the steady, unblinking eyes of the presiding judge, refusing to look away. Nine robed judges sit shoulder to shoulder along a raised bench in a high-ceilinged court chamber, and the one at the center holds a bound ruling document open with both hands. Their line of gaze runs toward the right edge of the frame, with nose room left open on that side. One tall stone wall rises behind the bench and fills the entire background.
-Camera: wide shot with full body and surrounding environment from a low angle looking up, powerful subject, dramatic presence, shot on 35mm lens with natural documentary perspective and minimal distortion
+
+Scene: Emotional focal point: the heavy carved double doors of a supreme courthouse, sealed shut and facing the viewer head-on. A single small national flag stands beside the doors, and wide stone steps sweep up toward them with no person on them. The empty plaza in front of the doors stretches to the frame edges as one continuous stone pavement.
+
+Camera: wide shot, full architectural view from Eye-level, shot on 24mm wide lens
+
 Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 glowing only on the seal ribbon of the ruling document), muted daylight contrast
-Text handling: the document face is angled away and cropped so no lettering is readable; a generic institutional chamber only, no real emblem, no logo, no national seal reproduced, no recognizable public figure likeness.
-Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
+
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
+
+Text handling: avoid incidental background lettering by framing and pictogram substitution. Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
+
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the tall stone chamber wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+
+Composition: ONE continuous surface (the stone plaza pavement) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -35,28 +42,35 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-US Supreme Court birthright citizenship ruling
+미국 연방대법원 청사 정면
 ```
 
 ### [카드 2]
 **텍스트**
 ```text
-37일 뒤인 8월 6일 다시 서명이 있었다
-명령은 두 건. 첫째는 산모를 겨눴다
-원정출산에 속여 가담한 게 드러나면
-*귀화로 얻은 미국 시민권을 취소한다*
+대법원이 위헌이라 판단한 명령은
+2025년 취임 첫날 서명한 것이었다
+불법·임시 체류 부모의 아이에게는
+시민권을 주지 않겠다는 내용이었다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a heavy fountain pen pressed down by a thick, deliberate hand, the knuckles whitening at the moment of contact. Seen from directly above a broad executive desk, an older man in a dark suit signs the second of two stacked orders while an aide's hands slide the next folder into place beside him. Neither face enters the frame; only hands, cuffs and shoulders read. The desk surface runs unbroken across the whole image.
-Camera: medium shot with waist-up framing pushed overhead from a high angle looking down, the subject observed rather than heroic, shot on 50mm standard lens with minimal distortion and natural cinematic composition
-Lighting/mood: single hard side-light cutting across the subject, deep chiaroscuro shadows, tense atmosphere
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 in the wet ink line of the signature), film-noir low-key lighting, deep shadows
-Text handling: the order pages are cropped and foreshortened so no body text is legible; no seal, no logo, no letterhead, no recognizable public figure likeness.
-Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
+
+Scene: Emotional focal point: a hand pressing a heavy stamp down onto a thick bound ruling document, knuckles taut with finality. The document lies squarely on a long polished bench desk, and the stamping arm enters from the upper left. A folded pair of reading glasses rests beside the document on the same desk surface.
+
+Camera: close-up shot from High angle, looking down, shot on 100mm macro lens
+
+Lighting/mood: warm soft desk-lamp light, quiet wistful tone
+
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
+
+Text handling: the ruling document is cropped and turned so its body text falls outside the frame, no legible lettering rendered. Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
+
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the polished executive desk top) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+
+Composition: ONE continuous surface (the polished bench desktop) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -66,28 +80,35 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-Trump executive order signing desk
+대법원 판결문 법봉 법정
 ```
 
 ### [카드 3]
 **텍스트**
 ```text
-둘째는 국무·국토안보 장관에게 갔다
-원정출산을 막을 규칙을 만들라고 했다
-알선 업계가 표적이고 범위도 넓어졌다
-*그런데 칼끝은 거기서 멈추지 않았다*
+그래서 8월 6일 서명된 명령은
+원칙을 건드리지 않는다
+대신 국무·국토안보 장관에게
+원정출산을 막을 규칙을 지시했다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: one bureaucrat's finger tapping a single line on the directive, the other officials' eyes all pulled to that fingertip. Looked straight down onto a long government conference table, six officials in gray suits sit spaced along both sides while identical directive folders are slid outward to each seat. Their attention converges to the right of center, leaving open room toward the right edge. The table top runs unbroken from top to bottom of the frame.
-Camera: group shot with multiple subjects in clear arrangement from an overhead bird's-eye view showing layout and geometry, shot on 24mm wide lens for cinematic spatial context
+
+Scene: Emotional focal point: the steepled fingertips of a seated man in a dark suit, pressed together above a signed order folder on the desk before him. Two aides stand lower and behind him at the edges of the frame, heads inclined as they receive the folder being slid toward them. All three figures share one long executive desk that runs to both frame edges, and the seated man's gaze angles downward toward the aides.
+
+Camera: medium shot, waist-up framing from Low angle, looking up, shot on 50mm standard lens
+
 Lighting/mood: flat sterile clinical fluorescent light, cold even greenish-white, emotionless institutional
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the tab edge of every directive folder), muted daylight contrast
-Text handling: folder pages are closed or steeply foreshortened so no lettering is readable; generic ministry interior, no agency emblem, no logo, no nameplate lettering.
-Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
+
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
+
+Text handling: the order folder is closed and angled away so no document body text is visible. Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
+
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the long conference table top) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+
+Composition: ONE continuous surface (the long executive desktop) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -97,27 +118,34 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-State Department Homeland Security directive briefing
+백악관 행정명령 서명 집무실
 ```
 
 ### [카드 4]
 **텍스트**
 ```text
-*칼끝이 업자를 지나 산모에게 닿았다*
-이미 받은 시민권을 다시 심사한다
-끝난 줄 알았던 선택이 되돌아왔다
+표적은 알선업자만이 아니었다
+*상업적 원정출산에 가담한 산모는*
+*이미 받은 귀화 시민권을 잃을 수 있다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: her eyes glistening with welling tears, not yet falling, fixed downward on the certificate in her grip. Recurring subject A — a Korean woman in her mid-30s with shoulder-length dark hair tied back, wearing a plain beige knit cardigan — holds her naturalization certificate against her chest with both hands, her thumb creasing its edge. Her face fills most of the frame and her shoulder carries the faint weight of a sleeping infant just outside the crop. A single dark corridor wall stands behind her across the entire background.
-Camera: tight close-up with the face filling the frame, intense emotion and intimate pressure, from an eye-level neutral perspective that keeps her dignified and equal, shot on 85mm portrait lens with soft background separation
+
+Scene: Emotional focal point: her eyes glistening with welling tears that have not yet fallen, lips pressed tight. Recurring subject — a Korean woman in her 30s with shoulder-length dark hair tied back, wearing a plain beige cardigan over a white blouse, stands alone at a glass service window and holds a slim document folder against her chest with both hands. Her gaze is fixed downward at the counter slot in front of her, and the row of identical glass windows recedes behind her along the same corridor wall.
+
+Camera: tight close-up, face fills frame from Eye-level, shot on 85mm portrait lens
+
 Lighting/mood: single pool of hard light isolating the figure in surrounding blackness, claustrophobic loneliness
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 along the torn edge of the certificate), film-noir low-key lighting, deep shadows
-Text handling: the certificate is tilted and cropped so no lettering is readable; no seal, no logo, no identifiable real person likeness.
-Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
+
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
+
+Text handling: the folder is held edge-on so no lettering is legible, and the window signage is cropped out of frame. Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
+
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the dark corridor wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+
+Composition: ONE continuous surface (the corridor wall of glass service windows) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -127,28 +155,35 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-US naturalization certificate citizenship oath
+미국 이민국 귀화 서류 창구
 ```
 
 ### [카드 5]
 **텍스트**
 ```text
-사실 이 문은 원래도 닫혀 있었다
-국적 목적의 관광비자는 원래 불법이다
-*바뀐 건 금지가 아니라 집행의 강도다*
-이번 명령도 위헌 소송을 피하기 어렵다
+사실 자녀 시민권을 노린 관광비자는
+원래도 미국법이 금지하고 있었다
+그러니 이번에 새로 생긴 건 금지가 아니라
+*집행의 강도이고, 그 칼끝의 방향이다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the narrow gap between her waiting hands and the officer's hand that has not yet reached for her passport. Recurring subject A — a Korean woman in her mid-30s with shoulder-length dark hair tied back, wearing a plain beige knit cardigan — stands full-length at the foot of a raised airport inspection counter, holding out a passport while an officer behind the elevated counter looks down at a screen. The queue rope stretches away behind her and her gaze runs up toward the right side of the counter. One long terminal back wall runs unbroken behind everything.
-Camera: full shot from head to toe with clear silhouette and visible outfit, taken from a low angle looking up so the counter towers over her, shot on 20mm wide lens with documentary realism placing the subject inside the environment
+
+Scene: Emotional focal point: the narrowing gap of a service window shutter being drawn down, leaving only a thin slit of light. Behind the counter an officer's hand rests on the shutter handle, pulling it lower, while a passport lies untouched on the counter slot beneath. The same wall of glass service windows runs the full width behind, each one shuttered a little further than the last.
+
+Camera: medium close-up, chest-up framing from Profile side view, shot on 70mm short telephoto
+
 Lighting/mood: flat cold even surveillance light, no shadow no warmth, detached and watchful
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 in the scanner beam on the counter), muted daylight contrast
-Text handling: signage and screens are angled away, blurred or cropped so no lettering is readable; generic airport interior, no airline logo, no agency emblem, no real person likeness.
-Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
+
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
+
+Text handling: the passport is closed and the counter placards are turned edge-on, so no lettering is legible. Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
+
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the long terminal back wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+
+Composition: ONE continuous surface (the counter wall of service windows) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -158,59 +193,35 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-US airport immigration inspection counter
+미국 대사관 비자 심사 창구
 ```
 
 ### [카드 6]
 **텍스트**
 ```text
-한국 남성에겐 더 남의 일이 아니다
-국적이 둘이면 하나는 버려야 한다
-열여덟 되는 해 3월 31일이 그 마감이다
-*놓치면 병역을 마쳐야 이탈할 수 있다*
+원정출산으로 미국 국적을 함께 얻은
+한국 남성은 18세 되는 해 3월 31일까지
+국적을 안 떠나면 병역을 마쳐야 한다
+*이제 미국 병원보다 그 날짜가 먼저다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the mother's fingertip resting on the form while her son's hand stays flat on the table, not yet picking up the pen. Recurring subject B — a Korean woman in her late 40s with short permed hair, wearing a dark gray cardigan — sits at a small living room table beside a young man of about eighteen in a plain hoodie, and a single application form lies between them. Both look down at the same sheet, their bodies angled three-quarter toward the right of the frame. One papered living room wall runs unbroken behind them.
-Camera: medium shot with waist-up framing showing faces and gestures, from an eye-level neutral perspective in a three-quarter angle with natural face depth, shot on 50mm standard lens with natural cinematic composition
-Lighting/mood: warm soft desk-lamp light, quiet wistful tone
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 in the lamp glow falling on the form), film-noir low-key lighting, deep shadows
-Text handling: the form is foreshortened and partly covered by their hands so no lettering is readable; ordinary Korean apartment interior, no logo, no agency emblem, no real person likeness.
-Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
-MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the papered living room wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
-- no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
-- no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
-- no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
-- no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
-- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
-```
-**검색어**
-```text
-병무청 국적이탈 신고서
-```
 
-### [카드 7]
-**텍스트**
-```text
-결국 대법원이 지킨 문장은 그대로다
-바뀐 건 그 문장에 닿기까지의 길이다
-비자 창구, 입국심사대, 산모의 서류다
-*미국 병원보다 3월 31일이 먼저 온다*
-```
-**이미지 프롬프트**
-```text
-korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: her calm, direct eyes looking straight into the camera, holding steady contact with the viewer. Recurring subject B — a Korean woman in her late 40s with short permed hair, wearing a dark gray cardigan — faces the camera squarely in the same living room, one hand resting on a wall calendar beside her where a single date square is circled. Two passports lie closed and stacked under her other hand. The papered wall behind her fills the entire background without a break.
-Camera: medium close-up with chest-up framing carrying facial emotion, front-on with a direct gaze and symmetrical composition at eye level, shot on 85mm portrait lens with flattering face and soft background separation
-Lighting/mood: warm soft morning light, gentle and quiet, faint melancholy
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 in the circle drawn around the calendar date), muted daylight contrast
-Text handling: render the short text "31" clearly and legibly inside the circled calendar square in the upper area of the frame; all other calendar cells, passport covers and surfaces stay blank or cropped with no readable lettering, no logo, no emblem, no real person likeness.
-Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
+Scene: Emotional focal point: her fingertip resting on one circled square of a wall calendar, held there without moving. Recurring subject — a Korean woman in her 30s with shoulder-length dark hair tied back, wearing a plain beige cardigan over a white blouse, stands facing the calendar on the living room wall with her back three-quarters to the viewer, her gaze level with the circled date. A child's small shoes sit on the floor at the base of the same wall.
+
+Camera: full shot, head-to-toe framing from Eye-level, shot on 35mm lens
+
+Lighting/mood: cold blue pre-dawn tone, desolate stillness
+
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
+
+Text handling: the calendar grid is rendered as blank ruled squares with a single hand-drawn circle mark and no numerals or month lettering. Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
+
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the papered living room wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+
+Composition: ONE continuous surface (the living room wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -220,5 +231,5 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-미국 여권 한국 여권
+국적이탈 신고 병무청 달력
 ```
