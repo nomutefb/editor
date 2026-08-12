@@ -4,26 +4,30 @@
 
 운영자 260812 = 「키값만 깃 시크릿에 넣으면 바로 테스트」. 그 열쇠가 여기로 들어온다.
 
-## 자격 (실측 규격 · 260812 실호출로 확인)
-창구 = https://fnf-device-auth.higgsfield.ai
-  POST /authorize            → {device_code, verification_uri, expires_in 900, interval 3}   ← 판정기 몫
-  POST /token {device_code}  → {access_token, refresh_token, expires_in, refresh_expires_in}  ← 판정기 몫
-  POST /refresh {refresh_token} → 같은 모양                                                   ← **러너가 쓰는 것**
-  POST /validate {token}     → {user_id}
-⚠ 클라이언트 등록이 필요 없다 = 비밀값이 **갱신 열쇠 1개**로 끝난다.
-⚠ /refresh 가 새 갱신 열쇠를 실어 보낼 수 있다(회전형 가능성) → 왔을 때만 저장·되쓰기.
-  회전형이든 아니든 이 계약 하나가 양쪽을 흡수한다(그록 260811 실사고의 교훈).
+## 자격 = **브라우저 방식**(실측 규격 · 260812)
+창구 = https://mcp.higgsfield.ai
+  POST /oauth2/register              → 프로그램 번호(승인 불요 · 즉시 발급)          ← 판정기 몫
+  GET  /oauth2/authorize (PKCE)      → 사람이 브라우저에서 허용                      ← 판정기 몫
+  POST /oauth2/token (폼)            → 접속 열쇠 + **갱신 열쇠**                     ← 판정기 몫
+  POST /oauth2/token (grant=refresh) → 접속 열쇠 갱신                                ← **러너가 쓰는 것**
+⚠ **기기 코드 방식은 쓰면 안 된다**(260812 실측 · 런 31624564002) — 그 자격으로도 잔액·자격은
+  통과하는데 **모델 목록이 6종뿐이고 시댄스가 없다**(cinematic_studio 계열·마케팅·클리파이·프리셋).
+  같은 계정을 사람이 붙인 연결에서는 시댄스가 그대로 먹혔다 = 차이는 **로그인 방식**이다.
+  창구 안내 자신도 기기 코드 방식을 다른 프로그램용으로 적어 두었다.
+⚠ 비밀값 한 줄 = `프로그램번호:갱신열쇠`(붙여넣기 1회 원칙 · 판정기가 그 모양으로 써 준다).
+⚠ 갱신 응답에 새 갱신 열쇠가 오면 저장·되쓰기 — 회전형이든 아니든 이 계약 하나가 양쪽을 흡수한다.
 
 ## 창구 (실측 · 260812)
-MCP = https://mcp.higgsfield.ai/mcp · `Authorization: Bearer <접속 열쇠>`
-  무자격 요청은 401 + `www-authenticate: Bearer … scope="openid email offline_access"`
-  = 위 기기 코드 흐름이 주는 그 자격이 맞다.
+MCP = https://mcp.higgsfield.ai/mcp · `Authorization: Bearer <접속 열쇠>` · 세션 악수에
+**작업공간 선택**까지 포함(갓 연 세션은 작업공간이 안 잡힌다).
 
 ## ⚠ 확인된 것과 아직 아닌 것을 가른다([1] 정직)
-확인 = 자격 4창구 · MCP 401 규격 · `balance` 회신 모양 · `generate_video{get_cost:true}` 견적 실값
-       (시댄스 2.5 720p 30초 = 195 크레딧 · 2.0 1080p 15초 = 135 · 그록 720p 15초 = 67.5).
-미확인 = 발사 응답 모양 · 실패 응답 생김새 · **실패 시 크레딧 환불 여부** · 참조 올리기 도구 규격 ·
-       기다리기 회당 상한. → 이 축들은 `--check`(과금 0)와 첫 실호출이 확정한다. 지어내지 않는다.
+확인 = 자격 창구 규격 · 프로그램 등록 실호출 · MCP 401 규격 · `balance` 실회신(3,060 크레딧 · ultra)
+       · 견적 실값(시댄스 2.5 720p 30초 = 195 크레딧) · 참조 올리기 실호출(`media_id` 회신)
+       · 단건은 인자를 한 겹 감싸고 일괄은 `requests` 배열 · 회신이 **글자로도 온다**
+미확인 = 브라우저 방식 자격으로 시댄스가 실제로 열리는지(다음 확인 실행이 판정) · 발사 회신 모양 ·
+       실패 응답 생김새 · **실패 시 크레딧 환불 여부** · 기다리기 회당 상한 실동작.
+       → 지어내지 않는다. 확인 실행이 원문을 로그에 남긴다.
 
 CONTRACT: check_grok_sb_chain
 """
@@ -38,8 +42,12 @@ import urllib.request
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from lane import LaneError     # noqa: E402
 
-AUTH = os.environ.get("HF_AUTH_BASE", "https://fnf-device-auth.higgsfield.ai")
-MCP = os.environ.get("HF_MCP_URL", "https://mcp.higgsfield.ai/mcp")
+# ⚠ **자격 창구가 바뀌었다**(260812 실측 · 런 31624564002) — 기기 코드 방식으로 받은 자격은
+#   자격·잔액이 다 통과하는데 **모델 목록이 6종뿐이고 시댄스가 없다**. 같은 계정을 사람이 붙인
+#   연결에서는 시댄스가 그대로 먹혔다 → 차이는 **로그인 방식**이었다(창구 안내에도 기기 코드는
+#   다른 프로그램용으로 적혀 있다). → 브라우저 방식(사람 연결과 같은 길)으로 간다.
+BASE = os.environ.get("HF_BASE", "https://mcp.higgsfield.ai")
+MCP = os.environ.get("HF_MCP_URL", BASE + "/mcp")
 SECRET_NAME = "HIGGSFIELD_REFRESH_TOKEN"
 PROTO = "2025-06-18"
 # 브라우저 서명 — 창구 앞단이 파이썬 기본 서명을 막는다(위 _post 주석 참조)
@@ -96,6 +104,22 @@ def _post(url, body, *, token=None, timeout=60, accept="application/json"):
         return 0, "{}: {}".format(type(e).__name__, e)
 
 
+def _form(url, fields):
+    """열쇠 창구는 **폼 문법**을 받는다(JSON 아님) — 표준 열쇠 창구 규격."""
+    import urllib.parse                                  # noqa: PLC0415
+    data = urllib.parse.urlencode(fields).encode()
+    req = urllib.request.Request(url, data=data, method="POST", headers={
+        "Content-Type": "application/x-www-form-urlencoded", "Accept": "application/json",
+        "User-Agent": UA})
+    try:
+        with urllib.request.urlopen(req, timeout=60) as r:
+            return r.status, r.read().decode("utf-8", "replace")
+    except urllib.error.HTTPError as e:
+        return e.code, e.read().decode("utf-8", "replace")[:600]
+    except Exception as e:  # noqa: BLE001
+        return 0, "{}: {}".format(type(e).__name__, e)
+
+
 def _persist(rt):
     """새 갱신 열쇠를 깃 비밀값에 되써 넣는다 — 없으면 **다음 발사가 죽는다**(그록 260811 실사고).
 
@@ -113,11 +137,17 @@ def fresh_token():
     """접속 열쇠를 얻는다(수명 안이면 재사용). 갱신 열쇠가 새로 오면 저장·되쓰기."""
     if _TOK["access"] and time.time() < _TOK["exp"]:
         return _TOK["access"]
-    rt = (os.environ.get(SECRET_NAME) or "").strip()
-    if not rt:
+    raw = (os.environ.get(SECRET_NAME) or "").strip()
+    if not raw:
         raise LaneError("힉스필드 갱신 열쇠가 없다 — 판정기(노뮤트_힉스필드자격_확인.bat)를 돌려 "
                         "{} 비밀값에 넣어라".format(SECRET_NAME), retryable=False, auth_dead=True)
-    code, txt = _post(AUTH + "/refresh", {"refresh_token": rt})
+    # 비밀값 한 줄 = `프로그램번호:갱신열쇠`(붙여넣기 1회 원칙 · 판정기가 그 모양으로 써 준다)
+    cid, _, rt = raw.partition(":")
+    if not rt:
+        raise LaneError("갱신 열쇠 모양이 아니다(프로그램번호:갱신열쇠) — 판정기를 다시 돌려라",
+                        retryable=False, auth_dead=True)
+    code, txt = _form(BASE + "/oauth2/token",
+                      {"grant_type": "refresh_token", "refresh_token": rt, "client_id": cid})
     if code != 200:
         raise LaneError("자격 갱신 실패({}) — 판정기를 다시 돌려 열쇠를 새로 받아야 한다".format(code),
                         retryable=False, auth_dead=True, body=txt)
@@ -130,8 +160,8 @@ def fresh_token():
     _TOK["exp"] = time.time() + max(60, int(d.get("expires_in") or 900) - 60)
     new_rt = d.get("refresh_token")
     if new_rt and new_rt != rt:      # 회전형일 때만 저장 = 비회전형도 같은 코드로 옳게 돈다
-        os.environ[SECRET_NAME] = new_rt
-        _persist(new_rt)
+        os.environ[SECRET_NAME] = cid + ":" + new_rt
+        _persist(cid + ":" + new_rt)
     if not _TOK["access"]:
         raise LaneError("접속 열쇠가 응답에 없다", retryable=False, auth_dead=True, body=txt)
     return _TOK["access"]
