@@ -1,5 +1,103 @@
 [
   {
+    "url": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/resize/260812125229-0ae9db/4x5-b4abe224.jpg",
+    "srcUrl": "uploads/260812125229-0ae9db/src.jpg",
+    "aspect": "4:5",
+    "size": "1K",
+    "lock": true,
+    "route": "seed_pad",
+    "fill": "auto",
+    "qa": "FAIL",
+    "calls": {
+      "gen": 3,
+      "judge": 3
+    },
+    "model": "gemini-3.1-flash-image-preview",
+    "qa_why": "A duplicate of the upper background mountains is visibly pasted above the main scene, with a clear horizontal seam separating the two.",
+    "tries": [
+      {
+        "t": 1,
+        "streak": 0.0,
+        "bands": {
+          "top": 0.0,
+          "bottom": 0.0
+        },
+        "enc": "2:2",
+        "qa": "FAIL",
+        "why": "A duplicated seam and repeated background architecture are clearly visible across the entire upper section of Image 2.",
+        "rej": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/resize/260812125229-0ae9db/rej-t1-8308846b.jpg",
+        "raw": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/resize/260812125229-0ae9db/raw-t1-ffa65cc9.jpg"
+      },
+      {
+        "t": 2,
+        "streak": 0.0,
+        "bands": {
+          "top": 0.0,
+          "bottom": 0.0
+        },
+        "enc": "2:2",
+        "qa": "FAIL",
+        "why": "An unnatural, distorted mountain ridge has been generated at the very top of the image.",
+        "rej": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/resize/260812125229-0ae9db/rej-t2-977b2dc4.jpg",
+        "raw": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/resize/260812125229-0ae9db/raw-t2-95bd3484.jpg"
+      },
+      {
+        "t": 3,
+        "streak": 0.0,
+        "bands": {
+          "top": 0.0,
+          "bottom": 0.0
+        },
+        "enc": "2:2",
+        "qa": "FAIL",
+        "why": "A duplicate of the upper background mountains is visibly pasted above the main scene, with a clear horizontal seam separating the two.",
+        "rej": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/resize/260812125229-0ae9db/rej-t3-21ec18bd.jpg",
+        "raw": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/resize/260812125229-0ae9db/raw-t3-4a03eac4.jpg"
+      }
+    ],
+    "usage": [
+      {
+        "tag": "resize:t1",
+        "prompt": 1180,
+        "output": 1461,
+        "total": 2641
+      },
+      {
+        "tag": "resize:judge",
+        "prompt": 921,
+        "output": 28,
+        "total": 949
+      },
+      {
+        "tag": "resize:t2",
+        "prompt": 1221,
+        "output": 1682,
+        "total": 2903
+      },
+      {
+        "tag": "resize:judge",
+        "prompt": 921,
+        "output": 25,
+        "total": 946
+      },
+      {
+        "tag": "resize:t3",
+        "prompt": 1218,
+        "output": 1540,
+        "total": 2758
+      },
+      {
+        "tag": "resize:judge",
+        "prompt": 921,
+        "output": 32,
+        "total": 953
+      }
+    ],
+    "box": null,
+    "id": "260812125229-0ae9db",
+    "ts": "2026-08-12T12:53:56+09:00"
+  },
+  {
     "url": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/resize/260810142232-6836d9/4x5-fab3ee1f.jpg",
     "srcUrl": "uploads/260810142232-6836d9/src.jpg",
     "aspect": "4:5",
@@ -583,18 +681,5 @@
     "box": null,
     "id": "g5169",
     "ts": "2026-08-07T14:48:51+09:00"
-  },
-  {
-    "url": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/resize/g5916/9x16-3b5fad01.jpg",
-    "srcUrl": "uploads/g5916/src.jpg",
-    "aspect": "9:16",
-    "size": "1K",
-    "lock": true,
-    "route": "gemini",
-    "fill": "ai",
-    "qa": "PASS",
-    "box": null,
-    "id": "g5916",
-    "ts": "2026-08-07T14:48:39+09:00"
   }
 ]
