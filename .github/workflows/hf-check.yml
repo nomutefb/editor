@@ -21,8 +21,9 @@ on:
 permissions:
   contents: read
 
+# 같은 열쇠를 쓰는 판과 **한 줄로 세운다** — 확인이 촬영과 겹치면 그 순간 열쇠 사슬이 끊긴다.
 concurrency:
-  group: hf-check
+  group: nm-seedance-key
   cancel-in-progress: false
 
 jobs:

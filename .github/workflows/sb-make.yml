@@ -55,8 +55,12 @@ on:
           - MUTENO
           - EMS1130G
 
+# ⚠ **시댄스 판은 한 번에 하나만 돈다**(260812 실사고) — 그쪽 열쇠는 **쓸 때마다 새것으로 바뀌고
+#   옛것이 죽는** 형태다. 두 판을 나란히 쏘면 둘이 같은 열쇠를 동시에 갈아서, 창구가 그걸
+#   재사용으로 보고 **사슬을 통째로 끊는다**(그 뒤로는 전부 400 = 사람이 다시 로그인해야 산다).
+#   러너 안 잠금은 러너 사이에선 무용지물이라 순서를 여기서 세운다. 다른 촬영 칸은 종전대로 병렬.
 concurrency:
-  group: sb-make-${{ inputs.id }}
+  group: ${{ startsWith(inputs.shoot, 'seedance') && 'nm-seedance-key' || format('sb-make-{0}', inputs.id) }}
   cancel-in-progress: false
 
 permissions:
