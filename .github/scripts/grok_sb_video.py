@@ -159,6 +159,31 @@ def group_shots(cuts, sec=None):
     return shots
 
 
+def receipt(out_dir, rec):
+    """발사 영수증을 **기다리기 전에** 파일로 떨군다.
+
+    ⚠ 왜 필요했나(260813 실사고) = 30초 한 발이 19분을 돌던 중 러너가 시간 벽에 잘렸다.
+      값은 이미 나갔는데 산출은 마지막에 한 번에 쓰는 구조라 **작업 번호가 어디에도 안 남았다**
+      = 다 만들어진 영상을 우리 손으로는 영영 못 찾는다(벤더 화면을 사람이 열어야만 보인다).
+    ⚠ 그래서 「번호를 아는 순간」과 「결과를 아는 순간」을 가른다 — 앞의 것은 즉시 적는다.
+      잘리든 죽든 이 파일은 남고, 다음 판이 그 번호로 결과만 받아 올 수 있다.
+    """
+    try:
+        path = os.path.join(out_dir, "jobs.json")
+        try:
+            with open(path, encoding="utf-8") as f:
+                cur = json.load(f)
+        except Exception:  # noqa: BLE001
+            cur = {"lane": LANE.NAME, "jobs": []}
+        cur["jobs"] = [x for x in cur.get("jobs", []) if x.get("n") != rec["n"]] + [
+            {"n": rec["n"], "job": rec.get("job"), "sec": rec.get("sec")}]
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(cur, f, ensure_ascii=False)
+        print("  · 영수증 {}편 = {}".format(rec["n"], rec.get("job")))
+    except Exception as e:  # noqa: BLE001
+        print("::warning::영수증 기록 실패(비치명): {}".format(str(e)[:140]))
+
+
 def board_fit(shots):
     """콘티 컷 경계가 이 통로의 한 발 길이와 맞물리나 — 안 맞으면 **이름을 대고 경고**한다.
 
@@ -547,6 +572,7 @@ def main():
                 #   결과를 못 읽은 경우 **우리 산출물로는 회수할 길이 아예 없었다**(벤더 화면을
                 #   사람이 열어야만 보였다). 나간 돈의 영수증 번호라 성패와 무관하게 적는다.
                 rec["job"] = str(rid)[:80]
+                receipt(out_dir, rec)   # ⚠ **기다리기 전에** 파일로 떨군다(아래 주석 참조)
                 v = LANE.wait(rid, token=token)
                 # ⚠ 컷별 값을 적는다(운영자 260811 「최적의 순간을 찾는다」) — 합계만 적혀 있으면
                 #   「호출 1번에 고정인가 · 초당인가」를 영영 못 가른다(첫 판 실측 = 1초 6개 + 2초 6개

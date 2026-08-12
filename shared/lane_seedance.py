@@ -551,6 +551,19 @@ def _check():
         print("::error::견적 숫자를 못 읽었다 — 예산 검문이 무력해진다(위 원문을 보고 파서를 고쳐라)")
         return 1
     print("③ 견적 ✓ {}초 = {} 크레딧".format(SHOT_SEC, cr))
+    # ④ 최근 산출 목록 — **잘린 판을 회수하는 손**(과금 0 · 조회만).
+    # ⚠ 왜 있나(260813 실사고) = 러너가 기다리는 중에 시간 벽에 잘리면 값은 나갔는데 결과 주소를
+    #   우리 산출물로는 못 찾는다. 창구는 만든 것을 계정에 그대로 들고 있으므로, 여기서 최근
+    #   목록만 훑으면 그 영상을 도로 집어올 수 있다. 실패해도 확인 자체는 통과시킨다(부가 축).
+    try:
+        g = call("show_generations", {"limit": 5}, tok)
+        txt = json.dumps(g, ensure_ascii=False)
+        urls = re.findall(r"https?://[^\s\"']+?\.(?:mp4|mov|webm)", txt)[:5]
+        print("④ 최근 산출 {}건{}".format(len(urls), (" · " + " · ".join(urls)) if urls else ""))
+        if not urls:
+            print("   원문: {}".format(txt[:400]))
+    except Exception as e:  # noqa: BLE001
+        print("④ 최근 산출 조회 실패(부가 축이라 통과는 유지): {}".format(str(e)[:200]))
     print("── 통과 — 발사만 남았다(이 확인은 크레딧을 쓰지 않았다) ──")
     return 0
 

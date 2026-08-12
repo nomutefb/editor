@@ -74,7 +74,10 @@ permissions:
 jobs:
   sb:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    # ⚠ **25분은 시댄스 렌더에 모자란다**(260813 실측) — 30초 한 발이 19분을 돌던 중 잡이
+    #   시간 벽에 잘렸다. 발사는 이미 나갔고 결과만 못 받은 최악의 모양이라 값은 값대로 나간다.
+    #   콘티만 뽑는 판은 5분이면 끝나므로 벽을 올려도 손해가 없다(안 쓰면 안 쓴다).
+    timeout-minutes: 70
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -278,6 +281,9 @@ jobs:
           GROK_SB_CUT_MAX: ${{ inputs.cutmax }}
           # 견적 상한(크레딧) — 넘으면 발사 0. 30초 기준 실측 = 2.5 195 · 2.0 FHD 270.
           SB_COST_CAP: ${{ vars.SB_COST_CAP || '400' }}
+          # 기다리기 상한 — **잡 시간 벽보다 넉넉히 작게**. 크면 폴이 끝나기 전에 잡이 잘려
+          # 작업 번호도 산출도 없이 값만 나간다(260813 실사고가 정확히 그 모양).
+          SD_POLL_MAX_SEC: '3000'
         run: |
           MD="viewer/sb_out/${IN_ID}/board.md"
           if [ ! -s "$MD" ]; then
