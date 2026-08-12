@@ -381,28 +381,56 @@ function sbFireGate() {
 }
 
 // ── 기사 요약 끌어오기 = 수집·분석이 끝난 기사 목록에서 자유 요약을 가져온다.
-//    출처 = viewer/articles.json(빌더가 queue/*.md frontmatter 의 summary 를 굽는다) = 새 데이터 축 0.
+//    목록 = viewer/articles.json(경량 인덱스) · 요약 본문 = viewer/detail/<파일>.json = 새 데이터 축 0.
 //    ⚠ 탭할 때마다 최신부터 다음 건 = 이 파일의 「탭=다음으로 순환」 관용구 그대로(새 컴포넌트 0).
+//    ⚠⚠ 260812 실사고 = 이 버튼이 **한 번도 기사를 못 불러왔다**(운영자 "콘티에서 기사를 불러오지 못함").
+//      구판은 인덱스의 `a.summary` 를 걸렀는데, 그 값의 출처인 queue/*.md **프론트매터에 summary 키가 아예 없다**
+//      (260812 실측 = 649건 중 0건 보유 · 요약은 본문 「## 🧷 한줄 요약」 문단에 있다) → 필터 결과가 항상 0건이라
+//      매번 '요약 없음' 만 떴다. 화면은 멀쩡히 눌리고 에러도 안 나서 운영자 눈이 유일한 검출기였다.
+//      → 인덱스는 목록(제목·파일명)만 쓰고, 요약은 뷰어 정본과 **같은 규칙**으로 본문에서 뽑는다.
+const SB_SUM_RE = /한\s*줄\s*요약[^\n]*\n+([\s\S]*?)(?=\n\s*\n|\n#|$)/;   // 정본 = viewer/index.html oneLineSummary 정규식 사본(값·문법 창작 0 — 두 곳이 갈리면 콘티가 뷰어와 다른 요약을 쥔다)
 (function () {
   const btn = document.getElementById('sumPull'), ta = document.getElementById('sumTx');
   if (!btn || !ta) return;
-  let list = null, ix = -1;
+  let list = null, ix = -1, busy = false;
+  // 한 건의 요약 = 인덱스에 있으면 그대로, 없으면 detail 본문에서 한줄 요약 문단을 뽑는다(index.html ensureDetail 관용구).
+  async function sumOf(a) {
+    if (a._sum != null) return a._sum;
+    const inline = (a.summary || '').trim();
+    if (inline) { a._sum = inline; return a._sum; }
+    try {
+      const r = await fetch('detail/' + encodeURIComponent(a.file) + '.json?v=' + encodeURIComponent(a.rev || 0));
+      const d = r.ok ? await r.json() : null;
+      const m = ((d && d.body) || '').match(SB_SUM_RE);
+      a._sum = m ? m[1].replace(/\s+/g, ' ').trim() : '';
+    } catch (e) { a._sum = ''; }   // 한 건 실패가 순환을 못 죽인다 — 다음 건으로 넘어간다
+    return a._sum;
+  }
   btn.addEventListener('click', async () => {
+    if (busy) return; busy = true;
+    const back = btn.textContent;
     try {
       if (!list) {
         const r = await fetch('articles.json?t=' + Date.now());
         const j = r.ok ? await r.json() : null;
-        list = ((j && j.articles) || []).filter(a => a && (a.summary || '').trim());
+        list = ((j && j.articles) || []).filter(a => a && a.file && (a.has_body || (a.summary || '').trim()));
         if (!list.length) { btn.textContent = '요약 없음'; setTimeout(() => { btn.textContent = '불러오기'; }, 1600); return; }
       }
-      ix = (ix + 1) % list.length;
-      const a = list[ix];
-      ta.value = (a.title ? a.title + '\n\n' : '') + a.summary;
+      btn.textContent = '…';
+      // 요약이 실제로 나오는 다음 건까지 앞으로(본문에 한줄 요약 문단이 없는 기사는 건너뛴다 · 최대 목록 길이 = 무한루프 0)
+      let a = null, s = '';
+      for (let n = 0; n < list.length; n++) {
+        ix = (ix + 1) % list.length;
+        s = await sumOf(list[ix]);
+        if (s) { a = list[ix]; break; }
+      }
+      if (!a) { btn.textContent = '요약 없음'; setTimeout(() => { btn.textContent = '불러오기'; }, 1600); return; }
+      ta.value = (a.title ? a.title + '\n\n' : '') + s;
       ta.dispatchEvent(new Event('input', { bubbles: true }));   // 저장·자람·발사 게이트를 정본 경로로 태운다
       btn.textContent = (ix + 1) + '/' + list.length;
     } catch (e) {
       btn.textContent = '못 읽음'; setTimeout(() => { btn.textContent = '불러오기'; }, 1600);
-    }
+    } finally { busy = false; }
   });
 })();
 // 감독×촬영 2축 + 설정(운영자 260714 확정 — 감독 = 연출 LLM · 촬영 = 생성 엔진 · 항상 스토리보드 경유)
