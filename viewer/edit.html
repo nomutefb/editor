@@ -967,18 +967,15 @@ function swrow(){
 }
 const srcRatio=()=>Math.max(.25, Math.min(1, (100+(+P.srcsz||0))/100));   // 원문 줄 상대 크기 계수(운영자 260729 게이지 srcsz −75~0 → 0.25~1.0) — 미리보기 tfs·러너 dual_small 공용 단일 산식(두 곳이 갈리면 미리보기≠결과)
 const px1=v=>Math.max(0, Math.round(v*10)/10);   // 음영 px = 0.1 단위 연속(260729) — 구 Math.max(1,Math.round(…)) 정수 반올림이 게이지 여러 칸을 같은 1px에 뭉개 계단처럼 튀던 것(운영자 "딱딱 끊겨서 조절되는 게 아니라") + 하한 1px 탓에 0%에서도 외곽선이 남던 것 동시 해소
-function inkEven(el, pad){   /* ★ 음영 네모 여백 = **상하좌우 잉크 기준 한 값**(운영자 260812 2차 "상하좌우 마진을 픽셀 광학 잉크단위로 동일하게 · 항상 조정값에 따라 균일비율로 늘어나게")
-  ⚠ 왜 padding 한 값으로는 안 되나 = padding 은 **글자 상자** 기준인데 눈에 보이는 건 **글자 잉크**다. 줄 높이·글꼴 위아래 여백이 상자와 잉크 사이에 제각각 끼어 있어서
-    같은 값을 넣어도 위가 좁고 아래가 넓게 보인다(260812 실측 = 음영 300%에서 좌우 1.19 · 위 0.19 · 아래 0.77 = 위가 좌우의 6분의 1). 「위가 너무 좁다」의 실체가 이것이다.
-  → 잰 뒤 그만큼 되돌려 준다: 먼저 네 변에 목표값을 넣고 잉크가 실제로 얼마나 떨어졌는지 잰 다음, 모자란 만큼만 각 변에 더한다(넘치면 0). 결과는 네 변 전부 목표값 한 값.
-  ⚠ 목표값은 음영 세기 게이지에서 그대로 내려오므로 조절하면 사방이 같은 비율로 함께 늘고 준다(운영자 지시 후반부) · 새 값 창작 0 = 기존 여백 산식이 그대로 목표값이다.
-  판정 축 = 광학-잉크(§3-4-1 「박스가 아니라 글자 잉크」 계약 그대로 · 그 계약이 가로 정렬용이던 것을 같은 문법으로 여백에 적용). */
-  el.style.padding=pad+'px';
+function inkBotEqTop(el){   /* ★ 원문(외국어) 줄 음영 = **아래 여백을 위 여백에 맞춘다**(운영자 260812 3차 "외국어 음영 윗부분에 기준해서 아랫부분을 윗부분 길이에 맞춰서 광학 잉크 단위로")
+  ⚠ 기준은 위쪽이다 — 위 여백은 건드리지 않고 아래만 그 값으로 내린다(구 260812 2차 「사방 한 값」 판은 운영자 판단으로 원복 = 한국어 줄은 종전 여백 그대로).
+  ⚠ 재는 단위는 상자가 아니라 **글자 잉크**다(§3-4-1 광학-잉크 계약) — 줄 높이·글꼴이 가진 위아래 빈칸이 상자와 잉크 사이에 끼어 있어 padding 값만 봐서는 눈에 보이는 여백을 알 수 없다.
+  ⚠ 이 줄은 한국어 줄 바로 아래에 top 으로 매달려 있어(위 .pvsub-tr 앵커) 아래 여백을 바꿔도 글자는 안 움직인다 = 위치 계약 무접촉. */
   const rg=document.createRange(); rg.selectNodeContents(el);
   const i=rg.getBoundingClientRect(), b=el.getBoundingClientRect();
   if(!(i.height>0)||!(b.height>0)) return;   // 안 보이는 줄 = 잴 게 없다(종전 여백 유지)
-  const fix=g=>px1(Math.max(0, pad*2-g));
-  el.style.padding=fix(i.top-b.top)+'px '+fix(b.right-i.right)+'px '+fix(b.bottom-i.bottom)+'px '+fix(i.left-b.left)+'px';
+  const cur=parseFloat(getComputedStyle(el).paddingBottom)||0;
+  el.style.paddingBottom=px1(Math.max(0, cur+((i.top-b.top)-(b.bottom-i.bottom))))+'px';
 }
 const gvTxt=(k,v,u)=>v+u;   // (260729) 구 'sh 100% = 기본' 특례 폐지 — 운영자 "딱딱 끊겨서 조절되는 게 아니라 자연스럽게": 숫자가 도중에 낱말로 바뀌면 연속 조절이 끊겨 보인다 → 전 게이지 숫자 단일 · 기준선 안내는 게이지 title로 이관
 function gauge(k, lbl, min, max, val, unit, tip){ return '<div class="grow"><span class="k">'+lbl+'</span><input type="range" min="'+min+'" max="'+max+'" step="1" value="'+val+'" data-g="'+k+'" aria-label="'+lbl+(tip?(' — '+tip):'')+'"'+(tip?(' title="'+esc(tip)+'"'):'')+'><span class="v">'+gvTxt(k,val,unit)+'</span></div>'; }   // tip = 기준선 안내(260729 — 구 값칸 낱말 치환 대체)
@@ -1293,7 +1290,7 @@ function pvSync(){
     // 음영 종류 분기(운영자 260729) — 구 'bg>0이면 네모 / 아니면 획' 암묵 결정을 명시 선택(P.shtype)으로 대체.
     //   none 기본(아무것도 안 그림) · box 음영(줄박스 = 종전 bg>0 경로 그대로) · stroke 획(글리프 외곽선 = 종전 bg=0 경로) · shadow 그림자(오프셋 드롭)
     sp.style.background='transparent'; sp.style.padding='0'; sp.style.textShadow='none';
-    if(P.shtype==='box'){ sp.style.background='rgba('+oc+','+(Math.max(1,P.bg)/100)+')'; inkEven(sp, px1(fs*padc)); }   // (260812 2차) 여백 = 잉크 기준 사방 한 값(구 padding 한 줄은 상자 기준이라 위가 좁았다 · 목표값 산식 fs×padc 는 그대로 = 음영 게이지 따라 균일 확대·축소)   // 배경 알파는 bg 게이지 유지 · 하한 1 = '음영'을 골랐는데 bg 0이라 아무것도 안 보이는 죽은 조합 차단
+    if(P.shtype==='box'){ sp.style.background='rgba('+oc+','+(Math.max(1,P.bg)/100)+')'; sp.style.padding=px1(fs*padc)+'px'; }   // (260812 3차) 한국어 줄 = 종전 여백 그대로 원복(운영자 "고치기 전이 맞고, 다시 돌리고" — 2차의 사방 잉크 정합 판 회수)   // 배경 알파는 bg 게이지 유지 · 하한 1 = '음영'을 골랐는데 bg 0이라 아무것도 안 보이는 죽은 조합 차단
     else if(P.shtype==='stroke'){
       const o=px1(fs*(P.style==='bold'?0.064:0.032)*om);
       sp.style.textShadow='-'+o+'px 0 0 rgba('+oc+',1), '+o+'px 0 0 rgba('+oc+',1), 0 -'+o+'px 0 rgba('+oc+',1), 0 '+o+'px 0 rgba('+oc+',1)'+(P.style==='bold'?(', '+o+'px '+o+'px 0 rgba('+oc+',1)'):'')
@@ -1309,7 +1306,7 @@ function pvSync(){
       sp.style.marginBottom='0';   // 간격 주인이 tl의 marginTop으로 이동(원문이 흐름 밖이라 sp 마진은 캔버스 하단만 밀어냈다)
       tl.style.fontFamily=sp.style.fontFamily;
       tl.style.background='transparent'; tl.style.padding='0';   // 원문 줄 = 색·그림자 고정 축(운영자 260729 "영문은 항상 흰색 고정에, 그림자 조금 줘서 항상 고정으로") — 글자색(fg)·음영색(shc)·배경(bg)·음영 크기(sh)·글로우 어느 것도 안 따른다. 실제 색·그림자는 CSS .pvsub-tr가 전담(인라인으로 덮지 않는다 = 게이지를 만져도 원문 줄은 불변)
-      if(P.shtype==='box'){ tl.style.background='rgba('+oc+','+(Math.max(1,P.bg)/100)+')'; inkEven(tl, px1(Math.max(1,tfs*0.04))); }   // (260812 2차) 여백 = 한국어 줄과 같은 잉크 기준 사방 한 값(목표값 산식은 러너 원문 줄 값 그대로 유지 = 두 줄이 서로 다른 규칙으로 여백을 갖던 것만 해소)   // ★ 음영이 '네모'일 때만 원문 줄에도 자기 폭 박스(운영자 260812 "각각 글자들 뒤에만 음영이 각각") — 러너 BorderStyle 3 미러 · 패딩 = 러너 원문 줄 \bord(max(1, small×0.04)) 동값 산식(한국어 줄 fs×padc보다 얇은 위계도 그대로) · 다른 음영 종류(획·그림자·기본)에선 위 고정 축 그대로 = 종전 화면 불변
+      if(P.shtype==='box'){ tl.style.background='rgba('+oc+','+(Math.max(1,P.bg)/100)+')'; tl.style.padding=px1(Math.max(1,tfs*0.04))+'px'; inkBotEqTop(tl); }   /* (260812 3차) 여백 산식은 러너 원문 줄 값 그대로 두고, **아래만 위에 맞춘다**(운영자 "외국어 음영 윗부분에 기준해서 아랫부분을 윗부분 길이에 맞춰서") — 실측상 위 0 · 아래 1.44 로 아래가 두툼해 줄이 밑으로 처져 보였다(글꼴이 가진 아래쪽 빈칸이 padding 위에 더 얹힌다) */   // ★ 음영이 '네모'일 때만 원문 줄에도 자기 폭 박스(운영자 260812 "각각 글자들 뒤에만 음영이 각각") — 러너 BorderStyle 3 미러 · 패딩 = 러너 원문 줄 \bord(max(1, small×0.04)) 동값 산식(한국어 줄 fs×padc보다 얇은 위계도 그대로) · 다른 음영 종류(획·그림자·기본)에선 위 고정 축 그대로 = 종전 화면 불변
     } else { tl.hidden=true; sp.style.marginBottom='0'; } }   // 한 줄 모드 = 간격 회수
     sub.hidden=false;   // ★ 노출은 맨 끝 — 크기·색·배경·두 줄 배치가 전부 확정된 뒤라야 한다(운영자 260729 "처음에 들어갈때 흰색으로 길게" = 스타일 전 상태가 노출되던 통로 차단 · CSS .pvsub-tr font-size 폴백과 이중 방어)
   });
