@@ -346,12 +346,32 @@
  "threads": [
   {
    "account": "choi.openai",
-   "text": "Codex와 ChatGPT Work에 다른 에이전트 도구에서 작업을 가져오는 가져오기·자동 동기화 기능이 추가됐습니다.\n\n프로젝트, 채팅, 스킬, 플러그인을 한 번에 가져올 수 있고, 설정에서 자동 동기화를 켜면 계속 최신 상태를 유지합니다. 가져오기 이력도 확인할 수 있습니다.",
-   "likes": 35,
+   "text": "3/ 그러면 이 사고의 사슬은 어디에 보관될까요.\n서버가 아니라 사용자 쪽에 보관됩니다.\n\nAPI는 모델이 추론을 마칠 때마다 그 내용을 암호화한 데이터로 만들어 응답에 함께 보냅니다. 사용자가 다음 요청을 보낼 때 이 데이터를 다시 첨부하면, 모델은 앞서 했던 추론을 이어갈 수 있습니다.\n\n이렇게 하면 서버가 대화 상태를 계속 보관할 필요가 없어 운영 부담과 비용을 줄일 수 있습니다. 웹 서비스에서 흔히 쓰이는 방식이라 설계 자체가 특별한 것은 아닙니다.\n\nClaude Code나 Codex 로그를 보면 정체를 알 수 없는 긴 문자열이 섞여 있는데, 이것이 바로 암호화된 사고 과정입니다.\n\n회사가 감추려 했던 핵심 자산이 암호화된 채 사용자 컴퓨터를 오가고 있었던 셈입니다. 그리고 이 설계가 뒤에 이어질 문제의 출발점이 됩니다.",
+   "likes": 2,
    "cmts": 1,
-   "time": 1786519830,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/774069554_1075566928389143_264953915988898347_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk2MTkzNzk1MzI4MTg1NDU4OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=1kUiMb8ElYIQ7kNvwElM9CP&_nc_oc=Adq1iImjTHElGZbTi4WhlrZyfJSNQufiSS11tIzuqwphvco78ZL_12NFyWWQl7_m_DY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Gb05XWtn4KhiQSN4THXbCg&_nc_ss=7a22e&oh=00_AQETXOy5YR_-6b3kobJp7c2B0SQKnbIYtw2pTRukbFu3QQ&oe=6A81F138",
-   "url": "https://www.threads.com/@choi.openai/post/Db7oZPHgMx9",
+   "time": 1786523498,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/772265137_17981809272112832_7803976939852738493_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk2MTk2ODcxOTY0MzUxNTk0OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjg3NS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=wVfVqPGi7XsQ7kNvwE1s7BC&_nc_oc=AdohUUhWdHWpTFzAYszoO6hBrSPvwZQK4zcc0Fj3thxPHp8y-uncCCZwiYvz-Z6DxuK9NVI1g_GW_PoUsQteeJB9&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=FzZn8kN7UwzQ9kUMoL_qgg&_nc_ss=7a22e&oh=00_AQEhetvdHdXL6PC6srfCh8SxO3Z4U1QlfFqEAOWz4-8MUQ&oe=6A81FB46",
+   "url": "https://www.threads.com/@choi.openai/post/Db7vY8hj5wt",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "2/ 먼저 회사들이 왜 사고 과정을 감추는지부터 봐야 합니다.\n\n요즘 프런티어 모델은 답을 내놓기 전에 내부적으로 여러 단계의 추론을 거칩니다. 이를 사고의 사슬(Chain of Thoughts)이라고 부릅니다. 하지만 사용자에게 보여주는 것은 그 전체 과정이 아니라 짧게 정리한 요약입니다.\n\n원문을 공개하지 않는 이유는 크게 두 가지입니다. 하나는 지식재산 보호입니다. 모델의 경쟁력은 최종 답뿐 아니라 그 답에 도달하는 추론 능력에도 있습니다.\n다른 하나는 증류를 막기 위해서입니다. 사고 과정을 그대로 확보할 수 있다면 다른 회사의 모델이 가진 능력을 훨씬 적은 비용으로 복제하는 데 활용할 수 있습니다.\n\n이런 정책을 먼저 명확히 내세운 곳은 오픈AI였습니다. o1을 공개하면서 내부 사고 과정은 보여주지 않고 정리된 요약만 제공하기로 했습니다. 이후 앤트로픽과 구글도 비슷한 방식을 채택했습니다.",
+   "likes": 3,
+   "cmts": 1,
+   "time": 1786523488,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/770918513_17981809056112832_559386198185493624_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk2MTk2ODYyMzU0MzYwNzQ4Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTY0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=suoHJaZAaBwQ7kNvwHdfk1E&_nc_oc=AdpFrksqbvfvUT26Shf0bmlf8fElW20la7q88e2nWS1ICszBLp2NiZdnjI-H5c93z8mtyudis8Dkxp4kKUbMOjP6&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=FzZn8kN7UwzQ9kUMoL_qgg&_nc_ss=7a22e&oh=00_AQFsV-mqNBJcT5y8dE0auBhhDNtMwdyWyz0Ioq7fIey6SQ&oe=6A822350",
+   "url": "https://www.threads.com/@choi.openai/post/Db7vXzlD7_K",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "1/ 8월 10일 arXiv에 논문 한 편이 올라왔습니다.\n\n제목은 \"Stealing Reasoning Traces from Proprietary LLM APIs\". 116쪽짜리 논문으로, 독일 ELLIS 연구소 튀빙겐과 막스플랑크 지능시스템연구소 소속 연구자 여덟 명이 썼습니다.\n\n핵심은 앤트로픽, 오픈AI, 구글의 API에서 감춰진 사고 과정을 대규모로 꺼냈다는 것입니다. 한 회사의 API에서만 발견된 취약점이 아니라, 세 회사 모두에서 같은 방법이 통했습니다.\n\n공개 다음 날 저자가 올린 소개 글은 조회수 224만 회를 넘겼습니다. 연구자들 사이에서는 올해 가장 영향력 있는 보안 논문 중 하나가 될 것이라는 평가도 곧바로 나왔습니다. 세 회사가 같은 허점을 공유하고 있었다는 점이 특히 주목받았습니다.",
+   "likes": 7,
+   "cmts": 1,
+   "time": 1786523478,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/771431057_17981808885112832_4265651511170541536_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk2MTk2ODU1MzM1NjEwNjg5Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIyOC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=wriPFnWwBL8Q7kNvwHp41qw&_nc_oc=AdrrqEk5W3PkUvL8EKRYQekJcS9cd9-XnQiWicXVfuZXt074VpngoLbcohpKPdQjz47flNAyzDVQcobPl10OmXFe&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=FzZn8kN7UwzQ9kUMoL_qgg&_nc_ss=7a22e&oh=00_AQFaanCE2hE5lJvsMs9dFZEltwwbWu_AZ2A72M1VS3PBjQ&oe=6A81F85D",
+   "url": "https://www.threads.com/@choi.openai/post/Db7vWhqDxyQ",
    "region": "kr"
   },
   {
@@ -370,28 +390,8 @@
    "likes": 0,
    "cmts": 1,
    "time": 1786516381,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/772534944_18078741470407306_5390878643809926696_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk2MTkwODk1MzM3MTA1MjMwOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=ojbHd0xowkMQ7kNvwFY5U2x&_nc_oc=AdriukcXNIoHVxFgt8-wCikqcxUIKaaD9zQ9kkTKTTVCZVaKwnJdP1L9ZsxzhrklJUA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Bm_aEc6veNf6ujsmGCvssg&_nc_ss=7a22e&oh=00_AQHHHz7nmdqTL4_WFWEvbJmsMFe_FnFYlPERMIa6uSXggg&oe=6A820399",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/772534944_18078741470407306_5390878643809926696_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk2MTkwODk1MzM3MTA1MjMwOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=ojbHd0xowkMQ7kNvwG1kfea&_nc_oc=AdqHlzbnYfh3G6ogD-Gl_Dl1kANgaX_FVX5psW3CNhZklATiQ7LGWQYvPtbJeoabKsiRAyIh4lkaVkGSyM6n_jXC&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=2LwJI4DbdoQA0KALV1wZIA&_nc_ss=7a22e&oh=00_AQHdqTPLYJ62RbfDxBPBqLMH3TLRgwbAZHc5r0yIcv0lWQ&oe=6A820399",
    "url": "https://www.threads.com/@aipeekme/post/Db7hzO2HwkV",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "🚨 토큰 맥싱 하러갑니다.",
-   "likes": 126,
-   "cmts": 31,
-   "time": 1786515680,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/773875946_17981801643112832_3565221005598277530_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk2MTkwMzEzODg5ODY1NzE3Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTE2NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=P3CEmHC-nyoQ7kNvwGmKXXK&_nc_oc=AdpcPPaxq60UjGCI7L1qIZyHqkIhd0qOUbG5E78MtHYGhpICe-71SxvRtS2pqsqKvwE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Gb05XWtn4KhiQSN4THXbCg&_nc_ss=7a22e&oh=00_AQExhNed5nzfJkF_e3k-owoZGXLovtVVdaD4yXpnWEVl0g&oe=6A81E87B",
-   "url": "https://www.threads.com/@choi.openai/post/Db7gensjz-Z",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "주소 :\nhttps://dashboard.bfl.ai",
-   "likes": 3,
-   "cmts": 0,
-   "time": 1786514457,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/Db7eJWngO3v",
    "region": "kr"
   },
   {
@@ -420,7 +420,7 @@
    "likes": 2,
    "cmts": 1,
    "time": 1786493892,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/772686370_17952020157232485_1223300647912315978_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk2MTcyMDM3MzgxMzM5MTE5NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMzAyNC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=IM4ZPHJtBU8Q7kNvwH1DBdB&_nc_oc=AdpNv0eh1PTt4C68QatOtU8jna9ZI4DdsA3xs_pKfZ9VA4wvvTNkr2T7GJODmzEtPQE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=rGfGiYxOfm3-VWxzhHFxsw&_nc_ss=7a22e&oh=00_AQHkBzTSnVMIQ9K3LoaOZCe_goQyofRNLXG308Hxn3Ap5A&oe=6A81F80E",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/772686370_17952020157232485_1223300647912315978_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk2MTcyMDM3MzgxMzM5MTE5NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMzAyNC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=IM4ZPHJtBU8Q7kNvwGcJ9R0&_nc_oc=AdqNZDhmtJTtJcapFwDKZg5qzGjKm5Dy7Yc-GHmwiuceHz4qgXsOo6HnHG0DJp9Ei4Blu3BoLh5p0Gye-_vUV-B5&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=GJlJu5nNS2RUd53cdZYDAg&_nc_ss=7a22e&oh=00_AQFucPAWBrIx4voDnttdq8bzd05phn-Y7zidK7YO3xuy5A&oe=6A81F80E",
    "url": "https://www.threads.com/@aicoffeechat/post/Db627Ccky9b",
    "region": "kr"
   },
@@ -430,7 +430,7 @@
    "likes": 6,
    "cmts": 1,
    "time": 1786493882,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/772610748_17952019554232485_5646600776405965202_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk2MTcyMDI4Njk4MjkxNTQ1MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjYwNi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=KOSoxPbNKu0Q7kNvwHxz6nB&_nc_oc=AdrkYWkyk1FK-kEyZbp-dfRP2NkxVVLeRZ9lJivbqa7jr8LOHOuKQT-w_-3evUjZqEI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=rGfGiYxOfm3-VWxzhHFxsw&_nc_ss=7a22e&oh=00_AQEw3n18hALpdLKtsjkaInXRZy8fLtLXgOGD5c8l2b4rUA&oe=6A81E7E7",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/772610748_17952019554232485_5646600776405965202_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk2MTcyMDI4Njk4MjkxNTQ1MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjYwNi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=KOSoxPbNKu0Q7kNvwHo9lUG&_nc_oc=AdofHWer0Rk1N_3UYzOcgwrxubV-YvBv53AhFDoG8H4m-tgW3Vz7APhRFT-1L6HqGrbdPUXK4lJoglAFNh9gCpxc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=GJlJu5nNS2RUd53cdZYDAg&_nc_ss=7a22e&oh=00_AQHkK0voa-U57DqfLx11E_k7oPSsh5kxk4McnUUfCSCcZA&oe=6A822027",
    "url": "https://www.threads.com/@aicoffeechat/post/Db625xlE0V7",
    "region": "kr"
   },
@@ -456,12 +456,12 @@
   },
   {
    "account": "choi.openai",
-   "text": "현재 화제의 FLUX 3, 8월 16일까지 무료로 사용할 수 있습니다.\n\nBlack Forest Labs의 영상 생성 모델 FLUX 3 Video가 Text-to-Video Arena에서 세계 2위를 기록했습니다.\n\n1496점으로 1위 Gemini Omni Flash와 16점 차이인데요. 이를 기념해 8월 16일까지 FLUX 3 Video를 무료로 사용할 수 있습니다.\n\n앞으로 4K 영상 생성과 영상 편집, 여러 이미지·영상을 참고 자료로 입력하는 기능도 추가될 예정입니다.",
-   "likes": 35,
-   "cmts": 3,
-   "time": 1786514449,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/774075875_1747136406606585_7462636768221516316_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk2MTg5MjgxNTkzNTQzNTAwMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=D_qVFkaO92oQ7kNvwEFKbTp&_nc_oc=AdrMOAwxx9deJkkLVCGaESLmUEkIBpErOBHmPfe8V33aCa8fR5pliae-Eg9LjGEbysU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Gb05XWtn4KhiQSN4THXbCg&_nc_ss=7a22e&oh=00_AQHwpXqx_B4AcC1YymcbJQXXvePwfRWdMH4TnvCubWq_ew&oe=6A81EE85",
-   "url": "https://www.threads.com/@choi.openai/post/Db7eIZsAPD5",
+   "text": "미친 논문..\n\nAI 회사들이 숨겨둔 ‘사고 과정’이 통째로 빠져나왔습니다.\n\n연구진이 앤트로픽, 오픈AI, 구글 API에서 같은 방식으로 추론 원문을 복원했고, 공개 로그에서는 API 키·비밀번호까지 발견했습니다.\n\n116쪽 논문에서 드러난 충격적인 사례를 정리했습니다🧵",
+   "likes": 58,
+   "cmts": 17,
+   "time": 1786523472,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/772137055_17981808579112832_71067653000849875_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk2MTk2ODUwNDMzMzEzOTI1MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTE3NS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=QHWokQd1JGkQ7kNvwGY9Qqn&_nc_oc=AdqsLxgI3F_YxQS3ZHQaX2fjWrU_2aM7z6u0hc1hu0tNdtOu8UG4PCjTnnYXmT2sKjv0fIz37B07j6EOj0xhGbNc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=FzZn8kN7UwzQ9kUMoL_qgg&_nc_ss=7a22e&oh=00_AQHNnbtn4z6XgazVHbV62Br8vgRnL053NsKhr2TL16PpVw&oe=6A81EE8B",
+   "url": "https://www.threads.com/@choi.openai/post/Db7vV0AD_0y",
    "region": "kr"
   },
   {
@@ -480,18 +480,18 @@
    "likes": 30,
    "cmts": 7,
    "time": 1786493877,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/773379529_2146811405871490_8505105055495997994_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk2MTcxNDkxNTYwNTYyMDM3NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=JmLb1S3QjqEQ7kNvwG-XELX&_nc_oc=Adp30BTvMCY5KkS4zJ5ys4lSgBmCNqtMB-nSkYCLgkWkxYYkI6dHIgeLQh0jkjTMpMY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=rGfGiYxOfm3-VWxzhHFxsw&_nc_ss=7a22e&oh=00_AQFyY32_rliWDl4t-lAJl9KXJb1K_LToXaEix0H3DWz__g&oe=6A820579",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/773379529_2146811405871490_8505105055495997994_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk2MTcxNDkxNTYwNTYyMDM3NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=JmLb1S3QjqEQ7kNvwHud6x6&_nc_oc=Adq0ErTufR1DQCuzrIFIN3N7l7o3_99GvM26idqHlrPShWqpJREYAy8c-r0v-bMWJTLMHkg8dZNhffH4-zIeexDr&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=GJlJu5nNS2RUd53cdZYDAg&_nc_ss=7a22e&oh=00_AQHAs68sXJgn8R5b0FWddGT5owa299Uvnw5JzSb2EiOIkQ&oe=6A820579",
    "url": "https://www.threads.com/@aicoffeechat/post/Db61rnGCiaX",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "3/ 이 결정의 출발점은 EU AI법 50조입니다.\n\n생성형 AI의 출력물은 인공적으로 만들어졌다는 사실을 기계가 읽을 수 있는 형태로 표시해야 한다는 조항이고, 2026년 8월 2일부터 적용됩니다. 사람이 알아볼 수 있는 라벨과 기계가 자동으로 검증할 수 있는 표시를 모두 요구하는데요.\n\n집행위가 만든 투명성 실천규약은 필요한 경우 메타데이터와 워터마킹처럼 표시를 두 겹 이상 적용하고, 제3자가 확인할 수 있는 탐지 수단도 제공할 것을 권고합니다. 7월 말까지 약 190개 조직이 서명했고 앤트로픽, 구글, 오픈AI, 메타, 미스트랄이 모두 포함돼 있습니다.\n\n규약 자체는 법 조문이 아니라 의무를 지키는 방법을 정리한 문서입니다. 다만 서명해두면 집행 단계에서 의무를 이행했다는 근거로 인정받기 때문에, 랩 입장에서는 서명하지 않을 이유가 거의 없습니다.",
-   "likes": 2,
+   "text": "Codex와 ChatGPT Work에 다른 에이전트 도구에서 작업을 가져오는 가져오기·자동 동기화 기능이 추가됐습니다.\n\n프로젝트, 채팅, 스킬, 플러그인을 한 번에 가져올 수 있고, 설정에서 자동 동기화를 켜면 계속 최신 상태를 유지합니다. 가져오기 이력도 확인할 수 있습니다.",
+   "likes": 40,
    "cmts": 1,
-   "time": 1786509015,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/770562430_17981784594112832_6425073884801214503_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk2MTg0NzIzMTk4MDQ1MzU1Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=19CrrgbkSDMQ7kNvwFjP0dg&_nc_oc=AdoElU_7Xx8yAHkKRfM1ATM3bk_4OPuXor1O07Ak8sl_iGgcPTKg0efarvkLzcgu5Io&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Gb05XWtn4KhiQSN4THXbCg&_nc_ss=7a22e&oh=00_AQF9TVmlM8PmxTHLYojW7XoyFVWZu5EWfBRGqKfBiaS_hA&oe=6A81FFAC",
-   "url": "https://www.threads.com/@choi.openai/post/Db7TxEUjz6w",
+   "time": 1786519830,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/774069554_1075566928389143_264953915988898347_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk2MTkzNzk1MzI4MTg1NDU4OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=1kUiMb8ElYIQ7kNvwGsrbAI&_nc_oc=AdrkXI4tWEPiz-MaEEsuTu4hSR_OkSLB3yTbt5nL7CRn-U_O47Qrm26ACBFOufBopQPviHcGUvQKi40SVmWEx3GQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=FzZn8kN7UwzQ9kUMoL_qgg&_nc_ss=7a22e&oh=00_AQHzATfyDeETbhEIrgEANcdzzTe0HKtvtDxm-uWG2vxEDQ&oe=6A81F138",
+   "url": "https://www.threads.com/@choi.openai/post/Db7oZPHgMx9",
    "region": "kr"
   },
   {
@@ -506,12 +506,12 @@
   },
   {
    "account": "choi.openai",
-   "text": "2/ 표시가 붙는 범위는 생각보다 넓습니다.\n\nClaude Platform API, Claude, Claude Code, Claude Cowork, Claude Tag가 모두 포함되고, AWS, Google Cloud, Microsoft Foundry를 통해 접근할 때도 텍스트 워터마크가 적용됩니다. 적용 지역도 EU에 한정되지 않고 클로드가 제공되는 전 세계입니다.\n\n워터마크를 모델 단계에서 넣기 때문입니다. 제품 화면이 아니라 모델이 토큰을 생성하는 단계에서 표시가 들어가므로 어떤 경로로 나오든 같은 표시가 붙습니다. 다른 곳에 복사해 붙여넣어도 텍스트를 따라가고, 일부 편집을 거친 뒤에도 남을 수 있다고 문서는 적었습니다.\n\n개발자들이 먼저 반발한 지점도 여기입니다. 자기 저장소에 들어가는 코드에까지 표시가 붙는다는 뜻이기 때문입니다.",
-   "likes": 4,
-   "cmts": 1,
-   "time": 1786509011,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/Db7TwkpjyHr",
+   "text": "🚨 토큰 맥싱 하러갑니다.",
+   "likes": 138,
+   "cmts": 32,
+   "time": 1786515680,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/773875946_17981801643112832_3565221005598277530_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk2MTkwMzEzODg5ODY1NzE3Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTE2NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=P3CEmHC-nyoQ7kNvwGPlPwd&_nc_oc=Ado2FwofYwEZD-vwi9uX4r1NjglOsVLAsA4-sKDomPUFwoJaVOUF2tclBY2-JN0qkn3f00gXeasdZkA-cgNcQf0I&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=FzZn8kN7UwzQ9kUMoL_qgg&_nc_ss=7a22e&oh=00_AQEShGHr3W1swJlR3L3WZjhajhO9uOSd1oUF9UIOm8rANw&oe=6A8220BB",
+   "url": "https://www.threads.com/@choi.openai/post/Db7gensjz-Z",
    "region": "kr"
   },
   {
@@ -520,18 +520,18 @@
    "likes": 0,
    "cmts": 1,
    "time": 1786498291,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/773696327_18078678425407306_8359922745507781934_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk2MTc1NzIwMTI2Mjk1MjI3NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=P26Lgurke-gQ7kNvwEJL2jG&_nc_oc=Ado9nF1bIq_nL51QeqT1c6sDwPoJdmxgNq-5TaQKoLVxXW_ofPF-AF5xKs4dq2G51Fo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Bm_aEc6veNf6ujsmGCvssg&_nc_ss=7a22e&oh=00_AQH__phcvwuNfT_avjOGUfGHmBkKlh-v0wx_fwBwomIJSw&oe=6A820F87",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/773696327_18078678425407306_8359922745507781934_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk2MTc1NzIwMTI2Mjk1MjI3NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=P26Lgurke-gQ7kNvwH8qcWt&_nc_oc=Adrmd7jQRT08xdiPEecR496Wh_vc7Bq3Q-cW-obrC7yS5wu-1Ecgn3vEx0fFsygVDnN1VAnHC1FzEcixYRcU13NF&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=2LwJI4DbdoQA0KALV1wZIA&_nc_ss=7a22e&oh=00_AQEIDM3QhdTL758pTr2DTuH8R9vxGbd6A_NNNYboMIwZvw&oe=6A820F87",
    "url": "https://www.threads.com/@aipeekme/post/Db6_S8rn79T",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "1/ 8월 11일 앤트로픽이 지원 문서를 갱신해 클로드가 만든 콘텐츠에 기계가 읽을 수 있는 표시를 넣는다고 밝혔습니다.\n\n방법은 두 가지입니다. 텍스트에는 눈에 보이지 않는 워터마크를 글 자체에 삽입하고, .svg나 .png 같은 파일에는 C2PA 표준을 따르는 서명된 출처 메타데이터를 붙입니다. 전자는 글에 섞여 들어가고 후자는 파일에 덧붙는 방식이라 성질이 다릅니다.\n\n2026년 8월 2일 이후 EU에 출시되는 클로드 모델은 출시 시점부터 이 표시를 지원합니다. 그전에 나온 모델은 전환 기간을 거쳐 순차적으로 적용하고, 표시 여부를 확인하는 탐지 수단도 함께 제공하겠다고 밝혔습니다.\n\n사람이 눈으로 확인하는 라벨이 아니라 기계가 검사해 읽어내는 값입니다. 그래서 표시 여부를 확인하려면 별도 도구가 필요하고, 그 도구를 누구에게 제공하느냐가 뒤에 나올 문제의 출발점이 됩니다.",
+   "text": "주소 :\nhttps://dashboard.bfl.ai",
    "likes": 3,
-   "cmts": 1,
-   "time": 1786509006,
+   "cmts": 0,
+   "time": 1786514457,
    "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/Db7Tv9xj9oQ",
+   "url": "https://www.threads.com/@choi.openai/post/Db7eJWngO3v",
    "region": "kr"
   },
   {
@@ -555,15 +555,6 @@
    "thumb": "https://preview.redd.it/y5py5dfqvuih1.jpeg?width=640&crop=smart&auto=webp&s=d11ac03ee178e43b7caf2a2cea458fe7e505311c",
    "time": 1786502024,
    "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1vm1plq/snapchat_now_pushes_ads_that_make_my_wife_think/"
-  },
-  {
-   "sub": "Satisfyingasfuck",
-   "title": "A meteor seen from a plane , truly satisfying",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/OGdmcmw2Y2dtdmloMeQNX04Iwclh9Zy7vMamCWyns5xULENXA1ykxxZ7r4NU.png?width=640&crop=smart&auto=webp&s=0ee08d56474b389ef507b74f9f459e8cbd3278af",
-   "time": 1786511022,
-   "url": "https://www.reddit.com/r/Satisfyingasfuck/comments/1vm4ofh/a_meteor_seen_from_a_plane_truly_satisfying/"
   },
   {
    "sub": "news",
@@ -593,40 +584,13 @@
    "url": "https://www.reddit.com/r/MadeMeSmile/comments/1vm28is/happy_brothers_in_a_new_happy_home/"
   },
   {
-   "sub": "comics",
-   "title": "\"Americentricity\" by Itchy Feet",
+   "sub": "memes",
+   "title": "An iq too high",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/as3w1iu9ysih1.png?width=140&height=140&crop=1:1,smart&auto=webp&s=19c596d2e0ad5918d314747604f2524eedc5f68d",
-   "time": 1786478885,
-   "url": "https://www.reddit.com/r/comics/comments/1vlsh3u/americentricity_by_itchy_feet/"
-  },
-  {
-   "sub": "GirlDinnerDiaries",
-   "title": "My husband's ex wife moves in with us on Saturday",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/3t0i96udsrih1.jpeg?width=640&crop=smart&auto=webp&s=13f6c37dffd66b67e4acf8a33e6ef8b03d3606b7",
-   "time": 1786464580,
-   "url": "https://www.reddit.com/r/GirlDinnerDiaries/comments/1vllt32/my_husbands_ex_wife_moves_in_with_us_on_saturday/"
-  },
-  {
-   "sub": "AskReddit",
-   "title": "What's embarrassing at 18 but, attractive at 30?",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "",
-   "time": 1786465173,
-   "url": "https://www.reddit.com/r/AskReddit/comments/1vlm330/whats_embarrassing_at_18_but_attractive_at_30/"
-  },
-  {
-   "sub": "whatisit",
-   "title": "Several of these fell out of my clients bag",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/sf2dp3xwnsih1.jpeg?width=640&crop=smart&auto=webp&s=4c1391a1da05d71312091f7252746d3b516c6499",
-   "time": 1786475181,
-   "url": "https://www.reddit.com/r/whatisit/comments/1vlqs00/several_of_these_fell_out_of_my_clients_bag/"
+   "thumb": "https://preview.redd.it/5shnqtv4zvih1.jpeg?width=640&crop=smart&auto=webp&s=7483a3223967d63b48ffaa6031495b58f6f9def6",
+   "time": 1786515276,
+   "url": "https://www.reddit.com/r/memes/comments/1vm5yg9/an_iq_too_high/"
   },
   {
    "sub": "PeterExplainsTheJoke",
@@ -638,22 +602,58 @@
    "url": "https://www.reddit.com/r/PeterExplainsTheJoke/comments/1vm0h9f/peter_i_am_confused/"
   },
   {
-   "sub": "MadeMeSmile",
-   "title": "Good people still exist",
+   "sub": "news",
+   "title": "Multiple USS Abraham Lincoln sailors have tried to go overboard amid extended deployment, families say",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/d244MXdxOG04c2loMfMceYZVK8jSKPtI57NhHiCvE5IJqB_Qy-p5i2A3z_Se.png?width=640&crop=smart&auto=webp&s=7e75414a05b7b26b73513abd337a513e17f9f1bf",
-   "time": 1786470227,
-   "url": "https://www.reddit.com/r/MadeMeSmile/comments/1vlofxz/good_people_still_exist/"
+   "thumb": "",
+   "time": 1786499305,
+   "url": "https://www.reddit.com/r/news/comments/1vm0q41/multiple_uss_abraham_lincoln_sailors_have_tried/"
   },
   {
-   "sub": "BeAmazed",
-   "title": "South Korea is closing the dog meat industry.",
+   "sub": "gaming",
+   "title": "In a fascinating use of free will, Old School RuneScape player spent 4,304 hours catching 275,196 shrimp and 257,064 anchovies to max out his fishing skill in the worst way possible",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/v1t5poqk0rih1.jpeg?width=640&crop=smart&auto=webp&s=4c4a3458c6530e0ceb864b9a81183d44b73c8a95",
-   "time": 1786455226,
-   "url": "https://www.reddit.com/r/BeAmazed/comments/1vlhm83/south_korea_is_closing_the_dog_meat_industry/"
+   "thumb": "https://external-preview.redd.it/q5acPLVsAG13s8J0eWYeFgxR3MYxlDv0s7Dkt564QxY.jpeg?width=640&crop=smart&auto=webp&s=75504583b315aae09c693689cf38b3aade739d47",
+   "time": 1786507380,
+   "url": "https://www.reddit.com/r/gaming/comments/1vm3j2s/in_a_fascinating_use_of_free_will_old_school/"
+  },
+  {
+   "sub": "comics",
+   "title": "\"Americentricity\" by Itchy Feet",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/as3w1iu9ysih1.png?width=140&height=140&crop=1:1,smart&auto=webp&s=19c596d2e0ad5918d314747604f2524eedc5f68d",
+   "time": 1786478885,
+   "url": "https://www.reddit.com/r/comics/comments/1vlsh3u/americentricity_by_itchy_feet/"
+  },
+  {
+   "sub": "TwentiesIndia",
+   "title": "5500 IAS officers in the country. It took just one to Eradicate the adulterated food, Unhygienic restuarant mafia.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/qulqc6tpvvih1.jpeg?width=320&crop=smart&auto=webp&s=913ab7127301639d0c5cfec5ec004f15abfd34b1",
+   "time": 1786514126,
+   "url": "https://www.reddit.com/r/TwentiesIndia/comments/1vm5mg5/5500_ias_officers_in_the_country_it_took_just_one/"
+  },
+  {
+   "sub": "todayilearned",
+   "title": "TIL a geologist was ridiculed for decades for claiming the Pacific Northwest was carved by a catastrophic Ice Age flood. NASA satellite images proved him right in the 1970s. He finally received geolog",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/whhpD-uyoxWj_fzGORSnpHtPwnSog6I5Srxy46I9TBs.jpeg?width=216&crop=smart&auto=webp&s=f9ded779eb3c281ebb6eeae5228f9515f80465cc",
+   "time": 1786488856,
+   "url": "https://www.reddit.com/r/todayilearned/comments/1vlwrob/til_a_geologist_was_ridiculed_for_decades_for/"
+  },
+  {
+   "sub": "interestingasfuck",
+   "title": "Mother Bear Battles Male Bear twice her size To Defend Cubs.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/MWpkdGQxd29qdWloMWWYINL3tjzd8j24QdEm8Pj2O3gX520-1YJD8HidLnia.png?width=640&crop=smart&auto=webp&s=be5bb8e49e68ea3aa40bab9ecfe1c530d3100a55",
+   "time": 1786497993,
+   "url": "https://www.reddit.com/r/interestingasfuck/comments/1vm098h/mother_bear_battles_male_bear_twice_her_size_to/"
   }
  ],
  "disaster": [],
@@ -700,10 +700,10 @@
    }
   },
   "landing": {
-   "at": "2026-08-12T17:02:07",
+   "at": "2026-08-12T17:31:29",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-12T17:31:26.629159+09:00"
+ "updated": "2026-08-12T18:01:26.835710+09:00"
 }
