@@ -61,7 +61,9 @@ UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
 PRESETS = {
     "A": {"model": "seedance_2_5", "shot_sec": 30, "sec_max": 30, "res": "720p",
           "extra": {"mode": "omni_reference"}},
-    "B": {"model": "seedance_2_0", "shot_sec": 15, "sec_max": 15, "res": "1080p",
+    # ⚠ 2.0 도 **720p 로 간다**(운영자 260812 「2.0 fhd일 필요없음」) — 두 판을 나란히 볼 때
+    #   화질이 다르면 무엇 때문에 좋아 보이는지 못 가른다. 같은 화질에서 엔진만 다르게 둔다.
+    "B": {"model": "seedance_2_0", "shot_sec": 15, "sec_max": 15, "res": "720p",
           "extra": {"mode": "std"}},
 }
 PRESET = PRESETS.get((os.environ.get("SD_PRESET") or "A").strip().upper(), PRESETS["A"])
