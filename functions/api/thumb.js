@@ -123,13 +123,19 @@ export async function onRequestPost({ request, env }) {
   }
 
   // 저작권(+안내문) 합성 동봉(운영자 260712 "어차피 합칠 내용이면 합쳐서") — /1·/2 산출물 위 2K 알파합성용 파라미터. 검증 = app3와 동일 규칙 · 미충족 = 조용히 드롭(발사 자체는 유지 = fail-soft · outs 경로/개수 불변 = 기존 무접촉).
-  if ((app === '1' || app === '2') && p.copyright && typeof p.copyright === 'object') {
-    const year = clip(p.copyright.year, 8), name = clip(p.copyright.name, 60), platform = clip(p.copyright.platform, 60);
-    if (year && /^\d{1,8}$/.test(year)) {   // 이름·플랫폼 미입력 허용 = app3 동일 규칙(위 사유) — 구 필수 조건은 이름 빈값이면 이 블록을 통째로 건너뛰어 **저작권이 산출물에서 조용히 사라졌다**(fail-soft가 은폐한 손실 · 워크플로 thumb-make.yml:242도 `_cr.get('name','')` 빈값 전제)
-      params.copyright = { year, name, platform };
-      const guide = cleanLines(p.guide).slice(0, 2);   // 안내문 동반 = 최대 2줄(경고문 UI 캡과 동기)
-      if (guide.length) params.guide = guide;
+  if (app === '1' || app === '2') {
+    if (p.copyright && typeof p.copyright === 'object') {
+      const year = clip(p.copyright.year, 8), name = clip(p.copyright.name, 60), platform = clip(p.copyright.platform, 60);
+      if (year && /^\d{1,8}$/.test(year)) {   // 이름·플랫폼 미입력 허용 = app3 동일 규칙(위 사유) — 구 필수 조건은 이름 빈값이면 이 블록을 통째로 건너뛰어 **저작권이 산출물에서 조용히 사라졌다**(fail-soft가 은폐한 손실 · 워크플로 thumb-make.yml:242도 `_cr.get('name','')` 빈값 전제)
+        params.copyright = { year, name, platform };
+      }
     }
+    // ⚠ 안내문은 **저작권과 독립**이다(운영자 260712 "서로의 온오프 관계없이" · 뷰어도 독립 토글).
+    //   구판은 이 줄이 위 copyright 블록 **안쪽**에 있어서, 저작권 OFF(또는 연도 빈값)면 프론트가 보낸
+    //   guide 를 통째로 버렸다 — 발사는 정상이고 오류도 안 떠서 **안내문만 조용히 사라졌다**
+    //   (260812 실측 = 저작권 OFF + 안내문 ON + 합성 ON 으로 제작한 4건이 전부 이 자리에서 유실).
+    const guide = cleanLines(p.guide).slice(0, 2);   // 안내문 동반 = 최대 2줄(경고문 UI 캡과 동기)
+    if (guide.length) params.guide = guide;
   }
 
   // 해상도(운영자 260728 "각각 2K로 나오게 · 해상도 선택자 그냥 없애줘") — 선택 축 폐지 = params.size 미통과.

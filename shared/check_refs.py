@@ -5038,6 +5038,60 @@ def check_seal_completeness():
     return 0
 
 
+def check_thumb_merge_canvas():
+    """저작권·안내문 합성 = 산출물 크기로 캔버스를 정한다(하드 · 260812 실사고 봉합).
+
+    계약 2축:
+      ① 합성 레이어 포맷은 `params.fmt` **추측이 아니라** 산출물 실측 크기에서 역산한다.
+      ② 안내문(guide)은 저작권과 **독립**이다(운영자 260712 "서로의 온오프 관계없이") —
+         서버가 guide 를 copyright 블록 **안쪽**에서 읽으면 저작권 OFF 시 통째로 버려진다.
+
+    ⚠️ 실사고 = 노뮤트 릴스 오버레이는 프론트가 fmt 를 안 보내고 서버가 'post' 로 채워 보내는데,
+       렌더는 `generate('reels')` **고정**이라 산출물이 9:16 으로 나온다. 구판 합성은 `params.fmt`(=post)
+       로 4:5 레이어를 만들어 크기가 어긋났고, 그 자리의 `continue` 가 **저작권·안내문을 통째로 건너뛰었다**
+       (실측 run 31579366367 = PARAMS 에 copyright 가 실렸는데 산출물 상단 화소 0 · 경고는 러너 로그에만).
+       260728 에 진짜예요(jinjja) 축을 고치려 넣은 「params.fmt 우선」이 노뮤트 축을 정확히 반대로 깨뜨린 것.
+    ⚠️ 신설 사유 = 기존 게이트는 전부 다른 축 — `check_image_format` = 포맷·품질 · `check_thumb_redo_append`
+       = 수정 누적 · `smoke_*` = 화면 렌더 → 「만든 레이어가 산출물에 실제로 얹히는가」는 축 자체가 없었다.
+       증상이 「그냥 저작권이 안 보임」뿐이고 러너는 success 로 끝나서 운영자 눈이 유일한 검출기였다.
+    정적 · 렌더·LLM·네트워크 0 · **면책표 없이 하드 0**.
+    """
+    bad = []
+    wf = os.path.join(ROOT, '.github', 'workflows', 'thumb-make.yml')
+    api = os.path.join(ROOT, 'functions', 'api', 'thumb.js')
+    for p in (wf, api):
+        if not os.path.exists(p):
+            bad.append(f'{os.path.relpath(p, ROOT)}: 파일 없음(앵커 소실 = fail-closed)')
+    if not bad:
+        w = open(wf, encoding='utf-8').read()
+        seg = w[w.find("_cr = params.get('copyright')"):]
+        seg = seg[:seg.find('MERGED copyright')] if 'MERGED copyright' in seg else seg[:6000]
+        code = '\n'.join(ln.split('#', 1)[0] for ln in seg.splitlines())   # 주석 제외(사고 기록의 거처)
+        # ⚠ 「SPECS 라는 낱말이 있나」로 두면 import 줄만 남고 매핑이 비어도 통과한다(킬테스트 K3 실측 봉합)
+        #   → 실제 역산 표현식(SPECS 순회로 크기→포맷 표를 만든다)과 그 표를 **산출물 크기로 조회**하는 줄을 함께 본다.
+        if not re.search(r"\{\s*\(\s*\w+\[k\]\[.w.\]\s*\*\s*\w+\s*,\s*\w+\[k\]\[.h.\]\s*\*\s*\w+\s*\)\s*:\s*k\s+for\s+k\s+in\s+", code):
+            bad.append('thumb-make.yml 합성 블록: 산출물 크기 역산표(SPECS 순회)가 없다 — params.fmt 추측으로 되돌아갔다')
+        if not re.search(r'\(\s*base\.size\s*\)', code):
+            bad.append('thumb-make.yml 합성 블록: 레이어를 `base.size`(산출물 실측 크기)로 고르지 않는다')
+        if re.search(r'fmtc\s*=\s*params\.get\(.fmt.\)', code):
+            bad.append('thumb-make.yml 합성 블록: 구판 `fmtc = params.get(\'fmt\')` 부활 — 노뮤트 릴스에서 4:5 레이어가 만들어져 통째로 스킵된다')
+        # ② 안내문 독립 — guide 를 읽는 줄이 copyright 조건 블록 안쪽이면 저작권 OFF 시 유실
+        a = open(api, encoding='utf-8').read()
+        m = re.search(r'^(\s*)if \(p\.copyright && typeof p\.copyright', a, re.M)
+        g = re.search(r'^(\s*)const guide = cleanLines\(p\.guide\)', a, re.M)
+        if not g:
+            bad.append('api/thumb.js: 안내문(guide) 수신 줄이 사라졌다')
+        elif m and len(g.group(1)) > len(m.group(1)):
+            bad.append('api/thumb.js: 안내문이 copyright 조건 안쪽에서 읽힌다 — 저작권 OFF면 안내문이 통째로 버려진다(260712 독립 계약 위반)')
+    if bad:
+        print('❌ 썸네일 합성 캔버스 — 저작권·안내문이 산출물에 안 얹힌다(260812 실사고 축):')
+        for b in bad:
+            print('   -', b)
+        return 1
+    print('✅ 썸네일 합성 캔버스 — 레이어 크기 = 산출물 역산 · 안내문은 저작권과 독립.')
+    return 0
+
+
 # 운영자에게 「어느 칸을 갈지」 말하는 표면 = 칸 이름이 필수(면책표 아님 = 대상 목록).
 #   ⚠ 이름을 안 쓰는 표면(vidl-make·yt-cookie-whoami = 자기 문구에 칸을 안 말한다)은 여기 없다 —
 #     늘릴 땐 「그 표면이 운영자에게 칸을 지시하는가」로 판정한다.
@@ -7652,6 +7706,8 @@ def main():
         if check_img_upsize() != 0:   # 검색 이미지 화질 승격(운영자 260810 "최소 세로 720p 이상" — 매체 og:image 는 축소판인 경우가 많고 같은 CDN 에 원본이 그대로 있다 · 호출 한 줄만 빠져도 화면 증상 0으로 화질만 종전 복귀)
             rc = 1
         if check_yt_cookie_slot_name() != 0:   # 유튜브 쿠키 알림이 「갈아야 할 칸」을 맞게 말하는가(260812 실사고 — 알림과 받기 진단이 같은 상태를 정반대로 말해 운영자가 살아있는 칸을 갈았다)
+            rc = 1
+        if check_thumb_merge_canvas() != 0:   # 저작권·안내문이 사진에 실제로 얹히는가(260812 실사고 — 레이어를 params.fmt로 만들어 크기가 어긋나면 러너가 조용히 건너뛴다 · 화면 증상 = 그냥 안 보임)
             rc = 1
     except Exception as e:
         print('⚠️ grade 교정 체인 게이트 스킵:', e)

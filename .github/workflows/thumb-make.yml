@@ -248,24 +248,52 @@ jobs:
               sys.exit(f'::error::알 수 없는 app: {app}')
           # ── 저작권(+안내문) 합성(운영자 260712 "어차피 합칠 내용이면 합쳐서") — params.copyright 있을 때만 /1·/2 산출 파일 자체에 2K 알파합성. 파일 수·경로·라벨 불변(기존 발사 무접촉) · nomute_*.py 스크립트 불변(import·subprocess 조합만) · 실패 = 경고 후 원본 유지(fail-soft = 렌더 자체는 절대 안 죽임). ──
           _cr = params.get('copyright')
-          if app in ('1', '2') and isinstance(_cr, dict) and produced:
+          _gd = params.get('guide') or []
+          # ⚠ 안내문은 저작권과 **독립**이다(운영자 260712 "서로의 온오프 관계없이") — 구 조건은 `isinstance(_cr, dict)`라
+          #   저작권 OFF + 안내문 ON 이면 이 블록에 아예 못 들어와 안내문이 통째로 사라졌다(260812 실측 = 그 조건으로 제작한 4건).
+          if app in ('1', '2') and produced and (isinstance(_cr, dict) or _gd):
               try:
                   from PIL import Image as _I9
-                  from nomute_copyright import SCALE as _MCS
-                  fmtc = params.get('fmt') or ('reels' if app == '2' else 'post')   # 산출물 포맷 = 합성 캔버스 포맷(프론트가 cpThumb 일치 payload에만 동봉) · ⚠ 구 'app2면 무조건 reels'는 **진짜예요 포스트 자막**(app2+fmt post 한 경로 통일 · 260726)에서 9:16 레이어를 4:5 산출에 얹어 크기 불일치 → 저작권이 조용히 누락됐다(260728 검수 실측) · params.fmt 우선 = 노뮤트 경로 값 불변(app2 헤더·릴스 자막 = fmt 미동봉 → reels · app1 = 항상 post 명시)
-                  crp = '/tmp/_crmerge.png'
-                  subprocess.run(['python3', 'apps/thumbnail/nomute_copyright.py', crp, fmtc,
-                                  str(_cr.get('year', '2026')), str(_cr.get('name', '')), str(_cr.get('platform', ''))], check=True)
-                  layer = _I9.open(crp).convert('RGBA')     # 스크립트 원본 출력 = 2K(다운스케일 전) → /1·/2 산출물(2160×3840/2700)과 픽셀 동일 크기
-                  for gi, gl in enumerate(params.get('guide') or []):   # 안내문 동반 — 저작권(y100) 아래 46px 리듬 스택(app4 계승)
-                      gtmp = f'/tmp/_crguide{gi}.png'
-                      subprocess.run(['python3', 'apps/thumbnail/nomute_copyright.py', gtmp, fmtc, '--raw', gl], check=True)
-                      gpart = _I9.open(gtmp).convert('RGBA')
-                      layer.paste(gpart, (0, (gi + 1) * 46 * _MCS), gpart)
+                  from nomute_copyright import SCALE as _MCS, SPECS as _MSP
+                  # 합성 캔버스 = **산출물 실측 크기에서 역산**(포맷 추측 금지 · 260812 실사고 봉합).
+                  #   ⚠ 구판은 `params.get('fmt')`로 정했는데, 노뮤트 릴스 오버레이는 프론트가 fmt를 안 보내고
+                  #     서버(api/thumb.js:80 `p.fmt === 'reels' ? 'reels' : 'post'`)가 **'post'로 채워** 보낸다.
+                  #     그런데 렌더는 위 214행이 `generate('reels')` **고정**이라 산출물은 9:16이 나온다
+                  #     → 4:5 레이어를 9:16 산출에 얹어 크기 불일치 → 아래 continue로 **저작권·안내문이 조용히 소실**됐다
+                  #     (실측 260812 run 31579366367 = PARAMS에 copyright 실렸는데 산출물 상단 화소 0).
+                  #     260728에 진짜예요(jinjja) 축을 고치려 넣은 `params.fmt 우선`이 노뮤트 축을 정확히 반대로 깨뜨린 것.
+                  #   → 산출물마다 그 크기에 맞는 레이어를 만든다(같은 크기는 1회만 렌더 = 재사용).
+                  _sz2fmt = {(_MSP[k]['w'] * _MCS, _MSP[k]['h'] * _MCS): k for k in _MSP}
+                  _cache = {}
+
+                  def _layer_for(size):
+                      if size in _cache:
+                          return _cache[size]
+                      fmtc = _sz2fmt.get(size)
+                      if not fmtc:
+                          _cache[size] = None
+                          return None
+                      lay = None
+                      if isinstance(_cr, dict):
+                          crp = f'/tmp/_crmerge_{fmtc}.png'
+                          subprocess.run(['python3', 'apps/thumbnail/nomute_copyright.py', crp, fmtc,
+                                          str(_cr.get('year', '2026')), str(_cr.get('name', '')), str(_cr.get('platform', ''))], check=True)
+                          lay = _I9.open(crp).convert('RGBA')
+                      for gi, gl in enumerate(_gd):   # 안내문 — 저작권(y100) 아래 46px 리듬 스택(app4 계승) · 저작권 없으면 첫 줄이 그 자리
+                          gtmp = f'/tmp/_crguide_{fmtc}_{gi}.png'
+                          subprocess.run(['python3', 'apps/thumbnail/nomute_copyright.py', gtmp, fmtc, '--raw', gl], check=True)
+                          gpart = _I9.open(gtmp).convert('RGBA')
+                          off = ((gi + 1) if isinstance(_cr, dict) else gi) * 46 * _MCS
+                          if lay is None:
+                              lay = _I9.new('RGBA', size, (0, 0, 0, 0))
+                          lay.paste(gpart, (0, off), gpart)
+                      _cache[size] = lay
+                      return lay
                   for f in list(produced):
                       base = _I9.open(f)
-                      if base.size != layer.size:
-                          print(f'::warning::저작권 합성 크기 불일치 {base.size} != {layer.size} — {f} 원본 유지'); continue
+                      layer = _layer_for(base.size)
+                      if layer is None:
+                          print(f'::warning::저작권 합성 — 산출물 {base.size}가 알려진 포맷(2K post·reels)이 아님: {f} 원본 유지'); continue
                       merged = _I9.alpha_composite(base.convert('RGBA'), layer)
                       if f.endswith('.jpg'):
                           save_jpg(merged, f)
