@@ -42,7 +42,11 @@ CARD_FIX_EFFORT="${CARD_FIX_EFFORT:-high}"
 #   (10.7만)는 잡·러너를 넘어 재사용 성립. 품질 정본은 PROMPT_FILE+GBLOCK(주입 블록 스스로 「별도 파일 불요」
 #   선언)이라 이론상 무손실이나 §📰-d 「생성 경로 safe-mode 신중」 명문 준수 = **기본 OFF**. 승격 = 동일 기사
 #   A/B(산출 diff + lint/coverage/fact_guard 통과율 대조) 후 이 기본값 '1'(예상 절감 콜당 ~$1.0 × 32콜/일).
-CARD_SAFE_MODE="${CARD_SAFE_MODE:-0}"
+# 승격(운영자 260812 Q1467 · A/B 실측 run 31566334317 · 같은 스템 순수 대조): 품질 = lint 둘 다 통과 ·
+#   coverage 스킵 우위(플래그 4→2 · 고신호 누락 1→0 = 현행이 놓친 「100만」을 스킵이 회수) · 문구 정독 동급 ·
+#   비용 = 콜당 $4.32→$2.11(−51% · cache_w 275k→54k). 운영자 계약 「품질 줄면 기각」 충족 = 기본 ON.
+#   롤백 = env CARD_SAFE_MODE=0 1줄. analyze/ask/ly는 각자 A/B 전까지 기본 OFF 유지(축별 단계 승격).
+CARD_SAFE_MODE="${CARD_SAFE_MODE:-1}"
 CARD_SAFE_ARGS=()
 if [ "$CARD_SAFE_MODE" = "1" ]; then CARD_SAFE_ARGS=(--safe-mode); fi
 # 실패 카드 자동 재시도 상한(런간 · 운영자 260711 "자동 재시도 3회까지") — status.json fails(실패 누적)가 이 값
