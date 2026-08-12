@@ -325,17 +325,17 @@
   {
    "account": "choi.openai",
    "text": "3/ 이 결정의 출발점은 EU AI법 50조입니다.\n\n생성형 AI의 출력물은 인공적으로 만들어졌다는 사실을 기계가 읽을 수 있는 형태로 표시해야 한다는 조항이고, 2026년 8월 2일부터 적용됩니다. 사람이 알아볼 수 있는 라벨과 기계가 자동으로 검증할 수 있는 표시를 모두 요구하는데요.\n\n집행위가 만든 투명성 실천규약은 필요한 경우 메타데이터와 워터마킹처럼 표시를 두 겹 이상 적용하고, 제3자가 확인할 수 있는 탐지 수단도 제공할 것을 권고합니다. 7월 말까지 약 190개 조직이 서명했고 앤트로픽, 구글, 오픈AI, 메타, 미스트랄이 모두 포함돼 있습니다.\n\n규약 자체는 법 조문이 아니라 의무를 지키는 방법을 정리한 문서입니다. 다만 서명해두면 집행 단계에서 의무를 이행했다는 근거로 인정받기 때문에, 랩 입장에서는 서명하지 않을 이유가 거의 없습니다.",
-   "likes": 0,
+   "likes": 1,
    "cmts": 1,
    "time": 1786509015,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/770562430_17981784594112832_6425073884801214503_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk2MTg0NzIzMTk4MDQ1MzU1Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=19CrrgbkSDMQ7kNvwFlA3Bi&_nc_oc=AdrHPQ1qbAuvuM3GbU3JOVuXzRTwPmClYnYnLFoTOvJSKUoQzUhI2HRXe1OlJyX25yaemsiZoAgrlPm88RdsNcpi&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=M040sr_ldOic8LHx9LnbvQ&_nc_ss=7a22e&oh=00_AQH4NchH6h2onxa3d8KUzbOf6nt3uTrO2cZK3BVYCAHfpg&oe=6A81C76C",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/770562430_17981784594112832_6425073884801214503_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk2MTg0NzIzMTk4MDQ1MzU1Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=19CrrgbkSDMQ7kNvwERKeAU&_nc_oc=AdoKFOmQ74P_a3z3NYXhkv4J0O0QrD4xepYOm-tDb4TI2TKHYjs8SLXpVrFiTda3u2eSQ6GOIdoUP_q7T-lLiU-0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=hnNolip2AKIugaKCmO5Klw&_nc_ss=7a22e&oh=00_AQESun0s2tH0-r3yOap3k6jTm7E5dgI5_ytnFJ3lYDOoAQ&oe=6A81C76C",
    "url": "https://www.threads.com/@choi.openai/post/Db7TxEUjz6w",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "2/ 표시가 붙는 범위는 생각보다 넓습니다.\n\nClaude Platform API, Claude, Claude Code, Claude Cowork, Claude Tag가 모두 포함되고, AWS, Google Cloud, Microsoft Foundry를 통해 접근할 때도 텍스트 워터마크가 적용됩니다. 적용 지역도 EU에 한정되지 않고 클로드가 제공되는 전 세계입니다.\n\n워터마크를 모델 단계에서 넣기 때문입니다. 제품 화면이 아니라 모델이 토큰을 생성하는 단계에서 표시가 들어가므로 어떤 경로로 나오든 같은 표시가 붙습니다. 다른 곳에 복사해 붙여넣어도 텍스트를 따라가고, 일부 편집을 거친 뒤에도 남을 수 있다고 문서는 적었습니다.\n\n개발자들이 먼저 반발한 지점도 여기입니다. 자기 저장소에 들어가는 코드에까지 표시가 붙는다는 뜻이기 때문입니다.",
-   "likes": 0,
+   "likes": 1,
    "cmts": 1,
    "time": 1786509011,
    "thumb": "",
@@ -345,7 +345,7 @@
   {
    "account": "choi.openai",
    "text": "1/ 8월 11일 앤트로픽이 지원 문서를 갱신해 클로드가 만든 콘텐츠에 기계가 읽을 수 있는 표시를 넣는다고 밝혔습니다.\n\n방법은 두 가지입니다. 텍스트에는 눈에 보이지 않는 워터마크를 글 자체에 삽입하고, .svg나 .png 같은 파일에는 C2PA 표준을 따르는 서명된 출처 메타데이터를 붙입니다. 전자는 글에 섞여 들어가고 후자는 파일에 덧붙는 방식이라 성질이 다릅니다.\n\n2026년 8월 2일 이후 EU에 출시되는 클로드 모델은 출시 시점부터 이 표시를 지원합니다. 그전에 나온 모델은 전환 기간을 거쳐 순차적으로 적용하고, 표시 여부를 확인하는 탐지 수단도 함께 제공하겠다고 밝혔습니다.\n\n사람이 눈으로 확인하는 라벨이 아니라 기계가 검사해 읽어내는 값입니다. 그래서 표시 여부를 확인하려면 별도 도구가 필요하고, 그 도구를 누구에게 제공하느냐가 뒤에 나올 문제의 출발점이 됩니다.",
-   "likes": 0,
+   "likes": 1,
    "cmts": 1,
    "time": 1786509006,
    "thumb": "",
@@ -365,7 +365,7 @@
   {
    "account": "aipeekme",
    "text": "최근 레디스에 재합류한 개발자 안티레즈가 AI 시대의 코딩은 코드 작성이 아닌 아이디어 제어에 있다는 글을 올렸습니다. 그는 챗GPT 등장 전인 2022년에 관련 책을 냈고, 2024년 1월부터 AI 프로그래밍 기록을 이어왔습니다.\n\n그는 변화에 덜 준비된 젊은 개발자들의 충격을 줄여주고자 이 글을 썼다고 밝혔습니다. LLM은 국소적인 코드 작성엔 뛰어나지만 거대한 구상에는 약하므로, 줄 단위로 코드를 검토하기보다 전체적인 설계를 프롬프트하고 검증하는 편이 훨씬 효율적이라는 설명입니다. 하루 8시간의 작업 시간 동안 코드를 다 읽는 것은 정작 중요한 기획을 소홀히 하는 결과로 이어집니다.\n\n기술의 중심이 단순 구현에서 논리적 기획으로 넘어가는 현상을 현직 개발자의 시선으로 잘 짚어냈습니다.",
-   "likes": 1,
+   "likes": 2,
    "cmts": 1,
    "time": 1786505497,
    "thumb": "",
@@ -385,7 +385,7 @@
   {
    "account": "aicoffeechat",
    "text": "링크: https://x.ai/bot",
-   "likes": 0,
+   "likes": 1,
    "cmts": 0,
    "time": 1786493901,
    "thumb": "",
@@ -395,20 +395,20 @@
   {
    "account": "aicoffeechat",
    "text": "앞으로 이런 식으로 채팅하고 궁금한 거를 물어보는게 아니라 AI를 팀 메이트로 활용하고 있는 화면이 너무 당연해질 것 같다.",
-   "likes": 1,
+   "likes": 2,
    "cmts": 1,
    "time": 1786493892,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/772686370_17952020157232485_1223300647912315978_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk2MTcyMDM3MzgxMzM5MTE5NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMzAyNC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=IM4ZPHJtBU8Q7kNvwG27f6w&_nc_oc=AdoXW8SQlLv2nHiVHCqXPG63UqPd3EluQ7BXv43tuPcmMvBoVfFcYEE2QOqXCUiDzKPL3AqvpUGnxeQESBD2IBq3&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=nUpr-bRkYA_9RnQECvzF7Q&_nc_ss=7a22e&oh=00_AQH_gVo7-Qqj7cZEepADfcOjsvVHJuToDFtsUiv5gJkSiA&oe=6A81BFCE",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/772686370_17952020157232485_1223300647912315978_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk2MTcyMDM3MzgxMzM5MTE5NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMzAyNC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=IM4ZPHJtBU8Q7kNvwGMPQMR&_nc_oc=AdrAaQZwCAPAST1sgXVKROvebtUHUGn1xpQb747RxY2kf8pCCCMPQ0cLudyh7n7YSrR7w8ajZd859HRGIb-fS9He&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=wcVNOoo-6E0JRIw8YqZZkg&_nc_ss=7a22e&oh=00_AQHqK6e6ACmEpW-pjEwL5vnUmtobDVNRZ4bisrZyzBxXbw&oe=6A81BFCE",
    "url": "https://www.threads.com/@aicoffeechat/post/Db627Ccky9b",
    "region": "kr"
   },
   {
    "account": "aicoffeechat",
    "text": "데모 중 저의 시선을 가장 끌었던 가장 흥미로웠던 기능 중 하나. 데모처럼 피그마 에이전트를 너무 써봐야겠어요\n\n그리고 점차 느끼지만 \"따라 배우기\" 기능은 빨리 시작함에 따라 복리로 작용할 것 같습니다. 내가 어떤 작업을 한 번 처리하는 동안 봇에게 따라오라고 시키면, 그걸 루틴으로 저장했다가 다음부터는 혼자 실행하는 형태이기에 빨리 시작하는 사람들은 다른 사람들보다 더 많은 작업을 맡길 수 있게 되죠.",
-   "likes": 5,
+   "likes": 6,
    "cmts": 1,
    "time": 1786493882,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/772610748_17952019554232485_5646600776405965202_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk2MTcyMDI4Njk4MjkxNTQ1MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjYwNi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=KOSoxPbNKu0Q7kNvwF5hi0k&_nc_oc=Adp5ZRReflxpBNs-ln4UHYVIoEc-FUGsNv91_l6liJUU-jRvtVafijM3d-lzdM088CrT2LkeL0natPP-xM-Ac1dQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=nUpr-bRkYA_9RnQECvzF7Q&_nc_ss=7a22e&oh=00_AQFrAl9tTobGpeSJQdaaP6NXG2xvu_5QfMAG4IWrAPkqow&oe=6A81AFA7",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/772610748_17952019554232485_5646600776405965202_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk2MTcyMDI4Njk4MjkxNTQ1MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjYwNi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=KOSoxPbNKu0Q7kNvwFSr4i3&_nc_oc=AdpNVp3FXNTJVxTCGxJ4z3RdGul9jx7yMLTzIyssQVFdtgOv107ye-V6tHEYfhj2Sg7pzFejyttT6-YRaFxvYYbP&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=wcVNOoo-6E0JRIw8YqZZkg&_nc_ss=7a22e&oh=00_AQEh9EQ_XlL1xEZdzryvTtoZti4cioRXMuc3RKfMtJS-rQ&oe=6A81E7E7",
    "url": "https://www.threads.com/@aicoffeechat/post/Db625xlE0V7",
    "region": "kr"
   },
@@ -435,10 +435,10 @@
   {
    "account": "choi.openai",
    "text": "8월 11일 앤트로픽이 클로드가 만든 텍스트에 워터마크를 넣는다고 밝혔습니다.\n\n그런데 그날 그 발표보다 더 퍼진 글이 따로 있었습니다.\nAI 탐지 회사 GPTZero의 CTO가 쓴 95만 조회짜리 설명글입니다.\n\n첫 줄이 \"클로드의 워터마크는 아마 당신 생각대로 작동하지 않는다\"입니다.\n\n클로드 워터마크가 실제로 어떻게 작동하는지 정리했습니다 🧵",
-   "likes": 1,
-   "cmts": 9,
+   "likes": 16,
+   "cmts": 19,
    "time": 1786509002,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/772632540_17981785926112832_959451404405214937_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk2MTg0NzEyMDAxNzc0NjQ3NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNzM5LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=jR56hJ76wK4Q7kNvwEIlkLZ&_nc_oc=AdqDW618lnHcGmZOKKbuqs0p6o8MocC3CDwRxRSTNafnPypiCqA36IJ9oKEpyOZ9Q9Sow4YtvwssC1et1-W5n7Ju&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=M040sr_ldOic8LHx9LnbvQ&_nc_ss=7a22e&oh=00_AQHQqDG3VZ_qab4JIEjjMyg3MV4TjgHg-HCe3IXlKaCIeA&oe=6A81D7A1",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/772632540_17981785926112832_959451404405214937_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk2MTg0NzEyMDAxNzc0NjQ3NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNzM5LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=jR56hJ76wK4Q7kNvwGxxzM1&_nc_oc=AdpXtwvgUKY5QXRyG-yF9pjCcoFO9NueX4GBtPrNL2LneiSYBW0O9Auw7AUzS2JC1CjY-mc-AUroKN68_dmjlwdX&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=hnNolip2AKIugaKCmO5Klw&_nc_ss=7a22e&oh=00_AQE33MEhz8sDNvZ6mkA4TXyVc-_SPfEGEskBTBPw-jVmUA&oe=6A81D7A1",
    "url": "https://www.threads.com/@choi.openai/post/Db7TvcDD-oq",
    "region": "kr"
   },
@@ -448,17 +448,17 @@
    "likes": 0,
    "cmts": 1,
    "time": 1786498291,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/773696327_18078678425407306_8359922745507781934_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk2MTc1NzIwMTI2Mjk1MjI3NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=P26Lgurke-gQ7kNvwEsEZcI&_nc_oc=AdrREZRRrwz4npQCuMVOBSu8RRjiWEIGloGhaTq_lxdhHIWgkhYIfAZWPOrfCqYv1Oo2_tiZrodphEcrv1ZlimxR&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=8f3LBxbLOqst2tMkeivwOg&_nc_ss=7a22e&oh=00_AQHFE4b38ctxRkFQHJyRg13wF2dhPOLNAhexorYNWPPljw&oe=6A81D747",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/773696327_18078678425407306_8359922745507781934_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk2MTc1NzIwMTI2Mjk1MjI3NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=P26Lgurke-gQ7kNvwHJq8DQ&_nc_oc=AdqdUG9FSKaqpmUlsYSntLsnu5FZxKaiAOd38YXA_26LK2WJ40sQ--1mQ_qz9IiKKuU_9wOtISEZ8WXGcVUW95pj&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=KQKNxIcv47EZMLayf-llUg&_nc_ss=7a22e&oh=00_AQHGyNKVWVXwz3AxcW0kuo7zB1GC8YkKVLlmJGg9wROMGA&oe=6A81D747",
    "url": "https://www.threads.com/@aipeekme/post/Db6_S8rn79T",
    "region": "kr"
   },
   {
    "account": "aicoffeechat",
    "text": "Grok Bot은 정말 써보고 싶다는 생각이 드네요\n\nxAI가 Grok Bot을 공개했는데요. 자기 컴퓨터를 하나 갖고 내 회사 툴에 로그인해서 실제로 일을 끝내고 돌아오는 형태입니다.\n\n지금은 얼리 베타이고 macOS 앱부터 나왔습니다. 여러 봇을 동시에 굴리는 방식, 한 번 보여주면 그 절차를 기억하는 방식, 봇끼리 일을 주고받는 구조 등 재미난 기능이 많네요. \n\n노트북을 닫아놔도 24시간 병렬로 돌아간다고 하고요.",
-   "likes": 25,
+   "likes": 26,
    "cmts": 6,
    "time": 1786493877,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/773379529_2146811405871490_8505105055495997994_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk2MTcxNDkxNTYwNTYyMDM3NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=JmLb1S3QjqEQ7kNvwFNwsyE&_nc_oc=AdoPhfsnNZwPvnYBbDenQ_oGDpLCY1gSxv1JbE84bynd7Z6oisg4FJcfqvS0Z0Og1LpOBTuGFN4yo4H2gckT9gTb&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=nUpr-bRkYA_9RnQECvzF7Q&_nc_ss=7a22e&oh=00_AQG8qo8UEihrB8pb3PbqMoj2cbLVu3jyVFphVyIcslJljQ&oe=6A81CD39",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/773379529_2146811405871490_8505105055495997994_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk2MTcxNDkxNTYwNTYyMDM3NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=JmLb1S3QjqEQ7kNvwGwkJUz&_nc_oc=AdowQ-47Vx5l8Ktxk6cD0JBjvPCi3t5-mVT1fBCjh_kL32CLTlhZxrBZ--pYGKNSVplx8I_6UANdoXkrWLgsZZ1A&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=wcVNOoo-6E0JRIw8YqZZkg&_nc_ss=7a22e&oh=00_AQEYu3FfG5Zp1Enh7ged9fiZsiR_FxoSyi7tDUTxWbBvEA&oe=6A81CD39",
    "url": "https://www.threads.com/@aicoffeechat/post/Db61rnGCiaX",
    "region": "kr"
   },
@@ -485,10 +485,10 @@
   {
    "account": "choi.openai",
    "text": "Unsloth AI가 로컬에서 AI 모델을 실행하고 학습할 수 있는 Unsloth Desktop을 공개했습니다.\n\nMac, Windows, Linux를 지원하며 NVIDIA·AMD·Intel GPU와 CPU에서도 사용할 수 있는데요. 로컬 LLM뿐 아니라 이미지·영상·음성 모델 실행, 미세 조정, RAG, MCP, 웹 검색도 지원합니다.\n\nClaude Code와 Codex를 로컬 LLM에 연결하는 기능도 제공하며, 오픈소스로 GitHub에 공개됐습니다.",
-   "likes": 34,
+   "likes": 35,
    "cmts": 1,
    "time": 1786503618,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/768304020_1064969259446722_6278516598057497568_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk2MTgwMTk2MTUxNTQ3MTM0Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=TtCnwzvxLbcQ7kNvwHiwP-F&_nc_oc=Adp5MveSZ_KEA7s1YL_vGSOaXCCwlGmMJWeL1cO8qX9ArskIgwYIb0ANFmLs5YIMV6klfMr-5MQGzJz06kRR9sjG&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=M040sr_ldOic8LHx9LnbvQ&_nc_ss=7a22e&oh=00_AQH56puFNceDhgGmzLhHEEP2dh8QIIUNnwi6j6DZbBotkg&oe=6A81D9C1",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/768304020_1064969259446722_6278516598057497568_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk2MTgwMTk2MTUxNTQ3MTM0Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=TtCnwzvxLbcQ7kNvwENBHX6&_nc_oc=AdqvlKxhQDedWARxdTrWj9IGExTpcr-ahdwAOHtnM1EQHlNdeIT02xuzzRzdZ-3oMkFNZ0UTIi5Py3RwGVQFOzSf&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=hnNolip2AKIugaKCmO5Klw&_nc_ss=7a22e&oh=00_AQHsVoMlgBYTCoXYXkWfg8NjnWmW6vdJA6nUUc6RG3qR-Q&oe=6A81D9C1",
    "url": "https://www.threads.com/@choi.openai/post/Db7JeS6k1Hy",
    "region": "kr"
   },
@@ -498,7 +498,7 @@
    "likes": 5,
    "cmts": 2,
    "time": 1786489296,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/773469388_18078648800407306_4945870658796221481_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk2MTY4MTc1Njk5OTAyNzMxNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=P1sIHKvHru0Q7kNvwEeEmcG&_nc_oc=Ado0G01RayCdpouLnmUU3W2fMNC4n4Y5HHEzgEvjW-pi5l1BboPBdrGbTz3DdDQyGH7JiPm7S6c-4FZK4oEl0cDP&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=8f3LBxbLOqst2tMkeivwOg&_nc_ss=7a22e&oh=00_AQHF1YHY1gLG8joyO3hVUY3FNP4kzArLizLbgoTZYLgpFA&oe=6A81D759",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/773469388_18078648800407306_4945870658796221481_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk2MTY4MTc1Njk5OTAyNzMxNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=P1sIHKvHru0Q7kNvwH8FbkP&_nc_oc=AdoERwgmoCZFPatRtPTFFF3B5TjBWfmbJR2biv-dY3BKeBWVcNaSGSlkpYwP9HwU7PnvZikxUb2eyKgUm_d-GBLB&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=KQKNxIcv47EZMLayf-llUg&_nc_ss=7a22e&oh=00_AQHeb8Zy0cGiN-gpEYBn_CzUrGBy57lHm6-Ib4sR9KcwFQ&oe=6A81D759",
    "url": "https://www.threads.com/@aipeekme/post/Db6uJFvEop1",
    "region": "kr"
   },
@@ -518,13 +518,22 @@
    "likes": 0,
    "cmts": 0,
    "time": 1786487159,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/771814162_1391283923103207_6276152897655872882_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk2MTY2MzY4MTcwNDgxMTQzMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=wLXdzIxHJVEQ7kNvwHd-eaN&_nc_oc=AdqmVqVQr-eg8ecL7rzSohNLM7m0eNu6OCLbX1F1Ik7X9EWEJNmoP9apeFi3sKJAk919TAOYMR_NnF2eOaAH1aI-&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=8f3LBxbLOqst2tMkeivwOg&_nc_ss=7a22e&oh=00_AQGW4JsBp7L-0TqwBjD7GBnuX2k3yY0PhXaRRhy7T3CVTQ&oe=6A81CC75",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/771814162_1391283923103207_6276152897655872882_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk2MTY2MzY4MTcwNDgxMTQzMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=wLXdzIxHJVEQ7kNvwEAJF6D&_nc_oc=AdrZBhWPiOjtejlQCuqePV9X0_p3wY97L_U7hZcyREAnTH9mSLngI8ltiPcn8SnURATayXn1F6C2S494mztOLUpa&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=KQKNxIcv47EZMLayf-llUg&_nc_ss=7a22e&oh=00_AQFqUPgqUdjK7gTp_f8K-b2fYq0X1fKnlVaE8_uuFS2Tig&oe=6A81CC75",
    "url": "https://www.threads.com/@aipeekme/post/Db6qCDzlNun",
    "region": "kr"
   }
  ],
  "tiktok": [],
  "reddit": [
+  {
+   "sub": "mildlyinfuriating",
+   "title": "Snapchat now pushes ads that make my wife think I’m cheating on her",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/y5py5dfqvuih1.jpeg?width=640&crop=smart&auto=webp&s=d11ac03ee178e43b7caf2a2cea458fe7e505311c",
+   "time": 1786502024,
+   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1vm1plq/snapchat_now_pushes_ads_that_make_my_wife_think/"
+  },
   {
    "sub": "todayilearned",
    "title": "TIL a geologist was ridiculed for decades for claiming the Pacific Northwest was carved by a catastrophic Ice Age flood. NASA satellite images proved him right in the 1970s. He finally received geolog",
@@ -533,6 +542,15 @@
    "thumb": "https://external-preview.redd.it/whhpD-uyoxWj_fzGORSnpHtPwnSog6I5Srxy46I9TBs.jpeg?width=216&crop=smart&auto=webp&s=f9ded779eb3c281ebb6eeae5228f9515f80465cc",
    "time": 1786488856,
    "url": "https://www.reddit.com/r/todayilearned/comments/1vlwrob/til_a_geologist_was_ridiculed_for_decades_for/"
+  },
+  {
+   "sub": "PeterExplainsTheJoke",
+   "title": "Peter? I am confused",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/p6vdnoelluih1.jpeg?width=640&crop=smart&auto=webp&s=f46d3fc89e6bdb14bdc50db898b725f1cdd2c606",
+   "time": 1786498614,
+   "url": "https://www.reddit.com/r/PeterExplainsTheJoke/comments/1vm0h9f/peter_i_am_confused/"
   },
   {
    "sub": "AskReddit",
@@ -553,58 +571,13 @@
    "url": "https://www.reddit.com/r/news/comments/1vlxppb/ap_exclusive_ice_plans_to_give_officers_gloves/"
   },
   {
-   "sub": "mildlyinfuriating",
-   "title": "Whenever my wife borrows my vehicle, she leaves me at empty",
+   "sub": "MadeMeSmile",
+   "title": "Happy brothers in a new happy home",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/n5atapibdqih1.jpeg?width=640&crop=smart&auto=webp&s=b7b02cb7de95c9704e3bbff7c71328746a3cb835",
-   "time": 1786448000,
-   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1vlewgh/whenever_my_wife_borrows_my_vehicle_she_leaves_me/"
-  },
-  {
-   "sub": "todayilearned",
-   "title": "TIL that heavy cannabis users have been found to have nearly four times the odds of developing schizophrenia or psychosis compared to non-users, according to a Kings College Meta-Analysis of over 66,0",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/eFMa-V1uKt_0fEaeLyZatpb8QwmDWeu0cd35rQ-BtGk.jpeg?width=640&crop=smart&auto=webp&s=683555a6c071cb1709edcbba15fd66e691be4aaa",
-   "time": 1786493185,
-   "url": "https://www.reddit.com/r/todayilearned/comments/1vlyh5t/til_that_heavy_cannabis_users_have_been_found_to/"
-  },
-  {
-   "sub": "mildlyinfuriating",
-   "title": "Snapchat now pushes ads that make my wife think I’m cheating on her",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/y5py5dfqvuih1.jpeg?width=640&crop=smart&auto=webp&s=d11ac03ee178e43b7caf2a2cea458fe7e505311c",
-   "time": 1786502024,
-   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1vm1plq/snapchat_now_pushes_ads_that_make_my_wife_think/"
-  },
-  {
-   "sub": "comics",
-   "title": "\"Americentricity\" by Itchy Feet",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/as3w1iu9ysih1.png?width=140&height=140&crop=1:1,smart&auto=webp&s=19c596d2e0ad5918d314747604f2524eedc5f68d",
-   "time": 1786478885,
-   "url": "https://www.reddit.com/r/comics/comments/1vlsh3u/americentricity_by_itchy_feet/"
-  },
-  {
-   "sub": "PeterExplainsTheJoke",
-   "title": "Peter? I am confused",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/p6vdnoelluih1.jpeg?width=640&crop=smart&auto=webp&s=f46d3fc89e6bdb14bdc50db898b725f1cdd2c606",
-   "time": 1786498614,
-   "url": "https://www.reddit.com/r/PeterExplainsTheJoke/comments/1vm0h9f/peter_i_am_confused/"
-  },
-  {
-   "sub": "GirlDinnerDiaries",
-   "title": "My husband's ex wife moves in with us on Saturday",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/3t0i96udsrih1.jpeg?width=640&crop=smart&auto=webp&s=13f6c37dffd66b67e4acf8a33e6ef8b03d3606b7",
-   "time": 1786464580,
-   "url": "https://www.reddit.com/r/GirlDinnerDiaries/comments/1vllt32/my_husbands_ex_wife_moves_in_with_us_on_saturday/"
+   "thumb": "https://external-preview.redd.it/NHk0ZGoweGEwdmloMdmoLNsaV-AnAIrtkvbIZlMLGhnNUgHAZcVU6INP89iW.png?width=640&crop=smart&auto=webp&s=febc54d6af002dc458d4b890b30388f18103e902",
+   "time": 1786503562,
+   "url": "https://www.reddit.com/r/MadeMeSmile/comments/1vm28is/happy_brothers_in_a_new_happy_home/"
   },
   {
    "sub": "interesting",
@@ -616,13 +589,13 @@
    "url": "https://www.reddit.com/r/interesting/comments/1vlx9n3/movie_theater_didnt_receive_the_posters_for_the/"
   },
   {
-   "sub": "okbuddycinephile",
-   "title": "Lord of the Rings: The Fellowship of the Ring (2001)",
+   "sub": "mildlyinfuriating",
+   "title": "Whenever my wife borrows my vehicle, she leaves me at empty",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/dnZhNzV1MTlicWloMQGbtT9vgfztcA9peT56zSYSgjkndAPcl4u_c4OFS2JY.png?width=640&crop=smart&auto=webp&s=d379fcf1f54039d6e6f342967a99475e5d04eaa6",
-   "time": 1786446713,
-   "url": "https://www.reddit.com/r/okbuddycinephile/comments/1vleh8l/lord_of_the_rings_the_fellowship_of_the_ring_2001/"
+   "thumb": "https://preview.redd.it/n5atapibdqih1.jpeg?width=640&crop=smart&auto=webp&s=b7b02cb7de95c9704e3bbff7c71328746a3cb835",
+   "time": 1786448000,
+   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1vlewgh/whenever_my_wife_borrows_my_vehicle_she_leaves_me/"
   },
   {
    "sub": "politics",
@@ -634,31 +607,31 @@
    "url": "https://www.reddit.com/r/politics/comments/1vly0yp/did_mitch_mcconnell_vote_against_sick_leave_4/"
   },
   {
-   "sub": "korea",
-   "title": "US soldier in South Korea sentenced in assault, abusive sexual contact case",
+   "sub": "todayilearned",
+   "title": "TIL that heavy cannabis users have been found to have nearly four times the odds of developing schizophrenia or psychosis compared to non-users, according to a Kings College Meta-Analysis of over 66,0",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/GkxuiSUlxhZnKx_XeCZzDbIUXd-TCRIFiareFdmVYSg.jpeg?width=320&crop=smart&auto=webp&s=cb728c84daa7dc811c2c4992e3fd3f11f712e016",
-   "time": 1786497610,
-   "url": "https://www.reddit.com/r/korea/comments/1vm04ax/us_soldier_in_south_korea_sentenced_in_assault/"
+   "thumb": "https://external-preview.redd.it/eFMa-V1uKt_0fEaeLyZatpb8QwmDWeu0cd35rQ-BtGk.jpeg?width=640&crop=smart&auto=webp&s=683555a6c071cb1709edcbba15fd66e691be4aaa",
+   "time": 1786493185,
+   "url": "https://www.reddit.com/r/todayilearned/comments/1vlyh5t/til_that_heavy_cannabis_users_have_been_found_to/"
   },
   {
-   "sub": "korea",
-   "title": "How did Koreans avoided being incorporated into China for the last thousand years?",
+   "sub": "comics",
+   "title": "\"Americentricity\" by Itchy Feet",
    "score": 0,
    "cmts": 0,
-   "thumb": "",
-   "time": 1786471043,
-   "url": "https://www.reddit.com/r/korea/comments/1vlotfr/how_did_koreans_avoided_being_incorporated_into/"
+   "thumb": "https://preview.redd.it/as3w1iu9ysih1.png?width=140&height=140&crop=1:1,smart&auto=webp&s=19c596d2e0ad5918d314747604f2524eedc5f68d",
+   "time": 1786478885,
+   "url": "https://www.reddit.com/r/comics/comments/1vlsh3u/americentricity_by_itchy_feet/"
   },
   {
-   "sub": "korea",
-   "title": "Another migrant worker dies in Korea’s heat wave. How many more deaths go uncounted?",
+   "sub": "GirlDinnerDiaries",
+   "title": "My husband's ex wife moves in with us on Saturday",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/VRs-a7mYbiFdOSxWzsictsGDOaWU30gfjTHW4bR6Kis.jpeg?width=640&crop=smart&auto=webp&s=22d62e4cfcd2dde473386a7e333737f6f2fe3034",
-   "time": 1786487687,
-   "url": "https://www.reddit.com/r/korea/comments/1vlwazr/another_migrant_worker_dies_in_koreas_heat_wave/"
+   "thumb": "https://preview.redd.it/3t0i96udsrih1.jpeg?width=640&crop=smart&auto=webp&s=13f6c37dffd66b67e4acf8a33e6ef8b03d3606b7",
+   "time": 1786464580,
+   "url": "https://www.reddit.com/r/GirlDinnerDiaries/comments/1vllt32/my_husbands_ex_wife_moves_in_with_us_on_saturday/"
   }
  ],
  "disaster": [],
@@ -672,13 +645,6 @@
     "jajaja7878uu",
     "kyunghyang"
    ],
-   "insta": [
-    "hm_son7",
-    "jennierubyjane",
-    "mnet_official",
-    "sbsnow_insta",
-    "xxxibgdrgn"
-   ],
    "threads": [
     "aicoffeechat",
     "aipeekme",
@@ -689,28 +655,33 @@
   },
   "why": {
    "insta": {
-    "koreadispatch": "rotate",
-    "bts.bighitofficial": "rotate",
-    "blackpinkofficial": "rotate",
-    "newjeans_official": "rotate",
-    "aespa_official": "rotate",
-    "openai": "rotate",
-    "runwayapp": "rotate",
-    "pika_labs": "rotate",
-    "lumalabsai": "rotate",
-    "midjourney": "rotate",
-    "klingai_official": "rotate",
-    "heygen_official": "rotate",
-    "higgsfield.ai": "rotate",
-    "googledeepmind": "rotate",
-    "cristiano": "rotate"
+    "koreadispatch": "gap",
+    "bts.bighitofficial": "gap",
+    "blackpinkofficial": "gap",
+    "newjeans_official": "gap",
+    "aespa_official": "gap",
+    "jennierubyjane": "gap",
+    "xxxibgdrgn": "gap",
+    "hm_son7": "gap",
+    "sbsnow_insta": "gap",
+    "mnet_official": "gap",
+    "openai": "gap",
+    "runwayapp": "gap",
+    "pika_labs": "gap",
+    "lumalabsai": "gap",
+    "midjourney": "gap",
+    "klingai_official": "gap",
+    "heygen_official": "gap",
+    "higgsfield.ai": "gap",
+    "googledeepmind": "gap",
+    "cristiano": "gap"
    }
   },
   "landing": {
-   "at": "2026-08-12T13:01:32",
+   "at": "2026-08-12T13:32:08",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-12T13:32:05.601163+09:00"
+ "updated": "2026-08-12T14:01:30.433703+09:00"
 }
