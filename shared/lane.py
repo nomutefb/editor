@@ -48,7 +48,7 @@ import os
 
 LANES = {
     "grok": "lane_grok",
-    # "seedance": "lane_seedance",   # ②단계에서 붙는다
+    "seedance": "lane_seedance",
 }
 DEFAULT = "grok"
 

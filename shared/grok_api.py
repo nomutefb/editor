@@ -251,7 +251,7 @@ def fresh_token(store=None):
                 pass
 
 
-def _persist_secret(rt):
+def _persist_secret(rt, name=None):
     """회전된 갱신 열쇠를 **레포 비밀값에 되써 넣는다** — 없으면 이 레인은 한 번만 쏠 수 있다.
 
     ⚠ 실사고(260811 · 런 31545525981) = 두 번째 발사가 `Refresh token has been revoked` 로
@@ -268,7 +268,9 @@ def _persist_secret(rt):
     """
     pat = os.environ.get("XAI_SECRET_PAT") or ""
     repo = os.environ.get("GITHUB_REPOSITORY") or ""
-    name = os.environ.get("XAI_SECRET_NAME") or "XAI_REFRESH_TOKEN"
+    # ⚠ 저장할 비밀값 이름은 **인자가 1순위**다(260812 페이블 검증) — 두 번째 통로가 인자 없이
+    #   부르면 기본값(그록 열쇠)을 덮어써 그록 레인이 그 자리에서 죽는다. env 는 폴백일 뿐이다.
+    name = name or os.environ.get("XAI_SECRET_NAME") or "XAI_REFRESH_TOKEN"
     if not pat or not repo:
         if os.environ.get("GITHUB_ACTIONS"):
             print("::warning::새 갱신 열쇠를 비밀값에 못 남긴다(XAI_SECRET_PAT 미등록) — "
