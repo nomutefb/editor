@@ -41,6 +41,9 @@ AUTH = os.environ.get("HF_AUTH_BASE", "https://fnf-device-auth.higgsfield.ai")
 MCP = os.environ.get("HF_MCP_URL", "https://mcp.higgsfield.ai/mcp")
 SECRET_NAME = "HIGGSFIELD_REFRESH_TOKEN"
 PROTO = "2025-06-18"
+# 브라우저 서명 — 창구 앞단이 파이썬 기본 서명을 막는다(위 _post 주석 참조)
+UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+      "(KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36")
 
 # ── 프리셋(운영자 260812 확정 · 산출 = 세로 30초 쇼츠) ─────────────────────────
 #   A = 시댄스 2.5 720p 30초 한 발(이음매 0) · B = 시댄스 2.0 1080p 15초 두 발(화질 최상)
@@ -71,7 +74,10 @@ _SESS = {"id": None, "n": 0}
 # ── 자격 ──────────────────────────────────────────────────────────────────────
 def _post(url, body, *, token=None, timeout=60, accept="application/json"):
     data = json.dumps(body or {}).encode()
-    hd = {"Content-Type": "application/json", "Accept": accept}
+    # ⚠ **브라우저 서명이 필수다**(260812 첫 실행 실측) — 파이썬 기본 서명으로 나가면 창구 앞단이
+    #   `1010 browser_signature_banned` 로 통째 거절한다(자격도 창구도 멀쩡한데 403). 같은 함정을
+    #   같은 날 참조 그림 받기에서도 밟았다 = 이 레포에서 **두 번째**라 통로 진입부에 못박는다.
+    hd = {"Content-Type": "application/json", "Accept": accept, "User-Agent": UA}
     if token:
         hd["Authorization"] = "Bearer " + token
         hd["MCP-Protocol-Version"] = PROTO
