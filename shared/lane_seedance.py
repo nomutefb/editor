@@ -29,6 +29,7 @@ CONTRACT: check_grok_sb_chain
 """
 import json
 import os
+import re
 import sys
 import time
 import urllib.error
@@ -221,9 +222,30 @@ def estimate(seconds, ratio=None, token=None):
     """발사 전 견적(제출 없이 크레딧만 회신 · **과금 0**). 반환 = 크레딧 수 또는 None."""
     d = call("generate_video", dict(_params(seconds, ratio, cost_only=True), prompt="cost check"),
              token or fresh_token())
-    c = (d or {}).get("cost") or {}
+    return _credits(d)
+
+
+def _credits(d):
+    """크레딧 수를 꺼낸다.
+
+    ⚠ 창구는 **회신을 사람 읽는 글자로도 준다**(260812 실측 = 잔액이 `Credits: 3060 | Plan: ultra`).
+      숫자 자리만 보면 첫 실행처럼 조용히 None 이 되고, 그러면 예산 검문이 **없는 것과 같아진다** —
+      돈 나가기 직전의 유일한 문이라 여기서 지어내지도, 조용히 넘기지도 않는다.
+    """
+    if not isinstance(d, dict):
+        return None
+    c = d.get("cost") or {}
     v = c.get("credits_exact", c.get("credits"))
-    return float(v) if v is not None else None
+    if v is None:
+        txt = d.get("text") or json.dumps(d, ensure_ascii=False)
+        m = re.search(r"([\d,]+(?:\.\d+)?)\s*(?:credits?|크레딧)", txt, re.I) or \
+            re.search(r"(?:credits?|크레딧)\D{0,4}([\d,]+(?:\.\d+)?)", txt, re.I)
+        if m:
+            v = m.group(1).replace(",", "")
+    try:
+        return float(v)
+    except (TypeError, ValueError):
+        return None
 
 
 def refs_payload(urls, embed=True):
@@ -344,9 +366,14 @@ def _check():
     print("① 자격 ✓ (접속 열쇠 {}자)".format(len(tok)))
     b = balance(tok)
     print("② 잔액 ✓ {}".format(json.dumps(b, ensure_ascii=False)[:200]))
-    for sec in (SHOT_SEC,):
-        cr = estimate(sec, os.environ.get("SD_RATIO") or "9:16", tok)
-        print("③ 견적 ✓ {}초 = {} 크레딧".format(sec, cr))
+    raw = call("generate_video", dict(_params(SHOT_SEC, os.environ.get("SD_RATIO") or "9:16",
+                                              cost_only=True), prompt="cost check"), tok)
+    cr = _credits(raw)
+    print("③ 견적 원문: {}".format(json.dumps(raw, ensure_ascii=False)[:300]))
+    if cr is None:
+        print("::error::견적 숫자를 못 읽었다 — 예산 검문이 무력해진다(위 원문을 보고 파서를 고쳐라)")
+        return 1
+    print("③ 견적 ✓ {}초 = {} 크레딧".format(SHOT_SEC, cr))
     print("── 통과 — 발사만 남았다(이 확인은 크레딧을 쓰지 않았다) ──")
     return 0
 
