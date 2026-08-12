@@ -204,6 +204,11 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           XAI_REFRESH_TOKEN: ${{ secrets.XAI_REFRESH_TOKEN }}
           XAI_TOKEN_STORE: ${{ runner.temp }}/grok_token.json
+          # ⚠ 갱신 열쇠는 **한 번 쓰면 새것으로 바뀌고 옛것이 죽는다**. 러너는 끝나면 사라지므로
+          #   새 열쇠를 비밀값에 되써 넣지 않으면 다음 발사가 「Refresh token has been revoked」로
+          #   죽는다(260811 실사고 · 런 31545525981). 깃허브 기본 토큰에는 비밀값 쓰기 권한이
+          #   아예 없어서 별도 개인 토큰이 필요하다 — 미등록이면 러너가 사유를 찍고 넘어간다.
+          XAI_SECRET_PAT: ${{ secrets.XAI_SECRET_PAT }}
           R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
           R2_BUCKET: ${{ secrets.R2_BUCKET }}
           R2_PUBLIC_BASE: ${{ secrets.R2_PUBLIC_BASE }}
@@ -218,7 +223,8 @@ jobs:
             echo "::warning::board.md 없음 — 그록 영상 생략"; exit 0
           fi
           [ -n "$XAI_REFRESH_TOKEN" ] || { echo "그록 영상: 0/0컷 — 미시도(XAI_REFRESH_TOKEN 미등록)"; echo "::warning::그록 자격 미등록 — 영상 생략"; exit 0; }
-          pip install --quiet requests pillow || { echo "::warning::deps 설치 실패 — 생략"; exit 0; }
+          # pynacl = 비밀값 봉인(깃허브가 요구하는 libsodium sealed box) — 없으면 되쓰기만 생략되고 영상은 그대로 간다
+          pip install --quiet requests pillow pynacl || { echo "::warning::deps 설치 실패 — 생략"; exit 0; }
           python3 .github/scripts/grok_sb_video.py "$MD" "viewer/sb_out/${IN_ID}"
 
       - name: Commit output

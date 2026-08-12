@@ -663,11 +663,29 @@ async function renderOut(md, outEl, outPath) {   // 결과 렌더 공통(폴 성
             ? '<video src="' + String(c.video).replace(/"/g, '%22') + '" controls playsinline preload="metadata" data-ix="' + (c.n || '') + '"></video>'
             : '<div class="refmiss">컷 ' + ((c && c.n) || '?') + ' 실패 — ' + esc(String((c && c.fail) || '사유 미기록')) + '</div>').join('');
           const secs = ok.reduce((a, c) => a + (+c.sec || 0), 0);
+          // 값은 **벤더별 원장**을 읽는다(운영자 260811 = 그림 엔진 호출값도 합쳐서 띄워라) —
+          // video.json 의 금액은 그록 몫뿐이라 그것만 띄우면 화면 숫자가 실제보다 작다.
+          // 원장이 없으면(구 산출·기록 실패) 종전대로 그록 몫만 = 무회귀.
+          let money = '청구 $' + (Number(v.cost_usd) || 0).toFixed(2);
+          try {
+            const cr = await fetch(base + 'cost.json?t=' + Date.now());
+            if (cr.ok) {
+              const led = await cr.json();
+              const rows = (led && Array.isArray(led.items)) ? led.items : [];
+              if (rows.length) {
+                // 벤더 표기 = NM_MODELS 사전 값만(§모델 표시명 SSOT · 음차 금지)
+                const vnm = v2 => ((window.NM_MODELS && window.NM_MODELS[v2]) || esc(String(v2)));
+                money = '청구 $' + (Number(led.total_usd) || 0).toFixed(2)
+                  + ' (' + rows.map(r => vnm(r.vendor)
+                      + ' ' + r.n + (r.vendor === 'grok' ? '컷' : '장') + ' $' + (Number(r.usd) || 0).toFixed(2)
+                      + (r.est ? '*' : '')).join(' · ') + ')'
+                  + (led.est_any ? ' · *표는 단가 계산값' : '');
+              }
+            }
+          } catch (e) { /* 폴백 = 그록 몫만 */ }
           html = '<div class="ref multi">' + cells
             + '<div class="cap">그록 영상 ' + ok.length + '/' + cs.length + '컷 · 합 ' + secs + '초 · 소리 ' + (v.sound === false ? '끔' : '켬')
-            + ' · 청구 $' + (Number(v.cost_usd) || 0).toFixed(2)
-            + (ok.length ? ' (컷당 $' + ((Number(v.cost_usd) || 0) / ok.length).toFixed(3) + ')' : '')
-            + '</div></div>' + html;
+            + ' · ' + money + '</div></div>' + html;
         }
       }
     } catch (e) { /* 폴백 = 미부착 */ }

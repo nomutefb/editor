@@ -238,6 +238,7 @@ def fresh_token(store=None):
             data["expires_at"] = time.time() + 5 * 3600   # 실측 수명 약 6시간 · 여유 1시간
             if rt:
                 data["refresh_token"] = rt
+                _persist_secret(rt)   # 러너 밖으로 살려 보낸다(아래 주석 = 이 한 줄이 있어야 두 번째 발사가 산다)
             _write_store(path, data)
             return at
         raise GrokError(0, "자격 갱신 실패(다시 로그인해야 한다)", "auth")
@@ -248,6 +249,71 @@ def fresh_token(store=None):
                 os.unlink(lock)
             except OSError:
                 pass
+
+
+def _persist_secret(rt):
+    """회전된 갱신 열쇠를 **레포 비밀값에 되써 넣는다** — 없으면 이 레인은 한 번만 쏠 수 있다.
+
+    ⚠ 실사고(260811 · 런 31545525981) = 두 번째 발사가 `Refresh token has been revoked` 로
+      죽었다. 그록은 갱신할 때마다 열쇠를 새것으로 바꾸고 옛것을 무효로 만드는데, 러너는
+      작업이 끝나면 통째로 사라져 **새 열쇠가 어디에도 안 남는다** → 레포 비밀값은 이미 죽은
+      값이 되고, 사람이 매번 판정기를 돌려 갈아 끼워야 했다.
+    ⚠ 왜 비밀값이어야 하나 = 이 레포는 **공개**다. 러너가 판 사이에 값을 남길 자리는
+      비밀값·변수·캐시·아티팩트·커밋인데 뒤 넷은 전부 읽힌다. 비밀값만이 유일한 안전한 자리다.
+    ⚠ 왜 별도 토큰이 필요한가 = 깃허브가 기본 발급 토큰에는 비밀값 쓰기를 안 준다(권한 목록에
+      아예 없다) → 비밀값 쓰기 권한을 가진 개인 토큰 `XAI_SECRET_PAT` 이 있어야 한다.
+      **없으면 조용히 넘어간다**(종전 동작 = 사람이 갈아 끼우는 길) — 값이 있는데 죽는 것보다
+      낫다. 다만 무성 스킵은 금지라 사유를 찍는다.
+    ⚠ 암호화 = 깃허브 비밀값은 레포 공개키로 봉인해서 넣어야 한다(libsodium sealed box).
+    """
+    pat = os.environ.get("XAI_SECRET_PAT") or ""
+    repo = os.environ.get("GITHUB_REPOSITORY") or ""
+    name = os.environ.get("XAI_SECRET_NAME") or "XAI_REFRESH_TOKEN"
+    if not pat or not repo:
+        if os.environ.get("GITHUB_ACTIONS"):
+            print("::warning::새 갱신 열쇠를 비밀값에 못 남긴다(XAI_SECRET_PAT 미등록) — "
+                  "다음 발사 전에 판정기로 열쇠를 갈아 끼워야 한다")
+        return False
+    try:
+        from nacl import encoding, public   # noqa: PLC0415  선택 의존(없으면 아래에서 사유와 함께 넘어간다)
+    except Exception as e:  # noqa: BLE001
+        print("::warning::비밀값 봉인 도구 없음(pynacl) — 열쇠 되쓰기 생략: {}".format(str(e)[:120]))
+        return False
+    api = "https://api.github.com/repos/{}/actions/secrets".format(repo)
+    hdr = {"Authorization": "Bearer " + pat, "Accept": "application/vnd.github+json",
+           "X-GitHub-Api-Version": "2022-11-28"}
+
+    def _gh(url, payload=None, method="GET"):   # 이 파일은 urllib 로만 산다(requests 미import)
+        raw = json.dumps(payload).encode() if payload is not None else None
+        req = urllib.request.Request(url, data=raw, method=method)
+        for k2, v2 in hdr.items():
+            req.add_header(k2, v2)
+        if raw:
+            req.add_header("Content-Type", "application/json")
+        try:
+            with urllib.request.urlopen(req, timeout=30) as resp:
+                body = resp.read().decode("utf-8", "replace")
+                return resp.status, (json.loads(body) if body.strip() else {})
+        except urllib.error.HTTPError as e:
+            return e.code, {}
+
+    try:
+        code, k = _gh(api + "/public-key")
+        if code != 200 or not k.get("key"):
+            print("::warning::비밀값 공개키를 못 받았다(HTTP {}) — 열쇠 되쓰기 생략".format(code))
+            return False
+        sealed = public.SealedBox(public.PublicKey(k["key"].encode(), encoding.Base64Encoder))
+        code2, _ = _gh("{}/{}".format(api, name), method="PUT", payload={
+            "encrypted_value": base64.b64encode(sealed.encrypt(rt.encode())).decode(),
+            "key_id": k["key_id"]})
+        if code2 not in (201, 204):
+            print("::warning::비밀값 쓰기 거절(HTTP {}) — 토큰 권한 Secrets:Read and write 확인".format(code2))
+            return False
+        print("갱신 열쇠를 비밀값 {} 에 되썼다(다음 발사부터 손 안 대도 된다)".format(name))
+        return True
+    except Exception as e:  # noqa: BLE001
+        print("::warning::열쇠 되쓰기 실패(비치명): {}".format(str(e)[:160]))
+        return False
 
 
 def _read_store(path):

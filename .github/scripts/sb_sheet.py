@@ -35,6 +35,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import gen_image as gi          # noqa: E402  openai_image (GPT Image 호출 SSOT)
 import thumb_gen as tg          # noqa: E402  r2_upload · R2_ON · _img_type
 from grok_sb_video import cuts_of   # noqa: E402  컷 파서 = 한 벌만 둔다(사본 0)
+import sb_cost as sc                # noqa: E402  값 원장(그림값도 합산)
 
 SHEET_ASPECT = (3, 2)   # storyboard-v1 §호출 스펙 = aspect_ratio "3:2" 고정
 _TITLE = re.compile(r"^#\s+(.+)$", re.M)
@@ -142,6 +143,8 @@ def main():
     if not url:
         # R2 가 없으면 레포에 남긴다(대표 1장뿐이라 비대 위험이 작다 = k_refgen 폴백 관례)
         open(os.path.join(out_dir, "sheet.jpg"), "wb").write(png)
+    if engine == "gemini":
+        sc.add(out_dir, "gemini", "sheet", 1, note="2K 단가 미확인 = 1K 단가로 센 하한")
     try:
         json.dump({"url": url, "cuts": len(cuts), "engine": engine},
                   open(os.path.join(out_dir, "sheet.json"), "w", encoding="utf-8"),

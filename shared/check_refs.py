@@ -5205,6 +5205,21 @@ def check_grok_sb_chain():
     _vp = rn.split("def vid_prompt", 1)[-1].split("\ndef ", 1)[0]
     if _vp and _vp.find("parts.extend(ids") > _vp.find('c["camera"]'):
         print("❌ 그록 콘티 레인 — 등장 인물표가 동작 문장 뒤에 있다(앞에 와야 대명사가 묶인다)"); rc = 1
+    # ⑦ 값 원장 = 벤더 세 곳이 각자 적고 화면이 합쳐 읽는다(한 곳만 빠져도 금액이 조용히 작아진다)
+    for path, needle, why in (
+            (".github/scripts/sb_cost.py", "def add", "값 원장 정본"),
+            (".github/scripts/grok_sb_video.py", 'sc.add(out_dir, "grok"', "영상 값 적재"),
+            (".github/scripts/sb_sheet.py", 'sc.add(out_dir, "gemini", "sheet"', "시트 값 적재"),
+            (".github/scripts/k_refgen.py", '"gemini", "ref"', "참조 그림 값 적재"),
+            ("viewer/sb.html", "cost.json", "화면이 원장을 읽는다")):
+        if needle not in _t(path):
+            print("❌ 그록 콘티 레인 — {} 가 없다({} · {})".format(why, path, needle)); rc = 1
+    # ⑧ 열쇠 회전 = 러너 밖으로 살려 보내는 배선(없으면 두 번째 발사가 죽는다 · 260811 실사고)
+    if "_persist_secret" not in _t("shared/grok_api.py"):
+        print("❌ 그록 콘티 레인 — 갱신 열쇠 되쓰기(_persist_secret)가 없다 = 한 번만 쏠 수 있다"); rc = 1
+    if "XAI_SECRET_PAT" not in wf:
+        print("❌ 그록 콘티 레인 — 워크플로가 XAI_SECRET_PAT 을 안 넘긴다(되쓰기가 배선만 있고 못 돈다)"); rc = 1
+
     if "MOTION 3계약" not in _t("prompts/sb-make.md"):
         print("❌ 그록 콘티 레인 — sb-make.md 에 MOTION 3계약이 없다(대명사·무인 컷·세트 조각)"); rc = 1
 

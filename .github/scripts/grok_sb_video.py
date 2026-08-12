@@ -37,6 +37,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."
 import thumb_gen as tg          # noqa: E402  gemini_image · r2_upload · R2_ON (k_refgen 과 같은 배관)
 import grok_api as gk           # noqa: E402  구독 자격 통로
 import k_refgen as kr           # noqa: E402  extract_refs = 참조 블록 파서 단일정본(사본 0 · 순서 = ref.json 순서)
+import sb_cost as sc            # noqa: E402  벤더별 값 원장(제미나이 그림값까지 합산 = 운영자 260811)
 
 CUT_MAX = int(os.environ.get("GROK_SB_CUT_MAX", "12"))     # 한 번에 굽는 컷 상한(비용·시간 가드)
 SEC_MIN, SEC_MAX = 1, 15                                   # 공식 허용 범위
@@ -293,6 +294,7 @@ def main():
     for r in items:
         if not r.get("video") and not r.get("fail"):
             r["fail"] = r.get("fail") or "그림 단계에서 막혔다(위 경고 참조)"
+    sc.add(out_dir, "grok", "video", done, usd=spent, est=False)   # 응답 실값 = 계산 아님
     json.dump({"cuts": items, "done": done, "total": len(cuts), "sound": sound,
                "cost_usd": round(spent, 4), "refs": len(refs), "ref_reason": reason},
               open(os.path.join(out_dir, "video.json"), "w", encoding="utf-8"), ensure_ascii=False)

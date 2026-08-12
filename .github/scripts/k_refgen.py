@@ -72,6 +72,13 @@ def main():
             print("::warning::레퍼런스 {}번 생성 실패(비치명 — 슬롯 보존·나머지 계속)".format(i))
     if not any(slots):
         print("::warning::레퍼런스 이미지 전부 생성 실패(비치명)"); return 0
+    # 값 원장(운영자 260811 「제미나이 호출하는것도 값에 넣어야지」) — 실패 슬롯은 안 센다(안 만든 건 안 낸다).
+    #   ⚠ 이 파일은 k·콘티 두 레인 공용이라 원장 파일 하나가 더 생기는 것 말고는 k 레인 무접촉이다.
+    try:
+        import sb_cost as sc   # noqa: PLC0415
+        sc.add(out_dir, "gemini", "ref", sum(1 for s in slots if s))
+    except Exception:  # noqa: BLE001
+        pass
 
     if tg.R2_ON:
         urls = []
