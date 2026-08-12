@@ -137,7 +137,11 @@ function TryStored($tokUrl) {
 # ⚠ 왜 실물까지 굽나(260810 페이블 검토 치명①) = 글 모델이 통과했다고 그림·영상까지 열린 게 아니다.
 #   xAI 가 구독 통로에 자체 허용목록을 걸어 구독이 살아 있어도 거절한 사례가 보고돼 있고,
 #   우리 화면·고정값·프롬프트 정본 전체가 「된다」를 전제로 서 있다. 여기가 첫 관문이다.
-function Media($at) {
+# ⚠ 다만 **매번 굽는 건 낭비다(운영자 260812 「판정기에서 오는 비용 줄일 수 있으면」)** —
+#   260811 확정 단가로 세면 10초 영상 한 편이 약 1.4 달러다(호출 0.03 + 초당 0.14). 열려 있다는
+#   사실은 이미 세 번 확인됐고, 이제 판정기의 일은 대개 **열쇠를 새로 뽑는 것 하나**다.
+#   → 목록 조회(과금 0)는 늘 하고, **실물 굽기는 물어보고 예라고 답할 때만** 한다(기본 = 안 굽는다).
+function Media($at, [bool]$makeReal = $false) {
   foreach ($kind in @("image", "video")) {
     $r = Web "$API_BASE/$kind-generation-models" $null $at "GET"
     if ($r.code -eq 200 -and $r.obj) {
@@ -148,6 +152,13 @@ function Media($at) {
     } else {
       Say "  [$kind] 목록 실패 HTTP $($r.code) - $(Cut $r.text 200)"
     }
+  }
+
+  if (-not $makeReal) {
+    Say ""
+    Say "  실물 굽기는 건너뛴다 = 이번 실행 청구 0 달러."
+    Say "  (그림·영상이 열려 있다는 건 위 목록으로 이미 확인됐다. 실물까지 보고 싶으면 다시 돌려서 y 를 눌러라)"
+    return
   }
 
   Say ""
@@ -226,13 +237,20 @@ if (-not $devUrl -or -not $tokUrl) { Stop-Bad "이 서버는 코드 승인 방�
 Say "  인증 서버 확인 완료"
 
 # (2) 저장된 열쇠 먼저 → 없거나 죽었을 때만 로그인
+# 실물 굽기 여부를 **먼저 묻는다**(운영자 260812 = 판정기 값 줄이기). 기본 = 안 굽는다 = 청구 0.
+#   ⚠ 열쇠를 새로 뽑는 것만이 목적일 때가 대부분이라 기본값을 그쪽에 둔다. 엔터만 쳐도 진행된다.
+$ans = Read-Host "그림.영상을 실제로 만들어 볼까? 만들면 약 1.5 달러가 나간다 (y = 만든다 / 엔터 = 안 만든다)"
+$MakeReal = ($ans -match '^[yY]')
+if (-not $MakeReal) { Say "  실물 굽기 없음 - 이번 실행 청구 0 달러 (열쇠만 새로 뽑는다)" }
+Say ""
+
 $at = TryStored $tokUrl
 if ($at) {
   Say ""
   Say ("-" * 58)
   Say "그림과 영상이 이 자격에 열려 있는지 본다"
   Say ("-" * 58)
-  Media $at
+  Media $at $MakeReal
   Say ""
   Say "  -> 기록 파일을 클로드 세션에 주면 그대로 배선한다."
   Say "  기록 : $LogPath"
@@ -351,7 +369,7 @@ foreach ($m in $order) {
     Say ("-" * 58)
     Say "2단계 - 그림과 영상이 이 자격에 열려 있는지 본다"
     Say ("-" * 58)
-    Media $at
+    Media $at $MakeReal
     Say ""
     Say "  -> 기록 파일을 클로드 세션에 주면 그대로 배선한다."
     SaveLog
