@@ -1,0 +1,35 @@
+name: safemode-ab
+
+# 지침문서 스킵 A/B(운영자 260812 「지침 스킵 비교 실험 해봐 · 품질이 줄어들면 안 하는 게 맞음」) — 같은 기사
+#   카드 본콜 2발(현행 vs --safe-mode · 차이 = 플래그 1개). 산출 /tmp 한정 = cards/ 무접촉 · 커밋 0 ·
+#   비용 ≈ 카드 2세트(구독 쿼터 · 환산 ~$6). 판독 = 잡 로그(lint·coverage·덱 전문·usage) → 정독 대조 후
+#   품질 동등이면 CARD_SAFE_MODE 기본 '1' 승격, 하락이면 기각(스위치 배선 = cardmake.sh 260812).
+on:
+  workflow_dispatch:
+    inputs:
+      stem:
+        description: '대상 스템(queue/<stem>.md) — 비우면 최신 큐 항목'
+        required: false
+        default: ''
+
+permissions:
+  contents: read
+
+concurrency:
+  group: safemode-ab
+  cancel-in-progress: false
+
+jobs:
+  ab:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm install -g @anthropic-ai/claude-code   # 러너엔 claude 미설치(없으면 exit 127)
+      - name: A/B 발사(현행 → 스킵 · 같은 러너 = 공정 대조)
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets[format('CLAUDE_CODE_OAUTH_TOKEN_{0}', vars.ACTIVE_ACCOUNT || 'MUTENO')] }}
+        run: |
+          stem="${{ inputs.stem }}"
+          if [ -z "$stem" ]; then stem="$(ls queue/*.md | sort | tail -1 | sed 's|queue/||; s|\.md$||')"; fi
+          bash shared/safemode_ab.sh "$stem"
