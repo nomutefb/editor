@@ -1,33 +1,32 @@
 # 채상병 순직 3년, 사단장 형량이 오늘 다시 갈린다
 
 **[프롬프트 설계]**
-- 화풍: B 극화 — 지휘책임과 형사법정을 다투는 사건이라 선의 무게로 사실성을 세운다
-- 분위기: 흐린 여름 아침의 눌린 공기, 울지 않고 버티는 정조 — 소리를 낮출수록 커지는 무게
-- 연출 방향: 뉴스를 안 보는 독자도 "군에 자식 보낸 부모"의 자리에서 멈추게 한다 — 억울함의 정체는 *말은 위에서 내려왔는데 몸은 아래가 들어갔다*는 낙차다. 그래서 카메라는 사건을 설명하지 않고 **'말'이 물까지 내려간 경로**만 좇는다: 지도를 찍는 손가락 → 물에 들어선 맨 등 → 법정 난간 위로 떨어진 형량 → 나란히 놓인 다섯 자리. 사물은 언제나 사람과의 관계 속에서만 잡고, 피고인은 내려다보고(High) 유족과 병사는 눈높이에서(Eye) 본다. thumb_dispatch에서 흐린 확산광 톤과 눈높이의 존엄한 거리감만 키노트로 이어받는다.
-- 독자 동선: **발단** 카드1→**전개** 카드2~3→**피크** 카드4~5→**해소** 카드6→**시사점** 카드7 · 훅=카드1 끝(단서형: 그를 물로 보낸 '말'의 존재만 흘림)+카드3 끝(예고형: 재판이 그 지시의 무게를 쟀다 → 카드4가 즉시 회수) · 착지 한 줄 요지 = 오늘 정해지는 건 형량이면서 그 말이 시작된 지점의 좌표다
-- 연속성 앵커: Recurring subject - a Korean man in his 50s with closely cropped graying hair, a square jaw and a heavyset build, in a plain dark jacket. / Recurring place - a Korean courtroom with pale wood panelling and a raised judge's bench.
+- 화풍: B 극화 — 법정·지휘책임·군 구조를 다투는 사건이라 선이 굵고 명암이 깊은 극화가 사실감과 무게를 함께 준다.
+- 분위기: 흐린 아침의 눌러 담은 정적. 울리지 않고 버티는 톤 — 감정을 터뜨리는 대신 침묵과 낙차로 밀어 올린다(#재난참사 절제 · thumb_dispatch의 흐린 확산광·존엄한 시선 계승).
+- 연출 방향: 뉴스를 안 보는 독자도 "지시는 위에서 내려왔는데 물에는 아래가 들어갔다"는 낙차 하나로 멈춘다 — 그래서 모든 컷의 강조점은 **높이 차이**다(계단의 층, 가리키는 손끝과 그 끝을 보는 눈, 어깨선이 층지어 늘어선 다섯 사람). 사건을 설명하지 말고 계급이 만드는 층을 보이게 해서, 마지막에 "그 말이 시작된 칸이 어디냐"가 그림으로 먼저 도착하게 한다.
+- 독자 동선: 제시 카드1 → **발단** 카드2 → **전개** 카드3 → **피크** 카드4 → **해소** 카드5 → **시사점** 카드6 · 훅=카드1 끝(예고형: "8월 7일 항소심에서 다시 갈린다")+카드3 끝(단서형: 가슴 장화)+카드5 끝(자연 훅: 재구형) · 착지 한 줄 요지 = 오늘 정해지는 건 형량 숫자가 아니라 그 말이 시작된 칸이다.
+- 연속성 앵커: Recurring subject — a Korean man in his 50s, close-cropped graying hair, a heavy square jaw and a broad stocky build (카드3·4·5) / 반복 장소 = the same granite courthouse stairway and plaza (카드1·6)
 
 ### [카드 1]
 **텍스트**
 ```text
-2023년 7월 19일 경북 예천이었다
-수해 현장에 해병대원들이 들어갔다
-*채수근 상병에겐 구명조끼도 없었다*
-그를 물로 보낸 말이 어딘가 있었다
+*사단장 징역 3년, 대대장 금고 10개월*
+해병대 채수근 상병이 숨진 사건에
+1심이 매긴 계급별 형량이다
+8월 7일 항소심에서 다시 갈린다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the bare shoulders of a young man with no life vest, seen from behind as he takes the first step into the brown current. Three young Korean men in olive fatigues wade waist deep into a swollen river, arms held out for balance, all of them facing away toward the far bank at the right of the frame. A coiled rescue rope lies unused on the gravel bank in the near foreground, closer to the viewer than any of them. The place is a flooded rural riverbank in Korea after days of heavy summer rain, nose room on the right, gaze directed toward the right edge.
-Camera: wide shot from eye-level, shot on 35mm lens
+Scene: Emotional focal point: the widening empty gap on the stone steps between the cluster of figures near the top and the two people left standing at the bottom. A dozen people climb a broad granite courthouse stairway in the early morning, some in dark suits and some in plain military dress uniform without insignia, spread across different step levels with their backs to us, every one of them looking up toward the entrance. Two family members stand motionless at the foot of the steps holding a cloth-wrapped photo frame, the only figures not moving. The place is a large Korean courthouse plaza, wet granite underfoot.
+Camera: wide establishing shot from a low angle, shot on a 24mm wide lens
 Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the unused rescue rope), muted daylight contrast
-Korean setting by default: Korean people, Korean rural riverbank conventions, no legible signage.
-Text handling: no readable writing anywhere in the frame; any marking is cropped or angled away so no character resolves.
+Accent: monochrome desaturated base with a single color accent (memorial amber on the wrapped photo frame, the story's symbolic color), muted daylight contrast
+Text handling: no signage, no nameplates, no document text; any lettering is cropped out of frame or lost in shadow.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the muddy river surface) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the granite stairway) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -36,30 +35,29 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-예천 수해현장 해병대 수색
+서울고등법원 청사 계단
 ```
 
 ### [카드 2]
 **텍스트**
 ```text
-특검팀이 짚은 지시는 이런 것이었다
-물가로 내려가 찔러보는 방식
-가슴까지 오는 장화를 확보하라
-*그렇게 수색은 물속으로 들어갔다*
+표의 시작은 3년 전 여름이다
+2023년 7월 19일 경북 예천 수해 현장
+실종자를 찾던 채수근 상병은
+*구명조끼도 없이 물에 들어가 숨졌다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: one index finger stabbing down onto the water line of a spread field map. Recurring subject - a Korean man in his 50s with closely cropped graying hair, a square jaw and a heavyset build, in a plain dark jacket. He leans over a folding table with the map spread flat, driving that finger onto it, while two younger officers stand across the table with their eyes locked on his hand, not on his face. A pair of chest-high waders sits folded on the table edge within his reach. The place is a canvas field tent at a flood control point in Korea.
-Camera: medium shot from a high angle, shot on 50mm standard lens
-Lighting/mood: cold blue dim interior light, heavy and suffocating, faint trembling tension
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the folded chest-high waders), film-noir low-key lighting, deep shadows
-Korean setting by default: Korean people, Korean field equipment shapes, no unit insignia and no organization emblem.
-Text handling: the map is rendered as contour lines and shapes only, angled away from the lens so no character resolves; no readable writing anywhere.
+Scene: Emotional focal point: the bare back and shoulders of a young soldier with no life vest strap crossing them. Seen from high above, he wades waist-deep into a swollen brown river with both arms spread just over the surface, probing for a missing person, while two other soldiers search farther out along the same current, all of them facing away toward the far side. Torn sandbags and a collapsed embankment edge the flooded riverside of a rural Korean county after heavy rain.
+Camera: extreme long shot from a high overhead angle, shot on a 20mm wide lens
+Lighting/mood: cold blue pre-dawn tone, desolate stillness, rain-heavy overcast air
+Accent: monochrome desaturated base with a single color accent (memorial amber in a distant rescue lamp, the story's symbolic color), muted daylight contrast
+Text handling: no signage, no nameplates, no document text; any lettering is cropped out of frame or lost in shadow.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the folding table surface) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the flooded brown river water) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -68,30 +66,29 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-해병대 수해 수색 현장 지휘
+예천 수해 실종자 수색
 ```
 
 ### [카드 3]
 **텍스트**
 ```text
-그날 작전통제권은 육군에 있었다
-지휘를 넘기라는 단편명령이 있었다
-*그런데도 사단장은 현장을 지휘했다*
-재판은 그 지시의 무게를 쟀다
+물에 들어가라는 말은 누가 했나
+특검은 임성근 전 1사단장을 지목했다
+바둑판식으로 훑고 물가를 찔러보라,
+*가슴까지 오는 장화를 확보하라고 했다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: his jaw clenched tight, muscle flexing at the jawline, as he keeps a radio handset pressed to his mouth. Recurring subject - a Korean man in his 50s with closely cropped graying hair, a square jaw and a heavyset build, in a plain dark jacket. He stands at the open door of a command vehicle speaking into the handset, his eyes fixed past the right edge of the frame toward the river, while a single folded order sheet lies face down and untouched on the seat behind him. An army officer waits one step back with a hand half raised, unanswered. The place is a riverside staging area in Korea, nose room on the right, gaze directed toward the right edge.
-Camera: medium close-up from a three-quarter angle, shot on 85mm portrait lens
-Lighting/mood: flat cold even surveillance light, no shadow no warmth, detached and watchful
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the coiled radio handset cable), film-noir low-key lighting, deep shadows
-Korean setting by default: Korean people, Korean vehicle and equipment shapes, no unit insignia and no organization emblem.
-Text handling: the order sheet lies face down and the vehicle markings are cropped out of frame, so no character resolves anywhere.
+Scene: Emotional focal point: the commander's extended index finger drawing an invisible grid line in the air above the water. Recurring subject — a Korean man in his 50s, close-cropped graying hair, a heavy square jaw and a broad stocky build, here in a plain field uniform without insignia, stands on the embankment and points down at the waterline. Three younger soldiers follow his fingertip with their eyes, and a pair of chest-high waders lies unopened on the dirt beside his boots. The place is the packed dirt embankment of a flooded river in rural Korea.
+Camera: medium shot from a low angle, shot on a 35mm lens
+Lighting/mood: single hard side-light cutting across the subject, deep chiaroscuro shadows, tense atmosphere
+Accent: monochrome desaturated base with a single color accent (memorial amber on the chest waders, the story's symbolic color), film-noir low-key lighting, deep shadows
+Text handling: no signage, no nameplates, no document text; any lettering is cropped out of frame or lost in shadow.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the gravel ground) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the packed dirt embankment) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -100,29 +97,29 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-임성근 전 해병대 1사단장
+해병대 수중수색 가슴장화
 ```
 
 ### [카드 4]
 **텍스트**
 ```text
-*올해 5월 8일 1심은 징역 3년*
-임성근 전 사단장을 법정구속했다
-책임이 가장 크다는 판단이었다
+1심은 그 지시들을 유죄로 봤다
+5월 8일 징역 3년, 그는 법정구속됐다
+*책임이 가장 큰 건 사단장이라고 했다*
+유족에게 하급자 탓을 한 문자도 짚었다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: his eyes cast downward, the muscle flexing at his jawline, a tightly controlled face holding still as the sentence lands. Recurring subject - a Korean man in his 50s with closely cropped graying hair, a square jaw and a heavyset build, in a plain dark jacket. His face fills most of the frame as he stands at the defendant's rail, chin dropping a few degrees, hands out of frame below. Behind him the room falls away into darkness with only the pale edge of the raised bench catching the light. Recurring place - a Korean courtroom with pale wood panelling and a raised judge's bench.
-Camera: tight close-up from a high angle, shot on 85mm portrait lens
-Lighting/mood: harsh single overhead light pooling on him, deep surrounding black, oppressive interrogation
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the thin metal trim of the rail below him), film-noir low-key lighting, deep shadows
-Korean setting by default: Korean people, Korean courtroom conventions, no institutional emblem and no nameplate.
-Text handling: no readable writing anywhere; any paper is angled away or cropped so no character resolves.
+Scene: Emotional focal point: his jaw clenched hard and a single flickering blink as the sentence lands, the eyes fixed straight ahead. Recurring subject — a Korean man in his 50s, close-cropped graying hair, a heavy square jaw and a broad stocky build, here in a dark suit without a tie, stands alone at the defendant's position with his hands folded in front and the tendons of his neck drawn taut. Nothing else is in frame but the dark wood panelling of a Korean courtroom directly behind him.
+Camera: tight close-up from a high angle, shot on an 85mm portrait lens
+Lighting/mood: harsh single overhead light pooling on him, deep surrounding black, oppressive interrogation feel
+Accent: monochrome desaturated base with a single color accent (memorial amber in the far edge light, the story's symbolic color), film-noir low-key lighting, deep shadows
+Text handling: no signage, no nameplates, no document text; any lettering is cropped out of frame or lost in shadow.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the dark courtroom wall behind him) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the dark wood courtroom panelling) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -131,30 +128,29 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-임성근 1심 선고 법정구속
+임성근 1심 선고 법정
 ```
 
 ### [카드 5]
 **텍스트**
 ```text
-1심은 문자메시지 하나도 짚었다
-그가 유족에게 보낸 것이었다
-*책임을 하급자에게 돌리는 내용이었다*
-재판부는 그 점을 함께 질책했다
+법정에 선 건 사단장만이 아니다
+여단장 등 4명도 금고형을 받았고
+5명의 항소심이 8월 7일 함께 나온다
+*특검은 다시 징역 5년을 구형했다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a mother's thumb stopped dead on a phone screen she cannot put down, her eyes glistening with welling tears, not yet falling. A Korean woman in her fifties in a dark blouse sits alone at a low wooden table, holding the phone with both hands, the screen tilted away from the lens so only a hard glare crosses it. A folded uniform cap rests on the table just within her reach, and she looks at the phone rather than at it. The place is a small Korean living room late at night.
-Camera: close-up from eye-level, shot on 85mm portrait lens
-Lighting/mood: single pool of hard light isolating the figure in surrounding blackness, claustrophobic loneliness
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 in the glare across the phone screen), film-noir low-key lighting, deep shadows
-Korean setting by default: Korean people, Korean home interior conventions, no brand mark on the phone.
-Text handling: the phone screen is turned to a hard specular glare and the cap has no lettering, so no character resolves anywhere.
+Scene: Emotional focal point: the uneven line of five men's shoulders, each one standing a head lower than the man before him. Recurring subject — a Korean man in his 50s, close-cropped graying hair, a heavy square jaw and a broad stocky build, in a dark suit, stands first in the row and closest to the bench. Four other Korean men in dark suits stand behind him in a staggered single file, each slightly lower and further back, all facing forward and none looking at each other. The place is a plain Korean courtroom with a wooden bench rail running across in front of them.
+Camera: wide group shot from eye level, shot on a 50mm standard lens
+Lighting/mood: flat sterile institutional fluorescent light, cold even greenish-white, emotionless
+Accent: monochrome desaturated base with a single color accent (memorial amber along the bench rail, the story's symbolic color), muted daylight contrast
+Text handling: no signage, no nameplates, no document text; any lettering is cropped out of frame or lost in shadow.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the low wooden table surface) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the plain courtroom wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -163,62 +159,29 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-채수근 상병 유족 추모
+채상병 지휘라인 항소심
 ```
 
 ### [카드 6]
 **텍스트**
 ```text
-*1심의 형은 다섯 명 모두에게 갔다*
-여단장·대대장은 금고 1년 6개월
-나머지 둘은 10개월과 8개월이었다
-특검은 5년을 구형했고 오늘 선고다
+실제로 물에 들어간 건 일병 계급이었고
+그 말은 여러 계급을 거쳐 내려왔다
+1심은 형량표 맨 위에 사단장을 놓았다
+*오늘 정해지는 건 그 말이 시작된 칸이다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: five sets of hands resting along the same bench, each pair gripping a little tighter than the one before it. Five Korean men in dark suits sit shoulder to shoulder in a single row at the defendants' bench, all facing the same way toward the judge's bench off frame, the man at the head of the row sitting straightest and the ones behind him lower. Recurring subject - a Korean man in his 50s with closely cropped graying hair, a square jaw and a heavyset build, in a plain dark jacket, seated at the head of that row. A court officer stands at the far end with hands folded. Recurring place - a Korean courtroom with pale wood panelling and a raised judge's bench.
-Camera: group shot from a slightly high angle, shot on 35mm lens
-Lighting/mood: flat sterile clinical fluorescent light, cold even greenish-white, emotionless institutional
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 along the thin trim running the length of the bench), muted daylight contrast
-Korean setting by default: Korean people, Korean courtroom conventions, no institutional emblem and no nameplate.
-Text handling: no readable writing anywhere; papers on the bench are angled away and cropped so no character resolves.
-Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
-MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the long wooden defendants' bench surface) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
-- no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
-- no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
-- no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
-- no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
-- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
-```
-**검색어**
-```text
-박상현 전 7여단장 재판
-```
-
-### [카드 7]
-**텍스트**
-```text
-물에 들어가라는 말은 위에서 왔다
-실제로 들어간 사람은 일병이었다
-오늘 서울고법이 정하는 건 형량이고
-*그 말이 시작된 지점의 좌표다*
-```
-**이미지 프롬프트**
-```text
-korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: her eyes looking straight into the lens, dry now, steady, refusing to look away. A Korean woman in her fifties stands at the center of a courthouse plaza holding a framed portrait against her chest, the portrait turned inward so only its plain back and a dark ribbon are visible. Behind her the wide granite steps of the courthouse rise empty in the early morning, and she faces the camera front-on with both arms wrapped around the frame. The place is the plaza in front of a Korean courthouse.
-Camera: medium shot from eye-level, front-on shot, shot on 50mm standard lens
+Scene: Emotional focal point: her eyes glistening with welling tears that have not yet fallen, looking straight out at the viewer. A Korean woman in her late fifties with her hair tied back, in a plain black jacket, holds a framed portrait against her chest with both hands at the foot of the same granite courthouse stairway; the photograph inside the frame is tilted away from the light so no facial detail is legible. Behind and above her, a line of figures in dark suits and plain uniform without insignia climb the steps with their backs turned. The place is a Korean courthouse plaza in the early morning.
+Camera: medium shot from eye level, front-on, shot on a 40mm lens
 Lighting/mood: warm soft morning light, gentle and quiet, faint melancholy
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 along the thin edge of the portrait frame), muted daylight contrast
-Korean setting by default: Korean people, Korean public building conventions, no institutional emblem and no signage lettering.
-Text handling: the portrait is turned inward and the building carries no legible sign, so no character resolves anywhere.
+Accent: monochrome desaturated base with a single color accent (memorial amber on the portrait frame, the story's symbolic color), muted daylight contrast
+Text handling: no signage, no nameplates, no document text; any lettering is cropped out of frame or lost in shadow.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the granite plaza pavement and its steps) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the granite courthouse plaza and stairway) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -227,5 +190,5 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-서울고법 채상병 항소심
+채수근 상병 영정 유족
 ```
