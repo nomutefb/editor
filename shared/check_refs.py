@@ -5311,7 +5311,7 @@ def check_grok_sb_chain():
                         ("def vid_prompt", "영상 프롬프트 조립"),
                         ("def strip_audio", "소리 끄기(산출 트랙 제거)"),
                         ("strip_audio(local)", "소리 끄기 실호출"),
-                        ("gk.fresh_token", "자격 갱신·저장(회전 대응)"),
+                        ("LANE.fresh_token", "자격 갱신·저장(회전 대응 · 통로 계약 경유)"),
                         ("refs=payload or None", "참조 그림 실어 보내기(컷 수와 무관)"),
                         ("def refs_of", "참조 목록 파서"),
                         ("seconds=c[\"sec\"]", "컷 길이 = 콘티 값")):
@@ -5349,7 +5349,7 @@ def check_grok_sb_chain():
     # ⑦ 값 원장 = 벤더 세 곳이 각자 적고 화면이 합쳐 읽는다(한 곳만 빠져도 금액이 조용히 작아진다)
     for path, needle, why in (
             (".github/scripts/sb_cost.py", "def add", "값 원장 정본"),
-            (".github/scripts/grok_sb_video.py", 'sc.add(out_dir, "grok"', "영상 값 적재"),
+            (".github/scripts/grok_sb_video.py", "sc.add(out_dir, LANE.NAME", "영상 값 적재(통로 이름)"),
             (".github/scripts/sb_sheet.py", 'sc.add(out_dir, "gemini", "sheet"', "시트 값 적재"),
             (".github/scripts/k_refgen.py", '"gemini", "ref"', "참조 그림 값 적재"),
             ("viewer/sb.html", "cost.json", "화면이 원장을 읽는다"),
@@ -5372,9 +5372,7 @@ def check_grok_sb_chain():
     #      (20초가 나오면 「짧게 나왔나 보다」로 보인다 = 조용히 나빠지는 축).
     #   ⚠ 판정은 **여는 괄호까지** 본다 — bare substring 이면 `def ref_send_OFF` 같은 개명이 그대로
     #      통과한다(첫 킬테스트가 그 구멍을 자기적발했다 · `check_stt_engine_chain` 이 겪은 것과 같은 함정).
-    for needle, why in (("def ref_send(", "참조 바이트 적재(남의 다운로드 실패 축 소멸)"),
-                        ("REF_EMBED =", "바이트 전송 롤백 레버"),
-                        ("def _retryable(", "재시도 가능 축 판정(검열·자격은 다시 쏴도 같은 벽)"),
+    for needle, why in (("REF_EMBED =", "바이트 전송 롤백 레버"),
                         ("RETRY_ONCE =", "실패한 그 편만 1회 재시도"),
                         ("if attempt == 1 and RETRY_ONCE", "재시도 실분기(상수만 있고 안 도는 것 차단)"),
                         ("def notify(", "재시도 초과 실패 = 웹앱 알림"),
@@ -5389,6 +5387,33 @@ def check_grok_sb_chain():
         print("❌ 그록 콘티 레인 — sb-make.yml 이 messages/ 를 체크아웃·커밋 안 한다(알림이 러너와 함께 사라진다)"); rc = 1
     if "sb-video-fail-" not in _t("viewer/index.html"):
         print("❌ 그록 콘티 레인 — 뷰어 _rptSrc 에 영상 실패 알림 출처 분기가 없다(리포트가 거짓 상류를 준다)"); rc = 1
+    # ⑩ 통로 계약(설계 M3 §2·§3 · 260812) — 러너는 벤더를 직접 부르지 않는다.
+    #   ⚠ 왜 하드인가 = 벤더 결합이 직접 5지점 + 간접 10곳으로 흩어져 있던 상태로 두 번째 통로를
+    #     붙이면 **한 곳만 빠져도 조용히 다른 동작**이 된다(이 레포 최빈 미러 드리프트 축).
+    ln_t, lg_t = _t("shared/lane.py"), _t("shared/lane_grok.py")
+    if "class LaneError" not in ln_t or "def pick(" not in ln_t:
+        print("❌ 그록 콘티 레인 — shared/lane.py 계약 골격(LaneError·pick)이 없다"); rc = 1
+    for k in ("NAME", "SHOT_SEC", "SEC_MAX", "RATIOS", "REF_CAP_TECH", "EMBED_MAX", "FAIL_COSTS", "COST_KIND"):
+        if k + " =" not in lg_t:
+            print("❌ 그록 콘티 레인 — 통로 상수 {} 가 lane_grok.py 에 없다(러너가 벤더 값을 직접 들게 된다)".format(k)); rc = 1
+    for f in ("fresh_token", "refs_payload", "start", "wait", "fetch", "classify",
+              "ref_lock_clause", "sound_clause", "estimate", "too_big"):
+        if "def {}(".format(f) not in lg_t:
+            print("❌ 그록 콘티 레인 — 통로 함수 {}() 가 lane_grok.py 에 없다".format(f)); rc = 1
+    # 러너가 벤더를 **직접** 부르면 계약이 뚫린 것이다(주석 줄 제외 = 사고 기록의 거처)
+    _vend = [l for l in rn.splitlines()
+             if ("gk." in l or "grok_api" in l) and not l.strip().startswith("#")]
+    if _vend:
+        print("❌ 그록 콘티 레인 — 러너가 벤더를 직접 부른다(통로 계약 우회 · %d줄):" % len(_vend)); rc = 1
+        for l in _vend[:3]:
+            print("   ·", l.strip()[:90])
+    # 러너 분기는 예외 **3속성**으로만 갈린다(벤더 필드 직독 = 통로 갈아끼우면 조용히 무력화)
+    for bad, why in (("e.tier_blocked", "자격 축을 벤더 필드로 직독"),
+                     ("e.dead_auth", "자격 축을 벤더 필드로 직독"),
+                     ("_retryable(e)", "재시도 술어를 러너가 들고 있다")):
+        if bad in rn:
+            print("❌ 그록 콘티 레인 — 러너가 {}(통로 무관 3속성으로 갈려야 한다 · {})".format(why, bad)); rc = 1
+
     # ⚠ 비율 = 콘티가 선언하는데 러너가 안 읽던 축(260812 발견) — 참조 그림은 세로로 굽고
     #   영상만 가로로 나가던 상태였다. 쇼츠(세로)가 산출 규격이면 그대로 사고다.
     for needle, why in (("def ratio_of(", "콘티 선언 비율 판독"),

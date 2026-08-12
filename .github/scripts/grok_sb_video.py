@@ -37,23 +37,28 @@ import time
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "shared"))
 import thumb_gen as tg          # noqa: E402  gemini_image · r2_upload · R2_ON (k_refgen 과 같은 배관)
-import grok_api as gk           # noqa: E402  구독 자격 통로
+import lane as ln               # noqa: E402  촬영 통로 **계약** 정본(설계 M3 §2·§3)
 import k_refgen as kr           # noqa: E402  extract_refs = 참조 블록 파서 단일정본(사본 0 · 순서 = ref.json 순서)
 import sb_cost as sc            # noqa: E402  벤더별 값 원장(제미나이 그림값까지 합산 = 운영자 260811)
 
+# ⚠ 통로(촬영 레인) = 이 러너는 벤더를 직접 부르지 않는다. 계약만 부르고 구현은 통로 파일이 채운다
+#   (설계 M3 · 페이블 3인 검증 = 벤더 결합이 직접 5지점 + 간접 10곳으로 흩어져 있어 두 번째 통로를
+#    붙이는 순간 한 곳만 빠져도 조용히 다른 동작이 되는 상태였다).
+LANE = ln.pick()                                           # SB_LANE env · 기본 grok
+
 CUT_MAX = int(os.environ.get("GROK_SB_CUT_MAX", "12"))     # 한 번에 굽는 컷 상한(비용·시간 가드)
-SEC_MIN, SEC_MAX = 1, 15                                   # 엔진 허용 범위(260812 실측 = 15초까지 실제로 나온다)
+SEC_MAX = LANE.SEC_MAX                                     # 엔진 허용 상한(통로 값 · SHOT_SEC 과 다른 축)
 # ⚠ **컷 1개 = 10초 고정**(운영자 260812 「고정임 더 짧을수도 없고 그냥 고정」 ·
 #   「보드를 항상 10초를 기준으로 구성해서 10초짜리를 여러개 만드는거로」).
 #   구판은 콘티가 적은 `0~2s` 를 그대로 썼는데, 그 컷 수 규칙이 **종이 콘티용**이라
 #   15초를 12칸으로 나눴고 결과가 1.2초 조각 열두 개였다(260811 실측). 칸 수는 종이에선
 #   정상이지만 칸마다 영상을 뽑는 순간 호흡이 통째로 끊긴다 → 길이 축을 코드가 고정한다.
 #   총 길이 = 10 × 컷 수. 콘티는 컷을 10초 단위로만 나눈다(prompts/sb-make.md 동기).
-CUT_SEC = int(os.environ.get("GROK_CUT_SEC", "10"))         # 롤백 레버 = env 1줄
+CUT_SEC = LANE.SHOT_SEC                                    # 한 발 단위 초(통로 값)
 SEC_FALLBACK = CUT_SEC                                     # 콘티가 시각을 안 적었을 때도 같은 값
 
 # 참조 그림 상한(운영자 260811 "3개 초과해서 만들면 실패고, 2개가 베스트야. 3개 뽑을 때는 이유가 있어야 해").
-# ⚠ 그록 API 자체는 7장까지 받지만(gk.REF_MAX) 그건 기술 한도이지 우리 계약이 아니다.
+# ⚠ 통로 기술 한도(LANE.REF_CAP_TECH · 그록 7)는 우리 계약이 아니다.
 #   그림 1장마다 제미나이 값이 나가고, 참조가 늘수록 「이 얼굴을 지켜라」의 힘이 오히려 흩어진다.
 #   2장 = 인물 1 + 장소 1 이 기본이고, 3장은 **등장인물이 둘일 때만** 정당하다.
 REF_CAP, REF_BEST = 3, 2
@@ -69,8 +74,7 @@ REF_CAP, REF_BEST = 3, 2
 #   (참조 모드 산출이 720p 상한이라 긴 변 1280 이면 충분 · 품질은 레포 계약 q90).
 # ⚠ 몸집 축으로 거절당하면(413·payload) 재시도가 **주소 방식으로 갈아타** 종전 동작으로 착지한다.
 REF_EMBED = (os.environ.get("GROK_REF_EMBED", "1") != "0")          # 롤백 레버 = env 1줄
-REF_EMBED_MAX = int(os.environ.get("GROK_REF_EMBED_MAX", "900000"))  # 이 바이트 초과분만 줄인다
-REF_EMBED_SIDE = 1280                                               # 줄일 때 긴 변(참조 모드 상한 720p 대비 여유)
+#   ⚠ 몸집 상한·축소 규격은 **통로 값**이다(lane_grok.EMBED_MAX·EMBED_SIDE) — 벤더마다 다르다.
 
 # 실패한 **그 편만** 1회 자동 재시도(운영자 260812 「1회는 실패한 부분만 다시 쏘는 배선을 하고,
 # 초과해서 실패 시 사용자에게 알리게」). 구판은 재시도 0이었다(260811 판단) — 그 판단의 전제는
@@ -193,8 +197,8 @@ def ratio_of(md):
     if not m:
         return None
     r = m.group(1).replace(" ", "")
-    if r not in gk.VID_RATIOS:
-        print("::warning::콘티 비율 {} 는 통로가 안 받는다(허용 {}) — 기본값으로 간다".format(r, gk.VID_RATIOS))
+    if r not in LANE.RATIOS:
+        print("::warning::콘티 비율 {} 는 통로가 안 받는다(허용 {}) — 기본값으로 간다".format(r, LANE.RATIOS))
         return None
     return r
 
@@ -278,60 +282,6 @@ def ref_ids(blocks):
     return outs
 
 
-def ref_one(url):
-    """참조 그림 1장을 **바이트로** 손에 쥔다(필요하면 줄여서). 실패 = 예외 → 부르는 쪽이 주소로 내려앉는다."""
-    # ⚠ 받아오는 손은 `thumb_gen.http_image` 정본을 쓴다(새 배관 0) — 맨 urllib 은 파이썬 기본
-    #   서명으로 나가서 우리 저장소 앞단이 **403(error code 1010)** 으로 막는다(260812 실측).
-    #   그걸 모르고 넘어가면 바이트 적재가 매번 조용히 실패해 주소 방식으로 되돌아간다 = 봉합 무효.
-    raw, _ct, _ext = tg.http_image(url)
-    if not raw:
-        raise RuntimeError("참조 그림을 못 받았다: " + url[:80])
-    if len(raw) <= REF_EMBED_MAX:
-        return raw
-    from PIL import Image                       # noqa: PLC0415  워크플로가 이 스텝에서 깐다
-    im = Image.open(io.BytesIO(raw))
-    im = im.convert("RGB")
-    if max(im.size) > REF_EMBED_SIDE:
-        r = REF_EMBED_SIDE / float(max(im.size))
-        im = im.resize((max(1, int(im.width * r)), max(1, int(im.height * r))), Image.LANCZOS)
-    buf = io.BytesIO()
-    im.save(buf, "JPEG", quality=90, subsampling=0, optimize=True)   # CONTRACT: check_image_format — q90 단일
-    print("  · 참조 축소 {}KB → {}KB({}×{})".format(len(raw) // 1024, buf.tell() // 1024, im.width, im.height))
-    return buf.getvalue()
-
-
-def ref_send(urls, embed=True):
-    """발사에 실을 참조 = **바이트 우선**, 못 가져오면 그 장만 주소(종전 동작 = 무회귀).
-
-    반환 = (보낼 것들, 방식 이름). 방식은 산출 원장에 남긴다 — 다음 세션이 「이번 판은 어느
-    방식으로 쐈나」를 추측 없이 읽어야 실패 축을 가른다(관측이 지워지면 추측이 메운다).
-    """
-    if not embed:
-        return list(urls), "주소"
-    out, fell = [], 0
-    for u in urls:
-        try:
-            out.append(ref_one(u))
-        except Exception as e:                  # noqa: BLE001
-            print("::warning::참조 바이트 적재 실패 — 그 장만 주소로 보낸다: {}".format(str(e)[:140]))
-            out.append(u)
-            fell += 1
-    return out, ("바이트" if not fell else "섞임({}장 주소)".format(fell))
-
-
-def _too_big(e):
-    """몸집 축으로 거절당했나 — 이때만 주소 방식으로 갈아탄다(그 외엔 같은 방식으로 다시 쏜다)."""
-    b = str(getattr(e, "body", "")).lower()
-    return getattr(e, "code", 0) == 413 or "too large" in b or "payload" in b or "request entity" in b
-
-
-def _retryable(e):
-    """다시 쏴서 풀릴 축인가 — 검열·자격·통로는 몇 번을 쏴도 같은 벽이라 돈·시간만 태운다."""
-    if getattr(e, "where", "") == "video-moderated" or "moderat" in str(getattr(e, "body", "")).lower():
-        return False
-    return not (getattr(e, "tier_blocked", False) or getattr(e, "dead_auth", False))
-
-
 def vid_prompt(shot, sound=True, nrefs=0, ids=None):
     """영상 **한 편**(10초)의 프롬프트 — 그 안의 컷을 시간순으로 이어 쓴다.
 
@@ -347,8 +297,7 @@ def vid_prompt(shot, sound=True, nrefs=0, ids=None):
     cuts = shot.get("cuts") or [shot]
     if nrefs:
         parts.extend(ids or [])
-        tags = ", ".join("<IMAGE_{}>".format(i) for i in range(nrefs))
-        parts.append("Keep the people, wardrobe, and setting identical to {}.".format(tags))
+        parts.append(LANE.ref_lock_clause(nrefs))   # 참조 잠금 절 = 통로 문법(벤더마다 다르다)
 
     multi, t = len(cuts) > 1, 0
     for c in cuts:
@@ -363,39 +312,11 @@ def vid_prompt(shot, sound=True, nrefs=0, ids=None):
             parts.append("{}-{}s: {}".format(t, t + c["sec"], body) if multi else body)
         t += c["sec"]
 
-    if sound:
-        # 컷이 대사를 적었어도 **말소리는 넣지 않는다** — 이미지→영상은 립싱크가 구조적으로
-        # 불리하고(§4-3), 실존 인물 축 위험도 여기서 함께 차단된다(§7-3 ①).
-        # 감독이 컷마다 적은 SFX 를 모아 한 줄로 (없으면 뭉뚱그린 폴백).
-        sfx = [c.get("sfx", "").strip().rstrip(". ") for c in cuts if (c.get("sfx") or "").strip()]
-        parts.append("Sound: {}. No music.".format("; ".join(sfx)) if sfx
-                     else "Sound: ambient room tone and the natural sounds of the action, no music.")
-    else:
-        # 끄기 = 4수법을 순서대로(마지막 부정문만 단독으로 쓰면 역효과 · §4-3)
-        parts.append("Lips still and sealed, calm neutral expression.")
-        parts.append("The only sounds are faint ambient room tone. No spoken words.")
+    # 소리 절 = 통로 문법. 끄기의 확실한 수단은 프롬프트가 아니라 산출 트랙 제거이고,
+    # 그 판단(무엇을 문장으로 쓰고 무엇을 후처리로 막나)이 벤더마다 다르다.
+    sfx = [c.get("sfx", "").strip().rstrip(". ") for c in cuts if (c.get("sfx") or "").strip()]
+    parts.extend(LANE.sound_clause(sound, sfx))
     return " ".join(parts)
-
-
-def _why(e):
-    """실패 사유를 **사람 말로** 옮긴다 — 코드만 남기면 운영자가 다음 수를 못 정한다.
-
-    ⚠ 이 레포가 세 번 봉합한 병(사유 0자 경보)과 같은 축이라, 분류를 못 해도 원문을 싣는다.
-    """
-    b = str(e.body)
-    if e.where == "video-moderated" or "moderat" in b.lower():
-        return "검열에 걸렸다 — 같은 문장으로 다시 쏴도 안 풀린다. 컷 내용을 바꿔야 한다(사람·폭력·실사 어휘 축)"
-    if e.tier_blocked:
-        return "구독은 살아 있는데 xAI 가 영상 통로를 이 계정에 안 열어줬다(403) — 재시도 무의미"
-    if e.dead_auth:
-        return "자격이 죽었다 — 판정기를 다시 돌려 열쇠를 새로 받아야 한다"
-    if e.code == 429:
-        return "한도에 걸렸다 — 잠시 뒤 손으로 다시 시도하면 된다"
-    if e.where == "video-timeout":
-        return "15분 안에 안 끝났다 — 서버가 밀린 상태다. 손으로 다시 시도"
-    if e.code in (500, 502, 503, 504) or e.code == 0:
-        return "서버·회선 일시 장애({}) — 손으로 다시 시도하면 대개 풀린다".format(e.code or "연결 실패")
-    return "HTTP {} · {}".format(e.code, b[:160])
 
 
 def strip_audio(path):
@@ -513,10 +434,10 @@ def main():
         print("::warning::GEMINI_API_KEY 미등록 — 컷 그림을 못 굽는다(영상 생략)")
         return 0
     try:
-        token = gk.fresh_token()
-    except gk.GrokError as e:
+        token = LANE.fresh_token()
+    except ln.LaneError as e:
         # 자격 실패는 여기서 끝낸다 — 사유를 원문 그대로 남긴다(추적 가능성 = 이 레포 계약).
-        print("::warning::그록 자격 실패({}) — 영상 생략".format(e))
+        print("::warning::촬영 자격 실패({}) — 영상 생략".format(e.why))
         return 0
 
     slots = ref_slots(md, out_dir)
@@ -555,21 +476,20 @@ def main():
         # ⚠ 발사 1회 + **실패한 그 편만** 1회 재시도(운영자 260812). 성공한 편은 손대지 않는다.
         for attempt in (1, 2):
             try:
-                payload, mode = ref_send([s["url"] for s in use], embed) if use else ([], "없음")
+                payload, mode = LANE.refs_payload([s["url"] for s in use], embed) if use else ([], "없음")
                 rec["ref_mode"] = mode
-                rid = gk.start_video(vid_prompt(c, sound, len(use), ids), token=token,
-                                     refs=payload or None, seconds=c["sec"],
-                                     **({"ratio": ratio} if ratio else {}))
-                v = gk.wait_video(rid, token=token)
+                rid = LANE.start(vid_prompt(c, sound, len(use), ids), token=token,
+                                 refs=payload or None, seconds=c["sec"], ratio=ratio)
+                v = LANE.wait(rid, token=token)
                 # ⚠ 컷별 값을 적는다(운영자 260811 「최적의 순간을 찾는다」) — 합계만 적혀 있으면
                 #   「호출 1번에 고정인가 · 초당인가」를 영영 못 가른다(첫 판 실측 = 1초 6개 + 2초 6개
                 #   합 $2.88 이 고정 $0.24 와 초당 $0.16 양쪽에 다 맞아떨어져 판별 불가였다).
                 #   컷 길이가 서로 다른 판에서 컷별 값을 나란히 놓으면 그 자리에서 답이 나온다.
-                one = float(v.get("cost_usd") or 0)
+                one = float(v.get("cost") or 0)
                 rec["cost"] = round(one, 4)
                 rec["got_sec"] = v.get("duration")   # 서버가 실제로 만든 길이(요청 길이와 대조)
                 spent += one
-                raw = gk.fetch(v["url"])
+                raw = LANE.fetch(v["url"])
                 local = os.path.join(out_dir, "shot{:02d}.mp4".format(c["n"]))
                 open(local, "wb").write(raw)
                 if not sound:
@@ -584,12 +504,12 @@ def main():
                 print("영상{} ✓ {}초 · ${} · 참조 {} · {}".format(
                     c["n"], c["sec"], rec["cost"], rec.get("ref_mode"), rec["video"] or local))
                 break
-            except gk.GrokError as e:
-                rec["fail"] = _why(e)
-                if attempt == 1 and RETRY_ONCE and _retryable(e):
+            except ln.LaneError as e:
+                rec["fail"] = e.why
+                if attempt == 1 and RETRY_ONCE and e.retryable:
                     # ⚠ 실패한 호출은 청구가 0이다(260812 실측) → 재시도 값 = 성공했을 때만 나간다.
                     #   몸집 축이면 방식을 갈아탄다(바이트 → 주소) = 두 실패 종류가 서로를 메운다.
-                    if _too_big(e) and embed:
+                    if LANE.too_big(e) and embed:
                         embed = False
                         print("::warning::영상{} 본문이 크다고 거절 — 주소 방식으로 1회 다시 쏜다".format(c["n"]))
                     else:
@@ -598,7 +518,7 @@ def main():
                     time.sleep(RETRY_WAIT)
                     continue
                 print("::warning::영상{} 실패({}차) — {}".format(c["n"], attempt, rec["fail"]))
-                if e.tier_blocked or e.dead_auth:
+                if e.auth_dead:
                     # 자격 축이면 남은 컷도 전부 같은 이유로 죽는다 → 돈·시간을 더 쓰지 않는다.
                     print("::warning::자격 축 실패 — 남은 영상 중단")
                     stop = True
@@ -631,7 +551,7 @@ def main():
             except OSError:
                 pass
 
-    sc.add(out_dir, "grok", "video", done, usd=spent, est=False)   # 응답 실값 = 계산 아님
+    sc.add(out_dir, LANE.NAME, "video", done, usd=spent, est=False)   # 응답 실값 = 계산 아님
     json.dump({"cuts": items, "shots": len(shots), "board_cuts": len(cuts),
                "done": done, "total": len(shots), "sound": sound,
                "cost_usd": round(spent, 4), "refs": len(slots), "ref_reason": reason,
