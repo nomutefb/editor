@@ -1,33 +1,36 @@
-# 고장 난 굴착기 고치던 옆, 다른 굴착기가 덮쳤다
+# 5비트 선점검
+
+발단(고장 난 굴착기가 서고 수리에 들어감) · 전개(A씨가 그 옆에 붙어 있는 동안 다른 굴착기가 같은 반경으로 이동) · 피크(버킷과 충돌, 사망) · 해소(경찰 조사 착수, 통제·신호수 여부 미확인) · 시사점(위험이 정비 대상이 아니라 등 뒤에서 왔다) — 5비트 모두 다이제스트만으로 한 줄씩 적힌다. 검색 회수 불필요.
+
+# ⚠️ 고치던 장비가 아니었다, 그를 친 건
 
 **[프롬프트 설계]**
-- 화풍: B 극화 — 중장비가 오가는 채석장의 무게와 작업 구조를 사실적으로 고발해야 하는 산업재해 사건이라 극화 1스타일 고정
-- 분위기: 한여름 정오의 마른 먼지와 쇳덩이의 질량감, 소리가 지워진 듯한 정적 — 비명이 아니라 침묵으로 무게를 싣는다
-- 연출 방향: 뉴스를 안 보는 독자도 "중장비 옆을 걸어본 적 있는 사람"이면 즉시 멈추는 지점은 *고치러 간 자리가 곧 사고 자리였다*는 낙차다(독자훅=허탈). 그래서 이 덱은 사람과 쇳덩이의 **거리**를 계속 재는 방식으로 간다 — 멈춘 장비 옆에 붙은 사람, 그 사람을 못 보는 운전석의 시야, 그를 스치는 버킷의 그림자. 전하려는 것(💡시사점)은 "정비는 계획표 밖에서 벌어지고 그 순간 현장의 규칙이 잠시 비워진다"는 구조이므로, 인물을 크게 그리기보다 **인물과 장비가 같은 바닥을 쓰는 프레임**을 반복해 위험이 사람의 부주의가 아니라 배치에서 왔음을 보이게 한다. 상속 키노트 = 정오 직사광의 억압적 노출(LGT07)과 부재의 정조(SG-09), 악센트는 안전조끼의 형광 한 점.
-- 독자 동선: **제시** 카드1(5W 착지+단서 훅)→**발단** 카드2(고장→고치러 간 자리)→**전개** 카드3(멈춘 장비 옆 사람·운전석 사각·같은 반경으로 들어온 또 한 대)→**피크** 카드4(버킷이 지나간 자리 · 3줄·최저 명도·최타이트)→**해소** 카드5(경찰 조사·통제와 신호수 미확인)→**시사점** 카드6 · 훅=카드1 끝(단서형: 그를 덮친 건 그 장비가 아니었다 → 카드2 첫 줄 즉시 회수)+카드3 끝(예고형: 같은 반경으로 또 한 대) · 착지 한 줄 요지 = 고장은 일과인데 그 사이 사람은 쇳덩이 옆에 선다
-- 연속성 앵커: Recurring subject — an Asian man in his 40s, short cropped black hair, a dust-stained gray work shirt over a scuffed high-visibility vest, a worn hard hat. / Recurring location — an open-pit quarry with a terraced rock cut face and gravel ground.
+- 화풍: B 극화 — 산업재해·작업 통제 구조를 고발하는 무게, 중장비의 쇳덩이 질감과 정오 직사광의 하드 그림자가 극화의 선과 맞는다
+- 분위기: 한여름 채석장의 건조한 정적 — 비명도 극적 연출도 없이, 사람 하나가 빠져나간 자리만 남은 무심한 밝음
+- 연출 방향: 독자훅 = "고치러 간 자리가 사고 현장이 됐다"는 허탈함 — 뉴스 안 보는 독자도 '왜 그 자리에 사람이 있었나'는 한 번에 걸린다. 전할 관점 = 위험이 정비 *대상*이 아니라 정비하는 *사람의 등 뒤*에서 왔다는 것. 그래서 강조점은 ①멈춰 선 굴착기와 그 옆 사람의 거리 ②움직이는 버킷의 사각(운전석에서 앞아래가 안 보이는 각) ③사고 뒤 남은 두 대의 장비와 빈자리. 사고 순간 자체는 그리지 않고, 직전의 동선 겹침과 직후의 부재로 낙차를 만든다. 정오 직사광(LGT07)·기계적 무정함을 전 카드 공유 키노트로.
+- 독자 동선: **발단** 카드1(장비가 서고 사람이 그 옆으로) → **전개** 카드2~3(같은 반경에 다른 장비가 들어옴·버킷 사각) → **피크** 카드4(충돌·사망) → **해소** 카드5(경찰 조사·미확인 사항) → **시사점** 카드6 · 훅=카드1 끝(단서형 — '그를 친 건 그 장비가 아니었다'로 정체 유보)+카드3 끝(예고형 — 사각지대 단서) · 착지 한 줄 요지 = 멈춘 장비 한 대, 지나간 또 한 대, 그 사이의 한 사람 — 위험은 고치던 쪽이 아니라 등 뒤에서 왔다
+- 연속성 앵커: Recurring subject — a Korean-style Asian man in his 40s, stocky build, wearing a dust-covered gray work jacket, dark work trousers and a scuffed yellow hard hat / Recurring place — an open quarry pit with stepped rock cut-faces, gravel ground and mounds of crushed stone
 
 ### [카드 1]
 **텍스트**
 ```text
-지난 8월 5일 오후 1시 11분
-제주 서귀포 표선면의 한 채석장에서
-40대 노동자가 굴착기에 부딪혀 숨졌다
-*그가 고치던 굴착기가 아니었다*
+채석장 굴착기 한 대가 멈춰 섰다
+고장이었다
+40대 노동자 A씨가 그 옆으로 갔다
+*그를 친 건 그 장비가 아니었다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the small back of a lone worker walking toward a stalled machine, seen from behind so his face is never shown. Recurring subject — an Asian man in his 40s, short cropped black hair, a dust-stained gray work shirt over a scuffed high-visibility vest, a worn hard hat — carries a toolbox in his right hand as he crosses the open gravel. Recurring location — an open-pit quarry with a terraced rock cut face and gravel ground, two excavators standing far apart on the same flat ground, one of them silent with its bucket lowered. His gaze and his walking direction both lead toward the right edge of the frame, and dust hangs in the hot still air.
-Camera: wide shot from eye-level, shot on 35mm lens
+Scene: Emotional focal point: his bare hand resting flat on the stopped excavator's grimy track, testing whether the metal has gone still. Recurring subject — a Korean-style Asian man in his 40s, stocky build, wearing a dust-covered gray work jacket, dark work trousers and a scuffed yellow hard hat, crouches beside the halted excavator with its boom lowered to the gravel. He looks up along the machine's arm, away from the viewer. Recurring place — an open quarry pit with stepped rock cut-faces, gravel ground and mounds of crushed stone stretches behind him under a white noon sky, with nose room on the right and his attention drifting toward the right edge of the frame.
+Camera: wide shot, full body, surrounding environment, movement, spatial context from eye-level shot, neutral perspective, realistic, balanced emotion, shot on 35mm lens, natural documentary perspective, balanced subject and background, minimal distortion
 Lighting/mood: harsh overexposed midday sunlight, hard shadows, oppressive heat
-Accent: monochrome desaturated base with a single color accent (the high-visibility yellow-green #0FFD02 of the worker's vest), muted daylight contrast
-Korean default: a Korean quarry work site, Korean-style machinery and site markers with no legible letters, nose room on the right, gaze directed toward the right edge.
-Text handling: keep all incidental writing out of frame by composition; no signage text, no machine decals, no logos, no numbers rendered.
+Accent: monochrome desaturated base with a single color accent (the safety yellow of his hard hat), muted daylight contrast
+Text handling: avoid incidental lettering entirely; no signage, no machine decals, no stenciled numbers on the equipment; keep all surfaces plain through framing and angle.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the quarry gravel ground) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the gravel quarry floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -36,29 +39,29 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-서귀포 표선 채석장
+채석장 굴착기 정비
 ```
 
 ### [카드 2]
 **텍스트**
 ```text
-*그를 친 건 지나가던 다른 굴착기였다*
-숨진 사람은 중국 국적 40대 A씨다
-고장 난 장비를 고치러 간 자리였다
+지난 5일 오후 1시 11분께
+제주 서귀포시 표선면 채석장
+*멈춘 장비 옆에 사람이 붙어 있는 동안*
+나머지 공정은 그대로 돌아갔다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: his grease-marked fingertips resting on a cold hydraulic arm, the hand of someone in the middle of a job. Recurring subject — an Asian man in his 40s, short cropped black hair, a dust-stained gray work shirt over a scuffed high-visibility vest, a worn hard hat — crouches beside the stalled excavator's lowered bucket, one knee on the gravel, eyes down on the machine joint he is inspecting. An open toolbox sits by his boot. Far behind him and out of his line of sight, the blurred shape of a second excavator is already in motion across the same flat ground.
-Camera: medium close-up from eye-level, shot on 85mm portrait lens
-Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood
-Accent: monochrome desaturated base with a single color accent (the high-visibility yellow-green #0FFD02 of the worker's vest), muted daylight contrast
-Korean default: a Korean quarry work site, Korean-style machinery with no legible letters or decals.
-Text handling: keep all incidental writing out of frame by composition; no signage text, no machine decals, no logos, no numbers rendered.
+Scene: Emotional focal point: the narrowing gap of open gravel between one crouching figure and the tracks of a second machine rolling into the same radius. Recurring subject — a Korean-style Asian man in his 40s, stocky build, wearing a dust-covered gray work jacket, dark work trousers and a scuffed yellow hard hat, stays low beside the stopped excavator, absorbed in the machine and facing away from the approaching one. A second excavator advances from the right of the frame with its bucket raised, its operator's cab turned forward. Recurring place — an open quarry pit with stepped rock cut-faces, gravel ground and mounds of crushed stone surrounds both machines, and dust hangs in the flat noon glare.
+Camera: overhead shot, bird's-eye view, top-down angle, layout, geometry from high angle shot, looking down, vulnerable subject, small, observed, shot on 24mm wide lens, cinematic wide shot, spatial context, subtle depth
+Lighting/mood: overcast diffused daylight softened by hanging quarry dust, flat hard-edged shadows under a bleaching noon sun
+Accent: monochrome desaturated base with a single color accent (the safety yellow of the hard hat and the second machine's warning stripe), muted daylight contrast
+Text handling: avoid incidental lettering entirely; no signage, no machine decals, no stenciled numbers on the equipment; keep all surfaces plain through framing and angle.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the quarry gravel ground) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the gravel quarry floor seen from above) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -67,30 +70,29 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-굴착기 정비 작업자
+서귀포 표선면 채석장
 ```
 
 ### [카드 3]
 **텍스트**
 ```text
-장비가 서면 사람이 그 옆에 붙는다
-그동안 나머지 장비는 그대로 움직인다
-*버킷은 운전석에서 앞아래가 안 보인다*
-같은 반경으로 또 한 대가 들어왔다
+굴착기 버킷은 운전석에서
+앞아래가 잘 보이지 않는 부위다
+*장비가 서고 사람이 그 옆에 붙는 순간*
+그 사각은 사람 키만큼 넓어진다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the blind wedge of ground swallowed by the raised bucket, where a pair of work boots is only half visible. The view is from inside an excavator cab looking forward, the operator's gloved hands on the levers in the near foreground, the massive bucket arm filling the upper center and cutting off everything below it. Recurring location — an open-pit quarry with a terraced rock cut face and gravel ground stretches ahead. Beyond the bucket, the stalled second machine sits with a small crouching figure beside it, hidden from this seat except for his boots and the edge of a high-visibility vest. The forward travel direction points toward the right edge of the frame.
-Camera: medium shot from the operator's POV, shot on 24mm wide lens
-Lighting/mood: single hard side-light cutting across the subject, deep chiaroscuro shadows, tense atmosphere
-Accent: monochrome desaturated base with a single color accent (the high-visibility yellow-green #0FFD02 glimpsed at the edge of the blind zone), muted daylight contrast
-Korean default: a Korean quarry work site, Korean-style machinery with no legible letters, gauges and dials shown as shapes only, nose room on the right.
-Text handling: keep all incidental writing out of frame by composition; no gauge numbers, no warning labels, no decals, no signage text rendered.
+Scene: Emotional focal point: the operator's eyes fixed straight ahead through the cab glass, seeing nothing of the ground directly below his raised bucket. A second worker in a helmet grips the control levers inside the cramped excavator cab, shoulders squared, chin level. The heavy steel bucket hangs in the near foreground, its underside filling the lower left and blocking the sightline to the gravel beneath it. Recurring place — an open quarry pit with stepped rock cut-faces, gravel ground and mounds of crushed stone shimmers beyond the glass in the noon heat.
+Camera: over-the-shoulder shot, shoulder foreground, focus on other character, conversation from Dutch angle, tilted horizon, canted frame, unstable mood, shot on 28mm lens, natural street perspective, mild wide angle
+Lighting/mood: harsh overexposed midday sunlight punching through the cab glass, hard shadows, oppressive heat inside the cabin
+Accent: monochrome desaturated base with a single color accent (the safety yellow of the machine's boom arm), muted daylight contrast
+Text handling: avoid incidental lettering entirely; no gauge labels, no control decals, no stenciled numbers in the cab; keep all surfaces plain through framing and angle.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the quarry gravel ground seen through the cab opening) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the excavator cab interior and the glass opening onto the quarry) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -99,39 +101,37 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-굴착기 운전석 시야
+굴착기 운전석 버킷 사각지대
 ```
 
 ### [카드 4]
 **텍스트**
 ```text
-*멈춰 선 장비 옆, 사람이 서 있었다*
-그 옆을 다른 버킷이 지나갔다
-40대 노동자는 그 자리에서 숨졌다
+*중국 국적 40대 노동자 A씨는*
+*그 버킷에 부딪혀 숨졌다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the hard shadow of a passing bucket sliding across his turned cheek, his eyes still down on the machine, unaware. Recurring subject — an Asian man in his 40s, short cropped black hair, a dust-stained gray work shirt over a scuffed high-visibility vest, a worn hard hat — stands close beside the stalled excavator with a wrench in one hand, half his face already inside the advancing shadow. Nothing touches him in this frame; only the darkness of the moving arm has arrived. Recurring location — an open-pit quarry with a terraced rock cut face and gravel ground surrounds them in deep shade.
-Camera: tight close-up from eye-level, shot on 85mm portrait lens
-Lighting/mood: single pool of hard light isolating the figure in surrounding blackness, claustrophobic loneliness
-Accent: monochrome desaturated base with a single color accent (the high-visibility yellow-green #0FFD02 of the worker's vest), film-noir low-key lighting, deep shadows
-Korean default: a Korean quarry work site, Korean-style machinery with no legible letters or decals.
-Text handling: keep all incidental writing out of frame by composition; no signage text, no machine decals, no logos, no numbers rendered.
+Scene: Emotional focal point: a scuffed yellow hard hat lying alone on the gravel, its chin strap splayed open, still rocking to a stop. No person is in the frame. The hat rests in the shadow cast by a raised bucket that intrudes from the upper edge, and a wrench lies a step away where it was dropped. Recurring place — an open quarry pit with stepped rock cut-faces, gravel ground and mounds of crushed stone falls away behind, emptied of movement.
+Camera: extreme close-up, single detail, hand, texture from ground-level shot, worm's-eye view, near floor, exaggerated scale, shot on 100mm macro lens, fine detail, shallow depth of field, precise texture
+Lighting/mood: single hard side-light cutting across the subject, deep chiaroscuro shadows, tense atmosphere, the noon sun reduced to one blade of light on the gravel
+Accent: monochrome desaturated base with a single color accent (the safety yellow of the fallen hard hat), film-noir low-key lighting, deep shadows
+Text handling: avoid incidental lettering entirely; no brand marks on the helmet, no stenciled numbers on the bucket; keep all surfaces plain through framing and angle.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the shaded quarry rock face behind him) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
-- no impact moment, no collision shown, no injury, no blood, no body on the ground, no contact between the machine and the person
+Composition: ONE continuous surface (the gravel quarry floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
 - no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
 - no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
+- no blood, no injury, no body, no impact moment
 ```
 **검색어**
 ```text
-굴착기 버킷 근접
+산업재해 안전모 채석장
 ```
 
 ### [카드 5]
@@ -139,22 +139,21 @@ NEGATIVE - strictly avoid:
 ```text
 경찰은 채석장 관계자 등을 상대로
 사고 원인을 조사하고 있다
-작업 구역 통제와 신호수 배치 여부는
-*아직 확인되지 않았다*
+작업 구역이 통제되고 있었는지
+*신호수가 있었는지는 아직 모른다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the flat unreadable faces of two investigators as they measure the empty distance between the two machines. Three figures stand on the open ground — two plainclothes investigators in dark shirts taking notes and pointing along the gravel, and one site manager in a hard hat standing slightly apart with his arms at his sides, head lowered. Recurring location — an open-pit quarry with a terraced rock cut face and gravel ground; the stalled excavator and the second excavator sit at either side, roped off with plain tape. No worker is present between them now.
-Camera: wide shot from a high angle, shot on 50mm standard lens
-Lighting/mood: flat cold even surveillance light, no shadow no warmth, detached and watchful
-Accent: monochrome desaturated base with a single color accent (a single strip of high-visibility yellow-green #0FFD02 tape across the gravel), muted daylight contrast
-Korean default: a Korean quarry work site, Korean police investigators in plain clothes, Korean-style machinery and tape with no legible letters.
-Text handling: keep all incidental writing out of frame by composition; the tape and notebooks carry no readable characters; no signage text, no logos, no numbers rendered.
+Scene: Emotional focal point: an investigator's gloved fingertip hovering just above the gravel, pointing at the tracked imprint where the second machine passed. Two officials in plain jackets and helmets stand over the ground, one crouching to measure the distance between two sets of track marks, the other looking off toward the stilled excavators. Recurring place — an open quarry pit with stepped rock cut-faces, gravel ground and mounds of crushed stone spreads behind them, both machines parked and silent in the background.
+Camera: medium shot, waist-up framing, face and gestures, conversational from high angle shot, looking down, vulnerable subject, small, observed, shot on 50mm standard lens, minimal distortion, natural cinematic composition
+Lighting/mood: flat cold even surveillance light, no shadow no warmth, detached and watchful, the afternoon glare gone dull over the pit
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the investigator's marker cone), muted daylight contrast
+Text handling: avoid incidental lettering entirely; no agency markings on the jackets, no labels on the marker cone, no stenciled numbers; keep all surfaces plain through framing and angle.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the quarry gravel ground) extending edge to edge from top to bottom of the frame. The main subjects are anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the gravel quarry floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -163,30 +162,29 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-산업재해 현장 경찰 조사
+경찰 산업재해 현장조사
 ```
 
 ### [카드 6]
 **텍스트**
 ```text
-채석장에서 장비 고장은 일과다
-한 대가 서면 사람이 그 옆으로 간다
-그동안 나머지 장비는 그대로 움직인다
-*그 사이 사람은 쇳덩이 옆에 선다*
+정비는 대개 계획표 밖에서 벌어진다
+장비가 서면 사람이 그 자리로 가고
+나머지 장비는 하던 대로 움직인다
+*위험은 고치던 쪽이 아니라 등 뒤에 있었다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the narrow strip of empty gravel between two machines, where a toolbox and a hard hat still sit with no one beside them. Recurring location — an open-pit quarry with a terraced rock cut face and gravel ground, seen at the end of the day; one excavator stands silent with its bucket lowered to the ground, and a second excavator waits further off with fresh track marks running past the first. The centre of the frame belongs to the vacant ground between them, and the composition is still and symmetrical rather than directional.
-Camera: extreme long shot from eye-level, shot on 20mm wide lens
-Lighting/mood: cold blue pre-dawn tone, lone light reflection on the packed ground, desolate stillness
-Accent: monochrome desaturated base with a single color accent (the abandoned high-visibility yellow-green #0FFD02 vest folded on the toolbox), film-noir low-key lighting, deep shadows
-Korean default: a Korean quarry work site, Korean-style machinery with no legible letters or decals.
-Text handling: keep all incidental writing out of frame by composition; no signage text, no machine decals, no logos, no numbers rendered.
+Scene: Emotional focal point: the strip of empty gravel between two parked excavators, where a single set of boot prints stops and does not continue. Both machines stand still with booms lowered, one facing the viewer head-on and the other angled past it, and no person remains anywhere in the frame. Recurring place — an open quarry pit with stepped rock cut-faces, gravel ground and mounds of crushed stone opens out behind them as the light goes long and low.
+Camera: extreme long shot, tiny subject, vast environment, scale, isolation from front-on shot, direct gaze, symmetrical composition, facing camera, shot on 20mm wide lens, subject and environment, documentary realism
+Lighting/mood: warm soft morning light turned to late afternoon afterglow, gentle and quiet, faint melancholy over the emptied pit
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 catching one machine's handrail), muted daylight contrast
+Text handling: avoid incidental lettering entirely; no signage, no machine decals, no stenciled numbers on the equipment; keep all surfaces plain through framing and angle.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the quarry gravel ground) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the gravel quarry floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -195,5 +193,5 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-채석장 굴착기 절개면
+채석장 굴착기 두 대
 ```
