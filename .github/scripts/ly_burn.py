@@ -945,10 +945,16 @@ def build_ass(segs, w, h, opts):
     shtype = opts.get("shtype")
     if shtype not in ("none", "box", "stroke", "shadow"):
         shtype = "box" if bg > 0 else "stroke"
-    if shtype == "box":      # 음영 = 줄 단위 박스(BorderStyle 4 · 3은 다줄 겹침 = 금지)
+    if shtype == "box":      # 음영 = **줄마다 그 줄 글자 폭만큼**(BorderStyle 3)
+        # (260812 운영자 "각각 글자들 뒤에만 음영이 각각 · 지금 외국어랑 뭉쳐서 하나의 네모 · 한국어가 짧거나 길면 네모 빈 공간")
+        #   BorderStyle 4 = libass가 **이벤트 전체**를 한 사각형으로 덮는다 → 한글 줄과 원문 줄 중 **긴 쪽 폭**에 둘 다 맞춰져
+        #   짧은 줄 옆이 빈 검정 면으로 남았다(실측 1080×1920 dual: 「올가을 한국에 가거든 / to Korea」 = 두 줄 모두 폭 422 한 값).
+        #   BorderStyle 3 = 줄마다 자기 글자 폭(같은 케이스 실측 = 한글 422 / 원문 176) = 요구 모양.
+        #   ⚠ 구 주석의 「3은 다줄 겹침 = 금지」(260707)는 **현행 조건에서 재현되지 않는다** — 배경 100%·50% 양쪽에서
+        #     4줄(한글 2 + 원문 2) 실렌더 시 줄 사이 겹쳐 진해지는 화소 0. 그때 겹침의 실체였던 스페이서 줄 박스는 아래 gap_tag에서 끊는다.
         # 패딩 = Outline값(구 box 전용 oc==back 패딩 겸용 메서드를 전 모양으로 승격 · pad 계수 = 운영자 선택 ×0.16).
         # 글리프 외곽선색도 back 동일 = 박스 위 이중 테두리 0(같은 색 박스 위 같은 색 스트로크 = 어차피 비가시).
-        border_style, outline, shadow, oc = 4, ass_px(fs * pad), 0, back
+        border_style, outline, shadow, oc = 3, ass_px(fs * pad), 0, back
     elif shtype == "none":   # 기본 = 아무것도 안 그림(맨 글자 · 운영자 "기본도 있어야 한다")
         back = "&H00" + ocb
         border_style, outline, shadow, oc = 1, 0, 0, "&H00" + ocb
@@ -1047,7 +1053,10 @@ def build_ass(segs, w, h, opts):
             # 줄간격(운영자 260728 "줄간격 어느정도 유지") = 두 줄 사이 스페이서 1줄(fs = 본선의 18%). 미리보기(edit.html 한국어 줄 marginBottom fs×0.18)와 동값 —
             #   구현 전엔 미리보기만 띄우고 산출물은 딱 붙어 나왔다(평의회① 260728). 결측 계수(dual_small 미송신 = 종전 경로)에선 gap 0 = 줄 수·높이 종전 동일.
             gap = int(fs * coef(opts, "dual_gap", 0.18, 0.0, 0.6)) if opts.get("dual_small") else 0   # 줄간격 = 게이지(운영자 260729 · 0.18 = 종전 하드코딩 동값 = 결측 시 렌더 바이트 동일)
-            gap_tag = ("{\\fs" + str(max(1, gap)) + "}\\h{\\r}\\N") if gap > 0 else ""
+            # ⚠ 스페이서 줄에도 \h(공백) 글리프가 있어서 BorderStyle 3에선 **그 줄에도 박스가 그려진다** = 위아래 박스를 잇는
+            #   좁은 검정 다리(실측 260812 · 폭 = 공백 1칸). \bord0 = 그 줄만 박스 미생성 → 두 박스가 완전히 분리된다.
+            #   box가 아닌 모양(획·그림자·기본)에선 이 줄에 애초에 박스가 없고 \bord0은 무해 = 종전 렌더 바이트 동일.
+            gap_tag = ("{\\fs" + str(max(1, gap)) + "\\bord0}\\h{\\r}\\N") if gap > 0 else ""
             # 원문 줄 = 색·그림자 **고정** 축(운영자 260729 "영문은 항상 흰색 고정에, 그림자 조금 줘서 항상 고정으로") —
             #   글자색(fg)·음영색(oc)·배경(bg)·음영 크기(outline/pad)·글로우 어느 것도 안 따른다. 뷰어 .pvsub-tr 고정 스타일과 짝.
             #   {\r} = 본선이 남긴 카라오케·팝·키워드 태그 리셋 → {\1c 흰} {\3c 검정 외곽선} {\4c 검정 그림자} {\bord 얇게} {\shad 1} {\blur0}.

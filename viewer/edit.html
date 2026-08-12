@@ -974,7 +974,7 @@ function prm(k){
     +'<div class="optcards">'
     /* 프리셋 행 = 폐지(운영자 260731 19차 "자막 on 시 세부 기능 정리 — 프리셋 > 삭제") · SUBPRE·spre 핸들러는 도먼트 보존(복원 = 이 자리 srow 한 줄) */
     +'<div class="scard cyc"><div class="hd st" title="ON = 원문이 50% 작게 위 · 한국어 자막이 아래(원문+한글 동시 표기)">'+cyv('trn','번역')+'</div></div>'   // 번역 = 자막 **안** 첫 카드로 이주(운영자 260803 7차 "어짜피 자막에 포함되어 있는거니까 없애고 자막 안으로 삽입") — 부품·워딩·핸들러 = 구 hl3 3분할 행 tg3 그대로(생김새 창작 0 · 워드 점등 정본) · 축 계약 불변(setAxis trn: ON = 자막 자동 ON · 자막 OFF = 번역 동반 OFF)
-    /* 언어·톤 행 = 폐지(운영자 260803 8차 "톤 > 의역 고정 · 언어 > 원문 포함 고정") — 값은 P 기본값(lang:'dual' · tone:'sns')으로 상시 고정 · setAxis('lang'/'tone') 핸들러·발사 경로는 도먼트 보존(복원 = 이 자리 srow 두 줄) */
+    /* 언어 행 = 폐지 유지(운영자 260803 8차 "언어 > 원문 포함 고정") — lang은 P 기본값 'dual' 상시 고정 · setAxis('lang') 핸들러·발사 경로는 도먼트 보존(복원 = 이 자리 srow 한 줄) */
     +C(srow('글자 형태', ['gothic','serif','paper'].map(f=>pc('font',f,P.font===f,false,FONT_PV[f].lbl))))   // 운영자 260805 "기본은 본고딕 · 명조랑 페이퍼 줄임말로 고를수있게" — 고딕(본고딕·기본)·명조(본명조)·페이퍼(페이퍼로지 5 Medium · 레포 동봉) 3종 · 나눔고딕(260731 19차)·손글씨(260805) = 도먼트(러너 화이트리스트 불변 · 복원 = 배열에 키 한 줄)
     /* 모양 행 = 폐지 잔존(운영자 260731 19차 "모양-강조 없애자 · 모양 = 깔끔(기본)으로 가고 나머진 다 숨김") — style 기본값 'clean' 고정 · pop·keyword 축은 도먼트 보존 */
     /* (260808 복원 · 운영자 «강조점이 이동하는 기능, 그리고 의성어 같은거 쳐내기 onoff 가 있었는데 없어짐») 두 축을 화면에 되돌린다.
@@ -1294,6 +1294,7 @@ function pvSync(){
       sp.style.marginBottom='0';   // 간격 주인이 tl의 marginTop으로 이동(원문이 흐름 밖이라 sp 마진은 캔버스 하단만 밀어냈다)
       tl.style.fontFamily=sp.style.fontFamily;
       tl.style.background='transparent'; tl.style.padding='0';   // 원문 줄 = 색·그림자 고정 축(운영자 260729 "영문은 항상 흰색 고정에, 그림자 조금 줘서 항상 고정으로") — 글자색(fg)·음영색(shc)·배경(bg)·음영 크기(sh)·글로우 어느 것도 안 따른다. 실제 색·그림자는 CSS .pvsub-tr가 전담(인라인으로 덮지 않는다 = 게이지를 만져도 원문 줄은 불변)
+      if(P.shtype==='box'){ tl.style.background='rgba('+oc+','+(Math.max(1,P.bg)/100)+')'; tl.style.padding=px1(Math.max(1,tfs*0.04))+'px'; }   // ★ 음영이 '네모'일 때만 원문 줄에도 자기 폭 박스(운영자 260812 "각각 글자들 뒤에만 음영이 각각") — 러너 BorderStyle 3 미러 · 패딩 = 러너 원문 줄 \bord(max(1, small×0.04)) 동값 산식(한국어 줄 fs×padc보다 얇은 위계도 그대로) · 다른 음영 종류(획·그림자·기본)에선 위 고정 축 그대로 = 종전 화면 불변
     } else { tl.hidden=true; sp.style.marginBottom='0'; } }   // 한 줄 모드 = 간격 회수
     sub.hidden=false;   // ★ 노출은 맨 끝 — 크기·색·배경·두 줄 배치가 전부 확정된 뒤라야 한다(운영자 260729 "처음에 들어갈때 흰색으로 길게" = 스타일 전 상태가 노출되던 통로 차단 · CSS .pvsub-tr font-size 폴백과 이중 방어)
   });
