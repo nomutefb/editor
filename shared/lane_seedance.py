@@ -220,8 +220,10 @@ def balance(token=None):
 
 def estimate(seconds, ratio=None, token=None):
     """발사 전 견적(제출 없이 크레딧만 회신 · **과금 0**). 반환 = 크레딧 수 또는 None."""
-    d = call("generate_video", dict(_params(seconds, ratio, cost_only=True), prompt="cost check"),
-             token or fresh_token())
+    # ⚠ 단건 도구는 인자를 **한 겹 감싼다**(`{"params": {...}}`) — 일괄 도구의 `{"requests":[…]}` 와
+    #   모양이 다르다. 첫 실행이 `Invalid input at params` 로 그 자리를 정확히 지목했다(260812).
+    d = call("generate_video", {"params": dict(_params(seconds, ratio, cost_only=True),
+                                               prompt="cost check")}, token or fresh_token())
     return _credits(d)
 
 
@@ -366,8 +368,8 @@ def _check():
     print("① 자격 ✓ (접속 열쇠 {}자)".format(len(tok)))
     b = balance(tok)
     print("② 잔액 ✓ {}".format(json.dumps(b, ensure_ascii=False)[:200]))
-    raw = call("generate_video", dict(_params(SHOT_SEC, os.environ.get("SD_RATIO") or "9:16",
-                                              cost_only=True), prompt="cost check"), tok)
+    raw = call("generate_video", {"params": dict(_params(SHOT_SEC, os.environ.get("SD_RATIO") or "9:16",
+                                                         cost_only=True), prompt="cost check")}, tok)
     cr = _credits(raw)
     print("③ 견적 원문: {}".format(json.dumps(raw, ensure_ascii=False)[:300]))
     if cr is None:
