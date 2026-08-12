@@ -81,6 +81,7 @@ EMBED_MAX = 8_000_000
 FAIL_COSTS = None      # ⚠ **미확인** — 실패분 크레딧 환불 여부. None = 「모른다」(재시도 정책이 이 값을 본다)
 COST_KIND = "credit"   # 크레딧 과금 · 달러 환산율은 요금제 종속이라 **지어내지 않는다**
 
+_UUID = re.compile(r"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", re.I)
 _TOK = {"access": None, "exp": 0.0}
 _SESS = {"id": None, "n": 0, "ready": False}
 
@@ -328,12 +329,26 @@ def refs_payload(urls, embed=True):
 
 
 def _media_ids(urls, token):
+    """올린 참조의 번호를 받는다.
+
+    ⚠ **글자 회신 폴백이 여기도 필요하다**(260812 실사고) — 이 창구는 회신을 사람 읽는 글자로도
+      주는데, 실제로 돌려준 건 「Imported and confirmed image URL. Pass media_id <번호> as
+      medias[].value…」라는 **문장**이었다. 숫자 자리만 보던 파서가 번호를 못 찾아 발사가 통째로
+      막혔다(값은 안 나갔다 = 제출 전). 잔액·작업 번호·산출 주소엔 이 폴백을 달아 놓고 여기만
+      빠뜨린 게 원인이라 **같은 병의 형제**로 함께 못박는다.
+    """
     out = []
     for u in urls:
         d = call("media_import_url", {"url": u}, token)
         mid = (d or {}).get("media_id") or (d or {}).get("id")
+        if not mid and isinstance(d, dict):
+            txt = d.get("text") if isinstance(d.get("text"), str) else json.dumps(d, ensure_ascii=False)
+            m = re.search(r"media[_ ]?id\D{0,12}(" + _UUID.pattern + ")", txt or "", re.I) or _UUID.search(txt or "")
+            if m:
+                mid = m.group(1) if m.lastindex else m.group(0)
         if not mid:
-            raise LaneError("참조 그림을 창구에 못 올렸다(회신에 번호가 없다)", body=json.dumps(d)[:200])
+            raise LaneError("참조 그림을 창구에 못 올렸다(회신에 번호가 없다)",
+                            retryable=False, body=json.dumps(d, ensure_ascii=False)[:300])
         out.append(mid)
     return out
 
@@ -359,9 +374,6 @@ def start(prompt, *, token, refs=None, seconds=None, ratio=None, sound=None):
         raise LaneError("발사는 됐는데 작업 번호를 못 찾았다 — 회신 원문을 보고 번호를 회수하라",
                         retryable=False, body=json.dumps(d, ensure_ascii=False)[:600])
     return jid
-
-
-_UUID = re.compile(r"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", re.I)
 
 
 def _job_id(d):
