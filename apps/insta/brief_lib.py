@@ -700,7 +700,9 @@ def trendctx(root=ROOT, top=5, win_h=24, kw=8):
             if len(near) >= kw:
                 break
         if near:
-            out.append({'cap': str(p.get('cap') or '')[:56], 'views': (p.get('ins') or {}).get('views'),
+            # 이름 = 표지에 박힌 제목 1순위(260812) · 없으면 글 첫 줄 — chan_brief post_refs 와 같은 계약.
+            out.append({'cap': (str(p.get('ovt') or '') or str(p.get('cap') or ''))[:60],
+                        'views': (p.get('ins') or {}).get('views'),
                         'fmt': p.get('fmt'), 'cat': p.get('cat'), 'when': pd.strftime('%m-%d %H시'),
                         'near': near})
     return out

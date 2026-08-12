@@ -28,7 +28,7 @@
 스키마 v:1 필드 사전(로더는 미지 필드 무시 · 의미 변경/개명 = v++ · 과거 줄 재작성 절대 금지):
   v run_id att ev ts dk ms
   ig.brief{updated src_hash prompt_ver n_chars sections|unchanged} ig.acct{followers media_count follows
-    day(verbatim) day_date day_h dropped} ig.posts[{id pl ts_post age_h prod mt cap kw st cat era fmt score fp exp
+    day(verbatim) day_date day_h dropped} ig.posts[{id pl ts_post age_h prod mt cap ovt kw st cat era fmt score fp exp
     ins(verbatim: views reach likes comments saved shares total_interactions ig_reels_avg_watch_time …)}]
   ig.ctx{avg eras fmt topics timing axes n_posts posts_view_avg online daily3 echo}|null ig.ctx_ref
   fb.brief{...} fb.acct{followers day(verbatim) totals} fb.posts(verbatim)
@@ -204,6 +204,9 @@ def build_record(now):
         L = lab.get(m.get('permalink')) or {}
         posts.append({'id': m.get('id'), 'pl': m.get('permalink'), 'ts_post': m.get('timestamp'), 'age_h': age_h,
                       'prod': m.get('media_product_type'), 'mt': m.get('media_type'), 'cap': cap,
+                      # ovt = 표지에 실제로 박힌 제목(260812 · insta_cover_ocr 판독 · '' = 미판독).
+                      # ⚠ cap(글 첫 줄)은 그대로 둔다 — kw 토큰화·과거 회차 대조가 그 값을 축으로 삼는다(결정론 무접촉).
+                      'ovt': L.get('ovt') or '',
                       'kw': _tokenize(cap), 'st': L.get('style'), 'cat': L.get('cat'), 'era': L.get('era'),
                       'fmt': L.get('format'), 'score': L.get('score'), 'fp': L.get('fp'), 'exp': L.get('exp'),
                       'like': m.get('like_count'), 'cmt': m.get('comments_count'),

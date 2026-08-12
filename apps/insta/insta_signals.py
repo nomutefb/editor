@@ -93,6 +93,25 @@ def first_line(caption):
     return (caption or '').split('\n')[0].strip()
 
 
+_COVT = None
+
+
+def cover_title(media_id):
+    """게시물 표지에 실제로 박힌 제목('' = 미판독) — 원장 = insta_cover_ocr.py 산출(기계산출물·손편집 금지).
+
+    운영자 260812 "기사 인트로 첫줄보다, 오버레이가 가장 정확한 내용이거든".
+    ⚠ 이 값은 **표시 축 전용**이다 — 분류(naming_style·category·feats)는 종전대로 캡션 첫 줄로 계산한다.
+      분류 입력을 갈아끼우면 과거 게시물 전건이 다른 라벨로 재계산돼 성장 3기·주제 비중 시계열이 통째로
+      갈린다(요약이 읽는 그 시계열 = 이 봉합이 고치려는 축이 아니다) → 이름만 바꾸고 통계는 무접촉.
+    """
+    global _COVT
+    if _COVT is None:
+        d = jload('cover_titles.json')
+        _COVT = d if isinstance(d, dict) else {}
+    v = _COVT.get(str(media_id or ''))
+    return (v.get('t') or '').strip() if isinstance(v, dict) else ''
+
+
 def naming_features(name):
     return {
         '이모지머리': bool(re.match(r'^[^\w\s\'"‘’“”]', name)) if name else False,
@@ -157,6 +176,7 @@ def enrich(post, fetched):
     band = next(b for lo, hi, b in HOUR_BANDS if lo <= ts_kst.hour < hi)
     return {
         'id': post.get('id'), 'date_kst': ts_kst.strftime('%m/%d %H시'), 'iso': ts_kst.strftime('%Y-%m-%d'), 'name': name[:60],   # iso = 뷰어 심층 모달 최신순 정렬 키(연 경계 안전)
+        'ovt': cover_title(post.get('id'))[:80],   # 표지에 실제로 박힌 제목(260812 · '' = 미판독 → 소비처가 name 폴백)
         'format': '릴스' if post.get('media_product_type') == 'REELS' else '피드',
         'style': naming_style(name, feats), 'feats': feats,
         'cat': cat_override(post.get('id'), category(name)), 'cat_src': 'kw+news+ovr',   # 뉴스 CAT_KW 계승 병합 + 운영자 수동 라벨 우선(260713)
@@ -553,7 +573,7 @@ def _daily_timeseries(daily):
                     continue
                 ins = m.get('insights') if isinstance(m.get('insights'), dict) else {}
                 refmap.setdefault(d, {})[mid] = {'ts': ts, 'permalink': m.get('permalink') or '',
-                    'name': _first_line(m.get('caption'))[:40], 'views': ins.get('views'),
+                    'name': _first_line(m.get('caption'))[:40], 'ovt': cover_title(mid)[:80], 'views': ins.get('views'),
                     'r': 1 if m.get('media_product_type') == 'REELS' else 0}   # r = 릴스 플래그(뷰어 ▶ 픽토 분기용)
         if mall and mall.get('media'):
             _collect_refs(mall)
@@ -563,7 +583,7 @@ def _daily_timeseries(daily):
         for d, byid in refmap.items():
             if d in merged:   # 시계열 안 날짜에만(축 불변) · ts 오름차순(그날 게시 순서) · permalink 있는 것만
                 refs = sorted(byid.values(), key=lambda x: x['ts'])
-                lst = [{'permalink': r['permalink'], 'name': r['name'], 'views': r['views'], 'r': r['r']} for r in refs if r['permalink']]
+                lst = [{'permalink': r['permalink'], 'name': r['name'], 'ovt': r.get('ovt') or '', 'views': r['views'], 'r': r['r']} for r in refs if r['permalink']]
                 if lst:
                     merged[d]['post_refs'] = lst
     except Exception as e:
@@ -847,7 +867,7 @@ def main():
     try:
         daily = [json.loads(l) for l in open(os.path.join(DATA, 'insights_daily.jsonl'), encoding='utf-8') if l.strip()]
         last = daily[-1] if daily else {}
-        posts = [{k: p.get(k) for k in ('date_kst', 'iso', 'format', 'style', 'cat', 'era', 'name', 'views', 'score', 'share_pm', 'save_pm', 'fp', 'exp', 'permalink')} for p in sig['posts'][:100]]   # 100개+cat·era·iso = 심층 모달(게시물 탐색 — 정렬·포맷/주제 필터) 재료(운영자 260713 "앱 내에서 볼 경로")
+        posts = [{k: p.get(k) for k in ('date_kst', 'iso', 'format', 'style', 'cat', 'era', 'name', 'ovt', 'views', 'score', 'share_pm', 'save_pm', 'fp', 'exp', 'permalink')} for p in sig['posts'][:100]]   # 100개+cat·era·iso = 심층 모달(게시물 탐색 — 정렬·포맷/주제 필터) 재료(운영자 260713 "앱 내에서 볼 경로")
         med = json.load(open(os.path.join(DATA, 'media_latest.json'), encoding='utf-8'))
         # ── 릴스 커버 결손 = 페이스북 크로스포스트 커버로 회수(운영자 260803 "썸네일 못받아오는 버그") ──
         # 실측 260803: 최근 12개 중 릴스 2개(Dbh_vQ-R1Al·DbhiiVmRCv1)가 Graph /media·미디어노드 재조회

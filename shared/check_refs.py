@@ -7293,6 +7293,112 @@ def check_brief_lib():
     print('✅ 채널 요약 지식 라이브러리 — 정본 1 + 2셸(IG·FB) 호출·주입·적재 전 층 생존.')
     return 0
 
+def check_cover_title_chain():
+    """게시물 이름 = 표지에 박힌 제목(하드 · 운영자 260812 "기사 인트로 첫줄보다, 오버레이가 가장 정확한 내용이거든").
+
+    [무엇을 고친 축인가]
+      채널 요약이 «…» 로 게시물을 지목할 때 쓰던 이름 = `first_line(caption)` = **인스타 글의 첫 줄**인데,
+      노뮤트는 카드에 박는 제목과 글 첫 줄을 **각각 따로 쓴다**. 소유 커버 실판독 2건(260812):
+        글 첫줄 「🚨 엿새 만에 다시 쐈다, 이번에도 북은 말이 없다」 ↔ 카드 「북한, 엿새 만에 '또 쐈다' || 동쪽 방향 미상 발사체 발사」
+        글 첫줄 「🚇 열차는 서지 않았다…전장연 71차 출근길 시위」 ↔ 카드 「"우리를 가두지 마십시오" || 전장연, 매주 출근길 시위 진행」
+      → 요약이 **화면에 뜬 적 없는 문장**을 게시물 이름이라고 불렀고, 운영자는 그 이름으로 어느 카드가
+        터졌는지 판단한다 = 판단의 입력 자체가 어긋나 있었다.
+
+    ⚠ 신설 사유 = **이 체인은 조용히 죽는데 화면 증상이 0이다.** 판독 스텝이 빠지거나 소비처가 한 곳만
+      구판으로 돌아가도 요약은 정상 생성되고 게시물 이름도 정상으로 보인다(글 첫 줄이니까) — 그냥 **덜
+      정확한 이름**으로 되돌아갈 뿐이라 로그·에러 어디에도 안 남고 운영자 눈이 유일한 검출기가 된다
+      (insta-thumb-miss·brk_misfire 동축). 기존 게이트는 전부 다른 축이다 — `check_brief_lib` = 과거 회차가
+      프롬프트에 실리는가 · `check_algo_ledger` = 원장 불변식 · `check_thumb_chain` = 커버 **이미지**가
+      화면에 뜨는가 → 「그 커버에 **적힌 글자**가 이름이 되는가」는 축 자체가 없었다.
+
+    판정 4축(정적 · 렌더·LLM·네트워크 0 · 면책표 없이 하드 0):
+      ① 판독기 골격 — 소유 커버 경로·원장 경로·폴오버 SSOT 경유·재판독 차단(원장 적중 스킵)
+      ② 소비 3표면 — 신호계산(부착) · 채널 브리프(지목 줄) · 지식 라이브러리(터진 게시물)
+      ③ 워크플로 — 판독 스텝 + **브리프보다 앞** 순서(뒤면 그 회차 요약엔 안 실린다 = 무증상 1회차 지연)
+      ④ 원장 착지 — `apps/insta/data` 커밋 인자(빠지면 매 회차 전량 재판독 = 비용이 조용히 는다)
+    """
+    def _read(rel):
+        try:
+            return open(os.path.join(ROOT, rel), encoding='utf-8').read()
+        except Exception:
+            return ''
+
+    fails = []
+    OCR = '.github/scripts/insta_cover_ocr.py'
+    s = _read(OCR)
+    if not s:
+        fails.append('%s 부재 — 표지 제목 판독기가 통째로 없다(요약 이름이 글 첫 줄로 영구 회귀)' % OCR)
+    else:
+        for sym, why in (('viewer', '소유 커버 폴더 경유 = 다운로드·네트워크 0'),
+                         ('insta_covers', '소유 커버 폴더 경유 = 다운로드·네트워크 0'),
+                         ('cover_titles.json', '원장 = 영속층(커버 파일은 12칸 롤링으로 삭제된다)'),
+                         ('run_claude', '폴오버·계측 SSOT 경유(자체 쿼터처리 금지 계약)')):
+            if sym not in s:
+                fails.append('%s: 심볼 「%s」 소실 — %s' % (OCR, sym, why))
+        if 'mid not in led' not in s:
+            fails.append('%s: 원장 적중 스킵 술어 소실 — 매 회차 전량 재판독으로 비용이 조용히 는다' % OCR)
+        if not re.search(r'^\s*#', s, re.M) or 'fail-soft' not in s:
+            fails.append('%s: fail-soft 계약 표기 소실 — 판독 실패가 수집·요약 파이프를 죽일 수 있다' % OCR)
+
+    sig = _read('apps/insta/insta_signals.py')
+    if sig:
+        if 'def cover_title(' not in sig:
+            fails.append('apps/insta/insta_signals.py: cover_title() 소실 — 원장을 읽는 곳이 없어 이름이 안 바뀐다')
+        # 부착 3자리(enrich=posts 축 · post_refs 수집 · post_refs 배송) — 하나만 빠져도 그 칸만 조용히 구판으로 남는다.
+        if sig.count("cover_title(") < 3:
+            fails.append('apps/insta/insta_signals.py: ovt 부착 자리 부족(%d/3 — enrich·post_refs 수집·배송) '
+                         '— 빠진 칸만 글 첫 줄로 남아 요약이 표면마다 다른 이름을 쓴다' % sig.count("cover_title("))
+        if "'ovt'" not in sig:
+            fails.append('apps/insta/insta_signals.py: ovt 키 소실 — 소비처가 읽을 필드가 없다')
+        # 분류 축 무접촉 = 과거 게시물 전건 재라벨 방지(성장 3기·주제 비중 시계열 보호).
+        for bad in ('naming_style(cover_title', 'category(cover_title', 'naming_features(cover_title'):
+            if bad in sig:
+                fails.append('apps/insta/insta_signals.py: 분류 입력을 표지 제목으로 갈아끼웠다(%s) — 과거 게시물 '
+                             '전건이 다른 라벨로 재계산돼 요약이 읽는 시계열이 통째로 갈린다(표시 축 전용 계약 위반)' % bad)
+
+    cb = _read('.github/scripts/chan_brief.sh')
+    if cb and "x.get('ovt')" not in cb:
+        fails.append(".github/scripts/chan_brief.sh: 일별 「올린 것」 칸이 ovt 를 안 쓴다 — 요약이 다시 글 첫 줄로 게시물을 지목한다")
+    bl = _read('apps/insta/brief_lib.py')
+    if bl and "p.get('ovt')" not in bl:
+        fails.append("apps/insta/brief_lib.py: 터진 게시물 이름이 ovt 를 안 쓴다 — 총론 임팩트 문단이 화면에 없는 제목을 부른다")
+    al = _read('.github/scripts/algo_ledger.py')
+    if al and "'ovt'" not in al:
+        fails.append(".github/scripts/algo_ledger.py: 원장에 ovt 미탑재 — 회차가 지나면 그 시점 표지 제목을 영영 복원 못 한다")
+
+    yml = _read('.github/workflows/insta-fetch.yml')
+    if yml:
+        if 'insta_cover_ocr.py' not in yml:
+            fails.append('.github/workflows/insta-fetch.yml: 판독 스텝 미배선 — 원장이 영영 안 자란다(새 게시물 전건 구판 이름)')
+        else:
+            # ⚠ 순서는 **실행줄**로 잰다 — 이 워크플로는 머리 주석·입력 설명에 chan_brief.sh 를 여러 번 언급해서
+            #   단순 첫 매치로 재면 배선이 정상인데도 「브리프 뒤」로 오판한다(첫 실행 실측 봉합).
+            _m_ocr = re.search(r'^\s*(?:run:|-)?[^\n]*python3\s+\.github/scripts/insta_cover_ocr\.py', yml, re.M)
+            _m_br = re.search(r'^\s*(?:run:)?\s*bash\s+\.github/scripts/chan_brief\.sh', yml, re.M)
+            i_ocr = _m_ocr.start() if _m_ocr else yml.find('insta_cover_ocr.py')
+            i_brief = _m_br.start() if _m_br else -1
+            if i_brief >= 0 and i_ocr > i_brief:
+                fails.append('.github/workflows/insta-fetch.yml: 판독 스텝이 채널 브리프 **뒤** — 그 회차 요약엔 새 제목이 '
+                             '안 실린다(항상 한 회차 늦게 반영 = 무증상 지연)')
+            # 판독 뒤 신호 재계산이 없으면 원장은 자라는데 insta_data.json 엔 안 실린다(가장 조용한 죽음).
+            tail = yml[i_ocr:i_ocr + 400]
+            if 'insta_signals.py' not in tail:
+                fails.append('.github/workflows/insta-fetch.yml: 판독 직후 신호 재계산 누락 — 원장은 자라는데 브리프가 '
+                             '읽는 파일엔 새 이름이 안 실린다(에러 0·요약 정상 = 무증상)')
+        if not re.search(r'git_land\.sh[^\n]*apps/insta/data', yml):
+            fails.append('.github/workflows/insta-fetch.yml: git_land 인자에 apps/insta/data 누락 — 원장이 커밋 안 돼 '
+                         '매 회차 전량 재판독(비용이 조용히 는다)')
+    if fails:
+        print('❌ 표지 제목 체인 결손 %d건 — 요약이 화면에 뜬 적 없는 문장으로 게시물을 지목한다:' % len(fails))
+        for f in fails:
+            print('   ·', f)
+        print('   → 정본 = .github/scripts/insta_cover_ocr.py · 원장 = apps/insta/data/cover_titles.json '
+              '· 소비 = insta_signals(ovt) → chan_brief/brief_lib.')
+        return 1
+    print('✅ 표지 제목 체인 — 판독기·원장·부착 3자리·소비 3표면·워크플로 순서 전 층 생존.')
+    return 0
+
+
 def check_algo_ledger():
     """알고리즘 인사이트 회차 원장 불변식(하드 · 운영자 260802 · 평의회 합의 — 정본 = `.github/scripts/algo_ledger.py` ·
     집계 = `apps/insta/algo_insight.py` · 원장 = apps/insta/data/algo_runs/**).
@@ -7423,6 +7529,11 @@ def main():
             rc = 1
     except Exception as e:
         print('⚠️ 회차 원장 게이트 스킵:', e)
+    try:
+        if check_cover_title_chain() != 0:   # 게시물 이름 = 표지에 박힌 제목(운영자 260812 — 요약이 「글 첫 줄」로 게시물을 지목해 화면에 뜬 적 없는 문장을 이름이라 부르던 축 · 한 층만 빠져도 조용히 구판 이름으로 회귀)
+            rc = 1
+    except Exception as e:
+        print('⚠️ 표지 제목 체인 게이트 스킵:', e)
     try:
         if check_brief_lib() != 0:   # 채널 요약 지식 라이브러리(운영자 260808 — 아카이브 24회차가 쌓이는데 프롬프트엔 직전 1회차 1500자[전문의 36%]만 실려 [3개월]·[전체]·[총론]이 매 회차 증발하던 축 · 「호출은 사는데 프롬프트에서 빠지는」 무증상 죽음까지 봉합)
             rc = 1

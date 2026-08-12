@@ -76,6 +76,22 @@ jobs:
       - name: Install Claude Code CLI (채널 브리프 스텝용 — LLM 0콜 수집 레인이라 브리프 게이트와 동기 · sns-trends.yml 관용구)
         if: ${{ github.event_name != 'push' && (inputs.brief || '1') == '1' }}   # 기본 ON 승격(§📰-e 이행 — 카나리아 run 29263671640 실측 260714: rc=0·브리프 1,355자 생성) · push(하트비트) 런 = 브리프 install 스킵(데이터 수집만 · 3h schedule 캐던스 보존 260720) · 롤백 = || '0'
         run: npm install -g @anthropic-ai/claude-code
+      # ── 표지 제목 판독(운영자 260812 "오버레이가 가장 정확한 내용이거든") ──
+      # 요약이 «…» 로 게시물을 지목할 때 쓰던 이름 = 글 첫 줄인데, 노뮤트는 카드 제목과 글 첫 줄을 각각 따로
+      # 쓴다(실측 = 「🚨 엿새 만에 다시 쐈다…」 ↔ 카드 「북한, 엿새 만에 '또 쐈다'」) → 표지에 박힌 제목을 읽어
+      # 원장에 굽고, 신호를 다시 계산해 그 이름을 insta_data.json 에 싣는다(브리프가 그 파일을 읽는다 = 순서 계약).
+      # 비용 = 읽을 바이트가 이미 우리 것(viewer/insta_covers) + 미디어 id별 1회만 = 평시 1콜 · 종량제 0(구독 축).
+      # 재계산이 필요한 이유 = 커버를 굽는 것도 이름을 붙이는 것도 insta_signals 라 판독 전 산출엔 이름이 못 실린다.
+      - name: 표지 제목 판독 + 신호 재계산(채널 브리프 입력 · fail-soft = 실패해도 종전 이름 그대로)
+        if: ${{ github.event_name != 'push' && (inputs.brief || '1') == '1' }}   # claude CLI 설치 스텝과 동일 게이트(브리프 레인 편승) · push 하트비트 = 스킵(원장 적중분은 그대로 붙는다)
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets[format('CLAUDE_CODE_OAUTH_TOKEN_{0}', vars.ACTIVE_ACCOUNT || 'MUTENO')] }}
+          CLAUDE_CODE_OAUTH_TOKEN_ALT: ${{ (vars.ACTIVE_ACCOUNT || 'MUTENO') == 'NOMUTEFB' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_NOMUTEFB }}
+          CLAUDE_CODE_OAUTH_TOKEN_ALT2: ${{ (vars.ACTIVE_ACCOUNT || 'MUTENO') == 'MUTENO' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_MUTENO }}
+          CLAUDE_CODE_OAUTH_TOKEN_ALT3: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN_MUTENONA }}
+        run: |
+          python3 .github/scripts/insta_cover_ocr.py || true
+          python3 apps/insta/insta_signals.py || true
       - name: 채널 AI 브리프(메뉴4 · 성장 서사+전략 · 운영자 260714) — 입력 동일 = 스킵(토큰 0) · 실패 = 직전 유지(fail-soft) · SNS 트렌드 브리프와 별개 축
         env:
           CHAN_BRIEF: ${{ github.event_name == 'push' && '0' || (inputs.brief || '1') }}   # 기본 ON(§📰-e 이행 — 카나리아 run 29263671640 실측 260714: 성장 서사+전략 4줄 정상 · schedule = inputs 없음 → '1') · dispatch brief='0' = 일시 OFF · push(하트비트) = '0' 강제(데이터 수집만 · 비싼 AI 브리프는 3h schedule 전용 · 260720) · 롤백 = inputs.brief || '1'
