@@ -8863,6 +8863,10 @@ function _rptSrc(m) {
   //   세션이 진짜 생산자(.github/scripts/grok_sb_video.py notify())를 못 찾는다 — sys:fire: 오귀속과 같은 축.
   if (id.startsWith('sb-video-fail-')) return { fn: '.github/scripts/grok_sb_video.py notify()', src: 'sb_out/<id>/video.json cuts[].video 결손(자동 1회 재시도 후에도 실패한 편)', up: '.github/workflows/sb-make.yml Grok video 스텝 → shared/msg.py',
     cmd: 'python3 -c "import json;d=json.load(open(\'viewer/sb_out/<콘티id>/video.json\'));[print(c[\'n\'],c.get(\'retried\'),c.get(\'fail\')) for c in d[\'cuts\'] if not c.get(\'video\')]"' };
+  // 열쇠 되쓰기 실패 = 러너가 발행한다. 폴백으로 두면 상류가 scraper/msg.py 로 잘못 찍혀
+  //   세션이 진짜 생산자(shared/grok_api.py _persist_alarm())를 못 찾는다 — sb-video-fail- 과 같은 축.
+  if (id.startsWith('key-persist-')) return { fn: 'shared/grok_api.py _persist_alarm()', src: '_persist_secret() 실패(권한 토큰 부재·봉인 도구 부재·공개키 실패·쓰기 거절·예외)', up: '.github/workflows/sb-make.yml 촬영 스텝 · hf-check.yml → shared/msg.py',
+    cmd: 'gh run list --workflow sb-make.yml --limit 5   # 해당 런 로그에서 "되쓰기" 경고 줄 확인 · 조치는 판정기 재실행(코드 축 아님)' };
   if (m._shellupd) return { fn: 'viewer/index.html shellUpdMsg()', src: '_shellUpdPending(SW nm-shell-updated → flagShellUpdate)', up: 'sw.js 셸 SWR 재검증 + viewer/index.html 배포' };
   if (m._stale) return { fn: 'viewer/index.html staleDataMsg()', src: 'candStale() = 소스축 CAND_LIVE(정적 폴백) ∪ 시간축 CAND_TS(수신 경과 > CAND_STALE_MS)', up: 'functions/api + viewer/candidates.json' };   // 260731: src를 'CAND_LIVE' 단독으로 두면 새 조건(라이브인데 수신이 낡음 = CAND_LIVE **true**)에서 진단이 원인을 잘못 지목한다 — 260730 리포트 1번 항목("후보라이브=true인데 적재 실패로 지목")과 같은 모양의 재발이라 두 축을 병기(원값은 msgRptDiag.후보수신경과분)
   if (m._health) return { fn: 'viewer/index.html healthMsg()', src: "SHC(localStorage 'nomute_shc').healthy=false", up: 'thumb.html 맞춤법 검사기 + ?selftest 프로브' };
