@@ -51,7 +51,7 @@ REF_CAP, REF_BEST = 3, 2
 
 # 컷 머리 = `### 컷3 · 4~7s · 한 줄 설명`(sb-make.md 출력 형식) — 시각 표기는 없을 수도 있다
 _CUT = re.compile(r"^###\s*컷\s*(\d+)\s*(?:·\s*([\d.]+)\s*~\s*([\d.]+)\s*s)?\s*(?:·\s*(.*))?$", re.M)
-_FIELD = re.compile(r"^(ACTION|CAMERA|DIALOGUE|MOTION)\s*:\s*(.*)$", re.M)
+_FIELD = re.compile(r"^(ACTION|CAMERA|DIALOGUE|MOTION|SFX)\s*:\s*(.*)$", re.M)
 
 def cuts_of(md):
     """board.md → [{n, sec, desc, action, camera, dialogue}] (문서 순)."""
@@ -77,6 +77,8 @@ def cuts_of(md):
             "motion": f.get("MOTION", ""),
             "camera": f.get("CAMERA", ""),
             "dialogue": f.get("DIALOGUE", ""),
+            # SFX = 그 컷에서 실제로 나는 소리(영어 · 감독이 적는다). 없으면 뭉뚱그린 지시로 폴백한다.
+            "sfx": f.get("SFX", ""),
         })
     return out
 
@@ -162,7 +164,11 @@ def vid_prompt(c, sound=True, nrefs=0, ids=None):
     if sound:
         # 컷이 대사를 적었어도 **말소리는 넣지 않는다** — 이미지→영상은 립싱크가 구조적으로
         # 불리하고(§4-3), 실존 인물 축 위험도 여기서 함께 차단된다(§7-3 ①).
-        parts.append("Sound: ambient room tone and the natural sounds of the action, no music.")
+        # ⚠ 감독이 SFX 를 적었으면 **그 문장을 쓴다** — 아래 폴백은 「알아서 골라라」라서
+        #   총성이 나야 할 컷에 빗소리만 실리는 식으로 갈린다(260811 실측 = 소리 축이 컷마다 흔들렸다).
+        sfx = (c.get("sfx") or "").strip()
+        parts.append("Sound: {} No music.".format(sfx.rstrip(". ") + ".") if sfx
+                     else "Sound: ambient room tone and the natural sounds of the action, no music.")
     else:
         # 끄기 = 4수법을 순서대로(마지막 부정문만 단독으로 쓰면 역효과 · §4-3)
         parts.append("Lips still and sealed, calm neutral expression.")
@@ -205,6 +211,41 @@ def strip_audio(path):
         return True
     print("::warning::소리 제거 실패(원본 유지): {}".format(r.stderr.decode("utf-8", "replace")[:200]))
     return False
+
+
+def stitch(paths, out_path):
+    """컷 조각을 **한 편으로 이어붙인다** — 외부 호출 0 = 추가 과금 0.
+
+    ⚠ 왜 필요했나 = 이 레인의 산출이 지금까지 **조각 12개**였다. 운영자가 화면에서 받으면
+      12번 받아서 직접 붙여야 했고, 그건 「여기서 끝까지 간다」는 콘티 레인의 성격과 어긋난다
+      (첫 실호출 18.5초 완본도 사람이 손으로 붙인 것이지 레인이 낸 게 아니었다).
+    ⚠ 왜 흐름 복사가 아니라 다시 굽나 = 그록 산출에는 표지 그림 트랙(mjpeg)이 같이 들어 있어
+      복사 이어붙이기가 그 트랙에서 깨진다(실측). 영상·소리 첫 줄만 집어 다시 굽는다.
+    ⚠ 조각은 그대로 둔다 — 컷 단위로 다시 쓰거나 한 컷만 갈아 끼우는 게 이 레인의 쓰임이다.
+    """
+    if len(paths) < 2:
+        return None
+    lst = out_path + ".txt"
+    try:
+        with open(lst, "w", encoding="utf-8") as f:
+            for p in paths:
+                f.write("file '{}'\n".format(os.path.abspath(p).replace("'", "'\\''")))
+        r = subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "concat", "-safe", "0", "-i", lst,
+                            "-map", "0:v:0", "-map", "0:a:0?", "-c:v", "libx264", "-preset", "veryfast",
+                            "-crf", "20", "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "192k",
+                            "-movflags", "+faststart", out_path], capture_output=True)
+        if r.returncode == 0 and os.path.exists(out_path) and os.path.getsize(out_path) > 0:
+            return out_path
+        print("::warning::이어붙이기 실패(조각은 그대로 산다): {}".format(
+            r.stderr.decode("utf-8", "replace")[:220]))
+    except Exception as e:  # noqa: BLE001
+        print("::warning::이어붙이기 예외(비치명): {}".format(str(e)[:200]))
+    finally:
+        try:
+            os.remove(lst)
+        except OSError:
+            pass
+    return None
 
 
 def main():
@@ -252,7 +293,7 @@ def main():
         for s in ids:
             print("  · {}".format(s))
 
-    items, spent = [], 0.0
+    items, spent, locals_ = [], 0.0, []   # locals_ = 이어붙이기 재료(업로드 뒤에도 마지막까지 들고 있는다)
     for c in cuts:
         rec = {"n": c["n"], "sec": c["sec"], "desc": c["desc"], "refs": len(refs), "video": None}
         try:
@@ -274,8 +315,7 @@ def main():
                 strip_audio(local)
             vkey = "{}/{}/cut{:02d}.mp4".format(prefix, stem, c["n"])
             rec["video"] = tg.r2_upload(open(local, "rb").read(), vkey, "video/mp4") if tg.R2_ON else None
-            if rec["video"]:
-                os.remove(local)   # R2 로 갔으면 레포에 안 남긴다(레포 비대 0 = k_refgen 관례)
+            locals_.append(local)   # ⚠ 지우는 건 이어붙인 **뒤**다(구판은 여기서 바로 지워 완본을 만들 재료가 없었다)
             print("컷{} ✓ {}초 · ${} · {}".format(c["n"], c["sec"], rec["cost"], rec["video"] or local))
         except gk.GrokError as e:
             # ⚠ 자동 재시도 없음(운영자 260811) — 다시 쏘면 돈이 또 나가고, 검열 차단은
@@ -294,9 +334,30 @@ def main():
     for r in items:
         if not r.get("video") and not r.get("fail"):
             r["fail"] = r.get("fail") or "그림 단계에서 막혔다(위 경고 참조)"
+    # 완본 = 조각을 한 편으로(외부 호출 0 · 과금 0). 실패해도 조각은 그대로 살아 있다.
+    full_url = None
+    if len(locals_) >= 2:
+        fp = stitch(locals_, os.path.join(out_dir, "full.mp4"))
+        if fp:
+            try:
+                full_url = tg.r2_upload(open(fp, "rb").read(),
+                                        "{}/{}/full.mp4".format(prefix, stem), "video/mp4") if tg.R2_ON else None
+            except Exception as e:  # noqa: BLE001
+                print("::warning::완본 업로드 실패(조각은 산다): {}".format(str(e)[:200]))
+            if full_url:
+                os.remove(fp)
+            print("완본 {}컷 이어붙임 → {}".format(len(locals_), full_url or fp))
+    for lp in locals_:   # R2 로 간 조각은 레포에 안 남긴다(레포 비대 0 = k_refgen 관례)
+        if tg.R2_ON and os.path.exists(lp):
+            try:
+                os.remove(lp)
+            except OSError:
+                pass
+
     sc.add(out_dir, "grok", "video", done, usd=spent, est=False)   # 응답 실값 = 계산 아님
     json.dump({"cuts": items, "done": done, "total": len(cuts), "sound": sound,
-               "cost_usd": round(spent, 4), "refs": len(refs), "ref_reason": reason},
+               "cost_usd": round(spent, 4), "refs": len(refs), "ref_reason": reason,
+               "full": full_url},
               open(os.path.join(out_dir, "video.json"), "w", encoding="utf-8"), ensure_ascii=False)
     # 과금 단위 판별 — 컷 길이가 두 종류 이상이면 그 자리에서 답이 나온다(길이별 값이 같으면
     # 호출당 고정 · 길이에 비례하면 초당). 표본이 한 길이뿐이면 「판별 불가」라고 쓴다(추측 금지).

@@ -652,7 +652,9 @@ async function sbLand(outEl, outPath) {
         const v = await vr.json();
         const got = ((v && Array.isArray(v.cuts)) ? v.cuts : []).filter(c => c && c.video);
         if (got.length) {
-          got.forEach(c => nmRail.add({ url: abs(c.video), cap: '콘티', dlname: 'cut' + String(c.n || 1).padStart(2, '0') + '.mp4' }));
+          // 완본이 있으면 그 한 편만 얹는다 — 이전 제작은 「만든 것」 목록이지 조각 창고가 아니다.
+          if (v.full) nmRail.add({ url: abs(v.full), cap: '콘티', dlname: 'storyboard.mp4' });
+          else got.forEach(c => nmRail.add({ url: abs(c.video), cap: '콘티', dlname: 'cut' + String(c.n || 1).padStart(2, '0') + '.mp4' }));
           return;
         }
       }
@@ -684,7 +686,12 @@ async function renderOut(md, outEl, outPath) {   // 결과 렌더 공통(폴 성
         const cs = (v && Array.isArray(v.cuts)) ? v.cuts : [];
         const ok = cs.filter(c => c && c.video);
         if (ok.length) {
-          const cells = cs.map(c => (c && c.video)
+          // 완본이 있으면 **맨 앞**에 세운다 — 운영자가 먼저 보는 건 이어붙인 한 편이고
+          // 조각은 그 아래에서 컷 단위로 다시 쓸 때 쓴다(러너가 굽는다 = 추가 과금 0).
+          const fullCell = v.full
+            ? '<video src="' + String(v.full).replace(/"/g, '%22') + '" controls playsinline preload="metadata" data-ix="full"></video>'
+            : '';
+          const cells = fullCell + cs.map(c => (c && c.video)
             ? '<video src="' + String(c.video).replace(/"/g, '%22') + '" controls playsinline preload="metadata" data-ix="' + (c.n || '') + '"></video>'
             : '<div class="refmiss">컷 ' + ((c && c.n) || '?') + ' 실패 — ' + esc(String((c && c.fail) || '사유 미기록')) + '</div>').join('');
           const secs = ok.reduce((a, c) => a + (+c.sec || 0), 0);
