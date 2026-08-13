@@ -5650,6 +5650,17 @@ def check_grok_sb_chain():
             ("LANE.alive(", "기다리기 전 접수 확인 호출", "grok_sb_video.py", _gv)):
         if needle not in txt:
             print("❌ 그록 콘티 레인 — {} 에 {} 가 없다({})".format(where, why, needle)); rc = 1
+    # ④-d **창구의 되물음에 답을 쥐고 있어야 한다**(260813 실사고 · 회신 원문 실측).
+    #   창구는 발사 대신 「이 프리셋 어때요」로 되물을 수 있다(`Submitted 0/1 … declined_preset_id=…`).
+    #   사람이 보고 있으면 「아니요」를 누르는 자리인데 러너엔 사람이 없어서, 구판은 그 되물음을
+    #   성공으로 읽고 없는 작업을 상한까지 기다렸다 — 값도 산출도 0인데 로그는 「큐 대기」였다.
+    #   ⚠ `use_unlim` 명시와 **같은 축**이다: 사람 없는 통로는 되물음마다 답이 미리 있어야 한다.
+    for needle, why in (("_declined_preset", "프리셋 되물음 판정"),
+                        ("declined_preset_id", "사양 인자 전달"),
+                        ("submitted 0/", "실패 회신에서 번호 줍기 금지")):
+        if needle not in _ls:
+            print("❌ 그록 콘티 레인 — lane_seedance.py 에 {} 가 없다({})".format(why, needle)); rc = 1
+
     # 순서도 계약이다 — 확인이 기다리기 **뒤**에 있으면 50분을 그대로 기다린 다음에 안다.
     if "LANE.alive(" in _gv and "LANE.wait(" in _gv and _gv.index("LANE.alive(") > _gv.index("LANE.wait("):
         print("❌ 그록 콘티 레인 — 접수 확인이 기다리기보다 뒤에 있다(기다린 뒤에 알면 의미가 없다)"); rc = 1

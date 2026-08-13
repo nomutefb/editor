@@ -404,7 +404,22 @@ def start(prompt, *, token, refs=None, seconds=None, ratio=None, sound=None):
     args = dict(_params(seconds or SHOT_SEC, ratio, sound=sound), prompt=prompt)
     if refs:
         args["medias"] = [{"value": m, "role": "image_references"} for m in _media_ids(refs, token)]
-    d = call("generate_video_batch", {"requests": [{"index": 0, "params": args}]}, token)
+    # ⚠⚠ **창구가 발사 대신 되묻는 자리가 있다**(260813 실사고 · 회신 원문 실측) —
+    #   「Submitted 0/1 … Preset "IN THE DARK" was recommended instead of submitting a job.
+    #    Retry this index with declined_preset_id=<번호>」. 사람이 보고 있으면 「아니요」를 누르는
+    #   자리인데 러너엔 사람이 없다. 구판은 그 되물음을 성공으로 읽고(글 속 프리셋 번호를 작업
+    #   번호로 집어) 없는 작업을 상한까지 기다렸다 — 값도 산출도 0인데 로그는 「큐 대기」였다.
+    #   ⚠ 무제한 사용 여부(`use_unlim`)를 명시하는 것과 **같은 축**이다: 사람 없는 통로는
+    #     창구의 되물음마다 답을 미리 쥐고 있어야 하고, 안 쥐면 조용히 아무것도 안 만든다.
+    #   답 = 추천 프리셋을 사양하고(그 번호를 되돌려 보내) 우리 값 그대로 다시 쏜다.
+    d = None
+    for _ in range(_PRESET_DECLINE_MAX):
+        d = call("generate_video_batch", {"requests": [{"index": 0, "params": args}]}, token)
+        pid = _declined_preset(d)
+        if not pid:
+            break
+        print("창구가 프리셋을 권했다 — 사양하고 우리 값으로 다시 쏜다(프리셋 {})".format(str(pid)[:12]))
+        args["declined_preset_id"] = pid
     jid = _job_id(d)
     # ⚠ **집은 번호가 진짜 작업인지 그 자리에서 확인한다**(260813 실사고) — 번호 파서의 글자 폴백은
     #   글 속 아무 UUID 나 집을 수 있고, 실제로 그렇게 집힌 값이 **두 판 연속 똑같았다**
@@ -423,6 +438,24 @@ def start(prompt, *, token, refs=None, seconds=None, ratio=None, sound=None):
         raise LaneError("발사는 됐는데 작업 번호를 못 찾았다 — 회신 원문을 보고 번호를 회수하라",
                         retryable=False, body=json.dumps(d, ensure_ascii=False)[:600])
     return jid
+
+
+_PRESET_DECLINE_MAX = 3   # 되물음이 프리셋을 바꿔 가며 반복될 수 있다 — 무한 왕복은 막는다
+_DECLINE_RE = re.compile(r"declined_preset_id\s*=\s*([0-9a-fA-F-]{36})")
+
+
+def _declined_preset(d):
+    """창구가 「이 프리셋 어때요」로 되물었으면 사양할 번호를 꺼낸다(없으면 None).
+
+    ⚠ 판정은 **창구가 준 지시문 그대로**(`declined_preset_id=<번호>`) 읽는다 — 프리셋 이름이나
+      「recommended」 같은 말은 문구가 바뀌면 조용히 안 걸리지만, 이 인자 이름은 스키마에
+      박힌 값이라 안 흔들린다.
+    """
+    if not isinstance(d, dict):
+        return None
+    txt = d.get("text") if isinstance(d.get("text"), str) else json.dumps(d, ensure_ascii=False)
+    m = _DECLINE_RE.search(txt or "")
+    return m.group(1) if m else None
 
 
 def _job_id(d):
@@ -449,6 +482,12 @@ def _job_id(d):
             return d[k]
     # 글자로 온 회신 — 작업 번호는 UUID 모양이라 그것만 집는다(아무 숫자나 줍지 않는다).
     txt = d.get("text") if isinstance(d.get("text"), str) else json.dumps(d, ensure_ascii=False)
+    # ⚠ **실패 회신에서는 아무 번호도 집지 않는다**(260813 실사고) — 「Submitted 0/1 …」 같은 글에
+    #   박힌 프리셋 번호를 작업 번호로 집어 없는 작업을 기다렸다. 실패라고 말한 회신에서 번호를
+    #   줍는 건 구조적으로 틀렸다(집을 게 없는 게 정상이고, 그래야 원문이 위로 올라간다).
+    low = (txt or "").lower()
+    if "submitted 0/" in low or "submission_failed" in low:
+        return None
     m = _UUID.search(txt or "")
     return m.group(0) if m else None
 
