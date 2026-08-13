@@ -82,8 +82,15 @@ PRESET = dict(PRESETS.get((os.environ.get("SD_PRESET") or "A").strip().upper(), 
 _RES_NM = {"480p": "480p", "720p": "720p", "FHD": "1080p", "1080p": "1080p", "4K": "4k", "4k": "4k"}
 RES_OK = {"seedance_2_5": ("480p", "720p"),
           "seedance_2_0": ("480p", "720p", "1080p", "4k")}
+#   ⚠ 그 표는 **창구가 준 목록**이지 창구가 실제로 검사하는 규칙이 아니다 — 화질 칸은 무엇을
+#     보내도 받아주므로(위 되돌림) 목록에 없는 이름이 실은 통할 여지가 남는다. 그걸 묻는
+#     통로가 `SD_RES_PROBE=1`(견적 확인 전용 · 과금 0) = 문지기를 잠깐 열고 **날 이름 그대로**
+#     보내 값이 달라지는지 본다. 값이 720p 와 같으면 그 이름은 모르는 이름이라는 뜻이다.
+_probe = os.environ.get("SD_RES_PROBE") == "1"
 _res = (os.environ.get("SD_RES") or "").strip()
-if _res:
+if _res and _probe:
+    PRESET["res"] = _RES_NM.get(_res, _res)
+elif _res:
     _v = _RES_NM.get(_res)
     _ok = RES_OK.get(PRESET["model"], ())
     if _v is None or _v not in _ok:

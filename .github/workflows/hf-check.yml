@@ -22,7 +22,11 @@ on:
         type: string
         default: ''
       res:
-        description: '화질(720p·FHD·2K·4K · 빈값 = 프리셋 기본) — 인터페이스 표기와 창구 실제가 다를 수 있어 견적으로 먼저 묻는다'
+        description: '화질(720p·FHD·4K · 빈값 = 프리셋 기본) — 인터페이스 표기와 창구 실제가 다를 수 있어 견적으로 먼저 묻는다'
+        type: string
+        default: ''
+      probe:
+        description: '문지기를 열고 날 이름 그대로 물어본다(1 = 켜기) — 창구 목록에 없는 이름이 실은 통하는지 보는 칸. 견적만 보므로 과금 0.'
         type: string
         default: ''
 
@@ -56,6 +60,7 @@ jobs:
           SD_RATIO: ${{ inputs.ratio }}
           SD_SHOT_SEC: ${{ inputs.sec }}
           SD_RES: ${{ inputs.res }}
+          SD_RES_PROBE: ${{ inputs.probe }}
         run: |
           [ -n "$HIGGSFIELD_REFRESH_TOKEN" ] || {
             echo "시댄스 확인: 미시도(HIGGSFIELD_REFRESH_TOKEN 미등록)"   # 무성 스킵 금지(계측 문법)
