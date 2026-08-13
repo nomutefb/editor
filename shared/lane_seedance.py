@@ -429,14 +429,14 @@ def start(prompt, *, token, refs=None, seconds=None, ratio=None, sound=None):
     if jid and not alive(jid, token=token):
         raise LaneError(
             "발사가 접수되지 않았다 — 집은 번호 {} 가 창구에 없다(회신 원문을 보고 파서를 고쳐라)".format(str(jid)[:20]),
-            retryable=True, body=json.dumps(d, ensure_ascii=False)[:900])
+            retryable=True, code_axis=True, body=json.dumps(d, ensure_ascii=False)[:900])
     if not jid:
         # ⚠ 회신 모양이 미확인 축이라 **원문을 그대로 남긴다** — 다음 세션이 추측으로 메우지 않게.
         # ⚠ **다시 쏘지 않는다** — 이름 그대로 「발사는 됐는데」다. 여기서 재시도하면 이미 돌고
         #   있는 발사 위에 하나를 더 얹어 성공 두 발 값이 나간다(260812 페이블 검증 = 재시도의
         #   주 고객이 바로 이 자리였다). 회신 원문을 실어 보내 사람이 번호를 회수하게 한다.
         raise LaneError("발사는 됐는데 작업 번호를 못 찾았다 — 회신 원문을 보고 번호를 회수하라",
-                        retryable=False, body=json.dumps(d, ensure_ascii=False)[:600])
+                        retryable=False, code_axis=True, body=json.dumps(d, ensure_ascii=False)[:600])
     return jid
 
 

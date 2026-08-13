@@ -63,13 +63,22 @@ DEFAULT = "grok"
 class LaneError(Exception):
     """통로 무관 실패. 러너는 이 3속성으로만 분기한다(벤더 필드 직독 금지)."""
 
-    def __init__(self, why, *, retryable=True, auth_dead=False, no_credit=False, body=""):
+    def __init__(self, why, *, retryable=True, auth_dead=False, no_credit=False, body="",
+                 code_axis=False):
         super().__init__(why)
         self.why = why
         self.retryable = retryable
         self.auth_dead = auth_dead
         self.no_credit = no_credit
         self.body = body
+        # ⚠ **조치 주체를 실패가 스스로 말한다**(260814 실사고) — 「창구 회신을 우리가 못 읽었다」류는
+        #   운영자가 다시 쏴도 같은 자리에서 같은 글을 또 못 읽는다 = **코드가 고쳐야 끝나는 축**이다.
+        #   이 플래그가 없으면 알림이 전건 「네가 다시 쏘면 돼」로 나가고, 리포트 머리가
+        #   「클로드가 볼 일 0건」이라 말해 **코드 결함이 운영자 칸에 숨는다**(CLAUDE.md 규약
+        #   「원인이 코드 축이면 👉를 안 붙인다」의 네 번째 재발 · 실측 = 알림 본문이 스스로
+        #   "파서를 고쳐라"라고 적어 놓고 👉 는 "다시 쏴라"였다).
+        #   ⚠ 사유 **문자열 매칭으로 가르지 않는다** — 문구를 다듬는 날 조용히 안 걸린다.
+        self.code_axis = code_axis
 
 
 def pick(name=None):

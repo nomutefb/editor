@@ -477,7 +477,23 @@ def notify(stem, items):
         ok = [r for r in items if r.get("ok")]
         if ok:
             lines.append("나온 {}편은 그대로 살아 있어(결과 레일에서 볼 수 있어).".format(len(ok)))
-        todo = VID_TODO_RETRIED if any(r.get("retried") for r in bad) else VID_TODO_ONCE
+        # ⚠⚠ **조치 주체를 여기서 가른다**(260814 실사고 · CLAUDE.md 「원인이 코드 축이면 👉 를 안 붙인다」).
+        #   구판은 어떤 실패든 「네가 다시 쏘면 돼」를 붙였다 — 그런데 그 실패 중엔 **알림 본문이 스스로
+        #   "회신 원문을 보고 파서를 고쳐라"라고 적는 건**이 섞여 있었다. 👉 가 붙은 알림은 뷰어가
+        #   「운영자가 할 일」로 가르므로(`_rptWho`), 리포트 머리가 「클로드가 볼 일 0건」이라 말하고
+        #   **코드 결함이 운영자 칸에 숨는다**. 실측 260814 리포트 = 운영자 3 · 클로드 0 인데 그 3건 중
+        #   1건이 파서 축이었다. 운영자는 다시 쏘고, 같은 자리에서 또 막히고, 아무도 코드를 안 고친다.
+        #   ⚠ 섞이면 **코드 축이 이긴다** — 파서가 안 고쳐지면 다시 쏴도 그 편은 또 죽는다.
+        code_bad = [r for r in bad if r.get("code_axis")]
+        if code_bad:
+            lines.append("")
+            lines.append("이 중 {}편은 창구 회신을 우리 코드가 못 읽어서 막힌 거야 — 다시 쏴도 같은 자리에서 "
+                         "또 막혀. 위 회신 원문째로 넘겨서 읽는 자리를 고쳐야 끝나.".format(len(code_bad)))
+            if len(bad) > len(code_bad):
+                lines.append("나머지 {}편은 다시 쏘면 되는 종류야.".format(len(bad) - len(code_bad)))
+            todo = ""   # 👉 를 안 붙인다 = 뷰어가 「클로드가 볼 일」로 가른다(규약 그대로)
+        else:
+            todo = VID_TODO_RETRIED if any(r.get("retried") for r in bad) else VID_TODO_ONCE
         subprocess.run([sys.executable, MSG_PY, "set", mid, "\n".join(lines) + todo, "warn"], check=False)
         print("알림 발행 = {}".format(mid))
     except Exception as e:  # noqa: BLE001
@@ -603,7 +619,7 @@ def main():
                 if hasattr(LANE, "alive") and not LANE.alive(rid, token=token):
                     raise LANE.LaneError(
                         "발사가 접수되지 않았다(번호 {} 가 창구에 없다) — 값은 안 나갔다".format(str(rid)[:20]),
-                        retryable=True)
+                        retryable=True, code_axis=True)
                 v = LANE.wait(rid, token=token)
                 # ⚠ 컷별 값을 적는다(운영자 260811 「최적의 순간을 찾는다」) — 합계만 적혀 있으면
                 #   「호출 1번에 고정인가 · 초당인가」를 영영 못 가른다(첫 판 실측 = 1초 6개 + 2초 6개
@@ -625,11 +641,15 @@ def main():
                 #   실패 알림까지 발행했다(260812 오프라인 실측). 주소는 배달 축이라 성패와 별개다.
                 locals_.append(local)   # ⚠ 지우는 건 이어붙인 **뒤**다(구판은 여기서 바로 지워 완본을 만들 재료가 없었다)
                 rec.pop("fail", None)   # 1차가 죽고 2차가 살면 실패 표식을 지운다(산출은 성공이다)
+                rec.pop("code_axis", None)   # 조치 주체 표식도 같이 — 성공한 편이 코드 축을 켜 두면 거짓 신호
                 print("영상{} ✓ {}초 · ${} · 참조 {} · {}".format(
                     c["n"], c["sec"], rec["cost"], rec.get("ref_mode"), rec["video"] or local))
                 break
             except ln.LaneError as e:
                 rec["fail"] = e.why
+                # ⚠ 조치 주체를 산출까지 실어 나른다 — 알림이 이 값으로 👉 를 붙일지 정한다.
+                if getattr(e, "code_axis", False):
+                    rec["code_axis"] = True
                 # ⚠ 회신 **원문**을 산출에 남긴다 — 통로가 body 에 원문을 실어 주는데 러너가
                 #   그걸 버려서, 「작업 번호를 못 찾았다」류 실패에서 그 번호가 든 유일한 종이가
                 #   사라지고 있었다(= 돈은 나갔는데 무엇이 나갔는지 회수 불가).
