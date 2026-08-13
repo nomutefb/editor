@@ -8924,6 +8924,26 @@ function msgRptHtml() {
     const g = rows.filter(m => _rptWho(m) === w);
     return g.length ? '<h2>' + qEsc(RPT_WHO[w]) + ' · ' + g.length + '건</h2><ol>' + g.map(card).join('') + '</ol>' : '';
   }).join('');
+  // ── 「지금 네가 할 일」 = 맨 위 한 상자(운영자 260813 "알림이 오면 뭐 조치를 해야 되는건데, 내가 해야되는게 뭔지를 모르니 매번 당황스럽네") ──
+  //   왜: 조치 주체로 4칸 가르는 것까지는 됐는데, **그래서 손으로 뭘 하나**는 각 카드 본문을 열어 읽어야 나왔다.
+  //   카드엔 사유·근거·출처표가 같이 실려 있어 조치 한 줄이 그 사이에 묻힌다 → 스크롤하며 3~4건을 읽고 나서야
+  //   "아 저거 두 개만 하면 되는구나"가 나온다. 그 사이 시간이 곧 "매번 당황스럽다"의 실체다.
+  //   → 사람이 **손으로** 해야 하는 것(op·app)만 뽑아 번호로 세운다. 코드·자동 축은 건수만 말하고 끝낸다.
+  // ⚠ 판정은 `_rptWho` 정본 그대로 재사용(사본 0) — 여기서 따로 세면 본문 칸과 다른 말을 하는 순간
+  //   이 상자가 거짓말이 되고, 그건 아무 안내도 없는 것보다 나쁘다(260813 콘티 조치문 고정 문구 사고와 같은 축).
+  // ⚠ 부품 = `.lead`·`.no` 계승(새 클래스·새 값 0 · CSS 추가 0줄) = [4] 창작 금지.
+  const _hands = rows.filter(m => ['op', 'app'].includes(_rptWho(m)));
+  const _ccN = rows.filter(m => _rptWho(m) === 'cc').length;
+  const _autoN = rows.filter(m => _rptWho(m) === 'auto').length;
+  const doNow = '<p class="lead">' + (_hands.length
+    ? '<b>지금 네가 할 일 — ' + _hands.length + '건</b><br>'
+      + _hands.map((m, i) => '<span class="no">' + (i + 1) + '</span> '
+          + qEsc(_rptTodo(m.text) || _rptAct(m) || '(조치문 없음 — 아래 본문 참조)')
+          + (_rptWho(m) === 'app' ? ' <b>(앱 알림 상세에서 버튼 한 번)</b>' : '')).join('<br>')
+    : '<b>지금 네가 손으로 할 일은 없어.</b>')
+    + (_ccN ? '<br><br>그리고 <b>이 파일을 클로드에게 주면</b> 나머지 ' + _ccN + '건은 코드 축이라 그쪽에서 처리돼.' : '')
+    + (_autoN ? '<br>' + (_ccN ? '' : '<br>') + '나머지 ' + _autoN + '건은 저절로 풀려 — 그냥 두면 돼.' : '')
+    + '</p>';
   const SHORT = { op: '운영자', app: '앱버튼', cc: '클로드', auto: '자동대기' };
   const cnt = ['op', 'app', 'cc', 'auto'].map(w => SHORT[w] + ' ' + rows.filter(m => _rptWho(m) === w).length).join(' · ');
   const tbl = o => Object.entries(o).map(([k, v]) => '<tr><th>' + qEsc(k) + '</th><td><code>' + qEsc(typeof v === 'object' && v !== null ? JSON.stringify(v) : String(v)) + '</code></td></tr>').join('');
@@ -8954,6 +8974,7 @@ function msgRptHtml() {
     + '</style></head><body><div class="wrap">'
     + '<h1>노뮤트 알림 리포트 — ' + rows.length + '건</h1>'
     + '<p class="sub">' + qEsc(cnt) + ' · 생성 ' + qEsc(diag.생성KST) + ' KST · 빌드 ' + qEsc(String(env.빌드도장)) + '</p>'
+    + doNow
     + '<p class="lead"><b>클로드에게 이렇게 주면 돼</b> — 이 파일 첨부 + "알림 리포트야. <b>클로드가 볼 일</b>부터 고쳐줘." '
     + '아래는 조치 주체로 갈라 놨어: <b>운영자가 할 일</b>=폰·쿠키·계정(코드로 못 고침) · <b>앱 버튼 한 번</b>=알림 상세에서 누르면 끝 · <b>클로드가 볼 일</b>=코드 축 · <b>자동 복구 대기</b>=아무것도 안 해도 됨.</p>'
     + (grp || '<ol><li class="it">지금 해결할 문제 없음</li></ol>')
