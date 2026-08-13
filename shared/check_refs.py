@@ -5616,6 +5616,31 @@ def check_grok_sb_chain():
     if "MOTION 3계약" not in _t("prompts/sb-make.md"):
         print("❌ 그록 콘티 레인 — sb-make.md 에 MOTION 3계약이 없다(대명사·무인 컷·세트 조각)"); rc = 1
 
+    # ④-b **각을 먼저 잡는 절차**(운영자 260813 「페이블이 아무 것도 없는 제로베이스에서도 그렇게
+    #   생각하도록」) — 라이브러리는 방대한데 전부 **컷 단위 도구**라 「작품 하나를 무슨 구조로
+    #   비꿀 것인가」는 기댈 데가 없었고, 입력이 각을 안 주면 콘티가 **기사 삽화**로 떨어졌다.
+    #   ⚠ 왜 게이트인가 = 지침만 고치고 검사를 안 두면 지켜졌는지 아무도 모른다. 그리고 이 축은
+    #     빠져도 콘티가 멀쩡히 나온다(그냥 밋밋해질 뿐) = 운영자 눈이 유일한 검출기가 된다.
+    _cs_tsv = "apps/k/library/48_commentary_structures.tsv"
+    if not os.path.exists(_cs_tsv):
+        print("❌ 그록 콘티 레인 — 논평 구조 표가 없다({})".format(_cs_tsv)); rc = 1
+    else:
+        _cs_ids = {ln.split("\t", 1)[0].strip() for ln in _t(_cs_tsv).splitlines()[1:] if ln.strip()}
+        if len([i for i in _cs_ids if i.startswith("CS-")]) < 3:
+            print("❌ 그록 콘티 레인 — 논평 구조 표가 사실상 비었다(CS 항목 3개 미만 = 고를 게 없다)"); rc = 1
+        if "48_commentary_structures" not in _t("apps/k/library/00_module_index.tsv"):
+            print("❌ 그록 콘티 레인 — 논평 구조 표가 라이브러리 인덱스에 미등재(감독이 못 찾는다)"); rc = 1
+    for needle, why in (("모순 한 쌍", "0-a 모순 쌍 추출"),
+                        ("48_commentary_structures", "0-b 구조 표 지목"),
+                        ("논평 구조:", "0-c 고른 이유 남기기"),
+                        ("그림으로 옮긴 것에 지나지", "0-d 자기검문")):
+        if needle not in _sb:
+            print("❌ 그록 콘티 레인 — sb-make.md 에 {} 가 없다({})".format(why, needle)); rc = 1
+    _au = _t(".github/scripts/sb_audit.py")
+    for needle, why in ("_CS_LINE", "논평 구조 줄 판정"), ("def structure", "구조 실재 대조"), ('"structure_id"', "산출 박제"):
+        if needle not in _au:
+            print("❌ 그록 콘티 레인 — sb_audit.py 에 {} 가 없다({})".format(why, needle)); rc = 1
+
     # ⑤ 감독 지침 = MOTION(영어 동작 줄) 규약. 빠지면 프롬프트가 한국어로 나간다.
     sh = _t(".github/scripts/sb_sheet.py")
     for needle, why in (("def sheet_prompt", "시트 프롬프트 조립"),

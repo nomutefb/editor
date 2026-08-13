@@ -89,6 +89,7 @@ UNITS = [
     "45_creator_tips_framing_pov.tsv",
     "46_creator_tips_viral.tsv",
     "47_action_dynamics.tsv",
+    "48_commentary_structures.tsv",   # 논평 구조(작품 단위) — 260813 신설
 ]
 
 SSOT_BANNER = (
