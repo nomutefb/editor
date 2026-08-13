@@ -22,13 +22,14 @@ on:
           - opus
           - gpt
       shoot:
-        description: '촬영 레인(grok = 구독 자격 직결 · seedance = 힉스필드 2.5 720p 30초 한 발 · seedance20 = 2.0 720p 15초 두 발 · motion = 플랫 모션그래픽 사내 렌더 → mp4)'
+        description: '촬영 레인(grok = 구독 자격 직결 · seedance = 힉스필드 2.5 720p 30초 한 발 · seedance20 = 2.0 720p 15초 두 발 · seedance5 = 2.5 720p 5초씩 쪼개 이어붙이기 · motion = 플랫 모션그래픽 사내 렌더 → mp4)'
         type: choice
         default: grok
         options:
           - grok
           - seedance
           - seedance20
+          - seedance5
           - motion
       sound:
         description: '영상 소리(1 = 켜기 · 0 = 끄기 · 촬영=grok 전용)'
@@ -295,6 +296,9 @@ jobs:
           IN_ID: ${{ inputs.id }}
           SB_LANE: seedance
           SD_PRESET: ${{ inputs.shoot == 'seedance20' && 'B' || 'A' }}
+          # 쪼개기 판 = 같은 2.5 를 짧은 발 여러 개로. 초당 과금이라 총액은 한 발과 같다
+          # (5초 견적 32.5 = 30초 견적 195 ÷ 6 · 260813 실측 = 호출당 수수료 0).
+          SD_SHOT_SEC: ${{ inputs.shoot == 'seedance5' && '5' || '' }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           HIGGSFIELD_REFRESH_TOKEN: ${{ secrets.HIGGSFIELD_REFRESH_TOKEN }}
           # 갱신 열쇠가 회전형이면 새 열쇠를 비밀값에 되써 넣어야 다음 발사가 산다(그록 레인과 같은

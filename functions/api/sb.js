@@ -30,7 +30,7 @@ export async function onRequestPost({ request, env }) {
   // 화이트리스트 = 임의 문자열 주입 차단(k.js 패턴 계승 — 키는 서버 목록만 순회 = 사용자 키 자체를 안 읽음).
   // 값 2면 동기: 이 표 = viewer/sb.html SB_DIRECTORS/SB_SHOOTS/SB_VALS.
   const SB_DIRECTORS = ['fable', 'opus', 'gpt'];   // gpt = OpenAI API 레인(운영자 260714 "지피티도 가능하게" — 러너 시크릿 OPENAI_API_KEY 필요 · sbmake.sh 분기)
-  const SB_SHOOTS = ['grok', 'seedance', 'seedance20', 'motion'];   // seedance20 = 같은 통로의 두 번째 프리셋(2.0 · 720p · 15초 두 발) — 입력 칸을 새로 만들지 않고 촬영 칸을 나눈 것(발사 입력은 10칸이 상한이라 신설이 곧 상한 소모)   // 운영자 260811 = kling 제거(종량제 미사용 = 이 메뉴에서 의미 0) · grok 신설(구독 OAuth 직결 · 그림→영상)   // motion = 플랫 모션그래픽 사내 렌더 레인(실사 생성 AI 아님 · 콘티 「## 🎞 모션 스펙」 → 같은 잡의 mg_render.py가 mp4까지 · 외부 API 0)
+  const SB_SHOOTS = ['grok', 'seedance', 'seedance20', 'seedance5', 'motion'];   // seedance20 = 같은 통로의 두 번째 프리셋(2.0 · 720p · 15초 두 발) — 입력 칸을 새로 만들지 않고 촬영 칸을 나눈 것(발사 입력은 10칸이 상한이라 신설이 곧 상한 소모)   // 운영자 260811 = kling 제거(종량제 미사용 = 이 메뉴에서 의미 0) · grok 신설(구독 OAuth 직결 · 그림→영상)   // motion = 플랫 모션그래픽 사내 렌더 레인(실사 생성 AI 아님 · 콘티 「## 🎞 모션 스펙」 → 같은 잡의 mg_render.py가 mp4까지 · 외부 API 0)
   const SB_SET = {
     '비율': ['9:16', '16:9', '1:1'],
     '화질': ['720p', '1080p', '2K', '4K'],     // 프롬프팅 이관 축(운영자 Q1145) — 값 집합 = api/k.js K_SET 동일
