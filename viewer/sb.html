@@ -457,6 +457,19 @@ const SB_SHOOTS = [
 // 이 계열 = 두 프리셋이 한 통로다 — 조건마다 이름 두 개를 나열하면 다음에 프리셋이
 // 늘 때 한 곳이 조용히 빠진다(이 레포 최빈 드리프트). 술어를 한 곳에 둔다.
 const sbIsSd = s => (s === 'seedance' || s === 'seedance20' || s === 'seedance5');
+// ⚠ **촬영 칸마다 되는 화질이 다르다**(운영자 260813 「2.5를 배선하면 fhd는 안되잖아? 그런거 다 생각해야해」).
+//   구판은 화질을 촬영과 무관하게 고르게 둬서, 안 되는 조합을 골라도 화면이 아무 말을 안 하고
+//   **조용히 다른 화질로 나갔다**(고른 값과 나온 값이 다른데 그 사실이 어디에도 안 뜬다).
+//   → 고를 수 있는 값만 그린다. 지금 값이 그 칸에서 안 되면 되는 값으로 스스로 내려앉는다.
+//   값 출처 = 창구 모델 목록 실측(2.5 = 480p·720p 뿐 · 2.0 = 1080p 가능 · 그록 참조 모드 = 720p 상한).
+const SB_CAPS = {
+  grok:       { q: ['720p'],            shot: 10, snd: true,  why: '참조 모드 산출이 720p 상한' },
+  seedance:   { q: ['720p'],            shot: 30, snd: true,  why: '2.5 는 1080p 이상을 아예 지원 안 한다' },
+  seedance5:  { q: ['720p'],            shot: 5,  snd: true,  why: '2.5 는 1080p 이상을 아예 지원 안 한다' },
+  seedance20: { q: ['720p', '1080p'],   shot: 15, snd: true,  why: '2.0 은 1080p 까지 된다' },
+  motion:     { q: ['720p', '1080p', '2K', '4K'], shot: 0, snd: false, why: '사내 렌더라 해상도 제약이 없다' },
+};
+const sbCap = () => SB_CAPS[sbShoot] || SB_CAPS.grok;
 const SB_LEN_STEP = 10;                    // ⚠ 컷 1개 = **10초 고정**(운영자 260812 「고정임 더 짧을수도 없고」 · 「보드를 항상 10초를 기준으로 구성해서 10초짜리를 여러개」) — 총 길이는 10의 배수만 존재한다
 const SB_LEN_MIN = 10, SB_LEN_MAX = 60;   // 자(ruler) 범위 = 1컷~6컷(구 5~15s 1초 눈금은 260812 폐지 — 눈금이 1초면 10의 배수가 아닌 값이 골라져 보드가 10초로 안 쪼개진다)
 const SB_LEN_PTS = [10, 20, 30, 40, 50, 60];   // 라벨 포인트(운영자 260804 "5 8 10 12 15 에만 포인트 잡아주고 나머지는 각 눈금 선택한 부분에 따라서 숫자가 정해지게") — 눈금은 1초 전건 선택 가능·숫자 표기만 이 5점
@@ -585,7 +598,14 @@ function sbPayload() {   // go 핸들러 페이로드(서버 api/sb.js가 화이
     { const wrap = $('#sbArWrap'); if (wrap) { wrap.classList.toggle('open', arOn); if (arOn) wrap.removeAttribute('inert'); else wrap.setAttribute('inert', ''); }
       const aw = $('#sbArW'), ah = $('#sbArH'); if (aw && aw.value !== sbArW) aw.value = sbArW; if (ah && ah.value !== sbArH) ah.value = sbArH; sbArFit(aw); sbArFit(ah); }
     axQ.innerHTML = '';
-    SB_VALS['화질'].forEach(v => axQ.appendChild(optBtn(v, sbSet['화질'] === v, () => { sbSet['화질'] = v; render(); }, true)));
+    const qOk = sbCap().q;
+    if (qOk.indexOf(sbSet['화질']) < 0) sbSet['화질'] = qOk[qOk.length - 1];   // 못 하는 값 = 되는 값 중 가장 높은 것으로
+    SB_VALS['화질'].filter(v => qOk.indexOf(v) >= 0)
+      .forEach(v => axQ.appendChild(optBtn(v, sbSet['화질'] === v, () => { sbSet['화질'] = v; render(); }, true)));
+    if (qOk.length === 1) {   // 고를 게 하나뿐이면 왜 그런지 말해 준다(빈칸처럼 보이는 것 방지)
+      const w = document.createElement('span'); w.className = 'pub-l'; w.style.opacity = '.75';
+      w.textContent = sbCap().why; axQ.appendChild(w);
+    }
     // 「프레임」 = 30fps 고정(운영자 260804) — 선택 행 폐지라 렌더할 칩이 없다(값은 SB_DEF·SB_VALS 1값이 담보 · 리드백은 레일 읽기 전용 칩).
     drawLen();   // 「길이」 = 자(ruler) 선택자(운영자 260804) — 칩 나열 대신 눈금 11개(5~15s)
     // 콘티 엔진 칩 — 시댄스 = 강제 ON·비활성(끌 수 없음) / 클링 = 선택 가능(운영자 Q1161)
@@ -846,10 +866,73 @@ async function renderOut(md, outEl, outPath) {   // 결과 렌더 공통(폴 성
     }
   }
   outEl.innerHTML = html;
+  if (outPath) shootBar(outEl, outPath);   // 🎬 2차 = 이 콘티로 제작(모델 선택 + 발사)
   wireCopy();
   // 이미지 로드 실패 = 그 장 자리에 경고 칩(공유 캡션 오염 금지 · k 검증4 계승 · innerHTML 직후 동일 틱 부착 = 레이스 없음)
   outEl.querySelectorAll('.ref img').forEach(im => im.addEventListener('error', () => { const d = document.createElement('div'); d.className = 'refmiss'; d.textContent = '레퍼런스 ' + (im.dataset.ix || '') + '번 이미지 없음/로드 실패'; im.replaceWith(d); }, { once: true }));
 }
+// 🎬 **2차 승인 = 이 콘티로 제작**(운영자 260813 「생성 버튼은 총 2번」).
+//   1차 = 감독이 콘티를 짠다 → 운영자가 **보고** → 2차 = 그 콘티에 모델만 골라 제작.
+//   ⚠ 감독을 다시 안 부른다 = **본 그대로가 찍힌다**(다시 부르면 승인한 대상이 바뀐다).
+//   ⚠ 실패하면 **재생성 한 번만**(운영자 260813 「첫 1회만, 이후로는 아예 실패」) — 그 뒤엔
+//     버튼이 잠긴다. 값이 나가는 레인이라 무한 재시도가 곧 무한 청구다.
+//   부품 = 옵션 칩(`.geni-opt`)과 발사 버튼(`.go`) 정본 계승 · 새 모양 0.
+const SHOT_KEY = 'sb_shot_try';   // 콘티별 재생성 소진 표식(1회 쓰면 잠근다)
+const shotTry = () => { try { return JSON.parse(localStorage.getItem(SHOT_KEY) || '{}'); } catch (e) { return {}; } };
+const shotTryUp = (k, v) => { try { const a = shotTry(); a[k] = v; localStorage.setItem(SHOT_KEY, JSON.stringify(a)); } catch (e) {} };
+
+function shootBar(outEl, outPath) {
+  const wrap = document.createElement('div');
+  wrap.className = 'ref';
+  const cap = document.createElement('div'); cap.className = 'cap';
+  const row = document.createElement('div'); row.className = 'geni-opts'; row.setAttribute('role', 'group');
+  row.setAttribute('aria-label', '이 콘티로 제작할 촬영 엔진');
+  let pick = sbShoot;
+  const used = shotTry()[outPath] || 0;
+  const draw = () => {
+    row.innerHTML = '';
+    SB_SHOOTS.filter(m => m.id !== 'motion').forEach(m => {
+      const b = document.createElement('button'); b.type = 'button';
+      b.className = 'geni-opt' + (pick === m.id ? ' on' : '');
+      b.textContent = m.nm; b.title = m.hint;
+      b.setAttribute('aria-pressed', String(pick === m.id));
+      b.addEventListener('click', () => { pick = m.id; draw(); });
+      row.appendChild(b);
+    });
+    const go = document.createElement('button');
+    go.type = 'button'; go.className = 'go'; go.id = 'sbShootGo';
+    go.textContent = used >= 2 ? '재생성 소진' : (used === 1 ? '재생성(마지막)' : '제작');
+    go.disabled = used >= 2;
+    go.title = used >= 2 ? '재생성은 한 번뿐이다(값이 나가는 레인)' : '이 콘티를 그대로 찍는다(감독 재호출 0)';
+    go.addEventListener('click', () => fireShoot(outPath, pick, go, cap));
+    row.appendChild(go);
+    cap.textContent = used >= 2 ? '이 콘티는 재생성을 다 썼다 — 새 콘티로 다시 시작해라'
+      : (used === 1 ? '한 번 더만 쏠 수 있다' : '보고 마음에 들면 모델을 골라 제작한다(감독은 다시 안 돈다)');
+  };
+  draw();
+  wrap.appendChild(row); wrap.appendChild(cap);
+  outEl.appendChild(wrap);
+}
+
+async function fireShoot(outPath, shoot, btn, cap) {
+  btn.disabled = true; const was = btn.textContent; btn.textContent = '보내는 중…';
+  try {
+    const res = await fetch('/api/sb', {
+      method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(Object.assign({ story: '', base: outPath, shootOnly: true },
+                                         sbPayload(), { shoot: shoot })),
+    });
+    const j = await res.json();
+    if (!res.ok || j.error) { cap.textContent = '요청 실패: ' + String(j.error || res.status); btn.disabled = false; btn.textContent = was; return; }
+    shotTryUp(outPath, (shotTry()[outPath] || 0) + 1);
+    const a = jload(); a.unshift({ id: j.id, out: j.out, ts: Date.now(), d: sbDirector, sh: shoot, base: true, label: '제작 · ' + shoot, status: 'run' }); jsave(a); renderJobs();
+    cap.textContent = '제작 요청 보냈다 — 결과는 작업 내역에 앉는다';
+    poll(j.out, j.id);
+  } catch (e) {
+    cap.textContent = '요청 실패: ' + e.message; btn.disabled = false; btn.textContent = was;
+  }
+}
+
 // ── 작업 내역(운영자 260714 5차 — Image Studio 배선 미러): 발사마다 누적 · 최신 done = #out에 우선 표시 · 라벨 탭 = 재열람 · 변형 = 그 콘티 기반 재설계 ──
 const JKEY = 'sb_jobs';
 const jload = () => { try { const a = JSON.parse(localStorage.getItem(JKEY) || '[]'); return Array.isArray(a) ? a.slice(0, 30) : []; } catch (e) { return []; } };   // 상한 30건(스토리지 보호)

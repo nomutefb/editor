@@ -60,6 +60,12 @@ export async function onRequestPost({ request, env }) {
   // 변형(운영자 260714 5차 — 작업 내역에서 이전 콘티 기반 재설계): 경로 화이트리스트 정규식 = sb_out 산출물만(임의 파일 읽기 차단)
   const base = (typeof body.base === 'string' && /^sb_out\/[0-9]{12}-[0-9a-f]{6}\/board\.md$/.test(body.base)) ? body.base : '';
 
+  // 🎬 **2차 = 촬영만**(운영자 260813 「생성 버튼은 총 2번」) — 1차에서 나온 콘티를 보고 승인한 뒤,
+  //    그 콘티에 모델만 골라 제작을 건다. 이야기를 비우고 기준 콘티만 넘기면 러너가 감독을 건너뛴다.
+  //    ⚠ 감독을 다시 안 부른다 = **승인한 그 콘티가 그대로 찍힌다**(다시 부르면 승인 대상이 바뀐다).
+  //    ⚠ 기준 콘티 경로는 위 화이트리스트를 이미 통과한 값만 온다(임의 파일 읽기 차단).
+  const shootOnly = (body.shootOnly === true || body.shootOnly === 'true') && !!base;
+  if (shootOnly) story = '';
   const r = await GH(env.GH_TOKEN, 'actions/workflows/sb-make.yml/dispatches', 'POST', {
     ref: REF, inputs: { id, story, director, shoot, sound, refimage, base },   // shoot·refimage = 워크플로 입력(러너 조건 분기 — 마커와 별개 축).
   });
