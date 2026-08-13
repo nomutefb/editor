@@ -550,6 +550,15 @@ def _check():
         print("②-b 모델 목록: {}".format(ids or json.dumps(ml, ensure_ascii=False)[:240]))
     except Exception as e:  # noqa: BLE001
         print("②-b 모델 목록 조회 실패: {}".format(str(e)[:160]))
+    # ②-c 이 판이 **실제로 아는 화질 이름**을 창구에 직접 묻는다.
+    # ⚠ 왜 있나(260813 실측) = 창구는 모르는 화질 이름을 **거절하지 않고 조용히 기본값으로
+    #   되돌린다**(엉터리 "9k" 도 720p 와 같은 22.5 크레딧을 회신했다). 그래서 「화면에서 골랐는데
+    #   안 바뀐다」가 오류 한 줄 없이 성립한다 — 이름을 추측으로 적으면 그 순간부터 무증상이다.
+    try:
+        mi = call("models_explore", {"action": "info", "model": PRESET["model"]}, tok)
+        print("②-c {} 명세: {}".format(PRESET["model"], json.dumps(mi, ensure_ascii=False)[:700]))
+    except Exception as e:  # noqa: BLE001
+        print("②-c 모델 명세 조회 실패: {}".format(str(e)[:200]))
     raw = call("generate_video", {"params": dict(_params(SHOT_SEC, os.environ.get("SD_RATIO") or "9:16",
                                                          cost_only=True), prompt="cost check")}, tok)
     cr = _credits(raw)
