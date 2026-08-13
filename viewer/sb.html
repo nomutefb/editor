@@ -471,13 +471,19 @@ const sbIsSd = s => (s === 'seedance' || s === 'seedance20' || s === 'seedance5'
 //   구판은 화질을 촬영과 무관하게 고르게 둬서, 안 되는 조합을 골라도 화면이 아무 말을 안 하고
 //   **조용히 다른 화질로 나갔다**(고른 값과 나온 값이 다른데 그 사실이 어디에도 안 뜬다).
 //   → 고를 수 있는 값만 그린다. 지금 값이 그 칸에서 안 되면 되는 값으로 스스로 내려앉는다.
-//   값 출처 = 창구 모델 목록 실측(2.5 = 480p·720p 뿐 · 2.0 = 1080p 가능 · 그록 참조 모드 = 720p 상한).
+//   값 출처 = **창구 명세 직접 실측**(260813 · 확인 절차 ②-c) — 짐작 금지:
+//     · 2.5 판 = 480p·720p 뿐(길이 4~30초) → FHD 이상이 아예 없다
+//     · 2.0 판 = 480p·720p·1080p·4k(길이 4~15초) → **2K 라는 값은 없다**
+//     · Grok 참조 모드 = 720p 상한
+// ⚠ 2K 를 걷어낸 이유 = 창구가 **모르는 화질을 거절하지 않고 조용히 720p 로 되돌린다**
+//   (260813 실측 = 엉터리 "9k" 도 720p 와 같은 22.5 크레딧 회신 · "2k" 도 22.5 · 1080p 45 · 4k 110).
+//   즉 화면에 2K 를 두면 「골랐는데 720p 가 나오고 아무도 그 사실을 모른다」가 그대로 성립한다.
 const SB_CAPS = {
   grok:       { q: ['720p'],                  shot: 10, snd: true },
   seedance:   { q: ['720p'],                  shot: 30, snd: true },
   seedance5:  { q: ['720p'],                  shot: 5,  snd: true },
-  seedance20: { q: ['FHD', '2K', '4K'],       shot: 15, snd: true },
-  motion:     { q: ['720p', '1080p', '2K', '4K'], shot: 0, snd: false, why: '사내 렌더라 해상도 제약이 없다' },
+  seedance20: { q: ['720p', 'FHD', '4K'],     shot: 15, snd: true },
+  motion:     { q: ['720p', 'FHD', '2K', '4K'], shot: 0, snd: false, why: '사내 렌더라 해상도 제약이 없다' },
 };
 const sbCap = () => SB_CAPS[sbShoot] || SB_CAPS.grok;
 const SB_LEN_STEP = 10;                    // ⚠ 컷 1개 = **10초 고정**(운영자 260812 「고정임 더 짧을수도 없고」 · 「보드를 항상 10초를 기준으로 구성해서 10초짜리를 여러개」) — 총 길이는 10의 배수만 존재한다
@@ -498,6 +504,17 @@ let sbArW = '1', sbArH = '1';   // 비율 직접 기본 = 1:1(index _geniSel.arW
 function sbArVal() { const w = parseInt(sbArW, 10), h = parseInt(sbArH, 10); return (w >= 1 && w <= 99 && h >= 1 && h <= 99 && w / h >= 0.25 && w / h <= 4) ? w + ':' + h : null; }   // 직접 비율 유효값 = index geniArVal 정본 동일 계약(각 1~99 + 1:4~4:1) · 서버 api/sb.js가 같은 계약으로 재검증
 function sbRatio() { return sbSet['비율'] === 'custom' ? (sbArVal() || SB_DEF['비율']) : sbSet['비율']; }   // 발사·리드백 실값 — 직접 미완성 = 기본 비율 강하(k 「길이」 직접 선례 문법)
 function sbArFit(el) { if (el) el.style.width = Math.max(1, (el.value || '').length) + 'ch'; }   // 숫자칩 폭 = 값 길이 동기(index geniArFit 정본 미러)
+// 촬영 칸이 못 하는 화질 = 되는 값 중 **넘지 않는 가장 높은 것**(없으면 가장 낮은 것).
+// ⚠ 구판은 무조건 「가장 높은 것」이라 촬영 칸을 바꾸는 것만으로 값이 위로 튀었다 —
+//   2.0 은 4K 가 720p 의 다섯 배 값이라(초당 22 vs 4.5) 그 튐이 그대로 돈이다.
+// ⚠ 자가 두 벌이면 화면이 보여준 값과 실제로 나가는 값이 갈린다 — 화면 렌더와 2차 제작이 이 한 벌을 같이 쓴다.
+function sbQFit(shoot, q) {
+  const ok = (SB_CAPS[shoot] || SB_CAPS.grok).q;
+  if (ok.indexOf(q) >= 0) return q;
+  const rank = SB_VALS['화질'], cur = rank.indexOf(q);
+  const down = ok.filter(v => rank.indexOf(v) >= 0 && rank.indexOf(v) <= cur);
+  return down.length ? down[down.length - 1] : ok[0];
+}
 function sbPayload() {   // go 핸들러 페이로드(서버 api/sb.js가 화이트리스트 재검증)
   const set = Object.assign({}, sbSet); if (set['비율'] === 'custom') set['비율'] = sbRatio();   // 'custom' = 화면 상태값 → 발사 시 실 N:M으로 치환(k 「길이」 직접 = segTotal()+'s' 선례 문법)
   return { director: sbDirector, shoot: sbShoot, set, ad: sbAd, sound: (sbShoot === 'grok') ? sbSnd : true, ref: (sbIsSd(sbShoot)) ? true : (sbShoot === 'motion' ? false : (sbShoot === 'grok' ? true : sbRef)) };   // grok = 제미나이 콘티 컷이 첫 장면 재료라 강제 ON(시댄스 동축)   // ref = 레퍼런스 이미지 생성 여부(시댄스 강제 true · 모션 강제 false = 실사 레퍼런스 쓸 곳 없음 · 서버 api/sb.js가 워크플로 입력으로 재검증)
@@ -569,7 +586,7 @@ function sbPayload() {   // go 핸들러 페이로드(서버 api/sb.js가 화이
     // 코너 레일 값 칩 = 옵션 규격 4축(+광고 막컷) — k drawSpec 정본 문법 사본(값 = .gs-v[mut] · 구분 = .gs-sep 헤어라인 렌더 · 표기 = 값만) · 탭 = 그 자리 선택 변경(운영자 260803 5차)
     const rail = $('#railSpec');
     const railItems = [
-      [esc(sbSet['화질']), 'q', '탭=화질 변경(720p → 1080p → 2K → 4K 순환)', {}],
+      [esc(sbSet['화질']), 'q', '탭=화질 변경(고를 수 있는 값은 촬영 칸마다 다르다)', {}],
       [esc(sbSet['프레임']), 'fps', '프레임 = 30fps 고정(60fps 미지원) — 읽기 전용 리드백', { ro: 1 }],   // 운영자 260804 "네비에는 그대로 나오고 아래 옵션선택자에서는 삭제" = 값은 남고 고를 게 없다 → 읽기 전용 `.gs-v` 단독(정본 = tr 「40」·큐영상 「0건」 리드백 문법 · 손가락 커서·탭 무효)
       [esc(sbRatio()), 'ar', '탭=비율 변경(9:16 → 16:9 → 1:1 순환) · 직접 N:M 입력은 아래 「설계」 비율 행', {}],
       [esc(sbSet['길이']) + ' · ' + esc(SB_CUTS[sbSet['길이']] || ''), 'len', '탭=길이 포인트 순환(5s → 8s → 10s → 12s → 15s) · 1초 단위는 아래 「설계」 길이 자(ruler) · 컷수는 길이 종속(storyboard-v1 하드룰)', {}]
@@ -618,7 +635,7 @@ function sbPayload() {   // go 핸들러 페이로드(서버 api/sb.js가 화이
       const aw = $('#sbArW'), ah = $('#sbArH'); if (aw && aw.value !== sbArW) aw.value = sbArW; if (ah && ah.value !== sbArH) ah.value = sbArH; sbArFit(aw); sbArFit(ah); }
     axQ.innerHTML = '';
     const qOk = sbCap().q;
-    if (qOk.indexOf(sbSet['화질']) < 0) sbSet['화질'] = qOk[qOk.length - 1];   // 못 하는 값 = 되는 값 중 가장 높은 것으로
+    sbSet['화질'] = sbQFit(sbShoot, sbSet['화질']);
     if (qOk.length === 1) {
       // ⚠ 고를 게 하나면 **버튼이 아니라 값**이다 — 누를 게 없는데 버튼으로 두면 「눌리는 척」이
       //   되고(어포던스 거짓말), 캡슐 안 단독 컨트롤이라 히트존 규격에도 걸린다. 스킨만 계승하고
@@ -943,8 +960,12 @@ async function fireShoot(outPath, shoot, btn, cap) {
   try {
     const res = await fetch('/api/sb', {
       method: 'POST', headers: { 'content-type': 'application/json' },
+      // ⚠ 화질은 **이 자리에서 고른 촬영 칸** 기준으로 맞춰 보낸다 — 화면 상태가 다른 칸일 수 있고,
+      //   그 판이 모르는 화질은 러너가 멈춘다(제작 버튼이 이유 없이 죽는 것처럼 보인다).
       body: JSON.stringify(Object.assign({ story: '', base: outPath, shootOnly: true },
-                                         sbPayload(), { shoot: shoot })),
+                                         sbPayload(), { shoot: shoot },
+                                         { set: Object.assign({}, sbPayload().set,
+                                             { '화질': sbQFit(shoot, sbSet['화질']) }) })),
     });
     const j = await res.json();
     if (!res.ok || j.error) { cap.textContent = '요청 실패: ' + String(j.error || res.status); btn.disabled = false; btn.textContent = was; return; }

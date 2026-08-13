@@ -33,7 +33,7 @@ export async function onRequestPost({ request, env }) {
   const SB_SHOOTS = ['grok', 'seedance', 'seedance20', 'seedance5', 'motion'];   // seedance20 = 같은 통로의 두 번째 프리셋(2.0 · 720p · 15초 두 발) — 입력 칸을 새로 만들지 않고 촬영 칸을 나눈 것(발사 입력은 10칸이 상한이라 신설이 곧 상한 소모)   // 운영자 260811 = kling 제거(종량제 미사용 = 이 메뉴에서 의미 0) · grok 신설(구독 OAuth 직결 · 그림→영상)   // motion = 플랫 모션그래픽 사내 렌더 레인(실사 생성 AI 아님 · 콘티 「## 🎞 모션 스펙」 → 같은 잡의 mg_render.py가 mp4까지 · 외부 API 0)
   const SB_SET = {
     '비율': ['9:16', '16:9', '1:1'],
-    '화질': ['720p', 'FHD', '2K', '4K'],   // 어휘·순서 = 뷰어 SB_VALS·이미지 스튜디오 UPS_ORDER 동기(260813)     // 프롬프팅 이관 축(운영자 Q1145) — 값 집합 = api/k.js K_SET 동일
+    '화질': ['720p', 'FHD', '2K', '4K'],   // 어휘·순서 = 뷰어 SB_VALS·이미지 스튜디오 UPS_ORDER 동기(260813) · 2K = 사내 렌더 레인 전용(창구 판에는 그 이름이 없다 = 뷰어 SB_CAPS가 레인별로 거른다)     // 프롬프팅 이관 축(운영자 Q1145) — 값 집합 = api/k.js K_SET 동일
     '프레임': ['30fps'],                       // 30fps 고정(운영자 260804 "60fps 어짜피 불가하니까 30fps 고정") — 뷰어 「설계」 선택 행 폐지와 2면 동기(구 60fps 값은 화이트리스트에서도 회수 = 옛 폼·직접 호출이 몰래 60을 넣는 경로 차단)
     '길이': ['10s', '20s', '30s', '40s', '50s', '60s'],   // 자(ruler) 축 = **10초 눈금 6칸 = 1~6컷**(운영자 260812 「컷 1개 = 10초 고정 · 10*n 개수로」) — 구 5~15s 1초 눈금 폐지(1초 눈금이면 10의 배수 아닌 값이 골라져 보드가 10초로 안 쪼개진다) · 컷수 = 길이 ÷ 10(뷰어 sbCutN · prompts/sb-make.md 동기)
   };
@@ -64,10 +64,15 @@ export async function onRequestPost({ request, env }) {
   //    그 콘티에 모델만 골라 제작을 건다. 이야기를 비우고 기준 콘티만 넘기면 러너가 감독을 건너뛴다.
   //    ⚠ 감독을 다시 안 부른다 = **승인한 그 콘티가 그대로 찍힌다**(다시 부르면 승인 대상이 바뀐다).
   //    ⚠ 기준 콘티 경로는 위 화이트리스트를 이미 통과한 값만 온다(임의 파일 읽기 차단).
+  // 화질 실값 — 화이트리스트를 이미 통과한 설정값만 넘긴다(임의 문자열 주입 0).
+  // ⚠ 러너는 그 판이 모르는 이름을 받으면 **멈춘다**(조용히 다른 화질로 나가는 것보다 안 나가는 쪽이 싸다).
+  const res = (typeof set['화질'] === 'string' && SB_SET['화질'].includes(set['화질'])) ? set['화질'] : '';
   const shootOnly = (body.shootOnly === true || body.shootOnly === 'true') && !!base;
   if (shootOnly) story = '';
   const r = await GH(env.GH_TOKEN, 'actions/workflows/sb-make.yml/dispatches', 'POST', {
-    ref: REF, inputs: { id, story, director, shoot, sound, refimage, base },   // shoot·refimage = 워크플로 입력(러너 조건 분기 — 마커와 별개 축).
+    // 화질은 **마커가 아니라 입력 칸**으로도 보낸다 — 러너가 실제로 그 화질로 쏘려면
+    // 이야기 속 문구가 아니라 발사 인자로 와야 한다(260813 봉합 · 손입력 칸 10/10 소진).
+    ref: REF, inputs: { id, story, director, shoot, sound, refimage, base, res },   // shoot·refimage·res = 워크플로 입력(러너 조건 분기 — 마커와 별개 축).
   });
   if (r.status === 204) return json({ ok: true, id, out: `sb_out/${id}/board.md` });
   return json({ error: `발사 실패 GitHub ${r.status}: ${(await r.text()).slice(0, 200)}` }, 502);

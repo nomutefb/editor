@@ -31,6 +31,14 @@ on:
           - seedance20
           - seedance5
           - motion
+      # ⚠⚠ 이 칸이 **열 번째이자 마지막**이다 — 깃허브가 받는 손입력 칸은 10개가 상한이고
+      #   열한 번째를 만들면 발사 자체가 400 으로 죽는다(평점 레일 `rate.yml` 이 이미 그 벽에
+      #   부딪혀 예약키 문법으로 우회했다). 다음에 값을 하나 더 실어야 하면 칸을 늘리지 말고
+      #   기존 칸에 태워라.
+      res:
+        description: '화질(빈값 = 판 기본 · 720p·FHD·4K — 판마다 되는 값이 다르고 없는 이름을 보내면 러너가 멈춘다)'
+        type: string
+        default: ''
       sound:
         description: '영상 소리(1 = 켜기 · 0 = 끄기 · 촬영=grok 전용)'
         type: string
@@ -299,6 +307,9 @@ jobs:
           # 쪼개기 판 = 같은 2.5 를 짧은 발 여러 개로. 초당 과금이라 총액은 한 발과 같다
           # (5초 견적 32.5 = 30초 견적 195 ÷ 6 · 260813 실측 = 호출당 수수료 0).
           SD_SHOT_SEC: ${{ inputs.shoot == 'seedance5' && '5' || '' }}
+          # 화면에서 고른 화질이 여기까지 와야 실제로 그 화질로 나간다 — 이 줄이 없으면
+          # 고른 값과 나온 값이 갈리고 그 사실이 어디에도 안 뜬다(260813 실측 봉합).
+          SD_RES: ${{ inputs.res }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           HIGGSFIELD_REFRESH_TOKEN: ${{ secrets.HIGGSFIELD_REFRESH_TOKEN }}
           # 갱신 열쇠가 회전형이면 새 열쇠를 비밀값에 되써 넣어야 다음 발사가 산다(그록 레인과 같은
