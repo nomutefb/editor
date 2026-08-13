@@ -54,7 +54,10 @@ def main():
 
     jid = LANE.start(PROMPT, token=tok, seconds=sec, ratio=ratio, sound=False)
     print("② 작업 번호 {}".format(jid))
-    url = LANE.wait(jid, token=tok)
+    done = LANE.wait(jid, token=tok)
+    # ⚠ 기다리기는 **주소 한 줄이 아니라 봉투**를 돌려준다(url·길이·청구액) — 첫 실행이 봉투를
+    #   그대로 받아 주소 자리에 넣는 바람에 영상은 멀쩡히 나왔는데 재는 단계에서 죽었다(260813).
+    url = (done or {}).get("url") if isinstance(done, dict) else done
     print("③ 산출 {}".format(url))
     if not url:
         print("::error::주소가 안 왔다 — 값은 나갔는데 결과를 못 집었다(작업 번호로 창구에서 회수하라)")
