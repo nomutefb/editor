@@ -1,32 +1,33 @@
 # 제 발로 나가도 생애 한 번, 청년 실업급여 100만원
 
 **[프롬프트 설계]**
-- 화풍: B 극화 — 개인의 사연이 아니라 제도·기금 장부가 주인공인 사건이라, 냉정한 선과 명암이 사실성을 준다
-- 분위기: 관료적 형광등의 무채색 위에 청년 한 사람의 체온만 남는 톤 — 시혜도 비난도 아닌 건조한 관찰(thumb_dispatch LGT12의 멸균 형광 톤·EM-19 허탈을 키노트로 계승)
-- 연출 방향: 뉴스를 안 보는 20~30대 재직자가 멈추는 지점은 '숫자'가 아니라 '나가도 되나'를 매일 접어두는 자기 얼굴이다 → 첫 장에서 사직서를 쥔 손과 굳은 턱으로 독자를 세우고, 중반부터 카메라를 사람에게서 떼어 창구·책상·장부로 옮겨 이 돈이 어디서 나오는지를 눈으로 따라가게 한다. 마지막에 다시 사람 정면으로 돌아와, 결정되지 않은 두 숫자 앞에 선 채로 끝낸다. 반복 오브젝트 = 종이 한 장(사직서 → 신청서 → 급여명세 → 장부) · 악센트 #0FFD02는 매 카드 그 종이 한 장에만 얹는다
-- 독자 동선: **발단** 카드1→**전개** 카드2~3→**피크** 카드4→**해소** 카드5→**시사점** 카드6 · 훅=카드1 끝(단서형: 날짜 하나만 던지고 무엇이 흔들렸는지는 다음 장이 회수)+카드3 끝(예고형: 반대의 출처를 미리 가리킴) · 착지 = 이 제도의 성격은 찬반이 아니라 아직 비어 있는 두 숫자(근속 몇 년·지급 몇 달)가 정한다
-- 연속성 앵커: Recurring subject — a Korean man in his late 20s with short cropped black hair, wearing a plain white dress shirt with the collar unbuttoned and a dark lanyard ID badge / Recurring location — a late-afternoon open-plan Korean office floor with low partitions
+- 화풍: B 극화 — 제도의 원칙이 바뀌고 그 재원 장부가 함께 걸린 구조 사안이라, 선이 굵고 명암이 갈리는 극화가 사실감을 준다.
+- 분위기: 차갑고 공적인 실내의 정조. 관료적 형광등의 무표정 위에 개인의 계산이 얹힌, 밝지도 어둡지도 않게 시작해 장부 앞에서 가장 어두워지는 톤.
+- 연출 방향: 독자훅은 '나가고 싶은데 다음 달이 무섭다'는 20~30대 재직자의 매일의 계산이다 — 그래서 인물의 손과 눈이 늘 '아직 부치지 않은 봉투'와 '아직 비어 있는 칸'에 걸려 있게 잡는다. 전하려는 관점은 이 정책의 성격이 찬반이 아니라 아직 정해지지 않은 두 개의 숫자에 달렸다는 것 — 그래서 덱 전체의 강조점은 채워진 것이 아니라 **비어 있는 자리**(빈 도장란, 반쯤 열린 금고, 빠져 있는 두 의자)에 둔다. 밝은 발표장에서 어두운 회계실로 명도를 단계적으로 떨어뜨렸다가 아침 빛으로만 풀어준다.
+- 독자 동선: **제시** 카드1→**발단** 카드2→**전개** 카드3~4→**피크** 카드5→**해소·시사점** 카드6 · 훅=카드1 끝(예고형: 무슨 돈인지 유보→카드2가 즉시 회수)+카드4 끝(단서형: 반박의 존재만 던짐→카드5가 통장으로 회수) · 착지 한 줄 요지 = 제도의 이름을 정할 두 숫자(몇 년·몇 달)가 아직 국회에 비어 있다.
+- 연속성 앵커: Recurring subject — a Korean woman in her late 20s with shoulder-length black hair tied back, wearing a plain grey knit top and a lanyard ID badge (카드1·카드6) / 반복 장소 = an open-plan Korean office floor with low partitions and cold ceiling fluorescents.
 
 ### [카드 1]
 **텍스트**
 ```text
-실업급여엔 조건이 하나 있었다
-*내 뜻이 아니었다는 증명이 필요했다*
-스스로 나온 사람은 못 받았다
-그 원칙이 8월 4일 흔들렸다
+그만두고 싶을 때 계산이 하나 붙는다
+나가면 다음 달부터 수입이 0이다
+8월 4일 정부가 그 계산에 손을 댔다
+*제 발로 나가도 나오는 돈이 생긴다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: his jaw clenched tight, muscle flexing at the jawline, as both hands grip a plain unmarked envelope at chest height. Recurring subject — a Korean man in his late 20s with short cropped black hair, wearing a plain white dress shirt with the collar unbuttoned and a dark lanyard ID badge — stands beside his own desk holding the envelope, eyes cast downward onto it. Behind him a late-afternoon open-plan Korean office floor with low partitions extends back, two swivel chairs already pushed in and empty. His shoulders are turned toward the right edge of the frame with open space on that side.
-Camera: wide shot, full body, surrounding environment, spatial context from eye-level shot, neutral perspective, realistic, balanced emotion, shot on 35mm lens, natural documentary perspective, balanced subject and background, minimal distortion
-Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) placed only on the envelope in his hands, muted daylight contrast
-Text handling: no signage text, no document writing, no numbers rendered anywhere; the envelope is blank and every paper surface is cropped or angled so nothing is legible.
+Scene: Emotional focal point: a vacant unfocused stare drifting past everything, held just above the sealed envelope in her hands. Recurring subject — a Korean woman in her late 20s with shoulder-length black hair tied back, wearing a plain grey knit top and a lanyard ID badge — sits at her desk in a late-afternoon open-plan office, both hands closed around a plain white envelope she has not handed over. Her gaze drifts toward the right edge of the frame, past the monitor to two empty desks behind her. Low partitions and a cold ceiling fluorescent grid mark a Korean office floor. Her face, eyes and the envelope all sit in the upper half of the frame, with nose room on the right; only the bare desk surface occupies the lower portion.
+Camera: MCU from Eye-level, three-quarter angle, shot on 85mm portrait lens
+Lighting/mood: flat sterile clinical fluorescent light, cold even greenish-white, emotionless institutional
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) appearing only on her lanyard strap, muted flat contrast under the fluorescent light
+Korean setting by default: Korean people, Korean office interior, Korean signage shapes without legible characters.
+Text handling: avoid incidental lettering entirely; the envelope, monitor and any paper are cropped, angled or blurred so that no body text is readable.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the office floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the open-plan office floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -35,29 +36,30 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-사직서 봉투 사무실
+사무실 책상 사직서 봉투
 ```
 
 ### [카드 2]
 **텍스트**
 ```text
-35세 미만이 스스로 회사를 나가도
-생애 한 번은 실업급여가 나온다
-받는 돈은 이직 전 임금의 60%,
-*월 최대 100만원 선에서 검토된다*
+대상은 35세 미만 청년이다
+일정 기간 일한 뒤 스스로 나가도
+*생애 한 번은 구직급여가 나온다*
+임금의 60%로 월 최대 100만원이다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the narrow gap between his fingertips and the clerk's fingertips as a single blank sheet is passed across the counter. Recurring subject — a Korean man in his late 20s with short cropped black hair, wearing a plain white dress shirt with the collar unbuttoned and a dark lanyard ID badge — stands at a public employment center counter and reaches up to receive the sheet, his chin lifted toward the counter window. The seated clerk behind the glass stays half in shadow, only the hands and shoulders clear. A wide institutional hall of empty waiting chairs stretches behind him.
-Camera: medium shot, waist-up framing, face and gestures, conversational from low angle shot, looking up, dominance, dramatic presence, shot on 50mm standard lens, minimal distortion, natural cinematic composition
-Lighting/mood: flat sterile clinical fluorescent light, cold even greenish-white, emotionless institutional
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) placed only on the sheet crossing the counter, muted daylight contrast
-Text handling: no signage text, no counter placards, no document writing, no numbers rendered anywhere; the sheet is blank and any printed surface is cropped or angled so nothing is legible.
+Scene: Emotional focal point: the flat institutional composure of the man at the lectern, chin level, no smile, reading without looking up. A government briefing hall in a formal state reception building: one official in a dark suit stands at a lectern holding an open folder with both hands, while three rows of seated officials behind and below him face the same direction. A wide presentation screen behind them is left blank and unlit. The speaker and the folder are placed in the upper-center of the frame, the polished floor filling the lower portion.
+Camera: WS from Low angle, shot on 24mm wide lens
+Lighting/mood: bright high-key light, clean white ambience, minimal shadow, hopeful and open
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) on the small indicator lamp of the lectern microphone, muted daylight contrast
+Korean setting by default: Korean people, Korean institutional interior, no organization logos, no emblems, no nameplates.
+Text handling: avoid incidental lettering entirely; the screen stays blank and the folder is angled so no page text is readable.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the employment center hall floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the briefing hall floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -66,29 +68,30 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-고용센터 실업급여 창구
+청와대 영빈관 업무보고
 ```
 
 ### [카드 3]
 **텍스트**
 ```text
-*정부가 든 이유는 첫 직장 사정이다*
-임금이 안 맞거나 정보가 없어
-어쩔 수 없이 옮긴다는 것이다
-반대의 목소리는 다른 데서 나왔다
+*실업급여는 내 뜻이 아니어야 나왔다*
+해고나 권고사직이 증명돼야 했다
+그 문을 청년에게만 한 번 여는 것이다
+연내 법을 고치되 차등은 둔다고 했다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: his eyes narrowing at one line on the slip in his hand, lips pressed flat and tightened. Recurring subject — a Korean man in his late 20s with short cropped black hair, wearing a plain white dress shirt with the collar unbuttoned and a dark lanyard ID badge — sits alone at his desk long after hours, holding a folded pay slip tilted away from the viewer, his other hand still resting on the keyboard. The monitor lights his face from below while the rest of the open-plan office falls into darkness. His shoulder and gaze angle toward the right edge of the frame with open space on that side.
-Camera: medium close-up, chest-up framing, facial emotion, slight body context from high angle shot, looking down, vulnerable subject, small, observed, shot on 85mm portrait lens, flattering face, soft background separation, elegant focus
-Lighting/mood: cold blue screen under-glow lighting the face from below in a dark room, restless paranoid unease
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) placed only on the folded slip in his hand, film-noir low-key lighting, deep shadows
-Text handling: no screen text, no document writing, no numbers rendered anywhere; the slip is turned away and cropped so nothing on it is legible, the monitor shows only diffuse glow.
+Scene: Emotional focal point: a hand halted mid-air with a small round name seal, hovering over the empty stamp box of the second form. Seen from directly overhead, two employment separation forms lie side by side on a grey steel desk: the left one already carries a pressed seal impression, the right one is blank. Only the administrator's sleeve, wrist and hand enter the frame from the upper edge; the seal and both stamp boxes sit in the upper half of the frame. The papers are cropped tight so that only ruled lines and the seal impression are visible, never body text.
+Camera: ECU from Bird's-eye view, shot on 100mm macro lens
+Lighting/mood: flat cold even surveillance light, no shadow no warmth, detached and watchful
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) as one thin highlighter stroke marking the empty box on the right-hand form, muted flat contrast
+Korean setting by default: Korean administrative desk, Korean-style round personal seal, no logos, no legible characters.
+Text handling: the forms are cropped and partly overlapped so no document body text is readable anywhere.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the desk surface) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the grey desk surface) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -97,28 +100,61 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-야근 사무실 급여명세서
+이직확인서 서류 도장
 ```
 
 ### [카드 4]
 **텍스트**
 ```text
-그 돈이 나올 곳간이 문제였다
-*고용보험기금은 이미 실질 적자다*
-빌린 돈만 10조3000억원이다
+노동부가 든 명분은 청년의 사정이다
+임금이 안 맞거나 정보가 없어서
+옮길 수밖에 없는 경우가 있다고 했다
+같은 날 구직수당도 65만원으로 올렸다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a bare hand pressed flat on an open ledger page, the fingers stopped mid-slide as if unwilling to turn it. Seen from directly overhead, one ruled ledger book lies open on a dark tabletop inside a single hard pool of light, its ruled columns running off the edge of the frame so nothing on the page can be read. A second hand rests on a stack of closed folders at the rim of the light. No faces are visible and the surrounding room is solid black.
-Camera: extreme close-up, single detail, hand, texture from overhead shot, bird's-eye view, top-down angle, geometry, shot on 100mm macro lens, fine detail, shallow depth of field, precise texture
-Lighting/mood: harsh single overhead light pooling on the table, deep surrounding black, oppressive interrogation
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) drawn as one thin ruled line running across the open page, film-noir low-key lighting, deep shadows
-Text handling: no ledger writing, no figures, no numbers rendered anywhere; the page shows only blank ruled cells and the writing area is cropped by the frame edge.
+Scene: Emotional focal point: the set jaw of the speaking official mid-sentence, and opposite him a listener whose pen has stopped above a closed notebook. Inside a dim meeting room, a ministry official in a dark suit leans slightly forward with one open palm resting on the long table and speaks toward the right side of the frame, while two people across the table sit still and do not lean in. Both parties share the frame in profile at eye level, their faces and hands kept in the upper half. Vertical blinds and a bare wall line the room behind them.
+Camera: MS from Eye-level, profile side view, shot on 50mm standard lens
+Lighting/mood: cold blue dim interior light, heavy and suffocating, faint trembling tension
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) on the standby light of the table conference unit, film-noir low-key lighting, deep shadows
+Korean setting by default: Korean people, Korean government meeting room interior, no logos, no nameplates, no legible characters.
+Text handling: the notebook stays closed and any paper is angled away so no text is readable.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the dark tabletop) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the meeting room floor and its long table) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
+- no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
+- no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
+- no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
+- no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
+- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
+```
+**검색어**
+```text
+고용노동부 정부세종청사 브리핑
+```
+
+### [카드 5]
+**텍스트**
+```text
+그런데 그 돈이 나올 통장을 열면
+잔액 7조8000억에 빌린 돈이 10조다
+*빼고 나면 2조원대 적자가 남는다*
+```
+**이미지 프롬프트**
+```text
+korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
+Scene: Emotional focal point: a vacant thousand-yard stare as his fingers stop flat on the open ledger and do not move. In a dark accounting room, a public official in shirtsleeves stands over a wide desk with one hand pressed on an open ledger and the other still gripping a thick bundle of loan documents he has not set down. Behind his shoulder a heavy safe door stands half open, showing only stacked paper inside and nothing else. His face and both hands are framed tight in the upper half of the image; the desk edge falls away into blackness below.
+Camera: CU from Dutch angle, shot on 70mm short telephoto
+Lighting/mood: harsh single overhead light pooling on the table, deep surrounding black, oppressive interrogation
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) on the small indicator light of the safe lock panel, film-noir low-key lighting, deep shadows
+Korean setting by default: Korean people, Korean government office interior, no logos, no legible characters.
+Text handling: the ledger and the document bundle are cropped and turned so that only ruled columns are visible, never numbers or body text.
+Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
+MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
+Composition: ONE continuous surface (the accounting room floor and its desk) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -130,57 +166,27 @@ NEGATIVE — strictly avoid:
 고용보험기금 적자 회계장부
 ```
 
-### [카드 5]
-**텍스트**
-```text
-요건만 채우고 나가면 어쩌냐
-그런 도덕적 해이 지적도 나왔다
-차등을 두겠다는 말만 돌아왔다
-*정부는 아직 숫자를 안 내놨다*
-```
-**이미지 프롬프트**
-```text
-korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the flat unmoving set of his mouth as he pauses with one hand spread on the lectern. A Korean government official in his fifties in a dark suit stands at a briefing lectern with a cluster of microphones, seen from the side, looking straight ahead past the room rather than at anyone. In front of him rows of seated reporters are drawn as dark backs of heads, and one chair at the end of the front row is empty. The briefing room floor runs unbroken beneath all of them.
-Camera: cowboy shot, mid-thigh framing, body language, hands visible from profile shot, side view, clear silhouette, eye-level shot, neutral perspective, shot on 70mm short telephoto, gentle background compression, subject isolation
-Lighting/mood: cold blue dim interior light, heavy and suffocating, faint trembling tension
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) placed only on the single sheet lying on the lectern, film-noir low-key lighting, deep shadows
-Text handling: no backdrop banner text, no lectern emblem, no institutional logo, no document writing, no numbers rendered anywhere; the sheet on the lectern is blank and the backdrop is a plain unmarked panel.
-Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
-MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the briefing room floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
-- no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
-- no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
-- no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
-- no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
-- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
-```
-**검색어**
-```text
-고용노동부 업무보고 브리핑
-```
-
 ### [카드 6]
 **텍스트**
 ```text
-그 숫자 두 개가 제도의 성격을 가른다
-몇 년 일해야 받고 몇 달을 받나
-3년에 석 달이면 경력 전환 지원금이고
-*1년에 여섯 달이면 퇴사 장려금이다*
+그래서 이 제도는 숫자 두 개가 정한다
+3년에 3개월이면 경력 전환 지원이고
+1년에 6개월이면 퇴사 장려금이다
+*그 두 숫자는 아직 국회에 비어 있다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: his steady unwavering eyes looking directly into the camera, neither hopeful nor beaten. Recurring subject — a Korean man in his late 20s with short cropped black hair, wearing a plain white dress shirt with the collar unbuttoned and a dark lanyard ID badge — stands centered in an empty office building lobby before dawn, facing the viewer head on with his arms at his sides and one folded sheet held in his left hand. Behind him the lobby opens into two identical corridors of equal width, one on each side, both receding into flat gray. The polished lobby floor runs unbroken from the bottom of the frame to the far wall.
-Camera: wide shot, full body, surrounding environment, spatial context from eye-level shot, neutral perspective, front-on shot, direct gaze, symmetrical composition, shot on 24mm wide lens, cinematic wide shot, subtle depth
-Lighting/mood: cold blue pre-dawn tone, desolate stillness, faint even ambient fill
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) placed only on the folded sheet in his hand, film-noir low-key lighting, deep shadows
-Text handling: no building signage, no directory board, no document writing, no numbers rendered anywhere; the folded sheet is blank and every wall panel is left unmarked.
+Scene: Emotional focal point: her steady eyes looking straight into the lens, the still unsent envelope now held down at her side. Recurring subject — a Korean woman in her late 20s with shoulder-length black hair tied back, wearing a plain grey knit top and a lanyard ID badge — stands facing the camera head-on in the doorway of the same open-plan office at dawn, the envelope in one hand and her badge in the other. Behind her the office floor stretches empty and two chairs at the nearest desk are still pushed out and unoccupied. Her head and shoulders sit in the upper-center of the frame, centered and static, with the low partitions receding behind her.
+Camera: Full shot from Eye-level, front-on symmetrical composition, shot on 35mm lens
+Lighting/mood: warm soft morning light, gentle and quiet, faint melancholy
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) on her lanyard strap, muted daylight contrast
+Korean setting by default: Korean people, Korean office interior, Korean signage shapes without legible characters.
+Text handling: the envelope and badge are blank and angled so no lettering is readable anywhere.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the polished lobby floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the office floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -189,5 +195,5 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-오피스 빌딩 로비 복도
+이른 아침 빈 사무실 출입문
 ```
