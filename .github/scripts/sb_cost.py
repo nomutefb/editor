@@ -21,6 +21,11 @@ import json
 import os
 
 GEMINI_1K_USD = 0.067   # 정본 = CLAUDE.md 씨앗 파이프 항목(1K 이미지 1콜)
+# 그림 한 번 부르는 값(원) — 화면은 이 단위로 읽는다(운영자 260813 「예: G(195원) × 3회 + C 128」).
+# ⚠ 출처 = **운영자가 준 값**이다. 달러 실측($0.067/콜)에 환율을 곱해 우리가 만든 수가 아니다 —
+#   환율은 그때그때 다르고 결제 화면에만 있는 값이라 우리가 지어내면 그 순간 화면이 거짓말을 한다.
+#   바꿀 곳은 여기 하나(레포 변수 GEMINI_CALL_KRW 로도 덮을 수 있다).
+GEMINI_CALL_KRW = int(os.environ.get("GEMINI_CALL_KRW") or "195")
 FNAME = "cost.json"
 
 
@@ -55,6 +60,12 @@ def add(out_dir, vendor, kind, n, usd=None, est=True, note="", unit="usd"):
         led["items"] = [x for x in led.get("items", []) if x.get("kind") != kind] + [row]
         led["total_usd"] = round(sum(float(x.get("usd") or 0) for x in led["items"]), 4)
         led["total_cr"] = round(sum(float(x.get("cr") or 0) for x in led["items"]), 2)
+        # 그림 값은 **원**으로도 적는다 — 화면이 「G(195원) × 3회」로 읽는 자리다.
+        # ⚠ 단가를 원장에 같이 적는 이유 = 옛 판을 나중에 열어도 **그때 그 단가**로 보인다.
+        #   화면에 단가를 박아 두면 값을 한 번 고치는 순간 지난 산출물의 금액까지 소급해 바뀐다.
+        led["gem_krw"] = GEMINI_CALL_KRW
+        led["gem_n"] = sum(int(x.get("n") or 0) for x in led["items"] if x.get("vendor") == "gemini")
+        led["total_krw"] = GEMINI_CALL_KRW * led["gem_n"]
         led["est_any"] = any(x.get("est") for x in led["items"])
         with open(path, "w", encoding="utf-8") as f:
             json.dump(led, f, ensure_ascii=False)

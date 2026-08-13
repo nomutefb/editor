@@ -843,27 +843,33 @@ async function renderOut(md, outEl, outPath) {   // 결과 렌더 공통(폴 성
           // 종속이라 우리가 모른다. 섞어 적으면 화면이 「청구 $195」처럼 **나간 적 없는 금액**을
           // 그것도 실측인 척 말한다. 그래서 통화별로 따로 세고 따로 쓴다.
           const won = n => (Number(n) || 0).toFixed(2);
-          let money = (v.cost_unit === 'credit')
-            ? ('청구 ' + won(v.cost_cr) + ' 크레딧')
-            : ('청구 $' + won(v.cost_usd));
+          // 값 표기 = **그림은 원 · 영상은 크레딧**(운영자 260813 「예: G(195원) × 3회 + C 128」).
+          // ⚠ 두 화폐를 한 숫자로 더하지 않는다 — 크레딧을 원으로 바꾸는 비율은 결제 화면에만
+          //   있는 값이라 우리가 모른다. 섞어 적으면 화면이 나간 적 없는 금액을 말한다.
+          // ⚠ 구독 자격으로 도는 레인(그록)은 **안 적는다**(운영자 260813 「xai는 어짜피 비용이 없고」)
+          //   — 응답이 금액을 실어 보내지만 그건 요금제에 이미 포함된 몫이라 화면에 또 쓰면
+          //   운영자가 두 번 내는 것처럼 읽는다. 원장에는 그대로 남는다(기록 손실 0).
+          const crFmt = n => { const x = Number(n) || 0; return (Math.round(x) === x) ? String(x) : won(x); };
+          let money = (v.cost_unit === 'credit') ? ('C ' + crFmt(v.cost_cr)) : '';
           try {
             const cr = await fetch(base + 'cost.json?t=' + Date.now());
             if (cr.ok) {
               const led = await cr.json();
               const rows = (led && Array.isArray(led.items)) ? led.items : [];
               if (rows.length) {
-                // 벤더 표기 = NM_MODELS 사전 값만(§모델 표시명 SSOT · 음차 금지)
-                const vnm = v2 => ((window.NM_MODELS && window.NM_MODELS[v2]) || esc(String(v2)));
-                const amt = r => (r.unit === 'credit')
-                  ? (won(r.cr) + ' 크레딧') : ('$' + won(r.usd));
-                const tot = [];
-                if (Number(led.total_usd)) tot.push('$' + won(led.total_usd));
-                if (Number(led.total_cr)) tot.push(won(led.total_cr) + ' 크레딧');
-                money = '청구 ' + (tot.join(' + ') || '$0.00')
-                  + ' (' + rows.map(r => vnm(r.vendor)
-                      + ' ' + r.n + (r.kind === 'video' ? '컷' : '장') + ' ' + amt(r)
-                      + (r.est ? '*' : '')).join(' · ') + ')'
-                  + (led.est_any ? ' · *표는 단가 계산값' : '');
+                const parts = [];
+                const gn = Number(led.gem_n) || rows.filter(r => r.vendor === 'gemini')
+                  .reduce((a, r) => a + (Number(r.n) || 0), 0);
+                if (gn) {
+                  // 단가는 **원장에 적힌 그때 그 값**을 읽는다 — 화면에 박아 두면 단가를 한 번
+                  // 고치는 순간 지난 산출물 금액까지 소급해 바뀐다(옛 원장은 단가가 없어 개수만).
+                  const gk = Number(led.gem_krw) || 0;
+                  parts.push('G' + (gk ? '(' + gk + '원)' : '') + ' × ' + gn + '회');
+                }
+                const cRows = rows.filter(r => r.unit === 'credit');
+                const cSum = cRows.reduce((a, r) => a + (Number(r.cr) || 0), 0);
+                if (cSum) parts.push('C ' + crFmt(cSum));
+                if (parts.length) money = parts.join(' + ');
               }
             }
           } catch (e) { /* 폴백 = 영상 몫만 */ }
@@ -872,7 +878,7 @@ async function renderOut(md, outEl, outPath) {   // 결과 렌더 공통(폴 성
           const laneNm = (window.NM_MODELS && window.NM_MODELS[v.lane]) || esc(String(v.lane || ''));
           html = '<div class="ref multi">' + cells
             + '<div class="cap">' + esc(laneNm) + ' 영상 ' + ok.length + '/' + cs.length + '편 · 합 ' + secs + '초 · 소리 ' + (v.sound === false ? '끔' : '켬')
-            + ' · ' + money + '</div></div>' + html;
+            + (money ? ' · ' + money : '') + '</div></div>' + html;
         }
       }
     } catch (e) { /* 폴백 = 미부착 */ }
