@@ -5092,6 +5092,73 @@ def check_thumb_merge_canvas():
     return 0
 
 
+def check_orig_title_restore():
+    """요약 제목 = 기자가 뽑은 원문이 화면까지 살아 온다(하드 · 260813 실사고 봉합).
+
+    계약 = 「frontmatter `title` 은 기사 제목 **원문 전용**이고, 본문 `# 헤드`(후킹)와 같은 문장이 되면 안 된다」
+       (정본 = prompts/news-analysis.md 38행 · 260703 3층 구분: 원문=title · 후킹=본문 헤드 · 번역=title_ko).
+
+    ⚠️ 실사고 = 260811 밤부터 산출이 이 계약을 깨고 `title` 에 후킹 헤드를 그대로 넣었다(실측 11건 —
+       260811 1건 · 260812 8/13 · 260813 2/2 · 그 전 600여 건은 0건). 수집기는 원문 제목을 정상 전달했다
+       (예 「정부, 폭염에 수산물 최대 50% 할인·재난지원금 332억원 투입」 ↔ 산출 title 「바다는 식힐 수 없어서,
+       죽기 전에 팔라고 한다」) = 원료는 프롬프트까지 도달했고 산출에서만 덮였다.
+    ⚠️ 비용 = 뷰어 모달은 원문 제목 줄(`.md-srct`)을 「title ≠ H1」일 때만 그린다(viewer/index.html 4948행 ·
+       옛 분석분의 제목 2줄 중복을 지우려고 260805 에 넣은 정당한 가드) → 두 값이 같아지는 순간 그 가드가
+       정상 동작해 **기자 제목 줄이 통째로 안 그려진다**. 화면에 남는 건 추상 헤드 하나뿐이라 요약 상자만
+       봐서는 무슨 사건인지 알 수 없다(운영자 260813 «요약된 박스 제목만 보면 무슨 내용인지를 모름»).
+    ⚠️ 신설 사유 = 기존 게이트는 전부 다른 축이다 — `check_style_ratchet` = 본문 **문체**(리드 날짜·용어 풀이) ·
+       `check_rubric_regress`·`check_grade_regress` = **판정** 룰북 · `smoke_*` = 화면 렌더 → 「제목 필드가
+       제 몫을 하는가」는 축 자체가 없었다. 짝 검출기인 digest_guard 의 대조도 **원문자 완전일치**라
+       본문 헤드가 이모지로 열리면(= IG 헤드 골격의 정상 형태) 전건 빠져나갔다(실측 11건 경고 0건) =
+       탐지기가 있는데 죽어 있었다. 결국 운영자 눈이 유일한 검출기였다(insta-thumb-miss·brk_misfire 동축).
+    판정 4축 · 정적 · 렌더·LLM·네트워크 0 · **면책표 없이 하드 0**(부채 원장 증가 0).
+    """
+    bad = []
+    rs = os.path.join(ROOT, '.github', 'scripts', 'restore_orig_title.py')
+    an = os.path.join(ROOT, '.github', 'scripts', 'analyze.sh')
+    dg = os.path.join(ROOT, 'shared', 'digest_guard.py')
+    pr = os.path.join(ROOT, 'prompts', 'news-analysis.md')
+    for p in (rs, an, dg, pr):
+        if not os.path.isfile(p):
+            bad.append('파일 없음: ' + os.path.relpath(p, ROOT))
+    if bad:
+        print('❌ 원문 제목 복원 체인 —', ' / '.join(bad))
+        return 1
+    rt = open(rs, encoding='utf-8').read()
+    at = open(an, encoding='utf-8').read()
+    dt = open(dg, encoding='utf-8').read()
+    pt = open(pr, encoding='utf-8').read()
+
+    # ① 복원 도장이 analyze 산출 경로에 **실행줄로** 배선(주석 처리 우회 차단 = _has_exec_line 계승).
+    if not _has_exec_line(at, 'restore_orig_title.py'):
+        bad.append('① analyze.sh 가 restore_orig_title.py 를 실행줄로 안 부른다 = 복원 층 사망')
+    # ①-b 원료 가드 — title_hint 없이 부르면 빈 문자열로 덮을 위험(스크립트가 막지만 호출부도 같은 계약).
+    if 'title_hint' not in at.split('restore_orig_title.py')[0][-600:]:
+        bad.append('①-b 복원 호출이 수집기 원문 제목(title_hint) 가드 안에 있지 않다')
+
+    # ② 복원 술어 = 「위반 서명일 때만 손댄다」 + 선두 이모지 무시 대조(계약 준수 산출 무접촉이 실효 조건).
+    if 'def key' not in rt or '_LEAD_EMOJI' not in rt:
+        bad.append('② restore_orig_title.py 에 선두 이모지 무시 비교키가 없다')
+    if '계약 준수' not in rt:
+        bad.append('② restore_orig_title.py 가 계약 준수 산출을 무주입으로 빠져나가지 않는다(전건 덮어쓰기 위험)')
+
+    # ③ 짝 검출기 = digest_guard 대조가 이모지 무시 키여야 한다(구판 원문자 완전일치 부활 = 탐지기 사망).
+    if 'h1 == title' in dt or 'h1 == title_ko' in dt:
+        bad.append('③ digest_guard 가 구판 원문자 완전일치 대조로 되돌아갔다 = 이모지 헤드 전건 미검출')
+    if '_k(h1) == _k(title)' not in dt:
+        bad.append('③ digest_guard 에 이모지 무시 키 대조가 없다')
+
+    # ④ 프롬프트 계약 문구 — 「본문 헤드와 같은 문장을 title 에 쓰지 마라」가 사라지면 모델 쪽 유인이 되살아난다.
+    if '본문 `# {제목}`과 같은 문장을 여기 쓰지 마라' not in pt:
+        bad.append('④ prompts/news-analysis.md 에 title↔본문 헤드 동일 금지 계약이 없다')
+
+    if bad:
+        print('❌ 원문 제목 복원 체인 —', ' / '.join(bad))
+        return 1
+    print('✅ 원문 제목 복원 — 후킹 헤드가 title 을 덮으면 수집기 원문으로 되돌린다(짝 검출기 이모지 구멍 봉합).')
+    return 0
+
+
 # 운영자에게 「어느 칸을 갈지」 말하는 표면 = 칸 이름이 필수(면책표 아님 = 대상 목록).
 #   ⚠ 이름을 안 쓰는 표면(vidl-make·yt-cookie-whoami = 자기 문구에 칸을 안 말한다)은 여기 없다 —
 #     늘릴 땐 「그 표면이 운영자에게 칸을 지시하는가」로 판정한다.
@@ -7896,6 +7963,8 @@ def main():
         if check_yt_cookie_slot_name() != 0:   # 유튜브 쿠키 알림이 「갈아야 할 칸」을 맞게 말하는가(260812 실사고 — 알림과 받기 진단이 같은 상태를 정반대로 말해 운영자가 살아있는 칸을 갈았다)
             rc = 1
         if check_thumb_merge_canvas() != 0:   # 저작권·안내문이 사진에 실제로 얹히는가(260812 실사고 — 레이어를 params.fmt로 만들어 크기가 어긋나면 러너가 조용히 건너뛴다 · 화면 증상 = 그냥 안 보임)
+            rc = 1
+        if check_orig_title_restore() != 0:   # 요약 제목 = 기자가 뽑은 원문이 화면까지 오는가(260813 실사고 — title이 후킹 헤드로 덮이면 뷰어 원문 제목 줄이 통째로 사라진다 · 화면 증상 = 추상 헤드 하나만 남음)
             rc = 1
     except Exception as e:
         print('⚠️ grade 교정 체인 게이트 스킵:', e)

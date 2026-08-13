@@ -172,8 +172,17 @@ def lint(path):
     if h1:
         if re.search(r"\[(속보|단독|긴급|종합)\]", h1):
             warns.append("[# 제목] [속보]/[단독] 류 매체 태그 잔존 — IG 헤드 규칙(새로 짓기) 위반")
-        if (title and h1 == title) or (title_ko and h1 == title_ko):
-            warns.append("[# 제목] frontmatter title{}과 완전 동일 = 복붙 의심(후킹 헤드 미생성 또는 title 원문 보존 위반 — 둘 중 하나)".format("_ko" if (title_ko and h1 == title_ko) else ""))
+        # ⚠️ 대조는 선두 토픽 이모지·공백을 무시한 키로 한다(260813 실사고 봉합) — 구판은 원문자 완전일치라
+        #    본문 헤드가 「# 🐟 …」처럼 이모지로 열리면(= IG 헤드 골격의 정상 형태) 같은 문장인데도 매번 빠져나갔다.
+        #    실측 = 260811~13 위반 11건 전건 미검출(경고 0건) = 이 축이 실질적으로 죽어 있었다.
+        #    술어 = 뷰어 _tkey(viewer/index.html 4949행)·build-viewer stripLeadEmoji 와 같은 자
+        #    (화면이 「같은 제목」이라 판정하는 기준과 어긋나면 게이트와 증상이 갈린다).
+        _k = lambda s: re.sub(r"\s+", "", re.sub(r"^\s*(?:[\U0001F000-\U0001FAFF←-⇿⌀-➿⬀-⯿]️?\s*)+", "", s or ""))
+        if (title and _k(h1) == _k(title)) or (title_ko and _k(h1) == _k(title_ko)):
+            # 라이브 결과를 그대로 적는다 = 다음 세션이 코드를 거슬러 올라가지 않고 증상을 안다:
+            # 뷰어는 원문 제목 줄(.md-srct)을 「title ≠ H1」일 때만 그리므로, 같아지는 순간 기자가 뽑은
+            # 직설 제목이 화면에서 사라지고 추상 헤드만 남는다(운영자 260813 「요약 상자 제목만 보면 내용을 모름」).
+            warns.append("[# 제목] frontmatter title{}과 동일(선두 이모지 무시) = title 원문 보존 위반 — 뷰어 원문 제목 줄(.md-srct)이 통째로 안 그려진다".format("_ko" if (title_ko and _k(h1) == _k(title_ko)) else ""))
 
     base = os.path.basename(path)
     if warns or infos:

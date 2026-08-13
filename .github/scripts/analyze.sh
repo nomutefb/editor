@@ -554,6 +554,26 @@ PY
     fi
   fi
 
+  # 원문 제목 복원 도장(260813 실사고 봉합 · CONTRACT: check_orig_title_restore) — frontmatter title 이 본문 후킹 헤드와
+  #   같으면(= 선두 토픽 이모지·공백 무시 대조) 「원문 보존 전용」 계약(news-analysis.md 38행) 위반이므로 수집기 원문
+  #   제목(title_hint)으로 되돌린다. 발행시각 도장과 같은 문법(스크립트가 결정론으로 박는다 = 모델 변덕과 무관).
+  #   ⚠️ 왜 필요한가 = 뷰어 모달은 원문 제목 줄(.md-srct)을 「frontmatter title ≠ H1」일 때만 그린다(index.html 4948행).
+  #      즉 title 이 후킹 헤드로 덮이면 기자가 뽑은 직설 제목이 화면에서 통째로 사라지고, 남는 건 추상 헤드 하나뿐이라
+  #      요약 상자만 봐서는 무슨 사건인지 알 수 없게 된다(운영자 260813 실측 신고).
+  #   ⚠️ 실측 = 260811~13 산출 카드 11건이 전부 이 형태였다(수집기는 원문 제목을 정상 전달했는데 산출만 후킹으로 덮임 ·
+  #      digest_guard 의 대조가 선두 이모지 때문에 미검출이라 경고도 안 떴다 = 짝 봉합 동반).
+  #   가드 = ① title_hint 없으면 무주입(폰공유·전문붙여넣기 = 원문 제목 원천 없음) ② 위반 서명이 아니면 무주입
+  #      (모델이 계약을 지킨 산출은 한 글자도 안 건드린다) ③ 파싱 실패·빈 산출 무주입 = 종전 동작(악화 경로 0).
+  if [ -n "${title_hint// }" ]; then
+    _tfix="$(printf '%s\n' "$out" | python3 .github/scripts/restore_orig_title.py "$title_hint" 2>/tmp/_ot_note || true)"
+    if [ -n "${_tfix// }" ] && [ "$_tfix" != "$out" ]; then
+      out="$_tfix"
+      echo "  원문 제목 복원 — title 이 후킹 헤드로 덮여 있어 수집기 원문으로 되돌림: ${title_hint}"   # 가시성(Actions 로그)
+    elif [ -s /tmp/_ot_note ]; then
+      echo "  원문 제목 복원 — $(tr '\n' '·' < /tmp/_ot_note)"   # 계측(무변경 사유도 로그 = 출처괄호 백스톱 관용구 계승)
+    fi
+  fi
+
   # AI 썸네일 전역 OFF(설정 genImgOn=false) → no_thumb 도장(ask.sh 건별 주입과 동일 awk) — thumb_gen 이 제미나이 생성만
   # 스킵하고 검색이미지는 그대로 채움(운영자 260710). 요약 시점 설정을 기사에 박는 방식 = ask 경로와 동일(뒤에 설정을 켜도
   # 이미 요약된 기사를 소급 생성하지 않음 = 과금 서프라이즈 차단).
