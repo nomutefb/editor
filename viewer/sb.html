@@ -33,8 +33,8 @@
      ⚠ 라벨이 flex·center 라 세로 중앙이 **박스 기준**으로 맞는데, 글자 잉크 중심은 줄 상자
        중심보다 위에 있다(줄 상자가 아랫수염 자리를 품는다) → 박스만 맞추면 눈에는 픽토가
        내려앉아 보인다. 실측 Δ 0.91px 를 정수로 스냅해 없앤다(반픽셀은 획을 흐린다 · §3-4). */
-  #sumTg { transform:translateY(-1px) /* raw-ok: 광학 잉크 보정 실측값(0.91 → 정수 스냅) · 판정기 = 잉크 중심 Δ≤0.5 */; }
-  #sumTg:active { transform:translateY(-1px) scale(var(--press-s)); }   /* 눌림은 정본 사다리 유지 + 보정 동반 */
+  #sumPull { transform:translateY(-1px) /* raw-ok: 광학 잉크 보정 실측값(0.91 → 정수 스냅) · 판정기 = 잉크 중심 Δ≤0.5 */; }
+  #sumPull:active { transform:translateY(-1px) scale(var(--press-s)); }   /* 눌림은 정본 사다리 유지 + 보정 동반 */
   label.fl::before { content:'•'; margin-right:6px /* raw-ok: song:47 정본 값 사본(블릿→글자 6px = thumb .csec gap 6 시각 등가 · 운영자 260713 "블릿 간격 전부") */; color:var(--accent); font-weight:var(--fw-b); }   /* 블릿 = 형광(k:31 계승) · 구 `'• '` 공백식 → 정본 갈래 교체(운영자 260806 "다른 비디오 스튜디오 세부 메뉴와 동일하게"): 공백 글자폭 ≈3.77px이 곧 들여쓰기라 이 탭 소머리 첫 잉크가 형제(음원·편집) 대비 x **−2.59px**로 갈려 있었다(실측 260806 = 콘티/프롬프팅 23.77 vs 정본 26.36 · index `.genihost .cref-lbl` 260804 봉합과 같은 축) */
   label:first-of-type { margin-top:0; }
   textarea { width:100%; min-height:64px /* raw-ok: 종전 96의 2/3 = 운영자 Q1159 "콘텐츠 입력 높이 2/3으로" 지정 실값 */; padding:var(--sp-2); background:var(--well); border:1px solid var(--line); border-radius:var(--r-s); color:var(--fg); font:inherit; font-size:16px; resize:none; }   /* k:33 계승 · raw-ok: 16px = iOS 자동줌 방지 하한(font 축약 뒤 개별 선언이라 승리 · 감사3 §1) */
@@ -92,6 +92,30 @@
   .lenrule-hit button:active { transform:scale(var(--press-pico)); }   /* 눌림 = 최소 사다리(자 눈금은 미세 요소 — 가이드북 --press-* 사다리 계승) */
   .lenrule-v { flex:none; min-width:8ch /* 값 폭 고정 = thumb `.cyrow .cyv{min-width:3ch}` 관용구 계승(「5s · 6컷」↔「15s · 12컷」 전환에 자 폭이 안 흔들린다) */; text-align:right; color:var(--accent); font-weight:var(--fw-x); font-size:var(--fs-label); font-variant-numeric:tabular-nums; }   /* = edit `.grow .v` 정본 문법(우측·accent·tabular) */
   .geni-opt:disabled { opacity:.28; pointer-events:none; }   /* 배선 대기 칩(GPT 5.6 — OpenAI 키 미배선) = index .geni-nav[disabled] 동일값 계승 */
+
+  /* ── 화풍·세부 화풍 = 한 줄 가로 레일 — **레퍼런스 = index #geniStyle·#geniSub 그대로**
+       (운영자 260813 「이미지 스튜디오의 여러 화풍 - 세부화풍을 따라하면 될것 같다」).
+       값은 한 글자도 안 고쳤다(이 파일이 `.geni-row`·`.pub-l`·`.geni-opt` 를 이미 그렇게 계승했다). ── */
+  .geni-railrow .pub-l { flex:0 0 max(80px, calc(4em + 12px)); }   /* raw-ok: 라벨 고정 칼럼 = index 정본 동값(두 레일 첫 키워드가 한 세로선) */
+  .geni-railwrap { flex:0 1 auto; max-width:100%; background:rgba(255,255,255,.03) /* raw-ok: index .geni-railwrap 동값 */; border-radius:var(--r-m); padding:7px 10px /* raw-ok: index 동값(.ch-sig 행 박스 계승) */; }
+  .geni-railwrap.edge { border-left:1px solid var(--line2); padding-left:var(--sp-1); }   /* 좌측 경계선 = index 동값 */
+  #sbStyle.geni-rail, #sbSub.geni-rail { flex:1 1 0; min-width:0; flex-wrap:nowrap; justify-content:flex-start; overflow-x:auto; overflow-y:hidden; -ms-overflow-style:none; scrollbar-width:none; cursor:grab; touch-action:pan-x pan-y; --rail-fade:22px; -webkit-mask-image:linear-gradient(90deg,transparent 0,black var(--rail-fade),black calc(100% - var(--rail-fade)),transparent 100%); mask-image:linear-gradient(90deg,transparent 0,black var(--rail-fade),black calc(100% - var(--rail-fade)),transparent 100%); }   /* nowrap 한 줄 + 양 끝선 페이드 = index 동값 */
+  #sbStyle.geni-rail::-webkit-scrollbar, #sbSub.geni-rail::-webkit-scrollbar { display:none; }
+  #sbStyle.geni-rail.grabbing, #sbSub.geni-rail.grabbing { cursor:grabbing; }
+  #sbStyle.geni-rail.atStart, #sbSub.geni-rail.atStart { -webkit-mask-image:linear-gradient(90deg,black 0,black calc(100% - var(--rail-fade)),transparent 100%); mask-image:linear-gradient(90deg,black 0,black calc(100% - var(--rail-fade)),transparent 100%); }   /* 좌측 끝 = 첫 항목 선명(경계선에 딱) */
+  #sbStyle.geni-rail.atEnd, #sbSub.geni-rail.atEnd { -webkit-mask-image:linear-gradient(90deg,transparent 0,black var(--rail-fade),black 100%); mask-image:linear-gradient(90deg,transparent 0,black var(--rail-fade),black 100%); }
+  #sbStyle.geni-rail.atStart.atEnd, #sbSub.geni-rail.atStart.atEnd { -webkit-mask-image:none; mask-image:none; }   /* 안 넘치면 페이드 0 = index 동일 축 */
+  .geni-subit { display:inline-flex; align-items:center; gap:4px /* raw-ok: index .geni-subit 동값(칩 묶음 간격 = .geni-opts gap 계승) */; }   /* 세부 화풍 1항목 = 구분자+글자 한 묶음 = index 동값 */
+  .geni-sep { font-size:var(--fs-label); font-weight:var(--fw-b); color:var(--mut); opacity:.35; pointer-events:none; }   /* 파이프 구분자 = index 동값 */
+  .geni-navs { display:none; flex:0 0 auto; align-items:center; margin-left:2px /* raw-ok: index 동값(레일↔화살표 광학 간격) */; }
+  @media (hover:hover) and (pointer:fine) { .geni-navs { display:flex; } }   /* ‹› = PC 에서 항상 표시 = index 정본 동일 축 */
+  /* reuse-ok: 계승원 = index .geni-nav(화풍 레일 화살표 정본) — 신설 아님 */
+  .geni-nav { width:17px /* raw-ok: index .geni-nav 동값 */; height:22px /* raw-ok: index 동값 */; display:grid; place-items:center; background:none; border:none; color:var(--mut); cursor:pointer; padding:0; border-radius:var(--r-s); transition:color var(--dur), background var(--dur); -webkit-tap-highlight-color:transparent; }
+  .geni-nav svg { width:11px /* raw-ok: index 동값 */; height:11px /* raw-ok: index 동값 */; }
+  .geni-nav[disabled] { opacity:.28; pointer-events:none; }
+  #sbSub .geni-subit { animation:geniSubIn .22s var(--ease) backwards; animation-delay:calc(var(--i, 0)*.04s); }   /* 화풍 전환 인 촤르륵 = index 동값 */
+  @keyframes geniSubIn { from { opacity:0; transform:translateY(7px); } to { opacity:1; transform:none; } }
+  @media (prefers-reduced-motion:reduce) { #sbSub .geni-subit { animation:none; } }
   /* ══ 상단 도크 = 편집(edit) 정본 100% 계승(운영자 260725 "미리보기·아래 옵션까지 편집이랑 통일") — 미리보기+선택 요약 스트립(.optstrip)+발사바(.firebar 생성) 한 sticky 블록([4-2] 강제 골격 ①) ══ */
   /* 발사 버튼 도크 테두리 = thumb 정본과 **한 벌**(운영자 260731 12차 "너무 옅음" .2) · `:where()`로 특이도 0 기여 →
      실효 = `.go` 하나뿐(0,1,0)이라 위 `.go.err`·`.okdone` 등 상태(0,2,0)가 **이긴다**(= check_css_dead_state가 잡은 사망 복구).
@@ -290,20 +314,22 @@
   <!-- 선택 요약 = 도크 **밖**(운영자 260803 2차 "아예 동일하게") — 도크 안 = {미리보기 + 생성}뿐이 카드 제작 정본 골격 · 옵션 규격 4축 값 칩 = 형제 4탭처럼 코너 레일 전담(운영자 260803 3차 "옵션에 해당하는 부분만 저기로") · 감독│촬영│콘티·비용 리드백은 「감독:페이블 5 | 촬영:…」처럼 길어 70px 레일에 안 들어간다 → 도크 바로 아래 스트립 존치 = **콘티만의 예외 칸**(운영자 260803 3차 "여기만 예외적으로 네비게이션 말고도 옵션을 나타내는 칸") -->
     <div class="optstrip" id="optStrip"><div class="geni-sum gospec" id="gospec"></div></div><!-- 선택 요약 = **1줄** 리모트바(감독│촬영│콘티) — 구 2줄 비용은 운영자 260804 "여기서 비용 부분 < 삭제 하자"로 폐지(Q1160 2줄 개정) -->
   <!-- Contents = 도크 **밖**(운영자 260803 2차 "아예 동일하게") — 카드 제작·프롬프팅·음원 골격 = 도크 안 = {미리보기 + 생성}뿐 · 구 Q1161 도크 안 이주는 이 탭만 도크 높이 483.5(기준 292)로 갈라지게 했다(실측 260803 2차) -->
-    <!-- 🗞 **기사 참조 = 픽토 옵션**(운영자 260813 「기사를 참조 — 이거는 픽토그램으로 옵션」).
-         ⚠ 왜 접나 = 첫 화면에서 제일 먼저 정할 건 **무슨 주제로 만드느냐**다. 참조 기사는 있으면
-           좋은 보조지 필수가 아닌데, 큰 칸으로 늘 펼쳐져 있으면 「이걸 채워야 하나」로 읽힌다.
-         ⚠ 값이 있으면 자동으로 펼친다 — 끌어와 놓고 접혀 있으면 안 넣은 줄 안다. -->
-    <div id="sumSec" hidden><label class="fl">요약 <button type="button" class="sbtn cref-dlall" id="sumPull" title="수집한 기사 요약을 끌어온다 — 탭할 때마다 최근 기사부터 다음 건으로">불러오기</button></label><!-- 운영자 260812 「뉴스 요약본에서 가져오게(기사 요약 리스트에서) · 자유요약을 끌어온다」 — 출처 = viewer/articles.json 의 기사별 summary(빌더가 queue/*.md frontmatter 에서 굽는다) · 끌어오기 = 「탭=다음으로 순환」(이 파일 tapChip 관용구 그대로 · 새 컴포넌트 0) -->
-    <div class="scnwrap"><textarea id="sumTx" maxlength="8000" aria-label="요약" placeholder="기사 요약(끌어오거나 직접 붙여넣기)"></textarea><button class="scnclip" id="sumClip" type="button" aria-label="붙여넣기"></button></div>
-    </div>
-<label class="fl">내용 <button type="button" class="sbtn" id="sumTg" aria-expanded="false" title="기사 참조 — 수집한 기사 요약을 붙여 참고 자료로 준다(선택)" aria-label="기사 참조"></button></label><!-- 라벨 = 「내용」(운영자 260803 4차 "콘텐츠라는 영어 = 다른 곳 표기에 맞춰" · 정본 = index AI 생성 #geniWishHead·tr #noteTx·nb #txLb 동문) -->
-    <div class="scnwrap"><textarea id="scene" maxlength="8000" aria-label="내용" placeholder=""></textarea><!-- maxlength = api/sb.js slice(0,8000) 정합(k:255 계승) · 3버튼 = k/thumb 공통 기틀 --><button class="scnclip" id="sceneClip" type="button" aria-label="붙여넣기"></button></div>
+    <!-- 📄 **칸 둘**(운영자 260813 「텍스트 칸을 두개로 나눠 · 자료 참조 칸 · 가장 중요한 칸으로 연출 목적」).
+         ⚠ 왜 갈랐나 = 한 칸에 자료와 의도를 같이 쓰면 감독이 **무엇을 보여주려는 건지**를
+           자료 더미에서 추측하게 된다. 그러면 영상이 모호해진다 — 나온 걸 보고서야
+           「내가 원한 건 이게 아닌데」가 되는데, 그땐 이미 값이 나간 뒤다.
+         ⚠ 자료 참조 = 붙여넣기도 되고 수집한 기사도 끌어온다(둘 다 같은 칸에 쌓인다). -->
+    <label class="fl">자료 참조 <button type="button" class="sbtn cref-dlall" id="sumPull" title="수집한 기사를 끌어온다 — 탭할 때마다 최근 기사부터 다음 건으로" aria-label="기사 불러오기"></button></label><!-- 픽토 = 「기사」 글자 대체(운영자 260813 · 잉크 수평 실측 통과분) · 끌어오기 = 「탭=다음으로 순환」(이 파일 tapChip 관용구 그대로) · 출처 = viewer/articles.json -->
+    <div class="scnwrap"><textarea id="sumTx" maxlength="8000" aria-label="자료 참조" placeholder="기사를 끌어오거나 자료를 붙여넣는다"></textarea><button class="scnclip" id="sumClip" type="button" aria-label="붙여넣기"></button></div>
+    <label class="fl">연출 목적</label><!-- 가장 중요한 칸(운영자 260813 「이게 빠져있으면 무슨 의도로 만드려는지를 모르기때문에 영상이 모호해진다」) — 라벨 부품 = 위 칸과 같은 `.fl`(창작 0) -->
+    <div class="scnwrap"><textarea id="scene" maxlength="8000" aria-label="연출 목적" placeholder="무엇을 보여주려고 하는가 — 보는 사람이 무엇을 느끼고 무엇을 알고 가야 하는지"></textarea><!-- maxlength = api/sb.js slice(0,8000) 정합(k:255 계승) · 3버튼 = k/thumb 공통 기틀 --><button class="scnclip" id="sceneClip" type="button" aria-label="붙여넣기"></button></div>
   <div class="geni-sechead"><span class="cref-lbl">설계</span></div>
   <div class="ogrid"><!-- 옵션 칸 = 편집 탭 카드 그릇(2열 · 라벨│값) 계승 · 항목·값은 콘티 것 그대로 -->
   <div class="geni-row"><span class="pub-l">감독</span><span class="geni-opts" id="dgrid" role="group" aria-label="감독 — 연출 모델"></span></div>
   <div class="geni-row"><span class="pub-l">촬영</span><span class="geni-opts" id="sgrid" role="group" aria-label="촬영 — 생성 엔진"></span></div>
   <div class="geni-row rowtap" data-rowtap="refTg"><span class="pub-l">콘티</span><span class="geni-opts" role="group" aria-label="콘티 — 레퍼런스 이미지 엔진"><button type="button" class="geni-opt on" id="refTg" aria-pressed="true" title="레퍼런스 이미지 생성(Gemini 종량제) — Seedance는 발사 필수 재료라 강제 · 켜짐=글자 점등">Gemini 3.1 Flash</button></span></div><!-- Q1144·Q1161 + 운영자 260804 "콘티에 모델은 왜 불이 꺼져있는건지 확인좀.(애초에 선택자가 없네)": 라벨 = 「콘티」(스트립 리드백 1:1) · 칩 텍스트 = 모델명(런타임 = NM_MODELS.gemini 사전값) · 기본 켜짐 · 시댄스 = 비활성(강제) · 클링 = 선택 가능 · 워드 토글 = 라벨 자체 점등(thumb #cnTog 정본 · id·핸들러·상태 불변) -->
+  <div class="geni-row geni-railrow"><span class="pub-l">화풍</span><div class="geni-railwrap edge"><span class="geni-opts geni-rail" id="sbStyle" role="group" aria-label="화풍"></span><div class="geni-navs"><button type="button" class="geni-nav" data-dir="-1" aria-label="이전"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button><button type="button" class="geni-nav" data-dir="1" aria-label="다음"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button></div></div></div><!-- 화풍 = index #geniStyle 레일 그대로(운영자 260813 「이미지 스튜디오의 여러 화풍 - 세부화풍을 따라하면 될것 같다」) · 목록 = nm-styles.js 단일정본(사본 0) -->
+  <div class="geni-row geni-railrow"><span class="pub-l">세부 화풍</span><div class="geni-railwrap edge"><span class="geni-opts geni-rail" id="sbSub" role="group" aria-label="세부 화풍"></span><div class="geni-navs"><button type="button" class="geni-nav" data-dir="-1" aria-label="이전"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button><button type="button" class="geni-nav" data-dir="1" aria-label="다음"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button></div></div></div><!-- 세부 화풍 = index #geniSub 레일 그대로 · 자동 + 현 화풍 세부 · 화풍 전환 = 인 촤르륵 -->
   <div class="geni-row"><span class="pub-l">비율</span><span class="geni-opts" id="axRatio" role="group" aria-label="비율"></span><span class="geni-ar" id="sbArWrap" inert><input id="sbArW" class="geni-ar-in" type="text" inputmode="numeric" maxlength="2" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="비율 가로값"><b class="geni-ar-c" aria-hidden="true">:</b><input id="sbArH" class="geni-ar-in" type="text" inputmode="numeric" maxlength="2" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="비율 세로값"></span></div><!-- 직접 = 「직접」 칩 그 자리 인라인 N:M(index #geniArWrap 정본 미러 · 260727 전 탭 통일) -->
   <div class="geni-row"><span class="pub-l">화질</span><span class="geni-opts" id="axQ" role="group" aria-label="화질"></span></div><!-- 프롬프팅 이관 축(Q1145) -->
   <!-- 「프레임」 행 폐지(운영자 260804 "30fps 고정으로 하고 (네비에는 그대로 나오고) 아래 옵션선택자에서는 삭제") — 값은 SB_DEF 30fps 고정 · 리드백은 코너 레일 값 칩 존치(읽기 전용) -->
@@ -330,6 +356,7 @@
 <script src="nm-svg.js"></script><!-- 공유 아이콘 SSOT(§🎨 CII P1) — 인라인 복제 폐지·단일정본 -->
 <script src="nm-rail.js" data-scope="cap" data-dlname="storyboard.jpg" data-jobkey="sb_jobs"></script><!-- 결과·이전 제작 레일 부품 SSOT(마크업·렌더·공유 이력 · 영상 스코프 = nomute_cap_hist = 사진과 분리) -->
 <script src="nm-models.js"></script><!-- 모델 표시명 SSOT(운영자 260803 5차 "아이디어도 배선") — 아래 SB_DIRECTORS/SB_SHOOTS/DNM/SNM이 참조 · 강제 = check_model_names -->
+<script src="nm-styles.js"></script><!-- 화풍·세부 화풍 SSOT — 이미지 스튜디오와 같은 목록을 읽는다(사본 0 · 서버 STYLE_SUB 와 키 동기) -->
 <script src="nm-jobs.js"></script><!-- 여러 작업 동시 추적 SSOT(운영자 260810 "동시에 병렬로 진행") — 폴 레지스트리(같은 잡 중복 폴 차단·남의 폴 안 끊음) -->
 <script src="nm-sync.js"></script><!-- 동기화 생명선 SSOT(운영자 260803 4차 "전 스튜디오 상속") — 복귀 시 자동 재동기(nmRefresh)·로그인 만료 자가치유·새 배포 자동 탑재 -->
 <script src="nm-loader.js"></script><!-- 로더 팩토리 SSOT(yeulmaru-promo mkLoader 이식) — .nmld 도트 · 강조색 --accent -->
@@ -498,7 +525,11 @@ const SB_VALS = {
 };
 const sbCutN = s => Math.max(1, Math.round(s / SB_LEN_STEP));   // **영상 편수** = 길이 ÷ 10(컷 수가 아니다 — 컷은 한 편 안의 카메라 전환이라 편수와 무관하다) (구 종이 콘티 밴드[6~8초=6컷 …]는 260812 폐지 — 그 규칙은 종이에 그리는 칸 수라 칸마다 영상을 뽑으면 1.2초 조각이 열두 개가 된다)   // 컷수 = storyboard-v1 밴드 정본(SKILL.md §컷 수 로직 — 6~8초=6컷 · 10~12초=9컷 · 15초=12컷) · 표 사이 초(5·9·13·14)는 **위 밴드로 올림** = 이 파일의 기존 「애매하면 위로(보수)」 규칙 동축(구 비용 산식 9s=10s가)
 const SB_CUTS = Object.fromEntries(SB_LENS.map(v => [v, sbCutN(parseInt(v, 10)) + '편']));   // 표기 = 「30s · 3편」(운영자 260812 「단일 영상으로 표현하는 게 왜곡이 없음」 — 구 「컷」 표기는 한 편 안의 전환 수와 뜻이 겹쳐 오독을 만든다)   // 길이→컷수 파생 맵(호출부 문법 불변 · 구 4값 하드코딩 표 대체 — 5~15s 11값 전건 정의)
-const SB_DEF = { '비율': '9:16', '화질': '2K', '프레임': '30fps', '길이': '10s' };   // 운영자 확정 기본값(Q1158 "2k · 30fps · 9:16 · 10s")
+const SB_DEF = { '비율': '9:16', '화질': '2K', '프레임': '30fps', '길이': '10s' };
+// 화풍·세부 화풍 = 이미지 스튜디오와 같은 기본값(index _geniSel 동값 = 극화·자동 · 창작 0).
+// ⚠ 왜 콘티에 화풍이 있나 = 영상의 얼굴은 **첫 장면 그림**이 정한다(그림→영상). 그림을 어떤
+//   화풍으로 굽느냐가 곧 영상 화풍이라, 여기서 못 고르면 매번 감독이 알아서 정하게 된다.
+let sbStyle = 'webtoon', sbSub = 'auto';   // 운영자 확정 기본값(Q1158 "2k · 30fps · 9:16 · 10s")
 let sbDirector = 'fable', sbShoot = 'grok', sbSet = Object.assign({}, SB_DEF), sbAd = false, sbRef = true, sbSnd = true;   // sbSnd = 영상 소리(기본 켜기 · 운영자 260811 「소리는 기본 키게」 · 촬영=grok 전용 축)   // sbRef = 참조 이미지 생성(기본 ON · 운영자 Q1144·Q1161: 시댄스 = 강제 ON·비활성 / 클링 = 선택 가능)
 let sbArW = '1', sbArH = '1';   // 비율 직접 기본 = 1:1(index _geniSel.arW/arH 정본 동값 — 빈 칸이 아니라 값이 앉아 있고 탭하면 그 자리가 비며 바로 타이핑)
 function sbArVal() { const w = parseInt(sbArW, 10), h = parseInt(sbArH, 10); return (w >= 1 && w <= 99 && h >= 1 && h <= 99 && w / h >= 0.25 && w / h <= 4) ? w + ':' + h : null; }   // 직접 비율 유효값 = index geniArVal 정본 동일 계약(각 1~99 + 1:4~4:1) · 서버 api/sb.js가 같은 계약으로 재검증
@@ -515,13 +546,19 @@ function sbQFit(shoot, q) {
   const down = ok.filter(v => rank.indexOf(v) >= 0 && rank.indexOf(v) <= cur);
   return down.length ? down[down.length - 1] : ok[0];
 }
+function subsOfName(st, v) { const l = ((window.GENI_SUB || {})[st] || []).find(x => x[0] === v); return l ? l[1] : ''; }   // 세부 화풍 사람 말 — 정본 목록에서만 읽는다(사본 0)
 function sbPayload() {   // go 핸들러 페이로드(서버 api/sb.js가 화이트리스트 재검증)
   const set = Object.assign({}, sbSet); if (set['비율'] === 'custom') set['비율'] = sbRatio();   // 'custom' = 화면 상태값 → 발사 시 실 N:M으로 치환(k 「길이」 직접 = segTotal()+'s' 선례 문법)
+  const styKo = ((window.GENI_ALL_STYLES || []).find(x => x[0] === sbStyle) || [])[1];
+  const subKo = (subsOfName(sbStyle, sbSub));
+  if (styKo) set['화풍'] = styKo;               // 감독이 읽는 건 **사람 말**이다(보드 `[설정]` 절이 한국어라 키를 그대로 쓰면 감독이 못 읽는다)
+  if (subKo && sbSub !== 'auto') set['세부 화풍'] = subKo;   // 자동 = 감독 재량 = 값 자체를 안 보낸다(index 동일 계약)
   return { director: sbDirector, shoot: sbShoot, set, ad: sbAd, sound: (sbShoot === 'grok') ? sbSnd : true, ref: (sbIsSd(sbShoot)) ? true : (sbShoot === 'motion' ? false : (sbShoot === 'grok' ? true : sbRef)) };   // grok = 제미나이 콘티 컷이 첫 장면 재료라 강제 ON(시댄스 동축)   // ref = 레퍼런스 이미지 생성 여부(시댄스 강제 true · 모션 강제 false = 실사 레퍼런스 쓸 곳 없음 · 서버 api/sb.js가 워크플로 입력으로 재검증)
 }
 (function () {
   const dg = $('#dgrid'), sg = $('#sgrid'), axR = $('#axRatio'), axL = $('#axLen'), ad = $('#adTg'), spec = $('#gospec');
-  const axQ = $('#axQ'), axLv = $('#axLenV'), rf = $('#refTg'), snd = $('#sndTg');   // 프롬프팅 이관 축(Q1145 · 프레임은 260804 30fps 고정으로 선택 행 폐지) + 콘티 엔진 칩(Q1161) + 소리 칩(260812)
+  const axQ = $('#axQ'), axLv = $('#axLenV'), rf = $('#refTg'), snd = $('#sndTg');
+  const axSty = $('#sbStyle'), axSub = $('#sbSub');   // 화풍·세부 화풍 레일(운영자 260813)   // 프롬프팅 이관 축(Q1145 · 프레임은 260804 30fps 고정으로 선택 행 폐지) + 콘티 엔진 칩(Q1161) + 소리 칩(260812)
   if (!dg || !sg || !axR || !axL || !axLv || !ad || !spec || !axQ || !rf) return;
   const KEY = 'sb_form';   // 선택 영속(k_form2 패턴 계승) · 복원 = 화이트리스트 재검증
   try {
@@ -535,18 +572,42 @@ function sbPayload() {   // go 핸들러 페이로드(서버 api/sb.js가 화이
     if (typeof s.snd === 'boolean') sbSnd = s.snd;   // 소리 토글 영속(그록 레인에서만 의미)
     if (typeof s.ref === 'boolean') sbRef = s.ref;   // 참조 토글 영속(클링 레인에서만 의미 — 시댄스는 강제 ON으로 덮인다)
   } catch (e) {}
-  const save = () => { try { localStorage.setItem(KEY, JSON.stringify({ d: sbDirector, sh: sbShoot, set: sbSet, ad: sbAd, ref: sbRef, snd: sbSnd, arW: sbArW, arH: sbArH, sv: 2 })); } catch (e) {} };
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify({ d: sbDirector, sh: sbShoot, set: sbSet, ad: sbAd, ref: sbRef, snd: sbSnd, arW: sbArW, arH: sbArH, sty: sbStyle, sub: sbSub, sv: 2 })); } catch (e) {} };
   let sbFocusKey = null;   // 재렌더 포커스 복원(k 계승)
   const refocus = () => { if (!sbFocusKey) return; const el = document.querySelector('[data-fk="' + sbFocusKey + '"]'); sbFocusKey = null; if (el) try { el.focus({ preventScroll: true }); } catch (e) {} };
-  // 🗞 기사 참조 여닫기 — 값이 있으면 자동으로 펼친다(끌어와 놓고 접혀 있으면 안 넣은 줄 안다)
-  (function wireSumTg() {
-    const tg = $('#sumTg'), sec = $('#sumSec'), tx = $('#sumTx');
-    if (!tg || !sec) return;
-    tg.innerHTML = (window.NEWS_SVG || '');   // 픽토 = 공유 정본 참조(인라인 재선언 0 · 아이콘 SSOT)
-    const set = on => { sec.hidden = !on; tg.setAttribute('aria-expanded', String(on)); tg.classList.toggle('on', on); };
-    if (tx && tx.value.trim()) set(true);
-    tg.addEventListener('click', () => set(sec.hidden));
+  // 🗞 기사 픽토 = 「불러오기」 그 버튼(운영자 260813 「기사를 그냥 픽토그램으로」).
+  //   ⚠ 여닫이는 없앴다 — 자료 참조가 상시 칸이 되면서 접을 게 없어졌다. 죽은 토글을 남기면
+  //     눌리는데 아무 일도 안 일어나는 버튼이 된다(어포던스 거짓말).
+  (function wireSumPull() {
+    const tg = $('#sumPull');
+    if (tg) tg.innerHTML = (window.NEWS_SVG || '');   // 픽토 = 공유 정본 참조(인라인 재선언 0 · 아이콘 SSOT)
   })();
+  // ── 화풍 레일 = index geniRailUpd/geniRailSetup **그대로**(값·동작 무변경) ──
+  const railUpd = rail => {
+    if (!rail) return;
+    const max = rail.scrollWidth - rail.clientWidth, sl = rail.scrollLeft;   // 재는 것을 먼저 한 번에(index 봉합분 계승)
+    const atS = sl <= 1, atE = max <= 1 || sl >= max - 1;
+    rail.classList.toggle('atStart', atS); rail.classList.toggle('atEnd', atE);
+    const wrap = rail.closest('.geni-railwrap');
+    if (wrap) { const nv = wrap.querySelectorAll('.geni-nav'); if (nv[0]) nv[0].disabled = atS; if (nv[1]) nv[1].disabled = atE; }
+  };
+  const railSetup = rail => {
+    if (!rail || rail._railSet) return; rail._railSet = true;
+    let down = false, moved = false, sx = 0, sl = 0;
+    rail.addEventListener('pointerdown', e => { if (e.pointerType !== 'mouse') return; down = true; moved = false; sx = e.clientX; sl = rail.scrollLeft; rail.classList.add('grabbing'); });
+    rail.addEventListener('pointermove', e => { if (!down) return; const dx = e.clientX - sx; if (Math.abs(dx) > 4) moved = true; rail.scrollLeft = sl - dx; });
+    const end = () => { down = false; rail.classList.remove('grabbing'); };
+    rail.addEventListener('pointerup', end); rail.addEventListener('pointerleave', end);
+    rail.addEventListener('click', e => { if (moved) { e.preventDefault(); e.stopPropagation(); } }, true);   // 드래그 후 오클릭 차단(캡처)
+    rail.addEventListener('scroll', () => railUpd(rail), { passive: true });
+    const wrap = rail.closest('.geni-railwrap');
+    if (wrap) wrap.querySelectorAll('.geni-nav').forEach(btn => btn.addEventListener('click', () => rail.scrollBy({ left: (+btn.dataset.dir) * Math.max(110, rail.clientWidth * 0.7), behavior: 'smooth' })));
+    railUpd(rail);
+  };
+  const subsOf = st => [['auto', '자동']].concat(((window.GENI_SUB || {})[st] || []).filter(x => x[0] !== 'auto'));   // '자동' 먼저 + 그 화풍 세부(정본 목록의 'auto' 는 「기본」이라 이름만 통일 · 레고처럼 세부가 없는 화풍 = 자동 단독)
+  const railHtml = (items, cur) => items.map(([v, ko], i) => '<span class="geni-subit"' + (i ? ' style="--i:' + i + '"' : '')
+    + '>' + (i ? '<span class="geni-sep" aria-hidden="true">|</span>' : '')
+    + '<button type="button" class="geni-opt' + (v === cur ? ' on' : '') + '" data-v="' + v + '" aria-pressed="' + (v === cur) + '">' + esc(ko) + '</button></span>').join('');
   const optBtn = (txt, on, fn, num) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'geni-opt' + (on ? ' on' : ''); if (num) b.dataset.num = '1'; b.textContent = txt; b.setAttribute('aria-pressed', String(!!on)); b.dataset.fk = 'opt|' + txt; b.addEventListener('click', () => { sbFocusKey = b.dataset.fk; fn(); }); return b; };   // 워드칩 = index .geni-opt 문법 계승(밝기·색 on/off · aria-pressed 하우스 패턴)
   // 「그 자리」 선택 변경 칩(운영자 260803 5차) = thumb `#goSpec .gs-v.gs-tog` 정본 문법 그대로(role=button·tabindex·aria-disabled·title「탭=…」)
   //   ⚠ 정적 `.on` 하드코딩이 아니라 **상태에서 계산**해 그린다 = check_imgstudio_dock_spec(기본 mut·변경만 accent) 정본 유지.
@@ -616,6 +677,9 @@ function sbPayload() {   // go 핸들러 페이로드(서버 api/sb.js가 화이
   }
   const setLen = (s, fk) => { const n = Math.min(SB_LEN_MAX, Math.max(SB_LEN_MIN, s)); sbFocusKey = fk || null; sbSet['길이'] = n + 's'; render(); };
   axL.addEventListener('click', e => { const b = e.target.closest('button[data-s]'); if (!b) return; setLen(parseInt(b.dataset.s, 10), b.dataset.fk); });
+  // 화풍·세부 화풍 클릭 = index 위임 문법 그대로(레일 안 칩만 반응 · 드래그 오클릭은 캡처가 이미 막는다)
+  if (axSty) axSty.addEventListener('click', e => { const b = e.target.closest('.geni-opt'); if (!b || !axSty.contains(b)) return; sbStyle = b.dataset.v; sbSub = 'auto'; render(); });
+  if (axSub) axSub.addEventListener('click', e => { const b = e.target.closest('.geni-opt'); if (!b || !axSub.contains(b)) return; sbSub = b.dataset.v; render(); });
   axL.addEventListener('keydown', e => {   // 자 = 좌우 화살표로 1초씩(키보드 도달 = edit 룰러 정본이 키보드 조작을 붙인 축 동문)
     if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
     const b = e.target.closest('button[data-s]'); if (!b) return;
@@ -646,6 +710,16 @@ function sbPayload() {   // go 핸들러 페이로드(서버 api/sb.js가 화이
     } else {
       SB_VALS['화질'].filter(v => qOk.indexOf(v) >= 0)
         .forEach(v => axQ.appendChild(optBtn(v, sbSet['화질'] === v, () => { sbSet['화질'] = v; render(); }, true)));
+    }
+    // 화풍·세부 화풍 — 목록은 정본(nm-styles.js) · 그리는 문법은 index 레일 그대로
+    if (axSty && axSub) {
+      const all = window.GENI_ALL_STYLES || [];
+      if (all.length && !all.some(x => x[0] === sbStyle)) sbStyle = all[0][0];   // 정본에서 사라진 화풍 = 첫 화풍으로(목록이 줄어도 빈 선택으로 안 남는다)
+      axSty.innerHTML = railHtml(all, sbStyle);
+      const subs = subsOf(sbStyle);
+      if (!subs.some(x => x[0] === sbSub)) sbSub = 'auto';   // 화풍을 바꾸면 세부는 자동으로 되돌아간다(index 동일 계약)
+      axSub.innerHTML = railHtml(subs, sbSub);
+      railSetup(axSty); railSetup(axSub); railUpd(axSty); railUpd(axSub);
     }
     // 「프레임」 = 30fps 고정(운영자 260804) — 선택 행 폐지라 렌더할 칩이 없다(값은 SB_DEF·SB_VALS 1값이 담보 · 리드백은 레일 읽기 전용 칩).
     drawLen();   // 「길이」 = 자(ruler) 선택자(운영자 260804) — 칩 나열 대신 눈금 11개(5~15s)
