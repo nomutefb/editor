@@ -1,32 +1,33 @@
 # 📚 '모든 동물은 평등하다'는 왜 한 줄 덧붙여 무너졌나
 
 **[프롬프트 설계]**
-- 화풍: B 한국웹툰 극화 — 권력이 언어를 고쳐 쓰는 과정을 다루는 이야기라 선의 무게와 명암 낙차가 필요하다
-- 분위기: 헛간의 흙먼지와 새벽 냉기가 깔린 무거운 정조, 소리 없이 문장 하나가 바뀌는 정적의 긴장
-- 연출 방향: 독자는 '책은 읽었는데 쓸 말이 없는' 자리에서 멈춘다 — 그 막막함을 여는 컷으로 잡고, 사건의 강조점은 오직 **헛간 벽의 젖은 페인트 한 획**에 쏠린다. 총성도 반란 장면도 아닌 '방금 덧칠된 마지막 줄'을 덱의 유일한 최타이트 컷으로 두어, 무너짐이 사건이 아니라 문장이었다는 것을 눈으로 먼저 알게 한다. thumb_dispatch의 푸른 새벽 냉기(LGT02)와 드러남의 정조(SG-11)를 키노트로 상속해 起는 흐린 낮, 承은 실내 저조도로 내려가고, 轉에서 단일 하드측광 최대 대비, 結에서만 아침 여운광으로 푼다
-- 독자 동선: **발단** 카드1→**전개** 카드2~4→**피크** 카드5→**해소** 카드6→**시사점** 카드7 · 훅=카드1 끝(단서형: 판 건 줄거리가 아니었다 — 카드2 첫 줄이 즉시 회수)+카드4 끝(단서형: 새 주인이 됐다) · 착지 = 대응표는 점수가 되지만 오웰이 보여준 건 표 밖에 있다
-- 연속성 앵커: Recurring subject A — a Korean high school student in her late teens with a short bob, wearing a navy school cardigan over a white collar shirt (카드1·7) / Recurring subject B — a large boar standing upright on two legs, one ear notched, a dark heavy coat draped over its shoulders (카드2·4) / 반복 장소 — the whitewashed plank wall inside the old farm barn (카드3·5)
+- 화풍: B 극화 — 권력이 언어를 고쳐 쓰는 과정을 다루는 우화라, 한국 웹툰 극화의 굵은 먹선과 명암 낙차로 무게를 잡는다
+- 분위기: thumb_dispatch의 차가운 새벽(LGT02) 정조를 이어받는다 — 아무 일도 없었던 듯 조용한데 이미 무언가 바뀌어 있는 서늘함, 그 서늘함이 마지막 카드에서만 아침으로 풀린다
+- 연출 방향: 뉴스 대신 피드를 보는 고등학생이 멈추는 자리는 '책은 다 읽었는데 쓸 게 없는 손'이다 — 그 손에서 출발해 소설 안으로 들어갔다가 같은 책상으로 돌아온다. 전할 관점은 대응표가 시험은 통과시키지만 오웰이 보여준 건 벽의 문장이 밤새 한 줄 길어지는 *과정*이라는 것. 그래서 의도를 ①멈춘 펜 끝 ②단상 위 돼지가 벽에 던지는 사람 모양 그림자 ③아직 젖어 번들거리는 마지막 한 줄 ④그 줄을 올려다보는 늙은 말의 충혈된 눈에 몰고, 마지막엔 학생의 눈이 독자를 마주 본다. 악센트 #0FFD02는 '덧붙은 한 줄'의 계보(빈 괘선 → 돼지 눈 → 젖은 페인트 → 단상 조명 → 밑줄)에만 얹어 시선을 한 갈래로 끈다
+- 독자 동선: **발단** 카드1 → **전개** 카드2 → **피크** 카드3 → **해소** 카드4 → **시사점** 카드5 · 훅 = 카드1 끝(단서형 — 줄거리를 건너뛴 글, 그럼 뭘 쓰나)+카드2 끝(예고형 — 표는 깔끔한데 소설은 안 그랬다) · 착지 = 불편해진 쪽이 진짜 읽은 문장이다
+- 연속성 앵커: 학생 = `Recurring subject — a Korean high school student, a girl in her late teens, shoulder-length black hair tied back, wearing a dark navy school blazer over a white shirt`(카드1·5) / 늙은 짐말 = `Recurring animal subject — an old grey-brown draft horse with a heavy neck, a white blaze down his face and a frayed rope halter`(카드2·3) / 반복 장소 = `the same weathered plank wall inside the barn`(카드2·3)
 
 ### [카드 1]
 **텍스트**
 ```text
-책은 다 읽었는데 문제는 그다음이다
-*세특에 뭘 썼다고 적을지가 안 잡힌다*
-'동물농장' 정리 글 하나가 돌았다
-그 글이 판 건 줄거리가 아니었다
+책은 진작에 다 읽어 뒀는데
+*생기부 칸 앞에서 손이 멈춘다*
+동물농장을 세특용으로 푼 글은
+줄거리를 통째로 건너뛰었다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: her eyes fixed on an empty ruled line, the pen held above the paper but not moving. Recurring subject A - a Korean high school student in her late teens with a short bob, wearing a navy school cardigan over a white collar shirt, sits alone at a classroom desk in the late evening with a worn paperback pushed to the side of the desk. Her gaze drifts away from the page toward the right edge of the frame, nose room open on the right. The bare classroom wall behind her runs edge to edge as the only surface, holding a faint clock shadow.
-Camera: wide shot, full body, surrounding environment from eye-level shot, neutral perspective, shot on 35mm lens, natural documentary perspective, minimal distortion
-Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
-Text handling: keep the worksheet and the book cover blank and unreadable, angled away and softly out of focus, no lettering rendered anywhere; no garbled or fake script, no meaningless letters, no random characters, no dense text.
+Scene: Emotional focal point: her pen tip hovering a centimeter above an empty ruled box, held there too long, not touching the paper. Recurring subject — a Korean high school student, a girl in her late teens, shoulder-length black hair tied back, wearing a dark navy school blazer over a white shirt, sits at a study desk with her chin propped on one hand, eyes cast down at the blank record form in front of her. A worn paperback lies open and face-down beside the form, its spine cracked from a full reading, one corner of the desk holding a cold cup. The desk surface fills the frame from edge to edge, a Korean late-night study room around it, the composition leaving nose room on the right side toward the next beat.
+Camera: wide shot holding the whole desk and figure in spatial context, from a high angle looking down on the desk, small and observed, shot on a 35mm lens with natural documentary perspective and minimal distortion
+Lighting/mood: warm soft desk-lamp light, quiet wistful tone, the rest of the room falling away into cold blue pre-dawn shadow
+Accent: monochrome desaturated base with a single color accent, neon green #0FFD02 on the thin ruled line of the empty form, film-noir low-key lighting, deep shadows
+Korean default setting: Korean high school interior, Korean stationery and desk furniture, no foreign signage.
+Text handling: the record form shows only empty ruled boxes with no printed words, the open book is face-down so no page text is visible, no garbled or fake script, no meaningless letters, no random characters, no dense text.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the bare classroom wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the desk surface) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -35,29 +36,30 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-고등학생 독서기록장 세특
+고등학생 야간자율학습 책상
 ```
 
 ### [카드 2]
 **텍스트**
 ```text
-3번 항목부터가 상징 소개였다
-나폴레옹은 동지를 밀어낸 돼지다
-구호를 되뇌는 동물들을 두고
-*자발적 가스라이팅이라 적었다*
+그 글은 인물을 역사로 바꿔 읽는다
+*나폴레옹은 스탈린, 스노볼은 트로츠키*
+묵묵히 일한 복서는 프롤레타리아다
+표는 깔끔하다. 소설은 안 그랬다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the boar's cold half-lidded eyes turning away from the animal it has just shoved aside, one corner of the mouth tightened and raised in an asymmetric smirk. Recurring subject B - a large boar standing upright on two legs, one ear notched, a dark heavy coat draped over its shoulders, holds the center of the barn floor while a smaller pig stumbles backward at the edge of the frame behind him. In the middle ground a row of sheep face forward in a line with mouths open in unison, chanting, their eyes blank and identical. The packed barn floor runs unbroken beneath them all.
-Camera: medium close-up, chest-up framing, facial emotion from high angle shot, looking down, shot on 50mm standard lens, minimal distortion, natural cinematic composition
-Lighting/mood: cold blue dim interior light, heavy and suffocating, faint trembling tension
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
-Text handling: no signage, no painted wording anywhere in the barn, the walls kept plain timber; no garbled or fake script, no meaningless letters, no random characters, no dense text.
+Scene: Emotional focal point: the pig's raised foreleg and the man-shaped shadow it throws on the boards behind him. A heavy pig stands on a low wooden platform at the center of the barn, foreleg lifted mid-address, chin up, gazing out over the floor toward the right edge, and his cast shadow on the same weathered plank wall inside the barn carries the silhouette of a uniformed man in boots. At the left edge a second, leaner pig is being crowded out of frame by two large dogs, head turned back over his shoulder. Recurring animal subject — an old grey-brown draft horse with a heavy neck, a white blaze down his face and a frayed rope halter, stands motionless in the rear with his head lowered, watching the platform without moving.
+Camera: medium shot framing the standing pig from the waist up with the platform, from a low angle looking up for dominance and dramatic presence, shot on a 50mm standard lens with minimal distortion and natural cinematic composition
+Lighting/mood: single hard side-light cutting across the subject, deep chiaroscuro shadows, tense atmosphere
+Accent: monochrome desaturated base with a single color accent, neon green #0FFD02 caught in the pig's eye highlight, film-noir low-key lighting, deep shadows
+Non-Korean context: this is an English farm barn interior of the 1940s, wooden construction, no Korean signifiers.
+Text handling: no writing anywhere on the boards in this frame, no garbled or fake script, no meaningless letters, no random characters, no dense text.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the packed earth barn floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the barn plank wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -66,29 +68,29 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-동물농장 나폴레옹 돼지 삽화
+Animal Farm Napoleon pig
 ```
 
 ### [카드 3]
 **텍스트**
 ```text
-*상징을 짝지어 놓은 표가 곧 역사였다*
-메이저 영감은 마르크스와 레닌이고
-나폴레옹은 스탈린을 가리킨다
-쫓겨난 스노볼은 트로츠키가 된다
+"모든 동물들은 평등하다"고 적힌 벽에
+그 밤 한 줄이 덧붙었다
+*"어떤 동물들은 더욱 평등하다"*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the aged boar's raised trembling snout and the rapt upturned faces packed below it. An old boar stands on a wooden crate addressing a crowd of farm animals who look up at him from the left side of the frame, one foreleg lifted mid-speech. Behind him, cast across the whitewashed plank wall inside the old farm barn, his shadow stretches upward into the silhouette of a generic uniformed figure with one arm raised, larger than the speaker himself. No identifiable real person, only an anonymous silhouette shape.
-Camera: medium shot, waist-up framing, face and gestures from low angle shot, looking up, powerful subject, shot on 70mm short telephoto, gentle background compression
-Lighting/mood: single pool of hard light isolating the figure in surrounding blackness, claustrophobic loneliness
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
-Text handling: the plank wall stays bare and unpainted with no wording of any kind; no garbled or fake script, no meaningless letters, no random characters, no dense text.
+Scene: Emotional focal point: the old horse's bloodshot eye, wide and unfocused in a vacant stare, a single wet white streak mirrored in it. Recurring animal subject — an old grey-brown draft horse with a heavy neck, a white blaze down his face and a frayed rope halter, lifts his head toward the boards, his profile filling the left half of the frame. Behind him the painted lines of the commandments run across the same weathered plank wall inside the barn at a steep oblique angle and slightly out of focus, so the brush strokes read as paint texture rather than as readable words, and the lowest line is still wet and glistening as if added an hour ago. A ladder and an open paint pot stand at the base of the wall, kept low in shadow.
+Camera: tight close-up with the face filling the frame for intimate pressure, from a worm's-eye view near the ground looking up along the wall, shot on an 85mm portrait lens with soft background separation
+Lighting/mood: a single pool of hard light isolating the wall in surrounding blackness, claustrophobic loneliness, deep navy 7500K pre-dawn cast bleeding in from outside
+Accent: monochrome desaturated base with a single color accent, neon green #0FFD02 in the wet glisten of the freshly added bottom line, film-noir low-key lighting, deep shadows
+Non-Korean context: this is an English farm barn interior of the 1940s, wooden construction, no Korean signifiers.
+Text handling: the painted lines are seen at an extreme oblique angle and defocused so that no letter is legible anywhere, no garbled or fake script, no meaningless letters, no random characters, no dense text.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the whitewashed plank barn wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the barn plank wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -97,29 +99,30 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-동물농장 메이저 영감 연설 삽화
+Animal Farm seven commandments barn
 ```
 
 ### [카드 4]
 **텍스트**
 ```text
-1945년 소설의 줄거리는 짧다
-동물들이 주인을 몰아내고
-농장을 제 손으로 굴렸는데
-*혁명을 이끈 돼지들이 새 주인이 됐다*
+그 글은 이 장면에서 미헬스를 부른다
+*1911년 그가 세운 과두제의 철칙이다*
+민주적으로 출발한 조직도 커지면
+선출된 자가 선출한 자들을 지배한다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the wide empty gap of open ground between a farmer's fleeing back and the massed animals holding the yard. Seen from directly above, the farmyard ground fills the whole frame; a human figure in work clothes runs out through the open gate at the right edge, his back to us, while dozens of farm animals stand in a loose crowd facing the gate he left through. Recurring subject B - a large boar standing upright on two legs, one ear notched, a dark heavy coat draped over its shoulders - stands apart from the crowd at the front of the yard, already turned toward the farmhouse door instead of the gate.
-Camera: extreme long shot, tiny subject, vast environment from overhead shot, bird's-eye view, top-down angle, shot on 20mm wide lens, documentary realism
-Lighting/mood: cold blue pre-dawn tone, lone streetlight reflection on wet ground, desolate stillness
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
-Text handling: no farm signage, no painted gate wording, the surfaces kept plain; no garbled or fake script, no meaningless letters, no random characters, no dense text.
+Scene: Emotional focal point: the widening vertical gap between the four figures standing high on the rostrum and the packed rows of upturned heads far below them. A crowded European party congress hall of the 1910s, where hundreds of delegates sit shoulder to shoulder across the hall floor with their faces tilted up toward a raised rostrum, while a handful of leaders stand on it looking down over the room. In the near foreground at the left, a man in a high-collar suit stands apart from the rows with a small notebook open in one hand, watching the rostrum rather than the crowd. The hall floor runs unbroken from the bottom of the frame all the way to the far wall.
+Camera: wide shot holding the full figures and the surrounding hall, from a low angle at delegate seat height looking up toward the rostrum, shot on a 24mm wide lens for cinematic spatial context
+Lighting/mood: a harsh single overhead light pooling on the rostrum, deep surrounding black over the seated rows, oppressive
+Accent: monochrome desaturated base with a single color accent, neon green #0FFD02 in the overhead shaft falling on the rostrum, film-noir low-key lighting, deep shadows
+Non-Korean context: this is a European assembly hall of the 1910s, period clothing, no Korean signifiers.
+Text handling: no banners, no placards, no lettering on any surface in this frame, no garbled or fake script, no meaningless letters, no random characters, no dense text.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the wet farmyard ground) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the hall floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -128,90 +131,30 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-동물농장 존스 농장 반란 삽화
+Robert Michels party congress
 ```
 
 ### [카드 5]
 **텍스트**
 ```text
-*제7계명이 밤새 한 줄 길어졌다*
-모든 동물들은 평등하다 뒤에
-어떤 동물들은 더욱 평등하다가 붙었다
+대응표를 옮겨 적으면 세특은 채워진다
+그 명제를 자기 학교 학생회에 대보면
+그때부터 문장이 불편해진다
+*불편해진 쪽이 진짜 읽은 문장이다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: one wet brush stroke of white paint still glistening at the end of a line, a single bead running down the plank. Extreme close-up of the whitewashed plank wall inside the old farm barn, cropped so tightly that only the tail end of the last stroke is visible and nothing is readable. The weathered muzzle and one bloodshot eye of an old draft horse push into the lower left edge of the frame, breath fogging the cold painted surface, the wet paint catching a sliver of that eye as reflection. A dropped brush rests against the plank, its bristles still loaded.
-Camera: extreme close-up, single detail, texture from eye-level shot, neutral perspective, shot on 100mm macro lens, fine detail, shallow depth of field, precise texture
-Lighting/mood: single hard side-light cutting across the subject, deep chiaroscuro shadows, tense atmosphere
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
-Text handling: crop so that no letter or character is ever fully visible - only the cut-off end of a paint stroke, deliberately unreadable; no garbled or fake script, no meaningless letters, no random characters, no dense text.
-Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
-MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the whitewashed barn plank wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
-- no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
-- no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
-- no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
-- no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
-- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
-```
-**검색어**
-```text
-동물농장 일곱 계명 헛간 벽
-```
-
-### [카드 6]
-**텍스트**
-```text
-블로그가 부른 개념이 여기 맞물린다
-1911년 미헬스의 과두제 철칙이다
-민주적 조직도 커지면 소수가 쥔다
-*선출된 자가 선출한 자들을 지배한다*
-```
-**이미지 프롬프트**
-```text
-korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the widening gap of empty air between three seated men on the raised platform and the forest of raised hands below them. A wide view of an early twentieth century assembly hall: a handful of figures in dark period suits sit high on a platform facing the room, chins level and hands steepled, while rows of members on the floor below raise their hands in a vote with every face turned upward toward the platform. All figures are generic and anonymous, no identifiable real person, period clothing only.
-Camera: wide shot, full body, surrounding environment from low angle shot, looking up, dramatic presence, shot on 24mm wide lens, cinematic wide shot, spatial context
-Lighting/mood: harsh single overhead light pooling on the platform, deep surrounding black, oppressive
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
-Text handling: no banners, no lettering on the hall wall or the platform front, surfaces kept plain; no garbled or fake script, no meaningless letters, no random characters, no dense text.
-Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
-MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the hall's plain back wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
-- no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
-- no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
-- no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
-- no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
-- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
-```
-**검색어**
-```text
-로베르트 미헬스 정당사회학
-```
-
-### [카드 7]
-**텍스트**
-```text
-그 대응표를 외우면 시험은 통과한다
-오웰이 정말 보여준 건 표 밖에 있다
-벽의 문장이 밤새 늘어나는데도
-*아무도 제 기억을 못 믿게 되는 일이다*
-```
-**이미지 프롬프트**
-```text
-korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: her pen finally resting on the page while her eyes lift straight into the camera, steady and unhurried. Recurring subject A - a Korean high school student in her late teens with a short bob, wearing a navy school cardigan over a white collar shirt, sits at the same classroom desk at first light with the paperback now closed under her flat hand, facing forward in a symmetrical composition. The window wall directly behind her runs edge to edge and holds the first pale morning light of the day.
-Camera: medium shot, waist-up framing, front-on shot, direct gaze from eye-level shot, neutral perspective, shot on 85mm portrait lens, soft background separation
+Scene: Emotional focal point: her eyes lifting straight into the camera, steady and unsettled, the pen finally at rest in her hand. Recurring subject — a Korean high school student, a girl in her late teens, shoulder-length black hair tied back, wearing a dark navy school blazer over a white shirt, sits upright at the same study desk and looks directly out of the frame with unwavering eye contact, one hand resting flat on a half-filled notebook page. Morning light has replaced the lamp, which now stands switched off at her elbow. The desk surface runs edge to edge beneath her and the room behind has opened up and softened.
+Camera: medium shot framing her from the waist up for face and gesture, front-on with a direct gaze and symmetrical composition, from eye level with a neutral balanced perspective, shot on a 35mm lens with natural documentary perspective
 Lighting/mood: warm soft morning light, gentle and quiet, faint melancholy
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
-Text handling: the closed book cover and the notebook page stay blank and unreadable, turned away from the lens; no garbled or fake script, no meaningless letters, no random characters, no dense text.
+Accent: monochrome desaturated base with a single color accent, neon green #0FFD02 on one underlined phrase in the notebook, muted daylight contrast
+Korean default setting: Korean high school interior, Korean stationery and desk furniture, no foreign signage.
+Text handling: the notebook page is seen at a shallow angle so the handwriting reads as texture only with no legible words, no garbled or fake script, no meaningless letters, no random characters, no dense text.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the classroom window wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the desk surface) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -220,5 +163,5 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-고등학교 교실 새벽 자율학습
+고등학생 교실 창가 아침
 ```
