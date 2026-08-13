@@ -20,6 +20,13 @@ OUTDIR="viewer/sb_out/${ID}"; mkdir -p "$OUTDIR"
 
 [ -n "${STORY:-}" ] || { echo "::error::STORY(이야기 입력) 비어있음"; echo "exit: 빈 입력" > "$OUTDIR/error.log"; exit 1; }
 
+# ⚠ **무엇을 소재로 짰는지 산출에 박제한다**(운영자 260813 「소스를 어떤거를 썼는지 검증이 안됨」).
+#   구판은 이야기 입력이 발사 인자로만 존재해서, 콘티가 나온 뒤엔 **무슨 소재로 짠 건지 확인할
+#   길이 아예 없었다**(발사 화면을 닫으면 끝). 콘티가 소재를 배반해도 대조할 원본이 없다는 뜻이라
+#   「제대로 돌았나」를 사람이 기억으로 판정하게 된다 = 이 레포가 반복해 데인 관측 소실.
+printf '%s' "${STORY}" > "$OUTDIR/source.md"
+echo "소재 박제 ✓ $OUTDIR/source.md ($(wc -c < "$OUTDIR/source.md") bytes)"
+
 # 지침 프리플라이트 — sb-make.md가 Read시키는 스킬 파일 실존 확인(리네임 시 무성 실패 → 명시 실패 · kmake 프리플라이트 패턴 계승)
 for REF_PAT in '\.claude/skills/storyboard-v1/SKILL\.md' '\.claude/skills/master-sheet-v2/SKILL\.md'; do
   GUIDE_REF="$(grep -om1 "$REF_PAT" "$PROMPT_FILE" | head -1 || true)"

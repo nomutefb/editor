@@ -150,6 +150,16 @@ jobs:
           unset ANTHROPIC_API_KEY ANTHROPIC_AUTH_TOKEN
           bash .github/scripts/sbmake.sh "$IN_ID"
 
+      # 🔍 콘티 검증 = **인용한 연출 모듈이 라이브러리에 실재하는가**(운영자 260813).
+      #    지어낸 번호를 적어도 콘티는 멀쩡해 보이고 영상도 나온다 = 라이브러리가 죽어도 화면
+      #    증상이 0인 구조였다. 산출에 숫자로 박아 다음 세션이 추측할 자리를 없앤다.
+      #    막지는 않는다(경고만) — 콘티는 이미 나온 뒤라 여기서 죽이면 그 판이 통째로 버려진다.
+      - name: Storyboard audit
+        run: |
+          MD="viewer/sb_out/${{ inputs.id }}/board.md"
+          [ -s "$MD" ] || { echo "콘티 검증: 미시도(board.md 없음)"; exit 0; }
+          python3 .github/scripts/sb_audit.py "$MD" "viewer/sb_out/${{ inputs.id }}"
+
       # ⚠️ 레퍼런스 이미지 = 콘티 컷 그림(k-make.yml 동일 스텝 계승 · 직영 Gemini→R2 · 260730).
       #    게이트 = refimage(운영자 Q1161): 시댄스·그록 = 항상 true · 모션 = 항상 false.
       #    산출 = sb_out/<id>/{board.md + ref.json|ref.jpg} 한 폴더.

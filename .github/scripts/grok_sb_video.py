@@ -176,7 +176,8 @@ def receipt(out_dir, rec):
         except Exception:  # noqa: BLE001
             cur = {"lane": LANE.NAME, "jobs": []}
         cur["jobs"] = [x for x in cur.get("jobs", []) if x.get("n") != rec["n"]] + [
-            {"n": rec["n"], "job": rec.get("job"), "sec": rec.get("sec")}]
+            {"n": rec["n"], "job": rec.get("job"), "sec": rec.get("sec"),
+             "refs": rec.get("ref_labels") or rec.get("refs"), "prompt": rec.get("prompt")}]
         with open(path, "w", encoding="utf-8") as f:
             json.dump(cur, f, ensure_ascii=False)
         print("  · 영수증 {}편 = {}".format(rec["n"], rec.get("job")))
@@ -582,7 +583,12 @@ def main():
             try:
                 payload, mode = LANE.refs_payload([s["url"] for s in use], embed) if use else ([], "없음")
                 rec["ref_mode"] = mode
-                rid = LANE.start(vid_prompt(c, sound, len(use), ids), token=token,
+                # ⚠ **창구로 나간 문장을 산출에 남긴다**(운영자 260813 「검증이 안 되네」) —
+                #   구판은 컷 요약만 남아서 「모델이 뭘 받고 저렇게 그렸나」를 사람이 추론으로
+                #   메워야 했다. 나쁘게 나온 판을 고치려면 먼저 무엇을 보냈는지 알아야 한다.
+                pr = vid_prompt(c, sound, len(use), ids)
+                rec["prompt"] = pr
+                rid = LANE.start(pr, token=token,
                                  refs=payload or None, seconds=c["sec"], ratio=ratio, sound=sound)
                 # ⚠ 작업 번호를 그 자리에서 남긴다 — 구판은 지역변수로 끝나서, 발사는 됐는데
                 #   결과를 못 읽은 경우 **우리 산출물로는 회수할 길이 아예 없었다**(벤더 화면을

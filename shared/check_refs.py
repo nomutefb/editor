@@ -5476,6 +5476,18 @@ def check_grok_sb_chain():
         print("❌ 그록 콘티 레인 — 열쇠 되쓰기 실패 알림이 없다(런은 초록인데 다음 발사가 죽는다)"); rc = 1
     if "if not _persist_secret(rt)" not in _gk:
         print("❌ 그록 콘티 레인 — 되쓰기 결과를 버린다(실패가 어디에도 안 남는다)"); rc = 1
+    # ⑩-e **관측 3종**(운영자 260813 「각 파이프라인이 제대로 돌고있는지 검증이 안되네」) —
+    #   ⓐ 무엇을 소재로 짰나 ⓑ 인용한 연출 모듈이 실재하나 ⓒ 창구로 나간 문장이 무엇이었나.
+    #   셋 다 없어도 콘티는 나오고 영상도 나온다 = 지워져도 화면 증상이 0이라, 다음 세션이
+    #   추측으로 메우게 된다(이 레포가 반복해 데인 자리).
+    if 'printf \'%s\' "${STORY}" > "$OUTDIR/source.md"' not in _t(".github/scripts/sbmake.sh"):
+        print("❌ 그록 콘티 레인 — 이야기 소재를 산출에 안 남긴다(무엇으로 짰는지 확인 불가)"); rc = 1
+    if "def cited(" not in _t(".github/scripts/sb_audit.py"):
+        print("❌ 그록 콘티 레인 — 콘티 검증기(.github/scripts/sb_audit.py)가 없다"); rc = 1
+    if "sb_audit.py" not in wf:
+        print("❌ 그록 콘티 레인 — 워크플로에 콘티 검증 스텝이 없다(지어낸 모듈이 통과한다)"); rc = 1
+    if 'rec["prompt"] = pr' not in rn:
+        print("❌ 그록 콘티 레인 — 창구로 나간 문장을 산출에 안 남긴다(왜 그렇게 그렸는지 추론만 남는다)"); rc = 1
     # 자격은 **편마다** 새로 받는다(열쇠 수명 < 한 편 대기 시간이면 뒤쪽 편이 자격 축으로 죽는다)
     _loop = rn.split("for c in shots:", 1)[-1]
     if "LANE.fresh_token()" not in _loop:
