@@ -1,0 +1,16 @@
+{
+  "name": "nomute-remotion-proto",
+  "private": true,
+  "description": "레모션 시제품 — 뉴스 요약 카드(queue/*.md) 1건을 코드로 그려 세로 영상(mp4)으로 뽑는 실증 레인. 실행법 = README.md",
+  "scripts": {
+    "prep": "node scripts/card2props.mjs",
+    "render": "remotion render src/index.ts newscard out/card.mp4 --props=out/props.json",
+    "poster": "remotion still src/index.ts newscard out/poster.png --frame=150 --props=out/props.json"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "remotion": "^4.0.0"
+  }
+}
