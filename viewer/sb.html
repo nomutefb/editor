@@ -454,15 +454,13 @@ const SB_DIRECTORS = [   // 표시명 = NM_MODELS 사전 참조(운영자 260803
   { id: 'gpt', nm: NM_MODELS.gpt, hint: '완급·액션 — API 종량' }
 ];
 const SB_SHOOTS = [
-  { id: 'grok', nm: NM_MODELS.grok, hint: '구독 자격 직결 · 콘티→영상까지 여기서 끝난다(초당 약 $0.15)' },   // 운영자 260811 = 제미나이가 그린 콘티 컷을 첫 장면으로 넣고 감독이 프롬프팅해 영상까지(이 레인만 in-repo 완결 · 추가 과금 0)
-  // 운영자 260812 확정 프리셋 = 「2.5 720p」 또는 「2.0 표준 FHD ×2」 — 같은 30초를 이음매 없이
-  // 한 발로 갈지, 화질을 올리고 두 발로 나눌지의 선택이라 촬영 칸 자체를 둘로 나눈다(입력 신설 0).
-  // ⚠ 2.5 는 1080p 이상을 아예 지원하지 않는다(창구 목록 실측) — 「이음매 0」과 「FHD」는 동시에 안 된다.
-  { id: 'seedance', nm: NM_MODELS.seedance_2_5, hint: '30초 한 발 · 720p · 이음매 없음(30초 약 195크레딧)' },
-  { id: 'seedance20', nm: NM_MODELS.seedance_2_0, hint: '15초 두 발 · 720p · 같은 화질에서 엔진만 비교(30초 약 135크레딧)' },
-  // 쪼개기 = 한 발에 한두 박자만 들어가 연출이 실제로 먹는다. 값은 한 발과 같다(초당 과금)
-  { id: 'seedance5', nm: NM_MODELS.seedance_2_5 + ' 쪼개기', hint: '5초씩 쪼개 이어붙이기 · 연출 우선(30초 약 195크레딧)' },
-  { id: 'motion', nm: NM_MODELS.motion, hint: '플랫 모션 · 사내 렌더 → mp4 즉시 · 0원' }   // 실사 생성 AI가 아닌 3번째 레인(정보전달형 플랫 모션 — 콘티 🎞 모션 스펙 → mg_render.py가 같은 잡에서 mp4까지 뽑음 · 외부 API 0 = 레퍼런스 이미지도 불요)
+  // 표기 = 운영자 260813 「Grok │ SD 2.5 · 2.0」 — 셋 다 각각 누르는 칸이다.
+  // ⚠ 쪼개기 칸은 뺐다(운영자 「시댄스는 일단 안 쪼개는 걸 우선 · 콘티를 개선할 예정」) —
+  //   워크플로 쪽 선택지는 그대로 살아 있어 콘티가 준비되면 칩만 되살리면 된다.
+  { id: 'grok', nm: NM_MODELS.grok, hint: '구독 자격 직결 · 10초씩 · 720p' },
+  { id: 'seedance', nm: 'SD 2.5', hint: '30초 한 발 · 720p · 이음매 없음(30초 약 195크레딧)' },
+  { id: 'seedance20', nm: '2.0', hint: '15초 두 발 · 화질 선택 가능(30초 약 135크레딧)' },
+  { id: 'motion', nm: NM_MODELS.motion, hint: '플랫 모션 · 사내 렌더 → mp4 즉시 · 0원' },
 ];
 // 축 = 프롬프팅(k) 이관분 흡수(운영자 Q1145 "프레임까지 콘티로 이동" · Q1147 "따로 노는걸 합치되 품질·기능성 유지").
 // 값 3면 동기: 이 표 = functions/api/sb.js SB_SET · 화질·프레임 값 집합 = viewer/k.html K_VALS 동일(드리프트 0).
@@ -475,10 +473,10 @@ const sbIsSd = s => (s === 'seedance' || s === 'seedance20' || s === 'seedance5'
 //   → 고를 수 있는 값만 그린다. 지금 값이 그 칸에서 안 되면 되는 값으로 스스로 내려앉는다.
 //   값 출처 = 창구 모델 목록 실측(2.5 = 480p·720p 뿐 · 2.0 = 1080p 가능 · 그록 참조 모드 = 720p 상한).
 const SB_CAPS = {
-  grok:       { q: ['720p'],            shot: 10, snd: true,  why: '참조 모드 산출이 720p 상한' },
-  seedance:   { q: ['720p'],            shot: 30, snd: true,  why: '2.5 는 1080p 이상을 아예 지원 안 한다' },
-  seedance5:  { q: ['720p'],            shot: 5,  snd: true,  why: '2.5 는 1080p 이상을 아예 지원 안 한다' },
-  seedance20: { q: ['720p', '1080p'],   shot: 15, snd: true,  why: '2.0 은 1080p 까지 된다' },
+  grok:       { q: ['720p'],                  shot: 10, snd: true },
+  seedance:   { q: ['720p'],                  shot: 30, snd: true },
+  seedance5:  { q: ['720p'],                  shot: 5,  snd: true },
+  seedance20: { q: ['FHD', '2K', '4K'],       shot: 15, snd: true },
   motion:     { q: ['720p', '1080p', '2K', '4K'], shot: 0, snd: false, why: '사내 렌더라 해상도 제약이 없다' },
 };
 const sbCap = () => SB_CAPS[sbShoot] || SB_CAPS.grok;
@@ -488,7 +486,7 @@ const SB_LEN_PTS = [10, 20, 30, 40, 50, 60];   // 라벨 포인트(운영자 260
 const SB_LENS = Array.from({ length: (SB_LEN_MAX - SB_LEN_MIN) / SB_LEN_STEP + 1 }, (_, i) => (SB_LEN_MIN + i * SB_LEN_STEP) + 's');
 const SB_VALS = {
   '비율': ['9:16', '16:9', '1:1'],
-  '화질': ['720p', '1080p', '2K', '4K'],
+  '화질': ['720p', 'FHD', '2K', '4K'],   // 어휘·순서 = 이미지 스튜디오 UPS_ORDER 정본 계승(운영자 260813 「이미지 스튜디오에 있는 기록본과 동일한 순서로 좌우 배치」)
   '프레임': ['30fps'],   // 30fps 고정(운영자 260804 "60fps 어짜피 불가하니까 30fps 고정으로 하고 (네비에는 그대로 나오고) 아래 옵션선택자에서는 삭제") — 값 1개 = 레일 리드백만 남고 「설계」 선택 행은 폐지 · 서버 화이트리스트 동반 축소
   '길이': SB_LENS
 };
