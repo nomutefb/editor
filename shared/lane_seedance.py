@@ -406,6 +406,15 @@ def start(prompt, *, token, refs=None, seconds=None, ratio=None, sound=None):
         args["medias"] = [{"value": m, "role": "image_references"} for m in _media_ids(refs, token)]
     d = call("generate_video_batch", {"requests": [{"index": 0, "params": args}]}, token)
     jid = _job_id(d)
+    # ⚠ **집은 번호가 진짜 작업인지 그 자리에서 확인한다**(260813 실사고) — 번호 파서의 글자 폴백은
+    #   글 속 아무 UUID 나 집을 수 있고, 실제로 그렇게 집힌 값이 **두 판 연속 똑같았다**
+    #   (작업도 아니고 그림도 아닌 값 = 회신 글에 박힌 상수). 그 상태로 기다리면 상한까지
+    #   「큐 대기」로 오해한다. 여기서 확인하면 **회신 원문을 손에 쥔 채로** 틀렸다고 말할 수 있다 —
+    #   원문이 안 남으면 다음 세션이 또 창구 큐를 탓하며 같은 자리를 맴돈다(관측이 지워지는 병).
+    if jid and not alive(jid, token=token):
+        raise LaneError(
+            "발사가 접수되지 않았다 — 집은 번호 {} 가 창구에 없다(회신 원문을 보고 파서를 고쳐라)".format(str(jid)[:20]),
+            retryable=True, body=json.dumps(d, ensure_ascii=False)[:900])
     if not jid:
         # ⚠ 회신 모양이 미확인 축이라 **원문을 그대로 남긴다** — 다음 세션이 추측으로 메우지 않게.
         # ⚠ **다시 쏘지 않는다** — 이름 그대로 「발사는 됐는데」다. 여기서 재시도하면 이미 돌고
