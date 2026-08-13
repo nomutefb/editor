@@ -5646,7 +5646,8 @@ def check_grok_sb_chain():
     _gv = _t(".github/scripts/grok_sb_video.py")
     for needle, why, where, txt in (
             ("def alive(", "접수 실존 확인 함수", "lane_seedance.py", _ls),
-            ("if not st:", "상태가 글로 올 때 읽는 폴백(구판이 이걸 「도는 중」으로 읽었다)", "lane_seedance.py", _ls),
+            ("def _status_of(", "상태 읽는 자 한 벌(기계값·글자 표 공용)", "lane_seedance.py", _ls),
+            ("cols[2]", "표에서 **그 작업 줄의 상태 칸**만 읽기(집계 숫자를 상태로 읽던 오작동 봉합)", "lane_seedance.py", _ls),
             ("LANE.alive(", "기다리기 전 접수 확인 호출", "grok_sb_video.py", _gv)):
         if needle not in txt:
             print("❌ 그록 콘티 레인 — {} 에 {} 가 없다({})".format(where, why, needle)); rc = 1

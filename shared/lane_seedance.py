@@ -492,6 +492,35 @@ def _job_id(d):
     return m.group(0) if m else None
 
 
+def _status_of(d, job_id):
+    """작업 상태 한 낱말 — 기계값이든 글자든 **같은 자를 쓴다**.
+
+    ⚠ 글자 회신은 표 모양으로 온다(실측):
+        jobs[1]{index,job_id,status,type,model}:
+          0,f5ac1098-…,queued,image,seedance_2_5
+        summary:
+          failed: 0
+    ⚠ **집계 숫자를 상태로 읽지 마라**(260813 실사고) — 「글에 failed 가 있으면 실패」로 두면
+      `failed: 0`(실패 0건이라는 집계)을 실패로 읽는다. 실제로 그렇게 읽어서 **줄 서 있던
+      작업을 실패로 끝냈다**. 상태는 **그 작업 줄의 세 번째 칸**에서만 읽는다.
+    """
+    jobs = (d or {}).get("jobs") or (d or {}).get("results") or []
+    j = jobs[0] if jobs else None
+    if isinstance(j, dict) and j.get("status"):
+        return str(j["status"]).lower()
+    txt = (d or {}).get("text") if isinstance((d or {}).get("text"), str) else json.dumps(d or {}, ensure_ascii=False)
+    for ln in (txt or "").splitlines():
+        if job_id and job_id in ln:
+            cols = [c.strip() for c in ln.split(",")]
+            if len(cols) >= 3:
+                return cols[2].lower()
+    low = (txt or "").lower()
+    # 번호가 줄에 아예 없다 = 창구가 그 작업을 모른다(찾기 실패). 이건 낱말로 판정해도 안전하다.
+    if "not found" in low or "lookup_failed" in low:
+        return "lookup_failed"
+    return ""
+
+
 def alive(job_id, *, token):
     """발사가 **실제로 접수됐는가**를 그 자리에서 묻는다(조회라 값 0).
 
@@ -507,11 +536,7 @@ def alive(job_id, *, token):
         d = call("jobs_wait", {"jobs": [{"index": 0, "job_id": job_id}], "timeout_seconds": 0}, token)
     except Exception:  # noqa: BLE001
         return True   # 못 물어봤다 = 없다는 뜻이 아니다(안전측 = 기다린다)
-    jobs = (d or {}).get("jobs") or []
-    j = jobs[0] if jobs else (d or {})
-    st = str(j.get("status") or "").lower()
-    txt = (d.get("text") if isinstance((d or {}).get("text"), str) else json.dumps(d or {}, ensure_ascii=False)).lower()
-    return not (st in ("lookup_failed", "not_found") or "not found" in txt or "lookup_failed" in txt)
+    return _status_of(d, job_id) not in ("lookup_failed", "not_found")
 
 
 def wait(job_id, *, token):
@@ -524,17 +549,7 @@ def wait(job_id, *, token):
         d = call("jobs_wait", {"jobs": [{"index": 0, "job_id": job_id}], "timeout_seconds": 15}, token)
         jobs = (d or {}).get("jobs") or (d or {}).get("results") or []
         j = jobs[0] if jobs else (d or {})
-        st = str(j.get("status") or "").lower()
-        # ⚠ **상태도 글자로 온다**(260813 실사고) — 회신이 사람 읽는 글로 오면 위 `status` 가 비고,
-        #   구판은 그걸 「아직 도는 중」으로 읽어 **없는 작업을 상한까지 기다렸다**(실측 50분).
-        #   그 사이 화면·로그는 「큐가 밀렸다」고 말했는데 실제로는 접수 자체가 안 된 상태였다 =
-        #   증상과 원인이 정반대인 가장 비싼 오진. 상태 칸이 비면 글에서 읽는다.
-        if not st:
-            _t = (d.get("text") if isinstance(d.get("text"), str) else json.dumps(d, ensure_ascii=False)).lower()
-            for _w in ("not found", "lookup_failed", "찾을 수 없", "failed", "error", "canceled", "cancelled"):
-                if _w in _t:
-                    st = "lookup_failed" if ("not found" in _t or "lookup_failed" in _t or "찾을 수 없" in _t) else "failed"
-                    break
+        st = _status_of(d, job_id)
         url = _url_of(j) or _url_of(d)
         if url:
             cost = j.get("credits")
