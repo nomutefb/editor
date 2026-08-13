@@ -444,6 +444,28 @@ def _job_id(d):
     return m.group(0) if m else None
 
 
+def alive(job_id, *, token):
+    """발사가 **실제로 접수됐는가**를 그 자리에서 묻는다(조회라 값 0).
+
+    ⚠ 왜 필요한가(260813 실사고) = 번호를 돌려받았는데 그 번호가 창구에 없는 일이 실재한다.
+      회신이 글로 올 때 번호 파서가 **글 속 아무 UUID나** 집을 수 있기 때문이다. 그러면
+      러너는 없는 작업을 상한까지 기다리고(실측 50분), 로그는 「큐가 밀렸다」고 말한다 —
+      증상과 원인이 정반대라 다음 세션이 큐 탓을 하며 또 기다린다.
+    ⚠ 접수가 안 됐으면 **값이 안 나간 상태**다(완성돼야 깎인다 = 260813 잔액 실측) →
+      이 경우만은 다시 쏘는 게 맞다. 「이미 나간 값 위에 또 쏘는」 축과 정반대라 갈라 둔다.
+    반환 = True(살아 있음·못 판정) / False(창구에 없음).
+    """
+    try:
+        d = call("jobs_wait", {"jobs": [{"index": 0, "job_id": job_id}], "timeout_seconds": 0}, token)
+    except Exception:  # noqa: BLE001
+        return True   # 못 물어봤다 = 없다는 뜻이 아니다(안전측 = 기다린다)
+    jobs = (d or {}).get("jobs") or []
+    j = jobs[0] if jobs else (d or {})
+    st = str(j.get("status") or "").lower()
+    txt = (d.get("text") if isinstance((d or {}).get("text"), str) else json.dumps(d or {}, ensure_ascii=False)).lower()
+    return not (st in ("lookup_failed", "not_found") or "not found" in txt or "lookup_failed" in txt)
+
+
 def wait(job_id, *, token):
     """완료 대기 — 기다리기 도구가 **회당 상한**이 있어 총상한은 러너 몫이다."""
     cap = int(os.environ.get("SD_POLL_MAX_SEC") or "1200")
@@ -455,6 +477,16 @@ def wait(job_id, *, token):
         jobs = (d or {}).get("jobs") or (d or {}).get("results") or []
         j = jobs[0] if jobs else (d or {})
         st = str(j.get("status") or "").lower()
+        # ⚠ **상태도 글자로 온다**(260813 실사고) — 회신이 사람 읽는 글로 오면 위 `status` 가 비고,
+        #   구판은 그걸 「아직 도는 중」으로 읽어 **없는 작업을 상한까지 기다렸다**(실측 50분).
+        #   그 사이 화면·로그는 「큐가 밀렸다」고 말했는데 실제로는 접수 자체가 안 된 상태였다 =
+        #   증상과 원인이 정반대인 가장 비싼 오진. 상태 칸이 비면 글에서 읽는다.
+        if not st:
+            _t = (d.get("text") if isinstance(d.get("text"), str) else json.dumps(d, ensure_ascii=False)).lower()
+            for _w in ("not found", "lookup_failed", "찾을 수 없", "failed", "error", "canceled", "cancelled"):
+                if _w in _t:
+                    st = "lookup_failed" if ("not found" in _t or "lookup_failed" in _t or "찾을 수 없" in _t) else "failed"
+                    break
         url = _url_of(j) or _url_of(d)
         if url:
             cost = j.get("credits")

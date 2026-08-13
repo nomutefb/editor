@@ -5636,6 +5636,24 @@ def check_grok_sb_chain():
                         ("그림으로 옮긴 것에 지나지", "0-d 자기검문")):
         if needle not in _sb:
             print("❌ 그록 콘티 레인 — sb-make.md 에 {} 가 없다({})".format(why, needle)); rc = 1
+    # ④-c **없는 작업을 기다리지 않는다**(운영자 260813 「재발하지 않게 해 줘」).
+    #   실사고 = 발사 회신에서 집은 번호가 창구에 없는 값이었는데(회신이 글로 오면 번호 파서가
+    #   글 속 아무 UUID 나 집는다) 러너가 그걸 모르고 상한까지 기다렸다(실측 50분). 그동안
+    #   로그·산출은 「큐가 밀린 상태다」라고 말했다 — **증상과 원인이 정반대인 오진**이라
+    #   다음 세션이 큐 탓을 하며 또 기다린다. 값은 안 나갔는데 시간만 통째로 태운다.
+    #   ⚠ 왜 게이트인가 = 세 부품 중 하나만 빠져도 **화면 증상이 0이다**(그냥 오래 기다릴 뿐).
+    _ls = _t("shared/lane_seedance.py")
+    _gv = _t(".github/scripts/grok_sb_video.py")
+    for needle, why, where, txt in (
+            ("def alive(", "접수 실존 확인 함수", "lane_seedance.py", _ls),
+            ("if not st:", "상태가 글로 올 때 읽는 폴백(구판이 이걸 「도는 중」으로 읽었다)", "lane_seedance.py", _ls),
+            ("LANE.alive(", "기다리기 전 접수 확인 호출", "grok_sb_video.py", _gv)):
+        if needle not in txt:
+            print("❌ 그록 콘티 레인 — {} 에 {} 가 없다({})".format(where, why, needle)); rc = 1
+    # 순서도 계약이다 — 확인이 기다리기 **뒤**에 있으면 50분을 그대로 기다린 다음에 안다.
+    if "LANE.alive(" in _gv and "LANE.wait(" in _gv and _gv.index("LANE.alive(") > _gv.index("LANE.wait("):
+        print("❌ 그록 콘티 레인 — 접수 확인이 기다리기보다 뒤에 있다(기다린 뒤에 알면 의미가 없다)"); rc = 1
+
     _au = _t(".github/scripts/sb_audit.py")
     for needle, why in ("_CS_LINE", "논평 구조 줄 판정"), ("def structure", "구조 실재 대조"), ('"structure_id"', "산출 박제"):
         if needle not in _au:
