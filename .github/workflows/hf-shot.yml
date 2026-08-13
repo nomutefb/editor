@@ -1,0 +1,72 @@
+name: hf-shot
+
+# 화질 확인 한 발 — 짧은 영상 하나를 **실제로 쏘고** 나온 파일의 화소를 잰다.
+#   ⚠ 값이 나간다(견적만 보는 hf-check 와 다르다). 길이를 최소로 두고 한 발만 쏜다.
+#   ⚠ 왜 필요한가 = 창구는 모르는 화질 이름을 조용히 기본값으로 되돌린다(260813 실측).
+#     견적은 그 되돌림을 값으로 드러내지만 「아는 이름인데 진짜 그 화소로 나오는가」는
+#     나온 파일을 재야만 답이 나온다. 콘티 레인으로 확인하면 한 발이 15초라 값이 세 배다.
+
+on:
+  workflow_dispatch:
+    inputs:
+      preset:
+        description: '프리셋(A = 2.5 · B = 2.0)'
+        type: choice
+        options: ['A', 'B']
+        default: 'B'
+      res:
+        description: '화질(720p·FHD·4K — 그 판이 모르는 이름이면 러너가 멈춘다)'
+        type: string
+        default: '720p'
+      sec:
+        description: '길이(초 · 최소 4 — 값은 초에 비례한다)'
+        type: string
+        default: '5'
+      ratio:
+        description: '비율'
+        type: string
+        default: '9:16'
+      cap:
+        description: '견적 상한(크레딧 · 넘으면 안 쏜다)'
+        type: string
+        default: '120'
+
+permissions:
+  contents: read
+
+# 같은 열쇠를 쓰는 판과 **한 줄로 세운다** — 확인이 촬영과 겹치면 그 순간 열쇠 사슬이 끊긴다.
+concurrency:
+  group: nm-seedance-key
+  cancel-in-progress: false
+
+jobs:
+  shot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+          sparse-checkout: |
+            shared
+            .github
+
+      - name: 화질 확인 한 발
+        env:
+          HIGGSFIELD_REFRESH_TOKEN: ${{ secrets.HIGGSFIELD_REFRESH_TOKEN }}
+          XAI_SECRET_PAT: ${{ secrets.XAI_SECRET_PAT }}
+          SD_PRESET: ${{ inputs.preset }}
+          SD_RES: ${{ inputs.res }}
+          SD_SHOT_SEC: ${{ inputs.sec }}
+          SD_RATIO: ${{ inputs.ratio }}
+          SB_COST_CAP: ${{ inputs.cap }}
+          SD_POLL_MAX_SEC: '1500'
+        run: |
+          [ -n "$HIGGSFIELD_REFRESH_TOKEN" ] || {
+            echo "화질 확인: 미시도(HIGGSFIELD_REFRESH_TOKEN 미등록)"   # 무성 스킵 금지(계측 문법)
+            echo "::error::HIGGSFIELD_REFRESH_TOKEN 비밀값이 비어 있다"
+            exit 1
+          }
+          pip install --quiet pynacl || echo "::warning::pynacl 설치 실패 — 열쇠 되쓰기만 생략"
+          python3 .github/scripts/hf_shot.py
