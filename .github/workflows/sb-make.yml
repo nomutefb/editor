@@ -134,6 +134,13 @@ jobs:
           [ -s "$SRC" ] || { echo "::error::기준 콘티가 없다: $SRC"; exit 1; }
           mkdir -p "viewer/sb_out/${IN_ID}"
           cp "$SRC" "viewer/sb_out/${IN_ID}/board.md"
+          # ⚠ 참조 그림·시트도 같이 물려받는다 — 콘티만 물려받고 그림을 다시 구우면 ⓐ 값이 또
+          #   나가고 ⓑ **첫 장면이 달라진다**(그림 엔진은 매번 다르게 그린다). 엔진만 바꿔 견주려는
+          #   자리에서 그림이 같이 변하면 무엇 때문에 달라졌는지 못 가른다(같은 콘티 = 같은 그림).
+          BD="$(dirname "$SRC")"
+          for f in ref.json sheet.json; do
+            [ -s "$BD/$f" ] && cp "$BD/$f" "viewer/sb_out/${IN_ID}/$f" && echo "  $f 물려받음"
+          done
           echo "콘티 재사용 ✓ $SRC → sb_out/${IN_ID}/board.md ($(wc -c < "$SRC") bytes · 감독 호출 0)"
 
       - name: Make storyboard
@@ -191,6 +198,9 @@ jobs:
           [ -n "$GEMINI_API_KEY" ] || { echo "::warning::GEMINI_API_KEY 미등록 — 레퍼런스 생략"; exit 0; }
           MD="viewer/sb_out/${IN_ID}/board.md"
           [ -s "$MD" ] || { echo "::warning::board.md 없음 — 레퍼런스 생략"; exit 0; }
+          if [ -s "viewer/sb_out/${IN_ID}/ref.json" ]; then
+            echo "레퍼런스: 물려받은 것 그대로 씀(다시 굽지 않는다 — 값 0 · 첫 장면 동일)"; exit 0
+          fi
           pip install --quiet requests pillow || { echo "::warning::deps 설치 실패 — 생략"; exit 0; }
           python3 .github/scripts/k_refgen.py "$MD" "viewer/sb_out/${IN_ID}" || echo "::warning::레퍼런스 생성 실패(비치명)"
 
@@ -244,6 +254,9 @@ jobs:
           MD="viewer/sb_out/${IN_ID}/board.md"
           if [ ! -s "$MD" ]; then
             echo "콘티 시트: 미시도(board.md 없음)"; exit 0
+          fi
+          if [ -s "viewer/sb_out/${IN_ID}/sheet.json" ]; then
+            echo "콘티 시트: 물려받은 것 그대로 씀(다시 굽지 않는다 — 값 0)"; exit 0
           fi
           pip install --quiet requests pillow || { echo "::warning::deps 설치 실패 — 생략"; exit 0; }
           python3 .github/scripts/sb_sheet.py "$MD" "viewer/sb_out/${IN_ID}"
