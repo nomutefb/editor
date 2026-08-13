@@ -556,9 +556,7 @@ def _check():
     #   안 바뀐다」가 오류 한 줄 없이 성립한다 — 이름을 추측으로 적으면 그 순간부터 무증상이다.
     # ⚠ 인자 이름을 모르면 한 번에 못 맞힌다 — 창구가 거절 문구로 알려주므로 몇 모양을 차례로
     #   던져 **처음 통한 것**을 적는다(조회라 과금 0 · 실패는 그대로 찍어 다음 세션이 읽는다).
-    for _a in ({"action": "get", "id": PRESET["model"]},
-               {"action": "get", "model": PRESET["model"]},
-               {"action": "get", "model_id": PRESET["model"]},
+    for _a in ({"action": "get", "model_id": PRESET["model"]},
                {"action": "search", "query": PRESET["model"], "type": "video"}):
         try:
             mi = call("models_explore", _a, tok)
@@ -566,8 +564,10 @@ def _check():
             print("②-c {} 실패: {}".format(_a, str(e)[:160]))
             continue
         _t = json.dumps(mi, ensure_ascii=False)
-        print("②-c {} → {}".format(_a, _t[:900]))
-        if "validation error" not in _t and "Invalid" not in _t:
+        print("②-c {} → {}".format(_a, _t[:1200]))
+        # ⚠ 「거절도 회신이다」 — 창구는 거절을 예외가 아니라 본문으로 준다(`{"error": …}`).
+        #   이 줄이 없으면 거절을 성공으로 읽고 다음 모양을 안 던진다(첫 실행 실측).
+        if '"error"' not in _t and "validation error" not in _t:
             break
     raw = call("generate_video", {"params": dict(_params(SHOT_SEC, os.environ.get("SD_RATIO") or "9:16",
                                                          cost_only=True), prompt="cost check")}, tok)
