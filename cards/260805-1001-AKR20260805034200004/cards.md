@@ -1,32 +1,32 @@
-# 사과문 두 달 뒤, 스타벅스 본사에 수사관이 들어갔다
+# ⚖ 사과문 두 달 뒤, 본사 문이 열렸다
 
 **[프롬프트 설계]**
-- 화풍: B 극화 — 결재·감사·영장이라는 절차가 축이라 사실성과 고발 톤이 맞다
-- 분위기: 흐린 아침의 무채·건조한 관공 톤(analyze LGT08 계승)으로 열어, 감사실로 갈수록 명도가 떨어지고 마지막에 다시 흐린 낮으로 풀린다 — 분노를 소리로 내지 않고 서류와 상자의 무게로 누른다
-- 연출 방향: 뉴스를 안 보는 독자도 "사과했는데 왜 또?"라는 낙차 하나로 멈춰 선다 — 그래서 강조점은 사람의 고함이 아니라 *손과 물건*(내지 않은 휴대전화, 되돌아온 서류철, 들려 나가는 상자)에 쏠린다. 회사가 스스로 답하겠다던 자리가 비어 있었다는 것을 인물 표정보다 사물의 위치로 보여주는 게 이 사건의 시각적 핵심이다. 카드 전체가 같은 무채 베이스 위 네온그린 1점으로 시선을 끌고 간다.
-- 독자 동선: **제시** 카드1→**발단** 카드2→**전개** 카드3~5→**피크** 카드6→**해소·시사점** 카드7 · 훅=카드1 끝(단서형: 영장 혐의만 던지고 이유 유보)+카드5 끝(단서형: 반려 사유 유보) · 착지 한 줄 요지 = 그 이름이 매장까지 간 길은 이제 회사 감사실이 아니라 상자 안에 있다
-- 연속성 앵커: Recurring subject - a Korean man in his 40s with close-cropped hair, wearing a dark navy windbreaker over a plain shirt and an ID lanyard / Recurring location - the glass-walled ground-floor lobby of a Seoul office tower under an overcast morning sky
+- 화풍: B 극화 — 대기업 결재·수사·법적 책임을 다루는 구조 비판이라 사실성과 무게가 필요하다
+- 분위기: 흐린 아침의 건조한 절차감. 감정을 지르지 않고, 상자·서류·닫힌 휴대전화 같은 사물이 사건의 무게를 대신 진다
+- 연출 방향: 독자훅은 '사과문 한 장으로 닫힌 줄 알았던 일이 두 달 반 만에 수사관 손에 다시 열렸다'는 낙차다. 그래서 매 카드가 *종이*와 *상자*를 축으로 움직인다 — 5월의 사과문(붙는 종이) → 5월의 홍보 문구(찍힌 종이) → 6월의 반려된 영장(돌아온 종이) → 제출되지 않은 휴대전화(비어 있는 자리) → 8월의 압수물 상자(들려 나가는 종이). thumb_dispatch의 흐린 확산광과 미세표정 정조를 키노트로 이어받아, 감정은 인물의 눈이 아니라 종이가 어디로 움직이는지로 읽히게 한다
+- 독자 동선: **제시** 카드1(8월 아침 압수수색) → **발단** 카드2(5월 18일 탱크데이·책상에 탁) → **전개** 카드3(사과·해임에도 고소·고발, 6월 영장 반려) → **피크** 카드4(감사에서 빠진 휴대전화 3대) → **해소** 카드5(부실 정황 포착, 다시 열린 영장) → **시사점** 카드6 · 훅=카드1 끝(질문형 1회: 사과는 5월에 다 끝났는데 왜 8월인가)+카드3 끝(단서형: 반려의 근거가 된 그 자료) · 착지 요지 = 회사가 스스로 답하겠다던 감사가 끝내 수사관의 상자로 옮겨 갔다
+- 연속성 앵커: Recurring subject — a Korean man in his 40s, close-cropped hair, sturdy build, wearing a dark navy windbreaker over a plain shirt, carrying a brown cardboard evidence box (카드 1·5·6에 등장) / 반복 장소: a glass-walled corporate lobby in a Gangnam office tower, early morning
 
 ### [카드 1]
 **텍스트**
 ```text
-8월 5일 아침 8시 50분이었다
-서울 강남 역삼동 사옥 로비에
-공공범죄수사대가 들어섰다
-*영장에 적힌 혐의는 모욕 등이었다*
+8월 5일 오전 8시 50분이었다
+강남 역삼동 스타벅스코리아 본사로
+수사관들이 들어갔다
+*사과는 5월에 다 끝난 줄 알았다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the lead investigator's jaw set tight and lips pressed as he pushes the heavy glass door inward. Recurring subject - a Korean man in his 40s with close-cropped hair, wearing a dark navy windbreaker over a plain shirt and an ID lanyard, strides into the entrance with three colleagues close behind him, all of them looking straight ahead into the building. Recurring location - the glass-walled ground-floor lobby of a Seoul office tower under an overcast morning sky. Two employees in suits step back near a plain unbranded circular wall sign, their eyes cast downward as the group passes. Nose room on the right, movement directed toward the right edge of the frame.
-Camera: wide shot from eye-level, shot on 35mm lens
+Scene: Emotional focal point: his mouth pressed into a flat line, a fleeting micro-expression flashing across an otherwise composed face. Recurring subject — a Korean man in his 40s, close-cropped hair, sturdy build, wearing a dark navy windbreaker over a plain shirt, carrying a brown cardboard evidence box — pushes through the glass door of a corporate lobby in a Gangnam office tower and walks toward the right edge of the frame. Behind him, two office workers in suits stand aside with their heads lowered, and a large round green cafe sign glows on the lobby wall. Early morning, the pavement still wet and grey.
+Camera: wide shot, full body, surrounding environment, movement, spatial context from eye-level shot, neutral perspective, realistic, balanced emotion, shot on 35mm lens, natural documentary perspective, balanced subject and background, minimal distortion, nose room on the right, gaze directed toward the right edge
 Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
-Text handling: avoid incidental writing on signage, badges and screens by cropping and angling those surfaces away from the camera; no garbled or fake script, no meaningless letters, no random characters, no dense text.
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the round cafe sign), muted daylight contrast
+Text handling: no signage lettering, no readable text on the box or the wall; the round sign is rendered as a plain green disc without letters.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the lobby floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the glass lobby facade and pavement) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -41,23 +41,23 @@ NEGATIVE - strictly avoid:
 ### [카드 2]
 **텍스트**
 ```text
-그 혐의는 5월 18일에서 시작됐다
-5·18 민주화운동 기념일에
-텀블러 할인 행사를 열면서
-*이름을 '탱크데이'라고 붙였다*
+시작은 5월 18일이었다
+텀블러 할인 행사 이름이 *'탱크데이'*였고
+홍보 문구엔 '책상에 탁'이 들어갔다
+*광주의 장갑차와 박종철을 불러낸 말이다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a young staff member's fingertips resting on the top edge of a promotional card, pausing before she straightens it. She stands behind a cafe counter in a plain dark green apron with no logo, looking down at her own hands as she lines up a row of stainless steel tumblers on the display shelf. The folded paper promotion card leans against the tumblers with its printed face angled sharply away from the camera so nothing on it is readable. A clean cafe counter interior in Seoul, wooden shelving behind her.
-Camera: medium shot from a high angle, shot on 50mm standard lens
-Lighting/mood: bright high-key light, clean white ambience, minimal shadow, hopeful and open
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
-Text handling: the promotion card and all packaging are turned edge-on or cropped so no wording is visible; no garbled or fake script, no meaningless letters, no random characters, no dense text.
+Scene: Emotional focal point: a young customer's fingertips freezing halfway to the promotional card on the counter. A single promotional standee card sits upright beside a row of stainless tumblers on a cafe counter, and the customer stares down at it without picking it up. Behind the counter, a staff member in an apron looks up, sensing something is wrong. A quiet weekday cafe interior in Korea.
+Camera: medium close-up, chest-up framing, facial emotion, slight body context from high angle shot, looking down, vulnerable subject, small, observed, shot on 100mm macro lens, fine detail, shallow depth of field, precise texture
+Lighting/mood: flat sterile clinical fluorescent light, cold even greenish-white, emotionless institutional
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the promotional card edge), muted daylight contrast
+Text handling: the promotional card is shown at a steep tilted angle so its surface is cropped and unreadable; render no letters anywhere.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
 Composition: ONE continuous surface (the cafe counter top) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -66,29 +66,29 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-스타벅스 텀블러 할인 행사 진열
+스타벅스 탱크데이 텀블러 행사
 ```
 
 ### [카드 3]
 **텍스트**
 ```text
-'탱크'는 광주에 들어온
-*계엄군 장갑차를 가리켰다*
-'책상에 탁'은 박종철 고문치사 때
-경찰이 내놓은 그 발표였다
+정용진 회장이 다음 날 사과문을 냈고
+손정현 대표는 해임됐다
+그래도 5·18 유공자들은 고소·고발했고
+*경찰이 6월 8일 신청한 영장은 반려됐다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: an older man's eyes fixed straight ahead without blinking as the armored vehicle rolls closer. A single armored military vehicle advances down an empty asphalt road at dawn, and three civilians in 1980s Korean clothing stand at the roadside with their shoulders squared toward it, none of them stepping back. On the same road surface in the near foreground lies an overturned wooden interrogation desk with one leg broken, a uniformed sleeve and gloved hand cast in shadow just beyond it. A provincial Korean city street of low shopfronts and rolled shutters.
-Camera: full shot from a low angle, shot on 24mm wide lens
-Lighting/mood: cold blue pre-dawn tone, lone streetlight reflection on wet ground, desolate stillness
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
-Text handling: no unit markings, no license plates, no shop signage lettering; those surfaces are cropped or turned away. No garbled or fake script, no meaningless letters, no random characters, no dense text.
+Scene: Emotional focal point: an older man's hand pressing flat against a printed notice taped to a glass door, holding there a moment too long. He stands outside a cafe storefront in the evening, reading the posted notice with his shoulders squared, while behind him on the sidewalk two passersby glance over and keep walking. The notice is seen edge-on from the side so its face is angled away.
+Camera: medium shot, waist-up framing, face and gestures, conversational from profile shot, side view, clear silhouette, directional movement, shot on 85mm portrait lens, flattering face, soft background separation, elegant focus, nose room on the right, gaze directed toward the right edge
+Lighting/mood: cold blue dim interior light, heavy and suffocating, faint trembling tension
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 in the storefront glow), film-noir low-key lighting, deep shadows
+Text handling: the taped notice is angled sharply away from the camera and partly cropped by the frame so no lettering is legible; render no letters.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the asphalt road) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the storefront glass wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -97,90 +97,28 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-5·18 계엄군 장갑차 광주
+스타벅스 매장 사과문 게시
 ```
 
 ### [카드 4]
 **텍스트**
 ```text
-논란이 커지자 정용진 회장은
-이튿날 대국민 사과문을 냈고
-나흘 뒤 전국 매장에도 걸렸다
-*스타벅스코리아 대표는 해임됐다*
-```
-**이미지 프롬프트**
-```text
-korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a fleeting micro-expression flashing across the executive's otherwise composed face as he holds a deep bow. A man in his fifties in a dark suit bends from the waist near ninety degrees with his hands pressed together in front and his eyes on the floor, holding the pose still. Behind him a store employee presses a single sheet of paper against the inside of a glass door, the sheet seen edge-on at a steep angle so nothing written on it can be read. A cafe storefront in Seoul at dusk with chairs stacked inside.
-Camera: medium close-up from a high angle, shot on 85mm portrait lens
-Lighting/mood: cold blue dim interior light, heavy and suffocating, faint trembling tension
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
-Text handling: the posted sheet is shown edge-on and partially cropped; no readable wording anywhere. No garbled or fake script, no meaningless letters, no random characters, no dense text.
-Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
-MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the storefront pavement) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
-- no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
-- no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
-- no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
-- no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
-- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
-```
-**검색어**
-```text
-정용진 신세계 회장 사과문
-```
-
-### [카드 5]
-**텍스트**
-```text
-그래도 5·18 유공자와 시민단체는
-정 회장 등을 고소·고발했다
-경찰이 6월 8일 신청한 영장을
-*검찰은 증거가 부족하다며 반려했다*
-```
-**이미지 프롬프트**
-```text
-korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the detective's hand halted in mid-air above the returned folder, fingers not yet closing on it. Two hands from the far side of the desk slide a sealed brown document folder back across the surface toward him while he stands with lowered shoulders, looking down at it. On the same desk sits a thick bundle of complaint papers with a plain envelope resting on top, its face turned away from the camera. Behind him two civilians in plain clothes are walking out of the room after setting that bundle down, kept smaller and lower so the detective stays the focus. A bare Korean government office with grey metal cabinets. Nose room on the right, the returned folder pushed toward the right edge of the frame.
-Camera: medium shot from a Dutch tilted angle, shot on 70mm short telephoto
-Lighting/mood: flat sterile clinical fluorescent light, cold even greenish-white, emotionless institutional
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
-Text handling: all documents are sealed, stacked or face-down so no body text is visible; no garbled or fake script, no meaningless letters, no random characters, no dense text.
-Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
-MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the office desk top) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
-- no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
-- no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
-- no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
-- no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
-- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
-```
-**검색어**
-```text
-5·18 유공자 고발장 접수
-```
-
-### [카드 6]
-**텍스트**
-```text
-*근거는 신세계가 낸 자체 감사였다*
+*반려의 근거는 회사가 낸 자체 감사였다*
 그 감사는 담당 직원 5명 중 3명이
 휴대전화를 내지 않은 채 끝났다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a hand below the table curling tight around a hidden phone, knuckles pale, while the face above stays composed with only one lip corner twitching. Two smartphones lie face-up together on a long meeting table, and beside them three empty places sit with nothing but a pen and a closed notebook at each. A man seated at the far edge keeps his forearm dropped under the table line, holding the third phone out of sight. An internal audit room with the blinds drawn shut. Manhwa emphasis lines radiating toward the hidden hand, no panel border.
-Camera: tight close-up from a high angle, shot on 100mm macro lens
+Scene: Emotional focal point: three empty spaces in a row of five, where two smartphones lie face-down on a felt tray and three slots sit bare. A conference room table at night holds the tray under a single overhead lamp, and at the far dim end of the table a seated employee keeps one hand closed inside a jacket pocket, eyes cast downward. The rest of the room falls into blackness.
+Camera: extreme close-up, single detail, eye, lips, hand, texture from overhead shot, bird's-eye view, top-down angle, layout, geometry, shot on 50mm standard lens, minimal distortion, natural cinematic composition
 Lighting/mood: harsh single overhead light pooling on the table, deep surrounding black, oppressive interrogation
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
-Text handling: phone screens are dark and notebooks are closed; no readable interface or writing anywhere. No garbled or fake script, no meaningless letters, no random characters, no dense text.
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on a single phone's status light), film-noir low-key lighting, deep shadows
+Text handling: phones are face-down and screens are dark; no labels, no lettering anywhere on the tray or table.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the meeting table top) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the conference table top) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -189,29 +127,29 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-신세계 자체 감사 휴대전화 제출
+기업 내부감사 회의실 휴대전화 제출
 ```
 
-### [카드 7]
+### [카드 5]
 **텍스트**
 ```text
-그 감사가 부실했다고 본 경찰은
-오늘 아침 수사관을 다시 보냈고
-상자에 담겨 나온 건 회사 서류였다
-*그 이름이 매장까지 간 길이 거기 있다*
+경찰은 그 감사가 부실했다고 봤고
+두 달 만에 영장이 다시 나왔다
+혐의는 모욕 등, 광역수사단이 직접 들어가
+*기획과 승인의 단계를 가린다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the investigator's steady eyes looking directly into the camera, mouth closed, both arms locked around the box against his chest. Recurring subject - a Korean man in his 40s with close-cropped hair, wearing a dark navy windbreaker over a plain shirt and an ID lanyard, walks out through the entrance carrying a sealed cardboard evidence box, two colleagues following him with more boxes stacked in their arms. Recurring location - the glass-walled ground-floor lobby of a Seoul office tower under an overcast morning sky. Behind them a few employees in suits stand well back with their heads lowered, kept smaller and softer so the investigators stay the focus. Front-on and centered, the subject facing the viewer.
-Camera: full shot from eye-level, front-on symmetrical composition, shot on 35mm lens
-Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
-Text handling: boxes are sealed and unmarked, badges and signage are cropped or angled away; no garbled or fake script, no meaningless letters, no random characters, no dense text.
+Scene: Emotional focal point: two hands lifting a sealed cardboard box off a desk, knuckles taut with the weight. Recurring subject — a Korean man in his 40s, close-cropped hair, sturdy build, wearing a dark navy windbreaker over a plain shirt, carrying a brown cardboard evidence box — stands at an emptied office desk and lifts the box while a second investigator beside him slides a desktop hard drive into a second box. Two employees stand back near the partition, watching without speaking. A Gangnam office floor with grey cubicles.
+Camera: cowboy shot, mid-thigh framing, body language, hands visible from low angle shot, looking up, powerful subject, dominance, dramatic presence, shot on 24mm wide lens, cinematic wide shot, spatial context, subtle depth, nose room on the right, gaze directed toward the right edge
+Lighting/mood: flat cold even surveillance light, no shadow no warmth, detached and watchful
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on a monitor standby light), muted daylight contrast
+Text handling: boxes are blank brown cardboard with no labels; monitors are dark; render no letters anywhere.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the lobby floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the open office floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -220,5 +158,36 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-경찰 압수물 상자 반출
+서울경찰청 광역수사단 압수물 상자
+```
+
+### [카드 6]
+**텍스트**
+```text
+사과문은 5월, 상자는 8월에 나갔다
+회사가 스스로 답하겠다며 시작한 감사는
+휴대전화 세 대를 비운 채로 끝났다
+*그 답을 지금은 수사관이 들고 나간다*
+```
+**이미지 프롬프트**
+```text
+korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
+Scene: Emotional focal point: his eyes meeting the viewer straight on over the top of the box he carries, steady and unblinking. Recurring subject — a Korean man in his 40s, close-cropped hair, sturdy build, wearing a dark navy windbreaker over a plain shirt, carrying a brown cardboard evidence box — walks out of the glass-walled corporate lobby in a Gangnam office tower toward the camera, centered in the frame. Far behind him inside the lobby, a single sheet of paper still taped to the glass curls at one corner. The morning street is empty.
+Camera: medium shot, waist-up framing, face and gestures, conversational from eye-level shot, neutral perspective, realistic, balanced emotion, front-on shot, direct gaze, symmetrical composition, facing camera, shot on 50mm standard lens, minimal distortion, natural cinematic composition
+Lighting/mood: cold blue pre-dawn tone, lone streetlight reflection on wet ground, desolate stillness
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the round cafe sign behind the glass), film-noir low-key lighting, deep shadows
+Text handling: the taped sheet is far away, out of focus and curling so its surface is unreadable; render no letters anywhere.
+Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
+MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
+Composition: ONE continuous surface (the lobby glass facade and the pavement in front of it) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
+- no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
+- no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
+- no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
+- no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
+- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
+```
+**검색어**
+```text
+스타벅스코리아 센터필드빌딩 본사
 ```
