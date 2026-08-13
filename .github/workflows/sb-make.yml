@@ -109,7 +109,26 @@ jobs:
       - name: Install claude-code
         run: npm install -g @anthropic-ai/claude-code
 
+      # 🔁 **콘티 재사용 = 촬영만 한다**(이야기 없이 기준 콘티만 준 경우).
+      #    ⚠ 왜 필요했나 = 쏠 때마다 감독이 콘티를 새로 짜서 **같은 콘티를 두 방식으로 찍는 비교가
+      #      구조적으로 불가능**했다(찍는 방식이 아니라 콘티가 달라져 무엇이 좋았는지 못 가른다).
+      #      운영자가 말한 「스토리보드 보고 2차 승인」의 뒤쪽 절반도 이 길이 있어야 성립한다.
+      #    ⚠ 입력 칸은 안 늘린다(발사 입력 10칸이 상한 · 11번째 = 발사 자체가 거절된다) —
+      #      이야기가 비었고 기준 콘티가 있으면 그게 곧 「촬영만」이라는 뜻이다.
+      - name: Reuse storyboard
+        if: inputs.story == '' && inputs.base != ''
+        env:
+          IN_ID: ${{ inputs.id }}
+          BASE: ${{ inputs.base }}
+        run: |
+          SRC="viewer/${BASE}"
+          [ -s "$SRC" ] || { echo "::error::기준 콘티가 없다: $SRC"; exit 1; }
+          mkdir -p "viewer/sb_out/${IN_ID}"
+          cp "$SRC" "viewer/sb_out/${IN_ID}/board.md"
+          echo "콘티 재사용 ✓ $SRC → sb_out/${IN_ID}/board.md ($(wc -c < "$SRC") bytes · 감독 호출 0)"
+
       - name: Make storyboard
+        if: inputs.story != '' || inputs.base == ''
         env:
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets[format('CLAUDE_CODE_OAUTH_TOKEN_{0}', inputs.account || vars.ACTIVE_ACCOUNT || 'MUTENO')] }}
           CLAUDE_CODE_OAUTH_TOKEN_ALT: ${{ (inputs.account || vars.ACTIVE_ACCOUNT || 'MUTENO') == 'NOMUTEFB' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_NOMUTEFB }}   # 서브1 폴오버(k-make와 동일 체인 MUTENO→NOMUTEFB→EMS1130G→MUTENONA)
