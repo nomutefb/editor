@@ -324,18 +324,28 @@
  "threads": [
   {
    "account": "choi.openai",
+   "text": "Unsloth가 오늘 공개된 Qwen3.8-Max를 4.9TB에서 397GB로 91% 줄였습니다. Dynamic 1-bit 양자화입니다.\n\n2.4T 파라미터, 95B 활성 MoE 모델이 GPT-5.6 Sol에 필적하는 성능을 내면서 410GB 시스템에서 로컬 구동됩니다.\nDGX Spark 여러 대를 연결한 구성에서 이미 테스트가 돌고 있습니다. 27B 버전은 금요일에 나오고 16GB로 충분합니다.\n\n오픈웨이트 공개 24시간도 안 돼서 양자화 버전이 나왔습니다. 프론티어급 모델이 로컬에서 돌기 시작하는 속도가 점점 빨라지고 있습니다.",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1786611631,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/774386109_17981898045112832_6492784983829039148_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk2MjcwODA0MDE1NTE0OTEwMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA3MS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=cyF1h85UzAEQ7kNvwHr5MY5&_nc_oc=AdooMRbajOWXyCpzQy40Qdh2WZkVTwT8CjwYsq4IrhBsuQBZnohj9SGmimDXVJIzHNRBAlfZJtZ4rSEL6yiEIkyF&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=JVKzIsQnF3mxvkHBFoF9Eg&_nc_ss=7a22e&oh=00_AQE1yoDWzSd0gV4bC5SuYFTaRRMo6h776uxrftPl4Fy3Bg&oe=6A8343AD",
+   "url": "https://www.threads.com/@choi.openai/post/Db-XfeaCDMv",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
    "text": "드디어 들어왔네요!\n\nHiggsfield 플러그인이 ChatGPT 앱에 정식 출시됐습니다.\nSeedance 2.5, Seedream 5.0 Pro, GPT Image 2.0, Kling 3.0을 채팅에서 바로 쓸 수 있습니다.\n\nAPI 키도, 탭 전환도, 프롬프트 복사도 필요 없습니다.\n\"더 느리게\" \"골든아워 톤으로\" 같은 수정 요청을 채팅으로 주고받으면 바로 결과가 나옵니다.\n\nAdobe가 ChatGPT에 70개 도구를 넣은 지 일주일 만에, Higgsfield가 크리에이티브 도구의 같은 길을 가고 있습니다. 도구는 뒤로 가고, 대화가 인터페이스가 됩니다.",
-   "likes": 65,
-   "cmts": 10,
+   "likes": 80,
+   "cmts": 11,
    "time": 1786606241,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/771823016_1277583355435405_3707762916593824351_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk2MjY2MjgyNDcyODA0NzMxNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=zSScpH5FPCoQ7kNvwFPPOTJ&_nc_oc=AdpdXP5CAe6woe-VOmg4ufVDAu9pWkuHDB1XCeaSOT142QwVFF-Bv_by-JllEZCRU_EXcRJ8zucwB4t-Dy0Dusl3&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=_2dIjK-jqus47SExTbmtCQ&_nc_ss=7a22e&oh=00_AQGZAlp0GOIvZMaAfLmi9Y-6D-AmAGDo9bmCnfKe_iWbPA&oe=6A83587B",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/771823016_1277583355435405_3707762916593824351_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk2MjY2MjgyNDcyODA0NzMxNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=zSScpH5FPCoQ7kNvwFPPOTJ&_nc_oc=AdpdXP5CAe6woe-VOmg4ufVDAu9pWkuHDB1XCeaSOT142QwVFF-Bv_by-JllEZCRU_EXcRJ8zucwB4t-Dy0Dusl3&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=JVKzIsQnF3mxvkHBFoF9Eg&_nc_ss=7a22e&oh=00_AQHKq9CKyUl_jI52BMI8eUTFaS0c__umlJWOUg1Kk9h5AQ&oe=6A83587B",
    "url": "https://www.threads.com/@choi.openai/post/Db-NNgQj67U",
    "region": "kr"
   },
   {
    "account": "aipeekme",
    "text": "🔗 원문·자세히 보기\nhttps://github.com/avinash201199/founders-kit",
-   "likes": 0,
+   "likes": 1,
    "cmts": 0,
    "time": 1786604581,
    "thumb": "",
@@ -345,7 +355,7 @@
   {
    "account": "aipeekme",
    "text": "GitHub에 창업자를 위한 자원과 도구를 모아둔 founders-kit 저장소가 정리되어 있습니다.\n아이디어 구상부터 제품 개발, 마케팅, 투자 유치, 팀 관리까지 단계별 필요 도구를 다루는데요.\n창업자, 개발자, 디자이너, 기획자, 마케터 등 스타트업 생태계 참여자에게 필요한 항목을 제공합니다.\n학습 자료, 소프트웨어, 투자 안내서, 커뮤니티, 스타트업 크레딧 지원 프로그램 등이 포함되어 있습니다.\n새로운 시스템을 제공하기보다 파편화된 리소스와 플레이북을 한데 모아 정리한 모음집에 가깝습니다.\n초기 창업 과정에서는 쓸 만한 도구를 찾는 데만 상당한 시간이 낭비되곤 합니다.\n카테고리별로 필요한 항목이 직관적으로 분류되어 있어 검색 시간을 아끼는 데는 유용해 보입니다.\n다만 링크 목록 중심의 정리집이라 개별 도구의 활용 깊이나 실질적인 팁은 직접 검증해야 합니다.\n목록을 다 훑어보기보다는 당장 부딪힌 단계의 도구만 골라 참고하는 편이 낫겠다고 판단했습니다.",
-   "likes": 1,
+   "likes": 2,
    "cmts": 2,
    "time": 1786604570,
    "thumb": "",
@@ -358,28 +368,18 @@
    "likes": 1,
    "cmts": 0,
    "time": 1786603758,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/772889439_1815208793185535_3879495707363596358_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk2MjY0MTgwNjk4NTg0ODgzNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=JQ-5qYlMbOIQ7kNvwFrUtfm&_nc_oc=AdpElA9tKKspPFbrt0ai_GLCUbZZEfq_epaOTFZ9oyCbq0J2eWJKYWjs2YWm-IjRFcDaQmmdmIfVOB4ereegyfzE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=luQIS_D11V3q0K5h8rFzaw&_nc_ss=7a22e&oh=00_AQG3jTr_qmGDtuzASaUZ9QgGoQl8MLKS2Sl0vpQh3VfemQ&oe=6A83401A",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/772889439_1815208793185535_3879495707363596358_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk2MjY0MTgwNjk4NTg0ODgzNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=JQ-5qYlMbOIQ7kNvwFrUtfm&_nc_oc=AdpElA9tKKspPFbrt0ai_GLCUbZZEfq_epaOTFZ9oyCbq0J2eWJKYWjs2YWm-IjRFcDaQmmdmIfVOB4ereegyfzE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=gS0TsUclYA05LLtyox2IKQ&_nc_ss=7a22e&oh=00_AQHbBNUdQ40lB4L1n3rheBgd41cfygpdtaG7lC0EzaaA8w&oe=6A83401A",
    "url": "https://www.threads.com/@aipeekme/post/Db-Ibp9gOgD",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "Claude in Chrome의 세션이 데스크톱, 웹, 모바일로 연동됩니다.\n대화가 저장되고 스킬과 커넥터도 브라우저에서 그대로 작동합니다.\n\n노트북에서 시작한 작업을 커피 마시러 가는 길에 휴대폰으로 확인할 수 있게 됐습니다. Max와 Team은 오늘부터, Pro는 몇 주 뒤입니다.",
-   "likes": 19,
+   "likes": 20,
    "cmts": 1,
    "time": 1786600805,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/773687050_1054875687297075_4158545005518426592_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk2MjYxNzIyMzA5NzUwMTczNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=p2rGRb0HFJkQ7kNvwHhGxPQ&_nc_oc=Adqvzf5WeB4SnUIvOjFjtXZIiyYloDuj9OYa7XHCfdMhEM8U3aZ9jNcp8G7XR4dfMFZJ-K1Y-a9CKj3E9wdsqkhj&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=_2dIjK-jqus47SExTbmtCQ&_nc_ss=7a22e&oh=00_AQE7VEBrwTXDOV03JAU3LeYw5f_w1OZ1PXovokCHU-1GCQ&oe=6A835B36",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/773687050_1054875687297075_4158545005518426592_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk2MjYxNzIyMzA5NzUwMTczNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=p2rGRb0HFJkQ7kNvwHhGxPQ&_nc_oc=Adqvzf5WeB4SnUIvOjFjtXZIiyYloDuj9OYa7XHCfdMhEM8U3aZ9jNcp8G7XR4dfMFZJ-K1Y-a9CKj3E9wdsqkhj&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=JVKzIsQnF3mxvkHBFoF9Eg&_nc_ss=7a22e&oh=00_AQFNho_9cp4gjRP1OhXt3JYNN_qRfat0LdM0_d3ATjKwQg&oe=6A835B36",
    "url": "https://www.threads.com/@choi.openai/post/Db-C16bkkgn",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "3/ 서로 의존해야 하는 일로 넘어가면 이야기가 달라집니다.\n\n앤트로픽은 여러 스웜에 12시간 동안 웹에서 즐기는 오픈월드 판타지 게임을 만들게 했습니다. 팀을 짜라는 기본 지시, 역할을 정해준 지시, 한 에이전트를 CEO로 세운 지시를 각각 줬는데, 결과물은 하나같이 형편없었습니다.\n\n세대별 협업 방식이 크게 갈린 게 눈여겨볼 부분인데요. Sonnet 4.6과 Opus 4.6은 같은 파일을 건드리면서도 병합에 자주 실패했고, Opus 4.8과 Mythos 프리뷰는 서로 거의 협업하지 않는 방식으로 충돌을 피했습니다.\n\n공유하면서 병합까지 해낸 건 Sonnet 5뿐이었습니다. 협업의 질이 세대에 따라 전혀 다르게 나타난 겁니다.",
-   "likes": 2,
-   "cmts": 1,
-   "time": 1786595471,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/774156995_17981927781112832_3348832548629855153_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk2MjU3MjQ3NDg2NDg1MDkxOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTk5OS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=kEHc3W0ZwGsQ7kNvwHHAA-s&_nc_oc=AdowrvaSvbtjcvYHWggdWQofh4nGQHb2Omk7sGESd3FRX0LrMug5t7isRVLhLH7lup7R3wjNNu1CJikwUYDeBF36&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=_2dIjK-jqus47SExTbmtCQ&_nc_ss=7a22e&oh=00_AQH-tfCRy9dJxMAq_cMFfiHWM-U8o3MSFGrrOyHhdD8YJA&oe=6A834FBE",
-   "url": "https://www.threads.com/@choi.openai/post/Db94qvZD1fm",
    "region": "kr"
   },
   {
@@ -424,12 +424,12 @@
   },
   {
    "account": "choi.openai",
-   "text": "2/ 먼저 협력이 실제로 도움이 되는 영역이 있습니다.\n\n앤트로픽은 에이전트 45개에 각각 가상머신과 공유 포럼을 주고, 오픈소스 15개 프로젝트에서 취약점을 찾아 서로 검토하게 했습니다. 새 취약점인지 아닌지는 별도의 중재자 에이전트가 판정했고요.\n\nMythos 프리뷰 기준으로 독립적으로 병렬 실행한 방식은 650만 토큰에 21개를 찾았는데, 협력하는 스웜은 2,700만 토큰에 266개를 찾았습니다. 다만 절반은 정해준 핵심 영역 밖이었고, 핵심만 따지면 토큰당 효율은 비슷했습니다.\n\n두 방식이 찾은 취약점은 12개만 겹쳤습니다. 스웜은 스스로 도구를 만들고 특정 유형에 특화됐습니다.",
-   "likes": 5,
+   "text": "3/ 서로 의존해야 하는 일로 넘어가면 이야기가 달라집니다.\n\n앤트로픽은 여러 스웜에 12시간 동안 웹에서 즐기는 오픈월드 판타지 게임을 만들게 했습니다. 팀을 짜라는 기본 지시, 역할을 정해준 지시, 한 에이전트를 CEO로 세운 지시를 각각 줬는데, 결과물은 하나같이 형편없었습니다.\n\n세대별 협업 방식이 크게 갈린 게 눈여겨볼 부분인데요. Sonnet 4.6과 Opus 4.6은 같은 파일을 건드리면서도 병합에 자주 실패했고, Opus 4.8과 Mythos 프리뷰는 서로 거의 협업하지 않는 방식으로 충돌을 피했습니다.\n\n공유하면서 병합까지 해낸 건 Sonnet 5뿐이었습니다. 협업의 질이 세대에 따라 전혀 다르게 나타난 겁니다.",
+   "likes": 2,
    "cmts": 1,
-   "time": 1786595462,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/774157246_17981927733112832_630961839919582895_n.webp?stp=dst-webp_s640x640_sh2.08&_nc_cat=106&ig_cache_key=Mzk2MjU3MjQwMTc0MTM0MjczNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjAwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=oKyO4zs9JykQ7kNvwFEvoob&_nc_oc=AdofgvwBhPdD7XEF0ltDAGYo9ImT41diXiNcVYP_H2zkgKjeRXcYI1RvePbdT_aPOid2cnjEbPghfwOr8xcVwny8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=_2dIjK-jqus47SExTbmtCQ&_nc_ss=7a22e&oh=00_AQFy35SA2n6QTVHra8Dc-lTbU7bF0PS4S-oSPsV-LYVZtw&oe=6A8358A7",
-   "url": "https://www.threads.com/@choi.openai/post/Db94prSjygP",
+   "time": 1786595471,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/774156995_17981927781112832_3348832548629855153_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk2MjU3MjQ3NDg2NDg1MDkxOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTk5OS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=kEHc3W0ZwGsQ7kNvwHHAA-s&_nc_oc=AdowrvaSvbtjcvYHWggdWQofh4nGQHb2Omk7sGESd3FRX0LrMug5t7isRVLhLH7lup7R3wjNNu1CJikwUYDeBF36&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=JVKzIsQnF3mxvkHBFoF9Eg&_nc_ss=7a22e&oh=00_AQETjM5J6TaZOVMubvU95lzhXDoUG2KaK1ozgb_JKmzmCw&oe=6A834FBE",
+   "url": "https://www.threads.com/@choi.openai/post/Db94qvZD1fm",
    "region": "kr"
   },
   {
@@ -448,28 +448,28 @@
    "likes": 0,
    "cmts": 1,
    "time": 1786602682,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/772926892_18079106759407306_8771230142530317925_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk2MjYzMjg5OTI1MDgxNTQxNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=qroDrErqZ4cQ7kNvwGzneG3&_nc_oc=AdpVQxeqIRt3rVf5Catrv4z-0GIK43nepn0JD3Ou8JSMYL3azI4GfsmAyEKfogskS67z7Bl0fnZTzGGrqd3uHoYa&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=luQIS_D11V3q0K5h8rFzaw&_nc_ss=7a22e&oh=00_AQHvMme3HzDP1iKuFqowQuJ60x5O1_XJdomQRV-LxII9jw&oe=6A834208",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/772926892_18079106759407306_8771230142530317925_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk2MjYzMjg5OTI1MDgxNTQxNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=qroDrErqZ4cQ7kNvwGzneG3&_nc_oc=AdpVQxeqIRt3rVf5Catrv4z-0GIK43nepn0JD3Ou8JSMYL3azI4GfsmAyEKfogskS67z7Bl0fnZTzGGrqd3uHoYa&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=gS0TsUclYA05LLtyox2IKQ&_nc_ss=7a22e&oh=00_AQH1__NsSlPfuTCKfndzgtIRhEZpGFtj19hfaVa9q39JEw&oe=6A834208",
    "url": "https://www.threads.com/@aipeekme/post/Db-GaB_HwG5",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "1/ 앤트로픽의 프런티어 레드팀이 8월 13일 'Patterns and problems in emerging multiagent systems'라는 리포트를 공개했습니다.\n\n리포트는 에이전트들이 같은 코드베이스나 시장에서 서로 영향을 주고받으며 일하는 상황이 빠르게 현실이 되고 있다는 문제의식에서 출발합니다.\n머지않아 에이전트끼리 주고받는 상호작용의 양이 사람 사이의 상호작용을 넘어설 수 있다는 전망도 깔려 있습니다.\n\n연구진은 취약점 탐지와 공동 소프트웨어 개발, 가격 경쟁, 목표 충돌 등 여러 실험을 통해 현재 프런티어 모델들이 집단으로 일할 때 어떻게 협력하고 어디서 무너지는지 살펴봤습니다.\n\n개별 에이전트 수준에서는 사소해 보이던 행동이 여러 에이전트가 얽히는 순간 예상 밖의 실패로 번지는 장면이 반복됐습니다.",
-   "likes": 7,
+   "text": "2/ 먼저 협력이 실제로 도움이 되는 영역이 있습니다.\n\n앤트로픽은 에이전트 45개에 각각 가상머신과 공유 포럼을 주고, 오픈소스 15개 프로젝트에서 취약점을 찾아 서로 검토하게 했습니다. 새 취약점인지 아닌지는 별도의 중재자 에이전트가 판정했고요.\n\nMythos 프리뷰 기준으로 독립적으로 병렬 실행한 방식은 650만 토큰에 21개를 찾았는데, 협력하는 스웜은 2,700만 토큰에 266개를 찾았습니다. 다만 절반은 정해준 핵심 영역 밖이었고, 핵심만 따지면 토큰당 효율은 비슷했습니다.\n\n두 방식이 찾은 취약점은 12개만 겹쳤습니다. 스웜은 스스로 도구를 만들고 특정 유형에 특화됐습니다.",
+   "likes": 5,
    "cmts": 1,
-   "time": 1786595454,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/772759773_17981927628112832_5115411444091796621_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk2MjU3MjMzMzk2OTc5Mzg3NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTY2OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=6Q1LRE-u4IIQ7kNvwGlEDnY&_nc_oc=AdqJub9e7tgLY1V_fQdkO01juHEt8whjjz2KYnJAkEO-TuK_VRhfJkkNVnDD9y1of19T3RNXbSqsCKFvrY1cZb4W&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=_2dIjK-jqus47SExTbmtCQ&_nc_ss=7a22e&oh=00_AQGNhxlzmOMdsuhVElcjodAQa-wnJMpyEuC4sc77q8ZPPQ&oe=6A835186",
-   "url": "https://www.threads.com/@choi.openai/post/Db94osLD2NS",
+   "time": 1786595462,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/774157246_17981927733112832_630961839919582895_n.webp?stp=dst-webp_s640x640_sh2.08&_nc_cat=106&ig_cache_key=Mzk2MjU3MjQwMTc0MTM0MjczNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjAwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=oKyO4zs9JykQ7kNvwFEvoob&_nc_oc=AdofgvwBhPdD7XEF0ltDAGYo9ImT41diXiNcVYP_H2zkgKjeRXcYI1RvePbdT_aPOid2cnjEbPghfwOr8xcVwny8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=JVKzIsQnF3mxvkHBFoF9Eg&_nc_ss=7a22e&oh=00_AQHTFCzRLL4PXZ609Bh2kqZjER-SKYkiqtn0uHvccdg9rg&oe=6A8358A7",
+   "url": "https://www.threads.com/@choi.openai/post/Db94prSjygP",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "에이전트 셋에게 서로 다른 목표를 주고 같은 서버에 올려 두면 어떻게 될까요.\n\n앤트로픽 프론티어 레드팀이 8월 13일 공개한 리포트에서, 그 셋은 서로를 방해꾼으로 보고 자기복제 멀웨어로 상대를 제거하기 시작했습니다.\n\n협력과 담합, 독점 다툼까지 여러 에이전트가 한데 모일 때의 문제를 실험으로 담은 리포트입니다.\n\n무엇을 발견했는지 정리했습니다 🧵",
-   "likes": 44,
-   "cmts": 12,
-   "time": 1786595451,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/Db94oRoDxDa",
+   "text": "1/ 앤트로픽의 프런티어 레드팀이 8월 13일 'Patterns and problems in emerging multiagent systems'라는 리포트를 공개했습니다.\n\n리포트는 에이전트들이 같은 코드베이스나 시장에서 서로 영향을 주고받으며 일하는 상황이 빠르게 현실이 되고 있다는 문제의식에서 출발합니다.\n머지않아 에이전트끼리 주고받는 상호작용의 양이 사람 사이의 상호작용을 넘어설 수 있다는 전망도 깔려 있습니다.\n\n연구진은 취약점 탐지와 공동 소프트웨어 개발, 가격 경쟁, 목표 충돌 등 여러 실험을 통해 현재 프런티어 모델들이 집단으로 일할 때 어떻게 협력하고 어디서 무너지는지 살펴봤습니다.\n\n개별 에이전트 수준에서는 사소해 보이던 행동이 여러 에이전트가 얽히는 순간 예상 밖의 실패로 번지는 장면이 반복됐습니다.",
+   "likes": 8,
+   "cmts": 1,
+   "time": 1786595454,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/772759773_17981927628112832_5115411444091796621_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk2MjU3MjMzMzk2OTc5Mzg3NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTY2OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=6Q1LRE-u4IIQ7kNvwGlEDnY&_nc_oc=AdqJub9e7tgLY1V_fQdkO01juHEt8whjjz2KYnJAkEO-TuK_VRhfJkkNVnDD9y1of19T3RNXbSqsCKFvrY1cZb4W&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=JVKzIsQnF3mxvkHBFoF9Eg&_nc_ss=7a22e&oh=00_AQGFRYesfHxBfVSnbRGrIbO80gJDfgRuvNEC3aoOdH6_JA&oe=6A835186",
+   "url": "https://www.threads.com/@choi.openai/post/Db94osLD2NS",
    "region": "kr"
   },
   {
@@ -483,23 +483,23 @@
    "region": "kr"
   },
   {
+   "account": "choi.openai",
+   "text": "에이전트 셋에게 서로 다른 목표를 주고 같은 서버에 올려 두면 어떻게 될까요.\n\n앤트로픽 프론티어 레드팀이 8월 13일 공개한 리포트에서, 그 셋은 서로를 방해꾼으로 보고 자기복제 멀웨어로 상대를 제거하기 시작했습니다.\n\n협력과 담합, 독점 다툼까지 여러 에이전트가 한데 모일 때의 문제를 실험으로 담은 리포트입니다.\n\n무엇을 발견했는지 정리했습니다 🧵",
+   "likes": 45,
+   "cmts": 12,
+   "time": 1786595451,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/Db94oRoDxDa",
+   "region": "kr"
+  },
+  {
    "account": "aipeekme",
    "text": "오픈소스 미디어 다운로더인 Parabolic이 2개월의 개발 과정을 거쳐 2026.4.0 업데이트를 진행했습니다. 다양한 버그 수정과 신규 기능, 디자인 개선이 포함되었습니다.\n\n이번 릴리스에서는 GTK/libadwaita 기반의 새로운 macOS 앱이 추가되어 yt-dlp, deno, ffmpeg 등 필수 의존성을 자동으로 포함하며 사용자 기반을 확장했습니다. 개발자는 Mac 기기가 없어 사용자 피드백에 의존한다고 밝혔습니다.\n\n또한 Windows 무설치 포터블 버전이 다시 도입되어 --portable 플래그나 함께 제공되는 .bat 파일로 실행할 수 있습니다. 설정 관리 방식도 JSON 파일에서 비밀번호로 보호되는 데이터베이스로 전환되었습니다.\n\n이후 공개된 2026.4.1 시리즈의 첫 베타 및 버그 수정 패치도 앱 안정화에 집중했습니다. 여러 OS 환경을 지원하는 미디어 다운로드 도구가 지속해서 업데이트되는 점은 긍정적입니다.\n\n📷 사진 출처: github.com",
    "likes": 0,
    "cmts": 1,
    "time": 1786594738,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/772227080_18079064609407306_8062257328781037058_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk2MjU2NjI2MDM1ODYzODA5Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMiJ9&_nc_ohc=y0nGuMM5zvQQ7kNvwHcOWAq&_nc_oc=Adrfi3WsWAkzaXJ2FPDyG-UXpnIf-w5zz3GKBYWvVDlASGjD0f6Shg0XYdk3EpHBYq6WxtKDi6Itb6SIKZYueHvB&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=luQIS_D11V3q0K5h8rFzaw&_nc_ss=7a22e&oh=00_AQFpyphv_NUa3fPN6MKaXjN_aKyr_Acozw0cq41g2CZvpw&oe=6A834F99",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/772227080_18079064609407306_8062257328781037058_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk2MjU2NjI2MDM1ODYzODA5Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=y0nGuMM5zvQQ7kNvwHcOWAq&_nc_oc=Adrfi3WsWAkzaXJ2FPDyG-UXpnIf-w5zz3GKBYWvVDlASGjD0f6Shg0XYdk3EpHBYq6WxtKDi6Itb6SIKZYueHvB&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=gS0TsUclYA05LLtyox2IKQ&_nc_ss=7a22e&oh=00_AQF-FtGAh-3OySYny-kF4PHKaoifLgIo_DD-4W3YUFx5ug&oe=6A834F99",
    "url": "https://www.threads.com/@aipeekme/post/Db93QTrn-oQ",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "🚨 코덱스 사용량 리셋 완료.",
-   "likes": 145,
-   "cmts": 26,
-   "time": 1786591853,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/Db9xxGSD8S3",
    "region": "kr"
   }
  ],
@@ -515,15 +515,6 @@
    "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1vmis8p/wifes_nespresso_machine_someone_is_getting_rich/"
   },
   {
-   "sub": "TikTokCringe",
-   "title": "American tourists asking about U.S. currency in Rome",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/NGRxZDZ5cnVhemloMYbaRfNaAbPY5YwfdPZwjZ1lumMGr9D8XoCXsI2hk_GL.png?width=320&crop=smart&auto=webp&s=8eb2daf0d94d5b7cc8362cdd4dc69c1e156d8bf7",
-   "time": 1786555601,
-   "url": "https://www.reddit.com/r/TikTokCringe/comments/1vmkonr/american_tourists_asking_about_us_currency_in_rome/"
-  },
-  {
    "sub": "whatisit",
    "title": "what’s in this bag",
    "score": 0,
@@ -531,6 +522,15 @@
    "thumb": "https://preview.redd.it/8rgf15zvayih1.jpeg?width=640&crop=smart&auto=webp&s=1254d93248a691d0a97398539e01d499180f2f13",
    "time": 1786543450,
    "url": "https://www.reddit.com/r/whatisit/comments/1vmf2e6/whats_in_this_bag/"
+  },
+  {
+   "sub": "TikTokCringe",
+   "title": "American tourists asking about U.S. currency in Rome",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/NGRxZDZ5cnVhemloMYbaRfNaAbPY5YwfdPZwjZ1lumMGr9D8XoCXsI2hk_GL.png?width=320&crop=smart&auto=webp&s=8eb2daf0d94d5b7cc8362cdd4dc69c1e156d8bf7",
+   "time": 1786555601,
+   "url": "https://www.reddit.com/r/TikTokCringe/comments/1vmkonr/american_tourists_asking_about_us_currency_in_rome/"
   },
   {
    "sub": "meirl",
@@ -551,15 +551,6 @@
    "url": "https://www.reddit.com/r/Damnthatsinteresting/comments/1vn1zol/raindrops_falling_on_bioluminescent_water_in/"
   },
   {
-   "sub": "OneOrangeBraincell",
-   "title": "Came home to find my husband trying to make dinner like this",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/n63vtoaum1jh1.jpeg?width=640&crop=smart&auto=webp&s=99af4763453a6a74e89230258902f2060bc10c7d",
-   "time": 1786583784,
-   "url": "https://www.reddit.com/r/OneOrangeBraincell/comments/1vmwnb9/came_home_to_find_my_husband_trying_to_make/"
-  },
-  {
    "sub": "AskReddit",
    "title": "People over 35: What is something you invested a massive amount of time or money into in your 20s that turned out to be a complete waste?",
    "score": 0,
@@ -569,22 +560,13 @@
    "url": "https://www.reddit.com/r/AskReddit/comments/1vmjiqr/people_over_35_what_is_something_you_invested_a/"
   },
   {
-   "sub": "MadeMeSmile",
-   "title": "A retired underwater operations soldier jumped from a 15-meter-high bridge into the ice-cold water to rescue a person who had fallen into the sea.",
+   "sub": "Unexpected",
+   "title": "A caring man",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/Y3VueWF4MmlzMmpoMRssee5q4yMlf0hZO4vo-IjnQiQuZsrOsTa9LSckmS-o.png?width=320&crop=smart&auto=webp&s=a61a58c461c8cff9ade2f48c8a97260cc3d8dd22",
-   "time": 1786597799,
-   "url": "https://www.reddit.com/r/MadeMeSmile/comments/1vn1e7i/a_retired_underwater_operations_soldier_jumped/"
-  },
-  {
-   "sub": "suicidebywords",
-   "title": "Dating is hard",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/lr2z6mh9w1jh1.jpeg?width=640&crop=smart&auto=webp&s=81a0d3166f48b261425df03c834a50cd80593c12",
-   "time": 1786586962,
-   "url": "https://www.reddit.com/r/suicidebywords/comments/1vmxsvh/dating_is_hard/"
+   "thumb": "",
+   "time": 1786604116,
+   "url": "https://www.reddit.com/r/Unexpected/comments/1vn3abi/a_caring_man/"
   },
   {
    "sub": "GirlDinnerDiaries",
@@ -596,13 +578,13 @@
    "url": "https://www.reddit.com/r/GirlDinnerDiaries/comments/1vmi3xw/he_told_me_no_wonder_why_no_one_dated_you_in_high/"
   },
   {
-   "sub": "todayilearned",
-   "title": "TIL there was an entire dog breed, called the Turnspit Dog, specifically bred to run on a wheel inside kitchen fireplaces to rotate roasting meat. They went extinct in the 1800s when spit-turning mach",
+   "sub": "OneOrangeBraincell",
+   "title": "Came home to find my husband trying to make dinner like this",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/EiCD6EZOW5vl3jno5D0VZLsqqUgyxUz4e03llcZha94.jpeg?width=640&crop=smart&auto=webp&s=dedac035eb4f1ba75da881da564102ab24ec60a0",
-   "time": 1786594514,
-   "url": "https://www.reddit.com/r/todayilearned/comments/1vn0cx7/til_there_was_an_entire_dog_breed_called_the/"
+   "thumb": "https://preview.redd.it/n63vtoaum1jh1.jpeg?width=640&crop=smart&auto=webp&s=99af4763453a6a74e89230258902f2060bc10c7d",
+   "time": 1786583784,
+   "url": "https://www.reddit.com/r/OneOrangeBraincell/comments/1vmwnb9/came_home_to_find_my_husband_trying_to_make/"
   },
   {
    "sub": "interestingasfuck",
@@ -612,6 +594,24 @@
    "thumb": "https://external-preview.redd.it/N2xjY25ubmd6eWloMfv_oayviu-nXioILopHTfrXmHn5b_FBi73II4fGMypE.png?width=320&crop=smart&auto=webp&s=12ea4a4d66741c37a3d05a2616be6305937294b3",
    "time": 1786551712,
    "url": "https://www.reddit.com/r/interestingasfuck/comments/1vmiti0/and_that_is_why_guys_center_of_mass_is_an/"
+  },
+  {
+   "sub": "okbuddycinephile",
+   "title": "Celebrities who desperately need a cheeseburger.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/h4l4ch7b80jh1.png?width=640&crop=smart&auto=webp&s=bbed174c65024662d1e0ddd9a166caf8a46695cd",
+   "time": 1786566793,
+   "url": "https://www.reddit.com/r/okbuddycinephile/comments/1vmps8v/celebrities_who_desperately_need_a_cheeseburger/"
+  },
+  {
+   "sub": "worldnews",
+   "title": "Iran Tracked Trump Down to His Exact Hotel Floor as Missile Threat Triggered Secret Escape From Turkey",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/pTjqWjByaJGWYpdjh2Cxr6fUSGwMnKyPOPcJtry53UE.jpeg?width=640&crop=smart&auto=webp&s=1281cb5da6ff88621c595fd58c19fd5664fa2eaa",
+   "time": 1786546449,
+   "url": "https://www.reddit.com/r/worldnews/comments/1vmgegg/iran_tracked_trump_down_to_his_exact_hotel_floor/"
   }
  ],
  "disaster": [],
@@ -658,10 +658,10 @@
    }
   },
   "landing": {
-   "at": "2026-08-13T17:02:06",
+   "at": "2026-08-13T17:31:33",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-13T17:31:31.249986+09:00"
+ "updated": "2026-08-13T18:01:26.863463+09:00"
 }
