@@ -30,6 +30,10 @@ const RETRY_SVG = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" s
 const TRASH_SVG = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>';   // 휴지통(삭제) = 실패 잡 행 `.jdel` 픽토 — RETRY_SVG와 한 세트(그 행이 둘을 같이 단다)라 동반 승격 · 값 exact 이관
 // 자막(캡션) = 판 + 글줄 2행(운영자 260802 "자막 있으면 자막 픽토그램 활성화") — 레포에 자막 픽토가 없어 신설(DOWNLOAD_SVG 짝).
 //   문법 = LAYERS_SVG·EDIT_SVG 정본 그대로(14px · viewBox 24 · fill none · stroke currentColor · stroke-width 2 · round cap/join) = 다운로드 픽토와 나란히 놔도 같은 잉크 무게.
+// 기사(참조 소재) — 접힌 신문 한 장. 형제 규격 그대로(viewBox 24 · stroke 2 · round · 14px 상자).
+//   ⚠ 왜 새로 두나 = 기존 26종에 「글이 실린 종이」를 뜻하는 글리프가 없었다(SUBS 는 구독 카드,
+//     PASTE 는 클립보드라 이미 붙여넣기 축이 쓴다). 인라인으로 그리면 아이콘이 갈리므로 정본에 둔다.
+const NEWS_SVG = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h13a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H5a2 2 0 0 1-2-2V6a1 1 0 0 1 1-1z"/><path d="M18 9h2a1 1 0 0 1 1 1v7a2 2 0 0 1-2 2"/><path d="M7 9h7M7 13h7M7 16h4"/></svg>';
 const SUBS_SVG = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 14.5h5M15 14.5h2"/></svg>';
 // G 광학 크기 = viewBox 24→20으로 좁혀 글리프 1.2배(운영자 260803 "살짝 키우는게 낫고") — 박스(12×12·15×15)는 무변경이라 레일 22/12 규격·히트존 무손상, 잉크만 커진다.
 //   실측 근거(nm-svg 픽토 전수 · viewBox 24 기준 잉크 대각) = 스트로크형 22종 중앙값 23.43인데 G는 18.9로 혼자 작았다(fill 레터마크라 획이 얇다) → 1.2배 = 22.68로 그 결에 편입(나란히 서는 AI_SVG 24.32의 93%).
@@ -46,6 +50,6 @@ const GEMINI_SVG = G_SVG;
    폴백 인라인 SVG로 그려진다 = 아이콘 SSOT가 죽고 픽토가 갈린다(실측 = DOWNLOAD 밑변 `M5 21h14` 정본 vs 폴백 `M4 21h16`).
    ⚠ 값 복제 0 = 위 정본 상수를 그대로 내보내기만 한다(새 정의 금지) · 기존 bare 참조는 무영향. */
 (function (g) {
-  var EXPORTS = { CHECK_SVG: CHECK_SVG, COPY_SVG: COPY_SVG, PASTE_SVG: PASTE_SVG, ERASE_SVG: ERASE_SVG, DOWNLOAD_SVG: DOWNLOAD_SVG, EDIT_SVG: EDIT_SVG, RETRY_SVG: RETRY_SVG, TRASH_SVG: TRASH_SVG, WARN_SVG: WARN_SVG };
+  var EXPORTS = { NEWS_SVG: NEWS_SVG, CHECK_SVG: CHECK_SVG, COPY_SVG: COPY_SVG, PASTE_SVG: PASTE_SVG, ERASE_SVG: ERASE_SVG, DOWNLOAD_SVG: DOWNLOAD_SVG, EDIT_SVG: EDIT_SVG, RETRY_SVG: RETRY_SVG, TRASH_SVG: TRASH_SVG, WARN_SVG: WARN_SVG };
   Object.keys(EXPORTS).forEach(function (k) { if (g[k] === undefined) g[k] = EXPORTS[k]; });
 })(typeof window !== 'undefined' ? window : this);
