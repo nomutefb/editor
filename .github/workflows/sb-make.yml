@@ -209,21 +209,21 @@ jobs:
       #    외부 API 0 = 크레딧 0(Actions 분만 소모) · 디자인 값은 viewer/index.html :root 계승(창작 0).
       #    fail-soft(rc=0 · 콘티 md는 이미 정상) — 단 결과 집계 1줄은 mg_render.py가 항상 stdout에 찍는다(CLAUDE.md [관측]).
       - name: Playwright 브라우저 캐시
-        if: inputs.shoot == 'motion'
+        if: inputs.shoot == 'motion' && inputs.story == '' && inputs.base != ''
         uses: actions/cache@v4
         with:
           path: ~/.cache/ms-playwright
           key: nomute-pw-chromium-v1
 
       - name: Motion render
-        if: inputs.shoot == 'motion'
+        if: inputs.shoot == 'motion' && inputs.story == '' && inputs.base != ''
         uses: ./.github/actions/runner-setup
         with:
           setup: apps/mg/setup.sh
           apt: fonts-noto-cjk ffmpeg
 
       - name: Motion render — run
-        if: inputs.shoot == 'motion'
+        if: inputs.shoot == 'motion' && inputs.story == '' && inputs.base != ''
         env:
           IN_ID: ${{ inputs.id }}
         run: |
@@ -267,7 +267,13 @@ jobs:
       #    ⚠ 컷 길이는 콘티가 적은 `0~2s` 를 그대로 쓴다(고정값 아님 — grok_sb_video.py 머리 주석).
       #    fail-soft(rc=0) = 영상이 죽어도 콘티·레퍼런스 산출은 그대로 살아야 한다.
       - name: Grok video
-        if: inputs.shoot == 'grok'
+        # 🎬 **촬영은 2차에서만 돈다**(운영자 260813 「생성 버튼은 총 2번 — 콘티 보고 모델 골라 제작」).
+        #   ⚠ 구판은 1차 전송에서도 영상까지 쐈다 — 콘티를 보기도 전에 값이 나갔다(30초면 195 크레딧).
+        #     운영자가 정한 순서의 앞쪽 절반이 배선에서 통째로 빠져 있던 것이다.
+        #   ⚠ 표식은 **이미 있는 값으로 읽는다**(손입력 칸 10/10 소진 = 새 칸을 못 만든다):
+        #     이야기가 있으면 1차(감독) · 이야기가 비고 기준 콘티가 있으면 2차(촬영).
+        #     같은 술어를 「콘티 재사용」 스텝이 이미 쓰고 있다(자 두 벌 금지).
+        if: inputs.shoot == 'grok' && inputs.story == '' && inputs.base != ''
         env:
           IN_ID: ${{ inputs.id }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
@@ -312,7 +318,13 @@ jobs:
       #      걸어 둔다. 상한을 넘으면 발사하지 않고 사유를 찍고 끝낸다.
       #    fail-soft(rc=0) = 영상이 죽어도 콘티·레퍼런스 산출은 그대로 살아야 한다.
       - name: Seedance video
-        if: startsWith(inputs.shoot, 'seedance')
+        # 🎬 **촬영은 2차에서만 돈다**(운영자 260813 「생성 버튼은 총 2번 — 콘티 보고 모델 골라 제작」).
+        #   ⚠ 구판은 1차 전송에서도 영상까지 쐈다 — 콘티를 보기도 전에 값이 나갔다(30초면 195 크레딧).
+        #     운영자가 정한 순서의 앞쪽 절반이 배선에서 통째로 빠져 있던 것이다.
+        #   ⚠ 표식은 **이미 있는 값으로 읽는다**(손입력 칸 10/10 소진 = 새 칸을 못 만든다):
+        #     이야기가 있으면 1차(감독) · 이야기가 비고 기준 콘티가 있으면 2차(촬영).
+        #     같은 술어를 「콘티 재사용」 스텝이 이미 쓰고 있다(자 두 벌 금지).
+        if: startsWith(inputs.shoot, 'seedance') && inputs.story == '' && inputs.base != ''
         env:
           IN_ID: ${{ inputs.id }}
           SB_LANE: seedance

@@ -5651,6 +5651,25 @@ def check_grok_sb_chain():
             ("LANE.alive(", "기다리기 전 접수 확인 호출", "grok_sb_video.py", _gv)):
         if needle not in txt:
             print("❌ 그록 콘티 레인 — {} 에 {} 가 없다({})".format(where, why, needle)); rc = 1
+    # ④-e **촬영은 2차에서만 돈다**(운영자 260813 「생성 버튼은 총 2번」).
+    #   ⚠ 구판은 1차 전송에서도 영상까지 쐈다 — 콘티를 보기도 전에 값이 나갔다(30초면 195 크레딧).
+    #     운영자가 정한 순서의 **앞쪽 절반이 배선에서 통째로 빠져 있었다**(화면엔 버튼이 둘인데
+    #     서버·워크플로는 한 번에 끝까지 갔다 = 화면과 실제가 다른 가장 비싼 어긋남).
+    #   ⚠ 표식은 이미 있는 값으로 읽는다(손입력 칸 10/10 소진) — 이야기가 비고 기준 콘티가
+    #     있으면 2차. 같은 술어를 「콘티 재사용」 스텝이 이미 쓴다(자 두 벌 금지).
+    _wf = _t(".github/workflows/sb-make.yml")
+    import re as _re
+    for _nm in ("Grok video", "Seedance video", "Motion render"):
+        _i = _wf.find("- name: {}".format(_nm))
+        if _i < 0:
+            print("❌ 그록 콘티 레인 — sb-make.yml 에 「{}」 스텝이 없다".format(_nm)); rc = 1; continue
+        _seg = _wf[_i:_i + 900]
+        _m = _re.search(r"^\s*if:\s*(.+)$", _seg, _re.M)
+        _cond = _m.group(1) if _m else ""
+        if "inputs.story == ''" not in _cond or "inputs.base != ''" not in _cond:
+            print("❌ 그록 콘티 레인 — 「{}」 가 1차에서도 돈다(2차 표식 없음 · 지금 조건 = {})"
+                  .format(_nm, _cond[:90])); rc = 1
+
     # ④-d **창구의 되물음에 답을 쥐고 있어야 한다**(260813 실사고 · 회신 원문 실측).
     #   창구는 발사 대신 「이 프리셋 어때요」로 되물을 수 있다(`Submitted 0/1 … declined_preset_id=…`).
     #   사람이 보고 있으면 「아니요」를 누르는 자리인데 러너엔 사람이 없어서, 구판은 그 되물음을
