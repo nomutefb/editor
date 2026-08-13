@@ -29,6 +29,10 @@ on:
         description: '문지기를 열고 날 이름 그대로 물어본다(1 = 켜기) — 창구 목록에 없는 이름이 실은 통하는지 보는 칸. 견적만 보므로 과금 0.'
         type: string
         default: ''
+      sweep:
+        description: '값 곡선 훑기(1 = 켜기) — 그 판이 아는 화질 전부 × 길이 여러 개의 견적을 한 번에 물어 초당 단가와 기본요금을 낸다. 견적만이라 과금 0.'
+        type: string
+        default: ''
 
 permissions:
   contents: read
@@ -61,6 +65,7 @@ jobs:
           SD_SHOT_SEC: ${{ inputs.sec }}
           SD_RES: ${{ inputs.res }}
           SD_RES_PROBE: ${{ inputs.probe }}
+          SD_SWEEP: ${{ inputs.sweep }}
         run: |
           [ -n "$HIGGSFIELD_REFRESH_TOKEN" ] || {
             echo "시댄스 확인: 미시도(HIGGSFIELD_REFRESH_TOKEN 미등록)"   # 무성 스킵 금지(계측 문법)

@@ -561,6 +561,48 @@ def classify(e):
 
 
 # ── 자격·견적 확인(과금 0) ────────────────────────────────────────────────────
+# 길이·화질별 값 곡선(과금 0) — 「몇 초에 얼마 뛰는지」를 한 번에 훑는다.
+# ⚠ 왜 필요한가(운영자 260813 「시간대별로 얼마나 뛰는지만 파악되면 가격 산출은 가능해지네」) =
+#   점 하나로는 값 구조를 모른다. 초당 단가만 있는지, 호출마다 붙는 기본요금이 따로 있는지,
+#   길이가 길어지면 단가가 꺾이는지 — 셋 다 점 하나로는 구분이 안 된다. 두 점 이상을 재야
+#   비로소 「길이 × 단가」로 값을 미리 셀 수 있다.
+# ⚠ 견적은 잡을 제출하지 않으므로 몇 번을 물어도 값이 안 나간다(창구 회신에 명시 = No job submitted).
+SWEEP_SEC = {"seedance_2_0": (4, 5, 7, 10, 15),
+             "seedance_2_5": (4, 5, 10, 15, 20, 30)}
+
+
+def _sweep(tok):
+    ratio = os.environ.get("SD_RATIO") or "9:16"
+    secs = SWEEP_SEC.get(PRESET["model"], (4, 5, 10))
+    print("── 값 곡선(과금 0) · {} · {} ──".format(PRESET["model"], ratio))
+    print("화질      " + "".join("{:>9}".format(str(x) + "초") for x in secs) + "     초당    기본요금")
+    for res in RES_OK.get(PRESET["model"], ()):
+        PRESET["res"] = res           # 견적 조립 함수가 이 값을 읽는다(발사 경로와 같은 조립)
+        row, pts = [], []
+        for sc in secs:
+            try:
+                cr = _credits(call("generate_video",
+                                   {"params": dict(_params(sc, ratio, cost_only=True),
+                                                   prompt="cost check")}, tok))
+            except Exception as e:  # noqa: BLE001
+                cr = None
+                print("   {} {}초 실패: {}".format(res, sc, str(e)[:100]))
+            row.append("{:>9}".format("?" if cr is None else "{:g}".format(float(cr))))
+            if cr is not None:
+                pts.append((sc, float(cr)))
+        # 두 점이면 직선을 그린다 — 기울기 = 초당 단가 · 절편 = 호출마다 붙는 기본요금.
+        rate = base = None
+        if len(pts) >= 2:
+            (x1, y1), (x2, y2) = pts[0], pts[-1]
+            if x2 != x1:
+                rate = (y2 - y1) / (x2 - x1)
+                base = y1 - rate * x1
+        print("{:<9}".format(res) + "".join(row)
+              + ("{:>9}{:>10}".format("{:g}".format(rate), "{:g}".format(round(base, 3)))
+                 if rate is not None else "{:>19}".format("점 부족")))
+    print("── 값 = 초당 단가 × 길이 + 기본요금(기본요금 0 이면 쪼개 쏘든 한 발로 쏘든 총액 같다) ──")
+
+
 def _check():
     print("── 시댄스 통로 확인(과금 0) ──")
     print("프리셋 {} · 모델 {} · {} · 한 발 {}초".format(
@@ -594,6 +636,9 @@ def _check():
         #   이 줄이 없으면 거절을 성공으로 읽고 다음 모양을 안 던진다(첫 실행 실측).
         if '"error"' not in _t and "validation error" not in _t:
             break
+    if os.environ.get("SD_SWEEP") == "1":
+        _sweep(tok)
+        return 0
     raw = call("generate_video", {"params": dict(_params(SHOT_SEC, os.environ.get("SD_RATIO") or "9:16",
                                                          cost_only=True), prompt="cost check")}, tok)
     cr = _credits(raw)
