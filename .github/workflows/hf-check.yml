@@ -17,6 +17,10 @@ on:
         description: '비율(쇼츠 = 9:16)'
         type: string
         default: '9:16'
+      sec:
+        description: '견적을 물어볼 길이(초 · 빈값 = 프리셋 기본) — 길이별로 물어보면 호출 수수료 유무가 드러난다'
+        type: string
+        default: ''
 
 permissions:
   contents: read
@@ -46,6 +50,7 @@ jobs:
           XAI_SECRET_PAT: ${{ secrets.XAI_SECRET_PAT }}
           SD_PRESET: ${{ inputs.preset }}
           SD_RATIO: ${{ inputs.ratio }}
+          SD_SHOT_SEC: ${{ inputs.sec }}
         run: |
           [ -n "$HIGGSFIELD_REFRESH_TOKEN" ] || {
             echo "시댄스 확인: 미시도(HIGGSFIELD_REFRESH_TOKEN 미등록)"   # 무성 스킵 금지(계측 문법)
