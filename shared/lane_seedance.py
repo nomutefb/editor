@@ -66,7 +66,14 @@ PRESETS = {
     "B": {"model": "seedance_2_0", "shot_sec": 15, "sec_max": 15, "res": "720p",
           "extra": {"mode": "std"}},
 }
-PRESET = PRESETS.get((os.environ.get("SD_PRESET") or "A").strip().upper(), PRESETS["A"])
+PRESET = dict(PRESETS.get((os.environ.get("SD_PRESET") or "A").strip().upper(), PRESETS["A"]))
+# ⚠ 화질은 **밖에서 정할 수 있다**(운영자 260813 「화질 발사로」) — 구판은 프리셋이 화질을 쥐고
+#   있어서 화면에서 2K 를 골라도 러너는 프리셋 값으로 쐈다(고른 값과 나온 값이 갈리는데 그
+#   사실이 어디에도 안 떴다). 어휘는 화면·이미지 스튜디오와 같은 표를 쓴다(같은 값 두 이름 금지).
+_RES_NM = {"720p": "720p", "FHD": "1080p", "1080p": "1080p", "2K": "2k", "4K": "4k"}
+_res = (os.environ.get("SD_RES") or "").strip()
+if _res:
+    PRESET["res"] = _RES_NM.get(_res, _res)
 
 # ── 상수 8(계약) ──────────────────────────────────────────────────────────────
 # ⚠ 이름 = **찍은 판까지** 말한다(`seedance_2_5` · `seedance_2_0`) — 한 통로가 프리셋에 따라 두
