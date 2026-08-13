@@ -433,8 +433,15 @@ MSG_PY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "s
 #   「운영자가 할 일」로 가른다. 없으면 폴백이 「클로드가 볼 일」이라, 코드로는 못 고치는 이 건
 #   (= 벤더 쪽 일시 실패라 다시 쏘는 것 말고 할 게 없다)이 클로드 칸에 앉아 진짜 코드 건을 가린다.
 #   문법은 `yt_cookie_health.COOKIE_TODO` 100% 계승(창작 0).
-VID_TODO = ("\n\n👉 네가 할 일: 콘티 화면에서 같은 콘티를 다시 쏘면 돼. "
-            "여기까지 온 건 **한 번 자동으로 다시 쏴 보고도** 막힌 건이라, 코드가 더 할 수 있는 게 없어.")
+# ⚠ 재시도 여부는 **건마다 다르다** — 값이 나갈 수 있는 통로는 자동 재시도를 안 하고(`RETRY_PAID`),
+#   `retryable=False` 실패도 재시도 없이 바로 온다. 구판은 이 문구가 고정이라 **재시도한 적 없는 건에도
+#   "한 번 자동으로 다시 쏴 보고도 막혔다"고 단언**했다(260813 실측 = 참조 올리기 실패 건은 재시도 0회).
+#   그러면 운영자가 「기계가 두 번 해봤는데도 안 됐구나」로 읽어 다시 쏘기를 포기한다 = 조치를 막는 거짓말.
+VID_TODO_RETRIED = ("\n\n👉 네가 할 일: 콘티 화면에서 같은 콘티를 다시 쏘면 돼. "
+                    "여기까지 온 건 **한 번 자동으로 다시 쏴 보고도** 막힌 건이라, 코드가 더 할 수 있는 게 없어.")
+VID_TODO_ONCE = ("\n\n👉 네가 할 일: 콘티 화면에서 같은 콘티를 다시 쏘면 돼. "
+                 "이 건은 **자동 재시도를 안 하는 종류**라(값이 나갈 수 있거나 다시 해도 같은 자리에서 막히는 실패) "
+                 "한 번 더 쏘는 건 네 손이 필요해.")
 
 
 def notify(stem, items):
@@ -458,10 +465,19 @@ def notify(stem, items):
             lines.append("· 영상{} (컷 {}) — {}{}".format(
                 r["n"], ", ".join(str(x) for x in r.get("cuts") or []),
                 r.get("fail") or "사유 미기록", " · 자동 재시도 1회 후에도 실패" if r.get("retried") else ""))
+            # ⚠ 창구 회신 **원문**을 알림에 싣는다(260813 실사고) — 산출 파일엔 `fail_body` 로 남기면서
+            #   알림엔 우리말 요약만 실었더니, 「참조 그림을 창구에 못 올렸다(회신에 번호가 없다)」라고 말한
+            #   그 회신 안에 **번호가 버젓이 들어 있었다**(실측 = "Pass media_id 6b474adc-… as medias[].value").
+            #   원문이 없으면 운영자도 세션도 「벤더가 거절했나 보다」로 읽고 다시 쏘는 것 말고 할 게 없어지는데,
+            #   실제로는 우리 파서가 못 읽은 것이라 **고칠 수 있는 코드 결함**이었다(= 조치 주체를 통째로 오도).
+            #   이 레포가 반복해 겪은 「관측이 지워지는 병」과 같은 축(스레드 1차 실측·틱톡 _e1·요약 실패 _fk=code).
+            if r.get("fail_body"):
+                lines.append("  창구 회신 원문: {}".format(str(r["fail_body"])[:300]))
         ok = [r for r in items if r.get("ok")]
         if ok:
             lines.append("나온 {}편은 그대로 살아 있어(결과 레일에서 볼 수 있어).".format(len(ok)))
-        subprocess.run([sys.executable, MSG_PY, "set", mid, "\n".join(lines) + VID_TODO, "warn"], check=False)
+        todo = VID_TODO_RETRIED if any(r.get("retried") for r in bad) else VID_TODO_ONCE
+        subprocess.run([sys.executable, MSG_PY, "set", mid, "\n".join(lines) + todo, "warn"], check=False)
         print("알림 발행 = {}".format(mid))
     except Exception as e:  # noqa: BLE001
         print("::warning::알림 발행 실패(비치명): {}".format(str(e)[:160]))
