@@ -466,6 +466,24 @@ else:
     print("https://news.google.com/search?q=" + urllib.parse.quote(q) + "&hl=ko&gl=KR&ceid=KR:ko" if q else "")
 ' 2>/dev/null || true)"
     [ -n "${_ref// }" ] && fail_body="${fail_body}"$'\n\n'"[관련 기사 — 유추 검색]"$'\n'"${_ref}"
+    # ── 조치문 규약(👉 문단 · scraper/watchdog.py `PHONE_TODO` 문법 100% 계승 · 창작 0) ──
+    # 왜: 리포트 조치주체 분류(viewer/index.html `_rptWho`)는 **👉 문단이 있어야** 가르고, 없으면 폴백이
+    #     '클로드가 볼 일'이다. 이 알림은 4분류 중 **셋이 운영자 조치**(다시 보내기·전문 붙여넣기)인데
+    #     👉가 없어서 전건이 클로드 칸에 앉았다 — 260808 실사고(`yt-cookie-dead`·`fire-*`)와 **같은 병**이고
+    #     그때 생산자 2곳(`yt_cookie_health.COOKIE_TODO`·`fire_watch.FIRE_TODO`)만, 260812에 1곳
+    #     (`insta_signals`)만 고쳐졌고 이 생산자는 두 번 다 안 따라왔다(= `check_seal_completeness`가
+    #     이름 붙인 「같은 병의 형제」 · 그쪽은 WARN이라 못 막는다).
+    #     비용 = 조치 불요 건이 같은 칸의 **진짜 코드 건**을 가린다(260813 리포트 실측 = 클로드 칸 1건이
+    #     전부 이 알림이었다 = 코드가 볼 게 0인데 코드 칸이 차 있었다).
+    # ⚠ code 축은 **안 붙인다**(cc 유지) = 규약 「원인이 코드 축이면 👉를 안 붙인다」(viewer/index.html 8308행).
+    #     넷 다 붙이면 진짜 코드 결함이 운영자 칸으로 밀려 무증상이 된다(= 이 봉합이 막으려는 병의 역방향 재현).
+    # ⚠ 문구에 '클로드'를 쓰면 `_RPT_CC_RE`가 잡아 cc로 튀고, '없어요/없음'으로 열면 auto로 튄다 — 둘 다 금지.
+    # ⚠ congest = 자동 재시도 RETRY_CAP 소진 **후에만** 여기 온다(388행) → '기다리면 된다'는 거짓이라 op.
+    case "$_fk" in
+      timeout) fail_body="${fail_body}"$'\n\n''👉 네가 할 일: 그 기사를 다시 보내 줘. 처리 시간이 넘어서 중간에 끊긴 거라 코드가 고칠 자리는 없어.' ;;
+      congest) fail_body="${fail_body}"$'\n\n''👉 네가 할 일: 그 기사를 다시 보내 줘. 자동 재시도는 이미 다 쓰고 여기까지 온 거라 기다려도 저절로 돌아오지 않아.' ;;
+      source)  fail_body="${fail_body}"$'\n\n''👉 네가 할 일: 위 안내대로 본문을 복사해서 다시 보내 줘. 원문을 못 읽은 거라 같은 링크로 다시 보내면 같은 자리에서 막혀.' ;;
+    esac
     emit_fail_msg "$base" "$fail_body"   # 메시지함(노란 점등)+푸시 — 분석 실패 사유별 통지(운영자 260623) · 260712부터 관련 기사 링크 상시 동봉
     echo "실패 → pending/failed/${base}"
     echo "::endgroup::"; continue

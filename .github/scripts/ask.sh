@@ -380,6 +380,15 @@ else:
       _diag="$(timeout "${ASK_FAIL_DIAG_TIMEOUT:-150}" python3 .github/scripts/ask_fail_probe.py --base "$base" --kind "$_fk" --rc "$rc" --url "$_pu" --imgs "${#srcimgs[@]}" --ocr "${#_ocr}" 2>/dev/null || true)"
       [ -n "${_diag// }" ] && _fbody="${_fbody}"$'\n\n'"${_diag}"
     fi
+    # ── 조치문 규약(👉 문단 · analyze.sh 미러 · scraper/watchdog.py `PHONE_TODO` 문법 100% 계승 · 창작 0) ──
+    # 두 경로가 같이 붙어야 한다 — 한쪽만 고치면 나머지 경로가 조용히 구 동작(클로드 칸)으로 남는다
+    #   (이 레포 최빈 미러 드리프트 · `_fk` 분류 자체가 그 이유로 두 파일 동기인 것과 같은 축).
+    # ⚠ code 축은 안 붙인다(cc 유지) · '클로드' 낱말 금지(cc로 튐) · '없어요/없음' 시작 금지(auto로 튐).
+    case "$_fk" in
+      timeout) _fbody="${_fbody}"$'\n\n''👉 네가 할 일: 대기열에서 “재시도”를 눌러 줘(캡처는 다시 붙여야 해). 시간이 넘어서 끊긴 거라 코드가 고칠 자리는 없어.' ;;
+      congest) _fbody="${_fbody}"$'\n\n''👉 네가 할 일: 대기열에서 “재시도”를 눌러 줘. 자동 재시도는 이미 다 쓰고 여기까지 온 거야.' ;;
+      source)  _fbody="${_fbody}"$'\n\n''👉 네가 할 일: 대기열에서 “재시도”를 누르거나, 보낸 내용을 확인해서 다시 요청해 줘.' ;;
+    esac
     python3 shared/msg.py set "fail-${base}" "$_fbody" warn 2>/dev/null || true
     printf '%s\n' "$base" >> /tmp/analyzed_fail_msgs.txt
     echo "실패 → asks/failed/${base}"; echo "::endgroup::"; continue

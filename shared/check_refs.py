@@ -6310,6 +6310,70 @@ def check_rpt_origin_coverage():
     return 0
 
 
+# ── 요약 실패 알림 = 조치 주체를 말한다(👉 문단) = check_fail_msg_todo ─────────────────────────
+# CONTRACT: check_fail_msg_todo
+# 계약 = 「실패 사유 4분류(`_fk`) 중 **운영자 조치 3종**(timeout·congest·source)은 👉 문단을 달고,
+#         **코드 축**(code)은 안 단다」.
+# ⚠ 신설 사유 = 같은 병이 이 레포에서 **세 번** 재발했고 매번 생산자 한 종만 고쳐졌다 —
+#   260728 `wd-phone` → 260808 `yt_cookie_health`·`fire_watch` → 260812 `insta_signals`.
+#   요약 실패 알림(analyze·ask 두 경로)은 세 번 다 안 따라왔고, 260813 리포트에서 '클로드가 볼 일'
+#   칸에 앉은 유일한 건이 바로 이 알림이었다(실제 조치 = 운영자가 기사를 다시 보내기 = 코드 축 0).
+#   비용 = 조치 불요 건이 같은 칸의 **진짜 코드 결함**을 가린다.
+# ⚠ 기존 게이트는 전부 다른 축 — `check_rpt_origin_coverage` = 알림이 **어디서 왔나**(출처표) ·
+#   `check_seal_completeness` = 「같은 병의 형제」인데 **WARN**이라 이 재발을 세 번 다 못 막았다 ·
+#   `check_ask_srcimg_chain` = 층 생존 → 「알림이 **누가 조치할 일인지** 말하는가」는 축 자체가 없었다.
+# ⚠ 판정 술어는 **뷰어에서 읽는다**(사본 0) — `_RPT_CC_RE`·auto 판정 정규식을 손으로 옮겨 적으면
+#   뷰어가 술어를 바꾼 날 게이트만 옛 기준으로 남는다(260812 쿠키 칸 이름 실사고와 같은 축).
+# 정적 · 렌더·LLM·네트워크 0 · 면책표 없이 하드 0.
+_FAILMSG_OP_KINDS = ('timeout', 'congest', 'source')   # 운영자 조치 3종 · code = 규약상 👉 없음(cc 유지)
+
+
+def check_fail_msg_todo():
+    idx = os.path.join(ROOT, 'viewer', 'index.html')
+    if not os.path.exists(idx):
+        print('❌ 실패알림 조치주체 게이트 — viewer/index.html 없음(판정 술어 원천 부재).')
+        return 1
+    vt = open(idx, encoding='utf-8', errors='ignore').read()
+    m_cc = re.search(r'_RPT_CC_RE\s*=\s*/([^/\n]+)/', vt)
+    m_auto = re.search(r'test\(todo\)\s*\?\s*.auto.\s*:', vt) and re.search(r'/(\^없[^/\n]*)/\.test\(todo\)', vt)
+    if not m_cc or not m_auto:
+        print('❌ 실패알림 조치주체 게이트 — 뷰어 _rptWho 판정 술어를 못 읽었다(앵커 소실 = fail-closed).')
+        return 1
+    cc_re, auto_re = re.compile(m_cc.group(1)), re.compile(m_auto.group(1))
+    # 표면 자동 발견 = `_fk` 4분류를 가진 실패 알림 생산자(새 경로가 조용히 못 빠진다 · 스냅샷 제외)
+    surf = [p for p in sorted(glob.glob(os.path.join(ROOT, '.github', 'scripts', '*.sh')))
+            if '_versions' not in p and _has_exec_line(open(p, encoding='utf-8', errors='ignore').read(), '_fk=')]
+    if len(surf) < 2:
+        print('❌ 실패알림 조치주체 게이트 — 생산자 %d종(하한 2 · 탐지 실패 = 게이트 무력화 · fail-closed).' % len(surf))
+        return 1
+    bad = []
+    for p in surf:
+        rel, txt = os.path.relpath(p, ROOT), open(p, encoding='utf-8', errors='ignore').read()
+        todo_lines = [ln for ln in txt.split('\n')
+                      if '👉' in ln and ln.strip() and not ln.strip().startswith('#')]
+        for kind in _FAILMSG_OP_KINDS:
+            hit = [ln for ln in todo_lines if re.match(r'\s*%s\)' % kind, ln)]
+            if not hit:
+                bad.append('%s · %s 분기에 👉 문단 미배선 → 리포트가 「클로드가 볼 일」로 오분류' % (rel, kind))
+                continue
+            # 문구 재판정 = 뷰어 술어 그대로(op 여야 한다 · cc = 코드 칸 오귀속 · auto = 조치 필요한데 대기로 밀림)
+            body = hit[0].split('👉', 1)[1].replace('네가 할 일:', '', 1).strip().strip("'\"; ")
+            if auto_re.search(body):
+                bad.append('%s · %s 문구가 「없어요/없음」으로 열려 자동 복구 대기로 튄다(운영자 조치가 묻힘)' % (rel, kind))
+            elif cc_re.search(body):
+                bad.append('%s · %s 문구에 「%s」가 있어 클로드 칸으로 튄다' % (rel, kind, cc_re.pattern))
+        if any(re.match(r'\s*code\)', ln) for ln in todo_lines):
+            bad.append('%s · code 분기에 👉 부착 — 규약 「원인이 코드 축이면 👉를 안 붙인다」 위반'
+                       '(진짜 코드 결함이 운영자 칸으로 밀려 무증상이 된다)' % rel)
+    if bad:
+        print('❌ 실패알림 조치주체 게이트 — %d건:' % len(bad))
+        for b in bad:
+            print('   ·', b)
+        return 1
+    print('✅ 실패알림 조치주체 게이트 — 생산자 %d종 × 운영자 조치 3분류 전건 👉 보유(code 축 미부착 유지).' % len(surf))
+    return 0
+
+
 def check_disaster_landmark_sign():
     p = os.path.join(ROOT, 'scraper', 'sns_trends.py')
     if not os.path.exists(p):
@@ -7982,6 +8046,11 @@ def main():
             rc = 1
     except Exception as e:
         print('❌ check_rpt_origin_coverage 예외(fail-closed):', e); rc = 1
+    try:
+        if check_fail_msg_todo() != 0:   # 요약 실패 알림 = 조치 주체를 말한다(하드 — 260813 실사고: 👉 미부착으로 운영자 조치 3분류가 전건 '클로드가 볼 일' 칸에 앉아 진짜 코드 건을 가렸다)
+            rc = 1
+    except Exception as e:
+        print('❌ check_fail_msg_todo 예외(fail-closed):', e); rc = 1
     try:
         if check_shell_put_integrity() != 0:   # 셸캐시 put = 절단 검문(</html> 꼬리) 의무(하드 게이트 — 260802 재발: sw.js만 검문·페이지측 put 무검문 = 절단 셸 재주입)
             rc = 1
