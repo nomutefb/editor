@@ -435,7 +435,7 @@
   {
    "account": "choi.openai",
    "text": "오픈AI와 앤트로픽처럼 대규모 GPU 클러스터를 운용하는 회사들과 비교하면, 정부 지원과 B200 기반 인프라로 프런티어권에 진입한 한국 스타트업이라는 점도 눈에 띕니다.\n\nNVIDIA는 NVFP4 버전도 함께 공개했고, NVIDIA Korea는 \"한국 AI 생태계의 가파른 성장세를 다시 한번 입증했다\"고 평가했습니다.\n\n적어도 오픈웨이트 프런티어 경쟁에서 한국 팀이 존재감을 드러낸 사례라고 볼 만합니다.\n\n허깅페이스 :\nhttps://huggingface.co/Motif-Technologies/Motif-3",
-   "likes": 6,
+   "likes": 7,
    "cmts": 0,
    "time": 1786627822,
    "thumb": "",
@@ -445,10 +445,10 @@
   {
    "account": "choi.openai",
    "text": "한국 스타트업 Motif가 314B 규모의 MoE 모델 Motif 3를 공개했습니다.\nNVIDIA B200으로 훈련했고, 과학기술정보통신부의 지원을 받았습니다.\n\nArtificial Analysis Intelligence Index에서는 47점을 기록해 전체 104개 모델 가운데 6위에 올랐습니다. 오픈웨이트 모델 중에서도 최상위권에 속합니다.\n\n세부 평가에서는 ITBench 51.5로 비교 모델 중 1위, τ²-Bench 94.7, GDPVal v2 38.7을 기록해 DeepSeek V4 Pro와 경쟁하는 수준을 보였습니다.\n\n구조도 효율에 초점을 맞췄습니다. 전체 314B 파라미터 가운데 토큰당 13.2B만 활성화되는 희소 MoE 방식이며, 384개 전문가 중 8개만 선택적으로 사용합니다.\n컨텍스트 길이는 256K이고, GDLA라는 자체 어텐션 구조를 적용했습니다.\n\n한국어와 법률, 금융 데이터도 집중적으로 학습했으며 Hugging Face에서 바로 내려받을 수 있습니다.",
-   "likes": 22,
+   "likes": 27,
    "cmts": 4,
    "time": 1786627812,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/774350137_17981931525112832_7486176541683273023_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk2Mjg0Mzc3Mzg1NjAxNDkwOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjA4Ni5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=bsiMBzvmS7kQ7kNvwE3K8Hk&_nc_oc=AdpxycuZBD_zbCmlhchQ1z1MGIunBA2AH-iZWYA5kUaUWgHDtP1B3t5AAYviNPMiuaM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=1B6EEWDSY-THIjcQ0MElUw&_nc_ss=7a22e&oh=00_AQF5TiRwu0m9pkx6Gyhtb422KRJLRa2MNOmgrr_zDxTnUQ&oe=6A839E4F",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/774350137_17981931525112832_7486176541683273023_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk2Mjg0Mzc3Mzg1NjAxNDkwOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjA4Ni5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=bsiMBzvmS7kQ7kNvwE3K8Hk&_nc_oc=AdpxycuZBD_zbCmlhchQ1z1MGIunBA2AH-iZWYA5kUaUWgHDtP1B3t5AAYviNPMiuaM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=YdnVtHbSlbjbkhRHbsW-XQ&_nc_ss=7a22e&oh=00_AQEtvHxiI1uJeTofrbu_-EPa8dOqG3kk4kr6xPxSguekgw&oe=6A839E4F",
    "url": "https://www.threads.com/@choi.openai/post/Db-2WqRDmI9",
    "region": "kr"
   },
@@ -458,7 +458,7 @@
    "likes": 27,
    "cmts": 1,
    "time": 1786622406,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/774136668_1231767585742654_6464363019466946486_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk2Mjc5ODQyMTUwMDg3MjE3OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=ppplsdsAj0AQ7kNvwGE_GS_&_nc_oc=AdpdrCuehZajHMuDLq0pHBLTb7ekSs0v5-mawTgKVKUx06NkzA-cw__Grkbd6QDyIuY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=1B6EEWDSY-THIjcQ0MElUw&_nc_ss=7a22e&oh=00_AQEo7VnNT4e0CJVh3hvX5R1nua64ZeKH0W6khYKLQC-h7A&oe=6A83961D",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/774136668_1231767585742654_6464363019466946486_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk2Mjc5ODQyMTUwMDg3MjE3OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=ppplsdsAj0AQ7kNvwGE_GS_&_nc_oc=AdpdrCuehZajHMuDLq0pHBLTb7ekSs0v5-mawTgKVKUx06NkzA-cw__Grkbd6QDyIuY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=YdnVtHbSlbjbkhRHbsW-XQ&_nc_ss=7a22e&oh=00_AQEjSGxngI9ivqPtjjM4JfaJNfDnUmCgUq2GGoixM1SNDw&oe=6A83961D",
    "url": "https://www.threads.com/@choi.openai/post/Db-sCsmCcXz",
    "region": "kr"
   },
@@ -468,7 +468,7 @@
    "likes": 2,
    "cmts": 0,
    "time": 1786619335,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/774467792_928096953678904_6450233387625673002_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk2Mjc3MjQ1ODAzODI2MDIzNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=p214EgvJ8SkQ7kNvwFRGb51&_nc_oc=AdoNyV6mttGqZ8aP0Rjn43jzIJd9aBP2ICg9audirbGmWA2GlB_aunfueXj1kFYCREI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=UWQdRmfWM_B8sm0vNx4DHQ&_nc_ss=7a22e&oh=00_AQHU8pYOAo2soIrYlC6Y3OhKQriJjae2p8ROv2npb5cevg&oe=6A838BFB",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/774467792_928096953678904_6450233387625673002_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk2Mjc3MjQ1ODAzODI2MDIzNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=p214EgvJ8SkQ7kNvwFRGb51&_nc_oc=AdoNyV6mttGqZ8aP0Rjn43jzIJd9aBP2ICg9audirbGmWA2GlB_aunfueXj1kFYCREI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=mrmNXN19CAqecjRzB2tZfg&_nc_ss=7a22e&oh=00_AQHy92RCdq2CBtx3PCq2w10AZYjNELJo-jACFALvqaNpSg&oe=6A838BFB",
    "url": "https://www.threads.com/@aipeekme/post/Db-mI4PEnIL",
    "region": "kr"
   },
@@ -488,7 +488,7 @@
    "likes": 0,
    "cmts": 1,
    "time": 1786613499,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/772647630_18079153037407306_8961246303867938993_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk2MjcyMzYyOTczODc0Nzg4Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=-g7rQQ3TCBkQ7kNvwGorIxP&_nc_oc=AdrSa0i7hsLPY0-oG-MTnxYsNeeMc3EgowK4N8MAActXv7cOqK6p5SXw6ETmvHWq4Bk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=UWQdRmfWM_B8sm0vNx4DHQ&_nc_ss=7a22e&oh=00_AQH0cEPTYnveJCkODXZ3AZ3tvCSFtPy_2B4j-rK2aqJuJQ&oe=6A83AA7A",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/772647630_18079153037407306_8961246303867938993_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk2MjcyMzYyOTczODc0Nzg4Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=-g7rQQ3TCBkQ7kNvwGorIxP&_nc_oc=AdrSa0i7hsLPY0-oG-MTnxYsNeeMc3EgowK4N8MAActXv7cOqK6p5SXw6ETmvHWq4Bk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=mrmNXN19CAqecjRzB2tZfg&_nc_ss=7a22e&oh=00_AQEXT0P7I0mXk5XJdTlE5MFJHHNma8KERfMXxZhc0Cd_aQ&oe=6A83AA7A",
    "url": "https://www.threads.com/@aipeekme/post/Db-bCVVn-fu",
    "region": "kr"
   },
@@ -555,10 +555,10 @@
   {
    "account": "choi.openai",
    "text": "Liquid AI가 3B 비전-언어 모델 LFM2.5-VL-3B를 공개했습니다.\n3GB 메모리로 폰에서 초당 20토큰, M5 Max에서 228토큰이 나옵니다.\n\n화면 속 버튼의 정확한 좌표를 찍고, 차트와 문서를 읽고, 이미지에서 직접 도구를 호출합니다. ScreenSpot-v2 80.7로 Gemma-4-E4B의 51.2를 크게 앞서고, 자체 크기의 2.6배 모델들과 경쟁합니다. WebGPU 데모도 브라우저에서 바로 돌아갑니다.\n\nDeepSeek V4 Flash에 이 모델을 비전 보조로 붙이면 텍스트 에이전트가 눈을 갖게 됩니다. 3GB로 폰에서 도는 비전 모델이 스크린을 읽고 도구를 호출하는 시대. 에이전트의 눈이 주머니 속으로 들어왔습니다.",
-   "likes": 20,
+   "likes": 21,
    "cmts": 1,
    "time": 1786617013,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/772792488_17981898240112832_549812388445771565_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk2Mjc1MzE4MjQ5MzUxMDU4NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=DQ-aWIXvRGgQ7kNvwHYRxg7&_nc_oc=AdobRlQ58EOCgqhH0kWfKfh0sxndNKVCBPzWCIqxve1sRUOvS1chrga5fHC8OpeGD8Y&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=1B6EEWDSY-THIjcQ0MElUw&_nc_ss=7a22e&oh=00_AQH3g3A51OSIJ9__yAfUnDXbVUVzYBupoDTKuyRWL9ffAA&oe=6A838CF7",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/772792488_17981898240112832_549812388445771565_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk2Mjc1MzE4MjQ5MzUxMDU4NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=DQ-aWIXvRGgQ7kNvwHYRxg7&_nc_oc=AdobRlQ58EOCgqhH0kWfKfh0sxndNKVCBPzWCIqxve1sRUOvS1chrga5fHC8OpeGD8Y&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=YdnVtHbSlbjbkhRHbsW-XQ&_nc_ss=7a22e&oh=00_AQGP1loWOIbf0ZZmPkIvxxpb38Zz9Mubd3RzBxHDIavADw&oe=6A838CF7",
    "url": "https://www.threads.com/@choi.openai/post/Db-hwYfEwu4",
    "region": "kr"
   },
@@ -578,7 +578,7 @@
    "likes": 39,
    "cmts": 7,
    "time": 1786611631,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/774386109_17981898045112832_6492784983829039148_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk2MjcwODA0MDE1NTE0OTEwMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA3MS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=cyF1h85UzAEQ7kNvwELCwkj&_nc_oc=AdrqNC9sz_x8zWYN9w0raUCSW8YzG2Hs3ZQfesMUmP4_QiPKMKwqqE8P0gT6tbLZx5M&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=1B6EEWDSY-THIjcQ0MElUw&_nc_ss=7a22e&oh=00_AQEpKkzOH516yh0ZKpB4tnYb4u6SqtfgTWIQPu4MtBnKDQ&oe=6A83B42D",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/774386109_17981898045112832_6492784983829039148_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk2MjcwODA0MDE1NTE0OTEwMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA3MS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=cyF1h85UzAEQ7kNvwELCwkj&_nc_oc=AdrqNC9sz_x8zWYN9w0raUCSW8YzG2Hs3ZQfesMUmP4_QiPKMKwqqE8P0gT6tbLZx5M&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=YdnVtHbSlbjbkhRHbsW-XQ&_nc_ss=7a22e&oh=00_AQG9mXb-5rA7hQfqoWasOBttYB1Wh7je_LG4tSkCMrubRQ&oe=6A83B42D",
    "url": "https://www.threads.com/@choi.openai/post/Db-XfeaCDMv",
    "region": "kr"
   },
@@ -588,22 +588,13 @@
    "likes": 4,
    "cmts": 0,
    "time": 1786603758,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/772889439_1815208793185535_3879495707363596358_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk2MjY0MTgwNjk4NTg0ODgzNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=JQ-5qYlMbOIQ7kNvwG6Lh0l&_nc_oc=Adp9D5N6o_xJkjPf1ikZ5zEexc-CfohqgawMXo6JqEOHssIC6LqV9A1ZX74cYdkTZzo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=UWQdRmfWM_B8sm0vNx4DHQ&_nc_ss=7a22e&oh=00_AQHGP_uGFhC7k8FgIvkvoMzc442qlIp2Ebv5rXqIuOqFwQ&oe=6A83B09A",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/772889439_1815208793185535_3879495707363596358_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk2MjY0MTgwNjk4NTg0ODgzNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=JQ-5qYlMbOIQ7kNvwG6Lh0l&_nc_oc=Adp9D5N6o_xJkjPf1ikZ5zEexc-CfohqgawMXo6JqEOHssIC6LqV9A1ZX74cYdkTZzo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=mrmNXN19CAqecjRzB2tZfg&_nc_ss=7a22e&oh=00_AQGXvk2LSZib8UPiqUiZv5t-R6ATjxanM3IhG2ZcWnqlcw&oe=6A83B09A",
    "url": "https://www.threads.com/@aipeekme/post/Db-Ibp9gOgD",
    "region": "kr"
   }
  ],
  "tiktok": [],
  "reddit": [
-  {
-   "sub": "mildlyinfuriating",
-   "title": "Wife’s Nespresso Machine… someone is getting rich off us.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/jf5uw8v9zyih1.jpeg?width=640&crop=smart&auto=webp&s=1c934d06a77e170995977214fec91696eadbc93a",
-   "time": 1786551642,
-   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1vmis8p/wifes_nespresso_machine_someone_is_getting_rich/"
-  },
   {
    "sub": "MadeMeSmile",
    "title": "A nice sign in a restaurant",
@@ -612,6 +603,15 @@
    "thumb": "https://preview.redd.it/6mvd1wti35jh1.jpeg?width=640&crop=smart&auto=webp&s=ac58ae1faed3db492a853a84baab8fbf01720696",
    "time": 1786625715,
    "url": "https://www.reddit.com/r/MadeMeSmile/comments/1vn9xot/a_nice_sign_in_a_restaurant/"
+  },
+  {
+   "sub": "meirl",
+   "title": "meirl",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/zsfbp9h3x4jh1.jpeg?width=640&crop=smart&auto=webp&s=2ca81416705d7effd22b365409857a69c6dd02c3",
+   "time": 1786623552,
+   "url": "https://www.reddit.com/r/meirl/comments/1vn94f0/meirl/"
   },
   {
    "sub": "TikTokCringe",
@@ -632,13 +632,13 @@
    "url": "https://www.reddit.com/r/interestingasfuck/comments/1vmiti0/and_that_is_why_guys_center_of_mass_is_an/"
   },
   {
-   "sub": "meirl",
-   "title": "meirl",
+   "sub": "AskReddit",
+   "title": "Married people of Reddit, what’s your most unhinged marriage hack?",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/zsfbp9h3x4jh1.jpeg?width=640&crop=smart&auto=webp&s=2ca81416705d7effd22b365409857a69c6dd02c3",
-   "time": 1786623552,
-   "url": "https://www.reddit.com/r/meirl/comments/1vn94f0/meirl/"
+   "thumb": "",
+   "time": 1786576733,
+   "url": "https://www.reddit.com/r/AskReddit/comments/1vmty3n/married_people_of_reddit_whats_your_most_unhinged/"
   },
   {
    "sub": "interestingasfuck",
@@ -650,40 +650,13 @@
    "url": "https://www.reddit.com/r/interestingasfuck/comments/1vn7h0c/a_gorilla_approaches_and_assumes_a_suitable/"
   },
   {
-   "sub": "AskReddit",
-   "title": "Married people of Reddit, what’s your most unhinged marriage hack?",
+   "sub": "gaming",
+   "title": "What game did you regret immediately after buying?",
    "score": 0,
    "cmts": 0,
    "thumb": "",
-   "time": 1786576733,
-   "url": "https://www.reddit.com/r/AskReddit/comments/1vmty3n/married_people_of_reddit_whats_your_most_unhinged/"
-  },
-  {
-   "sub": "interesting",
-   "title": "Imagine being the customer that made this sign necessary.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/8ikb5zwfk4jh1.jpeg?width=640&crop=smart&auto=webp&s=da047c21de766519c4298f6510db874ad1c97a2c",
-   "time": 1786619297,
-   "url": "https://www.reddit.com/r/interesting/comments/1vn7nqq/imagine_being_the_customer_that_made_this_sign/"
-  },
-  {
-   "sub": "worldnews",
-   "title": "Iran Tracked Trump Down to His Exact Hotel Floor as Missile Threat Triggered Secret Escape From Turkey",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/pTjqWjByaJGWYpdjh2Cxr6fUSGwMnKyPOPcJtry53UE.jpeg?width=640&crop=smart&auto=webp&s=1281cb5da6ff88621c595fd58c19fd5664fa2eaa",
-   "time": 1786546449,
-   "url": "https://www.reddit.com/r/worldnews/comments/1vmgegg/iran_tracked_trump_down_to_his_exact_hotel_floor/"
-  },
-  {
-   "sub": "oddlysatisfying",
-   "title": "The shadows during an eclipse",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/7jcv0fu5b4jh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=7c102a99b00a619f89210fb9787d9548cba3b2bb",
-   "time": 1786616180,
-   "url": "https://www.reddit.com/r/oddlysatisfying/comments/1vn6pqj/the_shadows_during_an_eclipse/"
+   "time": 1786613498,
+   "url": "https://www.reddit.com/r/gaming/comments/1vn5xuo/what_game_did_you_regret_immediately_after_buying/"
   },
   {
    "sub": "bald",
@@ -695,13 +668,40 @@
    "url": "https://www.reddit.com/r/bald/comments/1vn9jqg/took_the_leap_feeling_unsure/"
   },
   {
-   "sub": "aww",
-   "title": "My kitten has grown up.",
+   "sub": "Unexpected",
+   "title": "Exterminators hate this one simple trick",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/6yk8lsacs3jh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=bd59b1c3c01245de361e265a3ca04d46b9cde12b",
-   "time": 1786610005,
-   "url": "https://www.reddit.com/r/aww/comments/1vn4yo2/my_kitten_has_grown_up/"
+   "thumb": "",
+   "time": 1786586336,
+   "url": "https://www.reddit.com/r/Unexpected/comments/1vmxkmn/exterminators_hate_this_one_simple_trick/"
+  },
+  {
+   "sub": "interesting",
+   "title": "Imagine being the customer that made this sign necessary.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/8ikb5zwfk4jh1.jpeg?width=640&crop=smart&auto=webp&s=da047c21de766519c4298f6510db874ad1c97a2c",
+   "time": 1786619297,
+   "url": "https://www.reddit.com/r/interesting/comments/1vn7nqq/imagine_being_the_customer_that_made_this_sign/"
+  },
+  {
+   "sub": "politics",
+   "title": "Trump says Karoline Leavitt resigning as White House press secretary",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/v7EAM-epJO4Al8bbiKNr1czLvFQ4BgC0D8g6D8YJ_VA.png?width=640&crop=smart&auto=webp&s=1cace8352728d5686ba5073bc9027e2bec05d00d",
+   "time": 1786563745,
+   "url": "https://www.reddit.com/r/politics/comments/1vmoffx/trump_says_karoline_leavitt_resigning_as_white/"
+  },
+  {
+   "sub": "FIlm",
+   "title": "Why is it that when Pedro Pascal seemed to star in every film release, people started complaining that he's in too many films, whereas Robert Pattison is being celebrated for his \"historic run\" due to",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/i2b23gtd61jh1.jpeg?width=640&crop=smart&auto=webp&s=10940d6ff0ed697929acae1f2628d4cf4d75ef86",
+   "time": 1786578246,
+   "url": "https://www.reddit.com/r/FIlm/comments/1vmuj3s/why_is_it_that_when_pedro_pascal_seemed_to_star/"
   }
  ],
  "disaster": [],
@@ -748,10 +748,10 @@
    }
   },
   "landing": {
-   "at": "2026-08-13T22:32:10",
+   "at": "2026-08-13T23:01:31",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-13T23:01:29.278754+09:00"
+ "updated": "2026-08-13T23:31:26.609067+09:00"
 }
