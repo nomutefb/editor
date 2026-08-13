@@ -1,31 +1,31 @@
 # 토마호크 한 발에 북한이 꺼낸 '군사적 선택안'
 
 **[프롬프트 설계]**
-- 화풍: B 극화 — 군사·안보 대치와 계약서에 적힌 일정이 맞물린 사안이라, 사실성과 무게를 감당할 선(線)이 필요하다
-- 분위기: 관료적 냉기 위에 얹힌 경계심 — 화약 냄새가 아니라 문서와 형광등 냄새가 나는 긴장
-- 연출 방향: 독자가 멈추는 자리는 "미사일 한 발과 담화 한 장 사이의 간격이 좁아지는" 대목이다(0단계 감정=경계심). 그래서 이 덱은 폭발이 아니라 **물리(발사관·컨테이너·크레인)와 종이(담화문·계약서·빈 여백)를 같은 무게로 맞세운다** — 무기가 아니라 문장이 먼저 움직인 사건이라는 걸 그림이 말하게 한다. 강조점은 ①발사 직후 올려다보는 얼굴들 ②담화문의 비어 있는 아래쪽 ③그 둘을 스크린으로만 지켜보는 사람. thumb_dispatch에서 조명 톤(멸균 형광의 무정함)과 정조(감정 없이 계산된 거리감)만 이어받고, 앵글은 카드마다 흩는다
-- 독자 동선: **발단** 카드1→**전개** 카드2~4→**피크** 카드5→**해소** 카드6→**시사점** 카드7 · 훅=카드1 끝(예고형 "평양이 답했다"·카드2 첫머리가 즉시 회수)+카드3 끝(단서형 "시간표"·카드4 첫 줄이 즉시 회수) · 착지 요지 = 두 나라가 각자의 일정과 명분을 굴리는 사이, 한국이 정한 것은 하나도 없었다
-- 연속성 앵커: Recurring subject — a Korean woman in her late 30s, short dark hair pinned back, wearing a plain dark navy jacket buttoned to the collar. (카드 2·5·6) / Recurring location — a windowless gray briefing room with a pale institutional wall.
+- 화풍: B 극화 — 군사·안보 대치와 국가 의사결정을 다루는 사안이라 사실성과 무게가 필요하다
+- 분위기: 바다의 정적과 브리핑실의 삭막함이 번갈아 조여드는 냉각된 긴장. 화염 한 번, 문장 한 줄, 그리고 계약서의 시간표가 각각 다른 온도로 놓인다
+- 연출 방향: 뉴스 안 보는 독자에게 이 사건은 '멀리서 벌어진 군사 뉴스'다. 그래서 잡아야 할 강조점은 무기 성능이 아니라 **미사일 한 발과 문장 한 줄 사이의 짧은 간격**이다 — 태평양의 화염(물리적 사건)과 브리핑실의 입술(언어적 사건)을 같은 무게로 놓고, 마지막에 그 둘 어디에도 우리 손이 없었다는 자리를 보여준다. 독자훅 = '한 발에 한 문장으로 답했다'는 대칭. 전달할 관점 = 비어 있는 선택안이 곧 앞으로의 명분이라는 구조. 조명은 thumb_dispatch의 멸균 형광 톤(LGT12)과 대치 정조(SG-03)를 키노트로 이어받되, 起 흐린 바다광 → 承 하강 → 轉 최저 명도·최대 대비 → 結 여운광으로 아크를 만든다
+- 독자 동선: **제시** 카드1→**발단** 카드2→**전개** 카드3→**피크** 카드4→**해소** 카드5~6→**시사점** 카드7 · 훅=카드1 끝(단서형 '그 한 발'→카드2 첫 줄 즉시 회수)+카드5 끝(단서형 '400발'→카드6 첫 줄 회수) · 착지 한 줄 요지 = 발사도 담화도 한국이 정한 것이 아니었다
+- 연속성 앵커: Recurring subject — a North Korean woman official in her late 30s with a short dark bob, wearing a black high-collared jacket / Recurring location — a windowless gray briefing room with a plain flat wall behind the lectern
 
 ### [카드 1]
 **텍스트**
 ```text
-7월 28일 태평양 한복판에서
-일본 이지스함 초카이가
-토마호크를 처음 쏘아 올렸다
-*일주일 뒤 평양이 답했다*
+태평양에 순항미사일 한 발이 날았다
+일주일 뒤 평양에서 담화가 나왔다
+북한의 답은 *'군사적 선택안'*이었다
+담화가 겨눈 건 그 한 발이다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the upturned faces of three sailors tracking a single cruise missile that has just cleared the deck. They crouch behind a railing on the foredeck of a destroyer, helmets and life vests on, heads tilted up and to the right, one man's arm still raised mid-signal. A square launch hatch stands open beside them, venting white smoke across the deck plating. Beyond the bow the open Pacific runs flat and gray to the horizon with no other vessel in sight.
-Camera: wide shot from a low angle, three-quarter view with nose room on the right and gaze directed toward the right edge, shot on 14mm ultra-wide lens
+Scene: Emotional focal point: a lone sailor's upturned face tracking a thin vanishing contrail, eyes narrowed against the glare. One crew member stands small at the rail of a distant destroyer on the vast open ocean, his gaze directed toward the right edge of the frame where the smoke trail thins into nothing. The ship sits low on the horizon line, dwarfed by grey water and a flat overcast sky. Nose room on the right.
+Camera: extreme long shot from eye-level, shot on 14mm ultra-wide lens
 Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 confined to the deck status indicator lamps and the painted edge markings around the open launch hatch), muted daylight contrast
-Text handling: no hull numbers, no unit insignia, no painted lettering on any surface; deck markings stay plain geometric shapes only.
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the faint contrail and the ship's running light), muted daylight contrast
+Text handling: no signage, no hull markings, no lettering anywhere in the frame.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the open sea and sky) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the open sea surface) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -35,28 +35,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-JS Chokai Tomahawk launch
+태평양 해상 이지스함
 ```
 
 ### [카드 2]
 **텍스트**
 ```text
-8월 5일, 북한 김여정 총무부장이
-담화 한 장으로 답을 내놨다
-일본이 선제공격 능력을 공식화한다며
-*"군사적 선택안을 추가 설정"*한다
+발사한 건 일본 해상자위대 함정이었다
+7월 28일 태평양, 이지스함 초카이다
+갑판에서 토마호크가 솟아올랐다
+*자위대 함정의 첫 실사격이었다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: her steady unwavering eyes and the flat pressed line of her lips as she looks slightly off-camera. Recurring subject — a Korean woman in her late 30s, short dark hair pinned back, wearing a plain dark navy jacket buttoned to the collar. She stands behind a bare podium in a windowless gray briefing room, both hands resting flat on a single sheet of paper, shoulders squared to the room. The pale institutional wall runs unbroken behind her with no emblem and no banner.
-Camera: medium close-up from eye level, three-quarter angle, shot on 85mm portrait lens
-Lighting/mood: flat sterile clinical fluorescent light, cold even greenish-white, emotionless institutional
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the podium's small indicator lamp and a thin line of light along the microphone stem), muted daylight contrast
-Text handling: the sheet under her hands is turned away so nothing on it is legible; no signage, no plaque, no lettering anywhere in the room.
+Scene: Emotional focal point: a deck crew member's flame-lit hands raised to shield his eyes, knuckles taut. A cruise missile erupts from a vertical launch cell on the warship's steel deck, trailing a hard column of exhaust straight upward. Two crew members in helmets crouch low behind a deck fitting, their heads turned up toward the rising missile. The launch cell hatch stands open beside them.
+Camera: medium shot from worm's-eye view, shot on 24mm wide lens
+Lighting/mood: single hard side-light cutting across the subject, deep chiaroscuro shadows, tense atmosphere
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 rimming the launch cell edge and the crew's visors), muted daylight contrast
+Text handling: no hull numbers, no stenciled markings, no warning placards, no lettering on any surface.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the pale institutional wall of the briefing room) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the ship's steel deck) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -66,28 +66,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-KCNA statement announcement podium
+초카이 토마호크 발사
 ```
 
 ### [카드 3]
 **텍스트**
 ```text
-일본의 계획은 2022년에 짜였다
-적 기지를 때릴 능력을 갖기로 했고
-*2024년 토마호크 400발을 주문했다*
-400발엔 시간표가 붙어 있었다
+그 답을 낸 건 김여정 총무부장이다
+8월 5일 담화는 일본을 *"전쟁국가"*로 불렀다
+"선제공격 능력 공식화"라고 규정하며
+배후에 미국이 있다고도 주장했다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: two pens meeting the same page from opposite sides of a table, neither hand touching the other. Seen from directly above, four hands work over one wide conference table: one hand steadies a thick bound document while the other signs it, and across the table a second pair of hands slides a closed folder forward into the light. The written block of the document is cropped away at the frame edge so nothing on it can be read. The table surface fills the frame corner to corner.
-Camera: medium shot from a high angle looking straight down, shot on 50mm standard lens
-Lighting/mood: harsh single overhead light pooling on the table, deep surrounding black, oppressive interrogation
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on a single tab marker clipped to the edge of the folder), film-noir low-key lighting, deep shadows
-Text handling: crop all document text outside the frame; no legible writing, no letterhead, no stamps bearing characters.
+Scene: Emotional focal point: her steady unwavering gaze held straight ahead, not blinking. Recurring subject — a North Korean woman official in her late 30s with a short dark bob, wearing a black high-collared jacket, stands behind a plain lectern holding a folded statement paper in one hand. Recurring location — a windowless gray briefing room with a plain flat wall behind the lectern. Her other hand rests flat on the lectern top, and her chin is level.
+Camera: medium close-up from low angle, shot on 50mm standard lens
+Lighting/mood: flat sterile clinical fluorescent light, cold even greenish-white, emotionless institutional
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 as a thin edge light along her collar and the lectern rim), muted daylight contrast
+Text handling: the statement paper is seen edge-on and folded so no writing is legible; no emblems, no seals, no lettering on the wall or lectern.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the conference table surface) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the flat briefing-room wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -97,28 +97,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-Japan Tomahawk FMS contract signing
+조선중앙TV 담화 발표
 ```
 
 ### [카드 4]
 **텍스트**
 ```text
-2027년까지 400발이 순차로 들어와
-이지스함 8척에 나눠 실린다
-미사일 값만 약 1조5000억원이다
-*그 사거리 안에 북한이 들어간다*
+6월엔 김정은 위원장이 그 말을 썼다
+이번엔 대응 예고가 처음으로 붙었다
+*"반드시 후회하도록 만들어야 한다"*
+군사적 선택안을 추가 설정한다고 했다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the sheer height of a missile canister swinging overhead while a dockworker below shields his eyes to follow it. Shot from ground level at the foot of a quay, a crane lifts one long shipping canister toward the deck of a destroyer whose hull rises like a wall through the upper half of the frame. Two more canisters wait in a row on the concrete beside a small team of workers in hard hats, one of them pointing up toward the ship's rail.
-Camera: wide shot from a worm's-eye ground-level angle, shot on 20mm wide lens
-Lighting/mood: cold blue pre-dawn tone, lone streetlight reflection on wet ground, desolate stillness
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the crane's guide lamp and the reflective striping of the workers' vests), film-noir low-key lighting, deep shadows
-Text handling: canisters and hull carry no stencilled codes, no serial numbers, no unit markings; keep every surface free of characters.
+Scene: Emotional focal point: her jaw clenched tight with the muscle flexing at the jawline, lips pressed thin. Recurring subject — a North Korean woman official in her late 30s with a short dark bob, wearing a black high-collared jacket, fills the frame as she finishes speaking, her eyes lowered a fraction toward the paper in her hand. Behind her and far lower in emphasis, a dim wall screen shows only the backlit silhouette of a male speaker at a podium, kept dark and unfocused so she stays the focus. The room around them falls off into black.
+Camera: tight close-up from Dutch angle, shot on 85mm portrait lens
+Lighting/mood: harsh single overhead light pooling downward, deep surrounding black, oppressive interrogation
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 as a single cold glint in her eye and along the screen edge), film-noir low-key lighting, deep shadows
+Text handling: the wall screen shows only a silhouette with no captions; no lettering, no subtitles, no emblems anywhere.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the concrete quay surface) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the dark backdrop wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -128,28 +128,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-Aegis destroyer Tomahawk canister loading
+노동당 전원회의 김정은
 ```
 
 ### [카드 5]
 **텍스트**
 ```text
-김 부장은 일본을 '전쟁국가'로 불렀다
-6월 김정은 위원장이 쓴 말 그대로다
-규탄과 경고로는 부족하다며
-*"반드시 후회하도록 만들어야 한다"*
+그런데 일본의 일정은 4년 전에 짜였다
+2022년 말 반격 능력을 공식화했다
+*적 기지를 직접 때릴 수 있는 능력이다*
+2024년 1월 미국과 400발을 계약했다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: brows lowered and drawn together over glaring eyes, lips pressed and tightened, the jaw set hard. Recurring subject — a Korean woman in her late 30s, short dark hair pinned back, wearing a plain dark navy jacket buttoned to the collar. Her face fills the upper frame, turned three-quarters into the light, while one hand enters the lower edge gripping a folded sheet of paper. The plain gray wall behind her carries nothing but shadow.
-Camera: tight close-up from a low angle, three-quarter view, shot on 135mm telephoto lens
-Lighting/mood: single hard side-light cutting across the subject, deep chiaroscuro shadows, tense atmosphere
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 as a thin rim of light along her jawline and collar edge), film-noir low-key lighting, deep shadows
-Text handling: the folded paper shows only its blank reverse side; no writing, no insignia, no lettering anywhere in the frame.
+Scene: Emotional focal point: a pen held steady over a signature line, the fingers unhurried. Seen from directly above, four Japanese government officials in dark suits sit along one long conference table, three of them watching the fourth sign a thick bound document. Their folded hands and closed folders lie in a row across the tabletop, and the signing hand is placed toward the right side of the frame. The table fills the view.
+Camera: wide shot from bird's-eye view, shot on 35mm lens
+Lighting/mood: flat cold even surveillance light, no shadow no warmth, detached and watchful
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the pen barrel and one folder tab), muted daylight contrast
+Text handling: the document is seen at a steep angle so its surface reads as texture only; no legible writing, no letterheads, no seals, no name plates.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the plain gray wall behind her) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the long conference table) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -159,27 +159,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-Kim Yo-jong close-up
+일본 국가안전보장전략 각의
 ```
 
 ### [카드 6]
 **텍스트**
 ```text
-그런데 그 선택안이 무엇인지
-*담화는 끝내 밝히지 않았다*
-내놓은 건 조치가 아니라 여지였다
+그 400발이 2027년까지 들어온다
+미사일값만 약 1조5000억원이다
+이지스함 8척에 나뉘어 실린다
+*사거리상 북한 전역이 사정권에 든다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: her fingertips lifting away from the page, leaving the rest of the sheet completely blank. Recurring subject — a Korean woman in her late 30s, short dark hair pinned back, wearing a plain dark navy jacket buttoned to the collar; only her forearms and hands enter the frame from the top edge. Seen from above, a single sheet of paper lies alone on a bare desk and occupies the upper two-thirds of the frame, its block of writing cropped off beyond the top edge and the visible remainder empty white. The desk surface extends unbroken to every corner.
-Camera: close-up from a high angle looking down, shot on 100mm macro lens
-Lighting/mood: single pool of hard light isolating the figure in surrounding blackness, claustrophobic loneliness
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on a slim pen lying beside the sheet), film-noir low-key lighting, deep shadows
-Text handling: crop the written block outside the frame; the visible portion of the page is blank paper with no legible characters anywhere.
+Scene: Emotional focal point: a single dockworker's tiny silhouette dwarfed at the base of a hull that rises far above him. A row of grey destroyers lies moored along a naval pier, their bows receding one behind another into the haze. A crane arm lowers a sealed container toward the nearest deck, and the worker below tilts his head back to follow it. The water between the hulls is flat and still.
+Camera: extreme long shot from low angle, shot on 200mm telephoto lens
+Lighting/mood: cold blue pre-dawn tone, desolate stillness, thin haze over the water
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the crane's guide light and the container strapping), muted daylight contrast
+Text handling: no hull numbers, no crane markings, no pier signage, no lettering on the container.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the desk surface) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the harbor water surface) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -189,28 +190,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-Rodong Sinmun statement page
+해상자위대 이지스함 정박
 ```
 
 ### [카드 7]
 **텍스트**
 ```text
-선택안을 비워둔 건 설계에 가깝다
-북한의 어떤 발사도 '대응'이 된다
-일본은 일정대로, 북한은 명분을 쌓는다
-*그 사이 한국이 정한 것은 없었다*
+그 사이 북한이 내놓은 건 문장 하나다
+무엇을 언제 할지가 전부 비어 있다
+빈칸이 남는 한 무엇이든 대응이 된다
+*한 발도 한 문장도 한국이 정한 건 없다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a vacant thousand-yard stare on the face of an officer standing perfectly still while everyone around him works. A Korean man in his 50s in a plain dark uniform stands centered in the upper half of the frame, facing the viewer with his arms at his sides, inside a dim control room. Behind him a wall-sized situation display glows with two small marked points set far apart over a blank ocean chart, and three staff seated at consoles face away from us toward it. A small Korean national flag stands on a side console near the edge of the frame.
-Camera: full shot from eye level, front-on with direct unwavering gaze and symmetrical composition, shot on 35mm lens
-Lighting/mood: flat cold even surveillance light, no shadow no warmth, detached and watchful
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the two marked points glowing on the situation display), muted daylight contrast
-Text handling: the display shows only plain geometric marks and coastline outlines; no labels, no numbers, no readable characters on any console or wall.
+Scene: Emotional focal point: a South Korean official's eyes looking straight out at the viewer, tired and unmoving. A man in his fifties in a dark suit stands centered before a large flat wall map of the Korean peninsula and the sea to its east, facing the camera front-on with his arms at his sides. Two small marker dots glow on the map behind him, one out at sea and one to the north, and he stands squarely between them without turning to either. The room is otherwise empty.
+Camera: medium shot from eye-level, front-on, shot on 40mm lens
+Lighting/mood: warm soft morning light, gentle and quiet, faint melancholy
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the two marker dots), muted daylight contrast
+Text handling: the map shows coastlines and the two dots only; no place names, no grid labels, no legend, no lettering anywhere in the frame.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the control room's screen wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the situation-room wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -220,5 +221,5 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-합동참모본부 지휘통제실
+한반도 주변 해역 지도
 ```
