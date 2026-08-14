@@ -9,8 +9,8 @@
 //      R2 queue/jobs/ 에 착지시키고 접수 성공을 돌려준다(맥 잡 워커가 소비 = 요청 유실 0 계약).
 //      GET/읽기 표면 비대상 · 5xx 미만(정상·4xx)은 그대로 통과 = 기존 동작 불변.
 const JOB_API = new Set(['pick', 'make-cards', 'genimg', 'moreimg', 'imgedit', 'thumbredo', 'thumb',
-  'comp', 'edit', 'vidl', 'vidlout', 'conv', 'k', 'resize', 'upscale', 'song', 'track', 'voice',
-  'sb', 'ly', 'nb', 'framethumb', 'revise', 'revise-cards', 'cards-revise', 'tr', 'compose']);
+  'comp', 'compose', 'edit', 'vidl', 'vidlout', 'conv', 'k', 'resize', 'upscale', 'song', 'track', 'voice',
+  'sb', 'ly', 'nb', 'framethumb', 'revise', 'revise-cards', 'cards-revise', 'tr']);
 
 export async function onRequest(context) {
   const url = new URL(context.request.url);

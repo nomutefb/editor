@@ -38,7 +38,7 @@ COLOR_DEFAULT = (255, 255, 255)
 COLOR_HIGHLIGHT = (15, 253, 2)  # #0FFD02 형광그린 — 콘텐츠 상수 원복(운영자 260706 "제작물이 브랜드 컬러로 뒤집어씌어짐" 롤백 · 콘텐츠 색 = UI 팔레트와 별개 축, UI 개편에 동행 금지)
 
 # ─── 폰트 ───
-FONT_PATH = "/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc"
+FONT_PATH = os.environ.get("NOMUTE_FONT_PATH") or "/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc"   # 260815: 맥 잡워커 대응 — env 우선(미설정 = CI 기존 경로 그대로)
 
 # ─── 따옴표 페어 (여는: 닫는) — 들여쓰기 추적용 ───
 QUOTE_PAIRS = {
