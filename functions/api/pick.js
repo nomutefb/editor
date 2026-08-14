@@ -75,5 +75,30 @@ export async function onRequestPost({ request, env }) {
     },
   );
   if (r.status === 204) return json({ ok: true });
-  return json({ error: `GitHub ${r.status}: ${(await r.text().catch(() => '')).slice(0, 300)}` }, 502);
+  // ── 디스패치 실패 fail-soft 사다리(260815 코워크 · 뿌리 = CLAUDE.md 🚨 계정 단위 Actions 정지):
+  //   액션이 꺼진 기간엔 여기가 항상 502 였다 = 운영자 픽이 접수 순간 증발(「큐레이션 발동 실패」 그 증상).
+  //   ① pending/ 파일을 Contents API 로 직접 착지 → 5분 레인(pc_lane 요약 스테이지)이 소비(산출 동일).
+  //   ② 깃허브 쓰기까지 죽으면 R2 큐(queue/picks/)에 착지 → 맥 실행기 스위퍼가 pending/ 으로 커밋.
+  //   502 는 세 통로가 모두 죽었을 때만 낸다(픽 유실 0 계약).
+  const dispatchErr = `GitHub ${r.status}: ${(await r.text().catch(() => '')).slice(0, 200)}`;
+  const k2 = new Date(Date.now() + 9 * 3600e3).toISOString();
+  const stamp2 = k2.slice(2, 4) + k2.slice(5, 7) + k2.slice(8, 10) + '-' + k2.slice(11, 13) + k2.slice(14, 16) + k2.slice(17, 19);
+  const name2 = `${stamp2}-pick-${Math.random().toString(16).slice(2, 6)}.txt`;
+  const content2 = `${url}\n` + (title ? `# title: ${title}\n` : '') + (alt ? `# alt: ${alt}\n` : '') + (event_key ? `# ekey: ${event_key}\n` : '');
+  try {
+    const bytes2 = new TextEncoder().encode(content2);
+    let bin2 = ''; for (const b of bytes2) bin2 += String.fromCharCode(b);
+    const put2 = await fetch(`https://api.github.com/repos/muteno/nomute-editor/contents/pending/${name2}`, {
+      method: 'PUT', headers: H,
+      body: JSON.stringify({ message: 'pick: pending 직접 착지(디스패치 정지 폴백)', content: btoa(bin2), branch: 'main' }),
+    });
+    if (put2.status === 201 || put2.status === 200) return json({ ok: true, via: 'pending', note: '레인이 다음 회차에 분석' });
+  } catch { /* R2 큐로 */ }
+  try {
+    if (env.R2) {
+      await env.R2.put(`queue/picks/${name2}`, content2);
+      return json({ ok: true, via: 'r2-queue', note: '맥 레인이 곧 집어감' });
+    }
+  } catch { /* 최종 502 */ }
+  return json({ error: `${dispatchErr} · pending·R2 착지도 실패` }, 502);
 }

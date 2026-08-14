@@ -4,6 +4,15 @@
 // env: GH_TOKEN(있으면 contents API=최신), 없으면 raw(공개·~5분 캐시) 폴백.
 export async function onRequestGet({ env }) {
   const H = { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'public, max-age=60' };
+  // ── 0차: R2 live/ 미러(맥 5분 레인이 매 회차 업로드 · 깃허브 무풍) — 260815 코워크.
+  //    왜: 260814 계정 플래그로 아래 깃허브 사다리(contents·raw)가 간헐/전멸 → 화면 동결.
+  //    R2 는 우리 계정 자산이라 외부 제재 무풍 = 수집함 신선도의 새 정본 경로. 실패 시 기존 사다리 그대로.
+  try {
+    if (env.R2) {
+      const o = await env.R2.get('live/candidates.json');
+      if (o) { const b = await o.text(); JSON.parse(b); return new Response(b, { status: 200, headers: H }); }
+    }
+  } catch { /* 깃허브 사다리로 */ }
   const tries = [];
   if (env.GH_TOKEN) tries.push([
     'https://api.github.com/repos/muteno/nomute-editor/contents/viewer/candidates.json?ref=main',
