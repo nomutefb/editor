@@ -5,3 +5,8 @@
 # 수정하면 두 판이 나란히 중복(유실 아님·눈에 보임) · 수정 vs 삭제 = 수정 승(삭제 무시) · 동일 문구 = dedupe.
 docs/요구사항_큐.md merge=union
 docs/작업이력.md merge=union
+# 줄끝 고정(260814 PC 2단 안전장치) — 윈도우 깃의 core.autocrlf=true 가 체크아웃에서 .sh 를 CRLF 로
+# 바꿔치면 Git-Bash 가 "\r: command not found" 로 즉사한다(폰·러너는 LF 라 무영향 = 순수 방어).
+# .bat 는 반대로 CRLF 가 정본(cmd 는 LF 배치에서 goto·블록이 어긋나는 실측 사례가 있는 파서다).
+*.sh text eol=lf
+scripts/*.bat text eol=crlf
