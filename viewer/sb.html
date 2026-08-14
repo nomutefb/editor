@@ -547,6 +547,22 @@ function sbQFit(shoot, q) {
   return down.length ? down[down.length - 1] : ok[0];
 }
 function subsOfName(st, v) { const l = ((window.GENI_SUB || {})[st] || []).find(x => x[0] === v); return l ? l[1] : ''; }   // 세부 화풍 사람 말 — 정본 목록에서만 읽는다(사본 0)
+// 발사 응답 읽기 — **JSON 이 아니면 그 사실을 사람 말로 말한다**(운영자 260813 실측 화면).
+// ⚠ 왜 필요한가 = 로그인이 풀리면 서버 대신 **로그인 페이지(HTML)** 가 온다. 그걸 그대로
+//   JSON 으로 읽으면 화면에 「Unexpected token '<'」 이 뜨는데, 그건 원인을 하나도 안 알려준다 —
+//   운영자는 콘티 기능이 깨진 줄 알지만 실제로는 그냥 다시 들어가면 되는 상태다.
+// ⚠ 고칠 방법도 이미 있다 — 생명선(nm-sync)이 로그인 만료를 판별하고 재진입까지 한다.
+//   여기서 그걸 불러 주면 「말해 주고 알아서 복구되는」 한 몸이 된다.
+async function sbReadJson(r) {
+  const t = await r.text();
+  try { return JSON.parse(t); } catch (e) {
+    if (/^\s*<(?:!doctype|html)/i.test(t)) {
+      try { if (window.nmSync && window.nmSync.probeNow) window.nmSync.probeNow(); } catch (_) {}
+      throw new Error('로그인이 풀렸다 — 다시 들어가는 중이다. 잠시 뒤 한 번 더 눌러라');
+    }
+    throw new Error('서버가 이상한 걸 돌려줬다(' + r.status + ') — ' + t.slice(0, 80));
+  }
+}
 function sbPayload() {   // go 핸들러 페이로드(서버 api/sb.js가 화이트리스트 재검증)
   const set = Object.assign({}, sbSet); if (set['비율'] === 'custom') set['비율'] = sbRatio();   // 'custom' = 화면 상태값 → 발사 시 실 N:M으로 치환(k 「길이」 직접 = segTotal()+'s' 선례 문법)
   const styKo = ((window.GENI_ALL_STYLES || []).find(x => x[0] === sbStyle) || [])[1];
@@ -1047,7 +1063,7 @@ async function fireShoot(outPath, shoot, btn, cap) {
                                          { set: Object.assign({}, sbPayload().set,
                                              { '화질': sbQFit(shoot, sbSet['화질']) }) })),
     });
-    const j = await res.json();
+    const j = await sbReadJson(res);
     if (!res.ok || j.error) { cap.textContent = '요청 실패: ' + String(j.error || res.status); btn.disabled = false; btn.textContent = was; return; }
     shotTryUp(outPath, (shotTry()[outPath] || 0) + 1);
     const a = jload(); a.unshift({ id: j.id, out: j.out, ts: Date.now(), d: sbDirector, sh: shoot, base: true, label: '제작 · ' + shoot, status: 'run' }); jsave(a); renderJobs();
@@ -1241,7 +1257,7 @@ $('#go').onclick = async () => {
   try {
     const base = sbBase ? sbBase.out : '';   // 변형 모드 = 이전 콘티 경로 동봉(서버 화이트리스트 재검증)
     const res = await fetch('/api/sb', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(Object.assign({ story, base }, sbPayload())) });
-    const j = await res.json();
+    const j = await sbReadJson(res);
     if (!res.ok || j.error) { status.innerHTML = WARN_SVG + ' ' + esc(String(j.error || res.status)); status.classList.add('err'); return; }
     const a = jload(); a.unshift({ id: j.id, out: j.out, ts: Date.now(), d: sbDirector, sh: sbShoot, base: !!base, label: (note || sum).replace(/\s+/g, ' ').slice(0, 16) + ((note || sum).length > 16 ? '…' : ''), status: 'run' }); jsave(a); renderJobs();   // 발사 즉시 내역 적립(최신 = 맨 위 · Image Studio 미러)
     sbBase = null;   // 변형 모드 = 1회용(발사 후 해제)
