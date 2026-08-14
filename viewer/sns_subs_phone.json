@@ -324,22 +324,32 @@
  "threads": [
   {
    "account": "choi.openai",
-   "text": "내용 :\nhttps://artificialanalysis.ai/optima",
-   "likes": 2,
-   "cmts": 0,
-   "time": 1786683608,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DcAgxojABj_",
+   "text": "3/ 발표 벤치마크부터 보겠습니다.\nZ.ai와 소속 연구자가 공개한 수치에서 GLM-5.3은 Terminal-Bench 3.0 28.3, DeepSWE 66.9, Agents' Last Exam 28.5, GDPVal-AA 1769를 기록했습니다.\n\nTerminal-Bench는 코드 컴파일과 서버 설정, 디버깅처럼 터미널에서 실제 작업을 끝까지 수행하는 능력을 평가합니다.\nDeepSWE는 공개된 적 없는 오픈소스 저장소 과제를 사용해 학습 데이터 유출 가능성을 낮춘 코딩 에이전트 벤치마크입니다. GDPVal-AA는 44개 직업과 9개 산업의 실제 업무를 평가합니다.\n\nZ.ai는 오픈 모델 9개 벤치마크 가운데 8개에서 1위를 기록했다고 밝혔습니다. 2.4조 파라미터 Qwen과 2.8조 Kimi가 경쟁하는 자리에 743B 모델이 올라온 셈입니다.",
+   "likes": 1,
+   "cmts": 1,
+   "time": 1786687862,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/772773849_17982085959112832_6040525899650817481_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk2MzM0NzUxMDU5NjkzMjA2Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=e-g2iu9uTu0Q7kNvwFJ4Rrq&_nc_oc=AdoXqpVkx1PXZq5LXavA7pTowseVgBdYcQ-PfuHoLgfYDLBUyJMLKsxSvSqxzlSXfbwqG0SlShRzZroq5QkuK1Sm&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=J7XFTubJPrJ0y6ykFUq5Mw&_nc_ss=7a22e&oh=00_AQEsQk_4XSPKuq_hHBSXiHVJECh5NduQ0LUBd0WFUsljXQ&oe=6A8480D1",
+   "url": "https://www.threads.com/@choi.openai/post/DcAo4_qjxHi",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "Artificial Analysis가 ‘우리 회사 업무에 맞는 AI 모델’을 직접 시험하는 맞춤형 벤치마크 플랫폼 Optima를 공개했습니다.\n\n계약서 검토와 금융 에이전트, 코딩처럼 정답이 하나로 정해지지 않는 업무의 데이터와 실행 기록을 넣으면, Optima가 실제 업무를 반영한 테스트 과제와 채점 기준을 만듭니다. 이후 최신 모델들을 같은 조건에서 돌려 성능뿐 아니라 작업당 비용과 완료 시간까지 함께 비교합니다.\n\n여기서 중요한 건 리더보드 1위를 고르는 게 아닙니다. 우리 업무의 합격선을 넘는 모델 가운데 가장 비용 효율적인 모델을 찾고, 새 모델이 나올 때마다 같은 평가를 반복해 교체 여부까지 판단할 수 있게 하는 것입니다.\n\n벤치마크가 모델 성능을 구경하는 표에서 실제 모델 선택과 운영을 위한 도구로 바뀌고 있습니다.",
-   "likes": 13,
-   "cmts": 2,
-   "time": 1786683599,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/773098680_1398783268884292_915947104042177375_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk2MzMxMTc0NTA1MjczMjk2MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=xT-MImi6lekQ7kNvwFOnmCY&_nc_oc=AdolDoXKtnaPxpBK9T8Fe6MYF_URUaRSSjf6g0p6bmrhEC2DcRVFaL9g50N2V-zn8ooHECafMsWB8v2y6yAv-M_v&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=u1pn3mFvvTjhk3tB9EmHkg&_nc_ss=7a22e&oh=00_AQHmKcaU7iVgcVelDZRyjVR1wTxa3BBBDplgeMXAe2n7RQ&oe=6A848C84",
-   "url": "https://www.threads.com/@choi.openai/post/DcAgwiaAG4h",
+   "text": "2/ 이번 발표에서 먼저 볼 점은 베이스 모델이 그대로라는 사실입니다.\nGLM-5.3은 GLM-5.2와 같은 743B 파라미터 모델을 기반으로, 사전학습을 새로 돌리지 않고 후속 학습만 추가했습니다.\n\n그런데도 Terminal-Bench 3.0 점수는 전작의 여섯 배 수준으로 뛰었고, 같은 답을 내는 데 쓰는 출력 토큰은 오히려 줄었습니다.\n\n사전학습은 막대한 칩과 데이터가 필요한 반면, 후속 학습은 상대적으로 적은 자원으로 모델의 추론과 행동 방식을 다듬을 수 있습니다.\n최신 칩 확보에 제약이 있는 중국 AI 기업들이 새 베이스 모델을 계속 만드는 대신, 기존 모델에서 성능을 더 끌어내는 쪽으로 움직이는 배경이기도 합니다.",
+   "likes": 1,
+   "cmts": 1,
+   "time": 1786687858,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DcAo4hgD7K9",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "1/ Z.ai가 8월 14일 GLM-5.3을 공개했습니다.\n\nGLM-5.3은 유료 구독 서비스인 GLM Coding Plan과 에이전트 도구 ZCode에서 바로 사용할 수 있습니다.\n\nAPI와 오픈웨이트는 아직 열리지 않았습니다. Z.ai는 안전 평가를 거쳐 순차적으로 공개할 예정이며, Hugging Face 저장소도 곧 올라온다고 밝혔습니다.\n\nGLM 시리즈를 만드는 베이징의 Z.ai는 옛 Zhipu AI가 이름을 바꾼 회사입니다.\n이번 버전에서 앞세운 것은 코딩·에이전트 성능과 사이버 보안 역량입니다.\n\nGLM-5.2를 자체 서버에 올려 데이터와 운영 통제권을 확보하려던 기업 수요가 있었던 만큼, GLM-5.3도 그 흐름을 이어가는 모델입니다.",
+   "likes": 2,
+   "cmts": 1,
+   "time": 1786687855,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DcAo4Duj4_k",
    "region": "kr"
   },
   {
@@ -358,18 +368,8 @@
    "likes": 0,
    "cmts": 1,
    "time": 1786678294,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/773662913_18079453967407306_4907557213334189130_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk2MzI2NzE3OTczNTkxMjA5Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=YwQMVcbiesoQ7kNvwG3g88B&_nc_oc=Adp4jqYQtZgE5rCmTQTjwtUFnsz1_J8dpbBvEHMaJEFwSDycJRer_RAwVK6GIzJE25A2iCEVva5Knr3O3gGRKziX&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=wkMPLV9QqV8A06chaAGHDQ&_nc_ss=7a22e&oh=00_AQFesgQwcq_ioaaFx3Bx_F1ZRSNnC08uhyn_wZxPKQT6XA&oe=6A84904F",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/773662913_18079453967407306_4907557213334189130_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk2MzI2NzE3OTczNTkxMjA5Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=YwQMVcbiesoQ7kNvwG3g88B&_nc_oc=Adp4jqYQtZgE5rCmTQTjwtUFnsz1_J8dpbBvEHMaJEFwSDycJRer_RAwVK6GIzJE25A2iCEVva5Knr3O3gGRKziX&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=XH8vhds73qIxDwWj7PXWpw&_nc_ss=7a22e&oh=00_AQEhBySPqZbIyEWh584NA-Nwc5PZt_HLURBYHCyI_IbGIA&oe=6A84904F",
    "url": "https://www.threads.com/@aipeekme/post/DcAWoBuH46h",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "베타 테스트 :\nhttps://github.com/NousResearch/Hermes-Bot-Mode",
-   "likes": 6,
-   "cmts": 0,
-   "time": 1786678233,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DcAWhi4jWYt",
    "region": "kr"
   },
   {
@@ -378,7 +378,7 @@
    "likes": 0,
    "cmts": 0,
    "time": 1786669206,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/770919272_1607066491010864_3053117070973738233_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk2MzE5MDgwODQwNTE5Mjc0MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=I_XY8mjKZPkQ7kNvwFhImV_&_nc_oc=AdpMBhO-Erv6JxNWeQGvzGTu8A-kg49FwFNmIvRiE55IInKM3CVufptg31x10dY_PcXJh-wA8AneoT6BqDZn3TdH&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=wkMPLV9QqV8A06chaAGHDQ&_nc_ss=7a22e&oh=00_AQEAS5TBZ1T5QSXeQ5fa6XfFwP8IoKLuOUokuwuE1z3bDA&oe=6A847B77",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/770919272_1607066491010864_3053117070973738233_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk2MzE5MDgwODQwNTE5Mjc0MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=I_XY8mjKZPkQ7kNvwFhImV_&_nc_oc=AdpMBhO-Erv6JxNWeQGvzGTu8A-kg49FwFNmIvRiE55IInKM3CVufptg31x10dY_PcXJh-wA8AneoT6BqDZn3TdH&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=XH8vhds73qIxDwWj7PXWpw&_nc_ss=7a22e&oh=00_AQFO8FYXs2XDa_QXVYwS3TASGcFVO4jMODOExh3K4xvhyg&oe=6A847B77",
    "url": "https://www.threads.com/@aipeekme/post/DcAFQrYFbAk",
    "region": "kr"
   },
@@ -388,18 +388,18 @@
    "likes": 15,
    "cmts": 4,
    "time": 1786665527,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/774401213_1771628887365881_7874096656449986247_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk2MzE1Njc1MDk0OTU2NTA5Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Dnn8thhBSJ0Q7kNvwFEV2wB&_nc_oc=AdrrZEQlgKEwDxyzXPiabdm2zjMghwXn4-xAjf_7dw2yh78dFaerv02UzBRLpQkJ3Hpxw-HREiY9yfWrAa-M3Xeq&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=gCNCZIsoPDp1zYz6wb05OQ&_nc_ss=7a22e&oh=00_AQElfuvaNCsgRH1hcH5kQboXZL1-8DRXkXXhRP-rlwUX2g&oe=6A8465BB",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/774401213_1771628887365881_7874096656449986247_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk2MzE1Njc1MDk0OTU2NTA5Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Dnn8thhBSJ0Q7kNvwFEV2wB&_nc_oc=AdrrZEQlgKEwDxyzXPiabdm2zjMghwXn4-xAjf_7dw2yh78dFaerv02UzBRLpQkJ3Hpxw-HREiY9yfWrAa-M3Xeq&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=3VVN4rXXhDZlbXv66T_bTQ&_nc_ss=7a22e&oh=00_AQHrb-tkFIEaMLz60SGL2xI90mWWMDyPJRx4Il4eleXSsw&oe=6A849DFB",
    "url": "https://www.threads.com/@aicoffeechat/post/Db_9hE5ikKl",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "Hermes의 대응 속도가 정말 빠르네요.\n\n어제 Grok이 여러 개의 전문 Bot을 만들어 서로 협업시키는 기능을 공개했는데, Hermes Agent도 바로 비슷한 방식의 Bot Mode를 공개 베타로 내놨습니다.\n\nHermes Bot Mode는 프로필마다 이름, 아바타, 전용 채팅, 기억, 스킬을 붙이고, 정기 업무와 봇 간 메시지까지 지원합니다. 리서치 봇이 찾은 내용을 코딩 봇에게 넘기고, 각 봇이 아침마다 자기 업무를 보고하는 식입니다.\n\n하루 동안 피드백을 받은 뒤 Hermes Desktop에 기본 기능으로 넣을 예정이라고 합니다.\n\nAI 에이전트 쪽은 이제 좋은 기능이 나오면 따라가는 속도도 정말 빨라지고 있습니다.",
-   "likes": 53,
-   "cmts": 3,
-   "time": 1786678224,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/764845218_17982044757112832_8474278898830277051_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk2MzI2NjY1MzAxNDA1NzkwNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuOTAwLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=wijl995dnPYQ7kNvwFNTnLg&_nc_oc=AdpWGI1AfRRhCXv_8fSv4GXX62OcrPEiRQPwx9PrYYN3PnrjmIGDeCxYL8mzgOAmRqOitBdgYv_AVH2gxYLkkKBt&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=u1pn3mFvvTjhk3tB9EmHkg&_nc_ss=7a22e&oh=00_AQGE7FvYGOQ0En-7ZCV_mujBcsTnh9ESL1c6SfFM9FmHQQ&oe=6A847557",
-   "url": "https://www.threads.com/@choi.openai/post/DcAWgf-DZpI",
+   "text": "🚨 속보) Z.ai가 GLM-5.3을 공개했습니다.\n\nGLM-5.2와 같은 743B 기반 모델에 후속 학습을 더해 코딩과 에이전트, 사이버 성능을 끌어올렸습니다. Z.ai는 오픈 모델 비교 9개 벤치마크 중 8개에서 1위를 기록했다고 밝혔습니다.\n\nGLM Coding Plan과 ZCode에서는 바로 사용할 수 있고, API와 오픈웨이트는 안전 평가를 거쳐 순차적으로 공개될 예정입니다.\n\n일부 벤치마크에서 Fable 5에 근접한 성능을 보인 GLM-5.3을 중국 오픈웨이트 경쟁의 흐름 속에서 정리했습니다. 🧵",
+   "likes": 18,
+   "cmts": 12,
+   "time": 1786687850,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/772726119_17982084063112832_3495264679524249276_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk2MzM0NzQwNDY0ODg0NzEwNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=uv7eyB99CRYQ7kNvwE2tNDG&_nc_oc=Adps6mdzcwiMXJTUJRyRhM8YvtL1b-xCL4UBSHsKvbgaXkkWhUEqf_leQSw497wH8wZvCgwVhv99-kmbgAoU7VLu&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=J7XFTubJPrJ0y6ykFUq5Mw&_nc_ss=7a22e&oh=00_AQGVDktWG1oKtCM-R5zXEYpoepPRJnLXgoOZB2zPUsLBiw&oe=6A849897",
+   "url": "https://www.threads.com/@choi.openai/post/DcAo3c_j5cC",
    "region": "kr"
   },
   {
@@ -414,12 +414,12 @@
   },
   {
    "account": "choi.openai",
-   "text": "관련내용 :\nhttps://learn.chatgpt.com/docs/customization/computer-history",
+   "text": "내용 :\nhttps://artificialanalysis.ai/optima",
    "likes": 3,
    "cmts": 0,
-   "time": 1786672810,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/773519993_994897206909817_1498523225086383431_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk2MzIyMTI0MTM1MTgyNDA1OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=T3ie2iHslZsQ7kNvwFUYP36&_nc_oc=AdrsuD3-nmMSbOuQPlHOWcpakJEFbhFSMpd06dVUkSHw2cvYEG_XUsV8hbh7Yzq5DhMvnfeYwB7ytbycQqO-RyM-&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=u1pn3mFvvTjhk3tB9EmHkg&_nc_ss=7a22e&oh=00_AQH4JeE0HBzHVv5TRkjCOVuWd2LDVeWWn0xY32gGiiTsBQ&oe=6A849A69",
-   "url": "https://www.threads.com/@choi.openai/post/DcAMLiRDuK6",
+   "time": 1786683608,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DcAgxojABj_",
    "region": "kr"
   },
   {
@@ -428,18 +428,18 @@
    "likes": 12,
    "cmts": 2,
    "time": 1786669044,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/774795811_18079412540407306_3068780906395133236_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk2MzE4OTU3OTE3Mjc4MDQ0Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=VDeodCxamA0Q7kNvwEHGS2S&_nc_oc=Ado01pxWnuGZ278dbfw5Z2UbcUMIXklzi5lqbTBGGl0nkPzBFuuzy5zKp8lGMIR2HDqYCSxBuvJIrYgU5CPm7iPc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=wkMPLV9QqV8A06chaAGHDQ&_nc_ss=7a22e&oh=00_AQGV3ygst1o-3R5A5hk7VhWd6xoRPDtU9vU8sh4PZIJNkA&oe=6A848C78",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/774795811_18079412540407306_3068780906395133236_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk2MzE4OTU3OTE3Mjc4MDQ0Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=VDeodCxamA0Q7kNvwEHGS2S&_nc_oc=Ado01pxWnuGZ278dbfw5Z2UbcUMIXklzi5lqbTBGGl0nkPzBFuuzy5zKp8lGMIR2HDqYCSxBuvJIrYgU5CPm7iPc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=XH8vhds73qIxDwWj7PXWpw&_nc_ss=7a22e&oh=00_AQEzSoO1gXzb9-UstcCxRvfv2KmecAbxRach9kiS34nOeg&oe=6A848C78",
    "url": "https://www.threads.com/@aipeekme/post/DcAE-ykH5ma",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "오픈AI가 ChatGPT의 새로운 기능 ‘Computer History’를 공개했습니다.\n\n사용자가 허용한 앱과 웹사이트에서 클릭, 입력, 앱 전환 같은 상호작용을 모아 타임라인과 메모리로 남깁니다. 그래서 “아까 작업 이어서 해줘”라고 하면 관련 문서와 대화를 찾아 맥락을 복원하고, 반복 업무는 스킬이나 자동화로 제안합니다.\n\n이전 Chronicle의 화면 캡처 방식에서 상호작용 이벤트 중심으로 바뀐 점도 큽니다. 사용자가 앱별 수집 범위를 정하고 일시정지하거나 기록을 삭제할 수 있어, ChatGPT가 대화 도구에서 작업 맥락을 이어가는 비서로 이동하는 기능입니다.",
-   "likes": 79,
-   "cmts": 5,
-   "time": 1786672801,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/774744585_1084711757844469_718298324965424094_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk2MzIyMTE2NTU2MDc1NzM5OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Bt0E2Zo0shgQ7kNvwFPSVGj&_nc_oc=Adrd-Gij_MIo5glnw4AJQZNvnXNaQOXGUVenlKjEi2RHsNVeaI0QU0cTOTHwCe_eOHgVuM254tEOR0a4HHuvHyEU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=u1pn3mFvvTjhk3tB9EmHkg&_nc_ss=7a22e&oh=00_AQFEeYzLHuTjWr9HIAGk1LO8QCgzvYEELIidnP_09NF4Ww&oe=6A8496BE",
-   "url": "https://www.threads.com/@choi.openai/post/DcAMKbrjvyX",
+   "text": "Artificial Analysis가 ‘우리 회사 업무에 맞는 AI 모델’을 직접 시험하는 맞춤형 벤치마크 플랫폼 Optima를 공개했습니다.\n\n계약서 검토와 금융 에이전트, 코딩처럼 정답이 하나로 정해지지 않는 업무의 데이터와 실행 기록을 넣으면, Optima가 실제 업무를 반영한 테스트 과제와 채점 기준을 만듭니다. 이후 최신 모델들을 같은 조건에서 돌려 성능뿐 아니라 작업당 비용과 완료 시간까지 함께 비교합니다.\n\n여기서 중요한 건 리더보드 1위를 고르는 게 아닙니다. 우리 업무의 합격선을 넘는 모델 가운데 가장 비용 효율적인 모델을 찾고, 새 모델이 나올 때마다 같은 평가를 반복해 교체 여부까지 판단할 수 있게 하는 것입니다.\n\n벤치마크가 모델 성능을 구경하는 표에서 실제 모델 선택과 운영을 위한 도구로 바뀌고 있습니다.",
+   "likes": 16,
+   "cmts": 2,
+   "time": 1786683599,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/773098680_1398783268884292_915947104042177375_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk2MzMxMTc0NTA1MjczMjk2MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=xT-MImi6lekQ7kNvwFOnmCY&_nc_oc=AdolDoXKtnaPxpBK9T8Fe6MYF_URUaRSSjf6g0p6bmrhEC2DcRVFaL9g50N2V-zn8ooHECafMsWB8v2y6yAv-M_v&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=J7XFTubJPrJ0y6ykFUq5Mw&_nc_ss=7a22e&oh=00_AQEbcScVoUMfJfNC9WHvHt-LvHiXVaWVXW1jeIlrgK_7WQ&oe=6A848C84",
+   "url": "https://www.threads.com/@choi.openai/post/DcAgwiaAG4h",
    "region": "kr"
   },
   {
@@ -448,28 +448,48 @@
    "likes": 1,
    "cmts": 0,
    "time": 1786668751,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/774283364_1889231565384700_4304382491734052369_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk2MzE4Njk5ODEzOTk4NjQ1MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=_fykNrEDbn4Q7kNvwFXDu1D&_nc_oc=AdrhpKGLg4HyEGcO4zR3IaXmz2SDLeuIPa6SDnYlTgzeX1KXDSfhJ4xb9jlvWT-hg69fQ9JK_0e6oGp3gfunQa6p&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=wkMPLV9QqV8A06chaAGHDQ&_nc_ss=7a22e&oh=00_AQFex0CulvT_mhZfg_k4rBi8BAVC-pzD2SNe3fwPclzgMg&oe=6A8478DA",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/774283364_1889231565384700_4304382491734052369_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk2MzE4Njk5ODEzOTk4NjQ1MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=_fykNrEDbn4Q7kNvwFXDu1D&_nc_oc=AdrhpKGLg4HyEGcO4zR3IaXmz2SDLeuIPa6SDnYlTgzeX1KXDSfhJ4xb9jlvWT-hg69fQ9JK_0e6oGp3gfunQa6p&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=XH8vhds73qIxDwWj7PXWpw&_nc_ss=7a22e&oh=00_AQHX8vQcohWPuJfWMac2Ih-4S2HHnmSUuwLgmQorkrkiKg&oe=6A8478DA",
    "url": "https://www.threads.com/@aipeekme/post/DcAEZOylKIS",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "발표내용 :\nhttps://openai.com/index/previewing-ultrafast/",
+   "text": "베타 테스트 :\nhttps://github.com/NousResearch/Hermes-Bot-Mode",
    "likes": 6,
    "cmts": 0,
-   "time": 1786667410,
+   "time": 1786678233,
    "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DcAB4bTEhYX",
+   "url": "https://www.threads.com/@choi.openai/post/DcAWhi4jWYt",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "오픈AI가 GPT-5.6 Sol의 초고속 모드 ‘Ultrafast’가 실제로 작동하는 영상을 공개했습니다.\n\n같은 프롬프트로 3D 창고 시뮬레이터를 만드는 과정을 일반 처리와 나란히 보여줬는데, Ultrafast는 Cerebras와 함께 Sol을 최대 14배 빠르게 돌리는 API 선공개 서비스입니다. 오픈AI 설명으로는 최대 초당 750토큰을 출력합니다.\n\n아직 일부 고객 대상 미리보기지만, 음성 상담, 코딩, 금융 리서치처럼 답변을 기다리는 시간이 곧 비용인 업무에서 프런티어 모델의 속도 자체가 제품 경쟁력이 되는 흐름입니다.",
-   "likes": 46,
-   "cmts": 4,
-   "time": 1786667400,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/773631567_1463291869153628_2834274296862383806_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk2MzE3NTg2MjUwNTk4NjExNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=vLxbQ-rFlh8Q7kNvwE1B9ft&_nc_oc=Adqqi06QDtW87hyq9F0DDCCCczOEAaV2zq3ngrq7AWGA1NA2Q35qfVtEoV4i5vEG0P8lJZQPWIZx8szp7uDR3gf1&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=u1pn3mFvvTjhk3tB9EmHkg&_nc_ss=7a22e&oh=00_AQG_5_lCefMGfel9XRLfL1CoBh2E92h1oSddxbqrkrQ58w&oe=6A847665",
-   "url": "https://www.threads.com/@choi.openai/post/DcAB3L7ElhC",
+   "text": "Hermes의 대응 속도가 정말 빠르네요.\n\n어제 Grok이 여러 개의 전문 Bot을 만들어 서로 협업시키는 기능을 공개했는데, Hermes Agent도 바로 비슷한 방식의 Bot Mode를 공개 베타로 내놨습니다.\n\nHermes Bot Mode는 프로필마다 이름, 아바타, 전용 채팅, 기억, 스킬을 붙이고, 정기 업무와 봇 간 메시지까지 지원합니다. 리서치 봇이 찾은 내용을 코딩 봇에게 넘기고, 각 봇이 아침마다 자기 업무를 보고하는 식입니다.\n\n하루 동안 피드백을 받은 뒤 Hermes Desktop에 기본 기능으로 넣을 예정이라고 합니다.\n\nAI 에이전트 쪽은 이제 좋은 기능이 나오면 따라가는 속도도 정말 빨라지고 있습니다.",
+   "likes": 58,
+   "cmts": 3,
+   "time": 1786678224,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/764845218_17982044757112832_8474278898830277051_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk2MzI2NjY1MzAxNDA1NzkwNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuOTAwLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=wijl995dnPYQ7kNvwFNTnLg&_nc_oc=AdpWGI1AfRRhCXv_8fSv4GXX62OcrPEiRQPwx9PrYYN3PnrjmIGDeCxYL8mzgOAmRqOitBdgYv_AVH2gxYLkkKBt&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=J7XFTubJPrJ0y6ykFUq5Mw&_nc_ss=7a22e&oh=00_AQEoY0F7tbIMk3DF0DdGVNomRch6oIA9oe0flllqIFz6AA&oe=6A847557",
+   "url": "https://www.threads.com/@choi.openai/post/DcAWgf-DZpI",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "관련내용 :\nhttps://learn.chatgpt.com/docs/customization/computer-history",
+   "likes": 3,
+   "cmts": 0,
+   "time": 1786672810,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/773519993_994897206909817_1498523225086383431_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk2MzIyMTI0MTM1MTgyNDA1OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=T3ie2iHslZsQ7kNvwFUYP36&_nc_oc=AdrsuD3-nmMSbOuQPlHOWcpakJEFbhFSMpd06dVUkSHw2cvYEG_XUsV8hbh7Yzq5DhMvnfeYwB7ytbycQqO-RyM-&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=J7XFTubJPrJ0y6ykFUq5Mw&_nc_ss=7a22e&oh=00_AQFjqG6I4s2gFdfCSG-CrqRQ570QV9DqhWqyyTq_pa-_sg&oe=6A849A69",
+   "url": "https://www.threads.com/@choi.openai/post/DcAMLiRDuK6",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "오픈AI가 ChatGPT의 새로운 기능 ‘Computer History’를 공개했습니다.\n\n사용자가 허용한 앱과 웹사이트에서 클릭, 입력, 앱 전환 같은 상호작용을 모아 타임라인과 메모리로 남깁니다. 그래서 “아까 작업 이어서 해줘”라고 하면 관련 문서와 대화를 찾아 맥락을 복원하고, 반복 업무는 스킬이나 자동화로 제안합니다.\n\n이전 Chronicle의 화면 캡처 방식에서 상호작용 이벤트 중심으로 바뀐 점도 큽니다. 사용자가 앱별 수집 범위를 정하고 일시정지하거나 기록을 삭제할 수 있어, ChatGPT가 대화 도구에서 작업 맥락을 이어가는 비서로 이동하는 기능입니다.",
+   "likes": 83,
+   "cmts": 5,
+   "time": 1786672801,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/774744585_1084711757844469_718298324965424094_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk2MzIyMTE2NTU2MDc1NzM5OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Bt0E2Zo0shgQ7kNvwFPSVGj&_nc_oc=Adrd-Gij_MIo5glnw4AJQZNvnXNaQOXGUVenlKjEi2RHsNVeaI0QU0cTOTHwCe_eOHgVuM254tEOR0a4HHuvHyEU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=J7XFTubJPrJ0y6ykFUq5Mw&_nc_ss=7a22e&oh=00_AQFdxufaIqX-FW65opXQyHAO8l2NTcqToRQCBdUnJY2UxQ&oe=6A8496BE",
+   "url": "https://www.threads.com/@choi.openai/post/DcAMKbrjvyX",
    "region": "kr"
   }
  ],
@@ -483,6 +503,15 @@
    "thumb": "",
    "time": 1786632288,
    "url": "https://www.reddit.com/r/Millennials/comments/1vncpvs/did_millennials_really_party_all_the_time/"
+  },
+  {
+   "sub": "GetNoted",
+   "title": "[X] You Can't Expect the Party to Defend You After Incessantly Attacking Them",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/h0zvq53047jh1.png?width=320&crop=smart&auto=webp&s=c3f392ca7f56a87f96128bd01604fa18340f68a3",
+   "time": 1786650093,
+   "url": "https://www.reddit.com/r/GetNoted/comments/1vnl31c/x_you_cant_expect_the_party_to_defend_you_after/"
   },
   {
    "sub": "mildlyinfuriating",
@@ -512,24 +541,6 @@
    "url": "https://www.reddit.com/r/interestingasfuck/comments/1vnx034/meet_luna_a_rare_leucistic_lioness_whose/"
   },
   {
-   "sub": "GirlDinnerDiaries",
-   "title": "Found out why my boyfriend has been “helping his sister”",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/ce54etu3z8jh1.jpeg?width=640&crop=smart&auto=webp&s=c163c9f56c8a88b759c9bd82be83dc46e6c822cd",
-   "time": 1786672821,
-   "url": "https://www.reddit.com/r/GirlDinnerDiaries/comments/1vnu7i5/found_out_why_my_boyfriend_has_been_helping_his/"
-  },
-  {
-   "sub": "GetNoted",
-   "title": "[X] You Can't Expect the Party to Defend You After Incessantly Attacking Them",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/h0zvq53047jh1.png?width=320&crop=smart&auto=webp&s=c3f392ca7f56a87f96128bd01604fa18340f68a3",
-   "time": 1786650093,
-   "url": "https://www.reddit.com/r/GetNoted/comments/1vnl31c/x_you_cant_expect_the_party_to_defend_you_after/"
-  },
-  {
    "sub": "mildlyinfuriating",
    "title": "I’ve used half a bottle of ant bait and they just won’t stop coming",
    "score": 0,
@@ -548,15 +559,6 @@
    "url": "https://www.reddit.com/r/bald/comments/1vn9jqg/took_the_leap_feeling_unsure/"
   },
   {
-   "sub": "PoursTea",
-   "title": "This is better than any “I did that” sticker I have ever seen ….this was in Georgia earlier today on my way driving up north",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/ncsjpenkx8jh1.jpeg?width=640&crop=smart&auto=webp&s=794ca417f1db0aa4affe1756ce66e8de5f0dba02",
-   "time": 1786672139,
-   "url": "https://www.reddit.com/r/PoursTea/comments/1vntyrn/this_is_better_than_any_i_did_that_sticker_i_have/"
-  },
-  {
    "sub": "TopCharacterTropes",
    "title": "[Weird Trope] There’s a clear moral to the story, it’s just objectively toxic/bad.",
    "score": 0,
@@ -566,22 +568,40 @@
    "url": "https://www.reddit.com/r/TopCharacterTropes/comments/1vnda8l/weird_trope_theres_a_clear_moral_to_the_story_its/"
   },
   {
-   "sub": "okbuddycinephile",
-   "title": "What’s the greatest dad finding a way to abandon his family scene in movie history?",
+   "sub": "GirlDinnerDiaries",
+   "title": "Found out why my boyfriend has been “helping his sister”",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/puefi018g8jh1.gif?width=320&crop=smart&s=60b797b6a72e19546bbe46187b0ee27caa879cb3",
-   "time": 1786666305,
-   "url": "https://www.reddit.com/r/okbuddycinephile/comments/1vnrufi/whats_the_greatest_dad_finding_a_way_to_abandon/"
+   "thumb": "https://preview.redd.it/ce54etu3z8jh1.jpeg?width=640&crop=smart&auto=webp&s=c163c9f56c8a88b759c9bd82be83dc46e6c822cd",
+   "time": 1786672821,
+   "url": "https://www.reddit.com/r/GirlDinnerDiaries/comments/1vnu7i5/found_out_why_my_boyfriend_has_been_helping_his/"
   },
   {
-   "sub": "blackcats",
-   "title": "This little guy followed me home",
+   "sub": "DunderMifflin",
+   "title": "Is Erin hot?",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/ltkye0o208jh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=55b9ef0b79ada070fab6b31d245739cfb532a308",
-   "time": 1786660874,
-   "url": "https://www.reddit.com/r/blackcats/comments/1vnpqny/this_little_guy_followed_me_home/"
+   "thumb": "https://preview.redd.it/7d88apd9p7jh1.jpeg?width=320&crop=smart&auto=webp&s=abc2cdfe42c0ec187860a721313b7bbaedaa859e",
+   "time": 1786657239,
+   "url": "https://www.reddit.com/r/DunderMifflin/comments/1vno85f/is_erin_hot/"
+  },
+  {
+   "sub": "AskReddit",
+   "title": "What's the sickest you've ever been in your life?",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1786669265,
+   "url": "https://www.reddit.com/r/AskReddit/comments/1vnsxj5/whats_the_sickest_youve_ever_been_in_your_life/"
+  },
+  {
+   "sub": "news",
+   "title": "USS George Washington headed to Middle East to relieve USS Abraham Lincoln, reports say",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1786641417,
+   "url": "https://www.reddit.com/r/news/comments/1vngz65/uss_george_washington_headed_to_middle_east_to/"
   }
  ],
  "disaster": [],
@@ -628,10 +648,10 @@
    }
   },
   "landing": {
-   "at": "2026-08-14T14:32:02",
+   "at": "2026-08-14T15:01:30",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-14T15:01:27.696479+09:00"
+ "updated": "2026-08-14T15:31:25.129372+09:00"
 }
