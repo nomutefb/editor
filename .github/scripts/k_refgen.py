@@ -4,6 +4,10 @@
 
   k_refgen.py <prompt.md> <out_dir>
   env REFGEN_PREFIX(R2 키 접두 · 기본 k_out) · REFGEN_ASPECT(생성 비율 · 기본 16:9)
+      REFGEN_SHEET=0(다각도 시트 승격 끄기 = 전부 낱장 = 260814 이전 동작)
+
+⚠ 이 파일은 **k 레인과 콘티 레인 공용**이다 — 260814 다각도 시트 승격은 두 레인에 같이 걸린다
+  (라벨에 「인물」·「제품」·「주요 장소」가 있을 때만 발동 · 끄는 값 = REFGEN_SHEET=0).
 
 레인 2개 공용(260730 — 콘티 레인 재사용 · 스크립트 복제 0):
   · k  레인 = k_out/<id>/prompt.md  · 기본값 그대로(16:9 · k_out)
@@ -78,10 +82,38 @@ _KIND_RE = (
 )
 
 
+_FENCE = re.compile(r'```[^\n]*\n(.*?)\n```', re.S)
+
+
+def ref_pairs(md):
+    """참조 절을 **순서대로 훑어** (라벨, 블록) 짝을 만든다.
+
+    ⚠ 구판은 라벨과 블록을 **각자 findall** 해서 같은 인덱스로 짝지었다 — 블록 없는 라벨 평문이
+      한 줄만 있어도(지침이 허용한다) 뒤 짝이 통째로 한 칸 밀려 **여자 인물 블록에 「배경」 라벨**이
+      붙는다(평의회 260814 실측). 그러면 그 사람은 다각도 시트로 안 구워지고 밤 필터에 걸려
+      편에서 빠진다. 짝은 **바로 다음 블록**에만 붙인다.
+    ⚠ 절이 없으면 빈 목록이다 — 구판은 문서 전체를 뒤져 컷 본문의 각주를 유령 라벨로 물었다.
+    """
+    m = re.search(r'##\s*🖼\s*레퍼런스\s*\n(.*?)(?=\n##\s|\Z)', md, re.S)
+    if not m:
+        return []
+    sec, out, lab = m.group(1), [], ""
+    pos = 0
+    for f in _FENCE.finditer(sec):
+        head = sec[pos:f.start()]
+        got = _REF_LABEL.findall(head)
+        lab = got[-1].strip() if got else ""      # 블록 **직전** 라벨만이 그 블록의 이름이다
+        if len(got) > 1:
+            print("::warning::참조 절에 블록 없는 라벨이 있다({}) — 짝은 바로 앞 라벨로 붙인다".format(
+                " · ".join(x.strip() for x in got[:-1])))
+        out.append((lab, f.group(1).strip()))
+        pos = f.end()
+    return out[:7]
+
+
 def ref_labels(md):
     """참조 절 라벨을 블록과 **같은 순서**로 돌려준다(사본 0 = 슬롯 번호가 갈릴 여지 0)."""
-    sec = re.search(r'##\s*🖼\s*레퍼런스\s*\n(.*?)(?=\n##\s|\Z)', md, re.S)
-    return [x.strip() for x in _REF_LABEL.findall(sec.group(1) if sec else md)]
+    return [lab for lab, _ in ref_pairs(md)]
 
 
 def sheet_kind(label):
@@ -103,8 +135,7 @@ def extract_refs(md):
     sec = re.search(r'##\s*🖼\s*레퍼런스\s*\n(.*?)(?=\n##\s|\Z)', md, re.S)
     if not sec:
         return []
-    blocks = re.findall(r'```[^\n]*\n(.*?)\n```', sec.group(1), re.S)
-    out = [b.strip() for b in blocks if b.strip()]
+    out = [b for _, b in ref_pairs(md) if b]
     if len(out) > 7:
         print("::warning::레퍼런스 블록 {}개 > 7 — 초과분 절단(🔗 범례와 어긋날 수 있음 · 모델 계약 위반)".format(len(out)))
     return out[:7]
@@ -136,7 +167,7 @@ def main():
     labels = ref_labels(md)
     for i, ref in enumerate(refs, 1):
         lab = labels[i - 1] if i <= len(labels) else ""
-        kind = sheet_kind(lab)
+        kind = sheet_kind(lab) if os.environ.get("REFGEN_SHEET") != "0" else None
         if kind:
             # 다각도 시트 한 장(한 컷 금지) · 가로 3:2 · 2K
             png = tg.gemini_image(ref + TURN_SPECS[kind], TURN_SIZE, tag="kref", aspect=TURN_ASPECT)

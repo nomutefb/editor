@@ -131,9 +131,15 @@ def estimate(seconds, ratio=None):
 
 
 # ── 프롬프트 문법 훅 ─────────────────────────────────────────────────────────
-def ref_lock_clause(n):
-    """참조 잠금 절 — 그록 공식 문법(슬롯 지목은 0부터 센다)."""
-    tags = ", ".join("<IMAGE_{}>".format(i) for i in range(n))
+def ref_lock_clause(n, lock_idx=None):
+    """참조 잠금 절 — 그록 공식 문법(슬롯 지목은 0부터 센다).
+
+    ⚠ `lock_idx` = **잠글 슬롯 번호만**. 콘티 시트·스케치 판은 「그대로 유지하라」의 대상이 아니다 —
+      크림 바탕에 격자와 글자가 든 판을 setting 으로 유지하라고 말하면, 같은 프롬프트 안에서
+      「칸을 그리지 마라」와 정면으로 부딪친다. 이 레포 실측 원칙 = 모순 지시는 모델이 평균낸다
+      (`check_thumb_prompt_sanity` CAMERA 자기모순). 그래서 열거에서 아예 뺀다.
+    """
+    tags = ", ".join("<IMAGE_{}>".format(i) for i in (lock_idx if lock_idx is not None else range(n)))
     return "Keep the people, wardrobe, and setting identical to {}.".format(tags)
 
 

@@ -283,8 +283,14 @@ def main():
     if not url:
         # R2 가 없으면 레포에 남긴다(판마다 1장뿐이라 비대 위험이 작다 = k_refgen 폴백 관례)
         open(os.path.join(out_dir, key_nm), "wb").write(png)
+    # ⚠ 값은 **판마다 다른 칸**에 적는다 — 두 판이 같은 칸(kind)을 쓰면 뒤가 앞을 덮어 호출
+    #   두 번이 원장에는 한 번으로 남는다(평의회 260814 실측 = 화면 금액이 실제보다 작아진다).
+    # ⚠ 엔진과 무관하게 적는다 — GPT Image 로 성공하면 종량제 호출인데 원장이 0이었다(같은 병).
+    _kind = "sheet" if kind == "board" else kind
     if engine == "gemini":
-        sc.add(out_dir, "gemini", "sheet", 1, note="2K 단가 미확인 = 1K 단가로 센 하한")
+        sc.add(out_dir, "gemini", _kind, 1, note="2K 단가 미확인 = 1K 단가로 센 하한")
+    elif engine:
+        sc.add(out_dir, engine, _kind, 1, usd=0, note="단가 미확인 — 호출 수만 기록")
     # ⚠ 원장은 **판마다 한 칸씩 덮어쓴다** — 통째로 새로 쓰면 먼저 구운 판의 주소가 지워진다
     #   (스토리보드를 굽고 콘티를 구우면 스토리보드 주소가 사라지는 형태 = 조용한 유실).
     js = os.path.join(out_dir, "sheet.json")

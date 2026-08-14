@@ -5416,19 +5416,22 @@ def check_grok_sb_chain():
     # ⑥-b 콘티 시트도 참조 한 장(운영자 260814 「콘티시트를 왜 참조를 안해? 그것도 참조로 넣어」)
     #   ⚠ 이 축은 **빠져도 영상이 정상으로 나온다** — 편 사이 흐름만 조용히 흔들린다(운영자 눈이 유일한 검출기).
     #   ⚠ 시트는 그림 참조 상한(REF_CAP) **밖**이라야 한다 = 시트가 인물·장소 슬롯을 밀어내면 사고다.
-    for needle, why in (("def sheet_slot", "시트 참조 슬롯 파서"),
-                        ("SHEET_CLAUSE = ", "시트 정체 문장(설계도지 장면이 아니다 · 칸선·글자 금지)"),
-                        ("never draw panel borders", "칸선·글자를 화면에 옮겨 그리지 말라는 금지구"),
-                        ("slots.append(sheet)", "시트가 편마다 실린다")):
+    for needle, why in (("def sheet_slots", "시트 참조 슬롯 파서"),
+                        ("SHEET_CLAUSE = ", "시트 정체 문장(설계도지 장면이 아니다)"),
+                        ("CONTI_CLAUSE = ", "스케치 판 전용 정체 문장(스토리보드 문구 재사용 = 거짓 정체)"),
+                        ("live-action footage", "완성본은 실사라는 **긍정문** 고지(부정문 단독은 그 낱말을 오히려 심는다)"),
+                        ("slots.extend(sheets)", "설계 판이 편마다 실린다"),
+                        ("def cap_refs", "상한은 만든 장수가 아니라 한 편에 실리는 장수에 건다"),
+                        ("sheets = sheet_slots(out_dir)", "설계 판을 실제로 **부른다**(함수만 남기고 호출을 죽이면 조용히 0장)")):
         if not _has_exec_line(rn, needle):
             print("❌ 그록 콘티 레인 — grok_sb_video.py 에 {} 가 없다({})".format(why, needle)); rc = 1
-    _ss = rn.split("def sheet_slot", 1)[-1].split("\ndef ", 1)[0]
+    _ss = rn.split("def sheet_slots", 1)[-1].split("\ndef ", 1)[0]
     if _ss and "sheet.json" not in _ss:
         print("❌ 그록 콘티 레인 — 시트 참조가 sheet.json 을 안 읽는다(주소를 어디서 얻나)"); rc = 1
     if _ss and ('"bg": False' not in _ss or '"night": False' not in _ss):
         print("❌ 그록 콘티 레인 — 시트 슬롯이 시간대 필터를 탄다(밤 편에서 시트가 빠진다)"); rc = 1
     # 시트 합류는 ref_slots(그림 상한 컷) **뒤**여야 한다 — 앞이면 시트가 인물·장소를 밀어낸다
-    if rn.find("slots.append(sheet)") < rn.find("slots = ref_slots("):
+    if rn.find("slots.extend(sheets)") < rn.find("slots = ref_slots("):
         print("❌ 그록 콘티 레인 — 시트가 그림 참조보다 먼저 슬롯에 든다(인물·장소가 상한에 밀린다)"); rc = 1
 
     # ⑥-c 참조 판 = 견본 모방(운영자 260814 견본 다섯 장 실측 · 「잘 만든 걸 모티프로」 = 창작 금지)
@@ -5455,11 +5458,65 @@ def check_grok_sb_chain():
     if "연속성:" not in _t("prompts/sb-make.md"):
         print("❌ 그록 콘티 레인 — 감독 지침에 연속성 한 줄 계약이 없다(시트가 뼈대 없이 굽힌다)"); rc = 1
 
+    # ⑥-d 정본 함수 재판정(평의회 260814 5번 = 「문자열 실존만 보면 값 흐름만 끊어도 전건 통과」)
+    #   ⚠ 실측 우회 5종이 전부 rc=0 이었다 = 호출 무력화 · 킬스위치 극성 반전 · 슬롯 재절단 ·
+    #     bg 오염 · 생산자 키 개명. 다섯 다 화면·로그 증상 0이라 정적 문자열로는 구조적으로 못 잡는다.
+    #   → 이 레포 관례(`check_disaster_landmark_sign`·`check_thumb_prompt_sanity`)대로 **함수를 불러**
+    #     가짜 입력으로 조립한 결과의 술어를 본다(렌더·LLM·네트워크·발사 0 · 과금 0).
+    try:
+        import importlib, tempfile, sys as _sys
+        # ⚠ 캐시 무효화 — 같은 크기로 같은 초에 고친 파일은 옛 바이트코드가 그대로 읽힌다
+        #   (이 축 첫 실행에서 실제로 그 함정을 밟아 게이트가 옛 코드를 판정했다).
+        importlib.invalidate_caches()
+        _sp = os.path.join(ROOT, ".github", "scripts")
+        if _sp not in _sys.path:
+            _sys.path.insert(0, _sp)
+        os.environ.setdefault("SB_LANE", "seedance")
+        _kr = importlib.import_module("k_refgen")
+        _gv = importlib.import_module("grok_sb_video")
+        _sb = importlib.import_module("sb_sheet")
+    except Exception as e:  # noqa: BLE001
+        # ⚠ PASS 와 합치지 않는다 — 관측이 지워지면 다음 세션이 추측으로 메운다(이 레포 반복 교훈).
+        print("⏭ 그록 콘티 레인 ⑥-d 재판정 SKIP(모듈 적재 실패 = 환경 축): {}".format(str(e)[:120]))
+    else:
+        _panels = sum(w in _kr.TURN_SPECS.get("person", "") for w in ("FRONT", "SIDE", "FULL BODY", "EXPRESSION"))
+        if _panels < 4:
+            print("❌ 그록 콘티 레인 — 인물 시트가 낱장으로 회귀(칸 {}개 · 4면 미만)".format(_panels)); rc = 1
+        if not _kr.sheet_kind("인물") or _kr.sheet_kind("배경"):
+            print("❌ 그록 콘티 레인 — 라벨 판정이 뒤집혔다(인물이 낱장이거나 배경이 시트로 굽힌다)"); rc = 1
+        if [l for l, _ in _kr.ref_pairs("## 🖼 레퍼런스\n① 인물: 남\n```text\nman\n```\n② 배경: 카페\n③ 인물: 여\n```text\nwoman\n```\n")] != ["인물", "인물"]:
+            print("❌ 그록 콘티 레인 — 라벨↔블록 짝짓기가 밀린다(블록 없는 라벨 하나에 뒤가 통째로 밀림)"); rc = 1
+        _d = tempfile.mkdtemp()
+        # ⚠ with 로 닫는다 — 안 닫으면 버퍼가 안 비워져 바로 뒤 읽기가 빈 파일을 보고
+        #   게이트가 **무작위로 빨개진다**(이 게이트 첫 실행에서 실제로 그랬다 = 가짜 빨강 공장).
+        with open(os.path.join(_d, "sheet.json"), "w", encoding="utf-8") as _f:
+            json.dump({"url": "https://x/s.jpg", "conti": "https://x/c.jpg", "cuts": 9}, _f)
+        _got = _gv.sheet_slots(_d) or []
+        # ⚠ 가짜 파일만 읽으면 **생산자가 키를 개명해도** 게이트는 모른다(평의회 A5 실측 = rc=0).
+        #   그래서 굽는 쪽이 실제로 그 칸에 쓰는지 원문에서 같이 본다.
+        for _k in ('d["url"]', 'd[kind]'):
+            if _k not in ss:
+                print("❌ 그록 콘티 레인 — sb_sheet 가 {} 칸에 안 쓴다(읽는 쪽과 키가 갈렸다)".format(_k)); rc = 1
+        if len(_got) != 2:
+            print("❌ 그록 콘티 레인 — 설계 판이 {}장만 실린다(스토리보드·스케치 두 장이라야 한다)".format(len(_got))); rc = 1
+        elif any(x.get("bg") is not False or not x.get("sheet") for x in _got):
+            print("❌ 그록 콘티 레인 — 설계 판 슬롯이 배경 필터를 탄다(밤 편에서 빠진다)"); rc = 1
+        _cuts = [{"action": "A", "desc": "", "camera": "C", "motion": "M", "sec": 2, "dialogue": ""} for _ in range(9)]
+        _b, _c = _sb.sheet_prompt("# t\n", _cuts), _sb.conti_prompt("# t\n", _cuts)
+        _gb, _gc = re.search(r"grid (\d+)x(\d+)", _b, re.I), re.search(r"[Gg]rid (\d+)x(\d+)", _c)
+        if not _gb or not _gc or _gb.groups() != _gc.groups():
+            print("❌ 그록 콘티 레인 — 스케치 판 격자가 스토리보드와 안 맞는다(칸 순서가 어긋난다)"); rc = 1
+        if "NO color" not in _c or "pencil" not in _c.lower():
+            print("❌ 그록 콘티 레인 — 스케치 판이 채색 그림으로 회귀(연필선 계약 소실)"); rc = 1
+        if "TIME:" not in _b:
+            print("❌ 그록 콘티 레인 — 스토리보드 칸에 시각이 안 찍힌다(견본 실측 축)"); rc = 1
+
     # ⑦ 값 원장 = 벤더 세 곳이 각자 적고 화면이 합쳐 읽는다(한 곳만 빠져도 금액이 조용히 작아진다)
     for path, needle, why in (
             (".github/scripts/sb_cost.py", "def add", "값 원장 정본"),
             (".github/scripts/grok_sb_video.py", "sc.add(out_dir, LANE.NAME", "영상 값 적재(통로 이름)"),
-            (".github/scripts/sb_sheet.py", 'sc.add(out_dir, "gemini", "sheet"', "시트 값 적재"),
+            # ⚠ 칸 이름은 판마다 갈린다(board=sheet · conti=conti) → 변수 경유가 정본이라 호출만 본다
+            (".github/scripts/sb_sheet.py", "sc.add(out_dir, engine, _kind", "시트 값 적재(엔진 무관)"),
             (".github/scripts/k_refgen.py", '"gemini", "ref"', "참조 그림 값 적재"),
             ("viewer/sb.html", "cost.json", "화면이 원장을 읽는다"),
             ("viewer/sb.html", 'id="sndTg"', "소리 스위치(서버·러너는 받는데 화면에만 없던 축)"),

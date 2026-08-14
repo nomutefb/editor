@@ -608,8 +608,15 @@ def fetch(url):
                         .format(str(e)[:160]), retryable=False) from None
 
 
-def ref_lock_clause(n):
-    """참조 잠금 절. ⚠ 시댄스가 그록의 슬롯 지목 문법을 받는지 **미확인** — 지목 없이 뜻만 쓴다."""
+def ref_lock_clause(n, lock_idx=None):
+    """참조 잠금 절. ⚠ 시댄스가 그록의 슬롯 지목 문법을 받는지 **미확인** — 지목 없이 뜻만 쓴다.
+
+    ⚠ 지목을 못 하므로 「전 참조를 유지하라」가 되는데, 참조에 콘티 시트가 섞이면 그 판까지
+      유지 대상이 된다(그록은 번호로 뺄 수 있지만 여기선 못 뺀다) → **역할 이름으로 좁힌다**.
+    """
+    if lock_idx is not None and len(lock_idx) < n:
+        return ("Keep the people, wardrobe, and setting identical to the character and "
+                "location reference images.")
     return "Keep the people, wardrobe, and setting identical to the reference images."
 
 

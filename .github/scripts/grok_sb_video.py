@@ -231,10 +231,10 @@ def refs_of(out_dir):
 # 참조 슬롯 라벨 파서 = `k_refgen.ref_labels` 단일정본(사본 0 — 여기서 또 적으면 슬롯 번호가 갈린다)
 # 다각도 시트 슬롯 정체 문장 꼬리 = 「이건 시트지 장면이 아니다」(운영자 260814 다각도 계약의 짝)
 #   대상 = 사람·제품·주요 장소 시트(= `k_refgen.sheet_kind` 가 굽는 것 전부).
-SHEET_NOTE = ("a multi-angle reference sheet of that subject, not a scene "
-              "— never draw its panels or labels into the video")
+SHEET_NOTE = ("a multi-angle identity reference for that subject only; in the video the subject "
+              "appears once, filmed live inside the scene")
 # 밤 축 어휘 — 시간대가 갈리는 자리(콘티 라벨·참조 문장 어느 쪽에 적혀도 잡는다)
-_NIGHT = re.compile(r"night|nocturnal|after\s*dark|밤|야간|야경|심야", re.I)
+_NIGHT = re.compile(r"(?<![a-z])night(?![a-z])|nocturnal|after\s*dark|(?<![가-힣])밤(?![가-힣])|야간|야경|심야", re.I)   # ⚠ 경계가 없으면 Knightsbridge·knight·밤색·군밤이 전부 밤으로 읽힌다
 
 
 # 콘티 머리의 `비율: 16:9` 한 줄 — 감독이 선언하는 화면 규격
@@ -286,20 +286,30 @@ def ref_slots(md, out_dir):
         lab = labels[i].strip() if i < len(labels) else ""
         blk = blocks[i] if i < len(blocks) else ""
         out.append({"url": u, "label": lab, "block": blk,
-                    "night": is_night(lab) or is_night(blk),
+                    # ⚠ 라벨만 본다 — 블록 산문에 밤 낱말이 스치기만 해도 낮 배경이 밤으로 분류돼
+                    #   편마다 시간대가 뒤집혔다(평의회 260814 실측). 시간대는 콘티가 라벨에 적는다.
+                    "night": is_night(lab),
                     "bg": ("배경" in lab or "장소" in lab),
                     # 사람·제품·주요 장소 참조는 낱장 사진이 아니라 **다각도 시트**다(k_refgen TURN_SPECS)
                     # → 정체 문장이 「이건 시트지 장면이 아니다」를 같이 말해야 칸이 화면으로 안 샌다.
                     "idnote": SHEET_NOTE if kr.sheet_kind(lab) else ""})
-    return out[:REF_CAP]
+    # ⚠ 여기서 자르지 않는다 — 상한은 「만든 장수」가 아니라 **한 편에 실리는 장수**다.
+    #   구판은 앞에서부터 REF_CAP 으로 잘라, 밤·낮 배경 두 장을 만든 판에서 밤 배경이 통째로
+    #   사라지고(260812 해질녘 사고 재현) 원장 사유는 「정상」이라고 적혀 있었다(평의회 260814 재현).
+    #   시간대 배경은 pick_refs 가 편마다 한 장으로 줄이므로, 자르는 자리는 그 뒤다(cap_refs).
+    return out
 
 
 # 콘티 시트 정체 문장 — 「이건 설계도지 장면이 아니다」를 한 줄로 못 박는다(150자 안 = ref_ids 컷 길이).
-SHEET_CLAUSE = ("the storyboard plan: its panels are the shot order and framing, "
-                "never draw panel borders, captions or any text into the video")
+SHEET_CLAUSE = ("the director's plan for this clip, read only for shot order and framing; the "
+                "finished video is live-action footage, one full-bleed camera view of the scene")
 
 
-def sheet_slot(out_dir):
+CONTI_CLAUSE = ("the pencil motion plan, read only for how bodies and the camera travel; the "
+                "finished video is live-action footage, not a drawing")
+
+
+def sheet_slots(out_dir):
     """콘티 시트도 참조 한 장으로 같이 보낸다(운영자 260814 「콘티시트를 왜 참조를 안해? 그것도 참조로 넣어」).
 
     ⚠ 성격이 다른 참조다 — 인물·배경 참조는 「이 얼굴·이 장소를 유지하라」는 **잠금**이고, 시트는
@@ -311,15 +321,37 @@ def sheet_slot(out_dir):
     ⚠ 끄기 = `SB_SHEET_REF=0`(종전 동작 100% 복귀).
     """
     if os.environ.get("SB_SHEET_REF") == "0":
-        return None
+        return []
     try:
         d = json.load(open(os.path.join(out_dir, "sheet.json"), encoding="utf-8"))
     except Exception:  # noqa: BLE001
-        return None
-    if not d.get("url"):
-        return None
-    return {"url": d["url"], "label": "콘티 시트", "block": SHEET_CLAUSE,
-            "night": False, "bg": False, "sheet": True, "cuts": d.get("cuts") or 0}
+        return []
+    out = []
+    for key, lab, clause in (("url", "스토리보드", SHEET_CLAUSE), ("conti", "동작 스케치", CONTI_CLAUSE)):
+        if d.get(key):
+            out.append({"url": d[key], "label": lab, "block": clause, "night": False,
+                        "bg": False, "sheet": True, "cuts": d.get("cuts") or 0})
+    return out
+
+
+def cap_refs(use):
+    """이 **편에 실제로 실릴** 그림 참조를 상한까지 줄인다(설계 판은 상한 밖 = 안 밀려난다).
+
+    ⚠ 사람이 먼저다 — 주연이 빠지면 그 인물을 가리키는 대명사가 갈 곳을 잃는다(260811 실사고).
+    ⚠ 버릴 땐 **이름을 대고 경고**한다. 구판은 무경고라 원장 사유가 「정상」이라 적혀 있었다.
+    """
+    pics = [s for s in use if not s.get("sheet")]
+    if len(pics) <= REF_CAP:
+        return use
+    keep = [s for s in pics if kr.sheet_kind(s["label"]) == "person"][:REF_CAP]
+    for s in pics:
+        if len(keep) >= REF_CAP:
+            break
+        if s not in keep:
+            keep.append(s)
+    drop = [s["label"] or "이름 없음" for s in pics if s not in keep]
+    print("::warning::한 편 참조 상한({})을 넘어 줄인다 — 뺀 것: {}".format(REF_CAP, " · ".join(drop)))
+    return [s for s in use if s.get("sheet") or s in keep]
 
 
 def pick_refs(slots, shot):
@@ -331,10 +363,13 @@ def pick_refs(slots, shot):
       **한 편에 실리는 장수는 그대로 2장**이라 장수 계약(2 기본)도 안 깨진다.
     ⚠ 밤 참조가 없으면 종전 동작 = 전부 그대로 보낸다(무회귀).
     """
-    if not any(s["night"] for s in slots):
-        return slots
+    if not any(s["night"] and s["bg"] for s in slots):
+        return slots                                  # 밤·낮 **배경 쌍**이 없으면 고를 것도 없다
     night = any(is_night(c) for c in shot["cuts"])
-    return [s for s in slots if not s["bg"] or s["night"] == night]
+    got = [s for s in slots if not s["bg"] or s["night"] == night]
+    if any(s["bg"] for s in slots) and not any(s["bg"] for s in got):
+        return slots                                  # 시간대가 틀린 배경이 배경 없음보다 낫다
+    return got
 
 
 # 참조 문장 앞머리 상투구 — 잘라내야 「무엇을 잠그는 그림인지」가 첫 낱말로 온다(창작 0 · 잘라내기만)
@@ -360,13 +395,19 @@ def ref_ids(blocks, notes=None):
     """
     outs = []
     for i, b in enumerate(blocks):
+        note0 = (notes[i] if notes and i < len(notes) else "") or ""
         if not b:
+            if note0:                           # 블록이 비어도 「이건 시트다」는 반드시 나간다
+                outs.append(LANE.ref_id_clause(i, note0))
             continue
         one = " ".join(b.split())
         one = _REF_LEAD.sub("", one)
         cut = one[:150]
         if len(one) > 150:                      # 낱말 중간이 아니라 쉼표에서 끊는다
-            cut = cut[:cut.rfind(",")] if "," in cut else cut.rsplit(" ", 1)[0]
+            # ⚠ 「마지막 쉼표」만 보면 이른 쉼표 하나짜리 문장이 두 낱말로 붕괴한다(평의회 실측 =
+            #   「a man,」만 남아 동성 주연 둘이 구분 불능). 하한을 넘긴 쉼표에서만 끊는다.
+            k = cut.rfind(",")
+            cut = cut[:k] if k >= 100 else cut.rsplit(" ", 1)[0]
         # ⚠ 슬롯 지목 문법은 **통로마다 다르다** — 그록은 `<IMAGE_0>` 로 번호를 부르고, 시댄스는
         #   그 문법을 받는지 미확인이라 순서말(첫 번째 참조)로 쓴다. 러너가 그록 문법을 박고
         #   있으면 통로가 일부러 뺀 문법이 되살아난다(260812 페이블 검증).
@@ -377,7 +418,7 @@ def ref_ids(blocks, notes=None):
     return outs
 
 
-def vid_prompt(shot, sound=True, nrefs=0, ids=None):
+def vid_prompt(shot, sound=True, nrefs=0, ids=None, lock_idx=None):
     """영상 **한 편**(10초)의 프롬프트 — 그 안의 컷을 시간순으로 이어 쓴다.
 
     ⚠ 자리 = 등장 인물표 → 잠금 → **컷 시퀀스** → 소리(정본 `prompts/grok-make.md`).
@@ -392,7 +433,9 @@ def vid_prompt(shot, sound=True, nrefs=0, ids=None):
     cuts = shot.get("cuts") or [shot]
     if nrefs:
         parts.extend(ids or [])
-        parts.append(LANE.ref_lock_clause(nrefs))   # 참조 잠금 절 = 통로 문법(벤더마다 다르다)
+        # ⚠ 잠금 대상 = **잠그는 참조만**(시트 제외) — 시트를 열거하면 「칸을 그리지 마라」와
+        #   같은 프롬프트 안에서 정면으로 부딪친다(평의회 260814 실측 지목).
+        parts.append(LANE.ref_lock_clause(nrefs, lock_idx))   # 참조 잠금 절 = 통로 문법(벤더마다 다르다)
 
     multi, t = len(cuts) > 1, 0
     for c in cuts:
@@ -572,7 +615,7 @@ def main():
     # 참조 장수 계약(운영자 260811) — 2장이 기본 · 3장은 이유가 있을 때만 · 3장 초과는 실패다.
     #   이유 = 「인물이 몇 명인가」로 기계 판정한다(콘티 참조 절이 「인물:」·「배경:」으로 라벨을 단다).
     #   ⚠ 시간대가 갈리면(낮 배경 + 밤 배경) 만드는 장수는 3이어도 **한 편에 실리는 건 2장**이다.
-    people = len(re.findall(r"^\s*[①-⑦]\s*인물\s*[:：]", md, re.M))
+    people = sum(1 for lab in kr.ref_labels(md) if kr.sheet_kind(lab) == "person")
     nights = sum(1 for s in slots if s["night"])
     if len(slots) > REF_BEST:
         reason = ("시간대 2종(낮·밤 배경) + 인물 {}명 = 만든 장수 {} · 한 편에 {}장".format(
@@ -591,13 +634,14 @@ def main():
             len(slots), reason, " · 편마다 시간대에 맞는 배경을 고른다" if nights else ""))
 
     # ── 콘티 시트도 한 장 = 편마다 「그림 참조 + 설계도」가 같이 간다 ────────────────
-    sheet = sheet_slot(out_dir)
-    if sheet:
-        slots.append(sheet)          # ⚠ REF_CAP 밖 = 인물·장소 슬롯을 밀어내지 않는다
-        print("콘티 시트도 참조로 같이 간다({}컷 한 장) — 편마다 실리는 장수 {}".format(
-            sheet["cuts"], len(pick_refs(slots, shots[0])) if shots else len(slots)))
+    sheets = sheet_slots(out_dir)
+    if sheets:
+        slots.extend(sheets)         # ⚠ REF_CAP 밖 = 인물·장소 슬롯을 밀어내지 않는다
+        print("설계 판도 참조로 같이 간다({} · {}컷) — 편마다 실리는 장수 {}".format(
+            " · ".join(x["label"] for x in sheets), sheets[0]["cuts"],
+            len(pick_refs(slots, shots[0])) if shots else len(slots)))
     else:
-        print("::warning::콘티 시트 참조 없음(sheet.json 없음·시트 실패) — 편 사이 흐름이 흔들린다")
+        print("::warning::설계 판 참조 0장(sheet.json 없음·판 실패·R2 미설정) — 편 사이 흐름이 흔들린다")
 
     # ── 발사 전 견적 검문(과금 0) ──────────────────────────────────────────────
     # ⚠ 구판은 통로가 내주는 견적을 **한 번도 안 불렀다** — 12편 × 30초짜리 판이 아무 검문 없이
@@ -631,7 +675,7 @@ def main():
         except ln.LaneError as e:
             print("::warning::자격 갱신 실패 — 남은 영상 중단: {}".format(e.why))
             break
-        use = pick_refs(slots, c)                       # 이 편에 실을 참조(밤·낮이 갈리면 여기서 갈린다)
+        use = cap_refs(pick_refs(slots, c))             # 이 편에 실을 참조(밤·낮이 갈리면 여기서 갈린다)
         ids = ref_ids([s["block"] for s in use], [s.get("idnote") for s in use]) if use else []
         rec = {"n": c["n"], "sec": c["sec"], "refs": len(use), "video": None,
                "cuts": [x["n"] for x in c["cuts"]],
@@ -647,7 +691,8 @@ def main():
                 # ⚠ **창구로 나간 문장을 산출에 남긴다**(운영자 260813 「검증이 안 되네」) —
                 #   구판은 컷 요약만 남아서 「모델이 뭘 받고 저렇게 그렸나」를 사람이 추론으로
                 #   메워야 했다. 나쁘게 나온 판을 고치려면 먼저 무엇을 보냈는지 알아야 한다.
-                pr = vid_prompt(c, sound, len(use), ids)
+                lock_idx = [i for i, s_ in enumerate(use) if not s_.get("sheet")]
+                pr = vid_prompt(c, sound, len(use), ids, lock_idx)
                 rec["prompt"] = pr
                 rid = LANE.start(pr, token=token,
                                  refs=payload or None, seconds=c["sec"], ratio=ratio, sound=sound)
