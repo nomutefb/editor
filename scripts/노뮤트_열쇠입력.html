@@ -38,18 +38,22 @@
   button{background:var(--acc);color:#0b0e14;border:0;border-radius:9px;padding:10px 16px;font-size:14px;font-weight:700;cursor:pointer}
   button.sec{background:#232b3d;color:var(--fg);font-weight:500}
   #stat{color:var(--mut);font-size:13px;margin-left:auto}
-  #msg{font-size:13px;color:var(--ok);min-height:18px;margin-top:6px}
+  #msg{font-size:13px;color:var(--ok);min-height:18px;margin-top:6px;white-space:pre-line;width:100%}
   .note{color:var(--warn);font-size:12px;margin:2px 0 0}
+  body.only-empty .row.on{display:none}
+  #emptyBtn.on{background:var(--warn);color:#0b0e14;font-weight:700}
 </style>
 </head>
 <body>
 <div class="wrap">
   <h1>노뮤트 열쇠 입력</h1>
   <div class="sub">
-    값을 칸에 붙여 넣고 아래 <b>[환경변수.txt 저장]</b>을 누르면 완성 파일이 나온다.
-    저장 위치는 드라이브 <b>「내 드라이브 › action」</b> 폴더(기존 환경변수.txt 교체).
-    빈 칸은 저장 파일에 목록으로만 남고 켜지지 않는다. 여러 줄 값은 자동으로 안전하게 접힌다.<br>
-    ⚠ 이 파일과 저장물은 구글 계정에 로그인한 사람이면 읽을 수 있다 — 드라이브 계정 보안이 곧 열쇠 보안이다.
+    순서는 셋뿐이다:
+    <b>① 아래 [기존 환경변수.txt 불러오기]</b> — 이미 넣어둔 값이 그대로 칸에 들어온다(우물 정 자를 안 지우고 값만 적어둔 줄도 값으로 읽는다)
+    → <b>② 빈 칸 채우기</b> — 초록 점 = 이미 있음, 회색 점 = 빈 칸. [빈 칸만 보기]를 누르면 안 넣은 것만 남는다
+    → <b>③ [환경변수.txt 저장]</b> — 드라이브 「내 드라이브 › action」 폴더의 기존 파일을 교체.<br>
+    ⚠ 불러오기를 건너뛰고 저장하면 이미 넣어둔 값이 빠진 파일이 되므로, 그 경우엔 저장 전에 경고를 띄운다.
+    여러 줄 값은 자동으로 안전하게 접힌다. 이 파일과 저장물은 구글 계정에 로그인한 사람이면 읽을 수 있다.
   </div>
   <div id="groups"></div>
   <div class="grp">
@@ -59,8 +63,9 @@
   </div>
 </div>
 <div class="bar"><div class="in">
-  <button class="sec" id="loadBtn">기존 환경변수.txt 불러오기</button>
-  <button id="saveBtn">환경변수.txt 저장</button>
+  <button class="sec" id="loadBtn">① 기존 환경변수.txt 불러오기</button>
+  <button class="sec" id="emptyBtn">빈 칸만 보기</button>
+  <button id="saveBtn">③ 환경변수.txt 저장</button>
   <span id="stat"></span>
   <div id="msg"></div>
 </div></div>
@@ -174,10 +179,14 @@ function buildText(){
   L.push('');
   return L.join('\n');
 }
+let didLoad = false;
 function parseText(t){
   let loaded = 0; const extraLines = [];
   for (let ln of t.split(/\r?\n/)) {
     ln = ln.replace(/\r$/, '');
+    let commented = false;
+    // 우물 정 자를 안 지우고 값만 적어둔 줄(#이름=값)도 값으로 읽는다 — 손편집 실수 흡수.
+    if (ln[0] === '#' && /^#[A-Za-z_][A-Za-z0-9_]*=./.test(ln)) { ln = ln.slice(1); commented = true; }
     if (!ln || ln[0] === '#') continue;
     const eq = ln.indexOf('='); if (eq < 1) continue;
     let k = ln.slice(0, eq), v = ln.slice(eq + 1);
@@ -185,11 +194,24 @@ function parseText(t){
     if (k.endsWith('_B64')) { const d = b64dec(v); if (d !== null) { k = k.slice(0, -4); v = d; } }
     const el = document.getElementById('k_' + k);
     if (el) { el.value = v; loaded++; }
-    else extraLines.push(k + '=' + v);
+    else if (!commented) extraLines.push(k + '=' + v);
   }
   if (extraLines.length) document.getElementById('extra').value = extraLines.join('\n');
+  didLoad = true;
   refresh();
   return loaded;
+}
+function missingSummary(loaded){
+  const top = []; let miss = 0;
+  KEYS.forEach((grp, gi) => { for (const [name] of grp.k) {
+    if (val(name)) continue;
+    miss++;
+    if (gi <= 2) top.push(name);   // 묶음 ①②③ = 최우선·알림·유튜브
+  }});
+  let m = '불러옴 — 이미 넣은 값 ' + loaded + '개가 칸에 들어왔다. 빈 칸 ' + miss + '개.';
+  if (top.length) m += '\n앞 순위 묶음에서 빈 것: ' + top.join(', ');
+  m += '\n[빈 칸만 보기]를 누르면 안 넣은 것만 남는다.';
+  return m;
 }
 function say(t, warn){ const m = document.getElementById('msg'); m.textContent = t; m.style.color = warn ? 'var(--warn)' : 'var(--ok)'; }
 document.getElementById('loadBtn').addEventListener('click', async () => {
@@ -197,15 +219,24 @@ document.getElementById('loadBtn').addEventListener('click', async () => {
     if (window.showOpenFilePicker) {
       const [h] = await window.showOpenFilePicker({ types: [{ description: '환경변수', accept: { 'text/plain': ['.txt'] } }] });
       const f = await h.getFile();
-      say('불러옴: ' + f.name + ' — 채워진 값 ' + parseText(await f.text()) + '개');
+      say(missingSummary(parseText(await f.text())));
       return;
     }
   } catch (e) { if (e && e.name === 'AbortError') return; }
   const inp = document.createElement('input'); inp.type = 'file'; inp.accept = '.txt';
-  inp.onchange = async () => { const f = inp.files[0]; if (f) say('불러옴: ' + f.name + ' — 채워진 값 ' + parseText(await f.text()) + '개'); };
+  inp.style.display = 'none'; document.body.appendChild(inp);   // 문서에 안 붙은 입력은 일부 브라우저에서 변경 신호가 안 온다
+  inp.onchange = async () => { const f = inp.files[0]; if (f) say(missingSummary(parseText(await f.text()))); inp.remove(); };
   inp.click();
 });
+document.getElementById('emptyBtn').addEventListener('click', () => {
+  document.body.classList.toggle('only-empty');
+  document.getElementById('emptyBtn').classList.toggle('on');
+});
 document.getElementById('saveBtn').addEventListener('click', async () => {
+  if (!didLoad) {
+    const go = window.confirm('기존 환경변수.txt 를 아직 불러오지 않았다.\n이대로 저장하면 이미 넣어둔 값이 빠진 파일이 만들어진다.\n\n확인 = 그래도 저장 · 취소 = 먼저 [불러오기]');
+    if (!go) return;
+  }
   const text = buildText();
   try {
     if (window.showSaveFilePicker) {
