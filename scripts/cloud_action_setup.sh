@@ -119,12 +119,41 @@ echo "② 실행기 준비 완료 (파이썬=$pd${cdir:+ · 클로드=$cdir})"
 # ── ③ 5분 시계
 case "$(uname -s)" in
   Darwin)
-    if ( crontab -l 2>/dev/null | grep -v 'nomute-cloud-action' ; echo "*/5 * * * * /bin/bash $HOME/nomute_cloud_run.sh >> $HOME/cloud_action.log 2>&1 # nomute-cloud-action" ) | crontab - ; then
-      echo "③ 5분 시계 등록 완료(crontab · 표식 = nomute-cloud-action)"
+    # 맥 시계 = launchd(운영자 260814 «맥북이 켜져 있으면 항상 웹앱이 돌아야 해»).
+    # ⚠ crontab 을 안 쓰는 이유 = 맥이 잠든 동안의 회차를 **통째로 건너뛴다**. launchd 는 깨어난 직후
+    #   놓친 회차를 한 번 따라잡고(StartInterval 계약), 로그인 때마다 스스로 다시 걸린다.
+    PL="$HOME/Library/LaunchAgents/com.nomute.cloudaction.plist"
+    mkdir -p "$HOME/Library/LaunchAgents"
+    cat > "$PL" <<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+  <key>Label</key><string>com.nomute.cloudaction</string>
+  <key>ProgramArguments</key><array>
+    <string>/bin/bash</string><string>-lc</string>
+    <string>exec "\$HOME/nomute_cloud_run.sh"</string>
+  </array>
+  <key>StandardOutPath</key><string>$HOME/cloud_action.log</string>
+  <key>StandardErrorPath</key><string>$HOME/cloud_action.log</string>
+  <key>StartInterval</key><integer>300</integer>
+  <key>RunAtLoad</key><true/>
+</dict></plist>
+EOF
+    _uid="$(id -u)"
+    launchctl bootout "gui/$_uid/com.nomute.cloudaction" >/dev/null 2>&1 || true
+    if launchctl bootstrap "gui/$_uid" "$PL" >/dev/null 2>&1 || launchctl load -w "$PL" >/dev/null 2>&1; then
+      # 구판 크론 줄이 남아 있으면 걷어낸다(두 시계가 겹쳐 돌 필요 없다 · 겹쳐도 잠금이 거르지만 낭비)
+      crontab -l 2>/dev/null | grep -q 'nomute-cloud-action' && \
+        ( crontab -l 2>/dev/null | grep -v 'nomute-cloud-action' ) | crontab - 2>/dev/null && \
+        echo "③-b 구판 크론 줄 제거(맥 시계로 대체)"
+      echo "③ 5분 시계 등록 완료(맥 launchd · 잠에서 깨면 놓친 회차를 따라잡는다)"
     else
-      echo "❌ crontab 등록 실패 — 이 화면을 클로드에게"; exit 1
+      echo "⚠ 맥 시계 등록 실패 — 크론으로 대체한다(잠든 동안의 회차는 건너뛴다)"
+      ( crontab -l 2>/dev/null | grep -v 'nomute-cloud-action' ; echo "*/5 * * * * /bin/bash $HOME/nomute_cloud_run.sh >> $HOME/cloud_action.log 2>&1 # nomute-cloud-action" ) | crontab - \
+        || { echo "❌ 시계 등록 실패 — 이 화면을 클로드에게"; exit 1; }
+      echo "③ 5분 시계 등록 완료(crontab 대체)"
     fi
-    echo "⚠ 맥 참고: 5분이 지나도 드라이브 상태 파일이 안 갱신되면 시스템 설정 → 개인정보 보호 및 보안 → 전체 디스크 접근에 cron 을 추가"
+    echo "⚠ 맥 참고: 뚜껑을 닫으면 잠들어 멈춘다 — 전원 연결 + 잠자기 끄기 권장. 끄기 = launchctl bootout gui/$_uid/com.nomute.cloudaction"
     ;;
   *)
     # 윈도우 — 조용한 실행 vbs + 작업 스케줄러. 슬래시 옵션 경로 변환 끄기 2중 + 실패 사유 표시(관측 소실 금지).
