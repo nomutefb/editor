@@ -93,6 +93,46 @@
   .lenrule-v { flex:none; min-width:8ch /* 값 폭 고정 = thumb `.cyrow .cyv{min-width:3ch}` 관용구 계승(「5s · 6컷」↔「15s · 12컷」 전환에 자 폭이 안 흔들린다) */; text-align:right; color:var(--accent); font-weight:var(--fw-x); font-size:var(--fs-label); font-variant-numeric:tabular-nums; }   /* = edit `.grow .v` 정본 문법(우측·accent·tabular) */
   .geni-opt:disabled { opacity:.28; pointer-events:none; }   /* 배선 대기 칩(GPT 5.6 — OpenAI 키 미배선) = index .geni-nav[disabled] 동일값 계승 */
 
+  /* ── 기사 고르기 창 = **설정 대기열 창(index .bpop.qpop) 그대로**(운영자 260814 「광학-렌즈 단위로
+       일치하게 · 그 서식과 동일하게」). 값은 한 글자도 안 고쳤다 — 키워드 알림 창이 같은 껍데기를
+       물려받는 것과 같은 관례다. 새로 그린 건 0. ── */
+  .bpop { position:fixed; z-index:var(--z-remote); min-width:140px; max-width:230px;
+    background:linear-gradient(165deg, rgba(22,23,25,.34), rgba(12,13,14,.42)) /* raw-ok: index .bpop 동값 */; backdrop-filter:blur(24px) saturate(1.3) /* raw-ok: index .bpop 동값 */; -webkit-backdrop-filter:blur(24px) saturate(1.3) /* raw-ok: index .bpop 동값 */;
+    border:1px solid var(--line); border-radius:15px /* raw-ok: index 동값 */; padding:11px 15px /* raw-ok: index 동값 */; box-shadow:0 18px 46px rgba(0,0,0,.6) /* raw-ok: index 동값 */;
+    display:flex; flex-direction:column; gap:3px /* raw-ok: index 동값 */; animation:popInCx .16s var(--gauge-ease) both; }
+  @keyframes popInCx { from { opacity:0; transform:translateY(6px) scale(.985); } to { opacity:1; transform:none; } }
+  .qpop { width:min(94vw,440px); max-width:94vw; min-width:0; overflow:hidden; padding:11px 11px 11px 16px /* raw-ok: index 동값(헤더형 팝업 마진 SSOT) */; }
+  .qpop .qh { display:flex; align-items:center; gap:6px /* raw-ok: index 동값 */; margin:-11px -11px 0 -16px; padding:12px 14px 12px 18px /* raw-ok: index 동값 */; flex:none; background:var(--modal-head-bg, rgba(24,25,28,.85)) /* raw-ok: 폴백 = index --modal-head-bg 정본 동값(이 문서엔 셸 색 토큰이 없다) */; backdrop-filter:blur(var(--blur-l)) saturate(1.2); -webkit-backdrop-filter:blur(var(--blur-l)) saturate(1.2); border-bottom:1px solid var(--line2); }
+  .qpop .qh b { font-size:var(--fs-h2); font-weight:var(--fw-x); margin-right:2px /* raw-ok: index 동값 */; padding:0; }
+  .qpop .qh-xcell { margin-left:auto; width:var(--btn-sm); flex:none; display:flex; align-items:center; justify-content:center; }
+  .qpop .qh .tool-x svg { stroke:currentColor; }
+  .tool-x { width:30px; height:30px /* raw-ok: index .tool-x 동값 */; flex:none; display:grid; place-items:center; background:rgba(255,255,255,.06) /* raw-ok: index 동값 */;
+    color:var(--fg); border:1px solid var(--line); border-radius:9px /* raw-ok: index 동값 */; cursor:pointer; }
+  .tool-x:hover { color:var(--accent); border-color:rgba(var(--accent-rgb),.4); }
+  .qpop .qlist { margin-top:8px /* raw-ok: index 동값 */; display:flex; flex-direction:column; flex:0 1 calc(5 * 47px) /* raw-ok: index 동값(5행 고정) */; min-height:0; overflow-y:auto; }
+  .qpop { background:var(--modal-glass-anchor, rgba(17,18,20,.42)) /* raw-ok: 폴백 = index 정본 동값(이 문서엔 셸 색 토큰이 없다) */; backdrop-filter:blur(24px) saturate(1.05) /* raw-ok: index .qpop 동값 — .bpop 의 1.3 을 덮는다(대기열 창만의 값) */; -webkit-backdrop-filter:blur(24px) saturate(1.05) /* raw-ok: index 동값 */; }
+  .qpop { line-height:1.5 /* raw-ok: index 대기열 창이 상속받는 실측 줄높이(11px→16.5 · 12.5px→18.75) — 이 문서 본문은 1.6 이라 그대로 두면 행이 1.25px 두꺼워진다(광학 잉크 판정 FAIL) */; }
+  .qrow:first-child { border-top:none; }   /* 제목 띠 바로 아래 이중선 방지 = index 정본 동일 */
+  .qrow { display:flex; align-items:center; gap:10px /* raw-ok: index 동값 */; padding:8px 3px /* raw-ok: index 동값 */; border-top:1px solid var(--line2); }
+  .qrow .qt { flex:none; width:64px /* raw-ok: index 동값 */; font-size:var(--fs-xs); font-weight:800 /* raw-ok: index 동값 */; color:var(--mut); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .qrow .qmain { flex:1; min-width:0; font-size:12.5px /* raw-ok: index 동값 */; color:var(--fg); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .qrow .qact { flex:none; width:var(--btn-sm); display:flex; align-items:center; justify-content:center; }
+  .qgo { flex:none; width:30px; height:30px /* raw-ok: index .qgo 동값 */; display:grid; place-items:center; border-radius:8px /* raw-ok: index 동값 */; border:1px solid var(--line);
+    background:transparent; cursor:pointer; transition:transform .1s var(--ease); -webkit-tap-highlight-color:transparent; }
+  .qgo:active { transform:scale(var(--press-m)); }
+  .qgo svg { width:15px; height:15px /* raw-ok: index 헤더 픽토 동값 */; }
+  .qpage { flex:none; display:flex; align-items:center; justify-content:center; gap:4px /* raw-ok: index 동값 */; margin-top:10px /* raw-ok: index 동값 */; flex-wrap:wrap; min-height:30px /* raw-ok: index 동값 */; }
+  .qempty { padding:16px 6px /* raw-ok: index 동값 */; text-align:center; color:var(--mut); font-size:12px /* raw-ok: index 동값 */; line-height:1.55 /* raw-ok: index 동값 */; }
+  .qpop .qlist .qrow { animation:cardIn .32s var(--gauge-ease) both; }
+  .qpop .qlist .qrow:nth-child(2){ animation-delay:.05s } .qpop .qlist .qrow:nth-child(3){ animation-delay:.1s }
+  .qpop .qlist .qrow:nth-child(4){ animation-delay:.15s } .qpop .qlist .qrow:nth-child(n+5){ animation-delay:.2s }
+  @keyframes cardIn { from { opacity:0; transform:translateY(7px); } to { opacity:1; transform:none; } }
+  @media (prefers-reduced-motion:reduce){ .bpop, .qpop .qlist .qrow { animation:none; } }
+  /* 제목이 곧 버튼 = 행 전면(운영자 260813 「제목을 클릭해서」) — 「보이는 버튼 = 눌리는 버튼」 계약 */
+  .qrow.artrow { cursor:pointer; }
+  .qrow.artrow .qmain:hover { color:var(--accent); }
+  .artdim { position:fixed; inset:0; z-index:var(--z-remote); background:rgba(0,0,0,.35) /* raw-ok: 팝업 뒤 딤 = index 동급 */; }
+
   /* ── 화풍·세부 화풍 = 한 줄 가로 레일 — **레퍼런스 = index #geniStyle·#geniSub 그대로**
        (운영자 260813 「이미지 스튜디오의 여러 화풍 - 세부화풍을 따라하면 될것 같다」).
        값은 한 글자도 안 고쳤다(이 파일이 `.geni-row`·`.pub-l`·`.geni-opt` 를 이미 그렇게 계승했다). ── */
@@ -419,57 +459,113 @@ function sbFireGate() {
   go.title = ok ? '' : '요약이나 내용 중 하나는 넣어야 한다 — 뭘 만들지 모른다';
 }
 
-// ── 기사 요약 끌어오기 = 수집·분석이 끝난 기사 목록에서 자유 요약을 가져온다.
-//    목록 = viewer/articles.json(경량 인덱스) · 요약 본문 = viewer/detail/<파일>.json = 새 데이터 축 0.
-//    ⚠ 탭할 때마다 최신부터 다음 건 = 이 파일의 「탭=다음으로 순환」 관용구 그대로(새 컴포넌트 0).
-//    ⚠⚠ 260812 실사고 = 이 버튼이 **한 번도 기사를 못 불러왔다**(운영자 "콘티에서 기사를 불러오지 못함").
-//      구판은 인덱스의 `a.summary` 를 걸렀는데, 그 값의 출처인 queue/*.md **프론트매터에 summary 키가 아예 없다**
-//      (260812 실측 = 649건 중 0건 보유 · 요약은 본문 「## 🧷 한줄 요약」 문단에 있다) → 필터 결과가 항상 0건이라
-//      매번 '요약 없음' 만 떴다. 화면은 멀쩡히 눌리고 에러도 안 나서 운영자 눈이 유일한 검출기였다.
-//      → 인덱스는 목록(제목·파일명)만 쓰고, 요약은 뷰어 정본과 **같은 규칙**으로 본문에서 뽑는다.
-const SB_SUM_RE = /한\s*줄\s*요약[^\n]*\n+([\s\S]*?)(?=\n\s*\n|\n#|$)/;   // 정본 = viewer/index.html oneLineSummary 정규식 사본(값·문법 창작 0 — 두 곳이 갈리면 콘티가 뷰어와 다른 요약을 쥔다)
+// ── 📰 기사 고르기 = 뉴스 요약에 오른 기사 목록에서 **자유요약**을 끌어온다(운영자 260814).
+//    창 = 설정 대기열 창 그대로(부품·값 사본 · 위 CSS 주석) · 행 = [번호 · 제목 · 이동].
+//    ⚠ 무엇을 가져오나 = 상세 본문 「## 📦 콘텐츠 초안」 안의 `### [자유요약 …]` 절이다.
+//      구판은 맨 위 「## 🧷 한줄 요약」 한 문장을 가져왔다 — 운영자가 말한 그 밀집된 소스
+//      (자유요약·IG·Thread) 중 하나가 아니라 **아예 다른 절**이었다(260814 실측 정정).
+//    ⚠ 절 이름은 분석 지침 정본(prompts/news-analysis.md 98행 `### [자유요약 — 약 N자]`) 그대로.
+const SB_FREE_RE = /^###\s*\[\s*자유요약[^\]]*\]\s*$([\s\S]*?)(?=^###\s|^##\s|\Z)/m;   // 자유요약 절 본문
 (function () {
   const btn = document.getElementById('sumPull'), ta = document.getElementById('sumTx');
-  if (!btn || !ta) return;
-  let list = null, ix = -1, busy = false;
-  // 한 건의 요약 = 인덱스에 있으면 그대로, 없으면 detail 본문에서 한줄 요약 문단을 뽑는다(index.html ensureDetail 관용구).
-  async function sumOf(a) {
-    if (a._sum != null) return a._sum;
-    const inline = (a.summary || '').trim();
-    if (inline) { a._sum = inline; return a._sum; }
+  const pop = document.getElementById('artPop'), dim = document.getElementById('artDim');
+  const listEl = document.getElementById('artList'), pageEl = document.getElementById('artPage');
+  if (!btn || !ta || !pop || !listEl) return;
+  const PER = 5;   // 5행 = 대기열 창 높이 계약(.qlist flex-basis = 5 * 47px) — 페이지당 행수를 바꾸면 창 높이가 갈린다
+  let items = null, page = 0, busy = false;
+
+  const esc2 = t => String(t == null ? '' : t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const GO_SVG = '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M9 7h8v8"/></svg>';   // ↗ = 대기열 이동 버튼 글리프
+
+  function draw() {
+    if (!items) return;
+    if (!items.length) { listEl.innerHTML = '<div class="qempty">뉴스 요약에 오른 기사가 없다</div>'; pageEl.innerHTML = ''; return; }
+    const pages = Math.ceil(items.length / PER);
+    page = Math.min(Math.max(0, page), pages - 1);
+    listEl.innerHTML = items.slice(page * PER, page * PER + PER).map(a =>
+      '<div class="qrow artrow" data-f="' + esc2(a.file) + '" title="탭 = 이 기사의 자유요약을 자료 참조로 가져온다">'
+      + '<span class="qt">' + a._no + '</span>'
+      + '<span class="qmain">' + esc2(a.title || a.file) + '</span>'
+      + '<span class="qact"><button type="button" class="qgo" data-go="' + esc2(a.file) + '" aria-label="이 요약본 열기" title="이 요약본 열기">' + GO_SVG + '</button></span>'
+      + '</div>').join('');
+    pageEl.innerHTML = (pages > 1)
+      ? '<button type="button" class="geni-opt" data-pg="-1"' + (page ? '' : ' disabled') + '>이전</button>'
+        + '<span class="geni-opt on" data-num="1">' + (page + 1) + ' / ' + pages + '</span>'
+        + '<button type="button" class="geni-opt" data-pg="1"' + (page < pages - 1 ? '' : ' disabled') + '>다음</button>'
+      : '';
+  }
+
+  async function load() {
+    const r = await fetch('articles.json?t=' + Date.now());
+    const j = r.ok ? await r.json() : null;
+    const all = ((j && j.articles) || []).filter(a => a && a.file && a.has_body);
+    // ⚠ 번호 = **요약된 차례**(운영자 260814 「no = 요약된 순서」) — 가장 먼저 요약된 것이 1.
+    //   화면 순서(최신순)와 별개라 같은 기사는 언제 열어도 같은 번호를 단다.
+    const asc = all.slice().sort((x, y) => String(x.file).localeCompare(String(y.file)));
+    asc.forEach((a, i) => { a._no = i + 1; });
+    items = asc.slice().reverse();   // 화면 = 최신순(운영자 260813 「최신순으로」)
+  }
+
+  async function freeSum(a) {
+    if (a._free != null) return a._free;
     try {
       const r = await fetch('detail/' + encodeURIComponent(a.file) + '.json?v=' + encodeURIComponent(a.rev || 0));
       const d = r.ok ? await r.json() : null;
-      const m = ((d && d.body) || '').match(SB_SUM_RE);
-      a._sum = m ? m[1].replace(/\s+/g, ' ').trim() : '';
-    } catch (e) { a._sum = ''; }   // 한 건 실패가 순환을 못 죽인다 — 다음 건으로 넘어간다
-    return a._sum;
+      const m = ((d && d.body) || '').match(SB_FREE_RE);
+      // ⚠ 절 본문은 ```text 울타리 안에 있다(뷰어가 복사용 상자로 그리는 문법) — 울타리는
+      //   표시용이지 내용이 아니라서 그대로 실으면 콘티 입력에 백틱 세 개가 딸려 들어간다.
+      let t = m ? m[1].trim() : '';
+      //   ⚠ 닫는 울타리가 절 **중간**에 있다 — 그 뒤에 편향 설명 줄이 따라붙는다(실측).
+      //     그래서 「끝까지」로 잡으면 안 되고 **여는 울타리 ~ 첫 닫는 울타리**까지만 집는다.
+      const fence = t.match(/^```[a-z]*\s*\n([\s\S]*?)\n```/i);
+      if (fence) t = fence[1].trim();
+      a._free = t;
+    } catch (e) { a._free = ''; }   // 한 건 실패가 창을 못 죽인다
+    return a._free;
   }
-  btn.addEventListener('click', async () => {
+
+  const open = async () => {
     if (busy) return; busy = true;
-    const back = btn.textContent;
     try {
-      if (!list) {
-        const r = await fetch('articles.json?t=' + Date.now());
-        const j = r.ok ? await r.json() : null;
-        list = ((j && j.articles) || []).filter(a => a && a.file && (a.has_body || (a.summary || '').trim()));
-        if (!list.length) { btn.textContent = '요약 없음'; setTimeout(() => { btn.textContent = '불러오기'; }, 1600); return; }
-      }
-      btn.textContent = '…';
-      // 요약이 실제로 나오는 다음 건까지 앞으로(본문에 한줄 요약 문단이 없는 기사는 건너뛴다 · 최대 목록 길이 = 무한루프 0)
-      let a = null, s = '';
-      for (let n = 0; n < list.length; n++) {
-        ix = (ix + 1) % list.length;
-        s = await sumOf(list[ix]);
-        if (s) { a = list[ix]; break; }
-      }
-      if (!a) { btn.textContent = '요약 없음'; setTimeout(() => { btn.textContent = '불러오기'; }, 1600); return; }
-      ta.value = (a.title ? a.title + '\n\n' : '') + s;
-      ta.dispatchEvent(new Event('input', { bubbles: true }));   // 저장·자람·발사 게이트를 정본 경로로 태운다
-      btn.textContent = (ix + 1) + '/' + list.length;
+      if (!items) { listEl.innerHTML = '<div class="qempty">불러오는 중…</div>'; }
+      pop.hidden = false; if (dim) dim.hidden = false;
+      place();
+      if (!items) { await load(); }
+      draw();
     } catch (e) {
-      btn.textContent = '못 읽음'; setTimeout(() => { btn.textContent = '불러오기'; }, 1600);
+      listEl.innerHTML = '<div class="qempty">목록을 못 불러왔다 — ' + esc2(e.message) + '</div>';
     } finally { busy = false; }
+  };
+  const close = () => { pop.hidden = true; if (dim) dim.hidden = true; };
+  function place() {   // 화면 정중앙 — 이 창은 앵커가 없다(대기열은 픽토 옆에 붙지만 여기선 폼 한복판이 자연스럽다)
+    pop.style.left = '50%'; pop.style.top = '50%'; pop.style.transform = 'translate(-50%,-50%)';
+  }
+
+  btn.addEventListener('click', open);
+  const xb = document.getElementById('artX'); if (xb) xb.addEventListener('click', close);
+  if (dim) dim.addEventListener('click', close);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !pop.hidden) close(); });
+
+  pageEl.addEventListener('click', e => { const b = e.target.closest('button[data-pg]'); if (!b || b.disabled) return; page += (+b.dataset.pg); draw(); });
+
+  listEl.addEventListener('click', async e => {
+    const go = e.target.closest('button[data-go]');
+    if (go) {   // 우측 버튼 = 그 요약본으로 이동(부모 셸의 뉴스 요약 화면)
+      e.stopPropagation();
+      const f = go.dataset.go;
+      try { window.top.location.href = '/?a=' + encodeURIComponent(f); } catch (_) { window.open('/?a=' + encodeURIComponent(f), '_blank'); }
+      return;
+    }
+    const row = e.target.closest('.artrow'); if (!row) return;
+    const a = (items || []).find(x => x.file === row.dataset.f); if (!a) return;
+    const main = row.querySelector('.qmain'); const back = main ? main.textContent : '';
+    if (main) main.textContent = '가져오는 중…';
+    const sum = await freeSum(a);
+    if (main) main.textContent = back;
+    if (!sum) { if (main) { main.textContent = '이 기사엔 자유요약이 없다'; setTimeout(() => { main.textContent = back; }, 1600); } return; }
+    ta.value = (a.title ? a.title + '\n\n' : '') + sum;
+    ta.dispatchEvent(new Event('input', { bubbles: true }));   // 저장·자람·발사 게이트를 정본 경로로 태운다
+    close();
   });
 })();
 // 감독×촬영 2축 + 설정(운영자 260714 확정 — 감독 = 연출 LLM · 촬영 = 생성 엔진 · 항상 스토리보드 경유)
@@ -1307,5 +1403,14 @@ const PVZOOM = { K: 'nm.pvzoom',
 </script>
 <script src="cscroll.js">
 </script>
+
+<!-- 📰 기사 고르기 = **설정 대기열 창 그대로**(운영자 260814) — 셸·헤더·행·페이저 부품 전부 index .bpop.qpop 값 사본.
+     행 = [번호 · 기사 제목 · 이동] · 번호 = 요약된 차례(가장 먼저 요약된 것이 1) · 제목 탭 = 자유요약 끌어오기. -->
+<div class="artdim" id="artDim" hidden></div>
+<div class="bpop qpop" id="artPop" hidden role="dialog" aria-modal="true" aria-label="기사 고르기">
+  <div class="qh"><b>기사 고르기</b><span class="qh-xcell"><button class="tool-x" id="artX" type="button" aria-label="닫기" title="닫기"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6 18 18M18 6 6 18"/></svg></button></span></div>
+  <div class="qlist" id="artList"></div>
+  <div class="qpage" id="artPage"></div>
+</div>
 </body>
 </html>
