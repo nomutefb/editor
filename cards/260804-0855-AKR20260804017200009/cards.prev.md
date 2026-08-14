@@ -1,32 +1,32 @@
-# 베네수엘라 사망 6천명, 실종자 집계는 157에서 멈췄다
+# 베네수엘라 사망 6천명, 실종자 칸은 157에서 멈췄다
 
 **[프롬프트 설계]**
-- 화풍: B 극화 — 재난의 정서가 아니라 '세기를 멈춘 장부'라는 행정 구조를 고발하는 축이라 사실성·무게가 필요하다
-- 분위기: 정오의 하얀 직사광이 윤곽을 지워버린 건조한 무게. 울음보다 먼지, 절규보다 정지. 숫자만 갱신되고 이름은 갱신되지 않는 자리의 냉기
-- 연출 방향: 뉴스를 스쳐 넘기던 독자가 '사망 6천125명'에서 손이 멎게 하되, 진짜 멈춤은 그 옆의 빈 칸이라는 걸 시각으로 뒤집는다. 그래서 이 덱은 사람의 얼굴보다 **채워지는 것과 채워지지 않는 것의 대비**에 강조점을 둔다 — 갱신되는 발표대, 손이 올라간 채 멈춘 장부, 아무 칸에도 오르지 못한 얼굴, 시민들이 대신 채워 가는 벽. 네온그린 악센트는 '세어진 것'에만 닿게 해서, 초록이 닿지 않은 자리가 곧 세어지지 않은 사람이 되게 한다. 명도는 정오의 과노출에서 출발해 피크의 암흑까지 내려갔다가 마지막 아침빛에서만 풀린다
-- 독자 동선: **발단** 카드1→**전개** 카드2~3→**피크** 카드4→**해소** 카드5~6→**시사점** 카드7 · 훅=카드1 끝(단서형: 세는 일이 한 칸에서만 진행 중)+카드2 끝(예고형: 바로 옆 칸은 6월 25일에 멈췄다) · 착지 한 줄 요지 = 당국이 멈춘 자리를 시민이 세는 한, 이 재난의 마지막 숫자는 157이 아니다
-- 연속성 앵커: Recurring subject — a Venezuelan woman in her 40s with dust-streaked dark hair tied back, wearing a faded blue blouse (카드4·카드7) / 반복 장소 — the courtyard of a community building in La Guaira (카드4·카드7)
+- 화풍: B 극화 — 사망 칸만 갱신되고 실종 칸은 멈춘 '장부'를 고발하는 구조 비판 축이라, 잉크 선과 고대비 명암이 사실성과 무게를 함께 진다
+- 분위기: 정오의 하얀 직사광에 말라붙은 잔해 위, 슬픔보다 억울함이 앞서는 건조한 긴장. 울음이 아니라 멈춘 숫자를 바라보는 눈
+- 연출 방향: 뉴스를 안 보던 독자도 '6천125'와 '157'이라는 두 숫자의 속도 차 하나로 사건을 잡게 한다. 사람의 참상 대신 **세는 행위와 세지 않는 손**에 강조점을 둔다 — 명단을 쥔 가족의 손끝, 펜이 멈춘 책상, 아직 83.5% 남은 잔해. 정오의 과노출 백색광(발단)에서 형광·저조도(집계 중단·피크)로 명도를 눌러 내려가다 마지막에만 여운광으로 푼다. #재난참사 = 시신·중상 묘사 0, 잔해·수색·대피소·서류로만 말한다
+- 독자 동선: **발단** 카드1→**전개** 카드2~3→**피크** 카드4→**해소** 카드5~6→**시사점** 카드7 · 훅=카드1 끝(단서형: 3주 전보다 불어난 숫자)+카드3 끝(예고형: 그 자리를 채운 다른 숫자들)+카드5 끝(예고형: 확인된 피해만) · 착지 한 줄 요지 = 재건 10년의 첫 장부가 157명으로 열릴지는 지금 누가 세느냐에 달렸다
+- 연속성 앵커: Recurring subject — a Latin American woman in her 40s with dust-covered dark hair tied back, wearing a faded olive field jacket, holding a folded paper list. / Recurring place — a toppled coastal apartment block in La Guaira.
 
 ### [카드 1]
 **텍스트**
 ```text
-지난 6월 베네수엘라에 강진이 났다
-8월 3일 국회의장이 집계를 내놨다
-*사망자 6천125명.* 3주 새 또 늘었다
-세는 일은 한 칸에서만 진행 중이었다
+지난 6월 베네수엘라를 강진이 덮쳤다
+국회의장은 8월 3일 텔레그램에
+사망자 6천125명이라고 적었다
+*그 숫자는 3주 전보다 크게 불었다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the stunned, unblinking eyes of a middle-aged woman standing still in the middle of a debris-covered street. She stands within a loose scattered line of residents who face a collapsed low-rise apartment block, their gazes lifted toward the broken upper floors. A dust-caked plastic water jug lies tipped over and forgotten at her feet. The location is a coastal Caribbean city street in Venezuela, concrete buildings leaning on both sides, snapped laundry lines hanging over the road. nose room on the right, gaze directed toward the right edge.
-Camera: establishing wide shot from eye-level, shot on 35mm documentary lens
+Scene: Emotional focal point: her reddened eyes fixed on the collapsed concrete slab ahead. Recurring subject - a Latin American woman in her 40s with dust-covered dark hair tied back, wearing a faded olive field jacket, holding a folded paper list. She stands at the edge of a toppled coastal apartment block in La Guaira and turns toward the right side of the frame, where three rescue workers spread out across the broken slabs. Nose room on the right, gaze directed toward the right edge.
+Camera: wide shot, full body with surrounding environment, from eye-level neutral perspective, shot on 20mm wide lens
 Lighting/mood: harsh overexposed midday sunlight, hard shadows, oppressive heat
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) on a rescue marker sprayed at the edge of the collapsed block, muted daylight contrast
-Text handling: no readable text anywhere; any signage or markings are cropped, angled or blurred so no legible writing appears. no garbled or fake script, no meaningless letters, no random characters, no dense text.
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
+Text handling: no signage and no document text in view; the folded paper in her hand is seen edge-on and cropped so nothing written is legible.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the dust-covered asphalt street) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the rubble-covered ground) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -35,29 +35,29 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-Venezuela earthquake collapsed street
+La Guaira earthquake collapsed building
 ```
 
 ### [카드 2]
 **텍스트**
 ```text
-채워지는 칸은 사망자 칸이었다
 7월 13일 집계는 4천490명이었다
-3주 만에 1천600명 넘게 늘었다
-*바로 옆 칸은 6월 25일에 멈춰 있었다*
+*3주 만에 1천600명 넘게 늘었다*
+사망자 칸은 매일 채워지고 있었다
+실종자 칸만 그대로 멈춰 있었다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the flat, practiced calm on the face of a government official reading from a tablet at a podium, chin level, eyes cast down on the screen. He stands alone behind a plain lectern with one hand pressed flat on its top, no notes beside him. Behind his shoulder a wide presentation screen glows pale and blank. The location is a government briefing hall in Caracas, rows of empty chairs receding into shadow. nose room on the right, gaze directed toward the right edge.
-Camera: medium shot from a low angle, three-quarter view, shot on 50mm standard lens
-Lighting/mood: overcast diffused daylight falling through high side windows, flat soft shadows, muted somber mood
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) glowing from the tablet screen onto his hand, muted daylight contrast
-Text handling: no readable text anywhere; the tablet and the screen behind him are angled away and blurred so no legible writing appears. no garbled or fake script, no meaningless letters, no random characters, no dense text.
+Scene: Emotional focal point: the flat mouth of a government spokesman reading a number aloud without looking up. A generic Latin American man in his 50s in a dark suit stands behind a plain unmarked podium with a cluster of microphones, one hand resting on a printed sheet. Behind him a blank display board glows empty. Seen from above, he looks small on the wide polished floor of the hall.
+Camera: medium shot, waist-up framing with gestures visible, from high angle looking down, shot on 50mm standard lens
+Lighting/mood: overcast diffused daylight through tall windows, flat soft shadows, muted somber mood
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
+Text handling: the display board behind him is blank and unlit; the sheet on the podium is tilted away and cropped so no writing is legible. No emblem, no logo, no institutional name anywhere.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the polished stone floor of the briefing hall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the polished hall floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -66,29 +66,29 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-Venezuela National Assembly briefing podium
+Venezuela National Assembly press briefing podium
 ```
 
 ### [카드 3]
 **텍스트**
 ```text
-멈춘 쪽은 실종자 칸이었다
-*공식 실종자는 157명.* 그 뒤로
-단 한 번도 갱신되지 않았다
-7월 24일 이후 집계는 제대로 안 됐다
+*공식 실종자는 157명에서 멈췄다*
+6월 25일 뒤로 갱신이 없었다
+7월 24일부터는 집계 자체가 멈췄다
+그 자리를 다른 숫자들이 채웠다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a clerk's hand resting motionless on a closed ledger, fingers curled but not writing. Seen from directly above, he sits alone at a wide metal desk with his face turned away toward a window out of frame, shoulders slack. A dry pen lies beside the ledger and a thin film of dust has settled across its untouched cover. The location is a municipal records office in Venezuela, the desk surface filling the frame.
-Camera: medium close-up from a high angle looking straight down, shot on 85mm portrait lens
+Scene: Emotional focal point: a clerk's pen hovering a centimeter above the roster, held still and never touching the paper. Seen straight down from above, two hands rest on a metal office desk: one grips the pen, the other presses a stack of printed rosters flat. A thin layer of dust has settled on the untouched half of the stack. The pen tip points toward the right edge of the frame.
+Camera: extreme close-up on a single detail, hands and paper only, from a bird's-eye top-down angle, shot on 100mm macro lens
 Lighting/mood: flat sterile clinical fluorescent light, cold even greenish-white, emotionless institutional
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) marking one ruled column edge of the ledger, muted contrast
-Text handling: no readable text anywhere; the ledger is closed and the visible page edges are cropped and softly out of focus so no legible writing appears. no garbled or fake script, no meaningless letters, no random characters, no dense text.
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
+Text handling: the rosters are cropped at the frame edge and shot at a grazing angle so the ruled lines read as texture only, with no legible characters anywhere.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the metal desk surface) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the metal desktop) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -97,28 +97,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-Venezuela earthquake casualty registry office
+Venezuela earthquake missing persons registry
 ```
 
 ### [카드 4]
 **텍스트**
 ```text
-당국의 칸은 157명에서 멈춰 있다
-주지사는 1천400명, 전문가는 1만명
-*시민 단체는 2만9천명을 세고 있다*
+*157명, 1천400명, 1만명, 2만9천명*
+당국·주지사·전문가·시민단체 순이다
+백 배 넘게 벌어진 같은 사건의 장부다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: her reddened, unfocused eyes staring past the camera in a vacant thousand-yard stare that has stopped seeing. Recurring subject — a Venezuelan woman in her 40s with dust-streaked dark hair tied back, wearing a faded blue blouse. She holds a single folded photograph flat against her chest with both hands, knuckles pale. Behind her, kept lower and softer so she stays the focus, two volunteers in plain vests reach up to add marks to a large ruled sheet pinned on the wall. The location is the courtyard of a community building in La Guaira.
-Camera: tight close-up with the face filling the frame, from eye-level, three-quarter angle, shot on 85mm portrait lens
-Lighting/mood: a single pool of hard light isolating the figure in surrounding blackness, claustrophobic loneliness
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) on the volunteers' tally sheet behind her, film-noir low-key lighting, deep shadows
-Text handling: no readable text anywhere; the photograph is folded away from view and the wall sheet is seen from a steep side angle and blurred, showing only ruled marks. no garbled or fake script, no meaningless letters, no random characters, no dense text.
+Scene: Emotional focal point: a vacant thousand-yard stare, unfocused eyes looking past everything. Recurring subject - a Latin American woman in her 40s with dust-covered dark hair tied back, wearing a faded olive field jacket, holding a folded paper list. Her face fills the frame at eye level as she grips the folded list against her collarbone with white knuckles, standing alone in surrounding darkness. Behind her only a shadowed wall remains visible.
+Camera: tight close-up, face fills frame with intense contained emotion, from eye-level neutral perspective, shot on 85mm portrait lens
+Lighting/mood: single pool of hard light isolating the figure in surrounding blackness, claustrophobic loneliness
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
+Text handling: the folded list is compressed in her fist and turned inward so no writing shows at all.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the weathered concrete courtyard wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the shadowed wall behind her) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -127,29 +127,29 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-Venezuela earthquake missing relatives photo
+Venezuela earthquake families of missing
 ```
 
 ### [카드 5]
 **텍스트**
 ```text
-*확인된 피해만 봐도 규모는 크다*
-6만1천여 명이 병원 치료를 받았고
-건물 6천433채가 고위험으로 분류됐다
-2만4천여 명은 아직 대피소에 있다
+그 사이 6만1천여명이 병원을 거쳤다
+6천433채는 고위험 건물로 분류됐다
+2만4천여명은 아직 대피소에 산다
+*이건 확인된 피해만 센 숫자다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the narrow empty gap on the blanket beside a seated mother and her sleeping child, the width of a person who is not there. A long row of families sits on folded blankets between lines of camp cots, most looking down or at nothing; among them a young man with a bandaged forearm leans back against the wall, and at the far end a relief worker stands with one hand resting on a stack of supply boxes. The location is a temporary shelter set up inside a school gymnasium in Caracas.
-Camera: wide shot from eye-level, profile view running down the row, shot on 24mm wide lens
+Scene: Emotional focal point: an elderly man's hand resting on a folded blanket he has not unfolded. Seen from above, a shelter hall is filled with rows of thin mats where about a dozen adults sit or lie in family clusters, bags stacked at their feet. One woman near the center turns her head toward the right edge of the frame while the others keep still. The mats repeat toward the far end of the hall.
+Camera: group shot, multiple subjects with clear arrangement and collective mood, from high angle looking down, shot on 35mm lens
 Lighting/mood: cold blue dim interior light, heavy and suffocating, faint trembling tension
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) on a registration tag tied to one cot frame, film-noir low-key lighting, deep shadows
-Text handling: no readable text anywhere; tags, boxes and wall notices are cropped, angled or blurred so no legible writing appears. no garbled or fake script, no meaningless letters, no random characters, no dense text.
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
+Text handling: no signage, no notices on the walls, no printed markings on the mats or bags; all surfaces are plain.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the gymnasium floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the shelter floor covered with mats) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -158,29 +158,29 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-Caracas earthquake temporary shelter cots
+Caracas earthquake temporary shelter evacuees
 ```
 
 ### [카드 6]
 **텍스트**
 ```text
-잔해는 아직 16.5%만 치워졌다
-나머지 83.5%는 그대로 남아 있다
-물적 피해액만 약 28조4천억원이다
-*세계은행은 재건에 10년 이상을 봤다*
+*잔해는 아직 16.5%만 치워졌다*
+세계은행은 피해를 196억달러로 봤다
+우리 돈 약 28조4천억원이다
+이 속도면 재건에만 10년이 넘는다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: two search workers standing motionless at the edge of the rubble, made tiny by the expanse still in front of them. Seen from far above, the pair face a vast unbroken field of collapsed concrete slabs and twisted rebar reaching to the horizon, while one narrow cleared lane cuts in from the near edge and stops short. An excavator sits idle at the end of that lane, its arm lowered. The location is the flattened coastal district of La Guaira in Venezuela.
-Camera: extreme long shot from a bird's-eye view, shot on 14mm ultra-wide lens
-Lighting/mood: cold blue pre-dawn tone, desolate stillness, faint light catching wet concrete
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) tracing only the single cleared lane, film-noir low-key lighting, deep shadows
-Text handling: no readable text anywhere; machinery markings and spray marks are cropped or blurred so no legible writing appears. no garbled or fake script, no meaningless letters, no random characters, no dense text.
+Scene: Emotional focal point: one lone excavator arm raised over a debris field that runs past the frame in every direction. Seen from far above, the coastal district lies as an unbroken sea of pancaked slabs and twisted rebar; a single cleared lane cuts only a short way in from the near edge. Four tiny workers in helmets stand at the end of that lane, dwarfed by the scale of what remains untouched.
+Camera: extreme long shot, tiny subjects in a vast environment conveying scale and isolation, from a bird's-eye view, shot on 14mm ultra-wide lens
+Lighting/mood: cold blue pre-dawn tone, desolate stillness
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
+Text handling: no machine markings, no road signs, no painted numbers on any surface; the debris field carries texture only.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the rubble field) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the debris field) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -189,29 +189,29 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-La Guaira earthquake rubble aerial
+Venezuela earthquake rubble removal excavator
 ```
 
 ### [카드 7]
 **텍스트**
 ```text
-당국이 세기를 멈춘 뒤에도
-사라진 사람은 계속 사라진 채다
-지금 그 수를 세는 쪽은 시민 단체다
-*이 재난의 마지막 숫자는 157이 아니다*
+그 10년의 첫 장부는 지금 쓰인다
+당국이 세기를 멈춘 자리에서
+시민 단체가 2만9천명을 세고 있다
+*157명으로 열릴지는 세는 쪽에 달렸다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: her steady eyes looking straight out of the frame, focused now, holding the viewer without pleading. Recurring subject — a Venezuelan woman in her 40s with dust-streaked dark hair tied back, wearing a faded blue blouse. She faces the camera squarely, the folded photograph still in one hand while the other presses a fresh blank sheet flat onto a wall already layered with pinned papers. Beside her two volunteers work the same wall, reaching up to pin more sheets above the ones already there. The location is the same community building courtyard in La Guaira, first morning light washing across the papered wall.
-Camera: medium shot from eye-level, front-on, shot on 40mm natural lens
+Scene: Emotional focal point: her fingertips smoothing open the creased list, holding it out flat toward the viewer. Recurring subject - a Latin American woman in her 40s with dust-covered dark hair tied back, wearing a faded olive field jacket, holding a folded paper list. She faces the camera straight on at the toppled coastal apartment block in La Guaira, unfolding the list with both hands, eyes steady on the lens. Two volunteers behind her write on clipboards, kept lower and softer so she stays the focus.
+Camera: medium shot, waist-up framing, front-on with direct gaze and symmetrical composition, from eye-level neutral perspective, shot on 85mm portrait lens
 Lighting/mood: warm soft morning light, gentle and quiet, faint melancholy
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) on the newest sheet she is pressing to the wall, muted contrast
-Text handling: no readable text anywhere; the pinned sheets are seen at a shallow angle and blurred, showing only ruled lines and pin shadows. no garbled or fake script, no meaningless letters, no random characters, no dense text.
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
+Text handling: the unfolded list is tilted away from the camera and its surface falls into shadow, so the ruled rows read as texture only with no legible characters.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the papered wall of the community building) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the broken concrete wall behind her) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -220,5 +220,5 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-Venezuela earthquake volunteers missing list wall
+Venezuela earthquake volunteers recording names
 ```
