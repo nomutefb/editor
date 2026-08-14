@@ -28,6 +28,10 @@ trap 'rmdir "$LOCK" 2>/dev/null' EXIT
 
 # ── 환경(윈도우 = 파이썬이 python 이름 · 셸 PATH 가 작업 스케줄러에서 빈약) — pc_setup.bat 가 구운 env 를 먼저 읽는다.
 [ -f "$HOME/.nomute_pc_env" ] && . "$HOME/.nomute_pc_env"
+# ⚠ 260814 실측 봉합(운영자 로그 실물): 한글 윈도우 파이썬은 출력 문자 규격이 cp949 라 수집기가 요약표에
+#   이모지(🔥)를 찍는 순간 UnicodeEncodeError 로 넘어진다 — 일(기사 수집·파일 쓰기)은 다 끝내고 **보고서
+#   찍다가** 죽어서 매 회차 collect-fail 로 오기록됐다. 파이썬 전 호출을 세계 문자 규격으로 강제한다.
+export PYTHONUTF8=1 PYTHONIOENCODING=utf-8
 # ⚠ 260814 실측 봉합: 윈도우는 WindowsApps 에 **가짜 python3.exe**(스토어 여는 껍데기)를 심는다 — 구판이
 #   python3 을 먼저 찾다 그 껍데기를 집어 수집이 즉사(collect-fail · 화면에 「Python」 한 줄만 남김).
 #   → python 우선(실행기가 진짜 설치 폴더를 PATH 맨 앞에 박아줌) + WindowsApps 경로는 후보에서 제외.
@@ -59,6 +63,17 @@ elif ! git pull -q --rebase origin main 2>/dev/null; then
   _heal="${_heal:+$_heal+}pull-heal"
 fi
 [ -n "$_heal" ] && echo "🔧 git 착지 자가복구: $_heal"
+
+# ── 심장박동(운영자 260814 「너가 웹앱 상태 실시간으로 모니터링하고 직접 수선해」) — 이 레인이 돌고 있다는
+#    신호를 main 에 남겨 세션이 원격에서 생사를 읽게 한다. 매 회차 커밋 = 하루 수백 개 잡음이라 20분 상한 ·
+#    실패 회차도 신호를 남긴다(신호 없음 = 시계 자체가 안 도는 것으로 확정 판독 가능해진다).
+BEAT="scraper/obs/pc_lane_beat.json"
+_last_beat=$(sed -n 's/.*"epoch":\([0-9]*\).*/\1/p' "$BEAT" 2>/dev/null | head -1); [ -n "$_last_beat" ] || _last_beat=0
+if [ $(( $(date +%s) - _last_beat )) -ge 1200 ]; then
+  printf '{"epoch":%s,"kst":"%s"}\n' "$(date +%s)" "$(TZ=Asia/Seoul date '+%m-%d %H:%M:%S')" > "$BEAT" 2>/dev/null || true
+  git add "$BEAT" 2>/dev/null || true
+  git diff --cached --quiet 2>/dev/null || { git commit -q -m "beat(pc): 레인 생존 신호" 2>/dev/null && git push -q origin HEAD:main 2>/dev/null || true; }
+fi
 
 # ── 공용 착지 함수(명시 경로만 add · 새 커밋만 = --amend 금지 계약) ──────────
 _push(){ # $1=커밋 메시지 · $2…=add 경로들 · 무변동 = 조용히 0 · 경로별 개별 add(metrics 처럼 아직 없는 경로가 전체를 못 죽이게 = 판정 yml 「|| true」 문법 사본)
