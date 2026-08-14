@@ -22,17 +22,17 @@ ACCOUNT="ems1130g@gmail.com"   # 드라이브 계정(운영자 260814 확정값)
 _scan_dirs(){ # action 폴더 후보를 위에서부터 낸다(계정 일치 우선순위는 find_action 이 정한다)
   case "$(uname -s)" in
     Darwin)
-      for base in "$HOME/Library/CloudStorage/GoogleDrive-$ACCOUNT" "$HOME/Library/CloudStorage"/GoogleDrive-*; do
+      # 계정 일치 구글 드라이브 먼저 → 그다음 클라우드 폴더 전수(원드라이브·드롭박스·아이클라우드 포함).
+      # ⚠ 운영자가 「원드라이브에 있다」고 할 수도 있다(260814) — 어느 클라우드든 action 폴더면 찾는다.
+      for base in "$HOME/Library/CloudStorage/GoogleDrive-$ACCOUNT" "$HOME/Library/CloudStorage"/* \
+                  "$HOME/Google Drive" "$HOME/OneDrive" "$HOME"/OneDrive* "$HOME/Dropbox" \
+                  "$HOME/Library/Mobile Documents/com~apple~CloudDocs"; do
         [ -d "$base" ] || continue
-        for mid in "내 드라이브" "My Drive"; do
+        [ -d "$base/action" ] && printf '%s\n' "$base/action"
+        for mid in "내 드라이브" "My Drive" "문서" "Documents"; do
           [ -d "$base/$mid/action" ] && printf '%s\n' "$base/$mid/action"
         done
-      done
-      # 구형 드라이브 앱(백업 및 동기화) 폴백
-      for mid in "내 드라이브" "My Drive"; do
-        [ -d "$HOME/Google Drive/$mid/action" ] && printf '%s\n' "$HOME/Google Drive/$mid/action"
-      done
-      [ -d "$HOME/Google Drive/action" ] && printf '%s\n' "$HOME/Google Drive/action" ;;
+      done ;;
     *)
       # 윈도우 Git-Bash — 드라이브 글자 전수 스캔(G: 이 어디로 옮겨가도 산다)
       for l in g h i j k l m n o p q r s t u v w x y z c d e f a b; do
