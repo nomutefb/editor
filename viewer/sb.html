@@ -393,6 +393,14 @@
   <button class="rmin" id="rfabMin" type="button" aria-label="최소화" title="최소화 (창 접기)"><svg viewBox="0 0 24 24"><path d="M6 12h12"/></svg></button>
 </div>
 
+<!-- 📰 기사 고르기 = **설정 대기열 창 그대로**(운영자 260814) — 셸·헤더·행·페이저 부품 전부 index .bpop.qpop 값 사본.
+     행 = [번호 · 기사 제목 · 이동] · 번호 = 요약된 차례(가장 먼저 요약된 것이 1) · 제목 탭 = 자유요약 끌어오기. -->
+<div class="artdim" id="artDim" hidden></div>
+<div class="bpop qpop" id="artPop" hidden role="dialog" aria-modal="true" aria-label="기사 고르기">
+  <div class="qh"><b>기사 고르기</b><span class="qh-xcell"><button class="tool-x" id="artX" type="button" aria-label="닫기" title="닫기"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6 18 18M18 6 6 18"/></svg></button></span></div>
+  <div class="qlist" id="artList"></div>
+  <div class="qpage" id="artPage"></div>
+
 <script src="nm-svg.js"></script><!-- 공유 아이콘 SSOT(§🎨 CII P1) — 인라인 복제 폐지·단일정본 -->
 <script src="nm-rail.js" data-scope="cap" data-dlname="storyboard.jpg" data-jobkey="sb_jobs"></script><!-- 결과·이전 제작 레일 부품 SSOT(마크업·렌더·공유 이력 · 영상 스코프 = nomute_cap_hist = 사진과 분리) -->
 <script src="nm-models.js"></script><!-- 모델 표시명 SSOT(운영자 260803 5차 "아이디어도 배선") — 아래 SB_DIRECTORS/SB_SHOOTS/DNM/SNM이 참조 · 강제 = check_model_names -->
@@ -1403,14 +1411,6 @@ const PVZOOM = { K: 'nm.pvzoom',
 </script>
 <script src="cscroll.js">
 </script>
-
-<!-- 📰 기사 고르기 = **설정 대기열 창 그대로**(운영자 260814) — 셸·헤더·행·페이저 부품 전부 index .bpop.qpop 값 사본.
-     행 = [번호 · 기사 제목 · 이동] · 번호 = 요약된 차례(가장 먼저 요약된 것이 1) · 제목 탭 = 자유요약 끌어오기. -->
-<div class="artdim" id="artDim" hidden></div>
-<div class="bpop qpop" id="artPop" hidden role="dialog" aria-modal="true" aria-label="기사 고르기">
-  <div class="qh"><b>기사 고르기</b><span class="qh-xcell"><button class="tool-x" id="artX" type="button" aria-label="닫기" title="닫기"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6 18 18M18 6 6 18"/></svg></button></span></div>
-  <div class="qlist" id="artList"></div>
-  <div class="qpage" id="artPage"></div>
 </div>
 </body>
 </html>
