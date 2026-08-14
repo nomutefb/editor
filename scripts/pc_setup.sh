@@ -7,9 +7,14 @@
 set -u
 cd "$HOME" || exit 1
 
-PY="$(command -v python 2>/dev/null || command -v python3 2>/dev/null || true)"
+PY=""
+for _c in python python3; do
+  _p="$(command -v "$_c" 2>/dev/null || true)"
+  case "$_p" in *WindowsApps*) continue;; esac   # 윈도우 가짜 파이썬 껍데기 제외(pc_lane.sh 동축)
+  [ -n "$_p" ] && { PY="$_p"; break; }
+done
 CL="$(command -v claude 2>/dev/null || true)"
-[ -n "$PY" ] || { echo "❌ 파이썬을 못 찾음 — pc_setup.bat 를 다시 더블클릭"; exit 1; }
+[ -n "$PY" ] || { echo "❌ 진짜 파이썬을 못 찾음 — pc_setup.bat 를 다시 더블클릭"; exit 1; }
 pd="$(dirname "$PY")"; cdir=""; [ -n "$CL" ] && cdir="$(dirname "$CL")"
 { echo '#!/usr/bin/env bash'
   echo "export PATH=\"$pd${cdir:+:$cdir}:\$PATH\""

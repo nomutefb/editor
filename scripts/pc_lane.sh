@@ -28,8 +28,16 @@ trap 'rmdir "$LOCK" 2>/dev/null' EXIT
 
 # ── 환경(윈도우 = 파이썬이 python 이름 · 셸 PATH 가 작업 스케줄러에서 빈약) — pc_setup.bat 가 구운 env 를 먼저 읽는다.
 [ -f "$HOME/.nomute_pc_env" ] && . "$HOME/.nomute_pc_env"
-PY="$(command -v python3 || command -v python || true)"
-[ -n "$PY" ] || { _land "no-python" "python 미설치 — pc_setup.bat 재실행"; exit 1; }
+# ⚠ 260814 실측 봉합: 윈도우는 WindowsApps 에 **가짜 python3.exe**(스토어 여는 껍데기)를 심는다 — 구판이
+#   python3 을 먼저 찾다 그 껍데기를 집어 수집이 즉사(collect-fail · 화면에 「Python」 한 줄만 남김).
+#   → python 우선(실행기가 진짜 설치 폴더를 PATH 맨 앞에 박아줌) + WindowsApps 경로는 후보에서 제외.
+PY=""
+for _c in python python3; do
+  _p="$(command -v "$_c" 2>/dev/null || true)"
+  case "$_p" in *WindowsApps*) continue;; esac
+  [ -n "$_p" ] && { PY="$_p"; break; }
+done
+[ -n "$PY" ] || { _land "no-python" "진짜 python 미발견(껍데기 제외) — pc_setup.bat 재실행"; exit 1; }
 git config user.email >/dev/null 2>&1 || { git config user.name "nomute-pc"; git config user.email "nomute-pc@local"; }
 
 # ── git 착지 자가복구(phone_scrape.sh 정본 블록의 동작 사본 · 창작 0) ─────────
