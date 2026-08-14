@@ -26,10 +26,15 @@ EOF
 echo "② 조용한 실행기 준비 완료"
 
 VBSWIN="$(cygpath -w "$HOME/nomute_pc_lane.vbs" 2>/dev/null || true)"
-if schtasks.exe /Create /F /SC MINUTE /MO 15 /TN NomutePcLane /TR "wscript.exe \"$VBSWIN\"" >/dev/null 2>&1; then
+# ⚠ 260814 실측 봉합 2종: ⓐ Git-Bash 는 /Create 같은 슬래시 옵션을 경로로 착각해 바꿔친다(MSYS 경로 변환)
+#   → 변환 끄기 2중(MSYS_NO_PATHCONV + MSYS2_ARG_CONV_EXCL) ⓑ 구판은 에러를 >/dev/null 로 삼켜
+#   「실패」만 남고 사유가 소실됐다(이 레포가 반복 겪은 관측 소실 축) → 사유를 받아서 화면에 그대로 낸다.
+ERR="$(MSYS_NO_PATHCONV=1 MSYS2_ARG_CONV_EXCL='*' schtasks.exe /Create /F /SC MINUTE /MO 15 /TN NomutePcLane /TR "wscript.exe \"$VBSWIN\"" 2>&1)"
+if [ $? -eq 0 ]; then
   echo "③ 15분 시계 등록 완료"
 else
-  echo "❌ 15분 시계 등록 실패 — 이 화면을 캡처해서 클로드에게"; exit 1
+  echo "❌ 15분 시계 등록 실패 — 사유: $ERR"
+  echo "   (이 화면을 캡처해서 클로드에게)"; exit 1
 fi
 
 echo "④ 첫 발사를 지금 이 창에서 직접 돌린다 — 수집 몇 분 + 판정 몇 분이 걸릴 수 있다. 글자가 올라가는 동안 창을 닫지 말 것…"
