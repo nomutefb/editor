@@ -4941,6 +4941,80 @@ def check_cloud_action_chain():
     return rc
 
 
+def check_pc_lane_stages():
+    """액션 대체 레인의 스테이지 생존(운영자 260814 «깃허브 액션 없이도 정상 가동 모든 웹앱 내 기능이 돌도록»).
+    ⚠ 신설 사유 = **한 스테이지가 빠져도 화면 증상이 0이다** — 레인은 매 회차 초록으로 끝나고 수집함도 계속
+    늘어나는데, 빠진 축(재난문자·트렌드·SNS·채널·감시·계측·요약)만 조용히 정지한다. 260814 이전 레인이 정확히
+    그 상태였고(수집·판정 2스텝뿐) 운영자 눈이 유일한 검출기였다(insta-thumb-miss·brk_misfire 동축).
+    기존 게이트는 전부 다른 축 — check_cloud_action_chain = **시계·드라이브·열쇠 배선**(레인 바깥 껍데기) ·
+    check_workflow_amend·check_pages_skip = 워크플로 축 → 「그 레인이 **무슨 일을 하는가**」는 축이 없었다.
+    정적 · 렌더·LLM·네트워크 0 · 면책표 없이 하드 0. 축 =
+    ① 착지 = git_land 위임(구판 자체 리베이스 루프 부활 차단 — 260814 실측 push-fail 의 진범)
+    ② 형제 전건 -X theirs(phone_scrape·phone_subs — 하나만 고치면 나머지가 조용히 낡는다 = 이 레포 최빈 사고)
+    ③ 안 밀린 커밋 보호(git_land 의 reset --hard 가 방금 만든 요약을 지우는 자리 = 가장 비싼 조용한 유실)
+    ④ 스테이지 실행줄 실존 8종 ⑤ 요약 스테이지가 데이터 스테이지보다 **뒤**(자리가 계약 = ③의 짝)."""
+    rc = 0
+    paths = {k: os.path.join(ROOT, 'scripts', v) for k, v in (
+        ('lane', 'pc_lane.sh'), ('ph', 'phone_scrape.sh'), ('ps', 'phone_subs.sh'))}
+    txt = {}
+    for k, p in paths.items():
+        if not os.path.exists(p):
+            print('❌ [pc-lane] 파일 소실: %s' % os.path.relpath(p, ROOT)); return 1
+        with open(p, encoding='utf-8', errors='replace') as f:
+            txt[k] = f.read()
+    lane = txt['lane']
+    # ① 착지 위임 + 구판 부활 차단
+    if not _has_exec_line(lane, 'git_land.sh'):
+        print('❌ [pc-lane] 착지가 git_land.sh 위임이 아니다 — 자체 리베이스 루프는 폰 레인과 같은 파일을 물면 그 회차 산출을 통째로 버린다(260814 실측)'); rc = 1
+    # ② 세 레인 전건 -X theirs(형제 봉합) + ③ 안 밀린 커밋 보호
+    for k, nm in (('ph', 'phone_scrape.sh'), ('ps', 'phone_subs.sh')):
+        if not _has_exec_line(txt[k], 'rebase -q -X theirs origin/main'):
+            print('❌ [pc-lane] %s 리베이스 충돌 봉합(-X theirs) 소실 — 같은 병의 형제를 한쪽만 고치면 그쪽만 조용히 낡는다' % nm); rc = 1
+    # ⚠ 판정은 **착지 함수 몸통 안**에서 본다 — 파일 어딘가에 같은 문자열이 있으면 통과하게 두면 자가복구
+    #   블록의 `rev-list` 한 줄이 면죄부가 된다(킬테스트 K3 실측 = 보호를 통째로 지웠는데 rc=0 으로 통과).
+    _body, _in = [], False
+    for ln in lane.split('\n'):
+        if not _in and ln.startswith('_gl(){'):
+            _in = True; _body.append(ln); continue
+        if _in:
+            if ln.startswith('}'):
+                break
+            _body.append(ln)
+    _body = '\n'.join(_body)
+    if not (_body and 'rev-list --count origin/main..HEAD' in _body and 'return 1' in _body):
+        print('❌ [pc-lane] 안 밀린 커밋 보호 소실 — git_land 의 reset --hard 가 방금 만든 요약 커밋을 지운다(착지 함수 _gl 몸통 축)'); rc = 1
+    # ④ 스테이지 실행줄(대응 워크플로 = 주석에 명기) — 이름이 아니라 **실제로 부르는 실행기**로 판정한다
+    stages = (
+        ('재난·트렌드(sns-trends)', 'scraper/sns_trends.py'),
+        ('키워드 폰 알림(sns-trends)', 'kw_watch.py'),
+        ('화재 후속 추적(scrape)', 'scraper/fire_watch.py'),
+        ('커뮤니티 급상승(social-scan)', 'scraper/social_burst.py'),
+        ('채널 수집(insta-fetch·fb-fetch)', 'insta_fetch.py'),
+        ('감시(watchdog)', 'scraper/watchdog.py'),
+        ('토큰 계측(metrics-rollup)', 'shared/token_report.py'),
+        ('쿠키 검진(yt-cookie-health)', 'yt_cookie_health.py'),
+        ('요약 분석(news-analyze)', 'analyze.sh'),
+        ('요약요청(news-ask)', 'ask.sh'),
+        ('썸네일(news-analyze thumb)', 'thumb_gen.py'),
+    )
+    for nm, needle in stages:
+        if not _has_exec_line(lane, needle):
+            print('❌ [pc-lane] 스테이지 소실: %s — 레인은 초록으로 끝나는데 그 축만 조용히 정지한다' % nm); rc = 1
+    # ⑤ 자리가 계약 — 요약(analyze.sh)은 데이터 스테이지 뒤에 온다(앞에 두면 뒤 착지의 reset --hard 사정권)
+    def _pos(needle):
+        for i, ln in enumerate(lane.split('\n')):
+            st = ln.strip()
+            if st and not st.startswith('#') and needle in st.split('#')[0]:
+                return i
+        return -1
+    p_an, p_wd = _pos('analyze.sh'), _pos('scraper/watchdog.py')
+    if p_an >= 0 and p_wd >= 0 and p_an < p_wd:
+        print('❌ [pc-lane] 요약(analyze.sh)이 데이터 스테이지보다 앞에 있다 — 뒤 착지의 reset --hard 가 아직 안 밀린 요약 커밋을 지운다(자리가 계약)'); rc = 1
+    if rc == 0:
+        print('✅ [pc-lane] 액션 대체 레인 — 착지 위임·형제 -X theirs·커밋 보호·스테이지 11종·요약 자리 전건 생존.')
+    return rc
+
+
 def _has_exec_line(text, needle):
     """`needle` 이 **주석이 아닌 실행줄**에 있는가. 평문 substring 은 `# python3 x.py` 처럼 주석 처리해도
     통과한다(check_refs 자신이 명시한 self-match 함정).
@@ -8530,6 +8604,11 @@ def main():
             rc = 1
     except Exception as e:
         print('❌ check_cloud_action_chain 예외(fail-closed):', e); rc = 1
+    try:
+        if check_pc_lane_stages() != 0:   # 액션 대체 레인 스테이지(하드 — 한 축이 빠져도 레인은 초록 = 조용한 정지 · 260814)
+            rc = 1
+    except Exception as e:
+        print('❌ check_pc_lane_stages 예외(fail-closed):', e); rc = 1
     try:
         if check_font_shorthand() != 0:   # 활자 무효축약(하드 — `font:` 축약 안 inherit = 선언 전체 무효 · 조용한 상속 드리프트)
             rc = 1

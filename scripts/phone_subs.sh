@@ -80,7 +80,9 @@ for i in 1 2 3 4; do
   git push -q origin HEAD:main 2>/dev/null && { _land "ok" "착지"; exit 0; }
   echo "push 재시도 $i"; sleep $((2**i))
   git fetch origin main -q 2>/dev/null || true
-  git rebase -q origin/main 2>/dev/null || { git rebase --abort 2>/dev/null || true; break; }   # 충돌 = 붙들지 않는다(다음 회차 realign 회수)
+  # -X theirs = 리베이스에서 **이쪽 커밋 우선**(구독·트렌드 산출은 회차마다 통째로 다시 만드는 스냅샷이라 이게 정답).
+  # ⚠ 260814 실측 봉합: 무옵션이면 같은 파일을 쥔 다른 레인과 충돌해 그 회차 수집이 통째로 버려졌다(형제 전건 봉합).
+  git rebase -q -X theirs origin/main 2>/dev/null || { git rebase --abort 2>/dev/null || true; break; }   # 그래도 못 붙으면 놓는다(다음 회차 realign 회수)
 done
 _land "push-fail" "4회 소진(non-ff·인증 만료)"
 # ⚠ rc=1 로 끝낸다(구판은 rc=0 = **거짓 성공** — cron·phone_check ⑦ 이 정상 종료로 읽어 실패가 안 보였다)

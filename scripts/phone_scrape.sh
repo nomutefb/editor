@@ -77,7 +77,10 @@ for i in 1 2 3 4; do
   git push -q origin HEAD:main 2>/dev/null && { _land "ok" "착지"; exit 0; }
   echo "push 재시도 $i"; sleep $((2**i))
   git fetch origin main -q 2>/dev/null || true
-  git rebase -q origin/main 2>/dev/null || { git rebase --abort 2>/dev/null || true; break; }
+  # -X theirs = 리베이스에서 **이쪽 커밋 우선**(수집함은 회차마다 통째로 다시 만드는 스냅샷이라 이게 정답).
+  # ⚠ 260814 실측 봉합: 무옵션 리베이스는 PC 레인과 같은 candidates.json 을 물면 충돌로 죽고 → abort → break →
+  #   그 회차 수집 전량 폐기였다(PC 원장 실물 `21:35:41|push-fail|4회 소진`). 같은 줄이 세 레인에 있다(형제 전건 봉합).
+  git rebase -q -X theirs origin/main 2>/dev/null || { git rebase --abort 2>/dev/null || true; break; }
 done
 _land "push-fail" "4회 소진(non-ff·인증 만료)"
 # rc=1 로 끝낸다(phone_subs.sh 계약 동축 = 거짓 성공 금지 · cron 로그·phone_check 가 실패로 읽는다).
