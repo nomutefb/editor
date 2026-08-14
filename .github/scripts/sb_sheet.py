@@ -99,60 +99,121 @@ def sheet_prompt(md, cuts):
              cells="\n".join(cells))
 
 
+def conti_prompt(md, cuts):
+    """스케치 동작 콘티 — 스토리보드와 **같은 칸 배치**로 동작만 연필 스케치로 뜬다.
+
+    운영자 260814 = 「스케치 동작 시트가 있으면 모션이 훨씬 퀄이 올라간다 · 만화 그리기 전에
+    연필로 스케치 뜨는 것과 같음 · 스토리보드 각각에 맞게 짜는 것」.
+
+    ⚠ 스토리보드와 무엇이 다른가 = 스토리보드는 **그 컷이 어떻게 보이는가**(완성 그림)이고
+      이건 **그 안에서 무엇이 어떻게 움직이는가**(자세와 이동)다. 그래서 색·질감·조명을 빼고
+      연필선과 움직임 화살표만 남긴다 — 남기면 모델이 그 그림의 화풍을 따라 그린다.
+    ⚠ 칸 번호·배치는 스토리보드와 1:1 이어야 한다(참조 두 장이 서로 다른 순서를 말하면 사고).
+    """
+    title = (_TITLE.search(md).group(1).strip() if _TITLE.search(md) else "콘티")
+    rows, cols = grid_of(len(cuts))
+    cells = []
+    for i, c in enumerate(cuts):
+        cells.append("{}  MOTION: {}   CAMERA MOVE: {}".format(
+            CIRCLED[i] if i < len(CIRCLED) else "({})".format(i + 1),
+            c.get("motion") or c["action"] or c["desc"] or "-",
+            c["camera"] or "-"))
+    return (
+        "You are a storyboard artist. Generate ONE single horizontal MOTION SKETCH SHEET — rough "
+        "graphite pencil sketches on white paper, like the pose thumbnails an artist draws before "
+        "inking a comic.\n\n"
+        "[SHEET]\n"
+        "Title bar (top, one line): {title} — 동작 스케치 / {n}컷\n"
+        "Grid {rows}x{cols}, circled numbers ①②③… in the top-left of each cell, same cut order as the "
+        "storyboard.\n\n"
+        "[CELLS — each = one rough pencil sketch of the MOVEMENT in that cut]\n{cells}\n\n"
+        "[STYLE RULES]\n"
+        "- Pencil line art only: loose graphite strokes, light construction lines, white paper, thin "
+        "grey gridlines. NO color, NO photoreal rendering, NO lighting, NO texture.\n"
+        "- Draw the POSE and the MOTION: arrows for body movement and for camera movement, a few "
+        "motion lines, start pose solid and end pose lightly ghosted where the body travels.\n"
+        "- Same character build and wardrobe silhouette in every cell.\n"
+        "- Printed text = title bar + circled cut numbers only. NO Japanese, NO watermark, NO logos."
+    ).format(title=title, n=len(cuts), rows=rows, cols=cols, cells="\n".join(cells))
+
+
+# 굽는 판 = 두 장(운영자 260814 「스토리보드 1, 콘티 1」) — 순서 계약 = 스토리보드 먼저 · 콘티 나중
+KINDS = {
+    "board": ("스토리보드", "sheet.jpg", "sheet_prompt"),
+    "conti": ("스케치 동작 콘티", "conti.jpg", "conti_prompt"),
+}
+
+
 def main():
     if len(sys.argv) < 3:
-        sys.exit("usage: sb_sheet.py <board.md> <out_dir>")
+        sys.exit("usage: sb_sheet.py <board.md> <out_dir> [board|conti]")
     md_path, out_dir = sys.argv[1], sys.argv[2]
+    kind = (sys.argv[3] if len(sys.argv) > 3 else "board").strip().lower()
+    if kind not in KINDS:
+        sys.exit("모르는 판 이름: {}(쓸 수 있는 것 = {})".format(kind, " · ".join(KINDS)))
+    kind_nm, key_nm, fn_nm = KINDS[kind]
     md = open(md_path, encoding="utf-8").read()
     stem = os.path.basename(os.path.normpath(out_dir))
     prefix = os.environ.get("REFGEN_PREFIX", "sb_out")
 
     cuts = cuts_of(md)
     if not cuts:
-        print("콘티 시트: 미시도(컷 0개) — board.md 형식 확인")
+        print("{}: 미시도(컷 0개) — board.md 형식 확인".format(kind_nm))
         return 0
 
     # ⚠ 엔진 2단(260811 실측 봉합) — 첫 실호출(run 31536019555)에서 이 스텝이 **1초 만에 끝났다**.
     #   OPENAI_API_KEY 가 레포 시크릿에 없어서 통째로 미시도였고, 영상 12컷은 다 나왔는데
     #   시트만 조용히 0장이었다(에러 0 · 잡은 초록). 없는 키를 기다리는 층은 죽은 층이라
     #   **이미 있는 자격(Gemini)** 으로 내려앉는다 — 종전 정본(GPT Image)은 1순위 그대로다.
-    prompt = sheet_prompt(md, cuts)
+    prompt = globals()[fn_nm](md, cuts)
     png, engine = None, None
     if os.environ.get("OPENAI_API_KEY", "").strip():
         try:
             png = gi.openai_image(prompt, None, SHEET_ASPECT)
             engine = "gpt_image"
         except Exception as e:  # noqa: BLE001
-            print("::warning::콘티 시트 GPT Image 실패 — 제미나이로 내려앉는다: {}".format(str(e)[:200]))
+            print("::warning::{} GPT Image 실패 — 제미나이로 내려앉는다: {}".format(kind_nm, str(e)[:200]))
     if not png and tg.KEY:
         # 2K = 시트엔 칸마다 글자 세 줄이 들어가므로 1K 로는 뭉갠다(k_refgen 은 그림 한 장이라 1K).
         png = tg.gemini_image(prompt, "2K", tag="sbsheet",
                               aspect="{}:{}".format(*SHEET_ASPECT))
         engine = "gemini"
     if not png:
-        print("콘티 시트: 미시도(OPENAI_API_KEY·GEMINI_API_KEY 둘 다 없음)")
+        print("{}: 미시도(OPENAI_API_KEY·GEMINI_API_KEY 둘 다 없음)".format(kind_nm))
         return 0
 
     url = None
     if tg.R2_ON:
         try:
-            url = tg.r2_upload(png, "{}/{}/sheet.jpg".format(prefix, stem),
+            url = tg.r2_upload(png, "{}/{}/{}".format(prefix, stem, key_nm),
                                tg._img_type(png)[0] or "image/jpeg")
         except Exception as e:  # noqa: BLE001
-            print("::warning::콘티 시트 R2 업로드 실패: {}".format(str(e)[:200]))
+            print("::warning::{} R2 업로드 실패: {}".format(kind_nm, str(e)[:200]))
     if not url:
-        # R2 가 없으면 레포에 남긴다(대표 1장뿐이라 비대 위험이 작다 = k_refgen 폴백 관례)
-        open(os.path.join(out_dir, "sheet.jpg"), "wb").write(png)
+        # R2 가 없으면 레포에 남긴다(판마다 1장뿐이라 비대 위험이 작다 = k_refgen 폴백 관례)
+        open(os.path.join(out_dir, key_nm), "wb").write(png)
     if engine == "gemini":
         sc.add(out_dir, "gemini", "sheet", 1, note="2K 단가 미확인 = 1K 단가로 센 하한")
+    # ⚠ 원장은 **판마다 한 칸씩 덮어쓴다** — 통째로 새로 쓰면 먼저 구운 판의 주소가 지워진다
+    #   (스토리보드를 굽고 콘티를 구우면 스토리보드 주소가 사라지는 형태 = 조용한 유실).
+    js = os.path.join(out_dir, "sheet.json")
     try:
-        json.dump({"url": url, "cuts": len(cuts), "engine": engine},
-                  open(os.path.join(out_dir, "sheet.json"), "w", encoding="utf-8"),
-                  ensure_ascii=False)
+        d = json.load(open(js, encoding="utf-8"))
+        if not isinstance(d, dict):
+            d = {}
+    except Exception:  # noqa: BLE001
+        d = {}
+    d["cuts"] = len(cuts)
+    if kind == "board":
+        d["url"], d["engine"] = url, engine          # 하위호환 = 뷰어·러너가 읽는 그 자리
+    else:
+        d[kind], d[kind + "_engine"] = url, engine
+    try:
+        json.dump(d, open(js, "w", encoding="utf-8"), ensure_ascii=False)
     except Exception:  # noqa: BLE001
         pass
-    print("콘티 시트: {}컷 1장 · 엔진 {} → {}".format(
-        len(cuts), engine, url or os.path.join(out_dir, "sheet.jpg")))
+    print("{}: {}컷 1장 · 엔진 {} → {}".format(
+        kind_nm, len(cuts), engine, url or os.path.join(out_dir, key_nm)))
     return 0
 
 

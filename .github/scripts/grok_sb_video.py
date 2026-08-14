@@ -228,8 +228,11 @@ def refs_of(out_dir):
     return urls          # ⚠ 실패 슬롯 None 을 **그대로** 남긴다 = 콘티 참조 절 번호와 1:1(ref_slots 가 짝짓는다)
 
 
-# 참조 슬롯 라벨 = 콘티 `## 🖼 레퍼런스` 절의 「① 인물:」·「② 배경:」·「③ 배경(밤):」
-_REF_LABEL = re.compile(r"^\s*[①-⑳]\s*([^\n:：]{1,30})\s*[:：]", re.M)
+# 참조 슬롯 라벨 파서 = `k_refgen.ref_labels` 단일정본(사본 0 — 여기서 또 적으면 슬롯 번호가 갈린다)
+# 다각도 시트 슬롯 정체 문장 꼬리 = 「이건 시트지 장면이 아니다」(운영자 260814 다각도 계약의 짝)
+#   대상 = 사람·제품·주요 장소 시트(= `k_refgen.sheet_kind` 가 굽는 것 전부).
+SHEET_NOTE = ("a multi-angle reference sheet of that subject, not a scene "
+              "— never draw its panels or labels into the video")
 # 밤 축 어휘 — 시간대가 갈리는 자리(콘티 라벨·참조 문장 어느 쪽에 적혀도 잡는다)
 _NIGHT = re.compile(r"night|nocturnal|after\s*dark|밤|야간|야경|심야", re.I)
 
@@ -274,8 +277,7 @@ def ref_slots(md, out_dir):
       가리킨다(대명사 뒤바뀜 사고와 같은 축). 여기서 **번호로 짝지어** 그 구멍을 막는다.
     """
     urls = refs_of(out_dir)
-    sec = md.split("## 🖼", 1)[-1].split("\n## ", 1)[0] if "## 🖼" in md else md
-    labels = _REF_LABEL.findall(sec)
+    labels = kr.ref_labels(md)                         # 파서 단일정본 = 그림을 굽는 쪽과 같은 순서
     blocks = kr.extract_refs(md)
     out = []
     for i, u in enumerate(urls):
@@ -285,7 +287,10 @@ def ref_slots(md, out_dir):
         blk = blocks[i] if i < len(blocks) else ""
         out.append({"url": u, "label": lab, "block": blk,
                     "night": is_night(lab) or is_night(blk),
-                    "bg": ("배경" in lab or "장소" in lab)})
+                    "bg": ("배경" in lab or "장소" in lab),
+                    # 사람·제품·주요 장소 참조는 낱장 사진이 아니라 **다각도 시트**다(k_refgen TURN_SPECS)
+                    # → 정체 문장이 「이건 시트지 장면이 아니다」를 같이 말해야 칸이 화면으로 안 샌다.
+                    "idnote": SHEET_NOTE if kr.sheet_kind(lab) else ""})
     return out[:REF_CAP]
 
 
@@ -338,7 +343,7 @@ _REF_LEAD = re.compile(
     r"(?:portrait|photograph|photo|shot|still|image|render)\s+of\s+", re.I)
 
 
-def ref_ids(blocks):
+def ref_ids(blocks, notes=None):
     """고른 참조들을 **정체 문장**으로 묶는다 — `<IMAGE_0> 은 의수를 단 남자다` 식.
 
     ⚠ 왜 필요했나(260811 실측 사고) = 참조 모드는 얼굴·옷·장소를 잠그지만 「이 컷에서 **누가**
@@ -365,7 +370,10 @@ def ref_ids(blocks):
         # ⚠ 슬롯 지목 문법은 **통로마다 다르다** — 그록은 `<IMAGE_0>` 로 번호를 부르고, 시댄스는
         #   그 문법을 받는지 미확인이라 순서말(첫 번째 참조)로 쓴다. 러너가 그록 문법을 박고
         #   있으면 통로가 일부러 뺀 문법이 되살아난다(260812 페이블 검증).
-        outs.append(LANE.ref_id_clause(i, cut.rstrip(" .,")))
+        # ⚠ 꼬리는 **자른 뒤에** 붙인다 — 150자 컷 앞에 두면 인물 슬롯의 「이건 시트다」가 통째로
+        #   잘려 나간다(잘린 채로도 문장이 멀쩡해 보여서 아무도 못 알아챈다).
+        note = (notes[i] if notes and i < len(notes) else "") or ""
+        outs.append(LANE.ref_id_clause(i, cut.rstrip(" .,") + (", " + note if note else "")))
     return outs
 
 
@@ -624,7 +632,7 @@ def main():
             print("::warning::자격 갱신 실패 — 남은 영상 중단: {}".format(e.why))
             break
         use = pick_refs(slots, c)                       # 이 편에 실을 참조(밤·낮이 갈리면 여기서 갈린다)
-        ids = ref_ids([s["block"] for s in use]) if use else []
+        ids = ref_ids([s["block"] for s in use], [s.get("idnote") for s in use]) if use else []
         rec = {"n": c["n"], "sec": c["sec"], "refs": len(use), "video": None,
                "cuts": [x["n"] for x in c["cuts"]],
                "desc": " / ".join(x["desc"] for x in c["cuts"] if x.get("desc"))}

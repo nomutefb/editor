@@ -28,6 +28,68 @@ import thumb_gen as tg   # gemini_image · r2_upload · R2_ON · KEY (모듈 imp
 # 레퍼런스 = 글자 없는 깨끗한 주체/장면 컷(텍스트 합성 없음 = Kling @참조용).
 REF_STYLE = " 글자·자막·캡션·워터마크·로고 없이 깨끗한 장면만."
 
+# 인물 슬롯 = **한 페이지에 360도**(운영자 260814 「큼지막한게 하나 있는게 아니라 인물의 360도를
+# 기록한게 더 중요한거라는거지 한 페이지에」 · 「항상 저렇게 인물이 뽑히도록」).
+# ⚠ 왜 낱장 사진이면 안 되나 = 참조 한 장은 「이 얼굴을 유지하라」는 잠금인데, 정면 한 컷만 주면
+#   옆·뒤로 돌아가는 순간 모델이 참고할 게 없어 **딴사람이 된다**(그 사고를 막는 게 회전 시트다).
+# ⚠ 규격 창작 0 = `.claude/skills/master-sheet-v2/SKILL.md` §STEP2 CHARACTER 패널 세트와 §STEP4
+#   템플릿 문장을 그대로 옮겼다(정면·3/4·측면·전신·표정 · 칸 이름만 글자 · 가로 3:2 · 2K).
+#   단 「좌측 대형 정면」은 안 쓴다 — 운영자가 그 축을 정정했다(큰 정면 하나가 아니라 360 기록).
+# 판마다 칸 구성이 다르다 — 사람은 얼굴, 물건은 형태, 장소는 자리다.
+#   ⚠ 사람·물건 칸 구성은 `.claude/skills/master-sheet-v2/SKILL.md` §STEP2 를 그대로 옮겼다(창작 0).
+#     견본 그림(`assets/reference-character-sheet-v2.png`)에 있는 **달리기(RUN)** 칸도 그대로 넣는다.
+#   ⚠ 장소는 그 문서에 없다 = 운영자 260814 「환경이 주요가 되면 환경도 다각도로」 → 사람·물건과
+#     **같은 문법**으로 짜되(한 페이지·같은 크기 칸·칸 이름만 글자) 칸 이름만 장소 축으로 바꾼다.
+_SHEET_COMMON = (
+    " Lay the panels out as one page, equally sized, same subject design, same lighting and same"
+    " color grade in EVERY panel. Print only the short panel header labels in Korean with the English"
+    " in parentheses, no other in-image text, no hex codes, no captions, no watermark, no logos."
+)
+TURN_SPECS = {
+    "person": (" ONE CHARACTER TURNAROUND SHEET: 정면(FRONT), 3/4 (45 degrees), 측면(SIDE) profile,"
+               " 전신(FULL BODY) head to shoe, 달리기(RUN) a full-body running pose with motion blur,"
+               " and 표정(EXPRESSION) a row of 3 head close-ups (calm, alarmed, smiling)."
+               " Identical face, hair and wardrobe in every panel." + _SHEET_COMMON),
+    "product": (" ONE PRODUCT SHEET: 히어로(HERO) one larger beauty shot, then 정면(FRONT), 측면(SIDE),"
+                " 후면(BACK) of the same object, and 디테일(DETAIL) 2-3 close inserts of its key finish."
+                " Identical silhouette, label and material in every panel." + _SHEET_COMMON),
+    "place": (" ONE LOCATION SHEET: 전경(WIDE) the whole place, 눈높이(EYE LEVEL) as a person standing in"
+              " it would see, 반대편(REVERSE) the opposite direction from the same spot, 위에서(TOP DOWN)"
+              " the layout, and 디테일(DETAIL) 2-3 close inserts of its fixed set pieces."
+              " Identical architecture, props and time of day in every panel." + _SHEET_COMMON),
+}
+TURN_ASPECT, TURN_SIZE = "3:2", "2K"   # 시트 기본 = 가로 3:2 · 칸이 여럿이라 1K 면 얼굴이 뭉갠다
+
+# 참조 슬롯 라벨 = `## 🖼 레퍼런스` 절의 「① 인물:」·「② 배경:」 — 파서 단일정본(grok_sb_video 가 이걸 쓴다)
+_REF_LABEL = re.compile(r"^\s*[①-⑳]\s*([^\n:：]{1,30})\s*[:：]", re.M)
+# ⚠ 다각도 시트는 **라벨로 신청한다**(추측 0) — 「배경」 하나만 적힌 슬롯은 종전대로 낱장 장면이다.
+#   운영자 260814 = 「어떤 특정 일정한 환경이 **주요가 되면**」·「특정 광고 매체나 상품이 위주일 때」
+#   → 감독이 「주요 장소:」·「제품:」이라 적은 것만 시트로 간다(전부 시트로 굽으면 값이 배로 든다).
+_KIND_RE = (
+    ("person", re.compile(r"인물|사람|캐릭터|주인공|출연|배우")),
+    ("product", re.compile(r"제품|상품|물건|패키지|굿즈|보틀")),
+    ("place", re.compile(r"주요\s*장소|주요\s*배경|주무대|메인\s*장소|고정\s*장소")),
+)
+
+
+def ref_labels(md):
+    """참조 절 라벨을 블록과 **같은 순서**로 돌려준다(사본 0 = 슬롯 번호가 갈릴 여지 0)."""
+    sec = re.search(r'##\s*🖼\s*레퍼런스\s*\n(.*?)(?=\n##\s|\Z)', md, re.S)
+    return [x.strip() for x in _REF_LABEL.findall(sec.group(1) if sec else md)]
+
+
+def sheet_kind(label):
+    """이 슬롯을 다각도 시트로 굽나 — 굽는다면 어느 문법인가(아니면 None = 종전 낱장)."""
+    for kind, rx in _KIND_RE:
+        if rx.search(label or ""):
+            return kind
+    return None
+
+
+def is_person(label):
+    """사람 슬롯인가 — 정체 문장 꼬리(회전 시트 고지)를 붙일지 가르는 축."""
+    return sheet_kind(label) == "person"
+
 
 def extract_refs(md):
     """'## 🖼 레퍼런스' 절 안 ```text 블록 전부 — 단일(대표 1장)도 다장(운영자 토글 260708)도 같은 findall로 수렴.
@@ -65,8 +127,16 @@ def main():
     # 영상 레퍼런스 = 16:9 기본(가로 영상). 1K(토큰 절감, 썸네일/카드와 동일).
     # 부분 실패 = 슬롯 보존(압축 금지) — slot N ≡ 🔗 첨부 순서 범례 N 불변이 다장의 핵심 계약(검증1 260708 · 실패 슬롯 = null → 뷰어 실패 칩).
     slots = []
+    labels = ref_labels(md)
     for i, ref in enumerate(refs, 1):
-        png = tg.gemini_image(ref + REF_STYLE, "1K", tag="kref", aspect=aspect)
+        lab = labels[i - 1] if i <= len(labels) else ""
+        kind = sheet_kind(lab)
+        if kind:
+            # 다각도 시트 한 장(한 컷 금지) · 가로 3:2 · 2K
+            png = tg.gemini_image(ref + TURN_SPECS[kind], TURN_SIZE, tag="kref", aspect=TURN_ASPECT)
+            print("참조 {}번({}) = 다각도 시트로 굽는다({} 문법 · 한 페이지)".format(i, lab, kind))
+        else:
+            png = tg.gemini_image(ref + REF_STYLE, "1K", tag="kref", aspect=aspect)
         slots.append(png)
         if not png:
             print("::warning::레퍼런스 {}번 생성 실패(비치명 — 슬롯 보존·나머지 계속)".format(i))
