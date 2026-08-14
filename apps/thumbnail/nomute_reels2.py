@@ -9,9 +9,10 @@
   - 좌우 마진 MARGIN 유지(가용폭 AVAIL). 폭 초과 시 자간만 0→TR_MIN(-45)로
     줄여 맞춘다(폰트 크기 불변). 안 넘으면 자간0(레거시 단일 렌더로 동일).
 """
+import os
 from PIL import Image, ImageDraw, ImageFont
 
-FONT = "/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc"
+FONT = os.environ.get("NOMUTE_FONT_PATH") or "/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc"   # 260815: 맥 잡워커 대응 — env 우선(미설정 = CI 기존 경로)
 GREEN = (15, 253, 2)  # 형광그린 — 콘텐츠 상수 원복(운영자 260706 롤백 · 콘텐츠 색 = UI 팔레트와 별개 축, UI 개편에 동행 금지)
 WHITE = (255, 255, 255)
 SCALE = 2                 # 2K 렌더(1080 기준 ×SCALE). reels2_base.png(1080×1920)는 render()에서 ×SCALE 업스케일.
