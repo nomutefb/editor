@@ -144,7 +144,7 @@ export async function onRequestPost({ request, env }) {
   const id = new Date(Date.now() + 9 * 3600e3).toISOString().replace(/[^0-9]/g, '').slice(2, 14) + '-' + crypto.randomUUID().slice(0, 6);   // YYMMDDHHMMSS = KST(+9h · pick.js 규칙 · build-viewer thIdTs가 +09:00로 파싱 = 제작시각 정확) · -rand=동초 충돌 방지
 
   // 배경 이미지 업로드(uploads/<id>/src.*) — /1·/2 오버레이 모두 옵션(이미지 있을 때만 업로드)
-  let imgPath = '', imgSha = '';
+  let imgPath = '', imgSha = '', ghUploadDead = false;
   const wantImg = (app === '1' || (app === '2' && params.mode === 'overlay')) && body.imageB64;
   if (wantImg) {
     let b64 = String(body.imageB64 || '');
@@ -163,19 +163,36 @@ export async function onRequestPost({ request, env }) {
       message: `thumb upload ${id}`, content: b64, branch: REF,
     });
     if (put.status !== 201 && put.status !== 200) {
-      return json({ error: `업로드 실패 GitHub ${put.status}: ${(await put.text()).slice(0, 200)}` }, 502);
+      // 260815 fail-soft: 깃허브 쓰기 사망(플래그 기간) — 502 반환 대신 R2 큐 사다리로(이미지 b64는 큐 잡에 동봉 · 맥 워커가 로컬 착지)
+      ghUploadDead = true;
+    } else {
+      try { imgSha = ((await put.json()) || {}).commit?.sha || ''; } catch { imgSha = ''; }   // src 커밋 SHA — 워크플로가 dispatch 레이스(옛 HEAD 체크아웃)일 때 이 SHA로 배경 직접 확보
     }
-    try { imgSha = ((await put.json()) || {}).commit?.sha || ''; } catch { imgSha = ''; }   // src 커밋 SHA — 워크플로가 dispatch 레이스(옛 HEAD 체크아웃)일 때 이 SHA로 배경 직접 확보
   }
 
   // 제작 조건 스냅샷(문구·설정 = snapForm) — 기기 간 '수정' 복원용으로 서버에도 보존(워크플로가 _src.json 커밋 → build-viewer가 thumb-hist.json에 src 동봉). 이미지 b64는 미포함(로컬 IDB만)·텍스트라 작음. 6KB 캡(워크플로 input 안전).
   let srcJson = '';
   if (body.src && typeof body.src === 'object') { try { const sj = JSON.stringify(body.src); if (sj.length <= 6000) srcJson = sj; } catch {} }
 
-  const r = await GH(env.GH_TOKEN, 'actions/workflows/thumb-make.yml/dispatches', 'POST', {
-    ref: REF, inputs: { app, id, image: imgPath, image_sha: imgSha, params: JSON.stringify(params), src_json: srcJson },
-  });
-  if (r.status === 204) {
+  let dispatched = false, failNote = '';
+  if (!ghUploadDead) {
+    const r = await GH(env.GH_TOKEN, 'actions/workflows/thumb-make.yml/dispatches', 'POST', {
+      ref: REF, inputs: { app, id, image: imgPath, image_sha: imgSha, params: JSON.stringify(params), src_json: srcJson },
+    });
+    dispatched = (r.status === 204);
+    if (!dispatched) failNote = `GitHub ${r.status}: ${(await r.text().catch(() => '')).slice(0, 200)}`;
+  } else failNote = '업로드 실패(깃허브 쓰기 사망)';
+  if (!dispatched) {
+    // ── 260815 fail-soft 사다리(픽과 동형): 액션 정지 기간 = 잡을 R2 큐에 착지.
+    //    id·params·이미지 b64 를 통째로 동봉 → 맥 잡워커가 **같은 id 의 outs 경로**로 R2 산출을 올린다
+    //    = 아래서 돌려주는 outs 폴링이 그대로 성립(뷰어 무접촉 · '제작중' → 완성 표시).
+    try {
+      if (!env.R2) return json({ error: `발사 실패 ${failNote}` }, 502);
+      await env.R2.put(`queue/jobs/${id}-thumb.json`,
+        JSON.stringify({ kind: 'thumb', id, app, params, imgPath, srcJson, body }));
+    } catch { return json({ error: `발사 실패 ${failNote} · R2 큐 착지도 실패` }, 502); }
+  }
+  {
     const dir = `${R2_BASE}/thumb_out/${id}`;   // outs path = R2 절대 URL(워크플로 r2_upload 키 `thumb_out/<id>/<file>`와 일치 → 뷰어가 R2 직접 폴링=즉시·배포지연 0)
     let outs;
     if (app === '2' && params.mode === 'header' && params.tpl === 'jinjja') {
@@ -198,7 +215,6 @@ export async function onRequestPost({ request, env }) {
       // /3 저작권 = 이름(variant 태그) · /4 경고문 = variant 없음(잡 라벨 '경고문 (포맷)'로 구분)
       outs = [{ path: `${dir}/out.png`, label: app === '3' ? (params.name || '') : '' }];
     }
-    return json({ ok: true, id, out: outs[0].path, outs });
+    return json({ ok: true, id, out: outs[0].path, outs, ...(dispatched ? {} : { via: 'r2-queue' }) });
   }
-  return json({ error: `발사 실패 GitHub ${r.status}: ${(await r.text()).slice(0, 200)}` }, 502);
 }

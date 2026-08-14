@@ -30,6 +30,8 @@ def find_file(pattern):
 
 
 def find_font():
+    envp = os.environ.get("NOMUTE_FONT_PATH")   # 260815: 맥 잡워커 대응 — env 우선(미설정 = CI 기존 탐색 그대로)
+    if envp and os.path.exists(envp): return envp
     for f in ["/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc",
               "/usr/share/fonts/truetype/noto/NotoSansCJK-Bold.ttc",
               "/usr/share/fonts/noto-cjk/NotoSansCJK-Bold.ttc"]:
