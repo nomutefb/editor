@@ -4878,6 +4878,62 @@ def check_vote_btn_canon():
     return 0
 
 
+def check_cloud_action_chain():
+    """클라우드 액션 레인(구글 드라이브 「내 드라이브/action」 = git 액션 대체 · 운영자 260814 Q1482~Q1485) 층 생존.
+    한 층만 빠져도 화면 증상 0으로 조용히 죽는다 — 겉옷이 몸통을 안 부르면 시계는 도는데 수집·판정만 소실,
+    드라이브 스캔 한 이름이 빠지면 글자 바뀐 날부터 미러·환경변수만 소실, 설치 종점이 안 갈리면 클라우드 없이
+    구판 그대로(전부 로그 정상·에러 0 = insta-thumb-miss 동축) → 정적 층별 생존 강제 · 면책표 없이 하드 0.
+    축 = ① 겉옷(cloud_action.sh): 몸통 pc_lane.sh 실행 + 드라이브 두 이름 스캔(내 드라이브/My Drive) +
+    계정값(맥 마운트 경로 실값) + 환경변수.txt 주입(키 착지 슬롯) + --find(설치 뒷단이 쓴다)
+    ② 설치 뒷단(cloud_action_setup.sh): 겉옷 종점 + 맥 crontab 마커 + 윈도우 5분 시계 확인 + 계정값 사본 0
+    ③ 윈도우 설치 bat: 기본 설치 정본(pc_setup.bat)·뒷단 호출 ④ 맥 command: 뒷단 호출 ⑤ 몸통 실존."""
+    rc = 0
+    wrap = os.path.join(ROOT, 'scripts', 'cloud_action.sh')
+    setup = os.path.join(ROOT, 'scripts', 'cloud_action_setup.sh')
+    bat = os.path.join(ROOT, 'scripts', '노뮤트_클라우드액션_설치.bat')
+    cmdf = os.path.join(ROOT, 'scripts', '노뮤트_클라우드액션_설치.command')
+    lane = os.path.join(ROOT, 'scripts', 'pc_lane.sh')
+    for p in (wrap, setup, bat, cmdf, lane):
+        if not os.path.exists(p):
+            print('❌ [cloud-action] 파일 소실: %s' % os.path.relpath(p, ROOT)); rc = 1
+    if rc:
+        return rc
+    def _rd(p):
+        with open(p, encoding='utf-8', errors='replace') as f:
+            return f.read()
+    w, s, b, c = _rd(wrap), _rd(setup), _rd(bat), _rd(cmdf)
+
+    def _bat_exec(text, needle):
+        # 배치의 주석은 REM — 주석 처리 우회 차단(_has_exec_line 의 배치판 · 킬테스트가 잡은 구멍의 짝)
+        for ln in text.split('\n'):
+            st = ln.strip()
+            if st and not st.upper().startswith('REM') and needle in st:
+                return True
+        return False
+    for cond, msg in (
+        # ⚠ 전부 실행줄 판정(_has_exec_line) — 머리 주석에 같은 낱말이 살아 있어서 bare substring 은
+        #   코드를 지워도 통과한다(킬테스트 K3 실측 = 「My Drive」 스캔을 지웠는데 주석이 면죄부).
+        (_has_exec_line(w, 'pc_lane.sh'), 'cloud_action.sh 가 몸통(pc_lane.sh)을 실행하지 않는다'),
+        (_has_exec_line(w, '내 드라이브') and _has_exec_line(w, 'My Drive'), 'cloud_action.sh 드라이브 폴더 두 이름(내 드라이브/My Drive) 스캔 소실'),
+        (_has_exec_line(w, 'ems1130g@gmail.com'), 'cloud_action.sh 계정값 소실 — 맥 마운트 경로·다중 계정 대조 축'),
+        (_has_exec_line(w, '환경변수.txt'), 'cloud_action.sh 환경변수 주입(키 착지 슬롯) 소실'),
+        (_has_exec_line(w, '--find'), 'cloud_action.sh --find 모드 소실(설치 뒷단이 쓴다)'),
+        (_has_exec_line(s, 'cloud_action.sh'), 'cloud_action_setup.sh 가 시계 종점을 겉옷(cloud_action.sh)에 안 태운다'),
+        (_has_exec_line(s, 'nomute-cloud-action') and _has_exec_line(s, 'crontab'), 'cloud_action_setup.sh 맥 crontab 등록(마커 nomute-cloud-action) 소실'),
+        (_has_exec_line(s, 'NomutePcLane'), 'cloud_action_setup.sh 윈도우 5분 시계(NomutePcLane) 확인 소실'),
+        (_has_exec_line(s, '환경변수.txt'), 'cloud_action_setup.sh 키 착지 슬롯(환경변수.txt) 씨앗 소실'),
+        (_bat_exec(b, 'pc_setup.bat'), '설치 bat 가 기본 설치 정본(pc_setup.bat)을 부르지 않는다'),
+        (_bat_exec(b, 'cloud_action_setup.sh'), '설치 bat 가 설치 뒷단(cloud_action_setup.sh)을 부르지 않는다'),
+        (_has_exec_line(c, 'cloud_action_setup.sh'), '설치 command 가 설치 뒷단(cloud_action_setup.sh)을 부르지 않는다'),
+    ):
+        if not cond:
+            print(f'❌ [cloud-action] {msg}'); rc = 1
+    # 계정값 사본 0 — 설치 뒷단은 겉옷 정본에서 추출해야 한다(두 곳에 적으면 조용히 갈린다)
+    if 'ems1130g' in s:
+        print('❌ [cloud-action] cloud_action_setup.sh 에 계정값 리터럴 — 정본은 cloud_action.sh ACCOUNT 1곳(추출해 쓴다)'); rc = 1
+    return rc
+
+
 def _has_exec_line(text, needle):
     """`needle` 이 **주석이 아닌 실행줄**에 있는가. 평문 substring 은 `# python3 x.py` 처럼 주석 처리해도
     통과한다(check_refs 자신이 명시한 self-match 함정).
@@ -8462,6 +8518,11 @@ def main():
             rc = 1
     except Exception as e:
         print('❌ check_drive_move_bundle 예외(fail-closed):', e); rc = 1
+    try:
+        if check_cloud_action_chain() != 0:   # 클라우드 액션 레인(하드 — 드라이브 action 폴더 = git 액션 대체 · 한 층 소실 = 조용한 반쪽 · 260814)
+            rc = 1
+    except Exception as e:
+        print('❌ check_cloud_action_chain 예외(fail-closed):', e); rc = 1
     try:
         if check_font_shorthand() != 0:   # 활자 무효축약(하드 — `font:` 축약 안 inherit = 선언 전체 무효 · 조용한 상속 드리프트)
             rc = 1

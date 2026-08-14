@@ -9,4 +9,5 @@ docs/작업이력.md merge=union
 # 바꿔치면 Git-Bash 가 "\r: command not found" 로 즉사한다(폰·러너는 LF 라 무영향 = 순수 방어).
 # .bat 는 반대로 CRLF 가 정본(cmd 는 LF 배치에서 goto·블록이 어긋나는 실측 사례가 있는 파서다).
 *.sh text eol=lf
+scripts/*.command text eol=lf
 scripts/*.bat text eol=crlf
