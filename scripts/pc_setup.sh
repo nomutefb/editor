@@ -34,11 +34,11 @@ VBSWIN="$(cygpath -w "$HOME/nomute_pc_lane.vbs" 2>/dev/null || true)"
 # ⚠ 260814 실측 봉합 2종: ⓐ Git-Bash 는 /Create 같은 슬래시 옵션을 경로로 착각해 바꿔친다(MSYS 경로 변환)
 #   → 변환 끄기 2중(MSYS_NO_PATHCONV + MSYS2_ARG_CONV_EXCL) ⓑ 구판은 에러를 >/dev/null 로 삼켜
 #   「실패」만 남고 사유가 소실됐다(이 레포가 반복 겪은 관측 소실 축) → 사유를 받아서 화면에 그대로 낸다.
-ERR="$(MSYS_NO_PATHCONV=1 MSYS2_ARG_CONV_EXCL='*' schtasks.exe /Create /F /SC MINUTE /MO 15 /TN NomutePcLane /TR "wscript.exe \"$VBSWIN\"" 2>&1)"
+ERR="$(MSYS_NO_PATHCONV=1 MSYS2_ARG_CONV_EXCL='*' schtasks.exe /Create /F /SC MINUTE /MO 5 /TN NomutePcLane /TR "wscript.exe \"$VBSWIN\"" 2>&1)"
 if [ $? -eq 0 ]; then
-  echo "③ 15분 시계 등록 완료"
+  echo "③ 5분 시계 등록 완료"
 else
-  echo "❌ 15분 시계 등록 실패 — 사유: $ERR"
+  echo "❌ 5분 시계 등록 실패 — 사유: $ERR"
   echo "   (이 화면을 캡처해서 클로드에게)"; exit 1
 fi
 
@@ -49,4 +49,4 @@ echo "── 착지 원장 ──"
 cat "$HOME/.nomute_pc_lane_land" 2>/dev/null || echo "기록 없음"
 echo "── 로그 꼬리 ──"
 tail -n 6 "$HOME/pc_lane.log" 2>/dev/null || true
-echo "끝 — 착지 원장이 ok 로 시작하면 성공. 이후는 15분 시계가 알아서 돈다."
+echo "끝 — 착지 원장이 ok 로 시작하면 성공. 이후는 5분 시계가 알아서 돈다."

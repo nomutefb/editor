@@ -3,7 +3,7 @@
 # 왜: 260814 GitHub 계정 단위 Actions 정지(CLAUDE.md 🚨 항목)로 판정·분석·제작 레인이 전멸했다.
 #   폰 레인(phone_scrape.sh)은 수집만 되살린다 — 이 레인은 수집(폰과 교차)에 더해 **속보 판정·경중 채점**까지 PC 에서 돌린다.
 #   Actions 복구 후에도 유지 = 2단 안전장치(운영자 확정) · 산출 파일이 워크플로와 동일(candidates.json·metrics)이라 겹쳐 돌아도 충돌 0.
-# 실행 환경 = 윈도우 Git-Bash(작업 스케줄러 15분 · 설치 = scripts/pc_setup.bat 더블클릭 1회) · WSL/리눅스에서도 그대로 돈다.
+# 실행 환경 = 윈도우 Git-Bash(작업 스케줄러 5분(운영자 260814 «5분마다 도는 게 맞는 것 같은데» — PC 자체 시계라 외부 제약 0 · 판정 비용 불변{도장 캐시가 기사당 1회를 보장} · 겹침 = mkdir 잠금이 거른다 · ⚠ Actions 복구 후 배포 공장 부하 재검토 각주) · 설치 = scripts/pc_setup.bat 더블클릭 1회) · WSL/리눅스에서도 그대로 돈다.
 # 정본 관계(값 창작 0): 수집 2스텝 = scrape.yml 「Collect」·「Update 수집함」 인자 사본(phone_scrape.sh 동문) ·
 #   판정 = breaking-judge.yml 스텝 사본(BREAKING_MODEL·GATE_* env = 그 파일 260810 정본값 그대로).
 # v1 이 안 하는 것(이유 명기 = 조용한 반쪽 금지):
@@ -17,7 +17,7 @@ cd "$HOME/nomute-editor" 2>/dev/null || { echo "레포 없음: ~/nomute-editor �
 LAND="$HOME/.nomute_pc_lane_land"
 _land(){ printf '%s|%s|%s\n' "$(date '+%Y-%m-%dT%H:%M:%S')" "$1" "${2:-}" > "$LAND" 2>/dev/null || true; }
 
-# ── 동시 실행 잠금(mkdir = 윈도우 Git-Bash 에 flock 이 없다) — 경중 채점이 콜당 최대 900s 라 15분 주기를 넘길 수 있다.
+# ── 동시 실행 잠금(mkdir = 윈도우 Git-Bash 에 flock 이 없다) — 경중 채점이 콜당 최대 900s 라 5분 주기를 넘길 수 있다.
 #    앞 회차가 아직 채점 중이면 이번 회차는 조용히 물러난다(claude 콜 이중 발사·git 경합 차단) · 90분 넘은 잠금 = 죽은 회차로 보고 회수.
 LOCK="$HOME/.nomute_pc_lane.lock"
 if ! mkdir "$LOCK" 2>/dev/null; then
