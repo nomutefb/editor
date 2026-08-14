@@ -42,6 +42,9 @@
   .note{color:var(--warn);font-size:12px;margin:2px 0 0}
   body.only-empty .row.on{display:none}
   #emptyBtn.on{background:var(--warn);color:#0b0e14;font-weight:700}
+  .how{color:var(--mut);font-size:12px;line-height:1.65;margin:5px 0 0;padding:7px 9px;background:#0e1220;border-left:2px solid var(--acc);border-radius:0 7px 7px 0}
+  body.no-how .how{display:none}
+  #howBtn.on{background:var(--acc);color:#0b0e14;font-weight:700}
 </style>
 </head>
 <body>
@@ -66,6 +69,7 @@
 <div class="bar"><div class="in">
   <button class="sec" id="loadBtn">① 기존 환경변수.txt 불러오기</button>
   <button class="sec" id="emptyBtn">빈 칸만 보기</button>
+  <button class="sec on" id="howBtn">발급 방법 숨기기</button>
   <button id="saveBtn">③ 환경변수.txt 저장</button>
   <span id="stat"></span>
   <div id="msg"></div>
@@ -125,6 +129,53 @@ const KEYS = [
     ['GH_VARS_TOKEN','깃허브 저장소 변수 갱신 토큰 — 불필요',0]]},
   {g:'수집 조절값(선택)', k:[['SCRAPE_TOP','수집 상위 개수(기본 20)',0],['SCRAPE_HOURS','수집 시간 창(기본 24)',0]]}
 ];
+// 발급 방법 — 「어디로 가서 무엇을 누르면 나오는지」. 값을 잃어버렸으면 대부분 새로 만들면 된다(옛 값은 버려도 됨).
+// ⚠ 예외 2개는 새로 만들면 안 되거나 딸린 조치가 있다: 창고 이름·공개 주소(옛 파일이 안 보이게 된다) · 폰 알림 개인 키(폰 재등록 필요).
+const HOWTO = {
+  R2_ACCOUNT_ID: '클라우드플레어 로그인 → 왼쪽 메뉴 R2 → 개요 화면 오른쪽에 계정 아이디(영문·숫자 32자)가 적혀 있다. 그걸 복사.',
+  R2_ACCESS_KEY_ID: 'R2 개요 화면 → [R2 API 토큰 관리] → [API 토큰 만들기] → 권한은 「개체 읽기 및 쓰기」 선택 → 만들면 접근 키 번호가 나온다. (예전 값을 잃어버렸으면 새로 만들어도 된다)',
+  R2_SECRET_ACCESS_KEY: '위와 같은 화면에서 토큰을 만들면 비밀 키가 같이 나온다. ⚠ 이 값은 그 순간 한 번만 보여주니 바로 이 칸에 붙여넣을 것. 놓쳤으면 토큰을 다시 만들면 된다.',
+  R2_BUCKET: 'R2 화면에 이미 있는 창고(버킷) 목록에서 노뮤트가 쓰던 창고 이름을 그대로 적는다. ⚠ 새 창고를 만들어 적으면 지금까지 만든 이미지·영상이 화면에서 안 보이게 된다.',
+  R2_PUBLIC_BASE: '그 창고 → 설정 → 공개 접근 항목에 있는 주소(https 로 시작). 예전에 쓰던 주소와 같아야 옛 이미지 링크가 계속 산다.',
+  GEMINI_API_KEY: '구글 AI 스튜디오(aistudio.google.com) 로그인 → 왼쪽 [API 키] → [키 만들기] → 결제가 연결된 프로젝트를 고른다(무료 프로젝트면 사용량 제한에 자주 걸린다).',
+  ELEVENLABS_API_KEY: 'elevenlabs.io 로그인 → 오른쪽 위 프로필 → 설정 안의 API 키 항목 → 새 키 만들기.',
+  VAPID_PRIVATE_KEY: '⚠ 이건 새로 만들지 말고 예전 값을 찾아 넣는 게 먼저다. 화면 코드에 짝이 되는 공개 키가 박혀 있어서, 개인 키만 새로 만들면 폰 알림이 전부 끊긴다. 예전 값을 어디서도 못 찾겠으면 나(클로드)에게 말해라 — 짝을 새로 만들고 화면 코드도 같이 고친 뒤 폰에서 알림을 다시 켜야 한다.',
+  VAPID_SUBJECT: '연락처 주소를 mailto: 로 시작해 적는다. 예) mailto:본인메일주소',
+  YT_T2_COOKIES: '유튜브에 안 쓰는 구글 계정으로 로그인한 뒤, 쿠키를 파일로 내보내는 브라우저 확장(넷스케이프 형식)으로 받아 그 파일 내용을 통째로 붙여넣는다. ⚠ 내보낸 브라우저에서 로그아웃하면 그 쿠키는 바로 죽는다.',
+  YT_T_COOKIES: '두 번째 계정이 생기면 위와 같은 방법으로. 지금은 비워둬도 된다.',
+  IG_ACCESS_TOKEN: '페이스북 개발자 사이트(developers.facebook.com) → 내 앱 → 도구 → 그래프 API 탐색기 → 인스타 관련 권한을 켜고 토큰 생성 → 나온 토큰을 장기 토큰으로 바꿔 사용.',
+  FB_ACCESS_TOKEN: '같은 그래프 API 탐색기에서 페이지를 고르고 페이지 토큰 생성 → 장기 토큰으로 교환. 이 칸을 채우면 아래 옛 이름 칸은 비워둔다.',
+  FB_PAGE_TOKEN: '위 칸과 같은 값의 옛 이름. 위를 채웠으면 여기는 비워둔다.',
+  THREADS_ACCESS_TOKEN: '같은 개발자 사이트에서 스레드 관련 권한으로 토큰 생성. 원고 자동 발행에만 쓰인다.',
+  INSTA_COOKIE: '부계정으로 인스타에 로그인한 뒤 쿠키 내보내기 확장으로 받아 넣는다(클로드에게 그 파일을 주면 형식을 맞춰 준다). ⚠ 본계정 금지 — 자동화로 걸리면 계정이 막힌다.',
+  INSTA_UA: '쿠키를 뽑은 그 브라우저의 UA 문자열. 브라우저 주소창에 about:version 이나 검색창에 "내 UA 확인"으로 나오는 한 줄을 그대로 복사. ⚠ 이게 없으면 멀쩡한 쿠키도 거절당한다.',
+  THREADS_COOKIE: '스레드도 부계정으로 로그인 후 같은 방법. 값 끝에 따옴표가 붙어 있는 게 정상이다(마지막 조각이 원래 따옴표로 감싸여 있다).',
+  THREADS_UA: '위 쿠키를 뽑은 브라우저의 UA 한 줄. 인스타 쪽과 같은 브라우저면 같은 값을 넣으면 된다.',
+  SAFETY_KEY: '공공데이터포털(data.go.kr) 로그인 → 행정안전부 재난문자 서비스 검색 → 활용 신청 → 승인되면 마이페이지에 나오는 일반 인증키를 복사.',
+  NAVER_CLIENT_ID: '네이버 개발자센터(developers.naver.com) → 애플리케이션 등록 → 검색 기능 선택 → 등록하면 아이디가 나온다.',
+  NAVER_CLIENT_SECRET: '같은 화면의 비밀값(Secret) 항목. 안 보이면 [보기] 단추를 누른다.',
+  YOUTUBE_API_KEY: '구글 클라우드 콘솔 → API 및 서비스 → 라이브러리에서 YouTube Data API v3 사용 설정 → 사용자 인증 정보 → API 키 만들기.',
+  KOFIC_NOMUTE: '영화진흥위원회 영화관 입장권 통합전산망(kobis.or.kr) → 오픈 API → 키 발급 신청 → 나온 키를 복사.',
+  KOFIC_NOMUTE_ID: '같은 곳에서 계정을 하나 더 만들어 받은 예비 키. 없으면 비워둔다.',
+  KOFIC_NOMUTE_EX: '예비 키. 없으면 비워둔다.',
+  KOFIC_NOMUTE_JAENAN: '예비 키. 없으면 비워둔다.',
+  CF_DEPLOY_HOOK: '클라우드플레어 → Pages → 노뮤트 프로젝트 → 설정 → 빌드 및 배포 → 배포 훅 만들기 → 나온 주소를 통째로 복사.',
+  OPENAI_API_KEY: 'platform.openai.com 로그인 → 왼쪽 API keys → [Create new secret key]. 만들 때 한 번만 보여준다.',
+  OPENAI_API_KEY_NOMUTE: '위와 같되 다른 계정으로 만든 예비 키. 없으면 비워둔다.',
+  XAI_SECRET_PAT: '그록(x.ai) 계정 화면의 개발자·API 항목에서 발급하는 토큰. ⚠ 정확한 메뉴 위치는 내가 확인 못 했다 — 못 찾으면 화면을 캡처해서 물어봐라.',
+  XAI_REFRESH_TOKEN: '위와 같은 곳에서 나오는 갱신용 토큰. 없으면 비워둔다.',
+  HIGGSFIELD_REFRESH_TOKEN: '힉스필드 계정으로 로그인할 때 발급되는 갱신 토큰. 이 저장소의 「노뮤트 힉스필드자격 확인」 도구가 쓰는 값이다.',
+  REPLICATE_API_TOKEN: 'replicate.com 로그인 → 계정 설정 → API tokens → 새 토큰 만들기.',
+  GDRIVE_SA_JSON: '구글 클라우드 콘솔 → IAM 및 관리자 → 서비스 계정 만들기 → 만든 계정의 키 항목 → 새 키 만들기(JSON) → 내려받아진 파일 내용을 통째로 붙여넣기.',
+  KIT_SYNC_TOKEN: '이 서버에는 필요 없다. 비워둔다.',
+  GH_VARS_TOKEN: '이 서버에는 필요 없다. 비워둔다.',
+  CLAUDE_CODE_OAUTH_TOKEN_EMS1130G: '이 서버에는 필요 없다(이 컴퓨터의 클로드 로그인을 쓴다). 비워둔다.',
+  CLAUDE_CODE_OAUTH_TOKEN_MUTENO: '이 서버에는 필요 없다. 비워둔다.',
+  CLAUDE_CODE_OAUTH_TOKEN_MUTENONA: '이 서버에는 필요 없다. 비워둔다.',
+  CLAUDE_CODE_OAUTH_TOKEN_NOMUTEFB: '이 서버에는 필요 없다. 비워둔다.',
+  SCRAPE_TOP: '안 넣으면 20으로 돈다. 숫자만.',
+  SCRAPE_HOURS: '안 넣으면 24로 돈다. 숫자만.'
+};
 const ALL = [];
 const groupsEl = document.getElementById('groups');
 for (const grp of KEYS) {
@@ -140,6 +191,7 @@ for (const grp of KEYS) {
     el.addEventListener('input', refresh);
     r.appendChild(el);
     if (multi) { const n = document.createElement('div'); n.className = 'note'; n.textContent = '여러 줄 그대로 붙여넣기 — 저장할 때 자동으로 한 줄로 접힌다'; r.appendChild(n); }
+    if (HOWTO[name]) { const hw = document.createElement('div'); hw.className = 'how'; hw.textContent = '받는 법 · ' + HOWTO[name]; r.appendChild(hw); }
     g.appendChild(r); ALL.push(name);
   }
   groupsEl.appendChild(g);
@@ -236,6 +288,12 @@ document.getElementById('loadBtn').addEventListener('click', async () => {
 document.getElementById('emptyBtn').addEventListener('click', () => {
   document.body.classList.toggle('only-empty');
   document.getElementById('emptyBtn').classList.toggle('on');
+});
+document.getElementById('howBtn').addEventListener('click', () => {
+  const off = document.body.classList.toggle('no-how');
+  const b = document.getElementById('howBtn');
+  b.classList.toggle('on', !off);
+  b.textContent = off ? '발급 방법 보기' : '발급 방법 숨기기';
 });
 document.getElementById('saveBtn').addEventListener('click', async () => {
   if (!didLoad) {
