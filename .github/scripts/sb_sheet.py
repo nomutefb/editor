@@ -46,14 +46,80 @@ CIRCLED = "①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮"
 
 
 def grid_of(n):
-    """칸 배치 — 견본(12컷 = 4열 3행) 규격을 기준으로 한다."""
-    if n <= 4:
-        return 1, n
-    if n <= 8:
-        return 2, (n + 1) // 2
-    if n <= 12:
-        return 3, 4
-    return 4, (n + 3) // 4
+    """칸 배치 — **빈칸이 안 남는** 격자를 고른다.
+
+    ⚠ 구판은 10컷을 3행 4열(12칸)로 잡아 **빈칸 2개**를 남겼다. 운영자 견본은 전부 꽉 찬 격자다
+      (10컷 = 5열 2행 · 9컷 = 3열 3행 · 8컷 = 4열 2행 · 12컷 = 4열 3행). 빈칸이 남으면 모델이
+      그 자리를 제 마음대로 채운다 = 콘티에 없는 컷이 그려진다.
+    ⚠ 나누어떨어지는 배치가 여럿이면 **가로로 넓은 쪽**을 고른다(시트가 가로 3:2라서).
+    """
+    best = None
+    for cols in range(2, 6):                        # 견본 실측 = 열이 3·4·5 (한 줄 열 배열은 없다)
+        if cols > n:
+            break
+        rows = -(-n // cols)
+        if cols < rows:                             # 세로로 긴 격자는 가로 시트에 안 맞는다
+            continue
+        empty = rows * cols - n
+        score = (empty, abs((cols / float(rows)) - 1.5))
+        if best is None or score < best[0]:
+            best = (score, rows, cols)
+    if best:
+        return best[1], best[2]
+    return 1, n                                     # 컷이 2~3개뿐이면 한 줄이 맞다
+
+
+_CONT = re.compile(r"^연속성\s*[:：]\s*(.+)$", re.M)
+_LOG = re.compile(r"^##\s*🎬\s*시나리오\s*\n+([^\n]+)", re.M)
+_CSLINE = re.compile(r"^논평\s*구조\s*[:：]\s*(.+)$", re.M)
+_CUTHEAD = re.compile(r"^###\s*컷\s*\d+\s*·\s*([\d.]+)\s*~\s*([\d.]+)\s*s", re.M)
+
+
+def continuity_of(md):
+    """머리 아래 **연속성 규칙 한 줄** — 견본이 이야기의 뼈대를 잡는 자리(운영자 260814 견본 실측).
+
+    ⚠ 견본 실물 = 「평행 편집, A라인 = 달리는 사람 / 주인공은 전 컷 좌→우 / 문은 항상 화면 오른쪽
+      / 차임 x3 / 점프에서 배경음 뮤트」. 이게 있으면 칸끼리 방향과 자리가 안 흔들린다.
+    ⚠ 값 창작 0 = 감독이 `## ⚙️ 설계 요약`에 적은 `연속성:` 줄을 그대로 쓴다. 아직 그 줄이 없는
+      옛 콘티는 로그라인 + 논평 구조로 **있는 것만** 조립한다(없는 규칙을 지어내지 않는다).
+    """
+    m = _CONT.search(md)
+    if m and m.group(1).strip():
+        return " ".join(m.group(1).split())
+    bits = []
+    g = _LOG.search(md)
+    if g:
+        bits.append(" ".join(g.group(1).split()))
+    c = _CSLINE.search(md)
+    if c and "없음" not in c.group(1):
+        bits.append("논평 구조 " + " ".join(c.group(1).split()))
+    return " / ".join(bits)
+
+
+def times_of(md, cuts):
+    """컷마다 `0.0~1.2s` 시작·끝 — 콘티 머리에 이미 적혀 있다(`cuts_of` 는 길이만 남기고 버린다)."""
+    got = _CUTHEAD.findall(md)
+    if len(got) == len(cuts):
+        return [(a, b) for a, b in got]
+    t, out = 0.0, []                       # 표기가 없으면 컷 길이를 누적해 만든다
+    for c in cuts:
+        out.append(("{:g}".format(t), "{:g}".format(t + c["sec"])))
+        t += c["sec"]
+    return out
+
+
+def audio_of(cuts):
+    """머리줄 오디오 표기 — 견본은 여기에 소리 구성이 적혀 있다. 값은 콘티 실값에서 센다."""
+    has_sfx = any((c.get("sfx") or "").strip() for c in cuts)
+    has_line = any(_real_line(c.get("dialogue")) for c in cuts)
+    parts = [x for x in (("DIALOGUE" if has_line else ""), ("SFX" if has_sfx else "")) if x]
+    return (" + ".join(parts) + ", NO BGM") if parts else "NO BGM"
+
+
+def _real_line(s):
+    """실제 대사가 있는 칸인가 — 「(없음)」·「—」·빈칸은 대사가 아니다."""
+    s = (s or "").strip()
+    return bool(s) and s not in ("(없음)", "없음", "-", "—", "–")
 
 
 def sheet_prompt(md, cuts):
@@ -69,32 +135,51 @@ def sheet_prompt(md, cuts):
         lock = " ".join(b.strip().replace("\n", " ") for b in blocks)[:900]
     rows, cols = grid_of(len(cuts))
 
+    times = times_of(md, cuts)
     cells = []
     for i, c in enumerate(cuts):
-        cells.append("{}  ACTION: {}   CAMERA: {}   DIALOGUE: {}".format(
+        one = "{}  TIME: {}–{}s   ACTION: {}   CAMERA: {}".format(
             CIRCLED[i] if i < len(CIRCLED) else "({})".format(i + 1),
+            times[i][0], times[i][1],
             c["action"] or c["desc"] or "-",
-            c["camera"] or "-",
-            c["dialogue"] or "(없음)"))
+            c["camera"] or "-")
+        if _real_line(c.get("dialogue")):          # 대사 칸은 **있는 컷에만** 붙는다(견본 실측)
+            one += "   DIALOGUE: 「{}」".format(c["dialogue"].strip("「」"))
+        cells.append(one)
+    ad = "[광고: ON]" in md
+    cont = continuity_of(md)
 
     return (
-        "You are a commercial director and storyboard artist. Generate ONE single horizontal "
-        "AD STORYBOARD SHEET (콘티) that lays out an entire spot at a glance, on a light "
+        "You are a {who} and storyboard artist. Generate ONE single horizontal "
+        "STORYBOARD SHEET (콘티) that lays out the whole piece at a glance, on a light "
         "cream/ivory editorial background with thin grey cell borders.\n\n"
         "[SPOT]\n"
-        "Title bar (top, one line): {title} — {length} / {n}컷\n"
+        "Title bar (top, one line): {title} — {n} CUTS, {length}, {audio}\n"
+        "{contline}"
         "Art style: photoreal cinematic, warm natural light, consistent grade across every cell\n"
-        "Total cuts: {n}  →  grid {rows}×{cols}, circled numbers ①②③… in top-left of each cell\n\n"
+        "Total cuts: {n}  →  grid {rows}x{cols}. Draw EXACTLY {n} cells and no more{lastrow} — "
+        "never invent an extra cell to fill the grid. Circled numbers (1)(2)(3)... in top-left "
+        "of each cell\n\n"
         "[LOCKED DESIGN — identical in every cell]\n{lock}\n\n"
-        "[CELLS — each = thumbnail on top + 3 metadata lines below]\n{cells}\n\n"
+        "[CELLS — each = thumbnail on top + metadata lines below]\n{cells}\n\n"
         "[STYLE RULES]\n"
         "- One flat planning sheet, light cream background, thin grey gridlines, circled cut numbers.\n"
         "- Each cell thumbnail = a different shot/angle, but SAME character/product/world design throughout.\n"
-        "- Printed text = title bar + per-cell ACTION/CAMERA/DIALOGUE labels only. Korean action & "
-        "dialogue, English camera terms. NO Japanese, NO hex codes, NO watermark, NO real brand logos.\n"
+        "- Printed text = title bar{contsay} + per-cell TIME/ACTION/CAMERA labels, and a DIALOGUE line "
+        "ONLY in the cells that actually have a spoken line. Korean action & dialogue, English camera "
+        "terms. NO Japanese, NO hex codes, NO watermark, NO real brand logos.\n"
         "- Audio policy NO BGM.\n"
-        "- Photoreal commercial look."
-    ).format(title=title, length=length, n=len(cuts), rows=rows, cols=cols,
+        "- Photoreal {look} look."
+    ).format(who="commercial director" if ad else "film director",
+             look="commercial" if ad else "cinematic",
+             title=title, length=length, n=len(cuts), rows=rows, cols=cols,
+             lastrow=("" if rows * cols == len(cuts) else
+                      " (the last row holds only {} cells and ends there)".format(
+                          len(cuts) - cols * (rows - 1))),
+             audio=audio_of(cuts),
+             contline=("Continuity rule (ONE line printed directly under the title bar, small type): "
+                       "{}\n".format(cont) if cont else ""),
+             contsay=" + the continuity rule line" if cont else "",
              lock=lock or "Keep character, wardrobe and location design identical across all cells.",
              cells="\n".join(cells))
 
@@ -112,6 +197,7 @@ def conti_prompt(md, cuts):
     """
     title = (_TITLE.search(md).group(1).strip() if _TITLE.search(md) else "콘티")
     rows, cols = grid_of(len(cuts))
+    cont = continuity_of(md)
     cells = []
     for i, c in enumerate(cuts):
         cells.append("{}  MOTION: {}   CAMERA MOVE: {}".format(
@@ -124,6 +210,7 @@ def conti_prompt(md, cuts):
         "inking a comic.\n\n"
         "[SHEET]\n"
         "Title bar (top, one line): {title} — 동작 스케치 / {n}컷\n"
+        "{contline}"
         "Grid {rows}x{cols}, circled numbers ①②③… in the top-left of each cell, same cut order as the "
         "storyboard.\n\n"
         "[CELLS — each = one rough pencil sketch of the MOVEMENT in that cut]\n{cells}\n\n"
@@ -134,7 +221,11 @@ def conti_prompt(md, cuts):
         "motion lines, start pose solid and end pose lightly ghosted where the body travels.\n"
         "- Same character build and wardrobe silhouette in every cell.\n"
         "- Printed text = title bar + circled cut numbers only. NO Japanese, NO watermark, NO logos."
-    ).format(title=title, n=len(cuts), rows=rows, cols=cols, cells="\n".join(cells))
+    ).format(title=title, n=len(cuts), rows=rows, cols=cols, cells="\n".join(cells),
+             # ⚠ 화살표 방향의 정본 = 연속성 줄이다(견본 「주인공은 전 컷 좌→우」). 이 줄이 없으면
+             #   칸마다 화살표가 제멋대로여서 스케치가 오히려 모델을 헷갈리게 한다.
+             contline=("Continuity rule: {} — every body-movement and camera-movement arrow must obey "
+                       "this rule.\n".format(cont) if cont else ""))
 
 
 # 굽는 판 = 두 장(운영자 260814 「스토리보드 1, 콘티 1」) — 순서 계약 = 스토리보드 먼저 · 콘티 나중

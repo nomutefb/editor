@@ -41,14 +41,20 @@ REF_STYLE = " 글자·자막·캡션·워터마크·로고 없이 깨끗한 장�
 #   ⚠ 장소는 그 문서에 없다 = 운영자 260814 「환경이 주요가 되면 환경도 다각도로」 → 사람·물건과
 #     **같은 문법**으로 짜되(한 페이지·같은 크기 칸·칸 이름만 글자) 칸 이름만 장소 축으로 바꾼다.
 _SHEET_COMMON = (
-    " Lay the panels out as one page, equally sized, same subject design, same lighting and same"
-    " color grade in EVERY panel. Print only the short panel header labels in Korean with the English"
-    " in parentheses, no other in-image text, no hex codes, no captions, no watermark, no logos."
+    " Lay the panels out as one page, same subject design, same lighting and same color grade in EVERY"
+    " panel. Print only the short panel header labels in Korean with the English in parentheses,"
+    " no other in-image text, no hex codes, no captions, no watermark, no logos."
 )
+# ⚠ 사람 칸 구성 = 운영자가 준 견본 다섯 장 실측 그대로다(260814). 다섯 장 전부 ⓐ 왼쪽에 **큰 정면**이
+#   있고 ⓑ **뒷모습 칸은 없다**. 그래서 「큰 정면 금지 · 뒤 추가」로 적었던 첫 판을 회수했다 —
+#   운영자 말(「큼지막한 게 하나 있는 게 아니라 360도 기록이 더 중요」)은 큰 정면을 없애라는 게 아니라
+#   그 한 컷으로 끝내지 말라는 뜻이었고, 견본이 그 둘을 같이 갖고 있다(모방 1순위 = 견본이 정본).
+#   패널 6개 = master-sheet-v2 §V2 철칙(「패널 ≤ 6 · 더 넣으면 깨진다」) 준수.
 TURN_SPECS = {
-    "person": (" ONE CHARACTER TURNAROUND SHEET: 정면(FRONT), 3/4 (45 degrees), 측면(SIDE) profile,"
-               " 전신(FULL BODY) head to shoe, 달리기(RUN) a full-body running pose with motion blur,"
-               " and 표정(EXPRESSION) a row of 3 head close-ups (calm, alarmed, smiling)."
+    "person": (" ONE CHARACTER TURNAROUND SHEET on a dark grey studio background: a LARGE 정면(FRONT)"
+               " portrait filling the left side, and beside it 3/4 (45 degrees), 측면(SIDE) profile and"
+               " 전신(FULL BODY) head to shoe; along the bottom 달리기(RUN) a full-body running pose with"
+               " motion blur, and 표정(EXPRESSION) a row of 3 head close-ups (calm, alarmed, smiling)."
                " Identical face, hair and wardrobe in every panel." + _SHEET_COMMON),
     "product": (" ONE PRODUCT SHEET: 히어로(HERO) one larger beauty shot, then 정면(FRONT), 측면(SIDE),"
                 " 후면(BACK) of the same object, and 디테일(DETAIL) 2-3 close inserts of its key finish."

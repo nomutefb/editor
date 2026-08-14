@@ -5431,6 +5431,30 @@ def check_grok_sb_chain():
     if rn.find("slots.append(sheet)") < rn.find("slots = ref_slots("):
         print("❌ 그록 콘티 레인 — 시트가 그림 참조보다 먼저 슬롯에 든다(인물·장소가 상한에 밀린다)"); rc = 1
 
+    # ⑥-c 참조 판 = 견본 모방(운영자 260814 견본 다섯 장 실측 · 「잘 만든 걸 모티프로」 = 창작 금지)
+    #   ⚠ 이 축들은 **빠져도 그림은 나온다** — 시트가 견본과 조금씩 달라질 뿐이라 운영자 눈이 유일한 검출기다.
+    kg = _t(".github/scripts/k_refgen.py")
+    for needle, why in (("TURN_SPECS", "다각도 시트 문법표(사람·제품·주요 장소)"),
+                        ("def sheet_kind", "라벨로 시트 여부를 가른다(전부 시트면 값이 배로 든다)"),
+                        ("def ref_labels", "라벨 파서 단일정본(그림 굽는 쪽과 슬롯 세는 쪽이 같은 순서)"),
+                        ("정면(FRONT)", "큰 정면 칸(견본 다섯 장 전건 보유)"),
+                        ("달리기(RUN)", "달리기 칸(견본 보유 · 동작 정보를 인물 쪽에서 준다)")):
+        if not _has_exec_line(kg, needle):
+            print("❌ 그록 콘티 레인 — k_refgen.py 에 {} 가 없다({})".format(why, needle)); rc = 1
+    # ⚠ 뒷모습 금지는 **사람 칸만**이다 — 제품 시트의 후면은 master-sheet-v2 PRODUCT 정본 칸이라 정당하다
+    _person = kg.split('"person": (', 1)[-1].split('"product":', 1)[0]
+    if "BACK" in _person:
+        print("❌ 그록 콘티 레인 — 인물 시트에 뒷모습 칸이 있다(견본 다섯 장 전부 없다 · 패널 6 초과)"); rc = 1
+    ss = _t(".github/scripts/sb_sheet.py")
+    for needle, why in (("def continuity_of", "연속성 규칙 한 줄(칸끼리 방향·자리를 잡는 뼈대)"),
+                        ("def times_of", "칸마다 시작·끝 시각(견본 실측)"),
+                        ("def _real_line", "대사는 있는 칸에만(견본 실측 = 빈 대사 줄 안 찍는다)"),
+                        ("Draw EXACTLY", "칸 수를 콘티 컷 수로 못 박는다(빈칸을 모델이 채우면 없는 컷이 생긴다)")):
+        if not _has_exec_line(ss, needle):
+            print("❌ 그록 콘티 레인 — sb_sheet.py 에 {} 가 없다({})".format(why, needle)); rc = 1
+    if "연속성:" not in _t("prompts/sb-make.md"):
+        print("❌ 그록 콘티 레인 — 감독 지침에 연속성 한 줄 계약이 없다(시트가 뼈대 없이 굽힌다)"); rc = 1
+
     # ⑦ 값 원장 = 벤더 세 곳이 각자 적고 화면이 합쳐 읽는다(한 곳만 빠져도 금액이 조용히 작아진다)
     for path, needle, why in (
             (".github/scripts/sb_cost.py", "def add", "값 원장 정본"),
