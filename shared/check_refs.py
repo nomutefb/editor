@@ -4879,21 +4879,24 @@ def check_vote_btn_canon():
 
 
 def check_cloud_action_chain():
-    """클라우드 액션 레인(구글 드라이브 「내 드라이브/action」 = git 액션 대체 · 운영자 260814 Q1482~Q1485) 층 생존.
-    한 층만 빠져도 화면 증상 0으로 조용히 죽는다 — 겉옷이 몸통을 안 부르면 시계는 도는데 수집·판정만 소실,
-    드라이브 스캔 한 이름이 빠지면 글자 바뀐 날부터 미러·환경변수만 소실, 설치 종점이 안 갈리면 클라우드 없이
-    구판 그대로(전부 로그 정상·에러 0 = insta-thumb-miss 동축) → 정적 층별 생존 강제 · 면책표 없이 하드 0.
-    축 = ① 겉옷(cloud_action.sh): 몸통 pc_lane.sh 실행 + 드라이브 두 이름 스캔(내 드라이브/My Drive) +
-    계정값(맥 마운트 경로 실값) + 환경변수.txt 주입(키 착지 슬롯) + --find(설치 뒷단이 쓴다)
-    ② 설치 뒷단(cloud_action_setup.sh): 겉옷 종점 + 맥 crontab 마커 + 윈도우 5분 시계 확인 + 계정값 사본 0
-    ③ 윈도우 설치 bat: 기본 설치 정본(pc_setup.bat)·뒷단 호출 ④ 맥 command: 뒷단 호출 ⑤ 몸통 실존."""
+    """클라우드 액션 서버(구글 드라이브 「내 드라이브/action」 = git 액션 대체 · 운영자 260814 Q1482~Q1487 =
+    «노뮤트에디터를 돌리는 일괄 액션 서버 · 독립 제품») 층 생존.
+    한 층만 빠져도 화면 증상 0으로 조용히 죽는다 — 본체가 실행기를 안 부르면 시계는 도는데 수집·판정만 소실,
+    드라이브 스캔 한 이름이 빠지면 글자 바뀐 날부터 미러·환경변수만 소실, 접기(_B64) 한쪽만 살면 여러 줄
+    열쇠(쿠키)가 조용히 깨진 채 주입(전부 로그 정상·에러 0 = insta-thumb-miss 동축) → 정적 층별 생존 강제 ·
+    면책표 없이 하드 0. 축 = ① 본체(cloud_action.sh): 실행기 pc_lane.sh 호출 + 드라이브 두 이름 스캔 +
+    계정값(맥 마운트 경로 실값) + 환경변수.txt 주입 + _B64 펴기 + --find ② 설치 뒷단(cloud_action_setup.sh):
+    자기 시계(윈도우 NomuteCloudAction · 맥 crontab 마커) + 실행기 종점 + 열쇠 입력 페이지 배포 + 슬롯 씨앗 +
+    계정값 사본 0 ③ 윈도우 설치 bat 자기완결(저장소 받기·클로드 로그인·뒷단) ④ 맥 command: 뒷단 호출
+    ⑤ 실행기 실존 ⑥ 열쇠 입력 페이지: _B64 접기 보유(본체 펴기와 짝 — 한쪽만 고치면 여러 줄 열쇠 전멸)."""
     rc = 0
     wrap = os.path.join(ROOT, 'scripts', 'cloud_action.sh')
     setup = os.path.join(ROOT, 'scripts', 'cloud_action_setup.sh')
     bat = os.path.join(ROOT, 'scripts', '노뮤트_클라우드액션_설치.bat')
     cmdf = os.path.join(ROOT, 'scripts', '노뮤트_클라우드액션_설치.command')
     lane = os.path.join(ROOT, 'scripts', 'pc_lane.sh')
-    for p in (wrap, setup, bat, cmdf, lane):
+    keyhtml = os.path.join(ROOT, 'scripts', '노뮤트_열쇠입력.html')
+    for p in (wrap, setup, bat, cmdf, lane, keyhtml):
         if not os.path.exists(p):
             print('❌ [cloud-action] 파일 소실: %s' % os.path.relpath(p, ROOT)); rc = 1
     if rc:
@@ -4901,7 +4904,7 @@ def check_cloud_action_chain():
     def _rd(p):
         with open(p, encoding='utf-8', errors='replace') as f:
             return f.read()
-    w, s, b, c = _rd(wrap), _rd(setup), _rd(bat), _rd(cmdf)
+    w, s, b, c, h = _rd(wrap), _rd(setup), _rd(bat), _rd(cmdf), _rd(keyhtml)
 
     def _bat_exec(text, needle):
         # 배치의 주석은 REM — 주석 처리 우회 차단(_has_exec_line 의 배치판 · 킬테스트가 잡은 구멍의 짝)
@@ -4918,13 +4921,17 @@ def check_cloud_action_chain():
         (_has_exec_line(w, 'ems1130g@gmail.com'), 'cloud_action.sh 계정값 소실 — 맥 마운트 경로·다중 계정 대조 축'),
         (_has_exec_line(w, '환경변수.txt'), 'cloud_action.sh 환경변수 주입(키 착지 슬롯) 소실'),
         (_has_exec_line(w, '--find'), 'cloud_action.sh --find 모드 소실(설치 뒷단이 쓴다)'),
-        (_has_exec_line(s, 'cloud_action.sh'), 'cloud_action_setup.sh 가 시계 종점을 겉옷(cloud_action.sh)에 안 태운다'),
+        (_has_exec_line(w, '*_B64)') and _has_exec_line(w, 'base64'), 'cloud_action.sh 여러 줄 열쇠 펴기(*_B64 분기) 소실 — 열쇠 입력 페이지 접기와 짝'),
+        (_has_exec_line(s, 'cloud_action.sh'), 'cloud_action_setup.sh 가 시계 종점을 서버 본체(cloud_action.sh)에 안 태운다'),
         (_has_exec_line(s, 'nomute-cloud-action') and _has_exec_line(s, 'crontab'), 'cloud_action_setup.sh 맥 crontab 등록(마커 nomute-cloud-action) 소실'),
-        (_has_exec_line(s, 'NomutePcLane'), 'cloud_action_setup.sh 윈도우 5분 시계(NomutePcLane) 확인 소실'),
+        (_has_exec_line(s, 'NomuteCloudAction'), 'cloud_action_setup.sh 윈도우 5분 시계(NomuteCloudAction) 등록 소실'),
         (_has_exec_line(s, '환경변수.txt'), 'cloud_action_setup.sh 키 착지 슬롯(환경변수.txt) 씨앗 소실'),
-        (_bat_exec(b, 'pc_setup.bat'), '설치 bat 가 기본 설치 정본(pc_setup.bat)을 부르지 않는다'),
+        (_has_exec_line(s, '노뮤트_열쇠입력.html'), 'cloud_action_setup.sh 열쇠 입력 페이지 배포(복사) 소실'),
+        (_bat_exec(b, 'git clone'), '설치 bat 자기완결 결손 — 저장소 받기(git clone) 소실'),
+        (_bat_exec(b, 'call claude'), '설치 bat 자기완결 결손 — 클로드 로그인 단계 소실(판정 축이 조용히 죽는다)'),
         (_bat_exec(b, 'cloud_action_setup.sh'), '설치 bat 가 설치 뒷단(cloud_action_setup.sh)을 부르지 않는다'),
         (_has_exec_line(c, 'cloud_action_setup.sh'), '설치 command 가 설치 뒷단(cloud_action_setup.sh)을 부르지 않는다'),
+        ('_B64=' in h and '환경변수.txt' in h, '열쇠 입력 페이지의 접기(_B64)·저장 이름(환경변수.txt) 소실'),
     ):
         if not cond:
             print(f'❌ [cloud-action] {msg}'); rc = 1

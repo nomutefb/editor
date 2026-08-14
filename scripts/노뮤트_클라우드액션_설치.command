@@ -29,8 +29,14 @@ if [ ! -d "$HOME/nomute-editor/.git" ]; then
 fi
 cd "$HOME/nomute-editor" || exit 1
 git pull -q --rebase origin main 2>/dev/null || true
+if command -v claude >/dev/null 2>&1; then
+  echo "[로그인] 잠시 후 클로드 화면이 열립니다. 로그인 안내가 나오면 브라우저에서 로그인(구독 계정),"
+  echo "         입력창이 보이면  /exit  를 입력해 나오세요. 이미 로그인돼 있어도  /exit  만 치면 됩니다."
+  read -r -p "엔터를 누르면 진행 " _ || true
+  claude || true
+fi
 NOMUTE_ACTION_HINT="$AD" bash scripts/cloud_action_setup.sh
 echo
-echo "상태 보기 = 드라이브 action 폴더의 「상태」 폴더 · 키 넣는 곳 = 환경변수.txt"
+echo "상태 보기 = 드라이브 action 폴더의 「상태」 폴더 · 키 넣기 = 「노뮤트_열쇠입력.html」 더블클릭"
 echo "끄기 = 터미널에서 crontab -e 를 열어 nomute-cloud-action 줄 삭제"
 read -r -p "엔터를 누르면 창이 닫힙니다 " _ || true

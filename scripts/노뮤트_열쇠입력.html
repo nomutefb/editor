@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>노뮤트 열쇠 입력</title>
+<!--
+  노뮤트 열쇠 입력 페이지(운영자 260814 «열쇠 내가 넣기 편하게 — 저러면 오타가 많이 생겨서 안됨»).
+  드라이브 「내 드라이브/action」 폴더에 두고 더블클릭 → 값 붙여넣기 → [저장] → 환경변수.txt 완성.
+  손편집의 오타 축(# 지우기·이름 오타·줄 형식)을 전부 없앤다:
+    · 이름은 페이지가 쥔다(손으로 안 적음) · 빈 칸은 자동으로 주석 목록으로 남는다
+    · 여러 줄 값(유튜브 쿠키·서비스 계정 문서)은 자동으로 base64 한 줄(이름_B64=)로 접는다 —
+      레인(cloud_action.sh)이 읽을 때 도로 편다(같은 커밋에 배선).
+  저장은 브라우저 파일 저장 창(크롬·엣지 = 폴더 골라 바로 저장) · 미지원 브라우저 = 내려받기 폴백.
+  정본 = 저장소 scripts/ (이 파일은 배포 사본 · 설치가 action 폴더에 자동 복사).
+-->
+<style>
+  :root{--bg:#0b0e14;--pan:#141926;--line:#232b3d;--fg:#e8ecf4;--mut:#8b94a7;--acc:#7aa2ff;--ok:#57d98f;--warn:#ffb454}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.6 -apple-system,"Malgun Gothic","맑은 고딕",sans-serif;padding:20px 16px 120px}
+  .wrap{max-width:860px;margin:0 auto}
+  h1{font-size:19px;margin:0 0 4px}
+  .sub{color:var(--mut);font-size:13px;margin-bottom:18px}
+  .grp{background:var(--pan);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:14px}
+  .grp h2{font-size:14px;margin:0 0 10px;color:var(--acc)}
+  .row{margin-bottom:12px}
+  .row:last-child{margin-bottom:2px}
+  label{display:flex;gap:8px;align-items:baseline;margin-bottom:4px}
+  label b{font-size:13px}
+  label span{color:var(--mut);font-size:12px}
+  .dot{width:8px;height:8px;border-radius:50%;background:#3a4358;flex:0 0 auto;align-self:center}
+  .on .dot{background:var(--ok)}
+  input[type=text],textarea{width:100%;background:#0e1220;color:var(--fg);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font:12px/1.5 Consolas,monospace}
+  textarea{min-height:72px;resize:vertical}
+  input:focus,textarea:focus{outline:none;border-color:var(--acc)}
+  .bar{position:fixed;left:0;right:0;bottom:0;background:rgba(11,14,20,.92);border-top:1px solid var(--line);padding:12px 16px;backdrop-filter:blur(6px)}
+  .bar .in{max-width:860px;margin:0 auto;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  button{background:var(--acc);color:#0b0e14;border:0;border-radius:9px;padding:10px 16px;font-size:14px;font-weight:700;cursor:pointer}
+  button.sec{background:#232b3d;color:var(--fg);font-weight:500}
+  #stat{color:var(--mut);font-size:13px;margin-left:auto}
+  #msg{font-size:13px;color:var(--ok);min-height:18px;margin-top:6px}
+  .note{color:var(--warn);font-size:12px;margin:2px 0 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>노뮤트 열쇠 입력</h1>
+  <div class="sub">
+    값을 칸에 붙여 넣고 아래 <b>[환경변수.txt 저장]</b>을 누르면 완성 파일이 나온다.
+    저장 위치는 드라이브 <b>「내 드라이브 › action」</b> 폴더(기존 환경변수.txt 교체).
+    빈 칸은 저장 파일에 목록으로만 남고 켜지지 않는다. 여러 줄 값은 자동으로 안전하게 접힌다.<br>
+    ⚠ 이 파일과 저장물은 구글 계정에 로그인한 사람이면 읽을 수 있다 — 드라이브 계정 보안이 곧 열쇠 보안이다.
+  </div>
+  <div id="groups"></div>
+  <div class="grp">
+    <h2>직접 추가(목록에 없는 값)</h2>
+    <div class="row"><label><b>이름=값 형식으로 한 줄에 하나</b><span>여러 줄짜리 값은 여기 말고 위 칸을 쓰거나 클로드에게 칸 추가를 부탁</span></label>
+    <textarea id="extra" placeholder="예)  SCRAPE_TOP=20"></textarea></div>
+  </div>
+</div>
+<div class="bar"><div class="in">
+  <button class="sec" id="loadBtn">기존 환경변수.txt 불러오기</button>
+  <button id="saveBtn">환경변수.txt 저장</button>
+  <span id="stat"></span>
+  <div id="msg"></div>
+</div></div>
+<script>
+'use strict';
+// 열쇠 사전 — 이름·묶음·설명·여러줄 여부. 이름 원천 = 워크플로 비밀값 실측 추출(260814 · 39종 중 실사용 축).
+const KEYS = [
+  {g:'산출물 저장소 (R2) — 카드·이미지·영상 업로드', k:[
+    ['R2_ACCOUNT_ID','계정 아이디',0], ['R2_ACCESS_KEY_ID','접근 키 아이디',0],
+    ['R2_SECRET_ACCESS_KEY','비밀 접근 키',0], ['R2_BUCKET','버킷 이름',0], ['R2_PUBLIC_BASE','공개 주소 머리',0]]},
+  {g:'이미지 생성 — 카드 제작·리사이즈', k:[['GEMINI_API_KEY','제미나이 종량제 키',0]]},
+  {g:'받아쓰기 — 자막·영상 요약', k:[['ELEVENLABS_API_KEY','일레븐랩스 키',0]]},
+  {g:'긴급 폰 푸시', k:[['VAPID_PRIVATE_KEY','푸시 개인 키',0],['VAPID_SUBJECT','푸시 주체(mailto: 주소)',0]]},
+  {g:'유튜브 쿠키 2칸 — 영상·자막 받기', k:[
+    ['YT_T_COOKIES','1번 쿠키(파일 내용 통째로 붙여넣기)',1],
+    ['YT_T2_COOKIES','2번 쿠키(파일 내용 통째로 붙여넣기)',1]]},
+  {g:'에스엔에스 수집 토큰', k:[
+    ['IG_ACCESS_TOKEN','인스타 그래프 토큰',0],['FB_PAGE_TOKEN','페이스북 페이지 토큰',0],
+    ['FB_ACCESS_TOKEN','페이스북 접근 토큰',0],['THREADS_ACCESS_TOKEN','스레드 접근 토큰',0]]},
+  {g:'화면 재배포 훅', k:[['CF_DEPLOY_HOOK','클라우드플레어 배포 훅 주소',0]]},
+  {g:'제작·검색 기타', k:[
+    ['OPENAI_API_KEY','오픈에이아이 키',0],['OPENAI_API_KEY_NOMUTE','오픈에이아이 키(노뮤트 계정)',0],
+    ['XAI_SECRET_PAT','그록 비밀 토큰',0],['XAI_REFRESH_TOKEN','그록 갱신 토큰',0],
+    ['HIGGSFIELD_REFRESH_TOKEN','힉스필드 갱신 토큰',0],
+    ['NAVER_CLIENT_ID','네이버 검색 아이디',0],['NAVER_CLIENT_SECRET','네이버 검색 비밀값',0],
+    ['YOUTUBE_API_KEY','유튜브 데이터 키',0],['REPLICATE_API_TOKEN','레플리케이트 토큰',0],
+    ['SAFETY_KEY','안전 키',0],['KIT_SYNC_TOKEN','킷 동기화 토큰',0],['GH_VARS_TOKEN','깃허브 변수 토큰',0],
+    ['KOFIC_NOMUTE','영화진흥원 키',0],['KOFIC_NOMUTE_ID','영화진흥원 키(아이디)',0],
+    ['KOFIC_NOMUTE_EX','영화진흥원 키(예비)',0],['KOFIC_NOMUTE_JAENAN','영화진흥원 키(재난)',0],
+    ['GDRIVE_SA_JSON','드라이브 서비스 계정 문서(여러 줄 통째로)',1]]},
+  {g:'클로드 구독 토큰 4칸 — 보통 불필요(컴퓨터 로그인이 우선)', k:[
+    ['CLAUDE_CODE_OAUTH_TOKEN_EMS1130G','구독 토큰 1',0],['CLAUDE_CODE_OAUTH_TOKEN_MUTENO','구독 토큰 2',0],
+    ['CLAUDE_CODE_OAUTH_TOKEN_MUTENONA','구독 토큰 3',0],['CLAUDE_CODE_OAUTH_TOKEN_NOMUTEFB','구독 토큰 4',0]]},
+  {g:'수집 조절값(선택)', k:[['SCRAPE_TOP','수집 상위 개수(기본 20)',0],['SCRAPE_HOURS','수집 시간 창(기본 24)',0]]}
+];
+const ALL = [];
+const groupsEl = document.getElementById('groups');
+for (const grp of KEYS) {
+  const g = document.createElement('div'); g.className = 'grp';
+  g.innerHTML = '<h2>' + grp.g + '</h2>';
+  for (const [name, desc, multi] of grp.k) {
+    const r = document.createElement('div'); r.className = 'row'; r.id = 'row_' + name;
+    r.innerHTML = '<label><i class="dot"></i><b>' + name + '</b><span>' + desc + '</span></label>';
+    const el = document.createElement(multi ? 'textarea' : 'input');
+    if (!multi) el.type = 'text';
+    el.id = 'k_' + name;
+    el.setAttribute('spellcheck', 'false');
+    el.addEventListener('input', refresh);
+    r.appendChild(el);
+    if (multi) { const n = document.createElement('div'); n.className = 'note'; n.textContent = '여러 줄 그대로 붙여넣기 — 저장할 때 자동으로 한 줄로 접힌다'; r.appendChild(n); }
+    g.appendChild(r); ALL.push(name);
+  }
+  groupsEl.appendChild(g);
+}
+function val(n){ return document.getElementById('k_' + n).value.replace(/^\s+|\s+$/g, ''); }
+function refresh(){
+  let on = 0;
+  for (const n of ALL) { const has = !!val(n); document.getElementById('row_' + n).classList.toggle('on', has); if (has) on++; }
+  document.getElementById('stat').textContent = '채운 칸 ' + on + ' / ' + ALL.length;
+}
+// UTF-8 base64 접기/펴기(큰 값도 안전하게 조각 처리)
+function b64enc(s){
+  const u = new TextEncoder().encode(s); let bin = '';
+  for (let i = 0; i < u.length; i += 8192) bin += String.fromCharCode.apply(null, u.subarray(i, i + 8192));
+  return btoa(bin);
+}
+function b64dec(s){
+  try { const bin = atob(s.replace(/\s+/g, '')); const u = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i);
+    return new TextDecoder().decode(u);
+  } catch (e) { return null; }
+}
+function buildText(){
+  const L = [];
+  L.push('# 노뮤트 클라우드 액션 — 환경변수(키 값) 착지 슬롯. 이 파일은 「노뮤트 열쇠 입력」 페이지가 만들었다.');
+  L.push('# 드라이브 동기화로 모든 기기에 퍼지고, 5분 레인이 매 회차 읽어서 주입한다.');
+  L.push('# 고칠 땐 열쇠 입력 페이지에서 [불러오기] 후 다시 저장하는 걸 권장(손편집 = 오타 축).');
+  L.push('# 이름_B64= 형태는 여러 줄 값을 한 줄로 접은 것 — 레인이 읽을 때 도로 편다.');
+  L.push('# ⚠ 구글 계정에 로그인한 사람이면 읽을 수 있다 — 드라이브 계정 보안이 곧 열쇠 보안이다.');
+  for (const grp of KEYS) {
+    L.push('');
+    L.push('# [' + grp.g + ']');
+    for (const [name] of grp.k) {
+      const v = val(name);
+      if (!v) { L.push('#' + name + '='); continue; }
+      if (/[\r\n]/.test(v)) L.push(name + '_B64=' + b64enc(v));
+      else L.push(name + '=' + v);
+    }
+  }
+  const extra = document.getElementById('extra').value.split('\n').map(s => s.trim()).filter(s => s && /^[A-Za-z_][A-Za-z0-9_]*=/.test(s));
+  if (extra.length) { L.push(''); L.push('# [직접 추가]'); for (const e of extra) L.push(e); }
+  L.push('');
+  return L.join('\n');
+}
+function parseText(t){
+  let loaded = 0; const extraLines = [];
+  for (let ln of t.split(/\r?\n/)) {
+    ln = ln.replace(/\r$/, '');
+    if (!ln || ln[0] === '#') continue;
+    const eq = ln.indexOf('='); if (eq < 1) continue;
+    let k = ln.slice(0, eq), v = ln.slice(eq + 1);
+    if (!v) continue;
+    if (k.endsWith('_B64')) { const d = b64dec(v); if (d !== null) { k = k.slice(0, -4); v = d; } }
+    const el = document.getElementById('k_' + k);
+    if (el) { el.value = v; loaded++; }
+    else extraLines.push(k + '=' + v);
+  }
+  if (extraLines.length) document.getElementById('extra').value = extraLines.join('\n');
+  refresh();
+  return loaded;
+}
+function say(t, warn){ const m = document.getElementById('msg'); m.textContent = t; m.style.color = warn ? 'var(--warn)' : 'var(--ok)'; }
+document.getElementById('loadBtn').addEventListener('click', async () => {
+  try {
+    if (window.showOpenFilePicker) {
+      const [h] = await window.showOpenFilePicker({ types: [{ description: '환경변수', accept: { 'text/plain': ['.txt'] } }] });
+      const f = await h.getFile();
+      say('불러옴: ' + f.name + ' — 채워진 값 ' + parseText(await f.text()) + '개');
+      return;
+    }
+  } catch (e) { if (e && e.name === 'AbortError') return; }
+  const inp = document.createElement('input'); inp.type = 'file'; inp.accept = '.txt';
+  inp.onchange = async () => { const f = inp.files[0]; if (f) say('불러옴: ' + f.name + ' — 채워진 값 ' + parseText(await f.text()) + '개'); };
+  inp.click();
+});
+document.getElementById('saveBtn').addEventListener('click', async () => {
+  const text = buildText();
+  try {
+    if (window.showSaveFilePicker) {
+      const h = await window.showSaveFilePicker({ suggestedName: '환경변수.txt', types: [{ description: '환경변수', accept: { 'text/plain': ['.txt'] } }] });
+      const w = await h.createWritable(); await w.write(text); await w.close();
+      say('저장 완료 — 위치가 드라이브 action 폴더인지 확인. 다음 5분 회차부터 주입된다.');
+      return;
+    }
+  } catch (e) { if (e && e.name === 'AbortError') return; }
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([text], { type: 'text/plain;charset=utf-8' }));
+  a.download = '환경변수.txt'; a.click();
+  say('내려받기로 저장했다 — 내려받은 환경변수.txt 를 드라이브 action 폴더에 옮겨(기존 파일 교체) 넣으면 끝.', true);
+});
+refresh();
+</script>
+</body>
+</html>
