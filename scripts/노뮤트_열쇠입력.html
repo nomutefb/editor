@@ -176,6 +176,35 @@ const HOWTO = {
   SCRAPE_TOP: '안 넣으면 20으로 돈다. 숫자만.',
   SCRAPE_HOURS: '안 넣으면 24로 돈다. 숫자만.'
 };
+// 바로 가는 주소 — 눌러서 열면 그 화면이 뜬다. ⚠ 표시가 붙은 것은 사이트까지만 확실하고 안쪽 메뉴는 내가 확인 못 했다.
+const URLS = {
+  R2_ACCOUNT_ID: 'https://dash.cloudflare.com/', R2_ACCESS_KEY_ID: 'https://dash.cloudflare.com/',
+  R2_SECRET_ACCESS_KEY: 'https://dash.cloudflare.com/', R2_BUCKET: 'https://dash.cloudflare.com/',
+  R2_PUBLIC_BASE: 'https://dash.cloudflare.com/', CF_DEPLOY_HOOK: 'https://dash.cloudflare.com/',
+  GEMINI_API_KEY: 'https://aistudio.google.com/apikey',
+  ELEVENLABS_API_KEY: 'https://elevenlabs.io/app/settings/api-keys',
+  YT_T2_COOKIES: 'https://chromewebstore.google.com/search/get%20cookies.txt',
+  YT_T_COOKIES: 'https://chromewebstore.google.com/search/get%20cookies.txt',
+  INSTA_COOKIE: 'https://chromewebstore.google.com/search/get%20cookies.txt',
+  THREADS_COOKIE: 'https://chromewebstore.google.com/search/get%20cookies.txt',
+  INSTA_UA: 'https://www.whatismybrowser.com/detect/what-is-my-user-agent/',
+  THREADS_UA: 'https://www.whatismybrowser.com/detect/what-is-my-user-agent/',
+  IG_ACCESS_TOKEN: 'https://developers.facebook.com/tools/explorer/',
+  FB_ACCESS_TOKEN: 'https://developers.facebook.com/tools/explorer/',
+  FB_PAGE_TOKEN: 'https://developers.facebook.com/tools/explorer/',
+  THREADS_ACCESS_TOKEN: 'https://developers.facebook.com/tools/explorer/',
+  SAFETY_KEY: 'https://www.data.go.kr/',
+  NAVER_CLIENT_ID: 'https://developers.naver.com/apps/#/register',
+  NAVER_CLIENT_SECRET: 'https://developers.naver.com/apps/#/list',
+  YOUTUBE_API_KEY: 'https://console.cloud.google.com/apis/credentials',
+  KOFIC_NOMUTE: 'https://www.kobis.or.kr/kobisopenapi/', KOFIC_NOMUTE_ID: 'https://www.kobis.or.kr/kobisopenapi/',
+  KOFIC_NOMUTE_EX: 'https://www.kobis.or.kr/kobisopenapi/', KOFIC_NOMUTE_JAENAN: 'https://www.kobis.or.kr/kobisopenapi/',
+  OPENAI_API_KEY: 'https://platform.openai.com/api-keys', OPENAI_API_KEY_NOMUTE: 'https://platform.openai.com/api-keys',
+  XAI_SECRET_PAT: 'https://console.x.ai/', XAI_REFRESH_TOKEN: 'https://console.x.ai/',
+  HIGGSFIELD_REFRESH_TOKEN: 'https://higgsfield.ai/',
+  REPLICATE_API_TOKEN: 'https://replicate.com/account/api-tokens',
+  GDRIVE_SA_JSON: 'https://console.cloud.google.com/iam-admin/serviceaccounts'
+};
 const ALL = [];
 const groupsEl = document.getElementById('groups');
 for (const grp of KEYS) {
@@ -191,7 +220,19 @@ for (const grp of KEYS) {
     el.addEventListener('input', refresh);
     r.appendChild(el);
     if (multi) { const n = document.createElement('div'); n.className = 'note'; n.textContent = '여러 줄 그대로 붙여넣기 — 저장할 때 자동으로 한 줄로 접힌다'; r.appendChild(n); }
-    if (HOWTO[name]) { const hw = document.createElement('div'); hw.className = 'how'; hw.textContent = '받는 법 · ' + HOWTO[name]; r.appendChild(hw); }
+    if (HOWTO[name]) {
+      const hw = document.createElement('div'); hw.className = 'how';
+      hw.textContent = '받는 법 · ' + HOWTO[name];
+      if (URLS[name]) {
+        hw.appendChild(document.createElement('br'));
+        const a = document.createElement('a');
+        a.href = URLS[name]; a.target = '_blank'; a.rel = 'noopener';
+        a.textContent = '→ ' + URLS[name];
+        a.style.color = 'var(--acc)';
+        hw.appendChild(a);
+      }
+      r.appendChild(hw);
+    }
     g.appendChild(r); ALL.push(name);
   }
   groupsEl.appendChild(g);
