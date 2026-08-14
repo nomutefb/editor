@@ -3754,7 +3754,7 @@
 
   /* ── 메시지함 표 오버라이드 = 발행본(pubpop) 미러 · qpop 규칙보다 뒤 선언(소스순 이김) · 운영자 260704 ── */
   .msgpop { width:min(92vw,440px); }   /* 발행본과 동일 폭(qpop 94vw 오버라이드 = 좁은폰 좌측 안 삐짐) */
-  .msgpop .qlist { flex:0 1 auto; min-height:0; margin-top:0; max-height:calc(5 * 51px); overflow-y:auto; overflow-x:hidden; }   /* 발행본과 동일 — 항목 수만큼 높이·5행 캡+스크롤·margin-top:0 헤더간격 균등(빈공간 0·운영자 260704) · flex 수축 = 짧은 뷰포트 페이저 보존(평의회3 260707) */
+  .msgpop .qlist { flex:0 1 auto; min-height:0; margin-top:0; max-height:calc(5 * 51px); overflow-y:auto; overflow-x:hidden; overscroll-behavior:contain; }   /* 발행본과 동일 — 항목 수만큼 높이·5행 캡+스크롤·margin-top:0 헤더간격 균등(빈공간 0·운영자 260704) · flex 수축 = 짧은 뷰포트 페이저 보존(평의회3 260707) · contain = 목록 끝에서 페이지로 안 넘어감(체이닝이 곧 페이지 스크롤 = 창 자동 닫힘 = 운영자 260814 "스크롤 하는 순간 꺼져버림"의 잔여 경로 · 값 = thumb `.out` 정본 관용구 사본) */
   .msgpop .qh-xcell, .msgpop .qrow .qact { justify-content:center; }   /* 삭제(휴지통) = 헤더 X 바로 아래 중앙정렬(발행본 미러) */
   .msgrow .mkind { font-size:var(--fs-xs); font-weight:800; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }   /* 알림구분 라벨 = 대기열 상태셀(qst) 자리 · 종류별 색 · 넘침 = 자기 칸에서 …(운영자 260725 "각각 고유 영역") */
   .msgrow .mkind.mk-info { color:var(--mut); } .msgrow .mkind.mk-warn { color:var(--warn); } .msgrow .mkind.mk-sys { color:var(--mut); }   /* 시스템 = 무채(mk-info 동값 계승) — 구 var(--info) 형광그린 소등(운영자 260725 "시스템도 저 색일 필요없는데 · 다른 대기열과 같이 평범하게") · 재점등 = --info 복원 1값 */
@@ -3772,7 +3772,7 @@
   .msgrow .qt { width:50px; }   /* 시간셀 축소(64→50) = 구분자 좌측 이동 · 짝 qst 확대로 제목폭 불변 */
   /* (도먼트 260725) .msgrow .qst 폭 확대(72px) — 오버라이드 제거 = 대기열 정본 `.qrow .qst`(58px) 상속 → 내용 열이 14px 좌측으로(운영자 "내용 조금 더 좌측으로 이동해도 될듯") · 안전여유 실측 = 라벨 최장 '시스템' 27.9px ≪ 58 · 복원 = 아래 원값
      .msgrow .qst { width:72px; } */
-  .msgdetail { display:flex; flex-direction:column; gap:11px; padding:4px 3px 8px; max-height:calc(5 * 51px); overflow-y:auto; animation:msgUnfold .2s var(--gauge-ease) both; }
+  .msgdetail { display:flex; flex-direction:column; gap:11px; padding:4px 3px 8px; max-height:calc(5 * 51px); overflow-y:auto; overscroll-behavior:contain; animation:msgUnfold .2s var(--gauge-ease) both; }   /* contain = 전문 끝에서 페이지로 안 넘어감(체이닝 = 페이지 스크롤 = 창 자동 닫힘 · 운영자 260814 · 값 = thumb `.out` 정본 관용구 사본) */
   .msgdetail[hidden] { display:none; }
   @media (prefers-reduced-motion:reduce){ .msgdetail { animation:none; } }
   .msgback { align-self:flex-start; display:inline-flex; align-items:center; gap:5px; background:none; border:none; padding:2px 2px; color:var(--mut); font-family:inherit; font-size:12px; font-weight:800;   /* 무효 축약(font:… inherit) 분해 — 260727 게이트 신설분 일괄 교정 */ cursor:pointer; -webkit-tap-highlight-color:transparent; transition:color .15s ease, transform .12s ease; }
@@ -9300,9 +9300,13 @@ document.addEventListener('click', e => {
   hidePmenu();
 }, true);
 // 스크롤·휠 등 다른 액션 활성화 = 프로필(·메시지) 메뉴 자동 닫힘(운영자 260621: 켜진 채 스크롤하면 거슬림). 메뉴 항목 탭은 페이지 스크롤 아님 → 안 닫힘.
-['scroll', 'wheel'].forEach(ev => window.addEventListener(ev, () => {
-  if (!pmenu.hidden && !pmenu.classList.contains('closing')) hidePmenu();
-  if (!msgpop.hidden) msgpop.hidden = true;
+// ⚠ 창 **자기 안쪽** 스크롤은 '다른 액션'이 아니다 — 알림 상세 전문(.msgdetail = max-height 5*51 스크롤 영역)·목록(.qlist 5행 캡)을 굴리면 wheel이 버블링으로 window까지 올라와 그 자리에서 창이 닫혔다(운영자 260814 "메세지 세부 스크롤이 안돌아 · 스크롤 하는 순간 창이 꺼져버림" · 실측 260814 = 전문 1788px/창 255px인데 휠 1틱에 hidden=true·scrollTop 0 = 내용을 한 줄도 못 읽는다 · 목록도 동일 · 터치는 element scroll이 window로 안 올라가 종전에도 정상이었다 = **PC 휠 전용 사각**).
+//   판정 = 발원 요소가 그 팝업 안이면 그 팝업만 유지(다른 팝업은 종전대로 닫힘) · 페이지 스크롤은 e.target이 document(nodeType 9) → 후보 제외 = 260621 계약 100% 보존.
+['scroll', 'wheel'].forEach(ev => window.addEventListener(ev, e => {
+  const t = (e && e.target && e.target.nodeType === 1) ? e.target : null;   // 요소 발원만 후보 — document·window 발원 = 페이지 스크롤 = 종전대로 닫는다
+  const inPop = el => !!(t && el && el.contains(t));
+  if (!pmenu.hidden && !pmenu.classList.contains('closing') && !inPop(pmenu)) hidePmenu();
+  if (!msgpop.hidden && !inPop(msgpop)) msgpop.hidden = true;
   closeFilterPop();   // 스크롤하면 필터 오버레이도 닫힘(pmenu·msgpop과 동일 · 운영자 260627)
 }, { passive: true }));
 $('#refresh').addEventListener('click', () => { hidePmenu(); load(); loadMessages(); loadCandidates(); loadPickFails(); loadHealth(true); });
