@@ -169,6 +169,14 @@ _stage(){ # $1=이름 $2=주기(초) $3=최소 예산(초) — 실행할 차례�
 }
 _stamp(){ date +%s > "$STAMP/$1" 2>/dev/null || true; }   # 실패해도 찍는다 = 고장난 스테이지가 매 회차를 독점하지 않는다
 
+# ── 스테이지 성적표 — 어느 축이 실제로 일했는지를 **main 에 남긴다**(운영자 260814 «너가 웹앱 상태 실시간으로
+#    모니터링하고 직접 수선해»). 로그는 그 컴퓨터에만 남아 원격 세션이 못 읽는다 → 심장박동 파일에 같이 실어
+#    보내면 세션이 레포만 보고 「맥에서 재난 수집이 죽었다」를 확정 판독할 수 있다. 실패가 있으면 즉시 커밋한다.
+ST=""; ST_BAD=0
+_m(){ # $1=이름 $2=rc
+  if [ "${2:-0}" = "0" ]; then ST="$ST $1=ok"; else ST="$ST $1=FAIL"; ST_BAD=1; fi
+}
+
 # 키 이름 다리 — 운영자 비밀칸 이름이 코드가 읽는 이름과 달라서 워크플로가 폴백으로 이어주던 것(sns-trends.yml env 사본).
 export SAFETY_KEY="${KOFIC_NOMUTE_JAENAN:-${SAFETY_KEY:-}}"
 export KOBIS_KEY="${KOBIS_KEY:-${KOFIC_NOMUTE_ID:-${KOFIC_NOMUTE:-}}}"
@@ -192,7 +200,7 @@ _push "scrape(pc): 수집함 candidates + 관측 obs 갱신" viewer/candidates.j
 # ── ①-b 화재 후속 추적(scrape.yml 「화재 후속 추적」 사본) — 사상자 확인 시 **즉시 폰 알림**.
 #    이 축은 화면(정적 빌드)과 무관하게 웹푸시로 바로 닿는다 = 지금 당장 되살아나는 몇 안 되는 기능.
 if [ -n "${VAPID_PRIVATE_KEY:-}" ]; then _pipreq pywebpush pywebpush >/dev/null 2>&1 || true; fi
-"$PY" scraper/fire_watch.py > /tmp/nm_firewatch.out 2>&1 || echo "⚠ fire_watch 실패(스킵 — 다음 회차 재평가)"
+"$PY" scraper/fire_watch.py > /tmp/nm_firewatch.out 2>&1; _m 화재추적 $?
 sed -n 's/^PICKED=/화재 큐잉: /p' /tmp/nm_firewatch.out | tail -1
 _push "fire-watch: 화재 후속 추적 원장" push/fire_watch.json pending scraper/seen_urls.txt messages
 
@@ -207,7 +215,7 @@ if _stage sns 900 240; then
     SNS_SUBS="${SNS_SUBS:-1}" SNS_SUBS_BUDGET="${SNS_SUBS_BUDGET:-480}" SNS_REDDIT="${SNS_REDDIT:-1}" \
     SNS_BSKY="${SNS_BSKY:-1}" SNS_SIGNAL="${SNS_SIGNAL:-1}" SNS_XTRENDS="${SNS_XTRENDS:-1}" \
     SNS_HN="${SNS_HN:-1}" SNS_FIN="${SNS_FIN:-1}" \
-      timeout 840 "$PY" scraper/sns_trends.py || echo "⚠ sns_trends 실패 — 직전분 보존(fail-soft)"
+      timeout 840 "$PY" scraper/sns_trends.py; _m 재난트렌드 $?
   fi
   _pipreq requests requests >/dev/null 2>&1 && { timeout 300 "$PY" scraper/tbs_scraper.py || echo "⚠ tbs 수집 실패 — 직전분 보존"; }
   [ -n "${VAPID_PRIVATE_KEY:-}" ] && { timeout 300 "$PY" .github/scripts/kw_watch.py || true; }
@@ -226,7 +234,7 @@ fi
 # ②-b 커뮤니티 급상승(social-scan.yml · 30분)
 if _stage social 1800 180; then
   _pipreq feedparser feedparser requests pycryptodome >/dev/null 2>&1
-  "$PY" scraper/social_burst.py || echo "⚠ 라이브 소스 일부 막힘(fail-soft)"
+  "$PY" scraper/social_burst.py; _m 커뮤니티 $?
   NEW=$("$PY" -c "import json; print(len(json.load(open('scraper/out/social_candidates.json'))))" 2>/dev/null || echo 0)
   if [ "${NEW:-0}" -gt 0 ]; then
     cp scraper/out/social_candidates.json viewer/social_candidates.json
@@ -239,8 +247,8 @@ fi
 
 # ②-c 채널 수집·요약(insta-fetch.yml·fb-fetch.yml · 3시간)
 if _stage chan 10800 300; then
-  "$PY" .github/scripts/insta_fetch.py || echo "⚠ 인스타 수집 실패(토큰·권한 — fail-soft)"
-  "$PY" .github/scripts/fb_fetch.py    || echo "⚠ 페이스북 수집 실패(토큰·권한 — fail-soft)"
+  "$PY" .github/scripts/insta_fetch.py; _m 인스타 $?
+  "$PY" .github/scripts/fb_fetch.py; _m 페이스북 $?
   "$PY" apps/insta/insta_signals.py    || true
   _pushd "insta: 계정 인사이트 스냅샷 (pc)" apps/insta/data viewer/insta_data.json viewer/insta_covers viewer/fb_data.json messages
   if _haveclaude && [ "$(_left)" -ge 420 ]; then
@@ -259,7 +267,7 @@ fi
 #    운영자가 코드로 고칠 자리가 0이다(알림 조치주체 규약 = 조치 불가 알림은 깨우지 않는다). 메시지함 점등·
 #    원장 기록은 그대로 = 무증상화 아님. 액션 복구 후 되돌리기 = 환경변수.txt 에 WATCHDOG_NOTIFY=1 한 줄.
 if _stage watchdog 1800 180; then
-  WATCHDOG_NOTIFY="${WATCHDOG_NOTIFY:-0}" timeout 420 "$PY" scraper/watchdog.py || echo "⚠ watchdog 스킵"
+  WATCHDOG_NOTIFY="${WATCHDOG_NOTIFY:-0}" timeout 420 "$PY" scraper/watchdog.py; _m 감시 $?
   "$PY" scraper/brk_misfire.py      || echo "⚠ brk_misfire 스킵"
   "$PY" scraper/grade_fix_report.py || echo "⚠ grade_fix_report 스킵"
   "$PY" scraper/daily_health.py --buried-alert || echo "⚠ 묻힘 감시 스킵"
@@ -269,7 +277,7 @@ fi
 
 # ②-e 토큰 계측 롤업(metrics-rollup.yml · 2시간)
 if _stage metrics 7200 120; then
-  "$PY" shared/token_report.py --prune 3 --write viewer/token-usage.json --quiet || true
+  "$PY" shared/token_report.py --prune 3 --write viewer/token-usage.json --quiet; _m 계측 $?
   "$PY" shared/paid_ledger.py --write metrics/paid-usage.json || true
   _pushd "metrics: 토큰 사용 롤업 (pc)" viewer/token-usage.json metrics
   _stamp metrics
@@ -277,7 +285,7 @@ fi
 
 # ②-f 유튜브 쿠키 건강검진(yt-cookie-health.yml · 12시간)
 if _stage ytcookie 43200 120; then
-  "$PY" .github/scripts/yt_cookie_health.py || echo "⚠ 쿠키 검진 스킵"
+  "$PY" .github/scripts/yt_cookie_health.py; _m 쿠키검진 $?
   _pushd "yt-cookie: 쿠키 건강 도장 (pc)" messages scraper/obs
   _stamp ytcookie
 fi
@@ -350,4 +358,16 @@ if [ -n "${CF_DEPLOY_HOOK:-}" ]; then
   curl -fsS -X POST "$CF_DEPLOY_HOOK" -m 20 -o /dev/null 2>/dev/null && echo "화면 재빌드 신호 보냄" || echo "⚠ 화면 재빌드 신호 실패(빌드 연결 끊김 — 정적 화면은 동결 상태)"
 fi
 
-_land "ok" "회차 완료(${SECONDS}s · 판정 b=${nb:-0} g=${ng:-0} · 요약 pending=${_np:-0} ask=${_na:-0})"
+SUMM="회차 완료(${SECONDS}s · 판정 b=${nb:-0} g=${ng:-0} · 요약 pending=${_np:-0} ask=${_na:-0}) ·${ST:- 이번 회차 실행 스테이지 없음}"
+_land "ok" "$SUMM"
+echo "── 스테이지 성적표:${ST:- 없음}"
+
+# ── ⑦ 성적표를 main 에 남긴다 — 로그는 그 컴퓨터에만 있어 원격 세션이 못 읽는다. 실패가 있으면 즉시 커밋해서
+#    「맥에서 어느 축이 죽었나」를 레포만 보고 확정 판독할 수 있게 한다(정상 회차는 20분 상한 = 잡음 억제).
+_last_beat=$(sed -n 's/.*"epoch":\([0-9]*\).*/\1/p' "$BEAT" 2>/dev/null | head -1); [ -n "$_last_beat" ] || _last_beat=0
+if [ "$ST_BAD" = "1" ] || [ $(( $(date +%s) - _last_beat )) -ge 1200 ]; then
+  printf '{"epoch":%s,"kst":"%s","host":"%s","secs":%s,"stages":"%s"}\n' \
+    "$(date +%s)" "$(TZ=Asia/Seoul date '+%m-%d %H:%M:%S')" "$(hostname 2>/dev/null | cut -d. -f1)" "$SECONDS" "$(printf '%s' "${ST# }" | tr -d '"')" > "$BEAT" 2>/dev/null || true
+  git add "$BEAT" 2>/dev/null || true
+  git diff --cached --quiet 2>/dev/null || { git commit -q -m "beat(pc): 레인 성적표" 2>/dev/null && git push -q origin HEAD:main 2>/dev/null || true; }
+fi
