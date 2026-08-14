@@ -62,7 +62,7 @@ python -m pip install --quiet feedparser requests
 
 REM ── 4단계: 저장소 받기(브라우저 로그인 1회)
 if exist "%USERPROFILE%\nomute-editor\.git" (
-  echo [4/6] 저장소 이미 있음 — 통과
+  echo [4/6] 저장소 이미 있음 — 최신으로 당깁니다
 ) else (
   echo [4/6] 저장소를 받습니다. 브라우저 로그인 창이 뜨면 muteno 계정으로 로그인하세요.
   git clone https://muteno@github.com/muteno/nomute-editor "%USERPROFILE%\nomute-editor"
@@ -81,9 +81,6 @@ if not exist "%GITBASH%" (
   exit /b 1
 )
 
-REM ── 실행기 굽기: 작업 스케줄러가 여는 셸은 경로를 모를 수 있어 파이썬·클로드 실제 경로를 절대경로로 박는다
-"%GITBASH%" -lc "pd=$(dirname \"$(command -v python 2>/dev/null || echo /na)\"); cdir=$(dirname \"$(command -v claude 2>/dev/null || echo /na)\"); { echo '#!/usr/bin/env bash'; echo \"export PATH=\\\"$pd:$cdir:\$PATH\\\"\"; echo 'exec ~/nomute-editor/scripts/pc_lane.sh'; } > ~/nomute_pc_run.sh; chmod +x ~/nomute_pc_run.sh; echo 실행기-준비완료"
-
 REM ── 5단계: 클로드 로그인(구독 계정 1회)
 echo.
 echo [5/6] 클로드 로그인 단계입니다. 잘 읽고 진행하세요:
@@ -95,22 +92,12 @@ echo.
 pause
 call claude
 
-REM ── 6단계: 15분 시계 등록(창 안 뜨는 조용한 실행) + 첫 발사
-> "%USERPROFILE%\nomute_pc_lane.vbs" echo CreateObject("WScript.Shell").Run """%GITBASH%"" -lc ""~/nomute_pc_run.sh ^>^> ~/pc_lane.log 2^>^&1""", 0, False
-schtasks /Create /F /SC MINUTE /MO 15 /TN "NomutePcLane" /TR "wscript.exe \"%USERPROFILE%\nomute_pc_lane.vbs\"" >nul
-if errorlevel 1 (
-  echo [멈춤] 15분 시계 등록에 실패했습니다. 이 화면을 캡처해서 클로드에게 보여주세요.
-  pause
-  exit /b 1
-)
-echo [6/6] 15분 시계 등록 완료 — 첫 발사를 지금 시작합니다. 수집과 판정에 1~3분 걸립니다...
-schtasks /Run /TN "NomutePcLane" >nul
-timeout /t 150 /nobreak >nul
+REM ── 6단계: 나머지 전부(실행기·조용한 실행·15분 시계·첫 발사·검증) = 셸 정본 한 줄 호출
+REM    ⚠ 260814 실측 봉합: 안쪽 따옴표가 있는 복잡한 -lc 는 cmd 따옴표 파서가 조각내 조용히 부서진다
+REM    → 복잡한 로직 전부 scripts/pc_setup.sh(레포 정본)로 이관, 여기는 따옴표 없는 한 줄만.
+echo [6/6] 마무리 설치와 첫 발사를 시작합니다...
+"%GITBASH%" -lc "cd ~/nomute-editor && git pull -q --rebase origin main; bash scripts/pc_setup.sh"
 echo.
-echo ── 첫 발사 결과 ──────────────────────────────────
-"%GITBASH%" -lc "echo '착지 원장:'; cat ~/.nomute_pc_lane_land 2>/dev/null || echo '아직 기록 없음 - 몇 분 뒤 pc_lane.log 확인'; echo; echo '최근 로그:'; tail -n 8 ~/pc_lane.log 2>/dev/null"
-echo ──────────────────────────────────────────────────
-echo.
-echo 위에 ok 로 시작하는 줄이 보이면 설치 성공입니다. 이 창은 닫아도 됩니다.
+echo 위에 [착지 원장]이 ok 로 시작하면 설치 성공입니다. 이 창은 닫아도 됩니다.
 echo 뭔가 이상하면 이 화면을 캡처해서 클로드에게 보여주세요.
 pause
