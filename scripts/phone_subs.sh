@@ -13,6 +13,7 @@
 #   레포 클론 후  crontab -e →  */30 * * * * bash ~/nomute-editor/scripts/phone_subs.sh >> ~/phone_subs.log 2>&1
 #   (macOS 기본 python3·git으로 동작 = 추가 패키지 0 · 크롬 로그인과 무관한 게스트 HTML 파싱이라 브라우저 불요)
 set -e
+_SELF_SUM="$(cksum "$0" 2>/dev/null | cut -d' ' -f1 || true)"   # 자기 갱신 안전의 짝(아래 재시작 블록)
 cd "$(dirname "$0")/.."
 # 절전 방지(운영자 260727 "폰 안 쓰는 시간대에도 살아있게 해야되겠는데") — 안드로이드 도즈가 crond를 재우면
 # 이 스크립트는 **아예 실행되지 않는다**(260727 판례: 00:32~02:25 2시간 공백 = 스레드·인스타가 그동안 굶음).
@@ -66,6 +67,18 @@ elif ! git pull -q --rebase origin main 2>/dev/null; then   # 최신 계정 목�
   _heal="${_heal:+$_heal+}pull-heal"
 fi
 [ -n "$_heal" ] && echo "🔧 git 착지 자가복구: $_heal"
+
+# ⚠⚠ 자기 갱신 안전(pc_lane.sh 정본 블록의 사본 = 같은 병의 형제 전건) — 이 스크립트는 자기 자신을 바꾸는
+#   git pull 을 자기 실행 도중에 돌린다. 셸은 파일을 바이트 위치를 기억하며 조금씩 읽으므로 그 사이 길이가
+#   바뀌면 남은 절반을 엉뚱한 위치부터 읽어 문법 오류·반쪽 실행이 난다 → 바뀌었으면 새 파일로 다시 시작.
+if [ "${NOMUTE_LANE_REEXEC:-0}" != "1" ]; then
+  _sum_now="$(cksum "$0" 2>/dev/null | cut -d' ' -f1 || true)"
+  if [ -n "${_SELF_SUM:-}" ] && [ -n "$_sum_now" ] && [ "$_sum_now" != "$_SELF_SUM" ]; then
+    echo "♻ 레인 코드가 갱신됐다 — 새 코드로 이번 회차를 다시 시작한다"
+    NOMUTE_LANE_REEXEC=1 exec bash "$0" "$@"
+  fi
+fi
+
 python3 scripts/phone_subs.py || { _land "collect-fail" "python rc≠0(쿠키·429·네트워크)"; exit 0; }
 # ⚠ 원장 동반 착지(260809 실사고 봉합 · 관측 구멍 3세대) — `push/threads_ck.jsonl` 은 260806에
 #   「러너 로그는 흘러가서 소실된다 → 원장에 쌓으면 회차 분포가 곧 판별기가 된다」는 근거로 신설됐는데,

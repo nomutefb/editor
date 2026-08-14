@@ -4983,6 +4983,12 @@ def check_pc_lane_stages():
     _body = '\n'.join(_body)
     if not (_body and 'rev-list --count origin/main..HEAD' in _body and 'return 1' in _body):
         print('❌ [pc-lane] 안 밀린 커밋 보호 소실 — git_land 의 reset --hard 가 방금 만든 요약 커밋을 지운다(착지 함수 _gl 몸통 축)'); rc = 1
+    # ③-b 자기 갱신 안전 — 세 레인 전건이 **자기 자신을 바꾸는 git pull 을 자기 실행 도중**에 돌린다.
+    #   셸은 파일 바이트 위치를 기억하며 조금씩 읽으므로 길이가 바뀌면 남은 절반을 엉뚱한 자리부터 읽는다
+    #   (= 문법 오류·반쪽 실행 · 레인이 커질수록 확률이 오른다) → 재시작 블록이 형제 전건에 있어야 한다.
+    for k, nm in (('lane', 'pc_lane.sh'), ('ph', 'phone_scrape.sh'), ('ps', 'phone_subs.sh')):
+        if not (_has_exec_line(txt[k], '_SELF_SUM') and _has_exec_line(txt[k], 'NOMUTE_LANE_REEXEC=1 exec bash')):
+            print('❌ [pc-lane] %s 자기 갱신 안전(재시작 블록) 소실 — git pull 이 실행 중인 자기 파일을 바꾸면 남은 절반이 깨진다' % nm); rc = 1
     # ④ 스테이지 실행줄(대응 워크플로 = 주석에 명기) — 이름이 아니라 **실제로 부르는 실행기**로 판정한다
     stages = (
         ('재난·트렌드(sns-trends)', 'scraper/sns_trends.py'),

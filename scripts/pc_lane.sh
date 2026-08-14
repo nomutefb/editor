@@ -29,6 +29,7 @@
 #      해제되는 순간 한꺼번에 뜬다(유실 0).
 # 착지 원장 = ~/.nomute_pc_lane_land (phone_scrape 원장 문법 사본 · 파일만 갈라 둔다 = 두 레인의 막힌 자리 구분).
 set -u
+_SELF_SUM="$(cksum "$0" 2>/dev/null | cut -d' ' -f1)"   # 자기 갱신 안전의 짝(아래 재시작 블록 · git pull 이 이 파일을 바꾸는 순간을 잡는다)
 cd "$HOME/nomute-editor" 2>/dev/null || { echo "레포 없음: ~/nomute-editor — 설치 파일을 먼저 실행"; exit 1; }
 
 LAND="$HOME/.nomute_pc_lane_land"
@@ -93,6 +94,19 @@ elif ! git pull -q --rebase origin main 2>/dev/null; then
   _heal="${_heal:+$_heal+}pull-heal"
 fi
 [ -n "$_heal" ] && echo "🔧 git 착지 자가복구: $_heal"
+
+# ⚠⚠ 자기 갱신 안전(같은 병이 phone_scrape·phone_subs 에도 있다 = 형제 전건 봉합) — 이 스크립트는 **자기 자신을
+#   바꾸는 git pull 을 자기 실행 도중에** 돌린다. 셸은 파일을 통째로 읽어두지 않고 바이트 위치를 기억하며 조금씩
+#   읽으므로, 그 사이 파일 길이가 바뀌면 **남은 절반을 엉뚱한 위치부터 읽어** 문법 오류·반쪽 실행이 난다.
+#   → 파일이 바뀌었으면 그 자리에서 새 파일로 다시 시작한다(잠금은 먼저 놓는다 = exec 는 EXIT 덫을 안 부른다).
+if [ "${NOMUTE_LANE_REEXEC:-0}" != "1" ]; then
+  _sum_now="$(cksum "$0" 2>/dev/null | cut -d' ' -f1)"
+  if [ -n "${_SELF_SUM:-}" ] && [ -n "$_sum_now" ] && [ "$_sum_now" != "$_SELF_SUM" ]; then
+    echo "♻ 레인 코드가 갱신됐다 — 새 코드로 이번 회차를 다시 시작한다"
+    rmdir "$LOCK" 2>/dev/null || true
+    NOMUTE_LANE_REEXEC=1 exec bash "$0" "$@"
+  fi
+fi
 
 # ── 심장박동(운영자 260814 「너가 웹앱 상태 실시간으로 모니터링하고 직접 수선해」) — 이 레인이 돌고 있다는
 #    신호를 main 에 남겨 세션이 원격에서 생사를 읽게 한다. 매 회차 커밋 = 하루 수백 개 잡음이라 20분 상한 ·

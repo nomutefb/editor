@@ -29,6 +29,7 @@
 # 되돌리기 = 이 crontab 줄 삭제. Actions 가 복구되면 scrape.yml 이 다시 15분 정본 타이머를 쥔다
 #   (두 레인이 겹쳐 돌아도 산출은 같은 파일이라 충돌 0 = 늦게 온 쪽이 rebase 로 정렬된다).
 set -e
+_SELF_SUM="$(cksum "$0" 2>/dev/null | cut -d' ' -f1 || true)"   # 자기 갱신 안전의 짝(아래 재시작 블록)
 cd "$(dirname "$0")/.."
 # 절전 방지 — phone_subs.sh 와 같은 이유·같은 수단(도즈가 crond 를 재우면 이 스크립트는 아예 실행되지 않는다).
 command -v termux-wake-lock >/dev/null 2>&1 && termux-wake-lock >/dev/null 2>&1 || true
@@ -56,6 +57,18 @@ elif ! git pull -q --rebase origin main 2>/dev/null; then
   _heal="${_heal:+$_heal+}pull-heal"
 fi
 [ -n "$_heal" ] && echo "🔧 git 착지 자가복구: $_heal"
+
+# ⚠⚠ 자기 갱신 안전(pc_lane.sh 정본 블록의 사본 = 같은 병의 형제 전건) — 이 스크립트는 자기 자신을 바꾸는
+#   git pull 을 자기 실행 도중에 돌린다. 셸은 파일을 바이트 위치를 기억하며 조금씩 읽으므로 그 사이 길이가
+#   바뀌면 남은 절반을 엉뚱한 위치부터 읽어 문법 오류·반쪽 실행이 난다 → 바뀌었으면 새 파일로 다시 시작.
+if [ "${NOMUTE_LANE_REEXEC:-0}" != "1" ]; then
+  _sum_now="$(cksum "$0" 2>/dev/null | cut -d' ' -f1 || true)"
+  if [ -n "${_SELF_SUM:-}" ] && [ -n "$_sum_now" ] && [ "$_sum_now" != "$_SELF_SUM" ]; then
+    echo "♻ 레인 코드가 갱신됐다 — 새 코드로 이번 회차를 다시 시작한다"
+    NOMUTE_LANE_REEXEC=1 exec bash "$0" "$@"
+  fi
+fi
+
 
 # ── 수집(scrape.yml 「Collect」·「Update 수집함」 2스텝의 인자 사본 = 값 창작 0) ──
 python3 scraper/knews_scraper.py \
