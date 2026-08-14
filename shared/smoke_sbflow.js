@@ -114,6 +114,21 @@ const ok = (c, msg, got) => { console.log((c ? '✅ ' : '❌ ') + msg + (got ===
   ok(clamp.g === '720p', '⑤ 그록으로 바꾸면 720p', clamp.g);
   ok(clamp.back !== '4K', '⑤ 되돌아와도 4K로 안 튄다(값 다섯 배 방지)', clamp.back);
 
+  // ── ⑦ 콘티 시트가 결과부에 뜨는가(운영자 260814 — 매번 만들면서 한 번도 안 띄우던 축)
+  await pg.route('**/sheet.json*', r => r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ url: 'https://x.invalid/sheet.jpg', cuts: 9, engine: 'gemini' }) }));
+  await pg.route('**/video.json*', r => r.fulfill({ status: 404, body: '' }));
+  await pg.route('**/ref.json*', r => r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ urls: ['https://x.invalid/ref.jpg'] }) }));
+  const sheet = await pg.evaluate(async () => {
+    const box = document.createElement('div'); document.body.appendChild(box);
+    await window.renderOut('# 표본 콘티\n\n## ⚙️ 설계 요약\n의도: 표본\n', box, 'sb_out/260814-test/board.md');
+    const refs = [...box.querySelectorAll('.ref')];
+    return { n: refs.length, firstCap: refs[0] ? (refs[0].querySelector('.cap') || {}).textContent || '' : '',
+             firstImg: refs[0] ? !!refs[0].querySelector('img[data-ix="sheet"]') : false };
+  }).catch(e => ({ err: String(e.message).slice(0, 120) }));
+  ok(!sheet.err, '⑦ 결과 렌더가 돈다', sheet.err || '');
+  ok(sheet.firstImg, '⑦ 콘티 시트가 결과부 맨 앞에 뜬다');
+  ok((sheet.firstCap || '').includes('콘티 시트'), '⑦ 캡션이 콘티 시트라고 말한다', sheet.firstCap);
+
   ok(errs.length === 0, '⑥ 페이지 에러 0', errs.slice(0, 2).join(' | '));
   await b.close(); try { srv.kill(); } catch (e) {}
   console.log(bad ? '── 판정 FAIL ' + bad + '건' : '── 판정 PASS (발사 경로 전건)');
