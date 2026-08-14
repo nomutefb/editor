@@ -323,12 +323,32 @@
  ],
  "threads": [
   {
+   "account": "aipeekme",
+   "text": "🔗 원문·자세히 보기\nhttps://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-3-7-flash/",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1786689130,
+   "thumb": "",
+   "url": "https://www.threads.com/@aipeekme/post/DcArTB0Hzob",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "구글이 코딩과 에이전트에 맞춘 제미나이 3.7 플래시를 공개했습니다.\n제미나이 3.6 플래시 출시 후 3주 만의 업데이트입니다.\n소프트웨어 엔지니어링, 웹 개발, 지식 업무 전반의 성능을 대폭 개선했습니다.\n도입 가격은 3.6 플래시 대비 100만 토큰당 절반 수준으로 책정됐습니다.\n실제 딥스웨(DeepSWE v1.1) 벤치마크에서 65.3% 대 49.0%를 기록했고, 복잡한 문서를 처리하는 GDP.pdf 평가에서도 34.0% 대 22.0%로 3.6 플래시 대비 뚜렷한 성능 향상을 보였습니다.\n업무 자동화 평가인 오토메이션벤치(AutomationBench)에서도 30.4% 대 17.0%로 크게 앞섰습니다.\n판올림 주기가 한 달도 안 될 만큼 빨라진 점이 눈에 띕니다.\n성능 개선과 함께 토큰 단가를 절반으로 낮춰 진입 장벽을 줄인 점이 인상적입니다.\n반복 호출이 잦은 에이전트 파이프라인에서 실질적인 비용 절감 효과가 기대됩니다.\n\n📷 사진 출처: blog.google",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1786689118,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/774905438_18079504724407306_353562302815296001_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk2MzM1Nzk3NTQ3MDM5NDkzOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTMwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=hdh9Mm9TjRQQ7kNvwGYfapc&_nc_oc=AdroxW60hA9orcqluPAUjRKS6Mo8BpBvUiUHktHIWzSCus0RebY7btrJ0YIZIf2Kf9pBdbvrEWc3mEG_Urs2gUoc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=0oL9taZwAKTTBYqrjES-CQ&_nc_ss=7a22e&oh=00_AQG7vjDVzupRCBkXtbN4FPcsQs4-0zI8A_VEW-CXvs3lJw&oe=6A849260",
+   "url": "https://www.threads.com/@aipeekme/post/DcArRR1n847",
+   "region": "kr"
+  },
+  {
    "account": "choi.openai",
    "text": "3/ 발표 벤치마크부터 보겠습니다.\nZ.ai와 소속 연구자가 공개한 수치에서 GLM-5.3은 Terminal-Bench 3.0 28.3, DeepSWE 66.9, Agents' Last Exam 28.5, GDPVal-AA 1769를 기록했습니다.\n\nTerminal-Bench는 코드 컴파일과 서버 설정, 디버깅처럼 터미널에서 실제 작업을 끝까지 수행하는 능력을 평가합니다.\nDeepSWE는 공개된 적 없는 오픈소스 저장소 과제를 사용해 학습 데이터 유출 가능성을 낮춘 코딩 에이전트 벤치마크입니다. GDPVal-AA는 44개 직업과 9개 산업의 실제 업무를 평가합니다.\n\nZ.ai는 오픈 모델 9개 벤치마크 가운데 8개에서 1위를 기록했다고 밝혔습니다. 2.4조 파라미터 Qwen과 2.8조 Kimi가 경쟁하는 자리에 743B 모델이 올라온 셈입니다.",
    "likes": 1,
    "cmts": 1,
    "time": 1786687862,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/772773849_17982085959112832_6040525899650817481_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk2MzM0NzUxMDU5NjkzMjA2Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=e-g2iu9uTu0Q7kNvwFJ4Rrq&_nc_oc=AdoXqpVkx1PXZq5LXavA7pTowseVgBdYcQ-PfuHoLgfYDLBUyJMLKsxSvSqxzlSXfbwqG0SlShRzZroq5QkuK1Sm&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=J7XFTubJPrJ0y6ykFUq5Mw&_nc_ss=7a22e&oh=00_AQEsQk_4XSPKuq_hHBSXiHVJECh5NduQ0LUBd0WFUsljXQ&oe=6A8480D1",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/772773849_17982085959112832_6040525899650817481_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk2MzM0NzUxMDU5NjkzMjA2Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=e-g2iu9uTu0Q7kNvwFJ4Rrq&_nc_oc=AdoXqpVkx1PXZq5LXavA7pTowseVgBdYcQ-PfuHoLgfYDLBUyJMLKsxSvSqxzlSXfbwqG0SlShRzZroq5QkuK1Sm&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=SjVM0Go2d2ENYuWha8W1lA&_nc_ss=7a22e&oh=00_AQEh6tbTAmfhliClID6GTjVguwVfmnuhQiNZTPy1ZLSlCg&oe=6A8480D1",
    "url": "https://www.threads.com/@choi.openai/post/DcAo4_qjxHi",
    "region": "kr"
   },
@@ -345,7 +365,7 @@
   {
    "account": "choi.openai",
    "text": "1/ Z.ai가 8월 14일 GLM-5.3을 공개했습니다.\n\nGLM-5.3은 유료 구독 서비스인 GLM Coding Plan과 에이전트 도구 ZCode에서 바로 사용할 수 있습니다.\n\nAPI와 오픈웨이트는 아직 열리지 않았습니다. Z.ai는 안전 평가를 거쳐 순차적으로 공개할 예정이며, Hugging Face 저장소도 곧 올라온다고 밝혔습니다.\n\nGLM 시리즈를 만드는 베이징의 Z.ai는 옛 Zhipu AI가 이름을 바꾼 회사입니다.\n이번 버전에서 앞세운 것은 코딩·에이전트 성능과 사이버 보안 역량입니다.\n\nGLM-5.2를 자체 서버에 올려 데이터와 운영 통제권을 확보하려던 기업 수요가 있었던 만큼, GLM-5.3도 그 흐름을 이어가는 모델입니다.",
-   "likes": 2,
+   "likes": 4,
    "cmts": 1,
    "time": 1786687855,
    "thumb": "",
@@ -363,53 +383,33 @@
    "region": "kr"
   },
   {
-   "account": "aipeekme",
-   "text": "중국 AI 기업 미니맥스가 허깅페이스에 'MiniMax H3 Turbo LoRA' 스페이스를 공개했습니다. 자사의 MiniMax-H3-Turbo-Lora 모델을 데모 형태로 확인할 수 있는 페이지입니다. 해당 스페이스는 허깅페이스의 제로 GPU 환경에서 구동 중이며, 공간 내 수치로는 에이전트 2개 구동, 하트 수 95개, 커뮤니티 게시물 4개가 기록되어 있습니다. 그동안 미니맥스 관련 자원은 자체 플랫폼이나 API 중심으로만 논의되어 외부 접근이 다소 제한적이었습니다. 이번 허깅페이스 스페이스 공개는 경량화된 구조를 활용해 개발자 접근성을 높이고 데모 환경을 제공하려는 취지로 해석할 수 있습니다. 스페이스 페이지 내 파일 구조 및 상세 인터페이스 구성이 함께 등록되어 있어 사용자가 직접 구동 상태를 확인할 수 있습니다. 앞으로 추가적인 상세 자료나 관련 툴킷 확장이 계속 이어질지는 더 지켜봐야 할 부분입니다.\n\n📷 사진 출처: huggingface.co",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1786678294,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/773662913_18079453967407306_4907557213334189130_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk2MzI2NzE3OTczNTkxMjA5Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=YwQMVcbiesoQ7kNvwG3g88B&_nc_oc=Adp4jqYQtZgE5rCmTQTjwtUFnsz1_J8dpbBvEHMaJEFwSDycJRer_RAwVK6GIzJE25A2iCEVva5Knr3O3gGRKziX&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=XH8vhds73qIxDwWj7PXWpw&_nc_ss=7a22e&oh=00_AQEhBySPqZbIyEWh584NA-Nwc5PZt_HLURBYHCyI_IbGIA&oe=6A84904F",
-   "url": "https://www.threads.com/@aipeekme/post/DcAWoBuH46h",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
-   "text": "삼성 갤럭시 Z Fold 8에서 실제로 책장을 넘기는 듯한 화면 전환 연출이 제공됩니다.\n화면을 두 번 두드리면 대화가 3D 형태로 나오는 효과도 적용됐는데요.\n폴더블폰의 대화면을 활용해 화면 감상 몰입도 상승입니다.\n단순히 넓은 화면을 제공하는 데서 나아가 실물 책을 넘기는 듯한 시각적 효과를 소프트웨어로 구현했습니다. 갖고 싶네요.",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1786669206,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/770919272_1607066491010864_3053117070973738233_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk2MzE5MDgwODQwNTE5Mjc0MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=I_XY8mjKZPkQ7kNvwFhImV_&_nc_oc=AdpMBhO-Erv6JxNWeQGvzGTu8A-kg49FwFNmIvRiE55IInKM3CVufptg31x10dY_PcXJh-wA8AneoT6BqDZn3TdH&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=XH8vhds73qIxDwWj7PXWpw&_nc_ss=7a22e&oh=00_AQFO8FYXs2XDa_QXVYwS3TASGcFVO4jMODOExh3K4xvhyg&oe=6A847B77",
-   "url": "https://www.threads.com/@aipeekme/post/DcAFQrYFbAk",
-   "region": "kr"
-  },
-  {
    "account": "aicoffeechat",
    "text": "챗gpt가 점점 편해집니다\n\n이제 ChatGPT 안에서 바로 구글드라이브 문서, 시트 또는 슬라이드를 열어 탭을 바꾸지 않고도 나란히 작업할 수 있습니다. \n\n불편하게 탭 전환을 하지 않아도 됩니다.",
-   "likes": 15,
+   "likes": 16,
    "cmts": 4,
    "time": 1786665527,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/774401213_1771628887365881_7874096656449986247_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk2MzE1Njc1MDk0OTU2NTA5Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Dnn8thhBSJ0Q7kNvwFEV2wB&_nc_oc=AdrrZEQlgKEwDxyzXPiabdm2zjMghwXn4-xAjf_7dw2yh78dFaerv02UzBRLpQkJ3Hpxw-HREiY9yfWrAa-M3Xeq&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=3VVN4rXXhDZlbXv66T_bTQ&_nc_ss=7a22e&oh=00_AQHrb-tkFIEaMLz60SGL2xI90mWWMDyPJRx4Il4eleXSsw&oe=6A849DFB",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/774401213_1771628887365881_7874096656449986247_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk2MzE1Njc1MDk0OTU2NTA5Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Dnn8thhBSJ0Q7kNvwFEV2wB&_nc_oc=AdrrZEQlgKEwDxyzXPiabdm2zjMghwXn4-xAjf_7dw2yh78dFaerv02UzBRLpQkJ3Hpxw-HREiY9yfWrAa-M3Xeq&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=oxCAxFpgqlIu2nS-syxfRQ&_nc_ss=7a22e&oh=00_AQG0VTEsaTn75N2bGe0QL2M4dIzsruQKwdIeX6mW3geTag&oe=6A849DFB",
    "url": "https://www.threads.com/@aicoffeechat/post/Db_9hE5ikKl",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "🚨 속보) Z.ai가 GLM-5.3을 공개했습니다.\n\nGLM-5.2와 같은 743B 기반 모델에 후속 학습을 더해 코딩과 에이전트, 사이버 성능을 끌어올렸습니다. Z.ai는 오픈 모델 비교 9개 벤치마크 중 8개에서 1위를 기록했다고 밝혔습니다.\n\nGLM Coding Plan과 ZCode에서는 바로 사용할 수 있고, API와 오픈웨이트는 안전 평가를 거쳐 순차적으로 공개될 예정입니다.\n\n일부 벤치마크에서 Fable 5에 근접한 성능을 보인 GLM-5.3을 중국 오픈웨이트 경쟁의 흐름 속에서 정리했습니다. 🧵",
-   "likes": 18,
+   "likes": 27,
    "cmts": 12,
    "time": 1786687850,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/772726119_17982084063112832_3495264679524249276_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk2MzM0NzQwNDY0ODg0NzEwNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=uv7eyB99CRYQ7kNvwE2tNDG&_nc_oc=Adps6mdzcwiMXJTUJRyRhM8YvtL1b-xCL4UBSHsKvbgaXkkWhUEqf_leQSw497wH8wZvCgwVhv99-kmbgAoU7VLu&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=J7XFTubJPrJ0y6ykFUq5Mw&_nc_ss=7a22e&oh=00_AQGVDktWG1oKtCM-R5zXEYpoepPRJnLXgoOZB2zPUsLBiw&oe=6A849897",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/772726119_17982084063112832_3495264679524249276_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk2MzM0NzQwNDY0ODg0NzEwNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=uv7eyB99CRYQ7kNvwE2tNDG&_nc_oc=Adps6mdzcwiMXJTUJRyRhM8YvtL1b-xCL4UBSHsKvbgaXkkWhUEqf_leQSw497wH8wZvCgwVhv99-kmbgAoU7VLu&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=SjVM0Go2d2ENYuWha8W1lA&_nc_ss=7a22e&oh=00_AQEc-snMFGeGnLDxjt7R63gdyClRV-wbVUx1nIhUKH0ZgA&oe=6A849897",
    "url": "https://www.threads.com/@choi.openai/post/DcAo3c_j5cC",
    "region": "kr"
   },
   {
    "account": "aipeekme",
-   "text": "🔗 원문·자세히 보기\nhttps://github.com/guillaumemeyer/watermarks-remover",
-   "likes": 1,
-   "cmts": 0,
-   "time": 1786669054,
-   "thumb": "",
-   "url": "https://www.threads.com/@aipeekme/post/DcAFAbxnzLA",
+   "text": "중국 AI 기업 미니맥스가 허깅페이스에 'MiniMax H3 Turbo LoRA' 스페이스를 공개했습니다. 자사의 MiniMax-H3-Turbo-Lora 모델을 데모 형태로 확인할 수 있는 페이지입니다. 해당 스페이스는 허깅페이스의 제로 GPU 환경에서 구동 중이며, 공간 내 수치로는 에이전트 2개 구동, 하트 수 95개, 커뮤니티 게시물 4개가 기록되어 있습니다. 그동안 미니맥스 관련 자원은 자체 플랫폼이나 API 중심으로만 논의되어 외부 접근이 다소 제한적이었습니다. 이번 허깅페이스 스페이스 공개는 경량화된 구조를 활용해 개발자 접근성을 높이고 데모 환경을 제공하려는 취지로 해석할 수 있습니다. 스페이스 페이지 내 파일 구조 및 상세 인터페이스 구성이 함께 등록되어 있어 사용자가 직접 구동 상태를 확인할 수 있습니다. 앞으로 추가적인 상세 자료나 관련 툴킷 확장이 계속 이어질지는 더 지켜봐야 할 부분입니다.\n\n📷 사진 출처: huggingface.co",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1786678294,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/773662913_18079453967407306_4907557213334189130_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk2MzI2NzE3OTczNTkxMjA5Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=YwQMVcbiesoQ7kNvwG3g88B&_nc_oc=Adp4jqYQtZgE5rCmTQTjwtUFnsz1_J8dpbBvEHMaJEFwSDycJRer_RAwVK6GIzJE25A2iCEVva5Knr3O3gGRKziX&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=0oL9taZwAKTTBYqrjES-CQ&_nc_ss=7a22e&oh=00_AQEfkzVK--16S1DDrAfMbOEy5bpYdGav5gCMiElo2Wka3Q&oe=6A84904F",
+   "url": "https://www.threads.com/@aipeekme/post/DcAWoBuH46h",
    "region": "kr"
   },
   {
@@ -424,32 +424,32 @@
   },
   {
    "account": "aipeekme",
-   "text": "GitHub에 AI 워터마크를 제거하는 도구 watermarks-remover가 공개됐습니다.\n클로드, 제미나이 SynthID-Text, 오픈AI, 오픈 LLM 등의 AI가 남기는 워터마크를 지워줍니다.\n보이지 않는 유니코드, 이색 공백, 태그 문자와 통계적 토큰 패턴을 감지해 교정합니다.\nPNG, JPEG, SVG, PDF, DOCX, ODT, HTML 파일의 C2PA, EXIF 메타데이터도 함께 삭제하는 방식입니다.\n파이썬 표준 라이브러리 스크립트와 에이전트 스킬을 결합해 작동하며 v0.4.0 버전까지 출시됐습니다.\n소유한 콘텐츠의 개인정보 보호와 정제를 목적으로 만들어졌다고 밝히고 있습니다.\nAI 생성물 추적 시도가 늘어나는 상황에서 워터마크 제거 기술도 빠르게 고도화되는 모습입니다.\n결국 워터마크 기술과 이를 우회하려는 시도 사이의 숨바꼭질이 당분간 이어질 것으로 보입니다.\n\n📷 사진 출처: github.com",
-   "likes": 12,
-   "cmts": 2,
-   "time": 1786669044,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/774795811_18079412540407306_3068780906395133236_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk2MzE4OTU3OTE3Mjc4MDQ0Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=VDeodCxamA0Q7kNvwEHGS2S&_nc_oc=Ado01pxWnuGZ278dbfw5Z2UbcUMIXklzi5lqbTBGGl0nkPzBFuuzy5zKp8lGMIR2HDqYCSxBuvJIrYgU5CPm7iPc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=XH8vhds73qIxDwWj7PXWpw&_nc_ss=7a22e&oh=00_AQEzSoO1gXzb9-UstcCxRvfv2KmecAbxRach9kiS34nOeg&oe=6A848C78",
-   "url": "https://www.threads.com/@aipeekme/post/DcAE-ykH5ma",
+   "text": "삼성 갤럭시 Z Fold 8에서 실제로 책장을 넘기는 듯한 화면 전환 연출이 제공됩니다.\n화면을 두 번 두드리면 대화가 3D 형태로 나오는 효과도 적용됐는데요.\n폴더블폰의 대화면을 활용해 화면 감상 몰입도 상승입니다.\n단순히 넓은 화면을 제공하는 데서 나아가 실물 책을 넘기는 듯한 시각적 효과를 소프트웨어로 구현했습니다. 갖고 싶네요.",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1786669206,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/770919272_1607066491010864_3053117070973738233_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk2MzE5MDgwODQwNTE5Mjc0MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=I_XY8mjKZPkQ7kNvwFhImV_&_nc_oc=AdpMBhO-Erv6JxNWeQGvzGTu8A-kg49FwFNmIvRiE55IInKM3CVufptg31x10dY_PcXJh-wA8AneoT6BqDZn3TdH&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=0oL9taZwAKTTBYqrjES-CQ&_nc_ss=7a22e&oh=00_AQHhc5TpjBK7ZA3nIf-X9VIQ2nn9AFBE7utv0PCTzQsvYg&oe=6A847B77",
+   "url": "https://www.threads.com/@aipeekme/post/DcAFQrYFbAk",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "Artificial Analysis가 ‘우리 회사 업무에 맞는 AI 모델’을 직접 시험하는 맞춤형 벤치마크 플랫폼 Optima를 공개했습니다.\n\n계약서 검토와 금융 에이전트, 코딩처럼 정답이 하나로 정해지지 않는 업무의 데이터와 실행 기록을 넣으면, Optima가 실제 업무를 반영한 테스트 과제와 채점 기준을 만듭니다. 이후 최신 모델들을 같은 조건에서 돌려 성능뿐 아니라 작업당 비용과 완료 시간까지 함께 비교합니다.\n\n여기서 중요한 건 리더보드 1위를 고르는 게 아닙니다. 우리 업무의 합격선을 넘는 모델 가운데 가장 비용 효율적인 모델을 찾고, 새 모델이 나올 때마다 같은 평가를 반복해 교체 여부까지 판단할 수 있게 하는 것입니다.\n\n벤치마크가 모델 성능을 구경하는 표에서 실제 모델 선택과 운영을 위한 도구로 바뀌고 있습니다.",
-   "likes": 16,
+   "likes": 17,
    "cmts": 2,
    "time": 1786683599,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/773098680_1398783268884292_915947104042177375_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk2MzMxMTc0NTA1MjczMjk2MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=xT-MImi6lekQ7kNvwFOnmCY&_nc_oc=AdolDoXKtnaPxpBK9T8Fe6MYF_URUaRSSjf6g0p6bmrhEC2DcRVFaL9g50N2V-zn8ooHECafMsWB8v2y6yAv-M_v&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=J7XFTubJPrJ0y6ykFUq5Mw&_nc_ss=7a22e&oh=00_AQEbcScVoUMfJfNC9WHvHt-LvHiXVaWVXW1jeIlrgK_7WQ&oe=6A848C84",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/773098680_1398783268884292_915947104042177375_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk2MzMxMTc0NTA1MjczMjk2MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=xT-MImi6lekQ7kNvwFOnmCY&_nc_oc=AdolDoXKtnaPxpBK9T8Fe6MYF_URUaRSSjf6g0p6bmrhEC2DcRVFaL9g50N2V-zn8ooHECafMsWB8v2y6yAv-M_v&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=SjVM0Go2d2ENYuWha8W1lA&_nc_ss=7a22e&oh=00_AQFkkQOPgwIzPn2kdq5PCCUhLE5wpQujxjPMJsEUN-GlBQ&oe=6A848C84",
    "url": "https://www.threads.com/@choi.openai/post/DcAgwiaAG4h",
    "region": "kr"
   },
   {
    "account": "aipeekme",
-   "text": "중국에서 오픈소스 AI 모델인 키미 K3\n실행 비용을 페이블 5 대비 약 5분의 1 수준으로 낮추면서 유사한 성능을 주장하고 있는데요.\n키미 K3의 이용 가격은 약 0.25달러로, 추정치 기준 약 1.30달러 수준인 페이블 5보다 확연히 저렴합니다.\n폐쇄형 모델과 달리 로컬 환경에 직접 다운로드하여 구동할 수 있다는 점도 주요 특징입니다.\n비용 대비 효율성을 높인 오픈소스 모델들이 속속 등장하면서 인공지능 활용의 접근성이 커지는 흐름입니다.\n가장 큰 장점은 역시 비용 절감입니다.\n성능 격차가 크지 않은 상황에서 실행 비용이 약 5배가량 차이 난다면 기업 입장에서는 도입 부담을 대폭 줄일 수 있습니다.\n개인적으로는 로컬 구동 시 실제 전력이나 하드웨어 자원이 얼마나 들지가 관건이라고 봅니다.\n클라우드 호출 비용은 줄어도 자체 서버 운용비가 커지면 상쇄될 수 있어 실측 데이터를 더 지켜보시죠",
+   "text": "🔗 원문·자세히 보기\nhttps://github.com/guillaumemeyer/watermarks-remover",
    "likes": 1,
    "cmts": 0,
-   "time": 1786668751,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/774283364_1889231565384700_4304382491734052369_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk2MzE4Njk5ODEzOTk4NjQ1MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=_fykNrEDbn4Q7kNvwFXDu1D&_nc_oc=AdrhpKGLg4HyEGcO4zR3IaXmz2SDLeuIPa6SDnYlTgzeX1KXDSfhJ4xb9jlvWT-hg69fQ9JK_0e6oGp3gfunQa6p&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=XH8vhds73qIxDwWj7PXWpw&_nc_ss=7a22e&oh=00_AQHX8vQcohWPuJfWMac2Ih-4S2HHnmSUuwLgmQorkrkiKg&oe=6A8478DA",
-   "url": "https://www.threads.com/@aipeekme/post/DcAEZOylKIS",
+   "time": 1786669054,
+   "thumb": "",
+   "url": "https://www.threads.com/@aipeekme/post/DcAFAbxnzLA",
    "region": "kr"
   },
   {
@@ -463,12 +463,22 @@
    "region": "kr"
   },
   {
+   "account": "aipeekme",
+   "text": "GitHub에 AI 워터마크를 제거하는 도구 watermarks-remover가 공개됐습니다.\n클로드, 제미나이 SynthID-Text, 오픈AI, 오픈 LLM 등의 AI가 남기는 워터마크를 지워줍니다.\n보이지 않는 유니코드, 이색 공백, 태그 문자와 통계적 토큰 패턴을 감지해 교정합니다.\nPNG, JPEG, SVG, PDF, DOCX, ODT, HTML 파일의 C2PA, EXIF 메타데이터도 함께 삭제하는 방식입니다.\n파이썬 표준 라이브러리 스크립트와 에이전트 스킬을 결합해 작동하며 v0.4.0 버전까지 출시됐습니다.\n소유한 콘텐츠의 개인정보 보호와 정제를 목적으로 만들어졌다고 밝히고 있습니다.\nAI 생성물 추적 시도가 늘어나는 상황에서 워터마크 제거 기술도 빠르게 고도화되는 모습입니다.\n결국 워터마크 기술과 이를 우회하려는 시도 사이의 숨바꼭질이 당분간 이어질 것으로 보입니다.\n\n📷 사진 출처: github.com",
+   "likes": 12,
+   "cmts": 2,
+   "time": 1786669044,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/774795811_18079412540407306_3068780906395133236_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk2MzE4OTU3OTE3Mjc4MDQ0Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=VDeodCxamA0Q7kNvwEHGS2S&_nc_oc=Ado01pxWnuGZ278dbfw5Z2UbcUMIXklzi5lqbTBGGl0nkPzBFuuzy5zKp8lGMIR2HDqYCSxBuvJIrYgU5CPm7iPc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=0oL9taZwAKTTBYqrjES-CQ&_nc_ss=7a22e&oh=00_AQFjh13L6UbERQU3wDjX2uS5-2pjWcV2202IPeMm6XVQKw&oe=6A848C78",
+   "url": "https://www.threads.com/@aipeekme/post/DcAE-ykH5ma",
+   "region": "kr"
+  },
+  {
    "account": "choi.openai",
    "text": "Hermes의 대응 속도가 정말 빠르네요.\n\n어제 Grok이 여러 개의 전문 Bot을 만들어 서로 협업시키는 기능을 공개했는데, Hermes Agent도 바로 비슷한 방식의 Bot Mode를 공개 베타로 내놨습니다.\n\nHermes Bot Mode는 프로필마다 이름, 아바타, 전용 채팅, 기억, 스킬을 붙이고, 정기 업무와 봇 간 메시지까지 지원합니다. 리서치 봇이 찾은 내용을 코딩 봇에게 넘기고, 각 봇이 아침마다 자기 업무를 보고하는 식입니다.\n\n하루 동안 피드백을 받은 뒤 Hermes Desktop에 기본 기능으로 넣을 예정이라고 합니다.\n\nAI 에이전트 쪽은 이제 좋은 기능이 나오면 따라가는 속도도 정말 빨라지고 있습니다.",
-   "likes": 58,
+   "likes": 59,
    "cmts": 3,
    "time": 1786678224,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/764845218_17982044757112832_8474278898830277051_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk2MzI2NjY1MzAxNDA1NzkwNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuOTAwLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=wijl995dnPYQ7kNvwFNTnLg&_nc_oc=AdpWGI1AfRRhCXv_8fSv4GXX62OcrPEiRQPwx9PrYYN3PnrjmIGDeCxYL8mzgOAmRqOitBdgYv_AVH2gxYLkkKBt&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=J7XFTubJPrJ0y6ykFUq5Mw&_nc_ss=7a22e&oh=00_AQEoY0F7tbIMk3DF0DdGVNomRch6oIA9oe0flllqIFz6AA&oe=6A847557",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/764845218_17982044757112832_8474278898830277051_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk2MzI2NjY1MzAxNDA1NzkwNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuOTAwLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=wijl995dnPYQ7kNvwFNTnLg&_nc_oc=AdpWGI1AfRRhCXv_8fSv4GXX62OcrPEiRQPwx9PrYYN3PnrjmIGDeCxYL8mzgOAmRqOitBdgYv_AVH2gxYLkkKBt&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=SjVM0Go2d2ENYuWha8W1lA&_nc_ss=7a22e&oh=00_AQFzjPJzrErRbdeH64_eO8Wc52-bTy4EhQKwDLQKfHeWQQ&oe=6A847557",
    "url": "https://www.threads.com/@choi.openai/post/DcAWgf-DZpI",
    "region": "kr"
   },
@@ -478,17 +488,17 @@
    "likes": 3,
    "cmts": 0,
    "time": 1786672810,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/773519993_994897206909817_1498523225086383431_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk2MzIyMTI0MTM1MTgyNDA1OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=T3ie2iHslZsQ7kNvwFUYP36&_nc_oc=AdrsuD3-nmMSbOuQPlHOWcpakJEFbhFSMpd06dVUkSHw2cvYEG_XUsV8hbh7Yzq5DhMvnfeYwB7ytbycQqO-RyM-&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=J7XFTubJPrJ0y6ykFUq5Mw&_nc_ss=7a22e&oh=00_AQFjqG6I4s2gFdfCSG-CrqRQ570QV9DqhWqyyTq_pa-_sg&oe=6A849A69",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/773519993_994897206909817_1498523225086383431_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk2MzIyMTI0MTM1MTgyNDA1OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=T3ie2iHslZsQ7kNvwFUYP36&_nc_oc=AdrsuD3-nmMSbOuQPlHOWcpakJEFbhFSMpd06dVUkSHw2cvYEG_XUsV8hbh7Yzq5DhMvnfeYwB7ytbycQqO-RyM-&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=SjVM0Go2d2ENYuWha8W1lA&_nc_ss=7a22e&oh=00_AQFAt8cF1Dge0eMXC-iCGt4J3NrX5DFeLm3rUxnXCe5nbw&oe=6A849A69",
    "url": "https://www.threads.com/@choi.openai/post/DcAMLiRDuK6",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "오픈AI가 ChatGPT의 새로운 기능 ‘Computer History’를 공개했습니다.\n\n사용자가 허용한 앱과 웹사이트에서 클릭, 입력, 앱 전환 같은 상호작용을 모아 타임라인과 메모리로 남깁니다. 그래서 “아까 작업 이어서 해줘”라고 하면 관련 문서와 대화를 찾아 맥락을 복원하고, 반복 업무는 스킬이나 자동화로 제안합니다.\n\n이전 Chronicle의 화면 캡처 방식에서 상호작용 이벤트 중심으로 바뀐 점도 큽니다. 사용자가 앱별 수집 범위를 정하고 일시정지하거나 기록을 삭제할 수 있어, ChatGPT가 대화 도구에서 작업 맥락을 이어가는 비서로 이동하는 기능입니다.",
-   "likes": 83,
+   "likes": 85,
    "cmts": 5,
    "time": 1786672801,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/774744585_1084711757844469_718298324965424094_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk2MzIyMTE2NTU2MDc1NzM5OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Bt0E2Zo0shgQ7kNvwFPSVGj&_nc_oc=Adrd-Gij_MIo5glnw4AJQZNvnXNaQOXGUVenlKjEi2RHsNVeaI0QU0cTOTHwCe_eOHgVuM254tEOR0a4HHuvHyEU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=J7XFTubJPrJ0y6ykFUq5Mw&_nc_ss=7a22e&oh=00_AQFdxufaIqX-FW65opXQyHAO8l2NTcqToRQCBdUnJY2UxQ&oe=6A8496BE",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/774744585_1084711757844469_718298324965424094_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk2MzIyMTE2NTU2MDc1NzM5OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Bt0E2Zo0shgQ7kNvwFPSVGj&_nc_oc=Adrd-Gij_MIo5glnw4AJQZNvnXNaQOXGUVenlKjEi2RHsNVeaI0QU0cTOTHwCe_eOHgVuM254tEOR0a4HHuvHyEU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=SjVM0Go2d2ENYuWha8W1lA&_nc_ss=7a22e&oh=00_AQGW1OfLbnQHKylKPNNYMsQ4DNO6E1IG7kg6KF4RpmAGFA&oe=6A8496BE",
    "url": "https://www.threads.com/@choi.openai/post/DcAMKbrjvyX",
    "region": "kr"
   }
@@ -503,24 +513,6 @@
    "thumb": "",
    "time": 1786632288,
    "url": "https://www.reddit.com/r/Millennials/comments/1vncpvs/did_millennials_really_party_all_the_time/"
-  },
-  {
-   "sub": "GetNoted",
-   "title": "[X] You Can't Expect the Party to Defend You After Incessantly Attacking Them",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/h0zvq53047jh1.png?width=320&crop=smart&auto=webp&s=c3f392ca7f56a87f96128bd01604fa18340f68a3",
-   "time": 1786650093,
-   "url": "https://www.reddit.com/r/GetNoted/comments/1vnl31c/x_you_cant_expect_the_party_to_defend_you_after/"
-  },
-  {
-   "sub": "mildlyinfuriating",
-   "title": "Paid an extra $500 a finger to have touch screen compatible tips. Not a single one is.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/9z6uhekyf9jh1.jpeg?width=640&crop=smart&auto=webp&s=e19a729066bcb99d28f9de636d501c063006bd89",
-   "time": 1786678324,
-   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1vnw444/paid_an_extra_500_a_finger_to_have_touch_screen/"
   },
   {
    "sub": "cats",
@@ -541,6 +533,15 @@
    "url": "https://www.reddit.com/r/interestingasfuck/comments/1vnx034/meet_luna_a_rare_leucistic_lioness_whose/"
   },
   {
+   "sub": "GetNoted",
+   "title": "[X] You Can't Expect the Party to Defend You After Incessantly Attacking Them",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/h0zvq53047jh1.png?width=320&crop=smart&auto=webp&s=c3f392ca7f56a87f96128bd01604fa18340f68a3",
+   "time": 1786650093,
+   "url": "https://www.reddit.com/r/GetNoted/comments/1vnl31c/x_you_cant_expect_the_party_to_defend_you_after/"
+  },
+  {
    "sub": "mildlyinfuriating",
    "title": "I’ve used half a bottle of ant bait and they just won’t stop coming",
    "score": 0,
@@ -548,6 +549,15 @@
    "thumb": "https://preview.redd.it/3sv90c5ka6jh1.jpeg?width=640&crop=smart&auto=webp&s=31ed23ad3b072f5c79376c4de2966e33216037a3",
    "time": 1786640185,
    "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1vngemd/ive_used_half_a_bottle_of_ant_bait_and_they_just/"
+  },
+  {
+   "sub": "GirlDinnerDiaries",
+   "title": "Found out why my boyfriend has been “helping his sister”",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/ce54etu3z8jh1.jpeg?width=640&crop=smart&auto=webp&s=c163c9f56c8a88b759c9bd82be83dc46e6c822cd",
+   "time": 1786672821,
+   "url": "https://www.reddit.com/r/GirlDinnerDiaries/comments/1vnu7i5/found_out_why_my_boyfriend_has_been_helping_his/"
   },
   {
    "sub": "bald",
@@ -568,22 +578,13 @@
    "url": "https://www.reddit.com/r/TopCharacterTropes/comments/1vnda8l/weird_trope_theres_a_clear_moral_to_the_story_its/"
   },
   {
-   "sub": "GirlDinnerDiaries",
-   "title": "Found out why my boyfriend has been “helping his sister”",
+   "sub": "rareinsults",
+   "title": "One sentence was all it took to end the conqueror fantasy",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/ce54etu3z8jh1.jpeg?width=640&crop=smart&auto=webp&s=c163c9f56c8a88b759c9bd82be83dc46e6c822cd",
-   "time": 1786672821,
-   "url": "https://www.reddit.com/r/GirlDinnerDiaries/comments/1vnu7i5/found_out_why_my_boyfriend_has_been_helping_his/"
-  },
-  {
-   "sub": "DunderMifflin",
-   "title": "Is Erin hot?",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/7d88apd9p7jh1.jpeg?width=320&crop=smart&auto=webp&s=abc2cdfe42c0ec187860a721313b7bbaedaa859e",
-   "time": 1786657239,
-   "url": "https://www.reddit.com/r/DunderMifflin/comments/1vno85f/is_erin_hot/"
+   "thumb": "https://preview.redd.it/pvarlal2m9jh1.jpeg?width=640&crop=smart&auto=webp&s=598f482da49c0c71da7e2d887ca502b71be28518",
+   "time": 1786680378,
+   "url": "https://www.reddit.com/r/rareinsults/comments/1vnwt14/one_sentence_was_all_it_took_to_end_the_conqueror/"
   },
   {
    "sub": "AskReddit",
@@ -593,6 +594,15 @@
    "thumb": "",
    "time": 1786669265,
    "url": "https://www.reddit.com/r/AskReddit/comments/1vnsxj5/whats_the_sickest_youve_ever_been_in_your_life/"
+  },
+  {
+   "sub": "DunderMifflin",
+   "title": "Is Erin hot?",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/7d88apd9p7jh1.jpeg?width=320&crop=smart&auto=webp&s=abc2cdfe42c0ec187860a721313b7bbaedaa859e",
+   "time": 1786657239,
+   "url": "https://www.reddit.com/r/DunderMifflin/comments/1vno85f/is_erin_hot/"
   },
   {
    "sub": "news",
@@ -648,10 +658,10 @@
    }
   },
   "landing": {
-   "at": "2026-08-14T15:01:30",
+   "at": "2026-08-14T15:31:27",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-14T15:31:25.129372+09:00"
+ "updated": "2026-08-14T16:01:25.285140+09:00"
 }
