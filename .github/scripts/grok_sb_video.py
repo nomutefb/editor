@@ -289,6 +289,34 @@ def ref_slots(md, out_dir):
     return out[:REF_CAP]
 
 
+# 콘티 시트 정체 문장 — 「이건 설계도지 장면이 아니다」를 한 줄로 못 박는다(150자 안 = ref_ids 컷 길이).
+SHEET_CLAUSE = ("the storyboard plan: its panels are the shot order and framing, "
+                "never draw panel borders, captions or any text into the video")
+
+
+def sheet_slot(out_dir):
+    """콘티 시트도 참조 한 장으로 같이 보낸다(운영자 260814 「콘티시트를 왜 참조를 안해? 그것도 참조로 넣어」).
+
+    ⚠ 성격이 다른 참조다 — 인물·배경 참조는 「이 얼굴·이 장소를 유지하라」는 **잠금**이고, 시트는
+      「이 편이 어떤 순서로 어떤 구도로 흐르는가」를 한 장에 담은 **설계도**다. 그래서 정체 문장이
+      「그리지 마라」를 같이 말한다 — 칸선·글자가 화면에 옮겨 그려지면 그게 사고다.
+    ⚠ 그림 참조 상한(REF_CAP) 밖에 둔다 = 인물·장소 슬롯을 시트가 밀어내지 않는다. 창구 한도는
+      그림 아홉 장(시댄스 계열 문서 실측)이라 한 장 더 실어도 한도와 무관하다.
+    ⚠ 시간대(밤·낮)로 안 갈린다(`bg` 거짓) → `pick_refs` 필터를 그대로 통과해 **모든 편**에 실린다.
+    ⚠ 끄기 = `SB_SHEET_REF=0`(종전 동작 100% 복귀).
+    """
+    if os.environ.get("SB_SHEET_REF") == "0":
+        return None
+    try:
+        d = json.load(open(os.path.join(out_dir, "sheet.json"), encoding="utf-8"))
+    except Exception:  # noqa: BLE001
+        return None
+    if not d.get("url"):
+        return None
+    return {"url": d["url"], "label": "콘티 시트", "block": SHEET_CLAUSE,
+            "night": False, "bg": False, "sheet": True, "cuts": d.get("cuts") or 0}
+
+
 def pick_refs(slots, shot):
     """이 **편**에 실을 참조를 고른다 — 밤 컷이면 밤 배경, 아니면 낮 배경(인물은 늘 간다).
 
@@ -553,6 +581,15 @@ def main():
     else:
         print("참조 {}장 · 사유 {}{}".format(
             len(slots), reason, " · 편마다 시간대에 맞는 배경을 고른다" if nights else ""))
+
+    # ── 콘티 시트도 한 장 = 편마다 「그림 참조 + 설계도」가 같이 간다 ────────────────
+    sheet = sheet_slot(out_dir)
+    if sheet:
+        slots.append(sheet)          # ⚠ REF_CAP 밖 = 인물·장소 슬롯을 밀어내지 않는다
+        print("콘티 시트도 참조로 같이 간다({}컷 한 장) — 편마다 실리는 장수 {}".format(
+            sheet["cuts"], len(pick_refs(slots, shots[0])) if shots else len(slots)))
+    else:
+        print("::warning::콘티 시트 참조 없음(sheet.json 없음·시트 실패) — 편 사이 흐름이 흔들린다")
 
     # ── 발사 전 견적 검문(과금 0) ──────────────────────────────────────────────
     # ⚠ 구판은 통로가 내주는 견적을 **한 번도 안 불렀다** — 12편 × 30초짜리 판이 아무 검문 없이

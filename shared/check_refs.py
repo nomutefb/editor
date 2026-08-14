@@ -5413,6 +5413,24 @@ def check_grok_sb_chain():
     _vp = rn.split("def vid_prompt", 1)[-1].split("\ndef ", 1)[0]
     if _vp and _vp.find("parts.extend(ids") > _vp.find('c["camera"]'):
         print("❌ 그록 콘티 레인 — 등장 인물표가 동작 문장 뒤에 있다(앞에 와야 대명사가 묶인다)"); rc = 1
+    # ⑥-b 콘티 시트도 참조 한 장(운영자 260814 「콘티시트를 왜 참조를 안해? 그것도 참조로 넣어」)
+    #   ⚠ 이 축은 **빠져도 영상이 정상으로 나온다** — 편 사이 흐름만 조용히 흔들린다(운영자 눈이 유일한 검출기).
+    #   ⚠ 시트는 그림 참조 상한(REF_CAP) **밖**이라야 한다 = 시트가 인물·장소 슬롯을 밀어내면 사고다.
+    for needle, why in (("def sheet_slot", "시트 참조 슬롯 파서"),
+                        ("SHEET_CLAUSE = ", "시트 정체 문장(설계도지 장면이 아니다 · 칸선·글자 금지)"),
+                        ("never draw panel borders", "칸선·글자를 화면에 옮겨 그리지 말라는 금지구"),
+                        ("slots.append(sheet)", "시트가 편마다 실린다")):
+        if not _has_exec_line(rn, needle):
+            print("❌ 그록 콘티 레인 — grok_sb_video.py 에 {} 가 없다({})".format(why, needle)); rc = 1
+    _ss = rn.split("def sheet_slot", 1)[-1].split("\ndef ", 1)[0]
+    if _ss and "sheet.json" not in _ss:
+        print("❌ 그록 콘티 레인 — 시트 참조가 sheet.json 을 안 읽는다(주소를 어디서 얻나)"); rc = 1
+    if _ss and ('"bg": False' not in _ss or '"night": False' not in _ss):
+        print("❌ 그록 콘티 레인 — 시트 슬롯이 시간대 필터를 탄다(밤 편에서 시트가 빠진다)"); rc = 1
+    # 시트 합류는 ref_slots(그림 상한 컷) **뒤**여야 한다 — 앞이면 시트가 인물·장소를 밀어낸다
+    if rn.find("slots.append(sheet)") < rn.find("slots = ref_slots("):
+        print("❌ 그록 콘티 레인 — 시트가 그림 참조보다 먼저 슬롯에 든다(인물·장소가 상한에 밀린다)"); rc = 1
+
     # ⑦ 값 원장 = 벤더 세 곳이 각자 적고 화면이 합쳐 읽는다(한 곳만 빠져도 금액이 조용히 작아진다)
     for path, needle, why in (
             (".github/scripts/sb_cost.py", "def add", "값 원장 정본"),
