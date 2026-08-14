@@ -668,6 +668,12 @@ def main():
                     if LANE.too_big(e) and embed:
                         embed = False
                         print("::warning::영상{} 본문이 크다고 거절 — 주소 방식으로 1회 다시 쏜다".format(c["n"]))
+                    elif hasattr(LANE, "ref_unfetched") and LANE.ref_unfetched(e) and not embed:
+                        # ⚠ 몸집 거절의 **거울** — 창구가 우리 그림을 못 받았으면 같은 방식으로 다시
+                        #   쏴 봐야 같은 자리에서 또 끊긴다(실측 = 폐버스 1편이 두 번 다 이 자리).
+                        #   주소로 못 받았으니 이번엔 우리가 바이트를 실어 보낸다.
+                        embed = True
+                        print("::warning::영상{} 창구가 참조 그림을 못 받았다 — 바이트 방식으로 1회 다시 쏜다".format(c["n"]))
                     else:
                         print("::warning::영상{} 1차 실패 — 그 편만 1회 다시 쏜다: {}".format(c["n"], rec["fail"]))
                     rec["retried"] = True

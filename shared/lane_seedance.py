@@ -637,6 +637,16 @@ def too_big(e):
     return False   # 참조를 번호로 올리므로 본문 몸집 축이 없다
 
 
+def ref_unfetched(e):
+    """창구가 **우리 그림을 못 받았다**고 답했는가 — 그록 레인과 같은 계약(러너가 갈래 없이 부른다).
+
+    ⚠ 이 통로는 그림을 번호로 올려 보내므로(주소 직전달 금지) 이 실패가 날 자리가 사실상 없다.
+      그래도 술어는 둔다 — 러너가 통로마다 다르게 묻기 시작하면 그때부터 통로가 계약을 안 지킨다.
+    """
+    b = str(getattr(e, "body", "") or getattr(e, "why", "")).lower()
+    return ("image_download" in b) or ("failed to download the provided image" in b)
+
+
 def classify(e):
     """벤더 예외 → 통로 무관 3속성.
 

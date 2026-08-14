@@ -61,6 +61,21 @@ def _one(url):
         im = im.resize((max(1, int(im.width * r)), max(1, int(im.height * r))), Image.LANCZOS)
     buf = io.BytesIO()
     im.save(buf, "JPEG", quality=90, subsampling=0, optimize=True)   # CONTRACT: check_image_format — q90 단일
+    # ⚠ **줄인 뒤에 다시 잰다**(260814 실사고 진단 중 발견) — 구판은 한 번 줄이고 크기를 재확인하지
+    #   않아서, 줄여도 여전히 한도를 넘는 그림을 그대로 실어 보냈다. 그러면 창구가 몸집으로 거절하고
+    #   러너가 주소 방식으로 갈아타는데, 그 주소를 창구가 못 받으면(회선 끊김) 그 편은 통째로 죽는다.
+    #   여기서 한 단 더 줄이면 애초에 그 사슬에 안 들어간다(줄이는 건 우리 손 안이라 값 0).
+    for _side in (EMBED_SIDE, 960, 720):
+        if buf.tell() <= EMBED_MAX:
+            break
+        if max(im.size) > _side:
+            _r = _side / float(max(im.size))
+            im = im.resize((max(1, int(im.width * _r)), max(1, int(im.height * _r))), Image.LANCZOS)
+        buf = io.BytesIO()
+        im.save(buf, "JPEG", quality=90, subsampling=0, optimize=True)   # CONTRACT: check_image_format — q90 단일
+    if buf.tell() > EMBED_MAX:
+        # ⚠ 여기까지 와도 안 줄면 **주소로 내려앉는 게 맞다** — 거절당할 걸 알면서 싣는 것보다 낫다.
+        raise RuntimeError("참조가 줄여도 한도를 넘는다({}KB) — 주소 방식으로 보낸다".format(buf.tell() // 1024))
     print("  · 참조 축소 {}KB → {}KB({}×{})".format(len(raw) // 1024, buf.tell() // 1024, im.width, im.height))
     return buf.getvalue()
 
@@ -151,6 +166,19 @@ def too_big(e):
     """몸집 축으로 거절당했나 — 이때만 주소 방식으로 갈아탄다(그 외엔 같은 방식으로 다시 쏜다)."""
     b = str(getattr(e, "body", "")).lower()
     return getattr(e, "code", 0) == 413 or "too large" in b or "payload" in b or "request entity" in b
+
+
+def ref_unfetched(e):
+    """창구가 **우리 그림을 못 받았다**고 답했는가(주소 방식에서만 나는 실패).
+
+    ⚠ 왜 별도 술어인가(260814 실측) = 이 실패는 「다시 쏘면 되는 축」인데 **같은 방식으로 다시
+      쏘면 같은 자리에서 또 끊긴다**. 몸집 거절이 「바이트 → 주소」로 갈아타는 것과 정확히 거울이라,
+      그 짝이 없으면 회선이 한 번 흔들린 편은 영영 못 살린다(실측 = 폐버스 1편이 두 번 다 이 자리).
+    ⚠ 창구 문구에 기대는 술어라 문구가 바뀌면 안 걸린다 — 그래서 **못 걸려도 종전 동작**(그냥 재시도)
+      으로 내려앉게 두고, 걸리면 방식만 바꾼다(놓쳐도 나빠지지 않는다).
+    """
+    b = str(getattr(e, "body", "") or getattr(e, "why", "")).lower()
+    return ("image_download" in b) or ("failed to download the provided image" in b)
 
 
 def classify(e):

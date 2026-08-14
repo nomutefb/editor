@@ -5670,6 +5670,18 @@ def check_grok_sb_chain():
             print("❌ 그록 콘티 레인 — 「{}」 가 1차에서도 돈다(2차 표식 없음 · 지금 조건 = {})"
                   .format(_nm, _cond[:90])); rc = 1
 
+    # ④-f **참조 그림 전달 실패는 방식을 갈아탄다**(260814 실측 = 폐버스 1편이 두 번 다 그 자리).
+    #   창구가 「우리 그림을 못 받았다」고 답하면 같은 방식으로 다시 쏴도 같은 자리에서 또 끊긴다.
+    #   몸집 거절이 「바이트 → 주소」로 갈아타는 것과 **거울**이라, 짝이 없으면 회선이 한 번
+    #   흔들린 편은 영영 못 살린다. ⚠ 화면 증상은 「그 편만 없음」이라 원인이 안 보인다.
+    for _mod2 in _lanes:   # 등록된 통로 전부(손 목록 금지 = 위 자동 발견 재사용)
+        if "def ref_unfetched(" not in _t("shared/{}.py".format(_mod2)):
+            print("❌ 그록 콘티 레인 — shared/{}.py 에 ref_unfetched( 가 없다(통로 무관 계약)".format(_mod2)); rc = 1
+    if "LANE.ref_unfetched(" not in _gv:
+        print("❌ 그록 콘티 레인 — 러너가 참조 전달 실패로 방식을 안 갈아탄다(몸집 거절의 거울이 없다)"); rc = 1
+    if "buf.tell() > EMBED_MAX" not in _t("shared/lane_grok.py"):
+        print("❌ 그록 콘티 레인 — 참조를 줄인 뒤 크기를 다시 안 잰다(줄여도 넘는 그림을 그대로 싣는다)"); rc = 1
+
     # ④-d **창구의 되물음에 답을 쥐고 있어야 한다**(260813 실사고 · 회신 원문 실측).
     #   창구는 발사 대신 「이 프리셋 어때요」로 되물을 수 있다(`Submitted 0/1 … declined_preset_id=…`).
     #   사람이 보고 있으면 「아니요」를 누르는 자리인데 러너엔 사람이 없어서, 구판은 그 되물음을
@@ -7502,7 +7514,16 @@ def _gate_hits_probe(name, fn):
 
     @functools.wraps(fn)
     def _w(*a, **kw):
-        rc = fn(*a, **kw)
+        # ⚠ **게이트 자신이 깨지면 그건 통과가 아니다**(260814 실측 자기적발) — 호출부는 게이트를
+        #   try 로 감싸 「⚠️ … 스킵」만 찍고 넘어간다(레포를 얼리지 않으려는 정당한 설계). 그런데
+        #   그 줄이 ✅ 백 줄 사이에 섞여서, 이 세션은 **없는 이름을 참조해 죽은 게이트를 통과로 읽었다**
+        #   (킬테스트 3종이 전부 무검출인데 rc=0). 「안 도는 게이트」가 가장 비싼 거짓 안심이라
+        #   여기서 ❌ 모양으로 한 줄 더 찍는다 — 판정은 안 바꾼다(rc 무접촉 = 얼리지 않는다).
+        try:
+            rc = fn(*a, **kw)
+        except Exception as _e:   # noqa: BLE001
+            print('❌ 게이트가 죽었다(판정 아님 · 게이트 자체 결함) — {}: {}'.format(name, str(_e)[:180]))
+            raise
         try:
             if rc and _gate_hits_on():
                 _gate_hits_append({'gate': name, 'rc': int(rc),
