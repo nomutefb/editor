@@ -9,8 +9,8 @@ url="${1:-}"
 [ -z "$url" ] && exit 0
 ua="Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Mobile Safari/537.36"
 
-tmp="$(mktemp)"; raw_u="${tmp}.u"; hdr="${tmp}.h"
-trap 'rm -f "$tmp" "$raw_u" "$hdr"' EXIT
+tmp="$(mktemp)"; raw_u="${tmp}.u"; hdr="${tmp}.h"; nxt_f="${tmp}.n"
+trap 'rm -f "$tmp" "$raw_u" "$hdr" "$nxt_f"' EXIT
 
 # 본문 바이트 취득(리다이렉트 추적) + 응답 헤더 동시 덤프(-D) — 구 별도 HEAD 왕복(curl -sIL·max 20s) 제거
 #   (평의회 260727 채택: URL당 1왕복 = alt 루프·선-fetch 배수 절감 · HEAD 차단 매체 20s 공회전 소거 ·
@@ -26,7 +26,7 @@ curl -sL -A "$ua" --max-time 30 -D "$hdr" "$url" -o "$tmp" 2>/dev/null || exit 0
 #   실측 = 같은 글이 해제 후 257,516B·한글 5,495자. 셸이 아니면(목적지 없음) 즉시 탈출 = 일반 기사 무접촉.
 for _hop in 1 2; do
   [ "$(wc -c < "$tmp")" -ge 8000 ] && break
-  nxt="$(python3 - "$tmp" "$url" <<'PY'
+  python3 - "$tmp" "$url" <<'PY' > "$nxt_f"
 import sys, re, html, urllib.parse
 try:
     raw = open(sys.argv[1], 'rb').read(65536).decode('utf-8', 'ignore').replace('\\/', '/')
@@ -42,7 +42,7 @@ try:
 except Exception:
     print('')
 PY
-)"
+  nxt="$(cat "$nxt_f")"
   [ -z "$nxt" ] && break
   curl -sL -A "$ua" --max-time 30 -D "$hdr" "$nxt" -o "$tmp" 2>/dev/null || break
   [ -s "$tmp" ] || break
