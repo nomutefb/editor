@@ -1,31 +1,31 @@
 # 전쟁을 끝내자고 했지만, 마주 앉을 상대가 없다
 
 **[프롬프트 설계]**
-- 화풍: B 극화 — 권력의 공식 발화와 그 발화가 닿지 못하는 빈자리를 대비로 보여야 해서, 선이 굵고 명암이 깊은 극화가 맞다.
-- 분위기: 정오의 공식 행사가 가진 밝고 딱딱한 무게에서 시작해, 아무도 답하지 않는 빈 테이블의 냉기로 내려앉는 정조. 웅변이 아니라 정적이 주인공이다.
-- 연출 방향: 뉴스를 안 보는 독자도 "말은 나왔는데 받는 사람이 없네"를 한 장면으로 알아채게 만든다. 그래서 강조점은 연설의 웅장함이 아니라 ①원고 위에 멈춘 손끝 ②지난해 원고에는 있었는데 올해 원고에는 비어 있는 한 줄 ③맞은편에 손대지 않은 채 그대로 놓인 물잔 — '말한 쪽'을 크게 그리지 않고 '받을 쪽의 부재'를 계속 프레임 안에 남긴다. 명도는 起(정오 직사광)에서 轉(암흑 속 빛웅덩이)까지 단계적으로 떨어뜨리고, 마지막에만 아침빛으로 풀어 여운을 남긴다.
-- 독자 동선: **발단** 카드1→**전개** 카드2~4→**피크** 카드5→**해소** 카드6→**시사점** 카드7 · 훅=카드1 끝(단서형 "하나가 더 얹혀 있었다"→카드2 첫 줄이 즉시 회수)+카드3 끝(예고형 "먼저 움직이겠다"→카드4가 대비로 회수) · 착지 한 줄 요지 = 먼저 내려놓은 목록이 길어질수록 이 제안이 마중물인지 일방 지출인지 갈린다.
-- 연속성 앵커: Recurring subject — a Korean man in his 60s with short neatly combed graying hair, wearing a dark navy suit with a light blue tie (카드1·2·3·6에 동일 문자열 삽입) / Recurring location — a formal Korean state ceremony hall with a large national flag spanning the back wall and a wooden podium (카드1·2·3·7).
+- 화풍: B 극화 — 대북 구상과 그 실현 조건 사이의 간극을 다루는 안보·구조 기사라 사실성과 무게가 필요하다
+- 분위기: 밝은 연단과 답 없는 어둠이 한 덱 안에서 갈리는, 절제된 긴장. 고발이 아니라 관찰의 거리
+- 연출 방향: 뉴스를 안 보는 독자도 "전쟁을 끝내자는 말은 나왔는데 마주 앉겠다는 쪽이 없다"는 비대칭 하나로 멈춰 선다. 그래서 사람의 표정보다 **말이 놓인 자리**를 따라간다 — 연단(말이 나온 곳) → 원고(말이 빠진 곳) → 빈 의자(말이 닿지 못한 곳). 이 세 사물에만 시선을 모으고, 밝기를 카드 1에서 5까지 계단식으로 떨어뜨려 '말은 커지는데 답은 비어 간다'를 빛의 양으로 읽히게 한다. 썸네일이 잡은 정오의 가차없이 밝은 톤과 정면 직시는 첫 카드와 마지막 카드에 나눠 걸어 덱을 여닫고, 판정은 어느 카드에서도 내리지 않는다
+- 독자 동선: **발단** 카드1→**전개** 카드2~4→**피크** 카드5→**해소** 카드6→**시사점** 카드7 · 훅=카드1 끝(예고형: 논의에 함께 담자는 것)+카드3 끝(예고형: 지난해 원고와 달라진 대목) · 착지 한 줄 요지 = 먼저 내려놓은 목록의 길이가 이 제안의 성격을 말한다
+- 연속성 앵커: Recurring subject — a Korean man in his 60s with short graying hair, wearing a dark navy suit with a white shirt and a pale blue tie. / Recurring location — a large ceremonial auditorium stage with a tall wooden lectern and a wide national flag hanging behind it.
 
 ### [카드 1]
 **텍스트**
 ```text
-제81주년 광복절 경축식이었다
-이 대통령이 세종문화회관 연단에 섰다
-오래된 전쟁을 끝내자고 북에 말했다
-*그 제안엔 하나가 더 얹혀 있었다*
+제81주년 광복절 경축식 연단에서였다
+이 대통령이 북한을 향해 말했다
+*오래된 전쟁을 끝내자고 했다*
+그 논의에 함께 담자는 게 있었다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: his steady unwavering eyes lifted from the script toward the hall, jaw set. Recurring subject — a Korean man in his 60s with short neatly combed graying hair, wearing a dark navy suit with a light blue tie, stands alone at a wooden podium with two slim microphones. He faces forward with his gaze directed toward the right edge of the frame, nose room on the right. Behind him a large national flag spans the ceremony hall wall from edge to edge, and rows of attendees in dark suits sit motionless in the lower part of the frame.
-Camera: wide shot from a low angle, shot on 35mm lens
-Lighting/mood: harsh overexposed midday sunlight pouring through the high hall windows, hard shadows, oppressive heat
+Scene: Emotional focal point: his eyes lifting off the printed page toward the empty air ahead of him, steady and unblinking. Recurring subject — a Korean man in his 60s with short graying hair, wearing a dark navy suit with a white shirt and a pale blue tie. He stands at a tall wooden lectern with two microphones, both hands resting flat on an open manuscript, speaking out into a wide hall. Recurring location — a large ceremonial auditorium stage with a tall wooden lectern and a wide national flag hanging behind it. Rows of seated attendees in dark suits fill the lower foreground, small and motionless, all facing him. Nose room on the right, gaze directed toward the right edge.
+Camera: wide shot, full body, surrounding environment, spatial context, from eye-level shot, neutral perspective, realistic, balanced emotion, shot on 35mm lens, natural documentary perspective, balanced subject and background, minimal distortion
+Lighting/mood: bright high-key light, clean white ambience, minimal shadow, hopeful and open
 Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
-Text handling: no readable writing anywhere; the podium front and the flag surface carry no letters, no emblem, no logo, no nameplate.
+Text handling: the manuscript pages are seen at a steep angle so no readable characters appear; the flag and the backdrop carry no lettering of any kind; no garbled or fake script, no meaningless letters, no random characters, no dense text.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the ceremony hall's flag backdrop wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the auditorium stage backdrop wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -35,28 +35,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-이재명 광복절 경축사 세종문화회관
+세종문화회관 광복절 경축식 무대
 ```
 
 ### [카드 2]
 **텍스트**
 ```text
-북의 핵 고도화를 멈출 방안이었다
-그 논의 안에서 함께 다루자고 했다
-비핵화를 대화의 문턱에 두는 대신
-*종전과 북핵을 한 테이블에 올렸다*
+정전 체제를 평화 체제로 바꾸겠다며
+북의 핵 능력 고도화를 멈출 방안도
+그 논의에서 함께 다루자고 했다
+*마주 앉는 건 공존의 출발이라고 했다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: his fingertip stopped flat on one line of the speech page, pressing it down. Recurring subject — a Korean man in his 60s with short neatly combed graying hair, wearing a dark navy suit with a light blue tie, stands at the podium with his head tilted slightly down toward the page. His other hand grips the podium edge and two microphones rise in front of his chest. The vast flag backdrop fills the wall behind him as one flat surface.
-Camera: medium close-up from eye level, shot on 85mm portrait lens
+Scene: Emotional focal point: his jaw set mid-sentence, one hand pressing flat on the edge of the manuscript as if holding a thought down. Recurring subject — a Korean man in his 60s with short graying hair, wearing a dark navy suit with a white shirt and a pale blue tie. He leans slightly into the pair of microphones on the lectern, chin lifted, speaking toward the unseen hall. Recurring location — a large ceremonial auditorium stage with a tall wooden lectern and a wide national flag hanging behind it, its folds filling the background behind his shoulder.
+Camera: medium close-up, chest-up framing, facial emotion, slight body context, from three-quarter angle, natural face depth, dimensional portrait, shot on 50mm standard lens, minimal distortion, natural cinematic composition
 Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood
 Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
-Text handling: the speech page is cropped at the frame edge and rendered out of focus so that no letter is legible; only the paper texture and the pressing fingertip read clearly.
+Text handling: the manuscript is tilted away from the viewer so its surface reads as blank paper; no writing is legible anywhere; no garbled or fake script, no meaningless letters, no random characters, no dense text.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the ceremony hall's flag backdrop wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the auditorium stage backdrop wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -66,28 +66,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-이재명 경축사 연설 원고
+대통령 경축사 마이크 연단
 ```
 
 ### [카드 3]
 **텍스트**
 ```text
-이 제안엔 지난해의 예고가 있었다
-*그때 세운 원칙을 올해는 실천이라 했다*
-마주 앉는 일이 공존의 출발이라며
-응답이 없어도 먼저 움직이겠다고 했다
+지난해 광복절엔 세 원칙을 밝혔다
+체제 존중, 흡수통일 불추구, 적대 중단
+이번엔 평화 공존 *세 갈래 청사진을 폈다*
+다만 지난해 원고와 달라진 대목이 있다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: his open palm turned upward mid-gesture, held out toward empty air. Recurring subject — a Korean man in his 60s with short neatly combed graying hair, wearing a dark navy suit with a light blue tie, stands turned three-quarters at the podium, his gaze and open hand both directed toward the right edge of the frame, nose room on the right. Rows of seated attendees in dark suits fill the hall behind and below him on the same continuous floor, every head facing the same direction.
-Camera: medium shot from a three-quarter angle, shot on 50mm standard lens
-Lighting/mood: flat sterile institutional light, cold even greenish-white, emotionless and detached
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
-Text handling: no writing on the podium, the wall or any surface; the raised hand and the rows of heads carry the meaning instead of any lettering.
+Scene: Emotional focal point: his open palm held out flat and level, the gesture of laying something down for others to see. Recurring subject — a Korean man in his 60s with short graying hair, wearing a dark navy suit with a white shirt and a pale blue tie. Seen from below the stage edge, he stands upright at the lectern with one arm extended over it, gaze carried out above the viewer toward the far end of the hall. Recurring location — a large ceremonial auditorium stage with a tall wooden lectern and a wide national flag hanging behind it, the flag towering over him and dominating the upper frame.
+Camera: medium shot, waist-up framing, face and gestures, conversational, from low angle shot, looking up, powerful subject, dominance, dramatic presence, shot on 28mm lens, natural street perspective, mild wide angle
+Lighting/mood: single hard side-light cutting across the subject, deep chiaroscuro shadows, tense atmosphere
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
+Text handling: the flag is rendered as pure fabric and shadow with no lettering; the lectern face is plain wood with no plate or inscription; no garbled or fake script, no meaningless letters, no random characters, no dense text.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the ceremony hall floor and its seated rows) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the stage backdrop wall carrying the hanging flag) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -97,28 +97,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-제81주년 광복절 경축식 참석자
+광복절 경축식 대형 태극기
 ```
 
 ### [카드 4]
 **텍스트**
 ```text
-그런데 지난해 원고의 한 줄이 사라졌다
-먼저 되살리겠다던 9·19 군사합의다
-비핵화도 멈추는 것부터 하기로 했다
-*나아간 자리 옆에 물러선 자리가 있다*
+9·19 남북군사합의 복원이 빠졌다
+지난해엔 먼저 복원하겠다고 못 박았다
+비핵화도 중단부터 하는 단계론이 됐다
+*나아간 말과 물러선 말이 한 원고에 있다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a fingertip resting on a blank gap where a line should be, held still. Two speech drafts lie stacked on a dark desk; the upper page carries a single bright highlighted band across one line, and the page beneath shows that same position completely empty. One hand in a white shirt cuff enters from the frame edge and touches the empty spot, the wrist tensed.
-Camera: close-up from a high angle, shot on 85mm portrait lens
+Scene: Emotional focal point: his fingertip coming to rest on a bare stretch of the page where nothing is printed, eyes lowered and held there a beat too long. Recurring subject — a Korean man in his 60s with short graying hair, wearing a dark navy suit with a white shirt and a pale blue tie. Shown from the side, head bent over the lectern, one hand steadying the turned sheet while the other hovers above it. The manuscript is folded back at a sharp angle so only its blank margin and edge catch the light.
+Camera: medium close-up, chest-up framing, facial emotion, slight body context, from profile shot, side view, clear silhouette, shot on 135mm telephoto lens, strong compression, elegant portrait separation, cinematic depth
 Lighting/mood: cold blue dim interior light, heavy and suffocating, faint trembling tension
 Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
-Text handling: the document text is cropped away at the frame edges and blurred beyond legibility; only the highlighted band on one page and the bare empty gap on the other are readable as shapes, never as letters.
+Text handling: the page is creased and angled away so its printed side never faces the viewer and reads only as texture and shadow; no garbled or fake script, no meaningless letters, no random characters, no dense text.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the dark desk top) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the dim interior wall behind him) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -128,27 +128,27 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-9·19 남북군사합의서 문서
+9·19 남북군사합의 서명식
 ```
 
 ### [카드 5]
 **텍스트**
 ```text
-받는 쪽은 이미 답을 내놨다
-마주 앉을 이유가 없다는 담화였다
-*한국은 가장 적대적인 국가라고 했다*
+*북한은 이미 담화로 답했다*
+남측 제안에 관심이 없고
+마주 앉을 이유도 없다고 했다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: an untouched water glass at the empty seat, still filled to the brim and undisturbed. A long polished conference table runs through the frame; on the near side a hand and forearm in a dark suit sleeve rest at the table edge, fingers curled and waiting. Directly opposite, an empty chair is pushed slightly back and a closed folder lies unopened before the vacant place.
-Camera: extreme close-up from eye level at table height, shot on 100mm macro lens
-Lighting/mood: a single pool of hard light isolating the empty place in surrounding blackness, claustrophobic loneliness
+Scene: Emotional focal point: the empty chair on the far side of the long table, its seat catching none of the light. A single pool of hard light falls on one end of a long negotiation table in a vast dark hall, where a lone small figure stands waiting. Recurring subject — a Korean man in his 60s with short graying hair, wearing a dark navy suit with a white shirt and a pale blue tie. He faces the far end across the table, hands at his sides. One sheet of paper lies face down on the vacant side, untouched. The surrounding hall dissolves into blackness on every side.
+Camera: extreme long shot, tiny subject, vast environment, scale, isolation, from eye-level shot, neutral perspective, realistic, shot on 14mm ultra-wide lens, vast environment, dramatic depth, strong spatial presence
+Lighting/mood: single pool of hard light isolating the figure in surrounding blackness, claustrophobic loneliness
 Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
-Text handling: the folder cover and the table carry no writing at all; the closed folder is turned so any face of it is blank, and no nameplate or placard appears anywhere.
+Text handling: the sheet of paper lies face down so nothing on it is visible; the hall carries no signage or lettering; no garbled or fake script, no meaningless letters, no random characters, no dense text.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the conference table top) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the dark hall floor) extending edge to edge from top to bottom of the frame. The main subject, the lit table with its empty chair, is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -158,28 +158,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-남북회담장 빈 테이블
+남북 고위급회담 회담장 테이블
 ```
 
 ### [카드 6]
 **텍스트**
 ```text
-*종전은 우리 뜻만으론 안 굴러간다*
-함께 풀 북미 대화가 막혀 있어서다
-그는 자신을 페이스메이커라 불렀다
-속도를 조절하는 자리라는 말이었다
+북미 대화까지 멈춰 있는데도
+상대의 응답을 기다리지 않겠다고 했다
+긴장을 통제할 제도와 안전장치를 깔고
+*선제적 평화 조치를 취하겠다고 했다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the stillness of his shoulders as he stands facing the window, not moving at all. Recurring subject — a Korean man in his 60s with short neatly combed graying hair, wearing a dark navy suit with a light blue tie, is seen from behind at a tall window in an emptied meeting room, his hands hanging at his sides and his face not visible. Beyond the glass a wide dark cityscape stretches out under a pre-dawn sky, and his reflection sits faintly on the pane.
-Camera: wide shot from behind the subject at eye level, shot on 35mm lens
-Lighting/mood: cold blue pre-dawn tone, lone streetlight reflection on wet ground far below, desolate stillness
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
-Text handling: the distant city carries no readable signage; all far windows and structures are reduced to light shapes with no letters of any kind.
+Scene: Emotional focal point: his stride continuing forward while his gaze holds the empty stretch of road ahead. Recurring subject — a Korean man in his 60s with short graying hair, wearing a dark navy suit with a white shirt and a pale blue tie. He walks down the broad stone steps outside the ceremony hall, one foot already on the lower step, jacket edge lifting with the motion. The plaza in front of him is wide and unpeopled, his hard shadow thrown long across the pavement. Nose room on the right, gaze directed toward the right edge.
+Camera: full shot, head-to-toe, full body, outfit visible, clear silhouette, from profile shot, side view, directional movement, shot on 70mm short telephoto, gentle background compression, subject isolation
+Lighting/mood: harsh overexposed midday sunlight, hard shadows, oppressive heat
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
+Text handling: the building facade and plaza carry no signage, no banners and no lettering of any kind; no garbled or fake script, no meaningless letters, no random characters, no dense text.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the tall window wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the outdoor stone plaza pavement and its steps) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -189,28 +189,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-대통령실 집무실 창가
+세종문화회관 정문 외부 계단
 ```
 
 ### [카드 7]
 **텍스트**
 ```text
-먼저 움직이겠다는 말의 뜻은 하나다
-답이 없어도 먼저 내려놓겠다는 것이다
-그게 마중물일지 답장 없는 지출일지는
-*내려놓은 목록이 길어질수록 갈린다*
+응답 없이도 먼저 내려놓겠다는 뜻이다
+대화를 여는 마중물이 될 수도 있고,
+답장 없는 일방 지출로 쌓일 수도 있다
+*먼저 내려놓은 목록이 답을 말할 것이다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: one folded chair left standing alone among the emptied rows. The bare wooden podium sits at the dead center of the frame facing the viewer straight on, its microphones already removed, and the hall in front of it is symmetrical and still. Far off to one side a single staff member in plain dark work clothes stacks chairs, small and quiet, while morning light falls in long bands across the vacant seating.
-Camera: extreme long shot from a front-on angle, shot on 24mm wide lens
+Scene: Emotional focal point: his eyes meeting the viewer directly, steady and unwavering, holding no expectation. Recurring subject — a Korean man in his 60s with short graying hair, wearing a dark navy suit with a white shirt and a pale blue tie. He stands centered and still in a quiet room after the ceremony, shoulders squared to the viewer, hands lowered and empty at his sides, nothing in them. Soft morning light reaches him from a window out of frame, leaving the plain wall behind him bare.
+Camera: medium shot, waist-up framing, face and gestures, conversational, from front-on shot, direct gaze, symmetrical composition, facing camera, shot on 85mm portrait lens, flattering face, soft background separation, elegant focus
 Lighting/mood: warm soft morning light, gentle and quiet, faint melancholy
 Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
-Text handling: the podium face, the walls and the seat backs are all blank; no banner, no placard, no seat numbers, no lettering anywhere in the hall.
+Text handling: the wall behind him is entirely bare with no signage, plaque or lettering; his hands hold no document; no garbled or fake script, no meaningless letters, no random characters, no dense text.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the ceremony hall floor with its rows of seats) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the plain interior wall behind him) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -220,5 +220,5 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-세종문화회관 대극장 객석
+대통령 광복절 경축사 클로즈업
 ```
