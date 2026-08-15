@@ -17,6 +17,8 @@
 #   CI 축은 check-refs.yml·ledger-gate.yml이 그대로 담당 = 커버리지 손실 0.
 # ═══════════════════════════════════════════════════════════════════════════════
 [ -n "$GITHUB_ACTIONS" ] && exit 0
+# 맥 2선 잡워커 제외(260815 · pre-commit 동축) — 워커 잡 푸시 = 데이터 산출물뿐 · 사람 세션은 env 없이 게이트 그대로.
+[ -n "$NOMUTE_MAC_LANE" ] && exit 0
 
 ROOT=$(git rev-parse --show-toplevel)
 Z=0000000000000000000000000000000000000000
