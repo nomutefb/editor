@@ -202,6 +202,15 @@ const PROBE = () => {
     inkC: worst ? worst.d : null,   // 최악 칩의 잉크 중심 − 캡슐 중심(중앙정렬 정본 = 0 근방)
     chipT: worst ? worst.t : null,
     pics,
+    // C19 동승 = 그 탭 **문서 안**의 끝나지 않는 CSS 애니(런 신설 0 = 이미 도는 10탭 순회에 얹는다 · 아래 C19 판정 주석 참조)
+    //   `d` = 활성 탭 문서(iframe이면 그쪽 · AI 생성처럼 부모가 그리는 판이면 셸 문서) = 「지금 보고 있는 탭이 그리는 것」과 정확히 같은 스코프.
+    liveAnim: (() => {
+      try {
+        return [...new Set(d.getAnimations().filter(a => {
+          try { return a.playState === 'running' && a.effect && a.effect.getTiming().iterations === Infinity; } catch (_) { return false; }
+        }).map(a => (a.animationName || a.transitionProperty || '?') + '@' + ((a.effect.target && (a.effect.target.id || a.effect.target.className)) || '?')))].slice(0, 6);
+      } catch (_) { return []; }
+    })(),
   };
 };
 
@@ -852,6 +861,20 @@ async function runOnce(pg, gap, clone, railRow, budget, idle, anim) {
       : !ID.tkr ? 'SKIP 티커 미렌더(실검 데이터 0) = 판정 대상 없음'
         : ID.animN > 0 ? '가려진 셸에서 끝나지 않는 애니 ' + ID.animN + '개 [' + (ID.anim || []).join(' · ') + '] — 아무도 못 보는데 폰 GPU가 매 프레임 재합성한다(C16·C17이 못 보는 축)'
           : '셸 상시 애니 0(모달 가림 상태 실측)');
+
+  // ── C19 탭 상시 CSS 애니 = 2셸 10탭 **각 탭 문서**에 끝나지 않는 애니가 도는가(운영자 260815 2차 "다른 텍스트 입력 툴에도 그런 문제 없는지") ──
+  //   ⚠ 신설 사유 = **C17이 카드 제작 1탭만 본다.** C17은 `thumb.html`을 **단독 페이지로 직접 열어** 사진을 붙이는 전용 스윕이라
+  //     나머지 9탭(편집·번역·AI생성·특수 / 영상 5탭)은 「그 탭이 상시 애니를 켜고 있는가」가 축 자체로 없었다.
+  //     260815 1차 봉합이 덮은 건 **셸**(C18)이고, 탭 문서 9개는 그때도 여전히 미측정이었다.
+  //   런 신설 0 = 이미 도는 10탭 순회 PROBE에 `liveAnim`을 얹어 같은 방문에서 걷는다(C15·C17처럼 전용 페이지를 또 열지 않는다).
+  //   판정 = 하드 0(유한 반복은 대상 밖 = C17 경계 계승) · 260815 전수 실측 = 10탭 전건 0 → 면책표 없이 하드.
+  const animTabs = Object.entries(out.m || {})
+    .filter(([, v]) => v && Array.isArray(v.liveAnim) && v.liveAnim.length)
+    .map(([k, v]) => k + '[' + v.liveAnim.join(' · ') + ']');
+  core('C19 탭 상시 CSS 애니 0(2셸 10탭 각 탭 문서 · iterations=∞ ∧ running)',
+    animTabs.length === 0,
+    animTabs.length ? '끝나지 않는 애니 보유 ' + animTabs.length + '탭 — ' + animTabs.join(' / ') + ' (손 뗀 화면에서 폰 GPU가 계속 재합성 · C17은 카드 제작 1탭만 본다)'
+      : '10탭 전건 상시 애니 0');
 
   return out;
 }
