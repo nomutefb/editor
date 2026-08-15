@@ -1,5 +1,76 @@
 [
   {
+    "url": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/resize/260815223845-119918/9x16-4e41b821.jpg",
+    "srcUrl": "uploads/260815223845-119918/src.png",
+    "aspect": "9:16",
+    "size": "1K",
+    "lock": true,
+    "route": "gemini",
+    "fill": "auto",
+    "qa": "PASS",
+    "calls": {
+      "gen": 2,
+      "judge": 2
+    },
+    "model": "gemini-3.1-flash-image-preview",
+    "qa_why": "The image was successfully extended without introducing any artifacts or anatomical errors.",
+    "tries": [
+      {
+        "t": 1,
+        "streak": 0.001,
+        "bands": {
+          "top": 0.002,
+          "bottom": 0.0
+        },
+        "enc": "2:2",
+        "qa": "FAIL",
+        "why": "The brand-new PC tower and keyboard appear in the extended margin below the character, not continuing anything from the original.",
+        "rej": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/resize/260815223845-119918/rej-t1-4911f736.jpg",
+        "raw": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/resize/260815223845-119918/raw-t1-ebe6f009.jpg"
+      },
+      {
+        "t": 2,
+        "streak": 0.001,
+        "bands": {
+          "top": 0.002,
+          "bottom": 0.0
+        },
+        "enc": "2:2",
+        "qa": "PASS",
+        "why": "The image was successfully extended without introducing any artifacts or anatomical errors."
+      }
+    ],
+    "usage": [
+      {
+        "tag": "resize:t1",
+        "prompt": 1180,
+        "output": 1695,
+        "total": 2875
+      },
+      {
+        "tag": "resize:judge",
+        "prompt": 921,
+        "output": 32,
+        "total": 953
+      },
+      {
+        "tag": "resize:t2",
+        "prompt": 1225,
+        "output": 1602,
+        "total": 2827
+      },
+      {
+        "tag": "resize:judge",
+        "prompt": 921,
+        "output": 21,
+        "total": 942
+      }
+    ],
+    "box": null,
+    "id": "260815223845-119918",
+    "ts": "2026-08-15T22:49:38+09:00"
+  },
+  {
     "url": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/resize/260815212245-257e39/9x16-d5c52c07.jpg",
     "srcUrl": "uploads/260815212245-257e39/src.jpg",
     "aspect": "9:16",
@@ -741,18 +812,5 @@
     "box": null,
     "id": "t6a11",
     "ts": "2026-08-07T15:52:05+09:00"
-  },
-  {
-    "url": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/resize/t6a916/9x16-21c88cdd.jpg",
-    "srcUrl": "uploads/t6a916/src.jpg",
-    "aspect": "9:16",
-    "size": "1K",
-    "lock": true,
-    "route": "gemini",
-    "fill": "ai",
-    "qa": "PASS",
-    "box": null,
-    "id": "t6a916",
-    "ts": "2026-08-07T15:51:51+09:00"
   }
 ]
