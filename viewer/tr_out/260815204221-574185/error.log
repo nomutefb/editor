@@ -1,0 +1,4 @@
+exit_code: 0
+---- stderr ----
+---- stdout(head) ----
+TRAUTO_FAILED: OCR 라인이 전달되지 않음 — 상류 파싱 오류('str' object has no attribute 'get')로 입력이 빈 상태
