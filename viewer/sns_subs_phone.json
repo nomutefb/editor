@@ -411,6 +411,36 @@
  ],
  "threads": [
   {
+   "account": "aipeekme",
+   "text": "새 모델 Grok 4.6이 분해된 제트 엔진 시뮬레이션을 처음부터 구현했습니다.\n\n단순한 텍스트 설명을 넘어 전체 제트 엔진이 분해되어 작동하는 시뮬레이션 구조를 통째로 만들어냈습니다.\n\n이전 모델들이 다루던 결과물과 비교하면 다루는 대상의 구조적 복잡도가 확실히 올라간 모습입니다.\n\n엔진 내부 부품의 물리적 간섭이나 실제 공기 역학까지 정밀하게 계산했는지는 별개의 문제입니다.\n\n그래도 복잡한 하드웨어 구조를 시각화하는 도구를 만들 때는 프로토타입 제작 속도를 크게 줄여줄 것 같습니다.\n\n개인적으로는 시각적 재현을 넘어 실제 수치 제원을 넣었을 때도 파라미터 왜곡 없이 작동할지가 관건이라고 봅니다.\n\n물리적 정밀도가 빠진 시뮬레이션은 교육용 데모 이상의 실무 도구로 쓰기엔 아직 미덥지 않으니까요.",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1786771884,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/775714816_1048149144266222_8715720229928755447_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk2NDA1MjE0NDE0NzcyNzgwMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=RyCps14Zw5sQ7kNvwEeQurV&_nc_oc=AdoHQya3esce2qFesWaMcNfruffHvzzSzMOI2tNJyOOklO8Zksvj10V5FCCjj5Q3Y6o&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=-Id4UbiN8qB1dnlfIhh61g&_nc_ss=7a22e&oh=00_AQFSC0a-sPnPxoJWwNCansycstgISVzMrvaEhUhrFIzPwQ&oe=6A85DA4E",
+   "url": "https://www.threads.com/@aipeekme/post/DcDJGwzDQW6",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "3/ 벤치마크 점수나 이전 Qwen3 시리즈 대비 상세 상승 수치는 아직 이 컬렉션 페이지에 적혀 있지 않습니다. 2.4T 전체 파라미터 중 95B가 활성화된다는 표기 외에, 기존 버전이나 경쟁사 모델과 직접 비교한 세부 지표는 추가 발표를 확인해야 합니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1786770461,
+   "thumb": "",
+   "url": "https://www.threads.com/@aipeekme/post/DcDGbN9n1zI",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "2/ 하는 일은 모델별로 나뉩니다. 2.4T-A95B는 Text Generation 태스크로 지정되어 있어 대규모 텍스트 처리와 언어 생성에 집중합니다. 반면 27B 모델은 Image-Text-to-Text 태스크로 등록되어 있어 시각 정보와 텍스트 입력을 동시에 받아 처리하는 구조입니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1786770448,
+   "thumb": "",
+   "url": "https://www.threads.com/@aipeekme/post/DcDGZosHwTp",
+   "region": "kr"
+  },
+  {
    "account": "promppy_com",
    "text": "DeepSeek V4 Pro 0813, 지능 지수 53점…성능 8점↑에 가격은 3.6배 인상",
    "likes": 1,
@@ -433,17 +463,17 @@
   {
    "account": "choi.openai",
    "text": "3/ 워터마크가 적용되면 개별 답변에서 Claude가 실제로 고르는 단어는 달라질 수 있습니다.\n\n앤트로픽의 주장은 이 변화가 독자가 체감할 정도의 품질 저하로 이어지지 않는다는 것입니다. 근거로 제시한 SynthID-Text의 비왜곡 설정은 특정 단어의 확률을 계속 높이는 대신, 전체 출력 분포는 유지하면서 비밀키와 일치하는 방식으로 표본을 고르도록 설계됐습니다.\n\n약 2,000만 건의 Gemini 응답을 비교한 실험에서는 좋아요와 싫어요 비율에 유의한 차이가 없었고, 별도의 사람 평가에서도 품질 저하는 확인되지 않았습니다.\n동시에 논문은 설정에 따라 탐지력과 품질 사이에 선택이 생기고, 비왜곡 설정에서도 답변 사이의 다양성은 일부 줄 수 있다고 설명합니다.\n\n평균적인 품질과 모든 문장의 표현이 같다는 말은 다릅니다. 앤트로픽의 Claude 내부 평가 결과와 실제 적용 강도, 탐지 정확도는 아직 공개되지 않았습니다.",
-   "likes": 2,
+   "likes": 5,
    "cmts": 1,
    "time": 1786768569,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/773302501_17982245265112832_8356941686792362968_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk2NDAyNDUyNzM1NzE1NzIyOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTM5Ni5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=5Khfec2tNKwQ7kNvwFGnX-A&_nc_oc=AdqOYQOsla8mrhmJTtowBBkoCG-00EY922KdtnH3JgRCS7H4JPq0OJizs7fDlmfPUJQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=rq-35fI53aGEvSsvyWUvBg&_nc_ss=7a22e&oh=00_AQHzrAZox-6Qeqp5FWjIFZCtR7qvPADOSkNImwQd1Y_qoA&oe=6A85CC53",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/773302501_17982245265112832_8356941686792362968_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk2NDAyNDUyNzM1NzE1NzIyOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTM5Ni5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=5Khfec2tNKwQ7kNvwFGnX-A&_nc_oc=AdqOYQOsla8mrhmJTtowBBkoCG-00EY922KdtnH3JgRCS7H4JPq0OJizs7fDlmfPUJQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=-KxiJ8zZ0LxlQ04dSRKj-Q&_nc_ss=7a22e&oh=00_AQFXIC2RI5nXFMGqNO2s6JsgcD0Bk0OqeYx3IM3glhuAVQ&oe=6A85CC53",
    "url": "https://www.threads.com/@choi.openai/post/DcDC04qDx9s",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "2/ 이 패턴은 별도의 문자나 메타데이터가 아니라 단어 선택 자체에 남기 때문에, 글을 복사해 붙여넣어도 그대로 유지됩니다.\n\n물론 한두 번의 선택만으로는 우연과 구별하기 어렵습니다. 하지만 수백 개의 단어가 쌓이면 실제 선택이 비밀키가 예상한 패턴과 얼마나 자주 일치하는지 통계적으로 계산할 수 있는데요. 탐지기는 이를 바탕으로 Claude가 글 작성에 관여했을 가능성을 추정합니다.\n\n특정 단어 목록을 외워 검사하는 방식도 아닙니다. 같은 단어라도 앞선 문맥이 달라지면 비밀키가 만들어내는 패턴도 달라집니다. 지난 글에서는 이런 구조와 워터마크 우회, 오탐 가능성을 더 자세히 다뤘습니다.",
-   "likes": 2,
+   "likes": 5,
    "cmts": 1,
    "time": 1786768564,
    "thumb": "",
@@ -453,31 +483,11 @@
   {
    "account": "choi.openai",
    "text": "1/ 앤트로픽이 Claude가 생성한 글에 워터마크를 남기는 방식을 공개했습니다.\n앞으로 출시할 Claude 모델부터 적용하고, 기존 모델에도 몇 달에 걸쳐 확대할 계획인데요.\n\n방식은 글에 숨은 문자나 메타데이터를 붙이는 게 아니라, Claude가 다음 단어를 고르는 과정 자체를 이용합니다.\n\nClaude는 앞의 문맥을 바탕으로 다음에 올 단어의 확률을 계산하는데, 워터마크가 적용되면 비밀키와 문맥에 따라 자연스러운 후보들의 선택 확률이 조금씩 달라집니다.\n\n한두 단어만 봐서는 차이를 알기 어렵지만 이런 선택이 긴 글에서 반복되면 특정한 통계 패턴이 쌓입니다. 탐지기는 이 패턴을 분석해 Claude가 작성에 관여했을 가능성을 판단합니다.",
-   "likes": 2,
+   "likes": 6,
    "cmts": 1,
    "time": 1786768557,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/765855428_17982245238112832_5781141364934019183_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk2NDAyNDQyODk5MjM2NjU5MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQwMi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=dKi5lcjfCqAQ7kNvwFflPuy&_nc_oc=AdqDDgjfIcuDbyVRCn2ACNPi_YfZ8-s-mNQ_vkPGL8Fz9a1J0EuVoKg0wb0wfezDTSc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=rq-35fI53aGEvSsvyWUvBg&_nc_ss=7a22e&oh=00_AQGL9KV7A44J90HDWiXfv8boFCn65v2y1uTl1Uqq29YxFg&oe=6A85B63E",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/765855428_17982245238112832_5781141364934019183_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk2NDAyNDQyODk5MjM2NjU5MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQwMi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=dKi5lcjfCqAQ7kNvwFflPuy&_nc_oc=AdqDDgjfIcuDbyVRCn2ACNPi_YfZ8-s-mNQ_vkPGL8Fz9a1J0EuVoKg0wb0wfezDTSc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=-KxiJ8zZ0LxlQ04dSRKj-Q&_nc_ss=7a22e&oh=00_AQHE3HnQvA5GQ5mFBHw_PWJY-G1N_8qFS7D3SwwpQnm2Ww&oe=6A85B63E",
    "url": "https://www.threads.com/@choi.openai/post/DcDCzdDD4f-",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
-   "text": "🔗 원문·자세히 보기\nhttps://huggingface.co/spaces/agent-memory-leaderboard/leaderboard",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1786764702,
-   "thumb": "",
-   "url": "https://www.threads.com/@aipeekme/post/DcC7cORn92T",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
-   "text": "허깅페이스 스페이스(Hugging Face Space)에 'Agent Memory Leaderboard'라는 이름의 AI 에이전트 메모리 관련 리더보드가 등록되었습니다.\n제시된 자료상 'agent-memory-leaderboard / leaderboard'라는 경로와 구동 상태가 확인되며 구체적인 세부 평가 지표나 수치는 공개되지 않았습니다.\n그동안 에이전트 관련 기준은 문제 해결이나 추론에 집중된 경우가 많았습니다.\n맥락이 길어질 때 정보를 어떻게 유지하고 다루는지 체계적으로 줄을 세우는 판은 드물었습니다.\n컨텍스트 크기만 늘리는 방식은 비용과 처리 시간 면에서 한계에 부딪힐 수 있습니다.\n결국 기억 저장소를 다루는 알고리즘 효율이 실제 에이전트 성능을 가를 수밖에 없습니다.\n기억 유지력뿐 아니라 불필요한 맥락을 정리하는 정량 지표가 함께 검증되는지 지켜보려고 합니다.\n\n📷 사진 출처: huggingface.co",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1786764691,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/774652450_18079876547407306_5126610292909249974_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk2Mzk5MTkyMTI2Njc3MzkxOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Hsb7Z_aiJ5YQ7kNvwG1FTPR&_nc_oc=Adpg5DybLRTi2KeQ5sTtBjbEo0WfEWiYokc3peM9fNy9GTnbum27AgcOGhmwjL_9pDM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=YMcYcYD866m9zFdl8t7paQ&_nc_ss=7a22e&oh=00_AQGlw61jnVvVn8AMbAqYZhKErOsvfZfuGddqj7xVZl5jwA&oe=6A85D43C",
-   "url": "https://www.threads.com/@aipeekme/post/DcC7aZ3n8-f",
    "region": "kr"
   },
   {
@@ -488,16 +498,6 @@
    "time": 1786762719,
    "thumb": "",
    "url": "https://www.threads.com/@promppy_com/post/DcC3qvpknEO",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
-   "text": "메이디 그룹이 공장 작업용 6개 팔 바퀴형 휴머노이드 로봇 미로-U(Miro-U)를 공개했습니다.\n여러 공정 작업을 동시에 처리하도록 설계된 기종인데요.\n중국 징저우의 세탁기 제조 시설에서 이미 사용되던 기존 2개 팔 휴머노이드 플랫폼을 기반으로 제작됐습니다.\n우시 산업단지에서 나사 6개를 한 번에 조이는 동작을 시연하기도 했습니다.\n기존 산업용 로봇 팔 여러 대나 다수의 작업자가 투입되던 작업을 대체할 수 있다는 설명입니다.\n인간의 신체 형태를 굳이 그대로 모방하지 않은 점이 실용적입니다.\n제조 현장에서는 사람처럼 굳이 두 팔만 고집할 이유가 없으니까요.\n팔이 6개로 늘어난 만큼 충돌 방지와 동선 제어가 실제 공정 속도를 얼마나 유지할지가 관건으로 보입니다.\n작업 공간을 덜 차지하면서 다중 작업을 처리하는 방식은 꽤 영리한 접근 같습니다.",
-   "likes": 3,
-   "cmts": 0,
-   "time": 1786754635,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/770658528_1642209394169551_3142971992050544976_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk2MzkwNzQyNDA3NTI5ODY4Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=_h8wuqlMqPsQ7kNvwERMaMp&_nc_oc=AdrdTiRwQO849BeuWvb20Jt5A5aGH7VOEucVp0PTrfgQFQd9xaNsQfZWqkPi5hbywss&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=YMcYcYD866m9zFdl8t7paQ&_nc_ss=7a22e&oh=00_AQFxKX5btsGlD8qZthNt7WvdBok15uAHevK4mKCNEVY5lA&oe=6A85AA65",
-   "url": "https://www.threads.com/@aipeekme/post/DcCoMzuird-",
    "region": "kr"
   },
   {
@@ -536,14 +536,14 @@
    "likes": 2,
    "cmts": 0,
    "time": 1786703254,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/773271018_1389790293245835_1469211535407729696_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk2MzQ3NjQzMzQ5Mzk1MDM0MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=MjBxAYMxj2UQ7kNvwGI0xnW&_nc_oc=AdrKpyIPnUuccVU2Ksltxkoi4V0OTo1hXeBlabqq_69qJfHlQ1dESRfIXgHHZiK0m00&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=8U_oRVhdxDzknj7j-V2i9Q&_nc_ss=7a22e&oh=00_AQHSLjAsK3V7rMyrVQrmH3WnDqFULrpV6BoKuakad9hdkA&oe=6A85B744",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/773271018_1389790293245835_1469211535407729696_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk2MzQ3NjQzMzQ5Mzk1MDM0MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=MjBxAYMxj2UQ7kNvwGI0xnW&_nc_oc=AdrKpyIPnUuccVU2Ksltxkoi4V0OTo1hXeBlabqq_69qJfHlQ1dESRfIXgHHZiK0m00&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=6FcoQuPTGXcRT6WwoH2iGw&_nc_ss=7a22e&oh=00_AQF3tA45_seH6Yf6FpKzRUYW22uXCJFSMsNM_v6oeLkRFw&oe=6A85B744",
    "url": "https://www.threads.com/@kopp/post/DcBGNEeCf-F",
    "region": "kr"
   },
   {
    "account": "kopp",
    "text": "https://www.details.so/inspo",
-   "likes": 0,
+   "likes": 1,
    "cmts": 0,
    "time": 1786701831,
    "thumb": "",
@@ -553,20 +553,30 @@
   {
    "account": "kopp",
    "text": "We just crossed 3,000 members on Details 🥹\n\nWe launched less than 3 months ago, and the growth lately has honestly been crazy.\n\nI built Details in the first place to help designers cut through the noise and quickly find the best design details on the web.\n\nBecause sometimes one interaction, one animation, or one tiny idea is all it takes to make your next project that much better.\n\nThe place you go when you want to make something great.\n\nThank you for 3,000 🫶",
-   "likes": 8,
+   "likes": 9,
    "cmts": 1,
    "time": 1786701747,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/774969816_2132765987453379_4171917559984872867_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk2MzQ2MzcwMTIyMjcyMzc3NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=9QE7krwllLgQ7kNvwEqJ4I6&_nc_oc=Adrtfe47V65VTkic5eITqX2tzcMwydLhNaw66P5V5EGaEOgWc91MkkjIku5RuvVBONE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=8U_oRVhdxDzknj7j-V2i9Q&_nc_ss=7a22e&oh=00_AQEj6oA2LlOY6ZxGGZNJc-YpowKnLiH97Vs8lN8tN_rD4g&oe=6A85E0F2",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/774969816_2132765987453379_4171917559984872867_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk2MzQ2MzcwMTIyMjcyMzc3NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=9QE7krwllLgQ7kNvwEqJ4I6&_nc_oc=Adrtfe47V65VTkic5eITqX2tzcMwydLhNaw66P5V5EGaEOgWc91MkkjIku5RuvVBONE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=6FcoQuPTGXcRT6WwoH2iGw&_nc_ss=7a22e&oh=00_AQG6EtAIWdXF7UvezpoybiIw9vzcRQZFQqyYwvX4RhNLNQ&oe=6A85E0F2",
    "url": "https://www.threads.com/@kopp/post/DcBDTyniRC-",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "1/ 공개된 모델은 크게 두 계열입니다. 텍스트 생성을 맡는 Qwen3.8-2.4T-A95B와 그 FP8 양자화 버전, 그리고 이미지와 텍스트를 함께 다루는 Qwen3.8-27B와 FP8 버전입니다. 2.4T 모델은 활성화 파라미터가 95B 수준으로 표기되어 있고, 27B 모델은 28B급 크기로 분류되어 있습니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1786770433,
+   "thumb": "",
+   "url": "https://www.threads.com/@aipeekme/post/DcDGXw8H6lC",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "큰일입니다.. 이거 모르면 AI로 쓴거 다 걸립니다..\n\n앤트로픽이 Claude 모델에 텍스트 워터마크를 넣는 방식을 공개했습니다.\n\n숨은 문자를 넣는 대신 비밀키와 문맥을 이용해 단어 선택에 특정 패턴을 남기고, 긴 글에서 해당 패턴을 분석해 Claude가 작성했을 가능성을 판별하는 방식인데요.\n\n짧은 글이나 가벼운 교정, 정답이 정해진 코드에서는 탐지가 어렵다고 말합니다.\nEU 규제에 맞춰 전 세계 적용을 준비하고 있으며 탐지 API도 제공할 예정입니다.\n\nClaude의 글을 구별하는 방식을 정리했습니다🧵",
-   "likes": 29,
-   "cmts": 15,
+   "likes": 49,
+   "cmts": 19,
    "time": 1786768552,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/775686044_17982241053112832_4323857322275696525_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk2NDAyNDM4ODUxNzMzMzE0OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTk4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=AcALM2tX0IoQ7kNvwGxHKGG&_nc_oc=AdrBTUbNX-KxtyUQTD-Dd6wV2Y780Fq3GtlXmYBEvnfEO-Qj_gUxOhztot5GduCXdnI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=rq-35fI53aGEvSsvyWUvBg&_nc_ss=7a22e&oh=00_AQHlnvTJTFhniYACjfWjed7CPzWfuSpj4eMYqkXzupgOnA&oe=6A85B997",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/775686044_17982241053112832_4323857322275696525_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk2NDAyNDM4ODUxNzMzMzE0OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTk4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=AcALM2tX0IoQ7kNvwGxHKGG&_nc_oc=AdrBTUbNX-KxtyUQTD-Dd6wV2Y780Fq3GtlXmYBEvnfEO-Qj_gUxOhztot5GduCXdnI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=-KxiJ8zZ0LxlQ04dSRKj-Q&_nc_ss=7a22e&oh=00_AQFFWQxp7M_J-yHw1c-xFvs5YCICMK-QGKLfzQUAqZ80ZQ&oe=6A85B997",
    "url": "https://www.threads.com/@choi.openai/post/DcDCy3Wj4id",
    "region": "kr"
   },
@@ -581,33 +591,23 @@
    "region": "kr"
   },
   {
-   "account": "aipeekme",
-   "text": "5,000달러 미만으로 집에서 직접 제작할 수 있는 휴머노이드 로봇 '버클리 휴머노이드 라이트'가 있습니다.\n휴머노이드가 연구실 안에 갇혀 있던 이유는 결코 소프트웨어가 아니라 가격 때문이었습니다.\n기계 가공 부품 대신 3D 프린터로 출력한 모듈형 감속기를 적용했습니다.\n전체 부품 목록은 시중에서 쉽게 구할 수 있는 기성 취미용 부품으로 구성되어 있습니다.\nCAD 도면과 펌웨어, 학습 코드는 전부 저장소에 포함되어 함께 제공됩니다.\n발목을 잡던 5자리 수 달러 규모의 부품 주문 과정이 주말 동안의 3D 프린팅 작업으로 대체된 셈입니다.\n하드웨어 진입 장벽을 낮춘 시도는 흥미롭지만, 플라스틱 감속기의 내구성과 모터 발열 한계는 여전히 남아 있을 것 같습니다.\n실제 연구 환경에서 장시간 구동했을 때 물리적인 마모나 오차를 얼마나 버텨줄지가 관건이라고 봅니다.",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1786754334,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/774059553_1032285289436851_4187805262942906518_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk2MzkwNDg5MDE4NzE2NDUwOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=RFnm1UoiYAcQ7kNvwEs5CxM&_nc_oc=Adphkg1JYib9jMqPmnfAjIarD-rWU1v2HrQ1dQcGNsf97wiV_ySF7Ly7B6EuCgYYOW0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=YMcYcYD866m9zFdl8t7paQ&_nc_ss=7a22e&oh=00_AQEeecJqWPrHKfIRj9RfpiHJP26KGSlzVXAsi8zoereURQ&oe=6A85D9E3",
-   "url": "https://www.threads.com/@aipeekme/post/DcCnn73Citc",
-   "region": "kr"
-  },
-  {
    "account": "aicoffeechat",
    "text": "AI 시대에 뭘 배워야 하나 헷갈렸던 분들은 이 글 꼭 보세요.\n\nAndrew Ng이 The AI Engineering Skills Map을 발표했는데요. 채용 공고 1만 건 이상을 분석하고, AI 전문가와 채용 담당자, 리크루터를 수십 명 인터뷰하고, 설문까지 돌려서 뽑아낸 결과입니다.\n\n지금뿐 아니라 가까운 미래에도 중요할 스킬 4가지가 나옵니다. 그런데 Andrew Ng은 이걸 'AI 엔지니어'라는 직함이 아니라 '스킬'이라고 부릅니다.\n\n풀스택이든 데이터든 데브옵스든, 모든 개발자에게 필요해질 능력이라는 뜻으로요.\n\n정말 좋은 글입니다. 읽어보세요.",
-   "likes": 56,
+   "likes": 57,
    "cmts": 11,
    "time": 1786745667,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/771814052_17952516816232485_1307873746336770705_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk2MzgzMjQxNDU3NzU2NDMwNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI0Mi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=2F1dYwLoBnAQ7kNvwEDYBv6&_nc_oc=AdpMwnwubgLoYee1AbP2iApT9W7nSqvcRDTX1rMq_jsGseegE0wsb3N4SoYnfEQ4bCk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=nNp1qWYBAWmd2-dADmH3-Q&_nc_ss=7a22e&oh=00_AQHLQIpk2Ja6FA8SKrtxlsv5SjB1DlZQL2s4ouAOZoae9Q&oe=6A85ACAB",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/771814052_17952516816232485_1307873746336770705_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk2MzgzMjQxNDU3NzU2NDMwNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI0Mi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=2F1dYwLoBnAQ7kNvwEDYBv6&_nc_oc=AdpMwnwubgLoYee1AbP2iApT9W7nSqvcRDTX1rMq_jsGseegE0wsb3N4SoYnfEQ4bCk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=tA1mZd8rIsLEeCtbBTYrxw&_nc_ss=7a22e&oh=00_AQFvuMR26AHkkwXGaHOBAST4he3CUPePawh__D9zFQ4Jnw&oe=6A85E4EB",
    "url": "https://www.threads.com/@aicoffeechat/post/DcCXJRsExqT",
    "region": "kr"
   },
   {
-   "account": "choi.openai",
-   "text": "3/ 사내 모델이 일하면서 쌓는 결과물은 모델 가중치만큼이나 중요한 자산이 됩니다. \n앤트로픽의 코드베이스와 실패한 실험, 오류를 고친 과정, 연구자의 피드백, 실제 업무에서 만들어진 평가 문제는 외부에 공개되지 않습니다.\nModel 2가 일할 때마다 이런 기록이 쌓이고, 다시 다음 모델의 학습과 평가에 활용됩니다.\n\n경쟁사가 공개 벤치마크 점수를 따라잡더라도 이 작업 기록까지 그대로 가져갈 수는 없습니다. 앞으로 연구소 간 격차는 모델 파일 하나보다 ‘강한 모델이 사내에서 일하고, 그 결과를 다시 더 강한 모델을 만드는 데 활용하는 체계’에서 더 벌어질 가능성이 있습니다.\n\n코드와 데이터, 하네스, 연산 자원, 권한, 연구자의 검증이 함께 묶인 생산 체계가 새로운 전략자산입니다.",
-   "likes": 2,
-   "cmts": 1,
-   "time": 1786763858,
+   "account": "aipeekme",
+   "text": "Qwen 팀의 새 컬렉션 Qwen3.8이 허깅페이스에 올라왔습니다. 2.4T 규모의 텍스트 모델과 28B 멀티모달 모델 등 총 4개 저장소가 확인됩니다. 저장소에 적힌 사양과 구성을 정리했습니다 🧵",
+   "likes": 0,
+   "cmts": 8,
+   "time": 1786770422,
    "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DcC51xFj3zN",
+   "url": "https://www.threads.com/@aipeekme/post/DcDGWd8n0Pv",
    "region": "kr"
   }
  ],
@@ -641,13 +641,13 @@
    "url": "https://www.reddit.com/r/TikTokCringe/comments/1vo2zcm/andrew_tate_fans_doing_pushups_outside_the/"
   },
   {
-   "sub": "todayilearned",
-   "title": "TIL that in the 1990s, the founder of Match.com asked his girlfriend to join the site to test it out—she promptly met someone else and left him.",
+   "sub": "interestingasfuck",
+   "title": "Pointing a light towards a spider's web - Result: luckiest spider ever!",
    "score": 0,
    "cmts": 0,
-   "thumb": "",
-   "time": 1786759469,
-   "url": "https://www.reddit.com/r/todayilearned/comments/1voqamd/til_that_in_the_1990s_the_founder_of_matchcom/"
+   "thumb": "https://external-preview.redd.it/OWR2YXY1d3dlZ2poMRhqJj4khYEifCO6GxDM72GTt6VmYP8BBaaancot1dL2.png?width=320&crop=smart&auto=webp&s=31c21ca169a30d460fd4d42b9cf077a15e24b7f1",
+   "time": 1786762721,
+   "url": "https://www.reddit.com/r/interestingasfuck/comments/1vore4o/pointing_a_light_towards_a_spiders_web_result/"
   },
   {
    "sub": "PopCultureV2",
@@ -659,6 +659,15 @@
    "url": "https://www.reddit.com/r/PopCultureV2/comments/1vo6t4i/following_a_state_cellphone_ban_kansas_schools/"
   },
   {
+   "sub": "AskReddit",
+   "title": "What is a skill that takes less than an hour to learn, but makes you look like an absolute genius to others ?",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1786732535,
+   "url": "https://www.reddit.com/r/AskReddit/comments/1vofjac/what_is_a_skill_that_takes_less_than_an_hour_to/"
+  },
+  {
    "sub": "politics",
    "title": "Trump says he will declare Strait of Hormuz a US territory",
    "score": 0,
@@ -668,13 +677,13 @@
    "url": "https://www.reddit.com/r/politics/comments/1voirnt/trump_says_he_will_declare_strait_of_hormuz_a_us/"
   },
   {
-   "sub": "AskReddit",
-   "title": "What is a skill that takes less than an hour to learn, but makes you look like an absolute genius to others ?",
+   "sub": "todayilearned",
+   "title": "TIL that in the 1990s, the founder of Match.com asked his girlfriend to join the site to test it out—she promptly met someone else and left him.",
    "score": 0,
    "cmts": 0,
    "thumb": "",
-   "time": 1786732535,
-   "url": "https://www.reddit.com/r/AskReddit/comments/1vofjac/what_is_a_skill_that_takes_less_than_an_hour_to/"
+   "time": 1786759469,
+   "url": "https://www.reddit.com/r/todayilearned/comments/1voqamd/til_that_in_the_1990s_the_founder_of_matchcom/"
   },
   {
    "sub": "technology",
@@ -695,24 +704,6 @@
    "url": "https://www.reddit.com/r/unitedkingdom/comments/1voemz1/emergency_alerts_sent_to_millions_across_england/"
   },
   {
-   "sub": "interestingasfuck",
-   "title": "Pointing a light towards a spider's web - Result: luckiest spider ever!",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/OWR2YXY1d3dlZ2poMRhqJj4khYEifCO6GxDM72GTt6VmYP8BBaaancot1dL2.png?width=320&crop=smart&auto=webp&s=31c21ca169a30d460fd4d42b9cf077a15e24b7f1",
-   "time": 1786762721,
-   "url": "https://www.reddit.com/r/interestingasfuck/comments/1vore4o/pointing_a_light_towards_a_spiders_web_result/"
-  },
-  {
-   "sub": "AbsoluteUnits",
-   "title": "of a beer order",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/dnZ4cG5iZTFqZmpoMXLj1lH5jTvDRhYWEuUJuHrV51KsQU1h3Di_SU04VE7b.png?width=320&crop=smart&auto=webp&s=354517758b2a45aad1d9706031504f35d50420f2",
-   "time": 1786752009,
-   "url": "https://www.reddit.com/r/AbsoluteUnits/comments/1vonn19/of_a_beer_order/"
-  },
-  {
    "sub": "SpaceXBets",
    "title": "Laughing at locals while draining their water supply",
    "score": 0,
@@ -720,6 +711,15 @@
    "thumb": "https://external-preview.redd.it/cGFsYmhnaThoYmpoMTGyU8egRbQYQVaPizGtRYQPsl18XSuCKA5rC-SW8yLe.png?width=640&crop=smart&auto=webp&s=a2d4b650f02123b46f75f4267004429dd3c64b03",
    "time": 1786702974,
    "url": "https://www.reddit.com/r/SpaceXBets/comments/1vo3f9h/laughing_at_locals_while_draining_their_water/"
+  },
+  {
+   "sub": "LoveTrash",
+   "title": "Prison Makeup",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/Mno4M2FocTNmZGpoMWXzlZ6Mm4Phwa30TNzIRJdFFMQex5_XwsZrxN5dC4xf.png?width=320&crop=smart&auto=webp&s=5c51f4f17245af2c62b2da83f9f67641e23f6c64",
+   "time": 1786726480,
+   "url": "https://www.reddit.com/r/LoveTrash/comments/1vocqwd/prison_makeup/"
   }
  ],
  "disaster": [],
@@ -733,13 +733,6 @@
     "jajaja7878uu",
     "kyunghyang"
    ],
-   "insta": [
-    "lumalabsai",
-    "midjourney",
-    "openai",
-    "pika_labs",
-    "runwayapp"
-   ],
    "threads": [
     "aicoffeechat",
     "aipeekme",
@@ -750,28 +743,33 @@
   },
   "why": {
    "insta": {
-    "koreadispatch": "rotate",
-    "bts.bighitofficial": "rotate",
-    "blackpinkofficial": "rotate",
-    "newjeans_official": "rotate",
-    "aespa_official": "rotate",
-    "jennierubyjane": "rotate",
-    "xxxibgdrgn": "rotate",
-    "hm_son7": "rotate",
-    "sbsnow_insta": "rotate",
-    "mnet_official": "rotate",
-    "klingai_official": "rotate",
-    "heygen_official": "rotate",
-    "higgsfield.ai": "rotate",
-    "googledeepmind": "rotate",
-    "cristiano": "rotate"
+    "koreadispatch": "gap",
+    "bts.bighitofficial": "gap",
+    "blackpinkofficial": "gap",
+    "newjeans_official": "gap",
+    "aespa_official": "gap",
+    "jennierubyjane": "gap",
+    "xxxibgdrgn": "gap",
+    "hm_son7": "gap",
+    "sbsnow_insta": "gap",
+    "mnet_official": "gap",
+    "openai": "gap",
+    "runwayapp": "gap",
+    "pika_labs": "gap",
+    "lumalabsai": "gap",
+    "midjourney": "gap",
+    "klingai_official": "gap",
+    "heygen_official": "gap",
+    "higgsfield.ai": "gap",
+    "googledeepmind": "gap",
+    "cristiano": "gap"
    }
   },
   "landing": {
-   "at": "2026-08-15T13:31:32",
+   "at": "2026-08-15T14:02:01",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-15T14:01:54.411739+09:00"
+ "updated": "2026-08-15T14:31:49.750482+09:00"
 }
