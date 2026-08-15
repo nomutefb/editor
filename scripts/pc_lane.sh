@@ -180,7 +180,7 @@ _m(){ # $1=이름 $2=rc
 }
 
 # 키 이름 다리 — 운영자 비밀칸 이름이 코드가 읽는 이름과 달라서 워크플로가 폴백으로 이어주던 것(sns-trends.yml env 사본).
-export SAFETY_KEY="${DATAGOKR_SAFETY_KEY:-${SAFETY_KEY:-${KOFIC_NOMUTE_JAENAN:-}}}"
+export SAFETY_KEY="${DATAGOKR_SAFETY_KEY:-}"
 export KOBIS_KEY="${KOBIS_KEY:-${KOPIS_API_KEY:-${KOFIC_NOMUTE_ID:-${KOFIC_NOMUTE:-}}}}"
 export EX_KEY="${EX_KEY:-${KOFIC_NOMUTE_EX:-}}"
 
