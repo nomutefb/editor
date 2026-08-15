@@ -1,6 +1,6 @@
 {
  "_": "기계산출물(손편집 금지) — shared/paid_ledger.py 합산 · Gemini $0.067/장 · GPT Image = 장수만(단가 미등재) · STT/Lyria/RVC = 별도 축(원장 없음)",
- "as_of": "2026-08-13",
+ "as_of": "2026-08-15",
  "days": {
   "2026-08-01": {
    "cardshoot": 0,
@@ -131,11 +131,21 @@
    "genfree_unknown": 0,
    "resize": 0,
    "thumb": 14
+  },
+  "2026-08-15": {
+   "cardshoot": 0,
+   "est_usd": 0.134,
+   "gemini_calls": 2,
+   "genfree_gemini": 0,
+   "genfree_gpt": 0,
+   "genfree_unknown": 0,
+   "resize": 0,
+   "thumb": 2
   }
  },
  "totals": {
-  "est_usd": 18.09,
-  "gemini_calls": 270,
+  "est_usd": 18.224,
+  "gemini_calls": 272,
   "gpt_images": 0
  },
  "window_d": 14
