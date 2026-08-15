@@ -116,6 +116,11 @@
   },
   {
    "publisher": "동아일보",
+   "title": "도서",
+   "url": "https://rss.donga.com/book.xml"
+  },
+  {
+   "publisher": "동아일보",
    "title": "공연",
    "url": "https://rss.donga.com/show.xml"
   },
@@ -126,8 +131,23 @@
   },
   {
    "publisher": "동아일보",
+   "title": "여행",
+   "url": "https://rss.donga.com/travel.xml"
+  },
+  {
+   "publisher": "동아일보",
    "title": "생활정보",
    "url": "https://rss.donga.com/lifeinfo.xml"
+  },
+  {
+   "publisher": "매일노동뉴스",
+   "title": "전체",
+   "url": "https://www.labortoday.co.kr/rss/allArticle.xml"
+  },
+  {
+   "publisher": "미디어오늘",
+   "title": "국제",
+   "url": "https://www.mediatoday.co.kr/rss/S1N6.xml"
   },
   {
    "publisher": "미디어오늘",
@@ -138,11 +158,6 @@
    "publisher": "서울신문",
    "title": "문화/건강",
    "url": "https://www.seoul.co.kr/xml/rss/rss_life.xml"
-  },
-  {
-   "publisher": "서울신문",
-   "title": "스포츠",
-   "url": "https://www.seoul.co.kr/xml/rss/rss_sports.xml"
   },
   {
    "publisher": "시사인",
@@ -196,8 +211,18 @@
   },
   {
    "publisher": "에이블뉴스",
+   "title": "오피니언",
+   "url": "https://www.ablenews.co.kr/rss/S1N2.xml"
+  },
+  {
+   "publisher": "에이블뉴스",
    "title": "노동/경제",
    "url": "https://www.ablenews.co.kr/rss/S1N4.xml"
+  },
+  {
+   "publisher": "에이블뉴스",
+   "title": "문화/체육",
+   "url": "https://www.ablenews.co.kr/rss/S1N8.xml"
   },
   {
    "publisher": "에이블뉴스",
@@ -208,6 +233,11 @@
    "publisher": "에이블뉴스",
    "title": "정치/정책",
    "url": "https://www.ablenews.co.kr/rss/S1N11.xml"
+  },
+  {
+   "publisher": "에이블뉴스",
+   "title": "전체기사",
+   "url": "https://www.ablenews.co.kr/rss/allArticle.xml"
   },
   {
    "publisher": "여성신문",
@@ -223,6 +253,11 @@
    "publisher": "여성신문",
    "title": "IT/과학",
    "url": "http://www.womennews.co.kr/rss/S1N39.xml"
+  },
+  {
+   "publisher": "조선일보",
+   "title": "오피니언",
+   "url": "https://www.chosun.com/arc/outboundfeeds/rss/category/opinion/?outputType=xml"
   },
   {
    "publisher": "통일뉴스",
@@ -258,11 +293,6 @@
    "publisher": "프레시안",
    "title": "스포츠",
    "url": "https://www.pressian.com/api/v3/site/rss/section/70"
-  },
-  {
-   "publisher": "NYT코리아",
-   "title": "South Korea(영문)",
-   "url": "https://www.nytimes.com/svc/collections/v1/publish/https://www.nytimes.com/topic/destination/south-korea/rss.xml"
   }
  ]
 }
