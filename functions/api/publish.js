@@ -4,7 +4,7 @@
 // 서빙 = functions/s/[slug].js (만료·pin·scope 게이트). 목록/삭제 = published.js / unpublish.js.
 // env: GH_TOKEN = GitHub fine-grained PAT(Contents:read+write · submit/revise/pending 동일 토큰). R2 미사용.
 // ⚠️ 자기완결 HTML(API 호출0·데이터 인라인)만 저장 → /s/*만 Access Bypass여도 본체 우회 불가(CLAUDE.md §🔒).
-const REPO = 'muteno/nomute-editor';
+const REPO = 'nomutefb/editor';
 
 export async function onRequestPost({ request, env }) {
   const json = (o, s = 200) =>

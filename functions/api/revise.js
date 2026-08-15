@@ -22,7 +22,7 @@ export async function onRequestPost({ request, env }) {
   let r;
   try {
     r = await fetch(
-      'https://api.github.com/repos/muteno/nomute-editor/actions/workflows/news-revise.yml/dispatches',
+      'https://api.github.com/repos/nomutefb/editor/actions/workflows/news-revise.yml/dispatches',
       {
         method: 'POST',
         headers: {

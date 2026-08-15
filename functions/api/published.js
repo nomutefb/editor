@@ -2,7 +2,7 @@
 // GET → { items:[{ slug, title, scope, created, exp, days, pinned, expired }], now } 최신 먼저.
 //   html 본문은 목록에서 제외(용량) — 발행본 팝업이 만료 D-N·제목·링크복사·삭제만 렌더.
 // env: GH_TOKEN(contents:read · publish/pending 동일 PAT).
-const REPO = 'muteno/nomute-editor';
+const REPO = 'nomutefb/editor';
 const CAP = 40;   // 개인용 — 활성 발행본 상한(초과분은 최신순 컷)
 
 export async function onRequestGet({ env }) {

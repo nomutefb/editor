@@ -8,7 +8,7 @@
 //   force = 28분 신선도 게이트 우회(운영자 명시 클릭 = 게이트가 수동 의도를 침묵 스킵하면 픽토가 영원히 회전) ·
 //   gt_img·bsky_tr 등 나머지 = 워크플로 선언 기본값 그대로(이미지 백필은 다음 정기 런 몫 = 소넷 콜 절약).
 import { rateGate } from './_rate.js';
-const REPO = 'muteno/nomute-editor';
+const REPO = 'nomutefb/editor';
 const REF = 'main';
 const GH = (token, path, method, body) => fetch(`https://api.github.com/repos/${REPO}/${path}`, {
   method,

@@ -3,7 +3,7 @@
 //   pending.js 가 대기열 목록에 담는 diag.reqText 는 400자 프리뷰라 전문 재시도엔 부족 → 클릭 시 이 API로 full text 1회 fetch.
 // 흐름: 실패 격리(asks/failed/<id>.json) 우선 → 없으면 처리중/stuck(asks/<id>.json). 어느 상태든 재시도 가능.
 // env: GH_TOKEN(contents:read — pending/submit 과 동일 PAT). 읽기 전용(파이프라인 0 변경).
-const REPO = 'muteno/nomute-editor';
+const REPO = 'nomutefb/editor';
 export async function onRequestGet({ request, env }) {
   const json = (o, s = 200) => new Response(JSON.stringify(o), {
     status: s, headers: { 'content-type': 'application/json', 'cache-control': 'no-store' },

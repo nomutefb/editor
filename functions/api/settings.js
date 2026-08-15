@@ -4,7 +4,7 @@
 //   POST → { patch:{...} } 부분 갱신(기존 읽고 허용 키만 머지 → 커밋 · 409 경합 재시도). 상태변경이라 동일출처(originOk)만.
 // ⚠️ 성격 = 클라 검증 사생활 가림막(발행본 pinHash와 동일 등급 · DevTools 우회 가능) — 접근 보안 자체는 CF Access. lockPinHash = sha256(pin+':nmlock') 클라 계산분(평문 미저장).
 // env: GH_TOKEN = fine-grained PAT(Contents:read+write · publish/push/published 동일 토큰).
-const REPO = 'muteno/nomute-editor', FILE = 'settings/app.json';
+const REPO = 'nomutefb/editor', FILE = 'settings/app.json';
 const DEFAULTS = { lockOn: true, lockPinHash: '', lockLen: 4, lockMin: 2, genImgOn: true, kwAlertOn: false, kwItems: [], memos: [] };
 const KW_CAP = 40;   // 등록 키워드 상한(계정 1인 · 오염·비대 차단)
 const MEMO_CAP = 200, MEMO_LEN = 4000;   // 메모(작업 기록) 상한 — 건수·1건 길이(kwItems 선례 · 설정 파일 비대 차단)

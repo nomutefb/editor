@@ -18,7 +18,7 @@ export async function onRequestPost({ request, env }) {
   const action = body.action === 'delete' ? 'delete' : 'record';   // record=적재 / delete=취소(파일 삭제)
 
   const r = await fetch(
-    'https://api.github.com/repos/muteno/nomute-editor/actions/workflows/feedback.yml/dispatches',
+    'https://api.github.com/repos/nomutefb/editor/actions/workflows/feedback.yml/dispatches',
     {
       method: 'POST',
       headers: {

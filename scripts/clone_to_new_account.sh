@@ -10,7 +10,7 @@
 #
 # 사용:
 #   bash clone_to_new_account.sh                       # 대화형
-#   bash clone_to_new_account.sh muteno/nomute-editor nomutefb/editor
+#   bash clone_to_new_account.sh nomutefb/editor nomutefb/editor
 set -uo pipefail
 
 OLD=${1:-}
@@ -23,7 +23,7 @@ hr; echo '📦 저장소 통째 복제'; hr
 [ -z "$NEW" ] && read -rp '  새 저장소 (주인/이름) : ' NEW
 echo
 
-case "$OLD" in */*) : ;; *) echo "❌ 옛 저장소를 주인/이름 형태로 넣어라 (예: muteno/nomute-editor)"; exit 1 ;; esac
+case "$OLD" in */*) : ;; *) echo "❌ 옛 저장소를 주인/이름 형태로 넣어라 (예: nomutefb/editor)"; exit 1 ;; esac
 case "$NEW" in */*) : ;; *) echo "❌ 새 저장소를 주인/이름 형태로 넣어라 (예: nomutefb/editor)"; exit 1 ;; esac
 
 WORK="${TMPDIR:-/tmp}/nomute_clone_$$"

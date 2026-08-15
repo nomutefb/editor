@@ -2,7 +2,7 @@
 // 모드 3종: options(스타일 10개 제안) / suno(수노 복붙 프롬프팅) / lyria(구글 Lyria 3 곡 생성 · 유료 $0.08/곡).
 // 골격 = edit.js 미러(업로드·R2·SSRF 축 제거 = 입력이 텍스트뿐). 산출 계약 = viewer/song_out/<id>/{options.json|song.json,error.log}.
 import { rateGate } from './_rate.js';
-const REPO = 'muteno/nomute-editor';
+const REPO = 'nomutefb/editor';
 const REF = 'main';
 const GH = (token, path, method, body) => fetch(`https://api.github.com/repos/${REPO}/${path}`, {
   method,

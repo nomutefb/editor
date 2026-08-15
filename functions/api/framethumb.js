@@ -2,7 +2,7 @@
 // 체인 = fx_chain(베스트 프레임→업스케일 · 토큰 0) → [옵션] Gemini 비율 확장(수동 발사 유료 = 슛류 · §📰).
 // 인증·업로드(up-<id> 브랜치·R2 직업로드 ≤2GB)·발사 골격 = conv.js 미러(3소스: URL·r2key·fileB64 ≤30MB).
 import { rateGate } from './_rate.js';
-const REPO = 'muteno/nomute-editor';
+const REPO = 'nomutefb/editor';
 const REF = 'main';
 const GH = (token, path, method, body) => fetch(`https://api.github.com/repos/${REPO}/${path}`, {
   method,

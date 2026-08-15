@@ -1,7 +1,7 @@
 // Cloudflare Pages Function — 설정 ▸ 다운로드(영상 플랫폼 경로) → vidl-make 워크플로 발사.
 // 조건 정본 = apps/vidl/vidl_run.py(운영자 Downloader.bat v7.0 조건 이식 · 운영자 260728). 골격·가드 = conv.js 미러(URL 경로만).
 import { rateGate } from './_rate.js';
-const REPO = 'muteno/nomute-editor';
+const REPO = 'nomutefb/editor';
 const REF = 'main';
 const GH = (token, path, method, body) => fetch(`https://api.github.com/repos/${REPO}/${path}`, {
   method,

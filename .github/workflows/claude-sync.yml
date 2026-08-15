@@ -33,7 +33,7 @@ jobs:
         run: |
           set -euo pipefail
           if [ -z "${GH_TOKEN:-}" ]; then
-            echo "::warning::GH_TOKEN 시크릿이 비어 있음 — 전파 스킵. kit-fanout.yml과 공용 시크릿: https://github.com/muteno/nomute-editor/settings/secrets/actions (fine-grained PAT · 대상 레포 Contents/Pull requests = Read and write)"
+            echo "::warning::GH_TOKEN 시크릿이 비어 있음 — 전파 스킵. kit-fanout.yml과 공용 시크릿: https://github.com/nomutefb/editor/settings/secrets/actions (fine-grained PAT · 대상 레포 Contents/Pull requests = Read and write)"
             exit 0
           fi
           python3 .github/scripts/claude_sync.py

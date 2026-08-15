@@ -125,10 +125,10 @@ def sync_one(repo, block):
                 "head": BRANCH,
                 "base": base,
                 "body": (
-                    f"자동 전파 PR — 원본 = muteno/nomute-editor CLAUDE.md의 SYNC-COMMON 마커 구간(최신 반영 커밋 = @{SRC_SHA}).\n\n"
+                    f"자동 전파 PR — 원본 = nomutefb/editor CLAUDE.md의 SYNC-COMMON 마커 구간(최신 반영 커밋 = @{SRC_SHA}).\n\n"
                     "- 마커 안만 교체한다(레포 고유 절·【레포 바인딩】 무접촉).\n"
                     "- 기본 = 자동 머지(무접촉 · 운영자 260717 Q61 승인). 리뷰모드 = nomute-editor에서 dispatch automerge=false.\n"
-                    "- 내용 이견이 있으면 이 PR을 고치지 말 것 — muteno/nomute-editor CLAUDE.md에서 고쳐 재전파(여기서 고치면 다음 전파가 덮는다).\n"
+                    "- 내용 이견이 있으면 이 PR을 고치지 말 것 — nomutefb/editor CLAUDE.md에서 고쳐 재전파(여기서 고치면 다음 전파가 덮는다).\n"
                     "- 생성 주체 = nomute-editor `.github/workflows/claude-sync.yml`."
                 ),
             },

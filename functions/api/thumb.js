@@ -4,7 +4,7 @@
 //   러너가 nomute_*.py 무수정 실행 → viewer/thumb_out/<id>/out.png 커밋 → 폼이 폴링해 표시.
 // env: GH_TOKEN = comp/make-cards와 동일 PAT(이 레포, Actions+contents: write).
 // ref = main(통합 완료 · 아래 L8). 무료 경로(유료 API 무관).
-const REPO = 'muteno/nomute-editor';
+const REPO = 'nomutefb/editor';
 const REF = 'main';   // 통합 완료(PR #173 머지)
 const TPLS = ['nomute', 'jinjja'];   // 템플릿 축 화이트리스트(운영자 260726) — nomute = 기본·기존 경로 / jinjja = 「진짜예요」(apps/thumbnail/nomute_jinjja.py) · 워크플로 params.get('tpl','nomute')와 1:1
 const R2_BASE = 'https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev';   // R2 공개 베이스(=R2_PUBLIC_BASE 시크릿). 썸네일 출력=R2 저장 → 즉시 서빙·git 비대 0. ⚠️ 시크릿 변경 시 이 줄도 갱신(워크플로 r2_upload와 베이스 일치 필수).

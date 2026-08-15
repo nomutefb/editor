@@ -5,7 +5,7 @@
 //   ② 폴백: 키 없음·API 실패 시 기존 tr-auto.yml 워크플로 발사 → {id} 반환(폼이 tr_out/<id>/plan.json 폴링 · 2~4분 · 구독 OAuth 무료).
 // 프롬프트 규칙 = prompts/tr-auto.md 정본 미러(동조 수정 — 러너 폴백과 동일 계약).
 // v2(운영자 260721 재편): ctx{art(참고 기사 스탠스)·note(재생성 지시)·redo} = 두 경로 공통 관통 + band(밴드 문구) 산출.
-const REPO = 'muteno/nomute-editor';
+const REPO = 'nomutefb/editor';
 const REF = 'main';
 const GH = (token, path, method, body) => fetch(`https://api.github.com/repos/${REPO}/${path}`, {
   method,

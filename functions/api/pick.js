@@ -3,7 +3,7 @@
 // ⚠️ 발동 비용 = Opus(구독 토큰) 분석 1건. make-cards(유료 '슛')가 암호게이트 제거된 것과 동일 정책
 //    (운영자가 지출을 직접 모니터링 — 260614 결정). 공개 엔드포인트라 스팸 시 구독 한도 소모 주의.
 import { rateGate } from './_rate.js';   // 발사 레이트리밋 소급(평의회 260713 ⑦) — ⚠️ 캡 8 = 운영자 정상 연속 픽(아침 4~5건 큐잉)은 절대 안 걸리는 여유폭·연타 폭주만 차단(fail-open · 캡 낮추면 정상 픽 429 = 품질 저하)
-const GH = (token, path, method, body) => fetch(`https://api.github.com/repos/muteno/nomute-editor/${path}`, {
+const GH = (token, path, method, body) => fetch(`https://api.github.com/repos/nomutefb/editor/${path}`, {
   method, headers: { authorization: `Bearer ${token}`, accept: 'application/vnd.github+json', 'user-agent': 'nomute-viewer', 'x-github-api-version': '2022-11-28' },
   ...(body ? { body: JSON.stringify(body) } : {}),
 });
@@ -55,7 +55,7 @@ export async function onRequestPost({ request, env }) {
     const fileContent = `${url}\n` + (title ? `# title: ${title}\n` : '') + (alt ? `# alt: ${alt}\n` : '') + (event_key ? `# ekey: ${event_key}\n` : '') + `# force: 1\n` + `# body:\n${bodyText}\n`;
     const bytes = new TextEncoder().encode(fileContent);
     let bin = ''; for (const b of bytes) bin += String.fromCharCode(b);
-    const put = await fetch(`https://api.github.com/repos/muteno/nomute-editor/contents/${path}`, {
+    const put = await fetch(`https://api.github.com/repos/nomutefb/editor/contents/${path}`, {
       method: 'PUT', headers: H,
       body: JSON.stringify({ message: 'pick: 전문 직접 입력(재분석)', content: btoa(bin), branch: 'main' }),
     });
@@ -67,7 +67,7 @@ export async function onRequestPost({ request, env }) {
   if (rl) return json({ error: rl.error }, 429);
 
   const r = await fetch(
-    'https://api.github.com/repos/muteno/nomute-editor/actions/workflows/pick.yml/dispatches',
+    'https://api.github.com/repos/nomutefb/editor/actions/workflows/pick.yml/dispatches',
     {
       method: 'POST',
       headers: H,
@@ -88,7 +88,7 @@ export async function onRequestPost({ request, env }) {
   try {
     const bytes2 = new TextEncoder().encode(content2);
     let bin2 = ''; for (const b of bytes2) bin2 += String.fromCharCode(b);
-    const put2 = await fetch(`https://api.github.com/repos/muteno/nomute-editor/contents/pending/${name2}`, {
+    const put2 = await fetch(`https://api.github.com/repos/nomutefb/editor/contents/pending/${name2}`, {
       method: 'PUT', headers: H,
       body: JSON.stringify({ message: 'pick: pending 직접 착지(디스패치 정지 폴백)', content: btoa(bin2), branch: 'main' }),
     });

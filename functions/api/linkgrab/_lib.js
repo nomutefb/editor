@@ -2,7 +2,7 @@
 // §4 Pages Functions 분해: 이 파일 = 라우트 없는 공용부(_ 접두 = api/_rate.js 관례) · index/file/head/ytdl/ytstat/ytfile.js가 import.
 // 노뮤트 커스터마이징(§5·§6): corsHeaders 폐지(같은 오리진 = CORS 불요 · seen.js/dl.js 동일) · SSRF 호스트 가드 = api/dl.js _blockedHost 정본 계승
 // (원본의 IPv4 정규식 1줄보다 강함 — hex/octal/10진정수/축약/IPv6까지 컷) · GH 토큰 = 기존 GH_TOKEN(seen.js·push.js 동일 시크릿) 재사용.
-const REPO = 'muteno/nomute-editor';   // yt-dlp 변환 산출(릴리스 ytdl-drops) 대상 = 이 레포(§7 지시 4 — dispatch 타깃)
+const REPO = 'nomutefb/editor';   // yt-dlp 변환 산출(릴리스 ytdl-drops) 대상 = 이 레포(§7 지시 4 — dispatch 타깃)
 
 export function json(d, s) {
   return new Response(JSON.stringify(d), { status: s || 200, headers: { 'content-type': 'application/json' } });

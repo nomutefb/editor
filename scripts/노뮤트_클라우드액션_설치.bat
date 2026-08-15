@@ -57,7 +57,7 @@ echo [1/5] 기본 도구 확인 완료 - 깃 / 파이썬 / 노드
 REM ── 2단계: 저장소 받기(처음 1회 · 브라우저 로그인)
 if exist "%USERPROFILE%\nomute-editor\.git" goto :have_repo
 echo [2/5] 저장소를 받습니다. 브라우저 로그인 창이 뜨면 muteno 계정으로 로그인하세요.
-git clone https://muteno@github.com/muteno/nomute-editor "%USERPROFILE%\nomute-editor"
+git clone https://nomutefb@github.com/nomutefb/editor "%USERPROFILE%\nomute-editor"
 if not exist "%USERPROFILE%\nomute-editor\.git" (
   echo [멈춤] 저장소 받기에 실패했습니다. 이 화면을 캡처해서 클로드에게 보여주세요.
   pause

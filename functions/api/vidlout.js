@@ -19,7 +19,7 @@
 //   · fail = error.log 존재(msg = 사람말 사유)
 //   · run  = 아직 둘 다 없음(러너 진행 중)
 //   판정 순서 = result.json 먼저(성공이 흔한 축 · 재실행으로 둘 다 있으면 성공을 이긴 것으로 본다).
-const REPO = 'muteno/nomute-editor';
+const REPO = 'nomutefb/editor';
 const REF = 'main';
 
 // 한 파일을 {토큰 contents API → raw} 순으로 읽는다. 없으면 null(= 다음 판정으로).

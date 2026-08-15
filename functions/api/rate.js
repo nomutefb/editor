@@ -22,7 +22,7 @@ export async function onRequestPost({ request, env }) {
   if (!id && !url) return json({ error: '잘못된 평점' }, 400);
 
   const r = await fetch(
-    'https://api.github.com/repos/muteno/nomute-editor/actions/workflows/rate.yml/dispatches',
+    'https://api.github.com/repos/nomutefb/editor/actions/workflows/rate.yml/dispatches',
     {
       method: 'POST',
       headers: {

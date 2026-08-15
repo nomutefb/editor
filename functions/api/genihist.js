@@ -8,11 +8,11 @@ export async function onRequestGet({ env }) {
   const H = { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'public, max-age=60' };
   const tries = [];
   if (env.GH_TOKEN) tries.push([
-    'https://api.github.com/repos/muteno/nomute-editor/contents/viewer/gen_out/free.json?ref=main',
+    'https://api.github.com/repos/nomutefb/editor/contents/viewer/gen_out/free.json?ref=main',
     { authorization: `Bearer ${env.GH_TOKEN}`, accept: 'application/vnd.github.raw', 'user-agent': 'nomute-viewer' },
   ]);
   tries.push([
-    'https://raw.githubusercontent.com/muteno/nomute-editor/main/viewer/gen_out/free.json',
+    'https://raw.githubusercontent.com/nomutefb/editor/main/viewer/gen_out/free.json',
     { 'user-agent': 'nomute-viewer' },
   ]);
   for (const [url, headers] of tries) {

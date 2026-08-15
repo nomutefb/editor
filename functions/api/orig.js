@@ -3,7 +3,7 @@
 //     → 타 기기서 연필복원 시 원본 대신 합성본 빗금 참고본뿐이던 갭. 이 라우트가 GitHub raw(GH_TOKEN)로 원본을
 //     인라인 이미지로 프록시 → thumb.html importToEditor가 IDB(이 기기) 원본 없을 때 서버 원본으로 폴백(없으면 기존 빗금).
 // env: GH_TOKEN(contents:read — pending/thumb 공용 PAT). 쿼리 id = 제작 잡 id(uploads/<id>).
-const REPO = 'muteno/nomute-editor';
+const REPO = 'nomutefb/editor';
 const ID_RE = /^\d{12}-[a-f0-9]{6}$/;   // 업로드 잡 id 형식(YYMMDDHHMMSS-6hex) — 경로조작·임의경로 차단(엄격 화이트리스트)
 const EXTS = [['src.png', 'image/png'], ['src.jpg', 'image/jpeg'], ['src.jpeg', 'image/jpeg'], ['src.webp', 'image/webp']];
 

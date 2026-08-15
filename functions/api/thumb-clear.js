@@ -1,7 +1,7 @@
 // Cloudflare Pages Function — 썸네일 이력 '기록 지우기'를 전 기기 공용으로 → viewer/thumb-clear.json 커밋(GitHub Contents API).
 // 뷰어(thumb.html)가 이 파일을 fetch해 서버 clr(ts)를 로드 → 그 시점 이전 제작을 모든 기기서 숨김(전 기기 공용 삭제).
 // env: GH_TOKEN(contents:write). thumb-hist.json과 동일하게 no-cache 서빙(_headers). push.js 패턴 계승.
-const REPO = 'muteno/nomute-editor', FILE = 'viewer/thumb-clear.json';
+const REPO = 'nomutefb/editor', FILE = 'viewer/thumb-clear.json';
 
 export async function onRequestPost({ env }) {
   const json = (o, s = 200) => new Response(JSON.stringify(o), { status: s, headers: { 'content-type': 'application/json' } });

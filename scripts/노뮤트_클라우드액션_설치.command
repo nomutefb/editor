@@ -24,7 +24,7 @@ if ! command -v git >/dev/null 2>&1; then
 fi
 if [ ! -d "$HOME/nomute-editor/.git" ]; then
   echo "[받기] 저장소를 받습니다 — 계정을 물으면 muteno, 비밀번호 칸에는 깃허브 토큰을 넣으세요."
-  git clone "https://muteno@github.com/muteno/nomute-editor" "$HOME/nomute-editor" || {
+  git clone "https://nomutefb@github.com/nomutefb/editor" "$HOME/nomute-editor" || {
     echo "[멈춤] 저장소 받기 실패 — 이 화면을 캡처해서 클로드에게 보여주세요."
     read -r -p "엔터를 누르면 닫힙니다 " _ || true
     exit 1

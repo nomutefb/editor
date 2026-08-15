@@ -3,7 +3,7 @@
 // 흐름: POST{b64(jpeg)} → R2 put(trout/<id>.jpg = 공개 서빙) → viewer/gen_out/trhist.json prepend 커밋(Contents API)
 //       → build-viewer가 thumb-hist.json에 병합(리사이즈 resize.json 동축) = 전 기기 '이전 제작' 합류.
 // env: R2(Pages 바인딩 · upload.js 동일 버킷) + GH_TOKEN(contents:write · thumb-clear.js 동일). 미설정 = 에러 JSON(뷰어 fail-soft = 조용히 스킵).
-const REPO = 'muteno/nomute-editor', FILE = 'viewer/gen_out/trhist.json', CAP = 24;   // 캡 24 = resize.json 동값(전체 보관은 thumb-hist THH_CAP 몫)
+const REPO = 'nomutefb/editor', FILE = 'viewer/gen_out/trhist.json', CAP = 24;   // 캡 24 = resize.json 동값(전체 보관은 thumb-hist THH_CAP 몫)
 const R2_BASE = 'https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev';   // = functions/api/thumb.js R2_BASE(시크릿 R2_PUBLIC_BASE). ⚠️ 베이스 변경 시 thumb.js·dl.js와 함께 갱신.
 const MAX_B64 = 8 * 1024 * 1024;   // 합성 JPEG(1080급 ≈ 0.3~0.8MB → b64 ≈ 0.4~1.1MB) 여유 상한 — 폭주 바디 차단
 

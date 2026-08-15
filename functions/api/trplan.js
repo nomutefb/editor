@@ -5,7 +5,7 @@
 // (형제 축 = 카드생성·편집·특수·리사이즈 R2 직접 폴링 · AI 생성 free.json = api/genihist — 전부 배포 큐 절연이라 멀쩡했다.)
 // 이 API가 main을 직접 읽어 커밋 후 초 단위 수신으로 절연한다. 정적 경로는 pollPlan 2순위 폴백으로 존치(악화 경로 0).
 // env: GH_TOKEN(있으면 contents API=최신·미캐시), 없으면 raw(공개·수 분 캐시) 폴백 — genihist.js 동문.
-const REPO = 'muteno/nomute-editor';
+const REPO = 'nomutefb/editor';
 
 export async function onRequestGet({ request, env }) {
   const j = (o, s = 200) => new Response(JSON.stringify(o), { status: s, headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' } });

@@ -3,7 +3,7 @@
 //        → viewer/sb_out/<id>/board.md 커밋 → 폼이 폴링해 렌더(컷 리스트).
 // env: GH_TOKEN = k.js와 동일 PAT. 인증·생성은 러너의 구독 OAuth(무료). 이미지·영상 생성 없음(0크레딧 초안 게이트).
 // 2축 분리(운영자 260714): director = 감독(연출·claude 모델) / shoot = 촬영(kling 수동 · seedance MCP 자동 — 콘티 하류 분기 안내).
-const REPO = 'muteno/nomute-editor';
+const REPO = 'nomutefb/editor';
 const REF = 'main';
 const GH = (token, path, method, body) => fetch(`https://api.github.com/repos/${REPO}/${path}`, {
   method,

@@ -13,7 +13,7 @@
 //   fb = fb-fetch.yml(inputs 없음 · LLM 0콜 스냅샷)
 // env: GH_TOKEN = 동일 PAT(Actions:write · snsretry/compose/conv/track 공유).
 import { rateGate } from './_rate.js';
-const REPO = 'muteno/nomute-editor';
+const REPO = 'nomutefb/editor';
 const REF = 'main';
 const GH = (token, path, method, body) => fetch(`https://api.github.com/repos/${REPO}/${path}`, {
   method,

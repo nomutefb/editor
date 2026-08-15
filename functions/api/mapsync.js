@@ -2,7 +2,7 @@
 // 계정 종속 소급 감사(운영자 260717 "경계도 ㄱ"·"학습사전 ㄱ" — CLAUDE.md [4] 룰): 폰에서 병합/학습한 것이 PC에도.
 // 패턴 = api/seen.js 미러(read-modify-write + sha 경합 재시도 · GH_TOKEN contents:write). 패치 의미론({set,del})
 // = 동시 기기 편집 보존(전체 교체 금지 — 마지막 승자가 상대 편집을 덮는 유실 차단).
-const REPO = 'muteno/nomute-editor';
+const REPO = 'nomutefb/editor';
 const FILES = { merges: 'viewer/merges.json', spell: 'viewer/spell-learned.json' };   // 허용 파일 화이트리스트 — 추가 = 이 맵에만
 const CAP = 400;   // 엔트리 상한(오래된 키부터 탈락 — 학습사전 _LEARN_CAP 400과 동치 · 파일 비대 방어)
 

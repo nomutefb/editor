@@ -23,7 +23,7 @@ export async function onRequestPost({ request, env }) {
   };
 
   const r = await fetch(
-    'https://api.github.com/repos/muteno/nomute-editor/actions/workflows/moreimg.yml/dispatches',
+    'https://api.github.com/repos/nomutefb/editor/actions/workflows/moreimg.yml/dispatches',
     {
       method: 'POST',
       headers: H,

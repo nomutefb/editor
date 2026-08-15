@@ -8,7 +8,7 @@
 # 끄는 법: 그냥 안 돌리면 된다(상주하는 것 없음). 로그 = 이 창 출력.
 
 $ErrorActionPreference = 'Stop'
-$RAW = 'https://raw.githubusercontent.com/muteno/nomute-editor/main/apps/vidl/plugins/yt_dlp_plugins/extractor/nomute_threads.py'
+$RAW = 'https://raw.githubusercontent.com/nomutefb/editor/main/apps/vidl/plugins/yt_dlp_plugins/extractor/nomute_threads.py'
 
 function Say($m) { Write-Host "  $m" }
 

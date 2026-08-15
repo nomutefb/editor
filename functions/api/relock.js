@@ -4,7 +4,7 @@
 //   · 안 잠겼으면(pinHash 없음) → 잠금 요청 = 입력 PIN으로 pinHash 설정.
 // 서빙 게이트 = functions/s/[slug].js (pinHash 있으면 ?p=PIN 요구). publish.js와 동일 해시식 sha256hex(pin+':'+slug).
 // env: GH_TOKEN = fine-grained PAT(Contents:read+write · publish/unpublish 동일). 상태변경이라 동일출처(originOk)만.
-const REPO = 'muteno/nomute-editor';
+const REPO = 'nomutefb/editor';
 const PIN_MASTER = '898900';   // ⚠️ 슈퍼키 SSOT — s/[slug].js·unpublish.js 동일(값 바꾸면 3파일 모두). 마스터면 잠금 해제에 원 PIN 불요(운영자 260703).
 
 export async function onRequestPost({ request, env }) {

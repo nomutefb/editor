@@ -2,7 +2,7 @@
 // 2모드: analyze(이미지 업로드 → boxes.json 폴링 · 피사체 검출) · render(선택 targets+opts → result.json 폴링 · 모자이크 번인).
 // LLM 0콜(발사·폴링 골격만) · 인증·업로드(일회용 up-<id> 브랜치)·발사 = track.js 미러. env: GH_TOKEN 동일 PAT.
 import { rateGate } from './_rate.js';
-const REPO = 'muteno/nomute-editor';
+const REPO = 'nomutefb/editor';
 const REF = 'main';
 const GH = (token, path, method, body) => fetch(`https://api.github.com/repos/${REPO}/${path}`, {
   method,

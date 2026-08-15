@@ -5,7 +5,7 @@
 //   ③ 텍스트 = text(사진 OCR 결과·붙여넣은 전문·기존 요약본 기사 본문 = kind로 구분) — 전사 없이 요약 로직만 태움
 // 산출 계약 = viewer/nb_out/<id>/{note.json,error.log}.
 import { rateGate } from './_rate.js';
-const REPO = 'muteno/nomute-editor';
+const REPO = 'nomutefb/editor';
 const REF = 'main';
 const GH = (token, path, method, body) => fetch(`https://api.github.com/repos/${REPO}/${path}`, {
   method,

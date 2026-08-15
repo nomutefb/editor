@@ -1,7 +1,7 @@
 // Cloudflare Pages Function — '발행 취소'(삭제) → published/<slug>.json DELETE(GitHub Contents API).
 // 입력 = { slug } (hex). Contents DELETE는 sha 필요 → GET으로 sha 얻고 DELETE. 즉시 비공개(/s/<slug> 404).
 // env: GH_TOKEN = fine-grained PAT(Contents:read+write · publish 동일).
-const REPO = 'muteno/nomute-editor';
+const REPO = 'nomutefb/editor';
 const PIN_MASTER = '898900';   // ⚠️ 슈퍼키 SSOT — s/[slug].js·relock.js 동일(값 바꾸면 3파일 모두). 마스터면 잠긴 발행본 삭제에 원 PIN 불요(운영자 260703).
 
 export async function onRequestPost({ request, env }) {

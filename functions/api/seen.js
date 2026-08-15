@@ -2,7 +2,7 @@
 // 운영자 260712: "한번 뜬 거는 플랫폼 바꿔서 접속해도 안 떠야 해 — 뜬 거/체크는 계정 종속" — localStorage(기기 전용) 위에 이 파일이 계정 축.
 // 패턴 = api/push.js 미러(read-modify-write + sha 경합 재시도). env: GH_TOKEN(contents:write · push.js와 동일 토큰).
 // body = { t:[candId...], f:[candId...] } — t = 긴급 토스트 seen · f = 실패 토스트 seen. 배치(최대 50개/축)라 수집함 일괄 해제도 커밋 1번.
-const REPO = 'muteno/nomute-editor', FILE = 'viewer/toast-seen.json', CAP = 800;   // 축별 롤링 상한(오래된 것부터 탈락 — 4h·실패 수명 대비 충분)
+const REPO = 'nomutefb/editor', FILE = 'viewer/toast-seen.json', CAP = 800;   // 축별 롤링 상한(오래된 것부터 탈락 — 4h·실패 수명 대비 충분)
 
 export async function onRequestPost({ request, env }) {
   const json = (o, s = 200) => new Response(JSON.stringify(o), { status: s, headers: { 'content-type': 'application/json' } });

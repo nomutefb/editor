@@ -3,7 +3,7 @@
 // ⚠️ 발동 비용 = Claude(Fable 5·effort high · 실패 시 Opus 5 1회 폴백, 구독 토큰) 프롬프트 1콜 + Gemini 렌더(종량제 GEMINI_API_KEY, 장수만큼).
 //    공개 엔드포인트라 스팸 시 지출 주의(moreimg·make-cards와 동일 정책 — 운영자가 지출 모니터링) → 장수 1~4 캡.
 import { rateGate } from './_rate.js';   // 발사 레이트리밋 소급(평의회 260713 ⑦ — 종량제 Gemini 파이프인데 게이트 없던 공백 · 캡 4 = 정상 연속 생성 여유·연타 폭주만 차단)
-const GH = (token, path, method, body) => fetch(`https://api.github.com/repos/muteno/nomute-editor/${path}`, {
+const GH = (token, path, method, body) => fetch(`https://api.github.com/repos/nomutefb/editor/${path}`, {
   method, headers: { authorization: `Bearer ${token}`, accept: 'application/vnd.github+json', 'user-agent': 'nomute-viewer', 'x-github-api-version': '2022-11-28' },
   ...(body ? { body: JSON.stringify(body) } : {}),
 });
@@ -71,7 +71,7 @@ export async function onRequestPost({ request, env }) {
   if (rl) return json({ error: rl.error }, 429);
 
   const r = await fetch(
-    'https://api.github.com/repos/muteno/nomute-editor/actions/workflows/imggen.yml/dispatches',
+    'https://api.github.com/repos/nomutefb/editor/actions/workflows/imggen.yml/dispatches',
     {
       method: 'POST',
       headers: {

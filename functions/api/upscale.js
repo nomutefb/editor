@@ -4,7 +4,7 @@
 //        → viewer/gen_out/upscale.json → 뷰어 폴링.
 // env: GH_TOKEN(기존 PAT 재사용). 해상도 화이트리스트 = 러너(upscale_image.py)와 이중 검증(resize 계승).
 import { rateGate } from './_rate.js';   // 발사 레이트리밋(파이프 공통 · 연타 = 고아 업로드+런 낭비 차단)
-const REPO = 'muteno/nomute-editor';
+const REPO = 'nomutefb/editor';
 const REF = 'main';
 const SIZES = ['720p', 'FHD', '2K', '4K'];   // 목표 해상도 = AI 생성 GENI_DICT.size 동일(운영자 260718 · 러너 upscale_image.py SIZE_SHORT와 한 쌍) · 작으면 축소·크면 FX10 업스케일
 const GH = (token, path, method, body) => fetch(`https://api.github.com/repos/${REPO}/${path}`, {

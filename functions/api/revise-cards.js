@@ -18,7 +18,7 @@ export async function onRequestPost({ request, env }) {
   if (!instruction) return json({ error: '빈 지시 — 어떻게 고칠지 적어줘' }, 400);
 
   const r = await fetch(
-    'https://api.github.com/repos/muteno/nomute-editor/actions/workflows/cards-revise.yml/dispatches',
+    'https://api.github.com/repos/nomutefb/editor/actions/workflows/cards-revise.yml/dispatches',
     {
       method: 'POST',
       headers: {

@@ -26,11 +26,11 @@ export async function onRequestGet({ env, request }) {
   const ent = FILES[q];
   const tries = [];
   if (env.GH_TOKEN) tries.push([
-    `https://api.github.com/repos/muteno/nomute-editor/contents/${ent.path}?ref=main`,
+    `https://api.github.com/repos/nomutefb/editor/contents/${ent.path}?ref=main`,
     { authorization: `Bearer ${env.GH_TOKEN}`, accept: 'application/vnd.github.raw', 'user-agent': 'nomute-viewer' },
   ]);
   tries.push([
-    `https://raw.githubusercontent.com/muteno/nomute-editor/main/${ent.path}`,
+    `https://raw.githubusercontent.com/nomutefb/editor/main/${ent.path}`,
     { 'user-agent': 'nomute-viewer' },
   ]);
   for (const [url, headers] of tries) {

@@ -2,7 +2,7 @@
 // 골격 = ly.js 미러(업로드 up-<id> 브랜치·SSRF 가드·id 규칙). opts = 플랫 화이트리스트{ly 자막 축 + 편집기 vid_/aud_ 축 — 키 충돌 0}.
 // env: GH_TOKEN 동일 PAT. 산출 계약 = viewer/ly_out/<id>/{video.json,error.log}(ly 소비 계약 재사용 · id 유일 = 충돌 0).
 import { rateGate } from './_rate.js';
-const REPO = 'muteno/nomute-editor';
+const REPO = 'nomutefb/editor';
 const REF = 'main';
 const GH = (token, path, method, body) => fetch(`https://api.github.com/repos/${REPO}/${path}`, {
   method,

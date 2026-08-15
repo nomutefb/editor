@@ -3,7 +3,7 @@
 //        → ② img-resize.yml dispatch(src_sha 레이스 가드) → 러너 3층 라우팅 → viewer/gen_out/resize.json → 뷰어 폴링.
 // env: GH_TOKEN(기존 PAT 재사용). 옵션 화이트리스트 = 러너(resize_image.py)와 이중 검증(genimg 계승).
 import { rateGate } from './_rate.js';   // 발사 레이트리밋(파이프 공통 문법 · 평의회 260713 ⑦ 소급 — 연타 = 고아 업로드+런 낭비 차단)
-const REPO = 'muteno/nomute-editor';
+const REPO = 'nomutefb/editor';
 const REF = 'main';
 const ASPECTS = ['16:9', '9:16', '4:5', '1:1', '21:9'];   // 프리셋(21:9 = 260713 신설 유지 — UI 칩에선 260718 '직접'이 겸함·구 이력 재발사 호환) · 러너 resize_image.py ASPECTS와 한 쌍
 // 직접 비율(운영자 260718 "AI 생성 비율 따라가기" — genidlg 직접 N:N 계약 미러): W:H 각 1~99 정수 + 비율 1:4~4:1(극단값 후처리 병리 차단 · genimg.js 동일 계약) — 러너 pad_canvas는 W:H 문자열 일반 파싱이라 값 전달만 완화

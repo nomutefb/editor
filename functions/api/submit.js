@@ -39,7 +39,7 @@ export async function onRequestPost({ request, env, waitUntil }) {
   for (const b of bytes) bin += String.fromCharCode(b);
   const content = btoa(bin);
 
-  const r = await fetch(`https://api.github.com/repos/muteno/nomute-editor/contents/${path}`, {
+  const r = await fetch(`https://api.github.com/repos/nomutefb/editor/contents/${path}`, {
     method: 'PUT',
     headers: {
       authorization: `Bearer ${env.GH_TOKEN}`,
@@ -58,10 +58,10 @@ export async function onRequestPost({ request, env, waitUntil }) {
         //   top-level 은 워크플로가 처리 중이면 이미 rm/mv 돼 404(스킵)이거나 sha stale→409(catch) = racy 하지만 best-effort(최악 = 현 상태 유지, 악화 없음).
         for (const p of [`asks/failed/${retryOf}.json`, `asks/failed/${retryOf}.log`, `asks/${retryOf}.json`]) {
           try {
-            const g = await fetch(`https://api.github.com/repos/muteno/nomute-editor/contents/${p}?ref=main`, { headers: H });
+            const g = await fetch(`https://api.github.com/repos/nomutefb/editor/contents/${p}?ref=main`, { headers: H });
             if (!g.ok) continue;   // 없으면(404) 스킵 — .log·stuck 원본은 없을 수 있음
             const gj = await g.json();
-            if (gj && gj.sha) await fetch(`https://api.github.com/repos/muteno/nomute-editor/contents/${p}`, { method: 'DELETE', headers: H, body: JSON.stringify({ message: 'ask 재시도: 옛 실패 정리', sha: gj.sha, branch: 'main' }) });
+            if (gj && gj.sha) await fetch(`https://api.github.com/repos/nomutefb/editor/contents/${p}`, { method: 'DELETE', headers: H, body: JSON.stringify({ message: 'ask 재시도: 옛 실패 정리', sha: gj.sha, branch: 'main' }) });
           } catch {}
         }
       })();

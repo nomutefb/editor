@@ -44,7 +44,7 @@ export async function onRequestPost({ request, env }) {
       if (!isJpg && !isPng && !isWebp) return json({ error: '이미지 형식 오류(JPG/PNG/WEBP만)' }, 400);
       const id = new Date(Date.now() + 9 * 3600e3).toISOString().replace(/[^0-9]/g, '').slice(2, 14) + '-' + crypto.randomUUID().slice(0, 6);   // KST(+9h · pick.js 규칙) · -rand=동초 충돌 방지
       const scenePath = `uploads/${id}/src${ext}`;
-      const put = await fetch(`https://api.github.com/repos/muteno/nomute-editor/contents/${scenePath}`, {
+      const put = await fetch(`https://api.github.com/repos/nomutefb/editor/contents/${scenePath}`, {
         method: 'PUT',
         headers: {
           authorization: `Bearer ${env.GH_TOKEN}`,
@@ -63,7 +63,7 @@ export async function onRequestPost({ request, env }) {
   }
 
   const r = await fetch(
-    'https://api.github.com/repos/muteno/nomute-editor/actions/workflows/card-make.yml/dispatches',
+    'https://api.github.com/repos/nomutefb/editor/actions/workflows/card-make.yml/dispatches',
     {
       method: 'POST',
       headers: {

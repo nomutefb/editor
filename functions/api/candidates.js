@@ -15,11 +15,11 @@ export async function onRequestGet({ env }) {
   } catch { /* 깃허브 사다리로 */ }
   const tries = [];
   if (env.GH_TOKEN) tries.push([
-    'https://api.github.com/repos/muteno/nomute-editor/contents/viewer/candidates.json?ref=main',
+    'https://api.github.com/repos/nomutefb/editor/contents/viewer/candidates.json?ref=main',
     { authorization: `Bearer ${env.GH_TOKEN}`, accept: 'application/vnd.github.raw', 'user-agent': 'nomute-viewer' },
   ]);
   tries.push([
-    'https://raw.githubusercontent.com/muteno/nomute-editor/main/viewer/candidates.json',
+    'https://raw.githubusercontent.com/nomutefb/editor/main/viewer/candidates.json',
     { 'user-agent': 'nomute-viewer' },
   ]);
   for (const [url, headers] of tries) {

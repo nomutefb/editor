@@ -26,7 +26,7 @@ export async function onRequestPost({ request, env }) {
   const wish = String(body.wish || '').replace(/[\x00-\x1f\x7f]/g, ' ').trim().slice(0, 500);
 
   const r = await fetch(
-    'https://api.github.com/repos/muteno/nomute-editor/actions/workflows/thumb-redo.yml/dispatches',
+    'https://api.github.com/repos/nomutefb/editor/actions/workflows/thumb-redo.yml/dispatches',
     {
       method: 'POST',
       headers: {

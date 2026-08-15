@@ -3,7 +3,7 @@
 // 동의 게이트(운영자 제약): 본인·권리 보유 음성만 — consent 없인 train 400(워크플로도 이중 거절). 실존 타인 음성 금지.
 // 업로드 = 일회용 up-<id> 브랜치(track/ly 미러 · main 히스토리 비대 0). 유료(Replicate) = 수동 발사 전용 · rateGate 연타 방어.
 import { rateGate } from './_rate.js';
-const REPO = 'muteno/nomute-editor';
+const REPO = 'nomutefb/editor';
 const REF = 'main';
 const GH = (token, path, method, body) => fetch(`https://api.github.com/repos/${REPO}/${path}`, {
   method,

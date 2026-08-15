@@ -4,7 +4,7 @@
 //    저장된 html은 자기완결(API 호출0·데이터 인라인)이라 이 구멍으로 본체·다른 발행본 접근 불가.
 // noindex 헤더로 검색 인덱싱 차단. 만료/비공개/핀틀림은 콘텐츠 대신 안내 페이지.
 // env: GH_TOKEN(contents:read · publish/pending 동일 PAT).
-const REPO = 'muteno/nomute-editor';
+const REPO = 'nomutefb/editor';
 
 export async function onRequestGet({ params, request, env }) {
   return serve(params, request, env, null);

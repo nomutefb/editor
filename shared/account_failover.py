@@ -42,7 +42,7 @@ API = "https://api.github.com"
 
 
 def _repo():
-    return os.environ.get("GITHUB_REPOSITORY", "muteno/nomute-editor")
+    return os.environ.get("GITHUB_REPOSITORY", "nomutefb/editor")
 
 
 def _req(method, path, token, body=None):

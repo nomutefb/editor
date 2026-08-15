@@ -2,7 +2,7 @@
 // LLM 0콜(발사·폴링 경로만). 인증·업로드(일회용 up-<id> 브랜치)·발사 골격 = track.js 미러. env: GH_TOKEN 동일 PAT.
 // 옵션은 여기 화이트리스트 클램프 + conv_run.py에서 실측 dur로 재클램프 = 이중 방어(track opts 관례).
 import { rateGate } from './_rate.js';
-const REPO = 'muteno/nomute-editor';
+const REPO = 'nomutefb/editor';
 const REF = 'main';
 const GH = (token, path, method, body) => fetch(`https://api.github.com/repos/${REPO}/${path}`, {
   method,

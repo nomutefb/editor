@@ -7,7 +7,7 @@
 //   alt1 = 픽 경로 '# alt:' 첫 url(=메이저 — pickAlt/auto_pick 이 breaking_pick 을 맨 앞에 둠) → 뷰어 ↗ 원문 링크가
 //     대표 url(최초보도=흔히 통신사·속보 스텁, 본문 한 줄)로 튀던 것 교정(수집함 카드 scLinkUrl 과 동일 정책 · 운영자 260703).
 // env: GH_TOKEN(contents:read + actions:read — push/thumb·pick 과 동일 PAT[Actions: Read and write]).
-const REPO = 'muteno/nomute-editor';
+const REPO = 'nomutefb/editor';
 const STUCK_MIN = 20;            // pending 잔류 이 분 이상 + 처리 런 비활성 = FAIL(stuck) 표시(운영자 260619 · 활성런 예외 260703)
 const ACTIVE_STUCK_MIN = 120;    // 처리 런이 살아 있어도 이 분 이상 잔류 = FAIL(방어 상한). ⚠️ 잡 timeout(90분)보다 커야 함 —
                                  //   배치 꼬리 항목은 '파일 생성 후 대기(누적 창)+런 처리'라 90=timeout이면 정상 처리 중 거짓 FAIL(평의회7 P4)

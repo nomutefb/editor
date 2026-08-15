@@ -3,7 +3,7 @@
 // LLM 0콜(발사 경로만). 인증·발사 골격 = conv.js 미러(같은 GH_TOKEN PAT · 같은 rateGate).
 // 결과 폴링 = viewer/vd_out/<id>/video.json(러너 커밋) — conv_out 문법 동형.
 import { rateGate } from './_rate.js';
-const REPO = 'muteno/nomute-editor';
+const REPO = 'nomutefb/editor';
 const REF = 'main';
 const MAX_FILES = 12;   // 한 잡 상한 = 뷰어 MAX와 동값(6초×12편 ≈ 4분 렌더 · 러너 예산)
 // 큐 파일명 = build-viewer 산출 a.file 그대로(YYMMDD-HHMM-<slug>). 점 포함 실존(예 …-1263484.html).

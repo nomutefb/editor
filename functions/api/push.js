@@ -1,7 +1,7 @@
 // Cloudflare Pages Function — 웹푸시 구독 저장/해제 → push/subscriptions.json 커밋(GitHub Contents API).
 // breaking-judge 워크플로가 이 파일을 읽어 pywebpush로 긴급 속보 발송. env: GH_TOKEN(contents:write).
 // ⚠️ 구독(엔드포인트)이 레포에 저장됨 — 발송은 VAPID 비밀키 필수라 노출돼도 제3자 발송 불가(가드). 비공개 원하면 KV로 이전.
-const REPO = 'muteno/nomute-editor', FILE = 'push/subscriptions.json';
+const REPO = 'nomutefb/editor', FILE = 'push/subscriptions.json';
 
 export async function onRequestPost({ request, env }) {
   const json = (o, s = 200) => new Response(JSON.stringify(o), { status: s, headers: { 'content-type': 'application/json' } });
