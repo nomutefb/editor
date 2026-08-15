@@ -11,7 +11,7 @@ on:
       src:
         description: '테스트 곡 URL(mp3 — 기본 = 260712 카나리아 곡)'
         type: string
-        default: 'https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/song_out/260712204726-706a23/song.mp3'
+        default: 'https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/song_out/260712204726-706a23/song.mp3'
       steps:
         description: 'Seed-VC 디퓨전 스텝(가창 권장 30~50 · 벤치 기본 25)'
         type: string

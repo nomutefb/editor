@@ -6,7 +6,7 @@
 // 보안(SSRF): https 만 · 사설/예약 IP·내부 호스트 차단 · 리다이렉트 비추종 · image/* 만 통과 ·
 //     attachment+nosniff 로 인라인 렌더(저장형 XSS) 차단. (R2 호스트는 항상 허용.)
 // 호출: GET api/dl?u=<이미지 절대URL>&n=<저장 파일명>
-const R2_HOST = 'pub-83f8cf3892ae44c38bebf1805c954508.r2.dev';   // = functions/api/thumb.js R2_BASE 호스트(시크릿 R2_PUBLIC_BASE). ⚠️ 베이스 변경 시 thumb.js:9 와 함께 갱신.
+const R2_HOST = 'pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev';   // = functions/api/thumb.js R2_BASE 호스트(시크릿 R2_PUBLIC_BASE). ⚠️ 베이스 변경 시 thumb.js:9 와 함께 갱신.
 
 // 사설/예약/내부 대상 차단 — Cloudflare 엣지는 사설망 라우팅이 없지만 IP 리터럴·내부 호스트는 방어적으로 컷.
 function _blockedHost(host) {

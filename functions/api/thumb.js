@@ -7,7 +7,7 @@
 const REPO = 'nomutefb/editor';
 const REF = 'main';   // 통합 완료(PR #173 머지)
 const TPLS = ['nomute', 'jinjja'];   // 템플릿 축 화이트리스트(운영자 260726) — nomute = 기본·기존 경로 / jinjja = 「진짜예요」(apps/thumbnail/nomute_jinjja.py) · 워크플로 params.get('tpl','nomute')와 1:1
-const R2_BASE = 'https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev';   // R2 공개 베이스(=R2_PUBLIC_BASE 시크릿). 썸네일 출력=R2 저장 → 즉시 서빙·git 비대 0. ⚠️ 시크릿 변경 시 이 줄도 갱신(워크플로 r2_upload와 베이스 일치 필수).
+const R2_BASE = 'https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev';   // R2 공개 베이스(=R2_PUBLIC_BASE 시크릿). 썸네일 출력=R2 저장 → 즉시 서빙·git 비대 0. ⚠️ 시크릿 변경 시 이 줄도 갱신(워크플로 r2_upload와 베이스 일치 필수).
 const GH = (token, path, method, body) => fetch(`https://api.github.com/repos/${REPO}/${path}`, {
   method,
   headers: {
