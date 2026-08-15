@@ -50,6 +50,20 @@ fi
 
 export GITHUB_ENV=/tmp/wf_ghenv.txt; : > "$GITHUB_ENV"
 srcenv(){ [ -s "$GITHUB_ENV" ] && { set -a; . "$GITHUB_ENV"; set +a; }; return 0; }
+
+wf_land(){ # 'Commit results'가 GH 템플릿 잔존으로 거부될 때의 동형 폴백(값 창작 0: yml add 경로·메시지 그대로, ${{ inputs.id }}→$I_ID 치환만) — 260815 코워크
+  local msg="$1"; shift; local staged=0
+  for p in "$@"; do [ -e "$p" ] && git add "$p" 2>/dev/null && staged=1; done
+  [ "$staged" = 1 ] || return 0
+  git diff --cached --quiet 2>/dev/null && return 0
+  git commit -q -m "$msg" 2>/dev/null || return 0
+  for _i in 1 2 3 4; do
+    git push -q origin HEAD:main 2>/dev/null && { echo "[wf] 폴백 착지: $msg"; return 0; }
+    git fetch -q --deepen=50 origin main 2>/dev/null; git pull --rebase --autostash -X ours -q origin main 2>/dev/null
+  done
+  echo "[wf] 폴백 착지 실패(다음 편승 대기): $msg"; return 0
+}
+
 runstep(){
   python3 - "$W" "$1" > /tmp/wf_step.sh <<'PY' || { echo "[wf] 스텝 추출 실패: $1"; return 3; }
 import yaml,sys
@@ -128,17 +142,20 @@ thumbredo)
   export ARTICLE="${I_ARTICLE:-}" SID="${I_SID:-}" WISH="${I_WISH:-}" THUMB_GATE="${THUMB_GATE:-}" THUMB_REF="${THUMB_REF:-}" CF_DEPLOY_HOOK=""
   runstep 'AI 썸네일 재생성' || FAILED=1
   runstep 'Commit' || true
+  wf_land "imgedit: $I_ID 출력(맥 잡워커)" "viewer/imgedit_out/$I_ID"   # 템플릿 거부 폴백(260815)
   ;;
 resize)
   export RESIZE_ID="$I_ID" RESIZE_SRC="${I_SRC:-}" RESIZE_OPTS="$I_OPTS"
   export RESIZE_IMG_MODEL="${RESIZE_IMG_MODEL:-}" RESIZE_JUDGE_MODEL="${RESIZE_JUDGE_MODEL:-}" RESIZE_SEED="${RESIZE_SEED:-}" RESIZE_TRIES="${RESIZE_TRIES:-}" RESIZE_KEEP_REJ="${RESIZE_KEEP_REJ:-}"
   runstep 'Resize' || FAILED=1
   runstep 'Commit results' || true
+  wf_land "resize: 비율 재구성 산출 ($I_ID) (맥 잡워커)" viewer/gen_out/   # 템플릿 거부 폴백(260815)
   ;;
 upscale)
   export UPSCALE_ID="$I_ID" UPSCALE_SRC="${I_SRC:-}" UPSCALE_OPTS="$I_OPTS"
   runstep 'Upscale' || FAILED=1
   runstep 'Commit results' || true
+  wf_land "upscale: 화질↑ 산출 ($I_ID) (맥 잡워커)" viewer/gen_out/   # 템플릿 거부 폴백(260815)
   ;;
 framethumb)
   export FT_ID="$I_ID" FT_OPTS="$I_OPTS" BRANCH=main
@@ -150,6 +167,7 @@ framethumb)
   else echo "영상 입력이 없어" > /tmp/ft_err.txt; FAILED=1; fi
   [ "$FAILED" = 0 ] && { runstep '체인 실행' || FAILED=1; }
   runstep '결과 커밋' || true
+  wf_land "framethumb: $I_ID 산출(맥 잡워커)" "viewer/ft_out/$I_ID"   # 커밋 불발 폴백(260815)
   if [ -n "${I_UP_BRANCH:-}" ]; then export UP_BRANCH="$I_UP_BRANCH"; runstep '업로드 브랜치 정리' || true; fi
   runstep '임시 업로드 청소' || true
   ;;

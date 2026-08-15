@@ -12,6 +12,13 @@ L="$HOME/job_tick.log"
 if [ -f "$L" ] && [ "$(/usr/bin/stat -f %z "$L" 2>/dev/null || echo 0)" -gt 400000 ]; then
   tail -c 200000 "$L" > "$L.t" 2>/dev/null && mv "$L.t" "$L"
 fi
+# 자기갱신(260815 밤 코워크) — 깃 정본 scripts/mac/*.sh → ~/ 설치본을 이 틱에서 맞춘다.
+#   신설 사유: scripts/mac/README.md 가 14:20 정본화에서 「1분 틱이 자동 배포」라 선언했는데 그 배선이
+#   실제로 없었다(grep 0건) → 그날 수정이 전부 ~/ 에만 쌓여 6종이 갈렸고 CT 매핑 봉합은 이 맥 한 대에만
+#   존재했다. 게이트 = 설치 전 /bin/bash -n(레인이 도는 3.2 로 잰다 · 깨진 판 푸시가 레인을 못 죽인다),
+#   설치 = 원자 교체(제자리 덮어쓰기는 돌고 있는 스크립트를 죽인다 · 19:41 실사고), 덮기 전 전량 백업.
+[ -f "$HOME/nomute_self_update.sh" ] || cp -f "$HOME/nomute-editor/scripts/mac/nomute_self_update.sh" "$HOME/nomute_self_update.sh" 2>/dev/null
+bash "$HOME/nomute_self_update.sh" >> "$L" 2>&1 || true
 # 서브폴(260815) — 60초 틱 안에서 10초 간격 큐 확인 = 픽업 지연 최대 ~10초(깃액션 러너 부팅 5~30초보다 빠름).
 # 비용: R2 LIST 6회/분 ≈ 26만/월 — 무료 한도(Class A 100만/월) 내. 빈 큐 1회 확인 ≈ 0.5초(env grep+LIST뿐).
 END=$((SECONDS+50))
@@ -46,5 +53,5 @@ if [ -n "$RH" ]; then
 fi
 NOMUTE_DEPLOY_REPO="$HOME/nomute-worker" bash "$HOME/nomute_backup_deploy.sh" >> "$L" 2>&1 || true
 bash "$HOME/nomute_home_deploy.sh" >> "$L" 2>&1 || true   # nomute.kr hourly rebuild (260815 cowork)
-( bash "$HOME/nomute_analyze_tick.sh" >> "$L" 2>&1 & )   # pending/asks instant consume (260815 cowork - summary queue delay seal)
+bash "$HOME/nomute_analyze_tick.sh" >> "$L" 2>&1 || true   # pending/asks instant consume (260815 - foreground: launchd kills orphaned bg children)
 exit 0
