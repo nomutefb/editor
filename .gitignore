@@ -47,3 +47,6 @@ docs/_shots/
 # 그록 구독 자격 판정기 산출(자격증명 포함 · 커밋 금지)
 grok_oauth_token.json
 grok_probe_log.json
+
+# Cloudflare wrangler 로컬 캐시(빌드 부산물 · 커밋 대상 아님)
+.wrangler/
