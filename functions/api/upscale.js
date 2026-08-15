@@ -61,5 +61,15 @@ export async function onRequestPost({ request, env }) {
     ref: REF, inputs: { id, src: imgPath, src_sha: srcSha, opts: JSON.stringify({ size }) },
   });
   if (r.status === 204) return json({ ok: true, id });
+  // 발사 실패 → R2 잡 큐 착지(260815 코워크 fail-soft) — 원본은 이미 레포 커밋됨 · 맥 잡워커가 같은 입력 계약으로 소비.
+  if (env.R2) {
+    try {
+      await env.R2.put(`queue/jobs/${id}-upscale.json`, JSON.stringify({
+        kind: 'upscale', id, ts: new Date().toISOString(),
+        inputs: { id, src: imgPath, src_sha: srcSha, opts: JSON.stringify({ size }) },
+      }));
+      return json({ ok: true, id, via: 'r2-queue' });
+    } catch { /* R2도 실패 → 종전 502 */ }
+  }
   return json({ error: `발사 실패 GitHub ${r.status}: ${(await r.text()).slice(0, 200)}` }, 502);
 }

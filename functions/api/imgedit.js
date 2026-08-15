@@ -63,6 +63,16 @@ export async function onRequestPost({ request, env }) {
       ref: REF, inputs: { id, mode: 'render', render: payload },
     });
     if (rr.status === 204) return json({ ok: true, id, out: `imgedit_out/${id}/result.json` });
+    // 발사 실패 → R2 잡 큐 착지(260815 코워크 fail-soft)
+    if (env.R2) {
+      try {
+        await env.R2.put(`queue/jobs/${id}-imgedit.json`, JSON.stringify({
+          kind: 'imgedit', id, ts: new Date().toISOString(),
+          inputs: { id, mode: 'render', render: payload },
+        }));
+        return json({ ok: true, id, out: `imgedit_out/${id}/result.json`, via: 'r2-queue' });
+      } catch { /* R2도 실패 → 종전 502 */ }
+    }
     return json({ error: `렌더 발사 실패 GitHub ${rr.status}: ${(await rr.text()).slice(0, 200)}` }, 502);
   }
 
@@ -98,6 +108,16 @@ export async function onRequestPost({ request, env }) {
     ref: REF, inputs: { id, mode: 'analyze', file: filePath, up_branch: upBranch },
   });
   if (r.status === 204) return json({ ok: true, id, out: `imgedit_out/${id}/boxes.json` });
+  // 발사 실패 → R2 잡 큐 착지(260815 코워크 fail-soft) — up-<id> 브랜치는 워커가 소스로 쓴 뒤 정본 스텝이 정리.
+  if (env.R2) {
+    try {
+      await env.R2.put(`queue/jobs/${id}-imgedit.json`, JSON.stringify({
+        kind: 'imgedit', id, ts: new Date().toISOString(),
+        inputs: { id, mode: 'analyze', file: filePath, up_branch: upBranch },
+      }));
+      return json({ ok: true, id, out: `imgedit_out/${id}/boxes.json`, via: 'r2-queue' });
+    } catch { /* R2도 실패 → 종전 502 */ }
+  }
   if (upBranch) { try { await GH(env.GH_TOKEN, `git/refs/heads/${upBranch}`, 'DELETE'); } catch { /* 무해 */ } }
   return json({ error: `발사 실패 GitHub ${r.status}: ${(await r.text()).slice(0, 200)}` }, 502);
 }

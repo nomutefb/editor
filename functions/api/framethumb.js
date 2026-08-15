@@ -91,6 +91,16 @@ export async function onRequestPost({ request, env }) {
     ref: REF, inputs: { id, url, file: filePath, up_branch: upBranch, r2_src: r2src, opts: JSON.stringify(opts) },
   });
   if (r.status === 204) return json({ ok: true, id, out: `ft_out/${id}/frames.json` });
+  // 발사 실패 → R2 잡 큐 착지(260815 코워크 fail-soft) — up-<id> 브랜치는 워커가 소스로 쓴 뒤 정본 스텝이 정리.
+  if (env.R2) {
+    try {
+      await env.R2.put(`queue/jobs/${id}-framethumb.json`, JSON.stringify({
+        kind: 'framethumb', id, ts: new Date().toISOString(),
+        inputs: { id, url, file: filePath, up_branch: upBranch, r2_src: r2src, opts: JSON.stringify(opts) },
+      }));
+      return json({ ok: true, id, out: `ft_out/${id}/frames.json`, via: 'r2-queue' });
+    } catch { /* R2도 실패 → 종전 502 */ }
+  }
   if (upBranch) { try { await GH(env.GH_TOKEN, `git/refs/heads/${upBranch}`, 'DELETE'); } catch { /* 고아 잔존 무해 */ } }
   return json({ error: `발사 실패 GitHub ${r.status}: ${(await r.text()).slice(0, 200)}` }, 502);
 }

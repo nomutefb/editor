@@ -39,5 +39,16 @@ export async function onRequestPost({ request, env }) {
     },
   );
   if (r.status === 204) return json({ ok: true, article, sid, wish });
+  // 발사 실패 → R2 잡 큐 착지(260815 코워크 fail-soft) — 맥 잡워커가 같은 입력 계약으로 소비.
+  if (env.R2) {
+    try {
+      const qid = new Date(Date.now() + 9 * 3600e3).toISOString().replace(/[^0-9]/g, '').slice(2, 14) + '-' + crypto.randomUUID().slice(0, 6);
+      await env.R2.put(`queue/jobs/${qid}-thumbredo.json`, JSON.stringify({
+        kind: 'thumbredo', id: qid, ts: new Date().toISOString(),
+        inputs: { id: qid, article, sid, wish },
+      }));
+      return json({ ok: true, article, sid, wish, via: 'r2-queue' });
+    } catch { /* R2도 실패 → 종전 502 */ }
+  }
   return json({ error: `GitHub ${r.status}: ${(await r.text()).slice(0, 300)}` }, 502);
 }

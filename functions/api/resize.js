@@ -74,5 +74,15 @@ export async function onRequestPost({ request, env }) {
     ref: REF, inputs: { id, src: imgPath, src_sha: srcSha, opts: JSON.stringify(box ? { aspect, size, lock, fill, box } : { aspect, size, lock, fill }) },   // box 없으면 **키 자체를 안 싣는다** = opts 문자열이 종전과 바이트 동일(구 이력 재발사 회귀 0)
   });
   if (r.status === 204) return json({ ok: true, id });
+  // 발사 실패 → R2 잡 큐 착지(260815 코워크 fail-soft) — opts 재직렬화는 위 dispatch와 동일식(값 창작 0).
+  if (env.R2) {
+    try {
+      await env.R2.put(`queue/jobs/${id}-resize.json`, JSON.stringify({
+        kind: 'resize', id, ts: new Date().toISOString(),
+        inputs: { id, src: imgPath, src_sha: srcSha, opts: JSON.stringify(box ? { aspect, size, lock, fill, box } : { aspect, size, lock, fill }) },
+      }));
+      return json({ ok: true, id, via: 'r2-queue' });
+    } catch { /* R2도 실패 → 종전 502 */ }
+  }
   return json({ error: `발사 실패 GitHub ${r.status}: ${(await r.text()).slice(0, 200)}` }, 502);
 }
