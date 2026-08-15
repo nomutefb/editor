@@ -1632,6 +1632,28 @@ function updateCpMount() {
 })();
 // ── 합성(운영자 260712) — 저작권 3단 ON일 때 옵션줄 '합성' 토글 노출. ON = 저작권(·안내문)을 같은 포맷 산출물에 2K 알파합성(별도 장 없음) / OFF = 종전 별도 장. ──
 let cpMerge = false;   // 기본 OFF(운영자 260712 "저작권·안내문 설정값과 상관없이 합성 off · 합성은 별개 선택") · 켜면 산출물에 알파합성, 끄면 별도 장
+// ── 합성 대상 판정 = 미리보기·발사 **한 원천**(운영자 260815 "만든 후 미리보기에는 나오는데 다운로드 하면 안나옴") ──
+//   ⚠ 진범 = 두 곳이 서로 다른 술어를 썼다. 미리보기는 **비율만** 보고(`cur.fmt === cpThumb`) 저작권을 얹었는데,
+//     발사는 **발사 목록의 종류+비율**(tag '헤더'∧reels · tag '자막'∧effOvFmt)로 골랐다 → 비율은 맞지만 발사 목록에
+//     없는 장(카드뉴스 = /api/compose 별도 통로 · 글줄 0인 사진만 자막 장 · 반쪽 헤더)에서 화면만 합성으로 그려졌다.
+//     증상 = 화면엔 저작권이 얹혀 보이는데 받은 파일엔 없다(저작권은 따로 한 장으로 나갔다) · 오류·경고 0 = 무증상.
+//   → 아래 술어 하나로 통일한다(발사 게이트 미러 = hasHeader·hasOverlay 조건 그대로 · 새 값·새 규칙 0).
+function cpFireOk(k) {   // 그 장이 **실제로 발사되는가** = dispatch 게이트 사본(hasHeader/hasOverlay 정본 미러)
+  const jj = (typeof cTpl !== 'undefined' && cTpl === 'jinjja');
+  const csub = (($('#cSub') && $('#cSub').value) || '').trim(), ctitle = (($('#cTitle') && $('#cTitle').value) || '').trim();
+  if (k === 'hdr' || k === 'nobg') return jj ? !!ctitle : !!(csub && ctitle);   // 반쪽 헤더 = 발사 불가(백엔드 흰칸 불가) → 합성 대상 아님
+  if (k === 'ov') {
+    if (typeof A2M !== 'undefined' && A2M === 'c') return false;   // 카드뉴스 모드 = 자막 발사 0(칩이 compose 전담)
+    return normEmph(stripStrayStars((($('#cLines') && $('#cLines').value) || ''))).split('\n').map(s => s.trim()).filter(Boolean).length > 0;   // 사진만 있고 글줄 0 = 자막 발사 없음
+  }
+  return false;
+}
+function cpMergeOn(x, fmt) {   // 이 미리보기 장에 저작권·안내문이 **실제로 합쳐지는가**(발사 tg 필터와 1:1)
+  if (!cpMerge || !x) return false;
+  if (x.k === 'hdr' || x.k === 'nobg') return fmt === 'reels' && cpFireOk(x.k);   // 헤더 = 항상 릴스
+  if (x.k === 'ov') return effOvFmt() === fmt && cpFireOk('ov');
+  return false;   // 카드뉴스(k='card') = 발사 통로가 /api/compose 라 합성 대상이 될 수 없다 → 저작권은 따로 한 장(미리보기도 그렇게 보여준다)
+}
 function syncCpMerge() {
   const w = $('#gsMergeWrap'); if (w) w.hidden = (cpThumb === 'off' && !guideMode);   // 저작권 또는 안내문 하나라도 켜지면 합성 토글 노출(자동 ON 아님)
   const t = $('#gsMerge'); if (t) { t.classList.toggle('on', cpMerge); t.setAttribute('aria-pressed', cpMerge ? 'true' : 'false'); }   // 라벨 자체가 토글(운영자 260727 "글자 자체가 토글 역할") — 값 표기(ON/'별도 생성') 폐지 · 켜짐 = 산출물에 합쳐 렌더 / 꺼짐 = 따로 한 장   // 라벨 '삽입구 합성'(운영자 260718 개명) — OFF 표기 = '별도 생성'(삽입구는 그대로, 합성만 안 함 = 따로 한 장)
@@ -1663,8 +1685,8 @@ function cpPrevVariants() {   // 현재 입력으로 발사될 변형 목록(미
   else if (lines.length || CIMG.b64) v.push({ k: 'ov', lbl: '자막', fmt: effOvFmt() });
   const gpvOn = guideMode && ($('#warnLines').value || '').trim();   // 안내문 미리보기 대상 여부(저작권과 독립 · 260712)
   const gpvFmt = cpThumb !== 'off' ? cpThumb : (effOvFmt() === 'post' ? 'post' : 'reels');
-  if (cpThumb !== 'off' && (!cpMerge || !v.some(x => x.fmt === cpThumb))) v.push({ k: 'cr', lbl: gpvOn ? '저작권·안내문' : '저작권', fmt: cpThumb });   // 저작권(켜지면 안내문도 같은 장) 단독 미리보기
-  else if (gpvOn && (!cpMerge || !v.some(x => x.fmt === gpvFmt))) v.push({ k: 'cr', lbl: '안내문', fmt: gpvFmt });   // 저작권 OFF·안내문만 = 안내문 단독 장 미리보기(독립)
+  if (cpThumb !== 'off' && !v.some(x => cpMergeOn(x, cpThumb))) v.push({ k: 'cr', lbl: gpvOn ? '저작권·안내문' : '저작권', fmt: cpThumb });   // 저작권(켜지면 안내문도 같은 장) 단독 미리보기 — 판정 = cpMergeOn(발사 술어 한 원천 · 구 `fmt` 단독 대조는 발사 대상이 아닌 장에도 합성으로 보여 「받으면 빠짐」을 만들었다 · 260815)
+  else if (gpvOn && !v.some(x => cpMergeOn(x, gpvFmt))) v.push({ k: 'cr', lbl: '안내문', fmt: gpvFmt });   // 저작권 OFF·안내문만 = 안내문 단독 장 미리보기(독립)
   return { v, csub, ctitle, lines };
 }
 // ── 첨부 사진 배치 = 이동·확대축소·크롭 선택(운영자 260805 Q01·Q02 "사진 첨부하면 딱 맞는 사이즈가 아니면 좌우상하 이동 및 축소확대 · 잘라서 들어가는 부분을 사용자가 고를 수 있게") ──
@@ -1913,7 +1935,7 @@ function renderCpPrev() {   // app2 상시 표시(운영자 260714 Q03②) + 편
     if (cl.length) h += `<div class="cpv" style="left:${px(87)};right:${px(56)};top:${py(888)};color:${CPV_WHITE};font-size:${px(54)};font-weight:700;line-height:${(88 / 54).toFixed(3)};white-space:pre">${cl.map(emph).join('<br>')}</div>`;   // 자간 없음 = card_news.py 그대로(통줄 렌더·tracking 미적용) · white-space:pre = 무줄바꿈 미러
   }
   const gfmtR = cpThumb !== 'off' ? cpThumb : (effOvFmt() === 'post' ? 'post' : 'reels');
-  const showCR = (cur.k === 'cr') || (cpMerge && cpThumb !== 'off' && cur.fmt === cpThumb) || (cpMerge && guideMode && cur.fmt === gfmtR);   // 저작권/안내문 독립 미리보기(합성 ON이면 매칭 산출 위에도)
+  const showCR = (cur.k === 'cr') || (cpThumb !== 'off' && cpMergeOn(cur, cpThumb)) || (guideMode && cpMergeOn(cur, gfmtR));   // 저작권/안내문 독립 미리보기(합성 ON이면 **실제 합성되는 장 위에만** · 판정 = cpMergeOn 한 원천 · 260815 「받으면 빠짐」 봉합)
   if (showCR) {   // 저작권(y100·fs29·순백·중앙) + 안내문(아래 46px 리듬 = app4 스택 미러) · 저작권 OFF면 안내문이 y100부터
     let idx = 0;
     if (cpThumb !== 'off') {
