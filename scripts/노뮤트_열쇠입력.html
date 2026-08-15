@@ -113,11 +113,11 @@ const KEYS = [
     ['INSTA_UA','위 쿠키를 뽑은 그 브라우저의 UA — ⚠ 짝이 안 맞으면 멀쩡한 쿠키도 거절된다(실측)',0],
     ['THREADS_COOKIE','스레드 수집용 로그인 쿠키(부계 전용) — 없으면 로그인 안 한 상태로만 걷힌다',0],
     ['THREADS_UA','위 쿠키를 뽑은 그 브라우저의 UA — ⚠ 없으면 쿠키가 매번 무소득(260805 실측 확정)',0],
-    ['SAFETY_KEY','재난문자 수집 — 행정안전부 공공데이터포털 키(없으면 재난 경보가 조용히 0건)',0],
+    ['DATAGOKR_SAFETY_KEY','재난문자 수집 — 공공데이터포털 키(없으면 재난 경보가 조용히 0건)',0],
     ['NAVER_CLIENT_ID','네이버 검색 앱 번호 — 화재 후속 추적·소셜 스캔이 씀',0],
     ['NAVER_CLIENT_SECRET','네이버 검색 앱 비밀값',0],
     ['YOUTUBE_API_KEY','유튜브 트렌드 수집 — 구글 클라우드 데이터 API 키',0],
-    ['KOPIS_API_KEY','박스오피스·도로 돌발·재난문자 세 수집을 겸하는 키',0]]},
+    ['KOPIS_API_KEY','박스오피스 수집 — 영화진흥위 키',0]]},
   {g:'⑤ 화면 재배포 — 요약이 나온 뒤 화면을 다시 굽는 신호', k:[
     ['CF_DEPLOY_HOOK','클라우드플레어 페이지 배포 훅 주소(https 로 시작)',0]]},
   {g:'⑥ 영상·음원 제작 통로 — 쓰는 통로만 채우면 됨', k:[
@@ -166,7 +166,8 @@ const HOWTO = {
   NAVER_CLIENT_ID: '네이버 개발자센터(developers.naver.com) → 애플리케이션 등록 → 검색 기능 선택 → 등록하면 아이디가 나온다.',
   NAVER_CLIENT_SECRET: '같은 화면의 비밀값(Secret) 항목. 안 보이면 [보기] 단추를 누른다.',
   YOUTUBE_API_KEY: '구글 클라우드 콘솔 → API 및 서비스 → 라이브러리에서 YouTube Data API v3 사용 설정 → 사용자 인증 정보 → API 키 만들기.',
-  KOPIS_API_KEY: '세 수집을 겸한다 — 박스오피스(영화진흥위 kobis.or.kr 오픈 API)·도로 돌발사고·재난문자(둘 다 공공데이터포털 data.go.kr). ⚠ 원래는 발급처가 갈리는 키라, 한 키가 세 곳 다 안 통하면 그 축만 따로 넣으면 된다(옛 이름 KOFIC_NOMUTE_ID·_EX·_JAENAN 이 폴백으로 살아 있다).',
+  KOPIS_API_KEY: '박스오피스 전용 — 영화진흥위원회 영화관 입장권 통합전산망(kobis.or.kr) → 오픈 API → 키 발급 신청 → 나온 키를 복사.',
+  DATAGOKR_SAFETY_KEY: '재난문자 전용 — 공공데이터포털(data.go.kr) 로그인 → 재난문자 관련 서비스 활용신청 → 마이페이지의 일반 인증키(Encoding) 복사. ⚠ 박스오피스 키와 발급처가 다르다(같은 키로 안 된다).',
   CF_DEPLOY_HOOK: '클라우드플레어 → Pages → 노뮤트 프로젝트 → 설정 → 빌드 및 배포 → 배포 훅 만들기 → 나온 주소를 통째로 복사.',
   OPENAI_API_KEY: 'platform.openai.com 로그인 → 왼쪽 API keys → [Create new secret key]. 만들 때 한 번만 보여준다.',
   OPENAI_API_KEY_NOMUTE: '위와 같되 다른 계정으로 만든 예비 키. 없으면 비워둔다.',

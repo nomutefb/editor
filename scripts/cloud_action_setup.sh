@@ -72,6 +72,7 @@ if [ -n "$AD" ] && [ -d "$AD" ]; then
 #SAFETY_KEY=
 #GH_TOKEN=
 #KOPIS_API_KEY=
+#DATAGOKR_SAFETY_KEY=
 #GDRIVE_SA_JSON=
 # [클로드 구독 토큰 4칸 — 러너 폴오버용(컴퓨터에선 로컬 로그인이 우선이라 보통 불필요)]
 #CLAUDE_CODE_OAUTH_TOKEN_EMS1130G=
