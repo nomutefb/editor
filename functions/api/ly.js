@@ -118,6 +118,16 @@ export async function onRequestPost({ request, env }) {
       ref: REF, inputs: { id: reburn, reburn: '1', opts, early_segs: '0', subs: esubs },
     });
     if (rr.status === 204) return json({ ok: true, id: reburn, reburn: true, out: `ly_out/${reburn}/subs.md` });
+    // 발사 실패 → R2 잡 큐 착지(260815 코워크 · conv.js fail-soft 미러) — id 보존 = 뷰어 폴링 무변 · 맥 잡워커 소비.
+    if (env.R2) {
+      try {
+        await env.R2.put(`queue/jobs/${reburn}-ly.json`, JSON.stringify({
+          kind: 'ly', id: reburn, ts: new Date().toISOString(),
+          inputs: { id: reburn, reburn: '1', opts, early_segs: '0', subs: esubs },
+        }));
+        return json({ ok: true, id: reburn, reburn: true, out: `ly_out/${reburn}/subs.md`, via: 'r2-queue', note: '깃허브 발사 실패 — 맥 워커 큐 접수' });
+      } catch { /* R2도 실패 → 종전 502(아래) */ }
+    }
     return json({ error: `재합성 발사 실패 GitHub ${rr.status}: ${(await rr.text()).slice(0, 200)}` }, 502);
   }
   if (!subs.trim() && !url && !fileB64 && !r2key) return json({ error: 'SRT/자막 · 영상 URL · 영상/오디오 파일 중 하나가 필요해' }, 400);
@@ -175,6 +185,16 @@ export async function onRequestPost({ request, env }) {
     ref: REF, inputs: { id, subs, url, file: filePath, early_segs: '1', opts, up_branch: upBranch, r2_src: r2src },   // 조기 전사 푸시 ON(LY-EARLY · 반드시 문자열 '1' — 숫자/불리언은 GH 강제변환으로 조용히 OFF) · 워크플로 default '0' = fail-closed(수동 dispatch 실수 방지) · 롤백 = 이 필드 제거 한 줄(평의회9) · opts = 버튼 설정 JSON 문자열(빈값 = 종전) · up_branch = 업로드 일회용 브랜치(빈값 = 종전 main 경로) · r2_src = R2 직업로드 키(20MB 초과 영상 · 빈값 = 종전 · 260722)
   });   // ← LY-EARLY 편입(#1725) 때 이 닫는 괄호 유실 → wrangler 번들 SyntaxError → Pages 배포 전멸(260706 11:31~ 라이브 동결 사고 · 복구)
   if (r.status === 204) return json({ ok: true, id, url: !!url, file: !!(filePath || r2src), out: `ly_out/${id}/subs.md` });   // file 플래그 = r2 직업로드도 STT 파일 경로(뷰어 폴링 타이밍 축 동일)
+  // 발사 실패 → R2 잡 큐 착지(260815 코워크 · conv.js fail-soft 미러) — 업로드 브랜치는 잡이 쓰므로 보존.
+  if (env.R2) {
+    try {
+      await env.R2.put(`queue/jobs/${id}-ly.json`, JSON.stringify({
+        kind: 'ly', id, ts: new Date().toISOString(),
+        inputs: { id, subs, url, file: filePath, early_segs: '1', opts, up_branch: upBranch, r2_src: r2src },
+      }));
+      return json({ ok: true, id, url: !!url, file: !!(filePath || r2src), out: `ly_out/${id}/subs.md`, via: 'r2-queue', note: '깃허브 발사 실패 — 맥 워커 큐 접수' });
+    } catch { /* R2도 실패 → 종전 502(아래) */ }
+  }
   if (upBranch) { try { await GH(env.GH_TOKEN, `git/refs/heads/${upBranch}`, 'DELETE'); } catch { /* 고아 잔존 무해 — 수동 정리 대상 */ } }   // 발사 실패 = 업로드 브랜치 정리(워크플로가 안 도니 스스로)
   return json({ error: `발사 실패 GitHub ${r.status}: ${(await r.text()).slice(0, 200)}` }, 502);
 }

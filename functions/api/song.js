@@ -71,5 +71,15 @@ export async function onRequestPost({ request, env }) {
     ref: REF, inputs: { id, mode, genre, express, mood, theme, story, pick, opts },
   });
   if (r.status === 204) return json({ ok: true, id, mode, out: `song_out/${id}/${mode === 'options' ? 'options.json' : 'song.json'}` });
+  // 발사 실패 → R2 잡 큐 착지(260815 코워크 · conv.js fail-soft 미러) — id 보존 = 뷰어 폴링 무변 · 맥 잡워커 소비.
+  if (env.R2) {
+    try {
+      await env.R2.put(`queue/jobs/${id}-song.json`, JSON.stringify({
+        kind: 'song', id, ts: new Date().toISOString(),
+        inputs: { id, mode, genre, express, mood, theme, story, pick, opts },
+      }));
+      return json({ ok: true, id, mode, out: `song_out/${id}/${mode === 'options' ? 'options.json' : 'song.json'}`, via: 'r2-queue', note: '깃허브 발사 실패 — 맥 워커 큐 접수' });
+    } catch { /* R2도 실패 → 종전 502(아래) */ }
+  }
   return json({ error: `발사 실패 GitHub ${r.status}: ${(await r.text()).slice(0, 200)}` }, 502);
 }

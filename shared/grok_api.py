@@ -300,6 +300,39 @@ def _persist_secret(rt, name=None):
     # ⚠ 저장할 비밀값 이름은 **인자가 1순위**다(260812 페이블 검증) — 두 번째 통로가 인자 없이
     #   부르면 기본값(그록 열쇠)을 덮어써 그록 레인이 그 자리에서 죽는다. env 는 폴백일 뿐이다.
     name = name or os.environ.get("XAI_SECRET_NAME") or "XAI_REFRESH_TOKEN"
+    # ── 맥 2선 레인 로컬 되쓰기(260815 코워크) — 깃허브 정지 중 맥 잡워커는 비밀값 API 대신
+    #    환경변수 파일에 새 열쇠를 남긴다: NOMUTE_SECRET_FILE(드라이브 정본) + NOMUTE_SECRET_FILE_2(로컬 캐시).
+    #    ⚠ 정본 쓰기 성공만 True — 캐시만 성공은 다음 env-sync(정본→캐시)가 옛값으로 덮어 다음 발사가 죽는다.
+    #    미설정(=러너)이면 아래 종전 비밀값 경로 그대로(동작 무변).
+    lf = os.environ.get("NOMUTE_SECRET_FILE") or ""
+    if lf:
+        ok0 = False
+        for i, p in enumerate([lf, os.environ.get("NOMUTE_SECRET_FILE_2") or ""]):
+            if not p:
+                continue
+            try:
+                lines, hit = [], False
+                if os.path.isfile(p):
+                    with open(p, encoding="utf-8") as f:
+                        lines = f.read().splitlines()
+                for j, ln in enumerate(lines):
+                    if ln.startswith(name + "="):
+                        lines[j] = name + "=" + rt
+                        hit = True
+                if not hit:
+                    lines.append(name + "=" + rt)
+                tmp = p + ".tmp"
+                with open(tmp, "w", encoding="utf-8") as f:
+                    f.write("\n".join(lines) + "\n")
+                os.replace(tmp, p)   # 원자 교체 — 부분 쓰기 잔존 차단(ly 편집 반영과 같은 관례)
+                if i == 0:
+                    ok0 = True
+                print("새 갱신 열쇠 로컬 되쓰기 완료({}): {}".format(name, p))
+            except Exception as e:  # noqa: BLE001
+                print("::warning::로컬 열쇠 되쓰기 실패({}): {}".format(p, str(e)[:120]))
+        if not ok0:
+            _persist_alarm(name, "로컬 환경변수 파일(정본) 되쓰기 실패")
+        return ok0
     if not pat or not repo:
         if os.environ.get("GITHUB_ACTIONS"):
             print("::warning::새 갱신 열쇠를 비밀값에 못 남긴다(XAI_SECRET_PAT 미등록) — "

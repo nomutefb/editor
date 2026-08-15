@@ -60,6 +60,16 @@ export async function onRequestPost({ request, env }) {
         ref: REF, inputs: { id, mode: 'render', render: payload },
       });
       if (rr.status === 204) return json({ ok: true, id, out: `track_out/${id}/video.json` });
+      // 발사 실패 → R2 잡 큐 착지(260815 코워크 · conv.js fail-soft 미러) — id 보존 = 뷰어 폴링 무변 · 맥 잡워커 소비.
+      if (env.R2) {
+        try {
+          await env.R2.put(`queue/jobs/${id}-track.json`, JSON.stringify({
+            kind: 'track', id, ts: new Date().toISOString(),
+            inputs: { id, mode: 'render', render: payload },
+          }));
+          return json({ ok: true, id, out: `track_out/${id}/video.json`, via: 'r2-queue', note: '깃허브 발사 실패 — 맥 워커 큐 접수' });
+        } catch { /* R2도 실패 → 종전 502(아래) */ }
+      }
       return json({ error: `렌더 발사 실패 GitHub ${rr.status}: ${(await rr.text()).slice(0, 200)}` }, 502);
     }
     // ── 키잉·실루엣(M4) 경로 — keep(피사체 sid) + keepP(얼굴 단위 pid · 260710) + extra(수동 지정 {t초, x·y 정규 0..1}) · py에서 재클램프 = 이중 방어
@@ -90,6 +100,16 @@ export async function onRequestPost({ request, env }) {
         ref: REF, inputs: { id, mode: 'render', render: payload },
       });
       if (rr.status === 204) return json({ ok: true, id, out: `track_out/${id}/video.json` });
+      // 발사 실패 → R2 잡 큐 착지(260815 코워크 · conv.js fail-soft 미러) — id 보존 = 뷰어 폴링 무변 · 맥 잡워커 소비.
+      if (env.R2) {
+        try {
+          await env.R2.put(`queue/jobs/${id}-track.json`, JSON.stringify({
+            kind: 'track', id, ts: new Date().toISOString(),
+            inputs: { id, mode: 'render', render: payload },
+          }));
+          return json({ ok: true, id, out: `track_out/${id}/video.json`, via: 'r2-queue', note: '깃허브 발사 실패 — 맥 워커 큐 접수' });
+        } catch { /* R2도 실패 → 종전 502(아래) */ }
+      }
       return json({ error: `렌더 발사 실패 GitHub ${rr.status}: ${(await rr.text()).slice(0, 200)}` }, 502);
     }
     const targets = Array.isArray(r.targets) ? [...new Set(r.targets.filter(t => Number.isInteger(t) && t >= 1 && t <= 99))].slice(0, 32) : [];
@@ -136,6 +156,16 @@ export async function onRequestPost({ request, env }) {
       ref: REF, inputs: { id, mode: 'render', render: payload },
     });
     if (rr.status === 204) return json({ ok: true, id, out: `track_out/${id}/video.json` });
+    // 발사 실패 → R2 잡 큐 착지(260815 코워크 · conv.js fail-soft 미러) — id 보존 = 뷰어 폴링 무변 · 맥 잡워커 소비.
+    if (env.R2) {
+      try {
+        await env.R2.put(`queue/jobs/${id}-track.json`, JSON.stringify({
+          kind: 'track', id, ts: new Date().toISOString(),
+          inputs: { id, mode: 'render', render: payload },
+        }));
+        return json({ ok: true, id, out: `track_out/${id}/video.json`, via: 'r2-queue', note: '깃허브 발사 실패 — 맥 워커 큐 접수' });
+      } catch { /* R2도 실패 → 종전 502(아래) */ }
+    }
     return json({ error: `렌더 발사 실패 GitHub ${rr.status}: ${(await rr.text()).slice(0, 200)}` }, 502);
   }
 
@@ -197,6 +227,16 @@ export async function onRequestPost({ request, env }) {
     ref: REF, inputs: { id, mode: 'analyze', url, file: filePath, up_branch: upBranch, r2_src: r2src },   // r2_src = R2 직업로드 키(빈값 = 종전 · 260722)
   });
   if (r.status === 204) return json({ ok: true, id, out: `track_out/${id}/tracks.json` });
+  // 발사 실패 → R2 잡 큐 착지(260815 코워크 · conv.js fail-soft 미러) — 업로드 브랜치는 잡이 쓰므로 보존.
+  if (env.R2) {
+    try {
+      await env.R2.put(`queue/jobs/${id}-track.json`, JSON.stringify({
+        kind: 'track', id, ts: new Date().toISOString(),
+        inputs: { id, mode: 'analyze', url, file: filePath, up_branch: upBranch, r2_src: r2src },
+      }));
+      return json({ ok: true, id, out: `track_out/${id}/tracks.json`, via: 'r2-queue', note: '깃허브 발사 실패 — 맥 워커 큐 접수' });
+    } catch { /* R2도 실패 → 종전 502(아래) */ }
+  }
   if (upBranch) { try { await GH(env.GH_TOKEN, `git/refs/heads/${upBranch}`, 'DELETE'); } catch { /* 고아 잔존 무해 — 수동 정리 대상 */ } }
   return json({ error: `발사 실패 GitHub ${r.status}: ${(await r.text()).slice(0, 200)}` }, 502);
 }

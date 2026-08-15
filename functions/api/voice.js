@@ -44,6 +44,16 @@ export async function onRequestPost({ request, env }) {
       ref: REF, inputs: { id, mode: 'apply', src, vid },
     });
     if (r.status === 204) return json({ ok: true, id, mode, out: `song_out/${id}/song.json` });
+    // 발사 실패 → R2 잡 큐 착지(260815 코워크 · conv.js fail-soft 미러) — id 보존 = 뷰어 폴링 무변 · 맥 잡워커 소비.
+    if (env.R2) {
+      try {
+        await env.R2.put(`queue/jobs/${id}-voice.json`, JSON.stringify({
+          kind: 'voice', id, ts: new Date().toISOString(),
+          inputs: { id, mode: 'apply', src, vid },
+        }));
+        return json({ ok: true, id, mode, out: `song_out/${id}/song.json`, via: 'r2-queue', note: '깃허브 발사 실패 — 맥 워커 큐 접수' });
+      } catch { /* R2도 실패 → 종전 502(아래) */ }
+    }
     return json({ error: `발사 실패 GitHub ${r.status}: ${(await r.text()).slice(0, 200)}` }, 502);
   }
 
@@ -90,6 +100,16 @@ export async function onRequestPost({ request, env }) {
     ref: REF, inputs: { id, mode: 'train', file: filePath, up_branch: upBranch, r2_src: r2src, name, consent: '1' },   // r2_src = R2 직업로드 키(빈값 = 종전 up-브랜치 경로 · 260722)
   });
   if (r.status === 204) return json({ ok: true, id, mode, out: `voice_out/${id}/voice.json` });
+  // 발사 실패 → R2 잡 큐 착지(260815 코워크 · conv.js fail-soft 미러) — 업로드 브랜치는 잡이 쓰므로 보존.
+  if (env.R2) {
+    try {
+      await env.R2.put(`queue/jobs/${id}-voice.json`, JSON.stringify({
+        kind: 'voice', id, ts: new Date().toISOString(),
+        inputs: { id, mode: 'train', file: filePath, up_branch: upBranch, r2_src: r2src, name, consent: '1' },
+      }));
+      return json({ ok: true, id, mode, out: `voice_out/${id}/voice.json`, via: 'r2-queue', note: '깃허브 발사 실패 — 맥 워커 큐 접수' });
+    } catch { /* R2도 실패 → 종전 502(아래) */ }
+  }
   if (upBranch) { try { await GH(env.GH_TOKEN, `git/refs/heads/${upBranch}`, 'DELETE'); } catch { /* 고아 잔존 무해 — 수동 정리 대상 */ } }
   return json({ error: `발사 실패 GitHub ${r.status}: ${(await r.text()).slice(0, 200)}` }, 502);
 }
