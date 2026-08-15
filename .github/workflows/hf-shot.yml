@@ -55,7 +55,7 @@ jobs:
       - name: 화질 확인 한 발
         env:
           HIGGSFIELD_REFRESH_TOKEN: ${{ secrets.HIGGSFIELD_REFRESH_TOKEN }}
-          XAI_SECRET_PAT: ${{ secrets.XAI_SECRET_PAT }}
+          XAI_SECRET_PAT: ${{ secrets.GH_TOKEN }}
           SD_PRESET: ${{ inputs.preset }}
           SD_RES: ${{ inputs.res }}
           SD_SHOT_SEC: ${{ inputs.sec }}

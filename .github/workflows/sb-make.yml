@@ -283,7 +283,7 @@ jobs:
           #   새 열쇠를 비밀값에 되써 넣지 않으면 다음 발사가 「Refresh token has been revoked」로
           #   죽는다(260811 실사고 · 런 31545525981). 깃허브 기본 토큰에는 비밀값 쓰기 권한이
           #   아예 없어서 별도 개인 토큰이 필요하다 — 미등록이면 러너가 사유를 찍고 넘어간다.
-          XAI_SECRET_PAT: ${{ secrets.XAI_SECRET_PAT }}
+          XAI_SECRET_PAT: ${{ secrets.GH_TOKEN }}
           R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
           R2_BUCKET: ${{ secrets.R2_BUCKET }}
           R2_PUBLIC_BASE: ${{ secrets.R2_PUBLIC_BASE }}
@@ -339,7 +339,7 @@ jobs:
           HIGGSFIELD_REFRESH_TOKEN: ${{ secrets.HIGGSFIELD_REFRESH_TOKEN }}
           # 갱신 열쇠가 회전형이면 새 열쇠를 비밀값에 되써 넣어야 다음 발사가 산다(그록 레인과 같은
           # 개인 토큰 재사용 — 깃허브 자격이라 벤더 무관 · 미등록이면 사유를 찍고 넘어간다).
-          XAI_SECRET_PAT: ${{ secrets.XAI_SECRET_PAT }}
+          XAI_SECRET_PAT: ${{ secrets.GH_TOKEN }}
           R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
           R2_BUCKET: ${{ secrets.R2_BUCKET }}
           R2_PUBLIC_BASE: ${{ secrets.R2_PUBLIC_BASE }}

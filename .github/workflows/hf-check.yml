@@ -59,7 +59,7 @@ jobs:
         env:
           HIGGSFIELD_REFRESH_TOKEN: ${{ secrets.HIGGSFIELD_REFRESH_TOKEN }}
           # 회전형이면 새 열쇠를 되써 넣는다(그록과 같은 개인 토큰 재사용 — 깃허브 자격이라 벤더 무관)
-          XAI_SECRET_PAT: ${{ secrets.XAI_SECRET_PAT }}
+          XAI_SECRET_PAT: ${{ secrets.GH_TOKEN }}
           SD_PRESET: ${{ inputs.preset }}
           SD_RATIO: ${{ inputs.ratio }}
           SD_SHOT_SEC: ${{ inputs.sec }}

@@ -61,7 +61,6 @@ if [ -n "$AD" ] && [ -d "$AD" ]; then
 #CF_DEPLOY_HOOK=
 # [기타 제작·검색 축]
 #OPENAI_API_KEY=
-#XAI_SECRET_PAT=
 #XAI_REFRESH_TOKEN=
 #HIGGSFIELD_REFRESH_TOKEN=
 #NAVER_CLIENT_ID=
@@ -72,7 +71,6 @@ if [ -n "$AD" ] && [ -d "$AD" ]; then
 #GH_TOKEN=
 #KOPIS_API_KEY=
 #DATAGOKR_SAFETY_KEY=
-#GDRIVE_SA_JSON=
 # [클로드 구독 토큰 4칸 — 러너 폴오버용(컴퓨터에선 로컬 로그인이 우선이라 보통 불필요)]
 #CLAUDE_CODE_OAUTH_TOKEN_EMS1130G=
 #CLAUDE_CODE_OAUTH_TOKEN_MUTENO=

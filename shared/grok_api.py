@@ -295,7 +295,7 @@ def _persist_secret(rt, name=None):
       낫다. 다만 무성 스킵은 금지라 사유를 찍는다.
     ⚠ 암호화 = 깃허브 비밀값은 레포 공개키로 봉인해서 넣어야 한다(libsodium sealed box).
     """
-    pat = os.environ.get("XAI_SECRET_PAT") or ""
+    pat = os.environ.get("XAI_SECRET_PAT") or os.environ.get("GH_TOKEN") or ""
     repo = os.environ.get("GITHUB_REPOSITORY") or ""
     # ⚠ 저장할 비밀값 이름은 **인자가 1순위**다(260812 페이블 검증) — 두 번째 통로가 인자 없이
     #   부르면 기본값(그록 열쇠)을 덮어써 그록 레인이 그 자리에서 죽는다. env 는 폴백일 뿐이다.
