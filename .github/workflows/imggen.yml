@@ -82,9 +82,9 @@ jobs:
           # 인증 = 구독 OAuth(API 키 미사용) — analyze/ask와 동일 동적 계정 + 폴오버 체인(§📰 f)
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets[format('CLAUDE_CODE_OAUTH_TOKEN_{0}', github.event.inputs.account || vars.ACTIVE_ACCOUNT || 'MUTENO')] }}
           ACTIVE_ACCOUNT: ${{ github.event.inputs.account || vars.ACTIVE_ACCOUNT || 'MUTENO' }}
-          CLAUDE_CODE_OAUTH_TOKEN_ALT: ${{ (github.event.inputs.account || vars.ACTIVE_ACCOUNT || 'MUTENO') == 'NOMUTEFB' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_NOMUTEFB }}   # 서브1 폴오버(체인 MUTENO→NOMUTEFB→EMS1130G→MUTENONA)
+          CLAUDE_CODE_OAUTH_TOKEN_ALT: ${{ (github.event.inputs.account || vars.ACTIVE_ACCOUNT || 'MUTENO') == 'NOMUTEFB' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_NOMUTEFB }}   # 서브1 폴오버(체인 MUTENO→NOMUTEFB→EMS1130G→EMS1130M)
           CLAUDE_CODE_OAUTH_TOKEN_ALT2: ${{ (github.event.inputs.account || vars.ACTIVE_ACCOUNT || 'MUTENO') == 'MUTENO' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_MUTENO }}   # 서브2 폴오버(체인 3번째)
-          CLAUDE_CODE_OAUTH_TOKEN_ALT3: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN_MUTENONA }}   # 서브3 폴오버(체인 실꼬리 = 항상 MUTENONA)
+          CLAUDE_CODE_OAUTH_TOKEN_ALT3: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130M }}   # 서브3 폴오버(체인 실꼬리 = 항상 EMS1130M)
           # 렌더 = 종량제 Gemini(운영자 의도 — 썸네일·카드 슛과 동일 키). gen_image.py가 Claude 서브프로세스 동안만 env서 제거.
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}   # 렌더 엔진 토글 = GPT Image(운영자 260727) · 예비 계정 키는 260816 이관에서 폐지(운영자 «예비 필요없음 본 1개만») — 없으면 gen_image가 Gemini로 폴백(기능 무중단)

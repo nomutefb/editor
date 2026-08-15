@@ -72,7 +72,7 @@ jobs:
           # 활성 계정 쿼터 시 moreimg만 전환 없이 즉사(rc=1 · 260726 Q581 실측 봉합).
           CLAUDE_CODE_OAUTH_TOKEN_ALT: ${{ (github.event.inputs.account || vars.ACTIVE_ACCOUNT || 'MUTENO') == 'NOMUTEFB' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_NOMUTEFB }}
           CLAUDE_CODE_OAUTH_TOKEN_ALT2: ${{ (github.event.inputs.account || vars.ACTIVE_ACCOUNT || 'MUTENO') == 'MUTENO' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_MUTENO }}
-          CLAUDE_CODE_OAUTH_TOKEN_ALT3: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN_MUTENONA }}
+          CLAUDE_CODE_OAUTH_TOKEN_ALT3: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130M }}
           ACTIVE_ACCOUNT: ${{ github.event.inputs.account || vars.ACTIVE_ACCOUNT || 'MUTENO' }}
           # R2 = 이미지 재호스팅(핫링크 0). 5개 다 없으면 외부 핫링크 폴백(thumb_gen 동작).
           R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}

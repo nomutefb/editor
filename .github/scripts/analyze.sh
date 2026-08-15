@@ -9,7 +9,7 @@ cd "$ROOT"
 PROMPT_FILE="prompts/news-analysis.md"
 source "$ROOT/shared/model_env.sh"   # 모델 단일 원천(PIPE_MODEL · 260702 SYS-08)
 MODEL="$PIPE_MODEL"
-INLINE_TRIES=4          # 인라인 재시도 횟수 = 4계정 폴오버 체인 깊이(서브3 MUTENONA까지 단일 잡서 실호출) + 일시 과부하(529/5xx)·타임아웃(rc=124) 흡수(260622·4계정 확장 3→4)
+INLINE_TRIES=4          # 인라인 재시도 횟수 = 4계정 폴오버 체인 깊이(서브3 EMS1130M까지 단일 잡서 실호출) + 일시 과부하(529/5xx)·타임아웃(rc=124) 흡수(260622·4계정 확장 3→4)
 EFFORT="${PIPE_SEARCH_EFFORT:-max}"   # 검색·요약 추론깊이 — max 상향(운영자 260810 2차 지시 · A/B로 노력도↑=품질↑ 실증 후 확대). ⚠ 구 max→high 하향(260704)의 원인이던 이미지 다수검색은 IMG_SPLIT(260728)로 본선에서 분리됨 = 재도전 조건. 타임아웃 재발 시 롤백 = env PIPE_SEARCH_EFFORT(high/medium).
 IMG_SPLIT="${IMG_SPLIT:-1}"              # 관련이미지 수집 병렬 분리(운영자 260728 "소넷5 한명 붙여서 병렬") — '0' = 사진로봇 발사 안 함(image_sources 빈 채 → moreimg·og:image 백필만 = 무해 강하 · 롤백 레버)
 IMG_MODEL="${IMG_MODEL:-claude-sonnet-5}"   # 사진로봇 티어 = 소넷(구독 저부담) · ⚠️ --effort 미부여 관례(trend_images 동형 · models.json sonnet 축)

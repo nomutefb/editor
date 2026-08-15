@@ -45,12 +45,12 @@ jobs:
           LUCY_DRY_RUN: ${{ inputs.dry_run == true && '1' || '0' }}
           LUCY_REPLY_CAP: ${{ vars.LUCY_REPLY_CAP || '8' }}       # 1회 실행당 답글 상한(스팸 판정 방어)
           # 모델 = shared/model_env.sh PIPE_MODEL(claude-opus-5) · effort high 고정(운영자 260726) — 여기 미지정 = SSOT 계승
-          # OAuth 4계정 폴오버 체인 = sns-trends.yml 관용구 **그대로**(MUTENO→NOMUTEFB→EMS1130G→MUTENONA).
+          # OAuth 4계정 폴오버 체인 = sns-trends.yml 관용구 **그대로**(MUTENO→NOMUTEFB→EMS1130G→EMS1130M).
           # ⚠ 이름을 임의로 바꾸면(_2/_3/_4 등) claude_failover가 못 찾아 쿼터 소진 시 그냥 죽는다.
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets[format('CLAUDE_CODE_OAUTH_TOKEN_{0}', vars.ACTIVE_ACCOUNT || 'MUTENO')] }}
           CLAUDE_CODE_OAUTH_TOKEN_ALT: ${{ (vars.ACTIVE_ACCOUNT || 'MUTENO') == 'NOMUTEFB' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_NOMUTEFB }}
           CLAUDE_CODE_OAUTH_TOKEN_ALT2: ${{ (vars.ACTIVE_ACCOUNT || 'MUTENO') == 'MUTENO' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_MUTENO }}
-          CLAUDE_CODE_OAUTH_TOKEN_ALT3: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN_MUTENONA }}
+          CLAUDE_CODE_OAUTH_TOKEN_ALT3: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130M }}
         run: bash .github/scripts/lucy_threads.sh
       - name: 커밋(재답글 차단 상태 = 영속 필수 · git_land = 최신 main 재기점 재적층)
         # threads_state.json = **스팸 방지의 핵심**. 이 커밋이 빠지면 러너가 매 실행 기억을 잃고

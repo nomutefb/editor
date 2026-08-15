@@ -75,7 +75,7 @@ if [ -n "$AD" ] && [ -d "$AD" ]; then
 # [클로드 구독 토큰 4칸 — 러너 폴오버용(컴퓨터에선 로컬 로그인이 우선이라 보통 불필요)]
 #CLAUDE_CODE_OAUTH_TOKEN_EMS1130G=
 #CLAUDE_CODE_OAUTH_TOKEN_MUTENO=
-#CLAUDE_CODE_OAUTH_TOKEN_MUTENONA=
+#CLAUDE_CODE_OAUTH_TOKEN_EMS1130M=
 #CLAUDE_CODE_OAUTH_TOKEN_NOMUTEFB=
 #
 # [수집 조절값(선택)]  예) SCRAPE_TOP=20

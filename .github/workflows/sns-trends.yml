@@ -147,18 +147,18 @@ jobs:
         env:
           SNS_BRIEF: ${{ inputs.brief || '1' }}   # 기본 ON 승격(§📰-e 이행 완료 — 카나리아 2차 run 실측 260712: 브리프 626자·sha 8d8d8af9·fail-soft/스킵 게이트 정상 · schedule = inputs 없음 → '1') · dispatch brief='0' = 일시 OFF · 롤백 = || '0'
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets[format('CLAUDE_CODE_OAUTH_TOKEN_{0}', vars.ACTIVE_ACCOUNT || 'MUTENO')] }}
-          CLAUDE_CODE_OAUTH_TOKEN_ALT: ${{ (vars.ACTIVE_ACCOUNT || 'MUTENO') == 'NOMUTEFB' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_NOMUTEFB }}   # 서브1 폴오버(체인 MUTENO→NOMUTEFB→EMS1130G→MUTENONA · news-analyze 관용구)
+          CLAUDE_CODE_OAUTH_TOKEN_ALT: ${{ (vars.ACTIVE_ACCOUNT || 'MUTENO') == 'NOMUTEFB' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_NOMUTEFB }}   # 서브1 폴오버(체인 MUTENO→NOMUTEFB→EMS1130G→EMS1130M · news-analyze 관용구)
           CLAUDE_CODE_OAUTH_TOKEN_ALT2: ${{ (vars.ACTIVE_ACCOUNT || 'MUTENO') == 'MUTENO' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_MUTENO }}   # 서브2 폴오버(체인 3번째)
-          CLAUDE_CODE_OAUTH_TOKEN_ALT3: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN_MUTENONA }}   # 서브3 폴오버(실꼬리 = 항상 MUTENONA)
+          CLAUDE_CODE_OAUTH_TOKEN_ALT3: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130M }}   # 서브3 폴오버(실꼬리 = 항상 EMS1130M)
         run: bash .github/scripts/sns_brief.sh   # 게이트·스킵·fail-soft 전부 스크립트 내(rc 항상 0 = 수집 커밋 비차단)
 
       - name: 블루스카이 번역(⑦ topic·ko · 증분 carry · 번역대상 0=스킵 · 실패=carry 유지 · 운영자 260713)
         env:
           BSKY_TR: ${{ inputs.bsky_tr || '0' }}   # 기본 OFF 전환(운영자 260721 "블루스카이는 실검만 사용" — 게시물 표면 소멸로 안 보이는 본문에 30분마다 LLM 번역 = 토큰 낭비 차단 · 실검 bsky_trends 번역 = 아래 무키 gtx sns_tr가 담당) · 게시물 표면 재도입 시 = || '1' 원복(구 기본 ON 근거 = 카나리아 run 29222700305 실측 260713 · 증분 carry 재번역 0) · dispatch bsky_tr='1' = 일시 ON · sns_trends.json 직접 병합(Commit git add 커버)
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets[format('CLAUDE_CODE_OAUTH_TOKEN_{0}', vars.ACTIVE_ACCOUNT || 'MUTENO')] }}
-          CLAUDE_CODE_OAUTH_TOKEN_ALT: ${{ (vars.ACTIVE_ACCOUNT || 'MUTENO') == 'NOMUTEFB' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_NOMUTEFB }}   # 서브1 폴오버(체인 MUTENO→NOMUTEFB→EMS1130G→MUTENONA)
+          CLAUDE_CODE_OAUTH_TOKEN_ALT: ${{ (vars.ACTIVE_ACCOUNT || 'MUTENO') == 'NOMUTEFB' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_NOMUTEFB }}   # 서브1 폴오버(체인 MUTENO→NOMUTEFB→EMS1130G→EMS1130M)
           CLAUDE_CODE_OAUTH_TOKEN_ALT2: ${{ (vars.ACTIVE_ACCOUNT || 'MUTENO') == 'MUTENO' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_MUTENO }}   # 서브2 폴오버(체인 3번째)
-          CLAUDE_CODE_OAUTH_TOKEN_ALT3: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN_MUTENONA }}   # 서브3 폴오버(실꼬리 = 항상 MUTENONA)
+          CLAUDE_CODE_OAUTH_TOKEN_ALT3: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130M }}   # 서브3 폴오버(실꼬리 = 항상 EMS1130M)
         run: bash .github/scripts/bsky_brief.sh   # 게이트·스킵·fail-soft 전부 스크립트 내(rc 항상 0 = 커밋 비차단)
 
       - name: SNS 제목·본문 한글 번역(외국어 → ko · 전 소스 · 무키 gtx · 증분 carry · 대상 0=스킵 · 실패=원문 유지 · 운영자 260719 "미리 다 달아놔")
@@ -171,9 +171,9 @@ jobs:
           SNS_SUM: ${{ inputs.sns_sum || '1' }}   # 기본 ON(sns_tr와 동일 fail-soft 클래스 — 실패 = 뷰어 원문 폴백 렌더라 표시 공백 0 · schedule=inputs 없음→'1') · dispatch sns_sum='0' = 일시 OFF 롤백 · carry는 git HEAD(1차 커밋분)+수집기 승계 블록 2중 = 재요약 0 · sns_trends.json 직접 병합(맨끝 Commit git add 커버)
           SNS_SUM_MODEL: claude-sonnet-5   # 운영자 260726 "sonnet 5 high 붙여가지고" — 요약 = 기계 분류 축(소넷 티어) · effort high는 스크립트 내 고정
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets[format('CLAUDE_CODE_OAUTH_TOKEN_{0}', vars.ACTIVE_ACCOUNT || 'MUTENO')] }}
-          CLAUDE_CODE_OAUTH_TOKEN_ALT: ${{ (vars.ACTIVE_ACCOUNT || 'MUTENO') == 'NOMUTEFB' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_NOMUTEFB }}   # 서브1 폴오버(체인 MUTENO→NOMUTEFB→EMS1130G→MUTENONA · news-analyze 관용구)
+          CLAUDE_CODE_OAUTH_TOKEN_ALT: ${{ (vars.ACTIVE_ACCOUNT || 'MUTENO') == 'NOMUTEFB' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_NOMUTEFB }}   # 서브1 폴오버(체인 MUTENO→NOMUTEFB→EMS1130G→EMS1130M · news-analyze 관용구)
           CLAUDE_CODE_OAUTH_TOKEN_ALT2: ${{ (vars.ACTIVE_ACCOUNT || 'MUTENO') == 'MUTENO' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_MUTENO }}   # 서브2 폴오버(체인 3번째)
-          CLAUDE_CODE_OAUTH_TOKEN_ALT3: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN_MUTENONA }}   # 서브3 폴오버(실꼬리 = 항상 MUTENONA)
+          CLAUDE_CODE_OAUTH_TOKEN_ALT3: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130M }}   # 서브3 폴오버(실꼬리 = 항상 EMS1130M)
         run: bash .github/scripts/sns_sum.sh   # 게이트·스킵·carry·fail-soft 전부 스크립트 내(rc 항상 0 = 커밋 비차단)
 
       - name: 트렌드 이미지 백필(Q126 · 구글 급상승 꼬리 카드 커버 · 운영자 260718)
@@ -182,9 +182,9 @@ jobs:
           TREND_IMG_MODEL: claude-sonnet-5   # 운영자 260718 "사진 안 중요하니 소넷으로"
           THUMB_UPSIZE: '0'   # 트렌드 타일 = 세로600 하드컷 면제(평의회 260812 조건부⑥ · 운영자 260812 「개선할 수 있는 영역 다」 승인) — 260810 화질 지시의 표적은 카드뉴스 산출(짧은변 1440 업샘플)이고 소형 타일 커버는 별개 축인데, 컷이 이 경로에 상속된 뒤 관측창 백필 0/28·노출대 결측 60%(자체 워치독 임계 40% 초과) = 화면이 로고 타일로 고사 + 재검색 루프 증폭. 스위치 = thumb_gen._UPSIZE_ON 킬스위치 경로(코드 무접촉 · 이 스텝 한정 = 카드뉴스 축 무접촉) · 되돌리기 = 이 줄 삭제 · 효과 실측 = 다음 런들의 「gtrends 커버 최종 N/25」 워치독 줄
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets[format('CLAUDE_CODE_OAUTH_TOKEN_{0}', vars.ACTIVE_ACCOUNT || 'MUTENO')] }}
-          CLAUDE_CODE_OAUTH_TOKEN_ALT: ${{ (vars.ACTIVE_ACCOUNT || 'MUTENO') == 'NOMUTEFB' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_NOMUTEFB }}   # 서브1 폴오버(체인 MUTENO→NOMUTEFB→EMS1130G→MUTENONA)
+          CLAUDE_CODE_OAUTH_TOKEN_ALT: ${{ (vars.ACTIVE_ACCOUNT || 'MUTENO') == 'NOMUTEFB' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_NOMUTEFB }}   # 서브1 폴오버(체인 MUTENO→NOMUTEFB→EMS1130G→EMS1130M)
           CLAUDE_CODE_OAUTH_TOKEN_ALT2: ${{ (vars.ACTIVE_ACCOUNT || 'MUTENO') == 'MUTENO' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_MUTENO }}   # 서브2 폴오버(체인 3번째)
-          CLAUDE_CODE_OAUTH_TOKEN_ALT3: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN_MUTENONA }}   # 서브3 폴오버(실꼬리 = 항상 MUTENONA)
+          CLAUDE_CODE_OAUTH_TOKEN_ALT3: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130M }}   # 서브3 폴오버(실꼬리 = 항상 EMS1130M)
           R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
           R2_BUCKET: ${{ secrets.R2_BUCKET }}
           R2_PUBLIC_BASE: ${{ secrets.R2_PUBLIC_BASE }}

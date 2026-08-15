@@ -88,7 +88,7 @@ jobs:
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets[format('CLAUDE_CODE_OAUTH_TOKEN_{0}', vars.ACTIVE_ACCOUNT || 'MUTENO')] }}
           CLAUDE_CODE_OAUTH_TOKEN_ALT: ${{ (vars.ACTIVE_ACCOUNT || 'MUTENO') == 'NOMUTEFB' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_NOMUTEFB }}
           CLAUDE_CODE_OAUTH_TOKEN_ALT2: ${{ (vars.ACTIVE_ACCOUNT || 'MUTENO') == 'MUTENO' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_MUTENO }}
-          CLAUDE_CODE_OAUTH_TOKEN_ALT3: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN_MUTENONA }}
+          CLAUDE_CODE_OAUTH_TOKEN_ALT3: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130M }}
         run: |
           python3 .github/scripts/insta_cover_ocr.py || true
           python3 apps/insta/insta_signals.py || true
@@ -96,9 +96,9 @@ jobs:
         env:
           CHAN_BRIEF: ${{ github.event_name == 'push' && '0' || (inputs.brief || '1') }}   # 기본 ON(§📰-e 이행 — 카나리아 run 29263671640 실측 260714: 성장 서사+전략 4줄 정상 · schedule = inputs 없음 → '1') · dispatch brief='0' = 일시 OFF · push(하트비트) = '0' 강제(데이터 수집만 · 비싼 AI 브리프는 3h schedule 전용 · 260720) · 롤백 = inputs.brief || '1'
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets[format('CLAUDE_CODE_OAUTH_TOKEN_{0}', vars.ACTIVE_ACCOUNT || 'MUTENO')] }}
-          CLAUDE_CODE_OAUTH_TOKEN_ALT: ${{ (vars.ACTIVE_ACCOUNT || 'MUTENO') == 'NOMUTEFB' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_NOMUTEFB }}   # 서브1 폴오버(체인 MUTENO→NOMUTEFB→EMS1130G→MUTENONA · sns-trends 관용구)
+          CLAUDE_CODE_OAUTH_TOKEN_ALT: ${{ (vars.ACTIVE_ACCOUNT || 'MUTENO') == 'NOMUTEFB' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_NOMUTEFB }}   # 서브1 폴오버(체인 MUTENO→NOMUTEFB→EMS1130G→EMS1130M · sns-trends 관용구)
           CLAUDE_CODE_OAUTH_TOKEN_ALT2: ${{ (vars.ACTIVE_ACCOUNT || 'MUTENO') == 'MUTENO' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_MUTENO }}   # 서브2 폴오버(체인 3번째)
-          CLAUDE_CODE_OAUTH_TOKEN_ALT3: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN_MUTENONA }}   # 서브3 폴오버(실꼬리 = 항상 MUTENONA)
+          CLAUDE_CODE_OAUTH_TOKEN_ALT3: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130M }}   # 서브3 폴오버(실꼬리 = 항상 EMS1130M)
         run: bash .github/scripts/chan_brief.sh   # 게이트·스킵·fail-soft 전부 스크립트 내(rc 항상 0 = 수집 커밋 비차단)
       - name: 커밋(IG 브리프 즉시 착지 · 평의회 260724) — 뒤 직렬 fb_brief 하드킬(잡 timeout·폴오버)로부터 방금 생성한 chan_brief.json 보호 = '브리프 정지' 사고 클래스 재발방지(1차/2차 분리 패턴 계승 · fb_brief는 별 프로세스라 $SECONDS 리셋으로 잡 누적시간 미인지)
         run: |
@@ -115,7 +115,7 @@ jobs:
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets[format('CLAUDE_CODE_OAUTH_TOKEN_{0}', vars.ACTIVE_ACCOUNT || 'MUTENO')] }}
           CLAUDE_CODE_OAUTH_TOKEN_ALT: ${{ (vars.ACTIVE_ACCOUNT || 'MUTENO') == 'NOMUTEFB' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_NOMUTEFB }}
           CLAUDE_CODE_OAUTH_TOKEN_ALT2: ${{ (vars.ACTIVE_ACCOUNT || 'MUTENO') == 'MUTENO' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_MUTENO }}
-          CLAUDE_CODE_OAUTH_TOKEN_ALT3: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN_MUTENONA }}
+          CLAUDE_CODE_OAUTH_TOKEN_ALT3: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130M }}
         run: bash .github/scripts/fb_brief.sh   # 게이트·스킵·fail-soft 전부 스크립트 내(rc 항상 0 = 수집 커밋 비차단)
       - name: 회차 원장 append(알고리즘 인사이트 · 운영자 260802 · 평의회 합의) — 요약 전문+쓴 데이터+그 시점 실검·커뮤니티 키워드를 apps/insta/data/algo_runs/에 1줄 누적. 배치 = fb_brief 뒤·맨끝 커밋 앞(중간 git_land의 reset --hard가 인자 밖 append를 되돌리는 자리 회피 · 맨끝 git_land의 apps/insta/data 디렉터리 인자가 자동 착지 = 인자 수정 0). stdlib·네트워크0·LLM 0콜·실측 수십 ms · 멱등(dk+run_id) · 롤백 = repo variable ALGO_LEDGER=0
         if: ${{ github.event_name != 'push' && (vars.ALGO_LEDGER || '1') != '0' }}   # 하트비트(push) 런 배제 = 40회/일 중복 스냅샷 차단 · 브리프 레인(schedule·dispatch)만. ⚠ vars 미설정 = null인데 GitHub 표현식은 null·'0' 둘 다 숫자 0으로 강제 = null != '0' 이 거짓 → 미설정에서 통째 스킵(실측 run 30745853205 · || '1' 관용구가 교정)

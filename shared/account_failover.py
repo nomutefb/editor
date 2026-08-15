@@ -34,9 +34,9 @@ import sys
 import urllib.error
 import urllib.request
 
-# 계정 체인 SSOT = 워크플로 env 매핑(MUTENO→NOMUTEFB→EMS1130G→MUTENONA)과 동일 순서·순환.
+# 계정 체인 SSOT = 워크플로 env 매핑(MUTENO→NOMUTEFB→EMS1130G→EMS1130M)과 동일 순서·순환.
 #   ⚠️ 체인을 바꾸면 워크플로들의 CLAUDE_CODE_OAUTH_TOKEN_ALT* 조건식도 같이 바꿔야 정합(양쪽 동기).
-CHAIN = ["MUTENO", "NOMUTEFB", "EMS1130G", "MUTENONA"]
+CHAIN = ["MUTENO", "NOMUTEFB", "EMS1130G", "EMS1130M"]
 THRESHOLD = int(os.environ.get("PROMOTE_THRESHOLD", "2") or "2")   # 활성 계정 쿼터 몇 회 누적 시 승격(운영자 = 2)
 API = "https://api.github.com"
 
