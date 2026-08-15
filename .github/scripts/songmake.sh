@@ -218,6 +218,7 @@ if mode == "options":
     assert len(opts) >= 3, "옵션 너무 적음(형식 이탈)"
     write("options.json", {"v": 1, "ts": ts, "genre": genre, "express": express, "options": opts})
     print("options.json: 옵션 {}개".format(len(opts)))
+    raise SystemExit(0)   # options = 여기서 종료(260815 봉합) — 종료 없이는 아래 suno/lyria 검증으로 낙하해 options 런이 전부 실패로 찍혔다(산출은 always-커밋이 살려 화면만 정상 — 실측: 맥 레인 2연속 + GH도 동일 구조)
 def force(text, forced, cap):
     """3층 강제 — LLM이 강제 태그를 빠뜨렸으면 코드가 기계적으로 넣는다(재량 0).
        '게이지가 실제로 영향을 준다'의 보장원이 여기다. 2층(프롬프트)은 품질(정합성) 담당이고,
