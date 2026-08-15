@@ -139,6 +139,16 @@ export async function onRequestPost({ request, env }) {
     inputs: { id, lines: JSON.stringify(lines), ctx: Object.keys(ctx).length ? JSON.stringify(ctx) : '', imgkey: imgKey },
   });
   if (r.status !== 204) {
+    // 발사 실패 → R2 잡 큐 착지(260815 코워크 fail-soft) — id 보존 = 뷰어 폴링 무변.
+    if (env.R2) {
+      try {
+        await env.R2.put(`queue/jobs/${id}-tr.json`, JSON.stringify({
+          kind: 'tr', id, ts: new Date().toISOString(),
+          inputs: { id, lines: JSON.stringify(lines), ctx: Object.keys(ctx).length ? JSON.stringify(ctx) : '', imgkey: imgKey },
+        }));
+        return json({ id, via: 'r2-queue' });
+      } catch { /* R2도 실패 → 종전 502 */ }
+    }
     const t = await r.text().catch(() => '');
     return json({ error: `워크플로 발사 실패 ${r.status} — ${t.slice(0, 160)}` }, 502);
   }

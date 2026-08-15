@@ -76,5 +76,16 @@ export async function onRequestPost({ request, env }) {
     },
   );
   if (r.status === 204) return json({ ok: true, article, mode });
+  // 발사 실패 → R2 잡 큐 착지(260815 코워크 fail-soft) — inputs 원본 그대로 적재(값 창작 0).
+  if (env.R2) {
+    try {
+      const qid = new Date(Date.now() + 9 * 3600e3).toISOString().replace(/[^0-9]/g, '').slice(2, 14) + '-' + Math.random().toString(16).slice(2, 8);
+      await env.R2.put(`queue/jobs/${qid}-make-cards.json`, JSON.stringify({
+        kind: 'make-cards', id: qid, ts: new Date().toISOString(),
+        inputs: Object.assign({ id: qid }, inputs),
+      }));
+      return json({ ok: true, article, mode, via: 'r2-queue' });
+    } catch { /* R2도 실패 → 종전 502 */ }
+  }
   return json({ error: `GitHub ${r.status}: ${(await r.text()).slice(0, 300)}` }, 502);
 }

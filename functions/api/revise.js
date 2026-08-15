@@ -36,6 +36,17 @@ export async function onRequestPost({ request, env }) {
     );
   } catch { return json({ error: 'GitHub 접속 실패(깃허브 장애 가능성) — 재시도' }, 503); }
   if (r.status === 204) return json({ ok: true });
+  // 발사 실패 → R2 잡 큐 착지(260815 코워크 fail-soft)
+  if (env.R2) {
+    try {
+      const qid = new Date(Date.now() + 9 * 3600e3).toISOString().replace(/[^0-9]/g, '').slice(2, 14) + '-' + Math.random().toString(16).slice(2, 8);
+      await env.R2.put(`queue/jobs/${qid}-revise.json`, JSON.stringify({
+        kind: 'revise', id: qid, ts: new Date().toISOString(),
+        inputs: { id: qid, file, instruction },
+      }));
+      return json({ ok: true, via: 'r2-queue' });
+    } catch { /* R2도 실패 → 아래 종전 응답 */ }
+  }
   if (r.status >= 500) return json({ error: `GitHub 서버 장애(${r.status}) — 재시도` }, 503);
   return json({ error: `GitHub ${r.status}: ${(await r.text()).slice(0, 300)}` }, 502);
 }

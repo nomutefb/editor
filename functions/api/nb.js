@@ -49,6 +49,12 @@ export async function onRequestPost({ request, env }) {
       ref: REF, inputs: { id: idT, url: '', ask, mode: 'text', text, title, kind },
     });
     if (rT.status === 204) return json({ ok: true, id: idT, out: `nb_out/${idT}/note.json` });
+    if (env.R2) {   // 발사 실패 → R2 잡 큐 착지(260815 코워크 fail-soft)
+      try {
+        await env.R2.put(`queue/jobs/${idT}-nb.json`, JSON.stringify({ kind: 'nb', id: idT, ts: new Date().toISOString(), inputs: { id: idT, url: '', ask, mode: 'text', text, title, kind } }));
+        return json({ ok: true, id: idT, out: `nb_out/${idT}/note.json`, via: 'r2-queue' });
+      } catch { /* 종전 502 */ }
+    }
     return json({ error: `발사 실패 GitHub ${rT.status}: ${(await rT.text()).slice(0, 200)}` }, 502);
   }
 
@@ -76,6 +82,12 @@ export async function onRequestPost({ request, env }) {
       ref: REF, inputs: { id: idF, url: '', ask, mode: 'file', file: filePath, r2_src: r2src, title: title || name },
     });
     if (rF.status === 204) return json({ ok: true, id: idF, out: `nb_out/${idF}/note.json` });
+    if (env.R2) {   // 발사 실패 → R2 잡 큐 착지(260815 코워크 fail-soft)
+      try {
+        await env.R2.put(`queue/jobs/${idF}-nb.json`, JSON.stringify({ kind: 'nb', id: idF, ts: new Date().toISOString(), inputs: { id: idF, url: '', ask, mode: 'file', file: filePath, r2_src: r2src, title: title || name } }));
+        return json({ ok: true, id: idF, out: `nb_out/${idF}/note.json`, via: 'r2-queue' });
+      } catch { /* 종전 502 */ }
+    }
     return json({ error: `발사 실패 GitHub ${rF.status}: ${(await rF.text()).slice(0, 200)}` }, 502);
   }
 
@@ -98,5 +110,11 @@ export async function onRequestPost({ request, env }) {
     ref: REF, inputs: { id, url, ask, mode: 'url' },
   });
   if (r.status === 204) return json({ ok: true, id, out: `nb_out/${id}/note.json` });
+  if (env.R2) {   // 발사 실패 → R2 잡 큐 착지(260815 코워크 fail-soft)
+    try {
+      await env.R2.put(`queue/jobs/${id}-nb.json`, JSON.stringify({ kind: 'nb', id, ts: new Date().toISOString(), inputs: { id, url, ask, mode: 'url' } }));
+      return json({ ok: true, id, out: `nb_out/${id}/note.json`, via: 'r2-queue' });
+    } catch { /* 종전 502 */ }
+  }
   return json({ error: `발사 실패 GitHub ${r.status}: ${(await r.text()).slice(0, 200)}` }, 502);
 }
