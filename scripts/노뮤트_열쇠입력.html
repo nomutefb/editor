@@ -118,7 +118,8 @@ const KEYS = [
     ['NAVER_CLIENT_ID','네이버 검색 앱 번호 — 화재 후속 추적·소셜 스캔이 씀',0],
     ['NAVER_CLIENT_SECRET','네이버 검색 앱 비밀값',0],
     ['YOUTUBE_API_KEY','유튜브 트렌드 수집 — 구글 클라우드 데이터 API 키',0],
-    ['KOPIS_API_KEY','박스오피스 수집 — 영화진흥위 키',0]]},
+    ['KOPIS_API_KEY','박스오피스 수집 — 영화진흥위 키',0],
+    ['EX_HIGHWAY_API_KEY','고속도로 돌발·사고 수집 — 한국도로공사 공공데이터 키',0]]},
   {g:'⑤ 화면 재배포 — 요약이 나온 뒤 화면을 다시 굽는 신호', k:[
     ['CF_DEPLOY_HOOK','클라우드플레어 페이지 배포 훅 주소(https 로 시작)',0]]},
   {g:'⑥ 영상·음원 제작 통로 — 쓰는 통로만 채우면 됨', k:[
@@ -165,6 +166,7 @@ const HOWTO = {
   NAVER_CLIENT_ID: '네이버 개발자센터(developers.naver.com) → 애플리케이션 등록 → 검색 기능 선택 → 등록하면 아이디가 나온다.',
   NAVER_CLIENT_SECRET: '같은 화면의 비밀값(Secret) 항목. 안 보이면 [보기] 단추를 누른다.',
   YOUTUBE_API_KEY: '구글 클라우드 콘솔 → API 및 서비스 → 라이브러리에서 YouTube Data API v3 사용 설정 → 사용자 인증 정보 → API 키 만들기.',
+  EX_HIGHWAY_API_KEY: '고속도로 돌발상황·사고 전용 — 한국도로공사 공공데이터 포털에서 발급. ⚠ 박스오피스·재난문자와 발급처가 각각 다르다(셋 다 다른 키).',
   KOPIS_API_KEY: '박스오피스 전용 — 영화진흥위원회 영화관 입장권 통합전산망(kobis.or.kr) → 오픈 API → 키 발급 신청 → 나온 키를 복사.',
   DATAGOKR_SAFETY_KEY: '재난문자 전용 — 공공데이터포털(data.go.kr) 로그인 → 재난문자 관련 서비스 활용신청 → 마이페이지의 일반 인증키(Encoding) 복사. ⚠ 박스오피스 키와 발급처가 다르다(같은 키로 안 된다).',
   CF_DEPLOY_HOOK: '클라우드플레어 → Pages → 노뮤트 프로젝트 → 설정 → 빌드 및 배포 → 배포 훅 만들기 → 나온 주소를 통째로 복사.',
