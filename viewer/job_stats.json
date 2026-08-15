@@ -1,77 +1,77 @@
 {
-  "generated": "2026-07-26T18:40:13.376Z",
+  "generated": "2026-08-15T12:24:26.506Z",
   "stats": {
     "news-analyze/analyze": {
-      "n": 266,
-      "cost": 2.7749,
-      "dur": 277,
-      "tok": 461008
+      "n": 497,
+      "cost": 1.6475,
+      "dur": 241,
+      "tok": 458457
     },
     "news-analyze/card_plan": {
-      "n": 257,
-      "cost": 2.1849,
-      "dur": 495,
-      "tok": 177750
+      "n": 738,
+      "cost": 1.9995,
+      "dur": 400,
+      "tok": 188049
     },
     "breaking-judge/judge": {
-      "n": 7769,
-      "cost": 0.0661,
-      "dur": 10,
-      "tok": 23596
+      "n": 12946,
+      "cost": 0.072,
+      "dur": 8,
+      "tok": 23761
     },
     "news-ask/ask": {
-      "n": 92,
-      "cost": 1.5266,
-      "dur": 221,
-      "tok": 513229
+      "n": 174,
+      "cost": 1.4067,
+      "dur": 209,
+      "tok": 435296
     },
     "news-ask/card_plan": {
-      "n": 96,
-      "cost": 1.8628,
-      "dur": 402,
-      "tok": 180154
+      "n": 275,
+      "cost": 1.494,
+      "dur": 101,
+      "tok": 167277
     },
     "news-revise/card_refresh": {
-      "n": 14,
-      "cost": 2.684,
-      "dur": 485,
-      "tok": 179717
+      "n": 19,
+      "cost": 2.0848,
+      "dur": 410,
+      "tok": 172197
     },
     "news-revise/revise": {
-      "n": 22,
-      "cost": 1.3948,
-      "dur": 299,
-      "tok": 127394
+      "n": 27,
+      "cost": 1.3802,
+      "dur": 218,
+      "tok": 127277
     },
     "card-make/cards": {
-      "n": 26,
-      "cost": 2.3615,
-      "dur": 534,
-      "tok": 179898
+      "n": 48,
+      "cost": 1.3654,
+      "dur": 199,
+      "tok": 161574
     },
     "ly-make/ly": {
-      "n": 38,
-      "cost": 1.0761,
-      "dur": 86,
-      "tok": 193707
+      "n": 51,
+      "cost": 1.0908,
+      "dur": 18,
+      "tok": 166319
     },
     "imggen/gen": {
-      "n": 7,
-      "cost": 0.8443,
-      "dur": 97,
-      "tok": 91090
+      "n": 16,
+      "cost": 0.8385,
+      "dur": 43,
+      "tok": 67629
     },
     "track-make/track": {
-      "n": 2,
-      "cost": 0.4949,
-      "dur": 135,
-      "tok": 47925
+      "n": 6,
+      "cost": 0.2236,
+      "dur": 44,
+      "tok": 39950
     },
     "edit-make/edit": {
-      "n": 5,
-      "cost": 0.7134,
-      "dur": 112,
-      "tok": 71879
+      "n": 61,
+      "cost": 0.6267,
+      "dur": 12,
+      "tok": 144654
     },
     "k-make/k": {
       "n": 1,
@@ -86,16 +86,40 @@
       "tok": 102799
     },
     "tr-auto/tr": {
-      "n": 5,
-      "cost": 0,
-      "dur": 1,
-      "tok": 56513
+      "n": 7,
+      "cost": 0.439,
+      "dur": 11,
+      "tok": 64529
     },
     "nb-make/nb": {
-      "n": 1,
-      "cost": 0.3719,
+      "n": 5,
+      "cost": 0.9947,
       "dur": 49,
-      "tok": 43688
+      "tok": 111107
+    },
+    "cards-revise/revise-cards": {
+      "n": 12,
+      "cost": 1.711,
+      "dur": 299,
+      "tok": 148832
+    },
+    "sns-trends/collect": {
+      "n": 979,
+      "cost": 1.1751,
+      "dur": 210,
+      "tok": 396445
+    },
+    "insta-fetch/fetch": {
+      "n": 190,
+      "cost": 0.6008,
+      "dur": 185,
+      "tok": 105024
+    },
+    "sb-make/sb": {
+      "n": 15,
+      "cost": 5.1447,
+      "dur": 242,
+      "tok": 1056343
     }
   }
 }

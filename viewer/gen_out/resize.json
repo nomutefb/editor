@@ -1,5 +1,58 @@
 [
   {
+    "url": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/resize/260815212245-257e39/9x16-d5c52c07.jpg",
+    "srcUrl": "uploads/260815212245-257e39/src.jpg",
+    "aspect": "9:16",
+    "size": "1K",
+    "lock": true,
+    "route": "gemini",
+    "fill": "auto",
+    "qa": "PASS",
+    "calls": {
+      "gen": 1,
+      "judge": 1
+    },
+    "model": "gemini-3.1-flash-image-preview",
+    "qa_why": "The image is a legitimate uncrop of the original, revealing more of the hair, neck, and shoulders without any errors.",
+    "tries": [
+      {
+        "t": 1,
+        "streak": 0.0,
+        "bands": {
+          "top": 0.0,
+          "bottom": 0.0,
+          "left": 0.0,
+          "right": 0.0
+        },
+        "enc": "2:2",
+        "qa": "PASS",
+        "why": "The image is a legitimate uncrop of the original, revealing more of the hair, neck, and shoulders without any errors."
+      }
+    ],
+    "usage": [
+      {
+        "tag": "resize:t1",
+        "prompt": 1190,
+        "output": 1539,
+        "total": 2729
+      },
+      {
+        "tag": "resize:judge",
+        "prompt": 921,
+        "output": 33,
+        "total": 954
+      }
+    ],
+    "box": [
+      0.06604,
+      0.22697,
+      0.92947,
+      0.52283
+    ],
+    "id": "260815212245-257e39",
+    "ts": "2026-08-15T21:24:20+09:00"
+  },
+  {
     "url": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/resize/260815132129-062773/16x9-20d2616d.jpg",
     "srcUrl": "uploads/260815132129-062773/src.jpg",
     "aspect": "16:9",
@@ -701,18 +754,5 @@
     "box": null,
     "id": "t6a916",
     "ts": "2026-08-07T15:51:51+09:00"
-  },
-  {
-    "url": "https://pub-83f8cf3892ae44c38bebf1805c954508.r2.dev/resize/g545/4x5-1d58e8ae.jpg",
-    "srcUrl": "uploads/g545/src.jpg",
-    "aspect": "4:5",
-    "size": "1K",
-    "lock": true,
-    "route": "gemini",
-    "fill": "ai",
-    "qa": "PASS",
-    "box": null,
-    "id": "g545",
-    "ts": "2026-08-07T14:48:51+09:00"
   }
 ]
