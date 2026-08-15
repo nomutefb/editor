@@ -10,7 +10,7 @@ vars.ACTIVE_ACCOUNT 를 계정 체인의 다음 계정으로 전진(PATCH). 4계
 주간 리셋되면 순환하다 자연 복귀한다(원복 로직 0). 다음 런부터는 살아있는 계정에서 시작 = 손해 종료.
 
 ⚠️ no-op 안전장치(라이브 무해 = §파이프라인 '라이브 플래그 기본 OFF'):
-  · GH_VARS_TOKEN(Variables 쓰기 PAT) 미설정 → 아무것도 안 함(exit 0). 운영자가 PAT 넣는 순간 켜짐.
+  · GH_TOKEN(Variables 쓰기 PAT) 미설정 → 아무것도 안 함(exit 0). 운영자가 PAT 넣는 순간 켜짐.
   · 신호 파일(NOMUTE_QUOTA_SIGNAL · 기본 $GITHUB_WORKSPACE/.nomute_active_quota) 없음
     = 이번 런에 활성 계정이 쿼터로 안 막힘 → hits 안 건드림(exit 0).
   · 모든 예외 = 삼키고 exit 0 (승격 실패가 파이프라인을 절대 안 깸).
@@ -85,12 +85,12 @@ def _del_var(name, token):
 
 
 def selftest():
-    """GH_VARS_TOKEN 이 Variables 를 실제로 읽고/쓰고/지울 수 있는지 실측(PAT 권한 확인).
+    """GH_TOKEN 이 Variables 를 실제로 읽고/쓰고/지울 수 있는지 실측(PAT 권한 확인).
     ⚠️ 활성 계정(ACTIVE_ACCOUNT)·카운터(ACTIVE_QUOTA_HITS)는 안 건드린다 — 전용 probe 변수만 왕복.
     통과 = rc0 / 권한·설정 문제 = rc1(승격 main 과 달리 fail-soft 아님 = 테스트라 실패를 드러냄)."""
-    token = (os.environ.get("GH_VARS_TOKEN") or "").strip()
+    token = (os.environ.get("GH_TOKEN") or "").strip()
     if not token:
-        print("❌ GH_VARS_TOKEN 미설정 — Secrets 탭에 등록됐는지 확인(이름 철자 GH_VARS_TOKEN).")
+        print("❌ GH_TOKEN 미설정 — Secrets 탭에 등록됐는지 확인(이름 철자 GH_TOKEN).")
         return 1
     active = (os.environ.get("ACTIVE_ACCOUNT") or "MUTENO").strip()
     print("현재 활성 계정(ACTIVE_ACCOUNT) = %s · 체인 = %s" % (active, "→".join(CHAIN)))
@@ -117,9 +117,9 @@ def selftest():
 
 
 def main():
-    token = (os.environ.get("GH_VARS_TOKEN") or "").strip()
+    token = (os.environ.get("GH_TOKEN") or "").strip()
     if not token:
-        print("  ⏭️  GH_VARS_TOKEN 미설정 — 활성 계정 자동 승격 비활성(no-op · 라이브 무해).")
+        print("  ⏭️  GH_TOKEN 미설정 — 활성 계정 자동 승격 비활성(no-op · 라이브 무해).")
         return 0
 
     sig = os.environ.get("NOMUTE_QUOTA_SIGNAL") or os.path.join(

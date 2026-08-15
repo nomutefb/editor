@@ -2,7 +2,7 @@
 # 정본 = 이 레포 CLAUDE.md 마커 구간. main에 CLAUDE.md 변경이 머지되면 타 레포에 교체 PR을 자동 생성한다.
 # 직접 push 금지 설계 — 타 레포 반영은 언제나 PR 경유. 머지 = 자동(운영자 260717 Q61 "동기화 자동머지" 승인 = 무접촉).
 #   리뷰모드가 필요하면 수동 dispatch에서 automerge=false(PR만 열림). 정본 오염 방어선 = nomute-editor main 머지 시점(운영자)·마커 밖 무접촉(코드 보장).
-# 인증 = secrets.KIT_SYNC_TOKEN (kit-fanout.yml과 공용 · 전 레포 Contents/PR RW 파인그레인드 · 만기 2026-10-14).
+# 인증 = secrets.GH_TOKEN (kit-fanout.yml과 공용 · 전 레포 Contents/PR RW 파인그레인드 · 만기 2026-10-14).
 name: claude-sync
 on:
   push:
@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TZ: Asia/Seoul
-      GH_TOKEN: ${{ secrets.KIT_SYNC_TOKEN }}
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
       AUTOMERGE: ${{ github.event.inputs.automerge || 'true' }}
       TARGETS: muteno/YETA muteno/Saju muteno/yeulmaru-promo muteno/nomute_homepage muteno/TS
     steps:
@@ -33,7 +33,7 @@ jobs:
         run: |
           set -euo pipefail
           if [ -z "${GH_TOKEN:-}" ]; then
-            echo "::warning::KIT_SYNC_TOKEN 시크릿이 비어 있음 — 전파 스킵. kit-fanout.yml과 공용 시크릿: https://github.com/muteno/nomute-editor/settings/secrets/actions (fine-grained PAT · 대상 레포 Contents/Pull requests = Read and write)"
+            echo "::warning::GH_TOKEN 시크릿이 비어 있음 — 전파 스킵. kit-fanout.yml과 공용 시크릿: https://github.com/muteno/nomute-editor/settings/secrets/actions (fine-grained PAT · 대상 레포 Contents/Pull requests = Read and write)"
             exit 0
           fi
           python3 .github/scripts/claude_sync.py
