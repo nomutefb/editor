@@ -189,7 +189,8 @@ PY
     while IFS= read -r f; do
       [ -f "$f" ] || continue
       sz=$(/usr/bin/stat -f %z "$f" 2>/dev/null || echo 0); [ "$sz" -gt 20000000 ] && continue
-      S3 -X PUT "$B/${f#viewer/}" --data-binary "@$f" >/dev/null 2>&1 && ln=$((ln+1))
+      NMT_CT=$(case "${f##*.}" in (jpg|jpeg) echo image/jpeg;; (png) echo image/png;; (webp) echo image/webp;; (gif) echo image/gif;; (svg) echo "image/svg+xml";; (json) echo application/json;; (mp4|m4v) echo video/mp4;; (mov) echo video/quicktime;; (webm) echo video/webm;; (mp3) echo audio/mpeg;; (m4a) echo audio/mp4;; (wav) echo audio/wav;; (vtt|srt|txt|md) echo "text/plain; charset=utf-8";; (html) echo "text/html; charset=utf-8";; (css) echo text/css;; (js) echo text/javascript;; (*) echo application/octet-stream;; esac)   # CT 매핑(260815 코워크: 무CT PUT = x-www-form-urlencoded로 저장돼 api/dl 415 · 다운로드 0.02KB 사고 봉합)
+      S3 -X PUT "$B/${f#viewer/}" -H "Content-Type: $NMT_CT" --data-binary "@$f" >/dev/null 2>&1 && ln=$((ln+1))
     done <<EOF_LIVE
 $(git diff --name-only "$PRE_HEAD" "$POST_HEAD" 2>/dev/null | grep -E "^viewer/" | head -80)
 EOF_LIVE

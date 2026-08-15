@@ -10,6 +10,7 @@
 #   ③ 회차 후 상태·로그를 드라이브로 미러(직접 → zsh 대리 → 포기 · 실패해도 레인은 정상 = fail-soft).
 # 정본 스크립트(scripts/cloud_action.sh)는 손대지 않는다 — 이 파일은 설치 산출물(레포 밖).
 export PATH="/usr/bin:/opt/homebrew/bin:/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
+export PYTHONUTF8=1 PYTHONIOENCODING=utf-8   # 260815 cowork: launchd python heredoc UTF-8 SyntaxError seal (chan-brief digest / check_refs axis)
 # ↑ gnubin = GNU coreutils(timeout 등). 맥에 timeout 이 없어 재난트렌드·감시 스테이지가
 #   FAIL127(command not found)로 죽던 것 실측 봉합(260815 코워크). /usr/bin 뒤라 시스템 도구는 안 가림.
 DRIVE_AD="/Users/hwang/Library/CloudStorage/GoogleDrive-ems1130g@gmail.com/내 드라이브/action"

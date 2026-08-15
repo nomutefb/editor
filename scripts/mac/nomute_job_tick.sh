@@ -6,6 +6,7 @@
 #       두 스크립트 모두 자체 잠금 보유 = run.sh 후크와 겹쳐 불려도 동시 실행 0(늦은 쪽이 조용히 양보).
 set -u
 export PATH="/usr/bin:/opt/homebrew/bin:/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
+export PYTHONUTF8=1 PYTHONIOENCODING=utf-8   # 260815 cowork: launchd python heredoc UTF-8 SyntaxError seal (chan-brief digest / check_refs axis)
 date '+%F %T' > "$HOME/.nomute_job_tick_last" 2>/dev/null || true
 L="$HOME/job_tick.log"
 if [ -f "$L" ] && [ "$(/usr/bin/stat -f %z "$L" 2>/dev/null || echo 0)" -gt 400000 ]; then
@@ -44,4 +45,6 @@ if [ -n "$RH" ]; then
   fi
 fi
 NOMUTE_DEPLOY_REPO="$HOME/nomute-worker" bash "$HOME/nomute_backup_deploy.sh" >> "$L" 2>&1 || true
+bash "$HOME/nomute_home_deploy.sh" >> "$L" 2>&1 || true   # nomute.kr hourly rebuild (260815 cowork)
+( bash "$HOME/nomute_analyze_tick.sh" >> "$L" 2>&1 & )   # pending/asks instant consume (260815 cowork - summary queue delay seal)
 exit 0

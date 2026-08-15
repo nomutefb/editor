@@ -42,6 +42,7 @@ for k,v in ins.items():
 PY
 ) || exit 1
 eval "$PREP"
+[ -n "${I_OPTS:-}" ] || I_OPTS="{}"   # 260815 코워크: bash ${X:-{}}는 첫 }에서 닫혀 값 있으면 잉여 } 부착(framethumb Extra data 실측) — 가드로 대체
 if [ "${MODE:-}" = repost ]; then
   curl -s --max-time 40 -X POST "https://apps.nomute.kr/api/$API" -H 'Content-Type: application/json' --data @/tmp/wf_repost.json >/dev/null 2>&1
   exit 9
@@ -89,7 +90,7 @@ vidl)
   [ "$FAILED" = 0 ] && { runstep '완료 알림' || true; }
   ;;
 conv)
-  export IN_ID="$I_ID" CONV_OPTS="${I_OPTS:-{}}" BRANCH=main
+  export IN_ID="$I_ID" CONV_OPTS="$I_OPTS" BRANCH=main
   export YT_COOKIES="${YT_T2_COOKIES:-}" YT_COOKIES_NAME=YT_T2_COOKIES
   export YT_COOKIES_2="${YT_T_COOKIES:-}" YT_COOKIES_2_NAME=YT_T_COOKIES
   if [ -n "${I_URL:-}" ]; then export URL="$I_URL"; PATH="$HOME/nomute-pyw:$PATH" runstep '소스 확보 (URL)' || FAILED=1
@@ -129,18 +130,18 @@ thumbredo)
   runstep 'Commit' || true
   ;;
 resize)
-  export RESIZE_ID="$I_ID" RESIZE_SRC="${I_SRC:-}" RESIZE_OPTS="${I_OPTS:-{}}"
+  export RESIZE_ID="$I_ID" RESIZE_SRC="${I_SRC:-}" RESIZE_OPTS="$I_OPTS"
   export RESIZE_IMG_MODEL="${RESIZE_IMG_MODEL:-}" RESIZE_JUDGE_MODEL="${RESIZE_JUDGE_MODEL:-}" RESIZE_SEED="${RESIZE_SEED:-}" RESIZE_TRIES="${RESIZE_TRIES:-}" RESIZE_KEEP_REJ="${RESIZE_KEEP_REJ:-}"
   runstep 'Resize' || FAILED=1
   runstep 'Commit results' || true
   ;;
 upscale)
-  export UPSCALE_ID="$I_ID" UPSCALE_SRC="${I_SRC:-}" UPSCALE_OPTS="${I_OPTS:-{}}"
+  export UPSCALE_ID="$I_ID" UPSCALE_SRC="${I_SRC:-}" UPSCALE_OPTS="$I_OPTS"
   runstep 'Upscale' || FAILED=1
   runstep 'Commit results' || true
   ;;
 framethumb)
-  export FT_ID="$I_ID" FT_OPTS="${I_OPTS:-{}}" BRANCH=main
+  export FT_ID="$I_ID" FT_OPTS="$I_OPTS" BRANCH=main
   export YT_COOKIES="${YT_T2_COOKIES:-}" YT_COOKIES_NAME=YT_T2_COOKIES
   export YT_COOKIES_2="${YT_T_COOKIES:-}" YT_COOKIES_2_NAME=YT_T_COOKIES
   if [ -n "${I_URL:-}" ]; then export URL="$I_URL"; PATH="$HOME/nomute-pyw:$PATH" runstep '소스 확보 (URL)' || FAILED=1
