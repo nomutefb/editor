@@ -18,6 +18,7 @@ OUT_JSON="viewer/chan_brief.json"
 
 # ── 입력 다이제스트(insta_signals 산출물의 표시 전용 요약 — 재계산 0 · 지침 §4-7 분업 유지) + 변화 해시 ──
 DIG="$(python3 - <<'PY'
+# -*- coding: utf-8 -*-
 import json, hashlib
 def fv(v):
     """조회수 → 만/억 단위 한국식(반올림) — 원시 콤마숫자를 모델에 먹이면 만단위 지시를 무시하던 근원 차단(sns_brief 분신술2 계승)."""
