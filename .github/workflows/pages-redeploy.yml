@@ -54,7 +54,7 @@ jobs:
 
       - name: 라이브 도장 수렴 관측(최대 12분)
         run: |
-          stamp() { curl -fsSL -m 20 "https://editor.pages.dev/?p=$RANDOM" 2>/dev/null | grep -o "BUILD_STAMP = '[^']*'" | head -1 | sed "s/BUILD_STAMP = '//;s/'$//"; }
+          stamp() { curl -fsSL -m 20 "https://editor-6dw.pages.dev/?p=$RANDOM" 2>/dev/null | grep -o "BUILD_STAMP = '[^']*'" | head -1 | sed "s/BUILD_STAMP = '//;s/'$//"; }
           BEFORE="$(stamp)"; echo "발사 직전 라이브 도장 = ${BEFORE:-?}"
           for i in $(seq 1 72); do    # 10s×72 = 12분(live-smoke 동값)
             sleep 10

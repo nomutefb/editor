@@ -114,7 +114,7 @@ export async function onRequestPost({ request, env }) {
 function originOk(request) {   // 상태변경 POST = 동일출처만(settings/publish/push 동일)
   const o = request.headers.get('origin');
   if (!o) return false;
-  try { const h = new URL(o).hostname; return h === 'apps.nomute.kr' || h.endsWith('.nomute.kr') || h === 'editor.pages.dev' || h.endsWith('.editor.pages.dev'); } catch { return false; }
+  try { const h = new URL(o).hostname; return h === 'apps.nomute.kr' || h.endsWith('.nomute.kr') || h === 'editor-6dw.pages.dev' || h.endsWith('.editor-6dw.pages.dev'); } catch { return false; }
 }
 function b64utf8(str) {   // UTF-8 안전 base64(settings.js 동일 — Workers엔 unescape 없음)
   const bytes = new TextEncoder().encode(str);

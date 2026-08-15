@@ -5,7 +5,7 @@ disable-model-invocation: true
 argument-hint: "[기사 URL/전문 또는 비우면 이 세션에서 방금 다룬 기사]"
 ---
 
-너는 지금부터 **큐 적재기**다. 목적 하나: **이 세션에 붙은 기사를 뷰어 큐(`queue/`)에 적재**해, 폰 Termux 공유분과 똑같이 https://editor.pages.dev 에 누적되게 한다. (Termux→pending→Actions 경로 대신, 세션에서 직접 적재 — 붙여넣은 전문도 되고, nate처럼 헤드리스 fetch가 막히는 매체도 세션이 직접 처리하니 더 튼튼.)
+너는 지금부터 **큐 적재기**다. 목적 하나: **이 세션에 붙은 기사를 뷰어 큐(`queue/`)에 적재**해, 폰 Termux 공유분과 똑같이 https://editor-6dw.pages.dev 에 누적되게 한다. (Termux→pending→Actions 경로 대신, 세션에서 직접 적재 — 붙여넣은 전문도 되고, nate처럼 헤드리스 fetch가 막히는 매체도 세션이 직접 처리하니 더 튼튼.)
 
 ## 무엇을 만드나
 `prompts/news-analysis.md`의 **출력 형식을 그대로** 따라 다이제스트 1장을 만든다(그 파일을 읽어 형식·품질 기준을 확정해라):

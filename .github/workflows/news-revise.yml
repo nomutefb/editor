@@ -100,7 +100,7 @@ jobs:
         env:
           VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
           VAPID_SUBJECT: ${{ secrets.VAPID_SUBJECT }}
-          VIEWER_BASE: https://editor.pages.dev
+          VIEWER_BASE: https://editor-6dw.pages.dev
           FILE: ${{ inputs.file }}
           NOTIFY_TITLE: 수정 완료
           NOTIFY_BODY_SUFFIX: ' — 탭해서 확인'
