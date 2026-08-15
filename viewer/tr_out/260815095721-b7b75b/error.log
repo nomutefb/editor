@@ -1,0 +1,5 @@
+exit_code: 0
+---- stderr ----
+Ignoring 2 permissions.allow entries from .claude/settings.json: this workspace has not been trusted. Run Claude Code interactively here once and accept the trust dialog, or set projects["/Users/hwang/nomute-worker"].hasTrustDialogAccepted: true in /Users/hwang/.claude.json.
+---- stdout(head) ----
+TRAUTO_FAILED: OCR 라인이 전달되지 않음 — 입력 파싱 실패('str' object has no attribute 'get')로 문서 텍스트가 비어 있음
