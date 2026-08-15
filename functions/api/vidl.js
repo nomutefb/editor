@@ -64,5 +64,15 @@ export async function onRequestPost({ request, env }) {
     ref: REF, inputs: { id, url, mode, q },
   });
   if (r.status === 204) return json({ ok: true, id, mode, q, out: `vidl_out/${id}/result.json` });
+  // 발사 실패 → R2 잡 큐 착지(260815 코워크 · edit.js fail-soft 미러) — 맥 잡워커가 같은 입력 계약으로 소비.
+  if (env.R2) {
+    try {
+      await env.R2.put(`queue/jobs/${id}-vidl.json`, JSON.stringify({
+        kind: 'vidl', id, ts: new Date().toISOString(),
+        inputs: { id, url, mode, q },
+      }));
+      return json({ ok: true, id, mode, q, out: `vidl_out/${id}/result.json`, via: 'r2-queue', note: '깃허브 발사 실패 — 맥 워커 큐 접수' });
+    } catch { /* R2도 실패 → 종전 502(아래) */ }
+  }
   return json({ error: `발사 실패 GitHub ${r.status}: ${(await r.text()).slice(0, 200)}` }, 502);
 }

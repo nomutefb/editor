@@ -99,6 +99,16 @@ export async function onRequestPost({ request, env }) {
     ref: REF, inputs: { id, url, file: filePath, up_branch: upBranch, r2_src: r2src, opts: JSON.stringify(opts) },
   });
   if (r.status === 204) return json({ ok: true, id, out: `conv_out/${id}/video.json` });
+  // 발사 실패 → R2 잡 큐 착지(260815 코워크 · edit.js fail-soft 미러) — 맥 잡워커가 같은 입력 계약으로 소비.
+  if (env.R2) {
+    try {
+      await env.R2.put(`queue/jobs/${id}-conv.json`, JSON.stringify({
+        kind: 'conv', id, ts: new Date().toISOString(),
+        inputs: { id, url, file: filePath, up_branch: upBranch, r2_src: r2src, opts: JSON.stringify(opts) },
+      }));
+      return json({ ok: true, id, out: `conv_out/${id}/video.json`, via: 'r2-queue', note: '깃허브 발사 실패 — 맥 워커 큐 접수' });
+    } catch { /* R2도 실패 → 종전 502(아래) */ }
+  }
   if (upBranch) { try { await GH(env.GH_TOKEN, `git/refs/heads/${upBranch}`, 'DELETE'); } catch { /* 고아 잔존 무해 — 수동 정리 대상 */ } }
   return json({ error: `발사 실패 GitHub ${r.status}: ${(await r.text()).slice(0, 200)}` }, 502);
 }
