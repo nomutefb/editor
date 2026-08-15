@@ -603,7 +603,15 @@ async function idleSweep(browser, port) {
     if (!await pg.evaluate(IDLE_ARM)) return { err: 'IDLE_HOOK 미주입' };
     await pg.waitForTimeout(IDLE_WINDOW_MS);
     return await pg.evaluate(() => { const m = window.__nmIdle;
-      return { raf: m.raf, muts: m.muts, top: Object.entries(m.mut).sort((a, b) => b[1] - a[1]).slice(0, 4).map(e => e[0] + '×' + e[1]) }; });
+      // C18 동승 = 같은 유휴 창에서 **셸 문서**의 끝나지 않는 CSS 애니를 함께 센다(런 신설 0 · 아래 C18 재료 주석 참조).
+      //   iframe은 별도 문서라 이 getAnimations()에 안 잡힌다 = 스코프가 정확히 「모달에 가려진 셸」.
+      const live = document.getAnimations().filter(a => {
+        try { return a.playState === 'running' && a.effect && a.effect.getTiming().iterations === Infinity; } catch (_) { return false; }
+      }).map(a => (a.animationName || a.transitionProperty || '?') + '@' + ((a.effect.target && (a.effect.target.id || a.effect.target.className)) || '?'));
+      return { raf: m.raf, muts: m.muts, top: Object.entries(m.mut).sort((a, b) => b[1] - a[1]).slice(0, 4).map(e => e[0] + '×' + e[1]),
+        anim: live.slice(0, 8), animN: live.length,
+        tkr: !!document.querySelector('.tkr-track') };   // 관측 유효성 도장 = 티커가 실제로 렌더된 판인가(C17 `pan` 선례 · 데이터 0이면 이 축은 조용히 무의미해진다)
+    });
   } catch (e) { return { err: String(e.message).slice(0, 90) }; }
   finally { await pg.close().catch(() => {}); }
 }
@@ -824,6 +832,26 @@ async function runOnce(pg, gap, clone, railRow, budget, idle, anim) {
     ID.err ? 'SKIP(측정 불가) ' + ID.err
       : idleBad.length ? idleBad.join(' · ') + ' — 가드 없는 타이머·루프가 배터리를 먹는다(형제 타이머의 visibilityState+isComposingModalOpen 가드 계승)'
         : '정숙(rAF ' + ID.raf + ' · 모달 밖 변이 ' + ID.muts + ')');
+
+  // ── C18 셸 상시 CSS 애니 = 모달에 가려진 **셸**에서 끝나지 않는 애니가 도는가(운영자 260815 "편집 툴 렉" 실측 봉합) ──
+  //   ⚠ 신설 사유 = **기존 3축이 전부 원리적으로 못 보는 자리**다.
+  //     ⓐ C17(무한 애니)은 대상이 `thumb.html` **단독 페이지** = iframe 안뿐이라 셸 문서를 아예 안 연다.
+  //     ⓑ C16(유휴 정숙)은 셸을 보지만 판정 축이 **rAF 콜백 + DOM 변이**라 선언형 CSS 애니가 **둘 다 0**을 낸다(C17이 배운 것과 같은 원리).
+  //     ⓒ `check_idle_timer_guard`는 **setInterval 전용**(CSS 비대상).
+  //   실사고 260815 = `.tkr-track{animation:tkrLoop 28s linear infinite}`(실검 티커 · 260729 도입)가 스튜디오 모달로
+  //     **화면을 100% 가린 채로** 계속 돌았다 — 트랙은 키워드 10개를 2벌 복제한 뷰포트 수배 폭이고 `will-change:transform`으로
+  //     전용 합성 레이어가 상주하며, 부모 `.tkr`엔 `-webkit-mask` 그라데가 걸려 있어 **매 프레임 마스크 재합성**이 폰 GPU를 계속 때렸다.
+  //     가드는 `:hover` 일시정지와 `prefers-reduced-motion` 둘뿐 = **가려짐은 어느 쪽도 아니다.**
+  //     ⚠ 260807 금융 티커 사고와 판박이 = **형제는 가드를 갖는데 자기만 안 가졌다**(같은 파일 타이머 3종은 전부 isComposingModalOpen 보유).
+  //   판정 = 모달 연 유휴 창에서 `iterations===Infinity ∧ playState==='running'` **하드 0**(유한 반복은 대상 밖 = C17 경계 계승).
+  //   ⚠ 관측 유효성 도장(`tkr`) = 티커가 렌더된 판인가. 데이터 0인 클론에선 판정 대상이 애초에 없어 **조용한 통과**가 되므로 SKIP으로 명시 기록한다
+  //     (C17 `pan` 선례 · 관측이 지워지면 다음 세션이 추측으로 메운다).
+  core('C18 셸 상시 CSS 애니 0(모달로 가려진 index 셸 · iterations=∞ ∧ running)',
+    (ID.err || !ID.tkr) ? true : ID.animN === 0,
+    ID.err ? 'SKIP(측정 불가) ' + ID.err
+      : !ID.tkr ? 'SKIP 티커 미렌더(실검 데이터 0) = 판정 대상 없음'
+        : ID.animN > 0 ? '가려진 셸에서 끝나지 않는 애니 ' + ID.animN + '개 [' + (ID.anim || []).join(' · ') + '] — 아무도 못 보는데 폰 GPU가 매 프레임 재합성한다(C16·C17이 못 보는 축)'
+          : '셸 상시 애니 0(모달 가림 상태 실측)');
 
   return out;
 }
