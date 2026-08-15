@@ -27,7 +27,7 @@ jobs:
 
       - name: 쿠키 계정 실측(비민감 식별자만)
         env:
-          YT_COOKIES: ${{ secrets.YT_T2_COOKIES }}
-          YT_COOKIES_2: ${{ secrets.YT_T_COOKIES }}   # 2번 계정(운영자 260810 · 미설정이면 빈값 = 종전 동작)
+          YT_COOKIES: ${{ secrets.YT_T_COOKIES }}
+          YT_COOKIES_2: ${{ secrets.YT_T2_COOKIES }}   # 2번 계정(운영자 260810 · 미설정이면 빈값 = 종전 동작)
           REVEAL: ${{ inputs.reveal }}   # env 경유 = 셸 주입 차단(vidl-make IN_MODE 화이트리스트와 같은 축)
         run: python3 .github/scripts/yt_cookie_whoami.py
