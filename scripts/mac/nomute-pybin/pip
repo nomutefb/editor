@@ -1,0 +1,3 @@
+#!/bin/sh
+# 노뮤트 pip 심(260815) — 정본 스텝의 bare pip을 시스템 py3.9 pip으로(브루 PEP668 거부 회피 · 유저 사이트 자동)
+exec /usr/bin/python3 -m pip "$@"
