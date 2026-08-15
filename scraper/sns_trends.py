@@ -1653,7 +1653,7 @@ def threads_subs(accounts, limit=10, deadline=None):
     return _acct_spread(sorted(fresh, key=lambda t: t["time"], reverse=True), limit)[:limit]
 
 
-_RD_UA = "nomute-editor/1.0 (news curation; +https://nomute-editor.pages.dev)"   # 레딧 전용 **정직 봇 UA** — 260727 실측: 레딧은 브라우저 흉내 UA를 Cloudflare로 막고(크롬UA+RSS = 429) 명시적 봇 UA는 통과시킨다.
+_RD_UA = "nomute-editor/1.0 (news curation; +https://editor.pages.dev)"   # 레딧 전용 **정직 봇 UA** — 260727 실측: 레딧은 브라우저 흉내 UA를 Cloudflare로 막고(크롬UA+RSS = 429) 명시적 봇 UA는 통과시킨다.
 
 
 def _reddit_rss(sr, per):
