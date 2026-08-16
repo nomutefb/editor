@@ -5164,6 +5164,97 @@ _LAND_BASE = {   # 260816 실측 스냅샷 — 회수 경로도 실패 표기도
     'tiktok-canary.yml': 1,       # sns_trends 관측치(데이터 churn = 다음 회차가 덮지만 그 말을 안 한다)
     'tiktok-subs-canary.yml': 1,  # 동축
 }
+# ── 착지 내용 소실(올라갔는데 우리 변경이 빈 경우) ────────────────────────────
+# ⚠ `git pull --rebase … -X ours` 는 **의미가 반전된다** — 리베이스는 upstream 위에 내 커밋을 다시 얹으므로
+#   리베이스 중 ours = **upstream(origin/main)** 이고 theirs = 내 커밋이다. 즉 `-X ours` 는 충돌 시
+#   **우리 산출 헝크를 버리고** 원격을 채택하는데 **push 는 성공**한다 = 실패 여부로는 원리적으로 못 보는 유실.
+#   이 함정은 저장소가 이미 알고 있다(watchdog.yml 주석 「-X ours = upstream 우선 의미 반전 함정」 ·
+#   git_land.sh 헤더 「리베이스가 꼬여 no-op 만 밀고 산출물이 증발」 · 260716 브리프 3일 정지 실사고).
+_XOURS_AWARE = ('드랍', '의미 반전', '원격 승', '재병합', 'theirs')   # 그 자리에서 위험을 **인지하고 대처를 적었다**
+_XOURS_BASE = {   # 260816 실측 스냅샷 — `-X ours` 인데 드랍 대처가 없는 착지. 해소하면 그만큼 낮춰라(래칫).
+    'breaking-judge.yml': 1,       # 자동픽 = pending + seen_urls(append-only) 착지
+    'feedback.yml': 1,             # feedback/ (건별 파일 = 충돌 가능성 낮음 · 미판독)
+    'moreimg.yml': 1,              # 보충 이미지 결과 파일
+    'pick.yml': 1,                 # 운영자 픽 = pending + seen_urls(append-only)
+    'rate.yml': 1,                 # ratings·thumb_votes = append-only 원장 = 충돌 시 우리 줄 유실
+    'scrape.yml': 3,               # candidates 스냅샷 · 화재 추적 원장 · pending 적재
+    'social-scan.yml': 1,          # SNS 레인 스냅샷(다음 30분 회차가 덮는다)
+    'tiktok-canary.yml': 1,        # sns_trends = **다른 워크플로도 쓰는 파일** = 충돌 실재
+    'tiktok-subs-canary.yml': 1,   # 동축
+}
+
+
+def check_land_xours():
+    """착지 내용 소실 래칫 = 「올라갔는데 우리 변경이 빈 경우」(운영자 260816 「ㄱㄱ」 · 페이블 교차검증 지적 ⓒ).
+    CONTRACT: check_land_xours
+
+    ⚠ 신설 사유 = **짝 게이트 `check_land_silence` 가 원리적으로 못 보는 축**이다. 그쪽은 「착지에 실패했는데
+      초록으로 끝나는가」를 보는데, 여기서는 **push 가 실제로 성공한다** — 다만 그 커밋 안에 우리 산출이 없다.
+      리베이스에서 ours/theirs 의미가 뒤집히는 게 원인이라 코드만 봐서는 옳아 보이고, 화면 증상도 0이다
+      (실사고 = 260716 insta 브리프 3일 정지 · git_land.sh 헤더가 그 사고를 「no-op 만 밀고 산출물 증발」로 기록).
+
+    술어 = 「main 착지 스텝이 `-X ours` 를 쓰는데, 그 자리에서 **드랍을 인지한 대처**를 안 적었다」.
+    ⚠ **획일적 금지가 아니라 인지 요구인 것이 실효 조건** = `-X theirs` 로 뒤집는 건 만능이 아니다.
+      그쪽은 **남의 최신 변경을 우리 옛 값으로 조용히 덮는다**(이 저장소도 그 위험을 알아 `news-analyze.yml`
+      은 concurrency 그룹으로 직렬화해 「-X theirs 무경고 덮어쓰기」를 막고 있다). 자리마다 옳은 처방이
+      다르므로 게이트는 **「알고 골랐는가」**까지만 본다 — 대처 3형 = ⓐ 임시본 재병합(imggen·img-resize·
+      img-upscale 실측 정본) ⓑ `-X theirs` 전환 ⓒ 그 자리 주석에 드랍이 무해한 사유 명시.
+    ⚠ **하드 0 금지 = 래칫** = 현행 11곳은 전건 미판독이다(append-only 원장은 우리 줄이 그대로 유실되고,
+      통째 스냅샷은 다음 회차가 덮어 회복될 수 있는데 그 구분이 아직 실측되지 않았다) — 늘면 차단, 줄면 낮춰라.
+    ⚠ 스코프 = `.github/workflows/*.yml` 자동 발견 · 주석 줄 제외 · 정적(렌더·LLM·네트워크 0)."""
+    import re as _re
+    try:
+        import yaml as _yaml
+    except Exception:  # noqa: BLE001
+        print('⚠️ 착지 내용 소실 래칫 — pyyaml 없음(fail-soft 스킵)'); return 0
+    wf_dir = os.path.join(ROOT, '.github', 'workflows')
+    if not os.path.isdir(wf_dir):
+        print('❌ 착지 내용 소실 래칫 — 워크플로 폴더 없음(fail-closed)'); return 1
+    push_re = _re.compile(r'git push[^\n]*(?:HEAD:main|origin main)')
+    now, detail = {}, []
+    for fn in sorted(os.listdir(wf_dir)):
+        if not fn.endswith(('.yml', '.yaml')):
+            continue
+        try:
+            d = _yaml.safe_load(open(os.path.join(wf_dir, fn), encoding='utf-8'))
+        except Exception:  # noqa: BLE001
+            continue
+        for job in (d.get('jobs') or {}).values():
+            for st in (job.get('steps') or []):
+                run = st.get('run')
+                if not run:
+                    continue
+                code = '\n'.join(l for l in run.splitlines() if not l.lstrip().startswith('#'))
+                if '-X ours' not in code or not push_re.search(code):
+                    continue
+                # ⚠ 대처 판정은 **주석까지 포함한 원문**에서 본다 — 처방이 주석으로 적히는 게 이 레포 관례라
+                #    코드부만 보면 「사유를 적어 대처한 자리」가 통째로 위반이 된다(check_land_silence 와
+                #    반대 방향의 스코프 = 그쪽은 주석 위장을 막아야 했고 여기는 주석이 곧 대처다).
+                if any(w in run for w in _XOURS_AWARE):
+                    continue
+                now[fn] = now.get(fn, 0) + 1
+                detail.append('%s · %s' % (fn, (st.get('name') or '(이름 없음)')[:30]))
+    over = {k: v for k, v in now.items() if v > _XOURS_BASE.get(k, 0)}
+    if over:
+        print('❌ 착지 내용 소실 래칫 — `-X ours` 착지가 늘었다(push 는 성공하는데 우리 변경이 버려질 수 있다):')
+        for k in sorted(over):
+            print('   · %s: %d건 > 면책 %d건' % (k, over[k], _XOURS_BASE.get(k, 0)))
+        for d0 in detail[:10]:
+            print('     -', d0)
+        print('   → 리베이스에서 ours = **upstream** 이다(의미 반전) — 충돌 시 우리 헝크가 버려지는데 push 는 성공한다.')
+        print('   → 처방 3형 = ⓐ 임시본 재병합(imggen 계열 정본) ⓑ `-X theirs` 전환(단 남의 최신을 덮을 위험 동반) ⓒ 그 자리에 드랍이 무해한 사유를 적어라.')
+        return 1
+    gone = {k: v for k, v in _XOURS_BASE.items() if now.get(k, 0) < v}
+    if gone:
+        print('✅ 착지 내용 소실 래칫 — 해소분 %d파일 → _XOURS_BASE 를 그 자리에서 낮춰라: %s'
+              % (len(gone), ', '.join('%s %d→%d' % (k, v, now.get(k, 0)) for k, v in sorted(gone.items()))))
+        return 0
+    print('✅ 착지 내용 소실 래칫 — 대처 없는 `-X ours` 착지 %d건 = 면책 스냅샷과 동일(증가 0 · 대처 3형[재병합·theirs 전환·사유 명시] 인정).'
+          % sum(now.values()))
+    return 0
+
+
+
 
 
 def check_land_silence():
@@ -9065,6 +9156,11 @@ def main():
             rc = 1
     except Exception as e:
         print('❌ check_secret_coverage_chain 예외(fail-closed):', e); rc = 1
+    try:
+        if check_land_xours() != 0:   # 착지 내용 소실 래칫(260816 — push 는 성공하는데 우리 변경이 버려지는 축 · `-X ours` 의미 반전 · check_land_silence 가 원리적으로 못 보는 짝)
+            rc = 1
+    except Exception as e:
+        print('❌ check_land_xours 예외(fail-closed):', e); rc = 1
     try:
         if check_land_silence() != 0:   # 착지 침묵 래칫(260816 — 「본선에 올리는 데 실패했는데 초록으로 끝나는」 자리 · 도장 실사고 축의 일반화 · 인라인 착지만 대상)
             rc = 1
