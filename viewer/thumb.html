@@ -3732,9 +3732,16 @@ function renderJob(job) {   // 잡 로그 행 갱신(없으면 생성, 최신이
     cx.onclick = () => jobCancelTap(job, row, cx);
     row.append(cx);
   }
-  // 출력 변형 목록 = [i] 라벨 + 개별 다운로드 (1개도 줄바꿔 [1]로 = n개와 동일 포맷·운영자 260626)
+  /* (260816) 출력 변형 목록 **폐지**(운영자 "이미지가 작은 섬네일 하나, 그리고 줄바꿔서 큰 섬네일 하나가
+     제작 완료 결과 보이는데 … 하나만 크게 보이면 되는데 여러개가 뜸" → "영상 부분처럼 보이게 하면 될 것 같음").
+     = 같은 완성물이 **완료 줄 안(작게) + 결과 타일(크게)** 두 번 그려지던 중복의 진범.
+     영상 스튜디오 정본(nm-rail.js jobRow)은 완료 줄에 「완료 · N장 · 시각 + [수정] + [전체]」만 두고
+     그림은 **타일에만** 둔다 → 그 구조로 맞춘다(새 부품 0 · 값 0).
+     ⚠ 기능 손실 0 실측 = 낱장 받기·수정은 결과 타일이 이미 가지고 있다(histTileEl 의 `.imgdl`·`.imgedit`),
+       변형줄 클릭(그 변형으로 점프)은 같은 커밋에서 **타일 본체 탭**으로 승격됐다(carShowOne).
+     구판 = `if (labs.length >= 1)`(1개도 줄바꿔 [1]로 · 260626) — 되살릴 땐 이 조건을 되돌린다. */
   let vs = null;
-  if (labs.length >= 1) {
+  if (false) {   // seal-ok: 변형줄 폐지(260816) — 블록은 되돌릴 여지로 보존, 진입만 차단
     vs = document.createElement('div'); vs.className = 'jvars'; vs.setAttribute('aria-label', '출력 변형');   // 스크린리더 — 변형 목록 맥락 부여
     (job.outs || []).forEach((o, i) => {   // 각 변형 = 클릭(그 변형 캐러셀로 점프) + 개별 다운로드(이미지 나온 변형만 · 운영자 260620 아이디어 1·2)
       if (!(o && o.label)) return;
@@ -4106,11 +4113,38 @@ function histTileEl(e, grid, cntSel) {
   if (canEditSrc(e.src)) {   // 수정(편집) = 이 설정으로 작성기 복원. 이제 서버 이력(타 기기 제작분)도 _src.json→src 동봉 → 기기 달라도 버튼 표시(운영자 260624). 이미지 원본 없으면 합성본 빗금 참고본으로 대체.
     const ed = document.createElement('button'); ed.type = 'button'; ed.className = 'imgedit'; ed.title = '이 설정으로 수정'; ed.setAttribute('aria-label', '수정');
     ed.innerHTML = EDIT_SVG;
-    ed.addEventListener('click', ev => { ev.preventDefault(); ev.stopPropagation(); editOpenSrc(e.src, e.url); });
+    ed.addEventListener('click', ev => { ev.preventDefault(); ev.stopPropagation(); if (cntSel === '#histCnt') carShowOne(e); editOpenSrc(e.src, e.url); });   // (260816) carShowOne 선행 = 「수정하는 이미지가 위 최근 완료물에 안 뜬다」 봉합(운영자 "지금은 수정 누르면 해당 값만 위로올라오게 되있고") — editOpenSrc 는 **설정 복원·탭 전환**만 하지 결과 자리를 안 건드린다 · 결과 타일에선 미발동(위 본체 탭과 같은 사유 = 제 자리를 지우는 사고 차단)
     th.appendChild(ed);
+  }
+  /* 타일 본체 탭 = 이 제작물을 맨 위 「결과」로 올린다(운영자 260816 · 영상 nmJobShow 계약의 이미지 판).
+     ⚠ **이전 제작(#histCnt)에서만** 문다 — 결과 타일에 물리면 carShowOne 이 CARSLIDES 를 비우므로
+       결과가 여러 장일 때 나머지가 날아간다(자기 자리를 자기가 지우는 사고).
+     ⚠ 어포던스(.hist-go = 손가락 커서·눌림)는 실제로 갈 곳이 있을 때만 붙인다(어포던스 비계승 계약).
+     [↓]·[연필]은 각자 stopPropagation 보유 = 버튼을 눌렀을 때 타일까지 같이 열리지 않는다(운영자 "버튼제외"). */
+  if (cntSel === '#histCnt') {
+    th.classList.add('hist-go'); th.setAttribute('role', 'button'); th.tabIndex = 0;
+    th.title = '탭 = 이 제작물을 위 결과로 올리기';
+    const goT = ev => { if (ev) ev.preventDefault(); if (carShowOne(e)) { scrollMid($('#carH') || $('#carGrid')); flashEl($('#carGrid')); } };
+    th.addEventListener('click', goT);
+    th.addEventListener('keydown', ev => { if (ev.key === 'Enter' || ev.key === ' ') goT(ev); });
   }
   it.append(hd, th);
   return it;
+}
+/* 이 제작물을 **맨 위 「결과」 자리로 올린다**(운영자 260816 "수정 버튼 안눌러도 누르면 위에 가장 최근 작업
+   완료물에 그 내용이 떠야함" · "수정 안눌러도 해당 이미지 완성본 클릭하면 위 최근 이미지 부분에 떠야함").
+   영상 스튜디오 nmJobShow(타일 탭 = 그 제작물을 위 결과 창에서 다시 본다)의 **같은 계약을 이미지 판으로** 옮긴 것.
+   ⚠ 왜 교체(=비우고 1장)인가 = 운영자 표현 「가장 최근 작업 완료물(이제 수정하면 한칸만 있을텐데)」 =
+     결과 자리는 **지금 보고 있는 것 한 건**을 보여주는 칸이다(누적은 아래 「이전 제작」이 전담).
+   ⚠ restore=true 가 실효 조건 — 빼면 carAppend 가 이전 제작에 **재기록**해서 누를 때마다 같은 항목이 증식한다.
+   ⚠ 가짜 job {_restored,t0,src} 를 넘기는 이유 = carAppend 의 ts 가 `job._restored && job.t0` 일 때만 원 제작시각을
+     쓰고 아니면 Date.now() 로 찍힌다(260806 평의회3 F4 = 요약 줄과 타일 시각이 어긋나던 그 함정) · src 는 [수정] 생존용. */
+function carShowOne(e) {
+  if (!e || !e.url) return false;
+  CARSLIDES.length = 0;
+  const tr = $('#cartrack'); if (tr) { tr.innerHTML = ''; tr.style.height = ''; }
+  carAppend(e.url, e.dlname, e.cap, { _restored: true, t0: e.ts, src: e.src }, e.varStr, null, true, e.cap);
+  return true;
 }
 function renderCarGrid() {   // 결과 타일 = 지금 결과에 있는 것(CARSLIDES) 최신 먼저 — 데이터는 캐러셀과 같은 배열(별도 소스 신설 0 = 두 표현이 어긋날 여지 0)
   const grid = $('#carGrid'); if (!grid) return;
