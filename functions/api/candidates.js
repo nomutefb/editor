@@ -2,33 +2,21 @@
 // scrape 가 main 에 커밋한 viewer/candidates.json 을 GitHub 에서 직접 읽어 반환 →
 // 페이지 재빌드(Cloudflare 500/월 한도) 없이 수집함이 최신. 15분 수집이 화면에 바로 반영됨.
 // env: GH_TOKEN(있으면 contents API=최신), 없으면 raw(공개·~5분 캐시) 폴백.
+//
+// ⚠ 순서가 곧 계약이다(260816 실사고 2차 봉합 · 운영자 「그냥 최신 기사가 계속 꽂혀야 되는데」).
+//   원본 = 저장소 main. R2 live/ 미러는 **원본이 안 읽힐 때만** 쓰는 보험이다.
+//   ── 왜 순서를 뒤집었나
+//   260815 판은 R2 를 0차에 뒀다(260814 계정 제재로 깃허브 사다리가 전멸했던 시기의 대책).
+//   그 뒤 미러를 굽는 맥 레인이 08-16 08:07 KST 에 멈췄는데 「객체가 있으면 무조건 0차 승리」라
+//   얼어붙은 사본이 더 신선한 저장소를 영구히 가렸다 = 화면 5시간 동결(기사가 안 들어온다).
+//   1차 봉합은 「30분 넘게 낡으면 진다」는 **신선도 규칙**이었는데 그건 보장이 아니라 창이다 —
+//   29분 낡은 미러도 이기므로 그 사이 착지한 수집 2회분이 화면에 안 꽂힌다(운영자 지적 = 정확).
+//   → 규칙을 없애고 **원본을 먼저 본다**. 신선도 판단·유효기간 자체가 사라져 「최신이 계속
+//   꽂힌다」가 규칙이 아니라 구조로 성립한다. 제재가 재발하면 깃허브가 실패하고 그때
+//   자동으로 미러로 내려가므로 보험은 그대로 산다(같은 파일, 순서만 뒤).
 export async function onRequestGet({ env }) {
   const H = { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'public, max-age=60' };
-  // ── 0차: R2 live/ 미러(맥 5분 레인이 매 회차 업로드 · 깃허브 무풍) — 260815 코워크.
-  //    왜: 260814 계정 플래그로 아래 깃허브 사다리(contents·raw)가 간헐/전멸 → 화면 동결.
-  //    R2 는 우리 계정 자산이라 외부 제재 무풍 = 수집함 신선도의 새 정본 경로. 실패 시 기존 사다리 그대로.
-  // ⚠ 신선도 게이트 = 260816 실사고 봉합. 구판은 「객체가 있으면 무조건 0차 승리」라
-  //    맥 레인이 멈춘 순간(실측 08-16 08:07 KST 정지) 그 낡은 미러가 **더 신선한 깃허브를
-  //    영구히 가렸다** — 저장소 main 은 12:40 KST 까지 정상 수집(Actions 성공)인데
-  //    화면만 5시간 동결 = 「기사가 안 들어온다」의 실체. 증상이 「빈 화면」이 아니라
-  //    「옛 기사만 보임」이라 로그·에러 어디에도 안 남고 운영자 눈이 유일한 검출기였다.
-  //    → 미러는 **신선할 때만** 이긴다. 낡았으면 깃허브가 이기고, 깃허브가 다 죽으면
-  //    그때 낡은 미러라도 낸다(빈 배열보다 낫다 = 종전 제재 상황의 보험은 그대로 산다).
-  const FRESH_MS = 30 * 60 * 1000;   // 수집 주기 15분 + 여유 · 이보다 낡으면 미러를 못 믿는다
-  let stale = null;                  // 낡은 미러 본문 = 최후의 보루
-  try {
-    if (env.R2) {
-      const o = await env.R2.get('live/candidates.json');
-      if (o) {
-        const b = await o.text();
-        JSON.parse(b);               // 유효 JSON 확인
-        const up = o.uploaded ? new Date(o.uploaded).getTime() : 0;
-        const age = up ? Date.now() - up : Infinity;
-        if (age <= FRESH_MS) return new Response(b, { status: 200, headers: { ...H, 'x-nm-src': 'r2' } });
-        stale = b;                   // 낡음 → 깃허브 사다리를 먼저 태운다
-      }
-    }
-  } catch { /* 깃허브 사다리로 */ }
+  // ── 1차: 원본(저장소 main) — 여기가 항상 최신이다.
   const tries = [];
   if (env.GH_TOKEN) tries.push([
     'https://api.github.com/repos/nomutefb/editor/contents/viewer/candidates.json?ref=main',
@@ -48,7 +36,20 @@ export async function onRequestGet({ env }) {
       }
     } catch { /* 다음 소스 */ }
   }
-  // 깃허브 사다리 전멸 → 낡은 미러라도 낸다(제재 상황의 보험 = 종전 동작 보존)
-  if (stale) return new Response(stale, { status: 200, headers: { ...H, 'x-nm-src': 'r2-stale' } });
+  // ── 2차: R2 live/ 미러(맥 레인이 굽는 사본) = 원본 전멸 시의 보험.
+  //    ⚠ 낡았을 수 있다 — 그래도 빈 화면보다 낫다. 얼마나 낡았는지를 헤더로 같이 낸다
+  //    (x-nm-age-min = 사본 나이 · 관측이 지워지면 다음 세션이 추측으로 메운다).
+  try {
+    if (env.R2) {
+      const o = await env.R2.get('live/candidates.json');
+      if (o) {
+        const b = await o.text();
+        JSON.parse(b);
+        const up = o.uploaded ? new Date(o.uploaded).getTime() : 0;
+        const age = up ? Math.round((Date.now() - up) / 60000) : -1;
+        return new Response(b, { status: 200, headers: { ...H, 'x-nm-src': 'r2', 'x-nm-age-min': String(age) } });
+      }
+    }
+  } catch { /* 낼 게 없다 */ }
   return new Response('[]', { status: 200, headers: { ...H, 'x-nm-src': 'none' } });
 }
