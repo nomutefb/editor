@@ -5690,8 +5690,30 @@ def _seal_family(rel, tracked):
     return same, d + '/*' + ext
 
 
+# ⚠ 언어 내장·기본 메서드는 심볼에서 뺀다(260816 실측 봉합 · 페이블이 미리 지적한 축) —
+#   `get(`·`len(` 같은 건 가족 대다수가 자동으로 갖고 있어 **다수결을 항상 통과**한다. 그래서
+#   watchdog 에 `alerts.get(key)` 한 줄을 넣었더니 「가족 29 중 stock_filter 만 미보유」로 커밋이 막혔다
+#   = 공유 문법이 아니라 언어 문법이라 「형제가 안 따라왔다」는 판정 자체가 성립하지 않는다.
+#   ⚠ 하드 승격(같은 날) 때 「최근 60커밋 재생 0건」으로 쟀는데 그건 **과거 커밋 표본**이었고
+#   새 커밋에서 바로 위양성이 났다 = 그 실측만으로는 부족했다는 뜻(표본 한계를 여기 남긴다).
+_SEAL_BUILTIN = {
+    'get', 'set', 'add', 'len', 'str', 'int', 'float', 'bool', 'list', 'dict', 'tuple', 'bytes',
+    'print', 'open', 'range', 'format', 'join', 'split', 'rsplit', 'strip', 'lstrip', 'rstrip',
+    'append', 'extend', 'insert', 'remove', 'pop', 'items', 'keys', 'values', 'update', 'copy',
+    'sorted', 'reversed', 'enumerate', 'zip', 'map', 'filter', 'isinstance', 'issubclass',
+    'super', 'type', 'min', 'max', 'sum', 'abs', 'round', 'repr', 'hasattr', 'getattr', 'setattr',
+    'startswith', 'endswith', 'replace', 'find', 'index', 'count', 'lower', 'upper', 'title',
+    'encode', 'decode', 'read', 'write', 'close', 'search', 'match', 'sub', 'group', 'groups',
+    'finditer', 'findall', 'compile', 'dumps', 'loads', 'dump', 'load', 'exists', 'basename',
+    'dirname', 'abspath', 'realpath', 'getenv', 'environ', 'sleep', 'time', 'now', 'strftime',
+    'json', 'push', 'slice', 'concat', 'includes', 'indexOf', 'forEach', 'reduce', 'trim',
+    'parse', 'stringify', 'toString', 'querySelector', 'addEventListener', 'echo', 'grep',
+}
+
+
 def _seal_symbols(added):
-    """추가된 줄에서 '공유 문법이 될 수 있는 것'만 뽑는다 = 함수 호출 · 대문자 상수 · 문자열 리터럴 앞조각."""
+    """추가된 줄에서 '공유 문법이 될 수 있는 것'만 뽑는다 = 함수 호출 · 대문자 상수 · 문자열 리터럴 앞조각.
+    ⚠ 언어 내장·기본 메서드(`_SEAL_BUILTIN`)는 제외 — 가족 대다수가 자동 보유라 다수결을 항상 통과한다."""
     syms = set()
     for ln in added:
         s = ln.strip()
@@ -5700,6 +5722,8 @@ def _seal_symbols(added):
         if _SEAL_OK in s:
             continue   # 정당한 단독 도입 = 그 줄에 사유와 함께 표식(하드 승격의 탈출구 · 260816)
         for m in re.finditer(r'\b([A-Za-z_][A-Za-z0-9_]{2,})\s*\(', s):
+            if m.group(1) in _SEAL_BUILTIN:
+                continue   # 언어 문법 = 「형제가 안 따라왔다」가 성립하지 않는다
             syms.add(m.group(1) + '(')
         for m in re.finditer(r'\b([A-Z][A-Z0-9_]{3,})\b', s):
             syms.add(m.group(1))

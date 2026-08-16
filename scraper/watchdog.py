@@ -474,6 +474,16 @@ def main():
                 subprocess.run([sys.executable, mp, "set", "wd-phone", ph, "warn"], timeout=30)
             else:
                 subprocess.run([sys.executable, mp, "clear", "wd-phone"], timeout=30)
+            # 수집 정체(운영자 260816 「웹앱 알림 누르면 메세지함에 그 수집알림 메세지가 열린 상태로 가지나」) —
+            #   ⚠ 실측 = 이 축은 **폰 알림만 가고 메시지함엔 아무것도 안 떴다**. 눌러도 앱 첫 화면이라
+            #   운영자가 「무엇이 얼마나 멈췄는지」를 볼 자리가 없었다(형제 4축은 전부 슬롯을 갖는데 이 축만 없었다
+            #   = 이 레포 최빈 「형제는 가진 걸 자기만 안 가진」 축). 문법·액션은 wd-kwsrc 사본.
+            #   액션 = sns-recollect 가 아니라 **없음** — 수집 레인 재발사는 뷰어 버튼으로 못 하고
+            #   원인이 타이머·소스·러너 중 어디인지 모른 채 누르면 오도가 된다(wd-phone·wd-smoke 관용구).
+            if alerts.get("collect"):
+                subprocess.run([sys.executable, mp, "set", "wd-collect", alerts["collect"], "warn"], timeout=30)
+            else:
+                subprocess.run([sys.executable, mp, "clear", "wd-collect"], timeout=30)
             # 키워드 알림 감시망(운영자 260726) — 국내 tbs 정체·해외 reddit 0건 = 알림이 조용히 죽는 무증상 고장이라
             #   메시지함에 상시 표시. 액션 = sns-recollect(tbs는 sns-trends 레인에 편승 = 재발사로 실제 회복 가능 · reddit만
             #   0이면 폰 소관이지만 재발사 자체는 무해). 단일 슬롯(wd-kwsrc) 덮어쓰기 = 스팸 0(wd-sns 관용구 계승).
@@ -525,7 +535,12 @@ def main():
     body = " / ".join(due.values())[:110]
     # 딥링크(운영자 260723 "눌러서 이동할 데가 없다" 봉합) — 경보가 걸린 메시지함 항목으로 직행(?msg=<슬롯> ·
     #   기존 fail- 푸시 패턴 계승) → 그 항목에서 즉시 조치/안내. sns 우선(재발사 버튼) → phone(안내) → 아니면 루트.
-    url = "/?msg=wd-sns" if alerts.get("sns") else ("/?msg=wd-phone" if alerts.get("phone") else "/")
+    # 알림 딥링크 = 눌렀을 때 **그 사건의 메시지함 슬롯이 열린 상태**로 간다(뷰어 openMsgDeepLink 가 ?msg= 를 읽는다).
+    # ⚠ 260816 봉합 — 구판은 sns·phone 두 축만 슬롯을 열고 나머지는 `/`(앱 첫 화면)로 보냈다. 그래서 수집 정체
+    #   알림을 눌러도 **무엇이 얼마나 멈췄는지 볼 자리가 없었다**(그 축은 슬롯 점등 자체도 없었다 = 같은 커밋에서 신설).
+    #   우선순위 = 조치 급한 순(수집 정체 > sns > 폰 > 키워드) · 슬롯 없는 축은 종전대로 첫 화면.
+    _DEEP = (("collect", "wd-collect"), ("sns", "wd-sns"), ("phone", "wd-phone"), ("kwsrc", "wd-kwsrc"))
+    url = next(("/?msg=%s" % slot for key, slot in _DEEP if alerts.get(key)), "/")
     try:
         out = subprocess.run([sys.executable, os.path.join(ROOT, ".github", "scripts", "push_send.py"),
                               "--notify", "🩺 파이프라인 이상", body, "--tag", "nomute-watchdog", "--url", url],
