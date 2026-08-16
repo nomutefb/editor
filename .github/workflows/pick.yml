@@ -97,12 +97,16 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add pending scraper/seen_urls.txt
           git commit -m "pick: 큐레이션 1건 적재"
-          for i in 0 1 2 3; do
-            [ "$i" -gt 0 ] && sleep $((2**i))
-            git fetch --deepen=100 origin main 2>/dev/null || true   # 얕은 클론(fetch-depth:1) 짝 — 원격 새 커밋과 로컬 HEAD 사이가 끊겨 merge-base를 못 찾으면 아래 rebase가 통째로 실패한다(= 산출 유실). main 100커밋만이라 수 초 · 실패해도 무해(260810)
-            git pull --rebase --autostash -X ours origin main && git push origin HEAD:main && { pushed=1; break; }
-            git rebase --abort 2>/dev/null || true
-          done
+          # ⚠⚠ 260816 봉합 — 구판 `pull --rebase -X ours` 는 리베이스에서 ours = **upstream** 이라 충돌 시
+          #   우리 헝크가 버려지는데 push 는 성공한다. 실측 형태는 **부분 공동화**다(신규 파일은 살고
+          #   append 원장의 dedup 줄만 빠진다) → 중복 재적재·재과금.
+          #   → git_land 위임 = 리베이스를 안 쓰고(꼬임 0) **남의 착지분을 BASE 대조로 복원**한다(같은 날 봉합).
+          #   원장 축의 유일 무손실이 이 방식이다(`-X theirs` 는 남의 줄을 지운다 = 샌드박스 실측).
+          #   PAGES_COALESCE=0 = 이 축들은 코얼레싱 금지 축이라 접두를 끈다(pc_lane `_push` 문법 사본).
+          git reset -q HEAD -- . 2>/dev/null || true
+          PAGES_COALESCE=0 bash .github/scripts/git_land.sh "pick: 큐레이션 1건 적재" pending scraper/seen_urls.txt
+          git fetch -q origin main 2>/dev/null || true
+          pushed=0; git merge-base --is-ancestor HEAD origin/main 2>/dev/null && pushed=1
           # ⚠ 260816 봉합 — 구판은 4회 다 실패해도 **경고조차 없이** 다음 줄로 떨어졌다(그 아래 exit 1 은
           #   디스패치 판정이라 착지와 무관). 그러면 운영자가 손으로 누른 픽이 통째로 사라지는데 잡은 초록이고,
           #   바로 뒤 디스패치는 그대로 돌아 **적재도 없는 분석**을 깨운다. 형제는 이미 고쳐져 있었다

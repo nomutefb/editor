@@ -101,16 +101,16 @@ jobs:
           if git diff --cached --quiet; then
             echo "변경 없음(새 이미지 0 · URL 백필 0)"; exit 0
           fi
-          for i in 1 2 3 4; do
-            git fetch --deepen=100 origin main 2>/dev/null || true   # 얕은 클론(fetch-depth:1) 짝 — 원격 새 커밋과 로컬 HEAD 사이가 끊겨 merge-base를 못 찾으면 아래 rebase가 통째로 실패한다(= 산출 유실). main 100커밋만이라 수 초 · 실패해도 무해(260810)
-            git pull --rebase --autostash -X ours origin main || echo "::warning::pull--rebase 실패(사유 = 위 로그) — 재시도 계속"
-            git commit -m "moreimg: 검색이미지 추가·원문URL 백필(Claude)" 2>/dev/null || true
-            git push origin main && exit 0 || { echo "push 재시도 $i"; sleep $((2**i)); }
-          done
-          # ⚠ 260816 봉합 — 구판은 warning 만 남기고 rc 0(초록)으로 끝났다. 이 축은 산출이 과금분이고
-          #   발사가 일회성이라 자동 재시도가 0이라서, 조용히 끝나면 보충 이미지 결과이 그대로 유실되고
-          #   화면은 「제작중」에 멈춘다(그림 자체는 R2 에 살지만 완료 신호·이력이 사라진다).
-          echo "::error::push 실패(재시도 소진) — 보충 이미지 결과 미착지"; exit 1
+          # ⚠⚠ 260816 봉합 — 구판은 `pull --rebase -X ours` + push 4회였다. 리베이스에서 ours = **upstream**
+          #   이라 충돌 시 우리 헝크가 버려지는데 push 는 성공한다(부분 공동화 = 신규 파일은 살고 queue·metrics
+          #   원장 줄만 빠진다). → git_land 위임 = 리베이스를 안 쓰고 남의 착지분을 BASE 대조로 복원한다.
+          #   PAGES_COALESCE=0 = 제작 산출은 코얼레싱 금지 축이라 접두를 끈다(pc_lane `_push` 문법 사본).
+          git reset -q HEAD -- . 2>/dev/null || true
+          PAGES_COALESCE=0 bash .github/scripts/git_land.sh "moreimg: 검색이미지 추가·원문URL 백필(Claude)" cards queue metrics
+          git fetch -q origin main 2>/dev/null || true
+          # ⚠ 이 축은 산출이 과금분이고 발사가 일회성이라 자동 재시도가 0 — 조용히 끝나면 보충 이미지가
+          #   그대로 유실되고 화면은 「제작중」에 멈춘다(그림 자체는 R2 에 살지만 완료 신호·이력이 사라진다).
+          git merge-base --is-ancestor HEAD origin/main 2>/dev/null || { echo "::error::moreimg 미착지 — 보충 이미지 결과 미착지"; exit 1; }
       # 아직 7장 미달이면 다음 라운드 자동 발사(운영자 260810 "해소 ㄱㄱ") — 수집 문턱(600)으로 후보 절반이
       # 화질에서 잘려 1회 보충으로는 자리가 안 찬다. 대상 = more_images.py 가 RUNNER_TEMP/moreimg_again.txt 에
       # 남긴 마커(정지 조건 3중 = 목표 달성·라운드 상한·새 소스 소진 → 스크립트가 안에서 판단해 마커를 안 쓴다).

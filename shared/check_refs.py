@@ -1346,6 +1346,12 @@ def check_coalesce_pair():
         for line in txt.splitlines():
             if 'git_land.sh' not in line or line.lstrip().startswith('#'):
                 continue
+            # ⚠ 260816 — 접두를 **끄고** 부르는 호출은 코얼레싱이 아니다(`PAGES_COALESCE=0 bash … git_land.sh`).
+            #   그 헬퍼가 같은 날 「남의 착지분 복원」을 얻어 공유 경로 위임이 안전해지면서 제작·수집 축이
+            #   위임으로 옮겨왔는데, 그쪽은 스킵 금지 축이라 접두를 끈 채 쓴다 = 스킵이 안 되므로
+            #   라이브 서빙 짝을 요구할 이유가 없다(요구하면 위양성 = 첫 실행에서 실제로 2건 났다).
+            if re.search(r'PAGES_COALESCE=0\s', line):
+                continue
             for m in re.finditer(r'viewer/([A-Za-z0-9_\-]+)\.json', line):
                 landed.setdefault(m.group(1) + '.json', set()).add(os.path.basename(rel))
     if not landed:
@@ -5151,7 +5157,7 @@ _OLD_HOSTS = ('apps.nomute.kr',)        # 옛 화면 — 되돌릴 여지로 살
 # 도장이 main 에 없으니 라이브 도장이 트리거 SHA 로 바뀔 방법이 구조적으로 없고, 그 배포의 라이브 검문은
 # 12분 대기 후 반드시 「배포 미수렴」으로 적색이 된다(run 31936404895 = 도장 미착지인데 success →
 # run 31936404904 = 그 여파로 검문 적색). 원인이 검문 쪽으로 보여 세션 하나가 통째로 오진했다.
-_LAND_RECOVER = ('다음', '회수', '합류', '재판정', '덮', '재수집', '스윕')   # 「유실돼도 **누가** 되돌리는지」를 말한 소진 메시지 = 의도적 fail-soft
+_LAND_RECOVER = ('다음', '회수', '합류', '재판정', '덮', '재수집', '스윕', '줍')   # ⚠ '줍' = 「최종 Commit 스텝이 줍는다」(ask.sh 조기 착지 관용구 · 260816 스코프 확대 실측 추가)   # 「유실돼도 **누가** 되돌리는지」를 말한 소진 메시지 = 의도적 fail-soft
 # ⚠ '재시도' 는 회수 어휘가 아니다(첫 실행 실측 봉합) — 소진 문구가 하필 「push 실패(재시도 소진)」이라
 #    그 낱말을 넣으면 **회수가 끝났다는 말이 회수 약속으로 읽혀** 진짜 조용한 유실 4건이 통째로 통과한다.
 _LAND_BASE = {   # 260816 실측 스냅샷 — 회수 경로도 실패 표기도 없이 조용히 끝나는 인라인 착지.
@@ -5214,15 +5220,9 @@ def check_land_share():
 #   이 함정은 저장소가 이미 알고 있다(watchdog.yml 주석 「-X ours = upstream 우선 의미 반전 함정」 ·
 #   git_land.sh 헤더 「리베이스가 꼬여 no-op 만 밀고 산출물이 증발」 · 260716 브리프 3일 정지 실사고).
 _XOURS_AWARE = ('드랍', '의미 반전', '원격 승', '재병합', 'theirs')   # 그 자리에서 위험을 **인지하고 대처를 적었다**
-_XOURS_BASE = {   # 260816 실측 스냅샷 — `-X ours` 인데 드랍 대처가 없는 착지. 해소하면 그만큼 낮춰라(래칫).
-    # ⚠ 260816 일괄에서 16 → 6 으로 줄였다. 해소 내역 =
-    #   맥 레인 5(git_land 위임 전환) · 화재 추적 1(같은 전환) · 무해 판독 4(사유 명시 = rate·feedback·카나리아 2종).
-    #   남은 6은 전건 **부분 공동화 축**(신규 파일은 살고 dedup 줄만 빠진다) = 케이스별 판독이 남았다.
-    'pick.yml': 1,                 # 운영자 픽은 착지하는데 seen 줄만 빠진다 → 중복 재적재 여지
-    'breaking-judge.yml': 1,       # seen 축만(자동픽·metrics 는 단독·유일명)
-    'moreimg.yml': 1,              # 저위험 = stem 별 직렬 + commit 이 pull 뒤(재시도 2회차부터만 노출)
-    'scrape.yml': 2,               # candidates 스냅샷(15분 뒤 자기회복) · pending 적재
-    'social-scan.yml': 1,          # 30분 회차가 전량 재수집(스텝 주석에 회수 경로 명문)
+_XOURS_BASE = {   # 260816 — `-X ours` 착지 **전건 해소**(16 → 0).
+    # 해소 내역 = 맥 레인 5(git_land 위임) · 화재 추적 1 · 무해 판독 4(근거 명시) · 부분 공동화 6(위임).
+    # 빈 표를 남겨 두는 이유 = 새 위반이 생기면 그 파일 이름이 여기 없으므로 즉시 차단된다.
 }
 
 
@@ -5354,7 +5354,11 @@ def check_land_silence():
     wf_dir = os.path.join(ROOT, '.github', 'workflows')
     if not os.path.isdir(wf_dir):
         print('❌ 착지 침묵 래칫 — 워크플로 폴더 없음(fail-closed)'); return 1
-    push_re = _re.compile(r'git push[^\n]*(?:HEAD:main|origin main)')
+    # ⚠⚠ 260816 스코프 확대 — 첫 판은 `.github/workflows/*.yml` 만 봐서 **스크립트 경유 착지가 통째로 밖**이었다
+    #   (`analyze.sh`·`ask.sh`·`cardmake.sh`·`sweep_stuck.sh` = 요약·요청·카드 제작의 실제 착지 자리).
+    #   `check_push_send_checkout` 3차의 「경유 호출 전이 추적」과 동형 — 워크플로가 실행하는 스크립트를
+    #   표면으로 편입해 같은 술어를 적용한다(호출부가 늘어도 스크립트 쪽에서 한 번에 덮인다).
+    push_re = _re.compile(r'git push[^\n]*(?:HEAD:(?:refs/heads/)?main|origin\s+main)')
     now, detail = {}, []
     for fn in sorted(os.listdir(wf_dir)):
         if not fn.endswith(('.yml', '.yaml')):
@@ -5403,6 +5407,39 @@ def check_land_silence():
                     continue
                 now[fn] = now.get(fn, 0) + 1
                 detail.append('%s · %s' % (fn, (st.get('name') or '(이름 없음)')[:30]))
+    # 스크립트 경유 착지(260816 확대) — 워크플로와 같은 술어. `git_land.sh` 자신은 fail-soft 계약 정본이라 제외.
+    for sub in ('.github/scripts', 'shared', 'scraper'):
+        d = os.path.join(ROOT, sub)
+        if not os.path.isdir(d):
+            continue
+        for fn in sorted(os.listdir(d)):
+            if not fn.endswith('.sh') or fn == 'git_land.sh':
+                continue
+            try:
+                raw = open(os.path.join(d, fn), encoding='utf-8', errors='replace').read()
+            except OSError:
+                continue
+            code = '\n'.join(l for l in raw.splitlines() if not l.lstrip().startswith('#'))
+            if _has_exec_line(code, 'git_land.sh') or not push_re.search(code):
+                continue
+            m = push_re.search(code)
+            seg = code[m.end():]
+            dd = _re.search(r'^\s*done\b', seg, _re.M)
+            tail = seg[dd.end():] if dd else seg
+            nxt = _re.search(r'\b(?:for|while)\b[^\n]*\bdo\b', tail)
+            if nxt:
+                tail = tail[:nxt.start()]
+            # ⚠ 판정 인정 = rc 를 올리거나(exit/return 1) **착지를 사후 대조**하는 것(260816 실측 추가) —
+            #   merge_main.sh 는 `landed` 함수로 fetch 후 origin/main 대조를 하는데 첫 판이 그걸 못 봐서
+            #   위양성이 났다(그 대조가 이 저장소의 착지 성공 판정 정본이다 · CLAUDE.md 7-5 ⓑ).
+            #   ⚠ `die "…" <rc>` 도 판정이다(이 레포 셸 관용구 = rc≠0 으로 죽는 함수 · merge_main.sh 실측).
+            if _re.search(r'exit\s+1|return\s+1|merge-base --is-ancestor|\blanded\b|^\s*die\s', tail, _re.M):
+                continue
+            if any(w in tail for w in _LAND_RECOVER):
+                continue
+            key = sub.split('/')[-1] + '/' + fn
+            now[key] = now.get(key, 0) + 1
+            detail.append('%s · 스크립트 경유 착지' % key)
     over = {k: v for k, v in now.items() if v > _LAND_BASE.get(k, 0)}
     if over:
         print('❌ 착지 침묵 래칫 — 본선 착지에 실패해도 초록으로 끝나는 자리가 늘었다(조용한 유실):')
