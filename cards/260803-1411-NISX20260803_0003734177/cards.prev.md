@@ -1,31 +1,33 @@
 # 반년간 빈 총으로 최전방 지켰다…1군단장 직무배제
 
 **[프롬프트 설계]**
-- 화풍: B 극화 — 지휘 절차와 보고 체계가 끊긴 자리를 다루는 구조 비판 사안이라, 감정을 얹기보다 사실을 각지게 세우는 극화가 맞다
-- 분위기: 새벽 철책의 건조한 정적. 누가 소리 지르는 사건이 아니라 아무도 말하지 않은 반년이 쌓여 드러난 사건이라, 톤은 차갑고 조용하되 밑에 압력이 깔린다
-- 연출 방향: 뉴스를 안 보는 독자도 "총알이 총 안이 아니라 옆 상자에 있었다"는 한 장면 앞에서는 멈춘다 — 철책 앞에 아들·형제를 보내 둔 사람이 가장 먼저 굳는 대목이다. 그 정지력을 첫 장에서 쓰고, 이후엔 사람의 표정이 아니라 **비어 있는 것들**(탄띠 없는 급탄구, 수화기가 놓인 채인 두 번째 전화, 아무도 앉지 않은 지휘관석)로 사건을 밀고 간다. 전할 관점은 개인 문책 너머 — 반년간 아무도 위로 올리지 않은 보고 경로. 그래서 카메라는 매번 '사람이 있어야 할 자리에 없는 것' 쪽으로 반 발짝 물러서 잡는다. thumb_dispatch의 차가운 새벽 톤(LGT02)과 허탈한 응시(EM-19)를 첫 장·끝 장의 정조로 이어받되, 앵글은 카드마다 흩는다
-- 독자 동선: **발단** 카드2→**전개** 카드3→**피크** 카드4→**해소** 카드5→**시사점** 카드6 · 제시 도입 = 카드1(빈 급탄구) · 훅=카드1 끝(단서형: 총알의 실제 위치를 알려주고 이유는 미룸)+카드2 끝(대조 예고: "실탄을 뺐다"로 잘라 다음 장의 "그런데 원칙은"이 즉시 받음) · 착지 한 줄 요지 = 실탄은 하루면 다시 물릴 수 있지만 반년간 아무도 말하지 않은 그 보고 경로는 지시 한 장으로 돌아오지 않는다
-- 연속성 앵커: Recurring subject - a Korean soldier in his early 20s with close-cropped hair, wearing a field cap and a bulky guard-post parka with the chin strap fastened (카드1·카드6) / 반복 장소 = the same concrete forward guard post overlooking the barbed-wire fence line
+- 화풍: B 극화 — 군 기강·보고 체계라는 구조 축을 다루는 사건이라 극화의 굵은 선과 명암 낙차가 맞다.
+- 분위기: 새벽 철책의 냉기와 실내의 관료적 무표정이 교차하는 건조한 긴장. 격앙 없이 낮게 눌린 톤, 소리보다 정적이 무겁다.
+- 연출 방향: 뉴스를 안 보는 독자도 「철책 앞 총에 총알이 안 들어 있었다」는 물성 하나에는 멈춘다 — 그 자리에 아들·형제를 보내 둔 사람에게는 남 얘기가 아니다(독자훅). 전할 것은 「오발을 막으려던 판단이 보고 체계의 빈 마디를 타고 반년을 갔다」는 것(💡 시사점 관점). 그래서 카메라는 사람의 손과 눈에 붙은 두 개의 사물 — *탄띠가 물리지 않은 급탄구*와 *한 책상에서 멈춰 선 보고* — 만 집요하게 잡는다. thumb_dispatch에서는 차가운 새벽 청색 톤과 정적만 키노트로 상속하고, 앵글은 카드마다 흩는다.
+- 독자 동선: **제시** 카드1(빈 총 제시) → **발단** 카드2(오발을 막으려 실탄을 뺐다) → **전개** 카드3(합참 원칙 어기고 보고 없이 반년) → **피크** 카드4(무인기 오인·격추 준비, 통보도 멈춤) → **해소** 카드5(보도로 드러남·점검 확대·직무배제) → **시사점** 카드6 · 훅=카드1 끝(단서형: '반년') + 카드3 끝(예고형: 하늘이 시끄러웠다) · 질문형 0 · 착지 한 줄 = 그 지침을 알던 손이 지금 점검한다.
+- 연속성 앵커: Recurring subject A — a Korean man in his early 20s, close-cropped hair, wearing a plain unmarked winter field jacket and a helmet with no insignia / Recurring place — a concrete guard post at a frontline barbed-wire fence line
 
 ### [카드 1]
 **텍스트**
 ```text
-최전방 GP 기관총에 탄띠가 없었다
-육군 1군단의 경계근무 현장이었다
-*총알은 총이 아니라 옆 탄통에 있었다*
+철책 앞 기관총에 탄띠가 없었다
+총알은 옆 탄통 안에 들어 있었다
+육군 1군단의 전방 초소들이 그랬다
+*그렇게 반년을 최전방에 서 있었다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a vacant thousand-yard stare, unfocused eyes looking past everything toward the fence line. Recurring subject - a Korean soldier in his early 20s with close-cropped hair, wearing a field cap and a bulky guard-post parka with the chin strap fastened, stands beside a tripod-mounted heavy machine gun inside a concrete forward guard post overlooking the barbed-wire fence line. The feed tray of the gun is bare with no ammunition belt loaded, and an opened metal ammunition can sits on the concrete floor right beside the mount with its lid folded back. His gloved hand rests on the parapet rather than on the weapon, and his gaze runs past the wire toward the right edge of the frame. The gun barrel points away over the empty valley, at no person.
-Camera: wide shot, full body, spatial context from eye-level shot, neutral perspective, realistic, balanced emotion, three-quarter angle, nose room on the right, gaze directed toward the right edge, shot on 35mm lens, natural documentary perspective, balanced subject and background, minimal distortion
-Lighting/mood: cold blue pre-dawn tone, lone streetlight reflection on wet ground, desolate stillness
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) confined to the inner rim of the opened ammunition can and the brass of the rounds inside it, film-noir low-key lighting, deep shadows
-Text handling: no unit markings, no insignia lettering, no signage, no readable characters anywhere; keep every surface plain.
+Scene: Emotional focal point: the soldier's tight-pressed lips and the way his eyes drop to the bare feed tray of the heavy machine gun. Recurring subject A — a Korean man in his early 20s, close-cropped hair, wearing a plain unmarked winter field jacket and a helmet with no insignia — stands at the firing slit of Recurring place — a concrete guard post at a frontline barbed-wire fence line, one gloved hand resting on the weapon. No ammunition belt is fed into the gun; an opened ammunition can sits on the concrete beside his boot, its lid folded back. The muzzle points low over the wire toward the valley, and both his gaze and the empty space of the composition lean toward the right edge of the frame.
+Camera: wide shot from eye-level, shot on 35mm lens
+Lighting/mood: cold blue pre-dawn tone, lone lamp reflection on the wet concrete, desolate stillness
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
+Korean setting by default: Korean facial features and physiques, Korean military field uniforms with no legible insignia, no unit markings, no flags, no logos.
+Text handling: no incidental lettering anywhere; any marking on the ammunition can is cropped out of frame or turned away from the camera.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
 Composition: ONE continuous surface (the concrete floor and parapet of the guard post) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -34,29 +36,30 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-GOP 초소 K6 중기관총
+GOP 철책 K6 중기관총
 ```
 
 ### [카드 2]
 **텍스트**
 ```text
-지침이 바뀐 건 올해 초였다
-새 군단장 취임 직후 1군단은
-*총기 오발 사고를 막겠다며*
-K6 중기관총과 K4에서 실탄을 뺐다
+올해 초 1군단에 새 군단장이 왔다
+K6·K4 공용화기에서 실탄을 뺐다
+탄통은 화기 옆에 두게 했다
+*오발 사고를 막겠다는 취지였다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: eyes cast downward, looking at the paper under the pen, the face held still and unreadable. A Korean army commander in his fifties in a plain uniform with no visible insignia or unit patch sits at a wide desk, gripping a pen and signing a single sheet of standing-order paper while his other hand steadies the page. A folded pair of work gloves and a closed logbook lie beside the sheet. The office walls are bare, and his shoulders are turned toward the right edge of the desk.
-Camera: medium shot, waist-up framing, face and gestures from high angle shot, looking down, subject observed from above, nose room on the right, shot on 50mm standard lens, minimal distortion, natural cinematic composition
-Lighting/mood: warm soft desk-lamp light, quiet wistful tone
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) confined to the pen tip and the thin edge of the signed sheet, film-noir low-key lighting, deep shadows
-Text handling: the document surface is shown at an angle and cropped so no writing is legible; no signage, no nameplates, no readable characters anywhere.
+Scene: Emotional focal point: the commander's fingertips pressed flat and certain on the table, while the aide's pen hovers and hesitates just above the paper. A Korean officer in his fifties, in a plain field uniform with no rank markings, leans over a wide conference table and taps a printed schematic of a crew-served weapon; a younger aide seated at his side writes the revised order onto a form. Neither man looks up, both gazes locked down onto the tabletop. The room is a bare military conference room with a blank wall map behind them.
+Camera: medium close-up from a high angle looking down, shot on 50mm standard lens
+Lighting/mood: flat sterile clinical fluorescent light, cold even greenish-white, emotionless institutional
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
+Korean setting by default: Korean facial features and physiques, Korean military field uniforms with no legible insignia, no unit markings, no flags, no logos.
+Text handling: the documents and the wall map are seen at a steep angle and partly cropped so no readable characters appear; the weapon schematic reads as line drawing only.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the desk top) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the conference table top) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -65,29 +68,30 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-육군 군단장 집무실 서명
+육군 군단 지휘통제실 상황도
 ```
 
 ### [카드 3]
 **텍스트**
 ```text
-그런데 합참 원칙은 실탄 장착이었다
-1군단은 합참을 건너뛰고
-*바로 위 사령부에만 알린 채 반년을 갔다*
-이를 꺼낸 건 보고가 아니라 보도였다
+*합참이 정한 원칙은 실탄 삽탄이다*
+1군단은 합참에 보고하지 않았다
+지상작전사령부에만 알린 채 뒀다
+반년째 되던 7월, 하늘이 시끄러웠다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a tightly controlled face, jaw set, lips pressed, fighting back a visible emotion while he speaks into one handset. A Korean staff officer in a plain uniform stands at a command-post console, holding a single corded telephone handset to his ear with his free hand flat on the console surface. Directly beside him a second corded telephone sits untouched, its handset still in the cradle, one small indicator lamp glowing on it. Behind him a row of dark unmanned consoles recedes into blackness. His body and gaze are turned toward the right edge of the frame.
-Camera: cowboy shot, mid-thigh framing, body language, hands visible from Dutch angle, tilted horizon, canted frame, unstable mood, shot on 40mm lens, neutral perspective, natural human-vision feel
+Scene: Emotional focal point: a sealed report envelope pinned under one motionless hand at the edge of a desk, the fingers unwilling to push it any further. A Korean officer in his forties in an unmarked field uniform stands in a military operations room beside a wall chart of a command hierarchy, having just set down a field telephone receiver. His eyes travel up the chart toward the topmost box, which stays in shadow, while the heavy door to the upper headquarters behind him remains shut. The whole composition and his gaze lean toward the right edge of the frame.
+Camera: medium shot from a low angle looking up, shot on 70mm short telephoto
 Lighting/mood: single pool of hard light isolating the figure in surrounding blackness, claustrophobic loneliness
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) confined to the lone indicator lamp on the untouched second telephone, film-noir low-key lighting, deep shadows
-Text handling: console labels and buttons are blurred or turned away from view; no signage, no readable characters anywhere.
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
+Korean setting by default: Korean facial features and physiques, Korean military field uniforms with no legible insignia, no unit markings, no flags, no logos.
+Text handling: the command chart is rendered as empty boxes and connecting lines only, the envelope face is turned away, no readable characters anywhere.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the command-post console desk) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the operations room wall carrying the chart) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -96,28 +100,30 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-군 지휘통제실 통신장비
+합동참모본부 청사
 ```
 
 ### [카드 4]
 **텍스트**
 ```text
-그 반년 안에 다른 일도 겹쳤다
-7월 말 파주에서 미군 무인기가
-*북한 것으로 오인돼 격추 준비까지 갔다*
+7월 말 파주 상공에 비행체가 떴다
+군은 그것을 북한 것으로 봤다
+*격추 준비까지 갔다. 미군 무인기였다*
+미군은 통보했다지만 위로 안 갔다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: under mounting pressure the controlled face micro-cracks - a twitching lip corner, a hard swallow, a flickering blink. A Korean air-defense operator in his thirties leans in close over a circular radar scope, both hands braced on the console rim, eyes locked on a single moving blip crossing the sweep. The glow of the scope lights his face from below and the rest of the operations room falls into near blackness behind him. No weapon is shown. manhwa emphasis lines radiating toward the subject, no panel border.
-Camera: tight close-up, face fills frame, intense emotion, intimate pressure from eye-level shot, neutral perspective, realistic, balanced emotion, shot on 85mm portrait lens, flattering face, soft background separation, elegant focus
+Scene: Emotional focal point: one wide-open eye holding the reflection of a small unidentified blip crossing a radar screen, the pupil locked and unblinking. An extreme close-up of a Korean soldier's eye and brow inside a darkened air-defense operations room, the screen glow the only light touching the skin. Nothing else is visible in the frame except that reflected trace and the faint moisture at the lash line.
+Camera: extreme close-up from a Dutch tilted angle, shot on 100mm macro lens
 Lighting/mood: cold blue screen under-glow lighting the face from below in a dark room, restless paranoid unease
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) confined to the sweep line and the single blip on the radar scope, film-noir low-key lighting, deep shadows
-Text handling: the scope shows only the sweep and one blip, no grid labels, no numbers, no readable characters anywhere.
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
+Korean setting by default: Korean facial features and physiques, Korean military field uniforms with no legible insignia, no unit markings, no flags, no logos.
+Text handling: the reflected screen shows only a blip and sweep lines, no numerals, no labels, no readable characters.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the dark console face wrapping behind and around the operator) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the skin of the face lit by the screen glow) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -126,29 +132,30 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-방공작전 레이더 상황실
+주한미군 무인기 방공 레이더
 ```
 
 ### [카드 5]
 **텍스트**
 ```text
-미군이 알린 비행계획도 위로 안 갔다
-*빈 총과 끊긴 보고가 함께 드러났다*
-전방 5개 군단엔 실탄 장착 지시가 갔고
-8월 3일 1군단장은 직무에서 배제됐다
+빈 총은 보고가 아니라 보도로 드러났다
+전방 5개 군단으로 점검이 번졌다
+합참은 GP·GOP를 다시 훑었다
+*8월 3일 국방부는 그를 직무에서 뺐다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: shoulders slumped, heads lowered, postures collapsed as the two officers look at the seat nobody is in. A wide command conference room seen from above, with a long table running through the frame and a single high-backed chair at its head, pushed slightly back and left empty, no nameplate on the table before it. Two Korean officers in plain uniforms stand well away from that chair holding folded briefing papers, their eyes turned toward the vacant seat. A large unmarked wall map fills the far wall.
-Camera: wide shot, full body, surrounding environment, spatial context from high angle shot, looking down, subjects small and observed, shot on 24mm wide lens, cinematic wide shot, spatial context, subtle depth
+Scene: Emotional focal point: two hands snapping an ammunition belt down into the feed tray, knuckles pale with the force of it. Recurring subject A — a Korean man in his early 20s, close-cropped hair, wearing a plain unmarked winter field jacket and a helmet with no insignia — kneels at the weapon inside Recurring place — a concrete guard post at a frontline barbed-wire fence line, eyes fixed on his own hands as the belt seats. Behind him a senior officer holding a clipboard watches from the doorway without speaking, and further along the ridge two more guard posts repeat the same kneeling posture.
+Camera: medium shot from eye-level, shot on 85mm portrait lens
 Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) confined to a single shaft of light falling across the empty chair, muted daylight contrast
-Text handling: the wall map carries only coastline and contour shapes with no labels; no nameplates, no signage, no readable characters anywhere.
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
+Korean setting by default: Korean facial features and physiques, Korean military field uniforms with no legible insignia, no unit markings, no flags, no logos.
+Text handling: the clipboard is angled away from the camera and the ammunition can markings are cropped, so no readable characters appear.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the conference table top) extending edge to edge from top to bottom of the frame. The empty chair and the standing officers are anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the concrete floor of the guard post) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -157,29 +164,30 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-육군 지휘부 회의실 지휘관석
+GOP 경계작전 실태 점검
 ```
 
 ### [카드 6]
 **텍스트**
 ```text
-군단장 한 명으로 끝날 일은 아니다
-실탄을 다시 물리는 건 하루면 된다
-반년간 아무도 이상하다 말하지 않았다
-*그 경로는 지시 한 장으로 안 돌아온다*
+총에 탄띠를 다시 무는 건 하루면 된다
+반년 동안 아무도 위로 올리지 않았다
+그 길은 지시 한 장으로 안 돌아온다
+*그 지침을 알던 손이 지금 점검한다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: looking directly into the camera, steady unwavering eye contact, over the freshly loaded gun. Recurring subject - a Korean soldier in his early 20s with close-cropped hair, wearing a field cap and a bulky guard-post parka with the chin strap fastened, stands square to the viewer in the same concrete forward guard post overlooking the barbed-wire fence line. One hand rests on the closed feed tray cover of the heavy machine gun, where an ammunition belt now runs into the weapon. The emptied ammunition can lies on its side by his boot. On the post wall behind him a corded field telephone hangs with its handset still in the cradle, untouched. The gun barrel points away over the valley, at no person.
-Camera: full shot, head-to-toe, full body, clear silhouette from eye-level shot, neutral perspective, realistic, balanced emotion, front-on shot, direct gaze, symmetrical composition, facing camera, shot on 35mm lens, natural documentary perspective, balanced subject and background, minimal distortion
-Lighting/mood: cold blue pre-dawn tone, lone streetlight reflection on wet ground, desolate stillness
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) confined to the brass of the ammunition belt now feeding into the gun, film-noir low-key lighting, deep shadows
-Text handling: no unit markings, no insignia lettering, no signage, no readable characters anywhere; keep every surface plain.
+Scene: Emotional focal point: an open palm holding out a checklist toward the viewer, steady and unhurried, the eyes above it meeting the camera without blinking. A Korean officer in an unmarked field uniform stands centered and still in Recurring place — a concrete guard post at a frontline barbed-wire fence line, the checklist held at chest height. Behind him the ridge line of identical guard posts runs back to the horizon, and in the nearest post a loaded ammunition belt now hangs from the weapon. The framing is symmetrical and static, with no directional lean to either edge.
+Camera: full shot from a front-on eye-level angle, shot on 24mm wide lens
+Lighting/mood: warm soft morning light, gentle and quiet, faint melancholy
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
+Korean setting by default: Korean facial features and physiques, Korean military field uniforms with no legible insignia, no unit markings, no flags, no logos.
+Text handling: the checklist surface is rendered as blank ruled lines only, no readable characters anywhere in the frame.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the concrete floor and parapet of the guard post) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the ridge ground running from the post back to the horizon) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -188,5 +196,5 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-K6 중기관총 탄띠 급탄
+휴전선 철책 능선 초소
 ```
