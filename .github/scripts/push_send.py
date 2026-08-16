@@ -177,6 +177,29 @@ def vapid_pem(raw_b64url):
     tf.write(pem); tf.close()
     return tf.name
 
+LIVE_BASE = (os.environ.get("LIVE_BASE") or "https://edit.nomute.kr").rstrip("/")   # 알림 딥링크의 절대 기준 = 정본 화면(도메인 교체 시 레버 1개 · live_smoke --base 관용구 계승)
+
+
+def abs_url(u):
+    """알림 딥링크를 **절대 주소로** 굳힌다(260816 실사고 봉합 · CONTRACT: check_push_abs_url).
+
+    ⚠ 진범 = 상대경로 + 폰 SW의 origin. `sw.js notificationclick`이 `new URL(raw, self.location.origin)`으로
+    주소를 만드는데, 그 origin은 **그 구독이 등록된 화면**이다. 계정 이관(260816) 전에 등록된 구독은 전부
+    옛 화면 것이라(실측 = 5대 전건 26-06-19~26-07-21 등록 = 이관 26일 전), `/?a=…`·`/thumb.html?done=…`
+    같은 상대경로가 **옛 화면 주소에 붙어** 알림을 눌러도 옛 화면으로 갔다(운영자 260816 「알림이 다 구 주소로
+    가는거 같은데」 = 정확한 관측).
+    ⚠ **옛 화면 SW는 고칠 수 없다** — 그 화면은 새 저장소 커밋을 배포받지 않으므로 뷰어·SW를 아무리 고쳐도
+    이미 폰에 깔린 그 SW가 그대로 산다. 따라서 **서버가 절대 주소를 실어 보내는 것**만이 유효한 수단이다
+    (절대 주소면 `new URL(raw, origin)`에서 base가 무시된다 = 어느 화면 SW가 받아도 정본 화면으로 간다).
+    ⚠ 짝 = 구독 재등록(운영자가 새 화면에서 알림 껐다 켜기)은 근본책이지만 사람 손이고, 그전에도 알림이
+    제 화면으로 가야 한다 = 이 함수가 그 사이를 메운다(재등록 후에도 무해 = 같은 주소).
+    이미 절대 주소면 그대로 둔다(스킴 보유 판정 = 미래에 절대 주소로 쏘는 호출부와 충돌 0)."""
+    u = str(u or "/")
+    if u.startswith("http://") or u.startswith("https://"):
+        return u
+    return LIVE_BASE + (u if u.startswith("/") else "/" + u)
+
+
 def notif_icon(kind, theme):
     """종류 → 알림 아이콘 **data URL**. URL 대신 이미지를 통째로 실어보내는 이유(실측 260727):
     payload에 아이콘 *주소*를 주면 폰이 그 이미지를 받아오지 못해(Access 벽/미배포 404) 안드로이드가
@@ -294,7 +317,7 @@ def main():
     pem_path = vapid_pem(priv)
     dead, sent_keys, sent_evs = set(), [], []
     for m in msgs:
-        pl = {"title": m["title"], "body": m["body"], "url": m["url"], "tag": m.get("tag", "nomute-breaking")}
+        pl = {"title": m["title"], "body": m["body"], "url": abs_url(m["url"]), "tag": m.get("tag", "nomute-breaking")}
         if m.get("kind"): pl["kind"] = m["kind"]     # SW가 종류→아이콘 매핑(신 SW) · 미지정 = 브랜드 기본
         if m.get("icon"): pl["icon"] = m["icon"]     # 직접 지정 = 최우선(구 SW 호환 검증 경로 · 정식 발송은 비움 = 테마짝 유지)
         payload = json.dumps(pl, ensure_ascii=False)

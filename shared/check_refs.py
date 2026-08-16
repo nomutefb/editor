@@ -1058,6 +1058,50 @@ def check_push_send_checkout():
     return 0
 
 
+def check_push_abs_url():
+    """알림 딥링크는 **절대 주소로** 나간다(260816 3차 실사고 봉합 · 운영자 「알림이 다 구 주소로 가는거 같은데」).
+
+    ⚠ 진범 = 상대경로 + 폰 SW의 origin. `viewer/sw.js notificationclick`이 `new URL(raw, self.location.origin)`
+    으로 이동 주소를 만드는데 그 origin은 **그 구독이 등록된 화면**이다. 계정 이관(260816) 전에 등록된 구독은
+    전부 옛 화면 것이라(실측 = 5대 전건 26-06-19~26-07-21 = 이관 26일 전), `/?a=…`·`/thumb.html?done=…` 같은
+    상대경로가 옛 화면 주소에 붙어 **알림을 눌러도 옛 화면으로 갔다**. 옛 화면은 8월 13일 배포에 멈춰 있어
+    오늘 고친 것이 하나도 안 보인다 = 알림은 정상으로 뜨는데 목적지만 틀린 형태.
+    ⚠ **옛 화면 SW는 코드로 못 고친다** — 그 화면이 새 저장소 커밋을 배포받지 않으므로 이미 폰에 깔린 SW가
+    그대로 산다 → **서버가 절대 주소를 실어 보내는 것**만이 유효한 수단이다(절대 주소면 `new URL`이 base를
+    무시한다 = 어느 화면 SW가 받아도 정본 화면으로 간다).
+    ⚠ 신설 사유 = 기존 게이트가 전부 다른 축이다 — `check_canon_host` = 코드가 **부르는** 주소(스킴 붙은
+    절대 주소만 · 상대경로는 술어상 대상 밖이라 이 사고를 원리적으로 못 본다) · `check_push_send_checkout` =
+    푸시가 **나갈 수 있는가** · `smoke_*` = 화면 렌더 → 「알림이 **어느 화면으로 데려가는가**」는 축 자체가
+    없었고, 운영자가 알림을 눌러봐야만 보였다(insta-thumb-miss·brk_misfire 동축).
+    술어 3축 = ① 절대화 함수 실존(스킴 보유 시 그대로 = 이중 접두 0) ② payload 조립의 url이 그 함수 경유
+    ③ `LIVE_BASE` 레버 보유(도메인이 또 바뀌어도 손잡이 1개 = `check_canon_host` 처방 관용구 계승).
+    정적 · 렌더·LLM·네트워크 0 · **면책표 없이 하드 0**."""
+    p = os.path.join(ROOT, '.github', 'scripts', 'push_send.py')
+    try:
+        src = open(p, encoding='utf-8').read()
+    except Exception as e:
+        print('❌ check_push_abs_url 읽기 실패(fail-closed):', e); return 1
+    code = [l for l in src.splitlines() if not l.lstrip().startswith('#')]
+    body = '\n'.join(code)
+    bad = []
+    if not re.search(r'def\s+abs_url\s*\(', body):
+        bad.append('절대화 함수 abs_url 부재 — 알림이 폰 SW origin(= 그 구독이 등록된 화면)을 따라간다')
+    if not re.search(r'startswith\(\s*[\'"]https://[\'"]\s*\)', body):
+        bad.append('abs_url 스킴 판정 부재 — 이미 절대 주소인 호출부에 접두가 두 번 붙는다')
+    if not re.search(r'"url"\s*:\s*abs_url\(', body):
+        bad.append('payload 조립의 url이 abs_url 경유가 아니다 — 상대경로가 그대로 나간다(진범 그 자체)')
+    if not re.search(r'LIVE_BASE\s*=\s*\(?\s*os\.environ\.get\(\s*[\'"]LIVE_BASE[\'"]', body):
+        bad.append('LIVE_BASE 레버 부재 — 도메인 교체 시 코드를 다시 뒤져야 한다')
+    if bad:
+        print('❌ 알림 딥링크 절대 주소 게이트(260816 실사고 = 알림을 눌러도 옛 화면으로 갔다):')
+        for b in bad:
+            print('   -', b)
+        print('   처방 = push_send.abs_url()로 감싸고 기준은 LIVE_BASE(기본 https://%s).' % _CANON_HOST)
+        return 1
+    print('✅ 알림 딥링크 절대 주소 게이트 — 전 알림이 정본 화면 절대 주소로 나간다(옛 화면 SW가 받아도 목적지 정본).')
+    return 0
+
+
 def _shell_literal_leak(src):
     """다중라인 큰따옴표 리터럴이 **중간에서 조기 종료**되는 지점을 bash 인용 문맥 그대로 훑어 찾는다.
     반환 = [(변수명, 행번호, 문맥)] · 최상위 dq 안에서만 판정하고 `$(…)`·heredoc·작은따옴표는 통째 스킵
@@ -8766,6 +8810,11 @@ def main():
             rc = 1
     except Exception as e:
         print('❌ check_push_send_checkout 예외(fail-closed):', e); rc = 1
+    try:
+        if check_push_abs_url() != 0:   # 알림 딥링크 절대 주소(하드 게이트 — 260816 실측: 상대경로가 폰 SW의 origin을 따라가 옛 화면으로 데려갔다·옛 SW는 코드로 못 고친다)
+            rc = 1
+    except Exception as e:
+        print('❌ check_push_abs_url 예외(fail-closed):', e); rc = 1
     try:
         if check_prompt_literal_quoting() != 0:   # 다중라인 프롬프트 리터럴 인용 무결성(하드 게이트 — 260805 실측: 미이스케이프 " 하나가 prompt 변수를 통째로 삼켜 요약 요청 전건 실패·문법은 유효라 bash -n 무통과)
             rc = 1
