@@ -56,6 +56,17 @@ jobs:
           IG_USER_ID: ${{ vars.IG_USER_ID }}
           IG_FOLLOW_BACKFILL: ${{ github.event_name == 'workflow_dispatch' && inputs.follow_backfill || '0' }}   # 평시 0 = 결측일만 소수 채움 · 수동 발사 시만 소급(하루창 1콜×일수 · 실측 보관 경계 최소 180일)
         run: python3 .github/scripts/insta_fetch.py
+      # ── 노뮤트 **본계정** 스레드 지표(운영자 260816 "ig랑 분리하고 싶지는 않고, thread 구독자도 ig아래에 표기") ──
+      # 같은 회차에 얹는 이유 = 운영자가 두 채널을 **한 채널로** 본다. 별도 워크플로로 떼면 수집 시각이 갈려
+      #   화면에 「인스타 17:03 · 스레드 14:20」처럼 서로 다른 시점 숫자가 나란히 뜬다(= 비교가 거짓말이 된다).
+      # ⚠ 열쇠 = TH_ACCESS_TOKEN **단독**. 루시 THREADS_ACCESS_TOKEN 을 폴백으로 넣으면 남의 계정 팔로워가
+      #   노뮤트 화면에 뜬다(세 열쇠가 전부 다른 계정 = 260816 실측). 폴백 금지가 계약이다.
+      # fail-soft = 스레드는 참고 축이라 실패해도 인스타 회차를 죽이지 않는다(산출은 다음 회차에 따라잡는다).
+      # 산출 apps/insta/data/threads_own.json = 아래 커밋 스텝이 `apps/insta/data` 통째로 실어 나른다(인자 추가 불요).
+      - name: 스레드 본계정 지표(참고 축 · fail-soft · 시크릿 미등록 = no-op)
+        env:
+          TH_ACCESS_TOKEN: ${{ secrets.TH_ACCESS_TOKEN }}
+        run: python3 .github/scripts/threads_own.py || echo "::warning::스레드 본계정 지표 실패 — 인스타 회차는 계속(다음 회차 재시도)"
       # ── 열쇠 사망 알림 착지(260816 실사고 봉합 · insta_fetch.token_alert 의 짝 = 선택 아님) ──
       # 왜 별도 스텝인가 = 위 수집 스텝이 exit 1 이면 잡이 그 자리에서 멈춰 **뒤 커밋 스텝이 통째로 안 돈다**.
       #   그래서 종전엔 열쇠가 죽어도 알림 파일이 러너에서 같이 증발했고 운영자에게 가는 통지가
