@@ -648,13 +648,14 @@ const SB_DEF = { '비율': '9:16', '화질': '2K', '프레임': '30fps', '길이
 // 화풍·세부 화풍 = 이미지 스튜디오와 같은 목록(nm-styles.js 정본 · 창작 0) + 맨 앞 「자동」.
 // ⚠ 왜 콘티에 화풍이 있나 = 영상의 얼굴은 **첫 장면 그림**이 정한다(그림→영상). 그림을 어떤
 //   화풍으로 굽느냐가 곧 영상 화풍이라, 여기서 못 고르면 매번 감독이 알아서 정하게 된다.
-// ⚠ 「자동」 = 감독이 **연출 목적과 자료를 읽고** 화풍·세부 화풍을 직접 고른다(운영자 260816
-//   「화풍, 세부화풍은 각각 위에서 제공한 의도와 기사 내용에 따라 달라지도록」). 고르는 기준·
-//   근거 표기는 prompts/sb-make.md 가 정본이고, 판단 재료는 뉴스 화풍 정본
-//   apps/k/library/13_style_news_canon.tsv 의 「용도(노뮤트)」 열이다(휴먼스토리→수채 계열 ·
-//   범죄 재구성·권력 비판→극화 계열) — 이 화면은 「자동이다」라는 사실만 실어 보낸다.
-// ⚠ 문법은 세부 화풍 레일의 「자동」 그대로다(맨 앞 · 값 'auto' · 창작 0).
-let sbStyle = 'auto', sbSub = 'auto';   // 기본 = 자동(운영자 260816) · 규격 기본값은 Q1158 "2k · 30fps · 9:16 · 10s"
+// ⚠ 화풍 「자동」은 **폐지**(운영자 260816 3차 「그냥 자동 없애고 기본값을 실사로」). 260816 2차에
+//   붙였다가 같은 날 회수한 축이다 — 자동이 성립하려면 「어떤 소재에 어떤 화풍인가」의 판정표가
+//   있어야 하는데, 그 표를 만들어 보니 금지 목록만 두꺼워지고 정작 고르는 데는 안 쓰였다.
+//   되살릴 땐 표(정서 → 화풍 역방향 조회)를 먼저 세우고 그다음에 칩을 붙인다(순서가 계약).
+// ⚠ 세부 화풍의 「자동」은 그대로 산다 — 그쪽은 **상위 화풍이 이미 정해져 있어** 감독 재량의
+//   범위가 닫혀 있다(index 동일 계약). 화풍 축과 성격이 다르다.
+const SB_STYLE_DEF = 'photo';   // 화풍 기본값 = 실사(운영자 260816 3차) — 초기값과 폴백이 이 한 값을 같이 본다(갈리면 옛 저장분이 엉뚱한 화풍으로 되살아난다)
+let sbStyle = SB_STYLE_DEF, sbSub = 'auto';   // 기본 = 실사(운영자 260816 3차) · 규격 기본값은 Q1158 "2k · 30fps · 9:16 · 10s"
 let sbDirector = 'fable', sbShoot = 'grok', sbSet = Object.assign({}, SB_DEF), sbAd = false, sbRef = true, sbSnd = true;   // sbSnd = 영상 소리(기본 켜기 · 운영자 260811 「소리는 기본 키게」 · 촬영=grok 전용 축)   // sbRef = 참조 이미지 생성(기본 ON · 운영자 Q1144·Q1161: 시댄스 = 강제 ON·비활성 / 클링 = 선택 가능)
 let sbArW = '1', sbArH = '1';   // 비율 직접 기본 = 1:1(index _geniSel.arW/arH 정본 동값 — 빈 칸이 아니라 값이 앉아 있고 탭하면 그 자리가 비며 바로 타이핑)
 function sbArVal() { const w = parseInt(sbArW, 10), h = parseInt(sbArH, 10); return (w >= 1 && w <= 99 && h >= 1 && h <= 99 && w / h >= 0.25 && w / h <= 4) ? w + ':' + h : null; }   // 직접 비율 유효값 = index geniArVal 정본 동일 계약(각 1~99 + 1:4~4:1) · 서버 api/sb.js가 같은 계약으로 재검증
@@ -690,12 +691,7 @@ async function sbReadJson(r) {
 }
 function sbPayload() {   // go 핸들러 페이로드(서버 api/sb.js가 화이트리스트 재검증)
   const set = Object.assign({}, sbSet); if (set['비율'] === 'custom') set['비율'] = sbRatio();   // 'custom' = 화면 상태값 → 발사 시 실 N:M으로 치환(k 「길이」 직접 = segTotal()+'s' 선례 문법)
-  // ⚠ 화풍 「자동」은 **값을 빼는 게 아니라 '자동'이라고 말해서 보낸다**(운영자 260816).
-  //   빼면 `[설정]` 에 화풍 줄이 통째로 없어지고, 그러면 감독은 「고르라는 지시」를 받은 게 아니라
-  //   「화풍이라는 축 자체가 없는 일감」을 받는다 — 실제로 그 상태에서 나온 콘티는 화풍을 아예
-  //   언급 안 하거나 감독 취향으로 흘렀다. 세부 화풍의 자동(값 생략 = 재량)과 축이 다른 이유 =
-  //   그쪽은 **상위 화풍이 이미 정해져 있어** 재량의 범위가 닫혀 있고, 이쪽은 그 범위 자체를 정하는 자리다.
-  const styKo = (sbStyle === 'auto') ? '자동' : ((window.GENI_ALL_STYLES || []).find(x => x[0] === sbStyle) || [])[1];
+  const styKo = ((window.GENI_ALL_STYLES || []).find(x => x[0] === sbStyle) || [])[1];
   const subKo = (subsOfName(sbStyle, sbSub));
   if (styKo) set['화풍'] = styKo;               // 감독이 읽는 건 **사람 말**이다(보드 `[설정]` 절이 한국어라 키를 그대로 쓰면 감독이 못 읽는다)
   if (subKo && sbSub !== 'auto') set['세부 화풍'] = subKo;   // 자동 = 감독 재량 = 값 자체를 안 보낸다(index 동일 계약 · 화풍이 자동이면 세부도 자동이라 여기로 안 온다)
@@ -750,9 +746,7 @@ function sbPayload() {   // go 핸들러 페이로드(서버 api/sb.js가 화이
     if (wrap) wrap.querySelectorAll('.geni-nav').forEach(btn => btn.addEventListener('click', () => rail.scrollBy({ left: (+btn.dataset.dir) * Math.max(110, rail.clientWidth * 0.7), behavior: 'smooth' })));
     railUpd(rail);
   };
-  const subsOf = st => (st === 'auto') ? [['auto', '자동']]   // 화풍이 자동이면 세부도 자동 단독 — 어느 화풍인지 아직 안 정해졌는데 그 **아래** 갈래만 먼저 고를 수는 없다(레고처럼 세부가 없는 화풍 = 자동 단독 문법 동일)
-    : [['auto', '자동']].concat(((window.GENI_SUB || {})[st] || []).filter(x => x[0] !== 'auto'));   // '자동' 먼저 + 그 화풍 세부(정본 목록의 'auto' 는 「기본」이라 이름만 통일)
-  const stylesOf = () => [['auto', '자동']].concat(window.GENI_ALL_STYLES || []);   // 화풍 = '자동' 먼저 + 정본 9화풍(운영자 260816) — 붙이는 문법·값('auto')·자리(맨 앞) 전부 위 세부 화풍 레일 그대로다(사본 0·창작 0 · nm-styles.js 정본은 이미지 스튜디오와 공용이라 무접촉)
+  const subsOf = st => [['auto', '자동']].concat(((window.GENI_SUB || {})[st] || []).filter(x => x[0] !== 'auto'));   // '자동' 먼저 + 그 화풍 세부(정본 목록의 'auto' 는 「기본」이라 이름만 통일 · 레고처럼 세부가 없는 화풍 = 자동 단독)
   const railHtml = (items, cur) => items.map(([v, ko], i) => '<span class="geni-subit"' + (i ? ' style="--i:' + i + '"' : '')
     + '>' + (i ? '<span class="geni-sep" aria-hidden="true">|</span>' : '')
     + '<button type="button" class="geni-opt' + (v === cur ? ' on' : '') + '" data-v="' + v + '" aria-pressed="' + (v === cur) + '">' + esc(ko) + '</button></span>').join('');
@@ -861,8 +855,8 @@ function sbPayload() {   // go 핸들러 페이로드(서버 api/sb.js가 화이
     }
     // 화풍·세부 화풍 — 목록은 정본(nm-styles.js) · 그리는 문법은 index 레일 그대로
     if (axSty && axSub) {
-      const all = stylesOf();   // 자동 + 정본 9화풍
-      if (all.length && !all.some(x => x[0] === sbStyle)) sbStyle = all[0][0];   // 정본에서 사라진 화풍 = 첫 항목(자동)으로(목록이 줄어도 빈 선택으로 안 남는다)
+      const all = window.GENI_ALL_STYLES || [];
+      if (all.length && !all.some(x => x[0] === sbStyle)) sbStyle = (all.some(x => x[0] === SB_STYLE_DEF) ? SB_STYLE_DEF : all[0][0]);   // 정본에서 사라진 화풍(옛 저장분 'auto' 포함) = 기본값 실사로 되돌린다(목록이 줄어도 빈 선택으로 안 남는다)
       axSty.innerHTML = railHtml(all, sbStyle);
       const subs = subsOf(sbStyle);
       if (!subs.some(x => x[0] === sbSub)) sbSub = 'auto';   // 화풍을 바꾸면 세부는 자동으로 되돌아간다(index 동일 계약)
