@@ -5211,16 +5211,36 @@ def check_land_silence():
                 if not run:
                     continue
                 code = '\n'.join(l for l in run.splitlines() if not l.lstrip().startswith('#'))
-                if 'git_land.sh' in code:            # 위임 = fail-soft 계약 명문 축 = 대상 밖
+                # ⚠ 위임 판정은 **실행줄**로 본다(4차 봉합 · 페이블 교차검증) — 단순 포함으로 두면
+                #   `PFX=… # 정본 = git_land.sh 헤더` 같은 **줄 끝 주석**이 면죄부가 된다(실측 진범 =
+                #   social-scan.yml = 루프 뒤가 통째로 비어 판정도 경고도 0인데 그 주석 하나로 통과했다).
+                if _has_exec_line(code, 'git_land.sh'):   # 위임 = fail-soft 계약 명문 축 = 대상 밖
                     continue
                 if not push_re.search(code):
                     continue
-                if _re.search(r'exit\s+1', code):    # 실패를 실패로 낸다 = 통과
+                # ⚠⚠ 판정도 **루프가 끝난 뒤**에서만 본다(260816 2차 봉합 · 페이블 교차검증이 잡은 구멍) —
+                #    코드 전체에서 `exit 1` 을 찾으면 **그 스텝의 다른 분기** 판정이 착지 판정으로 오인된다.
+                #    실측 진범 = pick.yml 착지 루프(100~105)는 4회 다 실패해도 경고조차 없이 그냥 다음 줄로
+                #    떨어지는데, 11줄 아래 111행의 `exit 1` 은 **디스패치 실패** 판정이라 착지와 무관하다.
+                #    첫 판은 그 줄을 보고 통과시켰다 = 회수 어휘 함정과 정확히 같은 축(범위를 안 좁힌 것).
+                #    ⚠⚠ 그리고 「루프 뒤」는 **마지막 done 뒤가 아니라 그 푸시 루프의 done 뒤**다(3차 봉합) —
+                #    pick.yml 은 착지 루프 다음에 **디스패치 루프**가 또 있어서 마지막 done 으로 자르면
+                #    그 디스패치 판정(`exit 1`)이 다시 착지 판정으로 오인된다(2차 봉합이 같은 자리에서 또 샜다).
+                #    → 푸시가 있는 자리부터 그 루프의 첫 `done` 을 찾고, 다음 루프가 열리기 전까지만 본다.
+                m = push_re.search(code)
+                seg = code[m.end():] if m else code
+                d = _re.search(r'^\s*done\b', seg, _re.M)
+                tail = seg[d.end():] if d else seg
+                #    ⚠ 다음 루프 판정은 **줄 머리로 두면 안 된다**(3차 봉합 실측) — pick.yml 은
+                #    `ok=0; for i in 1 2 3; do` 처럼 같은 줄에 대입을 먼저 쓰므로 `^\s*for` 가 못 잡는다.
+                nxt = _re.search(r'\b(?:for|while)\b[^\n]*\bdo\b', tail)
+                if nxt:
+                    tail = tail[:nxt.start()]
+                if _re.search(r'exit\s+1', tail):    # 소진 뒤 실패를 실패로 낸다 = 통과
                     continue
-                # ⚠ 회수 판정은 **루프가 끝난 뒤**에서만 본다(첫 실행 실측 봉합) — 루프 **안**의
-                #    「push 재시도 $i」는 회수 경로가 아니라 그냥 다음 라운드 표시인데, 전체 코드에서
-                #    어휘만 찾으면 그 한 줄이 면죄부가 돼 진짜 조용한 유실 4건이 통째로 통과했다.
-                tail = code.rsplit('done', 1)[-1] if 'done' in code else code
+                # ⚠ 회수 판정도 같은 범위(루프 뒤) — 루프 **안**의 「push 재시도 $i」는 회수 경로가 아니라
+                #    그냥 다음 라운드 표시인데, 전체 코드에서 어휘만 찾으면 그 한 줄이 면죄부가 돼
+                #    진짜 조용한 유실 4건이 통째로 통과했다(첫 실행 실측 봉합).
                 if any(w in tail for w in _LAND_RECOVER):   # 소진 뒤 「누가 되돌리는지」를 말한다 = 의도적 fail-soft
                     continue
                 now[fn] = now.get(fn, 0) + 1

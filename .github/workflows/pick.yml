@@ -100,9 +100,14 @@ jobs:
           for i in 0 1 2 3; do
             [ "$i" -gt 0 ] && sleep $((2**i))
             git fetch --deepen=100 origin main 2>/dev/null || true   # 얕은 클론(fetch-depth:1) 짝 — 원격 새 커밋과 로컬 HEAD 사이가 끊겨 merge-base를 못 찾으면 아래 rebase가 통째로 실패한다(= 산출 유실). main 100커밋만이라 수 초 · 실패해도 무해(260810)
-            git pull --rebase --autostash -X ours origin main && git push origin HEAD:main && break
+            git pull --rebase --autostash -X ours origin main && git push origin HEAD:main && { pushed=1; break; }
             git rebase --abort 2>/dev/null || true
           done
+          # ⚠ 260816 봉합 — 구판은 4회 다 실패해도 **경고조차 없이** 다음 줄로 떨어졌다(그 아래 exit 1 은
+          #   디스패치 판정이라 착지와 무관). 그러면 운영자가 손으로 누른 픽이 통째로 사라지는데 잡은 초록이고,
+          #   바로 뒤 디스패치는 그대로 돌아 **적재도 없는 분석**을 깨운다. 형제는 이미 고쳐져 있었다
+          #   (breaking-judge.yml 자동픽 · scrape.yml candidates) = 이 자리만 미추종 · 문법은 그 사본.
+          [ "${pushed:-0}" = 1 ] || { echo "::error::pick push 실패(재시도 소진) — 운영자 픽이 main 에 안 올라갔다"; exit 1; }
           # GITHUB_TOKEN 푸시는 news-analyze(push 트리거)를 재귀방지로 못 깨운다 → 명시 디스패치(scrape와 동일).
           ok=0; for i in 1 2 3; do
             gh workflow run news-analyze.yml && { ok=1; break; }

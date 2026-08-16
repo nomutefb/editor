@@ -192,9 +192,12 @@ jobs:
           git commit -m "scrape: pending ${NEW:-?}건 적재 (RSS 교차등장)"
           for i in 0 1 2 3; do
             [ "$i" -gt 0 ] && sleep $((2**i))
-            git pull --rebase --autostash -X ours origin main && git push origin HEAD:main && break
+            git pull --rebase --autostash -X ours origin main && git push origin HEAD:main && { pushed=1; break; }
             git rebase --abort 2>/dev/null || true
           done
+          # ⚠ 260816 봉합 — 같은 파일 형제 2곳(:102 candidates · 화재 추적)은 이미 판정을 갖는데 이 스텝만
+          #   구판이라 소진 시 침묵이었다. 적재가 안 올라간 채 디스패치만 나가면 분석이 빈손으로 돈다.
+          [ "${pushed:-0}" = 1 ] || { echo "::error::pending push 실패(재시도 소진) — 적재가 main 에 안 올라갔다"; exit 1; }
           # GITHUB_TOKEN 푸시는 news-analyze(push 트리거)를 재귀방지로 못 깨운다 → 명시 디스패치.
           ok=0; for i in 1 2 3; do
             gh workflow run news-analyze.yml && { ok=1; break; }
