@@ -1,0 +1,160 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>260816 남은 문제 · 방안 · 리스크</title>
+<style>
+  /* 값은 전부 viewer/index.html :root 실측 사본(창작 0) */
+  :root{
+    --bg:#121212; --fg:#eef7f0; --mut:#8fa697; --accent:#00EED2; --accent-rgb:0,238,210;
+    --danger:#e23b2a; --warn:#FFE13D; --ok:#0FFD02;
+    --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.06);
+    --glass2:rgba(18,19,22,.55); --modal-glass:rgba(17,18,20,.64);
+    --r-l:16px; --r-m:11px; --r-s:9px; --r-pill:999px; --r-modal:22px;
+    --fs-display:22px; --fs-h1:19px; --fs-h2:15px; --fs-h3:14px;
+    --fs-label:13px; --fs-body:15px; --fs-sm:12px; --fs-xs:11px;
+    --sp-1:6px; --sp-2:12px; --sp-3:18px; --sp-4:24px; --lh-base:1.55;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);
+       font-family:'Pretendard Variable',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+       font-size:var(--fs-body);line-height:var(--lh-base);letter-spacing:-.2px;-webkit-font-smoothing:antialiased}
+  .page{width:1420px;padding:var(--sp-4) 28px 30px}
+  h1{font-size:var(--fs-display);font-weight:800;margin:0 0 4px}
+  .sub{color:var(--mut);font-size:var(--fs-h3);margin:0 0 20px}
+
+  .sech{display:flex;align-items:center;gap:10px;margin:22px 0 10px}
+  .num{width:24px;height:24px;border-radius:var(--r-pill);background:var(--accent);color:#032322;
+       font-size:var(--fs-sm);font-weight:800;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+  .sect{font-size:var(--fs-h1);font-weight:700;margin:0}
+  .sectag{margin-left:auto;font-size:var(--fs-xs);color:var(--mut);border:1px solid var(--line);border-radius:var(--r-pill);padding:3px 10px}
+
+  table{width:100%;border-collapse:collapse;background:var(--glass2);border:1px solid var(--line);
+        border-radius:var(--r-l);overflow:hidden}
+  th,td{text-align:left;padding:10px 13px;font-size:var(--fs-h3);border-bottom:1px solid var(--line2);vertical-align:top}
+  th{font-size:var(--fs-xs);font-weight:800;color:var(--mut);letter-spacing:.3px;background:rgba(255,255,255,.03)}
+  tr:last-child td{border-bottom:0}
+  .pri{white-space:nowrap;font-weight:800;font-size:var(--fs-sm)}
+  .p1{color:var(--danger)} .p2{color:var(--warn)} .p3{color:var(--mut)}
+  .code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:var(--fs-sm);
+        background:rgba(255,255,255,.05);border-radius:var(--r-s);padding:1px 5px}
+  .good{color:var(--accent)} .bad{color:var(--danger)} .warn{color:var(--warn)}
+  b.hl{color:var(--fg)}
+  td.w1{width:15%} td.w2{width:24%} td.w3{width:24%} td.w4{width:21%} td.w5{width:16%}
+
+  .bars{display:flex;gap:10px;margin:6px 0 0}
+  .bar{flex:1;background:var(--glass2);border:1px solid var(--line);border-radius:var(--r-m);padding:12px 14px}
+  .barn{font-size:var(--fs-display);font-weight:800;margin:0}
+  .barl{font-size:var(--fs-sm);color:var(--mut);margin:2px 0 0}
+  .bar.no .barn{color:var(--danger)} .bar.mid .barn{color:var(--warn)} .bar.ok .barn{color:var(--accent)}
+  .note{color:var(--mut);font-size:var(--fs-sm);margin:10px 0 0}
+</style>
+
+<div class="page">
+  <h1>지금 남은 문제 · 해결 방안 · 조치 결과와 리스크</h1>
+  <p class="sub">오늘 세션에서 <b>고치고 남긴 것</b>만 담았다. 우선순위는 <span class="bad">터지면 비싼 순</span>이다.</p>
+
+  <div class="bars">
+    <div class="bar no"><p class="barn">2</p><p class="barl">지금 실제로 위험한 것</p></div>
+    <div class="bar mid"><p class="barn">24</p><p class="barl">막아뒀지만 안 뜯어본 자리</p></div>
+    <div class="bar mid"><p class="barn">3</p><p class="barl">검사가 아직 못 보는 축</p></div>
+    <div class="bar ok"><p class="barn">7</p><p class="barl">오늘 고쳐서 본선 착지</p></div>
+  </div>
+
+  <div class="sech"><div class="num">1</div><h2 class="sect">지금 실제로 위험한 것</h2>
+    <span class="sectag">먼저 볼 것</span></div>
+  <table>
+    <tr><th class="w1">문제</th><th class="w2">지금 무슨 일이 나나</th><th class="w3">방안</th><th class="w4">조치하면</th><th class="w5">리스크</th></tr>
+    <tr>
+      <td class="w1"><span class="pri p1">1순위</span><br><b class="hl">맥 레인 5곳</b><br><span class="code">-X ours</span> 착지</td>
+      <td>합치기가 꼬이면 <b class="hl">우리 변경이 버려진 채 성공</b>으로 끝난다. ⚠ <b class="bad">깃허브가 멈춘 동안 실제로 도는 게 이 레인</b>이고 전부 소리 없이 실패한다</td>
+      <td>다섯 곳을 하나씩 판독해 ⓐ 임시본 재합침 ⓑ 반대쪽 전환 ⓒ 무해 사유 명시 중 맞는 것을 고른다</td>
+      <td>지금 유일하게 도는 레인의 <b class="good">조용한 유실이 사라진다</b></td>
+      <td>반대쪽으로 잘못 뒤집으면 <b class="bad">남의 최신 것을 덮는다</b> — 한 곳씩 판독 필수</td>
+    </tr>
+    <tr>
+      <td class="w1"><span class="pri p1">2순위</span><br><b class="hl">화재 추적</b><br>원자성 깨짐</td>
+      <td>원장·픽·중복표·알림을 <b class="hl">한 커밋에 묶어</b> 원자성을 보장한다고 적혀 있는데, 부분 손실로 그게 깨진다. 중복표가 빠지면 <b class="bad">같은 화재로 긴급 알림이 또 나가고 돈도 또 나간다</b></td>
+      <td>그 자리만 임시본 재합침으로 바꾼다(이미지 계열에 쓰는 정본 방식)</td>
+      <td>중복 알림·재과금이 <b class="good">구조적으로 막힌다</b></td>
+      <td>낮음 — 이미 검증된 방식의 이식</td>
+    </tr>
+  </table>
+
+  <div class="sech"><div class="num">2</div><h2 class="sect">막아뒀지만 안 뜯어본 자리</h2>
+    <span class="sectag">늘면 차단 · 줄이면 알림</span></div>
+  <table>
+    <tr><th class="w1">문제</th><th class="w2">지금 상태</th><th class="w3">방안</th><th class="w4">조치하면</th><th class="w5">리스크</th></tr>
+    <tr>
+      <td class="w1"><span class="pri p2">보통</span><br><b class="hl">초록인데 결과물 없음</b><br>8곳</td>
+      <td>실패해도 초록으로 끝나는 자리 8곳. 제작 6 + 관측 2. <b class="hl">그림 자체는 별도 저장소에 살지만</b> 완료 신호가 유실되면 화면이 「제작중」에 멈춘다</td>
+      <td>여섯 곳은 실패로 끝내게, 두 곳은 회수 경로를 말하게 고친다</td>
+      <td>제작이 조용히 사라지는 일이 없어진다</td>
+      <td>낮음 — 여덟 곳 각각 성격이 이미 파악돼 있다</td>
+    </tr>
+    <tr>
+      <td class="w1"><span class="pri p2">보통</span><br><b class="hl">올라갔는데 내용 빔</b><br>16곳</td>
+      <td>워크플로 11 + 맥 5. 그중 <b class="good">둘은 무해로 판독</b>(부딪칠 상대가 없다), 카나리아 둘은 이미 줄 서 있어 저위험</td>
+      <td>위험 판정된 것부터 순서대로. 무해분은 사유만 적어 면책에서 뺀다</td>
+      <td>면책 목록이 <b class="good">16 → 5 안팎</b>으로 줄어 진짜 위험만 남는다</td>
+      <td>낮음 — 판독 결과가 이미 나와 있다</td>
+    </tr>
+  </table>
+
+  <div class="sech"><div class="num">3</div><h2 class="sect">검사가 아직 못 보는 축</h2>
+    <span class="sectag">구조적 한계</span></div>
+  <table>
+    <tr><th class="w1">문제</th><th class="w2">왜 못 보나</th><th class="w3">방안</th><th class="w4">조치하면</th><th class="w5">리스크</th></tr>
+    <tr>
+      <td class="w1"><span class="pri p2">보통</span><br><b class="hl">스크립트 경유 착지</b></td>
+      <td>워크플로 파일만 훑어서 <b class="hl">스크립트 안쪽 착지가 통째로 안 보인다</b>(요약·요청·카드 제작 등 4개)</td>
+      <td>워크플로가 실행하는 스크립트까지 한 단계 따라간다 — <b class="good">이미 저장소에 같은 방식의 선례가 있다</b></td>
+      <td>사각이 사라진다</td>
+      <td>낮음 — 검증된 문법 재사용</td>
+    </tr>
+    <tr>
+      <td class="w1"><span class="pri p3">낮음</span><br><b class="hl">부르는 쪽이 삼킴</b></td>
+      <td>스크립트가 실패를 말해도 부르는 줄이 <span class="code">|| echo</span>로 덮으면 초록이 된다(실물 3곳)</td>
+      <td>덮는 문법을 검사에 편입</td>
+      <td>실패가 끝까지 전달된다</td>
+      <td>정당하게 덮는 자리가 섞일 수 있어 <b class="warn">판독 선행</b> 필요</td>
+    </tr>
+    <tr>
+      <td class="w1"><span class="pri p3">낮음</span><br><b class="hl">자리 바꿈 · 낱말만 적기</b></td>
+      <td>같은 파일에서 위반 하나 지우고 하나 넣으면 총량이 같아 못 잡는다. 「원격 승」 한마디로 면책도 통과된다</td>
+      <td>총량이 아니라 <b class="hl">자리 단위</b>로 기억하게 바꾼다</td>
+      <td>바꿔치기가 막힌다</td>
+      <td>면책 관리가 무거워진다 — <b class="warn">지금은 알고 받는 대가</b></td>
+    </tr>
+  </table>
+
+  <div class="sech"><div class="num">4</div><h2 class="sect">확인만 남은 것</h2>
+    <span class="sectag">코드 조치 불요</span></div>
+  <table>
+    <tr><th class="w1">항목</th><th class="w2">상태</th><th class="w3">방안</th><th class="w4">조치하면</th><th class="w5">리스크</th></tr>
+    <tr>
+      <td class="w1"><b class="hl">도장 봉합</b></td>
+      <td>고쳤지만 <b class="warn">실전에서 아직 안 돌았다</b> — 화면 코드를 올려야 발동한다</td>
+      <td>다음 화면 작업 때 자연히 확인된다</td>
+      <td>배포 검문 거짓 실패가 끝난다</td>
+      <td>없음</td>
+    </tr>
+    <tr>
+      <td class="w1"><b class="hl">수집 알림 딥링크</b></td>
+      <td>고쳤지만 <b class="warn">두 시간 넘게 멈춰야</b> 실제로 확인된다</td>
+      <td>다음 정체 때 확인</td>
+      <td>알림 누르면 그 사건이 열린다</td>
+      <td>없음</td>
+    </tr>
+    <tr>
+      <td class="w1"><b class="hl">수집 알림 조치 주체</b></td>
+      <td>리포트에서 「클로드가 볼 일」로 분류된다. 원인이 타이머일 수도 실행기일 수도다</td>
+      <td>원인별로 갈라 표시하거나, 지금처럼 둔다</td>
+      <td>리포트에서 <b class="good">누가 볼 일인지</b> 바로 갈린다</td>
+      <td>한쪽으로 밀면 <b class="bad">다른 쪽이 조용해진다</b> — 잘못 가르면 오히려 손해</td>
+    </tr>
+  </table>
+
+  <p class="note">
+    ⚠ <b class="hl">1순위와 2순위는 지금 실제로 도는 레인에 있다.</b> 나머지는 깃허브 자동 작업이 되살아난 뒤에 의미가 커진다.
+    순서를 바꾸고 싶으면 말해 달라 — 표의 어느 줄이든 지목하면 그 턴에 라이브까지 간다.
+  </p>
+</div>
