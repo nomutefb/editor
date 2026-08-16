@@ -11165,6 +11165,39 @@ function qCancelTap(it, row, btn) {   // 상태머신 = jobCancelTap 100% 계승
   const st = row.querySelector('.qst'); if (st) st.innerHTML = '<span class="qb-cxl">취소</span>';   // 상태셀 = 이 함 2자 문법(완료·실패) 계승
   setTimeout(() => { const i = QITEMS.indexOf(it); if (i >= 0) QITEMS.splice(i, 1); renderQueuePage(); }, 1200);   // ✓ 잔상(thumb 1200 동값) 후 행 회수 — 리스트·페이저 재계산 = renderQueuePage 재사용
 }
+// ── 픽 접수 = 대기열에 즉시 꽂힌다(운영자 260816 "picking 하면 대기열에 바로 꽂혀야되는데 약 1분간의 텀이 있음") ──
+//   ⚠ 원인은 폴 주기가 아니라 **파일 착지 지연**이다 — 픽 → /api/pick 은 pick.yml 을 디스패치할 뿐이고,
+//   pending/<id>.txt 는 러너가 [체크아웃 → 파이썬 설치 → pick_pending.py → 본문 선-fetch(timeout 60s) → 커밋·푸시]
+//   를 다 끝낸 뒤에야 main 에 착지한다. 그 전까지 api/pending(=GitHub contents 조회)은 그 항목을 **물리적으로 모른다**
+//   = 뷰어를 아무리 자주 폴해도 빈손이고, 운영자에겐 "픽했는데 대기열에 없음"으로만 보인다(접수 확인 불가).
+//   봉합 = api/pick 이 200(디스패치 접수 확정)을 준 순간 같은 규격의 행을 로컬에 심어 목록·배지에 즉시 반영하고,
+//   서버 pending 에 같은 url 이 뜨는 순간 로컬분을 회수한다(중복 0 · 파이프라인·서버 무접촉 = 읽기전용 계약 유지).
+//   ⚠ 낙관 행은 **대기열 목록·배지에만** 태운다 — PEND(픽 상태 판정축)는 서버 진실만 담는다(loadPending `!it._opt`).
+//   기록 = localStorage(qCxl·'내역 지우기' 문법 계승 = 기기별) · TTL 초과분 자동 회수(러너가 죽어도 유령 행이 안 남는다).
+const QOPT_KEY = 'nomute_q_optimistic';
+const QOPT_TTL = 15 * 60000;   // 15분 — 정상 착지 ~1분 · 선-fetch 60s + 푸시 재시도 백오프(2·4·8s×4)까지 덮는 여유폭(초과 = 러너 사망 = 행 회수)
+function qOptAll() { try { const a = JSON.parse(localStorage.getItem(QOPT_KEY) || '[]'); return Array.isArray(a) ? a : []; } catch { return []; } }
+function qOptSave(a) { try { localStorage.setItem(QOPT_KEY, JSON.stringify(a.slice(-20))); } catch {} }   // 롤링 20 = 대기열 1페이지(5)·CAP_PEND(25) 안쪽
+function qOptAdd(url, title) {   // 픽 접수 확정(api/pick ok) 직후 호출 — 같은 url 재접수는 최신 1건으로 수렴
+  const u = _normU(url); if (!/^https?:\/\/\S+$/i.test(u)) return;
+  const a = qOptAll().filter(o => o && _normU(o.url) !== u);
+  a.push({ id: 'opt-' + u.slice(-80), url: u, title: String(title || ''), t: Date.now() });
+  qOptSave(a); PEND_PROC++; updateQBadge();   // 배지도 그 자리에서 +1 = 다음 폴을 안 기다린다(loadQueue·loadPending 재계산이 이어서 정합)
+}
+function qOptDrop(url) { const u = _normU(url); qOptSave(qOptAll().filter(o => o && _normU(o.url) !== u)); }   // api/pick 거절 롤백 짝(pickCard catch = 낙관 표시 회수 · 평의회 260713 ⑦ 문법)
+function qOptLive(items) {   // 서버가 아직 못 보는 접수분만 반환(+ 착지·만료분 회수) — 정리 문법 = qCxlFilter 동축(저장분 무한 증식 차단)
+  const now = Date.now();
+  const live = new Set((items || []).map(it => (it && it.key) ? _normU(it.key) : '').filter(Boolean));
+  const all = qOptAll(), keep = all.filter(o => o && o.url && (now - o.t) < QOPT_TTL && !live.has(_normU(o.url)));
+  if (keep.length !== all.length) qOptSave(keep);
+  return keep;
+}
+function qOptMerge(items) {   // api/pending 응답 + 접수분 = 대기열 목록 공용 입구(행 규격 = 서버 pending 항목과 동일 필드)
+  return (items || []).concat(qOptLive(items).map(o => ({
+    id: o.id, t: o.t, status: 'processing', via: 'URL', src: qOptHost(o.url), key: o.url, title: o.title, _opt: 1,
+  })));
+}
+function qOptHost(u) { try { return new URL(u).hostname.replace(/^www\./, ''); } catch { return ''; } }   // api/pending prettyUrl 동값(표시 전용)
 let qGen = 0;
 async function loadQueue() {
   const g = ++qGen;   // 세대 토큰 — 재오픈/폴 경합 시 늦게 온 stale 응답 폐기(페이지 튕김 방지)
@@ -11175,7 +11208,7 @@ async function loadQueue() {
     const r = await fetch('api/pending?_=' + Date.now());
     if (g !== qGen) return;
     if (!r.ok) { box.innerHTML = '<div class="qempty">대기열 조회 실패 (' + r.status + ')</div>'; return; }
-    const j = await r.json(); items = qCxlFilter(j.items || []);   // 취소분 제외(qCancelTap 기록 · 운영자 260728)
+    const j = await r.json(); items = qCxlFilter(qOptMerge(j.items || []));   // 접수분(서버 미착지) 병합 → 취소분 제외(qCancelTap 기록 · 운영자 260728) · ⚠ 순서 = 병합이 먼저 — qCxlFilter 의 '서버서 사라진 id 정리'가 낙관 id 를 죽은 것으로 읽어 취소를 되살리는 것 차단
   } catch { if (g === qGen) box.innerHTML = '<div class="qempty">네트워크 오류 — 다시 시도</div>'; return; }
   if (g !== qGen) return;
   let cut = 0; try { cut = +localStorage.getItem('nomute_q_cleared') || 0; } catch {}
@@ -11706,8 +11739,8 @@ async function loadPending(render) {
   try {
     const r = await fetch('api/pending?_=' + Date.now());
     if (r.ok) { const d = await r.json(); const m = new Map();
-      const its = qCxlFilter(d.items || []);   // 취소분 제외 = 배지·기어 레몬·픽칩 전 축 일관(qCancelTap 기록 · 운영자 260728)
-      its.forEach(it => { if (it && it.key) m.set(_normU(it.key), it.status); });
+      const its = qCxlFilter(qOptMerge(d.items || []));   // 접수분 병합 후 취소분 제외 = 배지·기어 레몬·픽칩 전 축이 대기열 목록과 한 값(loadQueue 동문 · qCancelTap 기록 · 운영자 260728)
+      its.forEach(it => { if (it && it.key && !it._opt) m.set(_normU(it.key), it.status); });   // ⚠ PEND = **서버 진실만**(낙관 접수분 제외) — 이 맵이 pickState·pickTimedOut 의 판정 원본이라 클라 낙관을 섞으면 '서버가 처리중이라 했다'는 근거가 거짓이 된다(배지·목록은 위 its 가 이미 반영)
       changed = m.size !== PEND.size || [...m].some(([k, v]) => PEND.get(k) !== v);   // 키 추가/삭제·상태 변화 모두 감지(전이 드묾 = 재렌더 비용 미미)
       PEND = m;
       PEND_PROC = its.filter(it => it && (it.status === 'processing' || it.status === 'retry')).length;   // 발견성 배지 = 처리중 + 재시도 대기(둘 다 진행 중 · 운영자 260622)
@@ -12731,7 +12764,9 @@ async function pickCard(c) {
     const r = await fetch('api/pick', { method: 'POST', headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ url: c.url, title: c.title || '', alt, event_key: c.event_key || '' }) });
     if (!r.ok) throw new Error(await failWhy(r));
+    qOptAdd(c.url, c.title || '');   // 접수 확정(디스패치 200) = 대기열·배지에 그 자리에서 등장 — pending 파일 착지(러너 ~1분)를 안 기다린다(운영자 260816 "바로 꽂혀야")
   } catch (e) {
+    qOptDrop(c.url);   // 접수 실패 = 낙관 행 회수(아래 로컬·서버 원장 롤백과 한 묶음 = 유령 대기열 항목 0)
     saveRating(id, { picked: false }); renderScrap();
     postRate({ id, url: c.url, title: c.title || '', score: cur.score || 0, picked: false });   // 서버 원장도 롤백(로컬만 되돌리면 영구 불일치)
     alert('큐레이션 발동 실패 — 다시 시도해줘\n' + (e.message || e));
