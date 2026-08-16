@@ -12,9 +12,11 @@
 #     bash ~/nomute-editor/scripts/phone_repoint.sh
 #   수집은 돌리지 말고 주소만 바꾸려면:  bash ~/nomute-editor/scripts/phone_repoint.sh --no-run
 #
-# ▷ 하는 일 = ① 보내는 곳을 새 저장소로 바꾼다 ② 접속·자격을 실제로 시험한다
-#   (자격이 없으면 토큰을 한 번 물어보고 폰에 저장한다) ③ 새 저장소 최신으로 맞춘다
-#   ④ 수집을 한 번 돌려 **정말 새 저장소에 꽂히는지 눈으로 확인**시킨다.
+# ▷ 하는 일 = ① 보내는 곳을 새 저장소로 바꾼다 ② 받아오기 시험 ③ 새 저장소 최신으로 맞춘다
+#   ④ **올리기 권한**을 따로 시험한다(없으면 토큰을 한 번 물어보고 폰에 저장)
+#   ⑤ 수집을 한 번 돌리고 ⑥ **정말 새 저장소에 꽂혔는지 눈으로 확인**시킨다.
+#   ⚠ ②와 ④를 가른 이유 = 이 저장소는 공개라 **토큰 없이도 읽기는 된다** → 읽기만 재고
+#     "자격 정상"이라 말하면 정작 매 회차 조용히 못 올리는 상태를 그대로 통과시킨다.
 #
 # ▷ 두 번 돌려도 안전하다(이미 새 저장소면 ①을 건너뛴다).
 # ▷ 크론은 손대지 않는다 — 폴더 이름(~/nomute-editor)이 그대로라 등록해 둔 줄이 계속 유효하다.
@@ -61,23 +63,21 @@ else
 fi
 echo "     후: $(_slug)"
 
-# ── 2) 접속·자격 시험(안 되면 토큰을 한 번만 물어본다) ──────────────────────
-echo
-echo "② 접속·자격"
-_probe(){ timeout 30 git ls-remote origin -h refs/heads/main >/dev/null 2>&1; }
-if _probe; then
-  ok "새 저장소 접속 정상 — 토큰 입력 불필요"
-else
-  hm "새 계정 자격이 폰에 없다(옛 계정 토큰으로는 새 저장소에 못 쓴다)"
-  echo "     깃허브 nomutefb 계정의 토큰(classic · repo 권한)을 한 번만 넣어라."
-  echo "     화면에 안 보이게 입력된다. 그냥 엔터 = 건너뛰기(주소만 바뀐 채로 끝난다)."
+# ── 2) 읽기 시험(받아올 수 있나) ────────────────────────────────────────────
+# ⚠ 읽기와 쓰기는 다른 축이다 — 이 저장소는 **공개**라 토큰이 없어도 읽기는 된다.
+#   읽기만 재고 "자격 정상"이라 말하면 정작 올리기에서 막히는 걸 못 잡는다 → 아래 ④에서 쓰기를 따로 잰다.
+_read_ok(){  timeout 30 git ls-remote origin -h refs/heads/main >/dev/null 2>&1; }
+# 쓰기 시험 = 실제로 올리지는 않고 권한만 묻는다(빈 푸시라도 서버가 쓰기 자격을 검사한다).
+#   --no-verify = 커밋 게이트는 건너뛴다(여기서 묻는 건 서버 권한이지 코드 검사가 아니다 ·
+#   폰에 파이썬 의존이 덜 깔려 게이트가 죽으면 권한이 멀쩡한데도 토큰을 다시 묻게 된다).
+_write_ok(){ timeout 60 git push --dry-run --no-verify -q origin HEAD:refs/heads/main >/dev/null 2>&1; }
+_ask_token(){
+  echo "     깃허브 $NEW_USER 계정의 토큰(classic · repo 권한)을 한 번만 넣어라."
+  echo "     화면에 안 보이게 입력된다. 그냥 엔터 = 건너뛰기."
   printf '     토큰: '
-  TOK=""; read -r -s TOK || true; echo
-  if [ -z "$TOK" ]; then
-    no "토큰 없이 끝냈다 — 수집은 돌아도 **올라가지는 않는다**. 토큰 만든 뒤 이 파일을 다시 실행해라."
-    exit 1
-  fi
-  CF="$HOME/.git-credentials"
+  local TOK=""; read -r -s TOK || true; echo
+  [ -z "$TOK" ] && return 1
+  local CF="$HOME/.git-credentials"
   touch "$CF" 2>/dev/null || true
   chmod 600 "$CF" 2>/dev/null || true
   # 같은 계정 줄이 이미 있으면 새 값으로 갈아끼운다(옛 계정 줄은 그대로 둔다 = 옛 저장소도 계속 열린다).
@@ -85,13 +85,17 @@ else
   printf 'https://%s:%s@github.com\n' "$NEW_USER" "$TOK" >> "$CF"
   chmod 600 "$CF" 2>/dev/null || true
   git config --global credential.helper store
-  TOK=""
-  if _probe; then
-    ok "토큰 저장 완료 — 접속 정상"
-  else
-    no "토큰을 넣었는데도 접속이 안 된다 → 토큰 권한(repo)·계정(nomutefb)·오타를 확인해라"
-    exit 1
-  fi
+  return 0
+}
+echo
+echo "② 받아오기"
+if _read_ok; then
+  ok "새 저장소에서 받아올 수 있다"
+else
+  hm "받아오기부터 막힌다 — 자격이 필요하다"
+  _ask_token || { no "토큰 없이 끝냈다 — 토큰 만든 뒤 이 파일을 다시 실행해라"; exit 1; }
+  _read_ok || { no "토큰을 넣었는데도 안 된다 → 토큰 권한(repo)·계정($NEW_USER)·오타를 확인해라"; exit 1; }
+  ok "받아오기 정상"
 fi
 
 # ── 3) 새 저장소 최신으로 맞추기 ────────────────────────────────────────────
@@ -104,12 +108,26 @@ git checkout -q -B main origin/main 2>/dev/null || true
 git reset --hard -q origin/main 2>/dev/null || true
 ok "새 저장소 최신에 맞췄다 — $(git log -1 --format='%h %s' 2>/dev/null | cut -c1-60)"
 
-# ── 4) 진짜 꽂히는지 한 번 돌려서 확인 ──────────────────────────────────────
+# ── 4) 올리기 권한 시험(여기가 진짜 관문) ───────────────────────────────────
+#   ⚠ 옛 계정 토큰으로는 새 저장소에 **못 쓴다**. 저장소가 공개라 읽기는 통과하므로
+#     이 축을 따로 안 재면 "정상"이라 말해놓고 매 회차 조용히 못 올리는 상태가 된다.
+echo
+echo "④ 올리기 권한"
+if _write_ok; then
+  ok "올릴 수 있다 — 토큰 입력 불필요"
+else
+  hm "올리기가 막힌다(옛 계정 토큰으로는 새 저장소에 못 쓴다)"
+  _ask_token || { no "토큰 없이 끝냈다 — 수집은 돌아도 올라가지는 않는다. 토큰 만든 뒤 다시 실행해라"; exit 1; }
+  _write_ok || { no "토큰을 넣었는데도 막힌다 → 토큰 권한(repo)·계정($NEW_USER)·오타를 확인해라"; exit 1; }
+  ok "토큰 저장 완료 — 올릴 수 있다"
+fi
+
+# ── 5) 진짜 꽂히는지 한 번 돌려서 확인 ──────────────────────────────────────
 if [ "$RUN" = 0 ]; then
-  echo; echo "④ 수집 실행은 건너뛴다(--no-run)"; echo; echo "끝. 다음 크론 주기부터 새 저장소로 간다."; exit 0
+  echo; echo "⑤ 수집 실행은 건너뛴다(--no-run)"; echo; echo "끝. 다음 크론 주기부터 새 저장소로 간다."; exit 0
 fi
 echo
-echo "④ 수집 1회 실행(몇 분 걸린다 · 기다려라)"
+echo "⑤ 수집 1회 실행(몇 분 걸린다 · 기다려라)"
 _before_head="$(git rev-parse origin/main 2>/dev/null || true)"
 echo "   ─ 구독 수집(SNS)"
 bash scripts/phone_subs.sh 2>&1 | tail -5 | sed 's/^/     /' || true
@@ -117,7 +135,7 @@ echo "   ─ 뉴스 수집"
 bash scripts/phone_scrape.sh 2>&1 | tail -5 | sed 's/^/     /' || true
 
 echo
-echo "⑤ 착지 확인"
+echo "⑥ 착지 확인"
 for f in "$HOME/.nomute_phone_land" "$HOME/.nomute_phone_scrape_land"; do
   [ -f "$f" ] && echo "     $(basename "$f"): $(cat "$f" 2>/dev/null)"
 done
