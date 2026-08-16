@@ -2489,7 +2489,23 @@ def main():
         print(f"::warning::yt_cats 커버 결측 — 요청 {len(_news_cats)} 중 {len(yt_cats)}건만 수집(임계 50% 미만 · 키·쿼터·차트 축 점검)", file=sys.stderr)
     yt_all = youtube(limit=50)   # 15→50(운영자 260728 "10개를 못 받아오는 이유") — 뷰어 인기 그리드는 `cutH(ytRaw,24)` 24h 컷 뒤 조회수순 10개인데, mostPopular 차트는 며칠 묵은 영상이 섞여 상위 15건 중 24h 이내가 5건뿐이라(실측 260728 · sns_trends.json 50건 되짚기: 앞15=5건 · 앞30=11건 · 앞50=17건) 10칸이 원천적으로 안 찼다. 50 = videos.list maxResults 상한 · 쿼터는 part 기준이라 런당 비용 불변(maxResults 무관) · 뉴스(category25)는 별 축이라 10 유지 · 뷰어 컷/정렬 무접촉(24h 컷 취지 그대로 · 후보 풀만 확대)
     yt_news = yt_cats.get(str(_news_cat)) or (youtube(category_id=_news_cat, limit=10) if (YT_KEY and yt_all) else [])   # 뉴스 카테고리(config news_cat · 기본 25 뉴스·정치) — 260731부터 주제 다중수집(yt_cats)에 25가 이미 들어 있으면 그 결과 재사용(중복 콜 0) · 25가 선택 밖이면 종전 단독 콜(하위 소비처 kw_watch 무회귀)
-    yt_reco_l = yt_reco(limit=int(os.environ.get("SNS_YT_RECO_N") or 30))   # 맞춤 추천(운영자 260816) — 차트 축과 **별 키**로 낸다(출처 자격 정직 표기) · 쿠키·키 없으면 [] = 종전 동작
+    # 맞춤 추천(운영자 260816) — 차트 축과 **별 키**로 낸다(출처 자격 정직 표기) · 쿠키·키 없으면 [] = 종전 동작.
+    # ⚠ **쿠키 아끼기 간격**(운영자 260816 "yt는 로그인 하면 계속 쿠키가 깨져버리면 · 그거 방지하려고 접속 안 하는 중") —
+    #   이 수집기는 15분마다 도는데 그 박자로 로그인 요청을 보내면 하루 ~96회가 그 계정에 더 얹힌다.
+    #   이 레포는 이미 쿠키가 7~12시간마다 죽는 미해결 사고를 안고 있어(원인 미확인) 노출을 늘리는 쪽이 위험하다.
+    #   → 마지막 **시도** 시각을 도장으로 남기고 간격 미달이면 통째로 건너뛴다(직전분 보존 = 화면 무손실).
+    #   실패 회차도 시도로 친다 = 죽은 쿠키를 15분마다 두드리지 않는다(그게 쿠키를 더 빨리 태우는 길).
+    #   판정 문법 = sns-trends.yml 신선도 게이트 사본(창작 0) · 간격 = SNS_YT_RECO_EVERY_MIN(기본 60분 · 24시간 입장컷 축이라 1시간이면 신선도 손실 0에 가깝다).
+    _rc_due, _rc_at = True, prev.get("youtube_reco_updated") or ""
+    if _rc_at:
+        try:
+            _t = datetime.fromisoformat(_rc_at)
+            _rc_due = (datetime.now(_t.tzinfo) - _t).total_seconds() >= int(os.environ.get("SNS_YT_RECO_EVERY_MIN") or 60) * 60
+        except Exception:  # noqa: BLE001
+            _rc_due = True   # 파싱 실패 = 도장 손상 = 시도(fail-safe · 이 축이 조용히 영영 멈추는 것보다 낫다)
+    yt_reco_l = yt_reco(limit=int(os.environ.get("SNS_YT_RECO_N") or 30)) if _rc_due else []
+    if not _rc_due:
+        print("✅ yt_reco: 간격 미달 — 이번 회차 건너뜀(쿠키 아끼기 · 직전분 보존)", file=sys.stderr)
     yt_src = "api" if yt_all else ""
     if not yt_all:
         yt_all = youtube_innertube()   # 무키 폴백(검색 파생 근사) — 키 등록 시 이 줄 미도달 = 공식 자동 승격
@@ -2890,6 +2906,7 @@ def main():
         "youtube": yt_all or prev.get("youtube") or [],
         "youtube_src": yt_src or prev.get("youtube_src") or "",   # "api"(공식 차트)/"innertube"(검색 파생) 정직 표기
         "youtube_news": yt_news or prev.get("youtube_news") or [],
+        "youtube_reco_updated": (now if _rc_due else prev.get("youtube_reco_updated") or ""),   # 마지막 **시도** 도장(성공 아님) — 쿠키 아끼기 간격의 기준 · 문법 = gtrends_pool_updated 관용구 사본
         "youtube_reco": yt_reco_l or prev.get("youtube_reco") or [],   # 맞춤 추천(운영자 260816) — **공식 차트 아님 = 운영자 계정 추천**이라 youtube/youtube_news와 별 키(쇼츠·틱톡 자격 회수 260810 판례 동축 정직 표기) · 전멸(쿠키 죽음·무키) = 직전분 보존(fail-soft 관용구)
         "youtube_cats": yt_cats or prev.get("youtube_cats") or {},   # 주제별 인기(운영자 260731) — {"25":[…],"24":[…]} · 키 = 유튜브 공식 videoCategoryId 문자열 · 전멸(무키·전 카테고리 실패) = 직전분 보존(fail-soft 관용구)
         "gtrends": gt or prev.get("gtrends") or [],
