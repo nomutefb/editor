@@ -114,6 +114,8 @@ jobs:
           for i in 0 1 2 3; do
             [ "$i" -gt 0 ] && sleep $((2**i))
             git fetch --deepen=100 origin main 2>/dev/null || true   # 얕은 클론(fetch-depth:1) 짝 — 원격 새 커밋과 로컬 HEAD 사이가 끊겨 merge-base를 못 찾으면 아래 rebase가 통째로 실패한다(= 산출 유실). main 100커밋만이라 수 초 · 실패해도 무해(260810)
+            # ⚠ 260816 무해 명시 = concurrency 직렬 + ratings 단독 기록자 + messages 건별 파일 → 충돌 상대 0 —
+            #   이 자리는 `-X ours` 드랍이 무해하다 — concurrency 로 직렬화돼 있고(rate 그룹) ratings 원장의 기록자가 이 레인 단독이며 messages 는 건별 파일이라 **같은 파일 충돌이 날 상대가 없다**(260816 실측). 원격 승 자체가 발생하지 않는다.
             git pull --rebase --autostash -X ours origin main && git push origin HEAD:main && exit 0
             git rebase --abort 2>/dev/null || true
           done

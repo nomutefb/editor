@@ -73,10 +73,12 @@ PY
       if GENIMG_STEM="$GJ_STEM" GENIMG_OPTS="$GJ_OPTS" GENIMG_FREE="$GJ_FREE" timeout 900 python3 .github/scripts/gen_image.py; then
         for f in cards metrics viewer/gen_out; do [ -e "$f" ] && git add "$f" 2>/dev/null; done
         if ! git diff --cached --quiet 2>/dev/null; then
-          git commit -q -m "imggen: $GJ_STEM (맥 잡워커)" 2>/dev/null || true
-          git fetch --deepen=100 origin main 2>/dev/null || true
-          git pull --rebase --autostash -X ours -q origin main 2>/dev/null || true
-          git push -q origin HEAD:main 2>/dev/null || true
+          # ⚠ 260816 봉합 — 구판은 `pull --rebase -X ours` 였다. 리베이스에서 ours = **upstream** 이라
+          #   충돌 시 우리 산출이 버려진 채 push 가 성공한다(무음 `|| true` 라 실패도 안 보인다).
+          #   → git_land 위임 = 리베이스를 안 쓰고(꼬임 0) **남의 착지분을 BASE 대조로 복원**한다(같은 날 봉합).
+          #   PAGES_COALESCE=0 = 제작 산출은 코얼레싱 금지 축이라 접두를 끈다(pc_lane `_push` 문법 사본).
+          git reset -q HEAD -- . 2>/dev/null || true
+          PAGES_COALESCE=0 bash .github/scripts/git_land.sh "imggen: $GJ_STEM (맥 잡워커)" cards metrics viewer/gen_out 2>/dev/null || true
         fi
         S3 -X DELETE "$B/$K" >/dev/null 2>&1
         touch "$HOME/.nomute_need_deploy"
@@ -123,11 +125,10 @@ PY
       rc=$?
       CJ_ID=$(printf '%s\n' "$OUT_INFO" | grep '^ID=' | cut -d= -f2)
       if [ "$rc" -eq 0 ] && [ -n "$CJ_ID" ]; then
-        git add "viewer/comp_out/$CJ_ID" "uploads/$CJ_ID" 2>/dev/null || true
-        git commit -q -m "comp: $CJ_ID 합성 출력(맥 잡워커)" 2>/dev/null || true
-        git fetch --deepen=100 origin main 2>/dev/null || true
-        git pull --rebase --autostash -X ours -q origin main 2>/dev/null || true
-        git push -q origin HEAD:main 2>/dev/null || true
+        # ⚠ 260816 봉합 — 구판 `pull --rebase -X ours` 는 리베이스에서 ours = upstream 이라 충돌 시
+        #   우리 산출이 버려진 채 push 가 성공한다(무음 `|| true`). git_land 는 리베이스를 안 쓰고
+        #   남의 착지분을 BASE 대조로 복원한다 · PAGES_COALESCE=0 = 제작 산출 = 코얼레싱 금지 축.
+        PAGES_COALESCE=0 bash .github/scripts/git_land.sh "comp: $CJ_ID 합성 출력(맥 잡워커)" "viewer/comp_out/$CJ_ID" "uploads/$CJ_ID" 2>/dev/null || true
         S3 -X DELETE "$B/$K" >/dev/null 2>&1
         touch "$HOME/.nomute_need_deploy"
         done_n=$((done_n+1)); echo "[job] $(date '+%H:%M:%S') compose 완료 id=$CJ_ID"

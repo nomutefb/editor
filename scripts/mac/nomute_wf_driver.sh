@@ -58,11 +58,12 @@ wf_land(){ # 'Commit results'가 GH 템플릿 잔존으로 거부될 때의 동�
   [ "$staged" = 1 ] || return 0
   git diff --cached --quiet 2>/dev/null && return 0
   git commit -q -m "$msg" 2>/dev/null || return 0
-  for _i in 1 2 3 4; do
-    git push -q origin HEAD:main 2>/dev/null && { echo "[wf] 폴백 착지: $msg"; return 0; }
-    git fetch -q --deepen=50 origin main 2>/dev/null; git pull --rebase --autostash -X ours -q origin main 2>/dev/null
-  done
-  echo "[wf] 폴백 착지 실패(다음 편승 대기): $msg"; return 0
+  # ⚠ 260816 봉합 — 구판 재시도 루프는 `pull --rebase -X ours` 였다. 리베이스에서 ours = upstream 이라
+  #   충돌 시 우리 산출이 버려진 채 push 가 성공한다. git_land 는 리베이스를 안 쓰고(꼬임 0) 남의 착지분을
+  #   BASE 대조로 복원하며 재시도도 그 안에서 한다 · PAGES_COALESCE=0 = 제작 산출 = 코얼레싱 금지 축.
+  git reset -q HEAD -- . 2>/dev/null || true
+  PAGES_COALESCE=0 bash .github/scripts/git_land.sh "$msg" "$@" 2>/dev/null || true
+  echo "[wf] 폴백 착지 위임 완료: $msg"; return 0
 }
 
 runstep(){

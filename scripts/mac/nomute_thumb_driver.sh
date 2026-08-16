@@ -49,9 +49,9 @@ PY
 APP="$T_APP" IN_ID="$T_ID" IMAGE="$T_IMAGE" PARAMS="$(cat /tmp/thumb_params.json)" SRC_JSON="$T_SRC" \
   timeout 700 python3 /tmp/thumb_render.py || exit 1
 if [ -n "$T_SRC" ]; then mkdir -p "viewer/thumb_out/$T_ID"; printf '%s' "$T_SRC" > "viewer/thumb_out/$T_ID/_src.json"; fi
-for _p in "uploads/$T_ID" "viewer/thumb_out/$T_ID"; do [ -e "$_p" ] && git add "$_p" 2>/dev/null; done   # 경로별 개별 add(Q980 계승: 결측 1개 = 전체 원자 abort)
-git commit -q -m "thumb: $T_ID 산출(맥 잡워커)" 2>/dev/null || true
-git fetch --deepen=100 origin main 2>/dev/null || true
-git pull --rebase --autostash -X ours -q origin main 2>/dev/null || true
-git push -q origin HEAD:main 2>/dev/null || true
+# ⚠ 260816 봉합 — 구판 `pull --rebase -X ours` 는 리베이스에서 ours = upstream 이라 충돌 시 우리 산출이
+#   버려진 채 push 가 성공했다(무음 `|| true` 라 실패도 안 보인다). git_land 는 리베이스를 안 쓰고(꼬임 0)
+#   남의 착지분을 BASE 대조로 복원한다(같은 날 봉합) · 경로별 개별 처리도 그 헬퍼가 한다(Q980 계승 유지).
+#   PAGES_COALESCE=0 = 제작 산출은 코얼레싱 금지 축이라 접두를 끈다(pc_lane `_push` 문법 사본).
+PAGES_COALESCE=0 bash .github/scripts/git_land.sh "thumb: $T_ID 산출(맥 잡워커)" "uploads/$T_ID" "viewer/thumb_out/$T_ID" 2>/dev/null || true
 exit 0

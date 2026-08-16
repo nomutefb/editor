@@ -132,6 +132,9 @@ jobs:
             git commit -m "genimg: 제미나이 생성이미지 추가(버튼 프롬프트·Fable 작성)" 2>/dev/null || true
             git push origin main && exit 0 || { echo "push 재시도 $i"; sleep $((2**i)); }
           done
-          echo "::warning::push 실패(재시도 소진)"
+          # ⚠ 260816 봉합 — 구판은 warning 만 남기고 rc 0(초록)으로 끝났다. 이 축은 산출이 과금분이고
+          #   발사가 일회성이라 자동 재시도가 0이라서, 조용히 끝나면 이미지 제작 결과이 그대로 유실되고
+          #   화면은 「제작중」에 멈춘다(그림 자체는 R2 에 살지만 완료 신호·이력이 사라진다).
+          echo "::error::push 실패(재시도 소진) — 이미지 제작 결과 미착지"; exit 1
           # ⚠️ push는 moreimg과 동일하게 'origin main'만 — HEAD:main 금지(브랜치 ref로 디스패치될 경우
           #    브랜치 커밋 전체가 main에 밀려 들어가는 검토 우회 머지 사고 경로 · 이 워크플로는 main ref 전용).
