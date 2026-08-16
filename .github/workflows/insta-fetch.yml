@@ -48,6 +48,19 @@ jobs:
           IG_USER_ID: ${{ vars.IG_USER_ID }}
           IG_FOLLOW_BACKFILL: ${{ github.event_name == 'workflow_dispatch' && inputs.follow_backfill || '0' }}   # 평시 0 = 결측일만 소수 채움 · 수동 발사 시만 소급(하루창 1콜×일수 · 실측 보관 경계 최소 180일)
         run: python3 .github/scripts/insta_fetch.py
+      # ── 열쇠 사망 알림 착지(260816 실사고 봉합 · insta_fetch.token_alert 의 짝 = 선택 아님) ──
+      # 왜 별도 스텝인가 = 위 수집 스텝이 exit 1 이면 잡이 그 자리에서 멈춰 **뒤 커밋 스텝이 통째로 안 돈다**.
+      #   그래서 종전엔 열쇠가 죽어도 알림 파일이 러너에서 같이 증발했고 운영자에게 가는 통지가
+      #   GitHub 실패 메일 하나뿐이었다(앱 알림함 무점등 = 260816 실측 = 스크린샷으로만 발견).
+      #   if: failure() = 이 한 스텝만 실패 뒤에도 돌아 알림을 main 에 착지시킨다. 잡 결론은 실패 그대로다
+      #   (초록으로 덮지 않는다 = 무증상화 금지).
+      # 스코프 = messages 단독 = 수집 산출물 무접촉(반쪽 데이터 착지 0).
+      # ⚠ [CF-Pages-Skip] 접두를 붙이지 않는다 = 알림은 「조기 반영」 축(금지 목록)이다. 붙이면 다음 비스킵
+      #   빌드까지 최대 17분 화면에 안 떠서, 열쇠가 죽은 걸 알리는 알림 자신이 늦게 뜨는 자기모순이 된다.
+      - name: 실패 시 알림만 착지(if failure · 앱 알림함 점등)
+        if: ${{ failure() }}
+        run: |
+          bash .github/scripts/git_land.sh "insta: 접속 열쇠 사망 알림 (bot)" messages || true
       - name: 전 게시물 백필(수동 발사 전용 · 운영자 260713 "기존꺼 파악")
         if: ${{ github.event_name == 'workflow_dispatch' && inputs.backfill }}
         env:

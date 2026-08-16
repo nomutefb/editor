@@ -15,6 +15,7 @@ import hashlib
 import json
 import os
 import re
+import subprocess
 import sys
 import time
 import urllib.error
@@ -158,6 +159,82 @@ def insights(path, metrics, **params):
     return got, dropped
 
 
+# ── 접속 열쇠 사망 알림(260816 실사고 봉합) ──────────────────────────────────────
+# 왜 신설했나 = 열쇠가 죽으면 이 스크립트는 exit 1 로 죽고 **워크플로가 그 자리에서 멈춘다** →
+#   뒤 커밋 스텝(git_land ... messages)이 통째로 안 돌아 알림 파일을 쌓아도 착지할 길이 없었다.
+#   그래서 운영자에게 가는 통지가 GitHub 실패 메일 하나뿐이었고 앱 알림함에는 아무것도 안 떴다.
+#   유튜브 쿠키는 yt_cookie_health.py 가 같은 축(자격 사망)을 감시하는데 인스타만 형제가 없었다
+#   = check_seal_completeness 가 겨눈 「같은 병의 형제를 놓쳤나」 축 그 자체.
+#   착지 = insta-fetch.yml 의 `if: failure()` 알림 커밋 스텝(같은 커밋에 동반 신설 · 선택 아님).
+# ⚠ 원인을 단정하지 않는다 = 이 봉합의 요점.
+#   구판 문구는 무조건 「토큰 만료(60일)/권한 의심 → 재발급」이라 단정했는데, 260816 실측 응답은
+#   400/190 "Invalid OAuth access token - Cannot parse access token" = 메타가 **값의 형식 자체를
+#   못 읽겠다**고 답한 것이고 만료와 다른 갈래다. 그 문구를 믿고 멀쩡한 열쇠를 재발급하러 가면
+#   시간만 버리고 원인은 그대로 남는다(이 레포가 반복해 겪은 「처방이 원인을 반대로 가리키는 병」
+#   = 틱톡 _e1 · 스레드 [1차 실측] · _fk=code 신설과 같은 축).
+#   → 메타 응답 원문으로 갈래를 나누고, token_meta.json(프로필 조회에 **성공했을 때만** 갱신되는
+#     기록 = 아래 stamp 블록)으로 「이 열쇠가 마지막으로 통한 날」을 같이 실어 만료 가설을
+#     추측이 아니라 데이터로 갈라낸다.
+_TOKEN_MSG_ID = 'insta-token-dead'
+
+
+def _msg_py():
+    # 알림 채널 = shared/msg.py 정본(messages/<id>.json 입력 파일 → 빌드가 viewer/messages.json 합성).
+    # 경로 문법 = insta_signals.py 형제 호출부 계승(창작 0).
+    return os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'shared', 'msg.py'))
+
+
+def _token_last_ok():
+    """이 열쇠가 마지막으로 통한 날 = 만료 가설을 데이터로 갈라내는 유일한 원료.
+    token_meta.json 은 프로필 조회 성공 뒤에만 쓰이므로 여기 적힌 날짜 = 마지막 성공 시점이다."""
+    try:
+        with open(f'{OUT}/token_meta.json', encoding='utf-8') as f:
+            seen = (json.load(f) or {}).get('first_seen_kst') or ''
+        days = (datetime.datetime.now(KST) - datetime.datetime.fromisoformat(seen)).days
+        return f'이 열쇠는 {seen[:16].replace("T", " ")} 에 마지막으로 통했어({days}일 전). 열쇠 수명은 60일이야.', days
+    except Exception:
+        return '이 열쇠가 언제 마지막으로 통했는지는 기록이 없어(첫 세팅이거나 기록 유실).', None
+
+
+def _token_err_kind(err):
+    """메타 응답 원문 → (갈래, 무슨 뜻인지, 운영자가 할 일). 모르면 단정하지 않고 원문을 그대로 넘긴다."""
+    e = (err or '').lower()
+    if 'cannot parse' in e or 'could not be decrypted' in e or 'malformed' in e:
+        return ('값이 깨짐',
+                '메타가 「열쇠 형식을 못 읽겠다」고 답했어. 기한이 지났을 때 나오는 답과 달라 — 값이 잘린 채 저장됐거나 앞뒤에 빈칸·줄바꿈이 섞였을 때 나오는 답이야.',
+                '깃허브 저장소 설정의 비밀칸에서 IG_ACCESS_TOKEN 값을 한 줄로 다시 붙여넣어 줘(복사할 때 줄바꿈·공백이 같이 딸려가지 않게). 그러고도 같은 말이 나오면 그때 새로 발급받으면 돼 — 절차는 docs/인스타_직결_세팅.md §6.')
+    if 'expired' in e or 'expire' in e:
+        return ('기한 지남',
+                '메타가 「열쇠 기한이 지났다」고 답했어. 인스타 열쇠는 60일마다 새로 받아야 해.',
+                'docs/인스타_직결_세팅.md §6 절차대로 열쇠를 새로 발급받아 IG_ACCESS_TOKEN 비밀칸에 넣어 줘.')
+    if 'permission' in e or 'scope' in e or 'not authorized' in e or 'oauth "facebook" "get"' in e:
+        return ('권한 빠짐',
+                '열쇠는 읽히는데 이 계정 정보를 볼 권한이 빠졌다고 답했어.',
+                '메타 앱 설정에서 인스타 권한 항목을 다시 체크한 뒤 열쇠를 새로 받아 IG_ACCESS_TOKEN 에 넣어 줘 — 절차는 docs/인스타_직결_세팅.md §6.')
+    return ('미확인',
+            f'메타가 준 답이 알려진 갈래 어디에도 안 맞아: {err}',
+            '위 응답 원문을 그대로 클로드에게 주면 갈래를 새로 넣을게. 급하면 docs/인스타_직결_세팅.md §6 으로 열쇠를 새로 발급받아 봐.')
+
+
+def token_alert(err):
+    """열쇠가 거절당한 사실을 앱 알림함에 띄운다. 조치 주체 = 운영자(👉 문단 = 알림 조치주체 규약)."""
+    kind, mean, todo = _token_err_kind(err)
+    lastok, _days = _token_last_ok()
+    lines = [
+        f'인스타 수집이 멈췄어 — 메타가 접속 열쇠를 거절했어({kind}).',
+        '',
+        f'[메타 응답] {err}',
+        f'[뜻] {mean}',
+        f'[열쇠 나이] {lastok}',
+        '',
+        '[멈춘 것] 계정 인사이트·게시물 지표·표지 제목 판독·채널 AI 요약 = 인스타 축 전부.',
+        '[안 멈춘 것] 폰 구독 수집·뉴스 수집·판정·페이스북 축은 따로 돌아서 무관해.',
+        '',
+        f'👉 네가 할 일: {todo}',
+    ]
+    subprocess.run(['python3', _msg_py(), 'set', _TOKEN_MSG_ID, '\n'.join(lines), 'warn'], check=False)
+
+
 def main():
     if not TOK:
         print('no-op — IG_ACCESS_TOKEN 미등록(직결 세팅 전 스캐폴드 · 라이브 무영향). 세팅 = docs/인스타_직결_세팅.md')
@@ -166,8 +243,11 @@ def main():
 
     prof, err = api(UID, fields='id,username,name,account_type,followers_count,follows_count,media_count')
     if prof is None:
-        print(f'::error::프로필 조회 실패 — {err} · 토큰 만료(60일)/권한 의심 → docs/인스타_직결_세팅.md §6 재발급')
+        token_alert(err)
+        print(f'::error::프로필 조회 실패 — {err} · 갈래·조치는 앱 알림함 「{_TOKEN_MSG_ID}」 참조(원인 단정 금지 = 260816 봉합)')
         return 1
+    # 여기 도달 = 열쇠가 실제로 통했다 = 사망 알림 해소(자동 clear · 운영자 조치 0).
+    subprocess.run(['python3', _msg_py(), 'clear', _TOKEN_MSG_ID], check=False)
     uid = prof.get('id') or UID
 
     acc, drop1 = insights(
