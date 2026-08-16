@@ -42,6 +42,10 @@ git add -- "${PATHS[@]}" 2>/dev/null || true
 if git diff --cached --quiet 2>/dev/null; then echo "git_land: 변동 없음 — 커밋 생략"; exit 0; fi
 
 # ★ git 조작(fetch/reset --hard) 전에 산출물을 워킹트리에서 스냅샷 — reset가 덮기 전 원본 보존이 핵심.
+# ⚠⚠ BASE = 스냅샷을 뜬 시점의 트리(260816 봉합의 판별 술어) — 아래 「남의 착지분 복원」이 이 한 값으로
+#     자기 삭제와 남의 삭제를 가른다. 스냅샷 이후 남이 얹은 것은 BASE 에 없고, 우리가 소비해서 지운 것은
+#     BASE 에 있다 = 삭제 의도의 유일한 구분점(샌드박스 재현으로 오분류 0 실증).
+BASE="$(git rev-parse HEAD 2>/dev/null || echo '')"
 SNAP="$(mktemp -d)"
 for p in "${PATHS[@]}"; do
   [ -e "$p" ] || continue
@@ -63,6 +67,46 @@ for i in 1 2 3 4 5 6; do
     cp -a "$SNAP/$p" "$p" 2>/dev/null || true
   done
   git add -- "${PATHS[@]}" 2>/dev/null || true
+  # ⚠⚠ 남의 착지분 복원(260816 봉합 · 운영자 「확인해서 머지」 · 별도 모델 교차검증 실증) ─────────────
+  #   이 헬퍼의 재적층은 `rm -rf` + `cp -a` 라 **경로 통째 교체**다. 그래서 스냅샷을 뜬 뒤에 남이 그 경로에
+  #   얹은 것(픽 파일·알림 슬롯·요약 md·원장 줄)이 **삭제로 스테이징된 채 push 가 성공**한다 = 조용한 삭제.
+  #   헤더가 「공유 원장엔 쓰지 말 것」이라 금지를 적어 뒀지만 강제가 0이라 호출부가 조용히 어겨 왔다
+  #   (실측 = pc_lane 이 pending·messages·queue·cards·asks·metrics·seen_urls 를 그대로 위임).
+  #   ⚠ 술어 = **BASE 에 없던 파일의 삭제 = 남이 얹은 것**(복원) · **BASE 에 있던 삭제 = 우리가 소비한 것**
+  #     (유지 — 예: analyze 가 처리한 pending 픽). 이 구분이 없으면 소비 기록이 안 남아 같은 픽이 영구 재분석된다.
+  #   ⚠ 호출부를 한 줄도 안 고친다 = 변수 경유·래퍼(`_push`)·신규 호출부까지 유일 관문에서 구조적으로 덮는다
+  #     (인자 블록리스트 게이트는 pc_lane 처럼 `"$@"` 로 넘기는 자리를 원리적으로 못 보고, insta-fetch 의
+  #      messages 실림을 하드로 요구하는 기존 게이트와도 정면 충돌해 레포가 언다 = 그 안은 폐기했다).
+  if [ -n "$BASE" ]; then
+    while IFS= read -r gone; do
+      [ -n "$gone" ] || continue
+      if ! git cat-file -e "$BASE:$gone" 2>/dev/null; then      # BASE 에 없다 = 스냅샷 이후 남이 얹은 것
+        mkdir -p "$(dirname "$gone")" 2>/dev/null || true
+        if git show "origin/main:$gone" > "$gone" 2>/dev/null; then
+          git add -- "$gone" 2>/dev/null || true
+          echo "git_land: 남의 착지분 복원 — $gone"
+        fi
+      fi
+    done <<EOF_GONE
+$(git diff --cached --name-only --diff-filter=D 2>/dev/null)
+EOF_GONE
+    # 파일형 append 원장 = 줄 단위 합집합(원격에만 있고 BASE 에도 없던 줄 = 남이 추가한 줄 → 되붙인다).
+    #   ⚠ 통째 복원이 아니라 합집합이라 우리 줄도 남는다(양쪽 무손실) · 순서는 원격 우선 + 우리 신규 꼬리.
+    while IFS= read -r mod; do
+      [ -n "$mod" ] || continue
+      [ -f "$mod" ] || continue
+      git cat-file -e "$BASE:$mod" 2>/dev/null || continue      # BASE 에 없던 파일은 위 복원 축 소관
+      git show "origin/main:$mod" > "$SNAP/.remote" 2>/dev/null || continue
+      git show "$BASE:$mod" > "$SNAP/.base" 2>/dev/null || continue
+      if comm -23 <(sort -u "$SNAP/.remote") <(sort -u "$SNAP/.base") | grep -q .; then
+        comm -23 <(sort -u "$SNAP/.remote") <(sort -u "$SNAP/.base") >> "$mod"
+        git add -- "$mod" 2>/dev/null || true
+        echo "git_land: 남의 원장 줄 합류 — $mod"
+      fi
+    done <<EOF_MOD
+$(git diff --cached --name-only --diff-filter=M 2>/dev/null)
+EOF_MOD
+  fi
   if git diff --cached --quiet 2>/dev/null; then echo "git_land: 최신 main과 동일 — 착지 불필요"; pushed=1; break; fi
   git commit -q -m "$MSG" 2>/dev/null || true
   if git push -q origin HEAD:main 2>/dev/null; then echo "git_land: 착지 성공(시도 $i)"; pushed=1; break; fi

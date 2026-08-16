@@ -5164,6 +5164,54 @@ _LAND_BASE = {   # 260816 실측 스냅샷 — 회수 경로도 실패 표기도
     'tiktok-canary.yml': 1,       # sns_trends 관측치(데이터 churn = 다음 회차가 덮지만 그 말을 안 한다)
     'tiktok-subs-canary.yml': 1,  # 동축
 }
+def check_land_share():
+    """공유 착지 = 남의 것을 지우지 않는다(운영자 260816 「확인해서 머지」 · 별도 모델 교차검증 실증).
+    CONTRACT: check_land_share
+
+    ⚠ 신설 사유 = **`git_land.sh` 헤더가 「공유 원장(append-only)엔 쓰지 말 것」이라 금지를 문장으로 적어
+      뒀는데 강제가 0이라 조용히 어겨졌다**(이 레포의 계약은 주석으로 선언되는 관례인데 주석엔 강제력이 없다
+      = `check_contract_anchors` 가 겨눈 병). 실물 = `scripts/pc_lane.sh` 가 pending·messages·queue·cards·
+      asks·metrics·seen_urls 를 그대로 위임한다 — 전부 여러 생산자가 쓰는 경로이고, 그 헬퍼는 경로를
+      `rm -rf` 후 스냅샷으로 되돌리므로 **그 사이 남이 얹은 것이 삭제된 채 push 는 성공**한다(샌드박스 재현 =
+      남의 픽 파일·알림 슬롯·원장 줄 전건 삭제 · rc 0 · 경고 0 = 완전 무음 · 자기 내용이 0인데 남의 파일만
+      지우는 커밋까지 나온다).
+    ⚠⚠ **호출부 블록리스트 안은 폐기했다**(교차검증이 3중으로 반증) = ⓐ 주 위반자 `pc_lane` 은 경로를
+      `"$@"` 로 넘겨 호출행에 리터럴이 0이라 **원리적으로 못 본다** ⓑ `check_thumb_chain`·
+      `check_secret_coverage_chain` 이 insta-fetch 등의 git_land 인자에 `messages` **실림을 하드로 요구**해
+      「실리면 차단·빠지면 차단」이 되어 레포가 언다 ⓒ 액션 사망기에 pc_lane 의 그 경로가 픽 소비·요약 착지의
+      **유일 경로**라 막으면 기능이 죽는다(같은 픽 영구 재분석 = 재과금 루프).
+      → 정본 1곳(그 헬퍼 내부)에서 런타임으로 고치는 게 유일하게 옳은 자리다 = 호출부 변경 0.
+
+    술어(정적 3축 · 렌더·LLM·네트워크 0 · **면책표 없이 하드 0**):
+      ① 스냅샷 시점 기준점 `BASE` 기록(자기 삭제와 남의 삭제를 가르는 유일 판별점)
+      ② 삭제 스테이지 중 **BASE 에 없던 파일**을 `origin/main` 에서 복원(= 남이 얹은 것)
+      ③ 파일형 원장은 **줄 합집합**으로 남의 줄을 되붙인다(통째 복원이면 우리 줄이 죽는다)
+    ⚠ **BASE 에 있던 삭제는 유지해야 한다** — 그건 우리가 소비해서 지운 것(analyze 가 처리한 pending 픽)이라
+      복원하면 같은 픽이 영원히 재분석된다. 술어가 「BASE 부재」인 이유가 그것이다(샌드박스 오분류 0 실증)."""
+    p_gl = os.path.join(ROOT, '.github', 'scripts', 'git_land.sh')
+    if not os.path.exists(p_gl):
+        print('❌ 공유 착지 게이트 — 정본 .github/scripts/git_land.sh 없음(fail-closed)'); return 1
+    raw = open(p_gl, encoding='utf-8', errors='replace').read()
+    code = '\n'.join(l for l in raw.splitlines() if not l.lstrip().startswith('#'))
+    bad = []
+    if 'BASE="$(git rev-parse HEAD' not in code:
+        bad.append('① 스냅샷 시점 기준점(BASE) 기록 소실 — 자기 삭제와 남의 삭제를 가를 방법이 없어진다')
+    if '--diff-filter=D' not in code or 'git cat-file -e "$BASE:' not in code:
+        bad.append('② 남의 착지분 복원 소실 — 스냅샷 이후 남이 얹은 파일이 삭제된 채 push 가 성공한다')
+    if 'origin/main:$gone' not in code:
+        bad.append('② 복원 원천(origin/main) 소실')
+    if 'comm -23' not in code or '--diff-filter=M' not in code:
+        bad.append('③ 파일형 원장 줄 합집합 소실 — 남이 추가한 줄이 통째로 사라진다')
+    if bad:
+        print('❌ 공유 착지 게이트 — 통째 교체형 착지가 남의 것을 지우는 것을 막는 층이 빠졌다:')
+        for b in bad:
+            print('   ·', b)
+        print('   → 정본 = git_land.sh 재적층 뒤 커밋 전 「BASE 에 없던 삭제 = 남이 얹은 것 → 복원」 · 「파일형 = 줄 합집합」.')
+        return 1
+    print('✅ 공유 착지 게이트 — git_land 재적층이 남의 착지분을 복원한다(BASE 대조 3축 생존 · 자기 소비 삭제는 유지).')
+    return 0
+
+
 # ── 착지 내용 소실(올라갔는데 우리 변경이 빈 경우) ────────────────────────────
 # ⚠ `git pull --rebase … -X ours` 는 **의미가 반전된다** — 리베이스는 upstream 위에 내 커밋을 다시 얹으므로
 #   리베이스 중 ours = **upstream(origin/main)** 이고 theirs = 내 커밋이다. 즉 `-X ours` 는 충돌 시
@@ -9190,6 +9238,11 @@ def main():
             rc = 1
     except Exception as e:
         print('❌ check_secret_coverage_chain 예외(fail-closed):', e); rc = 1
+    try:
+        if check_land_share() != 0:   # 공유 착지 = 남의 것을 지우지 않는다(260816 — git_land 재적층이 통째 교체라 남의 착지분을 조용히 삭제하던 축 · 헤더 금지 명문의 기계화)
+            rc = 1
+    except Exception as e:
+        print('❌ check_land_share 예외(fail-closed):', e); rc = 1
     try:
         if check_land_xours() != 0:   # 착지 내용 소실 래칫(260816 — push 는 성공하는데 우리 변경이 버려지는 축 · `-X ours` 의미 반전 · check_land_silence 가 원리적으로 못 보는 짝)
             rc = 1
