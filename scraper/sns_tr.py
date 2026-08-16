@@ -55,6 +55,7 @@ def _targets(data):
     tk = data.get("tiktok") or {}
     return [
         (data.get("youtube") or [], "title"), (data.get("youtube_gl") or [], "title"),
+        (data.get("youtube_reco") or [], "title"),   # 맞춤 추천(운영자 260816) — 형제 축과 같은 자리에서 번역 대상 편입(한 축만 빠지면 그 레인 제목만 원어로 남는 미러 드리프트 · 한글이면 _is_korean이 자동 스킵)
         *[(v or [], "title") for v in (data.get("youtube_cats") or {}).values()],   # 주제별 인기(운영자 260731) — 카테고리 리스트 전부 번역 대상(한국 차트라 대개 한글 = _is_korean 자동 스킵 · 해외곡·영문 제목만 실제 번역)
         (tk.get("videos") or [], "title"), (data.get("shorts") or [], "title"),
         (data.get("aivid") or [], "title"), (data.get("reddit") or [], "title"),

@@ -66,6 +66,7 @@ import json
 import os
 import re
 import ssl
+import subprocess   # 맞춤 추천 = 쿠키 사다리(.github/scripts/ytdlp_try.sh) 경유 호출 — 쿠키 처리 사본 0(yt_reco)
 import sys
 import time
 import urllib.error
@@ -151,20 +152,24 @@ def youtube(category_id=None, limit=15, region="KR"):
     if category_id:
         q["videoCategoryId"] = str(category_id)
     try:
-        j = json.loads(_get("https://www.googleapis.com/youtube/v3/videos?" + urllib.parse.urlencode(q)))
-        out = []
-        for it in j.get("items", []):
-            sn, st = it.get("snippet") or {}, it.get("statistics") or {}
-            th = ((sn.get("thumbnails") or {}).get("medium") or {}).get("url") or ""
-            out.append({"id": it.get("id"), "title": sn.get("title") or "", "channel": sn.get("channelTitle") or "",
-                        "views": int(st.get("viewCount") or 0), "published": sn.get("publishedAt") or "",
-                        "likes": int(st.get("likeCount") or 0), "cmts": int(st.get("commentCount") or 0),
-                        "dur": ((it.get("contentDetails") or {}).get("duration")) or "",
-                        "thumb": th, "url": "https://www.youtube.com/watch?v=" + (it.get("id") or "")})   # likes·cmts·dur = 이미 받는 응답에서 버려지던 필드 저장(260720 평의회 F3 — 표시는 후속 배치 판단)
-        return out
+        return _yt_items(json.loads(_get("https://www.googleapis.com/youtube/v3/videos?" + urllib.parse.urlencode(q))))
     except Exception as e:  # noqa: BLE001
         print(f"::warning::youtube 수집 실패(스킵): {e}", file=sys.stderr)
         return []
+
+
+def _yt_items(j):
+    """videos.list 응답 → 항목 리스트(차트 축·맞춤 추천 축 공용 정본 · 사본 0). likes·cmts·dur = 이미 받는 응답에서 버려지던 필드 저장(260720 평의회 F3 — 표시는 후속 배치 판단)."""
+    out = []
+    for it in j.get("items", []):
+        sn, st = it.get("snippet") or {}, it.get("statistics") or {}
+        th = ((sn.get("thumbnails") or {}).get("medium") or {}).get("url") or ""
+        out.append({"id": it.get("id"), "title": sn.get("title") or "", "channel": sn.get("channelTitle") or "",
+                    "views": int(st.get("viewCount") or 0), "published": sn.get("publishedAt") or "",
+                    "likes": int(st.get("likeCount") or 0), "cmts": int(st.get("commentCount") or 0),
+                    "dur": ((it.get("contentDetails") or {}).get("duration")) or "",
+                    "thumb": th, "url": "https://www.youtube.com/watch?v=" + (it.get("id") or "")})
+    return out
 
 
 def yt_comments(items, top_n=3, per=3):
@@ -1300,6 +1305,48 @@ def _yt_views(items):
         if it.get("views") is None:
             it["views"] = 0
     return items
+
+
+YT_RECO_URL = os.environ.get("YT_RECO_URL") or "https://www.youtube.com/feed/recommended"   # 운영자 계정 맞춤 추천 = 홈 「새로운 맞춤 동영상」 칩의 서버측 대응물(그 칩은 주소가 안 바뀌는 화면 안 필터라 복사할 링크가 없다 · 260816 실측) · 주소 교체 손잡이
+
+
+def yt_reco(limit=30):
+    """맞춤 추천 피드(운영자 260816 "내 추천이 거의 내 채널 큐레이션에 맞는 내용이기 때문에 저게 유의미한 거였고").
+    ⚠ **출처 자격 = 공식 인기 차트가 아니라 운영자 계정의 추천**이다(별 키 `youtube_reco`로 내서 소비처가 구분할 수 있게 한다 — 쇼츠·틱톡을 자격 사유로 TOP 풀에서 회수한 260810 판례와 같은 축의 정직 표기).
+    받는 법 = ① yt-dlp 추천 추출기로 **영상 id만** 걷고 ② 조회수·발행시각은 공식 API videos.list 1콜(50개당 1유닛)로 채운다.
+    ⚠ ①에서 id만 걷는 이유 = flat 목록엔 **발행시각이 없다** → 그대로 쓰면 뷰어 24시간 입장컷이 통째로 무효가 된다(나이 미상 = fail-soft 통과 = 구 영상이 신선분으로 위장). 260816 실측 = 로그인 없이 이 주소를 부르면 0건, 같은 도구로 공개 채널은 정상 = 통신이 막힌 게 아니라 로그인이 없어서 빈 것.
+    쿠키 사다리 = `.github/scripts/ytdlp_try.sh` 정본 그대로 경유(쿠키 슬롯 3벌·대체 클라이언트·죽은 쿠키 진단이 이미 그 안에 있다 = 두 번째 쿠키 경로 창작 0).
+    쿠키·도구·키 어느 하나라도 없으면 [] = 종전 동작(fail-soft · 이 축이 죽어도 차트 축은 그대로).
+    킬스위치 = SNS_YT_RECO=0."""
+    if os.environ.get("SNS_YT_RECO", "1") != "1" or not YT_KEY:
+        return []
+    if not any(os.environ.get(v) for v in ("YT_COOKIES", "YT_COOKIES_2", "YT_COOKIES_3")):
+        print("::warning::yt_reco 스킵 — 로그인 쿠키 없음(맞춤 추천은 로그인 없이 0건 = 실측 260816)", file=sys.stderr)
+        return []
+    wrap = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), ".github", "scripts", "ytdlp_try.sh")
+    if not os.path.exists(wrap):
+        print("::warning::yt_reco 스킵 — 받기 사다리 미존재", file=sys.stderr)
+        return []
+    try:
+        env = dict(os.environ, YTDLP_LABEL="맞춤 추천", YTDLP_ERR="/tmp/yt_reco_err.txt",
+                   YTDLP_CKDIR="/tmp/yt_reco_ck", YTDLP_DIAG="/tmp/yt_reco_diag.txt")
+        r = subprocess.run(["bash", wrap, "--flat-playlist", "--skip-download", "--playlist-end", str(limit),
+                            "--print", "%(id)s", YT_RECO_URL],
+                           capture_output=True, text=True, timeout=240, env=env)
+        ids = [x.strip() for x in (r.stdout or "").splitlines() if re.fullmatch(r"[\w-]{6,}", x.strip())]
+    except Exception as e:  # noqa: BLE001
+        print(f"::warning::yt_reco 받기 실패(스킵): {e}", file=sys.stderr)
+        return []
+    if not ids:
+        print("::warning::yt_reco 0건 — 쿠키가 죽었을 수 있다(사다리 진단 = /tmp/yt_reco_diag.txt)", file=sys.stderr)
+        return []
+    try:
+        out = _yt_items(_yt_api("videos", {"part": "snippet,statistics,contentDetails", "id": ",".join(ids[:50])}))
+    except Exception as e:  # noqa: BLE001
+        print(f"::warning::yt_reco 메타 조회 실패(스킵): {e}", file=sys.stderr)
+        return []
+    print(f"✅ yt_reco: 추천 {len(ids)}건 중 메타 확보 {len(out)}건", file=sys.stderr)
+    return out
 
 
 def yt_subs(accounts, limit=10, fresh_days=14, deadline=None):
@@ -2442,6 +2489,7 @@ def main():
         print(f"::warning::yt_cats 커버 결측 — 요청 {len(_news_cats)} 중 {len(yt_cats)}건만 수집(임계 50% 미만 · 키·쿼터·차트 축 점검)", file=sys.stderr)
     yt_all = youtube(limit=50)   # 15→50(운영자 260728 "10개를 못 받아오는 이유") — 뷰어 인기 그리드는 `cutH(ytRaw,24)` 24h 컷 뒤 조회수순 10개인데, mostPopular 차트는 며칠 묵은 영상이 섞여 상위 15건 중 24h 이내가 5건뿐이라(실측 260728 · sns_trends.json 50건 되짚기: 앞15=5건 · 앞30=11건 · 앞50=17건) 10칸이 원천적으로 안 찼다. 50 = videos.list maxResults 상한 · 쿼터는 part 기준이라 런당 비용 불변(maxResults 무관) · 뉴스(category25)는 별 축이라 10 유지 · 뷰어 컷/정렬 무접촉(24h 컷 취지 그대로 · 후보 풀만 확대)
     yt_news = yt_cats.get(str(_news_cat)) or (youtube(category_id=_news_cat, limit=10) if (YT_KEY and yt_all) else [])   # 뉴스 카테고리(config news_cat · 기본 25 뉴스·정치) — 260731부터 주제 다중수집(yt_cats)에 25가 이미 들어 있으면 그 결과 재사용(중복 콜 0) · 25가 선택 밖이면 종전 단독 콜(하위 소비처 kw_watch 무회귀)
+    yt_reco_l = yt_reco(limit=int(os.environ.get("SNS_YT_RECO_N") or 30))   # 맞춤 추천(운영자 260816) — 차트 축과 **별 키**로 낸다(출처 자격 정직 표기) · 쿠키·키 없으면 [] = 종전 동작
     yt_src = "api" if yt_all else ""
     if not yt_all:
         yt_all = youtube_innertube()   # 무키 폴백(검색 파생 근사) — 키 등록 시 이 줄 미도달 = 공식 자동 승격
@@ -2842,6 +2890,7 @@ def main():
         "youtube": yt_all or prev.get("youtube") or [],
         "youtube_src": yt_src or prev.get("youtube_src") or "",   # "api"(공식 차트)/"innertube"(검색 파생) 정직 표기
         "youtube_news": yt_news or prev.get("youtube_news") or [],
+        "youtube_reco": yt_reco_l or prev.get("youtube_reco") or [],   # 맞춤 추천(운영자 260816) — **공식 차트 아님 = 운영자 계정 추천**이라 youtube/youtube_news와 별 키(쇼츠·틱톡 자격 회수 260810 판례 동축 정직 표기) · 전멸(쿠키 죽음·무키) = 직전분 보존(fail-soft 관용구)
         "youtube_cats": yt_cats or prev.get("youtube_cats") or {},   # 주제별 인기(운영자 260731) — {"25":[…],"24":[…]} · 키 = 유튜브 공식 videoCategoryId 문자열 · 전멸(무키·전 카테고리 실패) = 직전분 보존(fail-soft 관용구)
         "gtrends": gt or prev.get("gtrends") or [],
         "gtrends_pool": gt_pool or prev.get("gtrends_pool") or [],   # 트렌딩나우 API 풀(vol≥500 또는 6h내 신선 · q·vol·started 콤팩트) — 실검 교차 부스트 원료(운영자 260717 · 실패 = 직전분)
