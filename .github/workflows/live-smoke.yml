@@ -2,7 +2,9 @@
 # live-smoke.yml — 배포 직후 라이브 실물 검문 + 코드축 연속 실패 자가 롤백 (운영자 260802 승인 · 8인 평의회 260802 반영판)
 # 왜: 260802 '상단만 렌더' 사고 축 — 로컬 게이트(check_refs·smoke_all)는 레포 사본만 보고, 상용이
 #     실제로 내주는 바이트는 사람이 열기 전까지 무검문 사각이었다. 이 워크플로가 배포마다
-#     apps.nomute.kr 실물을 레포 정본과 대조(절단·센티널·부속 바이트·articles 파싱 = shared/live_smoke.py 헤더가 정본 설명)
+#     edit.nomute.kr 실물을 레포 정본과 대조(절단·센티널·부속 바이트·articles 파싱 = shared/live_smoke.py 헤더가 정본 설명)
+#     ⚠ 260816 계정 이관 잔재 봉합 — 옛 화면 apps.nomute.kr 은 옛 계정 배포라 새 저장소 커밋을 영영 안 받는다:
+#       그쪽을 보면 도장이 고정값(d2a9e98)에 멈춰 있어 코드 푸시마다 「배포 미수렴」 거짓 실패가 났다(실측 4연속 적색).
 #     하고, 실패만 웹푸시(발송 정본 = push_send --notify 재사용) + 코드축 연속 2회 실패 = 자가 롤백
 #     (액터·안전 레일 정본 설명 = .github/scripts/live_rollback.py 헤더 · 원장 = scraper/obs/livesmoke_state.json · 손편집 금지).
 # 평의회 260802 핵심 반영:

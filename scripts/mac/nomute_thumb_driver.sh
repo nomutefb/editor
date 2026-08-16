@@ -32,7 +32,8 @@ PY
 ) || exit 1
 eval "$PREP"
 if [ "${MODE:-}" = "repost" ]; then
-  curl -s --max-time 40 -X POST https://apps.nomute.kr/api/thumb \
+  # 260816 계정 이관 잔재 봉합: 옛 화면 apps.nomute.kr 은 옛 계정 배포 = 재접수 잡이 옛 저장소로 새서 이 레인에 영영 안 돌아온다(레버 = LIVE_BASE · live-smoke.yml 문법 사본)
+  curl -s --max-time 40 -X POST "${LIVE_BASE:-https://edit.nomute.kr}/api/thumb" \
     -H 'Content-Type: application/json' --data @/tmp/thumb_repost.json >/dev/null 2>&1
   exit 9
 fi
