@@ -5172,15 +5172,24 @@ _LAND_BASE = {   # 260816 실측 스냅샷 — 회수 경로도 실패 표기도
 #   git_land.sh 헤더 「리베이스가 꼬여 no-op 만 밀고 산출물이 증발」 · 260716 브리프 3일 정지 실사고).
 _XOURS_AWARE = ('드랍', '의미 반전', '원격 승', '재병합', 'theirs')   # 그 자리에서 위험을 **인지하고 대처를 적었다**
 _XOURS_BASE = {   # 260816 실측 스냅샷 — `-X ours` 인데 드랍 대처가 없는 착지. 해소하면 그만큼 낮춰라(래칫).
-    'breaking-judge.yml': 1,       # 자동픽 = pending + seen_urls(append-only) 착지
-    'feedback.yml': 1,             # feedback/ (건별 파일 = 충돌 가능성 낮음 · 미판독)
-    'moreimg.yml': 1,              # 보충 이미지 결과 파일
-    'pick.yml': 1,                 # 운영자 픽 = pending + seen_urls(append-only)
-    'rate.yml': 1,                 # ratings·thumb_votes = append-only 원장 = 충돌 시 우리 줄 유실
-    'scrape.yml': 3,               # candidates 스냅샷 · 화재 추적 원장 · pending 적재
-    'social-scan.yml': 1,          # SNS 레인 스냅샷(다음 30분 회차가 덮는다)
-    'tiktok-canary.yml': 1,        # sns_trends = **다른 워크플로도 쓰는 파일** = 충돌 실재
+    # ⚠ 사유는 260816 2차에 페이블 교차검증(샌드박스 재현 실험 포함)으로 **정정**했다 —
+    #   첫 판이 「충돌 시 우리 줄 유실」이라 뭉뚱그린 것 중 둘은 **충돌 상대 자체가 없었다**.
+    #   그리고 실제 형태는 「통째 빈 착지」가 아니라 **부분 공동화**다(신규 파일은 살고 원장 줄만 빠진다).
+    'scrape.yml': 3,               # ⚠ 최상 위험 = 화재 추적(원장+pending+seen+messages 한 커밋 · 맥 레인이 같은 4경로를 민다)
+                                   #   → dedup 줄이 빠지면 중복 긴급알림·재과금 · candidates 축은 15분 뒤 자기회복
+    'pick.yml': 1,                 # 부분 위험 = 픽(신규 파일)은 살고 seen 줄만 빠진다 → 중복 재적재 여지
+    'breaking-judge.yml': 1,       # 부분 위험 = seen 축만(자동픽·metrics 는 단독·유일명)
+    'moreimg.yml': 1,              # 저위험 = stem 별 직렬 + commit 이 pull 뒤(재시도 2회차부터만 노출)
+    'social-scan.yml': 1,          # 자기회복 = 30분 회차가 전량 재수집(스텝 주석에 회수 경로 명문)
+    'tiktok-canary.yml': 1,        # 저위험 = sns-trends 와 **같은 concurrency 그룹으로 이미 직렬화**(첫 판 「충돌 실재」는 과장)
     'tiktok-subs-canary.yml': 1,   # 동축
+    'rate.yml': 1,                 # ⚠ 무해로 판독됨 = concurrency 직렬 + ratings 기록자 단독 + messages 건별 파일 → 충돌 상대 0
+    'feedback.yml': 1,             # ⚠ 무해로 판독됨 = 투표별 타임스탬프 유일 파일명 → 같은 파일 충돌이 구조적으로 불가
+    # 맥 레인(260816 2차 편입) — ⚠ **깃허브 액션이 멈춘 동안 실제로 도는 유일한 레인**이라 현재 위험이 더 크다.
+    #   전부 무음 `|| true` 라 실패도 안 보인다. 판독·봉합은 다음 걸음(래칫으로 증가만 먼저 막는다).
+    'mac/nomute_job_worker.sh': 3,
+    'mac/nomute_thumb_driver.sh': 1,
+    'mac/nomute_wf_driver.sh': 1,
 }
 
 
@@ -5210,7 +5219,11 @@ def check_land_xours():
     wf_dir = os.path.join(ROOT, '.github', 'workflows')
     if not os.path.isdir(wf_dir):
         print('❌ 착지 내용 소실 래칫 — 워크플로 폴더 없음(fail-closed)'); return 1
-    push_re = _re.compile(r'git push[^\n]*(?:HEAD:main|origin main)')
+    # ⚠ 변종 3종 봉합(260816 2차 · 페이블 킬테스트 A·B·C 실측) — 첫 판은 `-X ours` 리터럴과
+    #   `HEAD:main|origin main` 리터럴만 봐서 ⓐ `-Xours` 붙여쓰기(유효 git 문법) ⓑ `--strategy-option=ours`
+    #   ⓒ `HEAD:refs/heads/main` 정식 참조를 전부 놓쳤다(현행 위반 0건 = 미래 드리프트 축).
+    push_re = _re.compile(r'git push[^\n]*(?:HEAD:(?:refs/heads/)?main|origin\s+main)')
+    ours_re = _re.compile(r'-X\s?ours\b|--strategy-option[= ]\s?ours\b')
     now, detail = {}, []
     for fn in sorted(os.listdir(wf_dir)):
         if not fn.endswith(('.yml', '.yaml')):
@@ -5225,7 +5238,7 @@ def check_land_xours():
                 if not run:
                     continue
                 code = '\n'.join(l for l in run.splitlines() if not l.lstrip().startswith('#'))
-                if '-X ours' not in code or not push_re.search(code):
+                if not ours_re.search(code) or not push_re.search(code):
                     continue
                 # ⚠ 대처 판정은 **주석까지 포함한 원문**에서 본다 — 처방이 주석으로 적히는 게 이 레포 관례라
                 #    코드부만 보면 「사유를 적어 대처한 자리」가 통째로 위반이 된다(check_land_silence 와
@@ -5234,6 +5247,26 @@ def check_land_xours():
                     continue
                 now[fn] = now.get(fn, 0) + 1
                 detail.append('%s · %s' % (fn, (st.get('name') or '(이름 없음)')[:30]))
+    # ⚠⚠ 맥 레인 편입(260816 2차 · 페이블 지적) — 첫 판 스코프가 `.github/workflows/*.yml` 뿐이라
+    #   `scripts/mac/*.sh` 착지형이 통째로 밖이었다. **깃허브 액션이 멈춘 동안 실제로 도는 레인이 그쪽**이라
+    #   워크플로 축보다 현재 위험이 크다(전부 무음 `|| true` 라 실패도 안 보인다).
+    mac_dir = os.path.join(ROOT, 'scripts', 'mac')
+    if os.path.isdir(mac_dir):
+        for fn in sorted(os.listdir(mac_dir)):
+            if not fn.endswith('.sh'):
+                continue
+            try:
+                raw = open(os.path.join(mac_dir, fn), encoding='utf-8', errors='replace').read()
+            except OSError:
+                continue
+            code = '\n'.join(l for l in raw.splitlines() if not l.lstrip().startswith('#'))
+            if not ours_re.search(code) or not push_re.search(code):
+                continue
+            if any(w in raw for w in _XOURS_AWARE):
+                continue
+            key = 'mac/' + fn
+            now[key] = now.get(key, 0) + len(ours_re.findall(code))
+            detail.append('%s · 맥 레인 착지' % key)
     over = {k: v for k, v in now.items() if v > _XOURS_BASE.get(k, 0)}
     if over:
         print('❌ 착지 내용 소실 래칫 — `-X ours` 착지가 늘었다(push 는 성공하는데 우리 변경이 버려질 수 있다):')
@@ -5242,7 +5275,8 @@ def check_land_xours():
         for d0 in detail[:10]:
             print('     -', d0)
         print('   → 리베이스에서 ours = **upstream** 이다(의미 반전) — 충돌 시 우리 헝크가 버려지는데 push 는 성공한다.')
-        print('   → 처방 3형 = ⓐ 임시본 재병합(imggen 계열 정본) ⓑ `-X theirs` 전환(단 남의 최신을 덮을 위험 동반) ⓒ 그 자리에 드랍이 무해한 사유를 적어라.')
+        print('   → 처방 = ⓐ **공유 append 원장(seen_urls·ratings 류)이면 임시본 재병합이 유일 무손실**(imggen 계열 정본 · `-X theirs` 를 쓰면 남의 줄이 지워진다 = 샌드박스 실측)')
+        print('             ⓑ 단독 소유 스냅샷이면 `-X theirs` 전환 가능 ⓒ 충돌 상대가 없거나(직렬화·유일 파일명) 다음 회차가 덮어 무해하면 그 사유를 그 자리에 적어라.')
         return 1
     gone = {k: v for k, v in _XOURS_BASE.items() if now.get(k, 0) < v}
     if gone:
