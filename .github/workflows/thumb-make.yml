@@ -91,11 +91,32 @@ jobs:
           R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
           R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
         run: |
-          import os, sys, json, subprocess
+          import os, sys, json, subprocess, unicodedata
           sys.path.insert(0, 'apps/thumbnail')
           app = (os.environ.get('APP') or '').strip()
           in_id = (os.environ.get('IN_ID') or '').strip()
           params = json.loads(os.environ.get('PARAMS') or '{}')
+          # ── 홀로 쓴 자음·모음 = 조합용 조각이 아니라 낱자로 그린다(260816 실사고 봉합) ──
+          #   실사고 = 오버레이 「미친놈/*ᄒᄒ*」가 뭉개져 나왔다. 진범은 폰트도 자간도 아니고 그 두 글자가
+          #   낱자 ㅎ(U+314E)이 아니라 **첫소리 조각 ᄒ(U+1112)**이었던 것(_src.json 260816095225-11fd32 실측).
+          #   첫소리 조각은 뒤에 모음이 붙을 자리를 비워둔 모양이라 홀로 그리면 폰트가 작게·위로 붙여 그린다
+          #   → 글자가 작아지고 서로 바싹 붙는다(같은 코드·같은 폰트로 두 경우 재현 대조 완료).
+          #   ⚠ NFC를 먼저 돌리는 게 실효 조건 = 조각으로 풀어진 정상 음절(ᄆ+ᅵ = 미)을 도로 합친 뒤
+          #     **그러고도 남은 홀글자만** 낱자로 바꾼다. 순서를 뒤집으면 멀쩡한 「미」가 「ㅁㅣ」로 부서진다.
+          #   ⚠ 거처 = 이 입구 한 곳 = 오버레이·헤더·진짜예요·자간 sweep이 전부 params를 읽는다.
+          #     맥 잡워커도 이 Render 스텝을 그대로 뽑아 실행하므로(scripts/mac/nomute_thumb_driver.sh) 두 레인 동시 적용.
+          _JAMO_STD = {}
+          for _i, _c in enumerate('ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ'): _JAMO_STD[chr(0x1100 + _i)] = _c      # 첫소리 19
+          for _i in range(21): _JAMO_STD[chr(0x1161 + _i)] = chr(0x314F + _i)                                    # 가운뎃소리 21(연속)
+          for _i, _c in enumerate('ㄱㄲㄳㄴㄵㄶㄷㄹㄺㄻㄼㄽㄾㄿㅀㅁㅂㅄㅅㅆㅇㅈㅊㅋㅌㅍㅎ'): _JAMO_STD[chr(0x11A8 + _i)] = _c  # 끝소리 27
+          def _jamo_std(v):
+              if isinstance(v, str):
+                  v = unicodedata.normalize('NFC', v)
+                  return ''.join(_JAMO_STD.get(ch, ch) for ch in v) if any('ᄀ' <= ch <= 'ᇿ' for ch in v) else v
+              if isinstance(v, list): return [_jamo_std(x) for x in v]
+              if isinstance(v, dict): return {k: _jamo_std(x) for k, x in v.items()}
+              return v
+          params = _jamo_std(params)
           image = (os.environ.get('IMAGE') or '').strip()
           # 배경 src는 Checkout(ref=image_sha)이 이미 워킹트리에 보장 — 레이스 가드/복구 불필요(원천 차단 · 260620).
           if not app or not in_id:

@@ -3124,6 +3124,39 @@ function attachOneLineGrow(el) {
   try { new ResizeObserver(() => { if (el.clientWidth !== lastW) { lastW = el.clientWidth; grow(); } }).observe(el); } catch {}   // 폭이 바뀌면 줄 수도 바뀐다 · 폭 축만 보는 이유 = grow가 높이를 바꾸므로 높이 축까지 보면 자기진동
 }
 ['cSub', 'cTitle'].forEach(id => { const el = $('#' + id); if (el) attachOneLineGrow(el); });
+// ── 홀로 쓴 자음·모음 = 조합용 조각이 아니라 낱자로 고쳐 담는다(260816 실사고 봉합 · 러너 짝 = thumb-make.yml `_jamo_std`) ──
+//   실사고 = 오버레이 「미친놈/*ᄒᄒ*」가 뭉개져 나왔다. 그 두 글자는 낱자 ㅎ(U+314E)이 아니라 첫소리 조각 ᄒ(U+1112)이었고,
+//   조각은 뒤에 모음이 붙을 자리를 비워둔 모양이라 홀로 그리면 작게·위로 붙어 그려진다(미리보기·산출물 양쪽 동일 증상).
+//   ⚠ 러너만 고치면 미리보기가 여전히 뭉갠 채로 보여 「미리보기 = 결과」 계약이 깨진다 → 입력 자리에서 같이 고친다.
+//   ⚠ NFC 먼저 = 조각으로 풀어진 정상 음절(ᄆ+ᅵ = 미)을 도로 합친 뒤 그러고도 남은 홀글자만 낱자로 바꾼다(순서 뒤집으면 멀쩡한 글자가 부서진다).
+const JAMO_STD = (() => {
+  const m = new Map();
+  'ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ'.split('').forEach((c, i) => m.set(0x1100 + i, c));                          // 첫소리 19
+  for (let i = 0; i < 21; i++) m.set(0x1161 + i, String.fromCharCode(0x314F + i));                                  // 가운뎃소리 21(연속)
+  'ㄱㄲㄳㄴㄵㄶㄷㄹㄺㄻㄼㄽㄾㄿㅀㅁㅂㅄㅅㅆㅇㅈㅊㅋㅌㅍㅎ'.split('').forEach((c, i) => m.set(0x11A8 + i, c));            // 끝소리 27
+  return m;
+})();
+function normJamo(s) {
+  if (!s) return s;
+  const t = s.normalize('NFC');
+  if (!/[ᄀ-ᇿ]/.test(t)) return t;
+  return Array.from(t).map(c => JAMO_STD.get(c.codePointAt(0)) || c).join('');
+}
+function attachJamoNorm(el) {
+  if (!el || el._jmn) return;
+  el._jmn = ev => {
+    if (ev && ev.isComposing) return;                      // 한글 조합 중엔 안 건드린다(조합이 깨진다)
+    const v = el.value, n = normJamo(v);
+    if (n === v) return;
+    const s = el.selectionStart;
+    el.value = n;
+    const c = normJamo(v.slice(0, s)).length;              // 캐럿 = 앞부분을 같은 자로 고친 길이(NFC가 길이를 줄여도 안 밀린다)
+    try { el.setSelectionRange(c, c); } catch {}
+    el.dispatchEvent(new Event('input', { bubbles: true }));   // 미리보기·자간 힌트가 고친 값을 다시 본다(부착 순서 무관 · 두 번째 회차는 n===v로 즉시 반환 = 무한고리 0)
+  };
+  el.addEventListener('input', el._jmn);
+}
+['cSub', 'cTitle', 'cLines', 'lines', 'warnLines'].forEach(id => attachJamoNorm($('#' + id)));
 ['lines', 'warnLines', 'cSub', 'cTitle', 'cLines'].forEach(id => { const el = $('#' + id); if (el) attachCopyPaste(el, true); });   // covrow textarea(lines·cLines)도 클립 부착 — wrap이 covta 승계로 flex 유지(슬롯 호환·260624) · warnLines(안내문/경고문) 포함 전부 붙여넣기+복사+지우개 3종 통일(운영자 260628)
 ['cplat'].forEach(id => { const el = $('#' + id); if (el) attachCopyPaste(el, true); });   // 플랫폼 직접입력 = 「모든 텍스트 입력창에 클립」 공식(운영자 260803) 전수 부착분 — 이 칸만 빠져 있었다(숫자칩 #opaNum·#rszArW/H는 값 선택 UI = 면제)
 // 입력칸 별표(*) 강조색 하이라이트(운영자 260720) — 강조(*) 쓰는 textarea(lines·cLines)에만 부착. attachCopyPaste 후(wrap=.iowrap position:relative 존재)라 오버레이가 textarea 박스에 정확히 겹침. 타이포·패딩은 textarea computedStyle 복사 = 픽셀 정합(raw 창작 0).
