@@ -104,7 +104,27 @@ def main():
         except Exception as e:
             out['dropped'].append(f'{m}({e})')
 
-    # ③ 최근 게시물 — 반응 평균의 원료(참고용 축이라 표본만 · 전건 백필 없음)
+    # ②-b 30일 창 조회수 — 화면 타일 정본 축(운영자 260816 "스레드 팔로워 / 30일 누적 조회수 / 일 평균 조회")
+    # ⚠ **기간을 못박아 묻는 게 계약**이다 — since/until 없이 물으면 Meta 가 어느 구간을 주는지 응답에 안 적혀 온다
+    #   (260816 실측 = 조회 11,263인데 좋아요 15 = 두 지표의 창이 서로 다르다는 정황). 창을 모르는 숫자를
+    #   화면에 「조회 N」으로 적으면 그 표기 자체가 거짓말이 된다 → 창을 우리가 정해서 묻고, 창을 같이 적는다.
+    # 일 평균 = 누적 ÷ 실제 창 일수(내림 아님 = 반올림 1자리 · 화면이 그대로 읽는다).
+    try:
+        until = int(_now().timestamp())
+        since = until - 30 * 86400
+        d = api(f'{uid}/threads_insights', metric='views', since=since, until=until)
+        rows = d.get('data') or []
+        v = _total(rows[0]) if rows else None
+        if v is None:
+            out['dropped'].append('views_30d')
+        else:
+            out['views_30d'] = v
+            out['views_per_day'] = round(v / 30, 1)
+            out['window_days'] = 30
+    except Exception as e:
+        out['dropped'].append(f'views_30d({e})')
+
+    # ③ 최근 게시물 — 반응 평균의 원료 + 30일 창 실패 시 화면 3번째 타일의 폴백(운영자 260816 "안되면 가장 최근 게시물")
     try:
         d = api('me/threads', fields='id,media_type,text,permalink,timestamp', limit=POST_N)
         posts = []
