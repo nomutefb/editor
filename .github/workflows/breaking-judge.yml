@@ -69,6 +69,7 @@ jobs:
             metrics
             pending
             push
+            assets/brand
             viewer
 
       # 게이트 — 미판정 속보후보 + 미채점 경중후보 수. 0이면 아래 Claude 설치·판정 스텝 전부 스킵(비용 0).

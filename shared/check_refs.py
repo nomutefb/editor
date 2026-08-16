@@ -977,10 +977,17 @@ def check_push_send_checkout():
     축 자체가 없었고, 러너가 초록으로 끝나고 화면 증상도 0이라 **운영자 눈이 유일한 검출기였다**
     (insta-thumb-miss·brk_misfire 동축). 새 제작 레인이 생기면 같은 자리에서 또 조용히 빠진다.
 
-    술어 = 「실행줄에서 `push_send.py`를 호출 ∧ `sparse-checkout:` 사용 → 그 목록에 `push` 단독 경로 보유」.
-    아이콘(`assets/brand`)은 없어도 발송 자체는 되므로(= `notif_icon`이 None 폴백) WARN 없이 안내만 한다.
+    술어 = 「실행줄에서 `push_send.py`를 호출 ∧ `sparse-checkout:` 사용 → 그 목록에 `push`(구독자 명단)와
+    `assets/brand`(알림 아이콘 번들 `notif_dataurl.json`) 두 경로 보유」.
+    ⚠ 아이콘도 **하드**인 이유(260816 2차 · 운영자 「속보 알림 아이콘도 같이 붙여줘」) = 번들이 없으면
+    `notif_icon()`이 None을 뱉어 페이로드 `icon`이 빈 문자열이 되고, 그러면 폰 SW가 `kind`로 **주소**를 조립해
+    받아오는 구 경로로 되돌아간다 — 그 방식은 260727에 이미 실패로 판정된 축이다(주석 원문 = 「payload에 아이콘
+    *주소*를 주면 폰이 그 이미지를 받아오지 못해(Access 벽·미배포 404) 안드로이드가 사이트 첫 글자 'A' 폴백을
+    그린다 · data URL = 네트워크 요청 0 = 그 벽과 무관하게 항상 그려진다」). 즉 아이콘 누락은 「조금 흐린 알림」이
+    아니라 **폐기된 경로로의 조용한 회귀**이고, 주소가 그날 열려 있으면 증상이 안 보여 더 늦게 발견된다
+    (260816 실측 = 그 URL이 HTTP 200이라 속보 아이콘이 나오는 것처럼 보였다 = 위장된 정상).
     전체 체크아웃(sparse 미사용) 워크플로는 대상 밖 = 이미 다 받는다. 주석 줄 제외(주석 처리 우회 차단).
-    정적 · 렌더·LLM·네트워크 0 · **면책표 없이 하드 0**(부채 원장 증가 0)."""
+    정적 · 렌더·LLM·네트워크 0 · **면책표 없이 하드 0**(부채 원장 증가 0 · 현행 11레인 전건 보유)."""
     wdir = os.path.join(ROOT, '.github', 'workflows')
     try:
         files = sorted(f for f in os.listdir(wdir) if f.endswith(('.yml', '.yaml')))
@@ -1010,19 +1017,22 @@ def check_push_send_checkout():
                 body.append(cur.strip())
             if 'push' not in body:
                 bad.append('%s:%d' % (f, i + 1))
-            elif not any(b == 'assets/brand' or b.startswith('assets/brand/') for b in body):
-                noicon.append(f)
+            if not any(b == 'assets/brand' or b.startswith('assets/brand/') for b in body):
+                noicon.append('%s:%d' % (f, i + 1))
             break
     if seen < 5:
         print('❌ check_push_send_checkout 대상 %d건 — 시그니처 드리프트 의심(fail-closed · 하한 5)' % seen); return 1
     if bad:
         print('❌ 완료 푸시 레인이 구독자 명단을 체크아웃하지 않는다(260816 실사고 = 「구독자 없음」으로 조용히 발송 생략 · 스텝은 초록):')
         for b in bad:
-            print('   -', b, '→ sparse-checkout 목록에 `push` 한 줄 추가(정본 = vidl-make·breaking-judge)')
-        return 1
+            print('   -', b, '→ sparse-checkout 목록에 `push` 한 줄 추가(정본 = vidl-make)')
     if noicon:
-        print('   · 알림 아이콘 미체크아웃(발송은 정상 · 아이콘만 기본판): ' + ', '.join(noicon))
-    print('✅ 완료 푸시 체크아웃 게이트 — %d개 발송 레인 전건 구독자 명단 보유(조용한 발송 생략 0).' % seen)
+        print('❌ 완료 푸시 레인이 알림 아이콘 번들을 체크아웃하지 않는다(260727 폐기 경로 = 주소 폴백으로 조용한 회귀):')
+        for b in noicon:
+            print('   -', b, '→ sparse-checkout 목록에 `assets/brand` 한 줄 추가(정본 = vidl-make)')
+    if bad or noicon:
+        return 1
+    print('✅ 완료 푸시 체크아웃 게이트 — %d개 발송 레인 전건 구독자 명단 + 아이콘 번들 보유(조용한 발송 생략·주소 폴백 회귀 0).' % seen)
     return 0
 
 
