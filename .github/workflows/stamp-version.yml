@@ -42,17 +42,36 @@ jobs:
           ref: main
       - name: 도장 굽기(커밋 SHA·KST → index.html BUILD_STAMP)
         run: |
+          set +e
           SHA="${GITHUB_SHA::7}"                             # 지금 배포되는 코드 커밋 = 트리거 SHA 고정(평의회 260802 — 구 rev-parse HEAD는 체크아웃 큐 지연 사이 낀 봇 데이터 커밋 SHA를 구워 라이브 검문 수렴이 어긋나던 레이스 · dispatch도 GITHUB_SHA=main tip이라 동작 동일)
           TS=$(TZ='Asia/Seoul' date '+%y%m%d_%H%M')          # KST(러너=UTC라 TZ 강제 · CLAUDE.md [12])
-          # BUILDSTAMP 마커 줄만 치환 = 마커 영속(다음 배포도 재매칭) · 값은 'dev' 또는 직전 도장 무관하게 통째 교체
-          sed -i "s|const BUILD_STAMP = '[^']*';\(.*\)/\*BUILDSTAMP\*/|const BUILD_STAMP = '${SHA} · ${TS}';\1/*BUILDSTAMP*/|" viewer/index.html
           git config user.name "nomute-bot"
           git config user.email "bot@users.noreply.github.com"
-          git add viewer/index.html
-          git diff --cached --quiet && { echo "도장 변동 없음 — 생략"; exit 0; }
-          git commit -m "chore(stamp): ${SHA} 배포 버전 도장 [stamp]"
-          for i in 1 2 3 4; do
-            git pull --rebase --autostash -X ours origin main || echo "::warning::pull--rebase 실패(사유 = 위 로그) — 재시도 계속"
-            git push origin HEAD:main && exit 0 || { echo "도장 push 재시도 $i"; sleep $((2**i)); }
+          # ⚠ 260816 실사고 봉합 — 구판은 `git pull --rebase --autostash -X ours` 4회 루프였는데, 붐비는 main에서
+          #   **첫 시도가 꼬이면 4회 전부 같은 자리에서 죽는다**: autostash 가 남긴 미스테이지 변경 때문에 다음 라운드가
+          #   「cannot rebase: You have unstaged changes」로 시작조차 못 하고, 그 사이 로컬은 계속 뒤처져 push 는 4연속
+          #   non-fast-forward 거부 → 스텝은 warning 만 남기고 **rc 0(초록)** 으로 끝난다(실측 run 31936404895 =
+          #   f7249d0 도장 미착지인데 잡은 success). 도장이 없으면 라이브 도장이 트리거 SHA 가 될 방법이 없으므로
+          #   **배포 검문이 12분 대기 후 반드시 「배포 미수렴」으로 실패**한다 = 그날 검문 적색의 진범(실측 run 31936404904).
+          # → git_land.sh 의 「리베이스를 안 쓴다」 원리만 이식한다(⚠ 그 헬퍼 자체는 코얼레싱 접두를 커밋 메시지에
+          #   자동으로 붙이므로 **도장 축에는 못 쓴다** = 도장은 스킵 금지 축 · 명문 = git_land.sh 헤더 · 게이트 = check_pages_skip):
+          #   매 시도가 {최신 main 으로 reset → 도장 재굽기 → 단일 커밋 → push} 라 꼬임이 구조적으로 불가능하고,
+          #   항상 origin/main 의 직계 자식 1커밋이라 경합에 져도 다음 시도에서 그대로 따라잡는다.
+          #   ⚠ reset --hard 안전 조건 = 이 잡은 도장 외 산출이 0(안 밀린 로컬 커밋이 없다) — pc_lane 의 「안 밀린 커밋
+          #   보호」가 필요한 다스테이지 레인과 다른 조건이다.
+          stamp_once() {   # BUILDSTAMP 마커 줄만 치환 = 마커 영속(다음 배포도 재매칭) · 값은 'dev'·직전 도장 무관하게 통째 교체
+            sed -i "s|const BUILD_STAMP = '[^']*';\(.*\)/\*BUILDSTAMP\*/|const BUILD_STAMP = '${SHA} · ${TS}';\1/*BUILDSTAMP*/|" viewer/index.html
+          }
+          for i in 1 2 3 4 5 6; do
+            git fetch -q origin main && git reset -q --hard origin/main || { echo "::warning::기점 재동기 실패 — 재시도 $i"; sleep $((2**i)); continue; }
+            stamp_once
+            git add viewer/index.html
+            git diff --cached --quiet && { echo "도장 변동 없음 — 생략"; exit 0; }
+            git commit -q -m "chore(stamp): ${SHA} 배포 버전 도장 [stamp]"
+            git push -q origin HEAD:main && { echo "도장 착지 ✓ (${SHA} · 시도 ${i})"; exit 0; }
+            echo "도장 push 재시도 $i(경합 = 다음 라운드가 최신 기점에서 다시 얹는다)"; sleep $((2**i))
           done
-          echo "::warning::도장 push 실패(재시도 소진) — 다음 코드 배포서 재도장"
+          # ⚠ 실패는 실패로 낸다(구판은 warning 만 내고 rc 0 = 「도장 워크플로는 초록인데 도장이 없다」는 거짓 초록이었고,
+          #   그 거짓 초록 때문에 진범이 배포 검문 쪽으로 보였다) — 도장 미착지 = 그 배포의 검문이 반드시 실패하는 상태다.
+          echo "::error::도장 push 실패(6회 소진) — 라이브 도장이 ${SHA} 로 안 바뀐다 = 이 배포의 라이브 검문은 반드시 「배포 미수렴」으로 적색"
+          exit 1
