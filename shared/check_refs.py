@@ -5077,6 +5077,109 @@ def check_secret_coverage_chain():
     return 0
 
 
+# ── 화면 주소 정본 ──────────────────────────────────────────────────────────────
+_CANON_HOST = 'edit.nomute.kr'          # 260816 계정 이관 정본(CLAUDE.md 레포 전용 절 「지금 정본 4종」 ⓑ)
+_OLD_HOSTS = ('apps.nomute.kr',)        # 옛 화면 — 되돌릴 여지로 살려는 두되 코드가 부르면 안 된다
+_CANON_EXT = ('.py', '.js', '.mjs', '.sh', '.command', '.yml', '.yaml', '.html', '.css', '.bat', '.ps1')
+_CANON_SKIP_DIRS = ('_versions/', 'docs/', 'cards/', '.claude/', 'queue/', 'scraper/obs/')
+
+
+def _canon_mask_comments(text, ext):
+    """주석 구간을 길이 보존 공백으로 지운다 — 인덱스가 원본과 1:1 유지돼야 행 번호가 안 어긋난다
+    (css_hoist 「길이 보존 공백 마스킹」 관례 계승 · 260807 실측에서 이 보존을 깨면 제거 범위가 밀렸다)."""
+    import re as _re
+
+    def blank(m):
+        return _re.sub(r'[^\n]', ' ', m.group(0))
+
+    if ext == '.html':
+        text = _re.sub(r'<!--[\s\S]*?-->', blank, text)
+        text = _re.sub(r'/\*[\s\S]*?\*/', blank, text)
+        text = _re.sub(r'(?<!:)//[^\n]*', blank, text)
+    elif ext in ('.js', '.mjs', '.css'):
+        text = _re.sub(r'/\*[\s\S]*?\*/', blank, text)
+        if ext != '.css':
+            text = _re.sub(r'(?<!:)//[^\n]*', blank, text)
+    elif ext in ('.py', '.sh', '.command', '.yml', '.yaml', '.ps1'):
+        text = _re.sub(r'#[^\n]*', blank, text)
+    elif ext == '.bat':
+        text = _re.sub(r'(?im)^[ \t]*(?:rem|::)[^\n]*', blank, text)
+    return text
+
+
+def check_canon_host():
+    """화면 주소 정본 = 코드가 옛 화면을 직접 부르지 않는다(운영자 260816 「게이트 ㄱㄱ」).
+    CONTRACT: check_canon_host
+
+    ⚠ 신설 사유 = **260816 계정 이관에서 화면만 새 주소로 갔고, 그 화면을 부르는 코드는 여러 곳이
+    따라오지 않았는데 전부 화면 증상이 0이었다.** 실사고 2종 =
+      ⓐ 배포 검문(live-smoke)이 옛 화면 도장을 읽어 코드 푸시마다 「배포 미수렴」 거짓 실패
+         (실측 260815 23:40 · 260816 04:26 · 07:00 3연속 적색 · 검문 자신은 그 판에서도 전부 초록이었다
+          = 화면은 멀쩡한데 **보는 곳이 틀린** 사고라 로그만 봐서는 원인이 안 보인다).
+      ⓑ 그 봉합 커밋(961d3826)이 **형제 4곳을 빼먹었다** — 맥 잡 실행기 3종은 옛 화면으로 작업을
+         재접수해 그 잡이 옛 계정 저장소로 새고(증상 = 아무 일도 안 일어남), 공유 미리보기 그림
+         2줄은 옛 화면에서 끌어와 옛 계정 정리 시점에 카톡·X 미리보기가 통째로 깨질 예정이었다
+         (양쪽 200 실측이라 지금은 무증상 = 터지기 전까지 아무도 모른다).
+    기존 게이트는 전부 다른 축 — check_paths = 경로 실존 · check_workflow_yaml = 문법 ·
+    check_seal_completeness = 「같은 병의 형제」인데 **WARN 이라 ⓑ를 못 막았다** · smoke_* = 화면 렌더
+    → 「코드가 부르는 우리 화면 주소가 정본인가」는 축 자체가 없었고 운영자 눈이 유일한 검출기였다
+    (insta-thumb-miss·brk_misfire 동축).
+
+    술어 = **스킴이 붙은 절대 주소만** 위반(https://apps.nomute.kr).
+      ⚠ 이 한 줄이 실효 조건 = 스킴 유무가 「부르는 곳」과 「비교하는 곳」을 정확히 가른다.
+        스킴 없는 호스트 문자열은 전부 **옛 화면을 살려두려고 일부러 남긴 것**이라 대상 밖 —
+        요청 출처 허용 목록(functions/api/*.js originOk 5곳) · 서비스워커 CANON_HOSTS ·
+        배포 환경변수 폴백(functions/_middleware.js) · 이관 도구 상수(scripts/migrate_account.sh).
+        손 면책 목록을 들면 새 파일이 조용히 빠지는데(이 레포가 반복해 겪은 드리프트) 이 술어는
+        구조적으로 갈리므로 **면책표가 아예 없다** = 부채 원장 증가 0.
+
+    판정 = 정적(렌더·LLM·네트워크 0) · 표면 자동 발견(git ls-files = 새 파일이 조용히 못 빠진다) ·
+      주석 마스킹(사고 기록의 거처 = 주석 · 길이 보존이라 행 번호 정확) · **면책표 없이 하드 0**.
+    ⚠ 스코프 밖 = _versions·docs·cards·.claude(스냅샷·산출 자산) · queue·scraper/obs(기계산출물) ·
+      shared/check_refs.py 자신(처방문의 「수정 전」 예시가 곧 위반 문자열 = check_ytdlp_aac 선례).
+    """
+    import re as _re
+    import subprocess as _sp
+    try:
+        out = _sp.run(['git', 'ls-files', '-z'], cwd=ROOT, capture_output=True, text=True, timeout=60)
+        files = [f for f in out.stdout.split('\0') if f]
+    except Exception as e:
+        print('⚠️ 화면 주소 정본 게이트 — 파일 목록을 못 얻었다(fail-soft):', e); return 0
+    pat = _re.compile(r'https?://(?:%s)' % '|'.join(_re.escape(h) for h in _OLD_HOSTS))
+    bad = []
+    for rel in files:
+        if not rel.endswith(_CANON_EXT):
+            continue
+        if any(rel.startswith(d) for d in _CANON_SKIP_DIRS):
+            continue
+        if rel.replace('\\', '/') == 'shared/check_refs.py':
+            continue
+        ap = os.path.join(ROOT, rel)
+        try:
+            raw = open(ap, encoding='utf-8', errors='replace').read()
+        except Exception:
+            continue
+        if not pat.search(raw):
+            continue
+        ext = os.path.splitext(rel)[1].lower()
+        masked = _canon_mask_comments(raw, ext)
+        for m in pat.finditer(masked):
+            ln = masked.count('\n', 0, m.start()) + 1
+            bad.append('%s:%d — %s' % (rel, ln, m.group(0)))
+    if bad:
+        print('❌ 화면 주소 정본 게이트 — 코드가 옛 화면을 직접 부른다(정본 = %s):' % _CANON_HOST)
+        for b in bad[:20]:
+            print('   ·', b)
+        if len(bad) > 20:
+            print('   · … 외 %d건' % (len(bad) - 20))
+        print('   처방 = 새 주소로 바꾸되 갈아끼울 손잡이를 둔다(셸 = "${LIVE_BASE:-https://%s}" · 파이썬 = os.environ.get("LIVE_BASE") or "https://%s").' % (_CANON_HOST, _CANON_HOST))
+        print('   ⚠ 호스트 **비교**(요청 출처 허용 목록·CANON_HOSTS·환경변수 폴백·이관 도구 상수)는 스킴이 없으므로 이 게이트 대상이 아니다 — 그건 그대로 둬라.')
+        return 1
+    print('✅ 화면 주소 정본 게이트 — 코드가 부르는 화면 주소 전건 %s(옛 화면 절대주소 0 · 호스트 비교는 대상 밖 · 면책표 없음).' % _CANON_HOST)
+    return 0
+
+
+
 def check_pc_lane_stages():
     """액션 대체 레인의 스테이지 생존(운영자 260814 «깃허브 액션 없이도 정상 가동 모든 웹앱 내 기능이 돌도록»).
     ⚠ 신설 사유 = **한 스테이지가 빠져도 화면 증상이 0이다** — 레인은 매 회차 초록으로 끝나고 수집함도 계속
@@ -8761,6 +8864,11 @@ def main():
             rc = 1
     except Exception as e:
         print('❌ check_secret_coverage_chain 예외(fail-closed):', e); rc = 1
+    try:
+        if check_canon_host() != 0:   # 화면 주소 정본(하드 — 코드가 옛 화면을 부르면 화면 증상 0으로 조용히 죽는다 · 260816 계정 이관 후속)
+            rc = 1
+    except Exception as e:
+        print('❌ check_canon_host 예외(fail-closed):', e); rc = 1
     try:
         if check_font_shorthand() != 0:   # 활자 무효축약(하드 — `font:` 축약 안 inherit = 선언 전체 무효 · 조용한 상속 드리프트)
             rc = 1
