@@ -1263,6 +1263,7 @@
 <script src="nm-svg.js"></script><!-- 공유 아이콘 SSOT(§🎨 CII P1·운영자 260628) — 인라인 복제 폐지·단일정본 -->
 <script src="nm-sync.js"></script><!-- 동기화 생명선 SSOT(운영자 260803 4차 "전 스튜디오 상속") — 복귀 시 자동 재동기(nmRefresh)·로그인 만료 자가치유·새 배포 자동 탑재 -->
 <script src="nm-loader.js"></script><!-- 로더 팩토리 SSOT(yeulmaru-promo mkLoader 이식) — .nmld 도트 · 강조색 --accent -->
+<script src="nm-jobs.js"></script><!-- 여러 작업 동시 추적 SSOT(영상 5탭 정본 상속 · 260816) — 운영자 "화면이 나가도 제작중 이거는 돌고있어야한다는거지 항상 / 마치 내 시야가 안닫는 곳은 멈춰있는 세상처럼 동작하면 안된다". ⚠ 이미지 스튜디오는 JOBS가 **메모리 배열뿐**이라 페이지가 새로 열리는 순간(알림 클릭·새로고침·앱 복귀) 진행 중 목록이 통째로 백지가 됐다 — 러너는 계속 돌아 결과가 R2에 착지하는데 화면만 그 작업을 영영 못 찾았다(영상 탭 260810과 같은 병 · 형제는 가졌는데 이 탭만 안 가진 자리) -->
 <script src="draft.js"></script><!-- 입력 드래프트 30분 만료 SSOT(운영자 260801) — 이 페이지 DRAFT_MS의 값 출처 -->
 <script>
 const $ = s => document.querySelector(s);
@@ -3539,6 +3540,18 @@ window.addEventListener('pagehide', () => { clearTimeout(_draftT); draftSave(); 
 // ==== 대기열(JOBS) + 캐러셀 — 제작 동시 가능: 누른 게 다 로그에 쌓이고 각자 폴링, 완성분은 캐러셀에 한 장씩 ====
 const JOBS = [];           // 제작 건 누적
 let JOBSEQ = 0;
+/* ══ 진행 중 작업 영속 슬롯(운영자 260816 "화면이 나가도 제작중 이거는 돌고있어야한다는거지 항상" ·
+      "웹페이지를 3개 최대화해서 보고있는데 3번째꺼를 보고있어. 그럼 1,2번 웹페이지는 동기화 안하고 그냥
+      멈춰있는게 아니라 상시 돌아가서 내가 빠른속도로 2로 가도 그 내용이 보여야한다") ══
+   ⚠ 구판은 JOBS 가 **메모리 배열뿐**이었다 → 페이지가 새로 열리는 순간(알림 클릭·새로고침·앱 복귀·다른 탭)
+     진행 중 목록이 통째로 백지가 됐다. 러너는 계속 돌아 결과가 R2 에 착지하는데 **화면만** 그 작업을 못 찾는다
+     (= 운영자 표현 「내 시야가 안 닿는 곳은 멈춰있는 세상」). 영상 탭 260810 과 같은 병 · 이 탭만 안 따라왔다.
+   저장 = nm-jobs.js SSOT(TTL 24h · 폴 레지스트리로 같은 id 중복 폴 차단) · 복원 = 부팅 restorePending().
+   ⚠ 「들어올 때 그림만 그리기」가 아니다 — 복원은 **pollJob 을 실제로 다시 돌린다**(t0 원값 유지라 경과도 이어진다). */
+const PEND_KEY = 'nm_thumb_pend';
+const pendSnap = job => ({ id: job.thid || '', n: job.n, label: job.label, t0: job.t0, outs: job.outs || [], endpoint: job.endpoint, payload: job.payload, src: job.src });   // 폴 재개에 필요한 최소 상태(done/_ready/_next 는 재개 시 처음부터 = 이미 뜬 이미지는 즉시 onload)
+const pendPut = job => { try { if (job && job.thid && job.status === 'run') nmJobs.add(PEND_KEY, pendSnap(job)); } catch (e) {} };
+const pendCut = job => { try { if (job && job.thid) { nmJobs.drop(PEND_KEY, job.thid); nmJobs.free(PEND_KEY, job.thid); } } catch (e) {} };
 const CARSLIDES = [];      // 완성 이미지(캐러셀 슬라이드)
 
 /* ══ 진행중 제작 타일(.wip · 운영자 260723 Q469) — edit 대기 스테이지(wscrim+scanline+wcorner+wmsg) 이식: 진행 표시를 상단 미리보기 딤(구 cpPrevWait 점등)에서 '결과가 나올 자리'(#wips · 최신 위)로 이주 = 다음 작업에 묻힘 방지 · 동시 잡 각자 타일 · 미리보기는 발사 후에도 평시(아무것도 없던 상태). 생성·틱·제거 = renderJob 단일 갈고리(기존 1s 틱 편승) ══ */
@@ -3643,6 +3656,7 @@ function renderJob(job) {   // 잡 로그 행 갱신(없으면 생성, 최신이
   row.className = 'job' + (job.status === 'done' ? ' done' : '') + (job.status === 'err' ? ' err' : '');
   /* (완료 낱장 잡 행 숨김 = 원복 · 운영자 260806 "원래 저게 세트였는데 갈라진거네" — 요약 줄(완료·N장·시각 + 수정·전체 다운로드)과 개별 썸네일은 **한 세트**다.
      같은 날 앞선 판단(중복이니 줄을 없앤다)이 그 세트를 갈랐던 것 → 되돌리고, 대신 **줄이 타일 위**에 오도록 자리만 정렬한다(아래 마크업 순서).) */
+  if (job.status !== 'run') pendCut(job);   // (260816) 끝난 작업은 영속 슬롯에서 뺀다(완료·실패·취소 공통) — 안 빼면 다음 진입마다 끝난 걸 되살려 유령 「제작중」이 영구히 남는다
   if (job.status === 'done' && !job._restored && !job._durSaved) { job._durSaved = true; jobDurPush(job); }   // 소요 이력 누적 1회(운영자 260727 한 수 · 복원 잡 제외 = t0가 발사 시각이 아님)
   if (job.status === 'done' && !job._restored && !job._saved && (job.saves || []).length) { job._saved = true; saveLastResult(job); }   // 완료 = 최근 제작 스냅샷 저장(다음에 열면 맨 위 복원·운영자 260622)
   const sec = Math.round((Date.now() - job.t0) / 1000);
@@ -3764,7 +3778,10 @@ function renderJob(job) {   // 잡 로그 행 갱신(없으면 생성, 최신이
   if (vs && svRow) { const grid = document.createElement('div'); grid.className = 'jgrid'; grid.append(vs, svRow); row.append(grid); }
   else { if (svRow) row.append(svRow); if (vs) row.append(vs); }
 }
-function pollJob(job) {   // 각 잡 독립 폴링 — 완성 슬롯은 캐러셀에 추가. 2단 타임아웃(150s='큐 대기' 안내·720s=실패) + 포그라운드 복귀 재킥(아래 visibilitychange/focus). 운영자 260618·260625(옛 180s 단일은 러너 큐 지연·모바일 백그라운드 정지를 '실패'로 오판→릴스 막힘).
+function pollJob(job) {   // 각 잡 독립 폴링 — 완성 슬롯은 캐러셀에 추가.
+  // (260816) 폴 레지스트리 등록 = 같은 작업을 두 번 물지 않는다(restorePending 의 busy 게이트가 이걸 읽는다).
+  //   ⚠ 이 등록이 없으면 busy 가 영영 false 라 재개·형제 탭 수신 때마다 같은 id 로 폴이 겹쳐 쌓인다(과요청·중복 착지).
+  try { if (job.thid) nmJobs.hold(PEND_KEY, job.thid, () => { job.status = 'cancel'; if (job._timer) { clearTimeout(job._timer); job._timer = null; } }); } catch (e) {}   // 원 주석 잔여: 2단 타임아웃(150s='큐 대기' 안내·720s=실패) + 포그라운드 복귀 재킥(아래 visibilitychange/focus) · 운영자 260618·260625(옛 180s 단일은 러너 큐 지연·모바일 백그라운드 정지를 '실패'로 오판→릴스 막힘)
   const SOFT_S = 150, HARD_S = 720;   // 2단 타임아웃 — GitHub Actions 러너 큐 대기(실측 ~6분)를 견딤: 150s 후 '큐 대기' 안내(폴 느리게)·720s(12분)에야 실패. 옛 180s는 큐 지연을 렌더실패로 오판→릴스 막힘(운영자 260625).
   const tick = () => {
     if (job._timer) { clearTimeout(job._timer); job._timer = null; }   // 재킥(포그라운드 복귀) 시 중복 타이머 방지
@@ -5214,6 +5231,7 @@ function dispatchJob(endpoint, payload, label, src, reuse) {
       if (!res.ok || j.error) { job.status = 'err'; job.msg = (j.error || ('서버 ' + res.status)); renderJob(job); return; }
       job.outs = j.outs || (j.out ? [{ path: j.out, label: '' }] : []);
       job.thid = j.id || thIdOf((job.outs[0] || {}).path) || '';   // 작업 id = 알림 #done=<id> 랜딩 매칭키(api/thumb 반환 id, 없으면 출력경로서 추출)
+      pendPut(job);   // (260816) 접수 확정 시점에 영속 슬롯 적재 = 지금부터 이 작업은 **화면을 닫아도 남는다**(다음 진입이 폴을 이어받는다) · thid 확정 뒤여야 유일키가 선다
       job.done = job.outs.map(() => false);
       if (!job.outs.length) { job.status = 'err'; job.msg = '출력 경로 없음'; renderJob(job); return; }
       pollJob(job);
@@ -5679,8 +5697,41 @@ _draftReady = true;  // 이 시점부터 자동보관 시작(복원 전 이벤�
 renderHist();        // 로컬(이 기기) 즉시 표시
 // 자동 맨 위 복원 폐지(운영자 260624) — 평소엔 결과 비움(폼+이력만), 완성 알림 #done=<id> 탭 때만 그 결과를 맨 위로(maybeOpenHist→restoreById)
 idbPrune(Date.now() - THUMB_HMS);   // 보관 이미지(IDB) 12h 경과분 정리(이력 보관과 동기 · 운영자 260624)
+/* ══ 진행 중 작업 재개(운영자 260816 "화면이 나가도 제작중 이거는 돌고있어야한다는거지 항상") ══
+   영속 슬롯에 남은 작업을 잡 보드에 세우고 **폴을 실제로 다시 돌린다**(그림만 그리는 게 아니다 —
+   t0 는 원값 그대로라 경과 초가 이어지고, 서버/R2 를 계속 다시 확인해 완료되면 그 자리에서 결과로 넘어간다).
+   ⚠ 순서 = maybeOpenHist(딥링크 복원) **앞** — 알림으로 들어와도 진행 중 목록이 먼저 서고,
+     그 뒤 딥링크가 완성본을 결과 대표 자리에 얹는다(운영자 "제작중인 애들은 그대로 보이고 …
+     완성본이 결과물 대표 사진으로 나오면 되는것"). 뒤에 두면 딥링크 착지 스크롤이 재개분에 밀린다.
+   ⚠ nmJobs.busy 게이트 = 같은 id 중복 폴 차단(형제 탭·재진입이 같은 작업을 두 번 물지 않는다).
+   ⚠ 재개분은 JOBSEQ 를 안 올린다 — 새 발사 번호와 겹치면 같은 #n 이 두 줄이 된다(행 갱신이 서로를 덮어쓴다). */
+function restorePending() {
+  let a = []; try { a = nmJobs.list(PEND_KEY) || []; } catch (e) { return; }
+  a.forEach(p => {
+    if (!p || !p.id || !Array.isArray(p.outs) || !p.outs.length) return;
+    if (JOBS.some(j => j.thid === p.id)) return;                 // 이 문서가 이미 들고 있는 작업(같은 탭 재호출)
+    try { if (nmJobs.busy(PEND_KEY, p.id)) return; } catch (e) {}
+    /* ⚠ 유령 차단(운영자 260816 "지금 동영상 제작중인거는 없고, 있어도 버그야. 이미 요청 해서 테스트한거는
+       1시간 이상 전에 것임. 지금 이게 정상적으로 배치되는게 젤 중요") —
+       슬롯 TTL 은 24h 인데 잡의 하드 타임아웃은 720s(12분)다. 그 사이(12분~24h)에 화면을 닫아둔 채 죽은 작업을
+       그대로 복원하면 **한참 전에 끝난 것이 「제작중」으로 되살아난다**(1시간 전 테스트가 지금 도는 것처럼 보임).
+       구제 불가 구간이므로 세우지 않고 슬롯에서 바로 뺀다 — 결과가 실제로 나왔다면 이력·결과 축이 따로 싣는다.
+       720 = 아래 pollJob 의 HARD_S 동값(새 값 창작 0 · 그쪽을 고치면 여기도 같이 고친다). */
+    if (Date.now() - (p.t0 || 0) > 720 * 1000) { try { nmJobs.drop(PEND_KEY, p.id); } catch (e) {} return; }
+    /* ⚠⚠ done 은 **outs 길이만큼 false 로 채워야** 한다 — `[].every(Boolean)` 은 자바스크립트에서 **true** 라
+       빈 배열로 두면 pollJob 첫 틱의 `job.done.every(Boolean)` 이 곧바로 참이 돼 **복원되자마자 「완료」로 둔갑**한다
+       (260816 실측으로 잡은 결함 = 슬롯이 즉시 비고 폴도 안 도는 상태였다).
+       발사 경로가 `done: []` 로 시작해도 무사한 건 그때는 outs 도 비어 있고 서버 응답 뒤에야 폴이 도는 순서라서다 —
+       복원은 outs 를 이미 손에 쥐고 시작하므로 그 전제가 깨진다. */
+    const job = { n: p.n, label: p.label || '제작', t0: p.t0 || Date.now(), outs: p.outs, done: new Array(p.outs.length).fill(false), status: 'run', msg: '', endpoint: p.endpoint, payload: p.payload, src: p.src, thid: p.id, _resumed: true };
+    JOBS.unshift(job); renderJob(job); pollJob(job);
+  });
+}
+restorePending();    // (260816) 알림·새로고침·앱 복귀·다른 탭 — 어느 경로로 들어와도 돌던 작업이 먼저 선다
 maybeOpenHist();     // #done=<id>(제작완료 알림) 진입이면 그 결과를 맨 위 큰 결과로 복원·랜딩(서버 병합 후 loadServerHist서 재확인)
 loadServerHist();    // 전 기기 제작분(thumb-hist.json) 병합 — 기기간 공유
+window.addEventListener('storage', e => { if (e && e.key === PEND_KEY) restorePending(); });   // (260816) 형제 탭이 발사한 작업을 **이 탭도 즉시** 집는다(운영자 "1,2번 웹페이지는 … 상시 돌아가서 내가 빠른속도로 2로 가도 그 내용이 보여야한다") — 완성 이력 축 storage 수신(THUMB_HKEY)의 진행 중 판
+document.addEventListener('visibilitychange', () => { if (!document.hidden) restorePending(); });   // 복귀 즉시 재판정 = 백그라운드 타이머 지연(브라우저 정책)으로 놓친 형제 탭 발사분 흡수
 document.addEventListener('visibilitychange', () => { if (!document.hidden) _syncFails = 0; pollServerHist(); pollR2Recent(); });   // 포그라운드 복귀 시 두 축 즉시 재fetch(원인2 — 상시 탭 desync 봉합 · R2 즉시 축 동반 = 구판은 10s 첫 틱 대기라 폰 복귀 직후 공백 · 운영자 260803 2차) · 실패 리셋 = 복귀 시 원인 재판별 준비(자가치유 창·재진입은 nm-sync.js 전담 = 4차 SSOT 승격)
 window.addEventListener('focus', () => { pollServerHist(); pollR2Recent(); });
 window.addEventListener('pageshow', e => { if (e.persisted) { _syncFails = 0; pollServerHist(); pollR2Recent(); } });   // iOS PWA bfcache 복귀 = visibilitychange 미발화 경로 보강(운영자 260803 2차) · 자가치유는 nm-sync.js pageshow 리스너가 동반 처리(4차)
