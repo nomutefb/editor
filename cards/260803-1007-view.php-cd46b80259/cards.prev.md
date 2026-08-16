@@ -1,32 +1,32 @@
-# 🔥 원룸촌 한복판 페인트 공장, 좁은 골목이 소방차를 막았다
+# 🔥 원룸촌 한복판, 담 하나 너머가 공장이었다
 
 **[프롬프트 설계]**
-- 화풍: B 극화 — 사망자가 난 화재를 감상이 아니라 구조(주거·산업 혼재, 진입로 폭)로 읽는 기사라 선이 굵고 명암이 강한 극화가 맞다. 한국 웹툰 문법으로 친숙하게.
-- 분위기: 여름 아침의 평범한 골목 위로 검은 연기가 얹힌 톤. 소란보다 '멈춤' — 불은 잡혔는데 차는 못 들어간 정지의 무게. #재난참사라 피해 묘사는 절제하고 긴장·정적으로 간다.
-- 연출 방향: 뉴스 안 보는 독자가 멈추는 지점은 '남의 공단'이 아니라 *내 원룸 옆*이라는 감각이다. 그래서 카메라를 늘 골목 안에 두고, 담 하나 사이로 붙어 선 공장과 원룸을 한 프레임에서 보게 한다. 강조점은 두 가지 — 벽에 닿을 듯 낀 소방차의 폭, 그리고 그 폭을 앞에 두고 굳는 소방대원의 턱. 38분이라는 정확한 숫자와 아무도 재지 않은 골목의 폭을 시각적으로 맞세운다. (thumb_dispatch 계승: 따뜻한 아침광 톤·눈높이의 존엄·'끼여 갇힘'의 정조만 이어받고 앵글·샷은 카드마다 분산.)
-- 독자 동선: **발단** 카드1→**전개** 카드2~3→**피크** 카드4→**해소** 카드5→**시사점** 카드6 · 훅=카드1 끝(단서형 '담 하나 너머')+카드3 끝(단서형 목격자 인용으로 멈춤) · 착지 한 줄 요지 = 진화 시간표는 정확했고, 골목의 폭은 아무도 다시 재지 않았다.
-- 연속성 앵커: Recurring subject — a Korean firefighter in his 40s in a navy turnout coat with reflective bands and a helmet, soot streaked across his jaw (카드3·5) / 반복 장소 — the same narrow alley between five-story one-room buildings in Samsan-dong.
+- 화풍: B 극화 — 사망자가 난 도심 화재이자 배치 구조 고발이라 사실성·무게가 필요하다.
+- 분위기: 여름 아침 햇살 위에 검은 연기가 얹힌 이질감. 일상의 골목이 그대로 재난 현장이 되는 무거움.
+- 연출 방향: 독자가 멈추는 지점은 "불이 났다"가 아니라 "그 불이 내가 자는 방 옆에서 났고, 소방차가 못 들어왔다"는 대목이다. 그래서 화염 스펙터클이 아니라 **골목의 폭**을 계속 보여준다 — 건물 사이에 끼어 멈춘 차, 사람이 겨우 지나는 틈, 담 하나 사이의 두 세계. 진화는 정확했는데 접근이 늦었다는 낙차를 시각의 축으로 삼는다. thumb_dispatch에서 조명 톤(따뜻한 아침광)과 궁지에 몰린 정조만 이어받되 앵글은 카드마다 분산.
+- 독자 동선: **발단** 카드1(제시)→카드2 →**전개** 카드3→**피크** 카드4→**해소** 카드5→**시사점** 카드6 · 훅=카드1 끝(단서형: 폭발음이 먼저 왔다)+카드3 끝(예고형: 38분의 다른 얼굴) · 착지 = 진화 시간표는 정확했고 진입 경로는 그렇지 않았다.
+- 연속성 앵커: Recurring subject — a Korean firefighter in his 40s in a dark navy turnout coat with reflective silver bands, short cropped hair, soot smeared across his cheek / 반복 장소: a narrow residential alley in Ulsan lined with low studio-apartment buildings.
 
 ### [카드 1]
 **텍스트**
 ```text
-3일 아침, 울산 남구 삼산동
+여름 아침 여덟 시의 골목이었다
 원룸 사이로 검은 연기가 솟았다
-펑 펑, 폭발음이 여러 번 났다
-*불이 난 건 담 하나 너머였다*
+주민들은 잠옷 차림으로 나왔다
+소리가 먼저 왔다 *펑, 하고 두 번*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a resident's mouth half open and eyes fixed upward, unable to look away. Four Korean adults in summer clothes stand in a narrow alley between five-story one-room buildings, heads tilted back, looking up toward the right edge where a thick black smoke column climbs above the rooftops. A parked scooter and outdoor air-conditioner units crowd the alley wall beside them. Korean setting: low-rise brick and panel one-room buildings, tangled overhead power lines, a narrow alley barely wide enough for one car. Nose room on the right, gazes directed toward the right edge.
-Camera: wide shot from a low angle, shot on 20mm wide lens
-Lighting/mood: warm soft morning light with long shadows, gentle summer glare being swallowed by the rising smoke, faint melancholy
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on a rooftop railing marker and a scooter plate edge), muted daylight contrast
-Text handling: no garbled or fake script, no meaningless letters, no random characters, no dense text; signage avoided by framing.
+Scene: Emotional focal point: a woman's face tilted up in the alley, eyes wide and lips parted mid-breath as she looks toward the smoke. Three residents in sleepwear stand in a narrow residential alley in Ulsan lined with low studio-apartment buildings, their gazes all pulled to the upper right where a black smoke column rises between the rooftops. One of them grips a phone at chest height without looking at it. The morning sun still lights the far end of the lane.
+Camera: wide shot, full body, surrounding environment, spatial context from eye-level shot, neutral perspective, shot on 35mm lens, natural documentary perspective, balanced subject and background, minimal distortion, nose room on the right, gaze directed toward the right edge
+Lighting/mood: warm soft morning light, gentle and quiet, faint melancholy, cut through by a rising dark column
+Accent: monochrome desaturated base with a single color accent (fire orange as the story's symbolic color), muted daylight contrast
+Text handling: no signage text, resolve all storefront lettering into shape and shadow only.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the alley asphalt) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the alley pavement) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -35,29 +35,29 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-울산 삼산동 화재 연기
+울산 삼산동 원룸촌 골목
 ```
 
 ### [카드 2]
 **텍스트**
 ```text
-*담 너머는 페인트 공장이었다*
-불길은 공장에서 멈추지 않았다
-옆 원룸 건물로 옮겨붙으면서
-주민 30여 명이 급히 빠져나왔다
+불이 난 곳은 공단이 아니었다
+사람이 자고 일어나는 원룸촌
+그 한복판의 페인트 공장이었다
+담 하나 너머가 *공장이었다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a woman's backward glance over her shoulder, eyes wide and jaw tight. Six Korean adults hurry out of a one-room building entrance into the alley, one of them looking back at the second-floor windows where flame glow and black smoke push out. Directly behind the building stands a corrugated factory wall, separated from it only by a low concrete boundary wall. Korean setting: exterior stair rails, gas meter boxes and window bars on a low-rise residential building.
-Camera: medium shot from eye level, shot on 35mm lens
-Lighting/mood: harsh hard shadows thrown by the fire glow, oppressive heat shimmer, the morning sky dimmed by smoke
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on a fire hydrant cap and a stair-rail marker), muted daylight contrast
-Text handling: no garbled or fake script, no meaningless letters, no random characters, no dense text; signage avoided by framing.
+Scene: Emotional focal point: the thin gap between two walls, barely wider than a person, where a laundry rack on a studio-apartment veranda almost touches the factory's corrugated roof. A low paint factory with stacked metal drums stands wall to wall against a five-story studio-apartment building in a narrow residential alley in Ulsan lined with low studio-apartment buildings. Smoke seeps from the factory roofline toward the apartment windows. No people are visible in the frame.
+Camera: extreme long shot, tiny subject, vast environment, scale from overhead shot, bird's-eye view, top-down angle, layout, geometry, shot on 20mm wide lens, subject and environment, documentary realism
+Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood, morning sun edging the rooftops
+Accent: monochrome desaturated base with a single color accent (fire orange as the story's symbolic color), muted daylight contrast
+Text handling: no signage text, factory drums and walls kept blank, markings resolved as shape only.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the building facade wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the rooftop-and-alley ground plane seen from above) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -66,29 +66,29 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-페인트공장 화재 원룸 연소확대
+페인트 공장 주택가 인접
 ```
 
 ### [카드 3]
 **텍스트**
 ```text
-불이 난 원룸엔 정전까지 겹쳤다
-소방차는 공장 앞까지 가지 못했다
-*진입 도로가 너무 좁았다*
-"차가 꼼짝하지 못하는 것 같았다"
+불길은 옆 원룸으로 옮겨붙었다
+주민 30여 명이 건물을 빠져나왔고
+그 원룸에는 정전까지 겹쳤다
+*빌라 2층엔 한 사람이 갇혀 있었다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a soot-streaked jaw clenched hard, eyes locked forward on the far end of the alley. Recurring subject - a Korean firefighter in his 40s in a navy turnout coat with reflective bands and a helmet, soot streaked across his jaw - runs into the narrow alley with a hose line over his shoulder, driving toward the right edge on foot. Behind him a fire engine is wedged at the alley mouth between two one-room buildings, its mirrors almost touching both walls, unable to advance. Parked cars and recycling bins narrow the passage further. Nose room on the right, motion directed toward the right edge.
-Camera: wide shot from a high angle, shot on 20mm wide lens
-Lighting/mood: a single pool of hard daylight at the far end of the alley isolating the running figure, the surrounding walls sunk in deep shade, claustrophobic pressure
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the turnout coat reflective bands and the hose coupling), muted daylight contrast
-Text handling: no garbled or fake script, no meaningless letters, no random characters, no dense text; vehicle lettering avoided by framing.
+Scene: Emotional focal point: a hand pressed flat against a second-floor window from the inside, fingers splayed against the glass. Behind the hand a resident leans toward the pane in a darkened room while smoke drifts across the veranda railing outside. Below, on the ground of a narrow residential alley in Ulsan lined with low studio-apartment buildings, a small cluster of evacuated residents look up toward that window.
+Camera: medium close-up, chest-up framing, facial emotion, slight body context from low angle shot, looking up, dramatic presence, shot on 70mm short telephoto, gentle background compression, subject isolation, nose room on the right, gaze directed toward the right edge
+Lighting/mood: cold blue dim interior light, heavy and suffocating, faint trembling tension, daylight blocked by smoke outside
+Accent: monochrome desaturated base with a single color accent (fire orange as the story's symbolic color), film-noir low-key lighting, deep shadows
+Text handling: no signage text, window and wall surfaces kept free of lettering.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the alley road surface) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the building facade) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -97,28 +97,27 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-소방차 좁은 골목 진입 곤란
+원룸 화재 주민 대피
 ```
 
 ### [카드 4]
 **텍스트**
 ```text
-*그 사이, 두 사람이 실려 나왔다*
-60대 여성 1명이 숨졌고
-60대 남성 1명은 크게 다쳤다
+소방차가 골목 어귀에서 멈췄다
+길이 좁아 차가 꼼짝하지 못했다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a paramedic's eyes cast downward and the gloved hand steadying a gray blanket edge as it goes still. Two Korean paramedics in uniform carry a covered stretcher across the pavement toward an ambulance, heads lowered; no body, no injury and no blood are visible, only the smooth blanket edge and their hands. A third paramedic holds the ambulance door open behind them. A few residents stand far back, small and out of focus.
-Camera: tight close-up from eye level, shot on 85mm portrait lens
-Lighting/mood: a single hard side-light cutting across the subject, deep chiaroscuro shadows, the darkest and highest-contrast moment of the sequence, tense and grave
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the paramedic uniform trim), film-noir low-key lighting, deep shadows
-Text handling: no garbled or fake script, no meaningless letters, no random characters, no dense text; ambulance lettering avoided by framing.
+Scene: Emotional focal point: the firefighter's jaw clenched tight, muscle flexing at the jawline as he looks down the alley he cannot drive into. Recurring subject — a Korean firefighter in his 40s in a dark navy turnout coat with reflective silver bands, short cropped hair, soot smeared across his cheek, stands beside the stopped fire engine, one hand still on the door frame. The truck is wedged at the mouth of a narrow residential alley in Ulsan lined with low studio-apartment buildings, its body nearly touching the walls on both sides, while smoke pours from deeper inside the lane ahead of him.
+Camera: tight close-up, face fills frame, intense emotion, intimate pressure from eye-level shot, neutral perspective, shot on 135mm telephoto lens, strong compression, elegant portrait separation, cinematic depth, subject backed into a corner against a wall, pressing elements closing in, telephoto compression, trapped
+Lighting/mood: single hard side-light cutting across the subject, deep chiaroscuro shadows, tense atmosphere, morning sun blocked by smoke
+Accent: monochrome desaturated base with a single color accent (fire orange as the story's symbolic color), film-noir low-key lighting, deep shadows
+Text handling: no vehicle lettering, no unit numbers, no signage text; equipment markings resolved as shape and reflective banding only.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the street pavement) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the alley wall running beside him) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -127,29 +126,29 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-화재 현장 구급대원 이송
+소방차 좁은 골목 진입
 ```
 
 ### [카드 5]
 **텍스트**
 ```text
-소방당국은 오전 8시 20분에
-대응 1단계를 발령했다
-*큰 불길을 잡은 건 38분 뒤*
-빌라 2층 고립 주민도 구조됐다
+그래도 대원들은 뛰어 들어갔다
+2층에 갇힌 주민을 데리고 나왔고
+8시 58분 큰 불길을 잡았다
+*발생 38분 만이었다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the firefighter's forearm braced under an elderly resident's shoulder, their two heads close together. Recurring subject - a Korean firefighter in his 40s in a navy turnout coat with reflective bands and a helmet, soot streaked across his jaw - supports an elderly Korean resident down the last steps of an exterior villa staircase, both seen in profile at equal height. Behind them thinning gray smoke drifts from a second-floor window and a charged hose line runs across the wet asphalt.
-Camera: medium shot from eye level in profile, shot on 35mm lens
-Lighting/mood: overcast diffused daylight filtered through drifting smoke, flat soft shadows, muted somber mood easing after the peak
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the turnout coat reflective bands), muted daylight contrast
-Text handling: no garbled or fake script, no meaningless letters, no random characters, no dense text.
+Scene: Emotional focal point: the firefighter's steadying hand under a rescued resident's elbow, gripping firmly as they step out of the smoke together. Recurring subject — a Korean firefighter in his 40s in a dark navy turnout coat with reflective silver bands, short cropped hair, soot smeared across his cheek, walks the resident out toward the open end of a narrow residential alley in Ulsan lined with low studio-apartment buildings. Two more firefighters trail hose line behind them, and the smoke above the rooftops has thinned to grey.
+Camera: full shot, head-to-toe, full body, outfit visible, clear silhouette from eye-level shot, neutral perspective, shot on 50mm standard lens, minimal distortion, natural cinematic composition, three-quarter angle, natural face depth
+Lighting/mood: warm soft morning light, gentle and quiet, faint melancholy, returning through thinning smoke
+Accent: monochrome desaturated base with a single color accent (fire orange as the story's symbolic color), muted daylight contrast
+Text handling: no unit lettering on gear, no signage text; markings resolved as reflective banding only.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the wet asphalt of the alley) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the alley pavement) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -158,29 +157,29 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-울산소방본부 대응 1단계 진화
+소방대원 화재 인명구조
 ```
 
 ### [카드 6]
 **텍스트**
 ```text
-큰 불길을 잡는 데 38분이 걸렸다
-소방차를 세운 건 골목의 폭이었다
-사람이 자는 방과 공장 사이는
-*담 하나였고, 아무도 다시 안 쟀다*
+60대 여성 1명이 숨졌고 1명이 중상
+불을 끈 38분은 소방이 만든 숫자다
+소방차를 세운 골목의 폭은
+*이 동네가 채워지며 남긴 숫자다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a lone resident's small back, still facing the scorched wall long after the smoke has gone. Seen from high above, one narrow alley separates a soot-blackened factory roof on one side from rows of one-room and villa rooftops on the other, the two blocks pressed together with only a low boundary wall between them. A single Korean adult stands centered and static in the alley below, facing the burnt wall. Pooled water on the asphalt reflects the pale sky. Korean setting: dense low-rise residential blocks, rooftop water tanks, tangled power lines.
-Camera: extreme long shot from a high overhead angle, shot on 14mm ultra-wide lens
-Lighting/mood: warm soft morning light returning over the block, gentle and quiet, faint melancholy
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on a rooftop railing marker beside the alley), muted daylight contrast
-Text handling: no garbled or fake script, no meaningless letters, no random characters, no dense text; rooftop signage avoided by framing.
+Scene: Emotional focal point: the scorched wall of the factory and the untouched wall of the studio apartment standing a single arm's length apart, the gap between them running straight toward the viewer. Two residents stand at the far end of a narrow residential alley in Ulsan lined with low studio-apartment buildings, facing the camera in stillness, a coiled hose left on the wet pavement between them. Thin steam rises from the soaked ground.
+Camera: medium shot, waist-up framing, face and gestures, conversational from ground-level shot, worm's-eye view, near floor, exaggerated scale, shot on 24mm wide lens, cinematic wide shot, spatial context, front-on shot, direct gaze, facing camera
+Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood, late morning stillness
+Accent: monochrome desaturated base with a single color accent (fire orange as the story's symbolic color), muted daylight contrast
+Text handling: no signage text, all wall surfaces and equipment kept free of lettering.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the rooftop-level cityscape of the block) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the alley pavement) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -189,5 +188,5 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-삼산동 원룸촌 공장 밀집
+화재 진화 현장 골목
 ```
