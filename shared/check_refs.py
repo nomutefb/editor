@@ -6638,6 +6638,60 @@ def check_grok_sb_chain():
     return rc
 
 
+_FAIL_REASON_LINKS = (
+    # (러너 파일, 러너가 그 사유를 쓰는 자리, 소비 뷰어, 뷰어 코드에 있어야 하는 읽기 표현, 라벨)
+    ('apps/vidl/vidl_run.py', '"stt": stt', 'viewer/index.html', 'res.stt', '영상받기 받아쓰기 폴백'),
+    ('apps/track/track_analyze.py', '"subj_note"', 'viewer/track.html', 'subj_note', '트래킹 피사체 분석'),
+)
+# ⚠ 읽기 표현은 **그 필드를 실제로 읽는 문법**이어야 한다(첫 실행 실측 봉합) — 처음엔 `.stt` 로 뒀는데
+#   같은 파일 8390행의 **파일 확장자 검사** `low.indexOf('.stt.')` 가 그대로 매치돼, 표기 코드를 통째로
+#   지운 킬테스트가 rc=0 으로 통과했다(= 죽은 게이트). 넓은 술어는 자기도 모르게 면죄부를 만든다.
+
+
+def check_fail_reason_visible():
+    """실패 사유가 화면까지 오는가(하드 · 260816 실사고의 일반화).
+
+    ⚠ 신설 사유 = **이 레포의 러너는 fail-soft라 실패해도 rc 0으로 끝나고, 사유를 결과 파일에 「정직 표기」한다.**
+      그 정직은 **누가 그걸 읽어 화면에 그릴 때만** 정직이다. 그런데 읽는 쪽이 빠져도
+      ⓐ 러너는 초록 ⓑ 산출물은 나온다 ⓒ 화면엔 「완료」가 뜬다 = **증상이 0이라 운영자 눈이 유일한 검출기**가 된다
+      (insta-thumb-miss·brk_misfire 동축). 260816에 이 모양이 **세 건** 한꺼번에 드러났다:
+        · 편집 `xtr_note`      — 러너 6곳이 쓰는데 뷰어 소비 0 → 가림·키잉·크로마키가 통째로 빠져도 「완료」
+        · 영상받기 `stt.why`   — 러너 헤더가 「사유는 result.json "stt"로 **정직 표기**」라 **선언까지 해놓고** 뷰어 소비 0
+        · 트래킹 `subj_note`   — 분석 실패가 「감지된 피사체 없음」으로 위장(= 실패와 정상이 같은 화면)
+      기존 게이트는 전부 다른 축이다 — `check_paths` = 경로 실존 · `check_*_chain` = 옵션이 러너까지 **도달하는가** ·
+      `smoke_*` = 화면 렌더 → 「실패했을 때 그걸 **말하는가**」는 축 자체가 없었다.
+
+    ⚠ 판정은 **주석을 걷어낸 코드부**에서만 한다 — 이 레포는 주석에 키 이름을 그대로 인용하는 관례라
+      원문으로 보면 코드를 지워도 주석만으로 통과한다(자기적발 차단 · `check_nm_jobs` 관례 계승).
+    ⚠ 편집 `xtr_note` 축은 `check_edit_track_chain` ⑧이 전담한다(그쪽은 체인 전 층을 같이 보므로 거처가 그쪽이 맞다).
+    ⚠ 손 목록인 한계 = 새 실패 사유 필드를 만들면 여기 1줄을 같이 넣는다. 자동 발견으로 못 가는 이유 =
+      「러너가 안 읽히는 키를 쓴다」를 술어로 잡으면 원장·LLM 원료·라운드 커서처럼 **화면이 안 읽는 게 정상인**
+      필드가 무더기로 걸려(260816 전수 실측 = 정상 8종) 아무도 안 보는 게이트가 된다(`_PC_BUNDLES` 선례 =
+      손 목록이지만 짝이 안 맞으면 곧바로 rc=1이라 조용히 못 빠진다)."""
+    rc = 0
+    for runner, wr, view, rd, label in _FAIL_REASON_LINKS:
+        try:
+            rsrc = open(os.path.join(ROOT, runner), encoding='utf-8').read()
+            vsrc = open(os.path.join(ROOT, view), encoding='utf-8').read()
+        except Exception as e:
+            print('❌ 실패 사유 표시 게이트 — %s 층 파일 결손: %s' % (label, e))
+            rc = 1
+            continue
+        rcode = '\n'.join(l for l in rsrc.splitlines() if not l.lstrip().startswith('#'))
+        vcode = re.sub(r'(?<![:/])//[^\n]*', ' ', _strip_css_comments(vsrc))
+        if wr not in rcode:   # 러너가 그 사유를 더 이상 안 쓴다 = 짝이 깨졌다(개명이면 이 표도 같이 고쳐라)
+            print('❌ 실패 사유 표시 게이트 — %s: 러너가 사유를 안 쓴다(%s에 `%s` 없음)' % (label, runner, wr))
+            rc = 1
+        elif rd not in vcode:
+            print('❌ 실패 사유 표시 게이트 — %s: 화면이 그 사유를 안 읽는다(%s에 `%s` 없음) '
+                  '— 러너는 초록·산출물도 나오고 화면엔 「완료」만 떠서 무증상이 된다' % (label, view, rd))
+            rc = 1
+    if rc == 0:
+        print('✅ 실패 사유 표시 게이트 — 러너가 쓴 실패 사유 %d종 전건 화면 도달(주석 제외 코드부 판정 · 면책표 없음).'
+              % len(_FAIL_REASON_LINKS))
+    return rc
+
+
 def check_edit_track_chain():
     """편집 생성 = 자동 가림·키잉·크로마키 게이트(하드 · 운영자 260808 "모자이크 누르고 옵션 선택한 다음에 생성 누르면
     트래킹해서 모자이크까지 자동으로"). ⚠ 신설 사유 = **이 축은 화면이 멀쩡한 채로 조용히 죽는다** — 260808 이전 상태가
@@ -9015,6 +9069,8 @@ def main():
         if check_grok_sb_chain() != 0:   # 콘티 그록 레인(운영자 260811) — 한 층만 빠져도 칩은 눌리고 콘티도 나오는데 영상만 조용히 안 생긴다
             rc = 1
         if check_edit_track_chain() != 0:   # 편집 생성 = 자동 가림·키잉·크로마키(운영자 260808) — 구판은 옵션이 켜지는데 생성엔 아무 일도 안 생겼다(무증상 = 운영자 눈이 유일한 검출기)
+            rc = 1
+        if check_fail_reason_visible() != 0:   # 러너가 「정직 표기」한 실패 사유가 화면까지 오는가(260816) — 읽는 쪽이 빠지면 러너 초록·산출물 정상·화면 「완료」로 무증상이 된다
             rc = 1
         if check_thumb_vote_chain() != 0:   # 썸네일 화풍 투표 폐루프(운영자 260805 — 적재는 되는데 커밋이 없어 증발하거나, 쌓이는데 아무도 안 읽는 죽은 원장이 되는 두 축을 함께 막는다)
             rc = 1
