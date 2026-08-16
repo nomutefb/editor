@@ -358,9 +358,9 @@
    "account": "aipeekme",
    "text": "MiniMax가 최대 5분 길이의 완곡 생성을 지원하는 음악 모델 MiniMax-Music3를 공개했습니다.\n가사와 음악 묘사를 입력하면 32kHz, 16비트 스테레오 WAV 음원을 생성합니다.\n구조는 계층형 오토리그레시브 방식을 씁니다.\n전체 음악 구조를 담당하는 8B Global LLM과 프레임 단위 음향 디테일을 맡는 0.6B Local LLM을 나누어 배치했습니다.\n여기에 Flow Matching과 Flow-VAE 기반 합성 방식을 결합해 보컬 표현력과 악기 질감, 시간적 연속성을 유지합니다.\n도입부, 절, 후렴, 브릿지, 아웃트로 등 곡 전체의 흐름과 보컬 정체성을 길게 이어가도록 설계되었습니다.\n구조 모델링과 음향 처리를 분리한 방식이 장기 생성 안정성을 얼마나 실질적으로 끌어올렸을지 궁금합니다.\n후반부까지 편곡 흐름을 버텨준다면 배경음악 외주 작업의 워크플로를 일부 대체할 수 있겠다고 봅니다.\n\n📷 사진 출처: huggingface.co",
    "likes": 0,
-   "cmts": 1,
+   "cmts": 2,
    "time": 1786896046,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/775376585_18080541773407306_8808075138166538009_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk2NTA5MzgxOTAxNzI4OTI3MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=uuNyyna0JQkQ7kNvwGX1r49&_nc_oc=AdomAHRrz7EFOM4-FPq872wopACDJlH31otdPG3iY-O6JBOyJSBOmmRbzr5YdVlGYLQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=kKv494fJHZ4i3rHVY-1p4w&_nc_ss=7a22e&oh=00_AQEhNmmr2IUtoLKYST-EdJqBUFnX2kCL0mzeSA6JsEbr1w&oe=6A87C115",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/775376585_18080541773407306_8808075138166538009_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk2NTA5MzgxOTAxNzI4OTI3MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=uuNyyna0JQkQ7kNvwGX1r49&_nc_oc=AdomAHRrz7EFOM4-FPq872wopACDJlH31otdPG3iY-O6JBOyJSBOmmRbzr5YdVlGYLQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=GBHBDi5m0s3irAJuTFXNYg&_nc_ss=7a22e&oh=00_AQGvAPLdlRWWQSjfKW40wAcO2GDTH4qEgqeKnhj_NnS5Vw&oe=6A87C115",
    "url": "https://www.threads.com/@aipeekme/post/DcG19IHn142",
    "region": "kr"
   },
@@ -370,7 +370,7 @@
    "likes": 79,
    "cmts": 4,
    "time": 1786881643,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/774407873_17982409959112832_6939034422453391118_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk2NDk3MzA2MjAyNjA4NTM1Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTE5OS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=-CJ2ceUbbBsQ7kNvwEF3ZJp&_nc_oc=AdrkPT1pKIqONwquLamiRZPk1D07vO_86ergr4rm5ujVH8vSD9ux7zzPWnBq--cXfzo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=fTXKwYUcNgemEX3Oy8GUug&_nc_ss=7a22e&oh=00_AQHbmP0njGcseSS3sQ0LDX16E1PKowoLa8ep1NYr5D2xGA&oe=6A87CB63",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/774407873_17982409959112832_6939034422453391118_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk2NDk3MzA2MjAyNjA4NTM1Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTE5OS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=-CJ2ceUbbBsQ7kNvwEF3ZJp&_nc_oc=AdrkPT1pKIqONwquLamiRZPk1D07vO_86ergr4rm5ujVH8vSD9ux7zzPWnBq--cXfzo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=xR8YsSU2shfA28t0lIfUmQ&_nc_ss=7a22e&oh=00_AQEAaahvZHP6u2KpldoxRYVy3cW5AHb7GpWDYd96l5GSGw&oe=6A87CB63",
    "url": "https://www.threads.com/@choi.openai/post/DcGaf4aDsPt",
    "region": "kr"
   },
@@ -380,7 +380,7 @@
    "likes": 80,
    "cmts": 5,
    "time": 1786876257,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/774313634_1047147584570579_3437819476663930935_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk2NDkyNzg4MjkyMTQzNDA3Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=OiikNVtT0bgQ7kNvwGNRBWH&_nc_oc=AdpJbiBJNmZ-7wA1vj1gJ0xI_gBYEWKeGXmaT1DO24v6N6gJoIidRBngferTE5df11Q&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=fTXKwYUcNgemEX3Oy8GUug&_nc_ss=7a22e&oh=00_AQFUCag4vLxxSNnsJkHz6fqhkRdjDxd6ih31_CV82OAKNQ&oe=6A87E735",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/774313634_1047147584570579_3437819476663930935_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk2NDkyNzg4MjkyMTQzNDA3Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=OiikNVtT0bgQ7kNvwGNRBWH&_nc_oc=AdpJbiBJNmZ-7wA1vj1gJ0xI_gBYEWKeGXmaT1DO24v6N6gJoIidRBngferTE5df11Q&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=xR8YsSU2shfA28t0lIfUmQ&_nc_ss=7a22e&oh=00_AQFUcRML0umL0-79AJV6lZK4TMPJNy0wq6cIOe0NdX8pOA&oe=6A87E735",
    "url": "https://www.threads.com/@choi.openai/post/DcGQOcFktvZ",
    "region": "kr"
   },
@@ -390,7 +390,7 @@
    "likes": 1,
    "cmts": 1,
    "time": 1786870815,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/774797098_17982436125112832_751029508312650367_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk2NDg4MjIyNzc0NjAwMjA5MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjAwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=l_pVu8zBaJUQ7kNvwF9zVC8&_nc_oc=AdrAi0GXsCYxgKKmpXCBnnTYPhmKBPR0gwlXoai0dXxYm1LGp_kr-QX5YB5I0iuGyl8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=fTXKwYUcNgemEX3Oy8GUug&_nc_ss=7a22e&oh=00_AQFQ5LdRvPMeDBbU6_EUj7RlweZXzIA9NIBQ8tk6Vm6_5w&oe=6A87CE0B",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/774797098_17982436125112832_751029508312650367_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk2NDg4MjIyNzc0NjAwMjA5MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjAwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=l_pVu8zBaJUQ7kNvwF9zVC8&_nc_oc=AdrAi0GXsCYxgKKmpXCBnnTYPhmKBPR0gwlXoai0dXxYm1LGp_kr-QX5YB5I0iuGyl8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=xR8YsSU2shfA28t0lIfUmQ&_nc_ss=7a22e&oh=00_AQFudwmYGT-By8kmaZgNaW2H6Vo3vOrWcTJcVY4n7a-ACg&oe=6A87CE0B",
    "url": "https://www.threads.com/@choi.openai/post/DcGF2EZD1Sq",
    "region": "kr"
   },
@@ -420,7 +420,7 @@
    "likes": 50,
    "cmts": 23,
    "time": 1786870799,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/773820575_17982436077112832_1215371526655356280_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk2NDg4MjA5Nzg0ODQ0OTU2Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjAwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=5TzMei3C-AIQ7kNvwFuysZ2&_nc_oc=AdoSBOV9DS0A03It1oiPWNpSD0tmohdjXdcD_ZpFcrkaD4aQpsbt-BIcOo-04RS3h60&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=fTXKwYUcNgemEX3Oy8GUug&_nc_ss=7a22e&oh=00_AQGagzjSAfRuZN_SJyZLVGtAulK0ne1WC_VuKEt-vNQS3A&oe=6A87EDEE",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/773820575_17982436077112832_1215371526655356280_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk2NDg4MjA5Nzg0ODQ0OTU2Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjAwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=5TzMei3C-AIQ7kNvwFuysZ2&_nc_oc=AdoSBOV9DS0A03It1oiPWNpSD0tmohdjXdcD_ZpFcrkaD4aQpsbt-BIcOo-04RS3h60&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=xR8YsSU2shfA28t0lIfUmQ&_nc_ss=7a22e&oh=00_AQHWF1CNl-pVTHi5lGUHskjHfCky_dNN4N0LB2hFQXp_5Q&oe=6A87EDEE",
    "url": "https://www.threads.com/@choi.openai/post/DcGF0Laj_ob",
    "region": "kr"
   },
@@ -430,7 +430,7 @@
    "likes": 78,
    "cmts": 7,
    "time": 1786865437,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/776222654_17982280752112832_2396894733564912900_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk2NDgzNzExNzc3MTc2MjYyOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTE3MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=d0idEUfhr60Q7kNvwGDbJZs&_nc_oc=Adq3d4giFPMQD3f6eQoVmgqFLmmfdCLVTWfg4i_jH34pw9k1wGGhxWqBzk33ovYqA14&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=fTXKwYUcNgemEX3Oy8GUug&_nc_ss=7a22e&oh=00_AQEraio4JSDpKMNTgAZVeCwPsS3bKs-FM62RgeKnDu39Hg&oe=6A87DDBF",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/776222654_17982280752112832_2396894733564912900_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk2NDgzNzExNzc3MTc2MjYyOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTE3MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=d0idEUfhr60Q7kNvwGDbJZs&_nc_oc=Adq3d4giFPMQD3f6eQoVmgqFLmmfdCLVTWfg4i_jH34pw9k1wGGhxWqBzk33ovYqA14&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=xR8YsSU2shfA28t0lIfUmQ&_nc_ss=7a22e&oh=00_AQHQqKv_gCb2CbGZUf9cRfZXpFWnoHe9njczn6MZiuAyCQ&oe=6A87DDBF",
    "url": "https://www.threads.com/@choi.openai/post/DcF7lodEcvF",
    "region": "kr"
   }
@@ -456,15 +456,6 @@
    "url": "https://www.reddit.com/r/Warframe/comments/1vq2cea/1000000_member_giveaway/"
   },
   {
-   "sub": "me_irl",
-   "title": "Me_irl",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/mfgn6lc4crjh1.png?width=640&crop=smart&auto=webp&s=913c072c77fc82f9627429a8f9358a1ebe44abf6",
-   "time": 1786894958,
-   "url": "https://www.reddit.com/r/me_irl/comments/1vq0c2j/me_irl/"
-  },
-  {
    "sub": "interestingasfuck",
    "title": "Ukrainian teen wins bronze in Spain—walks off podium to avoid photo with Russian teen.",
    "score": 0,
@@ -474,13 +465,13 @@
    "url": "https://www.reddit.com/r/interestingasfuck/comments/1vpxu5p/ukrainian_teen_wins_bronze_in_spainwalks_off/"
   },
   {
-   "sub": "mildlyinfuriating",
-   "title": "How is this allowed legally!?",
+   "sub": "me_irl",
+   "title": "Me_irl",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/oui7p7eggmjh1.jpg?width=140&height=105&auto=webp&s=021f6a42e799e4b9d8c46ab73cd2666f876d9834",
-   "time": 1786835881,
-   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1vph3s0/how_is_this_allowed_legally/"
+   "thumb": "https://preview.redd.it/mfgn6lc4crjh1.png?width=640&crop=smart&auto=webp&s=913c072c77fc82f9627429a8f9358a1ebe44abf6",
+   "time": 1786894958,
+   "url": "https://www.reddit.com/r/me_irl/comments/1vq0c2j/me_irl/"
   },
   {
    "sub": "AskReddit",
@@ -501,15 +492,6 @@
    "url": "https://www.reddit.com/r/landscaping/comments/1vpqt4f/neighbors_want_me_to_take_down_my_deodar_cedar/"
   },
   {
-   "sub": "NatureIsFuckingLit",
-   "title": "🔥 swimming bat",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/MG1zdjk4Z2dkcmpoMftBvSKsJ_wy8iOtZRt_bELeUrC87LlW0bE9tqPgfV5X.png?width=320&crop=smart&auto=webp&s=cb22e00a0afda2db9f65dd03fdd457c3397bc847",
-   "time": 1786895588,
-   "url": "https://www.reddit.com/r/NatureIsFuckingLit/comments/1vq0lh6/swimming_bat/"
-  },
-  {
    "sub": "politics",
    "title": "Hakeem Jeffries says Medicare for all is not legislation he currently supports",
    "score": 0,
@@ -517,15 +499,6 @@
    "thumb": "https://external-preview.redd.it/Qc4K7c8fuRdNc2_EH6KXbFacPjREvNdp1u6BCHYQne0.jpeg?width=640&crop=smart&auto=webp&s=8c4f04f88d094c44e0404292bc8bdf3086f7a7e1",
    "time": 1786891318,
    "url": "https://www.reddit.com/r/politics/comments/1vpytbv/hakeem_jeffries_says_medicare_for_all_is_not/"
-  },
-  {
-   "sub": "SpaceXBets",
-   "title": "Don't forget this scum",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/jodgpor1hnjh1.jpeg?width=640&crop=smart&auto=webp&s=29f77048d02aab4278a25d961948a6bc556389de",
-   "time": 1786848185,
-   "url": "https://www.reddit.com/r/SpaceXBets/comments/1vplc09/dont_forget_this_scum/"
   },
   {
    "sub": "mildlyinteresting",
@@ -537,6 +510,24 @@
    "url": "https://www.reddit.com/r/mildlyinteresting/comments/1vq1egh/a_mouse_ate_some_of_this_magic_mushroom_chocolate/"
   },
   {
+   "sub": "NatureIsFuckingLit",
+   "title": "🔥 swimming bat",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/MG1zdjk4Z2dkcmpoMftBvSKsJ_wy8iOtZRt_bELeUrC87LlW0bE9tqPgfV5X.png?width=320&crop=smart&auto=webp&s=cb22e00a0afda2db9f65dd03fdd457c3397bc847",
+   "time": 1786895588,
+   "url": "https://www.reddit.com/r/NatureIsFuckingLit/comments/1vq0lh6/swimming_bat/"
+  },
+  {
+   "sub": "SpaceXBets",
+   "title": "Don't forget this scum",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/jodgpor1hnjh1.jpeg?width=640&crop=smart&auto=webp&s=29f77048d02aab4278a25d961948a6bc556389de",
+   "time": 1786848185,
+   "url": "https://www.reddit.com/r/SpaceXBets/comments/1vplc09/dont_forget_this_scum/"
+  },
+  {
    "sub": "SipsTea",
    "title": "Remember when we Heard what Amber did?",
    "score": 0,
@@ -544,6 +535,15 @@
    "thumb": "https://preview.redd.it/kny8xofz2njh1.jpeg?width=640&crop=smart&auto=webp&s=49d624e8c92e0f7673e363a333385149d5e722c0",
    "time": 1786843455,
    "url": "https://www.reddit.com/r/SipsTea/comments/1vpjr79/remember_when_we_heard_what_amber_did/"
+  },
+  {
+   "sub": "todayilearned",
+   "title": "TIL 77% of people preferred instant coffee over drip in a blind taste test",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/BhpWiq0W3RzpkqfHzZdZ8KerHOqwR0OXsf8hKjZEDr0.jpeg?width=640&crop=smart&auto=webp&s=fd08fc252d8c895d41064721b9ac3733f3963883",
+   "time": 1786863780,
+   "url": "https://www.reddit.com/r/todayilearned/comments/1vpq59c/til_77_of_people_preferred_instant_coffee_over/"
   }
  ],
  "disaster": [],
@@ -590,10 +590,10 @@
    }
   },
   "landing": {
-   "at": "2026-08-17T03:01:22",
+   "at": "2026-08-17T03:31:21",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-17T03:31:18.795809+09:00"
+ "updated": "2026-08-17T04:01:20.465541+09:00"
 }
