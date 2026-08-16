@@ -1,0 +1,135 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>260816 착지 침묵 게이트 — 페이블 교차검증</title>
+<style>
+  /* 값은 전부 viewer/index.html :root 실측 사본(창작 0) */
+  :root{
+    --bg:#121212; --fg:#eef7f0; --mut:#8fa697; --accent:#00EED2; --accent-rgb:0,238,210;
+    --danger:#e23b2a; --warn:#FFE13D; --ok:#0FFD02; --purple:#FF5EC8;
+    --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.06);
+    --glass2:rgba(18,19,22,.55); --modal-glass:rgba(17,18,20,.64);
+    --r-l:16px; --r-m:11px; --r-s:9px; --r-pill:999px; --r-modal:22px;
+    --fs-display:22px; --fs-h1:19px; --fs-h2:15px; --fs-h3:14px;
+    --fs-label:13px; --fs-body:15px; --fs-sm:12px; --fs-xs:11px;
+    --sp-1:6px; --sp-2:12px; --sp-3:18px; --sp-4:24px; --lh-base:1.55;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);
+       font-family:'Pretendard Variable',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+       font-size:var(--fs-body);line-height:var(--lh-base);letter-spacing:-.2px;-webkit-font-smoothing:antialiased}
+  .page{width:1240px;padding:var(--sp-4) 28px 30px}
+  h1{font-size:var(--fs-display);font-weight:800;margin:0 0 4px}
+  .sub{color:var(--mut);font-size:var(--fs-h3);margin:0 0 var(--sp-4)}
+  .sech{display:flex;align-items:center;gap:10px;margin:0 0 12px}
+  .num{width:24px;height:24px;border-radius:var(--r-pill);background:var(--accent);color:#032322;
+       font-size:var(--fs-sm);font-weight:800;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+  .sect{font-size:var(--fs-h1);font-weight:700;margin:0}
+  .sectag{margin-left:auto;font-size:var(--fs-xs);color:var(--mut);border:1px solid var(--line);border-radius:var(--r-pill);padding:3px 10px}
+  .sec{margin-bottom:24px}
+
+  table{width:100%;border-collapse:collapse;background:var(--glass2);border:1px solid var(--line);border-radius:var(--r-l);overflow:hidden}
+  th,td{text-align:left;padding:11px 14px;font-size:var(--fs-h3);border-bottom:1px solid var(--line2);vertical-align:top}
+  th{font-size:var(--fs-xs);font-weight:800;color:var(--mut);letter-spacing:.3px;background:rgba(255,255,255,.03)}
+  tr:last-child td{border-bottom:0}
+  td.n{white-space:nowrap;color:var(--mut);font-size:var(--fs-sm)}
+  .bad{color:var(--danger);font-weight:700}
+  .good{color:var(--accent);font-weight:700}
+  .code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:var(--fs-sm);
+        background:rgba(255,255,255,.05);border-radius:var(--r-s);padding:1px 6px}
+
+  .bars{display:flex;gap:10px;margin:0 0 6px}
+  .bar{flex:1;background:var(--glass2);border:1px solid var(--line);border-radius:var(--r-m);padding:13px 15px}
+  .barn{font-size:var(--fs-display);font-weight:800;margin:0}
+  .barl{font-size:var(--fs-sm);color:var(--mut);margin:2px 0 0}
+  .bar.ok .barn{color:var(--accent)} .bar.no .barn{color:var(--danger)} .bar.mid .barn{color:var(--warn)}
+
+  .band{background:var(--modal-glass);border:1px solid var(--line);border-radius:var(--r-modal);padding:18px 20px;margin-top:6px}
+  .bandh{font-size:var(--fs-h1);font-weight:800;margin:0 0 10px}
+  .note{color:var(--mut);font-size:var(--fs-sm);margin:8px 0 0}
+  .kt{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:4px}
+  .ktc{background:rgba(255,255,255,.03);border:1px solid var(--line2);border-radius:var(--r-m);padding:11px 13px;font-size:var(--fs-sm)}
+  .ktc b{display:block;font-size:var(--fs-h3);margin-bottom:4px}
+</style>
+
+<div class="page">
+  <h1>착지 침묵 게이트 — 페이블 교차검증 결과</h1>
+  <p class="sub">내가 만든 규칙을 별도 모델이 독립으로 공격했다. <b>구멍 3개가 나왔고, 고치자 진짜 사고 3곳이 드러났다.</b></p>
+
+  <div class="sec">
+    <div class="sech"><div class="num">1</div><h2 class="sect">페이블이 잡은 내 규칙의 구멍</h2>
+      <span class="sectag">전부 실측 진범 보유</span></div>
+    <table>
+      <tr><th style="width:34%">구멍</th><th style="width:33%">무슨 일이 벌어졌나</th><th>고친 방법</th></tr>
+      <tr>
+        <td><b>판정을 코드 전체에서 찾았다</b></td>
+        <td>착지 루프는 네 번 다 실패해도 <span class="bad">경고조차 없이</span> 그냥 넘어가는데, 열한 줄 아래의 <span class="code">exit 1</span>은 <b>다른 일(발사 실패) 판정</b>이었다. 내 규칙이 그 줄을 보고 통과시켰다</td>
+        <td>그 푸시 루프가 끝난 자리에서만 본다</td>
+      </tr>
+      <tr>
+        <td><b>루프 끝을 잘못 잡았다</b></td>
+        <td>착지 루프 뒤에 <b>발사 루프가 또 있어서</b>, 마지막 지점으로 자르면 같은 자리에서 또 샜다. 게다가 <span class="code">ok=0; for …</span>처럼 같은 줄에 대입이 먼저 오면 루프 시작을 못 찾았다</td>
+        <td>푸시가 있는 루프만 정확히 집는다</td>
+      </tr>
+      <tr>
+        <td><b>줄 끝 주석에 속았다</b></td>
+        <td>루프 뒤가 <b>통째로 비어</b> 판정도 경고도 없는데, <span class="code"># 정본 = git_land.sh 헤더</span>라는 <b>주석 한 줄</b>이 「공용 헬퍼에 맡긴 것」으로 읽혀 통과했다</td>
+        <td>실행되는 줄에서만 본다</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="sec">
+    <div class="sech"><div class="num">2</div><h2 class="sect">구멍을 막자 드러난 진짜 사고</h2>
+      <span class="sectag">같은 커밋에서 수리</span></div>
+    <table>
+      <tr><th style="width:22%">어디</th><th style="width:44%">유실되면 무슨 일</th><th>처방</th></tr>
+      <tr>
+        <td><b>운영자 픽</b><br><span class="n">pick</span></td>
+        <td><span class="bad">운영자가 손으로 누른 픽이 통째로 사라지는데 초록불</span>이고, 바로 뒤 발사는 그대로 돌아 <b>적재도 없는 분석</b>을 깨운다</td>
+        <td class="good">실패로 끝낸다<br><span class="n">형제 정본 사본</span></td>
+      </tr>
+      <tr>
+        <td><b>수집 적재</b><br><span class="n">scrape</span></td>
+        <td>같은 파일 <b>형제 두 곳은 이미 판정을 갖는데 이 자리만 옛 판</b>이었다 — 오늘 내내 나온 「형제를 빼먹는 병」</td>
+        <td class="good">실패로 끝낸다<br><span class="n">형제 정본 사본</span></td>
+      </tr>
+      <tr>
+        <td><b>SNS 레인</b><br><span class="n">social-scan</span></td>
+        <td>30분마다 전량 다시 만들고 보관본도 남으니 <b>실패로 잡을 자리가 아니다</b>. 빠진 건 그 사실을 <b>말하지 않은 것</b>뿐</td>
+        <td class="good">회수 경로를 말한다<br><span class="n">막으면 거짓 경보</span></td>
+      </tr>
+    </table>
+    <p class="note">앞 둘의 판정 문구는 같은 파일·형제 워크플로에서 그대로 베꼈다. 새로 지어낸 값은 없다.</p>
+  </div>
+
+  <div class="sec">
+    <div class="sech"><div class="num">3</div><h2 class="sect">검증</h2></div>
+    <div class="bars">
+      <div class="bar ok"><p class="barn">6/6</p><p class="barl">일부러 깨뜨려 본 경우 전건 정확</p></div>
+      <div class="bar ok"><p class="barn">122</p><p class="barl">전체 게이트 통과(rc 0)</p></div>
+      <div class="bar mid"><p class="barn">8</p><p class="barl">아직 안 뜯어본 자리 — 늘면 차단</p></div>
+      <div class="bar no"><p class="barn">3</p><p class="barl">규칙이 아직 못 보는 축(아래)</p></div>
+    </div>
+    <div class="kt">
+      <div class="ktc"><b>새 자리가 조용히 끝남</b><span class="bad">차단</span></div>
+      <div class="ktc"><b>실패로 끝냄</b><span class="good">통과</span></div>
+      <div class="ktc"><b>회수 경로 명시</b><span class="good">통과</span></div>
+      <div class="ktc"><b>다른 루프 판정만 있음<br><span class="n">픽 사고 재현</span></b><span class="bad">차단</span></div>
+      <div class="ktc"><b>줄 끝 주석 위장<br><span class="n">SNS 레인 사고 재현</span></b><span class="bad">차단</span></div>
+      <div class="ktc"><b>아무것도 안 건드림</b><span class="good">무경보</span></div>
+    </div>
+  </div>
+
+  <div class="band">
+    <p class="bandh">⚠ 아직 못 보는 축 3가지 — 페이블이 지적했고 이번엔 안 고쳤다</p>
+    <table style="background:transparent;border:0">
+      <tr><td style="width:30%"><b>스크립트를 거쳐 올리는 자리</b></td>
+          <td>워크플로 파일만 보니 스크립트 안의 착지는 통째로 안 보인다. 넓히는 방법은 이미 저장소에 선례가 있다</td></tr>
+      <tr><td><b>부르는 쪽이 삼킴</b></td>
+          <td>스크립트가 실패를 말해도 부르는 줄이 <span class="code">|| echo</span>로 덮으면 초록이 된다</td></tr>
+      <tr><td><b>올라갔는데 내용이 빈 경우</b></td>
+          <td>합치기 방식 때문에 <b>우리 변경이 버려진 채 푸시는 성공</b>할 수 있다. 이건 실패 여부로는 <b>원리적으로 못 본다</b> — 별도 규칙이 필요하다</td></tr>
+    </table>
+    <p class="note">셋 다 문서에 사유와 함께 남겼다. 다음에 하나씩 넓히면 된다.</p>
+  </div>
+</div>
