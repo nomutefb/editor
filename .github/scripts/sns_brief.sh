@@ -38,21 +38,58 @@ def fmt_view(v):
     return "{:,}".format(v)
 d = json.load(open('viewer/sns_trends.json'))
 gt = d.get('gtrends') or []; yt = d.get('youtube') or []; ytn = d.get('youtube_news') or []
+ytr = d.get('youtube_reco') or []
 sh = d.get('shorts') or []; tk = (d.get('tiktok') or {}).get('videos') or []
+# ⚠ 260816 실사고 봉합(운영자 «황희 저거 되게 오래된 건데 실제로 튄 게 맞는지 · 틱톡서 저게 튄 게 맞는지 · 틀리면 로직을 고쳐야 함»).
+#   실측 = 다이제스트 1위로 올라가 「오늘 가장 크게 튄 것」으로 서술된 폐버스·황희 밈의 출처는 **틱톡이 아니라 쇼츠**였고,
+#   그 영상은 KBS 8월 10일자 = 발행 **145시간 전**이다(누적 조회 31만). 같은 시각 틱톡 상위는 UFC·남한산성·차꿀팁으로 무관.
+#   원인 3겹 = ⓐ 이 다이제스트엔 **나이 컷이 아예 없었다**(화면 실시간 TOP은 260721부터 24시간 입장컷을 가졌는데 형제인 이 스크립트가 안 따라왔다)
+#             ⓑ 점수가 **레인 안 순위**(sc = 1 − r/L)라 그 레인 1등이면 무조건 만점 = 6일 전 영상이 1위를 먹는다
+#             ⓒ 나이가 프롬프트에 **한 글자도 안 실려** 모델이 오래된 걸 오늘 일로 읽을 수밖에 없었다(유일한 신선 신호 [신규 진입]은 수집 시각이지 발행 시각이 아니다).
+#   봉합 = ① 24시간 입장컷(화면 TOP_MAX_H 동값) ② 순위 대신 **플랫폼 등가 점수**(구글 5천 · 유튜브 15만 무릎 = 운영자 260816 지정값 = 화면과 같은 자)
+#          ③ 프롬프트 줄에 발행 나이 명시 ④ 쇼츠·틱톡 = TOP 풀에서 회수(화면이 260810에 **출처 자격** 사유로 이미 뺀 판례 계승 — 쇼츠는 검색 파생, 틱톡은 추천 피드 표본이라 공식 인기가 아니다) · 꼬리 목록엔 그대로 남겨 참고는 가능.
+AGE_CUT_H = 24
+EQ_KNEE = {'구글검색': 5e3, '유튜브': 1.5e5}
+_UTCNOW = dt.datetime.now(dt.timezone.utc)   # ⚠ 기준 시각은 **한 번만** 얼린다 — 호출마다 now()를 새로 뜨면 같은 항목의 나이가 마이크로초씩 달라져 아래 미상(NaN) 판정 `a == a`가 **항상 거짓**이 되고, 그러면 나이 컷이 통째로 무효가 된다(첫 실행 실측 = 24시간 컷을 넣었는데 76·100·171시간 전 영상이 그대로 통과).
+def _age_h(x):
+    """발행 나이(시간) — 필드 사다리 = 화면 ageVerH 동일(first_seen 제외 = 수집 관측 도장이지 사건 시각이 아니다). 전부 미상 = NaN."""
+    for k in ('published', 'time', 'started', 'create_time'):
+        s = x.get(k)
+        if not s: continue
+        try:
+            return (_UTCNOW - dt.datetime.fromisoformat(str(s).replace('Z', '+00:00'))).total_seconds() / 3600
+        except Exception:
+            pass
+    return float('nan')
+def _cut(arr, n):
+    """24시간 입장컷 — 나이를 **한 번만** 재서 판정한다(값을 두 번 부르면 위 함정에 그대로 빠진다). 미상(NaN) = fail-soft 통과(화면 cutH 동일)."""
+    out = []
+    for x in arr:
+        a = _age_h(x)
+        if a == a and a >= AGE_CUT_H: continue
+        out.append(x)
+        if len(out) >= n: break
+    return out
+def _eq(plat, val):
+    """등가 점수 = 무릎으로 나눠 같은 자로 잰다(무릎 아래 제곱 · 위 1+log2 · 무릎 2배마다 +1) — 화면 eqScore 사본(창작 0)."""
+    n = max(0, val or 0) / EQ_KNEE.get(plat, EQ_KNEE['유튜브'])
+    return n * n if n <= 1 else 1 + math.log2(n)
+def _traffic(g):
+    return int(''.join(c for c in str(g.get('traffic') or '') if c.isdigit()) or 0)
 pool, seen = [], set()
-def lane(plat, arr, n, key, tit, vw):
-    s = arr[:n]; L = len(s) or 1
+def lane(plat, arr, n, key, tit, vw, eqv=None):
+    s = _cut(arr, n)
     for r, x in enumerate(s):
         k = key(x)
         if not k or k in seen: continue
         seen.add(k)
-        pool.append({'plat': plat, 'sc': 1 - r / L, 'ht': math.log10(1 + (vw(x) or 0)), 't': tit(x), 'v': vw(x) or 0, 'x': x})
-lane('구글검색', gt, 8, lambda g: 'g:' + (g.get('query') or ''), lambda g: g.get('query') or '', lambda g: 0)
+        pool.append({'plat': plat, 'sc': 1 - r / (len(s) or 1), 'eq': _eq(plat, (eqv or vw)(x)), 'ht': math.log10(1 + (vw(x) or 0)),
+                     't': tit(x), 'v': vw(x) or 0, 'age': _age_h(x), 'x': x})
+lane('구글검색', gt, 8, lambda g: 'g:' + (g.get('query') or ''), lambda g: g.get('query') or '', lambda g: 0, _traffic)
 lane('유튜브', yt, 5, lambda v: v.get('url'), lambda v: v.get('title') or '', lambda v: v.get('views'))
 lane('유튜브', ytn, 5, lambda v: v.get('url'), lambda v: v.get('title') or '', lambda v: v.get('views'))
-lane('유튜브쇼츠', sh, 12, lambda v: v.get('url'), lambda v: v.get('title') or '', lambda v: v.get('views'))
-lane('틱톡', tk, 10, lambda t: t.get('url'), lambda t: (t.get('title') or ('@' + (t.get('account') or ''))), lambda t: t.get('views'))
-pool.sort(key=lambda x: (-x['sc'], -x['ht']))
+lane('유튜브', ytr, 5, lambda v: v.get('url'), lambda v: v.get('title') or '', lambda v: v.get('views'))   # 맞춤 추천(운영자 260816) — 화면 레인과 형제 정합
+pool.sort(key=lambda x: (-x['eq'], -x['sc'], -x['ht']))
 top, cap = [], {}
 for it in pool:
     p = '유튜브' if it['plat'].startswith('유튜브') else it['plat']
@@ -63,9 +100,11 @@ for it in pool:
 # 해시용 L(기존 필드 그대로 = 변화 감도 불변 — 댓글·URL 요동이 재생성 스킵 게이트를 안 흔들게) ↔ 프롬프트용 E(채널·링크·댓글 동봉).
 # 운영자 260714 "누가 올렸는지 알면 나아질 것·가장 좋은 건 댓글 반응" — 수집기엔 이미 있던 채널·URL이 다이제스트서 잘려
 # 모델이 제목만 들고 WebSearch 하다 원본을 못 짚던 근원 봉합(1위 235만 쇼츠 = 채널 '말해보카…외교부' 실측 260714).
-L, E = ['[통합 TOP 10]'], ['[통합 TOP 10 — 항목마다 채널(업로더)·링크, 큰 영상엔 시청자 인기 댓글 · [신규 진입] = 최근 6시간 내 처음 관측(신상)]']
+L, E = ['[통합 TOP 10]'], ['[통합 TOP 10 — 24시간 이내 발행분만 · 항목마다 채널(업로더)·링크·발행 나이, 큰 영상엔 시청자 인기 댓글 · [신규 진입] = 최근 6시간 내 처음 관측(신상)]']
 for i, it in enumerate(top):
-    ln = f"{i+1}위 [{it['plat']}] {it['t'][:70]}" + (f" · 조회 {fmt_view(it['v'])}" if it['v'] else '')
+    _ag = it.get('age')
+    _agtx = (f" · {int(_ag)}시간 전 발행" if (_ag == _ag and _ag >= 1) else (" · 방금 발행" if _ag == _ag else ""))   # 발행 나이 명시(260816 봉합 ③) — 없으면 모델이 오래된 걸 오늘 일로 읽는다(실측 = 6일 전 영상을 "오늘 가장 크게 튄 건"으로 서술) · 미상 = 무표기(거짓 단정 금지)
+    ln = f"{i+1}위 [{it['plat']}] {it['t'][:70]}" + (f" · 조회 {fmt_view(it['v'])}" if it['v'] else '') + _agtx
     L.append(ln)
     x = it.get('x') or {}
     ch = str(x.get('channel') or x.get('account') or '').strip()
@@ -77,14 +116,14 @@ for i, it in enumerate(top):
     cm = [c for c in (x.get('comments') or []) if isinstance(c, dict) and c.get('text')]
     if cm:
         E.append('   ↳ 인기 댓글: ' + ' / '.join('"' + str(c['text'])[:70] + '"' + (f"(좋아요 {c.get('likes')})" if c.get('likes') else '') for c in cm[:3]))
-tail = []
+tail = []   # ⚠ 꼬리 참고 목록도 같은 24시간 컷을 탄다 — TOP에서 뺀 옛 항목이 여기로 되돌아오면 모델이 그걸 다시 '오늘 튄 것'으로 읽는다(260816 실사고의 실제 출처가 이 [쇼츠] 줄일 수도 있었다)
 tail.append('[구글 급상승 검색어] ' + ' · '.join((g.get('query') or '') + '(' + (g.get('traffic') or '') + ')' for g in gt[:8]))
-tail.append('[유튜브 인기] ' + ' / '.join((v.get('title') or '')[:40] for v in yt[:5]))
-tail.append('[유튜브 뉴스] ' + ' / '.join((v.get('title') or '')[:40] for v in ytn[:5]))
-tail.append('[쇼츠] ' + ' / '.join((v.get('title') or '')[:40] for v in sh[:5]))
-tail.append('[틱톡] ' + ' / '.join(((t.get('title') or ('@' + (t.get('account') or '')))[:40]) for t in tk[:5]))
+tail.append('[유튜브 인기] ' + ' / '.join((v.get('title') or '')[:40] for v in _cut(yt, 5)))
+tail.append('[유튜브 뉴스] ' + ' / '.join((v.get('title') or '')[:40] for v in _cut(ytn, 5)))
+tail.append('[쇼츠] ' + ' / '.join((v.get('title') or '')[:40] for v in _cut(sh, 5)))
+tail.append('[틱톡] ' + ' / '.join(((t.get('title') or ('@' + (t.get('account') or '')))[:40]) for t in _cut(tk, 5)))
 body = '\n'.join(L + tail)
-PVER = 'brief-v12-260727-multilink'   # 캐시 1회 무효화 = v12: 소재별 다중 링크(문단 끝 1개 → 소재 바뀔 때마다 · 데이터 동봉 URL 직결 · refs 4→10 · 상한 URL 무과금 · 운영자 260727) · v11 강조 2층(*별표1*=강조색 / **별표2**=볼드만) · v10 [신규 진입] 신상 딱지(first_seen 6h) · v9 이슈 원장 감쇠+채널·URL·댓글, v8 호칭 제거, v7 참고자료 카드 유지
+PVER = 'brief-v13-260816-agecut'   # 캐시 1회 무효화 = v13: 24시간 입장컷 + 등가 점수 + 발행 나이 명시(260816 실사고 봉합 — 6일 전 쇼츠가 「오늘 가장 크게 튄 것」으로 1위를 먹던 축) · v12: 소재별 다중 링크(문단 끝 1개 → 소재 바뀔 때마다 · 데이터 동봉 URL 직결 · refs 4→10 · 상한 URL 무과금 · 운영자 260727) · v11 강조 2층(*별표1*=강조색 / **별표2**=볼드만) · v10 [신규 진입] 신상 딱지(first_seen 6h) · v9 이슈 원장 감쇠+채널·URL·댓글, v8 호칭 제거, v7 참고자료 카드 유지
 print(hashlib.sha256((PVER + '\n' + body).encode()).hexdigest()[:16])
 print('\n'.join(E + tail))
 PY
