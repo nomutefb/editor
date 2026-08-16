@@ -4941,6 +4941,67 @@ def check_cloud_action_chain():
     return rc
 
 
+def check_secret_coverage_chain():
+    """빈 칸 점검 레인 5층 생존(운영자 260816 «응 해줘» · 계정 이관 후속).
+    CONTRACT: check_secret_coverage_chain
+
+    ⚠ 신설 사유 = **이 레인은 한 층만 빠져도 초록으로 끝나면서 아무것도 안 본다.** 등록분을 넘기는 두 줄
+    (toJSON) 중 하나만 빠져도 스크립트는 그 종류를 「대조 불가」로 조용히 건너뛰고 rc 0 으로 끝난다 —
+    로그는 정상이고 알림도 안 뜨니 「빈 칸 0개」와 「안 본 것」이 화면에서 구분이 안 된다. 그게 정확히
+    이 레인이 막으려는 병(비어 있는 칸은 터지기 전까지 증상이 0)의 재현이라 자기 자신부터 게이트가 필요하다.
+    기존 게이트는 전부 다른 축 — check_workflow_yaml = 문법 · check_paths = 경로 실존 ·
+    check_smoke_obs_chain = 스모크 경보가 사유를 갖고 나가는가 → 「저장소가 쓰는 이름이 실제로 등록됐는가」
+    를 보는 레인 자신의 생존은 축이 없었다.
+
+    5축(정적 · 렌더·LLM·네트워크 0 · 면책표 없이 하드 0):
+      ① 정본 스크립트 실존 + 골격 심볼(scan_refs·registered·MSG_ID)
+      ② 워크플로가 등록분 **두 종류 다** 주입(ALL_SECRETS ∧ ALL_VARS · 한쪽만이면 그 종류가 조용히 미점검)
+      ③ 정본 스크립트 실행줄 배선
+      ④ 알림 착지 스텝(없으면 러너에서 알림이 증발 = 260816 insta 실사고와 같은 축)
+      ⑤ 값 무출력 계약 = 스크립트가 등록분 원문(ALL_SECRETS/ALL_VARS)을 print 하지 않는다
+         (⚠ 이 한 줄이 무너지면 점검 도구 자신이 토큰 유출 경로가 된다 = 가장 비싼 회귀)
+    """
+    import re as _re
+    p_py = os.path.join(ROOT, '.github', 'scripts', 'secret_coverage.py')
+    p_yml = os.path.join(ROOT, '.github', 'workflows', 'secret-coverage.yml')
+    bad = []
+    if not os.path.exists(p_py):
+        print('❌ 빈 칸 점검 게이트 — 정본 .github/scripts/secret_coverage.py 없음(fail-closed)'); return 1
+    if not os.path.exists(p_yml):
+        print('❌ 빈 칸 점검 게이트 — 레인 .github/workflows/secret-coverage.yml 없음(fail-closed)'); return 1
+    py = open(p_py, encoding='utf-8').read()
+    yml = open(p_yml, encoding='utf-8').read()
+    # 주석 줄 제외 = 처방문·사고 기록이 배선으로 오인되는 것 차단(check_nm_jobs 관례 계승).
+    py_code = '\n'.join(l for l in py.splitlines() if not l.lstrip().startswith('#'))
+    yml_code = '\n'.join(l for l in yml.splitlines() if not l.lstrip().startswith('#'))
+    for sym in ('def scan_refs', 'def registered', 'MSG_ID'):                      # ①
+        if sym not in py_code:
+            bad.append(f'정본 골격 심볼 소실: {sym}')
+    for inj in ('ALL_SECRETS: ${{ toJSON(secrets) }}', 'ALL_VARS: ${{ toJSON(vars) }}'):   # ②
+        if inj not in yml_code:
+            bad.append(f'등록분 주입 누락: {inj.split(":")[0]}(그 종류가 조용히 미점검된다)')
+    if not _has_exec_line(yml_code, 'secret_coverage.py'):                          # ③
+        bad.append('정본 스크립트 실행줄 미배선')
+    if 'git_land.sh' not in yml_code or 'messages' not in yml_code:                 # ④
+        bad.append('알림 착지 스텝 미배선(러너에서 알림 증발 = 260816 insta 실사고 동축)')
+    # ⑤ ⚠ 술어 함정(첫 실행 실측 봉합) = 「print 줄에 ALL_SECRETS 라는 글자가 있나」로 두면
+    #    안내 문구(`print('no-op — 등록분 미주입(ALL_SECRETS/ALL_VARS)…')`)가 그대로 위반으로 잡힌다
+    #    = 이름을 **말하는 것**과 값을 **찍는 것**을 못 가르는 술어. 값에 닿는 길은 환경변수 읽기뿐이므로
+    #    문자열 리터럴을 지운 뒤 남은 코드에서 판정한다(주석 속 예시도 같이 무해해진다).
+    for leak in _re.findall(r'print\s*\([^\n]*', py_code):                          # ⑤
+        bare = _re.sub(r'"[^"]*"|\'[^\']*\'', '', leak)
+        if 'environ' in bare or 'ALL_SECRETS' in bare or 'ALL_VARS' in bare:
+            bad.append('값 무출력 계약 위반 — 등록분 원문을 출력하는 줄이 있다(토큰 유출 경로)')
+            break
+    if bad:
+        print('❌ 빈 칸 점검 레인 — 층 결손:')
+        for b in bad:
+            print('   ·', b)
+        return 1
+    print('✅ 빈 칸 점검 레인 — 정본·주입 2종·실행·착지·값 무출력 전건 생존(비밀칸·변수 등록 전수 대조).')
+    return 0
+
+
 def check_pc_lane_stages():
     """액션 대체 레인의 스테이지 생존(운영자 260814 «깃허브 액션 없이도 정상 가동 모든 웹앱 내 기능이 돌도록»).
     ⚠ 신설 사유 = **한 스테이지가 빠져도 화면 증상이 0이다** — 레인은 매 회차 초록으로 끝나고 수집함도 계속
@@ -8615,6 +8676,11 @@ def main():
             rc = 1
     except Exception as e:
         print('❌ check_pc_lane_stages 예외(fail-closed):', e); rc = 1
+    try:
+        if check_secret_coverage_chain() != 0:   # 빈 칸 점검 레인(하드 — 한 층만 빠져도 레인은 초록인데 빈 칸을 영영 못 본다 · 260816)
+            rc = 1
+    except Exception as e:
+        print('❌ check_secret_coverage_chain 예외(fail-closed):', e); rc = 1
     try:
         if check_font_shorthand() != 0:   # 활자 무효축약(하드 — `font:` 축약 안 inherit = 선언 전체 무효 · 조용한 상속 드리프트)
             rc = 1
