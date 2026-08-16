@@ -75,6 +75,8 @@ jobs:
           #   ⚠ shared 는 캡션 필수 — track_caption.sh 가 model_env.sh·claude_transient.sh·claude_meter.sh 를 source 한다.
           sparse-checkout: |
             .github
+            push
+            assets/brand
             shared
             apps/track
             viewer/track_out

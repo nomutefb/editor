@@ -70,6 +70,8 @@ jobs:
           #   빠지는 대형 = _versions 437M · docs 90M · 자료 75M · _산출 74M(어느 잡도 안 연다) · ⚠ git add/rm 대상은 전건 포함 검문 통과분.
           sparse-checkout: |
             .github
+            push
+            assets/brand
             shared
             uploads
             viewer

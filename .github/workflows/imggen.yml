@@ -57,6 +57,8 @@ jobs:
           #   ⚠ 목록 줄에 인라인 주석 금지 — 각 줄이 그대로 sparse 패턴이 된다.
           sparse-checkout: |
             .github
+            push
+            assets/brand
             shared
             cards
             queue

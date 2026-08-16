@@ -961,6 +961,71 @@ def check_workflow_amend():
     return 0
 
 
+def check_push_send_checkout():
+    """완료 푸시를 쏘는 워크플로는 구독자 명단·알림 아이콘을 **체크아웃 목록에 갖는다**(260816 실사고 봉합).
+    CONTRACT: check_push_send_checkout
+
+    ⚠ 진범 = 260728 「체크아웃 다이어트」가 sparse-checkout을 도입하면서 `push/`를 목록에 안 넣었다.
+    `push_send.py`는 `push/subscriptions.json`(구독 기기)을 읽는데 러너 디스크에 그 파일이 아예 없으니
+    `jload(SUBS, [])`가 기본값 빈 배열을 돌려주고 **「구독자 없음 — 발송 생략」으로 정상 종료(rc=0)**한다.
+    → 제작은 성공하고 스텝도 초록인데 **푸시만 한 통도 안 나간다**(실측 260816 run 31933687078 로그).
+    피해 범위 = 카드 제작·영상 편집·AI 이미지·음원·보이스·변환·트래킹 **7레인**(속보 breaking-judge와
+    영상 받기 vidl-make만 `push`를 갖고 있어 살아 있었다 = 「형제는 가진 걸 자기만 안 가진」 이 레포 최빈 축).
+
+    ⚠ 신설 사유 = 기존 게이트가 전부 다른 축이다 — `check_workflow_yaml` = 문법 · `check_workflow_amend` =
+    커밋 방식 · `check_paths` = 경로 실존 · `smoke_*` = 화면 렌더 → 「푸시가 **실제로 나갈 수 있는 상태인가**」는
+    축 자체가 없었고, 러너가 초록으로 끝나고 화면 증상도 0이라 **운영자 눈이 유일한 검출기였다**
+    (insta-thumb-miss·brk_misfire 동축). 새 제작 레인이 생기면 같은 자리에서 또 조용히 빠진다.
+
+    술어 = 「실행줄에서 `push_send.py`를 호출 ∧ `sparse-checkout:` 사용 → 그 목록에 `push` 단독 경로 보유」.
+    아이콘(`assets/brand`)은 없어도 발송 자체는 되므로(= `notif_icon`이 None 폴백) WARN 없이 안내만 한다.
+    전체 체크아웃(sparse 미사용) 워크플로는 대상 밖 = 이미 다 받는다. 주석 줄 제외(주석 처리 우회 차단).
+    정적 · 렌더·LLM·네트워크 0 · **면책표 없이 하드 0**(부채 원장 증가 0)."""
+    wdir = os.path.join(ROOT, '.github', 'workflows')
+    try:
+        files = sorted(f for f in os.listdir(wdir) if f.endswith(('.yml', '.yaml')))
+    except Exception as e:
+        print('❌ check_push_send_checkout 디렉터리 읽기 실패(fail-closed):', e); return 1
+    bad, noicon, seen = [], [], 0
+    for f in files:
+        try:
+            lines = open(os.path.join(wdir, f), encoding='utf-8').read().splitlines()
+        except Exception as e:
+            print('❌ check_push_send_checkout 읽기 실패(fail-closed): %s — %s' % (f, e)); return 1
+        if not any('push_send.py' in l and not l.lstrip().startswith('#') for l in lines):
+            continue
+        seen += 1
+        for i, l in enumerate(lines):
+            if not re.match(r'^\s*sparse-checkout:\s*\|', l) or l.lstrip().startswith('#'):
+                continue
+            body, base = [], None
+            for cur in lines[i + 1:]:
+                if not cur.strip():
+                    break
+                ind = len(cur) - len(cur.lstrip())
+                if base is None:
+                    base = ind
+                if ind < base:
+                    break
+                body.append(cur.strip())
+            if 'push' not in body:
+                bad.append('%s:%d' % (f, i + 1))
+            elif not any(b == 'assets/brand' or b.startswith('assets/brand/') for b in body):
+                noicon.append(f)
+            break
+    if seen < 5:
+        print('❌ check_push_send_checkout 대상 %d건 — 시그니처 드리프트 의심(fail-closed · 하한 5)' % seen); return 1
+    if bad:
+        print('❌ 완료 푸시 레인이 구독자 명단을 체크아웃하지 않는다(260816 실사고 = 「구독자 없음」으로 조용히 발송 생략 · 스텝은 초록):')
+        for b in bad:
+            print('   -', b, '→ sparse-checkout 목록에 `push` 한 줄 추가(정본 = vidl-make·breaking-judge)')
+        return 1
+    if noicon:
+        print('   · 알림 아이콘 미체크아웃(발송은 정상 · 아이콘만 기본판): ' + ', '.join(noicon))
+    print('✅ 완료 푸시 체크아웃 게이트 — %d개 발송 레인 전건 구독자 명단 보유(조용한 발송 생략 0).' % seen)
+    return 0
+
+
 def _shell_literal_leak(src):
     """다중라인 큰따옴표 리터럴이 **중간에서 조기 종료**되는 지점을 bash 인용 문맥 그대로 훑어 찾는다.
     반환 = [(변수명, 행번호, 문맥)] · 최상위 dq 안에서만 판정하고 `$(…)`·heredoc·작은따옴표는 통째 스킵
@@ -8551,6 +8616,11 @@ def main():
             rc = 1
     except Exception as e:
         print('❌ check_workflow_amend 예외(fail-closed):', e); rc = 1
+    try:
+        if check_push_send_checkout() != 0:   # 완료 푸시 레인의 구독자 명단 체크아웃(하드 게이트 — 260816 실측: sparse에 push/ 누락 시 「구독자 없음」으로 조용히 발송 생략·스텝은 초록·7레인 동시 사망)
+            rc = 1
+    except Exception as e:
+        print('❌ check_push_send_checkout 예외(fail-closed):', e); rc = 1
     try:
         if check_prompt_literal_quoting() != 0:   # 다중라인 프롬프트 리터럴 인용 무결성(하드 게이트 — 260805 실측: 미이스케이프 " 하나가 prompt 변수를 통째로 삼켜 요약 요청 전건 실패·문법은 유효라 bash -n 무통과)
             rc = 1

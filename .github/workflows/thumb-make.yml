@@ -50,6 +50,8 @@ jobs:
           sparse-checkout: |
             apps/thumbnail
             .github
+            push
+            assets/brand
             shared
             uploads/${{ inputs.id }}
             viewer/thumb_out/${{ inputs.id }}

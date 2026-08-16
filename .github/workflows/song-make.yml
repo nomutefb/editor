@@ -79,6 +79,8 @@ jobs:
           #     빠졌다. songmake.sh 는 prompts/song-{make,options,lyria}.md 를 읽는다(sb-make 실측 동형).
           sparse-checkout: |
             .github
+            push
+            assets/brand
             shared
             metrics
             viewer
