@@ -1,0 +1,213 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>260816 전후 비교 — 검문·감시·도장</title>
+<style>
+  /* 값은 전부 viewer/index.html :root 실측 사본(창작 0) */
+  :root{
+    --bg:#121212; --fg:#eef7f0; --mut:#8fa697; --accent:#00EED2; --accent-rgb:0,238,210;
+    --danger:#e23b2a; --warn:#FFE13D; --ok:#0FFD02;
+    --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.06);
+    --glass2:rgba(18,19,22,.55); --modal-glass:rgba(17,18,20,.64);
+    --r-l:16px; --r-m:11px; --r-s:9px; --r-pill:999px; --r-modal:22px;
+    --fs-display:22px; --fs-h1:19px; --fs-h2:15px; --fs-h3:14px;
+    --fs-label:13px; --fs-body:15px; --fs-sm:12px; --fs-xs:11px;
+    --sp-1:6px; --sp-2:12px; --sp-3:18px; --sp-4:24px; --lh-base:1.55;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);
+       font-family:'Pretendard Variable',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+       font-size:var(--fs-body);line-height:var(--lh-base);letter-spacing:-.2px;
+       -webkit-font-smoothing:antialiased}
+  .page{width:1240px;padding:var(--sp-4) 28px 30px}
+  h1{font-size:var(--fs-display);font-weight:800;margin:0 0 4px}
+  .sub{color:var(--mut);font-size:var(--fs-h3);margin:0 0 var(--sp-4)}
+
+  .sec{margin-bottom:26px}
+  .sech{display:flex;align-items:center;gap:10px;margin:0 0 12px}
+  .num{width:24px;height:24px;border-radius:var(--r-pill);background:var(--accent);color:#032322;
+       font-size:var(--fs-sm);font-weight:800;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+  .sect{font-size:var(--fs-h1);font-weight:700;margin:0}
+  .sectag{margin-left:auto;font-size:var(--fs-xs);color:var(--mut);
+          border:1px solid var(--line);border-radius:var(--r-pill);padding:3px 10px}
+
+  .cols{display:grid;grid-template-columns:1fr 46px 1fr;gap:0;align-items:stretch}
+  .card{background:var(--glass2);border:1px solid var(--line);border-radius:var(--r-l);padding:16px 18px 18px}
+  .card.before{border-color:rgba(226,59,42,.30)}
+  .card.after{border-color:rgba(var(--accent-rgb),.32)}
+  .clab{font-size:var(--fs-xs);font-weight:800;letter-spacing:.4px;margin:0 0 10px;display:flex;align-items:center;gap:6px}
+  .clab.b{color:var(--danger)} .clab.a{color:var(--accent)}
+  .arrowcol{display:flex;align-items:center;justify-content:center}
+
+  .flow{display:flex;flex-direction:column;gap:7px;margin:0 0 12px}
+  .step{display:flex;align-items:center;gap:9px;font-size:var(--fs-h3)}
+  .dot{width:7px;height:7px;border-radius:var(--r-pill);background:var(--mut);flex:0 0 auto}
+  .dot.bad{background:var(--danger)} .dot.good{background:var(--accent)}
+  .step .t{color:var(--fg)}
+  .step .t.dim{color:var(--mut)}
+  .code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:var(--fs-sm);
+        background:rgba(255,255,255,.05);border-radius:var(--r-s);padding:1px 6px}
+
+  .verdict{margin-top:12px;border-top:1px solid var(--line2);padding-top:11px;
+           font-size:var(--fs-h3);font-weight:700;display:flex;align-items:center;gap:8px}
+  .verdict.bad{color:var(--danger)} .verdict.good{color:var(--accent)}
+  .note{color:var(--mut);font-size:var(--fs-sm);margin-top:6px}
+
+  .metric{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+  .chip{border:1px solid var(--line);border-radius:var(--r-pill);padding:4px 11px;font-size:var(--fs-xs);color:var(--mut)}
+  .chip b{color:var(--fg);font-weight:700}
+  .chip.hi{border-color:rgba(var(--accent-rgb),.35)} .chip.hi b{color:var(--accent)}
+  .chip.lo{border-color:rgba(226,59,42,.30)} .chip.lo b{color:var(--danger)}
+
+  .band{background:var(--modal-glass);border:1px solid var(--line);border-radius:var(--r-modal);
+        padding:20px 22px;margin-top:8px}
+  .bandh{font-size:var(--fs-h1);font-weight:800;margin:0 0 4px}
+  .bandsub{color:var(--mut);font-size:var(--fs-h3);margin:0 0 16px}
+  .three{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .mini{background:rgba(255,255,255,.03);border:1px solid var(--line2);border-radius:var(--r-m);padding:13px 14px}
+  .minih{font-size:var(--fs-h3);font-weight:700;margin:0 0 8px;display:flex;align-items:center;gap:7px}
+  .minil{font-size:var(--fs-sm);color:var(--mut);margin:0}
+  .green{color:var(--ok)} .red{color:var(--danger)} .acc{color:var(--accent)}
+  .strike{text-decoration:line-through;opacity:.55}
+</style>
+
+<div class="page">
+  <h1>오늘 고친 것 — 전과 후</h1>
+  <p class="sub">셋 다 같은 모양이었다. <b>작업은 초록불인데 실제로는 아무 일도 안 일어났다.</b></p>
+
+  <!-- ① 주소 -->
+  <div class="sec">
+    <div class="sech">
+      <div class="num">1</div>
+      <h2 class="sect">배포 검사가 보던 곳</h2>
+      <span class="sectag">착지 fa808c3a · f7249d00</span>
+    </div>
+    <div class="cols">
+      <div class="card before">
+        <p class="clab b"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6 18 18M18 6 6 18"/></svg>전</p>
+        <div class="flow">
+          <div class="step"><span class="dot bad"></span><span class="t">검사가 <b>옛 화면</b>을 열어본다</span></div>
+          <div class="step"><span class="dot"></span><span class="t dim">옛 화면은 새 커밋을 영영 안 받는다</span></div>
+          <div class="step"><span class="dot bad"></span><span class="t">읽은 값이 <span class="code">d2a9e98</span> 에서 안 움직인다</span></div>
+          <div class="step"><span class="dot bad"></span><span class="t">12분 기다린 뒤 <b>거짓 실패</b></span></div>
+        </div>
+        <div class="verdict bad">코드를 올릴 때마다 빨간불</div>
+        <p class="note">검사 자신은 그 판에서도 전부 초록이었다. 화면은 멀쩡한데 <b>보는 곳이 틀린</b> 사고라 기록만 봐서는 원인이 안 보인다.</p>
+        <div class="metric"><span class="chip lo">연속 실패 <b>3회</b></span><span class="chip lo">버린 시간 <b>회차당 12분</b></span></div>
+      </div>
+      <div class="arrowcol">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#00EED2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M13 7l5 5-5 5"/></svg>
+      </div>
+      <div class="card after">
+        <p class="clab a"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg>후</p>
+        <div class="flow">
+          <div class="step"><span class="dot good"></span><span class="t">검사가 <b>새 화면</b>을 열어본다</span></div>
+          <div class="step"><span class="dot"></span><span class="t dim">같은 실수를 하던 곳 5군데도 같이 고침</span></div>
+          <div class="step"><span class="dot good"></span><span class="t">읽은 값이 실제 배포를 따라간다</span></div>
+          <div class="step"><span class="dot good"></span><span class="t"><b>옛 주소를 부르면 커밋이 막힌다</b></span></div>
+        </div>
+        <div class="verdict good">7:44 검사 통과 — 초록불 복귀</div>
+        <p class="note">일부러 남겨둔 옛 주소 10곳은 하나도 안 건드린다. <b>주소 앞에 스킴이 붙었나</b>만으로 부르는 곳과 비교하는 곳을 가른다.</p>
+        <div class="metric"><span class="chip hi">새로 찾은 미봉합 <b>5곳</b></span><span class="chip hi">예외 목록 <b>0개</b></span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ② 감시 -->
+  <div class="sec">
+    <div class="sech">
+      <div class="num">2</div>
+      <h2 class="sect">"같은 병의 형제를 놓쳤나" 감시</h2>
+      <span class="sectag">착지 0d0d1bf5</span>
+    </div>
+    <div class="cols">
+      <div class="card before">
+        <p class="clab b"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6 18 18M18 6 6 18"/></svg>전 — 경고만</p>
+        <div class="flow">
+          <div class="step"><span class="dot bad"></span><span class="t">봉합이 형제를 빼먹었다</span></div>
+          <div class="step"><span class="dot"></span><span class="t dim">감시가 경고를 띄운다</span></div>
+          <div class="step"><span class="dot bad"></span><span class="t"><b>그래도 커밋은 통과</b></span></div>
+          <div class="step"><span class="dot bad"></span><span class="t">빠진 5곳이 그대로 라이브로</span></div>
+        </div>
+        <div class="verdict bad">막으라고 만든 그 병에 자기가 걸림</div>
+        <div class="metric"><span class="chip lo">문턱 <b>0.70 / 3</b></span><span class="chip lo">헛것 <b>2건 중 2건</b></span></div>
+      </div>
+      <div class="arrowcol">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#00EED2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M13 7l5 5-5 5"/></svg>
+      </div>
+      <div class="card after">
+        <p class="clab a"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg>후 — 차단</p>
+        <div class="flow">
+          <div class="step"><span class="dot good"></span><span class="t">봉합이 형제를 빼먹으면</span></div>
+          <div class="step"><span class="dot good"></span><span class="t"><b>빠진 파일을 이름으로 지목</b></span></div>
+          <div class="step"><span class="dot good"></span><span class="t">커밋이 그 자리에서 막힌다</span></div>
+          <div class="step"><span class="dot"></span><span class="t dim">정말 단독이면 <span class="code">seal-ok: 사유</span> 로 통과</span></div>
+        </div>
+        <div class="verdict good">문턱을 좁혀도 진짜는 그대로 잡는다</div>
+        <p class="note">최근 60커밋을 <b>그 시점 파일 상태로</b> 되돌려 재본 결과다. 지금 파일로 재면 나중에 고쳐진 형제가 통과한 것처럼 보인다.</p>
+        <div class="metric"><span class="chip hi">문턱 <b>0.90 / 2</b></span><span class="chip hi">헛것 <b>0건</b></span><span class="chip hi">옛 사고 재현 <b>그대로 검출</b></span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ③ 도장 -->
+  <div class="sec">
+    <div class="sech">
+      <div class="num">3</div>
+      <h2 class="sect">배포 버전 도장 올리기 <span style="font-size:var(--fs-sm);color:var(--mut);font-weight:600">— 검사가 또 빨간불이던 진짜 원인</span></h2>
+      <span class="sectag">착지 cda89ba9</span>
+    </div>
+    <div class="cols">
+      <div class="card before">
+        <p class="clab b"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6 18 18M18 6 6 18"/></svg>전</p>
+        <div class="flow">
+          <div class="step"><span class="dot bad"></span><span class="t">1차 시도가 꼬인다</span></div>
+          <div class="step"><span class="dot bad"></span><span class="t"><b>2·3·4차가 같은 자리에서 죽는다</b></span></div>
+          <div class="step"><span class="dot bad"></span><span class="t">도장이 안 박힌다</span></div>
+          <div class="step"><span class="dot bad"></span><span class="t red"><b>그런데 작업은 초록불</b></span></div>
+        </div>
+        <div class="verdict bad">검사가 없는 값을 12분 기다림</div>
+        <p class="note">도장이 없으면 화면 값이 기대한 커밋으로 바뀔 방법이 <b>구조적으로 없다</b>. 그래서 원인이 검사 쪽에 있는 것처럼 보였다.</p>
+        <div class="metric"><span class="chip lo">재시도 <b>4회 전부 실패</b></span><span class="chip lo">보고 <b>초록 (거짓)</b></span></div>
+      </div>
+      <div class="arrowcol">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#00EED2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M13 7l5 5-5 5"/></svg>
+      </div>
+      <div class="card after">
+        <p class="clab a"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg>후</p>
+        <div class="flow">
+          <div class="step"><span class="dot good"></span><span class="t">매 시도가 <b>최신 기준에서 새로</b> 얹는다</span></div>
+          <div class="step"><span class="dot good"></span><span class="t">꼬일 수가 없는 구조</span></div>
+          <div class="step"><span class="dot"></span><span class="t dim">경합에 져도 다음 시도가 따라잡는다</span></div>
+          <div class="step"><span class="dot good"></span><span class="t acc"><b>안 되면 빨간불로 말한다</b></span></div>
+        </div>
+        <div class="verdict good">거짓 초록이 사라졌다</div>
+        <p class="note">⚠ 이 봉합은 <b>다음에 화면 코드를 올릴 때 실전에서 확인된다</b>. 이번 커밋이 화면 파일을 안 건드려 아직 안 돌았다.</p>
+        <div class="metric"><span class="chip hi">재시도 <b>6회</b></span><span class="chip hi">소진 시 <b>빨간불</b></span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 다음 제안 -->
+  <div class="band">
+    <p class="bandh">진행하면 뭐가 좋아지나 — <span class="acc">"초록불인데 결과물이 없다"를 잡는 검사</span></p>
+    <p class="bandsub">오늘 세 번 다 같은 모양이었다. <b>작업은 성공이라고 말하는데 결과물이 없다.</b> 지금은 그걸 보는 눈이 없다.</p>
+    <div class="three">
+      <div class="mini">
+        <p class="minih"><span class="dot bad"></span>지금</p>
+        <p class="minil">작업이 끝나면 <b class="green">초록불</b>을 켠다. 결과물이 본선에 실제로 올라갔는지는 <b>아무도 안 본다</b>.</p>
+      </div>
+      <div class="mini">
+        <p class="minih"><span class="dot good"></span>붙이면</p>
+        <p class="minil">작업이 끝난 뒤 <b>스스로 본선을 확인</b>한다. 결과물이 없으면 <b class="red">빨간불</b>로 끝낸다.</p>
+      </div>
+      <div class="mini">
+        <p class="minih"><span class="dot"></span>그래서</p>
+        <p class="minil">오늘 같은 사고를 <b>다음 세션이 다시 파헤칠 필요가 없다</b>. 그 자리에서 바로 드러난다.</p>
+      </div>
+    </div>
+    <p class="note" style="margin-top:14px">
+      먼저 할 일은 <b>세어 보는 것</b>이다. 산출물을 본선에 올리는 작업이 몇 개인데 그중 몇 개가 확인 없이 초록으로 끝나는지 실측하고, 그 숫자를 보고 붙일지 정하면 된다.
+      도장에는 이미 넣었으니 <b class="acc">같은 방식 1개는 이미 돌고 있다</b>.
+    </p>
+  </div>
+</div>
