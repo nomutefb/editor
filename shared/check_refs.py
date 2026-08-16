@@ -5146,6 +5146,106 @@ def check_secret_coverage_chain():
 # ── 화면 주소 정본 ──────────────────────────────────────────────────────────────
 _CANON_HOST = 'edit.nomute.kr'          # 260816 계정 이관 정본(CLAUDE.md 레포 전용 절 「지금 정본 4종」 ⓑ)
 _OLD_HOSTS = ('apps.nomute.kr',)        # 옛 화면 — 되돌릴 여지로 살려는 두되 코드가 부르면 안 된다
+# ── 착지 침묵(초록인데 결과물이 없다) ──────────────────────────────────────────
+# 260816 실사고 = stamp-version 이 push 4회 전부 실패했는데 warning 만 남기고 rc 0(초록)으로 끝났다.
+# 도장이 main 에 없으니 라이브 도장이 트리거 SHA 로 바뀔 방법이 구조적으로 없고, 그 배포의 라이브 검문은
+# 12분 대기 후 반드시 「배포 미수렴」으로 적색이 된다(run 31936404895 = 도장 미착지인데 success →
+# run 31936404904 = 그 여파로 검문 적색). 원인이 검문 쪽으로 보여 세션 하나가 통째로 오진했다.
+_LAND_RECOVER = ('다음', '회수', '합류', '재판정', '덮', '재수집', '스윕')   # 「유실돼도 **누가** 되돌리는지」를 말한 소진 메시지 = 의도적 fail-soft
+# ⚠ '재시도' 는 회수 어휘가 아니다(첫 실행 실측 봉합) — 소진 문구가 하필 「push 실패(재시도 소진)」이라
+#    그 낱말을 넣으면 **회수가 끝났다는 말이 회수 약속으로 읽혀** 진짜 조용한 유실 4건이 통째로 통과한다.
+_LAND_BASE = {   # 260816 실측 스냅샷 — 회수 경로도 실패 표기도 없이 조용히 끝나는 인라인 착지. 해소하면 그만큼 낮춰라(래칫).
+    'imggen.yml': 1,              # 이미지 제작 결과(그림은 R2 직행이라 살지만 완료 신호가 유실되면 화면이 '제작중'에 멈춘다)
+    'moreimg.yml': 1,             # 보충 이미지 결과(동축)
+    'thumb-redo.yml': 1,          # 썸네일 수정 결과 + 소원 원장
+    'news-analyze.yml': 1,        # cards 썸네일(git 이 유일 경로)
+    'news-ask.yml': 1,            # cards 썸네일(동축)
+    'framethumb-make.yml': 1,     # viewer/ft_out(git 이 유일 경로 = 유실 = 산출 소멸)
+    'tiktok-canary.yml': 1,       # sns_trends 관측치(데이터 churn = 다음 회차가 덮지만 그 말을 안 한다)
+    'tiktok-subs-canary.yml': 1,  # 동축
+}
+
+
+def check_land_silence():
+    """착지 침묵 래칫 = 「본선에 올리는 데 실패했는데 초록으로 끝나는」 자리를 센다(운영자 260816 「조치해줘」).
+    CONTRACT: check_land_silence
+
+    ⚠ 신설 사유 = **이 레포 게이트 120개가 전부 「최종 상태가 옳은가」만 본다** — 정적 문자열·화면 렌더·값 대조.
+      「작업이 성공이라고 말하는데 결과물이 실제로 본선에 있는가」는 축 자체가 없었다. 그 틈에서 260816 하루에
+      같은 모양이 세 번 났다(검문이 옛 화면을 봄 · 봉합이 형제를 빼먹음 · 도장 착지가 4회 전부 죽음) —
+      셋 다 **화면 증상 0 · 로그는 초록**이라 운영자 눈이 유일한 검출기였다(insta-thumb-miss·brk_misfire 동축).
+
+    술어 = 「워크플로 스텝이 **인라인으로** main 에 직접 푸시하는데, 재시도 소진 뒤
+      ⓐ 실패로 끝내지도(rc≠0) ⓑ 회수 경로를 말하지도 않는다」 → 조용한 유실.
+    ⚠ **인라인만 대상인 것이 실효 조건** = `git_land.sh` 위임은 그 헬퍼 헤더가 「rc: 항상 0(fail-soft)」를
+      **명문으로 선언**한 축이다(데이터 churn = 다음 회차가 재수집). 직접 푸시 루프를 손으로 짰다는 건
+      「이 산출물은 내가 책임진다」는 뜻이라 성격이 다르다 — 그 둘은 이미 코드 모양으로 갈려 있으므로
+      손 목록 없이 구조적으로 나뉜다(손 목록은 새 워크플로가 조용히 빠진다 = 이 레포 최빈 드리프트).
+    ⚠ **회수 경로 면제** = 소진 메시지가 「다음 회차에 합류」·「다음 런이 재판정」처럼 **누가 되돌리는지**를
+      말하면 의도적 fail-soft 다(실측 4건 = breaking-judge 최종 커밋 회수 · live-smoke 원장 재판정 ·
+      pending-sweep 다음 스윕 · run-steps-ledger 다음 회차 합류). 말하지 않으면 유실이 그냥 사라진다.
+    ⚠ **하드 0 금지 = 래칫이 정확한 형태** = 현행 8건은 전건 **미판독**이다. 케이스별로 보지 않고 하드로 올리면
+      「알고 동결한 부채」가 「원래 그런 것」으로 굳거나(baseline 남용) 레포가 언다 — check_layout_transition·
+      check_css_dead_state 선례. **늘면 차단 · 줄면 낮추라고 알린다**(새 워크플로가 조용히 빠질 수 없다 = 목적).
+    ⚠ 스코프 = `.github/workflows/*.yml` 자동 발견 · 주석 줄 제외 · 정적(렌더·LLM·네트워크 0)."""
+    import re as _re
+    try:
+        import yaml as _yaml
+    except Exception:  # noqa: BLE001
+        print('⚠️ 착지 침묵 래칫 — pyyaml 없음(fail-soft 스킵)'); return 0
+    wf_dir = os.path.join(ROOT, '.github', 'workflows')
+    if not os.path.isdir(wf_dir):
+        print('❌ 착지 침묵 래칫 — 워크플로 폴더 없음(fail-closed)'); return 1
+    push_re = _re.compile(r'git push[^\n]*(?:HEAD:main|origin main)')
+    now, detail = {}, []
+    for fn in sorted(os.listdir(wf_dir)):
+        if not fn.endswith(('.yml', '.yaml')):
+            continue
+        try:
+            d = _yaml.safe_load(open(os.path.join(wf_dir, fn), encoding='utf-8'))
+        except Exception:  # noqa: BLE001
+            continue
+        for job in (d.get('jobs') or {}).values():
+            for st in (job.get('steps') or []):
+                run = st.get('run')
+                if not run:
+                    continue
+                code = '\n'.join(l for l in run.splitlines() if not l.lstrip().startswith('#'))
+                if 'git_land.sh' in code:            # 위임 = fail-soft 계약 명문 축 = 대상 밖
+                    continue
+                if not push_re.search(code):
+                    continue
+                if _re.search(r'exit\s+1', code):    # 실패를 실패로 낸다 = 통과
+                    continue
+                # ⚠ 회수 판정은 **루프가 끝난 뒤**에서만 본다(첫 실행 실측 봉합) — 루프 **안**의
+                #    「push 재시도 $i」는 회수 경로가 아니라 그냥 다음 라운드 표시인데, 전체 코드에서
+                #    어휘만 찾으면 그 한 줄이 면죄부가 돼 진짜 조용한 유실 4건이 통째로 통과했다.
+                tail = code.rsplit('done', 1)[-1] if 'done' in code else code
+                if any(w in tail for w in _LAND_RECOVER):   # 소진 뒤 「누가 되돌리는지」를 말한다 = 의도적 fail-soft
+                    continue
+                now[fn] = now.get(fn, 0) + 1
+                detail.append('%s · %s' % (fn, (st.get('name') or '(이름 없음)')[:30]))
+    over = {k: v for k, v in now.items() if v > _LAND_BASE.get(k, 0)}
+    if over:
+        print('❌ 착지 침묵 래칫 — 본선 착지에 실패해도 초록으로 끝나는 자리가 늘었다(조용한 유실):')
+        for k in sorted(over):
+            print('   · %s: %d건 > 면책 %d건' % (k, over[k], _LAND_BASE.get(k, 0)))
+        for d0 in detail[:10]:
+            print('     -', d0)
+        print('   → 처방 = 재시도 소진 시 `exit 1`(실패를 실패로 낸다) 또는 소진 메시지에 **누가 회수하는지**를 적어라.')
+        print('   → 데이터 churn 이라 다음 회차가 덮는 축이면 git_land.sh 위임이 정본이다(그쪽은 fail-soft 계약 명문).')
+        return 1
+    gone = {k: v for k, v in _LAND_BASE.items() if now.get(k, 0) < v}
+    if gone:
+        print('✅ 착지 침묵 래칫 — 해소분 %d파일 → _LAND_BASE 를 그 자리에서 낮춰라(남겨두면 같은 회귀가 조용히 재통과): %s'
+              % (len(gone), ', '.join('%s %d→%d' % (k, v, now.get(k, 0)) for k, v in sorted(gone.items()))))
+        return 0
+    print('✅ 착지 침묵 래칫 — 조용한 유실 %d건 = 면책 스냅샷과 동일(증가 0 · 인라인 착지만 대상 · git_land 위임은 fail-soft 계약 축).'
+          % sum(now.values()))
+    return 0
+
+
+
 _CANON_EXT = ('.py', '.js', '.mjs', '.sh', '.command', '.yml', '.yaml', '.html', '.css', '.bat', '.ps1')
 _CANON_SKIP_DIRS = ('_versions/', 'docs/', 'cards/', '.claude/', 'queue/', 'scraper/obs/')
 
@@ -8945,6 +9045,11 @@ def main():
             rc = 1
     except Exception as e:
         print('❌ check_secret_coverage_chain 예외(fail-closed):', e); rc = 1
+    try:
+        if check_land_silence() != 0:   # 착지 침묵 래칫(260816 — 「본선에 올리는 데 실패했는데 초록으로 끝나는」 자리 · 도장 실사고 축의 일반화 · 인라인 착지만 대상)
+            rc = 1
+    except Exception as e:
+        print('❌ check_land_silence 예외(fail-closed):', e); rc = 1
     try:
         if check_canon_host() != 0:   # 화면 주소 정본(하드 — 코드가 옛 화면을 부르면 화면 증상 0으로 조용히 죽는다 · 260816 계정 이관 후속)
             rc = 1
