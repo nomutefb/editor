@@ -40,9 +40,22 @@ command -v termux-wake-lock >/dev/null 2>&1 && termux-wake-lock >/dev/null 2>&1 
 LAND="$HOME/.nomute_phone_scrape_land"
 _land(){ printf '%s|%s|%s\n' "$(date '+%Y-%m-%dT%H:%M:%S')" "$1" "${2:-}" > "$LAND" 2>/dev/null || true; }
 _heal=""
+# 원격 검문(260816 실사고 봉합) — 걷은 걸 **어느 저장소로** 보내는지가 여태 축 자체로 없었다.
+#   계정 이관 뒤 폰만 옛 저장소를 보고 있었고 그동안 모든 진단이 초록이었다(옛 곳으로 실제 성공했으니까).
+#   화면이 읽는 곳은 새 저장소라 폰이 걷은 건 한 건도 화면에 안 떴다. 정본·사유 = scripts/lane_origin.sh
+. scripts/lane_origin.sh 2>/dev/null || true
+if command -v lane_origin_check >/dev/null 2>&1; then
+  _oc=0; lane_origin_check || _oc=$?
+  if [ "$_oc" = 1 ]; then
+    echo "🔀 보내는 곳이 정본이 아니었다 → 갈아끼웠다: $LANE_ORIGIN_WAS → $NOMUTE_ORIGIN_SLUG"
+    _heal="origin-fix($LANE_ORIGIN_WAS→$NOMUTE_ORIGIN_SLUG)"
+  elif [ "$_oc" = 2 ]; then
+    _land "origin-fail" "원격 주소를 정본으로 못 바꿨다(권한·잠김)"
+  fi
+fi
 if [ -d .git/rebase-merge ] || [ -d .git/rebase-apply ]; then
   git rebase --abort 2>/dev/null || rm -rf .git/rebase-merge .git/rebase-apply
-  _heal="rebase-abort"
+  _heal="${_heal:+$_heal+}rebase-abort"
 fi
 if [ -f .git/MERGE_HEAD ]; then git merge --abort 2>/dev/null || rm -f .git/MERGE_HEAD .git/MERGE_MSG; _heal="${_heal:+$_heal+}merge-abort"; fi
 if [ -f .git/index.lock ] && [ -n "$(find .git/index.lock -mmin +5 2>/dev/null)" ]; then rm -f .git/index.lock; _heal="${_heal:+$_heal+}stale-lock"; fi

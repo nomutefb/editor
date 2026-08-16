@@ -46,6 +46,19 @@ command -v termux-wake-lock >/dev/null 2>&1 && termux-wake-lock >/dev/null 2>&1 
 LAND="$HOME/.nomute_phone_land"
 _land(){ printf '%s|%s|%s\n' "$(date '+%Y-%m-%dT%H:%M:%S')" "$1" "${2:-}" > "$LAND" 2>/dev/null || true; }
 _heal=""
+# 원격 검문(260816 실사고 봉합) — 걷은 걸 **어느 저장소로** 보내는지가 여태 축 자체로 없었다.
+#   계정 이관 뒤 폰만 옛 저장소를 보고 있었고 그동안 모든 진단이 초록이었다(옛 곳으로 실제 성공했으니까).
+#   화면이 읽는 곳은 새 저장소라 폰이 걷은 건 한 건도 화면에 안 떴다. 정본·사유 = scripts/lane_origin.sh
+. scripts/lane_origin.sh 2>/dev/null || true
+if command -v lane_origin_check >/dev/null 2>&1; then
+  _oc=0; lane_origin_check || _oc=$?
+  if [ "$_oc" = 1 ]; then
+    echo "🔀 보내는 곳이 정본이 아니었다 → 갈아끼웠다: $LANE_ORIGIN_WAS → $NOMUTE_ORIGIN_SLUG"
+    _heal="origin-fix($LANE_ORIGIN_WAS→$NOMUTE_ORIGIN_SLUG)"
+  elif [ "$_oc" = 2 ]; then
+    _land "origin-fail" "원격 주소를 정본으로 못 바꿨다(권한·잠김)"
+  fi
+fi
 #  ⚠ abort 실패 폴백 = 킬테스트 K2 실측 봉합 — 잔류가 **껍데기**(프로세스가 중간에 죽어 메타가 불완전)면
 #    `git rebase --abort` 자체가 rc≠0로 실패하고 디렉터리가 그대로 남는다 = 자가복구가 통째로 무력해진다.
 #    (K1 실측 = 정상 중단은 abort로 풀림 · K2 실측 = 껍데기는 abort 실패 후 잔류 → 강제 제거가 유일한 해)

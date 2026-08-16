@@ -121,6 +121,19 @@ if timeout 20 git ls-remote origin -h refs/heads/main >/dev/null 2>&1; then
 else
   no "원격 접속·인증 실패 = 토큰 만료·네트워크 → 확인:  git ls-remote origin"
 fi
+# ⑥-b 보내는 곳(260816 실사고 봉합) — ⑥ 전체가 「올라갔나」만 보고 **어디로 올라갔나**는 축이 없었다.
+#   계정 이관 뒤 폰만 옛 저장소를 보고 있었는데 이 진단서가 전 항목 초록을 냈다(옛 곳으로 실제 성공했으니까).
+#   화면이 읽는 곳은 새 저장소라 걷은 게 한 건도 안 떴다 = 가장 조용한 실패.
+. scripts/lane_origin.sh 2>/dev/null || true
+if command -v lane_origin_slug >/dev/null 2>&1; then
+  _cur_slug="$(lane_origin_slug)"
+  if [ "$_cur_slug" = "$NOMUTE_ORIGIN_SLUG" ]; then
+    ok "보내는 곳 = $NOMUTE_ORIGIN_SLUG (정본)"
+  else
+    no "보내는 곳이 옛 저장소다 — ${_cur_slug:-알 수 없음} · 여기로 보내면 화면엔 한 건도 안 뜬다"
+    echo "        고치기(1회):  bash scripts/phone_repoint.sh"
+  fi
+fi
 
 echo
 # ⑦ 스레드 세션 판별(260805 신설 · 8인 평의회1 반증 기계화) — 「쿠키 무소득」의 진짜 원인을 **두 갈래로 확정**한다.
