@@ -100,7 +100,7 @@ jobs:
         env:
           VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
           VAPID_SUBJECT: ${{ secrets.VAPID_SUBJECT }}
-          VIEWER_BASE: https://app2.nomute.kr
+          VIEWER_BASE: https://edit.nomute.kr
           FILE: ${{ inputs.file }}
           NOTIFY_TITLE: 수정 완료
           NOTIFY_BODY_SUFFIX: ' — 탭해서 확인'

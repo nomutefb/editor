@@ -42,7 +42,7 @@ NSUFFIX="${NOTIFY_BODY_SUFFIX:- — 탭해서 요약 보기}"     # 본문 꼬�
 NTAG="${NOTIFY_TAG_PREFIX:-nomute-sum}"                  # tag 프리픽스(건별 딥링크 알림 누적 · 종류별 분리 = 요약↔수정 알림 교체 안 됨)
 
 # ── ⏳ 라이브 배포가 *이번 분석*을 반영할 때까지 폴(commit 조상검사) ──
-VIEWER_BASE="${VIEWER_BASE:-https://app2.nomute.kr}"
+VIEWER_BASE="${VIEWER_BASE:-https://edit.nomute.kr}"
 AJSON="${VIEWER_BASE%/}/articles.json"
 DEPLOY_WAIT="${PUSH_DEPLOY_WAIT:-240}"   # 배포 반영 최대 대기(초). 타임아웃이면 그래도 발송(뷰어 재시도에 폴백).
 DEPLOY_POLL="${PUSH_DEPLOY_POLL:-8}"     # 폴 간격(초).
