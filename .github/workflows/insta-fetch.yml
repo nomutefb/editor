@@ -42,7 +42,15 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: main
+      # ⚠ continue-on-error = 인스타 열쇠 하나가 죽었을 때 **이 잡 전체가 같이 죽던 것**의 봉합(260816 실사고).
+      #   실측 = IG_ACCESS_TOKEN 거절(190/Cannot parse) → 이 스텝 rc=1 → 뒤 스텝이 통째로 미실행 →
+      #   페이스북 페이지 수집·FB 주제 분류·**FB 채널 브리프**·알고리즘 회차 원장까지 같이 정지했다
+      #   (인스타와 무관한 축인데 같은 잡에 얹혀 있다는 이유만으로 죽었다 = 곁다리 사망).
+      #   `|| true` 가 아니라 continue-on-error 인 이유 = 스텝은 **빨간 X로 남겨야** 한다(초록 위장 금지 ·
+      #   실패는 실패라고 쓴다). 아래 인스타 전용 스텝들은 steps.igfetch.outcome 으로 자기 축만 건너뛴다.
       - name: 수집(시크릿 게이트 · stdlib only = 설치 0)
+        id: igfetch
+        continue-on-error: true
         env:
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
           IG_USER_ID: ${{ vars.IG_USER_ID }}
@@ -57,8 +65,13 @@ jobs:
       # 스코프 = messages 단독 = 수집 산출물 무접촉(반쪽 데이터 착지 0).
       # ⚠ [CF-Pages-Skip] 접두를 붙이지 않는다 = 알림은 「조기 반영」 축(금지 목록)이다. 붙이면 다음 비스킵
       #   빌드까지 최대 17분 화면에 안 떠서, 열쇠가 죽은 걸 알리는 알림 자신이 늦게 뜨는 자기모순이 된다.
+      # ⚠ 조건에 steps.igfetch 축을 **같이** 둔다(260816 2차 = 곁다리 사망 차단과의 통합).
+      #   위 수집 스텝이 continue-on-error 가 되면서 그 실패는 잡 상태를 실패로 만들지 않는다 →
+      #   `failure()` 단독이면 이 알림 착지가 **조용히 안 돈다**(먼저 착지한 봉합이 그대로 죽는 자리).
+      #   두 축 OR = 수집 실패든 뒤 스텝 실패든 알림은 반드시 착지한다. 잡 결론이 실패로 남는 건
+      #   맨끝 「수집 실패 최종 표시」 스텝이 책임진다(초록 위장 금지 계약은 그대로 유지).
       - name: 실패 시 알림만 착지(if failure · 앱 알림함 점등)
-        if: ${{ failure() }}
+        if: ${{ failure() || steps.igfetch.outcome == 'failure' }}
         run: |
           bash .github/scripts/git_land.sh "insta: 접속 열쇠 사망 알림 (bot)" messages || true
       - name: 전 게시물 백필(수동 발사 전용 · 운영자 260713 "기존꺼 파악")
@@ -79,7 +92,12 @@ jobs:
           FB_PAGE_ID: ${{ vars.FB_PAGE_ID || '809122025627220' }}   # Nomute 페이지 id 기본값(운영자 260724 · 시스템유저 토큰 자기페이지 자동발견 불가 → 명시 · fb-fetch.yml과 동일)
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}   # 겸용 프로브(운영자 260718 · fb-fetch.yml 동조 — FB 토큰 부재 시 IG 토큰 페이지 자동 연동 시도)
         run: python3 .github/scripts/fb_fetch.py || true
+      # ⚠ 수집 실패면 이 스텝을 **건너뛰는 게 계약**이다(260816). 이유 = 이 스크립트가 찍는 generated_kst 가
+      #   화면 좌상단 「수집 시각」이라, 수집이 실패한 회차에 신호만 다시 계산하면 내용은 어제 것 그대로인데
+      #   시각만 방금으로 갱신돼 **화면이 「방금 받아왔다」고 거짓말**을 한다(옛 숫자 + 새 시각 = 가장 조용한 사고).
+      #   건너뛰면 시각도 옛것 그대로 남아 「멈춰 있다」가 화면에 정직하게 보인다.
       - name: 신호 계산(뷰어 소비본 포함 · fail-soft)
+        if: ${{ steps.igfetch.outcome == 'success' }}
         run: python3 apps/insta/insta_signals.py || true
       # ── 수집·신호분 즉시 커밋(1차) — 뒤 채널 브리프(chan_brief.sh · LLM 1콜 timeout 600s) 스텝이 job timeout/하드킬로 죽어도 insta_data·신호(메뉴4 데이터)는 이미 라이브 확보(운영자 260714 "데이터 잘 받아오게" 인스타 점검 = sns-trends.yml 1차 커밋 미러). 근본원인 = 맨끝 단일 커밋이라 LLM 단계 사망 시 하루치 수집분 동반 유실 · insta는 cron 1일 1회라 유실 = 종일 공백(트렌드보다 타격 큼 · Q11 벽시계 캡은 부분 봉합이었음). insta-fetch는 push 트리거 없음(cron만) = 재트리거 0. 브리프분(chan_brief.json)은 맨끝 커밋이 2차로 마저 커밋.
       - name: 커밋 수집분(1차 · 유실 방지)
@@ -96,7 +114,9 @@ jobs:
       # 비용 = 읽을 바이트가 이미 우리 것(viewer/insta_covers) + 미디어 id별 1회만 = 평시 1콜 · 종량제 0(구독 축).
       # 재계산이 필요한 이유 = 커버를 굽는 것도 이름을 붙이는 것도 insta_signals 라 판독 전 산출엔 이름이 못 실린다.
       - name: 표지 제목 판독 + 신호 재계산(채널 브리프 입력 · fail-soft = 실패해도 종전 이름 그대로)
-        if: ${{ github.event_name != 'push' && (inputs.brief || '1') == '1' }}   # claude CLI 설치 스텝과 동일 게이트(브리프 레인 편승) · push 하트비트 = 스킵(원장 적중분은 그대로 붙는다)
+        # steps.igfetch 조건 = 신호 계산 스텝과 같은 이유(거짓 「수집 시각」 차단 · 260816) — 이 스텝도 끝에서
+        # insta_signals 를 다시 돌려 generated_kst 를 찍는다. 수집이 죽은 회차엔 판독할 새 커버도 없다.
+        if: ${{ github.event_name != 'push' && (inputs.brief || '1') == '1' && steps.igfetch.outcome == 'success' }}   # claude CLI 설치 스텝과 동일 게이트(브리프 레인 편승) · push 하트비트 = 스킵(원장 적중분은 그대로 붙는다)
         env:
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets[format('CLAUDE_CODE_OAUTH_TOKEN_{0}', vars.ACTIVE_ACCOUNT || 'MUTENO')] }}
           CLAUDE_CODE_OAUTH_TOKEN_ALT: ${{ (vars.ACTIVE_ACCOUNT || 'MUTENO') == 'NOMUTEFB' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_NOMUTEFB }}
@@ -107,7 +127,10 @@ jobs:
           python3 apps/insta/insta_signals.py || true
       - name: 채널 AI 브리프(메뉴4 · 성장 서사+전략 · 운영자 260714) — 입력 동일 = 스킵(토큰 0) · 실패 = 직전 유지(fail-soft) · SNS 트렌드 브리프와 별개 축
         env:
-          CHAN_BRIEF: ${{ github.event_name == 'push' && '0' || (inputs.brief || '1') }}   # 기본 ON(§📰-e 이행 — 카나리아 run 29263671640 실측 260714: 성장 서사+전략 4줄 정상 · schedule = inputs 없음 → '1') · dispatch brief='0' = 일시 OFF · push(하트비트) = '0' 강제(데이터 수집만 · 비싼 AI 브리프는 3h schedule 전용 · 260720) · 롤백 = inputs.brief || '1'
+          # 수집 실패 회차 = '0' 강제(260816) — 인스타 데이터가 어제 것 그대로인데 브리프를 새로 쓰면
+          # 「오늘 0장」 같은 오늘 상태를 옛 숫자로 단정한다(chan_brief.sh 의 입력 동일=스킵 계약과 같은 축을
+          # 명시로 굳힌 것 · 페이스북 브리프는 아래에서 그대로 돈다 = 곁다리 사망 없음).
+          CHAN_BRIEF: ${{ (github.event_name == 'push' || steps.igfetch.outcome != 'success') && '0' || (inputs.brief || '1') }}   # 기본 ON(§📰-e 이행 — 카나리아 run 29263671640 실측 260714: 성장 서사+전략 4줄 정상 · schedule = inputs 없음 → '1') · dispatch brief='0' = 일시 OFF · push(하트비트) = '0' 강제(데이터 수집만 · 비싼 AI 브리프는 3h schedule 전용 · 260720) · 롤백 = inputs.brief || '1'
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets[format('CLAUDE_CODE_OAUTH_TOKEN_{0}', vars.ACTIVE_ACCOUNT || 'MUTENO')] }}
           CLAUDE_CODE_OAUTH_TOKEN_ALT: ${{ (vars.ACTIVE_ACCOUNT || 'MUTENO') == 'NOMUTEFB' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_NOMUTEFB }}   # 서브1 폴오버(체인 MUTENO→NOMUTEFB→EMS1130G→EMS1130M · sns-trends 관용구)
           CLAUDE_CODE_OAUTH_TOKEN_ALT2: ${{ (vars.ACTIVE_ACCOUNT || 'MUTENO') == 'MUTENO' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_MUTENO }}   # 서브2 폴오버(체인 3번째)
@@ -151,3 +174,13 @@ jobs:
         # 브리프분(chan_brief.json·아카이브 로그)까지 최신 main 재기점 재적층으로 착지. 종전 관용구는 같은 파일을 다른 봇이 먼저 밀면 꼬인 리베이스로 브리프가 증발(→ 화면 정지)하던 자리 = git_land가 원천 봉합. chan_brief_log.jsonl도 add 대상 편입(종전 누락).
         run: |
           bash .github/scripts/git_land.sh "insta: 계정 인사이트 스냅샷 (bot)" apps/insta/data viewer/insta_data.json viewer/insta_covers viewer/fb_data.json viewer/chan_brief.json viewer/chan_brief_log.jsonl viewer/fb_cat_cache.json viewer/chan_brief_fb.json viewer/chan_brief_fb_log.jsonl messages "metrics/usage/${GITHUB_RUN_ID}-${GITHUB_JOB}-${GITHUB_RUN_ATTEMPT}.jsonl"
+      # ── 수집이 죽은 회차는 잡도 빨갛게 끝난다(260816 · continue-on-error 의 짝 = 선택 아님) ──
+      # continue-on-error 는 뒤 축(페이스북 수집·FB 브리프·회차 원장)을 살리려고 붙인 것이지 실패를
+      # 없던 일로 만들려는 게 아니다. 이 스텝이 없으면 잡 결론이 success 가 되어 **초록으로 위장**된다
+      # (「실패는 실패라고 쓴다」 · 위 알림 착지 스텝 주석의 무증상화 금지 계약과 같은 축).
+      # 자리 = 맨 끝 = 여기까지 와야 살릴 축을 전부 살린 뒤에 실패를 선언하게 된다.
+      - name: 수집 실패 최종 표시(초록 위장 금지)
+        if: ${{ steps.igfetch.outcome == 'failure' }}
+        run: |
+          echo "::error::인스타 수집 스텝이 실패했다 — 뒤 축(페이스북·회차 원장)은 살렸지만 이 잡은 실패로 끝낸다. 원인·조치 = 위 수집 스텝 로그와 앱 알림함(insta-token-dead)."
+          exit 1
