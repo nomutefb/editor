@@ -400,22 +400,42 @@
  ],
  "threads": [
   {
+   "account": "aipeekme",
+   "text": "🔗 원문·자세히 보기\nhttps://huggingface.co/MiniMaxAI/MiniMax-Music3",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1786896057,
+   "thumb": "",
+   "url": "https://www.threads.com/@aipeekme/post/DcG1-w7nxQx",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "MiniMax가 최대 5분 길이의 완곡 생성을 지원하는 음악 모델 MiniMax-Music3를 공개했습니다.\n가사와 음악 묘사를 입력하면 32kHz, 16비트 스테레오 WAV 음원을 생성합니다.\n구조는 계층형 오토리그레시브 방식을 씁니다.\n전체 음악 구조를 담당하는 8B Global LLM과 프레임 단위 음향 디테일을 맡는 0.6B Local LLM을 나누어 배치했습니다.\n여기에 Flow Matching과 Flow-VAE 기반 합성 방식을 결합해 보컬 표현력과 악기 질감, 시간적 연속성을 유지합니다.\n도입부, 절, 후렴, 브릿지, 아웃트로 등 곡 전체의 흐름과 보컬 정체성을 길게 이어가도록 설계되었습니다.\n구조 모델링과 음향 처리를 분리한 방식이 장기 생성 안정성을 얼마나 실질적으로 끌어올렸을지 궁금합니다.\n후반부까지 편곡 흐름을 버텨준다면 배경음악 외주 작업의 워크플로를 일부 대체할 수 있겠다고 봅니다.\n\n📷 사진 출처: huggingface.co",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1786896046,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/775376585_18080541773407306_8808075138166538009_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk2NTA5MzgxOTAxNzI4OTI3MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=uuNyyna0JQkQ7kNvwGX1r49&_nc_oc=AdomAHRrz7EFOM4-FPq872wopACDJlH31otdPG3iY-O6JBOyJSBOmmRbzr5YdVlGYLQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=jycIzQiH-Trl1_9VTs-ZQQ&_nc_ss=7a22e&oh=00_AQEeyTQz4WwM0q4yzrZPj7dID_-1dmCuEBpKx-2ja3zvyA&oe=6A87C115",
+   "url": "https://www.threads.com/@aipeekme/post/DcG19IHn142",
+   "region": "kr"
+  },
+  {
    "account": "choi.openai",
    "text": "오픈AI Codex의 Multi Agents v2에서 서브 에이전트가 사용할 모델을 직접 나눌 수 있게 됐습니다.\n\n예를 들어 GPT-5.6 Sol이 전체 작업을 관리하고, 빠른 GPT-5.6 Luna에 조사나 반복 작업을 맡기는 식인데요.\n\n복잡한 작업은 Sol, 가벼운 작업은 Luna로 분담하면 속도와 토큰 사용량을 줄이는 데 도움이 될 수 있습니다.",
-   "likes": 69,
+   "likes": 71,
    "cmts": 4,
    "time": 1786881643,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/774407873_17982409959112832_6939034422453391118_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk2NDk3MzA2MjAyNjA4NTM1Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTE5OS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=-CJ2ceUbbBsQ7kNvwEF3ZJp&_nc_oc=AdrkPT1pKIqONwquLamiRZPk1D07vO_86ergr4rm5ujVH8vSD9ux7zzPWnBq--cXfzo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=emXJ3TtUtxSWJQFNdKLZJA&_nc_ss=7a22e&oh=00_AQGf3_BlM8CUrrJRukqueFIv7rc4wH3vvZWo0L6_GSagMQ&oe=6A879323",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/774407873_17982409959112832_6939034422453391118_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk2NDk3MzA2MjAyNjA4NTM1Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTE5OS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=-CJ2ceUbbBsQ7kNvwEF3ZJp&_nc_oc=AdrkPT1pKIqONwquLamiRZPk1D07vO_86ergr4rm5ujVH8vSD9ux7zzPWnBq--cXfzo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Qp0EndDHIdCtlaHjpGkYRw&_nc_ss=7a22e&oh=00_AQG2dmO4eGCpCePxbrgNMHwmuE5d6EnF66U508ePYLHwAg&oe=6A87CB63",
    "url": "https://www.threads.com/@choi.openai/post/DcGaf4aDsPt",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "ChatGPT에 새로운 기능 \"Quizzes\"(채팅에서 퀴즈를 만들어주는 기능)가 추가됐습니다.\n\n\"양자역학에 대해 문제 내줘\"처럼 입력하면 객관식 퀴즈가 만들어지고, 답을 선택하면 바로 정답 여부와 해설을 확인할 수 있는데요.\n\n자격증 시험이나 새로운 분야를 공부할 때, 배운 내용을 제대로 이해했는지 확인하는 용도로 유용해 보입니다.",
-   "likes": 72,
+   "likes": 75,
    "cmts": 5,
    "time": 1786876257,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/774313634_1047147584570579_3437819476663930935_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk2NDkyNzg4MjkyMTQzNDA3Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=OiikNVtT0bgQ7kNvwGNRBWH&_nc_oc=AdpJbiBJNmZ-7wA1vj1gJ0xI_gBYEWKeGXmaT1DO24v6N6gJoIidRBngferTE5df11Q&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=emXJ3TtUtxSWJQFNdKLZJA&_nc_ss=7a22e&oh=00_AQE6rsWAv_l5TJxAaXSoGEjAd15E82wKRTpvtekeD687Tg&oe=6A87AEF5",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/774313634_1047147584570579_3437819476663930935_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk2NDkyNzg4MjkyMTQzNDA3Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=OiikNVtT0bgQ7kNvwGNRBWH&_nc_oc=AdpJbiBJNmZ-7wA1vj1gJ0xI_gBYEWKeGXmaT1DO24v6N6gJoIidRBngferTE5df11Q&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Qp0EndDHIdCtlaHjpGkYRw&_nc_ss=7a22e&oh=00_AQH-Q61n97Fa7U9gHMJek-iPd-lAlTRD3GNYmPve4A0NMA&oe=6A87AEF5",
    "url": "https://www.threads.com/@choi.openai/post/DcGQOcFktvZ",
    "region": "kr"
   },
@@ -425,7 +445,7 @@
    "likes": 1,
    "cmts": 1,
    "time": 1786870815,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/774797098_17982436125112832_751029508312650367_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk2NDg4MjIyNzc0NjAwMjA5MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjAwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=l_pVu8zBaJUQ7kNvwF9zVC8&_nc_oc=AdrAi0GXsCYxgKKmpXCBnnTYPhmKBPR0gwlXoai0dXxYm1LGp_kr-QX5YB5I0iuGyl8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=emXJ3TtUtxSWJQFNdKLZJA&_nc_ss=7a22e&oh=00_AQHsVmX50tAHiE4LUwUNqp4Iqv83-conhJiA8vS5Qt2arg&oe=6A8795CB",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/774797098_17982436125112832_751029508312650367_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk2NDg4MjIyNzc0NjAwMjA5MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjAwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=l_pVu8zBaJUQ7kNvwF9zVC8&_nc_oc=AdrAi0GXsCYxgKKmpXCBnnTYPhmKBPR0gwlXoai0dXxYm1LGp_kr-QX5YB5I0iuGyl8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Qp0EndDHIdCtlaHjpGkYRw&_nc_ss=7a22e&oh=00_AQFyp1bLFrtrN8Uc6LGjty3BhVNp4almGKpViKhFif_DQQ&oe=6A8795CB",
    "url": "https://www.threads.com/@choi.openai/post/DcGF2EZD1Sq",
    "region": "kr"
   },
@@ -452,10 +472,10 @@
   {
    "account": "choi.openai",
    "text": "AI 경제의 돈이 어디로 흐르는지 한 번에 보여주는 차트가 나왔습니다.\n\n상위 기업은 비싼 모델과 싼 모델을 업무별로 섞고, 기존 SaaS에 붙이고, 절감된 비용만큼 더 많은 토큰을 씁니다. 그 수요를 선점하려 네오클라우드는 매출보다 큰 설비투자를 감수합니다.\n\na16z의 최신 리포트를 뜯어봤습니다. 🧵",
-   "likes": 45,
+   "likes": 46,
    "cmts": 23,
    "time": 1786870799,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/773820575_17982436077112832_1215371526655356280_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk2NDg4MjA5Nzg0ODQ0OTU2Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjAwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=5TzMei3C-AIQ7kNvwFuysZ2&_nc_oc=AdoSBOV9DS0A03It1oiPWNpSD0tmohdjXdcD_ZpFcrkaD4aQpsbt-BIcOo-04RS3h60&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=emXJ3TtUtxSWJQFNdKLZJA&_nc_ss=7a22e&oh=00_AQGhWUze0C1tYD8l3invDHltsZYUxwIPQXVsyb1E-W0Iig&oe=6A87B5AE",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/773820575_17982436077112832_1215371526655356280_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk2NDg4MjA5Nzg0ODQ0OTU2Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjAwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=5TzMei3C-AIQ7kNvwFuysZ2&_nc_oc=AdoSBOV9DS0A03It1oiPWNpSD0tmohdjXdcD_ZpFcrkaD4aQpsbt-BIcOo-04RS3h60&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Qp0EndDHIdCtlaHjpGkYRw&_nc_ss=7a22e&oh=00_AQGX4ojyT6rt8rhDkGhIqT7t79w_L5hS-1qdWfGB5BZBoQ&oe=6A87B5AE",
    "url": "https://www.threads.com/@choi.openai/post/DcGF0Laj_ob",
    "region": "kr"
   },
@@ -465,7 +485,7 @@
    "likes": 76,
    "cmts": 7,
    "time": 1786865437,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/776222654_17982280752112832_2396894733564912900_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk2NDgzNzExNzc3MTc2MjYyOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTE3MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=d0idEUfhr60Q7kNvwGDbJZs&_nc_oc=Adq3d4giFPMQD3f6eQoVmgqFLmmfdCLVTWfg4i_jH34pw9k1wGGhxWqBzk33ovYqA14&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=emXJ3TtUtxSWJQFNdKLZJA&_nc_ss=7a22e&oh=00_AQEUnMc-dEiqyJjBMRqHF8reqC8S5i5IJYdtFmH30NdK8w&oe=6A87A57F",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/776222654_17982280752112832_2396894733564912900_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk2NDgzNzExNzc3MTc2MjYyOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTE3MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=d0idEUfhr60Q7kNvwGDbJZs&_nc_oc=Adq3d4giFPMQD3f6eQoVmgqFLmmfdCLVTWfg4i_jH34pw9k1wGGhxWqBzk33ovYqA14&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Qp0EndDHIdCtlaHjpGkYRw&_nc_ss=7a22e&oh=00_AQH-UCO2CRbSw2AIResQrCzryj7zKcwZCx66qfnlfETnpQ&oe=6A87A57F",
    "url": "https://www.threads.com/@choi.openai/post/DcF7lodEcvF",
    "region": "kr"
   }
@@ -482,13 +502,13 @@
    "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1vph4hl/does_anyone_know_why_this_keeps_happening_to_my/"
   },
   {
-   "sub": "MadeMeSmile",
-   "title": "Dog being comforted after getting scared from fireworks.",
+   "sub": "PeterExplainsTheJoke",
+   "title": "Why four",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/MHo0a3F0dmVjcWpoMZa7fq0NmqOrAlF78RygOF23EvQhgHdFGSEyciDOt11M.png?width=640&crop=smart&auto=webp&s=a520d6b65b28f870d2622f1b7e0643fcf600e122",
-   "time": 1786883059,
-   "url": "https://www.reddit.com/r/MadeMeSmile/comments/1vpvp1l/dog_being_comforted_after_getting_scared_from/"
+   "thumb": "https://preview.redd.it/vxwtsd6abqjh1.jpeg?width=640&crop=smart&auto=webp&s=c6a907ea3b5c1f1996b8dd7bb1f10d691749c963",
+   "time": 1786882566,
+   "url": "https://www.reddit.com/r/PeterExplainsTheJoke/comments/1vpvj3e/why_four/"
   },
   {
    "sub": "interestingasfuck",
@@ -500,13 +520,13 @@
    "url": "https://www.reddit.com/r/interestingasfuck/comments/1vpxu5p/ukrainian_teen_wins_bronze_in_spainwalks_off/"
   },
   {
-   "sub": "interestingasfuck",
-   "title": "What dating in the Amish world is like",
+   "sub": "cats",
+   "title": "This is a galactic cat",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/cThybnBpYm5wa2poMWwPuQZA8o3-Y2JG-2rdFAdd3Isnjx-9m4TL2YBgToYj.png?width=320&crop=smart&auto=webp&s=a54bb0b3ce09499dfc2ace0c19ff31d6da631732",
-   "time": 1786814760,
-   "url": "https://www.reddit.com/r/interestingasfuck/comments/1vp8o4j/what_dating_in_the_amish_world_is_like/"
+   "thumb": "https://external-preview.redd.it/cGpwMmtzOTRocWpoMYKtCQAUa18jC-UP8R0YhBCakx3lkDfSZfcvsU_VuwUR.png?width=640&crop=smart&auto=webp&s=bfa6baca083dcc38977b5a77d4f7517395128672",
+   "time": 1786884532,
+   "url": "https://www.reddit.com/r/cats/comments/1vpw7m0/this_is_a_galactic_cat/"
   },
   {
    "sub": "SipsTea",
@@ -518,15 +538,6 @@
    "url": "https://www.reddit.com/r/SipsTea/comments/1vp8ws1/iran_declares_strait_of_hormuz_stays_closed_until/"
   },
   {
-   "sub": "PeterExplainsTheJoke",
-   "title": "Why four",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/vxwtsd6abqjh1.jpeg?width=640&crop=smart&auto=webp&s=c6a907ea3b5c1f1996b8dd7bb1f10d691749c963",
-   "time": 1786882566,
-   "url": "https://www.reddit.com/r/PeterExplainsTheJoke/comments/1vpvj3e/why_four/"
-  },
-  {
    "sub": "MMA",
    "title": "[SPOILER] Islam Makhachev vs. Ian Machado Garry",
    "score": 0,
@@ -534,6 +545,15 @@
    "thumb": "",
    "time": 1786853901,
    "url": "https://www.reddit.com/r/MMA/comments/1vpn65p/spoiler_islam_makhachev_vs_ian_machado_garry/"
+  },
+  {
+   "sub": "MadeMeSmile",
+   "title": "Dog being comforted after getting scared from fireworks.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/MHo0a3F0dmVjcWpoMZa7fq0NmqOrAlF78RygOF23EvQhgHdFGSEyciDOt11M.png?width=640&crop=smart&auto=webp&s=a520d6b65b28f870d2622f1b7e0643fcf600e122",
+   "time": 1786883059,
+   "url": "https://www.reddit.com/r/MadeMeSmile/comments/1vpvp1l/dog_being_comforted_after_getting_scared_from/"
   },
   {
    "sub": "okbuddycinephile",
@@ -545,22 +565,13 @@
    "url": "https://www.reddit.com/r/okbuddycinephile/comments/1vpj01a/i_am_totally_out_of_the_loop_what_the_fuck_is_up/"
   },
   {
-   "sub": "AskReddit",
-   "title": "What was the most ridiculous \"final straw\" that made you decide to get a divorce?",
+   "sub": "SpaceXBets",
+   "title": "Don't forget this scum",
    "score": 0,
    "cmts": 0,
-   "thumb": "",
-   "time": 1786844005,
-   "url": "https://www.reddit.com/r/AskReddit/comments/1vpjy05/what_was_the_most_ridiculous_final_straw_that/"
-  },
-  {
-   "sub": "cats",
-   "title": "This is a galactic cat",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/cGpwMmtzOTRocWpoMYKtCQAUa18jC-UP8R0YhBCakx3lkDfSZfcvsU_VuwUR.png?width=640&crop=smart&auto=webp&s=bfa6baca083dcc38977b5a77d4f7517395128672",
-   "time": 1786884532,
-   "url": "https://www.reddit.com/r/cats/comments/1vpw7m0/this_is_a_galactic_cat/"
+   "thumb": "https://preview.redd.it/jodgpor1hnjh1.jpeg?width=640&crop=smart&auto=webp&s=29f77048d02aab4278a25d961948a6bc556389de",
+   "time": 1786848185,
+   "url": "https://www.reddit.com/r/SpaceXBets/comments/1vplc09/dont_forget_this_scum/"
   },
   {
    "sub": "me_irl",
@@ -572,13 +583,22 @@
    "url": "https://www.reddit.com/r/me_irl/comments/1vpw6iv/me_irl/"
   },
   {
-   "sub": "SpaceXBets",
-   "title": "Don't forget this scum",
+   "sub": "MMALabs",
+   "title": "Sent to me from my friend",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/jodgpor1hnjh1.jpeg?width=640&crop=smart&auto=webp&s=29f77048d02aab4278a25d961948a6bc556389de",
-   "time": 1786848185,
-   "url": "https://www.reddit.com/r/SpaceXBets/comments/1vplc09/dont_forget_this_scum/"
+   "thumb": "https://external-preview.redd.it/d2N0bnRnaWt6bGpoMeUg3Tqfdscpfd5zQdfxTA89HyjMtkspaOMRQYLdiZfQ.png?width=320&crop=smart&auto=webp&s=294540937d495b0d0a21901d6a7b934cea12421d",
+   "time": 1786830245,
+   "url": "https://www.reddit.com/r/MMALabs/comments/1vpf1az/sent_to_me_from_my_friend/"
+  },
+  {
+   "sub": "mildlyinteresting",
+   "title": "This long rock I found",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/xxo47hu05mjh1.jpeg?width=640&crop=smart&auto=webp&s=51c0b4cdb63efa7169f52ee43a8a3803a987e0ad",
+   "time": 1786832034,
+   "url": "https://www.reddit.com/r/mildlyinteresting/comments/1vpfpcr/this_long_rock_i_found/"
   }
  ],
  "disaster": [],
@@ -592,13 +612,6 @@
     "jajaja7878uu",
     "kyunghyang"
    ],
-   "insta": [
-    "lumalabsai",
-    "midjourney",
-    "openai",
-    "pika_labs",
-    "runwayapp"
-   ],
    "threads": [
     "aicoffeechat",
     "aipeekme",
@@ -609,28 +622,33 @@
   },
   "why": {
    "insta": {
-    "koreadispatch": "rotate",
-    "bts.bighitofficial": "rotate",
-    "blackpinkofficial": "rotate",
-    "newjeans_official": "rotate",
-    "aespa_official": "rotate",
-    "jennierubyjane": "rotate",
-    "xxxibgdrgn": "rotate",
-    "hm_son7": "rotate",
-    "sbsnow_insta": "rotate",
-    "mnet_official": "rotate",
-    "klingai_official": "rotate",
-    "heygen_official": "rotate",
-    "higgsfield.ai": "rotate",
-    "googledeepmind": "rotate",
-    "cristiano": "rotate"
+    "koreadispatch": "gap",
+    "bts.bighitofficial": "gap",
+    "blackpinkofficial": "gap",
+    "newjeans_official": "gap",
+    "aespa_official": "gap",
+    "jennierubyjane": "gap",
+    "xxxibgdrgn": "gap",
+    "hm_son7": "gap",
+    "sbsnow_insta": "gap",
+    "mnet_official": "gap",
+    "openai": "gap",
+    "runwayapp": "gap",
+    "pika_labs": "gap",
+    "lumalabsai": "gap",
+    "midjourney": "gap",
+    "klingai_official": "gap",
+    "heygen_official": "gap",
+    "higgsfield.ai": "gap",
+    "googledeepmind": "gap",
+    "cristiano": "gap"
    }
   },
   "landing": {
-   "at": "2026-08-17T00:01:25",
+   "at": "2026-08-17T00:31:58",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-17T00:31:55.746313+09:00"
+ "updated": "2026-08-17T01:01:21.887999+09:00"
 }
