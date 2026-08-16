@@ -2236,7 +2236,7 @@ function pollEdit(id, t0, minTs, wlbl, kind, focus){
   const status=$('#cstatus'); status.classList.remove('err');
   if(kind==='clip'){ $('#cliplist').hidden=true; $('#cliplist').innerHTML=''; }
   if(kind==='cutscan'){ $('#cutlist').hidden=true; $('#cutlist').innerHTML=''; }
-  const vw=$('#vwrap'); dlPark(); vw.hidden=false; $('#dlVid').hidden=true; $('#dlVid').classList.remove('dl-done');   // dlPark = 저장 버튼을 평소 자리로 되돌린 **뒤에** 대기 스테이지가 창을 갈아엎는다(안 되돌리면 버튼 노드가 통째로 사라진다 · 260811)   // (260804) `$('#pv').hidden=true` 제거 = **대기 중에도 미리보기 유지**(운영자 "계속 그 전 미리보기 화면처럼 유지되게") — 진행 표시는 이 아래 대기 스테이지가 맡고, 위 도크의 미리보기는 그대로 남아 다음 제작을 바로 이어갈 수 있다   // 구 `_ps.hidden=true`(하드 숨김) 제거 = 접힘 전환 복원(평의회⑨ 260728 — display:none 요소는 transition이 안 돌아 "자연스러운 접힘"이 **주 경로에서 통째로 사문**이었다) · ⚠ dockSync는 이 아래 대기 스테이지 주입 **뒤**에서 부른다(재검① 260728 — 갱신 전에 부르면 판정이 뒤집힌다)
+  const vw=$('#vwrap'); dlPark(); vw.hidden=true; $('#dlVid').hidden=true; $('#dlVid').classList.remove('dl-done');   // (260816) `hidden=false` → `true` = **대기 스테이지 자동 노출 폐지**(운영자 "차라리 저거로 보이는걸 표면적으로 갈음하고, 저 박스를 클릭하면 지금 스캐닝 하고 있는 이런게 각각 뜨게"). 내용은 아래에서 그대로 채워두고 **가시성만** 접는다 → 레일 진행중 행 탭(nmJobOpen)이 그 자리에서 펼친다. ⚠ 이 한 줄이 바뀐 이유 = 결과 창이 **하나뿐**인데 진행 표시가 그걸 상시 점유해서, 제작이 도는 동안 과거 제작물을 여는 길이 통째로 막혀 있었다(nmJobShow 의 `_polling` 차단줄 = 그 점유의 부작용 · 같은 커밋에서 해제). 진행 신호 = 결과 레일 「제작중 · N초」 행이 전담(중복 표시 해소)   // dlPark = 저장 버튼을 평소 자리로 되돌린 **뒤에** 대기 스테이지가 창을 갈아엎는다(안 되돌리면 버튼 노드가 통째로 사라진다 · 260811)   // (260804) `$('#pv').hidden=true` 제거 = **대기 중에도 미리보기 유지**(운영자 "계속 그 전 미리보기 화면처럼 유지되게") — 진행 표시는 이 아래 대기 스테이지가 맡고, 위 도크의 미리보기는 그대로 남아 다음 제작을 바로 이어갈 수 있다   // 구 `_ps.hidden=true`(하드 숨김) 제거 = 접힘 전환 복원(평의회⑨ 260728 — display:none 요소는 transition이 안 돌아 "자연스러운 접힘"이 **주 경로에서 통째로 사문**이었다) · ⚠ dockSync는 이 아래 대기 스테이지 주입 **뒤**에서 부른다(재검① 260728 — 갱신 전에 부르면 판정이 뒤집힌다)
   const wsrc=FILE_URL||'';
   vw.innerHTML=(wsrc?'<video class="wv" muted loop playsinline preload="metadata" src="'+esc(wsrc)+'"></video>':'')
     +'<div class="wscrim"></div><div class="scanline"></div>'
@@ -2394,7 +2394,11 @@ window.nmJobOpen=function(id){
     pollEdit(id, t0c, (p.t0||0)-90000, p.lbl||'편집 중', p.clip?'clip':p.cutscan?'cutscan':'', true);
   }
   const el=$('#vwrap');
-  if(el&&!el.hidden){ try{ el.scrollIntoView({behavior:LY_RM.matches?'auto':'smooth',block:'center'}); }catch(e){}
+  // (260816) 구판은 `!el.hidden`(이미 보일 때만) 이라 **스크롤·강조만** 했다 — 대기 스테이지가 상시 노출이던 시절의 전제다.
+  //   이제 그 스테이지는 자동으로 안 뜨므로 이 탭이 **펼치는 주체**가 된다(운영자 260816 "박스 누르면 제작중인 스캐닝이 뜨고").
+  //   내용은 위 pollEdit 이 이미 innerHTML 로 채워 두었다 = 여기선 가시성만 연다 · dockSync = 도크 접힘 판정이 이 hidden 을 읽는다.
+  if(el){ el.hidden=false; try{ dockSync(); }catch(e){}
+    try{ el.scrollIntoView({behavior:LY_RM.matches?'auto':'smooth',block:'center'}); }catch(e){}
     el.classList.add('edfocus'); setTimeout(()=>el.classList.remove('edfocus'),2200); }   // 착지 강조 = 딥링크(edFocusResult) 문법 그대로
 };
 /* ══ 자막 편집기 이식(ly.html L798~1261 원문 · 배치 B-2 260711) — 조각 카드·어절 칩·타이밍·찾기·미리보기 싱크 ══ */
@@ -3417,7 +3421,10 @@ async function openJob(id){
    게다가 이 탭은 레일이 든 작업을 작업 내역에서 **빼기까지 한다**(jlRailIds = 같은 칸 중복 표시 차단) → 그 제작물을 다시 열 길이 화면에 **하나도 없었다**(딥링크뿐).
    잡 번호 = 타일에 실어 둔 설정(src.id) 우선, 없으면 산출 주소 `…/ly_out/<번호>/…`에서 읽는다(강등분·타 기기분도 열린다). */
 window.nmJobShow=(url,e)=>{
-  if(_polling) return false;                      // 제작 진행 중 = 진행 UI 보호(작업 내역 행 게이트 동문 — 결과 창을 뺏으면 돌던 제작 표시가 사라진다)
+  // (260816) 구 `if(_polling) return false;` **해제**(운영자 "아래에 제작 섬네일 들어간거를 누르면 해당 건이 재생되게").
+  //   그 줄의 사유였던 「결과 창을 뺏으면 돌던 제작 표시가 사라진다」가 같은 커밋에서 소멸했다 — 대기 스테이지는
+  //   이제 자동 노출되지 않고(레일 행 탭으로만 펼침) 진행 신호는 결과 레일 「제작중 · N초」 행이 전담한다.
+  //   ⚠ 그 줄이 살아 있던 동안 **제작이 하나라도 돌면 완료 썸네일 탭이 통째로 무동작**이었다(콘솔 에러 0 = 무증상).
   const id=(e&&e.src&&e.src.id)||(/\/ly_out\/([A-Za-z0-9_-]+)\//.exec(String(url||''))||[])[1]||'';
   if(!/^[A-Za-z0-9_-]+$/.test(id)) return false;  // 경로 화이트리스트 = openJob 호출부 공통 정신(작업 내역 행 동문)
   USER_ACT=true;

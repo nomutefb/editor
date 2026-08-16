@@ -103,14 +103,28 @@ async function open(browser, port, file, init) {
       ck('J4 편집 같은 작업 중복 폴 차단', r === 1, 'polls=' + r);
       await pg.close();
     }
-    // ── J5 재개 = 진행분 전건(화면은 최신 1건)
+    /* ── J5 재개 = 진행분 전건 · 대기 화면은 **접힌 채**로 시작하고 레일 행 탭으로만 펼친다
+       (운영자 260816 "박스 누르면 제작중인 스캐닝이 뜨고" · 구 계약 = 「대기 화면은 최신 1건 자동 노출」)
+       ⚠ 축을 지운 게 아니라 **뒤집고 한 겹 더 얹었다** — 구판은 `wrap===true`(자동 노출)를 요구했는데,
+         그 자동 노출이 결과 창을 상시 점유해서 제작 중엔 과거 제작물을 여는 길이 통째로 막혀 있었다
+         (edit.html nmJobShow 의 `_polling` 차단줄 = 그 점유의 부작용 · 같은 커밋에서 해제).
+         그래서 여기선 ⓐ 처음엔 안 뜬다 ⓑ nmJobOpen 을 부르면 뜬다 **둘 다** 본다 = 무증상화 0
+         (ⓑ가 없으면 「그냥 안 뜬다」로 퇴화해도 초록이라 계약이 죽는다). */
     {
       const pg = await open(browser, port, 'edit.html', () => {
         const t = Date.now();
         localStorage.setItem('nm_edit_pend', JSON.stringify([{ id: '260810150500-e55555', t0: t, lbl: '편집 중' }, { id: '260810150000-d44444', t0: t, lbl: '편집 중' }]));
       });
       const r = await pg.evaluate(() => ({ polls: nmJobs.count('nm_edit_pend'), owner: EDIT_ID, wrap: !document.querySelector('#vwrap').hidden }));
-      ck('J5 편집 재개 = 진행분 전건 · 대기 화면은 최신 1건', r.polls === 2 && r.owner === '260810150500-e55555' && r.wrap, JSON.stringify(r));
+      const opened = await pg.evaluate(async () => {          // 레일 행 탭 = 그 작업의 스캐닝 화면을 펼치는 유일 경로
+        try { window.nmJobOpen('260810150500-e55555'); } catch (e) { return 'throw:' + e.message; }
+        await new Promise(r => setTimeout(r, 260));
+        const vw = document.querySelector('#vwrap');
+        return { shown: !vw.hidden, hasScan: !!vw.querySelector('.scanline') };   // 스캔라인 = 대기 스테이지 실물(빈 창 노출을 통과로 오판하지 않는다)
+      });
+      ck('J5 편집 재개 = 진행분 전건 · 대기 화면 접힘 → 행 탭으로 펼침',
+        r.polls === 2 && r.owner === '260810150500-e55555' && !r.wrap && opened && opened.shown === true && opened.hasScan === true,
+        JSON.stringify(r) + ' → 탭 후 ' + JSON.stringify(opened));
       await pg.close();
     }
     // ── J6 음원
