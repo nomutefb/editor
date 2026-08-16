@@ -1,6 +1,6 @@
 {
- "ok": 154,
- "dead": 15,
+ "ok": 152,
+ "dead": 17,
  "dead_feeds": [
   {
    "publisher": "국민일보",
@@ -48,6 +48,11 @@
    "url": "http://rss.kmib.co.kr/data/kmibRssAll.xml"
   },
   {
+   "publisher": "세계일보",
+   "title": "연예",
+   "url": "http://www.segye.com/Articles/RSSList/segye_entertainment.xml"
+  },
+  {
    "publisher": "시사저널",
    "title": "Health",
    "url": "http://www.sisajournal.com/rss/S2N106.xml"
@@ -71,6 +76,11 @@
    "publisher": "노컷뉴스",
    "title": "전체기사",
    "url": "https://www.nocutnews.co.kr/rss/news"
+  },
+  {
+   "publisher": "머니투데이",
+   "title": "전체기사",
+   "url": "https://rss.mt.co.kr/mt_news.xml"
   },
   {
    "publisher": "스포티비뉴스",
