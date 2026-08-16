@@ -1,6 +1,6 @@
 {
- "ok": 154,
- "dead": 15,
+ "ok": 151,
+ "dead": 18,
  "dead_feeds": [
   {
    "publisher": "국민일보",
@@ -58,6 +58,11 @@
    "url": "http://www.sisajournal.com/rss/S2N107.xml"
   },
   {
+   "publisher": "이투데이",
+   "title": "전체기사",
+   "url": "http://rss.etoday.co.kr/eto/etoday_news_all.xml"
+  },
+  {
    "publisher": "한국경제",
    "title": "전체기사",
    "url": "https://www.hankyung.com/feed/all-news"
@@ -71,6 +76,16 @@
    "publisher": "노컷뉴스",
    "title": "전체기사",
    "url": "https://www.nocutnews.co.kr/rss/news"
+  },
+  {
+   "publisher": "머니투데이",
+   "title": "전체기사",
+   "url": "https://rss.mt.co.kr/mt_news.xml"
+  },
+  {
+   "publisher": "전자신문",
+   "title": "IT·산업전반",
+   "url": "https://rss.etnews.com/Section901.xml"
   },
   {
    "publisher": "스포티비뉴스",
@@ -293,6 +308,11 @@
    "publisher": "통일뉴스",
    "title": "해외동포",
    "url": "https://www.tongilnews.com/rss/S1N7.xml"
+  },
+  {
+   "publisher": "통일뉴스",
+   "title": "오피니언",
+   "url": "https://www.tongilnews.com/rss/S1N9.xml"
   },
   {
    "publisher": "통일뉴스",
