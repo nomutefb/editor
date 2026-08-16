@@ -1849,6 +1849,14 @@ $('#xtrsec').addEventListener('click',e=>{
     // 트래킹 ON = **그 자리에서 인물 분석 발사**(운영자 260809 "트래킹 누르면 바로 #이 뜨게끔") — 구판은 XTR_FACES가 생성 폴 완료에서만 채워져
     //   한 번 생성하기 전까진 #이 영영 안 떴다. 여기서 /api/track analyze를 걸어 생성을 기다리지 않는다.
     if(k==='pinset'&&XTR[k]&&!XTR_FACES.length&&!XTR_RUN[XTR_SRC]) setTimeout(xtrScan,0);   // 판정 = **그 영상이 지금 분석 중인가**(구판 XTR_SCAN은 화면 전역이라 다른 영상 분석이 이 영상 발사를 막았다)
+    // 트래킹 OFF = **그 영상의 진행 중 분석을 대기에서 푼다**(운영자 260816 "토글을 다시 끄면 대기에서 풀리게 · 해당 하던 작업건에 국한").
+    //   구판은 끄기가 무동작이라 잘못 눌러 켠 분석이 끝까지 대기에 남아 「인물을 찾는 중」 표시와 폴이 계속 돌았다(취소 수단 0).
+    //   푸는 수단 = 진행 표식 XTR_RUN[sk] 삭제 하나 — 폴 지속 술어가 그것뿐이라(1786·1793행 `if(!XTR_RUN[sk]) return`)
+    //   다음 tick이 스스로 끝난다. ⚠ 발사 취소가 아니다(러너는 제 갈 길 = 서버에 취소 창구가 없다) — 화면이 그 결과를
+    //   더 안 기다릴 뿐이고, 그게 운영자가 말한 「대기에서 푼다」의 실체다.
+    //   ⚠ 얼굴 결과(XTR_FACES)는 안 지운다 = 다시 켤 때 재분석·재과금 0(바로 윗줄 발사 술어와 같은 축).
+    //   ⚠ 범위 = XTR_SRC 한 칸 = 「해당 하던 작업건에 국한」 — 다른 영상의 XTR_RUN은 무접촉(병렬 분석 계약 보존).
+    if(k==='pinset'&&!XTR[k]&&XTR_RUN[XTR_SRC]){ delete XTR_RUN[XTR_SRC]; XTR_SCAN=''; XTR_SCAN_ID=''; xscTick(false); xtrSave(); }
     renderXtr(); return; }
   const sx=e.target.closest('[data-xs]'); if(sx){ XTR.shape=sx.dataset.xs; renderXtr(); return; }
   const xf=e.target.closest('[data-xf]'); if(xf){ XTR.fill=xf.dataset.xf==='image'?'image':'mosaic'; renderXtr(); return; }
