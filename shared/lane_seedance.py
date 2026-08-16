@@ -567,7 +567,10 @@ def wait(job_id, *, token):
             raise LaneError("창구가 실패로 끝냈다 — {}".format(str(j.get("error") or st)[:160]),
                             # ⚠ 제출 뒤 실패다 = 값이 이미 나갔을 수 있다 → 자동 재시도 금지.
                             retryable=False, body=json.dumps(j, ensure_ascii=False)[:400])
-        time.sleep(max(1, int((d or {}).get("poll_after_seconds") or 3)))
+        # ⚠ 재문의 간격은 밖에서 늘릴 수 있다(운영자 260816 「봇처럼 핑을 안 쏘려고」) — 창구가
+        #   시키는 간격보다 좁히지는 못하고 넓히기만 한다(기본 = 종전 3초 그대로 = 회귀 0).
+        gap = int(os.environ.get("SD_POLL_GAP_SEC") or "3")
+        time.sleep(max(1, gap, int((d or {}).get("poll_after_seconds") or 3)))
     raise LaneError("{}분 안에 안 끝났다 — 큐가 밀린 상태다. 작업 번호로 결과를 확인한 뒤 판단하라"
                     .format(cap // 60), retryable=False)
 

@@ -55,7 +55,8 @@ jobs:
           SD_PRESET: ${{ inputs.preset }}
           SD_RES: ${{ inputs.res }}
           SB_COST_CAP: ${{ inputs.cap }}
-          SD_POLL_MAX_SEC: '1500'
+          SD_POLL_MAX_SEC: '2400'
+          SD_POLL_GAP_SEC: '20'   # 대기 재문의 간격(창구 장기폴 15초와 합쳐 약 35초에 1회 = 저빈도)
         run: |
           [ -n "$HIGGSFIELD_REFRESH_TOKEN" ] || {
             echo "발사: 미시도(HIGGSFIELD_REFRESH_TOKEN 미등록)"
