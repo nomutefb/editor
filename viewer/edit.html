@@ -538,6 +538,7 @@
   /* 섹션 위계 들여쓰기 마감 — ly.html 260712 정본("위치 이런 것들 들여쓰기, 그 내용도") 계승 누락분 이식: 소머리(.fl) = 좌측 기둥 유지 · 하위 내용 = 한 단 인셋 --sp-2(블릿 '• ' 폭 근사 = 소머리 텍스트 선 정렬) · 소스/완성영상/작업내역 공통(PREVIEW #pvSlot 미리보기 = ly .lyoptpv 중앙 비대상 동일) */
   .srcrow, .lyburn-row, #lyJobList { margin-left:var(--sp-2); }
   #lyBurn video { width:calc(100% - var(--sp-2)); margin-left:var(--sp-2); }   /* width:100% 블록 = margin만 주면 우측 넘침 → 폭 동보정(ly 원문 동일 · id 특이도로 .lyburn video 원규칙을 이김) */
+  .lyburn-stage.alpha video { background:repeating-conic-gradient(var(--line) 0% 25%, var(--pan) 0% 50%) 0 0/22px 22px; }   /* ⚠ (260816) 자막 동반 알파 산출의 투명 체커보드 — 값·패턴·크기는 위 `.vstage.alpha`(= track.html 178행) **그대로**, 거처만 video 자신으로 옮겼다. 사유 = 이 창의 video는 바로 윗줄이 좌측 `--sp-2` 만큼 들여쓰므로 컨테이너에 깔면 왼쪽에 영상 밖 체커보드 띠가 남는다(형제 `.vstage`는 video가 폭 100%라 컨테이너가 정확히 맞는다). 계승 사유 = 자막과 크로마키·키잉을 같이 켜면 완성본이 `#vwrap`이 아니라 이 창으로 라우팅되는데(3128행), 여기만 안 고치면 같은 사고가 그 조합에서 그대로 산다 = 「같은 병의 형제를 놓치는」 이 레포 최빈 반쪽 봉합. */
   .lyburn-note { color:var(--mut); font-size:var(--fs-sm); min-width:0; }
   /* 상세 툴바 — 전체선택(.dl-cbox)+아이콘 버튼(.sbtn 규격 30px) */
   .lytool { display:flex; align-items:center; gap:7px; margin:0 0 10px; }
@@ -3021,13 +3022,14 @@ function wireCopy() {
 }
 let LY_WANTVID = '', LY_VID_T = null, LY_VID_GEN = 0;   // 완성 영상(번인) 폴 상태 · GEN = 세대 토큰(in-flight fetch가 리셋 후 옛 영상 표시·좀비 재예약하는 경쟁 봉인 — poll() live 패턴 이식·평의회)
 function lyBurnStop() { LY_VID_GEN++; if (LY_VID_T) { clearTimeout(LY_VID_T); LY_VID_T = null; } }
-function lyBurnReset() { lyBurnStop(); LY_SPELL = null; lySpellRender(); const bx = $('#lyBurn'); if (!bx) return; bx.hidden = true; const v = $('#lyBurnVid'); v.hidden = true; v.removeAttribute('src'); try { v.load(); } catch (e) {} $('#lyBurnDl').hidden = true; const rb = $('#lyReburn'); if (rb) rb.hidden = true; const cdw = $('#lyCutDelW'); if (cdw) cdw.hidden = true; const cd = $('#lyCutDel'); if (cd) cd.checked = false; $('#lyBurnNote').textContent = ''; }   // 삭제 컷 체크 = 작업 전환 시 해제(세션 간 상태 누수 차단 · 검증⑦A)
+function lyBurnReset() { lyBurnStop(); LY_SPELL = null; lySpellRender(); const bx = $('#lyBurn'); if (!bx) return; bx.hidden = true; const v = $('#lyBurnVid'); v.hidden = true; if (v.parentElement) v.parentElement.classList.remove('alpha');   /* 알파 해제 = 빈 체커보드 잔존 차단(`pollEdit` 형제와 동축) */ v.removeAttribute('src'); try { v.load(); } catch (e) {} $('#lyBurnDl').hidden = true; const rb = $('#lyReburn'); if (rb) rb.hidden = true; const cdw = $('#lyCutDelW'); if (cdw) cdw.hidden = true; const cd = $('#lyCutDel'); if (cd) cd.checked = false; $('#lyBurnNote').textContent = ''; }   // 삭제 컷 체크 = 작업 전환 시 해제(세션 간 상태 누수 차단 · 검증⑦A)
 let _lyBurnT0 = 0;   // 자막 굽기 시작 시각 = nmEta 학습 기점(운영자 260731 · ly 동문)
 function lyBurnWait(msg) { const bx = $('#lyBurn'); if (!bx) return; _lyBurnT0 = Date.now(); bx.hidden = false; $('#lyBurnVid').hidden = true; dockSync();   /* dockSync = lyBurnVid 숨김 **뒤**(재검① 260728 — 앞에 두면 직전 완성본 video가 아직 가시라 Solving 1~3분 내내 접혀 있었다) */ $('#lyBurnDl').hidden = true; const rb = $('#lyReburn'); if (rb) rb.hidden = true; const cdw = $('#lyCutDelW'); if (cdw) cdw.hidden = true; $('#lyBurnNote').innerHTML = (window.nmLoader ? nmLoader('solving','제작중…') + ' <span class="nm-shim">' + (window.nmEta?nmEta.label('edit-burn').trim():'(예상 : 3분 00초)') + '</span>' : (msg || '영상에 자막 입히는 중') + '<span class="gdots"><i>.</i><i>.</i><i>.</i></span> (1~3분)'); }   // orb 로더(Solving · 운영자 260723 Q461) · 폴백 = 구 점3
 function lyBurnShow(j) {
   if (!/^https?:\/\//i.test(j.url || '') && !/^ly_out\//.test(j.url || '')) return;   // 스킴 화이트리스트 = javascript:/data: 싱크 차단(방어심화·평의회)
   const bx = $('#lyBurn'); if (!bx) return; bx.hidden = false;
   const v = $('#lyBurnVid'); if (v.getAttribute('src') !== j.url) v.src = j.url; v.hidden = false;
+  if (v.parentElement) v.parentElement.classList.toggle('alpha', !!j.preview);   /* 투명 체커보드 = `#vwrap` 형제와 같은 술어(`preview` 존재 = 알파 산출) · 자막+크로마키·키잉 조합이 이 창으로 오는 경로 담당 */
   const opv = $('#lyPv'); if (opv && !opv.hidden) { try { const ov = $('#lyVid'); if (ov && !ov.paused) ov.pause(); } catch (e) {} opv.hidden = true; lyPvSync(); }   // 완성본 등장 = 원본 미리보기 숨김(운영자 260731 "작업본만 나오게" — 위아래 이중 영상 제거) · src 보존 = 조각 편집 lySeek는 hidden 가드로 무동작
 
   if (window.nmEta && _lyBurnT0) { nmEta.done('edit-burn', (Date.now() - _lyBurnT0) / 1000); _lyBurnT0 = 0; }   // 예상 학습 = 성공 완료만(ly 동문 · sb·k 배선 그대로)
@@ -3035,7 +3037,7 @@ function lyBurnShow(j) {
   const dl = $('#lyBurnDl'); dl.hidden = false; if (!dl._icon) { dl.innerHTML = DOWNLOAD_SVG; dl._icon = 'dl'; } dl.dataset.url = j.url;
   const rb = $('#lyReburn'); if (rb) rb.hidden = !(j.src && /^https?:\/\//i.test(j.src));   // 다시 입히기(되돌이표) = 260731 도먼트 **해제**(운영자 260810 "자막을 뽑은 다음에 그 결과물을 보고 일부 수정할 수 있는 방법이 없음") — 상세 편집기에서 고친 자막을 영상에 되입히는 **유일 경로**라 이게 숨으면 편집기 전체가 죽은 UI가 된다(실측 260810: 조각 8·단어칩 92 전부 정상 동작인데 적용 버튼만 부재 · 게다가 subs.md 개요가 "상세 편집기에서 그 조각만 고쳐 '다시 입히기'하면 재생성"이라고 **안내까지 하는데 그 버튼이 화면에 없었다** = 안내와 화면의 모순). 조건 = 주석에 보존돼 있던 구 조건 그대로(창작 0) = 원본이 R2에 보관된 잡만 노출(재번인 원료가 실존해야 누를 수 있다) · 삭제 컷은 그대로 도먼트(운영자 260731 지시 유지 = 최소 변경)
   const cdw = $('#lyCutDelW'); if (cdw) cdw.hidden = true;   // 삭제 컷 토글 = 위와 동행 도먼트(운영자 260711 텍스트 컷 축 보존)
-  $('#lyBurnNote').textContent = (j.note ? j.note + ' · ' : '') + (j.bytes ? (j.bytes / 1048576).toFixed(1) + 'MB' : '');
+  $('#lyBurnNote').textContent = (j.note ? j.note + ' · ' : '') + (j.bytes ? (j.bytes / 1048576).toFixed(1) + 'MB' : '') + (j.xtr_note ? ' · ' + j.xtr_note : '');   /* ⚠ (260816) 추가 옵션 실패 사유 = `#cstatus` 형제와 같은 축. 자막을 같이 켜면 완성본이 이 창으로 라우팅되므로(3128행) 여기만 빠지면 그 조합에서 사유가 다시 사라진다. `textContent` 유지 = 이 줄은 평문 노트 자리라 WARN 픽토를 넣으려면 innerHTML 로 바꿔야 하고, 그건 러너 문자열을 마크업으로 해석하는 문을 새로 여는 것이라 안 한다(형제 `#cstatus` 는 이미 innerHTML 자리라 `esc()` 를 거쳐 픽토를 단다). */
 }
 async function lyVidFetch(outPath) {   // video.json 1회 fetch — SPA 폴백(HTML 200) 무시 = poll()과 동일 가드
   try {
