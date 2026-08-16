@@ -90,7 +90,6 @@ UNITS = [
     "46_creator_tips_viral.tsv",
     "47_action_dynamics.tsv",
     "48_commentary_structures.tsv",   # 논평 구조(작품 단위) — 260813 신설
-    "49_style_auto_dispatch.tsv",     # 화풍 자동 선택(작품 단위) — 260816 신설
 ]
 
 SSOT_BANNER = (
