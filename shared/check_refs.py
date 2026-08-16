@@ -6648,6 +6648,55 @@ _FAIL_REASON_LINKS = (
 #   지운 킬테스트가 rc=0 으로 통과했다(= 죽은 게이트). 넓은 술어는 자기도 모르게 면죄부를 만든다.
 
 
+def _py_code_only(src, mask_strings=False):
+    """파이썬 소스에서 **주석·독스트링을 걷고** 코드부만 돌려준다(길이 보존 = 오프셋이 원본과 1:1).
+    `mask_strings=True` 면 남은 문자열 **내용까지** 공백으로 가린다(따옴표는 남긴다).
+
+    ⚠ 「줄 시작 #만 걷기」로는 부족하다(260816 적대검증 실측) — 이 레포는 처방을 주석으로 적는 관례라
+      ⓐ 코드줄 **꼬리 주석** ⓑ **독스트링** 두 곳이 그대로 남아, 기록을 지우고 흔적만 주석으로 남긴
+      킬테스트가 rc=0으로 통과했다(= 죽은 게이트). 문자열 안의 `#`는 주석이 아니므로 따옴표를 따라간다.
+    ⚠ 길이 보존인 이유 = 「호출이 pop보다 뒤인가」처럼 **자리**를 보는 축이 있어서, 문자열 가린 판과
+      안 가린 판의 오프셋이 어긋나면 그 판정이 통째로 거짓이 된다(`css_hoist` 마스킹 관례 계승).
+    ⚠ 두 판이 다 필요하다 = 정본 인자 `libvpx-vp9` 처럼 **문자열 안에 사는 게 정상**인 토큰이 있고,
+      호출 `_alpha_note(prev …)` 처럼 **문자열 안에 있으면 가짜**인 토큰이 있다(적대검증 K-A 실증)."""
+    TRIPLES = ('"""', "'''")
+    out, i, n = [], 0, len(src)
+    q = None
+    while i < n:
+        c = src[i]
+        if q:
+            if c == '\\' and len(q) == 1:
+                out.append('  ' if mask_strings else src[i:i + 2])
+                i += 2
+                continue
+            if src.startswith(q, i):
+                out.append(' ' * len(q) if len(q) == 3 else q)
+                i += len(q)
+                q = None
+                continue
+            out.append(' ' if (len(q) == 3 or mask_strings) else c)
+            i += 1
+            continue
+        if c == '#':
+            while i < n and src[i] != '\n':
+                out.append(' ')
+                i += 1
+            continue
+        hit = next((tq for tq in TRIPLES if src.startswith(tq, i)), None)
+        if hit:
+            q = hit
+            out.append('   ')
+            i += 3
+            continue
+        if c in ('"', "'"):
+            q = c
+            out.append(c)
+            i += 1
+            continue
+        out.append(c)
+        i += 1
+    return ''.join(out)
+
 def check_fail_reason_visible():
     """실패 사유가 화면까지 오는가(하드 · 260816 실사고의 일반화).
 
@@ -6677,7 +6726,7 @@ def check_fail_reason_visible():
             print('❌ 실패 사유 표시 게이트 — %s 층 파일 결손: %s' % (label, e))
             rc = 1
             continue
-        rcode = '\n'.join(l for l in rsrc.splitlines() if not l.lstrip().startswith('#'))
+        rcode = _py_code_only(rsrc)
         vcode = re.sub(r'(?<![:/])//[^\n]*', ' ', _strip_css_comments(vsrc))
         if wr not in rcode:   # 러너가 그 사유를 더 이상 안 쓴다 = 짝이 깨졌다(개명이면 이 표도 같이 고쳐라)
             print('❌ 실패 사유 표시 게이트 — %s: 러너가 사유를 안 쓴다(%s에 `%s` 없음)' % (label, runner, wr))
@@ -6715,7 +6764,7 @@ def check_edit_track_chain():
     #   `classList.toggle('alpha'`)을 **그대로 인용**하고 있어서, 원문으로 보면 코드를 통째로 지워도
     #   주석만으로 통과한다(= 자기적발 차단 · `check_nm_jobs` 「주석부는 잘라내고 코드부만 본다」 관례 계승).
     #   `//` 는 프로토콜(`https://`)을 피해 걷는다(`check_image_format` js 주석 처리 문법 사본).
-    vwc = re.sub(r'(?<![:/])//[^\n]*', ' ', _strip_css_comments(vw))
+    vwc = re.sub(r'(?<![:/])//[^\n]*', ' ', _strip_css_comments(re.sub(r'<!--.*?-->', ' ', vw, flags=re.S)))   # `<!-- -->`도 함께 걷는다 — 260816 적대검증 실측: 읽기 코드를 지우고 HTML 주석에 `d.xtr_note` 한 줄만 남기니 rc=0으로 통과했다
     checks = [
         ('① 뷰어 송신', 'function xtrOpts(' in vw and 'o.xtr=xo' in vw and '!xtrOpts()' in vw),   # 셋째 = **뷰어 발사 게이트**가 xtr 단독을 유효로 인정(빠지면 ORDER 검사에서 "처리를 하나는 넣어줘"로 막혀 서버에 도달조차 못 한다 — 실측 260808: 서버 게이트만 고치고 이걸 빠뜨려 주 시나리오가 통째로 거절됐다)
         ('② api 화이트리스트', 'opts.xtr = xt' in ae and '!opts.xtr' in ae),   # 후자 = 서버 발사 게이트의 같은 축(①과 한 쌍 — 한쪽만 고치면 여기서 막히거나 저기서 400)
@@ -6744,14 +6793,18 @@ def _edit_track_probe_ok(et):
     3축 = ⓐ 판정기 3부품 실존(임계 상수 · 측정 · 문구) ⓑ 알파 디코더 명시(빠지면 통계가 0줄이라
     **전 회차 판정 유보** = 층이 있는데 아무 일도 안 한다) ⓒ **자리** = 호출이 `xtr_note` pop 뒤.
     ⓒ가 실효 조건 = 앞에 두면 방금 쓴 사유를 그 pop이 지워서 화면에 영영 안 뜬다."""
-    code = '\n'.join(l for l in et.splitlines() if not l.lstrip().startswith('#'))   # 주석 줄 제외 = 처방문 자기적발 차단
-    if not all(k in code for k in ('ALPHA_NOOP_MIN', 'def _alpha_mean', 'def _alpha_note', '_alpha_note(prev')):
+    code = _py_code_only(et)          # 주석·독스트링만 걷은 판 — 정본 인자 `libvpx-vp9` 는 문자열 안에 사는 게 정상이라 이 판에서 본다
+    mask = _py_code_only(et, mask_strings=True)   # 문자열 내용까지 가린 판(길이 보존) — 호출·자리는 이 판에서 본다. ⚠ 260816 적대검증 K-A 실측 = 호출을 지우고 그 문장을 **문자열 리터럴로** 남기니 rc=0으로 통과했다
+    # ⚠ 주석 **줄**만 걷으면 안 된다(260816 적대검증 실측) — `_alpha_mean` 독스트링이 판정 토큰 `libvpx-vp9`를 인용하고 있어서, 가장 개연성 높은 자연 회귀(명령 인자에서 그 두 낱말만 정리)를 이 축이 **신설 시점부터 못 잡고 있었다**. 꼬리 주석 위장도 같은 구멍.
+    if not all(k in mask for k in ('ALPHA_NOOP_MIN', 'def _alpha_mean', 'def _alpha_note', '_alpha_note(prev')):
         return False
     if 'libvpx-vp9' not in code:   # 알파 디코더 명시 = 측정이 실제로 값을 내는 조건
         return False
-    pop = code.find('vj.pop("xtr_note"')
-    call = code.find('_alpha_note(prev')
-    return pop != -1 and call != -1 and call > pop
+    pop = code.find('vj.pop("xtr_note"')      # 문자열 유지판(키 이름이 리터럴이라)
+    call = mask.find('_alpha_note(prev')       # 가린 판(위장 차단) — 두 판은 길이 보존이라 오프셋이 같다
+    if pop == -1 or call == -1 or call < pop:
+        return False
+    return code.find('vj.pop("xtr_note"', call) == -1   # 호출 **뒤에도** pop이 있으면 사유가 매회 지워진다 — 첫 pop만 보던 구판은 이 최악 형태를 rc=0으로 통과시켰다(260816 적대검증 실측)
 def check_smoke_obs_chain():
     """UI 스모크 관측·알림 체인 게이트(하드 · 운영자 260807 "알림 메세지에 그 내용이 쌓이게 ·
     웹앱 푸쉬알림까지는 안오게 · 다운로드해서 클코에 전달하면 개선할 수 있도록").

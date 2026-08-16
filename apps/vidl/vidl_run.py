@@ -32,6 +32,7 @@ from datetime import datetime, timedelta, timezone
 KST = timezone(timedelta(hours=9))
 SUBLANG = "en,ko"           # bat v4.9 기본
 VID_EXT = (".mp4", ".mkv", ".webm", ".mov", ".m4v")
+IMG_EXT = (".jpg", ".jpeg", ".png", ".webp")   # 스레드 사진 게시물 = 이미지도 성과(260802 실측 — jpg 100% 받고도 영상 게이트에 걸려 실패 처리되던 것 교정)
 STT_MAX_DUR = 600           # 받아쓰기 폴백 대상 상한(초) — ly 번인 길이 게이트와 동일 축(10분 · large-v3 CPU ~2x실시간)
 STT_RESERVE = 300           # STT 후 업로드 몫으로 남겨둘 예산(초) — 부족하면 영상 납품 우선·받아쓰기 생략
 PROBE_TO = 120             # 사전조회 1회 타임아웃(초)
@@ -345,6 +346,11 @@ def stt_fallback(outdir):
     vids = ([f for f in files if f.endswith(VID_EXT) and "maxfps_" not in f and "1080p_" not in f]
             or [f for f in files if f.endswith(VID_EXT)])   # ①본 우선(부가본 = 동일 음성 중복)
     if not vids:
+        # ⚠ 사진 글은 「영상 없음」이 정상이다(260816 적대검증 실측) — 스레드·인스타 사진 게시물은 위 성공 게이트가
+        #   jpg 를 성과로 인정하므로(637행 IMG_EXT · 260802 교정), 여기서 사유를 채우면 **완벽히 성공한 납품 카드에
+        #   빨간 실패줄**이 뜬다. 받아쓸 영상이 애초에 없는 것이지 실패가 아니다 → 344행(플랫폼 자막 확보) 동문 무사유.
+        if any(f.endswith(IMG_EXT) for f in files):
+            return {"on": False, "why": ""}
         return {"on": False, "why": "영상 없음"}
     src = os.path.join(outdir, vids[0])
     dur = ffprobe_dur(src)
@@ -633,8 +639,6 @@ def main():
         rc = download(url, outdir, "", "bv*+ba/b/best", ["--skip-download"], ck_use, pl, subs=True, post=post, desc=True)
         if rc != 0 and PLAT == "YT" and cookies:
             rc = download(url, outdir, "", "bv*+ba/b/best", ["--skip-download"], cookies, pl, subs=True, post=post, desc=True)
-    VID_EXT = (".mp4", ".mkv", ".webm", ".mov", ".m4v")
-    IMG_EXT = (".jpg", ".jpeg", ".png", ".webp")   # 스레드 사진 게시물 = 이미지도 성과(260802 실측 — jpg 100% 받고도 영상 게이트에 걸려 실패 처리되던 것 교정)
     got = out_files(outdir)
     if want_vid:
         ok = rc == 0 and any(f.endswith(VID_EXT + IMG_EXT) for f in got)   # 성공 게이트 = 미디어 존재(자막만=실패 · 평의회6 P3-3)

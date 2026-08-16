@@ -452,6 +452,7 @@ def main():
     vj.pop("error", None)   # 산출이 실제로 나왔으니 컴포즈 단계의 "합성할 게 없었다" 기록은 걷는다(남기면 뷰어가 실패로 표시 = 결과가 있는데 못 보는 사고)
     vj.pop("skip", None)
     json.dump(vj, open(vj_p, "w", encoding="utf-8"), ensure_ascii=False)
+    _mirror_vj(vid_id, vj)
     log("완료 — " + ",".join(done) + " · " + str(os.path.getsize(cur) // 1048576) + "MB")
     return 0
 
@@ -503,6 +504,33 @@ def _publish_faces(vid_id, tid, doc, outdir, vj, vj_p):
             log("얼굴 썸네일 %d명 게시" % len(faces))
     except Exception as e:   # fail-soft — 썸네일은 보조 표시라 실패해도 가림·편집은 그대로 간다
         log("얼굴 게시 실패(무해): " + str(e)[:80])
+
+
+def _mirror_vj(vid_id, vj):
+    """결과 쪽지를 보관함에도 다시 올린다 — **이 한 줄이 없으면 이 단계의 산출이 실시간 화면에 영영 안 온다.**
+
+    ⚠ 260816 적대검증이 잡은 마지막 구멍이다. 체인 실측 =
+      ⓐ 컴포즈(`ly_burn.py` 303~317행)가 `video.json` 을 **보관함에 미러**한다(배포를 안 기다리려고 260728 도입).
+      ⓑ 이 단계(post)는 미디어만 올리고(398·407행) **쪽지는 로컬에만 썼다**.
+      ⓒ 화면 조회(`functions/api/edit.js` `?stat=`)는 **보관함 원문**을 준다.
+      ⓓ 폴은 `url` 이 있으면 거기서 멈춘다(`viewer/edit.html` pollEdit).
+      → 폴이 집는 건 **컴포즈 시점 쪽지**라 이 단계가 더한 것(프리뷰 주소·실패 사유·무동작 사유)이 그 화면엔 안 온다.
+      같은 세션이 그 위에 얹은 화면 봉합 3건(사유 표기·체커보드·자막 창 계승)이 **다시 열 때만** 살아 있었다.
+    보관함 키·내용 타입은 `ly_burn.py` 미러 블록 사본(창작 0) · 올리는 수단은 **이 파일이 이미 쓰는 `_upload`**
+    재사용(별도 업로더 창작 0 · 그쪽이 파일 경로를 받으므로 쪽지를 임시 파일로 한 번 떨군다) ·
+    전면 fail-soft = 실패해도 종전 배포 경로가 그대로 폴백."""
+    try:
+        if not vid_id:
+            return
+        tmp = "/tmp/edit_track_vj.json"
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(vj, f, ensure_ascii=False, separators=(",", ":"))
+        if _upload(tmp, "ly_out/{}/video.json".format(vid_id), "application/json"):
+            log("결과 쪽지 보관함 미러 완료")
+        else:
+            log("결과 쪽지 미러 건너뜀(보관함 미설정) — 배포 경로 폴백")
+    except Exception as e:
+        log("결과 쪽지 미러 실패(무해 — 배포 경로 폴백): " + str(e)[:100])
 
 
 def _upload(path, key, ctype):
