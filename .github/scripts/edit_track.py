@@ -131,6 +131,75 @@ def render(tid, payload, mode):
     return main_p, (prev_p if (prev_p and os.path.isfile(prev_p)) else None)
 
 
+ALPHA_NOOP_MIN = 254.5   # 알파 평균이 이 위 = 뺀 화소가 사실상 0(실측 근거 = 아래 _alpha_note 독스트링 표)
+ALPHA_GONE_MAX = 0.5     # 이 아래 = 화면이 통째로 비었다(0 = 전 화소 투명 = 퇴화 끝점이라 보정이 필요한 값이 아니다)
+
+
+def _alpha_mean(path):
+    """알파 프리뷰(webm)의 알파 평면 평균(0~255). 못 재면 None(= 판정 유보).
+    ⚠ `-vcodec libvpx-vp9` 명시가 실효 조건 — 기본 디코더는 WebM 알파(BlockAdditions)를 안 읽어
+      **정상 알파 파일도 통계가 0줄**로 나온다(실측). 다행히 그건 조용한 거짓 255가 아니라 시끄러운 무출력이라
+      「데이터 0줄 = 판정 유보」로 받으면 오판이 구조적으로 불가능하다.
+    ⚠ 초당 2프레임 샘플링 = 전수 대비 값 차이가 소수점 둘째 자리까지 0인데 비용은 1/3.5(실측 10초 영상
+      전수 2.5s → 샘플 0.72s ≈ 원본 1초당 0.07s). 300초 캡에서도 파이프 전체의 1~3%."""
+    try:
+        r = subprocess.run(["ffmpeg", "-v", "error", "-vcodec", "libvpx-vp9", "-i", path,
+                            "-vf", "fps=2,alphaextract,signalstats,"
+                                   "metadata=print:key=lavfi.signalstats.YAVG:file=-",
+                            "-f", "null", "-"], capture_output=True, text=True, timeout=300)
+    except Exception as e:
+        log("알파 측정 건너뜀: " + str(e)[:80])
+        return None
+    vals = []
+    for ln in ((r.stdout or "") + "\n" + (r.stderr or "")).splitlines():
+        if "YAVG=" in ln:
+            try:
+                vals.append(float(ln.split("YAVG=", 1)[1].strip()))
+            except ValueError:
+                pass
+    return (sum(vals) / len(vals)) if vals else None
+
+
+def _alpha_note(path, mode):
+    """「돌긴 돌았는데 아무것도 안 뺐다」를 말로 바꾼다. 할 말이 없으면 None.
+
+    ⚠ 왜 필요한가(운영자 260816 "키잉, 하고 크로마키는 정상적으로 동작을 안해") = 크로마키는 **그린스크린으로 찍은
+      영상에서만** 원리적으로 동작하는데, 일반 실사 영상에 걸면 지울 색이 화면에 없어서 **뺀 화소가 0인 채로
+      성공**한다. 러너는 초록이고 산출물도 정상이고 화면에도 영상이 뜬다 — 원본과 똑같은 영상이. 그래서 어느
+      층도 안 울리고 운영자 눈이 유일한 검출기였다(insta-thumb-miss·brk_misfire 동축).
+      실측 = 운영자의 그 크로마키 산출은 알파 평균 **255.0이 400프레임 균일**이었다(= 한 화소도 안 뺐다).
+
+    임계 254.5 근거(합성 8종 + 실제 산출 2종 실측 · 뺀 비율이 초록 면적과 1:1 선형이라 자가 검증됨):
+      · 초록 0(일반 실사)        평균 255.00 · 뺀 비율 0.00%   ← 사고 축
+      · 실제 사고분(운영자 산출)  평균 255.0 균일 · 0.00%       ← 사고 축
+      · 자연 초록(잔디)          평균 254.88 · 0.05%           ← 야외 실사도 이쪽
+      · 화면 0.3% 초록           평균 254.21 · 0.31%           ← 여기부터는 뭔가 뺐다
+      · 그린스크린               평균  32.46 · 87.27%
+      · 실제 정상 키잉(운영자)    평균  68.7~69.1 · 73%
+      유효 구간 (254.21, 254.88) 의 중앙 = 254.5(양쪽 여유 0.29·0.38). 손실 인코딩 왕복 뒤에도 진짜
+      무동작은 정확히 255.00으로 떨어져서(합성·실물 둘 다) 이 마진이면 충분하다.
+
+    ⚠ 문구는 새로 짓지 않았다 — 앞절 골격은 216행 「영상에서 사람을 못 찾아서 …」, 꼬리는 193행 「 — …해줘」,
+      기능 이름은 화면 라벨 그대로(크로마키 = 특정 색 빼기 · 키잉 = 피사체만 남김)를 가져왔다.
+      ⚠ 대안으로 「실루엣」은 안 권한다 = 그 카드는 260728부터 화면에서 숨겨져 있어(edit.html) 없는 버튼을
+      누르라는 오안내가 된다."""
+    m = _alpha_mean(path)
+    if m is None:
+        log("알파 판정 유보 — 측정값 0줄(%s)" % os.path.basename(path))
+        return None
+    log("알파 평균 %.2f/255 (%s)" % (m, mode))
+    if m >= ALPHA_NOOP_MIN:
+        if mode == "chroma":
+            return ("영상에서 지정한 색을 거의 못 찾아서 뺀 것 없이 그대로야 — "
+                    "초록 배경으로 찍은 영상이 아니면 크로마키 대신 키잉(피사체만 남김)을 써줘.")
+        return "영상에서 피사체를 못 가려내서 배경이 그대로 남았어 — 트래킹 탭에서 수동으로 해줘."
+    if m <= ALPHA_GONE_MAX:
+        if mode == "chroma":
+            return ("지정한 색이 화면 거의 전부라 통째로 지워졌어 — 강도를 낮춰서 다시 해줘.")
+        return "피사체를 못 붙잡아서 화면이 통째로 비었어 — 트래킹 탭에서 수동으로 해줘."
+    return None
+
+
 def main():
     if len(sys.argv) < 3:
         log("인자 부족 — 스킵")
@@ -363,6 +432,20 @@ def main():
     if not url:
         vj["note"] = "master-lost"   # 뷰어가 정직 표시(다운로드용 알파 마스터 없음 · 화면 재생은 프리뷰) — track_keying·track_chroma 동일 문자열
     vj.pop("xtr_note", None)
+    # ⚠ 「조용한 무동작」 검문 — 자리가 계약이다. 바로 윗줄 pop이 **성공 회차의 사유까지 지우므로**
+    #   이 판정은 반드시 pop **뒤**에 와야 한다(앞에 두면 쓰자마자 지워져 화면에 영영 안 뜬다).
+    #   대상 = 알파를 만드는 두 축(크로마키·키잉) — 한 자리로 둘 다 덮는다. 엔진 쪽(track_chroma·track_keying)에
+    #   각각 넣으면 사본 2벌이 되고, 그건 이 레포가 반복해 겪은 「형제 한쪽만 낡는」 드리프트다.
+    #   실루엣(maskfx)은 프리뷰가 없어(LOCAL_OUT) 자연 제외 = 알파가 없는 산출이라 이 축의 대상이 아니다.
+    #   전면 fail-soft = 측정이 실패하든 값이 애매하든 산출물·url은 무접촉이고 rc는 그대로 0.
+    #   끄기 = EDIT_ALPHA_PROBE=0(종전 동작 100% 복귀).
+    if alpha and prev and endpoint in ("chroma", "keying") and os.environ.get("EDIT_ALPHA_PROBE", "1") != "0":
+        try:
+            _an = _alpha_note(prev, endpoint)
+            if _an:
+                vj["xtr_note"] = _an
+        except Exception as e:
+            log("알파 판정 건너뜀: " + str(e)[:80])
     _f = _pre_faces()
     if _f:
         vj["faces"] = _f
