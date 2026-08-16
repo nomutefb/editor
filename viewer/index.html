@@ -8797,9 +8797,17 @@ function openMsgbox(highlightId) {
   hidePmenu();   // 프로필 메뉴 닫음(촤르륵 접힘 · 메시지함 뒤에 안 남음 · 다음 프로필 클릭 정상 토글 · 운영자 260704)
   closeOverlays('msg'); renderMsgList(); msgShowList(); pushRefresh(); msgpop.hidden = false; placeMsgpop();   // 열 때 항상 목록 화면(상세에 갇혀있지 않게) · hidden 해제 → 배치(placePopNearMenu 폭 측정 요건)
   msgMarkAllRead(); renderMsgBadge();   // 메시지함 열면 = 읽음 → 배지·링 제거(운영자 260704)
+  // 딥링크(푸시 탭) 진입 = **그 건을 펼친 상태로** 보여준다(운영자 260816 「감시 이상 알림은 누르면 알림 메세지창에 해당 건이 열린 상태가 보이게」).
+  //   구판은 목록에서 스크롤+flash 강조만 했는데 두 가지로 무력했다 — ⓐ 알림이 길면(감시·진단서 계열) 목록은 60자에서 잘려
+  //   정작 읽어야 할 사유가 안 보인다 ⓑ **강조가 살아남지 못한다**: 부팅 뒤 로컬 합성 알림(갱신 지연 등)이 붙으면서
+  //   renderMsgList가 다시 돌면 flash를 얹은 DOM이 통째로 교체된다(실측 260816 = 목록 2행 정상인데 .flash 0건).
+  //   → 그 행의 click을 그대로 태운다 = 기존 행 핸들러(openMsgDetail)가 돈다 = 새 로직·새 부품 창작 0이고
+  //     목록↔상세 짝이 어긋날 여지도 없다. 상세는 별도 화면이라 목록 재렌더에 안 지워진다(ⓑ도 같이 해소).
+  //   ⚠ 스코프 = highlightId 있을 때만 = 푸시 딥링크 전용. 설정 메뉴로 연 경우(인자 없음)는 종전대로 목록 화면
+  //     ("열 때 항상 목록 화면" 계약 보존).
   if (highlightId) requestAnimationFrame(() => {
     const el = $('#msglist .msgrow[data-id="' + (window.CSS && CSS.escape ? CSS.escape(highlightId) : highlightId) + '"]');
-    if (el) { el.scrollIntoView({ block: 'nearest' }); el.classList.add('flash'); }
+    if (el) { el.scrollIntoView({ block: 'nearest' }); el.classList.add('flash'); el.click(); }
   });
 }
 // ── 알림 진단 리포트 다운로드(운영자 260727 "문제 내용을 html로 요약하게끔 틀이랑 지금 메세지의 해결해야될 내용들만 모아서 다운로드해서 너한테 전달") ──
