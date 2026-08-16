@@ -2495,12 +2495,16 @@ def main():
     #   이 레포는 이미 쿠키가 7~12시간마다 죽는 미해결 사고를 안고 있어(원인 미확인) 노출을 늘리는 쪽이 위험하다.
     #   → 마지막 **시도** 시각을 도장으로 남기고 간격 미달이면 통째로 건너뛴다(직전분 보존 = 화면 무손실).
     #   실패 회차도 시도로 친다 = 죽은 쿠키를 15분마다 두드리지 않는다(그게 쿠키를 더 빨리 태우는 길).
-    #   판정 문법 = sns-trends.yml 신선도 게이트 사본(창작 0) · 간격 = SNS_YT_RECO_EVERY_MIN(기본 60분 · 24시간 입장컷 축이라 1시간이면 신선도 손실 0에 가깝다).
+    #   판정 문법 = sns-trends.yml 신선도 게이트 사본(창작 0) · 간격 = SNS_YT_RECO_EVERY_MIN(기본 **360분** = 하루 4회).
+    #   ⚠ 값 내력 = 60분(260816 1차) → 360분(운영자 260816 "유튜브 수집이 자주 있을 필요는 없음").
+    #     근거 2축 = ⓐ 24시간 입장컷 축이라 6시간 간격이어도 창 안에서 4번 갱신된다 = 놓치는 구간 없음
+    #     ⓑ 이 칸의 계정은 **시청 이력이 없는 새 아이디**(운영자 260816 "완전 내 큐레이션이 안 들어간 새 아이디")라
+    #     추천 내용이 일반 인기와 크게 다를 수 없다 = 자주 받아봐야 새로 얻는 게 적은데 쿠키 노출만 는다.
     _rc_due, _rc_at = True, prev.get("youtube_reco_updated") or ""
     if _rc_at:
         try:
             _t = datetime.fromisoformat(_rc_at)
-            _rc_due = (datetime.now(_t.tzinfo) - _t).total_seconds() >= int(os.environ.get("SNS_YT_RECO_EVERY_MIN") or 60) * 60
+            _rc_due = (datetime.now(_t.tzinfo) - _t).total_seconds() >= int(os.environ.get("SNS_YT_RECO_EVERY_MIN") or 360) * 60
         except Exception:  # noqa: BLE001
             _rc_due = True   # 파싱 실패 = 도장 손상 = 시도(fail-safe · 이 축이 조용히 영영 멈추는 것보다 낫다)
     yt_reco_l = yt_reco(limit=int(os.environ.get("SNS_YT_RECO_N") or 30)) if _rc_due else []
