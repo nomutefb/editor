@@ -26,7 +26,7 @@ jobs:
       TZ: Asia/Seoul
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
       AUTOMERGE: ${{ github.event.inputs.automerge || 'true' }}
-      TARGETS: muteno/YETA muteno/Saju muteno/yeulmaru-promo muteno/nomute_homepage muteno/TS
+      TARGETS: nomutefb/YETA muteno/Saju muteno/yeulmaru-promo nomutefb/homepage muteno/TS
     steps:
       - uses: actions/checkout@v4
       - name: 공통 골격 전파
