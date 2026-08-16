@@ -1,5 +1,56 @@
 [
   {
+    "url": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/resize/260816162158-290095/4x5-313ff3b4.jpg",
+    "srcUrl": "uploads/260816162158-290095/src.jpg",
+    "aspect": "4:5",
+    "size": "1K",
+    "lock": true,
+    "route": "gemini",
+    "fill": "auto",
+    "qa": "PASS",
+    "calls": {
+      "gen": 1,
+      "judge": 1
+    },
+    "model": "gemini-3.1-flash-image-preview",
+    "qa_why": "The image is a clean expansion that adds more of the subject's shirt and the background without introducing any artifacts or duplicated elements.",
+    "tries": [
+      {
+        "t": 1,
+        "streak": 0.0,
+        "bands": {
+          "bottom": 0.0,
+          "left": 0.0
+        },
+        "enc": "2:2",
+        "qa": "PASS",
+        "why": "The image is a clean expansion that adds more of the subject's shirt and the background without introducing any artifacts or duplicated elements."
+      }
+    ],
+    "usage": [
+      {
+        "tag": "resize:t1",
+        "prompt": 1185,
+        "output": 1451,
+        "total": 2636
+      },
+      {
+        "tag": "resize:judge",
+        "prompt": 921,
+        "output": 34,
+        "total": 955
+      }
+    ],
+    "box": [
+      0.24869,
+      0.0,
+      0.75131,
+      0.75131
+    ],
+    "id": "260816162158-290095",
+    "ts": "2026-08-16T16:22:48+09:00"
+  },
+  {
     "url": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/resize/260815223845-119918/9x16-4e41b821.jpg",
     "srcUrl": "uploads/260815223845-119918/src.png",
     "aspect": "9:16",
@@ -799,18 +850,5 @@
     "box": null,
     "id": "t6b916",
     "ts": "2026-08-07T15:52:08+09:00"
-  },
-  {
-    "url": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/resize/t6a11/1x1-a533f267.jpg",
-    "srcUrl": "uploads/t6a11/src.jpg",
-    "aspect": "1:1",
-    "size": "1K",
-    "lock": true,
-    "route": "gemini",
-    "fill": "ai",
-    "qa": "PASS",
-    "box": null,
-    "id": "t6a11",
-    "ts": "2026-08-07T15:52:05+09:00"
   }
 ]
