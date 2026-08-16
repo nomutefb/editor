@@ -17,7 +17,11 @@
 // 롤백 런북(평의회 4): sw.js *삭제(404) 금지* — 삭제해도 브라우저는 기존 SW를 언레지스터하지 않고 캐시 서빙
 //    계속함. 반드시 '무해화 sw.js 배포'(fetch 핸들러 제거 + activate에서 nm-shell-* *전량* delete)로 되돌릴 것.
 // ── 좀비 SW 자기소멸(운영자 260723 · 중복 알림·회색아이콘 근본픽스 · 8인 평의회 하드닝) ──
-// 정본 호스트 = apps.nomute.kr. 구 editor-6dw.pages.dev 등 비정본 origin에 남아 도는 서비스워커는
+// 정본 호스트 = edit.nomute.kr(260816 계정 이관 · 옛 apps.nomute.kr 은 되돌릴 여지로 병존 유지).
+// ⚠ 260816 실사고 = 이관 때 새 도메인을 이 목록에 안 넣어서, 새 화면을 여는 순간 정상 서비스워커가
+//    자기를 '비정본'으로 오판해 **푸시 구독을 스스로 해제하고 등록 말소**했다(= 바로 아래 주석이
+//    경고한 그 파국이 실제로 일어난 것). 도메인을 늘릴 땐 반드시 이 배열에 먼저 추가한다.
+// 구 editor-6dw.pages.dev 등 비정본 origin에 남아 도는 서비스워커는
 // 같은 속보를 한 번 더 띄우는 '중복 알림'의 원인 — _middleware.js 의 301 리다이렉트는 페이지 이동만 막고,
 // 푸시 수신(FCM→SW 직배달)은 내비게이션을 안 거쳐 못 막기 때문(아이콘도 pages.dev→301→Access벽에 막혀 회색 N).
 // 그런 SW는 알림을 띄우지 말고 자기 구독을 해제·언레지스터해 스스로 소멸한다.
@@ -27,7 +31,7 @@
 //   — cross-origin + Access + CORS 프리플라이트로 사실상 항상 실패하는 죽은 코드였다(평의회 2·3, 260723).
 // ⚠️ CANON_HOSTS 화이트리스트(평의회 1·4) — 단일 문자열이면 향후 정본 도메인 교체·추가 시 정상 SW가 오판
 //    자기소멸(전 구독 말소) 파국. localhost = 로컬 푸시 테스트 보존. _middleware.js 목적지와 한 쌍(동시 갱신).
-const CANON_HOSTS = ['apps.nomute.kr', 'localhost', '127.0.0.1'];
+const CANON_HOSTS = ['edit.nomute.kr', 'apps.nomute.kr', 'localhost', '127.0.0.1'];
 function isCanonHost() { return CANON_HOSTS.includes(self.location.hostname); }
 async function selfDestructIfStale() {
   if (isCanonHost()) return false;   // 정본 origin = 정상 동작(자기소멸 안 함)

@@ -56,7 +56,7 @@ SNS_MIN = float(os.environ.get("WD_SNS_MIN", "90"))
 PHONE_MIN = float(os.environ.get("WD_PHONE_MIN", "90"))   # 90분 = **러너 채택 게이트와 동일**(sns_trends.py `PHONE_FRESH_MIN` 기본 90 · 1623행) — 이 선을 넘는 순간 러너가 폰분을 안 받아 스레드·인스타·레딧·재난이 실제로 굶는다. 구 180분은 그 사이 **90~180분을 데이터는 굶는데 경보는 침묵**하는 공백으로 남겼다(260727 실측 판례: 폰 111분 정지 → 스레드·인스타 stale만 뜨고 진범인 폰 정지는 무경보). 구 사유였던 "야간 소강 마진"은 이 지표엔 부적합 = 폰 크론은 뉴스 유입량과 무관하게 30분 고정 주기라 소강 개념이 없다(scripts/phone_subs.sh `*/30`). 전송 지연 마진은 워치독 주기(30분)가 이미 흡수. ⚠ 채택 게이트를 옮기면 이 값도 같이 옮길 것.
 KWSRC_MIN = float(os.environ.get("WD_KWSRC_MIN", "360"))   # 6h = tbs 30분 주기(sns-trends 편승) 12연속 실패 — 커뮤 베스트글은 심야에도 갱신되나 백스톱 드롭(schedule best-effort 1~4h) 오탐 마진 확보
 BRIEF_MIN = float(os.environ.get("WD_BRIEF_MIN", "2160"))   # 36h = 일 1회(06:25 크론) 1회 결번 + 12h 여유 — 일 주기 지표라 분 단위 민감도 불요
-LIVE_FEED = os.environ.get("WD_LIVE_FEED", "https://apps.nomute.kr/articles.json")   # ⑦ 배포 지연 관측 대상 = 라이브 피드(빌드 산출물 · 도메인 이전 시 이 변수만 교체)
+LIVE_FEED = os.environ.get("WD_LIVE_FEED", "https://edit.nomute.kr/articles.json")   # ⑦ 배포 지연 관측 대상 = 라이브 피드(빌드 산출물 · 도메인 이전 시 이 변수만 교체) · 260816 이관 잔재 봉합: 옛 화면 apps.nomute.kr 은 새 저장소 커밋을 배포받지 않아 피드가 영구 정지(실측 = 옛 01:40 count 669 ↔ 새 07:32 count 670) → 「배포 6시간 지연」 거짓 경보의 원천이었다
 DEPLOY_OBS = os.path.join(ROOT, "scraper", "obs", "deploy_obs.jsonl")   # ⑦-b 배포 관측 원장(회차 1줄 · 기계산출물 = 손편집 금지)
 OBS_KEEP = int(os.environ.get("WD_OBS_KEEP", "600"))   # 30분 주기 × 600 = 약 12일치(원인 축 판별엔 수일이면 충분 · 무한 증식 차단)
 DEPLOY_MIN = float(os.environ.get("WD_DEPLOY_MIN", "90"))   # 90분 = ①수집 신선도(FRESH_MIN 120) 아래 사다리 · 파일명 시각이 분석 소요를 포함해 실지연보다 크게 나오는 만큼의 마진(정상 배포 랙 5~15분 + 분석 10~30분 ≪ 90) · 260803 실사고는 4시간이라 여유 있게 걸린다

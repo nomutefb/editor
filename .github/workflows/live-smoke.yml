@@ -57,7 +57,7 @@ jobs:
           echo "기대 도장 = $EXPECT"
           LIVE=""
           for i in $(seq 1 72); do   # 10s×72 = 최대 12분 — 코드 빌드→도장 빌드 2연속 배포가 CF 큐에서 직렬 처리(260802 런#13 실측: 6분 창을 수 분 초과 도착 = 오MISS)라 여유 2배
-            LIVE=$(curl -sS --max-time 20 "https://apps.nomute.kr/?nosw=1" | grep -o "BUILD_STAMP = '[0-9a-f]\{7\}" | grep -o "[0-9a-f]\{7\}$")
+            LIVE=$(curl -sS --max-time 20 "${LIVE_BASE:-https://edit.nomute.kr}/?nosw=1" | grep -o "BUILD_STAMP = '[0-9a-f]\{7\}" | grep -o "[0-9a-f]\{7\}$")
             [ "$LIVE" = "$EXPECT" ] && { echo "수렴(${i}0s 내) ✓"; echo "SHA=$EXPECT" >> "$GITHUB_ENV"; exit 0; }
             sleep 10
           done

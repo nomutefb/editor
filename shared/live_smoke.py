@@ -5,7 +5,7 @@
 #
 # ▷ 왜: 260802 웹앱 '상단만 렌더' 사고의 교훈 = 서버가 멀쩡해도/망가져도 **사람이 열어보기 전까지 아무도 모른다**.
 #   로컬 스모크(smoke_all)는 레포 사본을 검사하지 상용 서빙 실물을 안 본다. 이 스크립트는 배포 후
-#   apps.nomute.kr 이 실제로 내주는 바이트를 레포 정본과 대조해 "배포가 온전한가"를 기계가 선점 판정한다.
+#   edit.nomute.kr 이 실제로 내주는 바이트를 레포 정본과 대조해 "배포가 온전한가"를 기계가 선점 판정한다.
 #   발견 시간 = '운영자 우연' → '배포 후 1분'.
 #
 # ▷ 검문 축(사고 역산 + 일반화 · 전부 읽기 전용 GET):
@@ -21,10 +21,13 @@
 #   · --sha 없이(스케줄 런) 라이브 도장 ≠ 레포 도장 = 배포 전이 중 → C2·C3 대조 생략(구조 검문 C1·C4만)
 #   · 이 스크립트는 판정만(rc 0/1 + 요약 stdout) — 알림 발사·재시도 정책은 워크플로가 담당(발송 정본 = push_send --notify)
 #
-# 사용: python3 shared/live_smoke.py [--sha 7hex] [--base https://apps.nomute.kr] [--root <repo>]
+# 사용: python3 shared/live_smoke.py [--sha 7hex] [--base https://edit.nomute.kr] [--root <repo>]
+#   --base 기본값 = 정본 화면(260816 이관 잔재 봉합 · env LIVE_BASE 로 덮어쓰기 가능 = 도메인 교체 시 레버 1개).
+#   ⚠ 옛 화면 apps.nomute.kr 은 옛 계정 배포라 새 저장소 커밋을 영영 안 받는다 → 그쪽을 보면 도장이 고정값에
+#     멈춰 있어 **모든 코드 푸시가 「배포 미수렴」 거짓 실패**가 된다(260816 실측 = 옛 d2a9e98 고정 ↔ 새 24e7e1b 정상).
 #   --sha = 이 배포가 수렴해야 할 BUILD_STAMP 커밋(코드 푸시 트리거가 줌 · 도장 불일치 = FAIL)
 # ═══════════════════════════════════════════════════════════════════════════════
-import argparse, json, re, sys, time, urllib.request
+import argparse, json, os, re, sys, time, urllib.request
 from pathlib import Path
 
 UA = {"User-Agent": "nomute-live-smoke/1.0"}
@@ -79,7 +82,7 @@ def diff_at(a, b):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--sha", default="")          # 기대 도장(7hex) — 코드 푸시 트리거 전용
-    ap.add_argument("--base", default="https://apps.nomute.kr")
+    ap.add_argument("--base", default=os.environ.get("LIVE_BASE") or "https://edit.nomute.kr")
     ap.add_argument("--root", default=str(Path(__file__).resolve().parent.parent))
     a = ap.parse_args()
     root = Path(a.root)
