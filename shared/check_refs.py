@@ -17,6 +17,7 @@ v1.15.2류 사본 드리프트(파일 rename 후 참조 미갱신·파일명↔�
 
 import ast
 import bisect
+import hashlib as _hashlib
 import os
 import re
 import datetime
@@ -3531,7 +3532,10 @@ _DEBT_SYM = re.compile(r'^(?:const\s+)?(_?[A-Z][A-Z0-9_]*(?:BASE|EXEMPT)[A-Z0-9_
 
 
 def _debt_scan():
-    """면책표별 항목 수를 센다. 반환 = {'파일::심볼': 개수}."""
+    """면책표별 항목 수 + **구성 지문**을 센다. 반환 = {'파일::심볼': (개수, 지문)}.
+    ⚠ 지문이 있는 이유 = **자리 바꿈**(같은 표에서 항목 1개를 지우고 1개를 넣으면 총량이 같아
+      개수 래칫이 원리적으로 못 잡는다 = 래칫 문법 자체의 사각). 지문 = 주석·공백을 걷어낸
+      리터럴 본문의 해시라 「몇 건인가」가 아니라 「무엇을 면책했는가」가 바뀌면 그 자리에서 갈린다."""
     import glob as _g
     out = {}
     files = [os.path.join(ROOT, 'shared', 'check_refs.py')] + sorted(_g.glob(os.path.join(ROOT, 'shared', 'smoke_*.js')))
@@ -3547,7 +3551,7 @@ def _debt_scan():
             if opener in ('new Set(', 'set('):
                 nxt = src[m.end():m.end() + 40].lstrip()
                 if nxt[:1] == ')':
-                    out['%s::%s' % (rel, sym)] = 0   # `new Set()` = 빈 면책표(구 코드는 '[' 를 파일 뒤쪽에서 찾아 남의 리터럴을 셌다 · 260803 실측 DOCK_EXEMPT 0→2 오측)
+                    out['%s::%s' % (rel, sym)] = (0, 'empty')   # `new Set()` = 빈 면책표(구 코드는 '[' 를 파일 뒤쪽에서 찾아 남의 리터럴을 셌다 · 260803 실측 DOCK_EXEMPT 0→2 오측)
                     continue
                 i = src.find('[', m.end() - 1)
                 if i < 0:
@@ -3603,35 +3607,52 @@ def _debt_scan():
                 n = 0                       # 주석·공백만 = 빈 리터럴
             elif not stripped.endswith(','):
                 n += 1                      # 트레일링 콤마 없음 = 마지막 항목 미계수분 보정
-            out['%s::%s' % (rel, sym)] = n
+            # 구성 지문 = 주석 제거·공백 정규화 후 해시(줄바꿈·들여쓰기 손질은 지문을 안 흔든다 = 위양성 0)
+            sig = _hashlib.sha1(re.sub(r'\s+', ' ', stripped).encode('utf-8')).hexdigest()[:10]
+            out['%s::%s' % (rel, sym)] = (n, sig)
     return out
 
 
 def check_debt_ratchet(sync=False):
     """부채 래칫 — 면책표 총량이 원장보다 **늘면 FAIL**(줄면 낮추라고 알린다).
     미해결 부채(원인 미규명·판단 대기)는 원장 open_items에 사람 말로 남긴다 = 잊히지 않게."""
-    cur = _debt_scan()
+    scan = _debt_scan()
+    cur = {k: v[0] for k, v in scan.items()}
+    sig = {k: v[1] for k, v in scan.items()}
     tot = sum(cur.values())
     try:
         led = json.load(open(_DEBT_LEDGER, encoding='utf-8'))
     except Exception:
         led = {'tables': {}, 'open_items': []}
-    old = led.get('tables', {})
+    # 원장 2세대 호환 — 구판 `{"표": 개수}` / 신판 `{"표": {"count": n, "sig": "…"}}`
+    #   (구판 원장을 읽으면 지문이 없다 = 자리 바꿈 축은 다음 --debt-sync 때부터 유효 · 개수 래칫은 그대로 산다)
+    raw = led.get('tables', {})
+    old = {k: (v.get('count', 0) if isinstance(v, dict) else v) for k, v in raw.items()}
+    old_sig = {k: v['sig'] for k, v in raw.items() if isinstance(v, dict) and v.get('sig')}
     if sync:
-        led['tables'] = cur
+        led['tables'] = {k: {'count': cur[k], 'sig': sig[k]} for k in sorted(cur)}
         led['total'] = tot
         with open(_DEBT_LEDGER, 'w', encoding='utf-8') as f:
             json.dump(led, f, ensure_ascii=False, indent=2)
             f.write('\n')
-        print('· 부채 원장 동기 — 총 %d건(%d표)' % (tot, len(cur)))
+        print('· 부채 원장 동기 — 총 %d건(%d표 · 구성 지문 동반)' % (tot, len(cur)))
         return 0
     up = [(k, old.get(k, 0), v) for k, v in sorted(cur.items()) if v > old.get(k, 0)]
     dn = [(k, old[k], cur.get(k, 0)) for k in sorted(old) if cur.get(k, 0) < old[k]]
+    # 자리 바꿈 = 개수는 그대로인데 **면책 내용이 갈렸다**(래칫이 원리적으로 못 보던 사각)
+    swap = [k for k in sorted(cur)
+            if k in old_sig and cur[k] == old.get(k) and sig[k] != old_sig[k]]
     if up:
         print('❌ 부채 래칫 — 면책표가 늘었다(%d표 · 총 %d → %d). 늘리는 건 사유 필수:' % (len(up), sum(old.values()), tot))
         for k, a, b in up:
             print('   · %s  %d → %d' % (k, a, b))
         print('   정당한 등재면 커밋 메시지에 사유를 쓰고 `python3 shared/check_refs.py --debt-sync`로 원장을 올려라(그 diff가 곧 승인 기록).')
+        return 1
+    if swap:
+        print('❌ 부채 래칫 — 총량은 같은데 **면책 구성이 바뀌었다**(자리 바꿈 = 개수 래칫의 사각):')
+        for k in swap:
+            print('   · %s  %d건 그대로인데 내용이 다르다(지문 %s → %s)' % (k, cur[k], old_sig[k], sig[k]))
+        print('   정당한 교체면 커밋 메시지에 「무엇을 빼고 무엇을 넣었는지」를 쓰고 `python3 shared/check_refs.py --debt-sync`(그 diff가 승인 기록).')
         return 1
     if dn:
         print('✅ 부채 래칫 — 총 %d건(원장 %d · **%d건 해소**). `--debt-sync`로 원장을 낮춰라: %s'
