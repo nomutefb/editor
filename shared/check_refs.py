@@ -993,13 +993,35 @@ def check_push_send_checkout():
         files = sorted(f for f in os.listdir(wdir) if f.endswith(('.yml', '.yaml')))
     except Exception as e:
         print('❌ check_push_send_checkout 디렉터리 읽기 실패(fail-closed):', e); return 1
+    # ⚠ 발송기를 **직접** 부르는 워크플로만 세면 안 된다(260816 3차 실측 = 이 게이트 자신의 구멍).
+    #   요약 완료 알림은 `notify_summary.sh`, 실패 알림은 `notify_fail.sh`, 화재 추적은 `fire_watch.py`처럼
+    #   **중간 스크립트를 거쳐** 발송기를 부르는 레인이 실재하고, 그쪽이 오히려 다수다(실측 6종 경유 · 5레인 누락).
+    #   1차 판(`push_send.py` 문자열 직접 매치)은 그 5레인을 통째로 스코프 밖에 두고 「전건 정상」이라 보고했다
+    #   = 게이트가 있는데 못 보는 자리 = 이 레포가 반복해 겪는 「손 목록 드리프트」의 게이트판.
+    #   → 발송기를 부르는 스크립트 집합을 **먼저 자동 수집**하고, 워크플로가 그중 하나라도 실행하면 대상에 넣는다.
+    senders = set()
+    for sd in ('.github/scripts', 'shared', 'scraper'):
+        sdir = os.path.join(ROOT, sd)
+        for dp, _dn, fn in os.walk(sdir):
+            if '__pycache__' in dp:
+                continue
+            for name in fn:
+                if not name.endswith(('.sh', '.py')) or name in ('push_send.py', 'check_refs.py', 'build_notif_icons.py'):
+                    continue
+                try:
+                    sl = open(os.path.join(dp, name), encoding='utf-8').read().splitlines()
+                except Exception:
+                    continue
+                if any('push_send.py' in l and not l.lstrip().startswith('#') for l in sl):
+                    senders.add(name)
     bad, noicon, seen = [], [], 0
     for f in files:
         try:
             lines = open(os.path.join(wdir, f), encoding='utf-8').read().splitlines()
         except Exception as e:
             print('❌ check_push_send_checkout 읽기 실패(fail-closed): %s — %s' % (f, e)); return 1
-        if not any('push_send.py' in l and not l.lstrip().startswith('#') for l in lines):
+        live = [l for l in lines if not l.lstrip().startswith('#')]
+        if not (any('push_send.py' in l for l in live) or any(s in l for s in senders for l in live)):
             continue
         seen += 1
         for i, l in enumerate(lines):
