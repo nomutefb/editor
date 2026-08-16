@@ -44,6 +44,56 @@ _STYLE = re.compile(r"^##\s*👤\s*캐릭터\s*\n(.*?)(?=\n##\s|\Z)", re.S | re.
 
 CIRCLED = "①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮"
 
+# 판형 견본 = 저장소 실물(운영자 260816 「그 에디터 뒤져보면 스토리보드 예시 있어 그거 써」).
+#   ⚠ 왜 필요했나 = 지금까지 이 스크립트는 견본을 **글로 설명만** 했다. 감독 지침
+#     (`prompts/sb-make.md` 1-b)은 이미 같은 그림을 「정본 양식 실물」로 못 박고 감독에게
+#     Read 를 시키는데, 정작 **그림을 굽는 쪽은 그 그림을 한 번도 안 봤다** = 한 정본을
+#     두 층이 서로 다르게 쓰던 자리다. 칸 나눔·머리줄·글자 자리·바탕 톤이 회차마다 흔들린 축.
+#   ⚠ 참조는 **제미나이 축에만** 싣는다 — GPT 축은 첨부가 붙으면 편집 창구(images/edits)로
+#     갈아타서 **견본 그림 자체를 고치려 든다**(견본에 찍힌 남의 얼굴·문구가 산출에 남는다).
+#     그쪽은 종전대로 글 규격만으로 새로 그린다(gen_image.openai_image 첫 줄 분기).
+#   ⚠ 견본이 없거나 못 읽으면 종전 동작 그대로(글 규격만) = fail-soft.
+#   ⚠ 끄기 = `SB_SHEET_REFPIC=0`.
+SAMPLE_DIR = os.path.join("apps", "storyboard", "샘플")
+# 스케치 판 견본은 아직 저장소에 없다 → 그 판은 글 규격만으로 굽는다(빈 문자열 = 참조 없음).
+SAMPLES = {"board": "스토리보드 (1).png", "conti": ""}
+SAMPLE_MAX = 1600   # 긴 변 상한 — 견본 원본이 5MB대라 그대로 실으면 요청이 비대해진다
+SAMPLE_CLAUSE = (
+    "The attached image is our house LAYOUT SAMPLE for this kind of sheet. Copy its structure: "
+    "the single title bar across the top, the cell grid proportions, where the thumbnail sits in "
+    "each cell, where the label lines sit under it, the label typography weight, the thin cell "
+    "borders and the overall background tone. Do NOT copy its people, wardrobe, location, props "
+    "or any of its text content — those come from the cut list below.\n\n")
+
+
+def sample_png(kind):
+    """판형 견본 한 장을 참조 그림 bytes 로 읽는다(없으면 None = 종전 동작)."""
+    if os.environ.get("SB_SHEET_REFPIC") == "0":
+        return None
+    nm = SAMPLES.get(kind) or ""
+    if not nm:
+        return None
+    p = os.path.join(SAMPLE_DIR, nm)
+    if not os.path.exists(p):
+        print("::warning::판형 견본 없음({}) — 글 규격만으로 굽는다".format(p))
+        return None
+    try:
+        import io
+        from PIL import Image
+        im = Image.open(p).convert("RGB")
+        if max(im.size) > SAMPLE_MAX:
+            sc_ = SAMPLE_MAX / float(max(im.size))
+            im = im.resize((max(1, round(im.size[0] * sc_)), max(1, round(im.size[1] * sc_))),
+                           Image.LANCZOS)
+        buf = io.BytesIO()
+        # q-ok: 모델에 넣는 참조 입력이지 산출물이 아니다(품질 축 = check_image_format 비대상)
+        im.save(buf, "JPEG", quality=90, subsampling=0, optimize=True)
+        return buf.getvalue()
+    except Exception as e:  # noqa: BLE001
+        print("::warning::판형 견본 읽기 실패 — 글 규격만으로 굽는다: {}".format(str(e)[:200]))
+        return None
+
+
 
 def grid_of(n):
     """칸 배치 — **빈칸이 안 남는** 격자를 고른다.
@@ -257,17 +307,19 @@ def main():
     #   시트만 조용히 0장이었다(에러 0 · 잡은 초록). 없는 키를 기다리는 층은 죽은 층이라
     #   **이미 있는 자격(Gemini)** 으로 내려앉는다 — 종전 정본(GPT Image)은 1순위 그대로다.
     prompt = globals()[fn_nm](md, cuts)
+    refpic = sample_png(kind)               # 판형 견본(운영자 260816) — 없으면 None = 종전 동작
     png, engine = None, None
     if os.environ.get("OPENAI_API_KEY", "").strip():
         try:
+            # ⚠ 견본을 여기엔 안 싣는다 — 첨부가 붙으면 편집 창구로 갈아타 견본 자체를 고친다(위 주석).
             png = gi.openai_image(prompt, None, SHEET_ASPECT)
             engine = "gpt_image"
         except Exception as e:  # noqa: BLE001
             print("::warning::{} GPT Image 실패 — 제미나이로 내려앉는다: {}".format(kind_nm, str(e)[:200]))
     if not png and tg.KEY:
         # 2K = 시트엔 칸마다 글자 세 줄이 들어가므로 1K 로는 뭉갠다(k_refgen 은 그림 한 장이라 1K).
-        png = tg.gemini_image(prompt, "2K", tag="sbsheet",
-                              aspect="{}:{}".format(*SHEET_ASPECT))
+        png = tg.gemini_image((SAMPLE_CLAUSE + prompt) if refpic else prompt, "2K", tag="sbsheet",
+                              aspect="{}:{}".format(*SHEET_ASPECT), ref_png=refpic)
         engine = "gemini"
     if not png:
         print("{}: 미시도(OPENAI_API_KEY·GEMINI_API_KEY 둘 다 없음)".format(kind_nm))

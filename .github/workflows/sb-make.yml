@@ -259,7 +259,13 @@ jobs:
             echo "콘티 시트: 물려받은 것 그대로 씀(다시 굽지 않는다 — 값 0)"; exit 0
           fi
           pip install --quiet requests pillow || { echo "::warning::deps 설치 실패 — 생략"; exit 0; }
-          python3 .github/scripts/sb_sheet.py "$MD" "viewer/sb_out/${IN_ID}"
+          python3 .github/scripts/sb_sheet.py "$MD" "viewer/sb_out/${IN_ID}" board
+          # 🎬 스케치 동작 콘티 = **같은 스텝에서 같이 굽는다**(운영자 260814 「스토리보드 1, 콘티 1」).
+          #   ⚠ 구판은 세 번째 인자를 안 넘겨 늘 `board` 만 구웠다 — 스케치 판은 코드·프롬프트·검문이
+          #     다 있는데 **부르는 자리가 없어서** 한 번도 안 만들어졌다(실측 = 지난 시트 기록 전건에
+          #     `conti` 칸 0). 만들어놓고 안 도는 층 = 이 레포가 반복해 겪은 조용한 죽음.
+          #   ⚠ 위 「이미 있으면 건너뛴다」 게이트를 지난 뒤라 재굽기는 안 일어난다(값 = 판 하나치만 추가).
+          python3 .github/scripts/sb_sheet.py "$MD" "viewer/sb_out/${IN_ID}" conti
 
       # 🎬 그록 영상 = 촬영=grok 전용 후속 스텝(운영자 260811 — 「제미나이가 그린거로 감독이
       #    프롬프팅해서 영상 뽑는다」). 컷마다 [Gemini 그림 → 그 그림을 첫 장면으로 그록 영상].
