@@ -1,0 +1,26 @@
+{
+  "ratio": "9:16",
+  "sound": true,
+  "raw_base": "https://raw.githubusercontent.com/nomutefb/editor/main/sb_out/260816-jcr-olympic/",
+  "identity": "Photorealistic documentary photojournalism, vertical 9:16, natural light. The subject is the Korean politician in his early 60s shown in the reference photos: jet-black hair neatly swept back, full round face, prominent smile lines, dark navy two-piece suit, white shirt, blue tie, small pin on the left lapel. Keep his face identical to the reference photos at every moment. No on-screen text, no captions, no watermarks, no logos.",
+  "shots": [
+    {
+      "name": "ep1",
+      "sec": 15,
+      "refs": ["ref_upper_pair.jpg", "ref_face_pair.jpg", "env_tri_A.jpg"],
+      "prompt": "0-3s: Tight choker close-up in tree shade: he looks down with a wry bitter half-smile, one fist resting near his mouth, a small rolled Korean flag in the other hand; slow push-in. 3-7s: Camera pulls back and arcs into a wide shot revealing the vast rally plaza from the reference photos - a giant Korean flag rippling on a tall pole above a dense crowd waving small Korean and American flags and white handwritten paper signs, summer trees and lamp posts behind; he takes his first step toward the crowd, small against the plaza. 7-11s: Hip-level handheld tracking as he walks left to right through the crowd; passing bystanders do double-takes and lean toward each other whispering. 11-15s: Over-the-shoulder shot past two puzzled bystanders in the foreground, their heads tilted together; beyond them he keeps walking deeper, avoiding eye contact. Audio: no cheering and no chanting voices - only flag fabric snapping, footsteps on stone, wind, and low indistinct murmuring that spreads like a ripple."
+    },
+    {
+      "name": "ep2",
+      "sec": 15,
+      "refs": ["ref_face_pair.jpg", "ref_sign_text.jpg", "env_pair_C.jpg"],
+      "prompt": "0-4s: Medium close-up: his eyes dart left and right checking the people around him, shoulders slightly hunched; then one deep breath, chin tucks in, and his gaze steadies with quiet resolve. 4-7s: He stops walking and looks up toward screen right; his gaze locks onto something off-frame. 7-11s: Insert shot of what he sees: the handwritten Korean protest poster from the reference photo taped to a pillar, black brush lettering reproduced exactly as in the reference photo, crisp and fully legible, small paper Korean flags clustered around it; slow push-in, the lettering stays sharp and undistorted. 11-15s: Back on his face: his eyes waver as he reads, then settle - half wry smile, half resolve; he turns and walks deeper into the flag-waving crowd. Audio: wind, a paper poster fluttering and trembling, low murmurs resuming, clear footsteps; no cheering, no chanting."
+    },
+    {
+      "name": "ep3",
+      "sec": 15,
+      "refs": ["ref_upper_pair.jpg", "ref_face_pair.jpg", "env_tri_A.jpg"],
+      "prompt": "0-4s: Wide shot: he takes a spot in the middle of a chanting crowd, arms all around him pumping flags; he slowly unrolls his own small Korean flag; locked static frame. 4-8s: Medium close-up, he faces forward toward the great white gate monument off-frame and starts pumping the small Korean flag forward, up and down; his bitter expression flips into forced fervor - mouth opening wide while the eyes do not smile - and he shouts in Korean, voice clear: 재선거! 재선거! 8-15s: Drone shot starting close at his eye level, ascending and pulling away to an extreme wide: he keeps pumping the flag and shouting in Korean 재선거! 재선거! 당일투표 수개표! toward the gate, becoming a single dot in a sea of waving flags under a golden sunset sky with long soft shadows. Audio: his own Korean voice clear at first then fading with altitude; flag fabric and wind remain; surrounding crowd voices stay low and indistinct; no cheering roar."
+    }
+  ]
+}

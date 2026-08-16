@@ -1,0 +1,82 @@
+name: sd-fire
+
+# 콘티 발사 폴더(sb_out/<id>/shots.json)를 시댄스로 실발사해 mp4 를 같은 폴더에 착지시킨다.
+#   ⚠ 값이 나간다 — 편마다 견적 → 상한 검문 → 발사(sd_fire.py · 통로 = shared/lane_seedance.py).
+#   ⚠ 대기 = 창구의 기다리기 도구(회당 15초 장기폴)뿐 — 깃허브축 호출 0(계정 자동화 잡음 0).
+
+on:
+  workflow_dispatch:
+    inputs:
+      id:
+        description: '발사 폴더 id (sb_out/<id>)'
+        type: string
+        required: true
+      preset:
+        description: '프리셋(A = 2.5 · B = 2.0)'
+        type: choice
+        options: ['A', 'B']
+        default: 'B'
+      res:
+        description: '화질(720p·FHD·4K)'
+        type: string
+        default: 'FHD'
+      cap:
+        description: '편당 견적 상한(크레딧 · 넘으면 안 쏜다)'
+        type: string
+        default: '200'
+
+permissions:
+  contents: write
+
+# 같은 열쇠를 쓰는 판과 한 줄로 세운다 — 겹치면 열쇠 사슬이 끊긴다(hf-shot 동일 계약).
+concurrency:
+  group: nm-seedance-key
+  cancel-in-progress: false
+
+jobs:
+  fire:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+          sparse-checkout: |
+            shared
+            .github
+            sb_out
+
+      - name: 발사
+        env:
+          HIGGSFIELD_REFRESH_TOKEN: ${{ secrets.HIGGSFIELD_REFRESH_TOKEN }}
+          XAI_SECRET_PAT: ${{ secrets.GH_TOKEN }}
+          SD_ID: ${{ inputs.id }}
+          SD_PRESET: ${{ inputs.preset }}
+          SD_RES: ${{ inputs.res }}
+          SB_COST_CAP: ${{ inputs.cap }}
+          SD_POLL_MAX_SEC: '1500'
+        run: |
+          [ -n "$HIGGSFIELD_REFRESH_TOKEN" ] || {
+            echo "발사: 미시도(HIGGSFIELD_REFRESH_TOKEN 미등록)"
+            echo "::error::HIGGSFIELD_REFRESH_TOKEN 비밀값이 비어 있다"
+            exit 1
+          }
+          pip install --quiet pynacl || echo "::warning::pynacl 설치 실패 — 열쇠 되쓰기만 생략"
+          python3 .github/scripts/sd_fire.py
+
+      - name: 착지
+        if: always()
+        run: |
+          BRANCH=main
+          git config user.name "nomute-bot"
+          git config user.email "bot@nomute.local"
+          if [ -d "sb_out/${{ inputs.id }}" ]; then git add "sb_out/${{ inputs.id }}"; fi
+          git commit -m "sd: ${{ inputs.id }} 시댄스 산출 착지" || { echo "커밋할 것 없음"; exit 0; }
+          pushed=0
+          for i in 1 2 3 4 5; do
+            git fetch --deepen=100 origin main 2>/dev/null || true
+            if git fetch origin "$BRANCH" && git rebase "origin/$BRANCH" && git push origin "HEAD:$BRANCH"; then pushed=1; break; fi
+            git rebase --abort 2>/dev/null || true; sleep $((i*3))
+          done
+          [ "$pushed" = 1 ] || { echo "::error::push ${BRANCH} 5회 실패 — 산출 유실"; exit 1; }
