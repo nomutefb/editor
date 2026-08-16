@@ -1138,14 +1138,22 @@ async function renderOut(md, outEl, outPath) {   // 결과 렌더 공통(폴 성
       const sr = await fetch(_sb + 'sheet.json?t=' + Date.now());
       if (sr.ok) {
         const sj = await sr.json();
-        const su = (sj && sj.url) || '';
-        if (su) {
+        // 🎞 두 판을 **같이** 그린다(운영자 260814 「스토리보드 1, 콘티 1」).
+        //    ⚠ 구판은 `url`(정식 시트)만 읽었다 — 스케치 동작 판은 구워져도 화면에 안 떴다.
+        //      굽는 자리도 안 불리고 있었으므로(sb-make.yml 세 번째 인자 부재) 두 층이 같이 죽어
+        //      「스케치 판이라는 게 있다」는 사실 자체가 화면에서 사라져 있었다.
+        //    ⚠ 순서 = 정식 시트 먼저 · 스케치 나중(굽는 쪽 KINDS 순서와 같은 계약).
+        const _cards = [];
+        for (const [k, lab] of [['url', '콘티 시트'], ['conti', '스케치 동작 콘티']]) {
+          const su = (sj && sj[k]) || '';
+          if (!su) continue;
           const bust = su.includes('?') ? '' : '?t=' + Date.now();
-          html = '<div class="ref"><img src="' + (su + bust).replace(/"/g, '%22') + '" data-ix="sheet">'
-            + '<div class="cap">콘티 시트'
+          _cards.push('<div class="ref"><img src="' + (su + bust).replace(/"/g, '%22') + '" data-ix="sheet">'
+            + '<div class="cap">' + lab
             + (sj.cuts ? ' — ' + sj.cuts + '컷 한 장' : '')
-            + '</div></div>' + html;
+            + '</div></div>');
         }
+        if (_cards.length) html = _cards.join('') + html;
       }
     } catch (e) { /* 시트 없음 = 종전 동작(무회귀) */ }
   }

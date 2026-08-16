@@ -32,6 +32,20 @@ def main():
     ident = (spec.get("identity") or "").strip()
     shots = spec.get("shots") or []
     cap = float(os.environ.get("SB_COST_CAP") or "200")   # 편당 상한(크레딧)
+    # 🎬 콘티 두 장(스토리보드·스케치 동작)을 **편마다 반드시** 싣는다(운영자 260816 「이를 반드시
+    #    참조하게 해주셈」). 자동 레인(grok_sb_video.sheet_slots)은 이미 그렇게 도는데 이 손조립
+    #    경로만 `shots.json` 의 refs[] 밖을 안 봐서 두 장이 통째로 빠져 있었다 — 같은 병의 형제.
+    #    ⚠ 자리 = **맨 뒤**(인물·장소 사진 뒤) = 시트가 얼굴·장소 잠금을 밀어내지 않는다(cap_refs 계약 동축).
+    #    ⚠ 주소만 싣는다 — 「설계도지 장면이 아니다」라는 정체 문장은 이 경로에선 사람이 쓴 프롬프트가 말한다.
+    #    ⚠ 끄기 = SB_SHEET_REF=0(자동 레인과 같은 손잡이) · sheet.json 부재 = 종전 동작(무회귀).
+    sheets = []
+    if os.environ.get("SB_SHEET_REF") != "0":
+        try:
+            _sj = json.load(open(os.path.join(base, "sheet.json"), encoding="utf-8"))
+            sheets = [u for u in (_sj.get("url"), _sj.get("conti")) if u]
+        except Exception:  # noqa: BLE001
+            pass
+    print("콘티 참조 {}장{}".format(len(sheets), "" if sheets else " — sheet.json 없음(시트 없이 쏜다)"))
 
     print("── 콘티 발사 ── {} · {} · {} · {}편".format(LANE.NAME, LANE.PRESET["res"], ratio, len(shots)))
     tok = LANE.fresh_token()
@@ -46,7 +60,7 @@ def main():
             print("[{}] 이미 있음 — 건너뜀(재발사 = 파일 지우고 다시)".format(name))
             continue
         prompt = (ident + " " + s["prompt"]).strip()
-        refs = [raw + r for r in (s.get("refs") or [])]
+        refs = [raw + r for r in (s.get("refs") or [])] + sheets
         try:
             cr = LANE.estimate(sec, ratio, token=tok)
             print("[{}] 견적 {} 크레딧".format(name, cr))
