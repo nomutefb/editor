@@ -1,5 +1,51 @@
 [
   {
+    "url": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/resize/260818030343-71c0e4/4x5-54e0a858.jpg",
+    "srcUrl": "uploads/260818030343-71c0e4/src.png",
+    "aspect": "4:5",
+    "size": "1K",
+    "lock": true,
+    "route": "gemini",
+    "fill": "auto",
+    "qa": "PASS",
+    "calls": {
+      "gen": 1,
+      "judge": 1
+    },
+    "model": "gemini-3.1-flash-image-preview",
+    "qa_why": "The image is uncropped successfully, showing more of the map and sea as expected.",
+    "tries": [
+      {
+        "t": 1,
+        "streak": 0.002,
+        "bands": {
+          "top": 0.003,
+          "bottom": 0.0
+        },
+        "enc": "2:2",
+        "qa": "PASS",
+        "why": "The image is uncropped successfully, showing more of the map and sea as expected."
+      }
+    ],
+    "usage": [
+      {
+        "tag": "resize:t1",
+        "prompt": 1180,
+        "output": 1454,
+        "total": 2634
+      },
+      {
+        "tag": "resize:judge",
+        "prompt": 921,
+        "output": 25,
+        "total": 946
+      }
+    ],
+    "box": null,
+    "id": "260818030343-71c0e4",
+    "ts": "2026-08-18T03:04:39+09:00"
+  },
+  {
     "url": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/resize/260817164927-1a331b/9x16-30ad069e.jpg",
     "srcUrl": "uploads/260817164927-1a331b/src.jpg",
     "aspect": "9:16",
@@ -995,18 +1041,5 @@
     "box": null,
     "id": "t6a169",
     "ts": "2026-08-07T15:52:09+09:00"
-  },
-  {
-    "url": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/resize/t6c916/9x16-ff141593.jpg",
-    "srcUrl": "uploads/t6c916/src.jpg",
-    "aspect": "9:16",
-    "size": "1K",
-    "lock": true,
-    "route": "gemini",
-    "fill": "ai",
-    "qa": "PASS",
-    "box": null,
-    "id": "t6c916",
-    "ts": "2026-08-07T15:52:14+09:00"
   }
 ]
