@@ -30,6 +30,62 @@
   function keyOf(u) { return String(u || '').split('?')[0].replace(/^https?:\/\/[^/]+\//, ''); }   // 중복판정 키 = 이미지 정본 동문(호스트 제거)
   function load(scope) { try { var a = JSON.parse(localStorage.getItem(KEYS[scope]) || '[]'); return Array.isArray(a) ? a : []; } catch (e) { return []; } }
   function save(scope, a) { try { localStorage.setItem(KEYS[scope], JSON.stringify(a)); return true; } catch (e) { return false; } }   // 성패 반환 = 쿼터 초과·프라이빗 모드에서 「성공한 척」 하지 않는다(운영자 260806 평의회1 ⑤)
+
+  /* ══ 기기·브라우저 간 공유(운영자 260818 「같은 도메인으로 같은 메뉴에 들어갔으면 어떤 조건에서든 같은 내용이 나오게」) ══
+     ⚠ 진단 = 이 레일은 **그 브라우저의 localStorage 단독**이었다(위 load/save가 전부). 그래서 폰에서 만든 영상이
+       PC 에서 통째로 안 보이고, 같은 주소·같은 메뉴인데 기기마다 다른 목록이 뜬다 = 「다른 저장소인 것처럼 따로 논다」의 실체.
+       ⚠ 파일은 멀쩡히 보관함에 있다 — 실측 260818 = `/api/edit?recent=48` 이 영상 8건을 정상 반환하는데 레일이
+         그 경로를 **한 번도 부르지 않았다**(모듈 머리 주석은 「공유 이력」이라 적혀 있었지만 코드에 그 층이 없었다).
+     ⚠ 이미지 스튜디오는 이 층을 이미 갖고 있었다(thumb.html = 서버 인덱스 thumb-hist.json 병합 + `?recent=` 보관함
+       발견 + 미보유 id 개별 조회) → **그 문법을 그대로 이식한다**(값·구조 창작 0 · 260817 진행중 작업 공유와 같은 축).
+     설계 = ⓐ 목록 API(`data-srv`)로 최근 id 발견 → ⓑ 로컬·캐시에 없는 id만 개별 조회(`data-srvstat`)로 url 확보
+       → ⓒ 메모리 캐시 SRV 에 적재 → ⓓ render 가 로컬과 **url 기준 dedup 병합**.
+     ⚠ 로컬에 안 쓴다 = 남의 기기 제작분이 이 기기 12h 브리지 저장소를 밀어내지 않는다(HMAX 상한 경합 0 · 격리 유지).
+     ⚠ 전 경로 fail-soft = 서버·회선 장애면 종전대로 로컬만 그린다(화면 오류 0). */
+  var SRV = { img: [], cap: [] };      // 서버(보관함) 발견 이력 = 메모리 전용 · 스코프 격리는 KEYS 와 같은 축
+  var srvSeen = { img: {}, cap: {} };  // 조회 완료 id = 같은 id 재조회 0(콜 폭주 방어)
+  var srvBusy = {};
+  function merged(scope) {             // 표시 정본 = 로컬(이 기기 즉시분) + 서버(전 기기분) · url 키 dedup
+    var out = [], k = {};
+    load(scope).concat(SRV[scope] || []).forEach(function (e) {
+      if (!e || !e.url) return;
+      var kk = keyOf(e.url); if (k[kk]) return; k[kk] = 1; out.push(e);
+    });
+    return out;
+  }
+  function srvSync(m) {                // ⓐ~ⓒ — data-srv 를 선언한 탭만 동작(미선언 탭 = 종전 로컬 단독)
+    var o = m.opt, scope = o.scope;
+    if (!o.srv || srvBusy[scope]) return;
+    srvBusy[scope] = 1;
+    fetch(o.srv, { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
+      var items = d && (Array.isArray(d) ? d : d.items);
+      if (!Array.isArray(items)) return null;
+      var have = {};
+      load(scope).forEach(function (e) { if (e && e.url) have[String(e.url).split('/').slice(-2)[0]] = 1; });
+      var todo = items.map(function (it) { return it && (it.id || it); })
+        .filter(function (id) { return id && typeof id === 'string' && !srvSeen[scope][id] && !have[id]; }).slice(0, 24);
+      if (!o.srvstat) {   // 목록이 url 을 직접 주는 형태(trhist 문법) = 개별 조회 불요
+        items.forEach(function (it) { if (it && it.url && SAFE_URL.test(String(it.url))) addSrv(scope, it); });
+        return null;
+      }
+      return Promise.all(todo.map(function (id) {
+        srvSeen[scope][id] = 1;
+        return fetch(o.srvstat + encodeURIComponent(id), { cache: 'no-store' })
+          .then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (v) { if (v && v.url) addSrv(scope, { id: id, url: v.url, ts: Date.parse(v.ts || '') || 0, cap: v.cap || '' }); })
+          .catch(function () { });
+      }));
+    }).catch(function () { }).then(function () {
+      srvBusy[scope] = 0;
+      mounts.forEach(function (x) { if (x.opt.scope === scope) { x.sig = null; render(x); } });   // sig 무효화 = 병합분 반영
+    });
+  }
+  function addSrv(scope, e) {
+    if (!e || !e.url || !SAFE_URL.test(String(e.url))) return;
+    var kk = keyOf(e.url);
+    for (var i = 0; i < SRV[scope].length; i++) if (keyOf(SRV[scope][i].url) === kk) return;
+    SRV[scope].push({ url: e.url, ts: e.ts || 0, cap: e.cap || '', id: e.id || '' });
+  }
   var SAFE_URL = /^(https?:|blob:|data:image\/)/i;   // 적재 허용 스킴 = 이미지·영상 산출이 실제로 오는 3종(javascript: 등 차단 · 평의회7 ④)
   /* 영상·소리 판정(운영자 260810 "이전 제작이 안떠") — 이 레일은 이미지 스튜디오에서 왔고 타일을 `<img>`로만 그렸다.
      영상 스튜디오 산출은 mp4·mp3라 img 디코드가 **반드시** 실패하고, 구 onerror가 그걸 「죽은 슬롯」으로 읽어 타일을 지웠다
@@ -243,7 +299,7 @@
     if (re) re.hidden = !open || re.dataset.has === '1';
   }
   function render(m) {
-    var all = prune(load(m.opt.scope)).filter(function (e) { return e && e.url && !m.dead[keyOf(e.url)]; });
+    var all = prune(merged(m.opt.scope)).filter(function (e) { return e && e.url && !m.dead[keyOf(e.url)]; });   // merged = 로컬 + 서버(전 기기) 병합(260818 · 구판 load 단독 = 그 브라우저만 보였다)
     all.sort(function (x, y) { return (y.ts || 0) - (x.ts || 0); });
     var pend = pendList(m);
     var sig = all.length + ':' + ((all[0] || {}).url || '') + ':' + ((all[all.length - 1] || {}).url || '')
@@ -305,13 +361,14 @@
       opt = opt || {};
       if (!Object.prototype.hasOwnProperty.call(KEYS, opt.scope)) return null;   // 미인식 스코프 = **마운트 거부**(운영자 260806 평의회2 ② — 구판 `|| 'cap'` 기본값은 오타 한 글자에 사진↔영상 격리가 깨지는 fail-open이었고, `data-scope="constructor"` 같은 프로토타입 키까지 통과해 쓰레기 localStorage 키를 만들었다)
       var scope = opt.scope;
-      var m = { id: 'nmr' + (mounts.length ? mounts.length + 1 : ''), opt: { scope: scope, dlname: opt.dlname || 'out', onEdit: opt.onEdit, jobkey: opt.jobkey || '' }, dead: {}, sig: null };   // id 유일화 = 이중 마운트 시 둘째 레일이 **첫 레일 DOM을 조작**하던 축 봉합(운영자 260806 평의회1·2·6·7 공통 · 구 고정 'nmr'은 getElementById가 항상 첫 것을 물어 둘째는 영구 빈칸 + PrevH에 리스너 2개 = 이전 제작이 열리자마자 닫혔다)
+      var m = { id: 'nmr' + (mounts.length ? mounts.length + 1 : ''), opt: { scope: scope, dlname: opt.dlname || 'out', onEdit: opt.onEdit, jobkey: opt.jobkey || '', srv: opt.srv || '', srvstat: opt.srvstat || '' }, dead: {}, sig: null };   // id 유일화 = 이중 마운트 시 둘째 레일이 **첫 레일 DOM을 조작**하던 축 봉합(운영자 260806 평의회1·2·6·7 공통 · 구 고정 'nmr'은 getElementById가 항상 첫 것을 물어 둘째는 영구 빈칸 + PrevH에 리스너 2개 = 이전 제작이 열리자마자 닫혔다)
       var wrap = document.createElement('div'); wrap.className = 'out nm-rail'; wrap.innerHTML = shellHTML(m.id);
       anchor.parentNode.insertBefore(wrap, anchor.nextSibling);
       m.el = wrap;
       mounts.push(m);
       bindFold(m);
       render(m);
+      srvSync(m);   // 부팅 1회 = 이 기기에 없는 타 기기 제작분 즉시 발견(260818 · 로컬만 그려놓고 기다리지 않는다)
       return m;
     },
     add: function (e) {   // 완료 1건 적재 = 이 문서 + 형제 탭(같은 스코프) 즉시 반영
@@ -388,7 +445,10 @@
       var wrapEl = document.querySelector('.wrap') || document.body;
       anchor = document.createElement('div'); anchor.className = 'nm-rail-anchor'; wrapEl.appendChild(anchor);
     }
-    api.mount(anchor, { scope: scope, dlname: dln, jobkey: jkey });
+    // 기기·브라우저 간 공유 선언(260818) = `data-srv`(최근 목록) · `data-srvstat`(미보유 id 개별 조회 접두).
+    //   미선언 탭은 종전 로컬 단독 동작 그대로 = 이식이 나머지 탭을 건드리지 않는다(회귀 0).
+    api.mount(anchor, { scope: scope, dlname: dln, jobkey: jkey,
+      srv: (tag && tag.getAttribute('data-srv')) || '', srvstat: (tag && tag.getAttribute('data-srvstat')) || '' });
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', autoMount);
   else autoMount();
@@ -398,7 +458,7 @@
   /* 수렴 3축 = **내 스코프만** + 코얼레싱(운영자 260806 평의회6 ①② 실측 봉합) —
      구판은 ⓐ 사진 키 변경에도 반응해 영상 5탭이 헛렌더하고 ⓑ 탭 복귀 1회에 visibilitychange+focus가 연달아 터져 문서당 2회 재빌드였다(합 10회·img 2,400개·CPU 215ms). */
   var _kickT = null;
-  function kick() { clearTimeout(_kickT); _kickT = setTimeout(api.refresh, 60); }   // raw-ok: 병합 간격(ms — 지속시간 토큰 아님) · rAF 1틱 등가로 vis+focus 동시 발화를 1회로
+  function kick() { clearTimeout(_kickT); _kickT = setTimeout(function () { api.refresh(); mounts.forEach(srvSync); }, 60); }   // raw-ok: 병합 간격(ms — 지속시간 토큰 아님) · rAF 1틱 등가로 vis+focus 동시 발화를 1회로 · srvSync 동승(260818) = 복귀 시 타 기기 제작분 재발견(srvBusy 가드로 중복 요청 0)
   window.addEventListener('storage', function (ev) {
     if (!ev || !ev.key) return;
     var mine = mounts.some(function (m) { return KEYS[m.opt.scope] === ev.key; });   // 남의 스코프 = 무동작(격리 계약을 성능 축에서도 지킨다)
