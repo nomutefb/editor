@@ -117,6 +117,7 @@ jobs:
       # 상한 조절 = repo variable BRIEF_MAX_AGE_H · 종전 동작 복귀 = 아주 큰 값(예: 999).
       - name: 브리프 캐던스 판정(하트비트 편승 조건 · 운영자 260817)
         id: briefdue
+        continue-on-error: true    # 이 판정이 죽어도 수집 레인은 그대로 간다 — 출력이 비면 게이트가 종전 동작(schedule 전용)으로 떨어질 뿐이고, 스텝은 빨강으로 남아 관측이 지워지지 않는다.
         env:
           BRIEF_MAX_AGE_H: ${{ vars.BRIEF_MAX_AGE_H || '3' }}
         run: |
