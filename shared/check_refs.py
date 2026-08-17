@@ -6548,6 +6548,7 @@ def check_grok_sb_chain():
     #   → 이 레포 관례(`check_disaster_landmark_sign`·`check_thumb_prompt_sanity`)대로 **함수를 불러**
     #     가짜 입력으로 조립한 결과의 술어를 본다(렌더·LLM·네트워크·발사 0 · 과금 0).
     try:
+        _sb_mod = None                   # ⑨-b 견본 목록 판정이 쓰는 별칭(적재 실패 시 SKIP 분기)
         import importlib, tempfile, sys as _sys
         # ⚠ 캐시 무효화 — 같은 크기로 같은 초에 고친 파일은 옛 바이트코드가 그대로 읽힌다
         #   (이 축 첫 실행에서 실제로 그 함정을 밟아 게이트가 옛 코드를 판정했다).
@@ -6559,6 +6560,10 @@ def check_grok_sb_chain():
         _kr = importlib.import_module("k_refgen")
         _gv = importlib.import_module("grok_sb_video")
         _sb = importlib.import_module("sb_sheet")
+        # ⚠ 별칭이 필요한 이유 = 아래 ⑧축이 `_sb` 를 **감독 지침 텍스트로 재할당**한다(같은 이름
+        #   두 뜻). 견본 목록 판정(⑨-b)은 그 뒤에 있어서 모듈이 아니라 문자열을 보고 **전건 실패**
+        #   했다(이 축 첫 실행 실측). 이름을 갈라 두면 그 함정이 구조적으로 사라진다.
+        _sb_mod = _sb
     except Exception as e:  # noqa: BLE001
         # ⚠ PASS 와 합치지 않는다 — 관측이 지워지면 다음 세션이 추측으로 메운다(이 레포 반복 교훈).
         print("⏭ 그록 콘티 레인 ⑥-d 재판정 SKIP(모듈 적재 실패 = 환경 축): {}".format(str(e)[:120]))
@@ -6916,8 +6921,46 @@ def check_grok_sb_chain():
                         ("PHOTO_CLAUSE", "사진 정체 문장(이 실물의 얼굴을 유지하라)")):
         if not _has_exec_line(kg, needle):
             print("❌ 그록 콘티 레인 — k_refgen.py 에 {} 가 없다({})".format(why, needle)); rc = 1
-    if '"person": "캐릭터 시트' not in ss:
-        print("❌ 그록 콘티 레인 — sb_sheet SAMPLES 에 인물 시트 견본이 없다(견본 읽기 단일정본 = 그 표)"); rc = 1
+    # ⚠ 견본은 판당 **여러 장**이다(운영자 260817 3차 「그거가 스토리보드랑 주연배우 인물보드야 ·
+    #   참고하는 자료에 해당 내용도 넣어주고 항상 참고하게」) — 구판 술어는 값이 문자열 한 장인 것을
+    #   전제로 `'"person": "캐릭터 시트'` 리터럴을 봤는데, 그러면 **견본을 늘리는 것 자체가 게이트에
+    #   막힌다**(계약이 계약의 이행을 막는 자기모순 = `check_result_rail_parity` 3차가 겪은 그 축).
+    #   → 리터럴 대신 **파일 실존**으로 본다(등재만 하고 파일을 안 넣는 조용한 죽음까지 같이 막힌다).
+    _SMP_DIR = os.path.join("apps", "storyboard", "샘플")
+    _smp = getattr(_sb_mod, "SAMPLES", None) if _sb_mod else None
+    if _smp is None:                     # 모듈 적재 실패 = 환경 축 → PASS 와 합치지 않고 SKIP 명시
+        print("⏭ 그록 콘티 레인 ⑨-b 견본 목록 SKIP(sb_sheet 적재 실패 = 환경 축)")
+        _smp = {}
+    for _kd, _kwhy in ((("board", "스토리보드"), ("person", "인물 시트")) if _smp else ()):
+        _nms = _smp.get(_kd) or ()
+        _nms = (_nms,) if isinstance(_nms, str) else tuple(_nms)
+        if not _nms:
+            print("❌ 그록 콘티 레인 — sb_sheet SAMPLES 에 {} 견본이 없다(견본 읽기 단일정본 = 그 표)".format(_kwhy)); rc = 1
+            continue
+        _miss = [n for n in _nms if not os.path.exists(os.path.join(_SMP_DIR, n))]
+        if _miss:
+            print("❌ 그록 콘티 레인 — {} 견본 파일이 없다({} · 등재만 하고 파일이 없으면 그 장은 조용히 빠진다)".format(
+                _kwhy, " · ".join(_miss))); rc = 1
+    # ⚠ 운영자가 260817 3차에 직접 준 최신 정본 3장이 등재돼 있는가 — 이게 빠지면 견본이 옛 판
+    #   한 장으로 되돌아가고, 되돌아간 사실이 화면에 안 보인다(시트는 그대로 나온다 · 판형만 옛것).
+    for _kd, _need in ((("board", "9-3.png"), ("person", "9-1.png"), ("person", "9-2.png")) if _smp else ()):
+        _nms = _smp.get(_kd) or ()
+        _nms = (_nms,) if isinstance(_nms, str) else tuple(_nms)
+        if _need not in _nms:
+            print("❌ 그록 콘티 레인 — {} 견본 목록에 최신 정본 {} 이 없다(운영자 260817 3차 · 항상 참고 계약)".format(
+                "스토리보드" if _kd == "board" else "인물 시트", _need)); rc = 1
+    # ⚠ 견본의 **카메라 표기**는 종이용 축약이라 베끼면 카메라가 통째로 얕아진다(실측 = 9-3
+    #   `wide street, rain starts` vs 260816 정청래 판 `choker shot …, shallow depth of field,
+    #   natural shade, slow push-in`) — 그 줄이 그대로 영상 프롬프트로 나가는 축이라 정체 문장과
+    #   감독 지침 두 곳이 같이 막아야 한다(한쪽만이면 나머지가 조용히 낡는다).
+    if "terse CAMERA wording" not in ss:
+        print("❌ 그록 콘티 레인 — 견본 정체 문장에 카메라 축약 베끼기 금지가 없다(견본을 실으면 카메라가 얕아진다)"); rc = 1
+    _sbmd = _t("prompts/sb-make.md")
+    for _needle, _why in (("CAMERA 줄 깊이", "카메라 깊이 하한 계약(운영자 260817 3차 = 정청래 판 수준)"),
+                          ("sb_out/260816-jcr-olympic/board.md", "그 하한의 실측 기준선(무엇과 견줄지가 없으면 하한이 말뿐이다)"),
+                          ("인물보드에도 의도가 녹는다", "인물보드 의도·사진 반영 계약(없으면 증명사진이 된다)")):
+        if _needle not in _sbmd:
+            print("❌ 그록 콘티 레인 — prompts/sb-make.md 에 {} 가 없다({})".format(_why, _needle)); rc = 1
     if 'viewer/sb_out/${IN_ID}" conti' in wf:
         print("❌ 그록 콘티 레인 — 워크플로가 스케치 판을 다시 굽는다(260817 폐지 계약 위반)"); rc = 1
     if '.get("conti")' in _t(".github/scripts/sd_fire.py"):

@@ -58,27 +58,28 @@ CIRCLED = "①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮"
 SAMPLE_DIR = os.path.join("apps", "storyboard", "샘플")
 # person = 인물 시트 견본(운영자 260817 「둘 다 샘플 참조」) — 굽는 쪽은 k_refgen 이지만 견본
 #   읽기(sample_png)는 이 파일이 단일정본이라 목록만 여기 둔다(사본 = 축소·정체문장이 갈린다).
-SAMPLES = {"board": "스토리보드 (1).png", "person": "캐릭터 시트 (1).png"}
+# ⚠ 판마다 **여러 장**이다(운영자 260817 3차 「그거가 스토리보드랑 주연배우 인물보드야 · 참고하는
+#   자료에 해당 내용도 넣어주고 항상 참고하게」) — 운영자가 새로 준 판(`9-1`·`9-2` 인물 · `9-3`
+#   스토리보드)이 최신 정본이라 **앞에** 세우고, 종전 견본을 뒤에 남긴다(교체가 아니라 추가 =
+#   같은 판형의 변형 실증 · 한 장만 두면 그 한 장의 우연한 특징까지 정본으로 굳는다).
+#   ⚠ 인물 판 두 장(9-1 남 · 9-2 여)을 같이 싣는 이유 = 5번 칸이 판마다 다르다(건네기 · 처마밑)
+#     = 「그 이야기의 핵심 동작 칸」이라는 규칙이 한 장으로는 안 드러난다(두 장을 대면 드러난다).
+SAMPLES = {"board": ("9-3.png", "스토리보드 (1).png"),
+           "person": ("9-1.png", "9-2.png", "캐릭터 시트 (1).png")}
+SAMPLE_CAP = 3      # 판당 견본 장수 상한 — 참조가 늘수록 잠금이 흩어진다(운영자 260811 축 계승)
 SAMPLE_MAX = 1600   # 긴 변 상한 — 견본 원본이 5MB대라 그대로 실으면 요청이 비대해진다
 SAMPLE_CLAUSE = (
-    "The attached image is our house LAYOUT SAMPLE for this kind of sheet. Copy its structure: "
+    "The attached images are our house LAYOUT SAMPLES for this kind of sheet (several samples = "
+    "variants of the SAME house format). Copy its structure: "
     "the single title bar across the top, the cell grid proportions, where the thumbnail sits in "
     "each cell, where the label lines sit under it, the label typography weight, the thin cell "
     "borders and the overall background tone. Do NOT copy its people, wardrobe, location, props "
-    "or any of its text content — those come from the cut list below.\n\n")
+    "or any of its text content — those come from the cut list below. In particular do NOT copy "
+    "the samples' terse CAMERA wording: write each CAMERA line exactly as the cut list gives it.\n\n")
 
 
-def sample_png(kind):
-    """판형 견본 한 장을 참조 그림 bytes 로 읽는다(없으면 None = 종전 동작)."""
-    if os.environ.get("SB_SHEET_REFPIC") == "0":
-        return None
-    nm = SAMPLES.get(kind) or ""
-    if not nm:
-        return None
-    p = os.path.join(SAMPLE_DIR, nm)
-    if not os.path.exists(p):
-        print("::warning::판형 견본 없음({}) — 글 규격만으로 굽는다".format(p))
-        return None
+def _one_sample(p):
+    """견본 한 장 → 축소·재인코딩 bytes(못 읽으면 None)."""
     try:
         import io
         from PIL import Image
@@ -92,8 +93,33 @@ def sample_png(kind):
         im.save(buf, "JPEG", quality=90, subsampling=0, optimize=True)
         return buf.getvalue()
     except Exception as e:  # noqa: BLE001
-        print("::warning::판형 견본 읽기 실패 — 글 규격만으로 굽는다: {}".format(str(e)[:200]))
+        print("::warning::판형 견본 읽기 실패 — 그 장만 빼고 굽는다: {}".format(str(e)[:200]))
         return None
+
+
+def sample_png(kind):
+    """판형 견본 **목록**(bytes 여러 장)을 읽는다(하나도 못 읽으면 빈 목록 = 종전 동작).
+
+    ⚠ 반환이 목록인 게 계약이다 — 부르는 쪽(`gemini_image(ref_png=…)`·k_refgen)이 목록을
+      그대로 받는다(`thumb_gen.gemini_image` 가 list·tuple 을 이미 인식한다 = 새 배선 0).
+    """
+    if os.environ.get("SB_SHEET_REFPIC") == "0":
+        return []
+    names = SAMPLES.get(kind) or ()
+    if isinstance(names, str):          # 구판 문법(한 장 문자열)도 받는다 = 되돌림 안전
+        names = (names,)
+    out = []
+    for nm in names[:SAMPLE_CAP]:
+        p = os.path.join(SAMPLE_DIR, nm)
+        if not os.path.exists(p):
+            print("::warning::판형 견본 없음({}) — 그 장만 빼고 굽는다".format(p))
+            continue
+        b = _one_sample(p)
+        if b:
+            out.append(b)
+    if not out:
+        print("::warning::판형 견본 0장 — 글 규격만으로 굽는다")
+    return out
 
 
 

@@ -85,20 +85,22 @@ PHOTO_CLAUSE = (
     "Treat it as the identity source: keep the face, hair, build and overall look of THIS person "
     "identical in every panel.\n\n")
 SAMPLE_CLAUSE_P = (
-    "The attached LAYOUT SAMPLE image (the last attachment) is our house format for a character "
-    "turnaround sheet. Copy only its structure — the panel grid, where the large front portrait "
-    "sits, the header label style and the background tone. Do NOT copy its person, wardrobe, "
-    "colors or any text from the sample.\n\n")
+    "The LAST attached image(s) are our house LAYOUT SAMPLES for a character turnaround sheet "
+    "(several samples = variants of the SAME house format). Copy only their structure — the numbered "
+    "panel grid, the four view panels across the top (front / three-quarter / side / full body), one "
+    "story-specific ACTION panel and a row of three expression heads, the header label style and the "
+    "way the panels share one continuous background. Do NOT copy the samples' person, wardrobe, "
+    "colors, location or any text from them.\n\n")
 
 
 def person_sample():
-    """인물 시트 판형 견본 bytes — 읽기 정본 = sb_sheet.sample_png(축소·재인코딩 한 벌 · 사본 0)."""
+    """인물 시트 판형 견본 **목록** — 읽기 정본 = sb_sheet.sample_png(축소·재인코딩 한 벌 · 사본 0)."""
     try:
         from sb_sheet import sample_png  # noqa: PLC0415  지연 import — k 레인에 이 의존이 없어도 죽지 않게(fail-soft)
         return sample_png("person")
     except Exception as e:  # noqa: BLE001
         print("::warning::인물 시트 견본 읽기 실패(견본 없이 굽는다): {}".format(str(e)[:120]))
-        return None
+        return []
 
 
 def photo_bytes(label, out_dir):
@@ -233,7 +235,9 @@ def main():
                 if pb:
                     refps.append(pb); clause += PHOTO_CLAUSE
                 if psample:
-                    refps.append(psample); clause += SAMPLE_CLAUSE_P
+                    # ⚠ 견본은 **여러 장**이다(sb_sheet.SAMPLES person = 9-1·9-2·종전판) —
+                    #   append 로 두면 목록이 통째로 한 장 자리에 들어가 첨부가 깨진다.
+                    refps.extend(psample); clause += SAMPLE_CLAUSE_P
             # 다각도 시트 한 장(한 컷 금지) · 가로 3:2 · 2K
             png = tg.gemini_image(clause + ref + TURN_SPECS[kind], TURN_SIZE, tag="kref",
                                   aspect=TURN_ASPECT, ref_png=(refps or None))
