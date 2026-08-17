@@ -21,6 +21,7 @@ from datetime import datetime, timedelta, timezone
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 PET = os.path.join(ROOT, 'apps', 'pet')
+VIEWER = os.path.join(ROOT, 'viewer')   # 부품 2파일의 거처 = 라이브 폴더(화면이 읽는 자리 · 사본 0)
 ATLAS = os.path.join(ROOT, 'viewer', 'pet_crab.png')
 TPL = os.path.join(PET, '_데모_템플릿.html')
 OUT = os.path.join(PET, '펫_데모.html')
@@ -98,16 +99,16 @@ def check_sitframes(rows):
        아틀라스를 갈고 실측만 다시 돌리면 부품은 옛 목록으로 남는다(화면은 멀쩡하고 자세만 어긋난다 = 조용한 낡음).
        어긋나면 데모를 굽지 않고 그 자리에서 멈춘다.
     """
-    js = open(os.path.join(PET, 'nm-pet.js'), encoding='utf-8').read()
+    js = open(os.path.join(VIEWER, 'nm-pet.js'), encoding='utf-8').read()
     i = js.find('sitFrames:')
     if i < 0:
-        raise SystemExit('부품에 sitFrames 목록이 없다 — apps/pet/nm-pet.js 확인')
+        raise SystemExit('부품에 sitFrames 목록이 없다 — viewer/nm-pet.js 확인')
     lit = js[js.index('[', i):js.index(']', i) + 1]
     have = [int(x) for x in __import__('re').findall(r'\d+', lit)]
     want = [r['f'] for r in rows if r.get('sit')]
     if have != want:
         raise SystemExit('부품 앉은 칸 목록이 실측과 다르다.\n  부품 %d칸 = %s\n  실측 %d칸 = %s\n'
-                         '  → nm-pet.js sitFrames 를 아래 줄로 교체하고 다시 돌려라.\n  sitFrames: [%s]'
+                         '  → viewer/nm-pet.js sitFrames 를 아래 줄로 교체하고 다시 돌려라.\n  sitFrames: [%s]'
                          % (len(have), have, len(want), want, ','.join(str(x) for x in want)))
     return len(want)
 
@@ -116,8 +117,8 @@ def build(rows):
     check_sitframes(rows)
     tpl = open(TPL, encoding='utf-8').read()
     b64 = base64.b64encode(open(ATLAS, 'rb').read()).decode('ascii')
-    css = open(os.path.join(PET, 'nm-pet.css'), encoding='utf-8').read()
-    js = open(os.path.join(PET, 'nm-pet.js'), encoding='utf-8').read()
+    css = open(os.path.join(VIEWER, 'nm-pet.css'), encoding='utf-8').read()
+    js = open(os.path.join(VIEWER, 'nm-pet.js'), encoding='utf-8').read()
     kst = datetime.now(timezone(timedelta(hours=9))).strftime('%y%m%d %H:%M')
     # ⚠ 닫는 태그 이스케이프가 실효 조건 — 부품 주석에 상속 예시(<script …></script>)가 그대로 들어 있어서
     #    그대로 넣으면 그 자리에서 데모의 스크립트가 끊기고 펫이 아예 안 만들어진다(260817 첫 실행 실측).
