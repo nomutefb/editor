@@ -70,6 +70,56 @@ TURN_SPECS = {
 }
 TURN_ASPECT, TURN_SIZE = "3:2", "2K"   # 시트 기본 = 가로 3:2 · 칸이 여럿이라 1K 면 얼굴이 뭉갠다
 
+# ── 콘티 레인(sb) 전용 축(운영자 260817) ─────────────────────────────────────
+# ⓐ 「그림 산출은 항상 스토리보드 1 + 핵심 인물 시트 n **만**」 — 배경·장소·제품 슬롯은 콘티
+#    레인에서 안 굽는다(환경 디자인은 스토리보드 시트에 녹인다 · 촬영 참조도 그 두 종만).
+# ⓑ 「둘 다 샘플 참조」 — 인물 시트에 판형 견본(`apps/storyboard/샘플/캐릭터 시트 (1).png`)을
+#    그림 참조로 싣는다. 구판은 견본 다섯 장을 **글로 옮긴 규격**(TURN_SPECS)만 썼고 그림
+#    자체는 한 번도 안 실렸다(sb_sheet 견본 배선과 같은 병 = 한 정본을 두 층이 다르게 쓰던 자리).
+# ⓒ 「콘티에 참조할 사진」 — 감독이 라벨에 `(사진 N)` 이라 **선언한 슬롯만** 그 사진을 얼굴
+#    정본으로 싣는다(추측 0 = 다각도 시트 라벨 신청 원칙 동축 · 파일 = 같은 폴더 photo_N.jpg).
+# ⚠ 전부 sb 레인 한정(REFGEN_PREFIX=sb_out) — k 레인은 종전 동작 무접촉(무회귀).
+_PHOTO_LAB = re.compile(r"사진\s*([0-9]{1,2})")
+PHOTO_CLAUSE = (
+    "The FIRST attached image is a real photograph of this exact person, supplied by the operator. "
+    "Treat it as the identity source: keep the face, hair, build and overall look of THIS person "
+    "identical in every panel.\n\n")
+SAMPLE_CLAUSE_P = (
+    "The attached LAYOUT SAMPLE image (the last attachment) is our house format for a character "
+    "turnaround sheet. Copy only its structure — the panel grid, where the large front portrait "
+    "sits, the header label style and the background tone. Do NOT copy its person, wardrobe, "
+    "colors or any text from the sample.\n\n")
+
+
+def person_sample():
+    """인물 시트 판형 견본 bytes — 읽기 정본 = sb_sheet.sample_png(축소·재인코딩 한 벌 · 사본 0)."""
+    try:
+        from sb_sheet import sample_png  # noqa: PLC0415  지연 import — k 레인에 이 의존이 없어도 죽지 않게(fail-soft)
+        return sample_png("person")
+    except Exception as e:  # noqa: BLE001
+        print("::warning::인물 시트 견본 읽기 실패(견본 없이 굽는다): {}".format(str(e)[:120]))
+        return None
+
+
+def photo_bytes(label, out_dir):
+    """라벨의 (사진 N) 선언 → 운영자 사진 bytes(없으면 None) — 선언 없는 슬롯엔 안 싣는다."""
+    m = _PHOTO_LAB.search(label or "")
+    if not m:
+        return None
+    p = os.path.join(out_dir, "photo_{}.jpg".format(int(m.group(1))))
+    if not os.path.exists(p):
+        print("::warning::라벨이 사진 {}번을 가리키는데 파일이 없다({}) — 사진 없이 굽는다".format(m.group(1), p))
+        return None
+    try:
+        return open(p, "rb").read()
+    except OSError:
+        return None
+
+
+def lane_bake(lab, sb_lane):
+    """이 슬롯을 굽나 — 콘티 레인은 인물만 True(운영자 260817 · k 레인은 전부 True = 무회귀)."""
+    return (sheet_kind(lab) == "person") if sb_lane else True
+
 # 참조 슬롯 라벨 = `## 🖼 레퍼런스` 절의 「① 인물:」·「② 배경:」 — 파서 단일정본(grok_sb_video 가 이걸 쓴다)
 _REF_LABEL = re.compile(r"^\s*[①-⑳]\s*([^\n:：]{1,30})\s*[:：]", re.M)
 # ⚠ 다각도 시트는 **라벨로 신청한다**(추측 0) — 「배경」 하나만 적힌 슬롯은 종전대로 낱장 장면이다.
@@ -165,13 +215,31 @@ def main():
     # 부분 실패 = 슬롯 보존(압축 금지) — slot N ≡ 🔗 첨부 순서 범례 N 불변이 다장의 핵심 계약(검증1 260708 · 실패 슬롯 = null → 뷰어 실패 칩).
     slots = []
     labels = ref_labels(md)
+    sb_lane = (prefix == "sb_out")   # 콘티 레인 = 인물 시트만 + 견본·사진 참조(운영자 260817 · k 레인 무접촉)
+    psample = person_sample() if sb_lane else None
     for i, ref in enumerate(refs, 1):
         lab = labels[i - 1] if i <= len(labels) else ""
         kind = sheet_kind(lab) if os.environ.get("REFGEN_SHEET") != "0" else None
+        if not lane_bake(lab, sb_lane):
+            # 콘티 레인 비인물 슬롯 = 값도 안 나가게 건너뛴다(환경 = 스토리보드 시트가 정본 ·
+            # 감독 계약이 어긋나 배경 블록이 와도 여기가 2겹째 방어선) · 슬롯 번호는 보존(None).
+            print("참조 {}번({}) = 콘티 레인 비인물 슬롯 — 안 굽는다(스토리보드가 환경 정본 · 260817)".format(i, lab or "무라벨"))
+            slots.append(None)
+            continue
         if kind:
+            refps, clause = [], ""
+            if kind == "person" and sb_lane:
+                pb = photo_bytes(lab, out_dir)
+                if pb:
+                    refps.append(pb); clause += PHOTO_CLAUSE
+                if psample:
+                    refps.append(psample); clause += SAMPLE_CLAUSE_P
             # 다각도 시트 한 장(한 컷 금지) · 가로 3:2 · 2K
-            png = tg.gemini_image(ref + TURN_SPECS[kind], TURN_SIZE, tag="kref", aspect=TURN_ASPECT)
-            print("참조 {}번({}) = 다각도 시트로 굽는다({} 문법 · 한 페이지)".format(i, lab, kind))
+            png = tg.gemini_image(clause + ref + TURN_SPECS[kind], TURN_SIZE, tag="kref",
+                                  aspect=TURN_ASPECT, ref_png=(refps or None))
+            print("참조 {}번({}) = 다각도 시트로 굽는다({} 문법 · 한 페이지{}{})".format(
+                i, lab, kind, " · 사진 정본" if (refps and clause.startswith("The FIRST")) else "",
+                " · 판형 견본" if psample and kind == "person" else ""))
         else:
             png = tg.gemini_image(ref + REF_STYLE, "1K", tag="kref", aspect=aspect)
         slots.append(png)

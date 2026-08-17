@@ -24,7 +24,13 @@ export async function onRequestPost({ request, env }) {
   try { body = await request.json(); } catch { return json({ error: '잘못된 요청' }, 400); }
 
   let story = String(body.story || '').slice(0, 16000);   // 상한 2배(260812) — 화면이 [지시]+[기사 요약] 두 칸을 합쳐 보낸다(각 8000) · 구 8000 이면 긴 기사 하나에 지시가 잘려 나갔다
-  if (!story.trim()) return json({ error: '이야기/기사 입력이 필요해' }, 400);
+  // 변형·2차 기준 콘티(경로 화이트리스트 = sb_out 산출물만 · 임의 파일 읽기 차단) — 2차 판정에 먼저 필요해 위로 올렸다(260817).
+  const base = (typeof body.base === 'string' && /^sb_out\/[0-9]{12}-[0-9a-f]{6}\/board\.md$/.test(body.base)) ? body.base : '';
+  const shootOnly = (body.shootOnly === true || body.shootOnly === 'true') && !!base;
+  // ⚠ 2차(촬영만)는 이야기가 **비어 있는 게 정상**이다(비우는 것 자체가 러너 표식) — 구판은 이 빈 칸
+  //   검사가 2차 판정보다 먼저 돌아 **화면의 2차 발사가 전건 400 으로 죽었다**(260817 스텁 실행 실측 ·
+  //   러너 실호출들은 손 발사라 이 층을 안 지나 잠복했다).
+  if (!story.trim() && !shootOnly) return json({ error: '이야기/기사 입력이 필요해' }, 400);
 
   const id = new Date(Date.now() + 9 * 3600e3).toISOString().replace(/[^0-9]/g, '').slice(2, 14) + '-' + crypto.randomUUID().slice(0, 6);   // YYMMDDHHMMSS = KST(+9h · k.js 규칙)
   // 화이트리스트 = 임의 문자열 주입 차단(k.js 패턴 계승 — 키는 서버 목록만 순회 = 사용자 키 자체를 안 읽음).
@@ -65,18 +71,39 @@ export async function onRequestPost({ request, env }) {
   const refimage = (shoot === 'motion') ? 'false' : ((shoot.startsWith('seedance') || shoot === 'grok') ? 'true' : ((body.ref === false || body.ref === 'false') ? 'false' : 'true'));   // grok = 콘티 컷 그림이 영상의 첫 장면 재료 = 강제 생성
   story += '\n\n[레퍼런스: ' + (refimage === 'true' ? 'ON' : 'OFF') + ']';   // 절 출력 게이트(prompts/sb-make.md)
   if (body.ad === true || body.ad === 'true') story += '\n\n[광고: ON]';   // 광고 모드 = 마지막 컷 키비주얼 의무(storyboard-v1 하드룰)
-  // 변형(운영자 260714 5차 — 작업 내역에서 이전 콘티 기반 재설계): 경로 화이트리스트 정규식 = sb_out 산출물만(임의 파일 읽기 차단)
-  const base = (typeof body.base === 'string' && /^sb_out\/[0-9]{12}-[0-9a-f]{6}\/board\.md$/.test(body.base)) ? body.base : '';
-
-  // 🎬 **2차 = 촬영만**(운영자 260813 「생성 버튼은 총 2번」) — 1차에서 나온 콘티를 보고 승인한 뒤,
-  //    그 콘티에 모델만 골라 제작을 건다. 이야기를 비우고 기준 콘티만 넘기면 러너가 감독을 건너뛴다.
+  // 🎬 **2차 = 촬영만**(운영자 260813 「생성 버튼은 총 2번」 · base·shootOnly 판정은 위(빈 이야기
+  //    검사보다 먼저 필요해 260817 상향)) — 1차 콘티를 보고 승인한 뒤 모델만 골라 제작을 건다.
+  //    이야기를 비우고 기준 콘티만 넘기면 러너가 감독을 건너뛴다.
   //    ⚠ 감독을 다시 안 부른다 = **승인한 그 콘티가 그대로 찍힌다**(다시 부르면 승인 대상이 바뀐다).
-  //    ⚠ 기준 콘티 경로는 위 화이트리스트를 이미 통과한 값만 온다(임의 파일 읽기 차단).
   // 화질 실값 — 화이트리스트를 이미 통과한 설정값만 넘긴다(임의 문자열 주입 0).
   // ⚠ 러너는 그 판이 모르는 이름을 받으면 **멈춘다**(조용히 다른 화질로 나가는 것보다 안 나가는 쪽이 싸다).
   const res = (typeof set['화질'] === 'string' && SB_SET['화질'].includes(set['화질'])) ? set['화질'] : '';
-  const shootOnly = (body.shootOnly === true || body.shootOnly === 'true') && !!base;
-  if (shootOnly) story = '';
+  if (shootOnly) story = '';   // 마커까지 통째로 비운다(빈 이야기 = 러너의 2차 표식)
+  // 📷 참조 사진(운영자 260817 「콘티에 참조할 사진도 넣을 수 있게」) — 발사 입력 10칸이 만석이라
+  //    칸을 안 늘리고 ⓐ 사진 바이트는 보관함(R2)에 앉히고 ⓑ 주소만 이야기 말미 표식으로 태운다
+  //    ([설정:] 마커 관례 · 러너 sbmake.sh 가 내려받아 감독 열람 + 인물 시트 얼굴 정본으로 쓴다).
+  //    ⚠ jpeg 만 받는다(화면 압축기가 jpeg 로 굽는다) — 다른 형식을 .jpg 로 앉히면 거짓 확장자다.
+  //    ⚠ 2차(촬영만)는 이야기가 비므로 사진 축 자체가 없다 · 올리다 실패하면 조용히 빼지 않고
+  //      막는다(사진을 시켰는데 없이 나가는 쪽이 더 비싼 사고 = 조용한 유실).
+  const photos = (!shootOnly && Array.isArray(body.photos)) ? body.photos.slice(0, 3) : [];
+  if (photos.length) {
+    if (!env.R2) return json({ error: '사진 보관함(R2) 미설정 — 사진을 빼고 다시 보내거나 배포 설정 확인' }, 500);
+    const pubBase = String(env.R2_PUBLIC_BASE || '').replace(/\/+$/, '');
+    if (!pubBase) return json({ error: '사진 공개 주소(R2_PUBLIC_BASE) 미설정 — 사진을 빼고 다시 보내거나 배포 설정 확인' }, 500);
+    const purls = [];
+    for (let i = 0; i < photos.length; i++) {
+      const m = /^data:image\/jpeg;base64,([A-Za-z0-9+/=]+)$/.exec(String(photos[i] || ''));
+      if (!m) return json({ error: '사진 ' + (i + 1) + '번 형식 오류(jpeg 만 · 화면 첨부를 다시 해봐)' }, 400);
+      let bin;
+      try { bin = Uint8Array.from(atob(m[1]), c => c.charCodeAt(0)); } catch { return json({ error: '사진 ' + (i + 1) + '번 손상' }, 400); }
+      if (bin.length > 3 * 1024 * 1024) return json({ error: '사진 ' + (i + 1) + '번이 너무 크다(3MB 상한 — 화면 압축을 거치면 안 넘는다)' }, 400);
+      const key = `sb_out/${id}/photo_${i + 1}.jpg`;
+      try { await env.R2.put(key, bin, { httpMetadata: { contentType: 'image/jpeg' } }); }
+      catch { return json({ error: '사진 ' + (i + 1) + '번 보관함 저장 실패 — 잠시 뒤 다시' }, 502); }
+      purls.push(pubBase + '/' + key);
+    }
+    story += '\n\n[참조 사진: ' + purls.join(' ') + ']';
+  }
   const r = await GH(env.GH_TOKEN, 'actions/workflows/sb-make.yml/dispatches', 'POST', {
     // 화질은 **마커가 아니라 입력 칸**으로도 보낸다 — 러너가 실제로 그 화질로 쏘려면
     // 이야기 속 문구가 아니라 발사 인자로 와야 한다(260813 봉합 · 손입력 칸 10/10 소진).

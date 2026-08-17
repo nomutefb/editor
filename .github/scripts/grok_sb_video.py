@@ -301,12 +301,10 @@ def ref_slots(md, out_dir):
 
 
 # 콘티 시트 정체 문장 — 「이건 설계도지 장면이 아니다」를 한 줄로 못 박는다(150자 안 = ref_ids 컷 길이).
+# ⚠ 스케치 동작 판(CONTI_CLAUSE) = 260817 폐지(운영자 「동작 콘티는 필요없음」 · 촬영 참조 =
+#   스토리보드 1 + 인물 시트 n 만) — 복원은 git 역사에서(굽는 쪽 sb_sheet 와 같은 커밋).
 SHEET_CLAUSE = ("the director's plan for this clip, read only for shot order and framing; the "
                 "finished video is live-action footage, one full-bleed camera view of the scene")
-
-
-CONTI_CLAUSE = ("the pencil motion plan, read only for how bodies and the camera travel; the "
-                "finished video is live-action footage, not a drawing")
 
 
 def sheet_slots(out_dir):
@@ -327,10 +325,10 @@ def sheet_slots(out_dir):
     except Exception:  # noqa: BLE001
         return []
     out = []
-    for key, lab, clause in (("url", "스토리보드", SHEET_CLAUSE), ("conti", "동작 스케치", CONTI_CLAUSE)):
-        if d.get(key):
-            out.append({"url": d[key], "label": lab, "block": clause, "night": False,
-                        "bg": False, "sheet": True, "cuts": d.get("cuts") or 0})
+    # 스토리보드 한 장뿐(운영자 260817 「스토리보드 1 + 인물 n 만 힉스필드쪽으로 전달」 — 구 스케치 판 슬롯 회수)
+    if d.get("url"):
+        out.append({"url": d["url"], "label": "스토리보드", "block": SHEET_CLAUSE, "night": False,
+                    "bg": False, "sheet": True, "cuts": d.get("cuts") or 0})
     return out
 
 

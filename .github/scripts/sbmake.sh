@@ -27,6 +27,31 @@ OUTDIR="viewer/sb_out/${ID}"; mkdir -p "$OUTDIR"
 printf '%s' "${STORY}" > "$OUTDIR/source.md"
 echo "소재 박제 ✓ $OUTDIR/source.md ($(wc -c < "$OUTDIR/source.md") bytes)"
 
+# 📷 참조 사진(운영자 260817 「콘티에 참조할 사진도 넣을 수 있게」) — 서버(api/sb.js)가 이야기 말미에
+#   [참조 사진: 주소…] 표식으로 태워 보낸다(발사 입력 10칸 만석 = 칸 신설 불가 · [설정:] 마커 관례).
+#   콘티 폴더에 photo_N.jpg 로 내려받아 ⓐ 감독이 Read 로 실물을 보고 ⓑ 인물 시트(k_refgen)가 얼굴
+#   정본으로 싣는다. ⚠ 번호 = 표식 안 순번 그대로(실패 장은 건너뛰되 번호를 안 당긴다 — 당기면
+#   감독의 (사진 N) 라벨이 다른 사진을 가리킨다). 커밋 전 정리 = 워크플로 몫(R2 가 정본) · fail-soft.
+PHOTO_LINE="$(printf '%s' "${STORY}" | grep -o '\[참조 사진:[^]]*\]' | head -1 || true)"
+PHOTO_GOT=0
+if [ -n "$PHOTO_LINE" ]; then
+  PHOTO_IDX=0
+  for u in $(printf '%s' "$PHOTO_LINE" | sed 's/^\[참조 사진:[[:space:]]*//; s/\]$//'); do
+    PHOTO_IDX=$((PHOTO_IDX+1)); [ "$PHOTO_IDX" -gt 3 ] && break
+    case "$u" in
+      https://*) ;;
+      *) echo "::warning::참조 사진 ${PHOTO_IDX}번 주소 형식 아님(건너뜀)"; continue ;;
+    esac
+    if curl -fsS --max-time 30 "$u" -o "$OUTDIR/photo_${PHOTO_IDX}.jpg"; then
+      PHOTO_GOT=$((PHOTO_GOT+1))
+    else
+      rm -f "$OUTDIR/photo_${PHOTO_IDX}.jpg"
+      echo "::warning::참조 사진 ${PHOTO_IDX}번 내려받기 실패(그 장만 빼고 진행)"
+    fi
+  done
+  echo "참조 사진 ${PHOTO_GOT}장 내려받음 → $OUTDIR/photo_*.jpg"
+fi
+
 # 지침 프리플라이트 — sb-make.md가 Read시키는 스킬 파일 실존 확인(리네임 시 무성 실패 → 명시 실패 · kmake 프리플라이트 패턴 계승)
 for REF_PAT in '\.claude/skills/storyboard-v1/SKILL\.md' '\.claude/skills/master-sheet-v2/SKILL\.md'; do
   GUIDE_REF="$(grep -om1 "$REF_PAT" "$PROMPT_FILE" | head -1 || true)"
@@ -54,6 +79,14 @@ if [ -n "${BASE:-}" ] && [ -f "viewer/${BASE}" ]; then
 $(cat "viewer/${BASE}")"
 elif [ -n "${BASE:-}" ]; then
   echo "::warning::변형 기준 콘티 부재(viewer/${BASE}) — 신규 설계로 진행"
+fi
+
+# 📷 참조 사진 열람 지시(위 내려받기 블록의 짝) — 파일이 실제로 있을 때만 붙인다(없는 파일을
+#   열라는 지시 = 감독이 헛걸음하고, 있는데 지시가 없으면 감독이 실물을 영영 안 본다 = 양쪽 다 사고).
+if [ "${PHOTO_GOT:-0}" -gt 0 ]; then
+  prompt="${prompt}
+
+[참조 사진 안내 — 운영자가 붙인 실물 사진이 ${OUTDIR}/photo_N.jpg 로 내려받아져 있다(N = 표식 순번). Read 도구가 있으면 각 사진을 실제로 열어 인물·물건 묘사를 실물 기준으로 쓰고, 🖼 레퍼런스 절 해당 인물 라벨에 (사진 N) 을 붙여라. Read 도구가 없는 레인은 열람만 생략하고 라벨 표기는 하라]"
 fi
 
 if [ "${DIRECTOR:-}" = "gpt" ]; then

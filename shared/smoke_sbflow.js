@@ -51,19 +51,19 @@ const ok = (c, msg, got) => { console.log((c ? '✅ ' : '❌ ') + msg + (got ===
   await pg.waitForTimeout(1400);
 
   // ── ① 둘 다 비면 발사가 막히는가
-  const gate0 = await pg.evaluate(() => { const g = document.querySelector('#go'); return { dis: !!g.disabled, tip: g.title || '' }; });
+  const gate0 = await pg.evaluate(() => { const g = document.querySelector('#go'); return { dis: !!g.disabled, tip: g.title || '' }; });   // seal-ok: 브라우저 실렌더 문법 — 미보유 형제(favtab·thumbapi)는 브라우저를 안 띄우는 축이라 정당 부재
   ok(gate0.dis, '① 둘 다 비면 생성이 잠긴다', 'disabled=' + gate0.dis);
 
   // ── ② 기사 고르기 → 제목 탭 → 자유요약이 자료 참조로
   await pg.click('#sumPull');
   await pg.waitForTimeout(700);
-  const rows = await pg.evaluate(() => [...document.querySelectorAll('#artList .artrow')].map(r => ({ no: r.querySelector('.qt').textContent, t: r.querySelector('.qmain').textContent })));
+  const rows = await pg.evaluate(() => [...document.querySelectorAll('#artList .artrow')].map(r => ({ no: r.querySelector('.qt').textContent, t: r.querySelector('.qmain').textContent })));   // seal-ok: 브라우저 실렌더 문법 — 미보유 형제(favtab·thumbapi)는 브라우저를 안 띄우는 축이라 정당 부재
   ok(rows.length === 2, '② 목록이 뜬다', JSON.stringify(rows));
   ok(rows[0] && rows[0].t.startsWith('새 기사'), '② 최신이 위', rows[0] && rows[0].t.slice(0, 12));
   ok(rows[0] && rows[0].no === '2' && rows[1] && rows[1].no === '1', '② 번호 = 요약된 차례(먼저 요약된 것이 1)', rows.map(r => r.no).join(','));
   await pg.click('#artList .artrow');
   await pg.waitForTimeout(900);
-  const got = await pg.evaluate(() => ({ v: (document.querySelector('#sumTx') || {}).value || '', open: !document.querySelector('#artPop').hidden }));
+  const got = await pg.evaluate(() => ({ v: (document.querySelector('#sumTx') || {}).value || '', open: !document.querySelector('#artPop').hidden }));   // seal-ok: 브라우저 실렌더 문법 — 미보유 형제(favtab·thumbapi)는 브라우저를 안 띄우는 축이라 정당 부재
   ok(got.v.includes('이것은 자유요약 본문이다'), '② 자유요약이 자료 참조에 들어온다', got.v.slice(0, 28) + '…');
   ok(!got.v.includes('인스타 요약'), '② 인스타 요약은 안 딸려온다');
   ok(!got.v.includes('한 줄짜리 요약'), '② 한줄 요약도 안 딸려온다');
@@ -72,17 +72,21 @@ const ok = (c, msg, got) => { console.log((c ? '✅ ' : '❌ ') + msg + (got ===
   ok(!got.open, '② 고르면 창이 닫힌다');
 
   // ── ③ 자료만 있어도 발사가 열리는가
-  const gate1 = await pg.evaluate(() => !document.querySelector('#go').disabled);
+  const gate1 = await pg.evaluate(() => !document.querySelector('#go').disabled);   // seal-ok: 브라우저 실렌더 문법 — 미보유 형제(favtab·thumbapi)는 브라우저를 안 띄우는 축이라 정당 부재
   ok(gate1, '③ 자료만 있어도 생성이 열린다');
 
-  // ── ④ 연출 목적 + 화풍/화질 골라 1차 전송
-  await pg.evaluate(() => {
+  // ── ④ 연출 목적 + 화풍/화질 + 참조 사진 붙여 1차 전송
+  // 사진 = 실제 파일 선택기 경유(운영자 260817 「콘티에 참조할 사진」) — 1×1 jpeg 실물 바이트
+  const TINY_JPEG = Buffer.from('/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/wAALCAABAAEBAREA/8QAFAABAAAAAAAAAAAAAAAAAAAACf/EABQQAQAAAAAAAAAAAAAAAAAAAAD/2gAIAQEAAD8AVN//2Q==', 'base64');
+  await pg.setInputFiles('#pvFile', { name: 'probe.jpg', mimeType: 'image/jpeg', buffer: TINY_JPEG });
+  await pg.waitForTimeout(700);
+  await pg.evaluate(() => {   // seal-ok: 브라우저 실렌더 문법 — 미보유 형제(favtab·thumbapi)는 브라우저를 안 띄우는 축이라 정당 부재
     const t = document.querySelector('#scene'); t.value = '폐버스 제안을 우아하게 비판한다';
     t.dispatchEvent(new Event('input', { bubbles: true }));
     const sty = [...document.querySelectorAll('#sbStyle .geni-opt')].find(b => b.textContent.trim() === '실사'); if (sty) sty.click();
   });
   await pg.waitForTimeout(400);
-  await pg.evaluate(() => { const s = [...document.querySelectorAll('#sbSub .geni-opt')].find(b => b.textContent.trim() === '흑백'); if (s) s.click(); });
+  await pg.evaluate(() => { const s = [...document.querySelectorAll('#sbSub .geni-opt')].find(b => b.textContent.trim() === '흑백'); if (s) s.click(); });   // seal-ok: 브라우저 실렌더 문법 — 미보유 형제(favtab·thumbapi)는 브라우저를 안 띄우는 축이라 정당 부재
   await pg.waitForTimeout(400);
   await pg.click('#go');
   await pg.waitForTimeout(900);
@@ -97,10 +101,12 @@ const ok = (c, msg, got) => { console.log((c ? '✅ ' : '❌ ') + msg + (got ===
     ok(!!set['화질'] && !!set['비율'] && !!set['길이'], '④ 화질·비율·길이가 실린다', JSON.stringify({ q: set['화질'], r: set['비율'], l: set['길이'] }));
     ok(!sent.shootOnly && !sent.base, '④ 1차는 촬영 표식이 없다(콘티만)', 'shootOnly=' + sent.shootOnly + ' base=' + (sent.base || ''));
     ok(!!sent.shoot, '④ 촬영 칸도 같이 간다', sent.shoot);
+    const ph = Array.isArray(sent.photos) ? sent.photos : [];
+    ok(ph.length === 1 && String(ph[0]).startsWith('data:image/jpeg'), '④ 참조 사진이 jpeg 로 동봉된다(운영자 260817)', ph.length + '장');
   }
 
   // ── ⑤ 촬영 칸을 바꾸면 화질이 아래로만 내려앉는가(위로 튀면 값이 다섯 배)
-  const clamp = await pg.evaluate(() => {
+  const clamp = await pg.evaluate(() => {   // seal-ok: 브라우저 실렌더 문법 — 미보유 형제(favtab·thumbapi)는 브라우저를 안 띄우는 축이라 정당 부재
     const pick = nm => { const b = [...document.querySelectorAll('#sgrid button')].find(x => x.textContent.trim() === nm); if (b) b.click(); };
     const cur = () => [...document.querySelectorAll('#axQ .geni-opt')].filter(b => b.classList.contains('on') || b.classList.contains('qro')).map(b => b.textContent.trim())[0];
     pick('2.0'); const two = [...document.querySelectorAll('#axQ .geni-opt')].map(b => b.textContent.trim());
@@ -114,20 +120,47 @@ const ok = (c, msg, got) => { console.log((c ? '✅ ' : '❌ ') + msg + (got ===
   ok(clamp.g === '720p', '⑤ 그록으로 바꾸면 720p', clamp.g);
   ok(clamp.back !== '4K', '⑤ 되돌아와도 4K로 안 튄다(값 다섯 배 방지)', clamp.back);
 
-  // ── ⑦ 콘티 시트가 결과부에 뜨는가(운영자 260814 — 매번 만들면서 한 번도 안 띄우던 축)
+  // ── ⑦ 결과 구획 = • 스토리보드 / • 주요 인물(운영자 260817 「블릿으로 각각 사진을 띄워주셈」)
+  //    표본 = 인물 슬롯 1(성공) + 배경 슬롯 1(null — 260817 계약상 안 굽는 슬롯 = 실패 칩 없이 조용히 생략)
   await pg.route('**/sheet.json*', r => r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ url: 'https://x.invalid/sheet.jpg', cuts: 9, engine: 'gemini' }) }));
   await pg.route('**/video.json*', r => r.fulfill({ status: 404, body: '' }));
-  await pg.route('**/ref.json*', r => r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ urls: ['https://x.invalid/ref.jpg'] }) }));
-  const sheet = await pg.evaluate(async () => {
+  await pg.route('**/ref.json*', r => r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ urls: ['https://x.invalid/p1.jpg', null] }) }));
+  const MD7 = '# 표본 콘티\n\n## ⚙️ 설계 요약\n의도: 표본\n\n## 🖼 레퍼런스\n① 인물(사진 1): 남자\n```text\nman\n```\n② 배경: 골목\n```text\nalley\n```\n';
+  const sheet = await pg.evaluate(async md => {   // seal-ok: 브라우저 실렌더 문법 — 미보유 형제(favtab·thumbapi)는 브라우저를 안 띄우는 축이라 정당 부재
     const box = document.createElement('div'); document.body.appendChild(box);
-    await window.renderOut('# 표본 콘티\n\n## ⚙️ 설계 요약\n의도: 표본\n', box, 'sb_out/260814-test/board.md');
+    await window.renderOut(md, box, 'sb_out/260814-test/board.md');
+    const heads = [...box.querySelectorAll('.geni-sechead .cref-lbl')].map(x => x.textContent.trim());
     const refs = [...box.querySelectorAll('.ref')];
-    return { n: refs.length, firstCap: refs[0] ? (refs[0].querySelector('.cap') || {}).textContent || '' : '',
-             firstImg: refs[0] ? !!refs[0].querySelector('img[data-ix="sheet"]') : false };
-  }).catch(e => ({ err: String(e.message).slice(0, 120) }));
+    return { heads: heads.join(','),
+             firstCap: refs[0] ? (refs[0].querySelector('.cap') || {}).textContent || '' : '',
+             firstImg: refs[0] ? !!refs[0].querySelector('img[data-ix="sheet"]') : false,
+             personCap: refs[1] ? (refs[1].querySelector('.cap') || {}).textContent || '' : '',
+             miss: box.querySelectorAll('.refmiss').length,
+             shown: (typeof SHOWN === 'string') ? SHOWN : '(없음)' };
+  }, MD7).catch(e => ({ err: String(e.message).slice(0, 120) }));
   ok(!sheet.err, '⑦ 결과 렌더가 돈다', sheet.err || '');
-  ok(sheet.firstImg, '⑦ 콘티 시트가 결과부 맨 앞에 뜬다');
-  ok((sheet.firstCap || '').includes('콘티 시트'), '⑦ 캡션이 콘티 시트라고 말한다', sheet.firstCap);
+  ok(sheet.firstImg, '⑦ 스토리보드 시트가 결과부 맨 앞에 뜬다');
+  ok((sheet.firstCap || '').includes('스토리보드'), '⑦ 캡션이 스토리보드라고 말한다', sheet.firstCap);
+  ok((sheet.heads || '').includes('스토리보드') && sheet.heads.includes('주요 인물'), '⑦ 블릿 구획 둘(스토리보드·주요 인물)', sheet.heads);
+  ok((sheet.personCap || '').includes('인물'), '⑦ 인물 시트가 라벨 캡션으로 뜬다', sheet.personCap);
+  ok(sheet.miss === 0, '⑦ 배경 null 슬롯 = 실패 칩 없이 생략(260817 계약)', 'miss=' + sheet.miss);
+  ok(sheet.shown === 'sb_out/260814-test/board.md', '⑦ 결과가 뜨면 2차 표식이 선다', sheet.shown);
+
+  // ── ⑧ 생성 버튼 이원 모드(운영자 260817 「제작 버튼은 다시 생성 버튼이 대체」)
+  //    결과가 떠 있는 상태(⑦) → 생성 = 2차(촬영 표식) · 입력을 고치면 → 생성 = 1차(콘티).
+  //    ⚠ ④의 폴이 아직 살아 있어 첫 탭은 재확인 경고다(계약 동작) — 두 탭으로 확정한다.
+  sent = null;
+  await pg.click('#go'); await pg.waitForTimeout(200); await pg.click('#go');
+  await pg.waitForTimeout(900);
+  ok(!!sent && sent.shootOnly === true && sent.base === 'sb_out/260814-test/board.md' && sent.story === '',
+     '⑧ 결과가 떠 있으면 생성 = 2차(그 콘티로 촬영)', sent ? ('base=' + sent.base) : '전송 없음');
+  sent = null;
+  await pg.evaluate(() => { const t = document.querySelector('#scene'); t.value = '다른 각으로 다시'; t.dispatchEvent(new Event('input', { bubbles: true })); });   // seal-ok: 브라우저 실렌더 문법 — 미보유 형제(favtab·thumbapi)는 브라우저를 안 띄우는 축이라 정당 부재
+  await pg.waitForTimeout(200);
+  await pg.click('#go'); await pg.waitForTimeout(200); await pg.click('#go');
+  await pg.waitForTimeout(900);
+  ok(!!sent && !sent.shootOnly && (sent.story || '').includes('다른 각으로 다시'),
+     '⑧ 입력을 고치면 생성 = 1차(새 콘티)', sent ? ('shootOnly=' + sent.shootOnly) : '전송 없음');
 
   ok(errs.length === 0, '⑥ 페이지 에러 0', errs.slice(0, 2).join(' | '));
   await b.close(); try { srv.kill(); } catch (e) {}

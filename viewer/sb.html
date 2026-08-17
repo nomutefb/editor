@@ -348,7 +348,7 @@
   <!-- 상단 도크 = 편집(edit) #topDock 정본 100% 계승(운영자 260725 통일) — 미리보기 + 선택 요약 스트립 + 발사바 한 몸 sticky · Contents는 도크 아래로 이주(edit 구조 미러) -->
   <!-- 고정 nav = {Contents → 옵션바 2줄 → 생성}(운영자 Q1159~Q1162 · 메이킹 예외 = 미리보기 액자 폐지 · 도크 셸·발사바 문법은 edit 정본 그대로 유지) -->
   <div class="topdock" id="topDock">
-    <div class="pvsec"><!-- 미리보기 유닛 = 카드 제작 정본 사본 **부활**(운영자 260803 "모든 메뉴의 미리보기 부분을 카드 제작 부분과 동일하게") — 구 Q1159에서 이 탭만 액자를 폐지해 5탭 중 홀로 미리보기가 없었다 · 대표 1장 앵커(#pvImg·#pvEmpty)는 JS에 이미 살아 있던 배선(액자만 없어 한 번도 안 그려졌다) --><div class="cpprev-box"><div class="cpv-empty" id="pvEmpty"><div class="cpv-stage"><img class="cpv-bg" id="pvImg" hidden alt=""><!-- 레퍼런스 대표 1장 = 결과 렌더가 채운다(renderRefs 무접촉) --><button type="button" class="cpv-photobtn" id="pvPick" disabled aria-label="이미지 첨부 — 이 탭은 아직 첨부 소스가 없다" title="이미지 첨부 — 이 탭은 아직 첨부 소스가 없다"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"></rect><circle cx="8.5" cy="9.5" r="1.5"></circle><path d="M21 16l-5-5L5 20"></path></svg></button></div></div><!-- 발사 = 미리보기 창 **안** 하단 오버레이(3면 균등 인셋 --sp-2)(운영자 260806) — 구 거처 = 도크 안 미리보기 아래 발사바 · DOM·id·핸들러 원문 그대로(카드 제작 정본 사본) --></div><div class="trailwrap" id="cpRailWrap"><!-- 레일 = 미리보기 창 **밖 우측** · 캡슐 = [돋보기][옵션](thumb #cpRailWrap 정본 사본) --><nav class="trail" id="cpZoomRail" aria-label="미리보기 확대"><button type="button" class="trail-i" id="cpZoom" aria-pressed="false" aria-label="미리보기 확대" title="탭=미리보기 확대 · 다시 탭=원상복귀"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/><path d="M8 11h6"/><path class="cpz-v" d="M11 8v6"/></svg></button></nav><nav class="trail trail-opts" id="cpRail" aria-label="미리보기 옵션"><span class="trail-g"><!-- 픽토 묶음 = [이미지 교체][휴지통](운영자 260803 "네비게이션에 이미지 교체와 휴지통 픽토그램 (기본)") = thumb #cpImgSwap/#cpImgDel 정본 SVG 그대로 · 이 탭은 붙일 소스 축이 아직 없어 **비활성**(자리 유지 = thumb 휴지통 무사진 정본 문법) --><button type="button" class="cpv-tool" id="pvSwap" disabled aria-label="이미지 교체" title="이미지 교체"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></button><button type="button" class="cpv-tool" id="pvDel" disabled aria-label="이미지 삭제" title="이미지 삭제"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg></button></span><span class="trail-div"></span><div class="trail-v" id="railOpts"><div class="gospec" id="railSpec"></div></div><!-- 값 칩 = 옵션 규격 4축(화질·프레임·비율·길이·컷 + 광고 막컷)(운영자 260803 3차 "옵션에 해당하는 부분만 저기로[네비게이션]") = k #optStrip 코너 레일 정본 문법 사본 · 감독│촬영│콘티·비용 리드백은 아래 #optStrip 스트립 존치(콘티만의 예외 칸 · Q1160 개정) --></nav><div class="firebar trail-fire"><div class="inner"><button class="go" id="go">생성</button></div></div></div></div>
+    <div class="pvsec"><!-- 미리보기 유닛 = 카드 제작 정본 사본 **부활**(운영자 260803 "모든 메뉴의 미리보기 부분을 카드 제작 부분과 동일하게") — 구 Q1159에서 이 탭만 액자를 폐지해 5탭 중 홀로 미리보기가 없었다 · 대표 1장 앵커(#pvImg·#pvEmpty)는 JS에 이미 살아 있던 배선(액자만 없어 한 번도 안 그려졌다) --><div class="cpprev-box"><div class="cpv-empty" id="pvEmpty"><div class="cpv-stage"><img class="cpv-bg" id="pvImg" hidden alt=""><!-- 레퍼런스 대표 1장 = 결과 렌더가 채운다(renderRefs 무접촉) --><input type="file" id="pvFile" accept="image/jpeg,image/png,image/webp" multiple hidden><button type="button" class="cpv-photobtn" id="pvPick" aria-label="콘티 참조 사진 첨부(최대 3장)" title="콘티 참조 사진 첨부(최대 3장) — 감독이 실물을 보고 인물 시트의 얼굴 정본이 된다"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"></rect><circle cx="8.5" cy="9.5" r="1.5"></circle><path d="M21 16l-5-5L5 20"></path></svg></button></div></div><!-- 발사 = 미리보기 창 **안** 하단 오버레이(3면 균등 인셋 --sp-2)(운영자 260806) — 구 거처 = 도크 안 미리보기 아래 발사바 · DOM·id·핸들러 원문 그대로(카드 제작 정본 사본) --></div><div class="trailwrap" id="cpRailWrap"><!-- 레일 = 미리보기 창 **밖 우측** · 캡슐 = [돋보기][옵션](thumb #cpRailWrap 정본 사본) --><nav class="trail" id="cpZoomRail" aria-label="미리보기 확대"><button type="button" class="trail-i" id="cpZoom" aria-pressed="false" aria-label="미리보기 확대" title="탭=미리보기 확대 · 다시 탭=원상복귀"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/><path d="M8 11h6"/><path class="cpz-v" d="M11 8v6"/></svg></button></nav><nav class="trail trail-opts" id="cpRail" aria-label="미리보기 옵션"><span class="trail-g"><!-- 픽토 묶음 = [이미지 교체][휴지통](운영자 260803 "네비게이션에 이미지 교체와 휴지통 픽토그램 (기본)") = thumb #cpImgSwap/#cpImgDel 정본 SVG 그대로 · 이 탭은 붙일 소스 축이 아직 없어 **비활성**(자리 유지 = thumb 휴지통 무사진 정본 문법) --><button type="button" class="cpv-tool" id="pvSwap" disabled aria-label="참조 사진 교체" title="참조 사진 교체(다시 고르기)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></button><button type="button" class="cpv-tool" id="pvDel" disabled aria-label="참조 사진 삭제" title="참조 사진 삭제(전부)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg></button></span><span class="trail-div"></span><div class="trail-v" id="railOpts"><div class="gospec" id="railSpec"></div></div><!-- 값 칩 = 옵션 규격 4축(화질·프레임·비율·길이·컷 + 광고 막컷)(운영자 260803 3차 "옵션에 해당하는 부분만 저기로[네비게이션]") = k #optStrip 코너 레일 정본 문법 사본 · 감독│촬영│콘티·비용 리드백은 아래 #optStrip 스트립 존치(콘티만의 예외 칸 · Q1160 개정) --></nav><div class="firebar trail-fire"><div class="inner"><button class="go" id="go">생성</button></div></div></div></div>
     <!-- (구 발사바 = 미리보기 창 안 85% 오버레이로 이주 · 운영자 260806 — 잔해 0 = 중복 id 좀비 차단 · 라벨 "생성" 통일·발사 로직 불변) -->
   </div><!-- /.topdock -->
   <!-- 선택 요약 = 도크 **밖**(운영자 260803 2차 "아예 동일하게") — 도크 안 = {미리보기 + 생성}뿐이 카드 제작 정본 골격 · 옵션 규격 4축 값 칩 = 형제 4탭처럼 코너 레일 전담(운영자 260803 3차 "옵션에 해당하는 부분만 저기로") · 감독│촬영│콘티·비용 리드백은 「감독:페이블 5 | 촬영:…」처럼 길어 70px 레일에 안 들어간다 → 도크 바로 아래 스트립 존치 = **콘티만의 예외 칸**(운영자 260803 3차 "여기만 예외적으로 네비게이션 말고도 옵션을 나타내는 칸") -->
@@ -452,19 +452,79 @@ const esc = s => s.replace(/[&<>]/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;'
   // 자동 증장(적대검증 260730 유효 지적): 높이 2/3(64px = 2행)로 줄인 대가로 8000자 입력이 2행에 갇히는 회귀 → 입력량만큼 상한까지 늘린다(상한 = 5행 ≈ 160px · 넘으면 내부 스크롤). resize 핸들 없음·sticky 도크 안이라 자동 증장이 유일한 출구.
   const GROW_MAX = 160;   /* raw-ok: 64px(2행 = Q1159 지정값) × 2.5 = 5행 상한 — 도크가 화면을 잠식하지 않는 실측 한계 */
   const grow = () => { ta.style.height = 'auto'; const h = Math.min(ta.scrollHeight, GROW_MAX); ta.style.height = Math.max(64, h) + 'px'; ta.style.overflowY = (ta.scrollHeight > GROW_MAX) ? 'auto' : 'hidden'; };
-  ta.addEventListener('input', () => { if (!prog && undoTimer) exitUndo(); save(); upd(); grow(); sbFireGate(); }); upd(); grow();
+  ta.addEventListener('input', () => { if (!prog && undoTimer) exitUndo(); save(); upd(); grow(); if (SHOWN) SHOWN = '';   /* 입력을 고친다 = 새 콘티 의사 → 생성 버튼이 1차로 복귀(운영자 260817 이원 모드) */ sbFireGate(); }); upd(); grow();
 });
 
-// ── 발사 게이트 = 둘 중 하나는 반드시 있어야 한다(운영자 260812 「둘 중에 하나는 무조건 넣어줘야 됨,
-//    뭘 만들지를 모르니까 · 안 그러면 생성 안 되게(입력 필요)」).
-//    ⚠ 요약만 있어도 되고 코멘트만 있어도 된다 — 둘 다 비었을 때만 막는다.
+// ── 📷 콘티 참조 사진(운영자 260817 「콘티에 참조할 사진도 넣을 수 있게」) ──
+//    첨부 자리 = 미리보기 창 사진 픽토(#pvPick = thumb 정본 부품 — 여태 「첨부 소스 없음」 비활성 자리).
+//    바이트는 발사 때 서버(api/sb.js)가 보관함에 앉히고 주소만 이야기 표식으로 태운다 — 감독이
+//    실물을 열어 보고, 인물 시트가 얼굴 정본으로 쓴다. ⚠ 촬영(그록·힉스필드)으로는 사진을 직접
+//    안 보낸다(운영자 260817 「사진을 여러개 전달하면 안됨」 — 전달 그림 = 스토리보드 1 + 인물 시트 n 뿐).
+//    ⚠ 압축 하한 = 긴 변 1280 · 화질 0.6(요약요청 첨부 하한 실측 동값 — 밑돌면 세로 긴 사진부터 글자가 뭉갠다).
+//    ⚠ 드래프트 영속 안 한다(사진 3장이면 로컬 저장 상한을 위협 · 세션 메모리만 — 셸이 탭을 안 리로드해 유지된다).
+let sbPhotos = [];   // jpeg dataURL 목록(최대 3)
+const SB_PHOTO_MAX = 3;
+function sbPhotoCompress(file) {
+  return new Promise((res, rej) => {
+    const img = new Image(), url = URL.createObjectURL(file);
+    img.onload = () => {
+      try {
+        const sc = Math.min(1, 1280 / Math.max(img.width, img.height));
+        const c = document.createElement('canvas');
+        c.width = Math.max(1, Math.round(img.width * sc)); c.height = Math.max(1, Math.round(img.height * sc));
+        c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+        res(c.toDataURL('image/jpeg', 0.6));   // q-ok: 산출물 아님 = 콘티 참조 사진(모델 입력) 압축 — 요약요청 첨부 하한 동값(q0.6·긴변 1280) · 화면·다운로드로 안 나간다
+      } catch (e) { rej(e); } finally { URL.revokeObjectURL(url); }
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); rej(new Error('이미지 아님')); };
+    img.src = url;
+  });
+}
+function sbPhotoPaint() {
+  const pv = $('#pvImg'), pe = $('#pvEmpty'), del = $('#pvDel'), sw = $('#pvSwap'), pick = $('#pvPick');
+  const has = sbPhotos.length > 0;
+  if (del) del.disabled = !has;   // 없으면 삭제·교체가 갈 곳 없다(thumb 무사진 정본 문법 = 자리 유지·비활성)
+  if (sw) sw.disabled = !has;
+  const mine = pv && (pv.getAttribute('src') || '').startsWith('data:');   // 결과 렌더 대표(원격 주소)와 안 겹치게 내 것만 걷는다
+  if (has) { if (pv) { pv.src = sbPhotos[0]; pv.hidden = false; } if (pe) pe.classList.add('has'); }
+  else if (mine) { if (pv) { pv.removeAttribute('src'); pv.hidden = true; } if (pe) pe.classList.remove('has'); }
+  if (pick) pick.title = has ? ('참조 사진 ' + sbPhotos.length + '/' + SB_PHOTO_MAX + '장 — 교체는 레일 픽토') : '콘티 참조 사진 첨부(최대 3장) — 감독이 실물을 보고 인물 시트의 얼굴 정본이 된다';
+}
+async function sbPhotoTake(files) {
+  const list = [...(files || [])].slice(0, SB_PHOTO_MAX);
+  if (!list.length) return;
+  const got = [];
+  for (const f of list) {
+    try { got.push(await sbPhotoCompress(f)); }
+    catch (e) { const st = $('#status'); if (st) { st.textContent = '사진 읽기 실패 — 그 장은 뺐다'; } }
+  }
+  if (got.length) { sbPhotos = got; sbPhotoPaint(); }
+}
+(function () {
+  const fi = $('#pvFile'), pick = $('#pvPick'), sw = $('#pvSwap'), del = $('#pvDel');
+  if (!fi || !pick) return;
+  const open = () => { fi.value = ''; fi.click(); };
+  pick.addEventListener('click', open);
+  if (sw) sw.addEventListener('click', open);
+  fi.addEventListener('change', () => sbPhotoTake(fi.files));
+  if (del) del.addEventListener('click', () => { sbPhotos = []; sbPhotoPaint(); });
+  sbPhotoPaint();
+})();
+
+// ── 발사 게이트 + 생성 버튼 이원 모드(운영자 260817 「제작 버튼은 다시 '생성' 버튼이 대체 —
+//    결과(콘티)가 떠 있을 때 = 2차 컨펌 후 실제 영상 생성 · 없을 때 = 1차 콘티 생성」).
+//    SHOWN = 결과부에 떠 있는 콘티 경로(renderOut 이 세우고, 입력을 고치면 내려간다 = 새 콘티 의사).
+let SHOWN = '';
+// 1차 게이트 = 둘 중 하나는 반드시 있어야 한다(운영자 260812 「둘 중에 하나는 무조건 넣어줘야 됨」).
+//    ⚠ 요약만 있어도 되고 코멘트만 있어도 된다 — 둘 다 비었을 때만 막는다. 2차 모드는 콘티가 입력이다.
 function sbFireGate() {
   const go = document.getElementById('go'); if (!go) return;
+  if (SHOWN) { go.disabled = false; go.title = '이 콘티로 영상을 만든다(감독은 다시 안 돈다 · 재생성 상한 2회) — 입력을 고치면 다시 콘티부터'; return; }
   const sum = (document.getElementById('sumTx') || {}).value || '';
   const sc = (document.getElementById('scene') || {}).value || '';
   const ok = !!(sum.trim() || sc.trim());
   go.disabled = !ok;
-  go.title = ok ? '' : '요약이나 내용 중 하나는 넣어야 한다 — 뭘 만들지 모른다';
+  go.title = ok ? '콘티를 만든다(1차) — 영상은 콘티를 보고 한 번 더' : '요약이나 내용 중 하나는 넣어야 한다 — 뭘 만들지 모른다';
 }
 
 // ── 📰 기사 고르기 = 뉴스 요약에 오른 기사 목록에서 **자유요약**을 끌어온다(운영자 260814).
@@ -1024,8 +1084,24 @@ async function sbLand(outEl, outPath) {
     if (u) nmRail.add({ url: abs(u), cap: '콘티', dlname: 'storyboard.jpg' });
   } catch (e) { /* 착지 실패 = 종전 동작 무손상(fail-soft) */ }
 }
-async function renderOut(md, outEl, outPath) {   // 결과 렌더 공통(폴 성공·재열람 재사용) — 텍스트 콘티 + (촬영=seedance면) 레퍼런스 이미지. AI 표기 오버레이는 k 레인 전담(콘티는 영상 산출물 아님)
+// 참조 절 라벨을 블록과 같은 순서로 — 파서 정본 = 러너(k_refgen ref_pairs)와 같은 절·같은 순서 계약.
+// 라벨이 곧 슬롯 이름이고, 아래 인물 판별이 이 라벨을 읽는다(ref.json urls 와 1:1).
+function sbRefLabs(md) {
+  const m = (md || '').match(/##\s*🖼\s*레퍼런스\s*\n([\s\S]*?)(?=\n##\s|$)/); if (!m) return [];
+  const sec = m[1], out = [], re = /```[^\n]*\n[\s\S]*?\n```/g; let pos = 0, f;
+  while ((f = re.exec(sec))) {
+    const head = sec.slice(pos, f.index);
+    const got = [...head.matchAll(/^\s*[①-⑳]\s*([^\n:：]{1,30})\s*[:：]/gm)].map(x => x[1].trim());
+    out.push(got.length ? got[got.length - 1] : '');
+    pos = re.lastIndex;
+  }
+  return out.slice(0, 7);
+}
+const SB_PERSON_RE = /인물|사람|캐릭터|주인공|출연|배우/;   // 어휘 = 러너 인물 판별(k_refgen _KIND_RE person)과 같은 낱말 — 갈리면 화면 분류와 굽는 분류가 어긋난다
+
+async function renderOut(md, outEl, outPath) {   // 결과 렌더 공통(폴 성공·재열람 재사용) — 구획 = • 스토리보드 / • 주요 인물(운영자 260817 「블릿으로 각각」) + 영상·콘티 본문
   let html = renderMd(md);
+  let vids = '', mo = '', legacy = '', persons = '', sheetCard = '';
   // 레퍼런스: R2 URL(ref.json — urls 배열 = 다장·url 단수 = 하위호환) 우선 · 없으면 git 폴백(ref.jpg). k.html renderOut 문법 계승(공용 수정 양쪽 동시)
   // 없으면(=kling 레인·GEMINI 키 미등록·생성 실패) 아무것도 안 붙는다 = 종전 동작 그대로(무회귀)
   if (outPath) {
@@ -1089,9 +1165,9 @@ async function renderOut(md, outEl, outPath) {   // 결과 렌더 공통(폴 성
           // 촬영 엔진 이름도 산출에서 읽는다 — 구판은 한 엔진 이름을 문구에 박아 놔서, 다른
           // 엔진으로 찍은 판도 그 이름으로 불렸다. 표기는 NM_MODELS 사전 값만(§표시명 SSOT).
           const laneNm = (window.NM_MODELS && window.NM_MODELS[v.lane]) || esc(String(v.lane || ''));
-          html = '<div class="ref multi">' + cells
+          vids = '<div class="ref multi">' + cells
             + '<div class="cap">' + esc(laneNm) + ' 영상 ' + ok.length + '/' + cs.length + '편 · 합 ' + secs + '초 · 소리 ' + (v.sound === false ? '끔' : '켬')
-            + (money ? ' · ' + money : '') + '</div></div>' + html;
+            + (money ? ' · ' + money : '') + '</div></div>';
         }
       }
     } catch (e) { /* 폴백 = 미부착 */ }
@@ -1100,8 +1176,8 @@ async function renderOut(md, outEl, outPath) {   // 결과 렌더 공통(폴 성
     try {
       const mr = await fetch(base + 'motion.mp4?t=' + Date.now(), { method: 'HEAD' });
       if (mr.ok && !(mr.headers.get('content-type') || '').includes('text/html')) {
-        html = '<div class="ref"><video src="' + (base + 'motion.mp4').replace(/"/g, '%22') + '" controls playsinline preload="metadata"></video>'
-          + '<div class="cap">모션그래픽 렌더 — 사내 렌더러(외부 API 0)</div></div>' + html;
+        mo = '<div class="ref"><video src="' + (base + 'motion.mp4').replace(/"/g, '%22') + '" controls playsinline preload="metadata"></video>'
+          + '<div class="cap">모션그래픽 렌더 — 사내 렌더러(외부 API 0)</div></div>';
       }
     } catch (e) { /* 폴백 = 미부착 */ }
     let srcs = null;
@@ -1113,120 +1189,91 @@ async function renderOut(md, outEl, outPath) {   // 결과 렌더 공통(폴 성
       const pv = document.getElementById('pvImg'), pe = document.getElementById('pvEmpty');
       if (pv && first) { pv.src = first + (first.includes('?') ? '' : '?t=' + Date.now()); pv.hidden = false; if (pe) pe.classList.add('has'); }
       if (pv) pv.addEventListener('error', () => { pv.hidden = true; if (pe) pe.classList.remove('has'); }, { once: true });   // 로드 실패 = 대기 문구 복귀(빈 액자 방지)
-      const cells = srcs.map((u, ix) => {
-        if (!u) return '<div class="refmiss">레퍼런스 ' + (ix + 1) + '번 생성/업로드 실패 — 참조 순서는 유지(이 장만 빼고 주입)</div>';   // null 슬롯 = 번호 보존(압축 금지 · k 검증1 계승)
+      // 인물/그 외 분리(운영자 260817 「블릿으로 스토리보드, 블릿으로 주요 인물 각각 사진을 띄워주셈」) —
+      // 라벨(참조 절)이 슬롯 순서 그대로라 urls 와 1:1 로 짝지어 가른다. 비인물 null 슬롯은
+      // 실패가 아니라 **계약상 안 굽는 슬롯**(260817 · 환경 = 스토리보드가 정본)이라 조용히 생략.
+      const labs = sbRefLabs(md);
+      const pc = [], lc = [];
+      srcs.forEach((u, ix) => {
+        const lab = labs[ix] || '';
+        const person = SB_PERSON_RE.test(lab);
+        if (!u) {
+          if (person) pc.push('<div class="refmiss">인물 시트 ' + (ix + 1) + '번 생성/업로드 실패 — 슬롯 번호 보존(이 장만 빼고 주입)</div>');   // null 슬롯 = 번호 보존(압축 금지 · k 검증1 계승)
+          return;
+        }
         const bust = u.includes('?') ? '' : '?t=' + Date.now();
-        return '<img src="' + (u + bust).replace(/"/g, '%22') + '" data-ix="' + (ix + 1) + '">';   // 속성 인젝션 싱크 봉합(k 계승)
-      }).join('');
-      const okN = srcs.filter(Boolean).length;   // 결손 시 "전장" 단언 금지 — 정직 캡션(k 검증7 계승)
-      html = '<div class="ref' + (srcs.length > 1 ? ' multi' : '') + '">' + cells
+        const img = '<img src="' + (u + bust).replace(/"/g, '%22') + '" data-ix="' + (ix + 1) + '">';   // 속성 인젝션 싱크 봉합(k 계승)
+        if (person) pc.push('<div class="ref">' + img + '<div class="cap">' + esc(lab) + ' — 360도 시트</div></div>');
+        else lc.push(img);
+      });
+      persons = pc.join('');
+      if (lc.length) legacy = '<div class="ref' + (lc.length > 1 ? ' multi' : '') + '">' + lc.join('')
         + '<div class="cap">레퍼런스 이미지'   /* 아이콘 없음 = 의도 — k.html PHOTO_SVG는 그 파일 인라인 지역 상수라 여기 복제하면 아이콘 드리프트(공유 승격 = nm-svg.js SSOT 편입이 정문 · 후속) */
-        + (srcs.length > 1 ? (okN === srcs.length ? ' ×' + srcs.length + ' — 시댄스 주입 순서 = 콘티 참조 순' : ' ' + okN + '/' + srcs.length + '장 — 실패 슬롯 자리 표시(번호 기준·수동 보충)') : '')
-        + '</div></div>' + html;
+        + (lc.length > 1 ? ' ×' + lc.length : '') + '</div></div>';   // 옛 콘티(배경 참조가 실재하던 판) 재열람 호환 자리 — 새 콘티는 인물 시트만 굽는다(260817)
     }
   }
-  // 🎞 **콘티 시트 = 한 장에 그림+글자**(운영자 260814 「그림이 같이 붙어서 한 페이지에 그려진
-  //    스토리보드가 필요해 · 글자도 그림으로 쓰는거고」).
-  //    ⚠ 이 시트는 매번 만들어지고 있었는데 **화면에 한 번도 안 떴다**(실측 = 이 파일에 `sheet.json`
-  //      을 읽는 줄이 0 · 검색에 걸리던 6건은 전부 `stylesheet`). 그래서 운영자에게는 「글 따로
-  //      그림 따로, 시트는 안 만든다」로 보였다 — 만들어 놓고 안 보여준 것이 전부였다.
-  //    ⚠ 자리 = 결과부 **맨 앞**(레퍼런스보다 위) — 먼저 보는 건 전체가 한눈에 들어오는 한 장이다.
-  //    부품 = 레퍼런스 `.ref/.cap` 그대로(창작 0) · 없으면 아무것도 안 붙는다(무회귀).
+  // 🎞 **스토리보드 시트 = 한 장에 그림+글자**(운영자 260814 「한 페이지에 그려진 스토리보드」 ·
+  //    260817 개정 = 스케치 동작 판 폐지 — 읽는 키도 `url` 하나뿐이다{굽는 쪽 sb_sheet 와 같은 커밋}).
+  //    부품 = 레퍼런스 `.ref/.cap` 그대로(창작 0) · 없으면 구획 자체를 안 그린다(무회귀).
   if (outPath) {
     try {
       const _sb = outPath.replace(/board\.md$/, '');
       const sr = await fetch(_sb + 'sheet.json?t=' + Date.now());
       if (sr.ok) {
         const sj = await sr.json();
-        // 🎞 두 판을 **같이** 그린다(운영자 260814 「스토리보드 1, 콘티 1」).
-        //    ⚠ 구판은 `url`(정식 시트)만 읽었다 — 스케치 동작 판은 구워져도 화면에 안 떴다.
-        //      굽는 자리도 안 불리고 있었으므로(sb-make.yml 세 번째 인자 부재) 두 층이 같이 죽어
-        //      「스케치 판이라는 게 있다」는 사실 자체가 화면에서 사라져 있었다.
-        //    ⚠ 순서 = 정식 시트 먼저 · 스케치 나중(굽는 쪽 KINDS 순서와 같은 계약).
-        const _cards = [];
-        for (const [k, lab] of [['url', '콘티 시트'], ['conti', '스케치 동작 콘티']]) {
-          const su = (sj && sj[k]) || '';
-          if (!su) continue;
+        const su = (sj && sj.url) || '';
+        if (su) {
           const bust = su.includes('?') ? '' : '?t=' + Date.now();
-          _cards.push('<div class="ref"><img src="' + (su + bust).replace(/"/g, '%22') + '" data-ix="sheet">'
-            + '<div class="cap">' + lab
-            + (sj.cuts ? ' — ' + sj.cuts + '컷 한 장' : '')
-            + '</div></div>');
+          sheetCard = '<div class="ref"><img src="' + (su + bust).replace(/"/g, '%22') + '" data-ix="sheet">'
+            + '<div class="cap">스토리보드' + (sj.cuts ? ' — ' + sj.cuts + '컷 한 장' : '') + '</div></div>';
         }
-        if (_cards.length) html = _cards.join('') + html;
       }
     } catch (e) { /* 시트 없음 = 종전 동작(무회귀) */ }
   }
-  outEl.innerHTML = html;
-  if (outPath) shootBar(outEl, outPath);   // 🎬 2차 = 이 콘티로 제작(모델 선택 + 발사)
+  // 구획 순서 = • 스토리보드 → • 주요 인물(운영자 260817 「블릿으로 각각」) → 그 외 참조(옛 콘티 호환)
+  //   → 모션·영상 → 콘티 본문. 소머리 부품 = 이 문서 「설계」·「작업 내역」 머리 그대로(창작 0).
+  const _bullet = t => '<div class="geni-sechead"><span class="cref-lbl">' + t + '</span></div>';
+  outEl.innerHTML = (sheetCard ? _bullet('스토리보드') + sheetCard : '')
+    + (persons ? _bullet('주요 인물') + persons : '')
+    + legacy + mo + vids + html;
+  SHOWN = outPath || '';   // 🎬 결과가 떠 있다 = 생성 버튼이 2차(이 콘티로 영상)가 된다(운영자 260817 — 구 제작 버튼 줄 대체)
+  sbFireGate();
   wireCopy();
   // 이미지 로드 실패 = 그 장 자리에 경고 칩(공유 캡션 오염 금지 · k 검증4 계승 · innerHTML 직후 동일 틱 부착 = 레이스 없음)
   outEl.querySelectorAll('.ref img').forEach(im => im.addEventListener('error', () => { const d = document.createElement('div'); d.className = 'refmiss'; d.textContent = '레퍼런스 ' + (im.dataset.ix || '') + '번 이미지 없음/로드 실패'; im.replaceWith(d); }, { once: true }));
 }
-// 🎬 **2차 승인 = 이 콘티로 제작**(운영자 260813 「생성 버튼은 총 2번」).
-//   1차 = 감독이 콘티를 짠다 → 운영자가 **보고** → 2차 = 그 콘티에 모델만 골라 제작.
+// 🎬 **2차 승인 = 이 콘티로 제작**(운영자 260813 「생성 버튼은 총 2번」 · 260817 「제작 버튼은 다시
+//   '생성' 버튼이 대체」) — 결과(콘티)가 떠 있으면 코너 레일 **생성 버튼 자체가** 2차 발사다.
+//   촬영 엔진 = 설계 구역 「촬영」 행에서 고른 값 그대로(구 결과부 전용 칩 줄은 이 개정으로 회수).
+//   1차 = 감독이 콘티를 짠다 → 운영자가 **보고** → 2차 = 같은 생성 버튼 = 그 콘티 그대로 촬영.
 //   ⚠ 감독을 다시 안 부른다 = **본 그대로가 찍힌다**(다시 부르면 승인한 대상이 바뀐다).
 //   ⚠ 실패하면 **재생성 한 번만**(운영자 260813 「첫 1회만, 이후로는 아예 실패」) — 그 뒤엔
-//     버튼이 잠긴다. 값이 나가는 레인이라 무한 재시도가 곧 무한 청구다.
-//   부품 = 옵션 칩(`.geni-opt`)과 발사 버튼(`.go`) 정본 계승 · 새 모양 0.
+//     막힌다. 값이 나가는 레인이라 무한 재시도가 곧 무한 청구다.
 const SHOT_KEY = 'sb_shot_try';   // 콘티별 재생성 소진 표식(1회 쓰면 잠근다)
 const shotTry = () => { try { return JSON.parse(localStorage.getItem(SHOT_KEY) || '{}'); } catch (e) { return {}; } };
 const shotTryUp = (k, v) => { try { const a = shotTry(); a[k] = v; localStorage.setItem(SHOT_KEY, JSON.stringify(a)); } catch (e) {} };
 
-function shootBar(outEl, outPath) {
-  const wrap = document.createElement('div');
-  wrap.className = 'ref';
-  const cap = document.createElement('div'); cap.className = 'cap';
-  const row = document.createElement('div'); row.className = 'geni-opts'; row.setAttribute('role', 'group');
-  row.setAttribute('aria-label', '이 콘티로 제작할 촬영 엔진');
-  let pick = sbShoot;
-  const used = shotTry()[outPath] || 0;
-  const draw = () => {
-    row.innerHTML = '';
-    SB_SHOOTS.filter(m => m.id !== 'motion').forEach(m => {
-      const b = document.createElement('button'); b.type = 'button';
-      b.className = 'geni-opt' + (pick === m.id ? ' on' : '');
-      b.textContent = m.nm; b.title = m.hint;
-      b.setAttribute('aria-pressed', String(pick === m.id));
-      b.addEventListener('click', () => { pick = m.id; draw(); });
-      row.appendChild(b);
-    });
-    const go = document.createElement('button');
-    go.type = 'button'; go.className = 'go'; go.id = 'sbShootGo';
-    go.textContent = used >= 2 ? '재생성 소진' : (used === 1 ? '재생성(마지막)' : '제작');
-    go.disabled = used >= 2;
-    go.title = used >= 2 ? '재생성은 한 번뿐이다(값이 나가는 레인)' : '이 콘티를 그대로 찍는다(감독 재호출 0)';
-    go.addEventListener('click', () => fireShoot(outPath, pick, go, cap));
-    row.appendChild(go);
-    cap.textContent = used >= 2 ? '이 콘티는 재생성을 다 썼다 — 새 콘티로 다시 시작해라'
-      : (used === 1 ? '한 번 더만 쏠 수 있다' : '보고 마음에 들면 모델을 골라 제작한다(감독은 다시 안 돈다)');
-  };
-  draw();
-  wrap.appendChild(row); wrap.appendChild(cap);
-  outEl.appendChild(wrap);
-}
-
-async function fireShoot(outPath, shoot, btn, cap) {
-  btn.disabled = true; const was = btn.textContent; btn.textContent = '보내는 중…';
+async function fireShoot(outPath, shoot) {   // 2차 발사 — 버튼 = 코너 레일 생성(#go) · 안내 = 상태줄
+  const g = document.getElementById('go'), status = $('#status');
+  g.disabled = true; status.classList.remove('err'); status.textContent = '제작 요청 보내는 중…';
   try {
     const res = await fetch('/api/sb', {
       method: 'POST', headers: { 'content-type': 'application/json' },
-      // ⚠ 화질은 **이 자리에서 고른 촬영 칸** 기준으로 맞춰 보낸다 — 화면 상태가 다른 칸일 수 있고,
-      //   그 판이 모르는 화질은 러너가 멈춘다(제작 버튼이 이유 없이 죽는 것처럼 보인다).
+      // ⚠ 화질은 **촬영 칸 기준으로 맞춰** 보낸다 — 그 판이 모르는 화질은 러너가 멈춘다
+      //   (생성 버튼이 이유 없이 죽는 것처럼 보인다).
       body: JSON.stringify(Object.assign({ story: '', base: outPath, shootOnly: true },
                                          sbPayload(), { shoot: shoot },
                                          { set: Object.assign({}, sbPayload().set,
                                              { '화질': sbQFit(shoot, sbSet['화질']) }) })),
     });
     const j = await sbReadJson(res);
-    if (!res.ok || j.error) { cap.textContent = '요청 실패: ' + String(j.error || res.status); btn.disabled = false; btn.textContent = was; return; }
+    if (!res.ok || j.error) { status.innerHTML = WARN_SVG + ' 제작 요청 실패: ' + esc(String(j.error || res.status)); status.classList.add('err'); return; }
     shotTryUp(outPath, (shotTry()[outPath] || 0) + 1);
     const a = jload(); a.unshift({ id: j.id, out: j.out, ts: Date.now(), d: sbDirector, sh: shoot, base: true, label: '제작 · ' + shoot, status: 'run' }); jsave(a); renderJobs();
-    cap.textContent = '제작 요청 보냈다 — 결과는 작업 내역에 앉는다';
     poll(j.out, j.id);
   } catch (e) {
-    cap.textContent = '요청 실패: ' + e.message; btn.disabled = false; btn.textContent = was;
-  }
+    status.innerHTML = WARN_SVG + ' 제작 요청 실패: ' + esc(e.message); status.classList.add('err');
+  } finally { g.disabled = false; sbFireGate(); }
 }
 
 // ── 작업 내역(운영자 260714 5차 — Image Studio 배선 미러): 발사마다 누적 · 최신 done = #out에 우선 표시 · 라벨 탭 = 재열람 · 변형 = 그 콘티 기반 재설계 ──
@@ -1317,7 +1364,7 @@ function sbOpenRun(id) {
   status.classList.remove('err');
   status.setAttribute('aria-busy', 'true');
   if (window.nmLoader) status.innerHTML = nmLoader('prompting', '제작중…') + '<span class="sbtime nm-shim" style="margin-left:var(--sp-1)"></span>';   // 진행 표기 = poll 시작부 정본 바이트 그대로(새 문구·부품 0)
-  if (out) out.innerHTML = '';   // 앞 잡의 결과가 남아 「제작중」과 겹쳐 보이는 것 차단(그 결과는 결과 레일·작업 내역에서 다시 연다)
+  if (out) { out.innerHTML = ''; SHOWN = ''; sbFireGate(); }   // 앞 잡의 결과가 남아 「제작중」과 겹쳐 보이는 것 차단 + 2차 표식 내림(결과는 결과 레일·작업 내역에서 다시 연다)
   let busy = false; try { busy = nmJobs.busy(JKEY, id); } catch (e) {}
   if (!busy) poll(j.out, j.id, true);
   try { status.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion:reduce)').matches ? 'auto' : 'smooth', block: 'center' }); } catch (e) {}
@@ -1356,7 +1403,7 @@ function poll(outPath, jid, focus) {
         const ect = (er.headers.get('content-type') || '').toLowerCase();
         const em = await er.text();
         const eHtml = ect.includes('text/html') || /^\s*<!doctype/i.test(em) || /<html[\s>]/i.test(em.slice(0, 300));
-        if (em && em.trim() && !eHtml) { const _m = mine(); stop(); if (jid) jupd(jid, { status: 'err' }); if (!_m) return; status.innerHTML = ERR_SVG + ' ' + esc(em.trim()); status.classList.add('err'); out.innerHTML = ''; return; }
+        if (em && em.trim() && !eHtml) { const _m = mine(); stop(); if (jid) jupd(jid, { status: 'err' }); if (!_m) return; status.innerHTML = ERR_SVG + ' ' + esc(em.trim()); status.classList.add('err'); out.innerHTML = ''; SHOWN = ''; sbFireGate(); return; }
       }
     } catch (e) { /* 재시도 */ }
     try {   // 2) 결과 확인(SPA 폴백 오인 차단 = k 계승)
@@ -1396,9 +1443,18 @@ function errStatus(m) {   // 전송 막힘 = 버튼 안 빨강 액티브 + 흔�
 $('#go').onclick = async () => {
   const status = $('#status'); const g = document.getElementById('go');
   // 폴 진행 중 재클릭 = 재확인 암(k 계승 — 1탭 경고 4s·2탭 재발사)
-  if (_polling() && !g._arm) { if (!g.dataset.label) g.dataset.label = g.textContent; g.textContent = '설계 중 — 다시 누르면 재발사'; g._arm = setTimeout(() => { g._arm = null; g.textContent = g.dataset.label; }, 4000); return; }
+  if (_polling() && !g._arm) { if (!g.dataset.label) g.dataset.label = g.textContent; g.textContent = '진행 중 — 다시 누르면 재발사'; g._arm = setTimeout(() => { g._arm = null; g.textContent = g.dataset.label; }, 4000); return; }
   if (g._arm) { clearTimeout(g._arm); g._arm = null; g.textContent = g.dataset.label || g.textContent; }
-  status.classList.remove('err'); $('#out').innerHTML = '';
+  // 🎬 2차 모드 = 결과(콘티)가 떠 있으면 이 버튼이 곧 제작 버튼(운영자 260817 「2-5가 있을 때 =
+  //    2차 컨펌 후 실제 영상 생성 · 없을 때 = 1차 콘티 생성」) — 촬영 엔진 = 설계 「촬영」 행 값.
+  if (SHOWN) {
+    const used = shotTry()[SHOWN] || 0;
+    if (used >= 2) return errStatus('재생성 소진');   // 값이 나가는 레인 = 콘티당 2회 상한(운영자 260813)
+    g.classList.remove('firing'); void g.offsetWidth; g.classList.add('firing'); setTimeout(() => g.classList.remove('firing'), 760);
+    await fireShoot(SHOWN, sbShoot);
+    return;
+  }
+  status.classList.remove('err'); $('#out').innerHTML = ''; SHOWN = '';   // 1차 = 결과부 비움 = 2차 표식도 내림
   const sum = ($('#sumTx') || {}).value.trim(), note = $('#scene').value.trim();
   if (!sum && !note) return errStatus('입력 필요');
   // 요약 = 참고 자료 · 내용 = 운영자 지시. 둘 다 있으면 둘 다 보낸다(감독이 무엇을 참고하고
@@ -1411,7 +1467,7 @@ $('#go').onclick = async () => {
   $('#go').disabled = true; status.textContent = '설계 중…'; _fired = true;
   try {
     const base = sbBase ? sbBase.out : '';   // 변형 모드 = 이전 콘티 경로 동봉(서버 화이트리스트 재검증)
-    const res = await fetch('/api/sb', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(Object.assign({ story, base }, sbPayload())) });
+    const res = await fetch('/api/sb', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(Object.assign({ story, base, photos: sbPhotos }, sbPayload())) });   // photos = 참조 사진(운영자 260817) — 서버가 보관함에 앉히고 주소만 표식으로
     const j = await sbReadJson(res);
     if (!res.ok || j.error) { status.innerHTML = WARN_SVG + ' ' + esc(String(j.error || res.status)); status.classList.add('err'); return; }
     const a = jload(); a.unshift({ id: j.id, out: j.out, ts: Date.now(), d: sbDirector, sh: sbShoot, base: !!base, label: (note || sum).replace(/\s+/g, ' ').slice(0, 16) + ((note || sum).length > 16 ? '…' : ''), status: 'run' }); jsave(a); renderJobs();   // 발사 즉시 내역 적립(최신 = 맨 위 · Image Studio 미러)

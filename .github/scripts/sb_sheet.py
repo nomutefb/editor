@@ -11,11 +11,12 @@
   초안 게이트」). 그래서 운영자가 견본으로 보여준 「열두 칸을 한눈에 보는 시트」가 산출에
   없었다 — 그 규약이 정한 「후속 단계」가 바로 이 파일이다.
 
-⚠ 이미지 엔진이 Gemini 가 아니라 **GPT Image** 인 이유 = 시트 한 장에 타이틀바 1줄 +
-  칸마다 ACTION / CAMERA / DIALOGUE 세 줄 = 글자가 서른 줄 넘게 들어간다. 화면 안 글자는
-  모델마다 편차가 큰 축이고, storyboard-v1 스킬이 이 산출을 GPT Image 기준으로 규격화해
-  뒀다(`.claude/skills/storyboard-v1/SKILL.md` §gpt_image_2 호출 스펙). 그 규격을 그대로
-  따른다 — 값 창작 0.
+⚠ 이미지 엔진 = **Gemini 1순위**(운영자 260817 「실제로 제미나이를 통해 뽑아낸 결과물 ·
+  둘 다 샘플 참조」) — 판형 견본 그림을 참조로 실을 수 있는 유일한 축이라서다(GPT 축은
+  첨부가 붙으면 편집 창구로 갈아타 견본 자체를 고친다). GPT Image 는 키 부재·실패 폴백.
+  (구 260811 판 = GPT 1순위{storyboard-v1 스킬 §gpt_image_2 규격 · 화면 안 글자 편차 축} —
+   그 근거는 살아 있으나 「항상 샘플 참조」 계약이 우선해 순서를 뒤집었다. 프롬프트 규격
+   자체는 그 스킬 것을 그대로 쓴다 = 값 창작 0.)
 
 ⚠ 그록 참조로도 쓸 수 있다 = 시트는 화풍·인물·공간을 한 장에 담고 있어 참조 그림으로도
   유효하다(운영자 260811 「어짜피 시트가 저화질이여도 캐릭터가 비슷하게 나오면 됨」).
@@ -55,8 +56,9 @@ CIRCLED = "①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮"
 #   ⚠ 견본이 없거나 못 읽으면 종전 동작 그대로(글 규격만) = fail-soft.
 #   ⚠ 끄기 = `SB_SHEET_REFPIC=0`.
 SAMPLE_DIR = os.path.join("apps", "storyboard", "샘플")
-# 스케치 판 견본은 아직 저장소에 없다 → 그 판은 글 규격만으로 굽는다(빈 문자열 = 참조 없음).
-SAMPLES = {"board": "스토리보드 (1).png", "conti": ""}
+# person = 인물 시트 견본(운영자 260817 「둘 다 샘플 참조」) — 굽는 쪽은 k_refgen 이지만 견본
+#   읽기(sample_png)는 이 파일이 단일정본이라 목록만 여기 둔다(사본 = 축소·정체문장이 갈린다).
+SAMPLES = {"board": "스토리보드 (1).png", "person": "캐릭터 시트 (1).png"}
 SAMPLE_MAX = 1600   # 긴 변 상한 — 견본 원본이 5MB대라 그대로 실으면 요청이 비대해진다
 SAMPLE_CLAUSE = (
     "The attached image is our house LAYOUT SAMPLE for this kind of sheet. Copy its structure: "
@@ -234,60 +236,18 @@ def sheet_prompt(md, cuts):
              cells="\n".join(cells))
 
 
-def conti_prompt(md, cuts):
-    """스케치 동작 콘티 — 스토리보드와 **같은 칸 배치**로 동작만 연필 스케치로 뜬다.
-
-    운영자 260814 = 「스케치 동작 시트가 있으면 모션이 훨씬 퀄이 올라간다 · 만화 그리기 전에
-    연필로 스케치 뜨는 것과 같음 · 스토리보드 각각에 맞게 짜는 것」.
-
-    ⚠ 스토리보드와 무엇이 다른가 = 스토리보드는 **그 컷이 어떻게 보이는가**(완성 그림)이고
-      이건 **그 안에서 무엇이 어떻게 움직이는가**(자세와 이동)다. 그래서 색·질감·조명을 빼고
-      연필선과 움직임 화살표만 남긴다 — 남기면 모델이 그 그림의 화풍을 따라 그린다.
-    ⚠ 칸 번호·배치는 스토리보드와 1:1 이어야 한다(참조 두 장이 서로 다른 순서를 말하면 사고).
-    """
-    title = (_TITLE.search(md).group(1).strip() if _TITLE.search(md) else "콘티")
-    rows, cols = grid_of(len(cuts))
-    cont = continuity_of(md)
-    cells = []
-    for i, c in enumerate(cuts):
-        cells.append("{}  MOTION: {}   CAMERA MOVE: {}".format(
-            CIRCLED[i] if i < len(CIRCLED) else "({})".format(i + 1),
-            c.get("motion") or c["action"] or c["desc"] or "-",
-            c["camera"] or "-"))
-    return (
-        "You are a storyboard artist. Generate ONE single horizontal MOTION SKETCH SHEET — rough "
-        "graphite pencil sketches on white paper, like the pose thumbnails an artist draws before "
-        "inking a comic.\n\n"
-        "[SHEET]\n"
-        "Title bar (top, one line): {title} — 동작 스케치 / {n}컷\n"
-        "{contline}"
-        "Grid {rows}x{cols}, circled numbers ①②③… in the top-left of each cell, same cut order as the "
-        "storyboard.\n\n"
-        "[CELLS — each = one rough pencil sketch of the MOVEMENT in that cut]\n{cells}\n\n"
-        "[STYLE RULES]\n"
-        "- Pencil line art only: loose graphite strokes, light construction lines, white paper, thin "
-        "grey gridlines. NO color, NO photoreal rendering, NO lighting, NO texture.\n"
-        "- Draw the POSE and the MOTION: arrows for body movement and for camera movement, a few "
-        "motion lines, start pose solid and end pose lightly ghosted where the body travels.\n"
-        "- Same character build and wardrobe silhouette in every cell.\n"
-        "- Printed text = title bar + circled cut numbers only. NO Japanese, NO watermark, NO logos."
-    ).format(title=title, n=len(cuts), rows=rows, cols=cols, cells="\n".join(cells),
-             # ⚠ 화살표 방향의 정본 = 연속성 줄이다(견본 「주인공은 전 컷 좌→우」). 이 줄이 없으면
-             #   칸마다 화살표가 제멋대로여서 스케치가 오히려 모델을 헷갈리게 한다.
-             contline=("Continuity rule: {} — every body-movement and camera-movement arrow must obey "
-                       "this rule.\n".format(cont) if cont else ""))
-
-
-# 굽는 판 = 두 장(운영자 260814 「스토리보드 1, 콘티 1」) — 순서 계약 = 스토리보드 먼저 · 콘티 나중
+# 굽는 판 = **스토리보드 한 장뿐**(운영자 260817 「동작 콘티는 필요없음. 스토리보드 1개,
+#   주요 인물 360도 n개면 됨」) — 구 스케치 동작 콘티(conti)는 이 개정으로 폐지했다.
+#   ⚠ 인물 360도 시트는 이 파일이 아니라 k_refgen(인물 슬롯)이 굽는다 — 여기는 시트 판만.
+#   복원은 git 역사(conti_prompt · 260814 「스토리보드 1, 콘티 1」 판)에서.
 KINDS = {
     "board": ("스토리보드", "sheet.jpg", "sheet_prompt"),
-    "conti": ("스케치 동작 콘티", "conti.jpg", "conti_prompt"),
 }
 
 
 def main():
     if len(sys.argv) < 3:
-        sys.exit("usage: sb_sheet.py <board.md> <out_dir> [board|conti]")
+        sys.exit("usage: sb_sheet.py <board.md> <out_dir> [board]")
     md_path, out_dir = sys.argv[1], sys.argv[2]
     kind = (sys.argv[3] if len(sys.argv) > 3 else "board").strip().lower()
     if kind not in KINDS:
@@ -302,27 +262,31 @@ def main():
         print("{}: 미시도(컷 0개) — board.md 형식 확인".format(kind_nm))
         return 0
 
-    # ⚠ 엔진 2단(260811 실측 봉합) — 첫 실호출(run 31536019555)에서 이 스텝이 **1초 만에 끝났다**.
-    #   OPENAI_API_KEY 가 레포 시크릿에 없어서 통째로 미시도였고, 영상 12컷은 다 나왔는데
-    #   시트만 조용히 0장이었다(에러 0 · 잡은 초록). 없는 키를 기다리는 층은 죽은 층이라
-    #   **이미 있는 자격(Gemini)** 으로 내려앉는다 — 종전 정본(GPT Image)은 1순위 그대로다.
+    # ⚠ 엔진 사다리 개정(운영자 260817 「실제로 제미나이를 통해 뽑아낸 결과물 · 둘 다 샘플 참조」) —
+    #   **1순위 = 제미나이**: 판형 견본 그림을 참조로 실을 수 있는 유일한 축이다(GPT 축은 첨부가
+    #   붙으면 편집 창구로 갈아타 견본 자체를 고친다 = sample_png 주석). 「항상 샘플 참조」 계약은
+    #   제미나이가 1순위일 때만 성립한다. GPT Image = 키 부재·실패 폴백(글 규격만 · 구 1순위 회수).
+    #   (구 260811 사다리 = GPT 1순위 · 제미나이 폴백 — 지난 실호출 run 31954220171 이 GPT 축으로
+    #    가서 견본이 한 번도 안 실렸다 = 「샘플 참조」가 배선만 있고 실측 0이던 자리.)
     prompt = globals()[fn_nm](md, cuts)
     refpic = sample_png(kind)               # 판형 견본(운영자 260816) — 없으면 None = 종전 동작
     png, engine = None, None
-    if os.environ.get("OPENAI_API_KEY", "").strip():
+    if tg.KEY:
+        # 2K = 시트엔 칸마다 글자 세 줄이 들어가므로 1K 로는 뭉갠다(k_refgen 은 그림 한 장이라 1K).
+        png = tg.gemini_image((SAMPLE_CLAUSE + prompt) if refpic else prompt, "2K", tag="sbsheet",
+                              aspect="{}:{}".format(*SHEET_ASPECT), ref_png=refpic)
+        engine = "gemini" if png else None
+    if not png and os.environ.get("OPENAI_API_KEY", "").strip():
         try:
             # ⚠ 견본을 여기엔 안 싣는다 — 첨부가 붙으면 편집 창구로 갈아타 견본 자체를 고친다(위 주석).
             png = gi.openai_image(prompt, None, SHEET_ASPECT)
             engine = "gpt_image"
         except Exception as e:  # noqa: BLE001
-            print("::warning::{} GPT Image 실패 — 제미나이로 내려앉는다: {}".format(kind_nm, str(e)[:200]))
-    if not png and tg.KEY:
-        # 2K = 시트엔 칸마다 글자 세 줄이 들어가므로 1K 로는 뭉갠다(k_refgen 은 그림 한 장이라 1K).
-        png = tg.gemini_image((SAMPLE_CLAUSE + prompt) if refpic else prompt, "2K", tag="sbsheet",
-                              aspect="{}:{}".format(*SHEET_ASPECT), ref_png=refpic)
-        engine = "gemini"
+            print("::warning::{} GPT Image 폴백도 실패: {}".format(kind_nm, str(e)[:200]))
     if not png:
-        print("{}: 미시도(OPENAI_API_KEY·GEMINI_API_KEY 둘 다 없음)".format(kind_nm))
+        print("{}: 산출 0(제미나이 {} · GPT {})".format(
+            kind_nm, "실패" if tg.KEY else "키 없음",
+            "실패" if os.environ.get("OPENAI_API_KEY", "").strip() else "키 없음"))
         return 0
 
     url = None

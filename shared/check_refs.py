@@ -6284,13 +6284,16 @@ def check_grok_sb_chain():
     #   ⚠ 시트는 그림 참조 상한(REF_CAP) **밖**이라야 한다 = 시트가 인물·장소 슬롯을 밀어내면 사고다.
     for needle, why in (("def sheet_slots", "시트 참조 슬롯 파서"),
                         ("SHEET_CLAUSE = ", "시트 정체 문장(설계도지 장면이 아니다)"),
-                        ("CONTI_CLAUSE = ", "스케치 판 전용 정체 문장(스토리보드 문구 재사용 = 거짓 정체)"),
                         ("live-action footage", "완성본은 실사라는 **긍정문** 고지(부정문 단독은 그 낱말을 오히려 심는다)"),
                         ("slots.extend(sheets)", "설계 판이 편마다 실린다"),
                         ("def cap_refs", "상한은 만든 장수가 아니라 한 편에 실리는 장수에 건다"),
                         ("sheets = sheet_slots(out_dir)", "설계 판을 실제로 **부른다**(함수만 남기고 호출을 죽이면 조용히 0장)")):
         if not _has_exec_line(rn, needle):
             print("❌ 그록 콘티 레인 — grok_sb_video.py 에 {} 가 없다({})".format(why, needle)); rc = 1
+    # ⚠ 스케치 동작 판 = 260817 폐지(운영자 「동작 콘티는 필요없음 · 촬영 참조 = 스토리보드 1 +
+    #   인물 시트 n 만」) — 부활 = 계약 위반이라 커밋에서 막는다(주석 인용은 코드부 판정이라 무관).
+    if _has_exec_line(rn, "CONTI_CLAUSE = ") or _has_exec_line(rn, 'd.get("conti")'):
+        print("❌ 그록 콘티 레인 — 스케치 동작 판 슬롯이 되살아났다(260817 폐지 계약 위반)"); rc = 1
     _ss = rn.split("def sheet_slots", 1)[-1].split("\ndef ", 1)[0]
     if _ss and "sheet.json" not in _ss:
         print("❌ 그록 콘티 레인 — 시트 참조가 sheet.json 을 안 읽는다(주소를 어디서 얻나)"); rc = 1
@@ -6355,25 +6358,25 @@ def check_grok_sb_chain():
         _d = tempfile.mkdtemp()
         # ⚠ with 로 닫는다 — 안 닫으면 버퍼가 안 비워져 바로 뒤 읽기가 빈 파일을 보고
         #   게이트가 **무작위로 빨개진다**(이 게이트 첫 실행에서 실제로 그랬다 = 가짜 빨강 공장).
+        # ⚠ 표본에 conti 칸을 **일부러 남긴다** — 옛 산출(스케치 판이 실재하던 260814~16 판)을
+        #   재열람해도 러너가 그 칸을 **무시**하는지가 260817 폐지 계약의 실판정이다.
         with open(os.path.join(_d, "sheet.json"), "w", encoding="utf-8") as _f:
             json.dump({"url": "https://x/s.jpg", "conti": "https://x/c.jpg", "cuts": 9}, _f)
         _got = _gv.sheet_slots(_d) or []
         # ⚠ 가짜 파일만 읽으면 **생산자가 키를 개명해도** 게이트는 모른다(평의회 A5 실측 = rc=0).
         #   그래서 굽는 쪽이 실제로 그 칸에 쓰는지 원문에서 같이 본다.
-        for _k in ('d["url"]', 'd[kind]'):
-            if _k not in ss:
-                print("❌ 그록 콘티 레인 — sb_sheet 가 {} 칸에 안 쓴다(읽는 쪽과 키가 갈렸다)".format(_k)); rc = 1
-        if len(_got) != 2:
-            print("❌ 그록 콘티 레인 — 설계 판이 {}장만 실린다(스토리보드·스케치 두 장이라야 한다)".format(len(_got))); rc = 1
+        if 'd["url"]' not in ss:
+            print("❌ 그록 콘티 레인 — sb_sheet 가 d[\"url\"] 칸에 안 쓴다(읽는 쪽과 키가 갈렸다)"); rc = 1
+        if len(_got) != 1 or _got[0].get("label") != "스토리보드":
+            print("❌ 그록 콘티 레인 — 설계 판 슬롯이 {}장(스토리보드 한 장이라야 한다 · 260817 스케치 폐지 — 옛 conti 칸은 무시가 정답)".format(len(_got))); rc = 1
         elif any(x.get("bg") is not False or not x.get("sheet") for x in _got):
             print("❌ 그록 콘티 레인 — 설계 판 슬롯이 배경 필터를 탄다(밤 편에서 빠진다)"); rc = 1
+        if hasattr(_sb, "conti_prompt") or '"conti": (' in ss:
+            print("❌ 그록 콘티 레인 — 스케치 판 굽기가 되살아났다(260817 폐지 계약 위반)"); rc = 1
         _cuts = [{"action": "A", "desc": "", "camera": "C", "motion": "M", "sec": 2, "dialogue": ""} for _ in range(9)]
-        _b, _c = _sb.sheet_prompt("# t\n", _cuts), _sb.conti_prompt("# t\n", _cuts)
-        _gb, _gc = re.search(r"grid (\d+)x(\d+)", _b, re.I), re.search(r"[Gg]rid (\d+)x(\d+)", _c)
-        if not _gb or not _gc or _gb.groups() != _gc.groups():
-            print("❌ 그록 콘티 레인 — 스케치 판 격자가 스토리보드와 안 맞는다(칸 순서가 어긋난다)"); rc = 1
-        if "NO color" not in _c or "pencil" not in _c.lower():
-            print("❌ 그록 콘티 레인 — 스케치 판이 채색 그림으로 회귀(연필선 계약 소실)"); rc = 1
+        _b = _sb.sheet_prompt("# t\n", _cuts)
+        if not re.search(r"grid (\d+)x(\d+)", _b, re.I):
+            print("❌ 그록 콘티 레인 — 스토리보드 격자 산식이 프롬프트에 없다(빈칸을 모델이 채운다)"); rc = 1
         if "TIME:" not in _b:
             print("❌ 그록 콘티 레인 — 스토리보드 칸에 시각이 안 찍힌다(견본 실측 축)"); rc = 1
 
@@ -6545,8 +6548,10 @@ def check_grok_sb_chain():
                         ('"ratio": ratio', "발사 비율 전달")):
         if needle not in rn:
             print("❌ 그록 콘티 레인 — grok_sb_video.py 에 {} 가 없다({} · 콘티가 세로라 적어도 가로로 나간다)".format(why, needle)); rc = 1
-    if "배경(밤)" not in _t("prompts/sb-make.md"):
-        print("❌ 그록 콘티 레인 — 콘티 규약에 밤 배경 참조 축이 없다(밤 컷이 참조 시간대에 끌려간다)"); rc = 1
+    # ⚠ 구 「배경(밤) 블록」 축 = 260817 회수(배경 참조 자체 폐지 — 환경·시간대 = 스토리보드가 정본).
+    #   그 실측 교훈(참조가 시간대를 잠근다)은 「컷 셀에 시간대 명시」 계약으로 계승 — 문구 실존을 본다.
+    if "배경·장소·제품·키비주얼 블록은 폐지" not in _t("prompts/sb-make.md"):
+        print("❌ 그록 콘티 레인 — 감독 지침에 배경 블록 폐지 계약(260817)이 없다(환경이 참조로 새면 그림값이 배로 든다)"); rc = 1
 
     # ⑧ 열쇠 회전 = 러너 밖으로 살려 보내는 배선(없으면 두 번째 발사가 죽는다 · 260811 실사고)
     if "_persist_secret" not in _t("shared/grok_api.py"):
@@ -6670,11 +6675,15 @@ def check_grok_sb_chain():
     # ⑤ 감독 지침 = MOTION(영어 동작 줄) 규약. 빠지면 프롬프트가 한국어로 나간다.
     sh = _t(".github/scripts/sb_sheet.py")
     for needle, why in (("def sheet_prompt", "시트 프롬프트 조립"),
-                        ("gi.openai_image", "GPT Image 호출(1순위)"),
-                        ("tg.gemini_image", "제미나이 폴백(2순위 · 260811 실측 = OPENAI 키 없으면 시트 0장)"),
+                        ("tg.gemini_image", "제미나이 호출(1순위 · 260817 — 판형 견본을 실을 수 있는 유일 축)"),
+                        ("gi.openai_image", "GPT Image 폴백(2순위 · 키 부재·실패 시)"),
                         ("from grok_sb_video import cuts_of", "컷 파서 단일정본(사본 0)")):
         if needle not in sh:
             print("❌ 그록 콘티 레인 — sb_sheet.py 에 {} 가 없다({})".format(why, needle)); rc = 1
+    # ⚠ 사다리 순서 자체를 본다(운영자 260817 「제미나이를 통해 · 둘 다 샘플 참조」) — 두 호출이
+    #   다 있어도 GPT 가 앞이면 견본이 안 실린 채 산출이 나간다(지난 실호출이 정확히 그 모양).
+    if 0 < sh.find("gi.openai_image") < sh.find("tg.gemini_image("):
+        print("❌ 그록 콘티 레인 — 시트 엔진 사다리가 GPT 선행으로 회귀(견본 참조가 조용히 빠진다 · 260817)"); rc = 1
     # 폴백이 살아 있어도 워크플로가 열쇠를 안 넘기면 그 자리에서 죽는다(같은 병의 짝)
     if "GEMINI_API_KEY" not in wf.split("name: Storyboard sheet", 1)[-1].split("name: Grok video", 1)[0]:
         print("❌ 그록 콘티 레인 — 시트 스텝이 GEMINI_API_KEY 를 안 받는다(폴백이 배선만 있고 못 돈다)"); rc = 1
@@ -6682,8 +6691,57 @@ def check_grok_sb_chain():
     if "MOTION:" not in _t("prompts/sb-make.md"):
         print("❌ 그록 콘티 레인 — prompts/sb-make.md 에 MOTION 규약이 없다(영상 프롬프트가 한국어로 나간다)"); rc = 1
 
+    # ⑨ 산출 = 스토리보드 1 + 인물 시트 n **만**(운영자 260817 「제미나이 산출 = 항상 그 둘 · 둘 다
+    #   샘플 참조 · 그것만 힉스필드쪽으로 전달 · 사진 여러 장 전달 금지」) — 한 층만 빠져도 그림은
+    #   나오고 화면도 멀쩡해서(그냥 옛 구성으로 되돌아갈 뿐) 운영자 눈이 유일한 검출기가 된다.
+    for needle, why in (("def lane_bake", "콘티 레인 인물 전용 필터(배경·장소·제품 슬롯 = 값도 안 나감)"),
+                        ("def person_sample", "인물 시트 판형 견본 적재(둘 다 샘플 참조 계약의 인물 쪽)"),
+                        ("SAMPLE_CLAUSE_P", "견본 정체 문장(판형만 베끼고 인물·글자는 베끼지 마라)"),
+                        ("def photo_bytes", "운영자 사진 = 얼굴 정본 적재(라벨 (사진 N) 선언분만)"),
+                        ("PHOTO_CLAUSE", "사진 정체 문장(이 실물의 얼굴을 유지하라)")):
+        if not _has_exec_line(kg, needle):
+            print("❌ 그록 콘티 레인 — k_refgen.py 에 {} 가 없다({})".format(why, needle)); rc = 1
+    if '"person": "캐릭터 시트' not in ss:
+        print("❌ 그록 콘티 레인 — sb_sheet SAMPLES 에 인물 시트 견본이 없다(견본 읽기 단일정본 = 그 표)"); rc = 1
+    if 'viewer/sb_out/${IN_ID}" conti' in wf:
+        print("❌ 그록 콘티 레인 — 워크플로가 스케치 판을 다시 굽는다(260817 폐지 계약 위반)"); rc = 1
+    if '.get("conti")' in _t(".github/scripts/sd_fire.py"):
+        print("❌ 그록 콘티 레인 — 손조립 발사기가 스케치 판을 다시 싣는다(260817 폐지 계약 위반)"); rc = 1
+
+    # ⑩ 참조 사진 체인(운영자 260817 「콘티에 참조할 사진도 넣을 수 있게」) — 화면 → 서버(보관함+표식)
+    #   → 감독 실행기(내려받기+열람 지시) → 인물 시트(얼굴 정본) 네 층 중 하나만 빠져도 첨부 버튼은
+    #   멀쩡히 눌리는데 사진이 어디에도 반영이 안 된다(조용한 죽음 = insta-thumb-miss 동축).
+    _vb = _t("viewer/sb.html")
+    _aj = _t("functions/api/sb.js")
+    _sm = _t(".github/scripts/sbmake.sh")
+    for where, txt, needle, why in (
+            ("viewer/sb.html", _vb, "photos: sbPhotos", "발사 페이로드에 사진 동봉"),
+            ("viewer/sb.html", _vb, 'id="pvFile"', "사진 파일 선택기"),
+            ("viewer/sb.html", _vb, "sbPhotoCompress", "첨부 압축(긴 변 1280 · 판독 하한)"),
+            ("functions/api/sb.js", _aj, "[참조 사진:", "서버가 주소를 표식으로 태운다(입력 10칸 만석 우회)"),
+            ("functions/api/sb.js", _aj, "body.photos", "서버 사진 접수"),
+            (".github/scripts/sbmake.sh", _sm, "[참조 사진:", "감독 실행기 표식 파서"),
+            (".github/scripts/sbmake.sh", _sm, "photo_${PHOTO_IDX}.jpg", "사진 내려받기(번호 = 표식 순번 보존)"),
+            (".github/scripts/sbmake.sh", _sm, "[참조 사진 안내", "감독 열람 지시 절"),
+            (".github/workflows/sb-make.yml", wf, "photo_*.jpg", "커밋 전 사진 정리(R2 정본 · 레포 비대 0)")):
+        if needle not in txt:
+            print("❌ 그록 콘티 레인 — {} 에 {} 가 없다({})".format(where, why, needle)); rc = 1
+
+    # ⑪ 결과 구획 = • 스토리보드 / • 주요 인물(운영자 260817 「블릿으로 각각」) + 생성 버튼 이원 모드.
+    #   ⚠ 인물 판별 어휘는 러너(k_refgen _KIND_RE person)와 **같은 낱말이라야 한다** — 갈리면 화면
+    #     분류와 굽는 분류가 어긋나 같은 슬롯이 화면에선 배경, 러너에선 인물이 된다.
+    for needle, why in (("_bullet('스토리보드')", "스토리보드 구획 소머리"),
+                        ("_bullet('주요 인물')", "주요 인물 구획 소머리"),
+                        ("SB_PERSON_RE = /인물|사람|캐릭터|주인공|출연|배우/", "인물 판별 어휘(러너와 동기)"),
+                        ("fireShoot(SHOWN", "생성 버튼 2차 모드(결과가 떠 있으면 이 버튼이 제작 버튼)"),
+                        ("SHOWN = outPath", "결과 렌더가 2차 표식을 세운다")):
+        if needle not in _vb:
+            print("❌ 그록 콘티 레인 — viewer/sb.html 에 {} 가 없다({})".format(why, needle)); rc = 1
+    if "인물|사람|캐릭터|주인공|출연|배우" not in kg:
+        print("❌ 그록 콘티 레인 — k_refgen 인물 어휘가 갈렸다(뷰어 SB_PERSON_RE 와 동기 계약)"); rc = 1
+
     if rc == 0:
-        print("✅ 그록 콘티 레인 — 5층 생존(뷰어 칩·서버 전달·워크플로 스텝·러너 골격·감독 MOTION 규약) · 소리 4층 정합.")
+        print("✅ 그록 콘티 레인 — 5층 생존(뷰어 칩·서버 전달·워크플로 스텝·러너 골격·감독 MOTION 규약) · 소리 4층 · 산출 2종(시트+인물) · 사진 체인 4층 정합.")
     return rc
 
 

@@ -260,12 +260,9 @@ jobs:
           fi
           pip install --quiet requests pillow || { echo "::warning::deps 설치 실패 — 생략"; exit 0; }
           python3 .github/scripts/sb_sheet.py "$MD" "viewer/sb_out/${IN_ID}" board
-          # 🎬 스케치 동작 콘티 = **같은 스텝에서 같이 굽는다**(운영자 260814 「스토리보드 1, 콘티 1」).
-          #   ⚠ 구판은 세 번째 인자를 안 넘겨 늘 `board` 만 구웠다 — 스케치 판은 코드·프롬프트·검문이
-          #     다 있는데 **부르는 자리가 없어서** 한 번도 안 만들어졌다(실측 = 지난 시트 기록 전건에
-          #     `conti` 칸 0). 만들어놓고 안 도는 층 = 이 레포가 반복해 겪은 조용한 죽음.
-          #   ⚠ 위 「이미 있으면 건너뛴다」 게이트를 지난 뒤라 재굽기는 안 일어난다(값 = 판 하나치만 추가).
-          python3 .github/scripts/sb_sheet.py "$MD" "viewer/sb_out/${IN_ID}" conti
+          # ⚠ 스케치 동작 콘티(conti) 굽기 = 260817 폐지(운영자 「동작 콘티는 필요없음. 스토리보드 1개,
+          #   주요 인물 360도 n개면 됨」) — 그림 산출 = 스토리보드 시트 1장 + 인물 시트 n장(k_refgen)뿐.
+          #   구 두 장 세트(운영자 260814)는 이 개정으로 회수 · 복원 = git 역사(sb_sheet conti 판과 같은 커밋).
 
       # 🎬 그록 영상 = 촬영=grok 전용 후속 스텝(운영자 260811 — 「제미나이가 그린거로 감독이
       #    프롬프팅해서 영상 뽑는다」). 컷마다 [Gemini 그림 → 그 그림을 첫 장면으로 그록 영상].
@@ -383,6 +380,9 @@ jobs:
         run: |
           git config user.name "nomute-bot"
           git config user.email "bot@nomute.local"
+          # 참조 사진(운영자 260817) = R2 가 정본 — 감독·시트 러너가 같은 잡 안에서 로컬로 읽고 나면
+          # 레포에는 안 남긴다(사진 3장 × 발사마다 커밋 = 레포 비대 · 주소는 source.md 표식에 박제됨).
+          rm -f "viewer/sb_out/${IN_ID}"/photo_*.jpg 2>/dev/null || true
           git add "viewer/sb_out/${IN_ID}" 2>/dev/null || true
           git add messages 2>/dev/null || true   # 영상 실패 알림(grok_sb_video.notify → shared/msg.py) 동반 커밋 — 경로를 못박는다(무경로 `git add -A` = sparse cone 밖 삭제 커밋 사고)
           git add metrics 2>/dev/null || true   # 토큰 계측 shard(claude_meter) 동반 커밋 — 있을 때만
