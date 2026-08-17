@@ -6101,6 +6101,64 @@ def check_paste_url_stamp():
     return 0
 
 
+def check_wrap_fence_strip():
+    """산출 랩퍼 코드펜스 = 두 요약 경로가 같은 정본으로 벗긴다(하드 · 260817 실사고 봉합).
+
+    계약 = 「모델이 카드 전체를 ```markdown 으로 감싸고 뒤에 자기 보고문을 덧붙여도 그 랩퍼는
+       저장 전에 벗겨진다」 · 정본 = `.github/scripts/strip_wrap_fence.py`(analyze·ask 공용 = 사본 0).
+
+    ⚠️ 실사고(운영자 260817 「뉴스 2번 요약이 깨진다」) = 요약 모달 본문에 frontmatter 원문이
+       코드블록으로 통째 노출됐다. 랩퍼가 남으면 진짜 frontmatter 가 본문 안쪽으로 밀리고,
+       닫는 '---' 보증 awk 가 펜스 앞에 '---' 를 박아 **도장 4개짜리 가짜 frontmatter +
+       코드블록에 든 진짜 frontmatter** 이중 구조가 굳는다(실측 260817-1047 · 260812-1906).
+
+    ⚠️ 신설 사유 = 기존 층은 전부 다른 축이다 — 사족 제거 sed 는 첫 '---' 부터 취할 뿐이고,
+       이중 '---' 접기 awk 는 '---'·빈 줄만 걷지 도구 펜스를 모른다. 즉 「모델이 산출을 감쌌는가」는
+       축 자체가 없었고, 요약은 정상 생성되고 화면도 뜨므로 운영자 눈이 유일한 검출기였다.
+
+    판정 3축(정적 + 정본 함수 재판정 · 네트워크·LLM·렌더 0 · 면책표 없이 하드 0) =
+       ① 정본 실존 ② 두 셸 실행줄 배선(한쪽만 고치면 나머지가 조용히 낡는다 = 이 레포 최빈 드리프트)
+       ③ 정본 술어 재판정(랩퍼 산출 = 펜스·꼬리 제거 / 정상 산출 = 바이트 무변경).
+    """
+    rc = 0
+    canon = os.path.join('.github', 'scripts', 'strip_wrap_fence.py')
+    if not os.path.exists(os.path.join(ROOT, canon)):
+        print('❌ 랩퍼 펜스 — 정본 %s 없음(요약 산출이 코드블록째 화면에 실린다)' % canon)
+        return 1
+    for sh in ('analyze.sh', 'ask.sh'):
+        p = os.path.join(ROOT, '.github', 'scripts', sh)
+        if not _has_exec_line(open(p, encoding='utf-8').read(), 'strip_wrap_fence.py'):
+            print('❌ 랩퍼 펜스 — .github/scripts/%s 에 정본 호출 실행줄 없음(그 경로만 랩퍼가 안 벗겨진다)' % sh)
+            rc = 1
+    sys.path.insert(0, os.path.join(ROOT, '.github', 'scripts'))
+    try:
+        import importlib
+        m = importlib.import_module('strip_wrap_fence')
+        importlib.reload(m)
+    except Exception as e:                       # noqa: BLE001
+        print('❌ 랩퍼 펜스 — 정본 로드 실패: %s' % e)
+        return 1
+    finally:
+        sys.path.pop(0)
+    fence = '`' * 3
+    wrapped = '---\n%smarkdown\n---\ntitle: "t"\n---\n\n# 본문\n\n%stext\n초안\n%s\n\n%s\n\n---\n\n**완료 여부** — 보고문\n' % (
+        fence, fence, fence, fence)
+    got = m.strip_wrap(wrapped)[0]
+    if fence + 'markdown' in got or '완료 여부' in got:
+        print('❌ 랩퍼 펜스 — 정본 술어가 랩퍼·꼬리를 못 벗긴다(요약이 깨진 채 저장된다)')
+        rc = 1
+    if fence + 'text' not in got:
+        print('❌ 랩퍼 펜스 — 정본 술어가 본문 초안 블록까지 지운다(위양성 = 초안 소실)')
+        rc = 1
+    plain = '---\ntitle: "t"\n---\n\n# 본문\n\n%stext\n초안\n%s\n' % (fence, fence)
+    if m.strip_wrap(plain)[0] != plain:
+        print('❌ 랩퍼 펜스 — 정상 산출이 변형된다(무접촉 계약 위반)')
+        rc = 1
+    if rc == 0:
+        print('✅ 랩퍼 펜스 — 모델이 카드를 감싸도 저장 전에 벗겨진다(analyze·ask 공용 정본 · 정상 산출 무접촉).')
+    return rc
+
+
 # 운영자에게 「어느 칸을 갈지」 말하는 표면 = 칸 이름이 필수(면책표 아님 = 대상 목록).
 #   ⚠ 이름을 안 쓰는 표면(vidl-make·yt-cookie-whoami = 자기 문구에 칸을 안 말한다)은 여기 없다 —
 #     늘릴 땐 「그 표면이 운영자에게 칸을 지시하는가」로 판정한다.
@@ -9292,6 +9350,8 @@ def main():
         if check_orig_title_restore() != 0:   # 요약 제목 = 기자가 뽑은 원문이 화면까지 오는가(260813 실사고 — title이 후킹 헤드로 덮이면 뷰어 원문 제목 줄이 통째로 사라진다 · 화면 증상 = 추상 헤드 하나만 남음)
             rc = 1
         if check_paste_url_stamp() != 0:   # 전문 붙여넣기 카드 = 원문 주소가 화면까지 오는가(260817 실사고 — url이 비면 요약 모달 좌상단 원문 버튼이 회색으로 죽는다 · 화면 증상 = 버튼이 떼어진 것처럼 보임)
+            rc = 1
+        if check_wrap_fence_strip() != 0:   # 모델이 카드를 ```markdown 으로 감싼 회차가 벗겨지는가(260817 실사고 — 랩퍼가 남으면 frontmatter 가 본문에 코드블록째 노출된다 · 화면 증상 = 요약이 깨져 보임)
             rc = 1
     except Exception as e:
         print('⚠️ grade 교정 체인 게이트 스킵:', e)

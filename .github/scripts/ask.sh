@@ -397,6 +397,10 @@ else:
   # frontmatter 앞 사족 제거 + 이중 여는 '---' 접기 + 지침버전 도장(스크립트가 박음) — analyze와 동일.
   #   (이중 --- = 모델이 여는 표식 두 번 뱉으면 첫 블록 조기 폐합 → title 본문行 → 피드 파일명 노출 · 260703 실측 가드)
   out="$(printf '%s\n' "$out" | sed -n '/^---[[:space:]]*$/,$p')"
+  # 랩퍼 코드펜스 벗기기(260817 · analyze.sh 와 같은 정본 호출 = 사본 0) — 모델이 카드 전체를 ```markdown 으로
+  #   감싸고 뒤에 자기 보고문을 덧붙인 회차 정규화. 랩퍼가 없으면 바이트 무변경 = 종전 동작.
+  out="$(printf '%s\n' "$out" | python3 .github/scripts/strip_wrap_fence.py 2>/tmp/_wf_note || printf '%s\n' "$out")"
+  if [ -s /tmp/_wf_note ]; then echo "  랩퍼 펜스 정규화 — $(tr '\n' '·' < /tmp/_wf_note)"; fi   # 가시성(Actions 로그)
   out="$(printf '%s\n' "$out" | awk 'NR==1{print;next} !s && (/^---[[:space:]]*$/ || /^[[:space:]]*$/){next} {s=1;print}')"
   out="$(printf '%s\n' "$out" | awk -v v="$GVER" '!d && /^---[[:space:]]*$/{print; print "guidelines_version: \"" v "\""; d=1; next} {print}')"
   # 뷰어 '이미지' 토글 OFF → queue frontmatter에 no_thumb: "1" 주입 → thumb_gen이 제미나이 썸네일 skip(검색 og:image는 항상·운영자 260702)

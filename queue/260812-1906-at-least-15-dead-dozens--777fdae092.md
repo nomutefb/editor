@@ -2,12 +2,6 @@
 event_key: "https://www.aljazeera.com/news/2026/8/12/at-least-15-dead-dozens-missing-as-ferry-capsizes-in-zimbabwe?traffic_source=rss"
 alt_urls: "https://www.bbc.co.uk/news/articles/czxe2vyxd7do?at_medium=RSS&at_campaign=rss"
 guidelines_version: "96d67a2bf383"
----
-```markdown
----
-event_key: "https://www.aljazeera.com/news/2026/8/12/at-least-15-dead-dozens-missing-as-ferry-capsizes-in-zimbabwe"
-alt_urls: "https://www.bbc.co.uk/news/articles/czxe2vyxd7do https://www.pbs.org/newshour/world/a-ferry-capsizes-on-zimbabwes-lake-kariba-leaving-at-least-15-people-dead-and-27-missing https://www.newsday.co.zw/local-news/article/200059220/15-bodies-recovered-dozens-missing-after-kariba-ferry-disaster https://www.zimbabwesituation.com/news/kariba-ferry-disaster-15-perish-27-missing/"
-guidelines_version: "96d67a2bf383"
 title: "At least 15 dead, dozens missing as ferry capsizes in Zimbabwe"
 title_ko: "짐바브웨 여객선 전복…최소 15명 사망·27명 실종"
 url: "https://www.aljazeera.com/news/2026/8/12/at-least-15-dead-dozens-missing-as-ferry-capsizes-in-zimbabwe"
@@ -136,15 +130,3 @@ thumb_dispatch: "AG-18 LGT02 SG-09"
 
 ### 💡 이 기사의 시사점
 이 사고의 숫자는 아직 확정된 것이 아니다. 실종 27명은 표를 산 성인만 세었을 때 남는 바닥값이고, 네 살 미만 어린이와 예순 넘은 노인은 무임이라는 이유로 처음부터 집계 밖에 있었다. 무임 승선은 가난한 승객에 대한 배려였는데, 사고가 나는 순간 그 배려가 그들을 통계에서 지우는 장치로 뒤집혔다. 배려와 집계는 원래 충돌하지 않는다 — 돈을 받지 않아도 이름은 적을 수 있었다. 정원 90명에 114장을 판 것도 문제지만, 표를 판 기록을 승선자 명부 대신 써온 것이 이번에 드러난 더 깊은 구멍이다. 몇 명을 찾아야 하는지 모른 채 시작하는 수색은 끝나는 시점도 스스로 정하지 못한다. 게다가 이 배는 국영기관이 운영했고, 육로가 없는 마을에는 대안이 없었다. 정원을 지키라는 요구가 배를 늘리라는 요구와 함께 가지 않으면, 같은 사고는 다음 계절에도 같은 자리에서 난다.
-```
-
----
-
-**요약**
-
-- 원 매체(알자지라) 본문은 확보했고, BBC·CBC·워싱턴포스트는 차단(403)돼 AP(PBS 경유)와 짐바브웨 현지 3개 매체로 교차 확인했다.
-- 핵심 축은 사망자 수가 아니라 **분모를 모른다는 것**이다. 정원 90명에 표는 114장인데, 네 살 미만과 60세 이상은 표를 안 사서 집계에 아예 없다. 공식 119명 대 생존자 추정 154~164명의 격차가 그 구멍이다.
-- 「호수 선장이 출항 금지 경고를 냈는데 배가 무시했다」는 책임 소재의 핵심 주장은 **매체 간 진술이 엇갈려** 확정하지 못했다. Fact 항목에 엇갈림으로만 남기고 초안 세 편에서는 뺐다.
-- `image_sources`는 지시대로 빈 문자열로 뒀고, 이미지 수집용 검색은 돌리지 않았다.
-
-Sources: [Al Jazeera](https://www.aljazeera.com/news/2026/8/12/at-least-15-dead-dozens-missing-as-ferry-capsizes-in-zimbabwe) · [PBS/AP](https://www.pbs.org/newshour/world/a-ferry-capsizes-on-zimbabwes-lake-kariba-leaving-at-least-15-people-dead-and-27-missing) · [Newsday Zimbabwe](https://www.newsday.co.zw/local-news/article/200059220/15-bodies-recovered-dozens-missing-after-kariba-ferry-disaster) · [Zimbabwe Situation](https://www.zimbabwesituation.com/news/kariba-ferry-disaster-15-perish-27-missing/) · [Nehanda Radio](https://nehandaradio.com/2026/08/11/15-bodies-recovered-after-mbuya-nehanda-ferry-capsizes-on-lake-kariba/) · [SABC News](https://www.sabcnews.com/sabcnews/53-rescued-from-capsized-ferry-on-lake-kariba-in-zimbabwe/)
