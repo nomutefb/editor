@@ -1821,7 +1821,7 @@ async function cpFillGap() {   // Q03 = 축소로 생긴 빈 여백을 AI(Gemini
     const rq = await fetch('/api/resize', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(payload) });
     const j = await rq.json().catch(() => ({}));
     if (!rq.ok || j.error) return errStatus('재시도');
-    rszWait(true); rszJob(j.id, payload, true);   // true = 완료 시 자동 재첨부(운영자 손 1회 절약 · 결과는 작업내역에도 그대로 남는다)
+    rszWait(true); rszJob(j.id, payload, true, { tpl: cTpl, fmt: cpPanFmt });   // true = 완료 시 자동 재첨부 · meta = 잡 라벨용 템플릿(노뮤트/진짜예요)·판형(포스트/릴스)(운영자 260818 Q1520/Q1521)
     { const jb = $('#jobs'); if (jb) { const r = jb.getBoundingClientRect(); if (r.bottom < 40 || r.top > innerHeight - 40) jb.scrollIntoView({ behavior: 'smooth', block: 'center' }); } }   // 「주방으로 데려간다」(운영자 260810 2차 «대기열을 넣으면 걔는 주방으로 가고, 주방에서 제작중이 뜨고, 접수창구는 다시 비어야지») — 보드는 이미 「제작중 · 0/1장」을 정상 렌더하는데 **화면 밖**이라 안 보였다(실측 = y978.5 vs 뷰포트 900) → 발사가 어디로 갔는지 눈으로 잇는다 · 부품 창작 0 = ieShowResult 5262행 scrollIntoView 문법 그대로 · **화면 밖일 때만**(이미 보이는 자리면 시야를 흔들지 않는다 = 2단 PC 무개입)
   } catch { return errStatus('재시도'); }
 }
@@ -2948,7 +2948,7 @@ async function rszLoad() {   // resize.json 로드(잡 완료 신호 전용 — 
   return [];
 }
 const rszRunning = () => JOBS.some(jb => jb && jb.rid && jb.status === 'run');   // 진행 중 리사이즈 잡 존재 여부 = 점등 유지 판정(동시 다발 발사 대응)
-function rszJob(rid, payload, autoAttach) {   // ⚠ 첫 줄 clearRestored = genJob·dispatchJob·dispatchBatch 정본 100% 계승(운영자 260810 "작업 이력에 그냥 순차적으로 들어가면 되는데 왜 이렇게 보이는거야") — 260710 「버그1 유령슬라이드」 봉합이 genJob에만 들어가고 rid 잡 형제(리사이즈·해상도)가 안 따라온 반쪽 봉합이었다: 복원 고스트(job-R)가 안 치워져 새 잡과 나란히 남고, 그 고스트는 라벨 원천이 서버 이력(cap)이라 「리사이즈 · 오늘 오후 1:15」 vs 「리사이즈 (4:5) #1 · 3m 21s」로 같은 작업이 두 문법으로 겹쳐 보였다(실측 캡처 = 결과 (2)). RESTORED=false면 즉시 return이라 라이브 발사분엔 무접촉 = 회귀 0   // autoAttach = 완료 시 결과를 소스로 자동 재첨부(AI 채움 전용 · 운영자 260805 — 채움의 목적이 '이 사진으로 계속 만들기'라 손 왕복 1회 제거) · 발사 1건 = 표준 잡 카드(renderJob·JOBS 그대로). 출력 URL은 해시(h8)라 예측 불가 → pollJob(Image 폴링) 대신 resize.json id 매칭 tick — 표면(카드·캐러셀·이전 제작·다운로드·복원)은 전부 정본 재사용. payload 보관 = 실패 재시도(같은 설정 · compose 선례 · 운영자 260710 축10).
+function rszJob(rid, payload, autoAttach, meta) {   // meta = {tpl,fmt} = AI 합성 잡 라벨 조립용(운영자 260818 Q1520/Q1521 · cpFillGap만 전달 · 편집탭 리사이즈는 undefined = 종전 라벨) · ⚠ 첫 줄 clearRestored = genJob·dispatchJob·dispatchBatch 정본 100% 계승(운영자 260810 "작업 이력에 그냥 순차적으로 들어가면 되는데 왜 이렇게 보이는거야") — 260710 「버그1 유령슬라이드」 봉합이 genJob에만 들어가고 rid 잡 형제(리사이즈·해상도)가 안 따라온 반쪽 봉합이었다: 복원 고스트(job-R)가 안 치워져 새 잡과 나란히 남고, 그 고스트는 라벨 원천이 서버 이력(cap)이라 「리사이즈 · 오늘 오후 1:15」 vs 「리사이즈 (4:5) #1 · 3m 21s」로 같은 작업이 두 문법으로 겹쳐 보였다(실측 캡처 = 결과 (2)). RESTORED=false면 즉시 return이라 라이브 발사분엔 무접촉 = 회귀 0   // autoAttach = 완료 시 결과를 소스로 자동 재첨부(AI 채움 전용 · 운영자 260805 — 채움의 목적이 '이 사진으로 계속 만들기'라 손 왕복 1회 제거) · 발사 1건 = 표준 잡 카드(renderJob·JOBS 그대로). 출력 URL은 해시(h8)라 예측 불가 → pollJob(Image 폴링) 대신 resize.json id 매칭 tick — 표면(카드·캐러셀·이전 제작·다운로드·복원)은 전부 정본 재사용. payload 보관 = 실패 재시도(같은 설정 · compose 선례 · 운영자 260710 축10).
   clearRestored();   // 새 제작 = 부팅복원 고스트 치움(genJob·dispatchJob·dispatchBatch 동일 규약 · 형제 4곳 사본)
   const o = { path: '', label: payload.aspect + ' · ' + payload.size + (payload.lock ? ' · 보존' : ' · 확장') + (payload.fill && payload.fill !== 'auto' ? ' · ' + fillLabel(payload.fill) : '') };   // 변형 라벨 = 비율 · 해상도 · 보존/확장 항상 표기(운영자 260710 축3·4) + 채움(자동 아닐 때만 · 260803)
   // 잡 이름 축(운영자 260816 «지금 ai합성 하면, 리사이즈라고 되어버리는데 · 리사이징보다 ai합성이 치중해서 결과박스에 나오게»)
@@ -2958,8 +2958,13 @@ function rszJob(rid, payload, autoAttach) {   // ⚠ 첫 줄 clearRestored = gen
   //   술어 = `payload.box` 보유(box를 싣는 건 cpFillGap뿐 = cpFillRunning 단일정본과 **같은 축** · 새 플래그 창작 0).
   //   틀은 그대로 = 「<이름> (<비율>) #<n>」 · 이름만 갈린다.
   const _aiFill = !!(payload && payload.box);
-  const _nm = _aiFill ? 'AI 합성' : '리사이즈';
-  const job = { n: ++JOBSEQ, label: _nm + ' (' + payload.aspect + ')', t0: Date.now(), outs: [o], done: [false], status: 'run', msg: '', rid, payload, endpoint: '/api/resize' };   // 잡 라벨 = 이름 (비율)(축1)
+  // AI 합성 잡 라벨 = 일반 카드처럼 해시태그 형식 「#<템플릿> #<판형> #ai합성 #n」(운영자 260818 Q1520/Q1521) —
+  //   구판 「AI 합성 (비율)」은 템플릿·판형이 안 실려 릴스 AI 합성이 AI 합성 아닌 것과 결과 박스에서 구분이 안 됐다(릴스 짝).
+  //   판형 = meta.fmt(없으면 aspect 역산) · 템플릿 = meta.tpl → job.src.tpl(renderJob의 #<템플릿> 접두 렌더 재사용 · app 미포함 = canEditSrc false = 무의미 연필 안 뜸).
+  const _fmtAi = (meta && (meta.fmt === 'reels' || meta.fmt === 'post')) ? meta.fmt : (payload.aspect === '9:16' ? 'reels' : 'post');
+  const _nm = _aiFill ? ((_fmtAi === 'reels' ? '릴스' : '포스트') + ' #AI합성') : '리사이즈';   // 'AI합성' 항상 대문자(운영자 260818)
+  const job = { n: ++JOBSEQ, label: _aiFill ? _nm : (_nm + ' (' + payload.aspect + ')'), t0: Date.now(), outs: [o], done: [false], status: 'run', msg: '', rid, payload, endpoint: '/api/resize' };   // 잡 라벨 = AI 합성이면 「판형 #ai합성」(renderJob이 앞에 #템플릿) · 리사이즈는 「이름 (비율)」(축1)
+  if (_aiFill) job.src = { tpl: (meta && meta.tpl === 'jinjja') ? 'jinjja' : 'nomute' };
   JOBS.unshift(job); renderJob(job); jobUiPulse(job);
   const SOFT_S = 150, HARD_S = 360;   // 150s '큐 대기' 안내 유지 · 실패 판정 = 6분(운영자 260710 슬라이더 갱신 — 구 12분서 하향 · 변환 실측 1~3분)
   const tick = async () => {
@@ -5637,7 +5642,7 @@ $('#go').onclick = async () => {
         ? { app: '1', params: { fmt: 'post', lines: clines, opas: getComboOpas() } }
         : { app: '2', params: { mode: 'overlay', lines: clines, opas: getComboOpas() } };
       if (CIMG.b64 && !ovOnly) { ovp.imageB64 = (await cpBake(f)) || CIMG.b64; ovp.name = CIMG.name; }   // 사진 배치(이동·확대축소)가 있으면 **목표 캔버스에 구운 사진**을 보낸다(운영자 260805 Q02 "잘라서 들어가는 부분을 사용자가 고를 수 있게" — 미리보기와 산출물이 같은 크롭) · 무조작·굽기 실패 = 원본 그대로(종전 경로) · 오버레이만 ON = 사진 미동봉(합성 안 함 · 오버레이 단독 산출) — 운영자 260718 "오버레이만 켜져 있으면 합성 안 되게 오버레이만"
-      items.push({ endpoint: '/api/thumb', payload: ovp, label: f === 'post' ? '포스트' : '릴스 자막', tag: '자막' });
+      items.push({ endpoint: '/api/thumb', payload: ovp, label: f === 'post' ? '포스트' : '릴스', tag: '자막' });   // 라벨 = 판형(포스트/릴스) — 구 '릴스 자막'은 오버레이의 한 종류일 뿐인 '자막'을 이름에 붙여 길었다(운영자 260818 Q01 «릴스 자막 → 릴스») · 변형 구분은 아래 태그(자막)·OPA 칩이 전담
     }
     // 저작권·안내문 = 각자 독립 발사(운영자 260712 "서로의 온오프 관계없이") · 합성 ON이면 같은 포맷 헤더/자막 산출물에 알파합성(별도 장 없음) / 합성 OFF·매칭 없음 = 별도 장(app3·app4). 합성 기본 OFF = 별도 장이 디폴트.
     const CFL = { post: '포스트', reels: '릴스' };
