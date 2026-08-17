@@ -11,3 +11,4 @@
 {"ts": "2026-08-17T17:44:21+09:00", "kind": "breaking", "ver": "74203ce181f8", "cases": 32, "runs": 3, "rcs": [0, 0, 0], "flips": [{"t": "47도 찍은 미국 서부 열돔 폭염…워싱턴주 대형산불로 5천 가구 대피", "expect": "YES", "got": "NO"}], "miss": [], "unstable": {"16": [false, false, true]}, "pass": false}
 {"ts": "2026-08-17T17:45:48+09:00", "kind": "breaking", "ver": "021b9126c1e8", "cases": 32, "runs": 3, "rcs": [0, 0, 0], "flips": [], "miss": [], "unstable": {}, "pass": true}
 {"ts": "2026-08-17T18:27:14+09:00", "kind": "breaking", "ver": "ae95f408c50f", "cases": 34, "runs": 3, "rcs": [0, 0, 0], "flips": [], "miss": [], "unstable": {}, "pass": true}
+{"ts": "2026-08-17T18:35:25+09:00", "kind": "breaking", "ver": "9a57ddf1abc8", "cases": 34, "runs": 3, "rcs": [0, 0, 0], "flips": [], "miss": [], "unstable": {}, "pass": true}
