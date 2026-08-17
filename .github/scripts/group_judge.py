@@ -16,6 +16,7 @@ import os
 import re
 import sys
 import tempfile
+from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]   # .github/scripts → repo root
@@ -54,6 +55,23 @@ SUBTOK = os.environ.get("GROUP_SUBTOK", "1").strip().lower() not in ("0", "false
 #   >MAX_SIZE 블롭 = 드롭(현상유지 — 이 풀은 오늘도 판정 0이라 회귀 없음). 앵커 1패스·부착 2패스 미접촉(가산 전용) ·
 #   정렬상 cross=2라 꼬리 = 앵커 그룹 판정 우선권 보존. 롤백 = env GROUP_ORPHAN_SHARED=0(0·빈값 = OFF = 종전 동작).
 ORPHAN_SHARED = int(os.environ.get("GROUP_ORPHAN_SHARED", "2") or "0")
+# 고유명사 동일 + 시간 창(260817 실사고 · 운영자 「고유명사가 아예 동일해야 하고, 6시간 이내를 기준으로 하자」):
+#   같은 사건인데 제목 각도가 갈리면 겹치는 낱말이 인명 하나뿐이라 1~3패스가 **원리적으로** 못 본다(그 셋은 전부
+#   '낱말 여러 개 겹침' 축). 실측 260817 = 김민석 당대표 선출 후속 8건이 각각 cross 2로 흩어져 매체합 17을 잃었다
+#   (겹치는 낱말 = '김민석' 하나 · 나머지는 당청/수평관계 · 지도부/통합/세제 · 조직/바람 · 당심/연임으로 전부 다름).
+#   비용 = 랭킹 소실이다(운영자 「병합을 안하면 중요도가 흩어져서 제일 윗단에 올라와야되는데 아래에 각각 흩어져버려
+#   주식이 각각 계열사로 분할되는거처럼」) — mergeDecorate가 cross를 합산해 랭킹에 싣는 구조라 묶이지 않으면 그 무게가
+#   통째로 사라진다. ⚠️ 문턱 하향으로는 안 풀린다(실측: MIN_CROSS 3→2 에서도 그 8건 검출 0건 · 후보는 27→17개로 감소).
+#   ⚠️⚠️ **시간 창이 곧 고유명사 걸러내기다**(260817 실측) — 성씨 사전만으로는 '최대·최고·주년·이후'처럼 성씨로
+#      시작하는 일반어가 그대로 통과한다. 24h 창에서 그 오탐이 실제로 났다(「최대」 7건 = 우크라 드론 공격 + 과학고
+#      선발 + 신세계 베이비페어가 한 묶음 · 「주년」 5건 = 시진핑 + 포켓몬 + 할인전). 같은 데이터에 6h 창을 걸면
+#      **그 오탐이 전건 소멸**한다(묶음 41개 → 2개 = 김민석 8건[전건 정확] + 중국 외교부 한반도 발언 2건[정확]).
+#      흔한 일반어는 하루 종일 서로 다른 사건에 흩어져 나오지만 6시간 안에는 그러기 어렵다 — 그 차이가 이 축의 근거다.
+#   창은 **그룹 내 최초↔최종 발행 간격**으로 잰다(now 기준이 아님 = 시간이 흘러도 같은 구성 = 도장 해시 안정 = 재판정 churn 0).
+#   가산 전용 = 1~3패스 컴포넌트에 안 든 기사만 본다(기존 그룹 구조 무접촉 = 회귀 0 · 3패스 관례 계승).
+#   ⚠️ 최종 확정은 종전대로 AI(YES/NO) — 이 패스는 후보를 **판정기 눈에 넣는** 자리일 뿐 병합을 확정하지 않는다
+#      (오병합 백스톱 불변 · 남은 오탐도 그 자리가 거른다). 롤백 = env GROUP_NAME_WIN_H=0(이 패스 전면 OFF = 종전 동작).
+NAME_WIN_H = float(os.environ.get("GROUP_NAME_WIN_H", "6") or "0")
 # NO 판정 시 기존 YES 코어 group_id 보존(연좌 해제 방지 · 자기 앵커가 현 그룹에 실존할 때만 = 확장→축소 sticky 차단 — 평의회1).
 #   롤백 = env GROUP_KEEP_YES=0(종전 'NO=전원 group_id 해제' 복원).
 KEEP_YES = os.environ.get("GROUP_KEEP_YES", "1").strip().lower() not in ("0", "false", "no", "")
@@ -169,6 +187,67 @@ def _components(pool, toks, same_topic):
     return list(byroot.values())
 
 
+_HAN_NAME_RE = re.compile(r"[가-힣]{2,4}")
+
+
+def _surname_set():
+    """성씨 사전 = thumb_gen `_SURNAME` 정본 재사용(사본 0 — 손으로 옮겨 적으면 그날부터 조용히 갈린다).
+    ⚠️ import 실패 = 이 패스만 OFF(fail-soft = 종전 동작 · 러너에 그 모듈 의존이 없어도 묶기 자체는 산다)."""
+    try:
+        from thumb_gen import _SURNAME
+        return _SURNAME
+    except Exception:
+        return None
+
+
+def _pub_ts(c):
+    """발행 시각 → epoch초. 파싱 실패·부재 = None(그 기사는 이 패스 대상 밖 = 시간 창을 못 재면 안 묶는다)."""
+    s = (c.get("published") or "").strip()
+    if not s:
+        return None
+    try:
+        t = datetime.fromisoformat(s.replace("Z", "+00:00"))
+        return (t if t.tzinfo else t.replace(tzinfo=timezone.utc)).timestamp()
+    except Exception:
+        return None
+
+
+def _proper_names(title, sur):
+    """제목의 고유명사 후보 = 성씨로 시작하는 2~4글자 한글(정확 일치만 — 부분 일치 금지).
+    ⚠️ 성씨 사전만으로는 '정치적'(정)·'최대'(최)처럼 성씨로 시작하는 **일반어**가 통과한다
+    (운영자 260817 「최대 같은거는 고유명사가 아니잖아」) → 파생 접미 '적'과 EXTRA_STOP(역대·최대)을 뺀다.
+    나머지 일반어는 NAME_WIN_H 시간 창이 구조적으로 거른다(위 상수 주석의 실측이 근거)."""
+    return {w for w in _HAN_NAME_RE.findall(title or "")
+            if w[0] in sur and not w.endswith("적") and w not in EXTRA_STOP}
+
+
+def _name_window_comps(cands, in_comp, ok):
+    """4패스 후보 = 고유명사 동일 ∧ 발행 간격 ≤ NAME_WIN_H — 계약 전문은 위 NAME_WIN_H 주석."""
+    sur = _surname_set() if NAME_WIN_H > 0 else None
+    if not sur:
+        return []
+    pool = [c for c in cands if ok(c) and id(c) not in in_comp and _pub_ts(c) is not None]
+    byname = {}
+    for c in pool:
+        for w in _proper_names(c.get("title"), sur):
+            byname.setdefault(w, []).append(c)
+    out, used = [], set()
+    for w in sorted(byname, key=lambda x: (-len(byname[x]), x)):   # 큰 묶음 먼저 · 동률은 이름순 = 결정적
+        ms = sorted((c for c in byname[w] if id(c) not in used), key=lambda c: (_pub_ts(c), c.get("url") or ""))
+        i = 0
+        while i < len(ms):
+            chunk = [ms[i]]
+            for nxt in ms[i + 1:]:
+                if len(chunk) >= MAX_SIZE or _pub_ts(nxt) - _pub_ts(chunk[0]) > NAME_WIN_H * 3600:
+                    break
+                chunk.append(nxt)
+            if len(chunk) >= 2:
+                used.update(id(c) for c in chunk)
+                out.append(chunk)
+            i += len(chunk)
+    return out
+
+
 def build_groups(cands):
     """2단 그룹핑(260723 평의회 하드닝): ①앵커끼리 종전 정확일치 union-find 그대로(기존 그룹 구조 불변) ②저cross
     후속 속보는 최강 매칭 '단일' 컴포넌트 부착만(부분어는 이 단계 한정) → 크기 2~MAX_SIZE 그룹 리스트(cross 내림 정렬).
@@ -241,6 +320,10 @@ def build_groups(cands):
             for sub in sorted(oroot.values(), key=lambda s: min(s)):   # 결정적 순서
                 if len(sub) >= 2:
                     comps.append([(low[i], ltoks[i], lhan[i]) for i in sub])
+    # ── 4패스: 고유명사 동일 + 시간 창(260817) — 계약 전문 = NAME_WIN_H 주석. 가산 전용(1~3패스 컴포넌트 미접촉) ──
+    _in_comp = {id(m) for mem in comps for m, _, _ in mem}
+    for _chunk in _name_window_comps(cands, _in_comp, ok):
+        comps.append([(c, tokenize(c.get("title") or ""), _han_sorted(tokenize(c.get("title") or ""))) for c in _chunk])
     # ── 리프 방출(앵커 1패스 발원 + 앵커리스 3패스 — 저cross끼리는 3패스 컴포넌트로만 · 2~MAX_SIZE 한정) ──
     leaves = []
     for mem in comps:
