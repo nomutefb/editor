@@ -104,7 +104,11 @@ jobs:
           PAGES_COALESCE=0 bash .github/scripts/git_land.sh "scrape: 수집함 candidates + 관측 obs 갱신" viewer/candidates.json scraper/obs
           git fetch -q origin main 2>/dev/null || true
           pushed=0; git merge-base --is-ancestor HEAD origin/main 2>/dev/null && pushed=1
-          echo "::error::candidates push 실패"; exit 1
+          # ⚠⚠ 260817 2차 봉합 — 어제 착지 위임 개편(cf627f01 자리)이 판정의 조건 껍데기를 이 스텝만 빠뜨려
+          #   **성공에도 무조건 exit 1**이었다(실측 run 31983645971 = 「git_land: 착지 성공(시도 1)」 직후
+          #   「candidates push 실패」 → 뒤 스텝 화재 추적·속보 판정 디스패치·pending 적재가 매 런 통째 스킵).
+          #   같은 커밋의 형제(:215 pending)와 pick.yml 은 조건 보유 = 이 자리만 알몸 판정이었다.
+          [ "${pushed:-0}" = 1 ] || { echo "::error::candidates push 실패(재시도 소진) — 수집분이 main 에 안 올라갔다"; exit 1; }
 
       # ── ⑭-f 화재 재난문자 후속 추적(운영자 260803 "15분, 30분 뒤에 각각 검색해서 사상자가 있는지 확인 · 있다면 긴급보도 큐로") ──
       #   왜 여기인가 = 이 워크플로가 15분 정본 타이머(외부 cron-job.org)로 돌고, 바로 위에서 candidates.json(검색 대상)을
