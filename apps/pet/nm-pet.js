@@ -11,6 +11,9 @@
    정본은 이동/멈춤을 프레임과 무관하게 확률로만 정해서 「앉은 자세로 미끄러지는」 시간이 전체의 55%였다.
    그 자리를 자세로 잠근다 = 앉은 칸에선 x 고정, 선 칸에서만 전진·방향 전환.
 
+   운영자 260817 갱신 2건 = 크기 0.75 → 0.5(「크기 50%」) · 걸음 18칸만 돌리기(「기어다니게」).
+   원본 82칸 순서로 되돌리려면 loopFrames 를 null 로 두면 된다(그때는 아래 sitFrames 자세 게이트가 다시 일한다).
+
    장식 전용 = pointer-events 없음(클릭 무간섭) · aria-hidden · reduced-motion 미출현(정본 계약 계승).
    상속 = <link rel="stylesheet" href="nm-pet.css"> + <script src="nm-pet.js"></script> 2줄 · 자동 시작 안 함(nmPet.start() 호출이 정문). */
 (function () {
@@ -21,7 +24,16 @@
     atlas: 'pet_crab.png',
     tw: 132, th: 120, frames: 82, cols: 10, rows: 9,   // 타일 폭·높이·총 프레임·열·행
     fps: 30,            // 아트 = 원본 30fps 스텝(픽셀아트 보간 = 뭉개짐이라 금지 · 정본 주석)
-    scale: 0.75,        // 화면 배율(정본 값)
+    scale: 0.5,         // 화면 배율 — 운영자 260817 「크기 50%」 지시분(정본 0.75에서 갱신 · 원본 절반 = 한 칸 66x60 정수 정합)
+    // 돌릴 칸 목록 — 비우면 82칸 전체를 원본 순서대로(= 정본 동작).
+    // 실측 = 원본은 「정면 정지 포즈 → 측면 걸음 → 정면 정지」를 네 번 반복하고,
+    //        정면 45칸은 다리가 한 화소도 안 움직이는 정지 그림이라 그 구간이 전체 시간의 55%였다.
+    //        그래서 걸음 칸만 골라 돌린다(운영자 260817 「기어다니게」).
+    //   고른 18칸 = 14~22(한쪽 발 딛기) + 29~37(반대쪽 발 딛기).
+    //   근거 = 두 사이클은 좌우 대칭 걸음이다(다리 변화량 521 vs 522 · 발 딛는 중심 52~67 ↔ 67~83)
+    //          → 한쪽만 반복하면 같은 발만 딛고, 이어 붙이면 걸음 한 주기가 완성된다.
+    //          이음새도 안 튄다(실렌더 연속 변화 최대 2877 = 사이클 안 평균 2322 수준 · 정지 프레임 0/59).
+    loopFrames: [14, 15, 16, 17, 18, 19, 20, 21, 22, 29, 30, 31, 32, 33, 34, 35, 36, 37],
     // 웅크려 앉은 칸 목록(실측 45칸) — 이 칸에선 제자리. 빈 배열로 두면 정본과 똑같이 프레임 무관하게 움직인다.
     sitFrames: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 23, 24, 25, 26, 27, 28,
                 38, 39, 40, 41, 42, 43, 53, 54, 55, 56, 57, 58, 69, 70, 71, 72, 73, 74,
@@ -30,7 +42,11 @@
     side: 'left',       // 어느 쪽에서 서성이나(정본 = 좌하단 = 설정 픽토 반대편)
     span: 0.55,         // 배회 폭 = 화면의 이 비율까지만(정본 0.55 = 반대편 메뉴 침범 X)
     speedMin: 16, speedMax: 30,        // px/ms x1000 (정본 값)
-    turnChance: 0.0025, pauseChance: 0.002,   // 프레임당 방향 전환·멈춤 확률(정본 값)
+    turnChance: 0.0025,   // 프레임당 방향 전환 확률(정본 값)
+    // 멈춤 확률 — 정본은 0.002로 가끔 멈춰 섰다. 걸음 칸만 돌리는 판에서는 멈춘 동안에도 다리가 계속
+    // 움직여 제자리걸음으로 보이므로(실렌더 실측 = 표본의 26.7%) 0으로 둔다(운영자 260817 「기어다니게」).
+    // 되살리려면 0.002 · 그때는 멈춘 동안 앉은 포즈를 보여주는 배선이 같이 필요하다.
+    pauseChance: 0,
     pauseMin: 900, pauseMax: 2600,     // 멈춰 서성이는 시간(정본 값)
     host: null,         // 붙일 자리 = 없으면 화면 전체(정본 = document.body 고정) · 요소·선택자를 주면 그 상자 안에서만 서성인다
     stayMin: 14000, stayMax: 26000,    // 한 번 방문에 머무는 시간(정본 값)
@@ -43,6 +59,9 @@
   for (var k in BASE) cfg[k] = BASE[k];
 
   var el = null, visiting = false, timer = 0, running = false, forced = false;
+  /* 방문 세대 — 퇴장 직후 다시 등장시키면 옛 방문의 뒷정리가 새 방문을 끄던 결함 봉합(260817 실측:
+     퇴장은 0.75초 뒤에 정리되는데 그 안에 다시 부르면 「이미 도는 중」으로 읽혀 아무 일도 안 일어났다). */
+  var gen = 0;
   var rand = function (a, b) { return a + Math.random() * (b - a); };
   var reduced = function () {
     try { return matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return false; }
@@ -88,7 +107,10 @@
   }
 
   function frameAt(elapsed) {
-    return Math.floor(elapsed / (1000 / cfg.fps)) % cfg.frames;   // 정본 산식
+    var i = Math.floor(elapsed / (1000 / cfg.fps));               // 정본 산식
+    var L = cfg.loopFrames;
+    if (L && L.length) return L[((i % L.length) + L.length) % L.length];
+    return i % cfg.frames;
   }
 
   function paint(p, f) {
@@ -98,6 +120,7 @@
   function visit() {
     if (visiting || (document.hidden && !forced)) { schedule(); return; }
     visiting = true;
+    var my = ++gen;
     var p = ensure(), t0 = performance.now(), stay = rand(cfg.stayMin, cfg.stayMax);
     var maxX = function () { return Math.max(60, stageW() * cfg.span - W()); };
     var x = rand(8, Math.max(40, stageW() * cfg.span * 0.55));
@@ -110,6 +133,7 @@
     requestAnimationFrame(function () { p.style.opacity = '1'; });   // 페이드인(CSS transition)
 
     var step = function (now) {
+      if (my !== gen) return;                  // 새 방문이 시작됐다 = 이 루프는 은퇴
       var dt = Math.min(64, now - last); last = now;
       var f = frameAt(now - t0);
       paint(p, f);
@@ -131,6 +155,7 @@
       if (running && now - t0 < stay && (!document.hidden || forced)) { requestAnimationFrame(step); return; }
       p.style.opacity = '0';   // 페이드아웃 → 다음 방문 예약
       setTimeout(function () {
+        if (my !== gen) return;                // 남의 방문을 끄지 않는다
         p.classList.remove('on'); visiting = false;
         if (running) schedule();
       }, cfg.fadeMs);
@@ -166,10 +191,11 @@
       if (!visiting) visit();
       return api;
     },
-    /* 즉시 퇴장 */
+    /* 즉시 퇴장 — 뒷정리를 기다리지 않으므로 바로 다시 등장시킬 수 있다 */
     hide: function () {
       running = false; clearTimeout(timer);
-      if (el) { el.style.opacity = '0'; }
+      gen++; visiting = false;
+      if (el) { el.style.opacity = '0'; el.classList.remove('on'); }
       return api;
     },
     /* 설정 갱신(도는 중에도 크기·바닥·속도 즉시 반영) */
