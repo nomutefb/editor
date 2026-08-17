@@ -74,6 +74,14 @@
   .hist-cap { position:absolute; left:6px; top:6px; max-width:calc(100% - 42px); background:rgba(0,0,0,.6); color:var(--fg); font-size:9.5px; font-weight:700; padding:2px 7px; border-radius:999px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
   .hist-cap-v { font-weight:400; }
   @media (max-width:480px){ .hist-grid { grid-template-columns:repeat(2,1fr); } }
+  /* ── 결과 칸 = 「제일 최근 한 묶음을 크게」(운영자 260817 «제일 최근거가 첨부1처럼 떠야하고, 누적분은 이전 제작에 쌓이면 되는거임») ──
+     카드 제작은 큰 미리보기(#carwrap 캐러셀)가 그 자리를 맡는데 번역(#resGrid)·AI 생성(#geniResGrid)은 같은 산출물을 **3열 작은 타일 + 4:5 강제 자르기**로 그려서
+     ⓐ 릴스(9:16)가 위아래 잘린 채 나오고(운영자 «릴스면 좀더 길거고 포스트면 좀 더 짧을거고») ⓑ 방금 만든 것이 지난 것들 사이에 섞여 어느 게 최근인지 안 보였다.
+     → 결과 칸에서만 1열·원본 비율. **이전 제작 그리드(#histGrid·#geniPrevGrid)는 무접촉** = 3열 4:5 유지(훑어보는 자리라 격자가 맞다).
+     값 창작 0 = 열 수·비율 고정을 푸는 것뿐(면·선·모서리·캡션 칩·다운로드 버튼 전부 위 정본 그대로 · 아이디 스코프라 형제 표면 무영향). */
+  #resGrid, #geniResGrid { grid-template-columns:1fr; }
+  #resGrid .hist-thumb img, #geniResGrid .hist-thumb img { aspect-ratio:auto; }   /* 4:5 자르기 해제 = 산출물 원본 비율 그대로(상자가 비율을 안 강제하므로 위 정본의 object-fit은 무영향) */
+  #resGrid .hist-hd, #geniResGrid .hist-hd { display:none; }   /* 타일 위 시각 줄 = 바로 위 요약 줄이 「완료 · N장 · 시각」으로 이미 말한다(카드 제작 큰 미리보기도 시각 줄 없음 = 5탭 한 모양) */
 
 /* ── 결과 접이 헤더(.car-h) = thumb 인라인 정본 승격(운영자 260803 Q1228 "결과·이전 작업물 동일" — tr 결과 섹션 합류로 공동 소비 · 인라인 사본 금지 관례) ── */
 .car-h, #geniResH { margin-top:14px; border-top:1px solid var(--line2); padding-top:14px; }   /* 블릿 단위 구분줄(운영자 260731 11차) */

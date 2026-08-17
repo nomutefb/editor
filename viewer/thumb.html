@@ -1194,8 +1194,6 @@
       <span class="hist-ttl"><span class="car-bul" aria-hidden="true">•</span>결과 <span class="hist-cnt" id="carHCnt">(0)</span></span>
       <svg class="hist-ar" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
     </button>
-    <!-- N/N장 카운터 = 대기열 위(요약 · 운영자) -->
-    <div class="carbar" id="carbar" hidden><span class="carcount" id="carcount"></span></div>
     <!-- (구 260806 결과 타일 그리드 #carGrid = 회수 · 운영자 260817 «위 아래로 나오고 · 들쭉날쭉 · 순서 = 옵션 끝 → 작업 현황 박스 → 미리보기 폭맞춤 화면(가장 최근) → 이전 제작») —
          같은 산출물이 작은 타일(위)과 큰 미리보기(아래)로 두 번 그려지던 중복 층. 회수로 순서가 계약 그대로가 된다(작업현황 #jobs → 진행중 자리 #wips → 미리보기 #carwrap → 이전 제작 #hist).
          renderCarGrid()는 노드 부재 시 무동작 가드(if !grid return)라 도먼트 잔존 = 복원은 이 줄과 아래 div 한 줄. 이전 제작(#histGrid)이 타일형 열람·hist-grid 부품(check_result_rail_parity ④)을 전담. -->
@@ -1203,6 +1201,12 @@
     <div class="jobs" id="jobs"></div>
     <!-- 진행중 제작 타일 스택(.wip · Q469) — 결과가 나올 자리 선점(최신 위 · 동시 2~3개 쌓임 → 완료 시 캐러셀 합류) · 운영자 260723 "결과물이 출력될 장소에 진행 표시 · 이전 제작 쪽으로 밀림" -->
     <div class="wips" id="wips"></div>
+    <!-- N/N장 카운터 = **미리보기 바로 위**(260817 이동 · 구 자리 = 결과 헤더 바로 밑 = 대기열 위) —
+         이 칸은 아래 캐러셀이 몇 장 중 몇 번째인지를 말하는 미리보기 부속인데, 구 자리에서는 미리보기가 펴지는 순간
+         **작업 현황 줄을 26px 아래로 밀어** 「결과 요약 줄 = 이미지 5탭 한 선」(smoke_studioshell C14 · 260806 계약)이 깨졌다.
+         자리를 제 짝(캐러셀) 위로 옮기면 작업 현황 줄이 결과 헤더 바로 밑에 남아 5탭 한 선이 유지되고,
+         운영자 260817 «진행중 또는 결과 박스 그 아래에는 미리보기»도 그대로다(박스 → [N/N장 + 큰 미리보기] 한 묶음). -->
+    <div class="carbar" id="carbar" hidden><span class="carcount" id="carcount"></span></div>
     <!-- 완성 이미지 = 캐러셀(나온 순서대로 한 장씩 추가) · 전체 다운로드은 결과물 아래(해당 부분) -->
     <div class="carwrap" id="carwrap" hidden>
       <div class="cartrackwrap">
@@ -4183,7 +4187,8 @@ function jobShowCar(job) {   // 작업 현황 박스 탭 = 그 잡의 결과(전
   CARSLIDES.length = 0;
   const tr = $('#cartrack'); if (tr) { tr.innerHTML = ''; tr.style.height = ''; }
   svs.forEach((s, i) => carAppend(s.url, s.dlname || '', s.cap || '', { _restored: true, t0: job.t0, src: job.src }, s.varStr || '', null, true, s.cap || '', i > 0));   // restore=true = 이전 제작 재기록 0(중복 방지 · carShowOne 동문) · 첫 장만 펼침(noExpand=i>0)
-  const ch = $('#carH'); if (ch && ch.getAttribute('aria-expanded') === 'false') ch.click();   // 결과가 접혀 있으면 펼침(«펼치면»)
+  const ch = $('#carH'), cw = $('#carwrap');   // 펼침 판정 = **실상태**(cw.hidden · 4337행 `open = cw.hidden` 문법 사본) — 구판 aria 판정은 두 방향으로 틀렸다: 부팅 복원(aria만 true·미리보기는 숨김)에선 헛돌고, 접어둔 상태(aria false)에선 carAppend가 이미 편 뒤라 클릭이 **도로 접었다**
+  if (ch && cw && cw.hidden) ch.click(); else if (ch) ch.setAttribute('aria-expanded', 'true');   // 접혀 있으면 펼침 · 이미 보이면 헤더 표시만 동기(어긋난 aria 교정)
   scrollMid($('#carwrap'));   // 박스(위) → 미리보기(아래) 자연 스크롤 이동 = reattachSrc 착지 스크롤 정본 재사용
 }
 function renderCarGrid() {   // 결과 타일 = 지금 결과에 있는 것(CARSLIDES) 최신 먼저 — 데이터는 캐러셀과 같은 배열(별도 소스 신설 0 = 두 표현이 어긋날 여지 0)
@@ -4321,13 +4326,14 @@ function carHSync(open) { const h = $('#carH'); if (!h) return; h.hidden = false
   if (!CARSLIDES.length) { if (em) em.hidden = h.getAttribute('aria-expanded') === 'false' || !!(($('#wips') || {}).childElementCount); return; }   // 빈 상태 = 캐러셀 없음·안내만(펼침 시 노출 · 진행중 .wip 타일 떠 있으면 숨김 = Q469)
   if (em) em.hidden = true;
   /* 결과 = 「타일이 곧 결과」(운영자 260806 5탭 대조) — 부팅 자동복원이어도 **타일은 편다**(형제 2탭 번역·AI 생성이 늘 펼침이라 thumb 3탭만 헤더 한 줄로 접혀 결과가 딴판이었다).
-     ⚠ 260710 「결과 기본 접힘」 계약은 **캐러셀(확대 열람 = 큰 이미지)** 축으로 보존 = 아래 carwrap/carbar는 종전 그대로 접힌 채. 접이 클릭은 타일·캐러셀을 함께 여닫는다. */
+     ⚠⚠ 260817 2차 개정 = 그 타일층(#carGrid)을 회수한 뒤 **「펼침인데 아무것도 안 보이는」 상태**가 생겼다 — 부팅 자동복원(doRestore(pick,true) → noExpand)은 carwrap을 접힌 채 두는데,
+     대신 보여줄 타일이 이제 없어서 헤더만 「결과 (1)」로 뜨고 본문이 통째로 빈다(운영자 260817 «진행중 또는 결과 박스 그 아래에는 첨부 '후'처럼 **항상** 위치하게»).
+     → 구 260710 「결과 기본 접힘」은 **타일이 결과를 대신 보여주던 시절의 계약**이라 폐기 · 지금 = 펼침이면 미리보기까지 같이 편다. */
   /* ⚠ 접힘 존중(운영자 260806 평의회3 F3) — 구판은 `cg.hidden=false`와 aria 'true'를 **무조건** 실행해
      ⓐ 배치 2번째 장이 도착할 때 사용자가 접어둔 타일을 도로 펼치고(QA2 260706 회귀) ⓑ 부팅 복원 시 헤더는 '펼침'인데 캐러셀은 접힘 = 눌러도 반대로 열리는 2클릭 상태를 만들었다.
-     지금 = 이미 접혀 있으면 그대로 둔다(open 인자 = 명시적 펼침 요청일 때만 편다). */
+     지금도 ⓐ는 그대로 = 접혀 있으면(aria false) 무동작 · ⓑ는 아래 한 줄이 「헤더 펼침 ↔ 미리보기 노출」을 한 상태로 묶어 구조적으로 소멸. */
   const _wasCollapsed = h.getAttribute('aria-expanded') === 'false';
-  if (open || !_wasCollapsed) { if (cg) cg.hidden = false; h.setAttribute('aria-expanded', 'true'); }
-  if (open) { $('#carwrap').hidden = false; $('#carbar').hidden = false; } }   // 접힌 채 복원(부팅 자동복원) = 헤더는 노출·내용은 접힘 → aria 동기(내용 hidden은 초기 HTML 상태 유지 · 운영자 260710)
+  if (open || !_wasCollapsed) { if (cg) cg.hidden = false; h.setAttribute('aria-expanded', 'true'); $('#carwrap').hidden = false; $('#carbar').hidden = false; } }   // 펼침 = 헤더·미리보기 한 상태(260817) · 접힘이면 무동작(사용자가 접어둔 것을 도로 펴지 않는다)
 let _carCloseT = null;   // 결과 닫힘 촤르륵(histOut) 후 hidden 지연 타이머(index popOut 패턴 계승)
 $('#carH').addEventListener('click', () => {
   if (!CARSLIDES.length) {   // 빈 상태 = 안내만 접기(운영자 260718 · 접을 캐러셀 없음)

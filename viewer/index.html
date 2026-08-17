@@ -6209,7 +6209,7 @@ function renderGeniPrev() {   // 이전 제작 = 서버+로컬 병합 · 지우�
   const srv = (GENI_SRV_HIST || []).filter(e => e && e.url && !seen.has(geniHistKey(e.url)) && (e.ts || 0) > GENI_SRV_CLEAR);
   srv.forEach(e => seen.add(geniHistKey(e.url)));
   const live = (GENI_LIVE || []).filter(e => e && e.url && !seen.has(geniHistKey(e.url)) && (e.ts || 0) > cut);   // 즉시 축 = 셋째 소스(로컬·정식 인덱스가 이미 가진 건 스킵 = 정식 도착 시 자연 교체 · 지우기 컷 동일 존중 · tr renderTrHist 동문)
-  const resK = new Set(geniResSess().concat(GENI_NEWEST).map(e => geniHistKey(e.url)));   // '결과'(세션분+최신 추종)에 뜬 항목 = 이전 제작서 제외(thumb renderHist CARSLIDES 제외 동문 = 5탭 카운트 한 값 · 구판은 세션분이 결과·이전 제작 이중노출)
+  const resK = new Set(geniResList().map(e => geniHistKey(e.url)));   // '결과'에 실제로 뜬 것만 이전 제작서 제외 = 결과와 **같은 산출**(260817 최신 1묶음) — 구판처럼 세션분 전체를 빼면 결과 축소분이 어느 칸에도 안 뜨는 유실이 된다(thumb renderHist CARSLIDES 제외 동문 = 5탭 카운트 한 값)
   const a = localF.concat(srv, live).sort((x, y) => (y.ts || 0) - (x.ts || 0)).filter(e => !_geniDeadUrls.has(geniHistKey(e.url)) && !resK.has(geniHistKey(e.url)));
   const cc = $('#geniPrevCnt'); if (cc) cc.textContent = '(' + a.length + ')';
   const em = $('#geniPrevEmpty'); if (em) em.hidden = !!a.length;
@@ -6265,11 +6265,20 @@ function geniResJobRow(a) {
   row.appendChild(sv);
   host.appendChild(row);
 }
-function renderGeniRes() {   // 결과 = 세션분(T0 이후) + 최신 추종 1묶음(운영자 260805 5탭 동기화) — tr renderTrRes 동문
-  const grid = $('#geniResGrid'); if (!grid) return;
+/* 결과 = **최신 1묶음**(운영자 260817 «제일 최근거가 첨부1처럼 떠야하고, 누적분은 이전 제작에 쌓이면 되는거임») —
+   구판은 세션분을 결과에 전부 쌓아서 방금 만든 것이 지난 것들과 섞였다. 지금 = 맨 위 항목의 묶음(bid)만 결과 · 나머지는 전부 이전 제작.
+   ⚠ renderGeniRes·renderGeniPrev **공용 산출**이 실효 조건 = 두 칸이 같은 배열로 갈린다(결과에서 뺀 항목이 이전 제작에도 안 뜨는 유실 0 · thumb renderHist CARSLIDES 제외 동문). */
+function geniResList() {
   const sess = geniResSess();
   const sk = new Set(sess.map(e => geniHistKey(e.url)));
-  const a = sess.concat(GENI_NEWEST.filter(e => !sk.has(geniHistKey(e.url)))).sort((x, y) => (y.ts || 0) - (x.ts || 0));
+  const a0 = sess.concat(GENI_NEWEST.filter(e => !sk.has(geniHistKey(e.url)))).sort((x, y) => (y.ts || 0) - (x.ts || 0));
+  if (!a0.length) return [];
+  const b0 = geniBidOf(a0[0]);
+  return b0 ? a0.filter(e => geniBidOf(e) === b0) : [a0[0]];   // 묶음(bid) 통째 = 1/2·2/2 한 결과(geniFollowNewest 동문) · bid 없는 구 항목 = 그 1장
+}
+function renderGeniRes() {   // 결과 = 최신 1묶음(운영자 260817) — tr renderTrRes 동문
+  const grid = $('#geniResGrid'); if (!grid) return;
+  const a = geniResList();
   const cc = $('#geniResCnt'); if (cc) cc.textContent = '(' + a.length + ')';
   const em = $('#geniResEmpty'); if (em) em.hidden = !!a.length;
   geniResJobRow(a);   // 요약 줄 = 타일과 같은 배열에서 산출(두 표현이 어긋날 여지 0)

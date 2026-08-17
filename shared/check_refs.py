@@ -2972,6 +2972,7 @@ def check_result_rail_parity():
         between = t[head + js[-1].end():gpos]
         between = _re.sub(r'<div[^>]*class="hist-empty"[^>]*>.*?</div>', '', between, flags=_re.S)
         between = _re.sub(r'<div[^>]*class="wips"[^>]*>\s*</div>', '', between, flags=_re.S)   # 진행중 자리 스택(빈 컨테이너) = 결과가 나올 자리 선점(Q469) — 세트 사이 정당 거주자
+        between = _re.sub(r'<div[^>]*class="carbar"[^>]*>.*?</div>', '', between, flags=_re.S)   # N/N장 카운터 = 바로 아래 미리보기 캐러셀의 **부속**(그 캐러셀이 몇 장 중 몇 번째인지를 말한다) — 260817 운영자 «결과 박스 그 아래에는 미리보기»로 구 자리(결과 헤더 바로 밑)에서 캐러셀 위로 이주했다: 구 자리에선 미리보기가 펴지는 순간 작업 현황 줄을 26px 밀어 smoke_studioshell C14(결과 요약 줄 = 이미지 5탭 한 선)를 깼다 · wips와 같은 성격의 세트 내 정당 거주자
         if _re.search(r'<(?!/)[a-zA-Z]', between):
             return '요약 줄과 열람 블록 사이에 다른 블록이 끼어 세트가 갈라짐'
         return ''
