@@ -6,10 +6,10 @@
   python3 apps/pet/build_pet_demo.py --measure  # 실측만(apps/pet/frames.json)
 
 산출 2개 = 기계산출물(손편집 금지 · 값 바꾸려면 이 스크립트나 템플릿을 고쳐 다시 돌린다)
-  · apps/pet/frames.json    82칸 실측표
+  · apps/pet/frames.json    111칸 실측표(배회 82 + 퇴장 29)
   · apps/pet/펫_데모.html    자기완결 1파일(외부 요청 0 · 폰에서 열어도 돈다)
 
-아틀라스 정본 = viewer/pet_crab.png(1320x1080 · 운영자 260710 업로드 캐릭터 → 아틀라스).
+아틀라스 정본 = viewer/pet_crab.png(1320x1440 · 운영자 260710 업로드 캐릭터 → 아틀라스).
 루트에 올라온 jpg 판(apps/pet/원본업로드_260817_아틀라스_jpg판.jpg)은 같은 그림의 검은 배경 사본이라 보관만 하고 쓰지 않는다
 (실측 = 실루엣 99.3% 일치 · 배경 투명이 아니라 화면에 얹으면 검은 사각형이 남는다).
 """
@@ -28,12 +28,15 @@ OUT = os.path.join(PET, '펫_데모.html')
 FRAMES = os.path.join(PET, 'frames.json')
 
 # 지오메트리 = viewer/index.html 픽셀 펫 블록의 PET 상수 값 사본(단일출처 · 여기서 창작 0)
-TW, TH, COLS, ROWS, N = 132, 120, 10, 9, 82
+TW, TH, COLS, ROWS, N = 132, 120, 10, 12, 111
+# 배회에 쓰는 원본 칸 = 앞 82칸. 뒤 29칸(82~110)은 260817 2차에 이어 붙인 퇴장 마무리 동작이라
+# 자세 게이트(sitFrames)의 대상이 아니다 — 부품은 그 칸을 exitFrames 로 따로 돌린다.
+STROLL_N = 82
 SIT_MAX_H = 70   # 몸 높이가 이보다 낮으면 웅크린 자세(실측 = 앉음 48~51 vs 서기 70~80 사이의 골)
 
 
 def measure():
-    """82칸 각각의 몸 크기·발 접지 중심을 잰다.
+    """111칸 각각의 몸 크기·발 접지 중심을 잰다.
 
     ⚠ 몸통 = 「가장 큰 한 덩이」로 잡는다(붙어 있는 화소를 번져 나가며 모은다).
        열 화소 개수로 파티클(반짝임)을 걸러내려던 첫 판은 세로로 3~4개 붙은 반짝임이 그대로 통과해
@@ -86,7 +89,8 @@ def summary(rows):
     fc = [r['feetC'] for r in rows if 'feetC' in r]
     return {
         'atlas': 'viewer/pet_crab.png', 'tile': [TW, TH], 'cols': COLS, 'rows': ROWS, 'frames': N,
-        'sit_frames': sit, 'walk_frames': walk,
+        'sit_frames': [f for f in sit if f < STROLL_N], 'walk_frames': [f for f in walk if f < STROLL_N],
+        'stroll_frames': STROLL_N, 'exit_frames': list(range(STROLL_N, N)),
         'feet_center': {'min': min(fc), 'max': max(fc), 'avg': round(sum(fc) / len(fc), 1)},
         'floor_y': {'min': min(r['y1'] for r in rows if 'y1' in r), 'max': max(r['y1'] for r in rows if 'y1' in r)},
     }
@@ -105,7 +109,8 @@ def check_sitframes(rows):
         raise SystemExit('부품에 sitFrames 목록이 없다 — viewer/nm-pet.js 확인')
     lit = js[js.index('[', i):js.index(']', i) + 1]
     have = [int(x) for x in __import__('re').findall(r'\d+', lit)]
-    want = [r['f'] for r in rows if r.get('sit')]
+    # 대조 범위 = 배회 칸(앞 82칸)뿐. 퇴장 칸까지 세면 부품 목록과 영영 안 맞는다(그 칸은 자세 게이트를 안 탄다).
+    want = [r['f'] for r in rows if r.get('sit') and r['f'] < STROLL_N]
     if have != want:
         raise SystemExit('부품 앉은 칸 목록이 실측과 다르다.\n  부품 %d칸 = %s\n  실측 %d칸 = %s\n'
                          '  → viewer/nm-pet.js sitFrames 를 아래 줄로 교체하고 다시 돌려라.\n  sitFrames: [%s]'
