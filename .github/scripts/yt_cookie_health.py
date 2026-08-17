@@ -33,7 +33,6 @@ WHOAMI = ROOT / ".github" / "scripts" / "yt_cookie_whoami.py"
 LEDGER = ROOT / "push" / "yt_cookie_health.json"   # 원장(기계산출물)
 MSG_PY = ROOT / "shared" / "msg.py"
 MSG_ID_BASE = "yt-cookie-dead"
-MSG_ID_HALF = "yt-cookie-half"   # 한쪽 계정만 죽음(받기는 됨) = 사망 경고와 다른 id · 수위 낮음
 DEAD_MIN = 2      # 이 횟수 연속 사망부터 발화(1회성 딸꾹질 제외)
 ACCT_DOUBT = 5    # 이 횟수 연속 사망부터 「계정 축 의심」 안내 동반(재발급을 이미 해봤을 회차 = 자동 검사 하루 2회 × 2.5일)
 
@@ -70,9 +69,13 @@ def msg(*args):
     subprocess.run([sys.executable, str(MSG_PY)] + list(args), check=False)
 
 
-# 계정 슬롯(운영자 260810 "구글 계정 2개로 돌리게 하자 하나가 죽는거일수도있으니까") — 2번은 **없어도 정상**
-#   (미설정 = 1계정 운영 = 종전 동작 100% 보존). 살아있는 슬롯이 하나라도 있으면 받기는 되므로 사망으로 안 센다.
-SLOTS = [("1", "YT_COOKIES"), ("2", "YT_COOKIES_2")]
+# 계정 슬롯 — ⚠ 260817 예비 슬롯 폐지(운영자 「예비칸 안쓰게 배선 다시」) = **1칸 운영**.
+#   구판(260810 "구글 계정 2개로 돌리게 하자 하나가 죽는거일수도있으니까")은 ("2","YT_COOKIES_2") 를 같이 들고
+#   「살아있는 슬롯이 하나라도 있으면 사망 아님」으로 판정했다 — 그 축이 실제로 한 일 = 260812~13에 1번이 죽은
+#   동안 예비가 받기를 살렸고, 계정 이관에서 예비가 안 따라오자 그 완충이 사라져 전면 정지했다.
+#   운영자 판단 = 두 칸을 굴리는 대신 한 칸을 제대로 유지한다. 되살리기 = 이 목록에 슬롯 1줄 추가
+#   + 워크플로에 `YT_COOKIES_2`·`YT_COOKIES_2_NAME` 2줄 복원(그 외 로직은 슬롯 수에 무관하게 돈다).
+SLOTS = [("1", "YT_COOKIES")]
 
 
 def kan(var):
@@ -137,14 +140,6 @@ def main():
     # ⚠ 키 = 슬롯 번호가 아니라 **저장소 칸 이름**(kan) — 알림이 「2번」 같은 대명사로 말하면 운영자가
     #   어느 칸을 갈지 알 수 없고, 번호↔이름 대응을 손으로 적는 순간 갈린다(위 kan() 주석의 260812 실사고).
     slots = [(kan(v), v) for t, v in SLOTS if t == "1" or os.environ.get(v, "").strip()]
-    # 값이 없어서 **재지도 못한** 예비 칸 — 알림에 이름으로 밝힌다(260817 실사고 봉합).
-    #   ⚠ 이게 없으면 「예비가 사라진 것」이 알림에서 통째로 안 보인다: 칸 상태 줄이 slotmap 기준인데
-    #     미등록 칸은 애초에 slotmap 에 안 들어가고(위 술어), 구판은 그 줄을 `len(slotmap) > 1` 일 때만 썼다
-    #     → **둘에서 하나로 줄어든 바로 그 순간이 하필 안 보이는 조건**이었다. 실측 260816~17 = 08-13 까지는
-    #     예비가 살아서 받기가 됐는데(반쪽 경고만) 계정 이관 뒤 예비가 미등록이 되어 전면 정지했고, 알림은
-    #     그 사실을 한 글자도 안 말해 「쿠키 하나 갈면 되겠네」로 읽혔다.
-    #   술어 = 위 slots 와 **같은 식**(값 공백 여부) = 사본 0.
-    spare = [kan(v) for t, v in SLOTS if t != "1" and not os.environ.get(v, "").strip()]
     res = {t: probe(v) for t, v in slots}
     alive = [t for t, (o, _, _) in res.items() if o is True]
     dead = [t for t, (o, _, _) in res.items() if o is False]
@@ -169,19 +164,13 @@ def main():
         if meta.get("alert_id"):
             msg("clear", meta["alert_id"])   # 살아나면 자동 해소(사람이 지울 일 0)
             meta["alert_id"] = ""
-        # ⚠ 한쪽만 죽은 상태 = 받기는 되지만 **남은 한 장으로 버티는 중**이라 조용히 두면 그것마저 죽는 날
-        #   전면 정지가 된다(운영자 260810 2계정 신설 취지). 사망 경고와 **다른 id**로 낮은 수위로 알린다.
-        if dead:
-            msg("set", MSG_ID_HALF,
-                f"유튜브 쿠키 저장소 칸 {'·'.join(dead)} 가 죽었어요 — 남은 {'·'.join(alive)} 로 받기는 됩니다(지금 당장 멈추진 않아요).\n"
-                "칸 상태: " + " · ".join(f"{t} {s}" for t, s in slotmap.items()) + "\n"
-                f"이 판정을 낸 검사 시각 = {now} · 자동 검사는 하루 2회(09시·21시 KST)뿐이에요.\n"
-                f"👉 네가 할 일: GitHub Settings ▸ Secrets ▸ Actions 에서 **{'·'.join(dead)}** 를 새 쿠키로 갈아 줘"
-                f"(살아있는 {'·'.join(alive)} 는 건드리지 마 — 그걸 갈면 멀쩡한 칸만 바뀌고 이 경고는 안 꺼져). "
-                "한 장으로 버티다 그것마저 죽으면 유튜브 받기가 통째로 멈춰.", "warn")
-        elif meta.get("half_id"):
-            msg("clear", MSG_ID_HALF)
-        meta["half_id"] = MSG_ID_HALF if dead else ""
+        # ⚠ 「한쪽만 죽음」 반쪽 경고 = 260817 예비 슬롯 폐지와 함께 제거(복원 = git 역사).
+        #   1칸 운영에서는 이 자리가 **도달 불가**다 — 슬롯이 하나뿐이면 살아있음과 죽음이 동시에 성립할 수 없다.
+        #   ⚠ 다만 원장에 지난 회차의 half_id 가 남아 있을 수 있어 **한 번은 걷어 준다**(안 걷으면 그 알림이
+        #     화면에 영구 잔류한다 = 폐지가 만드는 유령 · 없는 id 를 clear 하는 건 무해 = msg.py no-op).
+        if meta.get("half_id"):
+            msg("clear", meta["half_id"])
+            meta["half_id"] = ""
         print(f"[쿠키] 정상 · 계정={acct or '(미표기)'} · 연속사망 0 · 슬롯 {slotmap}")
     elif ok is False:
         meta["dead_streak"] = int(meta.get("dead_streak") or 0) + 1
@@ -195,13 +184,12 @@ def main():
             body = (f"유튜브 받기용 쿠키가 죽었어요(연속 {n}회 · 마지막 정상 {meta.get('last_ok') or '기록 없음'}"
                     + (f" · 계정 {meta.get('acct')}" if meta.get("acct") else "") + ").\n"
                     f"사유: {why[:120]}\n"
-                    # ⚠ 칸 상태는 **항상** 쓴다(구판은 `len(slotmap) > 1` 조건 = 위 spare 주석의 사각).
+                    # ⚠ 칸 상태는 **항상** 쓴다(구판은 `len(slotmap) > 1` 조건이라 1칸 운영에서 통째로 안 보였다 —
+                    #   260817 예비 슬롯 폐지로 1칸이 상시가 됐으니 그 조건이 곧 영구 침묵이 된다).
+                    #   어느 칸을 갈지는 아래 처방문이 말하지만, 「지금 이 칸이 죽었다」를 상태로 한 줄 못박아 둔다.
                     + ("칸 상태: " + " · ".join(f"{t} {s}" for t, s in slotmap.items())
-                       + ("(둘 다 죽어서 유튜브 받기가 멈춰요)" if len(slotmap) > 1
-                          else "(잰 칸이 이거 하나뿐이라 유튜브 받기가 멈춰요)") + "\n")
-                    + (f"⚠ 예비 칸 {'·'.join(spare)} 은 이 저장소에 등록돼 있지 않아요 — 그래서 위 칸이 죽는 순간 "
-                       "버틸 예비가 0이었어요(예비가 살아 있으면 한쪽이 죽어도 받기는 계속 돼요). "
-                       "그 칸도 같이 채워 두면 다음부터 이렇게 통째로 멈추지 않아요.\n" if spare else "")
+                       + ("(예비 칸 없이 이 칸 하나로 도니까 유튜브 받기가 멈춰요)" if len(slotmap) == 1
+                          else "(전부 죽어서 유튜브 받기가 멈춰요)") + "\n")
                     # ⚠ 이 두 줄이 없으면 「방금 갈았는데 왜 또 뜨지」가 된다(운영자 260810 실측 — 자동 검사가
                     #    하루 2회뿐이라 교체 직후 최대 12시간 동안 옛 판정이 화면에 그대로 남는다).
                     + f"이 판정을 낸 검사 시각 = {now} · 자동 검사는 하루 2회(09시·21시 KST)뿐이에요.\n"

@@ -51,7 +51,6 @@ if [ -n "$AD" ] && [ -d "$AD" ]; then
 #VAPID_SUBJECT=
 # [유튜브 쿠키 2칸 — 영상·자막 받기 · 여러 줄 = 열쇠 입력 페이지로]
 #YT_T_COOKIES=
-#YT_T2_COOKIES=
 # [SNS 수집 토큰]
 #IG_ACCESS_TOKEN=
 #FB_PAGE_TOKEN=

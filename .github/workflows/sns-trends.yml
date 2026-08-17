@@ -98,8 +98,6 @@ jobs:
           #   미설정 = 맞춤 추천만 0건(차트 축 무영향) · 킬스위치 = SNS_YT_RECO=0.
           YT_COOKIES: ${{ secrets.YT_T_COOKIES }}
           YT_COOKIES_NAME: YT_T_COOKIES
-          YT_COOKIES_2: ${{ secrets.YT_T2_COOKIES }}
-          YT_COOKIES_2_NAME: YT_T2_COOKIES
           SNS_YT_RECO: ${{ vars.SNS_YT_RECO || '1' }}   # 맞춤 추천 = 기본 ON · 끄기 = 저장소 변수 SNS_YT_RECO=0. ⚠ dispatch input으로 안 뺀다 — 이 워크플로는 이미 input 13개라 GitHub 상한 10을 넘겨 있고(11번째부터 디스패치 400 = rate.yml 판례) 한 칸 더 얹으면 그 위험만 키운다
           SNS_SUBS: ${{ inputs.subs || '1' }}   # 구독 축 = 기본 ON 승격(§📰-e 이행 완료 — 카나리아 run 29153925931 실측 260711: rc=0·65s·틱톡10·유튜브10·레거시 무손상·커밋 eab3bc5). schedule = inputs 없음 → '1'(social-scan 관용구) · dispatch subs='0'=일시 OFF. X·인스타 = 러너 IP 429 실측(런마다 IP 로터리 = 확률 수집·빈 런 = 직전분 보존 fail-soft) — 지속 0건이면 폰 수집 경로 후속. 롤백 = || '' 복귀
           SNS_SUBS_BUDGET: '480'   # 한국/세계 2군 확장분(구 기본 240 · 지역별 상한 x20·tk15·ig10·yt15 = 최악 직렬 ≈460s 커버 · 운영자 260712)

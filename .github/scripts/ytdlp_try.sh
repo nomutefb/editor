@@ -28,7 +28,7 @@
 #   → 전 단계 실패 시 원문 꼬리를 로그 그룹으로 찍는다. 이 한 줄이 260811 진단을 확정시켰다.
 #
 # 계약: stdout = yt-dlp 출력 그대로(호출부가 `> file` 로 받는다) · 진행 메시지는 전부 stderr.
-#   입력 = YT_COOKIES / YT_COOKIES_2 / YT_COOKIES_3(쿠키 본문 · 빈 슬롯은 건너뛴다)
+#   입력 = YT_COOKIES(쿠키 본문 · 빈 슬롯은 건너뛴다 · 예비 슬롯 2·3 = 260817 폐지)
 #          YTDLP_ERR(오류 누적 경로) · YTDLP_LABEL(로그 라벨)
 #   rc = 0(어느 단이든 성공) / 1(전 단 실패).
 set -u
@@ -51,7 +51,7 @@ CK_VARS=()
 CK_NAMES=()
 CK_FILES=()
 slot=0
-for var in YT_COOKIES YT_COOKIES_2 YT_COOKIES_3; do
+for var in YT_COOKIES; do   # 예비 슬롯 폐지(운영자 260817 「예비칸 안쓰게 배선 다시」) — 되살리기 = 이 목록에 YT_COOKIES_2 추가
   val="${!var:-}"   # bash 간접 확장 — eval 금지(쿠키 본문에 따옴표·개행·백틱이 들어오면 그 자리에서 실행된다)
   [ -n "$val" ] || continue
   nvar="${var}_NAME"

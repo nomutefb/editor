@@ -572,15 +572,8 @@ def main():
         with open("/tmp/ck.txt", "w", encoding="utf-8") as f:
             f.write(ck)
         cookies = "/tmp/ck.txt"
-    # 2번 계정 쿠키(운영자 260810 "구글 계정 2개로 돌리게 하자 하나가 죽는거일수도있으니까") — 미설정이면 None
-    #   = 종전 동작 100% 보존. 쓰이는 자리는 아래 사전조회 폴백 한 곳뿐(1번이 실패한 뒤에만 = 두 계정을
-    #   같이 두드리지 않는다 · 봇검문 노출면 증가 0).
-    cookies2 = None
-    ck2 = os.environ.get("YT_COOKIES_2", "")
-    if ck2.strip():
-        with open("/tmp/ck2.txt", "w", encoding="utf-8") as f:
-            f.write(ck2)
-        cookies2 = "/tmp/ck2.txt"
+    # ⚠ 2번 계정(예비) 쿠키 축 = 260817 폐지(운영자 「예비칸 안쓰게 배선 다시」) — 되살리기 = git 역사
+    #   (구판 = YT_COOKIES_2 를 /tmp/ck2.txt 로 굽고 아래 사전조회에서 1번 실패 뒤 한 번 더 시도).
     ck_use = None if PLAT == "YT" else cookies   # YT = 쿠키 미사용 선행(bat v6.2) · 비YT = 쿠키 사용
     pl = plopt(url, PLAT)
     post = "--playlist-items" not in pl   # 게시물형(캐러셀 통짜) = 파일명 인덱스 부여
@@ -597,14 +590,7 @@ def main():
         if b2:
             best, ck_use = b2, cookies
             print("[사전조회] YT 무쿠키 실패 → 쿠키로 승격(이후 전 구간 계승)", flush=True)
-    # 1번 쿠키로도 못 뚫으면 2번 계정으로 한 번 더(운영자 260810 · 한 계정이 죽어도 받기가 안 멈추게).
-    #   ⚠ 순서가 계약 = 1번이 실패한 **뒤에만** 2번을 쓴다(둘을 매번 같이 두드리면 노출면이 2배가 되고,
-    #     그건 지금 겪는 봇검문을 키우는 짓이다). 승격되면 그 뒤 전 구간이 2번을 계승한다.
-    if best is None and cookies2:
-        b3 = probe(url, "bv*/b/best", [], cookies2, pl)
-        if b3:
-            best, ck_use, cookies = b3, cookies2, cookies2
-            print("[사전조회] 1번 계정 쿠키 실패 → 2번 계정 쿠키로 승격(이후 전 구간 계승)", flush=True)
+    # ⚠ 여기 있던 「1번 실패 → 2번 계정 쿠키로 승격」 폴백 = 260817 예비 칸 폐지로 같이 제거(복원 = git 역사).
     # 스레드 = video_versions에 fps가 아예 없다(플러그인 실측 · 전부 0) → 프레임별 판정이 구조적으로 항상 False
     #   = fps 사전조회는 페이지 fetch 1회를 그냥 버리는 것 → 생략(260802 · 사전조회 1회당 수 초).
     # 화질 상한판(QUAL≠best)은 ②프레임별·③FHD판이 **개념상 성립하지 않는다** — 「작게 1편」이 주문이니

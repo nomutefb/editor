@@ -1320,7 +1320,7 @@ def yt_reco(limit=30):
     킬스위치 = SNS_YT_RECO=0."""
     if os.environ.get("SNS_YT_RECO", "1") != "1" or not YT_KEY:
         return []
-    if not any(os.environ.get(v) for v in ("YT_COOKIES", "YT_COOKIES_2", "YT_COOKIES_3")):
+    if not any(os.environ.get(v) for v in ("YT_COOKIES",)):
         print("::warning::yt_reco 스킵 — 로그인 쿠키 없음(맞춤 추천은 로그인 없이 0건 = 실측 260816)", file=sys.stderr)
         return []
     wrap = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), ".github", "scripts", "ytdlp_try.sh")

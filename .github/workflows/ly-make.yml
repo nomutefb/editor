@@ -240,8 +240,6 @@ jobs:
           URL: ${{ inputs.url }}
           YT_COOKIES: ${{ secrets.YT_T_COOKIES }}   # 지금 쓰는 살아있는 칸 = 1순위(260811 · 죽은 칸을 먼저 두드리면 매 런 4번 헛시도 + 유튜브에 같은 주소로 실패를 반복해 보인다)
           YT_COOKIES_NAME: YT_T_COOKIES
-          YT_COOKIES_2: ${{ secrets.YT_T2_COOKIES }}   # 예비 1 — 위가 죽으면 자동 회수
-          YT_COOKIES_2_NAME: YT_T2_COOKIES
           IN_ID: ${{ inputs.id }}
           OPTS: ${{ inputs.opts }}
           LY_STT_PRECISION: ${{ inputs.stt_prec }}   # 빈값 = ly_stt.py 기본(int8_float32) · A/B 시에만 지정

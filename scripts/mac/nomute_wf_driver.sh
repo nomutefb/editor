@@ -97,7 +97,7 @@ FAILED=0
 case "$KIND" in
 vidl)
   export IN_ID="$I_ID" IN_URL="${I_URL:-}" IN_MODE="${I_MODE:-both}" IN_Q="${I_Q:-best}"
-  export YT_COOKIES="${YT_T2_COOKIES:-}" YT_COOKIES_2="${YT_T_COOKIES:-}"
+  export YT_COOKIES="${YT_T_COOKIES:-}"
   export RUN_ID="mac-$(date +%H%M%S)" BRANCH=main PAGES_COALESCE="${PAGES_COALESCE:-}"
   # yt-dlp 축 = 최신판 필수(구판 = 유튜브 SABR/403 실측 260815) → 스코프 심(brew py3.14 + yt-dlp 최신)
   PATH="$HOME/nomute-pyw:$PATH" runstep '받기 (' || FAILED=1
@@ -107,8 +107,7 @@ vidl)
   ;;
 conv)
   export IN_ID="$I_ID" CONV_OPTS="$I_OPTS" BRANCH=main
-  export YT_COOKIES="${YT_T2_COOKIES:-}" YT_COOKIES_NAME=YT_T2_COOKIES
-  export YT_COOKIES_2="${YT_T_COOKIES:-}" YT_COOKIES_2_NAME=YT_T_COOKIES
+  export YT_COOKIES="${YT_T_COOKIES:-}" YT_COOKIES_NAME=YT_T_COOKIES
   if [ -n "${I_URL:-}" ]; then export URL="$I_URL"; PATH="$HOME/nomute-pyw:$PATH" runstep '소스 확보 (URL)' || FAILED=1
   elif [ -n "${I_R2_SRC:-}" ]; then export R2_SRC="$I_R2_SRC"; runstep '소스 확보 (R2 직업로드' || FAILED=1
   elif [ -n "${I_FILE:-}" ]; then export FILE="$I_FILE" UP_BRANCH="${I_UP_BRANCH:-}"; runstep '소스 확보 (업로드 파일)' || FAILED=1
@@ -161,8 +160,7 @@ upscale)
   ;;
 framethumb)
   export FT_ID="$I_ID" FT_OPTS="$I_OPTS" BRANCH=main
-  export YT_COOKIES="${YT_T2_COOKIES:-}" YT_COOKIES_NAME=YT_T2_COOKIES
-  export YT_COOKIES_2="${YT_T_COOKIES:-}" YT_COOKIES_2_NAME=YT_T_COOKIES
+  export YT_COOKIES="${YT_T_COOKIES:-}" YT_COOKIES_NAME=YT_T_COOKIES
   if [ -n "${I_URL:-}" ]; then export URL="$I_URL"; PATH="$HOME/nomute-pyw:$PATH" runstep '소스 확보 (URL)' || FAILED=1
   elif [ -n "${I_R2_SRC:-}" ]; then export R2_SRC="$I_R2_SRC"; runstep '소스 확보 (R2 직업로드' || FAILED=1
   elif [ -n "${I_FILE:-}" ]; then export FILE="$I_FILE" UP_BRANCH="${I_UP_BRANCH:-}"; runstep '소스 확보 (업로드 파일)' || FAILED=1
@@ -206,7 +204,7 @@ nb)
     file) export NB_FILE="${I_FILE:-}" R2_SRC="${I_R2_SRC:-}"
           runstep '파일 소스 회수' || FAILED=1
           [ "$FAILED" = 0 ] && { runstep '파일 STT' || FAILED=1; };;
-    *)    export URL="${I_URL:-}" YT_COOKIES="${YT_T2_COOKIES:-}" YT_COOKIES_NAME=YT_T2_COOKIES YT_COOKIES_2="${YT_T_COOKIES:-}" YT_COOKIES_2_NAME=YT_T_COOKIES
+    *)    export URL="${I_URL:-}" YT_COOKIES="${YT_T_COOKIES:-}" YT_COOKIES_NAME=YT_T_COOKIES
           PATH="$HOME/nomute-pyw:$PATH" runstep '메타·자막 추출' || FAILED=1
           if [ "$FAILED" = 0 ] && [ "${NB_NEED_STT:-}" = 1 ]; then PATH="$HOME/nomute-pyw:$PATH" runstep 'STT (오디오만' || FAILED=1; fi;;
   esac
