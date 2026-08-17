@@ -274,8 +274,42 @@ function parseTxt(txt) {   // 폰공유: LINE1\n# body:\nBODY / 픽(pick_pending
   const alt1 = am ? ((am[1].trim().split(/\s+/)[0]) || '') : '';
   return { line1: head.split('\n')[0].trim(), body: bi >= 0 ? txt.slice(bi + 8).trim() : '', title: tm ? tm[1].trim() : '', alt1: /^https?:\/\//i.test(alt1) ? alt1 : '' };
 }
+// 폰 공유(전문 붙여넣기) 본문에서 기사 헤드라인만 뽑는다 — 구판은 본문 앞 90자를 그대로 썼는데,
+// 폰이 보내는 건 '페이지 전체선택 텍스트'라 앞부분이 사이트 네비게이션(「본문영역 바로가기 … 포토 TV」)이다.
+// 260817 실사고: 같은 포털에서 보낸 3건이 전부 그 메뉴바로 시작해 대기열에서 서로 구분조차 안 됐다
+//   (요약이 끝나면 articles.json 매칭 제목으로 바뀌므로 '처리중~완료' 10~15분 동안만 보이는 사각이었다).
+// 축 = 헤드라인은 항상 발행일시 바로 앞에 온다(「제목 매체명2026.08.17」 · 「제목 홍길동 기자 입력 2026.08.17.」).
+//   → ① 첫 발행일시 앞 구간을 취하고 ② 발행정보 꼬리(매체명·기자·입력)를 떼고 ③ 네비 상용구를 실제로 자른
+//   경우에만 그 뒤 메뉴 낱말 연속을 걷어낸다(제목이 짧은 낱말로 시작할 수 있어 '짧은 토큰 = 메뉴' 추정은 금지 —
+//   실측 「조선소 근로자 숨지고 도크」가 통째로 잘렸다). 못 뽑으면 구판 그대로 = 악화 경로 0.
+const HL_DATE = /\d{4}\s*[.\-/년]\s*\d{1,2}\s*[.\-/월]\s*\d{1,2}/;
+const HL_TAILW = /(?:입력|등록|송고|기사입력|최종수정|수정)\s*$/;
+const HL_TAILR = /(?:[가-힣A-Za-z]{1,12}\s*=\s*)?[가-힣]{2,4}\s*기자\s*$/;
+const HL_GLUE = /\s([가-힣]{2,8})$/;   // 날짜와 공백 없이 붙어 있던 매체명(「중앙일보2026.08.17」)
+const HL_NAV = /^.*(?:본문영역\s*바로가기|본문\s*바로가기|메뉴\s*바로가기|검색창\s*열기|전체\s*메뉴|스킵\s*네비게이션)\s*/s;
+const HL_MENU = new Set('홈 뉴스 연예 스포츠 정치 경제 사회 세계 국제 문화 생활 IT 과학 포토 TV 랭킹뉴스 이슈픽 오피니언 사설 만화 날씨 검색 로그인 구독 전체 종합 최신 인기 실시간 더보기 네이트 네이버 다음 카카오 언론사별 속보 헤드라인 메뉴 광고'.split(' '));
+function headline(body) {
+  const s = String(body || '').replace(/\s+/g, ' ').trim();
+  const m = HL_DATE.exec(s.slice(0, 600));   // 본문 중간 날짜 오인 차단 = 머리 600자 안에서만
+  if (!m) return '';
+  let h = s.slice(0, m.index).replace(/\s+$/, '');
+  if (m.index > 0 && s[m.index - 1] !== ' ') h = h.replace(HL_GLUE, '').replace(/\s+$/, '');
+  for (let i = 0; i < 3; i++) {
+    const n = h.replace(HL_TAILW, '').replace(/\s+$/, '').replace(HL_TAILR, '').replace(/\s+$/, '');
+    if (n === h) break;
+    h = n;
+  }
+  const cut = h.replace(HL_NAV, '');
+  if (cut !== h) {   // 네비 상용구를 실제로 잘라낸 경우에만 메뉴 낱말 연속 제거
+    const tk = cut.split(' ');
+    let i = 0; while (i < tk.length && HL_MENU.has(tk[i])) i++;
+    h = tk.slice(i).join(' ');
+  } else h = cut;
+  return h.trim().slice(-90);
+}
 function bodyTitle(body, paste, line1, title) {
-  const t = ((title || '').trim() || (body ? body.replace(/\s+/g, ' ').trim() : '')).slice(0, 90);
+  const flat = body ? body.replace(/\s+/g, ' ').trim() : '';
+  const t = ((title || '').trim() || headline(body) || flat).slice(0, 90);
   return t || (paste ? '(전문 — 분석 대기)' : prettyUrl(line1));
 }
 function prettyUrl(u) { try { return new URL(u).hostname.replace(/^www\./, ''); } catch { return String(u || '').slice(0, 40); } }
