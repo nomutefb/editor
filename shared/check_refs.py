@@ -6025,6 +6025,82 @@ def check_orig_title_restore():
     return 0
 
 
+def check_paste_url_stamp():
+    """전문 붙여넣기 카드 = 원문 주소가 화면까지 온다(하드 · 260817 실사고 봉합 · check_orig_title_restore 의 짝).
+
+    계약 = 「폰 공유 본문 꼬리에 원문 주소가 실려 왔으면 산출 frontmatter `url` 이 비어 있지 않다」.
+
+    ⚠️ 실사고(운영자 «요약끝난곳에도 좌측상단에 바로가기 버튼 있어서 원문으로 갈 수 있어야 하는데 떼어진듯») =
+       요약 모달 좌상단 원문 버튼(`#src`)은 url 이 있을 때만 활성이고 없으면 `.off` 회색이다
+       (viewer/index.html 4977~4979행) — **버튼이 사라진 게 아니라 갈 곳이 없어 꺼진 것**이라 운영자 눈에는
+       「떼어졌다」로 보인다. 전문 경로는 analyze.sh 가 art_url="" 로 두므로 그 값을 모델이 WebSearch 로
+       찾아야만 채워졌고 프롬프트가 「몇 번에 안 나오면 빈 문자열로 둔다」라 **확률 축**이었다 →
+       실측 260817 = 같은 주소가 본문에 실려 온 두 건에서 결과가 갈렸다(1001 채움 / 0954 빈값).
+    ⚠️ 신설 사유 = 기존 게이트는 전부 다른 축이다 — `check_orig_title_restore` = **제목** 필드 ·
+       `check_ask_srcimg_chain` = 그림 층 생존 · `smoke_*` = 화면 렌더 → 「원문 주소가 산출까지 오는가」는
+       축 자체가 없었고, 화면은 멀쩡히 뜨는데(요약은 정상) 버튼만 조용히 꺼지는 형태라 운영자 눈이
+       유일한 검출기였다(insta-thumb-miss·brk_misfire 동축).
+    ⚠️ 술어 동기가 실효 조건 = 추출 규칙이 `functions/api/pending.js shareUrl()` 과 갈리면 **대기열 행
+       바로가기와 요약 카드 바로가기가 서로 다른 곳으로 간다**(언어가 달라 사본이라 정적으로 묶는다).
+    판정 4축 · 정적 · 렌더·LLM·네트워크 0 · **면책표 없이 하드 0**(부채 원장 증가 0).
+    """
+    bad = []
+    rs = os.path.join(ROOT, '.github', 'scripts', 'restore_paste_url.py')
+    an = os.path.join(ROOT, '.github', 'scripts', 'analyze.sh')
+    pj = os.path.join(ROOT, 'functions', 'api', 'pending.js')
+    vw = os.path.join(ROOT, 'viewer', 'index.html')
+    for p in (rs, an, pj, vw):
+        if not os.path.isfile(p):
+            bad.append('파일 없음: ' + os.path.relpath(p, ROOT))
+    if bad:
+        print('❌ 전문 원문 주소 체인 —', ' / '.join(bad))
+        return 1
+    rt = open(rs, encoding='utf-8').read()
+    at = open(an, encoding='utf-8').read()
+    jt = open(pj, encoding='utf-8').read()
+    vt = open(vw, encoding='utf-8').read()
+
+    # ① 도장이 analyze 산출 경로에 **실행줄로** 배선(주석 처리 우회 차단 = _has_exec_line 계승).
+    if not _has_exec_line(at, 'restore_paste_url.py'):
+        bad.append('① analyze.sh 가 restore_paste_url.py 를 실행줄로 부르지 않는다(도장 미배선 = 종전 확률 축)')
+    # ①-b paste 경로 가드 안 — URL 픽 산출까지 건드리면 모델이 확보한 원매체 주소를 포털 주소로 덮는다.
+    elif 'paste:' not in at.split('restore_paste_url.py')[0][-600:]:
+        bad.append('①-b 도장 호출이 paste 경로 가드 안에 있지 않다(URL 픽 산출 오염 위험)')
+
+    # ② 도장 술어 = 「빈 url 일 때만 손댄다」(모델이 원매체를 찾은 산출은 한 글자도 안 건드린다).
+    if 'def share_url' not in rt:
+        bad.append('② restore_paste_url.py 에 공유 주소 추출기(share_url)가 없다')
+    # ⚠ 문구가 아니라 **가드 코드**를 본다 — 첫 판이 '이미 채워짐' 문자열 검사라 로직이 사라져도 통과했다(킬테스트 자기적발).
+    _rt_code = '\n'.join(ln for ln in rt.splitlines() if not ln.lstrip().startswith('#'))
+    if not re.search(r'if\s+um\.group\(1\)\.strip\(\)\s*:', _rt_code):
+        bad.append('② restore_paste_url.py 가 url 이 이미 있는 산출을 무주입으로 빠져나가지 않는다(덮어쓰기 위험)')
+
+    # ③ 추출 술어 동기 — 대기열 행(alt1)과 요약 카드(url)가 같은 주소를 가리켜야 한다.
+    #    두 언어 사본이라 「규칙 3종을 양쪽 다 갖는가」로 묶는다(값 대조는 불가).
+    for tag, needle_py, needle_js, why in (
+        ('텍스트 조각 제거', '#:~:', '#:~:', '폰이 붙이는 조각이 네비 문구라 엉뚱한 자리로 스크롤'),
+        ('맨 뒤 선택', '[-1]', 'length - 1', '폰이 붙인 주소가 본문 인용 주소보다 뒤에 온다'),
+    ):
+        if needle_py not in rt:
+            bad.append('③ restore_paste_url.py 에 ' + tag + ' 규칙이 없다(' + why + ')')
+        if needle_js not in jt:
+            bad.append('③ pending.js shareUrl 에 ' + tag + ' 규칙이 없다(' + why + ')')
+    if 'function shareUrl' not in jt:
+        bad.append('③ functions/api/pending.js 에 shareUrl()이 없다(대기열 행 바로가기가 죽는다)')
+    if 'shareUrl(body)' not in jt:
+        bad.append('③ pending.js 가 shareUrl 결과를 항목에 싣지 않는다(추출만 하고 안 쓴다)')
+
+    # ④ 소비 지점 = 뷰어 모달 원문 버튼이 url 축으로 활성/비활성을 가르는가(이 체인의 존재 이유).
+    if "src.classList.add('off')" not in vt or 'if (a.url)' not in vt:
+        bad.append('④ 뷰어 요약 모달 원문 버튼(#src)의 url 활성 분기가 없다 = 도장이 실려도 화면이 안 쓴다')
+
+    if bad:
+        print('❌ 전문 원문 주소 체인 —', ' / '.join(bad))
+        return 1
+    print('✅ 전문 원문 주소 — 폰 공유 본문 꼬리 주소가 카드 url 까지 온다(요약 모달 원문 버튼 활성 · 대기열 행과 같은 술어).')
+    return 0
+
+
 # 운영자에게 「어느 칸을 갈지」 말하는 표면 = 칸 이름이 필수(면책표 아님 = 대상 목록).
 #   ⚠ 이름을 안 쓰는 표면(vidl-make·yt-cookie-whoami = 자기 문구에 칸을 안 말한다)은 여기 없다 —
 #     늘릴 땐 「그 표면이 운영자에게 칸을 지시하는가」로 판정한다.
@@ -9214,6 +9290,8 @@ def main():
         if check_thumb_merge_canvas() != 0:   # 저작권·안내문이 사진에 실제로 얹히는가(260812 실사고 — 레이어를 params.fmt로 만들어 크기가 어긋나면 러너가 조용히 건너뛴다 · 화면 증상 = 그냥 안 보임)
             rc = 1
         if check_orig_title_restore() != 0:   # 요약 제목 = 기자가 뽑은 원문이 화면까지 오는가(260813 실사고 — title이 후킹 헤드로 덮이면 뷰어 원문 제목 줄이 통째로 사라진다 · 화면 증상 = 추상 헤드 하나만 남음)
+            rc = 1
+        if check_paste_url_stamp() != 0:   # 전문 붙여넣기 카드 = 원문 주소가 화면까지 오는가(260817 실사고 — url이 비면 요약 모달 좌상단 원문 버튼이 회색으로 죽는다 · 화면 증상 = 버튼이 떼어진 것처럼 보임)
             rc = 1
     except Exception as e:
         print('⚠️ grade 교정 체인 게이트 스킵:', e)
