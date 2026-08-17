@@ -8,3 +8,5 @@
 {"ts": "2026-08-11T12:19:48+09:00", "kind": "breaking", "ver": "bb59af6ffa5a", "cases": 27, "runs": 3, "rcs": [0, 0, 0], "flips": [{"t": "伊 나폴리 인근 규모 4.7 강진 발생… 40년 만에 最强", "expect": "YES", "got": "NO"}], "miss": [], "unstable": {}, "pass": false}
 {"ts": "2026-08-11T12:20:31+09:00", "kind": "breaking", "ver": "bb59af6ffa5a", "cases": 27, "runs": 3, "rcs": [0, 0, 0], "flips": [], "miss": [], "unstable": {}, "pass": true}
 {"ts": "2026-08-11T12:48:33+09:00", "kind": "breaking", "ver": "a48379994333", "cases": 27, "runs": 3, "rcs": [0, 0, 0], "flips": [], "miss": [], "unstable": {}, "pass": true}
+{"ts": "2026-08-17T17:44:21+09:00", "kind": "breaking", "ver": "74203ce181f8", "cases": 32, "runs": 3, "rcs": [0, 0, 0], "flips": [{"t": "47도 찍은 미국 서부 열돔 폭염…워싱턴주 대형산불로 5천 가구 대피", "expect": "YES", "got": "NO"}], "miss": [], "unstable": {"16": [false, false, true]}, "pass": false}
+{"ts": "2026-08-17T17:45:48+09:00", "kind": "breaking", "ver": "021b9126c1e8", "cases": 32, "runs": 3, "rcs": [0, 0, 0], "flips": [], "miss": [], "unstable": {}, "pass": true}
