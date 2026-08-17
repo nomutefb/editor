@@ -345,9 +345,19 @@
  ],
  "threads": [
   {
+   "account": "aipeekme",
+   "text": "베이스캠프(Basecamp)가 DHH의 리눅스 배포판 프로젝트인 오마키(Omarchy) 저장소를 공개 운영하고 있습니다. 깃허브 기준 2만 5천 개 이상의 스타와 6천 회 이상의 커밋을 기록 중이며, 다음 버전으로 4.0을 준비하고 있습니다.\n\n저장소 변경 내역을 보면 도구 관리자를 mise-bin 패키지로 전환하고, 전용 엔비디아 드라이버 관련 설정을 수정하는 등 활발한 작업이 이어지고 있습니다. 챗지피티(ChatGPT) 데스크톱 앱 설치와 깃허브 키 기반 SSH 자동 설정, 테마 및 매뉴얼 업데이트도 포함되어 있습니다. 터미널, 네오빔(Neovim), 셸 도구부터 윈도우 가상머신(VM)과 게임 환경까지 광범위하게 다룹니다.\n\n환경 구성에 드는 초기 비용을 줄이려는 발상은 좋으나 팀 외부 사용자가 유지보수를 온전히 감당하기에는 의존성 구조가 다소 까다로울 것 같습니다.\n\n📷 사진 출처: github.com",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1786959076,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/776498116_18080792492407306_648807006416792564_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk2NTYyMjU0MDEwMzAzNjM4MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=OeJlkN2dhvQQ7kNvwHrDLK_&_nc_oc=AdpGQt4wUvz8TEA3AB3o4Py2eOvBA_5-ReL-KyIdqJdmv7NX8KtI95tK1yeIW9KFoww&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=0ukJf6JSwVV6eRBXEwhzPA&_nc_ss=7a22e&oh=00_AQGzKhMBMxulumUrXAcJOsr_0fZLZN7qKgNK4Oa6U7eTMw&oe=6A88C167",
+   "url": "https://www.threads.com/@aipeekme/post/DcIuLCAH63c",
+   "region": "kr"
+  },
+  {
    "account": "choi.openai",
    "text": "주소 :\nhttps://claude.ai/code/artifact/803916fd-3bc1-465f-8738-d4ece6fc5071",
-   "likes": 0,
+   "likes": 1,
    "cmts": 0,
    "time": 1786957223,
    "thumb": "",
@@ -357,20 +367,20 @@
   {
    "account": "choi.openai",
    "text": "앤트로픽 워터마크가 작동하는 방법\n\n앤트로픽 엔지니어 Thariq가 워터마크 작동방식을 쉽게 설명한 자료를 공개했는데요.\nClaude가 생성하는 문장에 별도 표시를 붙이는 방식이 아니라, 다음 단어를 고를 때 사용하는 무작위 선택 규칙에 특정 패턴을 넣는 방식입니다.\n\n궁금하시다면 한 번 확인해보세요!",
-   "likes": 0,
+   "likes": 17,
    "cmts": 1,
    "time": 1786957214,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/774796026_2146730862924189_6983895096275682688_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk2NTYwNzAwMDQyMzg3MDUwMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=beyGVqiKWZ8Q7kNvwH90XwV&_nc_oc=AdoCcqTGKdezVKkkwa-87r1OQPsVr1Va1tgJ70OjvBZ_0cvAC2ikJhUNxWDYckwZMls&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=ZI3t34JY4CL4FPJWwz04Ow&_nc_ss=7a22e&oh=00_AQE-2Ss427oFm8RaJ0HPA8ilTYQP1cc9zNqg5KL8lXVFYA&oe=6A88B702",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/774796026_2146730862924189_6983895096275682688_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk2NTYwNzAwMDQyMzg3MDUwMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=beyGVqiKWZ8Q7kNvwH90XwV&_nc_oc=AdoCcqTGKdezVKkkwa-87r1OQPsVr1Va1tgJ70OjvBZ_0cvAC2ikJhUNxWDYckwZMls&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=O-v9B4LIZ7kYBSSA4bVJuA&_nc_ss=7a22e&oh=00_AQEXRQ3AMV22QoAowYOA94O8YIug36JzmouxANUGbcEDug&oe=6A88B702",
    "url": "https://www.threads.com/@choi.openai/post/DcIqo5jETAm",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "와.. 우사인 볼트보다 빠른 로봇..\n\nUnitree가 새로운 휴머노이드 로봇 “Superman”을 공개했습니다.\n\nUnitree에 따르면 다리 길이 0.85m인 로봇이 제자리에서 2m 높이까지 점프하고, 최고 속도 12.66m/s로 달릴 수 있다고 하는데요. 시속으로 환산하면 약 45.6km입니다.\n\n아직 개발을 시작한 지 3개월 정도밖에 되지 않았다고 합니다. 다만 실제 지속 주행 시간과 성능은 독립적인 검증을 지켜볼 필요가 있습니다.",
-   "likes": 36,
-   "cmts": 3,
+   "likes": 41,
+   "cmts": 4,
    "time": 1786953041,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/773735914_1431880335422029_1056881767282851270_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk2NTU3MTk4ODMxOTE1NjAzNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=OiluCGEuBdUQ7kNvwGFu_Oe&_nc_oc=AdpDjyH-jq8Y1WZuWlR8vrMZta_ohJ7mjljYv6JTnmM1EcXtrRxTGHIdD6dd3i6F3mw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=ZI3t34JY4CL4FPJWwz04Ow&_nc_ss=7a22e&oh=00_AQGdjcUlyjtUli2N4RRZ2ZhQ0py0gGwcRVShhRXmAaGFaQ&oe=6A88A0DE",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/773735914_1431880335422029_1056881767282851270_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk2NTU3MTk4ODMxOTE1NjAzNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=OiluCGEuBdUQ7kNvwGFu_Oe&_nc_oc=AdpDjyH-jq8Y1WZuWlR8vrMZta_ohJ7mjljYv6JTnmM1EcXtrRxTGHIdD6dd3i6F3mw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=O-v9B4LIZ7kYBSSA4bVJuA&_nc_ss=7a22e&oh=00_AQF8EV-Vw9wKZTSCsg84XexdPI8S4PVd61aPu3wDWL1PFQ&oe=6A88A0DE",
    "url": "https://www.threads.com/@choi.openai/post/DcIirZ_ALdD",
    "region": "kr"
   },
@@ -390,18 +400,8 @@
    "likes": 0,
    "cmts": 1,
    "time": 1786948304,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/775319845_18080750648407306_8300688000437610569_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk2NTUzMjE4MzY4ODMzMzY2MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=fRd_78rn4LUQ7kNvwEeaZd_&_nc_oc=AdpjcpIXNYd1lBkvERypEDnbojQITZClbZAAlSJhtYzOdGelz6_7xWbR9lB_ZBsda38&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=n4ZW9cPU_nfzlkLZEWbmHg&_nc_ss=7a22e&oh=00_AQF9VKlosz5fUda_Dl0XNs4i29ryJAknef18d488tlmtVA&oe=6A889D60",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/775319845_18080750648407306_8300688000437610569_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk2NTUzMjE4MzY4ODMzMzY2MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=fRd_78rn4LUQ7kNvwEeaZd_&_nc_oc=AdpjcpIXNYd1lBkvERypEDnbojQITZClbZAAlSJhtYzOdGelz6_7xWbR9lB_ZBsda38&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=0ukJf6JSwVV6eRBXEwhzPA&_nc_ss=7a22e&oh=00_AQFYh0pn8Eep6e6hthA_EaJc_Y11Uh6WB9JCl3_H8RBtIg&oe=6A889D60",
    "url": "https://www.threads.com/@aipeekme/post/DcIZoLCH0ld",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
-   "text": "🔗 원문·출처\nhttps://huggingface.co/LiconStudio/LTX-2.5-Multiple-Subject-Reference",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1786942545,
-   "thumb": "",
-   "url": "https://www.threads.com/@aipeekme/post/DcIOpk5H0Sh",
    "region": "kr"
   },
   {
@@ -417,10 +417,10 @@
   {
    "account": "aicoffeechat",
    "text": "이거 시각화할 때 꿀단지다 ..\n\n방문해야 할 무료 오픈 소스 React UI 라이브러리, 시각화, 표를 만드는 작업에 넣었더니 만족도가 상당히 높아집니다. 여러분도 하셨으면 하는 마음에 공유해요.\n\n진짜 나만 알고 싶을 정도. 더 이상 예쁘게 만들어줘 프롬프트 반복하지마세요.",
-   "likes": 160,
+   "likes": 162,
    "cmts": 8,
    "time": 1786924530,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/774886508_1581503607009959_5602628636556251891_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk2NTMzMDYxNjg1MzYwNjc4Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMyIn0%3D&_nc_ohc=IxtR-MaTx-oQ7kNvwFcI_ki&_nc_oc=Ado_1e9WGyQaih75i9MzXDF2FdwAivQFxbHCjyCXafXCCzcq5q_vALk5AuwY3HB6ChY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=J4UeHO_RZ9TU8pAH3En0Mg&_nc_ss=7a22e&oh=00_AQFRz9KV6d37ns2f-jOHF8xJ28sNhpwdVP-papGBOKGX7g&oe=6A889AD4",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/774886508_1581503607009959_5602628636556251891_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk2NTMzMDYxNjg1MzYwNjc4Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=IxtR-MaTx-oQ7kNvwFcI_ki&_nc_oc=Ado_1e9WGyQaih75i9MzXDF2FdwAivQFxbHCjyCXafXCCzcq5q_vALk5AuwY3HB6ChY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=xzYJ8DLvZFp8F2NTHPGSkA&_nc_ss=7a22e&oh=00_AQHOKcO1cU6af_ZW_6KDbQxfPAeEQ9OOJ6kG9VVW-FiR5w&oe=6A889AD4",
    "url": "https://www.threads.com/@aicoffeechat/post/DcHry_SijGC",
    "region": "kr"
   },
@@ -430,18 +430,18 @@
    "likes": 3,
    "cmts": 1,
    "time": 1786946977,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/775798781_1352529846986364_8031188195143818253_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk2NTUxNzQ4NjUyNzE0MzM4Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=1QttrImpXhUQ7kNvwEqr1s6&_nc_oc=AdrTwN5XWxpvFAxRkuuqvelwiRCp6o14wtoHn1KbKEfTPResqkf-w09iguUn4LxK4aE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=ZI3t34JY4CL4FPJWwz04Ow&_nc_ss=7a22e&oh=00_AQEjfaucdbUfyQ3CKc5BbjaGIbkkBivTi4sQ8U5F_HP6qA&oe=6A889480",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/775798781_1352529846986364_8031188195143818253_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk2NTUxNzQ4NjUyNzE0MzM4Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=1QttrImpXhUQ7kNvwEqr1s6&_nc_oc=AdrTwN5XWxpvFAxRkuuqvelwiRCp6o14wtoHn1KbKEfTPResqkf-w09iguUn4LxK4aE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=O-v9B4LIZ7kYBSSA4bVJuA&_nc_ss=7a22e&oh=00_AQHj0aEkLmBVt_7Ulg4jT-452i6Gm8H5f9WTzf4Rz_suig&oe=6A889480",
    "url": "https://www.threads.com/@choi.openai/post/DcIWSTPDN3X",
    "region": "kr"
   },
   {
    "account": "aipeekme",
-   "text": "LiconStudio가 LTX-2.5용 멀티 레퍼런스 LoRA인 Licon MSR V1을 공개했습니다. 참조 이미지를 최대 5장까지 지원해 여러 인물, 의상, 사물, 배경을 유지하는 방식입니다. 참조 이미지를 대상 비디오와 동일한 잠재 공간 내 시각 토큰으로 인코딩합니다. 각 참조에 학습된 슬롯 임베딩과 고유한 음수 시간 위치를 부여해, 모델 자체의 셀프 어텐션 계층을 통해 세부 정보를 직접 가져오도록 설계했습니다. 다중 주체 및 주체-객체 구성을 지원하며, 컴피UI 추론에는 전용 플러그인과 샘플 워크플로가 필요합니다. 프롬프트 작성 시 각 참조 이미지를 명확히 묘사하고 일관된 라벨을 사용하는 팁도 제시되었습니다. 여러 인물과 사물이 얽히는 복잡한 장면 연출에서 일관성을 유지하는 데 유용해 보입니다. 다만 참조 수가 5장으로 늘어날 때 생성 속도 저하나 토큰 간 간섭이 얼마나 생길지는 직접 돌려봐야 알 것 같습니다.",
-   "likes": 1,
-   "cmts": 1,
-   "time": 1786942532,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/766481619_1736421804074271_3152645626813910803_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk2NTQ4MzYzNDgyODAyMTU1Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=g_bZGbnPWkgQ7kNvwGhPsSA&_nc_oc=AdocHfaBEA7vhdPfj-7joissHC2vZJsnZRptuC6eAaV_ET3s2tR4QdMP5j_7hpKr4N0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=n4ZW9cPU_nfzlkLZEWbmHg&_nc_ss=7a22e&oh=00_AQG3uEM3kTA0rzkBQdjsmO2fskcwBrfXFeUbX5S4hxn0sA&oe=6A88B508",
-   "url": "https://www.threads.com/@aipeekme/post/DcIOlsYjI8w",
+   "text": "🔗 원문·출처\nhttps://huggingface.co/LiconStudio/LTX-2.5-Multiple-Subject-Reference",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1786942545,
+   "thumb": "",
+   "url": "https://www.threads.com/@aipeekme/post/DcIOpk5H0Sh",
    "region": "kr"
   },
   {
@@ -456,12 +456,12 @@
   },
   {
    "account": "aipeekme",
-   "text": "🔗 원문·자세히 보기\nhttps://huggingface.co/spaces/thornmaze/reel-lab",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1786937566,
-   "thumb": "",
-   "url": "https://www.threads.com/@aipeekme/post/DcIFJyXH3eA",
+   "text": "LiconStudio가 LTX-2.5용 멀티 레퍼런스 LoRA인 Licon MSR V1을 공개했습니다. 참조 이미지를 최대 5장까지 지원해 여러 인물, 의상, 사물, 배경을 유지하는 방식입니다. 참조 이미지를 대상 비디오와 동일한 잠재 공간 내 시각 토큰으로 인코딩합니다. 각 참조에 학습된 슬롯 임베딩과 고유한 음수 시간 위치를 부여해, 모델 자체의 셀프 어텐션 계층을 통해 세부 정보를 직접 가져오도록 설계했습니다. 다중 주체 및 주체-객체 구성을 지원하며, 컴피UI 추론에는 전용 플러그인과 샘플 워크플로가 필요합니다. 프롬프트 작성 시 각 참조 이미지를 명확히 묘사하고 일관된 라벨을 사용하는 팁도 제시되었습니다. 여러 인물과 사물이 얽히는 복잡한 장면 연출에서 일관성을 유지하는 데 유용해 보입니다. 다만 참조 수가 5장으로 늘어날 때 생성 속도 저하나 토큰 간 간섭이 얼마나 생길지는 직접 돌려봐야 알 것 같습니다.",
+   "likes": 1,
+   "cmts": 1,
+   "time": 1786942532,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/766481619_1736421804074271_3152645626813910803_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk2NTQ4MzYzNDgyODAyMTU1Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=g_bZGbnPWkgQ7kNvwGhPsSA&_nc_oc=AdocHfaBEA7vhdPfj-7joissHC2vZJsnZRptuC6eAaV_ET3s2tR4QdMP5j_7hpKr4N0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=0ukJf6JSwVV6eRBXEwhzPA&_nc_ss=7a22e&oh=00_AQHLTbFu2zm8c8rjhhFEPNjNzsCKONU1cK2m3z3uXiB8pg&oe=6A88B508",
+   "url": "https://www.threads.com/@aipeekme/post/DcIOlsYjI8w",
    "region": "kr"
   },
   {
@@ -476,32 +476,32 @@
   },
   {
    "account": "aipeekme",
-   "text": "허깅페이스 스페이스(Hugging Face Spaces)에 쏜메이즈(thornmaze)의 릴 랩(reel-lab) 공간이 등록되었습니다.\n\n에이전트(Agents) 기반으로 작동하는 해당 프로젝트는 제로(ZERO) 환경에서 구동(Running) 중인 상태로 확인됩니다.\n\n상단 지표로는 75와 4라는 수치 기록과 함께 프로 버전 업그레이드(Get PRO) 안내가 표시되어 있습니다.\n\n현재 공간 내에는 앱(App), 파일(Files), 커뮤니티(Community) 탭이 구성되어 있으며, 세부적인 추가 수치나 구체적인 파이프라인 데이터는 본문에 공개되지 않았습니다.\n\n개인적으로는 단일 모델 호출보다 에이전트 협업으로 제작 단계를 쪼갠 점이 눈에 띕니다.\n\n결과물의 해상도보다는 컷 전환과 대본의 흐름이 얼마나 자연스러운지가 실무 적용의 기준이 될 것 같습니다.\n\n📷 사진 출처: huggingface.co",
+   "text": "🔗 원문·자세히 보기\nhttps://huggingface.co/spaces/thornmaze/reel-lab",
    "likes": 0,
-   "cmts": 1,
-   "time": 1786937555,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778587485_18080713091407306_8492964649115073369_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk2NTQ0MjAxMDAxMTA3NjMxMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=AWMTHoo9-McQ7kNvwGkX0qN&_nc_oc=AdrBaCqzOF9COE8F7P48UhwYoddVuRainBLqq1MGauC3RW3AHNRZIV_5B5GGMuTcJVs&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=n4ZW9cPU_nfzlkLZEWbmHg&_nc_ss=7a22e&oh=00_AQFaWnCEBUwz0Uwpndx3z2q7xO-bRGLXUkLH13dLtIjl1w&oe=6A888909",
-   "url": "https://www.threads.com/@aipeekme/post/DcIFH-QHwbY",
+   "cmts": 0,
+   "time": 1786937566,
+   "thumb": "",
+   "url": "https://www.threads.com/@aipeekme/post/DcIFJyXH3eA",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "미래의 회사는 사무실보다 데이터센터에 가까울 수 있습니다.\n\nGrok Bot을 써보면서 앞으로 회사가 어떤 모습이 될지 점점 선명해지는 것 같은데요.\n\nGrok Bot의 클라우드 컴퓨터, Codex의 Work, Stripe의 기계 결제, Starlink의 상시 연결을 한 줄로 이어보면 같은 방향을 가리키고 있습니다.\n\n사람을 계속 늘리는 대신 일이 생길 때 컴퓨터와 모델, 권한을 배정하고 일이 끝나면 다시 줄이는 방식입니다.\n\n조직 자체가 필요에 따라 자원을 늘리고 줄이는 자동 확장 시스템에 가까워지는 겁니다. 🧵",
-   "likes": 61,
+   "likes": 65,
    "cmts": 21,
    "time": 1786946964,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/774777176_17982565218112832_1937950884821704918_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk2NTUyMTAxMDQyMjE2NDU4NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjAwNi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=nWVzeq4Zgj0Q7kNvwE7es-1&_nc_oc=AdrZer8e1HuqY8u4e0-q5ZE9JCQX_9IdSSWbJlUqvSbCqbgX07NJ-gzDV3ZmwTk9c7o&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=ZI3t34JY4CL4FPJWwz04Ow&_nc_ss=7a22e&oh=00_AQH2cc7pGIMJEXtTFmxoM37gKSnJF_ngIiMf1LVHuBBvFA&oe=6A88BB1F",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/774777176_17982565218112832_1937950884821704918_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk2NTUyMTAxMDQyMjE2NDU4NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjAwNi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=nWVzeq4Zgj0Q7kNvwE7es-1&_nc_oc=AdrZer8e1HuqY8u4e0-q5ZE9JCQX_9IdSSWbJlUqvSbCqbgX07NJ-gzDV3ZmwTk9c7o&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=O-v9B4LIZ7kYBSSA4bVJuA&_nc_ss=7a22e&oh=00_AQH9K-QAb0ORwZGkqP4ys-bRVeF1cIXCGK4wKBDIv2RObQ&oe=6A88BB1F",
    "url": "https://www.threads.com/@choi.openai/post/DcIXFlHj6xo",
    "region": "kr"
   },
   {
    "account": "aipeekme",
-   "text": "🔗 원문·자세히 보기\nhttps://github.com/ToolJet/ToolJet",
+   "text": "허깅페이스 스페이스(Hugging Face Spaces)에 쏜메이즈(thornmaze)의 릴 랩(reel-lab) 공간이 등록되었습니다.\n\n에이전트(Agents) 기반으로 작동하는 해당 프로젝트는 제로(ZERO) 환경에서 구동(Running) 중인 상태로 확인됩니다.\n\n상단 지표로는 75와 4라는 수치 기록과 함께 프로 버전 업그레이드(Get PRO) 안내가 표시되어 있습니다.\n\n현재 공간 내에는 앱(App), 파일(Files), 커뮤니티(Community) 탭이 구성되어 있으며, 세부적인 추가 수치나 구체적인 파이프라인 데이터는 본문에 공개되지 않았습니다.\n\n개인적으로는 단일 모델 호출보다 에이전트 협업으로 제작 단계를 쪼갠 점이 눈에 띕니다.\n\n결과물의 해상도보다는 컷 전환과 대본의 흐름이 얼마나 자연스러운지가 실무 적용의 기준이 될 것 같습니다.\n\n📷 사진 출처: huggingface.co",
    "likes": 0,
-   "cmts": 0,
-   "time": 1786931663,
-   "thumb": "",
-   "url": "https://www.threads.com/@aipeekme/post/DcH55Nwnwpm",
+   "cmts": 1,
+   "time": 1786937555,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778587485_18080713091407306_8492964649115073369_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk2NTQ0MjAxMDAxMTA3NjMxMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=AWMTHoo9-McQ7kNvwGkX0qN&_nc_oc=AdrBaCqzOF9COE8F7P48UhwYoddVuRainBLqq1MGauC3RW3AHNRZIV_5B5GGMuTcJVs&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=0ukJf6JSwVV6eRBXEwhzPA&_nc_ss=7a22e&oh=00_AQGqpNyE-60oO7fKnRKyr6HD79dIybr5zk-nd2EzPDWB2g&oe=6A88C149",
+   "url": "https://www.threads.com/@aipeekme/post/DcIFH-QHwbY",
    "region": "kr"
   },
   {
@@ -515,37 +515,18 @@
    "region": "kr"
   },
   {
-   "account": "aipeekme",
-   "text": "오픈소스 사내 도구 개발 플랫폼 툴젯(ToolJet)은 내부 툴과 워크플로우, AI 에이전트를 구축하고 배포할 수 있는 플랫폼의 오픈소스 기반입니다.\n\n커뮤니티 에디션은 테이블과 차트, 폼 등 60개 이상의 반응형 컴포넌트를 갖춘 비주얼 빌더를 제공하며, 노코드 데이터베이스를 내장하고 있습니다.\n\n데이터베이스, API, 클라우드 스토리지, SaaS를 포함해 80개 이상의 데이터 소스 연결을 지원합니다. 또한 자바스크립트와 파이썬 실행을 지원하며, 도커나 쿠버네티스 등을 활용한 자체 호스팅 배포가 가능합니다.\n\n자연어 프롬프트 기반 앱 생성, 쿼리 빌더, 디버깅, 에이전트 빌더 같은 AI 기능은 엔터프라이즈 제품군에 포함되어 있습니다.\n\n외부 SaaS와 사내 DB를 엮는 단순 백오피스 구축에는 충분한 구색을 갖춘 것으로 보입니다.\n\n다만 프롬프트 기반 화면 생성이 실제 사내 복잡한 권한 제어나 예외 로직까지 온전히 소화할지는 여전히 의문입니다.",
-   "likes": 1,
-   "cmts": 1,
-   "time": 1786931653,
-   "thumb": "",
-   "url": "https://www.threads.com/@aipeekme/post/DcH533fH1mE",
-   "region": "kr"
-  },
-  {
    "account": "choi.openai",
    "text": "징둥(JD)이 실시간 영상 편집 모델 JoyAI-Video-Edit을 오픈소스로 공개했습니다.\n\n카메라 영상이 들어오는 즉시 인물, 배경, 의상 등을 바꿀 수 있고 영상 길이 제한 없이 계속 편집할 수 있는데요.\n\n720p에서 약 30FPS로 동작하지만, RTX PRO 6000 Blackwell급 GPU가 필요해 일반 PC에서 쓰기에는 아직 부담이 큰 편입니다.",
-   "likes": 28,
+   "likes": 29,
    "cmts": 1,
    "time": 1786941040,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/777352269_2379926239477457_9165309035772630129_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk2NTQ3MTMxOTE2ODc1NzEwNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=j5b9L5VHiIoQ7kNvwHBi1_h&_nc_oc=AdoumF0A3JVhGgWMLDIiNIS8uLpbVkJh6hZ6-2a4I2aVr0Zp2TxlaBp5ew78aBfzV6Q&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=ZI3t34JY4CL4FPJWwz04Ow&_nc_ss=7a22e&oh=00_AQEABTibrUILybzXj59RXVqEuUU78d5cIMgQw2Sm0E9Cdw&oe=6A888BCF",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/777352269_2379926239477457_9165309035772630129_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk2NTQ3MTMxOTE2ODc1NzEwNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=j5b9L5VHiIoQ7kNvwHBi1_h&_nc_oc=AdoumF0A3JVhGgWMLDIiNIS8uLpbVkJh6hZ6-2a4I2aVr0Zp2TxlaBp5ew78aBfzV6Q&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=O-v9B4LIZ7kYBSSA4bVJuA&_nc_ss=7a22e&oh=00_AQHUVAn6I-E8CxUXIjX7PuTobIlN04W8Be8Kr79orUa7rA&oe=6A888BCF",
    "url": "https://www.threads.com/@choi.openai/post/DcILyeiDa1z",
    "region": "kr"
   }
  ],
  "tiktok": [],
  "reddit": [
-  {
-   "sub": "Warframe",
-   "title": "1,000,000 Member Giveaway!",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "",
-   "time": 1786899681,
-   "url": "https://www.reddit.com/r/Warframe/comments/1vq2cea/1000000_member_giveaway/"
-  },
   {
    "sub": "interesting",
    "title": "Who wants a free award? Just Comment anything",
@@ -563,33 +544,6 @@
    "thumb": "",
    "time": 1786909394,
    "url": "https://www.reddit.com/r/AskReddit/comments/1vq6k2r/what_youtuber_really_fell_off/"
-  },
-  {
-   "sub": "BeAmazed",
-   "title": "Well, she finally escaped the museum",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/mpz980o1bvjh1.jpeg?width=640&crop=smart&auto=webp&s=813be08ffa939d7e4c9684f96c34d609c495032c",
-   "time": 1786943023,
-   "url": "https://www.reddit.com/r/BeAmazed/comments/1vqiwaq/well_she_finally_escaped_the_museum/"
-  },
-  {
-   "sub": "Unexpected",
-   "title": "Can’t even dry clothes outside these days",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "",
-   "time": 1786951671,
-   "url": "https://www.reddit.com/r/Unexpected/comments/1vqlg7r/cant_even_dry_clothes_outside_these_days/"
-  },
-  {
-   "sub": "meirl",
-   "title": "Meirl",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/ybivqn8nbvjh1.jpeg?width=640&crop=smart&auto=webp&s=b0df945f576b3a8aa66357b10fa7e65f77819f17",
-   "time": 1786943226,
-   "url": "https://www.reddit.com/r/meirl/comments/1vqiyio/meirl/"
   },
   {
    "sub": "politics",
@@ -610,6 +564,42 @@
    "url": "https://www.reddit.com/r/SpaceXBets/comments/1vq6dcr/aoc_on_elon_musk_he_is_not_a_scientist_he_is_not/"
   },
   {
+   "sub": "Unexpected",
+   "title": "Can’t even dry clothes outside these days",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1786951671,
+   "url": "https://www.reddit.com/r/Unexpected/comments/1vqlg7r/cant_even_dry_clothes_outside_these_days/"
+  },
+  {
+   "sub": "BeAmazed",
+   "title": "Well, she finally escaped the museum",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/mpz980o1bvjh1.jpeg?width=640&crop=smart&auto=webp&s=813be08ffa939d7e4c9684f96c34d609c495032c",
+   "time": 1786943023,
+   "url": "https://www.reddit.com/r/BeAmazed/comments/1vqiwaq/well_she_finally_escaped_the_museum/"
+  },
+  {
+   "sub": "meirl",
+   "title": "Meirl",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/ybivqn8nbvjh1.jpeg?width=640&crop=smart&auto=webp&s=b0df945f576b3a8aa66357b10fa7e65f77819f17",
+   "time": 1786943226,
+   "url": "https://www.reddit.com/r/meirl/comments/1vqiyio/meirl/"
+  },
+  {
+   "sub": "news",
+   "title": "Hayden Panettiere dies at 36",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1786935610,
+   "url": "https://www.reddit.com/r/news/comments/1vqgh3p/hayden_panettiere_dies_at_36/"
+  },
+  {
    "sub": "StupidFood",
    "title": "It looks good until...",
    "score": 0,
@@ -628,15 +618,6 @@
    "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1vq6opz/the_way_my_gf_plays_video_games/"
   },
   {
-   "sub": "news",
-   "title": "Hayden Panettiere dies at 36",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "",
-   "time": 1786935610,
-   "url": "https://www.reddit.com/r/news/comments/1vqgh3p/hayden_panettiere_dies_at_36/"
-  },
-  {
    "sub": "Multifandom",
    "title": "Lets play a game",
    "score": 0,
@@ -644,6 +625,15 @@
    "thumb": "https://preview.redd.it/pfizqrfmbujh1.png?width=320&crop=smart&auto=webp&s=b45e2de0ca50f7ff471f536f20b12922b25152ad",
    "time": 1786931119,
    "url": "https://www.reddit.com/r/Multifandom/comments/1vqex3c/lets_play_a_game/"
+  },
+  {
+   "sub": "cats",
+   "title": "The twirl",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/dThlaXBtc2k5dmpoMcHwQEf6JDMAFMloy4TEoAYB8_cnvnQDe4xxz4h6yllX.png?width=320&crop=smart&auto=webp&s=a6d59c3a781708b001c648d4b6c405699692c687",
+   "time": 1786942509,
+   "url": "https://www.reddit.com/r/cats/comments/1vqiq88/the_twirl/"
   }
  ],
  "disaster": [],
@@ -657,13 +647,6 @@
     "jajaja7878uu",
     "kyunghyang"
    ],
-   "insta": [
-    "aespa_official",
-    "blackpinkofficial",
-    "bts.bighitofficial",
-    "koreadispatch",
-    "newjeans_official"
-   ],
    "threads": [
     "aicoffeechat",
     "aipeekme",
@@ -674,28 +657,33 @@
   },
   "why": {
    "insta": {
-    "jennierubyjane": "rotate",
-    "xxxibgdrgn": "rotate",
-    "hm_son7": "rotate",
-    "sbsnow_insta": "rotate",
-    "mnet_official": "rotate",
-    "openai": "rotate",
-    "runwayapp": "rotate",
-    "pika_labs": "rotate",
-    "lumalabsai": "rotate",
-    "midjourney": "rotate",
-    "klingai_official": "rotate",
-    "heygen_official": "rotate",
-    "higgsfield.ai": "rotate",
-    "googledeepmind": "rotate",
-    "cristiano": "rotate"
+    "koreadispatch": "gap",
+    "bts.bighitofficial": "gap",
+    "blackpinkofficial": "gap",
+    "newjeans_official": "gap",
+    "aespa_official": "gap",
+    "jennierubyjane": "gap",
+    "xxxibgdrgn": "gap",
+    "hm_son7": "gap",
+    "sbsnow_insta": "gap",
+    "mnet_official": "gap",
+    "openai": "gap",
+    "runwayapp": "gap",
+    "pika_labs": "gap",
+    "lumalabsai": "gap",
+    "midjourney": "gap",
+    "klingai_official": "gap",
+    "heygen_official": "gap",
+    "higgsfield.ai": "gap",
+    "googledeepmind": "gap",
+    "cristiano": "gap"
    }
   },
   "landing": {
-   "at": "2026-08-17T17:31:25",
+   "at": "2026-08-17T18:01:57",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-17T18:01:54.399887+09:00"
+ "updated": "2026-08-17T18:31:28.790597+09:00"
 }
