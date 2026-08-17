@@ -1,31 +1,32 @@
-# 🔥 낮 47도, 밤에도 32도…안 식는 땅이 탔다
+# 낮 47도·밤에도 32도…열돔이 부른 산불, 5천 가구 대피
 
 **[프롬프트 설계]**
-- 화풍: B 극화 — 재난의 규모와 물리적 압력을 사실적으로 담아야 하고, 열돔이라는 '구조'를 고발하는 축이라 극화의 고대비·묵직한 선이 맞다
-- 분위기: 주황과 잿빛이 뒤섞인 압박감. 불길의 스펙터클보다 '식지 않는 공기'의 질감 — 사람이 숨 쉬는 높이에 열이 고여 있는 답답함
-- 연출 방향: 독자훅 = 남의 나라 산불이 아니라 '밤에 안 식는 더위'라는 내 얘기. 그래서 카메라는 불길 자체보다 그 앞에 선 사람과, 밤에도 켜진 선풍기·닫힌 창문 쪽으로 온다. 강조점 = 뒤돌아보는 눈, 도로를 메운 대피 차량, 그리고 마지막에 남는 열대야의 방. 불은 배경으로 밀고 사람의 체감을 앞으로 당긴다
-- 독자 동선: **발단** 카드1(연기 기둥 목격)→**전개** 카드2~3(3건 동시 확산·600채·5천 가구 / 비상사태·불리한 조건)→**피크** 카드4(밤에도 32도)→**해소** 카드5(사망자 0·대피가 이겼다)→**시사점** 카드6 · 훅=카드1 끝(단서형: 다음 날 벌어진 일 예고)+카드3 끝(예고형) · 착지 = 불은 대피할 수 있지만 안 식는 밤은 대피할 곳이 없다
-- 연속성 앵커: Recurring subject — a Korean-featured man in his 50s with short graying hair and a weathered square face, wearing a faded olive work shirt / 반복 장소 — a hillside residential street of low wooden houses on the edge of a dry pine ridge
+- 화풍: B 극화 — 기후가 만든 조건을 고발하는 재난 기사라 사실성과 무게가 필요하다
+- 분위기: 불길의 굉음이 아니라 마른 정적. 빠져나가지 못한 열이 낮과 밤을 눌러 앉히는 압박감
+- 연출 방향: 이 기사를 멈춰 세우는 지점은 '47도'가 아니라 '밤에도 32도'다 — 열대야로 잠 못 잔 독자가 남의 나라 산불을 자기 밤으로 옮겨 읽는 자리. 그래서 카메라는 불길을 정면으로 쫓지 않고 열이 사람을 어디까지 따라오는지를 따라간다: 뚜껑처럼 덮인 하늘, 그림자가 사라진 땅, 돌아보는 눈, 창을 다 열어놨는데 아무것도 움직이지 않는 밤. 악센트는 잉걸불 주황 하나로 통일해 낮의 불과 밤의 가로등을 같은 색으로 잇는다(썸네일 디스패치의 황혼 톤·허탈한 응시를 정조로 계승)
+- 독자 동선: **제시** 카드1→**발단** 카드2→**전개** 카드3→**피크** 카드4→**해소** 카드5→**시사점** 카드6 · 훅=카드1 끝(단서형: 불이 한 곳이 아니었다)+카드3 끝(예고형: 더 급한 건 사람) · 착지 = 불길은 대피로 피했지만 안 식는 공기는 피할 데가 없다
+- 연속성 앵커: `Recurring subject: a man in his 50s with short graying hair, a weathered sunburnt face, wearing a soot-streaked plaid work shirt` (카드1·4·6에 그대로 복사) / 반복 장소 (없음)
 
 ### [카드 1]
 **텍스트**
 ```text
-지난 1일 스포캔 하늘에
-잿빛 기둥이 솟았다
-주택가 너머였다
-*다음 날, 불은 세 갈래가 됐다*
+8월 2일 미국 워싱턴주 스포캔이었다
+주택가 너머로 잿빛 기둥이 솟았다
+그런데 기둥은 하나가 아니었다
+*불은 세 곳에서 동시에 났다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: his squinting eyes fixed on something far above the rooftops, a vacant thousand-yard stare. Recurring subject — a Korean-featured man in his 50s with short graying hair and a weathered square face, wearing a faded olive work shirt, stands in a hillside residential street of low wooden houses on the edge of a dry pine ridge, one hand shading his brow. He looks up and toward the right edge of the frame, where an enormous ash-gray smoke column rises kilometers into the evening sky beyond the rooftops. The column dominates the upper half of the frame while he stands small at its base.
-Camera: wide shot, full body, surrounding environment, spatial context from low angle shot, looking up, dramatic presence, shot on 24mm wide lens, cinematic wide shot, spatial context, nose room on the right, gaze directed toward the right edge
-Lighting/mood: warm golden-hour sunlight, long soft shadows, nostalgic warmth turning oppressive, harsh orange sky
-Accent: monochrome desaturated base with a single color accent (burnt orange, the fire's symbolic color), muted daylight contrast
-Text handling: no signage text, no readable letters anywhere; the smoke column and rooftops carry the meaning through shape alone.
+Scene: Emotional focal point: the man's reddened eyes locked on the sky, his jaw set hard. Recurring subject: a man in his 50s with short graying hair, a weathered sunburnt face, wearing a soot-streaked plaid work shirt, stands alone in the middle of a residential street and turns his shoulders toward the right edge of the frame, chin lifted. Far behind the rooftops a single ash-gray smoke column boils kilometers into the dusk sky and dwarfs the whole neighborhood beneath it. The asphalt street runs unbroken from the bottom of the frame up to the ridge line.
+Camera: wide shot showing full body and surrounding environment, from a low angle looking up so the plume dominates, shot on a 20mm wide lens, documentary realism.
+Lighting/mood: warm golden-hour sunlight with long soft shadows, filtered through drifting smoke into a heavy amber haze.
+Accent: monochrome desaturated base with a single color accent of ember orange, the fire's symbolic color, muted daylight contrast.
+Setting: inland Pacific Northwest United States, American suburban architecture, left-hand-drive vehicles, US road markings.
+Text handling: no signage, no lettering, no numbers anywhere in the frame; street signs and house plates are turned away or cropped out.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the open evening sky above the ridge) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the asphalt street) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -35,28 +36,29 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-스포캔 산불 연기기둥
+Spokane wildfire smoke plume
 ```
 
 ### [카드 2]
 **텍스트**
 ```text
-불은 21㎢를 태웠다
-집과 건물 600채가
-잿더미가 됐고
-*5천 가구가 집을 떠났다*
+*땅은 이미 탈 준비가 끝나 있었다*
+고기압 능선이 열기를 눌러 가뒀다
+애리조나에서 몬태나까지 '열돔'이다
+그 아래 낮 기온은 47도를 찍었다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the tail lights of a long line of cars stretching away, each pair a small red point in the dusk haze. Seen from high above, a two-lane road out of a hillside residential street of low wooden houses on the edge of a dry pine ridge is packed bumper to bumper with evacuating vehicles, roof racks loaded with bundles. On the opposite slope the charred skeletons of burned-out houses stand in rows, still smoking. A few tiny figures load boxes into an open trunk near the road's edge, all movement flowing toward the right edge of the frame.
-Camera: extreme long shot, tiny subject, vast environment, scale, isolation from overhead shot, bird's-eye view, top-down angle, layout, geometry, shot on 20mm wide lens, subject and environment, documentary realism
-Lighting/mood: overcast diffused daylight through heavy smoke haze, flat soft shadows, muted somber mood
-Accent: monochrome desaturated base with a single color accent (burnt orange, the fire's symbolic color), muted daylight contrast
-Text handling: no road signs with readable words, no license plate characters, no shop signage; direction is conveyed by the shape of the road and the flow of cars.
+Scene: Emotional focal point: the farmer's shadow shrunk to a dark dot beneath his own boots, with no shade anywhere left to step into. Seen from directly above, one small figure in a wide-brimmed hat stands motionless at the lower center of an enormous parched field, arms hanging loose, head tilted back toward the sky. The dry earth splits into a web of deep fissures that fills the entire frame, and the light falls so hard and flat that nothing casts a usable shadow. The air above the ground shimmers and bends the straight edges of the cracks.
+Camera: extreme long shot with a tiny subject in a vast environment conveying scale and isolation, from a bird's-eye overhead angle looking straight down, shot on a 14mm ultra-wide lens for dramatic depth.
+Lighting/mood: harsh overexposed midday sunlight, hard shadows collapsed to almost nothing, oppressive trapped heat with no relief anywhere.
+Accent: monochrome desaturated base with a single color accent of ember orange, the fire's symbolic color, muted daylight contrast.
+Setting: inland western United States farmland, dry wheat country, American rural fencing.
+Text handling: no signage, no lettering, no numbers anywhere in the frame.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the hillside ground seen from above) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the cracked dry earth) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -66,28 +68,29 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-스포캔 산불 대피 차량 행렬
+heat dome Arizona Montana
 ```
 
 ### [카드 3]
 **텍스트**
 ```text
-주지사는 비상사태를 선포했다
-현장 공보관의 말은 짧았다
-*"기상도 지형도 불리하다"*
-불태우기는 9월 말까지 금지됐다
+마른 땅 위에서 불길은 21㎢를 태웠다
+주택과 건물 600채가 잿더미가 됐다
+*워싱턴주 제2의 도시 코앞에서였다*
+그런데 더 급한 건 사람이었다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the jaw of a fire agency spokesman clenched tight, muscle flexing at the jawline as he faces a cluster of microphones. A man in his 40s in a soot-smudged incident-command uniform stands at a folding table outdoors, both hands flat on the tabletop, leaning slightly forward and looking straight ahead past the lenses. Behind him two firefighters in helmets confer over a folded topographic map, and the pine ridge burns dull orange far in the background. A cluster of unbranded microphones fills the near foreground.
-Camera: medium close-up, chest-up framing, facial emotion, slight body context from eye-level shot, neutral perspective, realistic, balanced emotion, shot on 50mm standard lens, minimal distortion, natural cinematic composition
-Lighting/mood: harsh single hard side-light cutting across the subject, deep chiaroscuro shadows, tense atmosphere, smoke-filtered daylight
-Accent: monochrome desaturated base with a single color accent (burnt orange, the fire's symbolic color), film-noir low-key lighting, deep shadows
-Text handling: no agency logos, no name plates, no readable text on uniforms or microphones; the map is rendered as abstract contour lines only.
+Scene: Emotional focal point: a firefighter's gloved hand resting on a scorched doorframe that no longer holds a door. Two firefighters in turnout gear walk slowly through a burned-out residential block, one crouching to look under a collapsed porch while the other scans a long row of blackened foundations receding into the smoke haze. Bare concrete chimneys stand alone where houses used to be, and a warped metal mailbox post leans over the ash. Thin white smoke still threads up from the debris in several places along the same street.
+Camera: wide shot showing full bodies and the surrounding environment, from eye level with a neutral balanced perspective, shot on a 35mm lens for natural documentary framing with minimal distortion.
+Lighting/mood: overcast diffused daylight thickened by smoke haze, flat soft shadows, muted somber mood.
+Accent: monochrome desaturated base with a single color accent of ember orange surviving in a few glowing coals, muted daylight contrast.
+Setting: inland Pacific Northwest United States, American suburban lots, US fire service turnout gear without insignia.
+Text handling: no signage, no lettering, no numbers anywhere in the frame; house numbers and vehicle markings are cropped or turned away.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the smoke-filled outdoor air of the command post) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the ash-covered ground) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -97,26 +100,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-워싱턴주 산불 비상사태 기자회견
+Old Trails Fire burned homes Spokane
 ```
 
 ### [카드 4]
 **텍스트**
 ```text
-낮엔 47.2도를 찍었다
-*그런데 밤에도 32도였다*
+*주민 5천 가구가 집을 비웠다*
+날씨도 지형도 우리 편이 아니었다
+연방 대응팀이 그렇게 전했다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the sweat-beaded temple and half-open eyes of a man who cannot fall asleep, staring at nothing in the dark. Recurring subject — a Korean-featured man in his 50s with short graying hair and a weathered square face, wearing a faded olive work shirt unbuttoned at the collar, sits on the edge of a bed in a dark room, forearms on his knees, head turned toward an open window. An old electric fan turns beside him and the night outside the window glows dull orange, the air visibly still. No breeze moves the thin curtain.
-Camera: tight close-up, face fills frame, intense emotion, intimate pressure from eye-level shot, neutral perspective, realistic, balanced emotion, shot on 85mm portrait lens, flattering face, soft background separation
-Lighting/mood: single pool of hard light isolating the figure in surrounding blackness, claustrophobic loneliness, deepest tone of the sequence, strongest contrast
-Accent: monochrome desaturated base with a single color accent (burnt orange, the fire's symbolic color), film-noir low-key lighting, deep shadows
-Text handling: no thermometer numerals, no clock digits, no readable characters; the heat is conveyed by sweat, the still curtain, and the orange night glow.
+Scene: Emotional focal point: the man's vacant thousand-yard stare toward the ridge, unfocused eyes looking past everything in front of him. Recurring subject: a man in his 50s with short graying hair, a weathered sunburnt face, wearing a soot-streaked plaid work shirt, stands beside the open door of his loaded pickup on the shoulder of an evacuation route, one hand still gripping the door frame while his head turns back over his shoulder. Behind him a stalled line of tail lights recedes along the same asphalt into soft bokeh, and an orange glow rims the dark ridge above. A fire crew truck passes low in the opposite lane, kept small and unlit so the man stays the focus.
+Camera: close-up with the face centered on eyes and emotional detail, from eye level for a neutral realistic perspective, shot on an 85mm portrait lens with soft background separation.
+Lighting/mood: single hard side-light cutting across the subject from the burning ridge, deep chiaroscuro shadows, tense suffocating atmosphere, the darkest and highest-contrast frame of the whole sequence.
+Accent: monochrome desaturated base with a single color accent of ember orange at its strongest, film-noir low-key lighting, deep shadows.
+Setting: inland Pacific Northwest United States, American highway shoulder, left-hand-drive vehicles, US road markings.
+Text handling: no signage, no lettering, no numbers anywhere in the frame; license plates and road signs are cropped or blurred beyond legibility.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the dark interior wall of the bedroom) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the highway asphalt) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -126,28 +131,29 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-라스베이거스 폭염 열대야
+Spokane wildfire evacuation traffic
 ```
 
 ### [카드 5]
 **텍스트**
 ```text
-600채가 탔는데
-사망자 집계는 아직 0이다
-경보가 사람보다 먼저 뛰었다
-*여기까진 대피가 이겼다*
+그 사이 인명 피해는 보고되지 않았다
+퍼거슨 주지사는 비상사태를 선포하고
+*9월 말까지 불태우기를 전면 금지했다*
+앞으로 두 달은 같은 조건이란 뜻이다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a long held breath released — a woman's shoulders dropping as she presses a sleeping child's head to her collarbone. In a school gymnasium turned evacuation shelter, rows of folding cots stretch back into the hall while a mother in her 30s sits on the nearest cot holding her child, eyes closed briefly. Recurring subject — a Korean-featured man in his 50s with short graying hair and a weathered square face, wearing a faded olive work shirt, sits two cots behind her with a paper cup of water in both hands, looking down. A volunteer walks the aisle handing out blankets.
-Camera: medium shot, waist-up framing, face and gestures, conversational from eye-level shot, neutral perspective, realistic, balanced emotion, shot on 35mm lens, natural documentary perspective, balanced subject and background
-Lighting/mood: flat cold even overhead gymnasium light, muted and institutional, softened by dust in the air, first release after the darkest tone
-Accent: monochrome desaturated base with a single color accent (burnt orange, the fire's symbolic color), muted daylight contrast
-Text handling: no banners, no printed signs, no school emblems, no readable text on cots or walls.
+Scene: Emotional focal point: the governor's jaw set tight as he grips both edges of the lectern, eyes held down on a single sheet of paper a beat too long. A man in his 50s in a dark suit stands at a plain lectern facing a bank of raised cameras, one flat hand pinning the page while his shoulders stay squared. Two uniformed fire officials wait one step behind him with their hands clasped in front, kept lower and softer so he stays the focus. The panel behind them is completely blank with no lettering, no seal, and no emblem of any kind.
+Camera: medium shot with waist-up framing showing face and gestures, from a low angle looking up at the podium, shot on a 50mm standard lens with natural cinematic composition.
+Lighting/mood: flat sterile institutional fluorescent light, cold even greenish-white, emotionless and procedural.
+Accent: monochrome desaturated base with a single color accent of ember orange carried only by the reflective striping on the fire officials' uniforms, muted daylight contrast.
+Setting: United States state government briefing room, American institutional interior.
+Text handling: no signage, no lettering, no numbers anywhere in the frame; the backdrop panel, the paper, and the camera bodies carry no readable marks.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the gymnasium floor extending back into the hall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the flat institutional wall behind the lectern) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -157,28 +163,29 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-산불 대피소 체육관 간이침대
+Bob Ferguson Washington governor
 ```
 
 ### [카드 6]
 **텍스트**
 ```text
-불길은 차를 타고 피할 수 있다
-밤새 안 식는 공기는 못 피한다
-에어컨 있는 집은 버티고
-*없는 집은 통계에 늦게 잡힌다*
+그 조건이 가장 무서운 건 밤이다
+낮 47도를 찍은 땅이 밤에도 32도다
+불길에서는 대피할 수 있었지만
+*안 식는 공기는 피할 데가 없다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: two lit windows on the same night wall — one breathing cool blue, the one beside it holding a still orange glow with a fan turning. Seen straight on from across a narrow street, the facade of a low apartment block fills the frame at night; behind one window an air conditioner unit hums and the room reads cold blue, behind the neighboring window an old fan turns in an unmoving orange-lit room where a figure sits motionless by the sill. The dry ridge line and a faint smoke haze sit far behind the roofline. The composition is centered and static.
-Camera: full shot, head-to-toe, clear silhouette from eye-level shot, neutral perspective, realistic, balanced emotion, front-on shot, direct gaze, symmetrical composition, shot on 40mm lens, neutral perspective, natural human-vision feel
-Lighting/mood: cold blue pre-dawn tone contrasted against a warm stagnant interior glow, desolate stillness, released from the peak into quiet afterglow
-Accent: monochrome desaturated base with a single color accent (burnt orange, the fire's symbolic color), film-noir low-key lighting, deep shadows
-Text handling: no building numbers, no signage, no readable characters anywhere on the facade.
+Scene: Emotional focal point: the man's forearm laid across the windowsill and his shirt stuck to his back, eyes open and level on a city that will not cool. Recurring subject: a man in his 50s with short graying hair, a weathered sunburnt face, wearing a soot-streaked plaid work shirt, sits just inside an open living-room window late at night, facing the viewer straight on with one hand resting on the sill. An electric fan turns beside him on the floor, pushing air that changes nothing. Beyond the window the opposite apartment block glows under sodium streetlights with every window left open and no curtain moving anywhere.
+Camera: medium close-up with chest-up framing for facial emotion and slight body context, front-on with direct symmetrical framing at eye level, shot on a 50mm standard lens.
+Lighting/mood: orange sodium streetlight glow spilling in from outside at 2200K, no fill light, deep surrounding darkness, motionless airless night heat.
+Accent: monochrome desaturated base with a single color accent of ember orange, film-noir low-key lighting, deep shadows.
+Setting: United States apartment interior, American window frames and blinds.
+Text handling: no signage, no lettering, no numbers anywhere in the frame; the buildings outside show no readable marks.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the apartment facade wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the interior wall carrying the window opening) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -188,5 +195,5 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-아파트 야간 창문 에어컨 실외기
+Phoenix night heat wave
 ```
