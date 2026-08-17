@@ -3193,8 +3193,7 @@ def check_prev_center():
 
 _ONOFF_BASE = {   # 파일별 기존 정당 사용 스냅샷(260803) — 증가 = FAIL · 축소 지향(해소되면 그 자리에서 줄여라)
     'viewer/thumb.html': 1,   # 안내문 값 순환(#guideTog = OFF/모드 라벨 다값 — 이진 아님 · 운영자 260803 비대상 유보)
-    'viewer/index.html': 5,   # 설정 행 토글 5종(원격 ·잠금 lockOnBtn · 이미지생성 genImgOnBtn · 키워드알림 kwAlertBtn · 펫 petOnBtn[260817]) — 스튜디오 밖 · 후속 전환 TODO
-                              #   ⚠ 펫 1건 증가 사유 = 그 행은 형제 4종과 같은 설정 목록의 같은 부품(pushrow/pushbtn)이다. 이 행만 워드 점등으로 바꾸면 설정창 안에서 문법이 갈린다(형제와 다른 모양) → 전환은 5종 동시가 정합(후속 TODO 그대로).
+    'viewer/index.html': 4,   # 설정 행 토글 4종(원격 ·잠금 lockOnBtn · 이미지생성 genImgOnBtn · 키워드알림 kwAlertBtn) — 스튜디오 밖 · 후속 전환 TODO (펫 petOnBtn 제거 260817 = 5→4 래칫)
     'viewer/k.html': 1,       # 발사 페이로드 set['웹툰']='ON/OFF' = 서버 계약(표시 아님 · 무접촉)
 }
 
