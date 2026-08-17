@@ -12,6 +12,31 @@ const JOB_API = new Set(['pick', 'make-cards', 'genimg', 'moreimg', 'imgedit', '
   'comp', 'compose', 'edit', 'vidl', 'vidlout', 'conv', 'k', 'resize', 'upscale', 'song', 'track', 'voice',
   'sb', 'ly', 'nb', 'framethumb', 'revise', 'revise-cards', 'cards-revise', 'tr']);
 
+// ── 진행 중 작업 공유 원장(260817 · 운영자 "하드웨어를 바꾸든, 브라우저를 바꾸든 동시간에 들어가면 제작중인 내용이 동일하게 떠야")
+// 왜: 진행 중 슬롯이 **브라우저 로컬 저장소에만** 있었다(nm-jobs.js `nm_*_pend`) → 같은 사람이 폰에서 걸고 PC로 가면
+//   그 작업이 화면에서 통째로 사라진다(러너는 계속 돌아 결과가 R2에 착지하는데 그 기기만 영영 모른다 = 260810 nm-jobs가
+//   **한 브라우저 안**에서 고친 병의 기기 간 판). 완료분은 이미 공유 경로가 있었다(thumb-hist·?recent= R2 발견) —
+//   빠져 있던 건 「지금 돌고 있는 것」 하나뿐이라 여기만 메운다.
+// 자리가 이 미들웨어인 이유 = 발사 API 28종이 **전부 이 관문을 지난다**. 각 api/*.js에 1줄씩 심으면 새 레인이 조용히 빠진다
+//   (이 레포가 반복해 겪은 손 목록 드리프트) · 아래 큐 안전망과 같은 JOB_API 집합을 쓰므로 둘이 같이 낡는다 = 짝이 안 맞을 수 없다.
+// 계약: 발사 **성공**(200 + ok:true + id)만 기록 · 기록은 waitUntil 백그라운드(발사 응답 지연 0) · 전 경로 fail-soft.
+const LIVE_PFX = 'jobs/live/';
+async function putLive(env, kind, j, ctx) {
+  try {
+    if (!env.R2 || !j || !j.id) return;
+    const id = String(j.id).slice(0, 80);
+    if (!/^[A-Za-z0-9._\-/]+$/.test(id)) return;   // 키 위생(경로 탈출 차단 · _r2live 세그먼트 규칙 축)
+    const rec = {
+      kind, id, t0: Date.now(),
+      out: typeof j.out === 'string' ? j.out.slice(0, 200) : '',
+      outs: Array.isArray(j.outs) ? j.outs.slice(0, 12) : undefined,   // thumb 폴 재개 최소 상태(restorePending가 outs 없으면 안 선다)
+      mode: typeof j.mode === 'string' ? j.mode.slice(0, 24) : undefined,   // song/voice/vidl = 같은 슬롯에 모드가 갈린다
+    };
+    const p = env.R2.put(LIVE_PFX + kind + '-' + id.replace(/\//g, '_') + '.json', JSON.stringify(rec));
+    if (ctx && typeof ctx.waitUntil === 'function') ctx.waitUntil(p); else await p;
+  } catch { /* 원장 실패가 발사를 못 죽인다 */ }
+}
+
 export async function onRequest(context) {
   const url = new URL(context.request.url);
   if (url.hostname.endsWith('.pages.dev')) {
@@ -27,7 +52,17 @@ export async function onRequest(context) {
     let bodyText = '';
     try { bodyText = await context.request.clone().text(); } catch { /* 본문 없음도 허용 */ }
     const res = await context.next();
-    if (res.status < 500) return res;
+    if (res.status < 500) {
+      // 발사 성공 = 진행 중 원장에 적립(기기·브라우저 공유 축 · 위 putLive 주석 참조).
+      // ⚠ 응답은 clone으로 읽는다 — 원본 body를 소비하면 그 발사가 그 자리에서 죽는다.
+      if (res.status === 200) {
+        try {
+          const j = JSON.parse(await res.clone().text());
+          if (j && j.ok && j.id) await putLive(context.env, m[1], j, context);
+        } catch { /* JSON 아님·본문 없음 = 기록 안 함(발사는 그대로 성공) */ }
+      }
+      return res;
+    }
     try {
       const k = new Date(Date.now() + 9 * 3600e3).toISOString();   // KST 스탬프(픽 함수와 동일 규칙)
       const stamp = k.slice(2, 4) + k.slice(5, 7) + k.slice(8, 10) + '-' + k.slice(11, 13) + k.slice(14, 16) + k.slice(17, 19);
