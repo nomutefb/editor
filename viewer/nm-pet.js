@@ -14,6 +14,11 @@
    운영자 260817 갱신 2건 = 크기 0.75 → 0.5(「크기 50%」) · 걸음 18칸만 돌리기(「기어다니게」).
    원본 82칸 순서로 되돌리려면 loopFrames 를 null 로 두면 된다(그때는 아래 sitFrames 자세 게이트가 다시 일한다).
 
+   운영자 260817 2차 = 「첨부 동작을 이어 붙이고 화면 밖으로 사라지는 걸로」.
+   아틀라스가 82칸 → 111칸으로 자랐다(뒤 29칸 = 첨부 영상에서 다듬어 낸 웅크림 마무리 동작 · 굽는 법·실측 = apps/pet/README.md).
+   그래서 사라지는 방식이 바뀐다 = 종전 「제자리에서 opacity 페이드아웃」 → 「마무리 동작 한 번 → 걸어서 화면 밖으로」.
+   되돌리려면 exitFrames 를 빈 배열로 두면 된다(그때는 종전 페이드아웃 그대로 = 회귀 경로 보존).
+
    장식 전용 = pointer-events 없음(클릭 무간섭) · aria-hidden · reduced-motion 미출현(정본 계약 계승).
    상속 = <link rel="stylesheet" href="nm-pet.css"> + <script src="nm-pet.js"></script> 2줄 · 자동 시작 안 함(nmPet.start() 호출이 정문). */
 (function () {
@@ -22,7 +27,7 @@
   /* 아틀라스 지오메트리 = 단일출처(정본 PET 상수 값 그대로 · viewer/pet_crab.png 실측과 일치: 1320x1080 = 132x120 x 10x9) */
   var BASE = {
     atlas: 'pet_crab.png',
-    tw: 132, th: 120, frames: 82, cols: 10, rows: 9,   // 타일 폭·높이·총 프레임·열·행
+    tw: 132, th: 120, frames: 111, cols: 10, rows: 12,   // 타일 폭·높이·총 프레임·열·행(82칸 + 마무리 29칸 = 111 · 10x12 격자)
     fps: 30,            // 아트 = 원본 30fps 스텝(픽셀아트 보간 = 뭉개짐이라 금지 · 정본 주석)
     scale: 0.5,         // 화면 배율 — 운영자 260817 「크기 50%」 지시분(정본 0.75에서 갱신 · 원본 절반 = 한 칸 66x60 정수 정합)
     // 돌릴 칸 목록 — 비우면 82칸 전체를 원본 순서대로(= 정본 동작).
@@ -38,6 +43,17 @@
     sitFrames: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 23, 24, 25, 26, 27, 28,
                 38, 39, 40, 41, 42, 43, 53, 54, 55, 56, 57, 58, 69, 70, 71, 72, 73, 74,
                 75, 76, 77, 78, 79, 80, 81],
+    /* 퇴장 마무리 동작 = 아틀라스 뒤 29칸(82~110) — 첨부 영상(115프레임 · 1.93초)에서 연속 중복을 걷어낸 고유 칸.
+       다듬은 법 = 본체·눈 마스크로 압축 잔여 제거 → 정면 앉은 자세 1:1 정합 배율(0.9055 = 아틀라스 0번 76x51 ↔ 영상 1번 86x55)로
+       리샘플 후 아틀라스 실측 2색(214,117,84 / 0,0,0)으로 재양자화 → 접지선 y=118·가로 중심에 배치(전 칸 실측 정합).
+       빈 배열로 두면 종전 페이드아웃 퇴장으로 되돌아간다. */
+    exitFrames: [82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99,
+                 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110],
+    // 화면 밖으로 빠져나가는 걸음 속도 = 배회 상한(speedMax)의 이 배수.
+    // 근거 = 배회 속도는 목적 없이 서성이는 값이라 그대로 쓰면 화면 밖까지 10초가 걸려 「사라진다」로 안 읽힌다
+    //        (폰 430 실측 = 최대 이동거리 302px ÷ 30px/s). 4배면 2.5초 = 마무리 동작 0.97초와 합쳐 3.5초 안에 끝난다.
+    exitSpeedMul: 4,
+    exitMaxMs: 6000,    // 퇴장 안전 상한 — 창 크기가 도중에 바뀌어도 이 시간이면 반드시 정리(멈춘 펫 잔류 차단)
     bottom: 58,         // 바닥 = 하단 내비 위(정본 calc(58px + safe-area))
     side: 'left',       // 어느 쪽에서 서성이나(정본 = 좌하단 = 설정 픽토 반대편)
     span: 0.55,         // 배회 폭 = 화면의 이 비율까지만(정본 0.55 = 반대편 메뉴 침범 X)
@@ -113,6 +129,18 @@
     return i % cfg.frames;
   }
 
+  /* 퇴장 마무리 동작 = 한 번만 재생(루프 아님) · 목록이 비면 없음 */
+  function exitLen() {
+    var E = cfg.exitFrames;
+    return (E && E.length) ? E.length * (1000 / cfg.fps) : 0;
+  }
+  function exitFrameAt(elapsed) {
+    var E = cfg.exitFrames, i = Math.floor(elapsed / (1000 / cfg.fps));
+    if (i < 0) i = 0;
+    if (i >= E.length) i = E.length - 1;      // 마지막 칸에서 멈춘 채 걸어 나간다
+    return E[i];
+  }
+
   function paint(p, f) {
     p.style.backgroundPosition = (-(f % cfg.cols) * W()) + 'px ' + (-Math.floor(f / cfg.cols) * H()) + 'px';
   }
@@ -132,33 +160,55 @@
     p.classList.add('on');
     requestAnimationFrame(function () { p.style.opacity = '1'; });   // 페이드인(CSS transition)
 
+    /* 퇴장 = 0 배회 → 1 마무리 동작(제자리) → 2 걸어서 화면 밖으로.
+       exitFrames 가 비면 1·2를 건너뛰고 종전 페이드아웃으로 간다(회귀 경로). */
+    var phase = 0, phaseT0 = 0;
+    /* 나가는 쪽을 바라보게 = 배치에 따라 화면상 이동 방향이 뒤집힌다(x 는 항상 줄지만 오른쪽 배치는 px 가 커진다) */
+    var exitFace = cfg.side === 'right' ? 1 : -1;
+
+    var done = function () {
+      if (my !== gen) return;                  // 남의 방문을 끄지 않는다
+      p.classList.remove('on'); p.style.opacity = '0'; visiting = false;
+      if (running) schedule();
+    };
+
     var step = function (now) {
       if (my !== gen) return;                  // 새 방문이 시작됐다 = 이 루프는 은퇴
       var dt = Math.min(64, now - last); last = now;
-      var f = frameAt(now - t0);
+
+      /* 머무는 시간이 끝났거나 꺼졌다 = 퇴장 시작(가려진 동안은 보여줄 것이 없으니 종전대로 바로 정리) */
+      if (phase === 0 && (!running || now - t0 >= stay || (document.hidden && !forced))) {
+        if (exitLen() && running && (!document.hidden || forced)) { phase = 1; phaseT0 = now; }
+        else { p.style.opacity = '0'; setTimeout(done, cfg.fadeMs); return; }
+      }
+      /* 마무리 동작을 다 보여줬다 = 걸어 나가기로 */
+      if (phase === 1 && now - phaseT0 >= exitLen()) { phase = 2; phaseT0 = now; }
+
+      var f = phase === 1 ? exitFrameAt(now - phaseT0) : frameAt(now - t0);
       paint(p, f);
 
-      /* 자세 게이트 = 선 칸에서만 전진·방향 전환(앉은 칸은 제자리) */
-      if (api.walking(f) && now >= pauseUntil) {
-        x += dir * speed * dt;
-        var mx = maxX();
-        if (x < 4) { x = 4; dir = 1; }
-        else if (x > mx) { x = mx; dir = -1; }
-        else if (Math.random() < cfg.turnChance) dir = -dir;
-        if (Math.random() < cfg.pauseChance) pauseUntil = now + rand(cfg.pauseMin, cfg.pauseMax);
+      if (phase === 0) {
+        /* 자세 게이트 = 선 칸에서만 전진·방향 전환(앉은 칸은 제자리) */
+        if (api.walking(f) && now >= pauseUntil) {
+          x += dir * speed * dt;
+          var mx = maxX();
+          if (x < 4) { x = 4; dir = 1; }
+          else if (x > mx) { x = mx; dir = -1; }
+          else if (Math.random() < cfg.turnChance) dir = -dir;
+          if (Math.random() < cfg.pauseChance) pauseUntil = now + rand(cfg.pauseMin, cfg.pauseMax);
+        }
+      } else if (phase === 2) {
+        x -= speed * cfg.exitSpeedMul * dt;    // 자세 게이트 없이 계속 = 멈추지 않고 빠져나간다
+        dir = exitFace;
       }
 
       /* 오른쪽에서 서성이는 배치 = 좌표를 화면 오른쪽 기준으로 뒤집어 읽는다(값 창작 0 · 같은 x를 반대편에서 셈) */
       var px = cfg.side === 'right' ? (stageW() - W() - x) : x;
       p.style.transform = 'translateX(' + px + 'px) scaleX(' + dir + ')';
 
-      if (running && now - t0 < stay && (!document.hidden || forced)) { requestAnimationFrame(step); return; }
-      p.style.opacity = '0';   // 페이드아웃 → 다음 방문 예약
-      setTimeout(function () {
-        if (my !== gen) return;                // 남의 방문을 끄지 않는다
-        p.classList.remove('on'); visiting = false;
-        if (running) schedule();
-      }, cfg.fadeMs);
+      /* 몸이 화면 밖으로 완전히 빠졌다(또는 안전 상한) = 그 자리에서 정리 = 페이드 없이 사라진 상태 */
+      if (phase === 2 && (x <= -(W() + 4) || now - phaseT0 >= cfg.exitMaxMs)) { done(); return; }
+      requestAnimationFrame(step);
     };
     requestAnimationFrame(step);
   }
