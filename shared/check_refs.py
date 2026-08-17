@@ -5232,6 +5232,14 @@ def check_land_share():
         bad.append('② 복원 원천(origin/main) 소실')
     if 'comm -23' not in code or '--diff-filter=M' not in code:
         bad.append('③ 파일형 원장 줄 합집합 소실 — 남이 추가한 줄이 통째로 사라진다')
+    # ⚠⚠ 260817 실사고 — ③의 합집합은 **줄이 곧 레코드인 append 원장**에만 성립한다. 통짜 스냅샷 문서에 걸면
+    #   원격 사본을 우리 문서 뒤에 `>>` 로 이어붙여 파일을 깨뜨린다(실측 = `viewer/candidates.json` 이
+    #   `…}][{…` = 배열 2~3개 이어붙은 채 main 에 착지 · 30분 주기 반복 · 그 상태에서 gate_judge·breaking_judge 는
+    #   JSONDecodeError 로 죽고 `to_candidates.load_json` 은 예외를 삼켜 **[] 로 폴백** = grade·breaking 도장과
+    #   first_seen 이력이 통째로 소실 · api/candidates 는 깨진 JSON 을 서빙). 판별 = 꼬리 개행 + `*.json` 배제
+    #   (여러 줄인 스냅샷 = `viewer/insta_data.json` 13,151줄·꼬리 개행 없음 → 「줄 2개 이상」류로는 못 막는다).
+    if 'case "$mod" in *.json)' not in code or 'tail -c 1 "$mod"' not in code:
+        bad.append('③-b 합집합 대상 판별 소실 — 통짜 스냅샷(JSON)에 줄 합집합이 걸려 파일이 이어붙어 깨진다(260817 실사고)')
     if bad:
         print('❌ 공유 착지 게이트 — 통째 교체형 착지가 남의 것을 지우는 것을 막는 층이 빠졌다:')
         for b in bad:

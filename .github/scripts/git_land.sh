@@ -96,6 +96,17 @@ EOF_GONE
       [ -n "$mod" ] || continue
       [ -f "$mod" ] || continue
       git cat-file -e "$BASE:$mod" 2>/dev/null || continue      # BASE 에 없던 파일은 위 복원 축 소관
+      # ⚠⚠ 260817 봉합 — 이 합집합은 **줄이 곧 레코드인 append 원장**에만 성립한다(seen_urls.txt·*.jsonl).
+      #   통짜 문서(스냅샷 JSON)에 걸면 원격 사본을 우리 문서 **뒤에 이어붙여** 파일을 깨뜨린다.
+      #   실측 사고 = `viewer/candidates.json` 은 `json.dumps` 결과를 **개행 없이 한 줄로** 쓰는데,
+      #   `>>` 가 그 뒤에 원격 한 줄을 붙여 `…}][{…` = 배열 2~3개가 이어붙은 파일이 main 에 착지했다
+      #   (260817 실측 = 30분 주기로 반복 · 그 상태에서 gate_judge·breaking_judge 는 JSONDecodeError 로 죽고
+      #    api/candidates 는 깨진 JSON 을 서빙한다 = 수집함·채점이 동시에 조용히 멈춘다).
+      #   판별 = **꼬리 개행**(append 원장은 레코드마다 개행으로 닫는다 · json.dumps 스냅샷은 안 닫는다)
+      #   + `*.json` 확장자 배제(2중 안전판 — `viewer/insta_data.json` 처럼 **여러 줄인 스냅샷**도 있어서
+      #     「줄이 2개 이상」류 판별로는 못 막는다 = 실측 13,151줄·꼬리 개행 없음).
+      case "$mod" in *.json) continue ;; esac
+      [ -s "$mod" ] && [ "$(tail -c 1 "$mod" | od -An -c | tr -d ' \n')" = "\\n" ] || continue
       git show "origin/main:$mod" > "$SNAP/.remote" 2>/dev/null || continue
       git show "$BASE:$mod" > "$SNAP/.base" 2>/dev/null || continue
       if comm -23 <(sort -u "$SNAP/.remote") <(sort -u "$SNAP/.base") | grep -q .; then
