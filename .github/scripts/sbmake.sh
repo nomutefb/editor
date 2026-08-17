@@ -148,3 +148,9 @@ fi
 printf '%s\n' "$out" | sed -n '/^#/,$p' > "${OUTDIR}/board.md"
 rm -f "${OUTDIR}/stderr.log"
 echo "성공 → ${OUTDIR}/board.md ($(wc -c < "${OUTDIR}/board.md") bytes)"
+
+# 🔬 콘티 자기검문 원장(운영자 260817 3차 「나중에 영상 잘뽑힌거 왜 잘뽑혔는지 분석해서 녹일때
+#   필요하니」) — 이 판이 **무슨 값으로 만들어졌는지**를 콘티 옆에 값으로 남긴다(연출 모듈 줄 ·
+#   컷별 카메라 서술 낱말 수 · 얕은 컷 목록). 영상도 같은 폴더에 앉으니 「잘 나온 판」과 그 값이
+#   자동으로 짝지어진다. ⚠ 전면 fail-soft(rc 항상 0 = 판정이 콘티를 못 죽인다 · 러너 관례).
+python3 .github/scripts/sb_qa.py "${OUTDIR}/board.md" "${OUTDIR}" || true

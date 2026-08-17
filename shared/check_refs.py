@@ -6956,11 +6956,39 @@ def check_grok_sb_chain():
     if "terse CAMERA wording" not in ss:
         print("❌ 그록 콘티 레인 — 견본 정체 문장에 카메라 축약 베끼기 금지가 없다(견본을 실으면 카메라가 얕아진다)"); rc = 1
     _sbmd = _t("prompts/sb-make.md")
-    for _needle, _why in (("CAMERA 줄 깊이", "카메라 깊이 하한 계약(운영자 260817 3차 = 정청래 판 수준)"),
+    for _needle, _why in (("CAMERA 줄의 정본", "카메라 깊이 정본 지목(운영자 260817 3차 「정청래 건이 더 나음」)"),
                           ("sb_out/260816-jcr-olympic/board.md", "그 하한의 실측 기준선(무엇과 견줄지가 없으면 하한이 말뿐이다)"),
+                          ("라이브러리 값으로 채운다", "카메라 4요소의 어휘 출처(감으로 쓰면 매번 같은 몇 가지로 수렴)"),
                           ("인물보드에도 의도가 녹는다", "인물보드 의도·사진 반영 계약(없으면 증명사진이 된다)")):
         if _needle not in _sbmd:
             print("❌ 그록 콘티 레인 — prompts/sb-make.md 에 {} 가 없다({})".format(_why, _needle)); rc = 1
+    # ⑨-c 콘티 자기검문 원장(운영자 260817 3차 「나중에 영상 잘뽑힌거 왜 잘뽑혔는지 분석해서 녹일때
+    #   필요하니」) — 잘 나온 판을 되짚으려면 **그 판이 무슨 값으로 만들어졌는지**가 남아야 한다.
+    #   ⚠ 이 층은 빠져도 콘티·영상이 정상으로 나온다(기록만 조용히 0) = 화면 증상 0 · 이 레포 최빈
+    #     조용한 죽음. 그래서 배선 실존을 하드로 본다.
+    if not _has_exec_line(_t(".github/scripts/sbmake.sh"), "sb_qa.py"):
+        print("❌ 그록 콘티 레인 — 감독 실행기가 콘티 자기검문을 안 부른다(연출 모듈·카메라 깊이 기록이 0 = 나중에 되짚을 원료가 없다)"); rc = 1
+    # ⚠ **정본 재판정** = 사전·임계 사본 0. 실측 두 분포를 그 함수에 그대로 태워 갈리는지 본다
+    #   (견본 축약 = 얕음 · 260816 정청래 정본 = 통과). 임계만 있고 판정이 뒤집힌 코드를 막는다.
+    try:
+        import importlib as _il2
+        _qa = _il2.import_module("sb_qa")
+    except Exception as e:  # noqa: BLE001
+        print("⏭ 그록 콘티 레인 ⑨-c 재판정 SKIP(sb_qa 적재 실패 = 환경 축): {}".format(str(e)[:120]))
+    else:
+        _thin_md = ("# t\n## ⚙️ 설계 요약\n### 컷1 · 0~2s · a\nACTION: a\n"
+                    "CAMERA: wide street, rain starts\nDIALOGUE: (없음)\n")
+        _r1 = _qa.measure(_thin_md)
+        if _r1.get("thin_cuts") != [1] or _r1.get("verdict") != "thin":
+            print("❌ 그록 콘티 레인 — 자기검문이 견본 축약 카메라(4낱말)를 얕음으로 안 짚는다(하한이 말뿐)"); rc = 1
+        _canon = "sb_out/260816-jcr-olympic/board.md"
+        if os.path.exists(_canon):
+            _r2 = _qa.measure(_t(_canon))
+            if _r2.get("thin_cuts"):
+                print("❌ 그록 콘티 레인 — 자기검문이 정본(260816 정청래 판)을 얕다고 잡는다(컷 {} · 임계가 정본을 이겼다)".format(
+                    _r2["thin_cuts"])); rc = 1
+            if _r2.get("cuts", 0) < 2 or not _r2.get("camera_words"):
+                print("❌ 그록 콘티 레인 — 자기검문이 정본 콘티에서 컷·카메라를 못 읽는다(형식 파서가 갈렸다)"); rc = 1
     if 'viewer/sb_out/${IN_ID}" conti' in wf:
         print("❌ 그록 콘티 레인 — 워크플로가 스케치 판을 다시 굽는다(260817 폐지 계약 위반)"); rc = 1
     if '.get("conti")' in _t(".github/scripts/sd_fire.py"):
