@@ -6962,6 +6962,33 @@ def check_grok_sb_chain():
                           ("인물보드에도 의도가 녹는다", "인물보드 의도·사진 반영 계약(없으면 증명사진이 된다)")):
         if _needle not in _sbmd:
             print("❌ 그록 콘티 레인 — prompts/sb-make.md 에 {} 가 없다({})".format(_why, _needle)); rc = 1
+    # ⑨-d 콘티 인물 시트 = 견본이 정본(운영자 260817 「인물보드는 샘플 따라하는게 맞아」) —
+    #   견본 두 판 실측이 글 규격과 두 자리에서 어긋났다(배경 = 스튜디오 고정 · 다섯째 칸 = 달리기
+    #   고정). 그 고정값을 빼고 「위 서술을 따르라」로 넘긴 축이라, 되돌아가면 그림 견본과 글이 다시
+    #   서로 다른 말을 한다(견본은 실려 있으니 산출은 나온다 = 화면 증상 0 = 조용한 회귀).
+    #   ⚠ k 레인 무회귀도 같이 본다 — 그쪽 스튜디오 규격을 같이 지우면 종전 동작이 조용히 바뀐다.
+    # ⚠ 분기 판정은 **그 규격 이름이 들어간 삼항**으로 본다 — `kind == "person" and sb_lane` 만 보면
+    #   같은 술어를 쓰는 **사진·견본 첨부 분기**가 그대로 면죄부가 되어 규격 분기를 지워도 통과한다
+    #   (킬테스트 K3 가 이 구멍을 자기적발했다 = `check_stt_engine_chain` 이 겪은 그 함정과 같은 축).
+    for _needle, _why in (("TURN_SPEC_PERSON_SB = (", "콘티 레인 전용 인물 규격(견본 정본 축)"),
+                          ("TURN_SPEC_PERSON_SB if", "그 규격을 콘티 레인 인물에만 쓰는 분기")):
+        if not _has_exec_line(kg, _needle):
+            print("❌ 그록 콘티 레인 — k_refgen.py 에 {} 가 없다({})".format(_why, _needle)); rc = 1
+    _sbspec = ""
+    _m_sbspec = re.search(r"TURN_SPEC_PERSON_SB\s*=\s*\((.*?)\n\s*\+\s*_SHEET_COMMON\)", kg, re.S)
+    if _m_sbspec:
+        _sbspec = _m_sbspec.group(1)
+        if "NOT a studio backdrop" not in _sbspec:
+            print("❌ 그록 콘티 레인 — 인물 시트가 다시 스튜디오 배경으로 고정됐다(견본은 그 이야기 장면이다)"); rc = 1
+        if "달리기(RUN)" in _sbspec:
+            print("❌ 그록 콘티 레인 — 인물 시트 다섯째 칸이 다시 달리기로 고정됐다(견본은 판마다 그 이야기의 핵심 동작)"); rc = 1
+    elif "TURN_SPEC_PERSON_SB" in kg:
+        print("⏭ 그록 콘티 레인 ⑨-d 규격 본문 SKIP(선언 형태 변경 — 판정 앵커 확인 필요)")
+    if "dark grey studio background" not in kg:
+        print("❌ 그록 콘티 레인 — k 레인 인물 규격(스튜디오 배경)이 사라졌다(콘티 축 개정이 k 레인까지 바꿨다 = 무회귀 계약 위반)"); rc = 1
+    if "인물보드에도 의도가 녹는다" in _t("prompts/sb-make.md") and "핵심 동작" not in _t("prompts/sb-make.md"):
+        print("❌ 그록 콘티 레인 — 감독 지침에 핵심 동작 서술 계약이 없다(다섯째 칸을 채울 값이 안 온다)"); rc = 1
+
     # ⑨-c 콘티 자기검문 원장(운영자 260817 3차 「나중에 영상 잘뽑힌거 왜 잘뽑혔는지 분석해서 녹일때
     #   필요하니」) — 잘 나온 판을 되짚으려면 **그 판이 무슨 값으로 만들어졌는지**가 남아야 한다.
     #   ⚠ 이 층은 빠져도 콘티·영상이 정상으로 나온다(기록만 조용히 0) = 화면 증상 0 · 이 레포 최빈

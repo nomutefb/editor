@@ -70,6 +70,26 @@ TURN_SPECS = {
 }
 TURN_ASPECT, TURN_SIZE = "3:2", "2K"   # 시트 기본 = 가로 3:2 · 칸이 여럿이라 1K 면 얼굴이 뭉갠다
 
+# ⚠⚠ 콘티 레인 인물 시트 = **견본이 정본**(운영자 260817 「인물보드는 샘플 따라하는게 맞아」) —
+#   견본 두 판(`9-1`·`9-2`) 실측이 위 글 규격과 **두 자리에서 정면으로 어긋났다**:
+#     ⓐ 배경이 스튜디오 회색이 아니라 **그 이야기 장면**이고 칸들이 하나의 배경으로 이어진다
+#        (실측 = 비 오는 밤 편의점 앞·강변 · 젖은 머리·젖은 옷 상태까지 전 칸 동일)
+#     ⓑ 다섯째 칸이 판마다 다르다(9-1 건네기(OFFER) · 9-2 처마밑(SHELTER)) = 「그 이야기의 핵심 동작」
+#   → 그 **두 자리의 고정값만 뺀다**(값을 새로 지어내지 않고 「위 서술을 따르라」로 넘긴다).
+#   ⚠ 칸 배치·큰 정면·번호는 **안 건드린다** — 견본끼리도 배치가 갈리고(9-1 상단 균등 · 9-2 전신
+#     세로), 260814 에 「큰 정면 금지」로 적었다가 견본 실측으로 회수한 자리라 글로 또 뒤집으면
+#     같은 축을 세 번째로 왕복한다. 배치는 **견본 그림이 정한다**(그림이 참조로 실려 있다).
+#   ⚠ k 레인은 이 변형을 안 쓴다(위 `TURN_SPECS["person"]` 스튜디오 규격 그대로 = 무회귀).
+TURN_SPEC_PERSON_SB = (
+    " ONE CHARACTER TURNAROUND SHEET set INSIDE the story's own location and time of day as described"
+    " above — NOT a studio backdrop: a LARGE 정면(FRONT) portrait filling the left side, and beside it"
+    " 3/4 (45 degrees), 측면(SIDE) profile and 전신(FULL BODY) head to shoe; along the bottom one"
+    " ACTION panel showing THIS character's key action from the description above (label that panel in"
+    " Korean with the English in parentheses), and 표정(EXPRESSION) a row of 3 head close-ups."
+    " Every panel shares one continuous background of that same scene, and the character's wardrobe,"
+    " hair and its state (wet, dishevelled, carrying the same props) stay identical throughout."
+    + _SHEET_COMMON)
+
 # ── 콘티 레인(sb) 전용 축(운영자 260817) ─────────────────────────────────────
 # ⓐ 「그림 산출은 항상 스토리보드 1 + 핵심 인물 시트 n **만**」 — 배경·장소·제품 슬롯은 콘티
 #    레인에서 안 굽는다(환경 디자인은 스토리보드 시트에 녹인다 · 촬영 참조도 그 두 종만).
@@ -239,7 +259,9 @@ def main():
                     #   append 로 두면 목록이 통째로 한 장 자리에 들어가 첨부가 깨진다.
                     refps.extend(psample); clause += SAMPLE_CLAUSE_P
             # 다각도 시트 한 장(한 컷 금지) · 가로 3:2 · 2K
-            png = tg.gemini_image(clause + ref + TURN_SPECS[kind], TURN_SIZE, tag="kref",
+            # ⚠ 콘티 레인 인물만 견본 정본 규격(스튜디오·달리기 고정 없음) — 나머지는 종전 그대로
+            _spec = (TURN_SPEC_PERSON_SB if (kind == "person" and sb_lane) else TURN_SPECS[kind])
+            png = tg.gemini_image(clause + ref + _spec, TURN_SIZE, tag="kref",
                                   aspect=TURN_ASPECT, ref_png=(refps or None))
             print("참조 {}번({}) = 다각도 시트로 굽는다({} 문법 · 한 페이지{}{})".format(
                 i, lab, kind, " · 사진 정본" if (refps and clause.startswith("The FIRST")) else "",
