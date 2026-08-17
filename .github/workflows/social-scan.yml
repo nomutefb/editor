@@ -68,7 +68,7 @@ jobs:
           git add viewer/social_candidates.json
           if git diff --cached --quiet; then echo "변경 없음 — 커밋 생략"; exit 0; fi
           PFX=""; [ "${PAGES_COALESCE:-1}" != "0" ] && PFX="[CF-Pages-Skip] "   # CF 빌드만 스킵(코얼레싱 · 정본 = git_land.sh 헤더 · Q1331 — GitHub 발화 무손상 토큰)
-          git commit -m "${PFX}social-scan: SNS 레인 갱신"
+          # ⚠⚠ 260817 봉합 — 선행 `git commit` 제거(pick.yml 과 같은 병 · 그쪽 주석이 정본).
           # ⚠⚠ 260816 봉합 — 구판 `pull --rebase -X ours` 는 리베이스에서 ours = **upstream** 이라 충돌 시
           #   우리 헝크가 버려지는데 push 는 성공한다. 실측 형태는 **부분 공동화**다(신규 파일은 살고
           #   append 원장의 dedup 줄만 빠진다) → 중복 재적재·재과금.

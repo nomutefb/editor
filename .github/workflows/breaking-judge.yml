@@ -163,7 +163,7 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add viewer/candidates.json 2>/dev/null || true
           if git diff --cached --quiet; then echo "속보 변동 없음 — 조기 커밋 생략"; exit 0; fi
-          git commit -m "AI 판정: 속보 breaking 조기 반영"
+          # ⚠⚠ 260817 봉합 — 선행 `git commit` 제거(pick.yml 과 같은 병 · 그쪽 주석이 정본).
           # ⚠⚠ 260816 봉합 — 구판 `pull --rebase -X ours` 는 리베이스에서 ours = **upstream** 이라 충돌 시
           #   우리 헝크가 버려지는데 push 는 성공한다. 실측 형태는 **부분 공동화**다(신규 파일은 살고
           #   append 원장의 dedup 줄만 빠진다) → 중복 재적재·재과금.

@@ -107,8 +107,39 @@ jobs:
         # git_land = 최신 main 재기점 재적층(구 `pull --rebase -X ours`+4회 재시도의 리베이스 꼬임·경쟁 소진 → 산출물 no-op 유실 봉합 · 260716 브리프 3일 정지 사고 근본교정). insta 산출물 단독 소유라 재적층 안전.
         run: |
           bash .github/scripts/git_land.sh "insta: 계정 인사이트 스냅샷 (bot)" apps/insta/data viewer/insta_data.json viewer/insta_covers viewer/fb_data.json messages
+      # ── 브리프 캐던스 판정(운영자 260817 「채널 요약이 갱신이 늦다」) ──
+      # 진단 = 브리프를 깨우는 축이 **3시간 cron 하나뿐**이었다. GitHub schedule 은 best-effort라 자주 밀리는데
+      #   (실측 chan_brief.json 커밋 간격 08-16: 3h52m·2h08m·3h15m·2h46m / 08-15 20:34Z → 08-16 10:02Z = **13h28m 공백**),
+      #   30분마다 오는 폰 하트비트(push) 런은 260720 계약대로 데이터만 받고 브리프는 통째로 껐다 = 드롭을 메울 축이 0.
+      # 처방 = 하트비트 런에서도 **직전 브리프가 상한(기본 3시간)보다 묵었을 때만** 브리프를 켠다.
+      #   → schedule 이 밀려도 최대 30분 안에 따라잡고, 3시간 캐던스·토큰 비용은 그대로다(운영자 260718 의도 보존).
+      # ⚠ 못 재면 켠다(fail-open) = 파일이 없거나 시각이 깨진 회차는 chan_brief.sh 의 「입력 동일 = 스킵」이 토큰을 막는다.
+      # 상한 조절 = repo variable BRIEF_MAX_AGE_H · 종전 동작 복귀 = 아주 큰 값(예: 999).
+      - name: 브리프 캐던스 판정(하트비트 편승 조건 · 운영자 260817)
+        id: briefdue
+        env:
+          BRIEF_MAX_AGE_H: ${{ vars.BRIEF_MAX_AGE_H || '3' }}
+        run: |
+          python3 - <<'PYEOF'
+          import json, os, datetime as dt
+          lim = float(os.environ.get('BRIEF_MAX_AGE_H') or 3)
+          now = dt.datetime.now(dt.timezone.utc)
+          out = []
+          for key, path in (('ig', 'viewer/chan_brief.json'), ('fb', 'viewer/chan_brief_fb.json')):
+              try:
+                  u = json.load(open(path, encoding='utf-8')).get('updated')
+                  age = (now - dt.datetime.fromisoformat(str(u)).astimezone(dt.timezone.utc)).total_seconds() / 3600
+                  due = '1' if age >= lim else '0'
+                  print('brief-due %s: %.2f시간 지남(상한 %.1f) → %s' % (key, age, lim, '갱신' if due == '1' else '대기'))
+              except Exception as e:
+                  due, = '1',
+                  print('brief-due %s: 나이 측정 실패(%s) → 켠다(스킵 게이트가 토큰을 막는다)' % (key, e))
+              out.append('%s=%s' % (key, due))
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as f:
+              f.write('\n'.join(out) + '\n')
+          PYEOF
       - name: Install Claude Code CLI (채널 브리프 스텝용 — LLM 0콜 수집 레인이라 브리프 게이트와 동기 · sns-trends.yml 관용구)
-        if: ${{ github.event_name != 'push' && (inputs.brief || '1') == '1' }}   # 기본 ON 승격(§📰-e 이행 — 카나리아 run 29263671640 실측 260714: rc=0·브리프 1,355자 생성) · push(하트비트) 런 = 브리프 install 스킵(데이터 수집만 · 3h schedule 캐던스 보존 260720) · 롤백 = || '0'
+        if: ${{ (github.event_name != 'push' || steps.briefdue.outputs.ig == '1' || steps.briefdue.outputs.fb == '1') && (inputs.brief || '1') == '1' }}   # 260817 = 하트비트 런도 '묵었을 때만' 편승(브리프 드롭 메우기) · 기본 ON 승격(§📰-e 이행 — 카나리아 run 29263671640 실측 260714: rc=0·브리프 1,355자 생성) · push(하트비트) 런 = 브리프 install 스킵(데이터 수집만 · 3h schedule 캐던스 보존 260720) · 롤백 = || '0'
         run: npm install -g @anthropic-ai/claude-code
       # ── 표지 제목 판독(운영자 260812 "오버레이가 가장 정확한 내용이거든") ──
       # 요약이 «…» 로 게시물을 지목할 때 쓰던 이름 = 글 첫 줄인데, 노뮤트는 카드 제목과 글 첫 줄을 각각 따로
@@ -119,7 +150,7 @@ jobs:
       - name: 표지 제목 판독 + 신호 재계산(채널 브리프 입력 · fail-soft = 실패해도 종전 이름 그대로)
         # steps.igfetch 조건 = 신호 계산 스텝과 같은 이유(거짓 「수집 시각」 차단 · 260816) — 이 스텝도 끝에서
         # insta_signals 를 다시 돌려 generated_kst 를 찍는다. 수집이 죽은 회차엔 판독할 새 커버도 없다.
-        if: ${{ github.event_name != 'push' && (inputs.brief || '1') == '1' && steps.igfetch.outcome == 'success' }}   # claude CLI 설치 스텝과 동일 게이트(브리프 레인 편승) · push 하트비트 = 스킵(원장 적중분은 그대로 붙는다)
+        if: ${{ (github.event_name != 'push' || steps.briefdue.outputs.ig == '1') && (inputs.brief || '1') == '1' && steps.igfetch.outcome == 'success' }}   # claude CLI 설치 스텝과 동일 게이트(브리프 레인 편승) · push 하트비트 = 스킵(원장 적중분은 그대로 붙는다)
         env:
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets[format('CLAUDE_CODE_OAUTH_TOKEN_{0}', vars.ACTIVE_ACCOUNT || 'MUTENO')] }}
           CLAUDE_CODE_OAUTH_TOKEN_ALT: ${{ (vars.ACTIVE_ACCOUNT || 'MUTENO') == 'NOMUTEFB' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_NOMUTEFB }}
@@ -133,7 +164,7 @@ jobs:
           # 수집 실패 회차 = '0' 강제(260816) — 인스타 데이터가 어제 것 그대로인데 브리프를 새로 쓰면
           # 「오늘 0장」 같은 오늘 상태를 옛 숫자로 단정한다(chan_brief.sh 의 입력 동일=스킵 계약과 같은 축을
           # 명시로 굳힌 것 · 페이스북 브리프는 아래에서 그대로 돈다 = 곁다리 사망 없음).
-          CHAN_BRIEF: ${{ (github.event_name == 'push' || steps.igfetch.outcome != 'success') && '0' || (inputs.brief || '1') }}   # 기본 ON(§📰-e 이행 — 카나리아 run 29263671640 실측 260714: 성장 서사+전략 4줄 정상 · schedule = inputs 없음 → '1') · dispatch brief='0' = 일시 OFF · push(하트비트) = '0' 강제(데이터 수집만 · 비싼 AI 브리프는 3h schedule 전용 · 260720) · 롤백 = inputs.brief || '1'
+          CHAN_BRIEF: ${{ ((github.event_name == 'push' && steps.briefdue.outputs.ig != '1') || steps.igfetch.outcome != 'success') && '0' || (inputs.brief || '1') }}   # 기본 ON(§📰-e 이행 — 카나리아 run 29263671640 실측 260714: 성장 서사+전략 4줄 정상 · schedule = inputs 없음 → '1') · dispatch brief='0' = 일시 OFF · push(하트비트) = '0' 강제(데이터 수집만 · 비싼 AI 브리프는 3h schedule 전용 · 260720) · 롤백 = inputs.brief || '1'
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets[format('CLAUDE_CODE_OAUTH_TOKEN_{0}', vars.ACTIVE_ACCOUNT || 'MUTENO')] }}
           CLAUDE_CODE_OAUTH_TOKEN_ALT: ${{ (vars.ACTIVE_ACCOUNT || 'MUTENO') == 'NOMUTEFB' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_NOMUTEFB }}   # 서브1 폴오버(체인 MUTENO→NOMUTEFB→EMS1130G→EMS1130M · sns-trends 관용구)
           CLAUDE_CODE_OAUTH_TOKEN_ALT2: ${{ (vars.ACTIVE_ACCOUNT || 'MUTENO') == 'MUTENO' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_MUTENO }}   # 서브2 폴오버(체인 3번째)
@@ -143,14 +174,14 @@ jobs:
         run: |
           bash .github/scripts/git_land.sh "insta: 채널 브리프 스냅샷 (bot)" viewer/chan_brief.json viewer/chan_brief_log.jsonl "metrics/usage/${GITHUB_RUN_ID}-${GITHUB_JOB}-${GITHUB_RUN_ATTEMPT}.jsonl"
       - name: FB 주제 LLM 분류(운영자 260724 · Haiku·캐시 · 정확 주제별 반응 승격) — 재작성 헤드라인이라 키워드 분류 빈약(기타 80%)을 LLM으로 교정 · fail-soft(rc0 · 실패 시 키워드 폴백)
-        if: ${{ github.event_name != 'push' && (inputs.brief || '1') == '1' }}   # claude CLI 설치 스텝과 동일 게이트(브리프 레인 편승) · push 하트비트 = 스킵(캐시라 3h 캐던스로 충분)
+        if: ${{ (github.event_name != 'push' || steps.briefdue.outputs.fb == '1') && (inputs.brief || '1') == '1' }}   # claude CLI 설치 스텝과 동일 게이트(브리프 레인 편승) · 하트비트 = FB 브리프가 도는 회차만 편승(260817)
         env:
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets[format('CLAUDE_CODE_OAUTH_TOKEN_{0}', vars.ACTIVE_ACCOUNT || 'MUTENO')] }}   # 브리프 동일 활성계정(분류 = Haiku 경량 · 실패 = 폴백이라 체인 생략)
         run: python3 .github/scripts/fb_classify.py || true
       - name: FB 채널 AI 브리프(운영자 260724 "페이스북도 요약 동일 조건") — chan_brief 자매·반응 기반 · fb_classify 뒤(분류 topics 반영) · 입력 동일=스킵(토큰0) · 실패=직전 유지(fail-soft)
-        if: ${{ github.event_name != 'push' && (inputs.brief || '1') == '1' }}   # chan_brief와 동일 게이트(브리프 레인 편승) · push 하트비트 = 스킵
+        if: ${{ (github.event_name != 'push' || steps.briefdue.outputs.fb == '1') && (inputs.brief || '1') == '1' }}   # chan_brief와 동일 게이트(브리프 레인 편승) · 하트비트 = 묵었을 때만 편승(260817)
         env:
-          CHAN_BRIEF: ${{ github.event_name == 'push' && '0' || (inputs.brief || '1') }}
+          CHAN_BRIEF: ${{ (github.event_name == 'push' && steps.briefdue.outputs.fb != '1') && '0' || (inputs.brief || '1') }}
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets[format('CLAUDE_CODE_OAUTH_TOKEN_{0}', vars.ACTIVE_ACCOUNT || 'MUTENO')] }}
           CLAUDE_CODE_OAUTH_TOKEN_ALT: ${{ (vars.ACTIVE_ACCOUNT || 'MUTENO') == 'NOMUTEFB' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_NOMUTEFB }}
           CLAUDE_CODE_OAUTH_TOKEN_ALT2: ${{ (vars.ACTIVE_ACCOUNT || 'MUTENO') == 'MUTENO' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_MUTENO }}

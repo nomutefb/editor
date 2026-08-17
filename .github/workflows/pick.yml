@@ -95,8 +95,13 @@ jobs:
           if [ "${NEW:-0}" = "0" ]; then echo "신규 없음(중복/무효) — 분석 생략"; exit 0; fi
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add pending scraper/seen_urls.txt
-          git commit -m "pick: 큐레이션 1건 적재"
+          # ⚠⚠ 260817 봉합 — 여기 있던 `git add`+`git commit` 두 줄이 **픽 유실의 진범**이었다.
+          #   git_land 는 「워킹트리 변동」으로 착지 여부를 판정하는데(git diff --cached), 앞줄이 먼저
+          #   커밋해 버리면 변동이 커밋에 흡수돼 「변동 없음 — 커밋 생략」으로 조용히 빠진다 = push 0.
+          #   그러면 방금 만든 pending 파일이 러너 로컬 커밋에 갇힌 채 러너와 함께 사라지고,
+          #   아래 착지 판정이 걸려 잡은 빨강인데 운영자 화면에선 「픽했더니 그냥 없어짐」으로만 보인다
+          #   (실측 run 31981913235 = `create pending/260817-092415-pick-e87f.txt` 직후 「변동 없음」).
+          #   → 커밋은 git_land 가 한다(그 함수의 계약) · 여기선 만들어만 둔다.
           # ⚠⚠ 260816 봉합 — 구판 `pull --rebase -X ours` 는 리베이스에서 ours = **upstream** 이라 충돌 시
           #   우리 헝크가 버려지는데 push 는 성공한다. 실측 형태는 **부분 공동화**다(신규 파일은 살고
           #   append 원장의 dedup 줄만 빠진다) → 중복 재적재·재과금.

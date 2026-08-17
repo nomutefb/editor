@@ -5482,6 +5482,55 @@ def check_land_silence():
 
 
 
+def check_land_precommit():
+    """착지 위임 자리의 **선행 커밋** = 산출물이 러너 로컬 커밋에 갇히는 조용한 유실(260817 실사고 봉합).
+    CONTRACT: check_land_precommit
+
+    ⚠ 신설 사유 = **260816 봉합이 `pull --rebase -X ours` 를 `git_land.sh` 위임으로 바꾸면서 그 앞의
+      `git commit` 줄을 안 지웠고, 6자리가 한꺼번에 그 상태로 나갔다**(pick·scrape 3곳·breaking-judge·
+      social-scan). `git_land` 는 착지 여부를 **워킹트리 변동**(`git diff --cached`)으로 판정하는데 앞줄이
+      먼저 커밋해 버리면 변동이 커밋에 흡수돼 「변동 없음 — 커밋 생략」으로 빠진다 = push 0.
+      실측 run 31981913235 = `create pending/260817-092415-pick-e87f.txt` 바로 다음 줄이 「변동 없음」이고,
+      운영자가 손으로 누른 픽이 main 에 못 올라가 화면에선 **「픽했더니 그냥 사라짐」**으로만 보였다.
+      샌드박스 재현 = 선행 커밋 있으면 pushed=0·원격 파일 0 / 없으면 pushed=1·원격 파일 1.
+
+    ⚠ 기존 게이트가 전부 다른 축이다 — `check_land_silence` = 착지 실패를 **말하는가**(그래서 이 사고에선
+      pick 만 빨강이 떴고 판정이 없는 social-scan 은 초록으로 유실했다) · `check_land_xours` = push 는 되는데
+      **내용이 빈** 축 · `check_land_share` = 남의 것을 **지우는** 축 → 「착지를 맡겨놓고 그 앞에서 먼저
+      커밋해 버리는가」는 축 자체가 없었다.
+
+    술어 = 「같은 run 블록 안에서 `git_land.sh` 실행줄보다 **앞**에 `git commit` 실행줄이 있다」.
+    스텝 경계(`- name:` / `run:`)를 만나면 거슬러 보기를 멈춘다 = 남의 스텝 커밋이 면죄부도 오탐도 안 된다.
+    주석 줄 제외(이 봉합의 처방 주석이 그 문자열을 인용한다) · 정적 · 렌더·LLM·네트워크 0 · 면책표 없이 하드 0."""
+    hits = []
+    for p in sorted(glob.glob(os.path.join(ROOT, '.github', 'workflows', '*.yml'))):
+        try:
+            lines = open(p, encoding='utf-8').read().split('\n')
+        except Exception:
+            continue
+        rel = os.path.relpath(p, ROOT)
+        for i, ln in enumerate(lines):
+            st = ln.strip()
+            if st.startswith('#') or 'git_land.sh' not in st.split('#')[0]:
+                continue
+            for j in range(i - 1, max(-1, i - 80), -1):
+                s = lines[j].strip()
+                if s.startswith('- name:') or s.startswith('- run:') or s.startswith('run:'):
+                    break            # 스텝 경계 = 여기서부터는 남의 블록
+                if s.startswith('#') or not s:
+                    continue
+                if re.match(r'^git commit\b', s.split('#')[0].strip()):
+                    hits.append('%s:%d: %s   → %d행 git_land 위임보다 앞선 커밋' % (rel, j + 1, s.split('#')[0].strip()[:70], i + 1))
+                    break
+    if hits:
+        print('❌ 착지 위임 앞 선행 커밋 %d건 — git_land 가 「변동 없음」으로 빠져 산출물이 로컬 커밋에 갇힌다(push 0):' % len(hits))
+        for h in hits:
+            print('   ', h)
+        print('   처방 = 그 `git commit` 줄을 지운다(커밋은 git_land 가 한다) · 조기 종료 판정용 `git add`+`git diff --cached` 는 남겨도 된다.')
+        return 1
+    return 0
+
+
 _CANON_EXT = ('.py', '.js', '.mjs', '.sh', '.command', '.yml', '.yaml', '.html', '.css', '.bat', '.ps1')
 _CANON_SKIP_DIRS = ('_versions/', 'docs/', 'cards/', '.claude/', 'queue/', 'scraper/obs/')
 
@@ -9453,6 +9502,11 @@ def main():
             rc = 1
     except Exception as e:
         print('❌ check_land_silence 예외(fail-closed):', e); rc = 1
+    try:
+        if check_land_precommit() != 0:   # 착지 위임 앞 선행 커밋(하드 — 260817 픽 유실 진범 · git_land 가 「변동 없음」으로 빠져 산출물이 러너와 함께 증발)
+            rc = 1
+    except Exception as e:
+        print('❌ check_land_precommit 예외(fail-closed):', e); rc = 1
     try:
         if check_canon_host() != 0:   # 화면 주소 정본(하드 — 코드가 옛 화면을 부르면 화면 증상 0으로 조용히 죽는다 · 260816 계정 이관 후속)
             rc = 1
