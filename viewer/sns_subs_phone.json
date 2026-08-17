@@ -390,12 +390,32 @@
  "threads": [
   {
    "account": "choi.openai",
-   "text": "Stripe가 OpenRouter를 70억 달러가 넘는 금액에 인수합니다.\n\n이번 거래로 Stripe의 사업 영역은 결제를 넘어 AI 모델이 선택되고 사용되는 단계까지 넓어집니다.\n에이전트가 필요한 모델을 고르고, 토큰을 사용하고, 그 비용을 지불하는 전 과정을 하나의 인프라로 묶으려는 겁니다.\n\n지난 16개월의 흐름에서 이번 인수가 어디로 향하는지 정리했습니다. 🧵",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1786935630,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/776130167_17982535383112832_7246920871496918893_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk2NTQyNTkzNTQ0OTAyMzEyOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNDAwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=zc-SrWXAX2UQ7kNvwEzIT03&_nc_oc=AdqOxnLN_p1Wx48P2Ndc3taor1xFQXie07oRd_U6uYLYTENjs9s8ZWlIK0KoiQ1oUds&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=PBJ5bglrHbcZ7oGwOXg9Vg&_nc_ss=7a22e&oh=00_AQE9Q1XNBRJA5qE_EGzTqFkYuWOMsw0BxHY9YAEzOI525w&oe=6A8850BA",
-   "url": "https://www.threads.com/@choi.openai/post/DcIBeDpj2KZ",
+   "text": "3/ OpenRouter의 성장 속도를 보면 Stripe가 높은 가격을 지불한 이유도 어느 정도 보입니다.\n\nOpenRouter는 5월 Series B를 발표하며 개발자 800만 명 이상, 모델 400개 이상, 주간 처리량 25조 토큰을 공개했습니다. 6개월 전 5조 토큰에서 5배 늘어난 규모입니다. 8월 Auto Router를 공개할 때는 주간 사용량이 55조 토큰을 넘어섰습니다.\n\n사용량이 늘수록 수수료 매출만 커지는 것이 아닌 어떤 작업에 어떤 모델이 선택되는지, 같은 모델을 어느 공급자가 더 빠르고 안정적으로 제공하는지, 사용자가 가격과 품질 사이에서 무엇을 선택하는지도 함께 쌓이는데요. \n\nOpenRouter는 이 데이터를 다시 라우팅에 활용해 다음 요청에 적합한 모델과 공급자를 고를 수 있습니다.",
+   "likes": 1,
+   "cmts": 1,
+   "time": 1786935653,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778852798_17982539205112832_1097417661189408267_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk2NTQyNjEyOTI1MTAxOTU3NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTYwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=SVVw7FxcRLIQ7kNvwHySwT9&_nc_oc=AdqwKprSCTS2Ib9GE_jrbkV8AZLrretVpD_bYVctDXH0XpQspmBzM_0dSDZFnfyihgU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=QS44zTrucSdtFBfnUfUoAQ&_nc_ss=7a22e&oh=00_AQEFhl5QGmRUMlDuiX0o_WQsFfSPLoc6mOm8oxihcjMP0A&oe=6A8844A4",
+   "url": "https://www.threads.com/@choi.openai/post/DcIBg4JDys3",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "2/ OpenRouter는 겉으로 보면 여러 AI 모델을 하나의 API로 묶어 제공하는 서비스입니다. 실제로는 앱과 모델 회사 사이에서 500개가 넘는 모델과 80개 이상의 추론 공급자를 연결하고, 가격과 속도, 가용성, 도구 호출 지원, 데이터 보존 정책에 따라 요청을 적절한 곳으로 보냅니다.\n사용자는 모델 회사마다 계정과 결제 수단을 따로 만들 필요 없이 한곳에서 비용과 로그를 관리할 수 있는데요.\n\nOpenRouter는 현재 종량제 사용액에 5.5%의 플랫폼 수수료를 붙입니다. 그래서 사업 구조도 일반 소프트웨어 판매보다는 거래가 일어날 때마다 일정 비율을 가져가는 결제·중개 플랫폼에 가깝습니다.\n\nAI 모델 호출이 늘어날수록 함께 매출이 커지는 구조라는 점에서 Stripe가 익숙한 사업과 닮아 있습니다.",
+   "likes": 1,
+   "cmts": 1,
+   "time": 1786935644,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/775048010_1044910594815824_2056451515141644020_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk2NTM4NDg0NjkyMjkxOTQwMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=ubC-6_40keQQ7kNvwGHB9rI&_nc_oc=AdqZS4Ki6fOk2I6D9HSX9PWa-kD-akq3vny6B_Zpp6DWRLzZGSHrRop0h5Z7mz9Qj2U&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=QS44zTrucSdtFBfnUfUoAQ&_nc_ss=7a22e&oh=00_AQEVls2rL3OMKmFe1nBis-ypaG-x5IW5KQrreCa4haW-YA&oe=6A885BEE",
+   "url": "https://www.threads.com/@choi.openai/post/DcH4II-jq3q",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "1/ Bloomberg는 8월 17일 Stripe가 OpenRouter를 70억 달러가 넘는 금액에 인수하기로 최종 합의했다고 보도했습니다.\n불과 몇 달 전 13억 달러의 기업가치를 인정받았던 회사가 약 80일 만에 5배가 넘는 가격에 팔리게 된 거래입니다.\n\n2023년 출범한 OpenRouter는 여러 AI 모델과 추론 공급자를 하나의 API로 연결하는 서비스인데요.\n\n지금까지 결제를 처리해온 Stripe는 이번 인수를 통해 어떤 모델을 호출할지 선택하고, 그 사용량에 따라 비용이 발생하는 지점까지 사업 영역을 넓히게 됩니다.",
+   "likes": 1,
+   "cmts": 1,
+   "time": 1786935635,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/777352520_17982539355112832_3476005423324452691_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk2NTQyNTk4MzQxNTEwODAyNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI4Mi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=y6GDvAMXtoMQ7kNvwEIc6kP&_nc_oc=AdrbNTfUWRUxvkgI2ZEnwjAcueU0uoi2IoZPlVt-29UjCZH3wRDlBZXtHo9CgpWLPLM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=QS44zTrucSdtFBfnUfUoAQ&_nc_ss=7a22e&oh=00_AQFPR6_DybNLdDPgStnu5rdrkT-8edwM8yPSs_0A-evvgA&oe=6A884EE5",
+   "url": "https://www.threads.com/@choi.openai/post/DcIBewUj8G4",
    "region": "kr"
   },
   {
@@ -429,26 +449,6 @@
    "region": "kr"
   },
   {
-   "account": "choi.openai",
-   "text": "드디어 Codex에서도 GPT-5.6 Sol의 100만 토큰 컨텍스트를 설정할 수 있게 됐습니다.\n\n`~/.codex/config.toml`에서 컨텍스트를 100만, 자동 압축 시점을 90만 토큰으로 지정하면 됩니다.\n\n다만 272K 토큰을 넘기면 사용량 한도가 2배 빠르게 소모될 수 있어 주의가 필요합니다. 기본 설정도 성능과 비용을 고려해 조정된 만큼, 긴 작업이 꼭 필요한 경우에 사용하는 게 좋아 보입니다.\n\n또한, 일부 사용자는 서버 제한 때문에 실제 100만 토큰이 적용되지 않는다고 보고하고 있습니다.",
-   "likes": 27,
-   "cmts": 3,
-   "time": 1786930256,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/775633480_17982529722112832_5713886472975788942_n.jpg?stp=cp6_dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk2NTM4MDg2MDg5MDk0NzQxNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTE3OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Ovi5GAsH134Q7kNvwHMAF4s&_nc_oc=Adq1pnfYuD7HOBkylInJ-tWocIY99KsJUOdeP0SRM5Ej0lsE_KfA21Fa52c4fF2Fwuc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=PBJ5bglrHbcZ7oGwOXg9Vg&_nc_ss=7a22e&oh=00_AQEBif9EQEZ4CFTXerlnNHDIGLkXZ1vL3nioPjI1egWMOQ&oe=6A885928",
-   "url": "https://www.threads.com/@choi.openai/post/DcH3OIsiZ9X",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "3/ 알리바바가 Qwen3.8-Max와 27B 가중치를 연달아 공개했습니다.\n\nMax는 총 2.4조 파라미터 가운데 토큰당 950억 개를 쓰고, 기본 26만 토큰을 약 100만 토큰까지 확장할 수 있습니다. 이틀 뒤 나온 27B는 이미지와 영상까지 처리하며 Apache 2.0으로 공개됐습니다.\n\n27B의 4비트 양자화본은 17.1GB입니다. 한쪽에서는 Max급 모델을 서버에 올리고, 다른 쪽에서는 같은 세대의 작업 능력을 소비자 GPU까지 내렸습니다. 공개 당일부터 vLLM·SGLang·Unsloth가 지원한 것도 확산 속도를 높입니다.\n\n기업은 양자화 뒤 성능 저하와 긴 문맥에서 추가로 필요한 메모리까지 계산해야 합니다.",
-   "likes": 3,
-   "cmts": 1,
-   "time": 1786924843,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DcHs5Tgj18V",
-   "region": "kr"
-  },
-  {
    "account": "aicoffeechat",
    "text": "앞으로 꿀단지 계속 얻고 싶으면 @aicoffeechat 팔로우하고 기다리고 있어요 :)\n\n링크: https://amicro.vercel.app/mono-charts",
    "likes": 9,
@@ -461,11 +461,21 @@
   {
    "account": "aicoffeechat",
    "text": "이거 시각화할 때 꿀단지다 ..\n\n방문해야 할 무료 오픈 소스 React UI 라이브러리, 시각화, 표를 만드는 작업에 넣었더니 만족도가 상당히 높아집니다. 여러분도 하셨으면 하는 마음에 공유해요.\n\n진짜 나만 알고 싶을 정도. 더 이상 예쁘게 만들어줘 프롬프트 반복하지마세요.",
-   "likes": 80,
+   "likes": 87,
    "cmts": 6,
    "time": 1786924530,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/774886508_1581503607009959_5602628636556251891_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk2NTMzMDYxNjg1MzYwNjc4Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=IxtR-MaTx-oQ7kNvwFcI_ki&_nc_oc=Ado_1e9WGyQaih75i9MzXDF2FdwAivQFxbHCjyCXafXCCzcq5q_vALk5AuwY3HB6ChY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=ab1cVWdNnH0XwHQMoq3eEA&_nc_ss=7a22e&oh=00_AQE9u4OruwXAGt8WmYKqBkbogaKSu3m-73lDBD4yqOVe-g&oe=6A886294",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/774886508_1581503607009959_5602628636556251891_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk2NTMzMDYxNjg1MzYwNjc4Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=IxtR-MaTx-oQ7kNvwFcI_ki&_nc_oc=Ado_1e9WGyQaih75i9MzXDF2FdwAivQFxbHCjyCXafXCCzcq5q_vALk5AuwY3HB6ChY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=ZR_fB60AHIVoaZyq4jviZA&_nc_ss=7a22e&oh=00_AQHAb20CXUSjgvS8kzRfIIFWK04aWjHa4FaI4S0bJYAjVA&oe=6A886294",
    "url": "https://www.threads.com/@aicoffeechat/post/DcHry_SijGC",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "Stripe가 OpenRouter를 70억 달러가 넘는 금액에 인수합니다.\n\n이번 거래로 Stripe의 사업 영역은 결제를 넘어 AI 모델이 선택되고 사용되는 단계까지 넓어집니다.\n에이전트가 필요한 모델을 고르고, 토큰을 사용하고, 그 비용을 지불하는 전 과정을 하나의 인프라로 묶으려는 겁니다.\n\n지난 16개월의 흐름에서 이번 인수가 어디로 향하는지 정리했습니다. 🧵",
+   "likes": 16,
+   "cmts": 15,
+   "time": 1786935630,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/776130167_17982535383112832_7246920871496918893_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk2NTQyNTkzNTQ0OTAyMzEyOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNDAwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=zc-SrWXAX2UQ7kNvwEzIT03&_nc_oc=AdqOxnLN_p1Wx48P2Ndc3taor1xFQXie07oRd_U6uYLYTENjs9s8ZWlIK0KoiQ1oUds&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=QS44zTrucSdtFBfnUfUoAQ&_nc_ss=7a22e&oh=00_AQF6YJ52H0lJ9suC_15dPKtxZvWyR-kRJDYM3sUQyKwwEw&oe=6A8850BA",
+   "url": "https://www.threads.com/@choi.openai/post/DcIBeDpj2KZ",
    "region": "kr"
   },
   {
@@ -474,28 +484,18 @@
    "likes": 0,
    "cmts": 1,
    "time": 1786930282,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/777593200_18080682035407306_6028494292895390915_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk2NTM4MTAwMTE2NjcwMTU5Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQzOS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=rngiMugEXaoQ7kNvwHDvvX8&_nc_oc=AdroEFrotMfBpfBkMmUbOOMMCeaWEOe3JPQOWoOhKlFIgLl3XPi46IV2hQ50e8Q8irc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=dcxQeS5bV39j9WetuEVZfw&_nc_ss=7a22e&oh=00_AQEuSDmjXvSiHUyv2TYywY48s5V1a0C626_G0I6GmSm-Sg&oe=6A8855E1",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/777593200_18080682035407306_6028494292895390915_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk2NTM4MTAwMTE2NjcwMTU5Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQzOS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=rngiMugEXaoQ7kNvwHDvvX8&_nc_oc=AdroEFrotMfBpfBkMmUbOOMMCeaWEOe3JPQOWoOhKlFIgLl3XPi46IV2hQ50e8Q8irc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=d3K4EAZE7EJmZrjPsp88GA&_nc_ss=7a22e&oh=00_AQHYhEwYT42mrmGomT2EE-IruZ4fTdZl_qf4e8xYQKCZFw&oe=6A8855E1",
    "url": "https://www.threads.com/@aipeekme/post/DcH3QLVn8QY",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "2/ Z.ai가 GLM-5.3을 공개했습니다.\n\n743B 베이스 모델은 GLM-5.2와 같습니다. 한 달 동안 후속 학습만 늘려 Terminal-Bench 3.0을 4.6에서 28.3, DeepSWE를 46.2에서 66.9로 올렸습니다. 취약점 탐지 CyberGym에서도 84.5%를 기록했습니다.\n\n지금은 GLM Coding Plan과 ZCode에서 쓸 수 있고, 가중치는 안전 평가를 거쳐 2주 뒤 공개할 예정입니다. 새 베이스 모델보다 실제 작업 환경에서 반복 훈련하는 능력이 중국 모델 경쟁의 속도를 끌어올리고 있습니다.",
-   "likes": 6,
-   "cmts": 1,
-   "time": 1786924840,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DcHs46dDx3y",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "1/ 구글이 Gemini 3.7 Flash를 공개했습니다.\n\n3.6 Flash가 나온 지 3주 만입니다. 사전학습을 다시 하지 않고 알고리즘과 모델의 행동 방식을 다듬어 DeepSWE를 49.0%에서 65.3%, FrontierCode를 34.4%에서 43.6%로 올렸습니다.\n\n연말까지 입력 0.75달러, 출력 3.75달러로 기존 가격의 절반을 받지만 2027년 1월에는 다시 두 배가 됩니다. 모델 업데이트 주기는 짧아졌고, 가격 경쟁은 영구 인하보다 한시 할인으로 번지고 있습니다.",
-   "likes": 29,
-   "cmts": 1,
-   "time": 1786924835,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DcHs4Y2D_YL",
+   "text": "드디어 Codex에서도 GPT-5.6 Sol의 100만 토큰 컨텍스트를 설정할 수 있게 됐습니다.\n\n`~/.codex/config.toml`에서 컨텍스트를 100만, 자동 압축 시점을 90만 토큰으로 지정하면 됩니다.\n\n다만 272K 토큰을 넘기면 사용량 한도가 2배 빠르게 소모될 수 있어 주의가 필요합니다. 기본 설정도 성능과 비용을 고려해 조정된 만큼, 긴 작업이 꼭 필요한 경우에 사용하는 게 좋아 보입니다.\n\n또한, 일부 사용자는 서버 제한 때문에 실제 100만 토큰이 적용되지 않는다고 보고하고 있습니다.",
+   "likes": 32,
+   "cmts": 4,
+   "time": 1786930256,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/775633480_17982529722112832_5713886472975788942_n.jpg?stp=cp6_dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk2NTM4MDg2MDg5MDk0NzQxNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTE3OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Ovi5GAsH134Q7kNvwHMAF4s&_nc_oc=Adq1pnfYuD7HOBkylInJ-tWocIY99KsJUOdeP0SRM5Ej0lsE_KfA21Fa52c4fF2Fwuc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=QS44zTrucSdtFBfnUfUoAQ&_nc_ss=7a22e&oh=00_AQEUGeXXJsHYuubjpJgWI07QjNnjA-xcsAKTomcm1lRYdA&oe=6A885928",
+   "url": "https://www.threads.com/@choi.openai/post/DcH3OIsiZ9X",
    "region": "kr"
   },
   {
@@ -510,12 +510,12 @@
   },
   {
    "account": "choi.openai",
-   "text": "놓치면 안 될 AI 소식 45개를 정리했습니다 🧵",
-   "likes": 65,
-   "cmts": 47,
-   "time": 1786924833,
+   "text": "3/ 알리바바가 Qwen3.8-Max와 27B 가중치를 연달아 공개했습니다.\n\nMax는 총 2.4조 파라미터 가운데 토큰당 950억 개를 쓰고, 기본 26만 토큰을 약 100만 토큰까지 확장할 수 있습니다. 이틀 뒤 나온 27B는 이미지와 영상까지 처리하며 Apache 2.0으로 공개됐습니다.\n\n27B의 4비트 양자화본은 17.1GB입니다. 한쪽에서는 Max급 모델을 서버에 올리고, 다른 쪽에서는 같은 세대의 작업 능력을 소비자 GPU까지 내렸습니다. 공개 당일부터 vLLM·SGLang·Unsloth가 지원한 것도 확산 속도를 높입니다.\n\n기업은 양자화 뒤 성능 저하와 긴 문맥에서 추가로 필요한 메모리까지 계산해야 합니다.",
+   "likes": 3,
+   "cmts": 1,
+   "time": 1786924843,
    "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DcHs4FAD89h",
+   "url": "https://www.threads.com/@choi.openai/post/DcHs5Tgj18V",
    "region": "kr"
   },
   {
@@ -524,18 +524,18 @@
    "likes": 1,
    "cmts": 1,
    "time": 1786921293,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/774832194_18080652374407306_5351783866410781749_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk2NTMwNTYxMjM5MzQzMjUwNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=BEHMvaMwI9YQ7kNvwE0aCiK&_nc_oc=Adps5SjZo6sCltJWw7BVGIRhX7_YytW0DM_lAmxqpKUStw9vIQ16xb5WDv-pFxoXW_U&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=dcxQeS5bV39j9WetuEVZfw&_nc_ss=7a22e&oh=00_AQFn0Zlj-9SJ9JI7lyulAh1CBjVfFI-X36BMICf0pUKCLw&oe=6A883495",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/774832194_18080652374407306_5351783866410781749_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk2NTMwNTYxMjM5MzQzMjUwNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=BEHMvaMwI9YQ7kNvwE0aCiK&_nc_oc=Adps5SjZo6sCltJWw7BVGIRhX7_YytW0DM_lAmxqpKUStw9vIQ16xb5WDv-pFxoXW_U&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=d3K4EAZE7EJmZrjPsp88GA&_nc_ss=7a22e&oh=00_AQF-OBPrHl_Tirm53W0IKOzqSoIAfE6NOD3Htyu8IbymMw&oe=6A886CD5",
    "url": "https://www.threads.com/@aipeekme/post/DcHmHIEksW6",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "풀영상 :\nhttps://www.youtube.com/watch?v=fsTtKywmWlU",
-   "likes": 3,
-   "cmts": 0,
-   "time": 1786923038,
+   "text": "2/ Z.ai가 GLM-5.3을 공개했습니다.\n\n743B 베이스 모델은 GLM-5.2와 같습니다. 한 달 동안 후속 학습만 늘려 Terminal-Bench 3.0을 4.6에서 28.3, DeepSWE를 46.2에서 66.9로 올렸습니다. 취약점 탐지 CyberGym에서도 84.5%를 기록했습니다.\n\n지금은 GLM Coding Plan과 ZCode에서 쓸 수 있고, 가중치는 안전 평가를 거쳐 2주 뒤 공개할 예정입니다. 새 베이스 모델보다 실제 작업 환경에서 반복 훈련하는 능력이 중국 모델 경쟁의 속도를 끌어올리고 있습니다.",
+   "likes": 6,
+   "cmts": 1,
+   "time": 1786924840,
    "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DcHpc7cDzY5",
+   "url": "https://www.threads.com/@choi.openai/post/DcHs46dDx3y",
    "region": "kr"
   },
   {
@@ -550,12 +550,12 @@
   },
   {
    "account": "choi.openai",
-   "text": "Y Combinator CEO 게리 탄(Garry Tan)은 차세대 컴퓨팅의 핵심으로 음성 인터페이스와 지속적인 맥락 메모리를 꼽았습니다.\n\n그는 미래의 AI가 사용자의 희망과 두려움까지 이해하며 끊임없이 돕는 존재가 될 것이라며, “2027년경에는 '하네스 전쟁(Harness Wars)'이 일어날 것”이라고 전망했습니다.\n\n지금은 높은 연산 비용 탓에 광범위한 AI 확산이 제한적이지만, 프론티어 모델의 컴퓨팅 비용이 급격히 하락하면서 10억 명의 소비자를 차지하기 위한 플랫폼 경쟁이 본격화될 것이라는 분석입니다.",
-   "likes": 20,
+   "text": "1/ 구글이 Gemini 3.7 Flash를 공개했습니다.\n\n3.6 Flash가 나온 지 3주 만입니다. 사전학습을 다시 하지 않고 알고리즘과 모델의 행동 방식을 다듬어 DeepSWE를 49.0%에서 65.3%, FrontierCode를 34.4%에서 43.6%로 올렸습니다.\n\n연말까지 입력 0.75달러, 출력 3.75달러로 기존 가격의 절반을 받지만 2027년 1월에는 다시 두 배가 됩니다. 모델 업데이트 주기는 짧아졌고, 가격 경쟁은 영구 인하보다 한시 할인으로 번지고 있습니다.",
+   "likes": 29,
    "cmts": 1,
-   "time": 1786923030,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/774594930_2133327304281946_4688667921710576300_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk2NTMyMDI0MzU0MzI2MjcyMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=3pUuw7acmoYQ7kNvwHNZMSv&_nc_oc=AdqV9qaF2fc7uZ18XcRl6G9ji7nfK6hAFAwAq5tt2MdWrYfXEH-fkaAkzvnhzWu6EU0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=PBJ5bglrHbcZ7oGwOXg9Vg&_nc_ss=7a22e&oh=00_AQH7LmhfEulJYw2VscaIQgaV_Fsld-kbGMMJCgM_NYqQRQ&oe=6A883C94",
-   "url": "https://www.threads.com/@choi.openai/post/DcHpcCZD8YB",
+   "time": 1786924835,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DcHs4Y2D_YL",
    "region": "kr"
   },
   {
@@ -564,8 +564,28 @@
    "likes": 0,
    "cmts": 2,
    "time": 1786896046,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/775376585_18080541773407306_8808075138166538009_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk2NTA5MzgxOTAxNzI4OTI3MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=uuNyyna0JQkQ7kNvwGX1r49&_nc_oc=AdomAHRrz7EFOM4-FPq872wopACDJlH31otdPG3iY-O6JBOyJSBOmmRbzr5YdVlGYLQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=dcxQeS5bV39j9WetuEVZfw&_nc_ss=7a22e&oh=00_AQFz3sQJriESrSHb-0EB4S9rMRzH8ebQ77CpmnvSY5y7bA&oe=6A883195",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/775376585_18080541773407306_8808075138166538009_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk2NTA5MzgxOTAxNzI4OTI3MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=uuNyyna0JQkQ7kNvwGX1r49&_nc_oc=AdomAHRrz7EFOM4-FPq872wopACDJlH31otdPG3iY-O6JBOyJSBOmmRbzr5YdVlGYLQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=d3K4EAZE7EJmZrjPsp88GA&_nc_ss=7a22e&oh=00_AQG41hbbqZfGSy1xjfQCrGm30MbLduyNWnqqpHb535Kc-g&oe=6A8869D5",
    "url": "https://www.threads.com/@aipeekme/post/DcG19IHn142",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "놓치면 안 될 AI 소식 45개를 정리했습니다 🧵",
+   "likes": 73,
+   "cmts": 47,
+   "time": 1786924833,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DcHs4FAD89h",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "풀영상 :\nhttps://www.youtube.com/watch?v=fsTtKywmWlU",
+   "likes": 3,
+   "cmts": 0,
+   "time": 1786923038,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DcHpc7cDzY5",
    "region": "kr"
   }
  ],
@@ -590,33 +610,6 @@
    "url": "https://www.reddit.com/r/AskReddit/comments/1vq6k2r/what_youtuber_really_fell_off/"
   },
   {
-   "sub": "SipsTea",
-   "title": "They are all the same",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/958jgc6ybujh1.jpeg?width=640&crop=smart&auto=webp&s=c067c6d0f2ba9e1bd60cdadc8d10934eaf77e93b",
-   "time": 1786931219,
-   "url": "https://www.reddit.com/r/SipsTea/comments/1vqeybp/they_are_all_the_same/"
-  },
-  {
-   "sub": "BeAmazed",
-   "title": "Every year, actor Gary Sinise takes more than 1,700 family members of fallen soldiers to Walt Disney World for free",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/tjgq6eud1ujh1.jpg?width=140&height=139&auto=webp&s=46f40870fa09cc9c14bb570e3d6f88f91d50d596",
-   "time": 1786927665,
-   "url": "https://www.reddit.com/r/BeAmazed/comments/1vqdpd0/every_year_actor_gary_sinise_takes_more_than_1700/"
-  },
-  {
-   "sub": "MurderedByWords",
-   "title": "With just minimal thought it is easy to dissemble their arguments.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/6deps0533tjh1.jpeg?width=640&crop=smart&auto=webp&s=e34d2a2b8ba73c873b0bb744a965097af4825ec3",
-   "time": 1786916132,
-   "url": "https://www.reddit.com/r/MurderedByWords/comments/1vq9d1h/with_just_minimal_thought_it_is_easy_to_dissemble/"
-  },
-  {
    "sub": "politics",
    "title": "Hakeem Jeffries says Medicare for all is not legislation he currently supports",
    "score": 0,
@@ -624,6 +617,15 @@
    "thumb": "https://external-preview.redd.it/Qc4K7c8fuRdNc2_EH6KXbFacPjREvNdp1u6BCHYQne0.jpeg?width=640&crop=smart&auto=webp&s=8c4f04f88d094c44e0404292bc8bdf3086f7a7e1",
    "time": 1786891318,
    "url": "https://www.reddit.com/r/politics/comments/1vpytbv/hakeem_jeffries_says_medicare_for_all_is_not/"
+  },
+  {
+   "sub": "SipsTea",
+   "title": "They are all the same",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/958jgc6ybujh1.jpeg?width=640&crop=smart&auto=webp&s=c067c6d0f2ba9e1bd60cdadc8d10934eaf77e93b",
+   "time": 1786931219,
+   "url": "https://www.reddit.com/r/SipsTea/comments/1vqeybp/they_are_all_the_same/"
   },
   {
    "sub": "SpaceXBets",
@@ -644,15 +646,6 @@
    "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1vq6opz/the_way_my_gf_plays_video_games/"
   },
   {
-   "sub": "mildlyinfuriating",
-   "title": "Super hungry after a long day at work. Got a chicken sandwich from BK. The first bite had a weird crunch...",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/cw2zirq1ytjh1.jpeg?width=640&crop=smart&auto=webp&s=953eaaacfaa35707b619d9786bfbc3255a57f42e",
-   "time": 1786926544,
-   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1vqdbac/super_hungry_after_a_long_day_at_work_got_a/"
-  },
-  {
    "sub": "cats",
    "title": "Lost my girl of 18 years yesterday and i miss her so freaking much, Can you pls show me who she is with now?, so i know she isn’t alone.",
    "score": 0,
@@ -662,13 +655,22 @@
    "url": "https://www.reddit.com/r/cats/comments/1vqeb8u/lost_my_girl_of_18_years_yesterday_and_i_miss_her/"
   },
   {
-   "sub": "NationalPark",
-   "title": "Zion while it rained a couple of days ago",
+   "sub": "MurderedByWords",
+   "title": "With just minimal thought it is easy to dissemble their arguments.",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/ZGVyeTdzbGl3c2poMch2VI9Q9jA-HTtObpgwA7MVxCmB560cVV_2IOGd_PQ7.png?width=320&crop=smart&auto=webp&s=e4a256c1baaa7a45588dddb8f81df6747379bb71",
-   "time": 1786913951,
-   "url": "https://www.reddit.com/r/NationalPark/comments/1vq8h5u/zion_while_it_rained_a_couple_of_days_ago/"
+   "thumb": "https://preview.redd.it/6deps0533tjh1.jpeg?width=640&crop=smart&auto=webp&s=e34d2a2b8ba73c873b0bb744a965097af4825ec3",
+   "time": 1786916132,
+   "url": "https://www.reddit.com/r/MurderedByWords/comments/1vq9d1h/with_just_minimal_thought_it_is_easy_to_dissemble/"
+  },
+  {
+   "sub": "StupidFood",
+   "title": "It looks good until...",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/M2h4Z2M0OHJtc2poMTkFAfD-87pTrXbdCk4QrYZdD3t4u5AP0xu0h7TOeZKs.png?width=320&crop=smart&auto=webp&s=0255cc21f61ebc2e9a44f6bccc205b457b27589b",
+   "time": 1786910645,
+   "url": "https://www.reddit.com/r/StupidFood/comments/1vq73co/it_looks_good_until/"
   },
   {
    "sub": "SipsTea",
@@ -678,6 +680,24 @@
    "thumb": "https://preview.redd.it/qawicggvgsjh1.jpeg?width=640&crop=smart&auto=webp&s=34f3d71023fd26d2269e3c8ae62b6c4637d56c9b",
    "time": 1786908660,
    "url": "https://www.reddit.com/r/SipsTea/comments/1vq68zl/the_gop_has_convinced_people_making_30kyear_to/"
+  },
+  {
+   "sub": "TikTokCringe",
+   "title": "She came with receipts.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/djU3M2wyMnE2cGpoMbFFqpc2d9SnGmeHEG5v533dsBaM_6tAGVsQ6xmt_M9S.png?width=320&crop=smart&auto=webp&s=9fe16e02e64c7e8f879273edc5102722b6eaed02",
+   "time": 1786868989,
+   "url": "https://www.reddit.com/r/TikTokCringe/comments/1vprmga/she_came_with_receipts/"
+  },
+  {
+   "sub": "NatureIsFuckingLit",
+   "title": "🔥 swimming bat",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/MG1zdjk4Z2dkcmpoMftBvSKsJ_wy8iOtZRt_bELeUrC87LlW0bE9tqPgfV5X.png?width=320&crop=smart&auto=webp&s=cb22e00a0afda2db9f65dd03fdd457c3397bc847",
+   "time": 1786895588,
+   "url": "https://www.reddit.com/r/NatureIsFuckingLit/comments/1vq0lh6/swimming_bat/"
   }
  ],
  "disaster": [],
@@ -724,10 +744,10 @@
    }
   },
   "landing": {
-   "at": "2026-08-17T11:31:23",
+   "at": "2026-08-17T12:01:32",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-17T12:01:25.223657+09:00"
+ "updated": "2026-08-17T12:31:24.286995+09:00"
 }
