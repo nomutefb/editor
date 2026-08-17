@@ -131,9 +131,9 @@ export async function onRequestGet({ env }) {
     const stuck = !retry && !!t && ageMin >= (active === true ? ACTIVE_STUCK_MIN : STUCK_MIN);   // 재시도 중이면 stuck-FAIL 로 안 봄(자가치유 정상상태)
     items.push({
       id: base, t, status: retry ? 'retry' : (stuck ? 'fail' : 'processing'),
-      via: paste ? '전문' : 'URL', src: paste ? '' : prettyUrl(line1),
-      key: paste ? '' : normU(line1),   // 후보 url 매칭키(뷰어 cross-device 픽 표시 · paste는 url無→매칭 제외)
-      alt1: paste ? '' : normU(alt1),   // ↗ 원문 링크용 대체 url(breaking_pick 있으면 메이저·없으면 타 클러스터 멤버 — 어느 쪽이든 대표=최초보도 스텁 회피 · 260703)
+      via: paste ? '전문' : 'URL', src: paste ? prettyUrl(shareUrl(body)) : prettyUrl(line1),
+      key: paste ? '' : normU(line1),   // 후보 url 매칭키(뷰어 cross-device 픽 표시 · paste는 line1이 'paste:해시'라 매칭 제외 — shareUrl 은 포털 공유 주소라 후보 원매체 url 과 안 맞는다)
+      alt1: paste ? normU(shareUrl(body)) : normU(alt1),   // ↗ 원문 링크용 대체 url(breaking_pick 있으면 메이저·없으면 타 클러스터 멤버 — 어느 쪽이든 대표=최초보도 스텁 회피 · 260703) · paste = 본문 꼬리 공유 주소(운영자 260817)
       tries: retry ? ((rmark && rmark.attempts) || 0) : 0,   // 뷰어 '재시도 N' 칩
       title: bodyTitle(body, paste, line1, title),
       diag: retry ? { kind: 'retry', attempts: (rmark && rmark.attempts) || 0, error: (rmark && rmark.error) || '', last: (rmark && rmark.last) || '', line1, hasBody: !!body }
@@ -153,9 +153,9 @@ export async function onRequestGet({ env }) {
     const log = await raw('pending/failed/' + encodeURIComponent(base) + '.log');
     const paste = line1.startsWith('paste:');
     items.push({
-      id: base, t, status: 'fail', via: paste ? '전문' : 'URL', src: paste ? '' : prettyUrl(line1),
+      id: base, t, status: 'fail', via: paste ? '전문' : 'URL', src: paste ? prettyUrl(shareUrl(body)) : prettyUrl(line1),
       key: paste ? '' : normU(line1),   // 후보 url 매칭키(cross-device Failed 표시)
-      alt1: paste ? '' : normU(alt1),   // ↗ 원문 링크용 메이저 url(속보 스텁 회피 · 260703)
+      alt1: paste ? normU(shareUrl(body)) : normU(alt1),   // ↗ 원문 링크용 메이저 url(속보 스텁 회피 · 260703) · paste = 본문 꼬리 공유 주소(운영자 260817 — 실패해도 원문으로 갈 수 있다)
       title: bodyTitle(body, paste, line1, title),
       diag: { kind: 'failed', line1, hasBody: !!body, bodyHead: body.slice(0, 400), log: (log || '').slice(0, 2500) },
     });
@@ -306,6 +306,24 @@ function headline(body) {
     h = tk.slice(i).join(' ');
   } else h = cut;
   return h.trim().slice(-90);
+}
+// 폰 공유(전문 붙여넣기) 본문 꼬리에 실려 오는 원문 주소 — 폰이 '페이지 전체선택 텍스트' 맨 뒤에 그 페이지 주소를 붙인다.
+// 구판은 이 값을 아무도 안 읽어서 대기열 행이 매체 표기 0 · 바로가기 회색('원문 링크 없음')이었고, 실패해도 재분석 재발사가 막혔다(운영자 260817).
+// 뷰어 활성 게이트가 `alt1 ‖ key`라 alt1 에 실으면 **기존 URL 경로 버튼 문법 그대로** 살아난다(새 부품·새 분기 0).
+// ⚠ key 는 안 채운다 = 후보 매칭키(수집함 cross-device 픽 표시)인데 이 주소는 포털 공유 주소라 후보 원매체 url 과 안 맞는다 → 채우면 엉뚱한 후보에 'PICKED'가 붙는다.
+// ⚠ 텍스트 조각(`#:~:text=`)은 떼고 쓴다 = 폰이 붙이는 조각이 「본문영역 바로가기,고객센터」(네비 문구)라 그대로 열면 엉뚱한 자리로 스크롤한다(실측).
+// ⚠ 경로 없는 주소(매체 홈 `https://www.joongang.co.kr`)는 기사 주소가 아니라 제외 — 본문 중간 인용에 섞여 온다(실측 2건).
+function shareUrl(body) {
+  const out = [];
+  const re = /https?:\/\/[^\s"<>)\]]+/g;
+  let m;
+  while ((m = re.exec(String(body || ''))) !== null) {
+    const u = m[0].split('#:~:')[0].replace(/[.,);\]』」”'"]+$/, '');
+    const rest = u.split('//')[1] || '';
+    if ((rest.split('/')[1] || '').length < 3) continue;   // 경로 없음 = 매체 홈
+    out.push(u);
+  }
+  return out.length ? out[out.length - 1].slice(0, 400) : '';   // 맨 뒤 = 폰이 붙인 그 페이지 주소
 }
 function bodyTitle(body, paste, line1, title) {
   const flat = body ? body.replace(/\s+/g, ' ').trim() : '';
