@@ -184,6 +184,28 @@ def lint(path):
             # 직설 제목이 화면에서 사라지고 추상 헤드만 남는다(운영자 260813 「요약 상자 제목만 보면 내용을 모름」).
             warns.append("[# 제목] frontmatter title{}과 동일(선두 이모지 무시) = title 원문 보존 위반 — 뷰어 원문 제목 줄(.md-srct)이 통째로 안 그려진다".format("_ko" if (title_ko and _k(h1) == _k(title_ko)) else ""))
 
+    # 헤드 짝 검출 2축(260817 운영자 「기사 타이틀처럼 후킹이 있으면서도 내용을 총망라 — 너무 추상적이어도 안 된다」 · 비차단):
+    # ① 앵커 0 의심 = 헤드가 기자 제목(title/title_ko)과 겹치는 낱말도 숫자도 없다 = 헤드만 읽어서는 누구/무엇의
+    #    일인지 모를 공산 — 01_지침 [구체 앵커 의무]의 짝. 휴리스틱(다른 말로 쓴 실명 앵커는 못 알아본다)이라 INFO.
+    #    기자 제목에 한글 토큰이 0이면(외신 영문 제목) 판정 유보 = 오탐 차단.
+    # ② Thread 헤드 문단형 = 첫 줄 안에 완결 종결 문장 경계('다. ')가 있다 = 본문 문단이 헤드 자리를 차지
+    #    (실측 260817 = 80~107자 두세 문장 헤드 실물) — 01_지침 [Thread 헤드] 「한 줄 문장 하나」의 짝.
+    _ref_toks = re.findall(r"[가-힣]{2,}", " ".join(x for x in (title, title_ko) if x))
+    def _anchor0(head):
+        if not (head and _ref_toks):
+            return False
+        ht = re.findall(r"[가-힣A-Za-z0-9]{2,}", head)
+        return not (re.search(r"\d", head) or any(a in b or b in a for a in ht for b in _ref_toks))
+    if _anchor0(h1):
+        infos.append("[# 제목] 추상 헤드 의심 — 기자 제목과 겹치는 낱말·숫자 0([구체 앵커 의무] 자가 테스트 대상)")
+    _th_b = _blk(body, "Thread")
+    if _th_b:
+        _th_head = _th_b.strip().split("\n", 1)[0].strip()
+        if re.search(r"다\.\s+\S", _th_head):
+            infos.append("[Thread] 헤드 자리에 문단({}자·문장 경계 포함) — [Thread 헤드] 한 줄 계약 위반".format(len(_th_head)))
+        elif _anchor0(_th_head):
+            infos.append("[Thread] 헤드 추상 의심 — 기자 제목과 겹치는 낱말·숫자 0")
+
     base = os.path.basename(path)
     if warns or infos:
         print("DIGEST_LINT {} ⚠️{}건 ℹ️{}건 — {}".format("⚠️" if warns else "ℹ️", len(warns), len(infos), base))
