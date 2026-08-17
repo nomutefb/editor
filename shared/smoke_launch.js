@@ -69,6 +69,12 @@ const REELS = "document.querySelector('#ovFmtTog').click();";                   
 const BG = "document.querySelector('#cBg').checked=true;updateGoSpec();";
 const OVONLY = "document.querySelector('#gsOvOnly').click();";                    // 사진 있을 때 오버레이만 ON
 const CP = "document.querySelector('#cpThumbTog').click();";                     // 저작권 OFF→릴스→포스트(1클릭=릴스)
+// L17 채움 스텁 — rszJob·fetch를 캡처로 감싼다(라이브 코드 무접촉 · 실네트워크 0) · 클릭 1회차(포스트 채움)는 setup 안에서, 2회차(릴스 채움)는 runScenario 공통 클릭이 수행 · 릴스 전환은 setup 꼬리 setTimeout(1회차 발사 정리 뒤 · runScenario의 setup 후 100ms 대기 안에서 실행)
+const FILLSTUB = "(function(){RSZ.w=1600;RSZ.h=900;CPAN.s=0.5;cpPanApply();cpFillWant=true;"
+  + "window.rszJob=function(rid,payload,auto,meta){window.__caps.push({fn:'rsz',aspect:payload.aspect,chain:!!(meta&&meta.chain&&meta.chain.items&&meta.chain.items.length),tpl:meta&&meta.tpl,clbl:((meta&&meta.chain&&meta.chain.items.filter(function(it){return it.tag==='자막';})[0])||{}).label});};"
+  + "window.fetch=function(u){return String(u).indexOf('/api/resize')>=0?Promise.resolve({ok:true,json:function(){return Promise.resolve({ok:true,id:'RZ'+Date.now()+Math.random()});}}):Promise.resolve({ok:false,json:function(){return Promise.resolve({});}});};"   // seal-ok: 페이지 컨텍스트 주입 스텁 리터럴(형제 스모크와 무관한 단독 문법)
+  + "document.getElementById('go').click();"
+  + "setTimeout(function(){document.querySelector('#ovFmtTog').click();CPAN.s=0.5;cpPanApply();cpFillWant=true;},60);})();";   // seal-ok: 페이지 컨텍스트 주입 스텁 리터럴(형제 스모크와 무관한 단독 문법)
 
 const batch0 = o => (o.caps[0] && o.caps[0].items) || [];
 const SCENARIOS = [
@@ -104,6 +110,11 @@ const SCENARIOS = [
     ok: o => { const it = batch0(o); return it.length === 1 && it[0].tag === '자막' && !/강조/.test(o.err || ''); } },   // 구판 = 여는 별 뒤 공백이면 두 별 다 오타('s') → 전송 시 삭제 → '강조 확인' 차단(운영자 260817 «*텍스트* 처럼 강조가 안 먹고 강조를 해달라고 뜨거든»)
   { n: 'L15 첨부 직후 즉시 생성 = 그림 동봉(적재 경합 대기)★', setup: "(function(){var c=document.querySelector('#cLines');c.value='본문 *강조*';c.dispatchEvent(new Event('input',{bubbles:true}));var f=new File([new Uint8Array(120000)],'p.png',{type:'image/png'});document.querySelector('#cImgSlot')._read(f);document.getElementById('go').click();})();",   // _read(비동기 적재) 직후 같은 태스크에서 생성 클릭 = 파일 읽기가 끝나기 전 발사(260817 실사고 = 같은 설정 2연발 중 1발째 그림 미동봉 → 글자판 단독 산출)
     ok: o => { const it = batch0(o); return it.length === 1 && it[0].hasImg === true; } },   // 봉합 = imgPendWait(발사 전 적재 완료 대기) — 구판이면 hasImg false
+  // ── 260818 카드 제작 결과 박스·AI 합성 사슬(운영자 Q01~Q08) ──
+  { n: 'L16 자막만·릴스 = 라벨 「릴스 OPA60」(구 「릴스 자막」·OPA 무표기 회귀 차단)★', setup: OV + REELS,
+    ok: o => { const it = batch0(o); return it.length === 1 && it[0].label === '릴스 OPA60'; } },   // 운영자 260818 Q02 «릴스 자막 → 릴스» + «opa가 결과 박스에 출력이 안됨» — 260816 변형줄 폐지 뒤 OPA가 결과 박스 어디에도 안 남던 축의 상비 고정(값 문법 = 서버 변형 라벨 'OPA60')
+  { n: 'L17 AI 합성 = 판형 병행 발사 + 카드 사슬 스냅샷★', setup: OV + PHOTO + FILLSTUB,
+    ok: o => { const rz = o.caps.filter(c => c.fn === 'rsz'); return rz.length === 2 && rz[0].aspect === '4:5' && rz[1].aspect === '9:16' && rz.every(c => c.chain && c.tpl === 'nomute') && rz[0].clbl === '포스트 OPA60' && rz[1].clbl === '릴스 OPA60' && o.caps.filter(c => c.fn === 'batch' || c.fn === 'job').length === 0; } },   // 운영자 260818 Q06~Q08 — ⓐ 포스트 채움이 도는 중에도 릴스 채움이 **발사된다**(구판 = #go 우회가 카드 제작으로 흘려 축소 구운 원본이 산출로 새고 두 번째 채움은 영영 미발사 = 「무한지연」) ⓑ 두 발사 다 카드 사슬 스냅샷(완성 그림으로 오버레이 자동 발사) + 해시태그 접두(tpl) 동봉 ⓒ 채움 클릭이 카드로 새지 않는다(batch/job 캡처 0)
 ];
 
 async function runScenario(browser, url, setup, pageErrs) {

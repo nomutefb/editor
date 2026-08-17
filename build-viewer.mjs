@@ -416,7 +416,7 @@ const capOfSrc = (s) => {
     const hasHdr = !!(String(s.cSub || '').trim() && String(s.cTitle || '').trim());
     const hasOv = !!String(s.cLines || '').trim();
     if (hasHdr && !hasOv) return '릴스 헤더';
-    if (hasOv && !hasHdr) return s.ovFmt === 'post' ? '포스트' : '릴스 자막';
+    if (hasOv && !hasHdr) return s.ovFmt === 'post' ? '포스트' : '릴스';   // 구 '릴스 자막' → '릴스'(운영자 260818 Q02 — 뷰어 발사 라벨과 한 이름)
   }
   return APP_CAP[s.app] || '';
 };
