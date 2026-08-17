@@ -2351,6 +2351,7 @@ def kobis(limit=10):
             out.append({"title": (it.get("movieNm") or "").strip()[:120], "rank": _i(it.get("rank")),
                         "audi": _i(it.get("audiAcc")), "chg": _i(it.get("rankInten")),
                         "new": it.get("rankOldAndNew") == "NEW",
+                        "open": (it.get("openDt") or "").strip()[:10],   # 개봉일(재개봉작도 원 개봉일 유지 = 260817 실측: 보헤미안 랩소디 open 2018-10-31 · audiAcc 995만 · 어제 하루 996명) — 뷰어 재개봉 컷(boOld)의 판정 원료
                         "url": "https://www.kobis.or.kr/kobis/business/main/main.do"})
         return out
     except Exception as e:  # noqa: BLE001
