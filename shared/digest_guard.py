@@ -238,7 +238,7 @@ def splice(path, cand_path):
     cand = open(cand_path, encoding="utf-8").read()
     src_nums = _nums(raw_orig)   # 날조 경량 가드 기준 = 원본 다이제스트 전체(frontmatter·자유요약 포함)
     results = []
-    for name, hi, hard in (("IG", 800, None), ("Thread", 430, 500)):
+    for name, hi, hard, lo in (("IG", 800, None, REPAIR_IG_LO), ("Thread", 430, 500, REPAIR_TH_LO)):
         pat = re.compile(r"(^###\s*\[" + name + r"[^\]]*\]\s*\n+```(?:text)?\n)(.*?)(\n```)", re.M | re.S)
         mc, mt = pat.search(cand), pat.search(raw)
         if not mc or not mt:
@@ -246,7 +246,14 @@ def splice(path, cand_path):
         new, old = mc.group(2), mt.group(2)
         n_new, n_old = _clen(new), _clen(old)
         why = []
-        if n_new <= n_old: why.append("증가 아님 {}→{}".format(n_old, n_new))
+        # 방향 인지 검증(260817) — 구판은 '증가 아님' 단조 검증뿐이라 REPAIR over(260810 신설)가 잘라낸
+        #   결과를 전건 기각했다 = 상한 초과 교정이 구조적으로 착지 불가(over 보강이 돌아도 원본 유지 ·
+        #   실측 최근 120건 Thread 상한 초과 38%가 그 사각의 증상). 원본이 상한 초과면 '줄어들었는가'로,
+        #   그 외엔 종전대로 '늘었는가'로 판정. 과절단 하한 = 보강 발동 하한(REPAIR_*_LO)과 한 값.
+        if n_old > hi:
+            if n_new >= n_old: why.append("감소 아님 {}→{}".format(n_old, n_new))
+            elif n_new < lo: why.append("과절단 {} < 하한 {}".format(n_new, lo))
+        elif n_new <= n_old: why.append("증가 아님 {}→{}".format(n_old, n_new))
         if n_new > hi: why.append("상한 {} 초과({})".format(hi, n_new))
         if hard and _clen_hard(new) > hard: why.append("개행 포함 {} > 플랫폼 하드 {}".format(_clen_hard(new), hard))
         if name == "IG" and "🔎" not in new: why.append("🔎 리드 누락")
