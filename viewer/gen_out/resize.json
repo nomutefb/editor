@@ -1,5 +1,85 @@
 [
   {
+    "url": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/resize/260817164927-1a331b/9x16-30ad069e.jpg",
+    "srcUrl": "uploads/260817164927-1a331b/src.jpg",
+    "aspect": "9:16",
+    "size": "1K",
+    "lock": true,
+    "route": "gemini",
+    "fill": "auto",
+    "qa": "PASS",
+    "calls": {
+      "gen": 2,
+      "judge": 2
+    },
+    "model": "gemini-3.1-flash-image-preview",
+    "qa_why": "The image shows a legitimate extension of the original scene with more of the subject's arm and background visible.",
+    "tries": [
+      {
+        "t": 1,
+        "streak": 0.0,
+        "bands": {
+          "top": 0.0,
+          "bottom": 0.0,
+          "left": 0.0,
+          "right": 0.0
+        },
+        "enc": "2:2",
+        "qa": "FAIL",
+        "why": "A duplicated, anatomically impossible left hand is visible at the very bottom of Image 2.",
+        "rej": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/resize/260817164927-1a331b/rej-t1-bc00fc51.jpg",
+        "raw": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/resize/260817164927-1a331b/raw-t1-adca7eac.jpg"
+      },
+      {
+        "t": 2,
+        "streak": 0.0,
+        "bands": {
+          "top": 0.0,
+          "bottom": 0.0,
+          "left": 0.0,
+          "right": 0.0
+        },
+        "enc": "2:2",
+        "qa": "PASS",
+        "why": "The image shows a legitimate extension of the original scene with more of the subject's arm and background visible."
+      }
+    ],
+    "usage": [
+      {
+        "tag": "resize:t1",
+        "prompt": 1192,
+        "output": 1492,
+        "total": 2684
+      },
+      {
+        "tag": "resize:judge",
+        "prompt": 921,
+        "output": 27,
+        "total": 948
+      },
+      {
+        "tag": "resize:t2",
+        "prompt": 1232,
+        "output": 1532,
+        "total": 2764
+      },
+      {
+        "tag": "resize:judge",
+        "prompt": 921,
+        "output": 30,
+        "total": 951
+      }
+    ],
+    "box": [
+      0.15096,
+      0.22902,
+      0.77283,
+      0.43472
+    ],
+    "id": "260817164927-1a331b",
+    "ts": "2026-08-17T16:50:51+09:00"
+  },
+  {
     "url": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/resize/260817164805-b0aceb/9x16-7a593201.jpg",
     "srcUrl": "uploads/260817164805-b0aceb/src.jpg",
     "aspect": "9:16",
@@ -928,18 +1008,5 @@
     "box": null,
     "id": "t6c916",
     "ts": "2026-08-07T15:52:14+09:00"
-  },
-  {
-    "url": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/resize/t6b169/16x9-0341031e.jpg",
-    "srcUrl": "uploads/t6b169/src.jpg",
-    "aspect": "16:9",
-    "size": "1K",
-    "lock": true,
-    "route": "gemini",
-    "fill": "ai",
-    "qa": "PASS",
-    "box": null,
-    "id": "t6b169",
-    "ts": "2026-08-07T15:52:12+09:00"
   }
 ]
