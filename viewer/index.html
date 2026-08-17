@@ -11917,7 +11917,7 @@ function failRetry(c, opts) {   // ↻ 재시도 — ① 재분석 재발사(대
     const go = alt[0] || c.url;
     if (go) { const a = document.createElement('a'); a.href = hrefOk(go); a.target = '_blank'; a.rel = 'noopener noreferrer'; document.body.appendChild(a); a.click(); a.remove(); }
   }
-  if (CURTAB === 'scrap') renderScrap();
+  if (!(opts && opts.noRender) && CURTAB === 'scrap') renderScrap();   // noRender = 칩 재시도(발사 게이지 재생 중) — 모션이 끝난 뒤 호출부가 렌더한다(즉시 렌더 = 게이지 파괴). 서버 거절 회수 경로의 renderScrap은 그대로(실패는 즉시 되돌린다)
 }
 // 실패 카드 두 버튼 배선(운영자 260722 재배선 — 260711 스왑 되돌림: Failed 탭=재시도가 직관 · 체크는 '픽 취소'로 명확. ✓ = 픽 취소(픽 전으로) · Failed 칩 = 탭 재시도·길게 메뉴).
 function wireFailChip(fb, c) {   // Failed 칩 = 재시도: 탭 = 다시 대기열 재분석(failRetry→Picking…) · 길게(480ms)/우클릭 = 메뉴(실패 사유·내용 입력) · 제목 <a> = 원문.
@@ -11935,7 +11935,21 @@ function wireFailChip(fb, c) {   // Failed 칩 = 재시도: 탭 = 다시 대기�
     e.stopPropagation();
     if (_lpFired || Date.now() - _failMenuAt < 350) { _lpFired = false; return; }   // 롱프레스 직후 합성 click = 재시도 오발 차단(_failMenuAt 타임스탬프 가드)
     if (fb.classList.contains('picking') || pfResubActive(candId(c))) return;   // 이미 재분석 중 = 무시(이중발사 차단 — failRetry가 pfResubActive 세팅·렌더가 비활성 Picking… 칩으로 교체)
-    bumpFailRetry(c); failRetry(c, { noOpen: true });   // 탭 = 재시도(대기열 재투입) → pfResubActive → renderScrap이 Picking… 칩으로 교체(원문은 제목 탭)
+    bumpFailRetry(c);
+    // 재시도 발사 비주얼 = 픽 발사(askReason 'pick') 정본 100% 사본: 초록 게이지 풀필(.sc-got.firing/goFill .72s) → ✓ 체크(okdone/gck) → Picking… 칩.
+    // ⚠ 260722 재배선(칩=재시도·✓=픽취소) 때 게이지가 붙어 있던 ✓(.sc-failgo)만 정리되고 칩 쪽엔 이식이 안 돼 재시도가 '즉시 빗금 Picking…'으로 점프했다(운영자 260817 "게이지 차는 모션이 사라졌어").
+    //   발사(api/pick)는 정본과 같이 **먼저** 쏘고 모션은 순수 시각 — 그래서 failRetry(noRender)로 재렌더만 미룬다(모션 중 renderScrap = 게이지 파괴).
+    const bot = fb.closest('.sc-bot');
+    if (!bot) { failRetry(c, { noOpen: true }); return; }   // 하단 슬롯이 없으면 종전대로(모션 없이 재발사)
+    const _red = matchMedia('(prefers-reduced-motion:reduce)').matches;
+    failRetry(c, { noOpen: true, noRender: true });   // ① 재발사(대기열 재투입) — 렌더는 모션 끝에
+    bot.innerHTML = '<div class="sc-got firing" aria-label="재시도 발사"><span>전송</span></div>';   // ② 초록 게이지 풀필(goFill .72s)
+    const go = bot.querySelector('.sc-got');
+    setTimeout(() => {
+      if (!go || !go.isConnected) return;   // 그새 재렌더면 중단(무해 — 그쪽이 이미 Picking… 칩을 그렸다)
+      go.classList.remove('firing'); go.classList.add('okdone'); go.innerHTML = '<svg class="gck" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7"/></svg>';   // ✓ 체크(goTick)
+      setTimeout(() => { if (CURTAB === 'scrap') renderScrap(); }, _red ? 60 : 440);   // ✓ 잠깐 보인 뒤 Picking…(pfResubActive → .sc-fail.picking 칩)
+    }, _red ? 90 : 740);   // goFill .72s 채움 후
   };
 }
 let _failMenuC = null, _failMenuAt = 0;   // _failMenuAt = 메뉴 오픈 시각 — 직후 합성 click 억제(아래 onclick)
