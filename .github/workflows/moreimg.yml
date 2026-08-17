@@ -55,6 +55,11 @@ jobs:
             shared
             cards
             queue
+            metrics
+            # ⚠⚠ 260817 봉합 — 평의회 260812 권고6이 착지 대상(:100 git add · :109 git_land)에 metrics 를 넣으며
+            #   이 목록만 안 따라와, 계측 파일이 처음 실제로 생긴 260817 첫 발부터 「outside of your sparse-checkout」
+            #   으로 add 가 죽고 같은 스텝의 cards(찾은 이미지)·queue(원문 백필)까지 통째 유실됐다(run 31984481542
+            #   실측 · 3라운드 전건 = 웹검색 과금은 나가고 산출은 0). 형제(news-ask:62 등)는 전부 metrics 보유.
 
       - name: Setup Node
         uses: actions/setup-node@v5
