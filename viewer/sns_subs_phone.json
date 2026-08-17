@@ -313,6 +313,46 @@
  "threads": [
   {
    "account": "aipeekme",
+   "text": "🔗 원문·출처\nhttps://huggingface.co/LiconStudio/LTX-2.5-Multiple-Subject-Reference",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1786942545,
+   "thumb": "",
+   "url": "https://www.threads.com/@aipeekme/post/DcIOpk5H0Sh",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "LiconStudio가 LTX-2.5용 멀티 레퍼런스 LoRA인 Licon MSR V1을 공개했습니다. 참조 이미지를 최대 5장까지 지원해 여러 인물, 의상, 사물, 배경을 유지하는 방식입니다. 참조 이미지를 대상 비디오와 동일한 잠재 공간 내 시각 토큰으로 인코딩합니다. 각 참조에 학습된 슬롯 임베딩과 고유한 음수 시간 위치를 부여해, 모델 자체의 셀프 어텐션 계층을 통해 세부 정보를 직접 가져오도록 설계했습니다. 다중 주체 및 주체-객체 구성을 지원하며, 컴피UI 추론에는 전용 플러그인과 샘플 워크플로가 필요합니다. 프롬프트 작성 시 각 참조 이미지를 명확히 묘사하고 일관된 라벨을 사용하는 팁도 제시되었습니다. 여러 인물과 사물이 얽히는 복잡한 장면 연출에서 일관성을 유지하는 데 유용해 보입니다. 다만 참조 수가 5장으로 늘어날 때 생성 속도 저하나 토큰 간 간섭이 얼마나 생길지는 직접 돌려봐야 알 것 같습니다.",
+   "likes": 1,
+   "cmts": 1,
+   "time": 1786942532,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/766481619_1736421804074271_3152645626813910803_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk2NTQ4MzYzNDgyODAyMTU1Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=60HQxaz2tyoQ7kNvwF_ZEnb&_nc_oc=AdrYQpE5OhfiuyacKDF6HWmqNHMHsG96vI3ezrkS4C5iwNPEHDtTvvrsP-N0PqLQPvI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=BBdQDTs6Xeo2GyfjNRFRgA&_nc_ss=7a22e&oh=00_AQEBQLYOCNWxHBsM0pwAstfh2Y91RhhiwYKS6wOvzTwd5Q&oe=6A887CC8",
+   "url": "https://www.threads.com/@aipeekme/post/DcIOlsYjI8w",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "깃허브 :\nhttps://github.com/jd-opensource/JoyAI-Video-Edit",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1786941049,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DcILzl2DXHv",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "징둥(JD)이 실시간 영상 편집 모델 JoyAI-Video-Edit을 오픈소스로 공개했습니다.\n\n카메라 영상이 들어오는 즉시 인물, 배경, 의상 등을 바꿀 수 있고 영상 길이 제한 없이 계속 편집할 수 있는데요.\n\n720p에서 약 30FPS로 동작하지만, RTX PRO 6000 Blackwell급 GPU가 필요해 일반 PC에서 쓰기에는 아직 부담이 큰 편입니다.",
+   "likes": 13,
+   "cmts": 1,
+   "time": 1786941040,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/777352269_2379926239477457_9165309035772630129_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk2NTQ3MTMxOTE2ODc1NzEwNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=j5b9L5VHiIoQ7kNvwHBi1_h&_nc_oc=AdoumF0A3JVhGgWMLDIiNIS8uLpbVkJh6hZ6-2a4I2aVr0Zp2TxlaBp5ew78aBfzV6Q&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=rh_Hioh0ulfWFRsWci-i0g&_nc_ss=7a22e&oh=00_AQGEbfThdb8ClHwTxyit5wOYFzeyhfYNt_KbYAF8HRAIDQ&oe=6A88538F",
+   "url": "https://www.threads.com/@choi.openai/post/DcILyeiDa1z",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
    "text": "🔗 원문·자세히 보기\nhttps://huggingface.co/spaces/thornmaze/reel-lab",
    "likes": 0,
    "cmts": 0,
@@ -322,23 +362,43 @@
    "region": "kr"
   },
   {
-   "account": "aipeekme",
-   "text": "허깅페이스 스페이스(Hugging Face Spaces)에 쏜메이즈(thornmaze)의 릴 랩(reel-lab) 공간이 등록되었습니다.\n\n에이전트(Agents) 기반으로 작동하는 해당 프로젝트는 제로(ZERO) 환경에서 구동(Running) 중인 상태로 확인됩니다.\n\n상단 지표로는 75와 4라는 수치 기록과 함께 프로 버전 업그레이드(Get PRO) 안내가 표시되어 있습니다.\n\n현재 공간 내에는 앱(App), 파일(Files), 커뮤니티(Community) 탭이 구성되어 있으며, 세부적인 추가 수치나 구체적인 파이프라인 데이터는 본문에 공개되지 않았습니다.\n\n개인적으로는 단일 모델 호출보다 에이전트 협업으로 제작 단계를 쪼갠 점이 눈에 띕니다.\n\n결과물의 해상도보다는 컷 전환과 대본의 흐름이 얼마나 자연스러운지가 실무 적용의 기준이 될 것 같습니다.\n\n📷 사진 출처: huggingface.co",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1786937555,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778587485_18080713091407306_8492964649115073369_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk2NTQ0MjAxMDAxMTA3NjMxMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=AWMTHoo9-McQ7kNvwGkX0qN&_nc_oc=AdrBaCqzOF9COE8F7P48UhwYoddVuRainBLqq1MGauC3RW3AHNRZIV_5B5GGMuTcJVs&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=GNM5_ddmyC-1DICMUH_M1g&_nc_ss=7a22e&oh=00_AQG-YzRboFNVCFzPazBDoOU-huUz9wg3u9KggYBwN_P6xQ&oe=6A8850C9",
-   "url": "https://www.threads.com/@aipeekme/post/DcIFH-QHwbY",
-   "region": "kr"
-  },
-  {
    "account": "choi.openai",
    "text": "3/ OpenRouter의 성장 속도를 보면 Stripe가 높은 가격을 지불한 이유도 어느 정도 보입니다.\n\nOpenRouter는 5월 Series B를 발표하며 개발자 800만 명 이상, 모델 400개 이상, 주간 처리량 25조 토큰을 공개했습니다. 6개월 전 5조 토큰에서 5배 늘어난 규모입니다. 8월 Auto Router를 공개할 때는 주간 사용량이 55조 토큰을 넘어섰습니다.\n\n사용량이 늘수록 수수료 매출만 커지는 것이 아닌 어떤 작업에 어떤 모델이 선택되는지, 같은 모델을 어느 공급자가 더 빠르고 안정적으로 제공하는지, 사용자가 가격과 품질 사이에서 무엇을 선택하는지도 함께 쌓이는데요. \n\nOpenRouter는 이 데이터를 다시 라우팅에 활용해 다음 요청에 적합한 모델과 공급자를 고를 수 있습니다.",
    "likes": 1,
    "cmts": 1,
    "time": 1786935653,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778852798_17982539205112832_1097417661189408267_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk2NTQyNjEyOTI1MTAxOTU3NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTYwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=SVVw7FxcRLIQ7kNvwHySwT9&_nc_oc=AdqwKprSCTS2Ib9GE_jrbkV8AZLrretVpD_bYVctDXH0XpQspmBzM_0dSDZFnfyihgU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=YO1Q1lsi2TYGjEe-PhKpAQ&_nc_ss=7a22e&oh=00_AQHU9m96hmm5Ys8Z-miNznXUehSMao9qgqG3M-iCU3T3-g&oe=6A887CE4",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778852798_17982539205112832_1097417661189408267_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk2NTQyNjEyOTI1MTAxOTU3NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTYwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=SVVw7FxcRLIQ7kNvwHySwT9&_nc_oc=AdqwKprSCTS2Ib9GE_jrbkV8AZLrretVpD_bYVctDXH0XpQspmBzM_0dSDZFnfyihgU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=rh_Hioh0ulfWFRsWci-i0g&_nc_ss=7a22e&oh=00_AQHOYAK3dZuoG9Qjlfa6UpmMwL4YxqI3Cv-g-_HzN_NJkA&oe=6A887CE4",
    "url": "https://www.threads.com/@choi.openai/post/DcIBg4JDys3",
+   "region": "kr"
+  },
+  {
+   "account": "aicoffeechat",
+   "text": "앞으로 꿀단지 계속 얻고 싶으면 @aicoffeechat 팔로우하고 기다리고 있어요 :)\n\n링크: https://amicro.vercel.app/mono-charts",
+   "likes": 10,
+   "cmts": 0,
+   "time": 1786924535,
+   "thumb": "",
+   "url": "https://www.threads.com/@aicoffeechat/post/DcHsTuAklAf",
+   "region": "kr"
+  },
+  {
+   "account": "aicoffeechat",
+   "text": "이거 시각화할 때 꿀단지다 ..\n\n방문해야 할 무료 오픈 소스 React UI 라이브러리, 시각화, 표를 만드는 작업에 넣었더니 만족도가 상당히 높아집니다. 여러분도 하셨으면 하는 마음에 공유해요.\n\n진짜 나만 알고 싶을 정도. 더 이상 예쁘게 만들어줘 프롬프트 반복하지마세요.",
+   "likes": 113,
+   "cmts": 7,
+   "time": 1786924530,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/774886508_1581503607009959_5602628636556251891_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk2NTMzMDYxNjg1MzYwNjc4Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=IxtR-MaTx-oQ7kNvwFcI_ki&_nc_oc=Ado_1e9WGyQaih75i9MzXDF2FdwAivQFxbHCjyCXafXCCzcq5q_vALk5AuwY3HB6ChY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=cXmMCzWvJKEVnjJm_vy5AQ&_nc_ss=7a22e&oh=00_AQHRQCHWN-HVSQVJJciedNE_VMsn-cbszg4ot5xnbb5fQA&oe=6A886294",
+   "url": "https://www.threads.com/@aicoffeechat/post/DcHry_SijGC",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "허깅페이스 스페이스(Hugging Face Spaces)에 쏜메이즈(thornmaze)의 릴 랩(reel-lab) 공간이 등록되었습니다.\n\n에이전트(Agents) 기반으로 작동하는 해당 프로젝트는 제로(ZERO) 환경에서 구동(Running) 중인 상태로 확인됩니다.\n\n상단 지표로는 75와 4라는 수치 기록과 함께 프로 버전 업그레이드(Get PRO) 안내가 표시되어 있습니다.\n\n현재 공간 내에는 앱(App), 파일(Files), 커뮤니티(Community) 탭이 구성되어 있으며, 세부적인 추가 수치나 구체적인 파이프라인 데이터는 본문에 공개되지 않았습니다.\n\n개인적으로는 단일 모델 호출보다 에이전트 협업으로 제작 단계를 쪼갠 점이 눈에 띕니다.\n\n결과물의 해상도보다는 컷 전환과 대본의 흐름이 얼마나 자연스러운지가 실무 적용의 기준이 될 것 같습니다.\n\n📷 사진 출처: huggingface.co",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1786937555,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778587485_18080713091407306_8492964649115073369_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk2NTQ0MjAxMDAxMTA3NjMxMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=AWMTHoo9-McQ7kNvwGkX0qN&_nc_oc=AdrBaCqzOF9COE8F7P48UhwYoddVuRainBLqq1MGauC3RW3AHNRZIV_5B5GGMuTcJVs&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=BBdQDTs6Xeo2GyfjNRFRgA&_nc_ss=7a22e&oh=00_AQGyKITBlJs0PRFcXTlUUSvngZBdaD3YV-io3xhBqGQKag&oe=6A8850C9",
+   "url": "https://www.threads.com/@aipeekme/post/DcIFH-QHwbY",
    "region": "kr"
   },
   {
@@ -347,7 +407,7 @@
    "likes": 1,
    "cmts": 1,
    "time": 1786935644,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/775048010_1044910594815824_2056451515141644020_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk2NTM4NDg0NjkyMjkxOTQwMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=ubC-6_40keQQ7kNvwGHB9rI&_nc_oc=AdqZS4Ki6fOk2I6D9HSX9PWa-kD-akq3vny6B_Zpp6DWRLzZGSHrRop0h5Z7mz9Qj2U&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=YO1Q1lsi2TYGjEe-PhKpAQ&_nc_ss=7a22e&oh=00_AQHtxZv3HbTQ-d2QAMyegK2Er6XCr7RK9lAJVe4D_2L2iQ&oe=6A885BEE",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/775048010_1044910594815824_2056451515141644020_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk2NTM4NDg0NjkyMjkxOTQwMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=ubC-6_40keQQ7kNvwGHB9rI&_nc_oc=AdqZS4Ki6fOk2I6D9HSX9PWa-kD-akq3vny6B_Zpp6DWRLzZGSHrRop0h5Z7mz9Qj2U&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=rh_Hioh0ulfWFRsWci-i0g&_nc_ss=7a22e&oh=00_AQFSLML71lZWRJdbc-x0fsqszaNtrkioidlsetrwFnUSMg&oe=6A885BEE",
    "url": "https://www.threads.com/@choi.openai/post/DcH4II-jq3q",
    "region": "kr"
   },
@@ -357,7 +417,7 @@
    "likes": 1,
    "cmts": 1,
    "time": 1786935635,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/777352520_17982539355112832_3476005423324452691_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk2NTQyNTk4MzQxNTEwODAyNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI4Mi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=y6GDvAMXtoMQ7kNvwEIc6kP&_nc_oc=AdrbNTfUWRUxvkgI2ZEnwjAcueU0uoi2IoZPlVt-29UjCZH3wRDlBZXtHo9CgpWLPLM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=YO1Q1lsi2TYGjEe-PhKpAQ&_nc_ss=7a22e&oh=00_AQHqdtxtfu8_DfDr9n8WxOI5AIBiHXyVkiHvpIUD2SbAFw&oe=6A884EE5",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/777352520_17982539355112832_3476005423324452691_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk2NTQyNTk4MzQxNTEwODAyNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI4Mi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=y6GDvAMXtoMQ7kNvwEIc6kP&_nc_oc=AdrbNTfUWRUxvkgI2ZEnwjAcueU0uoi2IoZPlVt-29UjCZH3wRDlBZXtHo9CgpWLPLM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=rh_Hioh0ulfWFRsWci-i0g&_nc_ss=7a22e&oh=00_AQFkYtyrBLkczvihLS4zJ4Chh1okKUVKyPbtQi9EeNtmPA&oe=6A884EE5",
    "url": "https://www.threads.com/@choi.openai/post/DcIBewUj8G4",
    "region": "kr"
   },
@@ -372,32 +432,12 @@
    "region": "kr"
   },
   {
-   "account": "aicoffeechat",
-   "text": "앞으로 꿀단지 계속 얻고 싶으면 @aicoffeechat 팔로우하고 기다리고 있어요 :)\n\n링크: https://amicro.vercel.app/mono-charts",
-   "likes": 9,
-   "cmts": 0,
-   "time": 1786924535,
-   "thumb": "",
-   "url": "https://www.threads.com/@aicoffeechat/post/DcHsTuAklAf",
-   "region": "kr"
-  },
-  {
-   "account": "aicoffeechat",
-   "text": "이거 시각화할 때 꿀단지다 ..\n\n방문해야 할 무료 오픈 소스 React UI 라이브러리, 시각화, 표를 만드는 작업에 넣었더니 만족도가 상당히 높아집니다. 여러분도 하셨으면 하는 마음에 공유해요.\n\n진짜 나만 알고 싶을 정도. 더 이상 예쁘게 만들어줘 프롬프트 반복하지마세요.",
-   "likes": 103,
-   "cmts": 6,
-   "time": 1786924530,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/774886508_1581503607009959_5602628636556251891_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk2NTMzMDYxNjg1MzYwNjc4Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=IxtR-MaTx-oQ7kNvwFcI_ki&_nc_oc=Ado_1e9WGyQaih75i9MzXDF2FdwAivQFxbHCjyCXafXCCzcq5q_vALk5AuwY3HB6ChY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=bP2XV8RsgPwASfyIKGBxmw&_nc_ss=7a22e&oh=00_AQEfpZengIOPStJIfFTOppad7faQT0WduXKY-UWKjejx3g&oe=6A886294",
-   "url": "https://www.threads.com/@aicoffeechat/post/DcHry_SijGC",
-   "region": "kr"
-  },
-  {
    "account": "choi.openai",
    "text": "Stripe가 OpenRouter를 70억 달러가 넘는 금액에 인수합니다.\n\n이번 거래로 Stripe의 사업 영역은 결제를 넘어 AI 모델이 선택되고 사용되는 단계까지 넓어집니다.\n에이전트가 필요한 모델을 고르고, 토큰을 사용하고, 그 비용을 지불하는 전 과정을 하나의 인프라로 묶으려는 겁니다.\n\n지난 16개월의 흐름에서 이번 인수가 어디로 향하는지 정리했습니다. 🧵",
-   "likes": 25,
+   "likes": 28,
    "cmts": 15,
    "time": 1786935630,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/776130167_17982535383112832_7246920871496918893_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk2NTQyNTkzNTQ0OTAyMzEyOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNDAwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=zc-SrWXAX2UQ7kNvwEzIT03&_nc_oc=AdqOxnLN_p1Wx48P2Ndc3taor1xFQXie07oRd_U6uYLYTENjs9s8ZWlIK0KoiQ1oUds&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=YO1Q1lsi2TYGjEe-PhKpAQ&_nc_ss=7a22e&oh=00_AQGhqmVSOupBkMssftLsSNEpUmGL9OHo1WBaiuith7--6A&oe=6A8850BA",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/776130167_17982535383112832_7246920871496918893_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk2NTQyNTkzNTQ0OTAyMzEyOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNDAwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=zc-SrWXAX2UQ7kNvwEzIT03&_nc_oc=AdqOxnLN_p1Wx48P2Ndc3taor1xFQXie07oRd_U6uYLYTENjs9s8ZWlIK0KoiQ1oUds&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=rh_Hioh0ulfWFRsWci-i0g&_nc_ss=7a22e&oh=00_AQFAQdj_lGXLD0gDYNSUr1r6msbnvkxaJT8Y7UOmoVcg7A&oe=6A8850BA",
    "url": "https://www.threads.com/@choi.openai/post/DcIBeDpj2KZ",
    "region": "kr"
   },
@@ -424,10 +464,10 @@
   {
    "account": "choi.openai",
    "text": "드디어 Codex에서도 GPT-5.6 Sol의 100만 토큰 컨텍스트를 설정할 수 있게 됐습니다.\n\n`~/.codex/config.toml`에서 컨텍스트를 100만, 자동 압축 시점을 90만 토큰으로 지정하면 됩니다.\n\n다만 272K 토큰을 넘기면 사용량 한도가 2배 빠르게 소모될 수 있어 주의가 필요합니다. 기본 설정도 성능과 비용을 고려해 조정된 만큼, 긴 작업이 꼭 필요한 경우에 사용하는 게 좋아 보입니다.\n\n또한, 일부 사용자는 서버 제한 때문에 실제 100만 토큰이 적용되지 않는다고 보고하고 있습니다.",
-   "likes": 42,
+   "likes": 47,
    "cmts": 5,
    "time": 1786930256,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/775633480_17982529722112832_5713886472975788942_n.jpg?stp=cp6_dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk2NTM4MDg2MDg5MDk0NzQxNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTE3OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Ovi5GAsH134Q7kNvwHMAF4s&_nc_oc=Adq1pnfYuD7HOBkylInJ-tWocIY99KsJUOdeP0SRM5Ej0lsE_KfA21Fa52c4fF2Fwuc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=YO1Q1lsi2TYGjEe-PhKpAQ&_nc_ss=7a22e&oh=00_AQHhq7DafBbhA6A4QkrF0t41jicWcUQsCH-_n-hX_eETWw&oe=6A885928",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/775633480_17982529722112832_5713886472975788942_n.jpg?stp=cp6_dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk2NTM4MDg2MDg5MDk0NzQxNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTE3OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Ovi5GAsH134Q7kNvwHMAF4s&_nc_oc=Adq1pnfYuD7HOBkylInJ-tWocIY99KsJUOdeP0SRM5Ej0lsE_KfA21Fa52c4fF2Fwuc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=rh_Hioh0ulfWFRsWci-i0g&_nc_ss=7a22e&oh=00_AQHxejWsYcPa1TpHwvvD4Gf-25wG0-w40Gp--Jk8ge83tg&oe=6A885928",
    "url": "https://www.threads.com/@choi.openai/post/DcH3OIsiZ9X",
    "region": "kr"
   },
@@ -437,7 +477,7 @@
    "likes": 0,
    "cmts": 1,
    "time": 1786930282,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/777593200_18080682035407306_6028494292895390915_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk2NTM4MTAwMTE2NjcwMTU5Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQzOS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=rngiMugEXaoQ7kNvwHDvvX8&_nc_oc=AdroEFrotMfBpfBkMmUbOOMMCeaWEOe3JPQOWoOhKlFIgLl3XPi46IV2hQ50e8Q8irc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=GNM5_ddmyC-1DICMUH_M1g&_nc_ss=7a22e&oh=00_AQGSQJ3QvXOpPW52SFvzbPnybIW1yHfXI-xk8SMW8QIPNw&oe=6A8855E1",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/777593200_18080682035407306_6028494292895390915_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk2NTM4MTAwMTE2NjcwMTU5Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQzOS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=rngiMugEXaoQ7kNvwHDvvX8&_nc_oc=AdroEFrotMfBpfBkMmUbOOMMCeaWEOe3JPQOWoOhKlFIgLl3XPi46IV2hQ50e8Q8irc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=BBdQDTs6Xeo2GyfjNRFRgA&_nc_ss=7a22e&oh=00_AQEdc8dPlOA_qYcL87UG3SkuDV5hk-GOEl5Px3LAbXN4lQ&oe=6A8855E1",
    "url": "https://www.threads.com/@aipeekme/post/DcH3QLVn8QY",
    "region": "kr"
   },
@@ -462,16 +502,6 @@
    "region": "kr"
   },
   {
-   "account": "aipeekme",
-   "text": "🔗 원문·자세히 보기\nhttps://github.com/cordiverse/cordis",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1786921303,
-   "thumb": "",
-   "url": "https://www.threads.com/@aipeekme/post/DcHmInfEnAX",
-   "region": "kr"
-  },
-  {
    "account": "choi.openai",
    "text": "1/ 구글이 Gemini 3.7 Flash를 공개했습니다.\n\n3.6 Flash가 나온 지 3주 만입니다. 사전학습을 다시 하지 않고 알고리즘과 모델의 행동 방식을 다듬어 DeepSWE를 49.0%에서 65.3%, FrontierCode를 34.4%에서 43.6%로 올렸습니다.\n\n연말까지 입력 0.75달러, 출력 3.75달러로 기존 가격의 절반을 받지만 2027년 1월에는 다시 두 배가 됩니다. 모델 업데이트 주기는 짧아졌고, 가격 경쟁은 영구 인하보다 한시 할인으로 번지고 있습니다.",
    "likes": 29,
@@ -479,36 +509,6 @@
    "time": 1786924835,
    "thumb": "",
    "url": "https://www.threads.com/@choi.openai/post/DcHs4Y2D_YL",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
-   "text": "오픈소스 진영에 시공간 합성 가능성(Spatiotemporal Composability)을 내건 메타 프레임워크 코디스(Cordis)가 공개되어 있습니다.\n저장소 구성은 타입스크립트 99.9% 기반 모노레포 구조이며 코어 패키지, 로더, 핫 모듈 교체(HMR) 기능 등이 포함되어 있습니다.\n현재 활발히 개발 중인 단계로, API가 완전히 안정화되지 않아 예고 없이 변경될 수 있다고 명시되어 있습니다.\n주요 주제로는 Node.js, 플러그인, 이펙트 등이 태그되어 있으며 전용 논문과 입문 문서가 함께 제공됩니다.\n설계 의도 자체는 꽤 명확해 보입니다.\n다만 현재 활발히 개발 중인 단계라 실제 대규모 서비스 환경에서 얼마나 안정적으로 작동할지는 계속 지켜봐야 할 것 같습니다.\n개인적으로는 복잡한 이벤트 기반 백엔드 시스템이나 플러그인 아키텍처를 짤 때 한 번 시험해 볼 만하다고 봅니다.\n\n📷 사진 출처: github.com",
-   "likes": 1,
-   "cmts": 1,
-   "time": 1786921293,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/774832194_18080652374407306_5351783866410781749_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk2NTMwNTYxMjM5MzQzMjUwNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=BEHMvaMwI9YQ7kNvwE0aCiK&_nc_oc=Adps5SjZo6sCltJWw7BVGIRhX7_YytW0DM_lAmxqpKUStw9vIQ16xb5WDv-pFxoXW_U&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=GNM5_ddmyC-1DICMUH_M1g&_nc_ss=7a22e&oh=00_AQG_8yjhy4-OIyPIq1e3KYd70QcplrVdN2LOxA-g3GQTfw&oe=6A886CD5",
-   "url": "https://www.threads.com/@aipeekme/post/DcHmHIEksW6",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "놓치면 안 될 AI 소식 45개를 정리했습니다 🧵",
-   "likes": 82,
-   "cmts": 48,
-   "time": 1786924833,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DcHs4FAD89h",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "풀영상 :\nhttps://www.youtube.com/watch?v=fsTtKywmWlU",
-   "likes": 3,
-   "cmts": 0,
-   "time": 1786923038,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DcHpc7cDzY5",
    "region": "kr"
   }
  ],
@@ -551,6 +551,15 @@
    "url": "https://www.reddit.com/r/politics/comments/1vpytbv/hakeem_jeffries_says_medicare_for_all_is_not/"
   },
   {
+   "sub": "SpaceXBets",
+   "title": "AOC on Elon Musk: He is not a scientist, he is not an engineer. He is a billionaire con man with a lot of money.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/cXlzamZleGtoc2poMXz0KiT1HPvzeSryBhnfXBGAB_CG_ePWxxtKn2nz4wz4.png?width=640&crop=smart&auto=webp&s=e812eb83fe4f8ba21472be8c94ead740a62340f8",
+   "time": 1786908952,
+   "url": "https://www.reddit.com/r/SpaceXBets/comments/1vq6dcr/aoc_on_elon_musk_he_is_not_a_scientist_he_is_not/"
+  },
+  {
    "sub": "SipsTea",
    "title": "They are all the same",
    "score": 0,
@@ -569,6 +578,42 @@
    "url": "https://www.reddit.com/r/news/comments/1vqgh3p/hayden_panettiere_dies_at_36/"
   },
   {
+   "sub": "mildlyinfuriating",
+   "title": "The way my GF plays video games",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/265bqh2zjsjh1.jpeg?width=640&crop=smart&auto=webp&s=938e04d8ff4f92159604d58e555b38386ecd4c4d",
+   "time": 1786909705,
+   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1vq6opz/the_way_my_gf_plays_video_games/"
+  },
+  {
+   "sub": "StupidFood",
+   "title": "It looks good until...",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/M2h4Z2M0OHJtc2poMTkFAfD-87pTrXbdCk4QrYZdD3t4u5AP0xu0h7TOeZKs.png?width=320&crop=smart&auto=webp&s=0255cc21f61ebc2e9a44f6bccc205b457b27589b",
+   "time": 1786910645,
+   "url": "https://www.reddit.com/r/StupidFood/comments/1vq73co/it_looks_good_until/"
+  },
+  {
+   "sub": "SipsTea",
+   "title": "The GOP has convinced people making $30k/year to vote against this.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/qawicggvgsjh1.jpeg?width=640&crop=smart&auto=webp&s=34f3d71023fd26d2269e3c8ae62b6c4637d56c9b",
+   "time": 1786908660,
+   "url": "https://www.reddit.com/r/SipsTea/comments/1vq68zl/the_gop_has_convinced_people_making_30kyear_to/"
+  },
+  {
+   "sub": "TikTokCringe",
+   "title": "She came with receipts.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/djU3M2wyMnE2cGpoMbFFqpc2d9SnGmeHEG5v533dsBaM_6tAGVsQ6xmt_M9S.png?width=320&crop=smart&auto=webp&s=9fe16e02e64c7e8f879273edc5102722b6eaed02",
+   "time": 1786868989,
+   "url": "https://www.reddit.com/r/TikTokCringe/comments/1vprmga/she_came_with_receipts/"
+  },
+  {
    "sub": "cats",
    "title": "Lost my girl of 18 years yesterday and i miss her so freaking much, Can you pls show me who she is with now?, so i know she isn’t alone.",
    "score": 0,
@@ -576,51 +621,6 @@
    "thumb": "https://preview.redd.it/zs7vy2wh6ujh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=be5246ee0ab5a3f1f0a77b1ae5cce6ee9f49b8fa",
    "time": 1786929387,
    "url": "https://www.reddit.com/r/cats/comments/1vqeb8u/lost_my_girl_of_18_years_yesterday_and_i_miss_her/"
-  },
-  {
-   "sub": "SpaceXBets",
-   "title": "AOC on Elon Musk: He is not a scientist, he is not an engineer. He is a billionaire con man with a lot of money.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/cXlzamZleGtoc2poMXz0KiT1HPvzeSryBhnfXBGAB_CG_ePWxxtKn2nz4wz4.png?width=640&crop=smart&auto=webp&s=e812eb83fe4f8ba21472be8c94ead740a62340f8",
-   "time": 1786908952,
-   "url": "https://www.reddit.com/r/SpaceXBets/comments/1vq6dcr/aoc_on_elon_musk_he_is_not_a_scientist_he_is_not/"
-  },
-  {
-   "sub": "movies",
-   "title": "Hayden Panettiere dies at 36",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/QZGzj164ZHSKVokZsmkQdHcWug_CxWWpiplLxzpRS-w.jpeg?width=640&crop=smart&auto=webp&s=2c33fd567033c4ffe5d74f3076e61eb0d2b9ec66",
-   "time": 1786935533,
-   "url": "https://www.reddit.com/r/movies/comments/1vqgg6d/hayden_panettiere_dies_at_36/"
-  },
-  {
-   "sub": "PeterExplainsTheJoke",
-   "title": "Petah??",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/0brwb5tgjujh1.jpeg?width=640&crop=smart&auto=webp&s=b4360ef5c741dfcc9836e747034807957407e43f",
-   "time": 1786933805,
-   "url": "https://www.reddit.com/r/PeterExplainsTheJoke/comments/1vqfujn/petah/"
-  },
-  {
-   "sub": "Fauxmoi",
-   "title": "Hayden Panettiere dies at 36",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/QZGzj164ZHSKVokZsmkQdHcWug_CxWWpiplLxzpRS-w.jpeg?width=640&crop=smart&auto=webp&s=2c33fd567033c4ffe5d74f3076e61eb0d2b9ec66",
-   "time": 1786935654,
-   "url": "https://www.reddit.com/r/Fauxmoi/comments/1vqghqx/hayden_panettiere_dies_at_36/"
-  },
-  {
-   "sub": "funny",
-   "title": "He definitely used to be a frat bro",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/M294cjBxeXI1dWpoMQdNgXevhpT_imA31yYeevVqG-f2gSb_NiSSdv0CHRrg.png?width=320&crop=smart&auto=webp&s=6c93af7df5f4f8ab63fcb3ae587a3aded81132ac",
-   "time": 1786929146,
-   "url": "https://www.reddit.com/r/funny/comments/1vqe86d/he_definitely_used_to_be_a_frat_bro/"
   }
  ],
  "disaster": [],
@@ -667,10 +667,10 @@
    }
   },
   "landing": {
-   "at": "2026-08-17T13:02:04",
+   "at": "2026-08-17T13:31:29",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-17T13:31:27.163582+09:00"
+ "updated": "2026-08-17T14:01:22.098156+09:00"
 }
