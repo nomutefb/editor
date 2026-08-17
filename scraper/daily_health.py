@@ -178,18 +178,38 @@ def buried_alert():
     now = dt.datetime.now(KST)
     raw3, _ = buried_counts(cands, now, intl_only=False)                # 원자료(병합 전) = 계기판 기저값 연속성용
     g3, g2 = buried_counts(screen_merge(cands), now, intl_only=False)   # 화면 재현 = 발화 판정 축(260811)
-    print(f"· 묻힘(전 카테고리 4h+ 누적 미진입): grade3 {len(g3)}건"
-          f"(원자료 {len(raw3)}건) · grade2 {g2}건 (발화선 g3≥{warn_at})")
+    # ⚠️⚠️ 260818 분리 계상 — 발화선이 **규칙 개정을 안 따라와** 매 회차 헛경고를 냈다.
+    #   실측 = 260818 03:02 발화분 g3 17건 중 문화 3건이 「'성시경 열애설' 미요시 아야카」·「루시 최상엽
+    #   결혼 발표」·「임원희 핑크빛 기류」였고, RUBRIC 원문을 열어보니 **전건 규칙대로 [3]**이다
+    #   (gate_judge.py 「연예 예외」 = 최정상급 유명인의 열애·결별·결혼·이혼 = [3] · 「⚠ 열애·결별은
+    #   «설» 단계도 [3]」 = 운영자 260817 확정). 즉 오채점이 아니라 **그날 운영자가 직접 올린 등급**이다.
+    #   ⚠ 문제는 비교 기준이다 — 본문 기저값 「260805 = g3 3」은 260810 지위변동·260817 열애설 조항
+    #   **이전** 숫자라, 조항이 열린 뒤 늘어난 연예 대형이 매일 「급증」으로 보고된다(개정의 자연 결과를
+    #   결함으로 읽는다). 게다가 이 건들은 **구조적으로 화면에 못 올라간다** — 진입 자격이 등급이 아니라
+    #   cross(받아쓴 매체 수)라 실측 cross 2~3인 연예 열애·결혼은 진입선 8을 영구 미달한다. 즉 조치 대상이
+    #   아닌 항목이 발화선을 밀어올려 **진짜 묻힌 재난·국제 사건을 가린다**(260805 기저 3 → 발화선 5를
+    #   연예 3건만으로도 절반 넘게 채운다).
+    #   ⇒ grade2 를 「상시라 소음이 되므로 본문 참고치로만」 내리는 기존 관용구를 그대로 계승해(창작 0)
+    #     연예 예외분을 **발화 판정에서 빼고 본문에는 그대로 싣는다** = 숨김 0·정보 손실 0.
+    #   ⚠ 가르는 축 = cat=="문화"(연예 예외 조항이 [3]을 주는 유일한 카테고리)다. gossip 도장으로 가르면
+    #     안 된다 — 실측 3건 중 「핑크빛 기류」가 그 정규식에 안 걸려 2/3만 잡히고(GOSSIP_RE 어휘 밖),
+    #     「연예 지위 변동」([3] · 전속계약·그룹 해체)은 사생활 어휘가 아니라 아예 대상 밖이다.
+    cul = [x for x in g3 if (x.get("cat") or "") == "문화"]             # 연예 예외 조항 [3] = cross 구조적 미달
+    core = [x for x in g3 if (x.get("cat") or "") != "문화"]            # 발화 판정 축 = 조치 가능한 묻힘
+    print(f"· 묻힘(전 카테고리 4h+ 누적 미진입): grade3 {len(core)}건"
+          f"(원자료 {len(raw3)}건 · 연예 예외 {len(cul)}건 별도) · grade2 {g2}건 (발화선 g3≥{warn_at})")
     ids = [f"buried-g3-{n}" for n in range(0, 60)]                     # 회전 id 후보 = 이전 회차분 청소용
     for i in ids:                                                      # 구 건수 알림 제거(중복 점등 방지)
-        if i != f"buried-g3-{len(g3)}":
+        if i != f"buried-g3-{len(core)}":
             subprocess.run([sys.executable, str(ROOT / "shared" / "msg.py"), "clear", i],
                            capture_output=True)
-    if len(g3) < warn_at:
+    if len(core) < warn_at:
         return 0
-    lines = [f"묻힌 대형(grade3) {len(g3)}건 — 4시간이 지났는데 누적 칼럼에 못 들어간 사건입니다."
-             f" (같은 시점 grade2 묻힘 {g2}건 · 260805 기저 = g3 3·g2 78)", "",
-             f"✅ 화면 병합을 재현한 뒤의 숫자입니다(원자료 {len(raw3)}건 → 같은 사건 묶기 반영 {len(g3)}건)."
+    lines = [f"묻힌 대형(grade3) {len(core)}건 — 4시간이 지났는데 누적 칼럼에 못 들어간 사건입니다."
+             f" (같은 시점 grade2 묻힘 {g2}건 · 260805 기저 = g3 3·g2 78 ⚠️ 그 기저는 260810 지위변동·"
+             f"260817 열애설 조항 **이전** 값이라 연예 예외분과는 비교 축이 다르다 = 그래서 아래처럼 갈랐다)", "",
+             f"✅ 화면 병합을 재현한 뒤의 숫자입니다(원자료 {len(raw3)}건 → 같은 사건 묶기 반영 {len(core) + len(cul)}건"
+             f" → 연예 예외 {len(cul)}건 분리 후 {len(core)}건)."
              " 아래 건들은 갈라진 형제를 합산해도 진입선에 미달 = 지금 화면에 실제로 없습니다."
              " 남은 오차 = 네 기기에만 있는 수동 병합(코드가 못 읽음).", ""]
     # 같은 사건 묶기(group_id)가 아직 안 붙은 건 = screen_merge 가 **구조적으로 못 접는 조각**이다.
@@ -199,13 +219,25 @@ def buried_alert():
     #     cross 13 으로 이미 화면에 있었다**(같은 지진 관련 후보 10건 중 6건만 group_id 보유).
     #   ⚠ 여기서 낱말로 묶지는 않는다(screen_merge 주석 「낱말 기반 병합 금지 · 260625 안산↔청주 선례」
     #     동축) — 묶기 **유무라는 사실만** 싣고 판정은 사람이 한다. 붙이는 건 표시뿐이라 사라지는 항목 0.
-    nogrp = [x for x in g3 if not x.get("group_id")]
-    for x in g3[:8]:
+    nogrp = [x for x in core if not x.get("group_id")]
+    for x in core[:8]:
         _mc = x.get("_mergeCount")
         lines.append(f"· {(x.get('title') or '')[:52]}"
                      f" (cr{x.get('cross') or 0}·rc{x.get('report_count') or 0}·{x.get('cat') or '?'}"
                      + (f"·형제{_mc}건 합산" if _mc else "")
                      + ("" if x.get("group_id") else "·묶기없음") + ")")
+    # 연예 예외분 = 발화 판정에서 빼되 **본문에는 그대로 싣는다**(숨김 0) — 조치 축이 다르다는 것만 명시.
+    if cul:
+        lines += ["", f"[연예 예외 {len(cul)}건 · 발화 판정에서 제외 = 조치 대상 아님]"]
+        for x in cul[:6]:
+            lines.append(f"· {(x.get('title') or '')[:52]}"
+                         f" (cr{x.get('cross') or 0}·rc{x.get('report_count') or 0}·문화)")
+        lines += ["  ↑ RUBRIC 「연예 예외」 조항이 [3]을 주는 건들이다(최정상급 유명인의 열애·결별·결혼·"
+                  "이혼·범죄 = [3] · 열애·결별은 «설» 단계도 [3] = 운영자 260817). **오채점이 아니다.**",
+                  "  진입 자격은 등급이 아니라 cross(받아쓴 매체 수)라서 매체가 적게 받아쓴 연예 건은"
+                  " 등급이 최고여도 진입선 8을 구조적으로 못 넘는다 = 코드로 고칠 자리가 없다.",
+                  "  이 건들을 화면에 올리고 싶으면 진입선이 아니라 **연예 전용 진입 경로**를 여는 별건"
+                  " 판단이 필요하다(운영자 축 · 지금 발화선을 내리면 진짜 묻힌 재난·국제가 같이 헐거워진다)."]
     lines += ["", "진입 자격 = cross≥8 OR 긴급 OR followEnters(cross≥4 ∧ [rc≥6 OR rc≥5+grade≥2 OR rc≥3+강지문]).",
               "위 건들은 셋 다 미달이라 화면에서 사라진 상태입니다.",
               "",
@@ -229,8 +261,8 @@ def buried_alert():
               " 실제로 어긋났으면 채점 축(grade RUBRIC)으로 가세요.",
               "확인 = python3 scraper/daily_health.py · 임계 정본 = docs/curation-algorithm.md §★"]
     subprocess.run([sys.executable, str(ROOT / "shared" / "msg.py"), "set",
-                    f"buried-g3-{len(g3)}", "\n".join(lines), "warn"], capture_output=True)
-    print(f"::warning::묻힌 grade3 {len(g3)}건(발화선 {warn_at}) — 알림 점등")
+                    f"buried-g3-{len(core)}", "\n".join(lines), "warn"], capture_output=True)
+    print(f"::warning::묻힌 grade3 {len(core)}건(연예 예외 {len(cul)}건 제외 · 발화선 {warn_at}) — 알림 점등")
     return 0
 
 
