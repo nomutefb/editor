@@ -265,7 +265,7 @@ jobs:
               for o in opas1:
                   ov = f'/tmp/_ov_{o}.png'
                   generate(fmt1, params['lines'], ov, opacity=int(o), tracking=tr, lm_offsets=lmoff)
-                  base = f'{outdir}/out' if len(opas1) == 1 else f'{outdir}/opa{o}'
+                  base = f'{outdir}/opa{o}'   # 항상 opa{값}(릴스 emit과 통일 · 운영자 260818 · PR#103 흡수) — 구판 단일 opa `out`은 파일명→변형라벨 매핑(thMetaLabel·build-viewer thLabel)이 '기본'으로 뭉개 복원·이전 제작서 OPA가 사라졌다(배경합성 out.jpg 동일). api/thumb.js outs 예측과 짝(불일치=뷰어 무한 폴링).
                   produced.append(emit(ov, image, fmt1, base, flags))
           else:
               sys.exit(f'::error::알 수 없는 app: {app}')

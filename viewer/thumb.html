@@ -2994,7 +2994,7 @@ function rszJob(rid, payload, autoAttach, meta) {   // meta(260818) = { tpl: 잡
   // AI 합성 잡 행 = 카드 잡과 같은 해시태그 한 문법(운영자 260818 Q04·Q05 «#사용자명 #포스트(또는 릴스) #ai합성 #n») —
   //   판형 이름(포스트/릴스)이 비율(4:5/9:16)을 대체하고, 템플릿 접두는 meta.tpl → job.tpl → renderJob(카드 잡 job.src.tpl과 같은 자리).
   //   렌더 조립(renderJob 3697행) = 「#<템플릿> #<label> #<n>」이라 label을 「포스트 #ai합성」으로 두면 정확히 그 문법이 된다.
-  const _nm = _aiFill ? (payload.aspect === '9:16' ? '릴스' : '포스트') + ' #ai합성' : '리사이즈';
+  const _nm = _aiFill ? (payload.aspect === '9:16' ? '릴스' : '포스트') + ' #AI합성' : '리사이즈';   // 'AI합성' = 항상 대문자(운영자 260818 형제 지시서 Q1526 · 초안 103 흡수)
   const job = { n: ++JOBSEQ, label: _aiFill ? _nm : _nm + ' (' + payload.aspect + ')', t0: Date.now(), outs: [o], done: [false], status: 'run', msg: '', rid, payload, endpoint: '/api/resize' };   // 잡 라벨 = 리사이즈: 이름 (비율)(축1) · AI 합성: 판형 #ai합성(260818 — 비율 괄호는 판형 이름이 대체)
   if (meta && meta.tpl) job.tpl = meta.tpl;       // 해시태그 접두(잡 전용 필드 — job.src에 실으면 canEditSrc가 src.app 없는 반쪽 스냅으로 연필을 그릴 위험)
   if (meta && meta.chain) job._chain = meta.chain; // 카드 사슬(완료·재첨부 성공 시 1회 발사)

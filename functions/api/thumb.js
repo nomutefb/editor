@@ -207,10 +207,13 @@ export async function onRequestPost({ request, env }) {
       const ext = wantImg ? 'jpg' : 'png';   // 배경합성=JPG(2K)·투명오버레이=PNG(FHD) — 워크플로 emit()와 확장자 일치(불일치 시 폴링 실패)
       outs = params.opas.map(o => ({ path: `${dir}/opa${o}.${ext}`, label: 'OPA' + o }));   // variant 태그 = OPA{값}(통일)
     } else if (app === '1') {
-      // 경로 = 워크플로 emit() dst 규칙(1개=out·여러개=opa{o}, 확장자=배경有 jpg / 無 png). 라벨=OPA{값} 통일.
+      // 경로 = 워크플로 emit() dst 규칙(항상 opa{o} · 확장자=배경有 jpg / 無 png). 라벨=OPA{값} 통일.
+      // ⚠ 260818(PR#103 흡수) = 구판은 opa 1개일 때 `out.{ext}`로 떨어뜨렸는데, 파일명→변형라벨 매핑(thMetaLabel·build-viewer thLabel)이
+      //   `out`을 '기본'으로 뭉개서 기기간 복원·이전 제작 캡션에서 OPA가 사라졌다(릴스는 항상 opa{o}라 무사 · 배경합성 out.jpg도 동일 증상).
+      //   → 릴스와 같이 opa{o} 통일 = 신규 산출은 파일명이 OPA를 실어 프레시·복원 어디서나 표기(러너 thumb-make.yml emit도 같은 커밋 짝 변경 · 과거 out.* 항목은 '기본' 폴백 잔존 = 기계산출물).
       const ext = wantImg ? 'jpg' : 'png';
       const opas = (params.opas && params.opas.length) ? params.opas : [params.opacity ?? 58];
-      outs = opas.map(o => ({ path: `${dir}/${opas.length === 1 ? 'out' : 'opa' + o}.${ext}`, label: 'OPA' + o }));
+      outs = opas.map(o => ({ path: `${dir}/opa${o}.${ext}`, label: 'OPA' + o }));
     } else {
       // /3 저작권 = 이름(variant 태그) · /4 경고문 = variant 없음(잡 라벨 '경고문 (포맷)'로 구분)
       outs = [{ path: `${dir}/out.png`, label: app === '3' ? (params.name || '') : '' }];
