@@ -797,10 +797,18 @@ async function pollPlan(id){   /* 1순위 = api/trplan(main 직독 = 빌드 큐 
       if (r.ok) { const p = await r.json();
         if (p && p.fail) throw trFailMsg(p.msg);
         if (p && Array.isArray(p.hl) && Array.isArray(p.chips)) return p; } } catch (er) { if (er && er._trfail) throw er; }
+    /* ⚠ 정적 2순위는 「받은 것이 진짜 산출인가」를 먼저 본다(260817 실사고 봉합 · 운영자 「아예 대기열로 안가지거든」) ──
+       화면 서버가 **없는 경로에 HTTP 200 + 셸 HTML 2.5MB**를 돌려준다(라이브 실측 = `/tr_out/<없는id>/error.log` → 200 · text/html · 2,585,954B
+       · `/tr_out/<없는id>/plan.json` 동일 · 반면 1순위 `/api/trplan`은 `{"pending":true}`로 정상 응답).
+       구판은 `e.ok`만 보고 그 셸 HTML을 실패 기록으로 읽었다 → `trFailReason`이 사유를 못 뽑아 빈 문자열 → 「번역 플랜을 못 만들었어」 고정 문구로
+       **발사 6초 만에 확정 실패**. 러너는 60초 만에 정상 성공하는데(실측 260817 = tr-auto 런 2건 전건 success · 60s/66s) 화면이 그 결과를 영영 안 봤다
+       = 즉답 키 미설정이라 전 요청이 이 폴백 경로로만 가므로 **번역 100% 실패**였고, 증상은 실패 한 줄뿐이라 운영자 눈이 유일한 검출기였다.
+       → plan.json = hl·chips 스키마 통과분만 채택 · error.log = TRAUTO_FAILED 사유를 실제로 뽑았을 때만 실패(못 뽑으면 다음 틱).
+       ⚠ 진짜 실패의 확정 판정은 1순위 api/trplan `{fail:true}`가 이미 전담한다(그쪽은 파일 실존을 서버가 확인한 값) = 놓침 0. */
     try { const r = await fetch(`tr_out/${id}/plan.json?t=${Date.now()}`, { cache: 'no-store' });
-      if (r.ok) return await r.json(); } catch (_) {}
+      if (r.ok) { const p = await r.json(); if (p && Array.isArray(p.hl) && Array.isArray(p.chips)) return p; } } catch (_) {}
     try { const e = await fetch(`tr_out/${id}/error.log?t=${Date.now()}`, { cache: 'no-store' });
-      if (e.ok) throw trFailMsg(trFailReason(await e.text())); } catch (er) { if (er && er._trfail) throw er; }
+      if (e.ok) { const rs = trFailReason(await e.text()); if (rs) throw trFailMsg(rs); } } catch (er) { if (er && er._trfail) throw er; }
   }
   throw new Error('시간이 오래 걸려(6분 초과) — 재시도');
 }
