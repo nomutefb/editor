@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>픽셀 펫 — 등장·배회 플레이그라운드</title>
+<style>
+/* 값 = viewer/index.html :root 실측 사본(자기완결 1파일이라 토큰을 옮겨 적었다 · 창작 0) */
+:root{
+  --bg:#121212; --space-bg:#070a12; --space-hi-rgb:26,47,102;
+  --glass2:rgba(18,19,22,.55); --modal-head-bg:rgba(24,25,28,.85);
+  --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.06);
+  --accent:#00EED2; --accent-rgb:0,238,210; --accent-2:#FFE13D; --accent-3:#e23b2a;
+  --fg:#eef7f0; --mut:#8fa697;
+  --r-l:16px; --r-m:11px; --r-s:9px; --r-pill:999px; --r-modal:22px;
+  --sp-1:6px; --sp-2:12px; --sp-3:18px; --sp-4:24px;
+  --blur-l:22px; --btn:34px; --btn-sm:30px;
+  --fs-display:22px; --fs-h1:19px; --fs-h2:15px; --fs-h3:14px; --fs-label:13px;
+  --fs-body:15px; --fs-sm:12px; --fs-xs:11px; --fw-b:700; --fw-x:800; --lh-base:1.6;
+  --ease:cubic-bezier(.2,.7,.3,1); --dur:.18s; --dur-fast:.12s;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+  font:var(--fs-body)/var(--lh-base) 'Pretendard Variable',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo',sans-serif;
+  letter-spacing:-.2px;padding:var(--sp-3)}
+h1{font-size:var(--fs-display);font-weight:var(--fw-x);margin:0 0 var(--sp-1)}
+.sub{color:var(--mut);font-size:var(--fs-sm);margin:0 0 var(--sp-3)}
+.wrap{display:flex;flex-wrap:wrap;gap:var(--sp-3);align-items:flex-start}
+
+/* ⑥ 미리보기 고정 = 별도 스크롤 문맥(PC 좌 sticky · 폰 상단 sticky) */
+.pvcol{position:sticky;top:var(--sp-2);flex:0 0 auto;z-index:2}
+@media (max-width:900px){
+  .pvcol{position:sticky;top:0;width:100%;background:var(--bg);padding:var(--sp-1) 0;max-height:66dvh;overflow:auto}
+  .console{width:100%}
+}
+
+/* ① 실물 재현 = 폰 프레임 · transform으로 자체 좌표계를 만들어 펫이 이 상자 안에서만 돈다 */
+.phone{width:390px;height:640px;position:relative;overflow:hidden;border-radius:var(--r-modal);
+  border:1px solid var(--line);transform:translateZ(0);
+  background:radial-gradient(120% 70% at 50% -10%, rgba(var(--space-hi-rgb),.55) 0%, rgba(var(--space-hi-rgb),0) 60%), var(--space-bg)}
+.phone .fakecard{position:absolute;left:var(--sp-2);right:var(--sp-2);border-radius:var(--r-l);
+  border:1px solid var(--line);background:var(--glass2);padding:var(--sp-2)}
+.fakecard .l1{height:9px;border-radius:var(--r-pill);background:rgba(255,255,255,.10)}
+.fakecard .l2{height:9px;width:62%;border-radius:var(--r-pill);background:rgba(255,255,255,.06);margin-top:8px}
+/* 하단 내비 = viewer .bnav 값 사본(검정 30%·blur-l·상단 1px 라인·그림자) */
+.bnav{position:absolute;left:0;right:0;bottom:0;height:58px;display:flex;justify-content:space-around;align-items:center;
+  background:rgba(0,0,0,.30);backdrop-filter:blur(var(--blur-l)) saturate(1.35);
+  border-top:1px solid rgba(255,255,255,.12);box-shadow:0 -10px 30px rgba(0,0,0,.4);z-index:9}
+.bnav b{font-size:var(--fs-label);font-weight:var(--fw-b);color:var(--mut)}
+.bnav b.on{color:var(--accent)}
+.floor{position:absolute;left:0;right:0;bottom:58px;height:1px;background:rgba(var(--accent-rgb),.18);z-index:7}
+
+/* 콘솔 */
+.console{flex:1 1 420px;min-width:320px;display:flex;flex-direction:column;gap:var(--sp-2)}
+.card{border:1px solid var(--line);border-radius:var(--r-l);background:var(--glass2);padding:var(--sp-2)}
+.card h2{font-size:var(--fs-h3);font-weight:var(--fw-b);margin:0 0 var(--sp-1);color:var(--fg)}
+.card p.note{margin:0;color:var(--mut);font-size:var(--fs-xs)}
+.row{display:flex;align-items:center;gap:var(--sp-1);margin:7px 0}
+.row label{flex:0 0 116px;font-size:var(--fs-sm);color:var(--mut)}
+.row input[type=range]{flex:1;accent-color:var(--accent);min-width:90px}
+.row output{flex:0 0 62px;text-align:right;font-size:var(--fs-sm);font-variant-numeric:tabular-nums;color:var(--fg)}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+button{font:inherit;font-size:var(--fs-label);font-weight:var(--fw-b);color:var(--fg);cursor:pointer;
+  min-height:var(--btn-sm);padding:0 12px;border-radius:var(--r-s);border:1px solid var(--line);
+  background:rgba(255,255,255,.04);transition:background var(--dur) var(--ease),border-color var(--dur) var(--ease),transform var(--dur-fast) var(--ease)}
+button:hover{background:rgba(var(--accent-rgb),.06);border-color:rgba(var(--accent-rgb),.35)}
+button:active{transform:scale(.97)}
+button.on{color:var(--accent);border-color:rgba(var(--accent-rgb),.55);background:rgba(var(--accent-rgb),.10)}
+pre.out{margin:0;padding:var(--sp-1);border-radius:var(--r-s);border:1px solid var(--line2);
+  background:rgba(0,0,0,.35);color:var(--fg);font-size:var(--fs-xs);white-space:pre-wrap;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;max-height:210px;overflow:auto}
+
+/* ⑧ 프레임 판독표 = 아틀라스 82칸 전수(분할이 맞는지 눈으로) */
+.grid{display:grid;grid-template-columns:repeat(10,1fr);gap:3px}
+.cellwrap{position:relative;border-radius:4px;overflow:hidden;border:1px solid var(--line2);background:rgba(0,0,0,.5)}
+.cellwrap i{position:absolute;left:2px;top:1px;font-size:9px;font-style:normal;color:var(--mut);
+  font-variant-numeric:tabular-nums;text-shadow:0 1px 2px #000}
+.cellwrap.sit{outline:1px solid rgba(var(--accent-rgb),.5);outline-offset:-1px}
+.cellwrap.now{outline:2px solid var(--accent-2);outline-offset:-2px}
+.legend{display:flex;gap:var(--sp-2);flex-wrap:wrap;color:var(--mut);font-size:var(--fs-xs);margin-top:6px}
+.legend b{color:var(--accent);font-weight:var(--fw-b)}
+.legend b.y{color:var(--accent-2)}
+.foot{color:var(--mut);font-size:var(--fs-xs);margin-top:var(--sp-2);line-height:1.7}
+.foot b{color:var(--fg)}
+__PET_CSS__
+</style>
+</head>
+<body>
+<h1>픽셀 펫 — 등장·배회 플레이그라운드</h1>
+<p class="sub">아틀라스 1장(1320×1080)을 82칸으로 쪼개 초당 30장으로 돌린다. 왼쪽 폰 화면이 실제 동작이고, 오른쪽 값을 만지면 즉시 반영된다. 만든 날 __BUILT__ · 기계산출물(생성기 <code>apps/pet/build_pet_demo.py</code>)</p>
+
+<div class="wrap">
+  <div class="pvcol">
+    <div class="phone" id="stage">
+      <div class="fakecard" style="top:18px"><div class="l1"></div><div class="l2"></div></div>
+      <div class="fakecard" style="top:96px"><div class="l1"></div><div class="l2"></div></div>
+      <div class="fakecard" style="top:174px"><div class="l1"></div><div class="l2"></div></div>
+      <div class="floor" id="floorline"></div>
+      <div class="bnav"><b class="on">뉴스요약</b><b>지난뉴스</b><b>SNS</b><b>설정</b></div>
+    </div>
+    <div class="seg" style="margin-top:8px">
+      <button id="bShow" class="on">지금 등장</button>
+      <button id="bHide">퇴장</button>
+      <button id="bLoop">상시 가동</button>
+    </div>
+  </div>
+
+  <div class="console">
+    <div class="card">
+      <h2>② 프리셋</h2>
+      <div class="seg" id="presets"></div>
+      <p class="note" style="margin-top:8px">★ = 지금 코드에 들어있는 값(정본 그대로)</p>
+    </div>
+
+    <div class="card">
+      <h2>③ 미세조정 — 생김새</h2>
+      <div class="row"><label>크기</label><input type="range" id="sScale" min="0.4" max="1.6" step="0.05"><output id="oScale"></output></div>
+      <div class="row"><label>바닥 높이</label><input type="range" id="sBottom" min="0" max="160" step="1"><output id="oBottom"></output></div>
+      <div class="row"><label>서 있는 쪽</label><span class="seg"><button id="bLeft">왼쪽</button><button id="bRight">오른쪽</button></span></div>
+      <h2 style="margin-top:var(--sp-2)">③ 미세조정 — 움직임</h2>
+      <div class="row"><label>그림 넘기기</label><input type="range" id="sFps" min="8" max="60" step="1"><output id="oFps"></output></div>
+      <div class="row"><label>걷는 속도</label><input type="range" id="sSpeed" min="4" max="90" step="1"><output id="oSpeed"></output></div>
+      <div class="row"><label>돌아다닐 폭</label><input type="range" id="sSpan" min="0.2" max="1" step="0.05"><output id="oSpan"></output></div>
+      <div class="row"><label>머무는 시간</label><input type="range" id="sStay" min="3" max="60" step="1"><output id="oStay"></output></div>
+      <div class="row"><label>다시 올 때까지</label><input type="range" id="sGap" min="10" max="360" step="5"><output id="oGap"></output></div>
+      <div class="row"><label>앉으면 멈춤</label><span class="seg"><button id="bGateOn">켬(지금)</button><button id="bGateOff">끔(정본 그대로)</button></span></div>
+      <p class="note" style="margin-top:8px">「앉으면 멈춤」을 끄면 앉은 자세로도 미끄러진다. 켬·끔을 번갈아 눌러 차이를 보면 된다.</p>
+    </div>
+
+    <div class="card">
+      <h2>④ 고른 값</h2>
+      <pre class="out" id="out"></pre>
+      <div class="seg" style="margin-top:8px"><button id="bCopy">값 복사</button><button id="bReset">정본으로 되돌리기</button></div>
+    </div>
+
+    <div class="card">
+      <h2>⑧ 82칸 분할 판독표</h2>
+      <div class="grid" id="grid"></div>
+      <div class="legend">
+        <span><b>청록 테두리</b> = 앉은 자세 45칸(0~13·23~28·38~43·53~58·69~81)</span>
+        <span><b class="y">노란 테두리</b> = 지금 화면에 그려지는 칸</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>⑤ 이 미리보기의 한계</h2>
+      <p class="note" id="limits"></p>
+    </div>
+  </div>
+</div>
+
+<p class="foot">
+  <b>실측값</b> — 아틀라스 1320×1080 · 한 칸 132×120 · 10열 9행 · 실제 사용 82칸(마지막 행은 2칸) · 발 접지 중심 67px로 전 칸 정렬됨(걸음 폭 ±15.5px) · 앉은 자세 45칸 ↔ 선 자세 37칸이 네 번 번갈아 나온다.<br>
+  <b>정본</b> — 등장·페이드·배회 로직과 확률값은 <code>viewer/index.html</code> 픽셀 펫 블록(260710)에서 그대로 가져왔다. 이 화면에서 새로 만든 값은 없다.<br>
+  <b>이 파일은 붙이는 물건이 아니다</b> — 실제 화면에 넣는 건 <code>apps/pet/nm-pet.css</code>·<code>apps/pet/nm-pet.js</code> 두 줄 상속이고, 아직 어느 화면도 이 부품을 안 부른다.
+</p>
+
+<script>
+/* 아틀라스 = 이 파일 안에 그림째 넣었다(외부 요청 0 = 폰에서 파일만 열어도 돈다) */
+window.__PET_ATLAS__ = "__ATLAS_B64__";
+/* 82칸 실측표(생성기가 아틀라스를 직접 재서 넣는다) */
+window.__PET_FRAMES__ = __FRAMES_JSON__;
+</script>
+<script>
+__PET_JS__
+</script>
+<script>
+(function(){
+  var stage = document.getElementById('stage');
+  var B = nmPet.base();
+  var demoBase = { atlas: window.__PET_ATLAS__, host: stage, bottom: 58, stayMin: 999999, stayMax: 999999 };
+  var state = Object.assign({}, B, demoBase);
+  var loop = false, gate = true;
+  nmPet.set(demoBase);   /* ⚠ 먼저 물려야 한다 — 아래 판독표는 이 설정으로 82칸을 그리고, 안 물리면 없는 파일을 찾아 빈 칸이 된다(260817 실측) */
+
+  function apply(){
+    var s = Object.assign({}, state);
+    s.sitFrames = gate ? B.sitFrames : [];   /* 끔 = 목록을 비운다 = 정본 그대로(프레임 무관하게 움직임) */
+    if (loop) { s.stayMin = state.stayMin; s.stayMax = state.stayMax; }
+    nmPet.set(s);
+    document.getElementById('floorline').style.bottom = state.bottom + 'px';
+    render();
+  }
+
+  /* ② 프리셋 — 현행 포함 · 추천 ★ */
+  var PRESETS = [
+    { n:'현행 ★', v:{} },
+    { n:'느긋', v:{ scale:0.75, fps:24, speedMin:10, speedMax:18, span:0.45 } },
+    { n:'활발', v:{ scale:0.75, fps:30, speedMin:30, speedMax:52, span:0.7 } },
+    { n:'큼직', v:{ scale:1.15, fps:30, speedMin:20, speedMax:34, span:0.55 } }
+  ];
+  var pbox = document.getElementById('presets');
+  PRESETS.forEach(function(p, i){
+    var b = document.createElement('button');
+    b.textContent = p.n;
+    b.onclick = function(){
+      state = Object.assign({}, B, demoBase, p.v);
+      [].forEach.call(pbox.children, function(c){ c.classList.remove('on'); });
+      b.classList.add('on');
+      sync(); apply();
+    };
+    if (i === 0) b.classList.add('on');
+    pbox.appendChild(b);
+  });
+
+  /* ③ 슬라이더 배선 */
+  var S = {
+    sScale:  { get:function(){return state.scale;},     set:function(v){state.scale=+v;},                     fmt:function(v){return (+v).toFixed(2)+'배';} },
+    sBottom: { get:function(){return state.bottom;},    set:function(v){state.bottom=+v;},                    fmt:function(v){return v+'px';} },
+    sFps:    { get:function(){return state.fps;},       set:function(v){state.fps=+v;},                       fmt:function(v){return v+'장/초';} },
+    sSpeed:  { get:function(){return state.speedMin;},  set:function(v){state.speedMin=+v; state.speedMax=Math.round(v*1.8);}, fmt:function(v){return v+'~'+Math.round(v*1.8);} },
+    sSpan:   { get:function(){return state.span;},      set:function(v){state.span=+v;},                      fmt:function(v){return Math.round(v*100)+'%';} },
+    sStay:   { get:function(){return Math.round(B.stayMin/1000);}, set:function(v){state.stayMin=v*1000; state.stayMax=Math.round(v*1000*STAY_R);}, fmt:function(v){return v+'~'+Math.round(v*STAY_R)+'초';} },
+    sGap:    { get:function(){return Math.round(B.gapMin/1000);},  set:function(v){state.gapMin=v*1000; state.gapMax=Math.round(v*1000*GAP_R);}, fmt:function(v){return v+'~'+Math.round(v*GAP_R)+'초';} }
+  };
+  var stayV = Math.round(B.stayMin/1000), gapV = Math.round(B.gapMin/1000);
+  var STAY_R = B.stayMax / B.stayMin, GAP_R = B.gapMax / B.gapMin;   /* 정본 두 값의 비율 그대로(1.857·2.667) = 손대지 않으면 정본과 완전 동일 */
+  Object.keys(S).forEach(function(id){
+    var el = document.getElementById(id), out = document.getElementById('o' + id.slice(1));
+    el.oninput = function(){
+      S[id].set(el.value);
+      if (id === 'sStay') stayV = +el.value;
+      if (id === 'sGap') gapV = +el.value;
+      out.textContent = S[id].fmt(el.value);
+      apply();
+    };
+  });
+  function sync(){
+    Object.keys(S).forEach(function(id){
+      var el = document.getElementById(id), out = document.getElementById('o' + id.slice(1));
+      var v = id === 'sStay' ? stayV : (id === 'sGap' ? gapV : S[id].get());
+      el.value = v; out.textContent = S[id].fmt(v);
+    });
+    document.getElementById('bLeft').classList.toggle('on', state.side === 'left');
+    document.getElementById('bRight').classList.toggle('on', state.side === 'right');
+    document.getElementById('bGateOn').classList.toggle('on', gate);
+    document.getElementById('bGateOff').classList.toggle('on', !gate);
+    document.getElementById('bLoop').classList.toggle('on', loop);
+  }
+  document.getElementById('bLeft').onclick  = function(){ state.side='left';  sync(); apply(); };
+  document.getElementById('bRight').onclick = function(){ state.side='right'; sync(); apply(); };
+  document.getElementById('bGateOn').onclick  = function(){ gate=true;  sync(); apply(); };
+  document.getElementById('bGateOff').onclick = function(){ gate=false; sync(); apply(); };
+
+  /* 등장·퇴장·상시 */
+  document.getElementById('bShow').onclick = function(){ loop=false; sync(); apply(); nmPet.show(); };
+  document.getElementById('bHide').onclick = function(){ loop=false; sync(); nmPet.hide(); };
+  document.getElementById('bLoop').onclick = function(){
+    loop = !loop; sync();
+    if (loop) { nmPet.hide(); nmPet.set({stayMin:stayV*1000, stayMax:Math.round(stayV*1000*STAY_R)}); nmPet.start(); }
+    else { nmPet.stop(); }
+  };
+
+  /* ⑧ 판독표 = 82칸 */
+  var grid = document.getElementById('grid');
+  var cells = [];
+  for (var f = 0; f < B.frames; f++){
+    var d = document.createElement('div');
+    d.className = 'cellwrap' + (nmPet.walking(f) ? '' : ' sit');
+    d.setAttribute('style', nmPet.frameStyle(f, 0.33));
+    var t = document.createElement('i'); t.textContent = f;
+    d.appendChild(t); grid.appendChild(d); cells.push(d);
+  }
+  var lastNow = -1;
+  (function tick(){
+    var f = Math.floor(performance.now() / (1000 / state.fps)) % B.frames;
+    if (f !== lastNow){
+      if (cells[lastNow]) cells[lastNow].classList.remove('now');
+      cells[f].classList.add('now'); lastNow = f;
+    }
+    requestAnimationFrame(tick);
+  })();
+
+  /* ④ 고른 값 */
+  function render(){
+    var keys = ['scale','fps','speedMin','speedMax','span','bottom','side','stayMin','stayMax','gapMin','gapMax'];
+    var lines = [], diff = 0;
+    var cur = Object.assign({}, state);
+    cur.stayMin = stayV * 1000; cur.stayMax = Math.round(stayV * 1000 * STAY_R);
+    cur.gapMin = gapV * 1000;  cur.gapMax = Math.round(gapV * 1000 * GAP_R);
+    keys.forEach(function(k){
+      var same = String(cur[k]) === String(B[k]);
+      if (!same) diff++;
+      lines.push('  ' + k + ': ' + JSON.stringify(cur[k]) + (same ? '   // 계승' : '   // 갱신 후보(정본 ' + B[k] + ')'));
+    });
+    if (!gate) { diff++; lines.push('  sitFrames: []   // 갱신 후보(앉으면 멈춤 끔 = 정본 그대로)'); }
+    document.getElementById('out').textContent =
+      'nmPet.start({\n' + lines.join('\n') + '\n});\n\n// 정본과 다른 값 ' + diff + '개';
+  }
+  document.getElementById('bCopy').onclick = function(){
+    var t = document.getElementById('out').textContent;
+    navigator.clipboard && navigator.clipboard.writeText(t);
+    this.textContent = '복사됨'; var b = this;
+    setTimeout(function(){ b.textContent = '값 복사'; }, 1200);
+  };
+  document.getElementById('bReset').onclick = function(){
+    state = Object.assign({}, B, demoBase); gate = true; loop = false;
+    stayV = Math.round(B.stayMin/1000); gapV = Math.round(B.gapMin/1000);
+    [].forEach.call(pbox.children, function(c, i){ c.classList.toggle('on', i === 0); });
+    sync(); apply(); nmPet.show();
+  };
+
+  /* ⑤ 한계 각주 */
+  document.getElementById('limits').innerHTML = [
+    '이 폰 틀은 390×640이고 실제 폰은 더 길다 — 돌아다닐 폭(%)은 같은 비율이지만 픽셀 거리는 실제 화면에서 더 넓어진다.',
+    '「지금 등장」은 사라지지 않게 머무는 시간을 길게 잡아둔 상태다. 실제 등장·퇴장 주기는 「상시 가동」을 눌러야 그대로 돈다.',
+    '아틀라스 그림을 이 파일 안에 복사해 넣었다 — <code>viewer/pet_crab.png</code>를 고치면 이 미리보기는 낡는다(생성기 다시 돌리면 맞춰진다).',
+    '움직임을 싫어하는 설정(운영체제 접근성)에서는 아예 나오지 않는다 — 그 설정이 켜진 기기에서는 이 화면도 펫이 안 보인다.'
+  ].map(function(s){ return '· ' + s; }).join('<br>');
+
+  sync(); apply(); nmPet.show();
+})();
+</script>
+</body>
+</html>
