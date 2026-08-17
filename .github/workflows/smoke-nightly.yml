@@ -41,13 +41,29 @@ jobs:
           mkdir -p scraper/obs
           RC="$RC" python3 .github/scripts/smoke_obs.py smoke.log scraper/obs/smoke_last.json
           echo "RC=$RC" >> "$GITHUB_ENV"
-      - name: 관측 커밋(변동 시만 · watchdog 쿨다운 원장 문법 계승)
+      # ⚠⚠ 260817 봉합 — 구판은 `git commit` + `git pull --rebase --autostash origin main && git push`였고
+      #   **착지가 한 번도 성공한 적이 없다**(실측: 계정 이관 후 2런 전건 미착지 · smoke_last.json의 유일 커밋은
+      #   sns-trends가 우연히 주워 올린 1건). 실패 형태 = 런 31966816134 로그 원문:
+      #     [main 89d690f] watchdog: smoke_last 관측 갱신 (bot) / 1 file changed
+      #     error: cannot rebase: You have unstaged changes. → Applying autostash resulted in conflicts.
+      #     ::warning::관측 커밋 푸시 실패 — 다음 크론에 재기록(fail-soft)
+      #   원인 = 스모크 실행이 커밋 범위 **밖** tracked 파일을 남기고, 그 잔여가 리베이스를 사전 거부한다.
+      #   ⚠ 이 병은 레포가 이미 알고 있었다 — news-analyze.yml 143행이 260714에 같은 실측("cannot pull with
+      #     rebase: You have unstaged changes"로 4회 전패 → 분석물 유실)을 적고 stash 대피로 대처했는데
+      #     **이 레인만 안 따라왔다**(= 「형제는 가진 걸 자기만 안 가졌다」 = check_seal_completeness 축).
+      #   ⚠ 증상 0 = 스텝이 `|| echo`라 잡은 초록, 스모크는 실제로 28종 PASS, 화면도 정상 → 유일한 검출기가
+      #     watchdog ⑥의 「정체 N시간」 경고였고 그 경고는 「스모크가 안 돌았다」로 읽혀 원인을 반대로 가리켰다.
+      #   처방 = 정본 착지 헬퍼 위임(창작 0). git_land는 리베이스를 안 쓰고 {fetch → reset --hard origin/main →
+      #     스냅샷 재적층 → commit → push}라 **잔여 변경이 착지를 막는 경로 자체가 없다**.
+      #   ⚠ git_land 전제(인자 = 유일 기록자) 충족 — scraper/obs/smoke_last.json은 이 레인 단독 산출이다
+      #     (같은 디렉터리의 obs 형제는 scrape 소유지만 **파일 단위** 스냅샷이라 무접촉).
+      #   ⚠ 선행 `git commit` 금지 = check_land_precommit — 커밋하면 워킹트리 변동이 그 커밋에 흡수돼
+      #     git_land가 「변동 없음」으로 조용히 빠진다(착지 0). 변동 유무 판정도 헬퍼 몫이다.
+      - name: 관측 착지(git_land 위임 · 리베이스 잔여 거부 구조적 차단)
         run: |
           git config user.name "nomute-bot"
           git config user.email "bot@users.noreply.github.com"
-          git add scraper/obs/smoke_last.json
-          git diff --cached --quiet && { echo "변동 없음 — 커밋 생략"; exit 0; }
-          git commit -m "watchdog: smoke_last 관측 갱신 (bot)"
-          git pull --rebase --autostash origin main && git push || echo "::warning::관측 커밋 푸시 실패 — 다음 크론에 재기록(fail-soft)"
+          echo "── 커밋 범위 밖 잔여물(구판이 여기서 죽었다 · 관측용) ──"; git status --porcelain | head -20
+          bash .github/scripts/git_land.sh "watchdog: smoke_last 관측 갱신 (bot)" scraper/obs/smoke_last.json
       - name: 결과 반영(FAIL = 런 붉게 · 알림은 watchdog ⑥이 담당)
         run: exit "$RC"
