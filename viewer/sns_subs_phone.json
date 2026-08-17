@@ -389,6 +389,16 @@
  ],
  "threads": [
   {
+   "account": "choi.openai",
+   "text": "Stripe가 OpenRouter를 70억 달러가 넘는 금액에 인수합니다.\n\n이번 거래로 Stripe의 사업 영역은 결제를 넘어 AI 모델이 선택되고 사용되는 단계까지 넓어집니다.\n에이전트가 필요한 모델을 고르고, 토큰을 사용하고, 그 비용을 지불하는 전 과정을 하나의 인프라로 묶으려는 겁니다.\n\n지난 16개월의 흐름에서 이번 인수가 어디로 향하는지 정리했습니다. 🧵",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1786935630,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/776130167_17982535383112832_7246920871496918893_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk2NTQyNTkzNTQ0OTAyMzEyOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNDAwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=zc-SrWXAX2UQ7kNvwEzIT03&_nc_oc=AdqOxnLN_p1Wx48P2Ndc3taor1xFQXie07oRd_U6uYLYTENjs9s8ZWlIK0KoiQ1oUds&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=PBJ5bglrHbcZ7oGwOXg9Vg&_nc_ss=7a22e&oh=00_AQE9Q1XNBRJA5qE_EGzTqFkYuWOMsw0BxHY9YAEzOI525w&oe=6A8850BA",
+   "url": "https://www.threads.com/@choi.openai/post/DcIBeDpj2KZ",
+   "region": "kr"
+  },
+  {
    "account": "aipeekme",
    "text": "🔗 원문·자세히 보기\nhttps://github.com/ToolJet/ToolJet",
    "likes": 0,
@@ -421,31 +431,21 @@
   {
    "account": "choi.openai",
    "text": "드디어 Codex에서도 GPT-5.6 Sol의 100만 토큰 컨텍스트를 설정할 수 있게 됐습니다.\n\n`~/.codex/config.toml`에서 컨텍스트를 100만, 자동 압축 시점을 90만 토큰으로 지정하면 됩니다.\n\n다만 272K 토큰을 넘기면 사용량 한도가 2배 빠르게 소모될 수 있어 주의가 필요합니다. 기본 설정도 성능과 비용을 고려해 조정된 만큼, 긴 작업이 꼭 필요한 경우에 사용하는 게 좋아 보입니다.\n\n또한, 일부 사용자는 서버 제한 때문에 실제 100만 토큰이 적용되지 않는다고 보고하고 있습니다.",
-   "likes": 21,
-   "cmts": 2,
+   "likes": 27,
+   "cmts": 3,
    "time": 1786930256,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/775633480_17982529722112832_5713886472975788942_n.jpg?stp=cp6_dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk2NTM4MDg2MDg5MDk0NzQxNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTE3OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Ovi5GAsH134Q7kNvwHMAF4s&_nc_oc=Adq1pnfYuD7HOBkylInJ-tWocIY99KsJUOdeP0SRM5Ej0lsE_KfA21Fa52c4fF2Fwuc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=o9fOsIJFU-cJqN9ZxNhgUA&_nc_ss=7a22e&oh=00_AQE7k35ETuyZGA6iIWb5r2mfY4aB3dVtpYH99tlDYJsNBg&oe=6A885928",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/775633480_17982529722112832_5713886472975788942_n.jpg?stp=cp6_dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk2NTM4MDg2MDg5MDk0NzQxNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTE3OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Ovi5GAsH134Q7kNvwHMAF4s&_nc_oc=Adq1pnfYuD7HOBkylInJ-tWocIY99KsJUOdeP0SRM5Ej0lsE_KfA21Fa52c4fF2Fwuc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=PBJ5bglrHbcZ7oGwOXg9Vg&_nc_ss=7a22e&oh=00_AQEBif9EQEZ4CFTXerlnNHDIGLkXZ1vL3nioPjI1egWMOQ&oe=6A885928",
    "url": "https://www.threads.com/@choi.openai/post/DcH3OIsiZ9X",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "3/ 알리바바가 Qwen3.8-Max와 27B 가중치를 연달아 공개했습니다.\n\nMax는 총 2.4조 파라미터 가운데 토큰당 950억 개를 쓰고, 기본 26만 토큰을 약 100만 토큰까지 확장할 수 있습니다. 이틀 뒤 나온 27B는 이미지와 영상까지 처리하며 Apache 2.0으로 공개됐습니다.\n\n27B의 4비트 양자화본은 17.1GB입니다. 한쪽에서는 Max급 모델을 서버에 올리고, 다른 쪽에서는 같은 세대의 작업 능력을 소비자 GPU까지 내렸습니다. 공개 당일부터 vLLM·SGLang·Unsloth가 지원한 것도 확산 속도를 높입니다.\n\n기업은 양자화 뒤 성능 저하와 긴 문맥에서 추가로 필요한 메모리까지 계산해야 합니다.",
-   "likes": 2,
+   "likes": 3,
    "cmts": 1,
    "time": 1786924843,
    "thumb": "",
    "url": "https://www.threads.com/@choi.openai/post/DcHs5Tgj18V",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "2/ Z.ai가 GLM-5.3을 공개했습니다.\n\n743B 베이스 모델은 GLM-5.2와 같습니다. 한 달 동안 후속 학습만 늘려 Terminal-Bench 3.0을 4.6에서 28.3, DeepSWE를 46.2에서 66.9로 올렸습니다. 취약점 탐지 CyberGym에서도 84.5%를 기록했습니다.\n\n지금은 GLM Coding Plan과 ZCode에서 쓸 수 있고, 가중치는 안전 평가를 거쳐 2주 뒤 공개할 예정입니다. 새 베이스 모델보다 실제 작업 환경에서 반복 훈련하는 능력이 중국 모델 경쟁의 속도를 끌어올리고 있습니다.",
-   "likes": 5,
-   "cmts": 1,
-   "time": 1786924840,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DcHs46dDx3y",
    "region": "kr"
   },
   {
@@ -461,10 +461,10 @@
   {
    "account": "aicoffeechat",
    "text": "이거 시각화할 때 꿀단지다 ..\n\n방문해야 할 무료 오픈 소스 React UI 라이브러리, 시각화, 표를 만드는 작업에 넣었더니 만족도가 상당히 높아집니다. 여러분도 하셨으면 하는 마음에 공유해요.\n\n진짜 나만 알고 싶을 정도. 더 이상 예쁘게 만들어줘 프롬프트 반복하지마세요.",
-   "likes": 69,
+   "likes": 80,
    "cmts": 6,
    "time": 1786924530,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/774886508_1581503607009959_5602628636556251891_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk2NTMzMDYxNjg1MzYwNjc4Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=IxtR-MaTx-oQ7kNvwFcI_ki&_nc_oc=Ado_1e9WGyQaih75i9MzXDF2FdwAivQFxbHCjyCXafXCCzcq5q_vALk5AuwY3HB6ChY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Uw68lkEV-HRbSxyOlBT_xw&_nc_ss=7a22e&oh=00_AQHjUNK4wGq50lZaitkXwF6b5tEwvQFqNZMCyRkyoiBxfg&oe=6A882A54",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/774886508_1581503607009959_5602628636556251891_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk2NTMzMDYxNjg1MzYwNjc4Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=IxtR-MaTx-oQ7kNvwFcI_ki&_nc_oc=Ado_1e9WGyQaih75i9MzXDF2FdwAivQFxbHCjyCXafXCCzcq5q_vALk5AuwY3HB6ChY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=ab1cVWdNnH0XwHQMoq3eEA&_nc_ss=7a22e&oh=00_AQE9u4OruwXAGt8WmYKqBkbogaKSu3m-73lDBD4yqOVe-g&oe=6A886294",
    "url": "https://www.threads.com/@aicoffeechat/post/DcHry_SijGC",
    "region": "kr"
   },
@@ -474,28 +474,28 @@
    "likes": 0,
    "cmts": 1,
    "time": 1786930282,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/777593200_18080682035407306_6028494292895390915_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk2NTM4MTAwMTE2NjcwMTU5Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQzOS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=rngiMugEXaoQ7kNvwHDvvX8&_nc_oc=AdroEFrotMfBpfBkMmUbOOMMCeaWEOe3JPQOWoOhKlFIgLl3XPi46IV2hQ50e8Q8irc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=rejInacROoqFUDu43rneSg&_nc_ss=7a22e&oh=00_AQEd7lRUZ5xsayLUsGO-OmSunKjYbe27Ttqu58Dgza1RUA&oe=6A8855E1",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/777593200_18080682035407306_6028494292895390915_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk2NTM4MTAwMTE2NjcwMTU5Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQzOS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=rngiMugEXaoQ7kNvwHDvvX8&_nc_oc=AdroEFrotMfBpfBkMmUbOOMMCeaWEOe3JPQOWoOhKlFIgLl3XPi46IV2hQ50e8Q8irc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=dcxQeS5bV39j9WetuEVZfw&_nc_ss=7a22e&oh=00_AQEuSDmjXvSiHUyv2TYywY48s5V1a0C626_G0I6GmSm-Sg&oe=6A8855E1",
    "url": "https://www.threads.com/@aipeekme/post/DcH3QLVn8QY",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "1/ 구글이 Gemini 3.7 Flash를 공개했습니다.\n\n3.6 Flash가 나온 지 3주 만입니다. 사전학습을 다시 하지 않고 알고리즘과 모델의 행동 방식을 다듬어 DeepSWE를 49.0%에서 65.3%, FrontierCode를 34.4%에서 43.6%로 올렸습니다.\n\n연말까지 입력 0.75달러, 출력 3.75달러로 기존 가격의 절반을 받지만 2027년 1월에는 다시 두 배가 됩니다. 모델 업데이트 주기는 짧아졌고, 가격 경쟁은 영구 인하보다 한시 할인으로 번지고 있습니다.",
-   "likes": 26,
+   "text": "2/ Z.ai가 GLM-5.3을 공개했습니다.\n\n743B 베이스 모델은 GLM-5.2와 같습니다. 한 달 동안 후속 학습만 늘려 Terminal-Bench 3.0을 4.6에서 28.3, DeepSWE를 46.2에서 66.9로 올렸습니다. 취약점 탐지 CyberGym에서도 84.5%를 기록했습니다.\n\n지금은 GLM Coding Plan과 ZCode에서 쓸 수 있고, 가중치는 안전 평가를 거쳐 2주 뒤 공개할 예정입니다. 새 베이스 모델보다 실제 작업 환경에서 반복 훈련하는 능력이 중국 모델 경쟁의 속도를 끌어올리고 있습니다.",
+   "likes": 6,
    "cmts": 1,
-   "time": 1786924835,
+   "time": 1786924840,
    "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DcHs4Y2D_YL",
+   "url": "https://www.threads.com/@choi.openai/post/DcHs46dDx3y",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "놓치면 안 될 AI 소식 45개를 정리했습니다 🧵",
-   "likes": 53,
-   "cmts": 47,
-   "time": 1786924833,
+   "text": "1/ 구글이 Gemini 3.7 Flash를 공개했습니다.\n\n3.6 Flash가 나온 지 3주 만입니다. 사전학습을 다시 하지 않고 알고리즘과 모델의 행동 방식을 다듬어 DeepSWE를 49.0%에서 65.3%, FrontierCode를 34.4%에서 43.6%로 올렸습니다.\n\n연말까지 입력 0.75달러, 출력 3.75달러로 기존 가격의 절반을 받지만 2027년 1월에는 다시 두 배가 됩니다. 모델 업데이트 주기는 짧아졌고, 가격 경쟁은 영구 인하보다 한시 할인으로 번지고 있습니다.",
+   "likes": 29,
+   "cmts": 1,
+   "time": 1786924835,
    "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DcHs4FAD89h",
+   "url": "https://www.threads.com/@choi.openai/post/DcHs4Y2D_YL",
    "region": "kr"
   },
   {
@@ -510,12 +510,12 @@
   },
   {
    "account": "choi.openai",
-   "text": "풀영상 :\nhttps://www.youtube.com/watch?v=fsTtKywmWlU",
-   "likes": 2,
-   "cmts": 0,
-   "time": 1786923038,
+   "text": "놓치면 안 될 AI 소식 45개를 정리했습니다 🧵",
+   "likes": 65,
+   "cmts": 47,
+   "time": 1786924833,
    "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DcHpc7cDzY5",
+   "url": "https://www.threads.com/@choi.openai/post/DcHs4FAD89h",
    "region": "kr"
   },
   {
@@ -524,18 +524,18 @@
    "likes": 1,
    "cmts": 1,
    "time": 1786921293,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/774832194_18080652374407306_5351783866410781749_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk2NTMwNTYxMjM5MzQzMjUwNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=BEHMvaMwI9YQ7kNvwE0aCiK&_nc_oc=Adps5SjZo6sCltJWw7BVGIRhX7_YytW0DM_lAmxqpKUStw9vIQ16xb5WDv-pFxoXW_U&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=rejInacROoqFUDu43rneSg&_nc_ss=7a22e&oh=00_AQFohPZ_j5CLgx8u5t2ekZlr2ToHpWBseA5PNDzm8mXNmQ&oe=6A883495",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/774832194_18080652374407306_5351783866410781749_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk2NTMwNTYxMjM5MzQzMjUwNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=BEHMvaMwI9YQ7kNvwE0aCiK&_nc_oc=Adps5SjZo6sCltJWw7BVGIRhX7_YytW0DM_lAmxqpKUStw9vIQ16xb5WDv-pFxoXW_U&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=dcxQeS5bV39j9WetuEVZfw&_nc_ss=7a22e&oh=00_AQFn0Zlj-9SJ9JI7lyulAh1CBjVfFI-X36BMICf0pUKCLw&oe=6A883495",
    "url": "https://www.threads.com/@aipeekme/post/DcHmHIEksW6",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "Y Combinator CEO 게리 탄(Garry Tan)은 차세대 컴퓨팅의 핵심으로 음성 인터페이스와 지속적인 맥락 메모리를 꼽았습니다.\n\n그는 미래의 AI가 사용자의 희망과 두려움까지 이해하며 끊임없이 돕는 존재가 될 것이라며, “2027년경에는 '하네스 전쟁(Harness Wars)'이 일어날 것”이라고 전망했습니다.\n\n지금은 높은 연산 비용 탓에 광범위한 AI 확산이 제한적이지만, 프론티어 모델의 컴퓨팅 비용이 급격히 하락하면서 10억 명의 소비자를 차지하기 위한 플랫폼 경쟁이 본격화될 것이라는 분석입니다.",
-   "likes": 18,
-   "cmts": 1,
-   "time": 1786923030,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/774594930_2133327304281946_4688667921710576300_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk2NTMyMDI0MzU0MzI2MjcyMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=3pUuw7acmoYQ7kNvwHNZMSv&_nc_oc=AdqV9qaF2fc7uZ18XcRl6G9ji7nfK6hAFAwAq5tt2MdWrYfXEH-fkaAkzvnhzWu6EU0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=o9fOsIJFU-cJqN9ZxNhgUA&_nc_ss=7a22e&oh=00_AQFtSPPe6C8sM3GRl7sLWynVcPWPrN3z_bgYcTzlEChvOw&oe=6A883C94",
-   "url": "https://www.threads.com/@choi.openai/post/DcHpcCZD8YB",
+   "text": "풀영상 :\nhttps://www.youtube.com/watch?v=fsTtKywmWlU",
+   "likes": 3,
+   "cmts": 0,
+   "time": 1786923038,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DcHpc7cDzY5",
    "region": "kr"
   },
   {
@@ -550,12 +550,12 @@
   },
   {
    "account": "choi.openai",
-   "text": "풀영상 :\nhttps://www.youtube.com/watch?v=fsTtKywmWlU",
-   "likes": 2,
-   "cmts": 0,
-   "time": 1786917643,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DcHfKbfCtdR",
+   "text": "Y Combinator CEO 게리 탄(Garry Tan)은 차세대 컴퓨팅의 핵심으로 음성 인터페이스와 지속적인 맥락 메모리를 꼽았습니다.\n\n그는 미래의 AI가 사용자의 희망과 두려움까지 이해하며 끊임없이 돕는 존재가 될 것이라며, “2027년경에는 '하네스 전쟁(Harness Wars)'이 일어날 것”이라고 전망했습니다.\n\n지금은 높은 연산 비용 탓에 광범위한 AI 확산이 제한적이지만, 프론티어 모델의 컴퓨팅 비용이 급격히 하락하면서 10억 명의 소비자를 차지하기 위한 플랫폼 경쟁이 본격화될 것이라는 분석입니다.",
+   "likes": 20,
+   "cmts": 1,
+   "time": 1786923030,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/774594930_2133327304281946_4688667921710576300_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk2NTMyMDI0MzU0MzI2MjcyMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=3pUuw7acmoYQ7kNvwHNZMSv&_nc_oc=AdqV9qaF2fc7uZ18XcRl6G9ji7nfK6hAFAwAq5tt2MdWrYfXEH-fkaAkzvnhzWu6EU0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=PBJ5bglrHbcZ7oGwOXg9Vg&_nc_ss=7a22e&oh=00_AQH7LmhfEulJYw2VscaIQgaV_Fsld-kbGMMJCgM_NYqQRQ&oe=6A883C94",
+   "url": "https://www.threads.com/@choi.openai/post/DcHpcCZD8YB",
    "region": "kr"
   },
   {
@@ -564,18 +564,8 @@
    "likes": 0,
    "cmts": 2,
    "time": 1786896046,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/775376585_18080541773407306_8808075138166538009_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk2NTA5MzgxOTAxNzI4OTI3MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=uuNyyna0JQkQ7kNvwGX1r49&_nc_oc=AdomAHRrz7EFOM4-FPq872wopACDJlH31otdPG3iY-O6JBOyJSBOmmRbzr5YdVlGYLQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=rejInacROoqFUDu43rneSg&_nc_ss=7a22e&oh=00_AQHBEd93i7hYZxeZDRmqEndYxEE-61X0_XeEwNJRSf989w&oe=6A883195",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/775376585_18080541773407306_8808075138166538009_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk2NTA5MzgxOTAxNzI4OTI3MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=uuNyyna0JQkQ7kNvwGX1r49&_nc_oc=AdomAHRrz7EFOM4-FPq872wopACDJlH31otdPG3iY-O6JBOyJSBOmmRbzr5YdVlGYLQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=dcxQeS5bV39j9WetuEVZfw&_nc_ss=7a22e&oh=00_AQFz3sQJriESrSHb-0EB4S9rMRzH8ebQ77CpmnvSY5y7bA&oe=6A883195",
    "url": "https://www.threads.com/@aipeekme/post/DcG19IHn142",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "Y Combinator의 게리 탄(Garry Tan)은 “마크다운 파일 하나가 하나의 직원이 되는 시대”가 오고 있다고 말했습니다.\n\n그는 AI 에이전트의 컨텍스트 한계(토큰)를 최대로 활용하고 반복적인 작업을 구조화하면, 비즈니스 프로세스 전체를 완벽히 자동화할 수 있다고 설명했습니다.\n\n처음에 에이전트를 구축할 때는 비용이 들고 실수가 발생할 수 있지만, 피드백을 반영해 교정(Skillify)하는 과정을 거치면 완벽하게 동작하는 무한 반복 가능한 코드 및 가이드라인으로 남아 완벽한 시스템이 완성됩니다.\n\n또한 이를 영업, 마케팅, 고객 지원 등 기업의 모든 업무 프로세스에 적용하여 생산성을 극대화할 수 있다고 강조했습니다.",
-   "likes": 30,
-   "cmts": 2,
-   "time": 1786917624,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/774594307_1066553349106137_2828338689678348377_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk2NTI3NDg5NDE1NzYxNDk1MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=t73zpYOo8AAQ7kNvwGSmu5u&_nc_oc=AdrtZxcw_y7ODVKMp4DHC9ABXELybTgy_fKuqV2XA1wfe2U8WP1uznF6QAiNQBIp0w0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=o9fOsIJFU-cJqN9ZxNhgUA&_nc_ss=7a22e&oh=00_AQHYrZu_il7iAkdVQBeVEbhZcczXHl6M8QRf4HK-3LCFsw&oe=6A882EAF",
-   "url": "https://www.threads.com/@choi.openai/post/DcHfIHfCg9n",
    "region": "kr"
   }
  ],
@@ -600,13 +590,31 @@
    "url": "https://www.reddit.com/r/AskReddit/comments/1vq6k2r/what_youtuber_really_fell_off/"
   },
   {
-   "sub": "landscaping",
-   "title": "Neighbors want me to take down my Deodar Cedar Tree. I love this tree!",
+   "sub": "SipsTea",
+   "title": "They are all the same",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/bgojyo0ayojh1.jpeg?width=640&crop=smart&auto=webp&s=ca0f3f9eb40f750f20f1738a93bbaa7a63e58232",
-   "time": 1786866104,
-   "url": "https://www.reddit.com/r/landscaping/comments/1vpqt4f/neighbors_want_me_to_take_down_my_deodar_cedar/"
+   "thumb": "https://preview.redd.it/958jgc6ybujh1.jpeg?width=640&crop=smart&auto=webp&s=c067c6d0f2ba9e1bd60cdadc8d10934eaf77e93b",
+   "time": 1786931219,
+   "url": "https://www.reddit.com/r/SipsTea/comments/1vqeybp/they_are_all_the_same/"
+  },
+  {
+   "sub": "BeAmazed",
+   "title": "Every year, actor Gary Sinise takes more than 1,700 family members of fallen soldiers to Walt Disney World for free",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/tjgq6eud1ujh1.jpg?width=140&height=139&auto=webp&s=46f40870fa09cc9c14bb570e3d6f88f91d50d596",
+   "time": 1786927665,
+   "url": "https://www.reddit.com/r/BeAmazed/comments/1vqdpd0/every_year_actor_gary_sinise_takes_more_than_1700/"
+  },
+  {
+   "sub": "MurderedByWords",
+   "title": "With just minimal thought it is easy to dissemble their arguments.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/6deps0533tjh1.jpeg?width=640&crop=smart&auto=webp&s=e34d2a2b8ba73c873b0bb744a965097af4825ec3",
+   "time": 1786916132,
+   "url": "https://www.reddit.com/r/MurderedByWords/comments/1vq9d1h/with_just_minimal_thought_it_is_easy_to_dissemble/"
   },
   {
    "sub": "politics",
@@ -627,15 +635,6 @@
    "url": "https://www.reddit.com/r/SpaceXBets/comments/1vq6dcr/aoc_on_elon_musk_he_is_not_a_scientist_he_is_not/"
   },
   {
-   "sub": "MurderedByWords",
-   "title": "With just minimal thought it is easy to dissemble their arguments.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/6deps0533tjh1.jpeg?width=640&crop=smart&auto=webp&s=e34d2a2b8ba73c873b0bb744a965097af4825ec3",
-   "time": 1786916132,
-   "url": "https://www.reddit.com/r/MurderedByWords/comments/1vq9d1h/with_just_minimal_thought_it_is_easy_to_dissemble/"
-  },
-  {
    "sub": "mildlyinfuriating",
    "title": "The way my GF plays video games",
    "score": 0,
@@ -645,22 +644,31 @@
    "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1vq6opz/the_way_my_gf_plays_video_games/"
   },
   {
-   "sub": "BeAmazed",
-   "title": "Every year, actor Gary Sinise takes more than 1,700 family members of fallen soldiers to Walt Disney World for free",
+   "sub": "mildlyinfuriating",
+   "title": "Super hungry after a long day at work. Got a chicken sandwich from BK. The first bite had a weird crunch...",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/tjgq6eud1ujh1.jpg?width=140&height=139&auto=webp&s=46f40870fa09cc9c14bb570e3d6f88f91d50d596",
-   "time": 1786927665,
-   "url": "https://www.reddit.com/r/BeAmazed/comments/1vqdpd0/every_year_actor_gary_sinise_takes_more_than_1700/"
+   "thumb": "https://preview.redd.it/cw2zirq1ytjh1.jpeg?width=640&crop=smart&auto=webp&s=953eaaacfaa35707b619d9786bfbc3255a57f42e",
+   "time": 1786926544,
+   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1vqdbac/super_hungry_after_a_long_day_at_work_got_a/"
   },
   {
-   "sub": "Awww",
-   "title": "Miso doesn't do stairs 😁😺",
+   "sub": "cats",
+   "title": "Lost my girl of 18 years yesterday and i miss her so freaking much, Can you pls show me who she is with now?, so i know she isn’t alone.",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/YWxxcTZtNmIwdGpoMQ8kvyeMk_TCQkHoTcs2R3lRIwC3z36Kh56X-cch9cyL.png?width=320&crop=smart&auto=webp&s=83541ecb42663bff2a1b81ef724e2b139a0f0ce2",
-   "time": 1786915223,
-   "url": "https://www.reddit.com/r/Awww/comments/1vq900q/miso_doesnt_do_stairs/"
+   "thumb": "https://preview.redd.it/zs7vy2wh6ujh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=be5246ee0ab5a3f1f0a77b1ae5cce6ee9f49b8fa",
+   "time": 1786929387,
+   "url": "https://www.reddit.com/r/cats/comments/1vqeb8u/lost_my_girl_of_18_years_yesterday_and_i_miss_her/"
+  },
+  {
+   "sub": "NationalPark",
+   "title": "Zion while it rained a couple of days ago",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/ZGVyeTdzbGl3c2poMch2VI9Q9jA-HTtObpgwA7MVxCmB560cVV_2IOGd_PQ7.png?width=320&crop=smart&auto=webp&s=e4a256c1baaa7a45588dddb8f81df6747379bb71",
+   "time": 1786913951,
+   "url": "https://www.reddit.com/r/NationalPark/comments/1vq8h5u/zion_while_it_rained_a_couple_of_days_ago/"
   },
   {
    "sub": "SipsTea",
@@ -670,24 +678,6 @@
    "thumb": "https://preview.redd.it/qawicggvgsjh1.jpeg?width=640&crop=smart&auto=webp&s=34f3d71023fd26d2269e3c8ae62b6c4637d56c9b",
    "time": 1786908660,
    "url": "https://www.reddit.com/r/SipsTea/comments/1vq68zl/the_gop_has_convinced_people_making_30kyear_to/"
-  },
-  {
-   "sub": "todayilearned",
-   "title": "TIL 77% of people preferred instant coffee over drip in a blind taste test",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/BhpWiq0W3RzpkqfHzZdZ8KerHOqwR0OXsf8hKjZEDr0.jpeg?width=640&crop=smart&auto=webp&s=fd08fc252d8c895d41064721b9ac3733f3963883",
-   "time": 1786863780,
-   "url": "https://www.reddit.com/r/todayilearned/comments/1vpq59c/til_77_of_people_preferred_instant_coffee_over/"
-  },
-  {
-   "sub": "mildlyinfuriating",
-   "title": "Super hungry after a long day at work. Got a chicken sandwich from BK. The first bite had a weird crunch...",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/cw2zirq1ytjh1.jpeg?width=640&crop=smart&auto=webp&s=953eaaacfaa35707b619d9786bfbc3255a57f42e",
-   "time": 1786926544,
-   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1vqdbac/super_hungry_after_a_long_day_at_work_got_a/"
   }
  ],
  "disaster": [],
@@ -734,10 +724,10 @@
    }
   },
   "landing": {
-   "at": "2026-08-17T11:01:59",
+   "at": "2026-08-17T11:31:23",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-17T11:31:21.389145+09:00"
+ "updated": "2026-08-17T12:01:25.223657+09:00"
 }
