@@ -1,31 +1,31 @@
-# ⛳ 자기 골프장에서만 43번, 트럼프의 70타
+# ⛳ 자기 골프장 43번째 우승 '70타'…트럼프의 재능 자랑
 
 **[프롬프트 설계]**
-- 화풍: B극화 — 권력자의 자기 검증 구조를 다루는 고발 축이라 극화의 명암 대비가 맞는다(수채화의 온기는 이 사건의 회의 정조를 흐린다).
-- 분위기: 골든아워의 화려한 클럽 풍경 위에 검증 부재의 서늘함이 겹치는 이중 정조 — 트로피는 빛나는데 그 빛을 확인해 줄 제3자가 화면에 없다.
-- 연출 방향: 독자훅 = 골프를 아는 사람이 즉시 계산기를 두드리는 숫자(만 80세·파72·2언더파)와, 그 숫자를 스스로 발표하고 남을 깎아내리는 대목의 낙차. 전할 것 = 성적의 진위가 아니라 *확인할 사람이 아무도 없는 구조*. 그래서 강조점은 트로피 자체가 아니라 **그 트로피를 쥔 손과 비어 있는 주변**에 둔다 — 시상대·페어웨이·클럽하우스를 넓게 잡되 검증자의 자리를 계속 비워, 화면이 커질수록 확인 주체가 없다는 사실이 드러나게 한다. 골든아워 온광을 유지하되 명도는 起(밝)→承(점강)→轉(최암)→結(여운) 곡선으로 내린다.
-- 독자 동선: **발단** 카드1(트루스소셜 발표) → **전개** 카드2~3(재능 발언·파72와 2언더파·43번째) → **피크** 카드4(스코어카드 부재) → **해소** 카드5(2023년 67타·핸디캡 1타 차 전력) → **시사점** 카드6 · 훅 = 카드1 끝(단서형 — '13초'라는 유일 증거를 제시하고 다음 장이 즉시 회수) + 카드3 끝(단서형 — 80세·2언더파 수치를 던져 카드4가 받는다) · 착지 = 숫자가 늘수록 확인 가능한 정보는 줄어든다는 역설을 트로피 개수와 나란히 놓기.
-- 연속성 앵커: Recurring subject — a Korean-drawn generic elderly Western man in his late 70s, thinning swept-back blond-white hair, ruddy complexion, white golf glove on the left hand, navy quarter-zip golf wear. 반복 장소 — a manicured private golf club fairway with a low clubhouse roofline in the distance.
+- 화풍: B 극화 — 권력자의 자기 인증과 검증 부재를 다루는 구조 비판이라, 명암 대비로 '증거 없는 트로피'를 눌러 담는다.
+- 분위기: 늦은 오후 골든아워의 과시가 점점 식어 클럽하우스 그늘로 내려앉는 톤. 조롱 대신 건조한 실소.
+- 연출 방향: 독자훅은 "숫자를 계산해 보고 싶어지는" 충동이다 — 80세·파72·2언더파를 눈으로 재게 만든다. 전할 것은 성적의 진위가 아니라 *확인할 제3자가 없는 구조*. 그래서 강조점은 항상 두 곳, 트로피를 쥔 손과 그 손이 내밀지 않은 종이(스코어카드)다. 트로피는 밝게, 종이는 부재로.
+- 독자 동선: **발단** 카드1(우승 발표 게시물)→**전개** 카드2~3(재능 발언·파72와 43회)→**피크** 카드4(공개되지 않은 스코어카드)→**해소** 카드5(과거 이력·핸디캡 1타 차)→**시사점** 카드6 · 훅=카드1 끝(단서형: 증명은 13초 영상 하나)+카드3 끝(단서형: 숫자가 늘수록 줄어드는 것) · 착지 = 시간이 없다는 말은 10년째 그대로인데 트로피만 늘었다.
+- 연속성 앵커: Recurring subject — a Korean-drawn generic elderly Western man in his late 70s, thinning blond-white swept hair, ruddy complexion, white golf glove on his left hand, navy polo and red cap. 반복 장소 — a manicured summer golf course with a low clubhouse roof behind.
 
 ### [카드 1]
 **텍스트**
 ```text
-대통령이 우승 소식을 직접 올렸다
-자기가 소유한 골프장 대회였다
-증거로 붙은 건 어프로치 샷
-*13초짜리 영상 하나가 전부였다*
+대통령이 우승했다고
+직접 올렸다
+자기 소유 골프장에서 열린
+*대회의 우승자로*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the white-gloved thumb pressing the post button, held a beat too long. Recurring subject — a Korean-drawn generic elderly Western man in his late 70s, thinning swept-back blond-white hair, ruddy complexion, white golf glove on the left hand, navy quarter-zip golf wear — stands alone on the edge of a manicured private golf club fairway with a low clubhouse roofline in the distance, holding up a phone at chest height. He looks down at the small bright screen rather than at the course, his shoulders squared away from the empty fairway behind him. No other person is present anywhere in the frame. His body and gaze angle toward the right edge of the frame.
-Camera: wide shot, full body, surrounding environment, movement, spatial context from eye-level shot, neutral perspective, realistic, balanced emotion, shot on 35mm lens, natural documentary perspective, balanced subject and background, minimal distortion, nose room on the right, gaze directed toward the right edge
-Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood, with a faint warm golden-hour cast along the far treeline
+Scene: Emotional focal point: the white-gloved thumb pressing the phone screen, still hovering after the post went up. Recurring subject — a Korean-drawn generic elderly Western man in his late 70s, thinning blond-white swept hair, ruddy complexion, white golf glove on his left hand, navy polo and red cap — stands on a manicured summer golf course with a low clubhouse roof behind, holding up his own phone and looking down at it with satisfaction. A short video of an approach shot glows on the small screen. His gaze runs down to the phone and then out toward the right edge of the frame.
+Camera: medium shot, waist-up framing, face and gestures from three-quarter angle, shot on 50mm standard lens, nose room on the right, gaze directed toward the right edge
+Lighting/mood: warm golden-hour sunlight, long soft shadows, nostalgic warmth
 Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the phone screen glow), muted daylight contrast
-Text handling: no signage text, no readable interface text on the phone; the screen reads as pure light only.
+Text handling: avoid incidental background lettering; no readable words on the phone screen, only a blurred video frame and abstract pictogram-like shapes.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the mown grass fairway) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the mown fairway grass) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -35,28 +35,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-베드민스터 골프클럽 페어웨이
+트럼프 골프 스마트폰 게시
 ```
 
 ### [카드 2]
 **텍스트**
 ```text
-그는 연습할 시간이 거의 없다고 썼다
-다른 일에 집중하고 있기 때문이라고 했다
-그러고는 이렇게 덧붙였다
-*"이건 재능이고, 그들에겐 없다"*
+"다른 참가자들과 달리
+연습할 시간이 거의 없다"
+그러곤 비결을 이렇게 못 박았다
+*"이건 재능이라 부르는 것"*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the polite social smile with lip corners pulled up while the eyes stay cold and unsmiling. Recurring subject — a Korean-drawn generic elderly Western man in his late 70s, thinning swept-back blond-white hair, ruddy complexion, white golf glove on the left hand, navy quarter-zip golf wear — stands chest-up at the center of the frame with his chin lifted, one gloved hand resting on the head of a golf club planted beside him. Two other club members in pale golf wear stand behind him at the edges, lowered and softened, their faces turned slightly away. He looks off toward the right edge of the frame, past everyone.
-Camera: medium close-up, chest-up framing, facial emotion, slight body context from low angle shot, looking up, powerful subject, dominance, dramatic presence, shot on 50mm standard lens, minimal distortion, natural cinematic composition, nose room on the right
-Lighting/mood: warm golden-hour sunlight, long soft shadows, nostalgic warmth, hardening into raking side light across the face
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the club grip), muted daylight contrast
-Text handling: no logos, no brand marks, no readable text on clothing or equipment.
+Scene: Emotional focal point: the chin lifted a degree too high and the polite social smile whose eyes stay cold. Recurring subject — a Korean-drawn generic elderly Western man in his late 70s, thinning blond-white swept hair, ruddy complexion, white golf glove on his left hand, navy polo and red cap — stands center stage on the clubhouse lawn in an expansive posture, one hand resting on a small trophy on the table beside him. A few club members in polo shirts stand further back and lower in the frame, quiet and out of focus, watching him. His gaze goes past them toward the right edge.
+Camera: medium close-up, chest-up framing, facial emotion from a low angle looking up, shot on 85mm portrait lens
+Lighting/mood: warm golden-hour sunlight, long soft shadows, nostalgic warmth, deepening contrast on one side of the face
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the trophy ribbon), muted daylight contrast
+Text handling: avoid incidental background lettering; no engraved words on the trophy, no signage text behind, use shape and shine instead.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the open sky above the fairway) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the clubhouse lawn) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -72,22 +72,22 @@ NEGATIVE — strictly avoid:
 ### [카드 3]
 **텍스트**
 ```text
-베드민스터 코스의 파는 72다
-70타는 2언더파라는 뜻이다
-그걸 친 사람은 만 80세 아마추어다
-*자기 클럽 우승만 43번째였다*
+베드민스터 코스의 파는 72
+그가 적은 70타는 2언더파다
+만 80세 아마추어의 기록이고
+*자기 클럽 우승만 40번이 넘는다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: two white-gloved hands closing tightly around a pair of small trophies, knuckles taut. Recurring subject — a Korean-drawn generic elderly Western man in his late 70s, thinning swept-back blond-white hair, ruddy complexion, white golf glove on the left hand, navy quarter-zip golf wear — is seen from mid-thigh up, gripping both trophies against his chest and turning his body toward the right edge. Behind him a long shelf inside the low clubhouse holds a dense row of nearly identical older trophies receding into shadow. His eyes are on the two new cups, not on the shelf.
-Camera: cowboy shot, mid-thigh framing, body language, hands visible from high angle shot, looking down, vulnerable subject, small, observed, shot on 70mm short telephoto, gentle background compression, subject isolation, nose room on the right, gaze directed toward the right edge
-Lighting/mood: harsh single overhead light pooling on the table, deep surrounding black, oppressive interrogation, softened into a single hard shaft over the trophy shelf
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 glinting on the trophy rims), film-noir low-key lighting, deep shadows
-Text handling: no engraved text on the trophies, no nameplates, no readable lettering anywhere.
+Scene: Emotional focal point: a row of identical trophies lined along a shelf, the newest one still catching light while the older ones sink into shade. In the foreground a white-gloved hand sets the latest trophy down at the end of the row. The clubhouse display shelf runs deep into the frame, dozens of cups repeating toward the back until they blur. No face is shown, only the gloved hand and forearm entering from the left.
+Camera: extreme close-up on the single detail of the trophy base and the gloved fingers, from eye-level, shot on 100mm macro lens, nose room on the right, the row leading toward the right edge
+Lighting/mood: cold blue dim interior light, heavy and suffocating, faint trembling tension
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 glinting on the newest trophy rim), film-noir low-key lighting, deep shadows
+Text handling: avoid incidental background lettering; no engraved plaques, no readable nameplates on the shelf, keep all metal surfaces blank and reflective.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the dark wood trophy shelf wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the polished wooden display shelf) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -97,26 +97,26 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-골프 트로피 진열장 클럽하우스
+골프클럽 트로피 진열장
 ```
 
 ### [카드 4]
 **텍스트**
 ```text
-그런데 스코어카드는 없었다
-*확인해 줄 사람이 아무도 없었다*
+정작 스코어카드는 없었다
+*증명은 13초짜리 영상 하나뿐*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: an empty scoring desk where a signed card should be, the blank space lit and the rest swallowed by dark. A bare wooden scoring table sits at the center of a deserted clubhouse room, a pencil and an unmarked blank card lying untouched on its surface. Two empty chairs face the table from the opposite side, pushed back and unoccupied. No person is present in the frame; the room holds only the furniture and the silence.
-Camera: extreme close-up, single detail, texture from overhead shot, bird's-eye view, top-down angle, layout, geometry, shot on 100mm macro lens, fine detail, shallow depth of field, precise texture
-Lighting/mood: single pool of hard light isolating the table in surrounding blackness, claustrophobic loneliness
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the pencil), film-noir low-key lighting, deep shadows
-Text handling: the card is completely blank — no numbers, no handwriting, no printed grid text, no letters of any kind.
+Scene: Emotional focal point: the empty scorecard holder on the clubhouse counter where a signed card should be clipped, nothing there but a bare clip and a stub of pencil. A single hard overhead light pools on the counter and the surrounding room falls into black. No person is present; only a folded white golf glove left beside the empty clip suggests who just walked away. The absence itself is the subject.
+Camera: tight close-up, the counter surface filling the frame, from a high angle looking down, shot on 70mm short telephoto
+Lighting/mood: harsh single overhead light pooling on the table, deep surrounding black, oppressive interrogation
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the metal clip), film-noir low-key lighting, deep shadows
+Text handling: the scorecard is absent, so no document text appears anywhere; keep the counter and clip blank, no printed forms, no numbers rendered.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the wooden table top) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the clubhouse counter top) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -126,28 +126,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-골프 스코어카드 채점 테이블
+골프 스코어카드 클럽하우스 카운터
 ```
 
 ### [카드 5]
 **텍스트**
 ```text
-처음 있는 일도 아니었다
-2023년에도 같은 클럽에서 67타였다
-2025년 백악관이 올린 스코어카드는
-*핸디캡을 넣자 1타 차로 줄었다*
+2023년에는 67타를 쳤다고 했다
+지난해 백악관이 공개한 카드는
+10타 차 우승으로 적혀 있었지만
+*핸디캡을 넣으면 1타 차였다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a hand hovering over a printed scorecard, one finger stopped mid-air above a column it did not expect. A club official in a plain jacket sits alone at a desk in a dim office, leaning over a single sheet of paper under a desk lamp, his brows lowered and drawn together. His other hand rests flat on a stack of older sheets beside him. His eyes stay fixed on the paper, and his body angles toward the right edge of the frame.
-Camera: medium shot, waist-up framing, face and gestures, conversational from Dutch angle, tilted horizon, canted frame, unstable mood, shot on 85mm portrait lens, flattering face, soft background separation, elegant focus, nose room on the right
-Lighting/mood: warm soft desk-lamp light, quiet wistful tone, the surrounding office falling into cold shadow
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the lamp rim), film-noir low-key lighting, deep shadows
-Text handling: the paper is shown at a steep angle and partly folded so no writing is legible — no numbers, no printed rows, no letters rendered.
+Scene: Emotional focal point: two golfers standing almost shoulder to shoulder at the eighteenth green, the gap between them shrunk to a single step. Recurring subject — a Korean-drawn generic elderly Western man in his late 70s, thinning blond-white swept hair, ruddy complexion, white golf glove on his left hand, navy polo and red cap — stands on the left with his arms raised in celebration, while a second, younger club member stands quietly right beside him at almost the same height, holding his putter. Their long shadows stretch across the green toward the viewer, nearly the same length. The clubhouse roof sits low on the horizon behind.
+Camera: wide shot, full body and surrounding environment, from a bird's-eye view looking down, shot on 35mm lens
+Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the flagstick), muted daylight contrast
+Text handling: avoid incidental background lettering; no scoreboard numbers, no signage, use the two shadows and the shrunk gap to carry the meaning.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the office desk top) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the putting green turf) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -157,28 +157,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-골프 핸디캡 계산표 사무실
+골프 그린 우승 세리머니 퍼터
 ```
 
 ### [카드 6]
 **텍스트**
 ```text
-코스 주인과 대회 주최자와 우승자가
-전부 같은 사람이면 물어볼 데가 없다
-트로피는 43개로 늘었는데
-*확인할 수 있는 건 하나도 안 늘었다*
+코스도 대회도 채점도 다 그의 것이라
+확인해 줄 제3자가 한 명도 없다
+2016년에도 올해도 시간이 없다고 했다
+*그사이 트로피만 두 개 더 늘었다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: steady unwavering eye contact held directly into the camera, unblinking. Recurring subject — a Korean-drawn generic elderly Western man in his late 70s, thinning swept-back blond-white hair, ruddy complexion, white golf glove on the left hand, navy quarter-zip golf wear — stands at the center of a low presentation platform on the fairway, both gloved hands holding a trophy at waist height, facing the camera straight on. The rows of folding chairs arranged in front of him are entirely empty, stretching back toward the low clubhouse roofline. He looks directly out of the frame while nobody looks back.
-Camera: wide shot, full body, surrounding environment, spatial context from eye-level shot, neutral perspective, realistic, balanced emotion, front-on shot, direct gaze, symmetrical composition, facing camera, shot on 35mm lens, natural documentary perspective, balanced subject and background, minimal distortion
-Lighting/mood: warm golden-hour sunlight, long soft shadows, nostalgic warmth, the empty chairs casting a wide row of parallel shadows
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the trophy), muted daylight contrast
-Text handling: no banner text, no signage, no lettering on the platform or the trophy.
+Scene: Emotional focal point: the steady unwavering eyes looking straight into the camera, unbothered. Recurring subject — a Korean-drawn generic elderly Western man in his late 70s, thinning blond-white swept hair, ruddy complexion, white golf glove on his left hand, navy polo and red cap — stands alone at the center of the empty clubhouse lawn, facing the viewer front-on with two small trophies held against his chest. The rows of folding chairs behind him are empty and the fairway beyond is deserted. He is the only person in the frame.
+Camera: full shot, head-to-toe, clear silhouette from eye-level, front-on shot with direct gaze and symmetrical composition, shot on 40mm lens
+Lighting/mood: cold blue pre-dawn tone, desolate stillness, the last warmth draining from the sky
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the two trophy rims), film-noir low-key lighting, deep shadows
+Text handling: avoid incidental background lettering; no banner text behind, no engraved trophy plates, keep every surface blank.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the mown grass fairway) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the clubhouse lawn) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -188,5 +188,5 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-골프 시상식 무대 빈 관중석
+베드민스터 골프클럽 클럽하우스
 ```
