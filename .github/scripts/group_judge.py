@@ -216,9 +216,11 @@ def _proper_names(title, sur):
     """제목의 고유명사 후보 = 성씨로 시작하는 2~4글자 한글(정확 일치만 — 부분 일치 금지).
     ⚠️ 성씨 사전만으로는 '정치적'(정)·'최대'(최)처럼 성씨로 시작하는 **일반어**가 통과한다
     (운영자 260817 「최대 같은거는 고유명사가 아니잖아」) → 파생 접미 '적'과 EXTRA_STOP(역대·최대)을 뺀다.
-    나머지 일반어는 NAME_WIN_H 시간 창이 구조적으로 거른다(위 상수 주석의 실측이 근거)."""
+    나머지 일반어는 NAME_WIN_H 시간 창 + 카테고리 동일 조건이 거른다(아래 실측이 근거).
+    ⚠️ 접미 2종은 실측 산출이다(260817 첫 배선 오탐) — '정치적'(정) = 파생 접미 '적' · '남성들'(남) =
+       복수 접미 '들'. 둘 다 형태 규칙이라 새 낱말이 나와도 안 낡는다(손 목록이면 그날부터 낡는다)."""
     return {w for w in _HAN_NAME_RE.findall(title or "")
-            if w[0] in sur and not w.endswith("적") and w not in EXTRA_STOP}
+            if w[0] in sur and not w.endswith(("적", "들")) and w not in EXTRA_STOP}
 
 
 def _name_window_comps(cands, in_comp, ok):
@@ -241,7 +243,13 @@ def _name_window_comps(cands, in_comp, ok):
                 if len(chunk) >= MAX_SIZE or _pub_ts(nxt) - _pub_ts(chunk[0]) > NAME_WIN_H * 3600:
                     break
                 chunk.append(nxt)
-            if len(chunk) >= 2:
+            # ⚠️ 카테고리 동일 = 일반어 오탐의 절반을 자르는 축(260817 첫 배선 실측): 같은 사건이면 분류가
+            #    같다(김민석 6건 = 전건 '정치'). 갈린 묶음은 전부 오탐이었다 — 「우려」 3건(경제·사회·정치 =
+            #    김호광 서버 + 포항시 방류 + 文 전대통령) · 「성장」 2건(경제·국제 = 리츠 자산 + 日 성장률).
+            #    ⚠️ 놓침은 안전측이다 — 이 패스는 가산 전용이라 못 묶으면 종전 동작(안 묶임)일 뿐이고,
+            #       잘못 묶어 판정기 콜을 태우는 쪽이 비싸다. cat 결측은 대상 밖(못 재는 건 안 묶는다).
+            cats = {c.get("cat") for c in chunk}
+            if len(chunk) >= 2 and len(cats) == 1 and None not in cats:
                 used.update(id(c) for c in chunk)
                 out.append(chunk)
             i += len(chunk)
