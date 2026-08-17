@@ -45,9 +45,15 @@
   var SRV = { img: [], cap: [] };      // 서버(보관함) 발견 이력 = 메모리 전용 · 스코프 격리는 KEYS 와 같은 축
   var srvSeen = { img: {}, cap: {} };  // 조회 완료 id = 같은 id 재조회 0(콜 폭주 방어)
   var srvBusy = {};
-  function merged(scope) {             // 표시 정본 = 로컬(이 기기 즉시분) + 서버(전 기기분) · url 키 dedup
+  /* ⚠️ 보관창 비대칭이 계약이다(260818 2차 실측 봉합) — 로컬 12h(HMS) 창은 **이 기기 브리지**의 수명이고,
+     서버(보관함) 발견분은 **만료 없음**이다(이미지 정본 = 「서버 인덱스 thumb-hist.json = 전 기기·만료 없음·캡 400」
+     vs 「localStorage는 완성 직후~빌드 배포 사이 브리지(12h)」). 두 층에 같은 창을 걸면 **어제 만든 게 안 보인다**
+     = 「어떤 조건에서든 같은 내용」 계약 위반이고, 실측으로 그 상태였다(가짜 서버 2건 → 타일 0 · 1차 편집 축도
+     보관함 8건 중 최근 3건만 떴다 = 5건이 이 창에 잘렸다). → prune 은 **로컬 조각에만** 적용한다.
+     ⚠ 상한은 그대로 살아 있다(render 의 HMAX·캡 60 = 서버 API 쪽 slice) = 무한 증가 0. */
+  function merged(scope) {             // 표시 정본 = 로컬(이 기기 즉시분 · 12h 창) + 서버(전 기기분 · 만료 없음) · url 키 dedup
     var out = [], k = {};
-    load(scope).concat(SRV[scope] || []).forEach(function (e) {
+    prune(load(scope)).concat(SRV[scope] || []).forEach(function (e) {
       if (!e || !e.url) return;
       var kk = keyOf(e.url); if (k[kk]) return; k[kk] = 1; out.push(e);
     });
@@ -299,7 +305,7 @@
     if (re) re.hidden = !open || re.dataset.has === '1';
   }
   function render(m) {
-    var all = prune(merged(m.opt.scope)).filter(function (e) { return e && e.url && !m.dead[keyOf(e.url)]; });   // merged = 로컬 + 서버(전 기기) 병합(260818 · 구판 load 단독 = 그 브라우저만 보였다)
+    var all = merged(m.opt.scope).filter(function (e) { return e && e.url && !m.dead[keyOf(e.url)]; });   // merged = 로컬(12h 창 적용) + 서버(만료 없음) 병합(260818 · 구판 load 단독 = 그 브라우저만 보였다 · ⚠ prune 은 merged 안에서 로컬에만 = 서버분을 자르면 어제 것이 안 보인다)
     all.sort(function (x, y) { return (y.ts || 0) - (x.ts || 0); });
     var pend = pendList(m);
     var sig = all.length + ':' + ((all[0] || {}).url || '') + ':' + ((all[all.length - 1] || {}).url || '')
