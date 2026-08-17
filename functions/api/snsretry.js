@@ -23,12 +23,21 @@ const GH = (token, path, method, body) => fetch(`https://api.github.com/repos/${
 
 export async function onRequestPost({ env }) {
   const json = (o, s = 200) => new Response(JSON.stringify(o), { status: s, headers: { 'content-type': 'application/json' } });
-  if (!env.GH_TOKEN) return json({ error: '서버 미설정 — Cloudflare 환경변수 GH_TOKEN 필요' }, 500);
+  try {
+    if (!env.GH_TOKEN) return json({ error: '서버 미설정 — Cloudflare 환경변수 GH_TOKEN 필요' }, 500);
 
-  const rl = await rateGate(GH, env.GH_TOKEN, 'sns-trends.yml', 2);   // 이미 도는 수집이 있으면 재발사 억제(연타·중복 발사 차단 · fail-open)
-  if (rl) return json({ error: rl.error }, 429);
+    const rl = await rateGate(GH, env.GH_TOKEN, 'sns-trends.yml', 2);   // 이미 도는 수집이 있으면 재발사 억제(연타·중복 발사 차단 · fail-open)
+    if (rl) return json({ error: rl.error }, 429);
 
-  const r = await GH(env.GH_TOKEN, 'actions/workflows/sns-trends.yml/dispatches', 'POST', { ref: REF, inputs: { brief: '1', force: '1' } });   // brief=1 = 스케줄 런 등가(AI 요약 동반 갱신) · force=1 = 신선도 게이트 우회(수동 의도 존중) · 나머지 축 = 선언 기본값
-  if (r.status === 204) return json({ ok: true });
-  return json({ error: `재수집 발사 실패 GitHub ${r.status}: ${(await r.text()).slice(0, 160)}` }, 502);
+    // 발사 = GitHub 5xx(그쪽 일시 장애)만 1.2s 뒤 1회 재시도(260817 · chanretry 미러 동반) — 4xx(권한·비활성·경로)는 재시도 무익 = 즉시 사유 반환.
+    const fire = () => GH(env.GH_TOKEN, 'actions/workflows/sns-trends.yml/dispatches', 'POST', { ref: REF, inputs: { brief: '1', force: '1' } });   // brief=1 = 스케줄 런 등가(AI 요약 동반 갱신) · force=1 = 신선도 게이트 우회(수동 의도 존중) · 나머지 축 = 선언 기본값
+    let r = await fire();
+    if (r.status >= 500) { await new Promise(w => setTimeout(w, 1200)); r = await fire(); }
+    if (r.status === 204) return json({ ok: true });
+    return json({ error: `재수집 발사 실패 GitHub ${r.status}: ${(await r.text()).slice(0, 160)}` }, 502);
+  } catch (e) {
+    // 함수 예외 = CF가 사유 없는 오류 페이지로 내보내 뷰어 토스트에 상태번호만 남는다(260817 실사고 = "(502)") →
+    //   사유가 화면까지 오도록 우리 JSON으로 받는다(실패 사유 화면 도달 계약 · chanretry 미러 동반).
+    return json({ error: '재수집 발사 실패 — 서버 예외: ' + String((e && e.message) || e).slice(0, 160) }, 502);
+  }
 }

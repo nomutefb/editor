@@ -13200,9 +13200,20 @@ function mkFresh(cfg) {   // cfg = { ls, btn, noun, post(ctx)→url, ctx()→문
     S = { st: 'pend', t0: Date.now(), base: String(cfg.upd(cx) || ''), ctx: cx, doneAt: 0 }; save(); paint();   // 즉시 점등(체감 반응 0ms) — base는 발사 뒤 실시각으로 재앵커
     if (!timer) timer = setInterval(tick, FRESH_IV);
     try {
-      const r = await fetch(cfg.post(cx), { method: 'POST', headers: { 'content-type': 'application/json' }, body: '{}' });   // snsRecollect 발사 문법 그대로 · **발사가 1순위**(러너 스핀업이 전체 소요를 지배 = 재앵커를 앞세우면 그만큼 늦게 출발)
-      const j = await r.json().catch(() => ({}));
-      if (r.status === 429) freshToast(j.error || '이미 수집이 돌고 있어 — 끝나면 자동 반영돼');   // 진행 중 런 존재 = pend 유지(그 런의 착지를 감시가 줍는다)
+      // 발사 = 최대 2회(260817 실사고 봉합) — 함수 **앞단**(엣지)이 죽으면 응답이 우리 JSON이 아니라 사유 없는 502 한 장이고
+      //   (실측 = 채널 토스트 "잠시 뒤 다시 (502)" = j.error 부재의 예비 문구 · 같은 시각 함수·발사·수집·라이브 서빙은 전건 정상),
+      //   1발 포기 구조라 일시 장애 한 발이 통째로 실패 UX가 됐다. 재발사는 **사유 없는 실패·네트워크 예외만**(서버가 사유를 준
+      //   실패는 재시도 무익 = 즉시 고지) · 중복 발사 0 = 1차가 실제로 접수됐다면 2차는 서버 rateGate가 429로 받아 pend 유지.
+      let r = null, j = {};
+      for (let att = 0; att < 2; att++) {
+        try { r = await fetch(cfg.post(cx), { method: 'POST', headers: { 'content-type': 'application/json' }, body: '{}' }); }   // snsRecollect 발사 문법 그대로 · **발사가 1순위**(러너 스핀업이 전체 소요를 지배 = 재앵커를 앞세우면 그만큼 늦게 출발)
+        catch { r = null; }
+        j = r ? await r.json().catch(() => ({})) : {};
+        if (r && (r.ok || r.status === 429 || j.error)) break;   // 접수·수집중·사유 있는 실패 = 확정(재발사 비대상)
+        if (!att) await new Promise(w => setTimeout(w, 2500));
+      }
+      if (!r) { idle(); freshToast('재수집 발사 실패 — 네트워크'); }
+      else if (r.status === 429) freshToast(j.error || '이미 수집이 돌고 있어 — 끝나면 자동 반영돼');   // 진행 중 런 존재 = pend 유지(그 런의 착지를 감시가 줍는다)
       else if (!r.ok || !j.ok) { idle(); freshToast(j.error || ('재수집 발사 실패 — 잠시 뒤 다시 (' + r.status + ')')); }
     } catch { idle(); freshToast('재수집 발사 실패 — 네트워크'); }
     if (S.st !== 'pend') return;   // 발사 실패로 idle 복귀 = 재앵커 금지(꺼진 상태를 되살려 유령 pend가 되는 것 차단)
