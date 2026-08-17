@@ -35,6 +35,8 @@
 //      ← 운영자 260803 6차 "ai생성은 우측에 편집처럼 결과가 안 붙거든". 그 작업에서 난 실사고 = AI 판 레일이 1단에서
 //        **다운로드 창(#dlgrab) 안으로 이사**해 통째로 사라진 것(rect 0×0 · 콘솔 에러 0 = 무증상)인데, C7 `res` 축은
 //        1280 2단에서만 돌고 폰 sweep의 C9·C10은 잉크·미리보기만 재서 「레일이 화면에 있는가」가 사각이었다.
+//   C20 **자막 실배선 1타** = 사진(배경) 합성 상태에서 실제 input 이벤트로 자막을 칠 때 {정규화 비용 ≤ 예산 ·
+//        사진 노드(.cpv-pan) DOM 분리 하드 0 · 폰트 조회 상한}(운영자 260818 「배경 합성 + 자막 = 굉장히 렉 · 재발 조치」 — 상세 = C20 재료 주석)
 // 왜 잉크인가: 박스 x가 같아도 padding이 갈리면 눈에 보이는 글자 위치가 어긋난다(260802 롤백 사고) —
 //   판정은 **잉크 중심 vs 캡슐 중심 Δ**(절대 x = 탭마다 창 폭이 달라 위양성).
 // 리스크 통제: 라이브 코드 무접촉(페이지 전역 실호출 openTool만) · 서버 자체 종료 · 외부 네트워크 0 · 결정론 2런.
@@ -520,6 +522,58 @@ const BUDGET_PROBE = () => {
   //   260807 처방 검토에서 「미리보기 축소 사본」 안이 실제로 이 지점을 위험하게 했다).
   return { render_ms: +rm.toFixed(3), cal_ms: +cm.toFixed(3), ratio: +(rm / cm).toFixed(4), payloadKeep: CIMG.b64.length === payload0 };
 };
+// ── C20 재료 = 「사진(배경) 합성 상태에서 **실제 input 이벤트**로 자막을 칠 때」 스윕(운영자 260818 「배경 합성 + 자막 = 굉장히 렉 · 한번 고쳐도 유관 작업이 재발시킴」) ──
+//   ⚠ 신설 사유 = **C15가 원리적으로 못 보는 자리 2곳에서 같은 렉이 재발했다.** C15는 renderCpPrev()를 **직접** 호출해
+//     동기 JS만 재고(주석 스스로 「배선 축은 별개 게이트 몫」이라 적어 뒀는데 그 게이트가 없었다), 프레임(래스터) 축은 0이다.
+//     실사고 260818 실측(폰 430) = ⓐ 동기 4.3ms/타로 C15 통과인데 **프레임 최대 850ms**(사진 없으면 16.8ms) —
+//     260807 자리표시자 방식이 매 타 사진을 DOM에서 분리→재부착해 4032×3024 재래스터 ⓑ 폰트 미로드 동안
+//     **1타 fonts.check 1,082콜**(371ms/타) — 260807 봉합은 「로드 후」만 막았고 미로드 경로가 남아 있었다.
+//     둘 다 화면 증상 0(글자는 다 쳐진다) = 운영자 손의 렉이 유일한 검출기(C15·C16·C18과 같은 병 · 다른 자리).
+//   판정 3축(전부 그 병의 직접 서명 = 타이밍 아닌 결정론 계수 2 + C15 검증 문법의 정규화 비율 1) =
+//     ① 실이벤트 1타 정규화 비율 ≤ WIRE_BUDGET — 리스너 사슬 전체(자간 힌트·미리보기·클립·검문)가 대상.
+//        실측 = 봉합 후 0.31(폰트 로드)·0.60(미로드) / 봉합 전 24.9~28.6 → 예산 2.5 = 4~8배 여유 · 10배 검출 마진.
+//     ② 자막 타이핑 중 `.cpv-pan` DOM 분리 = **하드 0**(MutationObserver 계수 · 구현 방식 무관 행동 판정 = cpvStagePaint를 우회한 회귀도 잡는다).
+//     ③ 폰트 조회 ≤ FONTCHECK_CAP/타(봉합 후 0~1 / 봉합 전 1,082) — 폰트 로드 환경에선 구조적으로 0이라
+//        이 축의 실검출력은 폰트 없는 러너(fresh checkout = viewer/assets/fonts 미생성)에서 산다 = 사고가 살던 바로 그 환경.
+//   ⚠ C15와 한 방문 동승(런 신설 0 = C18 관례) · C15의 SKIP(폰트 게이트)과 별개로 **폰트 유무 양쪽에서 유효**(①은 양쪽 실측 예산 안 · ②는 폰트 무관).
+const WIRE_BUDGET = 2.5;     // ⚠ 면책표 아님 = 단일 임계 상수(C15 RENDER_BUDGET 관례) — 낮추는 건 자유·올리는 건 사유 명기.
+const FONTCHECK_CAP = 8;     // 1타당 폰트 조회 상한 — 봉합 후 0~1(유예 도장 250ms) ↔ 봉합 전 1,082 사이.
+const WIRE_PROBE = () => {
+  const med = a => { const s = [...a].sort((x, y) => x - y); return s[s.length >> 1]; };
+  const cal = () => { const t = performance.now(); let x = 0; for (let i = 0; i < 3e6; i++) x = (x + i) % 97; return performance.now() - t + (x ? 0 : 0); };
+  if (typeof renderCpPrev !== 'function' || typeof CIMG === 'undefined') return { err: 'renderCpPrev/CIMG 미검출' };
+  const ta = document.querySelector('#cLines'); if (!ta) return { err: '#cLines 없음' };
+  if (!CIMG.b64) {   // 정상 경로 = BUDGET_PROBE가 먼저 심는다 · 단독 실행 대비 재시드(뷰어 자신의 주입 경로 = 가짜 DOM 0)
+    const cv = document.createElement('canvas'); cv.width = 1920; cv.height = 1440;
+    const cx = cv.getContext('2d'); if (!cx) return { err: '2d 컨텍스트 없음' };
+    cx.fillStyle = '#3a6'; cx.fillRect(0, 0, 1920, 1440);
+    const b64 = cv.toDataURL('image/jpeg', 0.9);
+    const slot = document.querySelector('#cImgSlot');
+    if (slot && slot._set) slot._set(b64, 'wire.jpg'); else { CIMG.b64 = b64; CIMG.name = 'wire.jpg'; }
+  }
+  const TXT = '국회의원 황희 이건 어떻게 봐야 하나';   // 자간 sweep 실발동 길이(C15 동일)
+  const fire = s => { ta.value = s; ta.dispatchEvent(new InputEvent('input', { bubbles: true })); };
+  fire(TXT);
+  for (let i = 0; i < 5; i++) fire(TXT + '가'.repeat(i % 3));   // 워밍업(JIT·글자폭 캐시 안정화)
+  const st = document.querySelector('#cpPrevStage'); if (!st) return { err: '#cpPrevStage 없음' };
+  if (!st.querySelector('.cpv-pan')) return { err: '.cpv-pan 미렌더(사진 경로 미성립 = 판정 무효)' };   // 관측 유효성 도장(C17 pan 선례)
+  const mo = new MutationObserver(() => {});
+  mo.observe(st, { childList: true, subtree: true });
+  mo.takeRecords();   // 워밍업 잔여 기록 소거(동기 수거 = 콜백 비의존)
+  let fc = 0; const fc0 = (document.fonts && document.fonts.check) ? document.fonts.check.bind(document.fonts) : null;
+  if (fc0) document.fonts.check = function () { fc++; return fc0.apply(this, arguments); };
+  const rounds = []; const KEYS = 15;
+  try {
+    for (let r = 0; r < 3; r++) { const t0 = performance.now(); for (let i = 0; i < KEYS; i++) fire(TXT + '가'.repeat(i % 4)); rounds.push((performance.now() - t0) / KEYS); }
+  } finally { if (fc0) document.fonts.check = fc0; }   // 계측 원복 = 이후 축(C15 재실행 등) 무오염
+  let panDrop = 0;
+  for (const r of mo.takeRecords()) for (const n of r.removedNodes) if (n && n.classList && n.classList.contains('cpv-pan')) panDrop++;
+  mo.disconnect();
+  const cals = []; for (let r = 0; r < 3; r++) cals.push(cal());
+  const rm = med(rounds), cm = med(cals);
+  const fontLoaded = !!(document.fonts && typeof CP_PREV_FONT !== 'undefined' && document.fonts.check('700 78px "' + CP_PREV_FONT + '"'));
+  return { ev_ms: +rm.toFixed(3), cal_ms: +cm.toFixed(3), ratio: +(rm / cm).toFixed(4), panDrop, fcPerKey: +(fc / (KEYS * 3)).toFixed(2), fontLoaded };
+};
 // ── C17 재료 = 「사진을 붙여둔 채 손을 뗐을 때 **끝나지 않는 CSS 애니**가 도는가」(운영자 260807 5차 "없앨게 렉 안걸리는게 최선") ──
 //   ⚠ 신설 사유 = **C15·C16이 원리적으로 못 보는 자리**다. C15는 renderCpPrev() **동기 JS**만 재서 CSS 애니 기여가 0이고,
 //     C16은 판정 축이 **rAF 콜백 수 + DOM 변이 수**라 선언형 CSS 애니가 **둘 다 0**을 낸다. 게다가 C16 idleSweep은
@@ -558,7 +612,9 @@ async function budgetSweep(browser, port) {
   try {
     await pg.goto('http://127.0.0.1:' + port + '/thumb.html', { waitUntil: 'load', timeout: 25000 });
     await pg.waitForTimeout(2500);   // 웹폰트 도착 대기(아래 fontOK가 실판정 · 못 오면 SKIP)
-    return await pg.evaluate(BUDGET_PROBE);
+    const r = await pg.evaluate(BUDGET_PROBE);
+    try { r.wire = await pg.evaluate(WIRE_PROBE); } catch (e) { r.wire = { err: String(e.message).slice(0, 90) }; }   // C20 = 같은 방문 동승(런 신설 0 · C18 관례) · C15가 SKIP이어도 독립 판정
+    return r;
   } catch (e) { return { err: String(e.message).slice(0, 90) }; }
   finally { await pg.close().catch(() => {}); }
 }
@@ -875,6 +931,19 @@ async function runOnce(pg, gap, clone, railRow, budget, idle, anim) {
     animTabs.length === 0,
     animTabs.length ? '끝나지 않는 애니 보유 ' + animTabs.length + '탭 — ' + animTabs.join(' / ') + ' (손 뗀 화면에서 폰 GPU가 계속 재합성 · C17은 카드 제작 1탭만 본다)'
       : '10탭 전건 상시 애니 0');
+
+  // ── C20 자막 실배선 1타 = 사진 합성 상태 실이벤트(운영자 260818 「배경 합성 + 자막 = 굉장히 렉 · 재발 조치」 · 위 재료 주석 참조) ──
+  //   err = SKIP(측정 불가 ≠ 위반) · 그 외 3축 = {정규화 비율 · 사진 노드 분리 하드 0 · 폰트 조회 상한}.
+  const WR = BG.wire || {};
+  const wireBad = WR.err ? [] : []
+    .concat(typeof WR.ratio === 'number' && WR.ratio > WIRE_BUDGET ? ['정규화 비율 ' + WR.ratio + ' > ' + WIRE_BUDGET + '(입력 리스너 사슬이 무거워졌다 — C15 직접 호출 축은 못 보는 자리)'] : [])
+    .concat(WR.panDrop > 0 ? ['사진 노드 분리 ' + WR.panDrop + '회(자막 타이핑이 .cpv-pan을 떼었다 되꽂는다 = 원본급 재래스터 스파이크 회귀 · cpvStagePaint 확인)'] : [])
+    .concat(typeof WR.fcPerKey === 'number' && WR.fcPerKey > FONTCHECK_CAP ? ['폰트 조회 ' + WR.fcPerKey + '콜/타 > ' + FONTCHECK_CAP + '(미로드 폭풍 회귀 — _trkFontOk 유예 도장 확인)'] : []);
+  core('C20 자막 실배선 1타(사진 합성 · 실이벤트 · 비율 ≤ ' + WIRE_BUDGET + ' · 사진 분리 0 · 폰트 조회 ≤ ' + FONTCHECK_CAP + '/타)',
+    WR.err ? true : wireBad.length === 0,
+    WR.err ? 'SKIP(측정 불가) ' + WR.err
+      : wireBad.length ? wireBad.join(' · ')
+        : '비율 ' + WR.ratio + '(1타 ' + WR.ev_ms + 'ms) · 사진 분리 0 · 폰트 조회 ' + WR.fcPerKey + '/타(폰트 ' + (WR.fontLoaded ? '로드' : '미로드') + ')');
 
   return out;
 }

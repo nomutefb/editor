@@ -400,7 +400,10 @@
      object-fit을 cover→contain으로 바꾸고 `--pnf`(cover 환산 배수)를 곱한다 = 기본값(--pns 1)에서 **종전 cover와 픽셀 동일**(전면 꽉·중앙 크롭 무변).
      그래야 축소(--pns<1)가 「잘려나간 부분이 다시 보이는」 방향으로 간다(cover 유지 시엔 이미 잘린 그림만 작아져 축소의 뜻이 사라진다 = 실측 근거).
      좌표 단위 = **스테이지 대비 %**(요소 박스 = 스테이지 박스 inset:0이라 translate %의 기준이 곧 스테이지) → 창 크기가 변해도 배치 불변 = 재계산 0. */
-  .cpprev-stage img.cpv-bg.cpv-pan { object-fit:contain; transform:translate(var(--pnx,0%), var(--pny,0%)) scale(calc(var(--pns,1) * var(--pnf,1))); transform-origin:50% 50%; -webkit-user-drag:none; }
+  .cpprev-stage img.cpv-bg.cpv-pan { object-fit:contain; transform:translate(var(--pnx,0%), var(--pny,0%)) scale(calc(var(--pns,1) * var(--pnf,1))); transform-origin:50% 50%; -webkit-user-drag:none; will-change:transform; }
+  /* ⚠ will-change:transform(260818) = 사진을 **자기 합성층**으로 — 자막 타이핑이 스크림·로고·글을 갈아끼울 때 같은 층의 원본급(4032×3024) 사진까지 통째로 다시 굽던 프레임 스파이크(실측 폰 430 = 최대 850ms · 사진 없으면 16.8ms) 봉합.
+     층 승격 후 실측 = 최대 16.8ms(사진 유무 동일). 이 요소는 배치(이동·확대) transform을 상시 받는 대상이라 승격이 곧 정석이고, 드래그 중 재래스터도 같이 사라진다.
+     ⚠ 유휴 비용 0 확인 = 층은 상주하되 그리기는 변화 시에만(C16·C18 유휴 정숙 축 무접촉 · 260807 tkr 사고의 will-change는 「가려진 채 도는 애니」 짝이라 반납했던 것 — 이건 애니 0). 강제 = smoke_studioshell C19. */
   /* ⚠ `-webkit-user-drag:none` + 마크업 `draggable="false"` + JS dragstart 차단 = **3중** — 드래그가 「한 번 움직이고 멈추던」 실사고(운영자 260806 "확대 축소 후에 틀 안에서 움직일 수가 없음") 봉합.
      정체 = `<img>`는 기본 draggable이라 12px 임계를 넘는 순간 브라우저가 **네이티브 이미지 드래그**(고스트)를 시작하고 `pointercancel`을 던진다 → 핸들러가 pts에서 그 포인터를 지워 이후 pointermove 전건 무시.
      실측 이벤트 시퀀스 = pointerdown → pointermove(1회만 반영) → dragstart → **pointercancel** → drag×7(네이티브) · 72px 끌었는데 12px 1스텝만 적용(클램프 한계 61%엔 한참 미달 = 클램프 무죄).
@@ -1954,8 +1957,7 @@ function renderCpPrev() {   // app2 상시 표시(운영자 260714 Q03②) + 편
       h += `<div class="cpv" style="left:0;right:0;top:${py(100 + 46 * (i + idx))};text-align:center;color:${CPV_WHITE};font-size:${px(29)};font-weight:400">${esc(gl)}</div>`;
     });
   }
-  st.innerHTML = h;
-  const _ps = st.querySelector('[data-panslot]'); if (_ps) _ps.replaceWith(cpvPanNode());   // 사진 노드 = 재조립 제외(260807) — 자리표시자를 살려둔 <img>로 되꽂는다(클래스·속성·DOM 순서 종전 동일)
+  cpvStagePaint(st, h);   // 사진 노드 = 재조립 **완전 분리**(260818) — 260807 자리표시자 방식은 매 타 사진을 DOM에서 떼었다 되꽂아 재래스터를 유발했다(상세 = cpvStagePaint 주석)
   cpPanFmt = cur.fmt === 'reels' ? 'reels' : 'post'; cpPanApply();   // 배치 기하 = 지금 그린 산출 포맷 기준 재계산(포맷이 바뀌면 cover 환산 배수도 바뀐다) + 레일 재동기(방금 만든 .cpv-pan을 보고 판정 = 순서 의존 0)
   cpToolSync(false);   // 변형 렌더 = 교체 상시(텍스트 변형 중에도 사진 넣을 입구 유지) · 삭제 = 사진 있을 때만
 }
@@ -1979,6 +1981,27 @@ function cpvPanNode() {
     _cpvPanEl.src = url; _cpvPanSrc = url;
   }
   return _cpvPanEl;
+}
+// 무대 갱신 = 사진(.cpv-pan)은 DOM에서 안 뗀다(운영자 260818 「배경 합성 + 자막 타이핑 = 굉장히 렉 · 재발 조치」) —
+//   260807 봉합(위 cpvPanNode = <img> 노드 재사용)은 「JS가 1.6MB 문자열을 다시 만드는 비용」만 없앴고,
+//   `st.innerHTML = h` → 자리표시자 replaceWith 순서라 **매 타 사진이 DOM에서 분리→재부착**됐다.
+//   분리된 큰 그림은 브라우저가 래스터 캐시를 버려서 되꽂는 순간 4032×3024를 다시 굽는다 —
+//   실측(폰 430 실렌더) = 동기 JS 4.3ms/타로 멀쩡한데 **프레임이 최대 567ms**(사진 없으면 16.8ms) = C15(동기 축)가 원리적으로 못 보던 자리.
+//   → 사진이 이미 제 자리(무대 첫 요소)에 있으면 **형제만** 걷어내고 나머지 HTML을 사진 뒤에 붙인다(사진 무접촉 = 재래스터 0).
+//   DOM 순서·클래스 = 구판과 동일([사진]→[스크림]→[로고]→[글]) → 기하·스택 무변(C7·C10·C11 축 무접촉).
+//   강제 = smoke_studioshell C19(자막 1타 중 .cpv-pan 분리 하드 0 — 이 함수를 우회하는 회귀도 행동으로 잡는다).
+function cpvStagePaint(st, h) {
+  const wantPan = h.startsWith(CPV_PANSLOT);
+  const rest = wantPan ? h.slice(CPV_PANSLOT.length) : h;
+  const keep = wantPan && _cpvPanEl && _cpvPanEl.parentNode === st && _cpvPanSrc === cpvPanSrc();   // 같은 사진이 이미 무대에 = 무접촉 조건(교체·재첨부는 아래 재부착 경로)
+  if (keep) {
+    let n = st.firstChild;
+    while (n) { const nx = n.nextSibling; if (n !== _cpvPanEl) n.remove(); n = nx; }
+    _cpvPanEl.insertAdjacentHTML('afterend', rest);
+  } else {
+    st.innerHTML = rest;
+    if (wantPan) st.insertBefore(cpvPanNode(), st.firstChild);   // 첫 요소 = 최하층(구 자리표시자 위치와 동일)
+  }
 }
 function cpToolSync(empty) {   // 미리보기 사진 도구(교체·삭제) 상태 동기 — 노출은 상시(구 `empty` 게이트 폐지 · 인자는 호출부 4곳 무접촉을 위해 유지) — 구 슬롯(#cImgSlot) 이주분(운영자 260716)
   const sw = $('#cpImgSwap'), dl = $('#cpImgDel');
@@ -4731,12 +4754,18 @@ const JJ_OV = { reels: { ty: 1214, fs: 76, lh: 96, lm: 101, rm: 135, ctr: true }
 // 폰트 준비 판정 = **크기(fs)별 1회 도장** — `document.fonts.check()`는 호출당 0.213ms(실측)라 글자마다 부르면
 //   `estTracking` 자간 sweep 1회(최대 46패스 × 전 글자)에 **1,200발 = 286ms**가 든다(260807 평의회 8인 실측 · 진범 확정).
 //   true는 비가역이다(로드된 웹폰트는 언로드되지 않는다) → 한 번 통과하면 도장을 찍고 다시 안 묻는다.
-//   ⚠ false는 절대 담지 않는다 — 로드 전 판정을 영구화하면 폰트가 도착해도 영영 상수 폴백에 갇힌다(자간이 틀어진 채 고착).
+//   ⚠ false는 **영구 도장으로는** 절대 담지 않는다 — 로드 전 판정을 영구화하면 폰트가 도착해도 영영 상수 폴백에 갇힌다(자간이 틀어진 채 고착).
+//   ⚠ 260818 = false에 **250ms 유예 도장**(영구 아님) — 260807 봉합은 「폰트 로드 후」만 막았고, 미로드 동안은
+//     글자폭 캐시가 null을 안 담아 sweep 46패스 × 전 글자가 **매 타 check를 다시 불렀다**(실측 = 자막 1타 1,082콜 · 1타 371ms).
+//     유예 250ms 뒤 재조회 + fonts.ready 재렌더 훅(아래 4915행대)이 그대로라 폰트 도착 반영은 최대 한 타 늦을 뿐 무손실.
+//     강제 = smoke_studioshell C19(자막 1타 폰트 조회 상한).
 const _trkFontOk = (() => {
-  const ok = new Set();
+  const ok = new Set(); let miss0 = -1e9;   // miss0 = 마지막 「미로드」 실측 시각(fs 무관 — 얼굴(face) 단위 로드라 한 판정이 전 fs를 대표)
   return (fs) => {
     if (ok.has(fs)) return true;
-    if (!document.fonts || !document.fonts.check('700 ' + fs + 'px "' + CP_PREV_FONT + '"')) return false;
+    const now = performance.now();
+    if (now - miss0 < 250) return false;
+    if (!document.fonts || !document.fonts.check('700 ' + fs + 'px "' + CP_PREV_FONT + '"')) { miss0 = now; return false; }
     ok.add(fs); return true;
   };
 })();
