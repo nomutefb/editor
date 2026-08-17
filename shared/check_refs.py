@@ -1414,7 +1414,15 @@ def check_coalesce_pair():
         surf.append(name)
         if _dead_route:
             continue   # 라우터가 죽어 있으면 아래 등재 검사는 무의미(위에서 이미 실패 처리)
-        if not re.search(r'''['"`]viewer/''' + re.escape(name) + r'''['"`]''', atxt):   # 인용 리터럴만 인정(FILES 등재 형태 · 산문 언급 불인정)
+        # ⚠⚠ 260817 봉합 — 구판은 `'viewer/<파일>.json'` **딱 그 형태**만 인정해서 **주소 안에 박힌 서빙을
+        #   원리적으로 못 봤다**. 실물 = 이 저장소의 생명선 `functions/api/candidates.js` 가
+        #   `'https://api.github.com/repos/…/contents/viewer/candidates.json?ref=main'` 형태로 읽는다
+        #   (구판 정규식엔 `viewer/` 앞이 `/` 라 불일치). 그래서 그 파일이 실제로 라이브 서빙을 하는데
+        #   게이트는 「서빙 없음」이라고 말했다 = 거짓 빨강. 다른 9표면이 전부 맨 파일명 형태라 6주간 안 드러났다.
+        #   → 판정을 「**인용 문자열 리터럴 안에** 그 경로가 있는가」로 넓힌다(같은 줄 · 따옴표 사이).
+        #   검출력 무손실 = 서빙 줄을 지우면 그 리터럴이 사라져 그대로 잡힌다(킬테스트로 실증).
+        #   산문 주석은 위에서 이미 걷어냈고, 인용부호 없는 맨 파일명 언급은 종전대로 불인정.
+        if not re.search(r'''['"`][^'"`\n]*viewer/''' + re.escape(name) + r'''[^'"`\n]*['"`]''', atxt):
             bad.append('%s (착지: %s) → 라이브 서빙 없음 = 코얼레싱 스킵 시 화면 갱신 정지'
                        % (name, ','.join(sorted(wfs))))
     if bad:
@@ -5528,6 +5536,63 @@ def check_land_precommit():
             print('   ', h)
         print('   처방 = 그 `git commit` 줄을 지운다(커밋은 git_land 가 한다) · 조기 종료 판정용 `git add`+`git diff --cached` 는 남겨도 된다.')
         return 1
+    return 0
+
+
+def check_workflow_step_refs():
+    """워크플로가 **없는 스텝**을 가리키는가 = 「스텝이 통째로 사라졌다」의 유일한 기계 서명(260817 실사고 봉합).
+    CONTRACT: check_workflow_step_refs
+
+    ⚠ 신설 사유 = **260816 일괄 편집이 `breaking-judge.yml` 의 뒤쪽 7스텝을 통째로 날렸는데 아무 게이트도
+      안 울렸다**(실측 = 그 커밋 통계 `+10 −145` · 나머지 4파일은 ±10 균형 = 이 파일만 절단).
+      죽은 것 = **경중 채점(gate_judge)** · 사건 묶기 · 최종 커밋 · 긴급 웹푸시 · 자동픽 · 분석 발동 6축이고,
+      화면 증상은 등급 칩이 `G–`(미채점)로 뜨는 것 하나뿐이라 운영자 눈이 유일한 검출기였다
+      (실측 = `viewer/candidates.json` 309건 전건 `grade: null` · 잡은 그 상태로 **초록**).
+    ⚠ 기존 게이트가 전부 다른 축이다 — `check_workflow_yaml` = **문법**(잘려도 유효한 YAML이다) ·
+      `check_land_*` 4종 = **착지 방식** · `check_pages_skip` = **접두 배선** · `check_push_send_checkout` =
+      **체크아웃 목록** → 「스텝이 있기는 한가」는 축 자체가 없었다.
+    ⚠ **왜 이 술어인가** = 잘린 파일은 스스로 모순을 남긴다. 그 사고에서 남은 마지막 스텝이
+      `steps.autopick.outputs.picked` 를 참조하는데 `id: autopick` 스텝은 잘려나가 없었다
+      (= GitHub 은 그 식을 빈 문자열로 조용히 평가 = 죽은 분기 · 에러 0). 그 dangling 참조가
+      **기계로 볼 수 있는 유일한 흔적**이고, 있었으면 08-16 그 커밋에서 바로 떴다.
+      실측 = 이 게이트 술어를 전 워크플로에 돌렸을 때 검출 1건 = 정확히 그 사고 자리뿐(위양성 0).
+    ⚠ 스코프 = `.github/workflows/*.yml|yaml` 자동 발견(새 워크플로가 조용히 못 빠진다) · **잡 단위 대조**
+      (남의 잡 스텝 id 는 애초에 참조 불가 = 잡을 넘어 세면 진짜 사고가 통과한다) · pyyaml 없으면 fail-soft ·
+      정적 · 렌더·LLM·네트워크 0 · **면책표 없이 하드 0**(현행 위반 0 = 부채 원장 증가 0)."""
+    try:
+        import yaml as _yaml
+    except Exception:  # noqa: BLE001
+        print('⚠️ 스텝 참조 게이트 — pyyaml 없음(fail-soft 스킵)'); return 0
+    wf_dir = os.path.join(ROOT, '.github', 'workflows')
+    if not os.path.isdir(wf_dir):
+        print('❌ 스텝 참조 게이트 — 워크플로 폴더 없음(fail-closed)'); return 1
+    bad, nwf = [], 0
+    for fn in sorted(os.listdir(wf_dir)):
+        if not fn.endswith(('.yml', '.yaml')):
+            continue
+        try:
+            d = _yaml.safe_load(open(os.path.join(wf_dir, fn), encoding='utf-8'))
+        except Exception:  # noqa: BLE001
+            continue   # 문법 = check_workflow_yaml 관할(중복 실패 안 냄)
+        if not isinstance(d, dict):
+            continue
+        nwf += 1
+        for jname, job in (d.get('jobs') or {}).items():
+            if not isinstance(job, dict):
+                continue
+            ids = {s.get('id') for s in (job.get('steps') or []) if isinstance(s, dict) and s.get('id')}
+            blob = _yaml.dump(job, allow_unicode=True, default_flow_style=False)
+            for ref in sorted(set(re.findall(r'steps\.([A-Za-z0-9_-]+)\.', blob))):
+                if ref not in ids:
+                    bad.append('%s [%s] → steps.%s 참조인데 그 id 를 가진 스텝이 없다(있는 id: %s)'
+                               % (fn, jname, ref, ', '.join(sorted(i for i in ids if i)) or '없음'))
+    if bad:
+        print('❌ 없는 스텝 참조 %d건 — 스텝이 사라졌거나 id 가 갈렸다(그 분기는 빈 문자열로 조용히 죽는다):' % len(bad))
+        for b in bad:
+            print('   -', b)
+        print('   처방 = 사라진 스텝을 되살리거나(절단 사고면 절단 직전 커밋이 기준본) 참조를 지운다.')
+        return 1
+    print('✅ 스텝 참조 게이트 — 워크플로 %d개 전건 `steps.<id>` 참조 도달 가능(사라진 스텝 0 · 면책표 없음).' % nwf)
     return 0
 
 
@@ -9703,6 +9768,11 @@ def main():
             rc = 1
     except Exception as e:
         print('❌ check_land_precommit 예외(fail-closed):', e); rc = 1
+    try:
+        if check_workflow_step_refs() != 0:   # 없는 스텝 참조(하드 — 260817 절단 사고 서명 · 스텝이 사라져도 잡은 초록이라 이 축만 보인다)
+            rc = 1
+    except Exception as e:
+        print('❌ check_workflow_step_refs 예외(fail-closed):', e); rc = 1
     try:
         if check_canon_host() != 0:   # 화면 주소 정본(하드 — 코드가 옛 화면을 부르면 화면 증상 0으로 조용히 죽는다 · 260816 계정 이관 후속)
             rc = 1

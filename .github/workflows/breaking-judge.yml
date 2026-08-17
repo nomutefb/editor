@@ -174,9 +174,147 @@ jobs:
           PAGES_COALESCE=0 bash .github/scripts/git_land.sh "AI 판정: 속보 breaking 조기 반영" viewer/candidates.json 2>/dev/null || true
           git fetch -q origin main 2>/dev/null || true
           pushed=0; git merge-base --is-ancestor HEAD origin/main 2>/dev/null && pushed=1
+          # 조기 반영은 지연 단축용이라 실패해도 red 로 세우지 않는다 — 아래 최종 Commit(경중·묶기 포함) 스텝이
+          #   같은 파일을 다시 착지시켜 회수한다(그 자리가 red 판정 담당 · check_land_silence 회수 어휘 축).
+          [ "${pushed:-0}" = 1 ] || echo "::warning::속보 조기 push 실패 — 최종 커밋 스텝이 회수"
+
+      - name: 경중 채점 (claude -p · AI 게이트 · 외신 번역 편승)
+        if: steps.chk.outputs.pending != '0'
+        env:
+          GATE_MODEL: claude-opus-5   # **운영자 260810 "채점 소넷5가 아니라 오퍼스5 max로 해라"** — 260630 평의회의 sonnet 강등(쿼터 50~65% 절감)을 정면 되돌린다. 사유 = 그 강등의 전제였던 「다층 보정이 경계오차를 흡수한다」가 실사례로 깨졌다(운영자 지목 = 트와이스 전속계약 cross8이 grade **3** · 룰북 명문은 「이적 = [0]」 · 3점이 1.7배가 된 뒤엔 이 오차가 랭킹 최상단을 직접 오염). ⚠️ 대가 = 쿼터 소모가 강등 전 수준으로 복귀(gate = LLM 콜의 최대 축) · 롤백 = 이 값을 claude-sonnet-5 로.
+          GATE_EFFORT: max   # 운영자 260810 지정. 구 주석의 "분류엔 추론 불필요"는 **이번 지시로 무효**(경계 판정 = 룰북 예외 조항 대조라 추론이 실제로 듣는 자리). ⚠️ effort 부여 = 콜당 시간·토큰 증가 → 아래 GATE_TIMEOUT·MAX_PER_RUN 동반 조정이 필수(안 하면 콜 타임아웃 → 미도장 → 조용한 무한 재시도).
+          TRANS_ON: ${{ inputs.trans_canary && '1' || env.TRANS_ON }}   # 외신 제목 번역 편승(같은 콜 · 번역도 sonnet 급 = 운영자 260703 "번역도 소넷"). 카나리아 = trans_canary 1런.
+          GATE_MAX_PER_RUN: "120"   # 200→120(260810) — opus+effort max 는 콜당 시간이 sonnet의 배 이상이라 200(5청크)은 job timeout 을 넘긴다. 120 = 3청크 · 15분 주기 × 120 = 시간당 480건이라 실유입(회차당 수십)엔 충분하고 백로그도 몇 회차면 소진. 롤백=이 줄 제거(코드 기본 80).
+          GATE_REGRADE_QUOTA: "20"  # 재채점 2단 사다리(6곳·8곳 · 운영자 260810)로 큐가 대략 2배 = 12→20. 실측 260810 큐 48건(mid 32·full 16) → 3회차면 소진.
+          GATE_TIMEOUT: "900"       # 콜당 상한 300→900s(260810) — effort max 는 추론 토큰이 붙어 300s 를 넘길 수 있고, 초과하면 rc≠0 = 미도장 = 다음 런 재시도라 **증상 없이 영원히 재시도만 도는** 상태로 굳는다.
+          GATE_CAT_QUOTA: "80"      # ⚠️ 260810 이후 **무효 슬롯**(GATE_MIN_CROSS 3→2 로 cross-2 가 전부 노출권에 편입 = cat 전용 구제 대상이 0건). 값은 롤백(2→3) 대비 보존.
+          GATE_SAFE: '1'   # 승격 완료(260701 카나리아 실측 rc=0·OAuth 정상·cache_creation 53,855→1,512 −97.2%): 자동/예약 judge 런도 --safe-mode(CLAUDE.md 로드 스킵). 롤백=이 줄을 '' 또는 제거(코드 기본 OFF).
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets[format('CLAUDE_CODE_OAUTH_TOKEN_{0}', inputs.account || vars.ACTIVE_ACCOUNT || 'MUTENO')] }}
+          CLAUDE_CODE_OAUTH_TOKEN_ALT: ${{ (inputs.account || vars.ACTIVE_ACCOUNT || 'MUTENO') == 'NOMUTEFB' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_NOMUTEFB }}   # 서브1 폴오버(활성 다음 우선순위 · 체인 MUTENO→NOMUTEFB→EMS1130G→EMS1130M)
+          CLAUDE_CODE_OAUTH_TOKEN_ALT2: ${{ (inputs.account || vars.ACTIVE_ACCOUNT || 'MUTENO') == 'MUTENO' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_MUTENO }}   # 서브2 폴오버(체인 3번째)
+          CLAUDE_CODE_OAUTH_TOKEN_ALT3: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130M }}   # 서브3 폴오버(체인 실꼬리 = 항상 EMS1130M · 앞 3계정 소진 후)
+        run: |
+          if [ -z "${CLAUDE_CODE_OAUTH_TOKEN}" ]; then
+            echo "::warning::CLAUDE_CODE_OAUTH_TOKEN 비어있음 — 채점 생략(다음 런 재시도)"; exit 0
+          fi
+          unset ANTHROPIC_API_KEY ANTHROPIC_AUTH_TOKEN
+          python3 .github/scripts/gate_judge.py
+
+      # 사건 묶기 판정 — 토큰 클러스터링서 갈라진 같은 사건을 AI가 확정(YES→group_id → 뷰어 자동 병합·mergeDecorate 파이프).
+      # ⚠️ 카나리아 OFF 기본(§📰 라이브 플래그 절차): dispatch inputs.group_canary=true 단건 실측 → 통과 시 env GROUP_ON: '1' 승격.
+      # 모델 = opus 5(사건 동일성 = 정밀 판정·autopick _ai_same 선례 · 운영자 260702 "탄탄하게") · 도장 캐시 = 같은 그룹 재판정 0.
+      - name: 사건 묶기 판정 (claude -p · group_judge)
+        if: steps.chk.outputs.pending != '0' && (inputs.group_canary || env.GROUP_ON == '1')
+        env:
+          GROUP_SAFE: '1'   # judge류 공통 --safe-mode(§📰 · 판정은 stdin 룰북만 = CLAUDE.md 불필요)
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets[format('CLAUDE_CODE_OAUTH_TOKEN_{0}', inputs.account || vars.ACTIVE_ACCOUNT || 'MUTENO')] }}
+          CLAUDE_CODE_OAUTH_TOKEN_ALT: ${{ (inputs.account || vars.ACTIVE_ACCOUNT || 'MUTENO') == 'NOMUTEFB' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_NOMUTEFB }}   # 서브1 폴오버(체인 MUTENO→NOMUTEFB→EMS1130G→EMS1130M)
+          CLAUDE_CODE_OAUTH_TOKEN_ALT2: ${{ (inputs.account || vars.ACTIVE_ACCOUNT || 'MUTENO') == 'MUTENO' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_MUTENO }}   # 서브2 폴오버(체인 3번째)
+          CLAUDE_CODE_OAUTH_TOKEN_ALT3: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130M }}   # 서브3 폴오버(체인 실꼬리 = 항상 EMS1130M · 앞 3계정 소진 후)
+        run: |
+          if [ -z "${CLAUDE_CODE_OAUTH_TOKEN}" ]; then
+            echo "::warning::CLAUDE_CODE_OAUTH_TOKEN 비어있음 — 사건 묶기 생략(다음 런 재시도)"; exit 0
+          fi
+          unset ANTHROPIC_API_KEY ANTHROPIC_AUTH_TOKEN
+          python3 .github/scripts/group_judge.py
+
+      - name: Commit (breaking 확정)
+        if: steps.chk.outputs.pending != '0'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add viewer/candidates.json 2>/dev/null || true
+          git add metrics 2>/dev/null || true   # 토큰 계측 shard(claude_meter·gate/breaking) 동반 커밋 — 있을 때만
+          if git diff --cached --quiet; then echo "변동 없음 — 커밋 생략"; exit 0; fi
+          # ⚠⚠ 260817 복구 — 이 스텝(과 아래 3스텝)은 260816 일괄 편집에서 파일 뒤쪽이 잘려 통째로 사라져 있었다.
+          #   되살릴 때 구판 `pull --rebase -X theirs` 관용구를 그대로 쓰면 260816 봉합이 회귀하므로(그쪽은
+          #   남의 줄을 지운다 = 샌드박스 실측) 착지는 git_land 위임으로 되살린다. 문법 정본 = pick.yml.
+          # ⚠ 선행 `git commit` 없음이 계약(check_land_precommit) — 커밋은 git_land 가 한다.
+          #   위 add/diff 는 조기 종료 판정용이라 남기고, reset 으로 스테이지를 풀어 git_land 에 넘긴다.
+          # ⚠ 접두는 여기만 ON(PAGES_COALESCE 미지정 = 워크플로 env 그대로) — 「경중 grade 갱신」이
+          #   _PAGES_SKIP_ALLOW 등재 축이고, 짝(빌드 우회 라이브 서빙)은 functions/api/candidates.js 가 담당한다.
+          git reset -q HEAD -- . 2>/dev/null || true
+          bash .github/scripts/git_land.sh "AI 판정: 속보 breaking · 경중 grade 갱신" viewer/candidates.json metrics 2>/dev/null || true
+          git fetch -q origin main 2>/dev/null || true
+          pushed=0; git merge-base --is-ancestor HEAD origin/main 2>/dev/null && pushed=1
+          # git_land 는 rc 항상 0(fail-soft)이라 착지 판정을 따로 세운다 — 안 세우면 채점 결과가 통째로
+          #   증발했는데 잡은 초록으로 끝난다(check_land_silence 가 이름 붙인 침묵 축 · pick.yml 문법 사본).
+          [ "${pushed:-0}" = 1 ] || { echo "::error::breaking·grade 판정 push 실패 — 이번 회차 채점 미반영(다음 런 재판정)"; exit 1; }
+
+      # 긴급(breaking AND grade≥2) 새 사건 → 구독자에게 웹푸시(앱 꺼도 옴). 비치명·dedup(push/sent.json).
+      - name: 긴급 웹푸시 발송 (pywebpush)
+        if: steps.chk.outputs.pending != '0' || github.event.inputs.test_push == 'true' || github.event.inputs.preview == 'true'
+        env:
+          VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
+          VAPID_SUBJECT: ${{ secrets.VAPID_SUBJECT }}
+          # AI 사건중복 심판(_ai_same_event · Q437)용 구독 OAuth 4계정 체인 — 자동픽 스텝과 동일 배선(평의회2 260722:
+          # 이 env 없으면 run_claude 인증 실패 = fail-open 상시 = 사건 dedup 유령화). 토큰 없어도 발송 자체는 정상(비치명).
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets[format('CLAUDE_CODE_OAUTH_TOKEN_{0}', inputs.account || vars.ACTIVE_ACCOUNT || 'MUTENO')] }}
+          CLAUDE_CODE_OAUTH_TOKEN_ALT: ${{ (inputs.account || vars.ACTIVE_ACCOUNT || 'MUTENO') == 'NOMUTEFB' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_NOMUTEFB }}   # 서브1 폴오버(활성 다음 우선순위 · 체인 MUTENO→NOMUTEFB→EMS1130G→EMS1130M)
+          CLAUDE_CODE_OAUTH_TOKEN_ALT2: ${{ (inputs.account || vars.ACTIVE_ACCOUNT || 'MUTENO') == 'MUTENO' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_MUTENO }}   # 서브2 폴오버(체인 3번째)
+          CLAUDE_CODE_OAUTH_TOKEN_ALT3: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130M }}   # 서브3 폴오버(체인 실꼬리 = 항상 EMS1130M · 앞 3계정 소진 후)
+        run: |
+          unset ANTHROPIC_API_KEY ANTHROPIC_AUTH_TOKEN   # 구독 OAuth만 사용(api-key 충돌 차단 · 판정·자동픽 스텝과 동일)
+          python3 -m pip install --quiet --break-system-packages pywebpush || { echo "::warning::pywebpush 설치 실패 — 발송 생략"; exit 0; }
+          if [ "${{ github.event.inputs.test_push }}" = "true" ]; then
+            python3 .github/scripts/push_send.py --test
+          elif [ "${{ github.event.inputs.preview }}" = "true" ]; then
+            python3 .github/scripts/push_send.py --notify "News" "(긴급) 이런 식으로 긴급 속보가 옵니다 — 미리보기"
+          else
+            python3 .github/scripts/push_send.py
+          fi
+
+      - name: Commit (push 원장·구독 정리)
+        if: steps.chk.outputs.pending != '0' || github.event.inputs.test_push == 'true' || github.event.inputs.preview == 'true'
+        run: |
+          if [ -z "$(git status --porcelain push/)" ]; then echo "push 변동 없음 — 커밋 생략"; exit 0; fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          # 착지 = git_land 위임(260816 계약) · 선행 커밋 없음(260817 계약) · 접두 OFF = 발송 원장은 즉시축.
+          PAGES_COALESCE=0 bash .github/scripts/git_land.sh "push: 발송 원장·구독 정리" push 2>/dev/null || true
+          git fetch -q origin main 2>/dev/null || true
+          pushed=0; git merge-base --is-ancestor HEAD origin/main 2>/dev/null && pushed=1
+          # 원장이 안 올라가면 같은 사건이 다음 런에 또 발송된다(dedup 원장 = push/sent.json) → red 로 세운다.
+          [ "${pushed:-0}" = 1 ] || { echo "::error::push 원장 착지 실패 — 같은 사건 재발송 위험(다음 런 확인 필요)"; exit 1; }
+
+      # ── 긴급 grade≥2 자동 픽 → pending 적재 + news-analyze 발동(자동 요약·카드). 운영자 260622(문턱 grade≥2 정합 = 260728). ──
+      # ⚠️ 자동 과금 경로 — 픽 1건 = Opus 분석 1콜(구독) + Gemini 썸네일 2장($). 보수적 다중 가드는
+      #    scraper/auto_pick_breaking.py 안(grade≥2[=뷰어 🚨긴급 배지 isBreaking 과 단일 문턱·260728]·cross≥2·<4h[first_seen 기준]·사건당1회 다중키 영구dedup·런2/일8 상한 · PICK_URL=c.url 로 수동픽과 dedup 정합).
+      - name: 긴급 grade≥2 자동 픽
+        if: steps.chk.outputs.pending != '0'
+        id: autopick
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets[format('CLAUDE_CODE_OAUTH_TOKEN_{0}', inputs.account || vars.ACTIVE_ACCOUNT || 'MUTENO')] }}
+          CLAUDE_CODE_OAUTH_TOKEN_ALT: ${{ (inputs.account || vars.ACTIVE_ACCOUNT || 'MUTENO') == 'NOMUTEFB' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_NOMUTEFB }}   # 서브1 폴오버(활성 다음 우선순위 · 체인 MUTENO→NOMUTEFB→EMS1130G→EMS1130M)
+          CLAUDE_CODE_OAUTH_TOKEN_ALT2: ${{ (inputs.account || vars.ACTIVE_ACCOUNT || 'MUTENO') == 'MUTENO' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_MUTENO }}   # 서브2 폴오버(체인 3번째)
+          CLAUDE_CODE_OAUTH_TOKEN_ALT3: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130M }}   # 서브3 폴오버(체인 실꼬리 = 항상 EMS1130M · 앞 3계정 소진 후)
+        run: |
+          set -o pipefail   # 기본 셸은 -e만(pipefail OFF) → 아래 tee 파이프가 스크립트 크래시를 green으로 삼키던 것 차단(평의회3 · 런로그 실측)
+          unset ANTHROPIC_API_KEY ANTHROPIC_AUTH_TOKEN   # 구독 OAuth만 사용(api-key 충돌 차단 · 판정 스텝과 동일)
+          python3 -m pip install --quiet --break-system-packages feedparser requests || { echo "::warning::deps 설치 실패 — 자동픽 생략"; echo "picked=0" >> "$GITHUB_OUTPUT"; exit 0; }   # 24.04 PEP-668 = --break-system-packages 필수(push 스텝과 동일 · 없으면 자동픽 무성과 green)
+          python3 scraper/auto_pick_breaking.py | tee /tmp/autopick.out
+          echo "picked=$(sed -n 's/^PICKED=//p' /tmp/autopick.out | tail -1)" >> "$GITHUB_OUTPUT"
+
+      - name: 자동픽 커밋 & 분석 발동
+        if: steps.chk.outputs.pending != '0'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # ⚠️ metrics 동반 필수(260702 유실 근인): 자동픽의 AI 중복판정(run_claude source=autopick)이 이 런의
+          #    metrics/usage shard에 계측 1줄을 append → 착지 목록에 metrics가 없으면 그 줄이 다음 회차까지 뜬다.
+          if [ -z "$(git status --porcelain pending scraper/seen_urls.txt push/autopick.json push/autopick_events.json metrics)" ]; then
+            echo "자동픽 변동 없음 — 커밋 생략"; exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          # 착지 = git_land 위임(260816) · 선행 커밋 없음(260817) — 'pending'은 pick_pending._clear_stale_failed의
+          #   pending/failed/* 삭제까지 포함해야 한다(제2 오염원 — 목록서 빼면 재발 · 평의회1).
+          PAGES_COALESCE=0 bash .github/scripts/git_land.sh "auto-pick: 긴급 grade≥2 자동 분석 (픽 ${{ steps.autopick.outputs.picked }}건)" pending scraper/seen_urls.txt push/autopick.json push/autopick_events.json metrics 2>/dev/null || true
+          git fetch -q origin main 2>/dev/null || true
+          pushed=0; git merge-base --is-ancestor HEAD origin/main 2>/dev/null && pushed=1
           # ⚠️ pending·seen·ledger = 한 커밋(원자) → push 실패면 셋 다 main 미반영 = 분석 발동해도 news-analyze가 pending 못 봄(무과금)
           #    + 다음 런 재평가(self-heal·로컬 커밋은 runner 종료 시 폐기). ∴ push 성공했을 때만 발동(무의미 no-op 디스패치 회피).
-          #    실패는 red 표면화(exit 1 · judge Commit 스텝과 동일) — 옛 warning+green이 260625~0702 유실을 가렸음.
+          #    실패는 red 표면화 — 옛 warning+green이 260625~0702 유실을 가렸음.
           if [ "$pushed" != 1 ]; then echo "::error::자동픽 커밋 push 실패 — 분석 미발동(pending 미반영·다음 런 재평가)"; exit 1; fi
           # 실제 픽이 있을 때만 분석 발동(GITHUB_TOKEN push 는 재귀방지로 news-analyze 못 깨움 → 명시 디스패치 · pick.yml 패턴)
           if [ "${{ steps.autopick.outputs.picked }}" != "0" ] && [ -n "${{ steps.autopick.outputs.picked }}" ]; then
