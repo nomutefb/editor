@@ -2927,7 +2927,9 @@ def check_result_rail_parity():
 
     판정 = 정적(렌더·LLM·네트워크 0) · 표면 **자동 발견**(결과 레일 시그니처 보유 뷰어 = 새 탭이 조용히 못 빠진다) ·
     **면책표 없이 하드 0**(현행 위반 0). 4부품 = ① nm-hist.css 링크(타일 정본) ② nm-job.css 링크(요약 줄 정본)
-    ③ `class="jobs"` 요약 줄 컨테이너 ④ `class="hist-grid"` 타일 그리드.
+    ③ `class="jobs"` 요약 줄 컨테이너 ④ 열람 블록 = `hist-grid` 타일 그리드 ∨ `carwrap` 미리보기 캐러셀
+    (260817 개정 — 운영자 «순서 = 옵션 → 작업 현황 박스 → 미리보기 폭맞춤 → 이전 제작»로 카드 제작의 결과 타일층을 회수,
+     결과 열람은 미리보기 캐러셀이 전담·타일 열람은 이전 제작 #histGrid 몫 · 번역·AI 생성 타일형은 종전 그대로).
     """
     import glob as _g, os as _os, re as _re
     rc = 0
@@ -2960,14 +2962,18 @@ def check_result_rail_parity():
             m = _re.search(r'<button[^>]*id="geniResH"[^>]*>', t)
             if m: head = m.end()
         if head is None: return None   # 결과 헤더 없음 = 이 표면은 정적 세트가 아니다
-        g = _re.search(r'<div[^>]*class="hist-grid"', t[head:])
-        if not g: return '결과 본문에 타일 그리드 .hist-grid 없음'
+        # 결과 본문 = 요약 줄(.jobs) + **열람 블록**이 한 세트 — 열람 블록 = 타일 그리드(.hist-grid · 번역·AI 생성) ∨ 미리보기 캐러셀(.carwrap ·
+        # 카드 제작 = 260817 운영자 «순서 = 옵션 → 작업 현황 박스 → 미리보기 폭맞춤 → 이전 제작»로 결과 타일층(#carGrid) 회수 · 이전 제작 #histGrid가 타일 열람 전담).
+        g = _re.search(r'<div[^>]*class="(?:[^"]*\bhist-grid\b[^"]*|[^"]*\bcarwrap\b[^"]*)"', t[head:])
+        if not g: return '결과 본문에 열람 블록(.hist-grid 타일 ∨ .carwrap 미리보기) 없음'
         gpos = head + g.start()
         js = list(_re.finditer(r'<div[^>]*class="jobs"', t[head:gpos]))
-        if not js: return '타일 위에 요약 줄 컨테이너 .jobs 없음(결과 = 줄+타일 한 세트)'
+        if not js: return '열람 블록 위에 요약 줄 컨테이너 .jobs 없음(결과 = 줄+열람 한 세트)'
         between = t[head + js[-1].end():gpos]
-        if _re.search(r'<(?!/)[a-zA-Z]', _re.sub(r'<div[^>]*class="hist-empty"[^>]*>.*?</div>', '', between, flags=_re.S)):
-            return '요약 줄과 타일 사이에 다른 블록이 끼어 세트가 갈라짐'
+        between = _re.sub(r'<div[^>]*class="hist-empty"[^>]*>.*?</div>', '', between, flags=_re.S)
+        between = _re.sub(r'<div[^>]*class="wips"[^>]*>\s*</div>', '', between, flags=_re.S)   # 진행중 자리 스택(빈 컨테이너) = 결과가 나올 자리 선점(Q469) — 세트 사이 정당 거주자
+        if _re.search(r'<(?!/)[a-zA-Z]', between):
+            return '요약 줄과 열람 블록 사이에 다른 블록이 끼어 세트가 갈라짐'
         return ''
     surfaces, bad = [], []
     for f in sorted(_g.glob(_os.path.join(ROOT, 'viewer', '*.html'))):

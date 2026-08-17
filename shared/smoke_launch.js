@@ -99,6 +99,11 @@ const SCENARIOS = [
     ok: o => o.caps[0] && /^릴스 /.test(o.caps[0].label) && batch0(o).length === 2 },
   { n: 'L13 헤더(릴스)+저작권(포스트) 혼합 = 배치 접두 없음(내용만)★', setup: H + CP + CP,  // 헤더 릴스 + 저작권 포스트 = 혼합
     ok: o => o.caps[0] && !/^(릴스|포스트) /.test(o.caps[0].label) && /헤더/.test(o.caps[0].label) && batch0(o).length === 2 },
+  // ── 260817 봉합 상비 2종 ──
+  { n: 'L14 강조 별표 안 공백(합성* 테스트*) = 강조 인정·발사 통과', setup: "(function(){var c=document.querySelector('#cLines');c.value='자막 합성* 테스트*';c.dispatchEvent(new Event('input',{bubbles:true}));})();",
+    ok: o => { const it = batch0(o); return it.length === 1 && it[0].tag === '자막' && !/강조/.test(o.err || ''); } },   // 구판 = 여는 별 뒤 공백이면 두 별 다 오타('s') → 전송 시 삭제 → '강조 확인' 차단(운영자 260817 «*텍스트* 처럼 강조가 안 먹고 강조를 해달라고 뜨거든»)
+  { n: 'L15 첨부 직후 즉시 생성 = 그림 동봉(적재 경합 대기)★', setup: "(function(){var c=document.querySelector('#cLines');c.value='본문 *강조*';c.dispatchEvent(new Event('input',{bubbles:true}));var f=new File([new Uint8Array(120000)],'p.png',{type:'image/png'});document.querySelector('#cImgSlot')._read(f);document.getElementById('go').click();})();",   // _read(비동기 적재) 직후 같은 태스크에서 생성 클릭 = 파일 읽기가 끝나기 전 발사(260817 실사고 = 같은 설정 2연발 중 1발째 그림 미동봉 → 글자판 단독 산출)
+    ok: o => { const it = batch0(o); return it.length === 1 && it[0].hasImg === true; } },   // 봉합 = imgPendWait(발사 전 적재 완료 대기) — 구판이면 hasImg false
 ];
 
 async function runScenario(browser, url, setup, pageErrs) {
