@@ -70,6 +70,7 @@ jobs:
         # fail-open(|| echo) — rc≠0 이 아래 원장 커밋 스텝을 죽여 방금 찍은 도장이 증발하는 사고 차단.
         env:
           BURIED_ALERT: ${{ vars.BURIED_ALERT }}
+          BURIED_GROUPED_ONLY: ${{ vars.BURIED_GROUPED_ONLY || '1' }}   # 260818 발화 축 = 같은 사건 묶음 확정 건만(0 = 종전 비문화 전건 · 운영자 「문제가 아닌게 알림 띄우는게 이상함」)
         run: python3 scraper/daily_health.py --buried-alert || echo "::warning::묻힘 감시 스킵"
 
       - name: 쿨다운 원장 커밋(변동 시만)
