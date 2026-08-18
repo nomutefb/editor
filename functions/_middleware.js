@@ -31,6 +31,7 @@ async function putLive(env, kind, j, ctx) {
       out: typeof j.out === 'string' ? j.out.slice(0, 200) : '',
       outs: Array.isArray(j.outs) ? j.outs.slice(0, 12) : undefined,   // thumb 폴 재개 최소 상태(restorePending가 outs 없으면 안 선다)
       mode: typeof j.mode === 'string' ? j.mode.slice(0, 24) : undefined,   // song/voice/vidl = 같은 슬롯에 모드가 갈린다
+      lbl: (typeof j.lbl === 'string' && j.lbl) ? j.lbl.slice(0, 80) : undefined,   // 발사 이름표(발사 API가 응답에 에코한 것만) — 다른 기기 합류분이 종류 이름('카드 제작') 대신 실제 이름('릴스 OPA60')을 단다(260818 운영자 «그 기기의 내용이 쓰여졌으면»)
     };
     const p = env.R2.put(LIVE_PFX + kind + '-' + id.replace(/\//g, '_') + '.json', JSON.stringify(rec));
     if (ctx && typeof ctx.waitUntil === 'function') ctx.waitUntil(p); else await p;

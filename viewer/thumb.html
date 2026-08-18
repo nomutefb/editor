@@ -5820,7 +5820,7 @@ function restorePending() {
        (260816 실측으로 잡은 결함 = 슬롯이 즉시 비고 폴도 안 도는 상태였다).
        발사 경로가 `done: []` 로 시작해도 무사한 건 그때는 outs 도 비어 있고 서버 응답 뒤에야 폴이 도는 순서라서다 —
        복원은 outs 를 이미 손에 쥐고 시작하므로 그 전제가 깨진다. */
-    const job = { n: p.n, label: p.label || '제작', t0: p.t0 || Date.now(), outs: p.outs, done: new Array(p.outs.length).fill(false), status: 'run', msg: '', endpoint: p.endpoint, payload: p.payload, src: p.src, thid: p.id, _resumed: true };
+    const job = { n: p.n, label: p.label || p.lbl || '제작', t0: p.t0 || Date.now(), outs: p.outs, done: new Array(p.outs.length).fill(false), status: 'run', msg: '', endpoint: p.endpoint, payload: p.payload, src: p.src, thid: p.id, _resumed: true };   /* p.lbl = 기기 간 합류분(nm-jobs sync 슬롯 문법) 이름표 — 구판은 p.label만 읽어 필드가 어긋난 채 '제작' 폴백으로 떨어졌다(260818 «애초에 제작이 안뜨게» — 발사 기기의 실제 이름[원장 lbl] > 종류 이름[LBL_OF] > '제작' 순) */
     JOBS.unshift(job); renderJob(job); pollJob(job);
   });
 }
