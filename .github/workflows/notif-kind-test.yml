@@ -2,9 +2,9 @@ name: notif-kind-test
 
 # 수동 전용 — 알림 **종류별 로고**를 한 번에 발송해 폰에서 눈으로 판정한다
 #   (운영자 260727 "알림 종류별로 카테고라이징해서 로고를 다르게" → "그럼 종류별로 알림띄워봐 검증해줄게").
-#   tag를 종류마다 다르게 줘서 5건이 **안 덮이고 쌓인다** = 알림판 한 화면에서 로고 비교 가능.
+#   tag를 종류마다 다르게 줘서 6건이 **안 덮이고 쌓인다** = 알림판 한 화면에서 로고 비교 가능.
 #
-#   ⚠️ 실발송 = 구독자 폰에 알림 5건. 자동 경로 부착 금지(수동 dispatch 전용 · push-test.yml 성격 계승).
+#   ⚠️ 실발송 = 구독자 폰에 알림 6건. 자동 경로 부착 금지(수동 dispatch 전용 · push-test.yml 성격 계승).
 #
 #   icon 직접 지정(--icon)을 쓰는 이유 = **구 서비스워커 호환**. 폰에 깔린 SW가 갱신되기 전에도
 #   페이로드 icon이 최우선으로 먹으므로(sw.js `d.icon ||`) 배포 대기 없이 오늘 바로 판정할 수 있다.
@@ -32,7 +32,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
 
-      - name: 종류별 알림 5건 발송(아이콘 data URL 적재)
+      - name: 종류별 알림 6건 발송(아이콘 data URL 적재)
         env:
           VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
           VAPID_SUBJECT: ${{ secrets.VAPID_SUBJECT }}
@@ -53,7 +53,8 @@ jobs:
           }
           send brk   "긴급 속보"   "① 긴급 속보는 이 로고 — 빨강(--danger)"       "/"
           send make  "제작 완료"   "② 제작 완료는 이 로고 — 터쿼이즈(--accent · 영상·이미지·노래·보이스·변환·트래킹 공통)" "/thumb.html"
-          send sys   "시스템 경보" "③ 수집 실패·연결 끊김은 이 로고 — 골드(--warn)" "/"
+          send sys   "시스템 경보" "③ 파이프라인·라이브 검문·수집 실패는 이 로고 — 무채(--mut · 260818 노랑에서 이동)" "/"
           send trend "트렌드"      "④ 키워드 급상승은 이 로고 — 초록(--info)"      "/#trend"
-          send kw    "키워드 발견" "⑤ 키워드 알림은 이 로고 — 보라(--cat-tech · 구 무채 test 슬롯 대체 260818)" "/"
-          echo "발송 시도 5건 완료 · 테마판=${T}$([ "$KIND_ONLY" = "true" ] && echo ' · kind만(icon 생략)')"
+          send iss   "이슈"        "⑤ 이슈(긴급은 아닌데 매체가 몰린 건)는 이 로고 — 노랑(--warn · 화면 ⚡이슈 배지와 같은 색)" "/"
+          send kw    "키워드 발견" "⑥ 키워드 알림은 이 로고 — 보라(--cat-tech · 구 무채 test 슬롯 대체 260818)" "/"
+          echo "발송 시도 6건 완료 · 테마판=${T}$([ "$KIND_ONLY" = "true" ] && echo ' · kind만(icon 생략)')"
