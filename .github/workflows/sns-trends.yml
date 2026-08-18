@@ -130,7 +130,7 @@ jobs:
 
       # ── 키워드 알림 웹푸시(운영자 260727 "키워드 알림 발견 시 웹 알림 오게해줘") — 뷰어 인앱 토스트는 앱을 켜야만 떠서
       #    "놓치지 않게"라는 목적과 어긋났다. 수집 직후(원문이 가장 신선한 시점) 같은 매칭을 서버에서 돌려 웹푸시로 민다.
-      #    발송 = push_send.py --notify 재사용(구독자·VAPID·죽은구독 정리 = 그쪽 계약) · dedup = push/kw_sent.json.
+      #    발송 = push_send.py --notify 재사용(구독자·VAPID·죽은구독 정리 = 그쪽 계약) · dedup = push/kw_sent.json push/trend_sent.json.
       #    settings/app.json은 읽기만(그 파일은 Pages Function이 GitHub API로 쓰는 계정 SSOT = 러너가 쓰면 병합 레이스).
       - name: 키워드 알림 웹푸시(발견 = 첫 1회 + 24h/3h · fail-soft)
         continue-on-error: true
@@ -141,6 +141,18 @@ jobs:
           python3 -c "import pywebpush" 2>/dev/null || pip install --quiet --disable-pip-version-check pywebpush || true
           timeout 300 python3 .github/scripts/kw_watch.py || true
 
+      # ── 급상승(핫 키워드) 웹푸시(운영자 260818 «급상승 = 구글 검색 1.5만회 이상») — 키워드 알림과 **별개 축**
+      #    (그쪽 = 내가 등록한 말 / 이쪽 = 등록한 적 없는데 갑자기 뜨는 말). 같은 수집 직후에 돌린다(원문이 가장 신선).
+      #    발송 = push_send.py --notify 재사용 · dedup = push/trend_sent.json · 첫 회차는 도장만(소급 폭탄 차단).
+      - name: 급상승 알림 웹푸시(구글 검색 1.5만회 이상 · fail-soft)
+        continue-on-error: true
+        env:
+          VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
+          VAPID_SUBJECT: ${{ secrets.VAPID_SUBJECT }}
+        run: |
+          python3 -c "import pywebpush" 2>/dev/null || pip install --quiet --disable-pip-version-check pywebpush || true
+          timeout 300 python3 .github/scripts/trend_watch.py || true
+
       # ── 수집분 즉시 커밋(1차) — 뒤 LLM 브리프/번역 스텝이 job timeout으로 죽어도 수집 데이터(TOP 10·트렌드)는 이미 라이브 확보(운영자 260714 "데이터 잘 받아오게 설계" · 근본원인 = 맨끝 단일 Commit이라 중간 LLM 단계 timeout 시 수집분 동반 유실 · 실측 12:04~13:45 = 세 run 연쇄 cancelled 102분 갭). sns_trends.json은 push paths(sns_subs_phone.json) 미감시 = 재트리거 0. 브리프/번역 갱신분은 맨끝 Commit이 2차로 마저 커밋(입력 동일 스킵 캐스케이드로 무변동 시 생략).
       - name: Commit 수집분(1차 · 유실 방지)
         # git_land = 최신 main 재기점 재적층(insta·fb·lucy 4워크플로 공용 정본 · 260716 브리프 3일 정지 사고 처방).
@@ -150,7 +162,7 @@ jobs:
         # git_land가 이기는 이유 = 리베이스를 아예 안 쓴다: {잔여 rebase/merge abort 청소 · fetch · reset --hard origin/main 재기점 · 산출물 스냅샷 재적층 · 6회} = 워킹트리 상태가 착지를 막을 경로 자체가 없다. 결측 인자도 자연 탈락(①과 동일 효과).
         # ⚠ 전제 = 인자 경로의 유일 기록자여야 한다(재적층이 남의 동시 변경을 덮을 수 있음). sns_trends/tbs/kw_sent/sns_brief = 이 워크플로 단독 소유(social-scan은 social_candidates.json만 커밋) = 충족. 롤백 = 이 두 스텝을 cbf24be 관용구로 원복.
         run: |
-          bash .github/scripts/git_land.sh "sns-trends: 수집 갱신" viewer/sns_trends.json viewer/tbs_data.json push/kw_sent.json "metrics/usage/${GITHUB_RUN_ID}-${GITHUB_JOB}-${GITHUB_RUN_ATTEMPT}.jsonl"
+          bash .github/scripts/git_land.sh "sns-trends: 수집 갱신" viewer/sns_trends.json viewer/tbs_data.json push/kw_sent.json push/trend_sent.json "metrics/usage/${GITHUB_RUN_ID}-${GITHUB_JOB}-${GITHUB_RUN_ATTEMPT}.jsonl"
 
       - name: Install Claude Code CLI (브리프 스텝용 — LLM 0콜 수집 레인이라 브리프 게이트와 동기)
         if: ${{ (inputs.brief || '1') == '1' || (inputs.bsky_tr || '0') == '1' || (inputs.gt_img || '1') == '1' || (inputs.sns_sum || '1') == '1' }}   # 기본 ON 승격(§📰-e 이행 — 카나리아 run 2차 실측 260712: rc=0·브리프 626자 생성·sns_brief.json 커밋 09:44 KST · 1차 rc=127 = CLI 부재 → 이 스텝 신설로 봉합) · 롤백 = || '0' · 블루스카이 번역(bsky_tr)·트렌드 이미지(gt_img)·X/스레드 요약(sns_sum · 260726)도 CLI 필요(운영자 260713·260718 · gt_img 상시 ON 승격 = || '1')
@@ -209,4 +221,4 @@ jobs:
         # 1차와 동일 git_land(브리프·번역·이미지 갱신분까지 착지). 인자에 tbs_data·kw_sent 동반 = 1차가 경쟁에 져도 2차가 마저 줍는다(결측은 자연 탈락).
         # 착지 실패 시 rc는 여전히 0 + ::warning만 = 종전 "다음 주기 재수집" 계약 그대로(후속 스텝·잡 비차단).
         run: |
-          bash .github/scripts/git_land.sh "sns-trends: 유튜브·트렌드 갱신" viewer/sns_trends.json viewer/sns_brief.json viewer/tbs_data.json push/kw_sent.json "metrics/usage/${GITHUB_RUN_ID}-${GITHUB_JOB}-${GITHUB_RUN_ATTEMPT}.jsonl"
+          bash .github/scripts/git_land.sh "sns-trends: 유튜브·트렌드 갱신" viewer/sns_trends.json viewer/sns_brief.json viewer/tbs_data.json push/kw_sent.json push/trend_sent.json "metrics/usage/${GITHUB_RUN_ID}-${GITHUB_JOB}-${GITHUB_RUN_ATTEMPT}.jsonl"

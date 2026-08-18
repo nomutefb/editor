@@ -33,8 +33,24 @@ MAX_AI_DEDUP = int(os.environ.get("PUSH_MAX_AI", "8"))   # 런당 AI 사건중�
 ISS_PUSH = (os.environ.get("ISS_PUSH", "1").strip() != "0")   # 킬스위치 — 0이면 이슈 푸시만 끈다(긴급 무접촉)
 ISS_CROSS_MIN = int(os.environ.get("ISS_PUSH_CROSS", "10"))   # 매체 하한 = 화면 배지 정본 ISS_CROSS_MIN 사본(값 창작 0)
 ISS_G3_CROSS = 8                                              # grade3(대형)만 옛 임계 8 유지 = 정본 동일
+# ⚠️ **푸시 문턱은 배지 자격보다 높다**(운영자 260818 «이슈 매체 20을 알림 조건으로 · 이슈중에 15 && 6시간 이내»)
+#    — 화면 ⚡배지는 매체 10부터 붙지만(그건 눈으로 훑는 목록이라 넓어도 된다) **폰을 울리는 건 더 좁혀야 한다**.
+#    두 갈래 OR = ⓐ 매체 20↑ = 이미 확실히 큰 건(시간 무관) ⓑ 매체 15↑ ∧ 6시간 이내 = 아직 크진 않은데
+#    **지금 붙고 있는 중** = 흐름을 뺏기기 전에 알아야 하는 자리(운영자 «많이 늦으면 흐름을 뺏긴다»).
+#    ⚠ 배지 자격(매체 10) 자체는 무접촉 = 화면은 종전대로 넓게 본다(푸시만 좁힌 것 = 두 축이 다른 게 의도).
+ISS_PUSH_CROSS_HI = int(os.environ.get("ISS_PUSH_CROSS_HI", "20"))    # ⓐ 시간 무관 발사선
+ISS_PUSH_CROSS_FAST = int(os.environ.get("ISS_PUSH_CROSS_FAST", "15"))  # ⓑ 신선 발사선(아래 창과 짝)
+ISS_PUSH_FAST_H = float(os.environ.get("ISS_PUSH_FAST_H", "6"))       # ⓑ 그 신선 창(6시간)
 ISS_MAX_H = float(os.environ.get("ISS_PUSH_MAX_H", "24"))     # 나이 창 = 배지 소멸선 24h 사본(그 뒤는 배지도 안 붙는다)
 ISS_DAY_CAP = int(os.environ.get("ISS_PUSH_DAY_CAP", "40"))   # 하루 상한(폭주 가드 · 260818 실측 = 24h창 사건 단위 근사 41건)
+
+
+def iss_push_ok(c, a):
+    """이 이슈를 **폰으로 울릴지** — 배지 자격(is_issue)을 이미 통과한 건에만 묻는다. a = 나이(시간)."""
+    cr = c.get("cross") or 0
+    if cr >= ISS_PUSH_CROSS_HI:
+        return True                                        # ⓐ 확실히 큰 건 = 시간 무관
+    return cr >= ISS_PUSH_CROSS_FAST and a is not None and a < ISS_PUSH_FAST_H   # ⓑ 붙는 중 = 신선할 때만
 # 정형잡음 컷 3종 = build-viewer.mjs BJ_* 바이트 이식(시황 정례·연성 머리표·기업 PR — 매체만 많고 사건이 아닌 것)
 _BJ_CRASH = re.compile(r"(폭락|급락|폭등|급등|서킷브레이커|사이드카|붕괴|패닉|쇼크)")
 _BJ_MKT = re.compile(r"(증시|코스피|코스닥|환율|유가(?!족)|나스닥|다우|뉴욕증시).{0,20}(출발|개장|마감|장중)")
@@ -364,6 +380,8 @@ def main():
                     continue
                 a = age_h(c)
                 if a is None or a < 0 or a >= ISS_MAX_H:   # 미래스탬프·배지 소멸선 밖 = 제외(긴급 축과 같은 가드)
+                    continue
+                if not iss_push_ok(c, a):                  # 배지는 붙어도 폰까지 울릴 급인지는 별도 문턱(운영자 260818)
                     continue
                 base = dedup_keys(c)
                 if not base:

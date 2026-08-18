@@ -567,7 +567,7 @@ def main():
     url = next(("/?msg=%s" % slot for key, slot in _DEEP if alerts.get(key)), "/")
     try:
         out = subprocess.run([sys.executable, os.path.join(ROOT, ".github", "scripts", "push_send.py"),
-                              "--notify", "🩺 파이프라인 이상", body, "--tag", "nomute-watchdog", "--url", url],
+                              "--notify", "🩺 파이프라인 이상", body, "--tag", "nomute-watchdog", "--url", url, "--kind", "sys"],
                              capture_output=True, text=True, timeout=180)
     except subprocess.TimeoutExpired:   # fable검5 R5 — 타임아웃 트레이스백으로 잡 red 방지(도장 미기록 = 안전측)
         print("::warning::watchdog 알림 발송 타임아웃(180s) — 도장 안 찍음(다음 런 재시도)")
