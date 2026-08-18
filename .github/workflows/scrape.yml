@@ -186,6 +186,51 @@ jobs:
             echo "미판정 후보 없음 — 디스패치 생략"
           fi
 
+      # ── SNS 트렌드 정체 자동 재발사 (260818 · GitHub cron 누락 백스톱) ────────
+      # 실측 260818 = 예약(cron) 전용 두 레인(sns-trends·watchdog)이 23:50Z→03:11Z **3시간 21분 같은 구멍**으로
+      #   통째 미발화(그 창 실행 0건 · 실패도 0건 = 예약 자체가 안 불림 = GitHub 스케줄러 축)라 sns_trends 196분
+      #   정체 → wd-sns 경보. 반면 이 scrape 는 외부 15분 메트로놈(workflow_dispatch)이 깨워 같은 창에서 한 번도
+      #   안 빠졌다(00:00Z~03:45Z 전건 15분 정각) = cron 누락과 무관한 유일한 상시 자리 → 백스톱이 여기 산다.
+      #   메트로놈까지 죽으면 이 백스톱도 같이 죽지만 그땐 수집 자체가 멈춰 wd-collect 가 따로 운다 = 감시 공백 아님.
+      # 판정 = watchdog 정본 재사용(경로 SNS·임계 SNS_MIN·나이 산식 _age_min = 사본 0 · 임계 이원화 차단).
+      # 쿨다운 40분 = 직전 발사분(런 ~9분)·연속 틱 중복 발사 차단 — 정체가 지속돼도 시간당 최대 ~1.5발.
+      # fail-soft = 이 백스톱의 어떤 실패도 수집 레인을 못 죽인다(경고만 · exit 0). 킬스위치 = repo variable SNS_AUTOFIRE=0(부재=ON).
+      - name: SNS 트렌드 정체 자동 재발사
+        if: ${{ vars.SNS_AUTOFIRE != '0' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'PY' > /tmp/sns_stale.flag || echo 0 > /tmp/sns_stale.flag
+          import json
+          import sys
+          sys.path.insert(0, "scraper")
+          try:
+              from watchdog import SNS, SNS_MIN, _age_min
+              a = _age_min(json.load(open(SNS, encoding="utf-8")).get("updated"))
+              print("1" if (a is None or a > SNS_MIN) else "0")
+          except Exception as e:
+              print("0")
+              print(f"::warning::SNS 정체 판정 실패(재발사 생략): {e}", file=sys.stderr)
+          PY
+          stale=$(cat /tmp/sns_stale.flag)
+          recent=0
+          ts=$(gh run list --workflow sns-trends.yml --limit 1 --json createdAt --jq '.[0].createdAt' 2>/dev/null || echo "")
+          if [ -n "$ts" ]; then
+            now_s=$(date -u +%s); then_s=$(date -u -d "$ts" +%s 2>/dev/null || echo 0)
+            [ $(( now_s - then_s )) -lt 2400 ] && recent=1
+          fi
+          if [ "$stale" = "1" ] && [ "$recent" = "0" ]; then
+            echo "SNS 트렌드 정체(임계 초과) — sns-trends 자동 재발사(cron 누락 백스톱)"
+            ok=0
+            for i in 1 2 3; do                     # pending-sweep/pick.yml 3회 관용구 계승(단발 silent-fail 방지)
+              gh workflow run sns-trends.yml && { ok=1; break; }
+              sleep $((i * 3))
+            done
+            [ "$ok" = 1 ] || echo "::warning::sns-trends 자동 재발사 3회 실패(다음 15분 틱 재시도)"
+          else
+            echo "SNS 트렌드 재발사 불요(stale=${stale} · recent40m=${recent})"
+          fi
+
       # ── 자동분석 (analyze=true 한정 — 유료) ──────────────────────────────
       - name: Emit to pending/ (중복 스킵)
         if: ${{ (inputs.analyze || 'false') == 'true' }}
