@@ -5,14 +5,14 @@
    구 thumb.html 인라인 블록을 **원문 그대로** 옮김(값 신설 0 · 셀렉터 불변) — thumb·index 공동 링크.
    ⚠ 인라인 사본 금지(nm-cards.css·nm-hist.css 동축 — 사본 드리프트 = 260802 실측 사고축).
    의존: 색 계약(.jvar-dl.dlbtn·.job.done .jst·.jsave-row .imgedit) = nm-cards.css 몫 ·
-        --accent-5/--bias-l2(템플릿 접두 색)·--arm/--danger/--line = 각 문서 :root. */
+        --accent-5/--accent-7(템플릿 접두 색 · 진짜예요 = 레몬라임 260818)·--arm/--danger/--line = 각 문서 :root. */
   /* 대기열/로그 — 제작 건별 행(동시 처리) */
   .jobs { display:flex; flex-direction:column; gap:6px; margin:10px 0 0; }
   .jobs[hidden] { display:none; }   /* hidden 가드 = nm-hist.css `.hist-grid[hidden]`과 한 축(display:flex가 UA hidden을 이기는 같은 함정 · 운영자 260806 평의회7) */
   .job { display:flex; flex-wrap:wrap; align-items:center; gap:8px; font-size:12px; padding:8px 11px; border-radius:var(--r-s); background:rgba(8,15,11,.34); border:1px solid var(--line); }   /* flex-wrap = 다중 변형(.jvars)이 아래 줄 전체폭으로 떨어짐 */
   .job .jlab { font-weight:800; color:var(--accent); }
   .job .jlab .tplnm { color:var(--accent-5); }   /* 템플릿 접두 #노뮤트 = 형광그린(운영자 260729 "#노뮤트는 강조색") — 색 = .csec .ovfmt.tplnm 토글 정본 토큰 그대로 계승(신규색 0) · 태그 거처 = 좌상단 복귀(운영자 260818 4차 «좌상단에 #노뮤트 그냥 붙이자» = 3차 .jdesc 동승 회수) */
-  .job .jlab .tpljj { color:var(--bias-l2); }    /* 템플릿 접두 #진짜예요 = 극진보(운영자 260729 "#진짜예요도 강조색") — .csec .ovfmt.tpljj 동일 축(위와 한 벌) */
+  .job .jlab .tpljj { color:var(--accent-7); }   /* 템플릿 접두 #진짜예요 = 레몬라임(운영자 260818 «더 형광에 가까운거 그거로 대표색» — .csec .ovfmt.tpljj 토글 정본과 한 벌 · 구 극진보 --bias-l2 회수) */
   .job .jlab .post { color:var(--bias-l1); }     /* 판형 #포스트 = 시안(운영자 260818 4차 «포스트, 릴스로 표기 다시 · 각각 고유색 따라서») — 색 = .csec .ovfmt.post 포맷 토글 정본 토큰 그대로 계승(신규색 0 · thumb :root 미러 동반 = --pan 통무효 실사고 축 방어) */
   .job .jlab .reels { color:var(--accent-4); }   /* 판형 #릴스 = 골드레몬(260723 전 웹앱 통일) — .csec .ovfmt.reels 동일 축(위와 한 벌) */
   .job .jlab .jno { color:rgba(255,255,255,.5); }   /* raw-ok: 번호 = 진한 회색(운영자 260818 5차 «#n 을 진한 회색을 좀 투명도를 준거로» · :root에 텍스트용 진회색 반투명 토큰 부재 실측 → 값 = thumb 739행 기존 반투명 텍스트 값 사본 = 창작 0 · 어두운 행 바탕 위 = 진한 회색) */

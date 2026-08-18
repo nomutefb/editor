@@ -20,7 +20,7 @@
           --amber:#FFE13D; --amber-rgb:255,225,61;
           --warn:#FFE13D; --warn-rgb:255,225,61; --arm:#FFE13D; --arm-rgb:255,225,61; --on-arm:#241C02;
           --accent-4:#FFE13D; --accent-4-rgb:255,225,61;   /* index --accent-4 값 미러(전체 다운로드 버튼 통이식 사본이 참조 · amber/warn/arm과 동일값 = 신규색 0 · 없으면 var() 무효→fg 상속 폴백 실측 260706) */
-          --accent-5:#0FFD02; --accent-5-rgb:15,253,2; --bias-l2:#3a6ddb; --bias-l1:#38C6FF;   /* index :root 값 미러(--accent-4 미러 선례 · 운영자 260726 템플릿 토글) — 노뮤트=형광그린(--accent-5 = index 구 메인색 이동분) · 진짜예요=극진보(--bias-l2) · 포스트=시안(--bias-l1 · 260818 4차 잡 행 판형 고유색 = nm-job.css .jlab .post가 무폴백 var()로 읽는다 — 미러 없으면 선언 통무효 = 결과 레일 --pan 실사고 축). 신규색 0(index SSOT 계승) */
+          --accent-5:#0FFD02; --accent-5-rgb:15,253,2; --bias-l2:#3a6ddb; --bias-l1:#38C6FF; --accent-7:#d8ff3d;   /* index :root 값 미러(--accent-4 미러 선례 · 운영자 260726 템플릿 토글) — 노뮤트=형광그린(--accent-5 = index 구 메인색 이동분) · 진짜예요=레몬라임(--accent-7 · 260818 대표색 교체 — --bias-l2 미러는 역사 잔존·무사용 무해) · 포스트=시안(--bias-l1 · 260818 4차 잡 행 판형 고유색 = nm-job.css .jlab .post가 무폴백 var()로 읽는다 — 미러 없으면 선언 통무효 = 결과 레일 --pan 실사고 축). 신규색 0(index SSOT 계승) */
           --accent-2:#FFE13D; --accent-2-rgb:255,225,61; --accent-6:#FF5EC8;   /* index :root 값 미러(--accent-4 미러 선례 · 260723 레몬→골드 통일 동조) — 입력칸 별표쌍 색순환용(1·4=골드레몬 --accent-2·--accent-4 동값[운영자 "일괄" · 인접 쌍 1↔2↔3 색 구분은 유지] · 2=터콰 --accent · 3=핑크 --accent-6) · 신규색 아님(index SSOT 계승) · -rgb = .wip 코너 글로우용 동반 미러(Q469 · amber-rgb 동값) */
           }   /* --press-* 사다리 = tokens.css 상속(인라인 이중정의 제거·감사 260704 · comp 기준 통일 · 값 동일 회귀0) */
   @media (prefers-reduced-motion:reduce){ :root{ --press-pico:1; --press-xs:1; --press-s:1; --press-m:1; --press-l:1; } }   /* 눌림 토큰 전역 무효화(index 통일·분신술10) */
@@ -336,7 +336,7 @@
   .csec .ovfmt.forced { opacity:.65; cursor:default; }   /* 헤더 입력 중 = 릴스 고정 */
   /* • 템플릿 토글 — 노뮤트=형광그린 / 진짜예요=극진보(운영자 260726). .ovfmt 문법 100% 계승(도형 없는 글자 토글 · 신설 셀렉터 0) · 색 = :root 미러 토큰 무폴백 var()(raw 재유입 0 · --accent-4 미러 선례) */
   .csec .ovfmt.tplnm { color:var(--accent-5); }   /* 노뮤트 = 형광그린(운영자 260726 "저게 형광 그린 저거임 · 라임이라고 잘못말했네") */
-  .csec .ovfmt.tpljj { color:var(--bias-l2); }    /* 진짜예요 = 극진보 */
+  .csec .ovfmt.tpljj { color:var(--accent-7); }    /* 진짜예요 = 레몬라임(운영자 260818 «골드레몬말고 팔레트에 레몬라임 · 더 형광에 가까운거 그거로 대표색» — 구 극진보 --bias-l2 재사용 회수) */
   /* 진짜예요 = 부제칸 잠금 표시 = 45° 빗금(운영자 260726 "이거 선택하면 저 부분에 그냥 빗금 쳐지면됨") — 레퍼런스 = index `.sc-fail.picking`(:1438) 저알파 빗금 문법 그대로(스탑 0 4px/4px 8px·알파 .078/.027 동값 · 신규 값 0). 긴 placeholder 안내문 대체 = 칸 안 글자 0 */
   #cSub.locked { background-image:repeating-linear-gradient(45deg,rgba(var(--accent-4-rgb),.078) 0 4px,rgba(var(--accent-4-rgb),.027) 4px 8px); cursor:not-allowed; }
   .csec .ovfmt.tpltog { margin-left:1px /* raw-ok: 광학 보정 1px — 운영자 260726 "블릿하고 헤더 사이 간격의 2배". 블릿→헤더 실측 5.8px의 2배 = 11.6px 목표 · gap 6 + .ovfmt padding-left 5(탭영역) = 11px이라 1px 더해 12px(Δ0.4px) */; }   /* 헤더 라벨 바로 오른쪽(우측정렬 폐기 — 운영자 "헤더 우측으로, 지금은 우측정렬임") */
