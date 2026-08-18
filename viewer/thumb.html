@@ -3716,6 +3716,15 @@ function jobCancel(job) {   // 취소 = 이 화면의 추적만 끊는다. ⚠ �
 }
 function jobDur(sec) { return sec < 60 ? sec + 's' : Math.floor(sec / 60) + 'm ' + (sec % 60) + 's'; }   // 경과 표기 = 60초부터 분·초(운영자 260728 "1m 30s 이렇게 표기") · 60 미만은 종전 그대로 '47s'
 function jobSecHTML(sec) { return '<b class="jsec">' + jobDur(sec) + '</b>'; }   // 진행 중 경과시간만 흰색(.jsec = var(--fg) · 운영자 260728)
+function jobMS(sec) { return Math.floor(sec / 60) + '분 ' + String(sec % 60).padStart(2, '0') + '초'; }   // 완료 경과 풀 표기 「0분 21초」(운영자 260818 7차 «완료(0분 00초) 이렇게» — 초 2자리 선채움 · 진행 중 축약 표기(jobDur)는 무접촉)
+function jobDay(t0) {   // 완료 날짜 축(운영자 260818 7차 «8/15가 오늘이면 오늘, 어제면 어제 그 이후는 모두 mm/dd» — 표본 표기 「8/15」 = 무선채움 월/일)
+  const d = new Date(t0), now = new Date();
+  const key = x => x.getFullYear() * 1e4 + (x.getMonth() + 1) * 100 + x.getDate();
+  if (key(d) === key(now)) return '오늘';
+  const y = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
+  if (key(d) === key(y)) return '어제';
+  return (d.getMonth() + 1) + '/' + d.getDate();
+}
 function renderJob(job) {   // 잡 로그 행 갱신(없으면 생성, 최신이 위)
   if (!job.uid) job.uid = ++JOBUID;   // 행 정체성 지연 발급 — 발사·복원·기기 간 재개 전 경로 공통(260818 4차: 표시 번호 n이 채널별이라 채널 간 중복 가능 → DOM id는 uid만)
   let row = document.getElementById('job-' + job.uid);
@@ -3736,11 +3745,11 @@ function renderJob(job) {   // 잡 로그 행 갱신(없으면 생성, 최신이
   //   완료·실패 행에 걸면 끝난 상태가 계속 반짝여 진행과 구분이 사라진다(.sc-got:not(.picking) shine 정지 계약과 같은 축).
   //   활자는 안 흔든다 = nm-job.css `.job .jst .nm-shim` 오버라이드(도료만 계승 · 그 줄 주석에 사유).
   if (job.status === 'err') { ic = WARN_SVG; tx = '실패' + (job.msg ? ' · ' + esc(String(job.msg).slice(0, 60)) : ''); }   // 실패 = '실패 · 사유'(운영자 260730 "실패 하고 사유 표기되게해줘" — 구 260622 계약은 사유를 행 tooltip에만 넣어 폰에선 hover가 없어 사실상 안 보였다) · 조립은 형제 상태줄(완료 '· 일부 실패')과 같은 ' · ' 구분자 문법 · 사용자 조각은 esc 통과 · 전문은 tooltip 유지
-  else if (job.status === 'done') { ic = CHECK_SVG; tx = '완료 · ' + (job._restored ? esc(histTime(job.t0)) : jobDur(sec)) + ' · ' + tot + '장' + (job.partErr ? ' · 일부 실패' : ''); }   // 복원 결과 = 경과초 대신 제작시각(운영자 260622) · 완료 경과 = 같은 분·초 포맷(형제 통일)만 적용 = 흰색 강조는 진행 중 전용(운영자 260728)
+  else if (job.status === 'done') { ic = CHECK_SVG; tx = '완료' + (job._restored ? '' : '(' + jobMS(sec) + ')') + ' · ' + jobDay(job.t0) + ' · ' + dn + '/' + tot + '장' + (job.partErr ? ' · 일부 실패' : ''); }   // 7차 개정(운영자 260818 «완료(0분 00초) · 그 옆에 날짜{오늘/어제/8/15} · 1장도 1/1장») — 복원 행도 같은 문법(구 「오늘 오전 2:27」 시각 표기가 혼자 놀던 축 회수 · 경과는 발사 시각이 없어 못 내니 무표기 = 오표기보다 무표기) · 장수 = 분수 풀 표기(일부 실패 = 1/2장이 스스로 말한다)
   // 【260809 문구 통일(운영자)】 세 상태를 「<상태> · <시간> · <장수>」 한 문법으로 =  제작중 · 21s · 0/1장  /  지연 · 21s · 0/1장  /  완료 · 21s · 1장.
   //   구판은 셋이 제각각이었다 = 「제작 중 21s · 0/1장」(상태 뒤 구분자 없음) · 「큐 대기·지연 …」(가운뎃점이 **상태 이름 안**에 있어 구분자와 헷갈림) · 「완료 · 1장 (37s)」(시간이 괄호 · 자리도 끝).
-  //   완료 장수 = `dn/tot` 분수가 아니라 **완성 장수만**(운영자 "개별 완료 건일 경우 0/n장이 아닌 1장") — 끝난 잡에 분모를 남기면 아직 덜 된 것처럼 읽힌다.
-  //   복원 잡은 t0가 발사 시각이 아니라 경과를 못 낸다(260622) → 그 자리에 제작시각이 들어간다: 「완료 · 오늘 오전 2:27 · 1장」(자리·구분자는 동일).
+  //   (260809 「완료 = 완성 장수만」 계약은 260818 7차가 대체 — 운영자 «1장도 1/1장 으로 n/m장으로 표기» = 완료도 분수 풀 표기 · 시간도 「완료(0분 21초) · 오늘」 풀 표기.)
+  //   복원 잡은 t0가 발사 시각이 아니라 경과를 못 낸다(260622) → 경과 무표기 · 날짜 축(오늘/어제/월/일)은 제작시각으로 같은 문법.
   else if (job._queued) { ic = window.nmOrbHTML ? nmOrbHTML('solving', 14) : SPIN_SVG; tx = '지연 · ' + jobSecHTML(sec) + ' · ' + dn + '/' + tot + '장'; shim = ' class="nm-shim"'; }   // 러너 배정 대기(GitHub 혼잡) = 「지연」(운영자 260809 · 구 「큐 대기·지연」은 상태 이름 안의 가운뎃점이 구분자와 겹쳐 읽혔다) · orb 로더(Solving · 운영자 260723 Q462) · 지연 시간 = 제작 중과 같은 흰색 강조(형제 통일) · 빛 스윕 = 제작 중과 한 벌(둘 다 진행 중)
   else { ic = window.nmOrbHTML ? nmOrbHTML('solving', 14) : SPIN_SVG; tx = '제작중 · ' + jobSecHTML(sec) + ' · ' + dn + '/' + tot + '장'; shim = ' class="nm-shim"'; }   // 제작 중 = orb 로더(Solving · Q462) · 폴백 = 구 스피너 · 경과시간 = 흰색(운영자 260728) → 빛 스윕이 도료를 대체(nm-loader.js 주석 「color는 .nm-shim 그라디언트가 대체」 = sb·k·song 형제와 동문)
   wipSync(job, sec);   // 진행중 타일(결과 자리) 동반 갱신 — 생성·경과/토큰 틱·완료 제거 단일 갈고리(Q469)
