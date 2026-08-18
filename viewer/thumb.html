@@ -2995,7 +2995,7 @@ function rszJob(rid, payload, autoAttach, meta) {   // meta(260818) = { tpl: 잡
   //   판형 이름(포스트/릴스)이 비율(4:5/9:16)을 대체하고, 템플릿 접두는 meta.tpl → job.tpl → renderJob(카드 잡 job.src.tpl과 같은 자리).
   //   렌더 조립(renderJob 3697행) = 「#<템플릿> #<label> #<n>」이라 label을 「포스트 #ai합성」으로 두면 정확히 그 문법이 된다.
   const _nm = _aiFill ? (payload.aspect === '9:16' ? '릴스' : '포스트') + ' #AI합성' : '리사이즈';   // 'AI합성' = 항상 대문자(운영자 260818 형제 지시서 Q1526 · 초안 103 흡수)
-  const job = { n: jobSeqNext(meta && meta.tpl), label: _aiFill ? _nm : _nm + ' (' + payload.aspect + ')', t0: Date.now(), outs: [o], done: [false], status: 'run', msg: '', rid, payload, endpoint: '/api/resize' };   // 잡 라벨 = 리사이즈: 이름 (비율)(축1) · AI 합성: 판형 #ai합성(260818 — 비율 괄호는 판형 이름이 대체) · 번호 = 채널별 일련(AI 채움 = meta.tpl 보유 · 편집 리사이즈 = 무채널 공용 일련)
+  const job = { n: ++JOBSEQ, label: _aiFill ? _nm : _nm + ' (' + payload.aspect + ')', t0: Date.now(), outs: [o], done: [false], status: 'run', msg: '', rid, payload, endpoint: '/api/resize' };   // 잡 라벨 = 리사이즈: 이름 (비율)(축1) · AI 합성: 판형 #ai합성(260818 — 비율 괄호는 판형 이름이 대체) · 번호 = 전 잡 공용 일련(6차 회귀)
   if (meta && meta.tpl) job.tpl = meta.tpl;       // 해시태그 접두(잡 전용 필드 — job.src에 실으면 canEditSrc가 src.app 없는 반쪽 스냅으로 연필을 그릴 위험)
   if (meta && meta.chain) job._chain = meta.chain; // 카드 사슬(완료·재첨부 성공 시 1회 발사)
   JOBS.unshift(job); renderJob(job); jobUiPulse(job);
@@ -3605,10 +3605,8 @@ window.addEventListener('pagehide', () => { clearTimeout(_draftT); draftSave(); 
 
 // ==== 대기열(JOBS) + 캐러셀 — 제작 동시 가능: 누른 게 다 로그에 쌓이고 각자 폴링, 완성분은 캐러셀에 한 장씩 ====
 const JOBS = [];           // 제작 건 누적
-let JOBSEQ = 0;            // 채널 없는 잡(생성·해상도·편집 리사이즈 등) 공용 일련
-let JOBUID = 0;            // 행 정체성(전 잡 공용 유일값 · renderJob이 지연 발급) — 표시 번호(n)가 채널별 일련이 되면서(260818 4차) 채널이 다르면 같은 #n이 공존한다 → DOM 행 id·정리 축은 이 값만 쓴다(같은 n 두 행이 서로를 덮던 축 = 5843행 주석의 그 사고를 채널 축으로 확장 방어)
-const JOBSEQ_CH = {};      // 채널(템플릿)별 표시 번호 — 운영자 260818 4차 «no는 채널명에 따라서 숫자 세지게, 노뮤트가 31번이였어도 진짜예요가 1번이면 1번으로»
-const jobSeqNext = k => k ? (JOBSEQ_CH[k] = (JOBSEQ_CH[k] || 0) + 1) : ++JOBSEQ;   // 채널 보유 잡 = 채널 카운터 · 무채널 = 종전 공용 일련
+let JOBSEQ = 0;            // 전 잡 공용 일련 — 6차(운영자 260818 «그냥 종류에 상관없이 no를 매겨주면 될듯»)가 4차 채널별 카운터를 회수(구 jobSeqNext·JOBSEQ_CH 폐지 = 되살릴 땐 표시 번호 중복 축까지 같이 볼 것)
+let JOBUID = 0;            // 행 정체성(전 잡 공용 유일값 · renderJob이 지연 발급) — 번호 없는 복원·기기 간 재개 잡의 행 id 충돌 방어(job-undefined 두 행이 서로를 덮던 축)라 일련 회귀 후에도 존치
 /* ══ 진행 중 작업 영속 슬롯(운영자 260816 "화면이 나가도 제작중 이거는 돌고있어야한다는거지 항상" ·
       "웹페이지를 3개 최대화해서 보고있는데 3번째꺼를 보고있어. 그럼 1,2번 웹페이지는 동기화 안하고 그냥
       멈춰있는게 아니라 상시 돌아가서 내가 빠른속도로 2로 가도 그 내용이 보여야한다") ══
@@ -3751,20 +3749,21 @@ function renderJob(job) {   // 잡 로그 행 갱신(없으면 생성, 최신이
   const _jtplLbl = _jtpl === 'jinjja' ? '진짜예요' : _jtpl ? '노뮤트' : '';   // 미보유 옛 스냅 = 접두 생략(restore nomute 폴백과 동축 · 오표기보다 무표기)
   const lab = document.createElement('span'); lab.className = 'jlab';
   // ── 결과 박스 표기 4차 개정(운영자 260818 «좌상단에 #노뮤트 그냥 붙이자 · no는 채널명에 따라서 숫자 세지게 · 9:16, 포스트, 릴스로 표기하는거 다시 할게, 그 각각 고유색 따라서»)
-  //    + 5차(운영자 260818 «#n 을 진한 회색을 좀 투명도를 준거로 · 맨 좌측으로 릴스랑 포스트 통일 · ai는 그냥 ai라고 할게. 그리고 흰색으로») ──
-  //   위 줄 = #판형 맨 앞(포스트=시안 --bias-l1 / 릴스=골드레몬 --accent-4 = .csec .ovfmt.post/.reels 토글 정본 색 그대로 · 그 밖 비율은 숫자 그대로) · #채널(#노뮤트/#진짜예요 강조색) · #번호(채널별 일련 · .jno 진회색 반투명) · #AI(.jai 흰색) ·
+  //    + 5차(운영자 260818 «#n 을 진한 회색을 좀 투명도를 준거로 · ai는 그냥 ai라고 할게. 그리고 흰색으로»)
+  //    + 6차(운영자 260818 «그냥 종류에 상관없이 no를 매겨주면 될듯 · #이 가장왼쪽 · # 빼고 그냥 001 이런식으로 세자리 수까지 미리 공간을 — 001 #노뮤트 #릴스 #») ──
+  //   위 줄 = 번호 맨 앞(001 = 전 잡 공용 일련 · # 없이 3자리 선채움 · .jno 진회색 반투명) · #채널(#노뮤트/#진짜예요 강조색) · #판형(포스트=시안 --bias-l1 / 릴스=골드레몬 --accent-4 = .csec .ovfmt.post/.reels 토글 정본 색 그대로 · 그 밖 비율은 숫자 그대로) · #AI(.jai 흰색) ·
   //   아랫줄(좌하단) = 실제 생성물 낱개(헤더·오버레이(OPA…)·저작권·안내문 — 3차의 태그 동승은 회수) ·
   //   저장 라벨(job.label)·파일명·캐러셀 캡션은 무접촉 = 렌더에서만 분해(jobFace) — 분해 불가 라벨(생성·해상도 등)은 종전 표기 그대로(무표기보다 옛 표기).
   const face = jobFace(job);
   let _labDesc = '';
   if (face) {
-    const _no = job._restored ? '' : String(jobNo(job)).trim();   // 「#12」 = 채널별 일련(jobSeqNext) · 번호 결측(기기 간 공유 재개분)·복원 = 무표기(jobNo 가드 · 260818 본선)
+    const _no = (job._restored || job.n == null || job.n === '') ? '' : pad3(job.n);   // 「001」 = 전 잡 공용 일련 · # 없이 3자리 선채움(운영자 260818 6차 «# 빼고 그냥 001 이런식으로 세자리 수까지 미리 공간을») · 결측(기기 간 공유 재개분)·복원 = 무표기
     const _parts = [];
-    const _fw = { '4:5': ['포스트', 'post'], '9:16': ['릴스', 'reels'] }[face.ratio];   // 판형 = 맨 좌측 통일(운영자 260818 5차)
+    if (_no) { const _nn = document.createElement('span'); _nn.className = 'jno'; _nn.textContent = _no; _parts.push(_nn); }   // 번호 = 맨 왼쪽(운영자 예시 «001 #노뮤트 #릴스»)
+    if (_jtplLbl) { const _tp = document.createElement('span'); _tp.className = _jtpl === 'jinjja' ? 'tpljj' : 'tplnm'; _tp.textContent = '#' + _jtplLbl; _parts.push(_tp); }
+    const _fw = { '4:5': ['포스트', 'post'], '9:16': ['릴스', 'reels'] }[face.ratio];
     if (_fw) { const _fm = document.createElement('span'); _fm.className = _fw[1]; _fm.textContent = '#' + _fw[0]; _parts.push(_fm); }
     else if (face.ratio) _parts.push('#' + face.ratio);
-    if (_jtplLbl) { const _tp = document.createElement('span'); _tp.className = _jtpl === 'jinjja' ? 'tpljj' : 'tplnm'; _tp.textContent = '#' + _jtplLbl; _parts.push(_tp); }
-    if (_no) { const _nn = document.createElement('span'); _nn.className = 'jno'; _nn.textContent = _no; _parts.push(_nn); }
     if (face.ai) { const _ai = document.createElement('span'); _ai.className = 'jai'; _ai.textContent = '#AI'; _parts.push(_ai); }
     _parts.forEach((p, i) => { if (i) lab.append(' '); lab.append(p); });   // textContent 조각 조립 = 주입 여지 0(고정 리터럴 + 번호 숫자뿐)
     _labDesc = face.pieces;
@@ -5361,7 +5360,7 @@ function dispatchJob(endpoint, payload, label, src, reuse) {
   clearRestored();   // 새 제작 = 복원된 최근 결과 고스트 치움(새 결과가 맨 위·운영자 260622)
   let job;
   if (reuse) { job = reuse; Object.assign(job, { t0: Date.now(), outs: [], done: [], status: 'run', msg: '', endpoint, payload, src }); delete job._queued; delete job.partErr; delete job._next; job._ready = {}; job.saves = []; renderJob(job); }   // 재시도 = 기존 실패 잡 재사용(같은 #n → 같은 행 갱신·새 큐 안 만듦 · 운영자 260630) · 폴 누산기(_next/_ready/saves) 리셋 = 부분완료 재시도 시 재렌더 변형 유실·전체다운로드 옛+새 URL 혼합 차단(실측 260720)
-  else { job = { n: jobSeqNext(src && src.tpl), label: label || '제작', t0: Date.now(), outs: [], done: [], status: 'run', msg: '', endpoint, payload, src }; JOBS.unshift(job); renderJob(job); }   // 라벨 기본값 '제작'(260817) = 복원 경로(doRestore·restorePending) 동일 문법 — 결측이 잡 행에 "undefined #N"으로 그려지던 축 방어   // endpoint·payload 보관 = 실패 시 같은 설정 재발사 · src = 제작 조건 스냅샷(수정 복원·운영자 260624) · 번호 = 채널(템플릿)별 일련(260818 4차)
+  else { job = { n: ++JOBSEQ, label: label || '제작', t0: Date.now(), outs: [], done: [], status: 'run', msg: '', endpoint, payload, src }; JOBS.unshift(job); renderJob(job); }   // 라벨 기본값 '제작'(260817) = 복원 경로(doRestore·restorePending) 동일 문법 — 결측이 잡 행에 "undefined #N"으로 그려지던 축 방어   // endpoint·payload 보관 = 실패 시 같은 설정 재발사 · src = 제작 조건 스냅샷(수정 복원·운영자 260624) · 번호 = 전 잡 공용 일련(260818 6차 «종류에 상관없이»)
   if (!reuse) scrollQueue();   // 새 발사 = 방금 쌓인 대기열 행으로 이징 착지 · 재시도(reuse)는 그 행에서 누른 것이라 제자리 갱신(화면 튐 0)
   (async () => {
     try {
@@ -5385,7 +5384,7 @@ function dispatchBatch(items, batchLabel, src, reuse) {
   goFire(_spellApplied); clearRestored();
   let job;
   if (reuse) { job = reuse; Object.assign(job, { t0: Date.now(), outs: [], done: [], status: 'run', msg: '', batch: items, src }); delete job._queued; delete job.partErr; delete job._next; job._ready = {}; job.saves = []; renderJob(job); }   // 재시도 = 기존 잡 재사용(같은 #n·같은 행 · 운영자 260630) · 폴 누산기(_next/_ready/saves) 리셋 = 부분완료 재시도 시 변형 유실·다운로드 혼합 차단(실측 260720)
-  else { job = { n: jobSeqNext(src && src.tpl), label: batchLabel, t0: Date.now(), outs: [], done: [], status: 'run', msg: '', batch: items, src }; JOBS.unshift(job); renderJob(job); }   // batch = 실패 시 같은 묶음 재발사용 · 번호 = 채널별 일련(dispatchJob 짝 · 260818 4차)
+  else { job = { n: ++JOBSEQ, label: batchLabel, t0: Date.now(), outs: [], done: [], status: 'run', msg: '', batch: items, src }; JOBS.unshift(job); renderJob(job); }   // batch = 실패 시 같은 묶음 재발사용 · 번호 = 전 잡 공용 일련(dispatchJob 짝 · 260818 6차)
   if (!reuse) scrollQueue();   // 묶음 발사도 동일 착지(dispatchJob 짝 · 재시도 제자리)
   (async () => {
     const groups = await Promise.all(items.map(async (it, bi) => {
