@@ -110,7 +110,7 @@ const PREF_CACHE = 'nm-pref-v1', THEME_KEY = '/__nm_theme';
 // · sys=--warn · trend=--info · kw=--cat-tech(보라 = 뷰어 키워드 알림 축과 동일 토큰 · 운영자 260818 — 구 test[--mut] 슬롯 대체
 //   = 연결 테스트는 기본판 폴백으로). 에셋 생성 = shared/build_notif_icons.py(손편집 금지 · D2-1).
 // 모르는 kind·미지정 = 기본판 폴백 = 구 발송 경로(kind 없는 워크플로) 무손상.
-const NOTIF_ICON = { brk: 'brk', make: 'make', sys: 'sys', trend: 'trend', kw: 'kw' };
+const NOTIF_ICON = { brk: 'brk', make: 'make', sys: 'sys', trend: 'trend', kw: 'kw', iss: 'iss' };
 function iconFor(kind, dark) {
   const t = dark ? 'sig' : 'blue', k = NOTIF_ICON[kind] || '';
   return `/assets/brand/icon-notif-${k ? k + '-' : ''}${t}-512-260727.png`;

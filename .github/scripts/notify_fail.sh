@@ -20,7 +20,7 @@ sent=0
 for ((idx = 0; idx < N && sent < MAX; idx++)); do
   B="${BASES[$idx]}"; [ -z "$B" ] && continue
   python3 .github/scripts/push_send.py --notify "수집 실패" "내용이 제대로 안 들어와 대기열 미등록 — 탭해서 확인" \
-    --url "/?msg=fail-${B}" --tag "nomute-fail-${B}" \
+    --url "/?msg=fail-${B}" --tag "nomute-fail-${B}" --kind sys \
     || echo "::warning::실패 푸시 실패(비치명: ${B})"
   sent=$((sent + 1))
 done
@@ -28,7 +28,7 @@ done
 REST=$((N - sent))
 if [ "$REST" -gt 0 ]; then   # 상한 초과분 = 묶음 1개(메시지함으로). 정상(1~6건)에선 안 뜸.
   python3 .github/scripts/push_send.py --notify "수집 실패" "외 ${REST}건 더 미등록 — 탭해서 확인" \
-    --url "/?msg=fail-${BASES[0]}" --tag "nomute-fail-batch" \
+    --url "/?msg=fail-${BASES[0]}" --tag "nomute-fail-batch" --kind sys \
     || echo "::warning::실패 푸시 실패(비치명: batch)"
 fi
 exit 0

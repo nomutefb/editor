@@ -84,7 +84,7 @@ for ((idx = 0; idx < N && sent < MAX; idx++)); do
   STEM="${FILE%.md}"   # 파일명 = ASCII-safe(analyze/ask id 규칙) → URL 인코딩 불필요
   TITLE="${TITLES[$idx]:-요약}"   # 같은 순서(파일↔제목). 없거나 빈칸이면 "요약".
   python3 .github/scripts/push_send.py --notify "$NTITLE" "${TITLE}${NSUFFIX}" \
-    --url "/?a=${STEM}" --tag "${NTAG}-${STEM}" \
+    --url "/?a=${STEM}" --tag "${NTAG}-${STEM}" --kind make \
     || echo "::warning::완료 푸시 실패(비치명: ${STEM})"
   sent=$((sent + 1))
 done
@@ -92,7 +92,7 @@ done
 REST=$((N - sent))
 if [ "$REST" -gt 0 ]; then   # 상한 초과분 = 건별 딥링크 대신 1개 묶음(피드로). 정상 사용(1~6건)에선 안 뜸.
   python3 .github/scripts/push_send.py --notify "$NTITLE" "외 ${REST}건 더 완료 — 탭해서 확인" \
-    --url "/" --tag "${NTAG}-batch" \
+    --url "/" --tag "${NTAG}-batch" --kind make \
     || echo "::warning::완료 푸시 실패(비치명: batch)"
 fi
 exit 0

@@ -22,6 +22,44 @@ PUSH_PUB_MAX_H = float(os.environ.get("PUSH_PUB_MAX_H", "8"))   # 발행 나이 
 SENT_TTL_H = float(os.environ.get("PUSH_SENT_TTL_H", "48"))   # 발송 원장 TTL — 무기한이면 '北 미사일 발사'류 템플릿 반복 헤드라인의 *별개 새 사건*이 제목해시 충돌로 영구 오억제(분신술 260710 검증6 · autopick.json 48h 정리와 대칭)
 SENT_EV = ROOT / "push" / "sent_events.json"   # 발송 사건 시그니처 [{ts,title,key}] — 사건 단위 dedup(같은 실제 사건의 *다른 후속 기사* 재푸시 차단 · Q437 운영자 260722 "같은 사건이면 한 번만" · autopick_events.json 쌍둥이). 창 = SENT_TTL_H 재사용.
 MAX_AI_DEDUP = int(os.environ.get("PUSH_MAX_AI", "8"))   # 런당 AI 사건중복 판정 콜 상한(폭주 가드 · autopick MAX_AI_DEDUP 짝)
+
+# ── ⚡이슈 푸시(운영자 260818 «긴급은 아닌데 매체가 몰리는 건 이슈도 표기를 긴급처럼 노랑으로 푸시를 띄울게 ·
+#    매체가 지속적으로 붙으면서 힘이 생긴건데 강조에 대한 알림이 없어서 놓친다 · 조금 늦어도 되는데 많이 늦으면
+#    흐름을 뺏긴다 · 일단은 다 받아봄 차라리 많이 와서 안놓치는게 나으니까») ─────────────────────────────
+# ⚠️ 긴급(속보 판정)과 **다른 축**이다 — 이건 속보로 안 잡혔는데 매체가 몰린 건이고, 화면 ⚡이슈 배지와 같은 술어다.
+# ⚠️ 판정 규칙은 **화면 정본(build-viewer.mjs issEligible·viewer scBadgeType)의 언어 이식 사본**이다(js↔py라 사본이
+#    물리적으로 불가피 · restore_paste_url 선례) — 한쪽만 고치면 배지와 푸시가 서로 다른 사건을 말한다.
+#    동기 강제 = check_refs.check_issue_push_parity(값 4종·정형컷 3종을 양쪽에서 함께 본다).
+ISS_PUSH = (os.environ.get("ISS_PUSH", "1").strip() != "0")   # 킬스위치 — 0이면 이슈 푸시만 끈다(긴급 무접촉)
+ISS_CROSS_MIN = int(os.environ.get("ISS_PUSH_CROSS", "10"))   # 매체 하한 = 화면 배지 정본 ISS_CROSS_MIN 사본(값 창작 0)
+ISS_G3_CROSS = 8                                              # grade3(대형)만 옛 임계 8 유지 = 정본 동일
+ISS_MAX_H = float(os.environ.get("ISS_PUSH_MAX_H", "24"))     # 나이 창 = 배지 소멸선 24h 사본(그 뒤는 배지도 안 붙는다)
+ISS_DAY_CAP = int(os.environ.get("ISS_PUSH_DAY_CAP", "40"))   # 하루 상한(폭주 가드 · 260818 실측 = 24h창 사건 단위 근사 41건)
+# 정형잡음 컷 3종 = build-viewer.mjs BJ_* 바이트 이식(시황 정례·연성 머리표·기업 PR — 매체만 많고 사건이 아닌 것)
+_BJ_CRASH = re.compile(r"(폭락|급락|폭등|급등|서킷브레이커|사이드카|붕괴|패닉|쇼크)")
+_BJ_MKT = re.compile(r"(증시|코스피|코스닥|환율|유가(?!족)|나스닥|다우|뉴욕증시).{0,20}(출발|개장|마감|장중)")
+_BJ_HEAD = re.compile(r"^\[(포토|사진|사설|기고|칼럼|만평|증시|시황|특징주)")
+_BJ_PR = re.compile(r"^(?!.*(대통령|방사청|국방부|방산|잠수함|전투기|호위함|군함)).*(수주|공급\s*계약|계약\s*체결|지분.{0,6}(취득|매각|확보|인수)|지분율|자사주|합작사|출자)")
+
+
+def _badge_junk(t):
+    t = t or ""
+    return bool((_BJ_MKT.search(t) and not _BJ_CRASH.search(t)) or _BJ_HEAD.search(t) or _BJ_PR.search(t))
+
+
+def is_issue(c):
+    """⚡이슈 = 속보 판정은 아닌데 매체가 몰린 건(화면 이슈 배지와 같은 술어)."""
+    if c.get("breaking"):
+        return False        # 긴급 축이 먼저 = 같은 사건을 두 번 부르지 않는다
+    g = c.get("grade")
+    if not (g is None or (g or 0) >= 2):
+        return False        # 경중 0·1(잡음·경미) 컷 — 미채점(None)은 배지 정본대로 통과
+    cr = c.get("cross") or 0
+    if not (cr >= ISS_CROSS_MIN or ((g or 0) >= 3 and cr >= ISS_G3_CROSS)):
+        return False
+    return not _badge_junk(c.get("title") or "")
+
+
 KST = dt.timezone(dt.timedelta(hours=9))
 
 
@@ -308,6 +346,42 @@ def main():
                     suppressed_keys.extend(ks)
                     continue
             msgs.append({"keys": ks, "ev_title": c.get("title") or "", "title": "News", "body": ("(긴급) " + disp_title(c))[:120], "url": brk_url(c), "tag": "nomute-breaking", "kind": "brk", "icon": notif_icon("brk", "sig") or ""})   # 제목="News"(고정·OS 볼드) · 본문="(긴급) 헤드라인"(외신=번역 제목) · url=해당 건 딥링크(요약완료=요약창/미완료=메이저링크 · 운영자 260622)
+        # ── ⚡이슈 발송(긴급 루프 뒤 = 긴급이 우선) ────────────────────────────────────────
+        # ⚠️ 원장 키에 "iss:" 접두를 붙여 긴급 키와 **분리**한다 — 접두가 없으면 이슈로 먼저 나간 사건이
+        #    나중에 속보로 승격돼도 "이미 보냄"에 막혀 진짜 긴급을 놓친다(반대 방향은 아래 원본 키 검사가 막는다).
+        if ISS_PUSH:
+            iss_n = 0
+            # ⚠️ **첫 회차 소급 차단** — 원장에 이슈 키가 하나도 없으면(= 이 기능이 방금 켜졌다) 지금 자격을 가진
+            #    과거분이 통째로 발사된다(260818 실측 = 24h창 50건 = 폰에 40통이 한 번에). 운영자 «다 받아봄»은
+            #    「앞으로 안 놓치겠다」는 뜻이지 「어제 것을 소급으로 받겠다」가 아니다 → 첫 회차는 **발송 0 · 도장만**
+            #    찍고, 다음 회차부터 새로 자격을 얻은 건만 쏜다(자동픽 일캡·kw 첫발견 관례와 같은 방향).
+            iss_seeded = any(str(k).startswith("iss:") for k in sent)
+            for c in cands:
+                if iss_seeded and iss_n >= ISS_DAY_CAP:   # 상한은 **발송분에만** — 첫 회차 도장은 전건 찍어야 다음 회차가 조용하다
+                    print(f"이슈 하루 상한 {ISS_DAY_CAP} 도달 — 나머지 생략", file=sys.stderr)
+                    break
+                if not is_issue(c):
+                    continue
+                a = age_h(c)
+                if a is None or a < 0 or a >= ISS_MAX_H:   # 미래스탬프·배지 소멸선 밖 = 제외(긴급 축과 같은 가드)
+                    continue
+                base = dedup_keys(c)
+                if not base:
+                    continue
+                if any(k in sent for k in base):   # 이 사건이 **긴급으로 이미 나갔다** = 이슈로 또 부르지 않는다
+                    continue
+                ks = ["iss:" + k for k in base]
+                if any(k in sent for k in ks):
+                    continue
+                if not iss_seeded:                 # 첫 회차 = 조용히 원장에만 도장(발송 0)
+                    suppressed_keys.extend(ks)
+                    iss_n += 1
+                    continue
+                msgs.append({"keys": ks, "title": "News", "body": ("(이슈) " + disp_title(c))[:120],
+                             "url": brk_url(c), "tag": "nomute-issue", "kind": "iss",
+                             "icon": notif_icon("iss", "sig") or ""})   # 노랑 지구본 = 화면 ⚡이슈 배지와 같은 색(운영자 260818)
+                iss_n += 1
+
         if not msgs:
             if suppressed_keys:   # 발송 0건이어도 억제 도장은 기록(다음 런 AI 재호출 0 — 조용한 반복 콜 차단)
                 _flush_ledgers([], suppressed_keys, [], sent_events)

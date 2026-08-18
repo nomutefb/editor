@@ -1533,12 +1533,39 @@ def check_issue_badge_parity():
         bad.append('viewer issGrade: null 관용식(c.grade == null || c.grade >= 2) 부재/변형 — strict 회귀 의심')
     if not re.search(r'g == null \|\| g >= 2', bv):
         bad.append('build-viewer issEligible: null 관용식(g == null || g >= 2) 부재/변형 — strict 회귀 의심')
+    # ── 세 번째 표면 = 웹푸시 발송기(260818 신설 · 운영자 «이슈도 긴급처럼 노랑으로 푸시») ──────────────
+    # ⚠ 편입 사유 = 같은 배지 규칙이 이제 **세 곳**에 산다(수집함 렌더 · 피드 빌드 · 폰 발송). 발송기는 언어가
+    #   달라(js↔py) 정규식 바이트 대조가 성립하지 않으므로 **필수 부품 실존 + 값 동기**로 본다. 한쪽만 고치면
+    #   화면엔 이슈 배지가 붙는데 폰은 조용하거나 그 반대가 되고, 둘 다 화면 증상이 0이라 운영자 눈이 유일한
+    #   검출기가 된다(insta-thumb-miss·brk_misfire 동축). 별도 게이트를 안 만든 이유 = 같은 축이라 손 목록이
+    #   두 벌이 되면 그 둘이 또 갈린다(이 레포 최빈 드리프트).
+    try:
+        ps = open(os.path.join(ROOT, '.github', 'scripts', 'push_send.py'), encoding='utf-8').read()
+    except Exception as e:
+        bad.append('push_send.py 읽기 실패(fail-closed): %s' % e); ps = None
+    if ps is not None:
+        if a and not re.search(r'ISS_CROSS_MIN = int\(os\.environ\.get\("ISS_PUSH_CROSS", "%s"\)' % a, ps):
+            bad.append('push_send: 이슈 매체 하한 기본값이 화면(%s)과 불일치 — 배지는 뜨는데 폰은 조용해진다' % a)
+        if 'ISS_G3_CROSS = 8' not in ps:
+            bad.append('push_send: grade3 우회 임계 8 부재/변형(화면 배지와 갈림)')
+        if 'g is None or (g or 0) >= 2' not in ps:
+            bad.append('push_send: 경중 null 관용식 부재/변형 — strict 회귀 의심(화면은 미채점 통과인데 폰만 컷)')
+        # ⚠ 판정은 **선언 형태**로 — 이름만 찾으면 `_badge_junk` 안의 사용처 문자열이 면죄부가 되어
+        #   선언을 지워도 통과한다(첫 킬테스트 K3 미검출로 드러난 구멍 = 죽은 게이트).
+        for nm in _ISS_REGEX_NAMES:   # 정형잡음 컷 4종 = 하나만 빠져도 시황·보도자료가 폰으로 샌다
+            if not re.search(r'^_%s = re\.compile' % nm, ps, re.M):
+                bad.append('push_send: 정형잡음 컷 %s 선언 부재/변형(시황·PR이 이슈 푸시로 샌다)' % nm)
+        _pscode = '\n'.join(l for l in ps.splitlines() if not l.lstrip().startswith('#'))   # 코드부만(이 처방 주석 자기적발 차단)
+        for sym, why in (('def is_issue', '이슈 판정 함수'), ('_badge_junk', '정형잡음 컷 적용부'),
+                         ('iss_seeded', '첫 회차 소급 차단 — 없으면 기능을 켜는 순간 과거분이 통째로 발사된다')):
+            if sym not in _pscode:
+                bad.append('push_send: %s 소실(%s)' % (sym, why))
     if bad:
         print('❌ 이슈 배지 게이트 viewer↔build-viewer 드리프트(한쪽만 수정 = 수집함↔피드 배지 불일치):')
         for x in bad: print('  -', x)
         rc = 1
     else:
-        print('✅ 이슈 배지 패리티 — ISS_CROSS_MIN·BJ_* 4종 정규식·grade3 우회 = viewer↔build-viewer 동일.')
+        print('✅ 이슈 배지 패리티 — ISS_CROSS_MIN·BJ_* 4종·grade3 우회 = viewer↔build-viewer 동일 + 웹푸시 발송기 동기(값 3축·정형컷 4종·소급 차단).')
     return rc
 
 
