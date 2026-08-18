@@ -1,32 +1,32 @@
 # 🌧 250㎜가 밤에 몰린다…남해안 캠핑장부터 대피시키라는 지시
 
 **[프롬프트 설계]**
-- 화풍: B 극화 — 야간 통제·재난 예보의 무게를 사실적으로 세워야 해서(예보 단계의 긴장은 파스텔보다 명암이 옮긴다)
-- 분위기: 차갑고 숨 막히는 저조도, 미세하게 떨리는 긴장 — 접고 나갈지 버틸지를 오늘 밤 안에 정해야 하는 압박
-- 연출 방향: 뉴스를 안 보는 독자도 텐트·저지대에서 밤을 보내는 사람으로 자기를 옮겨 놓게, 이 사건의 진짜 주인공인 '시간'을 계속 실물로 잡는다 — 몰려오는 구름벽, 물이 닿기 직전의 한 방울, 손목시계, 다가오는 손전등 불빛 하나. 💡 관점(위험 지점 목록은 이미 완성됐고 남은 건 그 목록이 현장으로 옮겨지는 속도)이 이미지에서는 '사람이 몇 명 서 있느냐'로 보이게 한다. 카드 전체가 밤·물·불빛 하나의 키노트를 공유한다.
-- 독자 동선: **발단** 카드1(기상청 예보와 그 시간대)→**전개** 카드2~4(총리 지시 → 육상 위험 지점 → 바다와 만조)→**피크** 카드5(16일 새벽·시간당 70㎜·다들 잠든 사이)→**해소** 카드6(비상근무 태세와 남은 시간)→**시사점** 카드7 · 훅=카드1 끝(단서형: 퍼붓는 시간대가 한밤중)+카드4 끝(예고형: 그 물이 언제 닥치느냐 → 카드5 첫 줄이 즉시 회수) · 착지 한 줄 요지=위험한 곳 이름은 다 적혔는데 잠든 문을 두드릴 인원은 지시문에 없다
-- 연속성 앵커: Recurring subject — a Korean man in his 40s with short damp hair, wearing a dark navy rain jacket over a gray tee and holding a small flashlight (카드 1·5·7) / 반복 장소 — a riverside campground in the Jirisan foothills, rows of low tents beside a swelling stream
+- 화풍: B 극화 — 피해가 난 뒤가 아니라 오기 전을 다루는 기사라, 사건의 무게를 사실적 선과 명암으로 눌러 잡아야 한다
+- 분위기: 아직 아무 일도 일어나지 않은 밤의 압박 — 물소리와 시계 소리만 커지는 저조도의 긴장
+- 연출 방향: 뉴스를 안 보는 독자도 "지금 그 자리에 텐트를 친 사람"으로 자기를 대입하게 만드는 게 이 덱의 유일한 목적이다. 그래서 강조점은 강수량 그래프가 아니라 **잠든 시간에 켜지는 불빛 하나**와 **아직 아무도 두드리지 않은 문**에 둔다. 지시문(종이)과 현장(문) 사이의 거리를 시각적으로 벌려 놓고, 마지막에 그 거리를 독자가 재게 한다. thumb_dispatch에서 조명 톤(차갑고 숨막히는 저조도)과 정조(정제된 얼굴에 스치는 미세한 긴장)만 이어받아 전 카드의 비주얼 키노트로 삼되, 앵글은 카드마다 흩는다.
+- 독자 동선: **발단** 카드1→**전개** 카드2~3→**피크** 카드4→**해소** 카드5→**시사점** 카드6 · 훅=카드1 끝(단서형 — 시각을 못 박아 "왜 하필 그때"를 남김)+카드3 끝(단서형 — "깨우는 건 마을방송과 사이렌", 왜 깨워야 하는지는 다음 장이 회수) · 착지 한 줄 요지 = 위험한 곳 목록은 이미 다 적혔고, 적히지 않은 건 그 문을 두드릴 사람 수다
+- 연속성 앵커: Recurring subject — a Korean man in his 40s with short cropped hair and a stubbled jaw, wearing a dark navy rain jacket over a gray tee (카드1·4·6) / Recurring location — a riverside valley campsite on the south coast at night, dome tents pitched on wet grass beside a rising stream
 
 ### [카드 1]
 **텍스트**
 ```text
-기상청 예보가 연휴 첫날 밤을 가리켰다
-남해안·지리산은 최대 250㎜ 이상이다
-경남권 150㎜, 제주 100㎜까지 본다
-*퍼붓는 시간대가 하필 한밤중이다*
+광복절 연휴 첫날 밤이 시작됐다
+남해안 캠핑장엔 사람이 들어와 있다
+예보된 비가 가장 굵어지는 시각은
+*하필 16일 새벽으로 잡혀 있다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the tight squint of his eyes as he looks up at the advancing wall of cloud. Recurring subject — a Korean man in his 40s with short damp hair, wearing a dark navy rain jacket over a gray tee and holding a small flashlight, stands at the edge of a riverside campground and tilts his head up toward a towering black cloud front rolling in over the ridgeline. His free hand grips a tent guyline that has already started to shiver in the wind, and his gaze runs up and to the right where the sky is darkest. Rows of low tents sit behind him beside a stream that is running faster than it should.
-Camera: establishing shot from a low angle, shot on 14mm ultra-wide lens
-Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood, the last grey light before nightfall
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the tent guyline and jacket zipper pull), muted daylight contrast
-Korean setting: Korean mountain campground with low nylon tents and a concrete stream embankment, Korean utility poles along the far road, no readable letters anywhere.
-Text handling: no signage text rendered; any incidental lettering is cropped out or lost in shadow; no garbled or fake script, no meaningless letters, no random characters, no dense text.
+Scene: Emotional focal point: his narrowed eyes, already reading the sky instead of the tent he just finished pitching. Recurring subject — a Korean man in his 40s with short cropped hair and a stubbled jaw, wearing a dark navy rain jacket over a gray tee — stands at the open doorway of his dome tent on a riverside valley campsite at night, one hand still gripping a guy line, head turned toward the right edge of the frame. Cold light spills out from inside the tent and lands on the wet grass at his boots. Two other lit tents glow faintly further back on the same grass, and the leaning treeline behind them also points right.
+Camera: wide shot from eye-level, three-quarter angle, shot on 35mm lens, natural documentary perspective, nose room on the right, gaze directed toward the right edge
+Lighting/mood: cold blue dim light spilling from the tent interior, heavy and suffocating, faint trembling tension
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the lantern glow inside the tent and along the taut guy lines), film-noir low-key lighting, deep shadows
+Korean default: Korean facial features and build, a Korean valley campsite layout with wooden tent decks and a low stone-lined stream bank.
+Text handling: no signage, no readable lettering on any surface; keep all surfaces free of script.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the storm sky) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the wet grass campsite ground) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -36,29 +36,29 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-남해안 호우 먹구름
+계곡 캠핑장 텐트 야간
 ```
 
 ### [카드 2]
 **텍스트**
 ```text
-그래서 한성숙 국무총리가 나섰다
-8월 15일 저녁 선제적 통제를 지시했다
-*맨 앞에 놓인 건 캠핑장과 야영장이다*
-연휴에 사람이 가장 몰린 자리였다
+그 몇 시간 전, 15일 저녁이었다
+최대 250㎜ 이상이라는 예보에
+한성숙 국무총리가 지시를 내렸다
+*대피 대상 맨 앞이 캠핑장이었다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the flat unblinking stare of the senior official as she finishes the sentence, fingertips pressed down on the table edge. A senior Korean government official in her 50s in a dark suit stands at the head of a night situation room and speaks toward the officers seated along the table, her eyes fixed on the far right of the room. Behind her a large wall screen shows a swirling rain band over a southern coastline as a shape only, with no letters or numbers on it. Two staffers in shirtsleeves hold phone handsets to their ears and lean toward her.
-Camera: MS from a low angle, shot on 50mm standard lens
-Lighting/mood: flat sterile clinical fluorescent light, cold even greenish-white, emotionless institutional
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 glowing on the rain band shape of the wall screen), film-noir low-key lighting, deep shadows
-Korean setting: Korean government situation room with rows of desk microphones and a national-style plain emblem panel, no logos, no readable letters.
-Text handling: the wall screen carries only a weather shape and coastline outline, no labels; no garbled or fake script, no meaningless letters, no random characters, no dense text.
+Scene: Emotional focal point: her fingertip pinning a single line of the briefing sheet to the table while her lips stay pressed flat. A Korean woman in her 50s in a dark charcoal suit stands at the head of a long conference table at night, leaning forward on both hands and speaking down the length of the table. Five officials in dark jackets sit along that same table, pens down, all faces turned up toward her. A wall map of the southern coastline hangs behind her, its rain band the only bright element on it.
+Camera: medium shot from low angle, shot on 50mm standard lens, minimal distortion, natural cinematic composition
+Lighting/mood: harsh single overhead light pooling on the table, deep surrounding black, oppressive
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the rain band traced across the coastal map), film-noir low-key lighting, deep shadows
+Korean default: Korean facial features and build, a Korean government meeting room with plain paneled walls, no emblem and no logo of any institution.
+Text handling: the map carries only a colored band and contour lines, no place names and no numerals; no readable lettering anywhere in the frame.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the back wall of the situation room) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the long conference table) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -68,29 +68,29 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-국무총리 재난 상황실
+한성숙 국무총리 호우 대책
 ```
 
 ### [카드 3]
 **텍스트**
 ```text
-명단은 캠핑장에서 끝나지 않았다
-산사태 취약지역과 지하차도가 붙었다
-저지대 주택도 사전점검 대상에 올랐다
-*마을방송과 사이렌까지 쓰라고 했다*
+*다음은 이미 이름이 붙은 곳들이다*
+산사태 취약지역과 지하차도,
+저지대 주택을 미리 점검하라고 했다
+깨우는 건 마을방송과 사이렌이다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: his gloved hand clamped around the traffic baton, knuckles pale under the running rain. A public safety worker in a rain poncho stands at the mouth of an underpass where water has already crept over the lower ramp, his arm raised to hold back an approaching car, his eyes tracking the water line to his right. Above and behind him a village loudspeaker sits on a utility pole, and beyond it a low slope of small houses drops toward the flooded road.
-Camera: full shot from a high angle, shot on 24mm wide lens
-Lighting/mood: cold blue pre-dawn tone, lone streetlight reflection on wet ground, desolate stillness
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the reflective stripes of the poncho and the baton tip), film-noir low-key lighting, deep shadows
-Korean setting: Korean underpass ramp with painted lane markings, right-hand traffic, Korean village loudspeaker on a concrete utility pole, no readable letters.
-Text handling: road signs are cropped at the frame edge or turned away; no garbled or fake script, no meaningless letters, no random characters, no dense text.
+Scene: Emotional focal point: the gloved hand tightening on a steel barrier as it is dragged the last inch across the mouth of the underpass. Two municipal workers in reflective vests set barriers across a sunken underpass entrance at night, both looking down at the flood-depth marker painted on the concrete wall to their right. A pole-mounted village loudspeaker leans out over them from the roadside above, its horn aimed down the same road toward the right edge of the frame. Rain has already sheeted the asphalt.
+Camera: cowboy shot from high angle, shot on 28mm lens, natural street perspective, nose room on the right, the road leading toward the right edge
+Lighting/mood: flat cold even surveillance light, no shadow no warmth, detached and watchful
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the reflective striping of the vests and the barrier tape), muted low-key contrast
+Korean default: Korean facial features and build, a Korean underpass with painted depth markings and a Korean village broadcast speaker on a concrete pole.
+Text handling: the depth marker shows only stripes and tick lines, no numerals and no words; no readable lettering anywhere in the frame.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the flooded roadway) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the wet asphalt road) extending edge to edge from top to bottom of the frame. The main subjects are anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -100,29 +100,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-지하차도 침수 통제
+지하차도 침수 통제 바리케이드
 ```
 
 ### [카드 4]
 **텍스트**
 ```text
-바다도 같은 시간에 걸려 있었다
-바닷물이 가장 높이 차는 때와 겹쳤다
-해안가·저지대·계곡 수위도 짚었다
-*문제는 그 물이 언제 닥치느냐다*
+*깨우는 이유는 그 새벽에 있다*
+시간당 70㎜, 바닷물도 가장 높이 찬다
+비와 바닷물이 같은 시각에 만난다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the widening eyes of the older resident as the seawater lips over the low wall in front of him. Two residents in raincoats stand on a coastal road at night, one shining a flashlight down at the water that is climbing the drain mouth, the other looking out to the right where the sea sits higher than the road. Sandbags are stacked half-finished against the doorway of a low house behind them, and the black water sheet spreads across the asphalt toward the camera.
-Camera: WS from a ground-level worm's-eye view, shot on 28mm lens
-Lighting/mood: single pool of hard light isolating the figures in surrounding blackness, claustrophobic loneliness
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 in the flashlight beam catching the rising water), film-noir low-key lighting, deep shadows
-Korean setting: Korean southern coastal village road with a low concrete sea wall and single-story tiled houses, Korean road markings, no readable letters.
-Text handling: shop frontage is angled away and unlit; no garbled or fake script, no meaningless letters, no random characters, no dense text.
+Scene: Emotional focal point: rain running straight into his open eyes as he refuses to blink. Recurring subject — a Korean man in his 40s with short cropped hair and a stubbled jaw, wearing a dark navy rain jacket over a gray tee — fills the frame, hood shoved back, water sheeting off his temple, one hand lifted with a flashlight held just under his chin so the beam throws his face out of the darkness. Directly behind his shoulder, thrown out of focus, the black surface of a swollen stream has climbed to the top of its bank.
+Camera: tight close-up from eye-level, shot on 85mm portrait lens, soft background separation
+Lighting/mood: single pool of hard light isolating the figure in surrounding blackness, claustrophobic loneliness
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 at its strongest here, in the flashlight beam cutting the rain), film-noir low-key lighting, deep shadows
+Korean default: Korean facial features and build.
+Text handling: no signage, no readable lettering anywhere in the frame.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the flooded coastal road) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the sheet of falling rain over the black water behind him) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area against this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -132,28 +131,29 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-해안가 만조 침수 방파제
+집중호우 불어난 계곡물
 ```
 
 ### [카드 5]
 **텍스트**
 ```text
-*물이 닿는 시각은 16일 새벽이다*
-전남 동부 남해안에서 경남으로 번진다
-시간당 70㎜ 이상, 다들 잠든 사이다
+그 밤을 앞두고 지시는 이렇게 끝났다
+관계기관끼리 정보를 공유하고
+현장 인력의 안전도 챙기라고 했다
+*남은 시간은 몇 시간뿐이었다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a single bead of water hanging from the tent seam, about to land on his sleeping face. Recurring subject — a Korean man in his 40s with short damp hair, wearing a dark navy rain jacket over a gray tee and holding a small flashlight, lies asleep inside the tent with the jacket bunched under his head and the flashlight switched off beside his hand. The taut nylon above him is bowed under the weight of rain, water is threading along the seam, and a dark stain is already spreading across the groundsheet beside his shoulder.
-Camera: tight close-up from eye level, shot on 100mm macro lens
-Lighting/mood: cold blue dim interior light, heavy and suffocating, faint trembling tension
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the tent seam tape running above his face), film-noir low-key lighting, deep shadows
-Korean setting: interior of a nylon dome tent at a Korean riverside campground at night, no readable letters.
-Text handling: brand marks on the tent fabric are omitted entirely; no garbled or fake script, no meaningless letters, no random characters, no dense text.
+Scene: Emotional focal point: one duty officer's hollow stare, headset slipped off a single ear, while two handsets light up beside him untouched. Six staff in shirtsleeves sit along one long run of desks in a darkened operations room, each turned to a different screen, and one of them stands behind the row with an arm raised toward a large wall display showing a rainfall band over a coastline. Paper cups crowd the near end of the same desk run.
+Camera: group shot from high angle, shot on 70mm short telephoto, gentle background compression
+Lighting/mood: cold blue screen under-glow lighting the faces from below in a dark room, restless unease
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the rainfall band across the wall display), film-noir low-key lighting, deep shadows
+Korean default: Korean facial features and build, a Korean emergency operations room with plain walls, no emblem and no logo of any institution.
+Text handling: screens and the wall display carry only colored bands, contours and blank rows, no numerals and no words; no readable lettering anywhere in the frame.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the taut tent fabric) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the long run of operations desks) extending edge to edge from top to bottom of the frame. The main subjects are anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -163,29 +163,29 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-야영장 텐트 폭우
+재난안전상황실 비상근무
 ```
 
 ### [카드 6]
 **텍스트**
 ```text
-그 시간을 향해 비상근무가 걸렸다
-관계기관끼리 정보를 공유하라고 했다
-현장에 나가는 인력의 안전도 당부했다
-*지시는 저녁, 남은 시간은 몇 시간이다*
+위험한 곳 이름은 지시문에 다 있다
+오늘 밤 갈리는 건 그 종이가
+캠핑장 문 앞까지 걸어가느냐다
+*문을 두드릴 사람 수는 적혀 있지 않다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: his eyes cutting down to his wrist watch, jaw clenched tight with the muscle flexing at the jawline. A response worker in a wet rain jacket stands beside a parked emergency vehicle on a night road, one hand holding a radio handset near his collar, the other pushing back his sleeve to read the time. Two colleagues behind him pull on ponchos and look off to the right where the road disappears into the rain, and the vehicle's rotating light throws a hard sweep across their shoulders.
-Camera: MS from a high angle, shot on 35mm lens
-Lighting/mood: single hard side-light cutting across the subject, deep chiaroscuro shadows, tense atmosphere
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the reflective bands of the rain jackets), film-noir low-key lighting, deep shadows
-Korean setting: Korean provincial road at night with painted lane markings and right-hand traffic, plain unmarked response vehicle, no logos, no readable letters.
-Text handling: the vehicle carries no lettering at all; no garbled or fake script, no meaningless letters, no random characters, no dense text.
+Scene: Emotional focal point: his eyes looking straight out at the viewer from the tent opening, still waiting for someone who has not come. Recurring subject — a Korean man in his 40s with short cropped hair and a stubbled jaw, wearing a dark navy rain jacket over a gray tee — stands in the unzipped doorway of his tent facing the camera dead-on, one hand holding the flap open, the other hanging empty at his side. Behind him the gravel access road of the campsite runs straight back and empty into the pre-dawn blue, with nobody on it and the other tents dark on that same wet gravel.
+Camera: full shot from eye-level, front-on with the subject centered and facing the camera, shot on 24mm wide lens, cinematic wide shot
+Lighting/mood: cold blue pre-dawn tone, a lone light reflection on the wet ground, desolate stillness
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the one lamp still burning at his tent), film-noir low-key lighting, deep shadows
+Korean default: Korean facial features and build, a Korean valley campsite with wooden tent decks along a gravel access road.
+Text handling: no signage, no readable lettering anywhere in the frame.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the rain-soaked asphalt) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the wet gravel access road) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -195,37 +195,5 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-호우 현장 대응 인력
-```
-
-### [카드 7]
-**텍스트**
-```text
-어디가 위험한지는 진작 다 나와 있다
-캠핑장도 지하차도도 저지대 주택도
-목록을 현장으로 옮기는 건 사람이다
-*잠든 문을 두드릴 인원은 지시문에 없다*
-```
-**이미지 프롬프트**
-```text
-korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: his hand still on the tent zipper, eyes fixed straight ahead on the one flashlight beam coming toward him. Recurring subject — a Korean man in his 40s with short damp hair, wearing a dark navy rain jacket over a gray tee and holding a small flashlight, has just opened his tent and looks directly at the camera from the middle of the frame. Down the row behind him a dozen tents stand dark and shut, and a single response worker with a flashlight is walking up the gravel path toward the first of them. The stream beside the campground runs high and black.
-Camera: WS from eye level, front-on, shot on 20mm wide lens
-Lighting/mood: cold blue pre-dawn tone, lone streetlight reflection on wet ground, desolate stillness
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 in the approaching flashlight beam), film-noir low-key lighting, deep shadows
-Korean setting: Korean riverside campground with rows of low nylon tents, a gravel path and a concrete stream embankment, no readable letters.
-Text handling: no camp signage rendered; any incidental marking is lost in shadow; no garbled or fake script, no meaningless letters, no random characters, no dense text.
-Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
-MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the wet gravel campground path) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
-- no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
-- no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
-- no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
-- no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
-- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
-```
-**검색어**
-```text
-캠핑장 야간 대피 안내
+야영장 대피 안내방송
 ```
