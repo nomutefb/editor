@@ -231,6 +231,39 @@ jobs:
             echo "SNS 트렌드 재발사 불요(stale=${stale} · recent40m=${recent})"
           fi
 
+      # ── 감시기 정체 자동 재발사 (260818 · SNS 백스톱의 형제 — cron 전용 마지막 급소) ──
+      # 실측 260818 = watchdog(:09/:39 등록 = 시간당 2회)이 GitHub cron 드롭으로 종일 시간당 ~1회만 불리고
+      #   23:50Z→03:12Z 3시간 22분 통구멍(sns-trends와 같은 창 · 그 창 실행 0건·실패도 0건) → 경보 자체가
+      #   3시간 늦게 떴다(폰 정체·SNS 정체·묻힘이 12:12에 몰아서 점등된 이유). 감시기는 경보의 시계라 이게
+      #   마지막 cron 전용 급소 — 나머지 cron 레인(집계·야간 점검류)은 몇 시간 늦어도 안 아픈 축이라 비대상.
+      # 판정·쿨다운 = 한 축(최신 런 나이 > 2400s = 등록 주기 30분 + 여유 10분) — 직전 발사·진행 중 런이
+      #   나이를 되돌리므로 중복 발사 구조적 0. API 조회 실패 = 발사 생략(눈 감고 쏘지 않는다 · 경고만).
+      # dispatch 기본 notify=1 = 예약 회차와 같은 동작(watchdog.yml inputs.notify default '1' · 260818
+      #   수동 발사 2회 실측 = 슬롯 점등·해제 정상). fail-soft · 킬스위치 = repo variable WD_AUTOFIRE=0(부재=ON).
+      - name: 감시기 정체 자동 재발사
+        if: ${{ vars.WD_AUTOFIRE != '0' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          ts=$(gh run list --workflow watchdog.yml --limit 1 --json createdAt --jq '.[0].createdAt' 2>/dev/null || echo "")
+          if [ -z "$ts" ]; then
+            echo "::warning::watchdog 런 조회 실패 — 재발사 판정 생략(다음 15분 틱 재시도)"
+            exit 0
+          fi
+          now_s=$(date -u +%s); then_s=$(date -u -d "$ts" +%s 2>/dev/null || echo 0)
+          age=$(( now_s - then_s ))
+          if [ "$age" -gt 2400 ]; then
+            echo "감시기 마지막 런 ${age}s 전(임계 2400s) — watchdog 자동 재발사(cron 누락 백스톱)"
+            ok=0
+            for i in 1 2 3; do                     # pending-sweep/pick.yml 3회 관용구 계승(단발 silent-fail 방지)
+              gh workflow run watchdog.yml && { ok=1; break; }
+              sleep $((i * 3))
+            done
+            [ "$ok" = 1 ] || echo "::warning::watchdog 자동 재발사 3회 실패(다음 15분 틱 재시도)"
+          else
+            echo "감시기 신선(마지막 런 ${age}s 전) — 재발사 불요"
+          fi
+
       # ── 자동분석 (analyze=true 한정 — 유료) ──────────────────────────────
       - name: Emit to pending/ (중복 스킵)
         if: ${{ (inputs.analyze || 'false') == 'true' }}
