@@ -6,119 +6,150 @@
  *{box-sizing:border-box}
  body{margin:0;background:var(--bg);color:var(--fg);font-family:Pretendard,system-ui,-apple-system,'Noto Sans KR',sans-serif;padding:22px 20px 40px;max-width:1180px;margin-inline:auto}
  h1{font-size:26px;font-weight:800;margin:0 0 6px;letter-spacing:-.4px}
- .sub{color:var(--mut);font-size:15px;margin:0 0 18px;line-height:1.55}
- .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
- @media(max-width:860px){.grid{grid-template-columns:1fr}}
+ .sub{color:var(--mut);font-size:15px;margin:0 0 18px;line-height:1.6}
+ .grid{display:grid;grid-template-columns:1.15fr 1fr;gap:18px}
+ @media(max-width:900px){.grid{grid-template-columns:1fr}}
  .card{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
- .card h2{font-size:16px;font-weight:700;margin:0 0 12px;color:var(--fg)}
+ .card h2{font-size:16px;font-weight:700;margin:0 0 10px}
+ canvas{width:100%;height:auto;touch-action:none;cursor:crosshair;border-radius:10px}
+ .bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:10px 0 4px}
+ button{background:rgba(255,255,255,.05);color:var(--fg);border:1px solid var(--line);border-radius:9px;padding:7px 12px;font-size:13.5px;font-weight:600;cursor:pointer;font-family:inherit}
+ button:hover{border-color:var(--accent)} button.on{background:rgba(61,220,151,.14);border-color:var(--accent);color:var(--accent)}
  label{display:block;font-size:13.5px;color:var(--mut);margin:12px 0 5px}
  input[type=range]{width:100%;accent-color:var(--accent)}
  .val{color:var(--gold);font-weight:800;font-variant-numeric:tabular-nums}
- .presets{display:flex;gap:8px;flex-wrap:wrap;margin:2px 0 6px}
- button{background:rgba(255,255,255,.05);color:var(--fg);border:1px solid var(--line);border-radius:9px;padding:7px 12px;font-size:13.5px;font-weight:600;cursor:pointer;font-family:inherit}
- button:hover{border-color:var(--accent)}
- button.on{background:rgba(61,220,151,.14);border-color:var(--accent);color:var(--accent)}
  table{border-collapse:collapse;width:100%;font-size:14px}
  td,th{padding:6px 8px;border-bottom:1px solid rgba(255,255,255,.07);text-align:left}
  th{color:var(--mut);font-size:12.5px;font-weight:700}
  .n{text-align:right;font-variant-numeric:tabular-nums}
  .yt{color:#ff7b7b}.gg{color:#7cc4ff}
- pre{background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:10px;padding:11px 13px;font-size:13px;overflow:auto;margin:8px 0 0}
- .note{color:var(--mut);font-size:12.5px;line-height:1.6;margin-top:10px}
- .warn{color:var(--gold)}
+ pre{background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:10px;padding:11px 13px;font-size:13px;overflow:auto;margin:8px 0 0;white-space:pre-wrap}
+ .note{color:var(--mut);font-size:12.5px;line-height:1.65;margin-top:10px}
+ .warn{color:var(--gold)} .hint{color:var(--accent);font-size:13px;font-weight:600;margin:8px 0 0}
+ .pins{font-size:13px;color:var(--mut);margin-top:8px;line-height:1.7}
+ .pins b{color:var(--gold);font-variant-numeric:tabular-nums}
 </style></head><body>
 <h1>유튜브 조회수 → 구글 검색량 환산 곡선</h1>
 <p class="sub">실시간 TOP은 유튜브와 구글을 한 줄에 세운다. 자가 다르니 <b>유튜브 조회수를 구글 검색량으로 옮겨서</b> 비교한다.<br>
-아래 점 3개가 그 환산표다 — 옮기면 곡선 전체와 오른쪽 순위가 같이 바뀐다.</p>
+<b style="color:var(--accent)">핀은 직접 꼽는다</b> — 빈 곳을 누르면 핀이 생기고, 핀을 끌면 옮겨지고, 두 번 누르면 지워진다. 꼽은 자리가 곧 기울기가 바뀌는 지점이다.</p>
 
 <div class="grid">
  <div class="card">
   <h2>① 곡선 (가로·세로 모두 로그 눈금)</h2>
-  <canvas id="cv" width="560" height="330" style="width:100%;height:auto"></canvas>
-  <div class="presets" style="margin-top:10px">
-   <button data-p="op" class="on">운영자 지정</button>
+  <canvas id="cv" width="620" height="380"></canvas>
+  <p class="hint">빈 곳 탭 = 핀 추가 · 핀 끌기 = 이동 · 핀 더블탭 = 삭제</p>
+  <div class="bar">
+   <button data-p="op" class="on">운영자 지정 3핀</button>
    <button data-p="soft">완만하게</button>
    <button data-p="hard">가파르게</button>
+   <button id="rst">되돌리기</button>
   </div>
-  <label>10만 뷰 = 검색 <span class="val" id="v0">500</span></label>
-  <input type="range" id="r0" min="1.7" max="4" step="0.02" value="2.699">
-  <label>30만 뷰 = 검색 <span class="val" id="v1">5,000</span></label>
-  <input type="range" id="r1" min="2.5" max="4.7" step="0.02" value="3.699">
-  <label>50만 뷰 = 검색 <span class="val" id="v2">30,000</span></label>
-  <input type="range" id="r2" min="3" max="5.4" step="0.02" value="4.477">
+  <label>S자 세기 <span class="val" id="kv">2.20</span> <span style="color:var(--mut);font-weight:400">(1 = 직선 · 클수록 두 번 꺾인 S가 뚜렷)</span></label>
+  <input type="range" id="q" min="1" max="5" step="0.05" value="2.2">
+  <div class="pins" id="pins"></div>
  </div>
 
  <div class="card">
   <h2>② 지금 데이터로 본 실시간 TOP 10</h2>
-  <table id="tb"><thead><tr><th>#</th><th>제목</th><th class="n">원값</th><th class="n">환산 검색량</th></tr></thead><tbody></tbody></table>
-  <p class="note">데이터 = 2026-08-19 08:07 수집분 · 유튜브는 12시간 이내만(운영자 260819) · 게임 등 제외 분류는 빠져 있음</p>
+  <table id="tb"><thead><tr><th>#</th><th>제목</th><th class="n">원값</th><th class="n">환산</th></tr></thead><tbody></tbody></table>
+  <p class="note">데이터 = 2026-08-19 08:07 수집분 · 유튜브는 12시간 이내만 · 게임 등 제외 분류는 빠져 있음</p>
+  <h2 style="margin-top:16px">③ 정한 값 복사</h2>
+  <pre id="out"></pre>
+  <button id="cp">값 복사</button>
+  <p class="note warn">⚠ 한계 — ⓐ 곡선은 꼽은 핀을 <b>정확히 지난다</b>. 핀 사이는 S자(시작 완만 → 중간 가파름 → 끝 완만)로 잇고, 핀에서는 꺾여도 된다.
+  ⓑ 핀 밖(가장 왼쪽 아래·가장 오른쪽 위)은 끝 구간 기울기로 곧게 늘린다. ⓒ 어떤 배치에서도 값이 되돌아가지 않는다(순위 뒤집힘 없음).
+  ⓓ 구글 쪽 값은 환산하지 않는다(검색량이 이미 그 자다). ⓔ 이 화면은 시안이라 실제 화면 코드와 별개다 — 값을 정하면 코드에 옮긴다.</p>
  </div>
 </div>
 
-<div class="card" style="margin-top:18px">
- <h2>③ 정한 값 복사</h2>
- <pre id="out"></pre>
- <button id="cp">값 복사</button>
- <p class="note warn">⚠ 한계 — ⓐ 곡선은 지정한 점 3개를 지나고 그 사이는 부드럽게 잇는다(단조 = 순위 뒤집힘 없음). 점 밖은 양끝 기울기로 곧게 늘린다.
- ⓑ 100만 뷰를 넘으면 환산값이 아주 커진다(운영자 지정 기울기의 연장) — 다만 플랫폼 칸 수 제한(4칸)이 있어 유튜브가 TOP을 통째로 먹지는 않는다.
- ⓒ 구글 쪽 값은 환산하지 않는다(검색량이 이미 그 자다). ⓓ 이 화면은 시안이라 실제 화면 코드와 별개다 — 값을 정하면 코드에 옮긴다.</p>
-</div>
-
 <script>
-const DATA = {"yt": [{"t": "울고 싶은 이재명…트럼프에 뺨맞고, 정성호도 떠나 / 김어준의 저주,", "v": 113454, "h": 11.8}, {"t": "NCT 127 엔시티 127 'BLINGY' Highlight Med", "v": 81330, "h": 8.1}, {"t": "샤벨 DNS와 1년 더?", "v": 16462, "h": 10.6}, {"t": "모기를 얼마나 싫어하는 감도 안오", "v": 12612, "h": 11.6}], "gg": [{"t": "박용우", "v": 100}, {"t": "내가 만난 사이코패스", "v": 100}, {"t": "하빕 누르마고메도프", "v": 100}, {"t": "철도", "v": 100}, {"t": "천궁2", "v": 2000}, {"t": "허찬미", "v": 100}, {"t": "운세", "v": 5000}, {"t": "농민", "v": 1000}, {"t": "푸바오", "v": 2000}, {"t": "hd현대", "v": 200}, {"t": "현금", "v": 100000}, {"t": "김정화", "v": 20000}, {"t": "전지현", "v": 20000}, {"t": "kia 대 한화", "v": 20000}], "at": "2026-08-19T08:07:33+09:00"};
+const DATA = {"yt": [{"t": "똘끼 리니지클래식 복수전 주머니 10검 리벤지 갑니다 열렸습니다   ", "v": 254668, "h": 7.3}, {"t": "전역한 뜨뜨뜨뜨를 위한 깜짝이벤트", "v": 155874, "h": 10.1}, {"t": "울고 싶은 이재명…트럼프에 뺨맞고, 정성호도 떠나 / 김어준의 저주,", "v": 113454, "h": 11.8}, {"t": "벗어나고 싶은 구간【배치부터 챌린저#4】", "v": 88167, "h": 11.5}, {"t": "NCT 127 엔시티 127 'BLINGY' Highlight Med", "v": 81330, "h": 8.1}, {"t": "서버최초 184렙에 무공 도전하는 남자", "v": 64120, "h": 10.2}, {"t": "플레이 하나 하나가 미쳤는데!? [ASL 시즌22 24강 B조 승자전", "v": 36329, "h": 11.1}, {"t": "샤벨 DNS와 1년 더?", "v": 16462, "h": 10.6}, {"t": "모기를 얼마나 싫어하는 감도 안오", "v": 12612, "h": 11.6}], "gg": [{"t": "박용우", "v": 100}, {"t": "내가 만난 사이코패스", "v": 100}, {"t": "하빕 누르마고메도프", "v": 100}, {"t": "철도", "v": 100}, {"t": "천궁2", "v": 2000}, {"t": "허찬미", "v": 100}, {"t": "운세", "v": 5000}, {"t": "농민", "v": 1000}, {"t": "푸바오", "v": 2000}, {"t": "hd현대", "v": 200}, {"t": "현금", "v": 100000}, {"t": "김정화", "v": 20000}, {"t": "전지현", "v": 20000}, {"t": "kia 대 한화", "v": 20000}], "at": "2026-08-19T08:07:33+09:00"};
 const $ = s => document.querySelector(s);
 const lg = v => Math.log10(Math.max(1, v || 0));
-const XS = [lg(1e5), lg(3e5), lg(5e5)];
-let YS = [2.699, 3.699, 4.477];
-const PRESETS = { op:[2.699,3.699,4.477], soft:[2.90,3.60,4.10], hard:[2.48,3.78,4.90] };
-function mk(){
-  const n=3, d=[], m=[];
-  for(let i=0;i<n-1;i++) d.push((YS[i+1]-YS[i])/(XS[i+1]-XS[i]));
-  for(let i=0;i<n;i++){ if(i===0)m.push(d[0]); else if(i===n-1)m.push(d[n-2]);
-    else m.push(d[i-1]*d[i]<=0?0:2*d[i-1]*d[i]/(d[i-1]+d[i])); }
-  return v=>{ const x=lg(v);
-    if(x<=XS[0]) return Math.pow(10, YS[0]+m[0]*(x-XS[0]));
-    if(x>=XS[n-1]) return Math.pow(10, YS[n-1]+m[n-1]*(x-XS[n-1]));
-    let i=0; while(i<n-2 && x>XS[i+1]) i++;
-    const h=XS[i+1]-XS[i], t=(x-XS[i])/h, t2=t*t, t3=t2*t;
-    return Math.pow(10,(2*t3-3*t2+1)*YS[i]+(t3-2*t2+t)*h*m[i]+(-2*t3+3*t2)*YS[i+1]+(t3-t2)*h*m[i+1]); };
-}
+const DEF = [[1e5,500],[3e5,5e3],[5e5,3e4]];
+const PRESETS = { op:{p:DEF,k:2.2}, soft:{p:[[1e5,800],[3e5,4e3],[5e5,12e3]],k:1.4}, hard:{p:[[1e5,300],[3e5,6e3],[5e5,8e4]],k:3.4} };
+let PINS = DEF.map(a=>[...a]), K = 2.2, drag = -1, lastTap = {i:-1,t:0};
+
+const AX = { x0:lg(2e4), x1:lg(3e6), y0:lg(10), y1:lg(3e7) };
+const cv = $('#cv'), g = cv.getContext('2d');
+const px = x => 50 + (x-AX.x0)/(AX.x1-AX.x0)*(cv.width-64);
+const py = y => cv.height-34 - (y-AX.y0)/(AX.y1-AX.y0)*(cv.height-34-16);
+const ix = X => AX.x0 + (X-50)/(cv.width-64)*(AX.x1-AX.x0);
+const iy = Y => AX.y0 + (cv.height-34-Y)/(cv.height-34-16)*(AX.y1-AX.y0);
 const fmt = v => Math.round(v).toLocaleString();
-function draw(f){
-  const c=$('#cv'), g=c.getContext('2d'), W=c.width, H=c.height, P=44;
-  g.clearRect(0,0,W,H);
-  const x0=lg(3e4), x1=lg(2e6), y0=lg(10), y1=lg(3e6);
-  const px=x=>P+(x-x0)/(x1-x0)*(W-P-14), py=y=>H-30-(y-y0)/(y1-y0)*(H-30-14);
-  g.strokeStyle='rgba(255,255,255,.09)'; g.lineWidth=1;
-  [1e2,1e3,1e4,1e5,1e6].forEach(v=>{const y=py(lg(v));g.beginPath();g.moveTo(P,y);g.lineTo(W-14,y);g.stroke();
-    g.fillStyle='#8fa697';g.font='11px sans-serif';g.textAlign='right';g.fillText(v>=1e6?'100만':v>=1e3?(v/1e4>=1?(v/1e4)+'만':(v/1e3)+'천'):v+'', P-6, y+4);});
-  [1e5,3e5,5e5,1e6].forEach(v=>{const x=px(lg(v));g.beginPath();g.moveTo(x,14);g.lineTo(x,H-30);g.stroke();
-    g.fillStyle='#8fa697';g.textAlign='center';g.fillText((v/1e4)+'만뷰', x, H-12);});
-  g.beginPath(); g.strokeStyle='#3ddc97'; g.lineWidth=2.4;
-  for(let i=0;i<=200;i++){ const x=x0+(x1-x0)*i/200, y=lg(f(Math.pow(10,x)));
-    const X=px(x), Y=py(Math.max(y0,Math.min(y1,y))); i?g.lineTo(X,Y):g.moveTo(X,Y); }
-  g.stroke();
-  [[1e5,0],[3e5,1],[5e5,2]].forEach(([v,i])=>{ const X=px(lg(v)), Y=py(YS[i]);
-    g.beginPath(); g.arc(X,Y,6,0,7); g.fillStyle='#ffd166'; g.fill();
-    g.fillStyle='#ffd166'; g.font='bold 12px sans-serif'; g.textAlign='left'; g.fillText(fmt(Math.pow(10,YS[i])), X+9, Y-8); });
+
+function fn(){
+  const P = [...PINS].sort((a,b)=>a[0]-b[0]);
+  const X = P.map(a=>lg(a[0])), Y = P.map(a=>lg(a[1])), n = X.length;
+  if(n===0) return ()=>0;
+  if(n===1) return v => P[0][1];
+  const e0 = (Y[1]-Y[0])/(X[1]-X[0]), e1 = (Y[n-1]-Y[n-2])/(X[n-1]-X[n-2]);
+  return v => { const x = lg(v);
+    if(x<=X[0]) return Math.pow(10, Y[0]+e0*(x-X[0]));
+    if(x>=X[n-1]) return Math.pow(10, Y[n-1]+e1*(x-X[n-1]));
+    let i=0; while(i<n-2 && x>X[i+1]) i++;
+    const dx = X[i+1]-X[i]; if(dx<=0) return Math.pow(10,Y[i]);
+    const t=(x-X[i])/dx, k=K>0?K:1, a=Math.pow(t,k), e=a/(a+Math.pow(1-t,k));
+    return Math.pow(10, Y[i]+(Y[i+1]-Y[i])*e); };
 }
+function draw(){
+  const f = fn();
+  g.clearRect(0,0,cv.width,cv.height);
+  g.fillStyle='rgba(255,255,255,.025)'; g.fillRect(0,0,cv.width,cv.height);
+  g.strokeStyle='rgba(255,255,255,.09)'; g.lineWidth=1; g.font='11px sans-serif';
+  [1e2,1e3,1e4,1e5,1e6,1e7].forEach(v=>{const y=py(lg(v));g.beginPath();g.moveTo(50,y);g.lineTo(cv.width-14,y);g.stroke();
+    g.fillStyle='#8fa697';g.textAlign='right';
+    g.fillText(v>=1e7?'1000만':v>=1e6?'100만':v>=1e4?(v/1e4)+'만':v>=1e3?(v/1e3)+'천':v+'', 45, y+4);});
+  [1e5,3e5,1e6].forEach(v=>{const x=px(lg(v));g.beginPath();g.moveTo(x,16);g.lineTo(x,cv.height-34);g.stroke();
+    g.fillStyle='#8fa697';g.textAlign='center';g.fillText(v>=1e6?'100만뷰':(v/1e4)+'만뷰', x, cv.height-14);});
+  g.beginPath(); g.strokeStyle='#3ddc97'; g.lineWidth=2.6;
+  for(let i=0;i<=300;i++){ const x=AX.x0+(AX.x1-AX.x0)*i/300;
+    const y=Math.max(AX.y0,Math.min(AX.y1,lg(f(Math.pow(10,x)))));
+    const X=px(x),Y=py(y); i?g.lineTo(X,Y):g.moveTo(X,Y); }
+  g.stroke();
+  PINS.forEach((p,i)=>{ const X=px(lg(p[0])), Y=py(lg(p[1]));
+    g.beginPath(); g.arc(X,Y,7,0,7); g.fillStyle=i===drag?'#fff':'#ffd166'; g.fill();
+    g.strokeStyle='rgba(0,0,0,.5)'; g.lineWidth=1.5; g.stroke();
+    g.fillStyle='#ffd166'; g.font='bold 12px sans-serif'; g.textAlign='left';
+    g.fillText(fmt(p[0]/1e4)+'만뷰 → '+fmt(p[1]), X+10, Y-9); });
+}
+function hit(X,Y){ for(let i=0;i<PINS.length;i++){ const dx=px(lg(PINS[i][0]))-X, dy=py(lg(PINS[i][1]))-Y;
+  if(dx*dx+dy*dy<=196) return i; } return -1; }
+function pos(ev){ const r=cv.getBoundingClientRect(), sx=cv.width/r.width, sy=cv.height/r.height;
+  const c=ev.touches?ev.touches[0]:ev; return [(c.clientX-r.left)*sx, (c.clientY-r.top)*sy]; }
+function down(ev){ ev.preventDefault(); const [X,Y]=pos(ev); const i=hit(X,Y); const now=Date.now();
+  if(i>=0){ if(lastTap.i===i && now-lastTap.t<420 && PINS.length>2){ PINS.splice(i,1); lastTap={i:-1,t:0}; render(); return; }
+    lastTap={i,t:now}; drag=i; render(); return; }
+  const v=Math.pow(10,ix(X)), s=Math.pow(10,iy(Y));
+  if(v<2e4||v>3e6||s<10||s>3e7) return;
+  PINS.push([Math.round(v/1e3)*1e3, Math.round(s)]); drag=PINS.length-1; render(); }
+function move(ev){ if(drag<0) return; ev.preventDefault(); const [X,Y]=pos(ev);
+  PINS[drag]=[Math.min(3e6,Math.max(2e4,Math.round(Math.pow(10,ix(X))/1e3)*1e3)), Math.min(3e7,Math.max(10,Math.round(Math.pow(10,iy(Y)))))];
+  render(); }
+function up(){ drag=-1; render(); }
+cv.addEventListener('mousedown',down); cv.addEventListener('touchstart',down,{passive:false});
+window.addEventListener('mousemove',move); window.addEventListener('touchmove',move,{passive:false});
+window.addEventListener('mouseup',up); window.addEventListener('touchend',up);
 function render(){
-  const f=mk();
-  ['v0','v1','v2'].forEach((id,i)=>$('#'+id).textContent=fmt(Math.pow(10,YS[i])));
-  draw(f);
+  const f=fn(); draw();
+  $('#kv').textContent=K.toFixed(2);
+  const P=[...PINS].sort((a,b)=>a[0]-b[0]);
+  $('#pins').innerHTML='핀 '+P.length+'개 — '+P.map(p=>'<b>'+fmt(p[0]/1e4)+'만뷰</b>=검색 <b>'+fmt(p[1])+'</b>').join(' · ');
   const rows=[...DATA.yt.map(o=>({t:o.t,raw:o.v.toLocaleString()+'회 · '+o.h+'h',s:f(o.v),k:'yt'})),
               ...DATA.gg.map(o=>({t:o.t,raw:o.v.toLocaleString()+' 검색',s:o.v,k:'gg'}))]
              .sort((a,b)=>b.s-a.s).slice(0,10);
-  $('#tb tbody').innerHTML = rows.map((r,i)=>
+  $('#tb tbody').innerHTML=rows.map((r,i)=>
     `<tr><td>${i+1}</td><td class="${r.k}">${r.t}</td><td class="n">${r.raw}</td><td class="n">${fmt(r.s)}</td></tr>`).join('');
-  const rw = i => Math.round(Math.pow(10,YS[i]));   // 복사값은 콤마 없는 순수 숫자(코드에 그대로 붙는다)
-  $('#out').textContent = 'const YT_EQ = [[1e5, '+rw(0)+'], [3e5, '+rw(1)+'], [5e5, '+rw(2)+']];';
+  $('#out').textContent='const YT_EQ = ['+P.map(p=>'['+p[0]+', '+p[1]+']').join(', ')+'];\nconst YT_EASE = '+K.toFixed(2)+';';
 }
-['r0','r1','r2'].forEach((id,i)=>$('#'+id).addEventListener('input',e=>{YS[i]=+e.target.value;
-  document.querySelectorAll('.presets button').forEach(b=>b.classList.remove('on')); render();}));
-document.querySelectorAll('.presets button').forEach(b=>b.addEventListener('click',()=>{
-  document.querySelectorAll('.presets button').forEach(z=>z.classList.remove('on')); b.classList.add('on');
-  YS=[...PRESETS[b.dataset.p]]; ['r0','r1','r2'].forEach((id,i)=>$('#'+id).value=YS[i]); render();}));
+$('#q').addEventListener('input',e=>{K=+e.target.value;
+  document.querySelectorAll('.bar button[data-p]').forEach(b=>b.classList.remove('on')); render();});
+document.querySelectorAll('.bar button[data-p]').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('.bar button[data-p]').forEach(z=>z.classList.remove('on')); b.classList.add('on');
+  const P=PRESETS[b.dataset.p]; PINS=P.p.map(a=>[...a]); K=P.k; $('#q').value=K; render();}));
+$('#rst').addEventListener('click',()=>{PINS=DEF.map(a=>[...a]); K=2.2; $('#q').value=2.2;
+  document.querySelectorAll('.bar button[data-p]').forEach(z=>z.classList.remove('on'));
+  document.querySelector('.bar button[data-p="op"]').classList.add('on'); render();});
 $('#cp').addEventListener('click',()=>{navigator.clipboard.writeText($('#out').textContent);
   $('#cp').textContent='복사됨'; setTimeout(()=>$('#cp').textContent='값 복사',1400);});
 render();
