@@ -21,6 +21,7 @@ export async function onRequestPost({ request, env }) {
 
   let body;
   try { body = await request.json(); } catch { return json({ error: '잘못된 요청' }, 400); }
+  const _lbl = (typeof body.lbl === 'string' && body.lbl.trim()) ? body.lbl.trim().slice(0, 80) : '';   // 발사 이름표 에코(260818 «영상 쪽도 실명» — api/thumb.js 동문) · 진행 중 원장(putLive)이 응답만 읽으므로 여기 실어야 다른 기기 합류분이 종류 이름 대신 실명을 단다
 
   let scene = String(body.scene || '').slice(0, 8000);
   if (!scene.trim()) return json({ error: '장면/기사 입력이 필요해' }, 400);
@@ -96,7 +97,7 @@ export async function onRequestPost({ request, env }) {
   const r = await GH(env.GH_TOKEN, 'actions/workflows/k-make.yml/dispatches', 'POST', {
     ref: REF, inputs: { id, scene, refimage },
   });
-  if (r.status === 204) return json({ ok: true, id, refimage: refimage === 'true', out: `k_out/${id}/prompt.md`, ref: `k_out/${id}/ref.jpg` });
+  if (r.status === 204) return json({ ok: true, id, refimage: refimage === 'true', out: `k_out/${id}/prompt.md`, ref: `k_out/${id}/ref.jpg`, ...(_lbl ? { lbl: _lbl } : {}) });
   // 발사 실패 → R2 잡 큐 착지(260815 코워크 · conv.js fail-soft 미러) — id 보존 = 뷰어 폴링 무변 · 맥 잡워커 소비.
   if (env.R2) {
     try {
@@ -104,7 +105,7 @@ export async function onRequestPost({ request, env }) {
         kind: 'k', id, ts: new Date().toISOString(),
         inputs: { id, scene, refimage },
       }));
-      return json({ ok: true, id, refimage: refimage === 'true', out: `k_out/${id}/prompt.md`, ref: `k_out/${id}/ref.jpg`, via: 'r2-queue', note: '깃허브 발사 실패 — 맥 워커 큐 접수' });
+      return json({ ok: true, id, refimage: refimage === 'true', out: `k_out/${id}/prompt.md`, ref: `k_out/${id}/ref.jpg`, ...(_lbl ? { lbl: _lbl } : {}), via: 'r2-queue', note: '깃허브 발사 실패 — 맥 워커 큐 접수' });
     } catch { /* R2도 실패 → 종전 502(아래) */ }
   }
   return json({ error: `발사 실패 GitHub ${r.status}: ${(await r.text()).slice(0, 200)}` }, 502);

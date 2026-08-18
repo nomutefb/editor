@@ -21,6 +21,7 @@ export async function onRequestPost({ request, env }) {
 
   let body;
   try { body = await request.json(); } catch { return json({ error: '잘못된 요청' }, 400); }
+  const _lbl = (typeof body.lbl === 'string' && body.lbl.trim()) ? body.lbl.trim().slice(0, 80) : '';   // 발사 이름표 에코(260818 «영상 쪽도 실명» — api/thumb.js 동문) · 진행 중 원장(putLive)이 응답만 읽으므로 여기 실어야 다른 기기 합류분이 종류 이름 대신 실명을 단다
 
   // 제어문자 제거(개행·탭은 스토리에 유효라 보존) + 길이 캡 — 러너 프롬프트는 env 전달이라 셸 주입 축 없음(이중 방어)
   const clean = v => String(v || '').replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, '').trim();
@@ -70,7 +71,7 @@ export async function onRequestPost({ request, env }) {
   const r = await GH(env.GH_TOKEN, 'actions/workflows/song-make.yml/dispatches', 'POST', {
     ref: REF, inputs: { id, mode, genre, express, mood, theme, story, pick, opts },
   });
-  if (r.status === 204) return json({ ok: true, id, mode, out: `song_out/${id}/${mode === 'options' ? 'options.json' : 'song.json'}` });
+  if (r.status === 204) return json({ ok: true, id, mode, out: `song_out/${id}/${mode === 'options' ? 'options.json' : 'song.json'}`, ...(_lbl ? { lbl: _lbl } : {}) });
   // 발사 실패 → R2 잡 큐 착지(260815 코워크 · conv.js fail-soft 미러) — id 보존 = 뷰어 폴링 무변 · 맥 잡워커 소비.
   if (env.R2) {
     try {
@@ -78,7 +79,7 @@ export async function onRequestPost({ request, env }) {
         kind: 'song', id, ts: new Date().toISOString(),
         inputs: { id, mode, genre, express, mood, theme, story, pick, opts },
       }));
-      return json({ ok: true, id, mode, out: `song_out/${id}/${mode === 'options' ? 'options.json' : 'song.json'}`, via: 'r2-queue', note: '깃허브 발사 실패 — 맥 워커 큐 접수' });
+      return json({ ok: true, id, mode, out: `song_out/${id}/${mode === 'options' ? 'options.json' : 'song.json'}`, ...(_lbl ? { lbl: _lbl } : {}), via: 'r2-queue', note: '깃허브 발사 실패 — 맥 워커 큐 접수' });
     } catch { /* R2도 실패 → 종전 502(아래) */ }
   }
   return json({ error: `발사 실패 GitHub ${r.status}: ${(await r.text()).slice(0, 200)}` }, 502);

@@ -660,10 +660,12 @@ async function fireApi(gb, url, payload, onAccept){
 function fire(mode, gb){
   const story=$('#story').value.trim();
   if(!story) return btnErr(gb,'스토리(대사나 상황)를 적어줘');
-  const payload={ mode, genre:getGen(), express:getExp(), mood:getMood(), theme:getTheme(), story:story.slice(0,1500) };
+  const _sln=(story.split('\n').find(s=>s.trim())||'').replace(/\s+/g,' ').trim();   // 실명 = 이야기 첫 줄(260818 «영상 쪽도 실명» · 16자 관례 = sb 작업 내역 정본 문법)
+  const _slbl=_sln? (_sln.slice(0,16)+(_sln.length>16?'…':'')) : (mode==='options'?'음원 옵션':'음원');
+  const payload={ mode, genre:getGen(), express:getExp(), mood:getMood(), theme:getTheme(), story:story.slice(0,1500), lbl:_slbl };   // lbl = 발사 이름표(서버 에코 → 진행 중 원장 → 다른 기기 합류분 실명 · api/song.js 짝)
   if(mode!=='options'&&PICK) payload.pick=PICK;
   if(mode!=='options'&&gaugeLive()) payload.opts={w:GAUGE.w, s:GAUGE.s, v:GAUGE.v, vg:Math.abs(GAUGE.g), t:GAUGE.t};   // 중립뿐이면 아예 안 싣는다(서버도 같은 판정 = 이중 방어) · vg = 성별 강도(0~100 절대값 · 태그 문구 3단) · t = 목표 길이(초)
-  fireApi(gb, API, payload, (j,t0)=>{ pendSet({id:j.id, mode, t0, story:story.slice(0,1500)}); pollSong(j.id, mode, t0, t0-90000, gb); });
+  fireApi(gb, API, payload, (j,t0)=>{ pendSet({id:j.id, mode, t0, lbl:_slbl, story:story.slice(0,1500)}); pollSong(j.id, mode, t0, t0-90000, gb); });   // lbl = 이 기기 진행 줄도 같은 실명(구판 무이름 = '제작' 폴백으로 떨어졌다)
 }
 $('#optGo').addEventListener('click',()=>fire('options',$('#optGo')));
 $('#sunoGo').addEventListener('click',()=>fire('suno',$('#sunoGo')));
@@ -1148,10 +1150,10 @@ $('#trainGo').addEventListener('click',async ()=>{
     try{ const up=await nmUpload(f,p=>{ if(VRAW===f) $('#vfName').textContent=f.name+' · '+p+'%'; }); if(VRAW!==f){ nmUpDrop(up.key); return; } VR2=up.key; $('#vfName').textContent=f.name; }
     catch(err){ return btnErr(gb,'업로드 실패 — 파일 다시 선택'); }
   }
-  const pay={mode:'train', name:$('#vName').value.trim().slice(0,24), consent:true, fname:VFNAME};
+  const pay={mode:'train', name:$('#vName').value.trim().slice(0,24), consent:true, fname:VFNAME, lbl:($('#vName').value.trim().slice(0,24)||'보이스 학습')};   // 실명 = 보이스 이름 칸(260818 «영상 쪽도 실명» · 서버 에코 → 원장 → 타 기기)
   if(VR2) pay.r2key=VR2; else pay.fileB64=VFILE;   // 20MB 초과 = R2 키(b64 미탑재 · 260722)
   const _err=await fireApi(gb, API_VOICE, pay,
-    (j,t0)=>{ pendSet({id:j.id, mode:'voice-train', t0}); pollVoice(j.id, t0, t0-90000); });
+    (j,t0)=>{ pendSet({id:j.id, mode:'voice-train', t0, lbl:pay.lbl}); pollVoice(j.id, t0, t0-90000); });   // 이 기기 진행 줄도 같은 실명(구판 무이름 = '제작' 폴백)
   // (260810) 성공 = **키 보존**(구 `if(pay.r2key) VR2=''` = 발사 시도만으로 폐기) — 러너가 원본을 잡 끝에 안 지운다
   //   (나이 든 것만 청소 = shared/r2_upsrc_gc.sh) → 같은 보이스 소스로 다시 학습을 걸어도 재업로드가 없다.
   //   폐기는 **죽은 키일 때만**(서버 정본 문구 판정) — 429·5xx·네트워크 실패는 키가 멀쩡하다.
@@ -1160,8 +1162,8 @@ $('#trainGo').addEventListener('click',async ()=>{
 $('#vApply').addEventListener('click',()=>{
   const gb=$('#vApply');
   if(!(VSEL&&SONG_ID&&RES&&RES.url)) return;
-  fireApi(gb, API_VOICE, {mode:'apply', src:SONG_ID, vid:VSEL},
-    (j,t0)=>{ pendSet({id:j.id, mode:'voice', t0}); pollSong(j.id, 'voice', t0, t0-90000, gb); });
+  fireApi(gb, API_VOICE, {mode:'apply', src:SONG_ID, vid:VSEL, lbl:'보이스'},
+    (j,t0)=>{ pendSet({id:j.id, mode:'voice', t0, lbl:'보이스'}); pollSong(j.id, 'voice', t0, t0-90000, gb); });   // 어휘 = LBL_OF voice 동값(창작 0) — 입히기는 더 구체적인 이름 원료가 없다
 });
 function pollVoice(id, t0, minTs, focus){   // 학습 폴 — pollSong 미러(voice_out 루트 · 완료 = model_url · 학습은 길어서 10s 간격)
   focus = (focus !== false);
