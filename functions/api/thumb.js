@@ -218,6 +218,7 @@ export async function onRequestPost({ request, env }) {
       // /3 저작권 = 이름(variant 태그) · /4 경고문 = variant 없음(잡 라벨 '경고문 (포맷)'로 구분)
       outs = [{ path: `${dir}/out.png`, label: app === '3' ? (params.name || '') : '' }];
     }
-    return json({ ok: true, id, out: outs[0].path, outs, ...(dispatched ? {} : { via: 'r2-queue' }) });
+    const _lbl = (body.src && typeof body.src.lbl === 'string' && body.src.lbl.trim()) ? body.src.lbl.trim().slice(0, 80) : '';   // 발사 이름표 에코(260818 운영자 «그 기기의 내용이 쓰여졌으면») — 진행 중 원장(putLive)이 응답만 읽으므로 여기 실어야 다른 기기 합류분이 '제작' 대신 실제 이름을 단다 · 원천 = 뷰어 payload.src.lbl(5300행 · 이미 오던 값 = 새 입력 0)
+    return json({ ok: true, id, out: outs[0].path, outs, ...(_lbl ? { lbl: _lbl } : {}), ...(dispatched ? {} : { via: 'r2-queue' }) });
   }
 }
