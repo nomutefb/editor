@@ -44,6 +44,15 @@ PUSH = ROOT / ".github" / "scripts" / "push_send.py"
 MIN_VOL = int(os.environ.get("TREND_MIN_VOL", "15000"))   # 운영자 260818 지정 = 구글 검색 1.5만회
 DAY_CAP = int(os.environ.get("TREND_DAY_CAP", "12"))      # 하루 상한(폭주 가드 · 260818 실측 = 1.5만↑ 중복제거 5건)
 TTL_S = 24 * 3600                                          # 원장 수명(kw_watch 24h 창과 같은 값)
+# ⚠ 첫 회차 도장은 **짧게 산다**(운영자 260819 «저녁에 한번 오긴했는데 그 이후에도 한번 기준치를 초과한거같은데 안찍혔어»).
+#   실사고 = 260818 23:07 첫 회차에 자격 9건이 「도장만 찍고 발송 0」으로 처리됐는데, 그 도장이 일반 도장과 같은
+#   24h 수명을 받아 **그 9건이 하루 내내 침묵**했다 — 그중 「현금 5만회」·「박수홍 5만회」는 다음 날 아침까지
+#   화면에 자격을 유지한 채 알림이 한 통도 안 갔다(실측 = 06:36 회차 로그 「자격 8건 · 발송 1건」 = 나머지 7건이 그 도장에 막힘).
+#   ⚠ 소급 폭탄 차단(첫 회차에 과거 누적분이 쏟아지는 것)은 **처음 켠 그 순간**만 필요한데 구판은 그 차단을 24h 유지했다.
+#   → 첫 회차 도장에 `seed` 표식을 남기고 그 수명만 1시간으로 줄인다 = 폭탄은 그대로 막고, 1시간 뒤에도 여전히
+#     자격을 유지하는 말(= 진짜로 계속 뜨는 말)은 정상 발송으로 넘어간다.
+SEED_TTL_S = int(os.environ.get("TREND_SEED_TTL_S", "3600"))   # 첫 회차 도장 수명(기본 1h = 수집 주기 15분의 4회차)
+RUN_CAP = int(os.environ.get("TREND_RUN_CAP", "3"))            # 회차당 발송 상한 — 한 번에 알림이 무더기로 오는 것 차단(구판은 회차 상한이 없어 한 회차에 자격분이 통째로 나갈 수 있었다)
 ON = (os.environ.get("TREND_PUSH", "1").strip() != "0")
 DRY = (os.environ.get("TREND_PUSH_DRY") or "").strip() == "1"
 
@@ -118,7 +127,7 @@ def main():
         led = {}
     now = int(time.time())
     led = {k: v for k, v in led.items()
-           if isinstance(v, dict) and now - int(v.get("first") or 0) < TTL_S}   # TTL 지난 도장은 청소(같은 말 재발견 가능)
+           if isinstance(v, dict) and now - int(v.get("first") or 0) < (SEED_TTL_S if v.get("seed") else TTL_S)}   # TTL 지난 도장은 청소(같은 말 재발견 가능) · 첫 회차 도장(seed)은 1h만 = 침묵 고착 차단
     seeded = bool(led)   # 원장이 비어 있으면 = 방금 켜졌다 = 첫 회차
     fired, stamped = 0, 0
 
@@ -128,7 +137,12 @@ def main():
         if seeded and fired >= DAY_CAP:
             print(f"급상승 하루 상한 {DAY_CAP} 도달 — 나머지 생략", file=sys.stderr)
             break
+        if seeded and fired >= RUN_CAP:
+            print(f"급상승 회차 상한 {RUN_CAP} 도달 — 나머지는 다음 회차로(도장도 안 찍는다 = 유실 0)", file=sys.stderr)
+            break   # ⚠ 도장을 찍기 **전에** 끊는다 — 찍고 끊으면 그 말이 「알린 적 있음」으로 굳어 영영 안 나간다(위 첫 회차 사고와 같은 축)
         led[k] = {"first": now, "vol": vol, "q": q}
+        if not seeded:
+            led[k]["seed"] = 1   # 첫 회차 = 발송 안 한 도장 = 1시간 뒤 만료(위 SEED_TTL_S 사유)
         stamped += 1
         if not seeded:                    # 첫 회차 = 조용히 도장만(소급 폭탄 차단)
             continue
