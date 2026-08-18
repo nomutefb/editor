@@ -3,7 +3,7 @@
 # 긴급(breaking) 속보 웹푸시 발송 — candidates.json의 새 isBreaking 사건을 구독자에게 pywebpush로.
 # dedup = push/sent.json(이미 보낸 키). 죽은 구독(404/410) 자동 정리. 비치명(실패해도 파이프 안 깸).
 # env: VAPID_PRIVATE_KEY(raw base64url)·VAPID_PUBLIC_KEY·VAPID_SUBJECT. 인자 --test = 구독자 전원 테스트 1발.
-# 정본 설명 = CLAUDE.md §🚨. 푸시 기준(앱푸시긴급) = breaking_judge AND grade≥3(운영자 260622) AND cross≥PUSH_MIN AND 최신(<4h · 뷰어 화면알림 isAlert과 동일 tier · 🚨배지 grade≥2는 별개).
+# 정본 설명 = CLAUDE.md §🚨. 푸시 기준(앱푸시긴급) = breaking_judge AND grade≥2(운영자 260818 «내부에서는 자동으로 긴급처리가 되는데 웹앱 푸쉬 알림 [안 온다]» — 🚨배지·자동픽[grade≥2]과 같은 문턱으로 하향 = 내부 긴급처리와 푸시가 같은 사건을 본다 · 구 260622 grade≥3[뷰어 isAlert 동일선상]은 역사 · 실측 260818 = 24h 속보 5건 중 4건이 g=2라 내부 처리만 되고 푸시 0이 «긴급이 안 온다»의 실체) AND cross≥PUSH_MIN AND 최신(<4h).
 # ⚠️ 푸시는 되돌릴 수 없다(발송=회수 불가) → 뷰어 점등(가역)보다 *더* 보수적: grade 미채점(None)은 푸시 안 함
 #    (뷰어는 None도 점등=즉시·가역) · 다매체 검증 cross≥PUSH_MIN_CROSS 필수 · dedup=event_key+제목해시(중복발송 차단).
 import json, os, re, sys, time, base64, hashlib, tempfile, datetime as dt
@@ -40,9 +40,9 @@ def jload(p, d):
     except Exception: return d
 
 def is_breaking(c):
-    # 푸시용(가역 아님·앱푸시긴급) = grade가 *채점되어* ≥3여야 함(운영자 260622 = 뷰어 화면알림 isAlert[grade≥3]과 동일선상 · None=미채점은 푸시 보류 · 🚨배지[grade≥2]보다 엄격).
+    # 푸시용(가역 아님·앱푸시긴급) = grade가 *채점되어* ≥2여야 함(운영자 260818 하향 — 🚨배지·자동픽과 같은 문턱 · 헤더 주석에 하향 근거 실측 · None=미채점은 여전히 푸시 보류[비가역 보수 철학 불변] · 오발 가드 cross≥PUSH_MIN_CROSS·4h/8h 창도 불변).
     g = c.get("grade")
-    return bool(c.get("breaking")) and g is not None and (g or 0) >= 3
+    return bool(c.get("breaking")) and g is not None and (g or 0) >= 2
 
 def brk_url(c):
     # 긴급 알림 탭 → 루트가 아니라 *해당 건*으로 딥링크(/?brk=키&bl=메이저링크). 뷰어가 탭 *시점*에 '요약 완료?'를
