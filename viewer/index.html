@@ -8781,6 +8781,8 @@ function goDisSec() {
   try {
     closeOverlays(); showTab('trend');
     setTimeout(() => {
+      const g = document.getElementById('tg-sf');
+      if (g && !g.open) g.open = true;   // 대분류 '안전'부터 펼친다(운영자 260818 항상 접힘 계약 = GFOLD_ALWAYS) — 이 줄이 없으면 접힌 대분류 안에 갇혀 소분류를 펴도 화면엔 아무것도 안 뜬다
       const s = document.querySelector('details.trend-sec[data-sec="dis"]');
       if (!s) return;
       s.open = true;   // 접혀 있어도 펼쳐서 착지(TFOLD 사용자 접기 상태 무관 = '눌렀는데 아무것도 없음' 차단)
@@ -13126,6 +13128,13 @@ async function loadSocLean() {   // 소스 성향 정본(soc_lean.json) 로드 �
 let _snsSig = '';   // 직전 SNS 렌더 시그니처(동일 구성 재렌더 = 스태거 생략 게이트 · renderScrap 패턴 · 운영자 260622)
 // 🔥 SNS burst 색 티어 임계 — 7일치(14d 5스냅샷·고유 22사건) 분포: p90≈23.9(보라)·p70≈11.8(강조). 표시 전용(랭킹·정렬·진입 무관). 정본 = docs/social-burst.md.
 const SOC_HOT10 = 24, SOC_HOT30 = 12;
+// 국내 커뮤니티 카드 입장 하한(운영자 260818 "sns 소스 10.0 미만은 안뜨게 해줘") — 카드 좌상단 🔥 공론 강도(burst)가 이 값 미만이면 목록에서 뺀다.
+//   ⚠ 판정은 **화면에 적히는 값 기준**(표시 = `_b.toFixed(1)` 소수 1자리) — 값 9.96은 화면에 "10.0"으로 적히므로 남긴다.
+//     원값(>=10)으로 자르면 "10.0이라고 적힌 카드가 사라진다"가 되어 화면과 규칙이 어긋난다.
+//   ⚠ 검색 결과에도 동일 적용(목록 자체에서 배제 = "안 뜨게" 계약) · 전건 미달이면 조용한 공백(§디자인 e-가).
+//   되돌림 = 이 상수를 0으로.
+const SOC_MIN = 10;
+const socPass = r => Math.round(((+(r && r.burst) || 0)) * 10) / 10 >= SOC_MIN;   // 표시값(소수 1자리 반올림) 기준 하한 통과 판정
 // ── 트렌드 레인(메뉴2 상단) — sns_trends.json 렌더(수집 = sns-trends.yml 30분 주기 · 운영자 260710 "ㄱㄱ" 배치 승인). 있는 소스만 그림·전무 = 조용한 공백(§디자인 e-가). ──
 let TRENDS = null, BRIEF = null, _trFetched = 0, _trPainted = 0;   // _trPainted = 첫 실검 도착 후 수집함 1회 재렌더 도장(대세 GX·1.2배가 부팅 첫 화면에 반영되게 · 4496행 「첫 DATA 도착 = 1회 재렌더」 관용구 계승)
 // ⚠️ 소스 순서 = **api/trends(GitHub main 직독 · 빌드 우회) → 정적 sns_trends.json**(loadCandidates 정본 문법 그대로 계승 · 운영자 260803).
@@ -13342,9 +13351,20 @@ function renderSnsTrends() {
   const cutH = (arr, mx) => (arr || []).filter(t3 => { const h3 = ageVerH(t3); return !(isFinite(h3) && h3 >= mx); });   // 나이 컷 공통(경계 mx 시간 · 미상 NaN = fail-soft 통과)
   const cut3d = arr => cutH(arr, AGE_CUT_H);   // 3일 컷 필터(위 하드컷 주석 = 정본 사유)
   const gt = TRREG === 'kr' ? (d.gtrends || []) : mrg(d.gtrends || [], d.gtrends_gl, g3 => (g3.query || '').toLowerCase());
-  const ytRaw = TRREG === 'kr' ? (d.youtube || []) : mrg(d.youtube || [], d.youtube_gl, v3 => v3.id).sort((a3, b3) => (b3.views || 0) - (a3.views || 0)).slice(0, 15), yt = cut3d(ytRaw);   // 3일 컷(운영자 260721) · Raw = 10개 보장 후순위 채움 풀(운영자 260721 "썸네일 영상은 무조건 10개 — 없으면 후순위에서")
-  const ytrRaw = d.youtube_reco || [], ytr = cut3d(ytrRaw);   // 맞춤 추천(운영자 260816 "내 추천이 거의 내 채널 큐레이션에 맞는 내용이기 때문에 저게 유의미한 거였고") — 수집 = sns_trends.py yt_reco(로그인 쿠키 + 공식 API 메타) · ⚠ 공식 인기 차트가 **아니다**(운영자 계정 추천)라 별 키로 받는다 · 3일 컷 = 형제 축 동일 · 쿠키 죽음·무키 = 0건 = 종전 동작
-  const ytnRaw = d.youtube_news || [], ytn = cut3d(ytnRaw);   // 뉴스 카테고리 = 국내 축(뉴스 소재 훑기 온-미션 · 모드 무관 표시) · 3일 컷 · Raw = 채움 풀
+  // ── 유튜브 게임 배제(운영자 260818 "유튜브 알고리즘 순위에서 게임은 빼줄 수 있나(top)") ──
+  //   실측 = 실시간 TOP 10 5위 「저라뎃의 피파 실력은 과연..?!」 = 게임 카테고리 · 원천인 인기 차트 50건 중 **22건(44%)**이 게임이라
+  //   TOP 풀·인기 그리드가 같은 배열을 쓰는 구조상 **원천 한 곳에서 걷어내면 두 자리가 동시에 해소**된다(필터 사본 0).
+  //   판정 정본 = 수집기가 실어주는 videos.list `snippet.categoryId`(sns_trends.py `_yt_items` · 260818 신설) = 20이 게임.
+  //   ⚠ 폴백은 **cat 결측일 때만** 발동 = 이 필드가 아직 없는 옛 회차 데이터 방어(그 회차의 게임 주제 목록 id 대조).
+  //     cat이 있으면 그것만 믿는다 → 게임 주제 수집을 끊어도(같은 날 _CAT_DEF 제외) 배제가 그대로 산다 = 죽은 폴백이 조용히 통과시키는 일 없음.
+  //   ⚠ 스코프 = 유튜브 3레인 전부(인기·뉴스·맞춤추천) — TOP 풀이 그 셋을 함께 물어서 한 레인만 걸면 나머지로 게임이 도로 올라온다.
+  //   되돌림 = 아래 3줄의 ytNoGame() 벗기기.
+  const _YT_GAME_CAT = '20';
+  const _ytGameIds = new Set((((d.youtube_cats || {})['20']) || []).map(v3 => v3 && v3.id).filter(Boolean));
+  const ytNoGame = arr => (arr || []).filter(v3 => { const c3 = String((v3 && v3.cat) || ''); return c3 ? c3 !== _YT_GAME_CAT : !_ytGameIds.has(v3 && v3.id); });
+  const ytRaw = ytNoGame(TRREG === 'kr' ? (d.youtube || []) : mrg(d.youtube || [], d.youtube_gl, v3 => v3.id).sort((a3, b3) => (b3.views || 0) - (a3.views || 0)).slice(0, 15)), yt = cut3d(ytRaw);   // 3일 컷(운영자 260721) · Raw = 10개 보장 후순위 채움 풀(운영자 260721 "썸네일 영상은 무조건 10개 — 없으면 후순위에서")
+  const ytrRaw = ytNoGame(d.youtube_reco || []), ytr = cut3d(ytrRaw);   // 맞춤 추천(운영자 260816 "내 추천이 거의 내 채널 큐레이션에 맞는 내용이기 때문에 저게 유의미한 거였고") — 수집 = sns_trends.py yt_reco(로그인 쿠키 + 공식 API 메타) · ⚠ 공식 인기 차트가 **아니다**(운영자 계정 추천)라 별 키로 받는다 · 3일 컷 = 형제 축 동일 · 쿠키 죽음·무키 = 0건 = 종전 동작
+  const ytnRaw = ytNoGame(d.youtube_news || []), ytn = cut3d(ytnRaw);   // 뉴스 카테고리 = 국내 축(뉴스 소재 훑기 온-미션 · 모드 무관 표시) · 3일 컷 · Raw = 채움 풀
   // 틱톡 통합 랭킹(운영자 260726 "해외거 까지 가능하게 · 해외거는 감점 · 24시간 넘어가면 없는거 · 해당하는게 없으면 해외가 치고 올라오는거다")
   // ⓐ 24h 하드컷(구 48h) — 국내·해외 공통 · ⓑ 국내 모드도 KR 필터 폐지 = 전 지역 한 랭킹 · ⓒ 해외만 조회수 ×0.2 감점 스코어로 정렬.
   // 계수 0.2 = 7일 이력 실측(260726 · sns_trends.json 커밋 506개 되짚기 · url별 발행후 24h 최근접 관측): 24h 조회수 중앙값
@@ -13594,7 +13614,10 @@ function renderSnsTrends() {
   // 폴백 = youtube_cats 미도착(구 산출·무키)일 때만 구 단일 '유튜브 - 뉴스' 섹션 유지(화면 공백 회귀 차단 · 수집이 새 키를 채우면 이 줄은 미도달)
   if (!ytcL.length && ytnL.length) gCUR += sec('ytn', '유튜브 - 뉴스', rtBase, ytnL.length, '<div class="trend-grid wd">' + ytnL.map((t, i) => card({ ...t, nocls: 'ytfb' }, i, 1)).join('') + '</div>');   // 뉴스 = AI영상 카드 통일(운영자 260717 "뉴스·쇼츠 2블릿 AI영상처럼" — 뉴스 영상 원본 16:9 → wd 가로 카드로 자연 비율 노출[구 3/4 크롭 폐기] · card(,,1)=.tcard-cov.wd) · 뉴스 소재 훑기 온-미션(평의회10 결판)
   if (shL.length) gCUR += sec('sh', '유튜브 - 쇼츠', rtBase, shL.length, '<div class="trend-grid wd">' + shL.map((t, i) => card({ ...t, nocls: 'ytfb' }, i, 1)).join('') + '</div>');   // 쇼츠 = AI영상 카드 통일(운영자 260717 "뉴스·쇼츠 2블릿 AI영상처럼" — wd 가로 16:9 · 상한 10 = shL slice) · 뉴스와 동일 스타일 계승
-  if (aiL.length) gCUR += sec('ai', '유튜브 - AI 영상', rtBase, aiL.length, '<div class="trend-grid wd">' + aiL.map((t, i) => card({ ...t, nocls: 'ytfb' }, i, 1)).join('') + '</div>');
+  // (구 '유튜브 - AI 영상' 섹션 = 260818 미출력. 운영자 "유튜브 - ai영상 안뜨게 해줘" — 260804 음악·자동차 숨김과 같은 축[접는 게 아니라 섹션 자체 미출력].
+  //  ⚠ 수집(sns_trends.py AI_QUERIES)·데이터(aivid)·설정 키워드 칩은 **그대로 둔다** — 키워드 알림 감시가 그 배열을 원료로 쓴다(그 자리를 끊으면 'AI 영상' 키워드 감시가 조용히 죽는다).
+  //  되돌림 = 아래 한 줄의 주석 해제)
+  // if (aiL.length) gCUR += sec('ai', '유튜브 - AI 영상', rtBase, aiL.length, '<div class="trend-grid wd">' + aiL.map((t, i) => card({ ...t, nocls: 'ytfb' }, i, 1)).join('') + '</div>');
   if (sytAll.length) gCUR += sec('syt', '유튜브 - 구독', subStaleUnit('youtube', sytAll), sytAll.length, '<div class="trend-grid wd">' + sytAll.map((t, i) => card({ ...t, nocls: 'ytfb' }, i, 1)).join('') + '</div>');   // 유튜브 구독 = 큐레이션 게시물 소분류(운영자 260723 · 260724 지역 무관 단일 블록) · 16:9 wd 카드 계승 · 빈 = 미표기(조용한 공백)
   else gCUR += subEmptySec('syt', '유튜브 - 구독', 'youtube');   // 0건이어도 등록 계정이 있으면(stale) 사유를 남긴다(운영자 260727)
   // 틱톡 인기(260726 통합 랭킹 = 18h·10만↑·해외 ×0.2 감점 = tkv/TK_CUT_H 로직 그대로 계승) → 큐레이션 게시물(gCUR) 이관(운영자 260727 "다 큐레이션으로 보내줘" — 틱톡은 공개 최다조회순 API 부재 = tikwm for-you 표본이라 진짜 인기 아님 · 대분류만 이동, 랭킹 로직 무접촉) · 라벨 '틱톡 인기'로 구독 '틱톡'(stk)과 구분 · gTK 대분류 소멸(→ GRPS 자동 제외)
@@ -13659,7 +13682,7 @@ function renderSnsTrends() {
   const boOld = p2 => { const t = Date.parse(p2.open || ''); return t > 0 && (Date.now() - t) > 365 * 864e5; };   // 재개봉 컷(운영자 260817 "지금 관람객수를 제대로 반영을 못하는데 — 보헤미안 랩소디가 1위") — audi = audiAcc = 원 개봉일부터의 누적이라 재개봉작은 옛 흥행분을 달고 아래 정렬 1위를 강탈(260817 KOBIS 실측 = 보헤미안 랩소디 개봉 2018-10-31 · 누적 995만 · 어제 하루 996명 · 일별 순위 10위) · 판정 = 개봉일 365일 초과(재개봉작도 open = 원 개봉일 유지 = 260817 KOBIS 실측 · 정상 상영은 1년을 안 넘는다) · open 결측 = fail-open 유지(구 수집분·특별상영 — 빈 목록 방지 · 수집기 open 동반 커밋이라 다음 수집부터 발효)
   const kobL = kob.filter(p2 => (p2.audi || 0) >= 1e4 && !boOld(p2)).sort((a2, b2) => (b2.audi || 0) - (a2.audi || 0)).slice(0, 8);   // 누적 관객수 내림차순(운영자 260721 "여튼 관객수대로 순위가 되어야함" — 원천 kobis rank = KOBIS '어제 하루' 관객수 순위라 신작 반짝 1위[호프 227만]가 누적 최다[군체 594만] 위에 뜨던 것 교정 · audi = audiAcc = 개봉일~어제 누적 · filter 새 배열이라 원천 무변형) · 1만명 미만 = 미표기(운영자 260721 Q382 "만명도 안 나온 영화는 출력 X · 10개 안 나와도 괜찮아") — 표시 필터만(원천 sns_trends.json 무접촉 [15] · 만단위 표기 = vfmt 종전) · 전멸 = sec 미생성 → gETC 해커뉴스 단독 스택(기존 분기 = 조용한 공백)
   if (kobL.length) gMV += sec('kob', '박스오피스', '', kobL.length, kobL.map((p2, i) => brow(i, p2.url || '#', p2.audi ? vfmt(p2.audi) + '명' : '', i < 3 ? 'top3' : '', i < 3 ? (p2.audi >= 1e7 ? 'bo-t' : p2.audi >= 3e6 ? 'bo-y' : 'bo-w') : '')).join(''));   // 순위+제목+관람객수만(운영자 260720 — 시간열 제거 · 해커뉴스와 반반 rt2col 계승) · top3 = 영화명 강조색(운영자 260721 Q382 · .trend-q.top3) + 관객수 히트색(운영자 260723 "상위 3개 몇만명 흰색 · 300만↑ 노란색 · 천만↑ 강조1" = bo-w[흰]/bo-y[≥3e6]/bo-t[≥1e7] · 4위↓는 종전 --mut) · '· 어제' 캡션 제거(운영자 260721 — 기타 그룹 = SNS와 동일 sns_trends.json 일괄 수집 = 갱신 시각 #vhTime 1회로 갈음)
-  const gKC = (SOCIAL_LOADED && !(typeof SOCIAL !== 'undefined' && SOCIAL.length)) ? '' : '<div id="snsHost" class="kcomm-host"></div>';   // 국내 커뮤니티(운영자 260713 극좌 = ① 편성) — 소셜 전무 확정 시만 미등장(조용한 공백) · 소분류 '커뮤니티 공론'(sec kcomm-l) 헤더 폐지 = 대분류 직속 장착·삭제분만큼 위로 당김(운영자 260720 — 대분류=소분류 동의어 이중 라벨 해소 · 직속 본체 = brief .tbrief 선례)
+  const gKC = (SOCIAL_LOADED && !(typeof SOCIAL !== 'undefined' && SOCIAL.some(socPass))) ? '' : '<div id="snsHost" class="kcomm-host"></div>';   // 국내 커뮤니티(운영자 260713 극좌 = ① 편성) — 소셜 전무 확정 시만 미등장(조용한 공백) · 소분류 '커뮤니티 공론'(sec kcomm-l) 헤더 폐지 = 대분류 직속 장착·삭제분만큼 위로 당김(운영자 260720 — 대분류=소분류 동의어 이중 라벨 해소 · 직속 본체 = brief .tbrief 선례)
   const gETC = (gHN && gMV) ? '<div class="rt2col">' + gHN + gMV + '</div>' : (gHN + gMV);   // ⑫⑮ 기타 = 해커뉴스|문화 좌우 2열(운영자 Q240 "동일 가로선·첨부2처럼" — 구 독립 대분류 2개 → '기타' 대분류 1개 · rt2col = 구글|시그널 실검 문법 계승 · 한쪽 결측 = 단독 스택 · 모바일 1열 = rt2col 미디어)
   const GRPS = [['gg', '실시간 검색어', gGG], ['kcomm', '국내 커뮤니티', gKC], ['pop', '인기 게시물', gYT + gTK + gRD], ['cur', '큐레이션 게시물', gCUR], ['fin', '금융', gFI], ['etc', '기타', gETC], ['sf', '안전', gSF]].filter(g => g[2]);   // ③ 인기 게시물 = 유튜브·레딧 대분류 통합(운영자 260731 "3 인기 게시물 · 블릿으로 유튜브 · 그 다음 블릿으로 레딧 · 번호 다 위로") — 플랫폼별 대분류(구 ③유튜브·④레딧)를 성격축 1개로 묶고 플랫폼은 소분류 블릿으로 강등 = 대분류 2개 감소분만큼 뒤 순번이 자동으로 당겨진다(gno = 렌더 그룹 순차 증가) · 순서 = 유튜브 → (틱톡: 260727 큐레이션 이관으로 상시 공백) → 레딧 · gTK 자리 = 대분류 복귀 시 유튜브 뒤에 붙는 자리만 보존(현재 무출력) · 되돌림 = 이 배열 3원소 복원 + §691 소머리 숨김 복구   // 블루스카이 = X 대분류 우측 열 합류(260720)로 독립 행 폐지 · kcomm = 공론 직속 + 오늘의베스트 sec(Q311)   // 신규 5종(운영자 260713 "ㄱ") = X·SNS 뒤 · 데이터 구동 = 빈 그룹 자동 제외 · 레일 = 첫 글자 폴백 · 해커뉴스+문화 = '기타' 대분류로 통합(운영자 Q240)
   // ── 조립: 좌측 책갈피 레일(soc-item 밖 = backdrop-filter 조상 회피 → fixed가 뷰포트 기준 · §디자인 h) + 카드(헤드 → TOP 10 → 순번 플랫폼 그룹) ──
@@ -13682,7 +13705,8 @@ function renderSnsTrends() {
   let gno = 0, gfirst = true;
   const GPIC = { brief: AISPARK_SVG, top: TRENDUP_SVG };   // AI 요약 = ✨ 스파크(운영자 260723 Q478 = Q477 솔빙 orb 시안 검토 후 "스파크가 나은듯" 복귀) · TOP 10 = 📈 우상향 · 숫자 대신 픽토그램("0" 의미 = 순번 밖) · 플랫폼 그룹부터 1,2,3
 
-  const gsec = (id, ttl, body, hstale, extra) => { const first = gfirst; gfirst = false; const core = `<details class="tgroup${first ? ' dash' : ''}" data-g="${id}" id="tg-${id}"${TGF[id] ? '' : ' open'}><summary class="tgroup-h${hstale ? ' hdr-stale' : ''}"><i${GPIC[id] ? ' class="gpic" aria-hidden="true"' : ''}>${GPIC[id] || ++gno}</i>${ttl}</summary>${extra ? `<div class="chseg-row">${extra}</div>` : ''}${body}</details>`; return extra ? `<div class="chu">${core}</div>` : core; };   // hstale = 픽토 라이트 멎음(수집 죽음 국면 · 시각 텍스트 비노출 = 겉면 불변 · 운영자 260714 빛멎음) · extra = 헤더 우측 컨트롤(summary 밖 형제 = 인터랙티브 중첩 해소 — 메뉴4 .chu 문법 역이식 · 운영자 260716 TOP 플랫폼 칩)
+  const GFOLD_ALWAYS = new Set(['sf']);   // 항상 접힌 채로 그리는 대분류(운영자 260818 "sns 분석 맨 아래에 안전은 항상 닫힌걸 유지해줘") — 접힘 기억(TGF)보다 **위**에 서서 열어둔 상태도 다음 렌더에 도로 접는다. ⚠ 짝 = goDisSec(지진 경고 '안전 탭 열기'·알림 딥링크)이 소분류만 펴던 것을 대분류까지 펴도록 동반 보강 = '눌렀는데 아무것도 없음' 차단
+  const gsec = (id, ttl, body, hstale, extra) => { const first = gfirst; gfirst = false; const core = `<details class="tgroup${first ? ' dash' : ''}" data-g="${id}" id="tg-${id}"${(TGF[id] || GFOLD_ALWAYS.has(id)) ? '' : ' open'}><summary class="tgroup-h${hstale ? ' hdr-stale' : ''}"><i${GPIC[id] ? ' class="gpic" aria-hidden="true"' : ''}>${GPIC[id] || ++gno}</i>${ttl}</summary>${extra ? `<div class="chseg-row">${extra}</div>` : ''}${body}</details>`; return extra ? `<div class="chu">${core}</div>` : core; };   // hstale = 픽토 라이트 멎음(수집 죽음 국면 · 시각 텍스트 비노출 = 겉면 불변 · 운영자 260714 빛멎음) · extra = 헤더 우측 컨트롤(summary 밖 형제 = 인터랙티브 중첩 해소 — 메뉴4 .chu 문법 역이식 · 운영자 260716 TOP 플랫폼 칩)
   if (BRIEF && BRIEF.text && top.length) h += gsec('brief', 'AI 요약', `<div class="tbrief"><p class="tbrief-t"></p><div class="tbrief-led" hidden><button class="tbrief-led-h" type="button" aria-expanded="false" aria-controls="tbLedL" title="이전 브리핑에서 이미 다뤄 오늘 요약에서 뺐거나 줄인 이슈"><span>이미 다룬 이슈 <b class="tbrief-led-n"></b>건</span>${CHEVRON_SVG.replace('<svg ', '<svg aria-hidden="true" ')}</button><div class="tbrief-led-w" inert><ul class="tbrief-led-l" id="tbLedL"></ul></div></div></div>`, stale);   // 항상 전문 펼침(운영자 260713 "항상 펼쳐줘") — 구 리드 4줄 peek·더보기 폐지 · 접기는 상위 tgroup 헤더 체브론(촤르륵)이 담당 · 말미 접이 = 이슈 원장(재탕 감쇠로 뺀 이슈 가시화 · 운영자 260714 · issues 없으면 hidden 유지) · stale = TOP 공유 트렌드 수집 죽음 → 스파크 빛 대칭 멎음(#2286 합류)
   // TOP 10 플랫폼 책갈피(운영자 260716 "우측 상단 세부 nav에 유튜브 NN · 선택하면 플랫폼별 TOP 10") — 칩 = 헤더 우측 extra(.chu · 기간 칩과 동일 구조) · 라벨 = 플랫폼명+표시 건수 · 전체 = 종전 종합(플랫폼캡 4·총 10) · 플랫폼 = 풀 정렬 그대로 상위 10
   const tfl = []; pool.forEach(p2 => { let z = tfl.find(z2 => z2.k === p2.mono); if (!z) { z = { k: p2.mono, lb: p2.plat, n: 0 }; tfl.push(z); } z.n++; });
@@ -14185,7 +14209,7 @@ let SNS_ACC = null, _accTab = 'x', _accReg = 'kr', _accCat = 'subs';   // _accRe
 //   나머지 플랫폼 = 구독 단일이라 띠를 숨긴다(틱톡 '인기'는 tikwm 전역 표본이라 사용자가 지정할 값이 없다 = 설정축 밖).
 const ACC_CATS = { youtube: [['subs', '구독'], ['news', '뉴스'], ['shorts', '쇼츠'], ['aivid', 'AI 영상']] };
 const ACC_KW_CAP = 20;   // 키워드 상한 — snsacc.js CAP_KW와 2면 대칭(초과 = 서버가 절단하므로 화면에서 먼저 막는다)
-const YT_CATS = [[25, '뉴스·정치'], [24, '엔터'], [17, '스포츠'], [28, '과학기술'], [20, '게임'], [26, '노하우·스타일'], [1, '영화·애니'], [23, '코미디'], [27, '교육'], [19, '여행·이벤트'], [15, '반려동물']];   // 유튜브 videoCategoryId(scraper _news_cat 소비 · 기본 25) · 22 인물·블로그 = 제외(운영자 260803 "쓸모없는 어그로 많다 — 탭에 안 뜨게") · 10 음악·2 자동차 = 제외(운영자 260804 "유튜브 음악·유튜브 자동차는 숨김처리 · 접는 게 아니라 안 보이게") — 표시(ytcL)와 설정 칩이 이 배열 단일 원천이라 여기 한 줄 = 둘 다 소멸(섹션 자체 미출력 = 접힘 아님) · 수집 기본값도 scraper _CAT_DEF 동시 제거 = 쿼터 2unit/런 절감 · 되돌림 = git 이력
+const YT_CATS = [[25, '뉴스·정치'], [24, '엔터'], [17, '스포츠'], [28, '과학기술'], [26, '노하우·스타일'], [1, '영화·애니'], [27, '교육'], [19, '여행·이벤트'], [15, '반려동물']];   // 유튜브 videoCategoryId(scraper _news_cat 소비 · 기본 25) · 22 인물·블로그 = 제외(운영자 260803 "쓸모없는 어그로 많다 — 탭에 안 뜨게") · 10 음악·2 자동차 = 제외(운영자 260804 "유튜브 음악·유튜브 자동차는 숨김처리 · 접는 게 아니라 안 보이게") · 20 게임·23 코미디 = 제외(운영자 260818 "유튜브 - 게임 안뜨게 해줘"·"유튜브 - 코미디 안뜨게 해줘" — 같은 문법·같은 두 자리[이 배열 + scraper _CAT_DEF] 동시 제거) — 표시(ytcL)와 설정 칩이 이 배열 단일 원천이라 여기 한 줄 = 둘 다 소멸(섹션 자체 미출력 = 접힘 아님) · 수집 기본값도 scraper _CAT_DEF 동시 제거 = 쿼터 2unit/런 절감 · 되돌림 = git 이력
 const ACC_CAP = { x: 30, tiktok: 30, insta: 30, youtube: 30, threads: 30 };   // 지역별 상한 — snsacc.js CAP·scraper _REG_CAP와 3면 대칭(운영자 260723 "10개 이상으로" 10/15/20→30 일괄 상향)
 const _accDirty = new Set();   // 편집된 플랫폼 키 — 저장 활성(미저장 시각신호) + POST는 dirty 키만(타 기기 lost-update 창 축소 · 평의회4)
 function accPlat(p) {   // 구 평면 배열 = 세계(gl) 흡수(서버 cleanPlat 미러) · 유튜브 토픽 3축(shorts·aivid·news_cat) 동행 보존(운영자 260730 — 안 실으면 저장 시 유실 = snsacc.js "youtube patch = 토픽 전체 동봉 필수")
@@ -14391,7 +14415,8 @@ function renderSns() {
   let _ss = '';   // 이번 렌더 구성 시그니처(행 ID·순서+검색어 · 아래서 선계산 = 커밋 스킵 판정용)
   if (!SOCIAL_LOADED) { list.innerHTML = `<div class="empty">${window.nmLoader?nmLoader('loading','Now loading…'):'Now loading…'}</div>`; _snsSig = ''; return; }
   const q = ($('#q') ? $('#q').value : '').trim().toLowerCase();
-  const rows = q ? SOCIAL.filter(r => ((r.title || '') + ' ' + (r.sources || []).join(' ')).toLowerCase().includes(q)) : SOCIAL;
+  const pool0 = SOCIAL.filter(socPass);   // 🔥 하한 컷(운영자 260818 SOC_MIN) — 검색 필터보다 **앞** = 검색해도 미달 카드는 안 뜬다
+  const rows = q ? pool0.filter(r => ((r.title || '') + ' ' + (r.sources || []).join(' ')).toLowerCase().includes(q)) : pool0;
   const merged = rows.slice().sort((a2, b2) => (+b2.burst || 0) - (+a2.burst || 0));   // 버스트 내림차순(기존 정렬축 유지)
   if (!merged.length) { list.innerHTML = q ? '<div class="empty">검색 결과 없음</div>' : ''; _snsSig = ''; return; }   // 빈 메뉴 = 조용한 공백(§디자인 e) · 검색 중일 때만 상태 1줄
   _ss = merged.map(r => (r.url || r.title || '') + ',').join('') + '|' + q;   // 시그니처 선계산(행 ID·순서+검색어)

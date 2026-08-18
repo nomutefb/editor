@@ -168,6 +168,7 @@ def _yt_items(j):
                     "views": int(st.get("viewCount") or 0), "published": sn.get("publishedAt") or "",
                     "likes": int(st.get("likeCount") or 0), "cmts": int(st.get("commentCount") or 0),
                     "dur": ((it.get("contentDetails") or {}).get("duration")) or "",
+                    "cat": str(sn.get("categoryId") or ""),
                     "thumb": th, "url": "https://www.youtube.com/watch?v=" + (it.get("id") or "")})
     return out
 
@@ -2472,7 +2473,7 @@ def main():
     #   뉴스25·엔터24·스포츠17 각 10건 중 1건 · 음악10/과학28/영화1/코미디23/자동차2 = 0건이라 소분류가 통째로 소멸).
     #   50 = videos.list maxResults 상한 · 쿼터는 part 기준이라 런당 비용 불변(maxResults 무관 = §1 보수성 유지).
     #   뷰어 컷/정렬 무접촉(24h 컷 취지 그대로 · 후보 풀만 확대) = yt_all 2109 선례 문법 그대로 계승.
-    _CAT_DEF = [25, 24, 17, 28, 20, 1, 23, 19]   # 10 음악·2 자동차 = 260804 제외(운영자 "유튜브 음악·유튜브 자동차는 숨김처리" — 뷰어 YT_CATS 동시 소멸 = 화면 미출력 · 여기서도 빼 콜 2unit/런 절감 · 되돌림 = git 이력)
+    _CAT_DEF = [25, 24, 17, 28, 1, 19]   # 10 음악·2 자동차 = 260804 제외(운영자 "유튜브 음악·유튜브 자동차는 숨김처리" — 뷰어 YT_CATS 동시 소멸 = 화면 미출력 · 여기서도 빼 콜 2unit/런 절감 · 되돌림 = git 이력) · 20 게임·23 코미디 = 260818 동일 문법 제외(운영자 "유튜브 - 게임 안뜨게 · 코미디 안뜨게") — ⚠ 게임 축은 화면에서 통째로 빠지는 게 아니라 **인기·TOP 레인의 게임 배제**로 이어진다(뷰어 _YT_GAME_CAT): 그 판정 정본은 위 _yt_items 가 실어주는 videos.list snippet.categoryId 이지 이 목록이 아니므로, 여기서 빼도 배제는 그대로 산다
     _news_cats = [c for c in (_ytc.get("news_cats") or []) if isinstance(c, int) and 0 < c < 100] or _CAT_DEF
     yt_cats, _cat_empty = {}, []
     if YT_KEY:
