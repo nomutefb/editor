@@ -51,7 +51,8 @@
   #histBody.closing, .hist-body.closing, #geniResBody.closing, #geniPrevBody.closing { animation:histOut .26s cubic-bezier(.4,0,.7,.3) both; }   /* 이전 제작 닫힘 = 촤르륵(histOut 역방향 · 운영자 260707 "닫힐 때도 촤르륵") · tr 결과(.hist-body)·geni 패널 접이 합류(260803 Q1249 — 전 표면 같은 손맛) */
   @media (prefers-reduced-motion:reduce) { .hist-grid > .hist-it, #histBody.closing, .hist-body.closing, #geniResBody.closing, #geniPrevBody.closing, #geniResBody .geni-histbody-in > *, #geniPrevBody .geni-histbody-in > * { animation:none; } }
   .hist-it { display:flex; flex-direction:column; }
-  .hist-hd { color:var(--fg); font-size:11.5px; font-weight:600; margin:0 0 6px 7px; }   /* 제작 시각 = 오전/오후 H:MM · 흰색 · 좌측 들여쓰기(운영자 260621) */
+  .hist-hd { color:var(--fg); font-size:11.5px; font-weight:600; margin:0 7px 6px 7px; display:flex; align-items:baseline; }   /* 제작 시각 = 오늘/어제 H:MM AM/PM · 흰색 · 좌측 들여쓰기(운영자 260621 · 260818 10차 = 번호 접두 「001 · 」 + 우측 판형 슬롯) · 우측 여백 = 좌측 7 대칭 계승(신규 값 0) · flex = 판형을 줄 끝으로 미는 자리(내용이 한 줄 텍스트라 형제 표면 시각 무변) */
+  .hist-hd .hfmt { margin-left:auto; }   /* 판형(포스트/릴스) = 시각 줄 우측 끝 · 색은 .hist-hd 흰색 상속 = 판형 고유색 미사용(운영자 260818 10차 «이때 표기는 흰색으로 표기 · 여기까지 컬러들어가면 너무 번잡») */
   .hist-thumb { position:relative; }
   .hist-thumb img { width:100%; aspect-ratio:4/5; object-fit:cover; border:1px solid var(--line); border-radius:var(--r-s); display:block; background:var(--pan); }
   .hist-thumb video { width:100%; aspect-ratio:16/9; object-fit:cover; border:1px solid var(--line); border-radius:var(--r-s); display:block; background:var(--pan); }   /* reuse-ok: 계승원 = 바로 위 `.hist-thumb img` 정본 규격에서 **비율만** 영상 축으로 교체(edit.html `.ljth .ljv` 16/9 정본 값 사본 = 새 값 창작 0) · 거처 사유 = 영상 스튜디오 산출(mp4·mp3)은 img로 그릴 수 없어 nm-rail이 미디어 태그로 그린다(운영자 260810 "이전 제작이 안떠") */
