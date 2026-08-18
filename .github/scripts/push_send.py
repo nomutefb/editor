@@ -43,6 +43,12 @@ ISS_PUSH_CROSS_FAST = int(os.environ.get("ISS_PUSH_CROSS_FAST", "15"))  # ⓑ �
 ISS_PUSH_FAST_H = float(os.environ.get("ISS_PUSH_FAST_H", "6"))       # ⓑ 그 신선 창(6시간)
 ISS_MAX_H = float(os.environ.get("ISS_PUSH_MAX_H", "24"))     # 나이 창 = 배지 소멸선 24h 사본(그 뒤는 배지도 안 붙는다)
 ISS_DAY_CAP = int(os.environ.get("ISS_PUSH_DAY_CAP", "40"))   # 하루 상한(폭주 가드 · 260818 실측 = 24h창 사건 단위 근사 41건)
+# ⚠️ **이슈도 사건 단위로 묶는다**(운영자 260818 «매체 20 이상이 6시간 이내 쌓이는 이슈가 그렇게나 많어?» =
+#    정확한 의심 — 첫 판 실측이 17건이었는데 **실제 사건은 3~4개**였다: 「김민석 당대표」 5건 · 「트럼프 한미훈련
+#    축소」 6건 · 「거제 폭우」 3건이 *다른 기사*라 키가 전부 달라 각각 살아남았다). 긴급 축은 이미 AI 사건중복
+#    심판(_ai_same_event)을 쓰는데 이슈 루프만 그게 없어서 같은 사건이 매체 수만큼 울렸다 = 같은 병의 형제.
+#    ⚠ 이슈는 물량이 많아 콜 상한을 따로 둔다(긴급 예산을 잠식하면 진짜 긴급이 심판 없이 나간다).
+ISS_MAX_AI = int(os.environ.get("ISS_PUSH_MAX_AI", "12"))
 
 
 def iss_push_ok(c, a):
@@ -356,7 +362,9 @@ def main():
             # 3연발(기사키 상이·group_id 미도장) 클래스가 표적. 억제 키는 원장 도장 = 이후 런 AI 0콜 스킵.
             if sent_events and ai_calls < MAX_AI_DEDUP:
                 ai_calls += 1
-                dup = _ai_same_event(c.get("title") or "", [e.get("title", "") for e in sent_events])
+                # ⚠ 비교 대상은 **긴급 발송분만**(k != "iss") — 이슈 발송분까지 넣으면 이슈로 먼저 알린 사건이
+                #   나중에 속보로 승격됐을 때 "이미 다룬 사건"으로 억제돼 **진짜 긴급을 놓친다**(비싼 방향의 오류).
+                dup = _ai_same_event(c.get("title") or "", [e.get("title", "") for e in sent_events if e.get("k") != "iss"])
                 if dup is not None:
                     print(f"  ⊘ 사건중복 억제(AI): {(c.get('title') or '')[:34]} ≈ {str(sent_events[dup].get('title', ''))[:28]}", file=sys.stderr)
                     suppressed_keys.extend(ks)
@@ -366,7 +374,7 @@ def main():
         # ⚠️ 원장 키에 "iss:" 접두를 붙여 긴급 키와 **분리**한다 — 접두가 없으면 이슈로 먼저 나간 사건이
         #    나중에 속보로 승격돼도 "이미 보냄"에 막혀 진짜 긴급을 놓친다(반대 방향은 아래 원본 키 검사가 막는다).
         if ISS_PUSH:
-            iss_n = 0
+            iss_n, iss_ai = 0, 0
             # ⚠️ **첫 회차 소급 차단** — 원장에 이슈 키가 하나도 없으면(= 이 기능이 방금 켜졌다) 지금 자격을 가진
             #    과거분이 통째로 발사된다(260818 실측 = 24h창 50건 = 폰에 40통이 한 번에). 운영자 «다 받아봄»은
             #    「앞으로 안 놓치겠다」는 뜻이지 「어제 것을 소급으로 받겠다」가 아니다 → 첫 회차는 **발송 0 · 도장만**
@@ -395,7 +403,19 @@ def main():
                     suppressed_keys.extend(ks)
                     iss_n += 1
                     continue
-                msgs.append({"keys": ks, "title": "News", "body": ("(이슈) " + disp_title(c))[:120],
+                # 사건 단위 묶기 — 이미 이번 런에서 보낸 이슈·긴급과 **같은 실제 사건**이면 억제(운영자 260818).
+                #   비교 대상 = 최근 발송 사건 시그니처(48h) + 이번 런에서 방금 담은 이슈 제목.
+                #   실패·토큰 없음 = 발송 진행(false-merge 회피 = 긴급 축과 같은 방향).
+                _cand_t = c.get("title") or ""
+                _pool = [e.get("title", "") for e in sent_events] + [m.get("ev_title") or m["body"] for m in msgs if m.get("kind") == "iss"]   # 이쪽은 전 축 비교 = 긴급으로 이미 알린 사건이면 이슈로 안 부른다
+                if _pool and iss_ai < ISS_MAX_AI:
+                    iss_ai += 1
+                    _d = _ai_same_event(_cand_t, _pool)
+                    if _d is not None:
+                        print(f"  ⊘ 이슈 사건중복 억제(AI): {_cand_t[:34]} ≈ {str(_pool[_d])[:28]}", file=sys.stderr)
+                        suppressed_keys.extend(ks)
+                        continue
+                msgs.append({"keys": ks, "ev_title": _cand_t, "title": "News", "body": ("(이슈) " + disp_title(c))[:120],
                              "url": brk_url(c), "tag": "nomute-issue", "kind": "iss",
                              "icon": notif_icon("iss", "sig") or ""})   # 노랑 지구본 = 화면 ⚡이슈 배지와 같은 색(운영자 260818)
                 iss_n += 1
@@ -434,7 +454,8 @@ def main():
         if ok_any:
             sent_keys.extend(m["keys"])   # event_key+제목해시(+group_id) 다 기록 = 다음 런에 어느 쪽으로 와도 dedup
             if m.get("ev_title") is not None:   # 긴급 발송만 사건 시그니처 기록(테스트·--notify 는 ev_title 없음)
-                sent_evs.append({"ts": dt.datetime.now(KST).isoformat(timespec="seconds"), "title": m["ev_title"], "key": (m["keys"] or [""])[0]})
+                sent_evs.append({"ts": dt.datetime.now(KST).isoformat(timespec="seconds"), "title": m["ev_title"],
+                                 "key": (m["keys"] or [""])[0], "k": m.get("kind") or "brk"})   # k = 축 표시(brk·iss) — 위 긴급 심판이 이슈분을 걸러내는 근거
 
     if dead:   # 죽은 구독 정리
         subs2 = [s for s in subs if (s or {}).get("endpoint") not in dead]
