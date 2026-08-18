@@ -3739,7 +3739,14 @@ function renderJob(job) {   // 잡 로그 행 갱신(없으면 생성, 최신이
   const _jtpl = (job.src && job.src.tpl) || job.tpl;   // 카드 생성 잡 = snapForm APP='2' s.tpl · AI 합성 잡 = job.tpl(rszJob meta · 260818 Q05 — src에 실으면 canEditSrc 반쪽 스냅 위험이라 잡 전용 필드) — 편집·AI 생성 잡은 접두 없이 종전 표기
   const _jtplLbl = _jtpl === 'jinjja' ? '진짜예요' : _jtpl ? '노뮤트' : '';   // 미보유 옛 스냅 = 접두 생략(restore nomute 폴백과 동축 · 오표기보다 무표기)
   const lab = document.createElement('span'); lab.className = 'jlab';   // 「#노뮤트 #포스트 #1」 = 템플릿 구분(운영자 260728 "노뮤트, 진짜예요 구분이 되야하니까") · 아래 [1] 변형 행은 동일 유지
-  const _labRest = job.label + (job._restored ? '' : jobNo(job));   // 번호 결측(기기 간 공유 재개분) = 무표기(jobNo 가드 · 260818)
+  // 판형과 번호 사이 값(투명도·종 목록)은 첫 줄이 아니라 **좌하단**으로(운영자 260818 «#릴스(또는 포스트)랑 #n 사이에 있는 거는 좌하단에 위치했으면 좋겠음») —
+  //   폰 실측(360px)에서 병합 라벨(「릴스 헤더·자막(OPA60)·저작권」류)이 오른쪽 상태 덩어리를 아랫줄로 떨어뜨리던 진범이 이 가운데 값이었다.
+  //   첫 줄 = 「#템플릿 #판형 #n · 상태」로 고정 폭, 설명은 버튼 줄(.jsave-row) 좌측 또는 좌측 열(.jvars)로 — 부품 = .jvar(흰색·일반체 정본) 재사용.
+  //   ⚠ 「#AI합성」은 해시태그 표식(운영자 260818 Q05 지정 포맷)이라 첫 줄 잔류(실측 = 전 폭 한 줄 안전) · job.label 원값은 무접촉(파일명·캡션·재시도 축 보존) = 렌더에서만 가른다.
+  const _jsplit = /^(포스트|릴스) (?!#AI합성$)(.+)$/.exec(job.label || '');
+  const _labHead = _jsplit ? _jsplit[1] : job.label;
+  const _labDesc = _jsplit ? _jsplit[2] : '';
+  const _labRest = _labHead + (job._restored ? '' : jobNo(job));   // 번호 결측(기기 간 공유 재개분) = 무표기(jobNo 가드 · 260818 본선) + 판형 머리만 첫 줄(위 분리 · 두 축 병합)
   if (_jtplLbl) {   // 접두 해시태그 = 템플릿 토글 색 점등(운영자 260729 "#노뮤트/#진짜예요 강조색") — 클래스 = .tplnm/.tpljj 정본 재사용 · textContent 조립(주입 여지 0)
     const _tp = document.createElement('span'); _tp.className = _jtpl === 'jinjja' ? 'tpljj' : 'tplnm'; _tp.textContent = '#' + _jtplLbl;
     lab.append(_tp, ' #' + _labRest);
@@ -3837,8 +3844,12 @@ function renderJob(job) {   // 잡 로그 행 갱신(없으면 생성, 최신이
     });
   }
   // 배치: 변형(좌) + 전체(우)를 한 띠에 = 전체 줄 좌측 공백 활용(1개/n개 동일 · 운영자 260626) · 변형 없으면 전체만 단독(우)
+  let dsc = null;   // 좌하단 설명(위 _labDesc · 운영자 260818) — 완료 행 = 버튼 줄 좌측 빈 공간 · 버튼 줄 없는 행(진행중·실패) = 좌측 열(.jvars) 한 줄
+  if (_labDesc) { dsc = document.createElement('span'); dsc.className = 'jvar jdesc'; dsc.textContent = _labDesc; }
+  if (dsc && svRow) svRow.insertBefore(dsc, svRow.firstChild);
   if (vs && svRow) { const grid = document.createElement('div'); grid.className = 'jgrid'; grid.append(vs, svRow); row.append(grid); }
   else { if (svRow) row.append(svRow); if (vs) row.append(vs); }
+  if (dsc && !svRow) { const dl = document.createElement('div'); dl.className = 'jvars'; dl.appendChild(dsc); row.append(dl); }
 }
 function pollJob(job) {   // 각 잡 독립 폴링 — 완성 슬롯은 캐러셀에 추가.
   // (260816) 폴 레지스트리 등록 = 같은 작업을 두 번 물지 않는다(restorePending 의 busy 게이트가 이걸 읽는다).
