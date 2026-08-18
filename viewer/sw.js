@@ -140,6 +140,13 @@ self.addEventListener('push', event => {
     data: { url: d.url || '/' },
     lang: 'ko',
   };
+  // 소리·진동(운영자 260819 «웹 푸시는 오는데 소리나 진동이 안 나는건» · 발송기가 긴급·이슈에만 실어 보낸다).
+  // ⚠ 서버가 안 보낸 종류엔 이 두 키가 아예 없다 = 제작 완료·시스템·트렌드·키워드는 종전대로 조용(회귀 0).
+  // ⚠ renotify 는 tag 가 있어야 유효하다(우리는 항상 준다) — 같은 묶음표로 교체될 때도 다시 울려서
+  //    뒤에 온 긴급이 앞 알림을 **조용히 덮는 것**을 막는다(손목에서 놓치는 축).
+  // ⚠ 이건 요청이지 보장이 아니다 — 안드로이드 알림 채널이 무음·중요도 낮음이면 그쪽이 이긴다.
+  if (Array.isArray(d.vibrate) && d.vibrate.length) opts.vibrate = d.vibrate;
+  if (d.renotify) opts.renotify = true;
   event.waitUntil((async () => {
     opts.icon = d.icon || iconFor(d.kind, await readThemeDark());   // 페이로드 icon 지정이 최우선 · 없으면 {종류 × 저장된 테마} 짝 선택
     return self.registration.showNotification(title, opts);
