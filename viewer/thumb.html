@@ -3957,7 +3957,10 @@ function jobFace(job) {
   else if (L === '카드뉴스') { ratio = '4:5'; pieces = '카드뉴스'; }   // 카드뉴스 = 1080×1350 고정
   else if (/^(헤더|자막\(|오버레이\()/.test(L) && L.indexOf('·') >= 0) { pieces = L; }   // 혼합 배치(판형 접두 없음 = 「헤더·저작권」류) = 비율 생략·낱개만
   if (pieces == null) return null;
-  return { ratio, ai, pieces: pieces.replace(/자막\(/g, '오버레이(').replace(/(^|·)자막(·|$)/g, '$1오버레이$2') };
+  pieces = pieces.replace(/자막\(/g, '오버레이(').replace(/(^|·)자막(·|$)/g, '$1오버레이$2');
+  const cmp = (job.src && job.src.aiBg) ? 'AI 합성' : (job.src && job.src.bg) ? '배경 합성' : '';   // 합성 출처 낱개(운영자 260818 9차 «ai랑 합성했을 때랑, 배경 합성했을때, 가 나와야할듯») — 사슬 카드는 bg 도장도 같이 찍히므로 AI 우선
+  if (cmp) pieces = cmp + (pieces ? '·' + pieces : '');
+  return { ratio, ai, pieces };
 }
 const jobNo3 = j => (j && j.n != null && j.n !== '') ? pad3(j.n) : '000'; // 파일명 3자리 조각 — pad3(undefined)='undefined' 차단(캡션과 같은 커밋 = 형제 동시 봉합)
 function dlBlob(url, name) {   // 다운로드 — R2(교차출처)는 같은-출처 프록시(api/dl)가 Content-Disposition: attachment로 강제 저장(전 플랫폼·CORS 무관·iOS 인라인 회피·?t= 캐시버스트 보존). 비R2(같은출처)는 download 속성으로 직접.
@@ -5373,6 +5376,7 @@ function goFire(yellow) {   // yellow=맞춤법 교정 적용 생성 → 게이�
 function dispatchJob(endpoint, payload, label, src, reuse) {
   // 제작 조건 스냅샷(문구·설정)을 서버에도 보존 → 기기 간 '수정' 복원(api/thumb→워크플로 _src.json→build-viewer→thumb-hist.json). 썸네일(/api/thumb)만(카드 /api/compose는 별도 파이프 = 미적용). 이미지 b64는 미동봉(snapForm이 이미 제외·IDB만).
   // 서버 보존본 = imgName(원본 파일명=공개 레포 신규 노출 차단)·imgKey(타 기기서 무의미한 로컬 IDB 키) 제거. imgUsed는 유지(빗금 참고본 분기용). 로컬 src(localStorage)는 원본 유지 = 같은 기기 복원 무손실. (분신술 평의회 3·9·10)
+  if (src && payload && payload.imageB64) src.bg = 1;   // 사진 배경 합성 도장(운영자 260818 9차 «배경 합성했을때, 가 나와야할듯» — aiBg·jn 과 같은 스냅샷 여분 필드 = 서버 이력 왕복·복원 유지)
   if ((endpoint === '/api/thumb' || endpoint === '/api/compose') && src && payload && !payload.src) { const { imgKey, imgName, ...rest } = src; payload.src = label ? Object.assign(rest, { lbl: label }) : rest; }   // 썸네일+카드뉴스(comp) src 서버 보존 → 기기 간 '수정' 복원(카드 연필 기기간 봉합 260713) · lbl = 이 발사의 라벨(=로컬 이력 캡션 어간) 동봉(260729) — 서버 이력이 app 번호(APP_CAP)로 캡션을 짐작하던 것 대체(app '2' = 포스트·릴스 공용 통합 폼이라 포스트 산출도 '릴스'로 오표기됐음)
   goFire(_spellApplied);   // 전송 피드백 = 실제 전송 시점에만(검증 통과·재발사 포함) · 맞춤법 적용 시 노랑 게이지
   clearRestored();   // 새 제작 = 복원된 최근 결과 고스트 치움(새 결과가 맨 위·운영자 260622)
@@ -5399,7 +5403,8 @@ function dispatchJob(endpoint, payload, label, src, reuse) {
 function dispatchBatch(items, batchLabel, src, reuse) {
   if (!items || !items.length) return;
   if (items.length === 1) { dispatchJob(items[0].endpoint, items[0].payload, items[0].label, src, reuse); return; }   // 단일 = 기존 경로(원래 라벨·변형·전체 그대로) · reuse 전파(재시도 in-place)
-  src = Object.assign({}, src || {}, { bid: batchId() });   // 한 번의 '생성' = 한 묶음 그룹키(운영자 260728 "버튼 한 번 = 동시 제작건 1/2·2/2") — 배치는 서버에 요청 N개로 나가 작업 id가 N개 발급된다(api/thumb가 요청마다 발급) → 세션 메모리(JOBS·THUMB_LAST_KEY)에선 한 잡이지만, 이력(thumb-hist.json)·알림 진입·타 기기에선 id가 유일한 묶음 단서라 낱장으로 갈렸다. bid를 src(_src.json → 서버 이력 e.src)에 실어 보내 어디서 읽어도 같은 묶음으로 복원(파이프 무접촉 = api·워크플로·빌더 무수정 · src는 이미 통째 왕복하는 값)
+  src = Object.assign({}, src || {}, { bid: batchId() });
+  if (items.some(it => it && it.payload && it.payload.imageB64)) src.bg = 1;   // 묶음도 동일 도장(사진 실은 아이템 하나라도 있으면 = 그 제작에 배경 합성이 들어갔다)   // 한 번의 '생성' = 한 묶음 그룹키(운영자 260728 "버튼 한 번 = 동시 제작건 1/2·2/2") — 배치는 서버에 요청 N개로 나가 작업 id가 N개 발급된다(api/thumb가 요청마다 발급) → 세션 메모리(JOBS·THUMB_LAST_KEY)에선 한 잡이지만, 이력(thumb-hist.json)·알림 진입·타 기기에선 id가 유일한 묶음 단서라 낱장으로 갈렸다. bid를 src(_src.json → 서버 이력 e.src)에 실어 보내 어디서 읽어도 같은 묶음으로 복원(파이프 무접촉 = api·워크플로·빌더 무수정 · src는 이미 통째 왕복하는 값)
   goFire(_spellApplied); clearRestored();
   let job;
   if (reuse) { job = reuse; Object.assign(job, { t0: Date.now(), outs: [], done: [], status: 'run', msg: '', batch: items, src }); delete job._queued; delete job.partErr; delete job._next; job._ready = {}; job.saves = []; renderJob(job); }   // 재시도 = 기존 잡 재사용(같은 #n·같은 행 · 운영자 260630) · 폴 누산기(_next/_ready/saves) 리셋 = 부분완료 재시도 시 변형 유실·다운로드 혼합 차단(실측 260720)
