@@ -192,7 +192,14 @@ jobs:
       #   정체 → wd-sns 경보. 반면 이 scrape 는 외부 15분 메트로놈(workflow_dispatch)이 깨워 같은 창에서 한 번도
       #   안 빠졌다(00:00Z~03:45Z 전건 15분 정각) = cron 누락과 무관한 유일한 상시 자리 → 백스톱이 여기 산다.
       #   메트로놈까지 죽으면 이 백스톱도 같이 죽지만 그땐 수집 자체가 멈춰 wd-collect 가 따로 운다 = 감시 공백 아님.
-      # 판정 = watchdog 정본 재사용(경로 SNS·임계 SNS_MIN·나이 산식 _age_min = 사본 0 · 임계 이원화 차단).
+      # 판정 = watchdog 정본 재사용(경로 SNS·나이 산식 _age_min = 사본 0) · ⚠⚠ 발사선 = **경보선(SNS_MIN)의
+      #   절반**(260818 2차 · 운영자 「제때 못 받아오면 알림을 계속 줄텐데 이 간헐성」) — 1차 판은 발사선을
+      #   경보선과 같은 90분에 뒀는데, 그러면 고치는 손(이 백스톱)과 알리는 입(watchdog)이 같은 선에서 동시에
+      #   출발해 cron 가뭄마다 경보가 한 틱 깜빡인다(실측 같은 날 14:06 = 「정체 106분」 경보 점등 → 14:10 회복
+      #   = 경보가 켜진 지 4분 만에 스스로 꺼질 알림이 폰까지 갔다). 절반이면 경보 도달 45분 전에 먼저 고쳐
+      #   깜빡임 자체가 사라지고, 경보는 자가치유가 연속 실패했을 때만 = 진짜 문제일 때만 남는다.
+      #   SNS_MIN/2 = 파생값(이원화 0 = 경보선을 옮기면 같이 움직인다) · 정상 주기(폰 하트비트 30분·cron 15분
+      #   슬롯)에서는 나이가 45분에 안 닿아 평시 추가 발사 0.
       # 쿨다운 40분 = 직전 발사분(런 ~9분)·연속 틱 중복 발사 차단 — 정체가 지속돼도 시간당 최대 ~1.5발.
       # fail-soft = 이 백스톱의 어떤 실패도 수집 레인을 못 죽인다(경고만 · exit 0). 킬스위치 = repo variable SNS_AUTOFIRE=0(부재=ON).
       - name: SNS 트렌드 정체 자동 재발사
@@ -207,7 +214,7 @@ jobs:
           try:
               from watchdog import SNS, SNS_MIN, _age_min
               a = _age_min(json.load(open(SNS, encoding="utf-8")).get("updated"))
-              print("1" if (a is None or a > SNS_MIN) else "0")
+              print("1" if (a is None or a > SNS_MIN / 2) else "0")
           except Exception as e:
               print("0")
               print(f"::warning::SNS 정체 판정 실패(재발사 생략): {e}", file=sys.stderr)
