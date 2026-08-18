@@ -20,7 +20,7 @@
           --amber:#FFE13D; --amber-rgb:255,225,61;
           --warn:#FFE13D; --warn-rgb:255,225,61; --arm:#FFE13D; --arm-rgb:255,225,61; --on-arm:#241C02;
           --accent-4:#FFE13D; --accent-4-rgb:255,225,61;   /* index --accent-4 값 미러(전체 다운로드 버튼 통이식 사본이 참조 · amber/warn/arm과 동일값 = 신규색 0 · 없으면 var() 무효→fg 상속 폴백 실측 260706) */
-          --accent-5:#0FFD02; --accent-5-rgb:15,253,2; --bias-l2:#3a6ddb;   /* index :root 값 미러(--accent-4 미러 선례 · 운영자 260726 템플릿 토글) — 노뮤트=형광그린(--accent-5 = index 구 메인색 이동분) · 진짜예요=극진보(--bias-l2). 신규색 0(index SSOT 계승) · 이 두 색의 UI 사용처는 .csec .ovfmt.tplnm/.tpljj 뿐 = 토큰 경유라 raw 재유입 0 */
+          --accent-5:#0FFD02; --accent-5-rgb:15,253,2; --bias-l2:#3a6ddb; --bias-l1:#38C6FF;   /* index :root 값 미러(--accent-4 미러 선례 · 운영자 260726 템플릿 토글) — 노뮤트=형광그린(--accent-5 = index 구 메인색 이동분) · 진짜예요=극진보(--bias-l2) · 포스트=시안(--bias-l1 · 260818 4차 잡 행 판형 고유색 = nm-job.css .jlab .post가 무폴백 var()로 읽는다 — 미러 없으면 선언 통무효 = 결과 레일 --pan 실사고 축). 신규색 0(index SSOT 계승) */
           --accent-2:#FFE13D; --accent-2-rgb:255,225,61; --accent-6:#FF5EC8;   /* index :root 값 미러(--accent-4 미러 선례 · 260723 레몬→골드 통일 동조) — 입력칸 별표쌍 색순환용(1·4=골드레몬 --accent-2·--accent-4 동값[운영자 "일괄" · 인접 쌍 1↔2↔3 색 구분은 유지] · 2=터콰 --accent · 3=핑크 --accent-6) · 신규색 아님(index SSOT 계승) · -rgb = .wip 코너 글로우용 동반 미러(Q469 · amber-rgb 동값) */
           }   /* --press-* 사다리 = tokens.css 상속(인라인 이중정의 제거·감사 260704 · comp 기준 통일 · 값 동일 회귀0) */
   @media (prefers-reduced-motion:reduce){ :root{ --press-pico:1; --press-xs:1; --press-s:1; --press-m:1; --press-l:1; } }   /* 눌림 토큰 전역 무효화(index 통일·분신술10) */
@@ -2995,7 +2995,7 @@ function rszJob(rid, payload, autoAttach, meta) {   // meta(260818) = { tpl: 잡
   //   판형 이름(포스트/릴스)이 비율(4:5/9:16)을 대체하고, 템플릿 접두는 meta.tpl → job.tpl → renderJob(카드 잡 job.src.tpl과 같은 자리).
   //   렌더 조립(renderJob 3697행) = 「#<템플릿> #<label> #<n>」이라 label을 「포스트 #ai합성」으로 두면 정확히 그 문법이 된다.
   const _nm = _aiFill ? (payload.aspect === '9:16' ? '릴스' : '포스트') + ' #AI합성' : '리사이즈';   // 'AI합성' = 항상 대문자(운영자 260818 형제 지시서 Q1526 · 초안 103 흡수)
-  const job = { n: ++JOBSEQ, label: _aiFill ? _nm : _nm + ' (' + payload.aspect + ')', t0: Date.now(), outs: [o], done: [false], status: 'run', msg: '', rid, payload, endpoint: '/api/resize' };   // 잡 라벨 = 리사이즈: 이름 (비율)(축1) · AI 합성: 판형 #ai합성(260818 — 비율 괄호는 판형 이름이 대체)
+  const job = { n: jobSeqNext(meta && meta.tpl), label: _aiFill ? _nm : _nm + ' (' + payload.aspect + ')', t0: Date.now(), outs: [o], done: [false], status: 'run', msg: '', rid, payload, endpoint: '/api/resize' };   // 잡 라벨 = 리사이즈: 이름 (비율)(축1) · AI 합성: 판형 #ai합성(260818 — 비율 괄호는 판형 이름이 대체) · 번호 = 채널별 일련(AI 채움 = meta.tpl 보유 · 편집 리사이즈 = 무채널 공용 일련)
   if (meta && meta.tpl) job.tpl = meta.tpl;       // 해시태그 접두(잡 전용 필드 — job.src에 실으면 canEditSrc가 src.app 없는 반쪽 스냅으로 연필을 그릴 위험)
   if (meta && meta.chain) job._chain = meta.chain; // 카드 사슬(완료·재첨부 성공 시 1회 발사)
   JOBS.unshift(job); renderJob(job); jobUiPulse(job);
@@ -3018,14 +3018,20 @@ function rszJob(rid, payload, autoAttach, meta) {   // meta(260818) = { tpl: 잡
         // 나간 것까지 「AI가 이 정도밖에 못 한다」로 읽혔다(260808 실사고 = route seed_pad · qa FAIL).
         const _R = { gemini: 'AI', solid_pad: '단색', blur_pad: '블러', seed_pad: 'AI 실패·원본 확장' }[hit.route];
         if (_R) o.label += ' · ' + _R;
+        // AI 합성 판정 = 요청이 아니라 **산출 경로**(운영자 260818 4차 «리사이즈 하더라도 새로 ai합성이 안들어가면 리사이즈거든») —
+        //   구판 술어(_aiFill = box 요청 보유)는 무과금 폴백(단색 확장·씨앗·블러)이 나가도 AI합성이라 말했다. AI가 실제로 그린 경로(gemini)만 AI합성 ·
+        //   나머지는 리사이즈로 강등(라벨·파일명·캡션·사슬 도장 동기). route 결측(옛 이력) = 요청대로(강등이 더 큰 오표기라 안전측 유지).
+        const _aiReal = _aiFill && (!hit.route || hit.route === 'gemini');
+        if (_aiFill && !_aiReal) job.label = '리사이즈 (' + payload.aspect + ')';
+        const _fin = (_aiReal ? _nm : '리사이즈') + jobNo(job);
         job.done[0] = true; job.status = 'done';
-        carAppend(hit.url + (hit.url.indexOf('?') < 0 ? '?t=' + Date.now() : ''), dlStamp(job.t0) + '_' + (_aiFill ? 'ai합성' : '리사이즈') + '_' + jobNo3(job) + '_' + payload.aspect.replace(':', 'x') + '.jpg', _nm + jobNo(job), job, ' · ' + payload.aspect, o, false, payload.name || (_nm + jobNo(job)));   // 파일명 = 잡 이름 동기(축8 개정 260818 — ai합성/리사이즈) · 결과 타일 캡션 = 잡 이름 동기(260816 AI 합성 축) · 이전 제작 캡션 = 원본 파일명 우선(축5 · histCap)
+        carAppend(hit.url + (hit.url.indexOf('?') < 0 ? '?t=' + Date.now() : ''), dlStamp(job.t0) + '_' + (_aiReal ? 'ai합성' : '리사이즈') + '_' + jobNo3(job) + '_' + payload.aspect.replace(':', 'x') + '.jpg', _fin, job, ' · ' + payload.aspect, o, false, payload.name || _fin);   // 파일명 = 잡 이름 동기(축8 개정 260818 — ai합성/리사이즈) · 결과 타일 캡션 = 잡 이름 동기(260816 AI 합성 축) · 이전 제작 캡션 = 원본 파일명 우선(축5 · histCap)
         renderJob(job);
         if (!rszRunning()) rszWait(false);
         if (autoAttach && hit.route !== 'seed_pad' && hit.route !== 'blur_pad') {   // 결과 = 목표 비율 그대로 → 재첨부 즉시 배치 원상복귀(여백 0) · ⚠ 실패 산출(seed_pad·blur_pad)은 재첨부 금지(260809 2차) — 줄무늬 씨앗이 「원본」으로 승격되면 pixel_lock이 그 줄무늬를 보존하고 심판 정답지(ref)까지 오염 = 실패 복리 · 실패해도 잡 카드·다운로드는 그대로(fail-soft)
           reattachSrc(hit.url, payload.name, null).then(b64 => {   // 카드 사슬(260818 Q06·Q07) — 재첨부가 성공해 완성 그림 b64를 쥐었을 때만 1회 발사(실패 = 사슬 중단 = 배경 없는 반쪽 카드 방지)
             const ch = job._chain; if (!ch || !ch.items || !b64) return; job._chain = null;
-            if (ch.src) ch.src.aiBg = 1;   // AI 관여 도장(운영자 260818 3차 «위에는 ai생성 유무») — 이 사슬로 나온 카드 행이 #AI생성을 단다(jobFace가 읽는다 · 스냅샷 여분 필드 = 복원 무접촉)
+            if (ch.src && _aiReal) ch.src.aiBg = 1;   // AI 관여 도장(운영자 260818 3차 «위에는 ai생성 유무») — 이 사슬로 나온 카드 행이 #AI생성을 단다(jobFace가 읽는다 · 스냅샷 여분 필드 = 복원 무접촉) · 단색 확장 배경으로 만든 카드는 도장 없음(260818 4차 = AI가 실제로 그린 경로만)
             ch.items.forEach(it => { if (it._needBg) { delete it._needBg; it.payload.imageB64 = b64; it.payload.name = payload.name || 'fill.jpg'; } });
             dispatchBatch(ch.items, ch.lbl, ch.src);   // 스냅샷 그대로 = 채움 도는 동안 폼을 바꿔도 이 카드의 문구·판형은 발사 시점 것(카드 잡 표준 흐름 합류 = 잡 행·캐러셀·이전 제작·다운로드 전부 종전 경로)
           });
@@ -3599,7 +3605,10 @@ window.addEventListener('pagehide', () => { clearTimeout(_draftT); draftSave(); 
 
 // ==== 대기열(JOBS) + 캐러셀 — 제작 동시 가능: 누른 게 다 로그에 쌓이고 각자 폴링, 완성분은 캐러셀에 한 장씩 ====
 const JOBS = [];           // 제작 건 누적
-let JOBSEQ = 0;
+let JOBSEQ = 0;            // 채널 없는 잡(생성·해상도·편집 리사이즈 등) 공용 일련
+let JOBUID = 0;            // 행 정체성(전 잡 공용 유일값 · renderJob이 지연 발급) — 표시 번호(n)가 채널별 일련이 되면서(260818 4차) 채널이 다르면 같은 #n이 공존한다 → DOM 행 id·정리 축은 이 값만 쓴다(같은 n 두 행이 서로를 덮던 축 = 5843행 주석의 그 사고를 채널 축으로 확장 방어)
+const JOBSEQ_CH = {};      // 채널(템플릿)별 표시 번호 — 운영자 260818 4차 «no는 채널명에 따라서 숫자 세지게, 노뮤트가 31번이였어도 진짜예요가 1번이면 1번으로»
+const jobSeqNext = k => k ? (JOBSEQ_CH[k] = (JOBSEQ_CH[k] || 0) + 1) : ++JOBSEQ;   // 채널 보유 잡 = 채널 카운터 · 무채널 = 종전 공용 일련
 /* ══ 진행 중 작업 영속 슬롯(운영자 260816 "화면이 나가도 제작중 이거는 돌고있어야한다는거지 항상" ·
       "웹페이지를 3개 최대화해서 보고있는데 3번째꺼를 보고있어. 그럼 1,2번 웹페이지는 동기화 안하고 그냥
       멈춰있는게 아니라 상시 돌아가서 내가 빠른속도로 2로 가도 그 내용이 보여야한다") ══
@@ -3710,8 +3719,9 @@ function jobCancel(job) {   // 취소 = 이 화면의 추적만 끊는다. ⚠ �
 function jobDur(sec) { return sec < 60 ? sec + 's' : Math.floor(sec / 60) + 'm ' + (sec % 60) + 's'; }   // 경과 표기 = 60초부터 분·초(운영자 260728 "1m 30s 이렇게 표기") · 60 미만은 종전 그대로 '47s'
 function jobSecHTML(sec) { return '<b class="jsec">' + jobDur(sec) + '</b>'; }   // 진행 중 경과시간만 흰색(.jsec = var(--fg) · 운영자 260728)
 function renderJob(job) {   // 잡 로그 행 갱신(없으면 생성, 최신이 위)
-  let row = document.getElementById('job-' + job.n);
-  if (!row) { row = document.createElement('div'); row.id = 'job-' + job.n; row.className = 'job'; $('#jobs').prepend(row); }
+  if (!job.uid) job.uid = ++JOBUID;   // 행 정체성 지연 발급 — 발사·복원·기기 간 재개 전 경로 공통(260818 4차: 표시 번호 n이 채널별이라 채널 간 중복 가능 → DOM id는 uid만)
+  let row = document.getElementById('job-' + job.uid);
+  if (!row) { row = document.createElement('div'); row.id = 'job-' + job.uid; row.className = 'job'; $('#jobs').prepend(row); }
   if (job.thid) row.dataset.thid = job.thid;   // 알림 #done=<id> → 이 잡 행으로 핀포인트 랜딩(세션 내 미리로드 시)
   row.className = 'job' + (job.status === 'done' ? ' done' : '') + (job.status === 'err' ? ' err' : '');
   /* (완료 낱장 잡 행 숨김 = 원복 · 운영자 260806 "원래 저게 세트였는데 갈라진거네" — 요약 줄(완료·N장·시각 + 수정·전체 다운로드)과 개별 썸네일은 **한 세트**다.
@@ -3740,14 +3750,22 @@ function renderJob(job) {   // 잡 로그 행 갱신(없으면 생성, 최신이
   const _jtpl = (job.src && job.src.tpl) || job.tpl;   // 카드 생성 잡 = snapForm APP='2' s.tpl · AI 합성 잡 = job.tpl(rszJob meta · 260818 Q05 — src에 실으면 canEditSrc 반쪽 스냅 위험이라 잡 전용 필드) — 편집·AI 생성 잡은 접두 없이 종전 표기
   const _jtplLbl = _jtpl === 'jinjja' ? '진짜예요' : _jtpl ? '노뮤트' : '';   // 미보유 옛 스냅 = 접두 생략(restore nomute 폴백과 동축 · 오표기보다 무표기)
   const lab = document.createElement('span'); lab.className = 'jlab';
-  // ── 결과 박스 표기 3차 개정(운영자 260818 «#n #9:16 #AI생성 ⏎ 헤더·오버레이(OPA 60·40)·저작권» — 위 줄 = 번호·비율·AI 관여 · 아랫줄(좌하단) = #노뮤트/#진짜예요 + 실제 생성물 낱개) ──
-  //   비율(#4:5/#9:16)이 구 판형 이름(포스트/릴스)을 대체 · 템플릿 태그는 좌하단으로 이주(운영자 «#노뮤트(진짜예요)를 해당 좌측 아래로 보내자») ·
+  // ── 결과 박스 표기 4차 개정(운영자 260818 «좌상단에 #노뮤트 그냥 붙이자 · no는 채널명에 따라서 숫자 세지게 · 9:16, 포스트, 릴스로 표기하는거 다시 할게, 그 각각 고유색 따라서») ──
+  //   위 줄 = #채널(#노뮤트/#진짜예요 강조색) · #번호(채널별 일련) · #판형(포스트=시안 --bias-l1 / 릴스=골드레몬 --accent-4 = .csec .ovfmt.post/.reels 토글 정본 색 그대로 · 그 밖 비율은 숫자 그대로) · #AI생성 ·
+  //   아랫줄(좌하단) = 실제 생성물 낱개(헤더·오버레이(OPA…)·저작권·안내문 — 3차의 태그 동승은 회수) ·
   //   저장 라벨(job.label)·파일명·캐러셀 캡션은 무접촉 = 렌더에서만 분해(jobFace) — 분해 불가 라벨(생성·해상도 등)은 종전 표기 그대로(무표기보다 옛 표기).
   const face = jobFace(job);
   let _labDesc = '';
   if (face) {
-    const _no = job._restored ? '' : String(jobNo(job)).trim();   // 「#12」 · 번호 결측(기기 간 공유 재개분) = 무표기(jobNo 가드 · 260818 본선)
-    lab.textContent = [_no, face.ratio ? '#' + face.ratio : '', face.ai ? '#AI생성' : ''].filter(Boolean).join(' ');
+    const _no = job._restored ? '' : String(jobNo(job)).trim();   // 「#12」 = 채널별 일련(jobSeqNext) · 번호 결측(기기 간 공유 재개분)·복원 = 무표기(jobNo 가드 · 260818 본선)
+    const _parts = [];
+    if (_jtplLbl) { const _tp = document.createElement('span'); _tp.className = _jtpl === 'jinjja' ? 'tpljj' : 'tplnm'; _tp.textContent = '#' + _jtplLbl; _parts.push(_tp); }
+    if (_no) _parts.push(_no);
+    const _fw = { '4:5': ['포스트', 'post'], '9:16': ['릴스', 'reels'] }[face.ratio];
+    if (_fw) { const _fm = document.createElement('span'); _fm.className = _fw[1]; _fm.textContent = '#' + _fw[0]; _parts.push(_fm); }
+    else if (face.ratio) _parts.push('#' + face.ratio);
+    if (face.ai) _parts.push('#AI생성');
+    _parts.forEach((p, i) => { if (i) lab.append(' '); lab.append(p); });   // textContent 조각 조립 = 주입 여지 0(고정 리터럴 + 번호 숫자뿐)
     _labDesc = face.pieces;
   } else if (_jtplLbl) {   // 미분해 라벨 + 템플릿 = 종전 접두 문법 유지(운영자 260729 강조색 · .tplnm/.tpljj 정본 · textContent 조립 = 주입 여지 0)
     const _tp = document.createElement('span'); _tp.className = _jtpl === 'jinjja' ? 'tpljj' : 'tplnm'; _tp.textContent = '#' + _jtplLbl;
@@ -3846,12 +3864,8 @@ function renderJob(job) {   // 잡 로그 행 갱신(없으면 생성, 최신이
     });
   }
   // 배치: 변형(좌) + 전체(우)를 한 띠에 = 전체 줄 좌측 공백 활용(1개/n개 동일 · 운영자 260626) · 변형 없으면 전체만 단독(우)
-  let dsc = null;   // 좌하단 = #노뮤트/#진짜예요 태그 + 생성물 낱개(운영자 260818 3차) — 완료 행 = 버튼 줄 좌측 빈 공간 · 버튼 줄 없는 행(진행중·실패) = 좌측 열(.jvars) 한 줄
-  if (_labDesc || (face && _jtplLbl)) {
-    dsc = document.createElement('span'); dsc.className = 'jvar jdesc';
-    if (face && _jtplLbl) { const _tp2 = document.createElement('span'); _tp2.className = _jtpl === 'jinjja' ? 'tpljj' : 'tplnm'; _tp2.textContent = '#' + _jtplLbl; dsc.append(_tp2); if (_labDesc) dsc.append(' ' + _labDesc); }
-    else dsc.textContent = _labDesc;
-  }
+  let dsc = null;   // 좌하단 = 생성물 낱개(운영자 260818 4차 — 3차의 템플릿 태그 동승은 좌상단 복귀로 회수) — 완료 행 = 버튼 줄 좌측 빈 공간 · 버튼 줄 없는 행(진행중·실패) = 좌측 열(.jvars) 한 줄
+  if (_labDesc) { dsc = document.createElement('span'); dsc.className = 'jvar jdesc'; dsc.textContent = _labDesc; }
   if (dsc && svRow) svRow.insertBefore(dsc, svRow.firstChild);
   if (vs && svRow) { const grid = document.createElement('div'); grid.className = 'jgrid'; grid.append(vs, svRow); row.append(grid); }
   else { if (svRow) row.append(svRow); if (vs) row.append(vs); }
@@ -4481,7 +4495,7 @@ window.addEventListener('resize', carUpdate);   // 뷰폭 변경 = 슬라이드 
 // 1초 벽시계 티커 — 진행 중 잡의 표시 초를 실제 시간과 일치(5s 폴과 분리·260619)
 setInterval(() => { JOBS.forEach(j => { if (j.status !== 'done' && j.status !== 'err') renderJob(j); }); }, 1000);
 // 실패 기록 12h 자동 정리 — 오래된 실패 잡은 목록에서 제거(이전 제작 12h 보관과 동일·운영자 260622)
-function pruneOldFails() { const cut = Date.now() - THUMB_HMS; for (let i = JOBS.length - 1; i >= 0; i--) { const j = JOBS[i]; if (j.status === 'err' && (j.t0 || 0) < cut) { const r = document.getElementById('job-' + j.n); if (r) r.remove(); JOBS.splice(i, 1); } } }
+function pruneOldFails() { const cut = Date.now() - THUMB_HMS; for (let i = JOBS.length - 1; i >= 0; i--) { const j = JOBS[i]; if (j.status === 'err' && (j.t0 || 0) < cut) { const r = document.getElementById('job-' + j.uid); if (r) r.remove(); JOBS.splice(i, 1); } } }
 pruneOldFails(); setInterval(pruneOldFails, 60000);
 
 // ==== 카드뉴스(/5) 칩 에디터 (인라인) — 어절칩·줄=행·강조·한도 빨강. 뷰어 카드편집기 포팅(입출력=칩↔compose) ====
@@ -5346,7 +5360,7 @@ function dispatchJob(endpoint, payload, label, src, reuse) {
   clearRestored();   // 새 제작 = 복원된 최근 결과 고스트 치움(새 결과가 맨 위·운영자 260622)
   let job;
   if (reuse) { job = reuse; Object.assign(job, { t0: Date.now(), outs: [], done: [], status: 'run', msg: '', endpoint, payload, src }); delete job._queued; delete job.partErr; delete job._next; job._ready = {}; job.saves = []; renderJob(job); }   // 재시도 = 기존 실패 잡 재사용(같은 #n → 같은 행 갱신·새 큐 안 만듦 · 운영자 260630) · 폴 누산기(_next/_ready/saves) 리셋 = 부분완료 재시도 시 재렌더 변형 유실·전체다운로드 옛+새 URL 혼합 차단(실측 260720)
-  else { job = { n: ++JOBSEQ, label: label || '제작', t0: Date.now(), outs: [], done: [], status: 'run', msg: '', endpoint, payload, src }; JOBS.unshift(job); renderJob(job); }   // 라벨 기본값 '제작'(260817) = 복원 경로(doRestore·restorePending) 동일 문법 — 결측이 잡 행에 "undefined #N"으로 그려지던 축 방어   // endpoint·payload 보관 = 실패 시 같은 설정 재발사 · src = 제작 조건 스냅샷(수정 복원·운영자 260624)
+  else { job = { n: jobSeqNext(src && src.tpl), label: label || '제작', t0: Date.now(), outs: [], done: [], status: 'run', msg: '', endpoint, payload, src }; JOBS.unshift(job); renderJob(job); }   // 라벨 기본값 '제작'(260817) = 복원 경로(doRestore·restorePending) 동일 문법 — 결측이 잡 행에 "undefined #N"으로 그려지던 축 방어   // endpoint·payload 보관 = 실패 시 같은 설정 재발사 · src = 제작 조건 스냅샷(수정 복원·운영자 260624) · 번호 = 채널(템플릿)별 일련(260818 4차)
   if (!reuse) scrollQueue();   // 새 발사 = 방금 쌓인 대기열 행으로 이징 착지 · 재시도(reuse)는 그 행에서 누른 것이라 제자리 갱신(화면 튐 0)
   (async () => {
     try {
@@ -5370,7 +5384,7 @@ function dispatchBatch(items, batchLabel, src, reuse) {
   goFire(_spellApplied); clearRestored();
   let job;
   if (reuse) { job = reuse; Object.assign(job, { t0: Date.now(), outs: [], done: [], status: 'run', msg: '', batch: items, src }); delete job._queued; delete job.partErr; delete job._next; job._ready = {}; job.saves = []; renderJob(job); }   // 재시도 = 기존 잡 재사용(같은 #n·같은 행 · 운영자 260630) · 폴 누산기(_next/_ready/saves) 리셋 = 부분완료 재시도 시 변형 유실·다운로드 혼합 차단(실측 260720)
-  else { job = { n: ++JOBSEQ, label: batchLabel, t0: Date.now(), outs: [], done: [], status: 'run', msg: '', batch: items, src }; JOBS.unshift(job); renderJob(job); }   // batch = 실패 시 같은 묶음 재발사용
+  else { job = { n: jobSeqNext(src && src.tpl), label: batchLabel, t0: Date.now(), outs: [], done: [], status: 'run', msg: '', batch: items, src }; JOBS.unshift(job); renderJob(job); }   // batch = 실패 시 같은 묶음 재발사용 · 번호 = 채널별 일련(dispatchJob 짝 · 260818 4차)
   if (!reuse) scrollQueue();   // 묶음 발사도 동일 착지(dispatchJob 짝 · 재시도 제자리)
   (async () => {
     const groups = await Promise.all(items.map(async (it, bi) => {

@@ -11,8 +11,10 @@
   .jobs[hidden] { display:none; }   /* hidden 가드 = nm-hist.css `.hist-grid[hidden]`과 한 축(display:flex가 UA hidden을 이기는 같은 함정 · 운영자 260806 평의회7) */
   .job { display:flex; flex-wrap:wrap; align-items:center; gap:8px; font-size:12px; padding:8px 11px; border-radius:var(--r-s); background:rgba(8,15,11,.34); border:1px solid var(--line); }   /* flex-wrap = 다중 변형(.jvars)이 아래 줄 전체폭으로 떨어짐 */
   .job .jlab { font-weight:800; color:var(--accent); }
-  .job .jlab .tplnm, .job .jdesc .tplnm { color:var(--accent-5); }   /* 템플릿 접두 #노뮤트 = 형광그린(운영자 260729 "#노뮤트는 강조색") — 색 = .csec .ovfmt.tplnm 토글 정본 토큰 그대로 계승(신규색 0) · .jdesc = 태그가 좌하단으로 이주(운영자 260818 3차)해도 강조색 계약이 따라간다 */
-  .job .jlab .tpljj, .job .jdesc .tpljj { color:var(--bias-l2); }    /* 템플릿 접두 #진짜예요 = 극진보(운영자 260729 "#진짜예요도 강조색") — .csec .ovfmt.tpljj 동일 축 · .jdesc 동반(위와 한 벌) */
+  .job .jlab .tplnm { color:var(--accent-5); }   /* 템플릿 접두 #노뮤트 = 형광그린(운영자 260729 "#노뮤트는 강조색") — 색 = .csec .ovfmt.tplnm 토글 정본 토큰 그대로 계승(신규색 0) · 태그 거처 = 좌상단 복귀(운영자 260818 4차 «좌상단에 #노뮤트 그냥 붙이자» = 3차 .jdesc 동승 회수) */
+  .job .jlab .tpljj { color:var(--bias-l2); }    /* 템플릿 접두 #진짜예요 = 극진보(운영자 260729 "#진짜예요도 강조색") — .csec .ovfmt.tpljj 동일 축(위와 한 벌) */
+  .job .jlab .post { color:var(--bias-l1); }     /* 판형 #포스트 = 시안(운영자 260818 4차 «포스트, 릴스로 표기 다시 · 각각 고유색 따라서») — 색 = .csec .ovfmt.post 포맷 토글 정본 토큰 그대로 계승(신규색 0 · thumb :root 미러 동반 = --pan 통무효 실사고 축 방어) */
+  .job .jlab .reels { color:var(--accent-4); }   /* 판형 #릴스 = 골드레몬(260723 전 웹앱 통일) — .csec .ovfmt.reels 동일 축(위와 한 벌) */
   .job .jvar { color:var(--fg); font-weight:400; }   /* OPA·변형 라벨 = 흰색·일반체(초록 제목과 구분 · 운영자 260619) */
   .job .jvars { flex-basis:100%; display:flex; flex-direction:column; align-items:flex-start; gap:3px; margin-top:2px; padding-left:0; margin-bottom:3px; }   /* 다중 변형([1]·[2]…) = 줄바꿈·헤더와 동일 좌측선(들여쓰기 0) · margin-top 65%(헤더~[1] 좁힘) · margin-bottom = 박스 상하 시각 여백 대칭(헤더줄 「전체」버튼 오프셋 보정 · 운영자 260620) */
   /* 변형 줄 = 클릭(해당 변형으로 캐러셀 점프) + 개별 다운로드 — 이미지 나온 변형만 활성(운영자 260620 아이디어 1·2) */
