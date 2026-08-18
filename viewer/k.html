@@ -995,7 +995,9 @@ $('#go').onclick = async () => {
     const isReroll = !!reroll;
     const refimage = !isReroll && $('#refimage').checked;   // 리롤 = 참조 재생성 강제 off(Gemini 재과금 + 재생성 = 다른 얼굴 → 정체성 앵커 파괴 — §9-9 ⓒ 정신 · 검증5 F1)
     const refmulti = refimage && $('#refmulti').classList.contains('on');   // 다장 = 참조 생성 on일 때만 유효(api가 마커 부착)
-    const res = await fetch('/api/k', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(Object.assign({ scene, refimage, refmulti, reroll }, kPayload())) });   // 모델·설정·대사·분막(개편 P1) — 서버가 화이트리스트 재검증 후 마커 부착
+    const _kln = (scene.split('\n').find(s => s.trim()) || '').replace(/\s+/g, ' ').trim();   // 실명 = 스토리 첫 줄(260818 «영상 쪽도 실명» · 16자 관례 = sb 작업 내역 정본 문법)
+    const _klbl = _kln ? (_kln.slice(0, 16) + (_kln.length > 16 ? '…' : '')) : '프롬프트';
+    const res = await fetch('/api/k', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(Object.assign({ scene, refimage, refmulti, reroll, lbl: _klbl }, kPayload())) });   // 모델·설정·대사·분막(개편 P1) — 서버가 화이트리스트 재검증 후 마커 부착 · lbl = 발사 이름표(서버 에코 → 진행 중 원장 → 다른 기기 합류분 실명 · api/k.js 짝)
     const j = await res.json();
     if (!res.ok || j.error) { status.innerHTML = WARN_SVG + ' ' + esc(String(j.error || res.status)); status.classList.add('err'); return; }
     if (j.md) {   // 즉답(직결 · 운영자 260721 Q358 확산) — 결과가 응답에 실려 옴 = 폴링·배포 대기 생략
@@ -1008,7 +1010,7 @@ $('#go').onclick = async () => {
       return;
     }
     const _ref = isReroll ? _lastRef : (j.refimage ? j.ref : null);
-    try { nmJobs.add(K_PEND, { id: j.out, t0: Date.now(), lbl: '프롬프트', ref: _ref || '' }); } catch (e) {}   // 진행 중 슬롯 적립(260811) = 결과 칸에 「제작중」 줄로 선다 · ref 보관 = 그 줄을 눌러 다시 걸 때 참조 축이 살아야 예상시간·표시가 안 갈린다
+    try { nmJobs.add(K_PEND, { id: j.out, t0: Date.now(), lbl: _klbl, ref: _ref || '' }); } catch (e) {}   // 진행 중 슬롯 적립(260811) = 결과 칸에 「제작중」 줄로 선다 · ref 보관 = 그 줄을 눌러 다시 걸 때 참조 축이 살아야 예상시간·표시가 안 갈린다
     poll(j.out, _ref);   // 리롤 결과엔 직전 참조를 이월 표시(첫 생성분 재사용 — R2 URL 안정 · 검증5 F1 스펙A)
   } catch (e) {
     status.innerHTML = WARN_SVG + ' 요청 실패: ' + esc(e.message); status.classList.add('err');

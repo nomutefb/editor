@@ -2208,7 +2208,9 @@ $('#editGo').addEventListener('click',async()=>{
   const t0=Date.now();
   gb.disabled=false; goFireStart(gb); _firing=true;   // 잠금은 .firing pointer-events:none이 담당(disabled 딤이 풀필 게이지를 흐리는 겹침 방지 — 재업로드 창에서만 disabled) · _firing = 접수 왕복 표식(먹통 백신 goHeal이 진행 중 발사를 오해제하지 않게)
   try{
-    const payload = url? {url, opts:o} : FILE_R2? {r2key:FILE_R2, name:FILE_NAME, opts:o} : {fileB64:FILE_B64, name:FILE_NAME, opts:o};
+    const _enm = (url? '' : String(FILE_NAME||'')).replace(/\.[A-Za-z0-9]+$/,'').replace(/\s+/g,' ').trim();   // 실명 = 첨부 파일 이름(주소 발사는 이름 원료가 없어 종전 표기) — 260818 «영상 쪽도 실명»(16자 관례 = sb 작업 내역 정본 문법)
+    const _elbl = _enm ? (_enm.slice(0,16)+(_enm.length>16?'…':'')) : editLbl(o);
+    const payload = url? {url, opts:o, lbl:_elbl} : FILE_R2? {r2key:FILE_R2, name:FILE_NAME, opts:o, lbl:_elbl} : {fileB64:FILE_B64, name:FILE_NAME, opts:o, lbl:_elbl};   // lbl = 발사 이름표(서버 에코 → 진행 중 원장 → 다른 기기 합류분 실명 · api/edit.js 짝)
     const _sig=(typeof AbortSignal!=='undefined'&&AbortSignal.timeout)?AbortSignal.timeout(payload.fileB64?180000:60000):null;   // 접수 무응답 상한(운영자 260731 "생성 버튼 안 눌린다") — ⚠ 이 fetch가 응답 없이 매달리면 `.go.firing{pointer-events:none}`(213행)이 안 벗겨져 **버튼이 영구 먹통**(finally도 fetch가 끝나야 도달)이었다. 관용구 = thumb 정본(`sig? {signal:sig}:undefined` · 미지원 브라우저는 타임아웃 없이 정상 fetch). 값 = 용도별(tr.html 150000 선례 동축): 기본 60s = R2키·URL 발사(본문 = 옵션 JSON 수 KB) 여유 · base64 폴백은 30MB 본문이 실려 180s(회선 1.5Mbps 기준 상한 근사) — 12s 정본을 그대로 쓰면 느린 회선의 정상 발사를 오탐한다
     const res=await fetch(API,Object.assign({method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(payload)}, _sig?{signal:_sig}:{}));
     const j=await res.json();
@@ -2228,7 +2230,7 @@ $('#editGo').addEventListener('click',async()=>{
     //   만료·정리된 뒤에는 서버 head 검증이 "업로드 파일이 없어"를 주고 아래 죽은 키 규칙이 폐기 → _lastFile 재업로드로 폴백(종전 동작).
     try{ EDIT_SUB=false; lyHideEditor(); lyBurnReset(); }catch(e){}   // 새 발사 = 이전 자막 편집기·완성 영상 정리(B-2 — 편집 스냅샷은 lyHideEditor가 flush 저장)
     CUT_REF=null;   // 승인 컷 소진(연속 발사에 딸려가지 않게 · FILE_R2 소진 문법 계승)
-    pendSet({id:j.id, t0, lbl:editLbl(o), clip:o.clip?1:0, cutscan:o.cutscan?1:0});
+    pendSet({id:j.id, t0, lbl:_elbl, clip:o.clip?1:0, cutscan:o.cutscan?1:0});   // 이 기기 진행 줄도 같은 실명(구 editLbl 진행 문구 = 파일 이름 없을 때 폴백으로 잔존)
     xtrJobSet(j.id, XTR_SRC);   // 이 작업 ↔ 이 영상 — 뒤에서 끝났을 때 얼굴을 **그 영상 칸**에 넣기 위한 이름표
     jobCfgSet(j.id);            // 이 작업의 설정 한 벌 보관 — 작업 내역에서 다시 열면 그대로 되불러온다(운영자 260810 "수정 버튼 누르면 그 설정해놨던 값이 그대로")
     goFireOk(gb);

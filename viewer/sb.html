@@ -1261,7 +1261,7 @@ async function fireShoot(outPath, shoot) {   // 2차 발사 — 버튼 = 코너 
       method: 'POST', headers: { 'content-type': 'application/json' },
       // ⚠ 화질은 **촬영 칸 기준으로 맞춰** 보낸다 — 그 판이 모르는 화질은 러너가 멈춘다
       //   (생성 버튼이 이유 없이 죽는 것처럼 보인다).
-      body: JSON.stringify(Object.assign({ story: '', base: outPath, shootOnly: true },
+      body: JSON.stringify(Object.assign({ story: '', base: outPath, shootOnly: true, lbl: '제작 · ' + shoot },   /* lbl = 발사 이름표(아래 작업 내역 라벨과 한 값 · 서버 에코 → 원장 → 타 기기 실명 · 260818) */
                                          sbPayload(), { shoot: shoot },
                                          { set: Object.assign({}, sbPayload().set,
                                              { '화질': sbQFit(shoot, sbSet['화질']) }) })),
@@ -1467,10 +1467,11 @@ $('#go').onclick = async () => {
   $('#go').disabled = true; status.textContent = '설계 중…'; _fired = true;
   try {
     const base = sbBase ? sbBase.out : '';   // 변형 모드 = 이전 콘티 경로 동봉(서버 화이트리스트 재검증)
-    const res = await fetch('/api/sb', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(Object.assign({ story, base, photos: sbPhotos }, sbPayload())) });   // photos = 참조 사진(운영자 260817) — 서버가 보관함에 앉히고 주소만 표식으로
+    const _sbl = (note || sum).replace(/\s+/g, ' ').slice(0, 16) + ((note || sum).length > 16 ? '…' : '');   // 실명 = 지시/요약 앞 16자(종전 작업 내역 라벨 그대로 — 한 원천으로 승격 · 260818 «영상 쪽도 실명»)
+    const res = await fetch('/api/sb', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(Object.assign({ story, base, photos: sbPhotos, lbl: _sbl }, sbPayload())) });   // photos = 참조 사진(운영자 260817) — 서버가 보관함에 앉히고 주소만 표식으로 · lbl = 발사 이름표(서버 에코 → 진행 중 원장 → 다른 기기 합류분 실명 · api/sb.js 짝)
     const j = await sbReadJson(res);
     if (!res.ok || j.error) { status.innerHTML = WARN_SVG + ' ' + esc(String(j.error || res.status)); status.classList.add('err'); return; }
-    const a = jload(); a.unshift({ id: j.id, out: j.out, ts: Date.now(), d: sbDirector, sh: sbShoot, base: !!base, label: (note || sum).replace(/\s+/g, ' ').slice(0, 16) + ((note || sum).length > 16 ? '…' : ''), status: 'run' }); jsave(a); renderJobs();   // 발사 즉시 내역 적립(최신 = 맨 위 · Image Studio 미러)
+    const a = jload(); a.unshift({ id: j.id, out: j.out, ts: Date.now(), d: sbDirector, sh: sbShoot, base: !!base, label: _sbl, status: 'run' }); jsave(a); renderJobs();   // 발사 즉시 내역 적립(최신 = 맨 위 · Image Studio 미러)
     sbBase = null;   // 변형 모드 = 1회용(발사 후 해제)
     poll(j.out, j.id);
   } catch (e) {

@@ -21,6 +21,7 @@ export async function onRequestPost({ request, env }) {
 
   let body;
   try { body = await request.json(); } catch { return json({ error: '잘못된 요청' }, 400); }
+  const _lbl = (typeof body.lbl === 'string' && body.lbl.trim()) ? body.lbl.trim().slice(0, 80) : '';   // 발사 이름표 에코(260818 «영상 쪽도 실명» — api/thumb.js 동문) · 진행 중 원장(putLive)이 응답만 읽으므로 여기 실어야 다른 기기 합류분이 종류 이름 대신 실명을 단다
 
   const url = String(body.url || '').trim().slice(0, 500);
   let fileB64 = String(body.fileB64 || '');
@@ -196,7 +197,7 @@ export async function onRequestPost({ request, env }) {
   const r = await GH(env.GH_TOKEN, 'actions/workflows/edit-make.yml/dispatches', 'POST', {
     ref: REF, inputs: { id, url, file: filePath, up_branch: upBranch, r2_src: r2src, opts: optsStr },
   });
-  if (r.status === 204) return json({ ok: true, id, out: `ly_out/${id}/video.json` });
+  if (r.status === 204) return json({ ok: true, id, out: `ly_out/${id}/video.json`, ...(_lbl ? { lbl: _lbl } : {}) });
   // 발사 실패(액션 정지 등) → R2 잡 큐 착지(260815 코워크 · thumb.js fail-soft 미러) — 맥 잡워커가 워크플로와
   //   같은 입력 계약{id,url,file,up_branch,r2_src,opts}으로 소비. up-<id> 브랜치·R2 up_src는 여기서 지우지
   //   않는다(워커가 소스로 쓴 뒤 정본 정리 스텝이 처리). id를 그대로 돌려주므로 뷰어 ?stat=/R2 폴링 종전 무변.
@@ -206,7 +207,7 @@ export async function onRequestPost({ request, env }) {
         kind: 'edit', id, ts: new Date().toISOString(),
         inputs: { id, url, file: filePath, up_branch: upBranch, r2_src: r2src, opts: optsStr },
       }));
-      return json({ ok: true, id, out: `ly_out/${id}/video.json`, via: 'r2-queue', note: '깃허브 발사 실패 — 맥 워커 큐 접수' });
+      return json({ ok: true, id, out: `ly_out/${id}/video.json`, ...(_lbl ? { lbl: _lbl } : {}), via: 'r2-queue', note: '깃허브 발사 실패 — 맥 워커 큐 접수' });
     } catch { /* R2도 실패 → 종전 502(아래) — 미들웨어 일반 큐가 최후 그물 */ }
   }
   if (upBranch) { try { await GH(env.GH_TOKEN, `git/refs/heads/${upBranch}`, 'DELETE'); } catch { /* 고아 잔존 무해 — 수동 정리 대상 */ } }
