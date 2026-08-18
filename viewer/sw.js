@@ -107,9 +107,10 @@ self.addEventListener('fetch', event => {
 const PREF_CACHE = 'nm-pref-v1', THEME_KEY = '/__nm_theme';
 // ── 알림 종류별 아이콘(운영자 260727 "알림 종류별로 카테고라이징해서 로고를 다르게" · 선택 = 「5종 · 같은 지구본 + 색만」) ──
 // 값 = 파일명 조각(''이면 위 브랜드 기본판). 색은 index :root 토큰 의미축 계승 — brk=--danger · make=--accent(기본)
-// · sys=--warn · trend=--info · test=--mut. 에셋 생성 = shared/build_notif_icons.py(손편집 금지 · D2-1).
+// · sys=--warn · trend=--info · kw=--cat-tech(보라 = 뷰어 키워드 알림 축과 동일 토큰 · 운영자 260818 — 구 test[--mut] 슬롯 대체
+//   = 연결 테스트는 기본판 폴백으로). 에셋 생성 = shared/build_notif_icons.py(손편집 금지 · D2-1).
 // 모르는 kind·미지정 = 기본판 폴백 = 구 발송 경로(kind 없는 워크플로) 무손상.
-const NOTIF_ICON = { brk: 'brk', make: 'make', sys: 'sys', trend: 'trend', test: 'test' };
+const NOTIF_ICON = { brk: 'brk', make: 'make', sys: 'sys', trend: 'trend', kw: 'kw' };
 function iconFor(kind, dark) {
   const t = dark ? 'sig' : 'blue', k = NOTIF_ICON[kind] || '';
   return `/assets/brand/icon-notif-${k ? k + '-' : ''}${t}-512-260727.png`;

@@ -14,7 +14,7 @@
   · 어느 색을 넣어도 밝은/어두운 2단 대비가 남는다(단색 알파 마스크 칠은 대비가 죽는다 = 260727 12안 각주).
   · **다크 알림판용(sig 슬롯) = 같은 결과 + 형광 부스트**(BOOST) — 어두운 톤이 검은 알림판에 묻히는 것을 살린다.
     부스트 강도는 4단 대조 렌더(원본/약/중/강)에서 「중」 채택 = 운영자 "조금만 더 형광".
-  · 무채 종류(test)는 hue 치환 대신 채도를 눌러 회색으로.
+  · desaturate 스위치 = hue 치환 대신 채도를 눌러 회색으로(구 test 종류가 쓰던 축 — 260818 kw 대체로 현재 사용 0 · 무채 종류가 다시 생기면 재사용).
   · 알파는 무접촉 = 투명 배경 계약(운영자 260727 "배경이 투명이 아니라 색이 묻어나온다") 보존.
 
 산출: assets/brand/icon-notif-{kind}-{sig|blue}-512-260727.png  (5종 × 2판 = 10장)
@@ -41,13 +41,18 @@ BOOST = {"sig": (1.18, 1.42), "blue": (1.0, 1.0)}   # (채도 배율, 명도 배
 #   make  = --accent            #00EED2    제작완료 = 브랜드 터쿼이즈(원본 그대로 = 파일 신설 없음)
 #   sys   = --warn(--accent-4)  #FFE13D    시스템 경보 = 경고 노랑
 #   trend = --info(--accent-5)  #0FFD02    트렌드 = 상승 초록
-#   test  = --mut               #8fa697    테스트 = 무채(중립)
+#   kw    = --cat-tech          #AC5CFF    키워드 발견 = 네온바이올렛(운영자 260818 «mut에 배당된거 놀고있거든.
+#           그거 보라로 바꾸고 키워드 알림으로 배선할게» — 구 test 슬롯[--mut 무채·desaturate]을 이 종류로 대체.
+#           보라 값 = 뷰어 키워드 알림 축이 이미 쓰는 그 토큰[kwAlertBtn.on·기어 픽토 = --cat-tech · 운영자 260726
+#           "보라색 팔레트 값" 지목] = 알림판과 화면이 같은 색으로 같은 축을 말한다 · 새 색 창작 0.
+#           ⚠ 연결 테스트(--test)는 이제 전용 아이콘이 없다 = 브랜드 기본판 폴백[push_send 미지 kind 계약] — 운영자가
+#           그 슬롯을 "놀고 있다"고 판정해 회수한 것이니 test 종류를 여기 되살리지 마라.)
 KINDS = {
-    "brk":   {"hex": "#e23b2a", "token": "--danger", "label": "긴급 속보"},
-    "make":  {"hex": "#00EED2", "token": "--accent", "label": "제작 완료"},
-    "sys":   {"hex": "#FFE13D", "token": "--warn",   "label": "시스템 경보"},
-    "trend": {"hex": "#0FFD02", "token": "--info",   "label": "트렌드"},
-    "test":  {"hex": "#8fa697", "token": "--mut",    "label": "테스트", "desaturate": True},
+    "brk":   {"hex": "#e23b2a", "token": "--danger",   "label": "긴급 속보"},
+    "make":  {"hex": "#00EED2", "token": "--accent",   "label": "제작 완료"},
+    "sys":   {"hex": "#FFE13D", "token": "--warn",     "label": "시스템 경보"},
+    "trend": {"hex": "#0FFD02", "token": "--info",     "label": "트렌드"},
+    "kw":    {"hex": "#AC5CFF", "token": "--cat-tech", "label": "키워드 발견"},
 }
 # 주색 대역(이 hue 구간만 타깃으로 치환) — 원본 실측: sig 청록 165~174 / blue 195~240
 BAND = {"sig": (170, 270), "blue": (170, 270)}   # 두 판 동일 소스라 대역도 동일(blue 원본 실측 하늘 195~남색 240)

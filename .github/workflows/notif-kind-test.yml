@@ -55,5 +55,5 @@ jobs:
           send make  "제작 완료"   "② 제작 완료는 이 로고 — 터쿼이즈(--accent · 영상·이미지·노래·보이스·변환·트래킹 공통)" "/thumb.html"
           send sys   "시스템 경보" "③ 수집 실패·연결 끊김은 이 로고 — 골드(--warn)" "/"
           send trend "트렌드"      "④ 키워드 급상승은 이 로고 — 초록(--info)"      "/#trend"
-          send test  "테스트"      "⑤ 테스트는 이 로고 — 무채(--mut)"              "/"
+          send kw    "키워드 발견" "⑤ 키워드 알림은 이 로고 — 보라(--cat-tech · 구 무채 test 슬롯 대체 260818)" "/"
           echo "발송 시도 5건 완료 · 테마판=${T}$([ "$KIND_ONLY" = "true" ] && echo ' · kind만(icon 생략)')"

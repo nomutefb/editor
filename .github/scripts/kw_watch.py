@@ -152,8 +152,8 @@ def send(kw, bucket):
         return True
     try:
         r = subprocess.run([sys.executable, str(PUSH), "--notify", "🔔 키워드 발견", body,
-                            "--url", "/", "--tag", "nomute-kw"],
-                           capture_output=True, text=True, timeout=180)
+                            "--url", "/", "--tag", "nomute-kw", "--kind", "kw"],
+                           capture_output=True, text=True, timeout=180)   # kw = 보라 지구본(--cat-tech · 운영자 260818 — 구 무채 test 슬롯 대체 · 아이콘 data URL은 push_send가 kind로 자동 적재)
         print((r.stdout or "").strip()[-400:])
         if r.returncode != 0:
             print(f"::warning::kw 푸시 rc={r.returncode} — {(r.stderr or '')[-200:]}", file=sys.stderr)
