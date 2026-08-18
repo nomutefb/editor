@@ -1059,6 +1059,91 @@ def check_push_send_checkout():
     return 0
 
 
+def check_roster_checkout():
+    """속보 판정 러너는 **메이저급 참조 명단을 실제로 손에 쥔다**(260818 실사고 봉합 · 운영자 «무조건 참조하게끔 해야함»).
+    CONTRACT: check_roster_checkout
+
+    ⚠ 실사고 = 260817에 신설한 명단(`apps/news/major_award_winners.json`)이 **판정 프롬프트에 한 번도 실린 적이 없다.**
+    진범 = `breaking-judge.yml` 의 sparse-checkout 목록에 `apps` 가 없어 러너 디스크에 그 파일이 아예 없었고,
+    `_roster_block()` 이 `except: return ""` 로 **조용히 빈 문자열**을 돌려줬다 → 규칙 본문은 「명단에 이름이 있으면
+    메이저급으로 본다」고 선언하는데 그 명단이 통째로 비어 모델 자체 지식에만 의존했다.
+    ⚠ **증상이 0이다** — 판정은 정상으로 나오고 스텝도 초록이라(fail-soft 설계) 운영자 눈조차 검출기가 못 된다.
+    확정 근거 = 러너가 찍은 도장 `723e825eb55d` 이 **명단 없는 본문 단독 해시와 정확히 일치**(실측 260818).
+    같은 병의 형제 = `check_push_send_checkout`(260816 = 구독자 명단이 sparse 에서 빠져 7레인 푸시가 조용히 죽었다).
+
+    ⚠ 신설 사유 = 기존 게이트가 전부 다른 축이다 — `check_workflow_yaml` = 문법 · `check_paths` = 경로 실존 ·
+    `check_rubric_regress` = 규칙 개정 후 회귀 실행 여부 → 「판정기가 **읽겠다고 선언한 파일을 러너가 받아오는가**」는
+    축 자체가 없었다. 새 참조 자료가 늘어도 같은 자리에서 또 조용히 빠진다.
+
+    술어 3축(정적 · 렌더·LLM·네트워크 0 · **면책표 없이 하드 0**) =
+      ① 명단 경로를 `breaking_judge.py` 소스에서 읽어(사본 0) 그 파일이 실존 — 경로 파싱 실패·파일 부재 = fail-closed
+      ② `breaking_judge.py` 를 **실판정으로**(= `--count` 같은 조회 인자 없이) 실행하는 워크플로가 sparse-checkout 을
+         쓰면 그 목록이 명단 폴더를 덮는다(`apps/news` ∨ 상위 `apps`) · 전체 체크아웃은 대상 밖(이미 다 받는다)
+      ③ 도장(`RUBRIC_VER`)이 **명단을 물지 않는다**(운영자 260818 «이미 지나간건 냅두고 이제 나오는것만») —
+         도장에 명단이 들어가면 명단을 넣는 순간 지문이 바뀌어 최근 48h 후보가 전건 재판정된다(= 운영자가 원치 않는 동작).
+         이 축이 없으면 다음 세션이 「도장에도 명단을 넣는 게 정합」이라고 되돌려 그 폭주를 되살린다.
+    ⚠ 주석 줄 제외 = 이 처방문이 판정 문자열을 그대로 인용하므로 원문으로 보면 코드를 지워도 주석만으로 통과한다(자기적발 차단)."""
+    bj = os.path.join(ROOT, '.github', 'scripts', 'breaking_judge.py')
+    try:
+        src = open(bj, encoding='utf-8').read()
+    except Exception as e:
+        print('❌ check_roster_checkout 판정기 읽기 실패(fail-closed):', e); return 1
+    code = '\n'.join(l for l in src.splitlines() if not l.lstrip().startswith('#'))
+    m = re.search(r'ROSTER\s*=\s*ROOT\s*((?:/\s*"[^"]+"\s*)+)', code)
+    if not m:
+        print('❌ 명단 경로 선언(ROSTER = ROOT / …)을 못 찾음 — 이름이 바뀌었으면 이 게이트도 같이 고쳐라(fail-closed)'); return 1
+    parts = re.findall(r'"([^"]+)"', m.group(1))
+    rel = '/'.join(parts)
+    if not os.path.exists(os.path.join(ROOT, *parts)):
+        print('❌ 참조 명단 파일이 없다: %s — 판정은 명단 없이 돈다(fail-closed)' % rel); return 1
+    folder = '/'.join(parts[:-1])            # apps/news
+    top = parts[0]                            # apps
+    if not re.search(r'RUBRIC_VER\s*=\s*hashlib\.sha256\(\s*_RUBRIC_BASE\.encode', code):
+        print('❌ 도장(RUBRIC_VER)이 명단을 물고 있다 — 명단 편입 순간 최근 48h 후보가 전건 재판정된다'
+              '(운영자 260818 「이미 지나간건 냅두고 이제 나오는것만」) → `_RUBRIC_BASE` 해시로 되돌려라'); return 1
+    wdir = os.path.join(ROOT, '.github', 'workflows')
+    try:
+        files = sorted(f for f in os.listdir(wdir) if f.endswith(('.yml', '.yaml')))
+    except Exception as e:
+        print('❌ check_roster_checkout 디렉터리 읽기 실패(fail-closed):', e); return 1
+    bad, seen = [], 0
+    for f in files:
+        try:
+            lines = open(os.path.join(wdir, f), encoding='utf-8').read().splitlines()
+        except Exception as e:
+            print('❌ check_roster_checkout 읽기 실패(fail-closed): %s — %s' % (f, e)); return 1
+        live = [l for l in lines if not l.lstrip().startswith('#')]
+        # 실판정 = breaking_judge.py 뒤에 조회 인자(--count 등)가 안 붙는 실행줄
+        if not any(re.search(r'breaking_judge\.py\s*(?:$|[^-\w])', l) and '--' not in l.split('breaking_judge.py')[1] for l in live):
+            continue
+        seen += 1
+        for i, l in enumerate(lines):
+            if not re.match(r'^\s*sparse-checkout:\s*\|', l) or l.lstrip().startswith('#'):
+                continue
+            body, base = [], None
+            for cur in lines[i + 1:]:
+                if not cur.strip():
+                    break
+                ind = len(cur) - len(cur.lstrip())
+                if base is None:
+                    base = ind
+                if ind < base:
+                    break
+                body.append(cur.strip())
+            if not any(b == folder or b == top or b.startswith(folder + '/') for b in body):
+                bad.append('%s:%d' % (f, i + 1))
+            break
+    if seen < 1:
+        print('❌ 실판정 워크플로 0건 — 시그니처 드리프트 의심(fail-closed)'); return 1
+    if bad:
+        print('❌ 속보 판정 러너가 참조 명단을 체크아웃하지 않는다(260818 실사고 = 명단 없이 판정하면서 스텝은 초록):')
+        for b in bad:
+            print('   -', b, '→ sparse-checkout 목록에 `%s` 한 줄 추가' % folder)
+        return 1
+    print('✅ 참조 명단 체크아웃 게이트 — 실판정 %d레인 전건 `%s` 보유 · 도장은 명단 비의존(재판정 폭주 0).' % (seen, folder))
+    return 0
+
+
 def check_push_abs_url():
     """알림 딥링크는 **절대 주소로** 나간다(260816 3차 실사고 봉합 · 운영자 「알림이 다 구 주소로 가는거 같은데」).
 
@@ -9750,6 +9835,8 @@ def main():
         print('❌ check_workflow_amend 예외(fail-closed):', e); rc = 1
     try:
         if check_push_send_checkout() != 0:   # 완료 푸시 레인의 구독자 명단 체크아웃(하드 게이트 — 260816 실측: sparse에 push/ 누락 시 「구독자 없음」으로 조용히 발송 생략·스텝은 초록·7레인 동시 사망)
+            rc = 1
+        if check_roster_checkout() != 0:   # 속보 판정 러너의 참조 명단 체크아웃(하드 게이트 — 260818 실측: sparse에 apps 누락으로 260817 명단이 프롬프트에 한 번도 안 실렸다·판정은 초록)
             rc = 1
     except Exception as e:
         print('❌ check_push_send_checkout 예외(fail-closed):', e); rc = 1

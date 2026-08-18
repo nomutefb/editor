@@ -291,7 +291,10 @@ def _roster_block():
     아이돌은 «그룹: 멤버» 짝으로 낸다 — 활동명만으로는 누구인지 모르고 동명 멤버가 여러 그룹에 있다(지민 = 방탄소년단·AOA)."""
     try:
         d = json.loads(ROSTER.read_text(encoding="utf-8"))
-    except Exception:
+    except Exception as e:  # noqa: BLE001
+        # ⚠ 여기로 빠지면 명단 없이 판정한다 = 260817~260818 실사고의 자리(러너 sparse-checkout 에 apps 가 없어 파일 자체가 없었다).
+        #   fail-soft 는 유지하되(판정을 죽이지 않는다) **소리는 낸다** — 무증상이던 게 이 사고를 두 달 가까이 숨겼다(운영자 260818 «무조건 참조»).
+        print(f"::warning::메이저급 참조 명단 미도달({ROSTER}) — 명단 없이 판정한다: {e}", file=sys.stderr)
         return ""
     groups = d.get("idol_groups") or {}
     mem = {n for ms in groups.values() for n in ms}
@@ -307,7 +310,18 @@ def _roster_block():
 
 
 RUBRIC = _RUBRIC_BASE + _roster_block()
-RUBRIC_VER = hashlib.sha256(RUBRIC.encode("utf-8")).hexdigest()[:12]
+# ⚠ 도장은 **명단 블록을 뺀 규칙 본문만** 해시한다(운영자 260818 «이미 지나간건 냅두고 이제 나오는것만»).
+#   사유 2축 = ⓐ **명단은 러너에 없었다** — breaking-judge·scrape 워크플로 sparse-checkout 목록에 `apps` 가 없어
+#     `_roster_block()` 이 늘 빈 문자열이었고(실측 = 러너 도장 723e825eb55d = 이 base 단독 해시와 정확히 일치),
+#     그래서 260817 명단 신설 이후 그 명단이 판정 프롬프트에 **한 번도 실린 적이 없다**(화면 증상 0 = 판정은 정상으로 나온다).
+#     같은 날 체크아웃 목록에 `apps/news` 를 넣어 참조를 살렸는데, 도장에 명단을 계속 넣어두면 그 순간 지문이 바뀌어
+#     최근 48h 후보가 **전건 재판정**된다 = 운영자가 명시적으로 원치 않는 동작.
+#   ⓑ 명단은 **판별을 돕는 보조 자료**이지 판정 규칙 자체가 아니다(RUBRIC 본문이 「명단에 없어도 ①~④면 메이저급」이라 선언).
+#     규칙이 바뀌면 지문이 바뀌어 재판정되는 축은 그대로 살아 있고, 명단 증보는 **다음에 새로 들어오는 기사부터** 반영된다.
+#   ⚠ 이로써 잃는 것 = 「명단만 갈면 그 자체로 재판정」(구 주석의 설계 의도). 실측상 그 축은 명단이 러너에 없어
+#     **한 번도 동작한 적이 없으므로** 현상 유지이고, 되살리려면 이 줄을 RUBRIC 해시로 되돌린다(그 순간 전건 재판정).
+#   ⚠ 회귀 스탬프(regress_ver)는 RUBRIC **전문**(명단 포함) + judge 소스로 계산하므로 이 변경과 무관 = 재실행 불요.
+RUBRIC_VER = hashlib.sha256(_RUBRIC_BASE.encode("utf-8")).hexdigest()[:12]
 
 
 REJUDGE_MAX_H = float(os.environ.get("BREAKING_REJUDGE_MAX_H", "48"))   # rubric 변경 재판정 창(h) — 72→48 축소(운영자 260713 승인 · gate와 짝 · 속보는 시간 민감이라 48h+ 재판정 무의미 · 롤백 = env 72)
