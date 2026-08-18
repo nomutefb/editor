@@ -13617,7 +13617,9 @@ function renderSnsTrends() {
   ytcL.forEach(z => { gCUR += sec('ytc-' + z[0], '유튜브 - ' + z[1], rtBase, z[2].length, '<div class="trend-grid wd">' + z[2].map((t, i) => card({ ...t, nocls: 'ytfb' }, i, 1)).join('') + '</div>'); });
   // 폴백 = youtube_cats 미도착(구 산출·무키)일 때만 구 단일 '유튜브 - 뉴스' 섹션 유지(화면 공백 회귀 차단 · 수집이 새 키를 채우면 이 줄은 미도달)
   if (!ytcL.length && ytnL.length) gCUR += sec('ytn', '유튜브 - 뉴스', rtBase, ytnL.length, '<div class="trend-grid wd">' + ytnL.map((t, i) => card({ ...t, nocls: 'ytfb' }, i, 1)).join('') + '</div>');   // 뉴스 = AI영상 카드 통일(운영자 260717 "뉴스·쇼츠 2블릿 AI영상처럼" — 뉴스 영상 원본 16:9 → wd 가로 카드로 자연 비율 노출[구 3/4 크롭 폐기] · card(,,1)=.tcard-cov.wd) · 뉴스 소재 훑기 온-미션(평의회10 결판)
-  if (shL.length) gCUR += sec('sh', '유튜브 - 쇼츠', rtBase, shL.length, '<div class="trend-grid wd">' + shL.map((t, i) => card({ ...t, nocls: 'ytfb' }, i, 1)).join('') + '</div>');   // 쇼츠 = AI영상 카드 통일(운영자 260717 "뉴스·쇼츠 2블릿 AI영상처럼" — wd 가로 16:9 · 상한 10 = shL slice) · 뉴스와 동일 스타일 계승
+  // 유튜브 - 쇼츠 = 화면 노출 폐지(운영자 260819 · 레딧과 같은 지시). 수집·감시 원문은 그대로(위 레딧 주석과 같은 이유).
+  //   되돌리기 = 아래 한 줄의 주석만 풀면 종전 복귀.
+  //  if (shL.length) gCUR += sec('sh', '유튜브 - 쇼츠', rtBase, shL.length, '<div class="trend-grid wd">' + shL.map((t, i) => card({ ...t, nocls: 'ytfb' }, i, 1)).join('') + '</div>');   // 쇼츠 = AI영상 카드 통일(운영자 260717 "뉴스·쇼츠 2블릿 AI영상처럼" — wd 가로 16:9 · 상한 10 = shL slice) · 뉴스와 동일 스타일 계승
   // (구 '유튜브 - AI 영상' 섹션 = 260818 미출력. 운영자 "유튜브 - ai영상 안뜨게 해줘" — 260804 음악·자동차 숨김과 같은 축[접는 게 아니라 섹션 자체 미출력].
   //  ⚠ 수집(sns_trends.py AI_QUERIES)·데이터(aivid)·설정 키워드 칩은 **그대로 둔다** — 키워드 알림 감시가 그 배열을 원료로 쓴다(그 자리를 끊으면 'AI 영상' 키워드 감시가 조용히 죽는다).
   //  되돌림 = 아래 한 줄의 주석 해제)
@@ -13654,7 +13656,11 @@ function renderSnsTrends() {
   //   커버 = 수집 thumb(레딧 preview 이미지 · 결측 = .tcard-cov.noc 조용한 공백 = 종전 무썸네일 데이터 무회귀) · 지표 = 스코어(업보트 = 조회수 아님 → 눈 픽토 대신 위화살 §3-1 정본 path) · 시간 = relT(time) 공통
   let gRD = '';
   const rddL = rdd.slice(0, 10).map(p2 => ({ ...p2, cover: p2.thumb || '', nocls: 'rdfb', metricHtml: (p2.score > 0 ? `<i>${RD_UP_SVG}<span>${mag(p2.score)}</span></i>` : '') }));   // 상한 10(운영자 260727 "10개까지") · mag = <1만 콤마·≥1만 만단위(스코어는 플랫폼 내부 크기 = 조회수 vfmt 축과 별개)
-  if (rddL.length) gRD += sec('rdd', '레딧', rtBase, rddL.length, '<div class="trend-grid wd">' + rddL.map((t, i) => card(t, i, 1)).join('') + '</div>');
+  // 레딧 = 화면 노출 폐지(운영자 260819 «sns에 레딧, 유튜브-쇼츠, 이거 안뜨게하자 별 도움이 안되네»).
+  //   ⚠ **수집은 그대로 둔다** — 이 축은 키워드 알림(kw_watch)·급상승 감시의 **감시 원문**이라, 수집까지 끊으면
+  //   등록어가 레딧에서 떠도 못 잡는다(운영자 지시는 화면 축 = "안 뜨게" · 감시망 축소는 지시 밖).
+  //   되돌리기 = 아래 한 줄의 주석만 풀면 종전 복귀(rddL·card·sec 정의는 전부 그대로 살아 있다).
+  // if (rddL.length) gRD += sec('rdd', '레딧', rtBase, rddL.length, '<div class="trend-grid wd">' + rddL.map((t, i) => card(t, i, 1)).join('') + '</div>');
   // (구 gBS 독립 대분류 = 260720 X 우측 열 합류 → 260721 게시물 표면 소멸 "블루스카이는 실검만" — bskS/bskL/bskSec/bcard 정의 = git 이력 · 잔존 블스 표면 = 실시간 트렌드 반갈 btrSec뿐)
   // ⑧ 스레드 구독 = 큐레이션 게시물(gCUR) 합류(운영자 260723) · 공급 = 폰/맥 phone_subs 전용 · 구 gTH(스레드 대분류) 소멸
   const sthAll = divRank(bySort(sth, 'likes')).slice(0, 10);   // 스레드 구독 = 지역 무관 통합(운영자 260724) · divRank = 계정 도배 감산(260725 Q557 — 운영자 "스레드도 동일한 느낌으로" · X sx 정본 이식 = 같은 함수·같은 쿼터3/밀기3) · 정렬 = 좋아요 고정(운영자 260726 정렬바 폐지)
