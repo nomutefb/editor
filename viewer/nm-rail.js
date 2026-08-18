@@ -105,13 +105,13 @@
   }
   function prune(a) { var cut = Date.now() - HMS; return a.filter(function (e) { return e && e.ts && e.ts >= cut; }); }
 
-  function histTime(ts) {   // 표기 = 이미지 정본 동문(오늘/어제 · M/D 접두 · 오전/오후 H:MM)
-    var d = new Date(ts), h = d.getHours(), m = d.getMinutes(), ap = h < 12 ? '오전' : '오후';
+  function histTime(ts) {   // 표기 = 이미지 정본 동문(오늘/어제 · M/D 접두 · H:MM AM/PM)
+    var d = new Date(ts), h = d.getHours(), m = d.getMinutes(), ap = h < 12 ? 'AM' : 'PM';
     h = h % 12 || 12;
     var now = new Date();
     var dd = Math.round((new Date(now.getFullYear(), now.getMonth(), now.getDate()) - new Date(d.getFullYear(), d.getMonth(), d.getDate())) / 86400000);
     var pre = dd === 0 ? '오늘 ' : dd === 1 ? '어제 ' : (d.getMonth() + 1) + '/' + d.getDate() + ' ';
-    return pre + ap + ' ' + h + ':' + String(m).padStart(2, '0');
+    return pre + h + ':' + String(m).padStart(2, '0') + ' ' + ap;   // 시각 표기 = 카드 제작(thumb histTime) 정본 동문 — 오늘/어제 H:MM AM/PM(운영자 260818 11차 «번역칸 등 다른 이미지 스튜디오 칸도 통일» · 10차에 카드 제작만 바뀌어 갈렸던 자리 · 오늘/어제/월일 접두는 무접촉)
   }
   function dlBlob(url, name) {   // R2(교차출처) = api/dl 프록시 강제 저장 · 비R2 = download 직접 — 이미지 정본 동문
     var a = document.createElement('a');

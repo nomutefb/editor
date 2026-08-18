@@ -6134,10 +6134,10 @@ const GENI_HCLEAR_KEY = 'nomute_thumb_hist_cleared';
 const geniHistKey = u => String(u || '').split('?')[0].replace(/^https?:\/\/[^/]+\//, '');   // 중복판정 키 = tr histKey 동문(호스트 제거 = R2 절대·상대 통일)
 function geniHistLoad() { try { const a = JSON.parse(localStorage.getItem(GENI_HKEY) || '[]'); return Array.isArray(a) ? a : []; } catch { return []; } }
 function geniHistPrune(a) { const cut = Date.now() - GENI_HMS; return a.filter(e => e && e.ts && e.ts >= cut); }
-function geniHistTime(ts) { const d = new Date(ts); let h = d.getHours(); const m = d.getMinutes(); const ap = h < 12 ? '오전' : '오후'; h = h % 12 || 12;
+function geniHistTime(ts) { const d = new Date(ts); let h = d.getHours(); const m = d.getMinutes(); const ap = h < 12 ? 'AM' : 'PM'; h = h % 12 || 12;
   const now = new Date(); const dayDiff = Math.round((new Date(now.getFullYear(), now.getMonth(), now.getDate()) - new Date(d.getFullYear(), d.getMonth(), d.getDate())) / 86400000);
   const pre = dayDiff === 0 ? '오늘 ' : dayDiff === 1 ? '어제 ' : (d.getMonth() + 1) + '/' + d.getDate() + ' ';
-  return pre + ap + ' ' + h + ':' + String(m).padStart(2, '0'); }   // tr/thumb 정본 동문(오늘/어제·M/D 접두)
+  return pre + h + ':' + String(m).padStart(2, '0') + ' ' + ap; }   // 시각 표기 = 카드 제작(thumb histTime) 정본 동문 — 오늘/어제 H:MM AM/PM(운영자 260818 11차 «번역칸 등 다른 이미지 스튜디오 칸도 통일» · 10차에 카드 제작만 바뀌어 갈렸던 자리 · 오늘/어제/월일 접두는 무접촉)
 function geniDlBlob(url, name) {   // tr dlBlob 정본 동문 — R2(교차출처)는 api/dl 프록시로 강제 저장·비R2는 download 직접
   const a = document.createElement('a');
   a.href = /\/\/pub-[0-9a-fA-F]+\.r2\.dev\//.test(url) ? ('api/dl?u=' + encodeURIComponent(url) + '&n=' + encodeURIComponent(name || 'gen.png')) : url;
