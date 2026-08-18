@@ -1354,7 +1354,7 @@ async function upsLoad() {   // upscale.json 로드(잡 완료 신호 전용 · 
 function upsJob(rid, payload) {   // 발사 1건 = 표준 잡 카드(rszJob 미러 · 출력 URL 해시라 upscale.json id 매칭 tick · 카드·캐러셀·다운로드 정본 재사용)
   clearRestored();   // 새 제작 = 부팅복원 고스트 치움(rszJob 짝 · 같은 반쪽 봉합 형제 = 260810 동반 봉합)
   const o = { path: '', label: payload.size };
-  const job = { n: ++JOBSEQ, label: '해상도 (' + payload.size + ')', t0: Date.now(), outs: [o], done: [false], status: 'run', msg: '', rid, payload, endpoint: '/api/upscale' };
+  const job = { n: jobSeqIssue(), label: '해상도 (' + payload.size + ')', t0: Date.now(), outs: [o], done: [false], status: 'run', msg: '', rid, payload, endpoint: '/api/upscale' };
   JOBS.unshift(job); renderJob(job); jobUiPulse(job);
   const SOFT_S = 150, HARD_S = 360;   // 150s 큐 대기 안내 · 6분 실패 판정(rszJob 계승)
   const tick = async () => {
@@ -2731,7 +2731,7 @@ const GEN_CLAIMED = new Set();   // 어떤 잡이 이미 가져간 free.json url
 function genJob(count, opts, fireErr) {   // 발사 1건 = 표준 잡 카드. api/genimg는 id 미반환 → 완료 매칭 = 발사 시점 스냅샷 diff + URL h8(발사 단위 해시) 그룹핑(백엔드 무접촉 · 근사 한계는 동시 다발 발사뿐).
   count = Math.max(1, Math.min(4, parseInt(count, 10) || 1));
   clearRestored();   // 새 생성 = 부팅복원 고스트 치움(dispatchJob·goFire와 동일 규약 · 버그1 유령슬라이드 봉합)
-  const job = { n: ++JOBSEQ, label: '생성', refThumb: (_pendRefThumb || ''), t0: Date.now(), outs: Array.from({ length: count }, () => ({ path: '', label: '' })), done: Array.from({ length: count }, () => false),
+  const job = { n: jobSeqIssue(), label: '생성', refThumb: (_pendRefThumb || ''), t0: Date.now(), outs: Array.from({ length: count }, () => ({ path: '', label: '' })), done: Array.from({ length: count }, () => false),
     status: 'run', msg: '', gfree: 1, payload: opts ? { free: true, opts } : null, endpoint: opts ? '/api/genimg' : '', _snap: null,
     src: opts ? { app: '6', gopts: opts } : null };   // payload = 재시도(같은 설정 · 축10) · 구 index 캐시(옵션 미동봉)면 재시도 버튼만 미노출   // src = 제작 조건 스냅샷(수정 연필 = 이 설정으로 AI 생성 폼 복원 · 운영자 260806) — 형제 4탭(dispatchJob src)과 같은 자리에 같은 이름으로 실어 carAppend→histAdd가 종전 경로 그대로 이력에 동봉한다(발사·완료 로직 무접촉) · opts는 이미 refB64 제외 경량본(부모 optsLite)이라 localStorage 쿼터 안전
 
@@ -2995,7 +2995,7 @@ function rszJob(rid, payload, autoAttach, meta) {   // meta(260818) = { tpl: 잡
   //   판형 이름(포스트/릴스)이 비율(4:5/9:16)을 대체하고, 템플릿 접두는 meta.tpl → job.tpl → renderJob(카드 잡 job.src.tpl과 같은 자리).
   //   렌더 조립(renderJob 3697행) = 「#<템플릿> #<label> #<n>」이라 label을 「포스트 #ai합성」으로 두면 정확히 그 문법이 된다.
   const _nm = _aiFill ? (payload.aspect === '9:16' ? '릴스' : '포스트') + ' #AI합성' : '리사이즈';   // 'AI합성' = 항상 대문자(운영자 260818 형제 지시서 Q1526 · 초안 103 흡수)
-  const job = { n: ++JOBSEQ, label: _aiFill ? _nm : _nm + ' (' + payload.aspect + ')', t0: Date.now(), outs: [o], done: [false], status: 'run', msg: '', rid, payload, endpoint: '/api/resize' };   // 잡 라벨 = 리사이즈: 이름 (비율)(축1) · AI 합성: 판형 #ai합성(260818 — 비율 괄호는 판형 이름이 대체) · 번호 = 전 잡 공용 일련(6차 회귀)
+  const job = { n: jobSeqIssue(), label: _aiFill ? _nm : _nm + ' (' + payload.aspect + ')', t0: Date.now(), outs: [o], done: [false], status: 'run', msg: '', rid, payload, endpoint: '/api/resize' };   // 잡 라벨 = 리사이즈: 이름 (비율)(축1) · AI 합성: 판형 #ai합성(260818 — 비율 괄호는 판형 이름이 대체) · 번호 = 전 잡 공용 일련(6차 회귀)
   if (meta && meta.tpl) job.tpl = meta.tpl;       // 해시태그 접두(잡 전용 필드 — job.src에 실으면 canEditSrc가 src.app 없는 반쪽 스냅으로 연필을 그릴 위험)
   if (meta && meta.chain) job._chain = meta.chain; // 카드 사슬(완료·재첨부 성공 시 1회 발사)
   JOBS.unshift(job); renderJob(job); jobUiPulse(job);
@@ -3605,7 +3605,15 @@ window.addEventListener('pagehide', () => { clearTimeout(_draftT); draftSave(); 
 
 // ==== 대기열(JOBS) + 캐러셀 — 제작 동시 가능: 누른 게 다 로그에 쌓이고 각자 폴링, 완성분은 캐러셀에 한 장씩 ====
 const JOBS = [];           // 제작 건 누적
-let JOBSEQ = 0;            // 전 잡 공용 일련 — 6차(운영자 260818 «그냥 종류에 상관없이 no를 매겨주면 될듯»)가 4차 채널별 카운터를 회수(구 jobSeqNext·JOBSEQ_CH 폐지 = 되살릴 땐 표시 번호 중복 축까지 같이 볼 것)
+const JOBSEQ_KEY = 'nomute_jobseq';   // 잡 일련 영속 슬롯(운영자 260818 8차 «새로 발행하는 새로운것부터 001 로 시작 · 대신 누락이 없어야해» — 세션 휘발 카운터는 새로고침마다 001 재시작 = 중복·누락)
+let JOBSEQ = 0; try { JOBSEQ = parseInt(localStorage.getItem(JOBSEQ_KEY), 10) || 0; } catch (e) {}   // 전 잡 공용 일련(종류 무관 = 6차) · 첫 도입 = 0에서 시작 → 새 발행 첫 건이 001
+function jobSeqIssue() {   // 발번 = 재읽기 + 증가 + 즉시 저장 — 형제 탭이 먼저 발번한 값을 덮지 않는다(재읽기) · 저장 실패(시크릿 모드 등)면 세션 안에서만 이어 센다(fail-soft)
+  let v = 0; try { v = parseInt(localStorage.getItem(JOBSEQ_KEY), 10) || 0; } catch (e) {}
+  if (v < JOBSEQ) v = JOBSEQ;
+  JOBSEQ = v + 1;
+  try { localStorage.setItem(JOBSEQ_KEY, String(JOBSEQ)); } catch (e) {}
+  return JOBSEQ;
+}
 let JOBUID = 0;            // 행 정체성(전 잡 공용 유일값 · renderJob이 지연 발급) — 번호 없는 복원·기기 간 재개 잡의 행 id 충돌 방어(job-undefined 두 행이 서로를 덮던 축)라 일련 회귀 후에도 존치
 /* ══ 진행 중 작업 영속 슬롯(운영자 260816 "화면이 나가도 제작중 이거는 돌고있어야한다는거지 항상" ·
       "웹페이지를 3개 최대화해서 보고있는데 3번째꺼를 보고있어. 그럼 1,2번 웹페이지는 동기화 안하고 그냥
@@ -3726,9 +3734,9 @@ function jobDay(t0) {   // 완료 날짜 축(운영자 260818 7차 «8/15가 오
   return (d.getMonth() + 1) + '/' + d.getDate();
 }
 function renderJob(job) {   // 잡 로그 행 갱신(없으면 생성, 최신이 위)
-  if (!job.uid) job.uid = ++JOBUID;   // 행 정체성 지연 발급 — 발사·복원·기기 간 재개 전 경로 공통(260818 4차: 표시 번호 n이 채널별이라 채널 간 중복 가능 → DOM id는 uid만)
+  if (!job.uid) job.uid = ++JOBUID;   // 행 정체성 지연 발급 — 발사·복원·기기 간 재개 전 경로 공통(260818 4차 · 표시 번호와 분리)
   let row = document.getElementById('job-' + job.uid);
-  if (!row) { row = document.createElement('div'); row.id = 'job-' + job.uid; row.className = 'job'; $('#jobs').prepend(row); }
+  if (!row) { row = document.createElement('div'); row.id = 'job-' + job.uid; row.className = 'job'; if (job._restored) row.dataset.rj = '1'; $('#jobs').prepend(row); }   // data-rj = 복원 고스트 표식(rmRestoredRow가 이걸 치운다)
   if (job.thid) row.dataset.thid = job.thid;   // 알림 #done=<id> → 이 잡 행으로 핀포인트 랜딩(세션 내 미리로드 시)
   row.className = 'job' + (job.status === 'done' ? ' done' : '') + (job.status === 'err' ? ' err' : '');
   /* (완료 낱장 잡 행 숨김 = 원복 · 운영자 260806 "원래 저게 세트였는데 갈라진거네" — 요약 줄(완료·N장·시각 + 수정·전체 다운로드)과 개별 썸네일은 **한 세트**다.
@@ -3766,7 +3774,7 @@ function renderJob(job) {   // 잡 로그 행 갱신(없으면 생성, 최신이
   const face = jobFace(job);
   let _labDesc = '';
   if (face) {
-    const _no = (job._restored || job.n == null || job.n === '') ? '' : pad3(job.n);   // 「001」 = 전 잡 공용 일련 · # 없이 3자리 선채움(운영자 260818 6차 «# 빼고 그냥 001 이런식으로 세자리 수까지 미리 공간을») · 결측(기기 간 공유 재개분)·복원 = 무표기
+    const _no = (job.n != null && job.n !== '' && isFinite(+job.n)) ? pad3(job.n) : '';   // 「001」 = 영속 일련 · # 없이 3자리 선채움(6차) · 8차(운영자 «새로운것부터 001 · 누락이 없어야해») = 복원 행도 기록에 번호(src.jn)가 있으면 표기 — 번호 없는 옛 제작분·기기 간 재개분만 무표기
     const _parts = [];
     if (_no) { const _nn = document.createElement('span'); _nn.className = 'jno'; _nn.textContent = _no; _parts.push(_nn); }   // 번호 = 맨 왼쪽(운영자 예시 «001 #노뮤트 #릴스»)
     if (_jtplLbl) { const _tp = document.createElement('span'); _tp.className = _jtpl === 'jinjja' ? 'tpljj' : 'tplnm'; _tp.textContent = '#' + _jtplLbl; _parts.push(_tp); }
@@ -4002,7 +4010,7 @@ function carAppend(url, dlname, cap, job, varStr, o, restore, histCap, noExpand)
       histSave(histPrune(histLoad()).filter(e => !gone.has(histKey(e.url))));   // 로컬 이력서도 소멸분 제거(접힘 카운트 허수 방지)
       // SRV_HIST는 불변 유지(원인3 봉합) — 일시 404(전파 지연·CDN 미스·네트워크 블립)가 서버 공통 인덱스를 기기별로 파괴하던 것 차단. 죽은 항목은 renderHist 개별 onerror(it.remove)·다음 폴링 재fetch로 정리.
       RESTORED = false; RESTORED_URLS.clear();
-      const r = document.getElementById('job-R'); if (r) r.remove();
+      rmRestoredRow();
       CARSLIDES.length = 0; const tr = $('#cartrack'); if (tr) { tr.innerHTML = ''; tr.style.height = ''; }
       $('#carwrap').hidden = true; $('#carbar').hidden = true; carUpdate(); carHSync(); renderHist();
     }
@@ -4319,9 +4327,10 @@ function saveLastResult(job) {   // 잡 완료 시 최근 제작 스냅샷 저�
     localStorage.setItem(THUMB_LAST_KEY, JSON.stringify({ label: job.label, ts: job.t0, src: job.src,
       items: job.saves.map(s => ({ url: baseUrl(s.url), dlname: s.dlname, cap: s.cap || '', varStr: s.varStr || '' })) })); } catch {}
 }
+function rmRestoredRow() { document.querySelectorAll('#jobs .job[data-rj]').forEach(r => r.remove()); }   // 복원 고스트 행 제거 — 구 「job-R」 id 조회는 행 정체성 uid 전환(260818 4차)으로 헛손질이 됐었다(치워지지 않는 유령 행) → 렌더가 찍는 data-rj 표식으로 봉합
 function clearRestored() {   // 새 제작 발사 = 복원 고스트 치우고 새 결과로(복원분은 '이전 제작'으로 되돌림)
   if (!RESTORED) return; RESTORED = false; RESTORED_BID = ''; RESTORED_URLS.clear();
-  const r = document.getElementById('job-R'); if (r) r.remove();
+  rmRestoredRow();
   CARSLIDES.length = 0; const tr = $('#cartrack'); if (tr) { tr.innerHTML = ''; tr.style.height = ''; }   // 높이 핏 잔존값 해제(QA3 260706)
   $('#carwrap').hidden = true; $('#carbar').hidden = true; carUpdate(); carHSync(); renderHist();   // 접기 헤더도 동기(비면 숨김 · 260706)
 }
@@ -4333,7 +4342,7 @@ function localLastResult() {
 }
 function doRestore(pick, collapsed) {   // pick(items/ts/label[/src])을 맨 위 결과(캐러셀)로 복원 · collapsed=true = 접힌 채(헤더만 · 부팅 자동복원 전용) · 딥링크(restoreById)·새제작은 미전달 = 펼침(운영자 260710)
   if (!pick || !Array.isArray(pick.items) || !pick.items.length) return false;
-  const rjob = { n: 'R', label: pick.label || '제작', t0: pick.ts, status: 'done', _restored: true, _saved: true, src: pick.src,
+  const rjob = { n: (pick.src && pick.src.jn != null && pick.src.jn !== '') ? pick.src.jn : '', label: pick.label || '제작', t0: pick.ts, status: 'done', _restored: true, _saved: true, src: pick.src,   // 번호 = 기록 동봉분(src.jn · 260818 8차) — 없던 옛 제작분은 종전대로 무표기
     outs: pick.items.map(it => ({ label: (it.varStr || '').replace(/^\s*·\s*/, '') })), done: pick.items.map(() => true), saves: [] };
   pick.items.forEach((it, i) => { RESTORED_URLS.add(histKey(it.url)); carAppend(it.url, it.dlname, it.cap || pick.label || '', rjob, it.varStr || '', rjob.outs[i], true, undefined, collapsed); });
   RESTORED = true; RESTORED_TS = pick.ts || 0; RESTORED_BID = (pick.src && typeof pick.src.bid === 'string') ? pick.src.bid : '';   // 묶음키 보관 = 뒤늦게 도착한 형제 작업 재수렴(reconcileRestoredBatch)
@@ -4364,7 +4373,7 @@ function restoreById(id) {
   if (!pick) return false;                                      // 아직 없음(빌드·배포 랙) → 호출측이 재시도
   if (RESTORED) {                                               // 다른 게 복원돼 있으면 치우고 교체
     RESTORED = false; RESTORED_BID = ''; RESTORED_URLS.clear();
-    const r = document.getElementById('job-R'); if (r) r.remove();
+    rmRestoredRow();
     CARSLIDES.length = 0; const tr = $('#cartrack'); if (tr) { tr.innerHTML = ''; tr.style.height = ''; }   // 높이 핏 잔존값 해제(QA3 260706)
   }
   return doRestore(pick);
@@ -4383,7 +4392,7 @@ function reconcileRestoredBatch() {
     items: sorted.map(e => ({ url: e.url, dlname: e.dlname, cap: e.cap || '', varStr: e.varStr || '' })) };
   const collapsed = !!($('#carwrap') && $('#carwrap').hidden);   // 접힘·펼침 = 지금 보고 있는 상태 유지(재복원이 화면을 열거나 닫지 않음)
   RESTORED = false; RESTORED_BID = ''; RESTORED_URLS.clear();
-  const r = document.getElementById('job-R'); if (r) r.remove();
+  rmRestoredRow();
   CARSLIDES.length = 0; const tr = $('#cartrack'); if (tr) { tr.innerHTML = ''; tr.style.height = ''; }   // 캐러셀 비우고 묶음 전체로 재구성(restoreById 교체 블록 미러)
   const ok = doRestore(pick, collapsed);
   console.log('[thumb] 묶음 재수렴 — bid=' + (pick.src && pick.src.bid || '?') + ' · 합류 ' + pick.items.length + '장');   // 계측(CLAUDE.md [관측]) — 조용한 재구성 금지
@@ -4409,7 +4418,7 @@ function followNewestRestored() {
   const collapsed = !!($('#carwrap') && $('#carwrap').hidden);                          // 보고 있는 접힘·펼침 상태 유지(재구성이 화면을 열거나 닫지 않음 · reconcile 정본)
   if (RESTORED) {                                                                       // 교체 = restoreById 교체 블록 미러
     RESTORED = false; RESTORED_BID = ''; RESTORED_URLS.clear();
-    const r = document.getElementById('job-R'); if (r) r.remove();
+    rmRestoredRow();
     CARSLIDES.length = 0; const tr = $('#cartrack'); if (tr) { tr.innerHTML = ''; tr.style.height = ''; }
   }
   const ok = doRestore(pick, collapsed);
@@ -5369,7 +5378,8 @@ function dispatchJob(endpoint, payload, label, src, reuse) {
   clearRestored();   // 새 제작 = 복원된 최근 결과 고스트 치움(새 결과가 맨 위·운영자 260622)
   let job;
   if (reuse) { job = reuse; Object.assign(job, { t0: Date.now(), outs: [], done: [], status: 'run', msg: '', endpoint, payload, src }); delete job._queued; delete job.partErr; delete job._next; job._ready = {}; job.saves = []; renderJob(job); }   // 재시도 = 기존 실패 잡 재사용(같은 #n → 같은 행 갱신·새 큐 안 만듦 · 운영자 260630) · 폴 누산기(_next/_ready/saves) 리셋 = 부분완료 재시도 시 재렌더 변형 유실·전체다운로드 옛+새 URL 혼합 차단(실측 260720)
-  else { job = { n: ++JOBSEQ, label: label || '제작', t0: Date.now(), outs: [], done: [], status: 'run', msg: '', endpoint, payload, src }; JOBS.unshift(job); renderJob(job); }   // 라벨 기본값 '제작'(260817) = 복원 경로(doRestore·restorePending) 동일 문법 — 결측이 잡 행에 "undefined #N"으로 그려지던 축 방어   // endpoint·payload 보관 = 실패 시 같은 설정 재발사 · src = 제작 조건 스냅샷(수정 복원·운영자 260624) · 번호 = 전 잡 공용 일련(260818 6차 «종류에 상관없이»)
+  else { job = { n: jobSeqIssue(), label: label || '제작', t0: Date.now(), outs: [], done: [], status: 'run', msg: '', endpoint, payload, src }; JOBS.unshift(job); renderJob(job); }
+  if (payload && payload.src && job.n != null) payload.src.jn = job.n;   // 번호 동봉(운영자 260818 8차) — 서버 이력(_src.json→thumb-hist)로 왕복해 복원 행이 제 번호를 되찾는다   // 라벨 기본값 '제작'(260817) = 복원 경로(doRestore·restorePending) 동일 문법 — 결측이 잡 행에 "undefined #N"으로 그려지던 축 방어   // endpoint·payload 보관 = 실패 시 같은 설정 재발사 · src = 제작 조건 스냅샷(수정 복원·운영자 260624) · 번호 = 전 잡 공용 일련(260818 6차 «종류에 상관없이»)
   if (!reuse) scrollQueue();   // 새 발사 = 방금 쌓인 대기열 행으로 이징 착지 · 재시도(reuse)는 그 행에서 누른 것이라 제자리 갱신(화면 튐 0)
   (async () => {
     try {
@@ -5393,12 +5403,12 @@ function dispatchBatch(items, batchLabel, src, reuse) {
   goFire(_spellApplied); clearRestored();
   let job;
   if (reuse) { job = reuse; Object.assign(job, { t0: Date.now(), outs: [], done: [], status: 'run', msg: '', batch: items, src }); delete job._queued; delete job.partErr; delete job._next; job._ready = {}; job.saves = []; renderJob(job); }   // 재시도 = 기존 잡 재사용(같은 #n·같은 행 · 운영자 260630) · 폴 누산기(_next/_ready/saves) 리셋 = 부분완료 재시도 시 변형 유실·다운로드 혼합 차단(실측 260720)
-  else { job = { n: ++JOBSEQ, label: batchLabel, t0: Date.now(), outs: [], done: [], status: 'run', msg: '', batch: items, src }; JOBS.unshift(job); renderJob(job); }   // batch = 실패 시 같은 묶음 재발사용 · 번호 = 전 잡 공용 일련(dispatchJob 짝 · 260818 6차)
+  else { job = { n: jobSeqIssue(), label: batchLabel, t0: Date.now(), outs: [], done: [], status: 'run', msg: '', batch: items, src }; JOBS.unshift(job); renderJob(job); }   // batch = 실패 시 같은 묶음 재발사용 · 번호 = 전 잡 공용 일련(dispatchJob 짝 · 260818 6차)
   if (!reuse) scrollQueue();   // 묶음 발사도 동일 착지(dispatchJob 짝 · 재시도 제자리)
   (async () => {
     const groups = await Promise.all(items.map(async (it, bi) => {
       const payload = it.payload;
-      if ((it.endpoint === '/api/thumb' || it.endpoint === '/api/compose') && src && payload && !payload.src) { const { imgKey, imgName, ...rest } = src; payload.src = Object.assign(rest, { bi }, it.label ? { lbl: it.label } : {}); }   // dispatchJob과 동일 src 주입(+lbl = 이 아이템 라벨 = 배치는 아이템마다 별도 작업 id라 묶음 라벨이 아니라 개별 라벨이 정본)(기기간 '수정' 복원 · 카드뉴스 comp 포함 260713) + bi = 이 묶음 안 순서(헤더 0 · 자막 1 …) = 복원 시 발사 순서 그대로 1/2·2/2 배열(도착순·파일명순 무관)
+      if ((it.endpoint === '/api/thumb' || it.endpoint === '/api/compose') && src && payload && !payload.src) { const { imgKey, imgName, ...rest } = src; payload.src = Object.assign(rest, { bi, jn: job.n }, it.label ? { lbl: it.label } : {}); }   // dispatchJob과 동일 src 주입(+lbl = 이 아이템 라벨 = 배치는 아이템마다 별도 작업 id라 묶음 라벨이 아니라 개별 라벨이 정본)(기기간 '수정' 복원 · 카드뉴스 comp 포함 260713) + bi = 이 묶음 안 순서(헤더 0 · 자막 1 …) = 복원 시 발사 순서 그대로 1/2·2/2 배열(도착순·파일명순 무관)
       try {
         const res = await fetch(it.endpoint, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(payload) });
         const j = await res.json();
