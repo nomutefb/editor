@@ -480,10 +480,10 @@
   {
    "account": "choi.openai",
    "text": "브라운대 경제학 수업에서 나온 성적 분포 두 장이 화제입니다.\n\n재택으로 치른 중간고사 평균이 96점, 대면으로 바꾼 기말 평균이 48점입니다.\n지난 12월 총격 사건 이후 학생들의 부담을 덜어주려 교수가 34년 경력에 처음 재택 시험을 냈는데, 86명 중 40명이 100점을 받았습니다.\n\n채점자들이 문제를 챗GPT에 넣어보고서야 그림이 잡혔습니다. 간단한 풀이가 있는 문제에 빙 돌아가는 논증이 나왔는데, 같은 논증이 수십 장의 답안에 반복돼 있었던 겁니다.\n\n교수가 기말은 대면으로 치르고 두 분포를 비교하겠다고 예고하자 18명이 수강을 철회하고 9명이 결시했습니다. 이 27명 중 22명이 중간고사 100점이었습니다.\n일각에서는 부정행위 사건으로만 보기에는 성적이 목적이 된 평가 구조에서 AI는 그 목적을 값싸게 만들었을 뿐이라는 지적도 나옵니다.\n\n과제형 평가가 사실상 AI 성능 측정이 된 이상, 시험은 대면과 구술로 돌아갈 수밖에 없을 것 같습니다.",
-   "likes": 17,
-   "cmts": 0,
+   "likes": 24,
+   "cmts": 1,
    "time": 1787140850,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778625773_17983031178112832_3496655700150510002_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk2NzE0NzQ0NTg0MjcxMTU4Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjA0OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=AdlJmyzYljgQ7kNvwEVqndo&_nc_oc=Ado7y-ycgFew_o9V2ng_aejotZH67CHMNxoMZU5MhfLDEOgeAamhAs1L8C2cUQ4ipak&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=pS5ctJmmMSsOt88MQMVhCA&_nc_ss=7a22e&oh=00_AQHTYxp_NlqQmJjDUKdVJ0ju3QRvEgAyJ7j-PvOChQ4HVA&oe=6A8B6498",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778625773_17983031178112832_3496655700150510002_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk2NzE0NzQ0NTg0MjcxMTU4Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjA0OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=AdlJmyzYljgQ7kNvwEVqndo&_nc_oc=Ado7y-ycgFew_o9V2ng_aejotZH67CHMNxoMZU5MhfLDEOgeAamhAs1L8C2cUQ4ipak&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=tpePwouPOlJoSLUhhFaM3A&_nc_ss=7a22e&oh=00_AQHIJwsoFVFWoEHwWpOKvmbip0rUT92kxjDvF0jWoBYyCA&oe=6A8B6498",
    "url": "https://www.threads.com/@choi.openai/post/DcOI5VJDZQj",
    "region": "kr"
   },
@@ -500,10 +500,10 @@
   {
    "account": "choi.openai",
    "text": "오픈AI가 GPT-5.6으로 에이전트 비용을 줄이는 실전 가이드를 공개했습니다.\n에이전트 만드는 분들은 한 번 읽어볼 만한데요.\n\n문서 추출은 작은 Luna 모델로 정확도를 거의 그대로 두고 비용을 18분의 1로 줄였고, 석 달 전 33달러 들던 검색 벤치마크는 이제 같은 성능에 1.3달러면 됩니다.\n\n특히, ARC-AGI-3 실험에서는 모델은 그대로 두고 추론 보존과 컨텍스트 압축 두 설정만 켰더니 점수가 13.3%에서 38.3%로 뛰었습니다. 출력 토큰은 오히려 6분의 1로 줄었고요.\n\n결국, 판단이 필요한 일만 모델에 맡기고, 데이터를 나르고 거르는 일은 코드로 빼고, 매번 최상위 모델을 부르는 습관을 버리라는 겁니다.\n\n그나저나 Gemini의 굴욕은 어디까지 갈지 얼른 왕좌에 복귀를 해주면 좋겠네요.",
-   "likes": 74,
+   "likes": 79,
    "cmts": 4,
    "time": 1787135457,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778486254_17982921357112832_120877009817962594_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk2NzEwMjIwNDA4MjQ5NTEyOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=KfUdLzKoiTkQ7kNvwECSyCI&_nc_oc=AdoyqUrNZxzuujoJph8_3pCuMa7BpOAU6DxO_QxHL-KJDpkmXdCJ8cKQ0qUyA81SxOQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=pS5ctJmmMSsOt88MQMVhCA&_nc_ss=7a22e&oh=00_AQGU7Dg6Ttjwz5K8a17z8DA3Kis-B_GOZy04nWsC4wdiFQ&oe=6A8B76DA",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778486254_17982921357112832_120877009817962594_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk2NzEwMjIwNDA4MjQ5NTEyOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=KfUdLzKoiTkQ7kNvwECSyCI&_nc_oc=AdoyqUrNZxzuujoJph8_3pCuMa7BpOAU6DxO_QxHL-KJDpkmXdCJ8cKQ0qUyA81SxOQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=tpePwouPOlJoSLUhhFaM3A&_nc_ss=7a22e&oh=00_AQHLJZH-ZBZqvWp-djEJCzb-a5Z7UoqtZdFVUUNYcorZpA&oe=6A8B76DA",
    "url": "https://www.threads.com/@choi.openai/post/DcN-m-eAZ6Z",
    "region": "kr"
   },
@@ -523,7 +523,7 @@
    "likes": 0,
    "cmts": 1,
    "time": 1787132202,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/780127051_18081468245407306_5378864589143849554_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk2NzA3NDgzMTIzNDQ1OTA0OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Pf8CsvF4BBkQ7kNvwHAM8bi&_nc_oc=AdqlaRjb6wK9kLr3oHWHbCtZ_6a-YZOm56VsImjoWdfU5x1bWmfLid6CVZwoq97L4AY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Fsp_iCXqZ2gM3yl_FcruRQ&_nc_ss=7a22e&oh=00_AQFzAvFN6_0ny2-HB7oMw2RObUf5vU6CtQHoStRv6m6mOg&oe=6A8B7C6A",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/780127051_18081468245407306_5378864589143849554_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk2NzA3NDgzMTIzNDQ1OTA0OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Pf8CsvF4BBkQ7kNvwHAM8bi&_nc_oc=AdqlaRjb6wK9kLr3oHWHbCtZ_6a-YZOm56VsImjoWdfU5x1bWmfLid6CVZwoq97L4AY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=DA6wCObKPEl6L16lNtGu8Q&_nc_ss=7a22e&oh=00_AQEYzvfzuQHZJE4a0Y3RLl0OmYHseaA3-rPbmdGjwOmKNw&oe=6A8B7C6A",
    "url": "https://www.threads.com/@aipeekme/post/DcN4YphH2Wo",
    "region": "kr"
   },
@@ -533,7 +533,7 @@
    "likes": 2,
    "cmts": 0,
    "time": 1787121521,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/781251176_38896776296588508_5184879063004881383_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk2Njk4NTEwNDQwOTQyNjEyMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=yk67nwEYYUIQ7kNvwGSIYTu&_nc_oc=AdokagXU2wphQsD57Nnp_JL1OTvh-pwLEe7CTO5kC_VYcrVsVMJPFcNFORgBP-jTBPE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Fsp_iCXqZ2gM3yl_FcruRQ&_nc_ss=7a22e&oh=00_AQG2XEzG1N2yILnCrpkZlpndy3_WsiXMHTnwSoW-Hz5m9Q&oe=6A8B63E5",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/781251176_38896776296588508_5184879063004881383_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk2Njk4NTEwNDQwOTQyNjEyMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=yk67nwEYYUIQ7kNvwGSIYTu&_nc_oc=AdokagXU2wphQsD57Nnp_JL1OTvh-pwLEe7CTO5kC_VYcrVsVMJPFcNFORgBP-jTBPE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=DA6wCObKPEl6L16lNtGu8Q&_nc_ss=7a22e&oh=00_AQE8EjSf1-0Ezz3ryGQf685SD6OceVgsbLjUlPHbxHxEZg&oe=6A8B63E5",
    "url": "https://www.threads.com/@aipeekme/post/DcNj-85lvjI",
    "region": "kr"
   },
@@ -570,10 +570,10 @@
   {
    "account": "aicoffeechat",
    "text": "AI하시는 분들이라면.. 이건 신청해! \n\nOpenAI가 개발자 행사를 미국 밖으로 들고 나옵니다. 국내에서 OpenAI 도구를 쓰는 분들은 비행기 안 타고 참여할 수 있는 기회입니다.\n\n기존 DevDay는 샌프란시스코에서 열리는 연 1회 행사였는데, 이번엔 도시를 늘려서 현지로 찾아가는 방식이네요.\n\n꿈만 같다 \"서울\"이라니 ..",
-   "likes": 84,
+   "likes": 85,
    "cmts": 3,
    "time": 1787090534,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/775685800_891282227086200_4387249736637956747_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk2NjcyMzg2MjU2OTg0NDYwMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=oa9H2ORgBkwQ7kNvwG8aGU_&_nc_oc=AdrtSJoBdhYj4T-KIoRcMWbQ4cbWK7Aqm4F_yhuk-F13MSVWNYAktFH88nRiMPZi4x8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=_kHcZcSoIgA_ZBjyr4fNew&_nc_ss=7a22e&oh=00_AQFRKUG91QdG84wh8dl1Jgfyc_wdupYTY9Pv-7r7UpDuIQ&oe=6A8B81AC",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/775685800_891282227086200_4387249736637956747_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk2NjcyMzg2MjU2OTg0NDYwMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=oa9H2ORgBkwQ7kNvwG8aGU_&_nc_oc=AdrtSJoBdhYj4T-KIoRcMWbQ4cbWK7Aqm4F_yhuk-F13MSVWNYAktFH88nRiMPZi4x8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=FdtFIWWNSVJWXwxdcI65dg&_nc_ss=7a22e&oh=00_AQFXgo0-qmMteuC1Ry5NngpLnLD7NPT7g5mRep3AYqbxtw&oe=6A8B81AC",
    "url": "https://www.threads.com/@aicoffeechat/post/DcMolYein95",
    "region": "kr"
   },
@@ -610,10 +610,10 @@
   {
    "account": "aicoffeechat",
    "text": "클로드 코드 주간 사용 한도 50% 인상이 8월 31일까지 연장되었습니다.",
-   "likes": 29,
+   "likes": 31,
    "cmts": 14,
    "time": 1787089924,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778025428_17953195755232485_3526550988961658501_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk2NjcyMDI0NzA4MDM1NzE1NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI2NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=b0BHXGgBhAEQ7kNvwGH68P7&_nc_oc=AdrFvr10ifQSzJkzGAMSykmNqleUqIjqqPd-KyNjz5uwtORn9RAlY81AFJiYMK8Ktlo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=_kHcZcSoIgA_ZBjyr4fNew&_nc_ss=7a22e&oh=00_AQEkTwvMliZ6PhxMyH7cwOIGiW-eZSTqI2U_O3LQHO_2zw&oe=6A8B864E",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778025428_17953195755232485_3526550988961658501_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk2NjcyMDI0NzA4MDM1NzE1NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI2NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=b0BHXGgBhAEQ7kNvwGH68P7&_nc_oc=AdrFvr10ifQSzJkzGAMSykmNqleUqIjqqPd-KyNjz5uwtORn9RAlY81AFJiYMK8Ktlo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=FdtFIWWNSVJWXwxdcI65dg&_nc_ss=7a22e&oh=00_AQFO4Y5KWqYDAXUmRUIxW1MlA_5LKdNNS7W1h03rauQWxg&oe=6A8B864E",
    "url": "https://www.threads.com/@aicoffeechat/post/DcMnwxSkw0j",
    "region": "kr"
   },
@@ -623,7 +623,7 @@
    "likes": 18,
    "cmts": 4,
    "time": 1787130033,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/775245298_3111359165740258_5343404734966467173_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk2NzA1NjcwMzk3OTEwNDI4Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=k9id_LrpDkQQ7kNvwH_YEk6&_nc_oc=AdovOUcNCHbYWEpcGYOOh3k6FKm1jCAmwF5MaqNCIPaNfC1yf27hTTI9lQagG1N-Plw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=pS5ctJmmMSsOt88MQMVhCA&_nc_ss=7a22e&oh=00_AQFfRA2Rb7JQrooBApNPY20EM1szcPLJbnhKxevYKp_qSQ&oe=6A8B75E7",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/775245298_3111359165740258_5343404734966467173_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk2NzA1NjcwMzk3OTEwNDI4Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=k9id_LrpDkQQ7kNvwH_YEk6&_nc_oc=AdovOUcNCHbYWEpcGYOOh3k6FKm1jCAmwF5MaqNCIPaNfC1yf27hTTI9lQagG1N-Plw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=tpePwouPOlJoSLUhhFaM3A&_nc_ss=7a22e&oh=00_AQF5T9_ffVNGsN4hKKVc7WmYCL3q2Xxp_Fztxq2OU_WcbA&oe=6A8B75E7",
    "url": "https://www.threads.com/@choi.openai/post/DcN0Q3Mgage",
    "region": "kr"
   },
@@ -633,7 +633,7 @@
    "likes": 0,
    "cmts": 1,
    "time": 1787121072,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778401046_18081412220407306_6281312036291104251_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk2Njk4MTQ3MjcyMTUzODM3OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=5hxr9owvYSUQ7kNvwGa9wfy&_nc_oc=AdprRC2-vmXlaiXxIkJ3BYwYnaSVWEQ1FPY3NLnzMJC8kanOuq_UENDY2njAjRVDrz0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Fsp_iCXqZ2gM3yl_FcruRQ&_nc_ss=7a22e&oh=00_AQHTFurtWfDRXRdJnaa9nhLk8kt0d5re_9qguqHnQZ2PUA&oe=6A8B5B8C",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778401046_18081412220407306_6281312036291104251_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk2Njk4MTQ3MjcyMTUzODM3OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=5hxr9owvYSUQ7kNvwGa9wfy&_nc_oc=AdprRC2-vmXlaiXxIkJ3BYwYnaSVWEQ1FPY3NLnzMJC8kanOuq_UENDY2njAjRVDrz0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=DA6wCObKPEl6L16lNtGu8Q&_nc_ss=7a22e&oh=00_AQHYJXsX0e_6a-8_Yxkqq_sDuuKOZSBX8ZjEvC1NN0gA5A&oe=6A8B93CC",
    "url": "https://www.threads.com/@aipeekme/post/DcNjKGoH41K",
    "region": "kr"
   },
@@ -653,23 +653,32 @@
    "likes": 1,
    "cmts": 0,
    "time": 1787117303,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/778340517_1733470877987611_6002725151049538994_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk2Njk0OTY5MzEyNTIzNTAzNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=UxB7DgPoIGkQ7kNvwFqlgC0&_nc_oc=AdozEBoR5g-kz3xEG5ZcjiJGWJV5kV5V25e0cTZ5JGf3elj9o6N6oF9_7sksfLl4mJQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Fsp_iCXqZ2gM3yl_FcruRQ&_nc_ss=7a22e&oh=00_AQF_bXVOr9Ens9BooNJ_d6rvK9MqEaejSWuSRgX_22Q_rA&oe=6A8B766C",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/778340517_1733470877987611_6002725151049538994_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk2Njk0OTY5MzEyNTIzNTAzNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=UxB7DgPoIGkQ7kNvwFqlgC0&_nc_oc=AdozEBoR5g-kz3xEG5ZcjiJGWJV5kV5V25e0cTZ5JGf3elj9o6N6oF9_7sksfLl4mJQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=DA6wCObKPEl6L16lNtGu8Q&_nc_ss=7a22e&oh=00_AQE29gUDIKuXU4GpLd_8y8Vqb6h7z6rQ2XfB25BGW37_8Q&oe=6A8B766C",
    "url": "https://www.threads.com/@aipeekme/post/DcNb7pkkxFc",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "와.. 이제 맥북에서 27B 모델이 초당 70토큰으로 돕니다.\n\nInco AI가 공개한 DFlash 2인데, 출력은 그대로 두고 디코딩만 최대 4.6배 빨라지는 기술입니다.\n\n작은 초안 모델이 다음 토큰들을 미리 써보고 본 모델은 채점만 하는 게 기존 방식인데, DFlash는 이 초안까지 한 번에 병렬로 만듭니다.\n\n대신 각 자리를 따로 예측하니 문장이 어긋나는 게 약점이었는데, 연구팀이 들여다보니 정답 토큰은 이미 상위 후보 안에 99.5% 들어 있었습니다.\n\n예측을 더 잘할 필요 없이, 깔린 후보 사이에서 자연스럽게 이어지는 길만 고르면 됐던 겁니다.\n\n그래서 무거운 보정 모델 대신 아주 가벼운 선택기를 붙였고, 추가 지연은 1% 수준입니다.\n\n같은 답을 3분의 1 연산으로 내는 셈이라, 에이전트가 종일 토큰을 태우는 시대의 추론 단가는 이런 데서 먼저 내려갈 것 같습니다.",
-   "likes": 88,
+   "likes": 90,
    "cmts": 2,
    "time": 1787124630,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/777396792_1785140056238995_8034867156651012154_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk2NzAxMTM4NTIyOTU2MjY1Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=1RlptE3_upUQ7kNvwGI66B_&_nc_oc=AdoW8-HsL6dEpBIvEqrGHP8qHHM2Sw8ep3EjFWwFr6cEGALMcUi7t08zzxAzv7hJlIs&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=pS5ctJmmMSsOt88MQMVhCA&_nc_ss=7a22e&oh=00_AQHg3SXksvX5UYAlUG9Kwra0HCgGL3ZYld2BdISs42iIHA&oe=6A8B7939",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/777396792_1785140056238995_8034867156651012154_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk2NzAxMTM4NTIyOTU2MjY1Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=1RlptE3_upUQ7kNvwGI66B_&_nc_oc=AdoW8-HsL6dEpBIvEqrGHP8qHHM2Sw8ep3EjFWwFr6cEGALMcUi7t08zzxAzv7hJlIs&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=tpePwouPOlJoSLUhhFaM3A&_nc_ss=7a22e&oh=00_AQEDTOJDf-oh0blGl-etKTbmAK5JQqa2-zjLisNq9U8E1w&oe=6A8B7939",
    "url": "https://www.threads.com/@choi.openai/post/DcNp9Y0idMh",
    "region": "kr"
   }
  ],
  "tiktok": [],
  "reddit": [
+  {
+   "sub": "meirl",
+   "title": "meirl",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/gav986wopbkh1.jpeg?width=640&crop=smart&auto=webp&s=b5b64083110f46848ab9ef36cfb0107edfb12986",
+   "time": 1787141658,
+   "url": "https://www.reddit.com/r/meirl/comments/1vskq4z/meirl/"
+  },
   {
    "sub": "AskReddit",
    "title": "You’re handed 2 pounds of ground beef and told you can’t make spaghetti, tacos, or burgers. What’s your panic‑mode meal?",
@@ -678,15 +687,6 @@
    "thumb": "",
    "time": 1787104666,
    "url": "https://www.reddit.com/r/AskReddit/comments/1vs8z4g/youre_handed_2_pounds_of_ground_beef_and_told_you/"
-  },
-  {
-   "sub": "nextfuckinglevel",
-   "title": "How did people travel these seas 500 years ago",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/aXJmN3cydm51NmtoMZyb-q7X4j7DI1RlnzZ5iJsbZt5TudmBbJQckFV6XxlG.png?width=320&crop=smart&auto=webp&s=d92a9cf63b44f8a8e101326406984c2e88c309df",
-   "time": 1787082801,
-   "url": "https://www.reddit.com/r/nextfuckinglevel/comments/1vs01dc/how_did_people_travel_these_seas_500_years_ago/"
   },
   {
    "sub": "interestingasfuck",
@@ -707,6 +707,24 @@
    "url": "https://www.reddit.com/r/europe/comments/1vsihii/barcelona_to_become_the_first_major_european_city/"
   },
   {
+   "sub": "Unexpected",
+   "title": "Insurance be like you did What?",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1787136739,
+   "url": "https://www.reddit.com/r/Unexpected/comments/1vsj0g4/insurance_be_like_you_did_what/"
+  },
+  {
+   "sub": "nextfuckinglevel",
+   "title": "How did people travel these seas 500 years ago",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/aXJmN3cydm51NmtoMZyb-q7X4j7DI1RlnzZ5iJsbZt5TudmBbJQckFV6XxlG.png?width=320&crop=smart&auto=webp&s=d92a9cf63b44f8a8e101326406984c2e88c309df",
+   "time": 1787082801,
+   "url": "https://www.reddit.com/r/nextfuckinglevel/comments/1vs01dc/how_did_people_travel_these_seas_500_years_ago/"
+  },
+  {
    "sub": "videogames",
    "title": "What game is this for you?",
    "score": 0,
@@ -714,15 +732,6 @@
    "thumb": "https://preview.redd.it/vamsjhth79kh1.jpeg?width=640&crop=smart&auto=webp&s=6d107400e94745e3691972ced4e0d6e297f4f3d0",
    "time": 1787111323,
    "url": "https://www.reddit.com/r/videogames/comments/1vsbcul/what_game_is_this_for_you/"
-  },
-  {
-   "sub": "mildlyinfuriating",
-   "title": "Dumb boss is micromanaging",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/yx88ds8wz9kh1.jpeg?width=640&crop=smart&auto=webp&s=f43e87c1e63913c12954c1ea46ffe6a726f9db3a",
-   "time": 1787120882,
-   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1vsedvy/dumb_boss_is_micromanaging/"
   },
   {
    "sub": "mildlyinfuriating",
@@ -743,6 +752,15 @@
    "url": "https://www.reddit.com/r/TikTokCringe/comments/1vs9io9/its_not_a_value_question/"
   },
   {
+   "sub": "interesting",
+   "title": "MOLES! the moment they are placed on the ground, quickly burrow beneath it and disappear from sight..",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/bnFjbGZ6ZHM5YmtoMTQtdwsywXHyw1MG9TCQY4aNiMIEoEonEfvWJdC2xpU7.jpeg?width=640&crop=smart&auto=webp&s=5cd0c8b61b37463b77c4a3bb56bb256703d5a34f",
+   "time": 1787136327,
+   "url": "https://www.reddit.com/r/interesting/comments/1vsivv5/moles_the_moment_they_are_placed_on_the_ground/"
+  },
+  {
    "sub": "marvelstudios",
    "title": "If Brie Larson actually decides to jump ship,i don't blame her one bit. She's almost 10 years in, and only had 3 appearances so far.",
    "score": 0,
@@ -752,51 +770,18 @@
    "url": "https://www.reddit.com/r/marvelstudios/comments/1vrv1kp/if_brie_larson_actually_decides_to_jump_shipi/"
   },
   {
-   "sub": "politics",
-   "title": "USS Lincoln wasn't resupplied because Hegseth 'hid' that Iran destroyed main U.S. base:",
+   "sub": "unpopularopinion",
+   "title": "OWNING a dog fucking sucks",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/sBLPbjlvHrbYuB4rry6PWTEoInDdAQxkgi4kzJ3juGc.jpeg?width=640&crop=smart&auto=webp&s=6e20061584b1aaa6841eae6fadcf0ca08b2caf21",
-   "time": 1787087142,
-   "url": "https://www.reddit.com/r/politics/comments/1vs20i2/uss_lincoln_wasnt_resupplied_because_hegseth_hid/"
-  },
-  {
-   "sub": "meirl",
-   "title": "meirl",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/k000ke4tw9kh1.jpeg?width=640&crop=smart&auto=webp&s=d5ac04aefe35e58238b3c45c95c415c38fae473a",
-   "time": 1787119843,
-   "url": "https://www.reddit.com/r/meirl/comments/1vse2ou/meirl/"
-  },
-  {
-   "sub": "FavoriteCharacter",
-   "title": "What is a fact about your favorite Character that has you like this?",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/ywoxr2lcz5kh1.jpeg?width=640&crop=smart&auto=webp&s=9be75f193583cac7cf8797bb50f6c232006836e1",
-   "time": 1787072263,
-   "url": "https://www.reddit.com/r/FavoriteCharacter/comments/1vrv1e2/what_is_a_fact_about_your_favorite_character_that/"
+   "thumb": "",
+   "time": 1787098000,
+   "url": "https://www.reddit.com/r/unpopularopinion/comments/1vs6hcl/owning_a_dog_fucking_sucks/"
   }
  ],
  "disaster": [],
  "_cover": {
   "ok": {
-   "x": [
-    "64bitcoinkr",
-    "awaken_eyes",
-    "economysniper0",
-    "freedom_73x",
-    "jajaja7878uu",
-    "kyunghyang"
-   ],
-   "insta": [
-    "hm_son7",
-    "jennierubyjane",
-    "mnet_official",
-    "sbsnow_insta",
-    "xxxibgdrgn"
-   ],
    "threads": [
     "aicoffeechat",
     "aipeekme",
@@ -807,28 +792,33 @@
   },
   "why": {
    "insta": {
-    "koreadispatch": "rotate",
-    "bts.bighitofficial": "rotate",
-    "blackpinkofficial": "rotate",
-    "newjeans_official": "rotate",
-    "aespa_official": "rotate",
-    "openai": "rotate",
-    "runwayapp": "rotate",
-    "pika_labs": "rotate",
-    "lumalabsai": "rotate",
-    "midjourney": "rotate",
-    "klingai_official": "rotate",
-    "heygen_official": "rotate",
-    "higgsfield.ai": "rotate",
-    "googledeepmind": "rotate",
-    "cristiano": "rotate"
+    "koreadispatch": "gap",
+    "bts.bighitofficial": "gap",
+    "blackpinkofficial": "gap",
+    "newjeans_official": "gap",
+    "aespa_official": "gap",
+    "jennierubyjane": "gap",
+    "xxxibgdrgn": "gap",
+    "hm_son7": "gap",
+    "sbsnow_insta": "gap",
+    "mnet_official": "gap",
+    "openai": "gap",
+    "runwayapp": "gap",
+    "pika_labs": "gap",
+    "lumalabsai": "gap",
+    "midjourney": "gap",
+    "klingai_official": "gap",
+    "heygen_official": "gap",
+    "higgsfield.ai": "gap",
+    "googledeepmind": "gap",
+    "cristiano": "gap"
    }
   },
   "landing": {
-   "at": "2026-08-19T21:01:03",
+   "at": "2026-08-19T21:34:11",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-19T21:34:08.444930+09:00"
+ "updated": "2026-08-19T22:00:56.069704+09:00"
 }
