@@ -555,6 +555,26 @@
  ],
  "threads": [
   {
+   "account": "choi.openai",
+   "text": "가이드 :\nhttps://openai.com/index/builders-guide-to-gpt-5-6/",
+   "likes": 8,
+   "cmts": 0,
+   "time": 1787135465,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DcN-n8JgS_1",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "오픈AI가 GPT-5.6으로 에이전트 비용을 줄이는 실전 가이드를 공개했습니다.\n에이전트 만드는 분들은 한 번 읽어볼 만한데요.\n\n문서 추출은 작은 Luna 모델로 정확도를 거의 그대로 두고 비용을 18분의 1로 줄였고, 석 달 전 33달러 들던 검색 벤치마크는 이제 같은 성능에 1.3달러면 됩니다.\n\n특히, ARC-AGI-3 실험에서는 모델은 그대로 두고 추론 보존과 컨텍스트 압축 두 설정만 켰더니 점수가 13.3%에서 38.3%로 뛰었습니다. 출력 토큰은 오히려 6분의 1로 줄었고요.\n\n결국, 판단이 필요한 일만 모델에 맡기고, 데이터를 나르고 거르는 일은 코드로 빼고, 매번 최상위 모델을 부르는 습관을 버리라는 겁니다.\n\n그나저나 Gemini의 굴욕은 어디까지 갈지 얼른 왕좌에 복귀를 해주면 좋겠네요.",
+   "likes": 54,
+   "cmts": 3,
+   "time": 1787135457,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778486254_17982921357112832_120877009817962594_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk2NzEwMjIwNDA4MjQ5NTEyOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=KfUdLzKoiTkQ7kNvwECSyCI&_nc_oc=AdoyqUrNZxzuujoJph8_3pCuMa7BpOAU6DxO_QxHL-KJDpkmXdCJ8cKQ0qUyA81SxOQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=TDzJErv9weVVqgTFmXUxSA&_nc_ss=7a22e&oh=00_AQEOxrYWagDXlhccVgBuCB93yxNMTfL3az3u0msI97_JAQ&oe=6A8B76DA",
+   "url": "https://www.threads.com/@choi.openai/post/DcN-m-eAZ6Z",
+   "region": "kr"
+  },
+  {
    "account": "aipeekme",
    "text": "🔗 원문·자세히 보기\nhttps://github.com/akitaonrails/ai-memory",
    "likes": 0,
@@ -570,7 +590,7 @@
    "likes": 0,
    "cmts": 1,
    "time": 1787132202,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/780127051_18081468245407306_5378864589143849554_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk2NzA3NDgzMTIzNDQ1OTA0OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Pf8CsvF4BBkQ7kNvwHAM8bi&_nc_oc=AdqlaRjb6wK9kLr3oHWHbCtZ_6a-YZOm56VsImjoWdfU5x1bWmfLid6CVZwoq97L4AY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=o2-Zz9wBQtT-cAP7CmT7Fg&_nc_ss=7a22e&oh=00_AQHfv2YLXsgsw2gzA_dNRq8epbHdmiHnt6NJVdFcMtmIag&oe=6A8B442A",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/780127051_18081468245407306_5378864589143849554_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk2NzA3NDgzMTIzNDQ1OTA0OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Pf8CsvF4BBkQ7kNvwHAM8bi&_nc_oc=AdqlaRjb6wK9kLr3oHWHbCtZ_6a-YZOm56VsImjoWdfU5x1bWmfLid6CVZwoq97L4AY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=wdguOPur7Y-WdeaDzNBWKg&_nc_ss=7a22e&oh=00_AQGjjXThBMtoddCbVOVhKd9FafvI6o6ifl4PBjZyTBjffw&oe=6A8B7C6A",
    "url": "https://www.threads.com/@aipeekme/post/DcN4YphH2Wo",
    "region": "kr"
   },
@@ -585,32 +605,12 @@
    "region": "kr"
   },
   {
-   "account": "choi.openai",
-   "text": "맥스 테그마크(Max Tegmark)는 “초지능을 향한 경쟁은 군비 경쟁이 아니라 자살 경쟁(suicide race)”이라고 경고했습니다.\n\n국가 간 AI 개발 경쟁은 승자가 존재한다는 잘못된 전제에 기반하고 있으며, 인간을 압도하는 초지능 기계가 등장하는 순간 먼저 개발한 쪽 역시 통제권을 잃고 인류 전체가 무력화될 것이라는 지적입니다.\n\n그는 “자살 경쟁에서 유일하게 승리하는 방법은 게임에 참여하지 않는 것”이라며, 영화 〈워게임〉의 교훈을 상기시켰습니다.\n\n동물원 우리에 갇힌 것이 인간이 아닌 동물인 이유는 인간이 더 똑똑하기 때문이라며, “인간보다 뛰어난 지능체가 등장하면 결국 가장 똑똑한 존재가 세상의 주도권을 쥐게 된다”고 강조했습니다.",
-   "likes": 15,
-   "cmts": 2,
-   "time": 1787130033,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/775245298_3111359165740258_5343404734966467173_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk2NzA1NjcwMzk3OTEwNDI4Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=k9id_LrpDkQQ7kNvwH_YEk6&_nc_oc=AdovOUcNCHbYWEpcGYOOh3k6FKm1jCAmwF5MaqNCIPaNfC1yf27hTTI9lQagG1N-Plw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=YXCctRig2lVhWmEoAOJ60g&_nc_ss=7a22e&oh=00_AQHBpkrSBsCHjt52d0NtiL5JyZ8OWYrYznDrryfF91eFbg&oe=6A8B3DA7",
-   "url": "https://www.threads.com/@choi.openai/post/DcN0Q3Mgage",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "블로그 :\nhttps://inco.ai/blog/dflash2/",
-   "likes": 3,
-   "cmts": 0,
-   "time": 1787124638,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DcNp-YYCcvx",
-   "region": "kr"
-  },
-  {
    "account": "aipeekme",
    "text": "가정용 양팔 로봇 Nori가 1,688달러의 가격표를 달고 올가을 본격적인 배송을 시작할 예정입니다.\n공개된 시연 영상에서는 직접 커피를 내리고, 시리얼을 그릇에 따르며, 어질러진 거실을 정리하는 모습을 선보였습니다.\n로봇의 각 팔이 들어 올릴 수 있는 무게는 1.5kg 수준으로, 1갤런(약 3.8리터) 용량의 우유 한 통조차 들지 못합니다.\n이 때문에 많은 사람이 1.5kg이라는 적은 들어 올림 용량을 두고 치명적인 결격 사유나 한계로 평가할 수 있습니다.\n하지만 매일 반복되는 가볍고 번거로운 집안일을 직접 하지 않고 손에서 덜어내는 데는 분명 유용해 보입니다.\n가정용 양팔 로봇을 1,688달러라는 가격대로 구현해 올가을 배송까지 예고한 점은 주목할 만합니다.\n다만 팔당 1.5kg이라는 뚜렷한 하중 제한이 있는 만큼, 무거운 물건을 다루거나 복잡한 가사 노동까지 넘기기에는 한계가 분명해 보입니다.",
    "likes": 2,
    "cmts": 0,
    "time": 1787121521,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/781251176_38896776296588508_5184879063004881383_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk2Njk4NTEwNDQwOTQyNjEyMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=yk67nwEYYUIQ7kNvwGSIYTu&_nc_oc=AdokagXU2wphQsD57Nnp_JL1OTvh-pwLEe7CTO5kC_VYcrVsVMJPFcNFORgBP-jTBPE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=o2-Zz9wBQtT-cAP7CmT7Fg&_nc_ss=7a22e&oh=00_AQHK22IyGNorqKIptBJ_q9GHVhuxYcmeTn1Y9S9LP9sI_A&oe=6A8B63E5",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/781251176_38896776296588508_5184879063004881383_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk2Njk4NTEwNDQwOTQyNjEyMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=yk67nwEYYUIQ7kNvwGSIYTu&_nc_oc=AdokagXU2wphQsD57Nnp_JL1OTvh-pwLEe7CTO5kC_VYcrVsVMJPFcNFORgBP-jTBPE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=wdguOPur7Y-WdeaDzNBWKg&_nc_ss=7a22e&oh=00_AQGJAaepLB7Ts-lAGHElddBpik2ifAzT78ej4Q5TKHE6Ow&oe=6A8B63E5",
    "url": "https://www.threads.com/@aipeekme/post/DcNj-85lvjI",
    "region": "kr"
   },
@@ -647,10 +647,10 @@
   {
    "account": "aicoffeechat",
    "text": "AI하시는 분들이라면.. 이건 신청해! \n\nOpenAI가 개발자 행사를 미국 밖으로 들고 나옵니다. 국내에서 OpenAI 도구를 쓰는 분들은 비행기 안 타고 참여할 수 있는 기회입니다.\n\n기존 DevDay는 샌프란시스코에서 열리는 연 1회 행사였는데, 이번엔 도시를 늘려서 현지로 찾아가는 방식이네요.\n\n꿈만 같다 \"서울\"이라니 ..",
-   "likes": 83,
+   "likes": 84,
    "cmts": 3,
    "time": 1787090534,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/775685800_891282227086200_4387249736637956747_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk2NjcyMzg2MjU2OTg0NDYwMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=oa9H2ORgBkwQ7kNvwG8aGU_&_nc_oc=AdrtSJoBdhYj4T-KIoRcMWbQ4cbWK7Aqm4F_yhuk-F13MSVWNYAktFH88nRiMPZi4x8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Ums-R4o_SojKqSQuvl4rOg&_nc_ss=7a22e&oh=00_AQHFgA_3uEIr_xafciRBAeo2V35l6meRrMLw7H7FUUmICw&oe=6A8B496C",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/775685800_891282227086200_4387249736637956747_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk2NjcyMzg2MjU2OTg0NDYwMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=oa9H2ORgBkwQ7kNvwG8aGU_&_nc_oc=AdrtSJoBdhYj4T-KIoRcMWbQ4cbWK7Aqm4F_yhuk-F13MSVWNYAktFH88nRiMPZi4x8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Xsqxc8UTwqLmtFgIFTg_xA&_nc_ss=7a22e&oh=00_AQGy9FJ8iIBuQxq3EY0zIaM0kUJnt62kXEM6SeoBG0BLRw&oe=6A8B81AC",
    "url": "https://www.threads.com/@aicoffeechat/post/DcMolYein95",
    "region": "kr"
   },
@@ -666,12 +666,12 @@
   },
   {
    "account": "choi.openai",
-   "text": "와.. 이제 맥북에서 27B 모델이 초당 70토큰으로 돕니다.\n\nInco AI가 공개한 DFlash 2인데, 출력은 그대로 두고 디코딩만 최대 4.6배 빨라지는 기술입니다.\n\n작은 초안 모델이 다음 토큰들을 미리 써보고 본 모델은 채점만 하는 게 기존 방식인데, DFlash는 이 초안까지 한 번에 병렬로 만듭니다.\n\n대신 각 자리를 따로 예측하니 문장이 어긋나는 게 약점이었는데, 연구팀이 들여다보니 정답 토큰은 이미 상위 후보 안에 99.5% 들어 있었습니다.\n\n예측을 더 잘할 필요 없이, 깔린 후보 사이에서 자연스럽게 이어지는 길만 고르면 됐던 겁니다.\n\n그래서 무거운 보정 모델 대신 아주 가벼운 선택기를 붙였고, 추가 지연은 1% 수준입니다.\n\n같은 답을 3분의 1 연산으로 내는 셈이라, 에이전트가 종일 토큰을 태우는 시대의 추론 단가는 이런 데서 먼저 내려갈 것 같습니다.",
-   "likes": 67,
-   "cmts": 1,
-   "time": 1787124630,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/777396792_1785140056238995_8034867156651012154_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk2NzAxMTM4NTIyOTU2MjY1Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=1RlptE3_upUQ7kNvwGI66B_&_nc_oc=AdoW8-HsL6dEpBIvEqrGHP8qHHM2Sw8ep3EjFWwFr6cEGALMcUi7t08zzxAzv7hJlIs&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=YXCctRig2lVhWmEoAOJ60g&_nc_ss=7a22e&oh=00_AQFRY0kfunQ9_IP7aM0h7x2Yn6STOcnITycUSUSWzFpeJQ&oe=6A8B40F9",
-   "url": "https://www.threads.com/@choi.openai/post/DcNp9Y0idMh",
+   "text": "맥스 테그마크(Max Tegmark)는 “초지능을 향한 경쟁은 군비 경쟁이 아니라 자살 경쟁(suicide race)”이라고 경고했습니다.\n\n국가 간 AI 개발 경쟁은 승자가 존재한다는 잘못된 전제에 기반하고 있으며, 인간을 압도하는 초지능 기계가 등장하는 순간 먼저 개발한 쪽 역시 통제권을 잃고 인류 전체가 무력화될 것이라는 지적입니다.\n\n그는 “자살 경쟁에서 유일하게 승리하는 방법은 게임에 참여하지 않는 것”이라며, 영화 〈워게임〉의 교훈을 상기시켰습니다.\n\n동물원 우리에 갇힌 것이 인간이 아닌 동물인 이유는 인간이 더 똑똑하기 때문이라며, “인간보다 뛰어난 지능체가 등장하면 결국 가장 똑똑한 존재가 세상의 주도권을 쥐게 된다”고 강조했습니다.",
+   "likes": 17,
+   "cmts": 4,
+   "time": 1787130033,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/775245298_3111359165740258_5343404734966467173_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk2NzA1NjcwMzk3OTEwNDI4Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=k9id_LrpDkQQ7kNvwH_YEk6&_nc_oc=AdovOUcNCHbYWEpcGYOOh3k6FKm1jCAmwF5MaqNCIPaNfC1yf27hTTI9lQagG1N-Plw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=TDzJErv9weVVqgTFmXUxSA&_nc_ss=7a22e&oh=00_AQFFKoflewCIWDDUrlG5NX7JqseXsDphu-W1ruVGGFV-nA&oe=6A8B75E7",
+   "url": "https://www.threads.com/@choi.openai/post/DcN0Q3Mgage",
    "region": "kr"
   },
   {
@@ -690,8 +690,18 @@
    "likes": 29,
    "cmts": 13,
    "time": 1787089924,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778025428_17953195755232485_3526550988961658501_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk2NjcyMDI0NzA4MDM1NzE1NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI2NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=b0BHXGgBhAEQ7kNvwGH68P7&_nc_oc=AdrFvr10ifQSzJkzGAMSykmNqleUqIjqqPd-KyNjz5uwtORn9RAlY81AFJiYMK8Ktlo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Ums-R4o_SojKqSQuvl4rOg&_nc_ss=7a22e&oh=00_AQG8zglqXWrmO0ns4rk7KQ-sk0GdFfVsaJpcGItfE_uTpA&oe=6A8B4E0E",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778025428_17953195755232485_3526550988961658501_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk2NjcyMDI0NzA4MDM1NzE1NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI2NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=b0BHXGgBhAEQ7kNvwGH68P7&_nc_oc=AdrFvr10ifQSzJkzGAMSykmNqleUqIjqqPd-KyNjz5uwtORn9RAlY81AFJiYMK8Ktlo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Xsqxc8UTwqLmtFgIFTg_xA&_nc_ss=7a22e&oh=00_AQFyyY1zd9GPmiJB8oC7aoANd_UQUL8H2YdJLUqpepc61g&oe=6A8B4E0E",
    "url": "https://www.threads.com/@aicoffeechat/post/DcMnwxSkw0j",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "블로그 :\nhttps://inco.ai/blog/dflash2/",
+   "likes": 3,
+   "cmts": 0,
+   "time": 1787124638,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DcNp-YYCcvx",
    "region": "kr"
   },
   {
@@ -700,18 +710,18 @@
    "likes": 0,
    "cmts": 1,
    "time": 1787121072,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778401046_18081412220407306_6281312036291104251_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk2Njk4MTQ3MjcyMTUzODM3OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=5hxr9owvYSUQ7kNvwGa9wfy&_nc_oc=AdprRC2-vmXlaiXxIkJ3BYwYnaSVWEQ1FPY3NLnzMJC8kanOuq_UENDY2njAjRVDrz0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=o2-Zz9wBQtT-cAP7CmT7Fg&_nc_ss=7a22e&oh=00_AQG4LdMKeA8iWVriHDflLUW7n9q6X8dOoC7N83m9kZZWRA&oe=6A8B5B8C",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778401046_18081412220407306_6281312036291104251_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk2Njk4MTQ3MjcyMTUzODM3OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=5hxr9owvYSUQ7kNvwGa9wfy&_nc_oc=AdprRC2-vmXlaiXxIkJ3BYwYnaSVWEQ1FPY3NLnzMJC8kanOuq_UENDY2njAjRVDrz0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=wdguOPur7Y-WdeaDzNBWKg&_nc_ss=7a22e&oh=00_AQGR8Bvba86EjzLdzUY14fFN7CqikaPapTxRZ3krxo2eJw&oe=6A8B5B8C",
    "url": "https://www.threads.com/@aipeekme/post/DcNjKGoH41K",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "Claude의 작업용 AI 기능인 Cowork가 모바일과 웹으로 확대됩니다.\n\n쉽게 말하면 PC에서 Claude에게 일을 맡긴 뒤 노트북을 꺼도 작업이 계속 진행되는 건데요. 밖에서는 스마트폰으로 진행 상황을 확인하고, 판단이 필요한 부분이 생기면 질문을 받아 답할 수 있습니다.\n\n예를 들어 오전 6시에 고객 미팅 준비를 예약해두면 컴퓨터가 꺼져 있어도 대화와 자료를 확인해 요약본을 만들고 후속 이메일 초안까지 준비합니다.\n\n웹과 데스크톱에서는 기존 Chat과 Cowork도 하나로 통합됩니다.\n\n현재 Max 요금제부터 베타가 순차적으로 제공되고 있으며, 이후 다른 요금제로 확대될 예정입니다.",
-   "likes": 34,
-   "cmts": 0,
-   "time": 1787119233,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/780949573_1581226170161811_8825857941498248355_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk2Njk2NjEwODk4NDQ0NTU0Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=-317rHGPFkUQ7kNvwHa2wYd&_nc_oc=Ado3RCYbqA6jKpYKCcIZWcT0s2l5Dd4MJ0sQZ9p4FFpOWYnhp1ClaBTKOfgmaNkmjqc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=YXCctRig2lVhWmEoAOJ60g&_nc_ss=7a22e&oh=00_AQH2ckRN-kO-3kvN994096TnUkcKFoQdsd5EaDw8F1b86w&oe=6A8B4917",
-   "url": "https://www.threads.com/@choi.openai/post/DcNfqiCCApq",
+   "text": "와.. 이제 맥북에서 27B 모델이 초당 70토큰으로 돕니다.\n\nInco AI가 공개한 DFlash 2인데, 출력은 그대로 두고 디코딩만 최대 4.6배 빨라지는 기술입니다.\n\n작은 초안 모델이 다음 토큰들을 미리 써보고 본 모델은 채점만 하는 게 기존 방식인데, DFlash는 이 초안까지 한 번에 병렬로 만듭니다.\n\n대신 각 자리를 따로 예측하니 문장이 어긋나는 게 약점이었는데, 연구팀이 들여다보니 정답 토큰은 이미 상위 후보 안에 99.5% 들어 있었습니다.\n\n예측을 더 잘할 필요 없이, 깔린 후보 사이에서 자연스럽게 이어지는 길만 고르면 됐던 겁니다.\n\n그래서 무거운 보정 모델 대신 아주 가벼운 선택기를 붙였고, 추가 지연은 1% 수준입니다.\n\n같은 답을 3분의 1 연산으로 내는 셈이라, 에이전트가 종일 토큰을 태우는 시대의 추론 단가는 이런 데서 먼저 내려갈 것 같습니다.",
+   "likes": 83,
+   "cmts": 2,
+   "time": 1787124630,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/777396792_1785140056238995_8034867156651012154_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk2NzAxMTM4NTIyOTU2MjY1Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=1RlptE3_upUQ7kNvwGI66B_&_nc_oc=AdoW8-HsL6dEpBIvEqrGHP8qHHM2Sw8ep3EjFWwFr6cEGALMcUi7t08zzxAzv7hJlIs&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=TDzJErv9weVVqgTFmXUxSA&_nc_ss=7a22e&oh=00_AQElLIOXRRQnjLfMdnBx_SNUMTO4GsZiGJLYIGhZKT5L0g&oe=6A8B7939",
+   "url": "https://www.threads.com/@choi.openai/post/DcNp9Y0idMh",
    "region": "kr"
   },
   {
@@ -720,52 +730,23 @@
    "likes": 1,
    "cmts": 0,
    "time": 1787117303,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/778340517_1733470877987611_6002725151049538994_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk2Njk0OTY5MzEyNTIzNTAzNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=UxB7DgPoIGkQ7kNvwFqlgC0&_nc_oc=AdozEBoR5g-kz3xEG5ZcjiJGWJV5kV5V25e0cTZ5JGf3elj9o6N6oF9_7sksfLl4mJQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=o2-Zz9wBQtT-cAP7CmT7Fg&_nc_ss=7a22e&oh=00_AQG8-myF1KgZivWFURo3QkR63yGsfQBq3Nv40f88EF0ugQ&oe=6A8B3E2C",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/778340517_1733470877987611_6002725151049538994_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk2Njk0OTY5MzEyNTIzNTAzNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=UxB7DgPoIGkQ7kNvwFqlgC0&_nc_oc=AdozEBoR5g-kz3xEG5ZcjiJGWJV5kV5V25e0cTZ5JGf3elj9o6N6oF9_7sksfLl4mJQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=wdguOPur7Y-WdeaDzNBWKg&_nc_ss=7a22e&oh=00_AQHopveBNqEQ2BB729Y_AHTx7bGakuRaODue3h9AL1669A&oe=6A8B766C",
    "url": "https://www.threads.com/@aipeekme/post/DcNb7pkkxFc",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "3/ 결과는 설계 1,320개 중 354개가 실제로 결합에 성공한 것으로 나왔습니다.\n표적 기준으로는 15개 중 14개입니다.\n\n적중률을 보면 모든 표적을 한 세션에서 동시에 다룰 때 Opus 4.8이 22.6%, Mythos Preview가 26.7%였습니다.\n표적 하나씩 24시간을 따로 준 조건에서는 Mythos Preview가 35.1%까지 올라갔습니다. 업계에서 통상 보고되는 값은 10~15%입니다.\n\n품질도 숫자로 나옵니다. 최소 6개 표적에서 고친화 결합체가 나왔고, 최소 4개 표적에서는 기존에 발표된 최고 친화도와 같거나 그보다 강했습니다.\n다만 표적별 편차가 커서 90%에 달한 표적도, 0%인 표적도 있었습니다.",
-   "likes": 5,
-   "cmts": 1,
-   "time": 1787113498,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/777665876_17982918522112832_756461602247691482_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk2NjkxODAwNTU0NDE1MDg5Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjA0OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=p7R9-bIuzHEQ7kNvwEmaDdk&_nc_oc=Adpp0EZNPmOEqmbHv0s2HxfaBWKbP7cVGQfqPn7hO7VZs7HvuWu24wkY6thWqfiAlSE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=YXCctRig2lVhWmEoAOJ60g&_nc_ss=7a22e&oh=00_AQHScu6LGZBS-1TYeYJC1IXyr3X4BB8bA2eJQ26cswGjMw&oe=6A8B5D6B",
-   "url": "https://www.threads.com/@choi.openai/post/DcNUuiNj2dw",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "2/ 실험 조건부터 보겠습니다.\n결합체는 표적 단백질에 달라붙는 작은 단백질인데요. 현대 의약품 상당수가 이렇게 표적에 붙어 기능을 막거나 바꾸는 방식으로 작동합니다.\n\n앤트로픽은 표적 15개를 고르고 Claude에게 표적마다 30개씩 설계하게 했습니다.\n준 것은 3만 토큰짜리 전문가 프롬프트 하나, 인터넷과 논문 자료, 전문 모델을 돌릴 GPU, 그리고 48시간입니다. 컴퓨트는 H100 기준 12,500시간까지 열어뒀습니다.\n\n프롬프트를 넣은 뒤로는 과학적·기술적 지시를 일절 추가하지 않았습니다. 사람이 한 일은 네트워크 접근 승인과 인프라 점검, 그리고 완성된 설계를 실험실에 주문한 것 정도입니다.",
-   "likes": 5,
-   "cmts": 1,
-   "time": 1787113494,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DcNUuB8j6On",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "1/ 바쁘신 분들을 위해 핵심 내용만 정리해드립니다.\n\n1. 앤트로픽이 8월 18일 Claude의 단백질 결합체 자율 설계 실험 결과를 공개함\n2. 표적 15개에 각각 30개씩 설계했고, 그중 14개 표적에서 실제로 결합에 성공함\n3. 적중률은 조건에 따라 22.6~35.1%로, 업계 통상치 10~15%의 두 배 이상\n4. Adaptyv Bio와 Twist Bioscience가 독립적으로 단백질을 만들어 실험실에서 검증함\n5. Claude가 혼자 접은 게 아니라 공개된 전문 설계 모델들을 지휘해 얻은 결과\n6. 정작 이 작업은 일반 공개 모델에서 막혀 있고, 과학자 접근 프로그램은 예고 상태",
-   "likes": 16,
-   "cmts": 1,
-   "time": 1787113490,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DcNUtfGD-tf",
+   "text": "Claude의 작업용 AI 기능인 Cowork가 모바일과 웹으로 확대됩니다.\n\n쉽게 말하면 PC에서 Claude에게 일을 맡긴 뒤 노트북을 꺼도 작업이 계속 진행되는 건데요. 밖에서는 스마트폰으로 진행 상황을 확인하고, 판단이 필요한 부분이 생기면 질문을 받아 답할 수 있습니다.\n\n예를 들어 오전 6시에 고객 미팅 준비를 예약해두면 컴퓨터가 꺼져 있어도 대화와 자료를 확인해 요약본을 만들고 후속 이메일 초안까지 준비합니다.\n\n웹과 데스크톱에서는 기존 Chat과 Cowork도 하나로 통합됩니다.\n\n현재 Max 요금제부터 베타가 순차적으로 제공되고 있으며, 이후 다른 요금제로 확대될 예정입니다.",
+   "likes": 35,
+   "cmts": 0,
+   "time": 1787119233,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/780949573_1581226170161811_8825857941498248355_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk2Njk2NjEwODk4NDQ0NTU0Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=-317rHGPFkUQ7kNvwHa2wYd&_nc_oc=Ado3RCYbqA6jKpYKCcIZWcT0s2l5Dd4MJ0sQZ9p4FFpOWYnhp1ClaBTKOfgmaNkmjqc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=TDzJErv9weVVqgTFmXUxSA&_nc_ss=7a22e&oh=00_AQHrLRLrSiqjlEC7SU8mXNlptbKo1Pn5oIePgs__3Y5ifg&oe=6A8B8157",
+   "url": "https://www.threads.com/@choi.openai/post/DcNfqiCCApq",
    "region": "kr"
   }
  ],
  "tiktok": [],
  "reddit": [
-  {
-   "sub": "mildlyinfuriating",
-   "title": "Dumb boss is micromanaging",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/yx88ds8wz9kh1.jpeg?width=640&crop=smart&auto=webp&s=f43e87c1e63913c12954c1ea46ffe6a726f9db3a",
-   "time": 1787120882,
-   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1vsedvy/dumb_boss_is_micromanaging/"
-  },
   {
    "sub": "AskReddit",
    "title": "You’re handed 2 pounds of ground beef and told you can’t make spaghetti, tacos, or burgers. What’s your panic‑mode meal?",
@@ -776,49 +757,13 @@
    "url": "https://www.reddit.com/r/AskReddit/comments/1vs8z4g/youre_handed_2_pounds_of_ground_beef_and_told_you/"
   },
   {
-   "sub": "BeAmazed",
-   "title": "On hot summer days, some zoos give their tigers giant frozen milk blocks as a form of enrichment and cooling.",
+   "sub": "mildlyinfuriating",
+   "title": "Dumb boss is micromanaging",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/aGx4eTJ6aXRyOWtoMUzUyFeg20K-hRz_tUmuBOC5Jqo_VzJ-7-dRhNX4cgwC.jpeg?width=640&crop=smart&auto=webp&s=61394eb9eac1413d2e36de1606ec93c6e3c0aaba",
-   "time": 1787118169,
-   "url": "https://www.reddit.com/r/BeAmazed/comments/1vsdkgb/on_hot_summer_days_some_zoos_give_their_tigers/"
-  },
-  {
-   "sub": "nextfuckinglevel",
-   "title": "How did people travel these seas 500 years ago",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/aXJmN3cydm51NmtoMZyb-q7X4j7DI1RlnzZ5iJsbZt5TudmBbJQckFV6XxlG.png?width=320&crop=smart&auto=webp&s=d92a9cf63b44f8a8e101326406984c2e88c309df",
-   "time": 1787082801,
-   "url": "https://www.reddit.com/r/nextfuckinglevel/comments/1vs01dc/how_did_people_travel_these_seas_500_years_ago/"
-  },
-  {
-   "sub": "interestingasfuck",
-   "title": "a Japanese twitter account created these pixelated band-aids",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/n4x39bsr19kh1.jpg?width=140&height=140&auto=webp&s=bead2c683a6875e6504d2e30803850bc29af01c5",
-   "time": 1787109402,
-   "url": "https://www.reddit.com/r/interestingasfuck/comments/1vsap5c/a_japanese_twitter_account_created_these/"
-  },
-  {
-   "sub": "funnyvideos",
-   "title": "Same game, different stakes 😂",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/emx2Mms0ZmNxOWtoMcDo94cBLozT5dv5UQiTYQDGZTiFoHZ4Hu7GGR7cODsR.png?width=640&crop=smart&auto=webp&s=89e3774bfc88a298408901d0f2b961362481e981",
-   "time": 1787118212,
-   "url": "https://www.reddit.com/r/funnyvideos/comments/1vsdkwy/same_game_different_stakes/"
-  },
-  {
-   "sub": "interestingasfuck",
-   "title": "Chinese humanoid robot named “Superman” (made by Unitree Robotics) surpassed Usain Bolt’s world record (12.42meters/second) by running at 12.66m/s (roughly 28.3miles/h)",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/cXVtcjJsNTBxNGtoMdZz8fWcvZ-Ep2a9Nn5-rUVRPmj8lrMKV5fq3bhsDG3s.jpeg?width=640&crop=smart&auto=webp&s=f5d8851384d150926ce9d47e0296d69335205f3d",
-   "time": 1787057030,
-   "url": "https://www.reddit.com/r/interestingasfuck/comments/1vro46v/chinese_humanoid_robot_named_superman_made_by/"
+   "thumb": "https://preview.redd.it/yx88ds8wz9kh1.jpeg?width=640&crop=smart&auto=webp&s=f43e87c1e63913c12954c1ea46ffe6a726f9db3a",
+   "time": 1787120882,
+   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1vsedvy/dumb_boss_is_micromanaging/"
   },
   {
    "sub": "meirl",
@@ -830,22 +775,40 @@
    "url": "https://www.reddit.com/r/meirl/comments/1vse2ou/meirl/"
   },
   {
-   "sub": "MadeMeSmile",
-   "title": "The Cookie Monster meets Harrison Ford and hums the Indiana Jones theme song",
+   "sub": "nextfuckinglevel",
+   "title": "How did people travel these seas 500 years ago",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/amhqaHM4OXdxOGtoMWInx8JQS_jxzJIL_OFcLQ92UfTkisEBiqLQC4X9ypyN.png?width=640&crop=smart&auto=webp&s=3e0a2878c7baef3e1ce3abd264b682e8bbd2c5f0",
-   "time": 1787105747,
-   "url": "https://www.reddit.com/r/MadeMeSmile/comments/1vs9dkk/the_cookie_monster_meets_harrison_ford_and_hums/"
+   "thumb": "https://external-preview.redd.it/aXJmN3cydm51NmtoMZyb-q7X4j7DI1RlnzZ5iJsbZt5TudmBbJQckFV6XxlG.png?width=320&crop=smart&auto=webp&s=d92a9cf63b44f8a8e101326406984c2e88c309df",
+   "time": 1787082801,
+   "url": "https://www.reddit.com/r/nextfuckinglevel/comments/1vs01dc/how_did_people_travel_these_seas_500_years_ago/"
   },
   {
-   "sub": "wallstreetbets",
-   "title": "We...",
+   "sub": "pcmasterrace",
+   "title": "We’ve all been through this sequence.....",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/6bn3t8uiiakh1.jpeg?width=640&crop=smart&auto=webp&s=cfcb71581181c732692cb6e9c48579159a68bf1e",
-   "time": 1787127168,
-   "url": "https://www.reddit.com/r/wallstreetbets/comments/1vsg6ib/we/"
+   "thumb": "https://preview.redd.it/kko7mkbnqakh1.png?width=640&crop=smart&auto=webp&s=137a96ff7b924f73d0b46be712ff96881318bf84",
+   "time": 1787129873,
+   "url": "https://www.reddit.com/r/pcmasterrace/comments/1vsgy1j/weve_all_been_through_this_sequence/"
+  },
+  {
+   "sub": "videogames",
+   "title": "What game is this for you?",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/vamsjhth79kh1.jpeg?width=640&crop=smart&auto=webp&s=6d107400e94745e3691972ced4e0d6e297f4f3d0",
+   "time": 1787111323,
+   "url": "https://www.reddit.com/r/videogames/comments/1vsbcul/what_game_is_this_for_you/"
+  },
+  {
+   "sub": "interestingasfuck",
+   "title": "a Japanese twitter account created these pixelated band-aids",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/n4x39bsr19kh1.jpg?width=140&height=140&auto=webp&s=bead2c683a6875e6504d2e30803850bc29af01c5",
+   "time": 1787109402,
+   "url": "https://www.reddit.com/r/interestingasfuck/comments/1vsap5c/a_japanese_twitter_account_created_these/"
   },
   {
    "sub": "mildlyinfuriating",
@@ -857,13 +820,40 @@
    "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1vrurdy/airbnb_host_doing_yard_work_the_one_full_day_were/"
   },
   {
-   "sub": "videogames",
-   "title": "What game is this for you?",
+   "sub": "BeAmazed",
+   "title": "The Two Cops Who Made 104 Reunions Possible.",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/vamsjhth79kh1.jpeg?width=640&crop=smart&auto=webp&s=6d107400e94745e3691972ced4e0d6e297f4f3d0",
-   "time": 1787111323,
-   "url": "https://www.reddit.com/r/videogames/comments/1vsbcul/what_game_is_this_for_you/"
+   "thumb": "https://preview.redd.it/i30exin23akh1.jpeg?width=320&crop=smart&auto=webp&s=bfdd22c57cd76700794653d78d9963a4ca1c969a",
+   "time": 1787121944,
+   "url": "https://www.reddit.com/r/BeAmazed/comments/1vsep17/the_two_cops_who_made_104_reunions_possible/"
+  },
+  {
+   "sub": "marvelstudios",
+   "title": "If Brie Larson actually decides to jump ship,i don't blame her one bit. She's almost 10 years in, and only had 3 appearances so far.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/d48u8hckx5kh1.jpeg?width=640&crop=smart&auto=webp&s=ed1aab156df37667b8aea483550289b05ab54a54",
+   "time": 1787072275,
+   "url": "https://www.reddit.com/r/marvelstudios/comments/1vrv1kp/if_brie_larson_actually_decides_to_jump_shipi/"
+  },
+  {
+   "sub": "TikTokCringe",
+   "title": "It's not a value question...",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/ZmlmZW96dDJzOGtoMZhl32ld9f_N--pTmy6WtxDMw3X_J_0OJEQoznPdLfJT.png?width=320&crop=smart&auto=webp&s=25c27cf825506869931b2b3320bed4bd335d6f84",
+   "time": 1787106141,
+   "url": "https://www.reddit.com/r/TikTokCringe/comments/1vs9io9/its_not_a_value_question/"
+  },
+  {
+   "sub": "movies",
+   "title": "'Spider-Man' Windfall: Tom Holland to Make Over $100 Million for ‘Brand New Day’",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/oFFtMdaEAzzh3HltYOcpmKgjStUIoXZZksQRSephgDg.jpeg?width=640&crop=smart&auto=webp&s=69136bd1ca1733d0364c8a1f224ed0a2edff5bce",
+   "time": 1787058103,
+   "url": "https://www.reddit.com/r/movies/comments/1vrojkb/spiderman_windfall_tom_holland_to_make_over_100/"
   }
  ],
  "disaster": [],
@@ -902,10 +892,10 @@
    }
   },
   "landing": {
-   "at": "2026-08-19T19:01:01",
+   "at": "2026-08-19T20:04:14",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-19T19:30:56.385346+09:00"
+ "updated": "2026-08-19T20:30:53.961043+09:00"
 }
