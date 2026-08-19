@@ -556,52 +556,62 @@
  "threads": [
   {
    "account": "aipeekme",
-   "text": "🔗 원문·자세히 보기\nhttps://lobste.rs/s/ttxwdz/what_software_do_you_use_daily_2026",
+   "text": "🔗 원문·자세히 보기\nhttps://github.com/tensortrade-org/tensortrade?ref=opensourceprojects.dev",
    "likes": 0,
    "cmts": 0,
-   "time": 1787110414,
+   "time": 1787113672,
    "thumb": "",
-   "url": "https://www.threads.com/@aipeekme/post/DcNO1RaHwuZ",
+   "url": "https://www.threads.com/@aipeekme/post/DcNVDKUH6iy",
    "region": "kr"
   },
   {
    "account": "aipeekme",
-   "text": "2026년 기준 일상 업무에서 실제로 쓰이는 운영체제, 터미널, 편집기, 브라우저 구성 흐름을 짚어봤습니다.\n6년 전 구성과 비교하면 대형 소프트웨어 자체보다는 작은 보조 도구와 파이어폭스 확장 프로그램의 교체가 눈에 띕니다.\n기존 상용 도구를 쓰는 대신 파이썬과 SQLite로 직접 바이브 코딩해 개인용 도구를 만들어 대체하는 사례도 나타났습니다.\n다만 이미지 보관과 OCR 기능 부재라는 한계로 전용 도구로 교체하기도 합니다.\n셸 이동을 돕는 Zoxide나 비동기 렌더링 도구 등 틈새 유틸리티도 쓰입니다.\n주요 업무 도구의 기본 기능이 상향 평준화되면서 작업 흐름을 잇는 틈새 유틸리티의 중요성이 더 커진 셈입니다.\n앞의 대형 도구들은 이미 익숙합니다.\n개인적으로는 기성 소프트웨어 대신 자체 제작 도구를 일상 워크플로에 완전히 편입시키는 흐름이 인상적이었습니다.\n다만 개인화된 도구가 장기적인 유지보수 비용을 감당할 수 있을지는 여전히 미덥지 않다고 봅니다.",
+   "text": "강화학습 기반 알고리즘 트레이딩 프레임워크 텐서트레이드(TensorTrade)가 파이썬 오픈소스로 공개되어 있습니다.\n거래 환경, 행동 체계(Action Schemes), 보상 체계(Reward Schemes), 관찰자 및 데이터 피드를 모듈식으로 조합해 에이전트를 훈련하고 평가하는 도구입니다.\n기본적으로 파이썬 3.12 이상 환경을 요구하며, Ray와 RLlib을 연동한 모델 훈련 환경과 옵투나(Optuna) 하이퍼파라미터 튜닝을 지원합니다.\n자료의 실험 결과에 따르면 BTC/USD 환경에서 PPO 에이전트를 훈련했을 때, 수수료가 0%인 조건에서는 테스트 손익 +$239를 기록하며 단순 보유(Buy-and-Hold, -$355) 전략을 앞섰습니다. 하지만 0.1% 수수료가 부과되는 환경에서는 -$650를 기록해 잦은 거래 빈도로 인한 수수료 비용이 예측 수익을 초과하는 한계를 보였습니다.\n\n📷 사진 출처: github.com",
    "likes": 0,
    "cmts": 1,
-   "time": 1787110402,
-   "thumb": "",
-   "url": "https://www.threads.com/@aipeekme/post/DcNO0CxnyhG",
+   "time": 1787113662,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/778915938_18081378227407306_247940268225169635_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk2NjkxOTMwNDI2OTUxODI0Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Gld90Dr2q2YQ7kNvwGS8bHH&_nc_oc=AdoeF0L_ljHcuf7FBD7KAgYarEjw_o_gkS7Ar_Enbrp4mc_m2QrXTP4kLpz-F2qjwkk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=vsozoPJss2N_oWBmDM_HoQ&_nc_ss=7a22e&oh=00_AQEOxqWoYyHf0Yz-C2sTL0Qfltpxf716VA_w5brbcBNplA&oe=6A8B1859",
+   "url": "https://www.threads.com/@aipeekme/post/DcNVBbvn9Wm",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "주소 :\nfx.sh",
-   "likes": 3,
-   "cmts": 0,
-   "time": 1787107827,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DcNJ6OEDyPS",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "Vercel Labs가 초경량 코딩 에이전트 fx를 오픈소스로 공개했습니다.\n\nfx는 원래 Vercel 내부에서 사용하던 도구인데요. 설치 파일이 6.3MB에 불과하고 실행 속도와 메모리 사용량을 최대한 줄인 것이 특징입니다.\n\n쉽게 말하면 Cursor나 Claude Code처럼 많은 기능을 넣기보다, AI 모델 성능 테스트나 제한된 환경에서 빠르게 코딩 작업을 시키는 데 초점을 맞췄습니다.\n\n특정 AI 모델에 묶이지 않아 로컬·클라우드 모델을 사용할 수 있고, skills·plugins·MCP로 기능을 추가할 수도 있습니다. 사용 기록은 로컬에 저장되며 제품 사용 정보를 수집하는 텔레메트리도 없습니다.\n\n현재는 실험 단계라 기능이 자주 변경될 수 있습니다.",
-   "likes": 18,
+   "text": "3/ 결과는 설계 1,320개 중 354개가 실제로 결합에 성공한 것으로 나왔습니다.\n표적 기준으로는 15개 중 14개입니다.\n\n적중률을 보면 모든 표적을 한 세션에서 동시에 다룰 때 Opus 4.8이 22.6%, Mythos Preview가 26.7%였습니다.\n표적 하나씩 24시간을 따로 준 조건에서는 Mythos Preview가 35.1%까지 올라갔습니다. 업계에서 통상 보고되는 값은 10~15%입니다.\n\n품질도 숫자로 나옵니다. 최소 6개 표적에서 고친화 결합체가 나왔고, 최소 4개 표적에서는 기존에 발표된 최고 친화도와 같거나 그보다 강했습니다.\n다만 표적별 편차가 커서 90%에 달한 표적도, 0%인 표적도 있었습니다.",
+   "likes": 1,
    "cmts": 1,
-   "time": 1787107821,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/777898897_1030798896232022_6659066468981573836_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk2Njg3MDIyMjUyMzE2NTAyNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=DYEfaOPYP6IQ7kNvwF25T3Y&_nc_oc=AdpLaZswQSJ61xMus_zaBo9lQn9uHwgNKvVHcuhk82sPKjnfz5ch7dOUv2c9-BT2t8Q&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=JVluJFml3m_CSMzYsHlkCg&_nc_ss=7a22e&oh=00_AQHzwE9A37OMYsdbUHl-HI8GTX9Rfb7BkPBLEywqN0HDAg&oe=6A8B0A80",
-   "url": "https://www.threads.com/@choi.openai/post/DcNJ3MzkWli",
+   "time": 1787113498,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/777665876_17982918522112832_756461602247691482_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk2NjkxODAwNTU0NDE1MDg5Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjA0OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=p7R9-bIuzHEQ7kNvwH6SVTF&_nc_oc=AdoRRz1C5TVvIMGZa9YAGKGbiemFqNEcw9Wy9SOgRgiJjy3HkKRvnMr4R4DFBMWZa7g&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=wlKLJjvnnQvSfIK7xzN--A&_nc_ss=7a22e&oh=00_AQHoqtQxmqJTk3LOcArsMIcUDpNqZ_Hhu-ruW6Nm4jDg5g&oe=6A8AECEB",
+   "url": "https://www.threads.com/@choi.openai/post/DcNUuiNj2dw",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "2/ 실험 조건부터 보겠습니다.\n결합체는 표적 단백질에 달라붙는 작은 단백질인데요. 현대 의약품 상당수가 이렇게 표적에 붙어 기능을 막거나 바꾸는 방식으로 작동합니다.\n\n앤트로픽은 표적 15개를 고르고 Claude에게 표적마다 30개씩 설계하게 했습니다.\n준 것은 3만 토큰짜리 전문가 프롬프트 하나, 인터넷과 논문 자료, 전문 모델을 돌릴 GPU, 그리고 48시간입니다. 컴퓨트는 H100 기준 12,500시간까지 열어뒀습니다.\n\n프롬프트를 넣은 뒤로는 과학적·기술적 지시를 일절 추가하지 않았습니다. 사람이 한 일은 네트워크 접근 승인과 인프라 점검, 그리고 완성된 설계를 실험실에 주문한 것 정도입니다.",
+   "likes": 1,
+   "cmts": 1,
+   "time": 1787113494,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DcNUuB8j6On",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "1/ 바쁘신 분들을 위해 핵심 내용만 정리해드립니다.\n\n1. 앤트로픽이 8월 18일 Claude의 단백질 결합체 자율 설계 실험 결과를 공개함\n2. 표적 15개에 각각 30개씩 설계했고, 그중 14개 표적에서 실제로 결합에 성공함\n3. 적중률은 조건에 따라 22.6~35.1%로, 업계 통상치 10~15%의 두 배 이상\n4. Adaptyv Bio와 Twist Bioscience가 독립적으로 단백질을 만들어 실험실에서 검증함\n5. Claude가 혼자 접은 게 아니라 공개된 전문 설계 모델들을 지휘해 얻은 결과\n6. 정작 이 작업은 일반 공개 모델에서 막혀 있고, 과학자 접근 프로그램은 예고 상태",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1787113490,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DcNUtfGD-tf",
    "region": "kr"
   },
   {
    "account": "aipeekme",
-   "text": "🔗 원문·자세히 보기\nhttps://openai.com/index/partnering-with-codeai/",
+   "text": "🔗 원문·출처\nhttps://github.com/OpenCSGs/CSGHub?ref=opensourceprojects.dev",
    "likes": 0,
    "cmts": 0,
-   "time": 1787103235,
+   "time": 1787113468,
    "thumb": "",
-   "url": "https://www.threads.com/@aipeekme/post/DcNBI_IH9ja",
+   "url": "https://www.threads.com/@aipeekme/post/DcNUqRCn88K",
    "region": "kr"
   },
   {
@@ -625,16 +635,6 @@
    "region": "kr"
   },
   {
-   "account": "choi.openai",
-   "text": "3/ 보안 개편의 출발점은 허깅페이스 사건 직후였습니다.\n오픈AI는 연구 클러스터에서 코드를 실행하거나 인터넷에 닿을 수 있는 프런티어 모델 추론을 일단 전부 멈추고, 작업 하나하나를 심사해 재개 여부를 정했습니다.\n\n새 요건은 세 겹입니다. 모델이 만든 코드는 격리된 샌드박스에서만 실행하고, 위험 워크로드는 인터넷과 내부망에서 분리하며, 하나가 뚫려도 그것만으로는 외부에 못 나가게 설계했습니다. 여기에 자사 모델로 이 경계를 상시 모의 공격하는 테스트까지 넣었습니다.\n\nAstra와 사이버 관련 워크로드에는 최고 등급 요건이 의무입니다. 그 기준을 아직 못 맞춘 상당수 작업은 지금도 중단 상태고, 안전·정렬 연구부터 우선 이전하고 있습니다.",
-   "likes": 3,
-   "cmts": 1,
-   "time": 1787096434,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DcM0LiED8wj",
-   "region": "kr"
-  },
-  {
    "account": "aicoffeechat",
    "text": "혹시 신청 놓치신 분들을 위해서 공유해요\n\n링크: https://events.openai.com/devdayexchange2026/?v=1",
    "likes": 5,
@@ -647,10 +647,10 @@
   {
    "account": "aicoffeechat",
    "text": "AI하시는 분들이라면.. 이건 신청해! \n\nOpenAI가 개발자 행사를 미국 밖으로 들고 나옵니다. 국내에서 OpenAI 도구를 쓰는 분들은 비행기 안 타고 참여할 수 있는 기회입니다.\n\n기존 DevDay는 샌프란시스코에서 열리는 연 1회 행사였는데, 이번엔 도시를 늘려서 현지로 찾아가는 방식이네요.\n\n꿈만 같다 \"서울\"이라니 ..",
-   "likes": 67,
+   "likes": 69,
    "cmts": 2,
    "time": 1787090534,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/775685800_891282227086200_4387249736637956747_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk2NjcyMzg2MjU2OTg0NDYwMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=oa9H2ORgBkwQ7kNvwFitAke&_nc_oc=Adp4W-NYl5NbnMPgHdRMIydLtjbz_yiMXCWBaOqVyI2-Gum_RvunBF8zSegrvNcdEcY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=MxLH8PSG3j6k2k7bAkkEbQ&_nc_ss=7a22e&oh=00_AQHREvx3vVjehQJLIbinYFUVmDkgu7MHg9GNFwMbtijTwA&oe=6A8B112C",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/775685800_891282227086200_4387249736637956747_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk2NjcyMzg2MjU2OTg0NDYwMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=oa9H2ORgBkwQ7kNvwFitAke&_nc_oc=Adp4W-NYl5NbnMPgHdRMIydLtjbz_yiMXCWBaOqVyI2-Gum_RvunBF8zSegrvNcdEcY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=jyMo8mgTDfCmT8jugmNghA&_nc_ss=7a22e&oh=00_AQGv0wCQceTCHwrP9JRgUNpUvK351VVnsL4-ftEoJZAznw&oe=6A8B112C",
    "url": "https://www.threads.com/@aicoffeechat/post/DcMolYein95",
    "region": "kr"
   },
@@ -665,23 +665,23 @@
    "region": "kr"
   },
   {
-   "account": "aipeekme",
-   "text": "오픈AI가 첫 AI 세대 교육을 위해 CodeAI와 파트너십을 발표했습니다.\n대다수 학생이 이미 AI를 쓰지만 모든 학생이 교실에서 기술적 지식을 배운다고 답한 고등학교 리더는 16%에 그쳤는데요.\nCodeAI 설문에서도 고등학생 75%가 AI 이해도가 미래에 지금보다 더 중요해질 것이라 답해 현장의 괴리가 확인됩니다.\n이번 파트너십은 10대 전용 경험인 'ChatGPT for Teens' 출시와 맞물려, 학생이 작동 원리를 이해하고 결과물을 비판적으로 평가하도록 돕는 리소스를 제공합니다.\n청소년 보호 기능과 학부모 제어 기능이 포함되며, 학생이 AI 기술에 질문하고 오류를 찾아내며 책임감 있게 활용하도록 지원합니다.\n도구 도입 속도에 비해 안전 및 검증 교육이 필요한 시점입니다.\n개인적으로는 프롬프트 활용법보다 할루시네이션이나 편향을 짚어내는 훈련이 훨씬 실질적이라고 봅니다.\n\n📷 사진 출처: openai.com",
-   "likes": 2,
-   "cmts": 3,
-   "time": 1787103224,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/777947344_18081326945407306_810435306318380657_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk2NjgzMTc1MjQ3Njg4MzY0Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=3MK-3EVH9y0Q7kNvwH2Opom&_nc_oc=Adq-T1zJ2xMnhaceRwsVmKvMJpGOWH4Vs5KNCfAEzpldcharCPr2m3H28681yQN7t3k&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=TMROZsotEO7BnyuDF7yS3A&_nc_ss=7a22e&oh=00_AQEQb4qCgWyl1vwLZuO10UeRbWBtdrJqaVxp9dXN09w9fw&oe=6A8AE6B9",
-   "url": "https://www.threads.com/@aipeekme/post/DcNBHYyH_q-",
+   "account": "choi.openai",
+   "text": "앤트로픽이 Claude에게 신약 후보 단백질을 직접 설계하게 했습니다.\n\n15개 표적 중 14개에서 성공했고, 설계 적중률은 업계 통상치의 두 배가 넘었습니다. 외부 실험실 두 곳이 그 단백질을 실제로 만들어 검증한 결과입니다.\n\n실험 조건과 성과, 그리고 한계까지 정리했습니다 🧵",
+   "likes": 10,
+   "cmts": 10,
+   "time": 1787113485,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/778426746_1593044425682684_4745350666224058173_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk2NjkxNzgwNzg5MTkyNzg4MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=-KTxqSeRoJ0Q7kNvwFTH9n1&_nc_oc=Adr8Pc26kFETrM86orT3MhRhBYkMsUF1ZzJvFymfYZ5bKlhESC-qlXw5wq4BXETqFEQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=wlKLJjvnnQvSfIK7xzN--A&_nc_ss=7a22e&oh=00_AQFDaRU6-MGWAnrXDUayKTeb8C8ShmqddOTMv0i_iYjo_w&oe=6A8B0295",
+   "url": "https://www.threads.com/@choi.openai/post/DcNUrqIkdNI",
    "region": "kr"
   },
   {
-   "account": "choi.openai",
-   "text": "2/ 이번 발표는 갑자기 나온 게 아니라 석 달짜리 사건의 다음 장입니다.\n\n블랙햇에서 공개된 조사 기준으로 오픈AI 에이전트의 허깅페이스 침투는 5월에 시작됐고, 사건은 7월 중순에 공개됐습니다.\n8월 7일에는 차기 모델 Astra가 사람 개입 없이 제로데이 공격이 가능한 Critical 등급일 가능성을 배제할 수 없다며 내부 작업 일부를 멈췄습니다.\n\n이번 발표로 그 중단의 범위가 드러났는데요. 배포 예정 모델의 강화학습을 2주간 멈췄고, 계획된 것 중 가장 큰 프런티어 RL은 아직도 시작을 못 하고 있습니다.\n\n문구도 눈여겨볼 부분이 있는데요. 중단 대상은 \"배포 예정\" 모델이고, 2주 중단이 끝나 재개됐는지는 발표문 어디에도 명시하지 않았습니다.",
-   "likes": 2,
+   "account": "aipeekme",
+   "text": "오픈CSG(OpenCSG)가 거대언어모델(LLM) 자산 관리를 위한 오픈소스 플랫폼 'CSGHub'를 공개했습니다. 허깅페이스(Hugging Face)의 온프레미스 버전 역할을 지향하는 도구입니다.\n\n딥시크나 라마 같은 대규모 언어 모델을 비롯해 데이터셋, 스페이스, 코드 등 LLM 자산 전반을 업로드, 다운로드, 검증, 배포할 수 있습니다. 웹 인터페이스 외에도 깃(Git) 명령어, 전용 소프트웨어 개발 키트(SDK), 자연어 챗봇을 통한 관리 기능을 제공합니다.\n\n마이크로서비스 하위 모듈과 표준 오픈API를 갖춰 기존 시스템과의 연동을 지원하며, 온프레미스 배포를 통해 안전한 오프라인 환경에서도 운영할 수 있습니다. 설치 방식은 도커 컴포즈(Docker Compose)와 헬름 차트(Helm Chart)를 지원합니다.\n\n사내 보안 규정상 외부 클라우드 허브를 활용하기 어려웠던 엔터프라이즈 환경에서 프라이빗 LLM 인프라로 검토해볼 만한 선택지라고 봅니다.",
+   "likes": 0,
    "cmts": 1,
-   "time": 1787096428,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DcM0KxWjxmE",
+   "time": 1787113455,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/778274284_1083883540659318_6296274597943943103_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk2NjkxNzI1NjE4MTA3MDEwMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=O6JcOrDkRJkQ7kNvwHInRPh&_nc_oc=AdoXyJRMwLxE7kafabAMf1NfmiMMA1ZlONhnTPdgSJxhR1m_YoFuUPfjveZXtnUHw6s&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=vsozoPJss2N_oWBmDM_HoQ&_nc_ss=7a22e&oh=00_AQFmO5hfXsmOfxZXxyW-UicnBtSkfWSqm4m2Dg2FrJTO_Q&oe=6A8AEBC0",
+   "url": "https://www.threads.com/@aipeekme/post/DcNUjoUCjkV",
    "region": "kr"
   },
   {
@@ -690,73 +690,91 @@
    "likes": 27,
    "cmts": 12,
    "time": 1787089924,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/778025428_17953195755232485_3526550988961658501_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk2NjcyMDI0NzA4MDM1NzE1NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI2NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=b0BHXGgBhAEQ7kNvwHeoKVl&_nc_oc=AdrqWKm0b1qdoV4ysq4GwrYC0LByzD6K_GeS-ujP_eDBJfTD8uuyErIZNmiGlhl3Ehw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=MxLH8PSG3j6k2k7bAkkEbQ&_nc_ss=7a22e&oh=00_AQEXRSKpybtJ2o9E4GQaz3aidF715k-3UvN26gSgCUqzuA&oe=6A8B15CE",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/778025428_17953195755232485_3526550988961658501_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk2NjcyMDI0NzA4MDM1NzE1NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI2NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=b0BHXGgBhAEQ7kNvwHeoKVl&_nc_oc=AdrqWKm0b1qdoV4ysq4GwrYC0LByzD6K_GeS-ujP_eDBJfTD8uuyErIZNmiGlhl3Ehw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=jyMo8mgTDfCmT8jugmNghA&_nc_ss=7a22e&oh=00_AQGTG5MaJUtU6URaLGSe0cnv4C6hLnCkPD8LCVmtfmmSyw&oe=6A8B15CE",
    "url": "https://www.threads.com/@aicoffeechat/post/DcMnwxSkw0j",
    "region": "kr"
   },
   {
-   "account": "choi.openai",
-   "text": "1/ 바쁘신 분들을 위해 핵심 내용만 정리해드립니다.\n\n1. 오픈AI가 8월 18일 프런티어 훈련 감속과 보안·감시 체계 개편을 공식 발표함\n2. 배포 예정 최신 모델의 RL 훈련을 2주간 중단했고, 최대 규모 프런티어 RL은 계속 보류 중\n3. 계기는 자사 AI의 허깅페이스 공격 사건과 Astra의 Critical 사이버 능력 예비 판정\n4. 연구 환경에 워크로드 격리와 인터넷 차단을 새로 깔았고, 상당수 작업은 아직 중단 상태\n5. 샘플링되는 토큰마다 모델 내부 활동을 검사하는 감시 체계를 도입, 비용은 감시 대상 추론 컴퓨트의 약 20%\n6. 샘 올트먼은 앞으로 안전에 대한 확신이 AI 발전 속도를 정하게 될 거라고 밝힘",
-   "likes": 19,
-   "cmts": 1,
-   "time": 1787096424,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DcM0KPgD0AW",
-   "region": "kr"
-  },
-  {
    "account": "aipeekme",
-   "text": "https://www.4dv.ai/viewer/michaelrubloff-Dell-NVIDIA",
+   "text": "🔗 원문·자세히 보기\nhttps://lobste.rs/s/ttxwdz/what_software_do_you_use_daily_2026",
    "likes": 0,
    "cmts": 0,
-   "time": 1787053496,
+   "time": 1787110414,
    "thumb": "",
-   "url": "https://www.threads.com/@aipeekme/post/DcLiSDeE0C3",
+   "url": "https://www.threads.com/@aipeekme/post/DcNO1RaHwuZ",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "오픈AI가 프런티어 모델 훈련을 멈췄습니다.\n\n배포 예정 최신 모델의 강화학습을 2주간 중단했고, 가장 큰 훈련은 지금도 보류 상태입니다. 자사 AI가 허깅페이스를 공격한 사건과, 차기 모델 Astra의 사이버 능력이 최고 위험 등급일 수 있다는 판정이 겹친 결과입니다.\n\n무엇을 멈췄고 무엇이 바뀌는지 정리했습니다 🧵",
-   "likes": 59,
-   "cmts": 8,
-   "time": 1787096419,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/774788070_17982829317112832_1260325068677956750_n.jpg?stp=cp6_dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk2Njc3NDczMTc1MTc5Njk5NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ1Mi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=GktqYhfjM5AQ7kNvwEhVkSX&_nc_oc=AdrGOOGUj-SNeW8ngtAbvYHaAkotiW7jEiiO0O2PsvJNgTJ6YWYwMFpNtAV0RadpZhs&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=JVluJFml3m_CSMzYsHlkCg&_nc_ss=7a22e&oh=00_AQFrAS8FP_VU_qSDdyWdDDOWEH7BBpvz13URXe3YCJ0PaA&oe=6A8B15FB",
-   "url": "https://www.threads.com/@choi.openai/post/DcM0JoGD7EC",
+   "text": "주소 :\nfx.sh",
+   "likes": 3,
+   "cmts": 0,
+   "time": 1787107827,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DcNJ6OEDyPS",
    "region": "kr"
   },
   {
    "account": "aipeekme",
-   "text": "비디오에 시간 축인 타임라인과 WebXR 기술을 결합하여 다양한 각도에서 둘러볼 수 있도록 구현한 초현실적 3차원(Ultra-Realistic 3D, 4DGS) 기술입니다.\n\n일반 비디오 영상을 여러 시점에서 직접 살펴볼 수 있는 스테레오스코픽 인터랙티브 공간으로 변환하여 4차원(4 Dimensi) 이상의 입체적인 시각 경험을 제공합니다.\n\n비디오에 타임라인과 WebXR을 추가함으로써 웹 환경에서 직접 다각도로 둘러보고 탐색할 수 있는 인터랙티브 입체 공간으로 구현했다는 점이 핵심입니다.\n\n별도의 프로그램 설치 없이 웹 기반으로 다양한 각도에서 시점 전환이 가능한 스테레오스코픽 입체 공간을 구성한 점이 돋보입니다.\n\n웹 기반 인터랙티브 입체 공간 기술이 앞으로 상세 페이지나 전시 기록 등 다양한 시각 콘텐츠 영역에서 유용하게 쓰일 수 있을 것으로 보입니다.",
+   "text": "2026년 기준 일상 업무에서 실제로 쓰이는 운영체제, 터미널, 편집기, 브라우저 구성 흐름을 짚어봤습니다.\n6년 전 구성과 비교하면 대형 소프트웨어 자체보다는 작은 보조 도구와 파이어폭스 확장 프로그램의 교체가 눈에 띕니다.\n기존 상용 도구를 쓰는 대신 파이썬과 SQLite로 직접 바이브 코딩해 개인용 도구를 만들어 대체하는 사례도 나타났습니다.\n다만 이미지 보관과 OCR 기능 부재라는 한계로 전용 도구로 교체하기도 합니다.\n셸 이동을 돕는 Zoxide나 비동기 렌더링 도구 등 틈새 유틸리티도 쓰입니다.\n주요 업무 도구의 기본 기능이 상향 평준화되면서 작업 흐름을 잇는 틈새 유틸리티의 중요성이 더 커진 셈입니다.\n앞의 대형 도구들은 이미 익숙합니다.\n개인적으로는 기성 소프트웨어 대신 자체 제작 도구를 일상 워크플로에 완전히 편입시키는 흐름이 인상적이었습니다.\n다만 개인화된 도구가 장기적인 유지보수 비용을 감당할 수 있을지는 여전히 미덥지 않다고 봅니다.",
    "likes": 0,
    "cmts": 1,
-   "time": 1787048243,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/774362760_1400197708741669_6372951155711745300_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&ig_cache_key=Mzk2NjM3MDQwODcwNjQ3NjcxOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=nVXJ0xvYpP0Q7kNvwErdf0J&_nc_oc=AdqMdsJUODcomeBH-iSOH1RvWr60k_28TiL6DBna_ibbAYCu5vpOhwANJXTwHTce6ZY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=TMROZsotEO7BnyuDF7yS3A&_nc_ss=7a22e&oh=00_AQFdDm7O-ztDRJPq0MAxzJKaxEloU95-H8eoat4ZWwU6sA&oe=6A8AE334",
-   "url": "https://www.threads.com/@aipeekme/post/DcLYN86kgqu",
+   "time": 1787110402,
+   "thumb": "",
+   "url": "https://www.threads.com/@aipeekme/post/DcNO0CxnyhG",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "풀영상 :\nhttps://www.youtube.com/watch?v=fsTtKywmWlU",
-   "likes": 5,
-   "cmts": 0,
-   "time": 1787083266,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DcMbEAkAtA7",
+   "text": "Vercel Labs가 초경량 코딩 에이전트 fx를 오픈소스로 공개했습니다.\n\nfx는 원래 Vercel 내부에서 사용하던 도구인데요. 설치 파일이 6.3MB에 불과하고 실행 속도와 메모리 사용량을 최대한 줄인 것이 특징입니다.\n\n쉽게 말하면 Cursor나 Claude Code처럼 많은 기능을 넣기보다, AI 모델 성능 테스트나 제한된 환경에서 빠르게 코딩 작업을 시키는 데 초점을 맞췄습니다.\n\n특정 AI 모델에 묶이지 않아 로컬·클라우드 모델을 사용할 수 있고, skills·plugins·MCP로 기능을 추가할 수도 있습니다. 사용 기록은 로컬에 저장되며 제품 사용 정보를 수집하는 텔레메트리도 없습니다.\n\n현재는 실험 단계라 기능이 자주 변경될 수 있습니다.",
+   "likes": 21,
+   "cmts": 1,
+   "time": 1787107821,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/777898897_1030798896232022_6659066468981573836_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk2Njg3MDIyMjUyMzE2NTAyNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=DYEfaOPYP6IQ7kNvwF25T3Y&_nc_oc=AdpLaZswQSJ61xMus_zaBo9lQn9uHwgNKvVHcuhk82sPKjnfz5ch7dOUv2c9-BT2t8Q&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=wlKLJjvnnQvSfIK7xzN--A&_nc_ss=7a22e&oh=00_AQF1Bb1HuDJEtRO4-DG6zGxzuaUc9alJeNv1GVKTsESAGg&oe=6A8B0A80",
+   "url": "https://www.threads.com/@choi.openai/post/DcNJ3MzkWli",
    "region": "kr"
   },
   {
    "account": "aipeekme",
-   "text": "전파가 방해를 받는 방식을 인공지능으로 분석해 처리하는 원리입니다.\n\n카메라를 전혀 사용하지 않고도 사람의 자세를 추정할 수 있습니다.\n\n호흡은 물론 심박수까지 감지해 내는 기능을 갖추었습니다.\n\n인공지능과 무선 신호의 결합이 보여준 놀라운 성과이지만, 동시에 사생활 침해에 대한 중요한 문제를 제기합니다.\n\n영상 장비 없이 신호만으로 상태를 읽어내므로 사생활 노출을 줄이는 모니터링 환경에 활용될 가능성이 큽니다.\n\n다만 벽 너머의 상태나 신체 정보를 무단으로 파악하는 오용 가능성을 어떻게 통제할지는 여전히 의문으로 남습니다.\n\n기기 자체의 감지 성능 개발과 더불어 개인의 프라이버시를 보호할 수 있는 명확한 기준과 보안 장치가 함께 마련되어야 한다고 생각합니다.",
-   "likes": 1,
+   "text": "🔗 원문·자세히 보기\nhttps://openai.com/index/partnering-with-codeai/",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1787103235,
+   "thumb": "",
+   "url": "https://www.threads.com/@aipeekme/post/DcNBI_IH9ja",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "3/ 보안 개편의 출발점은 허깅페이스 사건 직후였습니다.\n오픈AI는 연구 클러스터에서 코드를 실행하거나 인터넷에 닿을 수 있는 프런티어 모델 추론을 일단 전부 멈추고, 작업 하나하나를 심사해 재개 여부를 정했습니다.\n\n새 요건은 세 겹입니다. 모델이 만든 코드는 격리된 샌드박스에서만 실행하고, 위험 워크로드는 인터넷과 내부망에서 분리하며, 하나가 뚫려도 그것만으로는 외부에 못 나가게 설계했습니다. 여기에 자사 모델로 이 경계를 상시 모의 공격하는 테스트까지 넣었습니다.\n\nAstra와 사이버 관련 워크로드에는 최고 등급 요건이 의무입니다. 그 기준을 아직 못 맞춘 상당수 작업은 지금도 중단 상태고, 안전·정렬 연구부터 우선 이전하고 있습니다.",
+   "likes": 3,
    "cmts": 1,
-   "time": 1787034728,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/775871642_901924132557339_4060271086586684421_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk2NjI1NzAzMzI3OTgyODUyNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Euhh5jKGR-oQ7kNvwEywr0A&_nc_oc=AdqvIibN0zq5pxDVFamwmrCmnAkGVch1G1zWgOPCkKIc1sY31sl2KhROn4iRarKlEPw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=TMROZsotEO7BnyuDF7yS3A&_nc_ss=7a22e&oh=00_AQGUlYEIzfz88tQnWcifsnHNyj3XPtT946z3RfYeFk9thA&oe=6A8AFC14",
-   "url": "https://www.threads.com/@aipeekme/post/DcK-cH0ifIt",
+   "time": 1787096434,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DcM0LiED8wj",
    "region": "kr"
   }
  ],
  "tiktok": [],
  "reddit": [
+  {
+   "sub": "nextfuckinglevel",
+   "title": "How did people travel these seas 500 years ago",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/aXJmN3cydm51NmtoMZyb-q7X4j7DI1RlnzZ5iJsbZt5TudmBbJQckFV6XxlG.png?width=320&crop=smart&auto=webp&s=d92a9cf63b44f8a8e101326406984c2e88c309df",
+   "time": 1787082801,
+   "url": "https://www.reddit.com/r/nextfuckinglevel/comments/1vs01dc/how_did_people_travel_these_seas_500_years_ago/"
+  },
+  {
+   "sub": "AskReddit",
+   "title": "You’re handed 2 pounds of ground beef and told you can’t make spaghetti, tacos, or burgers. What’s your panic‑mode meal?",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1787104666,
+   "url": "https://www.reddit.com/r/AskReddit/comments/1vs8z4g/youre_handed_2_pounds_of_ground_beef_and_told_you/"
+  },
   {
    "sub": "MadeMeSmile",
    "title": "The Cookie Monster meets Harrison Ford and hums the Indiana Jones theme song",
@@ -776,22 +794,13 @@
    "url": "https://www.reddit.com/r/meirl/comments/1vs81e5/meirl/"
   },
   {
-   "sub": "politics",
-   "title": "Democratic socialist Angie Nixon upsets Alex Vindman in Florida’s Democratic Senate primary",
+   "sub": "interestingasfuck",
+   "title": "a Japanese twitter account created these pixelated band-aids",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/yoOLVbX0SRtqd3WEfFvDDjxwbEh09gKbbxgpAA7GGdY.jpeg?width=640&crop=smart&auto=webp&s=3f35ccfac4d797adc2af7b83b0b91607d87745cf",
-   "time": 1787097835,
-   "url": "https://www.reddit.com/r/politics/comments/1vs6exo/democratic_socialist_angie_nixon_upsets_alex/"
-  },
-  {
-   "sub": "nextfuckinglevel",
-   "title": "How did people travel these seas 500 years ago",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/aXJmN3cydm51NmtoMZyb-q7X4j7DI1RlnzZ5iJsbZt5TudmBbJQckFV6XxlG.png?width=320&crop=smart&auto=webp&s=d92a9cf63b44f8a8e101326406984c2e88c309df",
-   "time": 1787082801,
-   "url": "https://www.reddit.com/r/nextfuckinglevel/comments/1vs01dc/how_did_people_travel_these_seas_500_years_ago/"
+   "thumb": "https://preview.redd.it/n4x39bsr19kh1.jpg?width=140&height=140&auto=webp&s=bead2c683a6875e6504d2e30803850bc29af01c5",
+   "time": 1787109402,
+   "url": "https://www.reddit.com/r/interestingasfuck/comments/1vsap5c/a_japanese_twitter_account_created_these/"
   },
   {
    "sub": "interestingasfuck",
@@ -803,13 +812,22 @@
    "url": "https://www.reddit.com/r/interestingasfuck/comments/1vro46v/chinese_humanoid_robot_named_superman_made_by/"
   },
   {
-   "sub": "AskReddit",
-   "title": "You’re handed 2 pounds of ground beef and told you can’t make spaghetti, tacos, or burgers. What’s your panic‑mode meal?",
+   "sub": "mildlyinfuriating",
+   "title": "Airbnb host doing yard work the one full day we’re here.",
    "score": 0,
    "cmts": 0,
-   "thumb": "",
-   "time": 1787104666,
-   "url": "https://www.reddit.com/r/AskReddit/comments/1vs8z4g/youre_handed_2_pounds_of_ground_beef_and_told_you/"
+   "thumb": "https://preview.redd.it/buzspabox5kh1.jpeg?width=640&crop=smart&auto=webp&s=c9e056e71704f5ce23e122bae6d8044ad47ddb3e",
+   "time": 1787071701,
+   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1vrurdy/airbnb_host_doing_yard_work_the_one_full_day_were/"
+  },
+  {
+   "sub": "interesting",
+   "title": "The silent and harmonious morning metro commute in Japan",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/eWphemFsZjZwNGtoMRmewynMJtSf7Ji_2kUzxkKdNgTQoC4OeQIiyYWxze6s.png?width=320&crop=smart&auto=webp&s=788d3cc97373523c4e06d7234cf306ae949198f6",
+   "time": 1787056737,
+   "url": "https://www.reddit.com/r/interesting/comments/1vro03y/the_silent_and_harmonious_morning_metro_commute/"
   },
   {
    "sub": "nextfuckinglevel",
@@ -821,6 +839,24 @@
    "url": "https://www.reddit.com/r/nextfuckinglevel/comments/1vs7eew/courtney_love_risking_her_career_to_expose_harvey/"
   },
   {
+   "sub": "politics",
+   "title": "Democratic socialist Angie Nixon upsets Alex Vindman in Florida’s Democratic Senate primary",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/yoOLVbX0SRtqd3WEfFvDDjxwbEh09gKbbxgpAA7GGdY.jpeg?width=640&crop=smart&auto=webp&s=3f35ccfac4d797adc2af7b83b0b91607d87745cf",
+   "time": 1787097835,
+   "url": "https://www.reddit.com/r/politics/comments/1vs6exo/democratic_socialist_angie_nixon_upsets_alex/"
+  },
+  {
+   "sub": "marvelstudios",
+   "title": "If Brie Larson actually decides to jump ship,i don't blame her one bit. She's almost 10 years in, and only had 3 appearances so far.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/d48u8hckx5kh1.jpeg?width=640&crop=smart&auto=webp&s=ed1aab156df37667b8aea483550289b05ab54a54",
+   "time": 1787072275,
+   "url": "https://www.reddit.com/r/marvelstudios/comments/1vrv1kp/if_brie_larson_actually_decides_to_jump_shipi/"
+  },
+  {
    "sub": "mildlyinteresting",
    "title": "My swollen legs going back to normal after 6 months postpartum",
    "score": 0,
@@ -828,69 +864,6 @@
    "thumb": "https://preview.redd.it/2scybdfe58kh1.jpeg?width=640&crop=smart&auto=webp&s=d714823241ed2ba70e239ad37f9b7cb30489d55a",
    "time": 1787098512,
    "url": "https://www.reddit.com/r/mildlyinteresting/comments/1vs6ocr/my_swollen_legs_going_back_to_normal_after_6/"
-  },
-  {
-   "sub": "mildlyinfuriating",
-   "title": "Airbnb host doing yard work the one full day we’re here.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/buzspabox5kh1.jpeg?width=640&crop=smart&auto=webp&s=c9e056e71704f5ce23e122bae6d8044ad47ddb3e",
-   "time": 1787071701,
-   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1vrurdy/airbnb_host_doing_yard_work_the_one_full_day_were/"
-  },
-  {
-   "sub": "NatureIsFuckingLit",
-   "title": "🔥baby cuttlefish first attempt at camouflage",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/ZnVsaTB3bnE1OGtoMR7MdxdwZQundd_uEddUQYvlc0OZ4HAUhft5Z1gCdt5O.png?width=320&crop=smart&auto=webp&s=063b16e69fba7de3d7639c550ebc70216ade6756",
-   "time": 1787098635,
-   "url": "https://www.reddit.com/r/NatureIsFuckingLit/comments/1vs6q30/baby_cuttlefish_first_attempt_at_camouflage/"
-  },
-  {
-   "sub": "baseball",
-   "title": "[HIGHLIGHT] FERNANDO TATIS JR. GRAND SLAM ROBBERY!",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/Zzd4ZXV4YmwwOGtoMbj7s7bBITH-2WBzUmWHdHP5LvNUUwgwqyPikJgc4M-x.png?width=640&crop=smart&auto=webp&s=7cc7d2a3eb644b7c31f277244e4329e38a0b326e",
-   "time": 1787096919,
-   "url": "https://www.reddit.com/r/baseball/comments/1vs61ob/highlight_fernando_tatis_jr_grand_slam_robbery/"
-  },
-  {
-   "sub": "BeAmazed",
-   "title": "Giraffes have nowhere to hide during storms 😐",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/eDJ5dWhwMTYwOGtoMVlg-MFIqocWT0psA4An_qMEFgsEYYKCuAazwlG3dTgq.png?width=640&crop=smart&auto=webp&s=164ea8cf9be27dbb90b0c604dcc4c7e2aecdc9cf",
-   "time": 1787096756,
-   "url": "https://www.reddit.com/r/BeAmazed/comments/1vs5zgp/giraffes_have_nowhere_to_hide_during_storms/"
-  },
-  {
-   "sub": "worldnews",
-   "title": "/r/WorldNews Live Thread: Russian Invasion of Ukraine Day 1637, Part 1 (Thread #1784)",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "",
-   "time": 1787025805,
-   "url": "https://www.reddit.com/r/worldnews/comments/1vrehey/rworldnews_live_thread_russian_invasion_of/"
-  },
-  {
-   "sub": "worldnews",
-   "title": "Russians Are Pulling Billions From Banks As Fears Grow That Putin Could Seize Deposits to Fund Ukraine War",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/6z5CL__NtqPs-IY4DcT2eCrT7vOsC3LSEsXan4cAONM.jpeg?width=640&crop=smart&auto=webp&s=98e0932187819058063a90adce83f7a8247d2ce1",
-   "time": 1787100240,
-   "url": "https://www.reddit.com/r/worldnews/comments/1vs7c9n/russians_are_pulling_billions_from_banks_as_fears/"
-  },
-  {
-   "sub": "worldnews",
-   "title": "Trump pauses 50% tariffs on Canada for 3 days",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/JvQIHQr2NZSgK3ZQmIHL-PrezNVoXcCTbLbvx8uE3zs.jpeg?width=640&crop=smart&auto=webp&s=7d66b15af9be03b231723faf0a1c672529a3df7c",
-   "time": 1787106328,
-   "url": "https://www.reddit.com/r/worldnews/comments/1vs9l1v/trump_pauses_50_tariffs_on_canada_for_3_days/"
   }
  ],
  "disaster": [],
@@ -929,10 +902,10 @@
    }
   },
   "landing": {
-   "at": "2026-08-19T12:34:15",
+   "at": "2026-08-19T13:01:11",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-19T13:01:04.629722+09:00"
+ "updated": "2026-08-19T13:30:58.416664+09:00"
 }
