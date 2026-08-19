@@ -1,33 +1,33 @@
 # 바다는 식힐 수 없어서, 죽기 전에 팔라고 한다
 
 **[프롬프트 설계]**
-- 화풍: B 한국웹툰 극화 — 정책 발표문의 항목을 하나씩 지워가며 읽는 구조 비판이라, 선이 살고 명암이 갈리는 극화가 맞다
-- 분위기: 폭염의 흰 빛과 식지 않는 물. 규탄도 동정도 없이 담담하게 눌린 톤, 감정은 인물의 멈춘 손끝에만 실린다
-- 연출 방향: 독자훅 = "지원금 몇백억이 정확히 어디 쓰이나"의 답이 눈앞에서 한 줄씩 지워지는 감각. 관점 = 632억 어느 항목도 바닷물 온도를 낮추지 못한다. 그래서 카메라는 돈이 지나가는 자리(그물·서류·빈 상자)를 좇되, 그 옆에서 아무것도 변하지 않는 수면을 매번 같은 프레임에 남긴다. 브랜드 네온그린 한 점을 덱 전체에 실처럼 이어 마지막 부표에 착지시킨다(thumb_dispatch의 부재·정적 정조만 계승, 앵글은 카드마다 분산)
-- 독자 동선: **발단** 카드1→**전개** 카드2~3→**피크** 카드4→**해소** 카드5→**시사점** 카드6 · 훅=카드1 끝(단서형 "두 줄뿐이다")+카드3 끝(단서형 "뒤에야 나가는 돈") · 착지 = 632억은 올여름을 넘기는 돈이고 다음 여름의 바다는 그대로 남는다
-- 연속성 앵커: Recurring subject - a Korean fisherman in his late 50s, deeply sun-weathered face, close-cropped gray hair under a faded navy work cap, wearing orange rubber bib waders over a gray long-sleeve shirt. / Recurring location - a southern Korean coastal net-cage fish farm, a long grid of square floating cages on open sea with hazy low mountains on the far shoreline.
+- 화풍: B 극화 — 사람의 잘못이 아니라 예산표의 모양이 문제인 사안이라, 감정을 부풀리지 않고 사실을 또렷한 선으로 세우는 극화가 맞다.
+- 분위기: 소리치지 않는 답답함. 한낮의 흰 열기에서 시작해 실내의 낮은 온도로 내려앉고, 마지막엔 아무것도 해결되지 않은 새벽빛으로 릴리즈한다(thumb_dispatch AG-18·SG-09의 정적·부재 정조를 조명 톤으로만 계승).
+- 연출 방향: 독자가 멈추는 지점은 "지원 항목을 하나씩 읽어 내려가다 어느 것도 바닷물을 못 낮춘다는 걸 알아차리는 순간"이다. 그래서 강조점을 돈이 아니라 **손에 잡히는 물건**에 건다 — 뜰채 안에 뒤집힌 물고기, 아직 작은 광어가 담긴 상자, 서류 위를 짚는 손끝, 축사 지붕에 부딪혀 흩어지는 물줄기. 물을 뿌릴 수 있는 곳과 뿌릴 수 없는 곳을 같은 화풍 안에서 대비시켜, 마지막에 바다만 남게 한다.
+- 독자 동선: **발단** 카드1→**전개** 카드2~4→**피크** 카드5→**해소** 카드6→**시사점** 카드7 · 훅=카드1 끝(단서형 숫자 632억원)+카드4 끝(예고형 "공통점이 있다") · 착지 한 줄 요지 = 올여름은 넘겨도 내년 바다의 조건은 그대로다.
+- 연속성 앵커: Recurring subject — a Korean fish farmer in his 50s with a sun-weathered face, a towel around his neck, wearing a faded navy work shirt and yellow rubber waders (카드 1·2·4·5·7) / Recurring location — a net-cage fish farm off the southern coast of Korea, square pens repeating in a long grid on the water.
 
 ### [카드 1]
 **텍스트**
 ```text
-바다 35곳 중 31곳이 고수온 특보다
-양식장 물고기 183만 마리가 죽었다
-정부가 8월 13일 대책을 내놨는데
-*바다 몫으로 적힌 돈은 두 줄뿐이다*
+35개 해역 중 31곳이 고수온 특보다
+8월 10일까지 183만 마리가 폐사했다
+양식어류 전체의 0.5% 수준이다
+*바다에 배정된 돈은 632억원이다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: his stopped hands and lowered head as he stands motionless on the walkway, looking down into one single cage. Recurring subject - a Korean fisherman in his late 50s, deeply sun-weathered face, close-cropped gray hair under a faded navy work cap, wearing orange rubber bib waders over a gray long-sleeve shirt. He is the only human figure, small on a narrow plank walkway running between dozens of square floating net cages. Recurring location - a southern Korean coastal net-cage fish farm, a long grid of square floating cages on open sea with hazy low mountains on the far shoreline. The water inside the one cage beside him is faintly stirred while every other cage lies perfectly still, and his sightline runs down and toward the right edge of the frame.
-Camera: extreme long shot with a tiny subject in a vast environment from an overhead bird's-eye top-down angle, shot on a 14mm ultra-wide lens, dramatic depth and strong spatial presence, nose room on the right.
-Lighting/mood: harsh overexposed midday sunlight, hard shadows, oppressive heat, white glare shattering across the water.
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) on the buoy rope of the one cage he is watching, muted daylight contrast.
-Korean default: Korean coastal aquaculture, Korean fishing gear and work clothing, Korean southern seascape.
-Text handling: no signage, no buoy markings, no lettering anywhere in the frame; the meaning is carried by the repeating cage grid and the single stirred cage.
+Scene: Emotional focal point: his eyes cast downward at the fish in the dip net, jaw clenched tight with the muscle flexing at the jawline. Recurring subject - a Korean fish farmer in his 50s with a sun-weathered face, a towel around his neck, wearing a faded navy work shirt and yellow rubber waders. He stands on the narrow walkway of a net-cage fish farm off the southern coast of Korea and lifts a long-handled dip net just clear of the water, three silver fish lying belly-up inside it. Square net pens repeat in a long grid across the water behind him, and the horizon stays out of frame so the sea fills the background edge to edge.
+Camera: wide shot with full body and surrounding environment from eye-level, neutral realistic perspective, shot on 35mm lens with natural documentary framing and minimal distortion, open water space left on the right side of the composition
+Lighting/mood: harsh overexposed midday sunlight, hard shadows, oppressive heat
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the rim of the dip net), muted daylight contrast
+All figures are Korean, Korean southern coastal setting.
+Text handling: all incidental lettering is avoided by framing and cropping, no legible signage anywhere.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the open sea water) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the sea surface) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -36,30 +36,30 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-고수온 가두리 양식장
+고수온 특보 가두리 양식장 폐사
 ```
 
 ### [카드 2]
 **텍스트**
 ```text
-하나는 할인 지원 300억원이다
-*다 키우기 전에 내다 팔게 하는 돈이다*
-그런데 광어·우럭 값은 아직 안 올랐다
-최대 50% 할인은 8월 23일까지다
+8월 13일 정부 대책에 적힌 돈이다
+*300억원은 다 크기 전에 팔라는 돈이다*
+최대 50% 할인전은 23일까지 열고
+방류는 지난해 두 배인 2380만 마리다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the hard tension in his forearms and the set line of his mouth as he hauls a loaded net up over the rail before sunrise. Recurring subject - a Korean fisherman in his late 50s, deeply sun-weathered face, close-cropped gray hair under a faded navy work cap, wearing orange rubber bib waders over a gray long-sleeve shirt. He grips the net rope with both hands and tips undersized flatfish into a stack of shallow shipping crates at his knee, his eyes down on the crates. Recurring location - a southern Korean coastal net-cage fish farm, a long grid of square floating cages on open sea with hazy low mountains on the far shoreline. A single work lamp on the boat rail is the only light source, and the cage grid recedes behind him.
-Camera: medium shot with waist-up framing from eye-level in a profile side view, shot on a 35mm lens, natural documentary perspective, balanced subject and background.
-Lighting/mood: cold blue pre-dawn tone, one bare work lamp reflecting on wet rubber, desolate stillness before daybreak.
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) on the marker cord threaded through the net in his hands, film-noir low-key lighting, deep shadows.
-Korean default: Korean coastal aquaculture, Korean fishing gear and work clothing, Korean southern seascape.
-Text handling: the crates are plain and unmarked, turned so any surface faces away from camera; no labels, no price tags, no lettering.
+Scene: Emotional focal point: his weathered hands pausing for a beat on the rim of the box before pushing it in. Recurring subject - a Korean fish farmer in his 50s with a sun-weathered face, a towel around his neck, wearing a faded navy work shirt and yellow rubber waders. Seen from directly above, he slides a shallow styrofoam box of undersized flatfish onto the flat metal bed of a small truck at a quayside landing, his eyes on the fish rather than on the truck. Identical boxes are already stacked in rows across the bed, and the metal bed fills the whole frame as one flat plane.
+Camera: medium close-up with chest-up framing compressed into a top-down view, overhead bird's-eye angle showing layout and geometry, shot on 24mm wide lens with cinematic spatial context
+Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the sticker band wrapped around the boxes), muted daylight contrast
+All figures are Korean, Korean coastal quay setting.
+Text handling: all incidental lettering is avoided by framing and cropping, no legible signage anywhere.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the open sea water) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the flat metal truck bed) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -68,30 +68,30 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-광어 출하 양식장
+양식 광어 출하 스티로폼 상자
 ```
 
 ### [카드 3]
 **텍스트**
 ```text
-나머지는 재난지원금 332억원이다
-지난해보다 153% 늘려 잡았다
-1차 복구비는 추석 전에 지급한다
-*물고기를 잃은 뒤에야 나가는 돈이다*
+그런데 값은 아직 오르지 않았다
+광어·우럭 소매가는 오히려 떨어졌다
+*전월보다 각각 0.02%와 0.3% 내렸다*
+값이 뛰기 전에 먼저 푸는 돈이다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: his pen stopped dead above an empty box on the damage report form, knuckles tight around it. Recurring subject - a Korean fisherman in his late 50s, deeply sun-weathered face, close-cropped gray hair under a faded navy work cap, wearing orange rubber bib waders over a gray long-sleeve shirt. Only his hands, forearms and the shadowed underside of his cap brim enter the top of the frame as he leans over the table. Across the table a second pair of hands in a short-sleeved public-office shirt slides another form toward him, kept lower and softer so his stopped hand stays the focus. The paperwork lies on a bare fishing-cooperative office table, its printed side tilted steeply away and cropped by the frame edge, and the line of the pen points toward the right edge.
-Camera: medium close-up of his hands and the document from a high angle looking down on the table, shot on a 50mm standard lens, minimal distortion, natural cinematic composition, nose room on the right.
-Lighting/mood: cold blue dim interior light, heavy and suffocating, faint trembling tension.
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) on the barrel of the pen in his hand, film-noir low-key lighting, deep shadows.
-Korean default: Korean fishing-cooperative office interior, Korean work clothing.
-Text handling: the form is seen at a steep raking angle and cut off by the frame so no characters are readable; render no words, no numbers, no stamps, no letterheads.
+Scene: Emotional focal point: a shopper's fingers hovering just above the fish without picking it up. A Korean woman in her 40s in a light summer cardigan stands at a supermarket seafood counter, head tilted down, reaching toward a flatfish laid on crushed ice. The long ice counter runs the full width behind her hand, packed with rows of identical fish, and a small blank tag clip stands upright in the ice beside them. Her gaze stays on the fish, and no other shopper is near her.
+Camera: medium shot with waist-up framing showing face and gestures, three-quarter angle giving natural facial depth, shot on 50mm standard lens with minimal distortion and natural cinematic composition
+Lighting/mood: flat sterile clinical fluorescent light, cold even greenish-white, emotionless institutional
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the small blank tag clip standing in the ice), muted daylight contrast
+All figures are Korean, Korean supermarket setting.
+Text handling: the tag clip is left completely blank, all incidental lettering is avoided by framing and cropping, no legible signage anywhere.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the office table top) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the crushed-ice display counter) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -100,29 +100,30 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-어업재해 피해조사 서류
+대한민국 수산대전 광어 할인 매대
 ```
 
 ### [카드 4]
 **텍스트**
 ```text
-*둘을 합치면 632억원이다*
-어느 쪽도 물고기를 살리지는 못한다
-죽기 전에 팔거나 죽은 뒤에 메운다
+나머지 332억원은 재난지원금이다
+이미 잃은 어가 몫으로 153% 늘렸고
+복구 단가는 18개 품목에서 오른다
+*그런데 이 632억원엔 공통점이 있다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a vacant thousand-yard stare, unfocused eyes looking past everything, jaw clenched tight with the muscle flexing at the jawline. Recurring subject - a Korean fisherman in his late 50s, deeply sun-weathered face, close-cropped gray hair under a faded navy work cap, wearing orange rubber bib waders over a gray long-sleeve shirt. His face fills the frame as he stands at the end of a night pier, a frayed net cord still looped over one shoulder, facing the black water off camera. A stack of empty shipping crates sits behind his shoulder, out of focus in the dark.
-Camera: tight close-up with the face filling the frame and intense contained emotion, from eye-level with a neutral realistic perspective, shot on an 85mm portrait lens with soft background separation.
-Lighting/mood: a single pool of hard light isolating the figure in surrounding blackness, claustrophobic loneliness, one dock lamp overhead.
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) on the frayed net cord over his shoulder, film-noir low-key lighting, deep shadows.
-Korean default: Korean fishing pier at night, Korean work clothing.
-Text handling: no signage, no crate markings, no lettering anywhere in the frame.
+Scene: Emotional focal point: his fingertip stopped halfway down a line on the form, the finger pressing hard enough to dent the paper. Recurring subject - a Korean fish farmer in his 50s with a sun-weathered face, a towel around his neck, wearing a faded navy work shirt and yellow rubber waders. He sits sideways to the camera at a worn desk in a small fishing-village office, leaning over a recovery-aid application form that is folded and tilted steeply away so its body is never readable, only the ruled lines and a single round stamp mark showing. His eyes follow his own finger down the page, and a plain painted office wall runs the full width behind him.
+Camera: medium close-up with chest-up framing and facial emotion, profile side view with clear silhouette, shot on 85mm portrait lens with soft background separation
+Lighting/mood: cold blue dim interior light, heavy and suffocating, faint trembling tension
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the round stamp mark on the paper), film-noir low-key lighting, deep shadows
+All figures are Korean, Korean fishing-village office setting.
+Text handling: the form is folded and angled so no body text is legible, all incidental lettering is avoided by framing and cropping, no legible signage anywhere.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the black night sea behind him) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the plain office wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -131,30 +132,29 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-고수온 피해 어민 부두
+어촌계 사무실 재난지원금 신청 서류
 ```
 
 ### [카드 5]
 **텍스트**
 ```text
-같은 발표문의 육지 쪽은 달랐다
-축산에는 방역차량 550대가 나가
-물을 뿌리고 냉방장비를 넣었다
-*폐사 피해는 지난해보다 61% 줄었다*
+*둘 다 물고기가 죽는 건 못 막는다*
+하나는 죽기 전에 팔라는 돈이고
+하나는 죽은 뒤에 메우는 돈이다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the braced set of the farmer's shoulders and his upturned gaze following the arc of water breaking over the barn roof. A Korean livestock farmer in his 50s, in a bucket hat, gray work jacket and rubber boots, stands with both hands on a thick spray hose and aims it upward, while behind him a quarantine spray truck parked at the edge of the yard throws a second arc of water across the same roofline. A ventilation fan unit sits fixed under the eaves. Water mist drifts up through the whole upper frame and the roof ridge cuts low across the bottom.
-Camera: wide shot showing the full body and surrounding environment from a ground-level worm's-eye angle looking up, shot on a 24mm wide lens, cinematic wide framing with spatial context.
-Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood, light scattering through the water mist.
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) on the coupling band of the spray hose in his hands, muted daylight contrast.
-Korean default: Korean rural livestock farm buildings, Korean work clothing, Korean quarantine spray truck.
-Text handling: the truck body and barn wall are plain and unmarked, no logos, no unit names, no lettering anywhere.
+Scene: Emotional focal point: a vacant thousand-yard stare, unfocused eyes looking past everything, faint water ripples reflected across them. Recurring subject - a Korean fish farmer in his 50s with a sun-weathered face, a towel around his neck, wearing a faded navy work shirt and yellow rubber waders. His face fills the frame in a tight framing inside a dark shed at the farm, turned slightly toward the camera, mouth closed and still. His eyes sit in the upper third of the frame and everything around him falls away into unbroken darkness.
+Camera: tight close-up with the face filling the frame and intense contained emotion, from eye-level with neutral realistic perspective, shot on 135mm telephoto lens with strong compression and cinematic depth
+Lighting/mood: single pool of hard light isolating the figure in surrounding blackness, claustrophobic loneliness
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 as one reflected point of light in his eye), film-noir low-key lighting, deep shadows
+All figures are Korean, Korean fish-farm shed setting.
+Text handling: all incidental lettering is avoided by framing and cropping, no legible signage anywhere.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the open sky above the barn roof) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the unbroken dark interior background) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -163,30 +163,30 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-축사 살수 방역차량
+고수온 피해 어가 어민
 ```
 
 ### [카드 6]
 **텍스트**
 ```text
-축사는 물을 뿌려 온도를 낮추지만
-가두리 양식장의 바닷물은 못 식힌다
-632억원은 올여름을 넘기는 돈이다
-*다음 여름의 바다는 그대로 남는다*
+같은 발표문의 육지 쪽은 다르다
+축사엔 방역차 550대, 밭엔 약제 22억,
+차광도포제 3억6000만원까지 붙었다
+폐사는 61% 줄었다. *바다만 못 식힌다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: one small buoy sitting motionless on flat water where the first morning light touches it, with no one anywhere in the frame. Recurring location - a southern Korean coastal net-cage fish farm, a long grid of square floating cages on open sea with hazy low mountains on the far shoreline. The cage grid lies far off in the upper third, empty of people and boats, and the water between the buoy and the cages is completely unbroken. The composition is symmetrical and static, the horizon held level and centered.
-Camera: extreme long shot with a tiny subject in a vast environment from eye-level in a front-on symmetrical composition, shot on a 20mm wide lens, documentary realism.
-Lighting/mood: warm soft morning light, gentle and quiet, faint melancholy, long low reflections on still water.
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) on that one buoy, muted daylight contrast.
-Korean default: Korean coastal aquaculture, Korean southern seascape.
-Text handling: no signage, no buoy markings, no lettering anywhere in the frame.
+Scene: Emotional focal point: the worker's two hands gripping the hose steady as the jet breaks into mist above him. A Korean livestock worker in his 30s in a light work jacket and rubber boots stands beside a parked spray truck in a farm yard, both arms raised, aiming a thick water hose over the long low roof of a livestock barn. The spray arcs up and scatters into a fine mist that hangs over the roof, and he looks up along the water rather than at the camera. Behind and below him pigs stand in the shade under the eaves, small and calm. The open sky fills the whole frame behind the arc of water.
+Camera: wide shot with full body and surrounding environment, from a low angle looking up for dramatic presence, shot on 20mm wide lens with documentary realism and spatial context
+Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the worker's safety vest), muted daylight contrast
+All figures are Korean, Korean rural livestock farm setting.
+Text handling: the truck is left unmarked, all incidental lettering is avoided by framing and cropping, no legible signage anywhere.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the open sea water) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the open overcast sky) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -195,5 +195,37 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-남해안 가두리 양식장 일출
+폭염 축사 살수 방역차량
+```
+
+### [카드 7]
+**텍스트**
+```text
+이 조건은 해마다 돌아오고 있다
+축사의 살수 설비는 내년에도 쓰지만
+할인 지원도 지원금도 그해에 사라진다
+*올여름은 넘겨도 내년 바다는 그대로다*
+```
+**이미지 프롬프트**
+```text
+korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
+Scene: Emotional focal point: the tiny distance between his still figure and the empty grid of pens around him, his face turned straight toward the camera and unreadable at this size. Recurring subject - a Korean fish farmer in his 50s with a sun-weathered face, a towel around his neck, wearing a faded navy work shirt and yellow rubber waders. He stands alone at dead center on a walkway of the net-cage fish farm off the southern coast of Korea before sunrise, arms at his sides, facing the camera. Square net pens repeat outward from him in a long grid until they dissolve into pre-dawn haze, and thin steam drifts off water so still it holds no wave, with no hard horizon line anywhere.
+Camera: extreme long shot with a tiny subject in a vast environment conveying scale and isolation, from eye-level with neutral realistic perspective, shot on 14mm ultra-wide lens with dramatic depth and strong spatial presence, static centered composition
+Lighting/mood: cold blue pre-dawn tone, desolate stillness
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on one small buoy near him), film-noir low-key lighting, deep shadows
+All figures are Korean, Korean southern coastal setting.
+Text handling: all incidental lettering is avoided by framing and cropping, no legible signage anywhere.
+Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
+MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
+Composition: ONE continuous surface (the still sea surface) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
+- no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
+- no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
+- no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
+- no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
+- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
+```
+**검색어**
+```text
+새벽 남해안 가두리 양식장
 ```
