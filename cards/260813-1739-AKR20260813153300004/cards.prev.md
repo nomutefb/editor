@@ -1,32 +1,31 @@
-# 지난 특검이 협조했다며 넘어간 두 사람, 이번 특검은 기소했다
+# ⚖ 협조했다며 넘어간 두 사람, 이번엔 피고인석에 섰다
 
 **[프롬프트 설계]**
-- 화풍: B 극화 — 권력·수사기관·법리를 해부하는 사건이라 잉크선과 명암으로 무게를 세운다
-- 분위기: 감정이 터지지 않고 가라앉는 관료적 냉기 — 서늘한 불신. 소리 지르는 사람 없이 종이와 손만 오가는데 결론이 두 번 뒤집힌 자리의 온도
-- 연출 방향: 독자가 멈추는 자리는 "같은 서류를 두고 국가가 두 번 다른 답을 냈다"는 대목이다. 그래서 이 덱의 주인공은 사람이 아니라 **기록(종이 묶음)**이고, 카메라는 그 종이가 누구 손에서 누구 손으로 넘어가고 회수되고 지워지는지만 집요하게 좇는다. 얼굴은 절반쯤 그늘에 두고 손끝·서류 모서리·봉인 테이프에 초점을 몰아, 책임이 사람 인상이 아니라 절차의 흔적으로 읽히게 한다. thumb_dispatch에서 이어받는 것은 흐린 확산광의 무채색 톤과 '자리를 비운 것들'의 정조 — 명도는 起(형광등 평광)에서 시작해 承에서 단계적으로 꺼지고 轉에서 완전한 암흑 속 한 줌 빛까지 떨어진 뒤 結에서만 아침빛으로 풀린다
-- 독자 동선: **발단** 카드2→**전개** 카드3~4→**피크** 카드5→**해소** 카드6→**시사점** 카드7 (카드1은 오늘의 기소를 세우는 도입) · 훅=카드1 끝(단서형 — '그 수사 기록'이 무엇인지 유보, 카드2 첫 줄이 즉시 회수)+카드4 끝(예고형 — '한 번 지워졌던 이름', 카드5 첫 줄이 즉시 회수) · 착지 = 협조 대가 불기소는 법이 아니라 그때 그 수사팀의 재량이었고, 세 번째 답은 이제 법정 몫이다
-- 연속성 앵커: (없음) — 카드마다 다른 기관·다른 시점의 인물이 등장하고 반복 주인공은 사람이 아니라 서류 묶음이라, 인물 고정 문자열 대신 각 카드가 같은 종이 오브젝트(bound document bundle)를 물려받는다
+- 화풍: B 극화 — 권력·법리·수사 방해를 다루는 고발성 사안이라 극화의 무거운 명암이 사건 무게와 맞는다
+- 분위기: 서늘한 불신. 분노가 아니라 온도가 내려가는 쪽 — 같은 서류를 두고 국가가 두 번 다른 답을 낸 자리의 정적
+- 연출 방향: 뉴스를 안 보던 독자도 "협조하면 안 잡아간다"는 약속이 뒤집힌 순간은 직관으로 안다. 그래서 사람 얼굴보다 *서류와 그 서류가 오간 손*을 강조점으로 잡는다 — 넘겨진 기록, 도로 회수된 기록, 이름이 지워졌다 다시 적힌 명단. 인물은 제너릭 실루엣·뒷모습·부분으로 두고, 시선은 늘 '문서'에 모이게 해서 이게 인물 심판이 아니라 절차의 문제임을 보여준다. thumb_dispatch의 흐린 확산광(LGT08)과 부재의 정조(SG-09)를 키노트로 계승
+- 독자 동선: **제시** 카드1(오늘의 기소) → **발단** 카드2(2023년 기록의 이첩·회수) → **전개** 카드3(누가 무엇을 했나) → **피크** 카드4·5(앞선 특검은 12명만 기소하고 이 둘은 뺐다) → **해소** 카드6(법원은 영장을 기각했다) → **시사점** 카드7 · 훅=카드1 끝(단서형: 두 명의 정체 유보)+카드3 끝(예고형) · 착지 요지 = 협조에 매긴 값을 다음 수사팀이 다시 매길 수 있다면 어떤 결론도 최종이 아니다
+- 연속성 앵커: Recurring subject — a Korean man in his 50s, short neatly parted graying hair, wearing a dark navy suit with no tie, seen mostly from behind or in partial profile, face never fully shown / Recurring place — a dim government office corridor with pale gray walls and a long row of identical doors
 
 ### [카드 1]
 **텍스트**
 ```text
-8월 13일 오후, 종합특검이
-세 사람을 재판에 넘겼다
-이시원·임기훈·최주원
-*시작은 3년 전 그 수사 기록이었다*
+13일 오후, 종합특검이 세 명을
+재판에 넘겼다
+채해병 순직 사건의
+*수사를 방해한 혐의였다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the prosecutor's fingertips resting a beat too long on two of the three bound case files. A Korean man in his 50s in rolled-up shirtsleeves leans over a wide office desk where he has just set three identical document bundles side by side, and his eyes are angled toward the right edge of the frame rather than down at the files. A rubber stamp and an opened ink pad wait at the far corner of the same desk. It is a special counsel office in the late afternoon and only the desk top fills the view.
-Camera: medium shot from a high angle looking down, shot on 50mm standard lens
-Lighting/mood: flat sterile clinical fluorescent light, cold even greenish-white, emotionless institutional
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) on the binding tape of the two files under his hand, muted daylight contrast
-Framing note: nose room on the right, gaze directed toward the right edge.
-Text handling: every document is cropped, tilted or turned face-down so that no script is readable; paper reads as texture and ruled lines only. no garbled or fake script, no meaningless letters, no random characters, no dense text.
+Scene: Emotional focal point: three thin case files squared off on a bare desk, their edges aligned with cold precision. Recurring place — a dim government office corridor with pale gray walls and a long row of identical doors is visible through the open doorway behind the desk. A prosecutor's hand rests flat on the top file without opening it, the wrist tense. No face is shown; the room is empty of people except that one hand entering from the frame edge, and the whole composition leans toward the right side of the frame.
+Camera: wide shot, full body, surrounding environment, movement, spatial context from eye-level shot, neutral perspective, realistic, balanced emotion, shot on 35mm lens, natural documentary perspective, balanced subject and background, minimal distortion, nose room on the right, gaze directed toward the right edge
+Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 or the story's symbolic color), muted daylight contrast
+Text handling: avoid incidental background lettering entirely; documents are shown closed or cropped so no writing is legible; no signage in frame. Keep the hand and the files in the upper-center area, clear of the lower 40% of the canvas.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the office desk top) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the desk top) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -36,100 +35,64 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-권창영 종합특검 브리핑
+종합특검 사무실 기소 서류
 ```
 
 ### [카드 2]
 **텍스트**
 ```text
-2023년 7월 경북 예천 수해 현장이었다
-실종자를 찾다 채수근 해병이 순직했다
-해병대가 쓴 기록은 경찰로 넘어갔고
-*국방부 검찰단이 그걸 도로 가져갔다*
+시작은 2023년 7월이었다
+수해 실종자를 찾다 순직한
+해병의 사망 경위를
+해병대 수사단이 기록에 담았다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a single rescue helmet left upright at the water's edge, its chin strap still fastened. Seen from far above, a swollen muddy river has swallowed the low fields of a Korean rural county after heavy rain, and a thin line of tiny search personnel in life vests wades outward across the brown water, all of them facing away toward the far bank. The helmet sits alone in the upper center of the water, the one thing not moving. No faces are legible at this distance.
-Camera: extreme long shot from an overhead bird's-eye view, shot on 14mm ultra-wide lens
-Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) on the helmet strap alone, muted daylight contrast
-Text handling: no signage, no banners, no markings of any kind anywhere in the scene. no garbled or fake script, no meaningless letters, no random characters, no dense text.
+Scene: Emotional focal point: a pair of mud-caked boots set down beside a thick bound report, the laces still knotted. A single investigator in a military-style field jacket kneels with his back to the camera, one hand pressed on the closed report as if steadying it. He looks down and away toward the muddy riverbank behind him, where searchlights are being packed away. The riverbank mud is the only surface in the frame.
+Camera: medium close-up, chest-up framing, facial emotion, slight body context from high angle shot, looking down, vulnerable subject, small, observed, shot on 85mm portrait lens, flattering face, soft background separation, elegant focus
+Lighting/mood: cold blue pre-dawn tone, lone streetlight reflection on wet ground, desolate stillness
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 or the story's symbolic color), film-noir low-key lighting, deep shadows
+Text handling: no writing on the report cover, no unit insignia, no readable markings anywhere; the document is kept closed and slightly angled away. Keep the boots and the report in the upper-center area, clear of the lower 40% of the canvas.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the muddy floodwater seen from directly above) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame, no horizon line.
+Composition: ONE continuous surface (the muddy riverbank ground) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
 - no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
-- no injured or lifeless bodies, no blood, no graphic harm shown
 - no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
 ```
 **검색어**
 ```text
-예천 수해 실종자 수색 해병대
+경북 예천 수해 실종자 수색
 ```
 
 ### [카드 3]
 **텍스트**
 ```text
-그래도 경찰은 해병대를 겨눴다
-*1사단 압수수색 계획이 미리 샜다*
-이시원 전 공직기강비서관이 그걸 받아
-해병대에 알렸다는 게 특검 판단이다
+그 기록이 경북경찰청에 넘어간 뒤
+군 검찰이 도로 가져갔다
+최주원 당시 경북청장은
+*회수를 돕도록 지시했다는 의혹*을 받는다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the flat unblinking eyes reading a phone screen while the mouth is already mid-sentence into the call. A Korean man in his 40s in a dark suit stands close against the wall of a darkened government office at night, holding a phone to his ear with one hand and tilting a second phone screen toward himself with the other, his shoulder turned so his body shields both from the room. The horizon is tilted. Nothing else in the room is lit.
-Camera: medium close-up from a Dutch angle with a canted frame, shot on 85mm portrait lens
-Lighting/mood: cold blue screen under-glow lighting the face from below in a dark room, restless paranoid unease
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) in the screen glow on his jaw, film-noir low-key lighting, deep shadows
-Framing note: nose room on the right, gaze directed toward the right edge.
-Text handling: the phone screen is angled away and blown out to pure glow so nothing on it is readable. no garbled or fake script, no meaningless letters, no random characters, no dense text.
+Scene: Emotional focal point: two hands meeting over a stack of case files, one letting go while the other closes around the binding. Recurring place — a dim government office corridor with pale gray walls and a long row of identical doors stretches behind them. Two men in plain dark suits stand angled away from each other, both looking down at the files rather than at each other, and a third figure watches from a doorway further down the corridor. The handover happens mid-corridor with no desk between them.
+Camera: over-the-shoulder shot, shoulder foreground, focus on other character, conversation from low angle shot, looking up, powerful subject, dominance, dramatic presence, shot on 50mm standard lens, minimal distortion, natural cinematic composition, nose room on the right, gaze directed toward the right edge
+Lighting/mood: flat sterile clinical fluorescent light, cold even greenish-white, emotionless institutional
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 or the story's symbolic color), muted daylight contrast
+Text handling: files are bound and closed with no visible writing; corridor doors carry no plates or numbers; no signage anywhere. Keep the two hands and the files in the upper-center area, clear of the lower 40% of the canvas.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the dark office wall directly behind him) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the corridor floor and its receding wall line) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
 - no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
-- no institutional logos, no emblems, no agency insignia, no recognizable real person likeness
-- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
-```
-**검색어**
-```text
-이시원 전 공직기강비서관
-```
-
-### [카드 4]
-**텍스트**
-```text
-길을 열어준 건 대통령실만이 아니었다
-최주원 당시 경북경찰청장은
-군 검찰의 기록 회수를 돕도록 지시했다
-*그런데 둘은 한 번 지워졌던 이름이다*
-```
-**이미지 프롬프트**
-```text
-korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the open palm of a senior police officer holding a door back, steady and unhurried, while his eyes stay fixed on the floor rather than on the men passing him. Seen from above, two uniformed military investigators carry stacked brown cardboard evidence boxes and a hard drive case out along a police station corridor toward the right edge of the frame, and the officer in his 50s in a dark police uniform stands aside at the doorway keeping their way clear. Behind him, two younger officers stand back with their hands at their sides, watching the boxes go, kept smaller and softer so the doorway stays the focus.
-Camera: full shot from a high angle looking down, shot on 35mm lens
-Lighting/mood: cold blue dim interior light, heavy and suffocating, faint trembling tension
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) on the sealing tape running across the top box, film-noir low-key lighting, deep shadows
-Framing note: nose room on the right, the line of movement directed toward the right edge.
-Text handling: the boxes are plain and unlabelled, all paperwork is inside and out of view. no garbled or fake script, no meaningless letters, no random characters, no dense text.
-Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
-MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the polished corridor floor seen from above) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
-- no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
-- no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
-- no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
-- no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
-- no institutional logos, no emblems, no agency insignia, no unit patches, no recognizable real person likeness
 - no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
 ```
 **검색어**
@@ -137,25 +100,56 @@ NEGATIVE — strictly avoid:
 국방부 검찰단 사건기록 회수
 ```
 
-### [카드 5]
+### [카드 4]
 **텍스트**
 ```text
-앞선 순직해병 특검은 12명을 기소했다
-이시원과 임기훈은 그 명단에서 빠졌다
-"범죄규명에 조력했다"는 이유였다
-*국가가 같은 서류에 두 번 다르게 답했다*
+이시원 전 공직기강비서관은
+경북청의 해병대 1사단 압수수색 계획을
+미리 알아내 해병대에 알린 혐의다
+*정보는 국수본에서 대통령실로 흘렀다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the ballpoint tip pressing down hard enough to dent the paper as it strikes a single line clean through. Seen from directly above in extreme close-up, a bare hand drags a pen across one ruled row of a numbered list, and two rows further down have already been struck through and left there. The paper fills the entire view, its fibre and the dent of the pen stroke visible. Everything outside the small pool of light is pure black.
-Camera: extreme close-up from an overhead bird's-eye view, shot on 100mm macro lens
-Lighting/mood: single pool of hard light isolating the subject in surrounding blackness, claustrophobic loneliness
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) on the two already struck-through lines, film-noir low-key lighting, deep shadows
-Text handling: the list is rendered as ruled rows and ink strokes only, cropped so no name and no character is legible anywhere. no garbled or fake script, no meaningless letters, no random characters, no dense text.
+Scene: Emotional focal point: a fingertip pressed against a phone screen held low against the thigh, the knuckle white with pressure. Recurring subject — a Korean man in his 50s, short neatly parted graying hair, wearing a dark navy suit with no tie, seen mostly from behind or in partial profile, face never fully shown, stands at a tall office window with his back to the room. He glances sideways toward the closed door behind him while the phone stays hidden at his side, and the office floor is the only surface in frame.
+Camera: medium shot, waist-up framing, face and gestures, conversational from profile shot, side view, clear silhouette, directional movement, shot on 70mm short telephoto, gentle background compression, subject isolation, nose room on the right, gaze directed toward the right edge
+Lighting/mood: cold blue screen under-glow lighting the face from below in a dark room, restless paranoid unease
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 or the story's symbolic color), film-noir low-key lighting, deep shadows
+Text handling: the phone screen shows only a blank cold glow with no characters, no icons, no interface; no signage or documents in frame. Keep the hand, the phone and the turned head in the upper-center area, clear of the lower 40% of the canvas.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the sheet of paper) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the office floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
+- no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
+- no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
+- no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
+- no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
+- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
+```
+**검색어**
+```text
+대통령실 공직기강비서관실 창가
+```
+
+### [카드 5]
+**텍스트**
+```text
+앞선 순직해병 특검은 12명을
+재판에 넘기면서 이 둘은 뺐다
+*"범죄규명에 조력한 사정"*
+그게 당시 불기소 사유였다
+```
+**이미지 프롬프트**
+```text
+korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
+Scene: Emotional focal point: a single name line on a list, struck through once and written back in above the strike. The list lies alone on a wide empty conference table under one hanging lamp, and two chairs are pushed back from it as if just vacated. No person is present anywhere in the frame; only the table, the paper and the lamp's narrow pool of light exist.
+Camera: extreme close-up, single detail, eye, lips, hand, texture from overhead shot, bird's-eye view, top-down angle, layout, geometry, shot on 100mm macro lens, fine detail, shallow depth of field, precise texture
+Lighting/mood: harsh single overhead light pooling on the table, deep surrounding black, oppressive interrogation
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 or the story's symbolic color), film-noir low-key lighting, deep shadows
+Text handling: render no legible characters at all; the list is shown as abstract ruled lines with one line crossed out and one line rewritten, all lettering blurred into indistinct strokes. Keep the struck line and the lamp pool in the upper-center area, clear of the lower 40% of the canvas.
+Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
+MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
+Composition: ONE continuous surface (the conference table top) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -171,63 +165,61 @@ NEGATIVE — strictly avoid:
 ### [카드 6]
 **텍스트**
 ```text
-다만 법원은 이미 제동을 걸었다
-지난 7월 이시원의 구속영장은 기각됐다
-*이유는 "법리상 다툼의 여지"였다*
-죄명도 구속 여부도 안 나왔다
+지난달 10일 청구된 이시원의 영장은
+15일 *"법리상 다툼의 여지"*로 기각됐다
+죄명도 구속 여부도 아직 안 나왔고
+수사 기한은 23일, 발표는 24일이다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a judge's hand pushing a thin bound request back out across the bench, fingers already lifting away from it. Looking steeply upward from below the bench, a Korean judge in a black robe is seen only from the chest down and in half shadow, the sleeve and the hand sharply lit while the face stays above the light. The returned document rests near the front edge of the bench, closer to the viewer than to the judge. It is a late-night warrant hearing room and the tall front face of the bench fills the view.
-Camera: medium close-up from a low angle looking up, shot on 70mm short telephoto
-Lighting/mood: single hard side-light cutting across the subject, deep chiaroscuro shadows, tense atmosphere
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) on the tab clipped to the returned document, film-noir low-key lighting, deep shadows
-Text handling: the document is closed and angled edge-on so nothing on it is readable. no garbled or fake script, no meaningless letters, no random characters, no dense text.
+Scene: Emotional focal point: an empty witness chair facing an empty bench, the seat still turned slightly askew. The courtroom floor runs unbroken from the foreground to the far wall and no person stands anywhere in it. A wall clock above the bench reads late afternoon, and a single closed folder waits on the bench where a judge would sit.
+Camera: extreme long shot, tiny subject, vast environment, scale, isolation from low angle shot, looking up, powerful subject, dominance, dramatic presence, shot on 24mm wide lens, cinematic wide shot, spatial context, subtle depth
+Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 or the story's symbolic color), muted daylight contrast
+Text handling: the clock face carries plain marks instead of numerals, the folder is closed with a blank cover, and no emblem, plaque or signage appears anywhere. Keep the chair, the bench and the clock in the upper-center area, clear of the lower 40% of the canvas.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the tall wooden front face of the judicial bench) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the courtroom floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
 - no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
-- no institutional logos, no emblems, no court insignia, no recognizable real person likeness
 - no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
 ```
 **검색어**
 ```text
-서울중앙지법 영장실질심사
+서울중앙지법 구속영장 기각 법정
 ```
 
 ### [카드 7]
 **텍스트**
 ```text
-결국 협조하면 봐준다는 건 법이 아니라
-그때 그 수사팀의 재량이었다
-재량이니 다음 팀이 다시 매길 수 있다
-*세 번째 답은 이제 법정 몫이다*
+협조하면 안 잡아간다는 약속은
+우리 형법에 제도로 없다
+남은 열흘에 40~50명이 몰리는 지금
+*그때의 재량을 지금이 다시 매긴다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the empty defendant's seat facing the bench head-on, its back squared to the viewer and no one in it. An empty Korean courtroom in the early morning is seen straight on and symmetrically from the gallery, the bench and the panelled wall behind it filling the upper frame, a single microphone standing unattended on the witness stand. Morning light falls in one soft band across the seat and stops there. No people anywhere in the room.
-Camera: wide shot from eye-level, front-on and symmetrical, shot on 35mm lens
-Lighting/mood: warm soft morning light, gentle and quiet, faint melancholy
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) on the microphone stem, muted daylight contrast
-Text handling: the walls and furniture carry no plaques, no nameplates and no lettering of any kind. no garbled or fake script, no meaningless letters, no random characters, no dense text.
+Scene: Emotional focal point: two identical case files lying side by side on a desk, one tied shut with dusty string and one untied with its first page lifted. An overturned name stamp and an open ink pad sit at the desk edge between them. The desk surface fills the frame and no person is present, the composition held still and centered rather than leaning to either side.
+Camera: medium shot, waist-up framing, face and gestures, conversational from eye-level shot, neutral perspective, realistic, balanced emotion, front-on shot, direct gaze, symmetrical composition, facing camera, shot on 50mm standard lens, minimal distortion, natural cinematic composition
+Lighting/mood: warm soft desk-lamp light, quiet wistful tone
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 or the story's symbolic color), muted daylight contrast
+Text handling: both files are shown with blank covers and the lifted page is turned so its face is away from the camera; no writing, no stamp impression, no labels anywhere. Keep the two files and the stamp in the upper-center area, clear of the lower 40% of the canvas.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the panelled courtroom wall behind the bench) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the desk top) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
 - no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
-- no institutional logos, no emblems, no court insignia, no national emblem
 - no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
 ```
 **검색어**
 ```text
-서울중앙지방법원 법정 내부
+법전 형법 조문 책상
 ```
