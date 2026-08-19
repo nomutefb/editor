@@ -21,6 +21,11 @@ on:
         description: '아이콘 없이 보내기(대조군 — 전부 기본 로고로 뜬다). 기본값 false = 종류별 아이콘 실어보냄.'
         type: boolean
         default: false
+      gap:
+        description: '발송 간격(초) — 0 = 한꺼번에(묻히는지 확인) / 2 = 기본 / 60 = 1분 간격(진동 하나씩 확인). 운영자 260819'
+        type: choice
+        options: ['2', '0', '60']
+        default: '2'
 
 permissions:
   contents: read
@@ -38,6 +43,7 @@ jobs:
           VAPID_SUBJECT: ${{ secrets.VAPID_SUBJECT }}
           THEME: ${{ inputs.theme }}
           KIND_ONLY: ${{ inputs.kind_only }}
+          GAP: ${{ inputs.gap || '2' }}
         run: |
           python3 -m pip install --quiet --break-system-packages pywebpush || { echo "::warning::pywebpush 미설치 — 발송 생략"; exit 0; }
           T=sig; [ "$THEME" = "light" ] && T=blue
@@ -49,7 +55,7 @@ jobs:
               --url "$4" --tag "nomute-kindtest-$1" --kind "$1" \
               $([ "$KIND_ONLY" = "true" ] && echo "--icon ''" ) --icon-theme "$T" \
               || echo "::warning::$1 발송 실패(비치명)"
-            sleep 2
+            [ "${GAP:-2}" = "0" ] || sleep "${GAP:-2}"   # 0 = 한꺼번에(묻힘 확인) · 60 = 1분 간격(진동 개별 확인) · 운영자 260819
           }
           send brk   "긴급 속보"   "① 긴급 속보는 이 로고 — 빨강(--danger)"       "/"
           send make  "제작 완료"   "② 제작 완료는 이 로고 — 터쿼이즈(--accent · 영상·이미지·노래·보이스·변환·트래킹 공통)" "/thumb.html"
@@ -57,4 +63,4 @@ jobs:
           send trend "트렌드"      "④ 키워드 급상승은 이 로고 — 초록(--info)"      "/#trend"
           send iss   "이슈"        "⑤ 이슈(긴급은 아닌데 매체가 몰린 건)는 이 로고 — 노랑(--warn · 화면 ⚡이슈 배지와 같은 색)" "/"
           send kw    "키워드 발견" "⑥ 키워드 알림은 이 로고 — 보라(--cat-tech · 구 무채 test 슬롯 대체 260818)" "/"
-          echo "발송 시도 6건 완료 · 테마판=${T}$([ "$KIND_ONLY" = "true" ] && echo ' · kind만(icon 생략)')"
+          echo "발송 시도 6건 완료 · 테마판=${T} · 간격=${GAP:-2}s$([ "$KIND_ONLY" = "true" ] && echo ' · kind만(icon 생략)')"
