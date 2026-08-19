@@ -318,7 +318,15 @@ def _trend_media(it):
     return (imgs[0] if imgs else ""), (arts[0] if arts else "")
 
 
-def gtrends_api(geo="KR", hours=24):
+# 구글 실검 관측 창 = 4시간(운영자 260819 «https://trends.google.co.kr/trending?hours=4 그냥 다 이거로 정리함 ·
+#   위 링크의 기준으로 실검이 항상 나오게 · 그냥 무조건 저 링크 기준해서니까 다른건 판단할 필요 없음»).
+#   ⚠ 구판 24h = 하루치 누적이라 「지금 뜨는 말」과 「어제 많이 찾은 말」이 섞였다 — 그 화면과 우리 목록이
+#   서로 다른 말을 하던 원인이고, 급상승 푸시 문턱(1.5만)도 그 섞인 값을 재고 있었다.
+#   이 한 값이 목록·검색량·푸시 판정 전부의 창을 정한다(레버 = GT_HOURS).
+GT_HOURS = int(os.environ.get("GT_HOURS", "4"))
+
+
+def gtrends_api(geo="KR", hours=GT_HOURS):
     """구글 '트렌딩 나우' 내부 API(batchexecute · 무키 POST 1방) — RSS 10개 상한 돌파(운영자 260717 Q05 실사격 = KR 202개).
     반환 = [{"query","vol"(검색량 버킷 int·100~100000),"started"(iso KST)}] · 순서 = 트렌드 페이지 기본 노출순(관련도 블렌드).
     ⚠ 비공식 API = 예고 없는 변동 리스크 → 어떤 실패든 [] (fail-soft — merge_gtrends가 RSS 단독 종전 동작으로 폴백 = 급상승 공백 불가)."""
@@ -359,6 +367,7 @@ def merge_gtrends(rss, api, keep=25):
     · 1~10위 = RSS 종전 순위·커버(picture)·뉴스 그대로 계승(시각 무회귀 · og 백필도 이 축 그대로 동작)
     · 매칭분(query 소문자 일치) = API 정밀 검색량 승급("200+" 저단위 → "20000+" → 뷰어 tfmt "2만+" 무수정 호환)
     · 11위~keep = API 노출순 꼬리 확장(커버 = API 재귀 추출 썸네일 pic·기사 art · 무매칭 = 로고 타일 폴백 · Q111)
+    · ⚠ 관측 창 = GT_HOURS(4h · 260819) — 아래 '24h 급상승 풀'이라는 옛 이름은 그 창 안의 풀을 뜻한다.
     · pool = API 콤팩트(q·vol·started · vol≥500 또는 6h내 신선분만 = 저신호 오탄착 원료·json 비대 절감 · 평의회 260717) — 실검 교차 부스트 원료
     · API 죽으면 (rss, []) → gtrends 키 = 종전 동일(풀 키는 호출측 prev 승계) · RSS 죽으면 ([], pool) = 종전 직전분 보존 폴백 유지(하루누적 꼬리가 '급상승' 행세 차단 · 평의회 컨센서스)."""
     if not api:
@@ -2519,7 +2528,7 @@ def main():
         yt_all = youtube_innertube()   # 무키 폴백(검색 파생 근사) — 키 등록 시 이 줄 미도달 = 공식 자동 승격
         yt_src = "innertube" if yt_all else ""
     gt_rss = gtrends(limit=20)   # 종전 RSS 축 = 이미지·뉴스 도너 + API 사망 시 단독 폴백 본체(운영자 260717 "최대한 수집" — RSS 원천 10개 상한)
-    gt, gt_pool = merge_gtrends(gt_rss, gtrends_api())   # 하이브리드(운영자 260717 Q06) — RSS 커버 계승 + API 검색량 승급·25위 꼬리·전량 풀(월드 축 = 종전 RSS)
+    gt, gt_pool = merge_gtrends(gt_rss, gtrends_api(hours=GT_HOURS))   # 하이브리드(운영자 260717 Q06) — RSS 커버 계승 + API 검색량 승급·25위 꼬리·전량 풀(월드 축 = 종전 RSS)
     _cc = carry_trend_covers(gt, prev.get("gtrends") or [])   # 리빌드 커버 승계(평의회 260812 권고3ⓑ — 백필 R2 커버 보존 = 같은 키워드 재검색·재과금 차단)
     if _cc:
         print("트렌드 커버 승계 {}건(R2 백필분 · 재검색 차단)".format(_cc))

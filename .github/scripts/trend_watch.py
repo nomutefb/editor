@@ -53,6 +53,17 @@ TTL_S = 24 * 3600                                          # 원장 수명(kw_wa
 #     자격을 유지하는 말(= 진짜로 계속 뜨는 말)은 정상 발송으로 넘어간다.
 SEED_TTL_S = int(os.environ.get("TREND_SEED_TTL_S", "3600"))   # 첫 회차 도장 수명(기본 1h = 수집 주기 15분의 4회차)
 RUN_CAP = int(os.environ.get("TREND_RUN_CAP", "3"))            # 회차당 발송 상한 — 한 번에 알림이 무더기로 오는 것 차단(구판은 회차 상한이 없어 한 회차에 자격분이 통째로 나갈 수 있었다)
+# ⚠ 교차 가점(운영자 260819 «시그널이랑 블루스카이 겹치면 그 구글 실검 4시간 기준 1.5만을 잡는 그 변수 요소에
+#   곱셈 가점을 해주셈 *1.2 그리고 블루스카이는 겹치면 *1.5임»).
+#   같은 말이 다른 플랫폼에도 떠 있으면 그건 한 곳에서만 뜬 말보다 무겁다 → **검색량 자체를 올리는 게 아니라
+#   1.5만을 재는 그 값에만** 곱한다(알림에 찍히는 숫자는 구글이 준 원값 그대로 = 거짓말 안 한다).
+#   겹침 대상 = **지금 화면에 떠 있는 그 목록**(운영자 «각 플랫폼에 시간 기준이 있어야하니까 · 지금 보여지는
+#   top10이랑 겹친다고 생각하면되») = 각 소스 상위 10위까지. 지난 목록은 안 본다 = 시간 기준이 저절로 생긴다.
+#   ⚠ 가점은 **소스마다 한 번씩만**(운영자 «고유명사가 다른 형태도 2개씩 겹칠 수 있는데 그럴때는 가점은
+#   시그널 가점, 블루스카이 가점 다 각각 1회씩만 가능») = 집합 포함 여부라 구조적으로 1회.
+BOOST_SIG = float(os.environ.get("TREND_BOOST_SIG", "1.2"))    # 시그널 실시간 검색어 TOP10에도 있으면
+BOOST_BSKY = float(os.environ.get("TREND_BOOST_BSKY", "1.5"))  # 블루스카이 실시간 트렌드 TOP10에도 있으면
+XTOP_N = int(os.environ.get("TREND_XTOP_N", "10"))             # 「지금 보여지는 top10」 = 화면 상한과 같은 값
 ON = (os.environ.get("TREND_PUSH", "1").strip() != "0")
 DRY = (os.environ.get("TREND_PUSH_DRY") or "").strip() == "1"
 
@@ -69,10 +80,44 @@ def key(s):
     return re.sub(r"\s+", " ", str(s or "").lower()).strip()
 
 
+def ckey(s):
+    """겹침 대조용 키 — 공백을 **지운다**(「리브 골프」 ↔ 「리브골프」가 같은 말로 잡히게)."""
+    return re.sub(r"\s+", "", str(s or "").lower()).strip()
+
+
+def xtop(items, *fields):
+    """지금 화면에 떠 있는 그 목록 = 상위 XTOP_N 개의 겹침 키 집합(지난 목록은 안 본다)."""
+    out = set()
+    for x in (items or [])[:XTOP_N]:
+        if not isinstance(x, dict):
+            continue
+        for f in fields:
+            k = ckey(x.get(f))
+            if k:
+                out.add(k)
+                break
+    return out
+
+
+def overlaps(k, pool):
+    """겹침 판정 — 같은 말이거나, 한쪽이 다른 쪽을 통째로 품으면 겹친 것으로 본다.
+    ⚠ 3글자 미만은 품기 판정을 안 한다(「현금」이 「현금영수증」에 걸리는 식의 오탐 차단 · 뷰어 대세 판정과 같은 축)."""
+    if not k or not pool:
+        return False
+    if k in pool:
+        return True
+    if len(k) < 3:
+        return False
+    return any(len(p) >= 3 and (k in p or p in k) for p in pool)
+
+
 def hot():
-    """{키: (표시어, 검색량)} — 두 소스 합집합, 같은 말은 **큰 검색량**으로."""
+    """{키: (표시어, 검색량, 판정값, 겹친 곳)} — 두 소스 합집합, 같은 말은 **큰 검색량**으로.
+    ⚠ 컷은 **가점을 얹은 뒤**에 잰다 — 먼저 자르면 겹쳐서 올라올 말이 컷 앞에서 죽는다(가점이 무의미해진다)."""
     t = jload(SNS, {}) or {}
-    out = {}
+    sig = xtop(t.get("signal"), "query", "q", "kw")
+    bsky = xtop(t.get("bsky_trends"), "query", "q", "topic")
+    raw = {}
     def put(q, v):
         k = key(q)
         if not k:
@@ -81,22 +126,35 @@ def hot():
             v = int(v or 0)
         except Exception:  # noqa: BLE001
             return
-        if v < MIN_VOL:
-            return
-        if k not in out or v > out[k][1]:
-            out[k] = (str(q).strip(), v)
+        if k not in raw or v > raw[k][1]:
+            raw[k] = (str(q).strip(), v)
     for x in t.get("gtrends") or []:
         if isinstance(x, dict):
             put(x.get("query"), x.get("vol"))
     for x in t.get("gtrends_pool") or []:
         if isinstance(x, dict):
             put(x.get("q"), x.get("vol"))
+    out = {}
+    for k, (q, v) in raw.items():
+        ck, where = ckey(q), []
+        eff = float(v)
+        if overlaps(ck, sig):
+            eff *= BOOST_SIG
+            where.append("시그널")
+        if overlaps(ck, bsky):
+            eff *= BOOST_BSKY
+            where.append("블루스카이")
+        if eff < MIN_VOL:
+            continue
+        out[k] = (q, v, int(round(eff)), where)
     return out
 
 
-def send(q, vol):
-    """발송 = push_send.py --notify 재사용(kw_watch send 문법 그대로 · 종류 trend = 초록 지구본)."""
-    body = f"«{q}» 가 검색 {vol:,}회로 급상승 중이에요"
+def send(q, vol, where=None):
+    """발송 = push_send.py --notify 재사용(kw_watch send 문법 그대로 · 종류 trend = 초록 지구본).
+    ⚠ 숫자는 구글이 준 **원값**을 쓴다(가점은 발사 여부만 정한다) · 겹친 곳은 꼬리에 붙여 왜 왔는지 보이게."""
+    tail = (" · " + "·".join(where) + "에도 떠 있어요") if where else ""
+    body = f"«{q}» 가 검색 {vol:,}회로 급상승 중이에요{tail}"
     if DRY:
         print(f"  [드라이런] 발송 생략 — {body}")
         return True
@@ -131,7 +189,7 @@ def main():
     seeded = bool(led)   # 원장이 비어 있으면 = 방금 켜졌다 = 첫 회차
     fired, stamped = 0, 0
 
-    for k, (q, vol) in sorted(cur.items(), key=lambda x: -x[1][1]):
+    for k, (q, vol, eff, where) in sorted(cur.items(), key=lambda x: -x[1][2]):   # 정렬 = 가점 얹은 값 순(무거운 것 먼저)
         if k in led:
             continue                      # 이미 이번 창에서 알린 말
         if seeded and fired >= DAY_CAP:
@@ -140,14 +198,14 @@ def main():
         if seeded and fired >= RUN_CAP:
             print(f"급상승 회차 상한 {RUN_CAP} 도달 — 나머지는 다음 회차로(도장도 안 찍는다 = 유실 0)", file=sys.stderr)
             break   # ⚠ 도장을 찍기 **전에** 끊는다 — 찍고 끊으면 그 말이 「알린 적 있음」으로 굳어 영영 안 나간다(위 첫 회차 사고와 같은 축)
-        led[k] = {"first": now, "vol": vol, "q": q}
+        led[k] = {"first": now, "vol": vol, "q": q, **({"eff": eff, "x": where} if where else {})}
         if not seeded:
             led[k]["seed"] = 1   # 첫 회차 = 발송 안 한 도장 = 1시간 뒤 만료(위 SEED_TTL_S 사유)
         stamped += 1
         if not seeded:                    # 첫 회차 = 조용히 도장만(소급 폭탄 차단)
             continue
         fired += 1
-        print(f"  📈 «{q}» 검색 {vol:,}회 — 푸시")
+        print(f"  📈 «{q}» 검색 {vol:,}회" + (f" ×{eff/max(1,vol):.2f}({'·'.join(where)}) → {eff:,}" if where else "") + " — 푸시")
         send(q, vol)
 
     if (stamped or fired) and not DRY:     # ⚠ 드라이런은 원장을 안 남긴다(남기면 진짜 첫 발송이 영영 스킵)
