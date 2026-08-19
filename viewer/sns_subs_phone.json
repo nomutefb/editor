@@ -480,10 +480,10 @@
   {
    "account": "choi.openai",
    "text": "27B 모델이 램 8GB 노트북에서 돌아가는 단계까지 왔습니다.\n\n로컬 LLM 쪽에서 양자화로 이름난 Unsloth가 Qwen3.8-27B의 새 압축 버전을 내놨는데, 같은 용량에서 정확도가 10% 올라갔고 1비트까지 눌러 담은 버전도 원본 성능의 77%를 유지한다고 합니다. 지난주 버전만 해도 램이 17GB는 필요했으니 닷새 만에 문턱이 절반 아래로 내려온 겁니다.\n\n양자화는 모델 파라미터의 숫자 정밀도를 낮춰 용량을 줄이는 기술입니다. 무작정 누르면 성능도 같이 하락하는데, Unsloth는 레이어마다 중요도를 따져 민감한 부분은 정밀도를 남기고 덜 중요한 부분만 세게 압축하는 방식으로 손실을 줄였습니다.\n\n이제는 더 작은 모델을 만드는 것뿐 아니라, 큰 모델을 얼마나 덜 손상시키면서 작게 욱여넣느냐가 로컬 LLM의 또 다른 경쟁축이 되고 있습니다.",
-   "likes": 1,
+   "likes": 8,
    "cmts": 0,
    "time": 1787164222,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/779001233_17983190337112832_6180134326092735524_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk2NzM0MzUwNzU1MDY2NzU0NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMzcyNC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=14XjEcHGcmkQ7kNvwFwl6c0&_nc_oc=AdqOgo3DUexinDY4sHmGdb_t5TJYiHMBTq5ngCz4ZoPJz454KvyByUpxVpmsrc2Thm8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=zTuu9OYfdvqYLtUD3PBK-g&_nc_ss=7a22e&oh=00_AQETEywT01b8pp6IHBQwHKqXqQ53HKkGStjHurObjo4K2w&oe=6A8BE401",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/779001233_17983190337112832_6180134326092735524_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk2NzM0MzUwNzU1MDY2NzU0NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMzcyNC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=14XjEcHGcmkQ7kNvwFwl6c0&_nc_oc=AdqOgo3DUexinDY4sHmGdb_t5TJYiHMBTq5ngCz4ZoPJz454KvyByUpxVpmsrc2Thm8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=WZwyFr9pIGSyg_onT1jWJw&_nc_ss=7a22e&oh=00_AQHg8jXYiu68-c2PuXCEE5xrwhfUM9R4GnMgfIr4Isc8xw&oe=6A8BE401",
    "url": "https://www.threads.com/@choi.openai/post/DcO1eZ1goMY",
    "region": "kr"
   },
@@ -500,10 +500,10 @@
   {
    "account": "choi.openai",
    "text": "Opus 4.8급 성능을 주장하는 오픈소스 모델이 MIT 라이선스로 그냥 풀렸습니다.\n\nOrnith이라는 신생 랩이 공개한 Ornith-1.5인데, 9B부터 397B까지 세 가지 크기를 내놓으면서 상업적 이용까지 열어뒀습니다. 자체 발표 기준으로는 코딩과 에이전트 벤치마크에서 최상위 상용 모델과 비슷한 점수를 냈다고 합니다.\n\n훈련 방식이 독특한데요. 사람이 만든 문제집으로 배우는 게 아니라, 모델이 스스로 새 과제를 내고 풀이 환경을 짠 다음 풀어본 결과에서 강화학습으로 배우는 루프를 돌립니다. 좋은 학습 데이터가 귀해지는 시대에 모델이 자기 교재를 직접 쓰는 셈입니다.\n\n물론 아직 자체 벤치마크라 외부 검증이 남았고, 홍보성 계정들이 초반 반응을 끌어올린 흔적도 있어서 실사용 평가는 기다려볼 필요가 있습니다.\n\n작년까지 오픈소스의 무기가 가격이었다면 이제는 학습 방법으로도 프런티어와 경쟁하는 그림이라, 자기 교재로 어디까지 올라가는지 다음 버전을 지켜볼 만합니다.",
-   "likes": 13,
-   "cmts": 1,
+   "likes": 15,
+   "cmts": 2,
    "time": 1787158857,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778543499_17983169790112832_8230760850242889010_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk2NzI5ODQ5NjUxMTQ5OTIwMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=sJh31Kb2fSsQ7kNvwFV0uNw&_nc_oc=AdpUkiuvbzBhYLMVqxylNpc7XHXQpC77Z91tu4vzU7OBD3DoAkuKYd1_USDSwbvAkwk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=zTuu9OYfdvqYLtUD3PBK-g&_nc_ss=7a22e&oh=00_AQG6371jw8ro7Ma1IwcyG2C1lV2_rDBy1-LrYtagA7gkhw&oe=6A8BBDE6",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778543499_17983169790112832_8230760850242889010_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk2NzI5ODQ5NjUxMTQ5OTIwMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=sJh31Kb2fSsQ7kNvwFV0uNw&_nc_oc=AdpUkiuvbzBhYLMVqxylNpc7XHXQpC77Z91tu4vzU7OBD3DoAkuKYd1_USDSwbvAkwk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=WZwyFr9pIGSyg_onT1jWJw&_nc_ss=7a22e&oh=00_AQFMLhI-0sJMyHXfb5nd34iSR1dAsWRsUc2qst7IBuXO0A&oe=6A8BBDE6",
    "url": "https://www.threads.com/@choi.openai/post/DcOrPaCglvA",
    "region": "kr"
   },
@@ -553,7 +553,7 @@
    "likes": 0,
    "cmts": 1,
    "time": 1787132202,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/780127051_18081468245407306_5378864589143849554_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk2NzA3NDgzMTIzNDQ1OTA0OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Pf8CsvF4BBkQ7kNvwHAM8bi&_nc_oc=AdqlaRjb6wK9kLr3oHWHbCtZ_6a-YZOm56VsImjoWdfU5x1bWmfLid6CVZwoq97L4AY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=7EkyZbIDeJ38Jy-9EwQGsg&_nc_ss=7a22e&oh=00_AQFCowUE4XXgHKcIwCa9Ny8n6uzphtHaQm9wAvsV8ZpyJw&oe=6A8BB4AA",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/780127051_18081468245407306_5378864589143849554_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk2NzA3NDgzMTIzNDQ1OTA0OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Pf8CsvF4BBkQ7kNvwHAM8bi&_nc_oc=AdqlaRjb6wK9kLr3oHWHbCtZ_6a-YZOm56VsImjoWdfU5x1bWmfLid6CVZwoq97L4AY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=ZuxJZ0oikuzfOoTI4dmoXg&_nc_ss=7a22e&oh=00_AQGjFdEvN-uIE4b3BrGMKrGalbORoulAnI42fjaNPrv2eA&oe=6A8BB4AA",
    "url": "https://www.threads.com/@aipeekme/post/DcN4YphH2Wo",
    "region": "kr"
   },
@@ -563,7 +563,7 @@
    "likes": 2,
    "cmts": 0,
    "time": 1787121521,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/781251176_38896776296588508_5184879063004881383_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk2Njk4NTEwNDQwOTQyNjEyMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=yk67nwEYYUIQ7kNvwGSIYTu&_nc_oc=AdokagXU2wphQsD57Nnp_JL1OTvh-pwLEe7CTO5kC_VYcrVsVMJPFcNFORgBP-jTBPE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=7EkyZbIDeJ38Jy-9EwQGsg&_nc_ss=7a22e&oh=00_AQGkxuZJLBgZz_JgBB9qZi-2LkUy2t7LatEnLOdrZpYsGw&oe=6A8BD465",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/781251176_38896776296588508_5184879063004881383_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk2Njk4NTEwNDQwOTQyNjEyMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=yk67nwEYYUIQ7kNvwGSIYTu&_nc_oc=AdokagXU2wphQsD57Nnp_JL1OTvh-pwLEe7CTO5kC_VYcrVsVMJPFcNFORgBP-jTBPE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=ZuxJZ0oikuzfOoTI4dmoXg&_nc_ss=7a22e&oh=00_AQGvsiiyF8QYgkmv3jlvoUCsTEz1KMXzqZWYqZN57IgBwA&oe=6A8BD465",
    "url": "https://www.threads.com/@aipeekme/post/DcNj-85lvjI",
    "region": "kr"
   },
@@ -603,7 +603,7 @@
    "likes": 91,
    "cmts": 3,
    "time": 1787090534,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/775685800_891282227086200_4387249736637956747_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk2NjcyMzg2MjU2OTg0NDYwMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=oa9H2ORgBkwQ7kNvwG8aGU_&_nc_oc=AdrtSJoBdhYj4T-KIoRcMWbQ4cbWK7Aqm4F_yhuk-F13MSVWNYAktFH88nRiMPZi4x8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=O0dQ-8ApU-C469_TJktT6w&_nc_ss=7a22e&oh=00_AQGqobhyPeJKB_4Ul7WY5pmJpZtkpH-4dneSIvmT0h1r4g&oe=6A8BB9EC",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/775685800_891282227086200_4387249736637956747_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk2NjcyMzg2MjU2OTg0NDYwMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=oa9H2ORgBkwQ7kNvwG8aGU_&_nc_oc=AdrtSJoBdhYj4T-KIoRcMWbQ4cbWK7Aqm4F_yhuk-F13MSVWNYAktFH88nRiMPZi4x8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=ozM8s45Wt46Nbg0Gnb93hA&_nc_ss=7a22e&oh=00_AQEQdOP1aJjExruP6vVxvhuO7wy1zoO38wGMBNblWNwv6w&oe=6A8BB9EC",
    "url": "https://www.threads.com/@aicoffeechat/post/DcMolYein95",
    "region": "kr"
   },
@@ -633,7 +633,7 @@
    "likes": 2,
    "cmts": 5,
    "time": 1787146339,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/779001441_17907516168463148_996788687850438666_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk2NzE5MzQ5NTc4NTQ4NjU0Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuODYxLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=ysNmpfecAB4Q7kNvwHKRRzZ&_nc_oc=Ado2lNgUjjXkV4ohZoi8_yzTVl4aLTa53SNV4opNr9AWUq99A3ko8l1m8cc81ADjEi8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=CS7aPRA1h4BrFkIb2RuHOQ&_nc_ss=7a22e&oh=00_AQEILIhksbgbEfPhX0VR6WBfanbAjqeFC3IOqsLzJ8i2-g&oe=6A8BCFF5",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/779001441_17907516168463148_996788687850438666_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk2NzE5MzQ5NTc4NTQ4NjU0Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuODYxLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=ysNmpfecAB4Q7kNvwHKRRzZ&_nc_oc=Ado2lNgUjjXkV4ohZoi8_yzTVl4aLTa53SNV4opNr9AWUq99A3ko8l1m8cc81ADjEi8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=ot_e37ebfqc6nZpSUdCnUA&_nc_ss=7a22e&oh=00_AQEZN09owzlgrr5kZvthR5b8Z8aAROxh-amN_FjnQRx1dg&oe=6A8BCFF5",
    "url": "https://www.threads.com/@kopp/post/DcOTXcfiLjT",
    "region": "kr"
   },
@@ -653,17 +653,17 @@
    "likes": 33,
    "cmts": 13,
    "time": 1787089924,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778025428_17953195755232485_3526550988961658501_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk2NjcyMDI0NzA4MDM1NzE1NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI2NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=b0BHXGgBhAEQ7kNvwGH68P7&_nc_oc=AdrFvr10ifQSzJkzGAMSykmNqleUqIjqqPd-KyNjz5uwtORn9RAlY81AFJiYMK8Ktlo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=O0dQ-8ApU-C469_TJktT6w&_nc_ss=7a22e&oh=00_AQHK_zWwBMZmCZilwDkVuePpqg9X-OIkZJOPN-d0BGPo-A&oe=6A8BBE8E",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778025428_17953195755232485_3526550988961658501_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk2NjcyMDI0NzA4MDM1NzE1NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI2NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=b0BHXGgBhAEQ7kNvwGH68P7&_nc_oc=AdrFvr10ifQSzJkzGAMSykmNqleUqIjqqPd-KyNjz5uwtORn9RAlY81AFJiYMK8Ktlo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=ozM8s45Wt46Nbg0Gnb93hA&_nc_ss=7a22e&oh=00_AQFpAAWx3xsfyUlg8GQcM4ssjeXbYDxps4lJUNHKw82UnQ&oe=6A8BBE8E",
    "url": "https://www.threads.com/@aicoffeechat/post/DcMnwxSkw0j",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "🚨 미친 소식..\n\n개인 맞춤 mRNA 암 치료제가 처음으로 3상 문턱을 넘었습니다.\n모더나와 머크가 고위험 흑색종 환자 1,137명 임상에서 재발과 원격 전이 지표를 모두 충족했다고 발표했습니다.\n\n환자의 종양과 정상 DNA를 비교해 종양에만 있는 변이를 찾고, 그중 면역계가 가장 잘 알아볼 표적을 AI로 최대 34개 골라 그 환자 전용 mRNA 주사를 만듭니다.\n수술로 종양을 제거한 뒤 재발을 막는 용도로 기존 면역항암제와 함께 씁니다.\n\n앞선 2상 5년 추적에서는 무재발 비율이 68.8%로, 기존 치료 단독의 49.1%보다 크게 높았습니다.\n아직 톱라인 발표라 세부 수치는 학회 공개를 기다려야 하고, 이제 규제 당국과 승인 절차를 밟는 단계입니다.\n\n코로나로 유명해진 mRNA의 원래 과녁이 암이었다는 걸 생각하면, 십수 년을 돌아 첫 관문을 통과한 셈입니다.",
-   "likes": 127,
-   "cmts": 2,
+   "likes": 133,
+   "cmts": 3,
    "time": 1787151835,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/779179604_17983154613112832_3041606927770265484_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk2NzIzOTU5NzMxODkzMzUwNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTc4OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=V1RxJvERgNYQ7kNvwFsHw2K&_nc_oc=AdppkGZgHTusl9Rwx6ADmLFl81LoW_M-PXu57_gc7KU5WOARRF-txpHuPjxtQCQg3-0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=zTuu9OYfdvqYLtUD3PBK-g&_nc_ss=7a22e&oh=00_AQHjRJ-Y5EoTTHuztzejrMnECUXLYEgLCSGp4dXQH813Ug&oe=6A8BBEA4",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/779179604_17983154613112832_3041606927770265484_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk2NzIzOTU5NzMxODkzMzUwNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTc4OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=V1RxJvERgNYQ7kNvwFsHw2K&_nc_oc=AdppkGZgHTusl9Rwx6ADmLFl81LoW_M-PXu57_gc7KU5WOARRF-txpHuPjxtQCQg3-0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=WZwyFr9pIGSyg_onT1jWJw&_nc_ss=7a22e&oh=00_AQEhrMQ5xZ7kvThcqJvkasawWHb26-j0mEw2SMj8k-rwyQ&oe=6A8BBEA4",
    "url": "https://www.threads.com/@choi.openai/post/DcOd2T5DwwC",
    "region": "kr"
   },
@@ -673,7 +673,7 @@
    "likes": 0,
    "cmts": 1,
    "time": 1787121072,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778401046_18081412220407306_6281312036291104251_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk2Njk4MTQ3MjcyMTUzODM3OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=5hxr9owvYSUQ7kNvwGa9wfy&_nc_oc=AdprRC2-vmXlaiXxIkJ3BYwYnaSVWEQ1FPY3NLnzMJC8kanOuq_UENDY2njAjRVDrz0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=7EkyZbIDeJ38Jy-9EwQGsg&_nc_ss=7a22e&oh=00_AQH0UmjR8B_5vyFhLoyfhQoFT7efM9mha1wNl6ZqbHllZw&oe=6A8BCC0C",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778401046_18081412220407306_6281312036291104251_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk2Njk4MTQ3MjcyMTUzODM3OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMiJ9&_nc_ohc=5hxr9owvYSUQ7kNvwGa9wfy&_nc_oc=AdprRC2-vmXlaiXxIkJ3BYwYnaSVWEQ1FPY3NLnzMJC8kanOuq_UENDY2njAjRVDrz0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=ZuxJZ0oikuzfOoTI4dmoXg&_nc_ss=7a22e&oh=00_AQGDELTPRn0udmsSE6lEZP27sxQXvHI8J63C7qScLkeO8w&oe=6A8BCC0C",
    "url": "https://www.threads.com/@aipeekme/post/DcNjKGoH41K",
    "region": "kr"
   }
@@ -688,24 +688,6 @@
    "thumb": "https://preview.redd.it/vamsjhth79kh1.jpeg?width=640&crop=smart&auto=webp&s=6d107400e94745e3691972ced4e0d6e297f4f3d0",
    "time": 1787111323,
    "url": "https://www.reddit.com/r/videogames/comments/1vsbcul/what_game_is_this_for_you/"
-  },
-  {
-   "sub": "meirl",
-   "title": "meirl",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/m9zs2446wckh1.jpeg?width=640&crop=smart&auto=webp&s=886e271e37057331710536ec0480c9daa843025f",
-   "time": 1787155944,
-   "url": "https://www.reddit.com/r/meirl/comments/1vsqwn4/meirl/"
-  },
-  {
-   "sub": "GTA6unmoderated",
-   "title": "NEW LEAK",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/MHYyN3pxanQzZGtoMUnqR8koNAkhryv-mHbGkty-LNNLczA85UDd5UM4zGI_.png?width=640&crop=smart&auto=webp&s=6a427f95e9f562debd7876680c1f7cf45ed89b5b",
-   "time": 1787158519,
-   "url": "https://www.reddit.com/r/GTA6unmoderated/comments/1vss4rl/new_leak/"
   },
   {
    "sub": "Millennials",
@@ -735,6 +717,15 @@
    "url": "https://www.reddit.com/r/AskReddit/comments/1vsjxnl/you_get_1_million_but_you_have_to_listen_to_one/"
   },
   {
+   "sub": "meirl",
+   "title": "meirl",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/m9zs2446wckh1.jpeg?width=640&crop=smart&auto=webp&s=886e271e37057331710536ec0480c9daa843025f",
+   "time": 1787155944,
+   "url": "https://www.reddit.com/r/meirl/comments/1vsqwn4/meirl/"
+  },
+  {
    "sub": "TikTokCringe",
    "title": "It's not a value question...",
    "score": 0,
@@ -753,15 +744,6 @@
    "url": "https://www.reddit.com/r/GirlDinnerDiaries/comments/1vsmqpw/first_dinner_with_his_family_and_his_mom_picking/"
   },
   {
-   "sub": "politics",
-   "title": "Hegseth Covered Up the Real Reason the USS Lincoln Wasn’t Resupplied - According to a report from MSNOW, the USS Abraham Lincoln wasn’t resupplied because Iranian strikes destroyed a key Navy resupply",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/8z3-WJp1NywN6lLU9Y7P73Nodg-SMBhwFIb1cFyivJU.jpeg?width=640&crop=smart&auto=webp&s=24271ed2c761270518a759a693780e1226308586",
-   "time": 1787152689,
-   "url": "https://www.reddit.com/r/politics/comments/1vspebp/hegseth_covered_up_the_real_reason_the_uss/"
-  },
-  {
    "sub": "GTA6unmoderated",
    "title": "NEW LEAK",
    "score": 0,
@@ -771,69 +753,45 @@
    "url": "https://www.reddit.com/r/GTA6unmoderated/comments/1vsmi93/new_leak/"
   },
   {
-   "sub": "KidsAreFuckingStupid",
-   "title": "He couldn't comprehend what just happened",
+   "sub": "GTA6unmoderated",
+   "title": "NEW LEAK",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/bHliZHVzcXRkY2toMQmXmghPB0_KDcQ-WpWcj7K090Dqc307bFSupcaml1aY.png?width=320&crop=smart&auto=webp&s=6e6030814a43d7052cfdc4aa798a2697f3076227",
-   "time": 1787149791,
-   "url": "https://www.reddit.com/r/KidsAreFuckingStupid/comments/1vso2l0/he_couldnt_comprehend_what_just_happened/"
+   "thumb": "https://external-preview.redd.it/MHYyN3pxanQzZGtoMUnqR8koNAkhryv-mHbGkty-LNNLczA85UDd5UM4zGI_.png?width=640&crop=smart&auto=webp&s=6a427f95e9f562debd7876680c1f7cf45ed89b5b",
+   "time": 1787158519,
+   "url": "https://www.reddit.com/r/GTA6unmoderated/comments/1vss4rl/new_leak/"
   },
   {
-   "sub": "Snorkblot",
-   "title": "Direct to crem. A plot is a rental.",
+   "sub": "SipsTea",
+   "title": "WTF is wrong with these people?",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/k0770c08cckh1.png?width=320&crop=smart&auto=webp&s=ca65ec71484fa60fca842aaebd64b48ff61a105f",
-   "time": 1787149245,
-   "url": "https://www.reddit.com/r/Snorkblot/comments/1vsntvi/direct_to_crem_a_plot_is_a_rental/"
+   "thumb": "https://preview.redd.it/mpixrohj3akh1.png?width=140&height=140&crop=1:1,smart&auto=webp&s=5cb4fa2a11bc5f986aad26384019ee9cf87e6158",
+   "time": 1787122112,
+   "url": "https://www.reddit.com/r/SipsTea/comments/1vseqpx/wtf_is_wrong_with_these_people/"
   },
   {
-   "sub": "korea",
-   "title": "Young people expect AI to replace desired jobs within 5 years amid hiring slump",
+   "sub": "politics",
+   "title": "Hegseth Covered Up the Real Reason the USS Lincoln Wasn’t Resupplied - According to a report from MSNOW, the USS Abraham Lincoln wasn’t resupplied because Iranian strikes destroyed a key Navy resupply",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/QkjfDyWbN_w0FrmXYwMK--P8at-YDSZ2eFF1ej2fDZ0.jpeg?width=640&crop=smart&auto=webp&s=c95ae866f4261cff54e50438158629f99a88f65e",
-   "time": 1787111448,
-   "url": "https://www.reddit.com/r/korea/comments/1vsbedk/young_people_expect_ai_to_replace_desired_jobs/"
+   "thumb": "https://external-preview.redd.it/8z3-WJp1NywN6lLU9Y7P73Nodg-SMBhwFIb1cFyivJU.jpeg?width=640&crop=smart&auto=webp&s=24271ed2c761270518a759a693780e1226308586",
+   "time": 1787152689,
+   "url": "https://www.reddit.com/r/politics/comments/1vspebp/hegseth_covered_up_the_real_reason_the_uss/"
   },
   {
-   "sub": "korea",
-   "title": "U.S.-South Korea joint military drills are being cut short after Trump order, Seoul says",
+   "sub": "nextfuckinglevel",
+   "title": "Florida man uses trashcan to capture gator & release it back in the water",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/1CX4cXiYtg3J-i0Se9oSltvGd61AUy3j2Ewblz1p4_Y.jpeg?width=640&crop=smart&auto=webp&s=d3fda7eaea8983f56464e63c8e8c5ba21ee0571a",
-   "time": 1787112229,
-   "url": "https://www.reddit.com/r/korea/comments/1vsbnvg/ussouth_korea_joint_military_drills_are_being_cut/"
-  },
-  {
-   "sub": "korea",
-   "title": "South Korea's Household Debt Surpasses 2,000 Trillion Won",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/lL_G89tNRPzZKFVd74MjgufW9V0xrR3sUl3Z-PhKvcE.jpeg?width=640&crop=smart&auto=webp&s=01ebdcf2918e89834fd42397226791436283e10d",
-   "time": 1787111343,
-   "url": "https://www.reddit.com/r/korea/comments/1vsbd3y/south_koreas_household_debt_surpasses_2000/"
+   "thumb": "https://external-preview.redd.it/a3ZkMWpvbDk1ZGtoMbhA25SLYgBpzLA0mIfJtZvDP1itwfQn08PijrdO5IOI.png?width=640&crop=smart&auto=webp&s=5cc32a9896802c07a74c6c5e93914e06124d7361",
+   "time": 1787159006,
+   "url": "https://www.reddit.com/r/nextfuckinglevel/comments/1vssd9o/florida_man_uses_trashcan_to_capture_gator/"
   }
  ],
  "disaster": [],
  "_cover": {
   "ok": {
-   "x": [
-    "64bitcoinkr",
-    "awaken_eyes",
-    "economysniper0",
-    "freedom_73x",
-    "jajaja7878uu",
-    "kyunghyang"
-   ],
-   "insta": [
-    "hm_son7",
-    "jennierubyjane",
-    "mnet_official",
-    "sbsnow_insta",
-    "xxxibgdrgn"
-   ],
    "threads": [
     "aicoffeechat",
     "aipeekme",
@@ -844,28 +802,33 @@
   },
   "why": {
    "insta": {
-    "koreadispatch": "rotate",
-    "bts.bighitofficial": "rotate",
-    "blackpinkofficial": "rotate",
-    "newjeans_official": "rotate",
-    "aespa_official": "rotate",
-    "openai": "rotate",
-    "runwayapp": "rotate",
-    "pika_labs": "rotate",
-    "lumalabsai": "rotate",
-    "midjourney": "rotate",
-    "klingai_official": "rotate",
-    "heygen_official": "rotate",
-    "higgsfield.ai": "rotate",
-    "googledeepmind": "rotate",
-    "cristiano": "rotate"
+    "koreadispatch": "gap",
+    "bts.bighitofficial": "gap",
+    "blackpinkofficial": "gap",
+    "newjeans_official": "gap",
+    "aespa_official": "gap",
+    "jennierubyjane": "gap",
+    "xxxibgdrgn": "gap",
+    "hm_son7": "gap",
+    "sbsnow_insta": "gap",
+    "mnet_official": "gap",
+    "openai": "gap",
+    "runwayapp": "gap",
+    "pika_labs": "gap",
+    "lumalabsai": "gap",
+    "midjourney": "gap",
+    "klingai_official": "gap",
+    "heygen_official": "gap",
+    "higgsfield.ai": "gap",
+    "googledeepmind": "gap",
+    "cristiano": "gap"
    }
   },
   "landing": {
-   "at": "2026-08-20T03:00:58",
+   "at": "2026-08-20T03:34:11",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-20T03:34:08.924035+09:00"
+ "updated": "2026-08-20T04:00:54.326638+09:00"
 }
