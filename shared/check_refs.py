@@ -5791,26 +5791,45 @@ def check_trend_alert_scope():
     elif m and lane.group(1) != m.group(1):
         bad.append('화면 컷(%s) ≠ 알림 컷(%s) — 알림이 화면에 없는 말을 말하게 된다(둘은 한 값이어야 한다)'
                    % (lane.group(1), m.group(1)))
-    # ⑤ 딥링크 = 살아있는 쿼리 문법(죽은 해시 부활 차단) + 뷰어 소비 실존
-    for f in ('.github/scripts/trend_watch.py', '.github/scripts/kw_watch.py'):
+    # ⑤ 딥링크 = **축마다 목적지가 다르다**(운영자 260819 «랜딩을 그걸 검색한 구글 창으로 가게 하셈 새창으로»
+    #    + «지금 키워드 급상승을 말하는거야»). 두 알림은 성격이 반대라 목적지도 반대다:
+    #      · 급상승(trend) = 「내가 모르는 말이 떴다」 → 필요한 건 우리 목록이 아니라 **그 말이 무슨 일인지**
+    #        = 그 말을 구글에서 검색한 결과. 우리 목록으로 보내면 방금 알림에 적힌 말을 거기서 또 찾아야 한다.
+    #      · 등록 키워드(kw) = 「내가 찍어둔 말이 떴다」 → 그 말이 뜬 **우리 목록**이 목적지 = 쿼리 딥링크.
+    #    공통 = 죽은 해시 딥링크(/#…) 부활 차단(뷰어가 ?qa=1 밖에서 통째로 무시한다).
+    _LAND = (('.github/scripts/trend_watch.py', r'"--url",\s*goto\b',
+              'https://www.google.com/search?q=',
+              '급상승 목적지가 구글 검색 창이 아니다 = 「모르는 말」을 알려놓고 우리 목록에 떨군다'),
+             ('.github/scripts/kw_watch.py', r'"--url",\s*"/\?tab=', None,
+              '알림 목적지가 쿼리 딥링크(/?tab=)가 아니다 = 마지막 보던 탭(채널 요약)으로 착지한다'))
+    for f, pat, lit, why in _LAND:
         try:
             src = open(os.path.join(ROOT, f), encoding='utf-8').read()
         except Exception as e:  # noqa: BLE001
             print('❌ check_trend_alert_scope 읽기 실패(fail-closed): %s — %s' % (f, e)); return 1
         code = '\n'.join(l for l in src.split('\n') if not l.strip().startswith('#'))
-        if not _re.search(r'"--url",\s*"/\?tab=', code):
-            bad.append('%s — 알림 목적지가 쿼리 딥링크(/?tab=)가 아니다 = 마지막 보던 탭(채널 요약)으로 착지한다' % f)
+        if not _re.search(pat, code) or (lit and lit not in code):
+            bad.append('%s — %s' % (f, why))
         if _re.search(r'"--url",\s*"/#', code):
             bad.append('%s — 죽은 해시 딥링크(/#…)가 부활했다 = 뷰어가 ?qa=1 밖에서 통째로 무시한다' % f)
     if "URLSearchParams(location.search).get('tab')" not in vw:
         bad.append('viewer/index.html — ?tab= 딥링크 소비 배선이 없다 = 알림이 가리킨 화면이 열리지 않는다')
+    # ⑥ 남의 사이트는 **새 창**(운영자 260819 «새창으로») — 이 분기가 없으면 아래 「열린 탭 이동」이 받아서
+    #    열려 있던 우리 앱 탭이 구글로 **갈아치워진다**(앱이 사라진다 = 화면 증상이 「앱이 없어짐」 하나뿐).
+    try:
+        sw = open(os.path.join(ROOT, 'viewer/sw.js'), encoding='utf-8').read()
+    except Exception as e:  # noqa: BLE001
+        print('❌ check_trend_alert_scope 읽기 실패(fail-closed): viewer/sw.js — %s' % e); return 1
+    swc = '\n'.join(l for l in sw.split('\n') if not l.strip().startswith('//'))
+    if not (_re.search(r'target\.origin\s*!==\s*self\.location\.origin', swc) and 'openWindow' in swc):
+        bad.append('viewer/sw.js — 남의 사이트 새 창 분기가 없다 = 급상승 알림이 우리 앱 탭을 구글로 갈아치운다')
 
     if bad:
         print('❌ 급상승 알림 범위·랜딩 게이트 — 알림이 화면과 다른 말을 하거나 목적지를 잃는다(260819 실사고 축):')
         for b in bad:
             print('   -', b)
         return 1
-    print('✅ 급상승 알림 범위·랜딩 게이트 — 후보 = 화면 상위 %s위 동값 · 풀 = 값 보강 전용 · 딥링크 2종 = 쿼리 문법 · 뷰어 소비 실존.'
+    print('✅ 급상승 알림 범위·랜딩 게이트 — 후보 = 화면 상위 %s위 동값 · 풀 = 값 보강 전용 · 랜딩 = 급상승은 구글 검색·키워드는 우리 화면 · 남의 사이트는 새 창.'
           % (m.group(1) if m else '?'))
     return 0
 

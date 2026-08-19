@@ -158,6 +158,13 @@ self.addEventListener('notificationclick', event => {
   const raw = (event.notification.data && event.notification.data.url) || '/';
   const target = new URL(raw, self.location.origin);   // 알림이 가리키는 화면(제작완료=/thumb.html#done · 긴급=/)
   event.waitUntil((async () => {
+    // 0) 남의 사이트(우리 화면이 아닌 곳)면 **무조건 새 창**(운영자 260819 «검색한 구글 창으로 · 새창으로»).
+    //    ⚠ 아래 2)를 그대로 타면 열려 있던 우리 앱 탭이 그 주소로 **갈아치워진다** = 앱이 사라진다.
+    //    급상승 알림이 구글 검색 결과를 가리키게 되면서 생긴 자리 — 우리 화면 딥링크(상대경로)는 종전 경로 그대로.
+    if (target.origin !== self.location.origin) {
+      if (self.clients.openWindow) return self.clients.openWindow(target.href);
+      return;
+    }
     const list = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
     // 1) 이미 타깃 화면(경로+쿼리+해시 일치)에 있는 탭이면 그냥 포커스(불필요한 새로고침 방지).
     //    ⚠️ 쿼리(search)까지 비교해야 함 — 요약 딥링크(/?a=stem)는 쿼리가 유일 구별자라, 쿼리 무시 시

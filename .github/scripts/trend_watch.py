@@ -34,6 +34,7 @@ import os
 import re
 import subprocess
 import sys
+import urllib.parse
 import time
 from pathlib import Path
 
@@ -178,13 +179,21 @@ def send(q, vol, where=None):
     """발송 = push_send.py --notify 재사용(kw_watch send 문법 그대로 · 종류 trend = 초록 지구본).
     ⚠ 숫자는 구글이 준 **원값**을 쓴다(가점은 발사 여부만 정한다) · 겹친 곳은 꼬리에 붙여 왜 왔는지 보이게."""
     tail = (" · " + "·".join(where) + "에도 떠 있어요") if where else ""
+    # 목적지 = **그 말을 구글에서 검색한 결과**(운영자 260819 «랜딩을 그걸 검색한 구글 창으로 가게 하셈 새창으로»).
+    #   왜 우리 화면이 아닌가 = 이 알림은 「모르는 말이 떴다」를 알리는 것이라, 눌렀을 때 필요한 건
+    #   우리 목록이 아니라 **그 말이 무슨 일인지**다. 트렌드 탭으로 보내면 방금 알림에 적힌 말을
+    #   목록에서 다시 찾아야 한다(등록 키워드 알림은 「내가 찍어둔 말」이라 성격이 달라 화면 딥링크 유지).
+    #   ⚠ 새 창은 서비스워커가 맡는다(viewer/sw.js 0번 분기 = 남의 사이트면 openWindow) — 그 분기가 없으면
+    #     열려 있던 우리 앱 탭이 구글로 갈아치워진다.
+    #   ⚠ 절대 주소라 push_send.abs_url 은 그대로 통과한다(스킴 보유 = 이중 접두 0 · check_push_abs_url 계약).
+    goto = "https://www.google.com/search?q=" + urllib.parse.quote(str(q))
     body = f"«{q}» 가 검색 {vol:,}회로 급상승 중이에요{tail}"
     if DRY:
         print(f"  [드라이런] 발송 생략 — {body}")
         return True
     try:
         r = subprocess.run([sys.executable, str(PUSH), "--notify", "📈 급상승", body,
-                            "--url", "/?tab=trend", "--tag", "nomute-trend-" + key(q), "--kind", "trend"],   # 묶음표 = **급상승어별 고유**(운영자 260819) — 고정이면 뒤에 뜬 말이 앞엣것을 덮는다
+                            "--url", goto, "--tag", "nomute-trend-" + key(q), "--kind", "trend"],   # 묶음표 = **급상승어별 고유**(운영자 260819) — 고정이면 뒤에 뜬 말이 앞엣것을 덮는다
                            # ⚠ 목적지 = **쿼리**(`?tab=`)여야 실제로 그 화면이 열린다(운영자 260819 «랜딩이 채널 요약으로 감»).
                            #   구판 `/#trend` 는 뷰어에서 `?qa=1` 일 때만 해석되는 QA 전용 배선(index.html 18306행)이라
                            #   일반 진입에선 해시가 통째로 무시되고 마지막에 보던 탭(nomute_tab)이 복원됐다 = 채널 요약 랜딩의 실체.
