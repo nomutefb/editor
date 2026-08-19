@@ -578,10 +578,10 @@
   {
    "account": "choi.openai",
    "text": "라즈베리파이에서 돌아갈 만큼 압축해도 성능이 거의 빠지지 않는 모델이 나왔습니다.\n\n온디바이스 AI를 만드는 Liquid AI가 0.2B부터 2.6B까지 소형 모델의 4비트 버전을 새로 냈는데, 네 모델 모두 원본 성능의 97% 수준을 지킵니다.\n폰이든 미니PC든 라즈베리파이든 별도 실행 환경 없이 표준 GGUF 그대로 돌아갑니다.\n\n접근이 기존과 반대입니다. 지금까지는 다 키운 모델을 나중에 압축하다 보니 정밀도가 깎이면서 성능도 같이 새어 나갔는데, Liquid은 훈련 단계에서 미리 4비트 환경을 흉내 내고, 압축된 학생 모델이 원본 교사 모델의 답을 따라가도록 가르쳤습니다. 압축을 견디는 게 아니라 압축된 채로 태어나는 겁니다.\n\n큰 모델을 노트북까지 끌어내리는 경쟁과 별개로, 이쪽은 폰과 웨어러블, 가전, 로봇까지 내려가는 초소형 구간의 경쟁입니다.",
-   "likes": 9,
+   "likes": 16,
    "cmts": 1,
    "time": 1787175009,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/776100878_17983194138112832_4288804236879413078_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk2NzQzMzk5NDYzNTczMzI3Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=n5owgXQSMFQQ7kNvwE9Fy84&_nc_oc=AdoKHDr0PEF2ljA3M7DXHa9XchNjbz0FD59yaYqJHL3kRDBsQSpTtbq2E1K2uzVJ1AU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=8ilUpDXywfsI--YzD1o-hQ&_nc_ss=7a22e&oh=00_AQEloihABi8tdhXpNJPbSNjlPIEbSBPg-jnO4VWV5mK1iw&oe=6A8C096C",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/776100878_17983194138112832_4288804236879413078_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk2NzQzMzk5NDYzNTczMzI3Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=n5owgXQSMFQQ7kNvwE9Fy84&_nc_oc=AdoKHDr0PEF2ljA3M7DXHa9XchNjbz0FD59yaYqJHL3kRDBsQSpTtbq2E1K2uzVJ1AU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=MPOQ-YfNaed2B69JFfMVYQ&_nc_ss=7a22e&oh=00_AQEfACEuxb61S_F37hRJx0zwq1zVYAafx0wLoTTiYCLSpg&oe=6A8C096C",
    "url": "https://www.threads.com/@choi.openai/post/DcPKDKgEmkY",
    "region": "kr"
   },
@@ -641,7 +641,7 @@
    "likes": 0,
    "cmts": 1,
    "time": 1787132202,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/780127051_18081468245407306_5378864589143849554_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk2NzA3NDgzMTIzNDQ1OTA0OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Pf8CsvF4BBkQ7kNvwHAM8bi&_nc_oc=AdqlaRjb6wK9kLr3oHWHbCtZ_6a-YZOm56VsImjoWdfU5x1bWmfLid6CVZwoq97L4AY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=SR1P_CVH2ePXSzLALw0-Zw&_nc_ss=7a22e&oh=00_AQF1rElT00fw3e0AyyEOGZITR1PB8PyKmZ0rymYNKxIGjg&oe=6A8BECEA",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/780127051_18081468245407306_5378864589143849554_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk2NzA3NDgzMTIzNDQ1OTA0OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Pf8CsvF4BBkQ7kNvwHAM8bi&_nc_oc=AdqlaRjb6wK9kLr3oHWHbCtZ_6a-YZOm56VsImjoWdfU5x1bWmfLid6CVZwoq97L4AY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=cOsMmZX8-8FeoMv7ZpUnEA&_nc_ss=7a22e&oh=00_AQEmPZxjBVyg4IyJTiBRqRYSuVTMewJIgqrczUgkQYezQg&oe=6A8BECEA",
    "url": "https://www.threads.com/@aipeekme/post/DcN4YphH2Wo",
    "region": "kr"
   },
@@ -651,7 +651,7 @@
    "likes": 2,
    "cmts": 0,
    "time": 1787121521,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/781251176_38896776296588508_5184879063004881383_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk2Njk4NTEwNDQwOTQyNjEyMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=yk67nwEYYUIQ7kNvwGSIYTu&_nc_oc=AdokagXU2wphQsD57Nnp_JL1OTvh-pwLEe7CTO5kC_VYcrVsVMJPFcNFORgBP-jTBPE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=SR1P_CVH2ePXSzLALw0-Zw&_nc_ss=7a22e&oh=00_AQHIUT74neUajO0oYOGEZrWcY2EharVcIB5TM7huFpUM3Q&oe=6A8C0CA5",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/781251176_38896776296588508_5184879063004881383_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk2Njk4NTEwNDQwOTQyNjEyMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=yk67nwEYYUIQ7kNvwGSIYTu&_nc_oc=AdokagXU2wphQsD57Nnp_JL1OTvh-pwLEe7CTO5kC_VYcrVsVMJPFcNFORgBP-jTBPE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=cOsMmZX8-8FeoMv7ZpUnEA&_nc_ss=7a22e&oh=00_AQF4IZXf9XuH_OByPNEcDg84l6u5Q0KuLRIg-9KjnvT9og&oe=6A8C0CA5",
    "url": "https://www.threads.com/@aipeekme/post/DcNj-85lvjI",
    "region": "kr"
   },
@@ -676,32 +676,12 @@
    "region": "kr"
   },
   {
-   "account": "aicoffeechat",
-   "text": "혹시 신청 놓치신 분들을 위해서 공유해요\n\n링크: https://events.openai.com/devdayexchange2026/?v=1",
-   "likes": 10,
-   "cmts": 0,
-   "time": 1787090539,
-   "thumb": "",
-   "url": "https://www.threads.com/@aicoffeechat/post/DcMo77ik-yC",
-   "region": "kr"
-  },
-  {
-   "account": "aicoffeechat",
-   "text": "AI하시는 분들이라면.. 이건 신청해! \n\nOpenAI가 개발자 행사를 미국 밖으로 들고 나옵니다. 국내에서 OpenAI 도구를 쓰는 분들은 비행기 안 타고 참여할 수 있는 기회입니다.\n\n기존 DevDay는 샌프란시스코에서 열리는 연 1회 행사였는데, 이번엔 도시를 늘려서 현지로 찾아가는 방식이네요.\n\n꿈만 같다 \"서울\"이라니 ..",
-   "likes": 92,
-   "cmts": 3,
-   "time": 1787090534,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/775685800_891282227086200_4387249736637956747_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk2NjcyMzg2MjU2OTg0NDYwMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=oa9H2ORgBkwQ7kNvwG8aGU_&_nc_oc=AdrtSJoBdhYj4T-KIoRcMWbQ4cbWK7Aqm4F_yhuk-F13MSVWNYAktFH88nRiMPZi4x8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Y8MFBpWz27iLMOdQ1DJaRA&_nc_ss=7a22e&oh=00_AQEJf485Hx1YY8leYoWke0-9Vf_tIqTK1UQtAwlvjVLDFw&oe=6A8BF22C",
-   "url": "https://www.threads.com/@aicoffeechat/post/DcMolYein95",
-   "region": "kr"
-  },
-  {
    "account": "choi.openai",
    "text": "추론 속도가 이제 눈으로 따라갈 수 없는 영역에 들어섰습니다.\n\n세레브라스가 새 추론 시스템 CS-4를 공개했습니다.\n회사에 따르면 GPU보다 최대 30배 빠르고, 전력당 처리량은 이전 세대의 10배입니다. A4 한두 장 분량의 답변이 1초 안에 생성되는 속도로, 10조 파라미터 모델을 초당 1,000토큰으로 돌리는 것을 목표로 합니다.\n\n칩 자체는 새것이 아닙니다. 2년 된 WSE-3를 개선한 터보 버전 3장을 한 랙에 넣고 전원과 통신 구조를 다시 설계해 성능을 끌어올렸습니다.\n\n이 속도가 특히 중요한 곳은 에이전트입니다. 사람은 초당 20토큰만 넘어도 읽기 어렵지만, 에이전트는 추론과 도구 호출을 반복하므로 토큰 속도가 곧 작업 완료 시간으로 이어집니다.\n\n다만 랙당 메모리가 GPU 시스템보다 적어 비용 부담이 크다는 지적도 있습니다. 오픈AI 계약과 AMD 제휴를 확보한 세레브라스가 이 성능을 실제 서비스 가격으로 얼마나 경쟁력 있게 내놓을지가 관건입니다.",
-   "likes": 7,
+   "likes": 11,
    "cmts": 1,
    "time": 1787169617,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/775858404_3271138663069883_4714509661608023864_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk2NzM4ODc1ODkwNzA2NDYzNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=NHnKVXXm3PAQ7kNvwHWqV1T&_nc_oc=AdrsN4zhyzLdGsNDSiZGUMbZ-GbVXts4_EJndWjIK-LxZobMEHCREpTLlLkxCoLUXwg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=8ilUpDXywfsI--YzD1o-hQ&_nc_ss=7a22e&oh=00_AQGXIlcp3aPgkI2Hqm5m0DkEwlEvmDaThkmPBEYXWRgDqg&oe=6A8BE2F5",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/775858404_3271138663069883_4714509661608023864_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk2NzM4ODc1ODkwNzA2NDYzNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=NHnKVXXm3PAQ7kNvwHWqV1T&_nc_oc=AdrsN4zhyzLdGsNDSiZGUMbZ-GbVXts4_EJndWjIK-LxZobMEHCREpTLlLkxCoLUXwg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=MPOQ-YfNaed2B69JFfMVYQ&_nc_ss=7a22e&oh=00_AQHliD9VquFwiCqEbNWHUaqs8Np3PCkI9ns_VjIACUq8IA&oe=6A8C1B35",
    "url": "https://www.threads.com/@choi.openai/post/DcO_w5ciJE7",
    "region": "kr"
   },
@@ -711,7 +691,7 @@
    "likes": 2,
    "cmts": 5,
    "time": 1787146339,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/779001441_17907516168463148_996788687850438666_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk2NzE5MzQ5NTc4NTQ4NjU0Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuODYxLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=ysNmpfecAB4Q7kNvwHKRRzZ&_nc_oc=Ado2lNgUjjXkV4ohZoi8_yzTVl4aLTa53SNV4opNr9AWUq99A3ko8l1m8cc81ADjEi8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=W4Rl6-RCeQVlq4M7k4nT8w&_nc_ss=7a22e&oh=00_AQEVxE1_ySkw5LsHlVDDRbar9MaVf11Cg8tciLOypU6Jew&oe=6A8C0835",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/779001441_17907516168463148_996788687850438666_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk2NzE5MzQ5NTc4NTQ4NjU0Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuODYxLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=ysNmpfecAB4Q7kNvwHKRRzZ&_nc_oc=Ado2lNgUjjXkV4ohZoi8_yzTVl4aLTa53SNV4opNr9AWUq99A3ko8l1m8cc81ADjEi8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=9kBlUBCIE1x-BS8F-O4IRw&_nc_ss=7a22e&oh=00_AQG7Bj6l0X5bccTAGi1ZBo73_4piR9MAj1oEIEwg3jQY1Q&oe=6A8C0835",
    "url": "https://www.threads.com/@kopp/post/DcOTXcfiLjT",
    "region": "kr"
   },
@@ -728,10 +708,10 @@
   {
    "account": "choi.openai",
    "text": "27B 모델이 램 8GB 노트북에서 돌아가는 단계까지 왔습니다.\n\n로컬 LLM 쪽에서 양자화로 이름난 Unsloth가 Qwen3.8-27B의 새 압축 버전을 내놨는데, 같은 용량에서 정확도가 10% 올라갔고 1비트까지 눌러 담은 버전도 원본 성능의 77%를 유지한다고 합니다. 지난주 버전만 해도 램이 17GB는 필요했으니 닷새 만에 문턱이 절반 아래로 내려온 겁니다.\n\n양자화는 모델 파라미터의 숫자 정밀도를 낮춰 용량을 줄이는 기술입니다. 무작정 누르면 성능도 같이 하락하는데, Unsloth는 레이어마다 중요도를 따져 민감한 부분은 정밀도를 남기고 덜 중요한 부분만 세게 압축하는 방식으로 손실을 줄였습니다.\n\n이제는 더 작은 모델을 만드는 것뿐 아니라, 큰 모델을 얼마나 덜 손상시키면서 작게 욱여넣느냐가 로컬 LLM의 또 다른 경쟁축이 되고 있습니다.",
-   "likes": 31,
+   "likes": 42,
    "cmts": 0,
    "time": 1787164222,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/779001233_17983190337112832_6180134326092735524_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk2NzM0MzUwNzU1MDY2NzU0NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMzcyNC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=14XjEcHGcmkQ7kNvwFwl6c0&_nc_oc=AdqOgo3DUexinDY4sHmGdb_t5TJYiHMBTq5ngCz4ZoPJz454KvyByUpxVpmsrc2Thm8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=8ilUpDXywfsI--YzD1o-hQ&_nc_ss=7a22e&oh=00_AQF_wEV4wN3mUdfqtN2fT-Ow3xlDwiUIBztBjvoyAyGvcQ&oe=6A8BE401",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/779001233_17983190337112832_6180134326092735524_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk2NzM0MzUwNzU1MDY2NzU0NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMzcyNC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=14XjEcHGcmkQ7kNvwFwl6c0&_nc_oc=AdqOgo3DUexinDY4sHmGdb_t5TJYiHMBTq5ngCz4ZoPJz454KvyByUpxVpmsrc2Thm8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=MPOQ-YfNaed2B69JFfMVYQ&_nc_ss=7a22e&oh=00_AQGZ1lwRP1Hi5JhkHurDvIgayVmF_QTrqdpxvxNezWk2pQ&oe=6A8C1C41",
    "url": "https://www.threads.com/@choi.openai/post/DcO1eZ1goMY",
    "region": "kr"
   },
@@ -741,7 +721,7 @@
    "likes": 0,
    "cmts": 1,
    "time": 1787121072,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778401046_18081412220407306_6281312036291104251_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk2Njk4MTQ3MjcyMTUzODM3OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=5hxr9owvYSUQ7kNvwGa9wfy&_nc_oc=AdprRC2-vmXlaiXxIkJ3BYwYnaSVWEQ1FPY3NLnzMJC8kanOuq_UENDY2njAjRVDrz0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=SR1P_CVH2ePXSzLALw0-Zw&_nc_ss=7a22e&oh=00_AQGKIUqA0Uizex1lFrsnGI96b51PqASoQQdZCw-xNqZLfA&oe=6A8C044C",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778401046_18081412220407306_6281312036291104251_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk2Njk4MTQ3MjcyMTUzODM3OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=5hxr9owvYSUQ7kNvwGa9wfy&_nc_oc=AdprRC2-vmXlaiXxIkJ3BYwYnaSVWEQ1FPY3NLnzMJC8kanOuq_UENDY2njAjRVDrz0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=cOsMmZX8-8FeoMv7ZpUnEA&_nc_ss=7a22e&oh=00_AQH2c62EIbX3w_MG7NjQLHwhkQZUy7KO_xkayozxB0B95A&oe=6A8C044C",
    "url": "https://www.threads.com/@aipeekme/post/DcNjKGoH41K",
    "region": "kr"
   },
@@ -761,22 +741,23 @@
    "likes": 1,
    "cmts": 0,
    "time": 1787117303,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/778340517_1733470877987611_6002725151049538994_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk2Njk0OTY5MzEyNTIzNTAzNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=UxB7DgPoIGkQ7kNvwFqlgC0&_nc_oc=AdozEBoR5g-kz3xEG5ZcjiJGWJV5kV5V25e0cTZ5JGf3elj9o6N6oF9_7sksfLl4mJQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=SR1P_CVH2ePXSzLALw0-Zw&_nc_ss=7a22e&oh=00_AQGX_D_AUPRj-LJNCxjiIzZ93tzGyVKvEclfZ-XuaR9VkA&oe=6A8BE6EC",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/778340517_1733470877987611_6002725151049538994_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk2Njk0OTY5MzEyNTIzNTAzNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=UxB7DgPoIGkQ7kNvwFqlgC0&_nc_oc=AdozEBoR5g-kz3xEG5ZcjiJGWJV5kV5V25e0cTZ5JGf3elj9o6N6oF9_7sksfLl4mJQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=cOsMmZX8-8FeoMv7ZpUnEA&_nc_ss=7a22e&oh=00_AQGSFwhrhYnQePcVPgIdhtj6-g9wxzGAkuNNOoEDcTVmPg&oe=6A8BE6EC",
    "url": "https://www.threads.com/@aipeekme/post/DcNb7pkkxFc",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "Opus 4.8급 성능을 주장하는 오픈소스 모델이 MIT 라이선스로 그냥 풀렸습니다.\n\nOrnith이라는 신생 랩이 공개한 Ornith-1.5인데, 9B부터 397B까지 세 가지 크기를 내놓으면서 상업적 이용까지 열어뒀습니다. 자체 발표 기준으로는 코딩과 에이전트 벤치마크에서 최상위 상용 모델과 비슷한 점수를 냈다고 합니다.\n\n훈련 방식이 독특한데요. 사람이 만든 문제집으로 배우는 게 아니라, 모델이 스스로 새 과제를 내고 풀이 환경을 짠 다음 풀어본 결과에서 강화학습으로 배우는 루프를 돌립니다. 좋은 학습 데이터가 귀해지는 시대에 모델이 자기 교재를 직접 쓰는 셈입니다.\n\n물론 아직 자체 벤치마크라 외부 검증이 남았고, 홍보성 계정들이 초반 반응을 끌어올린 흔적도 있어서 실사용 평가는 기다려볼 필요가 있습니다.\n\n작년까지 오픈소스의 무기가 가격이었다면 이제는 학습 방법으로도 프런티어와 경쟁하는 그림이라, 자기 교재로 어디까지 올라가는지 다음 버전을 지켜볼 만합니다.",
+   "likes": 33,
+   "cmts": 2,
+   "time": 1787158857,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778543499_17983169790112832_8230760850242889010_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk2NzI5ODQ5NjUxMTQ5OTIwMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=sJh31Kb2fSsQ7kNvwFV0uNw&_nc_oc=AdpUkiuvbzBhYLMVqxylNpc7XHXQpC77Z91tu4vzU7OBD3DoAkuKYd1_USDSwbvAkwk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=MPOQ-YfNaed2B69JFfMVYQ&_nc_ss=7a22e&oh=00_AQHzEevgH9Mj72x3YfjWo9ysVfxD1mH4_cZ1rApsZEzL3Q&oe=6A8BF626",
+   "url": "https://www.threads.com/@choi.openai/post/DcOrPaCglvA",
    "region": "kr"
   }
  ],
  "tiktok": [],
  "reddit": [
-  {
-   "sub": "Damnthatsinteresting",
-   "title": "Global shoe sizes",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/MHI0MHNiNGJvZGtoMfLJPDSub1R4GsW-ZjWJNSe4826CCyiKnKbi2K0cySEg.png?width=320&crop=smart&auto=webp&s=896860ad73e02e1ad1e582d4123e553bd3ac2e0a",
-   "time": 1787165407,
-   "url": "https://www.reddit.com/r/Damnthatsinteresting/comments/1vsvf1s/global_shoe_sizes/"
-  },
   {
    "sub": "meirl",
    "title": "meirl",
@@ -785,6 +766,15 @@
    "thumb": "https://preview.redd.it/74dsms8ltbkh1.jpeg?width=640&crop=smart&auto=webp&s=5f37f6351967e9ba8cb15e1449135b645b4c9e9c",
    "time": 1787142968,
    "url": "https://www.reddit.com/r/meirl/comments/1vsl7l4/meirl/"
+  },
+  {
+   "sub": "GirlDinnerDiaries",
+   "title": "First dinner with his family and his mom picking me apart",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/pj4ghixg4ckh1.jpeg?width=640&crop=smart&auto=webp&s=d02bbc67eab355954d72f13473fc0ef28f72e037",
+   "time": 1787146778,
+   "url": "https://www.reddit.com/r/GirlDinnerDiaries/comments/1vsmqpw/first_dinner_with_his_family_and_his_mom_picking/"
   },
   {
    "sub": "interestingasfuck",
@@ -797,21 +787,12 @@
   },
   {
    "sub": "GirlDinnerDiaries",
-   "title": "First dinner with his family and his mom picking me apart",
+   "title": "Flew home from our vacation without my fiancé",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/pj4ghixg4ckh1.jpeg?width=640&crop=smart&auto=webp&s=d02bbc67eab355954d72f13473fc0ef28f72e037",
-   "time": 1787146778,
-   "url": "https://www.reddit.com/r/GirlDinnerDiaries/comments/1vsmqpw/first_dinner_with_his_family_and_his_mom_picking/"
-  },
-  {
-   "sub": "comics",
-   "title": "The Aesthetic Rebellion",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/acrm78tokdkh1.jpg?width=140&height=140&auto=webp&s=8867711c8a4190af99724694aa3007c50086ef33",
-   "time": 1787164199,
-   "url": "https://www.reddit.com/r/comics/comments/1vsuuwg/the_aesthetic_rebellion/"
+   "thumb": "https://preview.redd.it/otw5cxizgekh1.jpeg?width=640&crop=smart&auto=webp&s=5df18e989e0a6127b0486b271a0eca435f03b466",
+   "time": 1787175077,
+   "url": "https://www.reddit.com/r/GirlDinnerDiaries/comments/1vsztcb/flew_home_from_our_vacation_without_my_fiancé/"
   },
   {
    "sub": "SipsTea",
@@ -823,6 +804,24 @@
    "url": "https://www.reddit.com/r/SipsTea/comments/1vseqpx/wtf_is_wrong_with_these_people/"
   },
   {
+   "sub": "Damnthatsinteresting",
+   "title": "Global shoe sizes",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/MHI0MHNiNGJvZGtoMfLJPDSub1R4GsW-ZjWJNSe4826CCyiKnKbi2K0cySEg.png?width=320&crop=smart&auto=webp&s=896860ad73e02e1ad1e582d4123e553bd3ac2e0a",
+   "time": 1787165407,
+   "url": "https://www.reddit.com/r/Damnthatsinteresting/comments/1vsvf1s/global_shoe_sizes/"
+  },
+  {
+   "sub": "comics",
+   "title": "The Aesthetic Rebellion",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/acrm78tokdkh1.jpg?width=140&height=140&auto=webp&s=8867711c8a4190af99724694aa3007c50086ef33",
+   "time": 1787164199,
+   "url": "https://www.reddit.com/r/comics/comments/1vsuuwg/the_aesthetic_rebellion/"
+  },
+  {
    "sub": "AskReddit",
    "title": "What do you think is driving Gen Z to drink less and have fewer relationships?",
    "score": 0,
@@ -830,24 +829,6 @@
    "thumb": "",
    "time": 1787145141,
    "url": "https://www.reddit.com/r/AskReddit/comments/1vsm1xl/what_do_you_think_is_driving_gen_z_to_drink_less/"
-  },
-  {
-   "sub": "gaming",
-   "title": "EA employees brace for the worst under Saudi ownership: 'Hard to feel good about being bought out by a regime that's very much at odds with progressive society'",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/KY6GCyoNPRVmU6AZQQoc1ybW-0ISPLB1Z9RZHeREess.jpeg?width=640&crop=smart&auto=webp&s=4cdb0bb1053f782e7cc2ea3d86e678cda9ce5066",
-   "time": 1787165630,
-   "url": "https://www.reddit.com/r/gaming/comments/1vsviuy/ea_employees_brace_for_the_worst_under_saudi/"
-  },
-  {
-   "sub": "whatisit",
-   "title": "wtf is this? I coughed it up",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/ubaozdv8qdkh1.jpeg?width=640&crop=smart&auto=webp&s=0d05ef3946d1b73c9d5b94e976d0b40e89735202",
-   "time": 1787166057,
-   "url": "https://www.reddit.com/r/whatisit/comments/1vsvq87/wtf_is_this_i_coughed_it_up/"
   },
   {
    "sub": "mildlyinfuriating",
@@ -859,13 +840,22 @@
    "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1vsx8sk/this_is_how_my_buddy_smokes_his_joints_i_am_angry/"
   },
   {
-   "sub": "okbuddycinephile",
-   "title": "Most satisfying character death?",
+   "sub": "gaming",
+   "title": "EA employees brace for the worst under Saudi ownership: 'Hard to feel good about being bought out by a regime that's very much at odds with progressive society'",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/o74zzm1hubkh1.jpeg?width=640&crop=smart&auto=webp&s=0c25ae85131c536ddda358820c8ae8407050af26",
-   "time": 1787143265,
-   "url": "https://www.reddit.com/r/okbuddycinephile/comments/1vslblb/most_satisfying_character_death/"
+   "thumb": "https://external-preview.redd.it/KY6GCyoNPRVmU6AZQQoc1ybW-0ISPLB1Z9RZHeREess.jpeg?width=640&crop=smart&auto=webp&s=4cdb0bb1053f782e7cc2ea3d86e678cda9ce5066",
+   "time": 1787165630,
+   "url": "https://www.reddit.com/r/gaming/comments/1vsviuy/ea_employees_brace_for_the_worst_under_saudi/"
+  },
+  {
+   "sub": "pics",
+   "title": "The Christian Crusade demonstration in Dearborn, MI on August 18, 2026.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/y71d4avg6ekh1.jpeg?width=640&crop=smart&auto=webp&s=b8ca9329515c81e395a25299b171faeffce6f191",
+   "time": 1787171513,
+   "url": "https://www.reddit.com/r/pics/comments/1vsy8eg/the_christian_crusade_demonstration_in_dearborn/"
   },
   {
    "sub": "meirl",
@@ -875,6 +865,33 @@
    "thumb": "https://preview.redd.it/m9zs2446wckh1.jpeg?width=640&crop=smart&auto=webp&s=886e271e37057331710536ec0480c9daa843025f",
    "time": 1787155944,
    "url": "https://www.reddit.com/r/meirl/comments/1vsqwn4/meirl/"
+  },
+  {
+   "sub": "worldnews",
+   "title": "/r/WorldNews Live Thread: Russian Invasion of Ukraine Day 1638, Part 1 (Thread #1785)",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1787112177,
+   "url": "https://www.reddit.com/r/worldnews/comments/1vsbnac/rworldnews_live_thread_russian_invasion_of/"
+  },
+  {
+   "sub": "worldnews",
+   "title": "US reportedly weighing major troop pullback from Gulf following damage in Iran war",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/V19lOwiU1c3IwSSwWNXumQU6NCnKOSD0BoXEn0Z9mTs.jpeg?width=640&crop=smart&auto=webp&s=0846b549cf9b9769550576fa5d76fecd4ec74fb7",
+   "time": 1787156842,
+   "url": "https://www.reddit.com/r/worldnews/comments/1vsrcf1/us_reportedly_weighing_major_troop_pullback_from/"
+  },
+  {
+   "sub": "worldnews",
+   "title": "Merck-Moderna mRNA cancer vaccine succeeds in late-stage melanoma trial",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/fnb4OnwQ85Y6D4GLNKi45scjKy-LZWhQora3O8KEBj0.jpeg?width=640&crop=smart&auto=webp&s=640bfbe13b2bfa584a88f2c86f9954c635e891ba",
+   "time": 1787144705,
+   "url": "https://www.reddit.com/r/worldnews/comments/1vslvpe/merckmoderna_mrna_cancer_vaccine_succeeds_in/"
   }
  ],
  "disaster": [],
@@ -913,10 +930,10 @@
    }
   },
   "landing": {
-   "at": "2026-08-20T06:35:19",
+   "at": "2026-08-20T07:01:00",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-20T07:00:54.086536+09:00"
+ "updated": "2026-08-20T07:31:03.074405+09:00"
 }
