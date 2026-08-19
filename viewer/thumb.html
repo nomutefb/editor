@@ -970,7 +970,7 @@
   .abdel svg { width:15px; height:15px; }   /* × 문자 폐지 → SVG X-path 정중앙(§🔒 3-1) */
   .abdel:active { transform:scale(var(--press-m,.9)); }
   .abdelh { text-align:center; }
-  .abrow.abfix input { opacity:.5; color:var(--mut); cursor:default; }   /* 기본 4종 = 잠금(읽기전용) */
+  .abrow.abfix input { opacity:.5; color:var(--mut); cursor:default; }   /* 기본 축약쌍 = 잠금(읽기전용) */
   .abfixtag { font-size:9.5px; color:var(--mut); text-align:center; align-self:center; letter-spacing:-.3px; }
   .abadd { margin-top:12px; width:100%; padding:11px; border-radius:10px; font:inherit; font-size:13.5px; font-weight:700; cursor:pointer;
     color:var(--accent); background:rgba(var(--accent-rgb),.10); border:1px dashed rgba(var(--accent-rgb),.45); }
@@ -1042,7 +1042,7 @@
         <!-- 발사 = 레일 **캡슐③**(운영자 260807 «돋보기 처럼 구분되게 하나 더 만든다음에 거기로 생성을 옮겨줘») — 구 거처 = 미리보기 창 **안** 하단 오버레이(260806 · 사진을 가렸다) · ⚠배치 = 캡슐 순서 [돋보기][생성][옵션] = 생성 y 고정(옵션 캡슐은 탭마다 길이가 다르고 특수 탭은 통째로 은닉되므로 맨 뒤에 두면 탭마다 생성이 튄다)  (구 주석: 260806) — 구 거처 = 도크 하단 발사행(#makeRow) · DOM·id·클래스·핸들러 전부 원문 그대로 옮겼다(레일 이주 260802 선례 문법) = 발사 로직·게이지·상태머신 무접촉 · 위치·폭은 위 `.cpprev-box > .pvfire` 한 규칙이 전담 -->
         <div class="gowrap trail-fire">
           <button class="go" id="go">생성</button>
-          <label class="chk go-abbr" id="abbrBox" title="이 → 李 · 윤 → 尹 · ... → ⋯"><input type="checkbox" id="abbr" checked><span class="cbox" aria-hidden="true"><svg class="ackm" viewBox="0 0 24 24" fill="none" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path class="sc-dash" d="M6 12h12"/><path class="sc-chk" d="M5 13l4 4L19 7"/></svg></span> 축약</label>
+          <label class="chk go-abbr" id="abbrBox" title="이 → 李 · 윤 → 尹 · 미 → 美 · ... → ⋯"><input type="checkbox" id="abbr" checked><span class="cbox" aria-hidden="true"><svg class="ackm" viewBox="0 0 24 24" fill="none" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path class="sc-dash" d="M6 12h12"/><path class="sc-chk" d="M5 13l4 4L19 7"/></svg></span> 축약</label>
         </div>
         </div>
     </div>
@@ -1251,12 +1251,12 @@
   </div>
 </dialog>
 
-<!-- 축약어 등록 = '축약' 토글 롱프레스 → 사용자 커스텀 치환쌍(축약 전→후) 추가/삭제. 기본 4종은 불변(항상 적용). -->
+<!-- 축약어 등록 = '축약' 토글 롱프레스 → 사용자 커스텀 치환쌍(축약 전→후) 추가/삭제. 기본 축약쌍은 불변(항상 적용). -->
 <dialog id="abbrDlg" class="abdlg">
   <div class="abdlg-in">
     <button class="dlg-x" id="abbrX" type="button" aria-label="닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6 18 18M18 6 6 18"/></svg></button>
     <div class="abdlg-h">축약어 등록</div>
-    <div class="abdlg-note"><b>기본</b> 표시 4종은 항상 적용(수정·삭제 불가). 그 아래 <b>+ 추가</b>로 직접 등록 — <b>축약 전</b>에 <u>앞뒤 글자까지</u> 넣어 범위를 정함(예: <code>군 </code>→<code>軍 </code>, 또는 <code>군,</code>→<code>軍,</code>).</div>
+    <div class="abdlg-note"><b>기본</b> 표시 5종은 항상 적용(수정·삭제 불가). 그 아래 <b>+ 추가</b>로 직접 등록 — <b>축약 전</b>에 <u>앞뒤 글자까지</u> 넣어 범위를 정함(예: <code>군 </code>→<code>軍 </code>, 또는 <code>군,</code>→<code>軍,</code>).</div>
     <div class="abdlg-tbl" id="abbrTbl">
       <div class="abrow abhd"><span class="abno">no</span><span>축약 전</span><span>축약 후</span><span class="abdelh">삭제</span></div>
     </div>
@@ -2458,14 +2458,14 @@ function edNavSync() {   // ‹› 끝단 disabled 동기 — 기본값(첫째)�
   }
 })();
 
-// ── 축약어 등록 다이얼로그 — 사용자 커스텀 치환쌍(축약 전→후) CRUD. 기본 4종은 불변(항상 적용). ──
+// ── 축약어 등록 다이얼로그 — 사용자 커스텀 치환쌍(축약 전→후) CRUD. 기본 축약쌍은 불변(항상 적용). ──
 function abbrRenumber() { document.querySelectorAll('#abbrTbl .abrow:not(.abhd)').forEach((r, i) => { const n = r.querySelector('.abno'); if (n) n.textContent = i + 1; }); }
 function abbrSaveRows() {
   const pairs = [];
-  document.querySelectorAll('#abbrTbl .abrow:not(.abhd):not(.abfix)').forEach(r => { const f = r.querySelector('.abfrom').value, to = r.querySelector('.abto').value; if (f) pairs.push({ from: f, to: to }); });   // 잠금(기본4종) 제외 · from 있어야 저장(to 빈값=삭제치환 허용)
+  document.querySelectorAll('#abbrTbl .abrow:not(.abhd):not(.abfix)').forEach(r => { const f = r.querySelector('.abfrom').value, to = r.querySelector('.abto').value; if (f) pairs.push({ from: f, to: to }); });   // 잠금(기본 축약쌍) 제외 · from 있어야 저장(to 빈값=삭제치환 허용)
   try { localStorage.setItem(ABBR_KEY, JSON.stringify(pairs)); } catch {}
 }
-function abbrAddRow(from, to, fixed) {   // fixed=true → 기본 4종(읽기전용·삭제불가·저장제외) / false → 사용자 커스텀
+function abbrAddRow(from, to, fixed) {   // fixed=true → 기본 축약쌍(읽기전용·삭제불가·저장제외) / false → 사용자 커스텀
   const tbl = $('#abbrTbl'); if (!tbl) return null;
   const row = document.createElement('div'); row.className = 'abrow' + (fixed ? ' abfix' : '');
   if (fixed) {
@@ -2484,7 +2484,7 @@ function abbrAddRow(from, to, fixed) {   // fixed=true → 기본 4종(읽기전
 function abbrRenderRows() {
   const tbl = $('#abbrTbl'); if (!tbl) return;
   tbl.querySelectorAll('.abrow:not(.abhd)').forEach(r => r.remove());
-  ABBR_BUILTIN.forEach(([f, t]) => abbrAddRow(f, t, true));   // 기본 4종 = 잠금 행(리스트에 보이되 수정/삭제 불가·항상 적용)
+  ABBR_BUILTIN.forEach(([f, t]) => abbrAddRow(f, t, true));   // 기본 축약쌍 = 잠금 행(리스트에 보이되 수정/삭제 불가·항상 적용)
   const cur = abbrCustom();
   if (cur.length) cur.forEach(p => abbrAddRow(p.from, p.to)); else abbrAddRow('', '');   // 사용자 커스텀(없으면 빈 1행)
 }
@@ -5360,9 +5360,9 @@ function jobLabel() {
 }
 // 제작 = 동시 가능. 누를 때마다 잡 생성 → 로그에 쌓고 각자 폴링(백엔드는 id별 동시처리 안전). #go 비활성 안 함.
 let _goLock = false;   // 더블탭 오발사만 방지(짧은 디바운스) — 큐잉 자체는 막지 않음
-// 축약 = 기본 4종(정본·절대규칙5·불변) + 사용자 커스텀 쌍(축약 토글 롱프레스 등록·localStorage). 리터럴 치환(split/join = 정규식 이스케이프 불요).
-const ABBR_BUILTIN = [['...', '⋯'], ['•', '·'], ['이,', '李,'], ['윤,', '尹,']];   // 정본 4종 — 절대규칙(불변)
-const ABBR_STANDALONE = new Set(['이,', '윤,']);   // 성씨(이/윤) = '단독'일 때만 변환 — 앞 글자가 한글 음절이면 이름 일부라 보존(예 "윤가이,"→李 변환 안 함 · 260627)
+// 축약 = 기본 5종(정본·절대규칙5·불변) + 사용자 커스텀 쌍(축약 토글 롱프레스 등록·localStorage). 리터럴 치환(split/join = 정규식 이스케이프 불요).
+const ABBR_BUILTIN = [['...', '⋯'], ['•', '·'], ['이,', '李,'], ['윤,', '尹,'], ['미,', '美,']];   // 정본 5종 — 절대규칙(불변) · 260820 「미,」→「美,」 편입(운영자 «해더에서 미 = 한자로 변환되어야되는데 안되더라고» — 실측 원인 = 이 표에 그 쌍이 없었다{`_src.json` abbr:true인데 산출 제목이 「미, CBDC 도입 금지 선언」 그대로} · 커스텀 쌍은 그 브라우저 localStorage 전용이라 기기를 옮기면 사라진다 = 정본 편입이 유일한 해)
+const ABBR_STANDALONE = new Set(['이,', '윤,', '미,']);   // 성씨(이/윤)·국가 약칭(미) = '단독'일 때만 변환 — 앞 글자가 한글 음절이면 이름·낱말의 일부라 보존(예 "윤가이,"→李 변환 안 함 · 260627 / "재미,"·"의미,"·"취미,"→美 변환 안 함 · 260820)
 const ABBR_KEY = 'nomute_thumb_abbr';   // 사용자 커스텀 [{from,to},…]
 function abbrCustom() { try { const a = JSON.parse(localStorage.getItem(ABBR_KEY) || '[]'); return Array.isArray(a) ? a.filter(p => p && p.from) : []; } catch { return []; } }
 const _abbrEsc = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -5374,7 +5374,7 @@ function abbrStandalone(s, from, to) {   // 앞이 문장 시작·공백·기호
 // ⭐ 260807 6차(운영자 "a ㄱㄱ") — 판정·미리보기가 **발사와 같은 텍스트**를 보게 하는 단일 진입점.
 //   ⚠ 진단 = 축약은 발사 직전에만 적용됐고(`$('#abbr').checked` 분기 2곳) 힌트·차단·미리보기는 **원문**을 재서
 //     세 면이 다른 글자의 길이를 쟀다(평의회 5·7 실측 · 실 POST payload로 확정).
-//   ⚠ 실측상 기본 4종은 폭을 **늘린다**(`윤,`→`尹,` +6.1px · `•`→`·` +16.3px · `...`→`⋯` +1.9px = 한자·중점이 더 넓다)
+//   ⚠ 실측상 기본 축약은 폭을 **늘린다**(`윤,`→`尹,` +6.1px · `•`→`·` +16.3px · `...`→`⋯` +1.9px = 한자·중점이 더 넓다)
 //     → 증상 = 「화면은 멀쩡한데 생성 버튼만 안 눌린다」(커스텀 등록 없이 **누구에게나**).
 //     커스텀이 글자를 줄이는 경우엔 반대로 「화면은 잘렸는데 산출물엔 다 들어간다」가 났다.
 //   ⚠ 조건은 발사와 **동일**하게 `#abbr` 체크박스를 본다(끄면 종전 동작 100% 복귀 = 롤백 스위치가 화면에 이미 있다).
