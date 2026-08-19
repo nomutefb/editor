@@ -5401,6 +5401,8 @@ def check_land_share():
       ① 스냅샷 시점 기준점 `BASE` 기록(자기 삭제와 남의 삭제를 가르는 유일 판별점)
       ② 삭제 스테이지 중 **BASE 에 없던 파일**을 `origin/main` 에서 복원(= 남이 얹은 것)
       ③ 파일형 원장은 **줄 합집합**으로 남의 줄을 되붙인다(통째 복원이면 우리 줄이 죽는다)
+      ④ **우리 스냅샷이 BASE 와 바이트 동일한 수정분**(= 이 런이 안 건드린 남의 파일)은 origin/main
+         최신본을 채택한다 — 통째 교체가 남의 최신 변경을 옛 사본으로 되돌리는 축(260820 실사고)
     ⚠ **BASE 에 있던 삭제는 유지해야 한다** — 그건 우리가 소비해서 지운 것(analyze 가 처리한 pending 픽)이라
       복원하면 같은 픽이 영원히 재분석된다. 술어가 「BASE 부재」인 이유가 그것이다(샌드박스 오분류 0 실증)."""
     p_gl = os.path.join(ROOT, '.github', 'scripts', 'git_land.sh')
@@ -5425,13 +5427,20 @@ def check_land_share():
     #   (여러 줄인 스냅샷 = `viewer/insta_data.json` 13,151줄·꼬리 개행 없음 → 「줄 2개 이상」류로는 못 막는다).
     if 'case "$mod" in *.json)' not in code or 'tail -c 1 "$mod"' not in code:
         bad.append('③-b 합집합 대상 판별 소실 — 통짜 스냅샷(JSON)에 줄 합집합이 걸려 파일이 이어붙어 깨진다(260817 실사고)')
+    # ⚠⚠ 260820 실사고 — ②는 남이 **얹은** 것의 삭제만 본다. 남이 **고친** 것을 우리 옛 사본으로
+    #   되돌리는 것은 수정(M)이라 ②를 빠져나가고 ③은 *.json 을 배제하므로 어느 층에도 안 걸린다.
+    #   실물 = smoke-nightly 착지(19:48:28Z f279fe3a)를 scrape(19:52:51Z 4ff91132)이 4분 만에 정확히
+    #   원복(updated 08-20 → 08-18) → UI 스모크 관측이 이틀째 08-18 에 멈춰 「정체 49시간」 경고.
+    #   scrape 인자가 `scraper/obs` **디렉터리 통째**라 자기가 안 만드는 남의 파일이 스냅샷에 딸려 든다.
+    if 'cmp -s - "$SNAP/' not in code or 'git checkout -q origin/main --' not in code:
+        bad.append('④ 남의 최신본 되돌리기 차단 소실 — 이 런이 안 건드린 파일을 옛 사본으로 덮고 push 가 성공한다(260820 실사고)')
     if bad:
         print('❌ 공유 착지 게이트 — 통째 교체형 착지가 남의 것을 지우는 것을 막는 층이 빠졌다:')
         for b in bad:
             print('   ·', b)
         print('   → 정본 = git_land.sh 재적층 뒤 커밋 전 「BASE 에 없던 삭제 = 남이 얹은 것 → 복원」 · 「파일형 = 줄 합집합」.')
         return 1
-    print('✅ 공유 착지 게이트 — git_land 재적층이 남의 착지분을 복원한다(BASE 대조 3축 생존 · 자기 소비 삭제는 유지).')
+    print('✅ 공유 착지 게이트 — git_land 재적층이 남의 착지분을 복원·유지한다(BASE 대조 4축 생존 · 자기 소비 삭제는 유지).')
     return 0
 
 

@@ -78,6 +78,32 @@ for i in 1 2 3 4 5 6; do
   #     (인자 블록리스트 게이트는 pc_lane 처럼 `"$@"` 로 넘기는 자리를 원리적으로 못 보고, insta-fetch 의
   #      messages 실림을 하드로 요구하는 기존 게이트와도 정면 충돌해 레포가 언다 = 그 안은 폐기했다).
   if [ -n "$BASE" ]; then
+    # ⚠⚠ 남의 최신본 되돌리기 차단(260820 봉합 · 실사고 = UI 스모크 관측 정체 49시간) ──────────
+    #   아래 삭제(D) 축은 「남이 **얹은** 파일이 지워지는 것」만 막는다. 같은 통째 교체가 「남이 **고친**
+    #   파일을 우리 옛 사본으로 되돌리는 것」은 수정(M)이라 그 축을 그냥 빠져나가고, 그 아래 줄 합집합도
+    #   통짜 스냅샷(*.json)은 배제하므로 아무 층에도 안 걸린다 = 무음 되돌리기.
+    #   실측 진범 = smoke-nightly 가 19:48:28Z 에 관측을 착지시키자 scrape(15분 주기)이 19:52:51Z 에
+    #   정확히 원복했다(updated 08-20 → 08-18 · 커밋 f279fe3a → 4ff91132). scrape 은 인자로
+    #   `scraper/obs` **디렉터리 통째**를 넘기는데 그 안의 smoke_last.json 은 자기가 안 만드는 남의 파일이고,
+    #   체크아웃 시점 옛 사본이 스냅샷에 딸려 들어가 재적층에서 최신본을 덮었다.
+    #   ⚠ 증상이 0이다 = 스모크 28종 PASS · 잡 초록 · 착지 로그도 「착지 성공」 · 화면 정상 → 유일한
+    #     검출기가 watchdog ⑥ 의 「정체 N시간」이었고 그 경고는 「스모크가 안 돌았다」로 읽혀 원인을
+    #     반대로 가리켰다(260817 착지 실패와 증상이 같아 두 세션이 그쪽을 봤다).
+    #   술어 = 「스테이지된 수정분 중 **우리 스냅샷이 BASE 와 바이트 동일**한 것」 = 이 런이 한 글자도 안 쓴
+    #     파일 = 인자에 딸려온 남의 것 → origin/main 최신본을 채택한다.
+    #   ⚠ 오분류가 구조적으로 0 = 우리가 실제로 쓴 파일은 스냅샷 ≠ BASE 라 반드시 우리 것이 이긴다
+    #     (종전 계약 무손상) · 안 쓴 파일은 애초에 얹을 이유가 없다. 자리가 D·합집합 **앞**인 것도 계약 =
+    #     여기서 최신본으로 되돌린 파일은 아래 합집합이 자연히 no-op 이 된다.
+    while IFS= read -r keep; do
+      [ -n "$keep" ] || continue
+      git cat-file -e "$BASE:$keep" 2>/dev/null || continue          # BASE 에 없다 = 우리 신규 = 대상 아님
+      [ -f "$SNAP/$keep" ] || continue
+      git show "$BASE:$keep" 2>/dev/null | cmp -s - "$SNAP/$keep" || continue   # 우리가 고쳤다 = 우리 것 유지
+      git checkout -q origin/main -- "$keep" 2>/dev/null \
+        && echo "git_land: 남의 최신본 유지(이 런 무변경) — $keep"
+    done <<EOF_KEEP
+$(git diff --cached --name-only --diff-filter=M 2>/dev/null)
+EOF_KEEP
     while IFS= read -r gone; do
       [ -n "$gone" ] || continue
       if ! git cat-file -e "$BASE:$gone" 2>/dev/null; then      # BASE 에 없다 = 스냅샷 이후 남이 얹은 것
