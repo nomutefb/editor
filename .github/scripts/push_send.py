@@ -25,6 +25,12 @@ NOTIF_ICONS = ROOT / "assets" / "brand" / "notif_dataurl.json"   # 종류별 아
 # ⚠️ 이건 **요청**이지 보장이 아니다 — 안드로이드 알림 채널이 무음·중요도 낮음이면 그쪽이 이긴다(폰 설정 축).
 # 되돌리기 = 이 집합을 {"brk","iss"}로 좁히면 종전 동작(구조 무변).
 ALERT_KINDS = {"brk", "iss", "make", "sys", "trend", "kw"}
+# ── 묶음표(tag) = **사건별 고유**(운영자 260819 «하나 오면 다른거 묻히는거아냐?» = 정확한 의심) ────────────
+# ⚠️ 실사고 구조 = 긴급·이슈·키워드·급상승이 **고정 묶음표**를 써서, 같은 종류가 연달아 오면 안드로이드가
+#    「같은 알림의 갱신」으로 보고 **앞엣것을 지우고 뒤엣것으로 교체**했다 = 첫 속보를 못 본 채로 사라진다.
+#    제작 완료·요약 완료는 처음부터 건별 고유라 이 사고가 없었다(그쪽 문법을 이 축에도 맞춘다).
+# ⚠️ 시스템(파이프라인·검문·수집실패)은 **일부러 고정 유지** — 같은 정체가 30분마다 반복되는 상태 알림이라
+#    고유화하면 같은 말이 하루 수십 개 쌓인다(그쪽은 덮는 게 이득 = 성격이 다른 축).
 VIBRATE = [200, 100, 200]   # 짧게-쉬고-짧게 = 문자 알림과 같은 결(긴 진동은 손목에서 과하다)
 PAYLOAD_MAX = 3900   # 웹푸시 페이로드 실효 한도 4KB — 초과분은 아이콘을 떼고 보낸다(알림 자체가 사라지는 것보다 낫다)
 FAST_MAX_H = 4   # 최신 긴급만 푸시(뷰어 토스트와 동일 단일상수 정신)
@@ -380,7 +386,7 @@ def main():
                     print(f"  ⊘ 사건중복 억제(AI): {(c.get('title') or '')[:34]} ≈ {str(sent_events[dup].get('title', ''))[:28]}", file=sys.stderr)
                     suppressed_keys.extend(ks)
                     continue
-            msgs.append({"keys": ks, "ev_title": c.get("title") or "", "title": "News", "body": ("(긴급) " + disp_title(c))[:120], "url": brk_url(c), "tag": "nomute-breaking", "kind": "brk", "icon": notif_icon("brk", "sig") or ""})   # 제목="News"(고정·OS 볼드) · 본문="(긴급) 헤드라인"(외신=번역 제목) · url=해당 건 딥링크(요약완료=요약창/미완료=메이저링크 · 운영자 260622)
+            msgs.append({"keys": ks, "ev_title": c.get("title") or "", "title": "News", "body": ("(긴급) " + disp_title(c))[:120], "url": brk_url(c), "tag": "nomute-breaking-" + hashlib.md5((ks[0] if ks else "").encode("utf-8")).hexdigest()[:10], "kind": "brk", "icon": notif_icon("brk", "sig") or ""})   # 제목="News"(고정·OS 볼드) · 본문="(긴급) 헤드라인"(외신=번역 제목) · url=해당 건 딥링크(요약완료=요약창/미완료=메이저링크 · 운영자 260622)
         # ── ⚡이슈 발송(긴급 루프 뒤 = 긴급이 우선) ────────────────────────────────────────
         # ⚠️ 원장 키에 "iss:" 접두를 붙여 긴급 키와 **분리**한다 — 접두가 없으면 이슈로 먼저 나간 사건이
         #    나중에 속보로 승격돼도 "이미 보냄"에 막혀 진짜 긴급을 놓친다(반대 방향은 아래 원본 키 검사가 막는다).
@@ -427,7 +433,7 @@ def main():
                         suppressed_keys.extend(ks)
                         continue
                 msgs.append({"keys": ks, "ev_title": _cand_t, "title": "News", "body": ("(이슈) " + disp_title(c))[:120],
-                             "url": brk_url(c), "tag": "nomute-issue", "kind": "iss",
+                             "url": brk_url(c), "tag": "nomute-issue-" + hashlib.md5((ks[0] if ks else "").encode("utf-8")).hexdigest()[:10], "kind": "iss",
                              "icon": notif_icon("iss", "sig") or ""})   # 노랑 지구본 = 화면 ⚡이슈 배지와 같은 색(운영자 260818)
                 iss_n += 1
 

@@ -102,7 +102,7 @@ def send(q, vol):
         return True
     try:
         r = subprocess.run([sys.executable, str(PUSH), "--notify", "📈 급상승", body,
-                            "--url", "/#trend", "--tag", "nomute-trend", "--kind", "trend"],
+                            "--url", "/#trend", "--tag", "nomute-trend-" + key(q), "--kind", "trend"],   # 묶음표 = **급상승어별 고유**(운영자 260819) — 고정이면 뒤에 뜬 말이 앞엣것을 덮는다
                            capture_output=True, text=True, timeout=180)
         print((r.stdout or "").strip()[-400:])
         if r.returncode != 0:

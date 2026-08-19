@@ -163,7 +163,7 @@ def send(kw, bucket):
         return True
     try:
         r = subprocess.run([sys.executable, str(PUSH), "--notify", "🔔 키워드 발견", body,
-                            "--url", "/", "--tag", "nomute-kw", "--kind", "kw"],
+                            "--url", "/", "--tag", "nomute-kw-" + slug(kw), "--kind", "kw"],   # 묶음표 = **등록어별 고유**(운영자 260819 «하나 오면 다른거 묻히는거아냐?») — 고정이면 다른 키워드가 떠도 앞 알림을 덮어 첫 발견을 못 본 채 사라진다
                            capture_output=True, text=True, timeout=180)   # kw = 보라 지구본(--cat-tech · 운영자 260818 — 구 무채 test 슬롯 대체 · 아이콘 data URL은 push_send가 kind로 자동 적재)
         print((r.stdout or "").strip()[-400:])
         if r.returncode != 0:
