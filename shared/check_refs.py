@@ -5732,6 +5732,89 @@ def check_land_precommit():
     return 0
 
 
+
+def check_trend_alert_scope():
+    """급상승 알림은 **화면에 실제로 떠 있는 말만** 쏘고, 딥링크는 **살아있는 문법**으로 간다(260819 실사고 봉합).
+    CONTRACT: check_trend_alert_scope
+
+    ⚠ 실사고 2건(운영자 260819 «이호선 상담소가 급상승 키워드라고 알림이 왔는데 실제로 들어가보니 그렇지도
+    않았어» · «이 알림이 급상승 키워드인데 랜딩 페이지가 채널 요약이였어»).
+      ⓐ **범위** = `trend_watch.py` 가 `gtrends` 를 **전건(최대 25)** 순회했다. 그 목록은 두 창구 합성이라
+         1~10위만 공식 RSS 이고 11위~ 는 비공식 내부 API 꼬리인데, 화면은 그 꼬리를 260810 에 이미 버렸다
+         (운영자 «11위부터는 날리셈» → viewer `lane('구글','gg',gt,10,ggMap,10)`). 260818 신설된 이 감시기가
+         그 계약을 안 물려받아 **화면에 한 칸도 없는 말**을 급상승이라고 쐈다(실측 18:08 회차 = 「이호선 상담소」
+         vol 20,000 인데 노출 순위 11위). `gtrends_pool` 도 같은 뒷문이다(화면 자격 없는 말의 우회 진입).
+      ⓑ **랜딩** = 목적지가 `"/#trend"` 였는데 뷰어는 해시를 `?qa=1` 일 때만 읽어서 통째로 무시했고,
+         마지막에 보던 탭(`nomute_tab` = 채널 요약)이 복원됐다 = 「랜딩이 채널 요약」의 실체.
+
+    ⚠ 신설 사유 = 기존 게이트가 전부 다른 축이다 — `check_paths` = 경로 실존 · `check_workflow_yaml` = 문법 ·
+    `check_push_send_checkout` = 푸시가 **나갈 수 있는가** · `check_push_abs_url` = **어느 화면**으로 가는가
+    → 「알림이 **화면과 같은 것을 말하는가**」·「그 딥링크가 **도착지를 갖는가**」는 축 자체가 없었고, 둘 다
+    화면 증상이 0이다(알림은 정상으로 뜨고 러너는 초록) = 운영자가 알림을 눌러봐야만 보였다.
+
+    판정 5축 · 정적 · 렌더·LLM·네트워크 0 · **면책표 없이 하드 0** · 주석 줄 제외(이 봉합의 처방 주석이
+    판정 문자열을 그대로 인용한다 = 자기적발 차단)."""
+    import re as _re
+    bad = []
+    tw_p = os.path.join(ROOT, '.github', 'scripts', 'trend_watch.py')
+    vw_p = os.path.join(ROOT, 'viewer', 'index.html')
+    try:
+        tw = open(tw_p, encoding='utf-8').read()
+    except Exception as e:  # noqa: BLE001
+        print('❌ check_trend_alert_scope 판정 대상 읽기 실패(fail-closed):', e); return 1
+    tw_code = '\n'.join(l for l in tw.split('\n') if not l.strip().startswith('#'))
+
+    # ① 화면 컷 상수 실존
+    m = _re.search(r'RANK_CAP\s*=\s*int\(os\.environ\.get\("TREND_RANK_CAP",\s*"(\d+)"\)\)', tw_code)
+    if not m:
+        bad.append('.github/scripts/trend_watch.py — RANK_CAP(화면 노출 컷) 상수가 없다 = 급상승 후보가 다시 전건으로 열린다')
+    # ② gtrends 순회가 슬라이스 경유(전건 순회 부활 차단)
+    if not _re.search(r'gt\[:RANK_CAP\]', tw_code):
+        bad.append('.github/scripts/trend_watch.py — gtrends 순회가 `gt[:RANK_CAP]` 이 아니다 = 화면 밖 11위~ 꼬리가 다시 발사 대상이 된다')
+    if _re.search(r'for\s+x\s+in\s+t\.get\("gtrends"\)\s*or\s*\[\]', tw_code):
+        bad.append('.github/scripts/trend_watch.py — 구판 gtrends 전건 순회가 부활했다(260819 사고 문법)')
+    # ③ 풀은 값 보강 전용(후보 신설 금지)
+    if not _re.search(r'def put\(q,\s*v,\s*new_ok\)', tw_code) or 'if not new_ok and k not in raw' not in tw_code:
+        bad.append('.github/scripts/trend_watch.py — 풀(gtrends_pool)의 후보 신설 차단(new_ok)이 없다 = 화면 밖 말이 풀로 우회 진입한다')
+    else:
+        pool = _re.search(r'put\(x\.get\("q"\),\s*x\.get\("vol"\),\s*(\w+)\)', tw_code)
+        if not pool or pool.group(1) != 'False':
+            bad.append('.github/scripts/trend_watch.py — gtrends_pool 순회가 후보를 신설한다(put 3번째 인자가 False 가 아니다)')
+    # ④ RANK_CAP == 뷰어 화면 컷(사본 드리프트 차단)
+    try:
+        vw = open(vw_p, encoding='utf-8').read()
+    except Exception as e:  # noqa: BLE001
+        print('❌ check_trend_alert_scope 뷰어 읽기 실패(fail-closed):', e); return 1
+    lane = _re.search(r"lane\('구글',\s*'gg',\s*gt,\s*(\d+)", vw)
+    if not lane:
+        bad.append("viewer/index.html — 구글 급상승 레인 컷 앵커(lane('구글','gg',gt,N…))를 못 찾았다(fail-closed)")
+    elif m and lane.group(1) != m.group(1):
+        bad.append('화면 컷(%s) ≠ 알림 컷(%s) — 알림이 화면에 없는 말을 말하게 된다(둘은 한 값이어야 한다)'
+                   % (lane.group(1), m.group(1)))
+    # ⑤ 딥링크 = 살아있는 쿼리 문법(죽은 해시 부활 차단) + 뷰어 소비 실존
+    for f in ('.github/scripts/trend_watch.py', '.github/scripts/kw_watch.py'):
+        try:
+            src = open(os.path.join(ROOT, f), encoding='utf-8').read()
+        except Exception as e:  # noqa: BLE001
+            print('❌ check_trend_alert_scope 읽기 실패(fail-closed): %s — %s' % (f, e)); return 1
+        code = '\n'.join(l for l in src.split('\n') if not l.strip().startswith('#'))
+        if not _re.search(r'"--url",\s*"/\?tab=', code):
+            bad.append('%s — 알림 목적지가 쿼리 딥링크(/?tab=)가 아니다 = 마지막 보던 탭(채널 요약)으로 착지한다' % f)
+        if _re.search(r'"--url",\s*"/#', code):
+            bad.append('%s — 죽은 해시 딥링크(/#…)가 부활했다 = 뷰어가 ?qa=1 밖에서 통째로 무시한다' % f)
+    if "URLSearchParams(location.search).get('tab')" not in vw:
+        bad.append('viewer/index.html — ?tab= 딥링크 소비 배선이 없다 = 알림이 가리킨 화면이 열리지 않는다')
+
+    if bad:
+        print('❌ 급상승 알림 범위·랜딩 게이트 — 알림이 화면과 다른 말을 하거나 목적지를 잃는다(260819 실사고 축):')
+        for b in bad:
+            print('   -', b)
+        return 1
+    print('✅ 급상승 알림 범위·랜딩 게이트 — 후보 = 화면 상위 %s위 동값 · 풀 = 값 보강 전용 · 딥링크 2종 = 쿼리 문법 · 뷰어 소비 실존.'
+          % (m.group(1) if m else '?'))
+    return 0
+
+
 def check_workflow_step_refs():
     """워크플로가 **없는 스텝**을 가리키는가 = 「스텝이 통째로 사라졌다」의 유일한 기계 서명(260817 실사고 봉합).
     CONTRACT: check_workflow_step_refs
@@ -10068,6 +10151,11 @@ def main():
             rc = 1
     except Exception as e:
         print('❌ check_workflow_step_refs 예외(fail-closed):', e); rc = 1
+    try:
+        if check_trend_alert_scope() != 0:   # 급상승 알림 범위·랜딩(하드 — 260819 실사고: 화면 밖 11위 꼬리를 급상승이라 쐈고 딥링크가 죽어 채널 요약에 착지)
+            rc = 1
+    except Exception as e:
+        print('❌ check_trend_alert_scope 예외(fail-closed):', e); rc = 1
     try:
         if check_canon_host() != 0:   # 화면 주소 정본(하드 — 코드가 옛 화면을 부르면 화면 증상 0으로 조용히 죽는다 · 260816 계정 이관 후속)
             rc = 1

@@ -11,9 +11,10 @@
        = 「내가 모르는 걸 발견하기 위한 것」. 대상 = 구글 급상승 전체.
    두 감시기는 원장도 따로 쓴다(push/kw_sent.json ↔ push/trend_sent.json) = 서로의 발송을 못 막는다.
 
-무엇을(판정 = 검색량 한 축):
-  · 원문 = viewer/sns_trends.json 의 `gtrends`(급상승 + 딸린 뉴스) ∪ `gtrends_pool`(24h 급상승 풀).
-    두 자리 다 구글이 준 **검색량 추정치**(`vol`)를 들고 있다(실측 = 200 ~ 50,000 단위).
+무엇을(판정 = 검색량 한 축 · 대상 = 화면에 실제로 떠 있는 말뿐):
+  · 후보 = viewer/sns_trends.json `gtrends` 의 **상위 RANK_CAP(10)위**뿐 = 화면 급상승 목록과 같은 구간.
+    11위 이하는 비공식 API 꼬리라 화면이 이미 버린 자리다(아래 RANK_CAP 사유 = 260819 실사고 봉합).
+  · `gtrends_pool` = 같은 말의 **검색량 보강 전용**(후보 신설 0 = 화면 밖 말의 우회 진입 차단).
   · 발사선 = `vol >= TREND_MIN_VOL`(기본 15000 = 운영자 지정 «1.5만회 이상»).
   · 같은 말이 두 자리에 다 있으면 **큰 값 하나로 친다**(정규화 키로 중복 제거 = 한 말에 알림 2통 금지).
 
@@ -68,6 +69,18 @@ RUN_CAP = int(os.environ.get("TREND_RUN_CAP", "3"))            # 회차당 발�
 BOOST_SIG = float(os.environ.get("TREND_BOOST_SIG", "1.2"))    # 시그널 실시간 검색어 TOP10에도 있으면
 BOOST_BSKY = float(os.environ.get("TREND_BOOST_BSKY", "1.5"))  # 블루스카이 실시간 트렌드 TOP10에도 있으면
 XTOP_N = int(os.environ.get("TREND_XTOP_N", "10"))             # 「지금 보여지는 top10」 = 화면 상한과 같은 값
+# ⚠⚠ **판정 대상 = 화면에 실제로 떠 있는 구간뿐**(운영자 260819 «급상승 키워드라고 알림이 왔는데 실제로
+#   들어가보니 그렇지도 않았어»). 구판은 `gtrends` 를 **전건(최대 25)** 순회했는데 그 목록은 두 창구 합성이다 —
+#   **1~10위 = 공식 RSS**(`trends.google.com/trending/rss`) · **11위~ = 비공식 내부 API 꼬리**.
+#   화면은 그 꼬리를 **이미 260810에 버렸다**(운영자 «트렌드에서 10위까지밖에 제안을 안 해? 그러면 11위부터는
+#   날리셈» → `viewer/index.html` `lane('구글','gg',gt,10,ggMap,10)` = 10건 컷). 그런데 이 감시기는 260818 신설
+#   때 그 계약을 **안 물려받아** 화면에 없는 말을 「급상승」이라고 쐈다 = 이 레포 최빈 축 「형제는 가진 계약을
+#   자기만 안 가졌다」의 재현.
+#   ⚠ 실사고 실측(260819 18:08 회차) = 「이호선 상담소」 vol 20,000 인데 **노출 순위 11위** = 화면엔 한 칸도
+#   안 뜨는 말인데 알림만 갔다(같은 회차 화면 1~10위에는 그 말이 없다). 운영자 관측 「들어가보니 그렇지도
+#   않았어」가 정확했다.
+#   ⚠ 이 값은 **뷰어 컷의 사본**이다(새 값 창작 0) — 화면 컷을 바꾸면 여기도 같이 바꾼다(짝 = check_trend_alert_scope).
+RANK_CAP = int(os.environ.get("TREND_RANK_CAP", "10"))         # 화면 노출 컷 동값(viewer lane('구글','gg',gt,10,…))
 ON = (os.environ.get("TREND_PUSH", "1").strip() != "0")
 DRY = (os.environ.get("TREND_PUSH_DRY") or "").strip() == "1"
 
@@ -122,9 +135,12 @@ def hot():
     sig = xtop(t.get("signal"), "query", "q", "kw")
     bsky = xtop(t.get("bsky_trends"), "query", "q", "topic")
     raw = {}
-    def put(q, v):
+    def put(q, v, new_ok):
+        """new_ok=False = **값 보강만**(후보 신설 금지) — 화면 밖 말이 풀로 우회 진입하는 뒷문 차단."""
         k = key(q)
         if not k:
+            return
+        if not new_ok and k not in raw:
             return
         try:
             v = int(v or 0)
@@ -132,12 +148,16 @@ def hot():
             return
         if k not in raw or v > raw[k][1]:
             raw[k] = (str(q).strip(), v)
-    for x in t.get("gtrends") or []:
+    gt = [x for x in (t.get("gtrends") or []) if isinstance(x, dict)]
+    for x in gt[:RANK_CAP]:                       # 후보 = 화면에 실제로 떠 있는 구간뿐(위 RANK_CAP 사유)
+        put(x.get("query"), x.get("vol"), True)
+    for x in t.get("gtrends_pool") or []:         # 풀 = 같은 말의 검색량 보강 전용(후보 신설 0)
         if isinstance(x, dict):
-            put(x.get("query"), x.get("vol"))
-    for x in t.get("gtrends_pool") or []:
-        if isinstance(x, dict):
-            put(x.get("q"), x.get("vol"))
+            put(x.get("q"), x.get("vol"), False)
+    # ⚠ 풀을 후보에서 뺐는데 놓치는 말이 없는 이유 = 실측(260819) 「풀에만 있고 gtrends 목록에 아예 없는 말 = 0건」.
+    #   풀은 같은 API 산출의 콤팩트 사본이라 말 자체는 겹치고, 다른 건 **검색량 값**뿐이라 보강만 받으면 손실 0.
+    if len(gt) > RANK_CAP:
+        print(f"  화면 밖 {len(gt) - RANK_CAP}건({RANK_CAP + 1}위~)은 판정 대상 아님 — 운영자 260810 「11위부터는 날리셈」")
     out = {}
     for k, (q, v) in raw.items():
         ck, where = ckey(q), []
