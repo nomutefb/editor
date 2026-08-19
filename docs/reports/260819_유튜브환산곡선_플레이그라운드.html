@@ -37,12 +37,12 @@
  <div class="card">
   <h2>① 곡선 (가로·세로 모두 로그 눈금)</h2>
   <canvas id="cv" width="620" height="380"></canvas>
-  <p class="hint">빈 곳 탭 = 핀 추가 · 핀 끌기 = 이동 · 핀 더블탭 = 삭제</p>
+  <p class="hint">처음엔 시작점~끝점 <b>직선 하나</b> · 빈 곳을 누르면 그 자리에 <b>핀</b>이 생기고(수치는 커서 따라 표시) · 핀을 끌면 <b>곡선</b>이 된다 · 핀 더블탭 = 삭제</p>
   <div class="bar">
-   <button data-p="op" class="on">운영자 지정 3핀</button>
+   <button id="rst" class="on">시작 상태(직선)</button>
+   <button data-p="op">운영자 지정 3핀</button>
    <button data-p="soft">완만하게</button>
    <button data-p="hard">가파르게</button>
-   <button id="rst">되돌리기</button>
   </div>
   <label>S자 세기 <span class="val" id="kv">2.20</span> <span style="color:var(--mut);font-weight:400">(1 = 직선 · 클수록 두 번 꺾인 S가 뚜렷)</span></label>
   <input type="range" id="q" min="1" max="5" step="0.05" value="2.2">
@@ -56,7 +56,7 @@
   <h2 style="margin-top:16px">③ 정한 값 복사</h2>
   <pre id="out"></pre>
   <button id="cp">값 복사</button>
-  <p class="note warn">⚠ 한계 — ⓐ 곡선은 꼽은 핀을 <b>정확히 지난다</b>. 핀 사이는 S자(시작 완만 → 중간 가파름 → 끝 완만)로 잇고, 핀에서는 꺾여도 된다.
+  <p class="note warn">⚠ 한계 — ⓐ 곡선은 꼽은 핀을 <b>정확히 지난다</b>. <b>핀이 2개면 곧은 선 하나</b>이고, 3개부터 핀 사이가 S자(시작 완만 → 중간 가파름 → 끝 완만)로 휜다. 핀에서는 꺾여도 된다.
   ⓑ 핀 밖(가장 왼쪽 아래·가장 오른쪽 위)은 끝 구간 기울기로 곧게 늘린다. ⓒ 어떤 배치에서도 값이 되돌아가지 않는다(순위 뒤집힘 없음).
   ⓓ 구글 쪽 값은 환산하지 않는다(검색량이 이미 그 자다). ⓔ 이 화면은 시안이라 실제 화면 코드와 별개다 — 값을 정하면 코드에 옮긴다.</p>
  </div>
@@ -66,9 +66,9 @@
 const DATA = {"yt": [{"t": "똘끼 리니지클래식 복수전 주머니 10검 리벤지 갑니다 열렸습니다   ", "v": 254668, "h": 7.3}, {"t": "전역한 뜨뜨뜨뜨를 위한 깜짝이벤트", "v": 155874, "h": 10.1}, {"t": "울고 싶은 이재명…트럼프에 뺨맞고, 정성호도 떠나 / 김어준의 저주,", "v": 113454, "h": 11.8}, {"t": "벗어나고 싶은 구간【배치부터 챌린저#4】", "v": 88167, "h": 11.5}, {"t": "NCT 127 엔시티 127 'BLINGY' Highlight Med", "v": 81330, "h": 8.1}, {"t": "서버최초 184렙에 무공 도전하는 남자", "v": 64120, "h": 10.2}, {"t": "플레이 하나 하나가 미쳤는데!? [ASL 시즌22 24강 B조 승자전", "v": 36329, "h": 11.1}, {"t": "샤벨 DNS와 1년 더?", "v": 16462, "h": 10.6}, {"t": "모기를 얼마나 싫어하는 감도 안오", "v": 12612, "h": 11.6}], "gg": [{"t": "박용우", "v": 100}, {"t": "내가 만난 사이코패스", "v": 100}, {"t": "하빕 누르마고메도프", "v": 100}, {"t": "철도", "v": 100}, {"t": "천궁2", "v": 2000}, {"t": "허찬미", "v": 100}, {"t": "운세", "v": 5000}, {"t": "농민", "v": 1000}, {"t": "푸바오", "v": 2000}, {"t": "hd현대", "v": 200}, {"t": "현금", "v": 100000}, {"t": "김정화", "v": 20000}, {"t": "전지현", "v": 20000}, {"t": "kia 대 한화", "v": 20000}], "at": "2026-08-19T08:07:33+09:00"};
 const $ = s => document.querySelector(s);
 const lg = v => Math.log10(Math.max(1, v || 0));
-const DEF = [[1e5,500],[3e5,5e3],[5e5,3e4]];
-const PRESETS = { op:{p:DEF,k:2.2}, soft:{p:[[1e5,800],[3e5,4e3],[5e5,12e3]],k:1.4}, hard:{p:[[1e5,300],[3e5,6e3],[5e5,8e4]],k:3.4} };
-let PINS = DEF.map(a=>[...a]), K = 2.2, drag = -1, lastTap = {i:-1,t:0};
+const DEF = [[1e5,500],[5e5,3e4]];   // 시작점·끝점 2개 = 직선 하나(운영자 260819 «시작점부터 끝점까지 직선 하나 주고»)
+const PRESETS = { op:{p:[[1e5,500],[3e5,5e3],[5e5,3e4]],k:2.2}, soft:{p:[[1e5,800],[3e5,4e3],[5e5,12e3]],k:1.4}, hard:{p:[[1e5,300],[3e5,6e3],[5e5,8e4]],k:3.4} };
+let PINS = DEF.map(a=>[...a]), K = 2.2, drag = -1, lastTap = {i:-1,t:0}, hov = null;
 
 const AX = { x0:lg(2e4), x1:lg(3e6), y0:lg(10), y1:lg(3e7) };
 const cv = $('#cv'), g = cv.getContext('2d');
@@ -89,7 +89,9 @@ function fn(){
     if(x>=X[n-1]) return Math.pow(10, Y[n-1]+e1*(x-X[n-1]));
     let i=0; while(i<n-2 && x>X[i+1]) i++;
     const dx = X[i+1]-X[i]; if(dx<=0) return Math.pow(10,Y[i]);
-    const t=(x-X[i])/dx, k=K>0?K:1, a=Math.pow(t,k), e=a/(a+Math.pow(1-t,k));
+    const t=(x-X[i])/dx;
+    // 핀 2개 = 곧은 선 하나(운영자 «직선 하나») · 3개부터 S자 이징으로 휜다(«드래그 하면 곡선으로»)
+    const e = (n<=2) ? t : (()=>{ const k=K>0?K:1, a=Math.pow(t,k); return a/(a+Math.pow(1-t,k)); })();
     return Math.pow(10, Y[i]+(Y[i+1]-Y[i])*e); };
 }
 function draw(){
@@ -107,6 +109,13 @@ function draw(){
     const y=Math.max(AX.y0,Math.min(AX.y1,lg(f(Math.pow(10,x)))));
     const X=px(x),Y=py(y); i?g.lineTo(X,Y):g.moveTo(X,Y); }
   g.stroke();
+  if(hov && drag<0){ const [HX,HY]=hov;
+    g.strokeStyle='rgba(255,255,255,.22)'; g.lineWidth=1; g.setLineDash([4,4]);
+    g.beginPath(); g.moveTo(HX,16); g.lineTo(HX,cv.height-34); g.moveTo(50,HY); g.lineTo(cv.width-14,HY); g.stroke();
+    g.setLineDash([]);
+    const v=Math.pow(10,ix(HX)), sq=Math.pow(10,iy(HY));
+    g.fillStyle='#eef7f0'; g.font='bold 12px sans-serif'; g.textAlign=HX>cv.width-190?'right':'left';
+    g.fillText(fmt(v/1e4)+'만뷰 · 검색 '+fmt(sq), HX+(HX>cv.width-190?-10:10), HY-10); }
   PINS.forEach((p,i)=>{ const X=px(lg(p[0])), Y=py(lg(p[1]));
     g.beginPath(); g.arc(X,Y,7,0,7); g.fillStyle=i===drag?'#fff':'#ffd166'; g.fill();
     g.strokeStyle='rgba(0,0,0,.5)'; g.lineWidth=1.5; g.stroke();
@@ -127,6 +136,8 @@ function move(ev){ if(drag<0) return; ev.preventDefault(); const [X,Y]=pos(ev);
   PINS[drag]=[Math.min(3e6,Math.max(2e4,Math.round(Math.pow(10,ix(X))/1e3)*1e3)), Math.min(3e7,Math.max(10,Math.round(Math.pow(10,iy(Y)))))];
   render(); }
 function up(){ drag=-1; render(); }
+cv.addEventListener('mousemove',e=>{ if(drag>=0) return; hov=pos(e); draw(); });
+cv.addEventListener('mouseleave',()=>{ hov=null; draw(); });
 cv.addEventListener('mousedown',down); cv.addEventListener('touchstart',down,{passive:false});
 window.addEventListener('mousemove',move); window.addEventListener('touchmove',move,{passive:false});
 window.addEventListener('mouseup',up); window.addEventListener('touchend',up);
@@ -143,13 +154,13 @@ function render(){
   $('#out').textContent='const YT_EQ = ['+P.map(p=>'['+p[0]+', '+p[1]+']').join(', ')+'];\nconst YT_EASE = '+K.toFixed(2)+';';
 }
 $('#q').addEventListener('input',e=>{K=+e.target.value;
-  document.querySelectorAll('.bar button[data-p]').forEach(b=>b.classList.remove('on')); render();});
+  document.querySelectorAll('.bar button').forEach(b=>b.classList.remove('on')); render();});
 document.querySelectorAll('.bar button[data-p]').forEach(b=>b.addEventListener('click',()=>{
-  document.querySelectorAll('.bar button[data-p]').forEach(z=>z.classList.remove('on')); b.classList.add('on');
+  document.querySelectorAll('.bar button').forEach(z=>z.classList.remove('on')); b.classList.add('on');
   const P=PRESETS[b.dataset.p]; PINS=P.p.map(a=>[...a]); K=P.k; $('#q').value=K; render();}));
 $('#rst').addEventListener('click',()=>{PINS=DEF.map(a=>[...a]); K=2.2; $('#q').value=2.2;
-  document.querySelectorAll('.bar button[data-p]').forEach(z=>z.classList.remove('on'));
-  document.querySelector('.bar button[data-p="op"]').classList.add('on'); render();});
+  document.querySelectorAll('.bar button').forEach(z=>z.classList.remove('on'));
+  $('#rst').classList.add('on'); render();});
 $('#cp').addEventListener('click',()=>{navigator.clipboard.writeText($('#out').textContent);
   $('#cp').textContent='복사됨'; setTimeout(()=>$('#cp').textContent='값 복사',1400);});
 render();
