@@ -1,32 +1,32 @@
 # 25년치를 샀지만 돌려받는 건 석 달치다
 
 **[프롬프트 설계]**
-- 화풍: B 극화 — 다루는 축이 추억이 아니라 계약 구조(이용권과 소유의 차이)라, 감상보다 사실성·고발 톤이 맞다
-- 분위기: 서늘함. 온기로 들어왔다가 계산서를 읽는 순간 등이 식는 온도차 — 파스텔로 덮지 않고 무채색 위에 딱 한 색만 살려 그 낙차를 만든다
-- 연출 방향: 뉴스 안 보는 SNS 이용자가 멈추는 자리는 '내가 놀던 화면이 꺼졌다'는 장면이고, 전할 관점은 '그때 산 건 물건이 아니었다'는 확인이다. 그래서 강조점은 사건 현장이 아니라 **꺼진 화면·멈춘 손·마지막 셔터·서버랙 표시등** 같은 '켜짐과 꺼짐'의 경계에 쏠린다. 유일하게 살아 있는 색(네온그린)이 카드마다 다른 사물에 옮겨 붙었다가 마지막에 잔광으로만 남게 해, 독자가 글을 안 읽어도 '무언가 하나씩 꺼지고 있다'가 읽히게 한다. thumb_dispatch에서 조명 톤(하드 측광·긴장)과 비상구 초록 불빛의 정조만 이어받고, 앵글은 카드마다 흩는다
-- 독자 동선: **제시** 카드1(오늘 9시 종료)→**전개** 카드2~3(무엇이 사라졌나·형제 게임 연쇄)→**발단** 카드4(3월에 세워진 수익 기준·비선형 회수)→**피크** 카드5(환불 석 달)→**해소** 카드6(부당은 아니다)→**시사점** 카드7 · 훅=카드1 끝(단서형·동시접속 35만)+카드3 끝(자연 훅·'왜 다 닫히나'를 카드4 첫 줄이 즉시 회수) 총 2개·질문형 0회 · 착지 한 줄 요지 = 25년 동안 '샀다'고 부른 것의 이름은 계약서에서 이용권이었고, 그 이름은 서버가 꺼지는 날에만 보인다
-- 연속성 앵커: Recurring subject - a Korean man in his early 30s, short black hair, plain gray zip-up hoodie over a white tee, light stubble (카드1·2·3·5·7 Scene에 문자열 그대로 삽입) / 반복 장소 = a Korean internet cafe (PC bang) with a long row of identical desks (카드1·2)
+- 화풍: B 극화 — 향수를 감상으로 풀 사건이 아니라 계약 구조가 드러난 사건이라, 하드한 먹선·명암이 결에 맞다.
+- 분위기: 추억담으로 열렸다가 환불 범위를 읽는 순간 등이 서늘해지는 낙차. 아침 창광의 온기에서 시작해 화면 언더글로의 최저점으로 떨어지고, 마지막에 책상 램프 하나로 풀린다(thumb_dispatch LGT09의 하드 대비·서늘한 정조를 명도 곡선으로 계승).
+- 연출 방향: 독자(뉴스는 안 보지만 PC방에서 물풍선을 던졌고 지금도 게임·구독에 돈을 쓰는 사람)가 멈추는 자리는 "25년 목록"과 "석 달 구간"이 한 화면에 같이 있는 장면이다 — 사람이 우는 컷이 아니라 **스크롤을 멈춘 손끝**에 강조점을 둔다. 사물은 늘 사람과의 관계 속에서만(꺼진 모니터는 그 앞에 앉은 사람과 함께), 색은 전부 빠지고 네온그린 하나만 살려 "내가 산 것"이 어디까지였는지를 시선으로 지목하게 한다.
+- 독자 동선: 제시 카드1(13일 오전 9시 종료)→**발단** 카드3(3월 수익 하한선)→**전개** 카드4(카트라이더·버블파이터에 이어 오늘 크아)→**피크** 카드5(환불은 석 달, 그 앞 25년은 대상 아님)→**해소** 카드6(회사 사정·환불 창구)→**시사점** 카드7. 카드2는 承(전성기 맥락). 훅=카드1 끝(단서형: 25년보다 놀라운 숫자를 예고 → 카드2 첫 줄이 35만명으로 즉시 회수)+카드3 끝(예고형: 기준의 결과 → 카드4 첫 줄이 회수). 착지 한 줄 = 25년을 산 값이 석 달로 정산된 이유.
+- 연속성 앵커: Recurring subject — a Korean man in his early 30s, short black hair, thin-rimmed glasses, wearing a plain navy zip-up hoodie over a white tee (카드 1·5·6·7) / 반복 장소: a small home desk corner with an old monitor and a worn keyboard.
 
 ### [카드 1]
 **텍스트**
 ```text
-오늘 아침 9시, 물풍선이 멈췄다
-*넥슨 크레이지 아케이드, 25년 만이다*
-홈페이지와 게시판도 같은 시각 닫혔다
-한때 동시접속 35만 명을 찍던 게임이다
+13일 오전 9시에 서버가 꺼졌다
+2001년 10월에 문을 연 게임이다
+25년이라는 숫자보다 놀라운 건
+*한때 이 게임의 접속자 수였다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: his eyes stay fixed on a monitor that has already gone dark, an unfocused thousand-yard stare. Recurring subject - a Korean man in his early 30s, short black hair, plain gray zip-up hoodie over a white tee, light stubble - sits alone in the front seat of a long row of desks in a Korean internet cafe (PC bang), one hand still resting on a mouse he has stopped moving. Every monitor down the row behind him is switched off, and flat morning daylight falls through the blinds onto the empty chairs. A paper cup and a worn keyboard sit on the desk beside his hand, with nose room on the right and his gaze directed toward the right edge of the frame.
-Camera: wide shot, full body, surrounding environment, spatial context, from eye-level shot, neutral perspective, realistic, balanced emotion, shot on 35mm lens, natural documentary perspective, balanced subject and background, minimal distortion
-Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 carried only by the exit lamp glowing at the far end of the aisle), muted daylight contrast
-Text handling: every screen is dark and blank, all signage is angled away from the camera or cropped out of frame, no readable characters anywhere.
+Scene: Emotional focal point: his eyes fixed on a screen that shows nothing, pupils not moving. Recurring subject - a Korean man in his early 30s, short black hair, thin-rimmed glasses, wearing a plain navy zip-up hoodie over a white tee, sits at a small home desk with one hand still resting on a worn keyboard. The monitor stands at the right side of the frame and is completely dark, and his gaze is directed toward it with nose room on the right. Morning light from a window behind the desk falls across the desktop and the back of his hand.
+Camera: MS from Eye-level, shot on 35mm lens
+Lighting/mood: warm soft morning light, gentle and quiet, faint melancholy
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast; the only saturated element is a small round balloon-shaped sticker on the monitor bezel.
+Text handling: no signage text and no readable interface text; any screen is dark or cropped so no letters are formed.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the long row of internet-cafe desks) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the desk and the wall behind it) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -35,29 +35,29 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-크레이지 아케이드 PC방
+크레이지 아케이드 서비스 종료 안내
 ```
 
 ### [카드 2]
 **텍스트**
 ```text
-조작은 방향키와 스페이스바가 전부였다
-좁은 길목을 막아 상대를 가두면 이겼다
-2001년에 나와 25년을 버틴 규칙이다
-*다오와 배찌는 카트라이더로 건너갔다*
+2002년엔 35만명이 동시에 접속했다
+물풍선으로 길목을 막는 게임이었다
+2024년 넥슨이 공개한 기록도 있다
+*국내 40만명, 글로벌 100만명이다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a thumb resting on the spacebar without pressing it, the knuckle gone pale. Recurring subject - a Korean man in his early 30s, short black hair, plain gray zip-up hoodie over a white tee, light stubble - only his hands and hoodie cuffs are inside the frame, both hands settled on a worn keyboard whose keycap letters have rubbed away. Past the keyboard the lower edge of a monitor shows a soft out-of-focus blur of round shapes on a grid, far too unfocused to read. The desk is one scratched laminate surface running the full width of the frame.
-Camera: close-up shot, hands and keyboard centered, emotional detail, from high angle shot, looking down, shot on 100mm macro lens, fine detail, shallow depth of field, precise texture
+Scene: Emotional focal point: three young faces lit from below by screen glow, mouths open mid-shout. Six children sit in one long row of internet cafe seats, hammering at keyboards while all of them lean toward their own monitors along the same line; one boy is half out of his chair. Paper cups and a shared snack bowl crowd the desk in front of them, and each screen carries one round balloon shape as the only bright element.
+Camera: WS from a three-quarter angle at eye level, shot on 24mm wide lens
 Lighting/mood: faded warm light, soft golden haze, gently nostalgic and wistful
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 carried only by a small status glow at the blurred edge of the screen), muted daylight contrast
-Text handling: the screen is rendered as a soft out-of-focus blur with no legible characters, and the worn keycaps have their letters rubbed off entirely.
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted contrast; only the balloon shapes on the screens carry the accent color.
+Text handling: no signage text and no readable interface text; screens show simple shapes and glow only.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the scratched laminate desk top) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the long shared desk running through the room) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -72,23 +72,23 @@ NEGATIVE - strictly avoid:
 ### [카드 3]
 **텍스트**
 ```text
-그 카트라이더가 2023년에 먼저 닫혔다
-버블파이터도 지난 6월 문을 닫았다
-그리고 오늘 크레이지 아케이드다
-*'크레이지' 3형제가 3년 만에 다 갔다*
+닫힌 이유는 인기가 아니었다
+넥슨 회장은 지난 3월 브리핑에서
+포트폴리오가 *"지나치게 넓다"*고 했다
+수익 하한선 위만 남긴다는 뜻이었다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: one small figure standing motionless as the third shutter comes down in front of him. Recurring subject - a Korean man in his early 30s, short black hair, plain gray zip-up hoodie over a white tee, light stubble - seen from behind, tiny at the far end of a long dim commercial corridor, hands at his sides, facing three identical storefront bays. The first two bays are sealed behind fully lowered roller shutters and the third shutter is halfway down, placed toward the right side of the frame so his line of sight runs to the right edge. The corridor floor runs unbroken from the bottom of the frame to the vanishing point behind him.
-Camera: extreme long shot, tiny subject, vast environment, scale, isolation, from eye-level shot, neutral perspective, shot on 14mm ultra-wide lens, vast environment, dramatic depth, strong spatial presence
-Lighting/mood: cold blue pre-dawn tone, lone streetlight reflection on wet ground, desolate stillness
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 carried only by one exit lamp above the third bay), film-noir low-key lighting, deep shadows
-Text handling: all storefront signage is unlit and reduced to shadowed shapes with no legible characters, and nothing is written on the shutters.
+Scene: Emotional focal point: his fingertips pressed together in a steeple on the lectern, calm and unhurried. A silver-haired executive in his 50s in a dark suit stands at a plain unmarked lectern on a low stage, speaking to rows of seated analysts whose backs fill the lower foreground, his gaze level and directed toward the right edge. Behind him a wide blank display panel glows without any text, crossed by one thin horizontal line like a threshold mark.
+Camera: MCU from Low angle, shot on 50mm standard lens
+Lighting/mood: flat sterile clinical fluorescent light, cold even greenish-white, emotionless institutional
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted contrast; only the threshold line on the panel carries the accent color.
+Text handling: no company logo, no brand mark, no signage text; the display panel stays blank except for the single line.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the unbroken corridor floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the stage wall behind the lectern) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -97,29 +97,29 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-크레이지슈팅 버블파이터 서비스 종료
+패트릭 쇠더룬드 넥슨 브리핑
 ```
 
 ### [카드 4]
 **텍스트**
 ```text
-그 뒤에는 지난 3월에 생긴 기준이 있다
-넥슨 회장이 투자자 앞에서 선을 그었다
-*"포트폴리오가 지나치게 넓다"*
-수익 하한선을 넘는 것만 남긴다고 했다
+그 기준이 세워진 뒤 넉 달이 지났다
+카트라이더는 2023년에 문을 닫았다
+버블파이터는 지난 6월 24일에 닫혔다
+*오늘은 크레이지 아케이드 차례였다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the flat calm in his eyes as his flattened hand draws a level line in the air, with no tension anywhere in the jaw. A generic man in his 50s with rimless glasses and a dark navy suit stands at a briefing lectern on a low stage, speaking downward toward the camera. Behind him a large presentation panel carries only abstract bars and one horizontal threshold line, cropped at the frame edge. The blurred backs of seated investors fill the near foreground corners.
-Camera: medium shot, waist-up framing, face and gestures, from low angle shot, looking up, powerful subject, dominance, dramatic presence, shot on 50mm standard lens, minimal distortion, natural cinematic composition
-Lighting/mood: harsh single overhead light pooling on the lectern, deep surrounding black, oppressive
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 carried only by the one threshold line across the chart panel), film-noir low-key lighting, deep shadows
-Text handling: the presentation panel shows only abstract bars and a single line, cropped by the frame edge, with no letters, no numbers, no logos and no captions of any kind.
+Scene: Emotional focal point: a gloved hand paused on the third power switch, the two beside it already flipped down. A technician in a dark work jacket stands at a tall server rack seen from the chest up, head turned toward the row of racks receding behind him. Three rack units sit side by side on the same aisle; the first two are completely dark and only the third still holds one small indicator light.
+Camera: MS from Dutch tilt, shot on 70mm short telephoto
+Lighting/mood: cold blue dim interior light, heavy and suffocating, faint trembling tension
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows; only the last indicator light carries the accent color.
+Text handling: no rack labels, no readable panel text; equipment faces are cropped or angled so no letters form.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the briefing stage wall behind him) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the server rack wall running down the aisle) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -128,29 +128,28 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-넥슨 캐피탈 마켓 브리핑 쇠더룬드
+넥슨 버블파이터 서비스 종료 공지
 ```
 
 ### [카드 5]
 **텍스트**
 ```text
-이용자에게 남은 절차는 환불 하나였다
-대상은 3월 11일부터 6월 11일까지다
+환불은 3월 11일부터 6월 11일까지다
 6월 11일은 종료를 공지한 날이다
 *그 앞 25년어치는 대상이 아니다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: his eyes stop moving halfway down whatever he is reading and the jaw sets hard, the lower lip pressed thin. Recurring subject - a Korean man in his early 30s, short black hair, plain gray zip-up hoodie over a white tee, light stubble - his face fills the frame, lit hard from one side, looking down at something just below the camera. A plain dark wall runs behind him with nothing on it at all. His shoulders have dropped forward and the collar of the hoodie has gone slack.
-Camera: tight close-up, face fills frame, intense emotion, intimate pressure, from high angle shot, looking down, vulnerable subject, shot on 85mm portrait lens, flattering face, soft background separation, elegant focus
-Lighting/mood: single pool of hard light isolating the figure in surrounding blackness, claustrophobic loneliness
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 carried only by a thin reflected screen glow along his cheekbone and the wet line of his eye), film-noir low-key lighting, deep shadows
-Text handling: whatever he is reading stays entirely outside the frame, so no text surface appears in the image at all.
+Scene: Emotional focal point: his fingertip stopped dead on the scroll wheel, the knuckle gone white. Recurring subject - a Korean man in his early 30s, short black hair, thin-rimmed glasses, wearing a plain navy zip-up hoodie over a white tee, leans so close to the monitor that only his hand, his jaw and the edge of his glasses enter the frame. A very long purchase list runs down the screen as rows of soft grey bars with no legible characters; only a short cluster of rows in the upper third is lit, and every row below it stays dark grey.
+Camera: ECU from High angle, shot on 100mm macro lens
+Lighting/mood: cold blue screen under-glow lighting the face from below in a dark room, restless paranoid unease
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows; only the short lit cluster of rows carries the accent color.
+Text handling: the list is rendered as abstract grey bars and shapes only, cropped by the frame edge; no readable characters anywhere.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the plain dark wall behind him) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the monitor screen filling the frame) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -159,29 +158,29 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-넥슨캐시 환불 안내 공지
+넥슨캐시 환불 신청 화면
 ```
 
 ### [카드 6]
 **텍스트**
 ```text
-*부당한 처리라는 말은 아니다*
-종료는 두 달 전에 공지됐고
-환불 창구도 9월 16일까지 열려 있다
-적자 서비스를 영원히 열어둘 수는 없다
+*적자 서비스를 영원히 열 수는 없다*
+25년을 끌고 온 쪽도 같은 회사다
+환불 신청은 다음 달 16일까지다
+다만 게시판에 쓴 글은 오늘 사라졌다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the technician's flat palm resting on a rack switch, neither hesitating nor satisfied. Seen from straight overhead, a Korean technician in a plain work shirt stands alone in the aisle of a server room, one arm extended to a rack panel at his side. Rows of identical racks run down both sides of the aisle, their small indicator lights going dark rank by rank away from his hand. The raised-panel aisle floor runs unbroken from the top of the frame to the bottom.
-Camera: wide shot, full body, surrounding environment, spatial context, from overhead shot, bird's-eye view, top-down angle, layout, geometry, shot on 20mm wide lens, subject and environment, documentary realism
-Lighting/mood: flat cold even surveillance light, no shadow no warmth, detached and watchful
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 carried only by the last rank of indicator lights still lit), muted daylight contrast
-Text handling: every rack label is angled away from the camera or cropped by the frame, showing no legible characters.
+Scene: Emotional focal point: his hand resting on a mouse he is not moving, shoulders dropped. Recurring subject - a Korean man in his early 30s, short black hair, thin-rimmed glasses, wearing a plain navy zip-up hoodie over a white tee, sits sideways at the same home desk seen in profile from the chest up, looking at a monitor that holds one empty grey rectangle where a page used to be. Beside his elbow a printed notice sheet lies face up on the desk, its lines rendered as soft grey texture, one corner marked with a small tick.
+Camera: MCU from Profile, shot on 85mm portrait lens
+Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast; only the tick mark on the notice carries the accent color.
+Text handling: the notice sheet and the screen are rendered as grey texture and blank blocks only; no readable characters anywhere.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the raised-panel server aisle floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the desk and the wall behind it) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -190,29 +189,29 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-데이터센터 서버랙 통로
+크레이지 아케이드 공식 홈페이지 자유게시판
 ```
 
 ### [카드 7]
 **텍스트**
 ```text
-다만 25년 동안 쓴 돈은 남지 않았다
-계약서에 적힌 이름이 이용권이어서다
-음악도 전자책도 구조는 똑같다
-*그 이름은 서버가 꺼지는 날에만 보인다*
+게임이든 음악이든 서버 위의 것들은
+돈을 내도 내 물건이 되지 않는다
+켜져 있는 동안 쓸 권리를 산 것이다
+*25년을 산 값이 석 달로 정산된 이유다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: he looks straight into the camera, the eyes clear and a shade colder than before. Recurring subject - a Korean man in his early 30s, short black hair, plain gray zip-up hoodie over a white tee, light stubble - sits upright in a chair facing front, both hands open and empty on his knees. Behind him one dark monitor stands on a desk, its glass holding a thin reflection of the window. Morning light lies across the floor between his chair and the camera.
-Camera: full shot, head-to-toe, full body, clear silhouette, from eye-level shot, neutral perspective, front-on shot, direct gaze, symmetrical composition, shot on 40mm lens, neutral perspective, natural human-vision feel
-Lighting/mood: warm soft morning light, gentle and quiet, faint melancholy
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 carried only by a faint residual glow along the bottom edge of the dark monitor), muted daylight contrast
-Text handling: the monitor is dark and blank, and no signage, document or label appears anywhere in the frame.
+Scene: Emotional focal point: his eyes looking straight out of the frame, calm and unblinking. Recurring subject - a Korean man in his early 30s, short black hair, thin-rimmed glasses, wearing a plain navy zip-up hoodie over a white tee, sits centered at the same home desk with both palms flat on the desktop, facing the viewer directly, the dark monitor turned away at his side. A single desk lamp throws a warm pool of light over the desktop and his hands, and one thin reflection sits in each lens of his glasses.
+Camera: WS from Eye-level, front-on, shot on 40mm lens
+Lighting/mood: warm soft desk-lamp light, quiet wistful tone
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows; only the reflection in his glasses carries the accent color.
+Text handling: the monitor is dark and turned away; no signage, no readable characters anywhere in the frame.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the continuous floor of the room) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the desk and the wall behind it) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -221,5 +220,5 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-크레이지 아케이드 서비스 종료 마지막 화면
+책상 스탠드 조명 꺼진 모니터
 ```
