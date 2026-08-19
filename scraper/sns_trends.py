@@ -883,7 +883,7 @@ def x_enrich(items, deadline=None, gap=0.3):
     return items
 
 
-def x_subs(accounts, limit=10, deadline=None):
+def x_subs(accounts, limit=10, deadline=None, sleep_s=None):
     """X 구독 계정 최신 트윗 — 트위터 임베드 신디케이션(무인증). 계정별 fail-soft·콜 간 4s
     (분신 실측 260712: 1.2s 간격 = 16연속 429 · 4s = 전원 회복 — 짧은 간격이 되레 전멸 유발).
     크로스 계정 리트윗 = 트윗 id 기준 dedup(평의회8). 정렬 = 좋아요.
@@ -895,7 +895,9 @@ def x_subs(accounts, limit=10, deadline=None):
             _sbudget("x", accounts[i:])
             break
         if i:
-            time.sleep(4)
+            # 계정 간 간격 — 기본 4초(260712 실측: 1.2s = 16연속 429 · 4s = 전원 회복)에서 호출자가 더 넓힐 수 있다
+            # (운영자 260819 «계정 간 간격도 인스타처럼 훨씬 띄워줘» · 폰 수집기가 20초를 넘긴다 = 429 확률 하향).
+            time.sleep(sleep_s if (sleep_s and sleep_s > 0) else 4)
         _n0 = len(out)
         try:
             h = _get("https://syndication.twitter.com/srv/timeline-profile/screen-name/" + urllib.parse.quote(acc))

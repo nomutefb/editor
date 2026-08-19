@@ -48,9 +48,58 @@ def _envf(name, dflt):
         print(f"::warning::{name} 값이 숫자가 아님 — 기본값 {dflt} 사용", file=sys.stderr)
         return float(dflt)
 
-_GAP = _envf("INSTA_MIN_GAP_MIN", 90) * 60   # 최소 간격(분) — 크론은 30분이라 3런 중 1런만 실제 수집
+_GAP = _envf("INSTA_MIN_GAP_MIN", 60) * 60   # 최소 간격(분) — 60분(운영자 260819 «인스타랑 x 둘다 1시간 단위로 통일» · 구 90분[260727]에서 하향 = 엑스와 한 값 · 크론 30분이라 2런 중 1런만 실제 수집)
 _BATCH = int(_envf("INSTA_BATCH", 5))       # 한 런에 도는 계정 수(0 이하 = 회전 끔 = 전량)
 _STUCK = _envf("INSTA_STUCK_H", _STUCK_DFLT_H) * 3600   # 무소득 연속 임계(0 이하 = 승격 끔)
+
+# ── 엑스 주기 게이트(운영자 260819 «인스타랑 x 둘다 1시간 단위로 통일하고 60분, 계정간 순회 간격은 30초») ──
+# ⚠ 실측 배경 = 엑스만 **30분마다 6계정 전부**를 4초 간격으로 몰아 두드렸다(하루 288회). 인스타는 이미
+#   90분·5계정 회전으로 하루 80회까지 줄여놨는데 엑스만 구판 그대로였고, 그 결과 회차마다 「되고 안 되고」가
+#   갈렸다(260819 실측 = 새벽 내내 0건 → 10:01 회차에 갑자기 19건 · 두 번째 계정부터 429 확인).
+#   → **두 축 모두 60분·계정간 30초**로 통일한다(운영자 재지정 260819 — 계정 간 간격을 넓히면 회차 주기를
+#   90분까지 벌릴 이유가 없다는 판단. 인스타 구 90분도 이 값으로 같이 내린다 = 갱신이 오히려 빨라진다).
+# ⚠ 회전(계정 나눠 돌기)은 **안 넣는다** — 운영자 지시는 주기·간격 두 축이고, 회전은 이월 병합까지 딸린
+#   별건이다(인스타 주석 27행이 경고한 「병합 없는 회전 = 데이터가 오히려 준다」 축).
+_X_GAP = _envf("X_MIN_GAP_MIN", 60) * 60      # 엑스 최소 간격 = 인스타와 **같은 60분**(운영자 260819 «인스타랑 x 둘다 1시간 단위로 통일»)
+_X_SLEEP = _envf("X_ACCOUNT_SLEEP_S", 30)     # 계정 간 간격 = 30초(운영자 «계정간 순회 간격은 30초 단위» · 6계정 = 한 회차 30초×5 + 응답시간 ≈ 3분)
+_X_ST = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "push", "x_subs_state.json")
+
+
+def _x_due():
+    """엑스 수집 차례인가 — 마지막 수집 시각이 _X_GAP 이전이면 참(파일 부재·파손 = 참 = fail-open)."""
+    if _X_GAP <= 0:
+        return True
+    try:
+        return (time.time() - float((json.load(open(_X_ST, encoding="utf-8")) or {}).get("last") or 0)) >= _X_GAP
+    except Exception:  # noqa: BLE001
+        return True
+
+
+def _x_stamp():
+    """수집 시각 도장 — 원자 교체(인스타 _st_write 계약 계승 = 잘린 JSON이 회전을 무력화하던 사고 축)."""
+    try:
+        os.makedirs(os.path.dirname(_X_ST), exist_ok=True)
+        t = _X_ST + ".tmp"
+        with open(t, "w", encoding="utf-8") as f:
+            json.dump({"last": time.time()}, f)
+        os.replace(t, _X_ST)
+    except Exception as e:  # noqa: BLE001 — 도장 실패가 수집을 못 죽인다(다음 런 재시도)
+        print(f"::warning::x 주기 도장 실패(무시): {e}", file=sys.stderr)
+
+
+def _x_collect(accounts, prev_items):
+    """주기를 통과한 회차만 실제로 걷고, 아니면 **직전 산출물을 그대로 이월**한다(인스타 병합 계약과 같은 축).
+    ⚠ 이월이 없으면 스킵 회차마다 엑스가 0건으로 굳어 화면에서 통째로 사라진다."""
+    accounts = list(accounts or [])
+    if not accounts:
+        return []
+    if not _x_due():
+        print(f"x 계측: 미시도(주기 {int(_X_GAP / 60)}분) · 이월 {len(prev_items or [])}건")
+        return list(prev_items or [])
+    got = st.x_subs(accounts, limit=20, sleep_s=_X_SLEEP)
+    _x_stamp()
+    print(f"x 계측: 수확 {len(got)}건 · 등록 {len(accounts)}계정 · 계정간 {int(_X_SLEEP)}s")
+    return got if got else list(prev_items or [])   # 빈 수확 = 차단 국면 → 직전분 보존(fail-soft)
 
 
 def _st_read():
@@ -217,10 +266,12 @@ acc, reg = st._load_accounts()
 _tk_kr, _tk_gl = st._region_split("tiktok", acc, reg)   # 틱톡 지역분리(러너 _rsubs 동일 정본) — KR 독립 top-N = 큐레이션 한국 굶김 방지(운영자 260719 봉인)
 P = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "viewer", "sns_subs_phone.json")
 try:   # 직전 산출물 = 인스타 회전 병합의 이월분(다른 축은 종전대로 매 런 전량 재수집이라 미사용)
-    _prev_insta = (json.load(open(P, encoding="utf-8")) or {}).get("insta") or []
+    _prev = json.load(open(P, encoding="utf-8")) or {}
+    _prev_insta = _prev.get("insta") or []
+    _prev_x = _prev.get("x") or []   # 엑스도 이월 대상 편입(260819 주기 게이트 · 스킵 회차 0건 굳음 차단)
 except Exception:  # noqa: BLE001 — 최초 실행·파손 = 이월 없음(fail-open)
-    _prev_insta = []
-out = {"x": st.x_subs(acc["x"], limit=20), "insta": _insta_collect(acc["insta"], _prev_insta),
+    _prev_insta, _prev_x = [], []
+out = {"x": _x_collect(acc["x"], _prev_x), "insta": _insta_collect(acc["insta"], _prev_insta),
        # ⑯ x_search(가계정 X 검색) 폰 배선 제거 — adaptive.json 폐지 확정(빈 응답 실측 260723) + main() 미소비 = 데드콜. x_search 함수는 sns_trends.py에 dormant 존치(break-glass · env X_AUTH_TOKEN/X_CT0 보존) · 홈IP 밴 리스크 상환 · 딥링크(x.com/search)가 값 커버 · 평의회 260723 #3
        "threads": st.threads_subs(acc["threads"], limit=20),   # ⑧ 스레드(운영자 260712) — 계정 미등록 = [] no-op
        "tiktok": st.tiktok_subs(_tk_kr, limit=12) + st.tiktok_subs(_tk_gl, limit=12),   # 틱톡 구독(운영자 260721) — 러너 데센 IP가 tikwm /user/posts에 HTTP 403(WAF IP블록 실측 run 29800229859) → 가정 IP가 주 공급 · 지역별 독립 top-12(KR 먼저 = 큐레이션 한국 채움)
