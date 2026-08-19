@@ -4426,8 +4426,16 @@ def check_preview_perf():
         print('❌ 미리보기 부담 게이트 ① — nm-hist.css `.hist-grid > .hist-it` 화면 밖 건너뛰기(content-visibility:auto) 소실')
         print('   · 이력이 수백 건 쌓인 화면에서 펼침·스크롤이 다시 끊긴다(260819 실측 = 긴 작업 8건·끊긴 프레임 3).')
         rc = 1
-    elif 'contain-intrinsic-size' not in hist_src:
-        print('❌ 미리보기 부담 게이트 ① — 첫 추정 높이(contain-intrinsic-size) 소실 = 스크롤 위치가 튄다')
+    elif not re.search(r'contain-intrinsic-(size|height)\s*:', hist_src):
+        print('❌ 미리보기 부담 게이트 ①-a — 첫 추정 높이(contain-intrinsic-height) 소실 = 스크롤 위치가 튄다')
+        rc = 1
+    elif re.search(r'contain-intrinsic-size\s*:\s*(auto\s+)?[\d.]+\s*px\s*[;}]', hist_src):
+        # ⚠ 한 값짜리 `contain-intrinsic-size`는 **가로에도** 그 길이를 건다(CSS 규격: 값 1개 = 두 축 공용).
+        #   크기 격리된 타일에서 그 가로가 곧 트랙 최소 기여가 되어 `1fr`를 밀어내므로 폰에서 2열이 화면 밖으로 나간다
+        #   (260819 2차 실사고 = 화면 320·360·390·430 전부 트랙 `267px 267px` · 문서 스크롤폭 560 · 운영자 «2개씩 다 나오게»).
+        #   세로 의도는 `contain-intrinsic-height`로 적는다(값·의도 불변 · 가로 강제만 없다).
+        print('❌ 미리보기 부담 게이트 ①-b — 한 값 `contain-intrinsic-size`가 가로까지 고정 = 폰에서 타일이 화면 밖으로 밀린다')
+        print('   · 처방 = `contain-intrinsic-height:auto <값>`(세로 전용 · 값 그대로).')
         rc = 1
     # ② 미리보기 배경 = 자기 합성층(정본 실존)
     if not re.search(r'(^|[,{}\s])\.cpv-bg\b[^{}]{0,80}\{[^}]*will-change\s*:\s*transform', shared_src):
