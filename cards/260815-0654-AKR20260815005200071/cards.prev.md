@@ -1,32 +1,32 @@
-# 기름값 흔든 그 바닷길을 트럼프가 "미국 영토"라 불렀다
+# "조만간 미국 영토" — 다섯 달 봉쇄 끝에 나온 말
 
 **[프롬프트 설계]**
-- 화풍: B 극화 — 전쟁·봉쇄·국제법이 걸린 권력 사안이라, 선 굵은 극화가 사실성과 무게를 동시에 준다
-- 분위기: 정오 직사광의 확신에서 시작해 점점 식어가는 냉기로 내려앉는 정조 — 큰소리는 밝고 뜨겁게, 그 값이 나오는 자리는 차갑고 어둡게
-- 연출 방향: 뉴스를 안 보던 독자도 "남의 바닷길을 자기 땅이라 부른다"는 황당함에서 멈추고, 그 말대로 배가 묶이면 값은 이쪽이 낸다는 불안으로 끌려오게 한다. 그래서 덱 전체를 **말하는 입**과 **멈춰 선 배** 두 축의 왕복으로 잡는다 — 찌르는 손끝·벌어진 입 같은 발화의 육체성과, 물 위에서 아무것도 못 하고 서 있는 선체·내려앉은 탱크 지붕 같은 정지의 물성을 번갈아 보여주고, 마지막에만 그 값을 치르는 쪽의 눈을 정면으로 세운다. 악센트 네온그린은 전 카드에서 '통행 신호' 하나에만 얹어 시선을 그 지점에 묶는다
-- 독자 동선: **제시** 카드1→**발단** 카드2→**전개** 카드3~4→**피크** 카드5→**해소** 카드6→**시사점** 카드7 · 훅=카드1 끝(질문형 "왜 미군이 그 바다를 막고 있나?" — 카드2 첫 줄이 개전일로 즉시 회수)+카드4 끝(예고형 "대통령이 답했다" — 카드5 첫 줄 인용이 회수) · 착지 한 줄 요지=값은 원유를 사 오는 나라들이 나눠 내는데, 그들은 사과받을 자리에 앉아 있지도 않다
-- 연속성 앵커: Recurring subject — an elderly Western male politician in his late 70s with swept-back light hair, wearing a dark navy suit and a long red tie (카드1·5) / Recurring location — a narrow sea strait flanked by low arid brown coastal ridges (카드2·3·6)
+- 화풍: B 극화 — 권력의 언어가 국제 수로를 덮는 사건이라 명암 대비와 무게가 필요하다
+- 분위기: 정오 직사광의 확신과 바다 위 저조도의 침묵이 맞부딪히는 건조한 긴장 — 조롱도 분개도 없이, 말과 청구서의 낙차만 보이게
+- 연출 방향: 독자는 뉴스가 아니라 자기 주유 영수증으로 이 전쟁을 겪고 있다 — 그래서 카드는 '누가 말했나'보다 '그 말이 어디를 지나 누구 지갑에 닿나'를 잡는다. 연단의 손가락 → 좁은 물길 위 함정 → 게이지 바늘 → 부두의 작업자로 시선을 옮기며, 강한 자의 클로즈업과 값 치르는 자의 익명 노동을 같은 덱 안에 붙여 둔다. 악센트 네온그린은 '통제되는 길목'에만 찍어 시선을 물길에 묶는다
+- 독자 동선: **제시** 카드1→**발단** 카드2→**전개** 카드3→**전개(값)** 카드4→**피크** 카드5→**해소** 카드6→**시사점** 카드7 · 훅=카드1 끝(단서형: 우리 기름이 그 물길로 지난다)+카드3 끝(질문형 1회, 카드4가 즉시 회수) · 착지 = 여닫는 쪽은 사과하지 않고, 값은 그 물길로 기름을 사 오는 쪽이 낸다
+- 연속성 앵커: Recurring subject — an elderly Western male political leader in his late 70s, heavy build, light swept-back hair, dark navy suit with a long red tie, generic features not resembling any specific real person (카드1·5) / 반복 장소 — a narrow sea strait between two low desert coastlines (카드2·7 배경 참조)
 
 ### [카드 1]
 **텍스트**
 ```text
-트럼프 대통령이 호르무즈 해협을 두고
-*조만간 미국 영토로 선언하겠다고 했다*
-8월 14일 뉴욕주 경찰학교 연설이었다
-왜 미군이 그 바다를 막고 있나?
+8월 14일 뉴욕주 경찰학교 연단
+*"호르무즈, 조만간 미국 영토로"*
+미국 대통령이 그렇게 말했다
+그 좁은 물길로 우리 기름이 지난다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the index finger stabbing forward at the crowd, arm fully extended, brows knit, mouth open mid-sentence. Recurring subject - an elderly Western male politician in his late 70s with swept-back light hair, wearing a dark navy suit and a long red tie, stands alone at an outdoor lectern on a raised platform and leans out over it toward the audience, chin up, taking up space. In the near foreground two rows of uniformed cadets are seen from behind, shoulders squared, heads tilted up at him. The open sky fills everything behind and above him, and both his gaze and his pointing arm drive toward the right edge of the frame.
-Camera: full shot from a low angle looking up, imposing and dominant, towering presence, shot on 35mm lens, natural documentary perspective, minimal distortion, nose room on the right, gaze directed toward the right edge
+Scene: Emotional focal point: the certainty in his eyes and the wide-open mouth mid-sentence. Recurring subject — an elderly Western male political leader in his late 70s, heavy build, light swept-back hair, dark navy suit with a long red tie, generic features not resembling any specific real person — stands at a plain lectern with one index finger stabbing forward at the audience, arm extended, brows knit. Rows of uniformed cadets in the front seats look up at him with stiff, unmoving faces, their shoulders squared. The hall is a bare training auditorium with a flat wall behind the lectern and no emblem or insignia on it.
+Camera: wide shot, full body, surrounding environment, spatial context from eye-level shot, neutral perspective, shot on 35mm lens, natural documentary perspective, balanced subject and background, minimal distortion
 Lighting/mood: harsh overexposed midday sunlight, hard shadows, oppressive heat
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the lectern trim only), muted daylight contrast
-Text handling: keep every surface free of lettering - no banner wording, no lectern seal, no signage, no insignia; suggest institution through uniform silhouette and staging instead of written marks.
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast, the accent used only on a thin band of light falling across the lectern edge
+Text handling: no signage text, no banner lettering, no nameplate; keep every surface free of written characters by cropping and by turning printed surfaces away from the camera.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the open sky) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the auditorium floor and back wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -35,29 +35,29 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-Trump Nassau County speech
+Trump Nassau County police academy speech
 ```
 
 ### [카드 2]
 **텍스트**
 ```text
-전쟁은 2월 28일에 시작됐다
-미국이 이스라엘과 함께 이란을 쳤고
-*그때부터 미군이 해협을 틀어막았다*
-다섯 달이 지나도록 교착 상태다
+전쟁은 지난 2월 28일 시작됐다
+미국과 이스라엘이 이란을 쳤고
+그 뒤로 다섯 달이 넘었다
+*미군은 아직 그 바다를 막고 있다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the gap between a handful of tiny helmeted sailors on the flight deck and the enormous stretch of water they are parked across. Recurring location - a narrow sea strait flanked by low arid brown coastal ridges. Seen from directly overhead, a grey aircraft carrier and two escorting destroyers sit broadside across the mouth of the channel, deliberately blocking it, their wakes gone flat from long standing. The few crew members on the deck look down at the water rather than at each other, and the empty sea runs from the top of the frame to the bottom.
-Camera: extreme long shot from an overhead bird's-eye view, tiny subjects in a vast environment, scale and isolation, shot on 14mm ultra-wide lens, dramatic depth
+Scene: Emotional focal point: the enormous emptiness of the water around three tiny warships. Seen from far above, a narrow sea strait between two low desert coastlines is corked by a line of grey naval vessels holding position across the channel. On the nearest deck, a few sailors stand motionless at the rail, facing the open water, their bodies reduced to small dark marks against the deck. A single civilian cargo ship waits at the edge of the frame, stopped, its bow pointed at the line it cannot cross.
+Camera: extreme long shot, tiny subject, vast environment, scale, isolation from overhead shot, bird's-eye view, top-down angle, layout, geometry, shot on 14mm ultra-wide lens, vast environment, dramatic depth, strong spatial presence
 Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the deck guide markings only), muted daylight contrast
-Text handling: no hull numbers, no deck lettering, no flags with writing; keep all steel surfaces clean of script.
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast, the accent restricted to the thin line of the channel between the ships
+Text handling: no hull numbers, no ship names, no painted lettering anywhere; keep all hull surfaces plain and unmarked.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the sea surface) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the sea) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -66,29 +66,29 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-Abraham Lincoln aircraft carrier
+Strait of Hormuz US Navy carrier
 ```
 
 ### [카드 3]
 **텍스트**
 ```text
-영토라 부른 근거는 그 봉쇄였다
-*"우리가 그곳을 봉쇄하고 있기 때문"*
-미국이 원치 않으면 어떤 배도 못 지난다
+근거는 조약도 역사도 아니었다
+*"우리가 그곳을 봉쇄하고 있다"*
 국방장관은 무기한 끌 수 있다고 했다
+그사이 값은 어디서 나오고 있었나
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a merchant sailor's knuckles whitening on the bridge rail as he stares at the warship parked across his lane. Recurring location - a narrow sea strait flanked by low arid brown coastal ridges. A grey warship lies broadside across the channel, and a fully loaded tanker has stopped dead a short distance short of it with its bow still aimed forward. Two sailors stand on the tanker's bridge wing looking toward the warship, and the long telephoto compression stacks the two hulls until the strip of water between them reads as sealed shut.
-Camera: wide shot from eye level at sea-surface height, shot on 200mm telephoto lens, distant subject, strong compression, candid observation
+Scene: Emotional focal point: the flat, unbothered set of his mouth as he speaks. A middle-aged Western male defense official in a dark suit stands behind a briefing podium, one hand resting flat on its top, chin slightly raised, eyes directed toward the right edge of the frame where the press stands unseen. Behind him a plain dark curtain wall carries no emblem. In the near foreground, out of focus, the backs of two seated reporters' heads frame him, and a cluster of microphones leans toward his chest.
+Camera: medium close-up, chest-up framing, facial emotion, slight body context from high angle shot, looking down, shot on 50mm standard lens, minimal distortion, natural cinematic composition, nose room on the right, gaze directed toward the right edge
 Lighting/mood: flat cold even surveillance light, no shadow no warmth, detached and watchful
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on a single navigation lamp), muted daylight contrast
-Text handling: no ship names, no hull markings, no painted numbers, no container lettering; keep every painted surface clean of script.
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast, the accent limited to one small indicator light on the microphone cluster
+Text handling: no podium seal, no backdrop lettering, no microphone flags, no name card; all such surfaces are left blank or cropped out of frame.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the sea surface) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the briefing room back wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -97,29 +97,29 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-Strait of Hormuz tanker blockade
+Hegseth Pentagon press briefing podium
 ```
 
 ### [카드 4]
 **텍스트**
 ```text
-봉쇄가 길어지자 값이 나오기 시작했다
-세계 원유 공급은 하루 430만 배럴 줄고
-*재고도 지난해 4월 이후 가장 낮다*
-오른 기름값을 두고 대통령이 답했다
+국제에너지기구가 내놓은 숫자가 있다
+올해 원유 공급이 하루 430만 배럴 준다
+*원유 재고는 79억 배럴 아래로 내려가*
+지난해 4월 이후 가장 낮아졌다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the inspector's shoulders dropping as he looks down into a tank whose floating roof has sunk far below the rim. A crude oil tank farm before sunrise, rows of huge cylindrical storage tanks receding toward the horizon on flat concrete. One tank in the middle ground is nearly drained, its inner roof sitting deep inside the shell. A lone worker in a hard hat and coveralls stands on the catwalk at that tank's rim, one gloved hand on the rail, head bent over the opening, his body turned so that the empty tanks continue off toward the right edge of the frame.
-Camera: medium shot from a high angle looking down, shot on 28mm lens, natural perspective, mild wide angle, nose room on the right
-Lighting/mood: cold blue pre-dawn tone, desolate stillness
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on one gauge dial), film-noir low-key lighting, deep shadows
-Text handling: no gauge numerals, no tank labels, no pipeline stencils, no hazard placards with writing; read the level through the sunken roof instead of any printed figure.
+Scene: Emotional focal point: a gloved fingertip stopped just short of a gauge needle that has fallen to the low end of its arc. The hand belongs to a refinery worker in a hard hat and coveralls, whose forearm and shoulder enter from the left; his face is out of frame above. The round analogue pressure gauge is bolted to a thick pipe on the wall of a storage tank, and the needle rests near the bottom of its travel. Rust streaks run down the tank behind the pipe.
+Camera: extreme close-up, single detail, hand, texture from eye-level shot, neutral perspective, shot on 100mm macro lens, fine detail, shallow depth of field, precise texture
+Lighting/mood: flat sterile clinical fluorescent light, cold even greenish-white, emotionless institutional
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast, the accent applied only to the gauge needle
+Text handling: the gauge face carries tick marks only, no numerals, no dial lettering, no pipe stencils, no warning labels; crop or blur any surface that would carry writing.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the concrete ground of the tank farm) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the tank wall and its pipework) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -128,28 +128,28 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-crude oil storage tank farm
+refinery storage tank pressure gauge
 ```
 
 ### [카드 5]
 **텍스트**
 ```text
-*"나는 사과하지 않을 것"*
-"난 옳은 일을 했다"
-미국에서 오른 기름값을 두고 한 말이다
+기름값이 올랐다는 말에
+그는 *"사과하지 않겠다"*고 했다
+"난 옳은 일을 했다"고도 했다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the mouth caught mid-word and the jaw set hard, a single overhead light carving the lower face out of total blackness. Recurring subject - an elderly Western male politician in his late 70s with swept-back light hair, wearing a dark navy suit and a long red tie, framed so tight that only the mouth, chin, the knot of the tie and the head of the microphone below it are inside the frame. Everything around the lit skin drops away into an unbroken black backdrop with no room and no other object in it.
-Camera: extreme close-up on a single detail, mouth and jaw filling the frame, from a low angle, shot on 100mm macro lens, fine detail, shallow depth of field, precise texture
-Lighting/mood: harsh single overhead light pooling on the subject, deep surrounding black, oppressive
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 as one small live indicator on the microphone), film-noir low-key lighting, deep shadows
-Text handling: no microphone flag, no broadcaster mark, no lettering anywhere on the microphone or clothing.
+Scene: Emotional focal point: the jaw set hard and the eyes locked forward without a blink. Recurring subject — an elderly Western male political leader in his late 70s, heavy build, light swept-back hair, dark navy suit with a long red tie, generic features not resembling any specific real person — fills the frame from the chest up, head turned three-quarters, lip corners tightened in a one-sided asymmetric set as he answers. His shoulders stay squared and still. Behind him the room falls away into darkness with only the edge of a lectern catching light.
+Camera: tight close-up, face fills frame, intense emotion, intimate pressure from high angle shot, looking down, shot on 85mm portrait lens, flattering face, soft background separation, elegant focus, manhwa emphasis lines radiating toward the subject, no panel border
+Lighting/mood: single hard side-light cutting across the subject, deep chiaroscuro shadows, tense atmosphere
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows, the accent burning along the lit rim of his jaw and collar
+Text handling: no lectern seal, no lapel pin lettering, no background signage; every surface behind him is dark and blank.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the dark empty backdrop behind the speaker) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the darkened room wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -158,29 +158,29 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-Trump microphone closeup
+Trump press question podium closeup
 ```
 
 ### [카드 6]
 **텍스트**
 ```text
-*그런데 그 바다는 미국 것이 아니다*
-이란과 오만의 영해를 낀 국제 수로다
-이란은 연설로 빼앗을 순 없다고 했다
-다섯 달째 누구도 물러서지 않고 있다
+그런데 호르무즈는 국제 수로다
+이란과 오만의 영해를 낀 바닷길이라
+어느 한 나라가 제 것이라 선 못 긋는다
+*이란은 연설로 빼앗을 순 없다고 받았다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the strip of dead black water in the middle of the frame that neither side will cross. Recurring location - a narrow sea strait flanked by low arid brown coastal ridges. A large grey destroyer holds the left edge and a much smaller patrol boat holds the right edge, both turned broadside and facing each other across the gap, with small crew silhouettes standing at the rails of each and eyelines locked. The camera sits just above the water so both hulls loom, and the arid ridges of the two facing coastlines rise behind them on either side.
-Camera: wide shot from a ground-level worm's-eye view near the water, exaggerated scale, shot on 24mm wide lens, cinematic wide shot, spatial context
-Lighting/mood: single hard side-light cutting across the subject, deep chiaroscuro shadows, tense atmosphere
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on one running light), film-noir low-key lighting, deep shadows
-Text handling: no national flags with writing, no hull numbers, no emblems or insignia; identity is carried by hull shape and scale only.
+Scene: Emotional focal point: the steady, unwavering eye contact of a man who refuses to look away. A Middle Eastern male diplomat in his fifties, grey-streaked beard, dark suit without a tie, stands alone behind a bare table and speaks straight into the cameras, one palm laid flat on the tabletop. The hall around him is wide and half empty, its far wall plain and unmarked. A single microphone stands between him and the viewer.
+Camera: wide shot, full body, surrounding environment, spatial context from low angle shot, looking up, dramatic presence, shot on 24mm wide lens, cinematic wide shot, spatial context, subtle depth
+Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast, the accent kept to a single thin line along the table edge in front of him
+Text handling: no backdrop lettering, no flags with writing, no name card on the table; all such surfaces stay blank.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the sea surface) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the hall's back wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -189,29 +189,29 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-Iranian patrol boat US destroyer
+Iran foreign ministry press conference spokesman
 ```
 
 ### [카드 7]
 **텍스트**
 ```text
-봉쇄는 원래 임시라는 이름이었다
-다섯 달을 넘기자 소유의 말이 들어섰다
-값은 원유를 사 오는 나라들이 나눠 낸다
-*그들은 사과받을 자리에 있지도 않다*
+봉쇄는 임시라는 이름이었다
+다섯 달이 지나자 소유의 말이 들어섰다
+여닫는 쪽은 사과하지 않겠다고 했다
+*값은 그 물길로 기름을 사 오는 쪽이 낸다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the dock worker's steady unwavering eye contact straight into the camera, one bare hand resting on a closed valve wheel. A Korean man in his fifties in a hard hat and reflective vest stands at the manifold of a crude oil import jetty in the first light of morning, facing the viewer square on, feet planted, the other arm hanging still at his side. The black steel hull of a moored tanker rises behind him and fills the whole background, and thin harbour haze softens its upper edge.
-Camera: medium shot from eye level, front-on shot, direct gaze, symmetrical composition, facing camera, shot on 40mm lens, neutral perspective, natural human-vision feel
-Lighting/mood: warm soft morning light, gentle and quiet, faint melancholy
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the valve wheel), muted daylight contrast
-Text handling: no vessel name, no pipeline stencils, no vest lettering, no port signage; keep the hull and every fitting clean of script.
+Scene: Emotional focal point: the tired, level gaze of a Korean dock worker looking straight into the camera. He stands in his fifties in a worn coverall and hard hat at the edge of an oil terminal berth, holding a coiled hose line at his side, feet planted. Behind him a moored tanker's hull rises and the loading arms reach over the water toward it. The far horizon shows the same low coastline the strait cuts through, faint in the early light.
+Camera: medium shot, waist-up framing, face and gestures from eye-level shot, neutral perspective, front-on shot, direct gaze, facing camera, shot on 40mm lens, neutral perspective, natural human-vision feel
+Lighting/mood: cold blue pre-dawn tone, lone lamp reflection on wet ground, desolate stillness
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows, the accent held on the terminal lamp and its reflection in the water
+Text handling: no hull name, no terminal signage, no safety placards, no helmet lettering; keep every surface unmarked.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the black steel hull of the moored tanker) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the terminal quay and the water beyond it) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -220,5 +220,5 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-oil tanker unloading jetty
+울산항 원유 부두 유조선 접안
 ```
