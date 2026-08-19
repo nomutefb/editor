@@ -50,15 +50,18 @@
  </div>
 
  <div class="card">
-  <h2>② 지금 데이터로 본 실시간 TOP 10</h2>
-  <table id="tb"><thead><tr><th>#</th><th>제목</th><th class="n">원값</th><th class="n">환산</th></tr></thead><tbody></tbody></table>
+  <h2>② 지금 데이터로 본 실시간 TOP 10 <span style="color:var(--mut);font-weight:400;font-size:12px">(유튜브 + 구글 검색어)</span></h2>
+  <p class="note" style="margin:0 0 6px">환산 <b>켜짐</b> — 조회수를 곡선으로 옮겨 검색량과 한 자로 세운 순위. 배율 = 환산 ÷ 원값(구글은 환산 안 함 = 1.00배)</p>
+  <table id="tb"><thead><tr><th>#</th><th>제목</th><th class="n">원값</th><th class="n">환산</th><th class="n">배율</th></tr></thead><tbody></tbody></table>
+  <p class="note" style="margin:12px 0 6px">환산 <b>꺼짐</b> — 조회수와 검색량을 <b>손대지 않고</b> 그대로 세운 순위. 두 자가 얼마나 다른지 보는 용도.</p>
+  <table id="tb0"><thead><tr><th>#</th><th>제목</th><th class="n">원값</th></tr></thead><tbody></tbody></table>
   <p class="note">데이터 = 2026-08-19 08:07 수집분 · 유튜브는 12시간 이내만 · 게임 등 제외 분류는 빠져 있음</p>
   <h2 style="margin-top:16px">③ 정한 값 복사</h2>
   <pre id="out"></pre>
   <button id="cp">값 복사</button>
   <p class="note warn">⚠ 한계 — ⓐ 곡선은 꼽은 핀을 <b>정확히 지난다</b>. 기본은 <b>전체가 한 번 가속</b>(왼쪽 완만 → 오른쪽으로 갈수록 가파름)이고, 핀을 옮기면 그 자리를 지나도록 휘되 <b>핀에서 꺾이지 않는다</b>(기울기가 이어진다).
   ⓑ 핀 밖(가장 왼쪽 아래·가장 오른쪽 위)은 곧게 늘린다. ⓒ <b>핀을 왼쪽에서 오른쪽으로 갈수록 높게 찍으면</b> 값이 되돌아가지 않는다(순위 뒤집힘 없음) — 가운데 핀을 오른쪽 끝점보다 <b>높이</b> 올리면 그 뒤 구간은 내려간다(찍은 대로 그린다).
-  ⓓ 구글 쪽 값은 환산하지 않는다(검색량이 이미 그 자다) — 그리고 <b>지금 실시간 TOP 순위에는 구글이 안 들어간다</b>(260819 제외). 위 표에서도 순위 밖 참고로만 뒀다. ⓔ 이 화면은 시안이라 실제 화면 코드와 별개다 — 값을 정하면 코드에 옮긴다.</p>
+  ⓓ 구글 쪽 값은 환산하지 않는다(검색량이 이미 그 자다 · 배율 1.00). 환산은 <b>조회수 쪽에만</b> 걸리고, <b>고정 배수가 아니라 구간마다 배율이 달라지는 곡선</b>이다 — 위 배율 열이 실제로 몇 배가 걸렸는지 보여준다. ⓔ 이 화면은 시안이라 실제 화면 코드와 별개다 — 값을 정하면 코드에 옮긴다.</p>
  </div>
 </div>
 
@@ -167,16 +170,18 @@ function render(){
   $('#kv').textContent=K.toFixed(2);
   const P=[...PINS].sort((a,b)=>a[0]-b[0]);
   $('#pins').innerHTML='핀 '+P.length+'개 — '+P.map(p=>'<b>'+fmt(p[0]/1e4)+'만뷰</b>=검색 <b>'+fmt(p[1])+'</b>').join(' · ');
-  // ⚠ 순위에 서는 건 조회수 항목뿐이다 — 실시간 TOP 풀에서 구글 검색어는 260819에 빠졌다(viewer/index.html 참조).
-  //   구판은 구글을 섞어 세워 **실물과 다른 순위**를 보여줬고, 그 화면을 보고 값을 정하면 판단 자체가 어긋난다.
-  //   구글은 순위 밖 「참고」로만 남긴다(검색량이 이미 그 자라 환산을 안 태운다 = 두 자의 크기 감각 비교용).
-  const rows=DATA.yt.map(o=>({t:o.t,raw:o.v.toLocaleString()+'회 · '+o.h+'h',s:f(o.v),k:'yt'}))
-             .sort((a,b)=>b.s-a.s).slice(0,10);
-  const ref=[...DATA.gg].sort((a,b)=>b.v-a.v).slice(0,5);
+  // 순위 = 유튜브(조회수) + 구글(검색량) 함께(운영자 260819 «유튜브랑 구글 검색어 둘다 적용할거고» = viewer 와 같은 구성).
+  //   ⚠ 환산은 **조회수 쪽에만** 걸린다 — 구글 검색량은 이미 그 자라 손대지 않는다(배율 1.00).
+  //   ⚠ 「몇 배 곱한 건가」에 답하려고 배율 열을 둔다 — 이 환산은 **고정 배수가 아니라 구간마다 배율이 달라지는 곡선**이라
+  //     같은 표 안에서도 배율이 크게 갈린다(그게 곡선의 정의다).
+  const all=[...DATA.yt.map(o=>({t:o.t,raw:o.v.toLocaleString()+'회 · '+o.h+'h',v:o.v,s:f(o.v),k:'yt'})),
+             ...DATA.gg.map(o=>({t:o.t,raw:o.v.toLocaleString()+' 검색',v:o.v,s:o.v,k:'gg'}))];
+  const rows=[...all].sort((a,b)=>b.s-a.s).slice(0,10);
   $('#tb tbody').innerHTML=rows.map((r,i)=>
-    `<tr><td>${i+1}</td><td class="${r.k}">${r.t}</td><td class="n">${r.raw}</td><td class="n">${fmt(r.s)}</td></tr>`).join('')
-    + `<tr><td colspan="4" style="padding-top:10px;color:var(--mut);font-size:11.5px">참고 — 구글 검색어(순위 밖 · 환산 안 함)</td></tr>`
-    + ref.map(o=>`<tr><td></td><td class="gg">${o.t}</td><td class="n">${o.v.toLocaleString()} 검색</td><td class="n">—</td></tr>`).join('');
+    `<tr><td>${i+1}</td><td class="${r.k}">${r.t}</td><td class="n">${r.raw}</td><td class="n">${fmt(r.s)}</td><td class="n">${r.k==='gg'?'1.00':(r.s/Math.max(1,r.v)).toFixed(3)}배</td></tr>`).join('');
+  const raw0=[...all].sort((a,b)=>b.v-a.v).slice(0,10);   // 환산 끔 = 원값 그대로
+  $('#tb0 tbody').innerHTML=raw0.map((r,i)=>
+    `<tr><td>${i+1}</td><td class="${r.k}">${r.t}</td><td class="n">${r.raw}</td></tr>`).join('');
   $('#out').textContent='const YT_EQ = ['+P.map(p=>'['+p[0]+', '+p[1]+']').join(', ')+'];\nconst YT_EASE = '+K.toFixed(2)+';';
 }
 $('#q').addEventListener('input',e=>{K=+e.target.value;
