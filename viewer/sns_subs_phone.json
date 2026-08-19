@@ -480,10 +480,10 @@
   {
    "account": "choi.openai",
    "text": "브라운대 경제학 수업에서 나온 성적 분포 두 장이 화제입니다.\n\n재택으로 치른 중간고사 평균이 96점, 대면으로 바꾼 기말 평균이 48점입니다.\n지난 12월 총격 사건 이후 학생들의 부담을 덜어주려 교수가 34년 경력에 처음 재택 시험을 냈는데, 86명 중 40명이 100점을 받았습니다.\n\n채점자들이 문제를 챗GPT에 넣어보고서야 그림이 잡혔습니다. 간단한 풀이가 있는 문제에 빙 돌아가는 논증이 나왔는데, 같은 논증이 수십 장의 답안에 반복돼 있었던 겁니다.\n\n교수가 기말은 대면으로 치르고 두 분포를 비교하겠다고 예고하자 18명이 수강을 철회하고 9명이 결시했습니다. 이 27명 중 22명이 중간고사 100점이었습니다.\n일각에서는 부정행위 사건으로만 보기에는 성적이 목적이 된 평가 구조에서 AI는 그 목적을 값싸게 만들었을 뿐이라는 지적도 나옵니다.\n\n과제형 평가가 사실상 AI 성능 측정이 된 이상, 시험은 대면과 구술로 돌아갈 수밖에 없을 것 같습니다.",
-   "likes": 24,
+   "likes": 26,
    "cmts": 1,
    "time": 1787140850,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778625773_17983031178112832_3496655700150510002_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk2NzE0NzQ0NTg0MjcxMTU4Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjA0OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=AdlJmyzYljgQ7kNvwEVqndo&_nc_oc=Ado7y-ycgFew_o9V2ng_aejotZH67CHMNxoMZU5MhfLDEOgeAamhAs1L8C2cUQ4ipak&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=tpePwouPOlJoSLUhhFaM3A&_nc_ss=7a22e&oh=00_AQHIJwsoFVFWoEHwWpOKvmbip0rUT92kxjDvF0jWoBYyCA&oe=6A8B6498",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778625773_17983031178112832_3496655700150510002_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk2NzE0NzQ0NTg0MjcxMTU4Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjA0OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=AdlJmyzYljgQ7kNvwEVqndo&_nc_oc=Ado7y-ycgFew_o9V2ng_aejotZH67CHMNxoMZU5MhfLDEOgeAamhAs1L8C2cUQ4ipak&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=-WFwwwLtwetQCibdwOE6tQ&_nc_ss=7a22e&oh=00_AQECI9hRSksajSVxfIIwUDEqD7tqlCM0VceGrLO810I0xw&oe=6A8B9CD8",
    "url": "https://www.threads.com/@choi.openai/post/DcOI5VJDZQj",
    "region": "kr"
   },
@@ -500,10 +500,10 @@
   {
    "account": "choi.openai",
    "text": "오픈AI가 GPT-5.6으로 에이전트 비용을 줄이는 실전 가이드를 공개했습니다.\n에이전트 만드는 분들은 한 번 읽어볼 만한데요.\n\n문서 추출은 작은 Luna 모델로 정확도를 거의 그대로 두고 비용을 18분의 1로 줄였고, 석 달 전 33달러 들던 검색 벤치마크는 이제 같은 성능에 1.3달러면 됩니다.\n\n특히, ARC-AGI-3 실험에서는 모델은 그대로 두고 추론 보존과 컨텍스트 압축 두 설정만 켰더니 점수가 13.3%에서 38.3%로 뛰었습니다. 출력 토큰은 오히려 6분의 1로 줄었고요.\n\n결국, 판단이 필요한 일만 모델에 맡기고, 데이터를 나르고 거르는 일은 코드로 빼고, 매번 최상위 모델을 부르는 습관을 버리라는 겁니다.\n\n그나저나 Gemini의 굴욕은 어디까지 갈지 얼른 왕좌에 복귀를 해주면 좋겠네요.",
-   "likes": 79,
+   "likes": 83,
    "cmts": 4,
    "time": 1787135457,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778486254_17982921357112832_120877009817962594_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk2NzEwMjIwNDA4MjQ5NTEyOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=KfUdLzKoiTkQ7kNvwECSyCI&_nc_oc=AdoyqUrNZxzuujoJph8_3pCuMa7BpOAU6DxO_QxHL-KJDpkmXdCJ8cKQ0qUyA81SxOQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=tpePwouPOlJoSLUhhFaM3A&_nc_ss=7a22e&oh=00_AQHLJZH-ZBZqvWp-djEJCzb-a5Z7UoqtZdFVUUNYcorZpA&oe=6A8B76DA",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778486254_17982921357112832_120877009817962594_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk2NzEwMjIwNDA4MjQ5NTEyOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=KfUdLzKoiTkQ7kNvwECSyCI&_nc_oc=AdoyqUrNZxzuujoJph8_3pCuMa7BpOAU6DxO_QxHL-KJDpkmXdCJ8cKQ0qUyA81SxOQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=-WFwwwLtwetQCibdwOE6tQ&_nc_ss=7a22e&oh=00_AQHJCOzPchhX7r-t0WRCPauUzEFJZpz2VTQCvE2-LDpY7Q&oe=6A8B76DA",
    "url": "https://www.threads.com/@choi.openai/post/DcN-m-eAZ6Z",
    "region": "kr"
   },
@@ -523,7 +523,7 @@
    "likes": 0,
    "cmts": 1,
    "time": 1787132202,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/780127051_18081468245407306_5378864589143849554_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk2NzA3NDgzMTIzNDQ1OTA0OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Pf8CsvF4BBkQ7kNvwHAM8bi&_nc_oc=AdqlaRjb6wK9kLr3oHWHbCtZ_6a-YZOm56VsImjoWdfU5x1bWmfLid6CVZwoq97L4AY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=DA6wCObKPEl6L16lNtGu8Q&_nc_ss=7a22e&oh=00_AQEYzvfzuQHZJE4a0Y3RLl0OmYHseaA3-rPbmdGjwOmKNw&oe=6A8B7C6A",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/780127051_18081468245407306_5378864589143849554_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk2NzA3NDgzMTIzNDQ1OTA0OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Pf8CsvF4BBkQ7kNvwHAM8bi&_nc_oc=AdqlaRjb6wK9kLr3oHWHbCtZ_6a-YZOm56VsImjoWdfU5x1bWmfLid6CVZwoq97L4AY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=URA1oKuzFUx9xmT6Lbb_VA&_nc_ss=7a22e&oh=00_AQGFMyhzw7zGuTKvXwX0gguFO7C8ouz0acND4vek3rqH_A&oe=6A8B7C6A",
    "url": "https://www.threads.com/@aipeekme/post/DcN4YphH2Wo",
    "region": "kr"
   },
@@ -533,7 +533,7 @@
    "likes": 2,
    "cmts": 0,
    "time": 1787121521,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/781251176_38896776296588508_5184879063004881383_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk2Njk4NTEwNDQwOTQyNjEyMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=yk67nwEYYUIQ7kNvwGSIYTu&_nc_oc=AdokagXU2wphQsD57Nnp_JL1OTvh-pwLEe7CTO5kC_VYcrVsVMJPFcNFORgBP-jTBPE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=DA6wCObKPEl6L16lNtGu8Q&_nc_ss=7a22e&oh=00_AQE8EjSf1-0Ezz3ryGQf685SD6OceVgsbLjUlPHbxHxEZg&oe=6A8B63E5",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/781251176_38896776296588508_5184879063004881383_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk2Njk4NTEwNDQwOTQyNjEyMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=yk67nwEYYUIQ7kNvwGSIYTu&_nc_oc=AdokagXU2wphQsD57Nnp_JL1OTvh-pwLEe7CTO5kC_VYcrVsVMJPFcNFORgBP-jTBPE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=URA1oKuzFUx9xmT6Lbb_VA&_nc_ss=7a22e&oh=00_AQFfewkcpq7cE-Hk3RAcj_74VpUqQBemVClOhNC_6dZM4A&oe=6A8B9C25",
    "url": "https://www.threads.com/@aipeekme/post/DcNj-85lvjI",
    "region": "kr"
   },
@@ -573,7 +573,7 @@
    "likes": 85,
    "cmts": 3,
    "time": 1787090534,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/775685800_891282227086200_4387249736637956747_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk2NjcyMzg2MjU2OTg0NDYwMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=oa9H2ORgBkwQ7kNvwG8aGU_&_nc_oc=AdrtSJoBdhYj4T-KIoRcMWbQ4cbWK7Aqm4F_yhuk-F13MSVWNYAktFH88nRiMPZi4x8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=FdtFIWWNSVJWXwxdcI65dg&_nc_ss=7a22e&oh=00_AQFXgo0-qmMteuC1Ry5NngpLnLD7NPT7g5mRep3AYqbxtw&oe=6A8B81AC",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/775685800_891282227086200_4387249736637956747_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk2NjcyMzg2MjU2OTg0NDYwMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=oa9H2ORgBkwQ7kNvwG8aGU_&_nc_oc=AdrtSJoBdhYj4T-KIoRcMWbQ4cbWK7Aqm4F_yhuk-F13MSVWNYAktFH88nRiMPZi4x8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=QK38xlJCFf7KTLOl5DmCJQ&_nc_ss=7a22e&oh=00_AQEGVrduNmHz74yAI18F5JuaS5HB85Tc2psO1zzCly1Wfg&oe=6A8B81AC",
    "url": "https://www.threads.com/@aicoffeechat/post/DcMolYein95",
    "region": "kr"
   },
@@ -613,7 +613,7 @@
    "likes": 31,
    "cmts": 14,
    "time": 1787089924,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778025428_17953195755232485_3526550988961658501_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk2NjcyMDI0NzA4MDM1NzE1NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI2NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=b0BHXGgBhAEQ7kNvwGH68P7&_nc_oc=AdrFvr10ifQSzJkzGAMSykmNqleUqIjqqPd-KyNjz5uwtORn9RAlY81AFJiYMK8Ktlo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=FdtFIWWNSVJWXwxdcI65dg&_nc_ss=7a22e&oh=00_AQFO4Y5KWqYDAXUmRUIxW1MlA_5LKdNNS7W1h03rauQWxg&oe=6A8B864E",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778025428_17953195755232485_3526550988961658501_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk2NjcyMDI0NzA4MDM1NzE1NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI2NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=b0BHXGgBhAEQ7kNvwGH68P7&_nc_oc=AdrFvr10ifQSzJkzGAMSykmNqleUqIjqqPd-KyNjz5uwtORn9RAlY81AFJiYMK8Ktlo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=QK38xlJCFf7KTLOl5DmCJQ&_nc_ss=7a22e&oh=00_AQFb_Sj5C5QZM_BD-OkTUWm0EwB-n8L1vWyt2W893fhLlw&oe=6A8B864E",
    "url": "https://www.threads.com/@aicoffeechat/post/DcMnwxSkw0j",
    "region": "kr"
   },
@@ -623,7 +623,7 @@
    "likes": 18,
    "cmts": 4,
    "time": 1787130033,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/775245298_3111359165740258_5343404734966467173_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk2NzA1NjcwMzk3OTEwNDI4Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=k9id_LrpDkQQ7kNvwH_YEk6&_nc_oc=AdovOUcNCHbYWEpcGYOOh3k6FKm1jCAmwF5MaqNCIPaNfC1yf27hTTI9lQagG1N-Plw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=tpePwouPOlJoSLUhhFaM3A&_nc_ss=7a22e&oh=00_AQF5T9_ffVNGsN4hKKVc7WmYCL3q2Xxp_Fztxq2OU_WcbA&oe=6A8B75E7",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/775245298_3111359165740258_5343404734966467173_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk2NzA1NjcwMzk3OTEwNDI4Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=k9id_LrpDkQQ7kNvwH_YEk6&_nc_oc=AdovOUcNCHbYWEpcGYOOh3k6FKm1jCAmwF5MaqNCIPaNfC1yf27hTTI9lQagG1N-Plw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=-WFwwwLtwetQCibdwOE6tQ&_nc_ss=7a22e&oh=00_AQExXbUqV3Ck6DsekaYvM50IWH-BYzYD3ax7Ytgf4rLc8g&oe=6A8B75E7",
    "url": "https://www.threads.com/@choi.openai/post/DcN0Q3Mgage",
    "region": "kr"
   },
@@ -633,14 +633,14 @@
    "likes": 0,
    "cmts": 1,
    "time": 1787121072,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778401046_18081412220407306_6281312036291104251_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk2Njk4MTQ3MjcyMTUzODM3OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=5hxr9owvYSUQ7kNvwGa9wfy&_nc_oc=AdprRC2-vmXlaiXxIkJ3BYwYnaSVWEQ1FPY3NLnzMJC8kanOuq_UENDY2njAjRVDrz0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=DA6wCObKPEl6L16lNtGu8Q&_nc_ss=7a22e&oh=00_AQHYJXsX0e_6a-8_Yxkqq_sDuuKOZSBX8ZjEvC1NN0gA5A&oe=6A8B93CC",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778401046_18081412220407306_6281312036291104251_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk2Njk4MTQ3MjcyMTUzODM3OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=5hxr9owvYSUQ7kNvwGa9wfy&_nc_oc=AdprRC2-vmXlaiXxIkJ3BYwYnaSVWEQ1FPY3NLnzMJC8kanOuq_UENDY2njAjRVDrz0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=URA1oKuzFUx9xmT6Lbb_VA&_nc_ss=7a22e&oh=00_AQHOJjsODDafUnE3GLUDWjCIx1e9IaHXg5MiqZi8nwm4QA&oe=6A8B93CC",
    "url": "https://www.threads.com/@aipeekme/post/DcNjKGoH41K",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "블로그 :\nhttps://inco.ai/blog/dflash2/",
-   "likes": 4,
+   "likes": 5,
    "cmts": 0,
    "time": 1787124638,
    "thumb": "",
@@ -653,7 +653,7 @@
    "likes": 1,
    "cmts": 0,
    "time": 1787117303,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/778340517_1733470877987611_6002725151049538994_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk2Njk0OTY5MzEyNTIzNTAzNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=UxB7DgPoIGkQ7kNvwFqlgC0&_nc_oc=AdozEBoR5g-kz3xEG5ZcjiJGWJV5kV5V25e0cTZ5JGf3elj9o6N6oF9_7sksfLl4mJQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=DA6wCObKPEl6L16lNtGu8Q&_nc_ss=7a22e&oh=00_AQE29gUDIKuXU4GpLd_8y8Vqb6h7z6rQ2XfB25BGW37_8Q&oe=6A8B766C",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/778340517_1733470877987611_6002725151049538994_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk2Njk0OTY5MzEyNTIzNTAzNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=UxB7DgPoIGkQ7kNvwFqlgC0&_nc_oc=AdozEBoR5g-kz3xEG5ZcjiJGWJV5kV5V25e0cTZ5JGf3elj9o6N6oF9_7sksfLl4mJQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=URA1oKuzFUx9xmT6Lbb_VA&_nc_ss=7a22e&oh=00_AQELe0TTul60-8iSncC6pU8wPtb1NjS3Ybi0VSA8fsBOfw&oe=6A8B766C",
    "url": "https://www.threads.com/@aipeekme/post/DcNb7pkkxFc",
    "region": "kr"
   },
@@ -663,22 +663,13 @@
    "likes": 90,
    "cmts": 2,
    "time": 1787124630,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/777396792_1785140056238995_8034867156651012154_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk2NzAxMTM4NTIyOTU2MjY1Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=1RlptE3_upUQ7kNvwGI66B_&_nc_oc=AdoW8-HsL6dEpBIvEqrGHP8qHHM2Sw8ep3EjFWwFr6cEGALMcUi7t08zzxAzv7hJlIs&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=tpePwouPOlJoSLUhhFaM3A&_nc_ss=7a22e&oh=00_AQEDTOJDf-oh0blGl-etKTbmAK5JQqa2-zjLisNq9U8E1w&oe=6A8B7939",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/777396792_1785140056238995_8034867156651012154_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk2NzAxMTM4NTIyOTU2MjY1Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=1RlptE3_upUQ7kNvwGI66B_&_nc_oc=AdoW8-HsL6dEpBIvEqrGHP8qHHM2Sw8ep3EjFWwFr6cEGALMcUi7t08zzxAzv7hJlIs&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=-WFwwwLtwetQCibdwOE6tQ&_nc_ss=7a22e&oh=00_AQF6M6I-ycPghPnQNEUmOiULqkBMsGN6zz1wCsQuxgl6PA&oe=6A8B7939",
    "url": "https://www.threads.com/@choi.openai/post/DcNp9Y0idMh",
    "region": "kr"
   }
  ],
  "tiktok": [],
  "reddit": [
-  {
-   "sub": "meirl",
-   "title": "meirl",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/gav986wopbkh1.jpeg?width=640&crop=smart&auto=webp&s=b5b64083110f46848ab9ef36cfb0107edfb12986",
-   "time": 1787141658,
-   "url": "https://www.reddit.com/r/meirl/comments/1vskq4z/meirl/"
-  },
   {
    "sub": "AskReddit",
    "title": "You’re handed 2 pounds of ground beef and told you can’t make spaghetti, tacos, or burgers. What’s your panic‑mode meal?",
@@ -689,6 +680,15 @@
    "url": "https://www.reddit.com/r/AskReddit/comments/1vs8z4g/youre_handed_2_pounds_of_ground_beef_and_told_you/"
   },
   {
+   "sub": "meirl",
+   "title": "meirl",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/gav986wopbkh1.jpeg?width=640&crop=smart&auto=webp&s=b5b64083110f46848ab9ef36cfb0107edfb12986",
+   "time": 1787141658,
+   "url": "https://www.reddit.com/r/meirl/comments/1vskq4z/meirl/"
+  },
+  {
    "sub": "interestingasfuck",
    "title": "Bull sees a show-jumping horse and decides he can do it too",
    "score": 0,
@@ -696,15 +696,6 @@
    "thumb": "https://external-preview.redd.it/NG41anF2bXJnYmtoMWYv1NA3NqI_SjzACDRBjdbLEeoFLWJhH4Ue4SFx2Xnv.png?width=320&crop=smart&auto=webp&s=fa6d1fb8818ee410b1201bda6beb4273a53c807b",
    "time": 1787138661,
    "url": "https://www.reddit.com/r/interestingasfuck/comments/1vsjn2x/bull_sees_a_showjumping_horse_and_decides_he_can/"
-  },
-  {
-   "sub": "europe",
-   "title": "Barcelona to become the first major European city to ban Airbnb-style apartments",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/V6R5MUZHKflYKsZGKTlI4piMn5svL-ZBjYBnJz3jRCY.jpeg?width=640&crop=smart&auto=webp&s=4e720f3311445730a0ae840c65f5f3ed4378f26d",
-   "time": 1787135023,
-   "url": "https://www.reddit.com/r/europe/comments/1vsihii/barcelona_to_become_the_first_major_european_city/"
   },
   {
    "sub": "Unexpected",
@@ -743,13 +734,13 @@
    "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1vrurdy/airbnb_host_doing_yard_work_the_one_full_day_were/"
   },
   {
-   "sub": "TikTokCringe",
-   "title": "It's not a value question...",
+   "sub": "europe",
+   "title": "Barcelona to become the first major European city to ban Airbnb-style apartments",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/ZmlmZW96dDJzOGtoMZhl32ld9f_N--pTmy6WtxDMw3X_J_0OJEQoznPdLfJT.png?width=320&crop=smart&auto=webp&s=25c27cf825506869931b2b3320bed4bd335d6f84",
-   "time": 1787106141,
-   "url": "https://www.reddit.com/r/TikTokCringe/comments/1vs9io9/its_not_a_value_question/"
+   "thumb": "https://external-preview.redd.it/V6R5MUZHKflYKsZGKTlI4piMn5svL-ZBjYBnJz3jRCY.jpeg?width=640&crop=smart&auto=webp&s=4e720f3311445730a0ae840c65f5f3ed4378f26d",
+   "time": 1787135023,
+   "url": "https://www.reddit.com/r/europe/comments/1vsihii/barcelona_to_become_the_first_major_european_city/"
   },
   {
    "sub": "interesting",
@@ -761,22 +752,31 @@
    "url": "https://www.reddit.com/r/interesting/comments/1vsivv5/moles_the_moment_they_are_placed_on_the_ground/"
   },
   {
-   "sub": "marvelstudios",
-   "title": "If Brie Larson actually decides to jump ship,i don't blame her one bit. She's almost 10 years in, and only had 3 appearances so far.",
+   "sub": "TikTokCringe",
+   "title": "It's not a value question...",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/d48u8hckx5kh1.jpeg?width=640&crop=smart&auto=webp&s=ed1aab156df37667b8aea483550289b05ab54a54",
-   "time": 1787072275,
-   "url": "https://www.reddit.com/r/marvelstudios/comments/1vrv1kp/if_brie_larson_actually_decides_to_jump_shipi/"
+   "thumb": "https://external-preview.redd.it/ZmlmZW96dDJzOGtoMZhl32ld9f_N--pTmy6WtxDMw3X_J_0OJEQoznPdLfJT.png?width=320&crop=smart&auto=webp&s=25c27cf825506869931b2b3320bed4bd335d6f84",
+   "time": 1787106141,
+   "url": "https://www.reddit.com/r/TikTokCringe/comments/1vs9io9/its_not_a_value_question/"
   },
   {
-   "sub": "unpopularopinion",
-   "title": "OWNING a dog fucking sucks",
+   "sub": "MurderedByWords",
+   "title": "Why won’t leftists just start an insurance company",
    "score": 0,
    "cmts": 0,
-   "thumb": "",
-   "time": 1787098000,
-   "url": "https://www.reddit.com/r/unpopularopinion/comments/1vs6hcl/owning_a_dog_fucking_sucks/"
+   "thumb": "https://preview.redd.it/fos3oz9l7bkh1.jpeg?width=640&crop=smart&auto=webp&s=b54f8754e1da58a60e19ac91267040af982abb90",
+   "time": 1787135570,
+   "url": "https://www.reddit.com/r/MurderedByWords/comments/1vsinl8/why_wont_leftists_just_start_an_insurance_company/"
+  },
+  {
+   "sub": "Damnthatsinteresting",
+   "title": "Orca side eye",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/MzRpOWxuMDg3YmtoMfcazuW9JHB-VJgGwwvh6PM1ew0g0NqCXdmmxc-migp-.png?width=320&crop=smart&auto=webp&s=d4291d2d5b33cd6659dc80f5514c23e524f1091f",
+   "time": 1787135520,
+   "url": "https://www.reddit.com/r/Damnthatsinteresting/comments/1vsin10/orca_side_eye/"
   }
  ],
  "disaster": [],
@@ -815,10 +815,10 @@
    }
   },
   "landing": {
-   "at": "2026-08-19T21:34:11",
+   "at": "2026-08-19T22:01:03",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-19T22:00:56.069704+09:00"
+ "updated": "2026-08-19T22:30:53.662820+09:00"
 }
