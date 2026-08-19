@@ -2068,6 +2068,17 @@
   .kwrow .ed-match:has(input:checked) .ed-cbx .sc-chk { stroke:var(--accent); }   /* 체크 점등 = 형광(구 보라 → 260727 형광 통일) */   /* 상태 = 발견/미발견 텍스트 열(정본 .qst 58 고정폭·좌측정렬 그대로 = 행마다 시작 x 일정) */
   .kwrow .qno { flex:none; width:16px; font-size:var(--fs-xs); font-weight:800; color:var(--mut); white-space:nowrap; font-variant-numeric:tabular-nums; }   /* raw-ok: 16px = 2자릿수(등록 상한 KW_CAP 40) 폭 · tabular-nums = 자릿수 바뀌어도 뒤 열 시작 x 고정(§0-11) */
   .kwrow .qt { width:56px; }   /* raw-ok: 64→56 = qno 16 + gap 10 신설분 흡수(행 총폭 불변 · 사다리 최장 '11개월 전' 유지 폭) */
+  /* ── 설정 ▸ 구독 기기(운영자 260819 "대기열 처럼 설정에 구독 기기 라고 넣어서 · 등록일 기기명 비활성화아이콘 휴지통 아이콘") ──
+     셸·행 = 키워드 알림함(.kwpop/.kwrow) 100% 계승 = 같은 .qh·.qlist·.qrow·.qt·.qmain·.qact 부품(신규 값·신규 모양 0).
+     4열 = [등록일 .qt][기기 .qmain][비활성 체크 .qact][휴지통 .qact] — 액션 2칸이라 좌 칸은 헤더 X 왼쪽 세로선, 우 칸은 X 세로선(kwrow 정본 계약 동일).
+     비활성(체크) 표시 = `.kwrow.kw-done` 빗금+무채 선언 사본 — 「이 줄은 처리 끝났다」는 같은 뜻이라 같은 모양을 쓴다. */
+  .devrow.dev-off .qmain { text-decoration:line-through; text-decoration-thickness:1px; color:var(--mut); }
+  .devrow .ed-match { flex:none; }
+  .devrow .ed-match .ed-cbx .sc-dash { opacity:0; }
+  .devrow .ed-match .ed-cbx .sc-chk { stroke:var(--mut); opacity:1; stroke-dashoffset:0; }   /* 항상 ✓ 모양(누르면 되는 느낌) = .kwrow 상태 뒤집기 사본 · 꺼짐일 때만 점등 */
+  .devrow .ed-match:has(input:checked) .ed-cbx { border-color:rgba(var(--accent-rgb),.6); background:rgba(var(--accent-rgb),.14); }
+  .devrow .ed-match:has(input:checked) .ed-cbx .sc-chk { stroke:var(--accent); }
+  .devrow .dev-me { font-style:normal; color:var(--accent); }   /* 지금 보고 있는 기기 표식(형제 .kwrow .kws-hit 형광 축 계승) */
   #bnav .bnav-i[data-tab="feed"] { -webkit-touch-callout:none; -webkit-user-select:none; user-select:none; touch-action:manipulation; }   /* 더블탭 줌·300ms 클릭지연 차단 = 연달아 두번 탭(대기열 열기) 신뢰성(ed-chip 패턴 계승·260621) */
   .qflash { position:fixed; left:0; right:0; margin-inline:auto; bottom:calc(86px + env(safe-area-inset-bottom)); transform:translateY(18px); z-index:var(--z-remote-pop);
     width:min(92vw,430px); display:flex; align-items:center; padding:9px 16px /* raw-ok: 9/16 = 이 셸의 기존값 원복(운영자 260801 회신 "세로 패딩 9px [현행 동값] · 가로 16px [현행 동값]" — 직전 커밋의 --sp-1(6) 시도를 되돌린 것이라 신규 창작 아님 · 가족 .nm-toast 동일 패딩 유지) */; border-radius:var(--r-m); font-size:var(--fs-sm); font-weight:600; color:var(--fg);   /* 굵기 700 → 600(운영자 260801 플레이그라운드 회신 · 셸이 얇아진 만큼 글자도 눌러 앉힘 · 600 = index 기존 26곳 쓰이는 굵기 = 신설 아님) · 세로 패딩 9·가로 16·폭·라운드·글자크기는 현행 유지 */
@@ -4396,6 +4407,7 @@ try {
     <a href="https://www.instagram.com/">인스타그램</a>
   </div>
   <button id="accBtn" class="lp-btn">구독 채널</button><!-- SNS 구독 채널(계정 명단) 관리(운영자 260713 설정 이관 · 260723 헤더 펜 산개 제거·명칭 '계정'→'구독 채널') → #snsaccdlg 모달 · 정적 바인딩 openSnsAcc -->
+  <button id="devBtn" class="lp-btn">구독 기기</button><!-- ⚠배치 = 「구독 채널」 바로 아래(운영자 260819 "설정에 구독 기기 라고 넣어서 누르면 대기열처럼 펼쳐지고") — 이름이 짝을 이루고 둘 다 '명단 관리'라 같은 자리에 뒀다 · 모양 = lp-btn 형제(accBtn) 그대로 · 바인딩 = memoBtn/kwListBtn 패턴 → #devpop -->
   <button id="filterToggle" class="lp-btn pmenu-sns lp-yellow" type="button" aria-expanded="false" aria-controls="filterSub">필터<span class="pm-chev" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></button><!-- 필터 아코디언(운영자 260710 헤더서 설정 안으로 종속·노랑) → 카드만+카테고리 칩(구 filterpop 이관) -->
   <div class="pmenu-sub lp-filtersub" id="filterSub" hidden>
     <!-- 카드만 토글(#cardonlyBtn) 삭제 — 운영자 260713 "설정 메뉴에서 카드 없애" · #cardonly hidden checkbox + render/syncCardBtn null 가드는 잔존(cardonly=false 고정 = 전체 표시·기능 무해 소거) -->
@@ -4430,6 +4442,14 @@ try {
   <div class="qh"><b>키워드 알림</b><button class="tool-x kw-addopen" id="kwAddOpen" type="button" aria-label="키워드 추가" title="키워드 추가"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 6v12M6 12h12"/></svg></button><span class="qh-xcell"><button class="tool-x" id="kwpopX" type="button" aria-label="닫기" title="닫기"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6 18 18M18 6 6 18"/></svg></button></span></div><!-- 헤더 [+][X] = #tooldlg .tool-h 「최소화 − + 닫기 X」 짝 100% 모방(같은 .tool-x 부품 · svg 15/stroke 2/round 동일) — path만 − `M6 12h12` → + `M12 6v12M6 12h12`(세로선 1획 추가 = 같은 글리프 가족) · 운영자 260727 "x옆에 +가 있으면 될듯 · 최소화 되는 애들 기틀 가져와서 − 대신 +" -->
   <div class="qlist" id="kwpopList"></div>
   <div class="pushrow kw-add" hidden><span class="lk-grp"><input class="lk-in kw-in" id="kwIn" type="text" maxlength="120" placeholder="" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="done"></span><button class="pushbtn kw-addbtn" id="kwAddBtn" type="button" aria-label="키워드 추가">추가</button></div>
+</div>
+
+<!-- 설정 ▸ 구독 기기 — 알림을 켠 기기 명단(운영자 260819). 셸·행 = 키워드 알림함(kwpop) 그대로 계승(입력행만 없음).
+     행 = [등록일][기기][비활성 체크][휴지통] · 체크 = 그 기기에만 발송 중단(구독은 남는다 · 다시 누르면 재개) · 휴지통 = 명단에서 제거.
+     ⚠ 기기 이름은 등록 시점에 서버가 받아 적은 값이라 260819 이전 등록분은 「이름 미상」이다(그 폰에서 알림을 껐다 켜면 그때부터 이름이 붙는다). -->
+<div class="bpop qpop devpop head-pop" id="devpop" hidden>
+  <div class="qh"><b>구독 기기</b><span class="qh-xcell"><button class="tool-x" id="devpopX" type="button" aria-label="닫기" title="닫기"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6 18 18M18 6 6 18"/></svg></button></span></div>
+  <div class="qlist" id="devpopList"></div>
 </div>
 
 <!-- 설정 ▸ 메모(작업 기록) — 운영자 260801 "설정에 메뉴 하나 · work to do 기록 · 메모장처럼 · 쓰고나면 대기열처럼 남고 · 언제 썼는지·내용은 클릭하면 게시판처럼 나열".
@@ -9212,6 +9232,18 @@ async function pushRefresh() {
   if (st === 'on') { try { localStorage.setItem('nm_push_want', '1'); } catch (e) {} }   // 백필 — want 플래그 도입(260707) 전에 켠 구독은 플래그가 없어 pushHeal이 침묵 → ON으로 읽히는 순간 편입
   else if (st === 'off') pushHeal();   // OFF가 '보이는 순간' = 치유 시점(부팅 1회만으론 팝업 열 때 어긋남) — want·권한 미충족이면 pushHeal이 스스로 무시·성공 시 ON 재렌더
 }
+// 기기 정보 = 등록 요청이 같이 들고 가는 값(운영자 260819 "안드로이드 오에스 버전이나 브라우저라도 나온다던지").
+//   서버는 요청 헤더의 브라우저 신분 문자열을 스스로 읽는다 — 여기서 보태는 건 **크롬 계열만 주는 더 정확한 값**(플랫폼 판·기기 모델)이다.
+//   없는 브라우저(사파리·파이어폭스)면 null = 서버가 읽은 문자열만 남는다(그래도 안드로이드 판·브라우저는 거기 다 들어 있다).
+async function nmDevHint() {
+  try {
+    const u = navigator.userAgentData; if (!u || !u.getHighEntropyValues) return null;
+    const h = await u.getHighEntropyValues(['platform', 'platformVersion', 'model', 'fullVersionList']);
+    const bl = (h.fullVersionList || u.brands || []).filter(b => b && b.brand && !/not.?a.?brand/i.test(b.brand));
+    const b = bl[bl.length - 1] || null;   // 목록 마지막 = 실제 브라우저(앞쪽은 Chromium 공용 표식)
+    return { plat: h.platform || '', pv: h.platformVersion || '', model: h.model || '', br: b ? (b.brand + ' ' + String(b.version || '').split('.')[0]) : '' };
+  } catch (e) { return null; }
+}
 async function pushToggle() {
   const btn = $('#pushbtn'); if (!btn || !pushOK()) return;
   if (Notification.permission === 'denied') {   // denied는 JS로 못 풂(웹 표준·PWA도 동일·설정 deeplink API 없음) → 환경별 설정 안내
@@ -9233,7 +9265,7 @@ async function pushToggle() {
       const perm = await Notification.requestPermission();
       if (perm !== 'granted') { await pushRefresh(); return; }
       const sub = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: b64ToU8(VAPID_PUB) });
-      const r = await fetch('api/push', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ action: 'subscribe', subscription: sub.toJSON() }) });
+      const r = await fetch('api/push', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ action: 'subscribe', subscription: sub.toJSON(), hint: await nmDevHint() }) });
       if (!r.ok) { await sub.unsubscribe().catch(() => {}); throw new Error('구독 저장 실패(' + r.status + ')'); }
       try { localStorage.setItem('nm_push_want', '1'); } catch (e2) {}   // 의도 = ON(구독 증발 시 pushHeal 재구독 기준)
     }
@@ -9268,7 +9300,7 @@ function pushHeal() {   // 자가치유(운영자 260707 "ON 해놔도 어느 �
       const reg = await navigator.serviceWorker.register('sw.js'); await navigator.serviceWorker.ready;
       if (await reg.pushManager.getSubscription()) { _healCool = Date.now() + 3e3; await pushRefresh(); return; }   // 살아있음 = 표시만 동기화(pushState 일시 null로 OFF 그려진 경우 교정)
       const sub = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: b64ToU8(VAPID_PUB) });
-      const r = await fetch('api/push', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ action: 'subscribe', subscription: sub.toJSON() }) });
+      const r = await fetch('api/push', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ action: 'subscribe', subscription: sub.toJSON(), hint: await nmDevHint() }) });
       if (!r.ok) { await sub.unsubscribe().catch(() => {}); _healCool = Date.now() + 60e3; return; }
       _healCool = Date.now() + 3e3;
       await pushRefresh();   // ON 표시 복구
@@ -9302,6 +9334,7 @@ function closeOverlays(keep) {
   if (keep !== 'linkpop') linkpop.hidden = true;
   if (keep !== 'kwpop') { const _kp = $('#kwpop'); if (_kp) _kp.hidden = true; }   // 키워드 알림 대기열도 화면전환 시 정리(linkpop 형제)
   if (keep !== 'mmpop') { const _mm = $('#mmpop'); if (_mm) _mm.hidden = true; }   // 메모함도 동일(kwpop 형제)
+  if (keep !== 'devpop') { const _dv = $('#devpop'); if (_dv) _dv.hidden = true; }   // 구독 기기함도 동일(kwpop 형제)
   if (keep !== 'qpop') closeQueueUser();
   if (keep !== 'pubpop') closePubUser();
   if (keep !== 'search') closeSearch();
@@ -16789,6 +16822,95 @@ function mmRemove(i) { const items = mmGet().slice(); if (i < 0 || i >= items.le
   if (_mmIn) _mmIn.addEventListener('keydown', (e) => { if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) { e.preventDefault(); mmAdd(_mmIn.value); } });   /* 메모장이라 Enter = 줄바꿈 · 저장 = 저장 버튼 또는 ⌘/Ctrl+Enter */
   ['resize', 'orientationchange'].forEach(ev => window.addEventListener(ev, () => { const mp = $('#mmpop'); if (mp && !mp.hidden) placePopNearMenu(mp); }, { passive: true }));   // 회전·리사이즈 재배치(placeMsgpop 대칭)
   document.addEventListener('click', (e) => { const mp = $('#mmpop'); if (mp && !mp.hidden && !mp.contains(e.target) && !$('#profile').contains(e.target)) mp.hidden = true; });   // 바깥클릭 닫기(kwpop·msgpop 패턴)
+}
+// ── 설정 ▸ 구독 기기(운영자 260819) — 알림 켠 기기 명단 보기 · 기기별 발송 중단 · 삭제.
+//   ⚠ 열쇠(keys)는 서버가 절대 안 내려준다(그 값이 있으면 제3자가 그 기기로 발송을 시도할 수 있다) = 화면은 주소 꼬리 24자로만 기기를 지목한다.
+const _DEV_BR = [['SamsungBrowser', '삼성 인터넷'], ['Samsung Internet', '삼성 인터넷'], ['Edg', '엣지'], ['Microsoft Edge', '엣지'], ['OPR', '오페라'], ['Opera', '오페라'], ['Whale', '웨일'], ['FxiOS', '파이어폭스'], ['Firefox', '파이어폭스'], ['CriOS', '크롬'], ['Google Chrome', '크롬'], ['Chrome', '크롬'], ['Chromium', '크로미엄'], ['Safari', '사파리']];   // 순서가 계약 = 삼성·엣지 문자열은 크롬 문자열을 함께 담는다(먼저 만나는 쪽이 답)
+const _DEV_PLAT = [['Android', '안드로이드'], ['iOS', '아이폰'], ['iPadOS', '아이패드'], ['Windows', '윈도우'], ['macOS', '맥'], ['Chrome OS', '크롬북'], ['Chromium OS', '크롬북'], ['Linux', '리눅스']];
+const _DEV_HOST = { 'fcm.googleapis.com': '크롬 계열', 'android.googleapis.com': '크롬 계열', 'web.push.apple.com': '사파리(애플)', 'updates.push.services.mozilla.com': '파이어폭스' };
+function _devKo(tbl, v) { const t = String(v || ''); for (const [k, ko] of tbl) if (t.indexOf(k) >= 0) return ko; return ''; }
+function _devMajor(v) { return String(v || '').split('.')[0] || ''; }
+function nmDevName(it) {   // 기기 한 줄 = "SM-S928N · 안드로이드 14 · 크롬 126" — 값은 전부 등록 때 받아둔 문자열에서 뽑는다(모델 사전 창작 0)
+  const ua = String((it && it.ua) || ''), hn = (it && it.hint) || null, out = [];
+  let model = (hn && hn.model) || '', os = '', br = '';
+  if (hn && hn.plat) { const ko = _devKo(_DEV_PLAT, hn.plat) || hn.plat; os = (ko + ' ' + _devMajor(hn.pv)).trim(); }
+  if (hn && hn.br) { const ko = _devKo(_DEV_BR, hn.br); br = ko ? (ko + ' ' + _devMajor((hn.br.match(/(\d[\d.]*)\s*$/) || [])[1])).trim() : hn.br; }
+  if (!model) { const m = ua.match(/Android[^;)]*;\s*([^;)]+?)(?:\s+Build)?\)/); if (m && m[1] && m[1].trim() !== 'wv') model = m[1].trim(); }
+  if (!os) {
+    let m;
+    if ((m = ua.match(/Android\s+([\d.]+)/))) os = '안드로이드 ' + _devMajor(m[1]);
+    else if ((m = ua.match(/(iPhone|iPad);.*?OS\s+([\d_]+)/))) os = (m[1] === 'iPad' ? '아이패드 ' : '아이폰 ') + _devMajor(m[2].replace(/_/g, '.'));
+    else if (/Windows NT/.test(ua)) os = '윈도우';
+    else if (/Mac OS X/.test(ua)) os = '맥';
+    else if (/CrOS/.test(ua)) os = '크롬북';
+    else if (/Linux/.test(ua)) os = '리눅스';
+  }
+  if (!br) { for (const [k, ko] of _DEV_BR) { const m = ua.match(new RegExp(k + '\\/(\\d+)')); if (m) { br = ko + ' ' + m[1]; break; } if (ua.indexOf(k) >= 0) { br = ko; break; } } }
+  if (/^사파리/.test(br)) { const v = ua.match(/Version\/(\d+)/); br = '사파리' + (v ? ' ' + v[1] : ''); }   /* ⚠ 사파리만 `Safari/604.1`이 브라우저 판이 아니라 엔진 빌드 번호다 = 판은 `Version/18.5` 쪽(실측 봉합 — 안 가르면 「사파리 604」로 뜬다) */
+  if (model) out.push(model);
+  if (os) out.push(os);
+  if (br) out.push(br);
+  if (out.length) return out.join(' · ');
+  const h = _DEV_HOST[(it && it.host) || ''] || '';   // 등록 때 값을 안 받아둔 옛 기기 = 주소 계열까지가 한계
+  return h ? ('이름 미상 · ' + h) : '이름 미상';
+}
+let _devItems = [], _devMe = '';
+async function devApi(body) {
+  const r = await fetch('api/push', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) });
+  if (!r.ok) throw new Error('서버 응답 ' + r.status);
+  return r.json();
+}
+function renderDevList(state) {
+  const list = $('#devpopList'); if (!list) return;
+  if (state === 'load') { list.innerHTML = '<div class="qempty">불러오는 중…</div>'; return; }
+  if (state === 'err') { list.innerHTML = '<div class="qempty">목록을 못 불러왔어<small>잠시 뒤 다시 열어봐</small></div>'; return; }
+  if (!_devItems.length) { list.innerHTML = '<div class="qempty">알림을 켠 기기 없음</div>'; return; }
+  // 행 = 등록일 · 기기 · 비활성 체크 · 휴지통(운영자 260819 지목 4열) — 셀 문법은 kwrow 정본 100% 미러
+  list.innerHTML = _devItems.map((it, i) => {
+    const nm = nmDevName(it), me = it.id && it.id === _devMe;
+    return '<div class="qrow devrow' + (it.off ? ' dev-off' : '') + '" data-i="' + i + '">'
+      + '<span class="qt">' + qEsc(kwDate(it.ts)) + '</span>'
+      + '<span class="qmain" title="' + qEsc(nm) + '">' + qEsc(nm) + (me ? '<em class="dev-me"> · 이 기기</em>' : '') + '</span>'
+      + '<span class="qact"><label class="ed-match dev-chk" title="' + (it.off ? '알림 재개 — 이 기기에도 다시 보낸다' : '알림 중단 — 이 기기엔 안 보낸다') + '"><input type="checkbox"' + (it.off ? ' checked' : '') + '><span class="ed-cbx">' + ACK_MORPH + '</span></label></span>'
+      + '<span class="qact"><button class="pub-ico pub-rm dev-del" type="button" title="삭제" aria-label="구독 삭제">' + _TRASHSVG + '</button></span></div>';
+  }).join('');
+  list.querySelectorAll('.dev-chk input').forEach(cb => cb.onchange = async (e) => {   // 체크 = 그 기기 발송 중단·재개(구독은 목록에 남는다)
+    e.stopPropagation();
+    const i = +cb.closest('.devrow').dataset.i, it = _devItems[i]; if (!it) return;
+    cb.disabled = true;
+    try { await devApi({ action: 'toggle', endpoint: it.id }); it.off = !it.off; renderDevList(); }
+    catch (err) { cb.checked = !cb.checked; qFlash('바꾸지 못했어 — ' + err.message); }
+    finally { cb.disabled = false; }
+  });
+  list.querySelectorAll('.dev-del').forEach(b => b.onclick = async (e) => {   // 휴지통 = 명단에서 제거(그 기기에서 다시 켜면 새로 등록된다)
+    e.stopPropagation();
+    const row = b.closest('.devrow'), i = +row.dataset.i, it = _devItems[i]; if (!it) return;
+    b.disabled = true;
+    try { await devApi({ action: 'remove', endpoint: it.id }); animateRowOut(row, () => { _devItems.splice(i, 1); renderDevList(); }); }
+    catch (err) { b.disabled = false; qFlash('삭제하지 못했어 — ' + err.message); }
+  });
+}
+async function devLoad() {
+  renderDevList('load');
+  try { _devMe = await (async () => { const reg = await navigator.serviceWorker.getRegistration(); const s = reg && await reg.pushManager.getSubscription(); return s ? String(s.endpoint).slice(-24) : ''; })(); } catch (e) { _devMe = ''; }
+  try {
+    const j = await devApi({ action: 'list' });
+    _devItems = (j.items || []).slice().sort((a, b) => (b.ts || 0) - (a.ts || 0));   // 최근 등록이 위(대기열 시간순 관례)
+    renderDevList();
+  } catch (e) { renderDevList('err'); }
+}
+function openDevpop() {   // 열기 = 설정 팝업 자리에 촤르륵(openKwpop 미러)
+  const dp = $('#devpop'), prof = $('#profile'); if (!dp) return;
+  closeOverlays('devpop');
+  dp.hidden = false;
+  if (prof) placeHeadPop(dp, prof);
+  devLoad();
+}
+{
+  const _devBtn = $('#devBtn'); if (_devBtn) _devBtn.addEventListener('click', (e) => { e.stopPropagation(); openDevpop(); });
+  const _devX = $('#devpopX'); if (_devX) _devX.addEventListener('click', (e) => { e.stopPropagation(); const dp = $('#devpop'); if (dp) dp.hidden = true; });
+  ['resize', 'orientationchange'].forEach(ev => window.addEventListener(ev, () => { const dp = $('#devpop'); if (dp && !dp.hidden) placeHeadPop(dp, $('#profile')); }, { passive: true }));
+  document.addEventListener('click', (e) => { const dp = $('#devpop'); if (dp && !dp.hidden && !dp.contains(e.target) && !$('#profile').contains(e.target)) dp.hidden = true; });   // 바깥클릭 닫기(kwpop·mmpop 패턴)
 }
 $('#askText').addEventListener('paste', e => { const imgs = [...(e.clipboardData?.items || [])].filter(i => i.type.startsWith('image/')).map(i => i.getAsFile()).filter(Boolean); if (imgs.length) { e.preventDefault(); addAskImages(imgs); } });
 async function addAskImages(files) {
