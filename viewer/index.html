@@ -6199,6 +6199,8 @@ function geniRestoreOpts(g) {   // AI 생성 발사 옵션(gopts) → 폼 복원
     if (_sub) { if (_camOpen) _sub.removeAttribute('inert'); else _sub.setAttribute('inert', ''); }
   } catch (_) { /* 복원 실패 = 종전 폼 그대로(발사 막지 않음) */ }
 }
+/* 캡션 표기 = 이미지 스튜디오 공용 규칙(nm-seq.js window.nmCap · 260819) — 모듈 부재 시 = 종전 표기 그대로(화면은 안 깨진다) · 정규식 사본 0 */
+const _geniCapTx = s => (window.nmCap ? nmCap.text(s) : String(s == null ? '' : s));
 function geniHistItem(e, grid, cntSel) {   // 항목 빌더 = tr renderTrHist 정본 그대로 + 수정 연필(운영자 260806 · src 보유 항목만 = thumb renderHist 게이트 동문)
   const it = document.createElement('div'); it.className = 'hist-it';
   const _sn = (window.nmSeq && nmSeq.of) ? nmSeq.of(e.url) : 0;   // 제작 순번(260818 12차 · 이미지 스튜디오 공용 번호줄) — 없으면 무표기(카드 제작 관례 동문)
@@ -6209,8 +6211,8 @@ function geniHistItem(e, grid, cntSel) {   // 항목 빌더 = tr renderTrHist �
   dl.addEventListener('click', ev => { ev.preventDefault(); ev.stopPropagation(); geniDlBlob(e.url, e.dlname || 'gen.png'); });
   const img = document.createElement('img'); img.loading = 'lazy'; img.alt = ''; img.src = e.url;
   img.onerror = () => { it.remove(); _geniDeadUrls.add(geniHistKey(e.url)); const cc = $(cntSel); if (cc) cc.textContent = '(' + grid.children.length + ')'; };   // 죽은 슬롯 제거+카운트 정정 = tr 동문
-  const cap = document.createElement('span'); cap.className = 'hist-cap'; cap.textContent = e.cap || '';
-  if (e.varStr) { const v = document.createElement('span'); v.className = 'hist-cap-v'; v.textContent = e.varStr; cap.appendChild(v); }
+  const cap = document.createElement('span'); cap.className = 'hist-cap'; cap.textContent = _geniCapTx(e.cap || '');   // 표기 = 이미지 스튜디오 공용 규칙(nm-seq.js window.nmCap · 260819 «opa라는 말을 결과에 안나오게») — 이 칸 이력에도 카드 제작 산출물이 섞인다(저장소 공유)
+  if (e.varStr) { const v = document.createElement('span'); v.className = 'hist-cap-v'; v.textContent = _geniCapTx(e.varStr); cap.appendChild(v); }
   th.append(dl, img, cap);
   if (e.src && e.src.app) {   // 수정(편집) = 이 설정으로 작성기 복원 — 부품·게이트 = thumb renderHist 연필 정본 그대로(.imgedit + EDIT_SVG + '이 설정으로 수정' · src 미보유 항목은 종전대로 미노출)
     const ed = document.createElement('button'); ed.type = 'button'; ed.className = 'imgedit'; ed.title = '이 설정으로 수정'; ed.setAttribute('aria-label', '수정');

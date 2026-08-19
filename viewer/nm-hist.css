@@ -58,7 +58,12 @@
        `auto` 키워드가 한 번 그린 뒤 실제 크기를 기억하므로 이 숫자는 **첫 추정**만 담당한다(사진 비율이 제각각이어도 스크롤 위치가 안 튄다).
      ⚠ 대상은 그리드 직속 타일뿐 = 결과 칸(보통 1~2장)엔 부담이 없고 이전 제작(수백)에서만 효과가 난다.
      ⚠ 스태거 등장 애니와 충돌하지 않는다 = 화면 밖 타일은 애니 자체를 건너뛰고 들어올 때 재생한다(원래 의도). */
-  .hist-grid > .hist-it { content-visibility:auto; contain-intrinsic-size:auto 267px; }
+  .hist-grid > .hist-it { content-visibility:auto; contain-intrinsic-height:auto 267px; }
+  /* ⚠ 높이 축 전용 속성인 것이 실효 조건(260819 2차 실사고 봉합 · 운영자 «2개씩 다 나오게») —
+     구판 `contain-intrinsic-size:auto 267px`는 값이 하나라 **가로에도 267px**이 걸린다(CSS 규격: 한 값 = 두 축 공용).
+     `content-visibility:auto` 타일은 크기 격리 상태라 그 267이 곧 트랙 계산의 최소 기여가 되어
+     `1fr`가 267px로 벌어졌다 → 폰에서 2열이 화면 밖으로 밀려 두 번째 타일이 잘렸다(실측 화면 320·360·390·430 전부
+     트랙 `267px 267px` · 문서 스크롤폭 560 · 봉합 후 트랙 `155px 155px`(430) = 화면 안). 세로 의도·값은 그대로다. */
   .hist-hd { color:var(--fg); font-size:11.5px; font-weight:600; margin:0 7px 6px 7px; display:flex; align-items:baseline; }   /* 제작 시각 = 오늘/어제 H:MM AM/PM · 흰색 · 좌측 들여쓰기(운영자 260621 · 260818 10차 = 번호 접두 「001 · 」 + 우측 판형 슬롯) · 우측 여백 = 좌측 7 대칭 계승(신규 값 0) · flex = 판형을 줄 끝으로 미는 자리(내용이 한 줄 텍스트라 형제 표면 시각 무변) */
   .hist-hd .hfmt { margin-left:auto; }   /* 판형(포스트/릴스) = 시각 줄 우측 끝 · 색은 .hist-hd 흰색 상속 = 판형 고유색 미사용(운영자 260818 10차 «이때 표기는 흰색으로 표기 · 여기까지 컬러들어가면 너무 번잡») */
   .hist-thumb { position:relative; }
