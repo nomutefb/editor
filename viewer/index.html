@@ -13641,7 +13641,8 @@ function renderSnsTrends() {
       return Math.pow(10, (2 * t3 - 3 * t2 + 1) * Y[i] + (t3 - 2 * t2 + t) * h * m[i] + (-2 * t3 + 3 * t2) * Y[i + 1] + (t3 - t2) * h * m[i + 1]);
     };
   })();
-  const eqScore = (mono, val) => mono === 'gg' ? Math.max(0, val || 0) : ytEq(val);   // 구글 = 검색량 그대로 · 그 밖(유튜브 등) = 위 곡선으로 검색량 환산 = 한 자로 비교
+  const GG_EQ_MUL = 10;   // 구글 가점 배율(운영자 260820 «지금 구글에 가점을 10배 더 주셈») — 실검이 유튜브 조회수에 밀려 TOP 리스트에서 통째로 사라지던 국면 교정(실측 260820 07:39 = TOP 3칸 전부 유튜브·구글 0칸). ⚠ 되돌리기 = 이 값 1.
+  const eqScore = (mono, val) => mono === 'gg' ? Math.max(0, val || 0) * GG_EQ_MUL : ytEq(val);   // 구글 = 검색량 × 가점배율 · 그 밖(유튜브 등) = 위 곡선으로 검색량 환산 = 한 자로 비교
   const lane = (plat, mono, arr, n, f, scN, off) => { const el = arr.filter(x => { const ah = ageVerH(x); return !(isFinite(ah) && ah >= TOP_MAX_H); }), s = el.slice(off || 0, n), L = Math.min(scN || n, el.length); s.forEach((x, r0) => { const r = (off || 0) + r0; const it = f(x); if (!it.url || seenU.has(it.url)) return; seenU.add(it.url); pool.push({ plat, mono, sc: 1 - r / L, eq: eqScore(mono, mono === 'gg' ? it.tn : it.v), ht: Math.log10(1 + (it.v || 0)), _fresh: isFreshItem(x), x, ...it }); }); };   // eq = 플랫폼 간 등가 점수(위 EQ_KNEE 블록 = 운영자 260816) — 구글은 검색량·나머지는 24시간 조회수를 각자 무릎으로 나눠 같은 자로 잰다 · sc는 등가 동점 시 소스순위 보조키로 잔존   // scN = 혼합 TOP 점수 분모 고정(미지정 = 통과분 길이) · off = 시작 랭크(확장 레인이 코어 뒤에 이어붙되 sc는 실순위 유지) — 점수 정규화 = 기존 캡 유지(운영자 260717 "구글 11,12 쭉") · 24h 입장컷 = slice **앞** 선필터(운영자 260726 "실시간 top10 4개까지밖에 안받아와져" 해소 — 구 순서 = 소스 상위 n 절단 뒤 컷이라 상위권이 늙은 소스[유튜브 차트 top5·틱톡 KR 전원 24h+ 실측 260726]는 레인 통째 0명 입장 = TOP 굶주림 → 컷 통과분에서 상위 n 선발 = 신선 후보 항상 입장 · sc 순위 = 통과분 기준 자연 압축)
   // 코어 레인(통합 TOP 급원 = 플랫폼당 원래 캡) — 호출 순서 = URL dedup 우선순위: 경쟁 항목(sc>0)이 확장분보다 먼저 URL 선점(평의회 260717 크로스레인 dedup 반례 봉인 = 통합 TOP 구조적 불변)
   // 구글 코어 1~10 — 260819 오전에 «구글은 뺌»으로 잠시 내렸다가 같은 날 «유튜브랑 구글 검색어 둘다 적용할거고»로 복귀.
@@ -13672,7 +13673,7 @@ function renderSnsTrends() {
       const k = (x && (x.id || x.url)) || '';
       if (!k || seen.has(k)) continue;
       const h = ageVerH(x);
-      if (isFinite(h) && h >= FRESH_MAX_H) continue;   // 12h 넘은 유튜브는 TOP 후보에서 제외(위 운영자 지시)
+      if (isFinite(h) && h >= TOP_MAX_H) continue;   // 24h 넘은 유튜브는 TOP 후보에서 제외(운영자 260820 «24시간까지 넓히고») — ⚠ 12h(FRESH_MAX_H)는 **후보 자격이 아니라 정렬 우대**로 남는다(_fresh → effF 1차 키) = 「12시간 이내를 위에 나열」(260819)과 「10칸을 채운다」(260820)가 둘 다 성립. 실측 260820 07:39 = 12h 후보 4건 → 24h 후보 25건(그 사이 372만·131만·109만뷰가 통째로 빠져 있었다)
       seen.add(k); out.push(x);
     }
     return out.sort((a, b2) => (b2.views || 0) - (a.views || 0));
@@ -13685,7 +13686,7 @@ function renderSnsTrends() {
   // (구 구글 확장 레인 `lane('구글','gg',gt,25,ggMap,10,10)` = 260810 폐지. 운영자 "트렌드에서 10위까지밖에 제안을 안 해? 그러면 11위부터는 날리셈" — 사유 = **출처 자격**: gt 25건은 두 창구 합성이고 11~25위 구간이 공식이 아니다(수집 = sns_trends.py merge_gtrends 351행 · 1~10위 = `trends.google.com/trending/rss?geo=KR` 공식 RSS[10건 상한] · 11~keep = `_/TrendsUi/data/batchexecute` **비공식 내부 API** = 그 함수 독스트링 자신이 "⚠ 비공식 API = 예고 없는 변동 리스크"라 선언). 실측 260810 = TOP 10에 든 구글 3칸이 전부 레인순위 17·18·19 = 비공식 꼬리였고, 검색어엔 published가 없어 24h 컷·신선 판정을 **구조적으로 면제**받아(ageVerH=NaN fail-soft) 1차 정렬키에서 무조건 이겨 조회수 101만 콘텐츠 위에 섰다 — 주석이 전제한 "sc≤0 = 자연 침강"이 신선 티어 앞키에 막혀 성립하지 않았다. ⚠ 썸네일 스택은 무접촉(운영자 "그 아래 썸네일로 나오는 부분을 날리라는 게 아니야") = `_tsSeqX`·`xRest`·#tstk 로직 한 줄도 안 건드렸다. 스택 길이는 잔여 풀이 줄어든 만큼 자연 감소하는데 그게 이 조치의 목적(비공식 꼬리 회수)이고, 스택 자체·다른 플랫폼 항목은 전량 보존)
   // (구 틱톡 확장 레인 = 260810 동반 폐지 — 코어가 위에서 폐지됐는데 확장분만 남으면 「비공식 for-you 표본을 11위부터 도로 들이는」 역주행이 된다. 원래도 TK_TOP 10 절단으로 초과분 상시 0 = 무연산이었다)
   const GG_MIN_T = 5000;   // 구글 이슈 최소 검색량(운영자 260721 "5천 검색량 아니면 이슈 아니야 · 가점 내리셈") — 미만 = _pen 강등 티어(신선 우대 회수 + 전 정상분[확장 5천+ 포함] 아래) · 항목 제거는 안 함(하위 채움용 잔존 = 빈칸 회피) · 구 sc−1 방식 = 확장 레인 자연 음수 sc와 겹쳐 구글 탭서 저검색이 5만 이슈 위에 남던 결함(평의회 260721 B·P1) → 전용 티어로 교체
-  pool.forEach(p2 => { if (p2.mono === 'gg' && (p2.tn || 0) < GG_MIN_T) p2._pen = 1; });
+  pool.forEach(p2 => { if (p2.mono === 'gg' && (p2.tn || 0) * GG_EQ_MUL < GG_MIN_T) p2._pen = 1; });   // ⚠ 가점 배율(GG_EQ_MUL)을 이 문턱 판정에도 **같이** 적용한다(운영자 260820 «지금 구글에 가점을 10배 더 주셈») — 배율을 랭킹 점수(eq)에만 주면 구글은 여전히 TOP 0칸이다: `_pen` 은 정렬 2차 키이고 eq 는 3차 키라 **가점이 아무리 커도 강등을 못 이긴다**(실측 260820 07:39 = 배율만 준 판에서 TOP 10칸이 전부 유튜브·구글 0칸 = 운영자 «아니 구글이 없잖아!» 그대로 재현). 한 상수 = 한 자 = 「구글 값을 10배로 본다」가 두 자리에서 같은 뜻을 갖는다. ⚠ 실질 = 원 검색량 500 이상이 TOP 후보(260721 «5천 아니면 이슈 아니야» 의 기준선이 그 배율만큼 내려간다 = 되돌리기 = GG_EQ_MUL 1)
   const effF = z => (z._fresh && !z._pen) ? 1 : 0;   // 정렬용 유효 신선 — _pen = 가점만 회수(표시 나이 흐림 .old는 실나이 _fresh 그대로 = 1시간 전이 흐려지는 왜곡 차단)
   pool.sort((a, b2) => (effF(b2) - effF(a)) || ((a._pen || 0) - (b2._pen || 0)) || ((b2.eq || 0) - (a.eq || 0)) || (b2.sc - a.sc) || (b2.ht - a.ht));   // 신선분 우선(운영자 260718 "신선 없으면 차순위 top 위로") → 강등 티어(_pen = 전 정상분 아래 · 강등끼리는 소스순위 유지) → 소스순위(sc) → 조회수(ht) · 24h+ = 입장 컷(TOP_MAX_H) · 24h 내 스테일 = 침몰만(컷 안에서 빈칸 채움 유지)
   const top = [], pcap = {};
