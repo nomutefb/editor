@@ -2073,11 +2073,10 @@
      4열 = [등록일 .qt][기기 .qmain][비활성 체크 .qact][휴지통 .qact] — 액션 2칸이라 좌 칸은 헤더 X 왼쪽 세로선, 우 칸은 X 세로선(kwrow 정본 계약 동일).
      비활성(체크) 표시 = `.kwrow.kw-done` 빗금+무채 선언 사본 — 「이 줄은 처리 끝났다」는 같은 뜻이라 같은 모양을 쓴다. */
   .devrow.dev-off .qmain { text-decoration:line-through; text-decoration-thickness:1px; color:var(--mut); }
-  .devrow .ed-match { flex:none; }
-  .devrow .ed-match .ed-cbx .sc-dash { opacity:0; }
-  .devrow .ed-match .ed-cbx .sc-chk { stroke:var(--mut); opacity:1; stroke-dashoffset:0; }   /* 항상 ✓ 모양(누르면 되는 느낌) = .kwrow 상태 뒤집기 사본 · 꺼짐일 때만 점등 */
-  .devrow .ed-match:has(input:checked) .ed-cbx { border-color:rgba(var(--accent-rgb),.6); background:rgba(var(--accent-rgb),.14); }
-  .devrow .ed-match:has(input:checked) .ed-cbx .sc-chk { stroke:var(--accent); }
+  /* 알림 켜고 끄기 = 종 픽토(운영자 260819 "알림 종모양으로 바꾸고 알림 해제는 종에 빗금 및 비활성화 mut")
+     — 부품 = 행 액션 버튼(.pub-ico) 정본 · 색 문법 = `.kwrow .qact .kw-go`(형광) 사본 · 해제는 빗금 종 + 무채. */
+  .devrow .qact .dev-bell { color:var(--accent); }
+  .devrow.dev-off .qact .dev-bell { color:var(--mut); }
   .devrow .dev-me { font-style:normal; color:var(--accent); }   /* 지금 보고 있는 기기 표식(형제 .kwrow .kws-hit 형광 축 계승) */
   #bnav .bnav-i[data-tab="feed"] { -webkit-touch-callout:none; -webkit-user-select:none; user-select:none; touch-action:manipulation; }   /* 더블탭 줌·300ms 클릭지연 차단 = 연달아 두번 탭(대기열 열기) 신뢰성(ed-chip 패턴 계승·260621) */
   .qflash { position:fixed; left:0; right:0; margin-inline:auto; bottom:calc(86px + env(safe-area-inset-bottom)); transform:translateY(18px); z-index:var(--z-remote-pop);
@@ -8020,6 +8019,7 @@ const THUMBDOWN_SVG = '<svg width="14" height="14" viewBox="0 0 24 24" fill="non
 // 상태문구 픽토그램(§🎨 이모지 금지 · 인라인 vertical-align) — 동적문자열은 esc() 동반 innerHTML만(XSS 가드·운영자 260628·ly/k 통일)
 // UI 이모지 전면 픽토그램화(§🎨 "핀·블릿·💡 외 전부 SVG" · 운영자 260628 "전부 무조건") — currentColor 상속이라 상태색(긴급=빨강 등) 유지 · 인라인 vertical-align
 const BELL_SVG = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>';   // 🚨 긴급·알림
+const BELL_OFF_SVG = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/><path d="M4 4 20 20"/></svg>';   // 🔕 알림 해제 = 같은 종에 사선 1획(키워드함 「− → +」 = 같은 글리프 가족 관례 계승 · 새 도형 0 · 사선 결 = 닫기 X 정본 M6 6 18 18 와 같은 대각선을 종 크기로 늘린 값)
 const ROCKET_SVG = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><path d="M4.5 16.5c-1.5 1.3-2 5-2 5s3.7-.5 5-2c.7-.8.7-2 0-2.8a2 2 0 0 0-3 0z"/><path d="M12 15l-3-3a22 22 0 0 1 8-10c2.5 0 5 2.5 5 5a22 22 0 0 1-10 8z"/><path d="M9 12H4s.5-2.8 2-4a4 4 0 0 1 3 0M12 15v5s2.8-.5 4-2a4 4 0 0 0 0-3"/></svg>';   // 🚀 생성/발사
 const STAR_SVG = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round" style="vertical-align:-2px"><path d="M12 2.5l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.8 6.2 20.9l1.1-6.5L2.6 9.8l6.5-.9z"/></svg>';   // ★ 평점
 const LINK_SVG = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1.5-1.5"/></svg>';   // 🔗 출처·⛓ 교차
@@ -16871,16 +16871,15 @@ function renderDevList(state) {
     return '<div class="qrow devrow' + (it.off ? ' dev-off' : '') + '" data-i="' + i + '">'
       + '<span class="qt">' + qEsc(kwDate(it.ts)) + '</span>'
       + '<span class="qmain" title="' + qEsc(nm) + '">' + qEsc(nm) + (me ? '<em class="dev-me"> · 이 기기</em>' : '') + '</span>'
-      + '<span class="qact"><label class="ed-match dev-chk" title="' + (it.off ? '알림 재개 — 이 기기에도 다시 보낸다' : '알림 중단 — 이 기기엔 안 보낸다') + '"><input type="checkbox"' + (it.off ? ' checked' : '') + '><span class="ed-cbx">' + ACK_MORPH + '</span></label></span>'
+      + '<span class="qact"><button class="pub-ico dev-bell" type="button" title="' + (it.off ? '알림 재개 — 이 기기에도 다시 보낸다' : '알림 중단 — 이 기기엔 안 보낸다') + '" aria-label="' + (it.off ? '알림 재개' : '알림 중단') + '" aria-pressed="' + (it.off ? 'true' : 'false') + '">' + (it.off ? BELL_OFF_SVG : BELL_SVG) + '</button></span>'
       + '<span class="qact"><button class="pub-ico pub-rm dev-del" type="button" title="삭제" aria-label="구독 삭제">' + _TRASHSVG + '</button></span></div>';
   }).join('');
-  list.querySelectorAll('.dev-chk input').forEach(cb => cb.onchange = async (e) => {   // 체크 = 그 기기 발송 중단·재개(구독은 목록에 남는다)
+  list.querySelectorAll('.dev-bell').forEach(b => b.onclick = async (e) => {   // 종 = 그 기기 발송 중단·재개(구독은 목록에 남는다 · 해제 = 빗금 종 + 무채)
     e.stopPropagation();
-    const i = +cb.closest('.devrow').dataset.i, it = _devItems[i]; if (!it) return;
-    cb.disabled = true;
+    const i = +b.closest('.devrow').dataset.i, it = _devItems[i]; if (!it) return;
+    b.disabled = true;
     try { await devApi({ action: 'toggle', endpoint: it.id }); it.off = !it.off; renderDevList(); }
-    catch (err) { cb.checked = !cb.checked; qFlash('바꾸지 못했어 — ' + err.message); }
-    finally { cb.disabled = false; }
+    catch (err) { b.disabled = false; qFlash('바꾸지 못했어 — ' + err.message); }
   });
   list.querySelectorAll('.dev-del').forEach(b => b.onclick = async (e) => {   // 휴지통 = 명단에서 제거(그 기기에서 다시 켜면 새로 등록된다)
     e.stopPropagation();
