@@ -122,10 +122,20 @@ say ""
 #   목록 조회와 실받기는 **다른 관문**이다 — 유튜브가 그 재생 창구로 발급한 주소만 거부한다.
 #   구판은 목록만 보고 "정상"이라 선언해서 이 자리가 통째로 사각이었다.
 #   처방 = 창구를 갈아끼우며 실제로 파일이 떨어질 때까지 순회한다(되는 창구는 그날그날 다르다).
-FMT="bv*+ba[ext=m4a]/bv*+ba/b"   # 소리는 편집 프로그램이 무는 형태(m4a)로 고정 = 무음 사고 차단
+# ⚠⚠ 260819 실측 = 유튜브가 재생 창구별로 통행증(GVS PO Token)을 요구하고, 요구하는 창구에서는
+#   360p 통합판(itag 18) 하나만 이름으로 면제된다 → 그래서 mweb 이 3.22MB 360p 만 내줬다.
+#   통행증을 요구하지 않는 창구 = web_embedded · tv · tv_downgraded(로그인 필수) · android_vr 넷뿐이고,
+#   그중 android_vr 은 주소가 403 으로 거절된다(무쿠키 기본 창구가 하필 여기다 = 사고의 뿌리).
+#   실제로 1080p 가 떨어진 곳 = **web_embedded**(운영자 폰 실측 = 399 + 140 병합 성공).
+#   → 순회 첫 자리를 통행증 불요 창구로 세운다(구판은 web_embedded 가 목록에 아예 없어 못 찾았다).
+# ⚠ 260819 실측 = `bv*` 는 소리 붙은 통합판까지 후보로 품는다. 통합 폴백(/b)을 빼도
+#   360p 통합판이 뽑혀 뒤에 붙인 오디오가 조용히 버려진다(운영자 실측 = mweb 3.22MB).
+#   그리고 높이만 걸면 세로 영상이 새어나간다(height 는 긴 변 = 480x854 가 720 을 통과).
+#   → 두 변에 같이 하한을 걸어야 짧은 변 기준이 된다.
+FMT="bv*[height>=720][width>=720]+ba[ext=m4a]/bv*[height>=720][width>=720]+ba"   # 소리는 편집 프로그램이 무는 형태(m4a)로 고정 = 무음 사고 차단
 say "④ 실제로 받는다 (재생 창구를 갈아끼우며 시도)"
 WIN=""
-for C in "" tv web_safari ios mweb tv_embedded android; do
+for C in web_embedded tv tv_downgraded "" android_vr mweb ios; do
   if [ -z "$C" ]; then LBL="기본"; CA=(); else LBL="$C"; CA=(--extractor-args "youtube:player_client=$C"); fi
   say "   · $LBL 창구 시도"
   RES="$( $YTD "${BASE[@]}" ${CA[@]+"${CA[@]}"} -f "$FMT" -o "%(title).60s.%(ext)s" "$URL" 2>&1 )"
