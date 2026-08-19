@@ -453,6 +453,8 @@ def main():
             ep = (s or {}).get("endpoint")
             if not ep:
                 continue
+            if (s or {}).get("off"):   # 화면에서 끈 기기 = 발송 제외(운영자 260819 «비활성화 시키면 그쪽에는 푸시를 안하는거로») · 구독은 목록에 남는다(다시 켜면 그대로 복귀)
+                continue
             try:
                 webpush(subscription_info=s, data=payload, vapid_private_key=pem_path, vapid_claims={"sub": subj})
                 ok_any = True
