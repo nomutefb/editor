@@ -5444,6 +5444,64 @@ def check_land_share():
     return 0
 
 
+# ── 일시 장애 재시도 판정 = 실측 실패 서명이 감지망에 있는가 ──────────────────
+# ⚠ 신설 사유 = **이 저장소의 게이트는 「최종 상태가 옳은가」(정적 문자열 · 화면 렌더 · 값 대조)만 본다**
+#   → 「모델 호출이 실패했을 때 그게 **재시도 대상으로 인식되는가**」는 축 자체가 없었다. 그 틈에서 260820
+#   실사고가 났다 = `API Error: Connection lost mid-response.` 가 `is_transient()` 정규식에 없어서
+#   ⓐ 인라인 4회 재시도를 **한 번도 안 쓰고** 즉시 격리됐고 ⓑ `analyze.sh` 실패 사유 분류가 else 폴백
+#   `source` 로 떨어져 운영자에게 「원문이 막혔으니 본문을 복사해 다시 보내라」는 **틀린 조치 지시**가 나갔다
+#   (실측 = 그 기사 원문은 같은 시각에도 HTTP 200 · 한글 3,638자로 정상 취득된다 = 안내가 사실과 반대).
+#   ⚠ 증상이 0이다 = 러너는 계약대로 실패를 알렸고 알림도 정상으로 떴다. 틀린 건 **사유 한 줄**뿐이라
+#   운영자가 안내대로 손으로 본문을 복사해 다시 보내야만(그리고 그게 또 실패해야만) 드러난다.
+#   ⚠⚠ 이 판정 하나를 **19개 레인이 공유**한다(요약·요약요청·카드·콘티·음원·자막·브리프…) = 구멍도 전 레인 공통.
+# 판정 = **정본 함수 재판정**(정규식 사본 0 = 게이트가 옛 기준으로 남는 드리프트 구조적 차단 ·
+#   `check_thumb_prompt_sanity`·`check_fail_msg_todo` 문법 계승) · 렌더·LLM·네트워크 0 · **면책표 없이 하드 0**.
+_TRANSIENT_HIT = (   # 재시도해야 하는 것 = 서버측 일시 장애(실측 서명 · 등재분은 지우지 않는다)
+    'API Error: Connection lost mid-response. The response above may be incomplete.',  # 260820 실사고
+    'API Error: 529 overloaded_error',
+    'API Error: 503 Service Unavailable',
+    'Bad Gateway',
+    'socket hang up',
+)
+_TRANSIENT_MISS = (  # 재시도하면 안 되는 것(위양성 대조 = 술어가 넓어지는 것을 막는다)
+    'ANALYSIS_FAILED: 본문을 가져오지 못했습니다',      # 입력 막다른길 = 재시도 무의미
+    'usage limit reached — resets at 3pm',              # 쿼터 = 계정 전환 축(is_quota 담당)
+    '서울 강남구 503호 화재로 연결이 끊겼다고 주민이 말했다',  # 기사 본문 인용 = 오탐 금지
+)
+
+
+def check_transient_cases():
+    """일시 장애 재시도 판정 = 실측 실패 서명이 감지망에 있는가(260820 실사고 봉합).
+    CONTRACT: check_transient_cases
+    """
+    import subprocess
+    p_ct = os.path.join(ROOT, 'shared', 'claude_transient.sh')
+    if not os.path.exists(p_ct):
+        print('❌ 일시 장애 판정 게이트 — 정본 shared/claude_transient.sh 없음(fail-closed)'); return 1
+    bad = []
+    for want, cases in ((True, _TRANSIENT_HIT), (False, _TRANSIENT_MISS)):
+        for c in cases:
+            try:
+                r = subprocess.run(['bash', '-c',
+                                    'source "$1"; if is_transient "$2"; then echo HIT; else echo MISS; fi',
+                                    '_', p_ct, c],
+                                   capture_output=True, text=True, timeout=20)
+            except Exception as e:
+                print('❌ 일시 장애 판정 게이트 — 정본 함수 실행 실패(fail-closed):', e); return 1
+            got = (r.stdout or '').strip() == 'HIT'
+            if got != want:
+                bad.append(('재시도로 인식돼야 하는데 안 잡힌다' if want else '재시도 대상이 아닌데 잡힌다', c))
+    if bad:
+        print('❌ 일시 장애 판정 게이트 — 재시도 감지망이 실측과 어긋난다:')
+        for why, c in bad:
+            print('   ·', why, '→', c[:70])
+        print('   → 정본 = shared/claude_transient.sh is_transient() · 넓히지 말고 실측 구문만 등재(앞 8줄 검사와 이중 가드).')
+        print('   → 안 잡히면 재시도 0회로 즉시 격리되고 실패 사유가 「소스 결함」 폴백으로 떨어져 운영자에게 틀린 지시가 나간다(260820).')
+        return 1
+    print('✅ 일시 장애 판정 게이트 — 재시도 감지 %d종·위양성 대조 %d종 정본 함수 재판정 일치(19레인 공용 SSOT).'
+          % (len(_TRANSIENT_HIT), len(_TRANSIENT_MISS)))
+    return 0
+
 # ── 착지 내용 소실(올라갔는데 우리 변경이 빈 경우) ────────────────────────────
 # ⚠ `git pull --rebase … -X ours` 는 **의미가 반전된다** — 리베이스는 upstream 위에 내 커밋을 다시 얹으므로
 #   리베이스 중 ours = **upstream(origin/main)** 이고 theirs = 내 커밋이다. 즉 `-X ours` 는 충돌 시
@@ -10154,6 +10212,11 @@ def main():
             rc = 1
     except Exception as e:
         print('❌ check_secret_coverage_chain 예외(fail-closed):', e); rc = 1
+    try:
+        if check_transient_cases() != 0:   # 일시 장애 재시도 판정 = 실측 실패 서명이 감지망에 있는가(260820 — 스트림 절단이 감지망 밖이라 재시도 0회 + 실패 사유가 「소스 결함」 폴백으로 오분류)
+            rc = 1
+    except Exception as e:
+        print('❌ check_transient_cases 예외(fail-closed):', e); rc = 1
     try:
         if check_land_share() != 0:   # 공유 착지 = 남의 것을 지우지 않는다(260816 — git_land 재적층이 통째 교체라 남의 착지분을 조용히 삭제하던 축 · 헤더 금지 명문의 기계화)
             rc = 1

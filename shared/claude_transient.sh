@@ -6,9 +6,17 @@
 #   ANALYSIS_FAILED(입력 막다른길)·정상출력도 여기 안 걸림(호출부에서 따로 즉시 탈출).
 #   ① 5xx 전체(502 Bad Gateway·504 Gateway Timeout·520 등 게이트웨이 포함 — Anthropic 앞단 일시장애) 커버.
 #   ② 출력 '앞부분(8줄)'만 검사 = CLI 에러는 맨 앞 줄 → 기사 본문 산문의 '503호'·'Service Unavailable' 인용 오탐 억제.
+#   ③ 응답 스트림 중도 절단 계열 추가(260820 실사고) — 구판은 **숫자 상태코드가 실린 형태만** 봤는데,
+#     실측 실패는 상태코드 없는 문구였다: `API Error: Connection lost mid-response. The response above may be
+#     incomplete.`(pending/failed/260820-044040-pick-fcdf.log · rc=1 · stderr 0). 성격은 5xx 와 같은
+#     **서버측 일시 장애**인데 감지망 밖이라 ⓐ 인라인 4회 재시도를 **한 번도 안 썼고** ⓑ analyze.sh 의
+#     실패 사유 분류가 else 폴백 `source` 로 떨어져 운영자에게 「원문이 막혔으니 본문을 복사해 다시 보내라」는
+#     **틀린 조치 지시**가 나갔다(실측 = 그 기사 원문은 그 시각에도 200·한글 3,638자로 정상 취득된다).
+#     ⚠ 이 판정 하나를 19개 레인이 공유하므로(요약·카드·콘티·음원·자막…) 구멍도 전 레인 공통이었다.
+#     ⚠ 구체 구문만 등재 = 단독 'connection'·'terminated' 금지(본문 인용 오탐 억제 · 앞 8줄 검사와 이중 가드).
 is_transient() {
   local s; s="$(printf '%s\n' "${1:-}" | head -n 8)"
-  grep -qiE 'API Error: 5[0-9][0-9]|overloaded_error|Overloaded|"status": ?5[0-9][0-9]|Service (Unavailable|Temporarily Unavailable)|Bad Gateway|Gateway Time-?out' <<<"$s"
+  grep -qiE 'API Error: 5[0-9][0-9]|overloaded_error|Overloaded|"status": ?5[0-9][0-9]|Service (Unavailable|Temporarily Unavailable)|Bad Gateway|Gateway Time-?out|Connection lost mid-?response|Connection error|socket hang ?up|ECONNRESET|Premature close' <<<"$s"
 }
 
 # is_quota(): claude -p 출력/에러가 '계정 사용량 한도(쿼터·레이트리밋·429)'인지 — *다른 계정으로 전환* 트리거.
