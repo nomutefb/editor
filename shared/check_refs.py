@@ -4395,6 +4395,64 @@ def _shared_sels(css):
 
 
 
+def check_preview_perf():
+    """미리보기·타일 렌더 부담 예방 게이트(운영자 260819 «추후 미리보기에 뭘 띄우고 거기에 오버레이하게 되면 이렇게 렉걸릴수도 있으니 사전에 동일하게 수정»).
+
+    ⚠ 신설 사유 = **이 레포 게이트 130개가 전부 「끝난 그림」이나 「정적 문자열」을 잰다** — 「그 그림을 그리는 데 얼마가 드는가」는
+      C15(입력 1타 예산)·C20(자막 실배선)이 **입력 경로에서만** 보고, 「화면에 요소가 몇 개 깔려 있는가」·「배경과 오버레이가 같은 층인가」는
+      축 자체가 없었다. 실사고 260819 = 이전 제작 타일 399개가 통째로 배치·그리기 대상이라 펼침 순간 긴 작업 8건(최대 409ms) ·
+      펼친 뒤 스크롤 끊긴 프레임 3(최대 39.6ms) — **펼침 시 렌더 함수 호출은 0회**라 자바스크립트 축 게이트가 원리적으로 못 본다.
+    계약 2종 =
+      ① 타일 그리드는 화면 밖 타일을 안 그린다(`nm-hist.css` `.hist-grid > .hist-it` content-visibility) — 이미지 5탭·영상 5탭 공용 부품.
+      ② 미리보기 무대의 배경 그림·영상은 자기 합성층(`nm-shared.css` `.cpv-bg` will-change) — 오버레이 갱신이 배경을 다시 굽지 않는다.
+    ⚠ ②가 예방접종인 이유 = 카드 제작에서 실제로 터진 사고(260818 = 프레임 최대 850ms)의 봉합 한 줄인데, 영상 5탭은 미리보기 뼈대를
+      카드 제작 사본으로 가져오면서 그 줄만 빼먹었다(형제는 가진 걸 자기만 안 가진 이 레포 최빈 축) — 지금은 콘티 탭만 그림을 띄우지만
+      나머지도 자리가 이미 서 있어 띄우는 순간 같은 사고가 난다.
+    판정 = 정적(렌더·LLM·네트워크 0) · 표면 자동 발견 · 면책표 없이 하드 0.
+    """
+    rc = 0
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    vdir = os.path.join(root, 'viewer')
+    hist_css = os.path.join(vdir, 'nm-hist.css')
+    shared_css = os.path.join(vdir, 'nm-shared.css')
+    try:
+        hist_src = _strip_css_comments(open(hist_css, encoding='utf-8').read())
+        shared_src = _strip_css_comments(open(shared_css, encoding='utf-8').read())
+    except Exception as e:
+        print('❌ 미리보기 부담 게이트 — 정본 CSS 미열람:', e)
+        return 1
+    # ① 타일 그리드 = 화면 밖 건너뛰기(정본 실존 · 앵커 소실 = fail-closed)
+    if not re.search(r'\.hist-grid\s*>\s*\.hist-it\s*\{[^}]*content-visibility\s*:\s*auto', hist_src):
+        print('❌ 미리보기 부담 게이트 ① — nm-hist.css `.hist-grid > .hist-it` 화면 밖 건너뛰기(content-visibility:auto) 소실')
+        print('   · 이력이 수백 건 쌓인 화면에서 펼침·스크롤이 다시 끊긴다(260819 실측 = 긴 작업 8건·끊긴 프레임 3).')
+        rc = 1
+    elif 'contain-intrinsic-size' not in hist_src:
+        print('❌ 미리보기 부담 게이트 ① — 첫 추정 높이(contain-intrinsic-size) 소실 = 스크롤 위치가 튄다')
+        rc = 1
+    # ② 미리보기 배경 = 자기 합성층(정본 실존)
+    if not re.search(r'(^|[,{}\s])\.cpv-bg\b[^{}]{0,80}\{[^}]*will-change\s*:\s*transform', shared_src):
+        print('❌ 미리보기 부담 게이트 ② — nm-shared.css `.cpv-bg` 층 승격(will-change:transform) 소실')
+        print('   · 배경 그림과 오버레이가 같은 층이 되어 글자 한 타마다 원본급 사진을 다시 굽는다(260818 실측 = 프레임 최대 850ms).')
+        rc = 1
+    # ③ 미리보기 무대를 가진 뷰어 = 공용 CSS 링크 보유(새 탭이 조용히 빠지지 않는다)
+    miss = []
+    for f in sorted(glob.glob(os.path.join(vdir, '*.html'))):
+        try:
+            src = open(f, encoding='utf-8').read()
+        except Exception:
+            continue
+        if 'cpv-bg' not in src and 'vstage' not in src:
+            continue
+        if 'nm-shared.css' not in src:
+            miss.append(os.path.basename(f))
+    if miss:
+        print('❌ 미리보기 부담 게이트 ③ — 미리보기 무대를 가진 뷰어가 공용 CSS(nm-shared.css) 미링크: ' + ', '.join(miss))
+        print('   · 그 탭만 배경 층 승격을 못 받아 오버레이를 얹는 순간 렉이 난다.')
+        rc = 1
+    if rc == 0:
+        print('✅ 미리보기 부담 게이트 — 타일 그리드 화면 밖 건너뛰기 + 미리보기 배경 층 승격 정본 생존(무대 보유 뷰어 전건 공용 CSS 링크 · 면책표 없음).')
+    return rc
+
 def check_shared_canon():
     """공용 부품 CSS = nm-shared.css 단일정본 참조. rc=1 = 커밋 차단."""
     path = os.path.join(ROOT, _SHARED_CSS)
@@ -9696,6 +9754,8 @@ def main():
     except Exception as e:
         print('⚠️ 죽은 상태 오버라이드 게이트 스킵:', e)
     try:
+        if check_preview_perf() != 0:   # 미리보기·타일 렌더 부담(운영자 260819 «추후 미리보기에 뭘 띄우고 거기에 오버레이하게 되면 이렇게 렉걸릴수도 있으니 사전에 동일하게» — 260819 실사고[이전 제작 399타일 펼침 = 긴 작업 8건]의 예방접종 · 렌더 함수 호출 0회라 기존 축이 원리적으로 못 보던 자리)
+            rc = 1
         if check_shared_canon() != 0:   # 공용 부품 CSS = 정본 1개 참조(운영자 260807 "다른 모든 공간에도 이와 동일하게" — 3파일+ 완전동값 사본 83종 중 전역·원자 5종 승격 · 나머지는 캐스케이드 전역 재배치 때문에 가족 단위 순차 이관 필요)
             rc = 1
         if check_clip_canon() != 0:   # 클립 4문법 = 정본 1개 참조(운영자 260807 "정본1개를 참조해서 불러오는 개념으로 쓰셈" — 접두만 다른 사본 4벌이 z-index·transition·tap-highlight·backdrop-filter 4축으로 이미 갈라져 있던 것의 기계화 · 기존 클립 게이트는 「붙었나」만 봐서 「한 원천에서 오는가」가 사각)

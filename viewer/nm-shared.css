@@ -35,3 +35,12 @@ button, input, textarea, select { font-family:inherit; letter-spacing:inherit;} 
 .ogrid .pub-l::after { content:'│'; margin-left:7px /* raw-ok: 파이프 좌우 여백 = edit 카드 라벨│값 리듬 사본 */; color:var(--mut); opacity:.35; font-weight:400;}   /* 3표면 공용: sb song vd */
 .ogrid .geni-opts { justify-content:flex-start; gap:3px 4px;}   /* 3표면 공용: sb song vd */
 .optstrip .gs-sep { color:var(--mut); opacity:.45; font-weight:400; margin:0 5px /* raw-ok: 구분자 좌우 5 = thumb .gs-sep 정본 동값 */;}   /* 9표면 공용: edit index k ly sb song thumb tr vd */
+/* 미리보기 무대의 배경 그림·영상 = 자기 합성층(운영자 260819 «추후 미리보기에 뭘 띄우고 거기에 오버레이하게 되면 이렇게 렉걸릴수도 있으니 사전에 동일하게 수정»).
+   근거 = 카드 제작에서 이미 터진 사고의 예방접종 — 배경 사진과 오버레이(글자·스크림·로고)가 **같은 층**에 있으면 글자를 한 자 칠 때마다
+   원본급 사진(실측 4032×3024)까지 통째로 다시 굽는다(260818 실측 = 프레임 최대 850ms · 사진 없으면 16.8ms).
+   그 봉합이 thumb `.cpprev-stage img.cpv-bg.cpv-pan{will-change:transform}` 한 줄이었고, 영상 5탭은 미리보기 뼈대를
+   카드 제작에서 사본으로 가져왔으면서 **이 한 줄만 안 따라왔다**(이 레포 최빈 축 = 형제는 가진 걸 자기만 안 가졌다).
+   지금은 콘티 탭만 실제로 그림을 띄우지만(`img.cpv-bg` = 참조 사진), 나머지도 자리는 이미 서 있어 띄우는 순간 같은 사고가 난다 → 미리 건다.
+   ⚠ 값 창작 0 = thumb 정본 그대로 · ⚠ 유휴 비용 0 = 층은 상주하되 그리기는 변화 시에만(C16·C18 유휴 정숙 무접촉 · 애니 0) ·
+   ⚠ 그림이 없는 탭은 요소가 hidden이라 층 자체가 안 생긴다(비용 0). */
+.cpv-bg, .vstage > video { will-change:transform;}   /* 6표면 공용: edit sb k song vd thumb */
