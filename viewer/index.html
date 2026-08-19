@@ -13663,7 +13663,10 @@ function renderSnsTrends() {
   //   = 통합 TOP 입장컷(24h)보다 유튜브만 더 좁힌다. 구글 실검은 4시간 창(운영자 260819 trending?hours=4)이라 축이 다르다.
   const ytAll = (() => {
     const seen = new Set(), out = [];
-    for (const x of [...yt, ...ytn, ...ytr, ...ytNoGame(Object.values(d.youtube_cats || {}).flat().filter(z => z && typeof z === 'object'))]) {
+    // 구독 채널(설정 ▸ 구독 채널에서 운영자가 고른 유튜브 계정)도 후보다(운영자 260819 «구독 도 포함되는거야? · 설정에서 내가 선택하는거»).
+    //   ⚠ 구독 항목은 조회수가 **문자열**로 온다(예 "3495648") — 아래 매핑에서 숫자로 바꾼다(`ht` 계산이 1 + 값 이라 문자열이면 이어붙어 자릿수가 통째로 어긋난다).
+    const ytSub = ytNoGame((((d.subs || {}).youtube) || []).filter(z => z && typeof z === 'object'));
+    for (const x of [...yt, ...ytn, ...ytr, ...ytSub, ...ytNoGame(Object.values(d.youtube_cats || {}).flat().filter(z => z && typeof z === 'object'))]) {
       const k = (x && (x.id || x.url)) || '';
       if (!k || seen.has(k)) continue;
       const h = ageVerH(x);
@@ -13672,7 +13675,7 @@ function renderSnsTrends() {
     }
     return out.sort((a, b2) => (b2.views || 0) - (a.views || 0));
   })();
-  lane('유튜브', 'yt', ytAll, YT_ALL_N, v => ({ url: v.url || '', t: v.title || '', rv: v.views ? vfmt(v.views) : '', th: v.thumb || '', v: v.views, ago: relT(v) }));
+  lane('유튜브', 'yt', ytAll, YT_ALL_N, v => { const nv = +v.views || 0; return { url: v.url || '', t: v.title || '', rv: nv ? vfmt(nv) : '', th: v.thumb || '', v: nv, ago: relT(v) }; });   // 조회수 숫자화 = 구독 채널분이 문자열로 오는 축 흡수(등가·조회수 정렬 둘 다 숫자여야 한다)
   // (구 맞춤 추천 단독 레인 = 260819 위 ytAll 종합에 흡수 · 운영자 260816 편입 계약은 그대로 = ytr 이 합집합에 들어간다)
   // (구 쇼츠 레인 `lane('유튜브','yt',shv,12,…)` = 260810 폐지. 운영자 "shv 없애" — 사유 2축: ⓐ **출처 자격** = 쇼츠는 InnerTube 키워드 검색 파생(수집 = sns_trends.py ⑤ · 무키 웹 내부 API)이라 유튜브 공식 mostPopular 차트가 아니다 → 260724에 이미 같은 사유로 대분류에서 큐레이션(gCUR)으로 강등해놓고 통합 TOP 풀에서만 yt·ytn 공식 2레인과 동급 sc를 받고 있었다(자격 이중장부) ⓑ **마른 레인 만점** = sc = 1 − r/L 이라 L(24h 통과분)이 1이면 그 1건이 sc 1.00 만점 → 실측 260810 08:05 = 쇼츠 50건 중 24h 통과 **1건**이 만점을 받아 조회수 2.3만으로 **통합 1위**, 유튜브 공식 인기 1위(22만뷰)는 8위로 밀렸다. 소스가 말라죽을수록 그 소스 1등이 통합 1위가 되는 역설. shv 변수 자체는 유지 = '유튜브 - 쇼츠' 큐레이션 섹션(shL)이 계속 쓴다 = 표시 무손실, TOP 풀 자격만 회수)
   // (구 틱톡 코어 레인 `lane('틱톡','tk',tkv,TK_TOP,tkMap,10)` = 260810 폐지. 운영자 "공식 아니면 큐레이션임 없애셈" — 사유 = **출처 자격**: 창구가 `tikwm.com/api/feed/list?region=KR`(무키 3자 API)의 **추천[for-you] 피드 표본**이고 틱톡엔 공개 최다조회순 차트 API 자체가 없다(수집 = sns_trends.py ③ 493행). 260727에 **같은 사유로 대분류를 이미 큐레이션[gCUR]으로 강등**해놓고(13415행 주석 "틱톡은 공개 최다조회순 API 부재 = tikwm for-you 표본이라 진짜 인기 아님") 통합 TOP 풀에서만 유튜브 공식 레인과 동급 sc를 받고 있었다 = 쇼츠(shv)와 **같은 병의 형제**인 자격 이중장부. 실측 260810 = 조회수 1.6만 for-you 표본이 유튜브 공식 23만보다 위에 섰다)
