@@ -324,6 +324,39 @@ RUBRIC = _RUBRIC_BASE + _roster_block()
 RUBRIC_VER = hashlib.sha256(_RUBRIC_BASE.encode("utf-8")).hexdigest()[:12]
 
 
+# ── 판정 스코프(운영자 260819 «속보 판정은 매체 수에 관계 없이 동작하게 — 최초보도를 빠르게 잡는 이득») ──
+# 구판은 1차 게이트 breaking_candidate(= burst≥3 OR [속보] 태그 · scraper/to_candidates.py)를 통과한 것만 판정해서,
+# **최초 1~2곳만 쓴 시점의 사건이 아예 판정 대상이 아니었다**. 260819 실사고 = 07:35 첫 등장(동시보도 1곳) → 판정 안 함 →
+# 08:05 동시보도 3곳으로 늘어 그제서야 판정 = 30분 지연. 그 지연 동안 제목이 갈리면 아래 ② 축과 겹쳐 긴급이 통째로 샌다.
+# → 1차 게이트를 안 본다(전건 판정). 단 over-merge 의심(mega)은 **대표 제목 자체를 못 믿는** 자리라 제외 유지 —
+#   그건 매체 수 하한이 아니라 데이터 신뢰성 상한이다(같은 env 이름 = 정본 scraper/to_candidates.py 와 운영 동기).
+# ⚠ 1차 게이트 플래그 자체는 안 건드린다 — 그 플래그는 경중 채점 대상(gate_judge.surfaced)·화면 검증대기 접기도 함께 쓰므로
+#   전건 True 로 만들면 그 두 축이 같이 무너진다(채점 콜 폭증·접기 무력화). 판정 스코프는 판정기 안에서만 넓힌다.
+MEGA_MEMBERS = int(os.environ.get("BREAKING_MEGA_MEMBERS", "40"))
+MEGA_CROSS = int(os.environ.get("BREAKING_MEGA_CROSS", "18"))
+JUDGE_ALL = os.environ.get("BREAKING_JUDGE_ALL", "1").strip().lower() not in ("0", "false", "no")   # 롤백 레버 = 0 이면 구판(1차 게이트 통과분만)
+
+
+def _is_mega(c):
+    """over-merge 의심 = 대표 제목 신뢰 불가 → 판정 제외(정본 = scraper/to_candidates.py 동명 상수)."""
+    return (c.get("arts") or 0) > MEGA_MEMBERS or (c.get("cross") or 0) > MEGA_CROSS
+
+
+def _stamp(c):
+    """판정 도장 = 규칙 지문 + **그때 판정에 쓴 제목** 지문 — 둘 중 하나만 갈려도 재판정한다.
+
+    ⚠ 신설 사유(운영자 260819 실사고) = 판정 입력은 제목 하나인데 도장이 규칙 지문만 물고 있어서,
+      **제목이 갈려도 재판정이 구조적으로 안 일어났다**. 실측 = 08:06 판정 시 제목 「경북 영천서 덤프트럭·청소차 충돌…4명 사상」
+      (확정 사망 미명시 = ⚖ 문턱 미달 = 정당한 NO) → 08:18 대표 기사 교체로 제목이 「…환경미화원 3명 참변」(확정 사망 3명)으로
+      갱신됐는데 도장이 이미 있어 그대로 굳었다. 같은 규칙으로 두 제목을 재판정하면 앞은 NO·뒤는 YES(실호출 실측).
+      경중(gate_judge)은 재채점 배선이 있어 2→3 으로 따라 올라갔는데 속보만 안 따라온 = 「형제는 가진 걸 자기만 안 가진」 축.
+    ⚠ **필드를 새로 만들지 않고 기존 도장 값에 접는다** — candidates.json 은 직렬화 바이트 하드예산(CAND_MAX_BYTES 950KB)
+      바로 밑에서 돌고(실측 800건 = 0.99MiB) 항목당 필드를 늘리면 예산 초과분이 꼬리부터 기계적으로 잘린다(= 기사 소실).
+      해시 길이가 12자로 불변이라 **용량 증가 0**.
+    """
+    return hashlib.sha256((RUBRIC_VER + "\n" + (c.get("title") or "")).encode("utf-8")).hexdigest()[:12]
+
+
 REJUDGE_MAX_H = float(os.environ.get("BREAKING_REJUDGE_MAX_H", "48"))   # rubric 변경 재판정 창(h) — 72→48 축소(운영자 260713 승인 · gate와 짝 · 속보는 시간 민감이라 48h+ 재판정 무의미 · 롤백 = env 72)
 
 
@@ -349,8 +382,15 @@ def _fresh_for_rejudge(c):
 
 
 def needs_judging(c):
-    """속보후보이고, 아직 현재 RUBRIC 버전으로 판정되지 않았으면 True(미판정 or rubric 변경 — 재판정은 최근 72h만)."""
-    return bool(c.get("breaking_candidate")) and c.get("breaking_rubric") != RUBRIC_VER and _fresh_for_rejudge(c)
+    """아직 «현재 규칙 + 현재 제목»으로 판정되지 않았으면 True(미판정 · 규칙 변경 · **제목 변경**).
+
+    스코프 = 1차 게이트(breaking_candidate) 무관 전건 · over-merge(mega)만 제외 — 위 판정 스코프 주석 참조.
+    재판정 창(48h)은 종전 그대로(도장 없는 첫 판정은 나이 무관)."""
+    if _is_mega(c):
+        return False
+    if not JUDGE_ALL and not c.get("breaking_candidate"):
+        return False                     # 롤백 레버 = 구판 동작(1차 게이트 통과분만)
+    return c.get("breaking_rubric") != _stamp(c) and _fresh_for_rejudge(c)
 
 
 def _pub_age_label(c):
@@ -471,7 +511,7 @@ def main():
         if is_excluded(c.get("title", "")):
             v = False                      # 운영자 제외 키워드(김건희 등) → AI가 YES여도 긴급 강제 차단
         c["breaking"] = bool(v)            # pending 은 cands 원소 참조 → 직접 반영
-        c["breaking_rubric"] = RUBRIC_VER  # 판정 도장(이 rubric 버전으로 판정됨)
+        c["breaking_rubric"] = _stamp(c)   # 판정 도장(이 규칙 + 이 제목으로 판정됨 — 제목이 갈리면 다음 런이 재판정)
         if v:
             nbreak += 1
     _write(cands)                                # 원자 쓰기(공통 헬퍼)
