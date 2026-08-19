@@ -184,7 +184,11 @@ def send(q, vol, where=None):
         return True
     try:
         r = subprocess.run([sys.executable, str(PUSH), "--notify", "📈 급상승", body,
-                            "--url", "/#trend", "--tag", "nomute-trend-" + key(q), "--kind", "trend"],   # 묶음표 = **급상승어별 고유**(운영자 260819) — 고정이면 뒤에 뜬 말이 앞엣것을 덮는다
+                            "--url", "/?tab=trend", "--tag", "nomute-trend-" + key(q), "--kind", "trend"],   # 묶음표 = **급상승어별 고유**(운영자 260819) — 고정이면 뒤에 뜬 말이 앞엣것을 덮는다
+                           # ⚠ 목적지 = **쿼리**(`?tab=`)여야 실제로 그 화면이 열린다(운영자 260819 «랜딩이 채널 요약으로 감»).
+                           #   구판 `/#trend` 는 뷰어에서 `?qa=1` 일 때만 해석되는 QA 전용 배선(index.html 18306행)이라
+                           #   일반 진입에선 해시가 통째로 무시되고 마지막에 보던 탭(nomute_tab)이 복원됐다 = 채널 요약 랜딩의 실체.
+                           #   서비스워커 축도 같은 이유로 쿼리라야 산다(sw.js 166행 = pathname+search+hash 전부 같으면 focus만 하고 재로드 0).
                            capture_output=True, text=True, timeout=180)
         print((r.stdout or "").strip()[-400:])
         if r.returncode != 0:
