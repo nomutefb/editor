@@ -354,8 +354,16 @@ def main():
     # 속보 강등(만료): burst 가 1차 게이트(≥BREAKING_BURST) 밑으로 떨어진 사건은 굳은 breaking 플래그 해제.
     # burst 2 vs 3 = 넘사벽 — 급증 끝난 사건이 🚨로 눌어붙던 버그 차단. rubric 도 비워 재급증 시 재판정.
     # ⚠️ 위 grade3 승격분은 breaking_candidate=True라 여기서 안 깎임(승격 우선 → 강등 순서 = 의도).
+    # ⚠️⚠️ 260819 봉합 = **판정 스코프와 짝을 맞춘다.** 같은 날 판정기(breaking_judge.needs_judging)를
+    #   「1차 게이트 무관 전건 · over-merge(mega)만 제외」로 넓혔는데 이 강등 블록이 구판 술어로 남아
+    #   **판정기가 찍은 도장을 수집(15분)마다 지웠다** → ⓐ 같은 기사를 매 회차 다시 판정(콜 낭비)
+    #   ⓑ 미판정 줄이 안 줄어 런당 상한 80이 늘 최신분에만 쓰여 **조금 이전 기사는 영영 차례가 안 온다**.
+    #   실측 260819 = 판정 80건 찍은 다음 회차 순증 11건 · 07:35 기사보다 최신인 미판정 103건 > 상한 80.
+    #   → 판정 대상 **밖**(mega)일 때만 지운다. 구판 「burst 떨어진 사건의 🚨 눌어붙음 차단」은 이제
+    #   재판정(제목·규칙 지문 도장)과 TTL 이 맡는다. 롤백 레버 이름은 판정기와 공유(BREAKING_JUDGE_ALL=0 = 구판).
+    _judge_all = os.environ.get("BREAKING_JUDGE_ALL", "1").strip().lower() not in ("0", "false", "no")
     for c in merged.values():
-        if not c.get("breaking_candidate"):
+        if _is_mega(c) if _judge_all else (not c.get("breaking_candidate")):
             c.pop("breaking", None)
             c.pop("breaking_rubric", None)
 
