@@ -37,10 +37,10 @@
  <div class="card">
   <h2>① 곡선 (가로·세로 모두 로그 눈금)</h2>
   <canvas id="cv" width="620" height="380"></canvas>
-  <p class="hint">처음 상태 = <b>지금 화면이 쓰는 확정 5핀</b> · 빈 곳을 누르면 그 자리에 <b>핀</b>이 생기고(수치는 커서 따라 표시) · 핀을 끌면 <b>그 자리를 지나도록 휜다</b>(기울기가 끊기지 않는다) · 핀 더블탭 = 삭제</p>
+  <p class="hint">처음 상태 = <b>지금 화면이 쓰는 확정 2핀(하나의 곡선)</b> · 빈 곳을 누르면 그 자리에 <b>핀</b>이 생기고(수치는 커서 따라 표시) · 핀을 끌면 <b>그 자리를 지나도록 휜다</b>(기울기가 끊기지 않는다) · 핀 더블탭 = 삭제</p>
   <div class="bar">
    <button id="rst" class="on">확정값으로 되돌리기</button>
-   <button data-p="op">확정값(6핀 · 2.20)</button>
+   <button data-p="op">확정값(2핀 · 2.20)</button>
    <button data-p="soft">완만하게</button>
    <button data-p="hard">가파르게</button>
   </div>
@@ -71,13 +71,13 @@ const $ = s => document.querySelector(s);
 const lg = v => Math.log10(Math.max(1, v || 0));
 // 시작 상태 = **운영자가 260819에 직접 꼽아 확정한 5핀**(= 지금 화면 코드 viewer/index.html YT_EQ 와 같은 값).
 //   이 파일을 열면 라이브가 실제로 쓰는 곡선이 그대로 뜬다 = 시안이 실물을 재현한다는 계약.
-const DEF = [[20000,20],[230000,351],[501000,2190],[999000,15072],[2011000,93961],[3000000,178727]];
+const DEF = [[100000,300],[5000000,200000]];   // 두 끝만 = 하나의 곡선(중간 핀을 더하면 그 자리에서 한 번 더 휘어 「하나의 곡선」이 깨진다)
 // 프리셋 = **같은 확정 핀에 세기만 달리한 것**(핀을 옛 스케일로 두면 눌렀을 때 화면이 통째로 튀고, 「운영자 지정」이라 적힌 프리셋이 확정값과 다른 거짓말이 된다).
-const _OPP = [[20000,20],[230000,351],[501000,2190],[999000,15072],[2011000,93961],[3000000,178727]];
+const _OPP = [[100000,300],[5000000,200000]];
 const PRESETS = { op:{p:_OPP,k:2.2}, soft:{p:_OPP,k:1.4}, hard:{p:_OPP,k:3.4} };
 let PINS = DEF.map(a=>[...a]), K = 2.2, drag = -1, lastTap = {i:-1,t:0}, hov = null;
 
-const AX = { x0:lg(2e4), x1:lg(3e6), y0:lg(10), y1:lg(3e7) };
+const AX = { x0:lg(2e4), x1:lg(1e7), y0:lg(10), y1:lg(3e7) };   // x 상한 = 500만 핀이 화면 안에 들어오게(운영자 260819 «500만을 20만으로»)
 const cv = $('#cv'), g = cv.getContext('2d');
 const px = x => 50 + (x-AX.x0)/(AX.x1-AX.x0)*(cv.width-64);
 const py = y => cv.height-34 - (y-AX.y0)/(AX.y1-AX.y0)*(cv.height-34-16);
@@ -126,8 +126,8 @@ function draw(){
   [1e2,1e3,1e4,1e5,1e6,1e7].forEach(v=>{const y=py(lg(v));g.beginPath();g.moveTo(50,y);g.lineTo(cv.width-14,y);g.stroke();
     g.fillStyle='#8fa697';g.textAlign='right';
     g.fillText(v>=1e7?'1000만':v>=1e6?'100만':v>=1e4?(v/1e4)+'만':v>=1e3?(v/1e3)+'천':v+'', 45, y+4);});
-  [1e5,3e5,1e6].forEach(v=>{const x=px(lg(v));g.beginPath();g.moveTo(x,16);g.lineTo(x,cv.height-34);g.stroke();
-    g.fillStyle='#8fa697';g.textAlign='center';g.fillText(v>=1e6?'100만뷰':(v/1e4)+'만뷰', x, cv.height-14);});
+  [1e5,5e5,1e6,5e6].forEach(v=>{const x=px(lg(v));g.beginPath();g.moveTo(x,16);g.lineTo(x,cv.height-34);g.stroke();
+    g.fillStyle='#8fa697';g.textAlign='center';g.fillText((v>=1e6?(v/1e6)+'00만':(v/1e4)+'만')+'뷰', x, cv.height-14);});
   g.beginPath(); g.strokeStyle='#3ddc97'; g.lineWidth=2.6;
   for(let i=0;i<=300;i++){ const x=AX.x0+(AX.x1-AX.x0)*i/300;
     const y=Math.max(AX.y0,Math.min(AX.y1,lg(f(Math.pow(10,x)))));
