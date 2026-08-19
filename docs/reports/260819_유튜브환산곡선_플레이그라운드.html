@@ -31,20 +31,20 @@
 </style></head><body>
 <h1>유튜브 조회수 → 구글 검색량 환산 곡선</h1>
 <p class="sub">실시간 TOP은 유튜브와 구글을 한 줄에 세운다. 자가 다르니 <b>유튜브 조회수를 구글 검색량으로 옮겨서</b> 비교한다.<br>
-<b style="color:var(--accent)">핀은 직접 꼽는다</b> — 빈 곳을 누르면 핀이 생기고, 핀을 끌면 옮겨지고, 두 번 누르면 지워진다. 꼽은 자리가 곧 기울기가 바뀌는 지점이다.</p>
+<b style="color:var(--accent)">기본은 S자, 핀은 직접 꼽는다</b> — 빈 곳을 누르면 핀이 생기고, 핀을 끌면 옮겨지고, 두 번 누르면 지워진다. 핀을 옮기면 그 자리를 지나도록 곡선이 휘는데, <b>꺾이지 않고 기울기가 이어진다</b>.</p>
 
 <div class="grid">
  <div class="card">
   <h2>① 곡선 (가로·세로 모두 로그 눈금)</h2>
   <canvas id="cv" width="620" height="380"></canvas>
-  <p class="hint">처음엔 시작점~끝점 <b>직선 하나</b> · 빈 곳을 누르면 그 자리에 <b>핀</b>이 생기고(수치는 커서 따라 표시) · 핀을 끌면 <b>곡선</b>이 된다 · 핀 더블탭 = 삭제</p>
+  <p class="hint">처음엔 시작점~끝점 <b>S자 곡선 하나</b> · 빈 곳을 누르면 그 자리에 <b>핀</b>이 생기고(수치는 커서 따라 표시) · 핀을 끌면 <b>그 자리를 지나도록 휜다</b>(기울기가 끊기지 않는다) · 핀 더블탭 = 삭제</p>
   <div class="bar">
-   <button id="rst" class="on">시작 상태(직선)</button>
+   <button id="rst" class="on">시작 상태(S자)</button>
    <button data-p="op">운영자 지정 3핀</button>
    <button data-p="soft">완만하게</button>
    <button data-p="hard">가파르게</button>
   </div>
-  <label>S자 세기 <span class="val" id="kv">2.20</span> <span style="color:var(--mut);font-weight:400">(1 = 직선 · 클수록 두 번 꺾인 S가 뚜렷)</span></label>
+  <label>S자 세기 <span class="val" id="kv">2.20</span> <span style="color:var(--mut);font-weight:400">(1 = 곧은 선 · 클수록 S자가 뚜렷 — 가운데가 가파르고 양끝이 완만해진다)</span></label>
   <input type="range" id="q" min="1" max="5" step="0.05" value="2.2">
   <div class="pins" id="pins"></div>
  </div>
@@ -56,8 +56,8 @@
   <h2 style="margin-top:16px">③ 정한 값 복사</h2>
   <pre id="out"></pre>
   <button id="cp">값 복사</button>
-  <p class="note warn">⚠ 한계 — ⓐ 곡선은 꼽은 핀을 <b>정확히 지난다</b>. <b>핀이 2개면 곧은 선 하나</b>이고, 3개부터 핀 사이가 S자(시작 완만 → 중간 가파름 → 끝 완만)로 휜다. 핀에서는 꺾여도 된다.
-  ⓑ 핀 밖(가장 왼쪽 아래·가장 오른쪽 위)은 끝 구간 기울기로 곧게 늘린다. ⓒ 어떤 배치에서도 값이 되돌아가지 않는다(순위 뒤집힘 없음).
+  <p class="note warn">⚠ 한계 — ⓐ 곡선은 꼽은 핀을 <b>정확히 지난다</b>. 기본은 <b>전체가 한 번 S자</b>(시작 완만 → 가운데 가파름 → 끝 완만)이고, 핀을 옮기면 그 자리를 지나도록 휘되 <b>핀에서 꺾이지 않는다</b>(기울기가 이어진다).
+  ⓑ 핀 밖(가장 왼쪽 아래·가장 오른쪽 위)은 곧게 늘린다. ⓒ <b>핀을 왼쪽에서 오른쪽으로 갈수록 높게 찍으면</b> 값이 되돌아가지 않는다(순위 뒤집힘 없음) — 가운데 핀을 오른쪽 끝점보다 <b>높이</b> 올리면 그 뒤 구간은 내려간다(찍은 대로 그린다).
   ⓓ 구글 쪽 값은 환산하지 않는다(검색량이 이미 그 자다). ⓔ 이 화면은 시안이라 실제 화면 코드와 별개다 — 값을 정하면 코드에 옮긴다.</p>
  </div>
 </div>
@@ -66,7 +66,7 @@
 const DATA = {"yt": [{"t": "똘끼 리니지클래식 복수전 주머니 10검 리벤지 갑니다 열렸습니다   ", "v": 254668, "h": 7.3}, {"t": "전역한 뜨뜨뜨뜨를 위한 깜짝이벤트", "v": 155874, "h": 10.1}, {"t": "울고 싶은 이재명…트럼프에 뺨맞고, 정성호도 떠나 / 김어준의 저주,", "v": 113454, "h": 11.8}, {"t": "벗어나고 싶은 구간【배치부터 챌린저#4】", "v": 88167, "h": 11.5}, {"t": "NCT 127 엔시티 127 'BLINGY' Highlight Med", "v": 81330, "h": 8.1}, {"t": "서버최초 184렙에 무공 도전하는 남자", "v": 64120, "h": 10.2}, {"t": "플레이 하나 하나가 미쳤는데!? [ASL 시즌22 24강 B조 승자전", "v": 36329, "h": 11.1}, {"t": "샤벨 DNS와 1년 더?", "v": 16462, "h": 10.6}, {"t": "모기를 얼마나 싫어하는 감도 안오", "v": 12612, "h": 11.6}], "gg": [{"t": "박용우", "v": 100}, {"t": "내가 만난 사이코패스", "v": 100}, {"t": "하빕 누르마고메도프", "v": 100}, {"t": "철도", "v": 100}, {"t": "천궁2", "v": 2000}, {"t": "허찬미", "v": 100}, {"t": "운세", "v": 5000}, {"t": "농민", "v": 1000}, {"t": "푸바오", "v": 2000}, {"t": "hd현대", "v": 200}, {"t": "현금", "v": 100000}, {"t": "김정화", "v": 20000}, {"t": "전지현", "v": 20000}, {"t": "kia 대 한화", "v": 20000}], "at": "2026-08-19T08:07:33+09:00"};
 const $ = s => document.querySelector(s);
 const lg = v => Math.log10(Math.max(1, v || 0));
-const DEF = [[1e5,500],[5e5,3e4]];   // 시작점·끝점 2개 = 직선 하나(운영자 260819 «시작점부터 끝점까지 직선 하나 주고»)
+const DEF = [[1e5,500],[5e5,3e4]];   // 시작점·끝점 2개 = 순수 S자 곡선 하나(운영자 260819 «기본적으로 s자 곡선형태를 취하되»)
 const PRESETS = { op:{p:[[1e5,500],[3e5,5e3],[5e5,3e4]],k:2.2}, soft:{p:[[1e5,800],[3e5,4e3],[5e5,12e3]],k:1.4}, hard:{p:[[1e5,300],[3e5,6e3],[5e5,8e4]],k:3.4} };
 let PINS = DEF.map(a=>[...a]), K = 2.2, drag = -1, lastTap = {i:-1,t:0}, hov = null;
 
@@ -78,21 +78,38 @@ const ix = X => AX.x0 + (X-50)/(cv.width-64)*(AX.x1-AX.x0);
 const iy = Y => AX.y0 + (cv.height-34-Y)/(cv.height-34-16)*(AX.y1-AX.y0);
 const fmt = v => Math.round(v).toLocaleString();
 
+// 곡선 = 「전체가 S자」가 기본이고, 핀을 옮기면 그 자리를 지나도록 휜다(운영자 260819
+//   «기본적으로 s자 곡선형태를 취하되 내가 거기서 점으로 움직일때마다 기울기가 달라지게 · 기울기도 곡선이여야함»).
+//   ⚠ 구간마다 S자를 따로 태우면 핀마다 기울기가 0으로 눕고 다시 서서 물결이 진다(= 기울기가 끊긴다).
+//   → 가로축을 **전체 한 번**만 S자로 눕히고(u), 그 위에서 핀들을 잇는다. 잇는 방식은 단조 3차 에르미트라
+//     ⓐ 핀에서 기울기가 이어지고(C1 = 「기울기도 곡선」) ⓑ 핀이 오름차순이면 순위가 안 뒤집힌다(단조 보장 · 핀 자체를 내려 찍으면 그 구간은 찍은 대로 내려간다).
+//   핀이 2개면 u에 대해 정확히 곧은 선 = 결과는 순수 S자 곡선(= 시작 상태).
 function fn(){
   const P = [...PINS].sort((a,b)=>a[0]-b[0]);
   const X = P.map(a=>lg(a[0])), Y = P.map(a=>lg(a[1])), n = X.length;
   if(n===0) return ()=>0;
   if(n===1) return v => P[0][1];
-  const e0 = (Y[1]-Y[0])/(X[1]-X[0]), e1 = (Y[n-1]-Y[n-2])/(X[n-1]-X[n-2]);
+  const k = K>0?K:1;
+  const S = t => { if(t<=0) return 0; if(t>=1) return 1; const a=Math.pow(t,k); return a/(a+Math.pow(1-t,k)); };
+  const span = X[n-1]-X[0];
+  const ed = span>0 ? (Y[n-1]-Y[0])/span : 0;   // 핀 바깥은 곧게 연장(전체 평균 기울기 · 끝에서 눕혀 놓으면 10만 미만이 전부 같은 값이 된다)
+  const U = X.map(x => span>0 ? S((x-X[0])/span) : 0);
+  const d = [], m = [];
+  for(let i=0;i<n-1;i++){ const du=U[i+1]-U[i]; d.push(du>0?(Y[i+1]-Y[i])/du:0); }
+  for(let i=0;i<n;i++) m.push(i===0 ? d[0] : i===n-1 ? d[n-2] : (d[i-1]*d[i]<=0 ? 0 : (d[i-1]+d[i])/2));
+  for(let i=0;i<n-1;i++){   // Fritsch–Carlson 제한 = 오버슈트(값이 핀 밖으로 튀는 것) 차단
+    if(d[i]===0){ m[i]=0; m[i+1]=0; continue; }
+    const a=m[i]/d[i], b=m[i+1]/d[i], sq=a*a+b*b;
+    if(sq>9){ const tau=3/Math.sqrt(sq); m[i]=tau*a*d[i]; m[i+1]=tau*b*d[i]; }
+  }
   return v => { const x = lg(v);
-    if(x<=X[0]) return Math.pow(10, Y[0]+e0*(x-X[0]));
-    if(x>=X[n-1]) return Math.pow(10, Y[n-1]+e1*(x-X[n-1]));
-    let i=0; while(i<n-2 && x>X[i+1]) i++;
-    const dx = X[i+1]-X[i]; if(dx<=0) return Math.pow(10,Y[i]);
-    const t=(x-X[i])/dx;
-    // 핀 2개 = 곧은 선 하나(운영자 «직선 하나») · 3개부터 S자 이징으로 휜다(«드래그 하면 곡선으로»)
-    const e = (n<=2) ? t : (()=>{ const k=K>0?K:1, a=Math.pow(t,k); return a/(a+Math.pow(1-t,k)); })();
-    return Math.pow(10, Y[i]+(Y[i+1]-Y[i])*e); };
+    if(x<=X[0]) return Math.pow(10, Y[0]+ed*(x-X[0]));
+    if(x>=X[n-1]) return Math.pow(10, Y[n-1]+ed*(x-X[n-1]));
+    const u = S((x-X[0])/span);
+    let i=0; while(i<n-2 && u>U[i+1]) i++;
+    const h=U[i+1]-U[i]; if(h<=0) return Math.pow(10,Y[i]);
+    const t=(u-U[i])/h, t2=t*t, t3=t2*t;
+    return Math.pow(10, (2*t3-3*t2+1)*Y[i] + (t3-2*t2+t)*h*m[i] + (-2*t3+3*t2)*Y[i+1] + (t3-t2)*h*m[i+1]); };
 }
 function draw(){
   const f = fn();
