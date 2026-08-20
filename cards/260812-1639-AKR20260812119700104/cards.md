@@ -1,33 +1,33 @@
 # 172명을 구했는데, 몇 명이 남았는지 아무도 모른다
 
 **[프롬프트 설계]**
-- 화풍: B 극화 — 구조 성공담 아래 깔린 기록 실패를 짚는 구조 비판이라 극화로 고정(추모가 아니라 제도 고발)
-- 분위기: 새벽 바다의 서늘함과 항만 사무실 불빛의 무정함이 같은 온도로 이어지는 톤 — thumb_dispatch의 흐린 확산광·부재의 정조를 조명 톤으로만 계승
-- 연출 방향: 독자훅은 '172명 구조'라는 안심 숫자가 명부 앞에서 무너지는 순간이다. 그래서 사람 얼굴 대신 **세는 도구**(승선 명부·서치라이트·빈 구명조끼)에 시선을 몰아, 분자는 보이는데 분모가 없다는 감각을 화면으로 만든다. #재난참사라 피해자와 피해 상황은 원경·흔적으로만 잡고, 화재의 앰버 한 색이 배에서 종이로, 종이에서 바다로 옮겨 다니며 카드를 잇는다
-- 독자 동선: **발단** 카드1→**전개** 카드2→**피크** 카드3→**해소** 카드4→**시사점** 카드5~6 · 훅=카드1 끝(단서형: 신고까지 걸린 30분)+카드2 끝(예고형: "숫자만 보면 선방한 사고였다")+카드4 끝(예고형: "열흘 전에도 있었다") · 착지 요지 = 명부에 없던 사람은 실종자로도 세어지지 않는다
-- 연속성 앵커: 반복 인물 (없음 — 안전 시각화 원경 유지) / 반복 장소 `Recurring place — the open Lombok Strait off Lombok island, Indonesia, long heavy four-meter swells and no coastline in sight.`(카드1·4·6 Scene에 그대로 복사)
+- 화풍: B 극화 — 사고 재현이 아니라 "탄 사람을 세지 못하는 구조"를 고발하는 기사라, 잉크 선과 고대비 명암이 필요하다.
+- 분위기: 새벽 바다의 무채색 정적. 총동원된 구조와 텅 빈 셈 사이의 서늘한 낙차 — 소리 대신 여백이 말하는 톤(썸네일 디스패치의 흐린 확산광·부재의 정조를 키노트로 계승).
+- 연출 방향: 뉴스를 안 보는 독자도 "1명 사망 172명 구조"라는 안심 숫자에서 멈췄다가, 그 숫자가 명부 131명과 어긋나는 순간 등이 서늘해지게 만든다. 그래서 카메라는 사람 얼굴이 아니라 **숫자가 적힌 종이의 빈 칸**과 **아무것도 뜨지 않은 수면**을 잡는다 — 희생자·생존자를 구경거리로 만들지 않으면서, "세지 못한 자리"를 화면의 주인공으로 세우는 것이 이 덱의 유일한 의도다. 근접은 손과 종이에만 허용하고 사람은 전부 원경 실루엣으로 물린다.
+- 독자 동선: **발단** 카드1→**전개** 카드2→**피크** 카드3→**해소** 카드4→(반복 다리 카드5)→**시사점** 카드6 · 훅=카드1 끝(단서형: 신고까지 30분)+카드4 끝(예고형: 이게 처음이 아니다) · 착지 한 줄 요지 = 명부는 배가 불타야 검증되고, 그래서 피해 규모마저 나중에 맞추는 값이 된다.
+- 연속성 앵커: 인물 (없음) / 반복 장소 — Recurring location - the Lombok Strait before dawn, steep four-meter swells folding under a low overcast sky.
 
 ### [카드 1]
 **텍스트**
 ```text
-12일 새벽 4시 20분, 롬복 해협
-*발리를 떠난 여객선에 불이 붙었다*
-차 44대와 오토바이 53대가 실렸다
-신고가 접수된 건 30분 뒤였다
+8월 12일 새벽 4시 20분, 발리 앞바다
+파당바이 항구를 떠나 롬복으로 가던
+*여객선 푸트리 야스민호에 불이 났다*
+신고가 들어온 건 30분 뒤였다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the thin column of black smoke standing dead straight above a hull that is burning from the inside out. Recurring place — the open Lombok Strait off Lombok island, Indonesia, long heavy four-meter swells and no coastline in sight. A single car ferry sits far off in the upper center of the frame with amber light bleeding out of its open vehicle deck, too distant for any person to be visible. Two small rescue craft cut white wakes toward it from the lower left, so the movement of the whole frame runs toward the right edge.
-Camera: wide shot, full vessel with surrounding environment from a ground-level worm's-eye view just above the waterline, shot on 20mm wide lens, documentary realism, nose room on the right
-Lighting/mood: cold blue pre-dawn tone, desolate stillness, horizon barely lifting, the only warm light in the frame coming from the burning hull
-Accent: monochrome desaturated base with a single color accent (ember amber #FF6A00, the story's symbolic fire color), film-noir low-key lighting, deep shadows
-Setting note: non-Korean context, Indonesian maritime setting throughout.
-Text handling: no readable words anywhere; hull markings and signage are cropped or lost in the distance. no garbled or fake script, no meaningless letters, no random characters, no dense text.
+Scene: Emotional focal point: a thin column of black smoke rising dead straight from a small vessel on the far horizon, too far away for anyone to reach. Recurring location - the Lombok Strait before dawn, steep four-meter swells folding under a low overcast sky. The viewpoint sits down at sea level between two swell crests, so the burning ferry rises and disappears behind the moving water. A dulled ember glow marks the hull line and the smoke drifts toward the right edge, with nose room on the right. No human figure appears anywhere in the frame; only dark water fills the foreground.
+Camera: extreme long shot, tiny subject, vast environment, scale, isolation from eye-level shot, neutral perspective, realistic, shot on 14mm ultra-wide lens, vast environment, dramatic depth, strong spatial presence
+Lighting/mood: cold blue pre-dawn tone, lone streetlight reflection on wet ground, desolate stillness
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on a drifting life ring and a marker buoy), film-noir low-key lighting, deep shadows
+Setting is Indonesian, not Korean: an Indonesian inter-island ferry and Indonesian coastal waters.
+Text handling: no signage or hull lettering rendered; any marking is cropped out of frame or left out of focus.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the open sea water) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the open sea surface) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -36,30 +36,30 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-Putri Yasmin ferry fire Lombok
+Putri Yasmin ferry fire Lombok Strait
 ```
 
 ### [카드 2]
 **텍스트**
 ```text
-해군 함정과 순찰선, 헬기까지 떴다
-200명 넘는 인력이 바다에 투입됐다
-1명이 숨졌고 172명이 구조됐다
-*숫자만 보면 선방한 사고였다*
+신고를 받자 구조선이 곧바로 떴다
+해군 함정과 순찰선, 헬기가 붙었다
+200명 넘는 인력이 바다로 나갔다
+*1명이 숨졌고 172명이 구조됐다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the gloved hands clamped on a searchlight handle, knuckles taut as the beam swings out over black water. On the steel deck of an Indonesian navy rescue boat at night, two crew members are seen from behind, one working the searchlight and one coiling a soaked rope, faces never visible. Both men and the beam are turned toward the right edge of the frame, where the sea disappears into darkness. A stack of life vests and a folded rescue stretcher are lashed to the deck rail in the upper center.
-Camera: medium shot, waist-up framing of the two crew from behind, from eye-level neutral perspective, shot on 35mm lens, natural documentary perspective, nose room on the right
-Lighting/mood: single pool of hard light isolating the figures in surrounding blackness, claustrophobic loneliness, cold spill on wet steel
-Accent: monochrome desaturated base with a single color accent (ember amber #FF6A00, the story's symbolic fire color), film-noir low-key lighting, deep shadows
-Setting note: non-Korean context, Indonesian maritime setting throughout.
-Text handling: no readable words anywhere; hull numbers and equipment labels are cropped out of frame or lost in shadow. no garbled or fake script, no meaningless letters, no random characters, no dense text.
+Scene: Emotional focal point: the white wakes of many small boats all bending toward one point, a converging pattern of effort. Recurring location - the Lombok Strait before dawn, steep four-meter swells folding under a low overcast sky. Looking down from above, a navy patrol vessel, two rescue boats and a passing ferry close in around the smoking hull while a helicopter crosses the upper edge of the frame. Tiny crew silhouettes stand along the rails with arms extended toward the water, faces not visible at this distance. The sea surface runs unbroken to every edge of the picture.
+Camera: wide shot, full body, surrounding environment, movement, spatial context from high angle shot, looking down, shot on 24mm wide lens, cinematic wide shot, spatial context, subtle depth
+Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the rescue crews' high-visibility vests and life rings), muted daylight contrast
+Setting is Indonesian, not Korean: Indonesian navy and search-and-rescue vessels in Indonesian waters.
+Text handling: no hull numbers, no agency lettering, no signage rendered; all markings cropped away or out of focus.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the steel deck plating of the rescue boat) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the open sea surface) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -68,30 +68,29 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-Indonesian navy rescue boat searchlight
+Basarnas rescue boat Indonesia ferry
 ```
 
 ### [카드 3]
 **텍스트**
 ```text
-명부엔 승객 114명, 승무원 17명
-모두 131명이 탄 것으로 적혀 있었다
-숨진 1명과 구조된 172명을 더하면
-*173명, 명부보다 42명이 많다*
+숨진 1명과 구조된 172명, 합쳐 173명
+명부엔 승객 114명과 승무원 17명
+*모두 131명이라고 적혀 있었다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a single fingertip stopped on the last filled line of a passenger ledger, pressing hard enough to dent the paper. Seen straight down onto a worn desk in an Indonesian port office, the open ledger fills the entire frame, its columns carrying nothing but short handwritten tally strokes and ruled lines, no readable words. A ballpoint pen lies angled across the page and the edge of a clipboard is cropped away at the frame border. The counted rows end in the upper center where the fingertip rests, and every row beneath it is blank.
-Camera: extreme close-up, single detail of hand and page, from a high angle looking straight down, shot on 100mm macro lens, fine detail, shallow depth of field
+Scene: Emotional focal point: a fingertip stopped mid-column on a ruled sheet, pressing hard enough to dent the paper. Seen from directly overhead, a passenger manifest sheet fills the entire frame, its printed grid of ruled boxes running from edge to edge. The filled rows are cropped away at the very top edge and thrown far out of focus, so only the empty ruled boxes stay sharp in the upper half beside the stopped fingertip. One hand rests at the last written line and the other holds a capped pen that is not writing. Nothing else lies on the sheet.
+Camera: extreme close-up, single detail, hand, texture from overhead shot, bird's-eye view, top-down angle, shot on 100mm macro lens, fine detail, shallow depth of field, precise texture
 Lighting/mood: harsh single overhead light pooling on the table, deep surrounding black, oppressive interrogation
-Accent: monochrome desaturated base with a single color accent (ember amber #FF6A00, the story's symbolic fire color), film-noir low-key lighting, deep shadows
-Setting note: non-Korean context, Indonesian port office interior.
-Text handling: the ledger carries only abstract ruled lines and tally strokes, deliberately cropped and softened so nothing is legible. no garbled or fake script, no meaningless letters, no random characters, no dense text.
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on a single highlighter line drawn under the last filled row), film-noir low-key lighting, deep shadows
+Setting is Indonesian, not Korean: an Indonesian port office document.
+Text handling: no legible characters anywhere; the written portion is cropped out of frame and blurred, leaving only ruled lines and empty boxes.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the ruled paper of the ledger covering the desk) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the manifest sheet) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -100,30 +99,30 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-ferry passenger manifest ledger
+Indonesia ferry passenger manifest document
 ```
 
 ### [카드 4]
 **텍스트**
 ```text
-그래서 당국도 실종자 수를 모른다
-*173명은 지금까지 찾은 수일 뿐이다*
-파도는 4m, 화재 원인도 아직 모른다
-이런 일은 열흘 전에도 있었다
+*명부에 없던 42명이 배에 있었다*
+구조 당국도 실종자 수를 모른다
+파도 4m 바다에서 수색은 이어진다
+그런데 이게 처음이 아니다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: one search boat looking impossibly small in the narrow gap between two towering swells. Recurring place — the open Lombok Strait off Lombok island, Indonesia, long heavy four-meter swells and no coastline in sight. Seen from sea level down in the trough, grey walls of water fill most of the frame while the tiny boat rides the far crest in the upper center, its wake already erased. High above it a search helicopter is a single speck against flat overcast cloud, drifting toward the right edge.
-Camera: extreme long shot, tiny subject in a vast environment, from eye-level in the wave trough, shot on 200mm telephoto lens, strong compression, distant subject
-Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood
-Accent: monochrome desaturated base with a single color accent (ember amber #FF6A00, the story's symbolic fire color, carried here by the search boat hull), muted daylight contrast
-Setting note: non-Korean context, Indonesian maritime setting throughout.
-Text handling: no readable words anywhere; the distance removes all hull markings. no garbled or fake script, no meaningless letters, no random characters, no dense text.
+Scene: Emotional focal point: one small search boat alone on a huge empty sheet of water, its bow pushing into a swell that swallows half of it. Recurring location - the Lombok Strait, steep four-meter swells folding under a low overcast sky. A long telephoto flattens the sea into stacked gray ridges so the boat looks pinned in place and unable to advance. Two crew silhouettes lean over the gunwale scanning the surface, their gazes and the bow both pointing toward the right edge with nose room on the right. Nothing else floats anywhere on the water.
+Camera: wide shot, full body, surrounding environment, spatial context from eye-level shot, neutral perspective, realistic, shot on 200mm telephoto lens, distant subject, strong compression, candid observation
+Lighting/mood: flat cold even surveillance light, no shadow no warmth, detached and watchful
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the searchers' vests and a lone marker float), muted daylight contrast
+Setting is Indonesian, not Korean: an Indonesian search-and-rescue craft in Indonesian waters.
+Text handling: no hull numbers, no lettering rendered; markings cropped away or out of focus.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the open sea water) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the open sea surface) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -132,30 +131,30 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-Lombok Strait rough sea search boat
+Lombok Strait rough waves search operation
 ```
 
 ### [카드 5]
 **텍스트**
 ```text
-지난 2일 마두라섬에서도 배가 불탔다
-5명이 숨지고 233명이 구조됐는데
-*그때도 탑승 인원을 세지 못했다*
-2018년 토바호는 167명이 숨졌다
+열흘 전 마두라섬 화재도 5명이 숨졌다
+*233명을 구하고도 탑승 인원은 못 셌다*
+2018년엔 정원 네 배를 태웠다
+그 배가 침몰해 167명이 숨졌다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the long blistered scar of soot running down a ferry hull that stopped smoking days ago. Looking down from the top of a concrete quay in Indonesia, the burnt-out ferry lies moored along the wharf in the upper center with its vehicle deck gaping and empty. On the same concrete apron a queue of cars and motorbikes waits nose to tail for the next crossing, riders small and anonymous, none of them looking at the burnt hull. Near the ramp a port worker stands with a clipboard tucked under his arm, waving the vehicles through without counting them.
-Camera: wide shot, full scene with surrounding environment, from a high angle looking down on the quay, shot on 24mm wide lens, cinematic wide shot, spatial context
-Lighting/mood: flat cold even surveillance light, no shadow no warmth, detached and watchful
-Accent: monochrome desaturated base with a single color accent (ember amber #FF6A00, the story's symbolic fire color, carried here by rust and scorch on the hull), muted daylight contrast
-Setting note: non-Korean context, Indonesian ferry terminal and quay.
-Text handling: no readable words anywhere; terminal signage and hull lettering are angled away, cropped or blurred. no garbled or fake script, no meaningless letters, no random characters, no dense text.
+Scene: Emotional focal point: two mooring ropes still knotted to their bollards, running slack down into water where no vessel waits. Seen from directly above at night, a concrete quay fills the frame from edge to edge, two adjacent ferry berths lying side by side and both of them empty. The loading ramps stand raised against nothing. A lone dock worker stands small and off-center at the lip of one berth, looking down at the water. Faded painted lane arrows streak across the concrete.
+Camera: extreme long shot, tiny subject, vast environment, scale, isolation from overhead shot, bird's-eye view, top-down angle, shot on 35mm lens, natural documentary perspective, balanced subject and background, minimal distortion
+Lighting/mood: single pool of hard light isolating the figure in surrounding blackness, claustrophobic loneliness
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the mooring ropes and a berth-edge safety line), film-noir low-key lighting, deep shadows
+Setting is Indonesian, not Korean: an Indonesian island ferry terminal quay.
+Text handling: no berth numbers, no signage, no painted lettering rendered; only plain arrows and unmarked lines on the concrete.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the concrete quay apron) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the concrete quay) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -164,30 +163,30 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-Madura ferry fire burnt hull
+Lembar port ferry berth Lombok
 ```
 
 ### [카드 6]
 **텍스트**
 ```text
-명부는 배가 불타야 검증된다
-누가 탔는지 미리 세어두지 않으면
-피해 규모는 사고 뒤에 맞추게 된다
-*명부에 없던 사람은 실종자도 못 된다*
+명부는 배가 불타고 나서야 검증된다
+구조된 172명은 셀 수 있었지만
+못 찾은 사람은 셀 방법이 없다
+*피해 규모마저 나중에 맞추는 값이 된다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: one empty life vest floating alone, its straps trailing open in the water. Recurring place — the open Lombok Strait off Lombok island, Indonesia, long heavy four-meter swells and no coastline in sight. Seen from directly overhead, the entire frame is one unbroken sheet of morning water crossed by faint swell lines, with the vest drifting dead center in the upper half as the only saturated color anywhere. Nothing else floats in the water and no boat, coast or horizon enters the frame.
-Camera: extreme long shot, single small object in a vast environment, from an overhead bird's-eye top-down angle, shot on super telephoto lens, distant subject, intense compression
+Scene: Emotional focal point: a clipboard of blank ruled lines lying face up where a queue of boarding passengers should have signed. Looking down at a ferry terminal counter the morning after, the counter top runs unbroken from edge to edge with pale morning light spilling across its worn surface. The clipboard sits centered in the upper half of the frame, its ruled rows completely empty and a pen lying untouched beside it. Behind the clipboard the space falls into soft shadow with no second surface visible. No person stands at the counter and the composition is still and centered.
+Camera: medium shot, waist-up framing, conversational from high angle shot, looking down, shot on 50mm standard lens, minimal distortion, natural cinematic composition
 Lighting/mood: warm soft morning light, gentle and quiet, faint melancholy
-Accent: monochrome desaturated base with a single color accent (ember amber #FF6A00, the story's symbolic fire color, carried here by the drifting life vest), muted daylight contrast
-Setting note: non-Korean context, Indonesian maritime setting throughout.
-Text handling: no readable words anywhere; the vest carries no label or lettering. no garbled or fake script, no meaningless letters, no random characters, no dense text.
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the ruled lines of the empty clipboard sheet), muted daylight contrast
+Setting is Indonesian, not Korean: an Indonesian island ferry terminal counter.
+Text handling: no counter signage, no printed form headings rendered; the sheet shows only empty ruled lines with no characters.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the open sea water) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the counter top) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -196,5 +195,5 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-life jacket adrift open sea
+Padangbai ferry terminal ticket counter
 ```
