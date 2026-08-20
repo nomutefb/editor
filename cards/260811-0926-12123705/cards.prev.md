@@ -1,29 +1,29 @@
-# 기소 의견은 넘겼는데…수사단, 공항공사·국토부를 다시 열었다
+# ⚖ 기소 의견은 넘겼는데, 다시 압수수색이었다
 
 **[프롬프트 설계]**
-- 화풍: B 극화 — 참사의 슬픔이 아니라 시설 결정 라인의 책임을 캐는 수사 국면이라, 기관의 공기와 서류의 무게를 사실적으로 세우는 선이 맞다.
-- 분위기: 차갑게 균질한 기관 형광과 종이상자의 절차감. 격앙이 아니라 1년 8개월째 제자리인 시간의 조바심.
-- 연출 방향: 독자가 멈추는 자리는 '아직도 압수수색인가'라는 시간 감각이다 — 그래서 반복되는 상자·문·서류를 카드마다 다른 높이에서 잡아 '아래에서 위로 올라간 궤적' 자체를 눈에 보이게 한다. 전하려는 관점은 책임의 자리가 조종석이 아니라 둔덕을 세우고 승인한 사무실이라는 것이라, 강조점은 얼굴보다 결정의 흔적(활주로 끝 구조물·낡은 도면·멈춘 서류)에 두고 마지막 카드에서만 사람의 정면으로 돌아온다. 참사는 피해 묘사 없이 활주로에 남은 자국과 유도등 초록빛으로만 말한다. 그 초록(#0FFD02)이 전 카드에 한 점씩 박히는 게 이 덱의 비주얼 키노트.
-- 독자 동선: 제시 카드1(오늘)→**발단** 카드2→**전개** 카드3~4→**피크** 카드5→**해소·시사점** 카드6 · 훅=카드1 끝(예고형: 참사 1년 8개월이라는 시점을 던지고 카드2 첫 줄 날짜가 즉시 회수)+카드3 끝(단서형 숫자 '44명'→카드4 첫 줄 '그런데도'가 즉시 회수) · 착지 한 줄 요지=유족이 기다리는 건 상자 개수가 아니라 누가 언제 그 둔덕을 괜찮다고 판단했는지다.
-- 연속성 앵커: Recurring subject — a Korean man in his 40s with close-cropped hair, wearing a dark navy windbreaker over a plain collared shirt (카드1·3·4·5에 그대로 복사) / 반복 장소 = a government agency building interior with pale corridors and glass doors.
+- 화풍: B 극화 — 참사 책임 규명 수사이자 기관·제도의 결정 사슬을 겨눈 사안이라 사실성·고발 톤이 맞다
+- 분위기: 관청의 차갑고 무표정한 형광등 아래, 상자만 계속 옮겨지는데 시계는 1년 8개월째 멈춰 있는 답답함
+- 연출 방향: 독자가 멈추는 지점은 "끝난 줄 알았는데 또"라는 시간 감각이다. 참사 현장은 그리지 않고(#재난참사), 강조점을 **압수 상자·기관 유리문·활주로 끝 콘크리트 둔덕**이라는 세 사물에 몰아 사건을 복원한다. 상자가 아래층(현장)에서 위층(부처)으로 옮겨가는 수직 이동을 시각 키노트로 삼아, "책임을 누가 결정했나"를 장면으로 말한다. 색은 무채 관청톤에 악센트 1색만 살려 서류 더미 속 단 하나의 판단 지점을 가리킨다
+- 독자 동선: **발단** 카드2→**전개** 카드3→**피크** 카드4→**해소** 카드5→**시사점** 카드6 · 제시 도입 = 카드1 · 훅=카드1 끝(미완 예고형)+카드3 끝(단서형 숫자) · 착지 한 줄 요지 = 유족이 기다리는 건 상자 개수가 아니라 그 둔덕을 괜찮다고 판단한 사람의 이름과 날짜다
+- 연속성 앵커: Recurring subject — a Korean man in his 40s in a dark navy suit, short cropped hair, no glasses, carrying a sealed evidence box with both arms / Recurring place — a glass-walled government office lobby with pale fluorescent ceiling panels
 
 ### [카드 1]
 **텍스트**
 ```text
-8월 11일 오전, 특별수사단이
-다시 한국공항공사 문을 열었다
-같은 시각 국토교통부에도 영장이 갔다
-*참사 1년 8개월 만의 압수수색이다*
+기소 의견은 이미
+검찰에 가 있었다
+그런데 오늘 아침
+수사단은 다시 영장을 들었다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a fleeting micro-expression flashing across the lead investigator's otherwise composed face as he shoulders a glass door open. Recurring subject - a Korean man in his 40s with close-cropped hair, wearing a dark navy windbreaker over a plain collared shirt, carries a sealed cardboard evidence box with both arms and walks out of a government agency lobby, his gaze directed toward the right edge of the frame. Three colleagues follow behind him in a single file, each holding an identical box. The tall lobby glass reflects a long row of green runway edge lights smeared across the panes.
-Camera: wide shot from eye-level, shot on 35mm lens, natural documentary perspective, nose room on the right
+Scene: Emotional focal point: a fleeting micro-expression crossing an otherwise composed face as he steps out. Recurring subject — a Korean man in his 40s in a dark navy suit, short cropped hair, no glasses, carrying a sealed evidence box with both arms — pushes through the door of a glass-walled government office lobby with pale fluorescent ceiling panels, his gaze directed toward the right edge of the frame. Behind him two colleagues follow in a line, each holding an identical sealed box, kept lower and softer so he stays the focus. A folded warrant document is tucked under the lid of the box he carries.
+Camera: medium shot, waist-up framing, face and gestures from eye-level shot, neutral perspective, realistic, shot on 50mm standard lens, minimal distortion, natural cinematic composition
 Lighting/mood: flat sterile clinical fluorescent light, cold even greenish-white, emotionless institutional
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 carried only by the reflected runway lights), muted daylight contrast
-Korean default: Korean adult figures and Korean public-building interior proportions.
-Text handling: avoid incidental lettering entirely - no signage text, no lettering on boxes, no badge text, no logos or institutional emblems anywhere; keep every surface clean of script.
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the warrant paper edge), muted daylight contrast
+Composition: nose room on the right, gaze directed toward the right edge. Keep the face, hands and the box in the upper-center area, clear of the lower 40 percent of the frame.
+Text handling: avoid incidental lettering; no institutional logos, no readable signage, no nameplates. Documents are shown edge-on or folded so no body text is legible.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
 Composition: ONE continuous surface (the polished lobby floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
@@ -36,61 +36,62 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-한국공항공사 압수수색
+압수수색 상자 반출 수사관
 ```
 
 ### [카드 2]
 **텍스트**
 ```text
-2024년 12월 29일 오전 무안공항
-동체로 미끄러진 제주항공 7C2216편이
-활주로 끝 콘크리트 둔덕과 부딪혔다
-*181명이 타고 있었고 179명이 숨졌다*
+2024년 12월 29일 아침
+무안공항에 내리던 여객기가
+바퀴를 못 내린 채 미끄러졌다
+*181명 중 179명이 숨졌다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the blunt squat mass of a concrete mound sitting at the far end of an empty runway, an antenna array bolted flat on top of it. A long dark friction streak runs across the pavement toward that mound and stops short of it. No aircraft, no people, no debris anywhere in the frame - only the mark left on the surface and the structure that waited at the end of it. A line of green edge lights runs along the runway shoulder into the winter haze.
-Camera: extreme long shot from a bird's-eye view, shot on 20mm wide lens, subject and environment, documentary realism
+Scene: Emotional focal point: the blunt squat mass of a concrete mound sitting where the runway ends. A low concrete embankment carrying a rectangular antenna array stands across the far end of an empty airport runway, seen from far away with no people and no aircraft anywhere in the frame. Runway edge markings run toward it and stop. Thin grass and a perimeter fence line the flat open field around it under a heavy overcast sky.
+Camera: extreme long shot, tiny subject, vast environment, scale, isolation from ground-level shot, worm's-eye view, near floor, shot on 14mm ultra-wide lens, vast environment, dramatic depth, strong spatial presence
 Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 in the runway edge lights only), muted daylight contrast
-Korean default: Korean regional airport runway proportions and winter field texture.
-Text handling: avoid incidental lettering entirely - no runway markings rendered as letters or numbers, no signage text, no logos or institutional emblems; keep every surface clean of script.
+Accent: monochrome desaturated base with a single color accent (a single amber runway edge lamp), muted daylight contrast
+Composition: the mound sits in the upper-center band of the frame, well clear of the lower 40 percent.
+Text handling: no runway numerals rendered, no signage, no lettering of any kind on the pavement or fence.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the runway pavement) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the runway pavement and the flat field it lies on) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
 - no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
+- no aircraft, no wreckage, no debris, no fire, no smoke, no bodies, no injured people, no rescue scene
 - no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
 ```
 **검색어**
 ```text
-무안공항 로컬라이저 콘크리트 둔덕
+무안공항 활주로 콘크리트 둔덕 로컬라이저
 ```
 
 ### [카드 3]
 **텍스트**
 ```text
-*수사는 그날부터 아래서 위로 올라갔다*
-참사 나흘 뒤엔 관제탑과 항공사였다
-1년 뒤엔 시공 업체 등 9개 기관이 열렸다
-그때까지 입건된 사람만 44명이었다
+수사는 아래에서 위로 올라왔다
+관제탑과 항공사에서 시작해
+올해 1월엔 설계·시공 업체까지
+*9개 기관 11곳이 한꺼번에 열렸다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the strained grip of gloved fingers clamped under a heavy evidence box, tendons standing out on the back of the hand. Recurring subject - a Korean man in his 40s with close-cropped hair, wearing a dark navy windbreaker over a plain collared shirt, climbs a concrete staircase carrying that box, seen from below so the stair flight rises past him. Four more investigators climb ahead of him with identical boxes, the line of them receding upward, and every gaze is turned up toward the right edge of the frame where the next landing waits.
-Camera: full shot from a low angle, shot on 24mm wide lens, immersive scene, dynamic look, nose room on the right
+Scene: Emotional focal point: the steady upward tilt of a stairwell that keeps going past the top of the frame. Recurring subject — a Korean man in his 40s in a dark navy suit, short cropped hair, no glasses, carrying a sealed evidence box with both arms — climbs an interior office stairwell, seen from below, his eyes fixed on the landing above and to the right. Three other investigators carry identical boxes on the flights below him, spaced apart so the line of boxes reads as one rising column. Sealed boxes are stacked on each landing they have passed.
+Camera: full shot, head-to-toe, full body, clear silhouette from low angle shot, looking up, dramatic presence, shot on 24mm wide lens, cinematic wide shot, spatial context, subtle depth
 Lighting/mood: cold blue dim interior light, heavy and suffocating, faint trembling tension
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 in a single stairwell emergency lamp), film-noir low-key lighting, deep shadows
-Korean default: Korean adult figures and Korean office-building stairwell proportions.
-Text handling: avoid incidental lettering entirely - no floor numbers, no signage text, no lettering on boxes, no logos or institutional emblems; keep every surface clean of script.
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the evidence seals), film-noir low-key lighting, deep shadows
+Composition: nose room on the right, gaze directed toward the upper right edge. Keep the climbing figure and the rising column of boxes in the upper-center area, clear of the lower 40 percent.
+Text handling: no labels on the boxes, no signage on the walls, no floor numbers rendered. Seals are shown as plain colored strips.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the concrete staircase) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the stairwell wall and its flights) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -106,23 +107,23 @@ NEGATIVE — strictly avoid:
 ### [카드 4]
 **텍스트**
 ```text
-그런데도 더디다는 지적이 이어졌다
-경찰은 전남청 수사본부를 해체하고
-국가수사본부 직속 특별수사단을 세웠다
-*특수단은 1999년 착공 자료까지 모았다*
+지난 5월 30여 명 기소 의견이
+검찰로 넘어갔다
+그런데 처분은 멈춰 있다
+사고조사위 보고서가 아직 없어서다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a fingertip pressing down on a brittle yellowed blueprint to keep its curled corner flat. Recurring subject - a Korean man in his 40s with close-cropped hair, wearing a dark navy windbreaker over a plain collared shirt, crouches over decades-old construction drawings spread across the floor, looking straight down at the sheet under his hand. Opened archive boxes and stacked drawing rolls surround the spread paper, dust hanging in the narrow beam above them.
-Camera: medium close-up from a high angle, shot on 70mm short telephoto, gentle background compression, subject isolation
-Lighting/mood: single pool of hard light isolating the figure in surrounding blackness, claustrophobic loneliness
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on one drafting line running across the blueprint), film-noir low-key lighting, deep shadows
-Korean default: Korean adult figure and Korean archive room floor.
-Text handling: avoid incidental lettering entirely - the blueprints show only linework, dimension lines and hatching with no numerals, no title block text, no stamps, no logos or institutional emblems; keep every surface clean of script.
+Scene: Emotional focal point: one hand resting flat and unmoving on top of a thick closed case file. A single pair of hands rests on a wide desk in a dark room, palms down on a bound document that stays shut, no pen in reach. Beside the file, an empty chair is pushed back from the desk. Dust hangs in the narrow beam falling on the desktop while everything beyond it drops into blackness.
+Camera: extreme close-up, single detail, hand, texture from high angle shot, looking down, shot on 100mm macro lens, fine detail, shallow depth of field, precise texture
+Lighting/mood: harsh single overhead light pooling on the table, deep surrounding black, oppressive interrogation
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on a single tab marker in the file), film-noir low-key lighting, deep shadows
+Composition: the hands and the closed file sit in the upper-center area, clear of the lower 40 percent of the frame.
+Text handling: the document stays closed and is shown edge-on, so no body text, no title, no lettering is legible anywhere.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the archive room floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the desktop) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -132,28 +133,29 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-여객기 참사 특별수사단
+검찰 사건기록 서류 책상
 ```
 
 ### [카드 5]
 **텍스트**
 ```text
-*그 사이 기소 의견은 검찰에 넘어갔다*
-지난 5월, 관계자 30여 명이었다
-사고조사위 결과가 없어 처분은 멈췄다
+그래서 오늘 열린 두 곳은
+비행기를 몬 쪽도 표를 판 쪽도 아니다
+*둔덕을 세운 공항공사와*
+*그 기준을 승인한 국토부다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a fingertip resting motionless on the cover of a thick bound file, the skin pale where it presses. Recurring subject - a Korean man in his 40s with close-cropped hair, wearing a dark navy windbreaker over a plain collared shirt, is present only as that hand and the windbreaker cuff entering the frame from the left. The file sits closed and squared on a bare tabletop, a fine layer of dust settled along its top edge, and nothing else shares the table.
-Camera: extreme close-up from a Dutch tilt angle, shot on 100mm macro lens, fine detail, shallow depth of field
-Lighting/mood: harsh single overhead light pooling on the table, deep surrounding black, oppressive interrogation
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on a thin ribbon marker slipped between the pages), film-noir low-key lighting, deep shadows
-Korean default: Korean adult hand and Korean office table finish.
-Text handling: avoid incidental lettering entirely - the file cover is blank with no title, no case numbers, no stamps, no logos or institutional emblems; keep every surface clean of script.
+Scene: Emotional focal point: two identical office doors standing open at the same moment, side by side. Recurring place — a glass-walled government office lobby with pale fluorescent ceiling panels — with two doorways thrown open on the same wall, one to the left and one to the right, a curtain of vertical blinds pulled aside at each so the rooms behind are exposed. Two investigators in dark suits step out of the doorways at once, each carrying a sealed evidence box with both arms, moving toward the center of the frame. Filing shelves stand emptied behind them.
+Camera: two-shot, two characters in frame, relationship distance from three-quarter angle, natural face depth, shot on 35mm lens, natural documentary perspective, balanced subject and background, minimal distortion
+Lighting/mood: flat cold even surveillance light, no shadow no warmth, detached and watchful
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the evidence seals), muted daylight contrast
+Composition: both figures and both open doorways sit in the upper-center band, clear of the lower 40 percent of the frame.
+Text handling: no agency logos, no door plates, no room numbers, no signage lettering anywhere. Institutional identity is suggested only by the plain government-office architecture.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the tabletop) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the corridor wall carrying both doorways) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -163,29 +165,29 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-제주항공 참사 검찰 송치
+한국공항공사 국토교통부 청사
 ```
 
 ### [카드 6]
 **텍스트**
 ```text
-오늘 열린 두 곳은 조종석이 아니었다
-활주로 끝 둔덕을 세우고 승인한 자리다
-유족이 기다리는 건 압수 상자가 아니다
-*누가 언제 그 둔덕을 괜찮다고 했는지다*
+참사 1년 8개월, 압수수색은 여섯 번째다
+상자는 계속 옮겨지는데
+유족이 기다리는 건 상자 개수가 아니다
+*그 둔덕을 괜찮다고 판단한 사람과 날짜다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the steady unwavering eyes of a bereaved family member looking directly into the camera, tear-glazed but dry. A Korean woman in her fifties in a dark coat stands alone at the center of an empty agency plaza, holding a single folded sheet of paper against her chest with both hands, facing the viewer head on. Far behind her, small and softly blurred, a short line of investigators carries boxes toward a van, kept low and low-contrast so she remains the focus. Green runway-light reflections still linger in the building glass beyond them.
-Camera: medium shot from eye-level, front-on shot, direct gaze, symmetrical composition, shot on 50mm standard lens
-Lighting/mood: cold blue pre-dawn tone, lone streetlight reflection on wet ground, desolate stillness
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 in the distant reflected lights), film-noir low-key lighting, deep shadows
-Korean default: Korean adult figures and Korean public-plaza paving and street furniture.
-Text handling: avoid incidental lettering entirely - the folded sheet shows no writing, no signage text, no banner text, no logos or institutional emblems; keep every surface clean of script.
+Scene: Emotional focal point: an empty chair left facing a wall of stacked sealed boxes. A single wooden chair stands alone in a wide bare room, turned toward a tall wall of sealed evidence boxes stacked shoulder-high, with no person anywhere in the frame. A folded coat is draped over the chair back and a small bunch of white chrysanthemums rests on the seat. Late afternoon light comes in low across the floor and lengthens the chair's shadow toward the boxes.
+Camera: wide shot, full body scale, surrounding environment, spatial context from eye-level shot, neutral perspective, realistic, shot on 35mm lens, natural documentary perspective, balanced subject and background, minimal distortion
+Lighting/mood: faded warm light, soft golden haze, gently nostalgic and wistful
+Accent: monochrome desaturated base with a single color accent (a single amber shaft of light on the empty seat), muted daylight contrast
+Composition: front-on shot, symmetrical composition, the chair and the wall of boxes centered and held in the upper-center band, clear of the lower 40 percent of the frame.
+Text handling: no labels on the boxes, no dates, no lettering anywhere in the frame.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the paved plaza ground) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the bare room floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -195,5 +197,5 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-무안공항 참사 유가족
+빈 의자 국화 추모
 ```
