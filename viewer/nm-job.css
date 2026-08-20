@@ -35,7 +35,23 @@
   @keyframes thfocus { 0%,100%{ box-shadow:0 0 0 0 rgba(var(--accent-rgb),0); } 18%,46%{ box-shadow:0 0 0 3px rgba(var(--accent-rgb),.55); } }
   @media (prefers-reduced-motion:reduce){ .thfocus { animation:none; } .job .jst .jspin { animation:none; } }   /* 작업 스피너 회전 정지(260630 QA) */
   .job .jst .jsec { color:var(--fg); font-variant-numeric:tabular-nums; }   /* 진행 중 경과시간만 흰색(운영자 260728 "47s는 흰색으로") — 나머지 상태글자는 mut 유지 · 탭럴러 숫자 = 1s 틱마다 폭 안 흔들림(.abno 선례) */
-  .job .jst .nm-shim { font-size:inherit; font-weight:inherit; line-height:inherit; transform:none; }
+  .job .jst .nm-shim { font-size:inherit; font-weight:inherit; line-height:inherit; transform:none;
+    animation:none; color:var(--mut); -webkit-text-fill-color:var(--mut); }
+  .job .jst .nm-shim .jsec { -webkit-text-fill-color:var(--fg); }
+  /* 【진행 상태줄 빛 스윕 정지 · 260820 운영자 승인(ㄱ안)】 위 3선언 = nm-loader.js 정본의 **움직임 줄이기 폴백 그대로**(새 값 0).
+     사유 = 그 스윕이 폰 발열·렉의 주범으로 실측 확정됐다(폰 근사 = 처리 6배 느림 · 진행 4건):
+       유휴 1.8% / 사진 합성 유휴 2.4% / 진행 중 25.7~28.4% · 그 상태 자막 타이핑 69.1%(49fps · 입력지연 p95 51.8ms).
+       격리 = 이 스윕만 멈추면 28.4% → **6.1%** · 튀는 점만 멈추면 화면 재기 60/s → 1.2/s · 둘 다 멈추면 1.8%(유휴 수준).
+     원인 = `background-position` 애니 + `background-clip:text` = 합성으로 못 올라가 **매 프레임 글자 마스크를 다시 만든다**.
+       그 비용이 진행 행 수만큼 곱해진다(행마다 1개 · 실측 4행 = 4개).
+     ⚠ 모양 유지한 채 비용만 없애는 CSS 처방은 6종 전건 무효로 실측됐다
+       (will-change 층 승격 · contain strict/layout paint 4자리 · background-attachment · content-visibility:auto = 전부 27~28% 유지 ·
+        화면 밖으로 스크롤해도·가려져도 안 멈춘다) → 정지가 유일한 수단이라 운영자 판단으로 올렸고 ㄱ안이 채택됐다.
+     ⚠ `.jsec` 줄이 실효 조건 = `-webkit-text-fill-color`는 **상속**이라 부모를 mut 로 잠그면 경과시간까지 회색이 된다
+       → 260728 계약(「47s는 흰색으로」)이 조용히 깨진다. 그래서 자식에서 같은 축을 --fg 로 되돌린다(위 `.jsec` color 줄의 짝).
+     ⚠ 스코프 = 잡 행 상태줄뿐(로더 라벨 `.nm-load>.nm-shim` 은 무접촉) — 그쪽은 화면에 1개만 뜨고 개수가 안 곱해진다.
+       이 파일이 거처인 이유 = 이미지·영상 두 스튜디오 잡 행이 이 부품을 공유한다(한쪽만 고치면 나머지가 조용히 낡는다).
+     복원 = 위 3선언 + `.jsec` 줄 제거(도료 정본은 nm-loader.js 한 곳 · 이 파일은 그 계승 범위만 정한다). */
   /* 진행 상태줄 빛 스윕(운영자 260809 "그 빛 지나가는 모션 · 제작중 이 부분에도") = nm-loader.js `.nm-shim` **도료만** 계승 — 활자는 잡 행 정본(12px/400) 그대로.
      왜 되돌리나 = `.nm-shim`은 260731 개정에서 도료 + 활자(13.5px/700/lh1/-.049em)가 **한 벌**이 됐다(nm-loader.js 154행 "붙은 글자도 라벨과 같은 잉크선").
      그 전제는 「13.5px 로더 라벨 옆에 붙는 글자」인데 이 자리는 12px 잡 행이라 그대로 물리면 ⓐ 진행 행만 13.5/700이 돼 바로 위 완료 행(12/400)과 활자가 갈리고
