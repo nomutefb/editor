@@ -175,7 +175,7 @@
   .bgfx { position:fixed; inset:0; z-index:-1; pointer-events:none;
     filter:brightness(1) saturate(.95);   /* 우주톤 = 청록 워시 대비 채도·밝기 낮춤(운영자 260723 "색채 강도↓ · 우주배경") */
     background:
-      radial-gradient(130% 100% at 50% 14%, rgba(var(--space-hi-rgb),.28), rgba(0,0,0,0) 62%),
+      radial-gradient(130% 100% at 50% 14%, rgba(var(--space-hi-rgb),.54), rgba(0,0,0,0) 62%),   /* 진하기 .28→.54(운영자 260820 플레이그라운드 선택값 — 배경이 안 보인다는 신고의 절반이 이 워시가 눌려 있던 것) */
       var(--space-bg); }   /* 구 검정 무늬 배경(feed_bg.png 실크) = 완전 제거(운영자 260706 4차 k "기존 배경 아예 날려" — 창 리사이즈 때 물결 캔버스 아래로 옛 무늬가 비치던 원인) → 최하층 = 현 오션톤 워시+--bg 단일(CSS 즉시 페인트 = 부팅 검정 차단 3차 9 겸용 · WebGL 실패 폴백도 워시) · 자산은 assets/brand에 도먼트 보존 */
   /* 무채색 물결 셰이더 캔버스 = .bgfx 폴백(feed_bg) 위에 덮음(형제 = .bgfx filter 영향 밖). WebGL2 미지원·셰이더 컴파일 실패·컨텍스트 로스트 시 .off로 숨겨 .bgfx 워시 폴백 노출(저사양 자동감지는 없음 = 하드실패만 폴백). paper mesh-gradient 무채색 이식 · 색=:root --bg에 흰색 알파(무채색 명암) · 운영자 260705 */
   #wavebg { position:fixed; inset:0; z-index:-1; pointer-events:none; display:block; width:100%; height:100%; }
@@ -3884,10 +3884,11 @@ try {
   function hx(h){ h=(h||'').trim()||'#121212'; return [parseInt(h.slice(1,3),16)/255,parseInt(h.slice(3,5),16)/255,parseInt(h.slice(5,7),16)/255]; }   // 폴백 #121212 = --bg 미해결 시만(정상 경로 미발동)
   var BG=hx(cs.getPropertyValue('--space-bg')), CY=hx(cs.getPropertyValue('--bias-l1')), BL=hx(cs.getPropertyValue('--bias-l2'));   // 우주톤 통일(운영자 260723) — 물결 base = --space-bg(#070a12) · 시안/파랑 틴트는 은은한 우주 시머로 잔존(INT↓) · 구 base=--bg(오션 청록 강도)
   function mixc(base,c,t){ t=Math.min(1,t); return [base[0]+(c[0]-base[0])*t, base[1]+(c[1]-base[1])*t, base[2]+(c[2]-base[2])*t, 1.0]; }
-  var INT=0.13, WT=[1,1,1];                                           // 우주톤 강도(운영자 260723 "색채 강도↓ · 우주배경") — 구 오션 0.24 → 0.13(시안/파랑 시머 절반↓ · space-bg 위 은은) · WT=흰색(무채 스팟)
+  var WAVE_ON=true;                                                  // 렉 신고 스위치(운영자 260820 "렉걸린다고 내가 말하면 워시만 하게 미리 적용") — false 한 글자면 물결 통째 정지(그래픽 컨텍스트 미생성 = GPU 점유 0) + .bgfx 워시만 노출. 값 되돌림 없이 이 줄만 바꾼다.
+  var INT=0.42, WT=[1,1,1];                                           // 물결 세기(운영자 260820 플레이그라운드 선택값 0.42) — 260723 우주톤 0.13은 밝기 폭이 255단계 중 2~5로 실측돼 "안 보인다"(구 오션 0.24보다도 낮았다) · WT=흰색(무채 스팟)
   var COLORS=[ mixc(BG,CY,0.55*INT), mixc(BG,BL,0.8*INT), mixc(BG,CY,1.1*INT), mixc(BG,BL,0.45*INT), mixc(BG,WT,0.2*INT) ];   // 시안(--bias-l1)·파랑(--bias-l2) 틴트(오션 · 260705 재배선)
-  var P={dist:0.53,swirl:0.34,speed:0.33,scale:0.86,grain:0.12};      // 운영자 확정 세팅(오션·강도0.24·120fps)
-  var FLOOR=mixc(BG,BL,0.9*INT);                                      // 물결 최저 밝기 플로어 = 딥블루(--bias-l2) 틴트 21.6% — 보이드 검정 박멸(운영자 260707) · 토큰 파생 = raw hex 0 · 실측 = docs/작업이력 260707 물결플로어
+  var P={dist:0.53,swirl:0.34,speed:0.52,scale:0.86,grain:0.07};      // 운영자 260820 선택값(속도 0.33→0.52 · 입자 0.12→0.07) · dist·swirl·scale = 260705 확정분 계승
+  var FLOOR=mixc(BG,BL,0.60*INT);                                     // 물결 최저 밝기 플로어(운영자 260820 선택값 0.90→0.60 — 바닥이 높으면 어두운 자리가 안 어두워져 물결 폭이 위아래로 눌린다 = 세기와 함께 "안 보임"의 나머지 절반) = 딥블루(--bias-l2) 틴트 21.6% — 보이드 검정 박멸(운영자 260707) · 토큰 파생 = raw hex 0 · 실측 = docs/작업이력 260707 물결플로어
   var GRAIN_MIX=0.15;                                                 // getPosition 흔들림(확정 6종 밖 고정값)
   var flat=new Float32Array(MAX*4); COLORS.forEach(function(c,i){ flat.set(c,i*4); });
 
@@ -3934,6 +3935,7 @@ try {
   function syncModal(){ var o=!!document.querySelector('dialog[open]'); if(o===modalOpen) return; modalOpen=o;
     if(o) stop(); else if(!isReduce() && !document.hidden) start(); }
 
+  if(!WAVE_ON){ canvas.classList.add('off'); return; }                // 렉 스위치 OFF = 그래픽 컨텍스트도 안 만든다(.bgfx 워시만 · rAF·GPU 0)
   if(!initGL()) return;                                               // 폴백 확정(.off)
   new MutationObserver(syncModal).observe(document.documentElement,{subtree:true,attributes:true,attributeFilter:['open']});
   syncModal();                                                        // 초기 상태 반영 = 아래 start()보다 **먼저**(부팅 시 모달이 열려 있으면 start의 modalOpen 가드가 막는다)
