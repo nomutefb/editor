@@ -51,6 +51,7 @@ jobs:
           # ⚡ 260810 sparse-checkout(scrape 카나리아 실증 = 같은 잡 A/B 20s→9s · 삭제 커밋 0건) — 목록 = 이 잡이 실행줄에서 여는 폴더뿐.
           #   빠지는 대형 = _versions 437M · docs 90M · 자료 75M · _산출 74M(어느 잡도 안 연다) · ⚠ git add/rm 대상은 전건 포함 검문 통과분.
           sparse-checkout: |
+            prompts
             .github
             push
             assets/brand
@@ -72,7 +73,7 @@ jobs:
           node-version: '24'
 
       - name: Install Claude Code CLI
-        run: npm install -g @anthropic-ai/claude-code   # 러너엔 claude 미설치 — analyze와 동일하게 설치(없으면 exit 127)
+        run: npm install -g --allow-scripts=@anthropic-ai/claude-code @anthropic-ai/claude-code   # 러너엔 claude 미설치 — analyze와 동일하게 설치(없으면 exit 127)
 
       # ── 링크 레일(운영자 260731 "링크가 원문이면 원문 활용 · 미디어면 large v3 전사") ──
       # 잔류 asks 중 '미디어' 링크가 하나라도 있으면 STT 환경·모델(3.1GB)을 캐시로 미리 깐다.
@@ -235,7 +236,7 @@ jobs:
         with:
           node-version: '24'
       - name: Install Claude Code CLI
-        run: npm install -g @anthropic-ai/claude-code
+        run: npm install -g --allow-scripts=@anthropic-ai/claude-code @anthropic-ai/claude-code
 
       - name: Card-plan (텍스트 카드 프롬프트 — 제미나이 0)
         env:

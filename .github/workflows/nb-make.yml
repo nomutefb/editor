@@ -90,7 +90,7 @@ jobs:
           node-version: '24'
 
       - name: Install claude-code
-        run: npm install -g @anthropic-ai/claude-code
+        run: npm install -g --allow-scripts=@anthropic-ai/claude-code @anthropic-ai/claude-code
 
       - name: Setup Deno (yt-dlp JS 챌린지 솔버)   # 운영자 260723: YouTube 서명/nsig 챌린지 = yt-dlp 순수파이썬 solver 실패("supported JavaScript runtime" 요구) → Deno JS 런타임 제공(EJS)으로 포맷 추출 복구 · 설치 실패해도 비치명(순수 파이썬 폴백)
         run: |

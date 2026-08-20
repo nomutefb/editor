@@ -6658,6 +6658,58 @@ def check_yt_cookie_slot_name():
     return 0
 
 
+def check_claude_cli_install():
+    """클로드 도구 설치 = postinstall 허용 동반(하드 · 260820 실사고 봉합).
+
+    계약 = 「`npm install -g @anthropic-ai/claude-code` 를 실행하는 자리는 **postinstall 허용 플래그**
+       (`--allow-scripts=@anthropic-ai/claude-code`)를 동반한다」.
+
+    ⚠️ 신설 사유 = **npm 11.17 이 postinstall 스크립트를 기본 차단으로 바꾸면서 요약이 전 레인에서 죽었다.**
+       러너 실측(run 32320399692 · 260820 10:16 KST) 원문 =
+         added 1 package in 2s
+         npm warn allow-scripts 1 package has install scripts not yet covered by allowScripts:
+         npm warn allow-scripts   @anthropic-ai/claude-code@2.1.237 (postinstall: node install.cjs)
+       → 설치는 **성공(exit 0)** 인데 native binary 를 내려받는 `install.cjs` 가 안 돌아
+         본선이 `Error: claude native binary not installed.` 로 죽는다.
+    ⚠️ **가장 조용한 실패** = 설치 스텝이 초록이고 경고는 `npm warn` 한 줄뿐이라 잡 로그를 열어
+       그 줄을 읽기 전까지 원인이 안 보인다. 화면 증상도 「요약이 실패했다」 하나뿐이고,
+       프리플라이트가 4계정 전건 rc=1 을 내서 **계정·쿼터 문제로 오진하게 만든다**(실측 = 그 런의
+       "프리플라이트 전 계정 무응답" 경고 = 계정은 멀쩡했고 도구가 없었다).
+    ⚠️ 기존 게이트는 전부 다른 축 — `check_workflow_yaml` = 문법 · `check_secret_coverage_chain` = 열쇠 등록 ·
+       `check_smoke_chromium_path` = 스모크 브라우저 경로 → 「모델을 부르는 **도구가 러너에 실제로 깔리는가**」는
+       축 자체가 없었다(insta-thumb-miss·brk_misfire 동축).
+    ⚠️ 스코프 = `.github/workflows/*` + `scripts/*`(운영자 PC·맥 설치 축도 같은 병 = 형제) ·
+       `shared/check_refs.py` 자신은 스코프 밖이라 처방문 자기적발 0.
+    ⚠️ 면제 = 그 줄이 `--ignore-scripts` 를 **의도적으로** 쓰는 경우(현행 0건).
+    판정 = 정적(렌더·LLM·네트워크 0) · 표면 자동 발견(새 워크플로가 조용히 못 빠진다) ·
+       **면책표 없이 하드 0**(부채 원장 증가 0)."""
+    bad = []
+    surfaces = sorted(glob.glob(os.path.join(ROOT, '.github', 'workflows', '*.yml'))
+                      + glob.glob(os.path.join(ROOT, '.github', 'workflows', '*.yaml'))
+                      + glob.glob(os.path.join(ROOT, 'scripts', '*')))
+    for p in surfaces:
+        if not os.path.isfile(p):
+            continue
+        rel = os.path.relpath(p, ROOT)
+        try:
+            src = open(p, encoding='utf-8', errors='ignore').read()
+        except OSError:
+            continue
+        for i, ln in enumerate(src.splitlines(), 1):
+            if 'npm install -g' not in ln or '@anthropic-ai/claude-code' not in ln:
+                continue
+            if '--allow-scripts' in ln or '--ignore-scripts' in ln:
+                continue
+            bad.append('%s:%d  postinstall 허용 누락 → native binary 미설치(요약·판정 전건 사망)' % (rel, i))
+    if bad:
+        print('[FAIL] 클로드 도구 설치 = postinstall 허용 누락 %d건' % len(bad))
+        for b in bad:
+            print('   ·', b)
+        print('   처방 = npm install -g --allow-scripts=@anthropic-ai/claude-code @anthropic-ai/claude-code')
+        return 1
+    return 0
+
+
 def check_smoke_chromium_path():
     """스모크 크로미엄 경로 = 폴백 해석기 경유(하드 · 260808 실사고 봉합 · check_smoke_obs_chain 의 짝).
 
@@ -9882,6 +9934,8 @@ def main():
         print('⚠️ grade 교정 체인 게이트 스킵:', e)
     try:
         if check_smoke_obs_chain() != 0:   # UI 스모크 경보가 사유를 갖고 나가는가(운영자 260807 — 사유 0자 경보가 8일 연속 무증상으로 살아 운영자가 조치할 수 없던 실사고 봉합 · 웹푸시 면제·메시지함 진단서 점등 동반 강제)
+            rc = 1
+        if check_claude_cli_install() != 0:   # 모델을 부르는 도구가 러너에 실제로 깔리는가(260820 — npm 11.17 postinstall 기본 차단으로 설치 스텝은 초록인데 native binary 가 안 와서 요약이 전 레인에서 죽은 실사고)
             rc = 1
         if check_smoke_chromium_path() != 0:   # 그 스모크가 러너에서 뜨기는 하는가(260808 — 260807 봉합이 같은 병 2종 중 1종만 고쳐 다음 나이틀리도 그대로 붉었는데 아무 게이트도 안 울린 축)
             rc = 1

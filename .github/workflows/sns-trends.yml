@@ -166,7 +166,7 @@ jobs:
 
       - name: Install Claude Code CLI (브리프 스텝용 — LLM 0콜 수집 레인이라 브리프 게이트와 동기)
         if: ${{ (inputs.brief || '1') == '1' || (inputs.bsky_tr || '0') == '1' || (inputs.gt_img || '1') == '1' || (inputs.sns_sum || '1') == '1' }}   # 기본 ON 승격(§📰-e 이행 — 카나리아 run 2차 실측 260712: rc=0·브리프 626자 생성·sns_brief.json 커밋 09:44 KST · 1차 rc=127 = CLI 부재 → 이 스텝 신설로 봉합) · 롤백 = || '0' · 블루스카이 번역(bsky_tr)·트렌드 이미지(gt_img)·X/스레드 요약(sns_sum · 260726)도 CLI 필요(운영자 260713·260718 · gt_img 상시 ON 승격 = || '1')
-        run: npm install -g @anthropic-ai/claude-code
+        run: npm install -g --allow-scripts=@anthropic-ai/claude-code @anthropic-ai/claude-code
 
       - name: AI 브리프(비서 페르소나 · 운영자 260712) — 입력 동일 = 스킵(토큰 0) · 실패 = 직전 유지(fail-soft)
         env:

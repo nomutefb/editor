@@ -63,7 +63,7 @@ jobs:
           node-version: '24'
 
       - name: Install claude-code
-        run: npm install -g @anthropic-ai/claude-code
+        run: npm install -g --allow-scripts=@anthropic-ai/claude-code @anthropic-ai/claude-code
 
       - name: Fetch source photo (R2)
         if: inputs.imgkey != ''

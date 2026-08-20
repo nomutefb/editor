@@ -36,7 +36,7 @@ jobs:
       - name: Install Claude Code CLI (LUCY_ON일 때만 — sns-trends.yml 관용구)
         # ⚠ 이 스텝이 없으면 lucy_threads.sh의 `claude` 호출이 rc=127로 죽는다(sns-trends 1차 실측 260712 동일 함정).
         if: ${{ (vars.LUCY_ON || '0') == '1' }}
-        run: npm install -g @anthropic-ai/claude-code
+        run: npm install -g --allow-scripts=@anthropic-ai/claude-code @anthropic-ai/claude-code
       - name: 루시 운영(4중 게이트 · 미충족 = claude 호출 전 exit 0 = 쿼터 0)
         env:
           LUCY_ON: ${{ vars.LUCY_ON || '0' }}                     # ← 설정 on/off(기본 OFF · §📰-e 카나리아 관용구 = 기본 OFF 머지 → dispatch 실측 → 승격)

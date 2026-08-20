@@ -67,7 +67,7 @@ jobs:
           node-version: '24'
 
       - name: Install Claude Code CLI
-        run: npm install -g @anthropic-ai/claude-code   # 러너엔 claude 미설치(없으면 exit 127)
+        run: npm install -g --allow-scripts=@anthropic-ai/claude-code @anthropic-ai/claude-code   # 러너엔 claude 미설치(없으면 exit 127)
 
       - name: Find more images
         env:

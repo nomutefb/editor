@@ -102,7 +102,7 @@ jobs:
 
       - name: Install Claude Code CLI
         if: steps.chk.outputs.pending != '0' || github.event.inputs.safe_mode == 'true'
-        run: npm install -g @anthropic-ai/claude-code
+        run: npm install -g --allow-scripts=@anthropic-ai/claude-code @anthropic-ai/claude-code
 
       # 카나리아 self-test (safe_mode 디스패치 전용 · pending=0에도 실행) — 실 OAuth env에서 --safe-mode가
       # ① rc=0(인증 정상 = --bare와 달리 OAuth 유지) ② cache_creation 급락(CLAUDE.md 로드 스킵) 인지 A/B 실측.

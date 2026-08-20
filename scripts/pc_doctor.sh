@@ -87,7 +87,7 @@ if [ -n "$CL" ]; then
   if [ -f "$HOME/.claude/.credentials.json" ] || [ -d "$HOME/.claude" ]; then _ok "로그인 흔적 있음"
   else _ng "로그인 안 됨 — 고치는 법: 명령창에서  claude  실행 후 로그인, 끝나면 /exit"; fi
 else
-  _ng "클로드 도구 없음 — 판정·채점은 건너뛰고 수집만 돈다(고치는 법: npm install -g @anthropic-ai/claude-code)"
+  _ng "클로드 도구 없음 — 판정·채점은 건너뛰고 수집만 돈다(고치는 법: npm install -g --allow-scripts=@anthropic-ai/claude-code @anthropic-ai/claude-code)"
 fi
 
 # ── ⑥⑦ 실행기·조용한 실행기 ────────────────────────────────

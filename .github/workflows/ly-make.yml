@@ -94,7 +94,7 @@ jobs:
           node-version: '24'
 
       - name: Install claude-code
-        run: npm install -g @anthropic-ai/claude-code
+        run: npm install -g --allow-scripts=@anthropic-ai/claude-code @anthropic-ai/claude-code
 
       # STT 경로(영상 URL/파일)에서만 — 파이썬 고정(site-packages 캐시 경로 안정화) + 설치분 캐시
       - name: Setup Python (STT)

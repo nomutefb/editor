@@ -48,6 +48,7 @@ jobs:
           # 목록 = 이 잡이 실제로 여는 폴더뿐. ⚠ `apps/storyboard/샘플` 이 실효 조건 —
           #   판형 견본이 러너에 없으면 참조가 빈 채로 구워져 판형이 회차마다 흔들린다.
           sparse-checkout: |
+            prompts
             .github
             shared
             apps/storyboard

@@ -47,7 +47,7 @@ REM ── 2단계: 클로드 도구
 where claude >nul 2>nul
 if errorlevel 1 (
   echo [2/6] 클로드 도구를 설치합니다...
-  call npm install -g @anthropic-ai/claude-code
+  call npm install -g --allow-scripts=@anthropic-ai/claude-code @anthropic-ai/claude-code
 )
 where claude >nul 2>nul
 if errorlevel 1 (

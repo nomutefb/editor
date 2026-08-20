@@ -97,7 +97,7 @@ done
   || "$PY" -m pip install --user --quiet feedparser requests 2>/dev/null \
   || "$PY" -m pip install --user --break-system-packages --quiet feedparser requests 2>/dev/null \
   || echo "⚠ 파이썬 부품(feedparser·requests) 설치 실패 — 수집이 안 돌면 이 화면을 클로드에게"
-command -v claude >/dev/null 2>&1 || { command -v npm >/dev/null 2>&1 && npm install -g @anthropic-ai/claude-code >/dev/null 2>&1 || true; }
+command -v claude >/dev/null 2>&1 || { command -v npm >/dev/null 2>&1 && npm install -g --allow-scripts=@anthropic-ai/claude-code @anthropic-ai/claude-code >/dev/null 2>&1 || true; }
 command -v claude >/dev/null 2>&1 || echo "⚠ 클로드 도구 없음 — 수집만 돌고 판정은 생략된다(설치 파일 재실행으로 붙는다)"
 CL="$(command -v claude 2>/dev/null || true)"
 pd="$(dirname "$PY")"; cdir=""; [ -n "$CL" ] && cdir="$(dirname "$CL")"

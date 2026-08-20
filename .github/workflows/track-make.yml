@@ -218,7 +218,7 @@ jobs:
       - name: Install claude-code (캡션)
         if: ${{ inputs.mode == 'analyze' && inputs.cap == '1' }}
         continue-on-error: true   # 설치 실패 = 캡션만 스킵(잡 실패 금지 · 평의회1 F1)
-        run: npm install -g @anthropic-ai/claude-code
+        run: npm install -g --allow-scripts=@anthropic-ai/claude-code @anthropic-ai/claude-code
 
       - name: 카드 캡션 + 병합 힌트 (opus 5 max · fail-soft)
         if: ${{ inputs.mode == 'analyze' && inputs.cap == '1' }}

@@ -141,7 +141,7 @@ jobs:
           PYEOF
       - name: Install Claude Code CLI (채널 브리프 스텝용 — LLM 0콜 수집 레인이라 브리프 게이트와 동기 · sns-trends.yml 관용구)
         if: ${{ (github.event_name != 'push' || steps.briefdue.outputs.ig == '1' || steps.briefdue.outputs.fb == '1') && (inputs.brief || '1') == '1' }}   # 260817 = 하트비트 런도 '묵었을 때만' 편승(브리프 드롭 메우기) · 기본 ON 승격(§📰-e 이행 — 카나리아 run 29263671640 실측 260714: rc=0·브리프 1,355자 생성) · push(하트비트) 런 = 브리프 install 스킵(데이터 수집만 · 3h schedule 캐던스 보존 260720) · 롤백 = || '0'
-        run: npm install -g @anthropic-ai/claude-code
+        run: npm install -g --allow-scripts=@anthropic-ai/claude-code @anthropic-ai/claude-code
       # ── 표지 제목 판독(운영자 260812 "오버레이가 가장 정확한 내용이거든") ──
       # 요약이 «…» 로 게시물을 지목할 때 쓰던 이름 = 글 첫 줄인데, 노뮤트는 카드 제목과 글 첫 줄을 각각 따로
       # 쓴다(실측 = 「🚨 엿새 만에 다시 쐈다…」 ↔ 카드 「북한, 엿새 만에 '또 쐈다'」) → 표지에 박힌 제목을 읽어

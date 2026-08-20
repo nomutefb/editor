@@ -94,7 +94,7 @@ jobs:
           node-version: '24'
 
       - name: Install claude-code
-        run: npm install -g @anthropic-ai/claude-code
+        run: npm install -g --allow-scripts=@anthropic-ai/claude-code @anthropic-ai/claude-code
 
       - name: 텍스트 생성 (claude — 옵션/가사/프롬프트)
         timeout-minutes: 12

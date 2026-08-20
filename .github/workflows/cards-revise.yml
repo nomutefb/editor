@@ -55,7 +55,7 @@ jobs:
           node-version: '24'
 
       - name: Install Claude Code CLI
-        run: npm install -g @anthropic-ai/claude-code
+        run: npm install -g --allow-scripts=@anthropic-ai/claude-code @anthropic-ai/claude-code
 
       - name: Revise cards.md
         env:

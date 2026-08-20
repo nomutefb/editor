@@ -116,7 +116,7 @@ jobs:
           node-version: '24'
 
       - name: Install claude-code
-        run: npm install -g @anthropic-ai/claude-code
+        run: npm install -g --allow-scripts=@anthropic-ai/claude-code @anthropic-ai/claude-code
 
       # 🔁 **콘티 재사용 = 촬영만 한다**(이야기 없이 기준 콘티만 준 경우).
       #    ⚠ 왜 필요했나 = 쏠 때마다 감독이 콘티를 새로 짜서 **같은 콘티를 두 방식으로 찍는 비교가

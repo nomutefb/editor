@@ -109,7 +109,7 @@ jobs:
 
       - name: Install deps
         run: |
-          npm install -g @anthropic-ai/claude-code
+          npm install -g --allow-scripts=@anthropic-ai/claude-code @anthropic-ai/claude-code
           # pillow=장면 보존(png→jpg)·로컬 합성 / numpy=card_news 그라데이션
           pip install --quiet google-auth requests pillow numpy
           # card_news.py 합성 폰트(Noto CJK) — 직영(gen_cards)·edit 모드 로컬합성 필수. timeout 폴백(미러 행 차단·§🧰).

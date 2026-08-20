@@ -70,7 +70,7 @@ REM ── 3단계: 클로드 도구(판정 축 · 구독 로그인)
 where claude >nul 2>nul
 if errorlevel 1 (
   echo [3/5] 클로드 도구를 설치합니다...
-  call npm install -g @anthropic-ai/claude-code
+  call npm install -g --allow-scripts=@anthropic-ai/claude-code @anthropic-ai/claude-code
 )
 where claude >nul 2>nul
 if errorlevel 1 (

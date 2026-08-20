@@ -83,7 +83,7 @@ jobs:
           node-version: '24'
       - name: Install claude-code (자막)
         if: ${{ contains(inputs.opts, '"burn":true') || contains(inputs.opts, '"clip":true') || contains(inputs.opts, '"take":true') }}
-        run: npm install -g @anthropic-ai/claude-code
+        run: npm install -g --allow-scripts=@anthropic-ai/claude-code @anthropic-ai/claude-code
 
       - name: Setup Python
         uses: actions/setup-python@v5
