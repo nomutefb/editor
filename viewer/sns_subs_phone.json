@@ -599,9 +599,29 @@
  ],
  "threads": [
   {
+   "account": "aipeekme",
+   "text": "🔗 원문·자세히 보기\nhttps://github.com/koala73/worldmonitor",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1787182718,
+   "thumb": "",
+   "url": "https://www.threads.com/@aipeekme/post/DcPYvrQk6eE",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "실시간 지정학 정보와 글로벌 뉴스를 추적하는 프로젝트 월드모니터가 깃허브에 공개되었습니다.\nglobe.gl 기반 3D 지구본과 deck.gl 평면 지도를 함께 지원하며 단일 대시보드에 뉴스, 군사, 재난, 금융 데이터를 묶어 표시합니다.\nAI가 카테고리별 뉴스를 요약 브리프로 정리하고, 국가 불안정성 지수(CII)를 점수화해 위험도를 보여주는데요.\n올라마(Ollama)를 지원해 외부 API 키 없이 로컬 환경에서 모델을 구동하도록 구성한 점이 눈에 띕니다.\n여러 출처의 신호를 모으는 구성과 로컬 AI 추론을 단일 코드베이스로 묶어낸 점은 실용적이라 봅니다.\n개인적으로는 다양한 신호를 엮는 교차 상관 분석의 신뢰도가 얼마나 유지될지는 직접 돌려보며 검증해야 할 부분으로 남습니다.\n외부 API에 의존하지 않고 로컬 PC에서 관제 화면을 띄울 수 있다는 점만으로도 내부 모니터링 환경을 꾸릴 때 참고해볼 가치는 충분하다고 생각합니다.\n\n📷 사진 출처: github.com",
+   "likes": 1,
+   "cmts": 2,
+   "time": 1787182708,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/778710630_18081716054407306_5238054274912573998_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk2NzQ5ODUxMTQxMTU2NzIwMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=rnIDsZ8LVGYQ7kNvwGMlQqA&_nc_oc=AdrfiQV80ym40kUsTMnX9TOpDsVHeMQ-SEuw4zaLrwYW-gB0_HjP7zXfCBx-izX2RR8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=vu8zkQdyR5CyA4rVHVD4kg&_nc_ss=7a22e&oh=00_AQF96ZVX2-j0wkHSDd5LaSg0zwn4Tpz6ZBrm6dy_5ySMAw&oe=6A8C2739",
+   "url": "https://www.threads.com/@aipeekme/post/DcPYuAbk9pj",
+   "region": "kr"
+  },
+  {
    "account": "choi.openai",
    "text": "깃허브 :\nhttps://github.com/trycua/cua/blob/main/libs/cua-driver/docs/computer-history-preview.md",
-   "likes": 2,
+   "likes": 3,
    "cmts": 0,
    "time": 1787180421,
    "thumb": "",
@@ -611,10 +631,10 @@
   {
    "account": "choi.openai",
    "text": "컴퓨터 조작 에이전트를 만드는 Cua가 Computer History라는 기능을 오픈소스로 공개했습니다.\n\n에이전트의 행동 기록을 기기 안에 암호화해 저장하고, 새 세션이 이를 참고해 이전 작업을 이어가게 하는 기능입니다.\n대표적인 예시로 체스 기물을 옮기는 시연에서는 기록이 없을 때 세 번 경로를 헤맸지만, 기록을 켜자 이전에 성공한 경로를 재사용해 행동 수를 3분의 1로 줄이고 한 번도 실패하지 않는 모습을 보여줍니다.\n\n기록또한 스크린샷, 입력한 글자, 클립보드, URL, 파일 경로는 저장하지 않고 어떤 앱에서 어떤 행동이 성공했는지라는 구조만 기록하는 구조입니다.\n\n지난주 오픈AI도 ChatGPT 맥 앱에 같은 이름의 ‘Computer History’를 추가했었는데요. 컴퓨터를 쓰는 에이전트가 늘수록 조작 능력만큼 중요한 경쟁력이 ‘무엇을 기억하고 어떻게 다시 쓰느냐’가 될 것 같습니다.",
-   "likes": 8,
+   "likes": 14,
    "cmts": 1,
    "time": 1787180413,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/778156708_1789108975780764_3498029234242077920_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk2NzQ3OTMyNDg2MTEyMjE2Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=3NU29eLVrNcQ7kNvwEVWEhO&_nc_oc=AdqZ3BhkpFdDMuIzSElg56e-gLXzPScRVprhsE9ExtJ17DyaBNicZnwihXAJvYBH2Wg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=IYPahT-YdufF_HC4jBywdg&_nc_ss=7a22e&oh=00_AQF9c-GvVHKUa1AjfPNFHwSYNvpOrQR9Dz_flF71hPKSVw&oe=6A8C02D2",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/778156708_1789108975780764_3498029234242077920_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk2NzQ3OTMyNDg2MTEyMjE2Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=3NU29eLVrNcQ7kNvwGHqVXH&_nc_oc=AdoaXk3HrEPoOPL9UuRYBrw7dxeitlb9KZfzyEtwsmBCY9o2cTs80DZ-n3fuKZ6ee2s&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=yXXnividOd_Y0XszjpA8KQ&_nc_ss=7a22e&oh=00_AQEIn8dlOynsksVJZoV4rigpsfebsWAYinE4KbkSuTXMjg&oe=6A8C02D2",
    "url": "https://www.threads.com/@choi.openai/post/DcPUWzkDcZ2",
    "region": "kr"
   },
@@ -669,26 +689,6 @@
    "region": "kr"
   },
   {
-   "account": "aipeekme",
-   "text": "서로 다른 코딩 에이전트 CLI 간 작업 맥락을 넘겨주는 장기 기억 솔루션 ai-memory가 깃허브에 공개됐습니다.\n클로드 코드로 작업을 진행하다가 중단한 뒤 같은 작업 디렉터리에서 오픈AI 코덱스로 도구를 바꿔도 기존 맥락을 이어받는 방식입니다.\n전체 코드 설계와 실패했던 시도, 아직 해결하지 못한 문제를 다시 설명할 필요가 없도록 만들었습니다.\nMCP 설정과 생명주기 훅을 활용하며 커서, 데빈, 제미나이 CLI 등 다양한 에이전트를 지원합니다.\n리눅스와 맥OS를 우선 지원하며 윈도우는 WSL2 환경을 권장하고 네이티브 윈도우는 실험적 단계입니다.\n도구마다 파편화되던 컨텍스트 관리를 외부 계층으로 분리해 낸 접근입니다.\n도구를 갈아탈 때마다 맥락을 처음부터 복원해야 했던 번거로움은 확실히 덜어줄 것으로 보입니다.\n다만 도구마다 기억을 해석하고 반영하는 정확도 차이가 얼마나 날지는 직접 써보며 지켜봐야겠습니다.\n\n📷 사진 출처: github.com",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1787132202,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/780127051_18081468245407306_5378864589143849554_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk2NzA3NDgzMTIzNDQ1OTA0OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Pf8CsvF4BBkQ7kNvwHAM8bi&_nc_oc=AdqlaRjb6wK9kLr3oHWHbCtZ_6a-YZOm56VsImjoWdfU5x1bWmfLid6CVZwoq97L4AY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=AUqd2diMfMNY1flZ4TADXA&_nc_ss=7a22e&oh=00_AQHc81--2SVe-Lp4ppYtjwTSSDVB64j3nzFyqhVXfUraCQ&oe=6A8C252A",
-   "url": "https://www.threads.com/@aipeekme/post/DcN4YphH2Wo",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
-   "text": "가정용 양팔 로봇 Nori가 1,688달러의 가격표를 달고 올가을 본격적인 배송을 시작할 예정입니다.\n공개된 시연 영상에서는 직접 커피를 내리고, 시리얼을 그릇에 따르며, 어질러진 거실을 정리하는 모습을 선보였습니다.\n로봇의 각 팔이 들어 올릴 수 있는 무게는 1.5kg 수준으로, 1갤런(약 3.8리터) 용량의 우유 한 통조차 들지 못합니다.\n이 때문에 많은 사람이 1.5kg이라는 적은 들어 올림 용량을 두고 치명적인 결격 사유나 한계로 평가할 수 있습니다.\n하지만 매일 반복되는 가볍고 번거로운 집안일을 직접 하지 않고 손에서 덜어내는 데는 분명 유용해 보입니다.\n가정용 양팔 로봇을 1,688달러라는 가격대로 구현해 올가을 배송까지 예고한 점은 주목할 만합니다.\n다만 팔당 1.5kg이라는 뚜렷한 하중 제한이 있는 만큼, 무거운 물건을 다루거나 복잡한 가사 노동까지 넘기기에는 한계가 분명해 보입니다.",
-   "likes": 2,
-   "cmts": 0,
-   "time": 1787121521,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/781251176_38896776296588508_5184879063004881383_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk2Njk4NTEwNDQwOTQyNjEyMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=yk67nwEYYUIQ7kNvwGSIYTu&_nc_oc=AdokagXU2wphQsD57Nnp_JL1OTvh-pwLEe7CTO5kC_VYcrVsVMJPFcNFORgBP-jTBPE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=AUqd2diMfMNY1flZ4TADXA&_nc_ss=7a22e&oh=00_AQHpXJbuYjWPG9RFWdyQZTuMdytkTok4tUtdbY0a-CLxHg&oe=6A8C0CA5",
-   "url": "https://www.threads.com/@aipeekme/post/DcNj-85lvjI",
-   "region": "kr"
-  },
-  {
    "account": "promppy_com",
    "text": "Anthropic, Claude 전 모델 성능 저하 발생...API·앱·Claude Code 영향",
    "likes": 4,
@@ -711,10 +711,10 @@
   {
    "account": "choi.openai",
    "text": "라즈베리파이에서 돌아갈 만큼 압축해도 성능이 거의 빠지지 않는 모델이 나왔습니다.\n\n온디바이스 AI를 만드는 Liquid AI가 0.2B부터 2.6B까지 소형 모델의 4비트 버전을 새로 냈는데, 네 모델 모두 원본 성능의 97% 수준을 지킵니다.\n폰이든 미니PC든 라즈베리파이든 별도 실행 환경 없이 표준 GGUF 그대로 돌아갑니다.\n\n접근이 기존과 반대입니다. 지금까지는 다 키운 모델을 나중에 압축하다 보니 정밀도가 깎이면서 성능도 같이 새어 나갔는데, Liquid은 훈련 단계에서 미리 4비트 환경을 흉내 내고, 압축된 학생 모델이 원본 교사 모델의 답을 따라가도록 가르쳤습니다. 압축을 견디는 게 아니라 압축된 채로 태어나는 겁니다.\n\n큰 모델을 노트북까지 끌어내리는 경쟁과 별개로, 이쪽은 폰과 웨어러블, 가전, 로봇까지 내려가는 초소형 구간의 경쟁입니다.",
-   "likes": 27,
+   "likes": 30,
    "cmts": 1,
    "time": 1787175009,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/776100878_17983194138112832_4288804236879413078_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk2NzQzMzk5NDYzNTczMzI3Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=n5owgXQSMFQQ7kNvwE9Fy84&_nc_oc=AdoKHDr0PEF2ljA3M7DXHa9XchNjbz0FD59yaYqJHL3kRDBsQSpTtbq2E1K2uzVJ1AU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=IYPahT-YdufF_HC4jBywdg&_nc_ss=7a22e&oh=00_AQENDEWzBH2_Bigi6_Z4jCsuuAyfltEeyF1i7iyCA9FpJA&oe=6A8C096C",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/776100878_17983194138112832_4288804236879413078_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk2NzQzMzk5NDYzNTczMzI3Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=n5owgXQSMFQQ7kNvwGJc8RF&_nc_oc=AdrsqjE482Vkl-Xq4AeIfyq2h3hJZt5Lr7AlF2uYqvjT6QqcOurSuMGEcF7spaISuBs&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=yXXnividOd_Y0XszjpA8KQ&_nc_ss=7a22e&oh=00_AQE5ayXlUFvOQ573dtcknnbHTIt2cAsQjsyC4Mqwp-Fwgg&oe=6A8C096C",
    "url": "https://www.threads.com/@choi.openai/post/DcPKDKgEmkY",
    "region": "kr"
   },
@@ -724,18 +724,18 @@
    "likes": 2,
    "cmts": 5,
    "time": 1787146339,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/779001441_17907516168463148_996788687850438666_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk2NzE5MzQ5NTc4NTQ4NjU0Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuODYxLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=ysNmpfecAB4Q7kNvwHKRRzZ&_nc_oc=Ado2lNgUjjXkV4ohZoi8_yzTVl4aLTa53SNV4opNr9AWUq99A3ko8l1m8cc81ADjEi8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=8DvK2C1ql6WJSxHySUhNIw&_nc_ss=7a22e&oh=00_AQH05khdi6gfegZpg19A4UKHHCTf-cY6T1G3cQ6bzxxxgQ&oe=6A8C0835",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/779001441_17907516168463148_996788687850438666_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk2NzE5MzQ5NTc4NTQ4NjU0Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuODYxLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=ysNmpfecAB4Q7kNvwEncEM3&_nc_oc=AdqC3n5HEyqakuEUcz1inR0ANGUDjXLgHXQ6V_e0nXxUfUrncrKZx_6orNIz6I516Ig&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=ZpFT20ngp9-Tug5y7H9Phw&_nc_ss=7a22e&oh=00_AQGb84sxpn7sGPSFQ9AigoLlfUd0Cxlf6gV3zUB0p5rj0Q&oe=6A8C0835",
    "url": "https://www.threads.com/@kopp/post/DcOTXcfiLjT",
    "region": "kr"
   },
   {
    "account": "aipeekme",
-   "text": "🔗 원문·자세히 보기\nhttps://openai.com/index/strengthening-democratic-oversight-in-national-security/",
+   "text": "서로 다른 코딩 에이전트 CLI 간 작업 맥락을 넘겨주는 장기 기억 솔루션 ai-memory가 깃허브에 공개됐습니다.\n클로드 코드로 작업을 진행하다가 중단한 뒤 같은 작업 디렉터리에서 오픈AI 코덱스로 도구를 바꿔도 기존 맥락을 이어받는 방식입니다.\n전체 코드 설계와 실패했던 시도, 아직 해결하지 못한 문제를 다시 설명할 필요가 없도록 만들었습니다.\nMCP 설정과 생명주기 훅을 활용하며 커서, 데빈, 제미나이 CLI 등 다양한 에이전트를 지원합니다.\n리눅스와 맥OS를 우선 지원하며 윈도우는 WSL2 환경을 권장하고 네이티브 윈도우는 실험적 단계입니다.\n도구마다 파편화되던 컨텍스트 관리를 외부 계층으로 분리해 낸 접근입니다.\n도구를 갈아탈 때마다 맥락을 처음부터 복원해야 했던 번거로움은 확실히 덜어줄 것으로 보입니다.\n다만 도구마다 기억을 해석하고 반영하는 정확도 차이가 얼마나 날지는 직접 써보며 지켜봐야겠습니다.\n\n📷 사진 출처: github.com",
    "likes": 0,
-   "cmts": 0,
-   "time": 1787121082,
-   "thumb": "",
-   "url": "https://www.threads.com/@aipeekme/post/DcNjLsDH-bl",
+   "cmts": 1,
+   "time": 1787132202,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/780127051_18081468245407306_5378864589143849554_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk2NzA3NDgzMTIzNDQ1OTA0OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Pf8CsvF4BBkQ7kNvwEHrEAj&_nc_oc=AdrHno3OJUlyPSkIABAPq4t66GrOWucZLICIL_u6qOa1IPIECrIZGyNcOW3alFdIPPM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=vu8zkQdyR5CyA4rVHVD4kg&_nc_ss=7a22e&oh=00_AQHM7AnXn8y4JzU5qZ2QfAS88XrH72Zwh7pKzI2hjnPo0w&oe=6A8C252A",
+   "url": "https://www.threads.com/@aipeekme/post/DcN4YphH2Wo",
    "region": "kr"
   },
   {
@@ -750,56 +750,57 @@
   },
   {
    "account": "aipeekme",
-   "text": "오픈AI가 국가안보 목적의 정부 AI 활용을 감독하는 민주적 기구를 지원하는 새 이니셔티브를 시작합니다.\n국가안보 분야의 AI 도입 속도에 맞춰 감독 기관이 필요한 전문성과 도구를 갖추도록 돕겠다는 취지입니다.\nAI는 사이버 공격 방어와 중요 인프라 보호에 도움을 줄 수 있지만, 누락된 맥락이나 잘못된 목표 설정으로 인해 빠른 속도와 큰 규모로 오류를 일으킬 위험도 있습니다.\n전통적인 방식으로는 기계 속도로 작동하는 시스템을 점검하기 어렵기 때문에 감시 역량 강화가 필요합니다.\n오픈AI는 정부를 직접 감독하는 것이 아니라 기술을 통해 기존 감독 기관을 지원하겠다는 입장입니다.\n취지는 명확해 보입니다.\n다만 도구를 만드는 기업이 감시 기구의 전문성과 도구 개발을 직접 지원하는 방식은 다소 묘합니다.\n자체 기술에 대한 감독 역량을 기업이 지원하는 셈이라 감시의 실효성이 얼마나 나올지는 두고 볼 일입니다.\n\n📷 사진 출처: openai.com",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1787121072,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778401046_18081412220407306_6281312036291104251_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk2Njk4MTQ3MjcyMTUzODM3OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=5hxr9owvYSUQ7kNvwGa9wfy&_nc_oc=AdprRC2-vmXlaiXxIkJ3BYwYnaSVWEQ1FPY3NLnzMJC8kanOuq_UENDY2njAjRVDrz0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=AUqd2diMfMNY1flZ4TADXA&_nc_ss=7a22e&oh=00_AQEWNYqwlnPgKngDCd4BAPvlyyGWPiXB0heaZtEBG7Vnng&oe=6A8C044C",
-   "url": "https://www.threads.com/@aipeekme/post/DcNjKGoH41K",
+   "text": "가정용 양팔 로봇 Nori가 1,688달러의 가격표를 달고 올가을 본격적인 배송을 시작할 예정입니다.\n공개된 시연 영상에서는 직접 커피를 내리고, 시리얼을 그릇에 따르며, 어질러진 거실을 정리하는 모습을 선보였습니다.\n로봇의 각 팔이 들어 올릴 수 있는 무게는 1.5kg 수준으로, 1갤런(약 3.8리터) 용량의 우유 한 통조차 들지 못합니다.\n이 때문에 많은 사람이 1.5kg이라는 적은 들어 올림 용량을 두고 치명적인 결격 사유나 한계로 평가할 수 있습니다.\n하지만 매일 반복되는 가볍고 번거로운 집안일을 직접 하지 않고 손에서 덜어내는 데는 분명 유용해 보입니다.\n가정용 양팔 로봇을 1,688달러라는 가격대로 구현해 올가을 배송까지 예고한 점은 주목할 만합니다.\n다만 팔당 1.5kg이라는 뚜렷한 하중 제한이 있는 만큼, 무거운 물건을 다루거나 복잡한 가사 노동까지 넘기기에는 한계가 분명해 보입니다.",
+   "likes": 2,
+   "cmts": 0,
+   "time": 1787121521,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/781251176_38896776296588508_5184879063004881383_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk2Njk4NTEwNDQwOTQyNjEyMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=yk67nwEYYUIQ7kNvwELOADw&_nc_oc=AdrrJ8AkqbfO4KrLukskB4lbv-nnYSJ2tYEWqFVRSzwWnFiGEATueshttxoD1hxqqpM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=vu8zkQdyR5CyA4rVHVD4kg&_nc_ss=7a22e&oh=00_AQELj7lS3XIBbpX90XSn1cvbc3FxkLk72wYrkYqZ4FqIgw&oe=6A8C0CA5",
+   "url": "https://www.threads.com/@aipeekme/post/DcNj-85lvjI",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "추론 속도가 이제 눈으로 따라갈 수 없는 영역에 들어섰습니다.\n\n세레브라스가 새 추론 시스템 CS-4를 공개했습니다.\n회사에 따르면 GPU보다 최대 30배 빠르고, 전력당 처리량은 이전 세대의 10배입니다. A4 한두 장 분량의 답변이 1초 안에 생성되는 속도로, 10조 파라미터 모델을 초당 1,000토큰으로 돌리는 것을 목표로 합니다.\n\n칩 자체는 새것이 아닙니다. 2년 된 WSE-3를 개선한 터보 버전 3장을 한 랙에 넣고 전원과 통신 구조를 다시 설계해 성능을 끌어올렸습니다.\n\n이 속도가 특히 중요한 곳은 에이전트입니다. 사람은 초당 20토큰만 넘어도 읽기 어렵지만, 에이전트는 추론과 도구 호출을 반복하므로 토큰 속도가 곧 작업 완료 시간으로 이어집니다.\n\n다만 랙당 메모리가 GPU 시스템보다 적어 비용 부담이 크다는 지적도 있습니다. 오픈AI 계약과 AMD 제휴를 확보한 세레브라스가 이 성능을 실제 서비스 가격으로 얼마나 경쟁력 있게 내놓을지가 관건입니다.",
-   "likes": 17,
+   "likes": 21,
    "cmts": 1,
    "time": 1787169617,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/775858404_3271138663069883_4714509661608023864_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk2NzM4ODc1ODkwNzA2NDYzNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=NHnKVXXm3PAQ7kNvwHWqV1T&_nc_oc=AdrsN4zhyzLdGsNDSiZGUMbZ-GbVXts4_EJndWjIK-LxZobMEHCREpTLlLkxCoLUXwg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=IYPahT-YdufF_HC4jBywdg&_nc_ss=7a22e&oh=00_AQHAG9qnQsmz8DYnx8H4bON7_hsxRkpCUxJ8C0FCduDv6Q&oe=6A8C1B35",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/775858404_3271138663069883_4714509661608023864_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk2NzM4ODc1ODkwNzA2NDYzNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=NHnKVXXm3PAQ7kNvwGFg475&_nc_oc=AdqxNgfQ9cvFmNxVSia9uX47-ft_7DDtXgCVpffGUA9JM-rnRb6laibsv_c12zkmZTI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=yXXnividOd_Y0XszjpA8KQ&_nc_ss=7a22e&oh=00_AQH-T4cCn4zjMEEJoGJVgSlskvsdeV4T0JEeemr1aSbPEA&oe=6A8C1B35",
    "url": "https://www.threads.com/@choi.openai/post/DcO_w5ciJE7",
    "region": "kr"
   },
   {
    "account": "aipeekme",
-   "text": "3D 생성 AI 서비스 Tripo3D가 시간이 지날수록 발전하며 단 한 장의 사진만으로 깨끗하고 단정하게 정리된 3D 토폴로지를 생성해 내고 있습니다.\nTripo는 이제 단 한 장의 이미지만 가지고도 깔끔하고 정돈된 3D 토폴로지 구조를 직접 구현해 내는 기능을 보여주고 있습니다.\n사진 한 장으로 바로 정돈된 형태의 3D 모델링 결과물을 얻을 수 있게 되면서, 인공지능을 활용한 모델링 작업의 품질이 앞으로 더욱 높아질 것으로 기대됩니다.\n앞으로 AI를 활용한 3D 모델링 작업 전반의 퀄리티와 완성도가 한층 더 향상될 것으로 보입니다.\n물론 아직 100% 완벽한 수준까지는 도달하지 않았습니다.\n다만 베이스 메시를 바닥부터 짜는 단순 반복 작업을 줄여주는 용도로는 충분히 쓸모가 있어 보입니다.\n개인적으로는 관절이 꺾이는 캐릭터 리깅 작업까지 이 토폴로지가 버텨줄지는 아직 미덥지 않습니다.\n곡면이 복잡한 하드서페이스 모델에서 면 왜곡이 얼마나 생기는지 먼저 확인해보고 싶습니다.",
-   "likes": 1,
+   "text": "🔗 원문·자세히 보기\nhttps://openai.com/index/strengthening-democratic-oversight-in-national-security/",
+   "likes": 0,
    "cmts": 0,
-   "time": 1787117303,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/778340517_1733470877987611_6002725151049538994_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk2Njk0OTY5MzEyNTIzNTAzNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=UxB7DgPoIGkQ7kNvwFqlgC0&_nc_oc=AdozEBoR5g-kz3xEG5ZcjiJGWJV5kV5V25e0cTZ5JGf3elj9o6N6oF9_7sksfLl4mJQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=AUqd2diMfMNY1flZ4TADXA&_nc_ss=7a22e&oh=00_AQGEgiGU8o7Zt6Sx_VpWtLgB3iTUfqnLMiruOO8OMmLAWA&oe=6A8C1F2C",
-   "url": "https://www.threads.com/@aipeekme/post/DcNb7pkkxFc",
+   "time": 1787121082,
+   "thumb": "",
+   "url": "https://www.threads.com/@aipeekme/post/DcNjLsDH-bl",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "27B 모델이 램 8GB 노트북에서 돌아가는 단계까지 왔습니다.\n\n로컬 LLM 쪽에서 양자화로 이름난 Unsloth가 Qwen3.8-27B의 새 압축 버전을 내놨는데, 같은 용량에서 정확도가 10% 올라갔고 1비트까지 눌러 담은 버전도 원본 성능의 77%를 유지한다고 합니다. 지난주 버전만 해도 램이 17GB는 필요했으니 닷새 만에 문턱이 절반 아래로 내려온 겁니다.\n\n양자화는 모델 파라미터의 숫자 정밀도를 낮춰 용량을 줄이는 기술입니다. 무작정 누르면 성능도 같이 하락하는데, Unsloth는 레이어마다 중요도를 따져 민감한 부분은 정밀도를 남기고 덜 중요한 부분만 세게 압축하는 방식으로 손실을 줄였습니다.\n\n이제는 더 작은 모델을 만드는 것뿐 아니라, 큰 모델을 얼마나 덜 손상시키면서 작게 욱여넣느냐가 로컬 LLM의 또 다른 경쟁축이 되고 있습니다.",
-   "likes": 54,
+   "likes": 67,
    "cmts": 0,
    "time": 1787164222,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/779001233_17983190337112832_6180134326092735524_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk2NzM0MzUwNzU1MDY2NzU0NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMzcyNC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=14XjEcHGcmkQ7kNvwFwl6c0&_nc_oc=AdqOgo3DUexinDY4sHmGdb_t5TJYiHMBTq5ngCz4ZoPJz454KvyByUpxVpmsrc2Thm8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=IYPahT-YdufF_HC4jBywdg&_nc_ss=7a22e&oh=00_AQEtx4AaVrcs1MDIkWTmHtRTU0SShnkrgttoLABuKpO2mg&oe=6A8C1C41",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/779001233_17983190337112832_6180134326092735524_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk2NzM0MzUwNzU1MDY2NzU0NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMzcyNC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=14XjEcHGcmkQ7kNvwH7EIzm&_nc_oc=AdpPfagQmHyN8PGkHC4RFqafkP2_MiLwRNt_k6laTrc7qvBaSJ4RASzB5bNV6IyRSzM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=yXXnividOd_Y0XszjpA8KQ&_nc_ss=7a22e&oh=00_AQEjocDfrr5ivzM99DUx8c1U4Oh6pIhcEbhEWeo6WAm6Eg&oe=6A8C1C41",
    "url": "https://www.threads.com/@choi.openai/post/DcO1eZ1goMY",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "오픈AI가 국가안보 목적의 정부 AI 활용을 감독하는 민주적 기구를 지원하는 새 이니셔티브를 시작합니다.\n국가안보 분야의 AI 도입 속도에 맞춰 감독 기관이 필요한 전문성과 도구를 갖추도록 돕겠다는 취지입니다.\nAI는 사이버 공격 방어와 중요 인프라 보호에 도움을 줄 수 있지만, 누락된 맥락이나 잘못된 목표 설정으로 인해 빠른 속도와 큰 규모로 오류를 일으킬 위험도 있습니다.\n전통적인 방식으로는 기계 속도로 작동하는 시스템을 점검하기 어렵기 때문에 감시 역량 강화가 필요합니다.\n오픈AI는 정부를 직접 감독하는 것이 아니라 기술을 통해 기존 감독 기관을 지원하겠다는 입장입니다.\n취지는 명확해 보입니다.\n다만 도구를 만드는 기업이 감시 기구의 전문성과 도구 개발을 직접 지원하는 방식은 다소 묘합니다.\n자체 기술에 대한 감독 역량을 기업이 지원하는 셈이라 감시의 실효성이 얼마나 나올지는 두고 볼 일입니다.\n\n📷 사진 출처: openai.com",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1787121072,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/778401046_18081412220407306_6281312036291104251_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk2Njk4MTQ3MjcyMTUzODM3OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=5hxr9owvYSUQ7kNvwFhOOY9&_nc_oc=AdoU7j-6pBPhEMEF6fSwphrJt8FXObcOXyyUvpRAMJ13EKG_B1Ntf4HmHxVCtJatIhM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=vu8zkQdyR5CyA4rVHVD4kg&_nc_ss=7a22e&oh=00_AQGVOFLxskyp56zYlBRv7FFFiaxoWWtqTl-X_xdDmxhNAg&oe=6A8C044C",
+   "url": "https://www.threads.com/@aipeekme/post/DcNjKGoH41K",
    "region": "kr"
   }
  ],
  "tiktok": [],
  "reddit": [
-  {
-   "sub": "GirlDinnerDiaries",
-   "title": "Flew home from our vacation without my fiancé",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/otw5cxizgekh1.jpeg?width=640&crop=smart&auto=webp&s=5df18e989e0a6127b0486b271a0eca435f03b466",
-   "time": 1787175077,
-   "url": "https://www.reddit.com/r/GirlDinnerDiaries/comments/1vsztcb/flew_home_from_our_vacation_without_my_fiancé/"
-  },
   {
    "sub": "GirlDinnerDiaries",
    "title": "First dinner with his family and his mom picking me apart",
@@ -810,22 +811,22 @@
    "url": "https://www.reddit.com/r/GirlDinnerDiaries/comments/1vsmqpw/first_dinner_with_his_family_and_his_mom_picking/"
   },
   {
-   "sub": "interestingasfuck",
-   "title": "Did you know? Electricians are using trained ferrets to pull wires through tight tunnels. No tool can reach, and it actually works.",
+   "sub": "GirlDinnerDiaries",
+   "title": "Flew home from our vacation without my fiancé",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/aG54ZWs4azdxZGtoMd9gKQsjCyJlEezb4YqGaVzbvHFXpq_WhZS7HHJ--jOf.png?width=320&crop=smart&auto=webp&s=c986eef4b7e6d2d222371946bb06c46d88a53ba2",
-   "time": 1787166049,
-   "url": "https://www.reddit.com/r/interestingasfuck/comments/1vsvq2e/did_you_know_electricians_are_using_trained/"
+   "thumb": "https://preview.redd.it/otw5cxizgekh1.jpeg?width=640&crop=smart&auto=webp&s=5df18e989e0a6127b0486b271a0eca435f03b466",
+   "time": 1787175077,
+   "url": "https://www.reddit.com/r/GirlDinnerDiaries/comments/1vsztcb/flew_home_from_our_vacation_without_my_fiancé/"
   },
   {
-   "sub": "Damnthatsinteresting",
-   "title": "Global shoe sizes",
+   "sub": "meirl",
+   "title": "meirl",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/MHI0MHNiNGJvZGtoMfLJPDSub1R4GsW-ZjWJNSe4826CCyiKnKbi2K0cySEg.png?width=320&crop=smart&auto=webp&s=896860ad73e02e1ad1e582d4123e553bd3ac2e0a",
-   "time": 1787165407,
-   "url": "https://www.reddit.com/r/Damnthatsinteresting/comments/1vsvf1s/global_shoe_sizes/"
+   "thumb": "https://preview.redd.it/74dsms8ltbkh1.jpeg?width=640&crop=smart&auto=webp&s=5f37f6351967e9ba8cb15e1449135b645b4c9e9c",
+   "time": 1787142968,
+   "url": "https://www.reddit.com/r/meirl/comments/1vsl7l4/meirl/"
   },
   {
    "sub": "nextfuckinglevel",
@@ -835,6 +836,33 @@
    "thumb": "https://external-preview.redd.it/aWhpdWkyeDVjZWtoMdw5Uxy_uGvAxPZBdJKS6KS4WbKd7v12zzaV2c1tNiih.png?width=320&crop=smart&auto=webp&s=415ecf05981a0f4b610573174f2199c36197d7f5",
    "time": 1787173433,
    "url": "https://www.reddit.com/r/nextfuckinglevel/comments/1vsz3fn/that_splitsecond_decision_that_somehow_saves_the/"
+  },
+  {
+   "sub": "Damnthatsinteresting",
+   "title": "Marion Stokes single-handedly recorded 35 years of Television for 24 hours a day",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/xjmkav601fkh1.jpeg?width=640&crop=smart&auto=webp&s=87d03c95f8fa9ac107a7eb6884b04fe538d83fa8",
+   "time": 1787181806,
+   "url": "https://www.reddit.com/r/Damnthatsinteresting/comments/1vt2n3k/marion_stokes_singlehandedly_recorded_35_years_of/"
+  },
+  {
+   "sub": "mildlyinfuriating",
+   "title": "This is how my buddy smokes his joints. I am angry everytime i see his ashtray",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/33rmmct20ekh1.jpeg?width=640&crop=smart&auto=webp&s=ffbc9394131cdf70ec44acd271b22976794c8a4d",
+   "time": 1787169368,
+   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1vsx8sk/this_is_how_my_buddy_smokes_his_joints_i_am_angry/"
+  },
+  {
+   "sub": "interestingasfuck",
+   "title": "Did you know? Electricians are using trained ferrets to pull wires through tight tunnels. No tool can reach, and it actually works.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/aG54ZWs4azdxZGtoMd9gKQsjCyJlEezb4YqGaVzbvHFXpq_WhZS7HHJ--jOf.png?width=320&crop=smart&auto=webp&s=c986eef4b7e6d2d222371946bb06c46d88a53ba2",
+   "time": 1787166049,
+   "url": "https://www.reddit.com/r/interestingasfuck/comments/1vsvq2e/did_you_know_electricians_are_using_trained/"
   },
   {
    "sub": "pics",
@@ -855,24 +883,6 @@
    "url": "https://www.reddit.com/r/SipsTea/comments/1vsx3br/imagine_waking_up_from_anesthesia_and_realizing/"
   },
   {
-   "sub": "meirl",
-   "title": "meirl",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/74dsms8ltbkh1.jpeg?width=640&crop=smart&auto=webp&s=5f37f6351967e9ba8cb15e1449135b645b4c9e9c",
-   "time": 1787142968,
-   "url": "https://www.reddit.com/r/meirl/comments/1vsl7l4/meirl/"
-  },
-  {
-   "sub": "mildlyinfuriating",
-   "title": "This is how my buddy smokes his joints. I am angry everytime i see his ashtray",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/33rmmct20ekh1.jpeg?width=640&crop=smart&auto=webp&s=ffbc9394131cdf70ec44acd271b22976794c8a4d",
-   "time": 1787169368,
-   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1vsx8sk/this_is_how_my_buddy_smokes_his_joints_i_am_angry/"
-  },
-  {
    "sub": "gaming",
    "title": "EA employees brace for the worst under Saudi ownership: 'Hard to feel good about being bought out by a regime that's very much at odds with progressive society'",
    "score": 0,
@@ -891,13 +901,13 @@
    "url": "https://www.reddit.com/r/AskReddit/comments/1vsntmt/unemployed_people_of_reddit_how_hard_is_the_job/"
   },
   {
-   "sub": "okbuddycinephile",
-   "title": "Most satisfying character death?",
+   "sub": "comics",
+   "title": "The Aesthetic Rebellion",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/o74zzm1hubkh1.jpeg?width=640&crop=smart&auto=webp&s=0c25ae85131c536ddda358820c8ae8407050af26",
-   "time": 1787143265,
-   "url": "https://www.reddit.com/r/okbuddycinephile/comments/1vslblb/most_satisfying_character_death/"
+   "thumb": "https://preview.redd.it/acrm78tokdkh1.jpg?width=140&height=140&auto=webp&s=8867711c8a4190af99724694aa3007c50086ef33",
+   "time": 1787164199,
+   "url": "https://www.reddit.com/r/comics/comments/1vsuuwg/the_aesthetic_rebellion/"
   }
  ],
  "disaster": [],
@@ -936,10 +946,10 @@
    }
   },
   "landing": {
-   "at": "2026-08-20T08:05:17",
+   "at": "2026-08-20T08:30:56",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-20T08:30:53.904229+09:00"
+ "updated": "2026-08-20T09:01:09.362154+09:00"
 }
