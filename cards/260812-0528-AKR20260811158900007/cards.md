@@ -1,32 +1,32 @@
-# ⚽ 192명이 뽑던 자리를 2만명이 뽑는다
+# 192명이 뽑던 축구협회장을 2만명이 뽑는다
 
 **[프롬프트 설계]**
-- 화풍: B 극화 — 권력 구조·거버넌스 비판이라 선이 굵고 명암이 갈리는 극화가 사건 무게에 맞다
-- 분위기: 큰 숫자가 주는 일순간의 개방감 위에, 그 숫자를 성립시킬 문장은 아직 닫힌 방 안에 있다는 서늘한 대비
-- 연출 방향: 뉴스를 안 보는 독자도 '192 대 2만'이라는 낙차 하나로 멈춘다 — 그 낙차를 사람 수가 아니라 *의자와 방의 크기*로 보여주고(빈 좌석의 바다 ↔ 스무 명이 앉은 테이블), 마지막엔 문이 아직 안쪽에서 잠겨 있다는 사실 하나로 착지시킨다. 열림과 닫힘, 넓음과 좁음이 카드 전체를 관통하는 키노트. thumb_dispatch의 새벽 한색·부재의 정조를 이어받되 카드마다 앵글은 흩는다
-- 독자 동선: **제시** 카드1(訴) → **발단** 카드2 → **전개** 카드3~4 → **피크** 카드5 → **해소** 카드6 → **시사점** 카드7 · 훅=카드1 끝(단서형: '192'라는 숫자를 던지고 회수 미룸)+카드3 끝(질문형 1회) · 착지 한 줄 요지 = 확인할 것은 발표가 아니라 정관 개정안의 문장이다
-- 연속성 앵커: Recurring subject — a Korean man in his mid-40s with short neatly parted black hair, lean build, wearing a dark navy suit with no tie / Recurring place — a wide high-ceilinged Korean conference hall with rows of white folding chairs
+- 화풍: B 극화 — 민간 법인의 선거 규칙을 누가 쓰느냐는 거버넌스 구조 비판이라 사실성과 무게가 필요하다
+- 분위기: 큰 숫자의 들뜸을 걷어낸 관료적 정적 — 한색·저채도, 발표와 의결 사이에 남은 빈 시간
+- 연출 방향: 독자를 멈추게 하는 건 192와 2만이라는 100배의 낙차이고, 전할 것은 그 숫자를 실제 효력으로 바꾸는 손이 아직 기존 협회 안에 있다는 사실이다. 그래서 카드마다 '표를 갖게 된 사람의 수'와 '결정하는 손의 수'를 번갈아 보여주고, 넓은 공간에 늘어선 다수 → 테이블 위 소수의 손으로 화면을 조인다. 강조점은 아직 종이에 닿지 않은 펜촉 하나. 썸네일 디스패치가 잡은 한색 정적과 '비어 있는 자리'의 정조를 전 카드가 공유하되, 항공 익스트림 와이드는 복제하지 않는다
+- 독자 동선: **발단** 카드1→**전개** 카드2~3→**피크** 카드4→**해소** 카드5→**시사점** 카드6 · 훅=카드1 끝(예고형: 규칙부터 바뀐다)+카드3 끝(단서형: 192명) · 착지 = 확인할 건 발표가 아니라 협회가 고쳐 쓸 정관의 그 문장이다
+- 연속성 앵커: Recurring subject — a Korean man in his mid-40s with short cropped black hair and a lean build, wearing a dark navy suit with an open-collar white shirt (카드2·5) / 반복 장소 없음
 
 ### [카드 1]
 **텍스트**
 ```text
-축구협회장을 뽑는 사람이
-*192명에서 2만명이 된다*
-100배가 넘는 숫자다
-그런데 왜 하필 192명이었나
+북중미 월드컵 부진 뒤 지난 7월
+대한축구협회장이 물러났다
+*13년 5개월을 지킨 자리였다*
+그 빈자리를 채울 규칙부터 바뀐다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the narrow pool of light falling on a single ballot box while the rows behind it drown in shadow. A wide high-ceilinged Korean conference hall is filled with hundreds of empty white folding chairs stretching to the far wall. Near the front, about twenty men and women in dark suits sit clustered together on the only occupied row, heads bent over papers. A low platform in front of them holds one ballot box, and their eyes are all turned toward it.
-Camera: extreme long shot from overhead bird's-eye view, shot on 24mm wide lens
-Lighting/mood: overcast diffused daylight through a high skylight, flat soft shadows, muted somber mood, deep surrounding shade over the empty rows
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the ballot box seam), muted daylight contrast
-Keep the ballot box, the seated cluster and the light shaft in the upper-center area, well above the lower portion of the frame.
-No signage text, no banners with letters, no readable documents; convey the setting through the chairs, the platform and the box alone.
+Scene: Emotional focal point: the heavy set of his shoulders as he turns his back on the microphones. A Korean man in his sixties in a dark suit walks away from a low press-briefing podium, seen from behind, head slightly lowered, moving toward the right edge of the frame. A cluster of microphones is left standing on the podium, still angled at the empty space where he stood. The hall is a wide press-briefing room with rows of folding chairs on one continuous polished floor.
+Camera: wide shot from eye-level, back-shot rear view, shot on 35mm lens
+Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
+Nose room on the right, the figure's direction of travel toward the right edge. Korean setting by default: Korean interior fittings and signage shapes.
+Text handling: the backdrop banner behind the podium is left blank and softly out of focus, no lettering anywhere; no garbled or fake script, no meaningless letters, no random characters, no dense text.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the hall floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the polished briefing-hall floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -36,29 +36,29 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-축구회관 대회의실 투표함
+대한축구협회장 사퇴 기자회견
 ```
 
 ### [카드 2]
 **텍스트**
 ```text
-지난해 2월 회장 선거
-투표한 사람은 192명이었다
-정몽규 전 회장이 4선에 성공했고
-*13년 5개월을 채운 자리였다*
+같은 달 K-축구 혁신위가 출범했다
+정부가 만든 이 기구가 11일 밝혔다
+축구협회가 권고안을 받아들여
+*선거를 올해 안에 치르기로 했다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a hand hovering above a folded ballot, fingers steady, the knuckles hard-edged. A small group of about ten men in dark suits stand in a tight semicircle around a waist-high ballot box in a wide hall, each waiting to drop a folded slip. One man at the front leans in and releases his slip into the slot while the others watch his hand. Behind them the vast rows of white folding chairs remain empty.
-Camera: medium shot from low angle, shot on 50mm standard lens
-Lighting/mood: single hard side-light cutting across the subjects, deep chiaroscuro shadows, tense atmosphere
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the ballot slot), film-noir low-key lighting, deep shadows
-Keep the hovering hand, the slot and the faces in the upper-center area, clear of the lower portion of the frame.
-The folded slips are blank paper with no writing; no nameplates, no signage, no readable text anywhere.
+Scene: Emotional focal point: his fingertips resting flat and unmoving on a closed folder in front of him. Recurring subject — a Korean man in his mid-40s with short cropped black hair and a lean build, wearing a dark navy suit with an open-collar white shirt, sits at the head of one long meeting table and speaks toward the members seated along both sides. Eight committee members sit on that same table line, several turning their heads toward him. One closed document folder lies on the table between them. The room is a plain conference room in a public museum building.
+Camera: medium shot from a high angle looking down on the table, shot on 35mm lens
+Lighting/mood: flat sterile clinical fluorescent light, cold even greenish-white, emotionless institutional
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
+Korean setting by default: Korean interior fittings and furniture shapes.
+Text handling: all papers and folders are shown closed or steeply foreshortened so no readable writing appears; no garbled or fake script, no meaningless letters, no random characters, no dense text.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the hall floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the long meeting table top) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -68,30 +68,29 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-대한축구협회장 선거 투표
+K-축구 혁신위원회 6차 회의
 ```
 
 ### [카드 3]
 **텍스트**
 ```text
-북중미 월드컵 부진 뒤 그는 물러났고
-문체부가 지난달 혁신위를 꾸렸다
-박지성 공동위원장이 11일 내놓은 답은
-*선거인단을 2만명으로 늘리자*였다
+그 선거의 유권자가 2만명이 된다
+전문 선수도 동호인도 지도자도
+등록 심판 3천여명까지 표를 갖는다
+*지난해 2월엔 192명이 뽑았다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: his level, unblinking gaze held on the reporters, jaw set. Recurring subject — a Korean man in his mid-40s with short neatly parted black hair, lean build, wearing a dark navy suit with no tie stands behind a plain podium and speaks, both hands resting flat on the surface. In front of him a cluster of tripod cameras and a bank of microphones point up at his face, and a few seated reporters look toward him from the near edge of the frame. The room is a wide high-ceilinged Korean conference hall.
-Camera: medium close-up from eye level, three-quarter angle, shot on 85mm portrait lens
-Lighting/mood: flat sterile clinical fluorescent light, cold even greenish-white, emotionless institutional
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on a microphone band), muted daylight contrast
-Nose room on the right, gaze directed toward the right edge.
-Keep his eyes, mouth and hands in the upper-center area, clear of the lower portion of the frame.
-The podium front and the backdrop are plain with no lettering, no logos, no emblems; no readable text anywhere.
+Scene: Emotional focal point: a referee's whistle gripped tight in a weathered hand at the front of the group. Four Korean people stand shoulder to shoulder on one continuous gymnasium floor — a young player in a football kit, a middle-aged amateur in a club vest, a coach in a training top holding a clipboard, and a referee in black holding the whistle — all of them looking off toward the right edge of the frame. Behind them many more figures of the same four kinds recede in loose rows into the depth of the hall.
+Camera: group shot from a low angle, shot on 20mm wide lens
+Lighting/mood: flat cold even surveillance light, no shadow no warmth, detached and watchful
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
+Nose room on the right, the group's gaze directed toward the right edge. Korean setting by default: Korean school-gymnasium fittings and Korean facial features.
+Text handling: kits, vests and the clipboard carry no lettering or numbers; no garbled or fake script, no meaningless letters, no random characters, no dense text.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the hall wall behind him) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the gymnasium floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -101,30 +100,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-박지성 K축구 혁신위 회의
+생활축구 동호인 심판 강습회
 ```
 
 ### [카드 4]
 **텍스트**
 ```text
-선수와 동호인, 지도자가 각각 4천~6천명
-등록 심판 3천여명에 기타 1천여명
-협회는 이 권고안을 받아들였고
-*선거는 올해 안에 치른다*고 했다
+*그 2만명은 정관을 고쳐야 생긴다*
+정관 개정을 의결하는 자리는
+협회 이사회와 대의원 회의다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the small distance between one player's shoulder and the referee beside him, close enough to touch. A wide crowd of ordinary Korean people fills the frame in loose rows — young players in training tops, amateur club members in worn jerseys, coaches with whistles at their chests, referees in dark kit. They all face the same direction, waiting, and a few in the front row look up toward something beyond the frame. They stand on the open floor of a wide high-ceilinged Korean hall.
-Camera: wide shot from eye level, shot on 35mm lens
-Lighting/mood: bright high-key light, clean white ambience, minimal shadow, hopeful and open
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on one referee's whistle cord), muted daylight contrast
-Nose room on the right, gazes directed toward the right edge.
-Keep the front-row faces and shoulders in the upper-center area, clear of the lower portion of the frame.
-Jerseys and kit carry no numbers, no names, no sponsor lettering, no club emblems; no readable text anywhere.
+Scene: Emotional focal point: the tip of a pen held just above the page, not yet touching it. A very close view of two hands over an open bound rulebook lying on a dark boardroom table: one hand presses the page flat, the other holds the pen suspended above it. Far behind the hands, sunk in the surrounding darkness and heavily out of focus, a row of seated figures in suits waits without moving.
+Camera: extreme close-up from a high angle, shot on 100mm macro lens
+Lighting/mood: harsh single overhead light pooling on the table, deep surrounding black, oppressive interrogation
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
+Korean setting by default: Korean boardroom fittings and Korean hands.
+Text handling: the open pages are steeply angled and cropped by the frame so that no writing is legible, the paper reading as pale texture only; no garbled or fake script, no meaningless letters, no random characters, no dense text.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the hall floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the dark boardroom table top) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -134,28 +131,29 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-유소년 축구 선수 심판 지도자
+대한축구협회 이사회 회의
 ```
 
 ### [카드 5]
 **텍스트**
 ```text
-그런데 그 2만명을 만드는 건
-*협회 정관 한 줄이다*
-그 줄을 고치는 건 협회 이사회다
+박지성 공동위원장이 시한을 걸었다
+*"올해를 넘기지 않아야 한다"*
+그런데 2만명이 어떻게 투표할지는
+전자투표를 이제 논의하는 단계다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the gap between two fingertips and the closed page, a hand resting on the cover without opening it. About twenty men and women in dark suits sit around a long oval table in a small closed room, leaning back with folded arms and lowered eyes, and one of them keeps a flat palm pressed on a thick bound document at the table's center. No one looks up. Through a narrow gap in the door behind them, a sliver of the vast hall of empty white folding chairs is just visible.
-Camera: tight close-up from high angle, shot on 100mm macro lens
-Lighting/mood: harsh single overhead light pooling on the table, deep surrounding black, oppressive interrogation
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the document's edge), film-noir low-key lighting, deep shadows
-Keep the resting hand and the document edge in the upper-center area, clear of the lower portion of the frame.
-The document cover and pages are blank; no titles, no headings, no readable text anywhere.
+Scene: Emotional focal point: his jaw set hard as he leans into the microphone mid-sentence. Recurring subject — a Korean man in his mid-40s with short cropped black hair and a lean build, wearing a dark navy suit with an open-collar white shirt, seen from the side at a briefing table, speaking into a single desk microphone with his eyes fixed forward past the camera. A closed folder and a glass of water sit untouched in front of him. Behind him rises one plain unbroken wall.
+Camera: medium close-up from a profile side view, shot on 85mm portrait lens
+Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
+Korean setting by default: Korean interior fittings and Korean facial features.
+Text handling: the wall behind him is bare, no banner and no lettering of any kind; no garbled or fake script, no meaningless letters, no random characters, no dense text.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the table top) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the plain briefing-room wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area against this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -165,29 +163,29 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-대한축구협회 이사회 회의실
+박지성 공동위원장 브리핑
 ```
 
 ### [카드 6]
 **텍스트**
 ```text
-혁신위는 문체부가 만든 임시 기구라
-권고까지만 할 수 있다
-투표 방식도 아직 정해지지 않았다
-*올해를 넘기지 않겠다는 말이 전부다*
+2만명이라는 숫자는 아직 말이다
+그 말을 효력으로 바꾸는 건
+협회가 스스로 고쳐 쓸 정관이다
+*확인할 건 발표가 아니라 그 문장이다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: his open hand extended toward the closed door, held in the air with nothing to grip. Recurring subject — a Korean man in his mid-40s with short neatly parted black hair, lean build, wearing a dark navy suit with no tie stands alone in the wide high-ceilinged Korean conference hall, facing a tall closed door across the room, one arm raised toward it. Rows of empty white folding chairs surround him on the floor. His posture is upright but still, and no one else is present.
-Camera: full shot from worm's-eye ground-level view, profile angle, shot on 20mm wide lens
-Lighting/mood: cold blue pre-dawn tone, desolate stillness, a single pool of hard light isolating the figure in surrounding blackness
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 along the door seam), film-noir low-key lighting, deep shadows
-Keep his raised hand, face and the door seam in the upper-center area, clear of the lower portion of the frame.
-The door and walls are plain with no signs, no plaques, no lettering; no readable text anywhere.
+Scene: Emotional focal point: the steady unblinking eyes of a woman in a club vest looking straight into the camera. Three Korean people — a young player in a football kit, a woman in an amateur club vest, and a referee in black — stand shoulder to shoulder at the front of a large empty assembly hall, facing the viewer head on. Behind them long rows of empty chairs recede across one continuous floor toward a distant lectern where a single closed folder rests in a narrow fall of light.
+Camera: wide shot from eye-level, front-on direct gaze, shot on 50mm standard lens
+Lighting/mood: warm soft morning light, gentle and quiet, faint melancholy
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
+Korean setting by default: Korean assembly-hall fittings and Korean facial features.
+Text handling: the lectern, the folder and the hall walls carry no lettering at all; no garbled or fake script, no meaningless letters, no random characters, no dense text.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the hall floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the assembly hall floor) extending edge to edge from top to bottom of the frame. The main subjects are anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -197,37 +195,5 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-문화체육관광부 혁신위원회 회의
-```
-
-### [카드 7]
-**텍스트**
-```text
-192명이면 몇십 표로 회장이 된다
-그 설계를 고치라는 요구를
-지금 그 설계로 앉은 사람들이 의결한다
-*확인할 건 발표가 아니라 정관 문장이다*
-```
-**이미지 프롬프트**
-```text
-korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: an empty chair at the head of the table, its seat still holding the shape of someone who sat there. In a wide high-ceilinged Korean conference hall a single unoccupied chair stands at the near end of a long table, turned slightly outward as if just left. Beyond it the rows of white folding chairs run back into the room, and one pen lies on the table beside a closed folder. A thin shaft of pale light falls across the empty seat.
-Camera: medium shot from eye level, front-on direct view, shot on 70mm short telephoto
-Lighting/mood: cold blue pre-dawn tone, desolate stillness, faded light with soft falloff across the empty seat
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the pen barrel), film-noir low-key lighting, deep shadows
-Keep the empty chair, the pen and the light shaft in the upper-center area, clear of the lower portion of the frame.
-The folder is blank with no title, no label, no lettering; no readable text anywhere.
-Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
-MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the hall floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
-- no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
-- no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
-- no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
-- no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
-- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
-```
-**검색어**
-```text
-빈 의자 회의실 단상
+대한축구협회 대의원총회
 ```
