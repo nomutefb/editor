@@ -2,6 +2,7 @@
 // 체인 = fx_chain(베스트 프레임→업스케일 · 토큰 0) → [옵션] Gemini 비율 확장(수동 발사 유료 = 슛류 · §📰).
 // 인증·업로드(up-<id> 브랜치·R2 직업로드 ≤2GB)·발사 골격 = conv.js 미러(3소스: URL·r2key·fileB64 ≤30MB).
 import { rateGate } from './_rate.js';
+import { dispatchWf } from './_fire.js';   // (260820) 발사 재시도 SSOT — thumb 발사 유실 실사고 형제 이식(1발 즉실패 → 큐행 = 조용한 유실 봉합)
 const REPO = 'nomutefb/editor';
 const REF = 'main';
 const GH = (token, path, method, body) => fetch(`https://api.github.com/repos/${REPO}/${path}`, {
@@ -87,7 +88,7 @@ export async function onRequestPost({ request, env }) {
     }
   }
 
-  const r = await GH(env.GH_TOKEN, 'actions/workflows/framethumb-make.yml/dispatches', 'POST', {
+  const r = await dispatchWf(env, 'framethumb-make.yml', {   // (260820) 재시도 3회 · 회당 10s 상한(_fire.js) — 판정·에러 문구 계약 종전 동일(반환 = {status,text()})
     ref: REF, inputs: { id, url, file: filePath, up_branch: upBranch, r2_src: r2src, opts: JSON.stringify(opts) },
   });
   if (r.status === 204) return json({ ok: true, id, out: `ft_out/${id}/frames.json` });
@@ -96,6 +97,7 @@ export async function onRequestPost({ request, env }) {
     try {
       await env.R2.put(`queue/jobs/${id}-framethumb.json`, JSON.stringify({
         kind: 'framethumb', id, ts: new Date().toISOString(),
+        wfYml: 'framethumb-make.yml', failNote: r._note,   // (260820) 자기서술 = rescueJobs 재발사 원료(inputs 그대로) + 왜 큐로 왔는지
         inputs: { id, url, file: filePath, up_branch: upBranch, r2_src: r2src, opts: JSON.stringify(opts) },
       }));
       return json({ ok: true, id, out: `ft_out/${id}/frames.json`, via: 'r2-queue' });

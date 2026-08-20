@@ -3,6 +3,7 @@
 // wish(선택) = 자연어 재생성 지시 → 그 화풍만 코멘트 반영해 다시 그림(비우면 기존 프롬프트로 재추첨).
 // ⚠️ 게이트 없음(운영자 260620 — 암호게이트는 추후 앱 전체 일괄). 유료(Gemini). make-cards.js 패턴 계승.
 // env: GH_TOKEN = GitHub fine-grained PAT(이 레포·Actions Read/write).
+import { dispatchWf } from './_fire.js';   // (260820) 발사 재시도 SSOT — thumb 발사 유실 실사고 형제 이식(1발 즉실패 → 큐행 = 조용한 유실 봉합)
 export async function onRequestPost({ request, env }) {
   const json = (o, s = 200) =>
     new Response(JSON.stringify(o), { status: s, headers: { 'content-type': 'application/json' } });
@@ -25,19 +26,7 @@ export async function onRequestPost({ request, env }) {
   // 제어문자 제거 + 500자 상한. 워크플로가 env(WISH)로 받아 셸 비보간 → 인젝션 안전.
   const wish = String(body.wish || '').replace(/[\x00-\x1f\x7f]/g, ' ').trim().slice(0, 500);
 
-  const r = await fetch(
-    'https://api.github.com/repos/nomutefb/editor/actions/workflows/thumb-redo.yml/dispatches',
-    {
-      method: 'POST',
-      headers: {
-        authorization: `Bearer ${env.GH_TOKEN}`,
-        accept: 'application/vnd.github+json',
-        'user-agent': 'nomute-viewer',
-        'x-github-api-version': '2022-11-28',
-      },
-      body: JSON.stringify({ ref: 'main', inputs: { article, sid, wish } }),
-    },
-  );
+  const r = await dispatchWf(env, 'thumb-redo.yml', { ref: 'main', inputs: { article, sid, wish } });   // (260820) 재시도 3회(_fire.js) — 판정·에러 문구 계약 종전 동일(반환 = {status,text()})
   if (r.status === 204) return json({ ok: true, article, sid, wish });
   // 발사 실패 → R2 잡 큐 착지(260815 코워크 fail-soft) — 맥 잡워커가 같은 입력 계약으로 소비.
   if (env.R2) {
@@ -45,6 +34,7 @@ export async function onRequestPost({ request, env }) {
       const qid = new Date(Date.now() + 9 * 3600e3).toISOString().replace(/[^0-9]/g, '').slice(2, 14) + '-' + crypto.randomUUID().slice(0, 6);
       await env.R2.put(`queue/jobs/${qid}-thumbredo.json`, JSON.stringify({
         kind: 'thumbredo', id: qid, ts: new Date().toISOString(),
+        wfYml: 'thumb-redo.yml', wfInputs: { article, sid, wish }, failNote: r._note,   // (260820) 자기서술 = rescueJobs 재발사 원료 · ⚠ wfInputs 분리 = 아래 inputs(맥 워커용)는 id 가 덧붙어 그대로 재발사하면 워크플로 미정의 입력(422)
         inputs: { id: qid, article, sid, wish },
       }));
       return json({ ok: true, article, sid, wish, via: 'r2-queue' });

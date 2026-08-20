@@ -4,11 +4,12 @@
 //   러너가 nomute_*.py 무수정 실행 → viewer/thumb_out/<id>/out.png 커밋 → 폼이 폴링해 표시.
 // env: GH_TOKEN = comp/make-cards와 동일 PAT(이 레포, Actions+contents: write).
 // ref = main(통합 완료 · 아래 L8). 무료 경로(유료 API 무관).
+import { dispatchWf, rescueJobs } from './_fire.js';   // (260820) 발사 재시도·큐 회수 SSOT — 아래 봉합 주석 참조
 const REPO = 'nomutefb/editor';
 const REF = 'main';   // 통합 완료(PR #173 머지)
 const TPLS = ['nomute', 'jinjja'];   // 템플릿 축 화이트리스트(운영자 260726) — nomute = 기본·기존 경로 / jinjja = 「진짜예요」(apps/thumbnail/nomute_jinjja.py) · 워크플로 params.get('tpl','nomute')와 1:1
 const R2_BASE = 'https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev';   // R2 공개 베이스(=R2_PUBLIC_BASE 시크릿). 썸네일 출력=R2 저장 → 즉시 서빙·git 비대 0. ⚠️ 시크릿 변경 시 이 줄도 갱신(워크플로 r2_upload와 베이스 일치 필수).
-const GH = (token, path, method, body, signal) => fetch(`https://api.github.com/repos/${REPO}/${path}`, {
+const GH = (token, path, method, body) => fetch(`https://api.github.com/repos/${REPO}/${path}`, {
   method,
   headers: {
     authorization: `Bearer ${token}`,
@@ -17,55 +18,19 @@ const GH = (token, path, method, body, signal) => fetch(`https://api.github.com/
     'x-github-api-version': '2022-11-28',
   },
   body: body ? JSON.stringify(body) : undefined,
-  signal,   // (260820) 발사 dispatch 전용 시간 상한 — 행이 길어지면 함수 통째 사망(5xx) = 접수가 조용히 증발하던 축
 });
 
 /* ── (260820) 발사 유실 봉합 — 운영자 «첫 제작물이 계속 하나씩 씹히는거같거든» ──
  * 실측 = uploads/(발사 접수 흔적) 98건 중 22건이 산출 0(런 0 · R2 산출 0 · 큐 파일 0) = 접수는 됐는데
  * 워크플로 dispatch 가 조용히 증발했다(실물 = 260820180038-a4d09a: 업로드 커밋 18:00:39 실존 · thumb-make 런 없음).
- * 구조 구멍 2개:
- *   ① dispatch 1발 실패 = 곧장 R2 큐(queue/jobs/) — 일시 장애(GitHub 5xx·2차 유량제한·네트워크)도 재시도 0.
- *   ② 그 큐의 소비자가 **맥 잡 워커 하나**(260815 깃허브 정지 우회 유산) — 맥이 잠들면 영영 안 나온다
- *      (화면은 「제작중」→12분 시간 초과 = 씹힘의 실체).
- * 봉합 = ⓐ dispatch 3회 재시도(0.4s/0.8s 간격 · 회당 10s 상한) ⓑ 큐 회수 rescueQueued() —
- *   발사 성공 직후(백그라운드)와 ?recent= 폴(뷰어가 10s마다 침)이 잠든 썸네일 큐 잡을 재발사한다
- *   = 맥 없이도 큐가 마른다(다음 발사·다음 폴이 앞 발사를 구한다). 맥 워커 계약은 무접촉(둘 다 소비 가능 ·
- *   같은 id 이중 dispatch 는 concurrency group thumb-make-<id> 직렬 + 동일 산출 덮어쓰기라 무해). */
-const DISPATCH_TRIES = 3, DISPATCH_TMO_MS = 10000;
-async function dispatchThumb(env, inputs) {
-  let note = '';
-  for (let t = 0; t < DISPATCH_TRIES; t++) {
-    if (t) await new Promise(rs => setTimeout(rs, 400 * t));
-    try {
-      const ac = new AbortController(); const tm = setTimeout(() => ac.abort(), DISPATCH_TMO_MS);
-      const r = await GH(env.GH_TOKEN, 'actions/workflows/thumb-make.yml/dispatches', 'POST', inputs, ac.signal);
-      clearTimeout(tm);
-      if (r.status === 204) return { ok: true, note: '' };
-      note = `GitHub ${r.status}: ${(await r.text().catch(() => '')).slice(0, 200)}`;
-      if (r.status >= 400 && r.status < 500 && r.status !== 403 && r.status !== 408 && r.status !== 429) break;   // 영구 실패(404·422 등) = 재시도 무익 · 403은 2차 유량제한 축이라 재시도 대상
-    } catch (e) { note = '네트워크: ' + String(e && e.message || e).slice(0, 120); }
-  }
-  return { ok: false, note };
-}
-const idTsKst = id => { const m = String(id).match(/^(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/); if (!m) return 0; const t = Date.parse('20' + m[1] + '-' + m[2] + '-' + m[3] + 'T' + m[4] + ':' + m[5] + ':' + m[6] + '+09:00'); return Number.isFinite(t) ? t : 0; };   // 뷰어 thIdTs 미러(발급 규칙 L144와 한 축)
-async function rescueQueued(env) {
-  try {
-    if (!env.R2 || !env.GH_TOKEN) return;
-    const l = await env.R2.list({ prefix: 'queue/jobs/', limit: 60 });
-    let n = 0;
-    for (const o of (l.objects || [])) {
-      if (n >= 2) break;   // 회당 2건 상한(폭주 방어 · 다음 발사·폴이 이어받는다)
-      const m = o.key.match(/^queue\/jobs\/(\d{12}-[A-Za-z0-9_-]{1,52})-thumb\.json$/);   // 함수 발급 id 형식만(맥 워커 전용 형식{미들웨어 stamp-thumb-rand}은 id·outs 계약이 없어 재발사 불가 = 종전대로 맥 몫)
-      if (!m) continue;
-      const ts = idTsKst(m[1]);
-      if (!ts || Date.now() - ts > 24 * 3600e3) continue;   // 24h 넘은 잡 = 되살리면 유령 「제작중」(뷰어 재개 TTL 동값) — 건드리지 않는다
-      let rec = null; try { rec = await (await env.R2.get(o.key)).json(); } catch { continue; }
-      if (!rec || rec.kind !== 'thumb' || rec.id !== m[1]) continue;
-      const d = await dispatchThumb(env, { ref: REF, inputs: { app: String(rec.app || ''), id: rec.id, image: String(rec.imgPath || ''), image_sha: '', params: JSON.stringify(rec.params || {}), src_json: String(rec.srcJson || '') } });   // image_sha 공백 = main 체크아웃(업로드 커밋은 접수 시점에 이미 착지) — 원 dispatch 입력과 같은 조립(L253)
-      if (d.ok) { try { await env.R2.delete(o.key); } catch {} n++; }
-    }
-  } catch { /* 회수 실패가 본 요청을 못 죽인다 */ }
-}
+ * 구조 구멍 2개 = ① dispatch 1발 실패 → 곧장 R2 큐행(일시 장애도 재시도 0) ② 그 큐의 소비자가 맥 잡 워커 하나
+ * (잠들면 영영 안 나온다 · 화면은 「제작중」→12분 시간 초과 = 씹힘의 실체).
+ * 봉합 정본 = ./_fire.js (재시도 dispatchWf + 큐 회수 rescueJobs — 형제 발사 레인 공용 SSOT · 운영자 «같이 하되» 이식).
+ * 회수 훅 = 발사 성공 관문(_middleware.js 공통) + 아래 ?recent= 폴(뷰어가 10s마다 침 = 맥 없이도 큐가 마른다).
+ * thumbLegacy = wfYml 자기서술이 없는 옛 큐 원장(app·params 평면)용 재조립기 — 원 dispatch 입력과 같은 조립. */
+const thumbLegacy = rec => (rec && rec.id && rec.app != null)
+  ? { yml: 'thumb-make.yml', inputs: { app: String(rec.app || ''), id: rec.id, image: String(rec.imgPath || ''), image_sha: '', params: JSON.stringify(rec.params || {}), src_json: String(rec.srcJson || '') } }
+  : null;   // image_sha 공백 = main 체크아웃(업로드 커밋은 접수 시점에 이미 착지)
 
 const clip = (s, n) => String(s ?? '').slice(0, n);
 const cleanLines = (v) => Array.isArray(v)
@@ -99,7 +64,7 @@ export async function onRequestGet(context) {
         if (!l.truncated) break; cursor = l.cursor;
       }
     } catch (e) { return j({ ids: [], reason: 'r2-error' }); }   // R2 장애 = 빈 목록(클라는 종전 Pages 폴 사다리 유지)
-    try { if (typeof context.waitUntil === 'function') context.waitUntil(rescueQueued(env)); } catch {}   // (260820) 잠든 발사 회수 — 뷰어 10s 폴이 이 GET을 상시 치므로, 발사가 큐에 좌초해도 수십 초 안에 재발사된다(맥 워커 불요 · 상단 주석)
+    try { if (typeof context.waitUntil === 'function') context.waitUntil(rescueJobs(env, 'thumb', thumbLegacy)); } catch {}   // (260820) 잠든 발사 회수 — 뷰어 10s 폴이 이 GET을 상시 치므로, 발사가 큐에 좌초해도 수십 초 안에 재발사된다(맥 워커 불요 · 상단 주석)
     return j({ ids: [...ids].sort().reverse().slice(0, 60) });   // 최신 먼저 · 캡 60(이력 캡 400의 최근 창 부분집합)
   }
   const kind = q.get('src') != null ? 'src' : 'meta';   // src= 있으면 조건 스냅샷 · 없으면 종전 meta(기본)
@@ -227,11 +192,11 @@ export async function onRequestPost(context) {
 
   let dispatched = false, failNote = '';
   if (!ghUploadDead) {
-    const d = await dispatchThumb(env, {   // (260820) 1발 즉실패 → 3회 재시도·회당 10s 상한(발사 유실 봉합 — 상단 주석)
+    const dr = await dispatchWf(env, 'thumb-make.yml', {   // (260820) 1발 즉실패 → 3회 재시도·회당 10s 상한(발사 유실 봉합 — 상단 주석 · 정본 _fire.js)
       ref: REF, inputs: { app, id, image: imgPath, image_sha: imgSha, params: JSON.stringify(params), src_json: srcJson },
     });
-    dispatched = d.ok;
-    if (!dispatched) failNote = d.note;
+    dispatched = (dr.status === 204);
+    if (!dispatched) failNote = dr._note;
   } else failNote = '업로드 실패(깃허브 쓰기 사망)';
   if (!dispatched) {
     // ── 260815 fail-soft 사다리(픽과 동형): 액션 정지 기간 = 잡을 R2 큐에 착지.
@@ -240,7 +205,8 @@ export async function onRequestPost(context) {
     try {
       if (!env.R2) return json({ error: `발사 실패 ${failNote}` }, 502);
       await env.R2.put(`queue/jobs/${id}-thumb.json`,
-        JSON.stringify({ kind: 'thumb', id, app, params, imgPath, srcJson, body, failNote }));   // failNote 동봉(260820) = 왜 큐로 왔는지가 원장에 남는다(구판은 사유가 어디에도 안 남아 사후 추적 불가)
+        JSON.stringify({ kind: 'thumb', id, app, params, imgPath, srcJson, body, ts: new Date().toISOString(), failNote,   // failNote 동봉(260820) = 왜 큐로 왔는지가 원장에 남는다(구판은 사유가 어디에도 안 남아 사후 추적 불가)
+          wfYml: 'thumb-make.yml', wfInputs: { app, id, image: imgPath, image_sha: imgSha, params: JSON.stringify(params), src_json: srcJson } }));   // 자기서술(260820) = rescueJobs 가 이 원장만으로 재발사(원 dispatch 입력 그대로)
     } catch { return json({ error: `발사 실패 ${failNote} · R2 큐 착지도 실패` }, 502); }
   }
   {
@@ -270,7 +236,6 @@ export async function onRequestPost(context) {
       outs = [{ path: `${dir}/out.png`, label: app === '3' ? (params.name || '') : '' }];
     }
     const _lbl = (body.src && typeof body.src.lbl === 'string' && body.src.lbl.trim()) ? body.src.lbl.trim().slice(0, 80) : '';   // 발사 이름표 에코(260818 운영자 «그 기기의 내용이 쓰여졌으면») — 진행 중 원장(putLive)이 응답만 읽으므로 여기 실어야 다른 기기 합류분이 '제작' 대신 실제 이름을 단다 · 원천 = 뷰어 payload.src.lbl(5300행 · 이미 오던 값 = 새 입력 0)
-    try { if (dispatched && typeof context.waitUntil === 'function') context.waitUntil(rescueQueued(env)); } catch {}   // (260820) 발사 성공한 김에 앞서 좌초한 형제 잡 회수(백그라운드 = 응답 지연 0 · 상단 주석)
-    return json({ ok: true, id, out: outs[0].path, outs, ...(_lbl ? { lbl: _lbl } : {}), ...(dispatched ? {} : { via: 'r2-queue', note: failNote.slice(0, 200) }) });
+    return json({ ok: true, id, out: outs[0].path, outs, ...(_lbl ? { lbl: _lbl } : {}), ...(dispatched ? {} : { via: 'r2-queue', note: failNote.slice(0, 200) }) });   // 발사 성공 시 큐 회수 훅 = 관문 공통 자리로 이관(functions/_middleware.js · 260820 형제 이식 — 레인별 사본 0)
   }
 }

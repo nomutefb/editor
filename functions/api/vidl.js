@@ -1,6 +1,7 @@
 // Cloudflare Pages Function — 설정 ▸ 다운로드(영상 플랫폼 경로) → vidl-make 워크플로 발사.
 // 조건 정본 = apps/vidl/vidl_run.py(운영자 Downloader.bat v7.0 조건 이식 · 운영자 260728). 골격·가드 = conv.js 미러(URL 경로만).
 import { rateGate } from './_rate.js';
+import { dispatchWf } from './_fire.js';   // (260820) 발사 재시도 SSOT — thumb 발사 유실 실사고 형제 이식(1발 즉실패 → 큐행 = 조용한 유실 봉합)
 const REPO = 'nomutefb/editor';
 const REF = 'main';
 const GH = (token, path, method, body) => fetch(`https://api.github.com/repos/${REPO}/${path}`, {
@@ -60,7 +61,7 @@ export async function onRequestPost({ request, env }) {
   // 화질 상한(운영자 260804 "화질 조정해서 받을 수 있게") — mode 축과 **같은 화이트리스트 문법**(신규 문법 0).
   //   best = 종전 동작(최고화질 + 프레임별·FHD 부가본) · 그 외 = 그 상한 1편만. 러너·워크플로도 재검증(3면 이중).
   const q = ['best', '2160-60', '2160-30', '1440-60', '1440-30', '1080-60', '1080-30'].includes(String(body.q || '')) ? String(body.q) : 'best';
-  const r = await GH(env.GH_TOKEN, 'actions/workflows/vidl-make.yml/dispatches', 'POST', {
+  const r = await dispatchWf(env, 'vidl-make.yml', {   // (260820) 재시도 3회(_fire.js) — 판정·에러 문구 계약 종전 동일
     ref: REF, inputs: { id, url, mode, q },
   });
   if (r.status === 204) return json({ ok: true, id, mode, q, out: `vidl_out/${id}/result.json` });
@@ -69,6 +70,7 @@ export async function onRequestPost({ request, env }) {
     try {
       await env.R2.put(`queue/jobs/${id}-vidl.json`, JSON.stringify({
         kind: 'vidl', id, ts: new Date().toISOString(),
+        wfYml: 'vidl-make.yml', failNote: r._note,   // (260820) 자기서술 = rescueJobs 재발사 원료(inputs 그대로) + 왜 큐로 왔는지
         inputs: { id, url, mode, q },
       }));
       return json({ ok: true, id, mode, q, out: `vidl_out/${id}/result.json`, via: 'r2-queue', note: '깃허브 발사 실패 — 맥 워커 큐 접수' });

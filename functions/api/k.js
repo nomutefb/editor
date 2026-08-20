@@ -2,6 +2,7 @@
 // 흐름: 브라우저가 장면 텍스트 POST → k-make.yml 발사 → 러너가 claude -p(/k 지침 Read)
 //        → viewer/k_out/<id>/prompt.md 커밋 → 폼이 폴링해 렌더(샷별 복사 버튼).
 // env: GH_TOKEN = comp/make-cards와 동일 PAT. 인증·생성은 러너의 구독 OAuth(무료). 이미지 무관(텍스트만).
+import { dispatchWf } from './_fire.js';   // (260820) 발사 재시도 SSOT — thumb 발사 유실 실사고 형제 이식(1발 즉실패 → 큐행 = 조용한 유실 봉합)
 const REPO = 'nomutefb/editor';
 const REF = 'main';   // 통합 완료(PR #173 머지)
 const GH = (token, path, method, body) => fetch(`https://api.github.com/repos/${REPO}/${path}`, {
@@ -94,7 +95,7 @@ export async function onRequestPost({ request, env }) {
   }
 
   // ② 워크플로 폴백(구독 OAuth 무료 · 1~3분) — 종전 그대로
-  const r = await GH(env.GH_TOKEN, 'actions/workflows/k-make.yml/dispatches', 'POST', {
+  const r = await dispatchWf(env, 'k-make.yml', {   // (260820) 재시도 3회(_fire.js) — 판정·에러 문구 계약 종전 동일
     ref: REF, inputs: { id, scene, refimage },
   });
   if (r.status === 204) return json({ ok: true, id, refimage: refimage === 'true', out: `k_out/${id}/prompt.md`, ref: `k_out/${id}/ref.jpg`, ...(_lbl ? { lbl: _lbl } : {}) });
@@ -103,6 +104,7 @@ export async function onRequestPost({ request, env }) {
     try {
       await env.R2.put(`queue/jobs/${id}-k.json`, JSON.stringify({
         kind: 'k', id, ts: new Date().toISOString(),
+        wfYml: 'k-make.yml', failNote: r._note,   // (260820) 자기서술 = rescueJobs 재발사 원료(inputs 그대로) + 왜 큐로 왔는지
         inputs: { id, scene, refimage },
       }));
       return json({ ok: true, id, refimage: refimage === 'true', out: `k_out/${id}/prompt.md`, ref: `k_out/${id}/ref.jpg`, ...(_lbl ? { lbl: _lbl } : {}), via: 'r2-queue', note: '깃허브 발사 실패 — 맥 워커 큐 접수' });

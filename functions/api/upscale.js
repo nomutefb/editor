@@ -4,6 +4,7 @@
 //        → viewer/gen_out/upscale.json → 뷰어 폴링.
 // env: GH_TOKEN(기존 PAT 재사용). 해상도 화이트리스트 = 러너(upscale_image.py)와 이중 검증(resize 계승).
 import { rateGate } from './_rate.js';   // 발사 레이트리밋(파이프 공통 · 연타 = 고아 업로드+런 낭비 차단)
+import { dispatchWf } from './_fire.js';   // (260820) 발사 재시도 SSOT — thumb 발사 유실 실사고 형제 이식(1발 즉실패 → 큐행 = 조용한 유실 봉합)
 const REPO = 'nomutefb/editor';
 const REF = 'main';
 const SIZES = ['720p', 'FHD', '2K', '4K'];   // 목표 해상도 = AI 생성 GENI_DICT.size 동일(운영자 260718 · 러너 upscale_image.py SIZE_SHORT와 한 쌍) · 작으면 축소·크면 FX10 업스케일
@@ -57,7 +58,7 @@ export async function onRequestPost({ request, env }) {
   try { srcSha = ((await put.json()) || {}).commit?.sha || ''; } catch { srcSha = ''; }
 
   // ② 워크플로 발사
-  const r = await GH(env.GH_TOKEN, 'actions/workflows/img-upscale.yml/dispatches', 'POST', {
+  const r = await dispatchWf(env, 'img-upscale.yml', {   // (260820) 재시도 3회(_fire.js) — 판정·에러 문구 계약 종전 동일
     ref: REF, inputs: { id, src: imgPath, src_sha: srcSha, opts: JSON.stringify({ size }) },
   });
   if (r.status === 204) return json({ ok: true, id });
@@ -66,6 +67,7 @@ export async function onRequestPost({ request, env }) {
     try {
       await env.R2.put(`queue/jobs/${id}-upscale.json`, JSON.stringify({
         kind: 'upscale', id, ts: new Date().toISOString(),
+        wfYml: 'img-upscale.yml', failNote: r._note,   // (260820) 자기서술 = rescueJobs 재발사 원료(inputs 그대로) + 왜 큐로 왔는지
         inputs: { id, src: imgPath, src_sha: srcSha, opts: JSON.stringify({ size }) },
       }));
       return json({ ok: true, id, via: 'r2-queue' });

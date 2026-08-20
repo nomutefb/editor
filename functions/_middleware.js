@@ -8,6 +8,7 @@
 //   ② 제작 POST 안전망 — 깃허브 축 사망으로 함수가 5xx(JSON·CF HTML 불문)를 내면 요청 본문을
 //      R2 queue/jobs/ 에 착지시키고 접수 성공을 돌려준다(맥 잡 워커가 소비 = 요청 유실 0 계약).
 //      GET/읽기 표면 비대상 · 5xx 미만(정상·4xx)은 그대로 통과 = 기존 동작 불변.
+import { rescueJobs } from './api/_fire.js';   // (260820) 발사 유실 봉합 — 잠든 큐 잡 회수(아래 200-ok 분기 주석 참조)
 const JOB_API = new Set(['pick', 'make-cards', 'genimg', 'moreimg', 'imgedit', 'thumbredo', 'thumb',
   'comp', 'compose', 'edit', 'vidl', 'vidlout', 'conv', 'k', 'resize', 'upscale', 'song', 'track', 'voice',
   'sb', 'ly', 'nb', 'framethumb', 'revise', 'revise-cards', 'cards-revise', 'tr']);
@@ -60,6 +61,10 @@ export async function onRequest(context) {
         try {
           const j = JSON.parse(await res.clone().text());
           if (j && j.ok && j.id) await putLive(context.env, m[1], j, context);
+          // (260820) 발사 유실 봉합 — 발사가 성공한 김에 같은 레인의 잠든 큐 잡(queue/jobs/<id>-<kind>.json)을 재발사.
+          //   왜 여기냐 = putLive 와 같은 사유(발사 API 전 레인이 이 관문을 지난다 · 레인별 1줄 사본 = 새 레인이 조용히 빠진다).
+          //   via r2-queue(방금 큐행 = 깃허브 장애 중)도 훑는다 — 임대(claim 90s)가 재발사 폭주를 누른다. 정본 = api/_fire.js.
+          if (j && j.ok) { try { context.waitUntil(rescueJobs(context.env, m[1])); } catch { /* 회수 실패가 발사를 못 죽인다 */ } }
         } catch { /* JSON 아님·본문 없음 = 기록 안 함(발사는 그대로 성공) */ }
       }
       return res;

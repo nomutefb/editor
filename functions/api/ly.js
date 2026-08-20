@@ -3,6 +3,7 @@
 //        → viewer/ly_out/<id>/subs.md 커밋 → 폼이 폴링해 렌더(조각별 복사 버튼).
 // env: GH_TOKEN = comp/make-cards와 동일 PAT. 생성은 구독 OAuth(무료). v1=텍스트/SRT만.
 import { rateGate } from './_rate.js';
+import { dispatchWf } from './_fire.js';   // (260820) 발사 재시도 SSOT — thumb 발사 유실 실사고 형제 이식(1발 즉실패 → 큐행 = 조용한 유실 봉합)
 const REPO = 'nomutefb/editor';
 const REF = 'main';
 const GH = (token, path, method, body) => fetch(`https://api.github.com/repos/${REPO}/${path}`, {
@@ -114,7 +115,7 @@ export async function onRequestPost({ request, env }) {
     } else if (body.restore === 1 || body.restore === true) {
       esubs = 'RESTORE';   // 복원 센티널 — 러너가 subs.orig.json(첫 편집 반영 때 보존)으로 되돌림 · JSON 페이로드와 충돌 불가 문자열
     }
-    const rr = await GH(env.GH_TOKEN, 'actions/workflows/ly-make.yml/dispatches', 'POST', {
+    const rr = await dispatchWf(env, 'ly-make.yml', {   // (260820) 재시도 3회(_fire.js) — 판정·에러 문구 계약 종전 동일
       ref: REF, inputs: { id: reburn, reburn: '1', opts, early_segs: '0', subs: esubs },
     });
     if (rr.status === 204) return json({ ok: true, id: reburn, reburn: true, out: `ly_out/${reburn}/subs.md` });
@@ -123,6 +124,7 @@ export async function onRequestPost({ request, env }) {
       try {
         await env.R2.put(`queue/jobs/${reburn}-ly.json`, JSON.stringify({
           kind: 'ly', id: reburn, ts: new Date().toISOString(),
+          wfYml: 'ly-make.yml', failNote: rr._note,   // (260820) 자기서술 = rescueJobs 재발사 원료(inputs 그대로) + 왜 큐로 왔는지
           inputs: { id: reburn, reburn: '1', opts, early_segs: '0', subs: esubs },
         }));
         return json({ ok: true, id: reburn, reburn: true, out: `ly_out/${reburn}/subs.md`, via: 'r2-queue', note: '깃허브 발사 실패 — 맥 워커 큐 접수' });
@@ -181,7 +183,7 @@ export async function onRequestPost({ request, env }) {
     }
   }
 
-  const r = await GH(env.GH_TOKEN, 'actions/workflows/ly-make.yml/dispatches', 'POST', {
+  const r = await dispatchWf(env, 'ly-make.yml', {   // (260820) 재시도 3회(_fire.js) — 판정·에러 문구 계약 종전 동일
     ref: REF, inputs: { id, subs, url, file: filePath, early_segs: '1', opts, up_branch: upBranch, r2_src: r2src },   // 조기 전사 푸시 ON(LY-EARLY · 반드시 문자열 '1' — 숫자/불리언은 GH 강제변환으로 조용히 OFF) · 워크플로 default '0' = fail-closed(수동 dispatch 실수 방지) · 롤백 = 이 필드 제거 한 줄(평의회9) · opts = 버튼 설정 JSON 문자열(빈값 = 종전) · up_branch = 업로드 일회용 브랜치(빈값 = 종전 main 경로) · r2_src = R2 직업로드 키(20MB 초과 영상 · 빈값 = 종전 · 260722)
   });   // ← LY-EARLY 편입(#1725) 때 이 닫는 괄호 유실 → wrangler 번들 SyntaxError → Pages 배포 전멸(260706 11:31~ 라이브 동결 사고 · 복구)
   if (r.status === 204) return json({ ok: true, id, url: !!url, file: !!(filePath || r2src), out: `ly_out/${id}/subs.md` });   // file 플래그 = r2 직업로드도 STT 파일 경로(뷰어 폴링 타이밍 축 동일)
@@ -190,6 +192,7 @@ export async function onRequestPost({ request, env }) {
     try {
       await env.R2.put(`queue/jobs/${id}-ly.json`, JSON.stringify({
         kind: 'ly', id, ts: new Date().toISOString(),
+        wfYml: 'ly-make.yml', failNote: r._note,   // (260820) 자기서술 = rescueJobs 재발사 원료(inputs 그대로) + 왜 큐로 왔는지
         inputs: { id, subs, url, file: filePath, early_segs: '1', opts, up_branch: upBranch, r2_src: r2src },
       }));
       return json({ ok: true, id, url: !!url, file: !!(filePath || r2src), out: `ly_out/${id}/subs.md`, via: 'r2-queue', note: '깃허브 발사 실패 — 맥 워커 큐 접수' });

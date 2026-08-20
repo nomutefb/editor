@@ -2,6 +2,7 @@
 // 2모드: analyze(이미지 업로드 → boxes.json 폴링 · 피사체 검출) · render(선택 targets+opts → result.json 폴링 · 모자이크 번인).
 // LLM 0콜(발사·폴링 골격만) · 인증·업로드(일회용 up-<id> 브랜치)·발사 = track.js 미러. env: GH_TOKEN 동일 PAT.
 import { rateGate } from './_rate.js';
+import { dispatchWf } from './_fire.js';   // (260820) 발사 재시도 SSOT — thumb 발사 유실 실사고 형제 이식(1발 즉실패 → 큐행 = 조용한 유실 봉합)
 const REPO = 'nomutefb/editor';
 const REF = 'main';
 const GH = (token, path, method, body) => fetch(`https://api.github.com/repos/${REPO}/${path}`, {
@@ -59,7 +60,7 @@ export async function onRequestPost({ request, env }) {
     const precise = op === 'cutout' ? true : r.precise === true;   // 떼기 = SAM2 실루엣 강제(워크플로 IMG_HEAVY 신호 = render 문자열 "precise":true contains)
     const payload = JSON.stringify({ targets, opts, precise, op });
     if (payload.length > 4000) return json({ error: '선택이 너무 많아 — 줄여줘' }, 400);
-    const rr = await GH(env.GH_TOKEN, 'actions/workflows/imgedit-make.yml/dispatches', 'POST', {
+    const rr = await dispatchWf(env, 'imgedit-make.yml', {   // (260820) 재시도 3회(_fire.js) — 판정·에러 문구 계약 종전 동일
       ref: REF, inputs: { id, mode: 'render', render: payload },
     });
     if (rr.status === 204) return json({ ok: true, id, out: `imgedit_out/${id}/result.json` });
@@ -68,6 +69,7 @@ export async function onRequestPost({ request, env }) {
       try {
         await env.R2.put(`queue/jobs/${id}-imgedit.json`, JSON.stringify({
           kind: 'imgedit', id, ts: new Date().toISOString(),
+          wfYml: 'imgedit-make.yml', failNote: rr._note,   // (260820) 자기서술 = rescueJobs 재발사 원료(inputs 그대로) + 왜 큐로 왔는지
           inputs: { id, mode: 'render', render: payload },
         }));
         return json({ ok: true, id, out: `imgedit_out/${id}/result.json`, via: 'r2-queue' });
@@ -104,7 +106,7 @@ export async function onRequestPost({ request, env }) {
     return json({ error: `업로드 실패 GitHub ${put.status}: ${(await put.text()).slice(0, 200)}` }, 502);
   }
 
-  const r = await GH(env.GH_TOKEN, 'actions/workflows/imgedit-make.yml/dispatches', 'POST', {
+  const r = await dispatchWf(env, 'imgedit-make.yml', {   // (260820) 재시도 3회(_fire.js) — 판정·에러 문구 계약 종전 동일
     ref: REF, inputs: { id, mode: 'analyze', file: filePath, up_branch: upBranch },
   });
   if (r.status === 204) return json({ ok: true, id, out: `imgedit_out/${id}/boxes.json` });
@@ -113,6 +115,7 @@ export async function onRequestPost({ request, env }) {
     try {
       await env.R2.put(`queue/jobs/${id}-imgedit.json`, JSON.stringify({
         kind: 'imgedit', id, ts: new Date().toISOString(),
+        wfYml: 'imgedit-make.yml', failNote: r._note,   // (260820) 자기서술 = rescueJobs 재발사 원료(inputs 그대로) + 왜 큐로 왔는지
         inputs: { id, mode: 'analyze', file: filePath, up_branch: upBranch },
       }));
       return json({ ok: true, id, out: `imgedit_out/${id}/boxes.json`, via: 'r2-queue' });

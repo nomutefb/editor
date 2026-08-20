@@ -2,6 +2,7 @@
 // 공개 페이지 유료 발사 게이트(PASSCODE)는 제거됨(아래 참조 · 260614) — 현재 GH_TOKEN 유무만 검증.
 // 환경변수(Cloudflare Pages 대시보드 → Settings → Variables, Production):
 //   GH_TOKEN  = GitHub fine-grained PAT (이 레포 한정, Actions: Read and write) — Secret으로
+import { dispatchWf } from './_fire.js';   // (260820) 발사 재시도 SSOT — thumb 발사 유실 실사고 형제 이식(1발 즉실패 → 큐행 = 조용한 유실 봉합)
 export async function onRequestPost({ request, env }) {
   const json = (o, s = 200) =>
     new Response(JSON.stringify(o), { status: s, headers: { 'content-type': 'application/json' } });
@@ -62,19 +63,7 @@ export async function onRequestPost({ request, env }) {
     }
   }
 
-  const r = await fetch(
-    'https://api.github.com/repos/nomutefb/editor/actions/workflows/card-make.yml/dispatches',
-    {
-      method: 'POST',
-      headers: {
-        authorization: `Bearer ${env.GH_TOKEN}`,
-        accept: 'application/vnd.github+json',
-        'user-agent': 'nomute-viewer',
-        'x-github-api-version': '2022-11-28',
-      },
-      body: JSON.stringify({ ref: 'main', inputs }),
-    },
-  );
+  const r = await dispatchWf(env, 'card-make.yml', { ref: 'main', inputs });   // (260820) 재시도 3회(_fire.js) — 판정·에러 문구 계약 종전 동일(반환 = {status,text()})
   if (r.status === 204) return json({ ok: true, article, mode });
   // 발사 실패 → R2 잡 큐 착지(260815 코워크 fail-soft) — inputs 원본 그대로 적재(값 창작 0).
   if (env.R2) {
@@ -82,6 +71,7 @@ export async function onRequestPost({ request, env }) {
       const qid = new Date(Date.now() + 9 * 3600e3).toISOString().replace(/[^0-9]/g, '').slice(2, 14) + '-' + Math.random().toString(16).slice(2, 8);
       await env.R2.put(`queue/jobs/${qid}-make-cards.json`, JSON.stringify({
         kind: 'make-cards', id: qid, ts: new Date().toISOString(),
+        wfYml: 'card-make.yml', wfInputs: inputs, failNote: r._note,   // (260820) 자기서술 = rescueJobs 재발사 원료 · ⚠ wfInputs 분리 = 아래 inputs(맥 워커용)는 id 가 덧붙어 그대로 재발사하면 워크플로 미정의 입력(422)
         inputs: Object.assign({ id: qid }, inputs),
       }));
       return json({ ok: true, article, mode, via: 'r2-queue' });

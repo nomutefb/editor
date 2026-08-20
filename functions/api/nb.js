@@ -5,6 +5,7 @@
 //   ③ 텍스트 = text(사진 OCR 결과·붙여넣은 전문·기존 요약본 기사 본문 = kind로 구분) — 전사 없이 요약 로직만 태움
 // 산출 계약 = viewer/nb_out/<id>/{note.json,error.log}.
 import { rateGate } from './_rate.js';
+import { dispatchWf } from './_fire.js';   // (260820) 발사 재시도 SSOT — thumb 발사 유실 실사고 형제 이식(1발 즉실패 → 큐행 = 조용한 유실 봉합)
 const REPO = 'nomutefb/editor';
 const REF = 'main';
 const GH = (token, path, method, body) => fetch(`https://api.github.com/repos/${REPO}/${path}`, {
@@ -45,13 +46,13 @@ export async function onRequestPost({ request, env }) {
     const rlT = await rateGate(GH, env.GH_TOKEN, 'nb-make.yml');
     if (rlT) return json({ error: rlT.error }, 429);
     const idT = mkId();
-    const rT = await GH(env.GH_TOKEN, 'actions/workflows/nb-make.yml/dispatches', 'POST', {
+    const rT = await dispatchWf(env, 'nb-make.yml', {   // (260820) 재시도 3회(_fire.js) — 판정·에러 문구 계약 종전 동일
       ref: REF, inputs: { id: idT, url: '', ask, mode: 'text', text, title, kind },
     });
     if (rT.status === 204) return json({ ok: true, id: idT, out: `nb_out/${idT}/note.json` });
     if (env.R2) {   // 발사 실패 → R2 잡 큐 착지(260815 코워크 fail-soft)
       try {
-        await env.R2.put(`queue/jobs/${idT}-nb.json`, JSON.stringify({ kind: 'nb', id: idT, ts: new Date().toISOString(), inputs: { id: idT, url: '', ask, mode: 'text', text, title, kind } }));
+        await env.R2.put(`queue/jobs/${idT}-nb.json`, JSON.stringify({ kind: 'nb', id: idT, ts: new Date().toISOString(), wfYml: 'nb-make.yml', failNote: rT._note, inputs: { id: idT, url: '', ask, mode: 'text', text, title, kind } }));   // wfYml·failNote = (260820) rescueJobs 재발사 자기서술 + 왜 큐로 왔는지
         return json({ ok: true, id: idT, out: `nb_out/${idT}/note.json`, via: 'r2-queue' });
       } catch { /* 종전 502 */ }
     }
@@ -78,13 +79,13 @@ export async function onRequestPost({ request, env }) {
     }
     const rlF = await rateGate(GH, env.GH_TOKEN, 'nb-make.yml');
     if (rlF) return json({ error: rlF.error }, 429);
-    const rF = await GH(env.GH_TOKEN, 'actions/workflows/nb-make.yml/dispatches', 'POST', {
+    const rF = await dispatchWf(env, 'nb-make.yml', {   // (260820) 재시도 3회(_fire.js) — 판정·에러 문구 계약 종전 동일
       ref: REF, inputs: { id: idF, url: '', ask, mode: 'file', file: filePath, r2_src: r2src, title: title || name },
     });
     if (rF.status === 204) return json({ ok: true, id: idF, out: `nb_out/${idF}/note.json` });
     if (env.R2) {   // 발사 실패 → R2 잡 큐 착지(260815 코워크 fail-soft)
       try {
-        await env.R2.put(`queue/jobs/${idF}-nb.json`, JSON.stringify({ kind: 'nb', id: idF, ts: new Date().toISOString(), inputs: { id: idF, url: '', ask, mode: 'file', file: filePath, r2_src: r2src, title: title || name } }));
+        await env.R2.put(`queue/jobs/${idF}-nb.json`, JSON.stringify({ kind: 'nb', id: idF, ts: new Date().toISOString(), wfYml: 'nb-make.yml', failNote: rF._note, inputs: { id: idF, url: '', ask, mode: 'file', file: filePath, r2_src: r2src, title: title || name } }));   // wfYml·failNote = (260820) rescueJobs 재발사 자기서술 + 왜 큐로 왔는지
         return json({ ok: true, id: idF, out: `nb_out/${idF}/note.json`, via: 'r2-queue' });
       } catch { /* 종전 502 */ }
     }
@@ -106,13 +107,13 @@ export async function onRequestPost({ request, env }) {
 
   const id = new Date(Date.now() + 9 * 3600e3).toISOString().replace(/[^0-9]/g, '').slice(2, 14) + '-' + crypto.randomUUID().slice(0, 6);   // KST(+9h · pick.js 규칙)
 
-  const r = await GH(env.GH_TOKEN, 'actions/workflows/nb-make.yml/dispatches', 'POST', {
+  const r = await dispatchWf(env, 'nb-make.yml', {   // (260820) 재시도 3회(_fire.js) — 판정·에러 문구 계약 종전 동일
     ref: REF, inputs: { id, url, ask, mode: 'url' },
   });
   if (r.status === 204) return json({ ok: true, id, out: `nb_out/${id}/note.json` });
   if (env.R2) {   // 발사 실패 → R2 잡 큐 착지(260815 코워크 fail-soft)
     try {
-      await env.R2.put(`queue/jobs/${id}-nb.json`, JSON.stringify({ kind: 'nb', id, ts: new Date().toISOString(), inputs: { id, url, ask, mode: 'url' } }));
+      await env.R2.put(`queue/jobs/${id}-nb.json`, JSON.stringify({ kind: 'nb', id, ts: new Date().toISOString(), wfYml: 'nb-make.yml', failNote: r._note, inputs: { id, url, ask, mode: 'url' } }));   // wfYml·failNote = (260820) rescueJobs 재발사 자기서술 + 왜 큐로 왔는지
       return json({ ok: true, id, out: `nb_out/${id}/note.json`, via: 'r2-queue' });
     } catch { /* 종전 502 */ }
   }
