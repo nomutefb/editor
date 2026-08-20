@@ -1,0 +1,379 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>앱 뒷배경 · 있고 없고 — 플레이그라운드</title>
+<style>
+ :root{
+   /* viewer/index.html :root 토큰 사본(실측 260820) */
+   --bg:#121212; --space-bg:#070a12; --space-hi-rgb:26,47,102;
+   --fg:#eef7f0; --mut:#8fa697; --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.06);
+   --accent:#00EED2; --accent-rgb:0,238,210;
+   --bias-l1:#38C6FF; --bias-l2:#3a6ddb;
+   --glass2:rgba(18,19,22,.55); --modal-glass:rgba(17,18,20,.64);
+   --r-s:9px; --r-m:12px; --r-l:16px; --gold:#ffd166;
+ }
+ *{box-sizing:border-box}
+ body{margin:0;background:#0b0d0f;color:var(--fg);font-family:Pretendard,system-ui,-apple-system,'Noto Sans KR',sans-serif;padding:20px 18px 44px;max-width:1240px;margin-inline:auto;line-height:1.5}
+ h1{font-size:25px;font-weight:800;margin:0 0 6px;letter-spacing:-.4px}
+ .sub{color:var(--mut);font-size:14.5px;margin:0 0 16px;line-height:1.65}
+ .sub b{color:var(--accent)}
+ .wrap{display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap}
+ .left{flex:0 0 340px;position:sticky;top:12px;max-height:calc(100dvh - 24px);overflow:auto}
+ @media(max-width:860px){.left{position:sticky;top:0;flex:1 1 100%;max-height:62dvh;background:#0b0d0f;padding-bottom:8px;z-index:5}}
+ .right{flex:1 1 460px;min-width:300px}
+ .card{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:14px;padding:13px 15px;margin-bottom:14px}
+ .card h2{font-size:15px;font-weight:700;margin:0 0 10px;letter-spacing:-.2px}
+
+ /* ── 폰 프레임(실사용 화면비 9:18) ── */
+ .phone{width:100%;max-width:320px;aspect-ratio:9/18;border-radius:26px;overflow:hidden;position:relative;border:1px solid rgba(255,255,255,.14);box-shadow:0 18px 50px rgba(0,0,0,.55);margin:0 auto}
+ .pbase{position:absolute;inset:0;background:var(--bg)}                 /* html{background:var(--bg)} */
+ .pwash{position:absolute;inset:0;filter:brightness(1) saturate(.95)}   /* .bgfx */
+ .pwave{position:absolute;inset:0;width:100%;height:100%;display:block} /* #wavebg */
+ .pwave.off{display:none}
+ .papp{position:absolute;inset:0;overflow:hidden;padding:14px 12px;display:flex;flex-direction:column;gap:9px}
+ .pmark{font-size:19px;font-weight:800;letter-spacing:-.5px;opacity:.95}
+ .ptitle{font-size:12.5px;color:var(--mut);margin:-4px 0 4px}
+ .pc{background:var(--glass2);border:1px solid var(--line);border-radius:var(--r-m);padding:9px 10px;backdrop-filter:blur(14px)}
+ .pc b{display:block;font-size:12.5px;font-weight:700;line-height:1.35}
+ .pc span{display:block;font-size:10.5px;color:var(--mut);margin-top:3px}
+ .pc span.pchip,.pchip{display:inline-block;width:auto;margin-top:0;font-size:9.5px;font-weight:700;color:var(--accent);border:1px solid rgba(var(--accent-rgb),.35);border-radius:99px;padding:1px 6px;margin-bottom:4px}
+ .pgap{flex:1}
+ .pdock{background:var(--modal-glass);border:1px solid var(--line);border-radius:var(--r-l);padding:8px;display:flex;gap:6px;backdrop-filter:blur(18px)}
+ .pdock i{flex:1;height:22px;border-radius:var(--r-s);background:rgba(255,255,255,.06);display:block}
+
+ .bar{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin:2px 0 6px}
+ button{background:rgba(255,255,255,.05);color:var(--fg);border:1px solid var(--line);border-radius:9px;padding:7px 11px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:transform .12s,border-color .12s}
+ button:hover{border-color:var(--accent)} button:active{transform:scale(.97)}
+ button.on{background:rgba(var(--accent-rgb),.14);border-color:var(--accent);color:var(--accent)}
+ label{display:block;font-size:13px;color:var(--mut);margin:11px 0 4px}
+ input[type=range]{width:100%;accent-color:var(--accent)}
+ select{background:rgba(255,255,255,.05);color:var(--fg);border:1px solid var(--line);border-radius:8px;padding:6px 9px;font-size:13px;font-family:inherit}
+ .val{color:var(--gold);font-weight:800;font-variant-numeric:tabular-nums}
+ pre{background:rgba(0,0,0,.4);border:1px solid var(--line);border-radius:10px;padding:11px 13px;font-size:12.5px;overflow:auto;margin:8px 0 0;white-space:pre-wrap;line-height:1.6}
+ .note{color:var(--mut);font-size:12.5px;line-height:1.7;margin-top:10px}
+ .note b{color:var(--gold)}
+ .gal{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+ @media(max-width:620px){.gal{grid-template-columns:repeat(2,1fr)}}
+ .gt{position:relative;aspect-ratio:9/14;border-radius:12px;overflow:hidden;border:1px solid var(--line)}
+ .gt .lb{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(to top,rgba(0,0,0,.72),rgba(0,0,0,0));font-size:11px;font-weight:700;padding:14px 8px 6px;z-index:3}
+ .gt .lb i{display:block;font-style:normal;font-weight:500;color:var(--mut);font-size:10px;margin-top:1px}
+ .gt .mini{position:absolute;left:8px;right:8px;top:10px;z-index:2}
+ .gt .mini u{display:block;text-decoration:none;background:var(--glass2);border:1px solid var(--line);border-radius:8px;height:26px;margin-bottom:5px;backdrop-filter:blur(10px)}
+ .mtable{width:100%;border-collapse:collapse;font-size:13px}
+ .mtable td,.mtable th{padding:5px 7px;border-bottom:1px solid rgba(255,255,255,.07);text-align:left}
+ .mtable th{color:var(--mut);font-size:12px;font-weight:700}
+ .n{text-align:right;font-variant-numeric:tabular-nums}
+ .big{font-size:19px;font-weight:800;color:var(--gold);font-variant-numeric:tabular-nums}
+ .ok{color:var(--accent)} .warn{color:var(--gold)}
+</style></head><body>
+
+<h1>앱 뒷배경 — <span class="ok">있고</span> / <span class="warn">없고</span></h1>
+<p class="sub">지금 화면 뒤에는 층이 <b>세 겹</b>이다. ① 바탕 단색 <code>#121212</code> ② 그 위 남색 워시(위쪽만 살짝 밝은 그라디언트) ③ 그 위 <b>움직이는 물결</b>(그래픽 카드로 그리는 실시간 그림).<br>
+아래 미리보기는 <b>실제 앱 코드를 그대로 옮겨온 것</b>이라 진짜 화면과 같은 그림이 돈다. 프리셋을 눌러 <b>있고 없고</b>를 바로 바꿔 보고, 마음에 드는 걸 고른 뒤 맨 아래 <b>[선택값 복사]</b>를 눌러 답장에 붙여주면 그대로 반영한다.</p>
+
+<div class="wrap">
+ <div class="left">
+  <div class="card" style="padding:12px">
+   <div class="phone">
+     <div class="pbase" id="pBase"></div>
+     <div class="pwash" id="pWash"></div>
+     <canvas class="pwave" id="pWave"></canvas>
+     <div class="papp">
+       <div class="pmark">News Curation</div>
+       <div class="ptitle">뉴스 요약</div>
+       <div class="pc"><span class="pchip">긴급</span><b>지금 화면에 실제로 쓰는 카드</b><span>반투명 유리라 뒤 배경이 비친다 — 배경 판단은 이 위에서 한다</span></div>
+       <div class="pc"><b>두 번째 카드</b><span>배경이 움직이면 이 카드 뒤가 같이 일렁인다</span></div>
+       <div class="pc"><b>세 번째 카드</b><span>카드 사이 빈틈이 배경이 보이는 유일한 자리</span></div>
+       <div class="pgap"></div>
+       <div class="pdock"><i></i><i></i><i></i><i></i></div>
+     </div>
+   </div>
+   <div class="bar" style="margin-top:10px;justify-content:center">
+     <button id="btnAB">👁 있고↔없고 즉시 비교</button>
+   </div>
+   <div class="note" style="margin-top:4px">
+    <b>지금 이 배경이 얼마나 움직이나(기계 실측)</b><br>
+    한 장면 안 밝기 차이 <span class="big" id="mSpread">–</span> / 255<br>
+    2초 동안 같은 자리 변화 <span class="big" id="mMove">–</span> / 255
+    <div id="mVerdict" style="margin-top:5px"></div>
+   </div>
+  </div>
+ </div>
+
+ <div class="right">
+  <div class="card">
+   <h2>① 프리셋 — 눌러서 갈아끼우기</h2>
+   <div class="bar" id="presets"></div>
+   <div class="note" id="presetWhy"></div>
+  </div>
+
+  <div class="card">
+   <h2>② 네 조합 한눈에</h2>
+   <div class="gal" id="gal"></div>
+   <div class="note">작은 칸도 전부 실물 코드로 돈다(물결 칸은 실제로 움직인다).</div>
+  </div>
+
+  <div class="card">
+   <h2>③ 미세조정</h2>
+   <label>바탕 단색 <span class="val" id="vBase"></span></label>
+   <select id="selBase">
+     <option value="space">남색 (#070a12 · 지금 배경층 색)</option>
+     <option value="bg">검정 (#121212 · 앱 기본 바탕색)</option>
+     <option value="mid">중간 (#0d0f16 · ⚠ 새 값)</option>
+   </select>
+
+   <label style="margin-top:14px"><input type="checkbox" id="ckWash" style="accent-color:var(--accent)"> 위쪽 남색 워시 켜기 &nbsp;<span class="val" id="vWash"></span></label>
+   <input type="range" id="rgWash" min="0" max="60" value="28">
+
+   <label style="margin-top:10px"><input type="checkbox" id="ckWave" style="accent-color:var(--accent)"> 움직이는 물결 켜기</label>
+   <label>물결 세기 <span class="val" id="vInt"></span> <span style="color:var(--mut);font-size:11.5px">(지금 0.13 · 예전 0.24)</span></label>
+   <input type="range" id="rgInt" min="0" max="60" value="13">
+   <label>물결 속도 <span class="val" id="vSpd"></span> <span style="color:var(--mut);font-size:11.5px">(지금 0.33)</span></label>
+   <input type="range" id="rgSpd" min="5" max="120" value="33">
+   <label>어두운 자리 바닥 밝기 <span class="val" id="vFlr"></span> <span style="color:var(--mut);font-size:11.5px">(지금 0.90)</span></label>
+   <input type="range" id="rgFlr" min="0" max="200" value="90">
+   <label>거친 입자 <span class="val" id="vGrn"></span> <span style="color:var(--mut);font-size:11.5px">(지금 0.12)</span></label>
+   <input type="range" id="rgGrn" min="0" max="40" value="12">
+  </div>
+
+  <div class="card">
+   <h2>④ 선택값</h2>
+   <pre id="out"></pre>
+   <div class="bar" style="margin-top:9px"><button id="btnCopy">📋 선택값 복사</button><span id="copied" style="color:var(--accent);font-size:13px;font-weight:700"></span></div>
+  </div>
+
+  <div class="card">
+   <h2>⑤ 떼어내면 같이 사라지는 것 · 재현 한계</h2>
+   <table class="mtable">
+     <tr><th>없어지는 것</th><th>영향</th></tr>
+     <tr><td>움직이는 물결(그래픽 카드 그림)</td><td class="ok">배터리·발열이 준다. 화면 뒤가 완전히 멈춘다.</td></tr>
+     <tr><td>그래픽 실패 대비 코드 3벌</td><td class="ok">그래픽이 죽어 배경이 새까매지던 사고 경로가 통째로 없어진다.</td></tr>
+     <tr><td>위쪽 남색 워시</td><td class="warn">끄면 화면 위아래가 완전히 균일해진다(밋밋함은 취향).</td></tr>
+     <tr><td>잠금화면 물결</td><td class="warn">잠금화면 뒤도 같은 배경이라 같이 단색이 된다.</td></tr>
+   </table>
+   <div class="note">
+    <b>재현 한계</b> — ⓐ 이 미리보기는 폰 프레임 안이라 실제 폰 전체 화면보다 작다(같은 코드·같은 값, 크기만 다름). ⓑ 실제 화면의 카드·목록은 종류가 더 많고 여기선 대표 3장으로 줄였다. ⓒ 배경 밝기는 화면 밝기 설정과 주변 조명에 크게 좌우된다 — <b>판단은 폰에서 이 파일을 열어 보는 쪽이 정확하다</b>. ⓓ 실측 숫자는 이 미리보기 캔버스에서 잰 값이라 폰 실물과 소수점 단위 차이가 있을 수 있다.
+   </div>
+  </div>
+ </div>
+</div>
+
+<script>
+/* ── 물결 셰이더 = viewer/index.html #wavebg 코드 그대로(로직 무변경 · 값만 슬라이더 주입) ── */
+var MAX=10;
+var VERT='#version 300 es\n'+
+ 'in vec2 a_position; out vec2 v_objectUV; uniform float u_scale;\n'+
+ 'void main(){ gl_Position=vec4(a_position,0.,1.); vec2 uv=a_position*0.5; v_objectUV=uv/max(0.001,u_scale); }';
+var FRAG='#version 300 es\n'+
+ 'precision mediump float;\n'+
+ 'uniform float u_time; uniform vec4 u_colors['+MAX+']; uniform float u_colorsCount;\n'+
+ 'uniform float u_distortion; uniform float u_swirl; uniform float u_grainMixer; uniform float u_grainOverlay; uniform vec3 u_floor;\n'+
+ 'in vec2 v_objectUV; out vec4 fragColor;\n'+
+ 'vec2 rotate(vec2 uv,float th){ return mat2(cos(th),sin(th),-sin(th),cos(th))*uv; }\n'+
+ 'float hash21(vec2 p){ p=fract(p*vec2(0.3183099,0.3678794))+0.1; p+=dot(p,p+19.19); return fract(p.x*p.y); }\n'+
+ 'float valueNoise(vec2 st){ vec2 i=floor(st),f=fract(st); float a=hash21(i),b=hash21(i+vec2(1,0)),c=hash21(i+vec2(0,1)),d=hash21(i+vec2(1,1)); vec2 u=f*f*(3.-2.*f); return mix(mix(a,b,u.x),mix(c,d,u.x),u.y); }\n'+
+ 'float noise(vec2 n,vec2 s){ return valueNoise(n+s); }\n'+
+ 'vec2 getPosition(int i,float t){ float a=float(i)*.37,b=.6+fract(float(i)/3.)*.9,c=.8+fract(float(i+1)/4.); float x=sin(t*b+a),y=cos(t*c+a*1.5); return .5+.5*vec2(x,y); }\n'+
+ 'void main(){ vec2 uv=v_objectUV; uv+=.5; vec2 grainUV=uv*1000.; float grain=noise(grainUV,vec2(0.)); float mixerGrain=.4*u_grainMixer*(grain-.5);\n'+
+ ' float t=.5*(u_time+41.5); float radius=smoothstep(0.,1.,length(uv-.5)); float center=1.-radius;\n'+
+ ' for(float i=1.;i<=2.;i++){ uv.x+=u_distortion*center/i*sin(t+i*.4*smoothstep(.0,1.,uv.y))*cos(.2*t+i*2.4*smoothstep(.0,1.,uv.y)); uv.y+=u_distortion*center/i*cos(t+i*2.*smoothstep(.0,1.,uv.x)); }\n'+
+ ' vec2 uvR=uv-vec2(.5); uvR=rotate(uvR,-3.*u_swirl*radius); uvR+=vec2(.5);\n'+
+ ' vec3 color=vec3(0.); float tw=0.;\n'+
+ ' for(int i=0;i<'+MAX+';i++){ if(i>=int(u_colorsCount)) break; vec2 pos=getPosition(i,t)+mixerGrain; float dist=pow(length(uvR-pos),3.5); float w=1./(dist+1e-3); color+=u_colors[i].rgb*u_colors[i].a*w; tw+=w; }\n'+
+ ' color/=max(1e-4,tw); color=max(color,u_floor);\n'+
+ ' float go=valueNoise(rotate(grainUV,1.)+vec2(3.)); go=mix(go,valueNoise(rotate(grainUV,2.)+vec2(-1.)),.5); go=pow(go,1.3); float gV=go*2.-1.; float gS=pow(u_grainOverlay*abs(gV),.8); color=mix(color,vec3(step(0.,gV)),.35*gS);\n'+
+ ' fragColor=vec4(color,1.0); }';
+
+var CSV=getComputedStyle(document.documentElement);
+function hx(h){h=(h||'').trim();return [parseInt(h.slice(1,3),16)/255,parseInt(h.slice(3,5),16)/255,parseInt(h.slice(5,7),16)/255];}
+var BASES={space:'#070a12', bg:'#121212', mid:'#0d0f16'};
+var CY=hx('#38C6FF'), BL=hx('#3a6ddb'), WT=[1,1,1];
+function mixc(b,c,t){t=Math.min(1,t);return [b[0]+(c[0]-b[0])*t,b[1]+(c[1]-b[1])*t,b[2]+(c[2]-b[2])*t,1.0];}
+
+function Wave(canvas,getS){
+  var gl=null,prog=null,uni={},simTime=0,last=0,raf=0,ok=false;
+  try{gl=canvas.getContext('webgl2',{antialias:false,premultipliedAlpha:false,preserveDrawingBuffer:true});}catch(e){gl=null;}
+  if(!gl){canvas.classList.add('off');return {ok:false,stats:function(){return null;}};}
+  function sh(ty,src){var o=gl.createShader(ty);gl.shaderSource(o,src);gl.compileShader(o);if(!gl.getShaderParameter(o,gl.COMPILE_STATUS))throw new Error(gl.getShaderInfoLog(o));return o;}
+  try{prog=gl.createProgram();gl.attachShader(prog,sh(gl.VERTEX_SHADER,VERT));gl.attachShader(prog,sh(gl.FRAGMENT_SHADER,FRAG));gl.linkProgram(prog);
+    if(!gl.getProgramParameter(prog,gl.LINK_STATUS))throw new Error(gl.getProgramInfoLog(prog));}catch(e){canvas.classList.add('off');return {ok:false,stats:function(){return null;}};}
+  gl.useProgram(prog);
+  var b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
+  var loc=gl.getAttribLocation(prog,'a_position');gl.enableVertexAttribArray(loc);gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
+  ['u_time','u_colors','u_colorsCount','u_distortion','u_swirl','u_grainMixer','u_grainOverlay','u_scale','u_floor'].forEach(function(n){uni[n]=gl.getUniformLocation(prog,n);});
+  ok=true;
+  function size(){var dpr=Math.min(devicePixelRatio||1,2),r=canvas.getBoundingClientRect();
+    var w=Math.max(2,Math.round(r.width*dpr)),h=Math.max(2,Math.round(r.height*dpr));
+    if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;gl.viewport(0,0,w,h);} }
+  function draw(){var s=getS();size();
+    var BG=hx(BASES[s.base]);
+    var I=s.int, C=[mixc(BG,CY,.55*I),mixc(BG,BL,.8*I),mixc(BG,CY,1.1*I),mixc(BG,BL,.45*I),mixc(BG,WT,.2*I)];
+    var flat=new Float32Array(MAX*4);C.forEach(function(c,i){flat.set(c,i*4);});
+    var F=mixc(BG,BL,s.floor*I);
+    gl.uniform1f(uni.u_time,simTime);gl.uniform1f(uni.u_distortion,0.53);gl.uniform1f(uni.u_swirl,0.34);
+    gl.uniform1f(uni.u_grainMixer,0.15);gl.uniform1f(uni.u_grainOverlay,s.grain);gl.uniform1f(uni.u_scale,0.86);
+    gl.uniform4fv(uni.u_colors,flat);gl.uniform1f(uni.u_colorsCount,C.length);gl.uniform3f(uni.u_floor,F[0],F[1],F[2]);
+    gl.drawArrays(gl.TRIANGLES,0,3);}
+  function loop(now){raf=requestAnimationFrame(loop);if(now-last<16)return;var dt=Math.min(.05,(now-last)/1000);last=now;
+    var s=getS(); if(!s.wave){canvas.classList.add('off');return;} canvas.classList.remove('off');
+    simTime+=dt*s.spd*6.0;draw();}
+  raf=requestAnimationFrame(loop);
+  /* 실측 = 화면을 8x12 칸으로 나눠 칸 평균 밝기를 낸다(입자 노이즈는 평균에 묻히고 '물결 구조'만 남는다 — 화소 단위 최대·최소로 재면 입자가 숫자를 부풀려 거짓말을 한다) */
+  var GX=8,GY=12;
+  return {ok:ok, stats:function(){
+    if(!canvas.width) return null;
+    var w=Math.min(160,canvas.width),h=Math.min(240,canvas.height);
+    var px=new Uint8Array(w*h*4);
+    try{gl.readPixels(0,0,w,h,gl.RGBA,gl.UNSIGNED_BYTE,px);}catch(e){return null;}
+    var cells=new Float64Array(GX*GY), cnt=new Float64Array(GX*GY);
+    for(var y=0;y<h;y++){var gy=Math.min(GY-1,(y*GY/h)|0);
+      for(var x=0;x<w;x++){var gx=Math.min(GX-1,(x*GX/w)|0),i=(y*w+x)*4,k=gy*GX+gx;
+        cells[k]+=px[i]*.299+px[i+1]*.587+px[i+2]*.114; cnt[k]++;}}
+    var mn=999,mx=-1;
+    for(var k2=0;k2<cells.length;k2++){cells[k2]/=(cnt[k2]||1);if(cells[k2]<mn)mn=cells[k2];if(cells[k2]>mx)mx=cells[k2];}
+    return {min:mn,max:mx,cells:cells};
+  }};
+}
+
+/* ── 상태 ── */
+var S={base:'space',wash:true,washA:28,wave:true,int:.13,spd:.33,floor:.90,grain:.12};
+var PRESETS=[
+ {k:'now',  n:'지금 이대로',        s:{base:'space',wash:true,washA:28,wave:true,int:.13,spd:.33,floor:.90,grain:.12},
+  why:'세 층 다 켜진 현재 상태. 물결이 <b>거의 안 움직이는 것처럼 보이는</b> 이유는 세기가 0.13이고 어두운 자리 바닥값이 그 위를 덮어서다.'},
+ {k:'flat', n:'★ 그냥 단색(남색)',  s:{base:'space',wash:false,washA:0,wave:false,int:0,spd:0,floor:0,grain:0},
+  why:'물결도 워시도 다 떼고 <b>남색 한 겹</b>만. 지금 눈에 보이는 색과 가장 가깝다 — 사실상 지금 화면 그대로인데 전기만 안 쓴다. <b>추천</b>.'},
+ {k:'flatbg',n:'그냥 단색(검정)',   s:{base:'bg',wash:false,washA:0,wave:false,int:0,spd:0,floor:0,grain:0},
+  why:'앱 기본 바탕색 검정 한 겹. 남색보다 살짝 밝고 파란기가 없다.'},
+ {k:'washonly',n:'워시만 남기기',   s:{base:'space',wash:true,washA:28,wave:false,int:0,spd:0,floor:0,grain:0},
+  why:'움직이는 물결만 떼고 <b>위쪽이 살짝 밝은 남색</b>은 남긴다. 완전 균일한 단색이 밋밋하면 이쪽.'},
+ {k:'old',  n:'예전처럼 잘 움직이게', s:{base:'space',wash:true,washA:28,wave:true,int:.24,spd:.45,floor:.55,grain:.12},
+  why:'떼는 대신 <b>다시 보이게</b> 하는 쪽. 세기를 예전 값(0.24)으로 올리고 속도를 높이고 바닥값을 낮춰 어두운 자리가 실제로 어두워지게 했다.'}
+];
+var cur='now';
+
+function setS(o){for(var k in o)S[k]=o[k];syncUI();}
+function syncUI(){
+  document.getElementById('pBase').style.background=BASES[S.base];
+  var wash=document.getElementById('pWash');
+  wash.style.background=S.wash?('radial-gradient(130% 100% at 50% 14%, rgba(var(--space-hi-rgb),'+(S.washA/100)+'), rgba(0,0,0,0) 62%)'):'none';
+  document.getElementById('pWave').classList.toggle('off',!S.wave);
+  document.getElementById('selBase').value=S.base;
+  document.getElementById('ckWash').checked=S.wash;
+  document.getElementById('ckWave').checked=S.wave;
+  document.getElementById('rgWash').value=Math.round(S.washA);
+  document.getElementById('rgInt').value=Math.round(S.int*100);
+  document.getElementById('rgSpd').value=Math.round(S.spd*100);
+  document.getElementById('rgFlr').value=Math.round(S.floor*100);
+  document.getElementById('rgGrn').value=Math.round(S.grain*100);
+  document.getElementById('vBase').textContent=BASES[S.base];
+  document.getElementById('vWash').textContent=S.wash?(S.washA/100).toFixed(2):'꺼짐';
+  document.getElementById('vInt').textContent=S.int.toFixed(2);
+  document.getElementById('vSpd').textContent=S.spd.toFixed(2);
+  document.getElementById('vFlr').textContent=S.floor.toFixed(2);
+  document.getElementById('vGrn').textContent=S.grain.toFixed(2);
+  out();
+}
+function out(){
+  var lines=[];
+  lines.push('【앱 뒷배경 — 선택값】');
+  lines.push('바탕 단색  : '+BASES[S.base]+(S.base==='space'?'  (계승 = 지금 배경층 색)':S.base==='bg'?'  (계승 = 앱 기본 바탕색)':'  ⚠ 갱신 후보 = 새 값'));
+  lines.push('위쪽 워시  : '+(S.wash?('켜기 · 진하기 '+(S.washA/100).toFixed(2)+(Math.abs(S.washA-28)<.5?' (계승)':' ⚠ 갱신 후보')):'끄기 (떼어냄)'));
+  lines.push('움직이는 물결: '+(S.wave?'켜기':'끄기 (떼어냄)'));
+  if(S.wave){
+    lines.push('  세기 '+S.int.toFixed(2)+(Math.abs(S.int-.13)<.005?' (계승)':' ⚠ 갱신 후보 · 지금 0.13'));
+    lines.push('  속도 '+S.spd.toFixed(2)+(Math.abs(S.spd-.33)<.005?' (계승)':' ⚠ 갱신 후보 · 지금 0.33'));
+    lines.push('  바닥 '+S.floor.toFixed(2)+(Math.abs(S.floor-.90)<.005?' (계승)':' ⚠ 갱신 후보 · 지금 0.90'));
+    lines.push('  입자 '+S.grain.toFixed(2)+(Math.abs(S.grain-.12)<.005?' (계승)':' ⚠ 갱신 후보 · 지금 0.12'));
+  }
+  lines.push('');
+  lines.push('적용 범위 : 이 화면(웹앱) 전체 배경 — 잠금화면 뒤도 같이 바뀜');
+  if(!S.wave) lines.push('떼어냄    : 물결 그리는 코드·그래픽 실패 대비 코드까지 같이 제거');
+  var m=document.getElementById('mSpread').textContent, mv=document.getElementById('mMove').textContent;
+  lines.push('실측(미리보기): 한 장면 밝기차 '+m+'/255 · 2초 변화 '+mv+'/255');
+  document.getElementById('out').textContent=lines.join('\n');
+}
+
+/* 프리셋 버튼 */
+var pw=document.getElementById('presetWhy'), pb=document.getElementById('presets');
+PRESETS.forEach(function(p){
+  var b=document.createElement('button');b.textContent=p.n;b.dataset.k=p.k;
+  b.onclick=function(){cur=p.k;setS(JSON.parse(JSON.stringify(p.s)));
+    [].forEach.call(pb.children,function(c){c.classList.toggle('on',c.dataset.k===p.k);});
+    pw.innerHTML=p.why;};
+  pb.appendChild(b);
+});
+
+/* 슬라이더 */
+document.getElementById('selBase').onchange=function(){S.base=this.value;syncUI();};
+document.getElementById('ckWash').onchange=function(){S.wash=this.checked;syncUI();};
+document.getElementById('ckWave').onchange=function(){S.wave=this.checked;syncUI();};
+document.getElementById('rgWash').oninput=function(){S.washA=+this.value;S.wash=+this.value>0;syncUI();};
+document.getElementById('rgInt').oninput=function(){S.int=+this.value/100;S.wave=true;syncUI();};
+document.getElementById('rgSpd').oninput=function(){S.spd=+this.value/100;syncUI();};
+document.getElementById('rgFlr').oninput=function(){S.floor=+this.value/100;syncUI();};
+document.getElementById('rgGrn').oninput=function(){S.grain=+this.value/100;syncUI();};
+
+/* A/B 즉시 비교 */
+var abOn=false,abSave=null;
+document.getElementById('btnAB').onclick=function(){
+  if(!abOn){abSave=JSON.parse(JSON.stringify(S));setS({wash:false,wave:false});this.textContent='👁 되돌리기(지금 = 없고)';abOn=true;}
+  else{setS(abSave);this.textContent='👁 있고↔없고 즉시 비교';abOn=false;}
+};
+
+/* 복사 */
+document.getElementById('btnCopy').onclick=function(){
+  var t=document.getElementById('out').textContent;
+  navigator.clipboard.writeText(t).then(function(){document.getElementById('copied').textContent='복사됨 — 답장에 붙여줘';
+    setTimeout(function(){document.getElementById('copied').textContent='';},2600);},
+   function(){var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();
+    document.getElementById('copied').textContent='복사됨';});
+};
+
+/* 메인 캔버스 */
+var main=Wave(document.getElementById('pWave'),function(){return S;});
+
+/* 갤러리 4칸 */
+var GAL=[
+ {n:'지금 이대로',i:'물결+워시+남색',s:PRESETS[0].s},
+ {n:'★ 단색(남색)',i:'전부 떼어냄',s:PRESETS[1].s},
+ {n:'단색(검정)',i:'앱 기본 바탕색',s:PRESETS[2].s},
+ {n:'워시만',i:'물결만 떼어냄',s:PRESETS[3].s}
+];
+var gal=document.getElementById('gal');
+GAL.forEach(function(g){
+  var d=document.createElement('div');d.className='gt';
+  d.innerHTML='<div style="position:absolute;inset:0;background:'+BASES[g.s.base]+'"></div>'+
+    '<div style="position:absolute;inset:0;filter:brightness(1) saturate(.95);background:'+(g.s.wash?'radial-gradient(130% 100% at 50% 14%, rgba(26,47,102,'+(g.s.washA/100)+'), rgba(0,0,0,0) 62%)':'none')+'"></div>'+
+    '<canvas style="position:absolute;inset:0;width:100%;height:100%;display:block"></canvas>'+
+    '<div class="mini"><u></u><u></u><u></u></div>'+
+    '<div class="lb">'+g.n+'<i>'+g.i+'</i></div>';
+  gal.appendChild(d);
+  var cv=d.querySelector('canvas');
+  if(!g.s.wave){cv.style.display='none';}
+  else Wave(cv,function(){return g.s;});
+});
+
+/* 실측 계기 */
+var prev=null;
+setInterval(function(){
+  var st=main.stats();
+  if(!st||!S.wave){
+    document.getElementById('mSpread').textContent='0.0';
+    document.getElementById('mMove').textContent='0.0';
+    document.getElementById('mVerdict').innerHTML='<span class="ok">완전 정지 — 그래픽 카드 안 씀</span>';
+    prev=null;out();return;
+  }
+  var spread=st.max-st.min, move=0;
+  if(prev){var t=0;for(var i=0;i<st.cells.length;i++)t+=Math.abs(st.cells[i]-prev[i]);move=t/st.cells.length;}
+  prev=st.cells.slice(0);
+  document.getElementById('mSpread').textContent=spread.toFixed(1);
+  document.getElementById('mMove').textContent=move.toFixed(1);
+  var v=(spread<8)?'<span class="warn">눈으로는 거의 구분 안 되는 범위</span>':(spread<16?'<span class="warn">자세히 봐야 보이는 범위</span>':'<span class="ok">눈에 보이는 범위</span>');
+  document.getElementById('mVerdict').innerHTML=v;
+  out();
+},2000);
+
+/* 초기 */
+pb.children[0].classList.add('on');pw.innerHTML=PRESETS[0].why;syncUI();
+addEventListener('resize',function(){syncUI();});
+</script>
+</body></html>
