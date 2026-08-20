@@ -3763,6 +3763,25 @@ function renderJob(job) {   // 잡 로그 행 갱신(없으면 생성, 최신이
   else if (job._queued) { ic = window.nmOrbHTML ? nmOrbHTML('solving', 14) : SPIN_SVG; tx = '지연 · ' + jobSecHTML(sec) + ' · ' + dn + '/' + tot + '장'; shim = ' class="nm-shim"'; }   // 러너 배정 대기(GitHub 혼잡) = 「지연」(운영자 260809 · 구 「큐 대기·지연」은 상태 이름 안의 가운뎃점이 구분자와 겹쳐 읽혔다) · orb 로더(Solving · 운영자 260723 Q462) · 지연 시간 = 제작 중과 같은 흰색 강조(형제 통일) · 빛 스윕 = 제작 중과 한 벌(둘 다 진행 중)
   else { ic = window.nmOrbHTML ? nmOrbHTML('solving', 14) : SPIN_SVG; tx = '제작중 · ' + jobSecHTML(sec) + ' · ' + dn + '/' + tot + '장'; shim = ' class="nm-shim"'; }   // 제작 중 = orb 로더(Solving · Q462) · 폴백 = 구 스피너 · 경과시간 = 흰색(운영자 260728) → 빛 스윕이 도료를 대체(nm-loader.js 주석 「color는 .nm-shim 그라디언트가 대체」 = sb·k·song 형제와 동문)
   wipSync(job, sec);   // 진행중 타일(결과 자리) 동반 갱신 — 생성·경과/토큰 틱·완료 제거 단일 갈고리(Q469)
+  /* 【진행 중 행 = 골격 재사용(상태 글자만 갱신) · 260820 실사고 봉합 — 운영자 «이미지 스튜디오 제작 시 과하게 렉 · 폰 발열»】
+     구판은 매 틱(1s) `row.innerHTML=''` 로 행을 통째로 다시 만들었다(위 3736행 주석 「행은 매 틱 새로 그려진다」가 그 전제).
+     그 재구성이 진행 중 행의 **무한 CSS 애니 4개**(오브 도트 3 + 빛 스윕 1)를 매초 파괴·재생성해서
+       ⓐ 애니가 **매초 처음으로 되감긴다** = 0.92s 주기 도트가 실측 `33→283→533→783→33` 만 반복(한 번도 완주 못 함)
+          → 통통 튀는 리듬이 매초 끊긴다 = 운영자 눈에 「버벅임」
+       ⓑ 매초 레이어 재생성 + DOM 교체(실측 = 잡 1개에 8초 동안 노드 24개 추가·24개 제거 = 초당 3개/잡)
+     실측(폰 430 · 잡 4) = 유휴 cpu 1.1%·layout 0.1/s ↔ 제작 진행 cpu 8.7%·layout 59/s(애니 16개) = **레이아웃 590배**.
+     ⚠ 매초 실제로 바뀌는 건 상태 줄의 경과 글자뿐이다(라벨·취소 버튼은 그대로) → 그 글자만 갈아끼운다.
+     ⚠ 술어 = run 상태에서 「지연 전환(_queued)·취소 무장(_cxArm)」이 그대로일 때만 = 그 둘이 바뀌면 골격이 달라지므로
+        종전대로 통째 재구성(모양 판정은 종전 코드가 그대로 한다 = 화면 무변).
+     ⚠ 자리가 계약 = `row.innerHTML` **직전** — 위 pendCut·jobDurPush·saveLastResult·wipSync 부작용은 이미 다 실행된 뒤라 무손실.
+     ⚠ 대상 노드 = `.jst > .nm-shim`(run 이면 항상 존재 = 위 두 분기 모두 shim 보유) — `.jst > span` 으로 잡으면
+        **첫 매치가 오브(.nm-orb)** 라 도트를 갈아엎는다(그러면 이 봉합이 무의미해진다). */
+  const _rskel = job.status === 'run' ? ('run|' + (job._queued ? 1 : 0) + '|' + (job._cxArm ? 1 : 0)) : '';
+  if (_rskel && row._rskel === _rskel) {
+    const _tn = row.querySelector('.jst > .nm-shim');
+    if (_tn) { _tn.innerHTML = tx; return; }   // tx = 위에서 조립된 같은 HTML(사용자 조각은 esc 통과분뿐 = 주입 안전성 종전 동일)
+  }
+  row._rskel = _rskel;
   row.innerHTML = '';
   const _jtpl = (job.src && job.src.tpl) || job.tpl;   // 카드 생성 잡 = snapForm APP='2' s.tpl · AI 합성 잡 = job.tpl(rszJob meta · 260818 Q05 — src에 실으면 canEditSrc 반쪽 스냅 위험이라 잡 전용 필드) — 편집·AI 생성 잡은 접두 없이 종전 표기
   const _jtplLbl = _jtpl === 'jinjja' ? '진짜예요' : _jtpl ? '노뮤트' : '';   // 미보유 옛 스냅 = 접두 생략(restore nomute 폴백과 동축 · 오표기보다 무표기)
@@ -4546,7 +4565,10 @@ window.addEventListener('resize', carUpdate);   // 뷰폭 변경 = 슬라이드 
 })();
 // 전체 다운로드은 캐러셀 오버레이서 잡(결과) 행 우측 인라인으로 이동(renderJob의 전체 버튼 = 뉴스요약 .cref-dlall 통이식·운영자 260705)
 // 1초 벽시계 티커 — 진행 중 잡의 표시 초를 실제 시간과 일치(5s 폴과 분리·260619)
-setInterval(() => { JOBS.forEach(j => { if (j.status !== 'done' && j.status !== 'err') renderJob(j); }); }, 1000);
+// 경과 1초 틱 — ⚠ 가려진 동안은 안 그린다(보는 사람이 없다) = 결과 레일 형제 `nm-rail.js tickSync` 가 이미 가진 가드의 사본(창작 0 · 260820).
+//   그 형제는 「가려짐 가드 + 진행 중 없으면 자기 손으로 끈다」 두 축을 갖는데 이 틱만 **둘 다 없었다**(이 레포 최빈 축 = 형제는 가진 걸 자기만 안 가졌다).
+//   끄기 축은 여기선 불요 = JOBS 가 비면 forEach 0회라 실질 무비용 · 가려짐 축만 계승한다(C16 유휴 정숙 계약 동문).
+setInterval(() => { if (document.hidden) return; JOBS.forEach(j => { if (j.status !== 'done' && j.status !== 'err') renderJob(j); }); }, 1000);
 // 실패 기록 12h 자동 정리 — 오래된 실패 잡은 목록에서 제거(이전 제작 12h 보관과 동일·운영자 260622)
 function pruneOldFails() { const cut = Date.now() - THUMB_HMS; for (let i = JOBS.length - 1; i >= 0; i--) { const j = JOBS[i]; if (j.status === 'err' && (j.t0 || 0) < cut) { const r = document.getElementById('job-' + j.uid); if (r) r.remove(); JOBS.splice(i, 1); } } }
 pruneOldFails(); setInterval(pruneOldFails, 60000);
