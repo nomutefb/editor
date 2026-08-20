@@ -370,31 +370,11 @@
   {
    "account": "choi.openai",
    "text": "모델 회사들이 그리는 미래가 점점 한곳으로 모이고 있습니다.\n\n오늘 Grok이 자기 안에서 만든 앱의 공유 기능을 붙였는데요.\n대화로 만든 앱을 나만 쓰거나, 팀에 풀거나, 전 세계에 공개하도록 권한을 정하는 방식이고, 웹과 모바일, CLI 어디서든 만들 수 있습니다.\n\n과거, 클로드가 Artifacts로 대화 결과물을 그 자리에서 실행되는 앱으로 만들었고, 챗GPT는 Canvas를 거쳐 올여름 Sites로 제작부터 호스팅, 공개 범위 설정까지 넣었습니다. 이름만 다를 뿐 세 회사가 같은 기능을 같은 순서로 쌓고 있습니다.\n\n결국, 채팅창이 개발 도구이자 배포 채널이 되는 것으로 수렴하고 있습니다.\n만들면 모델사가 호스팅하고, 권한 설정이 곧 출시로 이어져 개발자도 앱스토어도 거치지 않습니다.\n\n앱을 내려받아 쓰던 동선이 대화로 만들어 쓰는 동선으로 바뀌는 중이라, 지금은 회사마다 따로 노는 이 기능들도 결국 하나의 기본 형태로 통합돼 갈 가능성이 높아 보입니다.",
-   "likes": 26,
+   "likes": 29,
    "cmts": 0,
    "time": 1787211000,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/778485903_17983298091112832_7257074198063137907_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk2NzczNTkwNDU0NjEwMzM0Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=pr0LE4rlNtcQ7kNvwHopNi-&_nc_oc=Adr3Doqzwyrze1ytqjx-h1e8a5efqXHKV2sr198iHH6s9VPBDiXPdVv0fOLdHeupOm7zjQ38UtrZcIxRqUpfkvGQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=hErlPnivUs9WJWAm1fMvZw&_nc_ss=7a22e&oh=00_AQE6u6ySyqKbxjR3h8vnckZAt43K6qBPScJGpRuGnSnvMw&oe=6A8CA146",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/778485903_17983298091112832_7257074198063137907_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk2NzczNTkwNDU0NjEwMzM0Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=pr0LE4rlNtcQ7kNvwHopNi-&_nc_oc=Adr3Doqzwyrze1ytqjx-h1e8a5efqXHKV2sr198iHH6s9VPBDiXPdVv0fOLdHeupOm7zjQ38UtrZcIxRqUpfkvGQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Rd1uz4YNrnhb0XhGfF-5lQ&_nc_ss=7a22e&oh=00_AQH7p1rP_b2o6-Awk_Se2Q7t_39OPYp4iPiQlovmH4KvsA&oe=6A8CA146",
    "url": "https://www.threads.com/@choi.openai/post/DcQOsiBCKAv",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
-   "text": "🔗 원문·자세히 보기\nhttps://fx.sh/",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1787207499,
-   "thumb": "",
-   "url": "https://www.threads.com/@aipeekme/post/DcQIAkkn0GL",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
-   "text": "지그(Zig) 언어로 작성된 오픈소스 코딩 에이전트 하네스 겸 명령줄 도구인 fx가 공개됐습니다.\n바이너리 크기는 6.39MiB에 불과하며 아파치 2.0 라이선스를 따르는 모델 독립적 구조입니다.\n10µs의 빠른 콜드 스타트와 한 자릿수 메가바이트 수준의 메모리 점유율을 갖춰 자원이 제한된 환경이나 에이전트 샌드박스에 내장하기에 적합합니다.\n무거운 터미널 화면 대신 유닉스 셸 방식의 최소화된 출력을 지향하며 기본적으로 스크롤 기록을 유지합니다.\n지그 툴체인으로 컴파일한 웹어셈블리 빌드를 통해 브라우저 환경에서도 전체 CLI 구동이 가능합니다.\n토큰 비용 절감과 TTFT 최적화를 위해 시스템 프롬프트와 도구를 최소화했고 스킬이나 플러그인, MCP로 기능을 확장합니다.\n불필요한 인터페이스를 걷어내고 에이전트의 기본 동작과 경량성에 집중한 점이 눈에 들어옵니다.\n대규모 시스템 내장이나 다중 인스턴스 환경에 가볍게 얹어 쓰기 좋아 보입니다.\n\n📷 사진 출처: fx.sh",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1787207488,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/777867133_18081770276407306_6379827877264066687_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk2NzcwNjM3MjIwMTQ5MTAxMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=-4TCGCh_sT4Q7kNvwFueWX2&_nc_oc=Adrjx2kRJmLWSWkiqxre5pDg4LVFqG4cQQZVMglKaeJi35YhBj0BL-WnQIEyErD29xlNjmMaJdvuHP7R3U_xjlBx&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=nCxygQsVqVXLP-YNOWVd7A&_nc_ss=7a22e&oh=00_AQGmkXKfool1C8tPp8xgKLHU2YbK7UAlBuWVaJD5VxVwZg&oe=6A8C72E5",
-   "url": "https://www.threads.com/@aipeekme/post/DcQH-x4H6pF",
    "region": "kr"
   },
   {
@@ -413,18 +393,38 @@
    "likes": 26,
    "cmts": 3,
    "time": 1787205633,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/775727206_17983297047112832_1090837922764267037_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk2NzY5MDg4MjU0MzU5MzA5Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=vazKtgDHpFcQ7kNvwFtx23F&_nc_oc=Adp7kN83sxjHUHTIIfSYvkVS2tIdEbDXH4FRwakMRbM_jJi7j1hMVUsAGLrmLq9RqoaQNhRylpPMZOxh34gu7bBm&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=hErlPnivUs9WJWAm1fMvZw&_nc_ss=7a22e&oh=00_AQHYMd2dx4l0Y51f_UamzFpj1_vlNy2jzo1FoEuvecXKaQ&oe=6A8C73F7",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/775727206_17983297047112832_1090837922764267037_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk2NzY5MDg4MjU0MzU5MzA5Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=vazKtgDHpFcQ7kNvwFtx23F&_nc_oc=Adp7kN83sxjHUHTIIfSYvkVS2tIdEbDXH4FRwakMRbM_jJi7j1hMVUsAGLrmLq9RqoaQNhRylpPMZOxh34gu7bBm&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Rd1uz4YNrnhb0XhGfF-5lQ&_nc_ss=7a22e&oh=00_AQHz0J1uhX4qP4DBLUsB30XTOMOGAJI1aTYEnR_lD4OBbQ&oe=6A8CAC37",
    "url": "https://www.threads.com/@choi.openai/post/DcQEdYAkSaF",
    "region": "kr"
   },
   {
    "account": "aipeekme",
    "text": "블렌더로 3D 공간을 만들고 코덱스로 제작을 효율화한 뒤 시댄스 2.5를 거쳐 실사급 영상을 구현하는 과정이 제시됐습니다.\n단순히 프롬프트를 잘 쓰는 사람이 이기는 방식을 벗어나 30초 분량의 온전한 영상 제작 흐름을 보여줍니다.\n하나의 생성 AI만 다루는 것이 아니라 AI와 3D, 편집을 조합해 의도한 영상을 만드는 방식으로 축이 이동하고 있습니다.",
-   "likes": 9,
+   "likes": 10,
    "cmts": 0,
    "time": 1787201568,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/777478457_1601556868164570_3812651802395059916_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk2NzY1NjU4NzUwNjQyODA5NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=juKOBMEm6qQQ7kNvwEmezJ5&_nc_oc=AdoNZRkSmUf6V-4nHmfz7X6FqLPpIoJ_W9hd4-jJbt9eCg3utvvFYAngp5iZk5b2QKP1mzRfGx0kAmHeVxpw0M4O&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=nCxygQsVqVXLP-YNOWVd7A&_nc_ss=7a22e&oh=00_AQHBOHd3EVeXX3E2qomCQLXl-iCL0XkABW4DkUDMOGsQfg&oe=6A8C79C4",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/777478457_1601556868164570_3812651802395059916_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk2NzY1NjU4NzUwNjQyODA5NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=juKOBMEm6qQQ7kNvwEmezJ5&_nc_oc=AdoNZRkSmUf6V-4nHmfz7X6FqLPpIoJ_W9hd4-jJbt9eCg3utvvFYAngp5iZk5b2QKP1mzRfGx0kAmHeVxpw0M4O&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=lq6eOX60BmbfbKTZ-vO8Vw&_nc_ss=7a22e&oh=00_AQH25jhY6EIZoihHAFM1F_JTsmAJBnhiIVrCRGW5Ro4PmQ&oe=6A8C79C4",
    "url": "https://www.threads.com/@aipeekme/post/DcP8qURDyi_",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "인공지능(AI)을 활용해 작물 재배 과정을 추적하고 관리하는 드론 시스템이 적용되고 있습니다.\n기존에 사람이 수동으로 점검하던 방식이 이제 자동화된 데이터 흐름으로 완전히 대체되었습니다.\n드론이 수직 선반 사이를 이동하며 작물의 잎과 열매를 고해상도 이미지로 촬영해 기록합니다.\n수작업 점검을 대신해 인공지능 기반의 자동화된 데이터 흐름으로 생육 정보를 수집하는 구조입니다.\n\n단순 모니터링을 넘어 일손이 부족한 대형 식물공장의 점검 주기를 줄이는 데 실질적인 도움을 줄 것 같습니다.\n다만 바람이 없는 좁은 실내에서 프로펠러 후류가 작물에 미치는 영향이나 배터리 운용 효율은 현장 검증을 조금 더 지켜봐야겠습니다.\n비전 센서의 정확도보다는 충돌 없이 안정적으로 순환할 수 있는 기구적 완성도가 상용화의 핵심이라고 봅니다.",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1787200995,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/778936629_1719903442586817_1445962010431947849_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk2NzY1MTYwMjY0Mjg4MjkzMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=pOQBk4Wl0jUQ7kNvwH5xG-m&_nc_oc=AdqOI-0PMlpCCkQj4y66opn-o-TtvI1xIATk4mSxzHm2odq-fcWSyIv41_6WM4BoPXv7p8PTvhlGyLi-E2ZK-5Lo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=lq6eOX60BmbfbKTZ-vO8Vw&_nc_ss=7a22e&oh=00_AQGt-XZ8NPl_hSbg0gXdXL2aDfQ0bBKKkctbcW8ZFRbxDA&oe=6A8CA18F",
+   "url": "https://www.threads.com/@aipeekme/post/DcP7hxwCdFz",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "아이가 세상에 태어나는 과정을 다룬 내용이 전해졌습니다. 영상이 귀엽네요.",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1787200675,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/776748246_1392673256119971_9101988894813343415_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk2NzY0OTA2Njc3NDk3Mjk0Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Ye9437sTkTAQ7kNvwHzHuNu&_nc_oc=Ado0llyNq9G-cBV9ueI7BvhWF7byKriZAqecfYBzgChzFVsLqrJ9wmYZLkl-AQclM5BRQmZqzYWcUqX1TcS50MkB&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=lq6eOX60BmbfbKTZ-vO8Vw&_nc_ss=7a22e&oh=00_AQEYnYMkUaYJSH_9G5SKvYO3DBimwWPZ_yQSk7xDoChNKg&oe=6A8C99AF",
+   "url": "https://www.threads.com/@aipeekme/post/DcP684CiEoS",
    "region": "kr"
   },
   {
@@ -459,21 +459,21 @@
   },
   {
    "account": "aipeekme",
-   "text": "인공지능(AI)을 활용해 작물 재배 과정을 추적하고 관리하는 드론 시스템이 적용되고 있습니다.\n기존에 사람이 수동으로 점검하던 방식이 이제 자동화된 데이터 흐름으로 완전히 대체되었습니다.\n드론이 수직 선반 사이를 이동하며 작물의 잎과 열매를 고해상도 이미지로 촬영해 기록합니다.\n수작업 점검을 대신해 인공지능 기반의 자동화된 데이터 흐름으로 생육 정보를 수집하는 구조입니다.\n\n단순 모니터링을 넘어 일손이 부족한 대형 식물공장의 점검 주기를 줄이는 데 실질적인 도움을 줄 것 같습니다.\n다만 바람이 없는 좁은 실내에서 프로펠러 후류가 작물에 미치는 영향이나 배터리 운용 효율은 현장 검증을 조금 더 지켜봐야겠습니다.\n비전 센서의 정확도보다는 충돌 없이 안정적으로 순환할 수 있는 기구적 완성도가 상용화의 핵심이라고 봅니다.",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1787200995,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/778936629_1719903442586817_1445962010431947849_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk2NzY1MTYwMjY0Mjg4MjkzMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=pOQBk4Wl0jUQ7kNvwH5xG-m&_nc_oc=AdqOI-0PMlpCCkQj4y66opn-o-TtvI1xIATk4mSxzHm2odq-fcWSyIv41_6WM4BoPXv7p8PTvhlGyLi-E2ZK-5Lo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=nCxygQsVqVXLP-YNOWVd7A&_nc_ss=7a22e&oh=00_AQEYjikv7TDEYpie1ZaRgDANYpFeQhXvOmGjG6KpXIbtaA&oe=6A8CA18F",
-   "url": "https://www.threads.com/@aipeekme/post/DcP7hxwCdFz",
+   "text": "클라우드 컴퓨터와 실제 앱, 파일, 로그인된 계정 접근 권한을 부여해 그록 봇을 실제 인공지능 작업자로 테스트한 결과가 공유되었습니다.\n영수증 처리 업무에 투입한 결과 14건의 항목을 자동으로 정리했고, 민감한 결제 정보가 필요한 2건만 처리를 보류했습니다.\n작업을 한 번 직접 수행해 가르치면 해당 워크플로를 기술로 저장한 뒤 자동으로 반복되도록 예약할 수 있다는 점도 확인됐습니다.\n반복 작업 학습과 스케줄링이 더해지면서 단순한 보조 기능을 넘어 실제 작업자에 가까워졌습니다.\n다만 결제 정보처럼 민감한 데이터가 얽힌 지점에서 오작동 없이 안전하게 사람에게 제어권을 넘기는 기준은 더 지켜봐야 할 것 같습니다.\n실제 계정과 파일 권한을 직접 다루는 만큼 꼼꼼한 관리가 이뤄지지 않는다면 편리함보다 보안 쪽 위험이 먼저 커질 수 있다고 봅니다.",
+   "likes": 2,
+   "cmts": 1,
+   "time": 1787200452,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/777327651_1408775028065764_4190633832297776090_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk2NzY0NzIyODEwMTY0MjAzNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=hHXnOvWhB1kQ7kNvwGbfIla&_nc_oc=AdrrMfWC9d9q_ztgHHOzF_8v2j6RY19d9hUeMrH5-ac_Gv8QWMQiSF5mjPyRCounNyJVFlcdhMkvqTQux-lxOzEr&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=lq6eOX60BmbfbKTZ-vO8Vw&_nc_ss=7a22e&oh=00_AQEBD4b04NuQjjTSnIe8E90LLRFSTt-OYhcGIyYK0KW6jA&oe=6A8CA068",
+   "url": "https://www.threads.com/@aipeekme/post/DcP6iHpD8cy",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "오픈AI 챗GPT 앱의 성장세가 상당히 가파릅니다.\n\nCNBC에 따르면 오픈AI CFO 사라 프라이어가 전사 미팅에서 공개한 수치로, 이번 분기 들어 연환산 매출이 벌써 35% 늘었고 기업용 매출은 50% 넘게 뛰었습니다.\n코딩·업무 제품인 코덱스는 주간 사용자 2,000만 명을 넘겼습니다.\n\n사실, 2,000만이면 큰 숫자 같지만, 챗GPT 사용자 10억 명에 대면 이제 2%입니다.\n에이전트 쪽은 아직 초입이라는 뜻이라, 남은 98%가 그대로 성장 여력인 셈입니다.\n\n상장 이야기도 나왔습니다. 프라이어는 2027년, 이르면 그 전에 상장하겠다고 직원들에게 말했습니다.\n\n이틀 전에는 앤트로픽의 연환산 매출 650억 달러가 보도됐고, 이번엔 오픈AI가 내부 수치를 꺼냈습니다.\n\n나란히 상장을 준비하는 두 회사의 숫자 공개가 사실상 호가 경쟁이 된 모양새입니다.",
-   "likes": 31,
+   "likes": 32,
    "cmts": 0,
    "time": 1787200240,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/779995741_17983296417112832_6553864157148138517_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk2NzY0NTY0MzQ1MTMxMTI4Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTE2OS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=WZCxU4zjLwUQ7kNvwFcABRc&_nc_oc=AdoiDqW-0lVwV1JW_Yz2CjB4HiDVK2XH8VBOpCPEIFxVXk0tUe2m_I7SxYUX8LlkAez2-aYcTmSWh8_54gGLSq7h&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=hErlPnivUs9WJWAm1fMvZw&_nc_ss=7a22e&oh=00_AQEj29q5Qc9uv6Uz801pwVrKMoVfIe52iXN1EZdq9FaZ9w&oe=6A8C8DB5",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/779995741_17983296417112832_6553864157148138517_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk2NzY0NTY0MzQ1MTMxMTI4Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTE2OS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=WZCxU4zjLwUQ7kNvwFcABRc&_nc_oc=AdoiDqW-0lVwV1JW_Yz2CjB4HiDVK2XH8VBOpCPEIFxVXk0tUe2m_I7SxYUX8LlkAez2-aYcTmSWh8_54gGLSq7h&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Rd1uz4YNrnhb0XhGfF-5lQ&_nc_ss=7a22e&oh=00_AQFDgvpR2mpksLHlNWhT-HaCmpSUl8zg9ANmzlRoCcVgdA&oe=6A8C8DB5",
    "url": "https://www.threads.com/@choi.openai/post/DcP6LD0iqS3",
    "region": "kr"
   },
@@ -483,18 +483,8 @@
    "likes": 2,
    "cmts": 5,
    "time": 1787146339,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/779001441_17907516168463148_996788687850438666_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk2NzE5MzQ5NTc4NTQ4NjU0Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuODYxLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=z89k9UFSrbUQ7kNvwGKCQNY&_nc_oc=AdoFQ55Y5Pxiz0NDIIulJiX-37egplpRnq1bCbnmJqUQws6UDa1pbO9lFqt-kM05mLtbzoAqT0_zQi-_UgUCyC4f&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=_ptzO4yarO8wcJ9P2rYaqQ&_nc_ss=7a22e&oh=00_AQHlYL45B5NJa-v8yY2alSjff0gB62uzPaa9SVNa6219Pw&oe=6A8C78B5",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/779001441_17907516168463148_996788687850438666_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk2NzE5MzQ5NTc4NTQ4NjU0Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuODYxLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=z89k9UFSrbUQ7kNvwGKCQNY&_nc_oc=AdoFQ55Y5Pxiz0NDIIulJiX-37egplpRnq1bCbnmJqUQws6UDa1pbO9lFqt-kM05mLtbzoAqT0_zQi-_UgUCyC4f&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=yMIyXkzLke-9gLeghwPagA&_nc_ss=7a22e&oh=00_AQHTsr0o--8-vR7yqHE4kqFej0EoeLbarrjTHsmCxQ1zHw&oe=6A8C78B5",
    "url": "https://www.threads.com/@kopp/post/DcOTXcfiLjT",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
-   "text": "아이가 세상에 태어나는 과정을 다룬 내용이 전해졌습니다. 영상이 귀엽네요.",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1787200675,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/776748246_1392673256119971_9101988894813343415_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk2NzY0OTA2Njc3NDk3Mjk0Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Ye9437sTkTAQ7kNvwHzHuNu&_nc_oc=Ado0llyNq9G-cBV9ueI7BvhWF7byKriZAqecfYBzgChzFVsLqrJ9wmYZLkl-AQclM5BRQmZqzYWcUqX1TcS50MkB&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=nCxygQsVqVXLP-YNOWVd7A&_nc_ss=7a22e&oh=00_AQH6reRRpnajkZeKmfvdAbfBfT1AFOURVLANaGVOBUD7pQ&oe=6A8C99AF",
-   "url": "https://www.threads.com/@aipeekme/post/DcP684CiEoS",
    "region": "kr"
   },
   {
@@ -503,7 +493,7 @@
    "likes": 3,
    "cmts": 1,
    "time": 1787194876,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/775233470_17983300959112832_9195104463383191725_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk2NzYwMDY0NzU3OTA1OTYzNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=PnfyXHecY_oQ7kNvwF3NglY&_nc_oc=AdqjU8Ch4WtN425CleR-byaAQK7uacUFSAshFtKx3hSbJr5k9Z-MgYrZfkF9OWAdpDlUXuvhhW53zmPb-8wgku4Z&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=hErlPnivUs9WJWAm1fMvZw&_nc_ss=7a22e&oh=00_AQHYtnWXQ8TkIRXEPScL-dq1xblnyce8ekwtvWrJE5RtLA&oe=6A8C9317",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/775233470_17983300959112832_9195104463383191725_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk2NzYwMDY0NzU3OTA1OTYzNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=PnfyXHecY_oQ7kNvwF3NglY&_nc_oc=AdqjU8Ch4WtN425CleR-byaAQK7uacUFSAshFtKx3hSbJr5k9Z-MgYrZfkF9OWAdpDlUXuvhhW53zmPb-8wgku4Z&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Rd1uz4YNrnhb0XhGfF-5lQ&_nc_ss=7a22e&oh=00_AQHDD9oXmRuRnvEoJjZK0tGYRcNSlKRagoodjj37Wzfvow&oe=6A8C9317",
    "url": "https://www.threads.com/@choi.openai/post/DcPv8SJj0W0",
    "region": "kr"
   },
@@ -513,7 +503,7 @@
    "likes": 4,
    "cmts": 1,
    "time": 1787194866,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/781425441_17983300281112832_4050188865626807600_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk2NzYwMDU3MDM4NzA3ODc3OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTY2Ni5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=gykpzvKbjcoQ7kNvwGvjqIY&_nc_oc=AdpNlUGE84X3HWS4aKEHBvEE7ECrBxGJhSFn6WOoSncAj6Jo4f8H_hG95laWe-ti-nEjPwb1I_UVjTmvoyY_-g7y&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=hErlPnivUs9WJWAm1fMvZw&_nc_ss=7a22e&oh=00_AQG0veDDRaho3rnDnU4xBdJ60a-I8k2emTACFQFI1dGQ3Q&oe=6A8C756F",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/781425441_17983300281112832_4050188865626807600_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk2NzYwMDU3MDM4NzA3ODc3OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTY2Ni5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=gykpzvKbjcoQ7kNvwGvjqIY&_nc_oc=AdpNlUGE84X3HWS4aKEHBvEE7ECrBxGJhSFn6WOoSncAj6Jo4f8H_hG95laWe-ti-nEjPwb1I_UVjTmvoyY_-g7y&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Rd1uz4YNrnhb0XhGfF-5lQ&_nc_ss=7a22e&oh=00_AQFB5nSJRWQicIpGyLwFRRaqVqONxN9QX_bmIfQyGAZo9A&oe=6A8CADAF",
    "url": "https://www.threads.com/@choi.openai/post/DcPv7KQjx57",
    "region": "kr"
   },
@@ -530,10 +520,10 @@
   {
    "account": "choi.openai",
    "text": "AI 토큰 사용량이 11주마다 두 배씩 늘고 있습니다.\n\n트랜지스터가 2년마다 두 배가 된다는 무어의 법칙과 같은 모양의 곡선인데, 주기가 11주입니다.\n이 곡선 위에서 Stripe는 OpenRouter를 80억 달러 넘는 가격에 사기로 했고, 같은 날 공개된 투자자 서한에는 더 큰 이야기가 담겼는데요.\nStripe는 2026년 1월 1일을 '특이점의 시작'으로 규정했습니다.\n\n결제 회사가 왜 이 단어를 골랐고, 어디에 돈을 걸고 있는지 정리했습니다. 🧵",
-   "likes": 35,
+   "likes": 36,
    "cmts": 8,
    "time": 1787194858,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/782413013_17983301016112832_2735453174444713353_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk2NzYwMDQ5NzkwMTE0MTgxOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=FIJZkrIx4AsQ7kNvwHpTDtm&_nc_oc=AdrmeCcjoM9qbeAoP0pCf_6VzNf3AIMxEs676q6wW75S7VnwUi9D5z3qXZNs9QqAG6ORHu7HPCrZJ8QNkfDLmVva&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=hErlPnivUs9WJWAm1fMvZw&_nc_ss=7a22e&oh=00_AQG1GtNFUEzVQpvXBBJIgGSVEmkUXZ_75mEOerJgbxmQSw&oe=6A8C7810",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/782413013_17983301016112832_2735453174444713353_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk2NzYwMDQ5NzkwMTE0MTgxOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=FIJZkrIx4AsQ7kNvwHpTDtm&_nc_oc=AdrmeCcjoM9qbeAoP0pCf_6VzNf3AIMxEs676q6wW75S7VnwUi9D5z3qXZNs9QqAG6ORHu7HPCrZJ8QNkfDLmVva&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Rd1uz4YNrnhb0XhGfF-5lQ&_nc_ss=7a22e&oh=00_AQGEoRGtaCzCoj86Y0mZjAEWdijBjy1wPJ2mPXECjxwylw&oe=6A8CB050",
    "url": "https://www.threads.com/@choi.openai/post/DcPv6GwD387",
    "region": "kr"
   }
@@ -559,6 +549,24 @@
    "url": "https://www.reddit.com/r/GirlDinnerDiaries/comments/1vsmqpw/first_dinner_with_his_family_and_his_mom_picking/"
   },
   {
+   "sub": "SipsTea",
+   "title": "Made by a single mom and her son with a 200 USD budget and still makes over 5 million USD in the box office?",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/sqk5wvht2hkh1.png?width=640&crop=smart&auto=webp&s=6bb6c4b7944b05b33b192f58d1b46839d614c5e3",
+   "time": 1787206713,
+   "url": "https://www.reddit.com/r/SipsTea/comments/1vtbd2g/made_by_a_single_mom_and_her_son_with_a_200_usd/"
+  },
+  {
+   "sub": "formula1",
+   "title": "Oracle Red Bull Racing | Four more years of full send. We’re delighted to announce that Max has signed a contract extension with the Team until the end of 2030.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/kwilkz2pahkh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=4ccece48ad1942df155a88327037d8075f0bec87",
+   "time": 1787209258,
+   "url": "https://www.reddit.com/r/formula1/comments/1vtc3re/oracle_red_bull_racing_four_more_years_of_full/"
+  },
+  {
    "sub": "interestingasfuck",
    "title": "The grave of Gene Simmers, United States soldier and Vietnam veteran, who passed away in 2022",
    "score": 0,
@@ -566,6 +574,15 @@
    "thumb": "https://preview.redd.it/3pxfmfyxdgkh1.png?width=640&crop=smart&auto=webp&s=8d77d26c5af06577cb63dfadb0d35f385b54603e",
    "time": 1787198247,
    "url": "https://www.reddit.com/r/interestingasfuck/comments/1vt8ptl/the_grave_of_gene_simmers_united_states_soldier/"
+  },
+  {
+   "sub": "meirl",
+   "title": "Meirl",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/hos19zzgtfkh1.jpeg?width=640&crop=smart&auto=webp&s=af6f47b092641b801b87adee595f224c8b588cd6",
+   "time": 1787191359,
+   "url": "https://www.reddit.com/r/meirl/comments/1vt6aou/meirl/"
   },
   {
    "sub": "pics",
@@ -586,22 +603,22 @@
    "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1vsx8sk/this_is_how_my_buddy_smokes_his_joints_i_am_angry/"
   },
   {
-   "sub": "meirl",
-   "title": "Meirl",
+   "sub": "interesting",
+   "title": "A couple on a Japanese bullet train noticed a passenger trying to photograph Mt. Fuji from across the aisle, so they ducked down without being asked to give him a clear shot",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/hos19zzgtfkh1.jpeg?width=640&crop=smart&auto=webp&s=af6f47b092641b801b87adee595f224c8b588cd6",
-   "time": 1787191359,
-   "url": "https://www.reddit.com/r/meirl/comments/1vt6aou/meirl/"
+   "thumb": "https://preview.redd.it/bc8u5etysfkh1.jpg?width=140&height=111&auto=webp&s=3be0b56c072a05892b48ba5bc5fb61962bb63e0d",
+   "time": 1787191186,
+   "url": "https://www.reddit.com/r/interesting/comments/1vt687n/a_couple_on_a_japanese_bullet_train_noticed_a/"
   },
   {
-   "sub": "AskReddit",
-   "title": "What is your favourite ‘dead’ video game franchise?",
+   "sub": "MadeMeSmile",
+   "title": "A friend patiently waiting for me to return home from work.",
    "score": 0,
    "cmts": 0,
-   "thumb": "",
-   "time": 1787188021,
-   "url": "https://www.reddit.com/r/AskReddit/comments/1vt51sv/what_is_your_favourite_dead_video_game_franchise/"
+   "thumb": "https://preview.redd.it/oih69uf37gkh1.jpeg?width=640&crop=smart&auto=webp&s=b5031d00d7a0ab7827bbd8ea6489de50af6bd7f8",
+   "time": 1787196040,
+   "url": "https://www.reddit.com/r/MadeMeSmile/comments/1vt7yzi/a_friend_patiently_waiting_for_me_to_return_home/"
   },
   {
    "sub": "AbsoluteUnits",
@@ -613,67 +630,13 @@
    "url": "https://www.reddit.com/r/AbsoluteUnits/comments/1vt3wz5/of_a_log_split/"
   },
   {
-   "sub": "whatdoIdo",
-   "title": "Woke up with a bat in our Airbnb cabin, got treated for rabies, >$18k in medical bills from ER...",
+   "sub": "todayilearned",
+   "title": "TIL In Japan sales of adult diapers have outpaced sales of baby diapers since at least 2013",
    "score": 0,
    "cmts": 0,
-   "thumb": "",
-   "time": 1787183508,
-   "url": "https://www.reddit.com/r/whatdoIdo/comments/1vt3b61/woke_up_with_a_bat_in_our_airbnb_cabin_got/"
-  },
-  {
-   "sub": "NatureIsFuckingLit",
-   "title": "🔥 Hammerhead worm hunting a slug by releasing sticky secretions to attach itself and prevent the slug from escaping.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/b3JvdnR0YTk5ZWtoMbT0HWg5aKg08xTXsR2vRhm-XByUKq9ZK51hGzhCQQSE.png?width=320&crop=smart&auto=webp&s=229cde4360eec7fa1f1c7dea9b729d182f9c3419",
-   "time": 1787172463,
-   "url": "https://www.reddit.com/r/NatureIsFuckingLit/comments/1vsyo3m/hammerhead_worm_hunting_a_slug_by_releasing/"
-  },
-  {
-   "sub": "formula1",
-   "title": "Oracle Red Bull Racing | Four more years of full send. We’re delighted to announce that Max has signed a contract extension with the Team until the end of 2030.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/kwilkz2pahkh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=4ccece48ad1942df155a88327037d8075f0bec87",
-   "time": 1787209258,
-   "url": "https://www.reddit.com/r/formula1/comments/1vtc3re/oracle_red_bull_racing_four_more_years_of_full/"
-  },
-  {
-   "sub": "SipsTea",
-   "title": "Made by a single mom and her son with a 200 USD budget and still makes over 5 million USD in the box office?",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/sqk5wvht2hkh1.png?width=640&crop=smart&auto=webp&s=6bb6c4b7944b05b33b192f58d1b46839d614c5e3",
-   "time": 1787206713,
-   "url": "https://www.reddit.com/r/SipsTea/comments/1vtbd2g/made_by_a_single_mom_and_her_son_with_a_200_usd/"
-  },
-  {
-   "sub": "worldnews",
-   "title": "/r/WorldNews Live Thread: Russian Invasion of Ukraine Day 1639, Part 1 (Thread #1786)",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "",
-   "time": 1787198572,
-   "url": "https://www.reddit.com/r/worldnews/comments/1vt8u28/rworldnews_live_thread_russian_invasion_of/"
-  },
-  {
-   "sub": "worldnews",
-   "title": "South Korea estimates North Korea has up to 120 nuclear warheads, far above Trump's figure - Reuters",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "",
-   "time": 1787200929,
-   "url": "https://www.reddit.com/r/worldnews/comments/1vt9lmp/south_korea_estimates_north_korea_has_up_to_120/"
-  },
-  {
-   "sub": "worldnews",
-   "title": "Trump announces 'Economic Warfare' on Iran, threatens ‘tremendous’ consequences for its backers",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/v7EAM-epJO4Al8bbiKNr1czLvFQ4BgC0D8g6D8YJ_VA.png?width=640&crop=smart&auto=webp&s=1cace8352728d5686ba5073bc9027e2bec05d00d",
-   "time": 1787181202,
-   "url": "https://www.reddit.com/r/worldnews/comments/1vt2e6n/trump_announces_economic_warfare_on_iran/"
+   "thumb": "https://external-preview.redd.it/7C1H3MX5v4hONFudKX_93N40xE3uF-wA-RhknNy68qs.jpeg?width=640&crop=smart&auto=webp&s=ecf026ab30ba09b3223951965cdb671f83b19da5",
+   "time": 1787190794,
+   "url": "https://www.reddit.com/r/todayilearned/comments/1vt62wf/til_in_japan_sales_of_adult_diapers_have_outpaced/"
   }
  ],
  "disaster": [],
@@ -712,10 +675,10 @@
    }
   },
   "landing": {
-   "at": "2026-08-20T17:05:22",
+   "at": "2026-08-20T17:31:07",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-20T17:31:04.121453+09:00"
+ "updated": "2026-08-20T18:00:57.610893+09:00"
 }
