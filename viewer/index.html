@@ -6203,7 +6203,14 @@ function geniRestoreOpts(g) {   // AI 생성 발사 옵션(gopts) → 폼 복원
 }
 /* 캡션 표기 = 이미지 스튜디오 공용 규칙(nm-seq.js window.nmCap · 260819) — 모듈 부재 시 = 종전 표기 그대로(화면은 안 깨진다) · 정규식 사본 0 */
 const _geniCapTx = s => (window.nmCap ? nmCap.text(s) : String(s == null ? '' : s));
+function geniSrvSrcOf(url) {   // 같은 산출물의 서버 이력(src 동봉분)에서 제작 조건 대여(260822 · thumb srvSrcOf 동문) — src 없는 로컬 이력(기기 간 재개 완료분)이 서버 동봉본을 가려 연필이 꺼지는 축 봉합
+  if (!url || !(GENI_SRV_HIST && GENI_SRV_HIST.length)) return null;
+  const k = geniHistKey(url);
+  for (const e of GENI_SRV_HIST) { if (e && e.url && e.src && e.src.app && geniHistKey(e.url) === k) return e.src; }
+  return null;
+}
 function geniHistItem(e, grid, cntSel) {   // 항목 빌더 = tr renderTrHist 정본 그대로 + 수정 연필(운영자 260806 · src 보유 항목만 = thumb renderHist 게이트 동문)
+  if (!(e.src && e.src.app)) { const _bs = geniSrvSrcOf(e.url); if (_bs) e.src = _bs; }   // src 대여(260822) — 결과·이전 제작 두 레일이 이 빌더 하나를 쓴다(표시 시점만 · 저장 무접촉)
   const it = document.createElement('div'); it.className = 'hist-it';
   const _sn = (window.nmSeq && nmSeq.of) ? nmSeq.of(e.url) : 0;   // 제작 순번(260818 12차 · 이미지 스튜디오 공용 번호줄) — 없으면 무표기(카드 제작 관례 동문)
   const hd = document.createElement('div'); hd.className = 'hist-hd'; hd.textContent = (_sn ? String(_sn).padStart(3, '0') + ' · ' : '') + geniHistTime(e.ts);
@@ -6346,6 +6353,7 @@ function geniResJobRow(a) {
   st.innerHTML = CHECK_SVG + '<span>완료 · ' + a.length + '장 · ' + geniHistTime(a[0].ts) + '</span>';   // 문구 = thumb 복원 잡 행 동문('완료 · N장 · <제작시각>')
   row.append(lab, st);
   const sv = document.createElement('div'); sv.className = 'jsave-row';
+  if (!(a[0].src && a[0].src.app)) { const _bs = geniSrvSrcOf(a[0].url); if (_bs) a[0].src = _bs; }   // src 대여(260822 · 기기 간 재개 완료분 = 폼 스냅 미보유 → 서버 이력 동봉본)
   if (a[0].src && a[0].src.app) {   // 수정(연필) = 타일과 같은 게이트·같은 라우터(중복 문법 0)
     const ed = document.createElement('button'); ed.type = 'button'; ed.className = 'imgedit'; ed.title = '이 설정으로 수정'; ed.setAttribute('aria-label', '수정');
     ed.innerHTML = EDIT_SVG;

@@ -976,6 +976,12 @@ try { SRV_CLEAR = +localStorage.getItem('nomute_thumb_srvclr') || 0; } catch {}
    그 복원은 스튜디오 탭바를 소유한 부모(index)의 `studioEditOpen`이 전담한다(라우팅 사본 0 · 부모 부재 = /tr 단독 열람 = 갈 곳이 없으므로 애초에 안 그린다). */
 function trEditRouter() { try { return (window.parent !== window && window.parent.studioEditOpen) ? window.parent.studioEditOpen : null; } catch (_) { return null; } }
 function trCanEdit(src) { return !!(src && src.app && src.app !== 'tr') && !!trEditRouter(); }   // 'tr' 자신 = 복원 불가(없는 기능을 있는 척하지 않는다)
+function trSrvSrcOf(url) {   // 같은 산출물의 서버 이력(src 동봉분)에서 제작 조건 대여(260822 · thumb srvSrcOf 동문) — src 없는 로컬 이력(기기 간 재개 완료분)이 서버 동봉본을 가려 연필이 꺼지는 축 봉합
+  if (!url || !(SRV_HIST && SRV_HIST.length)) return null;
+  const k = histKey(url);
+  for (const e of SRV_HIST) { if (e && e.url && e.src && e.src.app && histKey(e.url) === k) return e.src; }
+  return null;
+}
 function trEditBtn(e, th) {   // 부품 = thumb renderHist 연필 정본 그대로(.imgedit + EDIT_SVG + '이 설정으로 수정') · 결과·이전 제작 두 빌더 공용
   if (!trCanEdit(e.src)) return;
   const ed = document.createElement('button'); ed.type = 'button'; ed.className = 'imgedit'; ed.title = '이 설정으로 수정'; ed.setAttribute('aria-label', '수정');
@@ -1000,6 +1006,7 @@ function renderTrHist() {
   const sess = TR_RES.filter(e => e && e.url && !seen.has(histKey(e.url)) && (e.ts || 0) > cut);
   const resK = new Set(trResList().map(e => histKey(e.url)));   // '결과'에 실제로 뜬 것만 이전 제작서 제외 = 결과와 **같은 산출**(260817 최신 1묶음) — 구판처럼 세션분 전체를 빼면 결과 축소분이 어느 칸에도 안 뜨는 유실이 된다(thumb renderHist CARSLIDES 제외 동문 = 5탭 카운트 한 값)
   const a = localF.concat(srv, r2, sess).sort((x, y) => (y.ts || 0) - (x.ts || 0)).filter(e => !_deadUrls.has(histKey(e.url)) && !resK.has(histKey(e.url)));
+  a.forEach(e => { if (!(e.src && e.src.app)) { const s = trSrvSrcOf(e.url); if (s) e.src = s; } });   // src 대여(260822 · thumb renderHist 동문) — 표시 시점만(저장 무접촉) · nmSeq.tag 앞 = 빌린 번호(src.jn) 정합
   if (window.nmSeq) nmSeq.tag(a);   // 이미지 스튜디오 공용 순번 도장(운영자 260818 12차 «이미지 스튜디오 안에 있는거는 모두 같은 인덱싱을 공유») — 목록을 통째로 넘기면 표에 없는 산출물만 제작 시각 오름차순으로 발번한다(도입 첫 회 = 과거분 무표기)
   $('histCnt').textContent = '(' + a.length + ')';
   grid.innerHTML = ''; $('histEmpty').hidden = !!a.length;
