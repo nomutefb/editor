@@ -10385,6 +10385,15 @@ function _onSettingsLoaded() {   // 서버 로드 후 = UI 동기 + 잠금 재�
   try { paintKwRow(); if (kwAlertOn()) checkKwAlerts(); } catch {}   // 키워드 알림 토글 실상태 반영 + 서버 로드 직후 1회 매칭(부팅 stale 재평가)
   try { lkBootEval(); } catch {}
 }
+// 복귀 재동기(운영자 260821 «기기에 상관없이 on off가 잘 적용되어야함») — 부팅 1회 GET 만으론 오래 열린 탭이
+//   다른 기기에서 바꾼 설정(AI 썸네일·잠금 토글)을 낡은 상태로 계속 보여줬다 → 탭·앱 복귀 순간 서버 설정 재GET.
+//   _setDirty(이 세션에 이 기기가 저장) = 어차피 loadSettings 가 안 덮는다 → fetch 자체 생략 · 60s 스로틀 = checkNewVersion 4분 스로틀 동문(연타 흡수).
+let _setSyncLast = 0;
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden || _setDirty) return;
+  if (Date.now() - _setSyncLast < 60000) return;
+  _setSyncLast = Date.now(); loadSettings();
+});
 // ── 화면 잠금(응답없음 lock) — 운영자 260703. 유휴 N분(기본 2) → 챠콜 90% 모피즘 전면 오버레이 + PIN 키패드.
 //    키패드 = 발행본 /s/ pinForm 정본 이식(고정 정상배열 1-9·0·숫자픽·명조 *·빨강 3초·오류 5회=10분 잠금·마스터 통일).
 //    설정 저장 = 서버 SSOT(NM_SET · lockOn/lockPinHash/lockLen/lockMin). 기기별 상태(현재 잠김·활동·오류)만 로컬(nm_locked/_last/_fails/_until).

@@ -48,6 +48,8 @@ jobs:
           fetch-depth: 1   # 최신 1커밋만 — 구 0은 원격 브랜치 567개 전체 히스토리를 받아 실측 105s를 먹었다(260810 · imggen run 30972520521 = 체크아웃 108s 중 워킹트리 쓰기는 3s뿐)
           # ⚡ 260810 sparse-checkout(scrape 카나리아 실증 = 같은 잡 A/B 20s→9s · 삭제 커밋 0건) — 목록 = 이 잡이 실행줄에서 여는 폴더뿐.
           #   빠지는 대형 = _versions 437M · docs 90M · 자료 75M · _산출 74M(어느 잡도 안 연다) · ⚠ git add/rm 대상은 전건 포함 검문 통과분.
+          # ⚠ settings = AI 썸네일 전역 게이트 원료(analyze.sh 가 settings/app.json genImgOn 을 읽어 no_thumb 도장) —
+          #   260821 실사고 = 260810 다이어트가 이 폴더를 빠뜨려 「파일 부재 = ON 폴백」으로 전역 OFF 가 조용히 무시됐다(러너는 초록). CONTRACT: check_settings_checkout
           sparse-checkout: |
             prompts
             .github
@@ -59,6 +61,7 @@ jobs:
             metrics
             pending
             queue
+            settings
           # 트리거 커밋(github.sha)이 아니라 체크아웃 시점의 최신 main을 받는다.
           # concurrency 순차 큐에서 뒤 run이 옛 커밋을 체크아웃하면 앞 run이 이미
           # 처리한 pending을 재분석 → failed 로그 add/add 충돌로 push 실패(run#5 원인).

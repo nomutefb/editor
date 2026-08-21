@@ -92,7 +92,22 @@ for f in "${files[@]}"; do
   # JSON 파싱: 텍스트 추출 + 이미지(data URL) → 파일 디코드(Claude Read 가 볼 수 있게)
   workdir="$(mktemp -d)"
   text="$(python3 -c "import json; print(json.load(open('$f')).get('text',''))" 2>/dev/null || true)"
-  nothumb="$(python3 -c "import json; print('1' if json.load(open('$f')).get('nothumb') in (1,'1',True) else '')" 2>/dev/null || true)"   # 뷰어 '이미지' 토글 OFF → 제미나이 썸네일 생성 skip(검색 og:image는 항상·운영자 260702)
+  # AI 썸네일 실효 판정(운영자 260821 «기기에 상관없이 on off가 잘 적용되어야함» — 기기 캐시가 아니라 서버 전역 설정이 정본):
+  #   ① preset.noai(요약요청 창 「AI 미제작」 칩 = 이 건 명시 skip) → skip ② settings/app.json genImgOn=false(전역 OFF) → skip
+  #   ③ genImgOn=true(전역 ON) → 생성(보낸 기기의 낡은 OFF 캐시가 nothumb=1 을 실어 보냈어도 무시 — 건별 명시는 ①이 전담)
+  #   ④ 설정 파일 부재·판독 실패 → 페이로드 nothumb 폴백(종전 동작 = 구 클라 호환). 검색 og:image 는 어느 쪽이든 항상 수집(운영자 260702).
+  #   ⚠ 구판(페이로드 단독 정본)은 설정을 A 기기에서 바꾼 뒤 B 기기(낡은 캐시)로 보내면 반대로 동작했다 — analyze.sh 전역 게이트와 같은 원천을 본다.
+  nothumb="$(python3 -c "
+import json
+try: a = json.load(open('$f'))
+except Exception: a = {}
+pay = a.get('nothumb') in (1, '1', True)
+noai = (a.get('preset') or {}).get('noai') in (1, '1', True)
+try: g = json.load(open('settings/app.json')).get('genImgOn')
+except Exception: g = None
+print('1' if (noai or g is False or (g is not True and pay)) else '')
+" 2>/dev/null || true)"
+  [ -n "$nothumb" ] && echo "  AI 썸네일 skip 예약(no_thumb 도장) — noai·전역 OFF·페이로드 종합 판정"
   # 수집 프리셋(운영자 260723 — 뷰어 요약요청 스트립: h24=24시간 이내 · fp=외신 기반[260803 외신⇄국내 단일 토글 = 뷰어 mj 상시 1 전송·fp가 축만 선택] · mj=주요 언론 기반[다매체 종합 · 뷰어 칩은 260803 철거·값은 상시 도착] · og=원본 한정[260727·기본 소등]) → 프롬프트 조건 블록.
   #   ⚠ 같은 스트립의 noai(AI 미제작·260727)는 여기 목록에 일부러 없다 = 수집 조건이 아니라 산출 조건 → 위 nothumb(frontmatter no_thumb) 축으로 흐른다(프롬프트 무접촉).
   #   미지정·전OFF(구 asks 포함) = 빈 블록 = 종전 동작 그대로. 블록 위치 = 고정부([★] 모드) 뒤·가변부(요청) 앞 = 캐시 prefix 불변.

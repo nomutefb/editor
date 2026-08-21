@@ -50,6 +50,8 @@ jobs:
           fetch-depth: 1   # 최신 1커밋만 — 구 0은 원격 브랜치 567개 전체 히스토리를 받아 실측 105s를 먹었다(260810 · imggen run 30972520521 = 체크아웃 108s 중 워킹트리 쓰기는 3s뿐)
           # ⚡ 260810 sparse-checkout(scrape 카나리아 실증 = 같은 잡 A/B 20s→9s · 삭제 커밋 0건) — 목록 = 이 잡이 실행줄에서 여는 폴더뿐.
           #   빠지는 대형 = _versions 437M · docs 90M · 자료 75M · _산출 74M(어느 잡도 안 연다) · ⚠ git add/rm 대상은 전건 포함 검문 통과분.
+          # ⚠ settings = AI 썸네일 전역 게이트 원료(ask.sh 가 settings/app.json genImgOn 을 서버 정본으로 읽음 · 260821
+          #   «기기에 상관없이 on off가 잘 적용되어야함» — 페이로드 nothumb 는 보낸 기기의 캐시 사본이라 낡을 수 있다). CONTRACT: check_settings_checkout
           sparse-checkout: |
             prompts
             .github
@@ -62,6 +64,7 @@ jobs:
             messages
             metrics
             queue
+            settings
           # 트리거 커밋(github.sha)이 아니라 체크아웃 시점의 최신 main을 받는다 — 순차 큐에서 뒤 run이 옛 커밋을
           # 체크아웃하면 앞 run이 이미 처리한 ask를 재분석(중복 다이제스트·add/add 충돌 · analyze run#5 동일 원인).
           # 구 주석은 fetch-depth:0 만으로 '최신 main 기준'이라 적었으나 ref 없으면 github.sha 고정 = 오인.

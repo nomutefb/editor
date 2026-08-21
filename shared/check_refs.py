@@ -1144,6 +1144,97 @@ def check_roster_checkout():
     return 0
 
 
+def check_settings_checkout():
+    """AI 썸네일 전역 설정을 읽는 러너는 **settings 폴더를 실제로 손에 쥔다**(260821 실사고 봉합 ·
+    운영자 «지금 ai썸네일 off인데 뉴스 요약할때마다 이미지가 나오거든 · 기기에 상관없이 on off가 잘 적용되어야함»).
+    CONTRACT: check_settings_checkout
+
+    ⚠ 실사고 = 뷰어 설정 「AI 썸네일 OFF」는 서버 정본(settings/app.json genImgOn=false)에 정상 저장돼 있었는데
+    **픽·자동픽 요약이 매번 AI 썸네일을 만들었다.** 진범 = analyze.sh 의 전역 게이트(260711)는 그 파일을 읽는데
+    `news-analyze.yml` 의 sparse-checkout 다이어트(260810)가 `settings` 폴더를 목록에서 빠뜨려 러너 디스크에
+    파일이 아예 없었고, 게이트 설계가 「파일 부재 = ON 폴백(신규 체크아웃 정상)」이라 **경고 한 줄 없이** 생성이
+    계속됐다(러너 초록 · 화면 정상 = 운영자 눈이 유일한 검출기). 재현 실측 = 같은 스니펫이 폴더 없으면 ''(ON 폴백) ·
+    폴더 있으면 '1'(전건 no_thumb 도장).
+    같은 병의 형제 = `check_push_send_checkout`(push/) · `check_roster_checkout`(apps/news) · prompts 4종(260820) —
+    「체크아웃 다이어트가 파일을 빠뜨려 기능이 조용히 죽는」 이 레포 반복 축의 **네 번째 재현**이라 게이트로 굳힌다.
+
+    술어 3축(정적 · 렌더·LLM·네트워크 0 · **면책표 없이 하드 0**) =
+      ① 소비자 자동 발견 = `.github/scripts/*.sh`·`shared/*.sh` 의 **주석 아닌 줄**에 `settings/app.json` 리터럴 보유
+         (손 목록 0 = 새 스크립트가 설정을 읽기 시작하면 자동 편입) · 0건 = 시그니처 드리프트 fail-closed
+      ② 그 스크립트를 실행줄에서 부르는 워크플로가 sparse-checkout 을 쓰면 목록이 `settings` 를 덮는다 ·
+         전체 체크아웃은 대상 밖(이미 다 받는다) · 소비 워크플로 0건 = fail-closed
+      ③ ask.sh 는 전역 판정을 **서버 파일에서** 읽는다(genImgOn 리터럴 실존 = 페이로드 단독 정본으로의 회귀 차단 —
+         페이로드는 보낸 기기의 캐시 사본이라 낡을 수 있다 · 운영자 260821 「기기에 상관없이」의 기계화).
+    ⚠ 주석 줄 제외 = 이 처방문·워크플로 주석이 판정 문자열을 인용하므로 원문으로 보면 코드를 지워도 주석만으로
+    통과한다(자기적발 차단 · check_roster_checkout 관례 계승)."""
+    consumers = []
+    for d in (os.path.join(ROOT, '.github', 'scripts'), os.path.join(ROOT, 'shared')):
+        try:
+            names = sorted(os.listdir(d))
+        except Exception as e:
+            print('❌ check_settings_checkout 디렉터리 읽기 실패(fail-closed):', e); return 1
+        for n in names:
+            if not n.endswith('.sh'):
+                continue
+            try:
+                src = open(os.path.join(d, n), encoding='utf-8').read()
+            except Exception as e:
+                print('❌ check_settings_checkout 읽기 실패(fail-closed): %s — %s' % (n, e)); return 1
+            live = [l for l in src.splitlines() if not l.lstrip().startswith('#')]
+            if any('settings/app.json' in l for l in live):
+                consumers.append(n)
+                if n == 'ask.sh' and not any('genImgOn' in l for l in live):
+                    print('❌ ask.sh 가 settings/app.json 을 열지만 genImgOn 전역 판정이 없다 — 페이로드(기기 캐시) 단독 정본 회귀'
+                          '(운영자 260821 「기기에 상관없이 on off」 위반) → 전역 우선 판정을 복원하라'); return 1
+    if not consumers:
+        print('❌ settings/app.json 을 읽는 스크립트 0건 — 시그니처 드리프트 의심(fail-closed · analyze.sh 전역 게이트가 사라졌다)'); return 1
+    if 'ask.sh' not in consumers:
+        print('❌ ask.sh 가 settings/app.json 을 안 읽는다 — 요약요청 경로가 페이로드(기기 캐시) 단독 정본으로 회귀'
+              '(운영자 260821 「기기에 상관없이 on off」 위반) → 전역 우선 판정을 복원하라'); return 1
+    wdir = os.path.join(ROOT, '.github', 'workflows')
+    try:
+        files = sorted(f for f in os.listdir(wdir) if f.endswith(('.yml', '.yaml')))
+    except Exception as e:
+        print('❌ check_settings_checkout 디렉터리 읽기 실패(fail-closed):', e); return 1
+    pat = re.compile(r'(?:^|[/\s"\'])(' + '|'.join(re.escape(c) for c in sorted(set(consumers))) + r')(?:\s|$|["\'])')
+    bad, seen = [], 0
+    for f in files:
+        try:
+            lines = open(os.path.join(wdir, f), encoding='utf-8').read().splitlines()
+        except Exception as e:
+            print('❌ check_settings_checkout 읽기 실패(fail-closed): %s — %s' % (f, e)); return 1
+        live = [l for l in lines if not l.lstrip().startswith('#')]
+        if not any(pat.search(l) for l in live):
+            continue
+        seen += 1
+        for i, l in enumerate(lines):
+            if not re.match(r'^\s*sparse-checkout:\s*\|', l) or l.lstrip().startswith('#'):
+                continue
+            body, base = [], None
+            for cur in lines[i + 1:]:
+                if not cur.strip():
+                    break
+                ind = len(cur) - len(cur.lstrip())
+                if base is None:
+                    base = ind
+                if ind < base:
+                    break
+                body.append(cur.strip())
+            if not any(b == 'settings' or b.startswith('settings/') for b in body):
+                bad.append('%s:%d' % (f, i + 1))
+            break
+    if seen < 1:
+        print('❌ 설정 소비 스크립트를 실행하는 워크플로 0건 — 시그니처 드리프트 의심(fail-closed)'); return 1
+    if bad:
+        print('❌ 러너가 앱 설정(settings/app.json)을 체크아웃하지 않는다(260821 실사고 = AI 썸네일 전역 OFF 가 「파일 부재 = ON 폴백」으로 조용히 무시 · 러너는 초록):')
+        for b in bad:
+            print('   -', b, '→ sparse-checkout 목록에 `settings` 한 줄 추가')
+        return 1
+    print('✅ 앱 설정 체크아웃 게이트 — 소비 스크립트 %d종(%s) · 실행 %d레인 전건 `settings` 보유 · ask.sh 전역 판정 실존.'
+          % (len(set(consumers)), '·'.join(sorted(set(consumers))), seen))
+    return 0
+
+
 def check_push_abs_url():
     """알림 딥링크는 **절대 주소로** 나간다(260816 3차 실사고 봉합 · 운영자 「알림이 다 구 주소로 가는거 같은데」).
 
@@ -10128,6 +10219,8 @@ def main():
         if check_push_send_checkout() != 0:   # 완료 푸시 레인의 구독자 명단 체크아웃(하드 게이트 — 260816 실측: sparse에 push/ 누락 시 「구독자 없음」으로 조용히 발송 생략·스텝은 초록·7레인 동시 사망)
             rc = 1
         if check_roster_checkout() != 0:   # 속보 판정 러너의 참조 명단 체크아웃(하드 게이트 — 260818 실측: sparse에 apps 누락으로 260817 명단이 프롬프트에 한 번도 안 실렸다·판정은 초록)
+            rc = 1
+        if check_settings_checkout() != 0:   # 앱 설정(AI 썸네일 전역) 체크아웃·전역 판정(하드 게이트 — 260821 실측: sparse에 settings 누락으로 전역 OFF가 「파일 부재 = ON 폴백」으로 무시·요약마다 생성·러너는 초록)
             rc = 1
     except Exception as e:
         print('❌ check_push_send_checkout 예외(fail-closed):', e); rc = 1

@@ -112,8 +112,11 @@ const within = ds => ds.every(d => d.d != null && Math.abs(d.d) <= TOL);
       const ico = row.querySelector('.fin-ico').getBoundingClientRect(), nm = row.querySelector('.fin-nm').getBoundingClientRect(), fv = row.querySelector('.fin-v').getBoundingClientRect();
       const pc = row.querySelector('.fin-pct'), pcr = pc && pc.getBoundingClientRect(), ar = row.querySelector('.fin-ar'), arr = ar && ar.getBoundingClientRect();
       // fin-row = 페이지 깊숙이(트렌드 전 그룹 아래) 위치라 절대 y가 위쪽 라이브 데이터에 따라 밀림 → 삼각(svg)조차 위상 ±1px 진동(Q475 실증: 삼각 −0.26↔+0.74) = 게이트 부적격 → 요소 존재(잉크 검출)만 어서션, 정렬값 전부 참고(rule 4-1)
-      targets.push({ label: 'H3', sel: '[data-sec=fin-idx] .fin-row', items: [], info: [
-        ar ? { n: '삼각', x0: arr.x - rr.x, x1: arr.x - rr.x + arr.width, rgb: rgbOf(getComputedStyle(ar.parentElement).color) } : null,
+      // ⚠ 삼각 어서션은 **svg 실존 시에만**(260821 실측 봉합) — .fin-ar 계약(index.html :783)이 「결측·보합(0%) = 빈칸(슬롯 유지)」이라
+      //   첫 행이 보합인 날(실측 = KOSPI chg 0.0 · 장 시작 전 스냅샷)마다 빈 슬롯을 「삼각 MISS」 FAIL로 읽던 가짜 빨강(데이터 모양이 판정을 뒤집는 축 =
+      //   C14 「자는 줄바꿈 무관 축이어야 한다」 동문). 빈 슬롯 = 판정 대상 0 = 제외 명시(C17 pan 관례) · svg 실존인데 잉크 미검출 = 종전대로 FAIL(검출력 무손실).
+      targets.push({ label: 'H3', sel: '[data-sec=fin-idx] .fin-row', note: (ar && !ar.querySelector('svg')) ? '삼각=보합·결측 빈 슬롯(계약 :783) → 검출 제외' : '', items: [], info: [
+        (ar && ar.querySelector('svg')) ? { n: '삼각', x0: arr.x - rr.x, x1: arr.x - rr.x + arr.width, rgb: rgbOf(getComputedStyle(ar.parentElement).color) } : null,
         { n: '모노그램', x0: ico.x - rr.x, x1: ico.x - rr.x + ico.width, rgb: rgbOf(getComputedStyle(row.querySelector('.fin-ico')).color) },
         { n: '이름', x0: nm.x - rr.x, x1: nm.x - rr.x + nm.width, rgb: rgbOf(getComputedStyle(row.querySelector('.fin-nm')).color) },
         { n: '값', x0: fv.x - rr.x, x1: fv.x - rr.x + fv.width - 18, rgb: rgbOf(getComputedStyle(row.querySelector('.fin-v')).color) },
@@ -155,7 +158,7 @@ const within = ds => ds.every(d => d.d != null && Math.abs(d.d) <= TOL);
       const info = t.info.length ? await scanOne(t.info) : [];
       const extra = info.length ? ` · [참고] ${fmt(info)}` : '';
       if (t.label === 'H1') ok('H1 fin 대분류 구조물(순번·체브론) |Δ|≤' + TOL + ' + 칩 잘림 0(텍스트=참고)', within(ds) && clip && /\(점검 필요\)$/.test(clip.t) && clip.sw <= clip.cw + 0.5, `${fmt(ds)}${extra} · 칩 "${clip && clip.t}" sw${clip && clip.sw}≤cw${clip && clip.cw}`);
-      else if (t.label === 'H3') ok('H3 fin 시세 행 요소 존재(잉크 검출) — 정렬값 참고(fin-row 절대y 위상 ±1px 진동 = 게이트 부적격)', info.every(d => d.d != null), (info.length ? fmt(info) : '없음'));
+      else if (t.label === 'H3') ok('H3 fin 시세 행 요소 존재(잉크 검출) — 정렬값 참고(fin-row 절대y 위상 ±1px 진동 = 게이트 부적격)', info.every(d => d.d != null), (info.length ? fmt(info) : '없음') + (t.note ? ' · ' + t.note : ''));
       else ok('H4 소분류 소머리 블릿·체브론 |Δ|≤' + TOL + ' (라벨 = 참고 로그 · Q472 .trend-lbltx 보정 후 ~0 · 글자별 잉크 산포 ±0.5는 서체 본질이라 하드게이트 제외)', within(ds), fmt(ds) + extra);
     }
     // ── H2 전 대분류 헤더 전수 루프(운영자 260723 "12345678 다 겉 네모 4분할") — 각 헤더 = 자기 박스 수평선 기준 순번/픽토·시각·체브론 ──
