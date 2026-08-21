@@ -1,31 +1,31 @@
-# 성매매 단속 두 달, 진짜 숫자는 검거 인원이 아니었다
+# 두 달에 1666명, 그런데 진짜 숫자는 '기업형 4배'
 
 **[프롬프트 설계]**
-- 화풍: B 극화 — 조직 범죄의 층위와 수사·법리를 다루는 사건이라 사실성·고발 톤이 맞는다
-- 분위기: 감정을 올리지 않고 사무적으로 기록하는 차가운 거리감, 그 위에 허탈이 남는다 — 멸균 형광의 관료적 표면과 가려져 있던 것이 드러나는 정조를 이어받는다
-- 연출 방향: 독자훅은 낙차다. 잡힌 사람이 61% 는 게 아니라, 잡을 수 있게 된 조직이 4배 드러났다 — 뉴스를 안 보는 독자도 "숫자가 커진 게 아니라 보는 방식이 바뀌었다"를 그림만으로 알아채야 한다. 그래서 카메라를 매 카드 한 층씩 올린다: 골목의 수사관(현장) → 화면 앞의 운영자(위층) → 책상 위의 돈. 빛이 닿는 자리를 카드마다 딱 한 곳만 두어 "이번에 보이기 시작한 층"이 매번 다르게 지목되게 하고, 마지막에만 조명을 풀어 여운으로 착지시킨다
-- 독자 동선: **발단** 카드1→**전개** 카드2~3→**피크** 카드4→**해소** 카드5~6→**시사점** 카드7 · 훅=카드1 끝(예고형: 경찰이 앞세운 건 따로 있었다)+카드2 끝(단서형: 그렇게 들어간 곳이 강남과 부평이다) · 질문형 0회 · 착지 = 잡는 쪽은 두 달, 보호하는 쪽은 3년 — 1666명과 3명 사이가 아직 남은 거리다
-- 연속성 앵커: Recurring subject — a Korean man in his 40s with short cropped hair, wearing a dark navy field jacket over a plain shirt with a lanyard ID tucked inside (카드1·5·7) / Recurring place — a narrow late-night entertainment district alley lined with shuttered storefronts and blank unlit signboards (카드1·7)
+- 화풍: B 극화 — 조직 수사·범죄수익 차단이라 고발의 무게가 필요하고, 한국 웹툰 극화의 굵은 잉크선이 '구조를 해부하는 눈'을 그대로 시각화한다
+- 분위기: 형광등처럼 감정 없는 관료적 냉기 위에, 방식이 바뀐 자리에서만 날이 서는 긴장 — 승전보가 아니라 뒤늦은 계산서의 정조
+- 연출 방향: 독자(단속 뉴스를 '또 하는 척'으로 흘려듣던 유흥가 인근 주민·시민)를 멈춰 세우는 건 검거 61%가 아니라 '기업형 4배'라는 낙차다. 그래서 카메라는 사람을 세지 않고 **구조가 드러나는 순간**을 잡는다 — 텅 빈 복도의 열린 문들, 한 테이블에 나란히 앉힌 세 배역, 봉인된 돈. 마지막엔 1666과 3의 부피 차이를 한 프레임에 세워 '어디까지 왔고 어디부터 남았나'를 눈으로 재게 한다. 전 카드가 공유할 키노트 = 냉정한 기관 광원 + 초록 악센트 한 점
+- 독자 동선: **발단** 카드1→**전개** 카드2→**피크** 카드3→**해소** 카드4→**시사점** 카드5~6(카드5=마지막 사실 비트, 카드6=착지) · 훅=카드1 끝(예고형 "세는 법부터 달랐다"→카드2 첫 줄 즉시 회수)+카드4 끝(단서형 "빈 칸"→카드5 첫 줄 회수) · 착지 한 줄 요지 = 돈줄 끊는 법은 배웠는데 사람 건지는 법은 이제 첫 3명이다
+- 연속성 앵커: Recurring subject — a Korean man in his 40s, close-cropped black hair, sturdy build, wearing a dark navy field jacket over a plain shirt with a blank lanyard ID / Recurring place — the emptied interior of a large Korean nightlife establishment and a police work room in the same cold institutional register
 
 ### [카드 1]
 **텍스트**
 ```text
-경찰이 6월부터 두 달간 훑었다
-761건을 단속해 1666명을 붙잡았다
-지난해보다 검거가 61% 늘었다
-*그런데 경찰이 앞세운 건 따로 있었다*
+6월부터 두 달, 761건에 1666명이다
+지난해 616건 1038명에서 늘었다
+건수는 24%, 사람은 61% 뛰었다
+*이번 단속은 세는 법부터 달랐다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the hardened unblinking eyes of the lead investigator as he steps into the alley. Recurring subject — a Korean man in his 40s with short cropped hair, wearing a dark navy field jacket over a plain shirt with a lanyard ID tucked inside — walks at the head of a short single file of three plainclothes officers. All four keep their gaze locked forward on a shuttered entrance at the right edge of the frame, one officer raising a folded badge holder. Recurring place — a narrow late-night entertainment district alley lined with shuttered storefronts and blank unlit signboards, wet asphalt underfoot, a Korean city block.
-Camera: wide shot, full body with surrounding environment, from eye-level neutral realistic perspective, shot on 35mm lens, natural documentary perspective, minimal distortion
-Lighting/mood: flat cold even surveillance light, no shadow no warmth, detached and watchful
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
-Signboards and door plates are blank, angled away or blurred so no readable characters appear anywhere.
+Scene: Emotional focal point: his flat unblinking eyes measuring the length of the corridor, no triumph in them. Recurring subject — a Korean man in his 40s, close-cropped black hair, sturdy build, wearing a dark navy field jacket over a plain shirt with a blank lanyard ID, stands at the near end of a long emptied corridor and looks straight down its length. A row of identical guest-room doors stands open on both sides, and a single small seizure notice sticker curls on the nearest door frame. The place is the drained interior of a large Korean nightlife establishment after a raid, one continuous corridor floor running away from the camera.
+Camera: establishing shot from a high angle looking down, shot on 20mm wide lens
+Lighting/mood: flat sterile clinical fluorescent light, cold even greenish-white, emotionless institutional
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
+Korean default setting for figures and interior fixtures. Avoid incidental background lettering entirely; any sign or notice is shown as an unreadable blank sticker shape or cropped out of frame; no garbled or fake script, no meaningless letters, no random characters, no dense text.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the wet asphalt alley pavement) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the corridor floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -35,28 +35,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-성매매 특별단속 경찰 진입
+유흥업소 단속 현장 경찰
 ```
 
 ### [카드 2]
 **텍스트**
 ```text
-사이트 운영자와 관리자, 광고책
-*셋 이상 한 팀이면 기업형이다*
-현장 사람만 잡던 방식을 접었다
-그렇게 들어간 곳이 강남과 부평이다
+현장의 사람만 세던 방식을 멈췄다
+운영자와 광고책까지 한 팀으로 묶자
+*강남 유흥업소에서 11명이 걸렸다*
+인천 오피스텔 7채에서 8명이었다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the flat unbothered face of the man at the monitor, lit from below by the screen. Three Korean men work one cramped back office as a single unit: one seated at a wall of monitors typing, a second standing behind him speaking into a phone, a third by the door holding a thick stack of printed flyers. Their eye-lines converge on the monitor wall, and a single cheap desk is the only thing they share. The room is a windowless Korean commercial building back office with a bare tiled floor.
-Camera: medium shot, waist-up framing, from a high angle looking down at the subjects, shot on 50mm standard lens, minimal distortion, natural cinematic composition
-Lighting/mood: cold blue screen under-glow lighting the faces from below in a dark room, restless paranoid unease
+Scene: Emotional focal point: his thumb pinning a seized phone flat on the table, knuckle whitening. Recurring subject — a Korean man in his 40s, close-cropped black hair, sturdy build, wearing a dark navy field jacket over a plain shirt with a blank lanyard ID, is seen from over his shoulder as he presses the confiscated smartphone against the table and stares at a chat screen of blank unreadable message bubbles. A bundle of business keys and evidence bags sits beside his forearm, and two uniformed officers wait in the doorway behind him, turned toward the same table. The room is a dim back office of a nightlife establishment during the raid, one continuous wall running behind them.
+Camera: over-the-shoulder shot from eye-level, shot on 70mm short telephoto
+Lighting/mood: cold blue dim interior light, heavy and suffocating, faint trembling tension
 Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
-Monitor screens show only abstract glowing shapes and the flyers are face-down, so no readable characters appear anywhere.
+Korean default setting for figures and interior fixtures. The phone screen shows only empty rounded bubbles with no characters; avoid incidental background lettering entirely; no garbled or fake script, no meaningless letters, no random characters, no dense text.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the bare tiled office floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the back office wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -66,28 +66,27 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-성매매 알선 조직 텔레그램 광고
+강남 유흥업소 압수수색
 ```
 
 ### [카드 3]
 **텍스트**
 ```text
-*텔레그램에 광고를 뿌려 손님을 모았다*
-강남의 대형 유흥업소였다
-업주와 바지사장 등 11명이 걸렸고
-인천 오피스텔 일곱 채에선 8명이었다
+기업형 조직 단속은 10건에서 50건
+구속은 8명에서 28명이 됐다
+*늘어난 건 조직이 아니라 잡는 눈이다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the owner's lowered eyes and the slack hand still holding a phone at his side. Two Korean men in their 50s in rumpled suits stand in the middle of a long club corridor, heads bowed, while two plainclothes officers flank them and seal one door with an evidence sticker. A row of identical room doors recedes down the corridor behind them, each one standing open. The corridor is a large Korean entertainment venue interior with a dark carpeted floor.
-Camera: wide shot showing the full corridor, from a profile side view with clear silhouette and directional movement, shot on 28mm lens, natural street perspective, mild wide angle
-Lighting/mood: cold blue dim interior light, heavy and suffocating, faint trembling tension
+Scene: Emotional focal point: three sets of shoulders sagging in the same rhythm as one standing figure looms over them. Three Korean men in their 30s and 40s sit shoulder to shoulder on one side of a long metal table, heads lowered, hands resting still in front of them, faces mostly hidden by shadow and downward angle. Recurring subject — a Korean man in his 40s, close-cropped black hair, sturdy build, wearing a dark navy field jacket over a plain shirt with a blank lanyard ID, stands at the table edge facing them, his gaze traveling across all three at once. The room is a bare police interrogation room, one continuous wall rising behind the seated men.
+Camera: medium shot from a low angle looking up, shot on 50mm standard lens
+Lighting/mood: harsh single overhead light pooling on the table, deep surrounding black, oppressive interrogation
 Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
-Door plates, stickers and the phone screen are cropped, angled or blurred so no readable characters appear anywhere.
+Korean default setting for figures and interior fixtures. Avoid incidental background lettering entirely; no garbled or fake script, no meaningless letters, no random characters, no dense text.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the dark carpeted corridor floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the interrogation room wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -97,28 +96,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-강남 대형 유흥업소 단속
+경찰 조사실 피의자 조사
 ```
 
 ### [카드 4]
 **텍스트**
 ```text
-기업형 단속이 10건에서 50건이 됐다
-구속도 8명에서 28명으로 늘었다
-조직이 네 배로 불어난 게 아니다
-*그 위층이 이제야 걸린 것이다*
+돈줄 쪽 숫자가 더 크게 움직였다
+묶어둔 재산이 48억에서 195억원
+*과세자료는 183억에서 700억원*
+자리를 빌려준 건물주도 25명 입건
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: one half of a Korean man's face pulled out of the dark by a single hard blade of light, the jaw clenched tight and the eyes refusing to move. He sits at an interrogation desk in his 50s, hands flat on the surface, while a row of seized mobile phones is laid out in a line in front of him. An officer's forearm enters from the frame edge to set down one more phone at the end of that row. The room is a bare Korean police interview room with a laminate desk surface.
-Camera: tight close-up, face fills the frame, from a high angle looking down, shot on 85mm portrait lens, soft background separation, elegant focus
-Lighting/mood: single hard side-light cutting across the subject, deep chiaroscuro shadows, tense atmosphere
+Scene: Emotional focal point: a bare fingertip pressing the last evidence seal flat, the tendon on the back of the hand standing up. Recurring subject — a Korean man in his 40s, close-cropped black hair, sturdy build, wearing a dark navy field jacket over a plain shirt with a blank lanyard ID, leans in from the top of the frame so that only his hands and forearms enter it, sealing a stack of banded cash bundles and bankbooks inside a transparent evidence bag. Rows of already sealed bags line up beside them in a tight grid across the same desk. The place is a police evidence work room, one continuous desk surface filling the frame.
+Camera: extreme close-up from a high angle looking down, shot on 100mm macro lens
+Lighting/mood: single pool of hard light isolating the objects in surrounding blackness, claustrophobic loneliness
 Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
-Phone screens are black and any labels are cropped out, so no readable characters appear anywhere.
+Korean default setting for hands, banknote bundles and office fixtures. Bankbook covers and seals are shown blank or cropped so no characters appear; no garbled or fake script, no meaningless letters, no random characters, no dense text.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the laminate desk surface) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the evidence desk surface) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -128,28 +127,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-기업형 성매매 업주 구속 송치
+범죄수익 압수 현금 증거물
 ```
 
 ### [카드 5]
 **텍스트**
 ```text
-*경찰이 더 세게 민 쪽은 돈줄이었다*
-묶어둔 재산이 48억에서 195억이 됐다
-국세청에 넘긴 액수도 700억이다
-자리를 빌려준 건물주 25명도 걸렸다
+그런데 성과표엔 빈 칸이 있었다
+2023년 1월 시행된 인신매매방지법
+대구경찰청이 이번에 처음 꺼냈다
+*3년 만의 첫 적용, 피해자 3명이다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: two pairs of gloved hands meeting over a sealed evidence bag at the center of the table. Recurring subject — a Korean man in his 40s with short cropped hair, wearing a dark navy field jacket over a plain shirt with a lanyard ID tucked inside — leans across a long table counting banded cash bundles and stacked bankbooks into open evidence boxes, another officer opposite him tallying alongside. Behind them, kept lower and softer so the table stays the focus, a middle-aged man in a good suit sits being questioned at a side desk. The room is a Korean police station meeting room with a long laminate table.
-Camera: wide shot from an overhead bird's-eye view, top-down angle revealing the layout and geometry, shot on 24mm wide lens, cinematic spatial context
-Lighting/mood: flat sterile clinical fluorescent light, cold even greenish-white, emotionless institutional
+Scene: Emotional focal point: the small gap between three backlit shoulders and the hand held open beside them, close but not yet touching. Three adult women stand together as backlit silhouettes, blankets over their shoulders, faces in shadow and identifiable only by posture and hair length, walking away from the camera down a bright corridor. A Korean woman police officer in her 30s in a plain uniform walks at their side, one hand open toward them in a guiding gesture, her eyes on the doorway ahead. The place is a quiet corridor of a police support facility, one continuous corridor wall running along the group.
+Camera: wide shot from eye-level, shot on 35mm lens
+Lighting/mood: backlit silhouette with rim light, faces in shadow, no facial features visible
 Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
-Bankbooks, evidence tags and banknote faces are turned away, cropped or blurred so no readable characters appear anywhere.
+Korean default setting for figures and interior fixtures. No sexual context of any kind; the framing stays modest and documentary. Avoid incidental background lettering entirely; no garbled or fake script, no meaningless letters, no random characters, no dense text.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the long laminate table surface) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the corridor wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -159,28 +158,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-성매매 범죄수익 압수수색 증거물
+인신매매 피해자 보호 지원
 ```
 
 ### [카드 6]
 **텍스트**
 ```text
-대구에선 피해자 3명을 따로 분류했다
-인신매매 피해자로 인정한 첫 사례다
-법이 생긴 건 2023년 1월이다
-*3년 넘게 한 번도 쓰이지 않았다*
+잡은 사람 1666명, 보호받은 사람 3명
+이 두 숫자 사이가 지금의 거리다
+경찰은 수사팀 40명을 늘려 얻은
+*성과라 했다, 인력에 얹힌 숫자다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a young Korean woman's hands closed around a paper cup, her face kept in soft profile with the eyes cast downward. She sits fully covered in a plain long cardigan on a quiet counseling room chair, seen from the side. Across the low table a female support worker in a modest cardigan leans in and slides a single folder toward her, looking at her steadily. The room is a small Korean support center counseling room with a plain vinyl floor and a curtained window.
-Camera: medium close-up, chest-up framing at eye-level, profile side view, shot on 85mm portrait lens, soft background separation
+Scene: Emotional focal point: his steady gaze straight into the viewer, tired rather than proud. Recurring subject — a Korean man in his 40s, close-cropped black hair, sturdy build, wearing a dark navy field jacket over a plain shirt with a blank lanyard ID, stands squarely in the middle of a police work room and looks directly at the camera. On the shelf behind his left shoulder a dense wall of stacked case folders presses upward; on the shelf behind his right shoulder only three thin folders stand alone with wide empty space around them. The place is a plain police work room, one continuous back wall behind him.
+Camera: medium close-up from eye-level, front-on shot with direct gaze, shot on 50mm standard lens
 Lighting/mood: warm soft morning light, gentle and quiet, faint melancholy
 Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
-The folder is closed and turned away so no readable characters appear anywhere.
+Korean default setting for figures and office fixtures. Folder spines and labels are shown blank or cropped so no characters appear; no garbled or fake script, no meaningless letters, no random characters, no dense text.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the plain vinyl counseling room floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the work room back wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -190,36 +189,5 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-인신매매방지법 성매매 피해자 보호시설
-```
-
-### [카드 7]
-**텍스트**
-```text
-잡는 쪽은 방식을 바꾸자 곧 움직였다
-보호하는 쪽은 법이 생기고 3년 걸렸다
-1666명과 3명은 같은 두 달의 숫자다
-*그 사이가 아직 남아 있는 거리다*
-```
-**이미지 프롬프트**
-```text
-korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the investigator's steady eyes looking straight out at the viewer, shoulders squared and still. Recurring subject — a Korean man in his 40s with short cropped hair, wearing a dark navy field jacket over a plain shirt with a lanyard ID tucked inside — stands alone dead center of the empty street, dwarfed by the buildings, facing the camera without moving. Recurring place — a narrow late-night entertainment district alley lined with shuttered storefronts and blank unlit signboards, now at dawn with sealing stickers on two rolled-down shutters and one lit window far down the block.
-Camera: extreme long shot, tiny solitary figure dwarfed by a vast empty space, front-on symmetrical framing at eye-level, shot on 20mm wide lens, documentary realism
-Lighting/mood: cold blue pre-dawn tone, lone streetlight reflection on wet ground, desolate stillness
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
-Shutters, stickers and signboards are blank or blurred so no readable characters appear anywhere.
-Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
-MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the wet street pavement) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
-- no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
-- no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
-- no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
-- no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
-- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
-```
-**검색어**
-```text
-폐쇄된 성매매 업소 새벽 거리
+경찰청 사건 서류 캐비닛
 ```
