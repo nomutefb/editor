@@ -413,6 +413,26 @@
  "threads": [
   {
    "account": "choi.openai",
+   "text": "현재 추측으로는 토크나이저 구성부터 중국 정치 질문을 거부하는 패턴까지 GLM 계열과 겹치면서 Z.ai의 차기 모델이라는 관측이 유력한데요.\n\n그렇다면 중국의 한 AI 랩이 프런티어를 넘보는 모델을 하루 100조 토큰씩 공짜로 뿌리며 조용히 테스트하고 있다는 뜻으로도 보입니다.\n\n프런티어급 모델이 무료로 풀리고 있는 상황 자체가, 모델 가격 구조가 어디까지 무너지고 있는지 보여줍니다.\n\n오픈라우터 :\nhttps://openrouter.ai/stealth/ox-alpha",
+   "likes": 5,
+   "cmts": 1,
+   "time": 1787311835,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DcTPBj5Ded2",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "정말 빅뉴스 같은데요?\n\nFable 5를 뛰어넘는 점수를 낸 익명의 모델이 무료로 풀렸습니다.\n\n오늘 오픈코드와 오픈라우터에서 익명 모델 Ox Alpha가 테스트 중인데요. 일주일간 무료로 제공되며, 100만 토큰 컨텍스트에 이미지·영상 입력까지 지원합니다. 운영 측은 하루 100조 토큰을 무료로 풀고 있습니다.\n\n한 개발자가 코딩 벤치마크 DeepSWE 10문제를 돌린 결과 80%를 기록했고, 이는 같은 조건에서 Fable 5는 65%, GPT-5.6 Sol은 52%였던 기록입니다.\n\n전체 113문제 중 10문제만 돌린 표본이라 편차 가능성은 있지만, 실사용에서도 프런티어급이라는 평가가 이어지고 있습니다.",
+   "likes": 33,
+   "cmts": 10,
+   "time": 1787311828,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/779201534_17983462089112832_4077797362236884396_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk2ODU4MTcxNzAxMTAxODUwNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Dy9756W_O7YQ7kNvwGQ_vxg&_nc_oc=Adr5YWH-ZeMAsOwDwOTfbDy0KPCAFwBDJHz7oHcGqGO5-352hXlnlk_UNH36msmSzNw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Gilbm_YkVPKjyqP7i8Ml_A&_nc_ss=7a22e&oh=00_AQFTvPKgRIoW_xI2VgRV7axwQp4mI049_AXiNkfJsdsFmg&oe=6A8E0595",
+   "url": "https://www.threads.com/@choi.openai/post/DcTPAuQjTMK",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
    "text": "가이드 :\nhttps://api-docs.deepseek.com/guides/vision/",
    "likes": 3,
    "cmts": 0,
@@ -422,42 +442,22 @@
    "region": "kr"
   },
   {
-   "account": "choi.openai",
-   "text": "🚨 딥시크가 드디어 눈을 떴습니다.\n\n딥시크가 첫 멀티모달 모델 V4-Flash-Vision을 실험 버전으로 API에 올렸습니다.\n텍스트 성능은 기존 V4-Flash와 같습니다.\n에이전트, 추론, 지식 전부 그대로인데 이미지를 읽는 능력이 붙었고, 멀티모달 에이전트 벤치마크에서는 Opus 4.8 턱밑까지 올라왔다고 밝혔습니다.\n\n일부 에이전트 평가에서는 비전을 달고도 오히려 점수가 올라, 애초에 비전까지 학습해두고 눈만 가려둔 모델이었다는 평가가 나오고 있는데요.\n\n가격이 딥시크답습니다. 이미지는 장당 최대 384토큰으로 환산해 기존 Flash 요금 그대로 받고, 한 번 올린 이미지를 재사용하는 Files API는 무료입니다.\n\n스크린샷을 읽고 화면을 이해하는 에이전트 작업까지 이 가격대로 내려온 셈이라, 저렴한 에이전트의 쓰임새가 한 층 넓어졌습니다.\n\n가중치 공개는 아직인데, 지난달 가중치를 풀었던 전례를 보면 이번에도 시간문제일 가능성이 높습니다.",
-   "likes": 26,
-   "cmts": 3,
-   "time": 1787306401,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778964136_17983461675112832_3914496111239992360_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk2ODUzNjE5MzI4NTI0MDY2OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=GiHm5_quJ9QQ7kNvwEOyHXK&_nc_oc=AdoROFy3t8wEldK0Pf1cvwHWYZ83LOIvgiGVoRWowupjLWdx9gHOLUDO_PIJD16OJiI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=E0i5I-jSNr-3h7-LAbKS3g&_nc_ss=7a22e&oh=00_AQE-Fww-XUny_OXTSifxZ8nB08XmV9oG8dtr30ezbb9Qug&oe=6A8DFF3A",
-   "url": "https://www.threads.com/@choi.openai/post/DcTEqQ_DDdc",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "신청주소 :\nhttps://events.openai.com/devdayexchange2026",
-   "likes": 4,
-   "cmts": 0,
-   "time": 1787301020,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DcS6ZYsDQ19",
-   "region": "kr"
-  },
-  {
    "account": "aipeekme",
    "text": "중국 휴머노이드 로봇 산업이 성장하면서 로봇 전용 의류와 유연한 외피라는 새로운 시장이 등장하고 있습니다.\n니트리얼(KNITREAL)의 로보스킨(RoboSkin)은 무봉제 편직(seamless knitting) 기술과 신축성 있는 원단을 사용해 움직이는 관절과 복잡한 로봇 형태에 꼭 맞도록 제작되었습니다.\n이 기술은 휴머노이드 로봇의 외형을 가다듬어 주며, 움직임 역시 더욱 자연스럽게 만들어 줍니다.\n유연한 외피 소재는 복잡한 로봇 부위에 밀착해 외형과 가동성을 함께 개선하는 방식으로 쓰입니다.\n저는 외관 개선보다 현장 작동 시 발생할 발열 제어 문제가 먼저 떠올랐습니다.\n밀착된 원단이 내부 열 배출을 얼마나 방해하지 않는지가 실제 상용화의 핵심이라고 봅니다.\n단순한 겉옷을 넘어 마모 저항성과 방열 성능을 검증한 소재인지 더 따져봐야 할 것 같습니다.",
-   "likes": 10,
+   "likes": 11,
    "cmts": 1,
    "time": 1787300269,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/778936712_3077114049313981_6479665744197265310_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk2ODQ4NDU1NjQ1Mzg5MjE1OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=BtCKUjpmX00Q7kNvwEUISct&_nc_oc=AdpSYRoLTJgGlKEcEVZS0SkRd57OE0-xVyFokPTZbl7DOa8dGAprs6miLxYe8o2PNvY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=YqUGSA13JbFwMxqMvcOiQg&_nc_ss=7a22e&oh=00_AQHdmQZkXNURAgIEe4ywkiQBj7MD84rjcR3KXF5dWxmshA&oe=6A8DED77",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/778936712_3077114049313981_6479665744197265310_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk2ODQ4NDU1NjQ1Mzg5MjE1OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=BtCKUjpmX00Q7kNvwEUISct&_nc_oc=AdpSYRoLTJgGlKEcEVZS0SkRd57OE0-xVyFokPTZbl7DOa8dGAprs6miLxYe8o2PNvY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=pPW3xicikP1bCY2650D3aw&_nc_ss=7a22e&oh=00_AQFLmYbphWJ7xWfsI1Nbb-UrwSsUez9cSSezE27tluaTQw&oe=6A8E25B7",
    "url": "https://www.threads.com/@aipeekme/post/DcS462cDtA-",
    "region": "kr"
   },
   {
    "account": "aipeekme",
    "text": "미니맥스 H3로 제작한 영상 입니다\n애니메이션과 모션 그래픽이 멋있네요.\n\n프롬프트는 하단 댓글",
-   "likes": 107,
+   "likes": 114,
    "cmts": 7,
    "time": 1787286783,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/777024153_992291867170095_6675006828554120386_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk2ODM3MTQyODg0MzA3NDU2Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=IS19_z7iChYQ7kNvwEKT3Xb&_nc_oc=AdqjxI6xhiMB56HTpvgw804XCEjgIFL9k9FHnZtQNTs3BVDNyJzvqX33kiv55qQEFdA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=YqUGSA13JbFwMxqMvcOiQg&_nc_ss=7a22e&oh=00_AQFvB7vI3Jn-Xu_19luVaBDBULFyL9IkulbqjJbobKZ3kw&oe=6A8DEF9C",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/777024153_992291867170095_6675006828554120386_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk2ODM3MTQyODg0MzA3NDU2Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=IS19_z7iChYQ7kNvwEKT3Xb&_nc_oc=AdqjxI6xhiMB56HTpvgw804XCEjgIFL9k9FHnZtQNTs3BVDNyJzvqX33kiv55qQEFdA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=pPW3xicikP1bCY2650D3aw&_nc_ss=7a22e&oh=00_AQGwmmtfAcfPt-1JZibYmgDsebBe_S3_tp9YZQWuAqLPVw&oe=6A8E27DC",
    "url": "https://www.threads.com/@aipeekme/post/DcSfMoJADQC",
    "region": "kr"
   },
@@ -467,7 +467,7 @@
    "likes": 3,
    "cmts": 1,
    "time": 1787283400,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/783573207_1739672383753135_7895192754664900039_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk2ODM0MzA0NjAyMjMwNzU4OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=PDAo7PInq5cQ7kNvwGJyiGs&_nc_oc=AdplCvLuZZaup4cCsOq0q0BhRRVGAnzYvQPRwy_Etz8MK5-qxmgG0mwEnzbfB9ibdXw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=YqUGSA13JbFwMxqMvcOiQg&_nc_ss=7a22e&oh=00_AQGBJqIa090y5fV5My_kJq2R-NgvWLN-HN2uxOVbTSe2qw&oe=6A8E0F66",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/783573207_1739672383753135_7895192754664900039_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk2ODM0MzA0NjAyMjMwNzU4OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=PDAo7PInq5cQ7kNvwGJyiGs&_nc_oc=AdplCvLuZZaup4cCsOq0q0BhRRVGAnzYvQPRwy_Etz8MK5-qxmgG0mwEnzbfB9ibdXw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=pPW3xicikP1bCY2650D3aw&_nc_ss=7a22e&oh=00_AQGsRe4U6UHZ7IpWDMYe2hye7qZ9Pa4I8MtPMPKrRgk94g&oe=6A8E0F66",
    "url": "https://www.threads.com/@aipeekme/post/DcSYvmlDR8F",
    "region": "kr"
   },
@@ -497,7 +497,7 @@
    "likes": 30,
    "cmts": 5,
    "time": 1787270065,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/780422316_2024455081537317_2811652083157423592_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk2ODIyNTYzMjI4NjU3NTc4MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=SnCul9SAO_UQ7kNvwHpk5xR&_nc_oc=AdppW_tnDx2nXj3LguHLJy1mOOsJOjaysGM8sgqNM1m-egbkY6BLHYbFofiegeN6DmQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=d9SSecZtFj3T3zkvgOOpYA&_nc_ss=7a22e&oh=00_AQEMCSBC_J-mieEbcNCH2gOU1oMuDIw3dHjI77-Up9E9Qg&oe=6A8E2176",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/780422316_2024455081537317_2811652083157423592_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk2ODIyNTYzMjI4NjU3NTc4MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=SnCul9SAO_UQ7kNvwHpk5xR&_nc_oc=AdppW_tnDx2nXj3LguHLJy1mOOsJOjaysGM8sgqNM1m-egbkY6BLHYbFofiegeN6DmQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=ccO2qO26Eu8d3xeImZTt0A&_nc_ss=7a22e&oh=00_AQH1SlDmKKwye4O4t3AiyT5QLks8hlVjk_tQ2I-UV4BuWQ&oe=6A8E2176",
    "url": "https://www.threads.com/@aicoffeechat/post/DcR-DAhCoyk",
    "region": "kr"
   },
@@ -517,18 +517,18 @@
    "likes": 0,
    "cmts": 1,
    "time": 1787237859,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/782018303_1585964636498458_7533408098300556587_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk2Nzk2MTA3MzcxNzk1NTgxMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=5KQCbQ-hnqAQ7kNvwH5muNI&_nc_oc=AdrDVsi5YQkGLD7N68MmihRulCH0lqEamYq1KKxhE7MU59sTV22xGTc2fk3T9sGJShE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=NFkcufXayecxQxrWEfEjdQ&_nc_ss=7a22e&oh=00_AQFTaIigExMg8Vc1lEHAJRlHC8x0t6vVSpQWjzNmcfP5DQ&oe=6A8E0687",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/782018303_1585964636498458_7533408098300556587_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk2Nzk2MTA3MzcxNzk1NTgxMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=5KQCbQ-hnqAQ7kNvwH5muNI&_nc_oc=AdrDVsi5YQkGLD7N68MmihRulCH0lqEamYq1KKxhE7MU59sTV22xGTc2fk3T9sGJShE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Hf1n7kKPRl-MaANpPjQzAw&_nc_ss=7a22e&oh=00_AQHpNZIjBeVxMWnDzFg_I6p-CJjOnKdU_jvgJEmfOkDQGg&oe=6A8E0687",
    "url": "https://www.threads.com/@kopp/post/DcRB5LJiUzl",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "왔다..\n\n오픈AI DevDay Exchange가 10월 22일 서울에서 열립니다.\n\n미국 DevDay의 기술 세션과 콘텐츠를 각 지역 개발자 커뮤니티로 가져오는 글로벌 행사인데요.\n올해는 서울, 도쿄, 베를린, 파리, 런던 등 전 세계 8개 도시에서 진행됩니다.\n\n이번 행사에서는 키노트와 기술 세션에 더해 라이브 데모와 핸즈온 랩이 마련되고, 오픈AI 엔지니어와 제품팀에 구현 과정을 직접 질문할 수 있습니다.\n국내 스타트업과 개발자들의 Codex 활용 사례, 개발자 라운지와 네트워킹 자리도 준비됩니다.\n\n작년 11월 서울 행사에서는 에이전트 빌더, Codex SDK, AGENTS.md 작성법 같은 실무 주제가 중심이었는데요.\n참가비는 무료이며, 좌석이 한정되어 사전 신청 후 선정된 분들만 참석할 수 있고, 신청은 9월 4일까지입니다.",
-   "likes": 31,
-   "cmts": 2,
-   "time": 1787301010,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/782455813_17983442703112832_2084159243527373185_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk2ODQ5MDk2NTYyNzE2MjYzOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjQwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=vb3RksheK4wQ7kNvwFFI95t&_nc_oc=AdqbESHtsezQ6-Zj-bOZCwp9IO1QPFQIKQhygRwv09HEsZlhx-6cz38OiPsO9nSLG9g&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=E0i5I-jSNr-3h7-LAbKS3g&_nc_ss=7a22e&oh=00_AQG_erdv9656FG0fuN8GZWvc3kRv62hzGRSkeTJfoJeiSw&oe=6A8E1A93",
-   "url": "https://www.threads.com/@choi.openai/post/DcS6YHcjdAO",
+   "text": "🚨 딥시크가 드디어 눈을 떴습니다.\n\n딥시크가 첫 멀티모달 모델 V4-Flash-Vision을 실험 버전으로 API에 올렸습니다.\n텍스트 성능은 기존 V4-Flash와 같습니다.\n에이전트, 추론, 지식 전부 그대로인데 이미지를 읽는 능력이 붙었고, 멀티모달 에이전트 벤치마크에서는 Opus 4.8 턱밑까지 올라왔다고 밝혔습니다.\n\n일부 에이전트 평가에서는 비전을 달고도 오히려 점수가 올라, 애초에 비전까지 학습해두고 눈만 가려둔 모델이었다는 평가가 나오고 있는데요.\n\n가격이 딥시크답습니다. 이미지는 장당 최대 384토큰으로 환산해 기존 Flash 요금 그대로 받고, 한 번 올린 이미지를 재사용하는 Files API는 무료입니다.\n\n스크린샷을 읽고 화면을 이해하는 에이전트 작업까지 이 가격대로 내려온 셈이라, 저렴한 에이전트의 쓰임새가 한 층 넓어졌습니다.\n\n가중치 공개는 아직인데, 지난달 가중치를 풀었던 전례를 보면 이번에도 시간문제일 가능성이 높습니다.",
+   "likes": 26,
+   "cmts": 3,
+   "time": 1787306401,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778964136_17983461675112832_3914496111239992360_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk2ODUzNjE5MzI4NTI0MDY2OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=GiHm5_quJ9QQ7kNvwEOyHXK&_nc_oc=AdoROFy3t8wEldK0Pf1cvwHWYZ83LOIvgiGVoRWowupjLWdx9gHOLUDO_PIJD16OJiI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Gilbm_YkVPKjyqP7i8Ml_A&_nc_ss=7a22e&oh=00_AQFq1WHzTd_FhegloarK14P88Hq0bgoH1geGzqKDG29NpQ&oe=6A8DFF3A",
+   "url": "https://www.threads.com/@choi.openai/post/DcTEqQ_DDdc",
    "region": "kr"
   },
   {
@@ -537,8 +537,28 @@
    "likes": 1,
    "cmts": 0,
    "time": 1787283183,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/783485842_1081214614477174_5249468987997899409_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk2ODM0MTE5Mzk3Njg5NjAxNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=t9LHMxqzrVIQ7kNvwFFIcec&_nc_oc=AdoAOZgP4xuKGHf5QPingFabnIy3uXkemcktt1JBG9PhdJ2e9namvuPROnh6GVJYJnc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=YqUGSA13JbFwMxqMvcOiQg&_nc_ss=7a22e&oh=00_AQHM8FKKjhwA78DWFykz6jPzFIoxXgm90dLueOCV4nHpug&oe=6A8DEE55",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/783485842_1081214614477174_5249468987997899409_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk2ODM0MTE5Mzk3Njg5NjAxNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=t9LHMxqzrVIQ7kNvwFFIcec&_nc_oc=AdoAOZgP4xuKGHf5QPingFabnIy3uXkemcktt1JBG9PhdJ2e9namvuPROnh6GVJYJnc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=pPW3xicikP1bCY2650D3aw&_nc_ss=7a22e&oh=00_AQFUVdHeibHfhl9_dcYJN9i02ahXuAqug_OyiGLJzfdKww&oe=6A8E2695",
    "url": "https://www.threads.com/@aipeekme/post/DcSYUpuitoQ",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "신청주소 :\nhttps://events.openai.com/devdayexchange2026",
+   "likes": 4,
+   "cmts": 0,
+   "time": 1787301020,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DcS6ZYsDQ19",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "왔다..\n\n오픈AI DevDay Exchange가 10월 22일 서울에서 열립니다.\n\n미국 DevDay의 기술 세션과 콘텐츠를 각 지역 개발자 커뮤니티로 가져오는 글로벌 행사인데요.\n올해는 서울, 도쿄, 베를린, 파리, 런던 등 전 세계 8개 도시에서 진행됩니다.\n\n이번 행사에서는 키노트와 기술 세션에 더해 라이브 데모와 핸즈온 랩이 마련되고, 오픈AI 엔지니어와 제품팀에 구현 과정을 직접 질문할 수 있습니다.\n국내 스타트업과 개발자들의 Codex 활용 사례, 개발자 라운지와 네트워킹 자리도 준비됩니다.\n\n작년 11월 서울 행사에서는 에이전트 빌더, Codex SDK, AGENTS.md 작성법 같은 실무 주제가 중심이었는데요.\n참가비는 무료이며, 좌석이 한정되어 사전 신청 후 선정된 분들만 참석할 수 있고, 신청은 9월 4일까지입니다.",
+   "likes": 32,
+   "cmts": 2,
+   "time": 1787301010,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/782455813_17983442703112832_2084159243527373185_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk2ODQ5MDk2NTYyNzE2MjYzOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjQwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=vb3RksheK4wQ7kNvwFFI95t&_nc_oc=AdqbESHtsezQ6-Zj-bOZCwp9IO1QPFQIKQhygRwv09HEsZlhx-6cz38OiPsO9nSLG9g&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Gilbm_YkVPKjyqP7i8Ml_A&_nc_ss=7a22e&oh=00_AQGg3t87E5vI1wTN0oqoLy51uzGk51s7ItW2j7QM_kii0g&oe=6A8E1A93",
+   "url": "https://www.threads.com/@choi.openai/post/DcS6YHcjdAO",
    "region": "kr"
   },
   {
@@ -547,18 +567,8 @@
    "likes": 34,
    "cmts": 0,
    "time": 1787295645,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/780087745_1708944073552367_6241296050316740756_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk2ODQ0NTk2MzgzMjY0NTcyOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=amVZROMVQggQ7kNvwGmgWtG&_nc_oc=Adr1sOFrX4-JsOg24KZoEqVXRDcjq-7QaNHqTZc4ZcAYhdQbiLPUsX4g_zA9JTQDtBY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=E0i5I-jSNr-3h7-LAbKS3g&_nc_ss=7a22e&oh=00_AQHef0r1beelQh1iVcn-N1h7tdR_uPEXukS6DvDG49kOIg&oe=6A8E09F7",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/780087745_1708944073552367_6241296050316740756_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk2ODQ0NTk2MzgzMjY0NTcyOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=amVZROMVQggQ7kNvwGmgWtG&_nc_oc=Adr1sOFrX4-JsOg24KZoEqVXRDcjq-7QaNHqTZc4ZcAYhdQbiLPUsX4g_zA9JTQDtBY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Gilbm_YkVPKjyqP7i8Ml_A&_nc_ss=7a22e&oh=00_AQGbEAm2b2pA_gvWX1t9tqrjBbzMiOzoDBbcGgQn_sNeNg&oe=6A8E09F7",
    "url": "https://www.threads.com/@choi.openai/post/DcSwJQQk9hg",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "최근 일부 사용자에게 발생하는 Codex 사용량 문제 안내.\n\n오픈AI의 내부 확인 결과 영향을 받은 사용자 중 상당수가 구독 계정을 API 트래픽으로 변환해 여러 사용자에게 다시 제공하는 sub2api를 사용하고 있었다고 합니다.\n이런 방식은 부정 사용 방지 시스템에 감지될 수 있어 사용량이 과도하게 청구될 수 있습니다.\n\n반면 ChatGPT 계정으로 로그인해 공식 클라이언트나 Pi, OpenCode 같은 오픈소스 클라이언트에서 구독 사용량을 이용하는 것은 문제가 없다고 합니다.",
-   "likes": 85,
-   "cmts": 19,
-   "time": 1787290867,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778401353_17983445250112832_1144127407807415650_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk2ODQwNTg3ODI4MTgwMDExNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTE3OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=fM3E9GduvhAQ7kNvwFaN1Bp&_nc_oc=AdrS47tJppoautINwiRZ7XueRVNLvlkLgByQJhpFdvUovUCaQBRwz01Z9oEobUZB-4E&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=E0i5I-jSNr-3h7-LAbKS3g&_nc_ss=7a22e&oh=00_AQH1fmxQ8fswiVmyZBtrw9BqK8gGSqmNFNzjcsPXasmENQ&oe=6A8E20E1",
-   "url": "https://www.threads.com/@choi.openai/post/DcSnB7rjwmz",
    "region": "kr"
   }
  ],
@@ -583,15 +593,6 @@
    "url": "https://www.reddit.com/r/interesting/comments/1vtms10/hit_and_run_gone_wrong/"
   },
   {
-   "sub": "interestingasfuck",
-   "title": "Squirrel stages “accident” for attention",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/cmI0djE4YW5lcGtoMcfUjv5DqkGu2NSjNEIeDhd0K4wqatZXyCTXLIPdnFs_.png?width=320&crop=smart&auto=webp&s=a886405fdf1e24c3f71beb69d3a2be9231e16aa5",
-   "time": 1787307576,
-   "url": "https://www.reddit.com/r/interestingasfuck/comments/1vuccus/squirrel_stages_accident_for_attention/"
-  },
-  {
    "sub": "mildlyinfuriating",
    "title": "A police department is looking for a “suspect” who found $30 on the ground at a Walmart and didn’t turn it in to employees",
    "score": 0,
@@ -601,31 +602,13 @@
    "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1vu2n1k/a_police_department_is_looking_for_a_suspect_who/"
   },
   {
-   "sub": "IThinkYouShouldLeave",
-   "title": "I don’t know how to drive!",
+   "sub": "interestingasfuck",
+   "title": "Squirrel stages “accident” for attention",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/bm5kbmZ1ZG96amtoMZAocf5PWSYZ-teWngx2fs0PxrRFW8z36ywo8Xv-Ohkk.png?width=640&crop=smart&auto=webp&s=b49e679ebed960fa6415eef6aeaf37c9500e6412",
-   "time": 1787241874,
-   "url": "https://www.reddit.com/r/IThinkYouShouldLeave/comments/1vtnnsl/i_dont_know_how_to_drive/"
-  },
-  {
-   "sub": "whatisit",
-   "title": "Cut into a wall for a data cable at a hospital and this comes out. What is it?",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/c6teaylwmjkh1.jpeg?width=640&crop=smart&auto=webp&s=6d7eb8ad3eb201b702da1ca39defecaa46555bc1",
-   "time": 1787237580,
-   "url": "https://www.reddit.com/r/whatisit/comments/1vtlpdu/cut_into_a_wall_for_a_data_cable_at_a_hospital/"
-  },
-  {
-   "sub": "okbuddycinephile",
-   "title": "Favorite actress that everybody hates for no reason",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/i9qd3yit4mkh1.jpeg?width=640&crop=smart&auto=webp&s=e6b0f8de922cdb933b58179d057e640bdb173f68",
-   "time": 1787267908,
-   "url": "https://www.reddit.com/r/okbuddycinephile/comments/1vtzei8/favorite_actress_that_everybody_hates_for_no/"
+   "thumb": "https://external-preview.redd.it/cmI0djE4YW5lcGtoMcfUjv5DqkGu2NSjNEIeDhd0K4wqatZXyCTXLIPdnFs_.png?width=320&crop=smart&auto=webp&s=a886405fdf1e24c3f71beb69d3a2be9231e16aa5",
+   "time": 1787307576,
+   "url": "https://www.reddit.com/r/interestingasfuck/comments/1vuccus/squirrel_stages_accident_for_attention/"
   },
   {
    "sub": "todayilearned",
@@ -637,22 +620,13 @@
    "url": "https://www.reddit.com/r/todayilearned/comments/1vubi3o/til_actress_angela_lansbury_moved_her_entire/"
   },
   {
-   "sub": "GTA6unmoderated",
-   "title": "the best opinion i've seen towards these recent leaks",
+   "sub": "Damnthatsinteresting",
+   "title": "Xu Jiayin founder of China Evergrande Group and former China’s richest man, was sentenced to life in prison by a Shenzhen court.",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/as54jh3hyikh1.jpeg?width=640&crop=smart&auto=webp&s=dbe1e91d8a77129110952a04a295d48e68643452",
-   "time": 1787229360,
-   "url": "https://www.reddit.com/r/GTA6unmoderated/comments/1vtial9/the_best_opinion_ive_seen_towards_these_recent/"
-  },
-  {
-   "sub": "SipsTea",
-   "title": "Where are we heading?",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/2h4ayzny9okh1.jpeg?width=640&crop=smart&auto=webp&s=b0d8f24553bcba0eb2e2eb7bd0033ddc6374724b",
-   "time": 1787293774,
-   "url": "https://www.reddit.com/r/SipsTea/comments/1vu8dgc/where_are_we_heading/"
+   "thumb": "https://preview.redd.it/h6q113ngbpkh1.jpeg?width=640&crop=smart&auto=webp&s=a06e6bbd27dfe8860eeaa30d594241d5580a8f99",
+   "time": 1787306434,
+   "url": "https://www.reddit.com/r/Damnthatsinteresting/comments/1vubzpc/xu_jiayin_founder_of_china_evergrande_group_and/"
   },
   {
    "sub": "Awww",
@@ -664,13 +638,49 @@
    "url": "https://www.reddit.com/r/Awww/comments/1vu94ml/this_man_lost_everything_in_a_fire_but_tears_of/"
   },
   {
-   "sub": "nextfuckinglevel",
-   "title": "The guy in black was clearly just waiting for his turn",
+   "sub": "meirl",
+   "title": "Meirl",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/cW4wMDczNG12bmtoMSjaSPXJ0Ts22TqNcT9aXCNPA-MUtURikC86UtY2pF6L.png?width=640&crop=smart&auto=webp&s=89dd099f870e78012d83b9a68269f8e75bd4c6ca",
-   "time": 1787288943,
-   "url": "https://www.reddit.com/r/nextfuckinglevel/comments/1vu6wrp/the_guy_in_black_was_clearly_just_waiting_for_his/"
+   "thumb": "https://preview.redd.it/8lvw52a6uokh1.png?width=320&crop=smart&auto=webp&s=205b2bc00247192234ac547a264733fb37fdae2a",
+   "time": 1787300560,
+   "url": "https://www.reddit.com/r/meirl/comments/1vuaag9/meirl/"
+  },
+  {
+   "sub": "IThinkYouShouldLeave",
+   "title": "I don’t know how to drive!",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/bm5kbmZ1ZG96amtoMZAocf5PWSYZ-teWngx2fs0PxrRFW8z36ywo8Xv-Ohkk.png?width=640&crop=smart&auto=webp&s=b49e679ebed960fa6415eef6aeaf37c9500e6412",
+   "time": 1787241874,
+   "url": "https://www.reddit.com/r/IThinkYouShouldLeave/comments/1vtnnsl/i_dont_know_how_to_drive/"
+  },
+  {
+   "sub": "rareinsults",
+   "title": "This might be the most creative insult ive seen this year",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/6xrrgbhrapkh1.jpeg?width=640&crop=smart&auto=webp&s=83c637d560d22f29e44fef0670c453e4d7684b1b",
+   "time": 1787306138,
+   "url": "https://www.reddit.com/r/rareinsults/comments/1vubwcn/this_might_be_the_most_creative_insult_ive_seen/"
+  },
+  {
+   "sub": "whatisit",
+   "title": "Cut into a wall for a data cable at a hospital and this comes out. What is it?",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/c6teaylwmjkh1.jpeg?width=640&crop=smart&auto=webp&s=6d7eb8ad3eb201b702da1ca39defecaa46555bc1",
+   "time": 1787237580,
+   "url": "https://www.reddit.com/r/whatisit/comments/1vtlpdu/cut_into_a_wall_for_a_data_cable_at_a_hospital/"
+  },
+  {
+   "sub": "Unexpected",
+   "title": "kit trying to scare mama cat",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1787296503,
+   "url": "https://www.reddit.com/r/Unexpected/comments/1vu95sj/kit_trying_to_scare_mama_cat/"
   }
  ],
  "disaster": [],
@@ -709,10 +719,10 @@
    }
   },
   "landing": {
-   "at": "2026-08-21T20:05:16",
+   "at": "2026-08-21T20:30:58",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-21T20:30:56.106930+09:00"
+ "updated": "2026-08-21T21:00:54.737640+09:00"
 }
