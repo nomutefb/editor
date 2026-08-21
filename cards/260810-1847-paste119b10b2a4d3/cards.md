@@ -1,31 +1,31 @@
-# 🌊 1951년 이후 최다 폭우, 상하이 도로 100여 곳이 잠겼다
+# 1951년 이후 최다 폭우, 상하이 도로 100여 곳이 잠겼다
 
 **[프롬프트 설계]**
-- 화풍: B 극화 — 자연의 압도와 도시 인프라의 한계를 사실적으로 고발하는 사건이라 선 굵은 극화가 맞다
-- 분위기: 회색으로 가라앉은 대낮과 젖은 밤. 소란이 아니라 물이 차오르는 동안의 침묵, 그 침묵이 주는 압도감
-- 연출 방향: 뉴스 안 보는 독자도 멈추는 지점은 "숫자"가 아니라 "물이 사람 몸 어디까지 왔나"다 — 수위를 늘 사람 몸에서 재고, 규모는 군중이 아니라 압축된 행렬과 텅 빈 자리로 보여준다. 시사점(사람은 뺐고 도시는 잠겼다)이 마지막에 서려면 앞에서 '도시가 잠기는 높이'와 '사람이 비운 자리'가 각각 한 번씩 눈에 박혀야 한다. thumb_dispatch의 흐린 확산광 무채 톤과 압도·무력의 정조를 전 카드 키노트로 이어받되, 악센트는 브랜드 그린 대신 이 사건 고유 상징인 폭우 적색경보의 경고 빨강 하나로 통일한다
-- 독자 동선: **발단** 카드1→**전개** 카드2~3→**피크** 카드4→**해소** 카드5→**시사점** 카드6 · 훅=카드1 끝(단서형: 바람이 아니었다는 유보)+카드3 끝(예고형: 사람들이 떠나고 있었다) · 착지 한 줄 요지 = 사상자 0은 절반의 성적표이고, 지킨 건 사람이며 잠긴 건 도시였다
-- 연속성 앵커: Recurring subject — a Chinese man in his 40s, short cropped black hair, soaked navy windbreaker, gripping a wind-broken folding umbrella with both hands (카드 2·3) / 반복 장소 = a flooded Shanghai downtown street beside the Huangpu riverfront
+- 화풍: B 극화 — 기록적 폭우에 도시 기능이 통째로 멎은 재난을 사실적 무게로 세워야 해서(수채화의 온기는 이 사건의 압도감을 눅인다)
+- 분위기: 회색 하늘과 흙탕물의 무채색 위, 경보의 붉은색 하나만 살아남은 압도감. 물의 높이가 계속 올라가는 무거운 공기
+- 연출 방향: 뉴스 안 보던 독자도 "1951년 기록이 하루에 깨졌는데 아직 이틀이 더 남았다"는 대목에서 멈춘다 — 남의 나라 재난이 내 항공권 문제로 바뀌는 지점이 이 기사의 훅이다. 그래서 카메라는 재난의 스펙터클이 아니라 **물의 높이(신발→허벅지→차 지붕)와 사람의 수(대피소 매트 행렬)**를 계속 재게 잡는다. 시사점(물을 막는 대신 사람을 뺐다)은 마지막에 물이 빠진 거리에서 정면으로 착지시킨다. 흐린 대낮 확산광의 무채색과 규모 앞의 왜소함이 덱 전체의 키노트
+- 독자 동선: **발단** 카드1→**전개** 카드2~3→**피크** 카드4→**해소** 카드5→**시사점** 카드6 · 훅=카드1 끝(예고형: 바람이 아니었다는 단서)+카드3 끝(예고형: 사람들이 떠나고 있었다) · 착지 한 줄 요지 = 사상자 0이라는 발표는 아직 절반짜리 성적표다
+- 연속성 앵커: Recurring subject — a Chinese man in his 40s with short black hair plastered flat by rain, wearing a soaked dark-gray zip-up windbreaker and black trousers (카드2·3·6) / 반복 장소 = a flooded downtown Shanghai avenue lined with mid-rise buildings
 
 ### [카드 1]
 **텍스트**
 ```text
-8월 9일 오후 태풍 돌핀이 상륙했다
-*중심 부근 최대 풍속은 초속 42m였다*
-나무가 쓰러지고 사람은 못 서 있었다
-그런데 무너뜨린 건 바람이 아니었다
+8월 9일 오후 5시 30분, 태풍 돌핀이
+저장성 타이저우 해안에 올라섰다
+*초속 42m 바람에 나무가 쓰러졌다*
+그런데 도시를 삼킨 건 바람이 아니었다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a bare hand clamped white-knuckled around a bent steel railing, tendons showing. Three figures on a coastal road in Zhejiang crouch low against the wind, bodies angled forward at nearly forty-five degrees, faces turned away from the sea. A roadside tree bends until its crown almost touches the ground and a toppled bicycle slides across the wet asphalt beside them. Behind them the sea throws spray over the seawall into the road.
-Camera: wide shot from a Dutch tilted angle, shot on 20mm wide lens
-Lighting/mood: overcast diffused daylight of late afternoon, flat soft shadows, muted somber mood
-Accent: monochrome desaturated base with a single color accent, emergency warning red drawn from the city's rainstorm red alert, everything else muted daylight contrast
-Avoid incidental lettering: no shop signage, no road boards, no document text; resolve any needed meaning through composition and object silhouettes only.
+Scene: Emotional focal point: the way both figures brace their whole bodies sideways into the wind, knees bent and one forearm shielding the face. Two coastal residents in rain jackets fight to stay upright on a wet concrete seawall promenade as the typhoon comes ashore, their gaze dragged toward the churning sea at the right edge of the frame. A young roadside tree has been torn over onto the pavement and a bicycle lies flat beside it, while spray from the sea bursts over the parapet behind them. The location is a fishing-port seawall on the Zhejiang coast of eastern China.
+Camera: wide shot, full body with the surrounding environment and spatial context, from a low angle looking up for dominance and dramatic presence, shot on a 20mm wide lens, subject and environment, documentary realism
+Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood, late-afternoon storm gloom
+Accent: monochrome desaturated base with a single color accent (warning red #E23A2E, the storm alert color), muted daylight contrast
+Text handling: no signage text and no lettering on any surface; the storm warning is conveyed only by the shape of a red warning flag and the red of one jacket. Composition leaves nose room on the right, gaze directed toward the right edge.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the rain-slicked coastal asphalt road) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the wet concrete seawall promenade) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -35,28 +35,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-Typhoon Dolphin Taizhou landfall
+Typhoon Dolphin Zhejiang landfall
 ```
 
 ### [카드 2]
 **텍스트**
 ```text
-바람이 지나간 자리에 비가 남았다
-11시간 동안 상하이에 316.1mm가 왔다
-*1951년 이후 가장 많은 비였다*
-13년 만에 폭우 적색경보가 내렸다
+비였다. 11시간 동안 원링에 425mm,
+쉬자후이 316.1mm, 푸둥 238.8mm
+*상하이의 1951년 이후 최다 기록이었다*
+13년 만에 폭우 적색경보가 켜졌다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: his eyes fixed straight down at the water climbing past his shins. Recurring subject, a Chinese man in his 40s, short cropped black hair, soaked navy windbreaker, gripping a wind-broken folding umbrella with both hands, stands motionless in the middle of a flooded Shanghai downtown street. The camera sits almost at the level of the water so the surface fills the lower half and rain needles the whole frame. Half-submerged parked cars recede behind him toward the Huangpu riverfront.
-Camera: medium shot from ground level, shot on 35mm lens
-Lighting/mood: cold blue pre-dawn tone, lone streetlight reflection on wet ground, desolate stillness, film-noir low-key lighting, deep shadows
-Accent: monochrome desaturated base with a single color accent, emergency warning red drawn from the city's rainstorm red alert, carried only by a distant traffic signal reflected on the water
-Avoid incidental lettering: no shop signage, no station boards, no document text; resolve any needed meaning through composition and object silhouettes only.
+Scene: Emotional focal point: his eyes squeezed nearly shut against the downpour, water streaming off his chin. Recurring subject — a Chinese man in his 40s with short black hair plastered flat by rain, wearing a soaked dark-gray zip-up windbreaker and black trousers. He stands alone in the middle of a flooded downtown Shanghai avenue lined with mid-rise buildings, gripping an umbrella whose ribs have inverted, looking up toward the right edge of the frame at the falling rain. Water already covers his shoes and keeps rising, and a single streetlight drops a hard pool of light around him while the rest of the avenue vanishes into blackness.
+Camera: medium shot, waist-up framing showing face and gestures, from eye-level for a neutral realistic perspective, shot on a 35mm lens, natural documentary perspective with minimal distortion
+Lighting/mood: single pool of hard light isolating the figure in surrounding blackness, claustrophobic loneliness, heavy night rain
+Accent: monochrome desaturated base with a single color accent (warning red #E23A2E, the storm alert color), film-noir low-key lighting, deep shadows
+Text handling: no shop signage text, no lettering on the buildings; background signs are reduced to blurred glowing shapes only.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the standing floodwater covering the street) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the rain-flooded asphalt avenue) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -66,28 +66,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-Shanghai rainstorm red alert flooded street
+Shanghai rainstorm red alert
 ```
 
 ### [카드 3]
 **텍스트**
 ```text
-경보가 내린 도심은 이미 잠겨 있었다
-*도로와 지하차도 100여 곳이 물에 찼다*
-푸둥·훙차오에선 1천400편이 끊겼다
-그사이 사람들은 도시를 떠나고 있었다
+*도로와 지하차도 100여 곳이 잠겼다*
+푸둥·훙차오에선 1천400편이 취소됐다
+전체 항공편의 약 60%가 취소된 것이다
+그 사이 사람들은 도시를 떠나고 있었다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: his shoulders dropping the moment he stops at the barricade. Recurring subject, a Chinese man in his 40s, short cropped black hair, soaked navy windbreaker, gripping a wind-broken folding umbrella with both hands, stands small at the mouth of a road underpass whose descending ramp has vanished under brown water. The camera looks down on him from above the entrance so the drowned ramp opens like a dark pool below, and a folding barrier lies knocked sideways in the current. Two rescue workers in rain gear wade at the far edge of the water, kept small and low so he stays the focus.
-Camera: wide shot from a high angle, shot on 24mm wide lens
-Lighting/mood: cold dim blue light under the overpass, heavy and suffocating, faint trembling tension, film-noir low-key lighting, deep shadows
-Accent: monochrome desaturated base with a single color accent, emergency warning red drawn from the city's rainstorm red alert, carried only by the toppled barrier stripe
-Avoid incidental lettering: no shop signage, no road boards, no document text; resolve any needed meaning through composition and object silhouettes only.
+Scene: Emotional focal point: his eyebrows raised high and mouth fallen open as he looks down at the muddy water standing at his own thighs. Recurring subject — a Chinese man in his 40s with short black hair plastered flat by rain, wearing a soaked dark-gray zip-up windbreaker and black trousers. He wades slowly across a submerged downtown Shanghai avenue, one arm out for balance and the other holding the folded umbrella clear of the surface, his body angled toward the right edge where the flooded road continues. Behind him a row of parked cars shows only their roofs above the brown water, and further back the mouth of an underpass swallows the road entirely.
+Camera: full shot, head-to-toe with clear silhouette, from a high angle looking down so the figure reads small and vulnerable, shot on a 24mm wide lens, cinematic wide framing with spatial context
+Lighting/mood: cold blue pre-dawn tone, lone streetlight reflection on wet ground, desolate stillness
+Accent: monochrome desaturated base with a single color accent (warning red #E23A2E, the storm alert color), muted daylight contrast
+Text handling: no readable signage; a half-submerged road barrier and a floating traffic cone carry the red accent instead of any lettering. Composition leaves nose room on the right, movement directed toward the right edge.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the flooded underpass ramp and the water sheet over it) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the flooded street surface of standing muddy water) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -97,27 +97,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-Shanghai flooded underpass Bund
+Shanghai street flooding Bund
 ```
 
 ### [카드 4]
 **텍스트**
 ```text
-*로이터는 대피 인원을 100만으로 봤다*
-원저우 한 도시에서만 90만 명이었다
-대피소만 1,500여 곳이 문을 열었다
+하루 만에 100만 명이 집을 나섰다
+*90만 명은 원저우 한 곳에서 나왔다*
+상하이 21만5,600명, 푸젠 9만8,900명
+원저우는 대피소 1,500여 곳을 열었다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: an old woman's fingers locked around a younger hand pulling her forward. Her face fills the upper frame in profile, rain running down her cheek, her eyes set on the road ahead rather than on the camera. Behind her a column of evacuating residents carrying bundles and folded bedding stretches back into the rain, compressed by the long lens until the bodies stack layer on layer with no visible end. They move along a wet pavement in Wenzhou at night.
-Camera: close-up shot from eye level, shot on 70mm short telephoto
-Lighting/mood: single hard side-light cutting across the subject, deep chiaroscuro shadows, tense atmosphere, film-noir low-key lighting, deep shadows
-Accent: monochrome desaturated base with a single color accent, emergency warning red drawn from the city's rainstorm red alert, carried only by a rescue worker's armband far down the column
-Avoid incidental lettering: no signage, no banners with writing, no document text; resolve any needed meaning through composition and object silhouettes only.
+Scene: Emotional focal point: a vacant thousand-yard stare above the edge of a red blanket pulled up to the chin. An elderly evacuee woman sits upright on a thin sleeping mat inside a school gymnasium converted into an emergency shelter, both hands closed on the blanket edge, her unfocused eyes looking past everything. Behind her, rows of identical mats and bundled belongings recede into the dark depth of the hall, and two volunteers move quietly between them without looking up. The location is an evacuation shelter in Wenzhou, eastern China, on the night of the typhoon.
+Camera: tight close-up, face filling the frame with intense emotion and intimate pressure, from eye-level for a neutral and dignified perspective, shot on an 85mm portrait lens with soft background separation
+Lighting/mood: harsh single overhead light pooling on the floor, deep surrounding black, oppressive and institutional
+Accent: monochrome desaturated base with a single color accent (warning red #E23A2E, carried by the blanket), film-noir low-key lighting, deep shadows
+Text handling: no banners, no institutional emblems, no lettering anywhere in the hall; the shelter reads only through the mats, bundles and folding cots.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the wet pavement of the evacuation route) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the gymnasium floor covered with sleeping mats) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -127,28 +128,27 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-Wenzhou typhoon evacuation crowd
+Wenzhou typhoon evacuation shelter
 ```
 
 ### [카드 5]
 **텍스트**
 ```text
-그렇게 비운 자리에 사상자는 없었다
-휴교와 휴업, 운항 중단이 겹친 뒤였다
-다만 상륙 이틀 전 원링 해안에서는
-*9세 소년이 파도에 휩쓸려 실종됐다*
+중국 당국은 사상자가 없다고 밝혔다
+다만 이틀 전인 7일, 원링 앞바다에서
+*파도에 휩쓸린 9세 소년은 아직 실종이다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: one empty mat, its blanket folded square and untouched, in a floor otherwise filled with sleeping adults. The camera looks straight down on the hall floor of an evacuation shelter where mats are laid out in a repeating grid edge to edge. Adult evacuees rest on them, some sitting up with their arms around their knees, all of them turned slightly away from that one vacant square. Morning light enters from a window out of frame and falls across the empty mat.
-Camera: wide shot from a bird's-eye view, shot on 40mm lens
-Lighting/mood: warm soft morning light, gentle and quiet, faint melancholy
-Accent: monochrome desaturated base with a single color accent, emergency warning red drawn from the city's rainstorm red alert, carried only by a relief worker's vest at the frame edge, everything else muted daylight contrast
-Avoid incidental lettering: no signage, no notice boards, no document text; resolve any needed meaning through composition and object silhouettes only.
+Scene: Emotional focal point: the empty stretch of wet concrete where nobody is standing. A deserted breakwater juts out into a gray sea while a heavy swell breaks over its far end and spills across the walkway. A single red life-ring hangs untouched on a rusted railing post, its rope coiled and dry, and the railing runs unbroken toward the open water. The location is a fishing coast at Wenling in Zhejiang, eastern China, under a low storm sky with no people anywhere in the frame.
+Camera: establishing wide shot placing the location first for atmosphere, from an overhead bird's-eye angle looking down along the structure, shot on a 35mm lens with natural documentary perspective
+Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood
+Accent: monochrome desaturated base with a single color accent (warning red #E23A2E, carried by the life-ring), muted daylight contrast
+Text handling: no lettering on the life-ring, no port signage, no painted characters on the concrete; all markings are plain shapes only.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the shelter hall floor covered with mats) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the wet concrete breakwater walkway) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -158,28 +158,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-China typhoon shelter gymnasium mats
+Wenling coast breakwater waves
 ```
 
 ### [카드 6]
 **텍스트**
 ```text
-사상자 없다는 발표는 절반의 성적표다
-산사태와 홍수는 비가 그친 뒤에 세고
-예보된 비는 12일까지 더 남았다
-*지킨 건 사람이고 잠긴 건 도시였다*
+1951년 이후 가장 많은 비 앞에서
+중국은 물을 막는 대신 사람을 뺐다
+비는 12일까지 더 온다고 했다
+*사상자 0이라는 발표는 절반의 성적표다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the vast empty distance between two tiny figures and the grey horizon. Two adult searchers in rain gear stand far apart on the wet sand of the Wenling shoreline, both facing the open sea, dwarfed by the water and the low ceiling of cloud. Long swells roll in and break across the whole width of the frame. Rain still falls, and the composition holds them near the center with nothing else in the space around them.
-Camera: extreme long shot from ground level, shot on 14mm ultra-wide lens
-Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood
-Accent: monochrome desaturated base with a single color accent, emergency warning red drawn from the city's rainstorm red alert, carried only by the searchers' rain gear, everything else muted daylight contrast
-Avoid incidental lettering: no signage, no beach notice boards, no document text; resolve any needed meaning through composition and object silhouettes only.
+Scene: Emotional focal point: his eyes looking straight into the camera with a set jaw, rain still beaded on his face. Recurring subject — a Chinese man in his 40s with short black hair plastered flat by rain, wearing a soaked dark-gray zip-up windbreaker and black trousers. He stands facing the viewer in the middle of the same downtown Shanghai avenue, the water now receded to ankle depth around his shoes, arms hanging loose at his sides. Behind him the wet asphalt mirrors a pale break of light in the cloud, while a dark rain band still hangs low over the buildings at the far end of the street.
+Camera: medium shot, waist-up framing showing face and posture, front-on with a direct gaze and symmetrical composition, from eye-level for a neutral balanced perspective, shot on a 50mm standard lens with minimal distortion
+Lighting/mood: warm soft morning light, gentle and quiet, faint melancholy breaking through overcast
+Accent: monochrome desaturated base with a single color accent (warning red #E23A2E, carried by a road barrier still standing in the shallow water), muted daylight contrast
+Text handling: no signage text, no lettering on the buildings or barriers; background signs are simplified to shapes only.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the wet grey sand of the shoreline running into the sea) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the receding floodwater on the asphalt road) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -189,5 +189,5 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-Wenling Zhejiang coast high waves
+Shanghai flood aftermath street
 ```
