@@ -1,31 +1,31 @@
-# 자랑한 '4대 의사 집안', 증조부는 친일단체 평의원이었다
+# 자랑한 족보가 자기를 겨눴다
 
 **[프롬프트 설계]**
-- 화풍: B 극화 — 사료 대조가 사건의 축이라, 먹선과 고대비 명암이 100년 된 지면의 무게를 그대로 받는다
-- 분위기: 예능 조명의 환한 자랑에서 시작해 총독부 기관지의 서늘한 정적으로 한 칸씩 내려앉는 낙차. 마지막에만 바랜 온기로 놓아준다
-- 연출 방향: 독자는 지난 주말 그 자랑을 웃으며 같이 봤고, 감탄했던 자리가 그대로 뒤집힌 허탈함으로 멈춘다. 그래서 전할 것은 '누가 나쁘다'가 아니라 '자랑이 검증을 불렀다'는 전환이다. 강조점을 **자랑하는 입**과 **100년 전 지면** 두 표면에만 몰아, 같은 종이가 자랑의 근거였다가 반박 불가한 원본으로 뒤집히는 순간을 잡는다. 인물을 심판하지 않고 기록이 스스로 말하게 둔다(연좌 경계). thumb_dispatch 계승 = LGT12의 무감정한 제도적 한색 형광 톤과 SG-11의 '가려진 것이 드러나는' 정조, 악센트 #0FFD02 — 앵글은 카드마다 분산
-- 독자 동선: **발단** 카드1 → **전개** 카드2~3 → **피크** 카드4 → **해소** 카드5 → **시사점** 카드6 · 훅 = 카드1 끝(단서형 — 아직 말하지 않은 이름) + 카드3 끝(예고형 — 2년 뒤 본인의 말) · 착지 = 기록은 100년째 그 자리였고, 찾아볼 이유를 만든 건 본인의 자랑이었다
-- 연속성 앵커: Recurring subject A — a Korean woman in her early 30s with long straight dark hair parted in the middle, wearing a cream knit top (카드1·6) / Recurring subject B — a Korean man in his 40s from the 1910s, short parted hair, round wire-rimmed glasses, wearing a dark Western three-piece suit (카드3·4) / Recurring location — a Korean variety show studio with a curved panel desk and a warm wood-tone backdrop (카드1·6)
+- 화풍: B 극화 — 100년 전 문서와 오늘의 해명이 맞붙는 사료 대조 사안이라 선명한 잉크선과 명암이 필요하다
+- 분위기: 예능 조명의 밝은 들뜸에서 시작해 활자만 남은 냉랭한 지면으로 내려앉는 온도 낙차
+- 연출 방향: 뉴스를 안 보는 독자도 '내가 웃으며 본 그 장면'에서 출발하면 멈춘다 — 스튜디오의 자랑하는 입과 100년 전 신문 활자를 같은 덱 안에서 마주 세워, 새 사실은 하나도 없는데 판이 뒤집힌 이유(꺼낸 쪽이 본인이라는 것)를 보여준다. 사물 초점은 시종 '지면'과 '입' 둘, 인물 얼굴은 판정하지 않는다
+- 독자 동선: **발단** 카드1(방송에서 꺼낸 자랑)→**전개** 카드2~3(추적으로 드러난 이름·1916년 명부와 1918년 지면)→**피크** 카드4(당대 활자가 스스로 말하는 대목)→**해소** 카드5(소속사 해명이 안 먹히는 이유)→**시사점** 카드6 · 훅=카드1 끝(단서형: 이름 하나가 나왔다)+카드3 끝(예고형) · 착지 = 없던 사실이 아니라 찾아볼 이유가 새로 생겼다
+- 연속성 앵커: Recurring subject — a Korean woman in her early 30s with long straight dark hair parted in the middle, wearing a soft cream knit top. 반복 장소 = a bright variety-show studio table with a low mic stand.
 
 ### [카드 1]
 **텍스트**
 ```text
-*"고종 황제를 진료하셨다"*
-8월 7일 예능에서 나온 말이다
-배우 하영의 증조할아버지 자랑이었다
-시청자들이 그 이름을 찾아봤다
+지난 7일 예능에서 나온
+*4대째 의사 집안이라는 자랑*
+증조할아버지가 고종을
+진료했다고 그는 말했다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: her bright, unguarded smile and the open lift of her palm as she speaks about her family. Recurring subject A - a Korean woman in her early 30s with long straight dark hair parted in the middle, wearing a cream knit top - sits behind a curved panel desk in a Korean variety show studio with a warm wood-tone backdrop, one hand raised mid-gesture. A small desk microphone is angled up toward her mouth, the only object standing between her and the unseen audience. Her gaze is directed toward the right edge of the frame with nose room on the right, following the story she is telling.
-Camera: WS from Eye-level, shot on 35mm classic wide lens
+Scene: Emotional focal point: her lips parted mid-sentence in an unguarded proud smile. Recurring subject — a Korean woman in her early 30s with long straight dark hair parted in the middle, wearing a soft cream knit top, sits at a bright variety-show studio table with a low mic stand and leans slightly forward as she speaks. Her gaze is directed toward the right edge of the frame, toward an unseen listener, with nose room on the right. A single small microphone on the table sits just below her chin, the only object between her and the camera.
+Camera: medium shot, waist-up framing, face and gestures, conversational from three-quarter angle, natural face depth, shot on 50mm standard lens, minimal distortion, natural cinematic composition
 Lighting/mood: bright high-key light, clean white ambience, minimal shadow, hopeful and open
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 glinting on the microphone rim), muted daylight contrast
-Text handling: keep every incidental letterform out of the frame; no signage, no captions, no broadcaster marks, no logos anywhere.
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
+Korean default setting unless otherwise noted: Korean facial features and hair, Korean television studio conventions. Avoid incidental background lettering; suggest the studio through shapes and lighting only, not through signage or captions.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the studio backdrop wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the studio table top) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -41,22 +41,22 @@ NEGATIVE — strictly avoid:
 ### [카드 2]
 **텍스트**
 ```text
-근대 개업의 안상호였다
-1916년 대정친목회 평의원이 됐다
-일제 순응 방안을 연구한 친일단체다
-*이완용과 송병준도 이름을 올렸다*
+방송이 나가자 시청자들이
+그 증조부를 찾아봤다
+근대 개업의 안상호,
+*1902년 도쿄 유학생 의사였다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a fingertip stopping dead on one handwritten line. A young Korean woman in a plain dark hoodie leans over a desk, her face entering the upper-center of the frame above an open ledger, her eyes locked on the line her index finger marks. The brittle yellowed roster lies flat under her hand, its columns of handwriting thrown out of focus and cropped by the frame so the marked spot reads as a mark rather than as letters. Behind her, grey archive document boxes line a dim reading room.
-Camera: MS from High angle, shot on 50mm standard lens
-Lighting/mood: flat sterile clinical fluorescent light, cold even greenish-white, emotionless institutional
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 as a thin glow on the marked line under her fingertip), muted daylight contrast
-Text handling: the handwriting stays blurred, partially covered by her hand and cropped by the frame edge; no legible words, no readable columns.
+Scene: Emotional focal point: a fingertip stopping on one line of an old printed page. A single pair of hands presses a yellowed early-1900s newspaper sheet flat on a dark desk, the index finger halted mid-column as if it just found something. No face is shown; the whole attention of the frame belongs to the hands and the paper. A small desk lamp stands at the edge, its cone falling only on the page.
+Camera: extreme close-up, single detail, hand, texture from high angle shot, looking down, shot on 100mm macro lens, fine detail, shallow depth of field, precise texture
+Lighting/mood: warm soft desk-lamp light, quiet wistful tone
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
+Korean default setting unless otherwise noted. Text handling: the newspaper columns are rendered as abstract ink texture with no readable characters; crop the page so no headline is legible.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the desk surface) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the desk top with the spread newspaper) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -66,28 +66,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-대정친목회 명부
+매일신보 1918년 지면
 ```
 
 ### [카드 3]
 **텍스트**
 ```text
-같은 해 총독부 기관지 매일신보가
-안상호 가족을 지면에 실었다
-*조선과 일본이 섞인 성공 사례였다*
-2년 뒤 그가 직접 입을 열었다
+1916년 그는 대정친목회
+평의원 명부에 올라 있었다
+일제 무단정치에 순응할 방안을
+연구한 친일 조직이었다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the stiff, held stillness of his face while posing for a photograph he is proud of. Recurring subject B - a Korean man in his 40s from the 1910s, short parted hair, round wire-rimmed glasses, wearing a dark Western three-piece suit - stands in the upper-center of the frame, chin lifted, shoulders squared toward a large wooden plate camera on a tripod just past the left edge. Behind him his wife and two children stand blurred in shallow depth, dressed in the same Western clothing and locked in the same held pose. The room is a formal parlor with patterned wallpaper in a 1910s Korean home.
-Camera: MCU from Eye-level three-quarter angle, shot on 70mm short telephoto
-Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 as a faint reflection across his glasses), muted daylight contrast
-Text handling: no printed matter, no signage, no lettering of any kind in the room; the propaganda is implied by the camera and the pose alone.
+Scene: Emotional focal point: the cold blankness of a name roster with nobody to answer for it. A single bound membership ledger from the 1910s lies open on an empty archive table, its ruled columns filled with vertical brush strokes; no person is present anywhere in the frame. A pair of thin cotton archive gloves rests beside the book, left behind by whoever opened it. The room around the table falls away into flat institutional gloom.
+Camera: wide shot, full surroundings, spatial context from overhead shot, bird's-eye view, top-down angle, layout, geometry, shot on 35mm lens, natural documentary perspective, balanced subject and background, minimal distortion
+Lighting/mood: flat sterile clinical fluorescent light, cold even greenish-white, emotionless institutional
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
+Korean default setting unless otherwise noted. Text handling: the ledger columns are abstract ink strokes only; no readable characters, no organization emblem, no logo of any kind.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the patterned parlor wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the archive table top) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -97,27 +97,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-매일신보 조선총독부 기관지
+대정친목회 명부 기록
 ```
 
 ### [카드 4]
 **텍스트**
 ```text
+*총독부 기관지는 그 집을*
+*동화 성공 사례로 실었다*
+1918년 인터뷰에서 그는
 아이들이 조선말을 못 한다고 했다
-*"완전한 일본인 가정으로 키우고 있다"*
-1918년 12월 10일 매일신보였다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a fleeting micro-expression flashing across his otherwise composed face as he speaks. Recurring subject B - a Korean man in his 40s from the 1910s, short parted hair, round wire-rimmed glasses, wearing a dark Western three-piece suit - fills the upper-center of the frame in tight framing, chin slightly lowered, lips parted mid-sentence, speaking toward an unseen interviewer just past the right edge. The corner of a reporter's open notebook and the tip of a pen intrude at the lower edge, catching a thin spill of the same light. Everything beyond that single pool of light is swallowed in black.
-Camera: Tight close-up from High angle, shot on 85mm portrait lens
-Lighting/mood: single pool of hard light isolating the figure in surrounding blackness, claustrophobic loneliness
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 catching the rim of his glasses), film-noir low-key lighting, deep shadows
-Text handling: the notebook page stays blank and out of focus at the frame edge; no writing, no legible marks.
+Scene: Emotional focal point: one interview column lit alone while everything around it drowns in black. A folded 1918 newspaper page is propped upright against a dark surface, creased down the middle so only a single narrow column of vertical type catches the light. Nobody is in the frame. The fold throws a hard diagonal shadow across the rest of the sheet, swallowing the remaining columns.
+Camera: tight close-up, the page fills the frame, intense pressure from eye-level shot, neutral perspective, shot on 85mm portrait lens, soft background separation
+Lighting/mood: single hard side-light cutting across the subject, deep chiaroscuro shadows, tense atmosphere
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
+Korean default setting unless otherwise noted. Text handling: the lit column reads as rhythmic vertical ink marks, deliberately unreadable; no legible characters, no headline, no date line.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the dark study wall behind him) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the folded newspaper sheet) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -127,28 +128,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-안상호 근대 개업의
+조선총독부 기관지 매일신보
 ```
 
 ### [카드 5]
 **텍스트**
 ```text
-소속사는 "사실무근"이라고 반박했다
-그런데 받아들여지지 않았다
+소속사는 사실무근이라고 했다
+그런데 그 반박이 안 먹혔다
 근거가 후대의 평가가 아니라
-*당대 명부와 신문 지면이어서다*
+*당대의 명부와 지면이어서다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a fingertip resting on the yellowed page while the other hand has already let go of the phone. Seen from directly overhead, two things lie side by side on a plain desk in the upper-center of the frame: a phone showing a short official statement, and a large brittle newspaper page from a century ago. A pair of hands reach up into that upper area, one fingertip pressed on the old page, the other palm turned away from the phone. The lettering on both the screen and the page is thrown out of focus and cropped so nothing can be read.
-Camera: WS from Bird's-eye view, shot on 24mm wide lens
-Lighting/mood: flat cold even surveillance light, no shadow no warmth, detached and watchful
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 as a thin edge glow along the old newspaper page only), muted daylight contrast
-Text handling: both surfaces stay deliberately blurred and cropped; no readable words, no headlines, no sentences.
+Scene: Emotional focal point: a hand holding out a crisp new statement sheet toward the old page, and the old page not moving. Two hands enter from the left edge offering a freshly printed white sheet across a dark table; opposite it, weighted flat by a small glass paperweight, lies the yellowed century-old page. The two papers face each other with a narrow gap of empty tabletop between them. No faces are visible; only the offering hands and the two sheets.
+Camera: cowboy shot, mid-thigh framing, hands visible from low angle shot, looking up, shot on 70mm short telephoto, gentle background compression, subject isolation
+Lighting/mood: harsh single overhead light pooling on the table, deep surrounding black, oppressive interrogation
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
+Korean default setting unless otherwise noted. Text handling: the new sheet is blank and slightly angled away from camera; the old page shows only abstract ink texture. No agency logo, no letterhead, no readable characters anywhere.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the desk surface) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the dark table top) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -158,28 +159,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-비스터스엔터테인먼트 입장문
+연예 기획사 입장문 발표
 ```
 
 ### [카드 6]
 **텍스트**
 ```text
-새로 밝혀진 사실은 없었다
-기록은 100년째 그 자리에 있었다
-아무도 찾아볼 이유가 없었을 뿐이다
-*그 이유를 만든 건 자랑이었다*
+이번에 새로 생긴 사실은 없다
+1916년 명부도 1918년 지면도
+100년째 그 자리에 있었다
+*찾아볼 이유가 방송에서 생겼을 뿐이다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: her steady, unsmiling eyes meeting the viewer straight on. Recurring subject A - a Korean woman in her early 30s with long straight dark hair parted in the middle, wearing a cream knit top - sits alone behind the curved panel desk in a Korean variety show studio with a warm wood-tone backdrop, hands lowered and still, framed symmetrically in the upper-center. A single yellowed newspaper page lies open on the desk in front of her, tilted toward the viewer, its lettering blurred and cropped by the desk edge. The studio lamps are dimmed and every other seat around her is empty.
-Camera: MS from Eye-level, front-on symmetrical framing, shot on 50mm standard lens
-Lighting/mood: faded warm light, soft golden haze, gently nostalgic and wistful
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 as one thin line of light across the open page), muted daylight contrast
-Text handling: the newspaper page stays blurred and cropped; no readable print, no signage, no logos, no broadcaster marks.
+Scene: Emotional focal point: dust settling in the still air above a page that never moved. A single old bound volume lies open and untouched on a wide archive shelf, one shaft of late light crossing it while the shelves recede into quiet dimness. No person is in the frame and nothing is being handled; the room looks exactly as it has for a long time. Fine dust drifts in the light above the open page.
+Camera: extreme long shot, small subject, vast environment, isolation from eye-level shot, neutral perspective, front-on composition facing the camera, shot on 24mm wide lens, cinematic wide shot, spatial context, subtle depth
+Lighting/mood: warm soft morning light, gentle and quiet, faint melancholy
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
+Korean default setting unless otherwise noted. Text handling: the open volume is seen from a distance as texture only; no readable characters, no spine lettering, no shelf labels.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the studio backdrop wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the archive shelf plane) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -189,5 +190,5 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-배우 하영
+근대 신문 아카이브 서고
 ```
