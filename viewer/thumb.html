@@ -1043,7 +1043,7 @@
         <!-- 발사 = 레일 **캡슐③**(운영자 260807 «돋보기 처럼 구분되게 하나 더 만든다음에 거기로 생성을 옮겨줘») — 구 거처 = 미리보기 창 **안** 하단 오버레이(260806 · 사진을 가렸다) · ⚠배치 = 캡슐 순서 [돋보기][생성][옵션] = 생성 y 고정(옵션 캡슐은 탭마다 길이가 다르고 특수 탭은 통째로 은닉되므로 맨 뒤에 두면 탭마다 생성이 튄다)  (구 주석: 260806) — 구 거처 = 도크 하단 발사행(#makeRow) · DOM·id·클래스·핸들러 전부 원문 그대로 옮겼다(레일 이주 260802 선례 문법) = 발사 로직·게이지·상태머신 무접촉 · 위치·폭은 위 `.cpprev-box > .pvfire` 한 규칙이 전담 -->
         <div class="gowrap trail-fire">
           <button class="go" id="go">생성</button>
-          <label class="chk go-abbr" id="abbrBox" title="이 → 李 · 윤 → 尹 · 미 → 美 · 줄 앞 중/북/은 → 中/北/銀 · ... → ⋯"><input type="checkbox" id="abbr" checked><span class="cbox" aria-hidden="true"><svg class="ackm" viewBox="0 0 24 24" fill="none" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path class="sc-dash" d="M6 12h12"/><path class="sc-chk" d="M5 13l4 4L19 7"/></svg></span> 축약</label>
+          <label class="chk go-abbr" id="abbrBox" title="이 → 李 · 윤 → 尹 · 미 → 美 · 줄 앞 중/북 → 中/北 · ... → ⋯"><input type="checkbox" id="abbr" checked><span class="cbox" aria-hidden="true"><svg class="ackm" viewBox="0 0 24 24" fill="none" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path class="sc-dash" d="M6 12h12"/><path class="sc-chk" d="M5 13l4 4L19 7"/></svg></span> 축약</label>
         </div>
         </div>
     </div>
@@ -5504,9 +5504,9 @@ function jobLabel() {
 // 제작 = 동시 가능. 누를 때마다 잡 생성 → 로그에 쌓고 각자 폴링(백엔드는 id별 동시처리 안전). #go 비활성 안 함.
 let _goLock = false;   // 더블탭 오발사만 방지(짧은 디바운스) — 큐잉 자체는 막지 않음
 // 축약 = 기본 5종(정본·절대규칙5·불변) + 사용자 커스텀 쌍(축약 토글 롱프레스 등록·localStorage). 리터럴 치환(split/join = 정규식 이스케이프 불요).
-const ABBR_BUILTIN = [['...', '⋯'], ['•', '·'], ['이,', '李,'], ['윤,', '尹,'], ['미,', '美,'], ['중,', '中,'], ['북,', '北,'], ['은,', '銀,']];   // 정본 8종 — 절대규칙(불변) · 260820 「미,」→「美,」 편입(운영자 «해더에서 미 = 한자로 변환되어야되는데 안되더라고» — 실측 원인 = 이 표에 그 쌍이 없었다{`_src.json` abbr:true인데 산출 제목이 「미, CBDC 도입 금지 선언」 그대로} · 커스텀 쌍은 그 브라우저 localStorage 전용이라 기기를 옮기면 사라진다 = 정본 편입이 유일한 해) · 260821 「중,」「북,」「은,」→「中,」「北,」「銀,」 편입(운영자 «각각 한자로 미리보기랑 제작 시 자동 변환 · 쉼표가 띄어쓰기 없이 붙어야 하고 각 줄의 맨 앞» — 줄 맨 앞 전용 = ABBR_LINESTART)
+const ABBR_BUILTIN = [['...', '⋯'], ['•', '·'], ['이,', '李,'], ['윤,', '尹,'], ['미,', '美,'], ['중,', '中,'], ['북,', '北,']];   // 정본 7종 — 절대규칙(불변) · 260820 「미,」→「美,」 편입(운영자 «해더에서 미 = 한자로 변환되어야되는데 안되더라고» — 실측 원인 = 이 표에 그 쌍이 없었다{`_src.json` abbr:true인데 산출 제목이 「미, CBDC 도입 금지 선언」 그대로} · 커스텀 쌍은 그 브라우저 localStorage 전용이라 기기를 옮기면 사라진다 = 정본 편입이 유일한 해) · 260821 「중,」「북,」→「中,」「北,」 편입(운영자 «각각 한자로 미리보기랑 제작 시 자동 변환 · 쉼표가 띄어쓰기 없이 붙어야 하고 각 줄의 맨 앞» — 줄 맨 앞 전용 = ABBR_LINESTART · ⚠ 첫 판이 지시문의 조사 「은」을 세 번째 대상으로 오독해 「은,」→「銀,」까지 편입했다가 운영자 2차 «은 은 아님»으로 그 쌍만 회수 — 원문에서 쉼표가 붙은 토큰은 「중,」「북,」 둘뿐이었다 · 되살릴 땐 표·ABBR_LINESTART 두 곳 동시)
 const ABBR_STANDALONE = new Set(['이,', '윤,', '미,']);   // 성씨(이/윤)·국가 약칭(미) = '단독'일 때만 변환 — 앞 글자가 한글 음절이면 이름·낱말의 일부라 보존(예 "윤가이,"→李 변환 안 함 · 260627 / "재미,"·"의미,"·"취미,"→美 변환 안 함 · 260820)
-const ABBR_LINESTART = new Set(['중,', '북,', '은,']);   // 中·北·銀 = **줄 맨 앞일 때만** 변환(운영자 260821 «각 줄의 맨 앞에 위치해야 해 · 단일 줄이면 셀 것 없이 그 줄 가장 좌측») — '단독' 술어보다 좁은 이유 = 「검토 중,」「협상 중,」처럼 줄 중간의 「중,」은 진행형 꼬리가 흔해 공백 뒤 단독으로도 오변환된다 → 위치 축으로만 가른다(쉼표 무공백 밀착은 토큰 리터럴 자체가 보장)
+const ABBR_LINESTART = new Set(['중,', '북,']);   // 中·北 = **줄 맨 앞일 때만** 변환(운영자 260821 «각 줄의 맨 앞에 위치해야 해 · 단일 줄이면 셀 것 없이 그 줄 가장 좌측») — '단독' 술어보다 좁은 이유 = 「검토 중,」「협상 중,」처럼 줄 중간의 「중,」은 진행형 꼬리가 흔해 공백 뒤 단독으로도 오변환된다 → 위치 축으로만 가른다(쉼표 무공백 밀착은 토큰 리터럴 자체가 보장)
 const ABBR_KEY = 'nomute_thumb_abbr';   // 사용자 커스텀 [{from,to},…]
 function abbrCustom() { try { const a = JSON.parse(localStorage.getItem(ABBR_KEY) || '[]'); return Array.isArray(a) ? a.filter(p => p && p.from) : []; } catch { return []; } }
 const _abbrEsc = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
