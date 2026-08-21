@@ -1,41 +1,33 @@
 # 🛢 정유소를 끊는 전쟁, 24만 도시에서 13명이 죽었다
 
 **[프롬프트 설계]**
-- 화풍: B극화 — 전쟁·구조 고발이라 사실성과 무게가 필요하고, 검은 연기·잿빛 새벽의 고대비가 극화의 명암과 맞는다
-- 분위기: 새벽에서 아침으로 넘어가는 잿빛, 화염의 주황만 살아 있는 서늘함 — 승패를 말하는 발표문과 아이 한 명의 죽음이 같은 하늘 아래 놓인 정조
-- 연출 방향: 뉴스를 전선 지도로만 본 독자가 멈추는 지점은 '전략이 먹힌다'와 '어린이가 숨졌다'가 같은 기사에 있다는 서늘함이다. 그래서 이 덱은 전황을 그리지 않고 **거리와 인접**을 그린다 — 1천200km를 날아온 것이 24만 명의 생활권 안에 떨어졌다는 사실을, 정유탑과 아파트가 같은 프레임에 있는 구도로 반복해 보여준다. 강조점은 화염 자체가 아니라 그 화염을 등지고 선 사람들의 자리, 그리고 아무도 특정하지 않는 '어디서 죽었는가'라는 빈칸이다
-- 독자 동선: **발단** 카드1→**전개** 카드2~3→**피크** 카드4→**해소** 카드5→**시사점** 카드6 · 훅=카드1 끝(단서형 — 도시 이름과 거리 수치를 남기고 넘김)+카드3 끝(예고형) · 착지 한 줄 요지 = 압박이 협상을 앞당기는지 보복만 키우는지는 아무도 증명 못 했는데 청구서는 양쪽 도시에서 이미 발행됐다
-- 연속성 앵커: Recurring subject — a Korean-drawn Russian woman in her 40s with dark hair tied back, wearing a worn gray padded coat and a dark scarf / Recurring place — a Soviet-era apartment block courtyard with refinery towers visible beyond the rooftops
+- 화풍: B 극화 — 전쟁·구조 고발이라 극화 고정. 굵은 먹선과 스크린톤으로 멀게만 느껴지던 국제 뉴스의 거리를 좁힌다.
+- 분위기: 굉음이 아니라 그 다음의 서늘함. 잿빛 새벽 위에 불빛 한 색만 남기고, 소리를 지우고 정적만 세운다.
+- 연출 방향: 전선 지도와 정상외교로만 전쟁을 봐 온 독자가 멈추는 자리는 '정유공장'과 '아파트 창'이 같은 프레임에 들어오는 순간이다. 그래서 매 카드는 설비와 사람 사이의 거리를 재는 방식으로 잡는다 — 지평선에서 타는 불, 담장 하나 사이, 멈춘 손, 남겨진 신발, 아무도 밟지 않는 자리, 유리에 겹친 얼굴과 연기. 시사점(전략은 먹히는데 그 정유소가 도시 안에 있다)을 설명하지 않고 거리로 보여준다. 썸네일 디스패치에서 차가운 새벽 톤과 '부재'의 정조를 이어받되 앵글은 카드마다 분산한다.
+- 독자 동선: **발단** 카드1→**전개** 카드2~3→**피크** 카드4→**해소** 카드5→**시사점** 카드6 · 훅=카드1 끝(단서형 — 도달 거리를 던지고 무엇을 노렸는지는 감춘다)+카드3 끝(예고형 — 생산 수치가 주저앉은 자리에서 끊어 그 대가를 다음 장이 받게 한다) · 착지 한 줄 요지 = 이 전략은 실제로 먹히고 있고, 그 청구서는 이미 양쪽 도시에서 발행되고 있다.
+- 연속성 앵커: Recurring subject - a Slavic woman in her 40s, dark hair pulled back, wearing a worn navy quilted coat over a gray sweater. / Recurring location - a Soviet-era apartment courtyard with refinery flare stacks on the horizon.
 
 ### [카드 1]
 **텍스트**
 ```text
-8월 10일 새벽, 드론이 날아든 곳은
-전선에서 1천200km 떨어진 내륙이었다
-러시아 타타르스탄의 니즈네캄스크
-*인구 24만 명이 사는 도시였다*
+8월 10일 새벽 러시아 내륙이 뚫렸다
+국경에서 1천200km 떨어진 도시였다
+모스크바에서 동쪽 800km 지점이다
+*드론은 거기까지 날아갔다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-
-Scene: Emotional focal point: her eyes fixed on something far past the rooftops, not on the camera. Recurring subject — a Korean-drawn Russian woman in her 40s with dark hair tied back, wearing a worn gray padded coat and a dark scarf, stands in a Soviet-era apartment block courtyard with refinery towers visible beyond the rooftops. She has stepped outside in the pre-dawn cold and stopped mid-step, one hand still holding the entrance door. Behind the low rooftops a column of black smoke rises from the industrial skyline, and her gaze is directed toward the right edge of the frame where the smoke leans.
-
-Camera: wide shot, full body, surrounding environment, movement, spatial context from eye-level shot, neutral perspective, realistic, balanced emotion, shot on 35mm lens, natural documentary perspective, balanced subject and background, minimal distortion, nose room on the right, gaze directed toward the right edge
-
+Scene: Emotional focal point: her eyes locked on the orange glow at the far horizon, not on the camera. Recurring subject - a Slavic woman in her 40s, dark hair pulled back, wearing a worn navy quilted coat over a gray sweater - stands motionless in the middle of an empty apartment courtyard, one hand gripping the strap of a shopping bag. Behind her rise blocks of Soviet-era housing, and far past them a refinery flare burns low against the pre-dawn sky. Her face and body are turned toward the right edge of the frame with open nose room on that side.
+Camera: wide establishing shot from eye-level, shot on 24mm wide lens
 Lighting/mood: cold blue pre-dawn tone, lone streetlight reflection on wet ground, desolate stillness
-
-Accent: monochrome desaturated base with a single color accent (orange firelight reflected on the smoke and on the wet pavement), film-noir low-key lighting, deep shadows
-
-Text handling: no signage text in frame, building numbers and any lettering cropped out of view or turned away from camera.
-
+Accent: monochrome desaturated base with a single color accent (burning orange, the story's symbolic color), film-noir low-key lighting, deep shadows
+Setting: a Russian industrial city, Soviet-era architecture, no Cyrillic signage in frame.
+Text handling: all incidental signage and vehicle markings are turned away, cropped out of frame or lost in shadow; no readable lettering anywhere.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
-
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-
-Composition: ONE continuous surface (the courtyard pavement) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the paved courtyard ground) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -44,38 +36,30 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-Nizhnekamsk apartment blocks refinery skyline
+Nizhnekamsk cityscape Tatarstan dawn
 ```
 
 ### [카드 2]
 **텍스트**
 ```text
-그 도시엔 정유공장 두 곳과
-대형 석유화학 단지가 함께 있다
-우크라이나군은 타네코 정유공장을 때려
+우크라이나군은 타네코 정유소를 쳤다
 *불이 난 것을 확인했다고 밝혔다*
+그 도시엔 정유·화학 설비가 더 있고
+24만 명이 바로 그 옆에서 산다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-
-Scene: Emotional focal point: the razor-thin gap between a burning refinery tower and the balconies of the apartment block right beside it. A vast petrochemical complex of distillation towers and pipe racks burns in the upper half of the frame, thick black smoke unrolling sideways. On the same continuous ground, only a short road away, stand ordinary residential buildings with laundry still hanging on the balconies. No people are visible; the two structures face each other across the empty road.
-
-Camera: extreme long shot, tiny subject, vast environment, scale, isolation from overhead shot, bird's-eye view, top-down angle, layout, geometry, shot on 20mm wide lens, subject and environment, documentary realism
-
-Lighting/mood: harsh single side-light from the fire cutting across the complex, deep chiaroscuro shadows, tense atmosphere
-
-Accent: monochrome desaturated base with a single color accent (the orange flame at the refinery core), film-noir low-key lighting, deep shadows
-
-Text handling: all plant signage and pipeline markings shown as abstract shapes only, no legible lettering anywhere.
-
+Scene: Emotional focal point: a firefighter's gloved hands frozen on the hose nozzle as he looks up at the burning column above him. Two firefighters in heavy gear stand at the base of a refinery cracking tower, their water arc falling far short of the flames overhead. Storage tanks and pipe racks fill the yard, and just past the perimeter fence the windows of apartment blocks catch the same fire light. Both men face the right edge of the frame.
+Camera: medium wide shot from a low angle, shot on 35mm lens
+Lighting/mood: single hard side-light cutting across the subject, deep chiaroscuro shadows, tense atmosphere
+Accent: monochrome desaturated base with a single color accent (burning orange, the story's symbolic color), film-noir low-key lighting, deep shadows
+Setting: a Russian industrial city, Soviet-era architecture, no Cyrillic signage in frame.
+Text handling: tank markings, hazard placards and helmet decals are turned away, cropped out of frame or lost in shadow; no readable lettering anywhere.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
-
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-
-Composition: ONE continuous surface (the industrial ground plane) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the refinery yard ground) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -84,38 +68,30 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-Taneco refinery Nizhnekamsk petrochemical complex
+Taneco refinery fire Nizhnekamsk
 ```
 
 ### [카드 3]
 **텍스트**
 ```text
-러시아 쪽 설명은 달랐다
-민니하노프 수반은 "야만적"이라며
-민간 시설이 맞았다고 했고, 수사당국은
-*주거지역 피격이라며 테러 수사에 나섰다*
+정유소를 노린 건 이번이 처음이 아니다
+우크라이나는 몇 달째 거의 매일 쳤다
+하루 100만 배럴이던 러시아 휘발유는
+*지금 85만 배럴까지 내려앉았다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-
-Scene: Emotional focal point: the hard set of a middle-aged official's jaw as he speaks, jaw clenched tight, muscle flexing at the jawline. A Russian government official in his 50s in a dark suit stands at a press podium with a cluster of microphones, one hand flat on the lectern, eyes directed toward the right edge of the frame rather than at the cameras. Behind him a row of tripod-mounted news cameras crowds the taped photo line, their lenses all turned on him.
-
-Camera: medium close-up, chest-up framing, facial emotion, slight body context from low angle shot, looking up, powerful subject, dominance, dramatic presence, shot on 50mm standard lens, minimal distortion, natural cinematic composition, nose room on the right, gaze directed toward the right edge
-
-Lighting/mood: flat sterile clinical fluorescent light, cold even greenish-white, emotionless institutional
-
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on a single camera recording indicator), muted daylight contrast
-
-Text handling: the podium backdrop is a plain untextured cloth surface, all lettering cropped out of frame or turned away, no legible script anywhere.
-
+Scene: Emotional focal point: a bare hand still gripping a fuel nozzle that is going nowhere. A man's hand holds the pump nozzle at a deserted filling station while his other hand rests flat on the pump housing, knuckles tight. The pump face beside his hand is dark and blank, the empty bays stretch away under a low canopy with no cars and a single toppled barrier cone. The nozzle and both hands point toward the right edge of the frame.
+Camera: extreme close-up from a high angle, shot on 100mm macro lens
+Lighting/mood: flat sterile fluorescent light from the canopy above, cold even greenish-white, surrounding darkness with no fill
+Accent: monochrome desaturated base with a single color accent (burning orange, the story's symbolic color), film-noir low-key lighting, deep shadows
+Setting: a Russian roadside filling station, no Cyrillic signage in frame.
+Text handling: pump digits, price boards and brand marks are unlit, cropped out of frame or lost in shadow; no readable lettering or numerals anywhere.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
-
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-
-Composition: ONE continuous surface (the backdrop cloth wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the filling station forecourt) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -124,38 +100,29 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-Minnikhanov Tatarstan press conference
+Russia fuel shortage petrol station
 ```
 
 ### [카드 4]
 **텍스트**
 ```text
-*최소 13명이 숨졌고 한 명은 어린이였다*
+*그리고 그 도시에서 사람이 죽었다*
+최소 13명, 그중 한 명은 어린이였다
 부상자는 39명에서 75명으로 늘었다
-공장에서 났는지 아파트에서 났는지는
-어느 쪽 발표로도 확인되지 않았다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-
-Scene: Emotional focal point: a small child's sneaker left alone on a stairwell landing, one lace still tied. The Soviet-era apartment courtyard stairwell is empty, its window blown out, fine ash settled on the concrete steps around the shoe. No people are in the frame. A single shaft of grey morning light falls through the broken window onto the void where someone should be standing.
-
-Camera: extreme close-up, single detail, texture from high angle shot, looking down, vulnerable subject, small, observed, shot on 100mm macro lens, fine detail, shallow depth of field, precise texture
-
-Lighting/mood: single pool of hard light isolating the object in surrounding blackness, claustrophobic loneliness
-
-Accent: monochrome desaturated base with a single color accent (one faded orange stripe on the small shoe), film-noir low-key lighting, deep shadows
-
-Text handling: no lettering on the shoe or the walls, all surfaces plain and unmarked.
-
+Scene: Emotional focal point: her eyes glistening with welling tears that have not yet fallen. Recurring subject - a Slavic woman in her 40s, dark hair pulled back, wearing a worn navy quilted coat over a gray sweater - kneels on the concrete floor of a wrecked apartment room, both hands closed around a single small child's shoe held against her chest. The window frame above her is blown out and one shaft of hard light falls only on her hands and the shoe, leaving the rest of the room in blackness. No other figure is present and no injury is shown.
+Camera: close-up from eye-level, shot on 85mm portrait lens
+Lighting/mood: single pool of hard light isolating the figure in surrounding blackness, claustrophobic loneliness
+Accent: monochrome desaturated base with a single color accent (burning orange, the story's symbolic color), film-noir low-key lighting, deep shadows
+Setting: a Russian apartment interior, Soviet-era architecture, no Cyrillic signage in frame.
+Text handling: any wall calendar, photo caption or household label is turned away, cropped out of frame or lost in shadow; no readable lettering anywhere.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
-
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-
-Composition: ONE continuous surface (the concrete stairwell landing) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the concrete floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -164,38 +131,30 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-Nizhnekamsk residential building damage aftermath
+Nizhnekamsk drone attack damaged apartment
 ```
 
 ### [카드 5]
 **텍스트**
 ```text
-이 공격은 단발이 아니다
-우크라이나는 몇 달째 석유시설을 노렸고
-휘발유 생산은 하루 100만 배럴 넘던 게
-*85만 배럴 선으로 내려앉았다*
+그런데 양쪽 설명이 정면으로 갈린다
+우크라이나는 정유공장을 쳤다고 했고
+러시아는 주거지역이 맞았다고 했다
+*13명이 어디서 죽었는지는 안 밝혔다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-
-Scene: Emotional focal point: the slumped shoulders of a man waiting at the end of a long fuel queue, head hung low. A line of ordinary Russian drivers stands beside their cars at a roadside filling station in the grey morning, fuel nozzles hanging unused on the pumps. A station attendant in a work jacket walks along the line with both hands raised in an apologetic gesture, and the waiting people turn their faces toward him.
-
-Camera: full shot, head-to-toe, full body, outfit visible, clear silhouette from ground-level shot, worm's-eye view, near floor, exaggerated scale, shot on 24mm wide lens, cinematic wide shot, spatial context, subtle depth
-
-Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood
-
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on one fuel pump housing), muted daylight contrast
-
-Text handling: pump displays and station signage shown blank or cropped by the frame edge, no legible numerals or lettering rendered.
-
+Scene: Emotional focal point: the untouched black scorch mark in the center that every boot steps around. Seen from directly above, a team of investigators in plain jackets photograph and measure only the edges of a burnt lot, each of them crouched at the perimeter with a camera or a tape. The dark scorched patch at the center of the lot stays empty, with no marker and no one standing in it. Coiled hoses and scattered debris trail toward the right edge of the frame.
+Camera: overhead bird's-eye shot, shot on 20mm wide lens
+Lighting/mood: flat cold even surveillance light, no shadow no warmth, detached and watchful
+Accent: monochrome desaturated base with a single color accent (burning orange, the story's symbolic color), muted daylight contrast
+Setting: a Russian industrial city lot, no Cyrillic signage in frame, no agency emblems or logos on jackets or vehicles.
+Text handling: jacket backs, evidence tags and vehicle doors are blank or turned away; no readable lettering anywhere.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
-
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-
-Composition: ONE continuous surface (the station forecourt asphalt) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the burnt lot ground) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -204,38 +163,30 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-Russia petrol station fuel shortage queue
+Nizhnekamsk strike site investigators aftermath
 ```
 
 ### [카드 6]
 **텍스트**
 ```text
-정유소를 끊는 전략은 실제로 먹히고 있다
-그 정유소는 24만 도시 한복판에 있다
-같은 주 하르키우 민간인 5명이 죽었다
-*협상을 앞당겼다는 증거는 아직 없다*
+정유소를 끊는 전략은 먹히고 있다
+그 정유소는 24만 도시 한복판에 있었다
+같은 주 하르키우에서도 5명이 죽었다
+*청구서는 이미 양쪽 도시에서 나온다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-
-Scene: Emotional focal point: her steady, unwavering eyes looking directly into the camera. Recurring subject — a Korean-drawn Russian woman in her 40s with dark hair tied back, wearing a worn gray padded coat and a dark scarf, stands at the center of the Soviet-era apartment block courtyard with refinery towers visible beyond the rooftops, now still and quiet under a thinning column of smoke. She holds nothing and faces the viewer squarely, feet planted, the courtyard extending behind her.
-
-Camera: medium shot, waist-up framing, face and gestures, conversational from eye-level shot, neutral perspective, realistic, balanced emotion, front-on shot, direct gaze, symmetrical composition, facing camera, shot on 85mm portrait lens, flattering face, soft background separation, elegant focus
-
+Scene: Emotional focal point: her face and the distant smoke overlapping in the same pane of window glass. Recurring subject - a Slavic woman in her 40s, dark hair pulled back, wearing a worn navy quilted coat over a gray sweater - stands at an apartment window in the morning, facing the viewer straight on with one palm flat against the glass. In the reflection across that pane, thin smoke still climbs from the refinery on the horizon behind her. The room around her is bare and nothing else moves.
+Camera: medium shot front-on from eye-level, shot on 50mm standard lens
 Lighting/mood: warm soft morning light, gentle and quiet, faint melancholy
-
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on a small detail of her scarf), muted daylight contrast
-
-Text handling: no signage, no lettering on any surface in the frame.
-
+Accent: monochrome desaturated base with a single color accent (burning orange, the story's symbolic color), muted daylight contrast
+Setting: a Russian apartment interior, Soviet-era architecture, no Cyrillic signage in frame.
+Text handling: any note, calendar or label near the window is turned away, cropped out of frame or lost in shadow; no readable lettering anywhere.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
-
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-
-Composition: ONE continuous surface (the courtyard pavement) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the interior wall carrying the window) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -244,5 +195,5 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-Kharkiv residential shelling damage
+Nizhnekamsk residential window refinery smoke
 ```
