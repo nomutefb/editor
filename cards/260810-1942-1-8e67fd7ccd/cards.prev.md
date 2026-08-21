@@ -1,32 +1,31 @@
 # ⚖ 1년 전 83만6687명, 올해 광복절엔 사면 준비조차 없다
 
 **[프롬프트 설계]**
-- 화풍: B 극화 — 사면권 운용과 교정 구조를 다루는 제도 기사라 무게와 사실성이 필요하다
-- 분위기: 관료 공간의 차가운 정적에 여름 열기가 눌어붙은 톤 — 큰 문이 소리 없이 닫히고 작은 문이 대신 열리는 낙차
-- 연출 방향: 뉴스를 안 보는 독자가 멈추는 지점은 '83만6687명'이라는 작년 숫자가 올해의 '없음'을 대신 설명해버리는 대목이다. 전할 관점은 문을 여는 주체가 대통령에서 심사위원 아홉 명으로 바뀌면 나가는 사람도 바뀐다는 것. 그래서 덱 전체를 **문 세 개**로 잡는다 — 활짝 열린 문(과거), 잠긴 문(올해 특사), 다른 쪽에서 열리는 문(가석방). 강조점은 서류 위에 멈춘 손끝과 손을 뗀 문고리 두 개에만 둔다. 조명은 thumb_dispatch의 임상 형광 톤(무표정한 제도)과 갈림길 정조를 키노트로 이어받되, 명도는 起 온광 → 承 냉광·저조도 → 轉 최암 → 結 아침빛 릴리즈로 흐른다.
-- 독자 동선: **발단** 카드1→**전개** 카드2~3→**피크** 카드4→**해소** 카드5→**시사점** 카드6 · 훅=카드1 끝(예고형: "연 회의는 따로 있었다")+카드3 끝(단서형: "한 달이 걸린다") · 착지 한 줄 요지 = 정치인·경제인이 있던 그 명단에 올해는 모범 수형자가 앉는다
-- 연속성 앵커: Recurring subject - a Korean man in his 50s with short graying hair and rimless glasses, wearing a dark navy suit and no tie. / Recurring location - the same long committee room of a government justice ministry, pale institutional walls, vertical blinds, a long dark wood table. (카드 2·6에 동일 문자열 복사)
+- 화풍: B 극화 — 사면권·심사 절차·교정 구조를 다루는 제도 기사라 극화의 굵은 선과 명암이 사건 무게에 맞는다
+- 분위기: 차갑고 사무적인 제도의 온도. 감정을 올리지 않고, 절차가 사람을 가른다는 사실만 또렷하게 남긴다
+- 연출 방향: 독자가 멈추는 자리는 "작년에 83만 명을 내보낸 정부가 올해는 서류조차 안 꺼냈다"는 숫자의 낙차다. 전할 관점은 여는 사람이 바뀌면 나가는 사람도 바뀐다는 것 — 그래서 카드마다 '문'과 '서류'를 붙잡되 **그것을 만지는 손이 누구 손인지를 계속 갈아끼운다**(대통령의 결재가 있던 자리 → 아홉 명이 넘기는 서류 → 닫힌 문에 닿았다 멈춘 손끝 → 철문을 여는 제복의 손). 조명은 다이제스트가 고른 멸균 형광의 무정함을 키노트로 삼아, 起의 흐린 창광에서 轉의 단일 광웅덩이 암흑까지 단계로 내려간 뒤 結에서만 아침빛으로 푼다
+- 독자 동선: **발단** 카드1→**전개** 카드2~3→**피크** 카드4→**해소** 카드5→**시사점** 카드6 · 훅=카드1 끝(단서형: 꺼내지 않은 서류)+카드3 끝(단서형: 한 달과 닷새의 낙차) · 착지 한 줄 = 여는 사람이 바뀌니 나갈 사람도 바뀐다
+- 연속성 앵커: Recurring subject — a Korean man in his 50s with short greying hair and thin-rimmed glasses, wearing a dark navy suit jacket over a white shirt, no tie / Recurring location — a Korean government ministry office floor with cold ceiling fluorescent panels
 
 ### [카드 1]
 **텍스트**
 ```text
-지난해 광복절엔 문이 활짝 열렸다
-사면·복권·감면 83만6687명이었다
-*그중 정치인 27명, 경제인 16명이었다*
-올해 법무부가 연 회의는 따로 있었다
+*작년 광복절 특사는 83만6687명이었다*
+정치인 27명, 경제인 16명이 있었다
+그 뒤 성탄절도 신년도 건너뛰었다
+올해 광복절은 서류조차 꺼내지 않았다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the loosening shoulders of a middle-aged man walking out first, his chin lifting toward the light. A heavy steel gate of a Korean correctional facility stands swung wide open in the upper-center of the frame, and a long line of released people in plain clothes walks out through it toward the right edge, each carrying a paper bag. Waiting families stand along both sides of the outer road, arms half raised, faces turned the same way. It is a bright summer morning on the gate road.
-Camera: wide shot, full body, surrounding environment, movement, spatial context from low angle shot, looking up, powerful subject, dominance, dramatic presence, shot on 35mm lens, natural documentary perspective, balanced subject and background, minimal distortion
-Lighting/mood: warm golden-hour sunlight, long soft shadows, nostalgic warmth
+Scene: Emotional focal point: his eyes cast downward at an empty document tray, jaw set. Recurring subject — a Korean man in his 50s with short greying hair and thin-rimmed glasses, wearing a dark navy suit jacket over a white shirt, no tie — stands facing a wall of grey steel document cabinets and rests one hand on a closed cabinet handle. The empty tray sits at chest height on a narrow shelf in front of him, the only object between the man and the cabinets. Recurring location — a Korean government ministry office floor with cold ceiling fluorescent panels.
+Camera: MS from Eye-level, shot on 35mm lens
+Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood
 Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
-Framing: nose room on the right, the crowd movement and gazes directed toward the right edge; the gate and the walking figures anchored in the upper-center area, the lower third left as bare road.
-Text handling: keep all signage, banners and lettering out of frame or cropped away; no readable characters anywhere in the image.
+Text handling: every label on the cabinets, folders and tray is cropped out of frame or turned away from the camera, so no writing is readable anywhere.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the asphalt gate road) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the wall of grey steel document cabinets) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -36,29 +35,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-광복절 특별사면 출소
+법무부 청사 사무실
 ```
 
 ### [카드 2]
 **텍스트**
 ```text
-8월 10일, 법무부가 회의를 열었다
-간부 4명에 외부 위원 5명이 앉았다
-남은 형기와 수형 태도를 따졌다
-*광복절 가석방 대상자 심사였다*
+8월 10일 법무부가 연 회의는 하나였다
+가석방 대상자를 고르는 자리였다
+차관과 간부 넷, 외부 위원 다섯이 앉아
+*아홉 명이 형기와 태도를 하나씩 따졌다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a fingertip stopped mid-page on one name, held there a beat too long. Recurring subject - a Korean man in his 50s with short graying hair and rimless glasses, wearing a dark navy suit and no tie, sits at the head of the long table and turns a page. Eight other members fill both sides of the table - four ministry officials in matching dark suits along one side, five outside members in varied jackets along the other - all reading their own copies with eyes cast down. Recurring location - the same long committee room of a government justice ministry, pale institutional walls, vertical blinds half closed, a long dark wood table running through the frame.
-Camera: medium shot, waist-up framing, face and gestures, conversational from eye-level shot, neutral perspective, realistic, balanced emotion, shot on 70mm short telephoto, gentle background compression, subject isolation
+Scene: Emotional focal point: nine pairs of hands turning paper at slightly different moments, every gaze angled down at the page. Nine Korean officials in their forties and fifties, four in ministry suits on the near side and five outside members in plainer jackets on the far side, sit around one long conference table and read from identical stapled folders. The chair at the head keeps his folder half lifted while the others stay flat on the table. Recurring location — a Korean government ministry office floor with cold ceiling fluorescent panels, here a windowless meeting room.
+Camera: WS from Low angle, shot on 24mm wide lens
 Lighting/mood: flat sterile clinical fluorescent light, cold even greenish-white, emotionless institutional
 Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
-Framing: the chairman and the reading members anchored in the upper-center band, hands and pages kept above the lower third.
-Text handling: the papers are seen at a skimming angle and cropped, their lines rendered only as texture; no readable characters anywhere in the image.
+Text handling: the folders are seen edge-on and at a skimming angle, their pages blurred into grey tone, so no writing is legible.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the long dark wood table) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the back wall of the conference room) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -68,29 +66,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-법무부 가석방심사위원회 회의
+법무부 가석방심사위원회
 ```
 
 ### [카드 3]
 **텍스트**
 ```text
-같은 날 특별사면 쪽은 비어 있었다
-지난 성탄절도, 신년도 건너뛴 뒤다
-올해 명단을 짤 검토가 아직 없다
-*대상자 분류에만 한 달이 걸린다*
+반면 정치인·경제인이 오르는 사면은
+이날까지 검토조차 시작되지 않았다
+*"대상자 분류에만 한 달이 걸린다"*
+한 달이 걸리는 일에 닷새가 남았다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the slack hand of a lone official resting on a light switch he has not pressed. He stands in the doorway with his back to us, shoulders low, looking into an unlit committee room toward the right edge of the frame. Inside, the chairs are all pushed in and one seat at the head stands empty, with a short stack of unopened folders left untouched at the center of the table. The room is a mirror of the working committee room but dark and unused, blinds shut.
-Camera: wide shot, full body, surrounding environment, movement, spatial context from back shot, rear view, subject from behind, solitude, mystery, shot on 24mm wide lens, cinematic wide shot, spatial context, subtle depth
+Scene: Emotional focal point: his mouth pressed into a hard line as he sets the desk phone down without letting go of it. Recurring subject — a Korean man in his 50s with short greying hair and thin-rimmed glasses, wearing a dark navy suit jacket over a white shirt, no tie — sits at a desk late in the day, one hand still on the handset, his eyes fixed on an unopened file folder lying square in front of him. Nothing else is on the desk. Recurring location — a Korean government ministry office floor with cold ceiling fluorescent panels, most of them switched off behind him.
+Camera: MCU from three-quarter angle, shot on 50mm standard lens
 Lighting/mood: cold blue dim interior light, heavy and suffocating, faint trembling tension
 Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
-Framing: nose room on the right, the man's gaze and the open doorway directed toward the right edge; the doorway and the empty head seat anchored in the upper-center area.
-Text handling: the folder covers are seen edge-on and cropped, blank; no signage, no labels, no readable characters anywhere in the image.
+Text handling: the folder stays closed and its cover tab is turned away from the camera, so nothing on it can be read.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the polished institutional floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the frosted glass partition wall behind the desk) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -100,28 +97,27 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-법무부 사면심사위원회 회의실
+법무부 사면심사위원회
 ```
 
 ### [카드 4]
 **텍스트**
 ```text
-*광복절까지 남은 날은 닷새였다*
-사면심사위를 거치지 않으면
-애초에 사면 대상이 될 수 없다
+사면심사위를 건너뛸 방법은 없다
+그 회의는 올해 소집되지 않았다
+*대통령의 명단은 열리지 않았다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: knuckles whitening on a door handle that has already latched shut. A man's forearm in a dark suit sleeve enters from the left and grips the lever of a heavy institutional door that fills the upper frame, his body kept out of view. The door is closed flush against its steel jamb, and a small wordless emergency-exit pictogram glows above it, the only light source with any color. The corridor around it is swallowed in black.
-Camera: close-up shot, face centered, eyes, expression, emotional detail applied to the hand and door, from low angle shot, looking up, powerful subject, dominance, dramatic presence, shot on 85mm portrait lens, flattering face, soft background separation, elegant focus
-Lighting/mood: single hard side-light cutting across the subject, deep chiaroscuro shadows, tense atmosphere
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
-Framing: the hand, the lever and the glowing pictogram anchored in the upper-center area; the lower third is bare door surface in shadow.
-Text handling: the exit marker is a wordless pictogram only; no letters, no numbers, no signage text, no readable characters anywhere in the image.
+Scene: Emotional focal point: fingertips that touched the door and stopped there, knuckles gone pale. One hand of an adult in a dark sleeve presses flat against the frosted glass of a closed meeting room door in a dark corridor, the wrist tense and still. Through the glass only the dim edge of an empty table is suggested, with no one inside. A thin seam of light escapes along the door jamb beside the hand.
+Camera: ECU from Dutch tilt, shot on 100mm macro lens
+Lighting/mood: single pool of hard light isolating the figure in surrounding blackness, claustrophobic loneliness
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) burning along the door seam, film-noir low-key lighting, deep shadows
+Text handling: the door plate is cropped out of frame entirely and the glass carries no marking, so no writing appears.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the closed steel door face) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the frosted glass face of the meeting room door) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -131,29 +127,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-법무부 과천청사 복도
+정부과천청사 복도
 ```
 
 ### [카드 5]
 **텍스트**
 ```text
-문은 다른 쪽에서 열리고 있었다
-지난해 정원은 5만614명이었다
-6만3680명이 수용돼 125.8%였다
-*55곳 중 정원을 지킨 건 5곳뿐이다*
+대신 가석방 쪽 문은 넓어지고 있다
+*작년 교도소 수용률은 125.8%였다*
+정원 5만614명에 6만3680명이 있었고
+전국 55곳 중 다섯 곳만 정원을 지켰다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a bare forearm hanging over the edge of an upper bunk, fingers gone slack in the heat. More than a dozen men in identical pale uniforms are packed into a single small cell built for far fewer, some sitting shoulder to shoulder along the wall with knees drawn up, one standing at the barred window with his face turned to the air. Faces are generic and unindividuated, kept in soft shadow. Bars of hard summer light fall across the concrete floor of a Korean correctional block.
-Camera: wide shot, full body, surrounding environment, movement, spatial context from ground-level shot, worm's-eye view, near floor, exaggerated scale, shot on 14mm ultra-wide lens, vast environment, dramatic depth, strong spatial presence
-Lighting/mood: harsh overexposed midday sunlight, hard shadows, oppressive heat
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
-Framing: the crowded bunks, the hanging arm and the barred window anchored in the upper-center area; the lower third is bare concrete floor.
-Text handling: no cell numbers, no placards, no signage; keep all lettering out of frame; no readable characters anywhere in the image.
+Scene: Emotional focal point: shoulders pressed against shoulders with no gap left between them. Seen from above, a narrow correctional facility corridor is packed with men in plain uniform tops, all shown from behind or in shadowed silhouette so no face is identifiable, standing closer together than the space allows. A single staff member in an unmarked uniform walks the near edge of the corridor holding a clipboard low at his side, the only figure with room around him.
+Camera: WS from High angle, shot on 28mm lens
+Lighting/mood: flat cold even surveillance light, no shadow no warmth, detached and watchful
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) on the clipboard clip, muted daylight contrast
+Text handling: the clipboard is tilted away and its sheet is rendered as flat grey tone, and every wall sign is cropped out of frame, so no writing is readable.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the concrete cell floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the corridor floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -163,29 +158,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-교도소 과밀수용 수용거실
+교도소 과밀수용 거실
 ```
 
 ### [카드 6]
 **텍스트**
 ```text
-올해 광복절에 열리는 문은 하나다
-대통령의 결단이 아니라 심사위원회다
-아홉 명이 한 명씩 따져서 문을 연다
-*그 명단엔 올해 모범 수형자가 앉는다*
+한 번에 83만 명을 내보내던 자리를
+아홉 명이 형기를 세는 절차가 채웠다
+대통령이 안 열어도 문은 열렸다
+*여는 사람이 바뀌니 나갈 사람도 바뀐다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: his eyes lifting from the page to look straight ahead, tired and level. Recurring subject - a Korean man in his 50s with short graying hair and rimless glasses, wearing a dark navy suit and no tie, sets his pen down on a page and looks directly at the viewer. Along both edges of the frame the hands and shoulders of the other eight members are visible, still turning their own pages. Recurring location - the same long committee room of a government justice ministry, pale institutional walls, vertical blinds now open, a long dark wood table running through the frame, with early morning light crossing it.
-Camera: medium close-up, chest-up framing, facial emotion, slight body context from front-on shot, direct gaze, symmetrical composition, facing camera, shot on 50mm standard lens, minimal distortion, natural cinematic composition
+Scene: Emotional focal point: the gap of morning air between two hands, one holding the gate open and one hanging empty at a side. A Korean staff member in an unmarked uniform stands at the open steel gate of a correctional facility with one hand on the bar, holding it wide. A man in his forties in plain civilian clothes walks out through it toward the viewer, carrying nothing, centered in the frame, his face lowered and calm. No crowd, no ceremony, only the two of them.
+Camera: FS from Eye-level, shot on 35mm lens
 Lighting/mood: warm soft morning light, gentle and quiet, faint melancholy
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
-Framing: his face, eyes and the resting pen anchored in the upper-center area; the lower third is bare tabletop. Composition is centered and static, no directional lead-out.
-Text handling: the page under his hand is seen at a steep skimming angle and cropped, its lines suggested as texture only; no readable characters anywhere in the image.
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) on the gate bar, muted daylight contrast
+Text handling: the gate plate and any facility signage are cropped out of frame, so no writing appears anywhere.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the long dark wood table) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the concrete outer wall of the facility) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -195,5 +189,5 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-이진수 법무부 차관
+교도소 정문 출소
 ```
