@@ -1,31 +1,32 @@
-# 937㎡ 창고에 인화성 액체 191만ℓ…3시간 36분 만에 전국 소방력을 불렀다
+# 🔥 937㎡ 창고에 인화성 액체 191만ℓ…3시간 36분 만에 전국 소방력을 불렀다
 
 **[프롬프트 설계]**
-- 화풍: B 극화 — 새벽 재난 현장의 사실성과 '왜 한 동에 그 물량이 있었나'라는 구조 질문을 같은 무게로 세워야 한다
-- 분위기: 차가운 청색 새벽에 주황 불빛 하나만 살아 있는 긴장. 소리보다 침묵이 큰 현장, 자다 깬 사람의 불안
-- 연출 방향: 독자훅은 '자는 사이 3시간이 지나 도착한 문자'와 '191만ℓ'라는 숫자가 겹치는 자리다 — 창문 하나 닫는 걸로 되는 일인가라는 의심. 전하려는 관점은 단계가 오른 게 불이 커져서가 아니라 "지금 소방력으론 안 된다"는 판단이 세 번 갱신된 기록이라는 것. 그래서 카메라는 불길의 스펙터클이 아니라 **판단하는 얼굴과 그 판단을 어렵게 만든 물량**에 쏠린다 — 드럼이 늘어선 열, 무전기를 쥔 손, 폰 불빛 아래 눈. 마지막엔 다 밝은 뒤 그 창고와 바로 옆 주거지를 한 프레임에 넣어 질문을 남긴다. 차가운 청색 베이스에 주황 악센트 하나만 관철
-- 독자 동선: **발단** 카드1→**전개** 카드2~4→**피크** 카드5→**해소** 카드6→**시사점** 카드7 · 훅=카드1 끝(단서형: 창고 안에 무엇이 있었는지 유보 → 카드2 첫 줄 즉시 회수)+카드3 끝(예고형: 주민 문자로 넘김 → 카드4 첫 줄 회수) · 질문형 0회 · 착지 한 줄 요지 = 191만ℓ가 한 동에 모인 건 불나기 전에 정해진 일이고, 그걸 허락한 조건은 아직 안 나왔다(산업 필요성이라는 반문과 나란히)
-- 연속성 앵커: Recurring subject — a Korean firefighter in his 40s in a dark navy turnout coat with wide reflective stripes, a scratched helmet, a handheld radio in his right hand. / Recurring location — a single-story steel-frame warehouse yard ringed by low factory blocks on the outskirts of Pyeongtaek. (등장 카드 1·2·5·6·7)
+- 화풍: B 극화 — 야간 재난에 규제·구조 질문이 얹힌 사건이라, 굵은 먹선과 명암 대비가 사건 무게를 그대로 받는다
+- 분위기: 자정 넘긴 어둠 속에서 시각이 한 칸씩 바뀔 때마다 판단이 무거워지는 압박, 소리 없이 커지는 불안
+- 연출 방향: 독자훅은 공장·창고 옆에 사는 사람이 새벽 문자 한 통을 받고 창문을 닫을지 집을 나설지 스스로 정해야 했던 자리다. 전할 것은 단계가 오른 게 불이 커져서가 아니라 "지금 소방력으론 안 된다"는 판단이 세 번 갱신됐다는 사실이고, 그 판단을 어렵게 만든 191만ℓ는 불나기 전부터 거기 있었다는 것이다. 그래서 카메라는 불꽃 자체보다 시각이 바뀔 때마다 달라지는 사람의 얼굴과 사람이 불에서 유지하는 거리를 잡는다. 마지막은 규제 강화 일변도로 닫지 않고 조사에 남은 질문으로 연다.
+- 독자 동선: **발단** 카드1→**전개** 카드2~4→**피크** 카드5→**해소** 카드6→**시사점** 카드7 · 훅=카드1 끝(단서형: 그 안에 있던 것)+카드3 끝(예고형: 주민 폰) · 착지 = 191만ℓ는 불보다 먼저 거기 있었고, 그 물량을 한 동에 둔 조건은 불을 끈 뒤에야 나온다
+- 연속성 앵커: Recurring subject — a Korean firefighter in his 40s, short cropped hair under a white helmet, wearing a navy flame-resistant turnout coat with reflective silver stripes, soot smeared on his cheek / 반복 장소 — a single-story steel-frame warehouse beside an empty industrial road
 
 ### [카드 1]
 **텍스트**
 ```text
-8월 11일 0시 3분, 평택 청북읍
+8월 11일 0시 3분께 평택 청북읍
 위험물 보관창고에서 불이 났다
-연면적 937㎡의 철골 단층이다
-*안에 무엇이 있었는지가 문제였다*
+철골조 단층, 한 동짜리 건물
+*문제는 그 안에 있던 것이었다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the hard-set jaw of a firefighter who has just stepped down from his truck and is looking up at the burning roofline. Recurring subject — a Korean firefighter in his 40s in a dark navy turnout coat with wide reflective stripes, a scratched helmet, a handheld radio in his right hand. He stands in the upper-center of the frame on the far side of a wide asphalt yard, seen three-quarters from behind, while past him a single-story steel-frame warehouse burns, orange flame punching up through the roof panels and black smoke rolling flat across the night sky. Korean fire trucks are parked in a line along the far fence, their beacons washing the yard, and low factory blocks close in on both sides.
-Camera: establishing wide shot from eye-level, shot on 24mm wide lens, spatial context, location first
-Lighting/mood: cold blue pre-dawn tone, lone streetlight reflection on wet ground, desolate stillness
-Accent: monochrome desaturated base with a single color accent (ember orange, the symbolic color of this fire), film-noir low-key lighting, deep shadows
-Korean setting throughout: Korean vehicles, Korean road markings, Korean industrial architecture. No signage, no labels, no hazard placards, no readable characters anywhere; any warning marking is a simple pictogram shape only. No agency logos or emblems on the vehicles or the uniforms.
+Scene: Emotional focal point: his tight-lipped stare aimed upward at the roofline. Recurring subject — a Korean firefighter in his 40s, short cropped hair under a white helmet, wearing a navy flame-resistant turnout coat with reflective silver stripes, soot smeared on his cheek — stands on the asphalt with his back to us, a radio in his hand, looking up at a single-story steel-frame warehouse whose roof is split open by a column of flame. Black smoke folds into the night sky above him. The empty industrial road runs beneath his boots with no other person in sight.
+Camera: wide shot from a low angle, shot on 24mm wide lens
+Lighting/mood: sinister under-lighting from below the face, inverted eerie shadows, menacing
+Accent: monochrome desaturated base with a single color accent (the ember orange of the fire as this story's symbolic color), film-noir low-key lighting, deep shadows
+Depict the Korean fire service with no agency logo, no unit insignia, and no readable lettering anywhere in the frame. Any signage on the building is turned away from the camera or cropped out of frame.
+no garbled or fake script, no meaningless letters, no random characters, no dense text
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the asphalt yard) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the night sky) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -35,25 +36,26 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-평택 청북읍 창고화재 야간
+평택 청북읍 창고 화재
 ```
 
 ### [카드 2]
 **텍스트**
 ```text
-그 안에는 인화성 액체가 있었다
-100여 종, 약 191만ℓ에 이르렀다
-*200ℓ 드럼으로 9천500개가 넘는다*
-그 물량이 한 동에 모여 있었다
+안에 있던 건 인화성 액체였다
+제4류 위험물 등 100여 종, 191만ℓ
+937㎡ 바닥 한 동에 그게 다 있었다
+*200ℓ 드럼 9천500개가 넘는 양이다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the firefighter's raised hand stopping in mid-air as his beam sweeps across what is stacked inside. Recurring subject — a Korean firefighter in his 40s in a dark navy turnout coat with wide reflective stripes, a scratched helmet, a handheld radio in his right hand. He stands at the open roller door in the upper-center of the frame, turned away from us toward the interior, where row after row of 200-liter steel drums recede into the dark under a low ceiling of drifting smoke. The drums nearest the door catch the ember light and glow along their rims, while the rows behind them dissolve into blackness, and a thin sheen of spilled liquid runs across the concrete toward his boots.
-Camera: medium shot from a low angle, shot on 35mm lens, exaggerated scale, towering stacks above a small figure
-Lighting/mood: cold blue dim interior light, heavy and suffocating, faint trembling tension
-Accent: monochrome desaturated base with a single color accent (ember orange, the symbolic color of this fire), film-noir low-key lighting, deep shadows
-Korean setting throughout. No signage, no labels, no hazard placards, no readable characters anywhere; any warning marking on the drums is a simple pictogram shape only. No agency logos or emblems.
+Scene: Emotional focal point: the gloved hand clamped on the edge of the rolling shutter, knuckles taut. Recurring subject — a Korean firefighter in his 40s, short cropped hair under a white helmet, wearing a navy flame-resistant turnout coat with reflective silver stripes, soot smeared on his cheek — is seen from behind at the frame edge, holding a flashlight whose narrow beam sweeps across rank after rank of 200-liter steel drums stacked on the concrete warehouse floor. The drums recede row by row into total darkness where the beam ends. Nothing else in the frame is lit.
+Camera: medium shot from a high angle, shot on 50mm standard lens
+Lighting/mood: single pool of hard light isolating the drums in surrounding blackness, claustrophobic loneliness
+Accent: monochrome desaturated base with a single color accent (the ember orange of the fire as this story's symbolic color), film-noir low-key lighting, deep shadows
+Depict the Korean fire service with no agency logo, no unit insignia, and no readable lettering anywhere in the frame. The drums are plain unmarked steel with no printed labels, no hazard placards, no numbers.
+no garbled or fake script, no meaningless letters, no random characters, no dense text
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
 Composition: ONE continuous surface (the concrete warehouse floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
@@ -66,28 +68,29 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-위험물 저장창고 드럼통 적재
+위험물 저장창고 드럼통
 ```
 
 ### [카드 3]
 **텍스트**
 ```text
-오전 1시 32분 대응 1단계가 났고
-*2시 40분엔 2단계로 올라갔다*
-장비 56대와 인력 140명이 붙었다
-주민에게 문자가 간 건 그다음이다
+오전 1시 32분 대응 1단계,
+2시 40분 2단계로 올라갔다
+*장비 56대와 인력 140명이 붙었다*
+그 사이 주민 폰이 울렸다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the widening gap between two crew members running in opposite directions across the road, neither looking back. Seen from directly above, a dense line of Korean fire trucks and pumpers is wedged along a narrow factory access road in a rough herringbone, charged hoses crossing the asphalt like veins. Dozens of helmeted crew move between the vehicles in the dark, their reflective stripes the only bright thing on the ground. The burning warehouse sits at the top of the frame with its roofline eaten by flame, and the whole formation points toward it.
-Camera: group shot from a bird's-eye overhead angle, shot on 20mm wide lens, layout and geometry, clear arrangement of many subjects
-Lighting/mood: single hard side-light cutting across the subject, deep chiaroscuro shadows, tense atmosphere
-Accent: monochrome desaturated base with a single color accent (ember orange, the symbolic color of this fire), film-noir low-key lighting, deep shadows
-Korean setting throughout: Korean fire apparatus, Korean road markings and lane painting. No signage, no labels, no unit numbers, no readable characters anywhere. No agency logos or emblems on the vehicles or the uniforms.
+Scene: Emotional focal point: the radio pressed hard against his jaw, his mouth set in a flat line. Recurring subject — a Korean firefighter in his 40s, short cropped hair under a white helmet, wearing a navy flame-resistant turnout coat with reflective silver stripes, soot smeared on his cheek — stands in the mid-ground on the asphalt road with the radio raised, his gaze directed toward the right edge of the frame. Behind and around him a row of fire engines with raised ladders fills the road, and about a dozen other firefighters drag charged hose lines past him toward the fire off-frame right. Portable light towers wash the entire road surface in flat cold white, and there is nose room on the right.
+Camera: group shot from eye level, shot on 35mm lens
+Lighting/mood: flat cold even surveillance light, no shadow no warmth, detached and watchful
+Accent: monochrome desaturated base with a single color accent (the ember orange of the fire as this story's symbolic color), film-noir low-key lighting, deep shadows
+Depict the Korean fire service with no agency logo, no unit insignia, and no readable lettering anywhere in the frame. The fire engines carry no visible markings or numbers.
+no garbled or fake script, no meaningless letters, no random characters, no dense text
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the asphalt access road) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the asphalt road surface) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -97,28 +100,29 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-화재현장 소방차 집결 진입로
+화재 대응단계 소방차 집결
 ```
 
 ### [카드 4]
 **텍스트**
 ```text
-문자가 온 건 3시 6분이었다
-*불이 난 지 세 시간이 지나 있었다*
-"창문을 닫고 외출을 자제하라"
-사고 지점 근처엔 대피 안내가 갔다
+새벽 3시 6분 재난문자가 왔다
+"창문을 닫고 외출을 자제해달라"
+가까운 주민에겐 대피하라고 했다
+*둘 다 한 문자에 담겨 있었다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a woman's eyes going wide in the blue light of a phone held just under her chin, eyebrows raised and pulled together. A Korean woman in her fifties sits bolt upright on the edge of her bed in a dark apartment bedroom, hair flattened from sleep, one hand still gripping the blanket, her face in the upper-center of the frame. The phone is angled steeply away from the viewer so that none of its content is readable and only its cold glow reaches her. Through the window beside her, far across the dark fields, a low orange smear of fire and smoke sits on the horizon, and in a lit stairwell of the opposite building a man in factory coveralls stands looking the same way, kept small and dim so she stays the focus.
-Camera: medium close-up from eye-level, shot on 85mm portrait lens, chest-up framing, neutral respectful perspective
+Scene: Emotional focal point: her thumb halted in the air above the phone, eyes still half-shut with sleep. A Korean woman in her fifties in a worn t-shirt sits up on the edge of her bed in a dark room, both hands around a phone whose screen throws cold blue light up onto her face and onto the wall behind her. Her shoulders are pulled in and her other hand grips the blanket. The bedroom wall runs unbroken behind her with one closed window at its center showing only blackness.
+Camera: medium close-up from eye level, shot on 85mm portrait lens
 Lighting/mood: cold blue screen under-glow lighting the face from below in a dark room, restless paranoid unease
-Accent: monochrome desaturated base with a single color accent (ember orange, the symbolic color of this fire), film-noir low-key lighting, deep shadows
-Korean setting throughout: Korean apartment interior, Korean window frames. No signage, no labels, no readable characters anywhere, and absolutely no text rendered on the phone screen. No brand marks, no logos.
+Accent: monochrome desaturated base with a single color accent (the ember orange of the fire as this story's symbolic color), film-noir low-key lighting, deep shadows
+The phone screen is rendered as pure glow with no readable characters and no interface elements.
+no garbled or fake script, no meaningless letters, no random characters, no dense text
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the bedroom wall with its window) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the bedroom wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -128,27 +132,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-재난안전문자 대피 안내 휴대전화
+긴급재난문자 화재 대피 안내
 ```
 
 ### [카드 5]
 **텍스트**
 ```text
-*3시 39분, 국가소방동원령이 났다*
-전국의 소방력을 끌어오는 조치다
-장비 95대, 인력 238명으로 늘었다
+그래도 불길은 잡히지 않았다
+*3시 39분 국가소방동원령이 발령됐다*
+전국의 소방력을 부르는 조치다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the jaw clenched tight with the muscle flexing at the jawline, the radio pressed hard against his cheek. Recurring subject — a Korean firefighter in his 40s in a dark navy turnout coat with wide reflective stripes, a scratched helmet, a handheld radio in his right hand. His face fills the upper two-thirds of the frame on a canted horizon, soot streaked across one cheekbone, sweat cutting clean lines through it, his eyes fixed off-frame at something above and beyond the viewer. Behind him there is nothing but a wall of dark smoke with one dull ember glow shifting inside it.
-Camera: tight close-up from a Dutch-tilted eye-level, shot on 85mm portrait lens, face fills frame, intense emotion, unstable canted mood
-Lighting/mood: single pool of hard light isolating the figure in surrounding blackness, claustrophobic loneliness
-Accent: monochrome desaturated base with a single color accent (ember orange, the symbolic color of this fire), film-noir low-key lighting, deep shadows
-Korean setting throughout. No signage, no labels, no readable characters anywhere. No agency logos, no emblems, no unit markings on the helmet or the coat.
+Scene: Emotional focal point: his eyes, wide and unblinking, each holding a small reflected column of fire. Recurring subject — a Korean firefighter in his 40s, short cropped hair under a white helmet, wearing a navy flame-resistant turnout coat with reflective silver stripes, soot smeared on his cheek — fills the upper frame in tight close-up, jaw clenched tight, the radio held motionless at his chin as he stares off-frame left toward the fire. A hard side-light cuts across one half of his face and leaves the other half in black. The night sky behind him is one unbroken dark expanse.
+Camera: tight close-up from a low angle, shot on 85mm portrait lens
+Lighting/mood: single hard side-light cutting across the subject, deep chiaroscuro shadows, tense atmosphere
+Accent: monochrome desaturated base with a single color accent (the ember orange of the fire as this story's symbolic color, at its strongest here), film-noir low-key lighting, deep shadows
+Depict the Korean fire service with no agency logo, no unit insignia, and no readable lettering anywhere in the frame, including on the helmet.
+no garbled or fake script, no meaningless letters, no random characters, no dense text
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the wall of dark smoke) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the night sky) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -158,28 +163,29 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-국가소방동원령 화재 지휘
+국가소방동원령 발령 현장
 ```
 
 ### [카드 6]
 **텍스트**
 ```text
-잡히지 않은 데는 이유가 있었다
-물보다 가벼운 액체가 많은 탓이다
-*뿌린 물 위로 불이 떠서 번진다*
-인명피해는 아직 확인되지 않았다
+장비 95대, 인력 238명이 붙었다
+물보다 가벼운 액체는 물을 뿌리면
+불이 물 위로 떠서 되레 번진다
+*인명피해는 아직 확인되지 않았다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the braced back legs of three firefighters leaning into a hose line that is not winning. Recurring subject — a Korean firefighter in his 40s in a dark navy turnout coat with wide reflective stripes, a scratched helmet, a handheld radio in his right hand. Seen from behind at a distance, he and two others hold a charged hose low and wide, aiming a broad fog stream at the base of the fire rather than into it. The water hits the ground and spreads outward, and at the edge of the spill the flame lifts instead of dying, riding thin across the wet asphalt toward them. The first grey light of dawn comes up behind the buckled steel frame ahead.
-Camera: medium shot from behind at eye-level, shot on 70mm short telephoto, gentle background compression, subject seen from the rear
-Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood
-Accent: monochrome desaturated base with a single color accent (ember orange, the symbolic color of this fire), muted daylight contrast
-Korean setting throughout. No signage, no labels, no hazard placards, no readable characters anywhere. No agency logos or emblems on the gear.
+Scene: Emotional focal point: the wide band of empty ground the crews keep between themselves and the burning structure. Seen from far above, dozens of firefighters and a long ring of fire engines surround a single-story steel-frame warehouse, their water arcs falling short of the flame front while thick smoke spreads flat across the whole scene. Nobody advances toward the building. The bare ground and asphalt form one continuous surface running beneath every vehicle and figure.
+Camera: extreme long shot from a bird's-eye view, shot on 20mm wide lens
+Lighting/mood: cold blue pre-dawn tone, lone streetlight reflection on wet ground, desolate stillness
+Accent: monochrome desaturated base with a single color accent (the ember orange of the fire as this story's symbolic color), film-noir low-key lighting, deep shadows
+Depict the Korean fire service with no agency logo, no unit insignia, and no readable lettering anywhere in the frame.
+no garbled or fake script, no meaningless letters, no random characters, no dense text
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the wet asphalt ground) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the ground) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -189,28 +195,29 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-위험물 화재 소방 방수 활동
+위험물창고 화재 방수 진화
 ```
 
 ### [카드 7]
 **텍스트**
 ```text
-대응 단계는 새벽에 세 번 올라갔다
-191만ℓ가 한 동에 모인 건 그 전이다
-그 창고 없이 돌아가는 산업도 없다
-*그 한 동을 허락한 조건은 안 나왔다*
+불은 11일 0시 3분에 났지만
+191만ℓ는 그 전부터 거기 있었다
+그 물량을 한 동에 둔 조건이 뭔지
+*답은 불을 끈 뒤에야 나온다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the flat, unblinking look of a firefighter facing the viewer straight on at first light, someone who has not moved for a while. Recurring subject — a Korean firefighter in his 40s in a dark navy turnout coat with wide reflective stripes, a scratched helmet, a handheld radio in his right hand. He stands at the center of an open asphalt lot with the helmet now off and held at his side, looking directly into the camera in steady unwavering eye contact, his upper body in the upper-center of the frame. Behind him the blackened steel frame of the single-story warehouse stands open to the sky with drum rows still faintly visible inside, and just past it, close enough to count the floors, sit rows of Korean apartment towers and low factory roofs.
-Camera: wide shot from a front-on eye-level, shot on 35mm lens, natural documentary perspective, symmetrical direct-gaze composition, subject centered and static
+Scene: Emotional focal point: the scorched steel wall still standing whole while the first light of morning touches its top edge. A single-story steel-frame warehouse faces the camera head-on and fills the frame, its side wall blackened by soot from the ground upward, thin wisps of smoke still leaking along the roofline. In the near foreground two small firefighter silhouettes stand with their backs to us, facing the wall, motionless. The blackened warehouse wall is one continuous surface stretching across the whole frame.
+Camera: full shot from eye level, front-on, shot on 35mm lens
 Lighting/mood: warm soft morning light, gentle and quiet, faint melancholy
-Accent: monochrome desaturated base with a single color accent (ember orange, the symbolic color of this fire), muted daylight contrast
-Korean setting throughout: Korean apartment blocks, Korean industrial architecture, Korean road markings. No signage, no labels, no building numbers, no readable characters anywhere. No agency logos or emblems.
+Accent: monochrome desaturated base with a single color accent (the ember orange of the fire as this story's symbolic color), muted daylight contrast
+Depict the Korean fire service with no agency logo, no unit insignia, and no readable lettering anywhere in the frame. The warehouse carries no signage and no printed markings.
+no garbled or fake script, no meaningless letters, no random characters, no dense text
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the open asphalt lot) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the scorched steel warehouse wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -220,5 +227,5 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-평택 위험물창고 화재 잔해 공장밀집지역
+위험물 보관창고 외관
 ```
