@@ -6187,5 +6187,24 @@ window.nmSyncBusy = () => JOBS.some(j => j && j.status !== 'done' && j.status !=
   sync();
 })();
 </script>
+<script>
+/* ── 입력 초기화 훅 = 부모 헤더 한바퀴 픽토(#toolRf · 운영자 260821 «글자 텍스트나 사진 입력된거 없어지게 · 그 열려있는 세부메뉴 한정») ──
+   이 문서만 세부탭 여럿(카드 제작·편집·특수)을 한 몸에 담아 프레임 리로드 = 형제 탭까지 초기화라 부적격 →
+   부모가 이 훅을 부르면 **지금 열린 탭의 입력만** 비운다(형제 문서들은 부모의 리로드 폴백 = 문서 하나가 곧 메뉴 하나).
+   동작 사본 0 = 사진은 슬롯 _reset(휴지통과 같은 축 = store 비움+편집 게이트 재잠금+재렌더) · 글자는 input 이벤트 디스패치
+   (별표 하이라이트·한줄성장·미리보기·초안 저장이 기존 리스너로 따라온다) · 카드뉴스 칩은 snapForm 복원 관용구(edLines=[[]]) 그대로.
+   옵션(OPA·저작권·비율값)·대기열·이전 제작은 무접촉 — 지시 범위가 「글자·사진」이다(휴지통과 비슷하되 좀 다른 그 축). */
+window.nmTabReset = function () {
+  try {
+    if (APP === '2' || isEditApp(APP)) { const sl = document.getElementById('cImgSlot'); if (sl && sl._reset) sl._reset(); }   // 사진 = 공유 첨부(CIMG) 한 벌(특수(sp)도 APP='2' 별칭 정규화라 이 가지)
+    if (APP === '2') {
+      ['cSub', 'cTitle', 'cLines'].forEach(function (id) { const el = document.getElementById(id); if (el && el.value) { el.value = ''; el.dispatchEvent(new Event('input', { bubbles: true })); } });
+      if (typeof A2M !== 'undefined' && A2M === 'c' && typeof edLines !== 'undefined') { edLines = [[]]; if (typeof renderEditChips === 'function') renderEditChips(); }   // 카드뉴스 모드 삽입 문구 칩
+    }
+    if (typeof renderCpPrev === 'function') renderCpPrev();   // 미리보기 최종 재렌더(이벤트 경유분과 중복 무해 = 멱등)
+    if (typeof draftQueue === 'function') draftQueue();       // 초안 저장도 빈 상태로 동기(복원이 옛 입력을 되살리지 않게)
+  } catch (e) {}
+};
+</script>
 </body>
 </html>
