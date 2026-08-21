@@ -254,7 +254,8 @@ def vapid_pem(raw_b64url):
     tf.write(pem); tf.close()
     return tf.name
 
-LIVE_BASE = (os.environ.get("LIVE_BASE") or "https://edit.nomute.kr").rstrip("/")   # 알림 딥링크의 절대 기준 = 정본 화면(도메인 교체 시 레버 1개 · live_smoke --base 관용구 계승)
+LIVE_BASE = (os.environ.get("LIVE_BASE") or "https://edit.nomute.kr").rstrip("/")
+NM_CANON_Q = "nmv=1"   # 정본 화면 표식(260821 · abs_url 주석 참조) — 옛 화면 SW가 「경로·쿼리·해시가 같은 탭」을 정답으로 오판해 옛 탭에 포커스하는 경로를 구조적으로 끊는다. 뷰어는 이 키를 안 읽는다(무해) · 짝 = viewer/sw.js 1단계 비교의 표식 제거.   # 알림 딥링크의 절대 기준 = 정본 화면(도메인 교체 시 레버 1개 · live_smoke --base 관용구 계승)
 
 
 def abs_url(u):
@@ -270,11 +271,29 @@ def abs_url(u):
     (절대 주소면 `new URL(raw, origin)`에서 base가 무시된다 = 어느 화면 SW가 받아도 정본 화면으로 간다).
     ⚠ 짝 = 구독 재등록(운영자가 새 화면에서 알림 껐다 켜기)은 근본책이지만 사람 손이고, 그전에도 알림이
     제 화면으로 가야 한다 = 이 함수가 그 사이를 메운다(재등록 후에도 무해 = 같은 주소).
-    이미 절대 주소면 그대로 둔다(스킴 보유 판정 = 미래에 절대 주소로 쏘는 호출부와 충돌 0)."""
+    이미 절대 주소면 그대로 둔다(스킴 보유 판정 = 미래에 절대 주소로 쏘는 호출부와 충돌 0).
+
+    ⚠⚠ **260821 2차 = 절대 주소만으론 안 됐다(운영자 「알림이 apps. 랑 edit.으로 가는건 큰 문제」).**
+    옛 화면 SW 원문 실측(옛 화면 호스트 + `/sw.js` 154행 · 스킴 표기는 check_canon_host 대상이라 생략) = 알림 클릭 시 열린 탭 중
+    `pathname·search·hash` 세 값이 같으면 그 탭에 **포커스만** 한다 — **어느 사이트인지(origin)는 안 본다**.
+    새 화면 SW는 그 검문을 260819에 넣었지만(`viewer/sw.js` 164행 `target.origin !== self.location.origin`)
+    옛 화면은 8월 13일 배포에 멈춰 있어 그 줄이 없다. 그래서 옛 화면 탭이 하나라도 열려 있으면
+    목적지가 정본 절대 주소여도 **옛 탭(4일 전 데이터)으로 데려간다**(운영자 260821 실사고 = 그 화면 스샷).
+    → 봉합 = 우리 화면 딥링크에 정본 표식(`NM_CANON_Q`)을 붙여 **세 값 일치를 구조적으로 불가능하게** 만든다:
+      옛 SW ① 불일치 → ② `client.navigate()`는 cross-origin이라 반드시 실패 → ③ `openWindow(정본 절대 주소)`
+      = 어떤 경우에도 새 화면이 열린다. 남의 사이트(급상승 = 구글 검색 절대 주소)는 무접촉(위 스킴 분기에서 반환).
+    ⚠ 짝 = `viewer/sw.js` 1단계 비교가 이 표식을 **빼고** 대조한다 — 안 그러면 새 화면에서도 매번 불일치가 나
+      「불필요한 새로고침 방지」 계약(260706)이 깨진다. 두 자리가 한 벌(`check_push_abs_url`이 함께 감시).
+    ⚠ 이름 충돌 0 = 뷰어가 읽는 쿼리 실측 목록(nosw·a·brk·bl·msg·vidl·dis·tab·qa) 밖 · 셸 캐시 키는 쿼리를
+      제거 정규화하므로(`sw.js` key) 캐시가 늘지도 갈리지도 않는다 · 미들웨어는 쿼리를 안 본다(실측 0건)."""
     u = str(u or "/")
     if u.startswith("http://") or u.startswith("https://"):
         return u
-    return LIVE_BASE + (u if u.startswith("/") else "/" + u)
+    full = LIVE_BASE + (u if u.startswith("/") else "/" + u)
+    head, sep, frag = full.partition("#")   # 해시 앞에 붙인다(뒤에 붙이면 쿼리가 아니라 해시 문자열이 된다)
+    if NM_CANON_Q not in head:
+        head += ("&" if "?" in head else "?") + NM_CANON_Q
+    return head + sep + frag
 
 
 def notif_icon(kind, theme):

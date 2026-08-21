@@ -153,6 +153,12 @@ self.addEventListener('push', event => {
   })());
 });
 
+// ── 정본 화면 표식 제거(260821 · 짝 = .github/scripts/push_send.py NM_CANON_Q) ──
+// 서버가 우리 화면 딥링크에 `nmv=1`을 붙인다 — 옛 화면 SW(8월 13일 배포 · origin을 안 보고 경로·쿼리·해시만
+// 대조해 옛 탭에 포커스하던 것)가 「같은 탭」이라 오판하는 경로를 구조적으로 끊기 위한 표식이다.
+// 새 화면(여기)에서는 그 표식이 붙었다는 이유로 매번 불일치가 나면 안 된다 — 그러면 이미 그 화면을 보고
+// 있는데도 매번 다시 불러와 「불필요한 새로고침 방지」 계약(260706)이 깨진다 → 비교 전에 표식만 걷어낸다.
+const nmQs = s => { try { const p = new URLSearchParams(s || ''); p.delete('nmv'); const q = p.toString(); return q ? '?' + q : ''; } catch (_) { return s || ''; } };
 self.addEventListener('notificationclick', event => {
   event.notification.close();
   const raw = (event.notification.data && event.notification.data.url) || '/';
@@ -170,7 +176,7 @@ self.addEventListener('notificationclick', event => {
     //    ⚠️ 쿼리(search)까지 비교해야 함 — 요약 딥링크(/?a=stem)는 쿼리가 유일 구별자라, 쿼리 무시 시
     //    루트(/)에 열린 탭이 '일치'로 오판돼 focus만 하고 navigate를 안 해 딥링크가 안 열렸음(분신술 2번 발견).
     for (const c of list) {
-      try { const u = new URL(c.url); if (u.pathname === target.pathname && u.search === target.search && u.hash === target.hash && 'focus' in c) return c.focus(); } catch (_) {}
+      try { const u = new URL(c.url); if (u.pathname === target.pathname && nmQs(u.search) === nmQs(target.search) && u.hash === target.hash && 'focus' in c) return c.focus(); } catch (_) {}
     }
     // 2) 열린 탭이 있으면 그 탭을 타깃으로 *이동*시켜 제작 화면을 보여줌(과거: 무조건 포커스만 → 옛 화면/모달에 머묾)
     for (const c of list) {

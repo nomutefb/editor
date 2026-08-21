@@ -1269,13 +1269,33 @@ def check_push_abs_url():
         bad.append('payload 조립의 url이 abs_url 경유가 아니다 — 상대경로가 그대로 나간다(진범 그 자체)')
     if not re.search(r'LIVE_BASE\s*=\s*\(?\s*os\.environ\.get\(\s*[\'"]LIVE_BASE[\'"]', body):
         bad.append('LIVE_BASE 레버 부재 — 도메인 교체 시 코드를 다시 뒤져야 한다')
+    # ④⑤ 정본 화면 표식(260821 2차) — 절대 주소만으론 옛 화면 SW의 '같은 탭' 오판을 못 막는다(그쪽은 origin을
+    #    안 보고 경로·쿼리·해시만 대조한다 = 실측 apps.nomute.kr/sw.js 154행). 표식을 붙여 세 값 일치를
+    #    구조적으로 불가능하게 만들고, 새 화면 SW는 그 표식을 빼고 대조해 종전 '불필요한 새로고침 방지'를 지킨다.
+    #    ⚠ 두 자리가 한 벌 — 한쪽만 살면 ⓐ 표식만 있고 무시가 없으면 새 화면이 매번 다시 뜨고
+    #      ⓑ 무시만 있고 표식이 없으면 옛 화면 유입이 그대로 = 어느 쪽도 조용히 낡을 수 없게 함께 본다.
+    if not re.search(r'NM_CANON_Q\s*=\s*[\'"]nmv=1[\'"]', body):
+        bad.append('정본 화면 표식 NM_CANON_Q 부재 — 옛 화면 SW가 열린 옛 탭을 정답으로 오판해 그리로 포커스한다')
+    if not re.search(r'NM_CANON_Q\s+not\s+in\s+head', body) or 'head + sep + frag' not in body:
+        bad.append('abs_url 표식 부착부 부재 — 표식 상수만 있고 주소에 안 붙는다(해시 앞 부착·중복 방지 포함)')
+    swp = os.path.join(ROOT, 'viewer', 'sw.js')
+    try:
+        swsrc = open(swp, encoding='utf-8').read()
+    except Exception as e:
+        bad.append('viewer/sw.js 읽기 실패(fail-closed): %s' % e); swsrc = ''
+    swcode = '\n'.join(l for l in swsrc.splitlines() if not l.lstrip().startswith('//'))
+    if swsrc:
+        if not re.search(r"nmQs\s*=\s*s\s*=>", swcode) or "delete('nmv')" not in swcode:
+            bad.append('viewer/sw.js 표식 제거 헬퍼(nmQs) 부재 — 새 화면이 자기 화면을 남으로 보고 매번 다시 뜬다')
+        if not re.search(r'nmQs\(u\.search\)\s*===\s*nmQs\(target\.search\)', swcode):
+            bad.append('viewer/sw.js 1단계 탭 대조가 표식 제거 경유가 아니다 — 헬퍼가 있어도 안 쓰이면 같은 회귀')
     if bad:
         print('❌ 알림 딥링크 절대 주소 게이트(260816 실사고 = 알림을 눌러도 옛 화면으로 갔다):')
         for b in bad:
             print('   -', b)
-        print('   처방 = push_send.abs_url()로 감싸고 기준은 LIVE_BASE(기본 https://%s).' % _CANON_HOST)
+        print('   처방 = push_send.abs_url()로 감싸고 기준은 LIVE_BASE(기본 https://%s) · 정본 표식 NM_CANON_Q 부착 + viewer/sw.js nmQs 로 그 표식을 빼고 탭 대조.' % _CANON_HOST)
         return 1
-    print('✅ 알림 딥링크 절대 주소 게이트 — 전 알림이 정본 화면 절대 주소로 나간다(옛 화면 SW가 받아도 목적지 정본).')
+    print('✅ 알림 딥링크 절대 주소 게이트 — 전 알림이 정본 화면 절대 주소 + 정본 표식으로 나간다(옛 화면 SW가 열린 옛 탭을 정답으로 오판하는 경로까지 차단 · 새 화면은 표식을 빼고 대조).')
     return 0
 
 
