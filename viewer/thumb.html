@@ -3941,6 +3941,35 @@ function renderJob(job) {   // 잡 로그 행 갱신(없으면 생성, 최신이
   else { if (svRow) row.append(svRow); if (vs) row.append(vs); }
   if (dsc && !svRow) { const dl = document.createElement('div'); dl.className = 'jvars'; dl.appendChild(dsc); row.append(dl); }
 }
+/* ── 대기열 미러 = 부모(AI 생성 탭)로 상태 push(운영자 260821 «생성버튼을 눌러도 대기열 큐에 안들어가는데») ──
+   ⚠ 왜 AI 생성 탭만 대기열이 안 보였나 = 그 탭은 부모(index)가 폼을 직접 그리면서 **이 문서를 통째로 숨긴다**
+     (geniMount → `#tooldlg .toolfr` 에서 active 제거 = display:none) → 대기열 `#jobs` 가 숨은 문서 안에 있어
+     화면에 **물리적으로 없다**. 잡 카드 자체는 정상 생성된다(260821 실측 = 발사 후 #jobs .job 0→1).
+     번역 탭은 260817에 자기 결과 칸에 진행 행을 세워 이미 해결한 자리 = 형제가 안 따라온 드리프트.
+   판정(완료·실패·경과·장수)은 **여기 정본 단독** · 부모는 그 상태로 행만 그린다(판정 사본 0 = 두 화면이 갈릴 여지 0).
+   발화 = `#jobs` 변화 **자동 발견**(MutationObserver) = 손 목록 0 → 새 갱신·제거 경로(pruneOldFails·.jdel·취소)가
+     조용히 빠질 수 없다. 진행 중이 없으면 변화가 0이라 발화도 0(유휴 정숙 C16 동축). */
+function jobsMirror() {
+  if (window.parent === window) return;   // 직접 연 문서 = 보낼 곳 없음
+  try {
+    parent.postMessage({ nm: 'jobs-mirror', jobs: JOBS.map(j => ({
+      uid: j.uid, n: j.n, label: j.label || '제작', status: j.status, msg: String(j.msg || '').slice(0, 120),
+      t0: j.t0, tot: (j.outs || []).length, dn: (j.done || []).filter(Boolean).length, queued: !!j._queued, arm: !!j._cxArm,   // arm = 취소 2단 무장(1탭 무장 → 2탭 확정) — 안 실으면 부모 행에서 1탭이 무반응처럼 보인다
+    })) }, location.origin);
+  } catch (e) {}
+}
+(function jobsMirrorWatch() {
+  const host = $('#jobs'); if (!host || typeof MutationObserver !== 'function') return;
+  let t = 0;
+  new MutationObserver(() => { if (t) return; t = setTimeout(() => { t = 0; jobsMirror(); }, 60); }).observe(host, { childList: true, subtree: true });   // raw-ok: 60ms = 같은 틱 연속 변이 합치기(경과 1초 틱보다 훨씬 짧아 표시 지연 0)
+})();
+window.addEventListener('message', e => {   // 부모 진행 행의 [재시도]·[취소] = 이 문서의 그 버튼을 그대로 누른다(동작 사본 0)
+  if (e.source !== window.parent || e.origin !== location.origin) return;
+  if (!e.data || e.data.nm !== 'jobs-act') return;
+  const row = document.getElementById('job-' + e.data.uid); if (!row) return;
+  const b = row.querySelector(e.data.act === 'retry' ? '.jretry' : '.jdel');
+  if (b) b.click();
+});
 function pollJob(job) {   // 각 잡 독립 폴링 — 완성 슬롯은 캐러셀에 추가.
   // (260816) 폴 레지스트리 등록 = 같은 작업을 두 번 물지 않는다(restorePending 의 busy 게이트가 이걸 읽는다).
   //   ⚠ 이 등록이 없으면 busy 가 영영 false 라 재개·형제 탭 수신 때마다 같은 id 로 폴이 겹쳐 쌓인다(과요청·중복 착지).
