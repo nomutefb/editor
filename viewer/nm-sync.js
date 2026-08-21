@@ -40,6 +40,22 @@
     } catch (_) { try { if (typeof window.nmSyncWarn === 'function') window.nmSyncWarn('net'); } catch (_) {} /* 회선 사망 = 재진입 무익 */ }
     finally { probing = false; }
   }
+  function softReload() {   // 부드러운 재탑재(운영자 260821 «업데이트 때 화면이 너무 심하게 번쩍여 · 흰색이라 오류같음» — 셸 softShellReenter 의 프레임판)
+    // 왜 = 프레임 문서 리로드도 문서 교체 사이 브라우저 기본 캔버스가 드러난다(폰 = 흰색) → 그 문서의 배경색 베일을 .5s 페이드로
+    //   먼저 덮고 나서 교체 = 모달 안에서도 촤르르. 색 = 그 문서의 --bg 토큰(전 도구 탭이 자기 :root 에 보유 · 폴백 #070a12 = 셸
+    //   부팅 베일 값 사본) · z = --z-lock 토큰(tokens.css 구조토큰 = 전 도구 탭 로드) · .5s·460ms = 셸 softShellReenter 동값(값 창작 0).
+    // 충돌 안전 = 판정 로직(busy·태그 대조) 무접촉 · 이중 발사 가드 · 어느 단계든 실패 = 즉시 종전 location.reload()(fail-soft).
+    try {
+      if (document.getElementById('nmSyncVeil')) return;   // 이미 덮는 중 = 재발사 무시(리로드 예약 완료)
+      const v = document.createElement('div'); v.id = 'nmSyncVeil'; v.setAttribute('aria-hidden', 'true');
+      v.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:var(--z-lock,300);background:var(--bg,#070a12);opacity:0;transition:opacity .5s ease';
+      (document.body || document.documentElement).appendChild(v);
+      void v.offsetWidth; v.style.opacity = '1';
+      setTimeout(() => location.reload(), 460);   // 베일 페이드(.5s)와 물려 덮인 뒤 교체
+      return;
+    } catch (_) {}
+    location.reload();
+  }
   async function verCheck() {   // ③ 신규 배포 자동 탑재 — 부팅 ETag 대비 변경 + 한가하면 즉시 새 코드 리로드(운영자 260803 "신규 개발분 반영도 없어도 되는가" = 예 축)
     if (tagInflight || bootTag == null) return; tagInflight = true;
     try {
@@ -47,7 +63,7 @@
       if (now && bootTag && now !== bootTag) {
         if (busy()) { console.log('[nm-sync] 새 배포 감지 — 작업 중이라 이월(다음 복귀 때 재시도)'); return; }
         console.log('[nm-sync] 새 배포 감지 — 자동 리로드로 신규 코드 탑재');   // 계측 — 조용한 리로드 금지
-        location.reload();
+        softReload();   // 260821 — 구 location.reload() 직행은 문서 교체 공백(폰 = 흰색)이 그대로 드러났다
       }
     } finally { tagInflight = false; }
   }
@@ -63,5 +79,5 @@
   window.addEventListener('pageshow', e => { if (e.persisted) { lastKick = 0; resumeNow(); } });   // iOS PWA bfcache 복귀 = vis 미발화 경로 · 가드 해제 = 확실 재처리
   selfTag().then(t => { bootTag = t; });   // 부팅 기준값(실패 = null → 버전 감지 비활성 · 프로브·재동기는 무영향)
   probeNow();   // 열림 즉시 확인(운영자 260803 "창이 열릴 때 그거부터 확인") — focus 미발화 열림(iframe 백그라운드 로드)도 로그인 만료면 바로 재진입 · 데이터 재fetch는 각 페이지 부팅 로직 몫(중복 0)
-  window.nmSync = { probeNow, resumeNow, verCheck };   // 페이지 위임(thumb 생명선 카운터)·테스트 훅
+  window.nmSync = { probeNow, resumeNow, verCheck, softReload };   // 페이지 위임(thumb 생명선 카운터)·테스트 훅(softReload = 260821 부드러운 재탑재 — 실측 하네스·형제 표면 재사용 축)
 })();
