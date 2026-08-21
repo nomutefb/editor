@@ -4572,6 +4572,48 @@ def check_preview_perf():
         print('✅ 미리보기 부담 게이트 — 타일 그리드 화면 밖 건너뛰기 + 미리보기 배경 층 승격 정본 생존(무대 보유 뷰어 전건 공용 CSS 링크 · 면책표 없음).')
     return rc
 
+
+def check_cpv_paint_quiet():
+    """카드 제작 미리보기 = 타이핑 중 무대·사진 층 페인트 정숙 게이트(운영자 260821 «못살겠다 수정한 이래로 제일 심해»).
+
+    ⚠ 신설 사유 = **동기 JS 축(C15)·배선 축(C20)·유휴 축(C16·C18)이 전부 통과한 상태에서 렉이 최악으로 재발했다** —
+      셸 iframe 트레이스 실측(폰 430 · 45타) = 매 타 ⓐ 렌더가 스크림·로고 img를 파괴·재생성(리소스 갱신 3회/타)
+      ⓑ cpPanApply가 같은 값을 setProperty로 재기입(무대 스타일 무효화 4회/타) ⓒ renderCpPrev 첫머리 `st.className` 통째
+      재설정이 cpv-grab을 지웠다 되붙임(무대 실스타일 변화 왕복) → 셋이 합쳐져 **살려둔 사진 층(will-change)까지 매 타
+      재페인트**(PaintImage 45/45타)돼 원본급(4032×3024) 텍스처가 매 타 GPU에 재업로드됐다(GPU 합성 40~97ms/타 =
+      데스크톱 값 · 폰은 그 수 배 = 운영자 렉의 실체). 봉합 3축 뒤 실측 = 무대 스타일 재계산 181→1 · 사진·스크림·로고·링
+      재페인트 전건 0 · 화면 전/후 픽셀 변화 0(preview_shot). 런타임 짝 = smoke_studioshell C19·C20(사진 분리 0 · 실이벤트
+      예산)이되 **그 둘은 이 세 문법의 회귀를 원리적으로 못 본다**(동기 ms·DOM 분리만 재고 페인트·스타일 무효화는 축 밖).
+    판정 3축(정적 · 렌더·LLM·네트워크 0 · **면책표 없이 하드 0** · 주석 걷어낸 코드부만 = 처방 주석이 구판 문법을 인용):
+      ① cpvStagePaint 모핑 골격 실존 — `_cpvRest` 무접촉 단락 + outerHTML 대조(소실 = 매 타 형제 전체 재조립 회귀)
+      ② cpPanApply 같은값 가드 실존 + 구판 무가드 `setProperty('--pn*')` 부활 차단
+      ③ 렌더 경로 `st.className = 'cpprev-stage ' + …` 통째 재설정 부활 차단(정적 리셋 `'cpprev-stage post'`는 모드 전환 전용 = 대상 밖)
+    """
+    rc = 0
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    p = os.path.join(root, 'viewer', 'thumb.html')
+    try:
+        src = open(p, encoding='utf-8').read()
+    except OSError as e:
+        print('❌ cpv 페인트 정숙 게이트: viewer/thumb.html 읽기 실패 —', e)
+        return 1
+    code = '\n'.join(_js_code_part(l) for l in src.split('\n'))
+    if '_cpvRest === rest' not in code or '.outerHTML !== want[' not in code:
+        print('❌ cpv 페인트 정숙 ① — cpvStagePaint 모핑 골격(_cpvRest 단락 · outerHTML 대조) 소실: 매 타 형제 전체 재조립 = 로고·스크림 파괴·재생성 + 사진 층 재페인트 회귀')
+        rc = 1
+    if 'st.style.getPropertyValue(k) !== v' not in code:
+        print('❌ cpv 페인트 정숙 ② — cpPanApply 같은값 가드(getPropertyValue 대조) 소실: 같은 값 재기입 = 매 타 무대 스타일 무효화')
+        rc = 1
+    if re.search(r"st\.style\.setProperty\(\s*'--pn[fsxy]'", code):
+        print('❌ cpv 페인트 정숙 ② — 무가드 setProperty(--pn*) 부활: 같은 값 재기입 = 매 타 무대 무효화 = 사진 층 텍스처 재업로드')
+        rc = 1
+    if "st.className = 'cpprev-stage ' +" in code:
+        print('❌ cpv 페인트 정숙 ③ — 렌더 경로 st.className 통째 재설정 부활: cpv-grab 소실·재부착 왕복 = 매 타 무대 실스타일 변화 = 사진 층 재페인트')
+        rc = 1
+    if rc == 0:
+        print('✅ cpv 페인트 정숙 게이트 — 무대 모핑·같은값 가드·클래스 토글 3축 생존(타이핑 중 사진 층 재페인트 0 계약 · 면책표 없음).')
+    return rc
+
 def check_shared_canon():
     """공용 부품 CSS = nm-shared.css 단일정본 참조. rc=1 = 커밋 차단."""
     path = os.path.join(ROOT, _SHARED_CSS)
@@ -10097,6 +10139,8 @@ def main():
         print('⚠️ 죽은 상태 오버라이드 게이트 스킵:', e)
     try:
         if check_preview_perf() != 0:   # 미리보기·타일 렌더 부담(운영자 260819 «추후 미리보기에 뭘 띄우고 거기에 오버레이하게 되면 이렇게 렉걸릴수도 있으니 사전에 동일하게» — 260819 실사고[이전 제작 399타일 펼침 = 긴 작업 8건]의 예방접종 · 렌더 함수 호출 0회라 기존 축이 원리적으로 못 보던 자리)
+            rc = 1
+        if check_cpv_paint_quiet() != 0:   # 카드 제작 타이핑 페인트 정숙(운영자 260821 «못살겠다 수정한 이래로 제일 심해» — C15·C20 전건 통과 상태에서 매 타 사진 층 재페인트·GPU 재업로드가 살아 있던 사각의 기계화)
             rc = 1
         if check_shared_canon() != 0:   # 공용 부품 CSS = 정본 1개 참조(운영자 260807 "다른 모든 공간에도 이와 동일하게" — 3파일+ 완전동값 사본 83종 중 전역·원자 5종 승격 · 나머지는 캐스케이드 전역 재배치 때문에 가족 단위 순차 이관 필요)
             rc = 1

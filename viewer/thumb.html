@@ -1725,10 +1725,14 @@ function cpPanApply() {   // 변수(--pnf/--pns/--pnx/--pny) + 레일 값만 갱
   const st = $('#cpPrevStage'); if (!st) return;
   cpPanClamp();
   const g = cpPanGeo(cpPanFmt);
-  st.style.setProperty('--pnf', g ? g.f.toFixed(4) : '1');
-  st.style.setProperty('--pns', CPAN.s.toFixed(4));
-  st.style.setProperty('--pnx', (CPAN.x * 100).toFixed(3) + '%');
-  st.style.setProperty('--pny', (CPAN.y * 100).toFixed(3) + '%');
+  // ⚠ 값이 달라질 때만 쓴다(260821) — 같은 값 재기입도 setProperty는 인라인 스타일을 무효화해서, 타이핑마다(렌더 말미 호출)
+  //   무대 스타일 재계산 4회/타 → 사진 층(will-change) transform 재평가 → 원본급 텍스처가 매 타 GPU에 재업로드됐다
+  //   (실측 = 이 가드 하나로 사진 재페인트 45/45타 → 1회 · 폰 발열·타이핑 렉의 남은 반쪽 — 앞쪽 반쪽 = cpvStagePaint 모핑).
+  const sp = (k, v) => { if (st.style.getPropertyValue(k) !== v) st.style.setProperty(k, v); };
+  sp('--pnf', g ? g.f.toFixed(4) : '1');
+  sp('--pns', CPAN.s.toFixed(4));
+  sp('--pnx', (CPAN.x * 100).toFixed(3) + '%');
+  sp('--pny', (CPAN.y * 100).toFixed(3) + '%');
   st.classList.toggle('cpv-grab', !!st.querySelector('.cpv-pan'));
   cpPanRailSync();
 }
@@ -1741,7 +1745,7 @@ function cpPanRailSync() {   // 레일 동기 = **여기 한 곳**(updateGoSpec 
   if (fw) fw.hidden = !gap;   // AI 채움 = 여백이 실제로 있을 때만(할 일 없는 칩 상시노출 금지)
   if (!gap) cpFillWant = false;   // 칩이 사라지면 상태도 같이 내린다(운영자 260808) — 채움 완료 자동 재첨부·원상복귀로 여백이 0이 된 뒤에도 ON이 남으면, 안 보이는 옵션이 다음 「생성」을 카드 대신 채움으로 또 돌린다
   syncOnOff('#gsPanFill', cpFillWant);   // 점등 = 형제 토글 정본 헬퍼 그대로(라벨 자체가 토글 · 신규 부품·신규 값 0)
-  if (pv) pv.textContent = Math.round(CPAN.s * 100);
+  if (pv) { const t = String(Math.round(CPAN.s * 100)); if (pv.textContent !== t) pv.textContent = t; }   // 같은 값 재기입 = 텍스트 노드 교체 = 매 타 레이아웃 — 달라질 때만(260821 · cpPanApply 가드와 같은 축)
 }
 function cpPanReset() { CPAN.s = 1; CPAN.x = 0; CPAN.y = 0; cpPanApply(); }
 function cpPanFit() {   // 「맞춤」 = 사진 **전체**가 틀에 들어오는 배율(운영자 260806) — cover 대비 배율 s의 정의상 1/f가 정확히 contain 지점(f = cover 환산 배수)이라 계산 1줄 · 여기서 「AI 채움」을 누르면 잘린 곳 0 + 여백은 이어 그림
@@ -1895,7 +1899,9 @@ function renderCpPrev() {   // app2 상시 표시(운영자 260714 Q03②) + 편
   const _fi = cpFocus ? v.findIndex(x => cpFocus === 'hdr' ? (x.k === 'hdr' || x.k === 'nobg') : (x.k === 'ov' || x.k === 'card')) : -1;   // 액티브 입력칸 우선(운영자 260727) — 그 칸이 비어 변형이 없으면 -1 = 종전 우선순위(v[0]) 폴백이라 기존 동작 무손실
   const cur = v[_fi >= 0 ? _fi : cpPrevSel];
   const st = $('#cpPrevStage');
-  st.className = 'cpprev-stage ' + (cur.fmt === 'reels' ? 'reels' : 'post');
+  // 구판 `st.className = …` 통째 재설정은 매 타 ⓐ 같은 값이어도 속성 무효화 ⓑ cpv-grab을 지웠다가 cpPanApply가 되붙이는
+  // 왕복(무대 실스타일 변화 2회/렌더)을 만들어 사진 층 재페인트의 한 축이었다(260821 실측) → 상태별 토글 = 같은 상태 무접촉.
+  st.classList.toggle('reels', cur.fmt === 'reels'); st.classList.toggle('post', cur.fmt !== 'reels'); st.classList.remove('none');
   const W = st.offsetWidth || 1;                                    // 실폭 px → 산출물 1080 기준 환산
   const bh = cur.fmt === 'reels' ? 1920 : 1350;
   const px = n => (n / 1080 * W).toFixed(1) + 'px';                 // 가로축(폰트·마진)
@@ -1999,21 +2005,33 @@ function cpvPanNode() {
 //   `st.innerHTML = h` → 자리표시자 replaceWith 순서라 **매 타 사진이 DOM에서 분리→재부착**됐다.
 //   분리된 큰 그림은 브라우저가 래스터 캐시를 버려서 되꽂는 순간 4032×3024를 다시 굽는다 —
 //   실측(폰 430 실렌더) = 동기 JS 4.3ms/타로 멀쩡한데 **프레임이 최대 567ms**(사진 없으면 16.8ms) = C15(동기 축)가 원리적으로 못 보던 자리.
-//   → 사진이 이미 제 자리(무대 첫 요소)에 있으면 **형제만** 걷어내고 나머지 HTML을 사진 뒤에 붙인다(사진 무접촉 = 재래스터 0).
+//   ⚠ 260821 개정 = 「형제 전부 걷고 새로 붙이기」(260818판)도 모자랐다 — 실측(셸 iframe · 폰 430 트레이스) =
+//     매 타 ⓐ 로고·베이스 img 파괴·재생성(리소스 재요청 3회/타) ⓑ 무대 :has() 재평가 12회/타 ⓒ 레이어 트리 재구성
+//     3.4회/타 → **살려둔 사진 층까지 매 타 재페인트**(PaintImage 45/45타 · GPU 합성 40~97ms/타)라 층 승격(will-change)이
+//     오히려 「매 타 원본급 텍스처 재업로드」로 굳었다(운영자 260821 「수정한 이래로 제일 심해」의 실체 · 동기 JS는 7ms라
+//     C15·C20 전건 통과 = 게이트 사각). → **형제 모핑**: 같은 조각(outerHTML 동일 = 스크림·로고·밴드)은 노드를 재사용하고
+//     달라진 조각(자막 글 div)만 교체한다 + 같은 그림 재렌더(한 타에 렌더가 2회 오는 배선 실측)는 DOM 무접촉.
 //   DOM 순서·클래스 = 구판과 동일([사진]→[스크림]→[로고]→[글]) → 기하·스택 무변(C7·C10·C11 축 무접촉).
-//   강제 = smoke_studioshell C19(자막 1타 중 .cpv-pan 분리 하드 0 — 이 함수를 우회하는 회귀도 행동으로 잡는다).
+//   강제 = smoke_studioshell C19·C20(자막 1타 중 .cpv-pan 분리 하드 0 — 이 함수를 우회하는 회귀도 행동으로 잡는다) + 정적 check_cpv_paint_quiet(모핑 골격·같은값 가드 부활 차단).
+let _cpvRest = null;   // 직전에 그린 형제 HTML(사진 제외) — 모핑 대조용 · 사진 유무·교체가 갈리면 무효
 function cpvStagePaint(st, h) {
   const wantPan = h.startsWith(CPV_PANSLOT);
   const rest = wantPan ? h.slice(CPV_PANSLOT.length) : h;
   const keep = wantPan && _cpvPanEl && _cpvPanEl.parentNode === st && _cpvPanSrc === cpvPanSrc();   // 같은 사진이 이미 무대에 = 무접촉 조건(교체·재첨부는 아래 재부착 경로)
-  if (keep) {
-    let n = st.firstChild;
-    while (n) { const nx = n.nextSibling; if (n !== _cpvPanEl) n.remove(); n = nx; }
-    _cpvPanEl.insertAdjacentHTML('afterend', rest);
-  } else {
-    st.innerHTML = rest;
-    if (wantPan) st.insertBefore(cpvPanNode(), st.firstChild);   // 첫 요소 = 최하층(구 자리표시자 위치와 동일)
+  if (!keep) {
+    st.innerHTML = '';
+    if (wantPan) st.appendChild(cpvPanNode());   // 첫 요소 = 최하층(구 자리표시자 위치와 동일)
+    _cpvRest = null;
+  } else if (_cpvRest === rest && (st.lastElementChild || !rest)) return;   // 같은 그림 = 무접촉(빈 무대 가드 = 외부 소거 시 자가 복구)
+  const tpl = document.createElement('template'); tpl.innerHTML = rest;
+  const want = Array.from(tpl.content.children);
+  const have = Array.from(st.children).filter(n => n !== _cpvPanEl);
+  for (let i = 0; i < want.length; i++) {
+    if (!have[i]) st.appendChild(want[i]);
+    else if (have[i].outerHTML !== want[i].outerHTML) have[i].replaceWith(want[i]);
   }
+  for (let i = want.length; i < have.length; i++) have[i].remove();
+  _cpvRest = rest;
 }
 function cpToolSync(empty) {   // 미리보기 사진 도구(교체·삭제) 상태 동기 — 노출은 상시(구 `empty` 게이트 폐지 · 인자는 호출부 4곳 무접촉을 위해 유지) — 구 슬롯(#cImgSlot) 이주분(운영자 260716)
   const sw = $('#cpImgSwap'), dl = $('#cpImgDel');
