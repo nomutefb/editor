@@ -13,6 +13,7 @@
   .job .jlab { font-weight:800; color:var(--accent); }
   .job .jlab .tplnm { color:var(--accent-5); }   /* 템플릿 접두 #노뮤트 = 형광그린(운영자 260729 "#노뮤트는 강조색") — 색 = .csec .ovfmt.tplnm 토글 정본 토큰 그대로 계승(신규색 0) · 태그 거처 = 좌상단 복귀(운영자 260818 4차 «좌상단에 #노뮤트 그냥 붙이자» = 3차 .jdesc 동승 회수) */
   .job .jlab .tpljj { color:var(--accent-7); }   /* 템플릿 접두 #진짜예요 = 레몬라임(운영자 260818 «더 형광에 가까운거 그거로 대표색» — .csec .ovfmt.tpljj 토글 정본과 한 벌 · 구 극진보 --bias-l2 회수) */
+  .job .jlab .tplmut { color:var(--mut); }   /* 로고 끔 접두 #mut = 회색(운영자 260821 «결과물에는 마찬가지로 노뮤트 샵 표기를 mut로 비활성화» — .csec .ovfmt.tplmut 토글 정본과 한 벌 · 색 = --mut 비활성 의미축 · 신규색 0) */
   .job .jlab .post { color:var(--bias-l1); }     /* 판형 #포스트 = 시안(운영자 260818 4차 «포스트, 릴스로 표기 다시 · 각각 고유색 따라서») — 색 = .csec .ovfmt.post 포맷 토글 정본 토큰 그대로 계승(신규색 0 · thumb :root 미러 동반 = --pan 통무효 실사고 축 방어) */
   .job .jlab .reels { color:var(--accent-4); }   /* 판형 #릴스 = 골드레몬(260723 전 웹앱 통일) — .csec .ovfmt.reels 동일 축(위와 한 벌) */
   .job .jlab .jno { color:rgba(255,255,255,.5); }   /* raw-ok: 번호 = 진한 회색(운영자 260818 5차 «#n 을 진한 회색을 좀 투명도를 준거로» · :root에 텍스트용 진회색 반투명 토큰 부재 실측 → 값 = thumb 739행 기존 반투명 텍스트 값 사본 = 창작 0 · 어두운 행 바탕 위 = 진한 회색) */

@@ -101,6 +101,7 @@ export async function onRequestPost(context) {
     if (!lines.length) return json({ error: '텍스트 줄(lines)이 필요해' }, 400);
     params = { fmt, lines };
     if (app === '1') {
+      if (p.nologo) params.nologo = 1;   // 노뮤트 로고 끔(운영자 260821 길게누름 토글) — 워크플로 params.get('nologo')와 1:1(미전달 = 종전 발사와 동일)
       for (const k of ['offset_x', 'offset_y']) if (Number.isFinite(+p[k]) && p[k] !== '') params[k] = Math.trunc(+p[k]);
       if (Number.isFinite(+p.scale) && p.scale !== '') params.scale = Math.max(0.1, Math.min(5, +p.scale));
       // opas[] = 다중 선택(투명도 토글) · 하위호환 단일 opacity 도 통과. 0~100(0 허용 = 스크림 없음 · 운영자 260718 2차 "0까지 쭉 나열" — 렌더러 generate()는 원래 max(0,…) 0 안전 · /2와 통일).
@@ -118,6 +119,7 @@ export async function onRequestPost(context) {
       const sub = clip(p.sub, 200), title = clip(p.title, 200);
       if (!sub && !title) return json({ error: '부제(sub) 또는 제목(title)이 필요해' }, 400);
       params = { mode, sub, title, bothBg: !!p.bothBg, tpl };   // bothBg = 배경 체크 시 nobg(기본·흰칸없음)도 추가(2장) — 워크플로 params.get('bothBg')·outs unshift와 1:1(누락 시 체크 무효 버그)
+      if (p.nologo && tpl === 'nomute') params.nologo = 1;   // 노뮤트 로고 끔(운영자 260821) — 진짜예요는 비대상(지시 = «노뮤트 표기된거»)
     } else {                                  // 오버레이 — 항상 opa60·30, 직접입력은 추가(+1)
       const lines = cleanLines(p.lines);
       if (!lines.length) return json({ error: '텍스트 줄(lines)이 필요해' }, 400);
@@ -126,6 +128,7 @@ export async function onRequestPost(context) {
         .map(n => Math.trunc(+n)).filter(n => Number.isFinite(n) && n >= 0 && n <= 100))];
       if (!opas.length) opas = [60, 30];   // 폴백 — 빈 입력/구 클라(extraOpa) 안전망
       params = { mode, lines, opas, fmt, tpl };   // fmt = 진짜예요 오버레이의 릴스/포스트 분기(노뮤트는 워크플로가 종전대로 reels 고정 = 무영향)
+      if (p.nologo && tpl === 'nomute') params.nologo = 1;   // 노뮤트 로고 끔(운영자 260821) — 진짜예요는 비대상
     }
   } else {                                    // 3 저작권 — raw 또는 year/name/platform
     if (p.raw) params = { fmt, raw: clip(p.raw, 200) };

@@ -221,11 +221,12 @@ jobs:
                   both = bool(params.get('bothBg'))   # 배경 체크 = 흰칸 없는 버전도(2장) · 기본(미체크) = 흰칸만 1장(운영자 260623)
                   box, nobg = f'{outdir}/box.jpg', f'{outdir}/nobg.jpg'   # 헤더 = 2K JPG q95(불투명 베이스+텍스트)
                   box_tmp = '/tmp/_box.png'
-                  render(sub, title, BASE, box_tmp)                             # 흰칸(영상자리) — render가 BASE를 2K 업스케일(PNG)
+                  hbase = 'apps/thumbnail/assets/reels2_base_nologo.png' if params.get('nologo') else BASE   # 로고 끔(운영자 260821 길게누름) = 상단 NO mute 워드마크만 지운 사본(NS 인페인트 · 마스크 밖 diff 0 실측) — 그 외 화소·경로 전건 동일
+                  render(sub, title, hbase, box_tmp)                            # 흰칸(영상자리) — render가 베이스를 2K 업스케일(PNG)
                   save_jpg(Image.open(box_tmp), box)
                   produced.append(box)
                   if both:                                                      # 배경 체크 시에만 nobg(흰칸 없음) — 2K
-                      im = Image.open(BASE).convert('RGB').resize((W, H), Image.LANCZOS); d = ImageDraw.Draw(im)
+                      im = Image.open(hbase).convert('RGB').resize((W, H), Image.LANCZOS); d = ImageDraw.Draw(im)
                       _draw_line(d, sub,   SUB_Y,   ImageFont.truetype(FONT, SUB_FS,   index=1), WHITE, SUB_FS)
                       _draw_line(d, title, TITLE_Y, ImageFont.truetype(FONT, TITLE_FS, index=1), GREEN, TITLE_FS)
                       save_jpg(im, nobg)
@@ -233,6 +234,10 @@ jobs:
               else:                 # 오버레이 — opa별. 배경 있으면 JPG합성(2K)·없으면 FHD PNG (포스트와 통일)
                   from nomute_overlay import generate
                   from quote_indent import quote_indent_offsets
+                  if params.get('nologo'):   # 노뮤트 로고 끔(운영자 260821 길게누름) — 절대규칙1(4파일 무접촉) 준수 = 호출측 런타임 치환(파일 수정 0 · generate는 모듈 전역 mk_logo를 호출 시점에 조회)
+                      import nomute_overlay as _no
+                      from PIL import Image as _NoImg
+                      _no.mk_logo = lambda W, H, rect: _NoImg.new('RGBA', (W, H), (0, 0, 0, 0))
                   lmoff = quote_indent_offsets(params['lines'], 'reels')   # 줄시작 따옴표가 다음 줄로 이어지면 연속줄 자동 들여쓰기
                   tr = fit_tracking(params['lines'], 'reels', lm_offsets=lmoff)
                   for o in params.get('opas', [60, 30]):
@@ -251,6 +256,10 @@ jobs:
           elif app == '1':          # 포스트 — opas별 1장. 배경 있으면 JPG합성(2K)·없으면 FHD PNG (릴스와 통일).
               from nomute_overlay import generate
               from quote_indent import quote_indent_offsets
+              if params.get('nologo'):   # 노뮤트 로고 끔(운영자 260821) — 위 릴스 오버레이 분기와 같은 치환(형제 한쪽만 고치면 조용히 갈리는 축)
+                  import nomute_overlay as _no
+                  from PIL import Image as _NoImg
+                  _no.mk_logo = lambda W, H, rect: _NoImg.new('RGBA', (W, H), (0, 0, 0, 0))
               fmt1 = params.get('fmt', 'post')
               lmoff = quote_indent_offsets(params['lines'], fmt1)   # 줄시작 따옴표가 다음 줄로 이어지면 연속줄 자동 들여쓰기
               tr = fit_tracking(params['lines'], fmt1, lm_offsets=lmoff)   # 자간 sweep(들여쓰기 폭 합산) — opa 무관·1회 계산 후 재사용
