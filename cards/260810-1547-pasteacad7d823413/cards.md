@@ -1,33 +1,33 @@
 # 트와이스 첫 이탈은 정연, 두고 간 건 JYP뿐이었다
 
 **[프롬프트 설계]**
-- 화풍: A 한국웹툰 수채화 — 떠남과 지킴이 한 장에 겹친 편지의 정서라, 고발보다 사람 마음의 결을 따라가야 팬이 붙는다
-- 분위기: 해질녘 온기 밑에 깔린 옅은 불안 — 쓸쓸함과 다짐이 같은 빛 안에 같이 있다(썸네일 디스패치의 골든아워 톤·저무는 정조를 키노트로 계승)
-- 연출 방향: 뉴스를 안 보는 SNS 이용자도 "아이돌 재계약 시즌 = 팀 깨지나"라는 공포를 안다 — 그래서 이 덱은 계약서가 아니라 **편지 한 장**을 주인공으로 잡는다. 강조점은 손끝(편지를 아직 놓지 못한)과 눈꺼풀(내리깐), 그리고 팬 쪽으로 넘어가는 시선이다. 사건을 설명하지 말고 종이 한 장이 두 마음을 동시에 담은 순간을 보여주고, 마지막엔 사람 얼굴에서 빠져나와 아직 비어 있는 무대로 시야를 열어 '증명은 다음 무대'라는 착지를 그림이 먼저 말하게 한다. 악센트 1색은 편지·화면·응원봉으로만 이어 붙여 시선의 실을 만든다.
-- 독자 동선: 제시 카드1→**발단** 카드2→**전개** 카드3→**피크** 카드4→**해소** 카드5→**시사점** 카드6 · 훅=카드1 끝(단서형: 한 장에 두 말이 나란히 적혔다는 사실만 남기고 내용은 유보)+카드2 끝(예고형: 이적설이 오가던 중이었다) · 착지 한 줄 요지 = 회사와 팀을 갈라 낸 계산이 맞는지는 편지가 아니라 완전체 무대가 증명한다
-- 연속성 앵커: Recurring subject — a Korean woman in her late twenties with long dark wavy hair, wearing a soft cream knit cardigan (카드 1·3·5 등장) / 반복 장소 = a quiet Korean apartment room with a large wooden desk by the window
+- 화풍: A 한국웹툰 수채화 — 손편지 한 장에 이별과 약속이 겹친 휴먼 결이라, 고발용 극화의 날선 톤이 사건 온도를 왜곡한다
+- 분위기: 해질녘 온기 위에 불안이 한 겹 깔린 양가 — 떠난다는 문장과 지키겠다는 문장이 같은 종이에 나란히 놓인 상태
+- 연출 방향: 이 기사를 가장 세게 읽는 사람은 재계약 시즌마다 팀 존속부터 확인하는 팬이다. 그래서 카드마다 '편지를 어떻게 쥐고 있는가'를 감정 계기판으로 쓴다 — 아직 떼지 못한 손끝에서 시작해, 가슴에 안은 두 팔로 끝나고, 마지막엔 사람 손을 떠나 아무도 서지 않은 무대로 넘긴다. 종이 위 두 문장의 낙차가 이 사건의 전부이므로 시선을 계속 그 사물 하나에 묶는다. thumb_dispatch의 골든아워 온기와 '저무는 잔광' 정조를 시퀀스 전체의 색 기준으로 삼되, 명도는 起(따뜻)→承(플랫)→轉(최암)→結(빛 릴리즈)로 눕힌다
+- 독자 동선: **제시** 카드1→**발단** 카드2→**전개** 카드3→**피크** 카드4→**해소** 카드5→**시사점** 카드6 · 훅=카드1 끝(예고형: 편지가 올라온 시점이 예사롭지 않다는 예고 → 카드2 첫 줄이 즉시 회수)+카드3 끝(예고형: 이 이적의 무게가 따로 있다는 예고 → 카드4가 즉시 회수) · 착지 한 줄 요지 = 약속은 편지에 적혔고 증명은 멤버 전원이 다시 설 무대에 있다
+- 연속성 앵커: Recurring subject — a Korean woman in her late twenties with straight shoulder-length dark hair, wearing a cream knit cardigan over a white top (카드 1·3·4·5) / Recurring place — a quiet room with a wide window at dusk, a light wooden desk beside the glass (카드 1·5)
 
 ### [카드 1]
 **텍스트**
 ```text
-8월 10일, 트와이스 정연이
-자신의 인스타그램에 손편지를 올렸다
-떠난다는 말과 남겠다는 말이
-*그 한 장에 나란히 적혀 있었다*
+8월 10일, 편지 한 장이 올라왔다
+트와이스 정연이 직접 손으로 썼다
+*10대 때 들어간 JYP를 떠난다고 했다*
+올라온 시점이 예사롭지 않았다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn line work with loose ink contours, emotive character expressions, warm ambient lighting
-Scene: Emotional focal point: her lowered eyelids resting on the finished letter. Recurring subject — a Korean woman in her late twenties with long dark wavy hair, wearing a soft cream knit cardigan, sits at a large wooden desk by a window and holds a single sheet of handwritten letter paper with both hands. She looks down at the paper and slightly toward the right edge of the frame, with nose room on the right, an uncapped fountain pen lying beside her hand. The room is a quiet Korean apartment room at dusk, the window behind her filled with low sun. Generic face, not resembling any real person.
-Camera: wide shot, full body, surrounding environment, spatial context from eye-level shot, neutral perspective, realistic, balanced emotion, three-quarter angle, natural face depth, shot on 35mm lens, natural documentary perspective, balanced subject and background, minimal distortion
+Scene: Emotional focal point: her fingertips still resting on the last line of the handwritten page, not yet lifted away. Recurring subject — a Korean woman in her late twenties with straight shoulder-length dark hair, wearing a cream knit cardigan over a white top — sits at a light wooden desk in the warm light of a wide window at dusk, head tilted down and eyes cast low toward the single sheet of letter paper under her hands. An uncapped pen lies beside the page, and the paper is angled away from the camera so the handwriting reads only as soft blurred strokes. The room is a quiet Korean studio room.
+Camera: medium close-up from a high angle looking down over the desk, shot on 85mm portrait lens
 Lighting/mood: warm golden-hour sunlight, long soft shadows, nostalgic warmth
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the thin edge of the letter paper), muted daylight contrast
-Korean setting by default: Korean people, Korean interior details.
-Text handling: no readable writing anywhere; the handwriting on the paper is turned away and rendered out of focus and illegible.
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the pen barrel), muted daylight contrast
+Generic character design, not resembling any real person. Korean setting by default.
+Text handling: the handwriting is turned away from the camera and softly out of focus with no legible characters; no garbled or fake script, no meaningless letters, no random characters, no dense text.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the wooden floor of the room) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the wooden desk surface) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame. Nose room on the right, her gaze drifting toward the right edge.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -36,30 +36,125 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-정연 손편지 인스타그램
+트와이스 정연 자필 손편지
 ```
 
 ### [카드 2]
 **텍스트**
 ```text
-떠난다는 말이 먼저 무겁게 읽혔다
-트와이스는 2022년 전원 재계약했다
-그 계약 시점이 지금 다시 돌아왔고
-*쯔위·지효 이적설이 오가던 중이었다*
+지금 트와이스는 재계약 시즌이다
+2022년 전원 재계약이 만료를 앞뒀고
+쯔위와 지효의 이적설이 잇따랐다
+*팬들은 팀의 존폐부터 떠올렸다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn line work with loose ink contours, emotive character expressions, warm ambient lighting
-Scene: Emotional focal point: the gap between women who never meet each other's eyes. Five Korean women in their twenties stand apart in a mirrored dance practice room, each facing a different direction, arms folded or hands resting at their sides. Their eyelines scatter — one toward the mirror, one toward the door on the right, one down at the floor — and a plain wall calendar with a single circled mark hangs above them. The place is a Korean practice studio with a ballet barre running along the mirror. Generic faces, not resembling any real people.
-Camera: medium shot, waist-up framing, face and gestures from high angle shot, looking down, small, observed, shot on 50mm standard lens, minimal distortion, natural cinematic composition
-Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the circled mark of the calendar), muted daylight contrast
-Korean setting by default: Korean people, Korean interior details.
-Text handling: no readable writing anywhere; the calendar shows only a circled mark, its numbers cropped out of frame and illegible.
+Scene: Emotional focal point: the tightening between one fan's brows as she reads, while the other's hand stops halfway to her mouth. Two young Korean women sit shoulder to shoulder on the floor of a dim bedroom, both leaning in toward the single phone one of them holds low between them, their eyes fixed on it. A concert light stick lies unlit on the low table beside them. The phone is tilted away from the camera so nothing on the screen is readable.
+Camera: medium shot from eye level, shot on 35mm lens
+Lighting/mood: overcast diffused daylight through a thin curtain, flat soft shadows, muted somber mood
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the light stick grip), muted daylight contrast
+Generic character design, not resembling any real person. Korean setting by default.
+Text handling: no readable content on the phone screen, the screen shown at a glancing angle and softly out of focus; no garbled or fake script, no meaningless letters, no random characters, no dense text.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the practice-room floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the dim bedroom wall) extending edge to edge from top to bottom of the frame. The main subjects are anchored in the upper-center area against this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
+- no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
+- no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
+- no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
+- no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
+- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
+```
+**검색어**
+```text
+트와이스 응원봉 원스
+```
+
+### [카드 3]
+**텍스트**
+```text
+떠나서 간 곳은 바로엔터테인먼트다
+친언니인 배우 공승연이 있는 회사다
+*이제 본명 유정연으로 연기에 나선다*
+그런데 이 이적의 무게는 따로 있었다
+```
+**이미지 프롬프트**
+```text
+korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn line work with loose ink contours, emotive character expressions, warm ambient lighting
+Scene: Emotional focal point: the older sister's hand resting flat on the closed script the younger one is holding, steadying it. Recurring subject — a Korean woman in her late twenties with straight shoulder-length dark hair, wearing a cream knit cardigan over a white top — stands in a bright agency lobby holding a thick script against her chest, chin lifted and gaze aimed toward the right edge of the frame. Beside her stands an older Korean woman in her thirties in a dark tailored blazer, turned slightly toward her. The script cover faces away from the camera with no markings on it.
+Camera: full shot from a low angle, shot on 24mm wide lens
+Lighting/mood: faded warm light, soft golden haze, gently nostalgic and wistful
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the script's edge tab), muted daylight contrast
+Generic character design, not resembling any real person. Korean setting by default. No company logo, no brand mark, no signage anywhere.
+Text handling: all surfaces kept blank, the script cover turned away and unmarked; no garbled or fake script, no meaningless letters, no random characters, no dense text.
+Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
+MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
+Composition: ONE continuous surface (the pale lobby wall) extending edge to edge from top to bottom of the frame. The main subjects are anchored in the upper-center area against this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame. Nose room on the right, her gaze directed toward the right edge.
+NEGATIVE - strictly avoid:
+- no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
+- no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
+- no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
+- no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
+- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
+```
+**검색어**
+```text
+바로엔터테인먼트 공승연
+```
+
+### [카드 4]
+**텍스트**
+```text
+2015년 데뷔 때부터 있던 회사였다
+재계약 논의가 한창인 와중이었다
+*정연이 트와이스의 첫 이탈이 됐다*
+```
+**이미지 프롬프트**
+```text
+korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn line work with loose ink contours, emotive character expressions, warm ambient lighting
+Scene: Emotional focal point: her eyes glistening with welling tears that have not fallen, the jaw set tight against them. Recurring subject — a Korean woman in her late twenties with straight shoulder-length dark hair, wearing a cream knit cardigan over a white top — stands alone in a dark empty corridor of an entertainment company building, facing the camera, shoulders squared and completely still. Far behind her the corridor recedes into darkness with one practice-room door left ajar, everything back there thrown far out of focus.
+Camera: tight close-up from eye level, shot on 135mm telephoto lens
+Lighting/mood: cold blue dim interior light, heavy and suffocating, faint trembling tension
+Accent: monochrome desaturated base with a single color accent (a neon green #0FFD02 emergency lamp glowing far down the corridor), film-noir low-key lighting, deep shadows
+Generic character design, not resembling any real person. Korean setting by default. No company logo, no brand mark, no signage anywhere.
+Text handling: the emergency lamp is a bare glow with no lettering on it; no garbled or fake script, no meaningless letters, no random characters, no dense text.
+Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
+MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
+Composition: ONE continuous surface (the dark corridor wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area against this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
+- no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
+- no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
+- no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
+- no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
+- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
+```
+**검색어**
+```text
+JYP엔터테인먼트 사옥
+```
+
+### [카드 5]
+**텍스트**
+```text
+그런데 같은 편지에 이런 줄도 있었다
+*팀은 그대로 지켜가겠다고 적었고*
+팬 앞에 서는 일이 늘 먼저라고 했다
+이적과 탈퇴를 갈라서 못 박은 셈이다
+```
+**이미지 프롬프트**
+```text
+korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn line work with loose ink contours, emotive character expressions, warm ambient lighting
+Scene: Emotional focal point: both arms folded over the letter held against her chest, a long-held breath finally leaving her shoulders. Recurring subject — a Korean woman in her late twenties with straight shoulder-length dark hair, wearing a cream knit cardigan over a white top — stands in profile by the window of the same quiet room with a light wooden desk beside the glass, the folded letter pressed to her chest with the written side hidden, eyes briefly closed and chin lowered. On the desk behind her rests a framed group photo, the faces small and softly painted.
+Camera: medium shot from eye level in profile side view, shot on 50mm standard lens
+Lighting/mood: warm soft morning light, gentle and quiet, faint melancholy
+Accent: monochrome desaturated base with a single color accent (a slim neon green #0FFD02 ribbon slipping from the folded letter), muted daylight contrast
+Generic character design, not resembling any real person. Korean setting by default.
+Text handling: the written side of the letter is folded inward and never visible, the photo frame carries no lettering; no garbled or fake script, no meaningless letters, no random characters, no dense text.
+Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
+MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
+Composition: ONE continuous surface (the pale curtain wall beside the window) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area against this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -71,122 +166,27 @@ NEGATIVE — strictly avoid:
 트와이스 완전체 단체사진
 ```
 
-### [카드 3]
-**텍스트**
-```text
-정연이 편지 첫 줄에 쓴 건 이별이었다
-*"오랜 시간을 함께했던 JYP를 떠나"*
-같은 날 옮긴 곳은 바로엔터테인먼트
-친언니 공승연이 있는 배우 소속사다
-```
-**이미지 프롬프트**
-```text
-korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn line work with loose ink contours, emotive character expressions, warm ambient lighting
-Scene: Emotional focal point: her fingertips still pressing the edge of the letter she has stopped writing. Recurring subject — a Korean woman in her late twenties with long dark wavy hair, wearing a soft cream knit cardigan, is seen from directly above as she sits at the wooden desk, her head bowed over the page. One hand lies flat on the letter paper and the other holds a pen just above it, her eyes cast downward at the sheet. A second folded document lies beside the letter, half covered by her forearm, and a warm desk lamp glows at the corner of the desk. Generic face, not resembling any real person.
-Camera: medium close-up, chest-up framing, facial emotion, slight body context from overhead shot, bird's-eye view, top-down angle, layout, geometry, shot on 70mm short telephoto, gentle background compression, subject isolation
-Lighting/mood: warm soft desk-lamp light, quiet wistful tone
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the pen barrel), film-noir low-key lighting, deep shadows
-Korean setting by default: Korean people, Korean interior details.
-Text handling: no readable writing anywhere; both the letter and the folded document are angled away and rendered out of focus and illegible.
-Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
-MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the wooden desk surface) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
-- no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
-- no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
-- no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
-- no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
-- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
-```
-**검색어**
-```text
-공승연 정연 자매
-```
-
-### [카드 4]
-**텍스트**
-```text
-JYP는 정연이 10대에 들어간 회사였다
-원스가 겁낸 건 이적이 아니라
-*팀이 그대로 남느냐였다*
-```
-**이미지 프롬프트**
-```text
-korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn line work with loose ink contours, emotive character expressions, warm ambient lighting
-Scene: Emotional focal point: the breath she is holding behind widened eyes. A Korean woman in her early twenties, a fan, sits alone in a small dark bedroom and stares down at the phone held in both hands, her face lit from below by the screen. Her eyebrows are raised and pulled together, her lips slightly parted, her shoulders pulled in toward the phone. The screen shows only a pale rectangle of a photographed sheet of paper with nothing readable on it, and the rest of the room dissolves into darkness. Generic face, not resembling any real person.
-Camera: tight close-up, face fills frame, intense emotion, intimate pressure from eye-level shot, neutral perspective, realistic, balanced emotion, three-quarter angle, natural face depth, shot on 85mm portrait lens, flattering face, soft background separation, elegant focus
-Lighting/mood: cold blue dim interior light, heavy and suffocating, faint trembling tension
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 in the thin glow along the phone edge), film-noir low-key lighting, deep shadows
-Korean setting by default: Korean people, Korean interior details.
-Text handling: no readable writing anywhere; the phone screen is a blank pale rectangle with no letters, no interface elements.
-Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
-MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the dark bedroom wall behind her) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
-- no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
-- no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
-- no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
-- no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
-- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
-```
-**검색어**
-```text
-트와이스 팬덤 원스
-```
-
-### [카드 5]
-**텍스트**
-```text
-그런데 편지는 거기서 끝나지 않았다
-*트와이스는 그대로 지켜가겠다고 했다*
-원스 앞에 서는 일이 첫 번째라고 적었다
-본명 유정연으로 연기에 도전한다
-```
-**이미지 프롬프트**
-```text
-korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn line work with loose ink contours, emotive character expressions, warm ambient lighting
-Scene: Emotional focal point: the long-held breath finally released across her face. Recurring subject — a Korean woman in her late twenties with long dark wavy hair, wearing a soft cream knit cardigan, sits back from the same window desk with the folded letter resting in her lap. Her shoulders drop, her eyes close briefly, and the tension melts into a faint soft smile as her body turns three-quarter toward the window, one hand still resting on the paper. Same quiet Korean apartment room, now filled with early morning light instead of dusk. Generic face, not resembling any real person.
-Camera: medium shot, waist-up framing, face and gestures from eye-level shot, neutral perspective, realistic, balanced emotion, three-quarter angle, natural face depth, shot on 50mm standard lens, minimal distortion, natural cinematic composition
-Lighting/mood: soft wraparound key light, gentle falloff, tender warm intimacy
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the folded edge of the letter in her lap), muted daylight contrast
-Korean setting by default: Korean people, Korean interior details.
-Text handling: no readable writing anywhere; the letter is folded closed so nothing written is visible.
-Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
-MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the wall of the same room behind her) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
-- no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
-- no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
-- no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
-- no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
-- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
-```
-**검색어**
-```text
-정연 배우 프로필
-```
-
 ### [카드 6]
 **텍스트**
 ```text
 재계약 시즌은 늘 팀의 존폐로 읽혔다
-정연은 회사와 팀을 갈라 답을 냈다
-회사는 옮기되 팀은 지킨다는 계산이다
-*증명은 편지가 아니라 완전체 무대다*
+정연은 회사와 팀을 갈라서 답했다
+그 답이 맞았는지는 편지가 아니라
+*멤버 전원이 다시 설 무대가 증명한다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn line work with loose ink contours, emotive character expressions, warm ambient lighting
-Scene: Emotional focal point: the empty stage waiting under a single descending shaft of light. A vast Korean arena viewed from the back of the standing floor, centered and static; hundreds of fans stand in silhouette facing the stage ahead, arms raised, holding glowing light sticks. The stage itself holds only bare microphone stands and no performers, and haze catches the beams falling straight down onto it. No face is visible anywhere, the crowd reading as one dark mass of shoulders and small lights.
-Camera: extreme long shot, tiny subject, vast environment, scale, isolation from eye-level shot, neutral perspective, realistic, balanced emotion, shot on 24mm wide lens, cinematic wide shot, spatial context, subtle depth
+Scene: Emotional focal point: the empty pool of light waiting at the center mark where nobody is standing yet. A wide arena stage sits completely empty, a row of microphone stands lined across the front with cables coiled neatly at their feet. The dark auditorium beyond is empty as well, seats receding into shadow, and one shaft of light falls straight down onto the vacant center of the stage. No people anywhere in the frame.
+Camera: wide shot from eye level, front-on symmetrical composition, shot on 24mm wide lens
 Lighting/mood: divine volumetric god-rays through haze, luminous descending shafts, reverent awe
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 in the scattered light sticks of the crowd), film-noir low-key lighting, deep shadows
-Korean setting by default: Korean people, Korean venue details.
-Text handling: no readable writing anywhere; no banners, no screens, no signage with letters.
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 tape mark at the center of the stage floor), film-noir low-key lighting, deep shadows
+Korean concert venue by default. No company logo, no brand mark, no banner, no signage anywhere.
+Text handling: every surface kept blank, the tape mark is a plain cross of tape with no lettering; no garbled or fake script, no meaningless letters, no random characters, no dense text.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the arena floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the empty stage floor) extending edge to edge from top to bottom of the frame. The main focal element, the lit center mark, is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -195,5 +195,5 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-트와이스 콘서트 무대
+돔 공연장 빈 무대
 ```
