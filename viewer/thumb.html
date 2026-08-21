@@ -1676,7 +1676,7 @@ function syncCpMerge() {
 })();
 // ── 합성 미리보기(운영자 260712) — 입력(첨부·헤더·자막·저작권·안내문)을 산출물 좌표비(1080 기준 SPECS 미러)로 근사 재현. 로고·그라데(260716)·자간(자동자간 = est* 쌍둥이 산식 · 260716)까지 미러 — 잔여 정밀(글리프 실폭·그림자·따옴표 들여쓰기)은 제작기 PIL이 정본. ──
 const CPV_WHITE = 'rgb(255,255,255)';   // 콘텐츠 산출물 색 미러(PIL WHITE) — UI 팔레트 아님(§핵심명령 1-3-b-1 콘텐츠 축)
-const CPV_BLUE = 'rgb(56,198,255)';     // 진짜예요 강조 = 네온 파랑(운영자 260726 "강조색 진짜예요는 … 네온 파란색으루") — nomute_jinjja.OV_EMPH(56,198,255) 미러 · 값 = index :root --bias-l1 #38C6FF 동값(발행 콘텐츠 색 축 · UI 재유입 아님)
+const CPV_LIME = 'rgb(216,255,61)';     // 진짜예요 강조 = 레몬라임(운영자 260821 "강조색을 팔레트에 있는 레몬 라임으로" · 구 네온 파랑 260726 회수) — nomute_jinjja.OV_EMPH(216,255,61) 미러 · 값 = index :root --accent-7 #d8ff3d 동값(260818 대표색과 한 색 · 발행 콘텐츠 색 축 · UI 재유입 아님)
 const CPV_GOLD = 'rgb(255,225,61)';     // 진짜예요 헤더 문구 강조 = 골드레몬(운영자 260730 "**로 하면 강조 … 노란색 가까운 색") — nomute_jinjja.HDR_EMPH(255,225,61) 미러 · 값 = index :root --accent-2/--accent-4 #FFE13D 동값(발행 콘텐츠 색 축 · UI 재유입 아님)
 const CPV_GREEN = '#0FFD02';          // 콘텐츠 산출물 색 미러(PIL GREEN 15,253,2 = 제목·강조) — legacy_green baseline 사유 등재(UI 재유입 아님 · 미리보기 = 산출물 근사)
 const CP_PREV_FONT = 'Noto Sans KR';     // 미리보기 폰트 정본 선언(운영자 260714 Q03③·Q06) = PIL NotoSansCJK KR의 웹 등가 — smoke_preview R2가 실로드(fonts.check)까지 실측
@@ -1936,7 +1936,7 @@ function renderCpPrev() {   // app2 상시 표시(운영자 260714 Q03②) + 편
         const jFit = lines.map(l => ovFit(l, jKey));   // 초과분 글자 단위 절단 = 노뮤트 오버레이와 동축(운영자 260807 3차)
         const trJ = estTracking(jFit, jKey).tr;
         const jClip = jFit.some((l, i) => l !== lines[i]) ? 'overflow:hidden;' : '';   // 잔여 서브픽셀 가드
-        h += `<div class="cpv" style="${jClip}left:${px(jsp.lm)};right:${px(jsp.ctr ? jsp.rm : 40)};top:${py(jsp.ty)};margin-top:${px(cur.fmt === 'reels' ? 8 : 11)};${jsp.ctr ? 'text-align:center;' : ''}color:${CPV_WHITE};font-size:${px(jsp.fs)};font-weight:800;line-height:${(jsp.lh / jsp.fs).toFixed(3)};white-space:pre;letter-spacing:${(trJ / 1000).toFixed(4)}em">${jFit.map(l => renderEmph2(l).map(([k, v]) => k === 'h' ? `<b style="color:${CPV_BLUE};font-weight:inherit">${esc(v)}</b>` : esc(v)).join('')).join('<br>')}</div>`;   // 릴스 = 가운데 정렬(운영자 260730 · 좌/우 마지노선 lm 101·rm 135 박스 안에서 센터 = nomute_jinjja.OV_CENTER 미러) / 포스트 = 좌측정렬 유지(260728 "노뮤트때 나오는거랑 똑같이" · left lm·right 40)
+        h += `<div class="cpv" style="${jClip}left:${px(jsp.lm)};right:${px(jsp.ctr ? jsp.rm : 40)};top:${py(jsp.ty)};margin-top:${px(cur.fmt === 'reels' ? 8 : 11)};${jsp.ctr ? 'text-align:center;' : ''}color:${CPV_WHITE};font-size:${px(jsp.fs)};font-weight:800;line-height:${(jsp.lh / jsp.fs).toFixed(3)};white-space:pre;letter-spacing:${(trJ / 1000).toFixed(4)}em">${jFit.map(l => renderEmph2(l).map(([k, v]) => k === 'h' ? `<b style="color:${CPV_LIME};font-weight:inherit">${esc(v)}</b>` : esc(v)).join('')).join('<br>')}</div>`;   // 릴스 = 가운데 정렬(운영자 260730 · 좌/우 마지노선 lm 101·rm 135 박스 안에서 센터 = nomute_jinjja.OV_CENTER 미러) / 포스트 = 좌측정렬 유지(260728 "노뮤트때 나오는거랑 똑같이" · left lm·right 40)
       }
     } else {   // 구 early return 폐기(260728 검수 · 헤더와 동축) — 저작권·안내문 미리보기 누락 봉합. 아래 노뮤트 자막 블록은 else로 감싸기만
     const lg = cur.fmt === 'reels' ? { x: 104, y: 1008, w: 139, h: 102 } : { x: 98, y: 720, w: 127, h: 93 };   // SPECS.logo_rect 그대로(1080 기준)
