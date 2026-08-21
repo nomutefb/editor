@@ -11455,18 +11455,31 @@ let SOCIAL = [], SOCIAL_LOADED = false, SOCIAL_LOADING = false, SOC_LM = 0;   //
 //   ⚠ 종단(PICKED 상당)은 없다 — 커뮤니티 제목은 뉴스 제목과 달라 feedMatch 계열로 완료를 신뢰성 있게 못 짚는다(메뉴1 픽과 다른 점). 확실한 완료 신호를 못 만들 바엔 추측 표시를 안 한다 = 보낸 카드는 Pk-ng로 잔류.
 const SOC_SENT_KEY = 'nm_soc_sent', SOC_PKLABEL = 'Pk-ng', SOC_PKDONE = 'Pk-ed';   // 라벨 = 한 곳(운영자 260804 "칸이 좁으니까 그냥 Pk-ng" · 완료 = "Pk-ed" — 렌더·런타임 전환 공용)
 const SOC_SENT_CAP = 200;   // 원장 상한 = 최근 200건(커뮤니티 행은 빠르게 회전 → 무한 누적 방지 · 넘치면 오래된 것부터 탈락)
-// 원장 = Map(카드키 → {ask, q}) · ask = asks/<id>.json 베이스(submit 응답) · q = 완료된 queue 파일 id(있으면 Pk-ed = 그 요약으로 이동 가능).
+const SOC_PIN_MS = 24 * 3600e3;   // 전송 카드 잔류 창(운영자 260821 "전송 후에도 그 자리에 남아있게 — 전송하면 사라져서 곤란") — 목록 데이터(social_candidates.json)는 스캔마다 통째 교체라 글이 회전해 빠지면 전송한 카드도 같이 사라졌다(Pk-ng/Pk-ed 추적 고리 단절) → 전송 시점 스냅샷(snap)으로 24시간 잔류. 24h = 이 레포 작업 추적 TTL 정본 동값(nm-jobs 슬롯·pending 계승 · 값 창작 0) · 창을 넘긴 스냅샷은 저장 시 스스로 걷힌다(원장 {ask,q} 본체는 종전대로 상한 200 회전 = 버튼 상태·중복 전송 가드 축 무접촉).
+// 원장 = Map(카드키 → {ask, q[, snap, at]}) · ask = asks/<id>.json 베이스(submit 응답) · q = 완료된 queue 파일 id(있으면 Pk-ed = 그 요약으로 이동 가능) · snap/at = 전송 시점 카드 스냅샷·전송 시각(260821 잔류 축 — 구 원장 항목엔 없다 = 그 전송분은 종전대로 회전 소멸 · fail-soft).
 //   ⚠ 구판(260804 1차)은 키 배열이었다 → 배열이면 {ask:'',q:''}로 승격해 읽는다(그 회차 전송분은 ask id를 모르니 Pk-ng에 머문다 = 정보 없는 걸 완료로 꾸미지 않는다).
 let SOC_SENT = (() => {
   try {
     const a = JSON.parse(localStorage.getItem(SOC_SENT_KEY) || '[]');
-    if (Array.isArray(a)) return new Map(a.map(x => (x && typeof x === 'object') ? [String(x.k || ''), { ask: String(x.ask || ''), q: String(x.q || '') }] : [String(x || ''), { ask: '', q: '' }]).filter(([k]) => k));
+    if (Array.isArray(a)) return new Map(a.map(x => (x && typeof x === 'object') ? [String(x.k || ''), { ask: String(x.ask || ''), q: String(x.q || ''), ...(x.snap && x.at ? { snap: x.snap, at: +x.at || 0 } : {}) }] : [String(x || ''), { ask: '', q: '' }]).filter(([k]) => k));
   } catch {}
   return new Map();
 })();
 const socKey = r => (r && (r.url || r.title)) || '';   // 카드 동일성 = url 우선(제목은 폴백 · renderSns 시그니처 축과 동일 문법)
-const socSentSave = () => { try { localStorage.setItem(SOC_SENT_KEY, JSON.stringify([...SOC_SENT].slice(-SOC_SENT_CAP).map(([k, v]) => ({ k, ask: v.ask || '', q: v.q || '' })))); } catch {} };
-const socSentAdd = (k, ask) => { if (!k) return; SOC_SENT.delete(k); SOC_SENT.set(k, { ask: String(ask || ''), q: '' }); socSentSave(); };   // delete→set = 삽입순 갱신(상한 컷에서 최근 것이 살아남음)
+const socSentSave = () => { try { const _n = Date.now(); localStorage.setItem(SOC_SENT_KEY, JSON.stringify([...SOC_SENT].slice(-SOC_SENT_CAP).map(([k, v]) => ({ k, ask: v.ask || '', q: v.q || '', ...(v.snap && v.at && _n - v.at <= SOC_PIN_MS ? { snap: v.snap, at: v.at } : {}) })))); } catch {} };   // 잔류 창 지난 스냅샷 = 저장에서 탈락(자가 청소 · {ask,q}는 잔존 = Pk-ed 열기·재전송 가드 유지)
+const socSentAdd = (k, ask, snap) => { if (!k) return; SOC_SENT.delete(k); SOC_SENT.set(k, { ask: String(ask || ''), q: '', ...(snap ? { snap, at: Date.now() } : {}) }); socSentSave(); };   // delete→set = 삽입순 갱신(상한 컷에서 최근 것이 살아남음) · snap = 전송 시점 카드 스냅샷(못 떴으면 종전 동작 = 잔류 없음)
+const socPinned = k => { const v = SOC_SENT.get(k); return !!(v && v.at && Date.now() - v.at <= SOC_PIN_MS); };   // 잔류 자격 = 전송 후 24h 안(구 원장 항목 = at 없음 = 비잔류 → 종전 동작)
+const socSnap = (url, title) => {   // 전송 시점 카드 스냅샷 — renderSns가 그리는 필드 전부(수집 목록에서 빠져도 이 값으로 같은 카드를 다시 그린다) · age0 = 전송 시점 표시 나이(스캔 스냅샷 나이 + 파일 경과 = renderSns 보정과 같은 자)
+  const r = (Array.isArray(SOCIAL) ? SOCIAL : []).find(x => socKey(x) === socKey({ url, title })); if (!r) return null;
+  const _el = SOC_LM ? Math.max(0, (Date.now() - SOC_LM) / 3600000) : 0;
+  return { url: r.url || '', title: r.title || '', desc: r.desc || '', burst: +r.burst || 0, source_count: +r.source_count || 0, posts: +r.posts || 0, sources: (r.sources || []).slice(0, 14), age0: Math.round(((+r.age_h || 0) + _el) * 10) / 10 };
+};
+const socGhosts = () => {   // 전송분 중 수집 목록에서 이미 빠진 카드 = 스냅샷으로 잔류(운영자 260821) — 목록에 살아있는 행이 있으면 그쪽이 정본(스냅샷 미사용 = 최신 수집값 우선) · _pinAge = 전송 시점 나이 + 전송 후 경과(자기 앵커 = 나이 표기가 계속 정직하게 자란다)
+  if (!SOC_SENT.size || !Array.isArray(SOCIAL)) return [];
+  const live = new Set(SOCIAL.map(socKey)), out = [];
+  for (const [k, v] of SOC_SENT) { if (v && v.snap && !live.has(k) && socPinned(k)) out.push({ ...v.snap, _pinAge: (+v.snap.age0 || 0) + (Date.now() - v.at) / 3600000 }); }
+  return out;
+};
 const socAskNorm = s => String(s || '').replace(/-/g, '');   // asks/2026-08-04-0112-xbo3n → 202608040112xbo3n = queue/260804-1012-ask-**202608040112xbo3n**.md 안에 그대로 박히는 형태(ask.sh 명명 규칙)
 const RKEY = 'nm_ratings';
 const ratingsAll = () => { try { return JSON.parse(localStorage.getItem(RKEY) || '{}'); } catch { return {}; } };
@@ -13911,7 +13924,7 @@ function renderSnsTrends() {
   const boOld = p2 => { const t = Date.parse(p2.open || ''); return t > 0 && (Date.now() - t) > 365 * 864e5; };   // 재개봉 컷(운영자 260817 "지금 관람객수를 제대로 반영을 못하는데 — 보헤미안 랩소디가 1위") — audi = audiAcc = 원 개봉일부터의 누적이라 재개봉작은 옛 흥행분을 달고 아래 정렬 1위를 강탈(260817 KOBIS 실측 = 보헤미안 랩소디 개봉 2018-10-31 · 누적 995만 · 어제 하루 996명 · 일별 순위 10위) · 판정 = 개봉일 365일 초과(재개봉작도 open = 원 개봉일 유지 = 260817 KOBIS 실측 · 정상 상영은 1년을 안 넘는다) · open 결측 = fail-open 유지(구 수집분·특별상영 — 빈 목록 방지 · 수집기 open 동반 커밋이라 다음 수집부터 발효)
   const kobL = kob.filter(p2 => (p2.audi || 0) >= 1e4 && !boOld(p2)).sort((a2, b2) => (b2.audi || 0) - (a2.audi || 0)).slice(0, 8);   // 누적 관객수 내림차순(운영자 260721 "여튼 관객수대로 순위가 되어야함" — 원천 kobis rank = KOBIS '어제 하루' 관객수 순위라 신작 반짝 1위[호프 227만]가 누적 최다[군체 594만] 위에 뜨던 것 교정 · audi = audiAcc = 개봉일~어제 누적 · filter 새 배열이라 원천 무변형) · 1만명 미만 = 미표기(운영자 260721 Q382 "만명도 안 나온 영화는 출력 X · 10개 안 나와도 괜찮아") — 표시 필터만(원천 sns_trends.json 무접촉 [15] · 만단위 표기 = vfmt 종전) · 전멸 = sec 미생성 → gETC 해커뉴스 단독 스택(기존 분기 = 조용한 공백)
   if (kobL.length) gMV += sec('kob', '박스오피스', '', kobL.length, kobL.map((p2, i) => brow(i, p2.url || '#', p2.audi ? vfmt(p2.audi) + '명' : '', i < 3 ? 'top3' : '', i < 3 ? (p2.audi >= 1e7 ? 'bo-t' : p2.audi >= 3e6 ? 'bo-y' : 'bo-w') : '')).join(''));   // 순위+제목+관람객수만(운영자 260720 — 시간열 제거 · 해커뉴스와 반반 rt2col 계승) · top3 = 영화명 강조색(운영자 260721 Q382 · .trend-q.top3) + 관객수 히트색(운영자 260723 "상위 3개 몇만명 흰색 · 300만↑ 노란색 · 천만↑ 강조1" = bo-w[흰]/bo-y[≥3e6]/bo-t[≥1e7] · 4위↓는 종전 --mut) · '· 어제' 캡션 제거(운영자 260721 — 기타 그룹 = SNS와 동일 sns_trends.json 일괄 수집 = 갱신 시각 #vhTime 1회로 갈음)
-  const gKC = (SOCIAL_LOADED && !(typeof SOCIAL !== 'undefined' && SOCIAL.some(socPass))) ? '' : '<div id="snsHost" class="kcomm-host"></div>';   // 국내 커뮤니티(운영자 260713 극좌 = ① 편성) — 소셜 전무 확정 시만 미등장(조용한 공백) · 소분류 '커뮤니티 공론'(sec kcomm-l) 헤더 폐지 = 대분류 직속 장착·삭제분만큼 위로 당김(운영자 260720 — 대분류=소분류 동의어 이중 라벨 해소 · 직속 본체 = brief .tbrief 선례)
+  const gKC = (SOCIAL_LOADED && !((typeof SOCIAL !== 'undefined' && SOCIAL.some(socPass)) || socGhosts().length)) ? '' : '<div id="snsHost" class="kcomm-host"></div>';   // 국내 커뮤니티(운영자 260713 극좌 = ① 편성) — 소셜 전무 확정 시만 미등장(조용한 공백) · 잔류 전송분(socGhosts)만 남았어도 그룹은 선다(260821 — 수집 전멸 회차에 전송 카드까지 통째 미등장 차단) · 소분류 '커뮤니티 공론'(sec kcomm-l) 헤더 폐지 = 대분류 직속 장착·삭제분만큼 위로 당김(운영자 260720 — 대분류=소분류 동의어 이중 라벨 해소 · 직속 본체 = brief .tbrief 선례)
   const gETC = (gHN && gMV) ? '<div class="rt2col">' + gHN + gMV + '</div>' : (gHN + gMV);   // ⑫⑮ 기타 = 해커뉴스|문화 좌우 2열(운영자 Q240 "동일 가로선·첨부2처럼" — 구 독립 대분류 2개 → '기타' 대분류 1개 · rt2col = 구글|시그널 실검 문법 계승 · 한쪽 결측 = 단독 스택 · 모바일 1열 = rt2col 미디어)
   const GRPS = [['gg', '실시간 검색어', gGG], ['kcomm', '국내 커뮤니티', gKC], ['pop', '인기 게시물', gYT + gTK + gRD], ['cur', '큐레이션 게시물', gCUR], ['fin', '금융', gFI], ['etc', '기타', gETC], ['sf', '안전', gSF]].filter(g => g[2]);   // ③ 인기 게시물 = 유튜브·레딧 대분류 통합(운영자 260731 "3 인기 게시물 · 블릿으로 유튜브 · 그 다음 블릿으로 레딧 · 번호 다 위로") — 플랫폼별 대분류(구 ③유튜브·④레딧)를 성격축 1개로 묶고 플랫폼은 소분류 블릿으로 강등 = 대분류 2개 감소분만큼 뒤 순번이 자동으로 당겨진다(gno = 렌더 그룹 순차 증가) · 순서 = 유튜브 → (틱톡: 260727 큐레이션 이관으로 상시 공백) → 레딧 · gTK 자리 = 대분류 복귀 시 유튜브 뒤에 붙는 자리만 보존(현재 무출력) · 되돌림 = 이 배열 3원소 복원 + §691 소머리 숨김 복구   // 블루스카이 = X 대분류 우측 열 합류(260720)로 독립 행 폐지 · kcomm = 공론 직속 + 오늘의베스트 sec(Q311)   // 신규 5종(운영자 260713 "ㄱ") = X·SNS 뒤 · 데이터 구동 = 빈 그룹 자동 제외 · 레일 = 첫 글자 폴백 · 해커뉴스+문화 = '기타' 대분류로 통합(운영자 Q240)
   // ── 조립: 좌측 책갈피 레일(soc-item 밖 = backdrop-filter 조상 회피 → fixed가 뷰포트 기준 · §디자인 h) + 카드(헤드 → TOP 10 → 순번 플랫폼 그룹) ──
@@ -14601,7 +14614,7 @@ function socSyncSent(items) {
     const n = socAskNorm(v.ask);
     if (items.some(it => it && it.id === v.ask && it.status === 'fail')) { SOC_SENT.delete(k); changed = true; continue; }   // 요약 실패 = 전송 상태로 복귀(재전송 가능)
     const done = items.find(it => it && it.status === 'succ' && String(it.id).includes(n) && qEff(it) === 'succ');
-    if (done) { SOC_SENT.set(k, { ask: v.ask, q: String(done.id) }); changed = true; }
+    if (done) { SOC_SENT.set(k, { ...v, q: String(done.id) }); changed = true; }   // ...v = snap·at 보존(260821 잔류 축 — Pk-ed 전이가 스냅샷을 지우면 완료 순간 잔류 카드가 사라진다)
   }
   if (changed) socSentSave();
   return changed;
@@ -14628,7 +14641,7 @@ function socBindSend(list) {
       const r = await fetch('api/submit', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ text, srcUrl: url, preset: { h24: 1, fp: 0, mj: 1, og: 0, noai: 1 } }) });   // preset = openAsk 기본 수집 프리셋 계승 · srcUrl = 이 카드의 커뮤니티 글 주소(대기열 행 ↗ 목적지 · 운영자 260804) — ⚠ link 가 아니다(link 는 ask.sh 가 '원문'으로 삼아 커뮤니티 글타래를 기사로 요약해버린다)
       const d = await r.json().catch(() => ({}));
       if (r.ok && d.ok) {
-        socSentAdd(socKey({ url, title }), d.id);   // 원장 적재 = 성공 즉시(1.6s 종단 전에 재렌더가 끼어도 Pk-ng로 다시 그려진다) · d.id = asks 베이스 = Pk-ed 전이 추적키(구 서버 응답이면 '' → Pk-ng 유지 = fail-soft)
+        socSentAdd(socKey({ url, title }), d.id, socSnap(url, title));   // 원장 적재 = 성공 즉시(1.6s 종단 전에 재렌더가 끼어도 Pk-ng로 다시 그려진다) · d.id = asks 베이스 = Pk-ed 전이 추적키(구 서버 응답이면 '' → Pk-ng 유지 = fail-soft) · socSnap = 전송 시점 카드 스냅샷(다음 스캔에서 글이 회전해 빠져도 카드가 24h 잔류 = 운영자 260821 "전송 후에도 그 자리에")
         sb.classList.remove('done'); void sb.offsetWidth; sb.classList.add('done'); gaugeDone(sb);   // 성공 = settle 펄스 + 게이지 현위치→100% 급속 마무리(askSend 성공 경로 그대로)
         setTimeout(() => askShowCheck(sb), 300);   // 채움완료(gdone .3s)와 물려 ✓ 팝(멈칫 제거·askSend 동일 리듬)
         setTimeout(loadPending, 1200); setTimeout(loadPending, 4000);   // 대기열 배지 즉시 갱신(askSend 계승)
@@ -14644,7 +14657,7 @@ function renderSns() {
   let _ss = '';   // 이번 렌더 구성 시그니처(행 ID·순서+검색어 · 아래서 선계산 = 커밋 스킵 판정용)
   if (!SOCIAL_LOADED) { list.innerHTML = `<div class="empty">${window.nmLoader?nmLoader('loading','Now loading…'):'Now loading…'}</div>`; _snsSig = ''; return; }
   const q = ($('#q') ? $('#q').value : '').trim().toLowerCase();
-  const pool0 = SOCIAL.filter(socPass);   // 🔥 하한 컷(운영자 260818 SOC_MIN) — 검색 필터보다 **앞** = 검색해도 미달 카드는 안 뜬다
+  const pool0 = SOCIAL.filter(r => socPass(r) || socPinned(socKey(r))).concat(socGhosts());   // 🔥 하한 컷(운영자 260818 SOC_MIN) — 검색 필터보다 **앞** = 검색해도 미달 카드는 안 뜬다 · 전송분(24h 잔류 창 안)은 컷 면제 + 수집 목록에서 빠진 전송분은 스냅샷(socGhosts) 합류(운영자 260821 "전송 후에도 그 자리에" — 정렬은 아래 burst 축 공용 = 있던 자리 언저리 유지 · 목록에 살아있으면 live 행이 정본이라 중복 0)
   const rows = q ? pool0.filter(r => ((r.title || '') + ' ' + (r.sources || []).join(' ')).toLowerCase().includes(q)) : pool0;
   const merged = rows.slice().sort((a2, b2) => (+b2.burst || 0) - (+a2.burst || 0));   // 버스트 내림차순(기존 정렬축 유지)
   if (!merged.length) { list.innerHTML = q ? '<div class="empty">검색 결과 없음</div>' : ''; _snsSig = ''; return; }   // 빈 메뉴 = 조용한 공백(§디자인 e) · 검색 중일 때만 상태 1줄
@@ -14659,7 +14672,7 @@ function renderSns() {
     el.href = r.url || '#'; el.target = '_blank'; el.rel = 'noopener';
     if (r.desc) el.dataset.sum = r.desc;   // 수집 스니펫 = 전송 시 요약 재료(본문 못 긁는 커뮤니티 폴백 · 운영자 260729)
     el.style.animationDelay = Math.min(i, 14) * 32 + 'ms';
-    const ago = relAge((+r.age_h || 0) + _socEl);
+    const ago = relAge(r._pinAge != null ? +r._pinAge : (+r.age_h || 0) + _socEl);   // 잔류 카드(_pinAge) = 전송 시점 나이 + 전송 후 경과(자기 앵커 — _socEl은 현재 파일 기준이라 남의 자) · 일반 행 = 종전 보정 그대로
     const _b = +r.burst || 0, _bt = _b >= SOC_HOT10 ? ' hot10' : _b >= SOC_HOT30 ? ' hot30' : '';   // 🔥 색 티어(상위~10% 보라 / ~30% 강조 · 표시 전용)
     // 출처성향 무게중심 — 네이버 3서비스→1 접기 + 진영당 1표 균등평균(글수 무시=방향만·강도는 🔥burst/글N/소스칩이 담당). 성향값 불변·성향불명 제외. 통합 단일원칙(분신술 11인·볼륨가중/클램프 폐지 260704).
     const _plat = {};   // 성향 플랫폼(네이버 접기)별 성향값 — 진영당 1표(글수 무관)
