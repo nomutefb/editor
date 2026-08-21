@@ -1,32 +1,31 @@
-# 🎭 멤버도 놀란 출국장 인파, 에스파 25개 지역 투어 첫 출국
+# 무대는 하루 뒤, 인천공항이 먼저 꽉 찼다
 
 **[프롬프트 설계]**
-- 화풍: A 수채화 — 다친 사람이 나온 사건이 아니라 '아직 아무 일도 안 난 아찔함'이라, 고발 톤의 극화보다 온기 있는 선이 팬을 어둡게 그리지 않으면서 조마조마함을 남긴다
-- 분위기: 환호의 온기 위에 얹힌 조마조마함 — 공항 형광등의 차갑고 평평한 빛이 사람 열기를 계속 식히는 정조(thumb_dispatch LGT12·SG-04 톤 계승)
-- 연출 방향: 뉴스 안 보는 독자가 멈추는 지점은 '무대보다 공항이 먼저 꽉 찼다'는 낙차다. 그래서 이 덱의 강조점은 인물의 화려함이 아니라 **통로의 폭** — 사람이 늘수록 좁아 보이는 한 줄기 길 하나를 카드마다 다른 거리에서 다시 잡는다. 그 길 위에 팬도 있고 멤버도 있고 캐리어를 끄는 남의 승객도 있다는 걸 보여주면, 마지막에 '규칙이 아직 없다'가 설교가 아니라 이미 본 장면의 이름이 된다. 악센트 1색은 그 길 위에만 얹어 시선을 길에 묶어둔다.
-- 독자 동선: **발단** 카드1→**전개** 카드2~3→**피크** 카드4→**해소** 카드5→**시사점** 카드6 · 훅=카드1 끝(단서형 — 누가 놀랐는지 유보)+카드3 끝(예고형 — 남은 25개 지역) · 착지 한 줄 요지 = 규칙은 아직 문서 안인데 게이트는 벌써 찼다
-- 연속성 앵커: Recurring subject — a Korean woman performer in her early 20s with long dark hair, a light cream jacket, a black cap and small sunglasses pushed onto the cap, carrying a shoulder bag (a generic figure, not a likeness of any real person) / 반복 장소 = a wide airport departure corridor with a polished floor and a tall window wall
+- 화풍: B 극화 — 아이돌 소식이지만 결은 인파 압박과 안전 관리 공백이라, 사실성·긴장을 쥐는 극화로 고정
+- 분위기: 공항 형광등의 무표정한 차가움 위로 팬덤의 열기가 과열돼 통로가 좁아 보이는, 감탄이 조마조마함으로 바뀌는 톤
+- 연출 방향: 독자를 멈춰 세우는 건 '스타'가 아니라 *통로*다 — 휴대폰이 일제히 올라간 폭과 캐리어 하나가 지나갈 폭을 같은 프레임에 놓아, 환호가 커질수록 길이 좁아지는 낙차를 보이게 한다. 시사점(규칙보다 현장이 먼저 커졌다)은 사람을 밀어내는 팔과 아직 아무도 그은 적 없는 선의 대비로 전한다. 카드 전체 키노트 = 차갑고 균질한 제도 공간 + 그 위에서만 살아 있는 단 1색.
+- 독자 동선: **발단** 카드1~2→**전개** 카드3→**피크** 카드4→**해소** 카드5→**시사점** 카드6 · 훅=카드1 끝(예고형 "무대는 아직 하루 뒤였다")+카드3 끝(예고형 "놀란 쪽은 무대에 설 사람들이었다") · 착지 = 규칙은 연구 단계인데 순회는 이미 돌기 시작했다
+- 연속성 앵커: Recurring subject — four Korean women in their mid-20s with long dark hair, in casual travel outfits and small crossbody bags. / Recurring location — the wide fluorescent-lit departure hall of a large Korean international airport.
 
 ### [카드 1]
 **텍스트**
 ```text
-10일 오후 인천국제공항
-출국장 통로가 먼저 막혔다
-무대는 하루 뒤 타이베이인데
-*놀란 쪽은 팬들이 아니었다*
+통로에서 휴대폰이 일제히 올라갔다
+수속을 밟던 승객들도 걸음을 멈췄다
+8월 10일 오후 인천공항 출국장,
+*무대는 아직 하루 뒤였다*
 ```
 **이미지 프롬프트**
 ```text
-korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn line work with loose ink contours, emotive character expressions, warm ambient lighting
-Scene: Emotional focal point: the narrowing gap between two walls of raised phones. Recurring subject — a Korean woman performer in her early 20s with long dark hair, a light cream jacket, a black cap and small sunglasses pushed onto the cap, carrying a shoulder bag (a generic figure, not a likeness of any real person) — walks far down the corridor, small in the frame, moving toward the right edge. A dense crowd of fans fills the wide departure corridor from side to side, arms lifted with phones aimed at her, most seen from behind. Two staff members in dark suits open a thin path with outstretched arms. The polished floor of the corridor runs unbroken from the bottom of the frame to the far end.
-Camera: wide shot, full body, surrounding environment, movement, spatial context from high angle shot, looking down, observed, shot on 20mm wide lens, subject and environment, documentary realism
+korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
+Scene: Emotional focal point: dozens of raised smartphone screens all tilted the same way, glowing in one direction. Recurring location — the wide fluorescent-lit departure hall of a large Korean international airport, seen from straight above. A dense crowd of young fans packs the corridor from edge to edge with arms lifted overhead, every head turned toward the upper left. Along the crowd's outer rim, three ordinary travellers have halted mid-step beside their rolling suitcases and turned to look, their small dark shapes breaking the pattern of the crowd.
+Camera: wide shot holding the full spatial context from a bird's-eye top-down angle, shot on a 20mm wide lens with documentary realism
 Lighting/mood: flat sterile clinical fluorescent light, cold even greenish-white, emotionless institutional
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
-Korean setting by default: Korean airport interior, Korean people, Korean signage shapes rendered as blank panels without letters.
-Text handling: avoid incidental lettering by framing and composition; signage and displays are cropped, angled away or out of focus; no garbled or fake script, no meaningless letters, no random characters, no dense text.
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) carried only by the phone screens, muted indoor contrast
+Text handling: all signage, boards and screens are cropped away or thrown out of focus; no readable lettering anywhere in the frame.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the polished airport corridor floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the polished airport terminal floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -36,29 +35,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-인천공항 출국장 팬 인파
+인천공항 출국장 인파
 ```
 
 ### [카드 2]
 **텍스트**
 ```text
-멤버들이 먼저 눈을 크게 떴다
-예상보다 많은 팬을 보고
-놀란 얼굴로 출국장을 지났다
-*공항이 무대보다 먼저 찼다*
+이날 에스파는 타이베이로 떠났다
+25개 지역을 도는 투어의 첫 출국이었다
+배웅하러 온 팬들이 통로를 메웠고
+*출국장은 그대로 인산인해가 됐다*
 ```
 **이미지 프롬프트**
 ```text
-korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn line work with loose ink contours, emotive character expressions, warm ambient lighting
-Scene: Emotional focal point: her eyes wide open, eyebrows raised high, lips slightly parted in surprise. Recurring subject — a Korean woman performer in her early 20s with long dark hair, a light cream jacket, a black cap and small sunglasses pushed onto the cap, carrying a shoulder bag (a generic figure, not a likeness of any real person) — walks forward through the departure hall, framed from the chest up, her gaze lifting past the camera toward the right side where the crowd swells. Behind her a soft blurred mass of fans and phone screens presses close on both sides. One staff member in a dark suit stays half a step ahead with an arm angled to hold the space open. The pale ceiling of the hall is the only surface behind them, unbroken across the frame.
-Camera: medium close-up, chest-up framing, facial emotion, slight body context from eye-level shot, neutral perspective, realistic, balanced emotion, three-quarter angle, natural face depth, shot on 85mm portrait lens, flattering face, soft background separation, elegant focus
+korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
+Scene: Emotional focal point: the shrinking gap between two walls of raised arms and the four figures walking through it. Recurring subject — four Korean women in their mid-20s with long dark hair, in casual travel outfits and small crossbody bags — they walk in a tight line toward the right edge, seen from the side, chins slightly lowered. On both sides the crowd of fans leans inward with phones held high, narrowing the walkway to barely two people wide. Recurring location — the wide fluorescent-lit departure hall of a large Korean international airport.
+Camera: medium shot at waist-up framing from eye level in strict profile, shot on a 35mm lens for natural documentary perspective, nose room on the right, movement directed toward the right edge
 Lighting/mood: flat cold even surveillance light, no shadow no warmth, detached and watchful
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
-Korean setting by default: Korean airport interior, Korean people, Korean signage shapes rendered as blank panels without letters.
-Text handling: avoid incidental lettering by framing and composition; signage and phone screens are cropped, angled away or out of focus; no garbled or fake script, no meaningless letters, no random characters, no dense text.
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) on a few luggage tags in the crowd, muted indoor contrast
+Text handling: boarding signage and airline counters are blurred or cut off by the crowd; no readable lettering anywhere in the frame.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the pale ceiling plane of the departure hall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the departure hall floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -68,29 +66,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-아이돌 공항 출국 경호원
+에스파 공항 출국 팬
 ```
 
 ### [카드 3]
 **텍스트**
 ```text
-그 무대는 이틀 전 서울에서 열렸다
-고척스카이돔 첫 단독 공연이었다
-*이틀간 3만 5천 명이 다녀갔다*
-다음 무대는 11일, 25개 지역이 남았다
+이틀 전 고척스카이돔 무대가 끝났다
+*첫 단독 공연에 이틀간 3만 5천 명*
+그 열기가 그대로 공항으로 옮겨왔다
+놀란 쪽은 무대에 설 사람들이었다
 ```
 **이미지 프롬프트**
 ```text
-korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn line work with loose ink contours, emotive character expressions, warm ambient lighting
-Scene: Emotional focal point: one small lit stage held inside a vast bowl of dark packed seats. Seen from high above, a domed arena interior is filled to every tier, the audience reading as a fine textured field of tiny light points rather than individual faces. A small group of performer silhouettes stands at the center of the bright stage with arms raised, the stage placed toward the right of the frame so the curve of the bowl leads the eye to the right edge. Shafts of light descend through haze over the crowd. The continuous curved bowl of seating fills the frame from top to bottom.
-Camera: extreme long shot, tiny subject, vast environment, scale, isolation from overhead shot, bird's-eye view, top-down angle, layout, geometry, shot on 24mm wide lens, cinematic wide shot, spatial context, subtle depth
-Lighting/mood: divine volumetric god-rays through haze, luminous descending shafts, reverent awe
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
-Korean setting by default: Korean domed stadium interior, Korean audience.
-Text handling: avoid incidental lettering by framing and composition; screens and banners are distant, angled away or out of focus; no garbled or fake script, no meaningless letters, no random characters, no dense text.
+korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
+Scene: Emotional focal point: one performer's small silhouetted hand lifted toward an ocean of lights that swallows the whole upper frame. Recurring subject — four Korean women in their mid-20s with long dark hair — stand tiny at the near edge of a dome stage, backs to the viewer, facing a vast tiered bowl packed with tens of thousands of seated fans holding light sticks. The seats climb steeply into darkness so the crowd reads as one endless mass rather than individual faces.
+Camera: extreme long shot with tiny subjects against a vast environment from a high angle looking down over the stage lip, shot on a 14mm ultra-wide lens for dramatic depth
+Lighting/mood: a single pool of hard stage light isolating the figures with surrounding blackness, claustrophobic scale
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) rippling across the sea of light sticks, film-noir low-key lighting, deep shadows
+Text handling: no banners, no screens, no sponsor boards; the arena carries no lettering of any kind.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the curved arena seating bowl) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the darkened tiered seating bowl of the arena) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -106,22 +103,21 @@ NEGATIVE — strictly avoid:
 ### [카드 4]
 **텍스트**
 ```text
-*팬이 몰리는 그 통로는 승객도 쓴다*
-2023년엔 경호원이 팬을 다치게 했고
-2025년엔 승객을 폭행한 일도 있었다
+*멤버들도 놀란 표정으로 걸음을 옮겼다*
+3만 5천 명 앞에 섰던 사람들이었다
+그 통로엔 일반 승객도 함께 있었다
 ```
 **이미지 프롬프트**
 ```text
-korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn line work with loose ink contours, emotive character expressions, warm ambient lighting
-Scene: Emotional focal point: one traveler's knuckles gone white around a suitcase handle, wedged between strangers' shoulders. The hand and the upright handle sit in the upper center of the frame, held tight and close, while shoulders, elbows and backs of the surrounding crowd press inward from every side. The traveler's forearm angles forward but cannot advance, and the crowd line rises above the hand so no face is visible. The airport floor is the single continuous surface beneath, barely glimpsed between feet.
-Camera: tight close-up, face fills frame, intense emotion, intimate pressure from eye-level shot, neutral perspective, realistic, balanced emotion, shot on 135mm telephoto lens, strong compression, elegant portrait separation, cinematic depth
-Lighting/mood: single pool of hard light isolating the figure in surrounding blackness, claustrophobic loneliness
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
-Korean setting by default: Korean airport interior, Korean people.
-Text handling: avoid incidental lettering by framing and composition; luggage tags and signage are cropped or out of focus; no garbled or fake script, no meaningless letters, no random characters, no dense text.
+korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
+Scene: Emotional focal point: eyebrows raised high, eyes wide open and lips parted in unguarded surprise. Recurring subject — four Korean women in their mid-20s with long dark hair, in casual travel outfits and small crossbody bags — the nearest has stopped mid-stride and looks slightly off-camera to the right, the other three pressed close behind her shoulder. Behind them two ordinary travellers grip the handles of rolling suitcases and edge sideways through the same narrow corridor, kept smaller and softer so the four women stay the focus. Out-of-focus forearms holding phones crowd in from every frame edge.
+Camera: close-up with the face centered for emotional detail from eye level, shot on an 85mm portrait lens with soft background separation, gaze directed toward the right edge
+Lighting/mood: cold blue dim interior light, heavy and suffocating, faint trembling tension
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) on one blurred phone screen near her cheek, film-noir low-key lighting, deep shadows
+Text handling: the corridor wall behind her is bare; any lettering is cropped out or lost in the blur.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the airport floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the pale corridor wall behind them) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -131,58 +127,25 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-공항 출국장 캐리어 승객 혼잡
+인천공항 캐리어 승객 혼잡
 ```
 
 ### [카드 5]
 **텍스트**
 ```text
-그래서 국토부가 올해 3월 움직였다
-공항 인파 안전관리 연구를 맡겼다
-팬과 승객의 길을 나누는 게 과제다
-*다만 확정된 절차는 아직 없다*
+*공항 인파는 이 팀만의 일이 아니다*
+경호원이 팬에게 골절상을 입히고
+승객을 때린 일이 이어지자, 국토부가
+올해 3월 인파 안전 연구를 발주했다
 ```
 **이미지 프롬프트**
 ```text
-korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn line work with loose ink contours, emotive character expressions, warm ambient lighting
-Scene: Emotional focal point: a pen tip hovering above the blank half of a floor plan, the line left unfinished. Seen from above, a large printed airport floor plan covers a desk, with two separated walking routes already drawn across one half and the other half still empty. Two hands enter from the upper part of the frame, one holding the pen above the empty half, the other flattening the paper's edge, both angled as if paused mid-decision. No faces are shown and no other object competes with the plan. The desk with the plan spread across it is one continuous surface.
-Camera: medium shot, waist-up framing, face and gestures, conversational from high angle shot, looking down, observed, shot on 35mm lens, natural documentary perspective, balanced subject and background, minimal distortion
-Lighting/mood: flat sterile clinical fluorescent light, cold even greenish-white, emotionless institutional
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
-Korean setting by default: Korean government office interior, Korean hands.
-Text handling: the floor plan is rendered as clean abstract line work and route arrows only, with no lettering, no labels and no legend; no garbled or fake script, no meaningless letters, no random characters, no dense text.
-Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
-MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the desk with the floor plan on it) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
-- no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
-- no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
-- no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
-- no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
-- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
-```
-**검색어**
-```text
-국토교통부 공항 평면도
-```
-
-### [카드 6]
-**텍스트**
-```text
-그 사이에도 사람은 계속 모인다
-투어가 끝날 때까지 같은 장면이 남았다
-오늘 그 규모를 못 읽은 건 무대였다
-*그래서 규칙보다 게이트가 먼저 찬다*
-```
-**이미지 프롬프트**
-```text
-korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn line work with loose ink contours, emotive character expressions, warm ambient lighting
-Scene: Emotional focal point: the quiet distance between a closed boarding gate and the first row of waiting people. A wide view down an airport departure hall shows a packed line of travelers and fans standing along the left, facing the camera head-on in a still symmetrical composition, while the gate counter ahead stands empty with its shutter lowered. Nobody moves, and a few phones hang lowered at their sides. Late afternoon light falls through the tall window wall across the whole group. The hall floor is one continuous surface running unbroken from the bottom edge to the far end.
-Camera: wide shot, full body, surrounding environment, movement, spatial context from eye-level shot, neutral perspective, realistic, balanced emotion, front-on shot, direct gaze, symmetrical composition, shot on 35mm lens, natural documentary perspective, balanced subject and background, minimal distortion
-Lighting/mood: warm golden-hour sunlight, long soft shadows, nostalgic warmth
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
-Korean setting by default: Korean airport interior, Korean people, Korean signage shapes rendered as blank panels without letters.
-Text handling: avoid incidental lettering by framing and composition; gate displays and signage are blank panels, angled away or out of focus; no garbled or fake script, no meaningless letters, no random characters, no dense text.
+korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
+Scene: Emotional focal point: a security guard's braced forearm thrown across the walkway, and just behind it the white knuckles of a traveller clutching a suitcase handle. Two guards in black suits and earpieces stand with arms spread wide, pushing a wall of fans back without touching anyone. Squeezed against the far side, an ordinary traveller with a suitcase leans away to keep balance, shoulder turned. Recurring location — the wide fluorescent-lit departure hall of a large Korean international airport, the crowd stretching out of frame behind them.
+Camera: medium shot at waist-up framing from a low angle looking up at the guards, shot on a 50mm standard lens with natural cinematic composition
+Lighting/mood: a single hard side-light cutting across the subjects, deep chiaroscuro shadows, tense atmosphere
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) on a floor guidance line running under their feet, film-noir low-key lighting, deep shadows
+Text handling: guard badges, lanyards and floor markings carry no lettering; all signage is cropped away.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
 Composition: ONE continuous surface (the departure hall floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
@@ -195,5 +158,36 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-인천공항 탑승게이트 대기
+공항 아이돌 경호원 통제
+```
+
+### [카드 6]
+**텍스트**
+```text
+규칙은 아직 연구 단계에 있는데
+팬은 벌써 게이트 앞에 서 있다
+문서가 정리되는 속도보다
+*투어가 도는 속도가 더 빠르다*
+```
+**이미지 프롬프트**
+```text
+korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
+Scene: Emotional focal point: one fan's palm still resting flat against the tall window glass long after the crowd has gone. Three young fans stand scattered along the enormous glass wall of the boarding gate, facing the viewer straight on with quiet spent faces, an aircraft small and out of focus on the apron beyond the glass. The floor around them is empty, a single guidance line still taped down where the crowd stood an hour ago.
+Camera: wide shot showing full bodies and the surrounding environment from eye level, front-on and symmetrical with the subjects facing the camera, shot on a 35mm lens with minimal distortion
+Lighting/mood: warm golden-hour sunlight pouring through the glass, long soft shadows, nostalgic warmth
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) on the taped guidance line across the floor, muted daylight contrast
+Text handling: the gate display and window decals are cropped out or reduced to soft glare; no readable lettering anywhere.
+Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
+MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
+Composition: ONE continuous surface (the tall glass curtain wall of the terminal) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
+- no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
+- no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
+- no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
+- no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
+- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
+```
+**검색어**
+```text
+인천공항 탑승게이트 유리창
 ```
