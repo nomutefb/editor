@@ -3244,6 +3244,41 @@ function attachJamoNorm(el) {
   el.addEventListener('input', el._jmn);
 }
 ['cSub', 'cTitle', 'cLines', 'lines', 'warnLines'].forEach(id => attachJamoNorm($('#' + id)));
+// 따옴표 = 둥근 정본(운영자 260821 «'든 "든 오리지날 쉼표느낌으로 항상») — 곧은 "·'를 짝 상태 문맥으로 “”·‘’에 배정해 **입력 자리**에서 통일.
+//   입력 자리인 이유 = JamoNorm과 같은 축: 미리보기·자간 힌트·발사 payload·드래프트가 전부 고친 값을 본다(「미리보기 = 결과」 유지 · 러너 무접촉).
+//   자간 무영향 실측(제작 폰트 NotoSansCJK-Bold idx1 · fs100) = "·“·” 진행폭 57.40625 동값 · '·‘·’ 32.5 동값 → 폭·자간 계산값 불변(모양만 바뀐다) ·
+//   ovCut/estTracking/estHeaderTr 전/후 동값 실측(260821). 둥근따옴표는 quote_indent.py QUOTE_PAIRS의 1급 문자(페어드 들여쓰기까지 그대로 탄다).
+//   짝 상태(dq·sq)가 줄바꿈을 넘어 이어진다 = 여러 줄 인용의 닫는 따옴표가 줄 머리에 와도 닫는 모양(quote_indent 스택 모델과 한 축).
+function curlyQ(s) {
+  let dq = 0, sq = 0, out = '';
+  for (const ch of s) {
+    if (ch === '“') { dq = 1; out += ch; }
+    else if (ch === '”') { dq = 0; out += ch; }
+    else if (ch === '‘') { sq = 1; out += ch; }
+    else if (ch === '’') { sq = 0; out += ch; }
+    else if (ch === '"') { out += dq ? '”' : '“'; dq ^= 1; }
+    else if (ch === "'") {
+      const prev = out.slice(-1);
+      if (!sq && prev && !/[\s([{「『«‹*]/.test(prev)) out += '’';   // 열린 짝 없이 낱말 뒤 = 어깨점(don’t·90’s) — ’는 닫는따옴표 겸용 한 글자라 오배정 불가
+      else { out += sq ? '’' : '‘'; sq ^= 1; }
+    } else out += ch;
+  }
+  return out;
+}
+function attachCurlyQ(el) {
+  if (!el || el._cq) return;
+  el._cq = ev => {
+    if (ev && ev.isComposing) return;                      // 한글 조합 중엔 안 건드린다(JamoNorm 동축)
+    const v = el.value, n = curlyQ(v);
+    if (n === v) return;
+    const s = el.selectionStart, e = el.selectionEnd;
+    el.value = n;
+    try { el.setSelectionRange(s, e); } catch {}           // 전 치환이 1:1 길이라 같은 오프셋이 그대로 맞는다(캐럿 무이동)
+    el.dispatchEvent(new Event('input', { bubbles: true }));   // 미리보기·자간 힌트가 고친 값을 다시 본다(두 번째 회차는 n===v 즉시 반환 = 무한고리 0)
+  };
+  el.addEventListener('input', el._cq);
+}
+['cSub', 'cTitle', 'cLines', 'lines', 'warnLines'].forEach(id => attachCurlyQ($('#' + id)));
 ['lines', 'warnLines', 'cSub', 'cTitle', 'cLines'].forEach(id => { const el = $('#' + id); if (el) attachCopyPaste(el, true); });   // covrow textarea(lines·cLines)도 클립 부착 — wrap이 covta 승계로 flex 유지(슬롯 호환·260624) · warnLines(안내문/경고문) 포함 전부 붙여넣기+복사+지우개 3종 통일(운영자 260628)
 ['cplat'].forEach(id => { const el = $('#' + id); if (el) attachCopyPaste(el, true); });   // 플랫폼 직접입력 = 「모든 텍스트 입력창에 클립」 공식(운영자 260803) 전수 부착분 — 이 칸만 빠져 있었다(숫자칩 #opaNum·#rszArW/H는 값 선택 UI = 면제)
 // 입력칸 별표(*) 강조색 하이라이트(운영자 260720) — 강조(*) 쓰는 textarea(lines·cLines)에만 부착. attachCopyPaste 후(wrap=.iowrap position:relative 존재)라 오버레이가 textarea 박스에 정확히 겹침. 타이포·패딩은 textarea computedStyle 복사 = 픽셀 정합(raw 창작 0).
@@ -4679,6 +4714,12 @@ function clipLineOver(li) {
 function edReject(el) { el.classList.add('reject'); setTimeout(() => el.classList.remove('reject'), 600); }
 function renderEditChips() {
   _edRendering = true;
+  { // 따옴표 둥근 정본화(운영자 260821) — 낱말 모델의 모든 진입(칩 커밋·공백 분할·붙여넣기·복원·초기화)이 이 함수로 모인다 = 단일 관문.
+    //   낱말을 공백·줄을 개행으로 이어 한 번에 curlyQ = 짝 상태가 낱말·줄 경계를 넘어 이어진다 · 전 치환 1:1 길이라 같은 자리 되썰기(강조 인덱스 불변).
+    const jl = edLines.map(l => l.map(w => w.text || '').join(' ')).join('\n');
+    const cl = curlyQ(jl);
+    if (cl !== jl) { let p = 0; edLines.forEach(l => l.forEach(w => { const L = (w.text || '').length; w.text = cl.slice(p, p + L); p += L + 1; })); }
+  }
   const wrap = $('#edChips'); wrap.innerHTML = ''; wrap.classList.add('ed-building');   // 재빌드 동안 전환 억제(아래 rAF서 해제)
   edLines.forEach((line, li) => {
     for (let j = line.length - 1; j >= 0; j--) {
