@@ -314,21 +314,31 @@
  "threads": [
   {
    "account": "choi.openai",
+   "text": "Claude Platform에서 Computer use, browser tool, Skills API, Files API가 정식 제공됩니다.\n\n이제 Claude가 클릭·입력·키보드 조작·스크린샷을 한 번에 여러 개 처리할 수 있어 작업 속도와 비용이 개선됐는데요.\n\n또 API가 없는 오래된 업무 프로그램도 화면을 직접 조작해 자동화할 수 있습니다.\n\nSkills API로 회사 업무 절차를 저장해 여러 에이전트가 재사용할 수 있고, Files API로 같은 파일을 반복 업로드하지 않고 계속 활용할 수도 있습니다.",
+   "likes": 12,
+   "cmts": 0,
+   "time": 1787295645,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/780087745_1708944073552367_6241296050316740756_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk2ODQ0NTk2MzgzMjY0NTcyOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=amVZROMVQggQ7kNvwGxPksP&_nc_oc=AdqaWBfsk2IghD954fTaa-rxNoHmGU60HObLwBTfwX0D-H7UgmdM2VJsEJAO6wV-v8Jc-Bunq0EA7-Z2kWoCx3WA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=l4i1xKb1X9Fktn7qy_SRsg&_nc_ss=7a22e&oh=00_AQH-c8SYIgo_lrJVyUO2lbf5eYWRWz9SHEuNlwYK6VGdBQ&oe=6A8DD1B7",
+   "url": "https://www.threads.com/@choi.openai/post/DcSwJQQk9hg",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
    "text": "최근 일부 사용자에게 발생하는 Codex 사용량 문제 안내.\n\n오픈AI의 내부 확인 결과 영향을 받은 사용자 중 상당수가 구독 계정을 API 트래픽으로 변환해 여러 사용자에게 다시 제공하는 sub2api를 사용하고 있었다고 합니다.\n이런 방식은 부정 사용 방지 시스템에 감지될 수 있어 사용량이 과도하게 청구될 수 있습니다.\n\n반면 ChatGPT 계정으로 로그인해 공식 클라이언트나 Pi, OpenCode 같은 오픈소스 클라이언트에서 구독 사용량을 이용하는 것은 문제가 없다고 합니다.",
-   "likes": 48,
-   "cmts": 10,
+   "likes": 60,
+   "cmts": 13,
    "time": 1787290867,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778401353_17983445250112832_1144127407807415650_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk2ODQwNTg3ODI4MTgwMDExNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTE3OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=fM3E9GduvhAQ7kNvwHnjPus&_nc_oc=Ado503TJiZT1r_jHROfJbWaPK3t0fye3oDe8lz579aqtMydzt5KEh0375_Q-Nzy0JzCRwMOO_fjUHuHad0aOOGdJ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=0aJJ9urnqVUu28aEPayLCQ&_nc_ss=7a22e&oh=00_AQFeFKrPlbkwSr9ix6gC7J_DieHHIBepz_bSWqF1bSZvNg&oe=6A8DB061",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778401353_17983445250112832_1144127407807415650_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk2ODQwNTg3ODI4MTgwMDExNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTE3OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=fM3E9GduvhAQ7kNvwHnjPus&_nc_oc=Ado503TJiZT1r_jHROfJbWaPK3t0fye3oDe8lz579aqtMydzt5KEh0375_Q-Nzy0JzCRwMOO_fjUHuHad0aOOGdJ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=l4i1xKb1X9Fktn7qy_SRsg&_nc_ss=7a22e&oh=00_AQEKGV7iW7SKf5YHLXiCUg_4yahLxjkKuFewXx4ZHr_uvg&oe=6A8DE8A1",
    "url": "https://www.threads.com/@choi.openai/post/DcSnB7rjwmz",
    "region": "kr"
   },
   {
    "account": "aipeekme",
    "text": "미니맥스 H3로 제작한 영상 입니다\n애니메이션과 모션 그래픽이 멋있네요.\n\n프롬프트는 하단 댓글",
-   "likes": 40,
+   "likes": 50,
    "cmts": 2,
    "time": 1787286783,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/777024153_992291867170095_6675006828554120386_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk2ODM3MTQyODg0MzA3NDU2Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=IS19_z7iChYQ7kNvwGCR3T0&_nc_oc=AdpkG9PbLyya9KgJ7bziefuGOew56HJp1sGzRMua_u3Q-vmbleOGYX-S0dIjCZYGx5n71WDOvzQVwWTeu7gdMGdq&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=c6O7Fc8dSCEJk4PzQZeK7Q&_nc_ss=7a22e&oh=00_AQGDqNsC21U0uYmQOlZbAX6f22ij94BKolcoT_67rjscPg&oe=6A8DB75C",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/777024153_992291867170095_6675006828554120386_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk2ODM3MTQyODg0MzA3NDU2Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=IS19_z7iChYQ7kNvwGCR3T0&_nc_oc=AdpkG9PbLyya9KgJ7bziefuGOew56HJp1sGzRMua_u3Q-vmbleOGYX-S0dIjCZYGx5n71WDOvzQVwWTeu7gdMGdq&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=3lKztRvMSg5a0oGlGFTVwg&_nc_ss=7a22e&oh=00_AQFeah4O_7otIjoY8SHidzN3AbCJJ2rF7HGfyUpSsffPhg&oe=6A8DB75C",
    "url": "https://www.threads.com/@aipeekme/post/DcSfMoJADQC",
    "region": "kr"
   },
@@ -338,7 +348,7 @@
    "likes": 2,
    "cmts": 0,
    "time": 1787283400,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/783573207_1739672383753135_7895192754664900039_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk2ODM0MzA0NjAyMjMwNzU4OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=PDAo7PInq5cQ7kNvwHJPUlm&_nc_oc=AdpyhwXd5VGwYVc1cDaa3fmPPeVfsTJzLWfrQ8Lx-ZpWt1uEzPnxjLkd0Vf49Evr9OxGrxLY1X6ZvVJBPFeTDyzq&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=c6O7Fc8dSCEJk4PzQZeK7Q&_nc_ss=7a22e&oh=00_AQHFsjd_NZsm5rd1g8jbcZVpFIi3yVT0brP_6MK-N2kVRw&oe=6A8DD726",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/783573207_1739672383753135_7895192754664900039_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk2ODM0MzA0NjAyMjMwNzU4OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=PDAo7PInq5cQ7kNvwHJPUlm&_nc_oc=AdpyhwXd5VGwYVc1cDaa3fmPPeVfsTJzLWfrQ8Lx-ZpWt1uEzPnxjLkd0Vf49Evr9OxGrxLY1X6ZvVJBPFeTDyzq&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=3lKztRvMSg5a0oGlGFTVwg&_nc_ss=7a22e&oh=00_AQH_okNfgr4tQTjKbZLJ3w_fOSnnQtqNebsDyxX99vFbwg&oe=6A8DD726",
    "url": "https://www.threads.com/@aipeekme/post/DcSYvmlDR8F",
    "region": "kr"
   },
@@ -348,7 +358,7 @@
    "likes": 0,
    "cmts": 0,
    "time": 1787283183,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/783485842_1081214614477174_5249468987997899409_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk2ODM0MTE5Mzk3Njg5NjAxNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=t9LHMxqzrVIQ7kNvwE9lL5t&_nc_oc=AdqZoSwzQ41Z59fUASVfFlyUFYVLS89cYFzyBeP7SAvrdwE-8hpZi0P719wKyo6txJ8kTyq7f2zY0cmGHzJlIBhj&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=c6O7Fc8dSCEJk4PzQZeK7Q&_nc_ss=7a22e&oh=00_AQGrUOckMealdla03fhBGHlaEJh2s_AFNM5c6qBGm6YaMg&oe=6A8DB615",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/783485842_1081214614477174_5249468987997899409_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk2ODM0MTE5Mzk3Njg5NjAxNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=t9LHMxqzrVIQ7kNvwE9lL5t&_nc_oc=AdqZoSwzQ41Z59fUASVfFlyUFYVLS89cYFzyBeP7SAvrdwE-8hpZi0P719wKyo6txJ8kTyq7f2zY0cmGHzJlIBhj&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=3lKztRvMSg5a0oGlGFTVwg&_nc_ss=7a22e&oh=00_AQEmt_DMl10EhWEIJ8GUEe3qOUGqVT3n4pSx_m24nBrXig&oe=6A8DB615",
    "url": "https://www.threads.com/@aipeekme/post/DcSYUpuitoQ",
    "region": "kr"
   },
@@ -360,16 +370,6 @@
    "time": 1787281238,
    "thumb": "",
    "url": "https://www.threads.com/@choi.openai/post/DcSUqiYAoPv",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "오픈AI가 GPT-Image-2 API에 투명 배경 이미지 생성 기능을 프리뷰로 추가했습니다.\n\n이제 배경 제거 작업 없이 처음부터 투명한 PNG 이미지를 만들 수 있는데요.\n상품 이미지, 웹사이트 요소, 발표자료, 굿즈 디자인 등에 바로 활용할 수 있습니다.",
-   "likes": 57,
-   "cmts": 6,
-   "time": 1787281214,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/778454456_1363234109255835_1323977543964998653_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk2ODMyNDkwNDc1OTI1OTI4Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Gu5v0GjGVvcQ7kNvwFc9Rid&_nc_oc=Adqf2GKrdM1UKPxW1prPB_ZMWRIr09oBEll-IVK2WzS0jcn-8ZwAu3VgL6Dhu6U-ZhIbGyZJQNf5_0QoEyO9keG9&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=0aJJ9urnqVUu28aEPayLCQ&_nc_ss=7a22e&oh=00_AQHrKuxW1eAggfQWU4HuEJ8mshHMCfDAW3nrRnZDg3EVfQ&oe=6A8DBD06",
-   "url": "https://www.threads.com/@choi.openai/post/DcSUnnNgvCW",
    "region": "kr"
   },
   {
@@ -398,7 +398,7 @@
    "likes": 26,
    "cmts": 3,
    "time": 1787270065,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/780422316_2024455081537317_2811652083157423592_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk2ODIyNTYzMjI4NjU3NTc4MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=SnCul9SAO_UQ7kNvwHje1Gg&_nc_oc=AdoLPHpjxbLDCVtj3fywOpwf1AfykEWYxzUPloe0N1lSGfenvrOETPRQUhWNlWdORnWv4xbiGm3Mp2_DQ0G2vDPl&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=gUG89Cw5lySQ_PfMilnr3g&_nc_ss=7a22e&oh=00_AQF8YemYsxWhWplg9iViqmFAR1O-GIAc4dUQe--sUoi5mg&oe=6A8DB0F6",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/780422316_2024455081537317_2811652083157423592_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk2ODIyNTYzMjI4NjU3NTc4MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=SnCul9SAO_UQ7kNvwHje1Gg&_nc_oc=AdoLPHpjxbLDCVtj3fywOpwf1AfykEWYxzUPloe0N1lSGfenvrOETPRQUhWNlWdORnWv4xbiGm3Mp2_DQ0G2vDPl&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=3gEN6prBeQc_sUTMY86ECg&_nc_ss=7a22e&oh=00_AQEkKKrv3ctZ_LNDDTJhOyXaZJgW8flC8vdjdynOZqh_PA&oe=6A8DE936",
    "url": "https://www.threads.com/@aicoffeechat/post/DcR-DAhCoyk",
    "region": "kr"
   },
@@ -418,18 +418,18 @@
    "likes": 0,
    "cmts": 1,
    "time": 1787237859,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/782018303_1585964636498458_7533408098300556587_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk2Nzk2MTA3MzcxNzk1NTgxMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=M891sYyn2jkQ7kNvwHl_oqJ&_nc_oc=Adp8434RTNmj4r8IEPJGFqLmlzByTXj-b-3uhmaitTKAAa1j4VRCSFaYLod-RjOc97NtsWM7tyjJ6qNac0XOJyui&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=PP05JxP728y1oXIIjoRCUw&_nc_ss=7a22e&oh=00_AQFuQvZAM87bcXdmguTPm4sJsGStMBajg06x8hjsBBeHTQ&oe=6A8DCE47",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/782018303_1585964636498458_7533408098300556587_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk2Nzk2MTA3MzcxNzk1NTgxMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=5KQCbQ-hnqAQ7kNvwER_suB&_nc_oc=AdofQHqH_L5txZDjwMZViwHEtKVfffa_RMsuPa-pPS0arUAbmhKzLYgYHgf7GPXF9B2AaAdXYl_qhEZtboQmA2Kz&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=6INdH58JAEVKUyLSJJjEpA&_nc_ss=7a22e&oh=00_AQE0IoH2uGxGgIOLwXrjsm5m8RiAfJNMJfzpjpwIdfq2MA&oe=6A8DCE47",
    "url": "https://www.threads.com/@kopp/post/DcRB5LJiUzl",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "블로그 :\nhttps://www.liquid.ai/blog/lfm2.5-dspark",
-   "likes": 3,
-   "cmts": 0,
-   "time": 1787275823,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DcSKVlnE43f",
+   "text": "오픈AI가 GPT-Image-2 API에 투명 배경 이미지 생성 기능을 프리뷰로 추가했습니다.\n\n이제 배경 제거 작업 없이 처음부터 투명한 PNG 이미지를 만들 수 있는데요.\n상품 이미지, 웹사이트 요소, 발표자료, 굿즈 디자인 등에 바로 활용할 수 있습니다.",
+   "likes": 62,
+   "cmts": 6,
+   "time": 1787281214,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/778454456_1363234109255835_1323977543964998653_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk2ODMyNDkwNDc1OTI1OTI4Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Gu5v0GjGVvcQ7kNvwFc9Rid&_nc_oc=Adqf2GKrdM1UKPxW1prPB_ZMWRIr09oBEll-IVK2WzS0jcn-8ZwAu3VgL6Dhu6U-ZhIbGyZJQNf5_0QoEyO9keG9&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=l4i1xKb1X9Fktn7qy_SRsg&_nc_ss=7a22e&oh=00_AQFBxcu9Gqls11O8tJWy6EOtkX1Yswc_dtGk0RjgPMLeMA&oe=6A8DBD06",
+   "url": "https://www.threads.com/@choi.openai/post/DcSUnnNgvCW",
    "region": "kr"
   },
   {
@@ -444,12 +444,12 @@
   },
   {
    "account": "choi.openai",
-   "text": "어제 모델을 4비트로 눌러 내놨던 회사가, 오늘은 같은 모델을 세 배 빠르게 만들어 왔습니다.\n\nLiquid AI가 소형 모델 LFM2.5 세 종에 붙는 DSpark 드래프트 모델을 공개했습니다.\n \n300M짜리 초안 모델이 다음 토큰 뭉치를 미리 써보고 본 모델이 한 번에 채점하는 스페큘러티브 디코딩 방식이라, 출력은 원본과 완전히 같고 속도만 올라갑니다.\nH100에서 최대 3.2배, 맥북에서도 2.9배가 나왔습니다.\n\n폰에서 프런티어급 지능을 돌리는 게 목표라고 밝힌 팀이라, 온디바이스 AI의 병목을 이렇게 하나씩 지워가는 속도전은 당분간 계속될 것 같습니다.",
-   "likes": 30,
-   "cmts": 1,
-   "time": 1787275815,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/781338946_1723820175518113_3637228572575762434_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk2ODI3OTYxNDg1MDI5Mjc3NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=GAguMMY89dwQ7kNvwGDTM2E&_nc_oc=AdoHi3oSe4FJrVfw8IwX2m4yIJlYTU68zCkMugt3gnbJTVReG945Jow_LuMEEhD0Uie0fGvaYP8qF68QiLKbHBRL&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=0aJJ9urnqVUu28aEPayLCQ&_nc_ss=7a22e&oh=00_AQFVFQFOaPPpRRtIq0r6CcfUFvqFUHXKFdl9Z5zDnQ_jFA&oe=6A8DCFE7",
-   "url": "https://www.threads.com/@choi.openai/post/DcSKUjsk1wn",
+   "text": "블로그 :\nhttps://www.liquid.ai/blog/lfm2.5-dspark",
+   "likes": 3,
+   "cmts": 0,
+   "time": 1787275823,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DcSKVlnE43f",
    "region": "kr"
   },
   {
@@ -458,42 +458,23 @@
    "likes": 0,
    "cmts": 1,
    "time": 1787266392,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/775445669_1398264398902605_1874935025242863826_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk2ODIwMDIwMzQyMDMyNzA5Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=8ceHNcRFiUsQ7kNvwGQH-v8&_nc_oc=Adr7mmsCR7zVkT-fZINgpSbx5HHK66oafH_WPiY9X6uk-4A304bpSKdGUvqRFanMT_ZC1S7bFpRUlRqtMdtRpYrZ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=c6O7Fc8dSCEJk4PzQZeK7Q&_nc_ss=7a22e&oh=00_AQGXTBpB-158vwM9RsV-QPa-IR-rdaqWRoLL8GtUkjPqEg&oe=6A8DD742",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/775445669_1398264398902605_1874935025242863826_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk2ODIwMDIwMzQyMDMyNzA5Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=8ceHNcRFiUsQ7kNvwGQH-v8&_nc_oc=Adr7mmsCR7zVkT-fZINgpSbx5HHK66oafH_WPiY9X6uk-4A304bpSKdGUvqRFanMT_ZC1S7bFpRUlRqtMdtRpYrZ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=3lKztRvMSg5a0oGlGFTVwg&_nc_ss=7a22e&oh=00_AQGp2g18Z25Tu6LI6BuXEyWT-3xUVk9rVO5OIDtYzmbb8w&oe=6A8DD742",
    "url": "https://www.threads.com/@aipeekme/post/DcR4Q-CgFy4",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "기사 :\nhttps://www.bloomberg.com/news/articles/2026-08-20/anthropic-expects-to-match-spacex-s-record-ipo-size-or-top-it",
-   "likes": 2,
-   "cmts": 0,
-   "time": 1787270458,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DcSAGp7kVYA",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "앤트로픽이 이르면 8월 말 IPO 신청서를 공개 제출할 것으로 알려졌습니다.\n\nBloomberg에 따르면 앤트로픽은 SpaceX의 기록적인 IPO 규모와 맞먹거나 이를 넘어서는 수준을 기대하고 있는데요. 현실화되면 사상 최대 규모의 IPO가 될 가능성도 있습니다.\n\n여기서 봐야 할 건 앤트로픽만이 아닙니다. 이 정도 규모의 상장에는 막대한 투자금이 필요하기 때문에, IPO를 앞두고 자금이 앤트로픽으로 몰리면서 다른 기술주나 AI 관련 종목에서 자금이 빠지는 현상이 나타날 수 있습니다.\n\n앤트로픽의 기업가치뿐 아니라 상장 전후 다른 시장의 변동성도 함께 지켜봐야 할 것 같습니다.",
-   "likes": 17,
+   "text": "어제 모델을 4비트로 눌러 내놨던 회사가, 오늘은 같은 모델을 세 배 빠르게 만들어 왔습니다.\n\nLiquid AI가 소형 모델 LFM2.5 세 종에 붙는 DSpark 드래프트 모델을 공개했습니다.\n \n300M짜리 초안 모델이 다음 토큰 뭉치를 미리 써보고 본 모델이 한 번에 채점하는 스페큘러티브 디코딩 방식이라, 출력은 원본과 완전히 같고 속도만 올라갑니다.\nH100에서 최대 3.2배, 맥북에서도 2.9배가 나왔습니다.\n\n폰에서 프런티어급 지능을 돌리는 게 목표라고 밝힌 팀이라, 온디바이스 AI의 병목을 이렇게 하나씩 지워가는 속도전은 당분간 계속될 것 같습니다.",
+   "likes": 31,
    "cmts": 1,
-   "time": 1787270451,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/777299366_17983398024112832_541007756196115832_n.jpg?stp=cp6_dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk2ODIzNDYxNTE0NDAyNDQ0NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTMwOC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=v7zGUUuDyPgQ7kNvwFPy2Lj&_nc_oc=Adr7rRIxTSW7z55pRGAYLvBkFXcV8rsIEzM39mVBfOAeYShR5e9lTyRuj5ri-YzhAgkbraKJ3fCTImZ64i6ZaKfa&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=0aJJ9urnqVUu28aEPayLCQ&_nc_ss=7a22e&oh=00_AQEDYoIkwajH2Y7aHHuv36hACH0jbDB9TCmsYFqAlf-apw&oe=6A8DB3CA",
-   "url": "https://www.threads.com/@choi.openai/post/DcSAFudEYl8",
+   "time": 1787275815,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/781338946_1723820175518113_3637228572575762434_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk2ODI3OTYxNDg1MDI5Mjc3NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=GAguMMY89dwQ7kNvwGDTM2E&_nc_oc=AdoHi3oSe4FJrVfw8IwX2m4yIJlYTU68zCkMugt3gnbJTVReG945Jow_LuMEEhD0Uie0fGvaYP8qF68QiLKbHBRL&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=l4i1xKb1X9Fktn7qy_SRsg&_nc_ss=7a22e&oh=00_AQHeu1vOkQzfzV29hO2SEC7gAvaaF2xSVODUY57SGPt4KQ&oe=6A8DCFE7",
+   "url": "https://www.threads.com/@choi.openai/post/DcSKUjsk1wn",
    "region": "kr"
   }
  ],
  "tiktok": [],
  "reddit": [
-  {
-   "sub": "mildlyinfuriating",
-   "title": "A police department is looking for a “suspect” who found $30 on the ground at a Walmart and didn’t turn it in to employees",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/z7ud9r3aumkh1.jpeg?width=640&crop=smart&auto=webp&s=c6ca85184128e4b1d83996de1bb511b443c9f831",
-   "time": 1787276487,
-   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1vu2n1k/a_police_department_is_looking_for_a_suspect_who/"
-  },
   {
    "sub": "interesting",
    "title": "Hit and run gone wrong",
@@ -511,6 +492,15 @@
    "thumb": "",
    "time": 1787267688,
    "url": "https://www.reddit.com/r/AskReddit/comments/1vtzbdi/whats_a_horrible_thing_that_a_famous_person_did/"
+  },
+  {
+   "sub": "mildlyinfuriating",
+   "title": "A police department is looking for a “suspect” who found $30 on the ground at a Walmart and didn’t turn it in to employees",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/z7ud9r3aumkh1.jpeg?width=640&crop=smart&auto=webp&s=c6ca85184128e4b1d83996de1bb511b443c9f831",
+   "time": 1787276487,
+   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1vu2n1k/a_police_department_is_looking_for_a_suspect_who/"
   },
   {
    "sub": "IThinkYouShouldLeave",
@@ -531,6 +521,15 @@
    "url": "https://www.reddit.com/r/whatisit/comments/1vtlpdu/cut_into_a_wall_for_a_data_cable_at_a_hospital/"
   },
   {
+   "sub": "SipsTea",
+   "title": "Someone in a mask taking down a Flock camera in the middle of the day (San Francisco)",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/N3JsdnR2bDl0bWtoMaA7-FYe2v7lJ_0yRuK0q1i0MT5BozI8WxH17YxkI9QS.png?width=320&crop=smart&auto=webp&s=ea1c21b4c0e2872af3a2b6433d3632878ff25461",
+   "time": 1787276043,
+   "url": "https://www.reddit.com/r/SipsTea/comments/1vu2h9y/someone_in_a_mask_taking_down_a_flock_camera_in/"
+  },
+  {
    "sub": "GTA6unmoderated",
    "title": "the best opinion i've seen towards these recent leaks",
    "score": 0,
@@ -547,15 +546,6 @@
    "thumb": "https://external-preview.redd.it/amJiOGUzNmEyamtoMUQX6PZyLAYlJ_AHl7UBTcUF_nTFqASDYa9pqmMSkxNa.png?width=320&crop=smart&auto=webp&s=690bccfa040f24d473797508b864fb566262c00c",
    "time": 1787230640,
    "url": "https://www.reddit.com/r/dashcams/comments/1vtirzm/she_isnt_even_wearing_a_seatbelt/"
-  },
-  {
-   "sub": "SipsTea",
-   "title": "Someone in a mask taking down a Flock camera in the middle of the day (San Francisco)",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/N3JsdnR2bDl0bWtoMaA7-FYe2v7lJ_0yRuK0q1i0MT5BozI8WxH17YxkI9QS.png?width=320&crop=smart&auto=webp&s=ea1c21b4c0e2872af3a2b6433d3632878ff25461",
-   "time": 1787276043,
-   "url": "https://www.reddit.com/r/SipsTea/comments/1vu2h9y/someone_in_a_mask_taking_down_a_flock_camera_in/"
   },
   {
    "sub": "memes",
@@ -585,13 +575,40 @@
    "url": "https://www.reddit.com/r/pcmasterrace/comments/1vtk0sp/insiders_say_leaked_gta_6_build_is_running_on_pc/"
   },
   {
-   "sub": "mildlyinteresting",
-   "title": "Oatmeal cookies are least desired in emperical office poll",
+   "sub": "Millennials",
+   "title": "It is time for the Millennials to rise.",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/yehhlnrjvlkh1.png?width=640&crop=smart&auto=webp&s=99e5284e3670e4857b196ab5f53e3112ff398c79",
-   "time": 1787264709,
-   "url": "https://www.reddit.com/r/mildlyinteresting/comments/1vty33g/oatmeal_cookies_are_least_desired_in_emperical/"
+   "thumb": "https://preview.redd.it/fplwxt24nnkh1.jpeg?width=640&crop=smart&auto=webp&s=3ee8af4952c22e8c33e35c4b88cfb7c4728c95fe",
+   "time": 1787286115,
+   "url": "https://www.reddit.com/r/Millennials/comments/1vu60f5/it_is_time_for_the_millennials_to_rise/"
+  },
+  {
+   "sub": "worldnews",
+   "title": "/r/WorldNews Live Thread: Russian Invasion of Ukraine Day 1640, Part 1 (Thread #1787)",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1787284945,
+   "url": "https://www.reddit.com/r/worldnews/comments/1vu5lub/rworldnews_live_thread_russian_invasion_of/"
+  },
+  {
+   "sub": "worldnews",
+   "title": "If U.S. booze returns to Canadian shelves, 'leave it there,' Manitoba premier says",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/u-Squi6TvH-IrzPdae0ooT1B98dGL3Uzo1d-M4L33eo.jpeg?width=320&crop=smart&auto=webp&s=6cd0d10f1ccbfea1c1e0eb331d7c975450980846",
+   "time": 1787259231,
+   "url": "https://www.reddit.com/r/worldnews/comments/1vtvqxb/if_us_booze_returns_to_canadian_shelves_leave_it/"
+  },
+  {
+   "sub": "worldnews",
+   "title": "Ebola outbreak out of control in Democratic Republic of the Congo, WHO says: ‘It is spreading faster than our ability to contain it’",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/kqY_ZBxXBJl1IKP_1Y5OupsIsgBgajbvRUhm5TpCG4s.jpeg?width=640&crop=smart&auto=webp&s=01182137bea616e34836e1130a0c2c9f254e67ba",
+   "time": 1787252168,
+   "url": "https://www.reddit.com/r/worldnews/comments/1vtsfve/ebola_outbreak_out_of_control_in_democratic/"
   }
  ],
  "disaster": [],
@@ -630,10 +647,10 @@
    }
   },
   "landing": {
-   "at": "2026-08-21T15:35:32",
+   "at": "2026-08-21T16:01:01",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-21T16:00:57.489423+09:00"
+ "updated": "2026-08-21T16:31:03.836548+09:00"
 }
