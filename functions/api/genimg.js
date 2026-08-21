@@ -83,6 +83,13 @@ export async function onRequestPost({ request, env }) {
       body: JSON.stringify({ ref: 'main', inputs: { stem, opts: JSON.stringify(opts), free: free ? '1' : '0' } }),
     },
   );
-  if (r.status === 204) return json({ ok: true, opts: { ...opts, refB64: opts.refB64 ? '(첨부됨)' : '' } });   // 응답 에코서 base64 원문 제외(경량)
+  // 발사 id = 형제 레인 정본 문법 exact 사본(`api/thumb.js` — YYMMDDHHMMSS(KST) + 난수 6 · 동초 충돌 방지).
+  //   ⚠ 왜 이제 발급하나(260821 · 운영자 «새로고침·기기 이동 시 제작중 표시가 사라진다») = 이 레인만 id 를 안 돌려줘서
+  //     ⓐ 관문(_middleware putLive)의 `j.ok && j.id` 게이트에 걸려 **진행 중 원장에 한 번도 안 실렸고**
+  //     ⓑ 화면(thumb genJob)도 `thid` 가 없어 영속 슬롯(nm-jobs) 적재 게이트에서 탈락했다.
+  //     받는 쪽 배선은 이미 다 깔려 있었다(nm-jobs `KEY_OF.genimg`·`LBL_OF.genimg` 등재분) = 한 조각이 빠져 층 전체가 조용히 죽어 있던 자리.
+  //   ⚠ 워크플로 입력에는 안 넘긴다 — imggen.yml 이 모르는 입력을 주면 발사가 422 로 죽는다(러너 무접촉 = 완료 매칭은 종전 h8 그룹핑 그대로).
+  const jobId = new Date(Date.now() + 9 * 3600e3).toISOString().replace(/[^0-9]/g, '').slice(2, 14) + '-' + crypto.randomUUID().slice(0, 6);
+  if (r.status === 204) return json({ ok: true, id: jobId, mode: 'gfree', lbl: '생성', opts: { ...opts, refB64: opts.refB64 ? '(첨부됨)' : '' } });   // 응답 에코서 base64 원문 제외(경량) · mode = 재개 방식 표식(이 레인은 출력 경로가 아니라 free.json 도착으로 완료를 판정한다 = song/voice 가 같은 필드를 쓰는 그 용도) · lbl = 그 문서가 실제로 쓰는 이름표('생성')라 다른 기기 합류분도 같은 말로 뜬다
   return json({ error: `GitHub ${r.status}: ${(await r.text().catch(() => '')).slice(0, 300)}` }, 502);
 }

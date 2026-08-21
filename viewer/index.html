@@ -5999,7 +5999,7 @@ function geniInit() {
         // 신: 같은 통지에 fireErr(사유)를 얹어 보낸다 → thumb genJob이 카드를 세우고 '제작 중'을 거쳐 실패+사유로 전환.
         const fireErr = (!r.ok || jr.error) ? (jr.error || ('서버 ' + r.status)) : '';
         const { refB64: _rb, ...optsLite } = opts;   // 잡 카드는 count·요약만 씀 → 48KB base64는 브로드캐스트서 제외(구조화복제 경량화 · 평의회5) · refThumb = 512px 다운스케일 dataURL만 별도 동봉 = 진행 타일 스캐닝 안 원본 표시(운영자 260727 "이미지 원본이 있을 경우 스캐닝 하는곳 안에 들어가야함" · 영상 스튜디오 .wmock 등가)
-        document.querySelectorAll('#tooldlg .toolfr').forEach(f => { try { f.contentWindow.postMessage({ nm: 'genfree-fired', count: opts.count, opts: optsLite, refThumb: (_geniRef && _geniRef.url) || '', fireErr }, '*'); } catch (err) {} });   // 도구 폴링 즉시 시작(피드백 딜레이와 무관 · count·opts[경량] 동봉 = /6 표준 잡 카드 재료 · 운영자 260710 축11)
+        document.querySelectorAll('#tooldlg .toolfr').forEach(f => { try { f.contentWindow.postMessage({ nm: 'genfree-fired', count: opts.count, opts: optsLite, refThumb: (_geniRef && _geniRef.url) || '', fireErr, jid: (jr && jr.id) || '' }, '*'); } catch (err) {} });   // jid = 서버 발사 id(260821) — 이게 있어야 그 문서가 진행 중 작업을 영속 슬롯에 얹는다(새로고침·기기 이동 생존) · 구 서버(=id 미반환)면 빈 문자열 = 종전 동작   // 도구 폴링 즉시 시작(피드백 딜레이와 무관 · count·opts[경량] 동봉 = /6 표준 잡 카드 재료 · 운영자 260710 축11)
         if (fireErr) { gaugeClear(gb); askHideCheck(gb); if (typeof _flashBtn === 'function') _flashBtn(gb, 'err'); return; }   // 발사 실패 = 버튼은 종전대로 빨간 플래시(피드백 무회귀) · 사유 표기는 위에서 보낸 대기열 카드가 전담
         gaugeDone(gb); setTimeout(() => askShowCheck(gb), 300);   // 게이지 현위치→100%→✓ 팝(멈칫 제거 · thumb goFire okdone/체크 리듬 미러)
         await new Promise(res => setTimeout(res, 1100));   // 게이지·✓ 피드백 노출(thumb goFire 900+체크 리듬) 후 결과 전환
