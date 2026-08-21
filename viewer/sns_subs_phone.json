@@ -358,11 +358,21 @@
  "threads": [
   {
    "account": "choi.openai",
-   "text": "🚨 딥시크가 드디어 눈을 떴습니다.\n\n딥시크가 첫 멀티모달 모델 V4-Flash-Vision을 실험 버전으로 API에 올렸습니다.\n텍스트 성능은 기존 V4-Flash와 같습니다.\n에이전트, 추론, 지식 전부 그대로인데 이미지를 읽는 능력이 붙었고, 멀티모달 에이전트 벤치마크에서는 Opus 4.8 턱밑까지 올라왔다고 밝혔습니다.\n\n일부 에이전트 평가에서는 비전을 달고도 오히려 점수가 올라, 애초에 비전까지 학습해두고 눈만 가려둔 모델이었다는 평가가 나오고 있는데요.\n\n가격이 딥시크답습니다. 이미지는 장당 최대 384토큰으로 환산해 기존 Flash 요금 그대로 받고, 한 번 올린 이미지를 재사용하는 Files API는 무료입니다.\n\n스크린샷을 읽고 화면을 이해하는 에이전트 작업까지 이 가격대로 내려온 셈이라, 저렴한 에이전트의 쓰임새가 한 층 넓어졌습니다.\n\n가중치 공개는 아직인데, 지난달 가중치를 풀었던 전례를 보면 이번에도 시간문제일 가능성이 높습니다.",
-   "likes": 0,
+   "text": "가이드 :\nhttps://api-docs.deepseek.com/guides/vision/",
+   "likes": 2,
    "cmts": 0,
+   "time": 1787306409,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DcTErQPjLat",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "🚨 딥시크가 드디어 눈을 떴습니다.\n\n딥시크가 첫 멀티모달 모델 V4-Flash-Vision을 실험 버전으로 API에 올렸습니다.\n텍스트 성능은 기존 V4-Flash와 같습니다.\n에이전트, 추론, 지식 전부 그대로인데 이미지를 읽는 능력이 붙었고, 멀티모달 에이전트 벤치마크에서는 Opus 4.8 턱밑까지 올라왔다고 밝혔습니다.\n\n일부 에이전트 평가에서는 비전을 달고도 오히려 점수가 올라, 애초에 비전까지 학습해두고 눈만 가려둔 모델이었다는 평가가 나오고 있는데요.\n\n가격이 딥시크답습니다. 이미지는 장당 최대 384토큰으로 환산해 기존 Flash 요금 그대로 받고, 한 번 올린 이미지를 재사용하는 Files API는 무료입니다.\n\n스크린샷을 읽고 화면을 이해하는 에이전트 작업까지 이 가격대로 내려온 셈이라, 저렴한 에이전트의 쓰임새가 한 층 넓어졌습니다.\n\n가중치 공개는 아직인데, 지난달 가중치를 풀었던 전례를 보면 이번에도 시간문제일 가능성이 높습니다.",
+   "likes": 16,
+   "cmts": 3,
    "time": 1787306401,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778964136_17983461675112832_3914496111239992360_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk2ODUzNjE5MzI4NTI0MDY2OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=GiHm5_quJ9QQ7kNvwEOyHXK&_nc_oc=AdoROFy3t8wEldK0Pf1cvwHWYZ83LOIvgiGVoRWowupjLWdx9gHOLUDO_PIJD16OJiI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=9CCCu43B1gLNwtkAa7wdnw&_nc_ss=7a22e&oh=00_AQGSfEouIq3_XMtqg-93V9Ne_IBGNo0u_V5M-9MJmZmHaA&oe=6A8DFF3A",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778964136_17983461675112832_3914496111239992360_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk2ODUzNjE5MzI4NTI0MDY2OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=GiHm5_quJ9QQ7kNvwEOyHXK&_nc_oc=AdoROFy3t8wEldK0Pf1cvwHWYZ83LOIvgiGVoRWowupjLWdx9gHOLUDO_PIJD16OJiI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=8jEsFqtr92n3-UxqTEXJzA&_nc_ss=7a22e&oh=00_AQEeGw7Rkv0ePpcMiJYLL7M79X2oKAaz4Gp-KoCetqS3fA&oe=6A8DFF3A",
    "url": "https://www.threads.com/@choi.openai/post/DcTEqQ_DDdc",
    "region": "kr"
   },
@@ -377,42 +387,32 @@
    "region": "kr"
   },
   {
-   "account": "choi.openai",
-   "text": "왔다..\n\n오픈AI DevDay Exchange가 10월 22일 서울에서 열립니다.\n\n미국 DevDay의 기술 세션과 콘텐츠를 각 지역 개발자 커뮤니티로 가져오는 글로벌 행사인데요.\n올해는 서울, 도쿄, 베를린, 파리, 런던 등 전 세계 8개 도시에서 진행됩니다.\n\n이번 행사에서는 키노트와 기술 세션에 더해 라이브 데모와 핸즈온 랩이 마련되고, 오픈AI 엔지니어와 제품팀에 구현 과정을 직접 질문할 수 있습니다.\n국내 스타트업과 개발자들의 Codex 활용 사례, 개발자 라운지와 네트워킹 자리도 준비됩니다.\n\n작년 11월 서울 행사에서는 에이전트 빌더, Codex SDK, AGENTS.md 작성법 같은 실무 주제가 중심이었는데요.\n참가비는 무료이며, 좌석이 한정되어 사전 신청 후 선정된 분들만 참석할 수 있고, 신청은 9월 4일까지입니다.",
-   "likes": 24,
-   "cmts": 2,
-   "time": 1787301010,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/782455813_17983442703112832_2084159243527373185_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk2ODQ5MDk2NTYyNzE2MjYzOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjQwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=vb3RksheK4wQ7kNvwFFI95t&_nc_oc=AdqbESHtsezQ6-Zj-bOZCwp9IO1QPFQIKQhygRwv09HEsZlhx-6cz38OiPsO9nSLG9g&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=9CCCu43B1gLNwtkAa7wdnw&_nc_ss=7a22e&oh=00_AQFs8StENk4uDhGWqFeip_obWSkZizqnXCohARsOEFYbtQ&oe=6A8DE253",
-   "url": "https://www.threads.com/@choi.openai/post/DcS6YHcjdAO",
-   "region": "kr"
-  },
-  {
    "account": "aipeekme",
    "text": "중국 휴머노이드 로봇 산업이 성장하면서 로봇 전용 의류와 유연한 외피라는 새로운 시장이 등장하고 있습니다.\n니트리얼(KNITREAL)의 로보스킨(RoboSkin)은 무봉제 편직(seamless knitting) 기술과 신축성 있는 원단을 사용해 움직이는 관절과 복잡한 로봇 형태에 꼭 맞도록 제작되었습니다.\n이 기술은 휴머노이드 로봇의 외형을 가다듬어 주며, 움직임 역시 더욱 자연스럽게 만들어 줍니다.\n유연한 외피 소재는 복잡한 로봇 부위에 밀착해 외형과 가동성을 함께 개선하는 방식으로 쓰입니다.\n저는 외관 개선보다 현장 작동 시 발생할 발열 제어 문제가 먼저 떠올랐습니다.\n밀착된 원단이 내부 열 배출을 얼마나 방해하지 않는지가 실제 상용화의 핵심이라고 봅니다.\n단순한 겉옷을 넘어 마모 저항성과 방열 성능을 검증한 소재인지 더 따져봐야 할 것 같습니다.",
-   "likes": 8,
-   "cmts": 0,
+   "likes": 9,
+   "cmts": 1,
    "time": 1787300269,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/778936712_3077114049313981_6479665744197265310_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk2ODQ4NDU1NjQ1Mzg5MjE1OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=BtCKUjpmX00Q7kNvwEUISct&_nc_oc=AdpSYRoLTJgGlKEcEVZS0SkRd57OE0-xVyFokPTZbl7DOa8dGAprs6miLxYe8o2PNvY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=M0KBwD6n-v_4TBLVAu8vOg&_nc_ss=7a22e&oh=00_AQFeiyWbJmj3sYe9TU2ZF_ppqMrfBhCeGgS9uQibA5B3Xw&oe=6A8DED77",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/778936712_3077114049313981_6479665744197265310_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk2ODQ4NDU1NjQ1Mzg5MjE1OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=BtCKUjpmX00Q7kNvwEUISct&_nc_oc=AdpSYRoLTJgGlKEcEVZS0SkRd57OE0-xVyFokPTZbl7DOa8dGAprs6miLxYe8o2PNvY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=ShozP6Oh5fBW2_pSCPZ11A&_nc_ss=7a22e&oh=00_AQHAbld5Rd-RBjtdlEJEflMP5HTib3uwCiKsKxAkBYCnWA&oe=6A8DED77",
    "url": "https://www.threads.com/@aipeekme/post/DcS462cDtA-",
    "region": "kr"
   },
   {
    "account": "aipeekme",
    "text": "미니맥스 H3로 제작한 영상 입니다\n애니메이션과 모션 그래픽이 멋있네요.\n\n프롬프트는 하단 댓글",
-   "likes": 85,
+   "likes": 94,
    "cmts": 5,
    "time": 1787286783,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/777024153_992291867170095_6675006828554120386_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk2ODM3MTQyODg0MzA3NDU2Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=IS19_z7iChYQ7kNvwEKT3Xb&_nc_oc=AdqjxI6xhiMB56HTpvgw804XCEjgIFL9k9FHnZtQNTs3BVDNyJzvqX33kiv55qQEFdA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=M0KBwD6n-v_4TBLVAu8vOg&_nc_ss=7a22e&oh=00_AQHxB1vLAL2ffEV7jWH6QLcTfoQZ-k-AalSAAV3Af-ezQA&oe=6A8DEF9C",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/777024153_992291867170095_6675006828554120386_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk2ODM3MTQyODg0MzA3NDU2Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=IS19_z7iChYQ7kNvwEKT3Xb&_nc_oc=AdqjxI6xhiMB56HTpvgw804XCEjgIFL9k9FHnZtQNTs3BVDNyJzvqX33kiv55qQEFdA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=ShozP6Oh5fBW2_pSCPZ11A&_nc_ss=7a22e&oh=00_AQHY5iwV6LoLd-S1TpHfX1GQn-dEvV7JL6DtGfKKJy0dyA&oe=6A8DEF9C",
    "url": "https://www.threads.com/@aipeekme/post/DcSfMoJADQC",
    "region": "kr"
   },
   {
    "account": "aipeekme",
    "text": "고속도로 1차로(추월차로)에서 타이어 펑크로 멈춘 운전자가 삼각대를 설치하러 가다가 미처 놓기도 전에 후속 차량에 추돌당하는 사고를 계기로, 경고용 풍선을 띄우는 콘셉트 영상입니다. 아이디어가 좋은데요.\n\n사고나 고장 발생 시 운전자가 목숨의 위험을 무릅쓰고 차량 뒤쪽 수십 미터를 걸어가 삼각대를 설치할 필요 없이, 후방 멀리서 오는 차량이 멀리서부터 풍선을 보고 미리 주의할 수 있도록 돕는 개념입니다. 현재 실제로 존재하는 물건인지는 알 수 없습니다만\n\n아이디어 자체는 직관적이고 2차 사고를 막는 데 쓸모가 있어 보입니다. 다만 강풍이 부는 고속도로 환경에서 풍선이 흔들리지 않고 시인성을 유지할 수 있을지와 즉각적인 작동 방식은 물리적인 검증이 더 필요하다고 봅니다. 도로 주변 환경과의 간섭 같은 현실적인 문제만 해결된다면 기존 삼각대 설치 위험을 줄이는 대안이 될 수 있습니다.",
-   "likes": 2,
-   "cmts": 0,
+   "likes": 3,
+   "cmts": 1,
    "time": 1787283400,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/783573207_1739672383753135_7895192754664900039_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk2ODM0MzA0NjAyMjMwNzU4OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=PDAo7PInq5cQ7kNvwGJyiGs&_nc_oc=AdplCvLuZZaup4cCsOq0q0BhRRVGAnzYvQPRwy_Etz8MK5-qxmgG0mwEnzbfB9ibdXw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=M0KBwD6n-v_4TBLVAu8vOg&_nc_ss=7a22e&oh=00_AQHEIm3tCprkD9A_MLcN4o1kPI0WwZ29jq4hw9OwMh9y6w&oe=6A8E0F66",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/783573207_1739672383753135_7895192754664900039_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk2ODM0MzA0NjAyMjMwNzU4OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=PDAo7PInq5cQ7kNvwGJyiGs&_nc_oc=AdplCvLuZZaup4cCsOq0q0BhRRVGAnzYvQPRwy_Etz8MK5-qxmgG0mwEnzbfB9ibdXw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=ShozP6Oh5fBW2_pSCPZ11A&_nc_ss=7a22e&oh=00_AQEsO10uLIqkZ7O9CZ9QGTTkYYJOgzeHR2s_9-gLV7jh5g&oe=6A8E0F66",
    "url": "https://www.threads.com/@aipeekme/post/DcSYvmlDR8F",
    "region": "kr"
   },
@@ -439,10 +439,10 @@
   {
    "account": "aicoffeechat",
    "text": "클로드는 강의를 파는 게 아니라 공짜로 뿌린다.\n\n기본적인 내용들을 다루기엔 공식 홈페이지가 최고입니다. 심지어 업무별로 활용 영상들이 정리되어있고 퀴즈도 있어서 되게 짜임새 있게 준비되어있어요. \n\n강의가 끝난 다음, 아무도 안 알려주는 내 업무에 붙여보세요. 아무도 안 알려주는 내 업무에 붙이는 구간에서 남들보다 한단계 더 잘하게 됩니다.\n\n추가적으로 보면 좋은 유튜브 영상과 클로드가 선별한 따끈 따끈 활용사례도 추가로 공유해드립니다.",
-   "likes": 27,
+   "likes": 28,
    "cmts": 4,
    "time": 1787270065,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/780422316_2024455081537317_2811652083157423592_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk2ODIyNTYzMjI4NjU3NTc4MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=SnCul9SAO_UQ7kNvwHpk5xR&_nc_oc=AdppW_tnDx2nXj3LguHLJy1mOOsJOjaysGM8sgqNM1m-egbkY6BLHYbFofiegeN6DmQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=TosgCYBDwrWXeagtacBzOw&_nc_ss=7a22e&oh=00_AQF_m0ByEPoRSS31kOiByjR9kzW3ZPrCkzLvnhOGGq24jA&oe=6A8DE936",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/780422316_2024455081537317_2811652083157423592_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk2ODIyNTYzMjI4NjU3NTc4MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=SnCul9SAO_UQ7kNvwHpk5xR&_nc_oc=AdppW_tnDx2nXj3LguHLJy1mOOsJOjaysGM8sgqNM1m-egbkY6BLHYbFofiegeN6DmQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=ohfr9TQRSJSFMu-9rLT05Q&_nc_ss=7a22e&oh=00_AQESOIdIUdHh300uRuS5E-_eCez-e5XdC_k2pOTGakSK1g&oe=6A8DE936",
    "url": "https://www.threads.com/@aicoffeechat/post/DcR-DAhCoyk",
    "region": "kr"
   },
@@ -462,18 +462,18 @@
    "likes": 0,
    "cmts": 1,
    "time": 1787237859,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/782018303_1585964636498458_7533408098300556587_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk2Nzk2MTA3MzcxNzk1NTgxMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=5KQCbQ-hnqAQ7kNvwH5muNI&_nc_oc=AdrDVsi5YQkGLD7N68MmihRulCH0lqEamYq1KKxhE7MU59sTV22xGTc2fk3T9sGJShE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=d-qAACCKe3W7HtoZUGg5gQ&_nc_ss=7a22e&oh=00_AQGkDcv5W1FE5eiSpw8xnU-5eOmsSJtxYEm67t8m3UTByQ&oe=6A8E0687",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/782018303_1585964636498458_7533408098300556587_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk2Nzk2MTA3MzcxNzk1NTgxMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=5KQCbQ-hnqAQ7kNvwH5muNI&_nc_oc=AdrDVsi5YQkGLD7N68MmihRulCH0lqEamYq1KKxhE7MU59sTV22xGTc2fk3T9sGJShE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=yse5FfwBhQ_1mWXWVYarLg&_nc_ss=7a22e&oh=00_AQHslYUgrM_TeBMWEmpFt0xX9e4ghvtEDpycJRwtH6LYVQ&oe=6A8E0687",
    "url": "https://www.threads.com/@kopp/post/DcRB5LJiUzl",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "Claude Platform에서 Computer use, browser tool, Skills API, Files API가 정식 제공됩니다.\n\n이제 Claude가 클릭·입력·키보드 조작·스크린샷을 한 번에 여러 개 처리할 수 있어 작업 속도와 비용이 개선됐는데요.\n\n또 API가 없는 오래된 업무 프로그램도 화면을 직접 조작해 자동화할 수 있습니다.\n\nSkills API로 회사 업무 절차를 저장해 여러 에이전트가 재사용할 수 있고, Files API로 같은 파일을 반복 업로드하지 않고 계속 활용할 수도 있습니다.",
-   "likes": 32,
-   "cmts": 0,
-   "time": 1787295645,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/780087745_1708944073552367_6241296050316740756_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk2ODQ0NTk2MzgzMjY0NTcyOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=amVZROMVQggQ7kNvwGmgWtG&_nc_oc=Adr1sOFrX4-JsOg24KZoEqVXRDcjq-7QaNHqTZc4ZcAYhdQbiLPUsX4g_zA9JTQDtBY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=9CCCu43B1gLNwtkAa7wdnw&_nc_ss=7a22e&oh=00_AQHU7hY3Bmtw-QDwYglKtEGJtvNOayCsYUqDj6owGBgDlw&oe=6A8E09F7",
-   "url": "https://www.threads.com/@choi.openai/post/DcSwJQQk9hg",
+   "text": "왔다..\n\n오픈AI DevDay Exchange가 10월 22일 서울에서 열립니다.\n\n미국 DevDay의 기술 세션과 콘텐츠를 각 지역 개발자 커뮤니티로 가져오는 글로벌 행사인데요.\n올해는 서울, 도쿄, 베를린, 파리, 런던 등 전 세계 8개 도시에서 진행됩니다.\n\n이번 행사에서는 키노트와 기술 세션에 더해 라이브 데모와 핸즈온 랩이 마련되고, 오픈AI 엔지니어와 제품팀에 구현 과정을 직접 질문할 수 있습니다.\n국내 스타트업과 개발자들의 Codex 활용 사례, 개발자 라운지와 네트워킹 자리도 준비됩니다.\n\n작년 11월 서울 행사에서는 에이전트 빌더, Codex SDK, AGENTS.md 작성법 같은 실무 주제가 중심이었는데요.\n참가비는 무료이며, 좌석이 한정되어 사전 신청 후 선정된 분들만 참석할 수 있고, 신청은 9월 4일까지입니다.",
+   "likes": 27,
+   "cmts": 2,
+   "time": 1787301010,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/782455813_17983442703112832_2084159243527373185_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk2ODQ5MDk2NTYyNzE2MjYzOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjQwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=vb3RksheK4wQ7kNvwFFI95t&_nc_oc=AdqbESHtsezQ6-Zj-bOZCwp9IO1QPFQIKQhygRwv09HEsZlhx-6cz38OiPsO9nSLG9g&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=8jEsFqtr92n3-UxqTEXJzA&_nc_ss=7a22e&oh=00_AQFeT2wLB2T8G4CpPzOCclWDF9ZrmsyLf250ejABEeM6WA&oe=6A8DE253",
+   "url": "https://www.threads.com/@choi.openai/post/DcS6YHcjdAO",
    "region": "kr"
   },
   {
@@ -482,8 +482,18 @@
    "likes": 1,
    "cmts": 0,
    "time": 1787283183,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/783485842_1081214614477174_5249468987997899409_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk2ODM0MTE5Mzk3Njg5NjAxNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=t9LHMxqzrVIQ7kNvwFFIcec&_nc_oc=AdoAOZgP4xuKGHf5QPingFabnIy3uXkemcktt1JBG9PhdJ2e9namvuPROnh6GVJYJnc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=M0KBwD6n-v_4TBLVAu8vOg&_nc_ss=7a22e&oh=00_AQFhX3DlQnY8FAOHvH3kYe8VvPCkiN8TQqu3_nJrBCf2pA&oe=6A8DEE55",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/783485842_1081214614477174_5249468987997899409_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk2ODM0MTE5Mzk3Njg5NjAxNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=t9LHMxqzrVIQ7kNvwFFIcec&_nc_oc=AdoAOZgP4xuKGHf5QPingFabnIy3uXkemcktt1JBG9PhdJ2e9namvuPROnh6GVJYJnc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=ShozP6Oh5fBW2_pSCPZ11A&_nc_ss=7a22e&oh=00_AQGbNCGs6r7vWpGZ_iVTMJ3e0k00DnaK7YTGcp2fi7t2_w&oe=6A8DEE55",
    "url": "https://www.threads.com/@aipeekme/post/DcSYUpuitoQ",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "Claude Platform에서 Computer use, browser tool, Skills API, Files API가 정식 제공됩니다.\n\n이제 Claude가 클릭·입력·키보드 조작·스크린샷을 한 번에 여러 개 처리할 수 있어 작업 속도와 비용이 개선됐는데요.\n\n또 API가 없는 오래된 업무 프로그램도 화면을 직접 조작해 자동화할 수 있습니다.\n\nSkills API로 회사 업무 절차를 저장해 여러 에이전트가 재사용할 수 있고, Files API로 같은 파일을 반복 업로드하지 않고 계속 활용할 수도 있습니다.",
+   "likes": 33,
+   "cmts": 0,
+   "time": 1787295645,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/780087745_1708944073552367_6241296050316740756_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk2ODQ0NTk2MzgzMjY0NTcyOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=amVZROMVQggQ7kNvwGmgWtG&_nc_oc=Adr1sOFrX4-JsOg24KZoEqVXRDcjq-7QaNHqTZc4ZcAYhdQbiLPUsX4g_zA9JTQDtBY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=8jEsFqtr92n3-UxqTEXJzA&_nc_ss=7a22e&oh=00_AQHt_zQeHCo3DBHcqRY4qjK_WCTTkjlyqWtRjPnFs8m7pw&oe=6A8E09F7",
+   "url": "https://www.threads.com/@choi.openai/post/DcSwJQQk9hg",
    "region": "kr"
   },
   {
@@ -492,7 +502,7 @@
    "likes": 81,
    "cmts": 15,
    "time": 1787290867,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778401353_17983445250112832_1144127407807415650_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk2ODQwNTg3ODI4MTgwMDExNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTE3OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=fM3E9GduvhAQ7kNvwFaN1Bp&_nc_oc=AdrS47tJppoautINwiRZ7XueRVNLvlkLgByQJhpFdvUovUCaQBRwz01Z9oEobUZB-4E&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=9CCCu43B1gLNwtkAa7wdnw&_nc_ss=7a22e&oh=00_AQHmI28DP96h-SlESZmUCKszgafei7dpVM2NrRPZqx9bUQ&oe=6A8DE8A1",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778401353_17983445250112832_1144127407807415650_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk2ODQwNTg3ODI4MTgwMDExNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTE3OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=fM3E9GduvhAQ7kNvwFaN1Bp&_nc_oc=AdrS47tJppoautINwiRZ7XueRVNLvlkLgByQJhpFdvUovUCaQBRwz01Z9oEobUZB-4E&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=8jEsFqtr92n3-UxqTEXJzA&_nc_ss=7a22e&oh=00_AQFCd-VE06SOZrGlRWiO3dwmp4ammyE8quwJ0H--CLoIPA&oe=6A8DE8A1",
    "url": "https://www.threads.com/@choi.openai/post/DcSnB7rjwmz",
    "region": "kr"
   }
@@ -536,15 +546,6 @@
    "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1vu2n1k/a_police_department_is_looking_for_a_suspect_who/"
   },
   {
-   "sub": "memes",
-   "title": "The true conditions of graduated people now a days.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/3bng0o505nkh1.jpeg?width=640&crop=smart&auto=webp&s=54af9b889a983c3a99370da323ae984a3998acd3",
-   "time": 1787279984,
-   "url": "https://www.reddit.com/r/memes/comments/1vu3w3k/the_true_conditions_of_graduated_people_now_a_days/"
-  },
-  {
    "sub": "IThinkYouShouldLeave",
    "title": "I don’t know how to drive!",
    "score": 0,
@@ -572,24 +573,6 @@
    "url": "https://www.reddit.com/r/GTA6unmoderated/comments/1vtial9/the_best_opinion_ive_seen_towards_these_recent/"
   },
   {
-   "sub": "nextfuckinglevel",
-   "title": "The guy in black was clearly just waiting for his turn",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/cW4wMDczNG12bmtoMSjaSPXJ0Ts22TqNcT9aXCNPA-MUtURikC86UtY2pF6L.png?width=640&crop=smart&auto=webp&s=89dd099f870e78012d83b9a68269f8e75bd4c6ca",
-   "time": 1787288943,
-   "url": "https://www.reddit.com/r/nextfuckinglevel/comments/1vu6wrp/the_guy_in_black_was_clearly_just_waiting_for_his/"
-  },
-  {
-   "sub": "SipsTea",
-   "title": "Someone in a mask taking down a Flock camera in the middle of the day (San Francisco)",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/N3JsdnR2bDl0bWtoMaA7-FYe2v7lJ_0yRuK0q1i0MT5BozI8WxH17YxkI9QS.png?width=320&crop=smart&auto=webp&s=ea1c21b4c0e2872af3a2b6433d3632878ff25461",
-   "time": 1787276043,
-   "url": "https://www.reddit.com/r/SipsTea/comments/1vu2h9y/someone_in_a_mask_taking_down_a_flock_camera_in/"
-  },
-  {
    "sub": "okbuddycinephile",
    "title": "Favorite actress that everybody hates for no reason",
    "score": 0,
@@ -599,13 +582,40 @@
    "url": "https://www.reddit.com/r/okbuddycinephile/comments/1vtzei8/favorite_actress_that_everybody_hates_for_no/"
   },
   {
-   "sub": "Millennials",
-   "title": "It is time for the Millennials to rise.",
+   "sub": "nextfuckinglevel",
+   "title": "The guy in black was clearly just waiting for his turn",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/fplwxt24nnkh1.jpeg?width=640&crop=smart&auto=webp&s=3ee8af4952c22e8c33e35c4b88cfb7c4728c95fe",
-   "time": 1787286115,
-   "url": "https://www.reddit.com/r/Millennials/comments/1vu60f5/it_is_time_for_the_millennials_to_rise/"
+   "thumb": "https://external-preview.redd.it/cW4wMDczNG12bmtoMSjaSPXJ0Ts22TqNcT9aXCNPA-MUtURikC86UtY2pF6L.png?width=640&crop=smart&auto=webp&s=89dd099f870e78012d83b9a68269f8e75bd4c6ca",
+   "time": 1787288943,
+   "url": "https://www.reddit.com/r/nextfuckinglevel/comments/1vu6wrp/the_guy_in_black_was_clearly_just_waiting_for_his/"
+  },
+  {
+   "sub": "mildlyinteresting",
+   "title": "Oatmeal cookies are least desired in emperical office poll",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/yehhlnrjvlkh1.png?width=640&crop=smart&auto=webp&s=99e5284e3670e4857b196ab5f53e3112ff398c79",
+   "time": 1787264709,
+   "url": "https://www.reddit.com/r/mildlyinteresting/comments/1vty33g/oatmeal_cookies_are_least_desired_in_emperical/"
+  },
+  {
+   "sub": "pcmasterrace",
+   "title": "Insiders Say Leaked GTA 6 Build Is Running on PC, Breach Allegedly Happened at Rockstar India",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/7Gin2yvBPLTC78T2m-JqaWHTLM8fgm6D1ma5fuluyqM.jpeg?width=640&crop=smart&auto=webp&s=4f65a9dba05b95abc18a6563e4ef187f72e2792f",
+   "time": 1787233689,
+   "url": "https://www.reddit.com/r/pcmasterrace/comments/1vtk0sp/insiders_say_leaked_gta_6_build_is_running_on_pc/"
+  },
+  {
+   "sub": "nba",
+   "title": "Anthony Edwards has been ordered to pay $14,000 a month in child support for his son he says he has never met and has no intention of meeting",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1787281743,
+   "url": "https://www.reddit.com/r/nba/comments/1vu4il5/anthony_edwards_has_been_ordered_to_pay_14000_a/"
   }
  ],
  "disaster": [],
@@ -644,10 +654,10 @@
    }
   },
   "landing": {
-   "at": "2026-08-21T18:35:17",
+   "at": "2026-08-21T19:01:02",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-21T19:00:56.119596+09:00"
+ "updated": "2026-08-21T19:30:56.447101+09:00"
 }
