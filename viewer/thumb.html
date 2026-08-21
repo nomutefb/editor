@@ -783,10 +783,10 @@
   /* 완성 이미지 캐러셀 — 뷰어 카드 피드(.feedtrack) 계승: 스크롤 스냅 + 글래스 화살표 */
   .carwrap { margin-top:14px; }
   .cartrackwrap { position:relative; }
-  .cartrack { display:flex; align-items:flex-start; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; scroll-behavior:smooth; -webkit-overflow-scrolling:touch; scrollbar-width:none; border-radius:10px; transition:height .25s var(--ease); }   /* flex-start + JS 높이 핏(carUpdate) = 4:5·9:16 혼재 시 stretch가 최고 슬라이드 높이를 전 슬라이드에 강제해 짧은 슬라이드 아래 죽은 여백(폰 약 180~230px)이 남던 것 제거(QA3 260706) · overflow-y hidden = 핏 전환 중 세로 스크롤바 차단 */
+  .cartrack { display:flex; align-items:flex-start; gap:10px; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; scroll-behavior:smooth; -webkit-overflow-scrolling:touch; scrollbar-width:none; border-radius:10px; transition:height .25s var(--ease); }   /* raw-ok: gap 10 = nm-hist .hist-grid 열 간격(18px 10px의 열 축) 동값 계승(2장 나란히 · 260821) · radius 10·.25s = 종전 줄 그대로(값 변경 0) */   /* flex-start + JS 높이 핏(carUpdate) = 4:5·9:16 혼재 시 stretch가 최고 슬라이드 높이를 전 슬라이드에 강제해 짧은 슬라이드 아래 죽은 여백(폰 약 180~230px)이 남던 것 제거(QA3 260706) · overflow-y hidden = 핏 전환 중 세로 스크롤바 차단 */
   .cartrack::-webkit-scrollbar { display:none; }
   @media (hover:hover) and (pointer:fine) { .cartrack { cursor:grab; } .cartrack.dragging { cursor:grabbing; scroll-behavior:auto; scroll-snap-type:none; } }   /* PC 잡아끌기 — 뉴스 카드피드(.feedtrack) 계승 */
-  .carslide { flex:0 0 100%; scroll-snap-align:center; scroll-snap-stop:always; position:relative; }
+  .carslide { flex:0 0 calc(50% - 5px); scroll-snap-align:start; position:relative; }   /* 2장 나란히(운영자 260821 «세로로 길다보니까 좌우로 2개 나열이 가능하거든? 1개 크게 나열되지 않고 가로로 두개 나열되게» — 구 100% 1장 크게 폐지 · 높이 절반 = 안정) · calc = gap 10 반분(한 화면 = 슬라이드 2 + 간격 1 = 100%) · snap-align start = 2장이 짝으로 정렬(center면 반쪽씩 걸친다) · ⚠ snap-stop always는 회수(실측 260821 = 화살표 한 화면(2칸) 이동을 첫 스냅점 204px에서 강제 정지 — 구 1장 화면의 「변형 건너뜀 방지」 축인데 2장 화면은 지나가는 장도 다 보여 손실 0) */
   .carslide img { width:100%; border:1px solid var(--line); border-radius:10px; display:block; }
   .carslide .cap { position:absolute; left:8px; top:8px; background:rgba(0,0,0,.5); color:var(--fg); font-size:10.5px; font-weight:700; padding:2px 9px; border-radius:999px; backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px); }
   .carslide .cap-var { font-weight:400; }   /* 캡션 변형(OPA) = 일반체(흰색은 .cap 상속 · 운영자 260619) */
@@ -833,6 +833,7 @@
   .ie-res-use { right:52px; background:var(--bg); color:var(--accent); }   /* raw-ok: 아래 .caredit 정본 동값 계승(다운로드 왼쪽 피치) — 모자이크 결과 소스 재첨부(운영자 260713 "그 한수") · ⚠ 이 규칙은 반드시 .imgdl 뒤(= 여기)여야 위치가 이긴다(260728 겹침 수리) */
   .caredit { right:52px; background:var(--bg); color:var(--accent); }   /* 수정(연필) = 다운로드 왼쪽 · 불투명 플레이트(이미지 위 오버레이 · .imgdl 위치/크기/누름 계승 · 운영자 260702·불투명 260709) */
   .caruse { right:94px; background:var(--bg); color:var(--accent); }   /* 소스 재첨부 = 수정 왼쪽(42px 피치 계승 · 리사이즈 결과 슬라이드만 노출 · 운영자 260713 "그 한수") */
+  .carslide .caruse { right:74px; }   /* raw-ok: 74 = 슬라이드 버튼 사다리 다음 칸(nm-hist .carslide 28px 규격의 6→40 피치 34 연속 = 40+34 · 260821 2장 나란히) — 위 94는 폐지된 고정 오버레이 자리라 반폭 슬라이드에선 그림 밖 · 특이도 동급(0,2,0)이라 nm-hist `.carslide .imgdl`(right:6)보다 소스순 뒤(여기)라야 이긴다 */
   /* 개별 변형 다운로드(.jvar-dl) = 도형(글래스 박스) 제거·픽토그램만 · 색=다운로드 표준(전 강조색·후 mut .dl-done · 운영자 260701 통일·색 260706) · 26px 탭영역은 투명 유지(터치 보존) · 아이콘 14px = 12px 라벨과 광학 높이 정합 (운영자 260626) */
   .job .jvar-dl.dlbtn svg { width:14px; height:14px; }
   /* 픽토그램-온리 다운로드(투명 ↓ ·이미지 위 ↓) = ✓팝 오버레이가 ↓아이콘/기존이미지와 중첩 → ✓ 제거하고 :active scale 액티브만(전체저장 .cref-dlall 선례 동일 · 같은 ↓ 이모지 전체 적용 · 운영자 260628) */
@@ -1216,9 +1217,9 @@
         <div class="cartrack" id="cartrack"></div>
         <button class="carnav prev" id="carPrev" type="button" aria-label="이전"></button>
         <button class="carnav next" id="carNext" type="button" aria-label="다음"></button>
-        <a class="imgdl dlbtn" id="carDl" href="#" aria-label="다운로드" hidden></a>
-        <button class="imgdl caredit" id="carEdit" type="button" aria-label="수정" title="이 설정으로 수정" hidden></button>
-        <button class="imgdl caruse" id="carUse" type="button" aria-label="소스로 재첨부" title="이 결과를 소스로 재첨부" hidden></button><!-- 편집(리사이즈) 결과 → 원탭 재첨부 체인(운영자 260713 "그 한수" · reuse 플래그 슬라이드만) -->
+        <!-- (구 고정 오버레이 #carDl/#carEdit/#carUse = 260821 회수 — 2장 나란히(.carslide 50%)가 되면서 「트랙 우상단 고정 = 현재(왼쪽) 슬라이드 타겟」이 성립 불가:
+             버튼이 오른쪽 그림 위에 떠 있는데 왼쪽 그림을 받는 어긋남 + 마지막 슬라이드는 왼쪽 자리에 못 와 영영 타겟 불가.
+             → 다운로드·수정·재첨부는 carAppend가 슬라이드마다 직접 단다(이전 제작 타일 histTileEl의 .imgdl/.imgedit 같은 문법 · 규격 = nm-hist .carslide 합류분 28px) -->
       </div>
     </div>
     <div class="hist-empty" id="carEmpty">아직 제작한 게 없습니다</div><!-- 결과 빈 상태(운영자 260718 "div 살리되 아직 제작한게 없습니다") — carHSync가 슬라이드 유무로 토글 -->
@@ -4031,13 +4032,29 @@ function carAppend(url, dlname, cap, job, varStr, o, restore, histCap, noExpand)
   if (_expand) { $('#carwrap').hidden = false; $('#carbar').hidden = false; }   // 바(전체 다운로드·N/N장)는 대기열 위에 노출
   const track = $('#cartrack');
   const slide = document.createElement('div'); slide.className = 'carslide'; slide.dataset.slide = slideIdx;
-  slide.innerHTML = '<img src="' + url + '"><span class="cap"></span>';   // 다운로드 = 슬라이드 밖 고정 오버레이(#carDl)로 이관 → 스와이프해도 안 흔들림(뷰어 .feed-ui 패턴·마진 통일 · 운영자 260622)
+  slide.innerHTML = '<img src="' + url + '"><span class="cap"></span>';   // 다운로드·수정·재첨부 = 아래에서 슬라이드마다 직접 단다(260821 2장 나란히 — 구 260622 「슬라이드 밖 고정 오버레이 #carDl」는 2장 화면에서 타겟이 어긋나 회수)
   // 좌상단 = 「포스트 · AI · 배경 합성·오버레이(OPA60)」(운영자 260818 10차 «1) 미리보기 대형 칸 좌상단에 #포스트(또는 릴스) #AI(해당할경우) 그다음에 제작중또는 완료대기열 박스 좌하단에 기록되는 문구 삽입 · no와 #노뮤트(또는 진짜예요)는 스킵»)
   //   ⚠ 분해 성공 시 변형 꼬리(.cap-var = 「· OPA60」)는 안 붙인다 — 낱개 문구가 이미 오버레이(OPA…)를 말해 같은 값이 두 번 찍힌다(구 표기 「포스트 OPA60 · OPA60」의 그 중복).
   //   ⚠ 분해 불가 라벨(생성·해상도·번역 등)은 종전 표기 그대로(무표기보다 옛 표기 = jobFace 계약 동축).
   const capEl = slide.querySelector('.cap'), _cf = faceOf({ cap, src: job && job.src }), _ctx = faceTx(_cf, true);
   capEl.textContent = _ctx || cap || '';   // 빈값 가드(260817) — cap 결측 호출이 문자열 "undefined"로 그려지던 출력 지점 방어(형제 4198 가드와 한 벌)
   if (!_ctx && varStr) { const v = document.createElement('span'); v.className = 'cap-var'; v.textContent = stripOpa(varStr); capEl.appendChild(v); }   // 변형 꼬리 = 일반체(제목과 분리) · 표기는 숫자만(260819 · 분해 실패 폴백도 같은 문법이어야 한 화면에 「50」과 「OPA50」이 섞이지 않는다)
+  /* 다운로드·수정·재첨부 = 슬라이드마다 직접(260821 2장 나란히 — 구 고정 오버레이 #carDl/#carEdit/#carUse는 「현재(왼쪽) 슬라이드 타겟」인데
+     버튼이 오른쪽 그림 위에 떠 어긋나고 마지막 슬라이드는 왼쪽 자리에 못 와 영영 타겟 불가 → 회수) · 문법 = 이전 제작 타일 histTileEl의 [↓]·[연필] 그대로(값 창작 0) */
+  const _sdl = document.createElement('a'); _sdl.className = 'imgdl dlbtn'; _sdl.href = url;
+  _sdl.setAttribute('aria-label', '다운로드'); _sdl.innerHTML = DOWNLOAD_SVG; if (dlSeen(url)) _sdl.classList.add('dl-done');
+  _sdl.addEventListener('click', ev => { ev.preventDefault(); ev.stopPropagation(); dlBlob(url, dlname || ''); dlMark(url, _sdl); });
+  slide.appendChild(_sdl);
+  if (canEditSrc(job && job.src)) {   // 수정(연필) = 이 슬라이드 제작조건으로 작성기 복원(구 #carEdit 조건·행위 동일)
+    const _sed = document.createElement('button'); _sed.type = 'button'; _sed.className = 'imgedit'; _sed.title = '이 설정으로 수정'; _sed.setAttribute('aria-label', '수정'); _sed.innerHTML = EDIT_SVG;
+    _sed.addEventListener('click', ev => { ev.preventDefault(); ev.stopPropagation(); editOpenSrc(job.src, url); });
+    slide.appendChild(_sed);
+  }
+  if (job && (job.rid || job.gfree)) {   // 소스 재첨부 = 리사이즈·AI 생성 결과만(구 #carUse reuse 플래그 동일 · 운영자 260713 "그 한수")
+    const _sus = document.createElement('button'); _sus.type = 'button'; _sus.className = 'imgdl caruse'; _sus.title = '이 결과를 소스로 재첨부'; _sus.setAttribute('aria-label', '소스로 재첨부'); _sus.innerHTML = REUSE_SVG;
+    _sus.addEventListener('click', ev => { ev.preventDefault(); ev.stopPropagation(); reattachSrc(url, dlname || '', _sus); });
+    slide.appendChild(_sus);
+  }
   track.appendChild(slide);
   const _im = slide.querySelector('img'); if (_im && !_im.complete) _im.addEventListener('load', carUpdate, { once: true });   // 복원 등 미로드 이미지 = 로드 후 트랙 높이 재핏(QA3 260706)
   if (_im) _im.onerror = () => {   // 백엔드서 사라진 이미지(404) 방어 — 복원분 '전멸'이면 유령 캐러셀(빈 슬라이드 + 떠 있는 수정·다운로드 검정 플레이트 2개) 통째 철거 + 로컬 기록 정리 = 재부팅 재발 0(운영자 260707 스샷 · renderHist it.remove와 같은 철학). 부분 실패·신규 제작은 무접촉(일시 네트워크 오탐 철거 방지).
@@ -4057,19 +4074,22 @@ function carAppend(url, dlname, cap, job, varStr, o, restore, histCap, noExpand)
   carHSync(_expand);   // 결과 접기 헤더 표시 동기 · 펼침은 복원/잡 첫 장만(260706 x · QA2)
   if (!restore && job && (job.saves || []).length === 1) track.scrollTo({ left: slide.offsetLeft, behavior: 'smooth' });   // 잡의 첫 장으로만 이동 — 이후 장은 자동 이동 안 함 = 1번부터 보기(운영자 260706 "2부터 보여주지 말고 1부터" · 구 scrollWidth 이동이 마지막 장을 띄우던 원인) · 복원은 이동 0(= 첫 장 유지)
 }
+function carStride() {   // 슬라이드 1칸 보폭(폭 + 열 간격) = 실측(260821 2장 나란히 — CSS calc가 바뀌어도 안 어긋난다) · 1장뿐이면 트랙 폭 폴백
+  const t = $('#cartrack'), c = t && t.children;
+  return ((c && c[1] && c[0]) ? (c[1].offsetLeft - c[0].offsetLeft) : (t && t.clientWidth)) || 1;
+}
 function carUpdate() {
   const track = $('#cartrack'), n = CARSLIDES.length;
-  const idx = Math.round(track.scrollLeft / (track.clientWidth || 1));
-  $('#carcount').textContent = n ? (Math.min(idx + 1, n) + ' / ' + n + '장') : '';
-  $('#carPrev').disabled = idx <= 0; $('#carNext').disabled = idx >= n - 1;
-  const _act = track.children[Math.min(Math.max(idx, 0), Math.max(n - 1, 0))], _aim = _act && _act.querySelector('img');   // 현재 슬라이드 높이로 트랙 핏(QA3 260706 — 4:5·9:16 혼재 죽은 여백 제거·CSS .cartrack 주석 참조)
-  if (_aim && _aim.complete && _aim.naturalWidth) { const _h = _act.offsetHeight; if (_h > 4 && Math.abs((parseFloat(track.style.height) || 0) - _h) > 1) track.style.height = _h + 'px'; }   // 미로드/접힘(높이 0)은 스킵 = 이전 높이 유지
-  const dl = $('#carDl'), cur = n ? CARSLIDES[Math.min(Math.max(idx, 0), n - 1)] : null;   // 고정 다운로드 = 현재 슬라이드 타겟(스와이프 추적 · 뷰어 오버레이 패턴)
-  if (dl) { dl.hidden = !n; if (cur) { if (!dl.innerHTML) dl.innerHTML = DOWNLOAD_SVG; dl.href = cur.url; dl.classList.toggle('dl-done', dlSeen(cur.url)); dl.onclick = e => { e.preventDefault(); dlBlob(cur.url, cur.dlname); dlMark(cur.url, dl); }; } }
-  const ed = $('#carEdit');   // 수정(연필) = 현재 슬라이드 제작조건으로 작성기 복원(renderHist 수정버튼 계승 · src 있을 때만 · 운영자 260702)
-  if (ed) { const showEd = canEditSrc(cur && cur.src); ed.hidden = !showEd; if (showEd) { if (!ed.innerHTML) ed.innerHTML = EDIT_SVG; ed.onclick = e => { e.preventDefault(); e.stopPropagation(); editOpenSrc(cur.src, cur.url); }; } }
-  const use = $('#carUse');   // 소스 재첨부 = 리사이즈 결과 슬라이드만(reuse 플래그 · 운영자 260713 "그 한수" — carDl/carEdit 고정 오버레이 문법 계승)
-  if (use) { const showUse = !!(cur && cur.reuse); use.hidden = !showUse; if (showUse) { if (!use.innerHTML) use.innerHTML = REUSE_SVG; use.onclick = e => { e.preventDefault(); e.stopPropagation(); reattachSrc(cur.url, cur.dlname, use); }; } }
+  const idx = Math.round(track.scrollLeft / carStride());   // 왼쪽에 보이는 슬라이드(260821 — 구 트랙 폭 나눗셈은 1장=한 화면 전제)
+  const _last = Math.min(idx + 2, n);   // 한 화면 = 2장 → 카운터 「1-2 / 4장」(2장째가 실재할 때만 범위 표기)
+  $('#carcount').textContent = n ? (Math.min(idx + 1, n) + (_last > idx + 1 ? '-' + _last : '') + ' / ' + n + '장') : '';
+  $('#carPrev').disabled = idx <= 0; $('#carNext').disabled = idx >= n - 2;   // 다음 = 마지막 2장이 이미 보이면 소등(n-2 · 1~2장은 항상 소등)
+  let _fh = 0, _fit = false;   // 보이는 2장 중 최고 높이로 트랙 핏(QA3 260706 계승 — 4:5·9:16 혼재 시 낮은 쪽 기준이면 옆 장이 잘린다 · overflow-y hidden)
+  for (let _k = Math.max(idx, 0); _k < Math.min(idx + 2, Math.max(n, 1)); _k++) {
+    const _s = track.children[_k], _im = _s && _s.querySelector('img');
+    if (_im && _im.complete && _im.naturalWidth && _s.offsetHeight > 4) { _fit = true; if (_s.offsetHeight > _fh) _fh = _s.offsetHeight; }   // 미로드/접힘(높이 0)은 스킵 = 이전 높이 유지
+  }
+  if (_fit && Math.abs((parseFloat(track.style.height) || 0) - _fh) > 1) track.style.height = _fh + 'px';
 }
 function carJump(slideIdx) {   // 변형줄 클릭 → 해당 변형 슬라이드로 캐러셀 이동(운영자 260620 아이디어 1)
   const track = $('#cartrack');
@@ -4104,8 +4124,8 @@ document.querySelectorAll('.sp-slot .onoff').forEach(t => {
 });
 
 $('#carPrev').innerHTML = CHEV_L_SVG; $('#carNext').innerHTML = CHEV_R_SVG;   // 캐러셀 chevron = nm-svg SSOT 주입(인라인 복제 폐지 → 아이콘 SSOT 게이트 편입·8번 F1 260704)
-$('#carPrev').onclick = () => { const t = $('#cartrack'); t.scrollBy({ left: -t.clientWidth, behavior: 'smooth' }); };
-$('#carNext').onclick = () => { const t = $('#cartrack'); t.scrollBy({ left: t.clientWidth, behavior: 'smooth' }); };
+$('#carPrev').onclick = () => { $('#cartrack').scrollBy({ left: -2 * carStride(), behavior: 'smooth' }); };   // 화살표 = 한 화면(2장)씩(260821 — 구 트랙 폭은 gap만큼 모자라 스냅에 기대던 것 → 보폭 실측 2칸 = 정확 착지)
+$('#carNext').onclick = () => { $('#cartrack').scrollBy({ left: 2 * carStride(), behavior: 'smooth' }); };
 
 // ── 이전 제작 보관 — 표시 정본 = 서버 인덱스 thumb-hist.json(전 기기·만료 없음·캡 400 · 운영자 260712 "기기·시간 무관 항상"). localStorage는 완성 직후~빌드 배포 사이 브리지(12h 후 정리 = 서버분이 이어받음). ──
 const THUMB_HKEY = 'nomute_thumb_hist', THUMB_HMS = 12 * 3600e3, THUMB_HMAX = 240;   // 로컬 12시간 브리지 · 최대 240장(초과 시 오래된 것 제거) — THUMB_HMS = 로컬 prune·IDB prune 전용(표시창 아님)
@@ -4546,14 +4566,14 @@ window.addEventListener('resize', carUpdate);   // 뷰폭 변경 = 슬라이드 
 (() => {
   const track = $('#cartrack');
   track.addEventListener('mousedown', e => {
-    if (e.button !== 0 || e.target.closest('.imgdl,.carnav')) return;   // 다운로드·화살표 위에선 드래그 안 함
+    if (e.button !== 0 || e.target.closest('.imgdl,.imgedit,.carnav')) return;   // 다운로드·수정·화살표 위에선 드래그 안 함(.imgedit = 260821 슬라이드 개별 연필 합류 — 구 고정 #carEdit는 imgdl 클래스를 겸했다)
     const sl = track.scrollLeft, x0 = e.clientX; let moved = false;
     track.classList.add('dragging');
     const mv = ev => { track.scrollLeft = sl - (ev.clientX - x0); if (Math.abs(ev.clientX - x0) > 4) moved = true; };
     const up = () => {
       window.removeEventListener('mousemove', mv); window.removeEventListener('mouseup', up);
       track.classList.remove('dragging'); track._dragged = moved;
-      const w = track.clientWidth || 1; track.scrollTo({ left: Math.round(track.scrollLeft / w) * w, behavior: 'smooth' });   // 가장 가까운 변형으로 스냅
+      const w = carStride(); track.scrollTo({ left: Math.round(track.scrollLeft / w) * w, behavior: 'smooth' });   // 가장 가까운 슬라이드 경계로 스냅(260821 — 구 트랙 폭 단위는 1장=한 화면 전제)
     };
     window.addEventListener('mousemove', mv); window.addEventListener('mouseup', up); e.preventDefault();
   });
