@@ -9108,7 +9108,29 @@ async function applyShellUpdate(t) {
   } catch {}   // 오프라인·quota·타임아웃 = 캐시 무접촉 → 아래 reload가 통지 시점 셸로 종전과 동일 동작(fail-soft · 최소 1세대는 전진)
   if (window._nmAuthKicked) return;   // fetch 창(≤4s)에 Access 만료 자가치유(nosw replace)가 발사됐으면 reload로 밟지 않음(평의회 260717-7)
   try { sessionStorage.setItem('nmUpdCoolT', String(Date.now())); } catch {}   // 반영 직후 90s 재알림 억제 도장(무한루프 회로차단기 · 운영자 260717) — 그 사이 실배포가 와도 SWR 재검증 put이 캐시를 조용히 갱신 = 다음 진입 반영(수렴 보장 · 억제 = 표시만)
-  location.reload();   // 성공 = 방금 꽂은 '현재 최신' 셸 즉시 서빙 + SWR 재검증도 동일 바이트 = 재알림 없음
+  softShellReenter();   // 성공 = 베일 페이드 후 방금 꽂은 '현재 최신' 셸 즉시 서빙(아래 봉합 — 구 location.reload()는 그 캐시를 두고 네트워크를 기다려 흰 공백이 떴다) + SWR 재검증도 동일 바이트 = 재알림 없음
+}
+// ── 부드러운 재진입(운영자 260821 «버전 업데이트가 자동으로 되긴하는데 화면이 너무 심하게 번쩍여 · 아예 흰색이 번쩍이면서 하니까 오류같음») ──
+//    흰 번쩍의 실체 = location.reload()는 req.cache='reload'라 sw.js의 「명시적 새로고침 = 네트워크 우선 3s 캡」(260720 F6 =
+//    Ctrl+R·당겨서 새로고침 전용 계약)에 걸린다 — applyShellUpdate가 **방금 최신 셸을 캐시에 꽂아 놓고도** 그걸 안 쓰고
+//    네트워크 응답을 기다렸고, 그 0.3~3s 공백 동안 브라우저 기본 캔버스(폰 = 흰색)가 그대로 드러났다(위 구상 주석
+//    「방금 꽂은 현재 최신 셸 즉시 서빙」과 실동작이 어긋나 있던 자리 = 두 계약의 충돌). 봉합 2축 =
+//    ⓐ 나가는 쪽 = 부팅 베일(#bootveil) 재사용 — 같은 색·같은 .5s 전이로 앱 → 어두운 베일을 덮고 나서 문서를 교체
+//       (인라인 opacity가 body.booted #bootveil{opacity:0}를 이긴다 · 값·색 창작 0 = 들어오는 쪽 부팅 크로스페이드와 한 벌 = '촤르르' 왕복)
+//    ⓑ 재진입 = SW가 이 페이지를 쥐고 있으면 replace(기본 캐시 모드) → sw.js '캐시 즉시 응답' 경로 = 공백 거의 0.
+//       SW 미제어(첫 방문·nosw 모드)면 종전 reload 유지 — 그 경로는 네트워크 재검증이 정본이라 기본 모드로 가면 HTTP 캐시 낡은 판 위험.
+//       해시는 떼고 간다(같은 해시로 replace = 문서 교체가 아니라 조각 이동 = 갱신 불발) · replace = 히스토리 무증식(뒤로가기 오염 0).
+function softShellReenter() {
+  try {
+    let v = document.getElementById('bootveil');   // 부팅 후 _bootReveal이 DOM서 제거했으므로 재생성(셀렉터·CSS는 부팅 정본 그대로)
+    if (!v) { v = document.createElement('div'); v.id = 'bootveil'; v.setAttribute('aria-hidden', 'true'); document.body.appendChild(v); }
+    v.style.opacity = '0'; void v.offsetWidth; v.style.opacity = '1';
+  } catch {}
+  setTimeout(() => {   // 베일 페이드(.5s)와 물려 덮인 뒤 교체(reduced-motion = 베일 즉시 표시라 대기만 남음 = 무해)
+    if (window._nmAuthKicked) return;   // 대기 창에 Access 자가치유(nosw replace)가 발사됐으면 밟지 않음(applyShellUpdate 가드 연장)
+    try { if (navigator.serviceWorker && navigator.serviceWorker.controller) { location.replace(location.pathname + location.search); return; } } catch {}
+    location.reload();
+  }, 460);
 }
 // ── 새 버전 자동 반영(운영자 260811 "새 버전이 있는 경우, 알아서 이를 갱신해서 내가 갱신 버튼을 눌러서 새로고침 할 필요가 없게해줘") ──
 //    구판(260810) = '진입 직후 15s 창'에서만 자동 → **화면을 열어 둔 채 배포가 오는 실제 경로는 영영 수동이었다**:
