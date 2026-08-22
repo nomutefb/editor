@@ -4160,7 +4160,11 @@ function carAppend(url, dlname, cap, job, varStr, o, restore, histCap, noExpand)
     _sus.addEventListener('click', ev => { ev.preventDefault(); ev.stopPropagation(); reattachSrc(url, dlname || '', _sus); });
     slide.appendChild(_sus);
   }
-  track.appendChild(slide);
+  /* 삽입 = 최신 잡이 맨 앞(왼쪽 · 운영자 260822 «최근에 나온게 좌측으로 가야되는데 지금 우측으로 가거든») — 요약 줄(#jobs prepend)·이전 제작(renderHist 최신 정렬)·번역·AI 생성·영상 5탭 레일이 전부 최신 먼저인데 이 캐러셀만 appendChild 라 옛것이 왼쪽에 남았다(renderCarGrid·nm-seq 주석의 「타일은 최신 먼저」 계약과도 어긋난 유일 자리).
+     같은 잡 후속 장 = 직전 장 바로 뒤 = 「로드 완료 순서 무관 '1번부터'」 변형 순서 계약 보존 · isConnected 가드 = 트랙 비움(carShowOne·jobShowCar·clearRestored·404 전멸) 뒤 낡은 앵커 무시 = 그 잡의 다음 장은 잡 첫 장으로 재시작. */
+  const _anc = job && job._lastSlide && job._lastSlide.isConnected ? job._lastSlide : null;
+  if (_anc) _anc.after(slide); else track.prepend(slide);
+  if (job) job._lastSlide = slide;
   const _im = slide.querySelector('img'); if (_im && !_im.complete) _im.addEventListener('load', carUpdate, { once: true });   // 복원 등 미로드 이미지 = 로드 후 트랙 높이 재핏(QA3 260706)
   if (_im) _im.onerror = () => {   // 백엔드서 사라진 이미지(404) 방어 — 복원분 '전멸'이면 유령 캐러셀(빈 슬라이드 + 떠 있는 수정·다운로드 검정 플레이트 2개) 통째 철거 + 로컬 기록 정리 = 재부팅 재발 0(운영자 260707 스샷 · renderHist it.remove와 같은 철학). 부분 실패·신규 제작은 무접촉(일시 네트워크 오탐 철거 방지).
     const s = CARSLIDES[slideIdx]; if (s) s.dead = true;
@@ -4501,7 +4505,8 @@ function jobShowCar(job) {   // 작업 현황 박스 탭 = 그 잡의 결과(전
   const svs = (job.saves || []).filter(s => s && s.url); if (!svs.length) return;
   CARSLIDES.length = 0;
   const tr = $('#cartrack'); if (tr) { tr.innerHTML = ''; tr.style.height = ''; }
-  svs.forEach((s, i) => carAppend(s.url, s.dlname || '', s.cap || '', { _restored: true, t0: job.t0, src: job.src }, s.varStr || '', null, true, s.cap || '', i > 0));   // restore=true = 이전 제작 재기록 0(중복 방지 · carShowOne 동문) · 첫 장만 펼침(noExpand=i>0)
+  const rj = { _restored: true, t0: job.t0, src: job.src };   // 한 객체 공유 = carAppend 잡 앵커(같은 잡 후속 장 = 직전 장 뒤)가 장 순서를 지킨다 — 장마다 새 객체면 전 장이 각각 「잡 첫 장」으로 맨 앞에 끼어 역순(doRestore rjob 문법 동문)
+  svs.forEach((s, i) => carAppend(s.url, s.dlname || '', s.cap || '', rj, s.varStr || '', null, true, s.cap || '', i > 0));   // restore=true = 이전 제작 재기록 0(중복 방지 · carShowOne 동문) · 첫 장만 펼침(noExpand=i>0)
   const ch = $('#carH'), cw = $('#carwrap');   // 펼침 판정 = **실상태**(cw.hidden · 4337행 `open = cw.hidden` 문법 사본) — 구판 aria 판정은 두 방향으로 틀렸다: 부팅 복원(aria만 true·미리보기는 숨김)에선 헛돌고, 접어둔 상태(aria false)에선 carAppend가 이미 편 뒤라 클릭이 **도로 접었다**
   if (ch && cw && cw.hidden) ch.click(); else if (ch) ch.setAttribute('aria-expanded', 'true');   // 접혀 있으면 펼침 · 이미 보이면 헤더 표시만 동기(어긋난 aria 교정)
   scrollMid($('#carwrap'));   // 박스(위) → 미리보기(아래) 자연 스크롤 이동 = reattachSrc 착지 스크롤 정본 재사용
