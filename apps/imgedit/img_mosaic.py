@@ -143,7 +143,10 @@ def main():
         img = load_image_bgr(local_src)
     elif meta.get("src_url"):
         try:
-            data = urllib.request.urlopen(meta["src_url"], timeout=30).read()
+            # ⚠ UA 필수(260822 실측 봉합) — 맨 urlopen은 `Python-urllib/3.x`로 나가고 R2 앞단이 그걸 403으로 막는다
+            # (같은 주소를 curl로 받으면 200 · 실측 run 32593265649 = 「원본 이미지를 못 불러왔어」로 렌더가 통째로 죽었다).
+            req = urllib.request.Request(meta["src_url"], headers={"User-Agent": "nomute-imgedit/1.0"})
+            data = urllib.request.urlopen(req, timeout=30).read()
             tmp = f"/tmp/imgedit_src_{iid}{ext}"
             with open(tmp, "wb") as f:
                 f.write(data)
