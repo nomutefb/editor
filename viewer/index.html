@@ -1486,14 +1486,11 @@
   body.has-kwhit .vh-acts .profile .ts-ico { stroke:var(--cat-tech); filter:drop-shadow(0 0 6px rgba(var(--cat-tech-rgb),.45)); }
   @media (hover:hover){ body.has-kwhit .vh-acts .profile:hover .ts-ico { stroke:var(--cat-tech); } }   /* hover 흰색이 점등을 덮지 않게(형제 규칙 동문법) */
   body.has-kwhit.has-freshbad .vh-acts .profile .ts-ico, body.has-kwhit.has-sysbad .vh-acts .profile .ts-ico { stroke:var(--danger); filter:none; }   /* 중대 고장 동시 = 보수색이 이긴다(경보 우선순위 = 기존 계약 보존) */
-  /* 🍋 뉴스 요약 막힘(대기열 실패) = 기어 픽토 레몬으로 '빛남'(운영자 260727 "뉴스요약을 했는데 막힌 게 있으면 설정버튼을 재시도 색 골드 레몬 그거로 뜨게") —
-     문법 = 바로 위 has-kwhit 사다리 100% 미러(도형·크기·정렬 무접촉 = stroke 색 + 동일 drop-shadow 글로우) · 색만 **재시도 표준색 arm**(레몬 = .qgo.go-arm·.mkbtn.retry 정본 계승 · 신설 값 0).
-     축 구분 = 수집 고장(danger 빨강) / 키워드 발견(--cat-tech 보라) / 요약 막힘(--arm 레몬) — 색으로 갈린다.
-     소등 = **대기열을 여는 즉시**(운영자 "그거 없애려면 대기열 들어가서 확인 · 확인 즉시" — openQueue→qfMarkSeen · 액션 0) · 새 실패가 생기면 재점등(영구 묵음 금지). */
-  body.has-qfail .vh-acts .profile .ts-ico { stroke:var(--arm); filter:drop-shadow(0 0 6px rgba(var(--arm-rgb),.45)); }
-  @media (hover:hover){ body.has-qfail .vh-acts .profile:hover .ts-ico { stroke:var(--arm); } }   /* hover 흰색이 점등을 덮지 않게(형제 규칙 동문법) */
-  body.has-qfail.has-freshbad .vh-acts .profile .ts-ico, body.has-qfail.has-sysbad .vh-acts .profile .ts-ico { stroke:var(--danger); filter:none; }   /* 중대 고장 동시 = 보수색이 이긴다(형제 계약 그대로) · 키워드(보라)와 동시면 소스순 뒤인 이 레몬이 노출 = 내 요청이 막힌 쪽 우선 */
-  body.has-qfail .vh-acts .profile:active .ts-ico, body.has-qfail .vh-acts .profile.on .ts-ico { stroke:var(--accent); filter:drop-shadow(0 0 6px rgba(var(--accent-rgb),.45)); }   /* 누름·메뉴 열림 = 강조색 그대로(클릭 액티브 계약 보존) */
+  /* (구 🍋 요약 막힘 = 기어 픽토 레몬 점등 CSS 4줄 삭제 — 운영자 260822 «실패한게 남아있다 는 설정 픽토그램 알림 안오게 · 해당 알림을 끄라는 건 아냐»:
+     기어 점등 축만 소등하고 **대기열 실패 표시·재시도·확인 기록(qf)은 전부 그대로**(알림 자체는 살아 있다 = 지시 경계).
+     ⚠ 도먼트(소등값 재선언)가 아니라 삭제인 이유 = `body.has-qfail …`(클래스 4개)를 mut로 남기면 수집 고장 빨강(`body.has-freshbad …` 동률·소스순 앞)을 **이겨서 중대 경보가 죽는다**(회귀).
+     소등 후 기어 색 = 종전 사다리 그대로(기본 mut → hover fg → 누름·열림 accent) · 형제 축(수집 고장 danger · 키워드 --cat-tech)은 자기 규칙으로 무접촉.
+     되살림 = git 이력(260822 삭제 직전) 4줄 복원 · 점등 데이터축(has-qfail 클래스 토글·qf 확인 기록)은 JS에 그대로 살아 있어 CSS만 되돌리면 즉시 재점등. */
   @media (hover:hover){ body.has-freshbad .vh-acts .profile:hover .ts-ico, body.has-sysbad .vh-acts .profile:hover .ts-ico { stroke:var(--danger); } }   /* hover 흰색이 경보색을 덮지 않게(고장 표시 우선) — 특이도 동률이라 소스순 뒤 재선언 */
   body.has-freshbad .vh-acts .profile:active .ts-ico, body.has-freshbad .vh-acts .profile.on .ts-ico,
   body.has-sysbad .vh-acts .profile:active .ts-ico, body.has-sysbad .vh-acts .profile.on .ts-ico { stroke:var(--accent); filter:drop-shadow(0 0 6px rgba(var(--accent-rgb),.45)); }   /* 누름·메뉴 열림 = 강조색 그대로(클릭 액티브 계약 보존 · 위 accent 규칙과 동률이라 명시 재선언) */
@@ -11934,7 +11931,8 @@ async function loadPending(render) {
   if ((render || changed) && CURTAB === 'scrap' && SCRAP_LOADED) renderScrap();
 }
 // ── 🍋 요약 막힘 알림(운영자 260727 "뉴스요약을 했는데 막힌 게 있으면 설정버튼을 재시도 색 골드 레몬으로 뜨게 · 없애려면 대기열 들어가서 확인") ──
-//   점등 = 대기열에 '실패' 항목이 하나라도 있고 그걸 아직 확인 안 했을 때 → 기어 픽토 레몬(CSS body.has-qfail · 문법·소등축 = 키워드 발견 has-kwhit 사다리 그대로).
+//   ⚠ 260822 기어 점등 철거(운영자 «실패한게 남아있다 는 설정 픽토그램 알림 안오게 · 해당 알림을 끄라는 건 아냐») — CSS 4줄만 삭제했고 아래 축(실패 id 수집·확인 기록·클래스 토글)은 **그대로 살아 있다**(대기열 실패 행·재시도 무접촉 · 재점등 = CSS 복원 1회).
+//   구 점등 = 대기열에 '실패' 항목이 하나라도 있고 그걸 아직 확인 안 했을 때 → 기어 픽토 레몬(CSS body.has-qfail · 문법·소등축 = 키워드 발견 has-kwhit 사다리 그대로).
 //   소등 = **대기열을 여는 즉시**(openQueue → qfMarkSeen) · 액션 0(열기만 하면 꺼짐 = 시스템 알림 '메시지함 열면 읽음' 축 계승).
 //   확인 기록 = 로컬(즉시) ∪ 계정 qf축(api/seen — 폰에서 확인하면 PC도 소등 · CLAUDE.md D3-1 "localStorage 단독 금지").
 //   새 실패가 생기면 그 id는 미확인이라 다시 점등(영구 묵음 금지 = 형제 알림 계약 그대로).
