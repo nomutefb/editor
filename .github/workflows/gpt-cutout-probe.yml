@@ -1,0 +1,54 @@
+name: gpt-cutout-probe
+
+# GPT Image 2.0 투명 배경(누끼) 실호출 프로브 — 260822 운영자 지시(편집 탭 누끼를 GPT로 뽑을 수 있나).
+# 재는 것 = background=transparent + output_format=png 가 이 계정·이 모델에서 실제로 알파를 주는가.
+# 커밋 0(R2 업로드 + 로그만) = 착지 게이트·원장 무접촉 · 과금 = GPT Image 렌더 1~3장.
+on:
+  workflow_dispatch:
+    inputs:
+      src:
+        description: '원본 이미지 경로(레포 내 · 예 uploads/<id>/src.jpg) — 빈값이면 생성 케이스만'
+        type: string
+        default: ''
+      probe_id:
+        description: '프로브 id(R2 probe/<id>/ 아래 착지) — 빈값이면 타임스탬프'
+        type: string
+        default: ''
+      model:
+        description: '모델 강제(빈값 = gpt-image-2)'
+        type: string
+        default: ''
+
+concurrency:
+  group: gpt-cutout-probe
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 의존 설치 (Pillow만 — 알파 실측용)
+        run: pip install --quiet Pillow
+
+      - name: 프로브 실호출
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          PROBE_SRC: ${{ inputs.src }}
+          PROBE_ID: ${{ inputs.probe_id }}
+          PROBE_MODEL: ${{ inputs.model }}
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ secrets.R2_BUCKET }}
+          R2_PUBLIC_BASE: ${{ secrets.R2_PUBLIC_BASE }}
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+        run: python3 .github/scripts/gpt_cutout_probe.py
