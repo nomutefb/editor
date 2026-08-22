@@ -337,8 +337,8 @@
   /* • 템플릿 토글 — 노뮤트=형광그린 / 진짜예요=극진보(운영자 260726). .ovfmt 문법 100% 계승(도형 없는 글자 토글 · 신설 셀렉터 0) · 색 = :root 미러 토큰 무폴백 var()(raw 재유입 0 · --accent-4 미러 선례) */
   .csec .ovfmt.tplnm { color:var(--accent-5); }   /* 노뮤트 = 형광그린(운영자 260726 "저게 형광 그린 저거임 · 라임이라고 잘못말했네") */
   .csec .ovfmt.tpljj { color:var(--accent-7); }    /* 진짜예요 = 레몬라임(운영자 260818 «골드레몬말고 팔레트에 레몬라임 · 더 형광에 가까운거 그거로 대표색» — 구 극진보 --bias-l2 재사용 회수) */
-  .csec .ovfmt.tplmut { color:var(--mut); }   /* 노뮤트 로고 끔 = mut 회색(운영자 260821 «노뮤트 표기된거 길게누르면 비활성화 되면서 로고 디자인에서 나오지 않게» — 표기 '노뮤트'→'mut' · 색 = --mut 비활성 의미축 · 길게누름 480ms 토글 = index .sc-badge.brk 정본 계승) */
-  .csec .ovfmt.tpltog { -webkit-touch-callout:none; -webkit-user-select:none; user-select:none; }   /* 길게누름 iOS 콜아웃·텍스트선택 차단(index .urg.brk 방어 사본) */
+  .csec .ovfmt.tplmut { color:var(--mut); }   /* 노뮤트 로고 끔 = mut 회색(운영자 260821 «비활성화 되면서 로고 디자인에서 나오지 않게» · 260822 «없음(mut컬러로)» — 표기 '없음' · 색 = --mut 비활성 의미축 · 트리거 = 클릭 3단 순환{노뮤트→진짜예요→없음} = 구 길게누름 480ms 철거) */
+  .csec .ovfmt.tpltog { -webkit-touch-callout:none; -webkit-user-select:none; user-select:none; }   /* iOS 콜아웃·텍스트선택 차단(index .urg.brk 방어 사본 — 260822 클릭 순환 전환 후에도 연타 시 선택 방지로 유지) */
   /* 진짜예요 = 부제칸 잠금 표시 = 45° 빗금(운영자 260726 "이거 선택하면 저 부분에 그냥 빗금 쳐지면됨") — 레퍼런스 = index `.sc-fail.picking`(:1438) 저알파 빗금 문법 그대로(스탑 0 4px/4px 8px·알파 .078/.027 동값 · 신규 값 0). 긴 placeholder 안내문 대체 = 칸 안 글자 0 */
   #cSub.locked { background-image:repeating-linear-gradient(45deg,rgba(var(--accent-4-rgb),.078) 0 4px,rgba(var(--accent-4-rgb),.027) 4px 8px); cursor:not-allowed; }
   .csec .ovfmt.tpltog { margin-left:1px /* raw-ok: 광학 보정 1px — 운영자 260726 "블릿하고 헤더 사이 간격의 2배". 블릿→헤더 실측 5.8px의 2배 = 11.6px 목표 · gap 6 + .ovfmt padding-left 5(탭영역) = 11px이라 1px 더해 12px(Δ0.4px) */; }   /* 헤더 라벨 바로 오른쪽(우측정렬 폐기 — 운영자 "헤더 우측으로, 지금은 우측정렬임") */
@@ -1096,7 +1096,7 @@
       <div id="rCombo">
         <input type="checkbox" id="cBg" hidden>      <!-- 배경(nobg 헤더) = 옵션줄 '배경' 토글 / hidden=발사 상태 유지 -->
         <input type="file" accept="image/*" id="cFile" hidden><!-- 사진 입구 단일창구(260713) — 260728 접이 편입으로 .covrow 안 → #rCombo 직계 이동: 오버레이 접이를 접으면 안쪽이 inert가 되어 도크(#cpImgSwap·.cpv-photobtn)의 cFile.click()이 죽는다(접이와 무관하게 항상 살아야 하는 입구) · hidden = 레이아웃 기여 0이라 위치 이동 부작용 없음 · 참조는 전부 $('#cFile') id 셀렉터 -->
-        <div class="csec">헤더 <span id="cTplTog" class="ovfmt tplnm tpltog" role="button" tabindex="0" aria-label="템플릿 노뮤트 (탭=전환)" title="탭=노뮤트↔진짜예요 (템플릿 전환 · 진짜예요 = 부제 잠금·제목 1줄·가용폭 880·자간 −10~−45)">노뮤트</span><button type="button" class="cfold-chev" aria-expanded="true" aria-controls="cHdrSub" aria-label="헤더 접기·펼치기"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button></div>   <!-- ⚠배치(운영자 260726 "이미지 스튜디오 우측에 간격을 꽤 두고 거기서 토글하게") = '• 헤더' 행 우측 끝(margin-left:auto = .csec-chk 선례) · 도형 없는 글자 토글 = #ovFmtTog 문법 100% 계승(알약·스위치·라디오 신설 0) · 기본값 노뮤트(운영자 "단 기본값은 노뮤트") -->
+        <div class="csec">헤더 <span id="cTplTog" class="ovfmt tplnm tpltog" role="button" tabindex="0" aria-label="템플릿 노뮤트 (탭=노뮤트→진짜예요→없음 순환)" title="탭=노뮤트→진짜예요→없음 순환 (없음 = 노뮤트 로고 끔 · 진짜예요 = 부제 잠금·제목 1줄·가용폭 880·자간 −10~−45)">노뮤트</span><button type="button" class="cfold-chev" aria-expanded="true" aria-controls="cHdrSub" aria-label="헤더 접기·펼치기"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button></div>   <!-- ⚠배치(운영자 260726 "이미지 스튜디오 우측에 간격을 꽤 두고 거기서 토글하게") = '• 헤더' 행 우측 끝(margin-left:auto = .csec-chk 선례) · 도형 없는 글자 토글 = #ovFmtTog 문법 100% 계승(알약·스위치·라디오 신설 0) · 기본값 노뮤트(운영자 "단 기본값은 노뮤트") -->
         <div class="cfoldsub" id="cHdrSub"><div class="cfoldsub-in"><!-- 헤더 접이 내용 = index .geni-camsub/-in 정본 미러 -->
         <textarea id="cSub" class="cf cf-sub ta1l" rows="1" placeholder="부제" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"></textarea>
         <textarea id="cTitle" class="cf cf-title ta1l" rows="1" placeholder="제목" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"></textarea><!-- ⚠배치 input → textarea.ta1l 교체(운영자 260810 "붙여넣기 하면 글자가 한줄 범위를 벗어나면 잘려서 · 허용 범위내에서 자동 줄바꿈") — 실측 사고 = 폭 396px 칸에 내용 895px = **499px가 화면 밖**(input은 규격상 줄바꿈 0·가로 스크롤뿐) → 붙여넣은 글이 안 보여 다시 붙여넣으면 캐럿 삽입으로 중복 = 사실상 붙여넣기 불가. 값 축 무변경 = 개행은 attachOneLineGrow가 입력·붙여넣기 양쪽에서 공백으로 정규화(`.value`는 종전대로 한 줄 = 카드 렌더·발사 페이로드 무접촉) · 창 = 1줄에서 시작해 내용만큼 3줄(104px 정본값)까지만 성장 = 「1줄 아니면 3줄」 사다리 안 · 별표 하이라이트(attachStarHL)는 태그 축 분기(oneLine = INPUT)라 여러 줄 오버레이 경로로 자동 전환 · 클립 3종 자리·padding-right는 ta1l 술어로 종전(input) 값 유지 -->
@@ -1919,7 +1919,7 @@ function renderCpPrev() {   // app2 상시 표시(운영자 260714 Q03②) + 편
       const trJ = estHeaderTr(jt, HDR.jinjja).tr;   // 힌트·발사 게이트와 동일 계산기(단일 산식 · 별표 제외분으로 측정) · 자른 텍스트 기준
       h += `<div class="cpv" style="left:0;right:0;top:${py(457)};margin-top:${px(10)};text-align:center;color:${CPV_WHITE};font-size:${px(70)};font-weight:700;line-height:1.15;white-space:pre;letter-spacing:${(trJ / 1000).toFixed(4)}em">${jjHdrEmph(jt)}</div>`; // margin-top +8 = 세로 잉크탑 보정(부제+9/제목+15 관례와 동축) — 1080 실치수 캡처 vs 합성기 실물 대조로 확정: 미리보기 잉크 top 487.0 / 실물 486.5 = **Δ+0.5px**(≤1px). 잉크 높이 Δ-3.5px = 웹 'Noto Sans KR' ↔ NotoSansCJK-Bold.ttc 메트릭 차(노뮤트 2줄도 동일 축 한계 · 골든 픽셀 이력과 동급)
     } else {   // 구 early return 폐기(260728 검수) — 저작권·안내문 미리보기(함수 말미 showCR)가 진짜예요에서만 안 떴다 = 노뮤트 대비 누락. 아래 노뮤트 2줄 블록은 else로 감싸기만(한 줄도 안 고침)
-    h += `<img class="cpv-bg" data-logo src="assets/brand/${cLogoOff ? 'reels2_base_nologo_preview' : 'reels2_base_preview'}.webp" alt="">`;   // 릴스2 빈배경(그라데+로고 소성) 실자산 축소판 = 로고 상시 미러(운영자 260714 Q03④ — 정본 apps/thumbnail/assets/reels2_base.png · build-viewer가 assets/brand → viewer 복사 서빙) · 로고 끔(운영자 260821 길게누름) = 워드마크만 지운 사본(reels2_base_nologo.png · 산출 미러)
+    h += `<img class="cpv-bg" data-logo src="assets/brand/${cLogoOff ? 'reels2_base_nologo_preview' : 'reels2_base_preview'}.webp" alt="">`;   // 릴스2 빈배경(그라데+로고 소성) 실자산 축소판 = 로고 상시 미러(운영자 260714 Q03④ — 정본 apps/thumbnail/assets/reels2_base.png · build-viewer가 assets/brand → viewer 복사 서빙) · 로고 끔(260821 · 트리거 = 260822 클릭 순환 '없음') = 워드마크만 지운 사본(reels2_base_nologo.png · 산출 미러)
     if (cur.k === 'hdr') h += `<div class="cpv-band" style="top:${py(590)};bottom:${(100 - 1431 / bh * 100).toFixed(2)}%"></div>`;
     const fs2 = hdrFit(csub, HDR.sub), ft2 = hdrFit(ctitle, HDR.title);   // 초과분 글자 단위 절단(운영자 260807 3차 · 오버레이와 동축)
     const trS = estHeaderTr(fs2, HDR.sub).tr, trT = estHeaderTr(ft2, HDR.title).tr;   // 힌트(renderHdrTrk)와 동일 계산기 = 표시·미리보기 단일 산식 · 자른 텍스트 기준
@@ -1942,7 +1942,7 @@ function renderCpPrev() {   // app2 상시 표시(운영자 260714 Q03②) + 편
       }
     } else {   // 구 early return 폐기(260728 검수 · 헤더와 동축) — 저작권·안내문 미리보기 누락 봉합. 아래 노뮤트 자막 블록은 else로 감싸기만
     const lg = cur.fmt === 'reels' ? { x: 104, y: 1008, w: 139, h: 102 } : { x: 98, y: 720, w: 127, h: 93 };   // SPECS.logo_rect 그대로(1080 기준)
-    if (!cLogoOff) h += `<img class="cpv-logo" data-logo src="assets/brand/overlay_logo_preview.webp" alt="" style="left:${px(lg.x)};top:${py(lg.y)};width:${px(lg.w)};height:${py(lg.h)}">`;   // 로고 끔(운영자 260821 길게누름) = 조각 로고 소거(산출 미러 = 러너 mk_logo 투명 치환과 1:1)
+    if (!cLogoOff) h += `<img class="cpv-logo" data-logo src="assets/brand/overlay_logo_preview.webp" alt="" style="left:${px(lg.x)};top:${py(lg.y)};width:${px(lg.w)};height:${py(lg.h)}">`;   // 로고 끔(260821 · 트리거 = 260822 클릭 순환 '없음') = 조각 로고 소거(산출 미러 = 러너 mk_logo 투명 치환과 1:1)
     if (lines.length) {
       const sp = cur.fmt === 'reels' ? { fs: 78, lh: 96, lm: 101, ty: 1119 } : { fs: 76, lh: 89, lm: 85, ty: 822 };
       // ⭐ 초과분 글자 단위 절단(운영자 260807 3차) — 1차 방어는 입력 차단(_rowOverAfter)이라 타이핑으로는 도달 불가 ·
@@ -3458,7 +3458,7 @@ function snapForm(draftKey) {   // draftKey 주면 = 작성 중 드래프트 모
     if (cpThumb !== 'off') { s.cyear = getYear(); s.cname = getName(); s.plat = $('#cphPlat').dataset.plat; s.cplat = $('#cplat').value; }
     s.guideMode = guideMode; s.warnLines = $('#warnLines').value;   // 안내문 = 저작권과 독립 스냅(운영자 260712 · 저작권 OFF여도 저장)
     s.tpl = cTpl;   // 템플릿 축(운영자 260726) — 수정 복원 시 노뮤트/진짜예요 유지(미보유 옛 스냅 = restore에서 nomute 폴백)
-    s.nologo = cLogoOff;   // 노뮤트 로고 끔(운영자 260821 길게누름) — 결과물 표기(#mut)·수정 복원의 원천(cTpl 동축)
+    s.nologo = cLogoOff;   // 노뮤트 로고 끔(260821 · 트리거 = 260822 클릭 순환 '없음') — 결과물 표기(#mut)·수정 복원의 원천(cTpl 동축)
   }
   else if (APP === '3') {
     s.cyear = getYear(); s.cname = getName();
@@ -5502,13 +5502,13 @@ function bindOverClamp(sel) {
 // • 템플릿 토글(노뮤트 ↔ 진짜예요) — 위 #ovFmtTog IIFE 문법 100% 계승(클릭 + Enter/Space). 운영자 260726 "노뮤트 누르면 진짜예요, 진짜예요 누르면 노뮤트 · onoff 같은 건 없음".
 // 이 커밋은 토글 자체(상태·시각)만. 발사 파라미터 관통(tpl)·부제 잠금·자간 880/−10 미리보기 분기 = 후속 커밋(B4 단일 커밋 분리).
 let cTpl = 'nomute';   // 기본 = 노뮤트(운영자 260726 "단 기본값은 노뮤트")
-let cLogoOff = false;   // 노뮤트 로고 끔(운영자 260821 «길게누르면 비활성화 되면서 로고 디자인에서 나오지 않게») — 기본 = 켬 · 스냅샷 s.nologo로 저장·복원(cTpl 동축)
+let cLogoOff = false;   // 노뮤트 로고 끔(운영자 260821 «비활성화 되면서 로고 디자인에서 나오지 않게» · 트리거 = 260822 클릭 3단 순환 3번째 상태 '없음') — 기본 = 켬 · 스냅샷 s.nologo로 저장·복원(cTpl 동축)
 function syncCTpl() {
   const t = $('#cTplTog'); if (!t) return;
-  const _mut = cTpl === 'nomute' && cLogoOff;   // 로고 끔 = 표기 'mut'(노뮤트 − 로고 = mut · 운영자 260821 «노뮤트 샵 표기를 mut로 비활성화»)
-  t.textContent = cTpl === 'nomute' ? (_mut ? 'mut' : '노뮤트') : '진짜예요';
+  const _mut = cTpl === 'nomute' && cLogoOff;   // 로고 끔 = 표기 '없음'(운영자 260822 «진짜예요 에서 없음(mut컬러로)» — 구 'mut' 표기 회수 · 색 = .tplmut --mut 그대로)
+  t.textContent = cTpl === 'nomute' ? (_mut ? '없음' : '노뮤트') : '진짜예요';
   t.classList.toggle('tplnm', cTpl === 'nomute' && !_mut); t.classList.toggle('tplmut', _mut); t.classList.toggle('tpljj', cTpl === 'jinjja');
-  t.setAttribute('aria-label', '템플릿 ' + t.textContent + (_mut ? ' (로고 끔 · 탭=전환 · 길게=로고 켬)' : ' (탭=전환)'));   // SR이 현재값 읽게(도형 없어 경계 약해진 보완 · syncCpFmt 동문)
+  t.setAttribute('aria-label', '템플릿 ' + t.textContent + ' (탭=노뮤트→진짜예요→없음 순환)');   // SR이 현재값 읽게(도형 없어 경계 약해진 보완 · syncCpFmt 동문)
   // 진짜예요 = 2줄 헤더 중 위 줄(부제) 잠금 — 로고가 그 자리를 대신하므로(운영자 260726 "진짜예요 누르면 2줄 헤더중 위에거가 reads only로 됨").
   // 잠금은 readOnly(값·발사 payload 보존 · disabled는 값이 빠져 노뮤트 복귀 시 유실) + dim = 기존 #cphLine.off 문법 계승.
   syncHdrLock();   // readOnly·빗금 = 사유 합집합 단일 주인이 전담(260731) — 구 `sb.readOnly = (cTpl==='jinjja')` 직접 대입은 카드뉴스 축과 서로 덮어써 첫 타건에 잠금이 풀리던 원인
@@ -5519,18 +5519,16 @@ function syncCTpl() {
 }
 (function () {
   const t = $('#cTplTog'); if (!t) return;
-  const tog = () => { cTpl = (cTpl === 'nomute') ? 'jinjja' : 'nomute'; syncCTpl(); };
-  // 길게누름 480ms = 노뮤트 로고 켬끔(운영자 260821 «노뮤트 표기된거 길게누르면 비활성화 되면서 로고 디자인에서 나오지 않게 꺼지게») —
-  // index claimLongPress(.sc-badge.brk 480ms) 문법 사본(MERGE_MODE·_mergeLpT 축만 제외 = thumb엔 병합 모드 없음) · PC = 우클릭 동치 ·
-  // 클릭 억제는 같은 요소 리스너라 stopPropagation이 안 먹는다 → 전환 클릭과 한 리스너로 병합(lpAt 350ms 가드 = 정본 값 그대로).
-  let lpT = null, lpX = 0, lpY = 0, lpAt = 0;
-  const lpFire = () => { if (cTpl !== 'nomute') return; cLogoOff = !cLogoOff; syncCTpl(); };   // 진짜예요 라벨에선 무동작(지시 = «노뮤트 표기된거») · syncCTpl → updateComboTrk → 미리보기 즉시 반영
-  const lpCancel = () => { clearTimeout(lpT); lpT = null; };
-  t.addEventListener('pointerdown', e => { if (e.button) return; lpX = e.clientX; lpY = e.clientY; lpCancel(); lpT = setTimeout(() => { lpAt = Date.now(); lpFire(); }, 480); });
-  ['pointerup', 'pointercancel', 'pointerleave'].forEach(ev => t.addEventListener(ev, lpCancel));
-  t.addEventListener('pointermove', e => { if (lpT && Math.abs(e.clientX - lpX) + Math.abs(e.clientY - lpY) > 10) lpCancel(); });
-  t.addEventListener('contextmenu', e => { e.preventDefault(); e.stopPropagation(); lpAt = Date.now(); lpFire(); });
-  t.addEventListener('click', e => { if (Date.now() - lpAt < 350) { e.preventDefault(); e.stopPropagation(); return; } tog(); });   // 길게누름 직후 합성 click = 전환 오발 차단(claimLongPress 350ms 정본)
+  // 클릭 3단 순환(운영자 260822 «첫 토글 시 노뮤트에서 진짜예요, 다시 토글 시 진짜예요에서 없음(mut컬러로)» —
+  // 구 260821 길게누름 480ms 로고 켬끔 축은 라이브에서 비발동 신고로 통째 철거 = 로고 끔이 순환 3번째 상태로 승격 ·
+  // 진짜예요 구간은 로고 끔 비대상이라 순환 불변식 = jinjja ⇒ cLogoOff false).
+  const tog = () => {
+    if (cTpl === 'nomute' && !cLogoOff) { cTpl = 'jinjja'; }                    // ① 노뮤트 → 진짜예요
+    else if (cTpl === 'jinjja') { cTpl = 'nomute'; cLogoOff = true; }           // ② 진짜예요 → 없음(노뮤트 로고 끔)
+    else { cLogoOff = false; }                                                  // ③ 없음 → 노뮤트(로고 켬)
+    syncCTpl();
+  };
+  t.addEventListener('click', tog);
   t.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); tog(); } });
 })();
 
@@ -5915,7 +5913,7 @@ async function a2Build(defer) {
   if (hasOverlay && estTracking(clines, ovTrkKey()).over) _trkOver.push('자막');   // 진짜예요 = 노뮤트 동일 한도 축(ovTrkKey · 260728)
   if (_trkOver.length) return E('자간 초과', 'warn', _trkOver[0] === '자막' ? '#cLines' : (_trkOver[0] === '부제' ? '#cSub' : '#cTitle'));
   const items = [];
-  const _nolg = cTpl === 'nomute' && cLogoOff;   // 노뮤트 로고 끔(운영자 260821 길게누름) — 켬(기본) = 키 자체 미동봉 = 기존 발사와 동일 payload
+  const _nolg = cTpl === 'nomute' && cLogoOff;   // 노뮤트 로고 끔(260821 · 트리거 = 260822 클릭 순환 '없음') — 켬(기본) = 키 자체 미동봉 = 기존 발사와 동일 payload
   if (hasHeader) items.push({ endpoint: '/api/thumb', payload: { app: '2', params: { mode: 'header', sub: csub, title: ctitle, bothBg: $('#cBg').checked, tpl: cTpl, ...(_nolg ? { nologo: 1 } : {}) } }, label: cTpl === 'jinjja' ? '진짜예요 헤더' : '릴스 헤더', tag: '헤더' });   // 흰칸(배경 ON = +nobg) · tpl = 템플릿 축(운영자 260726 · 노뮤트 기본이라 기존 발사와 동일 payload)
   const _opas = getComboOpas();
   if (hasOverlay) {
