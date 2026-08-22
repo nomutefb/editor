@@ -413,32 +413,42 @@
  "threads": [
   {
    "account": "aipeekme",
-   "text": "이 비디오는 @openart_ai Seedance2.5로 제작된 영상이라고 합니다.\n\n폭풍우 치는 바다, 전함, 레이더 화면, 전투기들… 장면 전환을 서로 이어지는 듯하게 구성하니, 짧은 비디오라기보다는 영화 속에서 추출된 시퀀스처럼 보이는 결과물입니다.\n\n프롬프트은 하단",
+   "text": "영상 생성 모델 시댄스 2.5(Seedance 2.5)에 사용자가 궤적을 직접 그려 제어하는 카메라 기능이 들어갔습니다.\n끝없이 긴 텍스트 프롬프트를 작성하거나 무작위 생성 결과물에 의존하지 않고, 이미지 위에 직접 궤적을 그리는 방식입니다.\n이미지 위에 원을 그리면 회전 궤도 촬영(오비탈 샷)이 구현되고, 화살표를 그리면 피사체로의 줌 인 접근 촬영이 연출됩니다.\n이 기능은 최대 30초 분량까지 일관되고 안정적인 앵글 유지를 지원합니다.\n텍스트 묘사에서 시각적인 궤적 입력으로 전환되면서 스토리보드 작업이 빨라지고, 비디오 게임 시네마틱 분야에서도 새로운 가능성을 열어주며 공간적 몰입감을 높여줍니다.\n텍스트 프롬프트에 의존하던 제어 방식이 직접적인 시각 궤적 지정으로 옮겨가며 작업 효율을 높이는 모습입니다.",
+   "likes": 1,
+   "cmts": 0,
+   "time": 1787366499,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/782125035_958590257261883_1772767325961163219_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk2OTA0MDEyMTg1NjExMDEyMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=-ch4UDK3BTUQ7kNvwGct4o1&_nc_oc=AdpIWFiLHtWQvX4A6SGFmG1J5PxB4NLNlPHvIkVyeXdLJREjP6I9DV3ul6Ym0eT_Xfc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=T8tFuqlpKnpFfgV6VjKRBA&_nc_ss=7a22e&oh=00_AQGsm7QadrxmnylhhmTBIN0a9uqHgbHgvvV8AgbQpSDvkg&oe=6A8ECC9A",
+   "url": "https://www.threads.com/@aipeekme/post/DcU3PZCga4o",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "다들 한번 제작해 보세요 \n\n프롬프트는 하단",
    "likes": 0,
+   "cmts": 1,
+   "time": 1787366272,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/780949622_18082184981407306_6705202180258331354_n.webp?stp=dst-webp_p640x640_sh2.08&_nc_cat=106&ig_cache_key=Mzk2OTAzNzk1NjY2MDc2OTg0Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA3OS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=KLzPb6xmXogQ7kNvwGGijWq&_nc_oc=AdrsMx6bxMDd4jTvHLUbMXpNLSl9DUk4S2Iz80sccV1Ok8BekffId6JIHs2xymNuGeE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=T8tFuqlpKnpFfgV6VjKRBA&_nc_ss=7a22e&oh=00_AQGRyZLKOyBNMT4kDim8W1rGzqc8lOFJs_DUzpg2Y-6S9g&oe=6A8ED247",
+   "url": "https://www.threads.com/@aipeekme/post/DcU22rUE3fM",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "와우.. 엔비디아의 코딩 에이전트 AVO가 ARC-AGI-3 공개 환경 25개의 모든 레벨을 통과했다고 발표했습니다.\n\n규칙을 알려주지 않은 채 직접 부딪히며 알아내야 하는 시험인데요. 지난 3월만 해도 최상위 모델조차 1%를 넘기지 못했습니다.\n\nAVO가 사용한 모델은 Claude Opus 5입니다. 모델만 단독으로 돌리면 30% 수준이지만, 자체 하네스를 붙이자 만점까지 올라갔습니다.\n\nAVO는 원래 엔비디아가 자사 GPU 커널을 최적화하기 위해 만든 내부 도구입니다.\n모델은 다른 회사 것을 가져다 써도, 에이전트를 더 오래, 더 깊게 움직이는 실행 층을 장악하면 어떤 모델이 이기든 GPU 수요는 엔비디아로 흐를 수 밖에 없는데요.\n\n모델의 Nemotron, 서빙의 Dynamo에 이어 이제 하네스까지. 칩 위의 소프트웨어 층을 하나씩 채워온 전략의 연장선으로 보입니다.\n\n모델 전쟁의 승자가 누구든, 그 모델이 돌아가는 판은 전부 자기 것으로 만들겠다는 회사답습니다.",
+   "likes": 10,
+   "cmts": 0,
+   "time": 1787365840,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/778964329_1046914004737707_2142439680297079454_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk2OTAzNDgwNDM5MzAwOTAwMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=En-m3XpmUPgQ7kNvwGJBUlp&_nc_oc=Adp1ht0zOkozPfijS5u13OwG3sckT9xko8YWVvqQQJuYkMyeOpDG2zv3-p5-awLjt6KXqF2hnsDO1E1Je-poaLAG&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=mf-oLO21dKdnBFHPiqXOkQ&_nc_ss=7a22e&oh=00_AQEo7QdHviL-OijWWuO9Xkk0Q9O2BbkMjFzkl-ebTrJYsg&oe=6A8ECDD4",
+   "url": "https://www.threads.com/@choi.openai/post/DcU2CAxAd9r",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "이 비디오는 @openart_ai Seedance2.5로 제작된 영상이라고 합니다.\n\n폭풍우 치는 바다, 전함, 레이더 화면, 전투기들… 장면 전환을 서로 이어지는 듯하게 구성하니, 짧은 비디오라기보다는 영화 속에서 추출된 시퀀스처럼 보이는 결과물입니다.\n\n프롬프트은 하단",
+   "likes": 1,
    "cmts": 3,
    "time": 1787362671,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/783507411_1438747848300313_3883461517338374360_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk2OTAwNTkxMTI1MTU3NDA3Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=bfdgPHaoGlUQ7kNvwHLBLGV&_nc_oc=AdqFYP41sT1vMvC8sLrHMS6kei9lhDbYRIIyPrh_fZU9yiqEC8aprYoSEzE0iJA0nYM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=82KCRVfqGiepwPkBJutukA&_nc_ss=7a22e&oh=00_AQG6S89wQSMo7frPka-9HOJ37LqLhAYMjZ5xCfaGkbg_rQ&oe=6A8EE465",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/783507411_1438747848300313_3883461517338374360_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk2OTAwNTkxMTI1MTU3NDA3Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=bfdgPHaoGlUQ7kNvwHLBLGV&_nc_oc=AdqFYP41sT1vMvC8sLrHMS6kei9lhDbYRIIyPrh_fZU9yiqEC8aprYoSEzE0iJA0nYM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=T8tFuqlpKnpFfgV6VjKRBA&_nc_ss=7a22e&oh=00_AQG8Kk4WWlx1P-fpQSiHiCU8AjGu817h2__fz4aZbMrGtw&oe=6A8EE465",
    "url": "https://www.threads.com/@aipeekme/post/DcUvdj7k109",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
-   "text": "🔗 원문·자세히 보기\nhttps://news.hada.io/article/openrouter-is-not-just-a-proxy",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1787362305,
-   "thumb": "",
-   "url": "https://www.threads.com/@aipeekme/post/DcUvRu5H_yG",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
-   "text": "온라인 결제 기업 Stripe가 AI 모델 라우팅 플랫폼 OpenRouter 인수에 합의했습니다.\n정확한 거래 가격은 공개되지 않았지만 블룸버그는 인수 금액을 70억 달러 이상으로 보도했는데요.\n불과 몇 달 전 시리즈 B에서 인정받은 13억 달러 기업가치의 다섯 배가 넘는 규모입니다.\nOpenRouter는 400개 이상의 AI 모델을 단일 API로 묶어 하루 10조 개 이상의 토큰을 처리하고 있습니다.\n단순히 API 규격을 통일하고 장애를 우회하는 라우터 소프트웨어 자체는 오픈소스로도 흔합니다.\n결제 회사가 지갑을 크게 연 이유는 트래픽 그 자체보다 결제와 정산 흐름의 길목을 쥐기 위해서라고 봅니다.\n어떤 작업에 어떤 모델이 쓰이고 그 사용량이 어떻게 비용과 매출로 연결되는지 지켜보는 관문이니까요.\n모델 간 성능 격차가 줄어들수록 수익은 모델 개발사보다 통행세를 걷는 인프라 쪽에 쏠릴 것 같습니다.\n\n📷 사진 출처: news.hada.io",
-   "likes": 1,
-   "cmts": 1,
-   "time": 1787362293,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/782252199_18082176986407306_8878275797980171032_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk2OTAwNDk2Nzg4NjMwMTE2OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=vDkUwzN1pFAQ7kNvwHeub2_&_nc_oc=AdpLUHMljOYaCwNUuW1HpozhbKRReSUbxVu7dM96kslkaCZdSrvZUdxZLOLPrpocYio&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=82KCRVfqGiepwPkBJutukA&_nc_ss=7a22e&oh=00_AQHmK7qYM2o3a1wgjUZ54MeYhcUoApwlklnQwJxPP_M6HQ&oe=6A8EF7FA",
-   "url": "https://www.threads.com/@aipeekme/post/DcUvP1Wn6fw",
    "region": "kr"
   },
   {
@@ -454,10 +464,10 @@
   {
    "account": "choi.openai",
    "text": "🚨 코덱스, 뱅크드 리셋 지급 완료.",
-   "likes": 55,
+   "likes": 67,
    "cmts": 8,
    "time": 1787359909,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/780342403_17983544346112832_7525743773989040404_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk2ODk4NTA0NzkzNTk1MjI3Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTE3OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=1LbpPA_bWSEQ7kNvwFg-3SB&_nc_oc=AdpxEmlChHJJPOxJiClGH9cvDA75lxr6eWNvdBnybaaXaIrY-NP_43_hL9bZ0bWPfxo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=-2aJgQDWi-x919mTq2rTUw&_nc_ss=7a22e&oh=00_AQFGXmL447vByzDcF1A4325uum9XEy1QzTwg8mpTRRRCPg&oe=6A8EDFF7",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/780342403_17983544346112832_7525743773989040404_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk2ODk4NTA0NzkzNTk1MjI3Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTE3OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=1LbpPA_bWSEQ7kNvwF6iqtQ&_nc_oc=Adrd8Lk1JH3B6_rtVECZqea8tzgMN_W_4P1RhRqbqMWcRIVK1Rlr0DqAaoTXakRl5jFkjaMFU76ypU8dxZ2F21Ch&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=mf-oLO21dKdnBFHPiqXOkQ&_nc_ss=7a22e&oh=00_AQFlWT5cQ127DBR8xI02ZciSwJfYt3gYByXAXWXydQKpAA&oe=6A8EDFF7",
    "url": "https://www.threads.com/@choi.openai/post/DcUqt9dDyWR",
    "region": "kr"
   },
@@ -467,7 +477,7 @@
    "likes": 23,
    "cmts": 8,
    "time": 1787358055,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/783323306_17953729410232485_7540023328932752615_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk2ODk2OTQ5ODM1OTQ1MDM0Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI0NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=iDzca-R9mPQQ7kNvwHlhSJx&_nc_oc=AdplMbDE4R9iKdL_WTALeFzquNinkRM7o85gCav33lwUvcHCxvwGh0xjj1DU1kTX3Uc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=BciDWwkiP8HNPJewQKoKiQ&_nc_ss=7a22e&oh=00_AQHKRViIJajbLJ2OTAU2PXpQqUK1QLj4FudIh_twUJKvjA&oe=6A8EDAF6",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/783323306_17953729410232485_7540023328932752615_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk2ODk2OTQ5ODM1OTQ1MDM0Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI0NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=iDzca-R9mPQQ7kNvwHlhSJx&_nc_oc=AdplMbDE4R9iKdL_WTALeFzquNinkRM7o85gCav33lwUvcHCxvwGh0xjj1DU1kTX3Uc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=KzhXT3Shqaf0x6DASltHxQ&_nc_ss=7a22e&oh=00_AQF1rllYlFfQaJ1j__EEQJHtCcabxmOnd6PugtvFD-CE7w&oe=6A8EDAF6",
    "url": "https://www.threads.com/@aicoffeechat/post/DcUnLryE0rr",
    "region": "kr"
   },
@@ -484,10 +494,10 @@
   {
    "account": "choi.openai",
    "text": "AI 전용 검색엔진 Exa가 코덱스와 챗GPT에 플러그인으로 들어왔습니다.\n\n웹 1,000억 페이지에 논문 3억 편, 기업·인물 데이터까지 검색 범위로 열리고, 설치는 코덱스의 플러그인 메뉴에서 Exa를 고르면 끝입니다.\nMCP로 직접 붙여 쓰던 사용자들 사이에서 웹 검색용으로는 손에 꼽히던 도구가 공식 채널로 들어온 셈입니다.\n\n코딩 에이전트의 고질적인 약점은 학습 시점에 멈춰 있는 지식입니다.\n바뀐 API나 새 라이브러리 문서를 검색으로 확인한 뒤 코드를 쓰게 되면, 그럴듯하지만 낡은 코드를 내놓는 실수가 줄어듭니다.\n\n코드를 쓰는 에이전트와 인터넷을 조사하는 에이전트 사이의 경계가 이렇게 또 하나 지워졌습니다.",
-   "likes": 80,
+   "likes": 91,
    "cmts": 3,
    "time": 1787355023,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/783424083_1573657817447928_4268029247772781483_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk2ODk0NDA2MzA2NzA1MTgxMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=SES5wuq8BZ4Q7kNvwFNqscF&_nc_oc=Adr3wXJui-AX-7Qj9o2zUXlKmDiAg9Vmb9T5j7ehqWt_VwUOUxl5XM1yv-tCAs5bhGo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=-2aJgQDWi-x919mTq2rTUw&_nc_ss=7a22e&oh=00_AQHf3tY8AUwACpmWbZJyQXa2W1nc-yEHpUOurL6lFFmg6Q&oe=6A8EDC3E",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/783424083_1573657817447928_4268029247772781483_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk2ODk0NDA2MzA2NzA1MTgxMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=SES5wuq8BZ4Q7kNvwHj5JZb&_nc_oc=Adpyg9A8Ahf-luDm-xbWM2DiaCoaNVs2M8lbglEzMVpLZDQ1xM1fcJMarQLBwyruLszO96DPMgil-jQzg19y55g_&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=mf-oLO21dKdnBFHPiqXOkQ&_nc_ss=7a22e&oh=00_AQERuJdMjXC3tMDSPhle2RHLGgbJekNeK6ToPWVgXdRhKA&oe=6A8EDC3E",
    "url": "https://www.threads.com/@choi.openai/post/DcUhZjUgdcj",
    "region": "kr"
   },
@@ -512,53 +522,53 @@
    "region": "kr"
   },
   {
-   "account": "choi.openai",
-   "text": "카메라가 달린 에어팟이 유출됐습니다.\n애플이 macOS 베타에 시연 영상을 실수로 남겼고, 블룸버그는 출시를 2027년으로 전합니다.\n\n겉모습은 지금 에어팟과 거의 비슷한데요. 축에 박힌 카메라가 주변을 인식해 시리에 맥락을 넘기는 구조로, AI가 내가 보는 세상을 같이 보게 되는 겁니다.\n\n올해 토익에서 AI 글래스 부정행위가 잇달아 적발돼 교육부가 반입 금지 지침까지 내렸었는데요. 이러한 시장에서  에어팟이 안경보다 나은 선택일 수 있습니다.\n\n유출 분석으로는 사진·영상 촬영 기능은 빠지고 AI 인식 전용일 가능성이 높습니다.\n만약 촬영까지 들어간다면, 안경보다 훨씬 눈에 안 띄는 카메라라 몰래카메라 범죄 같은 사회 문제로 번질 수 있습니다.\n\n어느 쪽이든 분명한 건, 애플이 사람들의 오프라인 일상 데이터를 가장 많이 쥐는 회사가 될 수 있다는 점입니다. 수억 개의 귀에 눈이 하나씩 달리는 셈이니까요.",
-   "likes": 23,
-   "cmts": 0,
-   "time": 1787349608,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/778870264_2076604879630358_7422606641359687034_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk2ODg5ODYzOTgyMTA5Njk3Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=oPRsnai70sgQ7kNvwGZULkd&_nc_oc=Adr_QCGfbOOCSAOiRp11qZfYjMf3Y7JYf66-CUxvcOB8GPohrnfnF0ZBRbdAg1N4pYs&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=-2aJgQDWi-x919mTq2rTUw&_nc_ss=7a22e&oh=00_AQEjcDkQXXykkgSFdYKYqyShgQ7zbHx6hy_q2m8PW7GukA&oe=6A8EDC6F",
-   "url": "https://www.threads.com/@choi.openai/post/DcUXEjoEUgR",
-   "region": "kr"
-  },
-  {
    "account": "kopp",
    "text": "don’t feel bad for obsessing over the details.\n\nin the age of AI, that’s exactly what makes your work feel different.\n\nnew accordion resource just dropped in the Vault, link in bio",
    "likes": 3,
    "cmts": 0,
    "time": 1787318846,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/780748563_1600017458573735_5951977541900795286_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk2ODY0MDQ0NjA4MzIwMjc0Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=5P99kiMkxrYQ7kNvwG1F6tk&_nc_oc=AdrnXwU4h96xXWjlNFEv6ZcqM0O-nSyZiekQt4ItE1DdtYhs6A_o9q98cc031kLP5JA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=4vHJkEPORINEUe83H66pwQ&_nc_ss=7a22e&oh=00_AQElxMn4Ef1QtnqGLeOnanG5wfyD-ZIZte9x97wk5OmROg&oe=6A8EF584",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/780748563_1600017458573735_5951977541900795286_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk2ODY0MDQ0NjA4MzIwMjc0Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=5P99kiMkxrYQ7kNvwG1F6tk&_nc_oc=AdrnXwU4h96xXWjlNFEv6ZcqM0O-nSyZiekQt4ItE1DdtYhs6A_o9q98cc031kLP5JA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=iVhT8KcR_QIlPeBzdparrg&_nc_ss=7a22e&oh=00_AQF9wDIVBSgt3FuHYqjsay6JOdv3MwFlLsrKTtlT48p5AA&oe=6A8EF584",
    "url": "https://www.threads.com/@kopp/post/DcTcXV-CX66",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "🔗 원문·자세히 보기\nhttps://news.hada.io/article/openrouter-is-not-just-a-proxy",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1787362305,
+   "thumb": "",
+   "url": "https://www.threads.com/@aipeekme/post/DcUvRu5H_yG",
    "region": "kr"
   },
   {
    "account": "aicoffeechat",
    "text": "커서 CEO가 공유한 따끈따끈 스킬 \n\neric zakariasson이 어떤 사이트든 스칸디나비아 미니멀 스타일로 바꿔주는 스킬을 만들었는데요. 명령어 한줄로 설치하고 /scandinavian-design 을 부르면 됩니다.\n\n해당 사례처럼 브랜드 톤이나 보고서 서식처럼 매번 설명하기 귀찮은 기준이 있다면, 그걸 스킬로 한 번 적어두고 계속 불러 쓰는 방식을 앞으로 많이 활용할듯합니다. \n\n해커뉴스가 예쁘게 만들어지는 거 보고 바로 궁금해서 써볼 수 밖에 없어요",
-   "likes": 18,
+   "likes": 19,
    "cmts": 2,
    "time": 1787355520,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/777382081_1420351156673947_8668313873402710258_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk2ODk0Njk1NTM3NTc1MzA5OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=SItyk5Dg8tEQ7kNvwG1g-NH&_nc_oc=AdpfG7Y_psvb1Wudiy-AjSGsX1ZQ3HktRrRv4x71boaQb_IFwtrBGmk7LKrBC4CKuuw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=BciDWwkiP8HNPJewQKoKiQ&_nc_ss=7a22e&oh=00_AQG7fQOllswyeHS5RPqNqeaOiT6UodOnkgozVOnnzB_0gA&oe=6A8ECDF1",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/777382081_1420351156673947_8668313873402710258_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk2ODk0Njk1NTM3NTc1MzA5OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=SItyk5Dg8tEQ7kNvwG1g-NH&_nc_oc=AdpfG7Y_psvb1Wudiy-AjSGsX1ZQ3HktRrRv4x71boaQb_IFwtrBGmk7LKrBC4CKuuw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=KzhXT3Shqaf0x6DASltHxQ&_nc_ss=7a22e&oh=00_AQFYc7LoEiw8bk_nC0_JG6puUAYplzy77mgCsG2tkvjCsg&oe=6A8ECDF1",
    "url": "https://www.threads.com/@aicoffeechat/post/DcUiDo_ijeK",
    "region": "kr"
   },
   {
-   "account": "aipeekme",
-   "text": "🔗 원문·자세히 보기\nhttps://github.com/modular/modular",
-   "likes": 0,
+   "account": "choi.openai",
+   "text": "카메라가 달린 에어팟이 유출됐습니다.\n애플이 macOS 베타에 시연 영상을 실수로 남겼고, 블룸버그는 출시를 2027년으로 전합니다.\n\n겉모습은 지금 에어팟과 거의 비슷한데요. 축에 박힌 카메라가 주변을 인식해 시리에 맥락을 넘기는 구조로, AI가 내가 보는 세상을 같이 보게 되는 겁니다.\n\n올해 토익에서 AI 글래스 부정행위가 잇달아 적발돼 교육부가 반입 금지 지침까지 내렸었는데요. 이러한 시장에서  에어팟이 안경보다 나은 선택일 수 있습니다.\n\n유출 분석으로는 사진·영상 촬영 기능은 빠지고 AI 인식 전용일 가능성이 높습니다.\n만약 촬영까지 들어간다면, 안경보다 훨씬 눈에 안 띄는 카메라라 몰래카메라 범죄 같은 사회 문제로 번질 수 있습니다.\n\n어느 쪽이든 분명한 건, 애플이 사람들의 오프라인 일상 데이터를 가장 많이 쥐는 회사가 될 수 있다는 점입니다. 수억 개의 귀에 눈이 하나씩 달리는 셈이니까요.",
+   "likes": 23,
    "cmts": 0,
-   "time": 1787353296,
-   "thumb": "",
-   "url": "https://www.threads.com/@aipeekme/post/DcUeGGJExTb",
+   "time": 1787349608,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/778870264_2076604879630358_7422606641359687034_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk2ODg5ODYzOTgyMTA5Njk3Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=oPRsnai70sgQ7kNvwG0A_w_&_nc_oc=AdodOlh--15XHqTxXtDUQPmuLezCS5geraN41rY4B-WNfJUQKqYW9an_BNIIz2O-gqoyN96YglkBLnJC7KEOYLbm&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=mf-oLO21dKdnBFHPiqXOkQ&_nc_ss=7a22e&oh=00_AQFsmM8goyg3Aml9UjmviujwQwXbF8OG24be6ahzhueCKg&oe=6A8EDC6F",
+   "url": "https://www.threads.com/@choi.openai/post/DcUXEjoEUgR",
    "region": "kr"
   },
   {
-   "account": "choi.openai",
-   "text": "물론 죽은 뇌가 다시 생각하거나 의식을 갖게 됐다는 이야기는 아닙니다. 아직 심사 전 연구이고, 작은 뇌조직이 세 가지 관계를 학습했다는 수준입니다.\n\n연구진이 보는 가능성은 오히려 컴퓨터입니다. 실리콘 칩 대신 적은 에너지로 학습하는 살아 있는 뉴런을 계산에 활용하는 '하이브리드 AI'입니다.\n\n뉴런으로 계산하는 컴퓨터가 공상과학에서 실제 연구의 영역으로 들어오고 있습니다.\n\n논문 :\nhttps://www.researchsquare.com/article/rs-9638576/v1",
-   "likes": 15,
-   "cmts": 0,
-   "time": 1787344242,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DcUM1dtElfI",
+   "account": "aipeekme",
+   "text": "온라인 결제 기업 Stripe가 AI 모델 라우팅 플랫폼 OpenRouter 인수에 합의했습니다.\n정확한 거래 가격은 공개되지 않았지만 블룸버그는 인수 금액을 70억 달러 이상으로 보도했는데요.\n불과 몇 달 전 시리즈 B에서 인정받은 13억 달러 기업가치의 다섯 배가 넘는 규모입니다.\nOpenRouter는 400개 이상의 AI 모델을 단일 API로 묶어 하루 10조 개 이상의 토큰을 처리하고 있습니다.\n단순히 API 규격을 통일하고 장애를 우회하는 라우터 소프트웨어 자체는 오픈소스로도 흔합니다.\n결제 회사가 지갑을 크게 연 이유는 트래픽 그 자체보다 결제와 정산 흐름의 길목을 쥐기 위해서라고 봅니다.\n어떤 작업에 어떤 모델이 쓰이고 그 사용량이 어떻게 비용과 매출로 연결되는지 지켜보는 관문이니까요.\n모델 간 성능 격차가 줄어들수록 수익은 모델 개발사보다 통행세를 걷는 인프라 쪽에 쏠릴 것 같습니다.\n\n📷 사진 출처: news.hada.io",
+   "likes": 1,
+   "cmts": 1,
+   "time": 1787362293,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/782252199_18082176986407306_8878275797980171032_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk2OTAwNDk2Nzg4NjMwMTE2OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=vDkUwzN1pFAQ7kNvwHeub2_&_nc_oc=AdpLUHMljOYaCwNUuW1HpozhbKRReSUbxVu7dM96kslkaCZdSrvZUdxZLOLPrpocYio&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=T8tFuqlpKnpFfgV6VjKRBA&_nc_ss=7a22e&oh=00_AQEytLoSpzOcaeX5k6_J34OvNhuSMCTGRdtZjgIs4LZlRw&oe=6A8EF7FA",
+   "url": "https://www.threads.com/@aipeekme/post/DcUvP1Wn6fw",
    "region": "kr"
   },
   {
@@ -572,43 +582,13 @@
    "region": "kr"
   },
   {
-   "account": "aipeekme",
-   "text": "모듈러가 자사 AI 개발·배포 플랫폼의 오픈소스 구성 요소를 담은 깃허브 저장소를 공개했습니다.\n이번 저장소에는 모조 언어의 컴파일러와 표준 라이브러리가 포함됐는데요.\n여기에 맥스 가속기 라이브러리와 오픈AI 호환 엔드포인트를 갖춘 추론 서버, 파이썬 기반 모델 파이프라인과 코드 예제까지 함께 들어갔습니다.\n저장소 및 기여 라이선스는 LLVM 예외가 포함된 아파치 2.0이며, 맥스 사용·배포에는 모듈러 커뮤니티 라이선스가 적용됩니다.\n기여의 경우 표준 라이브러리와 가속기 라이브러리 등은 받지만 컴파일러는 아직 받지 않습니다.\n\n그동안 모듈러의 내부 구현 검증이 까다로웠는데, 이제 공개된 코드를 직접 확인할 수 있게 됐습니다.\n기존 파이썬 생태계에 묶여 있던 서빙 인프라의 대안이 될 수 있을지는 의문입니다.\n개발자 입장에서는 굳이 새로운 언어와 툴체인을 도입할 만큼의 비용 절감이 나오는지부터 따져보게 될 것 같습니다.\n\n📷 사진 출처: github.com",
-   "likes": 2,
-   "cmts": 1,
-   "time": 1787353285,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/779895777_18082160648407306_7529023017657978541_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk2ODkyOTQxNzI3MTY4NzQwNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=H8DzeCrD3oAQ7kNvwHef6uh&_nc_oc=AdqrrVoYE_lsB6rSnw9uT6tqzDQTFc_6eVDSpNJYxziABnH0W-5OKpBMUO1mtuBHWrQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=82KCRVfqGiepwPkBJutukA&_nc_ss=7a22e&oh=00_AQG_aS_Eengwq04X76WAEnK9yaR4zn4eiOSuCtYkDt4cOg&oe=6A8ED421",
-   "url": "https://www.threads.com/@aipeekme/post/DcUeEbXE7jv",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "죽은 사람의 뇌조직이 접시 안에서 피아노 치는 법을 배웠습니다.\n\n프랑스 CNRS 연구진이 사후 성인의 뇌에서 아직 살아 있는 5mm 크기의 조직을 떼어 전극과 로봇 손에 연결했습니다.\n\n손가락 셋이 라·시·도 건반을 맡고, 무작위 자극으로 건반을 누르게 한 뒤 그 소리를 다시 전기 자극으로 돌려주길 하루 300번씩 사흘 반복했습니다. 정답 보상 없이, 같이 활성화된 연결이 강해지는 가소성에만 맡겼습니다.\n\n그 뒤 손가락을 움직이지 않고 소리에 해당하는 신호만 들려줬는데, 뇌조직이 그 음과 연결된 손가락을 움직이기 시작했습니다. 처음에는 우연히 맞히는 수준이었지만 나흘째에는 정답률이 58.5%까지 올랐습니다.\n\n쉽게 말해 뇌조직이 '이 소리에는 이 손가락'이라는 관계를 스스로 학습한 겁니다. 배운 연결은 17일 뒤에도 대부분 남아 있었고, 신경세포끼리 신호를 주고받지 못하게 하자 사라졌습니다.",
-   "likes": 83,
-   "cmts": 8,
-   "time": 1787344232,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/777418572_1000896979643480_8201022144406525619_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk2ODg1MzUzODE1MTQ4OTkwNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=DtqZFNdiV2AQ7kNvwHusi8A&_nc_oc=Adofcz6MW9vujFmIhHsY6zvMbWZMD7kvD_QKHmf7TrLXKzLnjBRFPGPDtDemhMImUQY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=-2aJgQDWi-x919mTq2rTUw&_nc_ss=7a22e&oh=00_AQFL-p3HByI-v8dRX8XS1NPmYkk0siESGiW1oPJ8xqR7Jg&oe=6A8EC4EF",
-   "url": "https://www.threads.com/@choi.openai/post/DcUM0PbEmFw",
-   "region": "kr"
-  },
-  {
    "account": "aicoffeechat",
    "text": "제발 0에서 말고 좋은 소스부터 시작하세요.\n\nMeng To가 자기가 만든 three.js 컴포넌트 라이브러리 ThreeUI를 오픈소스로 풀었는데요. 160개 넘는 컴포넌트와 랜딩 페이지가 무료고, 도구 자체도 \"무료\"입니다.\n\n쓰는 법은 마음에 드는 걸 골라서 프롬프트나 소스를 복사한 다음, 그대로 내 에이전트에 던져주고 테마나 조명, 모션, 레이아웃만 바꿔달라고 하면 됩니다 (스크롤하면 아래 부분에 무료가 많이 있어요).\n\n저는 이렇게 잘 만들어진 출발점을 하나 쥐고 시작하는 방식을 선호합니다. 시간이 엄청 세이브 될거예요.",
-   "likes": 25,
+   "likes": 28,
    "cmts": 1,
    "time": 1787354538,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/779995612_2077407466498171_3622934228163503074_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk2ODkzODQxNDk1OTE2MzA4Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=5HmVxBAUfQEQ7kNvwEjeXV1&_nc_oc=AdqXKSDwdh-vu8uTCMXGlznbohJYMrYwAEuuxPns-vlS6Vxi8JNhmUeq6fUkuxuEFJY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=BciDWwkiP8HNPJewQKoKiQ&_nc_ss=7a22e&oh=00_AQEnT5q-HIiMNXbRwt6m920pY62g_ZlT-ZQTrOkN6UXz1A&oe=6A8EC05F",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/779995612_2077407466498171_3622934228163503074_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk2ODkzODQxNDk1OTE2MzA4Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=5HmVxBAUfQEQ7kNvwEjeXV1&_nc_oc=AdqXKSDwdh-vu8uTCMXGlznbohJYMrYwAEuuxPns-vlS6Vxi8JNhmUeq6fUkuxuEFJY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=KzhXT3Shqaf0x6DASltHxQ&_nc_ss=7a22e&oh=00_AQF6jTGcKNLsLPxRZxMh3nlZG9OjOmnTeJQ99E-24HABtQ&oe=6A8EF89F",
    "url": "https://www.threads.com/@aicoffeechat/post/DcUgHXHCvbK",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
-   "text": "중국 휴머노이드 로봇 산업이 성장하면서 로봇 전용 의류와 유연한 외피라는 새로운 시장이 등장하고 있습니다.\n니트리얼(KNITREAL)의 로보스킨(RoboSkin)은 무봉제 편직(seamless knitting) 기술과 신축성 있는 원단을 사용해 움직이는 관절과 복잡한 로봇 형태에 꼭 맞도록 제작되었습니다.\n이 기술은 휴머노이드 로봇의 외형을 가다듬어 주며, 움직임 역시 더욱 자연스럽게 만들어 줍니다.\n유연한 외피 소재는 복잡한 로봇 부위에 밀착해 외형과 가동성을 함께 개선하는 방식으로 쓰입니다.\n저는 외관 개선보다 현장 작동 시 발생할 발열 제어 문제가 먼저 떠올랐습니다.\n밀착된 원단이 내부 열 배출을 얼마나 방해하지 않는지가 실제 상용화의 핵심이라고 봅니다.\n단순한 겉옷을 넘어 마모 저항성과 방열 성능을 검증한 소재인지 더 따져봐야 할 것 같습니다.",
-   "likes": 25,
-   "cmts": 2,
-   "time": 1787300269,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/778936712_3077114049313981_6479665744197265310_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk2ODQ4NDU1NjQ1Mzg5MjE1OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=BtCKUjpmX00Q7kNvwGJLNcA&_nc_oc=Adp8H15DgtlRSixNa0ZMjV4JdVGHd5WuM9HzsZdxfdBaPj85Yo3Q9TF-Ym3TuOHIuBc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=82KCRVfqGiepwPkBJutukA&_nc_ss=7a22e&oh=00_AQHPmiT_TxuYBMsoXkExpt2Uf7c72fBc2e7oyUBhWF3lgQ&oe=6A8ECE77",
-   "url": "https://www.threads.com/@aipeekme/post/DcS462cDtA-",
    "region": "kr"
   }
  ],
@@ -619,7 +599,7 @@
    "views": 1600000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAbAoCECNeDAVDgQBcAkFzYBfoUADqQCQWIuZl~tplv-tiktokx-origin.image?dr=14575&x-expires=1787536800&x-signature=3XzAmI%2BBdVvnF7rY1EgmOwW0DuY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAbAoCECNeDAVDgQBcAkFzYBfoUADqQCQWIuZl~tplv-tiktokx-origin.image?dr=14575&x-expires=1787540400&x-signature=eq6MUZg%2BJm%2B8lp5DhTJ9I55HzqA%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
    "time": 1785471372,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7668541152869616914",
    "region": "kr"
@@ -630,7 +610,7 @@
    "views": 1600000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooDPRCUDqBpuPTmFEWk6RAIgEBqnfZwgeRICBU~tplv-tiktokx-origin.image?dr=14575&x-expires=1787536800&x-signature=RWUY0d%2Bi%2F1tyRTPWq6kL%2BcTPyeM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooDPRCUDqBpuPTmFEWk6RAIgEBqnfZwgeRICBU~tplv-tiktokx-origin.image?dr=14575&x-expires=1787540400&x-signature=CwFcVdi2eF8xG8TWFqfZ6k3MSDY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
    "time": 1785177115,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7667277327386135826",
    "region": "kr"
@@ -641,7 +621,7 @@
    "views": 748500,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooBGAi8A6InMPiZBpU9fBkTRtAAwBKw0m1E0Ag~tplv-tiktokx-origin.image?dr=14575&x-expires=1787536800&x-signature=E9JkLTfbF31x%2Fhywqu64tU%2FCTMs%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooBGAi8A6InMPiZBpU9fBkTRtAAwBKw0m1E0Ag~tplv-tiktokx-origin.image?dr=14575&x-expires=1787540400&x-signature=P7E0uasv1wci5jPleiyYvTPX1LA%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
    "time": 1785109781,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7666988131442281746",
    "region": "kr"
@@ -649,10 +629,10 @@
   {
    "account": "jaemyung_lee",
    "title": "¡Gusto en conocerte, Argentina! 🇰🇷🤝🇦🇷 #이재명 #아르헨티나 #argentina #javiermilei",
-   "views": 471300,
+   "views": 471400,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o43E0EJDgKsBeuyFfnqRBCAvI1sAAbI2NsPlIc~tplv-tiktokx-origin.image?dr=14575&x-expires=1787536800&x-signature=VdZ6JThP3L91AW1gQ4uF%2BOJwa5o%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o43E0EJDgKsBeuyFfnqRBCAvI1sAAbI2NsPlIc~tplv-tiktokx-origin.image?dr=14575&x-expires=1787540400&x-signature=WyMcPDDiunTeclRWTjp8tQFzZ9A%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
    "time": 1785519099,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7668746136877812999",
    "region": "kr"
@@ -663,7 +643,7 @@
    "views": 357800,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQpDHATAEBzAIGFgqwDA4hofdRfVCsCaqEBIkL~tplv-tiktokx-origin.image?dr=14575&x-expires=1787536800&x-signature=mzX%2BcnT%2FdyR33kIYqtvcysnIdzw%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQpDHATAEBzAIGFgqwDA4hofdRfVCsCaqEBIkL~tplv-tiktokx-origin.image?dr=14575&x-expires=1787540400&x-signature=G%2Bz7m5532sNGxks6zd5RbYiOiTw%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
    "time": 1785365622,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7668086960883354887",
    "region": "kr"
@@ -671,10 +651,10 @@
   {
    "account": "jaemyung_lee",
    "title": "프랑크푸르트에 도착했습니다🇰🇷🇩🇪 #이재명 #deutschland #frankfurt",
-   "views": 242900,
+   "views": 243100,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1787536800&x-signature=iaZNOfnOKV5OTrOOfzqpYiUwwss%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1787540400&x-signature=c1bkvBSlKH1%2F%2BYaV4a966JY%2BZLw%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
    "time": 1785656353,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7669335640793763079",
    "region": "kr"
@@ -685,7 +665,7 @@
    "views": 225000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-i-photomode-sg/91a2f3151d9741689af70b1d1f8aac3a~tplv-photomode-image.jpeg?dr=14555&x-expires=1787536800&x-signature=fl3ILekQeGN3d06jOTxjxQQCmj0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=9b759fb9&idc=my3&ftpl=1",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-i-photomode-sg/91a2f3151d9741689af70b1d1f8aac3a~tplv-photomode-image.jpeg?dr=14555&x-expires=1787540400&x-signature=5jqdNE%2FMRJyhhQhpgzs7AKEpG%2Fo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=9b759fb9&idc=my3&ftpl=1",
    "time": 1785270939,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7667680300490558728",
    "region": "kr"
@@ -696,7 +676,7 @@
    "views": 182400,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/osApGgttBIBbbk6zA4iAKdIdkBfL1AAEiSwmCM~tplv-tiktokx-origin.image?dr=14575&x-expires=1787536800&x-signature=0dtJub2VHvWpKCRQ5lFk%2B%2Bq0g8g%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/osApGgttBIBbbk6zA4iAKdIdkBfL1AAEiSwmCM~tplv-tiktokx-origin.image?dr=14575&x-expires=1787540400&x-signature=cBo3%2BtOFHLki4YHwkJQhcKuUiiY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
    "time": 1784945079,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7666280741554195730",
    "region": "kr"
@@ -707,7 +687,7 @@
    "views": 128500,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okkIgGYEt7AlB4qvUF5yCAEAjD8vfKAfVACbBp~tplv-tiktokx-origin.image?dr=14575&x-expires=1787536800&x-signature=888ygSDLQsCZ4hZ4byu%2Bm6Gq6mQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okkIgGYEt7AlB4qvUF5yCAEAjD8vfKAfVACbBp~tplv-tiktokx-origin.image?dr=14575&x-expires=1787540400&x-signature=HM12FlDxN1O3wLBjfJ0Wa96%2BJso%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
    "time": 1784911601,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7666136953456315666",
    "region": "kr"
@@ -715,34 +695,12 @@
   {
    "account": "jaemyung_lee",
    "title": "대통령님, 부동산 정책의 목표가 뭔가요? #이재명 #대통령 #부동산토론회",
-   "views": 102100,
+   "views": 102200,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ok7qEZCqBgAIPBVFAEgOfAJAhjCDYF5jcUeyNC~tplv-tiktokx-origin.image?dr=14575&x-expires=1787536800&x-signature=JTTvG0TAOTmsEbz19bh0aApO%2Fds%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ok7qEZCqBgAIPBVFAEgOfAJAhjCDYF5jcUeyNC~tplv-tiktokx-origin.image?dr=14575&x-expires=1787540400&x-signature=%2FAhVhYx6f6SDVLEp9d6zrcYy2JY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
    "time": 1784793310,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7665628897077234951",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "코르티스(CORTIS) 주훈, 성수에서 빛난 꽃미남 / 토리든 'DEEP DIVE NEWS’ 팝업 스토어 #코르티스 #CORTIS #마틴 #제임스 #주훈 #성현 #건호 #토리든 #Torriden",
-   "views": 9237,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ogOA4loi0sBEEB3CYaAAAKLELBAFiInU8VYvA~tplv-tiktokx-origin.image?dr=14575&x-expires=1787536800&x-signature=84mwilqXO1wslgudZAVrUpOWiQw%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
-   "time": 1787112463,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7675589583446248725",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "코르티스(CORTIS) 성현, 보면 볼수록 빠져드는 매력 / 토리든 'DEEP DIVE NEWS’ 팝업 스토어 #코르티스 #CORTIS #마틴 #제임스 #주훈 #성현 #건호 #토리든 #Torriden",
-   "views": 1239,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/o8AIwizAKX1E1AKfFANQCp9t2VvBBBiuOb1APW~tplv-tiktokx-origin.image?dr=14575&x-expires=1787536800&x-signature=ggjAG7JUxsYJA6KNjrs339GLRHE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
-   "time": 1787112415,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7675589380328656149",
    "region": "kr"
   }
  ],
@@ -755,6 +713,15 @@
    "thumb": "https://preview.redd.it/hebol9ccrtkh1.jpeg?width=640&crop=smart&auto=webp&s=adf85aa4aa723c1c786837d2decdc9dacac51b4a",
    "time": 1787360160,
    "url": "https://www.reddit.com/r/90s/comments/1vuy3hu/did_you_have_this/"
+  },
+  {
+   "sub": "mildlyinfuriating",
+   "title": "This house listing overusing ai to hide problems with the property",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/g876us131tkh1.jpeg?width=640&crop=smart&auto=webp&s=1678c1773cd74919dfc277ca3d0b40b0df745312",
+   "time": 1787351305,
+   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1vuupp0/this_house_listing_overusing_ai_to_hide_problems/"
   },
   {
    "sub": "mildlyinfuriating",
@@ -775,15 +742,6 @@
    "url": "https://www.reddit.com/r/SipsTea/comments/1vuchtf/another_foreign_object_was_thrown_onto_a_wnba/"
   },
   {
-   "sub": "mildlyinfuriating",
-   "title": "This house listing overusing ai to hide problems with the property",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/g876us131tkh1.jpeg?width=640&crop=smart&auto=webp&s=1678c1773cd74919dfc277ca3d0b40b0df745312",
-   "time": 1787351305,
-   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1vuupp0/this_house_listing_overusing_ai_to_hide_problems/"
-  },
-  {
    "sub": "interesting",
    "title": "When asked why he keeps playing the same roles Jason Statham said that he's not really a trained actor. He's a guy that was plucked out obscurity & has been really lucky; & that he picks roles that he",
    "score": 0,
@@ -802,24 +760,6 @@
    "url": "https://www.reddit.com/r/BeAmazed/comments/1vucadj/the_system_set_up_for_swimming_in_the_pool_even/"
   },
   {
-   "sub": "TikTokCringe",
-   "title": "I saw epitome coming, but I thought he might surprise me.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/ODk3YnE5Y25jcWtoMWpAPIVRWLUbqJnVzxkAUDy119UnjWulo2PKQdYN1pVp.png?width=320&crop=smart&auto=webp&s=9055bd01dcc0af4d9035d1bd82f08a03a50c2dc3",
-   "time": 1787318876,
-   "url": "https://www.reddit.com/r/TikTokCringe/comments/1vuge4z/i_saw_epitome_coming_but_i_thought_he_might/"
-  },
-  {
-   "sub": "cats",
-   "title": "I’m catsitting for a friend, why does one of her cats sit like this?",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/91nrwryi4tkh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=63aa942715b2a8547e0c90133321a1f38c4aa25e",
-   "time": 1787352464,
-   "url": "https://www.reddit.com/r/cats/comments/1vuv6jd/im_catsitting_for_a_friend_why_does_one_of_her/"
-  },
-  {
    "sub": "MMALabs",
    "title": "Biotech CEO Bryan Kobel gets KO'd in front of his wife (Aug. 2025)",
    "score": 0,
@@ -827,6 +767,15 @@
    "thumb": "https://external-preview.redd.it/eWcxeGJmc3MwdGtoMcizNlHwSjsULgUQCv1M68lD-Uoo31EixS3k2C7MKjvu.png?width=640&crop=smart&auto=webp&s=3c0bbae11537bd0ec0fc4b85924780d3442c3246",
    "time": 1787351212,
    "url": "https://www.reddit.com/r/MMALabs/comments/1vuuodq/biotech_ceo_bryan_kobel_gets_kod_in_front_of_his/"
+  },
+  {
+   "sub": "TikTokCringe",
+   "title": "I saw epitome coming, but I thought he might surprise me.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/ODk3YnE5Y25jcWtoMWpAPIVRWLUbqJnVzxkAUDy119UnjWulo2PKQdYN1pVp.png?width=320&crop=smart&auto=webp&s=9055bd01dcc0af4d9035d1bd82f08a03a50c2dc3",
+   "time": 1787318876,
+   "url": "https://www.reddit.com/r/TikTokCringe/comments/1vuge4z/i_saw_epitome_coming_but_i_thought_he_might/"
   },
   {
    "sub": "technology",
@@ -838,6 +787,15 @@
    "url": "https://www.reddit.com/r/technology/comments/1vuihzz/walmart_finally_adding_tap_to_pay_after_years_of/"
   },
   {
+   "sub": "interestingasfuck",
+   "title": "Sleeping fox narrowly escapes golden eagle attack...",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/OXZ3bW95Z2gwdWtoMdx6OnF980j3SQoss-cjt4SXvto-7n96tYiZ0GkdhCAD.png?width=640&crop=smart&auto=webp&s=65057693c714f1824d83a9ab32d9f4e626f4345b",
+   "time": 1787363214,
+   "url": "https://www.reddit.com/r/interestingasfuck/comments/1vuz6xx/sleeping_fox_narrowly_escapes_golden_eagle_attack/"
+  },
+  {
    "sub": "politics",
    "title": "Vance: Bessent has ‘very discreet plan’ to shrink $40 trillion national debt",
    "score": 0,
@@ -847,13 +805,13 @@
    "url": "https://www.reddit.com/r/politics/comments/1vumoc8/vance_bessent_has_very_discreet_plan_to_shrink_40/"
   },
   {
-   "sub": "GirlDinnerDiaries",
-   "title": "Ended it tonight over something people will call small",
+   "sub": "cats",
+   "title": "I’m catsitting for a friend, why does one of her cats sit like this?",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/tvl55qs13rkh1.jpeg?width=640&crop=smart&auto=webp&s=94c71e95dd36e176b9f8c78395cf2d9dc348af32",
-   "time": 1787327756,
-   "url": "https://www.reddit.com/r/GirlDinnerDiaries/comments/1vuka1w/ended_it_tonight_over_something_people_will_call/"
+   "thumb": "https://preview.redd.it/91nrwryi4tkh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=63aa942715b2a8547e0c90133321a1f38c4aa25e",
+   "time": 1787352464,
+   "url": "https://www.reddit.com/r/cats/comments/1vuv6jd/im_catsitting_for_a_friend_why_does_one_of_her/"
   }
  ],
  "disaster": [],
@@ -867,8 +825,7 @@
     "promppy_com"
    ],
    "tiktok": [
-    "jaemyung_lee",
-    "tictok_ent"
+    "jaemyung_lee"
    ]
   },
   "why": {
@@ -893,13 +850,16 @@
     "higgsfield.ai": "gap",
     "googledeepmind": "gap",
     "cristiano": "gap"
+   },
+   "tiktok": {
+    "tictok_ent": 503
    }
   },
   "landing": {
-   "at": "2026-08-22T11:05:26",
+   "at": "2026-08-22T11:31:37",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-22T11:31:34.342237+09:00"
+ "updated": "2026-08-22T12:01:22.921209+09:00"
 }
