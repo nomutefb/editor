@@ -128,6 +128,7 @@ jobs:
         env:
           IN_ID: ${{ inputs.id }}
           RENDER: ${{ inputs.render }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}   # 누끼 1순위 = GPT Image 2.0 투명 배경(운영자 260822) — 미등록이면 gpt_cutout이 구판 SAM2/박스 알파로 폴백(기능 무중단)
           R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
           R2_BUCKET: ${{ secrets.R2_BUCKET }}
           R2_PUBLIC_BASE: ${{ secrets.R2_PUBLIC_BASE }}

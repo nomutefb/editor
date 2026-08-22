@@ -46,7 +46,8 @@ export async function onRequestPost({ request, env }) {
     const r = _r0;
     const id = String(r.id || '').trim();
     const targets = Array.isArray(r.targets) ? [...new Set(r.targets.filter(t => Number.isInteger(t) && t >= 1 && t <= 99))].slice(0, 32) : [];
-    if (!targets.length) return json({ error: '가릴 피사체를 골라줘' }, 400);
+    const op = r.op === 'cutout' ? 'cutout' : 'mosaic';   // 출력 모드(닫힌 집합 · 운영자 260726) — cutout = 피사체만 남긴 투명 PNG(누끼) · targets 게이트보다 먼저 읽는다
+    if (!targets.length && op !== 'cutout') return json({ error: '가릴 피사체를 골라줘' }, 400);   // 떼기(GPT 누끼) = 사진 한 장이면 끝(운영자 260822) · 가리기만 대상 선택 필수
     const num = (v, lo, hi) => (typeof v === 'number' && Number.isFinite(v)) ? Math.max(lo, Math.min(hi, v)) : null;
     const opts = {};
     if (r.opts && typeof r.opts === 'object') {
@@ -56,8 +57,7 @@ export async function onRequestPost({ request, env }) {
       const fe = num(r.opts.feather, 0, 40); if (fe !== null) opts.feather = Math.round(fe);
       if (r.opts.shape === 'ellipse' || r.opts.shape === 'rect') opts.shape = r.opts.shape;
     }
-    const op = r.op === 'cutout' ? 'cutout' : 'mosaic';   // 출력 모드(닫힌 집합 · 운영자 260726) — cutout = 피사체만 남긴 투명 PNG(누끼)
-    const precise = op === 'cutout' ? true : r.precise === true;   // 떼기 = SAM2 실루엣 강제(워크플로 IMG_HEAVY 신호 = render 문자열 "precise":true contains)
+    const precise = r.precise === true;   // ⚠ 구 「떼기 = SAM2 강제」 폐지(운영자 260822 GPT 대체) — 강제하면 IMG_HEAVY 신호가 켜져 torch 설치로 몇 분을 태우는데, 누끼 1순위가 GPT(33s 실측)라 그 설치가 통째로 낭비다 · 폴백(GPT 실패)은 모델 없으면 박스 알파로 내려앉는 기존 fail-soft 그대로
     const payload = JSON.stringify({ targets, opts, precise, op });
     if (payload.length > 4000) return json({ error: '선택이 너무 많아 — 줄여줘' }, 400);
     const rr = await dispatchWf(env, 'imgedit-make.yml', {   // (260820) 재시도 3회(_fire.js) — 판정·에러 문구 계약 종전 동일

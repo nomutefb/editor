@@ -5830,7 +5830,7 @@ async function ieFind() {
   } catch { ieBusy(false, 'idle'); errStatus('재시도'); }
 }
 async function ieRenderGo() {
-  if (!IE.sel.size) return errStatus('선택 필요', 'warn');
+  if (!IE.sel.size && IE.op !== 'cutout') return errStatus('선택 필요', 'warn');   // 떼기(GPT 누끼) = 사진 한 장이면 끝(운영자 260822) · 가리기만 대상 선택 필수
   ieBusy(true, 'rendering');
   // 재렌더 신선도 가드(스테일 result.json/error.log 오표시 차단 · 기틀검증 C1·C2) — 발사 직전 직전본 스냅 → 폴에서 이보다 새 것만 인정(같은 id 재사용이라 필수)
   IE.preTs = ''; IE.preErr = '';
@@ -5858,8 +5858,9 @@ function iePoll(kind) {
         if (!Array.isArray(j.items)) return;
         clearInterval(IE.poll); IE.poll = null;
         IE.items = j.items; IE.meta = j.meta || {}; IE.sel = new Set(j.items.filter(i => i.kind === 'face').map(i => i.id)); ieBusy(false, 'found');
-        if (!IE.items.length) errStatus('인물 없음', 'warn');
+        if (!IE.items.length && IE.op !== 'cutout') errStatus('인물 없음', 'warn');   // 떼기 = 검출 결과와 무관(GPT가 사진 전체를 본다) → 「인물 없음」은 가리기 축 고지
         ieRender();
+        if (IE.op === 'cutout') return ieRenderGo();   // 떼기 = 「생성」 한 탭으로 끝까지(검출은 거쳐가되 선택 단계를 안 세운다 · 운영자 260822 «사진 첨부 → 누끼 토글 → 전송»)
       } else {
         if (!j.ts || j.ts === IE.preTs) return;   // 스테일(직전본·구본) = 새 산출 대기(C2) · 신 산출은 ts != preTs
         clearInterval(IE.poll); IE.poll = null;

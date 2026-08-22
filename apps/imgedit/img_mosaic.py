@@ -26,6 +26,7 @@ sys.path.insert(0, os.path.join(HERE, "..", "..", ".github", "scripts"))
 import track_render as tr    # mosaic_region 재사용(박스/타원 픽셀레이트 · 코어-강제 커버) · kst_now
 import thumb_gen as tg       # r2_upload(bytes, key, ctype) · R2_ON
 from img_detect import load_image_bgr, OUT_ROOT   # 검출↔렌더 동일 EXIF 로더(좌표 일치)
+import gpt_cutout as gc   # 누끼 정본 엔진 = GPT Image 2.0 투명 배경(운영자 260822 «지피티누끼로 대체») · 실패 = 구판 SAM2 폴백
 
 
 def fail(iid, user_msg, log_msg=""):
@@ -157,8 +158,9 @@ def main():
         payload = json.loads(os.environ.get("RENDER", "{}"))
     except Exception:
         payload = {}
+    op = payload.get("op") if payload.get("op") in ("mosaic", "cutout") else "mosaic"   # 출력 모드(닫힌 집합 · 운영자 260726 누끼) — targets 게이트보다 먼저 읽는다(떼기는 선택 불요)
     targets = [t for t in payload.get("targets", []) if t in items]
-    if not targets:
+    if not targets and op != "cutout":   # 떼기(GPT 누끼) = 사진 한 장이면 끝 · 가리기(모자이크)만 대상 선택 필수
         fail(iid, "가릴 피사체를 골라줘.", "no valid targets")
     o = payload.get("opts", {}) or {}
     pxw = max(3, min(20, int(o.get("pxw", 9))))
@@ -167,10 +169,9 @@ def main():
     feather = max(0, min(40, int(o.get("feather", 5))))
     shape = o.get("shape") if o.get("shape") in ("rect", "ellipse") else "ellipse"
     precise = bool(payload.get("precise"))
-    op = payload.get("op") if payload.get("op") in ("mosaic", "cutout") else "mosaic"   # 출력 모드(닫힌 집합 · 운영자 260726 누끼)
 
     masks = None
-    if precise or op == "cutout":   # 떼기 = 실루엣 필수(API가 precise 강제 · 직발사 가드 겸 — 모델 없으면 sam_masks가 None = 박스 폴백)
+    if (precise or op == "cutout") and targets:   # 정밀 모자이크·떼기 폴백용 실루엣(모델 없으면 sam_masks가 None = 박스 폴백) · 떼기는 GPT가 1순위라 여기 오는 건 폴백 경로뿐
         bxyxy = []
         for t in targets:
             x, y, w, h = items[t]["box"]
@@ -178,7 +179,15 @@ def main():
         masks = sam_masks(img, bxyxy)
 
     engine = ""
-    if op == "cutout":   # 떼기(누끼) — 선택 피사체만 남긴 투명 PNG(알파 = SAM2 실루엣 합집합 · 폴백 정직 표기)
+    gpt_png = None
+    if op == "cutout":   # 떼기(누끼) — GPT Image 2.0 투명 배경이 1순위(운영자 260822) · 실패하면 구판 SAM2 실루엣으로 내려앉는다
+        gpt_png, engine, gnote = gc.cutout_png(img)
+        if gpt_png is None and not targets:   # 폴백은 대상 선택이 있어야 성립 = 둘 다 없으면 정직하게 실패
+            fail(iid, "누끼를 못 만들었어 — 다시 시도해줘.", "gpt cutout fail(no targets): " + (gnote or "unknown"))
+    if gpt_png is not None:
+        ok, buf, data0 = True, None, gpt_png   # 투명 산출 = 알파 RGBA PNG(GPT가 그대로 준 바이트 = 재인코딩 0)
+        ext_out, ctype = ".png", "image/png"
+    elif op == "cutout":
         alpha, engine = cutout_alpha(img, items, targets, masks, shape, feather)
         if not alpha.any():
             fail(iid, "누끼 영역이 비었어 — 다른 피사체를 골라줘.", "empty alpha")
@@ -186,6 +195,7 @@ def main():
         rgba[:, :, 3] = np.clip(np.rint(alpha * 255), 0, 255).astype(np.uint8)
         ok, buf = cv2.imencode(".png", rgba)   # CONTRACT: check_image_format · 투명 산출 = .png만(FX8 계약 동수 · 알파 RGBA)
         ext_out, ctype = ".png", "image/png"
+        data0 = None
     else:
         for idx, t in enumerate(targets):
             x, y, w, h = items[t]["box"]
@@ -196,9 +206,10 @@ def main():
                 tr.mosaic_region(img, x, y, w, h, W, H, pxw=pxw, pxh=pxh, size=size, feather=feather, shape=shape)
         ok, buf = cv2.imencode(".jpg", img, [int(cv2.IMWRITE_JPEG_QUALITY), 90])   # q90 = 전 산출 통일값(운영자 260805 · 구 92) — 누끼(cutout)만 투명 PNG 잔류(위 분기)
         ext_out, ctype = ".jpg", "image/jpeg"
+        data0 = None
     if not ok:
         fail(iid, "이미지 저장 실패 — 다시 시도해줘.", "imencode fail")
-    data = buf.tobytes()
+    data = data0 if data0 is not None else buf.tobytes()
 
     url = ""
     if tg.R2_ON:
