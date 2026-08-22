@@ -1,64 +1,32 @@
-# 화장실을 참는 아이들, 서울 학교에 1조2000억이 풀린다
+# 🏫 화장실을 참는 아이들, 서울 학교에 1조2000억이 풀린다
 
 **[프롬프트 설계]**
-- 화풍: A 한국웹툰 수채화 — 주인공이 참아온 아이들이고 착지가 판정이 아닌 기다림이라, 고발의 날 선 극화보다 체감과 온기가 남는 수채화가 맞다
-- 분위기: 반가움보다 분통이 반 박자 먼저 오는 정조 — 차갑고 평평한 기관의 빛과 아이 쪽의 낮은 온기가 한 덱 안에서 계속 마찰한다
-- 연출 방향: 뉴스를 안 보는 독자가 멈추는 자리는 '1조'가 아니라 '화장실을 참았다'는 몸의 감각이다. 그래서 매 카드의 강조점을 금액이 아니라 그 돈이 닿는 곳(멈춘 손끝·악문 턱·크레용 쥔 주먹)에 두고, 숫자는 그 사람 옆에 놓인 물건으로만 보이게 한다. 미뤄둔 시간의 무게는 어휘가 아니라 명도 낙차로 — 기관의 형광은 평평하게, 아이가 혼자 서는 자리만 빛웅덩이로 좁힌다
-- 독자 동선: **발단** 카드1→카드2 → **전개** 카드3 → **피크** 카드4 → **해소** 카드5 → **시사점** 카드6 · 훅=카드1 끝(단서형: 230곳이라는 수치)+카드3 끝(예고형: "그중 하나다") · 착지 한 줄 요지 = 미뤄둔 값이 그만큼 쌓여 있었고, 그 청구서와 세 살의 시작일이 이제 같은 심의 하나에 걸려 있다
-- 연속성 앵커: Recurring subject — a Korean elementary school child around ten years old, short black hair, wearing a navy school tracksuit with a small red backpack (카드2·카드4) / Recurring location — an aging school corridor with chipped tiles outside the restroom door
+- 화풍: B 극화 — 한국웹툰식 극화로 친숙하게 · '열악한 재정'이라며 미뤄둔 물량의 청구서를 사실감 있게 세워야 해서
+- 분위기: 제도의 차가운 균질함과 아이의 체감 사이 낙차 — 형광등 초록기가 도는 관료적 냉기에서 출발해 아침광의 미완으로 닫는다
+- 연출 방향: 뉴스를 안 보는 부모가 멈추는 지점은 예산 숫자가 아니라 '우리 애가 그동안 참았다'는 문장이다 — 그래서 카메라는 금액 표가 아니라 문 앞에서 돌아서는 몸짓, 배를 누른 손, 두툼한 서류가 넘어가는 두 손에 붙는다. 낡음은 더러움이 아니라 방치의 균질함(같은 초록 타일, 꺼진 설비, 깜빡이는 불)으로 보여주고, 마지막엔 그 모든 시간표가 심의실 하나에 모여 있다는 걸 텅 빈 의석으로 남긴다. 전 카드가 공유할 키노트 = 차가운 제도 표면 위에 살아 있는 아이 하나.
+- 독자 동선: **발단** 카드1→**전개** 카드2~3→**피크** 카드4→**해소** 카드5→**시사점** 카드6 · 훅=카드1 끝(단서형: 그 얘기가 예산안 설명에 나왔다) + 카드3 끝(예고형: 한 해에 몰린 이유) · 착지 한 줄 요지 = 화장실 230곳 공사도 세 살의 첫해도 같은 심의 하나에 걸려 있다
+- 연속성 앵커: Recurring subject — a Korean elementary school boy around age 10, short black hair with a blunt fringe, wearing a navy zip-up hoodie and a beige backpack (카드 1·3·4) / Recurring location — an aging school corridor with pale mint-green tiled walls and metal-framed windows
 
 ### [카드 1]
 **텍스트**
 ```text
-서울시교육감이 예산안을 내놓으며
-학교에 이런 아이가 있다고 했다
-*화장실 가는 것조차 꺼리는 아이*
-그런 화장실이 서울에 230곳 꼽혔다
+학교 안에 아이들이 피하는 곳이 있다
+낡은 설비, 어두운 조명, 모자란 환기
+화장실이 그렇게 기피 공간이 됐다
+*이 얘기가 예산안 설명에 등장했다*
 ```
 **이미지 프롬프트**
 ```text
-korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn line work with loose ink contours, emotive character expressions, warm ambient lighting
-Scene: Emotional focal point: the speaker's eyes lifting off the page, a composed face cracking for a single beat. A Korean man in his sixties with silver hair and a plain dark suit stands behind a bare podium, holding a thin stack of budget papers in both hands and looking straight ahead as he speaks. Two seated officials sit far back and low in soft focus so the speaker stays the focus. The setting is a plain government briefing hall.
-Camera: medium shot, waist-up framing, face and gestures from eye-level, neutral balanced perspective, shot on 35mm lens, natural documentary perspective, minimal distortion
+korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
+Scene: Emotional focal point: the boy's mouth pressed into a hard flat line as he turns his shoulder away from the doorway. Recurring subject — a Korean elementary school boy around age 10, short black hair with a blunt fringe, wearing a navy zip-up hoodie and a beige backpack, stands three steps back from an old school restroom entrance and looks toward the right edge of the frame. One hand grips his backpack strap while the other stays pressed flat against his stomach. Recurring location — an aging school corridor with pale mint-green tiled walls and metal-framed windows, one ceiling fluorescent tube flickering above the dim entrance.
+Camera: wide shot from eye-level, shot on 35mm lens, nose room on the right, gaze directed toward the right edge
 Lighting/mood: flat sterile clinical fluorescent light, cold even greenish-white, emotionless institutional
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast, the accent kept as one soft point within the pastel wash
-Korean context throughout: Korean people, Korean public-building interior, no foreign setting. No logos, no institution names, no real-person likeness; a generic public official.
-Keep every surface free of readable writing: no signage text, no document body text, no labels; convey meaning through objects and composition instead. no garbled or fake script, no meaningless letters, no random characters, no dense text
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) glowing on the small restroom pictogram plate beside the doorway, muted daylight contrast
+Text handling: the restroom marker is a simple pictogram silhouette only, no wording rendered anywhere. no garbled or fake script, no meaningless letters, no random characters, no dense text
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the flat briefing hall wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
-- no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
-- no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
-- no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
-- no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
-- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
-```
-**검색어**
-```text
-정근식 서울시교육감 기자회견
-```
-
-### [카드 2]
-**텍스트**
-```text
-낡은 설비에 어두운 조명,
-환기까지 모자란 공간이었다
-*그 화장실 230곳을 전면 뜯어고친다*
-```
-**이미지 프롬프트**
-```text
-korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn line work with loose ink contours, emotive character expressions, warm ambient lighting
-Scene: Emotional focal point: the child's hand stopping halfway to the door handle, then falling back. Recurring subject - a Korean elementary school child around ten years old, short black hair, wearing a navy school tracksuit with a small red backpack, seen from behind as the child turns away from an old restroom doorway. Cracked wall tiles, a rusted pipe and a half-dead flickering fluorescent tube frame the entrance. Recurring location - an aging school corridor with chipped tiles outside the restroom door.
-Camera: wide shot, full body with surrounding environment, back shot from behind, rear view emphasizing solitude, held at eye level, shot on 20mm wide lens, subject and environment, documentary realism
-Lighting/mood: cold blue dim interior light, heavy and suffocating, faint trembling tension
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows, the accent kept as one soft point within the pastel wash
-Korean context throughout: Korean people, Korean school architecture, no foreign setting. No logos, no institution names, no real-person likeness; a generic child, not a recognizable individual.
-Keep every surface free of readable writing: no signage text, no document body text, no labels; convey meaning through objects and composition instead. no garbled or fake script, no meaningless letters, no random characters, no dense text
-Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
-MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the tiled corridor floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the school corridor floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -70,27 +38,26 @@ NEGATIVE - strictly avoid:
 학교 노후 화장실
 ```
 
-### [카드 3]
+### [카드 2]
 **텍스트**
 ```text
-서울시교육청 추경은 1조1711억원,
-*기존 예산의 10%가 한 번에 붙었다*
-가장 큰 6254억이 학교 환경 몫이다
-2142억짜리 화장실은 그중 하나다
+서울시교육청이 8월 10일 추경을 냈다
+올해 두 번째, 규모는 1조1711억원이다
+가장 큰 6254억원이 학교 환경 몫이고
+*2142억원이 화장실 230곳에 붙었다*
 ```
 **이미지 프롬프트**
 ```text
-korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn line work with loose ink contours, emotive character expressions, warm ambient lighting
-Scene: Emotional focal point: the fingertips pressing down hard on a thick stack of paper to hold it still. A pair of adult hands rests on a wide meeting table, one hand flat on a thick bound budget document and the other gripping a pen just above it, seen from directly overhead. The table carries only that document, the pen and a paper cup, nothing else.
-Camera: medium close-up, chest-up framing of the hands and the document, from an overhead bird's-eye angle, top-down layout and geometry, shot on 50mm standard lens, minimal distortion, natural cinematic composition
-Lighting/mood: warm soft desk-lamp light, quiet wistful tone
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows, the accent kept as one soft point within the pastel wash
-Korean context throughout: Korean people, Korean public office interior, no foreign setting. No logos, no institution names, no real-person likeness.
-Keep every surface free of readable writing: no signage text, no document body text, no labels; convey meaning through objects and composition instead. no garbled or fake script, no meaningless letters, no random characters, no dense text
+korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
+Scene: Emotional focal point: the strain in four hands as a thick brick of bound budget documents changes owners across a counter. A Korean man in his fifties in a plain gray suit pushes the stack forward with both palms, and a Korean woman in her forties in a dark blazer receives it, her fingers bending under the weight. Both look down at the documents, not at each other. The setting is a plain administrative reception counter with a stamp pad and a stacked document tray, no logos and no nameplates anywhere.
+Camera: medium shot from high angle looking down, shot on 50mm standard lens
+Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) on the thin index tabs fanning out of the document stack, muted daylight contrast
+Text handling: document covers and tabs are blank paper texture only, no titles and no numbers rendered. no garbled or fake script, no meaningless letters, no random characters, no dense text
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the wide meeting table surface) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the office counter desktop) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -99,30 +66,59 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-서울시교육청 추가경정예산안 서류
+서울시교육청 추가경정예산안 제출
+```
+
+### [카드 3]
+**텍스트**
+```text
+화장실만이 아니다. 낡은 건 더 있었다
+*냉난방과 내진, 외장재에 3290억원이다*
+급식실 560억, CCTV 45억도 붙었다
+한 해에 다 몰린 데는 이유가 있었다
+```
+**이미지 프롬프트**
+```text
+korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
+Scene: Emotional focal point: the boy's fists pulling his hood tight at the throat while his breath fogs in the cold indoor air. Recurring subject — a Korean elementary school boy around age 10, short black hair with a blunt fringe, wearing a navy zip-up hoodie and a beige backpack, stands beside a warped metal window frame and tilts his head up toward a dead wall heater mounted high above him. Recurring location — an aging school corridor with pale mint-green tiled walls and metal-framed windows, a long hairline crack running up the wall behind the heater and a patch of peeling exterior cladding visible through the glass.
+Camera: cowboy shot from low angle looking up, shot on 28mm lens
+Lighting/mood: cold blue dim interior light, heavy and suffocating, faint trembling tension
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) on the tiny standby lamp of the dead heater, film-noir low-key lighting, deep shadows
+Text handling: the heater panel shows icons and lamps only, no lettering and no digits rendered. no garbled or fake script, no meaningless letters, no random characters, no dense text
+Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
+MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
+Composition: ONE continuous surface (the corridor wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
+- no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
+- no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
+- no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
+- no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
+- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
+```
+**검색어**
+```text
+학교 노후 창호 난방기
 ```
 
 ### [카드 4]
 **텍스트**
 ```text
-*미뤄둔 건 화장실만이 아니었다*
-냉난방도 내진도 외장재도 함께다
-재정이 열악해 못 고쳤다고 했다
-그동안을 아이들이 참아온 것이다
+왜 미뤘나. 열악한 재정 탓이라고 했다
+교육감은 편성 이유를 이렇게 말했다
+*화장실 가는 것조차 꺼리는 아이가 있다*
 ```
 **이미지 프롬프트**
 ```text
-korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn line work with loose ink contours, emotive character expressions, warm ambient lighting
-Scene: Emotional focal point: the child's jaw clenched tight with the muscle flexing at the jawline, eyes cast downward. Recurring subject - a Korean elementary school child around ten years old, short black hair, wearing a navy school tracksuit with a small red backpack, standing alone and very still in the corridor. Behind the child the wall carries a patched crack, a taped-over air vent and a peeling exterior panel, all left unrepaired.
-Camera: close-up shot, face centered with the eyes and expression from eye-level, neutral honest perspective, shot on 85mm portrait lens, flattering face, soft background separation
+korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
+Scene: Emotional focal point: a tightly controlled face, jaw set and lips pressed, holding back what he will not say out loud. Recurring subject — a Korean elementary school boy around age 10, short black hair with a blunt fringe, wearing a navy zip-up hoodie, fills the frame in a tight close-up, eyes cast slightly downward and glistening but not spilling. His shoulders are pulled inward and the strap of a beige backpack cuts across one shoulder. Behind him only a dark stretch of the aging school corridor wall, everything else swallowed by shadow.
+Camera: tight close-up from eye-level, shot on 85mm portrait lens
 Lighting/mood: single pool of hard light isolating the figure in surrounding blackness, claustrophobic loneliness
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows, the accent kept as one soft point within the pastel wash
-Korean context throughout: Korean people, Korean school architecture, no foreign setting. No logos, no institution names, no real-person likeness; a generic child, not a recognizable individual.
-Keep every surface free of readable writing: no signage text, no document body text, no labels; convey meaning through objects and composition instead. no garbled or fake script, no meaningless letters, no random characters, no dense text
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) reflected as a thin cold sliver across his cheekbone and pupil, film-noir low-key lighting, deep shadows
+Text handling: no signage, no posters and no writing anywhere in the frame. no garbled or fake script, no meaningless letters, no random characters, no dense text
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the aged corridor wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the dark corridor wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -131,30 +127,29 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-노후 학교 드라이비트 외장재
+초등학교 복도 학생
 ```
 
 ### [카드 5]
 **텍스트**
 ```text
-같은 추경에 111억이 더 담겼다
-3세 3만5000명의 무상교육비다
-*2027년 정부 차례를 서울이 당겼다*
-다만 시점은 시의회 심의에 달렸다
+복지 191억, 체험·독서 336억도 있다
+특수교육 38억, 교사 지원 17억원이다
+*111억은 3세 3만5000명 무상교육비다*
+5세, 4세 다음인 3세를 서울이 앞당겼다
 ```
 **이미지 프롬프트**
 ```text
-korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn line work with loose ink contours, emotive character expressions, warm ambient lighting
-Scene: Emotional focal point: a three-year-old's small fist closed tight around a fat crayon, knuckles pale with effort. A Korean toddler sits at a low kindergarten table drawing and looking down at the paper, while three other toddlers work at the same table further back and lower in the frame. Low shelves of picture books and a soft floor mat fill the room around them.
-Camera: medium shot, waist-up framing, face and gestures from a low angle looking up, dramatic upward presence, shot on 40mm lens, neutral perspective, natural human-vision feel
-Lighting/mood: warm soft morning light, gentle and quiet, faint melancholy
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast, the accent kept as one soft point within the pastel wash
-Korean context throughout: Korean people, Korean kindergarten interior, no foreign setting. No logos, no institution names, no real-person likeness; generic children, not recognizable individuals.
-Keep every surface free of readable writing: no signage text, no document body text, no labels; convey meaning through objects and composition instead. no garbled or fake script, no meaningless letters, no random characters, no dense text
+korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
+Scene: Emotional focal point: one three-year-old's small hand reaching across the table for a crayon, fingers spread wide and steady. Seen from directly overhead, five Korean toddlers sit around a low round kindergarten table drawing on wide sheets of paper, their heads and shoulders forming a loose ring, and a Korean woman teacher in her thirties kneels at the edge of the ring with one arm extended to steady a sheet. Their gazes all fall onto the paper at the center. The floor is a warm wooden kindergarten classroom floor with a soft play mat under the table.
+Camera: wide shot from bird's-eye view directly overhead, shot on 20mm wide lens
+Lighting/mood: soft wraparound key light, gentle falloff, tender warm intimacy
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) on the single crayon the reaching hand is about to take, muted daylight contrast
+Text handling: the drawing sheets show only scribbled shapes and color strokes, no letters and no numbers rendered. no garbled or fake script, no meaningless letters, no random characters, no dense text
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the kindergarten floor mat) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the kindergarten classroom floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -163,30 +158,29 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-유치원 3세 누리과정 교실
+유치원 3세반 교실
 ```
 
 ### [카드 6]
 **텍스트**
 ```text
-쌓아둘 만큼 미룬 값이 있었고
-한꺼번에 털 돈도 결국 만들어졌다
-남은 건 서울시의회 심의 하나,
-*230곳과 3만5000명이 거기 달렸다*
+이제 서울시의회 심의 하나가 남았다
+통과되면 가을, 안 되면 내년부터다
+교육감이 7월에 미리 밝힌 시간표다
+*230곳 공사도 세 살의 첫해도 걸렸다*
 ```
 **이미지 프롬프트**
 ```text
-korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn line work with loose ink contours, emotive character expressions, warm ambient lighting
-Scene: Emotional focal point: both arms wrapped tight around a stack of documents held flat against the chest. A Korean woman in her forties in a plain gray suit stands facing the viewer directly in front of a tall closed assembly-hall door, chin level, waiting without moving. Through a corridor window behind her, a few small children in school clothes walk past in soft silhouette, kept low and faint so she stays the focus.
-Camera: wide shot, full body and surrounding environment, front-on framing with direct gaze and symmetrical composition at eye level, shot on 35mm lens, natural documentary perspective, balanced subject and background
-Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast, the accent kept as one soft point within the pastel wash
-Korean context throughout: Korean people, Korean public-building interior, no foreign setting. No logos, no institution names, no real-person likeness.
-Keep every surface free of readable writing: no signage text, no document body text, no labels; convey meaning through objects and composition instead. no garbled or fake script, no meaningless letters, no random characters, no dense text
+korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
+Scene: Emotional focal point: the stillness between two waiting parents and the long row of empty seats in front of them. A symmetrical municipal council chamber, seen straight on, with curved tiers of vacant seats and a plain unmarked rostrum at the far end, and a single thick stack of bound documents left on the front desk. In the near gallery two Korean parents in their forties sit side by side facing the camera, hands folded in their laps, waiting. Morning light enters from tall side windows across the empty rows. No logos, no emblems and no nameplates anywhere.
+Camera: extreme long shot from eye-level, front-on shot, symmetrical composition, shot on 24mm wide lens
+Lighting/mood: warm soft morning light, gentle and quiet, faint melancholy
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) on the index tabs of the document stack waiting on the front desk, muted daylight contrast
+Text handling: the rostrum, seat backs and documents are blank, no lettering and no digits rendered. no garbled or fake script, no meaningless letters, no random characters, no dense text
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the polished assembly hall floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
+Composition: ONE continuous surface (the council chamber floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -195,5 +189,5 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-서울시의회 본회의장
+서울시의회 교육위원회 회의장
 ```
