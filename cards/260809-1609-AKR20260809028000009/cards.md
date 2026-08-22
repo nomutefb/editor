@@ -1,32 +1,32 @@
-# 🔥 하루 만에 여의도 30배…마을이 통째로 비었다
+# 하루 만에 여의도 30배…마을이 통째로 비었다
 
 **[프롬프트 설계]**
-- 화풍: B 극화 — 재난의 속도와 압도적 규모를 사실적 무게로 눌러 담아야 해서(수채화는 60m 화염벽의 위압을 못 버틴다)
-- 분위기: 저녁 신고에서 새벽 대피까지, 붉은 화염광과 짙은 연무가 사람을 삼키는 밤. 공포보다 '시간이 없다'는 압박이 앞서는 정조
-- 연출 방향: 독자를 멈추게 하는 건 불의 크기가 아니라 **몇 시간 만에 마을 하나가 비었다는 속도**다. 그래서 화면의 주인공은 불이 아니라 **불을 등지고 떠나는 사람과 그가 두고 온 자리**여야 한다. 능선을 삼킨 화염벽은 늘 인물 뒤 배경으로 밀어 두고, 카메라는 백미러·손·헬기 문턱·꺼진 창처럼 '이탈의 순간'에 붙는다. 악센트는 화재 상징색 주황 단색으로 통일해, 시선이 항상 불이 아니라 불빛에 물든 사람 쪽으로 떨어지게 한다
-- 독자 동선: **발단** 카드1(오후 5시 30분 신고·불이 붙었다) → **전개** 카드2~3(몇 시간 만에 15㎞·마을 전역 대피령) → **피크** 카드4(도로가 막혀 헬기로 실려 나가는 사람들) → **해소** 카드5(비상사태·2천 명·외국 진화팀 합류) → **시사점** 카드6(집계는 아직 비어 있다) · 훅=카드1 끝(단서형 — '몇 시간')+카드3 끝(예고형) · 착지 한 줄 요지 = 피해 집계는 불이 잦아든 뒤에야 시작된다. ⚠ 피크(카드4)가 해소(카드5)보다 앞
-- 연속성 앵커: Recurring subject — a Canadian man in his 60s with short gray hair and a weathered face, wearing a plaid work shirt and a dark cap. 반복 장소 = a two-lane mountain road on a dry pine ridge above a small lakeside town.
+- 화풍: B 극화 — 진행 중 재난의 속도·규모를 사실적으로 세워야 하고, 화염 대비가 극화의 명암과 맞물린다
+- 분위기: 무력감. 불이 얼마나 컸나가 아니라 몇 시간 만에 마을 하나가 비었다는 속도에서 숨이 막히는 톤. 압도적인 것 앞의 작은 사람(thumb_dispatch의 무겁고 숨 막히는 정조·규모 낙차 상속)
+- 연출 방향: 뉴스 안 보는 독자도 "불이 15㎞를 달려오는 데 몇 시간이면 충분했다"는 한 문장에 멈춘다 — 그래서 이 덱은 불의 크기가 아니라 **시간**을 그린다. 능선을 삼킨 화염 앞의 작은 지붕들, 짐칸에 대충 실린 살림, 로터 바람에 눌린 어깨처럼 '급하게 잘려나간 순간'에 강조점을 두고, 마지막엔 아직 아무것도 세어지지 않은 어둠으로 착지시킨다. 악센트는 화재 주황 단 하나
+- 독자 동선: **발단** 카드1→**전개** 카드2→**피크** 카드3→**해소** 카드4~5→**시사점** 카드6 · 훅=카드1 끝(단서형: 15㎞ 밖 마을)+카드4 끝(단서형: 105건 중 하나) · 착지 = 피해 집계는 불이 잦아든 뒤에야 시작된다
+- 연속성 앵커: Recurring subject — a man in his 60s with close-cropped gray hair, deep-set tired eyes and a faded canvas work jacket. / Recurring place — the same small lakeside mountain town of low wooden houses and orchard rows.
 
 ### [카드 1]
 **텍스트**
 ```text
-8일 저녁 5시 30분이었다
-캐나다 서부 산등성이에서
-*불이 났다는 신고 한 통*
-그리고 몇 시간이 흘렀다
+8월 8일 저녁 5시 30분, 캐나다 서부였다
+산불 신고 몇 시간 만에 50㎢가 탔다
+하루도 안 돼 101㎢로 번졌다
+*15㎞ 떨어진 곳에 마을이 있었다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a thin orange thread of flame on the far ridgeline, small enough to look harmless. A wide dry pine ridge sits above a small lakeside town in the early evening, and one faint plume of smoke rises from the treeline. No people are in the frame; the town lights below are just beginning to switch on, facing the distant ridge.
-Camera: establishing shot from Eye-level, shot on 24mm wide lens
-Lighting/mood: overcast diffused daylight fading into dusk, flat soft shadows, muted somber mood
-Accent: monochrome desaturated base with a single color accent (fire orange, the story's symbolic color), muted daylight contrast
-Text handling: avoid incidental lettering entirely; no signage, no readable script anywhere in the scene.
+Scene: Emotional focal point: the vast wall of flame swallowing a whole ridge line while two tiny firefighters at its base stand frozen, made minuscule by the scale. A towering giant element fills the top of the frame, the tiny powerless figures at its base, vast versus minuscule. Ash flakes drift sideways across a late-afternoon sky choked with smoke, and far below the ridge a handful of small wooden rooftops sit in the valley, still untouched, positioned toward the right edge of the frame with open space beyond them.
+Camera: extreme long shot from a low angle, shot on 24mm wide lens
+Lighting/mood: overcast diffused daylight through heavy smoke, flat soft shadows, muted somber mood
+Accent: monochrome desaturated base with a single color accent (burning orange, the story's symbolic color), muted daylight contrast
+No readable signage or lettering anywhere; keep all surfaces free of writing.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the forested mountain ridge) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the mountain ridge slope) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -35,29 +35,29 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-Bald Range wildfire smoke ridge
+Bald Range wildfire smoke column
 ```
 
 ### [카드 2]
 **텍스트**
 ```text
-그 몇 시간 사이에
-불은 50㎢를 삼켰고
-하루도 지나지 않아
-*여의도 30배*를 태웠다
+불은 몇 시간 만에 15㎞를 건너왔다
+브리티시컬럼비아주의 서머랜드였다
+*인구 1만2천 명 전역에 대피령이 났다*
+이웃 피치랜드를 더해 2만 명이 됐다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a wall of flame standing far taller than the pine trees it is eating. The entire ridgeline burns at once and the fire front rises many times the height of the forest, throwing embers into a black sky. A single fire truck sits at the bottom edge of the road, dwarfed to almost nothing beneath the burning slope, its crew looking up at the fire front.
-Camera: extreme long shot from Worm's-eye view, shot on 14mm ultra-wide lens
-Lighting/mood: harsh firelight from a single massive source, deep chiaroscuro shadows, oppressive heat, tense atmosphere
-Accent: monochrome desaturated base with a single color accent (fire orange, the story's symbolic color), film-noir low-key lighting, deep shadows
-Text handling: no lettering on the vehicle, no legible markings; keep all surfaces free of script.
+Scene: Emotional focal point: his hands gripping a cardboard box of belongings, knuckles taut, while he glances back over his shoulder toward the ridge. Recurring subject — a man in his 60s with close-cropped gray hair, deep-set tired eyes and a faded canvas work jacket. He loads the box onto a pickup truck bed parked on a residential street of the recurring place, the same small lakeside mountain town of low wooden houses and orchard rows. Behind him, neighbors of mixed ages carry bags toward their own cars in the same hurried posture, kept lower and softer so he stays the focus, and every gaze runs toward the right edge of the frame where the smoke is thickest.
+Camera: medium shot from eye-level, shot on 35mm lens
+Lighting/mood: single hard side-light cutting across the subject from the burning horizon, deep chiaroscuro shadows, tense atmosphere
+Accent: monochrome desaturated base with a single color accent (burning orange, the story's symbolic color), film-noir low-key lighting, deep shadows
+No readable signage or lettering anywhere; keep all surfaces free of writing.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the burning mountain slope) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the asphalt residential street) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -66,29 +66,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-British Columbia wildfire flame front
+Summerland evacuation order
 ```
 
 ### [카드 3]
 **텍스트**
 ```text
-불은 15㎞를 달려
-서머랜드에 닿았다
-인구 1만2천 명 마을 전체에
-*대피 명령이 떨어졌다*
+이비 주 총리는 이 속도를 이렇게 말했다
+*"극도로 위험하고 시시각각 변한다"*
+도로가 막힌 주민은 헬기로 실려 나갔다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: his eyes in the rearview mirror, wide and fixed on the glow behind him. Recurring subject — a Canadian man in his 60s with short gray hair and a weathered face, wearing a plaid work shirt and a dark cap, grips the steering wheel of a pickup truck and glances at the mirror. A dog and two duffel bags sit in the truck bed, and the burning ridge fills the distance behind the vehicle on a two-lane mountain road above a small lakeside town.
-Camera: medium close-up from Dutch tilt, shot on 50mm standard lens, nose room on the right, gaze directed toward the right edge
-Lighting/mood: sinister orange under-lighting from the dashboard and the fire behind, deep surrounding darkness, restless unease
-Accent: monochrome desaturated base with a single color accent (fire orange, the story's symbolic color), film-noir low-key lighting, deep shadows
-Text handling: dashboard displays and mirrors show no readable characters; keep every surface free of script.
+Scene: Emotional focal point: his vacant thousand-yard stare, unfocused eyes looking past everything as rotor wind flattens his collar. Recurring subject — a man in his 60s with close-cropped gray hair, deep-set tired eyes and a faded canvas work jacket. He is being guided by a crew member's steadying hand toward an unmarked helicopter waiting on open gravel at night, its searchlight isolating them in a single pool of hard light. A few other residents wait behind him in the surrounding blackness, heads lowered, reduced to silhouettes so his face stays the focus.
+Camera: tight close-up from eye-level, shot on 85mm portrait lens
+Lighting/mood: single pool of hard light isolating the figure in surrounding blackness, claustrophobic loneliness
+Accent: monochrome desaturated base with a single color accent (burning orange, the story's symbolic color), film-noir low-key lighting, deep shadows
+No readable signage or lettering anywhere; keep all surfaces free of writing.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the truck cabin interior) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the open gravel field ground) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -97,27 +96,29 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-Summerland evacuation highway wildfire
+British Columbia wildfire helicopter rescue
 ```
 
 ### [카드 4]
 **텍스트**
 ```text
-도로는 이미 끊겨 있었다
-헬기가 사람을 실어 날랐다
+주 정부는 비상사태를 선포했다
+소방관과 방호 인력 2천 명이 투입됐다
+멕시코·호주 등 외국 진화팀도 왔다
+*이 불은 주 전역 105건 중 하나다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: two hands clasped tight at the helicopter door, one pulling and one being pulled. A crew member leans out of an open helicopter doorway and grips the wrist of an evacuee stepping up from the ground, while three more residents wait crouched under the rotor wash with bags held against their chests. Thick smoke swallows the treeline behind them and everyone's eyes are turned toward the aircraft.
-Camera: close-up from High angle, shot on 85mm portrait lens
-Lighting/mood: single pool of hard light isolating the figures in surrounding blackness, claustrophobic and urgent
-Accent: monochrome desaturated base with a single color accent (fire orange, the story's symbolic color), film-noir low-key lighting, deep shadows
-Text handling: no markings or lettering on the aircraft body; keep all surfaces free of script.
+Scene: Emotional focal point: the incident commander's index finger pressed flat on a large paper map, hovering between two burning zones as if choosing which one to leave. Around the folding table stand eight crew members in fire gear from different services, helmets under their arms, all gazes converging on that single point on the map. The command post is a bare staging lot under a canopy at night, radios and water bottles pushed to the table edge, and the commander's shoulders lean toward the right edge of the frame where more crews are arriving.
+Camera: group shot from a high angle, shot on 20mm wide lens
+Lighting/mood: harsh single overhead light pooling on the table, deep surrounding black, oppressive
+Accent: monochrome desaturated base with a single color accent (burning orange, the story's symbolic color), film-noir low-key lighting, deep shadows
+No readable signage or lettering anywhere; the map shows only abstract contour lines and shaded zones, no words, no numbers, no legend.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the smoke-filled clearing ground) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the staging lot asphalt) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -126,29 +127,29 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-wildfire helicopter evacuation residents
+BC Wildfire Service incident command Okanagan
 ```
 
 ### [카드 5]
 **텍스트**
 ```text
-이웃 피치랜드까지 더해
-빠져나온 사람은 2만 명
-주 전역에 산불 105건이 탔고
-*멕시코와 호주에서 팀이 왔다*
+105건 중 절반 가까이가 통제 밖이다
+기록적 폭염과 긴 가뭄이 그 배경이다
+*건물 피해도 부상자도 아직 집계가 없다*
+확인된 건 끊긴 전기와 악화 예보뿐이다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a firefighter's soot-streaked face turning to greet the crew arriving beside him. A line of firefighters in heavy gear walks across a staging ground toward a smoking hillside, and a second group in different-colored gear steps in from the side to join them, shaking hands as they pass. Their eyes stay on the ridge ahead, and helmets and hose coils are stacked on the ground between them.
-Camera: wide shot from Low angle, shot on 35mm lens
-Lighting/mood: cold blue pre-dawn tone with orange glow on the horizon, desolate stillness, heavy air
-Accent: monochrome desaturated base with a single color accent (fire orange, the story's symbolic color), muted daylight contrast
-Text handling: no agency names, no patches, no lettering on gear or vehicles; keep all surfaces free of script.
+Scene: Emotional focal point: a lone firefighter's shoulders slumped under the weight of her gear as she stands on a dry hillside and looks down at a town with every window dark. Cracked bare earth and brittle grass run from her boots to the frame edge, and a single dead orchard row marks the slope. The town below shows no light at all, only rooflines against the pre-dawn sky, and a thin orange seam still glows on the far ridge behind it.
+Camera: wide shot from a ground-level worm's-eye angle, shot on 35mm lens
+Lighting/mood: cold blue pre-dawn tone, desolate stillness
+Accent: monochrome desaturated base with a single color accent (burning orange, the story's symbolic color), film-noir low-key lighting, deep shadows
+No readable signage or lettering anywhere; keep all surfaces free of writing.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the open staging ground) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the dry hillside ground) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -157,29 +158,29 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-British Columbia wildfire firefighters deployment
+Summerland power outage wildfire night
 ```
 
 ### [카드 6]
 **텍스트**
 ```text
-건물 피해도 부상자도
-아직 숫자가 없다
-불이 안 꺼져 아무도 못 들어갔다
-*집계는 불이 잦아든 뒤 시작된다*
+눈에 남는 숫자는 15㎞와 몇 시간이다
+마을을 비우는 판단이 그 안에서 났다
+사람을 지킨 건 대피로와 경보였다
+*피해 집계는 불이 잦아든 뒤에 시작된다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the dark windows of a house with nobody behind them. An empty residential street in the evacuated town stands still under drifting ash, with a front door left half open and a child's bicycle lying on its side in a driveway. No people are present, and a faint orange glow sits low on the horizon beyond the rooftops.
-Camera: full shot from Bird's eye view, shot on 40mm lens
-Lighting/mood: cold blue pre-dawn tone, lone streetlight reflection on the ash-covered ground, desolate stillness
-Accent: monochrome desaturated base with a single color accent (fire orange, the story's symbolic color), film-noir low-key lighting, deep shadows
-Text handling: house numbers and street signs are cropped out of frame; no readable characters anywhere.
+Scene: Emotional focal point: his eyes, red-rimmed and steady, looking directly into the camera with the exhaustion of a night that has not ended. Recurring subject — a man in his 60s with close-cropped gray hair, deep-set tired eyes and a faded canvas work jacket. He sits on the open tailgate of the pickup at a roadside pull-out, one hand resting on a dog curled beside a duffel bag, facing the viewer straight on. Far behind him the recurring place, the same small lakeside mountain town of low wooden houses and orchard rows, lies under a thinning haze at first light.
+Camera: medium shot from eye-level, front-on with direct gaze, shot on 50mm standard lens
+Lighting/mood: warm soft morning light, gentle and quiet, faint melancholy
+Accent: monochrome desaturated base with a single color accent (burning orange, the story's symbolic color), muted daylight contrast
+No readable signage or lettering anywhere; keep all surfaces free of writing.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the ash-covered street) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the roadside gravel shoulder) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -188,5 +189,5 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-evacuated town empty street ash
+Summerland wildfire evacuee pickup truck
 ```
