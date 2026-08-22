@@ -1,6 +1,6 @@
 {
- "ok": 153,
- "dead": 16,
+ "ok": 152,
+ "dead": 17,
  "dead_feeds": [
   {
    "publisher": "국민일보",
@@ -58,11 +58,6 @@
    "url": "http://www.sisajournal.com/rss/S2N107.xml"
   },
   {
-   "publisher": "일다",
-   "title": "전체",
-   "url": "https://www.ildaro.com/rss/rss_news.php"
-  },
-  {
    "publisher": "한국경제",
    "title": "전체기사",
    "url": "https://www.hankyung.com/feed/all-news"
@@ -78,12 +73,27 @@
    "url": "https://www.nocutnews.co.kr/rss/news"
   },
   {
+   "publisher": "머니투데이",
+   "title": "전체기사",
+   "url": "https://rss.mt.co.kr/mt_news.xml"
+  },
+  {
+   "publisher": "전자신문",
+   "title": "IT·산업전반",
+   "url": "https://rss.etnews.com/Section901.xml"
+  },
+  {
    "publisher": "스포티비뉴스",
    "title": "전체기사",
    "url": "https://www.spotvnews.co.kr/rss/allArticle.xml"
   }
  ],
  "zombie_feeds": [
+  {
+   "publisher": "경향신문",
+   "title": "스포츠",
+   "url": "http://www.khan.co.kr/rss/rssdata/kh_sports.xml"
+  },
   {
    "publisher": "경향신문",
    "title": "연예",
