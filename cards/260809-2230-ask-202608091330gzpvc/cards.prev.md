@@ -1,31 +1,31 @@
-# 용아맥 10만원 암표 앞에서, 외신은 다른 좌석을 가리켰다
+# 용아맥이 아니어도 되는 이유
 
 **[프롬프트 설계]**
-- 화풍: A 한국 웹툰 수채화 — 범죄·법리가 아닌 관람 체험 기사이고 정조가 조바심에서 환호로 건너간다, 물·빛·객석 온기를 번지는 붓결이 그대로 받는다.
-- 분위기: 어둠 속 단 하나의 광원과 그 빛에 젖은 얼굴. 표를 놓친 조바심에서 젖은 속눈썹의 웃음으로 옮겨가는 온도차.
-- 연출 방향: 독자훅은 "나만 못 보는 건가"의 조바심이다 — 그 조바심이 다른 좌석에서 풀리는 과정을 보여준다. 그래서 전 카드가 스크린이 아니라 **스크린을 보는 얼굴**을 잡는다(화면 자체를 정면으로 그리는 컷 0). 강조점은 세 곳 — 매진판을 올려다보는 스무 개의 시선, 폰빛에 내려앉은 입꼬리, 공중에 멈춘 물방울. 시사점(극장이 판 것은 해상도가 아니라 함께 겪은 시간)이 마지막에 얼굴로 착지하도록, 광원은 늘 화면 밖에 두고 그 반사만 인물에 얹는다. 썸네일 판의 화면빛 언더글로·정지 순간·눈물 맺힘을 조명 톤과 맺힘점으로만 이어받는다.
-- 독자 동선: **발단** 카드1→**전개** 카드2→**피크** 카드3→**해소** 카드4~6→**시사점** 카드7 · 훅=카드1 끝(단서형 — "그 좌석은 이미 없었다", 카드2 첫 줄이 이유로 회수)+카드3 끝(단서형 — "정가 자리는 없었다", 카드4 첫 줄이 다른 좌석으로 회수) · 착지 한 줄 = 그 박수는 집에서 재생되지 않는다.
-- 연속성 앵커: Recurring subject — a Korean woman in her 30s with shoulder-length dark hair tied back, wearing a light beige cardigan over a white tee (카드3·6·7에 동일 문자열 복사) / 반복 장소 = the sloped bank of dark auditorium seats (카드4~7).
+- 화풍: A수채화 — 극장 좌석의 들뜬 체감과 끝나고 터진 박수라는 정서가 중심인 문화·체험 기사라 따뜻한 파스텔 톤이 맞다
+- 분위기: 표를 못 잡은 조바심에서 시작해 어두운 상영관의 몰입, 젖은 손으로 친 박수까지 — 부러움이 안도로 풀리는 온도
+- 연출 방향: 이 기사에서 독자가 멈추는 자리는 '10만원'이라는 숫자와 '나는 못 보는 건가'라는 내려앉음이다. 그래서 카드 전체가 스크린 자체를 크게 그리지 않는다 — 매진된 좌석표, 손에 쥔 휴대폰 화면, 물방울 맺힌 팔걸이, 어둠 속 박수 치는 손처럼 관객 쪽 신체와 사물에 강조점을 둔다. 스크린 반사광이 유일한 광원이 되어 얼굴을 아래에서 비추는 극장 특유의 빛을 카드마다 이어받고, 악센트는 상영관 좌석 안내등의 네온그린으로 잡아 '어느 좌석이냐'는 이 기사의 질문을 색으로 반복한다
+- 독자 동선: **발단** 카드1(용아맥 매진·암표) → **전개** 카드2~3(놀란이 172분 전편을 IMAX 70mm로 찍었다·IMAX 매출 22%) → **피크** 카드4(그런데 외신이 다른 좌석을 가리켰다·멀미로 나간 기자) → **해소** 카드5(물세례 맞은 4DX 좌석에서 박수가 터졌다) → **시사점** 카드6 · 훅=카드1 끝(질문형 1회 "그럼 못 보는 건가") + 카드3 끝(단서형 "그런데 평단은 다른 좌석을 말했다") · 착지 한 줄 요지 = 극장이 스트리밍에 안 내준 것은 해상도가 아니라 같이 흔들린 세 시간이었다
+- 연속성 앵커: Recurring subject — a Korean woman in her 30s with shoulder-length dark hair tied back loosely, wearing a beige knit cardigan over a white tee / 반복 장소 — a dark Korean multiplex auditorium, rows of wide reclining seats, screen glow as the only light source
 
 ### [카드 1]
 **텍스트**
 ```text
-8월 5일 개봉한 놀란의 '오디세이'
-개봉일 예매만 56만7000명이었다
-열기는 전부 용산 아이맥스로 쏠렸다
-*그런데 그 좌석은 이미 없었다*
+600석이 3주치 먼저 팔렸다
+중고거래 앱에 뜬 그 좌석은
+*장당 10만원대였다*
+그럼 나는 못 보는 건가
 ```
 **이미지 프롬프트**
 ```text
-korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn line work with loose ink contours, emotive character expressions, warm ambient lighting
-Scene: Emotional focal point: dozens of upturned faces all locked on the same panel high on the wall. A crowded multiplex lobby in Seoul seen from directly above; about twenty Korean moviegoers stand in loose clusters on the polished lobby floor, phones lowered to their sides, every head craned up toward a large seat-map display panel. One young man lifts a hand toward the panel as if counting the rows that are left. The panel carries only an abstract grid of small seat pictograms.
-Camera: wide shot with full bodies and spatial context from a bird's-eye overhead angle, shot on a 20mm wide lens, documentary realism
-Lighting/mood: bright high-key light, clean white ambience, minimal shadow, hopeful and open
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02, carried only by the exit-sign glow and the lit seat indicators on the panel), muted daylight contrast
-Text handling: render no signage text at all; the display panel stays a pictogram grid and every lobby sign is cropped out or turned away from view.
+korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn loose ink contours, emotive character expressions, warm ambient lighting
+Scene: Emotional focal point: her thumb frozen mid-scroll above the phone, lips slightly parted. Recurring subject — a Korean woman in her 30s with shoulder-length dark hair tied back loosely, wearing a beige knit cardigan over a white tee, sits alone on a bench outside a cinema entrance holding a phone in both hands. She looks down at the phone screen where a seat map glows almost entirely filled, her gaze pulled toward the lower right of the screen. Behind her a tall glass wall of the multiplex lobby reflects a queue of blurred moviegoers.
+Camera: MS from Eye-level, three-quarter angle, shot on 50mm standard lens
+Lighting/mood: cold blue screen under-glow lighting the face from below, overcast diffused daylight through the lobby glass, restless unease
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the seat-map dots on the phone screen), muted daylight contrast
+Render no readable text anywhere; the seat map reads as abstract dots and blocks only. Keep her hands and the phone in the upper-center area of the frame.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the polished lobby floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the cinema lobby floor and glass wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -35,28 +35,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-CGV 용산아이맥스 로비 관객
+CGV 용산 아이맥스 예매 좌석배치도
 ```
 
 ### [카드 2]
 **텍스트**
 ```text
-이유는 놀란이 쥔 필름에 있었다
-172분 전부를 IMAX 70mm로 찍었다
-*18년 전 '다크 나이트'는 27분이었다*
-관객을 갑판에 함께 세우려 한 것이다
+표가 몰린 이유는 분명했다
+놀란이 러닝타임 172분을
+*전부 IMAX 70mm로 찍었다*
+2008년 27분에서 18년 만이다
 ```
 **이미지 프롬프트**
 ```text
-korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn line work with loose ink contours, emotive character expressions, warm ambient lighting
-Scene: Emotional focal point: his eyes narrowed at the tiny frames as he holds a strip of large-format film up against the light. A generic film director in his fifties with silver stubble and a dark shirt stands in a dim editing room and lifts the film strip above eye level with both hands; the strip runs from his fingers down and out of the frame. His face is tilted up and half in shadow. Behind him one plain editing-room wall carries nothing but a soft pool of lamp light.
-Camera: medium close-up framing him chest-up with the raised hands inside the frame, from a low angle looking up, shot on an 85mm portrait lens
-Lighting/mood: warm soft desk-lamp light, quiet wistful tone
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02, carried only by one small indicator light on the editing bench), film-noir low-key lighting, deep shadows
-Text handling: the film frames stay tiny and abstract with no readable markings; no labels, no equipment branding, no lettering on the wall.
+korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn loose ink contours, emotive character expressions, warm ambient lighting
+Scene: Emotional focal point: two gloved hands cradling a heavy film magazine as if it were fragile. A film technician in a gray work coat stands at a projection-room table, both hands lifting a wide reel of large-format film, eyes fixed down on the loop of film between his fingers. A tall metal projector bulks in the background, its small port window throwing a hard beam past his shoulder. Coils of film rest on the table beside him.
+Camera: MCU from High angle, shot on 100mm macro lens
+Lighting/mood: warm soft desk-lamp light on the film, deep shadow behind the projector, quiet reverence
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on a small indicator lamp on the projector body), film-noir low-key lighting, deep shadows
+No labels, no printed markings, no numbers on the film canisters or projector; render surfaces bare. Keep hands and film in the upper-center area.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the plain editing-room wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the projection-room table top) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -66,27 +66,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-IMAX 70mm film strip director
+IMAX 70mm 필름 영사기 릴
 ```
 
 ### [카드 3]
 **텍스트**
 ```text
-그 좌석은 지금 중고거래에 떠 있다
-*한 장에 10만원대, 북미에선 1000달러*
-3주치가 이미 팔려 정가 자리는 없었다
+감독은 관객이 갑판에 함께
+서 있게 하려 했다고 말했다
+개봉 2주차까지 IMAX 상영만으로
+*전체 매출의 22%가 나왔다*
 ```
 **이미지 프롬프트**
 ```text
-korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn line work with loose ink contours, emotive character expressions, warm ambient lighting
-Scene: Emotional focal point: her lip corners pulled down and her eyes cast low as the number on the phone screen settles in. Recurring subject — a Korean woman in her 30s with shoulder-length dark hair tied back, wearing a light beige cardigan over a white tee, sits alone against a plain dark bedroom wall and holds a phone in both hands at chest height. The phone is tilted away from the viewer so its screen stays unreadable, and its cold light is the only thing touching her face. Her shoulders have dropped forward.
-Camera: close-up on her face and hands from a three-quarter angle at eye level, shot on an 85mm portrait lens
-Lighting/mood: cold blue screen under-glow lighting the face from below in a dark room, restless unease
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02, carried only by a tiny charging LED on the wall behind her), film-noir low-key lighting, deep shadows
-Text handling: the phone screen is angled away and cropped so nothing on it is legible; no price figures, no interface text anywhere.
+korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn loose ink contours, emotive character expressions, warm ambient lighting
+Scene: Emotional focal point: the narrow gap between a lone standing viewer and the enormous screen wall in front of him. A man stands at the foot of a vast cinema screen inside a dark auditorium, tilting his head far back, both arms hanging loose at his sides, looking straight up at the towering bright surface. Rows of empty wide reclining seats sweep away behind him toward the back wall.
+Camera: EWS from Worm's-eye view, shot on 16mm wide lens
+Lighting/mood: divine volumetric shafts of projector haze descending over the seats, deep surrounding blackness, awed hush
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the aisle step lights running down the seat rows), film-noir low-key lighting, deep shadows
+The screen surface is pure abstract light and haze, no image and no text on it. Keep the standing figure and the screen edge in the upper-center area.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the plain dark bedroom wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the sloped auditorium floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -96,28 +97,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-영화 티켓 암표 중고거래 화면
+아이맥스 상영관 스크린 좌석 내부
 ```
 
 ### [카드 4]
 **텍스트**
 ```text
-*그런데 외신은 다른 좌석을 가리켰다*
-슬레이트는 4DX가 더 맞는다고 썼다
-연출감독 정재현 팀이 본편을 열 번 돌려
-바다와 젖은 흙, 타는 고무 향을 깔았다
+그런데 외신 평단은
+다른 좌석을 가리켰다
+IMAX보다 4DX가 낫다고 썼다
+*한 기자는 멀미로 나갔다*
 ```
 **이미지 프롬프트**
 ```text
-korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn line work with loose ink contours, emotive character expressions, warm ambient lighting
-Scene: Emotional focal point: a burst of spray suspended in mid-air, every droplet catching the projector beam, one crew member's hand frozen above a stopwatch. In an otherwise empty 4DX auditorium, four Korean crew members sit scattered across the middle rows with their heads turned up toward the screen; one holds a clipboard against his knee, one reaches toward the small nozzle beside his seat. Haze from the mist hangs inside the descending light shafts above them. The sloped bank of dark seats runs unbroken across the whole frame.
-Camera: medium shot of the seated crew from a high angle looking down, shot on a 35mm lens, natural documentary perspective
-Lighting/mood: divine volumetric god-rays through haze, luminous descending shafts, reverent awe
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02, carried only by the aisle floor strips and the row-number lights), film-noir low-key lighting, deep shadows
-Text handling: the clipboard is seen edge-on and the screen stays out of frame, so no writing or projected image is legible anywhere.
+korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn loose ink contours, emotive character expressions, warm ambient lighting
+Scene: Emotional focal point: one hand pressed flat against his own mouth, the other gripping the seat back for balance. A man in his 40s in a rumpled dark shirt rises from a tilted motion seat mid-row, turning his shoulders toward the aisle on the right, eyes squeezed shut and brow drawn tight. His seat is still canted back at an angle behind him, and two seated silhouettes on either side stay fixed forward without turning.
+Camera: MS from Dutch angle, over-the-shoulder framing, shot on 35mm lens
+Lighting/mood: flickering cold screen glow raking across the row from the front, deep unlit rows behind, queasy instability
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the floor-level aisle guide strip), film-noir low-key lighting, deep shadows
+Nose room on the right, his body vector directed toward the right edge of the frame. Keep his face and hands in the upper-center area.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the sloped bank of auditorium seats) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the auditorium seat row and aisle floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -127,28 +128,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-4DX 상영관 물 분사 좌석
+4DX 모션 시트 상영관
 ```
 
 ### [카드 5]
 **텍스트**
 ```text
-그렇다고 모두에게 맞는 건 아니었다
-버라이어티는 진동이 과하다고 썼다
-*동료 기자는 멀미로 도중에 자리를 떴다*
-물은 후룸라이드급으로 쏟아졌다
+4DX판은 연출팀이 15일간
+본편을 열 번 가까이 돌려봤다
+바다와 젖은 흙, 타는 고무 향에
+렌즈에 물 튀는 순간마다 분사다
 ```
 **이미지 프롬프트**
 ```text
-korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn line work with loose ink contours, emotive character expressions, warm ambient lighting
-Scene: Emotional focal point: his jaw clenched tight and his throat working as he swallows against the nausea, one hand clamped on the seat back in front of him. A Western man in his forties in a rumpled jacket half-rises out of a middle-row motion seat and turns toward the aisle with his eyes shut. Beside him an empty seat is still tipped mid-motion, its armrest beaded with water. The sloped bank of auditorium seats fills everything behind him.
-Camera: tight close-up with his face filling the frame from a Dutch tilted angle, shot on a 50mm standard lens
-Lighting/mood: cold blue dim interior light, heavy and suffocating, faint trembling tension
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02, carried only by the aisle floor strip beside him), film-noir low-key lighting, deep shadows
-Text handling: no seat numbers, no signage and no screen content are rendered; every surface stays plain.
+korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn loose ink contours, emotive character expressions, warm ambient lighting
+Scene: Emotional focal point: fine water droplets caught in the air just above her wet eyelashes, the instant before they land. Recurring subject — a Korean woman in her 30s with shoulder-length dark hair tied back loosely, wearing a beige knit cardigan over a white tee, sits pressed back into a tilted motion seat in a dark Korean multiplex auditorium, both hands clamped on the wet armrest, chin lifted toward the screen off-frame above. A folded blanket has slid to her lap and a capped drink leans in the cup holder beside her hand.
+Camera: CU from Eye-level, profile angle, shot on 85mm portrait lens
+Lighting/mood: single hard side-light of screen reflection cutting across her wet face, deep chiaroscuro shadows, breathless tension
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the tiny water-off button glowing on the armrest), film-noir low-key lighting, deep shadows
+No text on the armrest button or the drink cup; render both bare. Keep her eyes, the droplets and her gripping hands in the upper-center area.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the sloped bank of auditorium seats) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the motion seat back and armrest) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -158,28 +159,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-4DX motion seats theater aisle
+4DX 물 분사 관객 담요
 ```
 
 ### [카드 6]
 **텍스트**
 ```text
-8월 7일 한국의 한 관객도 그 자리였다
-남편은 용아맥, 자신은 용산 4DX였다
-담요를 챙기라고 권하는 후기였다
-*끝나자 객석에서 박수가 쏟아졌다*
+용산에서 4DX표를 잡은 관객은
+젖은 손으로 박수를 쳤다
+세계 최대 스크린이 아니어도
+*끝나고 객석에서 박수가 터졌다*
 ```
 **이미지 프롬프트**
 ```text
-korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn line work with loose ink contours, emotive character expressions, warm ambient lighting
-Scene: Emotional focal point: water beading on her lashes as she blinks and breaks into a laugh, both hands clamped on the wet armrests. Recurring subject — a Korean woman in her 30s with shoulder-length dark hair tied back, wearing a light beige cardigan over a white tee, sits tipped back in a motion seat with a thin blanket across her lap and her chin lifted toward the screen. In the rows around her other moviegoers lean back the same way with wet faces and open mouths. Fine spray drifts across the seat rows in the reflected light.
-Camera: medium close-up chest-up from a three-quarter angle at eye level, shot on a 70mm short telephoto lens, gentle background separation
-Lighting/mood: faded warm light, soft golden haze, gently nostalgic and wistful
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02, carried only by the row-number lights glinting through the spray), film-noir low-key lighting, deep shadows
-Text handling: the screen stays out of frame and no seat numbers or signage are legible; nothing in the scene carries writing.
+korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn loose ink contours, emotive character expressions, warm ambient lighting
+Scene: Emotional focal point: dozens of wet hands lifted and clapping in the dark, water still beading on wrists. Recurring subject — a Korean woman in her 30s with shoulder-length dark hair tied back loosely, wearing a beige knit cardigan over a white tee, stands among the rows clapping with her damp hands raised, looking straight ahead at the camera with a spent, glowing smile. Around and behind her a full house of moviegoers rise from tilted seats clapping in the same direction, the blanket forgotten across her seat.
+Camera: WS from Eye-level, front-on shot, shot on 35mm lens
+Lighting/mood: warm candle-soft house lights coming up over the rows, faint screen afterglow, released tenderness
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the exit guide lamps along the wall), muted daylight contrast
+No signage text, no letters on the exit lamps or walls; render them as plain glowing shapes. Keep the clapping hands and faces in the upper-center area.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the sloped bank of auditorium seats) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the auditorium seating tier floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -189,28 +190,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-4DX 관객 물세례 담요
+극장 객석 관객 박수 어둠
 ```
 
 ### [카드 7]
 **텍스트**
 ```text
-놀란은 172분을 화면 하나에 걸었다
-그런데 두 대륙에서 똑같이 남은 건
-상영이 끝난 뒤 객석에서 터진 박수다
-*그 박수는 집에서 재생되지 않는다*
+극장이 스트리밍에 안 내준 건
+해상도가 아니었던 셈이다
+같은 세 시간을 옆자리와 함께
+*흔들리고 젖은 시간이 남았다*
 ```
 **이미지 프롬프트**
 ```text
-korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn line work with loose ink contours, emotive character expressions, warm ambient lighting
-Scene: Emotional focal point: her eyes glistening with welling tears, not yet falling, as her palms meet in a clap. Recurring subject — a Korean woman in her 30s with shoulder-length dark hair tied back, wearing a light beige cardigan over a white tee, stands among the rows facing the viewer straight on with her hands caught mid-clap at chest height and the thin blanket sliding off one arm. Behind her a dozen moviegoers rise from wet seats and clap toward the darkened screen. The house lights have just come up over the same continuous slope of seat rows.
-Camera: medium shot from a front-on angle at eye level with a direct gaze and symmetrical composition, shot on a 35mm lens
-Lighting/mood: soft wraparound key light, gentle falloff, tender warm intimacy
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02, carried only by the exit-sign glow above the doorway behind her), muted daylight contrast
-Text handling: the exit sign is seen as a small glowing shape only, angled so no characters are readable; no other signage in frame.
+korean manhwa style watercolor illustration, soft watercolor wash with visible brush texture, warm pastel palette (peach, cream, dusty blue), hand-drawn loose ink contours, emotive character expressions, warm ambient lighting
+Scene: Emotional focal point: two neighboring seat cushions still dark with water, dented in the shape of the people who just left. An empty row of tilted motion seats holds a forgotten folded blanket draped over one armrest and a capped paper cup left in the holder, with faint wet footprints leading away toward the aisle. No people remain in the frame; the house lights are up on the abandoned row.
+Camera: MS from Bird's-eye view, shot on 40mm lens
+Lighting/mood: warm faded house light with a soft golden haze over the damp fabric, gently wistful afterglow
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the row-number lamp at the end of the armrest), muted daylight contrast
+No numbers, no letters, no printed brand marks on the cup, blanket or seats; the row lamp is a bare glowing dot. Keep the two wet cushions and the blanket in the upper-center area.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the sloped bank of auditorium seats) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the seat row upholstery and floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -220,5 +221,5 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-영화관 객석 기립박수
+빈 상영관 좌석 담요 컵홀더
 ```
