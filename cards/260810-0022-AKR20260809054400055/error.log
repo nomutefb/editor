@@ -1,0 +1,55 @@
+reason: 생성 타임아웃(1500s 상한 초과·재시도 소진 — 생성 미완 kill·무출력)
+exit_code: 124 · out_lines: 85 · out_bytes: 9982
+---- stderr ----
+---- stdout(head 30) ----
+at eye-level, shot on 135mm telephoto lens
+Lighting/mood: cold blue screen under-glow lighting the face from below, restless unease
+Accent: monochrome desaturated base with a single color accent (ember orange #FF6A13, the fire's symbolic color), film-noir low-key lighting, deep shadows
+Korean setting by default: Korean people, Korean market architecture, Korean work clothing.
+Text handling: keep all incidental lettering out of frame - no phone screen text, no signage, no documents; convey meaning through objects and composition only.
+Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
+MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
+Composition: ONE continuous surface (the wet asphalt of the market yard) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
+- no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
+- no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
+- no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
+- no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
+- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
+- no injured people, no bodies, no blood, no burn wounds, no person engulfed in flame
+```
+**검색어**
+```text
+전주 수산시장 상인 휴대전화
+```
+
+### [카드 6]
+**텍스트**
+```text
+이 시장이 문을 연 해는 1993년이다
+70억 원을 들여 고쳐 쓰고도
+전주시는 위험이 커진다고 봤다
+*이전 조사는 12년간 세 번 돌았다*
+```
+**이미지 프롬프트**
+---- stdout(tail 20) ----
+Camera: full shot head-to-toe from a front-on eye-level angle, shot on 35mm lens
+Lighting/mood: warm soft morning light, gentle and quiet, faint melancholy
+Accent: monochrome desaturated base with a single color accent (ember orange #FF6A13, the fire's symbolic color), muted daylight contrast
+Korean setting by default: Korean people, Korean market architecture, Korean work clothing.
+Text handling: keep all incidental lettering out of frame - no signage, no tape markings, no documents; convey meaning through objects and composition only.
+Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
+MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
+Composition: ONE continuous surface (the ash-covered ground in front of the burned hall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
+- no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
+- no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
+- no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
+- no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
+- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
+- no injured people, no bodies, no blood, no burn wounds, no person engulfed in flame
+```
+**검색어**
+```text
+전주 수산동 화재 잔해 새벽
+```
