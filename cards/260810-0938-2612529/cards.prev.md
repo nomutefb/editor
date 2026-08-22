@@ -1,28 +1,28 @@
-# 🚇 71번째 아침, 열차는 서지 않았다
+# 🚇 열차는 서지 않았다…71번째 아침
 
 **[프롬프트 설계]**
-- 화풍: B 극화 — 예산과 권리가 맞부딪히는 구조 비판 사안이라 사실성·무게가 필요하고, 승강장의 차가운 형광등·긴장을 선과 명암으로 눌러 담아야 한다
-- 분위기: 이른 아침 승강장의 형광등 아래, 어느 쪽도 악당이 아닌 두 억울함이 같은 공간에서 마주친 정조 — 차갑고 무표정한 기관 조명 위에 인물의 체온만 남긴다
-- 연출 방향: 뉴스를 안 보던 사람도 '지하철이 안 섰다'는 자기 아침의 경험으로 들어와, 왜 하필 그 승강장이 무대가 됐는지까지 따라오게 한다. 강조점은 ①서지 않고 흘러가는 차창 ②휠체어 손잡이를 쥔 손 ③시계와 휴대폰 ④비어 있는 답변의 자리 — 사람을 겨누지 않고 '멈춘 것'과 '안 온 것'을 겨눈다. 어느 편도 캐리커처로 만들지 않는 것이 전 카드의 비주얼 키노트다
-- 독자 동선: **발단** 카드2(왜 71번을 세게 됐나·예산 격차와 무응답)→**전개** 카드3~4(무엇을 했다가 이렇게 됐나 = 승강장 탑승 시위·앱 사전 공지·서울역 결의대회)→**피크** 카드5(46분·20분, 발이 묶인 아침)→**해소** 카드6(중단 조건은 열차가 아니라 장관의 한마디)→**시사점** 카드7 · 도입 카드1은 제시(訴) · 훅=카드1 끝(단서형: 71이라는 숫자)+카드4 끝(예고형: 남은 두 번의 아침) · 착지 한 줄 = 요구와 지연 기록이 상쇄되지 않은 채 8월 달력에 나란히 남았다
-- 연속성 앵커: Recurring subject — a Korean man in his 50s in a manual wheelchair, close-cropped graying hair, wearing a plain dark windbreaker over a gray shirt, a folded placard resting on his lap / Recurring place — an early-morning Seoul subway platform with a yellow tactile safety line, screen doors, and fluorescent ceiling light
+- 화풍: B 극화 — 예산·행정 책임과 통근 부담이 맞물린 구조 비판이라 명암과 무게가 필요하다
+- 분위기: 형광등 아래 차갑고 균일한 승강장의 정적, 그 위에 눌러 담은 억울함 두 겹 — 어느 쪽도 미화하지 않는 무채의 긴장
+- 연출 방향: 뉴스를 안 보는 통근자도 아는 장면이 있다 — 열차가 그냥 지나가는 승강장. 거기서 멈춘 건 열차가 아니라 71번째로 답을 못 받은 요구라는 사실을 보여주는 게 목표다. 강조점은 ①서지 않고 흐르는 차창 ②그 앞에서 손잡이를 쥔 손 ③건너편에서 시계를 보는 승객 세 가지로 좁히고, 셋을 같은 형광등 아래 두어 누구도 악역이 되지 않게 한다. 마지막은 8월 달력에 나란히 남은 두 기록으로 착지
+- 독자 동선: **발단** 카드1→**전개** 카드2~3→**피크** 카드4→**해소** 카드5→**시사점** 카드6 · 훅=카드1 끝(질문형 1회)+카드3 끝(단서형 숫자 예고) · 착지 한 줄 요지 = 요구와 지연 기록이 상쇄되지 않은 채 8월 달력에 나란히 적혀 있고 같은 아침이 두 번 더 남았다
+- 연속성 앵커: Recurring subject — a Korean man in his 50s in a manual wheelchair, short greying hair, wearing a plain dark windbreaker over a light shirt, a folded placard resting on his lap / Recurring place — an underground Seoul subway platform with a yellow tactile safety line, screen doors, and overhead fluorescent panels
 
 ### [카드 1]
 **텍스트**
 ```text
-아침 8시, 열차가 왔다
-그런데 문은 열리지 않았다
-승강장을 그대로 지나쳤다
-*오늘로 71번째 아침이었다*
+8월 10일 아침 용산역
+열차가 승강장을 그냥
+지나갔다 사람들은 서 있고
+열차만 서지 않았다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the blurred streak of a train window sliding past without slowing. A subway train rushes through an early-morning Seoul subway platform with a yellow tactile safety line, screen doors, and fluorescent ceiling light, its lit windows smeared into a horizontal band. On the platform a small group of commuters stands still, bodies angled toward the passing train, faces turned away from the viewer. No one steps forward. The train and the waiting people never meet.
-Camera: wide shot, full body, surrounding environment, spatial context from eye-level shot, neutral perspective, realistic, balanced emotion, shot on 35mm lens, natural documentary perspective, balanced subject and background, minimal distortion
+Scene: Emotional focal point: the blurred window of a train sliding past without slowing, reflecting a row of waiting faces. Commuters in office clothes stand behind the yellow tactile line on an underground Seoul subway platform, heads turning to follow the passing car, one man lowering his phone. Nobody boards. The platform edge and the moving train fill the upper half of the frame.
+Camera: wide shot from eye-level, shot on 35mm lens
 Lighting/mood: flat sterile clinical fluorescent light, cold even greenish-white, emotionless institutional
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the platform safety line and the train's window glow), muted daylight contrast
-Text handling: avoid incidental signage; keep station signs cropped out of frame or turned away from the camera.
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the platform safety line and the train's indicator strip), muted daylight contrast
+Text handling: avoid incidental background lettering; station signage is cropped out of frame or turned away at an angle; no readable characters anywhere.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
 Composition: ONE continuous surface (the platform floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
@@ -35,87 +35,25 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-지하철 승강장 열차 통과
+용산역 승강장 무정차 통과
 ```
 
 ### [카드 2]
 **텍스트**
 ```text
-전장연이 세는 숫자는 71
-받은 답변의 숫자는 0이다
-*지난달 말까지 기다렸지만*
-기획예산처 답은 없었다
+같은 시각 4호선 혜화역
+승강장에 사람들이 모였다
+전장연의 *71번째 출근길 시위*
+71번을 세는 아침이었다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a vacant thousand-yard stare, unfocused eyes looking past everything. Recurring subject — a Korean man in his 50s in a manual wheelchair, close-cropped graying hair, wearing a plain dark windbreaker over a gray shirt, a folded placard resting on his lap — sits alone at the far end of an early-morning Seoul subway platform with a yellow tactile safety line, screen doors, and fluorescent ceiling light. He grips one wheel rim with a bare hand while the other hand rests open and empty on the placard, as if waiting for something to be placed in it. His gaze goes past the empty tunnel mouth toward the right edge of the frame.
-Camera: medium close-up, chest-up framing, facial emotion, slight body context from three-quarter angle, natural face depth, dimensional portrait, shot on 85mm portrait lens, flattering face, soft background separation, elegant focus, nose room on the right, gaze directed toward the right edge
+Scene: Emotional focal point: his knuckles tightened around the wheelchair handrim, gripped and still. Recurring subject — a Korean man in his 50s in a manual wheelchair, short greying hair, wearing a plain dark windbreaker over a light shirt, a folded placard resting on his lap, waits at the front of a small gathering. Recurring place — an underground Seoul subway platform with a yellow tactile safety line, screen doors, and overhead fluorescent panels. A few supporters stand a step behind him, all facing the closed screen doors, gaze directed toward the right edge where the tunnel opens. Nose room on the right.
+Camera: medium shot from low angle, shot on 50mm standard lens
 Lighting/mood: flat sterile clinical fluorescent light, cold even greenish-white, emotionless institutional
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the folded placard edge), muted daylight contrast
-Text handling: the placard stays folded so its face is hidden; no readable lettering anywhere.
-Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
-MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the tiled platform wall behind him) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
-- no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
-- no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
-- no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
-- no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
-- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
-```
-**검색어**
-```text
-기획예산처 청사
-```
-
-### [카드 3]
-**텍스트**
-```text
-요구는 두 줄이다
-장애인권리예산을 보장하라
-중증장애인 공공일자리를
-제도로 만들어달라
-```
-**이미지 프롬프트**
-```text
-korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: two hands unfolding a cloth banner at its taut center, knuckles pale from the pull. Two people hold a wide fabric banner open in front of a row of press microphones on an early-morning Seoul subway platform with a yellow tactile safety line, screen doors, and fluorescent ceiling light. Recurring subject — a Korean man in his 50s in a manual wheelchair, close-cropped graying hair, wearing a plain dark windbreaker over a gray shirt, a folded placard resting on his lap — sits at the center in front of them, facing the microphones with his chin lifted. Behind them a few more participants stand quietly in a loose line, kept lower and softer so he stays the focus.
-Camera: group shot, multiple subjects, clear arrangement, hierarchy, collective mood from low angle shot, looking up, powerful subject, dominance, dramatic presence, shot on 24mm wide lens, cinematic wide shot, spatial context, subtle depth
-Lighting/mood: harsh single overhead light pooling on the group, deep surrounding shadow, oppressive institutional weight
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the banner cloth), film-noir low-key lighting, deep shadows
-Text handling: the banner faces the camera at a slight angle so its surface reads as blank woven fabric; no lettering rendered on it.
-Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
-MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the platform ceiling and its light strip) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
-- no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
-- no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
-- no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
-- no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
-- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
-```
-**검색어**
-```text
-전장연 혜화역 기자회견
-```
-
-### [카드 4]
-**텍스트**
-```text
-이들은 혜화역에서 열차를 타고
-서울역까지 이동했다
-공사는 앱으로 미리 알렸다
-*무정차 통과할 수 있다고*
-```
-**이미지 프롬프트**
-```text
-korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a thumb frozen mid-scroll above a phone screen. Seen from directly above, a commuter's hand holds a phone at the center of the frame while she stands on an early-morning Seoul subway platform with a yellow tactile safety line, screen doors, and fluorescent ceiling light. Around her, other waiting commuters are seen from overhead as foreshortened shapes, several of them also looking down at their phones. A folded newspaper and a coffee cup sit on the floor beside one bag. Everyone is looking down, no one is looking at the tracks.
-Camera: overhead shot, bird's-eye view, top-down angle, layout, geometry from high angle shot, looking down, small, observed, shot on 20mm wide lens, subject and environment, documentary realism
-Lighting/mood: flat cold even surveillance light, no shadow no warmth, detached and watchful
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 glowing from the phone screen), muted daylight contrast
-Text handling: the phone screen is tilted away and rendered as a plain glowing rectangle; no readable interface text.
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the tactile safety line and the placard's edge), muted daylight contrast
+Text handling: the folded placard shows no readable lettering, its face angled away and cropped; no station signs in frame.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
 Composition: ONE continuous surface (the platform floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
@@ -128,27 +66,89 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-또타지하철 앱 지연 공지
+혜화역 전장연 출근길 시위
+```
+
+### [카드 3]
+**텍스트**
+```text
+요구는 두 가지였다 거주시설
+말고 동네에서 살게 해달라는
+장애인권리예산 그리고 중증
+장애인 공공일자리 제도화
+```
+**이미지 프롬프트**
+```text
+korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
+Scene: Emotional focal point: two hands raising a cloth banner just high enough for the words to clear the crowd's heads. Recurring subject — a Korean man in his 50s in a manual wheelchair, short greying hair, wearing a plain dark windbreaker over a light shirt, a folded placard resting on his lap, sits at the center of a rally in front of a plain government office facade at street level. Around a dozen participants stand behind and beside him holding a wide cloth banner, all looking up toward the building's entrance on the right. Recurring place is left behind; this is above ground, morning street.
+Camera: full shot from three-quarter angle, shot on 24mm wide lens
+Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the banner's border stripe), muted daylight contrast
+Text handling: the banner surface is caught mid-fold and in raking light so its face reads as texture, not lettering; the building nameplate is cropped out of frame. No readable characters anywhere.
+Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
+MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
+Composition: ONE continuous surface (the paved street plaza) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
+- no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
+- no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
+- no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
+- no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
+- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
+```
+**검색어**
+```text
+한국재정정보원 장애인권리예산 결의대회
+```
+
+### [카드 4]
+**텍스트**
+```text
+지난 3일 70차 때 혜화역은
+*46분간 열차가 서지 않았다*
+노량진역도 약 20분이었다
+```
+**이미지 프롬프트**
+```text
+korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
+Scene: Emotional focal point: a commuter's vacant thousand-yard stare, unfocused eyes looking past everything, phone hanging forgotten at her side. A woman in a work jacket stands pressed among a dense line of waiting commuters on an underground Seoul subway platform with a yellow tactile safety line, screen doors, and overhead fluorescent panels. The screen doors stay shut behind her; the crowd has stopped checking the tunnel. Her body faces the doors while her eyes drift nowhere.
+Camera: tight close-up from eye-level, shot on 85mm portrait lens
+Lighting/mood: single hard side-light cutting across the subject, deep chiaroscuro shadows, tense atmosphere
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the screen door indicator behind her), film-noir low-key lighting, deep shadows
+Text handling: the platform display panel is thrown out of focus and clipped at the frame edge; no readable characters anywhere.
+Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
+MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
+Composition: ONE continuous surface (the platform screen door wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE — strictly avoid:
+- no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
+- no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
+- no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
+- no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
+- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
+```
+**검색어**
+```text
+지하철 승강장 열차 지연 승객
 ```
 
 ### [카드 5]
 **텍스트**
 ```text
-*지난 3일엔 혜화역이 46분*
-노량진역이 약 20분 안 섰다
-그 아침이 두 번 더 남았다
+그런데 멈추는 조건은 열차가
+아니었다 기획예산처 장관이
+예산 반영 방침만 밝히면
+시위를 멈추겠다고 했다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a wristwatch face pressed close to a commuter's eye, the minute hand caught mid-tick. A man in a suit stands packed among other commuters on an early-morning Seoul subway platform with a yellow tactile safety line, screen doors, and fluorescent ceiling light, his wrist raised almost to his cheek as he checks the time. Behind and around him the crowd has thickened into a wall of shoulders, everyone facing the same empty track. His jaw is set and his eyes have gone flat with waiting.
-Camera: tight close-up, face fills frame, intense emotion, intimate pressure from Dutch angle, tilted horizon, canted frame, unstable mood, shot on 135mm telephoto lens, strong compression, elegant portrait separation, cinematic depth
-Lighting/mood: single hard side-light cutting across the subject, deep chiaroscuro shadows, tense atmosphere
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the watch hands), film-noir low-key lighting, deep shadows
-Text handling: the watch dial shows only bare tick marks and hands, no numerals, no brand mark.
+Scene: Emotional focal point: an empty office chair pushed back from a desk, the seat still turned toward the door. A wide government office room holds a long desk with a closed folder and a silent telephone; no one is in the room. Tall windows on the left throw a pale rectangle across the floor toward the vacant chair. The folder lies squared and untouched at the desk's center.
+Camera: full shot from bird's eye view, shot on 20mm wide lens
+Lighting/mood: cold blue pre-dawn tone, lone lamp reflection on the polished desk, desolate stillness
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the telephone's status light), film-noir low-key lighting, deep shadows
+Text handling: the folder is closed and the desk nameplate is turned face down; no readable characters anywhere.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the crowd of shoulders behind him) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the office floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -158,28 +158,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-출근길 지하철 승강장 혼잡
+기획예산처 장관 정부예산안 브리핑
 ```
 
 ### [카드 6]
 **텍스트**
 ```text
-그런데 멈추는 조건은 열차가 아니다
-박홍근 기획예산처 장관이
-예산 반영 방침을 밝히면
-*그날로 시위를 멈추겠다고 했다*
+71번의 요구와 46분의 지연은
+서로 상쇄되지 않는다 답할
+사람은 승강장에 없었다
+*8월엔 18일과 24일이 남았다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: an empty podium microphone with no one standing behind it. A press briefing lectern stands alone in a government building corridor, a cluster of microphones angled toward a spot where a speaker should be. To one side, two staff members in suits walk past without stopping, their backs to the lectern, one glancing at a folder in his hands. The corridor stretches away behind the empty stand.
-Camera: extreme long shot, tiny subject, vast environment, scale, isolation from ground-level shot, worm's-eye view, near floor, exaggerated scale, shot on 16mm wide lens, immersive scene, wide environmental context, dynamic look
-Lighting/mood: flat sterile clinical fluorescent light, cold even greenish-white, emotionless institutional
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on a standby light at the microphone base), muted daylight contrast
-Text handling: the lectern face and backdrop are plain; no institutional emblem, no lettering, no logo of any kind.
+Scene: Emotional focal point: two dates circled on a wall calendar, the ink pressed hard enough to dent the paper. Recurring subject — a Korean man in his 50s in a manual wheelchair, short greying hair, wearing a plain dark windbreaker over a light shirt, a folded placard resting on his lap, sits alone beneath the calendar in a small bare room, looking straight ahead at the viewer. His hands rest still on the wheelchair rims. The calendar hangs on the wall above and slightly behind him.
+Camera: medium close-up from eye-level, front-on shot with direct gaze, shot on 70mm short telephoto
+Lighting/mood: warm soft morning light through a side window, gentle and quiet, faint melancholy
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the two circled marks), muted daylight contrast
+Text handling: the calendar grid reads as ruled squares and two circles only, its month heading cropped above the frame; no readable characters anywhere.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the corridor floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the room's back wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -189,36 +189,5 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-기자회견 연단 마이크
-```
-
-### [카드 7]
-**텍스트**
-```text
-답을 미룰수록 갈등은 승강장으로 온다
-정작 예산을 못 정하는 사람들이
-46분과 20분을 대신 치렀다
-*요구도 지연 기록도 상쇄되지 않았다*
-```
-**이미지 프롬프트**
-```text
-korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the narrow gap of floor between two people who are looking at the same tiles instead of at each other. Recurring subject — a Korean man in his 50s in a manual wheelchair, close-cropped graying hair, wearing a plain dark windbreaker over a gray shirt, a folded placard resting on his lap — waits on one side of an early-morning Seoul subway platform with a yellow tactile safety line, screen doors, and fluorescent ceiling light. A commuter in a suit stands a few steps away on the other side, bag lowered, no longer checking his phone. Neither turns toward the other, and the empty floor between them holds the frame. The tunnel beyond is dark and still.
-Camera: two-shot, two characters in frame, relationship distance, emotional dynamic from profile shot, side view, clear silhouette, directional movement, shot on 50mm standard lens, minimal distortion, natural cinematic composition
-Lighting/mood: cold blue pre-dawn tone spilling in from the tunnel mouth, desolate stillness
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the yellow safety line running between them), film-noir low-key lighting, deep shadows
-Text handling: keep all station signage out of frame; surfaces read as plain tile and metal.
-Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
-MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the platform floor) extending edge to edge from top to bottom of the frame. The main subjects are anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
-- no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
-- no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
-- no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
-- no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
-- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
-```
-**검색어**
-```text
-지하철 승강장 안전선 대기
+달력 8월 표시
 ```
