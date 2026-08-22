@@ -1,31 +1,32 @@
-# 축제 열린 한강에 '폭탄' 협박, 부른 값은 1천만원
+# 축제 열린 한강에 '폭탄' 협박, 요구액은 1천만원
 
 **[프롬프트 설계]**
-- 화풍: B 극화 — 익명 협박과 공권력 출동, 발신·대응 비용의 비대칭을 고발하는 사건이라 선이 굵고 명암이 센 극화가 맞다
-- 분위기: 축제의 밝음 위에 얹힌 차가운 긴장 — 새벽의 푸른 정적과 한낮의 억압적인 직사광이 한 덱 안에서 부딪치게
-- 연출 방향: 독자는 "그날 그 잔디밭에 내가 있었을 수도 있다"에서 멈춘다 — 그래서 위협을 폭발물로 그리지 않고 *웃는 인파와 그 가장자리에 홀로 선 검은 제복 하나*의 거리로 그린다. 시사점(쓰는 값 0원, 막는 값 하루)은 같은 잔디밭을 새벽·한낮·다시 새벽 세 번 보여주는 시간 낙차로 관철한다. 인물은 늘 작게, 공간은 늘 넓게
-- 독자 동선: **발단** 카드1→**전개** 카드2~3→**피크** 카드4→**해소** 카드5→**시사점** 카드6 · 훅=카드1 끝(단서형: 붙어 있던 조건과 경고가 무엇인지 유보)+카드3 끝(예고형: 공원이 비어 있지 않았다) · 착지 = 폭탄이 안 나와도 이미 청구서가 발행됐다는 것
-- 연속성 앵커: Recurring subject - a Korean police tactical officer in his 30s with closely cropped hair, wearing a plain black tactical uniform, an unmarked vest and a dark cap. (카드3·4·6) / 반복 장소 = the same wide riverside park lawn by the Han River
+- 화풍: B 극화 — 공중협박이라는 범죄 재구성이자 '발신 비용 0원 대 대응 비용'의 구조 고발이라 극화의 무게가 맞다.
+- 분위기: 어둠에서 태어난 문장 한 줄이 한낮 축제의 빛 한복판에 떨어지는 여름 하루. 새벽 저조도의 밀폐감에서 시작해 정오 직사광의 폭염으로 치닫고, 해질녘 빈 잔디에서 식는다.
+- 연출 방향: 독자훅은 "그 잔디밭에 우리 가족이 앉아 있었다"이고, 전할 관점은 1천만원이라는 액수의 하찮음과 그 액수가 실제로 움직인 인력·시간의 낙차다. 그래서 인물을 크게 세워 감정을 설명하지 않고, **작은 행위(폰 한 대·앉은 등)와 거대한 대응(특공대·축제 인파)을 같은 프레임 크기로 놓아 비대칭을 눈으로 보게** 한다. 악센트 #0FFD02는 '그 문장의 색'으로 고정 — 카드1 화면빛에서 태어나 카드4 축제 잔디에서 최강, 카드6에서 밟힌 잔디로 흐려지며 닫힌다. thumb_dispatch에서는 LGT07의 억압적 한낮 열기와 대비 병치의 정조만 이어받고, 앵글·샷은 카드마다 분산한다. 명도는 起 저조도 → 承 새벽 청색 상승 → 轉 한낮 최고 대비 → 結 황혼 릴리즈로 한 방향으로만 흐른다(널뛰기 없음).
+- 독자 동선: **발단** 카드1→**전개** 카드2~3→**피크** 카드4→**해소** 카드5→**시사점** 카드6 · 훅=카드1 끝(예고형 "조건이 하나 더 붙어 있었다"→카드2 즉시 회수)+카드3 끝(단서형 "특공대가 들어간 그곳"→카드4 즉시 회수) · 착지 한 줄 요지: 발신 값과 대응 값의 비대칭이 그대로인 한 그 글은 또 쓰일 수 있다.
+- 연속성 앵커: Recurring subject A — an anonymous figure in a dark hooded sweatshirt, face never visible, kept in shadow at all times. / Recurring subject B — a Korean police counter-terror officer in his 30s, close-cropped black hair, wearing a plain black tactical uniform and an unmarked vest with no insignia or logo. / Recurring location — the wide open grass lawn of a riverside park in Seoul.
 
 ### [카드 1]
 **텍스트**
 ```text
 8월 9일 새벽 2시 25분이었다
-방송국 제보 플랫폼에 글이 올라왔다
-여의도 한강공원을 겨눈 글이었다
-*조건 하나와 경고 하나가 붙어 있었다*
+한 방송국 제보 플랫폼에 글이 올라왔다
+*여의도 한강공원에 폭탄을 설치했다*
+그 글에는 조건이 하나 더 붙어 있었다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: one fingertip hovering a hair above the send key, not yet touching. A lone Korean figure sits hunched forward in a dark room, the face completely swallowed by shadow so no features read, only the jawline and both hands lit from below by the cold glow of a handheld screen. The figure looks down into the device with shoulders drawn inward and elbows braced on the knees. Behind is one flat dark interior wall with nothing on it.
-Camera: medium close-up chest-up framing from a high angle looking down on the subject, shot on an 85mm portrait lens with soft background separation
-Lighting/mood: cold blue screen under-glow lighting the face from below in a dark room, restless paranoid unease, no fill light, surrounding blackness
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) carried only in the screen glow on the fingertips, film-noir low-key lighting, deep shadows
-Text handling: the handheld screen is angled steeply away from the viewer and rendered as a pure blur of cold light, with no readable characters, no interface elements and no symbols. No signage, no labels, no logos anywhere in the frame.
+Scene: Emotional focal point: the cold screen light catching only the fingertips and the edge of a jawline while the eyes stay lost in shadow. Recurring subject A — an anonymous figure in a dark hooded sweatshirt, face never visible, kept in shadow at all times. The figure sits alone at a bare desk in a windowless room before dawn, both hands cradling a phone that is tilted away from the viewer, head bowed so the gaze falls entirely onto the screen. The phone is the only light source in the room and everything past the desk dissolves into black.
+Camera: medium close-up, chest-up framing, facial emotion, slight body context from high angle shot, looking down, vulnerable subject, small, observed, nose room on the right, gaze directed toward the right edge, shot on 70mm short telephoto, gentle background compression, subject isolation
+Lighting/mood: cold blue screen under-glow lighting the face from below in a dark room, restless paranoid unease
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows; the accent is the phone's screen glow.
+Korean default: Korean physical features, Korean clothing, a Korean interior.
+Text handling: the phone screen is turned away from the viewer and blown out to pure glow so nothing on it can be read; no garbled or fake script, no meaningless letters, no random characters, no dense text.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the dark interior wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the dark desk surface) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -35,28 +36,29 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-폭탄 협박 게시글
+심야 스마트폰 불빛
 ```
 
 ### [카드 2]
 **텍스트**
 ```text
-공원 인근에 폭탄을 설치했다고 적었다
-1천만원을 입금하지 않으면
-*"많이 다치거나 죽을 것"이라 했다*
-새벽에 올라온 글은 그게 전부였다
+글이 요구한 금액은 1천만원이었다
+*돈이 안 오면 사람들이 죽는다고 했다*
+문장이 겨눈 건 특정한 누구도 아니었다
+한강공원에 나와 있을 사람들 전부였다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the sheer emptiness of the lawn the threat was pointed at. An enormous riverside park lawn stretches across the entire frame before dawn, still wet with night air. One distant Korean pedestrian walks alone near the far edge, so small the whole body fits inside a fingertip, head down and moving away. A single tall lamp post throws one narrow cone of light onto the grass. Beyond the water the city skyline stands as flat dark blocks with no detail.
-Camera: extreme long shot with a tiny subject in a vast environment from a bird's-eye overhead angle, shot on a 14mm ultra-wide lens with dramatic depth
-Lighting/mood: cold blue pre-dawn tone, lone streetlight reflection on wet ground, desolate stillness
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) held only in the pool of lamp light on the grass, film-noir low-key lighting, deep shadows
-Text handling: no park signage, no notice boards, no banners and no written surfaces anywhere; the lamp post and railings are bare metal only.
+Scene: Emotional focal point: how small and ordinary the seated back looks against the size of what that one sentence just claimed. Recurring subject A — an anonymous figure in a dark hooded sweatshirt, face never visible, kept in shadow at all times. Seen from straight overhead, the figure sits cross-legged on the bare floor of a dark empty room, one hand still holding the phone loose at the knee and the other lying flat on the floor. The glow from the phone spills in one long narrow wedge across the empty floor toward the far edge of the frame, and nothing else in the room is lit.
+Camera: wide shot, full body, surrounding environment, movement, spatial context from overhead shot, bird's-eye view, top-down angle, layout, geometry, nose room on the right, the light wedge directed toward the right edge, shot on 24mm wide lens, cinematic wide shot, spatial context, subtle depth
+Lighting/mood: single pool of hard light isolating the figure in surrounding blackness, claustrophobic loneliness
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows; the accent is the wedge of screen light thrown across the floor.
+Korean default: Korean physical features, Korean clothing, a Korean interior.
+Text handling: the phone face is angled to pure glow with nothing legible on it, and there is no signage, label or writing anywhere in the room; no garbled or fake script, no meaningless letters, no random characters, no dense text.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the park lawn) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the bare dark floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -66,28 +68,29 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-여의도 한강공원 새벽
+어두운 방 바닥 스마트폰 불빛
 ```
 
 ### [카드 3]
 **텍스트**
 ```text
-서울 성북경찰서가 신고를 접수했다
-관할 영등포경찰서와 공조에 들어갔다
-*경찰특공대가 공원 일대를 훑었다*
-그런데 공원은 비어 있지 않았다
+신고는 서울 성북경찰서가 받았다
+공중협박 혐의로 작성자를 추적했다
+관할인 영등포경찰서와 공조에 나섰다
+*경찰특공대가 한강공원으로 들어갔다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the officer's narrowed eyes sweeping the tree line to his right, brows lowered and jaw set. Recurring subject - a Korean police tactical officer in his 30s with closely cropped hair, wearing a plain black tactical uniform, an unmarked vest and a dark cap. He advances along a paved riverside walkway holding a handheld detector lowered toward the ground, head turned away from his walking direction to scan the bushes. Two more officers in the same uniform follow several steps behind him in a loose line, gaze directed toward the right edge of the frame.
-Camera: medium shot waist-up framing from a low angle looking up at the subject, shot on a 35mm lens with natural documentary perspective, nose room on the right
-Lighting/mood: single hard side-light cutting across the subject, deep chiaroscuro shadows, tense atmosphere, the first grey light rising behind the skyline
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) on the small indicator light of the detector, film-noir low-key lighting, deep shadows
-Text handling: uniforms, vests and equipment carry no unit markings, no agency emblems and no lettering of any kind; all patches are left as plain dark fabric.
+Scene: Emotional focal point: the hard set of the officer's jaw and the way his eyes are already scanning past the camera toward the park he has not reached yet. Recurring subject B — a Korean police counter-terror officer in his 30s, close-cropped black hair, wearing a plain black tactical uniform and an unmarked vest with no insignia or logo. Shot from near ground level, he strides in through the riverside park's entrance before dawn with two more officers in the same uniform following in a loose line behind him. A few steps back a plainclothes detective in a windbreaker walks with a phone pressed to his ear and his head down, relaying to another station. The empty pre-dawn sky fills the frame behind all of them, unbroken from top to bottom.
+Camera: medium shot, waist-up framing, face and gestures, conversational from low angle shot, looking up, powerful subject, dominance, dramatic presence, nose room on the right, gaze directed toward the right edge, shot on 35mm lens, natural documentary perspective, balanced subject and background, minimal distortion
+Lighting/mood: cold blue pre-dawn tone, lone streetlight reflection on wet ground, desolate stillness
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows; the accent is the reflective strip across the lead officer's vest.
+Korean default: Korean physical features, Korean police uniforms and a Korean riverside park entrance.
+Text handling: all vests, vehicles and gates are left completely blank with no lettering, patches or agency marks of any kind; no garbled or fake script, no meaningless letters, no random characters, no dense text.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the paved riverside walkway) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the open pre-dawn sky) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -97,27 +100,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-경찰특공대 폭발물 탐지
+여의도 한강공원 경찰특공대
 ```
 
 ### [카드 4]
 **텍스트**
 ```text
-*그날 서울 9개 한강공원이 축제였다*
-영화와 콘서트, 수상레저가 이어졌다
-저울에 오른 건 그 자리 전부였다
+하필 그날이 한강페스티벌이었다
+서울 한강공원 9곳에서 축제가 열렸다
+*폭탄을 찾던 공원이 곧 그 축제장이었다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the widening gap between the laughing crowd and the single black uniform standing at its edge. A packed summer festival fills the same riverside lawn, Korean families and young couples seated on mats, a small outdoor stage with performers at the far end, paddle boards drifting on the water beyond. Recurring subject - a Korean police tactical officer in his 30s with closely cropped hair, wearing a plain black tactical uniform, an unmarked vest and a dark cap. He stands alone at the near edge of the same lawn with his back half turned to the crowd, scanning outward toward the right, and not one person around him looks up.
-Camera: wide shot showing full bodies and the surrounding environment from a Dutch tilted angle with a canted unstable horizon, shot on a 20mm wide lens with documentary realism
+Scene: Emotional focal point: the officer's narrowed eyes sweeping the ground through the glare, a bead of sweat at his temple, his mouth pressed flat. Recurring subject B — a Korean police counter-terror officer in his 30s, close-cropped black hair, wearing a plain black tactical uniform and an unmarked vest with no insignia or logo. He walks the open riverside lawn under the midday sun with his gaze angled down and to the right, reading the grass at his own feet. Behind him, softened by the shallow focus and kept low and small so he stays the focus, a few festival-goers sit on picnic mats and a low outdoor stage stands on the same lawn, none of them looking his way.
+Camera: close-up shot, face centered, eyes, expression, emotional detail from eye-level shot, neutral perspective, realistic, balanced emotion, gaze directed toward the lower right, shot on 85mm portrait lens, flattering face, soft background separation, elegant focus
 Lighting/mood: harsh overexposed midday sunlight, hard shadows, oppressive heat
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) held only on the officer's shoulder marker, muted daylight contrast
-Text handling: the stage backdrop, banners and mats are rendered as flat blank color fields with no lettering; no brand marks, no event signage, no printed characters anywhere in the frame.
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast; the accent is the sunlit lawn behind him, the only saturated color in the frame and at its strongest in this card.
+Korean default: Korean physical features, a Korean riverside park lawn and a Korean summer festival stage.
+Text handling: the stage backdrop, banners and mats are left entirely blank with no lettering or logos of any kind; no garbled or fake script, no meaningless letters, no random characters, no dense text.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the festival lawn) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the sunlit park lawn) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -127,25 +131,26 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-2026 한강페스티벌 여의도
+한강페스티벌 잔디밭 인파
 ```
 
 ### [카드 5]
 **텍스트**
 ```text
-폭발물이 나왔는지는 공개되지 않았다
-글쓴이가 누구인지도 아직 모른다
-2025년에 생긴 공중협박죄가 걸렸다
-*징역 5년, 벌금 2천만원까지 물린다*
+이런 글을 처벌하는 게 공중협박죄다
+2025년 3월에 새로 생긴 조항이다
+*5년 이하 징역, 2천만원 이하 벌금이다*
+폭탄도 작성자도 아직 밝혀지지 않았다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a pen tip pressed still on one line of a printed page, held too long. A bare office desk surface fills the whole frame, seen straight down from above. One Korean investigator's hands and forearms enter from the lower edge, the right hand gripping a pen over a thin stack of printed pages, the left hand flat on a closed folder to steady it. The pages are seen so steeply that the print reads only as grey texture. Nothing else sits on the desk.
-Camera: extreme close-up on a single detail of hands and paper from a bird's-eye overhead top-down angle, shot on a 100mm macro lens with fine detail and shallow depth of field
+Scene: Emotional focal point: the stillness of a detective's fingertips resting flat on an open page, not moving, not turning it. Seen from straight above a desk, a pair of hands in rolled shirtsleeves rest on a thick open law volume whose pages are caught at a steep oblique so the print reads only as grey texture. A pen, a closed notebook and a paper cup sit at the edge of the same desk, and the bottom edge of a monitor glows faintly at the top of the frame with nothing legible on it. No face is in the frame, only the hands and the desk they are anchored to.
+Camera: extreme close-up, single detail, eye, lips, hand, texture from overhead shot, bird's-eye view, top-down angle, layout, geometry, shot on 100mm macro lens, fine detail, shallow depth of field, precise texture
 Lighting/mood: flat sterile clinical fluorescent light, cold even greenish-white, emotionless institutional
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) on one marked line under the pen, muted daylight contrast
-Text handling: the printed pages are shown at a steep raking angle so all print dissolves into grey texture, with no readable characters, no headings and no numbers. No stamps, no letterheads, no logos.
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast; the accent is the monitor glow at the top edge of the frame.
+Korean default: Korean hands, a Korean police station desk.
+Text handling: the open pages are held at a steep angle and defocused so the print is texture only, and the monitor shows nothing but glow; no garbled or fake script, no meaningless letters, no random characters, no dense text.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
 Composition: ONE continuous surface (the desk surface) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
@@ -158,28 +163,29 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-성북경찰서 수사
+형법 공중협박죄 조문
 ```
 
 ### [카드 6]
 **텍스트**
 ```text
-폭탄이 안 나와도 청구서는 남는다
-새벽 수사가 있었고 특공대가 나갔다
-쓰는 데 0원, 막는 데 하루가 들었다
-*이 협박은 실패해도 이미 성공해 있다*
+그 글을 쓰는 값은 사실상 0원이었다
+대응에 든 값은 새벽부터의 수사였고
+축제장에 들어간 경찰특공대였다
+*폭탄이 없어도 그 글은 또 쓸 수 있다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the single trail of footprints pressed into the flattened grass behind him. The festival is over and the same riverside lawn lies empty again at first light, folding chairs stacked in low piles and the stage frame half dismantled at the far end. Recurring subject - a Korean police tactical officer in his 30s with closely cropped hair, wearing a plain black tactical uniform, an unmarked vest and a dark cap. He walks through the dead center of the empty lawn with his back to the viewer, small in the frame, head still turned to scan the tree line. A loose length of barrier tape lies slack across the grass in the foreground.
-Camera: extreme long shot with a tiny subject in a vast environment from a ground-level worm's-eye view close to the grass, shot on a 20mm wide lens with strong spatial presence
-Lighting/mood: cold blue pre-dawn tone, lone streetlight reflection on wet ground, desolate stillness
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02) running along the barrier tape, film-noir low-key lighting, deep shadows
-Text handling: the barrier tape is a plain unmarked colored band with no printed words; stacked chairs and stage frame carry no signage, no labels and no logos.
+Scene: Emotional focal point: the officer looking straight up into the camera with the day's tension gone out of his face, leaving only tiredness. Recurring subject B — a Korean police counter-terror officer in his 30s, close-cropped black hair, wearing a plain black tactical uniform and an unmarked vest with no insignia or logo. He stands alone at the dead center of a wide emptied riverside lawn at golden hour, arms hanging at his sides, his long shadow stretching across the grass toward the bottom of the frame. The mats and the stage are gone and the grass is trampled into wide pale tracks where the crowd had been all afternoon.
+Camera: full shot, head-to-toe, full body, outfit visible, clear silhouette from high angle shot, looking down, vulnerable subject, small, observed, front-on shot, direct gaze, symmetrical composition, facing camera, shot on 35mm lens, natural documentary perspective, balanced subject and background, minimal distortion
+Lighting/mood: warm golden-hour sunlight, long soft shadows, nostalgic warmth
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast; the accent is the trampled lawn itself, its green now dulled and going out.
+Korean default: Korean physical features, a Korean riverside park lawn at dusk.
+Text handling: no signage, banner, marking or lettering anywhere on the lawn or the uniform; no garbled or fake script, no meaningless letters, no random characters, no dense text.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the empty lawn) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the emptied park lawn) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -189,5 +195,5 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-한강공원 폴리스라인
+한강공원 잔디밭 노을
 ```
