@@ -1,32 +1,33 @@
-# 🛫 시한부터 정해진 활주로, 옮길 곳은 아직 없다
+# 이전지도 못 정한 군공항, 2028년 중순 비운다
 
 **[프롬프트 설계]**
-- 화풍: B 극화 — 국가 결정·안보 협상·800조 산업 배치가 얽힌 구조 사안이라 선명한 먹선과 명암 대비가 사안의 무게를 지탱한다
-- 분위기: 해질녘 활주로의 정적 위에 결정만 앞서 달리는 긴장. 온기와 냉기가 한 화면에서 갈리는 정조
-- 연출 방향: 뉴스를 안 보는 독자도 "내 동네 칸이 아직 비어 있다"는 감각으로 멈춘다 — 사건의 강조점은 *시간표*다. 채워진 칸(날짜·투자액·면적)과 비어 있는 칸(이전지·미측 동의·주민 동의)의 낙차를 인물의 시선과 텅 빈 지면으로 잡는다. 활주로·도면·격납고 같은 실물은 항상 사람과의 관계 속에서만 등장시키고, 마지막 카드는 두 지역의 시계가 아직 다른 시각을 가리킨다는 여백으로 닫는다
-- 독자 동선: **발단** 카드1(제시)→카드2 · **전개** 카드3~4 · **피크** 카드5 · **해소** 카드6 · **시사점** 카드6 결합 · 훅=카드1 끝(단서형 — 날짜만 박힌 시간표) + 카드3 끝(예고형 — 그 활주로를 비우는 조건) · 착지 한 줄 요지 = 광주의 칸은 채워졌고 무안과 한미 협상 테이블의 칸은 아직 비어 있다
-- 연속성 앵커: Recurring subject — a Korean man in his 60s with close-cropped gray hair and deep-set eyes, wearing a faded olive work jacket over a plain shirt / Recurring place — the long empty runway of Gwangju air base at dusk, low hangars along the far edge
+- 화풍: B 극화 — 800조 국가사업과 한미 6년 협의가 동시에 걸린 구조·정책 축이라 극화의 무게가 맞다
+- 분위기: 해질녘 온기 아래 깔린 냉기 — 시간표는 이미 굴러가는데 정작 그 시간을 감당할 쪽은 아직 아무것도 못 정한 초조함
+- 연출 방향: 뉴스를 안 보는 독자도 '내 동네가 저 표에 있으면?'으로 멈추게 — 사건의 강조점은 *비어 있는 것*에 둔다. 텅 빈 활주로, 문 닫힌 격납고, 아무 표시 없는 땅. 채워진 쪽(측량 말뚝·부지 모형·회의 테이블)과 비어 있는 쪽을 매 카드에서 같은 화면에 마주 세워, 800조라는 숫자보다 '아직 안 정해진 칸'이 먼저 보이게 만든다. 시각적 재미는 규모의 낙차(거대한 활주로 vs 울타리 밖 한 사람)로, 공감은 그 사람의 시선 하나로 끈다.
+- 독자 동선: **발단** 카드2→**전개** 카드3~4→**피크** 카드5→**해소** 카드6→**시사점** 카드7 · 제시용 도입은 카드1 · 훅=카드1 끝(예고형 — 800조가 걸려 있다는 규모 예고, 카드2가 즉시 회수)+카드4 끝(단서형 — 나가야 할 비행기가 갈 곳이 없다, 카드5가 즉시 회수) · 착지 한 줄 요지 = 시한이 합의보다 먼저 정해지면 남은 협상의 여지가 그만큼 줄어든다
+- 연속성 앵커: Recurring subject — a Korean man in his 60s with close-cropped gray hair, deep facial lines, wearing a faded olive windbreaker and dark work trousers / 반복 장소 = the Gwangju air base runway seen from beyond the chain-link perimeter fence
 
 ### [카드 1]
 **텍스트**
 ```text
-활주로는 아직 그대로다
-그 위에 들어설 공장의
-*비울 날짜부터 못 박혔다*
-2028년 중순, 광주 군공항
+광주 군공항 활주로는 아직 그대로다
+그 위에 들어설 반도체 공장보다
+*활주로를 비울 날짜가 먼저 정해졌다*
+이 활주로 하나에 800조원이 걸려 있다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a vacant thousand-yard stare, unfocused eyes looking past everything. Recurring subject — a Korean man in his 60s with close-cropped gray hair and deep-set eyes, wearing a faded olive work jacket over a plain shirt, stands small at the near edge of a long empty runway at dusk and looks toward the far end of it. Recurring place — the long empty runway of Gwangju air base at dusk, low hangars along the far edge. The cracked concrete of the runway is the single continuous ground surface running from the bottom of the frame to the horizon, and his shadow stretches back toward the viewer. Nose room on the right, gaze directed toward the right edge.
-Camera: extreme long shot, tiny subject, vast environment, scale, isolation from eye-level shot, neutral perspective, realistic, balanced emotion, shot on 24mm wide lens, cinematic wide shot, spatial context, subtle depth
+Scene: Emotional focal point: the man's unblinking eyes fixed on the far end of an empty runway. Recurring subject - a Korean man in his 60s with close-cropped gray hair, deep facial lines, wearing a faded olive windbreaker and dark work trousers, stands outside a chain-link perimeter fence with both hands gripping the wire. Beyond the fence one vast runway stretches to the horizon with faded centerline markings and not a single aircraft on it. Two small figures in suits walk far away on the same asphalt, too distant to hear.
+Camera: establishing wide shot from a slightly high angle, shot on 24mm wide lens
 Lighting/mood: warm golden-hour sunlight, long soft shadows, nostalgic warmth
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
-Text handling: no signage text anywhere, no runway markings that read as words or numbers, keep every surface free of letters.
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the runway centerline markings), muted daylight contrast
+Korean setting and Korean people throughout, Korean road and signage conventions.
+Text handling: avoid all incidental lettering on fences, signs and markings; use shapes and pictographic marks only.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the runway concrete) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the runway asphalt) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -41,54 +42,56 @@ NEGATIVE — strictly avoid:
 ### [카드 2]
 **텍스트**
 ```text
-이재명 대통령이 10일 회의에서
-국방부에 지시한 내용이다
-"2028년 중순까지 광주기지 기능을
-*다른 군 공항으로 임시 배치하라*"
+지난 7월 1차 회의에서 낙점된 땅이다
+삼성전자와 SK하이닉스가 나섰다
+*각각 400조원씩 모두 800조원이다*
+활주로와 탄약고 합쳐 820만㎡ 부지다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: fingertips pressed together in a steeple, a confident power gesture. A Korean man in a dark suit sits at the head of a long conference table and speaks toward the officials seated down the near side, his gaze fixed on the far end of the table rather than on any one person. A single closed folder lies untouched in front of him while the officials before him keep their hands on open notebooks. The polished tabletop is the one continuous surface filling the frame, and the seated figures ring its far edge.
-Camera: medium shot, waist-up framing, face and gestures, conversational from low angle shot, looking up, powerful subject, dominance, dramatic presence, shot on 50mm standard lens, minimal distortion, natural cinematic composition
-Lighting/mood: harsh single overhead light pooling on the table, deep surrounding black, oppressive interrogation
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
-Text handling: the folder and notebooks stay closed or blank, no readable documents, no nameplates, no logos, no institutional emblems.
+Scene: Emotional focal point: two pairs of hands pressed flat on the edge of a terrain model, fingers spread as if already holding the ground. Two Korean businessmen in dark suits stand on opposite sides of a large table-mounted model of a flat airfield, both looking down into it, a single pin-flag planted at its center. Through the floor-to-ceiling window behind them the same flat airfield lies outside under a low grey sky.
+Camera: full shot from a low angle, shot on 20mm wide lens
+Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the pin-flag at the model's center), muted daylight contrast
+Korean setting and Korean people throughout.
+Text handling: no lettering on the model, the window or any surface; use plain shapes and pictographic marks only.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the conference tabletop) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the office floor) extending edge to edge from top to bottom of the frame. The main subjects are anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
 - no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
-- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minlimal Korean text only if essential (a few characters max)
+- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
 ```
 **검색어**
 ```text
-민관합동회의 청와대 반도체
+반도체 클러스터 조감도
 ```
 
 ### [카드 3]
 **텍스트**
 ```text
-주문은 한 발 더 나갔다
-임시 배치 전이라도 착공하라는 것
-*탄약고 부지는 이미 비어 있다*
-거기부터 팹을 파겠다는 뜻이다
+한 달 뒤인 8월 10일 2차 회의가 열렸다
+*2028년 중순까지 활주로를 비우라*
+대통령이 국방부에 준 시한이다
+공항을 옮기기도 전에 기능부터 뺀다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: two gloved hands pinning down the curling corner of a blueprint. Three officials in shirtsleeves crouch over a large site plan spread flat on bare cleared ground, and one of them presses a fingertip onto a small empty lot drawn at its edge while the others follow that finger with their eyes. Behind them the emptied ammunition depot stretches away as flattened dirt with the foundations of removed bunkers still scored into it. The bare ground is the one continuous surface filling the frame.
-Camera: high angle shot, looking down, vulnerable subject, small, observed, shot on 35mm lens, natural documentary perspective, balanced subject and background, minimal distortion
-Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
-Text handling: the site plan reads as pure line drawing and hatching only, no legends, no dimension figures, no labels of any kind.
+Scene: Emotional focal point: a pen tip pressed hard onto a blank desk calendar page, the knuckles gone white. A middle-aged Korean man in a dark suit sits at the head of a long conference table and speaks with his jaw set, his gaze directed toward the right edge of the frame. Three uniformed officers seated along his right keep their eyes down on closed folders. The table is bare except for microphones and that single calendar.
+Camera: medium shot from eye-level, three-quarter angle, shot on 50mm standard lens
+Lighting/mood: flat sterile clinical fluorescent light, cold even greenish-white, emotionless institutional
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 glowing on the microphone indicator light), muted institutional contrast
+Korean setting and Korean people throughout. Generic figures, no resemblance to any real person, no institutional emblem or logo anywhere.
+Text handling: the calendar page and the folders are blank; no lettering, no numerals, no insignia rendered anywhere.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the bare cleared ground) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the conference table top) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -97,29 +100,30 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-반도체 산업단지 부지 조성 공사
+청와대 민관합동회의
 ```
 
 ### [카드 4]
 **텍스트**
 ```text
-삼성전자와 SK하이닉스가
-*각각 400조원씩 800조원*을 넣어
-팹 4기를 짓는 자리다
-활주로와 탄약고 합쳐 250만평
+*임시 배치 전이라도 착공하라고 했다*
+탄약고 부지는 이전이 끝나 이미 비었다
+팹 4기에 필요한 건 300만㎡ 안팎이다
+그런데 나가야 할 비행기는 갈 곳이 없다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a single upturned face craning back to take in something far too large. Two workers in hard hats stand at the bottom of an immense concrete apron and tilt their heads back toward the towering steel skeleton of a half-built fabrication plant rising above them, its frame swallowing the sky. One of them holds a rolled drawing at his side without opening it. The concrete apron is the one continuous surface running unbroken from the bottom edge of the frame to the base of the structure.
-Camera: wide shot, full body, surrounding environment, movement, spatial context from ground-level shot, worm's-eye view, near floor, exaggerated scale, shot on 14mm ultra-wide lens, vast environment, dramatic depth, strong spatial presence
-Lighting/mood: harsh overexposed midday sunlight, hard shadows, oppressive heat
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
-Text handling: no company names, no logos, no banners, no numbers painted on the structure, all surfaces stay free of letters.
+Scene: Emotional focal point: a surveyor's stake driven into bare earth, a taut string line running away from it toward the far edge. Two gloved hands hammer the stake down in the foreground, the worker cropped above the waist so only the arms and the tool are visible. Far behind on the same ground, low earthen ammunition bunkers sit abandoned with their doors standing open, nothing inside them.
+Camera: extreme close-up from a high angle, shot on 100mm macro lens
+Lighting/mood: cold blue pre-dawn tone, desolate stillness
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the taut surveyor's string line), film-noir low-key lighting, deep shadows
+Korean setting throughout, Korean work clothing and tools.
+Text handling: no lettering on the stake, the bunkers or any surface; shapes only.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the concrete apron) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the bare earth of the former ammunition depot) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -128,29 +132,29 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-반도체 팹 건설 현장 철골
+군 탄약고 부지
 ```
 
 ### [카드 5]
 **텍스트**
 ```text
-그 활주로를 비우는 조건은 따로 있다
-이전은 당초 *2033년을 전제로*
-한미가 6년간 협의해온 사안이다
-당기려면 미측 동의부터 다시 받아야 한다
+군 공항 이전은 2033년이 전제였다
+한미가 6년을 협의해 온 일정을 앞당긴다
+*미측 동의도 대체 기지도 아직이다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: two sets of hands resting still on opposite sides of a table, neither reaching across. Two negotiators face each other from either end of a narrow table with a tense empty gap between them, eyelines locked, neither leaning in. A single thin stack of paper sits closed at the exact center of the table, equidistant from both. The dark tabletop is the one continuous surface filling the frame from edge to edge.
-Camera: two-shot, two characters in frame, relationship distance, emotional dynamic from profile shot, side view, clear silhouette, directional movement, shot on 70mm short telephoto, gentle background compression, subject isolation
+Scene: Emotional focal point: the pilot's eyes, wide and unmoving, mirrored in the dark canopy glass. A Korean air force pilot in a flight suit stands in profile beside a parked fighter jet at night, helmet held against his hip, one gloved hand flat on the fuselage, looking toward the shut hangar doors. The runway lights beyond him are switched off and the tarmac is empty in every direction.
+Camera: close-up from eye-level, profile angle, shot on 85mm portrait lens
 Lighting/mood: single hard side-light cutting across the subject, deep chiaroscuro shadows, tense atmosphere
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
-Text handling: the paper stack stays closed and blank, no flags, no national emblems, no readable documents anywhere.
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 rim along the canopy glass), film-noir low-key lighting, deep shadows
+Korean setting and Korean people throughout. Generic figure, no unit insignia, no emblem, no national flag patch rendered.
+Text handling: no lettering or markings on the aircraft, the hangar or the suit; shapes only.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the dark tabletop) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the tarmac) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -159,29 +163,30 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-한미 국방 협의 회담 테이블
+공군 제1전투비행단 전투기
 ```
 
 ### [카드 6]
 **텍스트**
 ```text
-비행단을 받을 무안은 아직 정리 전이다
-망운면이 예비 후보지로 꼽혔을 뿐
-주민투표와 유치 신청이 남았다
-*시한이 합의보다 먼저 정해진 셈이다*
+받을 쪽 절차는 아직 진행 중이다
+예비 후보지는 무안군 망운면이다
+*주민투표와 유치 신청이 남아 있다*
+연내 확정 계획이지만 반발은 여전하다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a hand hovering over a village noticeboard without touching it. A middle-aged Korean farmer in a windbreaker stands alone before a small rural noticeboard at the edge of an open field and looks at the blank sheet pinned there, his other hand still holding a bundle of harvested stalks. Behind him the flat farmland runs out to a low horizon with no aircraft anywhere in sight. The packed dirt of the field path is the one continuous surface extending from the bottom of the frame to the horizon line.
-Camera: medium close-up, chest-up framing, facial emotion, slight body context from three-quarter angle, natural face depth, dimensional portrait, shot on 85mm portrait lens, flattering face, soft background separation, elegant focus
-Lighting/mood: cold blue pre-dawn tone, lone streetlight reflection on wet ground, desolate stillness
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
-Text handling: the pinned sheet is completely blank, no notices, no place names, no letters on the noticeboard or anywhere in the frame.
+Scene: Emotional focal point: an elderly woman's hand raised stiff and straight in the air while nobody calls on her. About twenty Korean villagers in work clothes sit on folding chairs in a rural community hall, most of them turned toward a blank presentation screen at the front. Two officials in windbreakers stand at the side holding clipboards, facing the screen instead of the room. A stack of blank application forms sits untouched on a side table.
+Camera: group shot from eye-level, over-the-shoulder from the back row, shot on 35mm lens
+Lighting/mood: overcast diffused daylight through side windows, flat soft shadows, muted somber mood
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the stack of blank application forms), muted daylight contrast
+Korean setting and Korean people throughout, rural Korean community hall interior.
+Text handling: the screen, the forms and the clipboards are blank; no lettering, no banners with writing, no numerals rendered anywhere.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the packed dirt field path) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the community hall floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -190,29 +195,30 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-무안군 망운면 농지
+무안군 망운면 주민설명회
 ```
 
 ### [카드 7]
 **텍스트**
 ```text
-800조가 걸린 일정표에서
-광주의 칸은 날짜까지 채워졌다
-무안과 한미 협상 테이블의 칸은
-*아직 비어 있다*
+광주의 칸은 채워졌고 날짜도 박혔다
+무안과 한미 테이블의 칸은 비어 있다
+시한이 합의보다 먼저 정해진 것이다
+*그만큼 남은 협상의 여지도 줄어든다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: steady unwavering eye contact held straight into the camera. Recurring subject — a Korean man in his 60s with close-cropped gray hair and deep-set eyes, wearing a faded olive work jacket over a plain shirt, stands facing the viewer at the near end of the runway with his arms at his sides. Recurring place — the long empty runway of Gwangju air base at dusk, low hangars along the far edge, receding behind him into the last light. The runway concrete is the one continuous surface filling the frame from bottom edge to horizon.
-Camera: full shot, head-to-toe, full body, outfit visible, clear silhouette from front-on shot, direct gaze, symmetrical composition, facing camera, shot on 40mm lens, neutral perspective, natural human-vision feel
+Scene: Emotional focal point: a vacant thousand-yard stare aimed straight at the viewer, unfocused, looking past everything. Recurring subject - a Korean man in his 60s with close-cropped gray hair, deep facial lines, wearing a faded olive windbreaker and dark work trousers, stands at the center of the frame on the runway asphalt at dusk, facing the camera with his arms hanging at his sides. Behind him one long painted line runs across the same asphalt: on one side rows of surveyor stakes stand in tight formation, on the other side the ground is bare and unmarked.
+Camera: full shot from eye-level, front-on angle, shot on 35mm lens
 Lighting/mood: faded warm light, soft golden haze, gently nostalgic and wistful
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
-Text handling: no signage, no runway numbers, no hangar markings, every surface stays free of letters.
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the long painted dividing line), muted dusk contrast
+Korean setting and Korean people throughout.
+Text handling: no lettering on the asphalt, the stakes or any surface; markings are plain shapes only.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the runway concrete) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the runway asphalt) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -221,5 +227,5 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-광주 군공항 격납고 노을
+광주 군공항 이전 부지 측량
 ```
