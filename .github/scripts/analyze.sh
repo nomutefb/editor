@@ -12,7 +12,8 @@ MODEL="$PIPE_MODEL"
 INLINE_TRIES=4          # 인라인 재시도 횟수 = 4계정 폴오버 체인 깊이(서브3 EMS1130M까지 단일 잡서 실호출) + 일시 과부하(529/5xx)·타임아웃(rc=124) 흡수(260622·4계정 확장 3→4)
 EFFORT="${PIPE_SEARCH_EFFORT:-max}"   # 검색·요약 추론깊이 — max 상향(운영자 260810 2차 지시 · A/B로 노력도↑=품질↑ 실증 후 확대). ⚠ 구 max→high 하향(260704)의 원인이던 이미지 다수검색은 IMG_SPLIT(260728)로 본선에서 분리됨 = 재도전 조건. 타임아웃 재발 시 롤백 = env PIPE_SEARCH_EFFORT(high/medium).
 IMG_SPLIT="${IMG_SPLIT:-1}"              # 관련이미지 수집 병렬 분리(운영자 260728 "소넷5 한명 붙여서 병렬") — '0' = 사진로봇 발사 안 함(image_sources 빈 채 → moreimg·og:image 백필만 = 무해 강하 · 롤백 레버)
-IMG_MODEL="${IMG_MODEL:-claude-sonnet-5}"   # 사진로봇 티어 = 소넷(구독 저부담) · ⚠️ --effort 미부여 관례(trend_images 동형 · models.json sonnet 축)
+IMG_MODEL="${IMG_MODEL:-claude-sonnet-5}"   # 사진로봇 티어 = 소넷(구독 저부담)
+IMG_EFFORT="${IMG_EFFORT:-high}"            # 명시 지명(운영자 260823 «없음으로 하지 말고 높음으로 지명» — 구 「--effort 미부여 관례」 폐지 · sonnet-5 는 노력도 지원 = sns_sum 상시 high 실증 · 미지정 = CLI 기본이 높음 상당이라 동작 동일)
 IMG_TIMEOUT="${IMG_TIMEOUT:-300}"        # 사진로봇 상한(초) — 오퍼스 본선(수분)보다 짧게 = 수확 시점 대기 ≈ 0 수렴
 ANALYZE_TIMEOUT="${ANALYZE_TIMEOUT:-900}"   # claude -p 타임아웃(초) — analyze 는 콘텐츠 초안까지 생성이라 15분 유지(ask 요약보다 김). 초과 시 계정 1회 전환 후 격리(force·아래 · 운영자 260704).
 ANALYZE_TIMEOUT_RETRY="${ANALYZE_TIMEOUT_RETRY:-450}"   # rc=124 강제전환 *재시도분* 상한(초 · 평의회 260727 신규4) — 타임아웃은 대개 입력바운드(계정 바꿔도 반복 · 아래 293행 주석 자인)라 재시도에 풀 900s 재배정은 낭비 → 절반 캡 = 최악 30분→22.5분/건. 캡 넘겨 격리돼도 sweep(*/10)이 재분석 = 유실 아닌 지연 · 롤백 = env 900.
@@ -337,7 +338,7 @@ ${extracted}"
 [제목 힌트] ${title_hint:-없음}
 [같은 사건 다른 매체] ${alt_urls:-없음}
 [본문 앞부분] $(printf '%s' "$extracted" | head -c 1200)"
-    ( printf '%s' "$img_prompt" | timeout "$IMG_TIMEOUT" claude -p --model "$IMG_MODEL" --safe-mode \
+    ( printf '%s' "$img_prompt" | timeout "$IMG_TIMEOUT" claude -p --model "$IMG_MODEL" --effort "$IMG_EFFORT" --safe-mode \
         --allowedTools "WebSearch,WebFetch" --disallowedTools "Write,Edit,NotebookEdit,Bash,Task" \
         --max-turns 14 > "$img_tmp" 2>/dev/null ) &
     img_pid=$!

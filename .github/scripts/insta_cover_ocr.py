@@ -143,6 +143,7 @@ def read_batch(pairs, model=MODEL, timeout=300):
         return {}
     prompt = PROMPT % '\n'.join('- ' + p for _, p in pairs)
     cmd = ['claude', '-p', '--model', model, '--safe-mode',
+           '--effort', 'high',   # 명시 지명(운영자 260823 «없음으로 하지 말고 높음으로 지명») — 미지정 = CLI 기본이 높음 상당 = 동작 동일·값 못박기만
            '--allowedTools', 'Read',
            '--disallowedTools', 'Write,Edit,NotebookEdit,Bash,Task,WebFetch,WebSearch',
            '--max-turns', str(len(pairs) + 4)]

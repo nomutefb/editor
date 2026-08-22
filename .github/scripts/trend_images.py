@@ -113,7 +113,8 @@ def main():
         qlist="\n".join("- " + q for q in queries))
 
     print("Claude({}) 트렌드 키워드 {}개 대표 뉴스 URL 배치 검색".format(MODEL, len(queries)), flush=True)
-    _args = ["claude", "-p", "--model", MODEL, "--safe-mode",   # --safe-mode = CLAUDE.md/스킬/MCP 비활성·내장 WebSearch/WebFetch 유지 · --bare 금지(OAuth 즉사) · --effort 미부여(sonnet 비호환)
+    _args = ["claude", "-p", "--model", MODEL, "--safe-mode",   # --safe-mode = CLAUDE.md/스킬/MCP 비활성·내장 WebSearch/WebFetch 유지 · --bare 금지(OAuth 즉사)
+             "--effort", "high",   # 명시 지명(운영자 260823 «없음으로 하지 말고 높음으로 지명») — 미지정 = CLI 기본이 높음 상당이라 동작 동일·값을 못박기만. 구 「sonnet 비호환」 서술은 낡음(sonnet-5 는 노력도 지원 · sns_sum 상시 high 실증)
              "--allowedTools", "WebFetch,WebSearch",
              "--disallowedTools", "Bash,Edit,Write,Read,Glob,Grep,Task,NotebookEdit,TodoWrite",
              "--max-turns", "50"]

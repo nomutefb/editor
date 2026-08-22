@@ -14,7 +14,7 @@ from claude_py import run_claude   # 쿼터 한도 시 4계정 자동 폴오버(
 FB = 'viewer/fb_data.json'
 CACHE = 'viewer/fb_cat_cache.json'
 CATS = ['정치', '사회', '경제', '국제', '문화', '테크']   # 인스타 topics 6버킷 동일(기타 = 분류 실패/미해당 · 뷰어 표시 제외)
-MODEL = os.environ.get('FB_CLS_MODEL', 'claude-haiku-4-5-20251001')   # 최저 티어 = 분류 충분·최저 쿼터
+MODEL = os.environ.get('FB_CLS_MODEL', 'claude-haiku-4-5-20251001')   # 최저 티어 = 분류 충분·최저 쿼터 · ⚠ 노력도(--effort) 지명 예외 = 하이쿠 4.5 는 노력도 파라미터 미지원(공식 문서 = 부여 시 오류) — 운영자 260823 «없음 금지 = 높음 지명»의 유일 면제 자리(모델을 올리면 그때 같이 지명)
 
 
 def jload(p, dflt):

@@ -211,6 +211,7 @@ jobs:
       - name: 사건 묶기 판정 (claude -p · group_judge)
         if: steps.chk.outputs.pending != '0' && (inputs.group_canary || env.GROUP_ON == '1')
         env:
+          GROUP_EFFORT: high   # 명시 지명(운영자 260823 «없음으로 하지 말고 높음으로 지명») — 종전 미지정 = CLI 기본이 높음 상당이라 동작 동일·값 못박기만(모델 = opus 유지 · 운영자 260702)
           GROUP_SAFE: '1'   # judge류 공통 --safe-mode(§📰 · 판정은 stdin 룰북만 = CLAUDE.md 불필요)
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets[format('CLAUDE_CODE_OAUTH_TOKEN_{0}', inputs.account || vars.ACTIVE_ACCOUNT || 'MUTENO')] }}
           CLAUDE_CODE_OAUTH_TOKEN_ALT: ${{ (inputs.account || vars.ACTIVE_ACCOUNT || 'MUTENO') == 'NOMUTEFB' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_NOMUTEFB }}   # 서브1 폴오버(체인 MUTENO→NOMUTEFB→EMS1130G→EMS1130M)
