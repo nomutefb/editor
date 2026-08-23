@@ -7439,8 +7439,14 @@
   {
    "query": "liverpool",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/08bce3aab9.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://sports.khan.co.kr/article/202608222018003/",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-08-24T02:30:00+09:00",
    "isNew": true,
@@ -7452,8 +7458,14 @@
   {
    "query": "뉴캐슬 리버풀",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/08bce3aab9.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://sports.khan.co.kr/article/202608222018003/",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-08-24T02:20:00+09:00",
    "isNew": true,
@@ -7512,7 +7524,7 @@
  ],
  "gtrends_pool_updated": "2026-08-24T04:50:21+09:00",
  "_trend_img": {
-  "tried": "2026-08-24T04:14:46+09:00",
+  "tried": "2026-08-24T04:50:21+09:00",
   "fail": {
    "리버풀": "2026-08-24T03:46:29+09:00",
    "뉴캐슬": "2026-08-24T04:22:55+09:00"
@@ -16941,7 +16953,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-08-24T04:50:21+09:00"
+    "first_seen": "2026-08-24T04:50:21+09:00",
+    "kw": "엔비디아, WSJ",
+    "sum": "계정이 엔비디아의 미국산 AI 대항마 투자 기사를 공유했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -16956,7 +16971,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-08-24T04:50:21+09:00"
+    "first_seen": "2026-08-24T04:50:21+09:00",
+    "kw": "엔비디아, Poolside, Nemotron",
+    "sum": "엔비디아가 장비값 인상과 동시에 자체 AI 모델 개발에 나섰다고 전했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
