@@ -347,11 +347,21 @@
  "threads": [
   {
    "account": "choi.openai",
-   "text": "스마트폰 영상 한 편으로 움직이는 사람을 통째로 4D 복원하는 프레임워크가 오픈소스로 풀렸습니다.\n\n앤트리서치(Ant Research)가 SIGGRAPH Asia 2026에서 발표한 4DAnyone인데요. 멀티카메라나 캘리브레이션 없이 일반 단안 영상 하나만 넣으면 여러 시점의 영상을 생성한 뒤, 4D 가우시안 스플래팅으로 재구성합니다.\n\n기존 영상 디퓨전은 시점이 많아지면 그룹을 나눠 처리하면서 그룹 사이 구조가 어긋나는 문제가 있었습니다. 4DAnyone은 참조 뷰를 고정 길이로 압축하는 RCP와, 디노이징마다 그룹 구성을 바꾸는 TCR로 이를 해결했습니다.\n\n이미지 한 장에서 정적 3D를 만드는 단계를 지나, 이제 일반 영상에서 시간축까지 담은 4D 인체로 넘어가고 있습니다.\n\n스튜디오 없이 촬영 영상 하나로 디지털 휴먼을 만드는 시대가 가까워지면서 VFX, 게임, 커머스 제작 방식도 크게 달라질 것 같습니다.",
-   "likes": 0,
+   "text": "프로젝트 주소 :\nhttps://4danyone.github.io/",
+   "likes": 3,
    "cmts": 0,
+   "time": 1787457610,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DcXlETrgH4f",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "스마트폰 영상 한 편으로 움직이는 사람을 통째로 4D 복원하는 프레임워크가 오픈소스로 풀렸습니다.\n\n앤트리서치(Ant Research)가 SIGGRAPH Asia 2026에서 발표한 4DAnyone인데요. 멀티카메라나 캘리브레이션 없이 일반 단안 영상 하나만 넣으면 여러 시점의 영상을 생성한 뒤, 4D 가우시안 스플래팅으로 재구성합니다.\n\n기존 영상 디퓨전은 시점이 많아지면 그룹을 나눠 처리하면서 그룹 사이 구조가 어긋나는 문제가 있었습니다. 4DAnyone은 참조 뷰를 고정 길이로 압축하는 RCP와, 디노이징마다 그룹 구성을 바꾸는 TCR로 이를 해결했습니다.\n\n이미지 한 장에서 정적 3D를 만드는 단계를 지나, 이제 일반 영상에서 시간축까지 담은 4D 인체로 넘어가고 있습니다.\n\n스튜디오 없이 촬영 영상 하나로 디지털 휴먼을 만드는 시대가 가까워지면서 VFX, 게임, 커머스 제작 방식도 크게 달라질 것 같습니다.",
+   "likes": 14,
+   "cmts": 1,
    "time": 1787457602,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/779002143_1691652088612254_780280064125841551_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk2OTgwNDU1NDQ1NDcwMjkxNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=LS-roGjqV7EQ7kNvwH-8bDt&_nc_oc=Adr2Z2BblHv1SPRktQx3aZgPKJKM3vsfJBsA7DXRSNfkviz7a7Z-7rx25bPRFufj9WA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=H74Y8gzgqrYF2hPo1oznCA&_nc_ss=7a22e&oh=00_AQFRT0F2feFLl4HTow0_Wye4GLxuOtOqaxlRNfW4o7XCMA&oe=6A903787",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/779002143_1691652088612254_780280064125841551_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk2OTgwNDU1NDQ1NDcwMjkxNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=LS-roGjqV7EQ7kNvwH-8bDt&_nc_oc=Adr2Z2BblHv1SPRktQx3aZgPKJKM3vsfJBsA7DXRSNfkviz7a7Z-7rx25bPRFufj9WA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=IXqJD4GzrHwSxrZMXAEbpQ&_nc_ss=7a22e&oh=00_AQFSqGcvNzDzj3xrkZOtfXquEG0p9CNaTeTfKNaB3SXflA&oe=6A903787",
    "url": "https://www.threads.com/@choi.openai/post/DcXlDWYABtC",
    "region": "kr"
   },
@@ -371,7 +381,7 @@
    "likes": 0,
    "cmts": 1,
    "time": 1787455877,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/779918649_18082416341407306_270545403959922898_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk2OTc5MDAwNTczMzIxMjMxNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=jCjnYkiqRm8Q7kNvwEORjkw&_nc_oc=AdpHP40ipxS80deQS1ntIzKACnnqdYTos1hzo6j4AKm5usAM52nz6jA-eQxP81MQyD8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=seTOeaCj-5yRWGSszFFFHg&_nc_ss=7a22e&oh=00_AQF0_2Soc8FzezU0VNHYp_69IWr_H-sESw5PQyGN1uhlqA&oe=6A90592B",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/779918649_18082416341407306_270545403959922898_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk2OTc5MDAwNTczMzIxMjMxNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=jCjnYkiqRm8Q7kNvwEORjkw&_nc_oc=AdpHP40ipxS80deQS1ntIzKACnnqdYTos1hzo6j4AKm5usAM52nz6jA-eQxP81MQyD8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=U7euZuVkz1QmlwXamx3FaA&_nc_ss=7a22e&oh=00_AQFnMSMvIe5iULk_lLoL62f_iZPxp25LR2KFGQ0SHR72cg&oe=6A90592B",
    "url": "https://www.threads.com/@aipeekme/post/DcXhvo0n8Cd",
    "region": "kr"
   },
@@ -383,16 +393,6 @@
    "time": 1787452252,
    "thumb": "",
    "url": "https://www.threads.com/@choi.openai/post/DcXa2PpD1b6",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "나노바나나급이라는 평가를 받는 이미지 모델이 무료로 풀렸습니다.\n\n중국 상탕(SenseTime)이 SenseNova U1.5 Lite를 아파치 2.0으로 오픈소스 공개했는데요. 이미지 이해·생성·편집을 하나의 모델에서 처리하며 4K 네이티브 생성과 중·영문 텍스트 렌더링까지 지원합니다.\n\n이미지에서 바꿀 영역을 박스로 지정하면 나머지는 유지한 채 해당 부분만 수정하고, 여러 참조 이미지에서 특정 객체를 골라 편집할 수도 있습니다.\n\n이름은 8B지만 실제로는 이해용 8B와 생성용 8B를 합친 18B 구성입니다.\n양자화하면 VRAM 12GB 게이밍 GPU에서도 돌아간다는 보고가 있으며, 훈련 파이프라인도 순차 공개할 예정입니다.\n\nZ-Image, Qwen 이미지 에디트에 이어 중국 오픈소스 이미지 경쟁이 이제 생성 품질을 넘어 이해·생성·정밀 편집 전체로 번지고 있습니다.",
-   "likes": 40,
-   "cmts": 2,
-   "time": 1787452243,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/782209342_17983603863112832_3159731608660637384_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk2OTc1OTU5NTcxOTQ5Mzc5Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuNDA5Ni5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=0PSJFPsdK7EQ7kNvwHLUg-7&_nc_oc=AdoEsic7BGEPwuZpdmSTE2vs_IFKoyeEZufv18vyGwVzUlHWKl_dzc7Je9bZZOBCrFQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=H74Y8gzgqrYF2hPo1oznCA&_nc_ss=7a22e&oh=00_AQHyI3hQ6Wp534h_2TB2fj01qnpjO9pT6qvVy6pIoj8L9g&oe=6A904E04",
-   "url": "https://www.threads.com/@choi.openai/post/DcXa1NADxAK",
    "region": "kr"
   },
   {
@@ -408,10 +408,10 @@
   {
    "account": "aicoffeechat",
    "text": "50만 유튜버가 정리한 현 AI 모델 티어리스트\n\n새로운 모델을 경험해보고 싶어하시는 분들은 참고가 될듯하여 공유해드립니다.",
-   "likes": 23,
+   "likes": 25,
    "cmts": 8,
    "time": 1787451630,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/784003047_17953883487232485_8960502720738112202_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk2OTc1NDQ1OTIzMjUwNzYzNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTk2OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=dNZXmRHUhzkQ7kNvwH0igXj&_nc_oc=AdrZdaGrNUYFRK0g4CjabIPMsd6omszKn75IyPh5pUAWBuvVZFtA75I47rfrW_LVuCQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=C3Qv8GM_T1nYaLRWKLKKnQ&_nc_ss=7a22e&oh=00_AQGVGUaMl1Pw3dZeX2aMBYBywqTTW8p29vtof_uoqGATZw&oe=6A903BF7",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/784003047_17953883487232485_8960502720738112202_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk2OTc1NDQ1OTIzMjUwNzYzNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTk2OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=dNZXmRHUhzkQ7kNvwH0igXj&_nc_oc=AdrZdaGrNUYFRK0g4CjabIPMsd6omszKn75IyPh5pUAWBuvVZFtA75I47rfrW_LVuCQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=vzIlbCNNwz_2odMH7oCfaw&_nc_ss=7a22e&oh=00_AQGiAmfPE9WLpSnudeFeZTfdMes9flG4Z9Cm5bIYIcuwbQ&oe=6A903BF7",
    "url": "https://www.threads.com/@aicoffeechat/post/DcXZqXkE5by",
    "region": "kr"
   },
@@ -421,8 +421,18 @@
    "likes": 2,
    "cmts": 0,
    "time": 1787448815,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/784222368_2081945242695993_5628768001949264129_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk2OTczMDY1MjM2MzE1OTgyNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=JLWLD9Wo3qoQ7kNvwHwZLNu&_nc_oc=Adq6b6oURREOkjaJwZyjb3HrITC6O9S9nuqi_bgn9n_EzzqvWWSnqZSza1DzOOuaqlw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=seTOeaCj-5yRWGSszFFFHg&_nc_ss=7a22e&oh=00_AQFwmxeGEXDOnq_tc-k7A4EZeafj6r6sH45fT1JDI_sKGA&oe=6A903C4F",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/784222368_2081945242695993_5628768001949264129_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk2OTczMDY1MjM2MzE1OTgyNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMyIn0%3D&_nc_ohc=JLWLD9Wo3qoQ7kNvwHwZLNu&_nc_oc=Adq6b6oURREOkjaJwZyjb3HrITC6O9S9nuqi_bgn9n_EzzqvWWSnqZSza1DzOOuaqlw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=U7euZuVkz1QmlwXamx3FaA&_nc_ss=7a22e&oh=00_AQFEpfgiqA-VPOp__m9C6BtCUepsME8rHo4lSDF_AjSYRA&oe=6A903C4F",
    "url": "https://www.threads.com/@aipeekme/post/DcXUP7sFfkT",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "나노바나나급이라는 평가를 받는 이미지 모델이 무료로 풀렸습니다.\n\n중국 상탕(SenseTime)이 SenseNova U1.5 Lite를 아파치 2.0으로 오픈소스 공개했는데요. 이미지 이해·생성·편집을 하나의 모델에서 처리하며 4K 네이티브 생성과 중·영문 텍스트 렌더링까지 지원합니다.\n\n이미지에서 바꿀 영역을 박스로 지정하면 나머지는 유지한 채 해당 부분만 수정하고, 여러 참조 이미지에서 특정 객체를 골라 편집할 수도 있습니다.\n\n이름은 8B지만 실제로는 이해용 8B와 생성용 8B를 합친 18B 구성입니다.\n양자화하면 VRAM 12GB 게이밍 GPU에서도 돌아간다는 보고가 있으며, 훈련 파이프라인도 순차 공개할 예정입니다.\n\nZ-Image, Qwen 이미지 에디트에 이어 중국 오픈소스 이미지 경쟁이 이제 생성 품질을 넘어 이해·생성·정밀 편집 전체로 번지고 있습니다.",
+   "likes": 49,
+   "cmts": 2,
+   "time": 1787452243,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/782209342_17983603863112832_3159731608660637384_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk2OTc1OTU5NTcxOTQ5Mzc5Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuNDA5Ni5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=0PSJFPsdK7EQ7kNvwHLUg-7&_nc_oc=AdoEsic7BGEPwuZpdmSTE2vs_IFKoyeEZufv18vyGwVzUlHWKl_dzc7Je9bZZOBCrFQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=IXqJD4GzrHwSxrZMXAEbpQ&_nc_ss=7a22e&oh=00_AQG_XaKKn8LWT81q1_jT5c-HK6A6EZTPKaKSqjdLzNRdXA&oe=6A904E04",
+   "url": "https://www.threads.com/@choi.openai/post/DcXa1NADxAK",
    "region": "kr"
   },
   {
@@ -431,18 +441,8 @@
    "likes": 2,
    "cmts": 1,
    "time": 1787448789,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/784518969_1511357431037852_2418892503128338264_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk2OTczMDM1ODk2MzAzMTAxOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=r2JH-Ys2zwYQ7kNvwHJ3X1_&_nc_oc=Adqarb4rwzJtlKKAh9_oe2kbfBaURhVbWFXI7hQMcl2xQ4jTnXQ0hTydHQ874eF9Lt8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=seTOeaCj-5yRWGSszFFFHg&_nc_ss=7a22e&oh=00_AQGhy1_SelJRHeE24039ljQwhXTBFE3diK4eoSU-v5Yugg&oe=6A902932",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/784518969_1511357431037852_2418892503128338264_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk2OTczMDM1ODk2MzAzMTAxOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMyIn0%3D&_nc_ohc=r2JH-Ys2zwYQ7kNvwHJ3X1_&_nc_oc=Adqarb4rwzJtlKKAh9_oe2kbfBaURhVbWFXI7hQMcl2xQ4jTnXQ0hTydHQ874eF9Lt8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=U7euZuVkz1QmlwXamx3FaA&_nc_ss=7a22e&oh=00_AQE5eFifLrxkZcW-xYRTY4RdHJ7ZxpG6lqDr08Aq43X2zQ&oe=6A906172",
    "url": "https://www.threads.com/@aipeekme/post/DcXULqcE0vr",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "주소 :\nhttps://www.flashml.ai/",
-   "likes": 6,
-   "cmts": 0,
-   "time": 1787446806,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DcXQdjkiR8E",
    "region": "kr"
   },
   {
@@ -457,28 +457,38 @@
   },
   {
    "account": "choi.openai",
-   "text": "와.. 이제 100만 원대 게이밍 노트북에서 350억 모델이 돌아갑니다.\n\n버클리 연구팀이 공개한 오픈소스 추론 엔진 FreeToken인데요.\nRTX 4060 8GB 노트북에서 Qwen3.6 35B가 초당 39토큰, RTX 5090에서는 2,840억 파라미터 DeepSeek V4 Flash가 초당 25토큰으로 돌아갑니다.\n워크스테이션 GPU 한 장이면 7,530억 GLM-5.2까지 구동하며, 극단적인 양자화도 쓰지 않습니다.\n\n비결은 스케줄러입니다. MoE의 전문가 전체는 램에 두고 자주 쓰는 것만 GPU에 캐싱해 Ollama보다 디코드를 3~4배 끌어올렸습니다.\n\nClaude Code나 Codex에 로컬 모델을 연결해 무료로 쓰는 것까지 겨냥했습니다.\n2년 전엔 ‘내 컴퓨터에서 LLM이 돌아갈까’를 물었다면, 이제는 ‘몇천억 모델을 얼마나 빠르게 돌릴까’를 묻는 시대가 됐습니다.",
-   "likes": 87,
-   "cmts": 3,
-   "time": 1787446799,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/782184756_925882893900694_5960074928321233042_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk2OTcxMzkzMzMyOTcyOTEyOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=5PhPLJWLNXAQ7kNvwGQAyzV&_nc_oc=AdoveUtX0YidTKkznwwxofcRFPwF3uySbx_gSlceKDfI7tYfF01I3IH3MYr7uddyFCU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=H74Y8gzgqrYF2hPo1oznCA&_nc_ss=7a22e&oh=00_AQHvbL3ltWq26-qtzyjlvTDIGuRfwAtXn1BJdzDNXr1qTA&oe=6A904486",
-   "url": "https://www.threads.com/@choi.openai/post/DcXQco4CYZp",
+   "text": "주소 :\nhttps://www.flashml.ai/",
+   "likes": 6,
+   "cmts": 0,
+   "time": 1787446806,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DcXQdjkiR8E",
    "region": "kr"
   },
   {
    "account": "aipeekme",
    "text": "로컬 환경에서 바로 구동하는 오픈소스 AI 에이전트 신디(Cindy)가 공개되었습니다.\n사용자의 실제 로컬 파일과 로그인된 앱을 그대로 활용하며 브라우저와 PC, 스마트폰을 직접 제어합니다.\n클로드 코드와 코덱스 하네스를 먼저 지원하며 작업 도중 모델과 하네스를 교체해도 메모리와 작업 공간, 스킬, 도구가 유지됩니다.\n작업을 분할해 계획은 특정 조합이 세우고 병렬 실행과 검토는 서로 다른 하네스와 모델 조합이 맡는 방식도 가능합니다.\n메신저나 일정에서 작업을 받아와 수행하며, 자체 하네스와 팀 스킬 공유, 플러그인 장터도 개발 중입니다.\n에이전트의 완성도보다 하네스 간 컨텍스트를 끊김 없이 넘기는 설계가 실용적으로 다가왔습니다.\n다만 여러 하네스가 로컬 권한을 쥐고 병렬로 시스템을 건드릴 때 충돌을 얼마나 잘 막아낼지는 의문입니다.\n개인적으로는 데스크톱 단독 작업보다 모바일과 연계된 자동화가 매끄러운지 먼저 살펴볼 생각입니다.\n\n📷 사진 출처: github.com",
-   "likes": 1,
+   "likes": 2,
    "cmts": 1,
    "time": 1787447612,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/779907699_18082396124407306_1962496846391761373_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk2OTcyMDY4NzMwMTQ3ODI1MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=uMHjgnrevHcQ7kNvwFWVi5W&_nc_oc=Adr6wSsHsUTrWGjMgSUriDjmz15IscAGyBDbFrzdG1AEJBDaw1Kep5vYbg-CepsBoeg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=seTOeaCj-5yRWGSszFFFHg&_nc_ss=7a22e&oh=00_AQECT3gTyd1klT5TnSOM8n6Af7pvcNirhyx2EdX1D6m32Q&oe=6A902E6D",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/779907699_18082396124407306_1962496846391761373_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk2OTcyMDY4NzMwMTQ3ODI1MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=uMHjgnrevHcQ7kNvwFWVi5W&_nc_oc=Adr6wSsHsUTrWGjMgSUriDjmz15IscAGyBDbFrzdG1AEJBDaw1Kep5vYbg-CepsBoeg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=U7euZuVkz1QmlwXamx3FaA&_nc_ss=7a22e&oh=00_AQGoR1RipV7I9DY5gte5TgiBxTUdHuzdIiIGG1kW4PIXkg&oe=6A902E6D",
    "url": "https://www.threads.com/@aipeekme/post/DcXR-7AH8dq",
    "region": "kr"
   },
   {
    "account": "choi.openai",
+   "text": "와.. 이제 100만 원대 게이밍 노트북에서 350억 모델이 돌아갑니다.\n\n버클리 연구팀이 공개한 오픈소스 추론 엔진 FreeToken인데요.\nRTX 4060 8GB 노트북에서 Qwen3.6 35B가 초당 39토큰, RTX 5090에서는 2,840억 파라미터 DeepSeek V4 Flash가 초당 25토큰으로 돌아갑니다.\n워크스테이션 GPU 한 장이면 7,530억 GLM-5.2까지 구동하며, 극단적인 양자화도 쓰지 않습니다.\n\n비결은 스케줄러입니다. MoE의 전문가 전체는 램에 두고 자주 쓰는 것만 GPU에 캐싱해 Ollama보다 디코드를 3~4배 끌어올렸습니다.\n\nClaude Code나 Codex에 로컬 모델을 연결해 무료로 쓰는 것까지 겨냥했습니다.\n2년 전엔 ‘내 컴퓨터에서 LLM이 돌아갈까’를 물었다면, 이제는 ‘몇천억 모델을 얼마나 빠르게 돌릴까’를 묻는 시대가 됐습니다.",
+   "likes": 96,
+   "cmts": 3,
+   "time": 1787446799,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/782184756_925882893900694_5960074928321233042_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk2OTcxMzkzMzMyOTcyOTEyOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=5PhPLJWLNXAQ7kNvwGQAyzV&_nc_oc=AdoveUtX0YidTKkznwwxofcRFPwF3uySbx_gSlceKDfI7tYfF01I3IH3MYr7uddyFCU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=IXqJD4GzrHwSxrZMXAEbpQ&_nc_ss=7a22e&oh=00_AQHE-ogl2pw3KSVIcT_Hde__XQUMwhh2fHg8NUrYdi6olg&oe=6A904486",
+   "url": "https://www.threads.com/@choi.openai/post/DcXQco4CYZp",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
    "text": "주소 :\nhttps://design.minimax.io/",
-   "likes": 6,
+   "likes": 7,
    "cmts": 0,
    "time": 1787441440,
    "thumb": "",
@@ -488,10 +498,10 @@
   {
    "account": "choi.openai",
    "text": "MiniMax가 AI 디자인 도구 MiniMax Design을 정식 출시했습니다.\n\n목표만 입력하면 여러 AI 에이전트가 작업을 나눠 이미지, 영상, 음성, 편집까지 진행해 결과물을 만드는 방식인데요.\n\n광고, 쇼핑몰 상품 이미지, 모션 그래픽, 후반 작업 등에 활용할 수 있습니다. 로컬 파일을 연결할 수 있고, API 연동과 비공개 환경 배포도 지원합니다.\n\n직접 프롬프트를 하나씩 조정하기보다, 만들고 싶은 결과를 설명하면 AI가 제작 과정을 이어서 처리하는 쪽에 가깝습니다.",
-   "likes": 43,
+   "likes": 46,
    "cmts": 2,
    "time": 1787441432,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/780860552_1762756984770294_7350132482986992999_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk2OTY2ODkwODYwMDg1OTM1NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=TbUUUK4KG-oQ7kNvwFcROoS&_nc_oc=AdpGcfpTKilWwYm4qxwcZgmC_wdUP4SNEss9QUaPCW89VhI8GV3eBDFBUrHLHy7tYSI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=H74Y8gzgqrYF2hPo1oznCA&_nc_ss=7a22e&oh=00_AQHaULZi-HK890_KdaEuPrBrNDIQytVu_jW-YeKhObcueA&oe=6A904F36",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/780860552_1762756984770294_7350132482986992999_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk2OTY2ODkwODYwMDg1OTM1NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=TbUUUK4KG-oQ7kNvwFcROoS&_nc_oc=AdpGcfpTKilWwYm4qxwcZgmC_wdUP4SNEss9QUaPCW89VhI8GV3eBDFBUrHLHy7tYSI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=IXqJD4GzrHwSxrZMXAEbpQ&_nc_ss=7a22e&oh=00_AQEMyKyyTehiheP6TR1Y8B9502iyMxiUCS2vfbNeRT73rw&oe=6A904F36",
    "url": "https://www.threads.com/@choi.openai/post/DcXGNcVERrb",
    "region": "kr"
   }
@@ -503,7 +513,7 @@
    "views": 1600000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAbAoCECNeDAVDgQBcAkFzYBfoUADqQCQWIuZl~tplv-tiktokx-origin.image?dr=14575&x-expires=1787630400&x-signature=61n6V8%2BKihuI5NKYNflnsvmKdyk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAbAoCECNeDAVDgQBcAkFzYBfoUADqQCQWIuZl~tplv-tiktokx-origin.image?dr=14575&x-expires=1787630400&x-signature=By%2Be5fA4LDL7ZNxmkJ%2FZTb1p55A%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785471372,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7668541152869616914",
    "region": "kr"
@@ -522,7 +532,7 @@
   {
    "account": "jaemyung_lee",
    "title": "이번 정류장은 브라질입니다 #이재명 #대통령 #Brasil #Brazil",
-   "views": 752600,
+   "views": 752700,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooBGAi8A6InMPiZBpU9fBkTRtAAwBKw0m1E0Ag~tplv-tiktokx-origin.image?dr=14575&x-expires=1787630400&x-signature=YBvgAI%2FaA8VK7zsXY6OnYPxWKKs%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -533,7 +543,7 @@
   {
    "account": "jaemyung_lee",
    "title": "¡Gusto en conocerte, Argentina! 🇰🇷🤝🇦🇷 #이재명 #아르헨티나 #argentina #javiermilei",
-   "views": 474500,
+   "views": 474600,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/o43E0EJDgKsBeuyFfnqRBCAvI1sAAbI2NsPlIc~tplv-tiktokx-origin.image?dr=14575&x-expires=1787630400&x-signature=W3%2BvN%2BIgKbUlHwLCrzkvjxP6%2FtU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -544,7 +554,7 @@
   {
    "account": "jaemyung_lee",
    "title": "이번 정류장은 칠레입니다🇰🇷🇨🇱 #이재명 #대통령 #Chile #Corea",
-   "views": 360400,
+   "views": 360500,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQpDHATAEBzAIGFgqwDA4hofdRfVCsCaqEBIkL~tplv-tiktokx-origin.image?dr=14575&x-expires=1787630400&x-signature=QYjWXOsFsOqV0jX%2FUMiApZ30kHM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -555,7 +565,7 @@
   {
    "account": "jaemyung_lee",
    "title": "프랑크푸르트에 도착했습니다🇰🇷🇩🇪 #이재명 #deutschland #frankfurt",
-   "views": 248000,
+   "views": 248100,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1787630400&x-signature=yYM4zBNPezeRPRma8semaRc18Zc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -599,7 +609,7 @@
   {
    "account": "jaemyung_lee",
    "title": "대통령님, 부동산 정책의 목표가 뭔가요? #이재명 #대통령 #부동산토론회",
-   "views": 103200,
+   "views": 103300,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ok7qEZCqBgAIPBVFAEgOfAJAhjCDYF5jcUeyNC~tplv-tiktokx-origin.image?dr=14575&x-expires=1787630400&x-signature=I5IvL05nYy%2FYN%2FyjNN8b1nUN%2FZQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -621,7 +631,7 @@
   {
    "account": "tictok_ent",
    "title": "코르티스(CORTIS) 성현, 보면 볼수록 빠져드는 매력 / 토리든 'DEEP DIVE NEWS’ 팝업 스토어 #코르티스 #CORTIS #마틴 #제임스 #주훈 #성현 #건호 #토리든 #Torriden",
-   "views": 1263,
+   "views": 1267,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o8AIwizAKX1E1AKfFANQCp9t2VvBBBiuOb1APW~tplv-tiktokx-origin.image?dr=14575&x-expires=1787630400&x-signature=aJrlTDLfYn%2FloKjbyKne%2BBvJwHM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -631,15 +641,6 @@
   }
  ],
  "reddit": [
-  {
-   "sub": "meirl",
-   "title": "Meirl",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/e2ye32j7n0lh1.jpeg?width=640&crop=smart&auto=webp&s=aa642f5a929a77d4b2ff65d809aef25f8fa3c62e",
-   "time": 1787443494,
-   "url": "https://www.reddit.com/r/meirl/comments/1vvs19z/meirl/"
-  },
   {
    "sub": "AskReddit",
    "title": "What is a piece of technology that was obsolete almost immediately after it was released?",
@@ -668,49 +669,13 @@
    "url": "https://www.reddit.com/r/SipsTea/comments/1vvh8yw/she_is_a_millionaire_now/"
   },
   {
-   "sub": "mildlyinteresting",
-   "title": "My dad saved 6 acid trips from the early 80’s. They are small “plastic” pyramids.",
+   "sub": "meirl",
+   "title": "Meirl",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/o3ixcfr4bzkh1.jpeg?width=640&crop=smart&auto=webp&s=42e51d4f9bae7bc44ba2fce341dfd33f99845895",
-   "time": 1787427326,
-   "url": "https://www.reddit.com/r/mildlyinteresting/comments/1vvlovc/my_dad_saved_6_acid_trips_from_the_early_80s_they/"
-  },
-  {
-   "sub": "BeAmazed",
-   "title": "Extremely rare white aurora",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/ZnB6ZGI1bjd1MGxoMZtV_GJ5oFJF-W8wPwhPvuy0PgAVy23bX4_TovT-JkJu.jpeg?width=640&crop=smart&auto=webp&s=159e7491525aff376c0b68b0bd17261d91d4bd16",
-   "time": 1787445851,
-   "url": "https://www.reddit.com/r/BeAmazed/comments/1vvsw0f/extremely_rare_white_aurora/"
-  },
-  {
-   "sub": "nextfuckinglevel",
-   "title": "Repo truck operator hooks and lifts a car in under 15 seconds without ever getting out of the cab",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/ZGx4OTd3bzRxeGtoMUGLbXRx4vWHktXLN5csFJQekVYyM2fpuRYZRi8PI6T7.png?width=320&crop=smart&auto=webp&s=0da717b85024506d676055be6e1089940943179b",
-   "time": 1787408175,
-   "url": "https://www.reddit.com/r/nextfuckinglevel/comments/1vvdlmy/repo_truck_operator_hooks_and_lifts_a_car_in/"
-  },
-  {
-   "sub": "interestingasfuck",
-   "title": "A Chinese robot did the 100 meter dash in 9.39 seconds. Beating Usain Bolts 9.58 seconds world record.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/dDRpeTBtZjczemtoMVWIQ_48yqrN2yaD624bmUE8_-1qtTDOpU5wd1E8r599.png?width=640&crop=smart&auto=webp&s=8fdf00b5689907f43c5ab4a4895a1c2b3f4e8835",
-   "time": 1787424677,
-   "url": "https://www.reddit.com/r/interestingasfuck/comments/1vvkk8e/a_chinese_robot_did_the_100_meter_dash_in_939/"
-  },
-  {
-   "sub": "BrandNewSentence",
-   "title": "“Roommate purchased a smartphone-sized slab of obsidian”",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/9lr6gu50i0lh1.jpeg?width=640&crop=smart&auto=webp&s=9f5c79719f23c531bac79bab143462e857c6b539",
-   "time": 1787441744,
-   "url": "https://www.reddit.com/r/BrandNewSentence/comments/1vvrdpq/roommate_purchased_a_smartphonesized_slab_of/"
+   "thumb": "https://preview.redd.it/e2ye32j7n0lh1.jpeg?width=640&crop=smart&auto=webp&s=aa642f5a929a77d4b2ff65d809aef25f8fa3c62e",
+   "time": 1787443494,
+   "url": "https://www.reddit.com/r/meirl/comments/1vvs19z/meirl/"
   },
   {
    "sub": "Weird",
@@ -722,13 +687,31 @@
    "url": "https://www.reddit.com/r/Weird/comments/1vvs2u2/five_guys_emerge_from_a_manhole_near_penn_station/"
   },
   {
-   "sub": "politics",
-   "title": "Trump: I’ll be impeached if I lose the midterms",
+   "sub": "BrandNewSentence",
+   "title": "“Roommate purchased a smartphone-sized slab of obsidian”",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/uEUeHdvR_2Kcy4yAnLDO64dILL8YnHjtBXYehL-AKgA.jpeg?width=640&crop=smart&auto=webp&s=b993c474b38c93c634a58d24c01bbb17ba43b7d4",
-   "time": 1787432847,
-   "url": "https://www.reddit.com/r/politics/comments/1vvnzsx/trump_ill_be_impeached_if_i_lose_the_midterms/"
+   "thumb": "https://preview.redd.it/9lr6gu50i0lh1.jpeg?width=640&crop=smart&auto=webp&s=9f5c79719f23c531bac79bab143462e857c6b539",
+   "time": 1787441744,
+   "url": "https://www.reddit.com/r/BrandNewSentence/comments/1vvrdpq/roommate_purchased_a_smartphonesized_slab_of/"
+  },
+  {
+   "sub": "mildlyinteresting",
+   "title": "My dad saved 6 acid trips from the early 80’s. They are small “plastic” pyramids.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/o3ixcfr4bzkh1.jpeg?width=640&crop=smart&auto=webp&s=42e51d4f9bae7bc44ba2fce341dfd33f99845895",
+   "time": 1787427326,
+   "url": "https://www.reddit.com/r/mildlyinteresting/comments/1vvlovc/my_dad_saved_6_acid_trips_from_the_early_80s_they/"
+  },
+  {
+   "sub": "nextfuckinglevel",
+   "title": "Repo truck operator hooks and lifts a car in under 15 seconds without ever getting out of the cab",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/ZGx4OTd3bzRxeGtoMUGLbXRx4vWHktXLN5csFJQekVYyM2fpuRYZRi8PI6T7.png?width=320&crop=smart&auto=webp&s=0da717b85024506d676055be6e1089940943179b",
+   "time": 1787408175,
+   "url": "https://www.reddit.com/r/nextfuckinglevel/comments/1vvdlmy/repo_truck_operator_hooks_and_lifts_a_car_in/"
   },
   {
    "sub": "me_irl",
@@ -740,13 +723,40 @@
    "url": "https://www.reddit.com/r/me_irl/comments/1vvrg56/me_irl/"
   },
   {
+   "sub": "interestingasfuck",
+   "title": "A Chinese robot did the 100 meter dash in 9.39 seconds. Beating Usain Bolts 9.58 seconds world record.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/dDRpeTBtZjczemtoMVWIQ_48yqrN2yaD624bmUE8_-1qtTDOpU5wd1E8r599.png?width=640&crop=smart&auto=webp&s=8fdf00b5689907f43c5ab4a4895a1c2b3f4e8835",
+   "time": 1787424677,
+   "url": "https://www.reddit.com/r/interestingasfuck/comments/1vvkk8e/a_chinese_robot_did_the_100_meter_dash_in_939/"
+  },
+  {
+   "sub": "politics",
+   "title": "Trump: I’ll be impeached if I lose the midterms",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/uEUeHdvR_2Kcy4yAnLDO64dILL8YnHjtBXYehL-AKgA.jpeg?width=640&crop=smart&auto=webp&s=b993c474b38c93c634a58d24c01bbb17ba43b7d4",
+   "time": 1787432847,
+   "url": "https://www.reddit.com/r/politics/comments/1vvnzsx/trump_ill_be_impeached_if_i_lose_the_midterms/"
+  },
+  {
+   "sub": "OldSchoolCool",
+   "title": "Bette Davis was the only white performer who agreed to be part of Hattie McDaniel's performing troupe to entertain Black servicemen during WWII.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/uku6u1vtw0lh1.jpeg?width=640&crop=smart&auto=webp&s=5b3d7b1e9441956eb6a8791e00b25746e103dafe",
+   "time": 1787446731,
+   "url": "https://www.reddit.com/r/OldSchoolCool/comments/1vvt6yj/bette_davis_was_the_only_white_performer_who/"
+  },
+  {
    "sub": "worldnews",
-   "title": "/r/WorldNews Live Thread: Russian Invasion of Ukraine Day 1641, Part 1 (Thread #1788)",
+   "title": "/r/WorldNews Live Thread: Russian Invasion of Ukraine Day 1642, Part 1 (Thread #1789)",
    "score": 0,
    "cmts": 0,
    "thumb": "",
-   "time": 1787371359,
-   "url": "https://www.reddit.com/r/worldnews/comments/1vv1y5g/rworldnews_live_thread_russian_invasion_of/"
+   "time": 1787457772,
+   "url": "https://www.reddit.com/r/worldnews/comments/1vvwv22/rworldnews_live_thread_russian_invasion_of/"
   },
   {
    "sub": "worldnews",
@@ -807,10 +817,10 @@
    }
   },
   "landing": {
-   "at": "2026-08-23T12:35:25",
+   "at": "2026-08-23T13:01:06",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-23T13:01:04.250474+09:00"
+ "updated": "2026-08-23T13:31:02.659387+09:00"
 }
