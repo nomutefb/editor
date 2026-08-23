@@ -123,7 +123,7 @@ jobs:
           CLAUDE_CODE_OAUTH_TOKEN_ALT2: ${{ (inputs.account || vars.ACTIVE_ACCOUNT || 'MUTENO') == 'MUTENO' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_MUTENO }}   # 서브2 폴오버(체인 3번째)
           CLAUDE_CODE_OAUTH_TOKEN_ALT3: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130M }}   # 서브3 폴오버(체인 실꼬리 = 항상 EMS1130M · 앞 3계정 소진 후)
           ACTIVE_ACCOUNT: ${{ inputs.account || vars.ACTIVE_ACCOUNT || 'MUTENO' }}
-          SUMMARY_LEN_GUARD: ${{ vars.SUMMARY_LEN_GUARD || '' }}   # 분량 가드(IG/Thread 과소 시 1회 보강) — 기본 OFF·repo 변수 '1'로 카나리아→승격(§파이프라인 e · 260705)
+          SUMMARY_LEN_GUARD: ${{ vars.SUMMARY_LEN_GUARD || '1' }}   # 분량 가드(IG/Thread 과소 시 1회 보강) — 기본 ON(운영자 260823 «켜주라» 사인오프 · 구 카나리아 대기 260705는 콜 실적 0인 채 잊혀 있던 자리) · 끄기 = repo 변수 SUMMARY_LEN_GUARD를 '1' 외 값(off 권장)으로(CARD_COV_GUARD 승격 관용구 사본)
           EVT_NAME: ${{ github.event_name }}
           EVT_BEFORE: ${{ github.event.before || '' }}   # push 직전 head — 병렬 스코프 범위 산출용(헤더 주석 ②)
           EVT_SHA: ${{ github.sha }}

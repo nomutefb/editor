@@ -327,13 +327,14 @@ if _haveclaude && [ "$(_left)" -ge 300 ]; then
   _na=$(ls asks/*.json  2>/dev/null | wc -l | tr -d ' ')
   if [ "${_np:-0}" != "0" ]; then
     echo "▶ 요약 분석 pending ${_np}건 (남은 예산 $(_left)s)"
+    SUMMARY_LEN_GUARD="${SUMMARY_LEN_GUARD:-1}" \
     ANALYZE_JOB_DEADLINE="$(( $(_left) - 120 ))" bash .github/scripts/analyze.sh || echo "⚠ 분석 일부 실패(성공분은 이미 착지)"
     [ -n "${VAPID_PRIVATE_KEY:-}" ] && { bash .github/scripts/notify_summary.sh || true; bash .github/scripts/notify_fail.sh || true; }
     _push "analyze: 요약 착지 (pc)" queue pending metrics messages
   fi
   if [ "${_na:-0}" != "0" ] && [ "$(_left)" -ge 300 ]; then
     echo "▶ 요약요청 asks ${_na}건 (남은 예산 $(_left)s)"
-    bash .github/scripts/ask.sh || echo "⚠ 요약요청 일부 실패"
+    SUMMARY_LEN_GUARD="${SUMMARY_LEN_GUARD:-1}" bash .github/scripts/ask.sh || echo "⚠ 요약요청 일부 실패"
     [ -n "${VAPID_PRIVATE_KEY:-}" ] && { bash .github/scripts/notify_summary.sh || true; bash .github/scripts/notify_fail.sh || true; }
     _push "ask: 요약 요청 큐레이션 (pc)" queue asks metrics messages
   fi
