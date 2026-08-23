@@ -78,6 +78,7 @@ ANALYZE_SAFE_MODE="${ANALYZE_SAFE_MODE:-0}"
 ANALYZE_SAFE_ARGS=()
 if [ "$ANALYZE_SAFE_MODE" = "1" ]; then ANALYZE_SAFE_ARGS=(--safe-mode); fi
 source "$ROOT/shared/summary_repair.sh"    # 분량 가드 SSOT — IG/Thread 과소 시 1회 보강(기본 OFF·SUMMARY_LEN_GUARD='1' · 260705)
+source "$ROOT/shared/summary_polish.sh"    # 한국어 윤문 SSOT — 요약 뒤 문체만 별도 1콜(운영자 260823 «프롬프트 무접촉·기능 분리» · 기본 ON·SUMMARY_POLISH='0' 끔)
 source "$ROOT/shared/url_guard.sh"          # is_article_url() SSOT — 포털·도메인 루트(기사경로 없는 URL) 차단(폰·분석 공용)
 GVER="$(guidelines_version summary)"
 GBLOCK="$(guidelines_block summary)"
@@ -679,6 +680,8 @@ PY
   #   수치 누락을 Actions 로그로 가시화(프롬프트 쪽 '내부 대조' 지시와 상호 검증 쌍 · exit 항상 0).
   python3 .github/scripts/card_gate.py factcov "$outfile" 2>/dev/null | sed 's/^/  /' || true
   # 분량 가드(기본 OFF · SUMMARY_LEN_GUARD='1' 카나리아) — IG/Thread 과소 시 자유요약에서 1회 보강(잡 예산 내 · fail-soft · 260705 · repair ≤+480s는 다음-기사 헤드룸(2×900s) 내 = 잡 최악 무변·평의회8)
+  # 순서 계약(260823) = 윤문 → 수선 — 윤문이 결을 다듬다 분량을 깎아도 뒤의 분량 가드가 실측·보강한다.
+  if [ "$SECONDS" -le "$ANALYZE_JOB_DEADLINE" ]; then summary_polish "$outfile" analyze-polish; fi
   if [ "$SECONDS" -le "$ANALYZE_JOB_DEADLINE" ]; then summary_repair "$outfile" analyze-repair; fi
   # 규격·자수 기계 린트(비차단 · 분신술② NEW-1 · 260703) — Thread/IG 실측 자수·자가표기 괴리·분모 드리프트·
   #   🔎 마커·⚡ 혼입·# 제목 [속보] 잔존을 Actions 로그로 가시화(자가 추정만 믿던 길이 룰의 기계 눈 · exit 항상 0).

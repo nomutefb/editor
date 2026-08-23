@@ -19,6 +19,7 @@ ASK_SAFE_MODE="${ASK_SAFE_MODE:-0}"
 ASK_SAFE_ARGS=()
 if [ "$ASK_SAFE_MODE" = "1" ]; then ASK_SAFE_ARGS=(--safe-mode); fi
 source "$ROOT/shared/summary_repair.sh"    # 분량 가드 SSOT — IG/Thread 과소 시 1회 보강(기본 OFF·SUMMARY_LEN_GUARD='1' · 260705)
+source "$ROOT/shared/summary_polish.sh"    # 한국어 윤문 SSOT — 요약 뒤 문체만 별도 1콜(운영자 260823 «프롬프트 무접촉·기능 분리» · 기본 ON·SUMMARY_POLISH='0' 끔)
 INLINE_TRIES=4   # 인라인 재시도 = 4계정 폴오버 체인 깊이(서브3까지 실호출) + 일시 과부하(529/5xx)·타임아웃(rc=124)·버스트 ✨요약요청 유실 차단(analyze와 동일·260622·4계정 3→4)
 EFFORT="${PIPE_SEARCH_EFFORT:-max}"   # 검색·요약 추론깊이 — max 상향(운영자 260810 2차 지시 · analyze.sh 와 일괄 대칭). 타임아웃 재발 시 롤백 = env PIPE_SEARCH_EFFORT(high/medium).
 ASK_TIMEOUT="${ASK_TIMEOUT:-600}"      # claude -p 타임아웃(초) — 요약요청은 요약만이라 10분이면 충분(검색완화 후). 초과 시 계정 1회 전환 후 격리(운영자 260704 "10분 넘으면 다른 계정" · 옛 900s는 배치 timeout 시 45분→워크플로 초과라 하향).
@@ -449,6 +450,8 @@ else:
   n=2; while [ -e "$outfile" ]; do outfile="queue/${stamp}-${id}-${n}.md"; n=$((n+1)); done
   printf '%s\n' "$out" > "$outfile"
   # 분량 가드(기본 OFF · SUMMARY_LEN_GUARD='1' 카나리아) — IG/Thread 과소 시 자유요약에서 1회 보강(잡 예산 내 · fail-soft · 260705 · repair ≤+480s는 다음-기사 헤드룸(2×600s) 내 = 잡 최악 무변·평의회8)
+  # 순서 계약(260823) = 윤문 → 수선(analyze 동문)
+  if [ "$SECONDS" -le "$ASK_JOB_DEADLINE" ]; then summary_polish "$outfile" ask-polish; fi
   if [ "$SECONDS" -le "$ASK_JOB_DEADLINE" ]; then summary_repair "$outfile" ask-repair; fi
   # 규격·자수 기계 린트(비차단 · analyze.sh 미러 · 분신술② NEW-1 · 260703) — ask 경로 다이제스트 사각지대 해소(검증4). 가드 뒤 = 최종본 실측.
   python3 shared/digest_guard.py "$outfile" 2>/dev/null | sed 's/^/  /' || true
