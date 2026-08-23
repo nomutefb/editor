@@ -1235,6 +1235,109 @@ def check_settings_checkout():
     return 0
 
 
+def check_guidelines_checkout():
+    """에디터 지침을 주입하는 러너는 **지침 폴더를 실제로 손에 쥔다**(260823 실사고 봉합 ·
+    운영자 «지금 요약 시 📍가 원래 있었는데 안나와» → «응 세워줘»).
+    CONTRACT: check_guidelines_checkout
+
+    ⚠ 실사고 = 260810 체크아웃 다이어트가 news-analyze·news-revise·cards-revise 목록에서 apps(지침 거처)를
+    뺐고, shared/inject_guidelines.sh 가 「존재하는 파일만」 fail-soft 라 **픽 요약이 에디터 지침 전체**
+    (📍 서사 비트·산문 흐름·본문 종결·한국어 결)를 열흘 넘게 못 본 채 돌았다. 증상 잠복의 이유 = 같은 기간
+    프롬프트 파일(news-analysis.md)도 빠져 있어 모델 관성으로 📍 유지 → 260820 12:17 프롬프트만 복구되자
+    (📍 없는 골격 틀) 지침 부재가 드러나 📍 9~14 → 0~2 붕괴(큐 카드 전수 계수 = 전환점 일치). 기계 증거 =
+    카드 도장 지문 분리(ask 카드 = 지침 포함 지문 ↔ 픽 카드 96d67a2 = 지침 미포함 지문 · 같은 날 두 값).
+    같은 병의 형제 = check_push_send_checkout(push/) · check_roster_checkout(명단) · check_settings_checkout
+    (settings) · prompts 4종(260820) — 「체크아웃 다이어트가 파일을 빠뜨려 기능이 조용히 죽는」 이 레포 반복
+    축의 **다섯 번째 재현**이고, 정확히 이 사각은 CLAUDE.md 260820 항목이 「게이트 미신설 = 다음 후보」로
+    이미 등재했던 자리다 — 예고된 재발이라 이번에 굳힌다.
+
+    술어 3축(정적 · 렌더·LLM·네트워크 0 · **면책표 없이 하드 0**) =
+      ① 지침 거처를 **주입기 소스에서 읽는다(사본 0 · check_roster_checkout 관례)** — inject_guidelines.sh 의
+         01_지침 글롭 경로에서 폴더를 추출(현행 apps/news → 최상위 apps) · 추출 실패 = fail-closed
+         (주입기가 거처를 옮기면 게이트가 자동 추종 = 게이트만 옛 기준으로 낡는 드리프트 차단)
+      ② 소비자 자동 발견 = `.github/scripts/*.sh`·`shared/*.sh` 의 **주석 아닌 줄**에 inject_guidelines.sh
+         적재(source) 실존(손 목록 0 = 새 스크립트가 지침을 쓰기 시작하면 자동 편입) · 0건 = fail-closed
+      ③ 그 스크립트를 실행줄에서 부르는 워크플로가 sparse-checkout 을 쓰면 목록이 그 폴더를 덮는다 ·
+         전체 체크아웃은 대상 밖(이미 다 받는다) · 실행 워크플로 0건 = fail-closed.
+    ⚠ 주석 줄 제외 = 이 처방문·워크플로 주석(260823 봉합 경고)이 판정 문자열을 인용하므로 원문으로 보면
+    코드를 지워도 주석만으로 통과한다(자기적발 차단 · check_settings_checkout 관례 계승)."""
+    inj = os.path.join(ROOT, 'shared', 'inject_guidelines.sh')
+    try:
+        isrc = open(inj, encoding='utf-8').read()
+    except Exception as e:
+        print('❌ check_guidelines_checkout 주입기 읽기 실패(fail-closed):', e); return 1
+    ilive = [l for l in isrc.splitlines() if not l.lstrip().startswith('#')]
+    m = None
+    for l in ilive:
+        m = re.search(r'\$_IG_ROOT"?/([A-Za-z0-9_./\-]+)/01_지침', l)
+        if m:
+            break
+    if not m:
+        print('❌ 주입기에서 지침 거처를 추출 못 함(01_지침 글롭 소실 = 시그니처 드리프트 · fail-closed) — inject_guidelines.sh 확인'); return 1
+    gpath = m.group(1)                      # 예: apps/news
+    gtop = gpath.split('/')[0]              # 예: apps
+    consumers = []
+    for d in (os.path.join(ROOT, '.github', 'scripts'), os.path.join(ROOT, 'shared')):
+        try:
+            names = sorted(os.listdir(d))
+        except Exception as e:
+            print('❌ check_guidelines_checkout 디렉터리 읽기 실패(fail-closed):', e); return 1
+        for n in names:
+            if not n.endswith('.sh') or n == 'inject_guidelines.sh':
+                continue
+            try:
+                src = open(os.path.join(d, n), encoding='utf-8').read()
+            except Exception as e:
+                print('❌ check_guidelines_checkout 읽기 실패(fail-closed): %s — %s' % (n, e)); return 1
+            live = [l for l in src.splitlines() if not l.lstrip().startswith('#')]
+            if any('inject_guidelines.sh' in l for l in live):
+                consumers.append(n)
+    if not consumers:
+        print('❌ 지침 주입기를 적재하는 스크립트 0건 — 시그니처 드리프트 의심(fail-closed · 지침 강제 주입이 통째로 사라졌다)'); return 1
+    wdir = os.path.join(ROOT, '.github', 'workflows')
+    try:
+        files = sorted(f for f in os.listdir(wdir) if f.endswith(('.yml', '.yaml')))
+    except Exception as e:
+        print('❌ check_guidelines_checkout 디렉터리 읽기 실패(fail-closed):', e); return 1
+    pat = re.compile(r'(?:^|[/\s"\'])(' + '|'.join(re.escape(c) for c in sorted(set(consumers))) + r')(?:\s|$|["\'])')
+    bad, seen = [], 0
+    for f in files:
+        try:
+            lines = open(os.path.join(wdir, f), encoding='utf-8').read().splitlines()
+        except Exception as e:
+            print('❌ check_guidelines_checkout 읽기 실패(fail-closed): %s — %s' % (f, e)); return 1
+        live = [l for l in lines if not l.lstrip().startswith('#')]
+        if not any(pat.search(l) for l in live):
+            continue
+        seen += 1
+        for i, l in enumerate(lines):
+            if not re.match(r'^\s*sparse-checkout:\s*\|', l) or l.lstrip().startswith('#'):
+                continue
+            body, base = [], None
+            for cur in lines[i + 1:]:
+                if not cur.strip():
+                    break
+                ind = len(cur) - len(cur.lstrip())
+                if base is None:
+                    base = ind
+                if ind < base:
+                    break
+                body.append(cur.strip())
+            if not any(b == gtop or b == gpath or b.startswith(gtop + '/') for b in body):
+                bad.append('%s:%d' % (f, i + 1))
+            break
+    if seen < 1:
+        print('❌ 지침 소비 스크립트를 실행하는 워크플로 0건 — 시그니처 드리프트 의심(fail-closed)'); return 1
+    if bad:
+        print('❌ 러너가 에디터 지침(%s)을 체크아웃하지 않는다(260823 실사고 = 픽 요약이 지침 전체 없이 가동 · 📍 소멸 · 러너는 초록 · 도장 96d67a2 가 증거):' % gpath)
+        for b in bad:
+            print('   -', b, '→ sparse-checkout 목록에 `%s` 한 줄 추가' % gtop)
+        return 1
+    print('✅ 에디터 지침 체크아웃 게이트 — 거처 %s(주입기 실측) · 소비 스크립트 %d종(%s) · 실행 %d레인 전건 보유.'
+          % (gpath, len(set(consumers)), '·'.join(sorted(set(consumers))), seen))
+    return 0
+
+
 def check_push_abs_url():
     """알림 딥링크는 **절대 주소로** 나간다(260816 3차 실사고 봉합 · 운영자 「알림이 다 구 주소로 가는거 같은데」).
 
@@ -10285,6 +10388,8 @@ def main():
         if check_roster_checkout() != 0:   # 속보 판정 러너의 참조 명단 체크아웃(하드 게이트 — 260818 실측: sparse에 apps 누락으로 260817 명단이 프롬프트에 한 번도 안 실렸다·판정은 초록)
             rc = 1
         if check_settings_checkout() != 0:   # 앱 설정(AI 썸네일 전역) 체크아웃·전역 판정(하드 게이트 — 260821 실측: sparse에 settings 누락으로 전역 OFF가 「파일 부재 = ON 폴백」으로 무시·요약마다 생성·러너는 초록)
+            rc = 1
+        if check_guidelines_checkout() != 0:   # 에디터 지침 체크아웃(하드 게이트 — 260823 실측: sparse에 apps 누락으로 픽 요약이 지침 전체 없이 가동·📍 소멸·러너는 초록·도장 96d67a2 증거)
             rc = 1
     except Exception as e:
         print('❌ check_push_send_checkout 예외(fail-closed):', e); rc = 1
