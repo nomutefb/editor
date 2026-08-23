@@ -7687,8 +7687,14 @@
   {
    "query": "유강남",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/80518eb4d5.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.mt.co.kr/sports/2026/08/15/202608142346772252O",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-08-23T15:30:00+09:00",
    "delta": -7,
@@ -7702,8 +7708,14 @@
   {
    "query": "성리",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/be078d1ba5.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.newsis.com/view/NISX20260803_0003733802",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-08-23T15:10:00+09:00",
    "delta": -4,
@@ -7807,8 +7819,14 @@
   {
    "query": "노태우",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/baba621904.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://weekly.khan.co.kr/article/202608211048001",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-23T16:10:00+09:00",
    "delta": -16,
@@ -7821,8 +7839,14 @@
   {
    "query": "수영구",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/09fa9f6bde.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://idsn.co.kr/news/view/1065602472629730",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-08-23T15:20:00+09:00",
    "delta": -11,
@@ -8042,10 +8066,13 @@
  ],
  "gtrends_pool_updated": "2026-08-23T18:11:32+09:00",
  "_trend_img": {
-  "tried": "2026-08-23T17:35:43+09:00",
+  "tried": "2026-08-23T18:11:32+09:00",
   "fail": {
-   "두산 베어스": "2026-08-23T15:45:21+09:00",
-   "김남준": "2026-08-23T17:40:25+09:00"
+   "김남준": "2026-08-23T17:40:25+09:00",
+   "동아일보": "2026-08-23T18:19:32+09:00",
+   "시위": "2026-08-23T18:19:32+09:00",
+   "국민의힘": "2026-08-23T18:19:32+09:00",
+   "ind vs sl": "2026-08-23T18:19:32+09:00"
   }
  },
  "gtrends_gl": [
@@ -16471,7 +16498,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-08-23T18:11:32+09:00"
+    "first_seen": "2026-08-23T18:11:32+09:00",
+    "kw": "Cursor Pro, 크레딧",
+    "sum": "작성자가 Cursor Pro 플랜과 66달러 크레딧을 받았다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -16486,7 +16516,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-08-23T18:11:32+09:00"
+    "first_seen": "2026-08-23T18:11:32+09:00",
+    "kw": "Cursor, 쫀득 쿠키",
+    "sum": "작성자가 커서 쫀득 쿠키 지급을 완료했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -16501,7 +16534,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-08-23T18:11:32+09:00"
+    "first_seen": "2026-08-23T18:11:32+09:00",
+    "kw": "is-agentic.com",
+    "sum": "작성자가 is-agentic.com 주소를 공유했다",
+    "sv": 1
    },
    {
     "account": "aipeekme",
@@ -16639,7 +16675,10 @@
     "rh": [
      9
     ],
-    "first_seen": "2026-08-23T18:11:32+09:00"
+    "first_seen": "2026-08-23T18:11:32+09:00",
+    "kw": "Vercel, Agent SEO, is-agentic",
+    "sum": "Vercel이 AI 에이전트용 웹사이트 진단 도구 Agent SEO를 공개했다",
+    "sv": 1
    },
    {
     "account": "aipeekme",
@@ -16799,7 +16838,10 @@
     "rh": [
      16
     ],
-    "first_seen": "2026-08-23T18:11:32+09:00"
+    "first_seen": "2026-08-23T18:11:32+09:00",
+    "kw": "Cursor Pro+, 구독 해지 이벤트",
+    "sum": "Cursor가 경쟁 서비스 해지자에게 Pro+ 한 달을 무료 제공한다",
+    "sv": 1
    }
   ]
  },
