@@ -12,6 +12,7 @@ cd "$(git rev-parse --show-toplevel)"
 . shared/model_env.sh
 . shared/claude_transient.sh
 . shared/claude_meter.sh        # claude_meter() SSOT — 토큰 계측(analyze.sh:72 동형 · 260803 계측 사각 봉합)
+. shared/tone_block.sh          # 한국어 결 공용 블록(TONE_BLOCK) SSOT — 운영자 260823 «sns 요약에도 그 말투» · 레인 톤 우선
 MODEL="${CHAN_BRIEF_MODEL:-$PIPE_MODEL}"
 OUT_JSON="viewer/chan_brief_fb.json"
 
@@ -118,7 +119,7 @@ if aud.get('gender') or aud.get('age_full'):
     if _ap:
         L.append('[팔로워 인구통계(수기 config)] ' + ' / '.join(_ap) + ' — ⚠기타(25~54 밖=청년+55세↑ 합산)가 크면 연령 폭이 넓다는 신호. IG(25-44 집중) 대비 FB 관객 폭·연령을 총론의 소재·톤 방향 근거로.' + _stale)
 body = '\n'.join(L)
-PVER = 'fbbrief-v7-260823-korean'   # v7 = 한국말 자연스럽게(운영자 260823 · chan_brief v19 동반 = 두 요약이 다른 말투로 갈리지 않게)   # 구 fbbrief-v6-260808-thick   # v6 = 총론 디테일 복원(운영자 260808 5차 · IG v12 동반 이관)   # 구   # v5 = ⑥ 정체 축 → 오늘의 행동 1개 강제(운영자 260808 3차 · IG chanbrief v11 동반 이관)   # 구   # v4 = 누적 지식 라이브러리(운영자 260808 · IG chan_brief v10 동반 이관 — 직전 1회차 1500자 → 회차 판단 원장: 정체성 궤적·총론 방향·반복 제안·갈린 축 · 정본 apps/insta/brief_lib.py)   # v3 = 인구통계 기준일 밀림 딱지(운영자 260726 — 굳은 스냅샷을 '오늘의 관객'으로 오독 방지) · v2 = 팔로워 인구통계(연령 폭·성별) 총론 반영(운영자 260724) · v1 = chan_brief v9.3 구조 미러+FB 반응 기반 · 바뀌면 해시 불일치 = 강제 재생성
+PVER = 'fbbrief-v8-260823-tone'   # v8 = 한국어 결 공용 블록 편입(운영자 260823 «sns 요약에도 그 말투» · 정본 shared/tone_block.sh · chan_brief v20 동반) · 구   # v7 = 한국말 자연스럽게(운영자 260823 · chan_brief v19 동반 = 두 요약이 다른 말투로 갈리지 않게)   # 구 fbbrief-v6-260808-thick   # v6 = 총론 디테일 복원(운영자 260808 5차 · IG v12 동반 이관)   # 구   # v5 = ⑥ 정체 축 → 오늘의 행동 1개 강제(운영자 260808 3차 · IG chanbrief v11 동반 이관)   # 구   # v4 = 누적 지식 라이브러리(운영자 260808 · IG chan_brief v10 동반 이관 — 직전 1회차 1500자 → 회차 판단 원장: 정체성 궤적·총론 방향·반복 제안·갈린 축 · 정본 apps/insta/brief_lib.py)   # v3 = 인구통계 기준일 밀림 딱지(운영자 260726 — 굳은 스냅샷을 '오늘의 관객'으로 오독 방지) · v2 = 팔로워 인구통계(연령 폭·성별) 총론 반영(운영자 260724) · v1 = chan_brief v9.3 구조 미러+FB 반응 기반 · 바뀌면 해시 불일치 = 강제 재생성
 print(hashlib.sha256((PVER + '\n' + body).encode()).hexdigest()[:16])
 print(body)
 PY
@@ -149,6 +150,8 @@ PROMPT="너는 이 페이스북 뉴스 페이지(Nomute)를 운영자와 같이 
 [존재 이유] 기간 창끼리 추이를 비교해 전략 방향을 잡는 도구다 — 3일→전체로 창이 넓어질수록 나무에서 숲으로. 짧은 창의 '문제'가 긴 창에선 '정상 리듬'인 지점을 짚어라. 매 섹션 마지막 줄 = 그 창에서만 보이는 전략 시사점 한 줄.
 
 [여는 인사] 가볍고 친근하게, 호칭·이름 없이 — 예: '일요일 밤이니까 이번 주 페이지 상태 짚고 갈게.' (호칭·'안녕 ○○'·비서 톤 금지 · 매번 같은 문장 금지.)
+
+${TONE_BLOCK}
 
 [출력 구조 — 6부 · 절대 준수] 아래 6개 마커를 정확히 이 표기 그대로, 이 순서로, 각각 단독 줄로(마커 줄에 다른 글자 금지 · 첫 마커 위 아무것도 금지):
 [3일]

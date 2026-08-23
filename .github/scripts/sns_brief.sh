@@ -11,6 +11,7 @@ cd "$(git rev-parse --show-toplevel)"
 . shared/model_env.sh
 . shared/claude_transient.sh
 . shared/claude_meter.sh        # claude_meter() SSOT — 토큰 계측(analyze.sh:72 동형 · 260803 계측 사각 봉합)
+. shared/tone_block.sh          # 한국어 결 공용 블록(TONE_BLOCK) SSOT — 운영자 260823 «sns 요약에도 그 말투» · 레인 톤([말투]) 우선 계약
 MODEL="${SNS_BRIEF_MODEL:-$PIPE_MODEL}"
 OUT_JSON="viewer/sns_brief.json"
 
@@ -123,7 +124,7 @@ tail.append('[유튜브 뉴스] ' + ' / '.join((v.get('title') or '')[:40] for v
 tail.append('[쇼츠] ' + ' / '.join((v.get('title') or '')[:40] for v in _cut(sh, 5)))
 tail.append('[틱톡] ' + ' / '.join(((t.get('title') or ('@' + (t.get('account') or '')))[:40]) for t in _cut(tk, 5)))
 body = '\n'.join(L + tail)
-PVER = 'brief-v13-260816-agecut'   # 캐시 1회 무효화 = v13: 24시간 입장컷 + 등가 점수 + 발행 나이 명시(260816 실사고 봉합 — 6일 전 쇼츠가 「오늘 가장 크게 튄 것」으로 1위를 먹던 축) · v12: 소재별 다중 링크(문단 끝 1개 → 소재 바뀔 때마다 · 데이터 동봉 URL 직결 · refs 4→10 · 상한 URL 무과금 · 운영자 260727) · v11 강조 2층(*별표1*=강조색 / **별표2**=볼드만) · v10 [신규 진입] 신상 딱지(first_seen 6h) · v9 이슈 원장 감쇠+채널·URL·댓글, v8 호칭 제거, v7 참고자료 카드 유지
+PVER = 'brief-v14-260823-tone'   # v14 = 한국어 결 공용 블록 편입(운영자 260823 «sns 요약에도 그 말투» · 정본 shared/tone_block.sh · [말투] 레인 톤이 우선) · 구 v13: 24시간 입장컷 + 등가 점수 + 발행 나이 명시(260816 실사고 봉합 — 6일 전 쇼츠가 「오늘 가장 크게 튄 것」으로 1위를 먹던 축) · v12: 소재별 다중 링크(문단 끝 1개 → 소재 바뀔 때마다 · 데이터 동봉 URL 직결 · refs 4→10 · 상한 URL 무과금 · 운영자 260727) · v11 강조 2층(*별표1*=강조색 / **별표2**=볼드만) · v10 [신규 진입] 신상 딱지(first_seen 6h) · v9 이슈 원장 감쇠+채널·URL·댓글, v8 호칭 제거, v7 참고자료 카드 유지
 print(hashlib.sha256((PVER + '\n' + body).encode()).hexdigest()[:16])
 print('\n'.join(E + tail))
 PY
@@ -185,6 +186,8 @@ ${LEDGER:-(비어 있음 — 전부 새 이슈)}
 
 [말투 — 살아있게(팬픽·웹소설 문체)]
 친근한 소식통 톤. 단문으로 툭툭 끊되 길이 섞기 · 종결을 '~다'에 가두지 말고 '~더라(현장 톤)·~네(발견)·~거든(배경)'을 1~2번 · 수치는 끊어 던지고 자기정정으로 강조('8,970만 조회. 그것도 하루 만에.') · '무려·심지어·하필·그것도' 훅 · 감정은 장면으로 보여주기('충격'→'댓글이 만 개 넘었다') · 대시(—)·쉼표로 뜸. 금지: 느낌표 떡칠·하트·2인칭 호칭(여러분/너)·신파·오글·말줄임(...) 남발.
+
+${TONE_BLOCK}
 
 [형식]
 - 자연스러운 문단 흐름: 인사 → 크게 뜬 주제와 그 원인(서사) → 이상치 딥다이브 + 링크. 6~14줄 안팎.
