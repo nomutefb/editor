@@ -4106,7 +4106,8 @@ try {
   <div class="modal-tabs acc-regs" id="accCats" role="group" aria-label="분류" hidden><!-- 2차 = 분류(운영자 260730 "1차 선택지는 플랫폼 · 2차 선택지는 저 나눠진거") — 띠 = #accRegs 문법 100% 계승(새 CSS 0) · 내용 = ACC_CATS 플랫폼별 렌더 · 단일 분류 플랫폼(x·insta·threads·tiktok) = hidden --></div>
   <!-- (구 #accRegs 한국/세계 지역 띠 = 260821 폐지 · 운영자 "한국 세계 구분 없이 넣으면 해당 플랫폼 별 구독 리스트에 쌓이게" — 피드 레인은 이미 260724부터 지역 무관 단일 블록이라 고르게 할 이유가 소멸 · 저장 스키마 kr/gl은 유지[서버·수집기 무접촉 = kr부터 채우고 넘치면 gl] · 되돌림 = git 이력) -->
   <div class="acc-body">
-    <div class="acc-note">넣은 계정의 최신 글을 그대로 가져옵니다 · 팔로우·알고리즘 무관(인기 랭킹엔 미반영)</div>
+    <!-- 구독 안내문(.acc-note) = 폐지(운영자 260823 "지금 이제 플랫폼 별로 구독채널만 설정값에 남았거든? 그래서 구독이라는 블릿하고 위에 안내문이 의미가없어 없애주라"). 사유 = 260823 2차 분류 폐지로 이 모달의 몸통이 「플랫폼별 구독 계정 목록」 하나로 좁혀졌다 → 그 사실을 설명하던 문장·라벨이 전부 중복 서술이 됐다(구독 말고 고를 것이 없다). CSS 규칙 .acc-note/.acc-glbl 은 잔존 = 도달 불가 분기(isKw·카테고리)가 참조 + 되돌림 원료. 되돌림 = 이 주석을 아래 구판 한 줄로 교체. -->
+    <!-- (구) <div class="acc-note">넣은 계정의 최신 글을 그대로 가져옵니다 · 팔로우·알고리즘 무관(인기 랭킹엔 미반영)</div> -->
     <div class="acc-chips" id="accChips"></div>
     <div class="acc-addrow"><input type="text" id="accIn" placeholder="계정명 (예: OpenAI)" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="done" aria-label="계정명"><button class="ed-go acc-add" id="accPlus" type="button">추가</button></div>
     <div class="acc-err" id="accErr" role="alert"></div>
@@ -14484,13 +14485,15 @@ function renderAccChips() {
   const P = SNS_ACC[_accTab] || { kr: [], gl: [] }, isSubs = _accCat === 'subs', isKw = _accCat === 'shorts' || _accCat === 'aivid';
   $('#accIn').closest('.acc-addrow').hidden = _accCat === 'news';   // 카테고리 = 목록 선택이라 입력행 없음 · closest = attachCopyPaste 래퍼(.iowrap) 도입 후 parentElement가 래퍼를 가리켜 추가 버튼만 남던 결함 봉합(260821)
   $('#accIn').placeholder = isSubs ? '계정명 (예: OpenAI)' : '검색어 (예: 요리 레시피)';
-  $('.acc-note').textContent = isSubs ? '넣은 계정의 최신 글을 그대로 가져옵니다 · 팔로우·알고리즘 무관(인기 랭킹엔 미반영)'
-    : isKw ? '이 검색어로 찾은 영상을 가져옵니다 · 비우면 기본 검색어로 동작해요'
-    : '지금은 기본 11개 주제가 모두 나옵니다 · 주제 고르기·순서 바꾸기는 준비 중이에요';   // 260731 정직 표기 — 수집이 news_cats(주제 다중)로 넘어가 이 단일 칩은 표시에 영향하지 않는다. 조용히 죽은 컨트롤로 두지 않는다(선택 UI 도입 시 이 줄 교체)
+  // 안내문 갱신 = 폐지(운영자 260823 · 위 .acc-note 마크업 주석과 한 쌍) — 요소가 없으므로 이 줄이 살아 있으면 null 참조로 렌더가 통째 중단된다.
+  //   (구) $('.acc-note').textContent = isSubs ? '넣은 계정의 최신 글을 …' : isKw ? '이 검색어로 …' : '지금은 기본 11개 주제가 …';
   if (isSubs) {
     // 지역 무관 단일 목록(운영자 260821 "한국 세계 구분 없이 넣으면 해당 플랫폼 별 구독 리스트에 쌓이게") — 표시·추가만 통합, 저장 스키마 kr/gl 그대로(서버·수집기 무접촉 · 삭제는 data-r/data-i로 원 지역 배열에 정확 매핑) · 상한 = kr30+gl30 = 60
     const L = (P.kr || []).map((a, i) => ['kr', i, a]).concat((P.gl || []).map((a, i) => ['gl', i, a]));
-    box.innerHTML = `<div class="acc-glbl">구독<i>${L.length}/${ACC_CAP[_accTab] * 2}</i></div><div class="acc-grow">` +
+    // 「• 구독 N/60」 소머리 줄 = 폐지(운영자 260823 같은 지시) — 2차 분류가 사라져 이 모달에 구독 말고 다른 목록이 없다 = 라벨이 자기 자신만 가리키는 중복.
+    //   ⚠ 개수 표기(N/60)도 이 줄의 구성요소라 같이 사라진다 — 상한 초과는 종전대로 #accErr 가 그 자리에서 말한다("계정 최대 30개").
+    //   되돌림 = 아래 innerHTML 을 구판으로 교체: `<div class="acc-glbl">구독<i>${L.length}/${ACC_CAP[_accTab] * 2}</i></div><div class="acc-grow">`
+    box.innerHTML = `<div class="acc-grow">` +
       L.map(e => `<button class="acc-chip" type="button" data-r="${e[0]}" data-i="${e[1]}">@<span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6 18 18M18 6 6 18"/></svg></button>`).join('') + '</div>';
     box.querySelectorAll('.acc-chip').forEach((c, i) => { c.querySelector('span').textContent = L[i][2] || ''; c.setAttribute('aria-label', '@' + (L[i][2] || '') + ' 삭제'); });   // textContent 주입(XSS 안전 관용구)
   } else if (isKw) {
