@@ -9,7 +9,10 @@
 #     ③ 별도 1콜(무도구·safe-mode) ④ 모델·노력도 독립 레버(SUMMARY_POLISH_MODEL/EFFORT · 기본 = 호출측 MODEL + high
 #     = 정형 변환 선례 260722 「max 헛사고 회피」) — 나중에 「요약은 A모델·윤문은 B모델」 조합도 env 두 줄.
 # 순서 = 요약 → 윤문(이것) → 수선(summary_repair) — 윤문이 분량을 깎아도 뒤의 분량 가드가 실측·보강하는 안전망 순서.
-# 게이트: SUMMARY_POLISH 기본 ON('0'으로 끔 · 운영자 260823 「적용해줄래」 = 사인오프) · 전면 fail-soft =
+# 게이트: SUMMARY_POLISH **기본 OFF**('1'로 켬) — 260823 2차(운영자 «좋다고 하는 부분만 가져와서 녹이자» = 규칙을
+#     지침 [한국어 결 — AI 번역투 소거]에 편입해 별도 콜 없이 초고부터 적용 · 콜당 70초·출력 5.7천 토큰 절약).
+#     이 콜은 예비 레버로 잔존(지침 편입만으로 부족하면 SUMMARY_POLISH=1 한 줄로 재가동 · 검증 5축 그대로).
+#     구 계약(1차 «적용해줄래» = 기본 ON)은 이 개정으로 대체. 전면 fail-soft =
 #     콜 실패·검증 실패 = 원본 유지(다이제스트 유실 0) · 재시도·폴오버 없음(1콜 상한 · summary_repair 계약 동문).
 # 검증(어느 하나라도 어기면 원본 유지 — 윤문은 좋아야 채택이 아니라 **안전해야 채택**):
 #     ⓐ frontmatter 바이트 동일 ⓑ 숫자 나열 다중집합 동일(수치 날조·소실 0) ⓒ 원문 따옴표 인용 전건 보존
@@ -18,7 +21,7 @@
 
 summary_polish() {
   local file="$1" src="${2:-polish}"
-  [ "${SUMMARY_POLISH:-1}" = "1" ] || return 0
+  [ "${SUMMARY_POLISH:-0}" = "1" ] || return 0
   [ -f "$file" ] || return 0
   [ -f "prompts/polish-korean.md" ] || { echo "  ✒ 윤문: 규칙 파일 없음(prompts/polish-korean.md) — 스킵"; return 0; }
   local pmodel peff pprompt cand rc tmp why
