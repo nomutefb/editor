@@ -50,8 +50,12 @@ jobs:
           #   빠지는 대형 = _versions 437M · docs 90M · 자료 75M · _산출 74M(어느 잡도 안 연다) · ⚠ git add/rm 대상은 전건 포함 검문 통과분.
           # ⚠ settings = AI 썸네일 전역 게이트 원료(analyze.sh 가 settings/app.json genImgOn 을 읽어 no_thumb 도장) —
           #   260821 실사고 = 260810 다이어트가 이 폴더를 빠뜨려 「파일 부재 = ON 폴백」으로 전역 OFF 가 조용히 무시됐다(러너는 초록). CONTRACT: check_settings_checkout
+          # ⚠⚠ apps = 에디터 지침(apps/news 01_지침·PROJECT_MEMORY 짝)의 거처 — inject_guidelines 가 「존재하는 파일만」
+          #   fail-soft 라 이 줄이 빠지면 지침 전체가 조용히 미주입된다(260823 실사고 = 260810 다이어트 이후 픽 요약이
+          #   지침 없이 돌았고 도장 96d67a 가 그 증거 · 📍 서사 비트 소멸 = 운영자 검출 · ask 는 apps 보유라 무사 = 형제 미추종).
           sparse-checkout: |
             prompts
+            apps
             .github
             push
             assets/brand
