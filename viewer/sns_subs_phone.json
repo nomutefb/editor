@@ -346,12 +346,42 @@
  ],
  "threads": [
   {
-   "account": "choi.openai",
-   "text": "와.. 이제 100만 원대 게이밍 노트북에서 350억 모델이 돌아갑니다.\n\n버클리 연구팀이 공개한 오픈소스 추론 엔진 FreeToken인데요.\nRTX 4060 8GB 노트북에서 Qwen3.6 35B가 초당 39토큰, RTX 5090에서는 2,840억 파라미터 DeepSeek V4 Flash가 초당 25토큰으로 돌아갑니다.\n워크스테이션 GPU 한 장이면 7,530억 GLM-5.2까지 구동하며, 극단적인 양자화도 쓰지 않습니다.\n\n비결은 스케줄러입니다. MoE의 전문가 전체는 램에 두고 자주 쓰는 것만 GPU에 캐싱해 Ollama보다 디코드를 3~4배 끌어올렸습니다.\n\nClaude Code나 Codex에 로컬 모델을 연결해 무료로 쓰는 것까지 겨냥했습니다.\n2년 전엔 ‘내 컴퓨터에서 LLM이 돌아갈까’를 물었다면, 이제는 ‘몇천억 모델을 얼마나 빠르게 돌릴까’를 묻는 시대가 됐습니다.",
+   "account": "aipeekme",
+   "text": "🔗 원문·자세히 보기\nhttps://github.com/makecindy/cindy",
    "likes": 0,
    "cmts": 0,
+   "time": 1787447623,
+   "thumb": "",
+   "url": "https://www.threads.com/@aipeekme/post/DcXSAkMn8PK",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "로컬 환경에서 바로 구동하는 오픈소스 AI 에이전트 신디(Cindy)가 공개되었습니다.\n사용자의 실제 로컬 파일과 로그인된 앱을 그대로 활용하며 브라우저와 PC, 스마트폰을 직접 제어합니다.\n클로드 코드와 코덱스 하네스를 먼저 지원하며 작업 도중 모델과 하네스를 교체해도 메모리와 작업 공간, 스킬, 도구가 유지됩니다.\n작업을 분할해 계획은 특정 조합이 세우고 병렬 실행과 검토는 서로 다른 하네스와 모델 조합이 맡는 방식도 가능합니다.\n메신저나 일정에서 작업을 받아와 수행하며, 자체 하네스와 팀 스킬 공유, 플러그인 장터도 개발 중입니다.\n에이전트의 완성도보다 하네스 간 컨텍스트를 끊김 없이 넘기는 설계가 실용적으로 다가왔습니다.\n다만 여러 하네스가 로컬 권한을 쥐고 병렬로 시스템을 건드릴 때 충돌을 얼마나 잘 막아낼지는 의문입니다.\n개인적으로는 데스크톱 단독 작업보다 모바일과 연계된 자동화가 매끄러운지 먼저 살펴볼 생각입니다.\n\n📷 사진 출처: github.com",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1787447612,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/779907699_18082396124407306_1962496846391761373_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk2OTcyMDY4NzMwMTQ3ODI1MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=uMHjgnrevHcQ7kNvwFWVi5W&_nc_oc=Adr6wSsHsUTrWGjMgSUriDjmz15IscAGyBDbFrzdG1AEJBDaw1Kep5vYbg-CepsBoeg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=hvq8mfk2xZJvnvC023V2pw&_nc_ss=7a22e&oh=00_AQF7bIn6tBwklFhLUtgNT1UQ6okWNc-Cloe3LiQ_5rKATQ&oe=6A902E6D",
+   "url": "https://www.threads.com/@aipeekme/post/DcXR-7AH8dq",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "주소 :\nhttps://www.flashml.ai/",
+   "likes": 2,
+   "cmts": 0,
+   "time": 1787446806,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DcXQdjkiR8E",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "와.. 이제 100만 원대 게이밍 노트북에서 350억 모델이 돌아갑니다.\n\n버클리 연구팀이 공개한 오픈소스 추론 엔진 FreeToken인데요.\nRTX 4060 8GB 노트북에서 Qwen3.6 35B가 초당 39토큰, RTX 5090에서는 2,840억 파라미터 DeepSeek V4 Flash가 초당 25토큰으로 돌아갑니다.\n워크스테이션 GPU 한 장이면 7,530억 GLM-5.2까지 구동하며, 극단적인 양자화도 쓰지 않습니다.\n\n비결은 스케줄러입니다. MoE의 전문가 전체는 램에 두고 자주 쓰는 것만 GPU에 캐싱해 Ollama보다 디코드를 3~4배 끌어올렸습니다.\n\nClaude Code나 Codex에 로컬 모델을 연결해 무료로 쓰는 것까지 겨냥했습니다.\n2년 전엔 ‘내 컴퓨터에서 LLM이 돌아갈까’를 물었다면, 이제는 ‘몇천억 모델을 얼마나 빠르게 돌릴까’를 묻는 시대가 됐습니다.",
+   "likes": 30,
+   "cmts": 2,
    "time": 1787446799,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/782184756_925882893900694_5960074928321233042_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk2OTcxMzkzMzMyOTcyOTEyOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=5PhPLJWLNXAQ7kNvwGQAyzV&_nc_oc=AdoveUtX0YidTKkznwwxofcRFPwF3uySbx_gSlceKDfI7tYfF01I3IH3MYr7uddyFCU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=VIovgjLGjRUkHCkPpX6i6g&_nc_ss=7a22e&oh=00_AQG-kSspmNJbllu9P1kVce88IgfUSNjBCijuZWlfRlvR-Q&oe=6A900C46",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/782184756_925882893900694_5960074928321233042_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk2OTcxMzkzMzMyOTcyOTEyOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=5PhPLJWLNXAQ7kNvwGQAyzV&_nc_oc=AdoveUtX0YidTKkznwwxofcRFPwF3uySbx_gSlceKDfI7tYfF01I3IH3MYr7uddyFCU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=L6oqlIEqaVGikILM_t_cjQ&_nc_ss=7a22e&oh=00_AQHCj81HoDAX6Sn_U_kFJ4O4AxnQRmTEgJeN_cDUy2_1ag&oe=6A900C46",
    "url": "https://www.threads.com/@choi.openai/post/DcXQco4CYZp",
    "region": "kr"
   },
@@ -366,16 +396,6 @@
    "region": "kr"
   },
   {
-   "account": "choi.openai",
-   "text": "MiniMax가 AI 디자인 도구 MiniMax Design을 정식 출시했습니다.\n\n목표만 입력하면 여러 AI 에이전트가 작업을 나눠 이미지, 영상, 음성, 편집까지 진행해 결과물을 만드는 방식인데요.\n\n광고, 쇼핑몰 상품 이미지, 모션 그래픽, 후반 작업 등에 활용할 수 있습니다. 로컬 파일을 연결할 수 있고, API 연동과 비공개 환경 배포도 지원합니다.\n\n직접 프롬프트를 하나씩 조정하기보다, 만들고 싶은 결과를 설명하면 AI가 제작 과정을 이어서 처리하는 쪽에 가깝습니다.",
-   "likes": 23,
-   "cmts": 1,
-   "time": 1787441432,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/780860552_1762756984770294_7350132482986992999_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk2OTY2ODkwODYwMDg1OTM1NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=TbUUUK4KG-oQ7kNvwFcROoS&_nc_oc=AdpGcfpTKilWwYm4qxwcZgmC_wdUP4SNEss9QUaPCW89VhI8GV3eBDFBUrHLHy7tYSI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=VIovgjLGjRUkHCkPpX6i6g&_nc_ss=7a22e&oh=00_AQHPIW8GNyDB4Rta2LdPByI9poDnHbRAO-kprFvxnaMYdA&oe=6A9016F6",
-   "url": "https://www.threads.com/@choi.openai/post/DcXGNcVERrb",
-   "region": "kr"
-  },
-  {
    "account": "aipeekme",
    "text": "🔗 원문·자세히 보기\nhttps://github.com/openai/codex",
    "likes": 0,
@@ -386,13 +406,33 @@
    "region": "kr"
   },
   {
+   "account": "choi.openai",
+   "text": "MiniMax가 AI 디자인 도구 MiniMax Design을 정식 출시했습니다.\n\n목표만 입력하면 여러 AI 에이전트가 작업을 나눠 이미지, 영상, 음성, 편집까지 진행해 결과물을 만드는 방식인데요.\n\n광고, 쇼핑몰 상품 이미지, 모션 그래픽, 후반 작업 등에 활용할 수 있습니다. 로컬 파일을 연결할 수 있고, API 연동과 비공개 환경 배포도 지원합니다.\n\n직접 프롬프트를 하나씩 조정하기보다, 만들고 싶은 결과를 설명하면 AI가 제작 과정을 이어서 처리하는 쪽에 가깝습니다.",
+   "likes": 29,
+   "cmts": 1,
+   "time": 1787441432,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/780860552_1762756984770294_7350132482986992999_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk2OTY2ODkwODYwMDg1OTM1NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=TbUUUK4KG-oQ7kNvwFcROoS&_nc_oc=AdpGcfpTKilWwYm4qxwcZgmC_wdUP4SNEss9QUaPCW89VhI8GV3eBDFBUrHLHy7tYSI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=L6oqlIEqaVGikILM_t_cjQ&_nc_ss=7a22e&oh=00_AQFHOvqvopKWREwefx_uhNfLah6-Ipp2vuG1GJHxR1YDqA&oe=6A9016F6",
+   "url": "https://www.threads.com/@choi.openai/post/DcXGNcVERrb",
+   "region": "kr"
+  },
+  {
    "account": "aipeekme",
    "text": "OpenAI가 터미널에서 로컬로 직접 실행되는 경량 코딩 에이전트 Codex CLI를 공개했습니다.\n맥과 리눅스는 셸 스크립트, 윈도우는 파워셸 명령어로 설치하며 npm이나 홈브루 패키지 관리자 설치도 지원합니다.\n설치 파일은 기본적으로 OpenAI 릴리스 서버에서 내려받고 실패 시 깃허브 릴리스로 넘어갑니다.\nVS Code, Cursor, Windsurf 같은 에디터 환경과 데스크톱 앱, 웹 버전 에이전트도 갖췄습니다.\nChatGPT 플러스, 프로, 비즈니스 등 기존 플랜 계정으로 로그인하거나 API 키를 연동해 사용할 수 있습니다.\n설치와 실행 방식을 보면 IDE를 켜지 않고 터미널에서 바로 스크립트를 수정하려는 목적에 초점을 맞춘 것 같습니다.\n터미널 중심 작업에서는 편해 보이지만, 대규모 저장소에서 로컬 컨텍스트를 얼마나 안정적으로 쥐고 갈지는 직접 테스트해 봐야 판단이 설 것 같습니다.\n\n📷 사진 출처: github.com",
    "likes": 0,
    "cmts": 2,
    "time": 1787439679,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/783062450_18082381112407306_7435965432508624346_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk2OTY1NDEzOTQyNDg1MDQyMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=ikRY0IKjJmkQ7kNvwH5pKkX&_nc_oc=AdrqsJCCxaHff-ERs0OCay2sSNS5wV90aqd8R7fOV5RDaFuqsZHUAFqXJ2TU1K1UB4g&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=HNsnlD3u167pc4v47Fjz0w&_nc_ss=7a22e&oh=00_AQEjdIJKDM5IUaIVFb26Z8D9IRJgpUXH5CQ0dKKGalHLuQ&oe=6A901B99",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/783062450_18082381112407306_7435965432508624346_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk2OTY1NDEzOTQyNDg1MDQyMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=ikRY0IKjJmkQ7kNvwH5pKkX&_nc_oc=AdrqsJCCxaHff-ERs0OCay2sSNS5wV90aqd8R7fOV5RDaFuqsZHUAFqXJ2TU1K1UB4g&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=hvq8mfk2xZJvnvC023V2pw&_nc_ss=7a22e&oh=00_AQGdVOJhVEcEkb5yzqaZ504gDtJ4iMYtfIxmhAxH36h6CA&oe=6A901B99",
    "url": "https://www.threads.com/@aipeekme/post/DcXC2hdk8H0",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "AI로 숙제를 하면 숙제 점수는 18% 오르고, 시험 점수는 20% 떨어집니다.\n\n중국 중고등학생 2만 6,800명을 30개월간 추적한 CEPR 연구입니다.\n생성형 AI 확산 뒤 두바오·딥시크를 쓴 학생들은 숙제를 더 빨리 끝내고 점수도 높게 받았지만, 고입 시험 점수는 최대 24% 낮아졌습니다.\n\n연구진이 짚은 원인은 ‘숙제 외주화’입니다. AI 사용 학생의 80%가 과제를 유난히 빨리 끝냈지만, 혼자 풀어야 하는 시험에서는 성과가 무너졌습니다.\n\n다만 AI를 써도 숙제 시간이 줄지 않은 학생은 학습 손실이 훨씬 적었습니다. 결국 도구를 썼느냐보다 생각하는 과정을 건너뛰었느냐가 성적을 갈랐습니다.\n\n며칠 전 다룬 브라운대 성적 분포와 정확히 같은 그림입니다. 숙제를 잘하는 것과 진짜 배우는 것이 다른 지표가 된 만큼, 평가가 대면 필기시험으로 돌아가는 흐름은 더 빨라질 것 같습니다.",
+   "likes": 28,
+   "cmts": 2,
+   "time": 1787436050,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778767366_17983571949112832_5061428128791684037_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk2OTYyMzc1OTEyMzQxODMxOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTAwMy5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Z_BxMdncymgQ7kNvwHrKOoJ&_nc_oc=AdrNN7wXCv4AI0YPQZmgtW9_WRrWFVsxdzh3SGTr1PPcbqANSUBER0c3rQCfxpcm19Y&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=L6oqlIEqaVGikILM_t_cjQ&_nc_ss=7a22e&oh=00_AQFVPh1Swl-P12NxL_XR5_7S7ZU-iYUykNWrcavgb_586A&oe=6A90292F",
+   "url": "https://www.threads.com/@choi.openai/post/DcW78hOgPxv",
    "region": "kr"
   },
   {
@@ -407,12 +447,12 @@
   },
   {
    "account": "choi.openai",
-   "text": "AI로 숙제를 하면 숙제 점수는 18% 오르고, 시험 점수는 20% 떨어집니다.\n\n중국 중고등학생 2만 6,800명을 30개월간 추적한 CEPR 연구입니다.\n생성형 AI 확산 뒤 두바오·딥시크를 쓴 학생들은 숙제를 더 빨리 끝내고 점수도 높게 받았지만, 고입 시험 점수는 최대 24% 낮아졌습니다.\n\n연구진이 짚은 원인은 ‘숙제 외주화’입니다. AI 사용 학생의 80%가 과제를 유난히 빨리 끝냈지만, 혼자 풀어야 하는 시험에서는 성과가 무너졌습니다.\n\n다만 AI를 써도 숙제 시간이 줄지 않은 학생은 학습 손실이 훨씬 적었습니다. 결국 도구를 썼느냐보다 생각하는 과정을 건너뛰었느냐가 성적을 갈랐습니다.\n\n며칠 전 다룬 브라운대 성적 분포와 정확히 같은 그림입니다. 숙제를 잘하는 것과 진짜 배우는 것이 다른 지표가 된 만큼, 평가가 대면 필기시험으로 돌아가는 흐름은 더 빨라질 것 같습니다.",
-   "likes": 25,
-   "cmts": 2,
-   "time": 1787436050,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778767366_17983571949112832_5061428128791684037_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk2OTYyMzc1OTEyMzQxODMxOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTAwMy5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Z_BxMdncymgQ7kNvwHrKOoJ&_nc_oc=AdrNN7wXCv4AI0YPQZmgtW9_WRrWFVsxdzh3SGTr1PPcbqANSUBER0c3rQCfxpcm19Y&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=VIovgjLGjRUkHCkPpX6i6g&_nc_ss=7a22e&oh=00_AQFue96I9jfXTpViDc9lBHawYToN4GlUwTGWorjXlRly6g&oe=6A90292F",
-   "url": "https://www.threads.com/@choi.openai/post/DcW78hOgPxv",
+   "text": "엔비디아가 가정집에 GPU를 설치해줍니다.\n\n엔비디아가 배전반 업체 Span, 건설사 풀티그룹과 지난 5월 발표한 XFRA인데, 에어컨 실외기만 한 수랭식 박스에 블랙웰 GPU 16장과 서버 CPU 4개, 램 3TB를 넣어 신축 주택 외벽에 답니다.\n\n집주인은 하드웨어 값을 한 푼도 내지 않고 전기·인터넷 요금 지원을 받으며, 집의 전력 여유분으로 GPU가 돌아갑니다.\n\n대형 데이터센터가 MW당 1,500만 달러에 3~5년 걸리는 동안, 이 방식은 300만 달러에 6개월이면 됩니다. 전력망 신규 인입도, 인허가 싸움도 없습니다.\n\n미국인 75%가 집 근처 데이터센터에 반대하는 상황에서 대형 시설이 주민 반대에 막힐수록 이렇게 집집마다 쪼개 붙이는 우회 모델은 더 주목받을 수밖에 없어 보입니다.\n\n올 3분기 네바다·애리조나 신축 100채로 시작해 2027년부터 연 1GW가 목표입니다.",
+   "likes": 62,
+   "cmts": 7,
+   "time": 1787430611,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/780771551_17983571838112832_3865873194639701961_n.webp?stp=dst-webp_s640x640_sh2.08&_nc_cat=104&ig_cache_key=Mzk2OTU3ODEzNjE1MjkzNzc1MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTUwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=ZTM8x6YzpDAQ7kNvwG9x_Ax&_nc_oc=AdpdCV2HEL48KPAR886XIJedHOcu26qWQUZDrgZ8UMxuFvA0LXYu0r-eHxhLpT9c7F8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=L6oqlIEqaVGikILM_t_cjQ&_nc_ss=7a22e&oh=00_AQHwalnkl9LejX6k-r2-n6LpmZOCWQitrYcmfAqKjbxV3w&oe=6A90283C",
+   "url": "https://www.threads.com/@choi.openai/post/DcWxkh5jZUX",
    "region": "kr"
   },
   {
@@ -423,16 +463,6 @@
    "time": 1787401140,
    "thumb": "",
    "url": "https://www.threads.com/@aipeekme/post/DcV5WcYn_hc",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "엔비디아가 가정집에 GPU를 설치해줍니다.\n\n엔비디아가 배전반 업체 Span, 건설사 풀티그룹과 지난 5월 발표한 XFRA인데, 에어컨 실외기만 한 수랭식 박스에 블랙웰 GPU 16장과 서버 CPU 4개, 램 3TB를 넣어 신축 주택 외벽에 답니다.\n\n집주인은 하드웨어 값을 한 푼도 내지 않고 전기·인터넷 요금 지원을 받으며, 집의 전력 여유분으로 GPU가 돌아갑니다.\n\n대형 데이터센터가 MW당 1,500만 달러에 3~5년 걸리는 동안, 이 방식은 300만 달러에 6개월이면 됩니다. 전력망 신규 인입도, 인허가 싸움도 없습니다.\n\n미국인 75%가 집 근처 데이터센터에 반대하는 상황에서 대형 시설이 주민 반대에 막힐수록 이렇게 집집마다 쪼개 붙이는 우회 모델은 더 주목받을 수밖에 없어 보입니다.\n\n올 3분기 네바다·애리조나 신축 100채로 시작해 2027년부터 연 1GW가 목표입니다.",
-   "likes": 57,
-   "cmts": 7,
-   "time": 1787430611,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/780771551_17983571838112832_3865873194639701961_n.webp?stp=dst-webp_s640x640_sh2.08&_nc_cat=104&ig_cache_key=Mzk2OTU3ODEzNjE1MjkzNzc1MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTUwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=ZTM8x6YzpDAQ7kNvwG9x_Ax&_nc_oc=AdpdCV2HEL48KPAR886XIJedHOcu26qWQUZDrgZ8UMxuFvA0LXYu0r-eHxhLpT9c7F8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=VIovgjLGjRUkHCkPpX6i6g&_nc_ss=7a22e&oh=00_AQHBkSZ_mBUTJY8gIvo8ZskpC8vFtANgtNbb_sdbdY09aA&oe=6A90283C",
-   "url": "https://www.threads.com/@choi.openai/post/DcWxkh5jZUX",
    "region": "kr"
   },
   {
@@ -451,18 +481,8 @@
    "likes": 1,
    "cmts": 1,
    "time": 1787400077,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/780648509_18082267550407306_6172938289899720609_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk2OTMyMTkyOTE5MTQyNjAxMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=OZr7VkSFCP0Q7kNvwHZuPjh&_nc_oc=AdqiW_azgGbiBPjzQtK9kK4dK2xZgYWenp6ax14F9sLkAPBnz3Nlo1sLSKJgO5WW_QA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=HNsnlD3u167pc4v47Fjz0w&_nc_ss=7a22e&oh=00_AQHOYtXX8TtDLjNonsS_eg4WZjRapk4nyal55OXuUyHpXw&oe=6A900FBE",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/780648509_18082267550407306_6172938289899720609_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk2OTMyMTkyOTE5MTQyNjAxMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=OZr7VkSFCP0Q7kNvwHZuPjh&_nc_oc=AdqiW_azgGbiBPjzQtK9kK4dK2xZgYWenp6ax14F9sLkAPBnz3Nlo1sLSKJgO5WW_QA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=hvq8mfk2xZJvnvC023V2pw&_nc_ss=7a22e&oh=00_AQEILrHewOQda9XbKo3wW2FR5qkFo6y8-hp3XjcgtfUGTQ&oe=6A900FBE",
    "url": "https://www.threads.com/@aipeekme/post/DcV3UOkn4fc",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
-   "text": "리얼 코리아 영상 같네요 \n\nSeedance 2.5 \n\n프롬프트 하단👇",
-   "likes": 26,
-   "cmts": 5,
-   "time": 1787398175,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/782018217_1057675046977234_4050642509887879089_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk2OTMwNTMzMTY1MDI2MzgxOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=odcHQKKhyb0Q7kNvwE-OQB8&_nc_oc=AdoAtBn1MaL4Gx_TSFj0K-EYmKtl3ZhUqyifWknM5rkAynElKbFFvFUPoeYkS1GQZEY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=HNsnlD3u167pc4v47Fjz0w&_nc_ss=7a22e&oh=00_AQFGtMJH-rfgHZfPw5eFiWzklhfDduxxXLE8UdAS0GxTtw&oe=6A900D14",
-   "url": "https://www.threads.com/@aipeekme/post/DcVzis6E_sK",
    "region": "kr"
   }
  ],
@@ -473,7 +493,7 @@
    "views": 1600000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAbAoCECNeDAVDgQBcAkFzYBfoUADqQCQWIuZl~tplv-tiktokx-origin.image?dr=14575&x-expires=1787619600&x-signature=%2Fd76mrppwVRC%2FvqH3%2BSkAHBJ4L8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAbAoCECNeDAVDgQBcAkFzYBfoUADqQCQWIuZl~tplv-tiktokx-origin.image?dr=14575&x-expires=1787619600&x-signature=1oaTwUlThNExh%2BHZcmlmr3rPaA8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785471372,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7668541152869616914",
    "region": "kr"
@@ -492,10 +512,10 @@
   {
    "account": "jaemyung_lee",
    "title": "이번 정류장은 브라질입니다 #이재명 #대통령 #Brasil #Brazil",
-   "views": 752100,
+   "views": 752200,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooBGAi8A6InMPiZBpU9fBkTRtAAwBKw0m1E0Ag~tplv-tiktokx-origin.image?dr=14575&x-expires=1787619600&x-signature=4l9lcuLxKWTpovNbD1zuAI%2F%2F5Eo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooBGAi8A6InMPiZBpU9fBkTRtAAwBKw0m1E0Ag~tplv-tiktokx-origin.image?dr=14575&x-expires=1787619600&x-signature=nXKB01pJMp3aNIrb%2BP55rSAOSCE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785109781,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7666988131442281746",
    "region": "kr"
@@ -503,10 +523,10 @@
   {
    "account": "jaemyung_lee",
    "title": "¡Gusto en conocerte, Argentina! 🇰🇷🤝🇦🇷 #이재명 #아르헨티나 #argentina #javiermilei",
-   "views": 474100,
+   "views": 474200,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/o43E0EJDgKsBeuyFfnqRBCAvI1sAAbI2NsPlIc~tplv-tiktokx-origin.image?dr=14575&x-expires=1787619600&x-signature=7NbtrOVylarJEZxh17xfGRWqg%2Fo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o43E0EJDgKsBeuyFfnqRBCAvI1sAAbI2NsPlIc~tplv-tiktokx-origin.image?dr=14575&x-expires=1787619600&x-signature=xmwDxbRTONwu4%2FvqxidWvbBGScw%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785519099,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7668746136877812999",
    "region": "kr"
@@ -525,7 +545,7 @@
   {
    "account": "jaemyung_lee",
    "title": "프랑크푸르트에 도착했습니다🇰🇷🇩🇪 #이재명 #deutschland #frankfurt",
-   "views": 247300,
+   "views": 247500,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1787619600&x-signature=5px8Z5SmhXkK6hpQ%2FQBkK4Fxf7U%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -536,7 +556,7 @@
   {
    "account": "jaemyung_lee",
    "title": "대한민국과 브라질이 함께 그려갈 미래가  두 나라 국민 모두에게  더 큰 희망과 기회가 되길 기대합니다 🇰🇷🫰🇧🇷 @Presidente Lula ima, meu irmão💚💛💙 #이재명 #lula #korea #Br",
-   "views": 226700,
+   "views": 226800,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-i-photomode-sg/91a2f3151d9741689af70b1d1f8aac3a~tplv-photomode-image.jpeg?dr=14555&x-expires=1787619600&x-signature=fePNCe9uHCFXIJ%2FL%2BkFGuAqJBLY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=9b759fb9&idc=my2&ftpl=1",
@@ -558,7 +578,7 @@
   {
    "account": "jaemyung_lee",
    "title": "이번 정류장은 샌프란시스코입니다 🇰🇷🇺🇸 #이재명 #대통령 #US #sanfrancisco #california",
-   "views": 129800,
+   "views": 129900,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okkIgGYEt7AlB4qvUF5yCAEAjD8vfKAfVACbBp~tplv-tiktokx-origin.image?dr=14575&x-expires=1787619600&x-signature=5O8dUBRJIuWs17RMSoXxknTXkMM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -572,7 +592,7 @@
    "views": 103100,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/ok7qEZCqBgAIPBVFAEgOfAJAhjCDYF5jcUeyNC~tplv-tiktokx-origin.image?dr=14575&x-expires=1787619600&x-signature=J7Ul5DXsh9P9wHc3aI8T7ZbMLM4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ok7qEZCqBgAIPBVFAEgOfAJAhjCDYF5jcUeyNC~tplv-tiktokx-origin.image?dr=14575&x-expires=1787619600&x-signature=LHXd18URvhx137YUdAbvg%2BJe6Yk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1784793310,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7665628897077234951",
    "region": "kr"
@@ -620,6 +640,24 @@
    "url": "https://www.reddit.com/r/AskReddit/comments/1vveqbp/what_is_a_piece_of_technology_that_was_obsolete/"
   },
   {
+   "sub": "BrandNewSentence",
+   "title": "“Roommate purchased a smartphone-sized slab of obsidian”",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/9lr6gu50i0lh1.jpeg?width=640&crop=smart&auto=webp&s=9f5c79719f23c531bac79bab143462e857c6b539",
+   "time": 1787441744,
+   "url": "https://www.reddit.com/r/BrandNewSentence/comments/1vvrdpq/roommate_purchased_a_smartphonesized_slab_of/"
+  },
+  {
+   "sub": "politics",
+   "title": "Trump: I’ll be impeached if I lose the midterms",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/uEUeHdvR_2Kcy4yAnLDO64dILL8YnHjtBXYehL-AKgA.jpeg?width=640&crop=smart&auto=webp&s=b993c474b38c93c634a58d24c01bbb17ba43b7d4",
+   "time": 1787432847,
+   "url": "https://www.reddit.com/r/politics/comments/1vvnzsx/trump_ill_be_impeached_if_i_lose_the_midterms/"
+  },
+  {
    "sub": "whoathatsinteresting",
    "title": "Welcome to the UK, where people debate whether it's right or wrong for a man sit right next to you on a completely empty bus",
    "score": 0,
@@ -638,6 +676,15 @@
    "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1vv7p6p/local_kindergarten_renovated_their_interiors_this/"
   },
   {
+   "sub": "me_irl",
+   "title": "Me_irl",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/jhjmchlji0lh1.jpeg?width=640&crop=smart&auto=webp&s=0114fdb91b028dce616df2ef754e5bada2a5b85f",
+   "time": 1787441925,
+   "url": "https://www.reddit.com/r/me_irl/comments/1vvrg56/me_irl/"
+  },
+  {
    "sub": "SipsTea",
    "title": "She is a millionaire now",
    "score": 0,
@@ -645,6 +692,15 @@
    "thumb": "https://preview.redd.it/8vf81aeegykh1.jpeg?width=320&crop=smart&auto=webp&s=9d6471b05e4c85dde823a3a3e37425f8cd6177cf",
    "time": 1787417012,
    "url": "https://www.reddit.com/r/SipsTea/comments/1vvh8yw/she_is_a_millionaire_now/"
+  },
+  {
+   "sub": "mildlyinteresting",
+   "title": "Several of the bricks in my kitchen floor have paw prints baked into them",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/lnyw2ef0hzkh1.jpeg?width=640&crop=smart&auto=webp&s=16a019052e0d856798ef4ca43dd82eab92edec0b",
+   "time": 1787429305,
+   "url": "https://www.reddit.com/r/mildlyinteresting/comments/1vvmj7m/several_of_the_bricks_in_my_kitchen_floor_have/"
   },
   {
    "sub": "nextfuckinglevel",
@@ -665,49 +721,13 @@
    "url": "https://www.reddit.com/r/mildlyinteresting/comments/1vvlovc/my_dad_saved_6_acid_trips_from_the_early_80s_they/"
   },
   {
-   "sub": "interestingasfuck",
-   "title": "A Chinese robot did the 100 meter dash in 9.39 seconds. Beating Usain Bolts 9.58 seconds world record.",
+   "sub": "Damnthatsinteresting",
+   "title": "The correct way to eat Sushi",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/dDRpeTBtZjczemtoMVWIQ_48yqrN2yaD624bmUE8_-1qtTDOpU5wd1E8r599.png?width=640&crop=smart&auto=webp&s=8fdf00b5689907f43c5ab4a4895a1c2b3f4e8835",
-   "time": 1787424677,
-   "url": "https://www.reddit.com/r/interestingasfuck/comments/1vvkk8e/a_chinese_robot_did_the_100_meter_dash_in_939/"
-  },
-  {
-   "sub": "videogames",
-   "title": "Which game made you feel like this?",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/97l7pvf8iykh1.png?width=320&crop=smart&auto=webp&s=aa602765699bebdd8dc536807083ea28bde633d5",
-   "time": 1787417646,
-   "url": "https://www.reddit.com/r/videogames/comments/1vvhina/which_game_made_you_feel_like_this/"
-  },
-  {
-   "sub": "oddlysatisfying",
-   "title": "Burrito folding skills",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/aGdxZHU2eDZweGtoMfgSlzLLSYGe0j2LtRRAC4SrEXsWi-KJ-H_se3iwRSj2.jpeg?width=640&crop=smart&auto=webp&s=c0b30d78503a4bf6bbe6361d6bd29fcb1c57f9be",
-   "time": 1787407843,
-   "url": "https://www.reddit.com/r/oddlysatisfying/comments/1vvdgyp/burrito_folding_skills/"
-  },
-  {
-   "sub": "politics",
-   "title": "Trump: I’ll be impeached if I lose the midterms",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/uEUeHdvR_2Kcy4yAnLDO64dILL8YnHjtBXYehL-AKgA.jpeg?width=640&crop=smart&auto=webp&s=b993c474b38c93c634a58d24c01bbb17ba43b7d4",
-   "time": 1787432847,
-   "url": "https://www.reddit.com/r/politics/comments/1vvnzsx/trump_ill_be_impeached_if_i_lose_the_midterms/"
-  },
-  {
-   "sub": "BlackPeopleofReddit",
-   "title": "ICYMI: \"Stolen Valor\" is such a fitting title",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/6uv79prjowkh1.jpeg?width=640&crop=smart&auto=webp&s=1813510c90e1110f4beb5d7005337f496b5f50ae",
-   "time": 1787395682,
-   "url": "https://www.reddit.com/r/BlackPeopleofReddit/comments/1vv963x/icymi_stolen_valor_is_such_a_fitting_title/"
+   "thumb": "https://external-preview.redd.it/cHMzeWhrdXFzemtoMewknqxCkmYQqkSrDKQEzqFcov5WOtzprpERdoBJED0M.png?width=320&crop=smart&auto=webp&s=a5b36414394176d090e3f7e40a0606a998d438fd",
+   "time": 1787433252,
+   "url": "https://www.reddit.com/r/Damnthatsinteresting/comments/1vvo5hy/the_correct_way_to_eat_sushi/"
   },
   {
    "sub": "worldnews",
@@ -777,10 +797,10 @@
    }
   },
   "landing": {
-   "at": "2026-08-23T09:35:23",
+   "at": "2026-08-23T10:01:07",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-23T10:01:04.506748+09:00"
+ "updated": "2026-08-23T10:31:03.170926+09:00"
 }
