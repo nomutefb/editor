@@ -7690,8 +7690,14 @@
   {
    "query": "부모",
    "traffic": "5000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/dd865ca961.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://biz.heraldcorp.com/article/10848977",
+     "source": ""
+    }
+   ],
    "vol": 5000,
    "started": "2026-08-23T17:50:00+09:00",
    "delta": -4,
@@ -7725,8 +7731,14 @@
   {
    "query": "김동현",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/15abd7b981.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.newsis.com/view/NISX20260822_0003758613",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-08-23T18:00:00+09:00",
    "delta": -9,
@@ -7853,8 +7865,14 @@
   {
    "query": "김재중",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/de85fad95c.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.wikitree.co.kr/articles/1153456",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-23T18:00:00+09:00",
    "delta": -15,
@@ -8137,13 +8155,14 @@
  ],
  "gtrends_pool_updated": "2026-08-23T20:09:27+09:00",
  "_trend_img": {
-  "tried": "2026-08-23T19:36:40+09:00",
+  "tried": "2026-08-23T20:09:27+09:00",
   "fail": {
    "동아일보": "2026-08-23T18:19:32+09:00",
    "시위": "2026-08-23T18:19:32+09:00",
    "국민의힘": "2026-08-23T18:19:32+09:00",
    "ind vs sl": "2026-08-23T18:19:32+09:00",
-   "무죄": "2026-08-23T19:08:20+09:00"
+   "무죄": "2026-08-23T19:08:20+09:00",
+   "1박2일": "2026-08-23T20:16:13+09:00"
   }
  },
  "gtrends_gl": [
@@ -16919,7 +16938,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-08-23T20:09:27+09:00"
+    "first_seen": "2026-08-23T20:09:27+09:00",
+    "kw": "Seedance 2.5, 프롬프트",
+    "sum": "작성자가 Seedance 2.5 영상 프롬프트를 공유했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
