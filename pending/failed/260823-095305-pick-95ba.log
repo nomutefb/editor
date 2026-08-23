@@ -1,0 +1,5 @@
+url: https://www.seoul.co.kr/news/newsView.php?id=20260823500008
+exit_code: 1
+---- stderr ----
+---- stdout(head) ----
+Failed to authenticate. API Error: 401 OAuth access token has been revoked.
