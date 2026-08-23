@@ -1120,7 +1120,7 @@
   .ch-trow .tdev { color:var(--accent); font-size:var(--fs-xs); font-weight:var(--fw-b); font-variant-numeric:tabular-nums; white-space:nowrap; margin-left:var(--sp-1); }   /* 평균 대비 ±% 배지(운영자 260722 "평균치 대비 +-몇% (00%) · 더콰이즈색") — 터콰이즈 형광(--accent) · 수치(.tv 흰색)와 색 분리 · fs-xs 보조 크기 · 앞 공백 + margin sp-1 = 수치↔배지 간격 소폭↑(운영자 260722 "글자간 간격 조금 더") */
   .tbrief { margin:0 0 14px; padding:10px 12px; border-radius:var(--r-m); background:rgba(255,255,255,.04); border:1px solid var(--line); }   /* 무채 인셋 판(xcard 톤 계승) */
   .tbrief-lbl { display:block; font-size:var(--fs-xs); font-weight:var(--fw-x); color:var(--accent); letter-spacing:.02em; margin-bottom:3px; }
-  .tbrief-t { margin:0; font-size:var(--fs-sm); line-height:1.85; color:var(--fg); word-break:break-word; white-space:pre-line; }   /* 줄간격 확대·요점별 개행 보존(white-space:pre-line) — 운영자 260712 #7 */
+  .tbrief-t { margin:0; font-size:var(--fs-h3); line-height:1.85; color:var(--fg); word-break:break-word; white-space:pre-line; }   /* 줄간격 확대·요점별 개행 보존(white-space:pre-line) — 운영자 260712 #7 · 크기 --fs-sm(12)→--fs-h3(14) 승격(운영자 260823 «너무 작아서 안 읽힌다» — 독서 블록인데 12px · 본문 정본 15의 한 단 아래 = 요약 보조 위계 유지 · 사다리 값 계승 = 크기 토큰과 위계는 별개 축{107행 주석}) */
   .tbrief-t b { color:var(--accent); font-weight:var(--fw-x); }   /* *별표1* 강조 = 강조색 굵게(1층 = 제일 중요·핵심 포인트·수치) */
   .tbrief-t b.tb-em, .tbrief-prop li b.tb-em { color:var(--fg); font-weight:var(--fw-b); }   /* **별표2** 강조 = 강조색 없이 볼드만(2층 = 어느정도 중요 · 본문색 유지·700 = 강조색 800보다 한 단 아래 · 운영자 260714 "강조색 볼드만큼은 아니지만 볼드로") */
   .tbrief-t .tb-starwarn, .tbrief-prop .tb-starwarn { color:var(--danger); font-weight:var(--fw-b); text-decoration:line-through; text-decoration-thickness:2px; cursor:help; }   /* 짝 없는 단일 별표(경계 인접 = 오탈자 90% · 운영자 260720 "혼자 떨어진 * = 거의 오탈자") = 빗금(삭제 표시·운영자 "빗금 쳐서 나오는 느낌") + 위험색 = "이건 지워질 오탈자" 신호 · 숫자/글자 사이 *(수식 3*4)는 리터럴 유지(오탐 방지) */
@@ -1132,7 +1132,7 @@
   /* ── 클로신의 제안(운영자 260714 "위 = 분석·브리핑 / 아래 = 왓투두 블릿 분리") — 채널 브리프 전략 줄('→ ') 전용 분리 판 · 라벨 = .tbrief-lbl 정본 계승 ── */
   .tbrief-prop { margin:var(--sp-2) 0 0; padding-top:var(--sp-2); border-top:1px solid var(--line2); }
   .tbrief-prop ul { margin:var(--sp-1) 0 0; padding:0; list-style:none; }
-  .tbrief-prop li { position:relative; padding-left:15px; /* raw-ok: 블릿 점(left2+지름5)과 본문 광학 간격 8 — sp 사다리 밖 1회성 */ margin:var(--sp-1) 0; font-size:var(--fs-sm); line-height:1.7; /* raw-ok: 본문 1.85와 태그행 사이 밀도(전략 줄 = 단문) */ color:var(--fg); word-break:break-word; }
+  .tbrief-prop li { position:relative; padding-left:15px; /* raw-ok: 블릿 점(left2+지름5)과 본문 광학 간격 8 — sp 사다리 밖 1회성 */ margin:var(--sp-1) 0; font-size:var(--fs-h3); line-height:1.7; /* raw-ok: 본문 1.85와 태그행 사이 밀도(전략 줄 = 단문) */ color:var(--fg); word-break:break-word; }   /* 크기 --fs-sm→--fs-h3 = 본문(.tbrief-t)과 동반 승격(운영자 260823 — 같은 독서 블록이 두 크기로 갈리면 형제 드리프트) */
   .tbrief-prop li::before { content:''; position:absolute; left:2px; top:.6em; width:5px; height:5px; border-radius:50%; background:var(--accent); box-shadow:0 0 6px rgba(var(--accent-rgb),.5); }   /* 블릿 = 강조색 점(문자 블릿 × — §디자인 3-1 회피·CSS 도형) */
   .tbrief-prop li b { color:var(--accent); font-weight:var(--fw-x); }   /* *별표* 강조 = 본문(.tbrief-t b)과 동일 결 */
   .tbrief-act { display:inline-block; margin-left:var(--sp-1); vertical-align:1px; text-decoration:none; }   /* 행동 필(피크 예약) = .ch-mchip 칩 정본을 앵커로 계승 — 탭하면 캘린더 템플릿 */
