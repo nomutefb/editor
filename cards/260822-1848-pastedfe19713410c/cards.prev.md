@@ -1,31 +1,31 @@
 # 용산공원 대신 국회부터…시민이 던진 10만평 역제안
 
 **[프롬프트 설계]**
-- 화풍: B 극화 — 도심 국유지를 누구에게 먼저 내주느냐는 구조·권력 문제라, 수채화의 온기보다 극화의 무게가 맞다
-- 분위기: 억울함이 고함이 아니라 다문 입으로 눌려 있는 톤. 해질녘의 따뜻함에서 열어 밤의 고립으로 내려갔다가 새벽에서 겨우 풀린다
-- 연출 방향: 뉴스를 안 보는 독자도 "내 동네 공원부터 밀자면서 저 10만 평은 왜 목록에 없나"라는 감각에는 즉시 붙는다. 그래서 매 카드에 '땅'과 '사람'을 한 프레임에 두되, 목록에 오른 땅(발치의 잔디)과 오르지 않은 땅(강 건너 낮은 초록 돔)을 늘 시선의 끝에 걸어 둔다. 강조점은 두 개 — 땅을 가리키는 손끝과, 계산을 멈춘 뒤 다물어지는 입. 골든아워로 시작해 카드4에서 빛을 한 점으로 조이고 새벽으로 놓아준다
-- 독자 동선: **발단** 카드1→**전개** 카드2~3→**피크** 카드4→**해소** 카드5→**시사점** 카드6 · 훅=카드1 끝(예고형: 역제안이 올라왔다)+카드3 끝(단서형: 붙든 건 이 숫자가 아니었다) · 착지 한 줄 요지 = 부담의 첫 순번을 다음 도심 부지 목록이 말해준다
-- 연속성 앵커: Recurring subject — a Korean man in his 30s with short cropped hair and light stubble, wearing a plain navy zip-up jacket over a gray tee / Recurring place — the riverside walkway at Yeouido, a low green-domed assembly building sitting across the dark water
+- 화풍: B 극화 — 국유지 배분 순서를 따지는 구조 비판이라 사실성·무게가 필요하다
+- 분위기: 억울함이 조용히 굳는 톤. 화내지 않고 계산기를 두드리는 시민의 냉정함, 그 밑에 깔린 체념과 반문
+- 연출 방향: 집 사기를 미뤄 온 30~40대가 멈추는 지점은 "왜 항상 우리가 쓰는 땅부터인가"다 — 그래서 사람 얼굴보다 **땅의 크기와 비어 있음**을 계속 보여준다. 공원 잔디, 강 건너 낮게 앉은 10만 평, 그 위에 겹쳐지는 상상의 고층 실루엣. 썸네일이 잡은 해질녘 온기(LGT06)와 미세하게 새는 표정(EM-10)을 첫 카드에서 이어받아, 명도를 카드마다 한 단계씩 떨어뜨려 轉에서 가장 어둡게 조인 뒤 새벽빛으로 푼다. 악센트 네온그린은 측량 테이프·화면 반사·크레인 등처럼 '누가 이 땅을 재고 있나'를 가리키는 자리에만 놓는다
+- 독자 동선: **발단** 카드1(정부가 용산공원을 꺼냄)→**전개** 카드2~3(글의 주장과 산식·이점)→**피크** 카드4(300명이 쓰는 10만 평)→**해소** 카드5(두 땅 모두 당장은 불가)→**시사점** 카드6 · 훅=카드1 끝(예고형: "다른 땅을 꺼냈다")+카드3 끝(예고형: "마지막 한 문장") · 착지 = 공원은 목록에 올랐고 국회 10만 평은 오르지 않았다, 첫 순번은 다음 목록이 말해 준다
+- 연속성 앵커: Recurring subject — a Korean man in his 30s with short cropped black hair and a plain navy windbreaker over a gray tee (카드 1·4·6) / 반복 장소 = the Han river embankment facing the west Yeouido block
 
 ### [카드 1]
 **텍스트**
 ```text
-정부가 도심에 집을 더 짓겠다고 했다
-그 목록의 첫 줄은 용산공원이었다
-기능 잃은 부지에 청년주택을 검토한다
-*그러자 SNS에 역제안이 올라왔다*
+정부가 공원 한쪽을 꺼내 들었다
+용산공원에서 녹지 기능을 잃은 부지에
+*청년주택을 공급하겠다는 검토였다*
+그러자 시민 한 명이 다른 땅을 꺼냈다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the older official's fingertip pressing hard onto the folded site plan, aimed away at a worn low building. Two Korean public officials in dark suits stand together on a wide open lawn at dusk, one holding the plan open with both hands while the other points toward a disused two-story quarters building at the far treeline, both gazing the same way. The lawn runs unbroken to the bottom edge of the frame. Nose room on the right, the pointing vector and both gazes directed toward the right edge.
-Camera: wide shot, full body, surrounding environment, spatial context from low angle shot, looking up, dominance, dramatic presence, shot on 35mm lens, natural documentary perspective, minimal distortion
+Scene: Emotional focal point: his jaw tightening as he reads a blank notice board through a mesh fence. Recurring subject - a Korean man in his 30s with short cropped black hair and a plain navy windbreaker over a gray tee stands at the edge of a vast open park lawn, both hands gripping the fence wire, gaze directed toward the right edge of the frame. Far across the lawn behind him, two officials in windbreakers carry rolled site drawings past a row of low aging quarters buildings and a surveying tripod. The lawn is one unbroken grass surface running edge to edge.
+Camera: medium shot, waist-up framing, face and gestures, from eye-level shot, neutral perspective, realistic, balanced emotion, shot on 35mm lens, natural documentary perspective, minimal distortion, nose room on the right
 Lighting/mood: warm golden-hour sunlight, long soft shadows, nostalgic warmth
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the lawn edge and the marked patch of the plan), muted daylight contrast
-Text handling: the site plan is tilted away and cropped by the frame so nothing on it is legible; no signage anywhere.
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the surveying marker tape and the fence tag), muted daylight contrast
+Text handling: no readable writing anywhere; the notice board is angled away and cropped, every sign face is blank.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the open grass lawn) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the park lawn) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -41,22 +41,22 @@ NEGATIVE - strictly avoid:
 ### [카드 2]
 **텍스트**
 ```text
-국회를 세종으로 보내자는 제안이었다
-제목은 '닥치고 공급 아이디어 제안'
-서여의도를 고밀 개발하자는 것이었다
-*용산과 달리 미군기지 철수도 없다*
+그가 올린 글의 제목은 이랬다
+*'닥치고 공급 아이디어 제안'*
+서울에서 가장 생산성 낮은 기관,
+국회의사당을 세종으로 보내자고 했다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: his thumb hovering one beat above the send key, jaw set. Recurring subject - a Korean man in his 30s with short cropped hair and light stubble, wearing a plain navy zip-up jacket over a gray tee - sits alone at a small desk late at night, both hands cupping a phone, eyes down on its glow. Through a window opening in the same dark wall behind him, the night skyline of Yeouido shows a low green-domed assembly building across the black river.
-Camera: medium shot, waist-up framing, face and gestures, conversational from eye-level shot, neutral perspective, three-quarter angle, natural face depth, shot on 50mm standard lens, minimal distortion
-Lighting/mood: cold blue screen under-glow lighting the face from below in a dark room, restless paranoid unease
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the phone glow spilling across his knuckles), film-noir low-key lighting, deep shadows
-Text handling: the phone screen is angled steeply away from the camera, its content unreadable; no letters anywhere in the frame.
+Scene: Emotional focal point: the flat calm of his eyes while his thumb hovers over a phone screen. Seen from above, a Korean man in his 40s in a plain dark sweater hunches at a small desk late at night, typing a long post on a phone held low and tilted steeply away so nothing on the screen is legible. Beside his elbow on the desk sit a folded property listings page turned face down and a cooled mug, and the desk lamp cone lights only his hands and the paper.
+Camera: medium close-up, chest-up framing, facial emotion, from high angle shot, looking down, subject observed, shot on 50mm standard lens, minimal distortion, natural cinematic composition
+Lighting/mood: warm soft desk-lamp light, quiet wistful tone
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 in the phone screen glow reflected on his fingers), film-noir low-key lighting, deep shadows
+Text handling: the phone screen is turned away and blurred, the paper is face down; no readable characters anywhere in frame.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the dark interior wall behind the desk) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the desk top) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -66,28 +66,28 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-여의도 국회의사당 야경
+스레드 부동산 게시글 화면
 ```
 
 ### [카드 3]
 **텍스트**
 ```text
-부지 10만 평에 용적률 500%
-*연면적 50만 평, 1만 5000채가 나온다*
-20~30평 위주로 지었을 때 계산이다
-사람들이 붙든 건 이 숫자가 아니었다
+*부지 10만 평에 용적률 500%를 곱했다*
+연면적 50만 평, 1만 5000채가 나온다
+미군기지 철수도 토지 정화도 없다
+마지막 한 문장이 사람들을 붙잡았다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: his fingertip pressing down on a pencil sketch as he counts, lips parting slightly. Recurring subject - a Korean man in his 30s with short cropped hair and light stubble, wearing a plain navy zip-up jacket over a gray tee - leans over an open notebook by a window, one flat palm on the page of blank rectangular tower blocks drawn in pencil, the other hand curled near his mouth, eyes locked on the drawing. Beyond the window the blue-hour Yeouido skyline rises behind him. The desk surface fills the frame from top to bottom behind him. Nose room on the right, his gaze angled toward the right edge.
-Camera: medium close-up, chest-up framing, facial emotion, slight body context from high angle shot, looking down, observed, shot on 85mm portrait lens, soft background separation
-Lighting/mood: cold blue dim interior light, heavy and suffocating, faint trembling tension
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 tracing the pencil outlines of the drawn blocks), film-noir low-key lighting, deep shadows
-Text handling: the sketch contains only blank rectangular shapes, no numbers, no letters, no labels of any kind; the notebook page is otherwise empty.
+Scene: Emotional focal point: the gap between two strangers' shoulders as both look across the water at the same low dome. Seen from below, three people stand along a riverside railing with their backs to the camera, one arm raised pointing across the river toward the right edge of the frame. On the far bank a low green-domed assembly hall sits alone on a wide empty block, and just behind it a dense row of imagined residential towers is blocked in as flat translucent silhouettes rising into the evening sky. The upper frame is one unbroken sky.
+Camera: wide shot, full body, surrounding environment, spatial context, from low angle shot, looking up, dramatic presence, shot on 24mm wide lens, cinematic wide shot, spatial context, nose room on the right
+Lighting/mood: single hard side-light cutting across the subject, deep chiaroscuro shadows, tense atmosphere
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 outlining the imagined tower silhouettes), film-noir low-key lighting, deep shadows
+Text handling: no signage, no building nameplates, no banners; all surfaces blank.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the wooden desk top) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the evening sky) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -97,27 +97,27 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-여의도 주상복합 스카이라인
+서여의도 국회의사당 항공 전경
 ```
 
 ### [카드 4]
 **텍스트**
 ```text
-*그들이 붙든 건 순서였다*
-시민이 쓰는 공원은 목록에 올랐고
-국회 300명이 쓰는 10만 평은 없었다
+"정치인들만 세종으로 가면 된다"
+균형 발전을 외쳐 온 사람들 말이다
+*300명이 쓰는 10만 평은 목록에 없다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: lips pressed into a hard line and the jaw clenched, the muscle flexing at the jawline while the eyes stay wide open and unblinking. Recurring subject - a Korean man in his 30s with short cropped hair and light stubble, wearing a plain navy zip-up jacket over a gray tee - stands motionless in surrounding blackness, his face filling the frame in three-quarter view, one lowered hand still gripping a dark unlit phone at the frame edge, his eyes fixed far off past the camera. Nothing else is visible around him.
-Camera: tight close-up, face fills frame, intense emotion, intimate pressure from eye-level shot, neutral perspective, three-quarter angle, natural face depth, shot on 135mm telephoto lens, strong compression, cinematic depth
+Scene: Emotional focal point: a fleeting micro-expression flashing across his otherwise composed face, jaw clenched tight with the muscle flexing at the jawline. Recurring subject - a Korean man in his 30s with short cropped black hair and a plain navy windbreaker over a gray tee fills the frame at night, standing against the concrete embankment wall of the river walk, eyes lowered toward a phone he holds just below his chin. A single hard pool of light isolates his face while everything around him falls into blackness, and manhwa emphasis lines radiate toward him, no panel border.
+Camera: tight close-up, face fills frame, intense emotion, intimate pressure, from eye-level shot, neutral perspective, realistic, shot on 135mm telephoto lens, strong compression, cinematic depth
 Lighting/mood: single pool of hard light isolating the figure in surrounding blackness, claustrophobic loneliness
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 as a thin rim along his jaw and a cold spark in his eyes), film-noir low-key lighting, deep shadows
-Text handling: no signage, no screen content, no written surface anywhere in the frame.
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 in the phone light striking his cheek and lower lip), film-noir low-key lighting, deep shadows
+Text handling: the phone screen is out of frame below the chin; no readable characters anywhere.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the unbroken black void behind him) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the embankment wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -127,28 +127,28 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-국회의사당 잔디마당 항공
+국회의사당 돔 야간 조명
 ```
 
 ### [카드 5]
 **텍스트**
 ```text
-그런데 이 제안은 지금 당장은 어렵다
-세종의사당은 상임위만 가는 분원이고
-착공 2029년, 준공 목표는 2033년이다
-*본원 이전은 국회법부터 고쳐야 한다*
+*그런데 두 땅 모두 당장은 못 짓는다*
+세종의사당은 상임위 일부만 옮기고
+착공 2029년, 준공 목표가 2033년이다
+용산공원은 서울시와 용산구가 반대한다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the lone staffer's slow uncertain step halted halfway up the aisle, shoulders drawn in. Seen from directly above, a single Korean staffer in a gray suit stands alone in the central aisle of a vast empty semicircular chamber, an armful of folders held against the chest, head turned toward the far podium. Rows of identical tiered seats arc away around him in unbroken geometry, every seat empty. The seating floor fills the entire frame.
-Camera: wide shot, full body, surrounding environment, spatial context from overhead shot, bird's-eye view, top-down angle, layout, geometry, shot on 20mm wide lens, documentary realism
+Scene: Emotional focal point: the downward tilt of the officials' faces as none of them looks up from the papers. Seen from below, three public servants in plain gray suits walk a long institutional corridor carrying thick binders and a rolled blank chart, passing each other without a word. The corridor wall runs unbroken along the whole frame with an evenly spaced row of identical closed doors, and a stack of cardboard document boxes waits against it.
+Camera: medium shot, waist-up framing, body language, from low angle shot, looking up, institutional dominance, shot on 70mm short telephoto, gentle background compression, subject isolation
 Lighting/mood: flat sterile clinical fluorescent light, cold even greenish-white, emotionless institutional
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the aisle carpet runner beneath him), muted institutional contrast
-Text handling: the vote board and every desk panel are dark and blank, no numbers, no nameplates, no letters, no emblem, no logo anywhere.
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on a single emergency exit lamp far down the corridor), muted interior contrast
+Text handling: all binders, boxes, door plates and charts are blank; no letters, numbers or logos rendered anywhere.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the tiered seating floor of the chamber) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the corridor wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -158,28 +158,28 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-국회 본회의장 내부 좌석
+국회 세종의사당 건립 부지
 ```
 
 ### [카드 6]
 **텍스트**
 ```text
-국회 부지가 아파트가 될 가능성은 낮다
-그래도 질문 하나는 그대로 남았다
-공급의 부담을 누가 먼저 지느냐다
-*답은 다음 도심 부지 목록에 있다*
+여의도가 아파트가 될 일은 거의 없다
+그래도 공원은 목록에 올랐고
+국회 10만 평은 오르지 않았다
+*공급의 첫 순번은 다음 목록이 말해 준다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the loosened jaw and the long breath let go, his eyes level and steady straight into the camera. Recurring subject - a Korean man in his 30s with short cropped hair and light stubble, wearing a plain navy zip-up jacket over a gray tee - stands still at the riverside walkway at Yeouido facing the viewer, both hands resting empty on the railing, the phone pocketed and gone. Behind his shoulder, across the dark water, a low green-domed assembly building sits under the first pale light. The walkway pavement runs unbroken to the bottom edge of the frame.
-Camera: medium shot, waist-up framing, face and gestures from eye-level shot, neutral perspective, front-on shot, direct gaze, symmetrical composition, shot on 50mm standard lens, minimal distortion, natural cinematic composition
+Scene: Emotional focal point: his steady unwavering eye contact straight into the camera, tension finally released from the shoulders. Recurring subject - a Korean man in his 30s with short cropped black hair and a plain navy windbreaker over a gray tee stands centered and still on the empty river walk at first light, hands loose at his sides, facing the viewer head on. Behind him the wide river runs unbroken across the whole frame, with the low domed block on the far left bank and the dense apartment ridge on the right meeting at the pale horizon.
+Camera: wide shot, full body, surrounding environment, spatial context, from front-on shot, direct gaze, symmetrical composition, facing camera, shot on 35mm lens, natural documentary perspective, minimal distortion
 Lighting/mood: cold blue pre-dawn tone, lone streetlight reflection on wet ground, desolate stillness
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the wet railing edge under his hands), film-noir low-key lighting, deep shadows
-Text handling: no signage, no banners, no written surface anywhere in the frame.
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on a distant construction crane light across the water), film-noir low-key lighting, deep shadows
+Text handling: no signage, no banners, no building names; every surface blank.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the riverside walkway pavement) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the river water) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -189,5 +189,5 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-여의도 한강공원 새벽 강변
+여의도 한강 새벽 스카이라인
 ```
