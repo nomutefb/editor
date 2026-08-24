@@ -85,14 +85,14 @@ export AWS_ACCESS_KEY_ID="${R2_ACCESS_KEY_ID:-}" AWS_SECRET_ACCESS_KEY="${R2_SEC
 # 회전 열쇠 로컬 되쓰기 셔틀(260815) — 그록/힉스필드 갱신 열쇠를 깃 비밀값 대신 드라이브 정본+캐시에 되쓴다(shared/grok_api._persist_secret 로컬 분기)
 export NOMUTE_SECRET_FILE="$HOME/Library/CloudStorage/GoogleDrive-ems1130g@gmail.com/내 드라이브/action/환경변수.txt"
 export NOMUTE_SECRET_FILE_2="$HOME/nomute-action/환경변수.txt"
-# claude 계정 토큰 사슬(워크플로 account=MUTENO 기본 동형) — 키 없으면 맥 키체인 로그인 사용
-if [ -n "${CLAUDE_CODE_OAUTH_TOKEN_MUTENO:-}" ]; then
-  export CLAUDE_CODE_OAUTH_TOKEN="$CLAUDE_CODE_OAUTH_TOKEN_MUTENO"
-  export CLAUDE_CODE_OAUTH_TOKEN_ALT="${CLAUDE_CODE_OAUTH_TOKEN_NOMUTEFB:-}"
+# claude 계정 토큰 사슬(워크플로 account=EMS1130N 기본 동형) — 키 없으면 맥 키체인 로그인 사용
+if [ -n "${CLAUDE_CODE_OAUTH_TOKEN_EMS1130N:-}${CLAUDE_CODE_OAUTH_TOKEN_MUTENO:-}" ]; then
+  export CLAUDE_CODE_OAUTH_TOKEN="${CLAUDE_CODE_OAUTH_TOKEN_EMS1130N:-$CLAUDE_CODE_OAUTH_TOKEN_MUTENO}"
+  export CLAUDE_CODE_OAUTH_TOKEN_ALT="${CLAUDE_CODE_OAUTH_TOKEN_MUTENO:-}"
   export CLAUDE_CODE_OAUTH_TOKEN_ALT2="${CLAUDE_CODE_OAUTH_TOKEN_EMS1130G:-}"
   export CLAUDE_CODE_OAUTH_TOKEN_ALT3="${CLAUDE_CODE_OAUTH_TOKEN_EMS1130M:-}"
 fi
-export ACTIVE_ACCOUNT="${ACTIVE_ACCOUNT:-MUTENO}"
+export ACTIVE_ACCOUNT="${ACTIVE_ACCOUNT:-EMS1130N}"
 FAILED=0
 case "$KIND" in
 vidl)

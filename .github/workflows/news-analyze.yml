@@ -13,13 +13,13 @@ on:
       account:
         description: '이 실행에 쓸 계정(구독 OAuth · 미선택 = 활성계정 자동)'
         type: choice
-        # ⚠️ default 금지(평의회 260727 만장일치) — 구 `default: MUTENO`는 pick·pending-sweep·scrape·breaking-judge 의
+        # ⚠️ default 금지(평의회 260727 만장일치) — 구 `default: EMS1130N`는 pick·pending-sweep·scrape·breaking-judge 의
         #   무입력 gh dispatch 에도 채워져 sticky 승격(vars.ACTIVE_ACCOUNT)을 가리고 승격 스텝(`!inputs.account`)을
         #   상시 스킵시켰다(소진기 런마다 폴오버 공회전). 삭제 = 전 호출부 diff 0 중앙 수리.
-        #   options 첫 줄 = MUTENO(무default 수동 UI가 첫 옵션을 선선택해도 종전 수동 동작 보존).
+        #   options 첫 줄 = EMS1130N(무default 수동 UI가 첫 옵션을 선선택해도 종전 수동 동작 보존).
         options:
+          - EMS1130N
           - MUTENO
-          - NOMUTEFB
           - EMS1130G
 
 # 동시 실행 충돌 방지 — ⚠️ 잠금은 '잡' 레벨(운영자 260717 대기열 기아 실측): 종전 워크플로(런) 레벨 그룹은
@@ -93,13 +93,13 @@ jobs:
       - name: Analyze pending articles
         env:
           # 인증 = 구독 OAuth 토큰(API 키 미사용). 계정 동적 선택:
-          #   수동 실행 inputs.account → 리포 변수 vars.ACTIVE_ACCOUNT → 기본 MUTENO(서브1=NOMUTEFB·서브2=EMS1130G·서브3=EMS1130M·쿼터 한도 시 3단 자동 폴오버)
+          #   수동 실행 inputs.account → 리포 변수 vars.ACTIVE_ACCOUNT → 기본 EMS1130N(서브1=MUTENO·서브2=EMS1130G·서브3=EMS1130M·쿼터 한도 시 3단 자동 폴오버)
           #   (secrets[format(...)] 동적 인덱싱·vars||기본값 = 공식 지원 문법)
-          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets[format('CLAUDE_CODE_OAUTH_TOKEN_{0}', inputs.account || vars.ACTIVE_ACCOUNT || 'MUTENO')] }}
-          CLAUDE_CODE_OAUTH_TOKEN_ALT: ${{ (inputs.account || vars.ACTIVE_ACCOUNT || 'MUTENO') == 'NOMUTEFB' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_NOMUTEFB }}   # 서브1 폴오버(활성 다음 우선순위 · 체인 MUTENO→NOMUTEFB→EMS1130G→EMS1130M)
-          CLAUDE_CODE_OAUTH_TOKEN_ALT2: ${{ (inputs.account || vars.ACTIVE_ACCOUNT || 'MUTENO') == 'MUTENO' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_MUTENO }}   # 서브2 폴오버(체인 3번째)
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets[format('CLAUDE_CODE_OAUTH_TOKEN_{0}', inputs.account || vars.ACTIVE_ACCOUNT || 'EMS1130N')] }}
+          CLAUDE_CODE_OAUTH_TOKEN_ALT: ${{ (inputs.account || vars.ACTIVE_ACCOUNT || 'EMS1130N') == 'MUTENO' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_MUTENO }}   # 서브1 폴오버(활성 다음 우선순위 · 체인 EMS1130N→MUTENO→EMS1130G→EMS1130M)
+          CLAUDE_CODE_OAUTH_TOKEN_ALT2: ${{ (inputs.account || vars.ACTIVE_ACCOUNT || 'EMS1130N') == 'EMS1130N' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130N }}   # 서브2 폴오버(체인 3번째)
           CLAUDE_CODE_OAUTH_TOKEN_ALT3: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130M }}   # 서브3 폴오버(체인 실꼬리 = 항상 EMS1130M · 앞 3계정 소진 후)
-          ACTIVE_ACCOUNT: ${{ inputs.account || vars.ACTIVE_ACCOUNT || 'MUTENO' }}
+          ACTIVE_ACCOUNT: ${{ inputs.account || vars.ACTIVE_ACCOUNT || 'EMS1130N' }}
           SUMMARY_LEN_GUARD: ${{ vars.SUMMARY_LEN_GUARD || '1' }}   # 분량 가드(IG/Thread 과소 시 1회 보강) — 기본 ON(운영자 260823 «켜주라» 사인오프 · 구 카나리아 대기 260705는 콜 실적 0인 채 잊혀 있던 자리) · 끄기 = repo 변수 SUMMARY_LEN_GUARD를 '1' 외 값(off 권장)으로(CARD_COV_GUARD 승격 관용구 사본)
           PREFLIGHT_TIMEOUT: '25'   # 계정 생존 핑 상한(초) 60→25(평의회 260727 신규6) — 산 계정 = 수초 응답이라 25s 충분, 죽은 계정 침묵 행 판정만 빨라짐(핑당 35s↓). 오판 스왑은 다음 기사 reset 이 복원 = 수십초 우회로 그침 · 롤백 = 이 줄 삭제
         run: |
@@ -129,7 +129,7 @@ jobs:
         if: ${{ always() && !inputs.account }}
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          ACTIVE_ACCOUNT: ${{ vars.ACTIVE_ACCOUNT || 'MUTENO' }}
+          ACTIVE_ACCOUNT: ${{ vars.ACTIVE_ACCOUNT || 'EMS1130N' }}
         run: python3 shared/account_failover.py
 
       # viewer 빌드 스텝 없음(의도) — Cloudflare Pages가 push마다 `node build-viewer.mjs`를 직접 실행.
@@ -230,11 +230,11 @@ jobs:
 
       - name: Card-plan (텍스트 카드 프롬프트 — 제미나이 0)
         env:
-          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets[format('CLAUDE_CODE_OAUTH_TOKEN_{0}', inputs.account || vars.ACTIVE_ACCOUNT || 'MUTENO')] }}
-          CLAUDE_CODE_OAUTH_TOKEN_ALT: ${{ (inputs.account || vars.ACTIVE_ACCOUNT || 'MUTENO') == 'NOMUTEFB' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_NOMUTEFB }}   # 서브1 폴오버(활성 다음 우선순위 · 체인 MUTENO→NOMUTEFB→EMS1130G→EMS1130M)
-          CLAUDE_CODE_OAUTH_TOKEN_ALT2: ${{ (inputs.account || vars.ACTIVE_ACCOUNT || 'MUTENO') == 'MUTENO' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_MUTENO }}   # 서브2 폴오버(체인 3번째)
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets[format('CLAUDE_CODE_OAUTH_TOKEN_{0}', inputs.account || vars.ACTIVE_ACCOUNT || 'EMS1130N')] }}
+          CLAUDE_CODE_OAUTH_TOKEN_ALT: ${{ (inputs.account || vars.ACTIVE_ACCOUNT || 'EMS1130N') == 'MUTENO' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_MUTENO }}   # 서브1 폴오버(활성 다음 우선순위 · 체인 EMS1130N→MUTENO→EMS1130G→EMS1130M)
+          CLAUDE_CODE_OAUTH_TOKEN_ALT2: ${{ (inputs.account || vars.ACTIVE_ACCOUNT || 'EMS1130N') == 'EMS1130N' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130N }}   # 서브2 폴오버(체인 3번째)
           CLAUDE_CODE_OAUTH_TOKEN_ALT3: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130M }}   # 서브3 폴오버(체인 실꼬리 = 항상 EMS1130M · 앞 3계정 소진 후)
-          ACTIVE_ACCOUNT: ${{ inputs.account || vars.ACTIVE_ACCOUNT || 'MUTENO' }}
+          ACTIVE_ACCOUNT: ${{ inputs.account || vars.ACTIVE_ACCOUNT || 'EMS1130N' }}
           CARD_COV_GUARD: ${{ vars.CARD_COV_GUARD || '1' }}   # 카드 커버리지 가드(고신호 증발 시 1회 회수) — 기본 ON(승격 260802) · 끄기 = repo 변수 CARD_COV_GUARD를 '1' 외 값(off 권장)으로(§파이프라인 e)
           CARD_SYS_PROMPT: ${{ vars.CARD_SYS_PROMPT || '1' }}   # 카드 고정부(지침) 시스템 프롬프트 캐시 봉합 — 기본 ON(평의회 260803 · 실물 프로브 138K 히트) · 끄기 = repo 변수 CARD_SYS_PROMPT를 '1' 외 값으로
           # CARD_FAIL_RETRY_MAX 미주입(운영자 260722 · 평의회 P1) — 자동 재시도 봉인은 cardmake.sh 기본값 0이 단일 정본. repo 변수 stale('3' 등) 오버라이드 차단·수동(card-make)과 대칭. 재개는 cardmake.sh:36 기본값에서.
@@ -250,11 +250,11 @@ jobs:
       - name: Force card refresh (전문 재제출로 바뀐 요약의 카드 프롬프트 갱신 — done/이미지 보호)
         if: ${{ needs.analyze.outputs.force_stems != '' }}
         env:
-          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets[format('CLAUDE_CODE_OAUTH_TOKEN_{0}', inputs.account || vars.ACTIVE_ACCOUNT || 'MUTENO')] }}
-          CLAUDE_CODE_OAUTH_TOKEN_ALT: ${{ (inputs.account || vars.ACTIVE_ACCOUNT || 'MUTENO') == 'NOMUTEFB' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_NOMUTEFB }}
-          CLAUDE_CODE_OAUTH_TOKEN_ALT2: ${{ (inputs.account || vars.ACTIVE_ACCOUNT || 'MUTENO') == 'MUTENO' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_MUTENO }}
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets[format('CLAUDE_CODE_OAUTH_TOKEN_{0}', inputs.account || vars.ACTIVE_ACCOUNT || 'EMS1130N')] }}
+          CLAUDE_CODE_OAUTH_TOKEN_ALT: ${{ (inputs.account || vars.ACTIVE_ACCOUNT || 'EMS1130N') == 'MUTENO' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_MUTENO }}
+          CLAUDE_CODE_OAUTH_TOKEN_ALT2: ${{ (inputs.account || vars.ACTIVE_ACCOUNT || 'EMS1130N') == 'EMS1130N' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130N }}
           CLAUDE_CODE_OAUTH_TOKEN_ALT3: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130M }}   # 서브3 폴오버(체인 실꼬리 = 항상 EMS1130M · 앞 3계정 소진 후)
-          ACTIVE_ACCOUNT: ${{ inputs.account || vars.ACTIVE_ACCOUNT || 'MUTENO' }}
+          ACTIVE_ACCOUNT: ${{ inputs.account || vars.ACTIVE_ACCOUNT || 'EMS1130N' }}
           CARD_COV_GUARD: ${{ vars.CARD_COV_GUARD || '1' }}   # 카드 커버리지 가드(고신호 증발 시 1회 회수) — 기본 ON(승격 260802) · 끄기 = repo 변수 CARD_COV_GUARD를 '1' 외 값(off 권장)으로(§파이프라인 e)
           CARD_SYS_PROMPT: ${{ vars.CARD_SYS_PROMPT || '1' }}   # 카드 고정부(지침) 시스템 프롬프트 캐시 봉합 — 기본 ON(평의회 260803 · 실물 프로브 138K 히트) · 끄기 = repo 변수 CARD_SYS_PROMPT를 '1' 외 값으로
           FORCE_STEMS: ${{ needs.analyze.outputs.force_stems }}   # env 경유 = run 스크립트 직접 인터폴레이션(주입) 회피

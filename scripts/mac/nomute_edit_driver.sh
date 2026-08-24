@@ -41,14 +41,14 @@ STT_ON=0; for f in '"burn":true' '"cut":true' '"clip":true' '"cutfill":true' '"t
 if has '"burn":true' && ! ffmpeg -hide_banner -filters 2>/dev/null | grep -q " ass  *"; then
   echo "[edit] ffmpeg libass 미준비 — 잡 큐 보존(다음 틱 재시도)"; exit 7
 fi
-# claude 계정 토큰 사슬(워크플로 account=MUTENO 기본과 동형 매핑) — 키 없으면 키체인 로그인 사용
-if [ -n "${CLAUDE_CODE_OAUTH_TOKEN_MUTENO:-}" ]; then
-  export CLAUDE_CODE_OAUTH_TOKEN="$CLAUDE_CODE_OAUTH_TOKEN_MUTENO"
-  export CLAUDE_CODE_OAUTH_TOKEN_ALT="${CLAUDE_CODE_OAUTH_TOKEN_NOMUTEFB:-}"
+# claude 계정 토큰 사슬(워크플로 account=EMS1130N 기본과 동형 매핑) — 키 없으면 키체인 로그인 사용
+if [ -n "${CLAUDE_CODE_OAUTH_TOKEN_EMS1130N:-}${CLAUDE_CODE_OAUTH_TOKEN_MUTENO:-}" ]; then
+  export CLAUDE_CODE_OAUTH_TOKEN="${CLAUDE_CODE_OAUTH_TOKEN_EMS1130N:-$CLAUDE_CODE_OAUTH_TOKEN_MUTENO}"
+  export CLAUDE_CODE_OAUTH_TOKEN_ALT="${CLAUDE_CODE_OAUTH_TOKEN_MUTENO:-}"
   export CLAUDE_CODE_OAUTH_TOKEN_ALT2="${CLAUDE_CODE_OAUTH_TOKEN_EMS1130G:-}"
   export CLAUDE_CODE_OAUTH_TOKEN_ALT3="${CLAUDE_CODE_OAUTH_TOKEN_EMS1130M:-}"
 fi
-export ACTIVE_ACCOUNT="${ACTIVE_ACCOUNT:-MUTENO}"
+export ACTIVE_ACCOUNT="${ACTIVE_ACCOUNT:-EMS1130N}"
 export AWS_ACCESS_KEY_ID="${R2_ACCESS_KEY_ID:-}" AWS_SECRET_ACCESS_KEY="${R2_SECRET_ACCESS_KEY:-}"
 export YT_COOKIES="${YT_T_COOKIES:-}" YT_COOKIES_NAME=YT_T_COOKIES
 

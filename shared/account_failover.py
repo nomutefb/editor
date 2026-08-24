@@ -34,9 +34,9 @@ import sys
 import urllib.error
 import urllib.request
 
-# 계정 체인 SSOT = 워크플로 env 매핑(MUTENO→NOMUTEFB→EMS1130G→EMS1130M)과 동일 순서·순환.
+# 계정 체인 SSOT = 워크플로 env 매핑(EMS1130N→MUTENO→EMS1130G→EMS1130M)과 동일 순서·순환(260824 NOMUTEFB→EMS1130N 교체·최우선).
 #   ⚠️ 체인을 바꾸면 워크플로들의 CLAUDE_CODE_OAUTH_TOKEN_ALT* 조건식도 같이 바꿔야 정합(양쪽 동기).
-CHAIN = ["MUTENO", "NOMUTEFB", "EMS1130G", "EMS1130M"]
+CHAIN = ["EMS1130N", "MUTENO", "EMS1130G", "EMS1130M"]
 THRESHOLD = int(os.environ.get("PROMOTE_THRESHOLD", "2") or "2")   # 활성 계정 쿼터 몇 회 누적 시 승격(운영자 = 2)
 API = "https://api.github.com"
 
@@ -92,7 +92,7 @@ def selftest():
     if not token:
         print("❌ GH_TOKEN 미설정 — Secrets 탭에 등록됐는지 확인(이름 철자 GH_TOKEN).")
         return 1
-    active = (os.environ.get("ACTIVE_ACCOUNT") or "MUTENO").strip()
+    active = (os.environ.get("ACTIVE_ACCOUNT") or "EMS1130N").strip()
     print("현재 활성 계정(ACTIVE_ACCOUNT) = %s · 체인 = %s" % (active, "→".join(CHAIN)))
     probe = "ACCOUNT_FAILOVER_SELFTEST"
     try:
@@ -122,15 +122,22 @@ def main():
         print("  ⏭️  GH_TOKEN 미설정 — 활성 계정 자동 승격 비활성(no-op · 라이브 무해).")
         return 0
 
+    # 체인 개정으로 낡은 vars.ACTIVE_ACCOUNT(예: 260824 폐기된 NOMUTEFB)가 남으면 매 런이 그 죽은
+    # 계정부터 시작한다 → 체인 밖 값은 쿼터 신호와 무관하게 그 자리에서 체인 머리로 자가 복구.
+    active = (os.environ.get("ACTIVE_ACCOUNT") or CHAIN[0]).strip()
+    if active not in CHAIN:
+        try:
+            _set_var("ACTIVE_ACCOUNT", CHAIN[0], token)
+            _set_var("ACTIVE_QUOTA_HITS", 0, token)
+            print("  🔧 활성 계정 '%s' 이 체인에 없음 — %s 로 자가 복구(체인=%s)." % (active, CHAIN[0], "→".join(CHAIN)))
+        except Exception as e:   # noqa: BLE001
+            print("  ⚠️  활성 계정 자가 복구 실패(%s) — 다음 런 재시도." % e)
+        return 0
+
     sig = os.environ.get("NOMUTE_QUOTA_SIGNAL") or os.path.join(
         os.environ.get("GITHUB_WORKSPACE", "."), ".nomute_active_quota")
     if not os.path.exists(sig):
         return 0   # 이번 런에 활성 계정이 쿼터로 안 막힘 = 조용히 종료(hits 불변)
-
-    active = (os.environ.get("ACTIVE_ACCOUNT") or "MUTENO").strip()
-    if active not in CHAIN:
-        print("  ⚠️  활성 계정 '%s' 이 체인에 없음 — 승격 생략(체인=%s)." % (active, "→".join(CHAIN)))
-        return 0
 
     try:
         hits_raw = _get_var("ACTIVE_QUOTA_HITS", token)

@@ -19,5 +19,5 @@ jobs:
       - name: Variables API PAT 실측(read/write/delete)
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          ACTIVE_ACCOUNT: ${{ vars.ACTIVE_ACCOUNT || 'MUTENO' }}
+          ACTIVE_ACCOUNT: ${{ vars.ACTIVE_ACCOUNT || 'EMS1130N' }}
         run: python3 shared/account_failover.py --selftest
