@@ -224,27 +224,29 @@ def lint(path):
 #     "짧음의 근거 = 원문 결 부족" 존중). 호출 = shared/summary_repair.sh (ask.sh·analyze.sh 공용).
 REPAIR_IG_LO, REPAIR_TH_LO, REPAIR_FREE_MIN = 600, 370, 800
 REPAIR_IG_HI, REPAIR_TH_HI = 800, 430        # 상한(01_지침) — 초과도 교정 대상(260810)
+REPAIR_TH_HARD = 500   # Thread over 발동선 = 플랫폼 하드(개행 포함 · 260825 운영자 «465는 괜찮다» — 실측 최근 150건: 안전선 430 초과 31%인데 개행포함>500은 0% = 실제 잘림 없는 8분 재작성이 1/3 회차에 물리던 것 소거 · 재작성 목표·splice 검증은 종전 370~430 유지)
 
 def repair_check(path):
     """보강 필요 판정 — 'REPAIR ig=N thread=N free=N' 또는 'OK …'/'SKIP …' 1줄. 항상 exit 0(fail-soft)."""
     raw = open(path, encoding="utf-8").read()
     fmm = re.search(r"^---\s*$(.*?)^---\s*$", raw, re.M | re.S)
     body = raw[fmm.end():] if fmm else raw
-    vals = {}
+    vals = {}; blks = {}
     for n in ("자유요약", "IG", "Thread"):
         b = _blk(body, n)
         if b is None:
             print("SKIP {} 블록 미검출".format(n)); return 0
-        vals[n] = _clen(b)
+        blks[n] = b; vals[n] = _clen(b)
     if vals["자유요약"] < REPAIR_FREE_MIN:
         print("OK 결빈약 면제 ig={} thread={} free={}".format(vals["IG"], vals["Thread"], vals["자유요약"])); return 0
     under = vals["IG"] < REPAIR_IG_LO or vals["Thread"] < REPAIR_TH_LO
     # ⚠️ 초과 축(260810 신설) — 구판은 **미달만** 봤다. 그래서 상한 초과에는 자동 교정 경로가
     #   아예 없었고, 260810 3세대 실측에서 Thread 500자(개행 포함 510)가 그대로 나갔다 =
     #   플랫폼 하드 500 초과 = **게시 시 잘림**. 「짧으면 고치고 길면 방치」는 반쪽 가드다.
-    over = vals["IG"] > REPAIR_IG_HI or vals["Thread"] > REPAIR_TH_HI
+    th_hard = _clen_hard(blks["Thread"])   # Thread over 축 = 개행 포함 실측 vs 플랫폼 하드 500(260825 — 안전선 430은 재작성 목표로만 잔존)
+    over = vals["IG"] > REPAIR_IG_HI or th_hard > REPAIR_TH_HARD
     tag = "REPAIR over" if over else ("REPAIR under" if under else "OK")
-    print("{} ig={} thread={} free={}".format(tag, vals["IG"], vals["Thread"], vals["자유요약"]))
+    print("{} ig={} thread={}(개행포함 {}) free={}".format(tag, vals["IG"], vals["Thread"], th_hard, vals["자유요약"]))
     return 0
 
 def _nums(s):

@@ -13,7 +13,7 @@
 #     `--safe-mode` = judge 선례(§파이프라인 d) — 아래 프롬프트가 자족적(골격+다이제스트 전문)이라 CLAUDE.md
 #     40k 로드 불요 = cache_w 절감·도구 유혹 제거(평의회4 · `--bare`는 OAuth 즉사라 절대 금지). 무도구·단발이라
 #     effort max 안전(#1552 원인 = '검색 도구 왕복 × max' — 여기 해당 없음 = 품질 레버 복원) · REPAIR_TIMEOUT
-#     480s(effort max 생성 실측 여유 — 평의회8: deadline+480도 본-타임아웃 경로보다 낮아 잡 최악 무변).
+#     900s(260825 운영자 «8분 제한 없애» = 본선 동값 — 완전 무제한은 잡 90분 하드킬에 통째 유실이라 불가·최대치로 해석 · 짝 = analyze ANALYZE_JOB_DEADLINE 3100 하향).
 # 프롬프트 = 지침 [산문 흐름]·[본문 종결]·[분량] 최소 발췌 인라인(§파이프라인 a 하드코딩 금지의 의도된 예외 —
 #     풀 주입 76KB는 보강 1콜에 과적. 지침 해당 절 개정 시 이 발췌도 함께 갱신할 것 = 드리프트 주의 · 평의회10).
 # 사용: source 후 summary_repair <queue파일> <METER_SRC 라벨>   (MODEL·claude_meter 는 호출측 환경 상속)
@@ -57,7 +57,7 @@ summary_repair() {
 
 [다이제스트 원문]
 $(cat "$file")"
-  cand="$(printf '%s' "$rprompt" | METER_SRC="$src" METER_REF="$(basename "$file" .md)" METER_MODEL="$MODEL" METER_EFFORT=max claude_meter "${REPAIR_TIMEOUT:-480}" \
+  cand="$(printf '%s' "$rprompt" | METER_SRC="$src" METER_REF="$(basename "$file" .md)" METER_MODEL="$MODEL" METER_EFFORT=max claude_meter "${REPAIR_TIMEOUT:-900}" \
         --model "$MODEL" \
         --effort max \
         --safe-mode \
