@@ -7560,8 +7560,14 @@
   {
    "query": "실종자",
    "traffic": "10000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/7ac4d0d196.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.imaeil.com/page/view/2026082413354138873",
+     "source": ""
+    }
+   ],
    "vol": 10000,
    "started": "2026-08-24T14:00:00+09:00",
    "delta": -1,
@@ -7617,8 +7623,14 @@
   {
    "query": "익사",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/03c9c2a024.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.hankookilbo.com/news/article/A2026080215330000475",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-08-24T14:10:00+09:00",
    "delta": -6,
@@ -7709,8 +7721,14 @@
   {
    "query": "양준모",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/52c86c6aa2.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.newsis.com/view/NISX20260824_0003759999",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-08-24T14:30:00+09:00",
    "delta": -16,
@@ -7723,8 +7741,14 @@
   {
    "query": "곰",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/daccb2f6ab.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.hankookilbo.com/news/article/A2026081811170004609",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-08-24T14:20:00+09:00",
    "delta": -15,
@@ -7813,8 +7837,14 @@
   {
    "query": "정몽구",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/f7d8fab007.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://biz.heraldcorp.com/article/10844837",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-24T14:20:00+09:00",
    "delta": -19,
@@ -8029,10 +8059,12 @@
  ],
  "gtrends_pool_updated": "2026-08-24T16:37:33+09:00",
  "_trend_img": {
-  "tried": "2026-08-24T15:41:45+09:00",
+  "tried": "2026-08-24T16:37:33+09:00",
   "fail": {
    "핵무기": "2026-08-24T15:44:51+09:00",
-   "한미약품": "2026-08-24T15:44:51+09:00"
+   "한미약품": "2026-08-24T15:44:51+09:00",
+   "심정지": "2026-08-24T16:42:11+09:00",
+   "내란죄": "2026-08-24T16:42:11+09:00"
   }
  },
  "gtrends_gl": [
@@ -17262,7 +17294,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-08-24T16:37:33+09:00"
+    "first_seen": "2026-08-24T16:37:33+09:00",
+    "kw": "힉스필드, Ox Alpha, Fable 5",
+    "sum": "계정이 힉스필드의 만화 애니메이션 생성 두 모델을 비교했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -17277,7 +17312,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-08-24T16:37:33+09:00"
+    "first_seen": "2026-08-24T16:37:33+09:00",
+    "kw": "Prime Intellect, nanoGPT 스피드런",
+    "sum": "계정이 nanoGPT 스피드런 연구 블로그를 공유했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -17292,7 +17330,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-08-24T16:37:33+09:00"
+    "first_seen": "2026-08-24T16:37:33+09:00",
+    "kw": "Prime Intellect, Fable 5, GPT 스텝 단축",
+    "sum": "계정이 AI 모델별 GPT 학습 스텝 단축 경쟁 결과를 전했다",
+    "sv": 1
    },
    {
     "account": "aipeekme",
