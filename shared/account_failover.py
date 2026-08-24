@@ -116,6 +116,28 @@ def selftest():
         return 1
 
 
+def set_active(name):
+    """운영자 지정 활성 계정 즉시 전환(레버 = account-selftest.yml `set_active` 입력).
+    쓰임새 = 체인 개정 직후 낡은 vars.ACTIVE_ACCOUNT(예: 260824 EMS1130G 잔존)를 새 머리로
+    즉시 교체 — 자연 순환(쿼터 2회 누적 승격)을 기다리면 며칠 걸린다. 실패 = rc1 노출(테스트 축)."""
+    token = (os.environ.get("GH_TOKEN") or "").strip()
+    if not token:
+        print("❌ GH_TOKEN 미설정 — Variables 쓰기 PAT 필요.")
+        return 1
+    name = (name or "").strip()
+    if name not in CHAIN:
+        print("❌ '%s' 은 체인에 없음(체인=%s) — 전환 거부." % (name, "→".join(CHAIN)))
+        return 1
+    try:
+        _set_var("ACTIVE_ACCOUNT", name, token)
+        _set_var("ACTIVE_QUOTA_HITS", 0, token)
+    except Exception as e:   # noqa: BLE001
+        print("❌ 전환 실패 — %s" % e)
+        return 1
+    print("✅ ACTIVE_ACCOUNT = %s 전환 완료(쿼터 카운터 0 리셋 · 다음 런부터 이 계정 시작)." % name)
+    return 0
+
+
 def main():
     token = (os.environ.get("GH_TOKEN") or "").strip()
     if not token:
@@ -167,6 +189,9 @@ def main():
 
 
 if __name__ == "__main__":
+    if "--set-active" in sys.argv:
+        _i = sys.argv.index("--set-active")
+        sys.exit(set_active(sys.argv[_i + 1] if len(sys.argv) > _i + 1 else ""))
     if "--selftest" in sys.argv:
         sys.exit(selftest())   # PAT 실측(실패 = rc1 노출)
     try:

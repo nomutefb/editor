@@ -2,10 +2,17 @@ name: account-selftest
 
 # GH_TOKEN(Variables 쓰기 PAT)이 실제로 Repository Variables 를 읽고/쓰고/지울 수 있는지
 # 실측하는 수동 테스트. Actions 탭 → account-selftest → Run workflow 로 실행.
-# ⚠️ 활성 계정(ACTIVE_ACCOUNT)·카운터(ACTIVE_QUOTA_HITS)는 안 건드림 — 전용 probe 변수만 왕복.
+# ⚠️ 점검 축은 활성 계정(ACTIVE_ACCOUNT)·카운터(ACTIVE_QUOTA_HITS)를 안 건드림 — 전용 probe 변수만 왕복.
+#    단 `set_active` 입력을 주면 그 계정으로 ACTIVE_ACCOUNT 를 즉시 전환한다(260824 신설 레버 —
+#    체인 개정 직후 낡은 활성 계정을 자연 순환 없이 바로 교체 · 값은 체인 안 계정만 통과).
 # 정본 = docs/oauth_계정_자동승격_이식가이드.md · 승격 엔진 = shared/account_failover.py.
 on:
   workflow_dispatch:
+    inputs:
+      set_active:
+        description: '활성 계정 전환(빈값 = 점검만 · 계정명 = ACTIVE_ACCOUNT 를 그 계정으로 즉시 전환)'
+        type: string
+        default: ''
 
 permissions:
   contents: read
@@ -15,6 +22,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+
+      - name: 활성 계정 전환(set_active 입력 시)
+        if: ${{ inputs.set_active != '' }}
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          SET_ACTIVE: ${{ inputs.set_active }}
+        run: python3 shared/account_failover.py --set-active "$SET_ACTIVE"
 
       - name: Variables API PAT 실측(read/write/delete)
         env:
