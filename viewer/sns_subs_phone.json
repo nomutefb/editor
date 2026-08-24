@@ -347,32 +347,32 @@
  "threads": [
   {
    "account": "choi.openai",
-   "text": "3/ 저자 설명으로 구성을 요약하면 이렇습니다.\n\n(3,4,∞) 삼각군을 상반평면에 작용시키고, 그 몫으로 나온 곡선 위에 복소 2차원 토러스들의 족을 랭크 4 정수 격자로 세운 뒤, 이 족을 컴팩트화해 닫힌 6차원 복소 다양체를 만듭니다.\n\n이제 남은 건 이 공간이 정말 S⁶인지 확인하는 일입니다. 기본군이 사라지고 호몰로지가 구면과 같다는 것을 보이면 되는데요. 6차원에는 이색적 구면이 없기 때문에 여기까지 확인되면 매끄러운 구조까지 S⁶와 같다는 결론이 나옵니다.\n\n저자가 강조하는 부분은 이 마지막 확인을 몇 개의 행렬을 이용한 유한 계산으로 검증할 수 있다는 점입니다. 100쪽이 넘는 증명 앞부분에 전문가나 AI가 빠르게 재현할 수 있는 짧은 검증 요약도 붙였습니다.",
-   "likes": 1,
+   "text": "3/ 제자리 높이뛰기",
+   "likes": 3,
    "cmts": 1,
-   "time": 1787560333,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/Dcao_1Fj4MO",
+   "time": 1787565630,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/784426243_2239322126859398_7524990395803166058_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk3MDcwMTQ0NzIwMjU2MTAwMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=qrolYcbDKTMQ7kNvwEZeJcs&_nc_oc=Ado5yK0_vtGgZz29vrsZxJcUkfu_buhLvxfH38VkYZs8aQ-oCLbmlod20WWyC9YA4Eg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=-b1yzl0h14ulzja_xsEYzg&_nc_ss=7a22e&oh=00_AQHX_0CztXXSjxfY_kzaqEXH5-FUTqnHBOf3XMCgGwN9nQ&oe=6A920AA1",
+   "url": "https://www.threads.com/@choi.openai/post/Dcaw-21o1vo",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "2/ 어떤 문제인지부터 풀어보면 이렇습니다.\n\n구면 가운데 복소 좌표를 입힐 가능성이 있는 것은 2차원과 6차원뿐입니다. 2차원 구면은 ‘리만 구면’이라 불리며 자연스럽게 복소 구조를 갖습니다.\n\n6차원 구면도 그 전 단계인 ‘거의 복소 구조’까지는 가능하다고 알려져 있는데요. 이것을 완전한 복소 구조로 만들 수 있는지는 1940년대 후반부터 풀리지 않았습니다. 홉(Hopf)의 이름이 붙은 채 80년 가까이 남아 있던 문제입니다.\n\n이 문제가 주목받는 이유중 하나는 역사 때문인데요. ‘있다’와 ‘없다’를 주장하는 증명들이 여러 차례 등장했지만, 검증 과정에서 미묘한 오류가 발견되며 무너졌습니다. 야코비안 추측처럼 그럴듯한 오답을 끊임없이 만들어내는 문제로 악명이 높습니다.",
-   "likes": 1,
-   "cmts": 1,
-   "time": 1787560330,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/Dcao_aej_GU",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "1/ 앤트로픽의 수학자 레벤트 알포게(Levent Alpöge)가 8월 24일 새로운 수학 결과를 공개했습니다.\n\n질문은 ‘6차원 구면 S⁶는 복소 구조를 가질 수 있는가’.\n알포게의 답은 ‘그렇다’입니다. 증명은 100쪽이 넘는 PDF로 함께 공개됐고, 게시물은 반나절 만에 46만 조회수를 넘겼습니다.\n\n증명 전체는 100쪽이 넘는 PDF로 함께 공개됐습니다. 구성은 Claude와 함께 찾았고, 세부 기술은 Opus 5에게 맡겨 끝까지 전개하게 했다고 설명했습니다.\n\n알포게는 지난 7월 Claude가 찾은 야코비안 추측의 반례를 공개했던 수학자입니다. 한 달 사이 두 번째 대형 주장인 셈인데요.\n\n다만 이번 문제는 성격이 다릅니다. 야코비안 반례는 계산으로 비교적 빠르게 확인할 수 있었지만, 이번 결과는 기존에 출판된 정리와 정면으로 충돌합니다.\n\n그래서 결과 자체만큼이나 앞으로의 검증 과정이 하나의 사건이 될 가능성이 큽니다.",
+   "text": "2/ 100m 달리기",
    "likes": 2,
    "cmts": 1,
-   "time": 1787560326,
+   "time": 1787565626,
    "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/Dcao-4cj3AC",
+   "url": "https://www.threads.com/@choi.openai/post/DcazF3KD9iy",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "1/ 멀리뛰기",
+   "likes": 15,
+   "cmts": 1,
+   "time": 1787565618,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/783507269_968294216279591_2427010061936612378_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk3MDcwNzYzMzczMzg2MzAwMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=alXY3IcEfloQ7kNvwGnLhMx&_nc_oc=AdpxkSI_BckOKUTuQecduNzLP3tchjnl_ryk_35rtFdxP2AaZH2f2XD_FO2AWYCWXR4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=-b1yzl0h14ulzja_xsEYzg&_nc_ss=7a22e&oh=00_AQFCh47ijUx_HYhjceBW3LYbaZCqTj3z9kqqFDwZA09EKw&oe=6A91DFF3",
+   "url": "https://www.threads.com/@choi.openai/post/DcayY4fo4Zb",
    "region": "kr"
   },
   {
@@ -381,7 +381,7 @@
    "likes": 0,
    "cmts": 0,
    "time": 1787556776,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/784351022_1070247522604446_7533707725724342848_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk3MDYzNjI4NjQyMzQ2NzY3Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=LB_rBiziCeMQ7kNvwFm8q-q&_nc_oc=Adpp_FCag9iTqECf7SPVIP5M9Xyu2je5F4KCadPiWqOF5Fvbb-FpVS9uvNKaog3ykzg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=dE_tAVYmAzkINR1iYo7eow&_nc_ss=7a22e&oh=00_AQEUUCFuTTaiRdHY85KmE63SyOaf60zNc0k2qc4ym2C7Xg&oe=6A91EFB4",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/784351022_1070247522604446_7533707725724342848_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk3MDYzNjI4NjQyMzQ2NzY3Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=LB_rBiziCeMQ7kNvwFm8q-q&_nc_oc=Adpp_FCag9iTqECf7SPVIP5M9Xyu2je5F4KCadPiWqOF5Fvbb-FpVS9uvNKaog3ykzg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=oqvQHvsc3EZqeJAW8kPPPQ&_nc_ss=7a22e&oh=00_AQEi9t6l1RGTRhKgbHUygnpyfRcH_mMkLd2icp7hMR1OfA&oe=6A91EFB4",
    "url": "https://www.threads.com/@aipeekme/post/DcaiKpIjAac",
    "region": "kr"
   },
@@ -391,7 +391,7 @@
    "likes": 0,
    "cmts": 0,
    "time": 1787556521,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/785885945_1806979606957179_6230449025901352279_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk3MDYzNDE0MzY1NDI3OTYzNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=UKoLRZXrIfkQ7kNvwH2Yewk&_nc_oc=AdoJf-yjCpHj3bfQSPETD-97pfPksM0__7wjlftTf-PVMpY9QsZ_UxBWxR4hPz4ZaRw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=dE_tAVYmAzkINR1iYo7eow&_nc_ss=7a22e&oh=00_AQHgzHcPE087SOodb2ckRr3JriLOKhPwJ01GALKLVHFSuw&oe=6A91F34B",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/785885945_1806979606957179_6230449025901352279_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk3MDYzNDE0MzY1NDI3OTYzNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=UKoLRZXrIfkQ7kNvwH2Yewk&_nc_oc=AdoJf-yjCpHj3bfQSPETD-97pfPksM0__7wjlftTf-PVMpY9QsZ_UxBWxR4hPz4ZaRw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=oqvQHvsc3EZqeJAW8kPPPQ&_nc_ss=7a22e&oh=00_AQF-1n9K7tXmR5tiC4yvdehEImMkR_VFph9WlV8XQ8JFng&oe=6A91F34B",
    "url": "https://www.threads.com/@aipeekme/post/DcahrdhjPnU",
    "region": "kr"
   },
@@ -438,7 +438,7 @@
   {
    "account": "aicoffeechat",
    "text": "링크: https://posts.design/",
-   "likes": 2,
+   "likes": 3,
    "cmts": 0,
    "time": 1787524635,
    "thumb": "",
@@ -448,17 +448,17 @@
   {
    "account": "aicoffeechat",
    "text": "디자인 레퍼런스를 찾을 때 \"잘하는 회사들은 실제로 뭘 올리나\"를 바로 볼 수 있는 사이트 하나 소개합니다.\n\n레퍼런스를 찾을 때 보통 예쁜 시안을 모으고 싶죠. 실제 회사들이 소셜 채널에 올리는 게시물을 모아 보여주는 레퍼런스 모음집입니다. 업데이트 공지 카드, 제품 소개 게시물처럼 실무에서 가장 자주 만들게 되는 포맷이 주로 올라옵니다.\n\n어떻게 하면 매력적이게 올릴 수 있을까 고민할 때 열어보기 딱 좋네요. 저 같이 감각 없는 사람들은 이런게 꼭 필요합니다.. 두고두고 많이 보기",
-   "likes": 39,
+   "likes": 40,
    "cmts": 3,
    "time": 1787524630,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/784351656_2317168292443634_5502448756858615908_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk3MDM2NjQ3NDY2NTIxMTE1Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=tVpzUCpimuoQ7kNvwF-_M9o&_nc_oc=AdpsZhXDTQIqlLmRPpcl1_yIhaJ7yecLUNcrO-_Z_CoRqO5LSU83rTqRz1c1wk1ma_4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=M39QV9vICAJ4lIFLYwMyuw&_nc_ss=7a22e&oh=00_AQGiomlJoG30NxnADDOs7Y3ZsP-OBFxsWg9r2IUoCm0AgA&oe=6A91D210",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/784351656_2317168292443634_5502448756858615908_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk3MDM2NjQ3NDY2NTIxMTE1Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=tVpzUCpimuoQ7kNvwF-_M9o&_nc_oc=AdpsZhXDTQIqlLmRPpcl1_yIhaJ7yecLUNcrO-_Z_CoRqO5LSU83rTqRz1c1wk1ma_4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Y-ICzT7419Q0blNxYWsC-w&_nc_ss=7a22e&oh=00_AQFU1rJ0dn3or3oUAfxK0DhHMppO_HA6ogJ8PUWLOX58qA&oe=6A920A50",
    "url": "https://www.threads.com/@aicoffeechat/post/DcZk0XWijUV",
    "region": "kr"
   },
   {
    "account": "aicoffeechat",
    "text": "링크: https://koboyo.com/icons",
-   "likes": 16,
+   "likes": 18,
    "cmts": 0,
    "time": 1787523770,
    "thumb": "",
@@ -491,18 +491,18 @@
    "likes": 0,
    "cmts": 1,
    "time": 1787490767,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/779895787_17933433189362958_5802847818788707445_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk3MDA4Mjc2MjcwNzE1MDk3NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjE2Ny5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=KOmYmLAm0-EQ7kNvwG0LPXA&_nc_oc=AdrXernsi-nHZh9lO8m2oWWmVVY6gZi5uW0PnbKFFTKUKlOQ4UkdHu7pSTV-W_iByjA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=tXfO2aqldvpSrbDPr383Ew&_nc_ss=7a22e&oh=00_AQGcchGzX5OFlDKkCv5PW3taK1Petrr5WkloO7otrzwmBg&oe=6A91EB8F",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/779895787_17933433189362958_5802847818788707445_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk3MDA4Mjc2MjcwNzE1MDk3NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjE2Ny5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=KOmYmLAm0-EQ7kNvwG0LPXA&_nc_oc=AdrXernsi-nHZh9lO8m2oWWmVVY6gZi5uW0PnbKFFTKUKlOQ4UkdHu7pSTV-W_iByjA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=CIYRk57DKi-_Hna2qvtluQ&_nc_ss=7a22e&oh=00_AQEhOCu2de8CNhDD4YtXVn--8DvTwPHXygOjp9m7ANn_Mg&oe=6A91EB8F",
    "url": "https://www.threads.com/@takepage_/post/DcYkT0AD6h_",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "80년 가까이 열려 있던 기하학 문제에 답이 제출됐습니다.\n\n앤트로픽 수학자가 Claude와 함께 6차원 구면의 복소 구조를 만들었다고 발표했는데요.\n\n검증 전이지만, 맞다면 출판된 논문 하나가 틀렸다는 뜻이기도 합니다 🧵",
-   "likes": 29,
-   "cmts": 7,
-   "time": 1787560319,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/782344931_17983850358112832_4503040053477271337_n.jpg?stp=cp6_dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk3MDY2NjE5NDIxODc0NDc2Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTIzNC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=8FZe4n-zfDMQ7kNvwEZTHeT&_nc_oc=Ado-uYE8X_NJ4RHgrQl5R0xAqLpTUCduhF2uw9VFzdh5p-HCJ03qAq3ex2S4IYNV2Ik&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=JpHBVQKh8l74TFeEwKDZqw&_nc_ss=7a22e&oh=00_AQFvu5Tp7v0PsVVgWRkudPfJAL_Cvox5zCO7rnMe6Z4rYQ&oe=6A91DD69",
-   "url": "https://www.threads.com/@choi.openai/post/Dcao-Fdj4SU",
+   "text": "이런 대회가 중국에서 열린다는게 참 놀랍다. 🧵",
+   "likes": 33,
+   "cmts": 15,
+   "time": 1787565613,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DcazEUDjyq1",
    "region": "kr"
   },
   {
@@ -511,7 +511,7 @@
    "likes": 7,
    "cmts": 2,
    "time": 1787553086,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/784373780_18082674374407306_5390959415454264811_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk3MDYwNTQ1ODgyNzI0MTc2Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=fiKcNPuNb_YQ7kNvwH7xGla&_nc_oc=AdozMluQi8cXer-ZMkxr4ETHmOXPYUvORrNBx2io8bumZK4gikmNy-CyLeV1feZPpQo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=dE_tAVYmAzkINR1iYo7eow&_nc_ss=7a22e&oh=00_AQFm3WuZmeeoz0cxMviZI1fapQEFx5XxqX2bey-d52VOEg&oe=6A91F1A0",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/784373780_18082674374407306_5390959415454264811_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk3MDYwNTQ1ODgyNzI0MTc2Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=fiKcNPuNb_YQ7kNvwH7xGla&_nc_oc=AdozMluQi8cXer-ZMkxr4ETHmOXPYUvORrNBx2io8bumZK4gikmNy-CyLeV1feZPpQo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=oqvQHvsc3EZqeJAW8kPPPQ&_nc_ss=7a22e&oh=00_AQG7cGJcHNq2WXoTZat_6qN_xuUF4JEwC2LQVVm6De4M_Q&oe=6A91F1A0",
    "url": "https://www.threads.com/@aipeekme/post/DcabKCsn-kj",
    "region": "kr"
   },
@@ -528,10 +528,10 @@
   {
    "account": "aicoffeechat",
    "text": "AI 티나지 않은 아이콘 라이브러리\n\n손그림 SVG 아이콘 13만 개 라이브러리인데요. 기계로 찍어낸 듯한 아이콘 대신 직접 그린 느낌의 아이콘이라 쓰기 너무 좋네요. \n\n블로그나 피피티에 넣어주면 유용하게 쓸 것 같네요. 필요하신 분들을 위해 공유해드립니다.",
-   "likes": 262,
+   "likes": 267,
    "cmts": 6,
    "time": 1787523765,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/784215041_1031324116345848_5106299422619308773_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk3MDM1NDAyMjQ5ODA4NDQyNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=XdN-3IlagEAQ7kNvwE1h44Z&_nc_oc=AdrQ1Z7Y67cZiajCBJePUj1GrZadjevGvENUmnyOMGcSL40k4KC06HcsVyhUmX3No3A&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=M39QV9vICAJ4lIFLYwMyuw&_nc_ss=7a22e&oh=00_AQFWNhDBbyFNVqwICmscgJ_2BTBFR0X97kpmqB4Etdvt6A&oe=6A91E7C5",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/784215041_1031324116345848_5106299422619308773_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk3MDM1NDAyMjQ5ODA4NDQyNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=XdN-3IlagEAQ7kNvwE1h44Z&_nc_oc=AdrQ1Z7Y67cZiajCBJePUj1GrZadjevGvENUmnyOMGcSL40k4KC06HcsVyhUmX3No3A&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Y-ICzT7419Q0blNxYWsC-w&_nc_ss=7a22e&oh=00_AQF4ZKz-qEDm_mCX71hOu7PIWpuSyNJSfB9hJpTUGP94Kg&oe=6A91E7C5",
    "url": "https://www.threads.com/@aicoffeechat/post/DcZh_KXiqZI",
    "region": "kr"
   },
@@ -541,7 +541,7 @@
    "likes": 5,
    "cmts": 3,
    "time": 1787490761,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/783507420_17933432103362958_7769046895997482287_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk3MDA4MjcxMTk3MjgwODYwNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=VJBowZoXn18Q7kNvwGJCEqu&_nc_oc=Adq74jFo7hOnCymWokf5RbGK4IuF5kEevwThKa4Kb0YQrwJ0cvSK87YUe5RuaChOkyU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=tXfO2aqldvpSrbDPr383Ew&_nc_ss=7a22e&oh=00_AQGYsQZmssEgIqBfHMaOpTiHZjeWPtSgSJRgt6MGhqCFtw&oe=6A91D2B4",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/783507420_17933432103362958_7769046895997482287_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk3MDA4MjcxMTk3MjgwODYwNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=VJBowZoXn18Q7kNvwGJCEqu&_nc_oc=Adq74jFo7hOnCymWokf5RbGK4IuF5kEevwThKa4Kb0YQrwJ0cvSK87YUe5RuaChOkyU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=CIYRk57DKi-_Hna2qvtluQ&_nc_ss=7a22e&oh=00_AQExfttj8Ma1-Rnw58sgkLkx1zfN6AYSm_H1yaswh8MFEQ&oe=6A920AF4",
    "url": "https://www.threads.com/@takepage_/post/DcYkTEwDwed",
    "region": "kr"
   }
@@ -553,7 +553,7 @@
    "views": 1700000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooDPRCUDqBpuPTmFEWk6RAIgEBqnfZwgeRICBU~tplv-tiktokx-origin.image?dr=14575&x-expires=1787738400&x-signature=pULyzG54i9kIxKR6L88KCBHCKuY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooDPRCUDqBpuPTmFEWk6RAIgEBqnfZwgeRICBU~tplv-tiktokx-origin.image?dr=14575&x-expires=1787738400&x-signature=6Oj8PCz24SPcaHgloG9HcYqN4nI%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785177115,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7667277327386135826",
    "region": "kr"
@@ -572,7 +572,7 @@
   {
    "account": "jaemyung_lee",
    "title": "이번 정류장은 브라질입니다 #이재명 #대통령 #Brasil #Brazil",
-   "views": 757300,
+   "views": 757400,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooBGAi8A6InMPiZBpU9fBkTRtAAwBKw0m1E0Ag~tplv-tiktokx-origin.image?dr=14575&x-expires=1787738400&x-signature=BHilM%2B7OuLtVSTdC9pf1kk0fj4o%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -583,7 +583,7 @@
   {
    "account": "jaemyung_lee",
    "title": "¡Gusto en conocerte, Argentina! 🇰🇷🤝🇦🇷 #이재명 #아르헨티나 #argentina #javiermilei",
-   "views": 478200,
+   "views": 478300,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o43E0EJDgKsBeuyFfnqRBCAvI1sAAbI2NsPlIc~tplv-tiktokx-origin.image?dr=14575&x-expires=1787738400&x-signature=O%2FWsFhvBiSlI1pk%2FQyvapEnx9Ww%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -594,10 +594,10 @@
   {
    "account": "jaemyung_lee",
    "title": "이번 정류장은 칠레입니다🇰🇷🇨🇱 #이재명 #대통령 #Chile #Corea",
-   "views": 363500,
+   "views": 363600,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQpDHATAEBzAIGFgqwDA4hofdRfVCsCaqEBIkL~tplv-tiktokx-origin.image?dr=14575&x-expires=1787738400&x-signature=twMu5iVrr9FgcXpG3lDeCjNsdNk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQpDHATAEBzAIGFgqwDA4hofdRfVCsCaqEBIkL~tplv-tiktokx-origin.image?dr=14575&x-expires=1787738400&x-signature=RRwbGctm4bX5vhYUrjLty7waPb0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785365622,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7668086960883354887",
    "region": "kr"
@@ -605,7 +605,7 @@
   {
    "account": "jaemyung_lee",
    "title": "프랑크푸르트에 도착했습니다🇰🇷🇩🇪 #이재명 #deutschland #frankfurt",
-   "views": 253900,
+   "views": 254100,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1787738400&x-signature=IYM1BZ%2Bivcit36w9WZTJZkBxf4I%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -616,10 +616,10 @@
   {
    "account": "jaemyung_lee",
    "title": "대한민국과 브라질이 함께 그려갈 미래가  두 나라 국민 모두에게  더 큰 희망과 기회가 되길 기대합니다 🇰🇷🫰🇧🇷 @Presidente Lula ima, meu irmão💚💛💙 #이재명 #lula #korea #Br",
-   "views": 229400,
+   "views": 229500,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-i-photomode-sg/91a2f3151d9741689af70b1d1f8aac3a~tplv-photomode-image.jpeg?dr=14555&x-expires=1787738400&x-signature=15uioX0m7LO9I2y5BNG1TKE5Wjw%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=9b759fb9&idc=my2&ftpl=1",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-i-photomode-sg/91a2f3151d9741689af70b1d1f8aac3a~tplv-photomode-image.jpeg?dr=14555&x-expires=1787738400&x-signature=C%2FkKjSC5alhepVkpFUwdh%2F3yFmc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=9b759fb9&idc=my2&ftpl=1",
    "time": 1785270939,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7667680300490558728",
    "region": "kr"
@@ -627,7 +627,7 @@
   {
    "account": "jaemyung_lee",
    "title": "마참내.. #anthropic #openai #NVIDIA #broadcom #이재명",
-   "views": 186900,
+   "views": 187000,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/osApGgttBIBbbk6zA4iAKdIdkBfL1AAEiSwmCM~tplv-tiktokx-origin.image?dr=14575&x-expires=1787738400&x-signature=lKyMCOatOgU3kj87mCpHkcU%2BJKE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -638,7 +638,7 @@
   {
    "account": "jaemyung_lee",
    "title": "이번 정류장은 샌프란시스코입니다 🇰🇷🇺🇸 #이재명 #대통령 #US #sanfrancisco #california",
-   "views": 132200,
+   "views": 132300,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okkIgGYEt7AlB4qvUF5yCAEAjD8vfKAfVACbBp~tplv-tiktokx-origin.image?dr=14575&x-expires=1787738400&x-signature=xYWWzVy8qqAs0KE1iXMaOJAPB1k%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -649,7 +649,7 @@
   {
    "account": "jaemyung_lee",
    "title": "대통령님, 부동산 정책의 목표가 뭔가요? #이재명 #대통령 #부동산토론회",
-   "views": 104600,
+   "views": 104700,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ok7qEZCqBgAIPBVFAEgOfAJAhjCDYF5jcUeyNC~tplv-tiktokx-origin.image?dr=14575&x-expires=1787738400&x-signature=eK9E9OhBvBo6InFzolFvf8NcjEE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -663,7 +663,7 @@
    "views": 11500,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/ogOA4loi0sBEEB3CYaAAAKLELBAFiInU8VYvA~tplv-tiktokx-origin.image?dr=14575&x-expires=1787738400&x-signature=sGX3nWL1fkkM5LTdpsuO3B7IzBw%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ogOA4loi0sBEEB3CYaAAAKLELBAFiInU8VYvA~tplv-tiktokx-origin.image?dr=14575&x-expires=1787738400&x-signature=HzQ9AQLCBNzGN6y63mVR9WILSKg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1787112463,
    "url": "https://www.tiktok.com/@tictok_ent/video/7675589583446248725",
    "region": "kr"
@@ -671,10 +671,10 @@
   {
    "account": "tictok_ent",
    "title": "박규영, 아침부터 미모 열일 / 아워글래스(HOURGLASS) 팝업 포토월 #박규영 #아워글래스 #HOURGLASS",
-   "views": 1360,
+   "views": 1388,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oUDPINKKABuclCBuAAwinRmqEfl211iBiAs9LA~tplv-tiktokx-origin.image?dr=14575&x-expires=1787738400&x-signature=10jddU9XIFPwCkEvTPu8w%2BiMQN8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oUDPINKKABuclCBuAAwinRmqEfl211iBiAs9LA~tplv-tiktokx-origin.image?dr=14575&x-expires=1787738400&x-signature=LXoAfiC0oMuiiPrYELsfuzNWDDc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1787535859,
    "url": "https://www.tiktok.com/@tictok_ent/video/7677408056661036308",
    "region": "kr"
@@ -727,6 +727,24 @@
    "url": "https://www.reddit.com/r/PopCultureV2/comments/1vw6zqy/because_youre_an_immigrant_a_us_citizen_in_lake/"
   },
   {
+   "sub": "pcmasterrace",
+   "title": "When I'm rich I won't say anything.. but there will be signs",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/x7glwsazb9lh1.jpeg?width=640&crop=smart&auto=webp&s=54a89803c023c7dbfd47028d7ffaa78297f0fcfe",
+   "time": 1787548690,
+   "url": "https://www.reddit.com/r/pcmasterrace/comments/1vwtlr8/when_im_rich_i_wont_say_anything_but_there_will/"
+  },
+  {
+   "sub": "mildlyinfuriating",
+   "title": "AI Generated Anime Has Gotten Harder to Spot",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/NXE4Y3ZqbzBoOWxoMTXwdygXV_lyEdQVzZefHg-fktSf6UHuAbBneoU7C22P.png?width=640&crop=smart&auto=webp&s=e03cd777c36bf6225ff48ac901e0b58afb2467d6",
+   "time": 1787550382,
+   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1vwu3l9/ai_generated_anime_has_gotten_harder_to_spot/"
+  },
+  {
    "sub": "interestingasfuck",
    "title": "Sleeping Squirrels in their nest on someones window ledge.",
    "score": 0,
@@ -754,40 +772,22 @@
    "url": "https://www.reddit.com/r/whatisit/comments/1vwj6ge/what_is_this_white_stringy_stuff_in_the_airbnb/"
   },
   {
-   "sub": "motorcycles",
-   "title": "not braking fast enough",
+   "sub": "justgalsbeingchicks",
+   "title": "It's heartbreaking that there are women around the world going through this.",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/aDRuajVyNHVuNmxoMQiXPyzbSlNv_ZhQv09z8jkLcajlgRVlAIdLqMi5OviD.png?width=640&crop=smart&auto=webp&s=05d6ed9a600cc42955751447e789243500570c81",
-   "time": 1787516348,
-   "url": "https://www.reddit.com/r/motorcycles/comments/1vwht6k/not_braking_fast_enough/"
+   "thumb": "https://external-preview.redd.it/ejAyY2hycmhkOWxoMeGdGrkn05aZVQcoILqJKcnovnMTZHVvhF7ehyHHDOc9.png?width=320&crop=smart&auto=webp&s=a8fad4a83e660b51f56497e87dc1e2c0bdfae476",
+   "time": 1787549194,
+   "url": "https://www.reddit.com/r/justgalsbeingchicks/comments/1vwtr55/its_heartbreaking_that_there_are_women_around_the/"
   },
   {
-   "sub": "pcmasterrace",
-   "title": "When I'm rich I won't say anything.. but there will be signs",
+   "sub": "NonPoliticalTwitter",
+   "title": "Huge compliment from a teenager",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/x7glwsazb9lh1.jpeg?width=640&crop=smart&auto=webp&s=54a89803c023c7dbfd47028d7ffaa78297f0fcfe",
-   "time": 1787548690,
-   "url": "https://www.reddit.com/r/pcmasterrace/comments/1vwtlr8/when_im_rich_i_wont_say_anything_but_there_will/"
-  },
-  {
-   "sub": "interestingasfuck",
-   "title": "Close up view of Antarctica's Ice Wall",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/NnJoZmczbmZ5NGxoMZrJbL9Ap8tttNF_vEYUXQMYWjwtRcr1Xk24fMqUywQ9.png?width=320&crop=smart&auto=webp&s=0dee67997204721d5115b2932ae042840ed0190b",
-   "time": 1787495725,
-   "url": "https://www.reddit.com/r/interestingasfuck/comments/1vw8tms/close_up_view_of_antarcticas_ice_wall/"
-  },
-  {
-   "sub": "cats",
-   "title": "Found out tonight i’ve been cheated on. Please send your best cat pics",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/bsl9qsu498lh1.jpeg?width=640&crop=smart&auto=webp&s=ccd28b990f5d41d39835d8297f2a53b5cf7bb7c5",
-   "time": 1787535621,
-   "url": "https://www.reddit.com/r/cats/comments/1vwpa4z/found_out_tonight_ive_been_cheated_on_please_send/"
+   "thumb": "https://preview.redd.it/euifpivtf9lh1.jpeg?width=640&crop=smart&auto=webp&s=59dc04726b3b4e1eed0ad8379e50873691dbaced",
+   "time": 1787549979,
+   "url": "https://www.reddit.com/r/NonPoliticalTwitter/comments/1vwtzb9/huge_compliment_from_a_teenager/"
   }
  ],
  "disaster": [],
@@ -832,10 +832,10 @@
    }
   },
   "landing": {
-   "at": "2026-08-24T18:35:50",
+   "at": "2026-08-24T19:01:22",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-24T19:01:19.561936+09:00"
+ "updated": "2026-08-24T19:31:19.358461+09:00"
 }
