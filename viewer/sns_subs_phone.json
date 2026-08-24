@@ -359,14 +359,14 @@
    "likes": 0,
    "cmts": 0,
    "time": 1787529451,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/785722146_1991415854893904_1451433755829157995_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk3MDQwNzA3NDAwMDY2MTY4OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=U-uLbffNy74Q7kNvwGzkffT&_nc_oc=Adq79JNrElAj49vQWcQc5YtdVcjsq5jBLO-MFycMHo8xtWpympmV8DL8OdQAZEebOPw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=ax-puLGHJWOyCOkS4BRLMw&_nc_ss=7a22e&oh=00_AQGBDzbGTMJlgKwpp1oASy8Y9-7_zfEbUuq8X9dNluvpNQ&oe=6A917695",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/785722146_1991415854893904_1451433755829157995_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk3MDQwNzA3NDAwMDY2MTY4OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=U-uLbffNy74Q7kNvwGzkffT&_nc_oc=Adq79JNrElAj49vQWcQc5YtdVcjsq5jBLO-MFycMHo8xtWpympmV8DL8OdQAZEebOPw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=3GQnPexLMsDiYKOnlnLicQ&_nc_ss=7a22e&oh=00_AQEPfBsqdRAlMj_qSeX4vlHSFrCdDEO3YPlMZk9MDowjvA&oe=6A917695",
    "url": "https://www.threads.com/@aipeekme/post/DcZuDKbgey5",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "커밋 :\nhttps://github.com/torvalds/linux/commit/818bebeb63dd6bf5f4e07e145f6cdbace520a34c",
-   "likes": 7,
+   "likes": 8,
    "cmts": 0,
    "time": 1787527837,
    "thumb": "",
@@ -376,10 +376,10 @@
   {
    "account": "choi.openai",
    "text": "리누스 토발즈가 AI의 도움으로 리눅스 커널 GPU 버그를 잡았습니다.\n\n인텔 Xe 드라이버에서 배틀메이지 G21의 CCS 압축 메타데이터 영역이 사용 가능한 VRAM으로 잘못 노출되는 버그였습니다.\n페이지 테이블이 깨지면서 화면이 나오지 않고 디스플레이 매니저가 무한 재시작되는 증상이었는데, 최종 수정은 round_up()을 round_down()으로 바꾸는 한 줄이었습니다.\n\n그 한 줄을 찾기까지 24개의 디버깅 패치와 18번의 커널 부팅이 필요했습니다.\nAI가 디버그 코드 삽입과 결과 분석을 반복하는 단순 노동을 맡았는데, 중간에 여러 차례 이 문제는 불가능하니 보고서나 쓰자고 포기를 제안했다고 합니다.\n토발즈는 커밋 메시지에 \"나만큼 고집스러운 사람한테 학습된 게 아닌 것 같다\"고 남겼습니다.\n\n올 1월 개인 프로젝트에서 AI 코드가 자기가 짠 것보다 낫다고 인정한 데 이어, 이번에는 커널 수준 디버깅까지 AI와 함께 진행한 겁니다.",
-   "likes": 29,
+   "likes": 30,
    "cmts": 5,
    "time": 1787527829,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778237037_17983608321112832_3818135157676359430_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk3MDM5MzY2NDEyMzM4NzY0Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=z3g_cXRj7YQQ7kNvwHAffOo&_nc_oc=Adopc9yVGslWkihMz_LJkrl1vjpn5yzEwInQQgqFSfiK1FIUWZn-7YFWNB8tJdP6IN8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=eBDoFfUkpkmOFiQKvaww8A&_nc_ss=7a22e&oh=00_AQF8SOXA-m4BaQ7GuuJFiFBKQFToL4JfDd-4XL6rR4QCPQ&oe=6A91544E",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778237037_17983608321112832_3818135157676359430_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk3MDM5MzY2NDEyMzM4NzY0Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=z3g_cXRj7YQQ7kNvwHAffOo&_nc_oc=Adopc9yVGslWkihMz_LJkrl1vjpn5yzEwInQQgqFSfiK1FIUWZn-7YFWNB8tJdP6IN8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=ArH_aQdu3JHU59j9Flyb-Q&_nc_ss=7a22e&oh=00_AQG2LpP4lkhJFdY6hNuoNhC56EmFGjOGAQXhGSobfTg-xg&oe=6A91544E",
    "url": "https://www.threads.com/@choi.openai/post/DcZrABgiT7_",
    "region": "kr"
   },
@@ -399,7 +399,7 @@
    "likes": 1,
    "cmts": 4,
    "time": 1787526079,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/783507359_18082612685407306_7214577746443020189_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk3MDM3ODkwMjQxMzc2MDUxNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=EROZJVr2wvEQ7kNvwG6aGSj&_nc_oc=AdrJ7ni6n3ICw-mT9tvUgoIKmenruNloLiTTzhaHMynmbYidIahGFTQzdwJkJf_Tw98&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=ax-puLGHJWOyCOkS4BRLMw&_nc_ss=7a22e&oh=00_AQFdDWe0J2j3Xjy0viHyHyNIAmyDiv2UBt3O4flBaBNPEg&oe=6A915A30",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/783507359_18082612685407306_7214577746443020189_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk3MDM3ODkwMjQxMzc2MDUxNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=EROZJVr2wvEQ7kNvwG6aGSj&_nc_oc=AdrJ7ni6n3ICw-mT9tvUgoIKmenruNloLiTTzhaHMynmbYidIahGFTQzdwJkJf_Tw98&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=3GQnPexLMsDiYKOnlnLicQ&_nc_ss=7a22e&oh=00_AQFj0B7GQT9EM8l2uAcJMza9AdSa_P86f94Sydw34OaKWA&oe=6A915A30",
    "url": "https://www.threads.com/@aipeekme/post/DcZnpNmE9gF",
    "region": "kr"
   },
@@ -416,10 +416,10 @@
   {
    "account": "aicoffeechat",
    "text": "디자인 레퍼런스를 찾을 때 \"잘하는 회사들은 실제로 뭘 올리나\"를 바로 볼 수 있는 사이트 하나 소개합니다.\n\n레퍼런스를 찾을 때 보통 예쁜 시안을 모으고 싶죠. 실제 회사들이 소셜 채널에 올리는 게시물을 모아 보여주는 레퍼런스 모음집입니다. 업데이트 공지 카드, 제품 소개 게시물처럼 실무에서 가장 자주 만들게 되는 포맷이 주로 올라옵니다.\n\n어떻게 하면 매력적이게 올릴 수 있을까 고민할 때 열어보기 딱 좋네요. 저 같이 감각 없는 사람들은 이런게 꼭 필요합니다.. 두고두고 많이 보기",
-   "likes": 23,
+   "likes": 25,
    "cmts": 1,
    "time": 1787524630,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/784351656_2317168292443634_5502448756858615908_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk3MDM2NjQ3NDY2NTIxMTE1Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMyIn0%3D&_nc_ohc=27KAJ096FTYQ7kNvwHqcc79&_nc_oc=AdpdL4y9IlrfAhoB4bDFG5yuyyYphkR_RIl8rABouYDybjOAyy25oZOT-0ZyiuWsWfo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=fYTIkB9VNWeXh6paD6mEHw&_nc_ss=7a22e&oh=00_AQFGZigsHAOJ1NYdbkRv-vTT9OnhWtnE_rB7VzHkMBw_5A&oe=6A916190",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/784351656_2317168292443634_5502448756858615908_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk3MDM2NjQ3NDY2NTIxMTE1Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMyIn0%3D&_nc_ohc=27KAJ096FTYQ7kNvwHqcc79&_nc_oc=AdpdL4y9IlrfAhoB4bDFG5yuyyYphkR_RIl8rABouYDybjOAyy25oZOT-0ZyiuWsWfo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=9N5glirZcUZO6xCxaA-LdA&_nc_ss=7a22e&oh=00_AQEsDuUuqswCl1O6BJwGFI0AHcXnYHx7yYIhP0OGufzrdQ&oe=6A916190",
    "url": "https://www.threads.com/@aicoffeechat/post/DcZk0XWijUV",
    "region": "kr"
   },
@@ -469,7 +469,7 @@
    "likes": 0,
    "cmts": 1,
    "time": 1787490767,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/779895787_17933433189362958_5802847818788707445_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk3MDA4Mjc2MjcwNzE1MDk3NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjE2Ny5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=evnCSnc7dBYQ7kNvwGiK2IF&_nc_oc=Adq8czDYGXPuUGeJaR3HVNzJq34dhqN6MIGirjP65kWvsF87Mz5SQckDql15w2KE34I&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=V8FcauqoWL2dpYAARU575Q&_nc_ss=7a22e&oh=00_AQFjSU2KweFytXF7CjNxYjbE5_i4ZPG6UeKAkHLiEz_8yQ&oe=6A917B0F",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/779895787_17933433189362958_5802847818788707445_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk3MDA4Mjc2MjcwNzE1MDk3NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjE2Ny5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=evnCSnc7dBYQ7kNvwGiK2IF&_nc_oc=Adq8czDYGXPuUGeJaR3HVNzJq34dhqN6MIGirjP65kWvsF87Mz5SQckDql15w2KE34I&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=h3deuaMzmbi71SQQzHTmaA&_nc_ss=7a22e&oh=00_AQEe4aVF6yuh3mlLOSniSEwmeQhWEUrkRMAmbyOVSBwC1A&oe=6A917B0F",
    "url": "https://www.threads.com/@takepage_/post/DcYkT0AD6h_",
    "region": "kr"
   },
@@ -489,27 +489,27 @@
    "likes": 2,
    "cmts": 0,
    "time": 1787524647,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/784606611_1060816376340296_92171550735171956_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk3MDM2Njc2ODQzNDIxMTUwNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=4bn8N0j6RlYQ7kNvwGOVoyW&_nc_oc=AdoEnGsGLY3V8Zptl7Uty6CPu8d6teneVtstiCtS7hrxHvA_WyDUQM_lMWPiMyKPj5s&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=ax-puLGHJWOyCOkS4BRLMw&_nc_ss=7a22e&oh=00_AQHF52cUngrl3hb_enJwj4ezUod_VqPtCeRIseI3FLaVVw&oe=6A917756",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/784606611_1060816376340296_92171550735171956_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk3MDM2Njc2ODQzNDIxMTUwNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=4bn8N0j6RlYQ7kNvwGOVoyW&_nc_oc=AdoEnGsGLY3V8Zptl7Uty6CPu8d6teneVtstiCtS7hrxHvA_WyDUQM_lMWPiMyKPj5s&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=3GQnPexLMsDiYKOnlnLicQ&_nc_ss=7a22e&oh=00_AQEvG_sh9gAnc9eWq-WfOiVjZzNMhkDZ8c4EuMepJHpzzA&oe=6A917756",
    "url": "https://www.threads.com/@aipeekme/post/DcZk4o8iWqz",
    "region": "kr"
   },
   {
    "account": "aicoffeechat",
    "text": "AI 티나지 않은 아이콘 라이브러리\n\n손그림 SVG 아이콘 13만 개 라이브러리인데요. 기계로 찍어낸 듯한 아이콘 대신 직접 그린 느낌의 아이콘이라 쓰기 너무 좋네요. \n\n블로그나 피피티에 넣어주면 유용하게 쓸 것 같네요. 필요하신 분들을 위해 공유해드립니다.",
-   "likes": 99,
+   "likes": 119,
    "cmts": 5,
    "time": 1787523765,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/784215041_1031324116345848_5106299422619308773_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk3MDM1NDAyMjQ5ODA4NDQyNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMyIn0%3D&_nc_ohc=XdN-3IlagEAQ7kNvwE1h44Z&_nc_oc=AdrQ1Z7Y67cZiajCBJePUj1GrZadjevGvENUmnyOMGcSL40k4KC06HcsVyhUmX3No3A&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=fYTIkB9VNWeXh6paD6mEHw&_nc_ss=7a22e&oh=00_AQFmrLfyFbOwkqPdxTy6CxZyguNkdLtiLGUaKgr-QSlgJQ&oe=6A917745",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/784215041_1031324116345848_5106299422619308773_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk3MDM1NDAyMjQ5ODA4NDQyNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMyIn0%3D&_nc_ohc=XdN-3IlagEAQ7kNvwE1h44Z&_nc_oc=AdrQ1Z7Y67cZiajCBJePUj1GrZadjevGvENUmnyOMGcSL40k4KC06HcsVyhUmX3No3A&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=9N5glirZcUZO6xCxaA-LdA&_nc_ss=7a22e&oh=00_AQHKjo7mzrhwsSTeTfmn8d34fLxrmLocI6q4J6eJQo6HSw&oe=6A917745",
    "url": "https://www.threads.com/@aicoffeechat/post/DcZh_KXiqZI",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "MiniMax H3의 영상 인페인팅 기능을 허깅페이스에서 바로 사용할 수 있게 됐습니다.\n\n영상에서 바꾸고 싶은 대상을 클릭하거나 문장으로 지정하면 자동으로 영역을 잡아 교체할 수 있는데요. 참고 이미지나 영상을 추가해 움직임까지 조절할 수 있고, 기존 오디오도 유지할 수 있습니다.\n\n영상 전체를 다시 만들지 않고 필요한 부분만 수정할 때 유용합니다.",
-   "likes": 28,
+   "likes": 29,
    "cmts": 1,
    "time": 1787522438,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/777418194_1434524152059630_2257570050678297820_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk3MDM0ODQzNjEyMTMzMDM3NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=vUGjuq1VGWkQ7kNvwEtgpBe&_nc_oc=AdpulS-PMS4ktMmyJ8EjIu0vKlW0QLhOT6s2Y1VHsS3bYeJzD4HTPFm4QQBXgi67aOc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=eBDoFfUkpkmOFiQKvaww8A&_nc_ss=7a22e&oh=00_AQE6K4NSJBln90ZnjOIQgS9iAnvOeA4CSv_NQMMDLjuKHw&oe=6A915E69",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/777418194_1434524152059630_2257570050678297820_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk3MDM0ODQzNjEyMTMzMDM3NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=vUGjuq1VGWkQ7kNvwEtgpBe&_nc_oc=AdpulS-PMS4ktMmyJ8EjIu0vKlW0QLhOT6s2Y1VHsS3bYeJzD4HTPFm4QQBXgi67aOc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=ArH_aQdu3JHU59j9Flyb-Q&_nc_ss=7a22e&oh=00_AQEEAH_eJfR2vXVjv-vyRGprQwv_p6JK-nXw5VdT8rRZ2A&oe=6A915E69",
    "url": "https://www.threads.com/@choi.openai/post/DcZgt3piiLG",
    "region": "kr"
   },
@@ -519,7 +519,7 @@
    "likes": 4,
    "cmts": 3,
    "time": 1787490761,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/783507420_17933432103362958_7769046895997482287_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk3MDA4MjcxMTk3MjgwODYwNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=VJBowZoXn18Q7kNvwGJCEqu&_nc_oc=Adq74jFo7hOnCymWokf5RbGK4IuF5kEevwThKa4Kb0YQrwJ0cvSK87YUe5RuaChOkyU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=V8FcauqoWL2dpYAARU575Q&_nc_ss=7a22e&oh=00_AQHs6el6Xn9NZiZESEGWSUNPbVvXOAR-ONwaCIFAEIFTsg&oe=6A916234",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/783507420_17933432103362958_7769046895997482287_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk3MDA4MjcxMTk3MjgwODYwNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=VJBowZoXn18Q7kNvwGJCEqu&_nc_oc=Adq74jFo7hOnCymWokf5RbGK4IuF5kEevwThKa4Kb0YQrwJ0cvSK87YUe5RuaChOkyU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=h3deuaMzmbi71SQQzHTmaA&_nc_ss=7a22e&oh=00_AQHEmoVzKGwAtdaeNHhpn9ceM25ClECRQXS0ImUG41KtCw&oe=6A916234",
    "url": "https://www.threads.com/@takepage_/post/DcYkTEwDwed",
    "region": "kr"
   }
@@ -531,7 +531,7 @@
    "views": 1700000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooDPRCUDqBpuPTmFEWk6RAIgEBqnfZwgeRICBU~tplv-tiktokx-origin.image?dr=14575&x-expires=1787702400&x-signature=wB974dIJwTaPMMkmckVKq2C8oRA%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooDPRCUDqBpuPTmFEWk6RAIgEBqnfZwgeRICBU~tplv-tiktokx-origin.image?dr=14575&x-expires=1787706000&x-signature=TZr%2FuIy53zL3dP9IfSWoUn1vZWA%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785177115,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7667277327386135826",
    "region": "kr"
@@ -542,7 +542,7 @@
    "views": 1600000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAbAoCECNeDAVDgQBcAkFzYBfoUADqQCQWIuZl~tplv-tiktokx-origin.image?dr=14575&x-expires=1787702400&x-signature=pMlDlesiKWv%2F82l3XIYd34WSVXk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAbAoCECNeDAVDgQBcAkFzYBfoUADqQCQWIuZl~tplv-tiktokx-origin.image?dr=14575&x-expires=1787706000&x-signature=S0IdE%2FT9CylXosBI19UwQcFOj3I%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785471372,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7668541152869616914",
    "region": "kr"
@@ -550,10 +550,10 @@
   {
    "account": "jaemyung_lee",
    "title": "이번 정류장은 브라질입니다 #이재명 #대통령 #Brasil #Brazil",
-   "views": 756300,
+   "views": 756400,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooBGAi8A6InMPiZBpU9fBkTRtAAwBKw0m1E0Ag~tplv-tiktokx-origin.image?dr=14575&x-expires=1787702400&x-signature=8Uk1Vl0bRjxNIiwIX9zIoEpSDaQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooBGAi8A6InMPiZBpU9fBkTRtAAwBKw0m1E0Ag~tplv-tiktokx-origin.image?dr=14575&x-expires=1787706000&x-signature=I0rOzLVnKUi%2F0voYrHLNisufafY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785109781,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7666988131442281746",
    "region": "kr"
@@ -561,10 +561,10 @@
   {
    "account": "jaemyung_lee",
    "title": "¡Gusto en conocerte, Argentina! 🇰🇷🤝🇦🇷 #이재명 #아르헨티나 #argentina #javiermilei",
-   "views": 477300,
+   "views": 477400,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o43E0EJDgKsBeuyFfnqRBCAvI1sAAbI2NsPlIc~tplv-tiktokx-origin.image?dr=14575&x-expires=1787702400&x-signature=MGKpvB0YDKXRCWEPevJnwL3P3HY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o43E0EJDgKsBeuyFfnqRBCAvI1sAAbI2NsPlIc~tplv-tiktokx-origin.image?dr=14575&x-expires=1787706000&x-signature=0G%2FlfhT4%2FH6xq0k4Erir37PPuUQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785519099,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7668746136877812999",
    "region": "kr"
@@ -575,7 +575,7 @@
    "views": 362800,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQpDHATAEBzAIGFgqwDA4hofdRfVCsCaqEBIkL~tplv-tiktokx-origin.image?dr=14575&x-expires=1787702400&x-signature=HaiIgk2XYJTwSdF%2BauOdm7B%2FVS8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQpDHATAEBzAIGFgqwDA4hofdRfVCsCaqEBIkL~tplv-tiktokx-origin.image?dr=14575&x-expires=1787706000&x-signature=UJOow1No%2BrF0Kp9IKIaY1pHZKE4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785365622,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7668086960883354887",
    "region": "kr"
@@ -583,10 +583,10 @@
   {
    "account": "jaemyung_lee",
    "title": "프랑크푸르트에 도착했습니다🇰🇷🇩🇪 #이재명 #deutschland #frankfurt",
-   "views": 252300,
+   "views": 252400,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1787702400&x-signature=mPMtY2a0w8bGlEQupoNFIhaMnts%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1787706000&x-signature=U6pJNRl8NgDS%2FnofzgvnGjRXeac%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785656353,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7669335640793763079",
    "region": "kr"
@@ -594,10 +594,10 @@
   {
    "account": "jaemyung_lee",
    "title": "대한민국과 브라질이 함께 그려갈 미래가  두 나라 국민 모두에게  더 큰 희망과 기회가 되길 기대합니다 🇰🇷🫰🇧🇷 @Presidente Lula ima, meu irmão💚💛💙 #이재명 #lula #korea #Br",
-   "views": 228800,
+   "views": 228900,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-i-photomode-sg/91a2f3151d9741689af70b1d1f8aac3a~tplv-photomode-image.jpeg?dr=14555&x-expires=1787702400&x-signature=FARST8SonXw59J5nrF4Jy%2BgQ624%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=9b759fb9&idc=my2&ftpl=1",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-i-photomode-sg/91a2f3151d9741689af70b1d1f8aac3a~tplv-photomode-image.jpeg?dr=14555&x-expires=1787706000&x-signature=8I%2BL%2FFCOWV%2FlNvUiio3OWr9DErY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=9b759fb9&idc=my2&ftpl=1",
    "time": 1785270939,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7667680300490558728",
    "region": "kr"
@@ -605,10 +605,10 @@
   {
    "account": "jaemyung_lee",
    "title": "마참내.. #anthropic #openai #NVIDIA #broadcom #이재명",
-   "views": 186300,
+   "views": 186400,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/osApGgttBIBbbk6zA4iAKdIdkBfL1AAEiSwmCM~tplv-tiktokx-origin.image?dr=14575&x-expires=1787702400&x-signature=ACvqv3ysNQ3OIGnaaJp3dHWLx6Q%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/osApGgttBIBbbk6zA4iAKdIdkBfL1AAEiSwmCM~tplv-tiktokx-origin.image?dr=14575&x-expires=1787706000&x-signature=hTFF4c111w%2FXlzcYBi9l4oGzGno%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1784945079,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7666280741554195730",
    "region": "kr"
@@ -619,7 +619,7 @@
    "views": 131700,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okkIgGYEt7AlB4qvUF5yCAEAjD8vfKAfVACbBp~tplv-tiktokx-origin.image?dr=14575&x-expires=1787702400&x-signature=snmbEyR0UfTV9Z4VcxuoAFtR%2Bbo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okkIgGYEt7AlB4qvUF5yCAEAjD8vfKAfVACbBp~tplv-tiktokx-origin.image?dr=14575&x-expires=1787706000&x-signature=eYqLgUN%2BVM8TNa7QcUAtvAf%2Fp98%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1784911601,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7666136953456315666",
    "region": "kr"
@@ -630,7 +630,7 @@
    "views": 104300,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ok7qEZCqBgAIPBVFAEgOfAJAhjCDYF5jcUeyNC~tplv-tiktokx-origin.image?dr=14575&x-expires=1787702400&x-signature=S%2FF0iIFlX%2B0rUxNDqLItLl%2BD%2Bwc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ok7qEZCqBgAIPBVFAEgOfAJAhjCDYF5jcUeyNC~tplv-tiktokx-origin.image?dr=14575&x-expires=1787706000&x-signature=yM0LX0WlEDrclkr%2FH7L5zEffvEI%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1784793310,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7665628897077234951",
    "region": "kr"
@@ -641,7 +641,7 @@
    "views": 10800,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ogOA4loi0sBEEB3CYaAAAKLELBAFiInU8VYvA~tplv-tiktokx-origin.image?dr=14575&x-expires=1787702400&x-signature=4PRTxUl2UdINgnD2Qq5fFimYIYs%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ogOA4loi0sBEEB3CYaAAAKLELBAFiInU8VYvA~tplv-tiktokx-origin.image?dr=14575&x-expires=1787706000&x-signature=vVyj5i3AfC9vGBVuo%2Fzw1ZBJqKI%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1787112463,
    "url": "https://www.tiktok.com/@tictok_ent/video/7675589583446248725",
    "region": "kr"
@@ -652,7 +652,7 @@
    "views": 1271,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o8AIwizAKX1E1AKfFANQCp9t2VvBBBiuOb1APW~tplv-tiktokx-origin.image?dr=14575&x-expires=1787702400&x-signature=brFxF7gAxJ5wocSZsgka%2BarjTUU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o8AIwizAKX1E1AKfFANQCp9t2VvBBBiuOb1APW~tplv-tiktokx-origin.image?dr=14575&x-expires=1787706000&x-signature=aNeoer9UFGucnywbc4bZQy6er2c%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1787112415,
    "url": "https://www.tiktok.com/@tictok_ent/video/7675589380328656149",
    "region": "kr"
@@ -660,22 +660,22 @@
  ],
  "reddit": [
   {
-   "sub": "oddlysatisfying",
-   "title": "Guitar pick made out of rosewood with geometric shell inlay.",
+   "sub": "WhatIsTheTea",
+   "title": "The brat throws food at the elderly woman and finds out TWICE.",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/NmRlc2E3b3psNmxoMQ9JYbhPP4ah64Wt7udYkKCkV86jBU1V8ovSxciXnB-B.png?width=640&crop=smart&auto=webp&s=c6eb436fec322c0d62db34307b3502459cbf8198",
-   "time": 1787515748,
-   "url": "https://www.reddit.com/r/oddlysatisfying/comments/1vwhk05/guitar_pick_made_out_of_rosewood_with_geometric/"
+   "thumb": "https://external-preview.redd.it/dTJ1dHlxc3h5MmxoMcXnT4vwfuVmUkS-tA7FvOmC78T7Wik59z6Y7sVH9oqP.png?width=640&crop=smart&auto=webp&s=49deb16779304233aa96a2072b7c0ac8ff11f782",
+   "time": 1787471679,
+   "url": "https://www.reddit.com/r/WhatIsTheTea/comments/1vw104a/the_brat_throws_food_at_the_elderly_woman_and/"
   },
   {
-   "sub": "meirl",
-   "title": "meirl",
+   "sub": "PeterExplainsTheJoke",
+   "title": "who are those little dinosaurs PETAH ?",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/7zqxp58zr6lh1.jpeg?width=640&crop=smart&auto=webp&s=2aae090d2fcd51de02d14146addcf8b83eab7a9d",
-   "time": 1787517739,
-   "url": "https://www.reddit.com/r/meirl/comments/1vwieh8/meirl/"
+   "thumb": "https://preview.redd.it/5jeulriti4lh1.jpeg?width=640&crop=smart&auto=webp&s=dc0de5e4b671e8fe4ffccb0cb81ae854e2db1732",
+   "time": 1787490447,
+   "url": "https://www.reddit.com/r/PeterExplainsTheJoke/comments/1vw6r9e/who_are_those_little_dinosaurs_petah/"
   },
   {
    "sub": "interestingasfuck",
@@ -696,51 +696,6 @@
    "url": "https://www.reddit.com/r/SipsTea/comments/1vwhlx4/its_him_for_sure/"
   },
   {
-   "sub": "WhatIsTheTea",
-   "title": "The brat throws food at the elderly woman and finds out TWICE.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/dTJ1dHlxc3h5MmxoMcXnT4vwfuVmUkS-tA7FvOmC78T7Wik59z6Y7sVH9oqP.png?width=640&crop=smart&auto=webp&s=49deb16779304233aa96a2072b7c0ac8ff11f782",
-   "time": 1787471679,
-   "url": "https://www.reddit.com/r/WhatIsTheTea/comments/1vw104a/the_brat_throws_food_at_the_elderly_woman_and/"
-  },
-  {
-   "sub": "MadeMeSmile",
-   "title": "We don't deserve them",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/2acy85yq96lh1.jpeg?width=320&crop=smart&auto=webp&s=6b1e5720c4a576e32187db3206b0606f6cfd3845",
-   "time": 1787511615,
-   "url": "https://www.reddit.com/r/MadeMeSmile/comments/1vwfr28/we_dont_deserve_them/"
-  },
-  {
-   "sub": "notinteresting",
-   "title": "I think we should rename this thing because it can not be wise with this behavior",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/tn8uu6qo26lh1.jpeg?width=640&crop=smart&auto=webp&s=3dded58772f6834d6b0e1da32bf9ab063ba6e450",
-   "time": 1787509234,
-   "url": "https://www.reddit.com/r/notinteresting/comments/1vweoxu/i_think_we_should_rename_this_thing_because_it/"
-  },
-  {
-   "sub": "cats",
-   "title": "Happy 20th Birthday!",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/i5tso3lqu6lh1.jpeg?width=640&crop=smart&auto=webp&s=7465b63200c51d22a98e04871c9e833029513a31",
-   "time": 1787518717,
-   "url": "https://www.reddit.com/r/cats/comments/1vwite5/happy_20th_birthday/"
-  },
-  {
-   "sub": "PeterExplainsTheJoke",
-   "title": "who are those little dinosaurs PETAH ?",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/5jeulriti4lh1.jpeg?width=640&crop=smart&auto=webp&s=dc0de5e4b671e8fe4ffccb0cb81ae854e2db1732",
-   "time": 1787490447,
-   "url": "https://www.reddit.com/r/PeterExplainsTheJoke/comments/1vw6r9e/who_are_those_little_dinosaurs_petah/"
-  },
-  {
    "sub": "AskReddit",
    "title": "What are some clear signs of low intelligence in a person?",
    "score": 0,
@@ -759,6 +714,15 @@
    "url": "https://www.reddit.com/r/politics/comments/1vw8i78/i_hate_democrats_but_i_love_abdul_voters_who_left/"
   },
   {
+   "sub": "oddlysatisfying",
+   "title": "Guitar pick made out of rosewood with geometric shell inlay.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/NmRlc2E3b3psNmxoMQ9JYbhPP4ah64Wt7udYkKCkV86jBU1V8ovSxciXnB-B.png?width=640&crop=smart&auto=webp&s=c6eb436fec322c0d62db34307b3502459cbf8198",
+   "time": 1787515748,
+   "url": "https://www.reddit.com/r/oddlysatisfying/comments/1vwhk05/guitar_pick_made_out_of_rosewood_with_geometric/"
+  },
+  {
    "sub": "PopCultureV2",
    "title": "\"Because you're an immigrant.\" — A U.S. citizen in Lake Worth,FL, was immediately handcuffed by ICE agents for simply asking why he needed to show his ID.Despite the Fourth Amendment and Supreme Court",
    "score": 0,
@@ -766,28 +730,47 @@
    "thumb": "https://external-preview.redd.it/d280aXF0OXBrNGxoMR5MxEDs2dSHw3YpSti-5Hyx7vF9Aeou1bVD6nRAapMD.png?width=320&crop=smart&auto=webp&s=f11cf0064200e3a49c6ae872a1728c08205975fb",
    "time": 1787491091,
    "url": "https://www.reddit.com/r/PopCultureV2/comments/1vw6zqy/because_youre_an_immigrant_a_us_citizen_in_lake/"
+  },
+  {
+   "sub": "mildlyinfuriating",
+   "title": "The lady next to me on a 4hr flight brought a plastic bag of hard boiled eggs as her snack",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/1f8r97yzc4lh1.jpeg?width=640&crop=smart&auto=webp&s=697083e88824028c56b189fba8eb71ac2b3e594d",
+   "time": 1787488873,
+   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1vw66dk/the_lady_next_to_me_on_a_4hr_flight_brought_a/"
+  },
+  {
+   "sub": "whoathatsinteresting",
+   "title": "A book dealer tracked an unusual shipment of rare books. It ended at an Amazon AI training facility where those books get shredded.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/bt1muxgbw3lh1.png?width=640&crop=smart&auto=webp&s=622cd78e65d7fe5a537e0db01afff65956967d10",
+   "time": 1787483298,
+   "url": "https://www.reddit.com/r/whoathatsinteresting/comments/1vw4d3d/a_book_dealer_tracked_an_unusual_shipment_of_rare/"
+  },
+  {
+   "sub": "meirl",
+   "title": "meirl",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/7zqxp58zr6lh1.jpeg?width=640&crop=smart&auto=webp&s=2aae090d2fcd51de02d14146addcf8b83eab7a9d",
+   "time": 1787517739,
+   "url": "https://www.reddit.com/r/meirl/comments/1vwieh8/meirl/"
+  },
+  {
+   "sub": "worldnews",
+   "title": "Trump says Canada 'wants the benefits' of being a U.S. state 'without being one' as trade dispute deepens",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/wtlUbQ6UWI8ANmyqSgXpW-GBbaQEjaSIAIRPa60Uc-g.jpeg?width=320&crop=smart&auto=webp&s=be5e3984c6276361aff35020827f953853fa8278",
+   "time": 1787496245,
+   "url": "https://www.reddit.com/r/worldnews/comments/1vw9131/trump_says_canada_wants_the_benefits_of_being_a/"
   }
  ],
  "disaster": [],
  "_cover": {
   "ok": {
-   "x": [
-    "64bitcoinkr",
-    "awaken_eyes",
-    "economysniper0",
-    "freedom_73x",
-    "globalbrief_now",
-    "jajaja7878uu",
-    "kyunghyang",
-    "marionawfal"
-   ],
-   "insta": [
-    "hm_son7",
-    "jennierubyjane",
-    "mnet_official",
-    "sbsnow_insta",
-    "xxxibgdrgn"
-   ],
    "threads": [
     "aicoffeechat",
     "aipeekme",
@@ -804,28 +787,33 @@
   },
   "why": {
    "insta": {
-    "koreadispatch": "rotate",
-    "bts.bighitofficial": "rotate",
-    "blackpinkofficial": "rotate",
-    "newjeans_official": "rotate",
-    "aespa_official": "rotate",
-    "openai": "rotate",
-    "runwayapp": "rotate",
-    "pika_labs": "rotate",
-    "lumalabsai": "rotate",
-    "midjourney": "rotate",
-    "klingai_official": "rotate",
-    "heygen_official": "rotate",
-    "higgsfield.ai": "rotate",
-    "googledeepmind": "rotate",
-    "cristiano": "rotate"
+    "koreadispatch": "gap",
+    "bts.bighitofficial": "gap",
+    "blackpinkofficial": "gap",
+    "newjeans_official": "gap",
+    "aespa_official": "gap",
+    "jennierubyjane": "gap",
+    "xxxibgdrgn": "gap",
+    "hm_son7": "gap",
+    "sbsnow_insta": "gap",
+    "mnet_official": "gap",
+    "openai": "gap",
+    "runwayapp": "gap",
+    "pika_labs": "gap",
+    "lumalabsai": "gap",
+    "midjourney": "gap",
+    "klingai_official": "gap",
+    "heygen_official": "gap",
+    "higgsfield.ai": "gap",
+    "googledeepmind": "gap",
+    "cristiano": "gap"
    }
   },
   "landing": {
-   "at": "2026-08-24T09:01:20",
+   "at": "2026-08-24T09:35:34",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-24T09:35:32.422908+09:00"
+ "updated": "2026-08-24T10:01:19.793938+09:00"
 }
