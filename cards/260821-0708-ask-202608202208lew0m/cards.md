@@ -1,33 +1,32 @@
-# 합친 지 한 달, 국회에 광주를 다섯으로 나누자는 법안
+# 합친 지 한 달여, 광주 5개 구 '시 승격' 법안 나왔다
 
 **[프롬프트 설계]**
-- 화풍: B 극화 — 광역과 기초 사이 돈·권한 배분 다툼이라 선이 굵고 명암이 갈리는 극화가 맞는다
-- 분위기: 창 없는 회의실 형광등 같은 관료적 냉기, 그 위에 지도 한 장과 경계선 하나가 놓이며 생기는 정적인 긴장
-- 연출 방향: 이 사건은 구호도 충돌도 없이 서류와 경계선으로만 진행된다 — 그래서 독자가 멈추는 지점은 '내 동네 살림이 어디로 가나'라는 생활 감각이다. 봉투 개수, 지도 위 손끝, 텅 빈 의자처럼 손에 잡히는 사물 하나에 매 카드의 의도를 걸고, 인물은 그 사물과의 거리·시선으로만 말하게 한다. thumb_dispatch에서 온 차갑고 감정 없는 형광 톤과 마주 앉은 두 편의 거리감을 전 카드가 공유하되, 마지막 카드에서만 정면으로 독자를 본다
-- 독자 동선: **발단** 카드1→**전개** 카드2~4→**피크** 카드5→**해소** 카드6→**시사점** 카드7 · 훅=카드1 끝(예고형: 무엇을 나누자는지 유보, 카드2가 즉시 회수)+카드3 끝(단서형: 세목 둘과 다섯의 대비) · 착지 한 줄 요지 = 이름을 시로 바꾸지 않고도 자치구에 시·군만큼의 돈을 줄 길이 있나, 아직 아무도 답하지 않았다
-- 연속성 앵커: 반복 인물 (없음) — 카드마다 주체가 바뀌는 사건이다. 반복 장소 = the interior of the national assembly building, polished stone corridors and curved rows of seats (카드2·카드7)
+- 화풍: B 극화 — 제도·재정 권한을 둘러싼 구조 갈등이라 선이 굵고 명암이 무거운 극화가 사건의 무게에 맞는다
+- 분위기: 삭막한 관청 공기 — 감정이 아니라 규칙과 숫자가 사람들의 살림을 가르는, 차갑고 건조한 긴장
+- 연출 방향: 독자는 "합치자더니 왜 또 나누냐"는 황당함으로 멈춘다. 그래서 카드마다 *경계선*을 시각 키노트로 삼는다 — 지도 위 다섯 갈래 선, 탁자를 사이에 둔 빈 간격, 서류 위를 지나는 한 줄. 사람은 늘 그 선 앞에 서 있고, 선만 네온그린으로 살아 있어 "저 선이 그어지면 내 동네 살림이 어디로 가나"가 한눈에 읽히게 한다. 형광등의 평면적 냉기(thumb_dispatch LGT12 계승)를 전체 정조로 깔고, 피크에서만 빛을 한 점으로 좁힌다
+- 독자 동선: **발단** 카드1→**전개** 카드2~3→**피크** 카드4→**해소** 카드5→**시사점** 카드6 · 훅=카드1 끝(단서형 — 다시 나누자는 요구)+카드3 끝(단서형 숫자 대비) · 착지 한 줄 요지 = 시라는 이름 말고 돈만 주는 길엔 아직 답이 없다
+- 연속성 앵커: Recurring subject — a Korean man in his 50s with short grey-streaked hair and thin-rimmed glasses, wearing a dark navy suit with a small round lapel pin (카드1·카드3에 동일 문자열 삽입) / 반복 장소 (없음)
 
 ### [카드 1]
 **텍스트**
 ```text
-7월 1일 광주와 전남이 합쳐졌다
-27개 기초단체가 한 살림이 됐다
-그리고 한 달여가 지났다
-*국회에 나누자는 법안이 올라왔다*
+광주와 전남이 합쳐진 지 한 달여 만에
+옛 광주 5개 구 구청장들이
+국회 문을 먼저 두드렸다
+*합친 걸 다시 나누자는 요구였다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a middle-aged civil servant's upturned face, jaw set, as he looks up at a freshly mounted signboard. Four officials in dark suits stand clustered on the wide granite plaza in front of a civic building, one steadying a ladder while another looks up with him. Their gazes converge upward on the plaque, which carries no writing, only a plain emblem. The plaza stretches unbroken from the bottom edge to the building steps in the upper background.
-Camera: establishing wide shot from a slightly high angle, shot on 24mm wide lens
+Scene: Emotional focal point: the tight set of his jaw as he grips a rolled document against his chest. Recurring subject - a Korean man in his 50s with short grey-streaked hair and thin-rimmed glasses, wearing a dark navy suit with a small round lapel pin, walks up the wide granite steps of a national assembly building. Four other officials in dark suits follow half a step behind him, all facing the same direction toward the right edge of the frame. The steps and plaza pavement form one continuous granite surface under an overcast sky.
+Camera: wide shot, full body, surrounding environment, movement, spatial context from eye-level shot, neutral perspective, realistic, balanced emotion, shot on 35mm lens, natural documentary perspective, balanced subject and background, minimal distortion, nose room on the right, gaze directed toward the right edge
 Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood
 Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
-All figures are Korean; South Korean civic architecture and plaza forms.
-Text handling: the plaque and all signage are blank or angled away so no lettering is readable; no garbled or fake script, no meaningless letters, no random characters, no dense text.
+Text handling: the rolled document is seen edge-on and partly furled so no writing is legible; no signage or banner text anywhere.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the granite plaza ground) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the granite plaza and steps) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -36,30 +35,29 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-전남광주통합특별시 출범식
+국회의사당 정문 계단
 ```
 
 ### [카드 2]
 **텍스트**
 ```text
-민주당 양부남 의원 등이 8월 10일
-특별법 개정안을 대표발의했다
-옛 광주 동·서·남·북·광산구를 없애고
-*동광주시·광산시 등 다섯 개 시가 된다*
+*그 요구는 지난 10일 법안이 됐다*
+양부남 민주당 의원 등이 발의했다
+동·서·남·북·광산구를 없애고
+그 자리에 5개 시를 세우자고 한다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the lawmaker's two hands pushing a thick bound document across a counter, fingertips still pressed flat on its cover. A Korean man in his sixties in a dark suit stands at a submission counter inside the national assembly building, handing the bill to a clerk who reaches out with both hands to receive it. Two aides wait a step behind him, eyes on the document. The polished stone corridor floor runs unbroken from the bottom edge deep into the background. Nose room on the right, the lawmaker's gaze directed toward the right edge.
-Camera: medium shot from eye-level, shot on 50mm standard lens
+Scene: Emotional focal point: a lawmaker's steady hand pressing a thick bill folder flat onto the submission counter. A Korean man in his 60s in a charcoal suit stands at the counter of a legislative bill office, looking down at the folder he has just released, while a clerk on the far side reaches for it with both hands. The counter is one continuous laminate surface running edge to edge, and a faint five-branched boundary diagram glows on the folder cover.
+Camera: medium shot, waist-up framing, face and gestures, conversational from low angle shot, looking up, powerful subject, dominance, dramatic presence, shot on 50mm standard lens, minimal distortion, natural cinematic composition
 Lighting/mood: flat sterile clinical fluorescent light, cold even greenish-white, emotionless institutional
 Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
-All figures are Korean; South Korean government building interior forms.
-Text handling: the document cover is cropped and tilted away from the viewer so no lettering is readable; no garbled or fake script, no meaningless letters, no random characters, no dense text.
+Text handling: the folder cover shows only the five-branched line diagram as a pictogram; all paper edges are turned away or cropped so no writing is legible.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the polished corridor floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the submission counter top) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -68,30 +66,29 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-국회 의안과 법안 접수
+양부남 의원 특별법 개정안
 ```
 
 ### [카드 3]
 **텍스트**
 ```text
-명패만 바꾸자는 게 아니다
-시·군은 정부에서 교부세를 직접 받고
-*자치구는 광역이 나눠주는 돈만 받는다*
-세목도 자치구 둘, 시·군은 다섯이다
+명패만 바꾸자는 요구가 아니다
+자치구엔 정부 교부세가 직접 안 온다
+세목도 시·군은 다섯, 자치구는 둘이다
+*재정자주도는 54.4% 대 28.5%다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: one official's empty open palm resting beside two thin envelopes, while the palm across the table rests on a stack of five. Two Korean civil servants in their forties sit facing each other along one long conference table, both looking down at what lies in front of them, the taller stack throwing a longer shadow across the wood. Neither raises his head. The table surface is the only surface in the frame, extending edge to edge.
-Camera: medium close-up from a high angle, shot on 85mm portrait lens
-Lighting/mood: cold blue dim interior light, heavy and suffocating, faint trembling tension
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the thinner pair of envelopes), film-noir low-key lighting, deep shadows
-All figures are Korean; South Korean public office interior forms.
-Text handling: envelopes and papers are cropped at the frame edge and seen at a steep angle so no lettering is readable; no garbled or fake script, no meaningless letters, no random characters, no dense text.
+Scene: Emotional focal point: his index finger stabbing down at a single line on the budget sheet in front of him. Recurring subject - a Korean man in his 50s with short grey-streaked hair and thin-rimmed glasses, wearing a dark navy suit with a small round lapel pin, leans over a long statement table with the sheet under his hand, chin lowered, eyes locked on the paper. Two colleagues flank him at the same table, torsos turned toward the right edge of the frame. The table top is one continuous dark surface running edge to edge.
+Camera: medium close-up, chest-up framing, facial emotion, slight body context from high angle shot, looking down, vulnerable subject, small, observed, shot on 70mm short telephoto, gentle background compression, subject isolation, nose room on the right
+Lighting/mood: harsh single overhead light pooling on the table, deep surrounding black, oppressive interrogation
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on one glowing bar of the chart), film-noir low-key lighting, deep shadows
+Text handling: the budget sheet is shown at a steep angle and creased along its middle so the print reads only as abstract grey bands; one bar of a simple two-bar chart is legible as shape alone.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the long conference table top) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the statement table top) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -100,30 +97,28 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-광주 구청 예산서 서류
+광주 구청장협의회 성명
 ```
 
 ### [카드 4]
 **텍스트**
 ```text
-그 격차를 근거로 구청장들이 나섰다
-27개 기초단체 가운데
-광주 5개 구만 불균형을 겪는다고 했다
-*재정자주도 28.5%, 전남 시는 54.4%다*
+그런데 반대편은 돈을 보지 않는다
+*반도체 산단 세금은 광산시로만 간다*
+옛 광주가 해체된다는 학계의 경고다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the district mayor at the center, jaw clenched tight, leaning into a cluster of microphones. Five Korean officials in their fifties stand shoulder to shoulder behind a low podium on a paved plaza, the one speaking gripping the podium edge while the four beside him look straight ahead in the same direction. A row of camera tripods faces them from the near foreground, backs of lenses toward the viewer. The paved ground runs unbroken from the bottom edge past their feet to the building base behind.
-Camera: group shot from a low angle, shot on 35mm lens
-Lighting/mood: single hard side-light cutting across the subjects, deep chiaroscuro shadows, tense atmosphere
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
-All figures are Korean; South Korean press-conference staging and plaza forms.
-Text handling: the podium front and backdrop are left blank, banners are cropped out of frame; no garbled or fake script, no meaningless letters, no random characters, no dense text.
+Scene: Emotional focal point: the elderly scholar's eyes, glistening and unblinking, fixed on the boundary line running across the map beneath him. A Korean man in his 70s with thin white hair leans close over a paper city map spread on his desk, one open palm resting flat where the map splits into five parts, jaw set hard. The map covers the whole desk as one continuous paper surface, and a single glowing line separates one district from the rest.
+Camera: tight close-up, face fills frame, intense emotion, intimate pressure from eye-level shot, neutral perspective, realistic, balanced emotion, shot on 85mm portrait lens, flattering face, soft background separation, elegant focus
+Lighting/mood: single pool of hard light isolating the figure in surrounding blackness, claustrophobic loneliness
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the dividing line), film-noir low-key lighting, deep shadows
+Text handling: the map is rendered as bare contour shapes and one glowing boundary line only, with all place labels omitted; no legend, no printed characters.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the paved plaza ground) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the paper map covering the desk) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -132,30 +127,29 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-광주 구청장협의회 성명 발표
+최영태 전남대 명예교수
 ```
 
 ### [카드 5]
 **텍스트**
 ```text
-같은 지역에서 제동이 걸렸다
-5개 구가 시가 되면 광주는 해체되고
-*반도체 산단 세금은 광산시에만 간다*
-최영태 전남대 명예교수의 우려다
+통합시 집행부도 서두르지 않는다
+광역 행정과 재정이 걱정된다고 했다
+태스크포스부터 꾸리자는 입장이다
+*5개 시 법안은 국회로 넘어갔다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: an elderly scholar's fingertip pressed down hard on a single boundary line drawn across an administrative map, lips pressed and tightened. A Korean man in his seventies with white hair and a worn cardigan leans low over the map-covered table, eyes fixed on that line, on the far side of which small factory silhouettes are clustered together while the near side is empty. His other hand is closed into a loose fist on the paper.
-Camera: tight close-up from eye-level, shot on 135mm telephoto lens
-Lighting/mood: single pool of hard light isolating the figure in surrounding blackness, claustrophobic loneliness
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 tracing the boundary line under his fingertip), film-noir low-key lighting, deep shadows
-All figures are Korean; the map shows only outlines and shapes, no place names.
-Text handling: the map carries lines and shapes only, all labels omitted, edges cropped by the frame; no garbled or fake script, no meaningless letters, no random characters, no dense text.
+Scene: Emotional focal point: the wide gap of bare table between two small clusters of seated officials. Seen from directly above, six Korean public servants in grey and navy sit at one end of a long meeting table while four empty chairs wait at the other end, every head bowed toward the papers in front of them. One thin glowing line is drawn along the centre of the table between the two groups. The table forms one continuous surface filling the frame.
+Camera: full shot, head-to-toe, full body, outfit visible, clear silhouette from overhead shot, bird's-eye view, top-down angle, layout, geometry, shot on 24mm wide lens, cinematic wide shot, spatial context, subtle depth
+Lighting/mood: flat cold even surveillance light, no shadow no warmth, detached and watchful
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the centre line), muted daylight contrast
+Text handling: all documents on the table are seen from directly above at a scale where print reads as plain grey texture only; no legible characters anywhere.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the map-covered table top) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the meeting table top) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -164,30 +158,29 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-광주 반도체 특화단지 광산구
+전남광주통합특별시 청사
 ```
 
 ### [카드 6]
 **텍스트**
 ```text
-통합시 집행부도 속도를 늦추자고 했다
-자치구가 시가 되면
-광역 행정과 재정이 문제라는 입장이다
-*태스크포스부터 꾸리자고 밝혔다*
+합치자는 설계도엔 빈칸이 있었다
+구청이 무슨 돈으로 일할지가 빠졌다
+지금 나온 답은 시라는 이름 하나다
+*돈만 주고 이름은 두는 길엔 답이 없다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a senior administrator standing alone at the head of the table, one hand resting on the back of an empty chair, shoulders lowered. A Korean man in his fifties in shirtsleeves looks down the length of a long empty meeting room lined with vacant chairs pushed in at even intervals, no one else present. A folder lies closed near his hand, untouched.
-Camera: wide shot from eye-level, shot on 35mm lens
-Lighting/mood: cold blue pre-dawn tone, desolate stillness, flat soft shadows
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the closed folder), film-noir low-key lighting, deep shadows
-All figures are Korean; South Korean government meeting room interior forms.
-Text handling: the folder stays closed and all wall surfaces are blank; no garbled or fake script, no meaningless letters, no random characters, no dense text.
+Scene: Emotional focal point: one small commuter standing still at the centre of an empty pre-dawn intersection, shoulders squared, facing the viewer. The wide asphalt crossing stretches around her, and five faint glowing lines are painted across the road surface, radiating outward past the edges of the frame. Low apartment blocks and a shuttered district office building line the far side of the road under a cold blue sky.
+Camera: extreme long shot, tiny subject, vast environment, scale, isolation from low angle shot, looking up, powerful subject, dominance, dramatic presence, shot on 20mm wide lens, subject and environment, documentary realism, centred static symmetrical composition
+Lighting/mood: cold blue pre-dawn tone, lone streetlight reflection on wet ground, desolate stillness
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the five painted lines), film-noir low-key lighting, deep shadows
+Text handling: all shopfront and building signage is turned away, shuttered or reduced to blank panels so no characters appear.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the meeting room floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
+Composition: ONE continuous surface (the wet asphalt road) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
@@ -196,37 +189,5 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-전남광주시청 회의실
-```
-
-### [카드 7]
-**텍스트**
-```text
-국회로 넘어간 질문은 한 칸 앞에 있다
-이름을 시로 바꾸지 않고도
-자치구에 시·군만큼의 돈을 줄 수 있나
-*아직 아무도 답하지 않았다*
-```
-**이미지 프롬프트**
-```text
-korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a public servant looking directly into the camera with steady unwavering eye contact, a folded administrative map held in both hands at chest height. A Korean woman in her forties in a dark suit stands centered in an empty assembly hall, curved rows of vacant seats sweeping away behind her, the speaker's podium dark and unattended in the upper background. Her stance is still and symmetrical, the folded map angled edge-on.
-Camera: medium shot from eye-level, front-on, shot on 50mm standard lens
-Lighting/mood: warm soft morning light, gentle and quiet, faint melancholy
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 along the folded edge of the map), muted daylight contrast
-All figures are Korean; South Korean assembly hall interior forms.
-Text handling: the map is folded and seen edge-on so nothing on it is readable, the vote board is blank; no garbled or fake script, no meaningless letters, no random characters, no dense text.
-Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
-MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the assembly hall floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE — strictly avoid:
-- no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
-- no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
-- no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
-- no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
-- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
-```
-**검색어**
-```text
-국회 본회의장 빈 의석
+광주 도심 새벽 전경
 ```
