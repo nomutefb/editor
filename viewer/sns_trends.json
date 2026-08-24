@@ -7641,8 +7641,14 @@
   {
    "query": "현대",
    "traffic": "10000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/25d8c2475c.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.news-wa.com/article/automobiles/new-car/2026/08/20/20260820500063",
+     "source": ""
+    }
+   ],
    "vol": 10000,
    "started": "2026-08-25T05:50:00+09:00",
    "delta": -3,
@@ -7752,8 +7758,14 @@
   {
    "query": "사랑이 온다",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/834bf52470.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://news.nate.com/view/20260824n06336",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-25T06:00:00+09:00",
    "delta": -11,
@@ -7810,8 +7822,14 @@
   {
    "query": "skhy",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/7d34926854.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.ytn.co.kr/_ln/0104_202607270642334300",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-08-25T06:00:00+09:00",
    "delta": -15,
@@ -7876,8 +7894,14 @@
   {
    "query": "하이브",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/003c7d55f2.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://sports.khan.co.kr/article/202608240958003/",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-08-25T04:10:00+09:00",
    "isNew": true,
@@ -8111,12 +8135,12 @@
  ],
  "gtrends_pool_updated": "2026-08-25T08:12:25+09:00",
  "_trend_img": {
-  "tried": "2026-08-25T07:37:32+09:00",
+  "tried": "2026-08-25T08:12:25+09:00",
   "fail": {
-   "유시민": "2026-08-25T06:12:03+09:00",
-   "하이브": "2026-08-25T06:12:03+09:00",
    "쿠팡플레이": "2026-08-25T06:45:59+09:00",
-   "뉴스": "2026-08-25T07:43:49+09:00"
+   "뉴스": "2026-08-25T07:43:49+09:00",
+   "포스코": "2026-08-25T08:19:37+09:00",
+   "이윤진": "2026-08-25T08:19:37+09:00"
   }
  },
  "gtrends_gl": [
@@ -18908,7 +18932,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-08-25T08:12:25+09:00"
+    "first_seen": "2026-08-25T08:12:25+09:00",
+    "kw": "DSH Desktop, 깃허브",
+    "sum": "계정이 DSH 데스크톱 저장소 링크를 공유했다",
+    "sv": 1
    },
    {
     "account": "aipeekme",
@@ -18923,7 +18950,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-08-25T08:12:25+09:00"
+    "first_seen": "2026-08-25T08:12:25+09:00",
+    "kw": "DSH Desktop, 딥시크 하네스",
+    "sum": "계정이 딥시크 하네스 기반 오픈소스 데스크톱 클라이언트 출시를 소개했다",
+    "sv": 1
    },
    {
     "account": "aipeekme",
@@ -18938,7 +18968,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-08-25T08:12:25+09:00"
+    "first_seen": "2026-08-25T08:12:25+09:00",
+    "kw": "Palmier Pro, 깃허브",
+    "sum": "계정이 Palmier Pro 저장소 링크를 공유했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -19217,7 +19250,10 @@
     "rh": [
      13
     ],
-    "first_seen": "2026-08-25T08:12:25+09:00"
+    "first_seen": "2026-08-25T08:12:25+09:00",
+    "kw": "Palmier Pro, 영상 편집기",
+    "sum": "계정이 생성형 AI와 외부 에이전트를 결합한 맥용 영상 편집기를 소개했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -19393,7 +19429,10 @@
     "rh": [
      20
     ],
-    "first_seen": "2026-08-25T08:12:25+09:00"
+    "first_seen": "2026-08-25T08:12:25+09:00",
+    "kw": "Agent Plugins, 표준화",
+    "sum": "계정이 에이전트 확장 표준화로 배포와 정책 관리가 통합된다고 설명했다",
+    "sv": 1
    }
   ]
  },
