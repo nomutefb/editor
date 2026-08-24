@@ -7636,8 +7636,14 @@
   {
    "query": "농업인",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/271a7cd49b.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.fieldnews.co.kr/news/articleView.html?idxno=232810",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-08-24T08:50:00+09:00",
    "delta": -5,
@@ -7651,8 +7657,14 @@
   {
    "query": "새마을금고",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/fa08677e6d.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.thedailypost.kr/news/articleView.html?idxno=115052",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-08-24T09:00:00+09:00",
    "delta": -7,
@@ -7666,8 +7678,14 @@
   {
    "query": "장기전세주택",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/e4fe12a7bf.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://edaily.co.kr/News/Read?mediaCodeNo=257&newsId=02387846645548960",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-08-24T08:40:00+09:00",
    "delta": -4,
@@ -7697,8 +7715,14 @@
   {
    "query": "경찰청",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/80b39ff4ee.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.dailian.co.kr/news/view/1680432",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-08-24T10:40:00+09:00",
    "isNew": true,
@@ -7725,8 +7749,14 @@
   {
    "query": "니어스랩",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/4ee74e0f66.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.sedaily.com/article/20078004",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-08-24T09:10:00+09:00",
    "delta": -13,
@@ -7762,8 +7792,14 @@
   {
    "query": "고용노동부",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/a4bd92a485.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.sedaily.com/article/20078044",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-08-24T08:50:00+09:00",
    "delta": -12,
@@ -7872,8 +7908,14 @@
   {
    "query": "유",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/6cc6a5f239.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.hankyung.com/article/2026082372277",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-08-24T08:20:00+09:00",
    "isNew": true,
@@ -8012,17 +8054,16 @@
  ],
  "gtrends_pool_updated": "2026-08-24T12:07:40+09:00",
  "_trend_img": {
-  "tried": "2026-08-24T11:10:44+09:00",
+  "tried": "2026-08-24T12:07:40+09:00",
   "fail": {
-   "화사": "2026-08-24T09:47:13+09:00",
-   "elche cf vs fc barcelona standings": "2026-08-24T09:47:13+09:00",
-   "rennes vs psg": "2026-08-24T09:47:13+09:00",
    "전기": "2026-08-24T10:41:37+09:00",
    "뉴스": "2026-08-24T10:41:37+09:00",
    "리그 1": "2026-08-24T10:41:37+09:00",
    "나스닥 100": "2026-08-24T10:41:37+09:00",
    "송성문": "2026-08-24T10:41:37+09:00",
-   "한겨레": "2026-08-24T11:17:20+09:00"
+   "한겨레": "2026-08-24T11:17:20+09:00",
+   "손범수": "2026-08-24T12:13:50+09:00",
+   "zoom": "2026-08-24T12:13:50+09:00"
   }
  },
  "gtrends_gl": [
@@ -16566,7 +16607,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-08-24T12:07:40+09:00"
+    "first_seen": "2026-08-24T12:07:40+09:00",
+    "kw": "앤드류 응, LLM 기초, 데이터 그라운딩",
+    "sum": "계정이 LLM 기초와 데이터 그라운딩 역량을 설명했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -16581,7 +16625,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-08-24T12:07:40+09:00"
+    "first_seen": "2026-08-24T12:07:40+09:00",
+    "kw": "앤드류 응, AI 앱 개발, 반복 개발",
+    "sum": "계정이 AI 출력의 예측 불가능성과 반복 개발 과정을 설명했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -16596,7 +16643,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-08-24T12:07:40+09:00"
+    "first_seen": "2026-08-24T12:07:40+09:00",
+    "kw": "앤드류 응, AI 엔지니어링 스킬맵, 여섯 역량",
+    "sum": "앤드류 응이 AI 앱 구축 역량을 여섯 가지로 정리했다",
+    "sv": 1
    },
    {
     "account": "aipeekme",
@@ -16895,7 +16945,10 @@
     "rh": [
      16
     ],
-    "first_seen": "2026-08-24T12:07:40+09:00"
+    "first_seen": "2026-08-24T12:07:40+09:00",
+    "kw": "앤드류 응, AI 엔지니어링 스킬맵, 여섯 역량",
+    "sum": "앤드류 응이 AI 앱 구축 역량을 여섯 가지로 정리했다",
+    "sv": 1
    },
    {
     "account": "aipeekme",
