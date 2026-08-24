@@ -1,31 +1,31 @@
-# SK하이닉스가 부인한 일본 공장, 회장은 '훌륭한 후보지'
+# 🏭 SK하이닉스가 부인한 일본 공장, 회장은 '훌륭한 후보지'
 
 **[프롬프트 설계]**
-- 화풍: B 극화 — 기업 입지 결정과 통상 압력을 다루는 산업·구조 기사라 사실성과 무게가 필요하다
-- 분위기: 확정된 건 없는데 무게만 쌓이는 정조. 차갑고 평평한 기업·행정 공간의 공기, 낮게 깔린 톤
-- 연출 방향: 독자훅은 회사가 아니라고 한 자리를 회장이 되돌려 놓은 간극 — 부인과 후보지 사이의 빈칸이다. 시사점 관점은 일본이 내민 게 보조금 액수가 아니라 장비·소재가 걸어서 닿는 거리라는 것. 그래서 카메라는 두 가지에만 집착한다. 말한 사람의 얼굴에서 새어 나오는 것, 그리고 아직 아무것도 서지 않은 빈 땅. thumb_dispatch의 차갑고 평평한 제도 조명 톤과 어느 쪽으로도 아직 안 기운 몸의 정조를 키노트로 잇고, 악센트는 네온그린 한 점으로만 찍는다
-- 독자 동선: **발단** 카드1→**전개** 카드2~4→**피크** 카드5→**해소** 카드6→**시사점** 카드7 · 훅=카드1 끝(예고형 "회사 답은 그날 나왔다")+카드4 끝(단서형 "따라가는 게 있다") · 착지 한 줄 요지 = 54조 3000억은 이미 정해진 자리로 갔고 그다음 공장 자리는 아직 남아 있다
-- 연속성 앵커: Recurring subject — a Korean man in his 60s with short gray-streaked hair, rimless glasses, wearing a dark navy suit and a plain gray tie (카드 2·3·7) / Recurring place — a high-floor Tokyo office room with a wide glass curtain wall (카드 2·3)
+- 화풍: B 극화 — 기업 의사결정과 국가 간 유치 경쟁이 맞물린 구조 사안이라, 표정의 미세한 균열과 냉랭한 회의실 공기를 선명한 먹선·명암으로 잡아야 한다.
+- 분위기: 확정된 것이 하나도 없는데 무게만 계속 쌓이는 저온의 긴장 — 부인과 후보지 사이에 낀 넉 달의 공백감.
+- 연출 방향: 독자(협력사 직원·용인/청주 인근 취준생·주주)가 멈추는 지점은 '회사의 말'과 '회장의 말'이 어긋난 자리다. 그래서 사람의 입이 아니라 **손끝과 서류, 그리고 표정 위를 스치는 미세한 균열**을 강조점으로 잡는다. 지도를 짚는 손 → 선을 긋는 손 → 밀려온 서류 → 얼굴의 균열 → 측량 말뚝 → 비어 있는 다음 구획으로, '자리'라는 사물이 카드마다 형태를 바꿔 이어지게 한다. 전체 키노트는 thumb_dispatch의 멸균 형광 톤과 갈림길 정조를 계승해, 감정을 소리치지 않고 온도로 낮게 깐다.
+- 독자 동선: **발단** 카드1→**전개** 카드2~3→**피크** 카드4→**해소** 카드5→**시사점** 카드6 · 훅=카드1 끝(단서형: 지바현·미야기현과 18조 원 규모 제시)+카드2 끝(예고형: "넉 달이 지났다" → 카드3 첫 줄이 즉시 회수) · 착지 한 줄 요지 = 일본이 내민 건 돈이 아니라 걸어서 닿는 거리이고, 다음 공장에는 협력사와 사람이 딸려 간다.
+- 연속성 앵커: 반복 인물 (없음) · 반복 장소 = `Recurring location — a leveled industrial construction site in Korea, bare graded earth with survey stakes and a low perimeter fence.`(카드 5·6 Scene에 그대로 복사)
 
 ### [카드 1]
 **텍스트**
 ```text
-2월 21일 닛케이가 보도를 냈다
-SK하이닉스의 일본 공장 이야기였고
-*지바현과 미야기현이 후보로 꼽혔다*
-투자 약 18조 원, 회사 답은 그날 나왔다
+지난 2월 닛케이가 이렇게 썼다
+SK하이닉스가 지바현·미야기현에
+D램 공장 후보지를 타진했다고
+*약 2조 엔, 우리 돈 18조 원이다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a fingertip pressed hard onto a coastal plot of an unlabeled regional map. Three officials in plain dark suits lean over one long meeting table, all of their eyes locked onto the large blank-surfaced map spread across it. One of them slides a closed folder toward the others without looking up. The room is a modest Japanese prefectural government meeting room, and the drawn coastline on the map runs as a leading line toward the right edge of the frame.
-Camera: wide shot from a bird's-eye overhead angle, shot on 20mm wide lens
+Scene: Emotional focal point: a single fingertip pressing down on a coastal point of the map, the knuckle whitening slightly. Four people in dark suits lean over a long conference table where a large regional map is spread open, its coastline and contour lines drawn with no lettering anywhere. One hand points at an industrial plot near the shore while the others follow that fingertip with their eyes, bodies angled inward over the table. The room is a plain government meeting room with a wide window of flat overcast sky.
+Camera: wide shot from bird's eye view, shot on 20mm wide lens
 Lighting/mood: overcast diffused daylight, flat soft shadows, muted somber mood
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
-Text handling: keep all surfaces blank; the map carries only contour lines and no labels; no signage, no nameplates, no printed characters anywhere. Avoid garbled or fake script.
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 marking rings drawn on the map), muted daylight contrast
+Text handling: avoid all incidental lettering; the map carries only contour lines and symbols, no place names, no document text.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the long meeting table) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the conference table surface) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -35,28 +35,28 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-Chiba prefectural government office
+지바현 미야기현 산업단지
 ```
 
 ### [카드 2]
 **텍스트**
 ```text
-회사는 그날 검토한 적 없다고 했다
-넉 달 뒤 6월 11일 도쿄에서
-최태원 SK그룹 회장이 일본을 두고
-*"생태계가 모두 갖춰진 곳"이라 했다*
+그날 회사는 아니라고 했다
+"관련 내용을 검토한 적이 없다"
+*계획 자체가 없다는 뜻이었다*
+그리고 넉 달이 지났다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a fleeting micro-expression flashing across an otherwise composed face. Recurring subject — a Korean man in his 60s with short gray-streaked hair, rimless glasses, wearing a dark navy suit and a plain gray tie — sits at an interview table and answers a question, his gaze level and steady just past the camera. A tight cluster of small voice recorders is arranged on the table in front of him, tilted up toward his mouth. Behind him stands a plain unmarked office wall.
-Camera: medium close-up from eye-level, three-quarter angle, shot on 85mm portrait lens
+Scene: Emotional focal point: a flat open palm raised chest-high, cutting the air in refusal. A Korean man in his forties in a plain unbranded dark suit stands in a corporate corridor, jaw set and lips pressed in a tightly controlled face, eyes steady toward the right edge of the frame. A cluster of small voice recorders is thrust toward him from the lower foreground, held by hands that stay out of focus. Nose room on the right, gaze directed toward the right edge.
+Camera: medium shot from eye-level, shot on 50mm standard lens
 Lighting/mood: flat sterile clinical fluorescent light, cold even greenish-white, emotionless institutional
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
-Text handling: the wall behind him is completely blank; no backdrop banner, no logo, no nameplate, no lettering on the recorders. Avoid garbled or fake script.
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 recording indicator lights on the voice recorders), muted daylight contrast
+Text handling: no signage, no badges, no lettering of any kind on the wall or the devices.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the plain unmarked office wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the corridor wall behind him) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -66,28 +66,28 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-최태원 SK회장 인터뷰
+SK하이닉스 본사 브리핑
 ```
 
 ### [카드 3]
 **텍스트**
 ```text
-회장이 든 근거는 거리였다
-*장비와 소재 회사가 일본에 몰려 있다*
-일본 정부는 비용도 들고 나왔다
-한국의 절반까지 낮춰 주겠다고 했다
+그사이 일본이 내민 카드는 반값이었다
+세제와 인프라, 인력까지 묶었다
+삼성도 SK도 지금까지 안 받았다
+*세계 D램의 약 70%를 쥔 둘이다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: his eyes narrowed in cold calculation as he studies the ground far below. Recurring subject — a Korean man in his 60s with short gray-streaked hair, rimless glasses, wearing a dark navy suit and a plain gray tie — stands close against a wide glass curtain wall, one flat hand resting on the glass, looking down at a dense packed cluster of low factory roofs, pipe racks and equipment yards spread out beneath him. Recurring place — a high-floor Tokyo office room with a wide glass curtain wall.
-Camera: full shot from a low angle, shot on 24mm wide lens
+Scene: Emotional focal point: two hands that have stopped just short of the folder, fingers curled but not reaching. A Japanese official in a gray suit pushes a thick proposal folder across a meeting table toward two Korean executives seated opposite, his arms extended and head slightly bowed in offering. The executives sit back, hands resting on the table without touching the folder, eyes down on it. Behind them a tall window shows the silhouetted rooftops of semiconductor equipment plants stacked close together.
+Camera: full shot from low angle, shot on 24mm wide lens
 Lighting/mood: cold blue dim interior light, heavy and suffocating, faint trembling tension
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
-Text handling: no signage on any rooftop below, no company markings on the glass, no lettering anywhere. Avoid garbled or fake script.
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 clip on the edge of the proposal folder), film-noir low-key lighting, deep shadows
+Text handling: the folder is closed and blank, no printed matter visible, no lettering on the window or walls.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the wide glass curtain wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the meeting table surface) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -97,28 +97,27 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-Japan semiconductor materials industrial park
+일본 반도체 장비 공장
 ```
 
 ### [카드 4]
 **텍스트**
 ```text
-일본이 이렇게까지 하는 이유가 있다
-두 한국 기업이 세계 D램 70%를 쥔다
-*노리는 건 공장이 아니라 공급망이다*
-공장이 옮겨 가면 따라가는 게 있다
+6월 11일 도쿄, 회장이 말했다
+*"필요한 생태계가 모두 갖춰진 곳"*
+회사가 지운 자리에 후보지가 섰다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: one worker turning his head back mid-stride, eyes catching something behind him. Two workers in white cleanroom bunny suits walk away from the camera down a very long semiconductor fab corridor, rows of identical processing tools receding far into the distance on both sides. One of them holds a wafer carrier flat against his chest while the other turns his head toward the right edge of the frame. The corridor lines converge toward that same right edge. Korean setting.
-Camera: extreme long shot from a ground-level worm's-eye view, shot on 14mm ultra-wide lens
-Lighting/mood: flat cold even surveillance light, no shadow no warmth, detached and watchful
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
-Text handling: every tool panel and wall surface stays blank; no equipment labels, no warning placards, no lettering. Avoid garbled or fake script.
+Scene: Emotional focal point: a fleeting micro-expression flashing across an otherwise composed face, one lip corner tightening for an instant. A Korean businessman in his sixties with rimless glasses and a dark navy suit fills the frame, jaw clenched under a calm surface, eyes directed toward the right edge of the frame. A single interview microphone sits blurred in the near foreground below his chin. The background is a plain dark studio backdrop with no objects.
+Camera: tight close-up from Dutch angle, tilted horizon, shot on 135mm telephoto lens
+Lighting/mood: single hard side-light cutting across the subject, deep chiaroscuro shadows, tense atmosphere
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 rim light tracing the edge of his jaw and glasses), film-noir low-key lighting, deep shadows
+Text handling: no lettering anywhere, no microphone flag, no backdrop logo, no nameplate.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the polished cleanroom floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the dark studio backdrop behind him) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -128,27 +127,28 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-SK하이닉스 클린룸 생산라인
+최태원 회장 도쿄 기자회견
 ```
 
 ### [카드 5]
 **텍스트**
 ```text
-*공장 하나는 혼자 가지 않는다*
-협력사와 일자리가 같이 따라간다
-호남 유치를 기다리던 쪽이 반발했다
+호남 유치를 기대한 쪽이 반발했고
+8월 7일 이사회가 댄 돈은 국내였다
+용인 35조 2000억, 청주 19조 1000억
+*합쳐 54조 3000억, 이미 정해진 자리다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a vacant thousand-yard stare, unfocused eyes looking past everything, jaw clenched tight. A Korean man in his 50s in a worn work jacket stands at the edge of a vast bare leveled ground, his face filling most of the upper frame. Behind him, kept small, low and softly blurred so he stays the focus, a few figures in work clothes and two in plain suits stand looking out over the same empty field. The bare leveled ground runs unbroken behind them to the horizon. Korean setting.
-Camera: close-up shot from eye-level, shot on 135mm telephoto lens
-Lighting/mood: single hard side-light cutting across the subject, deep chiaroscuro shadows, tense atmosphere
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
-Text handling: no site boards, no banners, no survey markers with writing; all surfaces blank. Avoid garbled or fake script.
+Scene: Emotional focal point: two pairs of boots planted wide on the bare graded earth, braced against the open ground. Recurring location - a leveled industrial construction site in Korea, bare graded earth with survey stakes and a low perimeter fence. Two surveyors in hard hats stand near a tripod level in the upper-center of the site, one bending to the eyepiece and the other holding a staff upright, both looking along the same sightline across the plot. Rows of driven stakes run in straight lines across the flattened ground around them.
+Camera: full shot from bird's eye view, shot on 35mm lens
+Lighting/mood: bright high-key light, clean white ambience, minimal shadow, hopeful and open
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 survey ribbons tied to the stakes), muted daylight contrast
+Text handling: no site signage, no lettering on hard hats or vests, no boards with writing.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the bare leveled ground) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the graded bare earth of the construction site) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -158,28 +158,28 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-호남 반도체 국가산단 부지
+용인 반도체 클러스터 부지
 ```
 
 ### [카드 6]
 **텍스트**
 ```text
-정작 8월 7일 이사회는 국내를 택했다
-용인 Y2에 35조 2000억 원을 넣고
-청주 M17에 19조 1000억 원을 더했다
-*모두 54조 3000억, 이미 정해진 자리다*
+일본이 내민 건 돈만이 아니었다
+장비와 소재 회사가 걸어서 닿는다
+돈으로는 그 거리를 못 만든다
+*다음 공장엔 협력사와 사람이 붙는다*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a hand raised firm in approval while the eyes drift away to the side. Eight executives in dark suits sit around one long boardroom table that fills the frame edge to edge, several hands raised in a vote, squared stacks of blank paper set in front of each seat. One person at the far end looks off to the side instead of at the raised hands. Korean setting.
-Camera: wide shot from a high angle, shot on 24mm wide lens
-Lighting/mood: bright high-key light, clean white ambience, minimal shadow, hopeful and open
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
-Text handling: all documents on the table are blank sheets seen at a steep angle; no nameplates, no wall lettering, no logo. Avoid garbled or fake script.
+Scene: Emotional focal point: one lone survey flag standing dead center, facing the viewer, unmoved. Recurring location - a leveled industrial construction site in Korea, bare graded earth with survey stakes and a low perimeter fence. The plot beyond the fence is completely empty and unmarked, stretching flat to the horizon in perfect symmetry. Far back in the upper-center, two workers in plain coveralls stand still side by side facing the camera, looking across the vacant ground.
+Camera: extreme long shot from eye-level, front-on symmetrical composition, shot on 24mm wide lens
+Lighting/mood: cold blue pre-dawn tone, desolate stillness
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02 on the lone survey flag), film-noir low-key lighting, deep shadows
+Text handling: no signage, no lettering on the flag or coveralls, no boards with writing.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the long boardroom table) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the graded bare earth of the site) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE - strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -189,36 +189,5 @@ NEGATIVE - strictly avoid:
 ```
 **검색어**
 ```text
-SK하이닉스 이사회 회의실
-```
-
-### [카드 7]
-**텍스트**
-```text
-일본이 내민 건 보조금만이 아니었다
-장비와 소재가 걸어서 닿는 거리였다
-그 거리는 돈으로 다시 못 만든다
-*부인해도 그다음 공장 자리는 남는다*
-```
-**이미지 프롬프트**
-```text
-korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a steady unwavering look directly into the camera, lips pressed and still. Recurring subject — a Korean man in his 60s with short gray-streaked hair, rimless glasses, wearing a dark navy suit and a plain gray tie — stands alone at the center of a wide flat plain where one dirt road forks into two branches of equal width, his body squared to the camera, his weight leaning almost imperceptibly toward one branch. Both branches run out of the frame and neither is favored by the light.
-Camera: medium shot from eye-level, front-on shot with direct gaze, shot on 50mm standard lens
-Lighting/mood: warm soft morning light, gentle and quiet, faint melancholy
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
-Text handling: no road signs, no direction markers with writing, no lettering anywhere in the frame. Avoid garbled or fake script.
-Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
-MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the bare flat plain) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
-NEGATIVE - strictly avoid:
-- no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
-- no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
-- no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
-- no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
-- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
-```
-**검색어**
-```text
-SK하이닉스 차세대 팹 입지
+청주 산업단지 조성 부지
 ```
