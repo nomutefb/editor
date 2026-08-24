@@ -390,6 +390,36 @@
  ],
  "threads": [
   {
+   "account": "choi.openai",
+   "text": "3/ 그 판단의 바탕이 되는 첫 두 역량은 LLM 기초와 데이터 그라운딩입니다.\n\nLLM 기초는 모델이 입력을 토큰으로 쪼개고 출력을 만드는 방식을 이해해, 언제 믿고 언제 실패할지 가늠하는 능력입니다.\n컨텍스트 윈도에 무엇을 넣을지, 캐시 히트와 지식 컷오프, 추론 강도와 샘플링 설정, 도구 호출, 파인튜닝과 자체 호스팅이 필요한 순간이 여기서 갈립니다.\n\n데이터 그라운딩에서 응은 벡터 검색 기반 RAG를 초기 시도로 표현합니다.\n이제는 프롬프트에 직접 넣을지 도구로 검색시킬지, 벡터 인덱스와 지식 그래프, 정형 데이터 위의 시맨틱 레이어 중 무엇이 맞는지 고르고, 문서를 LLM 입력으로 바꾸며 데이터를 신선하게 유지하는 파이프라인까지 설계해야 합니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1787539519,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DcaBTCxD_Up",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "2/ 여섯 역량을 나열하기 전에 응은 AI 앱에 왜 별도의 지도가 필요한지부터 설명합니다.\n\n일반 소프트웨어와 AI 앱의 가장 큰 차이는 출력의 예측 가능성입니다.\nLLM이 어떤 답을 낼지, 학습된 모델이 어떤 예측을 내놓을지 미리 알 수 없습니다. 그래서 AI 시스템 개발은 계획대로 진행되지 않고, 만들고 결과를 뜯어본 뒤 다음 시도를 정하는 반복 과정이 됩니다.\n\n응은 이 과정을 잘 해내는 사람을 신뢰할 수 없는 AI 부품으로 신뢰할 수 있는 소프트웨어를 만드는 사람이라고 표현합니다.\n중간 결과를 보고 다음에 무엇을 할지 능숙하게 정하는 능력이 여섯 역량 전체를 관통하는 전제입니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1787539516,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DcaBSmvDyxu",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "1/ 앤드류 응이 8월 22일 AI 엔지니어링 스킬맵의 두 번째 글을 공개했습니다.\n\n지난 글에서 그의 팀은 1만 건이 넘는 채용 공고와 전문가·채용 담당자 인터뷰, 설문을 분석해 AI 시대 개발자의 역량을 네 가지로 정리했습니다. AI 앱 구축과 배포, 소프트웨어 기본기, 코딩 에이전트 활용, 무엇을 만들지 정하는 능력입니다.\n\n이번 글은 그중 첫 번째인 'AI 앱을 만들고 배포하는 능력'을 여섯 가지 하위 역량으로 풀어냅니다.\n\nLLM 기초, 데이터 그라운딩, 에이전트 시스템 구축, 평가 주도 개발, 프로덕션 운영, 머신러닝 기초입니다. 소프트웨어 기본기를 다루는 다음 편도 예고했습니다.",
+   "likes": 3,
+   "cmts": 1,
+   "time": 1787539508,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/784251489_17983823349112832_2101482559022744363_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk3MDQ5MTYyOTEyMzM3NzcwOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=m8TfVaB3i0wQ7kNvwH_2lbk&_nc_oc=AdrGmmL29oAhWZSJeAIRmOCgw_lasH3JCPhBM8Z9kGPnOlan-Pcw07XMNO48yTug3Iw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=ATSjt0Gmjspgj6a4XmHG1w&_nc_ss=7a22e&oh=00_AQHptRpanuznzezqJF5c5lXZqKMB8MlwPozK4ef-Gcpk9g&oe=6A919456",
+   "url": "https://www.threads.com/@choi.openai/post/DcaBRmhj5os",
+   "region": "kr"
+  },
+  {
    "account": "aipeekme",
    "text": "🔗 원문·자세히 보기\nhttps://huggingface.co/Qwen/Qwen3.8-27B",
    "likes": 0,
@@ -405,7 +435,7 @@
    "likes": 1,
    "cmts": 1,
    "time": 1787535077,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/786184079_18082632464407306_384672961045510742_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk3MDQ1NDM5NDI0MTAyMDI1MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=AI4P6Oyj6xsQ7kNvwH_fjBE&_nc_oc=Adp5zdr9Srk8evC4H3sXLlbacHYheVlbUUtywHkheM3KGviMucsPg4deH-DTk18Bqko&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=SlvP3QCm1h2YN_AbGUTz_w&_nc_ss=7a22e&oh=00_AQHt1exlCDk4KyI7ruVbxstESIueEwHyYKHvNIFaFdeURA&oe=6A91867B",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/786184079_18082632464407306_384672961045510742_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk3MDQ1NDM5NDI0MTAyMDI1MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=AI4P6Oyj6xsQ7kNvwH_fjBE&_nc_oc=Adp5zdr9Srk8evC4H3sXLlbacHYheVlbUUtywHkheM3KGviMucsPg4deH-DTk18Bqko&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=bW8X1vcy6zKBNR4GrUO7xw&_nc_ss=7a22e&oh=00_AQGEo7bSLJCfp2ZSq45RHzSJz3pinTP3U6TtnU6999rvMQ&oe=6A91867B",
    "url": "https://www.threads.com/@aipeekme/post/DcZ4zw1n_Fa",
    "region": "kr"
   },
@@ -417,16 +447,6 @@
    "time": 1787534589,
    "thumb": "",
    "url": "https://www.threads.com/@aipeekme/post/DcZ34a4nz9G",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "중국에서 물에 빠진 사람에게 스스로 날아가는 ‘AI 구명튜브’가 화제입니다.\n\n평소에는 드론처럼 날다가 익수자를 감지하면 자동으로 접근해 물 위에 착수합니다. 이후 구명튜브 역할을 해 최대 80kg 성인 2명이 물에 떠 있을 수 있도록 버텨주고, 구조가 끝나면 스스로 복귀합니다.\n\n비행 속도는 초속 10~14m, 최대 운용 거리는 약 2km로 알려졌는데요. 사람이 헤엄치거나 보트를 타고 접근하는 것보다 훨씬 빠르게 초기 구조 장비를 보낼 수 있는 셈입니다.\n\nAI와 드론이라고 하면 배송이나 전쟁부터 떠올리기 쉽지만, 오히려 이런 단순하고 명확한 활용처가 기술의 가치를 가장 잘 보여주는 것 같습니다.",
-   "likes": 61,
-   "cmts": 4,
-   "time": 1787533234,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/784790448_1932264337730389_5230984902479926018_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk3MDQzOTAwMzg5NTI4MjUwOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=C4o4IXHhgm4Q7kNvwFTG5pq&_nc_oc=Ado4RolPTCUcNayf81csGi1cnhv54H60XB6A4OCXsX00ARshHbQCrjbnZC-SYTKSHDE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=BgbAUvugOboCZy8ug6lYGw&_nc_ss=7a22e&oh=00_AQHPEpQZPkO_9_nPgbFhdrGR34cBxe4M5pidJa95MTeMOw&oe=6A916602",
-   "url": "https://www.threads.com/@choi.openai/post/DcZ1TzdiLtN",
    "region": "kr"
   },
   {
@@ -460,26 +480,6 @@
    "region": "kr"
   },
   {
-   "account": "choi.openai",
-   "text": "커밋 :\nhttps://github.com/torvalds/linux/commit/818bebeb63dd6bf5f4e07e145f6cdbace520a34c",
-   "likes": 9,
-   "cmts": 0,
-   "time": 1787527837,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DcZrA79CUmr",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "리누스 토발즈가 AI의 도움으로 리눅스 커널 GPU 버그를 잡았습니다.\n\n인텔 Xe 드라이버에서 배틀메이지 G21의 CCS 압축 메타데이터 영역이 사용 가능한 VRAM으로 잘못 노출되는 버그였습니다.\n페이지 테이블이 깨지면서 화면이 나오지 않고 디스플레이 매니저가 무한 재시작되는 증상이었는데, 최종 수정은 round_up()을 round_down()으로 바꾸는 한 줄이었습니다.\n\n그 한 줄을 찾기까지 24개의 디버깅 패치와 18번의 커널 부팅이 필요했습니다.\nAI가 디버그 코드 삽입과 결과 분석을 반복하는 단순 노동을 맡았는데, 중간에 여러 차례 이 문제는 불가능하니 보고서나 쓰자고 포기를 제안했다고 합니다.\n토발즈는 커밋 메시지에 \"나만큼 고집스러운 사람한테 학습된 게 아닌 것 같다\"고 남겼습니다.\n\n올 1월 개인 프로젝트에서 AI 코드가 자기가 짠 것보다 낫다고 인정한 데 이어, 이번에는 커널 수준 디버깅까지 AI와 함께 진행한 겁니다.",
-   "likes": 42,
-   "cmts": 6,
-   "time": 1787527829,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/778237037_17983608321112832_3818135157676359430_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk3MDM5MzY2NDEyMzM4NzY0Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=z3g_cXRj7YQQ7kNvwHAffOo&_nc_oc=Adopc9yVGslWkihMz_LJkrl1vjpn5yzEwInQQgqFSfiK1FIUWZn-7YFWNB8tJdP6IN8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=BgbAUvugOboCZy8ug6lYGw&_nc_ss=7a22e&oh=00_AQFaBYSqcCXr94P31mGWImmQC2_1CnhRzblBhg9F0Rbdaw&oe=6A918C8E",
-   "url": "https://www.threads.com/@choi.openai/post/DcZrABgiT7_",
-   "region": "kr"
-  },
-  {
    "account": "aicoffeechat",
    "text": "링크: https://posts.design/",
    "likes": 1,
@@ -495,7 +495,7 @@
    "likes": 32,
    "cmts": 1,
    "time": 1787524630,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/784351656_2317168292443634_5502448756858615908_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk3MDM2NjQ3NDY2NTIxMTE1Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=27KAJ096FTYQ7kNvwHqcc79&_nc_oc=AdpdL4y9IlrfAhoB4bDFG5yuyyYphkR_RIl8rABouYDybjOAyy25oZOT-0ZyiuWsWfo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=nz46GyMFJt78vfvndzSA0g&_nc_ss=7a22e&oh=00_AQEF4xk_83It9-pgqV8Ch3wO7EmP_Lp8kbtLV4k5d9CDaw&oe=6A9199D0",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/784351656_2317168292443634_5502448756858615908_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk3MDM2NjQ3NDY2NTIxMTE1Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=27KAJ096FTYQ7kNvwHqcc79&_nc_oc=AdpdL4y9IlrfAhoB4bDFG5yuyyYphkR_RIl8rABouYDybjOAyy25oZOT-0ZyiuWsWfo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=T1BL1oVKFf08iZao2Nnsgw&_nc_ss=7a22e&oh=00_AQGM-oBYGXlZIhfK38vhVUGYprcTdI1S1a2Ir5kCL8CKgA&oe=6A9199D0",
    "url": "https://www.threads.com/@aicoffeechat/post/DcZk0XWijUV",
    "region": "kr"
   },
@@ -535,8 +535,18 @@
    "likes": 0,
    "cmts": 1,
    "time": 1787490767,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/779895787_17933433189362958_5802847818788707445_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk3MDA4Mjc2MjcwNzE1MDk3NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjE2Ny5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=evnCSnc7dBYQ7kNvwGiK2IF&_nc_oc=Adq8czDYGXPuUGeJaR3HVNzJq34dhqN6MIGirjP65kWvsF87Mz5SQckDql15w2KE34I&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=b8COEDYdApI-8ddS1TGKGw&_nc_ss=7a22e&oh=00_AQGq0CIKKUJ7c9CQyioYXg5Lhx4Cg6SGWoPM2Z4HqdOokA&oe=6A917B0F",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/779895787_17933433189362958_5802847818788707445_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk3MDA4Mjc2MjcwNzE1MDk3NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjE2Ny5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=evnCSnc7dBYQ7kNvwGiK2IF&_nc_oc=Adq8czDYGXPuUGeJaR3HVNzJq34dhqN6MIGirjP65kWvsF87Mz5SQckDql15w2KE34I&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=u4rCXde2lJLB9RJ7fhyXRw&_nc_ss=7a22e&oh=00_AQG9tAKTOozMcwtVTBqQCW5_SmO1vefl3SDwjNyAJ5AvHw&oe=6A917B0F",
    "url": "https://www.threads.com/@takepage_/post/DcYkT0AD6h_",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "앤드류 응이 AI 엔지니어링 스킬맵의 두 번째 글을 공개했습니다.\n\n지난주 네 가지로 정리한 역량 지도에서 첫 번째인 'AI 앱 구축과 배포'를 여섯 가지 하위 역량으로 풀어냈는데요.\n\nLLM 기초부터 데이터 그라운딩, 에이전트 시스템, 평가, 프로덕션 운영, 머신러닝 기초까지 무엇을 배워야 하는지 정리했습니다 🧵",
+   "likes": 14,
+   "cmts": 8,
+   "time": 1787539503,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/786313218_17983823331112832_6409675802497060582_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=109&ig_cache_key=Mzk3MDQ5MTU5MzM3OTQ4MDU5MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjAwLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=5BQ5NcIIw38Q7kNvwFTkSI2&_nc_oc=Adr_p8W3llLPHlQ0rja-il1676anpf8q0k-HA5FJFRpM3LMd_WmnB4ASX6OHu8N_5Ds&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=ATSjt0Gmjspgj6a4XmHG1w&_nc_ss=7a22e&oh=00_AQE-njszRVehUhnPZRmk9Vh3RqkMxm17a28wGMg2wCvgqA&oe=6A917A1F",
+   "url": "https://www.threads.com/@choi.openai/post/DcaBRFPDwQP",
    "region": "kr"
   },
   {
@@ -545,7 +555,7 @@
    "likes": 0,
    "cmts": 1,
    "time": 1787534577,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/780771669_18082631603407306_4261631284784641188_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk3MDQ1MDE3OTg3OTgwNDcyNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=mINCjgVCwK8Q7kNvwF8aNmO&_nc_oc=AdpmDd9aPPB02jfCUl4O19Gi0oVY8gMx_crMv-HcuZUphiopG86g08vLLKB4LNUxfcU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=SlvP3QCm1h2YN_AbGUTz_w&_nc_ss=7a22e&oh=00_AQFrB3GKUbV2hlGVBcJd1ROPHPFr5WJ_ISiyYeKwTZ2zng&oe=6A9195F1",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/780771669_18082631603407306_4261631284784641188_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk3MDQ1MDE3OTg3OTgwNDcyNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=mINCjgVCwK8Q7kNvwF8aNmO&_nc_oc=AdpmDd9aPPB02jfCUl4O19Gi0oVY8gMx_crMv-HcuZUphiopG86g08vLLKB4LNUxfcU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=bW8X1vcy6zKBNR4GrUO7xw&_nc_ss=7a22e&oh=00_AQFTm0JlBI2l8qw6f_wq_HByt_wtebD4W5KH3THVMKC2rg&oe=6A9195F1",
    "url": "https://www.threads.com/@aipeekme/post/DcZ32b6Hx83",
    "region": "kr"
   },
@@ -562,21 +572,11 @@
   {
    "account": "aicoffeechat",
    "text": "AI 티나지 않은 아이콘 라이브러리\n\n손그림 SVG 아이콘 13만 개 라이브러리인데요. 기계로 찍어낸 듯한 아이콘 대신 직접 그린 느낌의 아이콘이라 쓰기 너무 좋네요. \n\n블로그나 피피티에 넣어주면 유용하게 쓸 것 같네요. 필요하신 분들을 위해 공유해드립니다.",
-   "likes": 167,
+   "likes": 178,
    "cmts": 5,
    "time": 1787523765,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/784215041_1031324116345848_5106299422619308773_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk3MDM1NDAyMjQ5ODA4NDQyNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=XdN-3IlagEAQ7kNvwE1h44Z&_nc_oc=AdrQ1Z7Y67cZiajCBJePUj1GrZadjevGvENUmnyOMGcSL40k4KC06HcsVyhUmX3No3A&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=nz46GyMFJt78vfvndzSA0g&_nc_ss=7a22e&oh=00_AQFWnCF1RY0vPFWw6XCVnH-OGThC4lfHO8MB91K1lLNIXQ&oe=6A917745",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/784215041_1031324116345848_5106299422619308773_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk3MDM1NDAyMjQ5ODA4NDQyNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=XdN-3IlagEAQ7kNvwE1h44Z&_nc_oc=AdrQ1Z7Y67cZiajCBJePUj1GrZadjevGvENUmnyOMGcSL40k4KC06HcsVyhUmX3No3A&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=T1BL1oVKFf08iZao2Nnsgw&_nc_ss=7a22e&oh=00_AQFtEWqefd8ik3EQyNTeGKsWVxYxYvsrxFAWrtNMV7yzgQ&oe=6A917745",
    "url": "https://www.threads.com/@aicoffeechat/post/DcZh_KXiqZI",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "허깅페이스 :\nhttps://huggingface.co/spaces/linoyts/minimax-h3-inpainting",
-   "likes": 3,
-   "cmts": 0,
-   "time": 1787522454,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DcZgv0oCpau",
    "region": "kr"
   },
   {
@@ -585,7 +585,7 @@
    "likes": 4,
    "cmts": 3,
    "time": 1787490761,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/783507420_17933432103362958_7769046895997482287_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk3MDA4MjcxMTk3MjgwODYwNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=VJBowZoXn18Q7kNvwGJCEqu&_nc_oc=Adq74jFo7hOnCymWokf5RbGK4IuF5kEevwThKa4Kb0YQrwJ0cvSK87YUe5RuaChOkyU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=b8COEDYdApI-8ddS1TGKGw&_nc_ss=7a22e&oh=00_AQHq8KVlmh3meVd2jEhA8zFRAKzFgY1CJZpxv3brb7LLQA&oe=6A919A74",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/783507420_17933432103362958_7769046895997482287_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk3MDA4MjcxMTk3MjgwODYwNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=VJBowZoXn18Q7kNvwGJCEqu&_nc_oc=Adq74jFo7hOnCymWokf5RbGK4IuF5kEevwThKa4Kb0YQrwJ0cvSK87YUe5RuaChOkyU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=u4rCXde2lJLB9RJ7fhyXRw&_nc_ss=7a22e&oh=00_AQFoxx-lkBJYICb6eybVJjkoHT46Udtd8MpVyz2NfvnOYA&oe=6A919A74",
    "url": "https://www.threads.com/@takepage_/post/DcYkTEwDwed",
    "region": "kr"
   }
@@ -597,7 +597,7 @@
    "views": 1700000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooDPRCUDqBpuPTmFEWk6RAIgEBqnfZwgeRICBU~tplv-tiktokx-origin.image?dr=14575&x-expires=1787709600&x-signature=Vet1QcKux%2B3o6RnoT4HJdxx6xE4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooDPRCUDqBpuPTmFEWk6RAIgEBqnfZwgeRICBU~tplv-tiktokx-origin.image?dr=14575&x-expires=1787713200&x-signature=q%2BhWAYraAVVAq%2FIFTRvwkG37BVg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785177115,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7667277327386135826",
    "region": "kr"
@@ -608,7 +608,7 @@
    "views": 1600000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAbAoCECNeDAVDgQBcAkFzYBfoUADqQCQWIuZl~tplv-tiktokx-origin.image?dr=14575&x-expires=1787709600&x-signature=qbdQ%2BwOf2RXmg9I4jxeH2%2Fg5tng%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAbAoCECNeDAVDgQBcAkFzYBfoUADqQCQWIuZl~tplv-tiktokx-origin.image?dr=14575&x-expires=1787713200&x-signature=Uez7gHXcrvwVQCgzlfAK0lqYocY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785471372,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7668541152869616914",
    "region": "kr"
@@ -619,7 +619,7 @@
    "views": 756600,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooBGAi8A6InMPiZBpU9fBkTRtAAwBKw0m1E0Ag~tplv-tiktokx-origin.image?dr=14575&x-expires=1787709600&x-signature=93wfDG94hInGjzKJH1JKS6QrrMw%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooBGAi8A6InMPiZBpU9fBkTRtAAwBKw0m1E0Ag~tplv-tiktokx-origin.image?dr=14575&x-expires=1787713200&x-signature=BmQRj94SYOzyLy9kr2ZFQKNdzxk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785109781,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7666988131442281746",
    "region": "kr"
@@ -630,7 +630,7 @@
    "views": 477500,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o43E0EJDgKsBeuyFfnqRBCAvI1sAAbI2NsPlIc~tplv-tiktokx-origin.image?dr=14575&x-expires=1787709600&x-signature=wqqUDzhTQJa2SHzrFER5RuggJXY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o43E0EJDgKsBeuyFfnqRBCAvI1sAAbI2NsPlIc~tplv-tiktokx-origin.image?dr=14575&x-expires=1787713200&x-signature=wDaXZbar26a10whwByKg7PoA6Ys%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785519099,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7668746136877812999",
    "region": "kr"
@@ -638,10 +638,10 @@
   {
    "account": "jaemyung_lee",
    "title": "이번 정류장은 칠레입니다🇰🇷🇨🇱 #이재명 #대통령 #Chile #Corea",
-   "views": 362900,
+   "views": 363000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQpDHATAEBzAIGFgqwDA4hofdRfVCsCaqEBIkL~tplv-tiktokx-origin.image?dr=14575&x-expires=1787709600&x-signature=qbZJH3YiBAHky7eK%2FS4qOJjztVc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQpDHATAEBzAIGFgqwDA4hofdRfVCsCaqEBIkL~tplv-tiktokx-origin.image?dr=14575&x-expires=1787713200&x-signature=s90jWBXjXNX9zLPE8JpFalk6E7A%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785365622,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7668086960883354887",
    "region": "kr"
@@ -649,10 +649,10 @@
   {
    "account": "jaemyung_lee",
    "title": "프랑크푸르트에 도착했습니다🇰🇷🇩🇪 #이재명 #deutschland #frankfurt",
-   "views": 252600,
+   "views": 252700,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1787709600&x-signature=6gUPPW2wAwsb9%2FmTXPPkul296ds%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1787713200&x-signature=DHqenvGvnmZdsw5u5GANfVnDF1c%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785656353,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7669335640793763079",
    "region": "kr"
@@ -663,7 +663,7 @@
    "views": 228900,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-i-photomode-sg/91a2f3151d9741689af70b1d1f8aac3a~tplv-photomode-image.jpeg?dr=14555&x-expires=1787709600&x-signature=EsoVHMSOpDslVxyUk9EKw2aaQyE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=9b759fb9&idc=my2&ftpl=1",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-i-photomode-sg/91a2f3151d9741689af70b1d1f8aac3a~tplv-photomode-image.jpeg?dr=14555&x-expires=1787713200&x-signature=0h6i7iV%2BG%2BXUYkVMJTAj5jVp6HM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=9b759fb9&idc=my2&ftpl=1",
    "time": 1785270939,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7667680300490558728",
    "region": "kr"
@@ -674,7 +674,7 @@
    "views": 186500,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/osApGgttBIBbbk6zA4iAKdIdkBfL1AAEiSwmCM~tplv-tiktokx-origin.image?dr=14575&x-expires=1787709600&x-signature=umiDQirWpyCKEwupHkFNYsvgMb4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/osApGgttBIBbbk6zA4iAKdIdkBfL1AAEiSwmCM~tplv-tiktokx-origin.image?dr=14575&x-expires=1787713200&x-signature=E6O9VcQiIKLpKmNtIwUCEgk7aqk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1784945079,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7666280741554195730",
    "region": "kr"
@@ -682,10 +682,10 @@
   {
    "account": "jaemyung_lee",
    "title": "이번 정류장은 샌프란시스코입니다 🇰🇷🇺🇸 #이재명 #대통령 #US #sanfrancisco #california",
-   "views": 131700,
+   "views": 131800,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okkIgGYEt7AlB4qvUF5yCAEAjD8vfKAfVACbBp~tplv-tiktokx-origin.image?dr=14575&x-expires=1787709600&x-signature=Hce8brC2Ov0woI8axH5U8Ltn5%2Fc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okkIgGYEt7AlB4qvUF5yCAEAjD8vfKAfVACbBp~tplv-tiktokx-origin.image?dr=14575&x-expires=1787713200&x-signature=osdpFaxXLOUrqz033c0Wu7yE77o%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1784911601,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7666136953456315666",
    "region": "kr"
@@ -696,7 +696,7 @@
    "views": 104300,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ok7qEZCqBgAIPBVFAEgOfAJAhjCDYF5jcUeyNC~tplv-tiktokx-origin.image?dr=14575&x-expires=1787709600&x-signature=kHgSdWhKPcjgpf%2F12jGX%2FXa4mBE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ok7qEZCqBgAIPBVFAEgOfAJAhjCDYF5jcUeyNC~tplv-tiktokx-origin.image?dr=14575&x-expires=1787713200&x-signature=dU8pDwEBMSC6o5I46FnB3CkPD3E%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1784793310,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7665628897077234951",
    "region": "kr"
@@ -707,7 +707,7 @@
    "views": 10800,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ogOA4loi0sBEEB3CYaAAAKLELBAFiInU8VYvA~tplv-tiktokx-origin.image?dr=14575&x-expires=1787709600&x-signature=5lnTqcU2IxvsXubFMgHOT7bnU%2BY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ogOA4loi0sBEEB3CYaAAAKLELBAFiInU8VYvA~tplv-tiktokx-origin.image?dr=14575&x-expires=1787713200&x-signature=V%2FgCwbEijDOjcIm9g3H676RcKmo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1787112463,
    "url": "https://www.tiktok.com/@tictok_ent/video/7675589583446248725",
    "region": "kr"
@@ -715,25 +715,16 @@
   {
    "account": "tictok_ent",
    "title": "코르티스(CORTIS) 성현, 보면 볼수록 빠져드는 매력 / 토리든 'DEEP DIVE NEWS’ 팝업 스토어 #코르티스 #CORTIS #마틴 #제임스 #주훈 #성현 #건호 #토리든 #Torriden",
-   "views": 1272,
+   "views": 1273,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o8AIwizAKX1E1AKfFANQCp9t2VvBBBiuOb1APW~tplv-tiktokx-origin.image?dr=14575&x-expires=1787709600&x-signature=96pe1J5848hsgwScHtV65h5JUOg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/o8AIwizAKX1E1AKfFANQCp9t2VvBBBiuOb1APW~tplv-tiktokx-origin.image?dr=14575&x-expires=1787713200&x-signature=ECKwivG7hEcQ9JW5T%2FFM89EZiAM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1787112415,
    "url": "https://www.tiktok.com/@tictok_ent/video/7675589380328656149",
    "region": "kr"
   }
  ],
  "reddit": [
-  {
-   "sub": "WhatIsTheTea",
-   "title": "The brat throws food at the elderly woman and finds out TWICE.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/dTJ1dHlxc3h5MmxoMcXnT4vwfuVmUkS-tA7FvOmC78T7Wik59z6Y7sVH9oqP.png?width=640&crop=smart&auto=webp&s=49deb16779304233aa96a2072b7c0ac8ff11f782",
-   "time": 1787471679,
-   "url": "https://www.reddit.com/r/WhatIsTheTea/comments/1vw104a/the_brat_throws_food_at_the_elderly_woman_and/"
-  },
   {
    "sub": "mildlyinfuriating",
    "title": "Every day that I go to work, I basically lose an hour's pay.",
@@ -744,13 +735,13 @@
    "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1vwn5cb/every_day_that_i_go_to_work_i_basically_lose_an/"
   },
   {
-   "sub": "interestingasfuck",
-   "title": "Rage Against Flock",
+   "sub": "WhatIsTheTea",
+   "title": "The brat throws food at the elderly woman and finds out TWICE.",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/MmF1Y2xqNnpvNmxoMazKu5FLz9--cgYX5_Yd687XvvGTbGLTP2sG8GV-tiT3.png?width=320&crop=smart&auto=webp&s=cf75d06eb1ffb58d07a4f6b655c79839b3fe8868",
-   "time": 1787516731,
-   "url": "https://www.reddit.com/r/interestingasfuck/comments/1vwhyyp/rage_against_flock/"
+   "thumb": "https://external-preview.redd.it/dTJ1dHlxc3h5MmxoMcXnT4vwfuVmUkS-tA7FvOmC78T7Wik59z6Y7sVH9oqP.png?width=640&crop=smart&auto=webp&s=49deb16779304233aa96a2072b7c0ac8ff11f782",
+   "time": 1787471679,
+   "url": "https://www.reddit.com/r/WhatIsTheTea/comments/1vw104a/the_brat_throws_food_at_the_elderly_woman_and/"
   },
   {
    "sub": "PeterExplainsTheJoke",
@@ -771,15 +762,6 @@
    "url": "https://www.reddit.com/r/AskReddit/comments/1vwb468/what_are_some_clear_signs_of_low_intelligence_in/"
   },
   {
-   "sub": "lotr",
-   "title": "Hobbit-inspired bookshelf that I made my wife",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/lkdyfxw2r7lh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=9311afafbf0895972ee46bae22bdacd0b4bbe348",
-   "time": 1787529553,
-   "url": "https://www.reddit.com/r/lotr/comments/1vwn2u7/hobbitinspired_bookshelf_that_i_made_my_wife/"
-  },
-  {
    "sub": "politics",
    "title": "‘I hate Democrats, but I love Abdul’: voters who left over Gaza return for progressive push",
    "score": 0,
@@ -798,6 +780,15 @@
    "url": "https://www.reddit.com/r/PopCultureV2/comments/1vw6zqy/because_youre_an_immigrant_a_us_citizen_in_lake/"
   },
   {
+   "sub": "nextfuckinglevel",
+   "title": "Insane situational awareness from this lifeguard as he spots a drowning kid surrounded by people",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/MDI2eDZ6ZmRjNWxoMa52VZt3AepuXL-CkLJTKlD_5huFHw1tNUZ0U8ANX0YF.jpeg?width=320&crop=smart&auto=webp&s=9e59ee6796a644e964ea174107492dd199e71eb3",
+   "time": 1787500394,
+   "url": "https://www.reddit.com/r/nextfuckinglevel/comments/1vwasmm/insane_situational_awareness_from_this_lifeguard/"
+  },
+  {
    "sub": "whoathatsinteresting",
    "title": "A book dealer tracked an unusual shipment of rare books. It ended at an Amazon AI training facility where those books get shredded.",
    "score": 0,
@@ -805,15 +796,6 @@
    "thumb": "https://preview.redd.it/bt1muxgbw3lh1.png?width=640&crop=smart&auto=webp&s=622cd78e65d7fe5a537e0db01afff65956967d10",
    "time": 1787483298,
    "url": "https://www.reddit.com/r/whoathatsinteresting/comments/1vw4d3d/a_book_dealer_tracked_an_unusual_shipment_of_rare/"
-  },
-  {
-   "sub": "SipsTea",
-   "title": "It’s him for sure",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/akiaqaqfm6lh1.jpeg?width=640&crop=smart&auto=webp&s=46eb29d3ae5f9e7d8f76937c03b6d2a9c4fca973",
-   "time": 1787515876,
-   "url": "https://www.reddit.com/r/SipsTea/comments/1vwhlx4/its_him_for_sure/"
   },
   {
    "sub": "mildlyinfuriating",
@@ -825,13 +807,31 @@
    "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1vw66dk/the_lady_next_to_me_on_a_4hr_flight_brought_a/"
   },
   {
-   "sub": "nextfuckinglevel",
-   "title": "Insane situational awareness from this lifeguard as he spots a drowning kid surrounded by people",
+   "sub": "worldnews",
+   "title": "Trump says Canada 'wants the benefits' of being a U.S. state 'without being one' as trade dispute deepens",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/MDI2eDZ6ZmRjNWxoMa52VZt3AepuXL-CkLJTKlD_5huFHw1tNUZ0U8ANX0YF.jpeg?width=320&crop=smart&auto=webp&s=9e59ee6796a644e964ea174107492dd199e71eb3",
-   "time": 1787500394,
-   "url": "https://www.reddit.com/r/nextfuckinglevel/comments/1vwasmm/insane_situational_awareness_from_this_lifeguard/"
+   "thumb": "https://external-preview.redd.it/wtlUbQ6UWI8ANmyqSgXpW-GBbaQEjaSIAIRPa60Uc-g.jpeg?width=320&crop=smart&auto=webp&s=be5e3984c6276361aff35020827f953853fa8278",
+   "time": 1787496245,
+   "url": "https://www.reddit.com/r/worldnews/comments/1vw9131/trump_says_canada_wants_the_benefits_of_being_a/"
+  },
+  {
+   "sub": "lotr",
+   "title": "Hobbit-inspired bookshelf that I made my wife",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/lkdyfxw2r7lh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=9311afafbf0895972ee46bae22bdacd0b4bbe348",
+   "time": 1787529553,
+   "url": "https://www.reddit.com/r/lotr/comments/1vwn2u7/hobbitinspired_bookshelf_that_i_made_my_wife/"
+  },
+  {
+   "sub": "movies",
+   "title": "Recommendations for movies where the stakes are LOW and “nothing happens”",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1787527241,
+   "url": "https://www.reddit.com/r/movies/comments/1vwm824/recommendations_for_movies_where_the_stakes_are/"
   }
  ],
  "disaster": [],
@@ -876,10 +876,10 @@
    }
   },
   "landing": {
-   "at": "2026-08-24T11:05:30",
+   "at": "2026-08-24T11:31:20",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-24T11:31:18.005312+09:00"
+ "updated": "2026-08-24T12:01:19.998207+09:00"
 }
