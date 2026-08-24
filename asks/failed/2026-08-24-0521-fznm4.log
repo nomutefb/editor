@@ -1,0 +1,4 @@
+exit_code: 1
+---- stderr ----
+---- stdout(head) ----
+Failed to authenticate. API Error: 401 OAuth access token has been revoked.
