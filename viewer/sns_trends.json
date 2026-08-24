@@ -7602,8 +7602,14 @@
   {
    "query": "삼성 라이온즈",
    "traffic": "10000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/fef340afe7.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.starnewskorea.com/sports/2026/08/18/2026081810201816150",
+     "source": ""
+    }
+   ],
    "vol": 10000,
    "started": "2026-08-24T14:30:00+09:00",
    "delta": -2,
@@ -7674,8 +7680,14 @@
   {
    "query": "국민일보",
    "traffic": "10000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/ba83d090e6.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.kmib.co.kr/article/view.asp?arcid=9000004834&code=11151200&sid1=eco",
+     "source": ""
+    }
+   ],
    "vol": 10000,
    "started": "2026-08-24T14:20:00+09:00",
    "isNew": true,
@@ -7730,8 +7742,14 @@
   {
    "query": "은행",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/0d46de1ba1.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "http://news.bizwatch.co.kr/article/finance/2026/08/10/0038",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-08-24T15:00:00+09:00",
    "delta": -14,
@@ -7744,8 +7762,14 @@
   {
    "query": "나영석",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/fcbcb53d9c.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.tenasia.co.kr/article/2026081267474",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-08-24T14:40:00+09:00",
    "delta": -12,
@@ -8041,7 +8065,7 @@
  ],
  "gtrends_pool_updated": "2026-08-24T17:10:39+09:00",
  "_trend_img": {
-  "tried": "2026-08-24T16:37:33+09:00",
+  "tried": "2026-08-24T17:10:39+09:00",
   "fail": {
    "핵무기": "2026-08-24T15:44:51+09:00",
    "한미약품": "2026-08-24T15:44:51+09:00",
@@ -17768,7 +17792,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-08-24T17:10:39+09:00"
+    "first_seen": "2026-08-24T17:10:39+09:00",
+    "kw": "로봇, 100m 스프린트, 우사인 볼트",
+    "sum": "로봇이 100m를 9.39초에 주파해 볼트 기록을 넘어섰다",
+    "sv": 1
    },
    {
     "account": "aipeekme",
@@ -17784,7 +17811,10 @@
      1,
      2
     ],
-    "first_seen": "2026-08-24T16:37:33+09:00"
+    "first_seen": "2026-08-24T16:37:33+09:00",
+    "kw": "힉스필드 AI, Ox Alpha, Fable 5",
+    "sum": "계정이 힉스필드 AI로 Ox Alpha와 Fable 5의 애니메이션 품질을 비교했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
