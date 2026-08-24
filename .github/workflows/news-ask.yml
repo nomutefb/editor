@@ -242,6 +242,7 @@ jobs:
         run: npm install -g --allow-scripts=@anthropic-ai/claude-code @anthropic-ai/claude-code
 
       - name: Card-plan (텍스트 카드 프롬프트 — 제미나이 0)
+        if: ${{ vars.CARD_AUTOPLAN == '1' }}   # 자동 카드플랜 = 기본 OFF(운영자 260825 «뉴스요약 하면 카드 뉴스는 내가 생성 — 그 직전까지만 만들어지게») — 요약·검색이미지까지만 자동, 카드 프롬프트는 선택 경로만{뷰어 '카드 생성' 버튼(make-cards→card-make.yml) · news-revise 레인}. 지침 변경 백로그 자동 재생성·회차당 3건 배치도 이 스위치에 같이 잠김 · news-analyze card_plan과 동일 게이트(비대칭이면 요약요청발 카드만 자동 생성 잔존) · 재개 = repo 변수 CARD_AUTOPLAN='1' 1줄.
         env:
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets[format('CLAUDE_CODE_OAUTH_TOKEN_{0}', inputs.account || vars.ACTIVE_ACCOUNT || 'EMS1130N')] }}
           CLAUDE_CODE_OAUTH_TOKEN_ALT: ${{ (inputs.account || vars.ACTIVE_ACCOUNT || 'EMS1130N') == 'MUTENO' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_MUTENO }}   # 서브1 폴오버(활성 다음 우선순위 · 체인 EMS1130N→MUTENO→EMS1130G→EMS1130M)
