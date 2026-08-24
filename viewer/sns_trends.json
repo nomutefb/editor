@@ -7619,8 +7619,14 @@
   {
    "query": "빌보드",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/4d1a3b390c.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://news.nate.com/view/20260821n18252",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-24T10:20:00+09:00",
    "delta": -10,
@@ -7633,8 +7639,14 @@
   {
    "query": "햄버거",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/2d8cef21c2.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.newsis.com/view/NISX20260819_0003753661",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-24T10:10:00+09:00",
    "delta": -9,
@@ -7694,8 +7706,14 @@
   {
    "query": "진양혜",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/95793d7f42.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.heraldmuse.com/article/10794889",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-08-24T09:10:00+09:00",
    "isNew": true,
@@ -7766,8 +7784,14 @@
   {
    "query": "챗",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/23d173bbb4.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.aitimes.com/news/articleView.html?idxno=214094",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-08-24T09:40:00+09:00",
    "delta": -12,
@@ -7780,8 +7804,14 @@
   {
    "query": "국회",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/ea9ef1474f.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.ajunews.com/view/20260821145202162",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-08-24T10:10:00+09:00",
    "delta": -17,
@@ -7794,8 +7824,14 @@
   {
    "query": "부산은행",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/30f02b349d.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.businesskorea.co.kr/news/articleView.html?idxno=274918",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-08-24T10:00:00+09:00",
    "delta": -16,
@@ -7957,16 +7993,15 @@
  ],
  "gtrends_pool_updated": "2026-08-24T12:48:45+09:00",
  "_trend_img": {
-  "tried": "2026-08-24T12:07:40+09:00",
+  "tried": "2026-08-24T12:48:45+09:00",
   "fail": {
-   "전기": "2026-08-24T10:41:37+09:00",
-   "뉴스": "2026-08-24T10:41:37+09:00",
-   "리그 1": "2026-08-24T10:41:37+09:00",
-   "나스닥 100": "2026-08-24T10:41:37+09:00",
-   "송성문": "2026-08-24T10:41:37+09:00",
    "한겨레": "2026-08-24T11:17:20+09:00",
    "손범수": "2026-08-24T12:13:50+09:00",
-   "zoom": "2026-08-24T12:13:50+09:00"
+   "zoom": "2026-08-24T12:13:50+09:00",
+   "국경일": "2026-08-24T12:56:54+09:00",
+   "학자금대출": "2026-08-24T12:56:54+09:00",
+   "제주 장미란": "2026-08-24T12:56:54+09:00",
+   "아버지": "2026-08-24T12:56:54+09:00"
   }
  },
  "gtrends_gl": [
@@ -16777,7 +16812,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-08-24T12:48:45+09:00"
+    "first_seen": "2026-08-24T12:48:45+09:00",
+    "kw": "깃허브, 링크",
+    "sum": "계정이 원문 확인용 깃허브 링크를 공유했다",
+    "sv": 1
    },
    {
     "account": "aipeekme",
@@ -16792,7 +16830,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-08-24T12:48:45+09:00"
+    "first_seen": "2026-08-24T12:48:45+09:00",
+    "kw": "DSH Desktop, DeepSeek Harness, 오픈소스 클라이언",
+    "sum": "계정이 DSH Desktop 오픈소스 데스크톱 클라이언트 출시를 소개했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
