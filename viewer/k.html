@@ -481,17 +481,11 @@ const K_MODELS = [
 ];   // 표시명 = NM_MODELS 사전 참조(운영자 260803 5차 배선) · ⚠ seedance·veo 축 회수(운영자 260825 화면 분리 지시「로직이 다르니까 분리」 + 2차 「베오는 빼구」 = Seedance는 콘티 탭[자동 촬영] 소관 · 이 화면 = Kling 복붙 프롬프팅 전용 단일 모델 · 3면 동기 = check_k_models · 복원 = 3면 동시)
 // ⚠️ K_VALS 리터럴 구조(닫기 0칸·작은따옴표) = check_k_models 정규식 의존 — 재포맷 금지(재감사9).
 const K_VALS = {
-  '비율': ['9:16', '16:9', '1:1'],
-  '화질': ['720p', '1080p', '2K', '4K'],
-  '프레임': ['60fps', '30fps'],
   '길이': ['8s', '10s', '15s'],
-  '표현1': ['실사 시네마틱', '포토 에디토리얼'],
-  '표현2': ['없음', '데포르메 3등신', '극화', '수채화', '3D 애니', '미니어처 디오라마', '뉴스릴 빈티지', '인포그래픽', '시사만평'],
-  '세부': ['기본', '게키카', '하드보일드', '시대극', '순정', '명랑', '번짐', '세밀', '수묵', '과슈', '유화', '붓선', '플랫', '판화', '클레이', '로우폴리', '라인', '청사진'],
   '네거티브': ['AI 티 제거', '손 왜곡 방지', '얼굴 유지', '글자 왜곡 방지', '과장 미소 방지', '배경 고정', '워터마크 방지'],
   '오디오': ['의성어만', '대사 삽입', '음악 무드']
-};
-const K_DEF = { '비율': '9:16', '화질': '4K', '프레임': '60fps', '길이': '10s', '표현1': '실사 시네마틱', '표현2': '없음', '세부': '기본', '오디오': '의성어만' };   // 운영자 확정 기본값(260710 의성어만 · 260711 화질 4K — 3분류 선택값)
+};   // ⚠ 비율·화질·프레임·표현1·표현2·세부 축 회수(운영자 260825 «화질설계도 필요없지 않아? 틀에서 정해버리는데» + «표현2도 없어도 될 것 같지 않아?» — 이 화면의 100중 99 = 이미지를 주고 동작만 시키는 워크플로: 룩은 첨부 이미지가 정본이라 화풍 선언 = 희석·정체 드리프트 축, 비율·화질·프레임 = Kling 화면에서 직접 · 남긴 축 = 길이{샷 설계에 물림}·네거티브·오디오 · 2면 동기 = api K_SET · 복원 = git 역사)
+const K_DEF = { '길이': '10s', '오디오': '의성어만' };   // 운영자 확정 기본값(260710 의성어만) — 회수 축의 기본값도 동반 소멸(260825)
 // 표현2별 세부 화풍(운영자 260710 3차 "극화인데 다음 선택지가 없네" — 이미지 생성 GENI_SUB 개념 이식) · K_VALS['세부'] = 이 전체 합집합(api 패리티 축) · 미등재 화풍 = 세부 행 자체 숨김
 const K_SUB = { '극화': ['기본', '게키카', '하드보일드', '시대극', '순정', '명랑'], '수채화': ['기본', '번짐', '세밀', '수묵', '과슈', '유화'], '시사만평': ['기본', '붓선', '플랫', '판화'], '3D 애니': ['기본', '클레이', '로우폴리'], '인포그래픽': ['기본', '라인', '청사진'] };
 let kArW = '1', kArH = '1';   // 비율 직접 기본 = 1:1(index _geniSel.arW/arH 정본 동값)
@@ -506,9 +500,7 @@ const segLast = () => segTotal() - segFixed();
 function kPayload() {   // go 핸들러 페이로드(서버 api/k.js가 화이트리스트 재검증)
   const set = Object.assign({}, kSet);
   if (set['길이'] === '직접') set['길이'] = segTotal() + 's';
-  if (set['비율'] === '직접') set['비율'] = kRatio();   // '직접' = 화면 상태값 → 발사 시 실 N:M으로 치환(위 「길이」 선례 동문법 · 서버 정규식이 재검증)
-  if (kSet['표현2'] === '극화' || kSet['표현2'] === '수채화') set['웹툰'] = kWebtoon ? 'ON' : 'OFF';
-  if (!(K_SUB[set['표현2']] || []).includes(set['세부']) || set['세부'] === '기본') delete set['세부'];   // 세부 = 보유 화풍 + 비기본일 때만 전송(기본·비적용 = 마커 노이즈 0)
+  // (260825 축 회수) 비율 치환·웹툰·세부 전송 줄 회수 — 회수 축은 kSet에 아예 없다(K_DEF 소멸 = 페이로드 자연 무전송 · kRatio·kArSlot·K_SUB·kWebtoon = 도먼트)
   set['네거티브'] = kNeg.slice();
   return { model: kModel, set,
     dial: kSet['오디오'] === '대사 삽입' ? kDial.trim() : '',
@@ -536,8 +528,7 @@ function kPayload() {   // go 핸들러 페이로드(서버 api/k.js가 화이�
     if (s.set && typeof s.set === 'object') Object.keys(K_VALS).forEach(k => { if (k === '네거티브') return; const v = s.set[k]; if (K_VALS[k].includes(v) || (k === '길이' && v === '직접') || (k === '비율' && v === '직접')) kSet[k] = v; });
     if (typeof s.arW === 'string' && /^[1-9][0-9]?$/.test(s.arW)) kArW = s.arW;
     if (typeof s.arH === 'string' && /^[1-9][0-9]?$/.test(s.arH)) kArH = s.arH;
-    if (!(K_SUB[kSet['표현2']] || []).includes(kSet['세부'])) kSet['세부'] = '기본';   // 복원 교차검증 — 세부는 현 표현2 보유분만(스테일 조합 봉합)
-    if (s.sv !== 2) kSet['화질'] = K_DEF['화질'];   // 화질 4K 승격(운영자 260711 3분류) 1회 마이그레이션 — 구 저장분(첫 render save()가 1080p를 전 폰에 영속시킨 상태)의 화질만 신 기본으로, 나머지 선택 전부 보존(negV2 선례 · 배선평의회4 ③)
+    // (260825 축 회수) 구 세부 교차검증·화질 마이그레이션 줄 회수 — 두 축 모두 K_VALS에서 소멸(위 복원 루프가 화이트리스트라 구 저장분의 회수 축 키는 자연 폐기)
     if (Array.isArray(s.negV2)) kNeg = s.negV2.filter(v => K_VALS['네거티브'].includes(v)).slice(0, 7);   // negV2 = 기본 전체 선택 개편(운영자 260710) 마이그레이션 — 구 s.neg(부분 선택 저장분)는 1회 무시해 신 기본이 적용되게, 이후 사용자 조정은 영속
     if (Number.isInteger(s.len) && s.len >= 3 && s.len <= 15) kLen = s.len;
     if (typeof s.wt === 'boolean') kWebtoon = s.wt;
@@ -603,7 +594,7 @@ function kPayload() {   // go 핸들러 페이로드(서버 api/k.js가 화이�
   function drawSpec() {   // 리드아웃(발사 전 전체 스펙 가시화 — esc = 고정 배열값이지만 innerHTML 싱크 방어 일관)
     const m = K_MODELS.find(x => x.id === kModel) || K_MODELS[0];
     // 코너 레일 = 규격 축만(비율·화질·프레임·길이·오디오·분막) — 모델·표현1·2·3은 아래 #exprStrip 명세 스트립으로 분리 명기(운영자 260803 3차 "나머지는 네비에 그대로두고 · 네비가 너무 길어지니까")
-    const parts = [esc(kRatio()), esc(kSet['화질']), esc(kSet['프레임']), esc(kSet['길이'] === '직접' ? segTotal() + 's' : kSet['길이']), esc(kSet['오디오'])];
+    const parts = [esc(kSet['길이'] === '직접' ? segTotal() + 's' : kSet['길이']), esc(kSet['오디오'])];   // (260825 축 회수) 비율·화질·프레임 리드백 회수 — Kling 화면 직접 설정 축
     if (kSegOn) parts.push('분막 ' + kSegs.length + '구간');
     spec.innerHTML = parts.map(t => '<span class="gs-v">' + t + '</span>').join('<span class="gs-sep">·</span>')
       + '<span class="gs-lbl"> · 구도·카메라 AI 최적</span>';   // 리드백 칩 문법 = 정본 `.gs-v`/`.gs-sep`/`.gs-lbl`(edit #editSpec·song #goSpec 동문 · 운영자 260802 코너 레일 이주 동반) — 구 맨 텍스트 ' · ' 조인은 세로 레일에서 한 줄 335px로 삐져나왔다(실측 260802) · 값 = 칩 / 정적 안내('구도·카메라 AI 최적') = 라벨(레일에선 CSS 소거 = 값만 표기 계약)   // 🟡 초안 캡션 제거(운영자 260711 draftBadge=off — K_MODELS draft 데이터는 보존)
@@ -615,9 +606,7 @@ function kPayload() {   // go 핸들러 페이로드(서버 api/k.js가 화이�
       const chips = (vals, on) => vals.map(v => '<span class="gs-v' + (on(v) ? ' on' : '') + '">' + esc(v) + '</span>').join(dot);
       ex.innerHTML = [
         L('모델') + ' : ' + chips(K_MODELS.map(x => x.nm), v => v === m.nm),
-        L('표현1') + ' : ' + chips(K_VALS['표현1'], v => kSet['표현1'] === v),
-        L('표현2') + ' : ' + chips(K_VALS['표현2'], v => kSet['표현2'] === v),
-        L('표현3') + ' : ' + chips(K_VALS['네거티브'], v => kNeg.includes(v))   // 다중선택 = 켜진 것 전부 점등(기본 7종 전체)
+        L('네거티브') + ' : ' + chips(K_VALS['네거티브'], v => kNeg.includes(v))   // 다중선택 = 켜진 것 전부 점등(기본 7종 전체) · (260825 축 회수) 표현1·표현2 명세 줄 회수 — 라벨도 구 「표현3」에서 기능어로
       ].map(r => '<span class="gs-row">' + r + '</span>').join('');
     }
   }
@@ -685,15 +674,7 @@ function kPayload() {   // go 핸들러 페이로드(서버 api/k.js가 화이�
     K_MODELS.forEach(m => mg.appendChild(chipBtn('mchip', m.nm, kModel === m.id, () => { kModel = m.id; render(); })));   // ★ 표기 제거(운영자 260710) — 선택 상태는 칩 on이 전담
     axes.innerHTML = ''; const kRails = [];
     // 그룹 소머리 '영상 개요' = 삭제(운영자 260717 — 비디오 모델 바로 아래 축들이 자명 · 라벨 없이 비율/화질/프레임 직행)
-    ['비율', '화질', '프레임'].forEach(k => {
-      const w = rowEl(k); w.classList.add('kax'); const ch = document.createElement('div'); ch.className = 'axchips';   // kax = 설계 우측정렬 픽커(영상 개요 축만 · 표현/길이 비대상)
-      K_VALS[k].forEach(v => ch.appendChild(chipBtn('axchip', v, kSet[k] === v, () => { kSet[k] = v; render(); })));
-      if (k === '비율') {   // 「직접」 = 그 자리를 N:M 입력이 인계(칩 소등) · 되돌아가기 = 프리셋 칩 탭 — index #geniArWrap 정본 미러(260727 전 탭 통일)
-        if (kSet['비율'] !== '직접') ch.appendChild(chipBtn('axchip', '직접', false, () => { kSet['비율'] = '직접'; render(); setTimeout(() => { const el = document.getElementById('kArW'); if (el) { el.focus(); el.select(); } }, 40); }));
-        else ch.appendChild(kArSlot());
-      }
-      w.appendChild(ch); axes.appendChild(w);
-    });
+    // (260825 축 회수) 비율·화질·프레임 행 회수 — Kling 화면에서 직접 정하는 값(운영자 «틀에서 정해버리는데» · kArSlot·kRatio = 도먼트 · 복원 = git 역사)
     { // 길이 = 게이지 상시 + 레일 위 프리셋 라벨(8s/10s/15s 클릭) · 직접 드래그 = 라벨 해제 + 값 골드레몬(운영자 260710 "항상 보여지게·라벨 클릭·직접은 노란색") — 칩 행 폐지
       const w = rowEl('길이');
       const PRE = [8, 10, 15];
@@ -737,26 +718,9 @@ function kPayload() {   // go 핸들러 페이로드(서버 api/k.js가 화이�
       const bm = document.createElement('div'); bm.className = 'bunmak'; bm.id = 'bunmak';
       w.appendChild(lb); w.appendChild(bm); axes.appendChild(w);
     }
-    { // 표현1 = 화풍 레일(운영자 260717 "표현1·표현2 = 화풍 레일")
-      const { row, rail } = railRow('표현1 — 실사 베이스', K_VALS['표현1'], v => kSet['표현1'] === v, (v, b) => { kFocusKey = b.dataset.fk; kSet['표현1'] = v; render(); }, 'kEx1Rail');
-      axes.appendChild(row); kRails.push(rail);
-    }
-    { // 표현2 = 화풍 레일(운영자 260717) · 세부 = 보유 화풍일 때 칩 행(레일 아래) · 웹툰 토글 = 종전 · 값·전송 계약(K_VALS) 불변
-      const { row, rail } = railRow('표현2 — 화풍 치환', K_VALS['표현2'], v => kSet['표현2'] === v, (v, b) => { kFocusKey = b.dataset.fk; kSet['표현2'] = v; if (!(K_SUB[v] || []).includes(kSet['세부'])) kSet['세부'] = '기본'; render(); }, 'kEx2Rail');
-      kRails.push(rail);
-      const subs = K_SUB[kSet['표현2']] || [];
-      if (subs.length) { const l2 = document.createElement('label'); l2.className = 'fl'; l2.textContent = '세부 화풍'; l2.style.marginTop = 'var(--sp-1)'; row.appendChild(l2);
-        const ch2 = document.createElement('div'); ch2.className = 'axchips';
-        subs.forEach(v => ch2.appendChild(chipBtn('axchip', v, kSet['세부'] === v, () => { kSet['세부'] = v; render(); })));
-        row.appendChild(ch2); }
-      const wt = kSet['표현2'] === '극화' || kSet['표현2'] === '수채화';
-      const tg = document.createElement('button'); tg.type = 'button'; tg.className = 'ktg' + (wt ? ' show' : '') + (kWebtoon ? ' on' : ''); tg.dataset.fk = 'ktg';
-      tg.textContent = '한국웹툰 스타일'; tg.setAttribute('aria-pressed', String(kWebtoon));   // 워드 토글 = 라벨 자체 점등(운영자 260803 — 구 'ON/OFF' 접미 폐지 · 점등 = .ktg.on 기존 축)
-      tg.addEventListener('click', () => { kWebtoon = !kWebtoon; kFocusKey = 'ktg'; render(); });
-      row.appendChild(tg); axes.appendChild(row);
-    }
-    { // 표현3 = 네거티브 다중선택 화풍 레일(운영자 260717 "표현3도 마찬가지로") · 토글 = 재렌더 없이 색만(스크롤 보존) · 값 계약(kNeg) 불변 · Avoid·🚫 블록 합류 = 종전
-      const { row, rail } = railRow('표현3 — 네거티브', K_VALS['네거티브'], v => kNeg.includes(v), (v, b) => { kNeg = kNeg.includes(v) ? kNeg.filter(x => x !== v) : kNeg.concat(v); const on = kNeg.includes(v); b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on)); geniRailUpd(b.closest('.geni-rail')); drawSpec(); save(); }, 'kEx3Rail');   // geniRailUpd = 폭 변동 후 끝선 페이드·화살표 재계산(적대검증 260717 · 제자리 토글은 render 안 하므로 명시 갱신)
+    // (260825 축 회수) 표현1·표현2·세부·웹툰 행 회수 — 이 화면의 상시 워크플로 = 이미지를 주고 동작만 시키는 것(룩 정본 = 첨부 이미지 · 화풍 선언 = 희석·정체 드리프트 축 · 화풍 전환이 필요하면 이미지 단계에서 바꿔 새 시작 이미지로 · railRow 세부분기·K_SUB·kWebtoon = 도먼트 · 복원 = git 역사)
+    { // 네거티브 = 다중선택 레일(구 「표현3 — 네거티브」 · 표현1·2 회수로 번호 접두 회수 260825) · 토글 = 재렌더 없이 색만(스크롤 보존) · 값 계약(kNeg) 불변 · Avoid·🚫 블록 합류 = 종전
+      const { row, rail } = railRow('네거티브', K_VALS['네거티브'], v => kNeg.includes(v), (v, b) => { kNeg = kNeg.includes(v) ? kNeg.filter(x => x !== v) : kNeg.concat(v); const on = kNeg.includes(v); b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on)); geniRailUpd(b.closest('.geni-rail')); drawSpec(); save(); }, 'kEx3Rail');   // geniRailUpd = 폭 변동 후 끝선 페이드·화살표 재계산(적대검증 260717 · 제자리 토글은 render 안 하므로 명시 갱신)
       axes.appendChild(row); kRails.push(rail);
     }
     { const dv = document.createElement('div'); dv.className = 'kdiv'; axes.appendChild(dv); }   // 표현3(네거티브)↔오디오 구분선(운영자 260717 "오디오랑 구분되게") · index .tb-div border-top --line2 문법 계승
@@ -860,7 +824,7 @@ async function renderOut(md, refPath, outEl) {   // 결과 렌더 공통(폴 성
   outEl.querySelectorAll('.ref img').forEach(im => im.addEventListener('error', () => { const d = document.createElement('div'); d.className = 'refmiss'; d.textContent = '레퍼런스 ' + (im.dataset.ix || '') + '번 이미지 없음/로드 실패 — @ 첨부 주의'; im.replaceWith(d); }, { once: true }));
   // 리롤 행 — "한 변수만"(§9-9) 원탭 재발사: 같은 장면 + [리롤: 축] 마커(api 화이트리스트 · 운영자 260708)
   const rr = document.createElement('div'); rr.className = 'rrrow';
-  rr.innerHTML = '<span class="rrlbl">다시 뽑기 — 한 변수만:</span>' + ['카메라', '조명', '액션', '화풍', '오디오'].map(a => '<button type="button" class="rrbtn" data-ax="' + a + '">' + a + '</button>').join('');
+  rr.innerHTML = '<span class="rrlbl">다시 뽑기 — 한 변수만:</span>' + ['카메라', '조명', '액션', '오디오'].map(a => '<button type="button" class="rrbtn" data-ax="' + a + '">' + a + '</button>').join('');   // (260825) 화풍 리롤 회수 — 이미지 시작 워크플로에서 화풍 재추첨 = 시작 이미지와 충돌 축(표현1·2 폼 회수 동반)
   outEl.appendChild(rr);
   rr.querySelectorAll('.rrbtn').forEach(b => b.onclick = () => {
     const g = $('#go');
