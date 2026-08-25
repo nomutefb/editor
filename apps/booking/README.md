@@ -9,7 +9,10 @@ apps/booking/
   public/admin.html          관리자 화면(명단·수량·현황)
   functions/api/book.js      서버
   test.mjs                   검증 (node test.mjs)
+  인수인계.md                 다음 세션·다른 계정용 인수인계서
 ```
+
+> 코드를 고치거나 다른 저장소로 옮길 거면 **`인수인계.md` 부터 읽어라** — 파일 지도·계약 3종·실측값·다음 후보가 거기 있다.
 
 ---
 
