@@ -824,7 +824,7 @@ function sbPayload() {   // go 핸들러 페이로드(서버 api/sb.js가 화이
     // 이미지 엔진 점등(운영자 260730 "고르는 순간 gemini에 불 들어오게") — 촬영=Seedance면 콘티와 함께 레퍼런스 이미지가 돌아간다(Gemini 종량제 과금 발생) · Kling은 프롬프팅 레인이 따로 뽑으므로 여기선 미과금.
     // 점등 문법 = 요약 스트립 활성값 정본 `.gs-v.on`(edit 계승 — 신규 클래스·신규 색 0).
     // 엔진 표기 = 정본 모델명 텍스트만 `Gemini 3.1 Flash`(index GENI_ENG_ICO 동일 문자열 — 줄임말·창작 라벨 금지) · 구 브랜드 픽토(G_SVG 조합)는 260803 3차 폐지(운영자 "제미나이 로고까지 붙을 필요는 없고 그냥 바로 모델명 써지면 됨").
-    // 콘티 엔진 값. **시댄스 = 무조건 생성 / 클링 = 옵션**(운영자 Q1161 정정본 — 시댄스는 md만 산출해 이미지가 발사 필수 재료 · 클링은 프롬프트가 본체라 @참조 이미지는 옵션).
+    // 콘티 엔진 값. **Seedance·Grok = 무조건 생성 / 모션 = 무조건 OFF**(운영자 260825 화면 분리 지시「로직이 다르니까 분리」 — Kling = 프롬프팅 탭 소관이라 이 화면의 Kling 옵션 축 폐지 · 구 Q1161 「Kling = 옵션」은 역사 기록).
     const gemOn = (sbIsSd(sbShoot) || sbShoot === 'grok') ? true : (sbShoot === 'motion' ? false : sbRef);
     const gemLock = (sbIsSd(sbShoot) || sbShoot === 'motion' || sbShoot === 'grok');   // 강제 축(Seedance = 무조건 ON · 모션그래픽 = 무조건 OFF) = 탭 무효 잠금(정본 `.gs-locked` = 딤 + 핸들러 가드 한 몸)
     const gemV = tapChip(NM_MODELS.gemini, 'ref',   // 표기 = 사전값 1벌(구 리터럴 2종 회수) · 꺼짐 = **같은 워딩 소등**(운영자 260803 "기능 워딩이 점등하냐 안하냐로 onoff" — 구 'Gemini OFF' 문자 갈아끼우기 폐지 · 아래 「콘티」 행 칩과 한 얼굴)
@@ -832,7 +832,7 @@ function sbPayload() {   // go 핸들러 페이로드(서버 api/sb.js가 화이
         ? 'Seedance = 레퍼런스 이미지 무조건 생성(끌 수 없음 · sb_out/&lt;id&gt;/ref.json = 1-way 주입 필수 재료) · Gemini 종량제 과금 — 탭 무효'
         : (sbShoot === 'motion'
             ? '모션그래픽 = 실사 레퍼런스를 쓸 곳이 없다(플랫 도형·숫자·글자만) → 강제 OFF · Gemini 미과금 — 탭 무효'
-            : (sbRef ? 'Kling = 레퍼런스 이미지 생성 ON(옵션 · @참조용) · Gemini 종량제 과금 · 탭=끄기' : 'Kling = 레퍼런스 이미지 OFF(옵션 해제) · Gemini 미과금 · 탭=켜기')),
+            : 'Grok = 콘티 컷 그림이 영상의 첫 장면 재료 = 레퍼런스 무조건 생성(끌 수 없음) · Gemini 종량제 과금 — 탭 무효'),
       { on: gemOn, lock: gemLock });
     // 리드백 2분할(운영자 260803 3차 "옵션에 해당하는 부분만 저기로[네비게이션]" — Q1160 2줄 리모트바 개정):
     //   스트립(도크 아래 예외 칸 = 콘티만) = 1줄 감독│촬영│콘티(엔진) + 2줄 비용 / 옵션(규격 4축)은 코너 레일 값 칩 이주(k·edit·song 정본 문법 합류).
@@ -922,16 +922,16 @@ function sbPayload() {   // go 핸들러 페이로드(서버 api/sb.js가 화이
     }
     // 「프레임」 = 30fps 고정(운영자 260804) — 선택 행 폐지라 렌더할 칩이 없다(값은 SB_DEF·SB_VALS 1값이 담보 · 리드백은 레일 읽기 전용 칩).
     drawLen();   // 「길이」 = 자(ruler) 선택자(운영자 260804) — 칩 나열 대신 눈금 11개(5~15s)
-    // 콘티 엔진 칩 — 시댄스 = 강제 ON·비활성(끌 수 없음) / 클링 = 선택 가능(운영자 Q1161)
-    const refOn = sbIsSd(sbShoot) ? true : (sbShoot === 'motion' ? false : sbRef);
+    // 콘티 엔진 칩 — Seedance·Grok = 강제 ON / 모션 = 강제 OFF(운영자 260825 화면 분리 — Kling 옵션 축 폐지 = sbRef 자유 분기 회수 · 구 Q1161 「Kling = 선택 가능」은 역사 기록)
+    const refOn = (sbShoot === 'motion') ? false : true;   // 남은 촬영 전 레인이 강제 축 — sbRef 자유값은 Kling 시절 축이라 표시에서 회수(발사 페이로드의 강제 축 산식과 한 값 = 표시·발사 갈림 봉합 · 260825 실측 = Grok에서 토글이 눌리는데 발사는 강제 ON이었다)
     rf.textContent = NM_MODELS.gemini;   // 표기 = 모델명 사전값(운영자 260804 「콘티 선택자」 신설 — 구 '참조 이미지' 기능어 라벨은 스트립 리드백 「콘티 : Gemini 3.1 Flash」와 이름이 갈렸다 · 점등/소등이 곧 ON/OFF = 워드 토글 정본 유지)
     rf.classList.toggle('on', refOn); rf.setAttribute('aria-pressed', String(refOn));
-    rf.disabled = (sbIsSd(sbShoot) || sbShoot === 'motion');
+    rf.disabled = true;   // 전 레인 강제 축 = 상태 표시 전용(운영자 260825 화면 분리 — Kling 옵션 축 폐지로 자유 선택 레인이 없다 · 자유 레인이 돌아오면 이 잠금부터 되살릴 것)
     rf.title = sbIsSd(sbShoot)
       ? 'Seedance = 레퍼런스 이미지 강제 ON — md만 산출하는 레인이라 이미지가 발사 필수 재료(끌 수 없음)'
       : (sbShoot === 'motion'
           ? '모션그래픽 = 레퍼런스 이미지 강제 OFF — 플랫 도형·숫자·글자만 그리는 레인이라 실사 참조를 쓸 곳이 없다(켤 수 없음)'
-          : 'Kling = 선택 가능 — ON이면 @참조용 레퍼런스 이미지를 함께 생성(Gemini 종량제)');
+          : 'Grok = 콘티 컷 그림이 영상의 첫 장면 재료 = 레퍼런스 강제 ON(끌 수 없음 · Gemini 종량제)');
     if (snd) {   // 소리 = 그록 레인 전용 축 — 다른 촬영은 이 값을 러너가 안 본다 → 강제 켜짐·비활성(#refTg 잠금 문법 동일)
       const sOn = (sbShoot === 'grok') ? sbSnd : true;
       snd.classList.toggle('on', sOn); snd.setAttribute('aria-pressed', String(sOn));
@@ -955,7 +955,7 @@ function sbPayload() {   // go 핸들러 페이로드(서버 api/sb.js가 화이
   });
   ad.addEventListener('click', () => { sbAd = !sbAd; render(); });
   if (snd) snd.addEventListener('click', () => { if (sbShoot !== 'grok') return; sbSnd = !sbSnd; render(); });   // 그록 아니면 무시 — disabled와 이중 가드(#refTg 동문)
-  rf.addEventListener('click', () => { if (sbIsSd(sbShoot) || sbShoot === 'motion') return; sbRef = !sbRef; render(); });   // 시댄스(강제 ON)·모션(강제 OFF)이면 무시 — disabled와 이중 가드
+  rf.addEventListener('click', () => { return; });   // 전 레인 강제 축 = 무동작(운영자 260825 화면 분리 — Kling 옵션 축 폐지) — disabled와 이중 가드(rowtap 대리 클릭도 disabled 검사로 막힌다)
   // ── 요약칸·코너 레일 값 = 「그 자리」 선택 변경(운영자 260803 5차 "지금 옵션칸에 있는 것들 누르면 다른 선택자로 변경가능하게") ──
   //   정본 = thumb 「편집 요약 스트립 그 자리 토글」(#goSpec `.gs-v.gs-tog` · 운영자 260725 "이거 다 토글 가능하게").
   //   값 변경 로직은 **새로 짜지 않는다** — 아래 「설계」 칸의 정본 칩(`.geni-opt`)·워드 토글(#refTg·#adTg)을 **대신 눌러** 위임 =

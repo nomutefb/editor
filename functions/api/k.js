@@ -32,7 +32,7 @@ export async function onRequestPost({ request, env }) {
   // 모델·설정 마커(개편 P1 · 운영자 260710 스펙) — 화이트리스트 = 임의 문자열 주입 차단(키는 서버 목록만 순회 = 사용자 키 자체를 안 읽음).
   // 값 3면 동기: 이 표 = viewer/k.html K_MODELS/K_VALS = apps/k/01_모델프로필_영상엔진.md 절 — check_refs check_k_models()가 커밋 전 강제.
   // ⚠️ 리터럴 구조(닫기 2칸 들여쓰기·작은따옴표) = check_k_models 정규식 의존 — 재포맷 금지(재감사9).
-  const K_MODELS = ['kling', 'veo', 'seedance'];
+  const K_MODELS = ['kling'];   // seedance·veo 회수(운영자 260825 화면 분리 + 2차 「베오는 빼구」 — Seedance = 콘티 탭 소관 · 구 클라이언트가 보내오면 아래 화이트리스트가 kling 폴백 · 3면 동기 = check_k_models)
   const K_SET = {
     '비율': ['9:16', '16:9', '1:1'],
     '화질': ['720p', '1080p', '2K', '4K'],

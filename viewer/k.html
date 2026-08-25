@@ -385,7 +385,7 @@
   <!-- 모델 선택기 + 설정 축(개편 P1 · 운영자 260710 스펙: 비율→화질→프레임→길이(직접·분막)→표현1/2/3→오디오 · 구도/카메라 = AI 전담 · 축 행은 JS 생성) -->
   <div class="geni-sechead"><span class="cref-lbl">설계</span></div><!-- 소머리 = 콘티(sb) 「설계」 정본 사본 — 아래 축 카드 스택의 구획 머리(운영자 260803 5차) -->
   <div class="ogrid"><!-- 옵션 카드 = 콘티(sb) `.ogrid` 정본 사본(1열 세로 스택 · 카드 = 라벨│값) — 행 생성 JS·id·핸들러 무접촉, 그릇만 회수 -->
-  <div class="axrow kax"><label class="fl axmodel">비디오 모델</label><div class="mgrid" id="mgrid" role="group" aria-label="비디오 모델"></div></div><!-- 설계 우측정렬 픽커 행(운영자 260717 "1을 2 느낌으로") — mgrid JS 채움 불변, .kax CSS만 눕힘 -->
+  <div class="axrow kax" hidden><label class="fl axmodel">비디오 모델</label><div class="mgrid" id="mgrid" role="group" aria-label="비디오 모델"></div></div><!-- 설계 우측정렬 픽커 행(운영자 260717 "1을 2 느낌으로") — mgrid JS 채움 불변, .kax CSS만 눕힘 · ⚠ hidden = 260825 단일 모델화(Kling 전용 화면 — 선택지 1개짜리 선택기는 히트존 게이트 H1 위반이자 존재 이유 0 · 모델 표기 = 위 명세 스트립 「모델 : 」 줄이 담당 · 모델이 둘 이상으로 돌아오면 hidden만 제거) -->
   <div id="axes"></div>
   </div><!-- /.ogrid -->
   <label class="chk"><input type="checkbox" id="refimage" checked><span class="cbox" aria-hidden="true"><svg class="ackm" viewBox="0 0 24 24" fill="none" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path class="sc-dash" d="M6 12h12"/><path class="sc-chk" d="M5 13l4 4L19 7"/></svg></span> 참조 이미지 생성 <span class="eng">Gemini 3.1 Flash</span></label><!-- 엔진 표기 = index GENI_ENG_ICO 정본 문자열(운영자 260803 4차 모델명 통일 — 구 'flash image' 소문자 변형 회수) -->
@@ -477,10 +477,8 @@ const PHOTO_SVG = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" s
 // 구도·앵글·무브·조명·환경 = 축 없음 = AI 전담(운영자 "구도는 사용자가 아예 정하지 못하게 — 네가 제일 적합한 구도 선택").
 // K_VALS = functions/api/k.js K_SET·apps/k/01_모델프로필_영상엔진.md 절과 3면 동기(check_refs check_k_models — 한쪽만 고치면 커밋 rc=1).
 const K_MODELS = [
-  { id: 'kling', nm: NM_MODELS.kling },
-  { id: 'veo', nm: NM_MODELS.veo, draft: true },
-  { id: 'seedance', nm: NM_MODELS.seedance, draft: true }
-];   // 표시명 = NM_MODELS 사전 참조(운영자 260803 5차 배선) · Seedance = 2.0 확정(운영자 260803 5차 "2.0이 맞고" — 구 2.5 초안 표기 회수) · draft = 실측 전 초안 → 리드아웃 🟡 캡션(감사10)
+  { id: 'kling', nm: NM_MODELS.kling }
+];   // 표시명 = NM_MODELS 사전 참조(운영자 260803 5차 배선) · ⚠ seedance·veo 축 회수(운영자 260825 화면 분리 지시「로직이 다르니까 분리」 + 2차 「베오는 빼구」 = Seedance는 콘티 탭[자동 촬영] 소관 · 이 화면 = Kling 복붙 프롬프팅 전용 단일 모델 · 3면 동기 = check_k_models · 복원 = 3면 동시)
 // ⚠️ K_VALS 리터럴 구조(닫기 0칸·작은따옴표) = check_k_models 정규식 의존 — 재포맷 금지(재감사9).
 const K_VALS = {
   '비율': ['9:16', '16:9', '1:1'],
