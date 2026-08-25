@@ -361,9 +361,18 @@ def main():
     #   실측 260819 = 판정 80건 찍은 다음 회차 순증 11건 · 07:35 기사보다 최신인 미판정 103건 > 상한 80.
     #   → 판정 대상 **밖**(mega)일 때만 지운다. 구판 「burst 떨어진 사건의 🚨 눌어붙음 차단」은 이제
     #   재판정(제목·규칙 지문 도장)과 TTL 이 맡는다. 롤백 레버 이름은 판정기와 공유(BREAKING_JUDGE_ALL=0 = 구판).
+    #   ⚠️⚠️ 260825 짝 개정 = 판정기가 mega 제외를 껐으므로(운영자 «큰 사건은 오히려 통과시키게» · 정본 주석 =
+    #   .github/scripts/breaking_judge.py 판정 스코프 절) 이 블록도 같이 연다. **이 짝을 안 맞추면 판정기가 찍은
+    #   도장을 수집(15분)마다 여기서 지운다** = 260819 봉합이 이름 붙인 바로 그 사고의 재현(매 회차 재판정·콜 낭비 ·
+    #   미판정 줄이 안 줄어 상한 80 이 최신분에만 쓰여 조금 이전 기사는 영영 차례가 안 온다). 레버 이름도 판정기와 공유.
     _judge_all = os.environ.get("BREAKING_JUDGE_ALL", "1").strip().lower() not in ("0", "false", "no")
+    _mega_skip = os.environ.get("BREAKING_MEGA_SKIP", "0").strip().lower() in ("1", "true", "yes")
     for c in merged.values():
-        if _is_mega(c) if _judge_all else (not c.get("breaking_candidate")):
+        if _judge_all:
+            drop = _mega_skip and _is_mega(c)          # 판정 대상 **밖**일 때만 지운다 = 레버 ON 이면 구판 동작
+        else:
+            drop = not c.get("breaking_candidate")     # 롤백 레버(BREAKING_JUDGE_ALL=0) = 1차 게이트 술어
+        if drop:
             c.pop("breaking", None)
             c.pop("breaking_rubric", None)
 

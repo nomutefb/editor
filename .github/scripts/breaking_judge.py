@@ -332,8 +332,21 @@ RUBRIC_VER = hashlib.sha256(_RUBRIC_BASE.encode("utf-8")).hexdigest()[:12]
 #   그건 매체 수 하한이 아니라 데이터 신뢰성 상한이다(같은 env 이름 = 정본 scraper/to_candidates.py 와 운영 동기).
 # ⚠ 1차 게이트 플래그 자체는 안 건드린다 — 그 플래그는 경중 채점 대상(gate_judge.surfaced)·화면 검증대기 접기도 함께 쓰므로
 #   전건 True 로 만들면 그 두 축이 같이 무너진다(채점 콜 폭증·접기 무력화). 판정 스코프는 판정기 안에서만 넓힌다.
+# ⚠️⚠️ 260825 봉합 = **위 260819 개정이 남겨둔 마지막 하한을 마저 연다**(운영자 «큰 사건은 오히려 통과시키게»).
+#   그때 mega(over-merge 의심)만 제외로 남겼는데, 실측상 그 술어가 걸러낸 건 묶기 오류가 아니라 **진짜 큰 사건**이었다 —
+#   260825 실사고 = 장미란(제주 실종) 사건이 기사 48~176건 한 덩어리로 묶여 arts>40 에 걸려 **판정 대상에조차 안 올랐고**
+#   그래서 breaking 도장이 영영 안 찍혀 긴급 푸시(is_breaking = breaking ∧ grade≥2)가 원천 불가였다(오늘 관련 5건 전건 미판정).
+#   같은 판 mega 목록 = 인니 규모 7.7 강진 51명 사망(arts 388·g3) · 거제 통영 물폭탄 · 트럼프 한미훈련 축소 = **전부 진짜 사건**이고
+#   전체 후보의 36%(280/779)가 이 술어로 판정에서 빠져 있었다 = 「전국이 다 쓴 사건일수록 알림에서 빠지는」 역설.
+# ⚠ over-merge 를 결정론으로 가려낼 축은 지금 데이터에 없다 — 그 판별 원료였을 `cluster_members` 가 실측 **빈 배열**이라
+#   멤버 제목 응집도를 잴 수단이 없고, arts/cross 비율은 cross 가 20 근처에서 포화해 판별력이 0이다(실측 16~22 균일).
+#   그래서 임계를 새로 지어내지 않고(값 창작 금지) **제외 자체를 끈다** — 판정기가 보는 제목은 어차피 실제 기사 제목이라
+#   알림 문구가 거짓이 되지는 않고, 덩어리에 딴 사건이 섞여 생기는 중복 발사는 푸시 단의 AI 사건중복 억제가 이미 받는다.
+# ⚠ 비용 = 판정 큐가 늘어도 런당 상한(MAX_PER_RUN 80·최신 우선)과 self-gate 재디스패치가 점진 소화 = 콜 폭증 없음.
+# 롤백 레버 = BREAKING_MEGA_SKIP=1 (구판 = mega 판정 제외 복귀 · 짝인 scraper/to_candidates.py 강등 블록과 **같은 이름 공유**).
 MEGA_MEMBERS = int(os.environ.get("BREAKING_MEGA_MEMBERS", "40"))
 MEGA_CROSS = int(os.environ.get("BREAKING_MEGA_CROSS", "18"))
+MEGA_SKIP = os.environ.get("BREAKING_MEGA_SKIP", "0").strip().lower() in ("1", "true", "yes")   # 기본 0 = 큰 사건도 판정한다
 JUDGE_ALL = os.environ.get("BREAKING_JUDGE_ALL", "1").strip().lower() not in ("0", "false", "no")   # 롤백 레버 = 0 이면 구판(1차 게이트 통과분만)
 
 
@@ -384,10 +397,10 @@ def _fresh_for_rejudge(c):
 def needs_judging(c):
     """아직 «현재 규칙 + 현재 제목»으로 판정되지 않았으면 True(미판정 · 규칙 변경 · **제목 변경**).
 
-    스코프 = 1차 게이트(breaking_candidate) 무관 전건 · over-merge(mega)만 제외 — 위 판정 스코프 주석 참조.
+    스코프 = 1차 게이트(breaking_candidate) 무관 · over-merge(mega) 제외도 해제한 **전건**(260825 · 위 주석 참조).
     재판정 창(48h)은 종전 그대로(도장 없는 첫 판정은 나이 무관)."""
-    if _is_mega(c):
-        return False
+    if MEGA_SKIP and _is_mega(c):
+        return False                     # 롤백 레버 ON 일 때만 구판(over-merge 의심 제외) — 기본은 큰 사건도 판정
     if not JUDGE_ALL and not c.get("breaking_candidate"):
         return False                     # 롤백 레버 = 구판 동작(1차 게이트 통과분만)
     return c.get("breaking_rubric") != _stamp(c) and _fresh_for_rejudge(c)
