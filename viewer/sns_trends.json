@@ -7403,8 +7403,14 @@
   {
    "query": "삼성 대 키움",
    "traffic": "20000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/e2e50abe32.webp",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.xportsnews.com/article/2174533",
+     "source": ""
+    }
+   ],
    "vol": 20000,
    "started": "2026-08-25T17:30:00+09:00",
    "isNew": true,
@@ -7509,8 +7515,14 @@
   {
    "query": "오픈ai",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/71b87d8956.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.g-enews.com/article/Global-Biz/2026/08/2026081523012717559a1f309431_1",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-08-25T17:50:00+09:00",
    "delta": -11,
@@ -7579,8 +7591,14 @@
   {
    "query": "xrp",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/506f75b075.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.cbci.co.kr/news/articleView.html?idxno=600828",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-08-25T17:50:00+09:00",
    "delta": -14,
@@ -7593,8 +7611,14 @@
   {
    "query": "수영",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/409bfe9aae.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.joongboo.com/news/articleView.html?idxno=363733647",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-25T17:50:00+09:00",
    "delta": -14,
@@ -7607,8 +7631,14 @@
   {
    "query": "쌀",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/05e78282f4.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.hankyung.com/article/202608198435i",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-25T17:40:00+09:00",
    "isNew": true,
@@ -7887,12 +7917,12 @@
  ],
  "gtrends_pool_updated": "2026-08-25T20:15:00+09:00",
  "_trend_img": {
-  "tried": "2026-08-25T19:36:28+09:00",
+  "tried": "2026-08-25T20:15:00+09:00",
   "fail": {
-   "털": "2026-08-25T18:13:59+09:00",
    "반도체": "2026-08-25T18:47:06+09:00",
    "사표": "2026-08-25T18:47:06+09:00",
-   "담비": "2026-08-25T19:43:13+09:00"
+   "담비": "2026-08-25T19:43:13+09:00",
+   "인천광역시": "2026-08-25T20:23:26+09:00"
   }
  },
  "gtrends_gl": [
@@ -17959,7 +17989,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-08-25T20:15:00+09:00"
+    "first_seen": "2026-08-25T20:15:00+09:00",
+    "kw": "JetBrains, 코딩 에이전트, Claude Code",
+    "sum": "계정이 JetBrains 조사로 코딩 에이전트 채택 현황을 정리했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
