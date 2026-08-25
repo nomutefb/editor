@@ -358,6 +358,26 @@
  "threads": [
   {
    "account": "daily_ai_star",
+   "text": "Codex Harness가 8월 20일 공개되면서 OpenAI가 모델보다 실행층을 밖으로 내놓았습니다.\n\n공개된 범위는 CLI·SDK·App Server와 그 아래 실행 엔진입니다. 저장소는 Apache-2.0으로 배포됩니다. 반면 GPT 모델 가중치와 Codex Cloud 전체가 공개된 것은 아닙니다.\n\n이 구분이 중요합니다. 코딩 에이전트는 모델 호출만으로 완성되지 않습니다. 세션 상태, 도구 호출, 샌드박스, 승인 흐름이 실제 작업을 결정합니다. OpenAI도 내부 제품을 수기 코드 0줄로 만들며, 사람은 방향을 정하고 에이전트는 실행하는 구조를 설명했습니다.\n\n에이전트 경쟁의 다음 기준은 모델을 얼마나 잘 쓰느냐가 아니라, 실행 루프를 제품 안에 얼마나 깊게 심을 수 있느냐입니다.\n\nhttps://github.com/openai/codex",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1787657305,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/Dcdh8eLmeQB",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "요즘 한 기업의 전사적인 AX를 진행하고 있는데, 나갈 때마다 정말 놀라운 결과물들이 많이 나오는 것 같습니다.\n\nMES부터 KPI 분석, ERD 시스템도 봐드리고 직무별 자동화 시스템 구축까지 함께 보고 있는데, 역시 현업에서 일하는 분들이 직접 회사 시스템에 맞춰 구축하다 보니 결과물이 정말 잘 나오더라구요.\n\n오히려 대기업보다 중소기업이 규모가 작고 대응이 빠르다 보니, 보안과 네트워킹 세팅만 잘 잡아드리면 사내에서 빠르게 확산되는 것 같습니다.\n\n결국 같은 회사 안에서 AI를 정말 잘 쓰는 한 사람, 한 부서가 생기면 그게 다른 부서로 퍼지면서 전사적인 확산을 만들어내는 것 같습니다.\n\nFDE도 이런 식으로 부서 to 부서로 확장되는 방식이 훨씬 효율적이고 확산 속도도 빠른 것 같아서, 저도 이 과정에서 많은 데이터를 쌓고 있는 것 같네요.",
+   "likes": 15,
+   "cmts": 2,
+   "time": 1787656722,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/Dcdg2B2jxlE",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
    "text": "JetBrains 조사에서 2026년 5월~7월 전문 개발자의 90%가 업무에서 코딩 에이전트를 일주일에 한 번 이상 사용했습니다.\n\n매일 쓰는 비율도 68%였습니다. 이제 코딩 에이전트는 실험 도구가 아니라 개발 환경의 기본 항목에 가까워졌습니다.\n\n도구별 격차는 더 선명합니다. Claude Code 사용률은 39%로 GitHub Copilot 21%의 거의 두 배였고, Codex는 16%, 오픈소스인 OpenCode는 7%까지 올라왔습니다.\n\n한 도구가 전부를 차지한 것은 아닙니다. 개발자는 여러 에이전트를 함께 쓰고, IDE·터미널·클라우드 실행 환경을 조합하고 있습니다.\n\n앞으로 비교해야 할 기준은 어떤 모델이 가장 똑똑한가보다, 팀의 작업 흐름에 어떤 에이전트 조합이 기본값으로 남는가입니다.\n\nhttps://blog.jetbrains.com/research/2026/08/ai-coding-agent-adoption-2026/",
    "likes": 0,
    "cmts": 0,
@@ -377,16 +397,6 @@
    "region": "kr"
   },
   {
-   "account": "daily_ai_star",
-   "text": "UiPath for Coding Agents가 코딩 에이전트의 작업 범위를 운영 시스템까지 넓혔습니다.\n\n에이전트는 자연어 요청으로 폴더·잡·큐·자산·연결·감사 로그를 조회하고, 패키지와 솔루션을 배포하며, 실행 로그를 모읍니다. 사용자는 명령어가 아니라 원하는 결과를 말합니다.\n\n읽기 작업은 에이전트가 판단해 실행하지만, 생성·수정·삭제는 확인을 받아야 합니다. 로그인한 사용자의 권한을 그대로 상속하고, 기본 작업 범위도 폴더 컨텍스트에 묶입니다.\n\n코딩 에이전트가 코드를 고치는 도구에서 운영 권한을 행사하는 인터페이스로 이동하고 있습니다.\n\n편해진 만큼 이제 비교할 것은 모델의 코드 생성력이 아니라, 어떤 작업을 자동 실행하고 어디서 승인을 멈추게 하는지입니다.\n\nhttps://docs.uipath.com/coding-agents/standalone/latest/user-guide/operate",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1787652079,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DcdX-opGZ3n",
-   "region": "kr"
-  },
-  {
    "account": "choi.openai",
    "text": "풀영상 :\nhttps://www.youtube.com/watch?v=xH7U7w9Qzlo",
    "likes": 2,
@@ -399,10 +409,10 @@
   {
    "account": "choi.openai",
    "text": "리처드 서튼은 현재의 거대언어모델(LLM)이 지능의 전부를 대변하지 못한다고 지적했습니다.\n\n그는 LLM의 언어 능력이 놀라운 과학적 돌파구인 것은 분명하지만, 이는 지능의 20~25% 수준에 불과하며 “모든 지능이 유창한 언어 사용 능력인 것은 아니다”라고 강조했습니다.\n\n진정한 지능(True Intelligence)에 도달하려면 지속적 학습, 추상화 형성, 계획 및 추론 능력을 갖춘 근본적인 아키텍처 혁신이 필수적이라는 분석입니다.\n\n쿠람 자베드 또한 ‘거대한 세계 가설’을 들어 무한한 현실 세계를 단일 시스템이 모두 모델링할 수는 없으며, 각기 다른 경험을 통해 학습하는 다중 지능 시스템이 필연적이라고 설명했습니다.\n\n단순 텍스트 생성의 한계를 넘어, 실시간 경험과 추론을 통해 작동하는 차세대 AGI 아키텍처로 AI 기술 패러다임이 이동하고 있음을 시사합니다.",
-   "likes": 32,
+   "likes": 34,
    "cmts": 4,
    "time": 1787644803,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/786093729_1412416887481918_8370071704983631782_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk3MTM3NDkxNDYxNDY0Mzc0NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=0YLCNByidV4Q7kNvwHEpRbq&_nc_oc=AdrKX1zwxipM_KVgGu3DVz1h9hHP-9zubbS-ZxZP4lizAvz-6mV7bD6RmlUg1LFBDr0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=DI-g03j5fzWIDMwuLQSj2Q&_nc_ss=7a22e&oh=00_AQGQ0vWpi2MrMkw48xrO6RN5Z-DQW2iBFG1wVbP4JYQDuQ&oe=6A932E61",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/786093729_1412416887481918_8370071704983631782_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk3MTM3NDkxNDYxNDY0Mzc0NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=0YLCNByidV4Q7kNvwHEpRbq&_nc_oc=AdrKX1zwxipM_KVgGu3DVz1h9hHP-9zubbS-ZxZP4lizAvz-6mV7bD6RmlUg1LFBDr0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=raifWbJ1L9lkmDHwjpnMSQ&_nc_ss=7a22e&oh=00_AQFtwRYibVSq3cKcF4eyGPo6i5D_TWBjC0BO9J0evRbiwg&oe=6A9366A1",
    "url": "https://www.threads.com/@choi.openai/post/DcdKHGPgMwg",
    "region": "kr"
   },
@@ -412,18 +422,8 @@
    "likes": 0,
    "cmts": 0,
    "time": 1787640661,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/781005809_1418098327092468_1369814332652051767_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk3MTMzOTk2NjY4NDQyMjI2OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=gUitLyEKkAcQ7kNvwHQ5FM1&_nc_oc=AdpiPs5GWIzubyNkPzFkboOgHWHy7CrYA1oEKn4u2OJ6Fpdo4S63exBgoH-b_AwS7QI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=LFQysgjWOK6KLcYyiiUjRg&_nc_ss=7a22e&oh=00_AQHy3C-3L6EXUzk-bN_rZOBQQ43zXXdz6D0FqUFYmzMdeA&oe=6A9357D4",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/781005809_1418098327092468_1369814332652051767_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk3MTMzOTk2NjY4NDQyMjI2OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=gUitLyEKkAcQ7kNvwHQ5FM1&_nc_oc=AdpiPs5GWIzubyNkPzFkboOgHWHy7CrYA1oEKn4u2OJ6Fpdo4S63exBgoH-b_AwS7QI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=zil1hbEDh8-iW5ORnBY7NQ&_nc_ss=7a22e&oh=00_AQE-eVwyjsZbQ4buKPcDKOroCzM3C9NzBOKixQg43lPe4g&oe=6A9357D4",
    "url": "https://www.threads.com/@aipeekme/post/DcdCKiciWB8",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "풀영상 :\nhttps://www.youtube.com/watch?v=xH7U7w9Qzlo",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1787637629,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/Dcc8bVrDUN5",
    "region": "kr"
   },
   {
@@ -432,14 +432,14 @@
    "likes": 1,
    "cmts": 1,
    "time": 1787631914,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/785136821_18082862777407306_4543716646309794113_n.webp?stp=dst-webp_p640x640_sh2.08&_nc_cat=100&ig_cache_key=Mzk3MTI2NjA4OTA3Mzk4OTk3MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=5moDm6EfhrMQ7kNvwGwUfZQ&_nc_oc=AdpPcXn5r4wGJzktpRAJDIN_KC9dYEgDwWfea0Lf261-xhkHh37x4eAQ5sdk1eTTzW0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=LFQysgjWOK6KLcYyiiUjRg&_nc_ss=7a22e&oh=00_AQG-lXn9nNrb7cXHCrrUFMwkijr5Oj4_Ux11jk0107QLQQ&oe=6A933A06",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/785136821_18082862777407306_4543716646309794113_n.webp?stp=dst-webp_p640x640_sh2.08&_nc_cat=100&ig_cache_key=Mzk3MTI2NjA4OTA3Mzk4OTk3MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=5moDm6EfhrMQ7kNvwGwUfZQ&_nc_oc=AdpPcXn5r4wGJzktpRAJDIN_KC9dYEgDwWfea0Lf261-xhkHh37x4eAQ5sdk1eTTzW0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=zil1hbEDh8-iW5ORnBY7NQ&_nc_ss=7a22e&oh=00_AQFWs9tbBddSpYnFtb-9o7x7oGvzIi3os0a-UYKZ5mAf0A&oe=6A933A06",
    "url": "https://www.threads.com/@aipeekme/post/DccxhsdE5Vi",
    "region": "kr"
   },
   {
    "account": "aicoffeechat",
    "text": "프롬프트:",
-   "likes": 401,
+   "likes": 415,
    "cmts": 2,
    "time": 1787615784,
    "thumb": "",
@@ -449,20 +449,20 @@
   {
    "account": "aicoffeechat",
    "text": "챗GPT에서 이미지 기능으로 이렇게 사용하시면 됩니다.",
-   "likes": 161,
+   "likes": 166,
    "cmts": 4,
    "time": 1787615776,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/785943819_17954163495232485_4936733225822237643_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk3MTEzMTQxNDQ4MTY3MTkwMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ3Mi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=F159oHh0qe0Q7kNvwHR1_oQ&_nc_oc=AdprlHH8G31lpyRvtkVLkz18gdM-TGwWj4hiNihDCQrFTMC-v1C3n-CfW9id256n8Mk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=YE3cibVyfWyfDGUjga4HBw&_nc_ss=7a22e&oh=00_AQHJEA-l09c-aBYdof-JtMfx6lPJH1htxF11UkQ0ErRsIw&oe=6A935A08",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/785943819_17954163495232485_4936733225822237643_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk3MTEzMTQxNDQ4MTY3MTkwMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ3Mi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=F159oHh0qe0Q7kNvwHR1_oQ&_nc_oc=AdprlHH8G31lpyRvtkVLkz18gdM-TGwWj4hiNihDCQrFTMC-v1C3n-CfW9id256n8Mk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=nULzr8q3VeA-qevejZccpQ&_nc_ss=7a22e&oh=00_AQF-g4DAAh9LR777911Htx7cesfM12J_51aFc8gAWFAXlg&oe=6A935A08",
    "url": "https://www.threads.com/@aicoffeechat/post/DccSvtEkxbf",
    "region": "kr"
   },
   {
    "account": "aicoffeechat",
    "text": "이 프롬프트는 정말 추천해드리고 싶네요\n\n저의 일상 사진을 일기장에 그린 소중한 사진으로 바꿔줘요. 한번 여러분도 써보셨으면 좋겠어요. 오픈AI에서부터 선물을 받았던 추억과 최근 싱가폴 출장 사진에 사용해봤어요.\n\n나만의 일기장 앱에 넣어두면 최고예요",
-   "likes": 3393,
-   "cmts": 207,
+   "likes": 3559,
+   "cmts": 214,
    "time": 1787615770,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/786313691_17954162844232485_8027533702047331519_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=1&ig_cache_key=Mzk3MTEzMTM1MjIzODIyMjIxMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTQ0OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=9EN9w4vh-JwQ7kNvwHO8JGB&_nc_oc=Adpf4xWBdSGb5g_vqzJSuvbOBgD-yxp99ZvKvPbGCbd1_Wp1-xljbxcyU-WXLEfM348&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=YE3cibVyfWyfDGUjga4HBw&_nc_ss=7a22e&oh=00_AQEhdtE68-qjddlwkJj6dIqdtICcJJGJL5s8PKo6mpDwCQ&oe=6A935859",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/786313691_17954162844232485_8027533702047331519_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=1&ig_cache_key=Mzk3MTEzMTM1MjIzODIyMjIxMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTQ0OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=9EN9w4vh-JwQ7kNvwHO8JGB&_nc_oc=Adpf4xWBdSGb5g_vqzJSuvbOBgD-yxp99ZvKvPbGCbd1_Wp1-xljbxcyU-WXLEfM348&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=nULzr8q3VeA-qevejZccpQ&_nc_ss=7a22e&oh=00_AQEge0dSTgA0daqJxmVQJWJXyfPOa_a7eDiDUKdn3tB2lw&oe=6A935859",
    "url": "https://www.threads.com/@aicoffeechat/post/DccSu8WExVi",
    "region": "kr"
   },
@@ -508,31 +508,31 @@
   },
   {
    "account": "daily_ai_star",
-   "text": "에이전트별 컨테이너, 워크스페이스, 브라우저 프로필을 분리하면서도 LangGraph·CrewAI·Pydantic AI 등 AG-UI를 말하는 에이전트는 연결할 수 있습니다.\n\n반대로 편의 기능의 기본값은 보수적입니다. 정책이 없으면 허용하지 않고, 읽기로 분류되지 않은 MCP 도구는 쓰기로 취급합니다. 비밀값은 대화 기록에 들어가지 않습니다.\n\n아직 알파 단계라 운영 안정성은 더 확인해야 합니다. 다만 에이전트를 ‘무엇이든 할 수 있는 봇’이 아니라, 역할·권한·컴퓨터·감사 기록을 가진 작업자로 정의한 점은 분명합니다.\n\nhttps://github.com/CopilotKit/openbot",
+   "text": "UiPath for Coding Agents가 코딩 에이전트의 작업 범위를 운영 시스템까지 넓혔습니다.\n\n에이전트는 자연어 요청으로 폴더·잡·큐·자산·연결·감사 로그를 조회하고, 패키지와 솔루션을 배포하며, 실행 로그를 모읍니다. 사용자는 명령어가 아니라 원하는 결과를 말합니다.\n\n읽기 작업은 에이전트가 판단해 실행하지만, 생성·수정·삭제는 확인을 받아야 합니다. 로그인한 사용자의 권한을 그대로 상속하고, 기본 작업 범위도 폴더 컨텍스트에 묶입니다.\n\n코딩 에이전트가 코드를 고치는 도구에서 운영 권한을 행사하는 인터페이스로 이동하고 있습니다.\n\n편해진 만큼 이제 비교할 것은 모델의 코드 생성력이 아니라, 어떤 작업을 자동 실행하고 어디서 승인을 멈추게 하는지입니다.\n\nhttps://docs.uipath.com/coding-agents/standalone/latest/user-guide/operate",
    "likes": 0,
    "cmts": 0,
-   "time": 1787650538,
+   "time": 1787652079,
    "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DcdVCf-GWaw",
+   "url": "https://www.threads.com/@daily_ai_star/post/DcdX-opGZ3n",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "강화학습의 대가 리처드 서튼(Rich Sutton)과 쿠람 자베드(Khurram Javed)는 1조 개 파라미터 모델을 인간의 뇌 수준인 ‘20W’ 전력으로 구동하는 초고효율 지능이 “충분히 도달 가능한 범위”에 있다고 밝혔습니다.\n\n현재 하드웨어로는 1조 개 매개변수를 메모리에 올리는 것조차 20W를 초과하지만, 자베드는 “올바른 알고리즘과 연산 효율의 진보가 뒷받침된다면 5~10년 내에 실현 가능한 세상이 올 것”이라고 전망했습니다.\n\n서튼은 무어의 법칙에 따라 10년이면 2단계의 크기(100배) 효율 혁신이 발생한다며, 오늘날 2,000W가 필요한 연산도 10년 뒤에는 20W로 압축될 수 있다고 계산했습니다.",
-   "likes": 27,
-   "cmts": 1,
-   "time": 1787637619,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/786069679_1044435535018948_8521693539515106366_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk3MTMxNDY1MDczODE1MzMxMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Dbfid5MesmMQ7kNvwF-z4lh&_nc_oc=AdqOisUOo2-gA8AMlvbH17BbtjGmvGuuAi-zU-nsK6nYnICA01tg_B86iVkXDgraLhk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=DI-g03j5fzWIDMwuLQSj2Q&_nc_ss=7a22e&oh=00_AQHcozxd5e9znS23RLfS_dvEPt3IVaMmmQPww_tCW4VD2w&oe=6A934CFB",
-   "url": "https://www.threads.com/@choi.openai/post/Dcc8aJIjVdh",
+   "text": "풀영상 :\nhttps://www.youtube.com/watch?v=xH7U7w9Qzlo",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1787637629,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/Dcc8bVrDUN5",
    "region": "kr"
   },
   {
    "account": "aicoffeechat",
    "text": "AI 시대의 CEO는 지시하는 사람이 아니라 직접 만지는 사람. \n\n토비는 CEO인데도 직접 소프트웨어를 짜고, 직접 실험하고, 모델 성능에 대해 상세한 피드백을 보낸다. 보고서로 AI를 이해하려는 CEO는 이미 6개월 뒤처져 있다. 사실 맞는 말이다. 기술의 감도는 브리핑으로 전달되지 않기 때문이다. 손을 댄 사람만 지금 뭐가 되고 뭐가 안 되는지 알 수 있다.\n\n왜 샘알트만이 극찬하는지는 최근 토비의 글만 보더라도 알 수 있다",
-   "likes": 28,
+   "likes": 29,
    "cmts": 3,
    "time": 1787614810,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/785599678_1360927332824332_8693917013343387841_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk3MTExMzYxNzE2MDAyMDU0OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=rMvy93DLTYUQ7kNvwEFZNsd&_nc_oc=Adrh_p6f_C5tZjhbAt98Oa1no1csxZu0KJGZoM4xXd2oXWixkFxy7xeMNVCOsj2Bav8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=YE3cibVyfWyfDGUjga4HBw&_nc_ss=7a22e&oh=00_AQFqiAyuB1O1kUfBF9Qrey2ndddharx2nPqoy85rQAHe3g&oe=6A9351F5",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/785599678_1360927332824332_8693917013343387841_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk3MTExMzYxNzE2MDAyMDU0OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=rMvy93DLTYUQ7kNvwEFZNsd&_nc_oc=Adrh_p6f_C5tZjhbAt98Oa1no1csxZu0KJGZoM4xXd2oXWixkFxy7xeMNVCOsj2Bav8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=nULzr8q3VeA-qevejZccpQ&_nc_ss=7a22e&oh=00_AQEfGdI8Mt64xE2yKGPg9wAlH4qOrS5gBBqaCevGJTCCAg&oe=6A9351F5",
    "url": "https://www.threads.com/@aicoffeechat/post/DccOsuBiiJF",
    "region": "kr"
   },
@@ -542,7 +542,7 @@
    "likes": 3,
    "cmts": 1,
    "time": 1787612478,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/783947973_18082820366407306_7431700578944574320_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk3MTEwMzY4OTAzMzMyMjk5NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQzOS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=VN8ZqB8x1FoQ7kNvwFlgdHn&_nc_oc=Adqob5t5cSEXlVuL6J7TsZgJ7Cl2WCLg5IWGaibZ7RSxeiD-k7_9aiHVj4WadNnVaIY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=LFQysgjWOK6KLcYyiiUjRg&_nc_ss=7a22e&oh=00_AQEFOsGmp-hp7LR1yVwElHZJR_1CTWRvNiqcLygqv517xA&oe=6A935DEA",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/783947973_18082820366407306_7431700578944574320_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk3MTEwMzY4OTAzMzMyMjk5NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQzOS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=VN8ZqB8x1FoQ7kNvwFlgdHn&_nc_oc=Adqob5t5cSEXlVuL6J7TsZgJ7Cl2WCLg5IWGaibZ7RSxeiD-k7_9aiHVj4WadNnVaIY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=zil1hbEDh8-iW5ORnBY7NQ&_nc_ss=7a22e&oh=00_AQFnPyEdbR87cZ2uOt8qtaQhlw4rblCT5hggztZYkQy7Wg&oe=6A935DEA",
    "url": "https://www.threads.com/@aipeekme/post/DccMcPvExHz",
    "region": "kr"
   },
@@ -552,7 +552,7 @@
    "likes": 48,
    "cmts": 6,
    "time": 1787578831,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/783183764_17933576769362958_4569395714371319868_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk3MDgyMTQ5NDg2NzQzMzEwMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTcyNC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=HcWxT1GLZlUQ7kNvwEisxVb&_nc_oc=AdoMp4_916aYc-fM-d_suVYyO6ym3VHHvXDVc7C0FchQeId2EAVEJM7tJ8F-OwwCp_k&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=THyGPosyv_PY0nQg4WLyOg&_nc_ss=7a22e&oh=00_AQGE_2RbEQhSMQyU4L8ApbSNGwFgliXdw12VCVFwNuymaA&oe=6A936497",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/783183764_17933576769362958_4569395714371319868_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk3MDgyMTQ5NDg2NzQzMzEwMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTcyNC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=HcWxT1GLZlUQ7kNvwEisxVb&_nc_oc=AdoMp4_916aYc-fM-d_suVYyO6ym3VHHvXDVc7C0FchQeId2EAVEJM7tJ8F-OwwCp_k&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=fFTLOgCbCW-1LqtGepv9OA&_nc_ss=7a22e&oh=00_AQEx5lj6BtHVVCseyFknRz_V1B5Xl84A4vUMIHog7kwSsg&oe=6A936497",
    "url": "https://www.threads.com/@takepage_/post/DcbMRx8DxaN",
    "region": "kr"
   }
@@ -575,7 +575,7 @@
    "views": 1600000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAbAoCECNeDAVDgQBcAkFzYBfoUADqQCQWIuZl~tplv-tiktokx-origin.image?dr=14575&x-expires=1787828400&x-signature=Zs7q2%2Bp%2B7O7SNoP8ujpHAQyx4eI%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAbAoCECNeDAVDgQBcAkFzYBfoUADqQCQWIuZl~tplv-tiktokx-origin.image?dr=14575&x-expires=1787828400&x-signature=25eIr9D7UkHyaX72AjEa20YijUs%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785471372,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7668541152869616914",
    "region": "kr"
@@ -583,7 +583,7 @@
   {
    "account": "jaemyung_lee",
    "title": "이번 정류장은 브라질입니다 #이재명 #대통령 #Brasil #Brazil",
-   "views": 760900,
+   "views": 761000,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooBGAi8A6InMPiZBpU9fBkTRtAAwBKw0m1E0Ag~tplv-tiktokx-origin.image?dr=14575&x-expires=1787828400&x-signature=Rio%2F5mAzkxWiySHgCnx1qgNnOzg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -605,10 +605,10 @@
   {
    "account": "jaemyung_lee",
    "title": "이번 정류장은 칠레입니다🇰🇷🇨🇱 #이재명 #대통령 #Chile #Corea",
-   "views": 366200,
+   "views": 366300,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQpDHATAEBzAIGFgqwDA4hofdRfVCsCaqEBIkL~tplv-tiktokx-origin.image?dr=14575&x-expires=1787828400&x-signature=3bP52ATO8qb6yijCnc%2Bljr0TYe4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQpDHATAEBzAIGFgqwDA4hofdRfVCsCaqEBIkL~tplv-tiktokx-origin.image?dr=14575&x-expires=1787828400&x-signature=oK%2FxvThktiYAr%2FPNXvTyM0eYHLg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785365622,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7668086960883354887",
    "region": "kr"
@@ -616,10 +616,10 @@
   {
    "account": "jaemyung_lee",
    "title": "프랑크푸르트에 도착했습니다🇰🇷🇩🇪 #이재명 #deutschland #frankfurt",
-   "views": 259200,
+   "views": 259400,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1787828400&x-signature=AdoZI1C70xqlP0ffsMzBKYwJ4xU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1787828400&x-signature=pdeF4dbQYoSbGdZMwTQckU7l3uk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785656353,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7669335640793763079",
    "region": "kr"
@@ -652,7 +652,7 @@
    "views": 133800,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okkIgGYEt7AlB4qvUF5yCAEAjD8vfKAfVACbBp~tplv-tiktokx-origin.image?dr=14575&x-expires=1787828400&x-signature=POsOjxQQj7gHga3m25KUshW4630%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/okkIgGYEt7AlB4qvUF5yCAEAjD8vfKAfVACbBp~tplv-tiktokx-origin.image?dr=14575&x-expires=1787828400&x-signature=2S5IiqU5SMsEK5gcjer2KZ1QuMY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1784911601,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7666136953456315666",
    "region": "kr"
@@ -671,10 +671,10 @@
   {
    "account": "tictok_ent",
    "title": "박규영, 아침부터 미모 열일 / 아워글래스(HOURGLASS) 팝업 포토월 #박규영 #아워글래스 #HOURGLASS",
-   "views": 3271,
+   "views": 3327,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oUDPINKKABuclCBuAAwinRmqEfl211iBiAs9LA~tplv-tiktokx-origin.image?dr=14575&x-expires=1787828400&x-signature=tIFcCXHeOkdnaBxrkW371Hh61bo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oUDPINKKABuclCBuAAwinRmqEfl211iBiAs9LA~tplv-tiktokx-origin.image?dr=14575&x-expires=1787828400&x-signature=VehOO9KSE%2FpFE9h%2Bbe8Kz%2FA%2Bl84%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1787535859,
    "url": "https://www.tiktok.com/@tictok_ent/video/7677408056661036308",
    "region": "kr"
@@ -692,6 +692,15 @@
   }
  ],
  "reddit": [
+  {
+   "sub": "Steam",
+   "title": "How time flies",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/52qkq82k1glh1.jpeg?width=640&crop=smart&auto=webp&s=8f4ba9233238e49a82faf27b0d81de63c4bff7c0",
+   "time": 1787630064,
+   "url": "https://www.reddit.com/r/Steam/comments/1vxp19b/how_time_flies/"
+  },
   {
    "sub": "AskReddit",
    "title": "Anyone who used the internet between 1997 - 2015: What’s a website you still think about?",
@@ -711,6 +720,15 @@
    "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1vxhr98/my_husband_must_have_all_of_his_shoes_lined_up/"
   },
   {
+   "sub": "MurderedByWords",
+   "title": "Wait till she learns what the US does to terrorists",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/hhl2z0jkohlh1.jpeg?width=640&crop=smart&auto=webp&s=30614e746ac0ddafce6211eff01064af7d7610cb",
+   "time": 1787649906,
+   "url": "https://www.reddit.com/r/MurderedByWords/comments/1vxuuen/wait_till_she_learns_what_the_us_does_to/"
+  },
+  {
    "sub": "technology",
    "title": "YouTube Premium is getting yet another price hike for users across the globe",
    "score": 0,
@@ -718,15 +736,6 @@
    "thumb": "https://external-preview.redd.it/u0wOTHOL4kXGA8rnSDbD5S9FSQG_jONtH7lHD6c2BPk.jpeg?width=640&crop=smart&auto=webp&s=adc3fe00ff5389b25712ad28f0c26d4c98675d60",
    "time": 1787584051,
    "url": "https://www.reddit.com/r/technology/comments/1vx5g5o/youtube_premium_is_getting_yet_another_price_hike/"
-  },
-  {
-   "sub": "Steam",
-   "title": "How time flies",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/52qkq82k1glh1.jpeg?width=640&crop=smart&auto=webp&s=8f4ba9233238e49a82faf27b0d81de63c4bff7c0",
-   "time": 1787630064,
-   "url": "https://www.reddit.com/r/Steam/comments/1vxp19b/how_time_flies/"
   },
   {
    "sub": "dashcams",
@@ -738,13 +747,13 @@
    "url": "https://www.reddit.com/r/dashcams/comments/1vxk5ws/my_buddy_in_the_slow_lane/"
   },
   {
-   "sub": "Damnthatsinteresting",
-   "title": "The Sebright Chicken Looks Like It Still Needs to Be Colored In.",
+   "sub": "HolUp",
+   "title": "if he actually guessed her name",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/enZ6d2lyaDZyZmxoMXaAhz2wf2-OoAck7zD-CoOG6FMFE8Os4XBkqm3_lOS1.png?width=320&crop=smart&auto=webp&s=5af21049e21ea5b466c7c8c56dfe08ab0ee5e7d6",
-   "time": 1787626437,
-   "url": "https://www.reddit.com/r/Damnthatsinteresting/comments/1vxnsm7/the_sebright_chicken_looks_like_it_still_needs_to/"
+   "thumb": "https://preview.redd.it/2vhj62kvuglh1.jpeg?width=640&crop=smart&auto=webp&s=fab38690e38bdee67c4621b4bde8edefb1b38688",
+   "time": 1787639792,
+   "url": "https://www.reddit.com/r/HolUp/comments/1vxs02x/if_he_actually_guessed_her_name/"
   },
   {
    "sub": "Baking",
@@ -756,42 +765,6 @@
    "url": "https://www.reddit.com/r/Baking/comments/1vx79b9/made_myself_a_birthday_cake_for_the_4th_year_in_a/"
   },
   {
-   "sub": "AmItheAsshole",
-   "title": "AITA for expecting my niece to pay a ticket she got with my car",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "",
-   "time": 1787602645,
-   "url": "https://www.reddit.com/r/AmItheAsshole/comments/1vxe6mu/aita_for_expecting_my_niece_to_pay_a_ticket_she/"
-  },
-  {
-   "sub": "SipsTea",
-   "title": "Facts",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/is1fzzpbjflh1.jpeg?width=640&crop=smart&auto=webp&s=6d063fdf1964d1b55477f4d3f3327ad50728adf7",
-   "time": 1787623793,
-   "url": "https://www.reddit.com/r/SipsTea/comments/1vxmuaj/facts/"
-  },
-  {
-   "sub": "HolUp",
-   "title": "if he actually guessed her name",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/2vhj62kvuglh1.jpeg?width=640&crop=smart&auto=webp&s=fab38690e38bdee67c4621b4bde8edefb1b38688",
-   "time": 1787639792,
-   "url": "https://www.reddit.com/r/HolUp/comments/1vxs02x/if_he_actually_guessed_her_name/"
-  },
-  {
-   "sub": "worldnews",
-   "title": "Former Pussy Riot member escapes Russia after 3 years of forced work for FSB",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/0-eV3TcfE-ozo_NpRfZIFlLLJ27qco7vI592Nk5vDEg.png?width=640&crop=smart&auto=webp&s=d34d75a4e9c8d23132fab7e18a65c7ab3a016a70",
-   "time": 1787637339,
-   "url": "https://www.reddit.com/r/worldnews/comments/1vxra8b/former_pussy_riot_member_escapes_russia_after_3/"
-  },
-  {
    "sub": "SipsTea",
    "title": "What do yall think about this ?",
    "score": 0,
@@ -799,28 +772,38 @@
    "thumb": "https://preview.redd.it/im81kd6qcglh1.jpeg?width=640&crop=smart&auto=webp&s=46ba7ad269256637aa87ba1812c2dd71ae57711e",
    "time": 1787633679,
    "url": "https://www.reddit.com/r/SipsTea/comments/1vxq6gf/what_do_yall_think_about_this/"
+  },
+  {
+   "sub": "interestingasfuck",
+   "title": "Chinese Laundry Detergent Advertisement",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/b2k5amE4b2twaGxoMeG68VwKPyfhwZqKPDhJoSghC-tsckm9NuojZxQIbQe8.png?width=320&crop=smart&auto=webp&s=d2cd54d9b5ef033f1cc416396117f1850deb60a0",
+   "time": 1787650112,
+   "url": "https://www.reddit.com/r/interestingasfuck/comments/1vxuwim/chinese_laundry_detergent_advertisement/"
+  },
+  {
+   "sub": "Damnthatsinteresting",
+   "title": "The Sebright Chicken Looks Like It Still Needs to Be Colored In.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/enZ6d2lyaDZyZmxoMXaAhz2wf2-OoAck7zD-CoOG6FMFE8Os4XBkqm3_lOS1.png?width=320&crop=smart&auto=webp&s=5af21049e21ea5b466c7c8c56dfe08ab0ee5e7d6",
+   "time": 1787626437,
+   "url": "https://www.reddit.com/r/Damnthatsinteresting/comments/1vxnsm7/the_sebright_chicken_looks_like_it_still_needs_to/"
+  },
+  {
+   "sub": "cats",
+   "title": "She has a lots of superpower",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/ZXVyZnd2OXBtaGxoMfzR8oIFTOVJT8mPRfxacbRsT1oBKX2MwIJ39xJ3BE52.png?width=320&crop=smart&auto=webp&s=7123343951ef3d8d44616821e7258c845901b81a",
+   "time": 1787649144,
+   "url": "https://www.reddit.com/r/cats/comments/1vxumh3/she_has_a_lots_of_superpower/"
   }
  ],
  "disaster": [],
  "_cover": {
   "ok": {
-   "x": [
-    "64bitcoinkr",
-    "awaken_eyes",
-    "economysniper0",
-    "freedom_73x",
-    "globalbrief_now",
-    "jajaja7878uu",
-    "kyunghyang",
-    "marionawfal"
-   ],
-   "insta": [
-    "aespa_official",
-    "blackpinkofficial",
-    "bts.bighitofficial",
-    "koreadispatch",
-    "newjeans_official"
-   ],
    "threads": [
     "aicoffeechat",
     "aipeekme",
@@ -837,28 +820,33 @@
   },
   "why": {
    "insta": {
-    "jennierubyjane": "rotate",
-    "xxxibgdrgn": "rotate",
-    "hm_son7": "rotate",
-    "sbsnow_insta": "rotate",
-    "mnet_official": "rotate",
-    "openai": "rotate",
-    "runwayapp": "rotate",
-    "pika_labs": "rotate",
-    "lumalabsai": "rotate",
-    "midjourney": "rotate",
-    "klingai_official": "rotate",
-    "heygen_official": "rotate",
-    "higgsfield.ai": "rotate",
-    "googledeepmind": "rotate",
-    "cristiano": "rotate"
+    "koreadispatch": "gap",
+    "bts.bighitofficial": "gap",
+    "blackpinkofficial": "gap",
+    "newjeans_official": "gap",
+    "aespa_official": "gap",
+    "jennierubyjane": "gap",
+    "xxxibgdrgn": "gap",
+    "hm_son7": "gap",
+    "sbsnow_insta": "gap",
+    "mnet_official": "gap",
+    "openai": "gap",
+    "runwayapp": "gap",
+    "pika_labs": "gap",
+    "lumalabsai": "gap",
+    "midjourney": "gap",
+    "klingai_official": "gap",
+    "heygen_official": "gap",
+    "higgsfield.ai": "gap",
+    "googledeepmind": "gap",
+    "cristiano": "gap"
    }
   },
   "landing": {
-   "at": "2026-08-25T19:31:28",
+   "at": "2026-08-25T20:05:41",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-25T20:05:34.285020+09:00"
+ "updated": "2026-08-25T20:31:24.669350+09:00"
 }
