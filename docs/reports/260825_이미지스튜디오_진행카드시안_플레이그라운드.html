@@ -1,0 +1,540 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>이미지 스튜디오 · 제작 진행 카드 시안 — 플레이그라운드</title>
+<style>
+ :root{
+   /* viewer/index.html :root 토큰 사본(실측 260825) — 값 창작 0 */
+   --bg:#121212; --fg:#eef7f0; --mut:#8fa697;
+   --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.06);
+   --accent:#00EED2; --accent-rgb:0,238,210;
+   --accent-4:#FFE13D; --accent-4-rgb:255,225,61;
+   --accent-5:#0FFD02; --accent-5-rgb:15,253,2;
+   --accent-6:#FF5EC8;
+   --bias-l1:#38C6FF; --bias-l1-rgb:56,198,255;
+   --danger:#e23b2a; --danger-rgb:226,59,42;
+   --glass2:rgba(18,19,22,.55); --modal-glass:rgba(17,18,20,.64);
+   --r-s:9px; --r-m:11px; --r-l:16px; --r-pill:999px;
+   --sp-1:6px; --sp-2:12px; --sp-3:18px;
+   --blur-s:8px; --blur-m:14px; --blur-l:22px;
+   --btn:34px; --btn-sm:30px; --btn-xs:22px;
+   --fs-xs:11px; --fs-sm:12px; --fs-label:13px; --fs-h3:14px; --fs-h2:15px;
+   --fw-b:700; --fw-x:800;
+   --dur:.18s; --dur-fast:.12s; --ease:cubic-bezier(.2,.7,.3,1);
+   --press-l:.95; --press-s:.85;
+ }
+ *{box-sizing:border-box}
+ body{margin:0;background:#0b0d0f;color:var(--fg);font-family:Pretendard,system-ui,-apple-system,'Noto Sans KR',sans-serif;padding:18px 16px 44px;max-width:1280px;margin-inline:auto;line-height:1.5}
+ h1{font-size:24px;font-weight:800;margin:0 0 6px;letter-spacing:-.4px}
+ .sub{color:var(--mut);font-size:14px;margin:0 0 14px;line-height:1.65}
+ .sub b{color:var(--accent)}
+ .wrap{display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap}
+ .left{flex:0 0 356px;position:sticky;top:10px;max-height:calc(100dvh - 20px);overflow:auto}
+ @media(max-width:900px){.left{position:sticky;top:0;flex:1 1 100%;max-height:62dvh;background:#0b0d0f;padding-bottom:8px;z-index:5;border-bottom:1px solid var(--line)}}
+ .right{flex:1 1 470px;min-width:300px}
+ .card{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:13px}
+ .card h2{font-size:14.5px;font-weight:700;margin:0 0 9px;letter-spacing:-.2px}
+ .stagecap{color:var(--mut);font-size:12px;text-align:center;margin-top:7px;line-height:1.6}
+
+ /* ── 폰 프레임(실사용 화면비 9:18) ── */
+ .phone{width:100%;max-width:330px;aspect-ratio:9/18;border-radius:26px;overflow:hidden;position:relative;border:1px solid rgba(255,255,255,.14);box-shadow:0 18px 50px rgba(0,0,0,.55);margin:0 auto;background:var(--bg)}
+ .papp{position:absolute;inset:0;overflow:auto;padding:11px 10px 12px;display:flex;flex-direction:column;gap:8px}
+ .phd{display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:800;letter-spacing:-.3px}
+ .phd u{text-decoration:none;color:var(--accent-4)}
+ .ptabs{display:flex;gap:5px;margin-top:1px}
+ .ptabs i{font-style:normal;font-size:9.5px;font-weight:700;color:var(--mut);border:1px solid var(--line);border-radius:var(--r-pill);padding:3px 7px}
+ .ptabs i.on{color:var(--accent-4);border-color:rgba(255,225,61,.4);background:rgba(255,225,61,.1)}
+ .ppv{border:1px solid var(--line);border-radius:var(--r-s);background:rgba(8,15,11,.34);height:112px;display:flex;align-items:center;justify-content:center;color:var(--mut);font-size:10.5px;position:relative;overflow:hidden}
+ .ppv b{font-weight:600}
+ .prailh{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:var(--fg);margin-top:2px}
+ .prailh s{flex:1;text-decoration:none;height:1px;background:var(--line)}
+
+ /* ── 잡 행 정본(viewer/nm-job.css 실측 사본 · 값 신설 0) ── */
+ .job{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:12px;padding:8px 11px;border-radius:var(--r-s);background:rgba(8,15,11,.34);border:1px solid var(--line)}
+ .job .jlab{font-weight:800;color:var(--accent)}
+ .job .jlab .tplnm{color:var(--accent-5)}
+ .job .jlab .post{color:var(--bias-l1)}
+ .job .jlab .jno{color:rgba(255,255,255,.5)}
+ .job .jst{margin-left:auto;color:var(--mut);white-space:nowrap;display:inline-flex;align-items:center;gap:5px}
+ .job .jst .jsec{color:var(--fg);font-variant-numeric:tabular-nums}
+ .job .jdel{flex:none;display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;color:rgba(255,255,255,.6);background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:8px}
+ .job .jdel svg{display:block;width:14px;height:14px}
+ .odots{display:inline-flex;gap:2.5px;align-items:flex-end;height:12px}
+ .odots i{width:3px;height:3px;border-radius:50%;background:var(--accent);display:block;animation:obounce .9s var(--ease) infinite}
+ .odots i:nth-child(2){animation-delay:.12s} .odots i:nth-child(3){animation-delay:.24s}
+ @keyframes obounce{0%,100%{transform:translateY(0)}45%{transform:translateY(-4px)}}
+
+ /* ── 시안 적용판(튜닝 스코프) ── */
+ .app{
+   /* ⚠ 기본값 = 현행 실측값 아님이 아니라 '시안 최소 적용' 기준 — 현행은 아래 baseline 카드로 항상 병기 */
+   --t-pad:11; --t-radius:9; --t-bg:.34; --t-line:.08;
+   --t-fs:12; --t-headfs:12; --t-gap:8;
+   --t-ring:44; --t-ringw:4; --t-ringgap:6; --t-ringfs:11;
+   --t-mini:26; --t-miniw:3; --t-minilap:9;
+   --t-steps:1; --t-stepfs:11; --t-steprow:22; --t-stepnum:15; --t-stepdim:.45;
+   --t-viz:1; --t-vizh:64; --t-vizw:44; --t-vizop:.85; --t-vizfade:.35;
+   --t-fold:1; --t-shine:0;
+   --t-ringc:var(--accent); --t-ringc-rgb:var(--accent-rgb);
+   --t-stepc:var(--accent); --t-vizc:var(--accent);
+ }
+ .app .job{padding:calc(var(--t-pad) * 1px * .73) calc(var(--t-pad) * 1px);border-radius:calc(var(--t-radius) * 1px);background:rgba(8,15,11,var(--t-bg));border-color:rgba(255,255,255,var(--t-line));font-size:calc(var(--t-fs) * 1px);gap:calc(var(--t-gap) * 1px);flex-direction:column;align-items:stretch}
+ .app .jhead{display:flex;align-items:center;gap:calc(var(--t-gap) * 1px);width:100%}
+ .app .jhead .jlab{font-size:calc(var(--t-headfs) * 1px)}
+ .app .jfold{margin-left:auto;flex:none;display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;color:var(--mut);background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:var(--r-pill);padding:4px 9px;cursor:pointer;font-family:inherit;transition:transform var(--dur-fast),color var(--dur),border-color var(--dur)}
+ .app .jfold:hover{color:var(--fg);border-color:rgba(var(--accent-rgb),.4)}
+ .app .jfold:active{transform:scale(var(--press-l))}
+ .app .jfold svg{display:block;width:10px;height:10px}
+ .app .jbody{display:flex;align-items:center;gap:calc(var(--t-ringgap) * 1px);width:100%}
+ .app .jsteps{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:2px}
+ .app .jact{display:flex;align-items:center;gap:6px;height:calc(var(--t-steprow) * 1px);font-size:calc(var(--t-stepfs) * 1px);color:var(--mut);opacity:var(--t-stepdim);transition:opacity var(--dur),color var(--dur)}
+ .app .jact u{flex:none;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;width:calc(var(--t-stepnum) * 1px);height:calc(var(--t-stepnum) * 1px);border-radius:50%;border:1px solid var(--line);font-size:calc(var(--t-stepfs) * 1px * .78);font-weight:700}
+ .app .jact.on{opacity:1;color:var(--fg)}
+ .app .jact.on u{color:var(--t-stepc);border-color:var(--t-stepc)}
+ .app .jact.ok{opacity:calc(var(--t-stepdim) + .3)}
+ .app .jact.ok u{color:var(--t-stepc);border-color:rgba(var(--t-ringc-rgb),.4)}
+ .app .jact svg{display:block;width:9px;height:9px}
+ .app .jring{flex:none;position:relative;width:calc(var(--t-ring) * 1px);height:calc(var(--t-ring) * 1px)}
+ .app .jring svg{display:block;width:100%;height:100%;transform:rotate(-90deg)}
+ .app .jring .rtx{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:calc(var(--t-ringfs) * 1px);font-weight:800;color:var(--t-ringc);font-variant-numeric:tabular-nums;letter-spacing:-.3px}
+ .app .jviz{flex:none;width:calc(var(--t-vizw) * 1%);height:calc(var(--t-vizh) * 1px);border-radius:var(--r-s);overflow:hidden;position:relative;opacity:var(--t-vizop)}
+ .app .jviz canvas{display:block;width:100%;height:100%}
+ .app .jviz::after{content:'';position:absolute;inset:0;background:linear-gradient(to left,rgba(8,15,11,0),rgba(8,15,11,var(--t-vizfade)));pointer-events:none}
+ .app .jst{width:100%;margin-left:0;justify-content:flex-end}
+ .app .jst .shn{background:linear-gradient(100deg,var(--mut) 30%,var(--fg) 50%,var(--mut) 70%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:nmshim 2.4s linear infinite}
+ @keyframes nmshim{to{background-position:-220% 0}}
+ /* 접힘(mini) */
+ .app.fold .job{flex-direction:row;align-items:center}
+ .app.fold .jbody,.app.fold .jstwrap{display:none}
+ .app .jmini{flex:none;display:inline-flex;align-items:center}
+ .app .jmini .mr{position:relative;width:calc(var(--t-mini) * 1px);height:calc(var(--t-mini) * 1px)}
+ .app .jmini .mr + .mr{margin-left:calc(var(--t-minilap) * -1px)}
+ .app .jmini svg{display:block;width:100%;height:100%;transform:rotate(-90deg)}
+ .app .jmini .mt{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:800;font-variant-numeric:tabular-nums}
+ .app:not(.fold) .jmini{display:none}
+ .app.fold .jsteps,.app.fold .jring,.app.fold .jviz{display:none}
+
+ /* 콘솔 */
+ .bar{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:2px 0 6px}
+ button{background:rgba(255,255,255,.05);color:var(--fg);border:1px solid var(--line);border-radius:9px;padding:6px 10px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;transition:transform .12s,border-color .12s}
+ button:hover{border-color:var(--accent)} button:active{transform:scale(.97)}
+ button.on{background:rgba(var(--accent-rgb),.14);border-color:var(--accent);color:var(--accent)}
+ .grp{font-size:11px;font-weight:800;color:var(--accent-4);letter-spacing:.2px;margin:13px 0 3px;text-transform:none}
+ .row{display:grid;grid-template-columns:1fr auto;align-items:center;gap:6px;margin:7px 0 0}
+ .row label{font-size:12px;color:var(--mut);margin:0}
+ .row .v{color:var(--accent-4);font-weight:800;font-variant-numeric:tabular-nums;font-size:12px}
+ .row .v.warn{color:var(--danger)}
+ .row input[type=range]{grid-column:1/-1;width:100%;accent-color:var(--accent)}
+ .row select{grid-column:1/-1;background:rgba(255,255,255,.05);color:var(--fg);border:1px solid var(--line);border-radius:8px;padding:5px 8px;font-size:12.5px;font-family:inherit}
+ .row .hint{grid-column:1/-1;font-size:10.5px;color:var(--mut);margin-top:-2px}
+ pre{background:rgba(0,0,0,.4);border:1px solid var(--line);border-radius:10px;padding:11px 12px;font-size:12px;overflow:auto;margin:8px 0 0;white-space:pre-wrap;line-height:1.6}
+ .note{color:var(--mut);font-size:12.5px;line-height:1.75;margin-top:8px}
+ .note b{color:var(--accent-4)} .note i{color:var(--danger);font-style:normal;font-weight:700}
+ .gal{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+ @media(max-width:760px){.gal{grid-template-columns:repeat(2,1fr)}}
+ .gt{border:1px solid var(--line);border-radius:12px;padding:8px;background:rgba(0,0,0,.28)}
+ .gt .gl{font-size:10.5px;font-weight:700;margin-bottom:6px;color:var(--fg)}
+ .gt .gl i{display:block;font-style:normal;font-weight:500;color:var(--mut);font-size:9.5px;margin-top:1px}
+ .warnbox{border:1px solid rgba(var(--danger-rgb),.4);background:rgba(226,59,42,.07);border-radius:10px;padding:9px 11px;font-size:12px;line-height:1.7;margin-top:8px}
+ .warnbox b{color:var(--danger)}
+ dialog{background:#14171a;color:var(--fg);border:1px solid var(--line);border-radius:14px;padding:16px 18px;max-width:440px;font-size:13px;line-height:1.7}
+ dialog::backdrop{background:rgba(0,0,0,.6)}
+</style></head><body>
+
+<h1>이미지 스튜디오 · 제작 진행 카드 시안</h1>
+<p class="sub">첨부한 <b>셰이더 진행 카드</b> 시안을 우리 이미지 스튜디오 제작 보드에 얹으면 어떻게 되는지 만져보는 판.
+왼쪽 폰이 실물 재현이고 <b>맨 아래 회색 줄이 지금 화면(현행)</b>이라 바로 위아래로 견줄 수 있어. 값은 전부 우리 토큰만 썼고 새 색은 하나도 안 지어냈어.</p>
+
+<div class="wrap">
+ <div class="left">
+  <div class="phone">
+   <div class="papp">
+     <div class="phd"><u>■</u> 이미지 스튜디오</div>
+     <div class="ptabs"><i class="on">카드 제작</i><i>편집</i><i>번역</i><i>AI</i></div>
+     <div class="ppv"><b>미리보기 창</b></div>
+     <div class="prailh">결과 <s></s></div>
+
+     <!-- 시안 적용판(튜닝 대상) -->
+     <div class="app" id="app">
+       <div class="job">
+         <div class="jhead">
+           <span class="jmini" id="mini"></span>
+           <span class="jlab"><span class="tplnm">#노뮤트</span> <span class="post">#포스트</span> <span class="jno">#1</span></span>
+           <button class="jfold" id="fold" type="button"><span id="foldtx">접기</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>
+         </div>
+         <div class="jbody">
+           <div class="jsteps" id="steps"></div>
+           <div class="jring" id="ring"></div>
+           <div class="jviz" id="viz"><canvas id="vcan"></canvas></div>
+         </div>
+         <div class="jstwrap"><span class="jst"><span class="odots"><i></i><i></i><i></i></span><span id="sttx">제작중 · <span class="jsec">46s</span> · 0/1장</span></span></div>
+       </div>
+     </div>
+
+     <!-- 현행(비교 기준 · 값 고정) -->
+     <div class="baseline">
+       <div class="job">
+         <span class="jlab"><span class="tplnm">#노뮤트</span> <span class="post">#포스트</span> <span class="jno">#2</span></span>
+         <span class="jst"><span class="odots"><i></i><i></i><i></i></span><span>제작중 · <span class="jsec">46s</span> · 0/1장</span></span>
+         <span class="jdel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6 18 18M18 6 6 18"/></svg></span>
+       </div>
+     </div>
+   </div>
+  </div>
+  <div class="stagecap">위 = 시안 적용 · 아래 회색 줄 = <b>지금 화면(고정)</b><br>[접기]를 눌러 축소 캡슐도 확인해봐</div>
+ </div>
+
+ <div class="right">
+  <div class="card">
+    <h2>프리셋</h2>
+    <div class="bar" id="presets"></div>
+    <div class="bar" style="margin-top:2px">
+      <button type="button" id="playbtn">진행 재생(0→100%)</button>
+      <button type="button" id="foldbtn">접기/펴기</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>미세조정 <span style="color:var(--mut);font-weight:400;font-size:11.5px">— 기틀 이탈 <span id="warncnt" style="color:var(--danger);font-weight:800">0</span>축</span></h2>
+    <div id="sliders"></div>
+  </div>
+
+  <div class="card">
+    <h2>전 조합 갤러리 <span style="color:var(--mut);font-weight:400;font-size:11.5px">— 비주얼 4종 × 접힘 2</span></h2>
+    <div class="gal" id="gal"></div>
+  </div>
+
+  <div class="card">
+    <h2>선택값</h2>
+    <pre id="out"></pre>
+    <div class="bar" style="margin-top:8px"><button type="button" id="copy">선택값 복사</button></div>
+  </div>
+
+  <div class="card">
+    <h2>재현 한계 · 먼저 알아야 할 것</h2>
+    <div class="warnbox">
+      <b>① 우리는 러너 속을 못 본다.</b> 시안의 「지형 만드는 중 · 세상 채우는 중 · 역사 쓰는 중」 같은 세부 단계는 만드는 쪽이 실시간으로 알려줘야 나온다.
+      우리 화면이 실제로 아는 건 <b>ⓐ 발사 접수됨 ⓑ 흐른 시간 ⓒ 도착한 장수(0/1장)</b> 셋뿐이라, 정직하게 쓸 수 있는 단계는 <b>접수 · 만드는 중 · 받는 중</b> 3칸이야.
+      더 잘게 쪼개려면 만드는 쪽이 중간 신호를 남기게 고치는 별도 작업이 필요해(이 시안 범위 밖).
+    </div>
+    <div class="warnbox">
+      <b>② 퍼센트는 추정이다.</b> 장수(0/1장)가 유일한 확정 신호고, 그 사이 %는 「흐른 시간 ÷ 예상 시간」이야.
+      예상 시간은 그 기기에서 같은 작업을 <b>2번 이상</b> 해봐야 생기고, 없으면 % 대신 시간만 띄우는 게 맞아(없는 걸 지어내면 안 됨).
+    </div>
+    <div class="warnbox">
+      <b>③ 움직이는 그림 = 폰 발열 위험.</b> 260820에 진행 줄의 빛 스윕 하나 때문에 폰이 뜨거워져서 <i>운영자 승인으로 껐던 자리</i>야(그때 실측 = 그 효과 하나가 28.4% → 6.1%).
+      그래서 오른쪽 그림 칸은 기본이 <b>정지</b>고, 「천천히 움직임」과 「셰이더」는 고르면 경고가 뜨게 해뒀어. 셰이더는 시안 원본과 가장 비슷하지만 우리 폰 기준으론 제일 비싸.
+    </div>
+    <div class="note">
+      <b>④ 색</b> — 시안 원본의 주황·파랑은 우리 팔레트에 없어서 우리 색(터쿼이즈·골드레몬·형광그린·스카이시안) 안에서만 고르게 했어. 새 색은 안 지어냈어.<br>
+      <b>⑤ 그림 칸</b> — 시안의 3D 지형은 여기선 선으로 그린 근사치야. 실제로 넣으면 모양이 조금 달라져.<br>
+      <b>⑥ 글꼴·아이콘</b> — 시안 원본 글꼴이 아니라 우리 앱 글꼴로 재현했어.<br>
+      <b>⑦ 현행 줄</b> — 재현에서 취소 X가 아랫줄로 떨어지는데, 잡 행은 원래 폭이 모자라면 줄바꿈되는 구조라 좁은 폰에선 실제로도 그럴 수 있어(실기기 확인은 안 해봤음).<br>
+      <b>⑧ 접힘 캡슐</b> — 시안은 겹친 고리 2개(진행률·단계)인데, 우리는 단계가 3칸이라 두 번째 고리가 「3분의 몇」이 돼.
+    </div>
+  </div>
+ </div>
+</div>
+
+<dialog id="dlg"><b style="color:var(--danger)">기틀 이탈 축이 있어</b>
+<p style="margin:8px 0 0" id="dlgtx"></p>
+<div class="bar" style="margin-top:12px"><button type="button" id="dlgy">역제안 포함 복사</button><button type="button" id="dlgn">계승분만 복사</button><button type="button" id="dlgc">취소</button></div>
+</dialog>
+
+<script>
+const $ = s => document.querySelector(s);
+const app = $('#app');
+
+/* 사다리 = 그 레포 실존값(실측) — 밖으로 나가면 ⚠ */
+const LAD = {
+  radius:[9,11,16],           /* --r-s / --r-m / --r-l */
+  fs:[11,12,13,14,15],        /* --fs-xs / --fs-sm / --fs-label / --fs-h3 / --fs-h2 */
+  headfs:[11,12,13,14,15],
+  stepfs:[11,12,13],
+  ringfs:[11,12,13],
+  pad:[6,11,12,18],           /* 잡 행 정본 11 + --sp-* */
+  gap:[6,8,12,18]
+};
+const COLORS = [
+  ['var(--accent)','0,238,210','터쿼이즈 (--accent · 진행 표준)'],
+  ['var(--accent-4)','255,225,61','골드레몬 (--accent-4 · 이미지 스튜디오 대표)'],
+  ['var(--accent-5)','15,253,2','형광그린 (--accent-5 · #노뮤트)'],
+  ['var(--bias-l1)','56,198,255','스카이시안 (--bias-l1 · #포스트)'],
+  ['var(--accent-6)','255,94,200','네온핑크 (--accent-6 · 영상축)']
+];
+const VIZ = ['없음','정지 그림','천천히 움직임','셰이더(원본 최근접)'];
+
+const DEFAULTS = {
+  pad:11, radius:9, bg:.34, line:.08, fs:12, headfs:12, gap:8,
+  ring:44, ringw:4, ringgap:6, ringfs:11,
+  mini:26, miniw:3, minilap:9,
+  steps:1, stepfs:11, steprow:22, stepnum:15, stepdim:.45,
+  viz:1, vizh:64, vizw:44, vizop:.85, vizfade:.35,
+  fold:1, shine:0, ringc:0, stepc:0, vizc:0, pct:34, stage:1
+};
+const PRESETS = [
+  {id:'p0', nm:'현행(줄 하나)', st:{...DEFAULTS, steps:0, viz:0, ring:0, fold:0, pct:34}},
+  {id:'p1', nm:'시안 그대로', st:{...DEFAULTS, radius:11, ring:46, ringw:5, steps:1, stepdim:.4, viz:3, vizw:46, vizh:70, vizop:1, vizfade:.2, ringc:1, stepc:1, vizc:1}},
+  {id:'p2', nm:'노뮤트식 절충', star:'★', st:{...DEFAULTS, minilap:4, radius:9, ring:40, ringw:4, ringfs:11, steps:1, stepfs:11, steprow:20, stepnum:14, stepdim:.42, viz:1, vizw:38, vizh:58, vizop:.8, vizfade:.4, ringc:0, stepc:0, vizc:0}},
+  {id:'p3', nm:'가벼운 판(그림 없음)', st:{...DEFAULTS, ring:36, ringw:3.5, steps:1, steprow:19, stepnum:14, viz:0, vizw:0}}
+];
+const SLIDERS = [
+  {grp:'카드 셸'},
+  {k:'pad', nm:'안쪽 여백', d:'.job padding', min:6, max:18, step:1, lad:'pad'},
+  {k:'radius', nm:'모서리 둥글기', d:'--r-s 9 / --r-m 11 / --r-l 16', min:6, max:20, step:1, lad:'radius'},
+  {k:'bg', nm:'바탕 진하기', d:'rgba(8,15,11,x) 알파 변주 = 자유', min:.1, max:.7, step:.01},
+  {k:'line', nm:'테두리 밝기', d:'--line .08 알파 변주', min:.03, max:.24, step:.01},
+  {k:'gap', nm:'요소 간격', d:'--sp 사다리', min:4, max:18, step:1, lad:'gap'},
+  {k:'fs', nm:'상태 글자 크기', d:'.job font-size 12', min:10, max:16, step:.5, lad:'fs'},
+  {k:'headfs', nm:'제목 글자 크기', d:'.jlab', min:10, max:16, step:.5, lad:'headfs'},
+
+  {grp:'진행 고리(원형 게이지)'},
+  {k:'ring', nm:'고리 지름', d:'0 = 안 씀', min:0, max:72, step:1},
+  {k:'ringw', nm:'고리 굵기', d:'stroke-width', min:2, max:9, step:.5},
+  {k:'ringfs', nm:'가운데 숫자 크기', d:'--fs 사다리', min:9, max:15, step:.5, lad:'ringfs'},
+  {k:'ringgap', nm:'고리 좌우 간격', d:'flex gap', min:2, max:18, step:1},
+  {k:'ringc', nm:'고리 색', d:'팔레트 폐쇄', sel:COLORS},
+  {k:'pct', nm:'진행률(시연용)', d:'추정치 — 실제는 흐른시간÷예상', min:0, max:100, step:1, demo:1},
+
+  {grp:'단계 목록'},
+  {k:'steps', nm:'단계 목록 표시', d:'0 = 끔 / 1 = 켬', min:0, max:1, step:1},
+  {k:'stage', nm:'현재 단계(시연용)', d:'1 접수 · 2 만드는 중 · 3 받는 중', min:1, max:3, step:1, demo:1},
+  {k:'stepfs', nm:'단계 글자 크기', d:'--fs 사다리', min:9, max:15, step:.5, lad:'stepfs'},
+  {k:'steprow', nm:'단계 줄 높이', d:'.jact height', min:16, max:32, step:1},
+  {k:'stepnum', nm:'번호 동그라미 지름', d:'.jact u', min:11, max:24, step:1},
+  {k:'stepdim', nm:'안 지난 단계 흐림', d:'opacity', min:.2, max:1, step:.01},
+  {k:'stepc', nm:'단계 강조색', d:'팔레트 폐쇄', sel:COLORS},
+
+  {grp:'오른쪽 그림 칸'},
+  {k:'viz', nm:'그림 종류', d:'움직이면 폰이 더워짐', sel:VIZ.map((v,i)=>[String(i),'',v])},
+  {k:'vizw', nm:'그림 폭', d:'카드 대비 %', min:0, max:64, step:1},
+  {k:'vizh', nm:'그림 높이', d:'px', min:36, max:110, step:1},
+  {k:'vizop', nm:'그림 진하기', d:'opacity', min:.2, max:1, step:.01},
+  {k:'vizfade', nm:'왼쪽 페이드', d:'글자와 겹칠 때 가독', min:0, max:.8, step:.01},
+  {k:'vizc', nm:'그림 색', d:'팔레트 폐쇄', sel:COLORS},
+
+  {grp:'접었을 때(캡슐)'},
+  {k:'fold', nm:'접기 버튼', d:'0 = 항상 펼침', min:0, max:1, step:1},
+  {k:'mini', nm:'작은 고리 지름', d:'접힘 캡슐', min:18, max:40, step:1},
+  {k:'miniw', nm:'작은 고리 굵기', d:'stroke-width', min:2, max:6, step:.5},
+  {k:'minilap', nm:'고리 겹침', d:'시안 = 겹쳐 있음', min:0, max:18, step:1},
+
+  {grp:'움직임'},
+  {k:'shine', nm:'상태 글자 빛 스윕', d:'260820에 발열로 끈 축', min:0, max:1, step:1, warn:1}
+];
+
+let state = {...DEFAULTS};
+let curPreset = 'p2';
+let playT = 0;
+
+/* ── 고리 SVG(표지판 도형 = SVG only 계약) ── */
+function ringSvg(size, w, pct, color){
+  const r = (size - w) / 2, c = 2 * Math.PI * r;
+  return '<svg viewBox="0 0 ' + size + ' ' + size + '">'
+    + '<circle cx="' + size/2 + '" cy="' + size/2 + '" r="' + r + '" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="' + w + '"/>'
+    + '<circle cx="' + size/2 + '" cy="' + size/2 + '" r="' + r + '" fill="none" stroke="' + color + '" stroke-width="' + w + '" stroke-linecap="round" stroke-dasharray="' + c + '" stroke-dashoffset="' + (c * (1 - pct/100)) + '"/></svg>';
+}
+const CHK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg>';
+const STEP_NM = ['접수됨', '만드는 중', '받는 중'];
+
+/* ── 그림 칸(캔버스 지형 근사) ── */
+let vizRAF = 0;
+function drawViz(cv, mode, colorRgb, t){
+  const w = cv.clientWidth || 1, h = cv.clientHeight || 1, dpr = Math.min(2, devicePixelRatio || 1);
+  cv.width = w * dpr; cv.height = h * dpr;
+  const g = cv.getContext('2d'); g.scale(dpr, dpr); g.clearRect(0, 0, w, h);
+  if (mode === 0) return;
+  const rows = 9, cols = 13;
+  for (let i = 0; i < rows; i++){
+    g.beginPath();
+    for (let j = 0; j <= cols; j++){
+      const u = j / cols, v = i / rows;
+      const y = h * (.28 + v * .58) - Math.sin(u * 5.2 + v * 2.6 + t) * (h * .12) * (1 - v * .4);
+      const x = w * (.04 + u * .92) + (v - .5) * w * .1;
+      j ? g.lineTo(x, y) : g.moveTo(x, y);
+    }
+    const a = .12 + (i / rows) * .5;
+    g.strokeStyle = 'rgba(' + colorRgb + ',' + a.toFixed(3) + ')';
+    g.lineWidth = 1; g.stroke();
+  }
+  for (let j = 0; j <= cols; j += 2){
+    g.beginPath();
+    for (let i = 0; i < rows; i++){
+      const u = j / cols, v = i / rows;
+      const y = h * (.28 + v * .58) - Math.sin(u * 5.2 + v * 2.6 + t) * (h * .12) * (1 - v * .4);
+      const x = w * (.04 + u * .92) + (v - .5) * w * .1;
+      i ? g.lineTo(x, y) : g.moveTo(x, y);
+    }
+    g.strokeStyle = 'rgba(' + colorRgb + ',.16)'; g.lineWidth = 1; g.stroke();
+  }
+}
+function vizSync(){
+  cancelAnimationFrame(vizRAF);
+  const cv = $('#vcan'); if (!cv) return;
+  const mode = state.viz | 0, rgb = COLORS[state.vizc][1];
+  if (mode === 0 || state.vizw <= 0){ const g = cv.getContext('2d'); g.clearRect(0, 0, cv.width, cv.height); return; }
+  if (mode === 1){ drawViz(cv, 1, rgb, .8); return; }
+  const t0 = performance.now();
+  const loop = () => { drawViz(cv, mode, rgb, (performance.now() - t0) / (mode === 3 ? 900 : 2600)); vizRAF = requestAnimationFrame(loop); };
+  loop();
+}
+
+function apply(){
+  for (const k in state){
+    if (k === 'ringc' || k === 'stepc' || k === 'vizc') continue;
+    app.style.setProperty('--t-' + k, state[k]);
+  }
+  app.style.setProperty('--t-ringc', COLORS[state.ringc][0]);
+  app.style.setProperty('--t-ringc-rgb', COLORS[state.ringc][1]);
+  app.style.setProperty('--t-stepc', COLORS[state.stepc][0]);
+  app.style.setProperty('--t-vizc', COLORS[state.vizc][0]);
+
+  /* 단계 목록 */
+  const sb = $('#steps');
+  sb.style.display = state.steps ? '' : 'none';
+  sb.innerHTML = STEP_NM.map((nm, i) => {
+    const n = i + 1, cls = n < state.stage ? 'ok' : (n === state.stage ? 'on' : '');
+    return '<div class="jact ' + cls + '"><u>' + (n < state.stage ? CHK : n) + '</u><span>' + nm + '</span></div>';
+  }).join('');
+
+  /* 고리 */
+  const rg = $('#ring');
+  rg.style.display = state.ring > 0 ? '' : 'none';
+  if (state.ring > 0) rg.innerHTML = ringSvg(state.ring, state.ringw, state.pct, COLORS[state.ringc][0]) + '<span class="rtx">' + Math.round(state.pct) + '%</span>';
+
+  /* 접힘 캡슐 */
+  const mn = $('#mini');
+  mn.innerHTML = '<span class="mr">' + ringSvg(state.mini, state.miniw, state.pct, COLORS[state.ringc][0]) + '<span class="mt" style="color:' + COLORS[state.ringc][0] + '">' + Math.round(state.pct) + '%</span></span>'
+    + '<span class="mr">' + ringSvg(state.mini, state.miniw, state.stage / 3 * 100, COLORS[state.stepc][0]) + '<span class="mt" style="color:' + COLORS[state.stepc][0] + '">' + state.stage + '/3</span></span>';
+
+  $('#viz').style.display = (state.viz | 0) === 0 || state.vizw <= 0 ? 'none' : '';
+  $('#fold').style.display = state.fold ? '' : 'none';
+  $('#sttx').className = state.shine ? 'shn' : '';
+
+  /* 슬라이더 UI 동기 */
+  SLIDERS.forEach(s => {
+    if (s.grp) return;
+    const el = document.getElementById('s_' + s.k); if (!el) return;
+    el.value = state[s.k];
+    const v = document.getElementById('v_' + s.k);
+    if (v){
+      v.textContent = s.sel ? (s.sel === VIZ ? VIZ[state[s.k]] : s.sel[state[s.k]][2].split(' (')[0]) : state[s.k];
+      v.classList.toggle('warn', isWarn(s));
+    }
+  });
+  $('#warncnt').textContent = SLIDERS.filter(s => !s.grp && isWarn(s)).length;
+  vizSync(); buildOut(); buildGal();
+}
+function isWarn(s){
+  if (s.grp) return false;
+  if (s.warn) return !!state[s.k];
+  if (s.lad) return LAD[s.lad].indexOf(+state[s.k]) < 0;
+  if (s.k === 'viz') return state.viz >= 2;
+  return false;
+}
+function markCustom(){ curPreset = ''; [...document.querySelectorAll('#presets button')].forEach(b => b.classList.remove('on')); }
+
+function buildSliders(){
+  const box = $('#sliders'); box.innerHTML = '';
+  SLIDERS.forEach(s => {
+    if (s.grp){ const d = document.createElement('div'); d.className = 'grp'; d.textContent = s.grp; box.appendChild(d); return; }
+    const r = document.createElement('div'); r.className = 'row';
+    if (s.sel){
+      const opts = s.sel.map((o, i) => '<option value="' + i + '">' + o[2] + '</option>').join('');
+      r.innerHTML = '<label>' + s.nm + '</label><span class="v" id="v_' + s.k + '"></span><select id="s_' + s.k + '">' + opts + '</select><span class="hint">' + s.d + '</span>';
+    } else {
+      r.innerHTML = '<label>' + s.nm + '</label><span class="v" id="v_' + s.k + '"></span><input type="range" id="s_' + s.k + '" min="' + s.min + '" max="' + s.max + '" step="' + s.step + '"><span class="hint">' + s.d + (s.lad ? ' · 사다리 ' + LAD[s.lad].join('/') : '') + (s.demo ? ' · 시연용(코드값 아님)' : '') + '</span>';
+    }
+    box.appendChild(r);
+    const el = document.getElementById('s_' + s.k);
+    el.addEventListener('input', () => { state[s.k] = s.sel ? +el.value : +el.value; if (!s.demo) markCustom(); apply(); });
+  });
+}
+function buildPresets(){
+  const box = $('#presets'); box.innerHTML = '';
+  PRESETS.forEach(p => {
+    const b = document.createElement('button'); b.type = 'button'; b.textContent = (p.star || '') + p.nm; b.dataset.id = p.id;
+    if (p.id === curPreset) b.classList.add('on');
+    b.addEventListener('click', () => {
+      curPreset = p.id; state = {...p.st};
+      [...box.children].forEach(c => c.classList.toggle('on', c.dataset.id === p.id));
+      apply();
+    });
+    box.appendChild(b);
+  });
+}
+function buildGal(){
+  const g = $('#gal'); if (!g) return;
+  g.innerHTML = VIZ.map((nm, i) => {
+    const pct = state.pct, col = COLORS[state.ringc][0], rgb = COLORS[state.ringc][1];
+    const open = '<div style="border:1px solid rgba(255,255,255,' + state.line + ');background:rgba(8,15,11,' + state.bg + ');border-radius:' + state.radius + 'px;padding:7px 9px">'
+      + '<div style="font-size:' + state.headfs + 'px;font-weight:800;color:var(--accent-5)">#노뮤트 <span style="color:var(--bias-l1)">#포스트</span></div>'
+      + '<div style="display:flex;align-items:center;gap:6px;margin-top:5px">'
+      + '<div style="flex:1;font-size:' + state.stepfs + 'px;color:var(--mut)">만드는 중</div>'
+      + '<div style="position:relative;width:30px;height:30px">' + ringSvg(30, state.ringw, pct, col) + '<span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:' + col + '">' + Math.round(pct) + '</span></div>'
+      + (i ? '<canvas class="gc" data-m="' + i + '" style="width:34%;height:30px;border-radius:7px"></canvas>' : '')
+      + '</div></div>';
+    const fold = '<div style="border:1px solid rgba(255,255,255,' + state.line + ');background:rgba(8,15,11,' + state.bg + ');border-radius:' + state.radius + 'px;padding:6px 9px;display:flex;align-items:center;gap:6px;margin-top:6px">'
+      + '<span style="position:relative;width:22px;height:22px;display:inline-block">' + ringSvg(22, state.miniw, pct, col) + '</span>'
+      + '<span style="position:relative;width:22px;height:22px;display:inline-block;margin-left:' + (-state.minilap * .8) + 'px">' + ringSvg(22, state.miniw, state.stage / 3 * 100, COLORS[state.stepc][0]) + '</span>'
+      + '<span style="font-size:' + state.fs + 'px;font-weight:800;color:var(--accent-5)">#노뮤트</span></div>';
+    return '<div class="gt"><div class="gl">' + nm + '<i>' + (i >= 2 ? '⚠ 폰 발열 축' : '비용 0') + '</i></div>' + open + fold + '</div>';
+  }).join('');
+  [...g.querySelectorAll('canvas.gc')].forEach(c => drawViz(c, +c.dataset.m, COLORS[state.vizc][1], .8));
+}
+function near(a, b){ return Math.abs(a - b) < .001; }
+function tag(k){
+  const s = SLIDERS.find(x => x.k === k); if (!s) return '';
+  if (s.lad) return LAD[s.lad].indexOf(+state[k]) >= 0 ? ' (계승)' : ' ⚠ 갱신 후보';
+  return '';
+}
+function buildOut(){
+  const w = SLIDERS.filter(s => !s.grp && isWarn(s));
+  $('#out').textContent =
+'[이미지 스튜디오 제작 진행 카드 — 선택값]\n'
++ '카드     : 여백 ' + state.pad + tag('pad') + ' · 둥글기 ' + state.radius + tag('radius') + ' · 바탕 ' + state.bg + ' · 테두리 ' + state.line + ' · 간격 ' + state.gap + tag('gap') + '\n'
++ '글자     : 상태 ' + state.fs + tag('fs') + ' · 제목 ' + state.headfs + tag('headfs') + '\n'
++ '진행고리 : ' + (state.ring > 0 ? '지름 ' + state.ring + ' · 굵기 ' + state.ringw + ' · 숫자 ' + state.ringfs + tag('ringfs') + ' · 색 ' + COLORS[state.ringc][2] : '안 씀') + '\n'
++ '단계목록 : ' + (state.steps ? '켬 · 글자 ' + state.stepfs + tag('stepfs') + ' · 줄높이 ' + state.steprow + ' · 번호원 ' + state.stepnum + ' · 흐림 ' + state.stepdim + ' · 색 ' + COLORS[state.stepc][2] : '끔') + '\n'
++ '그림칸   : ' + VIZ[state.viz] + (state.viz && state.vizw > 0 ? ' · 폭 ' + state.vizw + '% · 높이 ' + state.vizh + ' · 진하기 ' + state.vizop + ' · 페이드 ' + state.vizfade + ' · 색 ' + COLORS[state.vizc][2] : '') + '\n'
++ '접힘캡슐 : ' + (state.fold ? '고리 ' + state.mini + ' · 굵기 ' + state.miniw + ' · 겹침 ' + state.minilap : '접기 없음') + '\n'
++ '빛 스윕  : ' + (state.shine ? '켬 ⚠ 260820 발열로 껐던 축 되살리는 것' : '끔(현행 유지)') + '\n'
++ '\n[현행 대비] 지금 = 한 줄(제작중 · 46s · 0/1장 + 취소X) · 고리/단계/그림 전부 없음'
++ (w.length ? '\n\n[기틀 갱신 역제안 · ' + w.length + '축]\n' + w.map(s => ' - ' + s.nm + ' : ' + state[s.k] + ' (' + s.d + ')\n   적용 범위 = 이 표면 한정(기본) / 전 표면 일괄 = 선택').join('\n') : '');
+}
+
+/* 접기 */
+function toggleFold(){
+  app.classList.toggle('fold');
+  $('#foldtx').textContent = app.classList.contains('fold') ? '펴기' : '접기';
+  $('#fold').querySelector('svg').style.transform = app.classList.contains('fold') ? 'rotate(180deg)' : '';
+}
+$('#fold').addEventListener('click', toggleFold);
+$('#foldbtn').addEventListener('click', toggleFold);
+$('#playbtn').addEventListener('click', () => {
+  clearInterval(playT); state.pct = 0; state.stage = 1; apply();
+  playT = setInterval(() => {
+    state.pct = Math.min(100, state.pct + 2);
+    state.stage = state.pct < 12 ? 1 : (state.pct < 96 ? 2 : 3);
+    apply();
+    if (state.pct >= 100) clearInterval(playT);
+  }, 90);
+});
+/* 복사 */
+function doCopy(txt){
+  if (navigator.clipboard) navigator.clipboard.writeText(txt).catch(() => fallback(txt)); else fallback(txt);
+  function fallback(t){ const ta = document.createElement('textarea'); ta.value = t; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); } catch (e) {} ta.remove(); }
+  $('#copy').textContent = '복사됨'; setTimeout(() => $('#copy').textContent = '선택값 복사', 1200);
+}
+$('#copy').addEventListener('click', () => {
+  const w = SLIDERS.filter(s => !s.grp && isWarn(s));
+  if (!w.length) return doCopy($('#out').textContent);
+  $('#dlgtx').textContent = '이 값들이 우리 기틀 밖이야 — ' + w.map(s => s.nm).join(', ') + '. 이대로 보내면 「기틀을 이 값으로 바꾸자」는 역제안이 같이 나가.';
+  $('#dlg').showModal();
+});
+$('#dlgy').addEventListener('click', () => { $('#dlg').close(); doCopy($('#out').textContent); });
+$('#dlgn').addEventListener('click', () => { $('#dlg').close(); doCopy($('#out').textContent.split('\n\n[기틀 갱신')[0]); });
+$('#dlgc').addEventListener('click', () => $('#dlg').close());
+
+buildPresets(); buildSliders(); state = {...PRESETS[2].st}; apply();
+addEventListener('resize', () => { vizSync(); buildGal(); });
+</script>
+</body></html>
