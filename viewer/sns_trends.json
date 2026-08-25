@@ -7386,8 +7386,14 @@
   {
    "query": "매매",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/80577e11c4.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.fnnews.com/news/202608231601154066",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-08-25T21:40:00+09:00",
    "delta": -13,
@@ -7422,8 +7428,14 @@
   {
    "query": "맥미니",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/d0ed676350.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.newspim.com/news/view/20260825001177",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-08-25T22:40:00+09:00",
    "isNew": true,
@@ -7435,8 +7447,14 @@
   {
    "query": "충남혁신도시",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/1e1a983de0.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.khan.co.kr/article/202608251029001",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-08-25T21:40:00+09:00",
    "delta": -15,
@@ -7492,8 +7510,14 @@
   {
    "query": "pga 투어",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/1a9fad9945.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.mydaily.co.kr/page/view/2026080608504692506",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-25T21:10:00+09:00",
    "delta": -13,
@@ -7527,8 +7551,14 @@
   {
    "query": "재벌x형사",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/1945809020.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://ent.sbs.co.kr/news/article.do?article_id=E10010319685",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-08-25T21:50:00+09:00",
    "delta": -22,
@@ -7709,13 +7739,14 @@
  ],
  "gtrends_pool_updated": "2026-08-26T00:07:32+09:00",
  "_trend_img": {
-  "tried": "2026-08-25T23:12:09+09:00",
+  "tried": "2026-08-26T00:07:32+09:00",
   "fail": {
-   "영장": "2026-08-25T21:45:13+09:00",
    "튀니지": "2026-08-25T22:41:20+09:00",
    "조매력": "2026-08-25T23:17:35+09:00",
    "이호연": "2026-08-25T23:17:35+09:00",
-   "박주봉": "2026-08-25T23:17:35+09:00"
+   "박주봉": "2026-08-25T23:17:35+09:00",
+   "영장": "2026-08-26T00:12:21+09:00",
+   "조매력 결혼": "2026-08-26T00:12:21+09:00"
   }
  },
  "gtrends_gl": [
@@ -17972,7 +18003,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-08-26T00:07:32+09:00"
+    "first_seen": "2026-08-26T00:07:32+09:00",
+    "kw": "Details MCP, 디자인 레퍼런스",
+    "sum": "계정이 Details MCP 출시 링크를 공유했다",
+    "sv": 1
    },
    {
     "account": "kopp",
@@ -17987,7 +18021,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-08-26T00:07:32+09:00"
+    "first_seen": "2026-08-26T00:07:32+09:00",
+    "kw": "Details MCP, AI 도구",
+    "sum": "계정이 4천여 디자인 레퍼런스를 제공하는 Details MCP를 공개했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -18002,7 +18039,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-08-26T00:07:32+09:00"
+    "first_seen": "2026-08-26T00:07:32+09:00",
+    "kw": "Muse Code, 코딩 에이전트, Meta",
+    "sum": "계정이 Meta의 장기 실행형 코딩 에이전트 Muse Code를 소개했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
