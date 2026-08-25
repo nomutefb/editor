@@ -446,6 +446,26 @@
  "threads": [
   {
    "account": "daily_ai_star",
+   "text": "https://www.deepseek.com/harness/en/",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1787636989,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/Dcc7Mi0GcYK",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
+   "text": "DeepSeek Harness가 개발자 프리뷰로 공개됐습니다.\n\n모델만 바꿀 수 있는 도구가 아닙니다. 모델·도구·스킬·세션·샌드박스·저장소·실행 루프·스케줄·UI를 모두 플러그인으로 분리했습니다. 기본 기능을 쓰다가도 필요한 부분만 교체하거나, 여러 기능을 다시 조합할 수 있는 구조입니다.\n\nDeepSeek는 에이전트를 “모델 + 하네스”로 설명합니다. 모델이 무엇을 아는지가 아니라, 환경을 읽고 도구를 쓰고 작업을 이어가는 실행층을 별도 제품으로 본다는 뜻입니다.\n\n아직 개발자 프리뷰라 호환성이 깨질 수 있다고 명시했습니다. 그럼에도 공개 저장소에는 웹 UI, SDK, JSON-RPC 서버, 에이전트 상태와 세션 이벤트 구조가 함께 드러나 있습니다.\n\n코딩 에이전트의 다음 경쟁 기준은 어떤 모델을 연결했는가보다, 실행 환경을 얼마나 쉽게 교체하고 검증할 수 있는가로 이동하고 있습니다. ⭐",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1787636980,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/Dcc7Lf-mSSM",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
    "text": "Claude Mythos 5가 8월 21일 Claude Security의 코드 스캔에 들어갔습니다.\n\nClaude Enterprise 고객은 저장소를 선택해 취약점을 찾고, CWE 분류·신뢰도·심각도와 수정안을 받을 수 있습니다. 스캔은 기존 요금제의 표준 토큰 사용량으로 처리됩니다.\n\n취약점 패치는 Claude Code 웹에서 구현할 수 있지만, 적용 전에는 사람이 검토하고 승인해야 합니다. Anthropic은 오픈소스 보안을 위해 3,500만 달러 상당의 크레딧도 별도로 내놨습니다.\n\n고성능 사이버 모델의 배포 단위가 모델 자체에서 검토 가능한 보안 결과물로 이동하고 있습니다.\n\n모델을 직접 열지 않고도 방어 능력을 전달하는 방식이 개발 도구의 새 기준이 될 수 있습니다.\n\nhttps://claude.com/blog/bringing-claude-mythos-5-to-more-defenders",
    "likes": 0,
    "cmts": 0,
@@ -460,64 +480,44 @@
    "likes": 0,
    "cmts": 1,
    "time": 1787631914,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/785136821_18082862777407306_4543716646309794113_n.webp?stp=dst-webp_p640x640_sh2.08&_nc_cat=100&ig_cache_key=Mzk3MTI2NjA4OTA3Mzk4OTk3MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMiJ9&_nc_ohc=5moDm6EfhrMQ7kNvwHu7pGj&_nc_oc=AdqNgj2WXLjNsfepJ7a-0AtIZlFsRa-cqQZLp1eEgtvbgMUzDFiL-zy8lDqK8CmvVG6AjVE-X5q1no7HzHQLklQ4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=MQmi49lyu5Gtzq_PPNn3nQ&_nc_ss=7a22e&oh=00_AQG_40soz3a7bJYPRptzO3isWSGXjzagRCufl1fOpcLC9Q&oe=6A9301C6",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/785136821_18082862777407306_4543716646309794113_n.webp?stp=dst-webp_p640x640_sh2.08&_nc_cat=100&ig_cache_key=Mzk3MTI2NjA4OTA3Mzk4OTk3MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=5moDm6EfhrMQ7kNvwHu7pGj&_nc_oc=AdqNgj2WXLjNsfepJ7a-0AtIZlFsRa-cqQZLp1eEgtvbgMUzDFiL-zy8lDqK8CmvVG6AjVE-X5q1no7HzHQLklQ4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=fVgESB_V12dVGzh9Wo-OnQ&_nc_ss=7a22e&oh=00_AQEdldwCef7mzV_IXCmNK3yKPNZFdm-pLj4lVReTegzCsQ&oe=6A9301C6",
    "url": "https://www.threads.com/@aipeekme/post/DccxhsdE5Vi",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "Cobalt가 8월 24일 하나의 작업에 여러 저장소를 붙이는 기능을 공개했습니다.\n\n프런트엔드·API·인프라·공유 라이브러리를 같은 작업 컴퓨터에서 함께 빌드하고 실행할 수 있습니다. 저장소마다 브랜치·Git 상태·인증·납품 경로는 분리된 채 유지됩니다.\n\n중간에 의존성이 드러나도 새 작업을 만들 필요가 없습니다. 기존 대화와 실행 환경을 보존한 채 저장소를 추가하고, 에이전트는 활성 저장소를 바꿔가며 작업합니다.\n\n편리해진 지점은 저장소를 합친 것이 아닙니다. 여러 코드베이스를 하나의 검증 맥락에서 다루되, 권한과 납품은 끝까지 분리한 것입니다.\n\n코딩 에이전트의 다음 기준은 한 레포를 얼마나 잘 고치느냐보다, 연결된 변경을 어디까지 추적하고 독립적으로 검토하게 하느냐에 가까워지고 있습니다.\n\nhttps://cobaltcode.ai/blog/multi-repository-tasks",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1787631509,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/Dccwv0TmSL3",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "3/ 티보 소티오는 “차세대 모델은 노트북 수준 이상의 컴퓨팅 환경을 필요로 한다”고 밝혔습니다.\n\n현재의 PC와 작업 환경은 인간의 인지 및 처리 한계에 맞춰져 있지만, 강력해진 코딩 AI는 수많은 애플리케이션을 동시에 제어할 수 있기 때문입니다.\n그는 AI가 프롬프트에 수동적으로 반응하는 도구를 넘어, 사용자의 목표와 프로젝트 맥락을 깊이 이해하는 진정한 협업 파트너로 진화해야 한다고 강조했습니다.\n\n특히 추론 속도가 비약적으로 빨라질수록 단일 실행의 한계를 넘어, “코드 탐색부터 테스트 작성, 컴파일, 가설 검증까지 동시에 병렬 처리하는 구조”가 소프트웨어 엔지니어링의 병목을 해결하고 생산성을 폭발적으로 끌어올릴 핵심 혁신이 될 것이라고 설명했습니다.",
-   "likes": 2,
+   "likes": 3,
    "cmts": 1,
    "time": 1787630920,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/784716655_1416417420348487_17102127161664077_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk3MTI1NTgyMTI4NzYzODE2MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=9l1dt9wFBmcQ7kNvwH0VDaL&_nc_oc=Adr_jGXKIZDWbP3J9gLUr11idcCOc1Qc67BfAVcOHrm_y_9j8d32aJssfnJ_deikau_46ejjBe18P-Ozg3v2gBU_&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=C5AjfDfXBpaLxq1cg2S45A&_nc_ss=7a22e&oh=00_AQEPZk_aDIBWdwTuiB_TG55LiH6XFwJD2AG9jQKGoMD6iw&oe=6A930E8F",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/784716655_1416417420348487_17102127161664077_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk3MTI1NTgyMTI4NzYzODE2MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=9l1dt9wFBmcQ7kNvwH0VDaL&_nc_oc=Adr_jGXKIZDWbP3J9gLUr11idcCOc1Qc67BfAVcOHrm_y_9j8d32aJssfnJ_deikau_46ejjBe18P-Ozg3v2gBU_&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=vQJxWxDyMlWD4h3qWzaQ1w&_nc_ss=7a22e&oh=00_AQEV3KVLdRmRGIeMeGXfs3-haQNwhcyxMAxnFCOIJz_0iA&oe=6A930E8F",
    "url": "https://www.threads.com/@choi.openai/post/DccvCD8DUSQ",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "2/ 티보 소티오는 챗GPT와 코덱스의 통합에 대해 “미래 모델의 방향성이 통합을 요구했기 때문”이라며 합병이 당연하고 필수적인 수순이었다고 밝혔습니다.\n\n그는 개발자와 비개발자의 구분은 인간이 만들어낸 추상적 개념일 뿐이며, 중요한 것은 모든 개인의 개별성과 필요에 맞추는 것이라고 설명했습니다.\n보이스 퍼스트와 멀티모달 기반의 고효율 단일 에이전트 기술을 통해 코딩 여부와 관계없이 작업을 지원하겠다는 전략입니다.\n\n결국 복잡한 도구 선택 없이 “개인화된 단일 AGI 에이전트 인터페이스” 하나로 사용자의 복잡한 요구와 현실 도구를 연결하여, 누구나 기술적 장벽 없이 최대의 효용을 누리는 환경이 구축될 것이라고 강조했습니다.",
-   "likes": 4,
+   "likes": 6,
    "cmts": 1,
    "time": 1787630911,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/786562800_4570212986570596_8461694325484079690_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk3MTI1NTM3Nzg1NzE4NTQ5Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=XoKm82qhH28Q7kNvwG65Y_X&_nc_oc=AdqOa7qA1k6LTugo4RBYLYoPP_adiMMFZ_RFvJj03ZLFj-8CxQwO6ZEgr2QqBJ2zk-xH3ZhKu0zsC8D_1PQZ7sC9&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=C5AjfDfXBpaLxq1cg2S45A&_nc_ss=7a22e&oh=00_AQFpb29eNo7LsoPgVJ4GAcN0YP2oPvgpF7CfuP4FdhRAaQ&oe=6A92E3E6",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/786562800_4570212986570596_8461694325484079690_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk3MTI1NTM3Nzg1NzE4NTQ5Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=XoKm82qhH28Q7kNvwG65Y_X&_nc_oc=AdqOa7qA1k6LTugo4RBYLYoPP_adiMMFZ_RFvJj03ZLFj-8CxQwO6ZEgr2QqBJ2zk-xH3ZhKu0zsC8D_1PQZ7sC9&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=vQJxWxDyMlWD4h3qWzaQ1w&_nc_ss=7a22e&oh=00_AQEc6CWwo_DCdK9kGzK7S71CWR5ViZNV4_Bl3A-E26i_ZA&oe=6A931C26",
    "url": "https://www.threads.com/@choi.openai/post/Dccu7m9iYbZ",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "1/ 오픈AI Codex 책임자 티보 소티오(Thibault Sottiaux)는 AI 기술이 집중해야 할 과제를 두 가지 축으로 제시했습니다.\n\n첫 번째는 사용자를 완벽히 이해하고 능동적으로 아이디어를 제안하는 개인 맞춤형 AGI(Personal Agent)의 완성입니다. 코딩, 연구, 자문 등 모든 영역에서 개인에게 최적화된 협업 파트너를 만드는 것입니다.\n\n두 번째는 복잡한 소프트웨어 엔지니어링을 스스로 끝내는 완전 자동화(Full-on Automation)입니다.\n그는 “운영 로그를 분석해 성능을 자동 최적화하고, 보안 취약점을 찾아 스스로 패치하는 지능형 시스템”의 중요성을 강조했습니다.\n\n고위험 작업의 최종 승인을 제외하면 “인간의 개입(Human-in-the-loop)을 최소화하거나 완전히 배제한 자동화”가 가능해지며, 개발과 시스템 운영 전반의 생산성 패러다임이 완전히 바뀔 것이라고 진단했습니다.",
-   "likes": 13,
+   "likes": 15,
    "cmts": 1,
    "time": 1787630904,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/785349854_1614613486672264_4712931788072718218_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk3MTI1NTEyNjkyODkxNzc0MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=7s_8HStqYWEQ7kNvwENzSIs&_nc_oc=Ado6M1EPzTTfQ3PQHhnJJjUwkjWaSz0F5hwhuAy5vHn4mchWj2qWcyQowv4EokNYRpmGqijaD0mDfoZ7yVG2tsA9&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=C5AjfDfXBpaLxq1cg2S45A&_nc_ss=7a22e&oh=00_AQFK8nfk9Kz7mlNs6khZ2d9zP90omUQt_IMXx1psvxVAHQ&oe=6A931590",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/785349854_1614613486672264_4712931788072718218_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk3MTI1NTEyNjkyODkxNzc0MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=7s_8HStqYWEQ7kNvwENzSIs&_nc_oc=Ado6M1EPzTTfQ3PQHhnJJjUwkjWaSz0F5hwhuAy5vHn4mchWj2qWcyQowv4EokNYRpmGqijaD0mDfoZ7yVG2tsA9&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=vQJxWxDyMlWD4h3qWzaQ1w&_nc_ss=7a22e&oh=00_AQGLCpQQP0fBlAyg7O096ZgcZeOAttRsSR6iQXC9BTN_dA&oe=6A931590",
    "url": "https://www.threads.com/@choi.openai/post/Dccu39RDATt",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "https://www.salesforce.com/ap/news/press-releases/2026/08/24/salesforce-launches-slack-code-to-make-ai-software-development-multiplayer/",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1787628573,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DccrJNtGQ_O",
    "region": "kr"
   },
   {
    "account": "aicoffeechat",
    "text": "프롬프트:",
-   "likes": 169,
+   "likes": 189,
    "cmts": 0,
    "time": 1787615784,
    "thumb": "",
@@ -527,20 +527,20 @@
   {
    "account": "aicoffeechat",
    "text": "챗GPT에서 이미지 기능으로 이렇게 사용하시면 됩니다.",
-   "likes": 66,
+   "likes": 71,
    "cmts": 1,
    "time": 1787615776,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/785943819_17954163495232485_4936733225822237643_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk3MTEzMTQxNDQ4MTY3MTkwMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ3Mi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=F159oHh0qe0Q7kNvwF4ZDgS&_nc_oc=Adr13JJNJOwQYm6-yyQIFTpJW9vXHu1QDQFfisDhgkV5dcmFlZ6WviNBYm5Tzgw-KdsdAehbdnhEnllnTdB6I3I9&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Jq-prcVsQtHAbSruqOL47Q&_nc_ss=7a22e&oh=00_AQHBMeLJje6pvAexuJ_B9_AF5RPc56_ng0tV5Iazj2QEEg&oe=6A92E988",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/785943819_17954163495232485_4936733225822237643_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk3MTEzMTQxNDQ4MTY3MTkwMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ3Mi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=F159oHh0qe0Q7kNvwF4ZDgS&_nc_oc=Adr13JJNJOwQYm6-yyQIFTpJW9vXHu1QDQFfisDhgkV5dcmFlZ6WviNBYm5Tzgw-KdsdAehbdnhEnllnTdB6I3I9&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=YWy2uTkw3q8ir0t_MYv9nw&_nc_ss=7a22e&oh=00_AQEhOARfEJSiI4Y6v6zYYoRvUiKq_X2Jp5WGwBS8Km8_Ng&oe=6A92E988",
    "url": "https://www.threads.com/@aicoffeechat/post/DccSvtEkxbf",
    "region": "kr"
   },
   {
    "account": "aicoffeechat",
    "text": "이 프롬프트는 정말 추천해드리고 싶네요\n\n저의 일상 사진을 일기장에 그린 소중한 사진으로 바꿔줘요. 한번 여러분도 써보셨으면 좋겠어요. 오픈AI에서부터 선물을 받았던 추억과 최근 싱가폴 출장 사진에 사용해봤어요.\n\n나만의 일기장 앱에 넣어두면 최고예요",
-   "likes": 1283,
-   "cmts": 81,
+   "likes": 1406,
+   "cmts": 89,
    "time": 1787615770,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/786313691_17954162844232485_8027533702047331519_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=1&ig_cache_key=Mzk3MTEzMTM1MjIzODIyMjIxMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTQ0OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=9EN9w4vh-JwQ7kNvwFGB7S4&_nc_oc=AdptOUCyH-FDzsr5qR2P0ztv89_sKbEHjvs4OSm2Jklr25nJB-bfnp78Ik_t5OkCCQIfcBTI8hH5T2wgLg1B7Juz&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Jq-prcVsQtHAbSruqOL47Q&_nc_ss=7a22e&oh=00_AQF1JLy_tMna4lFb8HIM3m9TAEk-qeYzac2gkBPdpvE4WA&oe=6A92E7D9",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/786313691_17954162844232485_8027533702047331519_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=1&ig_cache_key=Mzk3MTEzMTM1MjIzODIyMjIxMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTQ0OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=9EN9w4vh-JwQ7kNvwFGB7S4&_nc_oc=AdptOUCyH-FDzsr5qR2P0ztv89_sKbEHjvs4OSm2Jklr25nJB-bfnp78Ik_t5OkCCQIfcBTI8hH5T2wgLg1B7Juz&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=YWy2uTkw3q8ir0t_MYv9nw&_nc_ss=7a22e&oh=00_AQEhZoLsy7b1IYRXzwFpvtM7IN_2-V7hnKVsY-L59lXRgg&oe=6A92E7D9",
    "url": "https://www.threads.com/@aicoffeechat/post/DccSu8WExVi",
    "region": "kr"
   },
@@ -560,7 +560,7 @@
    "likes": 3,
    "cmts": 1,
    "time": 1787612478,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/783947973_18082820366407306_7431700578944574320_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk3MTEwMzY4OTAzMzMyMjk5NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQzOS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=VN8ZqB8x1FoQ7kNvwEynrVL&_nc_oc=AdqIO2E5r3UIvq077zmy3Zkq2C5oXCqiFmcU9XPqW3WDQrySwCclvHdBpL2ARk2tBfF6_HS47mDmaSSl431LFSlc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=MQmi49lyu5Gtzq_PPNn3nQ&_nc_ss=7a22e&oh=00_AQHT-lsMDh1h_av7z3l4y_kAa7Sg-jtCIVYJj0yu25KA4A&oe=6A92ED6A",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/783947973_18082820366407306_7431700578944574320_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk3MTEwMzY4OTAzMzMyMjk5NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQzOS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=VN8ZqB8x1FoQ7kNvwEynrVL&_nc_oc=AdqIO2E5r3UIvq077zmy3Zkq2C5oXCqiFmcU9XPqW3WDQrySwCclvHdBpL2ARk2tBfF6_HS47mDmaSSl431LFSlc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=fVgESB_V12dVGzh9Wo-OnQ&_nc_ss=7a22e&oh=00_AQFasfPxH5yD5JEQjpENqJ8htz4lNl25RRaKbgZrkXyN9Q&oe=6A92ED6A",
    "url": "https://www.threads.com/@aipeekme/post/DccMcPvExHz",
    "region": "kr"
   },
@@ -595,23 +595,23 @@
    "region": "kr"
   },
   {
+   "account": "daily_ai_star",
+   "text": "Cobalt가 8월 24일 하나의 작업에 여러 저장소를 붙이는 기능을 공개했습니다.\n\n프런트엔드·API·인프라·공유 라이브러리를 같은 작업 컴퓨터에서 함께 빌드하고 실행할 수 있습니다. 저장소마다 브랜치·Git 상태·인증·납품 경로는 분리된 채 유지됩니다.\n\n중간에 의존성이 드러나도 새 작업을 만들 필요가 없습니다. 기존 대화와 실행 환경을 보존한 채 저장소를 추가하고, 에이전트는 활성 저장소를 바꿔가며 작업합니다.\n\n편리해진 지점은 저장소를 합친 것이 아닙니다. 여러 코드베이스를 하나의 검증 맥락에서 다루되, 권한과 납품은 끝까지 분리한 것입니다.\n\n코딩 에이전트의 다음 기준은 한 레포를 얼마나 잘 고치느냐보다, 연결된 변경을 어디까지 추적하고 독립적으로 검토하게 하느냐에 가까워지고 있습니다.\n\nhttps://cobaltcode.ai/blog/multi-repository-tasks",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1787631509,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/Dccwv0TmSL3",
+   "region": "kr"
+  },
+  {
    "account": "choi.openai",
    "text": "오픈AI Codex 책임자 Tibo의 인터뷰가 공개되었는데요.\n\n앞으로 코더용·일반인용 AI의 구분은 사라지고, 지금의 초고속 AI도 1~2년 안에 기본에 가까워질 수 있다고 말합니다.\n\n특히 중요한 발언 10가지를 정리했습니다🧵",
-   "likes": 61,
+   "likes": 78,
    "cmts": 14,
    "time": 1787630901,
    "thumb": "",
    "url": "https://www.threads.com/@choi.openai/post/DccvmAEDzic",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "Slack Code가 8월 24일 공개됐습니다.\n\nSlack 안에 프로젝트별 코드 채널을 만들고, Claude Code·Devin·GitHub Copilot·ChatGPT·Vercel 에이전트를 한 공간에서 사용할 수 있습니다.\n\n대화, 에이전트 계획, 줄 단위 diff, 실행 중인 결과 미리보기를 각각 탭으로 나눴습니다. 에이전트가 만든 코드를 나중에 공유하는 방식이 아니라, 팀이 작업 중인 과정을 함께 보는 구조입니다.\n\n기존 코딩 에이전트는 개발자의 터미널이나 브라우저 탭 안에서 고립되기 쉬웠습니다. Slack Code는 PM·디자이너·개발자가 같은 변경을 보며 의견을 남기는 흐름을 전제로 합니다.\n\n코딩 에이전트의 다음 경쟁 기준은 혼자 얼마나 잘 만드는가보다, 팀이 그 과정을 얼마나 빨리 검토하고 이어받을 수 있는가로 이동하고 있습니다.",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1787628564,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DccrIVqGQkR",
    "region": "kr"
   },
   {
@@ -620,7 +620,7 @@
    "likes": 23,
    "cmts": 2,
    "time": 1787614810,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/785599678_1360927332824332_8693917013343387841_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk3MTExMzYxNzE2MDAyMDU0OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=rMvy93DLTYUQ7kNvwHvuU0E&_nc_oc=AdpM7Fdf9IvpMiM2cQmTkRO0iYQi60RwsvWoQws1XmsXp4arFevZyxuKKxX2masjoKqjVNP1T0Xh-1UmzbC1qMen&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Jq-prcVsQtHAbSruqOL47Q&_nc_ss=7a22e&oh=00_AQGKACjyyO2yZmhTjOJW0QMUkaB8OgPqQj6ULvtZVQefMw&oe=6A92E175",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/785599678_1360927332824332_8693917013343387841_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk3MTExMzYxNzE2MDAyMDU0OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=rMvy93DLTYUQ7kNvwHvuU0E&_nc_oc=AdpM7Fdf9IvpMiM2cQmTkRO0iYQi60RwsvWoQws1XmsXp4arFevZyxuKKxX2masjoKqjVNP1T0Xh-1UmzbC1qMen&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=YWy2uTkw3q8ir0t_MYv9nw&_nc_ss=7a22e&oh=00_AQF5-ahNUdCAOM28TNNcCb-btWWlnw74hAaFxYyxIpoCng&oe=6A9319B5",
    "url": "https://www.threads.com/@aicoffeechat/post/DccOsuBiiJF",
    "region": "kr"
   },
@@ -637,132 +637,22 @@
   {
    "account": "takepage_",
    "text": "스타 1.4만개가 눌린 SEO 스킬이 있습니다.\n이름은 claude-seo\n\n클로드 코드에 주소 하나만 던지면\n사이트를 훑어서 고칠 목록을 뽑아줍니다.\n\nAI한테 \"내 사이트 SEO 최적화 해줘\"라고 하는 거랑 \n뭐가 차별점이 있을지 짚어봤습니다.",
-   "likes": 38,
+   "likes": 39,
    "cmts": 6,
    "time": 1787578831,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/783183764_17933576769362958_4569395714371319868_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk3MDgyMTQ5NDg2NzQzMzEwMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTcyNC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=H2taRnzU5fcQ7kNvwFR2Flc&_nc_oc=AdrUT9SV_D78Cj-Nww5t7BzyBwVF4bo0TyZjUSvDg130FrZ_s7CfbiX6e8dblpeuqcPlaVOXVo7ps9_zYDr6ANap&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=3xO0c2Gxwi3Vp9JjRbHO0Q&_nc_ss=7a22e&oh=00_AQFvJfMmQ17tEEuBt6Us_GrpfqLgATASKRyFtOgUDVhFoA&oe=6A92F417",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/783183764_17933576769362958_4569395714371319868_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk3MDgyMTQ5NDg2NzQzMzEwMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTcyNC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=H2taRnzU5fcQ7kNvwFR2Flc&_nc_oc=AdrUT9SV_D78Cj-Nww5t7BzyBwVF4bo0TyZjUSvDg130FrZ_s7CfbiX6e8dblpeuqcPlaVOXVo7ps9_zYDr6ANap&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=JewEAWkfIkaV4onRrxFw7w&_nc_ss=7a22e&oh=00_AQHy5pbwNKZLM-fdsY6So3Cznz0dkgbHqqeu5d3sqWOJ5g&oe=6A92F417",
    "url": "https://www.threads.com/@takepage_/post/DcbMRx8DxaN",
    "region": "kr"
   }
  ],
  "tiktok": [
   {
-   "account": "jaemyung_lee",
-   "title": "🇰🇷🇧🇷🫰 #KOREA #BRASIL @Presidente Lula",
-   "views": 1800000,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooDPRCUDqBpuPTmFEWk6RAIgEBqnfZwgeRICBU~tplv-tiktokx-origin.image?dr=14575&x-expires=1787806800&x-signature=LRBE1CtvAo4FkBoqN1DluRVWk7s%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1785177115,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7667277327386135826",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "이번 정류장은 아르헨티나입니다🇰🇷🇦🇷 #이재명 #대통령 #argentina #buenosaireststheerastour",
-   "views": 1600000,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAbAoCECNeDAVDgQBcAkFzYBfoUADqQCQWIuZl~tplv-tiktokx-origin.image?dr=14575&x-expires=1787806800&x-signature=7kM%2Betu1M2brsQGaxqcJrUSb2Nk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1785471372,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7668541152869616914",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "이번 정류장은 브라질입니다 #이재명 #대통령 #Brasil #Brazil",
-   "views": 760300,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooBGAi8A6InMPiZBpU9fBkTRtAAwBKw0m1E0Ag~tplv-tiktokx-origin.image?dr=14575&x-expires=1787806800&x-signature=sBaMd6nULxFr1DAOHcf1Mowecfg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1785109781,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7666988131442281746",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "¡Gusto en conocerte, Argentina! 🇰🇷🤝🇦🇷 #이재명 #아르헨티나 #argentina #javiermilei",
-   "views": 480600,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o43E0EJDgKsBeuyFfnqRBCAvI1sAAbI2NsPlIc~tplv-tiktokx-origin.image?dr=14575&x-expires=1787806800&x-signature=gyVS9BxjoPsUeMu1wB2M7ZFpT7k%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1785519099,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7668746136877812999",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "이번 정류장은 칠레입니다🇰🇷🇨🇱 #이재명 #대통령 #Chile #Corea",
-   "views": 365700,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQpDHATAEBzAIGFgqwDA4hofdRfVCsCaqEBIkL~tplv-tiktokx-origin.image?dr=14575&x-expires=1787806800&x-signature=B19hFtaRRwWnQAhuFQPRxvFZujA%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1785365622,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7668086960883354887",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "프랑크푸르트에 도착했습니다🇰🇷🇩🇪 #이재명 #deutschland #frankfurt",
-   "views": 257900,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1787806800&x-signature=omYpZm995bOBqImLeRTM1btEKis%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1785656353,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7669335640793763079",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "대한민국과 브라질이 함께 그려갈 미래가  두 나라 국민 모두에게  더 큰 희망과 기회가 되길 기대합니다 🇰🇷🫰🇧🇷 @Presidente Lula ima, meu irmão💚💛💙 #이재명 #lula #korea #Br",
-   "views": 231000,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-i-photomode-sg/91a2f3151d9741689af70b1d1f8aac3a~tplv-photomode-image.jpeg?dr=14555&x-expires=1787806800&x-signature=Lp7U6PVbBW2S6pB9PSBfvAFCwvE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=9b759fb9&idc=my&ftpl=1",
-   "time": 1785270939,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7667680300490558728",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "마참내.. #anthropic #openai #NVIDIA #broadcom #이재명",
-   "views": 188300,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/osApGgttBIBbbk6zA4iAKdIdkBfL1AAEiSwmCM~tplv-tiktokx-origin.image?dr=14575&x-expires=1787806800&x-signature=usw4KDkPRxy7lXCH9PbZ7pOyMEs%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1784945079,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7666280741554195730",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "이번 정류장은 샌프란시스코입니다 🇰🇷🇺🇸 #이재명 #대통령 #US #sanfrancisco #california",
-   "views": 133400,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okkIgGYEt7AlB4qvUF5yCAEAjD8vfKAfVACbBp~tplv-tiktokx-origin.image?dr=14575&x-expires=1787806800&x-signature=ptyTQ34mNE4BlW0G4isqmJUxU4w%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1784911601,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7666136953456315666",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "대통령님, 부동산 정책의 목표가 뭔가요? #이재명 #대통령 #부동산토론회",
-   "views": 105500,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ok7qEZCqBgAIPBVFAEgOfAJAhjCDYF5jcUeyNC~tplv-tiktokx-origin.image?dr=14575&x-expires=1787806800&x-signature=ejx70393ubK%2FXgeJmo0ICDTaXFE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1784793310,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7665628897077234951",
-   "region": "kr"
-  },
-  {
    "account": "tictok_ent",
    "title": "박규영, 아침부터 미모 열일 / 아워글래스(HOURGLASS) 팝업 포토월 #박규영 #아워글래스 #HOURGLASS",
-   "views": 2865,
+   "views": 2903,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oUDPINKKABuclCBuAAwinRmqEfl211iBiAs9LA~tplv-tiktokx-origin.image?dr=14575&x-expires=1787806800&x-signature=8lPI%2FUze0%2FcqchkDsoKZYirU7qc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=sg1",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oUDPINKKABuclCBuAAwinRmqEfl211iBiAs9LA~tplv-tiktokx-origin.image?dr=14575&x-expires=1787810400&x-signature=ysJR7erUygs2Kv0nwrj0hmNOFcc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1787535859,
    "url": "https://www.tiktok.com/@tictok_ent/video/7677408056661036308",
    "region": "kr"
@@ -770,12 +660,100 @@
   {
    "account": "tictok_ent",
    "title": "QWER 쵸단-마젠타, 쵸코 커플 / 제 14회 부산국제코미디페스티벌 #QWER #큐떱이알 #쵸단 #마젠타 #히나 #시연 #냥뇽녕냥 #제14회 부산국제코미디페스티벌",
-   "views": 1271,
+   "views": 1272,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQY79AgDVEXliePFEAAFpAIEEDWQfE5AOrQvEf~tplv-tiktokx-origin.image?dr=14575&x-expires=1787806800&x-signature=I%2BFVVTEFXHx0lv4gYC0GonnK%2Bks%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=sg1",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQY79AgDVEXliePFEAAFpAIEEDWQfE5AOrQvEf~tplv-tiktokx-origin.image?dr=14575&x-expires=1787810400&x-signature=7gBdVqQOkFGYLburAz82fzeWuNw%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1787310002,
    "url": "https://www.tiktok.com/@tictok_ent/video/7676438007003630869",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "QWER 히나-시연, 귀염둥이 막내들 / 제 14회 부산국제코미디페스티벌 #QWER #큐떱이알 #쵸단 #마젠타 #히나 #시연 #냥뇽녕냥 #제14회 부산국제코미디페스티벌",
+   "views": 1259,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/osqCEIeJAGIoeAAAVLOJeL8deGAGVIEgWLIvXA~tplv-tiktokx-origin.image?dr=14575&x-expires=1787810400&x-signature=xrSEDQVtg0UPXyWPF%2BqHXMV2k9E%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1787310065,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7676438278089805077",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "이규형, 훈훈한 비주얼 / 넷플릭스 시리즈 ‘들쥐’ 제작발표회 #류준열 #설경구 #이규형 #김홍선 #들쥐",
+   "views": 848,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oUNEQhYAliazBTi5Y1ATAIDamANAl7P5CAGyo~tplv-tiktokx-origin.image?dr=14575&x-expires=1787810400&x-signature=fUtGyC0gyrHMKYvXVMp1%2F2uncXk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1787205675,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7675989926365678866",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "설경구, 묵직한 존재감 / 넷플릭스 시리즈 ‘들쥐’ 제작발표회 #류준열 #설경구 #이규형 #김홍선 #들쥐",
+   "views": 542,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQCEmmeFEsgCU9hC1GIDfBOVhSAFAApgA38qIE~tplv-tiktokx-origin.image?dr=14575&x-expires=1787810400&x-signature=uMijGFgfQFbKchKl3AgAhVGlzDc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1787205704,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7675990051825749256",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "전도연, 너무 기다린 이창동 영화 / 넷플릭스 영화 ‘가능한 사랑’ 제작보고회 포토타임 #이창동 #전도연 #설경구 #조인성 #조여정 #가능한사랑",
+   "views": 285,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/osfPAURCo1DZEwi9DnjiCBgBBgANRIKNa2UAAg~tplv-tiktokx-origin.image?dr=14575&x-expires=1787810400&x-signature=nfwq8vHwARJhS19N%2B%2F4%2Fe1Yg0sU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1787628924,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7677807767154904338",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "조여정, 우아한 자태 / 넷플릭스 영화 ‘가능한 사랑’ 제작보고회 포토타임 #이창동 #전도연 #설경구 #조인성 #조여정 #가능한사랑",
+   "views": 146,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ogJXEKN6QBA6C3AHAoi0AK1ACB7wcB4RI2fYNi~tplv-tiktokx-origin.image?dr=14575&x-expires=1787810400&x-signature=cye9xtUgNGX7MCkRu13EZZMyHKw%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1787628549,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7677806157523684616",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "류준열, 매력적인 미소 / 넷플릭스 시리즈 ‘들쥐’ 제작발표회 #류준열 #설경구 #이규형 #김홍선 #들쥐",
+   "views": 140,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4NTfGDDQAoRiBAEZDMIroDAAIErAALfVNELqe~tplv-tiktokx-origin.image?dr=14575&x-expires=1787810400&x-signature=t7yV%2Fm%2BgoLT0cKERgrIFVvBQ5Dk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1787205729,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7675990157845073170",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "설경구, 이창동의 페르소나 / 넷플릭스 영화 ‘가능한 사랑’ 제작보고회 포토타임 #이창동 #전도연 #설경구 #조인성 #조여정 #가능한사랑",
+   "views": 115,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooXafEKIALWeAQfIgKLqAGEGA0kvAGkVeDNJT3~tplv-tiktokx-origin.image?dr=14575&x-expires=1787810400&x-signature=raKS4fZEnIjH43UL%2B5bfWMIYR5s%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1787628798,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7677807226186255624",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "조인성, 독보적인 훈훈함 / 넷플릭스 영화 ‘가능한 사랑’ 제작보고회 포토타임 #이창동 #전도연 #설경구 #조인성 #조여정 #가능한사랑",
+   "views": 111,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4IAaqxCaCQAegVAm6QAEFEBwGDPAjAUafmqFU~tplv-tiktokx-origin.image?dr=14575&x-expires=1787810400&x-signature=7TDWpczZRFKvXM6A%2FzUXd9QJOTI%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1787628684,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7677806735230389511",
    "region": "kr"
   }
  ],
@@ -799,15 +777,6 @@
    "url": "https://www.reddit.com/r/Damnthatsinteresting/comments/1vxnsm7/the_sebright_chicken_looks_like_it_still_needs_to/"
   },
   {
-   "sub": "SipsTea",
-   "title": "Facts",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/is1fzzpbjflh1.jpeg?width=640&crop=smart&auto=webp&s=6d063fdf1964d1b55477f4d3f3327ad50728adf7",
-   "time": 1787623793,
-   "url": "https://www.reddit.com/r/SipsTea/comments/1vxmuaj/facts/"
-  },
-  {
    "sub": "texts",
    "title": "After 2 years together, I finally found out why my girlfriend is such a dry responder when I'm trying to find out how she's doing",
    "score": 0,
@@ -818,12 +787,30 @@
   },
   {
    "sub": "SipsTea",
+   "title": "Facts",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/is1fzzpbjflh1.jpeg?width=640&crop=smart&auto=webp&s=6d063fdf1964d1b55477f4d3f3327ad50728adf7",
+   "time": 1787623793,
+   "url": "https://www.reddit.com/r/SipsTea/comments/1vxmuaj/facts/"
+  },
+  {
+   "sub": "SipsTea",
    "title": "I am Social-Interaction Man",
    "score": 0,
    "cmts": 0,
    "thumb": "https://preview.redd.it/s1hswmgp5dlh1.jpeg?width=320&crop=smart&auto=webp&s=026d9162b26ffbdabf427845f2ff8b386ba0311b",
    "time": 1787594999,
    "url": "https://www.reddit.com/r/SipsTea/comments/1vxak5d/i_am_socialinteraction_man/"
+  },
+  {
+   "sub": "Steam",
+   "title": "How time flies",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/52qkq82k1glh1.jpeg?width=640&crop=smart&auto=webp&s=8f4ba9233238e49a82faf27b0d81de63c4bff7c0",
+   "time": 1787630064,
+   "url": "https://www.reddit.com/r/Steam/comments/1vxp19b/how_time_flies/"
   },
   {
    "sub": "NatureIsFuckingLit",
@@ -853,15 +840,6 @@
    "url": "https://www.reddit.com/r/interesting/comments/1vxm4ys/bro_is_happiest_when_he_is_with_fish/"
   },
   {
-   "sub": "KidsAreFuckingStupid",
-   "title": "Shocking discovery",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/x0beua31qelh1.jpeg?width=320&crop=smart&auto=webp&s=e5a99d8573a7c79d6415310458257a435f70cb6c",
-   "time": 1787613945,
-   "url": "https://www.reddit.com/r/KidsAreFuckingStupid/comments/1vxj23i/shocking_discovery/"
-  },
-  {
    "sub": "technology",
    "title": "YouTube Premium is getting yet another price hike for users across the globe",
    "score": 0,
@@ -880,13 +858,13 @@
    "url": "https://www.reddit.com/r/gaming/comments/1vxkoqe/games_with_1010_soundtracks/"
   },
   {
-   "sub": "Steam",
-   "title": "How time flies",
+   "sub": "Baking",
+   "title": "Made myself a birthday cake for the 4th year in a row",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/52qkq82k1glh1.jpeg?width=640&crop=smart&auto=webp&s=8f4ba9233238e49a82faf27b0d81de63c4bff7c0",
-   "time": 1787630064,
-   "url": "https://www.reddit.com/r/Steam/comments/1vxp19b/how_time_flies/"
+   "thumb": "https://preview.redd.it/jgn4z2bykclh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=c353c2b37544f1c2af03c8df3e4a3a911025d715",
+   "time": 1787588025,
+   "url": "https://www.reddit.com/r/Baking/comments/1vx79b9/made_myself_a_birthday_cake_for_the_4th_year_in_a/"
   }
  ],
  "disaster": [],
@@ -902,7 +880,6 @@
     "takepage_"
    ],
    "tiktok": [
-    "jaemyung_lee",
     "tictok_ent"
    ]
   },
@@ -928,13 +905,16 @@
     "higgsfield.ai": "gap",
     "googledeepmind": "gap",
     "cristiano": "gap"
+   },
+   "tiktok": {
+    "jaemyung_lee": 503
    }
   },
   "landing": {
-   "at": "2026-08-25T14:05:56",
+   "at": "2026-08-25T14:31:28",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-25T14:31:25.149539+09:00"
+ "updated": "2026-08-25T15:01:24.421767+09:00"
 }
