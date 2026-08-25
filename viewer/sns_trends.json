@@ -7569,8 +7569,14 @@
   {
    "query": "최여진",
    "traffic": "10000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/71d2593aab.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.koreadaily.com/article/20260728062831722",
+     "source": ""
+    }
+   ],
    "vol": 10000,
    "started": "2026-08-25T18:20:00+09:00",
    "delta": -9,
@@ -7604,8 +7610,14 @@
   {
    "query": "반도체",
    "traffic": "20000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/52acf3471f.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.hankyung.com/article/202608055183i",
+     "source": ""
+    }
+   ],
    "vol": 20000,
    "started": "2026-08-25T17:00:00+09:00",
    "delta": -5,
@@ -7656,8 +7668,14 @@
   {
    "query": "뇌물",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/67d81cbe45.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.asiatoday.co.kr/kn/view.php?key=20260825010008449",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-08-25T18:40:00+09:00",
    "delta": -18,
@@ -7670,8 +7688,14 @@
   {
    "query": "거북",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/8d98d8d85f.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.kmib.co.kr/article/view.asp?arcid=9000001702&code=61121111&sid1=soc",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-08-25T18:20:00+09:00",
    "delta": -14,
@@ -7942,12 +7966,11 @@
  ],
  "gtrends_pool_updated": "2026-08-25T21:07:48+09:00",
  "_trend_img": {
-  "tried": "2026-08-25T20:15:00+09:00",
+  "tried": "2026-08-25T21:07:48+09:00",
   "fail": {
-   "반도체": "2026-08-25T18:47:06+09:00",
-   "사표": "2026-08-25T18:47:06+09:00",
    "담비": "2026-08-25T19:43:13+09:00",
-   "인천광역시": "2026-08-25T20:23:26+09:00"
+   "인천광역시": "2026-08-25T20:23:26+09:00",
+   "김천상무 대 전북": "2026-08-25T21:14:03+09:00"
   }
  },
  "gtrends_gl": [
@@ -18101,7 +18124,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-08-25T21:07:48+09:00"
+    "first_seen": "2026-08-25T21:07:48+09:00",
+    "kw": "Codex Harness, OpenAI, 실행 엔진",
+    "sum": "Codex Harness가 실행층을 공개하며 에이전트 경쟁 기준을 바꿨다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -18116,7 +18142,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-08-25T21:07:48+09:00"
+    "first_seen": "2026-08-25T21:07:48+09:00",
+    "kw": "AX, 중소기업, FDE",
+    "sum": "작성자가 중소기업 전사 AX 구축 확산 경험을 전했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
