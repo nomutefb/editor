@@ -7535,8 +7535,14 @@
   {
    "query": "jp모건 체이스",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/e46b38ded3.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://biz.heraldcorp.com/article/10734796",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-08-25T19:30:00+09:00",
    "delta": -8,
@@ -7550,8 +7556,14 @@
   {
    "query": "김보라",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/a64ddfe18e.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.tenasia.co.kr/article/2026080925694",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-08-25T19:20:00+09:00",
    "delta": -7,
@@ -7599,8 +7611,14 @@
   {
    "query": "송강",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/df83ff102b.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.munhwa.com/article/11611938",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-08-25T18:40:00+09:00",
    "isNew": true,
@@ -7633,8 +7651,14 @@
   {
    "query": "휴림로봇",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/61438ddc13.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.newspim.com/news/view/20260709000903",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-25T18:50:00+09:00",
    "isNew": true,
@@ -7646,8 +7670,14 @@
   {
    "query": "맷 데이먼",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/2d29ff761e.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.newspim.com/news/view/20260803000406",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-08-25T18:40:00+09:00",
    "isNew": true,
@@ -7674,8 +7704,14 @@
   {
    "query": "윤은혜",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/62f34c05ab.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.news-wa.com/article/entertainment/celebrity-issue/2026/08/25/20260825500034",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-08-25T19:00:00+09:00",
    "delta": -14,
@@ -7812,11 +7848,11 @@
  ],
  "gtrends_pool_updated": "2026-08-25T22:36:39+09:00",
  "_trend_img": {
-  "tried": "2026-08-25T21:40:47+09:00",
+  "tried": "2026-08-25T22:36:39+09:00",
   "fail": {
-   "인천광역시": "2026-08-25T20:23:26+09:00",
    "김천상무 대 전북": "2026-08-25T21:14:03+09:00",
-   "영장": "2026-08-25T21:45:13+09:00"
+   "영장": "2026-08-25T21:45:13+09:00",
+   "튀니지": "2026-08-25T22:41:20+09:00"
   }
  },
  "gtrends_gl": [
@@ -18000,7 +18036,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-08-25T22:36:39+09:00"
+    "first_seen": "2026-08-25T22:36:39+09:00",
+    "kw": "NVIDIA AVO, GPU 커널 최적화, FlashAttention-4",
+    "sum": "NVIDIA AVO가 커널 40개 실행 반복으로 FlashAttention-4를 10.5% 능가했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -18015,7 +18054,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-08-25T22:36:39+09:00"
+    "first_seen": "2026-08-25T22:36:39+09:00",
+    "kw": "NVIDIA AVO, ARC-AGI-3",
+    "sum": "AVO가 영속 메모리와 도구 사용을 결합해 미지 환경 탐색 평가를 받았다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -18030,7 +18072,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-08-25T22:36:39+09:00"
+    "first_seen": "2026-08-25T22:36:39+09:00",
+    "kw": "NVIDIA AVO, ARC-AGI-3, Claude Opus 5",
+    "sum": "AVO가 ARC-AGI-3 183개 레벨을 모두 통과해 Opus 5 단독 기준을 크게 앞섰다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -18391,7 +18436,10 @@
     "rh": [
      16
     ],
-    "first_seen": "2026-08-25T22:36:39+09:00"
+    "first_seen": "2026-08-25T22:36:39+09:00",
+    "kw": "Headlong, 지속형 에이전트",
+    "sum": "계정이 지속형 에이전트용 마이크로하니스 headlong을 소개하는 글을 공유했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
