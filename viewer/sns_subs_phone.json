@@ -281,6 +281,16 @@
  "threads": [
   {
    "account": "daily_ai_star",
+   "text": "Atelier는 18MB짜리 macOS 앱으로 여러 Claude Code 에이전트를 병렬 실행합니다.\n\n에이전트마다 독립된 Git worktree를 만들고, 터미널·브라우저·diff를 같은 창에 붙입니다. 코드를 클라우드로 보내지 않고 Mac에서 실행하며, 브라우저도 Chromium을 따로 싣지 않고 운영체제의 webview를 사용합니다.\n\n현재 Claude Code 중심이지만, 제품 설명은 모델에 종속되지 않는 구조를 전제로 합니다. 플러그인 13개를 필요한 것만 설치하고, 테스트 자동 실행·문서 조회·diff 검사 같은 기능을 에이전트 주변에 붙일 수 있습니다.\n\n코딩 에이전트의 경쟁 기준이 모델 하나의 성능에서, 여러 실행을 충돌 없이 검토하고 병합하는 작업공간으로 이동하고 있습니다.\n\nhttps://www.atelierbuild.dev/",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1787707642,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DcfB9ZyGbll",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
    "text": "ThinkingBox는 MCP 호환 도구 환경을 격리하고, 시뮬레이션 사용자의 추가 답변과 도구 호출, 최종 응답, 실제 부작용을 함께 기록합니다.\n\n평가는 두 층으로 나뉩니다. 데이터베이스의 변경처럼 정답이 명확한 부분은 실행 가능한 조건으로 검사합니다. “가용성이 보장되지 않는다”처럼 표현이 여러 가지인 부분만 별도의 언어 판단을 사용합니다.\n\n이 설계가 드러낸 문제는 단순합니다. 에이전트는 정상적으로 종료하고 유효한 도구도 호출하면서, 정작 사용자가 원한 결과를 만들지 못할 수 있습니다.\n\n업무 에이전트의 기준선이 “무엇을 말했는가”에서 “어떤 상태를 남겼는가”로 이동하고 있습니다 ⭐\n\nhttps://commandline.microsoft.com/thinkingbox-bench-agent-benchmarking/",
    "likes": 0,
    "cmts": 0,
@@ -302,27 +312,17 @@
   {
    "account": "choi.openai",
    "text": "ChatGPT Work가 웹과 모바일에서 사이트 로그인을 지원합니다.\n\n아이디와 비밀번호는 ChatGPT가 보지 않는 방식이며, Plus·Pro·Business 사용자에게 순차 배포됩니다.\n\n기존에는 로그인 화면이 나오면 사용자가 직접 브라우저를 조작해 로그인해야 했는데, 이제 이 과정까지 이어서 처리할 수 있습니다.\n\n오픈AI가 든 예시는 새집 전기·가스 신청, 여권 발급이나 운전면허 관련 방문 예약, 보험 보장 범위와 환급 비용 확인, 반품 수거 신청, 이메일로 받은 청구서를 회계 프로그램에 등록하는 일 등입니다.\n\n지난해 1월 Operator는 로그인이나 캡차가 나오면 사람에게 조작을 넘겨야 했습니다. 1년 반 뒤에는 로그인한 개인 계정 안에서 예약하고, 신청하고, 서류를 처리하는 일까지 에이전트의 작업 범위에 들어오기 시작했습니다.",
-   "likes": 31,
-   "cmts": 0,
+   "likes": 37,
+   "cmts": 1,
    "time": 1787704230,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/785277131_1639267167766406_7887727944519532451_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk3MTg3MzI2NzA2MTI4NTIyNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=1oIgXQ9i-d4Q7kNvwHPh8VK&_nc_oc=AdpDLwheYs4kQPvDT2NWsyku_elo_Su8orhK7TUIOjsjOpWmpfWDXPWsLpQnE1s-kbU8sF3n3TXw57p5FPOy5XFt&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Cf-1lsmBfn4-NHQwefALEQ&_nc_ss=7a22e&oh=00_AQGLpeJKp7IsPXkDVV8t9mOimecw4G6IsQHtfbwmR-TUNA&oe=6A940F6B",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/785277131_1639267167766406_7887727944519532451_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk3MTg3MzI2NzA2MTI4NTIyNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=1oIgXQ9i-d4Q7kNvwHPh8VK&_nc_oc=AdpDLwheYs4kQPvDT2NWsyku_elo_Su8orhK7TUIOjsjOpWmpfWDXPWsLpQnE1s-kbU8sF3n3TXw57p5FPOy5XFt&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=zATsecPXoW4-dMZdHStojA&_nc_ss=7a22e&oh=00_AQGAP9TitsYBmrxYsYNTJyu-n5DxbctuOp31NxT23icxig&oe=6A940F6B",
    "url": "https://www.threads.com/@choi.openai/post/Dce7bFIDuFo",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "3/ tinyhumansai/openhuman — 하루 +515⭐\n\nOpenHuman은 개인 데이터를 로컬 우선으로 기억하고, 여러 에이전트를 내구성 있는 그래프에서 조율하는 프로젝트입니다.\n\nREADME에는 100개 이상의 OAuth 연동, 5,000개 이상의 MCP 서버, 90,000개 이상의 스킬을 제시합니다. 메모리는 SQLite의 Markdown 트리로 저장하고, 워크플로는 승인 단계를 거쳐 실행합니다.\n\n세 레포를 나란히 보면 에이전트의 다음 기준선은 “어떤 모델인가”보다 “모델·기억·실행 환경을 누가 통제하는가”에 가까워지고 있습니다.\n\nhttps://reporadar.spreix.com/",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1787703306,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/Dce5r7pEzTp",
    "region": "kr"
   },
   {
    "account": "promppy_com",
    "text": "디자인 똥손이 AI로 프론트엔드 탈바꿈하는 법\n\n1. 일단 디자인 잘하는 고수들의 컴포넌트 사이트를 모은다\n2. AI에게 해당 사이트 링크를 던져주고 기능을 파악시킨다\n3. 우리 프로젝트의 기초 구조에 맞게 조립해달라고 요청한다\n4. 직접 짜는 것보다 수정 작업이 훨씬 빠르고 퀄리티도 높다\n\n제가 매일 쓰는 조합은 이거예요.\n\n- beautifului.dev\n- beui.dev\n- rareui.com\n- transitions.dev\n- ui.shadcn.com\n\n이 방법 쓰면 더 이상 '디자인 감각' 타령 안 해도 됩니다. 개발자가 디자인까지 잡는 제일 빠른 루트, 이거 말고 또 있을까요?",
-   "likes": 7,
+   "likes": 8,
    "cmts": 0,
    "time": 1787701588,
    "thumb": "",
@@ -345,7 +345,7 @@
    "likes": 20,
    "cmts": 2,
    "time": 1787697378,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/786656690_2278015016290286_8681316434153402908_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk3MTgxMTMyMjAzOTU2Mzk0Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=9XrJxcsUn5EQ7kNvwFYjCU5&_nc_oc=AdoTNXYOjwKk1GmdhF2FmEsICGtqBOScGLCLg3UxdiWTLmBiV3bVnR8gjBeyvNHYp3mbPaZrULHZI58CcF5IGuRM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Z4Y4YzV4Z4sqU10-UOlMUA&_nc_ss=7a22e&oh=00_AQH791T0C4NEHJKtJ6-OC-MwljZSaXlPglX7iN6ZM8cXDA&oe=6A942054",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/786656690_2278015016290286_8681316434153402908_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk3MTgxMTMyMjAzOTU2Mzk0Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=9XrJxcsUn5EQ7kNvwFYjCU5&_nc_oc=AdoTNXYOjwKk1GmdhF2FmEsICGtqBOScGLCLg3UxdiWTLmBiV3bVnR8gjBeyvNHYp3mbPaZrULHZI58CcF5IGuRM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=8RrAylLop-FA_vOH6EhcUg&_nc_ss=7a22e&oh=00_AQH0g9_rrdHdG9Q4k5s4R0HoswW7viW7z_BFMUcUps-r0w&oe=6A942054",
    "url": "https://www.threads.com/@aicoffeechat/post/DcetVqVCvan",
    "region": "kr"
   },
@@ -365,17 +365,17 @@
    "likes": 4,
    "cmts": 1,
    "time": 1787696562,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/786069762_18083049101407306_7391687651804116321_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk3MTgwOTAyNjg1ODI3NTkzOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMiJ9&_nc_ohc=oob7pLkE6csQ7kNvwHSy28u&_nc_oc=Adr3d6uTQCCsf0Yp2KjDOV6XNlNk_7LF1dA9MKE6WtXk933ANTVMi5jr110Id5n2XsF-F7k5id664576AKPY4j0h&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=gWyoxUmqwUD5kqSpja79Cg&_nc_ss=7a22e&oh=00_AQHR_SAw3NwX4J0SU7i5mhTLLEHpTIoP5HROtUWESOWNtQ&oe=6A93F3B6",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/786069762_18083049101407306_7391687651804116321_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk3MTgwOTAyNjg1ODI3NTkzOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=oob7pLkE6csQ7kNvwHSy28u&_nc_oc=Adr3d6uTQCCsf0Yp2KjDOV6XNlNk_7LF1dA9MKE6WtXk933ANTVMi5jr110Id5n2XsF-F7k5id664576AKPY4j0h&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=h0sAbtPprMy6WHtoASFJwA&_nc_ss=7a22e&oh=00_AQHBsYQwxMvXFqRMnIWpNGlDDatd5d2Gj8WIUjmSeSAjKg&oe=6A942BF6",
    "url": "https://www.threads.com/@aipeekme/post/Dces0Qxk9Ri",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "Claude의 메모리 기능이 채팅과 Claude Cowork에서 공유됩니다.\n\n채팅에서 이야기했던 프로젝트나 업무 관련 내용을 Cowork에서도 이어서 활용할 수 있는데요.\n저장된 내용은 설정에서 직접 확인·수정·삭제할 수 있고, 대화 중 “기억해”라고 요청해 따로 저장하는 것도 가능합니다.\n\n메모리는 Free, Pro, Max에서 기본 활성화됩니다.",
-   "likes": 40,
+   "likes": 41,
    "cmts": 0,
    "time": 1787695201,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/780323071_17984044488112832_2315798360251707974_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk3MTc5NzY3NzEyMTM0MzYxMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=KlMjn4IG_ucQ7kNvwEJYk-1&_nc_oc=Adr0NAn7tz1LV8-a7IJTQLXSUEdRW5Odbm-FbaR5BQyY7OM2ej6ZfNMDEjYYWTPFrtkh6F88PtEcSb4-zpgJ37tx&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Cf-1lsmBfn4-NHQwefALEQ&_nc_ss=7a22e&oh=00_AQE_RAOTExhrJfca2qGhHyrpQDjtAYw9dl1CxBRmAafjzw&oe=6A93FD3D",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/780323071_17984044488112832_2315798360251707974_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk3MTc5NzY3NzEyMTM0MzYxMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=KlMjn4IG_ucQ7kNvwEJYk-1&_nc_oc=Adr0NAn7tz1LV8-a7IJTQLXSUEdRW5Odbm-FbaR5BQyY7OM2ej6ZfNMDEjYYWTPFrtkh6F88PtEcSb4-zpgJ37tx&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=zATsecPXoW4-dMZdHStojA&_nc_ss=7a22e&oh=00_AQF1dvQWkQS8Rd1IZCuz9paonHP8On9T8PZ93xNEqoDdzg&oe=6A93FD3D",
    "url": "https://www.threads.com/@choi.openai/post/DceqPGgihB8",
    "region": "kr"
   },
@@ -415,7 +415,7 @@
    "likes": 21,
    "cmts": 1,
    "time": 1787668805,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/786656687_2374926656373044_8865991634568732225_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk3MTU3NTgzMTk2ODk2MTY4Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=tUbVwDt9E54Q7kNvwH6LHoU&_nc_oc=AdpuAB4uJLTZCkeBOcownS1ZQ6Rot9RREosO3ztySEO89wjU13QkQsEA3AmtcpmvNUGL8_IyLCe6iI5fLmwRoNYD&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=tadoHW2x2iKcZkHiyYLCkg&_nc_ss=7a22e&oh=00_AQFMOYamaJw3K5tbuWW2QjovchEqiJn56Fg5B0ypjVsjYQ&oe=6A9400FD",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/786656687_2374926656373044_8865991634568732225_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk3MTU3NTgzMTk2ODk2MTY4Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=tUbVwDt9E54Q7kNvwH6LHoU&_nc_oc=AdpuAB4uJLTZCkeBOcownS1ZQ6Rot9RREosO3ztySEO89wjU13QkQsEA3AmtcpmvNUGL8_IyLCe6iI5fLmwRoNYD&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=lvSxsF2TT7MwQ-EU2Z04lA&_nc_ss=7a22e&oh=00_AQFgasUwAr2PgmpGwIkpv88UaI6_l-9p5RRJjJ4TDg9cSg&oe=6A9400FD",
    "url": "https://www.threads.com/@kopp/post/Dcd3y1HCVSS",
    "region": "kr"
   },
@@ -425,8 +425,48 @@
    "likes": 0,
    "cmts": 0,
    "time": 1787640661,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/781005809_1418098327092468_1369814332652051767_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk3MTMzOTk2NjY4NDQyMjI2OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=gUitLyEKkAcQ7kNvwG5W8ja&_nc_oc=AdpuMEhdS0t42c2WwBvHu9DBx0P1H_sF9qmUCXsxSb3KBWDybKx_Dz8ns9sTJaAycqjr8YHe8IN5hGvxwB_Ky4Dg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=gWyoxUmqwUD5kqSpja79Cg&_nc_ss=7a22e&oh=00_AQHCAhAlGtNLmDY6MwTtz_ELGE5MkrTwqFMnlaGUx42RWA&oe=6A940094",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/781005809_1418098327092468_1369814332652051767_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk3MTMzOTk2NjY4NDQyMjI2OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=E8MjEmN7NiIQ7kNvwHsD3fK&_nc_oc=AdoUsoX66YV1rCC3oURjA9G26djQ-3SLkhBO6RvnTjsPnaGC8W17gNaCJvTGzTj2OCqy6Jeg_QCDaEaxQfCQ3ET0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=h0sAbtPprMy6WHtoASFJwA&_nc_ss=7a22e&oh=00_AQFb3gZAd2H32_X-nE_NNPEZcb71qBtqrnzaSoMbnVB-Qg&oe=6A940094",
    "url": "https://www.threads.com/@aipeekme/post/DcdCKiciWB8",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
+   "text": "3/ tinyhumansai/openhuman — 하루 +515⭐\n\nOpenHuman은 개인 데이터를 로컬 우선으로 기억하고, 여러 에이전트를 내구성 있는 그래프에서 조율하는 프로젝트입니다.\n\nREADME에는 100개 이상의 OAuth 연동, 5,000개 이상의 MCP 서버, 90,000개 이상의 스킬을 제시합니다. 메모리는 SQLite의 Markdown 트리로 저장하고, 워크플로는 승인 단계를 거쳐 실행합니다.\n\n세 레포를 나란히 보면 에이전트의 다음 기준선은 “어떤 모델인가”보다 “모델·기억·실행 환경을 누가 통제하는가”에 가까워지고 있습니다.\n\nhttps://reporadar.spreix.com/",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1787703306,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/Dce5r7pEzTp",
+   "region": "kr"
+  },
+  {
+   "account": "aicoffeechat",
+   "text": "챗GPT의 루틴이 강해졌다\n\n챗GPT가 예약 작업(scheduled tasks) 업데이트를 발표했는데요. 웹과 모바일의 챗GPT Work에서 Plus·Pro 사용자는 이제 정해진 일정에 실행하는 것뿐 아니라, Slack·Gmail·GitHub에서 뭔가 바뀌었을 때 반응하도록 작업을 설정할 수 있습니다. \n\n이제는 \"무슨 일이 생기면\"이 조건이 됩니다. 예를 들어 \"슬랙에서 동료에게 답장이 오면 구글 드라이브에 있는 발표 장표 숫자를 자동으로 수정해줘\"와 같이요.",
+   "likes": 11,
+   "cmts": 2,
+   "time": 1787694055,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/787035541_17954291085232485_5399709048953723409_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk3MTc4ODA2NTE4NjQ1MzE3OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=dJLjyuFyScwQ7kNvwHSVZvv&_nc_oc=AdrwM_RlFRm1F1LXbECjI9TzI9youVO6IAJgp9zY9UJfZj2V7wRv63475_vHxQXPeDZZnMFCqOwQCHrr9VrPSVMZ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=8RrAylLop-FA_vOH6EhcUg&_nc_ss=7a22e&oh=00_AQGC1hBnHcETVE8yd8EAqsYHe-PCw9BFTD09FYHjgVn8lg&oe=6A93FB60",
+   "url": "https://www.threads.com/@aicoffeechat/post/DceoDOskxa7",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "Google Ads에 Gemini Omni가 추가됩니다.\n\nAsset Studio에서 프롬프트 하나로 브랜드에 맞는 광고 영상을 생성하고 수정할 수 있는데요. 가로 16:9와 세로 9:16 영상도 함께 만들 수 있습니다.\n\n예를 들어 기존 브랜드 가이드와 URL을 넣고 제품을 설명하면, 광고 영상 구성부터 장면·배경·음성·화면 비율 수정까지 Gemini Omni로 처리할 수 있습니다.",
+   "likes": 43,
+   "cmts": 3,
+   "time": 1787689809,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/786288368_1596998088528686_1010642260797653134_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk3MTc1MjQ1MDUyOTE0Mjk3MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=FxSbwAb_uqgQ7kNvwFisuol&_nc_oc=AdrtNuRoKH6ksQCb4oTG9-vHbDVaZ6Eclt76yUUZZkbcAJnV67OkSq0Yj1Z5RkMNCw__srln-wjFANdtZwuQs5sY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=zATsecPXoW4-dMZdHStojA&_nc_ss=7a22e&oh=00_AQF1lOG5GBJy0MVXkH7z_qIdkg78LFHDghphjsptsf5NiQ&oe=6A941C2B",
+   "url": "https://www.threads.com/@choi.openai/post/Dcef899k6i7",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "여행 포스터 \n\n프롬프트 하단 👇",
+   "likes": 1,
+   "cmts": 1,
+   "time": 1787631914,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/785136821_18082862777407306_4543716646309794113_n.webp?stp=dst-webp_p640x640_sh2.08&_nc_cat=100&ig_cache_key=Mzk3MTI2NjA4OTA3Mzk4OTk3MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=5moDm6EfhrMQ7kNvwFua53U&_nc_oc=AdpYBtf_RAzXgbIVj_w7tUqM3kGEFAdA57iI1eMA1B-cxxWoDbGtjsHwDvk9ByMYG1nt86FFxzyp70Icb5Y3bgPx&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=h0sAbtPprMy6WHtoASFJwA&_nc_ss=7a22e&oh=00_AQGkURYnKK4-DViXE7c8MXy2uknHua239CeSw62_7V4eUQ&oe=6A941B06",
+   "url": "https://www.threads.com/@aipeekme/post/DccxhsdE5Vi",
    "region": "kr"
   },
   {
@@ -438,46 +478,6 @@
    "thumb": "",
    "url": "https://www.threads.com/@daily_ai_star/post/Dce5qZEk5db",
    "region": "kr"
-  },
-  {
-   "account": "aicoffeechat",
-   "text": "챗GPT의 루틴이 강해졌다\n\n챗GPT가 예약 작업(scheduled tasks) 업데이트를 발표했는데요. 웹과 모바일의 챗GPT Work에서 Plus·Pro 사용자는 이제 정해진 일정에 실행하는 것뿐 아니라, Slack·Gmail·GitHub에서 뭔가 바뀌었을 때 반응하도록 작업을 설정할 수 있습니다. \n\n이제는 \"무슨 일이 생기면\"이 조건이 됩니다. 예를 들어 \"슬랙에서 동료에게 답장이 오면 구글 드라이브에 있는 발표 장표 숫자를 자동으로 수정해줘\"와 같이요.",
-   "likes": 11,
-   "cmts": 2,
-   "time": 1787694055,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/787035541_17954291085232485_5399709048953723409_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk3MTc4ODA2NTE4NjQ1MzE3OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=dJLjyuFyScwQ7kNvwHSVZvv&_nc_oc=AdrwM_RlFRm1F1LXbECjI9TzI9youVO6IAJgp9zY9UJfZj2V7wRv63475_vHxQXPeDZZnMFCqOwQCHrr9VrPSVMZ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Z4Y4YzV4Z4sqU10-UOlMUA&_nc_ss=7a22e&oh=00_AQEpQnRXzFFYF2OyuXC_XW5Mr5-wEgBIv-5FSrhKVa_liQ&oe=6A93FB60",
-   "url": "https://www.threads.com/@aicoffeechat/post/DceoDOskxa7",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "Google Ads에 Gemini Omni가 추가됩니다.\n\nAsset Studio에서 프롬프트 하나로 브랜드에 맞는 광고 영상을 생성하고 수정할 수 있는데요. 가로 16:9와 세로 9:16 영상도 함께 만들 수 있습니다.\n\n예를 들어 기존 브랜드 가이드와 URL을 넣고 제품을 설명하면, 광고 영상 구성부터 장면·배경·음성·화면 비율 수정까지 Gemini Omni로 처리할 수 있습니다.",
-   "likes": 42,
-   "cmts": 3,
-   "time": 1787689809,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/786288368_1596998088528686_1010642260797653134_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk3MTc1MjQ1MDUyOTE0Mjk3MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=FxSbwAb_uqgQ7kNvwFisuol&_nc_oc=AdrtNuRoKH6ksQCb4oTG9-vHbDVaZ6Eclt76yUUZZkbcAJnV67OkSq0Yj1Z5RkMNCw__srln-wjFANdtZwuQs5sY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Cf-1lsmBfn4-NHQwefALEQ&_nc_ss=7a22e&oh=00_AQGH5IoTkWzfZPyovFFU15amc89S3GyA2y8fO_lYovd4Zg&oe=6A941C2B",
-   "url": "https://www.threads.com/@choi.openai/post/Dcef899k6i7",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
-   "text": "여행 포스터 \n\n프롬프트 하단 👇",
-   "likes": 1,
-   "cmts": 1,
-   "time": 1787631914,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/785136821_18082862777407306_4543716646309794113_n.webp?stp=dst-webp_p640x640_sh2.08&_nc_cat=100&ig_cache_key=Mzk3MTI2NjA4OTA3Mzk4OTk3MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=5moDm6EfhrMQ7kNvwFua53U&_nc_oc=AdpYBtf_RAzXgbIVj_w7tUqM3kGEFAdA57iI1eMA1B-cxxWoDbGtjsHwDvk9ByMYG1nt86FFxzyp70Icb5Y3bgPx&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=gWyoxUmqwUD5kqSpja79Cg&_nc_ss=7a22e&oh=00_AQH20a2lpsuABHo8_JWz-KMKLg38krugqTWElOYm619PLQ&oe=6A941B06",
-   "url": "https://www.threads.com/@aipeekme/post/DccxhsdE5Vi",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "1/ Alishahryar1/free-claude-code — 하루 +891⭐\n\nClaude Code·Codex·Pi·OpenCode 등 9개 코딩 에이전트를 하나의 모델 카탈로그에 연결하는 로컬 프록시입니다.\n\n50개 제공자와 월 13억 개 이상의 무료 토큰을 내세우고, 한 제공자가 실패하면 다음 모델로 자동 전환합니다. 에이전트별 계정이 아니라 모델 선택과 장애 대응을 한곳에서 관리하는 구조입니다.\n\nhttps://reporadar.spreix.com/",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1787703280,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/Dce5oo-E6op",
-   "region": "kr"
   }
  ],
  "tiktok": [
@@ -487,7 +487,7 @@
    "views": 1800000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooDPRCUDqBpuPTmFEWk6RAIgEBqnfZwgeRICBU~tplv-tiktokx-origin.image?dr=14575&x-expires=1787878800&x-signature=kQi4rT%2BWkiY4zfYHU5hoYmDCxCk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooDPRCUDqBpuPTmFEWk6RAIgEBqnfZwgeRICBU~tplv-tiktokx-origin.image?dr=14575&x-expires=1787878800&x-signature=%2BmDgmGIwvHv3pOApv2DjL6pWrb8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785177115,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7667277327386135826",
    "region": "kr"
@@ -498,7 +498,7 @@
    "views": 1600000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAbAoCECNeDAVDgQBcAkFzYBfoUADqQCQWIuZl~tplv-tiktokx-origin.image?dr=14575&x-expires=1787878800&x-signature=WERhQ420iCDeMLdv2oYHyQDlLKE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAbAoCECNeDAVDgQBcAkFzYBfoUADqQCQWIuZl~tplv-tiktokx-origin.image?dr=14575&x-expires=1787878800&x-signature=raqVOWyZBrgU8a%2BDQ3scNgDPGWI%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785471372,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7668541152869616914",
    "region": "kr"
@@ -506,7 +506,7 @@
   {
    "account": "jaemyung_lee",
    "title": "이번 정류장은 브라질입니다 #이재명 #대통령 #Brasil #Brazil",
-   "views": 762500,
+   "views": 762600,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooBGAi8A6InMPiZBpU9fBkTRtAAwBKw0m1E0Ag~tplv-tiktokx-origin.image?dr=14575&x-expires=1787878800&x-signature=JupJeU7g3dWET5Q4lsuIPHJuORw%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -528,7 +528,7 @@
   {
    "account": "jaemyung_lee",
    "title": "이번 정류장은 칠레입니다🇰🇷🇨🇱 #이재명 #대통령 #Chile #Corea",
-   "views": 367200,
+   "views": 367300,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQpDHATAEBzAIGFgqwDA4hofdRfVCsCaqEBIkL~tplv-tiktokx-origin.image?dr=14575&x-expires=1787878800&x-signature=DRPlBUJk0EU4%2F1quZ8LKnR94qpg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -542,7 +542,7 @@
    "views": 262100,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1787878800&x-signature=20AH7TbkM%2B7%2BgchgYi2DbGZg6Is%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1787878800&x-signature=B8xMEU6zzY6Ns%2BDlSr8rRIlZjNs%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785656353,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7669335640793763079",
    "region": "kr"
@@ -550,7 +550,7 @@
   {
    "account": "jaemyung_lee",
    "title": "대한민국과 브라질이 함께 그려갈 미래가  두 나라 국민 모두에게  더 큰 희망과 기회가 되길 기대합니다 🇰🇷🫰🇧🇷 @Presidente Lula ima, meu irmão💚💛💙 #이재명 #lula #korea #Br",
-   "views": 232300,
+   "views": 232400,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-i-photomode-sg/91a2f3151d9741689af70b1d1f8aac3a~tplv-photomode-image.jpeg?dr=14555&x-expires=1787878800&x-signature=KSywAvmVgrN%2BLEsHVCTpb0sfTYA%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=9b759fb9&idc=my2&ftpl=1",
@@ -586,7 +586,7 @@
    "views": 106300,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/ok7qEZCqBgAIPBVFAEgOfAJAhjCDYF5jcUeyNC~tplv-tiktokx-origin.image?dr=14575&x-expires=1787878800&x-signature=%2F0TIEqhoOF11RWNnlQGGgxe6faQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ok7qEZCqBgAIPBVFAEgOfAJAhjCDYF5jcUeyNC~tplv-tiktokx-origin.image?dr=14575&x-expires=1787878800&x-signature=bxjDuJZ0c2e7wUd%2F3DpH6ie8IYg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1784793310,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7665628897077234951",
    "region": "kr"
@@ -594,10 +594,10 @@
   {
    "account": "tictok_ent",
    "title": "박규영, 아침부터 미모 열일 / 아워글래스(HOURGLASS) 팝업 포토월 #박규영 #아워글래스 #HOURGLASS",
-   "views": 4831,
+   "views": 4891,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oUDPINKKABuclCBuAAwinRmqEfl211iBiAs9LA~tplv-tiktokx-origin.image?dr=14575&x-expires=1787878800&x-signature=LJoqwGgEGbVbzqB5fWYK%2FZxQAqA%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oUDPINKKABuclCBuAAwinRmqEfl211iBiAs9LA~tplv-tiktokx-origin.image?dr=14575&x-expires=1787878800&x-signature=VpikWr7OKh4n7Wz1aeZT2msXpvo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1787535859,
    "url": "https://www.tiktok.com/@tictok_ent/video/7677408056661036308",
    "region": "kr"
@@ -616,15 +616,6 @@
  ],
  "reddit": [
   {
-   "sub": "Eminem",
-   "title": "Rest in Peace Dolly Parton 🕊️",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/prlkebzddllh1.jpeg?width=640&crop=smart&auto=webp&s=afbd10810e81e3c1e8265ae18e1bf3114c1859fb",
-   "time": 1787694437,
-   "url": "https://www.reddit.com/r/Eminem/comments/1vydnxw/rest_in_peace_dolly_parton/"
-  },
-  {
    "sub": "AskReddit",
    "title": "Doctors, EMTs etc of Reddit, based on your experience with other peoples injuries, what is one hobby you would never practice yourself?",
    "score": 0,
@@ -632,6 +623,15 @@
    "thumb": "",
    "time": 1787676482,
    "url": "https://www.reddit.com/r/AskReddit/comments/1vy58of/doctors_emts_etc_of_reddit_based_on_your/"
+  },
+  {
+   "sub": "Eminem",
+   "title": "Rest in Peace Dolly Parton 🕊️",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/prlkebzddllh1.jpeg?width=640&crop=smart&auto=webp&s=afbd10810e81e3c1e8265ae18e1bf3114c1859fb",
+   "time": 1787694437,
+   "url": "https://www.reddit.com/r/Eminem/comments/1vydnxw/rest_in_peace_dolly_parton/"
   },
   {
    "sub": "SipsTea",
@@ -652,15 +652,6 @@
    "url": "https://www.reddit.com/r/PickAorB/comments/1vy433m/a_or_b_my_neighbor_installed_21000_solar_panels_8/"
   },
   {
-   "sub": "meirl",
-   "title": "Meirl",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/srfxi11npllh1.jpeg?width=640&crop=smart&auto=webp&s=662a5a93957a58a5791727ca3552ef93b36c8988",
-   "time": 1787698558,
-   "url": "https://www.reddit.com/r/meirl/comments/1vyfd57/meirl/"
-  },
-  {
    "sub": "MadeMeSmile",
    "title": "What a legend!",
    "score": 0,
@@ -670,22 +661,13 @@
    "url": "https://www.reddit.com/r/MadeMeSmile/comments/1vyh1k2/what_a_legend/"
   },
   {
-   "sub": "Music",
-   "title": "Dolly Parton, Queen of Country Music, Dies at 80",
+   "sub": "meirl",
+   "title": "Meirl",
    "score": 0,
    "cmts": 0,
-   "thumb": "",
-   "time": 1787680578,
-   "url": "https://www.reddit.com/r/Music/comments/1vy764y/dolly_parton_queen_of_country_music_dies_at_80/"
-  },
-  {
-   "sub": "todayilearned",
-   "title": "TIL Dolly the cloned sheep was named after Dolly Parton because she \"is derived from a mammary gland cell and we couldn't think of a more impressive pair of glands than Dolly Parton's.\"",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/kABCKBE3HZEKZKVk1hAgavUbmA7Wi46Y_9-_4QYGHv4.jpeg?width=216&crop=smart&auto=webp&s=9393752ee764c14235205db4cc1484b32247704b",
-   "time": 1787696780,
-   "url": "https://www.reddit.com/r/todayilearned/comments/1vyenn7/til_dolly_the_cloned_sheep_was_named_after_dolly/"
+   "thumb": "https://preview.redd.it/srfxi11npllh1.jpeg?width=640&crop=smart&auto=webp&s=662a5a93957a58a5791727ca3552ef93b36c8988",
+   "time": 1787698558,
+   "url": "https://www.reddit.com/r/meirl/comments/1vyfd57/meirl/"
   },
   {
    "sub": "GuysBeingDudes",
@@ -697,6 +679,33 @@
    "url": "https://www.reddit.com/r/GuysBeingDudes/comments/1vxwfhg/see_problem_fix_problem/"
   },
   {
+   "sub": "todayilearned",
+   "title": "TIL Dolly the cloned sheep was named after Dolly Parton because she \"is derived from a mammary gland cell and we couldn't think of a more impressive pair of glands than Dolly Parton's.\"",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/kABCKBE3HZEKZKVk1hAgavUbmA7Wi46Y_9-_4QYGHv4.jpeg?width=216&crop=smart&auto=webp&s=9393752ee764c14235205db4cc1484b32247704b",
+   "time": 1787696780,
+   "url": "https://www.reddit.com/r/todayilearned/comments/1vyenn7/til_dolly_the_cloned_sheep_was_named_after_dolly/"
+  },
+  {
+   "sub": "aww",
+   "title": "My service dog who never takes his eyes off me ❤️",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/iuwfwhcpkllh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=86cdee96441663530021483e30e8f9ed31e68735",
+   "time": 1787696905,
+   "url": "https://www.reddit.com/r/aww/comments/1vyepf9/my_service_dog_who_never_takes_his_eyes_off_me/"
+  },
+  {
+   "sub": "Music",
+   "title": "Dolly Parton, Queen of Country Music, Dies at 80",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1787680578,
+   "url": "https://www.reddit.com/r/Music/comments/1vy764y/dolly_parton_queen_of_country_music_dies_at_80/"
+  },
+  {
    "sub": "news",
    "title": "CIA chief travels to Moscow for unannounced talks, US media reports",
    "score": 0,
@@ -706,22 +715,13 @@
    "url": "https://www.reddit.com/r/news/comments/1vy5p7q/cia_chief_travels_to_moscow_for_unannounced_talks/"
   },
   {
-   "sub": "worldnews",
-   "title": "Trump considers renaming Lake Ontario to ‘Lake America’ as trade war escalates",
+   "sub": "memes",
+   "title": "You will be missed Dolly",
    "score": 0,
    "cmts": 0,
-   "thumb": "",
-   "time": 1787664961,
-   "url": "https://www.reddit.com/r/worldnews/comments/1vy02d0/trump_considers_renaming_lake_ontario_to_lake/"
-  },
-  {
-   "sub": "popculturechat",
-   "title": "Dolly Parton Dead at 80",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/sxMirwN1IaJMwTfwZsw5TU9iKqUaoAGCR_DusgfyDHU.jpeg?width=640&crop=smart&auto=webp&s=9d3388c6220c6b827ae1ba512aeafbfeb24edbe6",
-   "time": 1787680905,
-   "url": "https://www.reddit.com/r/popculturechat/comments/1vy7by6/dolly_parton_dead_at_80/"
+   "thumb": "https://preview.redd.it/rli6u2ag2llh1.jpeg?width=640&crop=smart&auto=webp&s=e81ff743b7eb9557c8e1edf454926d57dbede44e",
+   "time": 1787690758,
+   "url": "https://www.reddit.com/r/memes/comments/1vyc0ks/you_will_be_missed_dolly/"
   }
  ],
  "disaster": [],
@@ -766,10 +766,10 @@
    }
   },
   "landing": {
-   "at": "2026-08-26T09:35:50",
+   "at": "2026-08-26T10:01:25",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-26T10:01:21.777704+09:00"
+ "updated": "2026-08-26T10:31:24.353922+09:00"
 }
