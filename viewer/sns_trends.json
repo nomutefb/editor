@@ -7536,8 +7536,14 @@
   {
    "query": "영화",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/c4ac184840.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.topstarnews.net/news/articleView.html?idxno=16173642",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-08-27T05:00:00+09:00",
    "delta": -3,
@@ -7564,8 +7570,14 @@
   {
    "query": "김도영",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/ad5e45c3b2.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://sports.khan.co.kr/article/202608260700006/",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-08-27T05:20:00+09:00",
    "delta": -11,
@@ -7578,8 +7590,14 @@
   {
    "query": "음료",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/1e3a04367c.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.hankyung.com/article/2026081878301",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-08-27T05:20:00+09:00",
    "delta": -13,
@@ -7662,8 +7680,14 @@
   {
    "query": "킬리안 음바페",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/3635ee18b3.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.newdaily.co.kr/site/data/html/2026/07/21/2026072100170.html",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-08-27T06:00:00+09:00",
    "isNew": true,
@@ -7675,8 +7699,14 @@
   {
    "query": "배구",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/7497344f6c.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://view.asiae.co.kr/article/2026082521342802477",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-08-27T05:10:00+09:00",
    "delta": -15,
@@ -7729,8 +7759,14 @@
   {
    "query": "김상식",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/f00844394a.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.koreadaily.com/article/20260808144056715",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-27T05:40:00+09:00",
    "isNew": true,
@@ -7959,12 +7995,13 @@
  ],
  "gtrends_pool_updated": "2026-08-27T07:37:38+09:00",
  "_trend_img": {
-  "tried": "2026-08-27T06:41:00+09:00",
+  "tried": "2026-08-27T07:37:38+09:00",
   "fail": {
-   "팀커리": "2026-08-27T05:15:29+09:00",
    "레알 마드리드 대 레알 소시에다드": "2026-08-27T06:47:26+09:00",
    "real madrid vs real sociedad": "2026-08-27T06:47:26+09:00",
-   "슈퍼맨이 돌아왔다": "2026-08-27T06:47:26+09:00"
+   "슈퍼맨이 돌아왔다": "2026-08-27T06:47:26+09:00",
+   "정성호": "2026-08-27T07:43:45+09:00",
+   "이진숙": "2026-08-27T07:43:45+09:00"
   }
  },
  "gtrends_gl": [
@@ -17891,7 +17928,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-08-27T07:37:38+09:00"
+    "first_seen": "2026-08-27T07:37:38+09:00",
+    "kw": "AX, Agent Experience",
+    "sum": "작성자가 AX를 Agent Experience 개념으로 봐야 한다고 주장했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
