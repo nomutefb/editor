@@ -7463,8 +7463,14 @@
   {
    "query": "발전",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/12b150613f.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.energydaily.co.kr/news/articleView.html?idxno=202448",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-27T00:40:00+09:00",
    "rh": [
@@ -7478,8 +7484,14 @@
   {
    "query": "장려금",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/41b228d783.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.gukjenews.com/news/articleView.html?idxno=3674382",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-08-27T01:30:00+09:00",
    "delta": -10,
@@ -7539,9 +7551,8 @@
  ],
  "gtrends_pool_updated": "2026-08-27T04:36:30+09:00",
  "_trend_img": {
-  "tried": "2026-08-27T03:43:27+09:00",
+  "tried": "2026-08-27T04:36:30+09:00",
   "fail": {
-   "발전": "2026-08-27T02:33:02+09:00",
    "박현주": "2026-08-27T03:12:41+09:00"
   }
  },
@@ -17376,7 +17387,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-08-27T04:36:30+09:00"
+    "first_seen": "2026-08-27T04:36:30+09:00",
+    "kw": "Higgsfield, 블렌더, AI 3D 도구",
+    "sum": "Higgsfield가 블렌더용 AI 장면 생성 도구를 공개했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
