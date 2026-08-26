@@ -7456,8 +7456,14 @@
   {
    "query": "nepal",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/e352a35b81.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.hankookilbo.com/news/article/A2026082620400002750",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-08-26T23:10:00+09:00",
    "delta": -5,
@@ -7471,8 +7477,14 @@
   {
    "query": "việt nam thái lan",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/d46aafeee9.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.sedaily.com/article/20082230",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-26T23:30:00+09:00",
    "isNew": true,
@@ -7561,11 +7573,12 @@
  ],
  "gtrends_pool_updated": "2026-08-27T03:07:07+09:00",
  "_trend_img": {
-  "tried": "2026-08-27T02:27:11+09:00",
+  "tried": "2026-08-27T03:07:07+09:00",
   "fail": {
    "이수민": "2026-08-27T01:32:10+09:00",
    "pce": "2026-08-27T01:32:10+09:00",
-   "발전": "2026-08-27T02:33:02+09:00"
+   "발전": "2026-08-27T02:33:02+09:00",
+   "박현주": "2026-08-27T03:12:41+09:00"
   }
  },
  "gtrends_gl": [
@@ -18026,7 +18039,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-08-27T03:07:07+09:00"
+    "first_seen": "2026-08-27T03:07:07+09:00",
+    "kw": "앤트로픽, Fable 5.1, 조기 출시",
+    "sum": "앤트로픽이 일부 이용자에게 Fable 5.1을 조기 테스트하고 있다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
