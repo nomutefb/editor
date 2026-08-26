@@ -7415,8 +7415,14 @@
   {
    "query": "합계출산율",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/d32be6ea66.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.sedaily.com/article/20083425",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-26T22:40:00+09:00",
    "delta": -5,
@@ -7429,8 +7435,14 @@
   {
    "query": "물류",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/10ba6fff78.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.hankyung.com/article/2026082647751",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-08-26T22:40:00+09:00",
    "delta": -5,
@@ -7443,8 +7455,14 @@
   {
    "query": "việt nam vs thái lan",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/d46aafeee9.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.sedaily.com/article/20082230",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-08-26T22:50:00+09:00",
    "isNew": true,
@@ -7476,8 +7494,14 @@
   {
    "query": "수영",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/f60c242f0b.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://isplus.com/article/view/isp202608240044",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-08-26T22:40:00+09:00",
    "delta": -7,
@@ -7577,10 +7601,11 @@
  ],
  "gtrends_pool_updated": "2026-08-27T02:27:11+09:00",
  "_trend_img": {
-  "tried": "2026-08-27T01:26:14+09:00",
+  "tried": "2026-08-27T02:27:11+09:00",
   "fail": {
    "이수민": "2026-08-27T01:32:10+09:00",
-   "pce": "2026-08-27T01:32:10+09:00"
+   "pce": "2026-08-27T01:32:10+09:00",
+   "발전": "2026-08-27T02:33:02+09:00"
   }
  },
  "gtrends_gl": [
@@ -17986,7 +18011,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-08-27T02:27:11+09:00"
+    "first_seen": "2026-08-27T02:27:11+09:00",
+    "kw": "샘 올트먼, 타임, OpenAI",
+    "sum": "계정이 타임의 샘 올트먼 인터뷰 기사를 공유했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -18001,7 +18029,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-08-27T02:27:11+09:00"
+    "first_seen": "2026-08-27T02:27:11+09:00",
+    "kw": "샘 올트먼, AGI, OpenAI",
+    "sum": "올트먼이 연내 AGI 도달과 프로토타입 해킹 사건을 밝혔다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
