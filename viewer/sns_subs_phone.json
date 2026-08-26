@@ -280,6 +280,66 @@
  ],
  "threads": [
   {
+   "account": "choi.openai",
+   "text": "3/ 멀티모달 쪽은 차이가 더 벌어집니다.\n\n안드로이드 화면을 직접 조작하는 AndroidWorld에서 84.5를 받았고 Opus 4.6은 62.0입니다. 컴퓨터를 다루는 OSWorld 2.0은 부분 점수 52.3으로, 직전 세대의 21.5에서 두 배 넘게 올랐습니다.\n\n시각 수학인 MathVision은 코드 실행을 붙였을 때 95.7이고, 화면을 보고 웹페이지를 만드는 Vision2Web은 64.0입니다.\n\n화면을 보고 조작하는 능력은 중국 오픈 모델이 오래 약점으로 꼽히던 영역인데, 이번 표에서는 강점 쪽에 있습니다. 에이전트 제품을 만드는 쪽에서 선택지가 늘어나는 부분입니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1787750963,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/786993275_17984155260112832_6129784671980865806_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk3MjI2NTQ0NTQwNzI3MTQ0MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTM5NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=ph4ymxhrzygQ7kNvwHa5LVB&_nc_oc=AdrNaG-4tUG7ZVGIgRoavR8bQ_C0Svr8TuMs_nFKXGtq6LPtnDtP-mYxFgPNhxHktqk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=ujm3w_xal9uEkbuRPMF1kQ&_nc_ss=7a22e&oh=00_AQG3iTFIv1yG_YVF1Jk_IJf1n9qQt9UzpExtuu8gJ-DKwA&oe=6A94AB6E",
+   "url": "https://www.threads.com/@choi.openai/post/DcgUmBrDyoR",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "2/ 이번 발표는 코딩에서 변화가 가장 큽니다.\n\n에이전트형 코딩을 재는 DeepSWE 1.1에서 58.7을 받았는데, 직전 플래그십 Qwen3.7-Plus는 16.5였습니다. SWE-bench Pro는 62.5로 Claude Opus 4.6의 53.4보다 높게 적혔고, 다국어 소프트웨어 엔지니어링은 81.0입니다.\n\n항목마다 결은 다릅니다. 다분야 추론을 재는 HLE는 35.9로 Opus 4.6의 40.0에는 못 미치고, 저장소 단위 코드 생성은 48.1로 DeepSeek-V4-Flash의 54.2에는 못 칩니다.\n\n코딩 점수 상당수는 Claude Code 하네스 위에서 나왔고, Qwen은 두 하네스 중 높은 쪽을 적었다고 밝혔습니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1787750956,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/782511348_17984155203112832_2449305565072431288_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk3MjI2NTM4NDYwNjYzOTI1MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTc2Ni5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=g47NWD7NcvEQ7kNvwE63GXn&_nc_oc=AdoGGjfJ0WuHz2hguJdxh9OMZ_wxfEhn_QIC2B-3xRjJJkjJ3qyGtrzUX_k_lRiAZ2k&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=ujm3w_xal9uEkbuRPMF1kQ&_nc_ss=7a22e&oh=00_AQFDg1UpJI_Gv1qN-nzzRtnCUbeWzKiFVm2WJfHoZr_S2w&oe=6A94AA77",
+   "url": "https://www.threads.com/@choi.openai/post/DcgUlJDDyST",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "1/ 알리바바 Qwen 팀이 8월 26일 Qwen3.8-Flash-Next의 가중치를 공개했습니다. 완성된 플래그십이 아니라, 다음 세대 Qwen4에 넣을 구조를 먼저 공개해 검증받는 모델입니다.\n\n전체 파라미터는 125B지만 토큰 하나를 처리할 때 실제로 작동하는 부분은 6B뿐입니다. 여기에 자주 등장하는 토큰 조합을 미리 기억해 두는 51B 규모의 N-gram 메모리를 붙였습니다. GPU가 아닌 일반 메모리에 저장하고 필요한 정보만 미리 불러오기 때문에, 전체 크기는 커져도 토큰당 계산량은 거의 늘지 않습니다.\n\n기본 컨텍스트는 26만 토큰이고 YaRN을 적용하면 100만 토큰까지 늘어납니다. 이미지와 영상도 함께 처리합니다.\n\nAPI에서는 Qwen3.8-Flash라는 이름으로 제공되며, 100만 토큰당 입력 0.16달러, 출력 0.47달러입니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1787750947,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/787035563_17984156364112832_8537875906234192233_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk3MjI2NTMwODM3OTM4NDQ0OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjg4NS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=6BTuBrXzEMsQ7kNvwFL9RY5&_nc_oc=AdoDELI_d3rQE4myJ0iF8q-Iw0_KKuk1RnekwkWJEn6HvKOKgi5BN3bVsSGCAgzM50Y&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=ujm3w_xal9uEkbuRPMF1kQ&_nc_ss=7a22e&oh=00_AQGeyAHeRjP8N6kRjNEVLg-15MsngjxFRp6LzIbvSOxX6g&oe=6A94D5A4",
+   "url": "https://www.threads.com/@choi.openai/post/DcgUkCDj4qA",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
+   "text": "https://help.openai.com/en/articles/6825453-chatgpt-release-notes",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1787750860,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DcgUY_eGWHH",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
+   "text": "ChatGPT Work가 8월 25일 GitHub pull request 변경을 감지하는 웹훅 작업을 추가했습니다.\n\n기존 예약 작업은 정해진 시각에 실행됐습니다. 이제 Gmail 새 메일, Slack 채널 메시지, GitHub PR 활동을 시작 신호로 삼을 수 있습니다.\n\n개발팀에서는 PR 변경 → 요약 → 다음 단계 초안 같은 흐름을 일정표가 아니라 사건에 연결할 수 있습니다. 다만 모든 동작이 자동 실행되는 것은 아닙니다. 승인이 필요한 작업은 사용자가 검토할 때까지 멈춥니다. Plus와 Pro 사용자가 웹·iOS·Android에서 사용할 수 있습니다.\n\n코딩 에이전트의 실행 단위가 프롬프트 한 번에서, 저장소에서 발생한 사건과 그 후속 조치의 연결로 이동하고 있습니다.\n\n이제 확인할 기준은 에이전트가 무엇을 생성하는가보다, 어떤 GitHub 이벤트에 반응하고 어디에서 사람의 승인을 요구하는가입니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1787750853,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DcgUX4zGd9m",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "Kimi K3가 2D 도면을 완전한 절차적 3D 모델로 변환하는 애플리케이션을 제작했습니다.\n이 앱은 2D 도면 데이터를 바탕으로 3D 모델을 전환해 생성하는 구조입니다.\n코드로 생성된 탱크 모델이 포함되어 있으며, 이 모델은 다른 어떤 객체로도 자유롭게 교체할 수 있는 구조입니다.\n기존의 고정된 모델링 방식과 달리 코드를 통해 제어되는 프로시저럴 방식을 적용했습니다.\n2D 도면 데이터와 코드로 제어되는 절차적 3D 생성 방식을 직접 연동한 형태입니다.\n지정된 객체뿐만 아니라 다른 형태로 유연하게 대체할 수 있는 작업 방식을 보여줍니다.",
+   "likes": 3,
+   "cmts": 0,
+   "time": 1787749500,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/787341863_1378104803834356_1611076636726930093_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk3MjI1Mjk1NTg4NDgyNDIzNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=nd3s3lOTquwQ7kNvwGiOXok&_nc_oc=AdrYLNkm0wrS3dPZobh5-DDXeYuFy8fmmYY4d9dKNKWmMdJ8FUCRGOSrufk-DYgolo8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=MuKo-WPU9RkLz5vQLCN9ag&_nc_ss=7a22e&oh=00_AQEqa1UortUVN4E5NoS4avv-Cv5td2qO0HR48zbFxW-Gjw&oe=6A94B3B3",
+   "url": "https://www.threads.com/@aipeekme/post/DcgRwR5gqaq",
+   "region": "kr"
+  },
+  {
    "account": "daily_ai_star",
    "text": "지금까지 기업용 에이전트는 애플리케이션마다 별도 통합을 만들었습니다. 에이전트가 업무를 이해해도 마지막 단계에서 특정 시스템의 객체와 API를 다시 연결해야 했습니다.\n\nHeadless 360은 그 경계를 기능으로 낮춥니다. 에이전트가 어느 화면에 들어갔는지가 아니라, 어떤 권한으로 어떤 기업 역량을 호출했는지가 실행 기준이 됩니다.\n\n8월 25일 공개된 AGNTCon·MCPCon Japan 일정도 같은 문제를 전면에 둡니다. 여러 에이전트가 만날 때의 신뢰 경계, 승인 게이트, 감사 추적, 결과 검증입니다.\n\n에이전트 인프라의 다음 병목은 연결 가능한 도구의 수가 아니라, 도구가 기업의 권한 체계와 감사 기록을 끝까지 보존하는가에 있습니다.\n\nhttps://www.salesforce.com/ap/news/press-releases/2026/08/25/salesforce-turns-enterprise-applications-into-enterprise-capabilities/",
    "likes": 0,
@@ -290,63 +350,13 @@
    "region": "kr"
   },
   {
-   "account": "daily_ai_star",
-   "text": "Salesforce Headless 360이 8월 25일 공개됐습니다.\n\nSalesforce는 각 클라우드를 애플리케이션 화면이 아니라 AI 에이전트가 발견하고 호출할 수 있는 재사용 가능한 기능으로 노출합니다. 새로 붙이는 것은 MCP 서버, Data 360 기능, Slack 연동, Skills와 개발자 도구입니다.\n\nEngine은 이 구조로 AI 지원 에이전트 EVA를 12일 만에 출시했고, 고객 채팅의 절반을 사람 없이 처리한다고 밝혔습니다.\n\n핵심 변화는 에이전트에게 더 많은 API를 주는 일이 아니라, 기존의 신원·권한·메타데이터·워크플로·거버넌스를 호출 단위에 함께 상속시키는 일입니다.",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1787748209,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DcgPVR0GYhb",
-   "region": "kr"
-  },
-  {
    "account": "aipeekme",
    "text": "같은 얼굴 9가지 다른 헤어 스타일 \n\n프롬프트👇",
    "likes": 0,
    "cmts": 1,
    "time": 1787747671,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/786069768_18083176121407306_6997841650130115996_n.webp?stp=dst-webp_s640x640_sh2.08&_nc_cat=105&ig_cache_key=Mzk3MjIzNzgyOTk1MDY0OTQ2Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI1NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=_I4R8BI9VzsQ7kNvwHzySsv&_nc_oc=Adq5InhJikC7Wk4WgxzQrCQV0ss1ZQ-ZoUm_gYVE2eLuCdz8fGe_IWSJtkGlS0z5yYI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=udua_K7tEH4jobnRxYzGfw&_nc_ss=7a22e&oh=00_AQG15TEVCfc8EX6GsVP3ndv2bs3MrU1r32E824YTAcRUbw&oe=6A94A87A",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/786069768_18083176121407306_6997841650130115996_n.webp?stp=dst-webp_s640x640_sh2.08&_nc_cat=105&ig_cache_key=Mzk3MjIzNzgyOTk1MDY0OTQ2Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI1NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=_I4R8BI9VzsQ7kNvwHzySsv&_nc_oc=Adq5InhJikC7Wk4WgxzQrCQV0ss1ZQ-ZoUm_gYVE2eLuCdz8fGe_IWSJtkGlS0z5yYI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=MuKo-WPU9RkLz5vQLCN9ag&_nc_ss=7a22e&oh=00_AQGUyPl4f5qy4GkTzFiO6sfb_xUFx9cl9Qx6Izk7lGhP6Q&oe=6A94A87A",
    "url": "https://www.threads.com/@aipeekme/post/DcgOUKxk7R6",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "1/ 주소 : github.com/GENEXIS-AI/gpt-image-skill\n\n설치는 저 주소를 Claude Code에 붙여넣고 설치해달라고 하면 됩니다. Node.js 22 이상, Codex CLI, 챗GPT 로그인이 필요하고, 없으면 설치하면서 알려줍니다.",
-   "likes": 12,
-   "cmts": 0,
-   "time": 1787747422,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DcgN1vEilZD",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "Claude Code 쓰신다면 이건 깔아두시는 게 좋습니다.\n\nClaude Code에 없는 기능이 이미지 생성인데, 그걸 붙여주는 스킬입니다.\n깔고 나면 이런 이미지 만들어달라고 말하는 것만으로 바로 나옵니다.\n\n챗GPT 구독으로 돌아갑니다.\nAPI 키를 발급받을 일도, 장당 요금이 나갈 일도 없는데요.\n\n레퍼런스 이미지를 넣어 스타일을 맞추거나, 뽑은 결과를 이어서 고치는 것도 됩니다.\n결과물은 지금 작업 중인 폴더에 그대로 저장되고요.\n\n설치는 깃허브 주소를 Claude Code에 붙여넣고 설치해달라고 하면 끝납니다.",
-   "likes": 70,
-   "cmts": 6,
-   "time": 1787747405,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/786390892_928858043051801_9070630707624600833_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk3MjIzNTU5NzQ2NDY1NjMzMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=EEECgmMhdsQQ7kNvwFMGds2&_nc_oc=Ado-7YVEXPUC9nVdm-y9PbfCfKBypweVq38Qf3WpFRB2-ar7t-zUFgAQ_w4nyug9Rzw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=HhACtg3flbFLlEt0jdQALg&_nc_ss=7a22e&oh=00_AQGizg2J2_S-FIwsb_WfJVmKfLIE04Z3nTJWcI0xM8rtNQ&oe=6A949FD9",
-   "url": "https://www.threads.com/@choi.openai/post/DcgNzrnCtnM",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "MCP를 붙인 서비스에서 이제 볼 항목은 연결 성공 여부만이 아닙니다. 로드밸런서 뒤에서 상태가 어떻게 복원되는지, 재시도 때 `requestState`가 변조되지 않는지, 이전 Tasks 클라이언트가 어떤 경로로 내려가는지까지 운영 범위에 들어왔습니다 ⭐\n\nhttps://devblogs.microsoft.com/dotnet/announcing-v20-of-the-official-mcp-csharp-sdk/",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1787746076,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DcgLQw7GXZh",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "OpenRouter 사용량 1위에 오른 익명 모델 Ox Alpha의 정체가 Zhipu의 GLM으로 확인됐습니다.\n\nZ.ai가 블룸버그에 직접 확인하면서, 개발자들이 위에 얹어 쓸 수 있도록 가중치까지 공개하겠다고 밝혔습니다.\n\n8월 20일 이름도 회사도 없이 올라온 모델인데요. 100만 토큰 컨텍스트에 이미지와 영상 입력을 받고 무료로 열어둔 덕에 코딩 에이전트들이 몰려들었고, 일주일도 안 돼 DeepSeek 사용량의 두 배를 넘겼습니다.\n\n정체는 커뮤니티가 먼저 뚫었는데요. 토크나이저 검사 95개 항목이 GLM-5 어휘와 전부 일치했고, 일부러 망가뜨린 요청에서 Zhipu 내부 API 클래스명이 담긴 자바 스택 트레이스까지 나왔었습니다.\n\n중국이 10조 토큰을 무료로 풀정도의 인프라와 프론티어의 견주는 모델 성능까지 쫓아왔다는 점이 놀라운 것 같습니다.",
-   "likes": 48,
-   "cmts": 6,
-   "time": 1787742037,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/780301762_17984137992112832_8951725904381256958_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk3MjE5MDU1MjQ5MzQyODE3Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=ghUZ3MEUwXoQ7kNvwHQua-l&_nc_oc=Adosxx7VoX3yKBeKh510HgWxEbgF4owx9K8tnVwZ898NG0rr4qbuTP9CH2aJ2FI1g3c&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=HhACtg3flbFLlEt0jdQALg&_nc_ss=7a22e&oh=00_AQFs6rcDEWiBGcfc9UMgnILd7e5zihMOa_zWVAT6XBnKPg&oe=6A94AF64",
-   "url": "https://www.threads.com/@choi.openai/post/DcgDkdCiFHc",
    "region": "kr"
   },
   {
@@ -355,7 +365,7 @@
    "likes": 2,
    "cmts": 1,
    "time": 1787738960,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/787101980_18083153642407306_4607641385783429385_n.webp?stp=dst-webp_s640x640_sh2.08&_nc_cat=103&ig_cache_key=Mzk3MjE2NDc1NTYyMDM2MzQyNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjA0OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=UyIWeM6SfjwQ7kNvwH9Y22N&_nc_oc=AdpWRzCwS9ugIld1fGu3aOX4K-g7zz_gYRIl1CMfD9UGHUcdEH0ja4ji0ApasWzU5aw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=udua_K7tEH4jobnRxYzGfw&_nc_ss=7a22e&oh=00_AQE82t2VbNxxF01RhDGrAA1kqRHaAiLRZxz2WkraAVJ6KA&oe=6A94BC47",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/787101980_18083153642407306_4607641385783429385_n.webp?stp=dst-webp_s640x640_sh2.08&_nc_cat=103&ig_cache_key=Mzk3MjE2NDc1NTYyMDM2MzQyNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjA0OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=UyIWeM6SfjwQ7kNvwH9Y22N&_nc_oc=AdpWRzCwS9ugIld1fGu3aOX4K-g7zz_gYRIl1CMfD9UGHUcdEH0ja4ji0ApasWzU5aw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=MuKo-WPU9RkLz5vQLCN9ag&_nc_ss=7a22e&oh=00_AQFO2jnWutrlQUDSkrpqB0FnYzGc2PBS6ta2UoA2sPsCnw&oe=6A94BC47",
    "url": "https://www.threads.com/@aipeekme/post/Dcf9szAE_yj",
    "region": "kr"
   },
@@ -365,7 +375,7 @@
    "likes": 0,
    "cmts": 1,
    "time": 1787734877,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/775243817_17953106601232485_6806128487534070630_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk3MjEzMDUwNjE4MzcxNDMxNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTYwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=natzz6GoX1MQ7kNvwGJK5cx&_nc_oc=AdrNLktWBqm5M4reDib6OGQ2sNqGi-BKSr8wNNE8xnu49nPwSFeQt7DkSgwXKOaV78Y&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=pPy6lxNTVuYGQ01_xHG81w&_nc_ss=7a22e&oh=00_AQEZgYZ18dHU29mO-gjEFLBBKYHyYj4fSHWWLm21G4QtQA&oe=6A94B34C",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/775243817_17953106601232485_6806128487534070630_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk3MjEzMDUwNjE4MzcxNDMxNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTYwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=natzz6GoX1MQ7kNvwGJK5cx&_nc_oc=AdrNLktWBqm5M4reDib6OGQ2sNqGi-BKSr8wNNE8xnu49nPwSFeQt7DkSgwXKOaV78Y&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=lpvzV2-CXWY3Iq4reJ5TVw&_nc_ss=7a22e&oh=00_AQFg4hf7PA3dA5hiQyq-LY4SayCkBqZACHdrlrisAbwXvw&oe=6A94B34C",
    "url": "https://www.threads.com/@aicoffeechat/post/Dcf16ZukqYN",
    "region": "kr"
   },
@@ -400,16 +410,6 @@
    "region": "kr"
   },
   {
-   "account": "aipeekme",
-   "text": "🔗 원문·자세히 보기\nhttps://claude.com/blog/claudes-memory-works-everywhere-and-you-decide-whats-in-it",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1787724177,
-   "thumb": "",
-   "url": "https://www.threads.com/@aipeekme/post/Dcfhfnqn1gD",
-   "region": "kr"
-  },
-  {
    "account": "takepage_",
    "text": "대신 이메일 주소나 전화번호는 안 나옵니다.\n연락처 파는 데나 비공개 그룹은 손대지 말라고 막아놨거든요.\n\n자동 발송 같은 것도 안 해요. \n\n문구 초안이랑 7일치 순서까지만 주고\n보내는 건 직접 하도록 셋팅 되어있습니다.\n\n누가 지금 이 문제로 소리를 내는지 찾아주는 물건이네요.\nhttps://github.com/Kappaemme-git/codex-first-customer-finder-skill",
    "likes": 0,
@@ -432,7 +432,7 @@
   {
    "account": "promppy_com",
    "text": "디자인 똥손이 AI로 프론트엔드 탈바꿈하는 법\n\n1. 일단 디자인 잘하는 고수들의 컴포넌트 사이트를 모은다\n2. AI에게 해당 사이트 링크를 던져주고 기능을 파악시킨다\n3. 우리 프로젝트의 기초 구조에 맞게 조립해달라고 요청한다\n4. 직접 짜는 것보다 수정 작업이 훨씬 빠르고 퀄리티도 높다\n\n제가 매일 쓰는 조합은 이거예요.\n\n- beautifului.dev\n- beui.dev\n- rareui.com\n- transitions.dev\n- ui.shadcn.com\n\n이 방법 쓰면 더 이상 '디자인 감각' 타령 안 해도 됩니다. 개발자가 디자인까지 잡는 제일 빠른 루트, 이거 말고 또 있을까요?",
-   "likes": 39,
+   "likes": 42,
    "cmts": 1,
    "time": 1787701588,
    "thumb": "",
@@ -455,28 +455,28 @@
    "likes": 23,
    "cmts": 2,
    "time": 1787668805,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/786656687_2374926656373044_8865991634568732225_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk3MTU3NTgzMTk2ODk2MTY4Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=tUbVwDt9E54Q7kNvwFNdOlN&_nc_oc=AdoCczTi9gVSquj-QKF2S201svoaBgSdPdZwcIFri8X63zOzhct62veI0enanKNAl28&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=j-uceL0Ayo4NVdwcEMB0kA&_nc_ss=7a22e&oh=00_AQEsvhHPAC0M_GPLnBrQGQEzmfmt7i-fL_2ovPIW4Ttgmw&oe=6A94A9BD",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/786656687_2374926656373044_8865991634568732225_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk3MTU3NTgzMTk2ODk2MTY4Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=tUbVwDt9E54Q7kNvwFNdOlN&_nc_oc=AdoCczTi9gVSquj-QKF2S201svoaBgSdPdZwcIFri8X63zOzhct62veI0enanKNAl28&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=PFdJA0cZc_f5HAX0iLnrCA&_nc_ss=7a22e&oh=00_AQHHmOdkI3cNEE6QfP6BDllBAKiizxsiFihdNHV_KPjezQ&oe=6A94A9BD",
    "url": "https://www.threads.com/@kopp/post/Dcd3y1HCVSS",
    "region": "kr"
   },
   {
-   "account": "daily_ai_star",
-   "text": "stateless 전환이 상호작용을 없앤 것은 아닙니다.\n\n새 Multi Round-Trip Requests는 서버가 필요한 입력과 `requestState`를 반환하고, 클라이언트가 답을 담아 같은 도구 호출을 다시 보내는 방식입니다. 사용자 확인이나 장시간 작업을 연결된 세션 없이 처리합니다.\n\n다만 기존 Tasks 확장을 사용했다면 예외가 있습니다. SDK 2.0의 Tasks는 이전 실험 버전과 API·프로토콜 호환이 되지 않습니다. 업그레이드 전에 이 경계를 먼저 확인해야 합니다.",
+   "account": "choi.openai",
+   "text": "도대체 중국 내부에서는 무슨 일이 벌어지고 있는 걸까요?\n\n하루 사이에 알리바바는 다음 세대 모델의 구조를 통째로 풀었고, Z.ai는 정체를 감추고 올려둔 무료 모델이 자사 것이라고 인정했습니다.\n\n알리바바가 다음 세대 Qwen4에 쓸 구조를 미리 떼어내 오픈웨이트로 공개한 Qwen3.8-Flash-Next 발표를 정리했습니다 🧵",
    "likes": 0,
-   "cmts": 1,
-   "time": 1787746063,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DcgLPOAmSnw",
+   "cmts": 7,
+   "time": 1787750942,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/786344066_17984155962112832_7412306960674508605_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk3MjI2NTI2OTI2MzMyNzI3Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=6eK1_4Si3agQ7kNvwEmM2Tk&_nc_oc=Adqksc4Q4YZHrL_DMVRWlPrdizho29F42kVOs8thFXpLvyJXczu5w6FfqlERzhFBw0U&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=ujm3w_xal9uEkbuRPMF1kQ&_nc_ss=7a22e&oh=00_AQGzI2YyDPTMnMzYf1a-DbSFxWNI2heWB-OcOhkx1ccQpg&oe=6A94C0C7",
+   "url": "https://www.threads.com/@choi.openai/post/DcgUjdoD-Ap",
    "region": "kr"
   },
   {
-   "account": "choi.openai",
-   "text": "예약 구매 주소 :\nhttps://www.arduino.cc/product-ventuno-q",
-   "likes": 4,
-   "cmts": 0,
-   "time": 1787736673,
+   "account": "daily_ai_star",
+   "text": "Salesforce Headless 360이 8월 25일 공개됐습니다.\n\nSalesforce는 각 클라우드를 애플리케이션 화면이 아니라 AI 에이전트가 발견하고 호출할 수 있는 재사용 가능한 기능으로 노출합니다. 새로 붙이는 것은 MCP 서버, Data 360 기능, Slack 연동, Skills와 개발자 도구입니다.\n\nEngine은 이 구조로 AI 지원 에이전트 EVA를 12일 만에 출시했고, 고객 채팅의 절반을 사람 없이 처리한다고 밝혔습니다.\n\n핵심 변화는 에이전트에게 더 많은 API를 주는 일이 아니라, 기존의 신원·권한·메타데이터·워크플로·거버넌스를 호출 단위에 함께 상속시키는 일입니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1787748209,
    "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/Dcf5VpjCmA_",
+   "url": "https://www.threads.com/@daily_ai_star/post/DcgPVR0GYhb",
    "region": "kr"
   }
  ],
@@ -498,7 +498,7 @@
    "views": 1600000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAbAoCECNeDAVDgQBcAkFzYBfoUADqQCQWIuZl~tplv-tiktokx-origin.image?dr=14575&x-expires=1787922000&x-signature=fl7wxXITkFHI%2FkA%2BqhVK3rusvS0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAbAoCECNeDAVDgQBcAkFzYBfoUADqQCQWIuZl~tplv-tiktokx-origin.image?dr=14575&x-expires=1787922000&x-signature=WvPs0WwMFwayz3vOyhFID7kyiF8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785471372,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7668541152869616914",
    "region": "kr"
@@ -539,7 +539,7 @@
   {
    "account": "jaemyung_lee",
    "title": "프랑크푸르트에 도착했습니다🇰🇷🇩🇪 #이재명 #deutschland #frankfurt",
-   "views": 264500,
+   "views": 264600,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1787922000&x-signature=qQdzXKmjczQXtsl%2Fpb4ewdh9MQQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -561,7 +561,7 @@
   {
    "account": "jaemyung_lee",
    "title": "마참내.. #anthropic #openai #NVIDIA #broadcom #이재명",
-   "views": 190000,
+   "views": 190100,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/osApGgttBIBbbk6zA4iAKdIdkBfL1AAEiSwmCM~tplv-tiktokx-origin.image?dr=14575&x-expires=1787922000&x-signature=%2BMsXkZdXlOuGEjoDY7299kS0bzY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -583,7 +583,7 @@
   {
    "account": "jaemyung_lee",
    "title": "대통령님, 부동산 정책의 목표가 뭔가요? #이재명 #대통령 #부동산토론회",
-   "views": 106700,
+   "views": 106800,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ok7qEZCqBgAIPBVFAEgOfAJAhjCDYF5jcUeyNC~tplv-tiktokx-origin.image?dr=14575&x-expires=1787922000&x-signature=2YQftO8ddyLKz5aeYJsImnmGitU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -594,7 +594,7 @@
   {
    "account": "tictok_ent",
    "title": "박규영, 아침부터 미모 열일 / 아워글래스(HOURGLASS) 팝업 포토월 #박규영 #아워글래스 #HOURGLASS",
-   "views": 6153,
+   "views": 6215,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oUDPINKKABuclCBuAAwinRmqEfl211iBiAs9LA~tplv-tiktokx-origin.image?dr=14575&x-expires=1787922000&x-signature=At%2Fk9ru6EU4M%2BqJ28w59ChQCoRw%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -616,15 +616,6 @@
  ],
  "reddit": [
   {
-   "sub": "oddlysatisfying",
-   "title": "He fits perfectly.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/cHh4MzhoYmd0b2xoMWOaiICes8SuZ9o_RUVNVSsZ28a-LLV_-btdo6k9rG6s.png?width=320&crop=smart&auto=webp&s=781470af484e9cdb1021261e9ec18dd993b87571",
-   "time": 1787736160,
-   "url": "https://www.reddit.com/r/oddlysatisfying/comments/1vys1r0/he_fits_perfectly/"
-  },
-  {
    "sub": "PeterExplainsTheJoke",
    "title": "Pitah?🤔",
    "score": 0,
@@ -632,15 +623,6 @@
    "thumb": "https://preview.redd.it/n97tzlubjmlh1.jpeg?width=640&crop=smart&auto=webp&s=f292f0ef7896b4a6da2049416b65b17ed34d8821",
    "time": 1787708541,
    "url": "https://www.reddit.com/r/PeterExplainsTheJoke/comments/1vyj7ub/pitah/"
-  },
-  {
-   "sub": "SipsTea",
-   "title": "Kid breaks into bird enclosure at the zoo to chase birds with a stick.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/cGswOXZheWFkbWxoMSPhjXuL4bgtJz4BDGwWBuTr1nxLHXbOJVuHR7HG3tOT.png?width=640&crop=smart&auto=webp&s=cb39ecd455040249cf0b1ea9fbf8790d49bdeb65",
-   "time": 1787706562,
-   "url": "https://www.reddit.com/r/SipsTea/comments/1vyihn4/kid_breaks_into_bird_enclosure_at_the_zoo_to/"
   },
   {
    "sub": "okbuddycinephile",
@@ -652,6 +634,33 @@
    "url": "https://www.reddit.com/r/okbuddycinephile/comments/1vydjjc/favorite_actor_whose_career_is_probably_over/"
   },
   {
+   "sub": "SipsTea",
+   "title": "Kid breaks into bird enclosure at the zoo to chase birds with a stick.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/cGswOXZheWFkbWxoMSPhjXuL4bgtJz4BDGwWBuTr1nxLHXbOJVuHR7HG3tOT.png?width=640&crop=smart&auto=webp&s=cb39ecd455040249cf0b1ea9fbf8790d49bdeb65",
+   "time": 1787706562,
+   "url": "https://www.reddit.com/r/SipsTea/comments/1vyihn4/kid_breaks_into_bird_enclosure_at_the_zoo_to/"
+  },
+  {
+   "sub": "interestingasfuck",
+   "title": "Terrifying footage from the Rasuwagadhi border as flash floods suddenly sweep through the area.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/bTQxdmdhaXRscGxoMS01i9Sh1z26-NX3353tu_WXS0klyKCSF0UknoJ7DxP8.png?width=640&crop=smart&auto=webp&s=26830ca273c9e84c0a3ceac5e86ed8bf76b9b909",
+   "time": 1787745810,
+   "url": "https://www.reddit.com/r/interestingasfuck/comments/1vyv4px/terrifying_footage_from_the_rasuwagadhi_border_as/"
+  },
+  {
+   "sub": "meirl",
+   "title": "Meirl",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/xa4seqndrplh1.jpeg?width=640&crop=smart&auto=webp&s=925d9c01345364e3391d1992a09f01639b97acee",
+   "time": 1787747569,
+   "url": "https://www.reddit.com/r/meirl/comments/1vyvs9q/meirl/"
+  },
+  {
    "sub": "TopCharacterTropes",
    "title": "(Hated Trope) A show heavily praises and hypes up a celebrity and it ages like milk",
    "score": 0,
@@ -661,13 +670,22 @@
    "url": "https://www.reddit.com/r/TopCharacterTropes/comments/1vy8kxt/hated_trope_a_show_heavily_praises_and_hypes_up_a/"
   },
   {
-   "sub": "GTA6",
-   "title": "Message from Rockstar Games",
+   "sub": "AskReddit",
+   "title": "What famous person is way smarter (or dumber) than their public persona would make it seem?",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/1a185liyfplh1.jpeg?width=640&crop=smart&auto=webp&s=0250dd08a30324f0c443f2a4f81ecda8cffea96c",
-   "time": 1787743760,
-   "url": "https://www.reddit.com/r/GTA6/comments/1vyuf05/message_from_rockstar_games/"
+   "thumb": "",
+   "time": 1787700320,
+   "url": "https://www.reddit.com/r/AskReddit/comments/1vyg2v3/what_famous_person_is_way_smarter_or_dumber_than/"
+  },
+  {
+   "sub": "oddlysatisfying",
+   "title": "He fits perfectly.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/cHh4MzhoYmd0b2xoMWOaiICes8SuZ9o_RUVNVSsZ28a-LLV_-btdo6k9rG6s.png?width=320&crop=smart&auto=webp&s=781470af484e9cdb1021261e9ec18dd993b87571",
+   "time": 1787736160,
+   "url": "https://www.reddit.com/r/oddlysatisfying/comments/1vys1r0/he_fits_perfectly/"
   },
   {
    "sub": "politics",
@@ -697,31 +715,13 @@
    "url": "https://www.reddit.com/r/popculturechat/comments/1vy7by6/dolly_parton_dead_at_80/"
   },
   {
-   "sub": "AskReddit",
-   "title": "What famous person is way smarter (or dumber) than their public persona would make it seem?",
+   "sub": "GTA6",
+   "title": "Message from Rockstar Games",
    "score": 0,
    "cmts": 0,
-   "thumb": "",
-   "time": 1787700320,
-   "url": "https://www.reddit.com/r/AskReddit/comments/1vyg2v3/what_famous_person_is_way_smarter_or_dumber_than/"
-  },
-  {
-   "sub": "NoStupidQuestions",
-   "title": "Not American, what did Dolly Parton do in her lifetime that made her so appreciated by everyone?",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "",
-   "time": 1787690214,
-   "url": "https://www.reddit.com/r/NoStupidQuestions/comments/1vybrpa/not_american_what_did_dolly_parton_do_in_her/"
-  },
-  {
-   "sub": "funComunitty",
-   "title": "what should it be?",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/2f6aivz52mlh1.jpeg?width=640&crop=smart&auto=webp&s=809f9bca168a1ec85d43ab099a84f3eb652b866f",
-   "time": 1787702769,
-   "url": "https://www.reddit.com/r/funComunitty/comments/1vyh260/what_should_it_be/"
+   "thumb": "https://preview.redd.it/1a185liyfplh1.jpeg?width=640&crop=smart&auto=webp&s=0250dd08a30324f0c443f2a4f81ecda8cffea96c",
+   "time": 1787743760,
+   "url": "https://www.reddit.com/r/GTA6/comments/1vyuf05/message_from_rockstar_games/"
   }
  ],
  "disaster": [],
@@ -766,10 +766,10 @@
    }
   },
   "landing": {
-   "at": "2026-08-26T21:35:41",
+   "at": "2026-08-26T22:01:23",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-26T22:01:20.112705+09:00"
+ "updated": "2026-08-26T22:31:17.488775+09:00"
 }
