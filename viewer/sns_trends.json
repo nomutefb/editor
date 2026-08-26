@@ -7586,8 +7586,14 @@
   {
    "query": "구속",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/9e0f3a3e56.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008721429",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-26T14:40:00+09:00",
    "delta": -13,
@@ -7614,8 +7620,14 @@
   {
    "query": "이병헌",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/42a9f34e2b.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://tvreport.co.kr/breaking/article/1067331/",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-26T14:40:00+09:00",
    "delta": -16,
@@ -7669,8 +7681,14 @@
   {
    "query": "박수홍",
    "traffic": "10000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/590cfd060a.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.dailian.co.kr/news/view/1682511/",
+     "source": ""
+    }
+   ],
    "vol": 10000,
    "started": "2026-08-26T13:20:00+09:00",
    "isNew": true,
@@ -7682,8 +7700,14 @@
   {
    "query": "여의도 시범아파트",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/d405a16402.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.newsis.com/view/NISX20260825_0003761966",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-08-26T14:40:00+09:00",
    "delta": -17,
@@ -7863,12 +7887,14 @@
  ],
  "gtrends_pool_updated": "2026-08-26T17:17:50+09:00",
  "_trend_img": {
-  "tried": "2026-08-26T16:37:15+09:00",
+  "tried": "2026-08-26T17:17:50+09:00",
   "fail": {
    "배런 트럼프": "2026-08-26T15:47:36+09:00",
    "조세": "2026-08-26T15:47:36+09:00",
    "허영만": "2026-08-26T16:43:16+09:00",
-   "버밍엄 시티 fc": "2026-08-26T16:43:16+09:00"
+   "버밍엄 시티 fc": "2026-08-26T16:43:16+09:00",
+   "면허": "2026-08-26T17:25:48+09:00",
+   "남성진": "2026-08-26T17:25:48+09:00"
   }
  },
  "gtrends_gl": [
@@ -18803,7 +18829,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-08-26T17:17:50+09:00"
+    "first_seen": "2026-08-26T17:17:50+09:00",
+    "kw": "티로, 추천인 링크",
+    "sum": "계정이 티로 가입 추천 링크를 공유했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -18818,7 +18847,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-08-26T17:17:50+09:00"
+    "first_seen": "2026-08-26T17:17:50+09:00",
+    "kw": "티로, 무료 이벤트",
+    "sum": "계정이 티로 1개월 무료 소식을 전했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -18833,7 +18865,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-08-26T17:17:50+09:00"
+    "first_seen": "2026-08-26T17:17:50+09:00",
+    "kw": "Claude Code, 2.1.246 업데이트",
+    "sum": "계정이 Claude Code 신버전의 권한 관리 변경점을 정리했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
