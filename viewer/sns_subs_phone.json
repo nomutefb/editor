@@ -347,6 +347,26 @@
  "threads": [
   {
    "account": "daily_ai_star",
+   "text": "Cobalt는 브라우저를 별도 테스트 도구로 분리하지 않았습니다. 에이전트가 코드를 작성한 같은 작업, 저장소, 브랜치, 실행 환경, 풀 리퀘스트에 브라우저 검증을 연결했습니다.\n\n실패한 요청이 있었는지와 클라이언트 오류가 났는지를 확인한 뒤, 수정하고 같은 흐름을 다시 실행할 수 있습니다. 사람은 세션을 지켜보다가 필요할 때만 Take control로 넘겨받습니다.\n\n이제 에이전트 평가에서 확인할 항목은 생성된 diff만이 아닙니다. 실제 화면에서 어떤 상태를 만들었고, 실패 뒤 무엇을 바꿨는지가 남는지도 기준이 됩니다.\n\nhttps://cobaltcode.ai/blog/agent-browser",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1787744147,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DcgHlf0GeZd",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
+   "text": "Cobalt가 8월 21일 Agent Browser를 공개했습니다.\n\n코딩 에이전트가 자신이 만든 앱의 브라우저를 직접 열고, 클릭·입력·키보드 조작·스크린샷·페이지 구조 확인까지 수행합니다. 콘솔 메시지와 네트워크 활동도 읽을 수 있습니다.\n\n코드가 컴파일되는 것과 사용자의 흐름이 끝까지 작동하는 것은 다른 문제입니다.\n\n코딩 에이전트의 완료 조건이 “코드를 썼다”에서 “실행 중인 제품을 사용하고 실패 원인을 다시 고쳤다”로 이동하고 있습니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1787744138,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DcgHkVxGQkf",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
    "text": "Agent Plugins 1.0.0이 에이전트 확장의 기준을 파일 구조로 고정했습니다.\n\n8월 6일 공개된 이 표준은 `plugin.json`을 루트에 두고, `skills/`에는 재사용 지침을, `mcp.json`에는 외부 도구 연결을 담게 합니다. 에이전트마다 스킬과 MCP 설정을 다시 포장하던 단계에서 벗어나는 방식입니다.\n\nCursor 문서도 이 형식을 지원한다고 밝혔습니다. 다만 명령·훅·서브에이전트 같은 기능은 각 클라이언트 영역에 남겨뒀습니다.\n\n같은 플러그인을 여러 에이전트에서 읽을 수 있게 된 것과, 같은 권한으로 실행되는 것은 다른 문제입니다.\n\n에이전트 도구의 다음 비교 기준은 호환 여부보다, 포터블한 패키지와 클라이언트가 따로 관리하는 권한의 경계를 얼마나 명확히 보여주는가에 있습니다.\n\nhttps://github.com/agentplugins/agent-plugins-spec/blob/main/spec/1.0.0.md",
    "likes": 0,
    "cmts": 0,
@@ -358,10 +378,10 @@
   {
    "account": "choi.openai",
    "text": "OpenRouter 사용량 1위에 오른 익명 모델 Ox Alpha의 정체가 Zhipu의 GLM으로 확인됐습니다.\n\nZ.ai가 블룸버그에 직접 확인하면서, 개발자들이 위에 얹어 쓸 수 있도록 가중치까지 공개하겠다고 밝혔습니다.\n\n8월 20일 이름도 회사도 없이 올라온 모델인데요. 100만 토큰 컨텍스트에 이미지와 영상 입력을 받고 무료로 열어둔 덕에 코딩 에이전트들이 몰려들었고, 일주일도 안 돼 DeepSeek 사용량의 두 배를 넘겼습니다.\n\n정체는 커뮤니티가 먼저 뚫었는데요. 토크나이저 검사 95개 항목이 GLM-5 어휘와 전부 일치했고, 일부러 망가뜨린 요청에서 Zhipu 내부 API 클래스명이 담긴 자바 스택 트레이스까지 나왔었습니다.\n\n중국이 10조 토큰을 무료로 풀정도의 인프라와 프론티어의 견주는 모델 성능까지 쫓아왔다는 점이 놀라운 것 같습니다.",
-   "likes": 22,
-   "cmts": 5,
+   "likes": 36,
+   "cmts": 6,
    "time": 1787742037,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/780301762_17984137992112832_8951725904381256958_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk3MjE5MDU1MjQ5MzQyODE3Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=ghUZ3MEUwXoQ7kNvwHQua-l&_nc_oc=Adosxx7VoX3yKBeKh510HgWxEbgF4owx9K8tnVwZ898NG0rr4qbuTP9CH2aJ2FI1g3c&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=fDsb1BZQUngxDLoWqVxuCw&_nc_ss=7a22e&oh=00_AQGBIpskZ719YNelAd9Lrp9lOQ3P-oXx1-AWFQ9PGpd1og&oe=6A94AF64",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/780301762_17984137992112832_8951725904381256958_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk3MjE5MDU1MjQ5MzQyODE3Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=ghUZ3MEUwXoQ7kNvwHQua-l&_nc_oc=Adosxx7VoX3yKBeKh510HgWxEbgF4owx9K8tnVwZ898NG0rr4qbuTP9CH2aJ2FI1g3c&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=6EDgt5n3MryzDBn61LKCMw&_nc_ss=7a22e&oh=00_AQEP8odGgT8DE_1O979lqpIw_mhgEgfzsTID9YxF8r3Tew&oe=6A94AF64",
    "url": "https://www.threads.com/@choi.openai/post/DcgDkdCiFHc",
    "region": "kr"
   },
@@ -371,14 +391,14 @@
    "likes": 2,
    "cmts": 1,
    "time": 1787738960,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/787101980_18083153642407306_4607641385783429385_n.webp?stp=dst-webp_s640x640_sh2.08&_nc_cat=103&ig_cache_key=Mzk3MjE2NDc1NTYyMDM2MzQyNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjA0OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=UyIWeM6SfjwQ7kNvwH9Y22N&_nc_oc=AdpWRzCwS9ugIld1fGu3aOX4K-g7zz_gYRIl1CMfD9UGHUcdEH0ja4ji0ApasWzU5aw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=bz6CciYYgQTqRI8PxKBjEQ&_nc_ss=7a22e&oh=00_AQG9Sbh9I_kFgvKLUlBcdIdvespZCAQ8lzDH9t64eDrDbA&oe=6A94BC47",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/787101980_18083153642407306_4607641385783429385_n.webp?stp=dst-webp_s640x640_sh2.08&_nc_cat=103&ig_cache_key=Mzk3MjE2NDc1NTYyMDM2MzQyNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjA0OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=UyIWeM6SfjwQ7kNvwH9Y22N&_nc_oc=AdpWRzCwS9ugIld1fGu3aOX4K-g7zz_gYRIl1CMfD9UGHUcdEH0ja4ji0ApasWzU5aw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=_hJZw9DFgHxs3NQG_SbtyQ&_nc_ss=7a22e&oh=00_AQEHq3TlcLgUHQqdfL69BET6VsQpvKUr_hwLH3Xc4-Muuw&oe=6A94BC47",
    "url": "https://www.threads.com/@aipeekme/post/Dcf9szAE_yj",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "예약 구매 주소 :\nhttps://www.arduino.cc/product-ventuno-q",
-   "likes": 3,
+   "likes": 4,
    "cmts": 0,
    "time": 1787736673,
    "thumb": "",
@@ -388,31 +408,11 @@
   {
    "account": "choi.openai",
    "text": "아두이노가 로컬 AI 보드 VENTUNO Q의 예약 판매를 299달러에 시작했습니다.\n\n퀄컴 Dragonwing IQ-8275의 40 dense TOPS NPU와 16GB LPDDR5, STM32H5 마이크로컨트롤러를 한 보드에 넣었습니다.\n\n구조는 역할을 둘로 나눴습니다. 영상을 보고 판단하는 작업은 Qwen 3 4B나 Gemma 4를 올린 리눅스가 맡고, 모터처럼 즉각 반응해야 하는 제어는 마이크로컨트롤러가 1밀리초 단위로 처리합니다. 인터넷 없이도 보고 판단하고 움직이는 과정이 보드 하나에서 끝납니다.\n\n올릴 수 있는 모델은 4B에서 7B 정도라 카메라와 센서, 모터 사이에서 판단을 내리는 수준입니다.\n\nVENTUNO Q는 퀄컴이 아두이노를 인수한 뒤 두 번째로 내놓은 보드로 여기서 만든 앱은 코드를 거의 손대지 않고 같은 Dragonwing 칩을 쓴 양산용 모듈로 옮길 수 있습니다.\n\n시제품부터 퀄컴 칩을 쓰게 만들고, 양산 단계까지 그대로 이어지게 하는 전략이 놀랍습니다.",
-   "likes": 41,
+   "likes": 42,
    "cmts": 5,
    "time": 1787736654,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/787574121_1058452293709485_468167961478972299_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk3MjE0NTQxNTAwNDUwOTg4Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=NMkjnku9jDIQ7kNvwFUrv_T&_nc_oc=AdpIQqJwj74agx4W-vABUZLGsotr2Mm-UC_0zQKHseD7EjqMOvtljaPfnTUhBeWzHoQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=fDsb1BZQUngxDLoWqVxuCw&_nc_ss=7a22e&oh=00_AQG9ooilj3DycHFmEHp85MTh3-tfZ3tYuUypH6hmD5YA4Q&oe=6A949F7A",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/787574121_1058452293709485_468167961478972299_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk3MjE0NTQxNTAwNDUwOTg4Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=NMkjnku9jDIQ7kNvwFUrv_T&_nc_oc=AdpIQqJwj74agx4W-vABUZLGsotr2Mm-UC_0zQKHseD7EjqMOvtljaPfnTUhBeWzHoQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=6EDgt5n3MryzDBn61LKCMw&_nc_ss=7a22e&oh=00_AQEUHcn-HMHMOkC3m_OXhNnXUkD_G2-qq9X_Go3oRXuuJg&oe=6A949F7A",
    "url": "https://www.threads.com/@choi.openai/post/Dcf5TWpila-",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "모델 세 개를 고르는 문제처럼 보이지만, 실제 차이는 실행 구조에 있습니다.\n\n복잡한 다단계 작업에는 Sol, 일반 작업에는 Terra, 빠르고 저렴한 처리에는 Luna를 배치하는 식입니다. 같은 모델을 모든 단계에 쓰는 대신, 요구사항 정리·구현·검증마다 비용과 능력의 위치를 다르게 잡습니다.\n\n이제 Kiro를 볼 때는 모델 이름보다 한 작업이 끝날 때까지 몇 번의 반복과 검토가 필요한지부터 확인해야 합니다 ⭐\n\nhttps://openai.com/index/gpt-5-6-in-kiro/",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1787736036,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/Dcf4HagGWbw",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "GPT‑5.6 Terra가 Kiro에서 Terminal-Bench 2.1 작업을 약 82% 낮은 비용으로 끝냈습니다.\n\nOpenAI와 AWS가 8월 24일 공개한 결과입니다. Kiro는 GPT‑5.6 Sol·Terra·Luna를 IDE·CLI·Web에 넣고, 요구사항을 사양·기술 설계·실행 가능한 작업으로 나눠 에이전트에 전달합니다.\n\n코드 생성만 비교한 수치가 아닙니다. 코드베이스와 팀 규칙을 문맥으로 넣고, 구현 전 체크포인트에서 검토하고, property-based testing으로 결과를 확인하는 흐름까지 포함합니다.\n\n에이전트의 가격표가 토큰당 비용에서 성공한 작업 하나의 비용으로 이동하고 있습니다.",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1787736028,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/Dcf4GNomVgQ",
    "region": "kr"
   },
   {
@@ -421,7 +421,7 @@
    "likes": 0,
    "cmts": 1,
    "time": 1787734877,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/775243817_17953106601232485_6806128487534070630_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk3MjEzMDUwNjE4MzcxNDMxNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTYwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=natzz6GoX1MQ7kNvwGJK5cx&_nc_oc=AdrNLktWBqm5M4reDib6OGQ2sNqGi-BKSr8wNNE8xnu49nPwSFeQt7DkSgwXKOaV78Y&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=4UBPdY1wEYfZ8q1LMFZudA&_nc_ss=7a22e&oh=00_AQEJcc5IeAvGwzUKhmmRlAh0RfbiQVFopa-nEQHJupRgLw&oe=6A94B34C",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/775243817_17953106601232485_6806128487534070630_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk3MjEzMDUwNjE4MzcxNDMxNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTYwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=natzz6GoX1MQ7kNvwGJK5cx&_nc_oc=AdrNLktWBqm5M4reDib6OGQ2sNqGi-BKSr8wNNE8xnu49nPwSFeQt7DkSgwXKOaV78Y&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=xB2rjiTml3MFFx1_DFZVSw&_nc_ss=7a22e&oh=00_AQGmYuRakiH6SGCNoqr7aSa_Z2T8Gdb4Jo_DK-xElOMECw&oe=6A94B34C",
    "url": "https://www.threads.com/@aicoffeechat/post/Dcf16ZukqYN",
    "region": "kr"
   },
@@ -471,7 +471,7 @@
    "likes": 6,
    "cmts": 2,
    "time": 1787724165,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/786122331_18083114777407306_6693962061872238717_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk3MjA0MDU4NDQxNzIxNjA4MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=IgoYQzxAqx8Q7kNvwEET9bi&_nc_oc=Adq32KhkqvADy2v6urqx_qpEwAiRqaj8pczFwVVYsiDNChu_BkWklNuYWwPqV2dKX10&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=bz6CciYYgQTqRI8PxKBjEQ&_nc_ss=7a22e&oh=00_AQGiSONrXv1KD1ygMwCDwLlZITVD36FWClksXUuSzKR_Jw&oe=6A94BB2C",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/786122331_18083114777407306_6693962061872238717_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk3MjA0MDU4NDQxNzIxNjA4MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=IgoYQzxAqx8Q7kNvwEET9bi&_nc_oc=Adq32KhkqvADy2v6urqx_qpEwAiRqaj8pczFwVVYsiDNChu_BkWklNuYWwPqV2dKX10&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=_hJZw9DFgHxs3NQG_SbtyQ&_nc_ss=7a22e&oh=00_AQFugeETgimTEzApGIQB3iSRHzB4Q6IDy3gqbFax7eN9zg&oe=6A94BB2C",
    "url": "https://www.threads.com/@aipeekme/post/Dcfhd3jn4ZR",
    "region": "kr"
   },
@@ -498,7 +498,7 @@
   {
    "account": "promppy_com",
    "text": "디자인 똥손이 AI로 프론트엔드 탈바꿈하는 법\n\n1. 일단 디자인 잘하는 고수들의 컴포넌트 사이트를 모은다\n2. AI에게 해당 사이트 링크를 던져주고 기능을 파악시킨다\n3. 우리 프로젝트의 기초 구조에 맞게 조립해달라고 요청한다\n4. 직접 짜는 것보다 수정 작업이 훨씬 빠르고 퀄리티도 높다\n\n제가 매일 쓰는 조합은 이거예요.\n\n- beautifului.dev\n- beui.dev\n- rareui.com\n- transitions.dev\n- ui.shadcn.com\n\n이 방법 쓰면 더 이상 '디자인 감각' 타령 안 해도 됩니다. 개발자가 디자인까지 잡는 제일 빠른 루트, 이거 말고 또 있을까요?",
-   "likes": 35,
+   "likes": 37,
    "cmts": 1,
    "time": 1787701588,
    "thumb": "",
@@ -521,8 +521,18 @@
    "likes": 22,
    "cmts": 2,
    "time": 1787668805,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/786656687_2374926656373044_8865991634568732225_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk3MTU3NTgzMTk2ODk2MTY4Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=tUbVwDt9E54Q7kNvwFNdOlN&_nc_oc=AdoCczTi9gVSquj-QKF2S201svoaBgSdPdZwcIFri8X63zOzhct62veI0enanKNAl28&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=bPK42bTnRHVJliOCxdExMg&_nc_ss=7a22e&oh=00_AQF40s3SsJ_aSAj9VXvkCTC44ZmHn2ahXFfi2yP45U29UQ&oe=6A94A9BD",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/786656687_2374926656373044_8865991634568732225_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk3MTU3NTgzMTk2ODk2MTY4Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=tUbVwDt9E54Q7kNvwFNdOlN&_nc_oc=AdoCczTi9gVSquj-QKF2S201svoaBgSdPdZwcIFri8X63zOzhct62veI0enanKNAl28&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=fkdiT-SWziuOLWIMGIR_1Q&_nc_ss=7a22e&oh=00_AQGfe5UUpzASM1c_-4ZE69Rd-yRl9N9Y4a0nAELeBgOgWA&oe=6A94A9BD",
    "url": "https://www.threads.com/@kopp/post/Dcd3y1HCVSS",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
+   "text": "모델 세 개를 고르는 문제처럼 보이지만, 실제 차이는 실행 구조에 있습니다.\n\n복잡한 다단계 작업에는 Sol, 일반 작업에는 Terra, 빠르고 저렴한 처리에는 Luna를 배치하는 식입니다. 같은 모델을 모든 단계에 쓰는 대신, 요구사항 정리·구현·검증마다 비용과 능력의 위치를 다르게 잡습니다.\n\n이제 Kiro를 볼 때는 모델 이름보다 한 작업이 끝날 때까지 몇 번의 반복과 검토가 필요한지부터 확인해야 합니다 ⭐\n\nhttps://openai.com/index/gpt-5-6-in-kiro/",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1787736036,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/Dcf4HagGWbw",
    "region": "kr"
   },
   {
@@ -531,18 +541,8 @@
    "likes": 7,
    "cmts": 4,
    "time": 1787734843,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/775166814_17953106091232485_5065430160756292198_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk3MjEzMDIyNTMyNDc0NjE0MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTYwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=iWA2v0Wxva0Q7kNvwE4KkRL&_nc_oc=AdoXRw4Pid0ExVGRWMuCgZVHTTF2jyxtq2AY5tDXuoOCKcKEODlLHA86I-u4D5XBg2Y&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=4UBPdY1wEYfZ8q1LMFZudA&_nc_ss=7a22e&oh=00_AQE8PIBZ7zcHW0ehEGKLZZ2gFnUj2LCO5AAxsw7Iffr-pQ&oe=6A94B2E9",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/775166814_17953106091232485_5065430160756292198_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk3MjEzMDIyNTMyNDc0NjE0MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTYwMC5zZHIucmVndWxhcl9waG90by5DMiJ9&_nc_ohc=iWA2v0Wxva0Q7kNvwE4KkRL&_nc_oc=AdoXRw4Pid0ExVGRWMuCgZVHTTF2jyxtq2AY5tDXuoOCKcKEODlLHA86I-u4D5XBg2Y&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=xB2rjiTml3MFFx1_DFZVSw&_nc_ss=7a22e&oh=00_AQEuvzW9JXFgnIUcTx1oaBopTMDxbnQJXrpRrNjKTWuV9A&oe=6A94B2E9",
    "url": "https://www.threads.com/@aicoffeechat/post/Dcf12UKEuWc",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "혜택 주소 (광고 아님) :\nhttps://tiro.ooo/ko/join/CHOI-OPENAI-REF",
-   "likes": 14,
-   "cmts": 0,
-   "time": 1787731245,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/Dcfu-_BAraW",
    "region": "kr"
   }
  ],
@@ -553,7 +553,7 @@
    "views": 1900000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooDPRCUDqBpuPTmFEWk6RAIgEBqnfZwgeRICBU~tplv-tiktokx-origin.image?dr=14575&x-expires=1787914800&x-signature=HfbAtLbVf%2B9GWYdseMFcMI3ZR%2Fk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooDPRCUDqBpuPTmFEWk6RAIgEBqnfZwgeRICBU~tplv-tiktokx-origin.image?dr=14575&x-expires=1787918400&x-signature=Gq9jiNxJfEoMHez0X2SxfBzNIis%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785177115,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7667277327386135826",
    "region": "kr"
@@ -564,7 +564,7 @@
    "views": 1600000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAbAoCECNeDAVDgQBcAkFzYBfoUADqQCQWIuZl~tplv-tiktokx-origin.image?dr=14575&x-expires=1787914800&x-signature=V2et9MdBJ0YyIff%2BiPnmCZvXiTU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAbAoCECNeDAVDgQBcAkFzYBfoUADqQCQWIuZl~tplv-tiktokx-origin.image?dr=14575&x-expires=1787918400&x-signature=Sz%2Fe9gJ3BO3MqXRdPy0M9b%2BrgwE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785471372,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7668541152869616914",
    "region": "kr"
@@ -575,7 +575,7 @@
    "views": 763500,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooBGAi8A6InMPiZBpU9fBkTRtAAwBKw0m1E0Ag~tplv-tiktokx-origin.image?dr=14575&x-expires=1787914800&x-signature=5tp7hCu%2FGc8bZjJet2scjUDQzAA%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooBGAi8A6InMPiZBpU9fBkTRtAAwBKw0m1E0Ag~tplv-tiktokx-origin.image?dr=14575&x-expires=1787918400&x-signature=LgtRGlIa6RblOb%2FxC5vbpl7iInM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785109781,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7666988131442281746",
    "region": "kr"
@@ -586,7 +586,7 @@
    "views": 483800,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o43E0EJDgKsBeuyFfnqRBCAvI1sAAbI2NsPlIc~tplv-tiktokx-origin.image?dr=14575&x-expires=1787914800&x-signature=lFG9b5gjsARb0ylt9Li%2BNO2Agms%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o43E0EJDgKsBeuyFfnqRBCAvI1sAAbI2NsPlIc~tplv-tiktokx-origin.image?dr=14575&x-expires=1787918400&x-signature=7kWHOQ6AZzeoXAb9EWqDJzfm34s%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785519099,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7668746136877812999",
    "region": "kr"
@@ -594,10 +594,10 @@
   {
    "account": "jaemyung_lee",
    "title": "이번 정류장은 칠레입니다🇰🇷🇨🇱 #이재명 #대통령 #Chile #Corea",
-   "views": 368000,
+   "views": 368100,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQpDHATAEBzAIGFgqwDA4hofdRfVCsCaqEBIkL~tplv-tiktokx-origin.image?dr=14575&x-expires=1787914800&x-signature=H7rHebCpdFWm5QJg0%2FM9YRUV4sc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQpDHATAEBzAIGFgqwDA4hofdRfVCsCaqEBIkL~tplv-tiktokx-origin.image?dr=14575&x-expires=1787918400&x-signature=bvjk8hVRfXGJ5ZVM4RjXrXpeJIU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785365622,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7668086960883354887",
    "region": "kr"
@@ -605,10 +605,10 @@
   {
    "account": "jaemyung_lee",
    "title": "프랑크푸르트에 도착했습니다🇰🇷🇩🇪 #이재명 #deutschland #frankfurt",
-   "views": 264100,
+   "views": 264200,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1787914800&x-signature=Pzo0hbvEXLY%2BKC8XHgD1GClTFt0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1787918400&x-signature=p1ce69S9I73lJKBJT2eMrfngkao%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785656353,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7669335640793763079",
    "region": "kr"
@@ -619,7 +619,7 @@
    "views": 233000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-i-photomode-sg/91a2f3151d9741689af70b1d1f8aac3a~tplv-photomode-image.jpeg?dr=14555&x-expires=1787914800&x-signature=A6WsCkM3k9zo4hQqShWAhyEPddk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=9b759fb9&idc=my2&ftpl=1",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-i-photomode-sg/91a2f3151d9741689af70b1d1f8aac3a~tplv-photomode-image.jpeg?dr=14555&x-expires=1787918400&x-signature=oppEqTvZ0Ld0OKCUFb40eyrj3fY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=9b759fb9&idc=my2&ftpl=1",
    "time": 1785270939,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7667680300490558728",
    "region": "kr"
@@ -630,7 +630,7 @@
    "views": 190000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/osApGgttBIBbbk6zA4iAKdIdkBfL1AAEiSwmCM~tplv-tiktokx-origin.image?dr=14575&x-expires=1787914800&x-signature=AdGCzUPFdRQiE0rmCmU%2B1t%2FLp20%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/osApGgttBIBbbk6zA4iAKdIdkBfL1AAEiSwmCM~tplv-tiktokx-origin.image?dr=14575&x-expires=1787918400&x-signature=39ChT6YVuj2DqprgZ6qIg4lzNa4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1784945079,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7666280741554195730",
    "region": "kr"
@@ -641,7 +641,7 @@
    "views": 134900,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okkIgGYEt7AlB4qvUF5yCAEAjD8vfKAfVACbBp~tplv-tiktokx-origin.image?dr=14575&x-expires=1787914800&x-signature=E%2FiSynHsS6LV%2FkhmQ7ZstlbXUgQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okkIgGYEt7AlB4qvUF5yCAEAjD8vfKAfVACbBp~tplv-tiktokx-origin.image?dr=14575&x-expires=1787918400&x-signature=aUufRwy4HaaYpm2%2F1fF1tyhojo4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1784911601,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7666136953456315666",
    "region": "kr"
@@ -652,7 +652,7 @@
    "views": 106700,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ok7qEZCqBgAIPBVFAEgOfAJAhjCDYF5jcUeyNC~tplv-tiktokx-origin.image?dr=14575&x-expires=1787914800&x-signature=4dY%2FKLqS462CHk%2Bo6WJrmwGE2zw%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ok7qEZCqBgAIPBVFAEgOfAJAhjCDYF5jcUeyNC~tplv-tiktokx-origin.image?dr=14575&x-expires=1787918400&x-signature=PW3zSusyOyqf3nPE3SoNuq0pBQY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1784793310,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7665628897077234951",
    "region": "kr"
@@ -660,10 +660,10 @@
   {
    "account": "tictok_ent",
    "title": "박규영, 아침부터 미모 열일 / 아워글래스(HOURGLASS) 팝업 포토월 #박규영 #아워글래스 #HOURGLASS",
-   "views": 6010,
+   "views": 6045,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oUDPINKKABuclCBuAAwinRmqEfl211iBiAs9LA~tplv-tiktokx-origin.image?dr=14575&x-expires=1787914800&x-signature=fdnjduJ1lYQR98bvjnRBp1sqOg0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oUDPINKKABuclCBuAAwinRmqEfl211iBiAs9LA~tplv-tiktokx-origin.image?dr=14575&x-expires=1787918400&x-signature=vjcjbfgcSiX32aWwzjYq8DgYQ%2BM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1787535859,
    "url": "https://www.tiktok.com/@tictok_ent/video/7677408056661036308",
    "region": "kr"
@@ -674,7 +674,7 @@
    "views": 1308,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQY79AgDVEXliePFEAAFpAIEEDWQfE5AOrQvEf~tplv-tiktokx-origin.image?dr=14575&x-expires=1787914800&x-signature=%2FSN9Ny3j0UNZeNuh7wH%2FwgrkTFc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQY79AgDVEXliePFEAAFpAIEEDWQfE5AOrQvEf~tplv-tiktokx-origin.image?dr=14575&x-expires=1787918400&x-signature=sbtoaGDnj6UDkRkJ6BCRh21XWUE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1787310002,
    "url": "https://www.tiktok.com/@tictok_ent/video/7676438007003630869",
    "region": "kr"
@@ -682,13 +682,13 @@
  ],
  "reddit": [
   {
-   "sub": "GuysBeingDudes",
-   "title": "Dad jokes",
+   "sub": "oddlysatisfying",
+   "title": "He fits perfectly.",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/Z3lqNmg1NHR0b2xoMQ1iguMnHkkJDtdilGvWd1q4fIJOoHic2jzMlr7TFGf4.png?width=640&crop=smart&auto=webp&s=d4fd0f4f10f78c993518ae5a63f6c5980e887379",
-   "time": 1787736293,
-   "url": "https://www.reddit.com/r/GuysBeingDudes/comments/1vys36f/dad_jokes/"
+   "thumb": "https://external-preview.redd.it/cHh4MzhoYmd0b2xoMWOaiICes8SuZ9o_RUVNVSsZ28a-LLV_-btdo6k9rG6s.png?width=320&crop=smart&auto=webp&s=781470af484e9cdb1021261e9ec18dd993b87571",
+   "time": 1787736160,
+   "url": "https://www.reddit.com/r/oddlysatisfying/comments/1vys1r0/he_fits_perfectly/"
   },
   {
    "sub": "AskReddit",
@@ -718,13 +718,13 @@
    "url": "https://www.reddit.com/r/assholedesign/comments/1vyqtva/dolly_partons_instagram_page_the_day_after_her/"
   },
   {
-   "sub": "oddlysatisfying",
-   "title": "He fits perfectly.",
+   "sub": "GuysBeingDudes",
+   "title": "Dad jokes",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/cHh4MzhoYmd0b2xoMWOaiICes8SuZ9o_RUVNVSsZ28a-LLV_-btdo6k9rG6s.png?width=320&crop=smart&auto=webp&s=781470af484e9cdb1021261e9ec18dd993b87571",
-   "time": 1787736160,
-   "url": "https://www.reddit.com/r/oddlysatisfying/comments/1vys1r0/he_fits_perfectly/"
+   "thumb": "https://external-preview.redd.it/Z3lqNmg1NHR0b2xoMQ1iguMnHkkJDtdilGvWd1q4fIJOoHic2jzMlr7TFGf4.png?width=640&crop=smart&auto=webp&s=d4fd0f4f10f78c993518ae5a63f6c5980e887379",
+   "time": 1787736293,
+   "url": "https://www.reddit.com/r/GuysBeingDudes/comments/1vys36f/dad_jokes/"
   },
   {
    "sub": "PeterExplainsTheJoke",
@@ -763,13 +763,13 @@
    "url": "https://www.reddit.com/r/Music/comments/1vy764y/dolly_parton_queen_of_country_music_dies_at_80/"
   },
   {
-   "sub": "SipsTea",
-   "title": "Angry Baguette Noises",
+   "sub": "politics",
+   "title": "Trump’s agriculture secretary refuses to say where foreign beef to lower prices is coming from",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/g7sbnv8mznlh1.jpeg?width=640&crop=smart&auto=webp&s=076e24bb3337f550b0d4d1013df92478dab3ed66",
-   "time": 1787726129,
-   "url": "https://www.reddit.com/r/SipsTea/comments/1vyp6do/angry_baguette_noises/"
+   "thumb": "https://external-preview.redd.it/46awAijoIPIbfyHAbA0DchK2FweYwy_z6LGzI6C5rvc.jpeg?width=640&crop=smart&auto=webp&s=9d7826d6aaa493b33ae282709d30fd18844aab19",
+   "time": 1787688744,
+   "url": "https://www.reddit.com/r/politics/comments/1vyb25m/trumps_agriculture_secretary_refuses_to_say_where/"
   },
   {
    "sub": "popculturechat",
@@ -781,13 +781,13 @@
    "url": "https://www.reddit.com/r/popculturechat/comments/1vy7by6/dolly_parton_dead_at_80/"
   },
   {
-   "sub": "pics",
-   "title": "[OC] A powerful message on accountability from Zelenskyy's 2019 inaugural speech",
+   "sub": "worldnews",
+   "title": "Ukraine Knocks Out 8 of Wildberries’ 10 Major Warehouses, Wiping Out 81% of Combined Space",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/wbds5tuzxmlh1.jpeg?width=640&crop=smart&auto=webp&s=e4411349ea671556a497223e979e0bc4ecf42392",
-   "time": 1787713475,
-   "url": "https://www.reddit.com/r/pics/comments/1vyl20u/oc_a_powerful_message_on_accountability_from/"
+   "thumb": "https://external-preview.redd.it/bPXO4DLQRBloU1nHOILRIQt-BJ9K-S0yEZkNWTzYmXA.jpeg?width=640&crop=smart&auto=webp&s=1c1fc24256da16f1e3aa9fc058e8cbe00542cc85",
+   "time": 1787736831,
+   "url": "https://www.reddit.com/r/worldnews/comments/1vys8u5/ukraine_knocks_out_8_of_wildberries_10_major/"
   }
  ],
  "disaster": [],
@@ -832,10 +832,10 @@
    }
   },
   "landing": {
-   "at": "2026-08-26T20:05:55",
+   "at": "2026-08-26T20:31:24",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-26T20:31:21.970251+09:00"
+ "updated": "2026-08-26T21:01:19.534223+09:00"
 }
