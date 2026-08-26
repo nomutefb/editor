@@ -7532,8 +7532,14 @@
   {
    "query": "돌리 파튼",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/90656712cd.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.sedaily.com/article/20083301",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-26T07:30:00+09:00",
    "delta": -5,
@@ -7568,8 +7574,14 @@
   {
    "query": "세단",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/556fd66865.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.busan.com/view/busan/view.php?code=2026062612264566720",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-08-26T07:00:00+09:00",
    "isNew": true,
@@ -7654,8 +7666,14 @@
   {
    "query": "김숙",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/4a63541b2f.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.hankookilbo.com/news/article/A2026081814390003484",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-26T07:20:00+09:00",
    "isNew": true,
@@ -7707,8 +7725,14 @@
   {
    "query": "리그 오브 레전드",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/5e073197b5.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.kmib.co.kr/article/view.asp?arcid=0030053794&code=61162012&sid1=esp&stg=ws_real",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-08-26T08:30:00+09:00",
    "delta": -22,
@@ -7721,8 +7745,14 @@
   {
    "query": "한국고속철도",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/ca946f23cf.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.newspim.com/news/view/20251222000073",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-08-26T07:30:00+09:00",
    "delta": -15,
@@ -7878,13 +7908,14 @@
  ],
  "gtrends_pool_updated": "2026-08-26T10:37:13+09:00",
  "_trend_img": {
-  "tried": "2026-08-26T09:42:08+09:00",
+  "tried": "2026-08-26T10:37:13+09:00",
   "fail": {
    "폴더블 스마트폰": "2026-08-26T09:05:18+09:00",
    "입스위치 대 레스터 시티": "2026-08-26T09:05:18+09:00",
    "서식 스 공작부 인 메건": "2026-08-26T09:48:43+09:00",
    "이다현": "2026-08-26T09:48:43+09:00",
-   "카르다노": "2026-08-26T09:48:43+09:00"
+   "카르다노": "2026-08-26T09:48:43+09:00",
+   "베라 루빈": "2026-08-26T10:44:00+09:00"
   }
  },
  "gtrends_gl": [
@@ -17735,7 +17766,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-08-26T10:37:13+09:00"
+    "first_seen": "2026-08-26T10:37:13+09:00",
+    "kw": "Atelier, Claude Code, 병렬 에이전트",
+    "sum": "Atelier가 여러 Claude Code 에이전트를 병렬 실행하는 macOS 앱을 소개했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -17750,7 +17784,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-08-26T10:37:13+09:00"
+    "first_seen": "2026-08-26T10:37:13+09:00",
+    "kw": "ThinkingBox, MCP, 에이전트 평가",
+    "sum": "ThinkingBox가 도구 호출과 부작용을 함께 기록해 에이전트를 평가한다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -17765,7 +17802,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-08-26T10:37:13+09:00"
+    "first_seen": "2026-08-26T10:37:13+09:00",
+    "kw": "ThinkingBox-Bench, 마이크로소프트, 에이전트 벤치마크",
+    "sum": "마이크로소프트가 실제 업무 상태로 에이전트 성공을 측정하는 벤치마크를 공개했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
