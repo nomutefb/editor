@@ -7502,8 +7502,14 @@
   {
    "query": "과태료",
    "traffic": "20000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/f7809e39f4.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.ytn.co.kr/_ln/0103_202608100507023270",
+     "source": ""
+    }
+   ],
    "vol": 20000,
    "started": "2026-08-26T10:30:00+09:00",
    "delta": -4,
@@ -7561,8 +7567,14 @@
   {
    "query": "정선희",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/f3349d6bdc.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.newsis.com/view/NISX20260826_0003762618",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-08-26T10:30:00+09:00",
    "delta": -6,
@@ -7735,8 +7747,14 @@
   {
    "query": "모두의창업",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/267c077d0a.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.korea.kr/news/policyNewsView.do?newsId=148970279",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-08-26T10:10:00+09:00",
    "delta": -14,
@@ -7899,12 +7917,13 @@
  ],
  "gtrends_pool_updated": "2026-08-26T13:38:58+09:00",
  "_trend_img": {
-  "tried": "2026-08-26T12:41:15+09:00",
+  "tried": "2026-08-26T13:38:58+09:00",
   "fail": {
-   "한겨레": "2026-08-26T11:17:32+09:00",
    "이준석 사퇴": "2026-08-26T12:45:30+09:00",
    "sk이노베이션": "2026-08-26T12:45:30+09:00",
-   "타자": "2026-08-26T12:45:30+09:00"
+   "타자": "2026-08-26T12:45:30+09:00",
+   "김호령": "2026-08-26T13:45:58+09:00",
+   "nol": "2026-08-26T13:45:58+09:00"
   }
  },
  "gtrends_gl": [
@@ -18639,7 +18658,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-08-26T13:38:58+09:00"
+    "first_seen": "2026-08-26T13:38:58+09:00",
+    "kw": "gh-aw, 자율 코딩 에이전트, 스케줄 필터",
+    "sum": "계정이 gh-aw 에이전트의 스케줄을 실행 필터로 설명하고 있다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -18654,7 +18676,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-08-26T13:38:58+09:00"
+    "first_seen": "2026-08-26T13:38:58+09:00",
+    "kw": "Issue Monster, gh-aw, 실행 조건",
+    "sum": "Issue Monster가 조건 미충족시 에이전트 실행을 건너뛴다고 설명했다",
+    "sv": 1
    },
    {
     "account": "takepage_",
@@ -18669,7 +18694,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-08-26T13:38:58+09:00"
+    "first_seen": "2026-08-26T13:38:58+09:00",
+    "kw": "first-customer-finder, 초기 고객 찾기 스킬",
+    "sum": "스킬이 연락처 대신 문구 초안과 7일 발송 순서만 제공한다고 설명했다",
+    "sv": 1
    },
    {
     "account": "takepage_",
@@ -18684,7 +18712,10 @@
     "rh": [
      4
     ],
-    "first_seen": "2026-08-26T13:38:58+09:00"
+    "first_seen": "2026-08-26T13:38:58+09:00",
+    "kw": "first-customer-finder, 점수 기준, 타이밍",
+    "sum": "스킬이 글 원문 확인과 타이밍 점수로 고객 명단을 거른다고 설명했다",
+    "sv": 1
    },
    {
     "account": "takepage_",
@@ -18699,7 +18730,10 @@
     "rh": [
      5
     ],
-    "first_seen": "2026-08-26T13:38:58+09:00"
+    "first_seen": "2026-08-26T13:38:58+09:00",
+    "kw": "first-customer-finder, 고객 발굴 방식",
+    "sum": "스킬이 회사명 추론 대신 불만 글 작성자를 역추적해 명단 만든다고 설명했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -18714,7 +18748,10 @@
     "rh": [
      6
     ],
-    "first_seen": "2026-08-26T13:38:58+09:00"
+    "first_seen": "2026-08-26T13:38:58+09:00",
+    "kw": "Paperclip, 에이전트 승인 구조",
+    "sum": "Paperclip이 사후검토 대신 사전승인 구조로 바뀌었다고 설명했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -18729,7 +18766,10 @@
     "rh": [
      7
     ],
-    "first_seen": "2026-08-26T13:38:58+09:00"
+    "first_seen": "2026-08-26T13:38:58+09:00",
+    "kw": "ChatGPT Business, OpenAI, 프리미엄 좌석",
+    "sum": "OpenAI가 ChatGPT Business 프리미엄 좌석을 출시했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -19038,7 +19078,10 @@
     "rh": [
      19
     ],
-    "first_seen": "2026-08-26T13:38:58+09:00"
+    "first_seen": "2026-08-26T13:38:58+09:00",
+    "kw": "first-customer-finder, 초기 고객 찾기",
+    "sum": "계정이 first-customer-finder 스킬의 인기와 원리를 소개했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -19053,7 +19096,10 @@
     "rh": [
      20
     ],
-    "first_seen": "2026-08-26T13:38:58+09:00"
+    "first_seen": "2026-08-26T13:38:58+09:00",
+    "kw": "Paperclip, 에이전트 승인 워크플로우",
+    "sum": "Paperclip이 에이전트 행동을 실행 전 승인 요청으로 바꿨다고 설명했다",
+    "sv": 1
    }
   ]
  },
