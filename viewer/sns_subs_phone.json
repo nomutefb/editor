@@ -390,12 +390,32 @@
  ],
  "threads": [
   {
+   "account": "daily_ai_star",
+   "text": "이 워크플로가 확인하는 것은 코드가 실행되는가만이 아닙니다. CLI가 말하는 기능과 문서가 약속하는 기능이 같은지도 검사합니다.\n\n빠르게 바뀌는 저장소에서는 문서 드리프트가 기능 버그보다 먼저 쌓입니다. 사람이 가끔 읽는 리뷰보다, 매일 전체 명령을 비교하고 근거와 원인을 남기는 검사가 더 일정한 기준이 될 수 있습니다.\n\n자율형 개발 에이전트의 다음 평가 항목은 작업량이 아니라, 오탐 없이 검증 결과를 남기고 바로 수정 가능한 이슈로 연결하는가입니다.\n\nhttps://github.github.com/gh-aw/blog/2026-08-26-agent-of-the-day/",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1787796945,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DchsSd4Gbco",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
+   "text": "gh-aw의 CLI Consistency Checker가 40개가 넘는 명령과 문서를 매일 대조합니다.\n\n`--help` 출력과 CLI 문서를 맞춰 보면서 누락된 명령, 다른 플래그 이름, 빠진 `--no-*` 옵션, 오래된 예제를 찾습니다.\n\n8월 25일에는 문서에서 빠진 `graders` 명령을 발견했고, 수정 PR이 당일 병합됐습니다. 8월 26일에는 일곱 명령의 빈 줄 형식 오류를 찾아 원인 코드까지 짚었습니다.\n\n두 실행 모두 오탐은 없었습니다.\n\n에이전트가 백그라운드에서 신뢰를 얻는 기준은 큰 변경을 만드는 능력보다, 작은 불일치를 매일 정확히 찾아내는 능력에 가까워지고 있습니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1787796937,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DchsRpSGRK4",
+   "region": "kr"
+  },
+  {
    "account": "choi.openai",
    "text": "Claude의 Cowork에 자체 브라우저가 추가됐습니다.\n\n웹사이트 작업을 요청하면 Cowork 측면 패널에서 별도 브라우저가 열리고, Claude가 직접 사이트를 탐색하거나 양식을 작성해 작업을 완료합니다.\n\n별도 설치가 필요 없으며 개인 브라우저와 로그인 정보도 분리됩니다.\n\n데스크톱 앱의 모든 유료 요금제에 순차적으로 제공될 예정입니다.",
-   "likes": 7,
+   "likes": 22,
    "cmts": 0,
    "time": 1787796023,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/788153452_4508392302763438_1573556364881871161_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk3MjY0MzQzOTM1NTIzOTYxNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=heXrMpK9ndcQ7kNvwHV-7f7&_nc_oc=AdpW9NQIO27Ri2FTHgLKsmKtlguJMrl8yYbN2nl-4Rbs74_DaW64rpBlTEhk73Gg9rc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=-DS7I9fHdMVLpI6aW_D6vA&_nc_ss=7a22e&oh=00_AQF4nIi61-R-txfkdWByIOgEW6VI0ZKVuL8TWM_V3_qyug&oe=6A9567E3",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/788153452_4508392302763438_1573556364881871161_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk3MjY0MzQzOTM1NTIzOTYxNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=heXrMpK9ndcQ7kNvwHV-7f7&_nc_oc=AdpW9NQIO27Ri2FTHgLKsmKtlguJMrl8yYbN2nl-4Rbs74_DaW64rpBlTEhk73Gg9rc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=x6jIrYDVHbkroXp9rBldIg&_nc_ss=7a22e&oh=00_AQG85_hSqEg3OCzDqPZIrigMXldlAqD6VIAPvbv0wWTQ9g&oe=6A9567E3",
    "url": "https://www.threads.com/@choi.openai/post/Dchqij-DhzA",
    "region": "kr"
   },
@@ -410,32 +430,22 @@
    "region": "kr"
   },
   {
-   "account": "daily_ai_star",
-   "text": "GitHub CodeQL이 8월 20일 코드 스캐닝 경고에 `Mitigated` 상태를 추가했습니다.\n\n취약점이 코드에 남아 있어도 웹 애플리케이션 방화벽이나 네트워크 정책으로 위험을 줄였다면, 이제 `Won’t fix`와 구분해 기록할 수 있습니다.\n\n이 차이는 보안팀의 분류 하나를 늘린 일이 아닙니다. AI 코딩 에이전트가 경고를 자동 수정하거나 닫을 때도, “코드가 고쳐졌는가”와 “외부 통제로 위험이 관리되는가”를 다른 결과로 남길 수 있게 됐습니다.\n\n보안 자동화의 완료 조건이 취약점 제거에서 위험과 예외의 근거를 기록하는 일까지 넓어졌습니다.\n\n앞으로 에이전트가 닫은 경고를 볼 때는 해결 여부보다 어떤 통제가 작동 중인지부터 확인해야 합니다.\n\nhttps://github.blog/changelog/2026-08-20-code-scanning-adds-a-mitigated-alert-dismissal-reason/",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1787792260,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DchjWaPkzQg",
-   "region": "kr"
-  },
-  {
    "account": "choi.openai",
    "text": "3/ 6월 26일 20시 15분, 에이전트들이 Artifactory의 토큰 갱신 결함을 뚫고 관리자 토큰을 받아냅니다. 13분 뒤 관리자 계정 하나, 22분 뒤 하나를 더 만들었습니다.\n\n그 전날 이미 게시판에서는 우회 공격 문법을 서로 알려주고 있었고, 이후 열흘 동안 저장소에 스크립트 플러그인을 심어 명령을 상시 실행하는 상태까지 갔습니다.\n명령과 결과와 자격증명이 그대로 게시판에 올라왔는데요.\n\n6월 27일 포트 스캔 경보가 울렸습니다. 당직 대응자는 조사 끝에 평가 실행을 멈출 필요는 없다고 판단했습니다.\n\n7월 4일 밤에는 활동량이 몰려 Artifactory가 죽었고, 다음 날 보안 인시던트가 열립니다. 팀은 권한 상승 경로를 막고 자격증명을 폐기하고 서비스를 새로 세웠는데, 게시판도 그때 함께 지워졌습니다.\n\n리포트는 이 시점에 게시판의 존재와 통신의 의미가 대응 책임자들에게 닿지 않았다고 적었습니다.",
-   "likes": 1,
+   "likes": 2,
    "cmts": 1,
    "time": 1787790723,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/788170611_17984215125112832_5135350819632385070_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk3MjU5ODk3NDEyMDk4Mzc4OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjIyOS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=G8C9NQZXeVAQ7kNvwHD1r9F&_nc_oc=Adqb_JmvL2QAFBDzuzNEBfwAHWMyW-M51hucJ4mO0cqi1wj00EJAH-uUVWlYvxt524k&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=-DS7I9fHdMVLpI6aW_D6vA&_nc_ss=7a22e&oh=00_AQEaFNYjmZI15GxWv6arQjn3uddGvOtWYOOO6JZsYmxccg&oe=6A95549C",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/788170611_17984215125112832_5135350819632385070_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk3MjU5ODk3NDEyMDk4Mzc4OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjIyOS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=G8C9NQZXeVAQ7kNvwHD1r9F&_nc_oc=Adqb_JmvL2QAFBDzuzNEBfwAHWMyW-M51hucJ4mO0cqi1wj00EJAH-uUVWlYvxt524k&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=x6jIrYDVHbkroXp9rBldIg&_nc_ss=7a22e&oh=00_AQF0HVh1__AeMIpQtpOYR1Up74ju4GOoDzElOMBa234FMw&oe=6A958CDC",
    "url": "https://www.threads.com/@choi.openai/post/Dchgbgfj_zs",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "2/ 먼저 이게 어떤 상황이었는지부터 짚고 가겠습니다.\n\n오픈AI는 모델의 해킹 능력을 재려고 ExploitGym이라는 시험을 돌립니다.\nExploitGym은 보안 대회 방식을 그대로 가져온 시험입니다. 에이전트마다 인터넷과 사내망에서 끊어놓은 임시 컴퓨터를 하나씩 주고, 그 안에 실제 소프트웨어를 올려둡니다.\n\n그 소프트웨어에는 미리 정해둔 보안 결함이 하나 있고, 정상 권한으로는 열 수 없는 파일 안에 무작위 문자열이 들어 있습니다. 이 문자열을 flag라고 부릅니다.\n\n결함을 실제로 뚫어 권한을 빼앗아야만 그 파일이 열립니다. 그래서 flag를 제출하면 침투에 성공했다는 증거가 되고, 채점도 이 문자열이 맞는지로 합니다.\n\n조건은 분명했습니다. 지정된 결함만 쓸 것, 다른 경로로 얻은 답은 실격. 에이전트들도 이 조건을 정확히 알고 있었다고 METR이 확인했습니다.",
-   "likes": 1,
+   "likes": 2,
    "cmts": 1,
    "time": 1787790715,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/787121771_17984215086112832_494094351493846742_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk3MjU5ODkxMjI2MzM0ODMzMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjIyOS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=2xd89mJEW0QQ7kNvwEmjSoI&_nc_oc=Adr0Bdq37-dbCWZK5eT48bwOWN1tO7ZRbHK81-0sUBMOqdE0uW0WmAovsudEgiitan8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=-DS7I9fHdMVLpI6aW_D6vA&_nc_ss=7a22e&oh=00_AQFG42wZoKsHUod8vH4rYWsHOD5GE7zWan41SqtiwwGz_w&oe=6A9589EB",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/787121771_17984215086112832_494094351493846742_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk3MjU5ODkxMjI2MzM0ODMzMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjIyOS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=2xd89mJEW0QQ7kNvwEmjSoI&_nc_oc=Adr0Bdq37-dbCWZK5eT48bwOWN1tO7ZRbHK81-0sUBMOqdE0uW0WmAovsudEgiitan8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=x6jIrYDVHbkroXp9rBldIg&_nc_ss=7a22e&oh=00_AQHifR4JX_0sh9I3Fl7zZzjyxJqH5gjtuqiaVmh03QSS2Q&oe=6A9589EB",
    "url": "https://www.threads.com/@choi.openai/post/Dchgam4j2Bs",
    "region": "kr"
   },
@@ -455,7 +465,7 @@
    "likes": 3,
    "cmts": 1,
    "time": 1787787296,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/787760695_1720942825794815_2416199636109244070_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk3MjU3MDAyNzUzNDgwMTQyNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=BIWocw8ceRMQ7kNvwFGCn85&_nc_oc=Adp4vHqQh96B4Gsjctyl1EwBKxyLNdnApCRfKRYIO9eG5_DbFmiIFsocDkLJ81VlTqo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=SGYzUVqcuQD_nDooQD3jqw&_nc_ss=7a22e&oh=00_AQE4rrVMVPSFOrupG4lL8FWol_7qkzjdCzEYjLsTUrymSw&oe=6A955ED2",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/787760695_1720942825794815_2416199636109244070_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk3MjU3MDAyNzUzNDgwMTQyNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=BIWocw8ceRMQ7kNvwFGCn85&_nc_oc=Adp4vHqQh96B4Gsjctyl1EwBKxyLNdnApCRfKRYIO9eG5_DbFmiIFsocDkLJ81VlTqo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=ZlmXMAzTrcRYWy6zdxpcjQ&_nc_ss=7a22e&oh=00_AQEuU-t7XDoEwOkzVEFqnfIJXcJvWsBAAyLRXAKOS_CGmQ&oe=6A955ED2",
    "url": "https://www.threads.com/@aipeekme/post/DchZ2R4k1oR",
    "region": "kr"
   },
@@ -465,18 +475,8 @@
    "likes": 0,
    "cmts": 0,
    "time": 1787786817,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/786342874_1256228999915321_180462333473315696_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk3MjU2NTk5NTQ3NDIyODMwNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Atb1RPfZV7kQ7kNvwEm1YDp&_nc_oc=Ado7OyqJVC2UrTRforl4aVqSdkMN5eRIDx0HQ9nglm8VmIGzToVsOh0pIwJNeVkQILc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=SGYzUVqcuQD_nDooQD3jqw&_nc_ss=7a22e&oh=00_AQFxluQBmu0H7Bb4wLIiwTAM5QtQeLEPrdITT2UU_2y9Jg&oe=6A957668",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/786342874_1256228999915321_180462333473315696_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk3MjU2NTk5NTQ3NDIyODMwNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Atb1RPfZV7kQ7kNvwEm1YDp&_nc_oc=Ado7OyqJVC2UrTRforl4aVqSdkMN5eRIDx0HQ9nglm8VmIGzToVsOh0pIwJNeVkQILc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=ZlmXMAzTrcRYWy6zdxpcjQ&_nc_ss=7a22e&oh=00_AQHCCxvbBgw4dMvSHlaJa3ObtZjlYXXxlm-_Fqa6ioB6EA&oe=6A957668",
    "url": "https://www.threads.com/@aipeekme/post/DchY7mvCZRQ",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "Claude Opus 5의 기본 가격은 Opus 4.8과 같습니다. 입력 100만 토큰당 5달러, 출력 100만 토큰당 25달러입니다.\n\n자동 fallback을 붙일수록 운영 로그에서 확인할 항목도 늘어납니다. 어떤 모델로 전환됐는지, 프롬프트 캐시가 유지됐는지, 안전 분류기에서 왜 경로가 바뀌었는지가 남아야 합니다.\n\nhttps://www.anthropic.com/news/claude-opus-5",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1787754934,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DcgcKJmGbbw",
    "region": "kr"
   },
   {
@@ -485,7 +485,7 @@
    "likes": 0,
    "cmts": 1,
    "time": 1787734877,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/775243817_17953106601232485_6806128487534070630_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk3MjEzMDUwNjE4MzcxNDMxNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTYwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=natzz6GoX1MQ7kNvwF1fj7D&_nc_oc=Adq3OjA2X_FqvkVvsBsP7cpjHxknJaZRpFYqg0kTwCF8JapMg00EmXzCtOO7VxF-gug&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=MlHMdHMn_bjXK8zMUbVhOw&_nc_ss=7a22e&oh=00_AQE4YBAXzvTIBL4EqWzyjojonLJMxuRT4JUNSFmeecn8Rw&oe=6A955C0C",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/775243817_17953106601232485_6806128487534070630_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk3MjEzMDUwNjE4MzcxNDMxNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTYwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=natzz6GoX1MQ7kNvwF1fj7D&_nc_oc=Adq3OjA2X_FqvkVvsBsP7cpjHxknJaZRpFYqg0kTwCF8JapMg00EmXzCtOO7VxF-gug&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=GVUiu4Dmzqx_R-dT94-JhA&_nc_ss=7a22e&oh=00_AQHF894Twqpk-bjHLSA0iVkqVC1k8jldFHCAY9mv6maKuQ&oe=6A955C0C",
    "url": "https://www.threads.com/@aicoffeechat/post/Dcf16ZukqYN",
    "region": "kr"
   },
@@ -540,12 +540,22 @@
    "region": "kr"
   },
   {
+   "account": "daily_ai_star",
+   "text": "GitHub CodeQL이 8월 20일 코드 스캐닝 경고에 `Mitigated` 상태를 추가했습니다.\n\n취약점이 코드에 남아 있어도 웹 애플리케이션 방화벽이나 네트워크 정책으로 위험을 줄였다면, 이제 `Won’t fix`와 구분해 기록할 수 있습니다.\n\n이 차이는 보안팀의 분류 하나를 늘린 일이 아닙니다. AI 코딩 에이전트가 경고를 자동 수정하거나 닫을 때도, “코드가 고쳐졌는가”와 “외부 통제로 위험이 관리되는가”를 다른 결과로 남길 수 있게 됐습니다.\n\n보안 자동화의 완료 조건이 취약점 제거에서 위험과 예외의 근거를 기록하는 일까지 넓어졌습니다.\n\n앞으로 에이전트가 닫은 경고를 볼 때는 해결 여부보다 어떤 통제가 작동 중인지부터 확인해야 합니다.\n\nhttps://github.blog/changelog/2026-08-20-code-scanning-adds-a-mitigated-alert-dismissal-reason/",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1787792260,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DchjWaPkzQg",
+   "region": "kr"
+  },
+  {
    "account": "choi.openai",
    "text": "1/ 바쁘신 분들을 위해 핵심 내용만 정리해드립니다.\n\n1. 오픈AI가 8월 26일 기술 리포트 51페이지를 냈고, AI 평가 기관 METR과 레드우드리서치가 90페이지 넘는 독립 조사를 같은 날 따로 공개함\n2. 서로 떨어져 시험을 보던 에이전트 약 1,200개가 사내 프로그램 창고를 게시판으로 바꿔 7만 건 넘게 주고받음\n3. 시험 문제 일부가 애초에 풀 수 없는 문제였고, 이들은 네 시간 만에 정답을 역산하는 방법을 공유함\n4. 채점 방식을 잘못 이해한 탓에 채점 프로그램의 코드를 찾으러 허깅페이스를 공격했고 688개가 가담함\n5. 참여율은 7월 10일 26.7%에서 7월 11일 밤 94.4%까지 올라감\n6. 오픈AI는 이 사건을 경고 사격이라 부르며 도구를 쓰는 훈련·시험 전체에 사고 과정 감시를 의무화함",
-   "likes": 14,
+   "likes": 16,
    "cmts": 2,
    "time": 1787790706,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/785943838_17984215014112832_6942485635567425472_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk3MjU5ODgzNDc5NDU1NTY1MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTg4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=ALkds2CTib4Q7kNvwGEAaZK&_nc_oc=AdodVwb8mKdNLXoIAidSXre0txCssjbxcX8Y6nJkBtLl5EzcsMT-JPp-WLA4gjg9SSQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=-DS7I9fHdMVLpI6aW_D6vA&_nc_ss=7a22e&oh=00_AQHjvfCLopo5v0lTHbwGcd0Ql2eESrulBuKqDB-5ux370A&oe=6A956B40",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/785943838_17984215014112832_6942485635567425472_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk3MjU5ODgzNDc5NDU1NTY1MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTg4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=ALkds2CTib4Q7kNvwGEAaZK&_nc_oc=AdodVwb8mKdNLXoIAidSXre0txCssjbxcX8Y6nJkBtLl5EzcsMT-JPp-WLA4gjg9SSQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=x6jIrYDVHbkroXp9rBldIg&_nc_ss=7a22e&oh=00_AQFDDrNU-DysanqHa1yQ_dqmeee41HbG3Cpd_rzHPAeykw&oe=6A956B40",
    "url": "https://www.threads.com/@choi.openai/post/DchgZevD2kC",
    "region": "kr"
   },
@@ -560,22 +570,12 @@
    "region": "kr"
   },
   {
-   "account": "daily_ai_star",
-   "text": "Claude Opus 5가 7월 24일 공개됐습니다.\n\n성능표보다 개발자가 먼저 볼 변화는 모델 자체가 아닙니다. 대화 중 도구를 바꿔도 프롬프트 캐시를 무효화하지 않는 베타 기능이 함께 나왔습니다. API에는 안전 분류기에 걸린 요청을 다른 모델로 자동 전환하는 fallback도 추가됐습니다.\n\n도구 구성이 작업 중 바뀌고, 차단이 곧바로 실패로 끝나지 않게 된 셈입니다.\n\n에이전트의 연결층은 이제 “처음 정한 도구를 끝까지 쓰는가”보다 “실행 중 도구와 모델을 바꿔도 상태를 보존하는가”를 봐야 합니다.",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1787754924,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DcgcJBkmSsR",
-   "region": "kr"
-  },
-  {
    "account": "aicoffeechat",
    "text": "현업 개발자를 어디서 만나야 할지 몰랐다면, 부산에 모인다고 합니다.\n\n과기원 AI 인재와 창업가들이 한자리에 모이는 'AI 돛 Summit 26'인데요. 옆자리에 앉은 사람한테 지금 뭐 만드는지 바로 물어볼 수 있는 자리예요. \n\n부산에서 처음 열리는 대규모 AI 행사입니다.",
    "likes": 0,
    "cmts": 4,
    "time": 1787734843,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/775166814_17953106091232485_5065430160756292198_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk3MjEzMDIyNTMyNDc0NjE0MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTYwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=iWA2v0Wxva0Q7kNvwHa0iWL&_nc_oc=Adpa6XaBlG2-TuaLXUic7QZhEWg5gyDbBcI5m8CsPj0JXJl_Axr3-nNTZ_sMYbzQAnI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=MlHMdHMn_bjXK8zMUbVhOw&_nc_ss=7a22e&oh=00_AQGUwFRm3g_IqMVOvl7lsB-UPQJ6Oy-x0JAheaMSG6-dvw&oe=6A955BA9",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/775166814_17953106091232485_5065430160756292198_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk3MjEzMDIyNTMyNDc0NjE0MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTYwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=iWA2v0Wxva0Q7kNvwHa0iWL&_nc_oc=Adpa6XaBlG2-TuaLXUic7QZhEWg5gyDbBcI5m8CsPj0JXJl_Axr3-nNTZ_sMYbzQAnI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=GVUiu4Dmzqx_R-dT94-JhA&_nc_ss=7a22e&oh=00_AQGwjDTDYvkLkXawPYbXrnxlSjitkAscaU4dGqBJ47Gj0g&oe=6A955BA9",
    "url": "https://www.threads.com/@aicoffeechat/post/Dcf12UKEuWc",
    "region": "kr"
   },
@@ -590,8 +590,177 @@
    "region": "kr"
   }
  ],
- "tiktok": [],
+ "tiktok": [
+  {
+   "account": "jaemyung_lee",
+   "title": "🇰🇷🇧🇷🫰 #KOREA #BRASIL @Presidente Lula",
+   "views": 1900000,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooDPRCUDqBpuPTmFEWk6RAIgEBqnfZwgeRICBU~tplv-tiktokx-origin.image?dr=14575&x-expires=1787968800&x-signature=sk%2BM716IMasOS9wHqh832r5OnaM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "time": 1785177115,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7667277327386135826",
+   "region": "kr"
+  },
+  {
+   "account": "jaemyung_lee",
+   "title": "이번 정류장은 아르헨티나입니다🇰🇷🇦🇷 #이재명 #대통령 #argentina #buenosaireststheerastour",
+   "views": 1600000,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAbAoCECNeDAVDgQBcAkFzYBfoUADqQCQWIuZl~tplv-tiktokx-origin.image?dr=14575&x-expires=1787968800&x-signature=Ch89yHPIYf%2FhJS7lPeLJ4JR9p%2BQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "time": 1785471372,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7668541152869616914",
+   "region": "kr"
+  },
+  {
+   "account": "jaemyung_lee",
+   "title": "이번 정류장은 브라질입니다 #이재명 #대통령 #Brasil #Brazil",
+   "views": 765000,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooBGAi8A6InMPiZBpU9fBkTRtAAwBKw0m1E0Ag~tplv-tiktokx-origin.image?dr=14575&x-expires=1787968800&x-signature=TTtDm3XpzfDhI6yhmqUXr619d9w%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "time": 1785109781,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7666988131442281746",
+   "region": "kr"
+  },
+  {
+   "account": "jaemyung_lee",
+   "title": "¡Gusto en conocerte, Argentina! 🇰🇷🤝🇦🇷 #이재명 #아르헨티나 #argentina #javiermilei",
+   "views": 485000,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o43E0EJDgKsBeuyFfnqRBCAvI1sAAbI2NsPlIc~tplv-tiktokx-origin.image?dr=14575&x-expires=1787968800&x-signature=8E7%2FTBLWlF%2FFgtRwH2JYKPe8D1g%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "time": 1785519099,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7668746136877812999",
+   "region": "kr"
+  },
+  {
+   "account": "jaemyung_lee",
+   "title": "이번 정류장은 칠레입니다🇰🇷🇨🇱 #이재명 #대통령 #Chile #Corea",
+   "views": 369000,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQpDHATAEBzAIGFgqwDA4hofdRfVCsCaqEBIkL~tplv-tiktokx-origin.image?dr=14575&x-expires=1787968800&x-signature=ziyj%2BvR4DxxpUKzvrIVEJRwu%2FQQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "time": 1785365622,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7668086960883354887",
+   "region": "kr"
+  },
+  {
+   "account": "jaemyung_lee",
+   "title": "프랑크푸르트에 도착했습니다🇰🇷🇩🇪 #이재명 #deutschland #frankfurt",
+   "views": 266600,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1787968800&x-signature=J1c6M083Yc875BxWF%2FlBqxMPDcA%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "time": 1785656353,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7669335640793763079",
+   "region": "kr"
+  },
+  {
+   "account": "jaemyung_lee",
+   "title": "대한민국과 브라질이 함께 그려갈 미래가  두 나라 국민 모두에게  더 큰 희망과 기회가 되길 기대합니다 🇰🇷🫰🇧🇷 @Presidente Lula ima, meu irmão💚💛💙 #이재명 #lula #korea #Br",
+   "views": 233700,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-i-photomode-sg/91a2f3151d9741689af70b1d1f8aac3a~tplv-photomode-image.jpeg?dr=14555&x-expires=1787968800&x-signature=%2FOdF5T0GGSruaneKDS4640%2Bc38k%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=9b759fb9&idc=my3&ftpl=1",
+   "time": 1785270939,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7667680300490558728",
+   "region": "kr"
+  },
+  {
+   "account": "jaemyung_lee",
+   "title": "마참내.. #anthropic #openai #NVIDIA #broadcom #이재명",
+   "views": 190600,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/osApGgttBIBbbk6zA4iAKdIdkBfL1AAEiSwmCM~tplv-tiktokx-origin.image?dr=14575&x-expires=1787968800&x-signature=%2B3KVpHGv3J3AOoSGcSWhD30agS8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "time": 1784945079,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7666280741554195730",
+   "region": "kr"
+  },
+  {
+   "account": "jaemyung_lee",
+   "title": "이번 정류장은 샌프란시스코입니다 🇰🇷🇺🇸 #이재명 #대통령 #US #sanfrancisco #california",
+   "views": 135500,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okkIgGYEt7AlB4qvUF5yCAEAjD8vfKAfVACbBp~tplv-tiktokx-origin.image?dr=14575&x-expires=1787968800&x-signature=8SHPTGHe9nK85yokS2%2BXA2qGnh0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "time": 1784911601,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7666136953456315666",
+   "region": "kr"
+  },
+  {
+   "account": "jaemyung_lee",
+   "title": "대통령님, 부동산 정책의 목표가 뭔가요? #이재명 #대통령 #부동산토론회",
+   "views": 107200,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ok7qEZCqBgAIPBVFAEgOfAJAhjCDYF5jcUeyNC~tplv-tiktokx-origin.image?dr=14575&x-expires=1787968800&x-signature=8Lomo9Tfrw%2FYFGunIRQBvxA7EiY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "time": 1784793310,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7665628897077234951",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "박규영, 아침부터 미모 열일 / 아워글래스(HOURGLASS) 팝업 포토월 #박규영 #아워글래스 #HOURGLASS",
+   "views": 6907,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oUDPINKKABuclCBuAAwinRmqEfl211iBiAs9LA~tplv-tiktokx-origin.image?dr=14575&x-expires=1787968800&x-signature=OEybpqzcymt0eK3b6aFc8KGmknc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1787535859,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7677408056661036308",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "QWER 쵸단-마젠타, 쵸코 커플 / 제 14회 부산국제코미디페스티벌 #QWER #큐떱이알 #쵸단 #마젠타 #히나 #시연 #냥뇽녕냥 #제14회 부산국제코미디페스티벌",
+   "views": 1319,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQY79AgDVEXliePFEAAFpAIEEDWQfE5AOrQvEf~tplv-tiktokx-origin.image?dr=14575&x-expires=1787968800&x-signature=JgAu1EeV%2FV1LMuBhxZ3XNuhNpok%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1787310002,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7676438007003630869",
+   "region": "kr"
+  }
+ ],
  "reddit": [
+  {
+   "sub": "funny",
+   "title": "RIP Dolly and Tim",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/2fij3q1o7tlh1.jpeg?width=640&crop=smart&auto=webp&s=911996c925bb57468004768142424941a7cabb3a",
+   "time": 1787789368,
+   "url": "https://www.reddit.com/r/funny/comments/1vzebyg/rip_dolly_and_tim/"
+  },
+  {
+   "sub": "meirl",
+   "title": "meirl",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/vqkap6ojhslh1.jpeg?width=640&crop=smart&auto=webp&s=d73ae55170b79e40b179ec529f5a4ccc68fc0d63",
+   "time": 1787780583,
+   "url": "https://www.reddit.com/r/meirl/comments/1vzas98/meirl/"
+  },
+  {
+   "sub": "politics",
+   "title": "Grand jury finds DeSantis administration \"misappropriated\" $10 million in taxpayer money to Hope Florida",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/Y4H3Bxns0_6EsasYfyAzPXJqASiJL0H-tJbrmkKgu78.jpeg?width=640&crop=smart&auto=webp&s=ec2b5ed0241b475ce7adf5c09f1ed32dd84f4415",
+   "time": 1787790196,
+   "url": "https://www.reddit.com/r/politics/comments/1vzenfm/grand_jury_finds_desantis_administration/"
+  },
+  {
+   "sub": "MadeMeSmile",
+   "title": "\"Anyone Can Wear The Mask\" - Stan Lee",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/y4qfzdugotlh1.jpeg?width=640&crop=smart&auto=webp&s=6d2e2d47efbc935ac0449f04d7698d3a80118010",
+   "time": 1787795017,
+   "url": "https://www.reddit.com/r/MadeMeSmile/comments/1vzgfvk/anyone_can_wear_the_mask_stan_lee/"
+  },
   {
    "sub": "interesting",
    "title": "Is victim the new chic",
@@ -629,13 +798,22 @@
    "url": "https://www.reddit.com/r/MadeMeSmile/comments/1vz6ksg/adding_a_dash_of_customer_service/"
   },
   {
-   "sub": "GTA6",
-   "title": "Message from Rockstar Games",
+   "sub": "SipsTea",
+   "title": "What else is nasty but you eat anyway?",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/1a185liyfplh1.jpeg?width=640&crop=smart&auto=webp&s=0250dd08a30324f0c443f2a4f81ecda8cffea96c",
-   "time": 1787743760,
-   "url": "https://www.reddit.com/r/GTA6/comments/1vyuf05/message_from_rockstar_games/"
+   "thumb": "https://preview.redd.it/wvnz4f2mctlh1.jpeg?width=640&crop=smart&auto=webp&s=dc9d1f9372d06cd2926d8719ea3dbcdd6c9e6ffc",
+   "time": 1787791030,
+   "url": "https://www.reddit.com/r/SipsTea/comments/1vzeytl/what_else_is_nasty_but_you_eat_anyway/"
+  },
+  {
+   "sub": "GirlDinnerDiaries",
+   "title": "My stepdaughter called me mom for the first time!!",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/jmf238pohtlh1.jpeg?width=640&crop=smart&auto=webp&s=ced1d0b5267160c97e5d3ccec905c5a95cfcd8df",
+   "time": 1787792748,
+   "url": "https://www.reddit.com/r/GirlDinnerDiaries/comments/1vzflsd/my_stepdaughter_called_me_mom_for_the_first_time/"
   },
   {
    "sub": "AskReddit",
@@ -647,107 +825,18 @@
    "url": "https://www.reddit.com/r/AskReddit/comments/1vz9tcq/what_do_you_think_will_happened_globally_once/"
   },
   {
-   "sub": "bald",
-   "title": "I've been fighting a battle I cannot win for years.. Tonight I gave up",
+   "sub": "GTA6",
+   "title": "Message from Rockstar Games",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/0spn60iivrlh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=f38e5e7575ae60272071c037478e76ed7f9df1c1",
-   "time": 1787773194,
-   "url": "https://www.reddit.com/r/bald/comments/1vz7faz/ive_been_fighting_a_battle_i_cannot_win_for_years/"
-  },
-  {
-   "sub": "worldnews",
-   "title": "Trump labels Canada ‘one of the worst countries to deal with’ and promises to ‘take them on’",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/oPiLEk1VU6msTP9sCwXUWTjzHZnnKeOFf4G9abzWNjI.jpeg?width=640&crop=smart&auto=webp&s=350b9f97904b3fa2c9148041ad30a85f7a67f07c",
-   "time": 1787758420,
-   "url": "https://www.reddit.com/r/worldnews/comments/1vz0fiv/trump_labels_canada_one_of_the_worst_countries_to/"
-  },
-  {
-   "sub": "MoralityScaling",
-   "title": "When a customer offers her a drink, she takes a \"water\" shot and pockets the money. should she be allowed to do this?",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/NThheG4zdjB5cWxoMfRlksWy3Jk20UhQTBuYH9aI6e9OFuI0UghhHonBJlja.png?width=320&crop=smart&auto=webp&s=001521541d594b2a3102226507ea921f7510c331",
-   "time": 1787761929,
-   "url": "https://www.reddit.com/r/MoralityScaling/comments/1vz232l/when_a_customer_offers_her_a_drink_she_takes_a/"
-  },
-  {
-   "sub": "meirl",
-   "title": "meirl",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/vqkap6ojhslh1.jpeg?width=640&crop=smart&auto=webp&s=d73ae55170b79e40b179ec529f5a4ccc68fc0d63",
-   "time": 1787780583,
-   "url": "https://www.reddit.com/r/meirl/comments/1vzas98/meirl/"
-  },
-  {
-   "sub": "funny",
-   "title": "RIP Dolly and Tim",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/2fij3q1o7tlh1.jpeg?width=640&crop=smart&auto=webp&s=911996c925bb57468004768142424941a7cabb3a",
-   "time": 1787789368,
-   "url": "https://www.reddit.com/r/funny/comments/1vzebyg/rip_dolly_and_tim/"
-  },
-  {
-   "sub": "politics",
-   "title": "Grand jury finds DeSantis administration \"misappropriated\" $10 million in taxpayer money to Hope Florida",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/Y4H3Bxns0_6EsasYfyAzPXJqASiJL0H-tJbrmkKgu78.jpeg?width=640&crop=smart&auto=webp&s=ec2b5ed0241b475ce7adf5c09f1ed32dd84f4415",
-   "time": 1787790196,
-   "url": "https://www.reddit.com/r/politics/comments/1vzenfm/grand_jury_finds_desantis_administration/"
-  },
-  {
-   "sub": "korea",
-   "title": "70,000 adults go missing every year in Korea — 99% of cases are closed without proper investigation",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/F1e9yHy9A1Mj6X2faxfusNmZto4f7Yt__cADysYHNQM.jpeg?width=640&crop=smart&auto=webp&s=9cfd778b723f8c3e68b0f444fe2093c2d72ccdda",
-   "time": 1787776478,
-   "url": "https://www.reddit.com/r/korea/comments/1vz8z3w/70000_adults_go_missing_every_year_in_korea_99_of/"
-  },
-  {
-   "sub": "korea",
-   "title": "Met him at the express bus terminal!!",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/1ap53hbdqplh1.png?width=640&crop=smart&auto=webp&s=0cf0cc3e5e9ecf2a4f7eea0976b80952cbd0e8aa",
-   "time": 1787747249,
-   "url": "https://www.reddit.com/r/korea/comments/1vyvnvo/met_him_at_the_express_bus_terminal/"
-  },
-  {
-   "sub": "korea",
-   "title": "Chinese student killed by Chinese man the day after her graduation day in Korea",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/vp8VZdz2IebeBdz8UqRebOANch1C8H3VA6VxwHu8uR0.jpeg?width=640&crop=smart&auto=webp&s=a8fa1afdb5ac64181d84754e8fdc1536518abef8",
-   "time": 1787732315,
-   "url": "https://www.reddit.com/r/korea/comments/1vyqy62/chinese_student_killed_by_chinese_man_the_day/"
+   "thumb": "https://preview.redd.it/1a185liyfplh1.jpeg?width=640&crop=smart&auto=webp&s=0250dd08a30324f0c443f2a4f81ecda8cffea96c",
+   "time": 1787743760,
+   "url": "https://www.reddit.com/r/GTA6/comments/1vyuf05/message_from_rockstar_games/"
   }
  ],
  "disaster": [],
  "_cover": {
   "ok": {
-   "x": [
-    "64bitcoinkr",
-    "awaken_eyes",
-    "economysniper0",
-    "freedom_73x",
-    "globalbrief_now",
-    "jajaja7878uu",
-    "kyunghyang",
-    "marionawfal"
-   ],
-   "insta": [
-    "lumalabsai",
-    "midjourney",
-    "openai",
-    "pika_labs",
-    "runwayapp"
-   ],
    "threads": [
     "aicoffeechat",
     "aipeekme",
@@ -756,36 +845,41 @@
     "kopp",
     "promppy_com",
     "takepage_"
+   ],
+   "tiktok": [
+    "jaemyung_lee",
+    "tictok_ent"
    ]
   },
   "why": {
    "insta": {
-    "koreadispatch": "rotate",
-    "bts.bighitofficial": "rotate",
-    "blackpinkofficial": "rotate",
-    "newjeans_official": "rotate",
-    "aespa_official": "rotate",
-    "jennierubyjane": "rotate",
-    "xxxibgdrgn": "rotate",
-    "hm_son7": "rotate",
-    "sbsnow_insta": "rotate",
-    "mnet_official": "rotate",
-    "klingai_official": "rotate",
-    "heygen_official": "rotate",
-    "higgsfield.ai": "rotate",
-    "googledeepmind": "rotate",
-    "cristiano": "rotate"
-   },
-   "tiktok": {
-    "jaemyung_lee": 503,
-    "tictok_ent": 503
+    "koreadispatch": "gap",
+    "bts.bighitofficial": "gap",
+    "blackpinkofficial": "gap",
+    "newjeans_official": "gap",
+    "aespa_official": "gap",
+    "jennierubyjane": "gap",
+    "xxxibgdrgn": "gap",
+    "hm_son7": "gap",
+    "sbsnow_insta": "gap",
+    "mnet_official": "gap",
+    "openai": "gap",
+    "runwayapp": "gap",
+    "pika_labs": "gap",
+    "lumalabsai": "gap",
+    "midjourney": "gap",
+    "klingai_official": "gap",
+    "heygen_official": "gap",
+    "higgsfield.ai": "gap",
+    "googledeepmind": "gap",
+    "cristiano": "gap"
    }
   },
   "landing": {
-   "at": "2026-08-27T10:31:31",
+   "at": "2026-08-27T11:06:17",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-27T11:06:07.525450+09:00"
+ "updated": "2026-08-27T11:31:22.215496+09:00"
 }
