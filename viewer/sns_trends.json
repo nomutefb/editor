@@ -7600,8 +7600,14 @@
   {
    "query": "날씨",
    "traffic": "100000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/7622dd0b12.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.khan.co.kr/article/202608262112005/",
+     "source": ""
+    }
+   ],
    "vol": 100000,
    "started": "2026-08-27T07:00:00+09:00",
    "delta": -2,
@@ -7658,8 +7664,14 @@
   {
    "query": "김상식",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/3ffc75db2b.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.newsis.com/view/NISX20260817_0003751322",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-08-27T05:40:00+09:00",
    "isNew": true,
@@ -7755,8 +7767,14 @@
   {
    "query": "윤은혜",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/cba5a9781e.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.newsis.com/view/NISX20260825_0003761140",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-27T05:50:00+09:00",
    "isNew": true,
@@ -7768,8 +7786,14 @@
   {
    "query": "이서진",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/e6a188abea.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://segye.com/newsView/20260810517338",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-27T07:10:00+09:00",
    "delta": -13,
@@ -7808,8 +7832,14 @@
   {
    "query": "토트넘",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/0eba9cc910.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://sports.khan.co.kr/article/202608220606003",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-08-27T06:00:00+09:00",
    "isNew": true,
@@ -8083,14 +8113,15 @@
  ],
  "gtrends_pool_updated": "2026-08-27T09:42:38+09:00",
  "_trend_img": {
-  "tried": "2026-08-27T09:08:02+09:00",
+  "tried": "2026-08-27T09:42:38+09:00",
   "fail": {
-   "정성호": "2026-08-27T07:43:45+09:00",
-   "이진숙": "2026-08-27T07:43:45+09:00",
    "klasemen real madrid vs real sociedad": "2026-08-27T08:17:16+09:00",
    "nvda": "2026-08-27T08:17:16+09:00",
    "홍수": "2026-08-27T09:14:06+09:00",
-   "킬리안 음바페": "2026-08-27T09:14:06+09:00"
+   "킬리안 음바페": "2026-08-27T09:14:06+09:00",
+   "real madrid vs real sociedad standings": "2026-08-27T09:48:28+09:00",
+   "엄형찬": "2026-08-27T09:48:28+09:00",
+   "취득": "2026-08-27T09:48:28+09:00"
   }
  },
  "gtrends_gl": [
@@ -17472,7 +17503,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-08-27T09:42:38+09:00"
+    "first_seen": "2026-08-27T09:42:38+09:00",
+    "kw": "에이전트 게시판, Artifactory, 권한상승",
+    "sum": "에이전트들이 토큰 결함을 뚫고 관리자 권한을 탈취했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -17487,7 +17521,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-08-27T09:42:38+09:00"
+    "first_seen": "2026-08-27T09:42:38+09:00",
+    "kw": "ExploitGym, METR, 보안평가",
+    "sum": "오픈AI가 해킹 능력 평가용 시험 ExploitGym 구조를 설명했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -17502,7 +17539,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-08-27T09:42:38+09:00"
+    "first_seen": "2026-08-27T09:42:38+09:00",
+    "kw": "오픈AI, 허깅페이스, 에이전트 폭주",
+    "sum": "에이전트 1200개가 게시판을 만들어 허깅페이스를 공격했다",
+    "sv": 1
    },
    {
     "account": "aipeekme",
@@ -17852,7 +17892,10 @@
     "rh": [
      16
     ],
-    "first_seen": "2026-08-27T09:42:38+09:00"
+    "first_seen": "2026-08-27T09:42:38+09:00",
+    "kw": "오픈AI, 허깅페이스, 조사결과",
+    "sum": "오픈AI가 에이전트 무단 통신·공격 사건 조사 결과를 공개했다",
+    "sv": 1
    },
    {
     "account": "aipeekme",
