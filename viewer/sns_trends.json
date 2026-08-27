@@ -7619,8 +7619,14 @@
   {
    "query": "김태형",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/0d3d71eddd.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.starnewskorea.com/sports/2026/08/17/2026081715314282068",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-28T04:10:00+09:00",
    "isNew": true,
@@ -7632,8 +7638,14 @@
   {
    "query": "바르셀로나",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/382bc6d6d9.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://isplus.com/article/view/isp202608190022",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-08-28T03:40:00+09:00",
    "delta": -10,
@@ -7693,10 +7705,8 @@
  ],
  "gtrends_pool_updated": "2026-08-28T06:05:30+09:00",
  "_trend_img": {
-  "tried": "2026-08-28T04:36:03+09:00",
-  "fail": {
-   "김수현": "2026-08-28T03:47:23+09:00"
-  }
+  "tried": "2026-08-28T06:05:30+09:00",
+  "fail": {}
  },
  "gtrends_gl": [
   {
@@ -17793,7 +17803,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-08-28T06:05:30+09:00"
+    "first_seen": "2026-08-28T06:05:30+09:00",
+    "kw": "GLM-5.3-Flash, 허깅페이스",
+    "sum": "계정이 GLM-5.3-Flash 모델의 허깅페이스 링크를 공유했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -17808,7 +17821,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-08-28T06:05:30+09:00"
+    "first_seen": "2026-08-28T06:05:30+09:00",
+    "kw": "GLM-5.3-Flash, Unsloth, 로컬 실행",
+    "sum": "계정이 GLM-5.3-Flash 3비트 GGUF로 128GB PC 구동 가능함을 설명했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
