@@ -7514,8 +7514,14 @@
   {
    "query": "cuaca besok",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/70de511c94.webp",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.kompas.tv/info-publik/687463/peringatan-dini-cuaca-bmkg-besok-27-28-agustus-2026-sejumlah-wilayah-hujan-lebat-dan-angin-kencang",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-27T20:40:00+09:00",
    "delta": -9,
@@ -7528,8 +7534,14 @@
   {
    "query": "스카웃",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/769c9b99a0.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.koreadaily.com/article/20260801210750846",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-27T20:40:00+09:00",
    "delta": -9,
@@ -7636,8 +7648,14 @@
   {
    "query": "홍장원",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/4136cb991e.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.fnnews.com/news/202608191902479608",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-27T19:20:00+09:00",
    "isNew": true,
@@ -7810,15 +7828,16 @@
  ],
  "gtrends_pool_updated": "2026-08-27T23:10:46+09:00",
  "_trend_img": {
-  "tried": "2026-08-27T22:37:48+09:00",
+  "tried": "2026-08-27T23:10:46+09:00",
   "fail": {
-   "손예진": "2026-08-27T21:15:04+09:00",
-   "헌법": "2026-08-27T21:15:04+09:00",
    "양준혁": "2026-08-27T21:47:19+09:00",
    "погода завтра": "2026-08-27T22:44:17+09:00",
    "작곡가": "2026-08-27T22:44:17+09:00",
    "장교": "2026-08-27T22:44:17+09:00",
-   "장르만 여의도": "2026-08-27T22:44:17+09:00"
+   "장르만 여의도": "2026-08-27T22:44:17+09:00",
+   "thời tiết ngày mai": "2026-08-27T23:16:36+09:00",
+   "박정수": "2026-08-27T23:16:36+09:00",
+   "로맥": "2026-08-27T23:16:36+09:00"
   }
  },
  "gtrends_gl": [
@@ -18873,7 +18892,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-08-27T23:10:46+09:00"
+    "first_seen": "2026-08-27T23:10:46+09:00",
+    "kw": "GPT-5.6 Sol, 에이전트 비용",
+    "sum": "작성자가 비용 하락이 사용량 증가로 상쇄될 수 있다고 우려했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -18888,7 +18910,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-08-27T23:10:46+09:00"
+    "first_seen": "2026-08-27T23:10:46+09:00",
+    "kw": "GPT-5.6 Sol, 코딩 에이전트",
+    "sum": "계정이 GPT-5.6 Sol의 성능·비용 우위를 분석했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
