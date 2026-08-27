@@ -7557,8 +7557,14 @@
   {
    "query": "구혜선",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/5e1b57ac5c.webp",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.xportsnews.com/article/2187841",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-08-28T03:00:00+09:00",
    "isNew": true,
@@ -7648,7 +7654,7 @@
  ],
  "gtrends_pool_updated": "2026-08-28T04:36:03+09:00",
  "_trend_img": {
-  "tried": "2026-08-28T03:42:16+09:00",
+  "tried": "2026-08-28T04:36:03+09:00",
   "fail": {
    "김수현": "2026-08-28T03:47:23+09:00"
   }
@@ -18019,7 +18025,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-08-28T04:36:03+09:00"
+    "first_seen": "2026-08-28T04:36:03+09:00",
+    "kw": "깃허브, 셀프호스팅 샌드박스, Vercel",
+    "sum": "계정이 샌드박스 관련 깃허브 저장소 링크를 공유했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -18034,7 +18043,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-08-28T04:36:03+09:00"
+    "first_seen": "2026-08-28T04:36:03+09:00",
+    "kw": "Anthropic, Claude Managed Agents, Vercel",
+    "sum": "계정이 하나의 에이전트를 여러 메신저에 연결하는 공식 가이드를 소개했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
