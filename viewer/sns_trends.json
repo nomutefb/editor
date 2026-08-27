@@ -7564,8 +7564,14 @@
   {
    "query": "페달",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/11dc41f4e3.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.korea.kr/news/policyNewsView.do?newsId=148959338",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-08-27T09:10:00+09:00",
    "delta": -2,
@@ -7580,8 +7586,14 @@
   {
    "query": "세종특별자치시",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/1b854e04d3.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.ohmynews.com/NWS_Web/View/at_pg.aspx?CNTN_CD=A0003259259",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-08-27T09:00:00+09:00",
    "delta": -2,
@@ -7596,8 +7608,14 @@
   {
    "query": "남동발전",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/73f6d13119.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.fnnews.com/news/202608262303070929",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-08-27T11:30:00+09:00",
    "isNew": true,
@@ -7609,8 +7627,14 @@
   {
    "query": "달",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/cc62beee88.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.fnnews.com/news/202608241804021087",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-27T09:30:00+09:00",
    "isNew": true,
@@ -7706,8 +7730,14 @@
   {
    "query": "국민임대주택",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/c7c25fc0db.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.newspim.com/news/view/20260820001218",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-08-27T08:40:00+09:00",
    "rh": [
@@ -7828,12 +7858,11 @@
  ],
  "gtrends_pool_updated": "2026-08-27T12:41:56+09:00",
  "_trend_img": {
-  "tried": "2026-08-27T12:07:32+09:00",
+  "tried": "2026-08-27T12:41:56+09:00",
   "fail": {
-   "국민임대주택": "2026-08-27T10:44:20+09:00",
-   "시진핑": "2026-08-27T10:44:20+09:00",
    "김태형": "2026-08-27T11:17:24+09:00",
-   "뉴스a": "2026-08-27T12:12:35+09:00"
+   "뉴스a": "2026-08-27T12:12:35+09:00",
+   "병사": "2026-08-27T12:46:14+09:00"
   }
  },
  "gtrends_gl": [
@@ -17609,7 +17638,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-08-27T12:41:56+09:00"
+    "first_seen": "2026-08-27T12:41:56+09:00",
+    "kw": "Spotify, Xirp",
+    "sum": "계정이 Spotify의 Xirp 소개 블로그를 공유했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -17624,7 +17656,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-08-27T12:41:56+09:00"
+    "first_seen": "2026-08-27T12:41:56+09:00",
+    "kw": "Spotify, Xirp, 에이전트",
+    "sum": "계정이 Spotify의 멀티에이전트 도구 Xirp 활용법을 설명했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
