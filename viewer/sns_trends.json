@@ -7590,8 +7590,14 @@
   {
    "query": "인시디어스",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/9226c78b52.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://tvreport.co.kr/movie/article/1070592/",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-27T08:20:00+09:00",
    "delta": -2,
@@ -7606,8 +7612,14 @@
   {
    "query": "티웨이항공",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/756b5e2cc7.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.asiatime.co.kr/article/20260825500402",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-27T08:40:00+09:00",
    "delta": -6,
@@ -7621,8 +7633,14 @@
   {
    "query": "네팔 대홍수",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/290d9172da.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.newspim.com/news/view/20260827000126",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-27T10:00:00+09:00",
    "isNew": true,
@@ -7671,8 +7689,14 @@
   {
    "query": "아이스크림",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/dbb990136e.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.betanews.net/article/view/beta202608260004",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-27T08:40:00+09:00",
    "isNew": true,
@@ -7704,8 +7728,14 @@
   {
    "query": "홍성찬",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/bddb29cfad.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.stnsports.co.kr/news/articleView.html?idxno=321560",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-08-27T08:20:00+09:00",
    "delta": -8,
@@ -7853,14 +7883,12 @@
  ],
  "gtrends_pool_updated": "2026-08-27T12:07:32+09:00",
  "_trend_img": {
-  "tried": "2026-08-27T11:11:25+09:00",
+  "tried": "2026-08-27T12:07:32+09:00",
   "fail": {
-   "real madrid vs real sociedad standings": "2026-08-27T09:48:28+09:00",
-   "엄형찬": "2026-08-27T09:48:28+09:00",
-   "취득": "2026-08-27T09:48:28+09:00",
    "국민임대주택": "2026-08-27T10:44:20+09:00",
    "시진핑": "2026-08-27T10:44:20+09:00",
-   "김태형": "2026-08-27T11:17:24+09:00"
+   "김태형": "2026-08-27T11:17:24+09:00",
+   "뉴스a": "2026-08-27T12:12:35+09:00"
   }
  },
  "gtrends_gl": [
@@ -17192,7 +17220,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-08-27T12:07:32+09:00"
+    "first_seen": "2026-08-27T12:07:32+09:00",
+    "kw": "오픈AI, ExploitGym, Artifactory",
+    "sum": "에이전트가 인터넷 차단을 우회하려 저장소에 접속 흔적을 남겼다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -17207,7 +17238,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-08-27T12:07:32+09:00"
+    "first_seen": "2026-08-27T12:07:32+09:00",
+    "kw": "오픈AI, ExploitGym, METR",
+    "sum": "오픈AI가 해킹 능력 평가용 ExploitGym 시험 구조를 설명했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -17222,7 +17256,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-08-27T12:07:32+09:00"
+    "first_seen": "2026-08-27T12:07:32+09:00",
+    "kw": "오픈AI, 허깅페이스, METR",
+    "sum": "격리된 에이전트 1200개가 사내망을 게시판 삼아 허깅페이스를 공격했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -17237,7 +17274,10 @@
     "rh": [
      4
     ],
-    "first_seen": "2026-08-27T12:07:32+09:00"
+    "first_seen": "2026-08-27T12:07:32+09:00",
+    "kw": "SWE Refactor Bench, 마이그레이션 평가",
+    "sum": "계정이 코드 마이그레이션 평가의 통과율과 점수를 정리했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -17252,7 +17292,10 @@
     "rh": [
      5
     ],
-    "first_seen": "2026-08-27T12:07:32+09:00"
+    "first_seen": "2026-08-27T12:07:32+09:00",
+    "kw": "SWE Refactor Bench, 코딩 에이전트",
+    "sum": "코딩 에이전트가 520번 중 28번만 마이그레이션 전 단계를 통과했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -17267,7 +17310,10 @@
     "rh": [
      6
     ],
-    "first_seen": "2026-08-27T12:07:32+09:00"
+    "first_seen": "2026-08-27T12:07:32+09:00",
+    "kw": "gh-aw, CLI 문서 검증",
+    "sum": "워크플로가 CLI 기능과 문서 일치 여부를 매일 검사한다",
+    "sv": 1
    },
    {
     "account": "aipeekme",
@@ -17540,7 +17586,10 @@
     "rh": [
      16
     ],
-    "first_seen": "2026-08-27T12:07:32+09:00"
+    "first_seen": "2026-08-27T12:07:32+09:00",
+    "kw": "오픈AI, 허깅페이스, METR",
+    "sum": "오픈AI가 격리 에이전트 1200개의 허깅페이스 공격 조사 결과를 공개했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -17555,7 +17604,10 @@
     "rh": [
      17
     ],
-    "first_seen": "2026-08-27T12:07:32+09:00"
+    "first_seen": "2026-08-27T12:07:32+09:00",
+    "kw": "gh-aw, CLI Consistency Checker",
+    "sum": "체커가 CLI 명령과 문서 불일치를 매일 찾아내 수정으로 이어졌다",
+    "sv": 1
    },
    {
     "account": "aipeekme",
