@@ -7531,8 +7531,14 @@
   {
    "query": "간",
    "traffic": "5000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/87a9ebbf57.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.k-health.com/news/articleView.html?idxno=100358",
+     "source": ""
+    }
+   ],
    "vol": 5000,
    "started": "2026-08-27T14:20:00+09:00",
    "isNew": true,
@@ -7665,8 +7671,14 @@
   {
    "query": "한화오션",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/fcb3ea4195.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.newspim.com/news/view/20260803001256",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-08-27T12:30:00+09:00",
    "isNew": true,
@@ -7678,8 +7690,14 @@
   {
    "query": "베트남 축구 국가 대표팀",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/88001cace8.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://sports.khan.co.kr/article/202608270145003/",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-27T12:30:00+09:00",
    "isNew": true,
@@ -7691,8 +7709,14 @@
   {
    "query": "수도권 광역 급행 철도 c 노선",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/a091f13ab3.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.kyeonggi.com/article/20260825580461",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-08-27T14:20:00+09:00",
    "delta": -17,
@@ -7705,8 +7729,14 @@
   {
    "query": "케이조선",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/9b850c99eb.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.newsis.com/view/NISX20260612_0003667057",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-08-27T14:10:00+09:00",
    "delta": -16,
@@ -7719,8 +7749,14 @@
   {
    "query": "모즈타바 하메네이",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/5380e4f8b5.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.hankookilbo.com/news/article/A2026080921140002397",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-27T13:20:00+09:00",
    "isNew": true,
@@ -7732,8 +7768,14 @@
   {
    "query": "대구광역시",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/f40a3f6b46.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.khan.co.kr/article/202608211112011",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-27T13:50:00+09:00",
    "delta": -16,
@@ -7964,13 +8006,14 @@
  ],
  "gtrends_pool_updated": "2026-08-27T16:37:33+09:00",
  "_trend_img": {
-  "tried": "2026-08-27T15:40:13+09:00",
+  "tried": "2026-08-27T16:37:33+09:00",
   "fail": {
-   "송정역": "2026-08-27T14:16:57+09:00",
    "대장내시경": "2026-08-27T15:46:33+09:00",
    "표창원": "2026-08-27T15:46:33+09:00",
    "김호령": "2026-08-27T15:46:33+09:00",
-   "한국은행 기준금리": "2026-08-27T15:46:33+09:00"
+   "한국은행 기준금리": "2026-08-27T15:46:33+09:00",
+   "윤유선": "2026-08-27T16:43:22+09:00",
+   "하트시그널": "2026-08-27T16:43:22+09:00"
   }
  },
  "gtrends_gl": [
@@ -17920,7 +17963,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-08-27T16:37:33+09:00"
+    "first_seen": "2026-08-27T16:37:33+09:00",
+    "kw": "DeepRepoQA, 코드 저장소 질의응답",
+    "sum": "계정이 DeepRepoQA의 탐색 계획 기반 코드 QA 성능 개선을 소개했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
