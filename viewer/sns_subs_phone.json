@@ -413,6 +413,26 @@
  "threads": [
   {
    "account": "daily_ai_star",
+   "text": "https://github.blog/open-source/maintainers/openclaw-went-viral-meet-the-maintainers-building-and-securing-it/",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1787885078,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DckUZCRmeOO",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
+   "text": "OpenClaw 저장소가 8월 26일 약 38만 8천 개의 별을 기록했습니다.\n\n2025년 11월 주말 프로젝트로 시작했지만, 6개월 만에 포크 8만 1천 개와 커밋 8만 개를 넘겼습니다. 문제는 성장 속도보다 기여를 검토하는 속도였습니다.\n\n유지관리자들은 수천 개의 PR과 한 번에 수백 개를 여는 자동화 기여를 마주했습니다. 그래서 PR을 ‘프롬프트 요청’이라고 부르기 시작했습니다.\n\n이 환경에서 별 개수나 병합 횟수만으로는 신뢰를 설명하기 어려워졌습니다. 에이전트 대화 기록, 스크린샷, 테스트 결과, 변경 이유가 더 강한 근거가 됐습니다.\n\n오픈소스의 새 신뢰 기준은 누가 코드를 썼는지가 아니라, 기여자가 그 변경을 이해하고 검증했는지에 가까워지고 있습니다.\n\nAI가 기여의 문턱을 낮출수록, 유지관리자의 일은 코드를 읽는 데서 근거를 선별하고 신뢰를 설계하는 일로 이동합니다 ⭐",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1787885070,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DckUX4NGbA4",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
    "text": "https://www.harness.io/press-and-news/harness-launches-code-repository-with-ai-code-review",
    "likes": 0,
    "cmts": 0,
@@ -422,32 +442,22 @@
    "region": "kr"
   },
   {
-   "account": "daily_ai_star",
-   "text": "Harness가 8월 27일 에이전트용 코드 저장소와 AI 코드 리뷰를 함께 내놨습니다.\n\n기존 저장소는 사람이 코드를 쓰고, 몇 시간이나 며칠 뒤 소수가 PR을 읽는 흐름을 전제로 했습니다. Harness는 에이전트가 동시에 수천 개의 커밋과 PR을 만들 수 있다는 전제로 검색·이력·diff를 설계했다고 설명했습니다.\n\n에이전트에는 실행한 사람의 권한을 상속시키고, 저장소·브랜치·환경별로 만질 수 있는 범위를 더 좁힐 수 있습니다. 리뷰는 파일 순서가 아니라 위험도별로 diff를 묶고, 필수 검사를 통과하지 못하면 병합을 막습니다.\n\n코딩 에이전트의 병목이 생성에서 저장·검토·승인으로 이동했다는 뜻입니다.\n\nHarness는 내부 사용으로 월 1만 시간 이상의 수동 리뷰 시간을 줄였다고 밝혔습니다. 다만 이 수치가 다른 조직에서도 재현되는지는 별도 검증이 필요합니다.",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1787882913,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DckQQlJmRt2",
-   "region": "kr"
-  },
-  {
    "account": "aipeekme",
    "text": "스마트폰 자이로스코프 센서 데이터와 화면 표시를 실시간으로 동기화하는 3D 녹화 방식이 주목받고 있습니다. 최근 이러한 형태의 도구를 직접 구현하는 흐름이 이어지는 모습입니다.\n\n구현 난도는 높지 않으며, 기기의 자이로스코프 데이터와 화면 표시를 실시간으로 맞물리게 하는 원리입니다. 제품 UI나 각종 기능 시연용 3D 화면 녹화에 활용하기에 적합한 구조입니다.\n\n기존에도 이와 유사한 오픈소스 프로젝트가 존재했던 방식이라 기술 자체가 완전히 새로운 것은 아닙니다. 다만 일반적인 2D 평면 캡처보다 제품의 공간감과 반응성을 직관적으로 보여주는 데는 확실히 유리해 보입니다.\n\n저는 복잡한 3D 렌더링 툴 없이 실제 기기 조작감만 빠르게 담아내는 용도로 쓰면 작업 효율이 꽤 올라가겠다고 봅니다. 센서 지연 시간과 프레임 드롭을 얼마나 매끄럽게 보정해 줄지가 실무 활용의 관건일 것 같습니다.",
-   "likes": 1,
+   "likes": 2,
    "cmts": 0,
    "time": 1787882188,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/788550263_1750939679392105_6727398519389518442_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk3MzM2NjA0MTEyMDIzNDUxMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=_c5TbyXouScQ7kNvwHjWhXI&_nc_oc=AdqIvjJ8KK_3uoERxMvA_s5L4TCasKAGFSl563Qjh5RYpf6GXE9ydXEs1qjOqNFv73GxgfPn2oo-0WOBwRET0rMB&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=5lqMDXw0yYUV5paKvMzOLg&_nc_ss=7a22e&oh=00_AQHjc8X110pfWjXP3rZBTk7UfNWyboE0u5D7cRordwMwtg&oe=6A96D8EC",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/788550263_1750939679392105_6727398519389518442_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk3MzM2NjA0MTEyMDIzNDUxMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=_c5TbyXouScQ7kNvwHjWhXI&_nc_oc=AdqIvjJ8KK_3uoERxMvA_s5L4TCasKAGFSl563Qjh5RYpf6GXE9ydXEs1qjOqNFv73GxgfPn2oo-0WOBwRET0rMB&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=LUAOaHrf1PKllnwT6G2-KQ&_nc_ss=7a22e&oh=00_AQFnckmMNz3tJAJRD4DiU9K0N4zfd0WdJxf-WROkcjXIAw&oe=6A96D8EC",
    "url": "https://www.threads.com/@aipeekme/post/DckO1zTklwQ",
    "region": "kr"
   },
   {
    "account": "aipeekme",
    "text": "버스안 그녀 \n\nSeedance2.5\n\n프롬프트 하단👇",
-   "likes": 1,
+   "likes": 2,
    "cmts": 1,
    "time": 1787881930,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/785146065_4728684740751300_1683243792153308194_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&ig_cache_key=Mzk3MzM2Mzg3NTY1OTg2NjYzOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=OUbeQHEplHMQ7kNvwHZ4J2q&_nc_oc=AdpgM1GUkP_jwRCQchNrkrtXbavZvt4DBHo0Gp2HIVhrabFs6uMauYo5dwpBk2wWhOlZkW5I4xq4rCIW3H4GJJcP&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=5lqMDXw0yYUV5paKvMzOLg&_nc_ss=7a22e&oh=00_AQHkAPxYSLfIF-LgUfxhGdXiGW_I8Zu3aRCUFK5V5LCAog&oe=6A96B5AA",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/785146065_4728684740751300_1683243792153308194_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&ig_cache_key=Mzk3MzM2Mzg3NTY1OTg2NjYzOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=OUbeQHEplHMQ7kNvwHZ4J2q&_nc_oc=AdpgM1GUkP_jwRCQchNrkrtXbavZvt4DBHo0Gp2HIVhrabFs6uMauYo5dwpBk2wWhOlZkW5I4xq4rCIW3H4GJJcP&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=LUAOaHrf1PKllnwT6G2-KQ&_nc_ss=7a22e&oh=00_AQEgViiUZ13ZDPY6yt6nzkyI6TwwelVZk0gxwypQt9Bk4A&oe=6A96B5AA",
    "url": "https://www.threads.com/@aipeekme/post/DckOWSkE2IP",
    "region": "kr"
   },
@@ -459,16 +469,6 @@
    "time": 1787880696,
    "thumb": "",
    "url": "https://www.threads.com/@aipeekme/post/DckMCALn5xw",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "또 하나 바뀐 점이 있습니다.\n\nCopilot 리뷰 댓글을 닫을 때 `Addressed`, `Won’t fix`, `Incorrect` 중 이유를 남길 수 있습니다. 단순히 댓글을 없애는 대신, 왜 반영하지 않았는지를 기록하는 방식입니다.\n\n에이전트가 만드는 PR이 늘어날수록 리뷰의 숫자는 처리량보다 예외의 근거를 보여줘야 합니다. 큰 PR을 읽을 수 있는가보다, 누가 검토했고 어떤 이유로 닫았는지가 운영 기록에 남는지가 더 중요해졌습니다 ⭐\n\nhttps://github.blog/changelog/2026-08-27-copilot-code-review-resolution-reasons-and-expanded-capabilities",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1787879793,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DckKTozGcQJ",
    "region": "kr"
   },
   {
@@ -484,30 +484,30 @@
   {
    "account": "choi.openai",
    "text": "구글이 혈당 곡선만 보고 당뇨 위험을 추정하는 모델 GlucoFM을 공개했습니다.\n\n인슐린 저항성이나 베타세포 기능처럼 채혈해야 알 수 있던 값들인데, 새 기기 없이 이미 차고 있는 연속혈당측정기(CGM) 데이터를 그대로 쓰고 72만 파라미터라 폰에서도 돌아갑니다.\n\n먹기 전에 이후 두 시간 혈당이 어떻게 움직일지 그려내는 것도 되는데요. 직전 한 시간치 곡선에 식단 영양성분과 공복혈당까지 넣었을 때 평균 오차가 21.88mg/dL로, 기존 최고 모델보다 낮았습니다.\n\n더 큰 건 라벨 붙은 임상 데이터가 거의 없어도 학습이 된다는 점입니다. 확진 라벨을 모으는 비용이 큰 분야인데, 클래스당 한 명만 줘도 기존 모델들보다 잘 맞혔습니다.\n\n결국 의료 AI의 방향 중 하나는 센서를 새로 만드는 것보다, 이미 몸에 붙어 있는 센서에서 더 많은 의미를 뽑아내는 쪽으로 가고 있습니다. 구글이 다음으로 넘어야 할 건  규제 승인입니다.",
-   "likes": 26,
+   "likes": 31,
    "cmts": 2,
    "time": 1787878850,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/786342870_17984303091112832_1120932229637724248_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk3MzMzODI0MjcxNTg2OTE0OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTU1My5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=z2ZAcFqGz48Q7kNvwFfQiCD&_nc_oc=Adp1k_qS37CWGTmgM_smCv3J6h0b9FzgRGBxAi8IHQ-J1q_54D0JCIQ8c-A2wi559uUCctSZtEwDh0uKhx-uxPDb&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=inIUtmln3qeg9GehYWGukA&_nc_ss=7a22e&oh=00_AQEnKuz_7lsOPlFqgtTsU_tdwm4k_NGV9Hy1MaWokArdcg&oe=6A96BE64",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/786342870_17984303091112832_1120932229637724248_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk3MzMzODI0MjcxNTg2OTE0OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTU1My5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=z2ZAcFqGz48Q7kNvwFfQiCD&_nc_oc=Adp1k_qS37CWGTmgM_smCv3J6h0b9FzgRGBxAi8IHQ-J1q_54D0JCIQ8c-A2wi559uUCctSZtEwDh0uKhx-uxPDb&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=2FerCmJ-HD0hJf76EF82eA&_nc_ss=7a22e&oh=00_AQGMXqrJvT77PFwbxpfVWG0PXFWBDfIQDedSVG82Wou2Qw&oe=6A96BE64",
    "url": "https://www.threads.com/@choi.openai/post/DckIhSBjd_c",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "구글 AI Pro를 구독 중이라면 매달 구글 클라우드 크레딧 10달러를 따로 받을 수 있습니다. Ultra는 월 100달러입니다.\n\n기존에는 개발자 프로그램 페이지에서 직접 활성화해야 했는데, 이제 AI Studio 안에서 바로 받을 수 있게 됐습니다.\n\n크레딧은 Vertex AI와 Firebase는 물론 Google Cloud와 Maps 제품 전반에 사용할 수 있고, Gemini API 호출 비용에도 적용됩니다. 다만 지급 후 1년이 지나면 사라지고 다음 달로 이월되지는 않습니다.\n\n원래 연 299달러짜리 Google Developer Program Premium에 포함된 혜택이었지만, 지난 1월부터 AI Pro와 Ultra 구독에도 들어갔습니다.\n\nAI Studio에서 모델을 테스트한 뒤 실제 앱이나 API로 연결할 때 별도 크레딧을 준비해야 했던 부담이 조금 줄어들 것 같습니다.",
-   "likes": 56,
+   "likes": 65,
    "cmts": 7,
    "time": 1787873425,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/786837498_4223443607954529_5596168012129972121_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk3MzI5MjczMDU0MDQ5MDEzOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=shaiiyOBnl4Q7kNvwF74bI-&_nc_oc=AdpjRG4I_oL0fk9MyeW51EEVLuTJ8VssAIfEssXIwQT7wSKVO2XiNkiJhz2JQQ1m5f1w5KmfBDSnKg1DfqfxXad7&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=inIUtmln3qeg9GehYWGukA&_nc_ss=7a22e&oh=00_AQG3DpWzEnrkq3mL0NlZgcbvr9V9IkyZWFpvxALxd-NQGA&oe=6A96D4AB",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/786837498_4223443607954529_5596168012129972121_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk3MzI5MjczMDU0MDQ5MDEzOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=shaiiyOBnl4Q7kNvwF74bI-&_nc_oc=AdpjRG4I_oL0fk9MyeW51EEVLuTJ8VssAIfEssXIwQT7wSKVO2XiNkiJhz2JQQ1m5f1w5KmfBDSnKg1DfqfxXad7&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=2FerCmJ-HD0hJf76EF82eA&_nc_ss=7a22e&oh=00_AQHwv0cVCCGBtfjtwGGaxD4A7Vr8CS1hcEh-zyEs_hIR-A&oe=6A96D4AB",
    "url": "https://www.threads.com/@choi.openai/post/Dcj-K_ggf2b",
    "region": "kr"
   },
   {
    "account": "aicoffeechat",
    "text": "정말 좋은 영상. 믿고 싶은 걸 100번은 적어보세요.\n\nTobi는 대중 연설이 무서워서 일주일 동안 매일 10분씩 '난 대중 연설이 좋다'를 손으로 적었고, 일주일 뒤부터 정말 좋아졌다고 말합니다.\n\n저도 오늘부터 내가 이루고 싶은 목표는 매일 적어보려고요. 모두가 목표를 이뤘으면 해서 공유해드려요. 도전하시는 모든 것들 응원합니다.",
-   "likes": 29,
+   "likes": 32,
    "cmts": 0,
    "time": 1787872718,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/785775978_3595733850581038_8499244405662480591_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk3MzI4NTAxMTUxMTc2NjYzMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=wRwef7IUW1QQ7kNvwFAXSax&_nc_oc=Adq_qUNixB7zVW9uLbOQ2CTXeBDJbQsZ8CPewwYHFBWSCfF3drdeQCZ7BNWeM4g0wmCn1KoOpb_N1U7YEqI3GaMK&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=JsExwPalJn0BF34DXhBc_A&_nc_ss=7a22e&oh=00_AQEs9KcrlK75cTngJg0bQAcv_6sXik9MZzysvVzA7g8LLw&oe=6A96C0AA",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/785775978_3595733850581038_8499244405662480591_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk3MzI4NTAxMTUxMTc2NjYzMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=wRwef7IUW1QQ7kNvwFAXSax&_nc_oc=Adq_qUNixB7zVW9uLbOQ2CTXeBDJbQsZ8CPewwYHFBWSCfF3drdeQCZ7BNWeM4g0wmCn1KoOpb_N1U7YEqI3GaMK&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=lrDQo7Rbnr1q1mruusxJKQ&_nc_ss=7a22e&oh=00_AQE3CsQb6Am5XrK9K01-KoXGLO0o6AaGszhGvHVicjmRPQ&oe=6A96C0AA",
    "url": "https://www.threads.com/@aicoffeechat/post/Dcj8aqmiu5o",
    "region": "kr"
   },
@@ -537,7 +537,7 @@
    "likes": 0,
    "cmts": 1,
    "time": 1787834500,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/784747841_17934001050362958_1952348077630704633_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk3Mjk2NjIwNTExNTg0MjcxMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTc5MS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=HbyiYXNO-ucQ7kNvwFVeQuW&_nc_oc=AdpDbpKKJYDSVjwz-1OEW5VAj5hANzZkcvb2UI8mcDrVxKWWt6-YN87cEtdyEBLSFn3-P8WIPMoH4o7xbqgatxvS&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Ops12aIneCCi5kV-vASo-Q&_nc_ss=7a22e&oh=00_AQEDFLZvnNTWmrqNUbL4G2SVPz5OSwS3xu8h-kD2O7GqQg&oe=6A96D55A",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/784747841_17934001050362958_1952348077630704633_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk3Mjk2NjIwNTExNTg0MjcxMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTc5MS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=HbyiYXNO-ucQ7kNvwFVeQuW&_nc_oc=AdpDbpKKJYDSVjwz-1OEW5VAj5hANzZkcvb2UI8mcDrVxKWWt6-YN87cEtdyEBLSFn3-P8WIPMoH4o7xbqgatxvS&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Pybz2K4MpYjZh2yzTJzI3g&_nc_ss=7a22e&oh=00_AQErq0TjvP4pnpSHX1lHRHVb5Jd98OfYIBvrE7rEMY4yZA&oe=6A96D55A",
    "url": "https://www.threads.com/@takepage_/post/Dciz7bAj8CX",
    "region": "kr"
   },
@@ -557,8 +557,18 @@
    "likes": 11,
    "cmts": 1,
    "time": 1787827564,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/787159680_2251956118991190_4276928558131817319_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk3MjkwNzg5ODg3OTE2Mzc4Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=C4XlWcnBqlUQ7kNvwEX-hrU&_nc_oc=AdozMWZIEXpFUZi3ovxqX7GdilYznWVF57blqTyXphSSTMMsxuMAcxV6FO7Nv9cD87AwICqHvw30ZbddnfZdkp04&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=kpW6j9UUf5yYOc03vi8fKQ&_nc_ss=7a22e&oh=00_AQHaFT4rQ2x3VihM8UFZstkCr8zpQOFcMj7d4XxA1Px5Vw&oe=6A96D293",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/787159680_2251956118991190_4276928558131817319_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk3MjkwNzg5ODg3OTE2Mzc4Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=C4XlWcnBqlUQ7kNvwEX-hrU&_nc_oc=AdozMWZIEXpFUZi3ovxqX7GdilYznWVF57blqTyXphSSTMMsxuMAcxV6FO7Nv9cD87AwICqHvw30ZbddnfZdkp04&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=q8p-g8dIzU96IVypSHl9cw&_nc_ss=7a22e&oh=00_AQGQihnZku3l5BdRPI3-CVElyWaveERIJS-pv0Ks6uVmEw&oe=6A96D293",
    "url": "https://www.threads.com/@kopp/post/Dcimq9GCT2G",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
+   "text": "Harness가 8월 27일 에이전트용 코드 저장소와 AI 코드 리뷰를 함께 내놨습니다.\n\n기존 저장소는 사람이 코드를 쓰고, 몇 시간이나 며칠 뒤 소수가 PR을 읽는 흐름을 전제로 했습니다. Harness는 에이전트가 동시에 수천 개의 커밋과 PR을 만들 수 있다는 전제로 검색·이력·diff를 설계했다고 설명했습니다.\n\n에이전트에는 실행한 사람의 권한을 상속시키고, 저장소·브랜치·환경별로 만질 수 있는 범위를 더 좁힐 수 있습니다. 리뷰는 파일 순서가 아니라 위험도별로 diff를 묶고, 필수 검사를 통과하지 못하면 병합을 막습니다.\n\n코딩 에이전트의 병목이 생성에서 저장·검토·승인으로 이동했다는 뜻입니다.\n\nHarness는 내부 사용으로 월 1만 시간 이상의 수동 리뷰 시간을 줄였다고 밝혔습니다. 다만 이 수치가 다른 조직에서도 재현되는지는 별도 검증이 필요합니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1787882913,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DckQQlJmRt2",
    "region": "kr"
   },
   {
@@ -567,24 +577,14 @@
    "likes": 1,
    "cmts": 1,
    "time": 1787880680,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/786391813_18083503532407306_7192068184522936920_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk3MzM1MzUxOTkxNTY4MTUxNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQzOC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=bzv1HaGT3PEQ7kNvwGx_Cj4&_nc_oc=AdofbKrOwsFgd-HflTpb1R-CEKb2T7OHG1YxEVgN-UwjdJJK0Mo0OxBFGGKriAbWyzKo82k2qnhTY0LZPn6OL-3y&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=5lqMDXw0yYUV5paKvMzOLg&_nc_ss=7a22e&oh=00_AQGmqdFDxuMapYoNyD9-0DHugB0-04vq6W_ooxArz2bEiQ&oe=6A96DBD1",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/786391813_18083503532407306_7192068184522936920_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk3MzM1MzUxOTkxNTY4MTUxNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQzOC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=bzv1HaGT3PEQ7kNvwGx_Cj4&_nc_oc=AdofbKrOwsFgd-HflTpb1R-CEKb2T7OHG1YxEVgN-UwjdJJK0Mo0OxBFGGKriAbWyzKo82k2qnhTY0LZPn6OL-3y&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=LUAOaHrf1PKllnwT6G2-KQ&_nc_ss=7a22e&oh=00_AQGWB_CHqttWZXg8_Ne3XkJI4Yds2v9-OW0oJ7R-2RsnGw&oe=6A96DBD1",
    "url": "https://www.threads.com/@aipeekme/post/DckL_mBn0bq",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "GitHub Copilot code review가 8월 27일부터 봇이 만든 PR과 대형 PR도 검토합니다.\n\n기존에는 PR 크기 제한이 300개 파일 또는 2만 줄이었습니다. 이번 변경으로 이 제한이 사라졌고, Copilot cloud agent가 연 PR에도 제한된 검토가 아니라 전체 에이전트형 리뷰가 적용됩니다.\n\n봇이 만든 PR은 Copilot 라이선스가 없는 계정에 귀속되지 않습니다. 조직 정책을 켜면 사용량이 조직에 직접 청구됩니다.\n\n이제 코드 리뷰의 경계는 사람이 작성한 변경을 검사하는 데서, 에이전트가 만든 대규모 변경을 누가 비용 내고 승인할지 정하는 데까지 넓어졌습니다.",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1787879783,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DckKSnPmeVx",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "허깅페이스 :\nhttps://huggingface.co/orcarouter/Qwen3.8-Flash-Next-Uncensored-GGUF",
-   "likes": 5,
+   "likes": 6,
    "cmts": 0,
    "time": 1787868055,
    "thumb": "",
@@ -597,18 +597,18 @@
    "likes": 14,
    "cmts": 3,
    "time": 1787834494,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/785110547_4028756167257142_8095130735042316608_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk3Mjk2NTc0NTI2MDcxOTkzOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=-_i5nXwMqOIQ7kNvwFu0pvS&_nc_oc=Adq8T8jQCNHJA71oz8d-ZG_vNquwcm288rzuECJqJeRxjx5ZQIHDHGXlFw8kLp28TwlDG-9q66I4yE4AoxsxV-p0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Ops12aIneCCi5kV-vASo-Q&_nc_ss=7a22e&oh=00_AQHQ4w9m34c-ODMZ_zuUD-w4ksEOUgfT7WayudLxeAqTgA&oe=6A96C395",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/785110547_4028756167257142_8095130735042316608_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk3Mjk2NTc0NTI2MDcxOTkzOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=-_i5nXwMqOIQ7kNvwFu0pvS&_nc_oc=Adq8T8jQCNHJA71oz8d-ZG_vNquwcm288rzuECJqJeRxjx5ZQIHDHGXlFw8kLp28TwlDG-9q66I4yE4AoxsxV-p0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Pybz2K4MpYjZh2yzTJzI3g&_nc_ss=7a22e&oh=00_AQFb9u-9mBw9gc9qOScDYNiAQ65QWdk_FxYz1eE0BguiJQ&oe=6A96C395",
    "url": "https://www.threads.com/@takepage_/post/Dciz0uvD29D",
    "region": "kr"
   },
   {
    "account": "daily_ai_star",
-   "text": "Hermes Agent v0.20.6이 8월 27일 공개됐습니다.\n\n패치 릴리스인데, v0.20.5 이후 1,313개 커밋과 1,557개 파일 변경을 한 번에 묶었습니다. 약 525개 PR이 들어갔고, 원격 MCP 서버는 50개 이상으로 늘었습니다.\n\n브라우저는 기본 Chromium 프로필을 동의 후 사용할 수 있고, SSH 원격 업데이트와 OS 키체인 기반 시크릿 암호화도 추가됐습니다. 기능 하나보다 실행 환경 전체를 다듬은 릴리스입니다.\n\n코딩 에이전트의 경쟁 기준이 새 도구 수에서, 오래 돌려도 망가지지 않는 운영면으로 이동했습니다.\n\nhttps://github.com/NousResearch/hermes-agent/releases/tag/v2026.8.27",
+   "text": "또 하나 바뀐 점이 있습니다.\n\nCopilot 리뷰 댓글을 닫을 때 `Addressed`, `Won’t fix`, `Incorrect` 중 이유를 남길 수 있습니다. 단순히 댓글을 없애는 대신, 왜 반영하지 않았는지를 기록하는 방식입니다.\n\n에이전트가 만드는 PR이 늘어날수록 리뷰의 숫자는 처리량보다 예외의 근거를 보여줘야 합니다. 큰 PR을 읽을 수 있는가보다, 누가 검토했고 어떤 이유로 닫았는지가 운영 기록에 남는지가 더 중요해졌습니다 ⭐\n\nhttps://github.blog/changelog/2026-08-27-copilot-code-review-resolution-reasons-and-expanded-capabilities",
    "likes": 0,
    "cmts": 0,
-   "time": 1787878174,
+   "time": 1787879793,
    "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DckHOHEk83x",
+   "url": "https://www.threads.com/@daily_ai_star/post/DckKTozGcQJ",
    "region": "kr"
   }
  ],
@@ -619,7 +619,7 @@
    "views": 1900000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooDPRCUDqBpuPTmFEWk6RAIgEBqnfZwgeRICBU~tplv-tiktokx-origin.image?dr=14575&x-expires=1788055200&x-signature=ibm9vpnOSD9C3qZiLn2tcish6Vg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooDPRCUDqBpuPTmFEWk6RAIgEBqnfZwgeRICBU~tplv-tiktokx-origin.image?dr=14575&x-expires=1788058800&x-signature=JW3I2Bw31CE1EH02GCuYAvOohVY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785177115,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7667277327386135826",
    "region": "kr"
@@ -630,7 +630,7 @@
    "views": 1600000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAbAoCECNeDAVDgQBcAkFzYBfoUADqQCQWIuZl~tplv-tiktokx-origin.image?dr=14575&x-expires=1788055200&x-signature=b1YksklaKEbQybZc%2B44wXMTSRK4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAbAoCECNeDAVDgQBcAkFzYBfoUADqQCQWIuZl~tplv-tiktokx-origin.image?dr=14575&x-expires=1788058800&x-signature=SXK3%2BBO7lilp0%2BpIEBlTUBvkVuw%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785471372,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7668541152869616914",
    "region": "kr"
@@ -641,7 +641,7 @@
    "views": 767200,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooBGAi8A6InMPiZBpU9fBkTRtAAwBKw0m1E0Ag~tplv-tiktokx-origin.image?dr=14575&x-expires=1788055200&x-signature=8WJcqroAolsflz595m6JF0ki718%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooBGAi8A6InMPiZBpU9fBkTRtAAwBKw0m1E0Ag~tplv-tiktokx-origin.image?dr=14575&x-expires=1788058800&x-signature=Kt%2BFi2Ka%2B3oHX9y2iezhAs0yoZE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785109781,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7666988131442281746",
    "region": "kr"
@@ -652,7 +652,7 @@
    "views": 486900,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o43E0EJDgKsBeuyFfnqRBCAvI1sAAbI2NsPlIc~tplv-tiktokx-origin.image?dr=14575&x-expires=1788055200&x-signature=CrjXfhIWBr2dnDLjgQWkhbmIkO8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o43E0EJDgKsBeuyFfnqRBCAvI1sAAbI2NsPlIc~tplv-tiktokx-origin.image?dr=14575&x-expires=1788058800&x-signature=vCwYLu9R1tcjootzumwIDnd%2BK64%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785519099,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7668746136877812999",
    "region": "kr"
@@ -663,7 +663,7 @@
    "views": 370500,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQpDHATAEBzAIGFgqwDA4hofdRfVCsCaqEBIkL~tplv-tiktokx-origin.image?dr=14575&x-expires=1788055200&x-signature=z6SUZl31cUfVHa2m%2Bqg8YqXPLRo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQpDHATAEBzAIGFgqwDA4hofdRfVCsCaqEBIkL~tplv-tiktokx-origin.image?dr=14575&x-expires=1788058800&x-signature=rHkGLc%2B3gyswCsYHPUP5XtYrOao%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785365622,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7668086960883354887",
    "region": "kr"
@@ -674,7 +674,7 @@
    "views": 270200,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1788055200&x-signature=BgA6Kri9M8GXYsF87yYEzDA18QQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1788058800&x-signature=mLkPDw9mDx1CCJtwVmck9FWMe6A%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785656353,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7669335640793763079",
    "region": "kr"
@@ -682,10 +682,10 @@
   {
    "account": "jaemyung_lee",
    "title": "대한민국과 브라질이 함께 그려갈 미래가  두 나라 국민 모두에게  더 큰 희망과 기회가 되길 기대합니다 🇰🇷🫰🇧🇷 @Presidente Lula ima, meu irmão💚💛💙 #이재명 #lula #korea #Br",
-   "views": 234900,
+   "views": 235000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-i-photomode-sg/91a2f3151d9741689af70b1d1f8aac3a~tplv-photomode-image.jpeg?dr=14555&x-expires=1788055200&x-signature=NAMXMheMgH%2BLxbFGQPzl1vRyGFs%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=9b759fb9&idc=my2&ftpl=1",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-i-photomode-sg/91a2f3151d9741689af70b1d1f8aac3a~tplv-photomode-image.jpeg?dr=14555&x-expires=1788058800&x-signature=Zvfc9J3aOfnmQpeFceAGBLFVbSs%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=9b759fb9&idc=my2&ftpl=1",
    "time": 1785270939,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7667680300490558728",
    "region": "kr"
@@ -696,7 +696,7 @@
    "views": 191900,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/osApGgttBIBbbk6zA4iAKdIdkBfL1AAEiSwmCM~tplv-tiktokx-origin.image?dr=14575&x-expires=1788055200&x-signature=yoJ3f%2BpKXwDpe%2BePrayS6Wz7%2F2Q%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/osApGgttBIBbbk6zA4iAKdIdkBfL1AAEiSwmCM~tplv-tiktokx-origin.image?dr=14575&x-expires=1788058800&x-signature=8Qst%2FTF0S3muY2LMjBhANFCwZtg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1784945079,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7666280741554195730",
    "region": "kr"
@@ -704,10 +704,10 @@
   {
    "account": "jaemyung_lee",
    "title": "우리 국민의 구조에 모든 역량을 총동원하겠습니다  #네팔 #긴급회의 #prayfornepal",
-   "views": 154300,
+   "views": 155900,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4ECXepekgFVLDAPQbcqjSdGAIaIofEozvI9Qh~tplv-tiktokx-origin.image?dr=14575&x-expires=1788055200&x-signature=20%2BhyJGqr4g5GozhdEnIa7BbUYs%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4ECXepekgFVLDAPQbcqjSdGAIaIofEozvI9Qh~tplv-tiktokx-origin.image?dr=14575&x-expires=1788058800&x-signature=YGF3i5SjfjBEOCx1wjXg1lrJHJA%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1787831518,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7678677903122369800",
    "region": "kr"
@@ -718,7 +718,7 @@
    "views": 136600,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okkIgGYEt7AlB4qvUF5yCAEAjD8vfKAfVACbBp~tplv-tiktokx-origin.image?dr=14575&x-expires=1788055200&x-signature=Xrg1rGP7hGUodhtQeudwfQGlpmY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okkIgGYEt7AlB4qvUF5yCAEAjD8vfKAfVACbBp~tplv-tiktokx-origin.image?dr=14575&x-expires=1788058800&x-signature=V4JbBRugMGgNYdfIZ36Kv%2BJBVg8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1784911601,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7666136953456315666",
    "region": "kr"
@@ -726,10 +726,10 @@
   {
    "account": "tictok_ent",
    "title": "박규영, 아침부터 미모 열일 / 아워글래스(HOURGLASS) 팝업 포토월 #박규영 #아워글래스 #HOURGLASS",
-   "views": 8105,
+   "views": 8121,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oUDPINKKABuclCBuAAwinRmqEfl211iBiAs9LA~tplv-tiktokx-origin.image?dr=14575&x-expires=1788055200&x-signature=MWgT6ioBJHxY55B%2FnNm8FWbia2k%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oUDPINKKABuclCBuAAwinRmqEfl211iBiAs9LA~tplv-tiktokx-origin.image?dr=14575&x-expires=1788058800&x-signature=li4YZLHDTzJer%2F%2FUliuuy5i0TPY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1787535859,
    "url": "https://www.tiktok.com/@tictok_ent/video/7677408056661036308",
    "region": "kr"
@@ -737,10 +737,10 @@
   {
    "account": "tictok_ent",
    "title": "트와이스 지효, 한층 성숙해진 미모 / 더후(THE WHOO) 포토월 #트와이스 #TWICE #지효 #THEWHOO",
-   "views": 1421,
+   "views": 1430,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAIWGIAVQtqA0UJfgJfAnwLAiP0I7Ge9ySA1f7~tplv-tiktokx-origin.image?dr=14575&x-expires=1788055200&x-signature=NVjN7E5jjBNt0dpDjqBAoCFSgUY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAIWGIAVQtqA0UJfgJfAnwLAiP0I7Ge9ySA1f7~tplv-tiktokx-origin.image?dr=14575&x-expires=1788058800&x-signature=0E%2FUklYnGF8S7JSlmd1aYPwDXC4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1787820027,
    "url": "https://www.tiktok.com/@tictok_ent/video/7678628548231351573",
    "region": "kr"
@@ -784,15 +784,6 @@
    "url": "https://www.reddit.com/r/pics/comments/1w00i1i/president_trump_signs_executive_order_to_rename/"
   },
   {
-   "sub": "meirl",
-   "title": "meirl",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/3n2pwn0vkzlh1.jpeg?width=640&crop=smart&auto=webp&s=3ab6c606574c2d98d4136b22d4b0be9fdc1f56d1",
-   "time": 1787866446,
-   "url": "https://www.reddit.com/r/meirl/comments/1w0795o/meirl/"
-  },
-  {
    "sub": "AskReddit",
    "title": "What are Americans surprisingly good at that people don’t give them enough credit for?",
    "score": 0,
@@ -800,15 +791,6 @@
    "thumb": "",
    "time": 1787843507,
    "url": "https://www.reddit.com/r/AskReddit/comments/1vzwpzz/what_are_americans_surprisingly_good_at_that/"
-  },
-  {
-   "sub": "politics",
-   "title": "USDA recalls 30,000 pounds of Argentine beef sold in Texas and Florida",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/v9OA2grtkmB3nh6cZjBW7ABpRw896PMMwkHEqfELMEE.jpeg?width=640&crop=smart&auto=webp&s=31674ef990937454be92d319ab32a19f0bf7e589",
-   "time": 1787873660,
-   "url": "https://www.reddit.com/r/politics/comments/1w0a8j1/usda_recalls_30000_pounds_of_argentine_beef_sold/"
   },
   {
    "sub": "worldnews",
@@ -847,13 +829,31 @@
    "url": "https://www.reddit.com/r/science/comments/1vzqzy1/study_of_235_heterosexual_couples_found_women_did/"
   },
   {
-   "sub": "funny",
-   "title": "A Sherpa casually smoking above 8,000 meters in Everest's death zone, while everyone around him struggles to breathe [OC]",
+   "sub": "mildlyinfuriating",
+   "title": "My dad deleted the entire history of my 6 year old group chat",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/andvcGo1ZjRlemxoMUbVMPLVMLMmOMFOeYFh8eLKflVfP-jdOX8eaImYOg51.png?width=640&crop=smart&auto=webp&s=22c8d16f100a3aa36d20b93f3b4ed0d3a5006f65",
-   "time": 1787864199,
-   "url": "https://www.reddit.com/r/funny/comments/1w069lm/a_sherpa_casually_smoking_above_8000_meters_in/"
+   "thumb": "https://preview.redd.it/zgjt4rt77xlh1.jpeg?width=640&crop=smart&auto=webp&s=afa7aa60d1899c16aabaa395b2cdbdd261016f31",
+   "time": 1787837657,
+   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1vzu53e/my_dad_deleted_the_entire_history_of_my_6_year/"
+  },
+  {
+   "sub": "SipsTea",
+   "title": "WTF is this??",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/7dh4d3bfhwlh1.jpeg?width=640&crop=smart&auto=webp&s=db82ca528a4b768b432917cdfe0b7c9d132428d7",
+   "time": 1787828971,
+   "url": "https://www.reddit.com/r/SipsTea/comments/1vzqwvc/wtf_is_this/"
+  },
+  {
+   "sub": "BlackPeopleTwitter",
+   "title": "Facts don't care about anyone's feelings",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/i1d3zaelo0mh1.jpeg?width=640&crop=smart&auto=webp&s=113c61e851d888270cf1dba5a325c675b39bf4d3",
+   "time": 1787879808,
+   "url": "https://www.reddit.com/r/BlackPeopleTwitter/comments/1w0ck81/facts_dont_care_about_anyones_feelings/"
   }
  ],
  "disaster": [],
@@ -898,10 +898,10 @@
    }
   },
   "landing": {
-   "at": "2026-08-28T11:06:05",
+   "at": "2026-08-28T11:31:32",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-28T11:31:22.370256+09:00"
+ "updated": "2026-08-28T12:01:21.755995+09:00"
 }
