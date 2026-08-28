@@ -7710,8 +7710,14 @@
   {
    "query": "전현무",
    "traffic": "5000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/bf262ca186.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.koreadaily.com/article/20260825005206577",
+     "source": ""
+    }
+   ],
    "vol": 5000,
    "started": "2026-08-29T06:20:00+09:00",
    "delta": -8,
@@ -7940,8 +7946,14 @@
   {
    "query": "삼성sdi",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/2eebde09b0.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.g-enews.com/article/Securities/2026/08/20260827095135215744093b5d4e_1",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-08-29T06:00:00+09:00",
    "delta": -16,
@@ -8182,14 +8194,15 @@
  ],
  "gtrends_pool_updated": "2026-08-29T08:36:46+09:00",
  "_trend_img": {
-  "tried": "2026-08-29T07:54:25+09:00",
+  "tried": "2026-08-29T08:36:46+09:00",
   "fail": {
    "palace vs man city": "2026-08-29T06:47:00+09:00",
    "psg": "2026-08-29T06:47:00+09:00",
    "구속영장": "2026-08-29T06:47:00+09:00",
    "오윤아": "2026-08-29T08:02:03+09:00",
    "박진만": "2026-08-29T08:02:03+09:00",
-   "수성구": "2026-08-29T08:02:03+09:00"
+   "수성구": "2026-08-29T08:02:03+09:00",
+   "사미자": "2026-08-29T08:42:42+09:00"
   }
  },
  "gtrends_gl": [
@@ -18509,7 +18522,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-08-29T08:36:46+09:00"
+    "first_seen": "2026-08-29T08:36:46+09:00",
+    "kw": "Grok Bot, Stripe Link",
+    "sum": "Grok Bot이 Stripe Link로 결제까지 대신하는 쇼핑 기능을 지원했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -19053,7 +19069,10 @@
     "rh": [
      20
     ],
-    "first_seen": "2026-08-29T08:36:46+09:00"
+    "first_seen": "2026-08-29T08:36:46+09:00",
+    "kw": "Kotlin Benchmark, JetBrains, 코딩 에이전트",
+    "sum": "JetBrains가 코딩 에이전트를 평가하는 Kotlin Benchmark를 공개했다",
+    "sv": 1
    }
   ]
  },
