@@ -7622,8 +7622,14 @@
   {
    "query": "한덕수",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/29834e80d8.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.newspim.com/news/view/20260805001298",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-08-28T14:00:00+09:00",
    "delta": -2,
@@ -7652,8 +7658,14 @@
   {
    "query": "마지노선",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/5ad4898ae5.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.fnnews.com/news/202606210602228026",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-28T14:30:00+09:00",
    "delta": -6,
@@ -7666,8 +7678,14 @@
   {
    "query": "대전 날씨",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/ec13519a60.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.sisa-news.com/news/article.html?no=275023",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-08-28T14:00:00+09:00",
    "delta": -4,
@@ -7681,8 +7699,14 @@
   {
    "query": "서울날씨",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/ec13519a60.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.sisa-news.com/news/article.html?no=275023",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-08-28T15:40:00+09:00",
    "isNew": true,
@@ -7694,8 +7718,14 @@
   {
    "query": "대전날씨",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/ec13519a60.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.sisa-news.com/news/article.html?no=275023",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-08-28T14:10:00+09:00",
    "isNew": true,
@@ -7816,10 +7846,11 @@
  ],
  "gtrends_pool_updated": "2026-08-28T17:11:21+09:00",
  "_trend_img": {
-  "tried": "2026-08-28T16:36:06+09:00",
+  "tried": "2026-08-28T17:11:21+09:00",
   "fail": {
    "비밀이야": "2026-08-28T16:42:05+09:00",
-   "ok저축은행": "2026-08-28T16:42:05+09:00"
+   "ok저축은행": "2026-08-28T16:42:05+09:00",
+   "불": "2026-08-28T17:16:25+09:00"
   }
  },
  "gtrends_gl": [
@@ -18259,7 +18290,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-08-28T17:11:21+09:00"
+    "first_seen": "2026-08-28T17:11:21+09:00",
+    "kw": "Hy4, 벤치마크, 텐센트",
+    "sum": "계정이 Hy4의 벤치마크 성적을 다른 중국 모델과 비교했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -18274,7 +18308,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-08-28T17:11:21+09:00"
+    "first_seen": "2026-08-28T17:11:21+09:00",
+    "kw": "중국 대형 모델, 공개 일정",
+    "sum": "계정이 최근 한 달간 중국 대형 모델 공개 흐름을 정리했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -18289,7 +18326,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-08-28T17:11:21+09:00"
+    "first_seen": "2026-08-28T17:11:21+09:00",
+    "kw": "텐센트, Hy4, 오픈웨이트",
+    "sum": "텐센트가 Hy4 프리뷰 가중치와 코드를 공개했다",
+    "sv": 1
    },
    {
     "account": "takepage_",
@@ -18304,7 +18344,10 @@
     "rh": [
      4
     ],
-    "first_seen": "2026-08-28T17:11:21+09:00"
+    "first_seen": "2026-08-28T17:11:21+09:00",
+    "kw": "Open Executive, 로컬 실행",
+    "sum": "계정이 Open Executive를 로컬에서 구동하는 방법을 설명했다",
+    "sv": 1
    },
    {
     "account": "takepage_",
@@ -18319,7 +18362,10 @@
     "rh": [
      5
     ],
-    "first_seen": "2026-08-28T17:11:21+09:00"
+    "first_seen": "2026-08-28T17:11:21+09:00",
+    "kw": "Open Executive, 권한 등급",
+    "sum": "계정이 Open Executive의 부서 권한 등급 구조를 설명했다",
+    "sv": 1
    },
    {
     "account": "takepage_",
@@ -18334,7 +18380,10 @@
     "rh": [
      6
     ],
-    "first_seen": "2026-08-28T17:11:21+09:00"
+    "first_seen": "2026-08-28T17:11:21+09:00",
+    "kw": "Open Executive, AI CEO",
+    "sum": "계정이 Open Executive의 임원 자동화 방식을 소개했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -18558,7 +18607,10 @@
     "rh": [
      16
     ],
-    "first_seen": "2026-08-28T17:11:21+09:00"
+    "first_seen": "2026-08-28T17:11:21+09:00",
+    "kw": "텐센트, Hy4, 오픈웨이트",
+    "sum": "계정이 텐센트의 7,700억 매개변수 Hy4 공개를 알렸다",
+    "sv": 1
    },
    {
     "account": "takepage_",
@@ -18573,7 +18625,10 @@
     "rh": [
      17
     ],
-    "first_seen": "2026-08-28T17:11:21+09:00"
+    "first_seen": "2026-08-28T17:11:21+09:00",
+    "kw": "Open Executive, 해커뉴스",
+    "sum": "계정이 해커뉴스 1위 오른 Open Executive를 살펴봤다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
