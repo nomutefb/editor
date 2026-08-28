@@ -434,12 +434,22 @@
  ],
  "threads": [
   {
+   "account": "daily_ai_star",
+   "text": "Cursor Cloud Agents가 8월 27일 저장소 없이 시작하는 기능을 추가했습니다.\n\n이제 연결된 GitHub 저장소나 외부 SCM이 없어도 에이전트에게 바로 작업을 시킬 수 있습니다. 작업이 마음에 들면 그때 Cursor Origin 저장소로 저장하고, 공개 범위도 private 또는 internal로 정합니다.\n\n브라우저 안에서 실행 환경을 미리 보고 design mode까지 사용할 수 있습니다. Vercel을 연결하면 완성한 결과를 바로 배포합니다.\n\n코딩 에이전트의 첫 단계가 저장소 선택에서, 실행 가능한 결과를 먼저 만드는 일로 이동하고 있습니다.\n\n코드를 어디에 둘지보다 무엇을 얼마나 빨리 검증할지가 먼저 정해지는 흐름입니다.\n\nhttps://cursor.com/changelog/start-from-scratch",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1787904393,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/Dck5OqqmQvD",
+   "region": "kr"
+  },
+  {
    "account": "choi.openai",
    "text": "3/ 텐센트 공식 벤치마크에서 Hy4는 SWE-bench Multilingual 82.9, GDPval-AA v2 1,678, OneMillionBench 65.4를 기록했습니다.\n\nDeepSWE는 28.0에서 64.3, Terminal-Bench 2.1은 70.8에서 85.4, PostTrainBench는 14.5에서 35.6으로 올랐습니다. \n\n다국어 코딩에서는 Kimi K3, Qwen3.8 Max, GLM 5.3보다 높았고, GDPval은 Kimi K3와 비슷했습니다.\n\nGPQA Diamond는 92.3, HLE는 43.4, CritPt는 16.9입니다. 코딩과 문서 작업에서는 중국 상위 모델과 같은 구간에 있고, 과학 추론 항목에 따라 차이가 벌어지는 분포입니다.",
    "likes": 1,
    "cmts": 1,
    "time": 1787902822,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/780374896_17984409288112832_7966976995186054786_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk3MzUzOTMzNTc2OTEyOTMyOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjc3MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=STjDosM0QJYQ7kNvwHI3nT4&_nc_oc=Adqdj8gyW9py8wbIhE9FjBfPg256s4J5RiGYjWCyQlypw7hPg-wa8T-8Dy6Fdrb5lzwVoov6J0Kfrv2DqzrSSClB&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=eOc_IJ1R2k5R4EqiiI7UhQ&_nc_ss=7a22e&oh=00_AQGtDfW4uY6CnxgTd94Z3id6hWrqQuZnDtKdFTsFL5at5w&oe=6A9713E7",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/780374896_17984409288112832_7966976995186054786_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk3MzUzOTMzNTc2OTEyOTMyOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjc3MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=STjDosM0QJYQ7kNvwHI3nT4&_nc_oc=Adqdj8gyW9py8wbIhE9FjBfPg256s4J5RiGYjWCyQlypw7hPg-wa8T-8Dy6Fdrb5lzwVoov6J0Kfrv2DqzrSSClB&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=kkFq0mk7lfpbDYpBfveM8g&_nc_ss=7a22e&oh=00_AQFTePXph_nzeNTuWQ5xkfw39ZNyaUThW6Mykmard9NczA&oe=6A9713E7",
    "url": "https://www.threads.com/@choi.openai/post/Dck2Pkhj4Fx",
    "region": "kr"
   },
@@ -456,10 +466,10 @@
   {
    "account": "choi.openai",
    "text": "1/ 텐센트가 8월 28일 Hy4 프리뷰의 가중치와 코드를 공개했습니다.\n\n전체 파라미터는 7,700억이고 토큰 하나를 처리할 때 490억이 작동합니다.\n\n문맥 길이는 100만 토큰이며 Apache 2.0 가중치와 FP8 버전이 GitHub와 Hugging Face에 함께 올라왔습니다.\n\n소프트웨어 개발, 여러 문서가 섞인 사무 작업, 과학 연구가 주요 사용처이며 Tencent Cloud와 OpenRouter에서 사용이 가능합니다.",
-   "likes": 2,
+   "likes": 3,
    "cmts": 1,
    "time": 1787902810,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/785759031_17984405895112832_1203470223326762556_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk3MzUzOTIyNzYxNDgyODk3NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjcxNi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=m9EApDltGVMQ7kNvwHsLLZK&_nc_oc=AdpRCsWWmZM4hlr6ZYpWsmc01zOsAMGs-GZcmmO3MMOJG3O5J5zaEt51cDiIFPi6snC1IzNA_Bu5p1QHO7K1mRhH&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=eOc_IJ1R2k5R4EqiiI7UhQ&_nc_ss=7a22e&oh=00_AQGCzGjyyyp_6AIHJmEhsULLYV0F1z0o2JIL9b9uZugWVQ&oe=6A972C56",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/785759031_17984405895112832_1203470223326762556_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk3MzUzOTIyNzYxNDgyODk3NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjcxNi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=m9EApDltGVMQ7kNvwHsLLZK&_nc_oc=AdpRCsWWmZM4hlr6ZYpWsmc01zOsAMGs-GZcmmO3MMOJG3O5J5zaEt51cDiIFPi6snC1IzNA_Bu5p1QHO7K1mRhH&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=kkFq0mk7lfpbDYpBfveM8g&_nc_ss=7a22e&oh=00_AQGRtwLqx7kbGwXspiixxCgIhyHLqy-KRRIzqpnz-iG6YQ&oe=6A972C56",
    "url": "https://www.threads.com/@choi.openai/post/Dck2N_zD9mu",
    "region": "kr"
   },
@@ -519,28 +529,18 @@
    "likes": 2,
    "cmts": 1,
    "time": 1787899487,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/787574117_18083556563407306_7379889897154819955_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk3MzUxMTI3OTEzOTU1NjAyOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=GnXNuBeMv1YQ7kNvwGsYekE&_nc_oc=AdoXcyClsL5KH9v-PX2go8TFvrFZgacWVrO1KODJhMJ7Q8cJhJ5GnEqaMoRZBZlrUiKNOWjo0oeTifSyd7PAhBNT&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=7oJCRML2pQ3QVCk3pKNKlQ&_nc_ss=7a22e&oh=00_AQGkLSK7zG4p26lDqOVWqqx6mMPOsB_shx63AzfEZkY20w&oe=6A972C9C",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/787574117_18083556563407306_7379889897154819955_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk3MzUxMTI3OTEzOTU1NjAyOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=GnXNuBeMv1YQ7kNvwGsYekE&_nc_oc=AdoXcyClsL5KH9v-PX2go8TFvrFZgacWVrO1KODJhMJ7Q8cJhJ5GnEqaMoRZBZlrUiKNOWjo0oeTifSyd7PAhBNT&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=vSaGowFolcwkG2FN-ZfDxA&_nc_ss=7a22e&oh=00_AQE4cgaEfZAnWDynzjNIs5UQF2ivzJS3Dm1Lv_rcqagCEA&oe=6A972C9C",
    "url": "https://www.threads.com/@aipeekme/post/Dckv3SwHwq8",
    "region": "kr"
   },
   {
    "account": "aipeekme",
    "text": "과거로의 여정 \n요즘 이런 영상 많이 보셨죠? Seedance2.5\n\n프롬프트 하단👇",
-   "likes": 3,
+   "likes": 4,
    "cmts": 1,
    "time": 1787899130,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/780374479_4515309122071181_3706186092282160259_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&ig_cache_key=Mzk3MzUwNzc1MTY5NTU3MTIxMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=3ei6eIFotZ0Q7kNvwGO_Kzf&_nc_oc=AdpeJ5qIsfi6Mp4zWvSDrSzyX2b5lK8muj057MAZhz5zJhUXcIadRGqfCxaMlt_-nqu0QtfBOKXzpWxUGMh7blWS&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=7oJCRML2pQ3QVCk3pKNKlQ&_nc_ss=7a22e&oh=00_AQFAuc1a0F-3kjHkS5FthJaJTOYlYQiW8NUesgThoEluMQ&oe=6A970F42",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/780374479_4515309122071181_3706186092282160259_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&ig_cache_key=Mzk3MzUwNzc1MTY5NTU3MTIxMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=3ei6eIFotZ0Q7kNvwGO_Kzf&_nc_oc=AdpeJ5qIsfi6Mp4zWvSDrSzyX2b5lK8muj057MAZhz5zJhUXcIadRGqfCxaMlt_-nqu0QtfBOKXzpWxUGMh7blWS&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=vSaGowFolcwkG2FN-ZfDxA&_nc_ss=7a22e&oh=00_AQF6tJbO1ykVfZM0UX6sg3ys3MzoI6iOQgHYjpNMn43YNg&oe=6A970F42",
    "url": "https://www.threads.com/@aipeekme/post/DckvD9kE1kM",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-5-transcribe/",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1787898385,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DcktxPxmSYi",
    "region": "kr"
   },
   {
@@ -559,7 +559,7 @@
    "likes": 40,
    "cmts": 0,
    "time": 1787872718,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/785775978_3595733850581038_8499244405662480591_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk3MzI4NTAxMTUxMTc2NjYzMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=wRwef7IUW1QQ7kNvwH4TwKH&_nc_oc=Ado15MxIKDZR821TQFTnX70T19RjvKyp7ytlMASYR7gh89fAnr9btQoiiRbdCDntxSCI7EqtHMV7RMHvdqR_Ga5A&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=awK3caGFGHgNcSPaRRe_lg&_nc_ss=7a22e&oh=00_AQEVP3fJAZ3z-mLUQX2Wnz_vAMFjOh7VFyhj26a4bxrfTQ&oe=6A96F8EA",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/785775978_3595733850581038_8499244405662480591_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk3MzI4NTAxMTUxMTc2NjYzMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=wRwef7IUW1QQ7kNvwH4TwKH&_nc_oc=Ado15MxIKDZR821TQFTnX70T19RjvKyp7ytlMASYR7gh89fAnr9btQoiiRbdCDntxSCI7EqtHMV7RMHvdqR_Ga5A&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=qjUZ5Yujx7wDUvyKAZD8MA&_nc_ss=7a22e&oh=00_AQE_Snv12gQlkPMsg74SlguskdZcvCMBrp2jFrQB7gcOOw&oe=6A97312A",
    "url": "https://www.threads.com/@aicoffeechat/post/Dcj8aqmiu5o",
    "region": "kr"
   },
@@ -579,38 +579,38 @@
    "likes": 13,
    "cmts": 1,
    "time": 1787827564,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/787159680_2251956118991190_4276928558131817319_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk3MjkwNzg5ODg3OTE2Mzc4Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=C4XlWcnBqlUQ7kNvwH1e7z9&_nc_oc=AdqsdJMcuajXOeUf4kFWt5HtD3sXRpNHKn3W8VIqaCNE38ZPC0ONsg8RD_igKEfJVNR48jv1n1vlmq0n6nbEGwSm&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=QMixdOWxQ0X3mk9G78ec0w&_nc_ss=7a22e&oh=00_AQHCdp10uu7K-FAp_-Wf934BosAd6wGGBRUJgaWlU6jVBg&oe=6A970AD3",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/787159680_2251956118991190_4276928558131817319_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk3MjkwNzg5ODg3OTE2Mzc4Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=C4XlWcnBqlUQ7kNvwH1e7z9&_nc_oc=AdqsdJMcuajXOeUf4kFWt5HtD3sXRpNHKn3W8VIqaCNE38ZPC0ONsg8RD_igKEfJVNR48jv1n1vlmq0n6nbEGwSm&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=6jDrp1RC7EPFZiqoX3LyWQ&_nc_ss=7a22e&oh=00_AQG0iXcxqRNTa-ShWedGDuyTYR9_I89o2avUMDjyirRpfQ&oe=6A970AD3",
    "url": "https://www.threads.com/@kopp/post/Dcimq9GCT2G",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "🚨 와.. 중국이 또 7,700억 매개변수 모델을 오픈웨이트로 풀었습니다.\n\n이번엔 텐센트입니다. 7,700억 매개변수 Hy4를 Apache 2.0으로 풀었습니다.\n\n중국 프런티어 모델의 공개 간격이 며칠 단위까지 짧아졌습니다 🧵",
-   "likes": 13,
+   "likes": 23,
    "cmts": 11,
    "time": 1787902805,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/785350522_17984405637112832_7027552306852346784_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk3MzUzOTE4Nzg2OTU5NTQ2Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNDA5Ni5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=u0z4Btw2PkoQ7kNvwHirfqD&_nc_oc=Adp-czNu0uUndELgrYF1q-P3OYw6vTUshBbeepj-7FB0vMh5u446-dCGAjvgI2fqa56IYHGtj87ZV15GoWcVE6sb&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=eOc_IJ1R2k5R4EqiiI7UhQ&_nc_ss=7a22e&oh=00_AQHFgjOR2SisBumzsYU0LVlMvmMHBvgIwzRVQtoEUuUL3g&oe=6A971ED6",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/785350522_17984405637112832_7027552306852346784_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk3MzUzOTE4Nzg2OTU5NTQ2Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNDA5Ni5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=u0z4Btw2PkoQ7kNvwHirfqD&_nc_oc=Adp-czNu0uUndELgrYF1q-P3OYw6vTUshBbeepj-7FB0vMh5u446-dCGAjvgI2fqa56IYHGtj87ZV15GoWcVE6sb&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=kkFq0mk7lfpbDYpBfveM8g&_nc_ss=7a22e&oh=00_AQEtu-B_OiM7N2fveG7-casKicBSWJcSg3wj6jje0N_mpA&oe=6A971ED6",
    "url": "https://www.threads.com/@choi.openai/post/Dck2NayD7dH",
    "region": "kr"
   },
   {
    "account": "takepage_",
    "text": "어제 해커뉴스 1위를 오픈소스 하나가 차지했습니다.\n이름은 Open Executive\n\n두 달 반 만에 스타가 1천4백개 붙었어요.\n회사 임원진을 통째로 안에 넣어둔 웹앱입니다.\n\n전략, 재무, 인사, 법무까지 여덟 자리가 있고\n부서마다 목표와 예산이 따로 적혀 있죠.\n\nAI를 임원 자리에 앉혀 어떻게 활용하는지 살펴봤습니다.",
-   "likes": 1,
+   "likes": 2,
    "cmts": 4,
    "time": 1787902326,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/788728767_17934125103362958_7983602133015789471_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk3MzUzNTE3MjcyOTYxOTM2OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=pfiaLb-sKUAQ7kNvwGU7G2R&_nc_oc=AdqMNMbtW51JQVWNCDHso8n_Pry_oFpAUK17jEVSPBYERnooyykmuTWY6ki42ic6lu3IJYJpskDgDj6TOq4mpkba&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=A2Eiw7dWcLQBKVSwPUJoBg&_nc_ss=7a22e&oh=00_AQHPXlje1OFhp9QNRoe_6oB35gsXEGNmrV7PkNkFD0dnbQ&oe=6A972CF9",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/788728767_17934125103362958_7983602133015789471_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk3MzUzNTE3MjcyOTYxOTM2OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=pfiaLb-sKUAQ7kNvwGU7G2R&_nc_oc=AdqMNMbtW51JQVWNCDHso8n_Pry_oFpAUK17jEVSPBYERnooyykmuTWY6ki42ic6lu3IJYJpskDgDj6TOq4mpkba&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=DBIMyq_4AqrL0dGcLD1T3w&_nc_ss=7a22e&oh=00_AQFV-vEQh2lQUCMvy_nEiR_m4Pw-Dn9mtRniXhGF3GYClQ&oe=6A972CF9",
    "url": "https://www.threads.com/@takepage_/post/Dck1S_ZEcOo",
    "region": "kr"
   },
   {
    "account": "daily_ai_star",
-   "text": "Gemini 3.5 Transcribe가 8월 26일 개발자용 API에 공개됐습니다.\n\n이번에는 음성을 글자로 옮기는 데서 멈추지 않습니다. 실시간 스트리밍 모델과 녹음 파일 처리 모델을 나눴고, 85개 이상 언어를 자동 감지합니다. 녹음 파일에서는 화자 구분과 단어 단위 타임스탬프를 지원하고, 사용자 용어도 최대 1,000개까지 등록할 수 있습니다.\n\nArtificial Analysis 기준 단어 오류율은 스트리밍 4.0%, 비스트리밍 2.6%였습니다. 최종 전사까지 걸리는 시간은 이전 Chirp 3보다 70% 개선됐다고 구글은 밝혔습니다.\n\n기존 음성 입력은 정확한 받아쓰기가 목표였습니다. 이제는 말실수·추임새·문장 중간의 정정을 정리해 명령으로 넘기는 단계입니다. 에이전트의 입력 기준이 “무슨 말을 했는가”에서 “사용자가 무엇을 하려 했는가”로 이동하고 있습니다.\n\n코딩 도구도 키보드 중심의 프롬프트 창만으로 평가하기 어려워졌습니다.",
+   "text": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-5-transcribe/",
    "likes": 0,
-   "cmts": 1,
-   "time": 1787898377,
+   "cmts": 0,
+   "time": 1787898385,
    "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DcktwbRGZFd",
+   "url": "https://www.threads.com/@daily_ai_star/post/DcktxPxmSYi",
    "region": "kr"
   },
   {
@@ -624,146 +624,146 @@
    "region": "kr"
   },
   {
-   "account": "aipeekme",
-   "text": "1/ 엔비디아와 허깅페이스가 최근 몇 주 동안 인수를 논의해 왔습니다. 거론되는 기업가치는 130억 달러 이상입니다. 2023년 2억 3,500만 달러 규모 투자 유치 당시 평가받은 4.5억 달러의 세 배 수준입니다. 엔비디아는 이번 회계연도 남은 기간 동안 주식 투자에만 180억 달러를 쓰기로 약정해 둔 상태입니다.",
+   "account": "daily_ai_star",
+   "text": "Gemini 3.5 Transcribe가 8월 26일 개발자용 API에 공개됐습니다.\n\n이번에는 음성을 글자로 옮기는 데서 멈추지 않습니다. 실시간 스트리밍 모델과 녹음 파일 처리 모델을 나눴고, 85개 이상 언어를 자동 감지합니다. 녹음 파일에서는 화자 구분과 단어 단위 타임스탬프를 지원하고, 사용자 용어도 최대 1,000개까지 등록할 수 있습니다.\n\nArtificial Analysis 기준 단어 오류율은 스트리밍 4.0%, 비스트리밍 2.6%였습니다. 최종 전사까지 걸리는 시간은 이전 Chirp 3보다 70% 개선됐다고 구글은 밝혔습니다.\n\n기존 음성 입력은 정확한 받아쓰기가 목표였습니다. 이제는 말실수·추임새·문장 중간의 정정을 정리해 명령으로 넘기는 단계입니다. 에이전트의 입력 기준이 “무슨 말을 했는가”에서 “사용자가 무엇을 하려 했는가”로 이동하고 있습니다.\n\n코딩 도구도 키보드 중심의 프롬프트 창만으로 평가하기 어려워졌습니다.",
    "likes": 0,
    "cmts": 1,
-   "time": 1787897679,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/787459545_18083550800407306_9152398313450801663_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk3MzQ5NjExNzMwMTA2ODkxOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTAwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=pxziHm2lcT0Q7kNvwF-MZ2W&_nc_oc=AdodhvsKujE9WzugLeR9iZwYSQpFdYWeS85I4RiVJPcx6GYsRf1JkEQA2OOvnD-eekyvr6GIlwG4zNGj2-aqYchP&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=7oJCRML2pQ3QVCk3pKNKlQ&_nc_ss=7a22e&oh=00_AQFSCRQIcYLrMRuYI1vN1I5f1HTGlhmg5fSZWbpf-qLsvQ&oe=6A9705CB",
-   "url": "https://www.threads.com/@aipeekme/post/DcksaqMH8R2",
+   "time": 1787898377,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DcktwbRGZFd",
    "region": "kr"
   }
  ],
  "tiktok": [
   {
-   "account": "jaemyung_lee",
-   "title": "🇰🇷🇧🇷🫰 #KOREA #BRASIL @Presidente Lula",
-   "views": 1900000,
+   "account": "tictok_ent",
+   "title": "박규영, 아침부터 미모 열일 / 아워글래스(HOURGLASS) 팝업 포토월 #박규영 #아워글래스 #HOURGLASS",
+   "views": 8610,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooDPRCUDqBpuPTmFEWk6RAIgEBqnfZwgeRICBU~tplv-tiktokx-origin.image?dr=14575&x-expires=1788076800&x-signature=NzH8ydzhO%2FzzXxCDq1ysbuIs2lo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1785177115,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7667277327386135826",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oUDPINKKABuclCBuAAwinRmqEfl211iBiAs9LA~tplv-tiktokx-origin.image?dr=14575&x-expires=1788076800&x-signature=jA2jeXw4BkZVOSr38VMGeYe63zo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1787535859,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7677408056661036308",
    "region": "kr"
   },
   {
-   "account": "jaemyung_lee",
-   "title": "이번 정류장은 아르헨티나입니다🇰🇷🇦🇷 #이재명 #대통령 #argentina #buenosaireststheerastour",
-   "views": 1600000,
+   "account": "tictok_ent",
+   "title": "트와이스 지효, 한층 성숙해진 미모 / 더후(THE WHOO) 포토월 #트와이스 #TWICE #지효 #THEWHOO",
+   "views": 1522,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAbAoCECNeDAVDgQBcAkFzYBfoUADqQCQWIuZl~tplv-tiktokx-origin.image?dr=14575&x-expires=1788076800&x-signature=COFLSTc7DMOb%2F2%2FMGbPRB9hpl0Y%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1785471372,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7668541152869616914",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAIWGIAVQtqA0UJfgJfAnwLAiP0I7Ge9ySA1f7~tplv-tiktokx-origin.image?dr=14575&x-expires=1788076800&x-signature=SlO%2BLoCGpb1B4%2B8%2BDiczM2tAjCM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1787820027,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7678628548231351573",
    "region": "kr"
   },
   {
-   "account": "jaemyung_lee",
-   "title": "이번 정류장은 브라질입니다 #이재명 #대통령 #Brasil #Brazil",
-   "views": 767500,
+   "account": "tictok_ent",
+   "title": "전도연, 너무 기다린 이창동 영화 / 넷플릭스 영화 ‘가능한 사랑’ 제작보고회 포토타임 #이창동 #전도연 #설경구 #조인성 #조여정 #가능한사랑",
+   "views": 1173,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooBGAi8A6InMPiZBpU9fBkTRtAAwBKw0m1E0Ag~tplv-tiktokx-origin.image?dr=14575&x-expires=1788076800&x-signature=xbfuBk3GrbIEWmGCNeKqfpWboZA%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1785109781,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7666988131442281746",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/osfPAURCo1DZEwi9DnjiCBgBBgANRIKNa2UAAg~tplv-tiktokx-origin.image?dr=14575&x-expires=1788076800&x-signature=RFCLMPKfv8KnCI1LCCGH0JaYUAY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1787628924,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7677807767154904338",
    "region": "kr"
   },
   {
-   "account": "jaemyung_lee",
-   "title": "¡Gusto en conocerte, Argentina! 🇰🇷🤝🇦🇷 #이재명 #아르헨티나 #argentina #javiermilei",
-   "views": 487200,
+   "account": "tictok_ent",
+   "title": "아이들 미연, 독보적인 여신 자태 / 더후(THE WHOO) 포토월 #아이들 #IDLE #미연 #THEWHOO",
+   "views": 1128,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o43E0EJDgKsBeuyFfnqRBCAvI1sAAbI2NsPlIc~tplv-tiktokx-origin.image?dr=14575&x-expires=1788076800&x-signature=E3BObSrYKUybeVWzItYLXLpAwv0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1785519099,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7668746136877812999",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0DAP8ffA9feqFAJnjvKACkVEPIG9EjAWcCAJz~tplv-tiktokx-origin.image?dr=14575&x-expires=1788076800&x-signature=zxkW%2FX86g24F5E0pcKxc9p8ADSQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1787819969,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7678628302008978709",
    "region": "kr"
   },
   {
-   "account": "jaemyung_lee",
-   "title": "이번 정류장은 칠레입니다🇰🇷🇨🇱 #이재명 #대통령 #Chile #Corea",
-   "views": 370800,
+   "account": "tictok_ent",
+   "title": "김지원, 청초한 미모에 우아한 분위기까지 / 더후(THE WHOO) 포토월 #김지원 #더후 #THEWHOO",
+   "views": 1074,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQpDHATAEBzAIGFgqwDA4hofdRfVCsCaqEBIkL~tplv-tiktokx-origin.image?dr=14575&x-expires=1788076800&x-signature=GsZmsVXsbr%2BivCzTTFa%2FY7J64HU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1785365622,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7668086960883354887",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0HYQsJqGAAgXIW0AQ4B8AZAfr3MPWaAfwfe2J~tplv-tiktokx-origin.image?dr=14575&x-expires=1788076800&x-signature=swHVZZHyuue%2FVmaiZSMRC2yYLJQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1787820050,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7678628649263713557",
    "region": "kr"
   },
   {
-   "account": "jaemyung_lee",
-   "title": "프랑크푸르트에 도착했습니다🇰🇷🇩🇪 #이재명 #deutschland #frankfurt",
-   "views": 270700,
+   "account": "tictok_ent",
+   "title": "정해인, 여유로운 포즈로 완성한 젠틀맨 무드 / 더후(THE WHOO) 포토월 #정해인 #더후 #THEWHOO",
+   "views": 1072,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1788076800&x-signature=75qVPIDrJCxHqHBAvNKbW2vHRbg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1785656353,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7669335640793763079",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oI9fqBI5vABGgtASEWCCCncPnpi6VjUi5AcKfA~tplv-tiktokx-origin.image?dr=14575&x-expires=1788076800&x-signature=FL0DXPZLH6vqmMSd1yGDutfZ8tw%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1787819940,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7678628173642206485",
    "region": "kr"
   },
   {
-   "account": "jaemyung_lee",
-   "title": "대한민국과 브라질이 함께 그려갈 미래가  두 나라 국민 모두에게  더 큰 희망과 기회가 되길 기대합니다 🇰🇷🫰🇧🇷 @Presidente Lula ima, meu irmão💚💛💙 #이재명 #lula #korea #Br",
-   "views": 235100,
+   "account": "tictok_ent",
+   "title": "조여정, 우아한 자태 / 넷플릭스 영화 ‘가능한 사랑’ 제작보고회 포토타임 #이창동 #전도연 #설경구 #조인성 #조여정 #가능한사랑",
+   "views": 893,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-i-photomode-sg/91a2f3151d9741689af70b1d1f8aac3a~tplv-photomode-image.jpeg?dr=14555&x-expires=1788076800&x-signature=2fbAV6tF%2B1H2ZhmVuGmFJEmmNxY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=9b759fb9&idc=my&ftpl=1",
-   "time": 1785270939,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7667680300490558728",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ogJXEKN6QBA6C3AHAoi0AK1ACB7wcB4RI2fYNi~tplv-tiktokx-origin.image?dr=14575&x-expires=1788076800&x-signature=AJTKjC9im1GPi2%2FRsKUCcrYVKbc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1787628549,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7677806157523684616",
    "region": "kr"
   },
   {
-   "account": "jaemyung_lee",
-   "title": "마참내.. #anthropic #openai #NVIDIA #broadcom #이재명",
-   "views": 192200,
+   "account": "tictok_ent",
+   "title": "설경구, 이창동의 페르소나 / 넷플릭스 영화 ‘가능한 사랑’ 제작보고회 포토타임 #이창동 #전도연 #설경구 #조인성 #조여정 #가능한사랑",
+   "views": 780,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/osApGgttBIBbbk6zA4iAKdIdkBfL1AAEiSwmCM~tplv-tiktokx-origin.image?dr=14575&x-expires=1788076800&x-signature=m7vNPW5tPUAnh1IoF4kpvT6e6mA%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1784945079,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7666280741554195730",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooXafEKIALWeAQfIgKLqAGEGA0kvAGkVeDNJT3~tplv-tiktokx-origin.image?dr=14575&x-expires=1788076800&x-signature=pk9UE1BZO3WqryRiMNUJMWOoiqw%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1787628798,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7677807226186255624",
    "region": "kr"
   },
   {
-   "account": "jaemyung_lee",
-   "title": "우리 국민의 구조에 모든 역량을 총동원하겠습니다  #네팔 #긴급회의 #prayfornepal",
-   "views": 172500,
+   "account": "tictok_ent",
+   "title": "조인성, 독보적인 훈훈함 / 넷플릭스 영화 ‘가능한 사랑’ 제작보고회 포토타임 #이창동 #전도연 #설경구 #조인성 #조여정 #가능한사랑",
+   "views": 754,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4ECXepekgFVLDAPQbcqjSdGAIaIofEozvI9Qh~tplv-tiktokx-origin.image?dr=14575&x-expires=1788076800&x-signature=Pz33TqlCDKLF5dweAHcJARrP9t0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1787831518,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7678677903122369800",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4IAaqxCaCQAegVAm6QAEFEBwGDPAjAUafmqFU~tplv-tiktokx-origin.image?dr=14575&x-expires=1788076800&x-signature=JHPe%2Bw0EqUYI6dQuWWjA17U%2Fab8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1787628684,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7677806735230389511",
    "region": "kr"
   },
   {
-   "account": "jaemyung_lee",
-   "title": "이번 정류장은 샌프란시스코입니다 🇰🇷🇺🇸 #이재명 #대통령 #US #sanfrancisco #california",
-   "views": 136800,
+   "account": "tictok_ent",
+   "title": "아이린, 모델다운 완벽한 포즈와 자태 / 더후(THE WHOO) 포토월 #아이린 #THEWHOO",
+   "views": 32,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/okkIgGYEt7AlB4qvUF5yCAEAjD8vfKAfVACbBp~tplv-tiktokx-origin.image?dr=14575&x-expires=1788076800&x-signature=EmhC5%2B1Wmq4BUzCXkcsk03P1sfs%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1784911601,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7666136953456315666",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIAe9LfcAeiWQGANgQ7GJGA5InIJPqkwAAJfQx~tplv-tiktokx-origin.image?dr=14575&x-expires=1788076800&x-signature=anM6T3LZ61CeEPRNzPUimeeA3vc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1787820001,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7678628436813942037",
    "region": "kr"
   }
  ],
  "reddit": [
   {
-   "sub": "WhatIsTheTea",
-   "title": "A California mother has been ARRESTED after she SMASHED A SCHOOL BUS WINDOW window, climbed in, and got her son off the bus after students called their parents saying they were scared and trapped.",
+   "sub": "BeAmazed",
+   "title": "A simple couple with an extraordinary legacy.",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/dGh3OWhtcnE5eWxoMQp2glFxZi7X0CVV4QAYSJVg8Z0kc4HtwIfTJGWdsoel.png?width=640&crop=smart&auto=webp&s=f10c7d830e70a3dd90d4fe0b082138754eb03fc9",
-   "time": 1787850651,
-   "url": "https://www.reddit.com/r/WhatIsTheTea/comments/1vzzyy5/a_california_mother_has_been_arrested_after_she/"
+   "thumb": "https://preview.redd.it/ewzcml9092mh1.jpeg?width=640&crop=smart&auto=webp&s=706a9c302d4531af0c58caf4b7d69497db1c54d4",
+   "time": 1787898782,
+   "url": "https://www.reddit.com/r/BeAmazed/comments/1w0isy8/a_simple_couple_with_an_extraordinary_legacy/"
   },
   {
-   "sub": "AskReddit",
-   "title": "What are Americans surprisingly good at that people don’t give them enough credit for?",
+   "sub": "funny",
+   "title": "Watched The Odyssey in IMAX, as Nolan intended",
    "score": 0,
    "cmts": 0,
-   "thumb": "",
-   "time": 1787843507,
-   "url": "https://www.reddit.com/r/AskReddit/comments/1vzwpzz/what_are_americans_surprisingly_good_at_that/"
+   "thumb": "https://preview.redd.it/6g38idjyx1mh1.jpeg?width=640&crop=smart&auto=webp&s=d821a975267e00ba9674b599d98a69f882ea1850",
+   "time": 1787895065,
+   "url": "https://www.reddit.com/r/funny/comments/1w0hpxt/watched_the_odyssey_in_imax_as_nolan_intended/"
   },
   {
    "sub": "GTA6",
@@ -784,13 +784,49 @@
    "url": "https://www.reddit.com/r/pics/comments/1w00i1i/president_trump_signs_executive_order_to_rename/"
   },
   {
-   "sub": "BeAmazed",
-   "title": "A simple couple with an extraordinary legacy.",
+   "sub": "interesting",
+   "title": "The Zammit family refused to sell their five acre property as an entire Sydney suburb was built around them",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/ewzcml9092mh1.jpeg?width=640&crop=smart&auto=webp&s=706a9c302d4531af0c58caf4b7d69497db1c54d4",
-   "time": 1787898782,
-   "url": "https://www.reddit.com/r/BeAmazed/comments/1w0isy8/a_simple_couple_with_an_extraordinary_legacy/"
+   "thumb": "https://preview.redd.it/qci9aq3521mh1.jpg?width=140&height=118&auto=webp&s=7927bf4f104a8f95059ea5c64c0f8aa4305481ed",
+   "time": 1787884364,
+   "url": "https://www.reddit.com/r/interesting/comments/1w0e7xt/the_zammit_family_refused_to_sell_their_five_acre/"
+  },
+  {
+   "sub": "WhatIsTheTea",
+   "title": "A California mother has been ARRESTED after she SMASHED A SCHOOL BUS WINDOW window, climbed in, and got her son off the bus after students called their parents saying they were scared and trapped.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/dGh3OWhtcnE5eWxoMQp2glFxZi7X0CVV4QAYSJVg8Z0kc4HtwIfTJGWdsoel.png?width=640&crop=smart&auto=webp&s=f10c7d830e70a3dd90d4fe0b082138754eb03fc9",
+   "time": 1787850651,
+   "url": "https://www.reddit.com/r/WhatIsTheTea/comments/1vzzyy5/a_california_mother_has_been_arrested_after_she/"
+  },
+  {
+   "sub": "Damnthatsinteresting",
+   "title": "Before and after the August 26 glacier-collapse flood in Nepal",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/ryga0zxxa2mh1.jpeg?width=640&crop=smart&auto=webp&s=5c14454f3cd91177fdcaa18d9e8533f9f006a930",
+   "time": 1787899502,
+   "url": "https://www.reddit.com/r/Damnthatsinteresting/comments/1w0j06f/before_and_after_the_august_26_glaciercollapse/"
+  },
+  {
+   "sub": "meirl",
+   "title": "meirl",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/ujrh59hez0mh1.jpeg?width=640&crop=smart&auto=webp&s=57094c7644acb1e14373c8fc20b7c40b6f35fe45",
+   "time": 1787883455,
+   "url": "https://www.reddit.com/r/meirl/comments/1w0dvve/meirl/"
+  },
+  {
+   "sub": "AskReddit",
+   "title": "What are Americans surprisingly good at that people don’t give them enough credit for?",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1787843507,
+   "url": "https://www.reddit.com/r/AskReddit/comments/1vzwpzz/what_are_americans_surprisingly_good_at_that/"
   },
   {
    "sub": "worldnews",
@@ -811,15 +847,6 @@
    "url": "https://www.reddit.com/r/MoralityScaling/comments/1vzw55m/morality_of_destroying_private_property/"
   },
   {
-   "sub": "funny",
-   "title": "Watched The Odyssey in IMAX, as Nolan intended",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/6g38idjyx1mh1.jpeg?width=640&crop=smart&auto=webp&s=d821a975267e00ba9674b599d98a69f882ea1850",
-   "time": 1787895065,
-   "url": "https://www.reddit.com/r/funny/comments/1w0hpxt/watched_the_odyssey_in_imax_as_nolan_intended/"
-  },
-  {
    "sub": "politics",
    "title": "Trump signs order to rename Lake Ontario 'Lake America' amid Canada trade war",
    "score": 0,
@@ -827,49 +854,11 @@
    "thumb": "https://external-preview.redd.it/v7EAM-epJO4Al8bbiKNr1czLvFQ4BgC0D8g6D8YJ_VA.png?width=640&crop=smart&auto=webp&s=1cace8352728d5686ba5073bc9027e2bec05d00d",
    "time": 1787852035,
    "url": "https://www.reddit.com/r/politics/comments/1w00m40/trump_signs_order_to_rename_lake_ontario_lake/"
-  },
-  {
-   "sub": "interesting",
-   "title": "The Zammit family refused to sell their five acre property as an entire Sydney suburb was built around them",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/qci9aq3521mh1.jpg?width=140&height=118&auto=webp&s=7927bf4f104a8f95059ea5c64c0f8aa4305481ed",
-   "time": 1787884364,
-   "url": "https://www.reddit.com/r/interesting/comments/1w0e7xt/the_zammit_family_refused_to_sell_their_five_acre/"
-  },
-  {
-   "sub": "mildlyinfuriating",
-   "title": "Pulling teeth on Tinder",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/f31wr5f0fylh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=d48ed30f15498848e87d90d41ed8349877e6b7d0",
-   "time": 1787852372,
-   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1w00rvh/pulling_teeth_on_tinder/"
-  },
-  {
-   "sub": "BlackPeopleTwitter",
-   "title": "Facts don't care about anyone's feelings",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/i1d3zaelo0mh1.jpeg?width=640&crop=smart&auto=webp&s=113c61e851d888270cf1dba5a325c675b39bf4d3",
-   "time": 1787879808,
-   "url": "https://www.reddit.com/r/BlackPeopleTwitter/comments/1w0ck81/facts_dont_care_about_anyones_feelings/"
   }
  ],
  "disaster": [],
  "_cover": {
   "ok": {
-   "x": [
-    "awaken_eyes",
-    "jajaja7878uu"
-   ],
-   "insta": [
-    "lumalabsai",
-    "midjourney",
-    "openai",
-    "pika_labs",
-    "runwayapp"
-   ],
    "threads": [
     "aicoffeechat",
     "aipeekme",
@@ -880,44 +869,41 @@
     "takepage_"
    ],
    "tiktok": [
-    "jaemyung_lee"
+    "tictok_ent"
    ]
   },
   "why": {
-   "x": {
-    "64bitcoinkr": 429,
-    "economysniper0": 429,
-    "kyunghyang": 429,
-    "freedom_73x": 429,
-    "marionawfal": 429,
-    "globalbrief_now": 429
-   },
    "insta": {
-    "koreadispatch": "rotate",
-    "bts.bighitofficial": "rotate",
-    "blackpinkofficial": "rotate",
-    "newjeans_official": "rotate",
-    "aespa_official": "rotate",
-    "jennierubyjane": "rotate",
-    "xxxibgdrgn": "rotate",
-    "hm_son7": "rotate",
-    "sbsnow_insta": "rotate",
-    "mnet_official": "rotate",
-    "klingai_official": "rotate",
-    "heygen_official": "rotate",
-    "higgsfield.ai": "rotate",
-    "googledeepmind": "rotate",
-    "cristiano": "rotate"
+    "koreadispatch": "gap",
+    "bts.bighitofficial": "gap",
+    "blackpinkofficial": "gap",
+    "newjeans_official": "gap",
+    "aespa_official": "gap",
+    "jennierubyjane": "gap",
+    "xxxibgdrgn": "gap",
+    "hm_son7": "gap",
+    "sbsnow_insta": "gap",
+    "mnet_official": "gap",
+    "openai": "gap",
+    "runwayapp": "gap",
+    "pika_labs": "gap",
+    "lumalabsai": "gap",
+    "midjourney": "gap",
+    "klingai_official": "gap",
+    "heygen_official": "gap",
+    "higgsfield.ai": "gap",
+    "googledeepmind": "gap",
+    "cristiano": "gap"
    },
    "tiktok": {
-    "tictok_ent": 503
+    "jaemyung_lee": 503
    }
   },
   "landing": {
-   "at": "2026-08-28T16:31:25",
+   "at": "2026-08-28T17:05:50",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-28T17:05:40.590027+09:00"
+ "updated": "2026-08-28T17:31:23.187815+09:00"
 }
