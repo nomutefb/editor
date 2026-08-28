@@ -7462,8 +7462,14 @@
   {
    "query": "선우용여",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/267f8e3789.webp",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.twig24.com/news/entertainments/celebrity/2026/08/27/20260827500139",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-29T01:20:00+09:00",
    "isNew": true,
@@ -7527,10 +7533,8 @@
  ],
  "gtrends_pool_updated": "2026-08-29T03:05:53+09:00",
  "_trend_img": {
-  "tried": "2026-08-29T02:10:11+09:00",
-  "fail": {
-   "김성현": "2026-08-29T00:47:55+09:00"
-  }
+  "tried": "2026-08-29T03:05:53+09:00",
+  "fail": {}
  },
  "gtrends_gl": [
   {
@@ -17532,7 +17536,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-08-29T03:05:53+09:00"
+    "first_seen": "2026-08-29T03:05:53+09:00",
+    "kw": "텐센트, 위챗, 임베딩 모델",
+    "sum": "텐센트 위챗팀이 알리바바 모델 기반 임베딩 모델을 오픈소스로 공개했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
