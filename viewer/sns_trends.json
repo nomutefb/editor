@@ -7733,8 +7733,14 @@
   {
    "query": "화사",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/595b79a485.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.fnnews.com/news/202608160100243705",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-08-28T07:30:00+09:00",
    "delta": -11,
@@ -7768,8 +7774,14 @@
   {
    "query": "백종헌",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/8e86182bfa.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.kmib.co.kr/article/view.asp?arcid=0030179816&code=61111511&sid1=pol&stg=ws_real",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-08-28T06:50:00+09:00",
    "isNew": true,
@@ -8041,15 +8053,17 @@
  ],
  "gtrends_pool_updated": "2026-08-28T10:37:27+09:00",
  "_trend_img": {
-  "tried": "2026-08-28T09:40:12+09:00",
+  "tried": "2026-08-28T10:37:27+09:00",
   "fail": {
-   "nvda": "2026-08-28T08:16:46+09:00",
-   "thời tiết": "2026-08-28T08:16:46+09:00",
    "기초노령연금": "2026-08-28T09:13:38+09:00",
    "윤상현": "2026-08-28T09:13:38+09:00",
    "진시몬": "2026-08-28T09:13:38+09:00",
    "중위소득": "2026-08-28T09:46:08+09:00",
-   "fc barcelona vs athletic bilbao standings": "2026-08-28T09:46:08+09:00"
+   "fc barcelona vs athletic bilbao standings": "2026-08-28T09:46:08+09:00",
+   "날씨": "2026-08-28T10:42:18+09:00",
+   "민경훈": "2026-08-28T10:42:18+09:00",
+   "nvda": "2026-08-28T10:42:18+09:00",
+   "thời tiết": "2026-08-28T10:42:18+09:00"
   }
  },
  "gtrends_gl": [
@@ -18083,7 +18097,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-08-28T10:37:27+09:00"
+    "first_seen": "2026-08-28T10:37:27+09:00",
+    "kw": "GitHub Copilot, 코드리뷰",
+    "sum": "Copilot 리뷰가 댓글 닫을 때 사유 기록 기능을 추가했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -18098,7 +18115,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-08-28T10:37:27+09:00"
+    "first_seen": "2026-08-28T10:37:27+09:00",
+    "kw": "GitHub Copilot, PR 리뷰",
+    "sum": "Copilot이 봇 생성 PR과 대형 PR도 전체 검토하도록 확장됐다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -18113,7 +18133,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-08-28T10:37:27+09:00"
+    "first_seen": "2026-08-28T10:37:27+09:00",
+    "kw": "구글, GlucoFM",
+    "sum": "계정이 구글의 혈당 모니터링 모델 GlucoFM 블로그를 공유했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -18128,7 +18151,10 @@
     "rh": [
      4
     ],
-    "first_seen": "2026-08-28T10:37:27+09:00"
+    "first_seen": "2026-08-28T10:37:27+09:00",
+    "kw": "구글, GlucoFM, 혈당측정기",
+    "sum": "구글이 CGM 데이터로 당뇨 위험을 추정하는 GlucoFM을 공개했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -18143,7 +18169,10 @@
     "rh": [
      5
     ],
-    "first_seen": "2026-08-28T10:37:27+09:00"
+    "first_seen": "2026-08-28T10:37:27+09:00",
+    "kw": "Hermes Agent, 코딩 에이전트",
+    "sum": "Hermes Agent v0.20.6이 대규모 변경을 묶어 릴리스됐다",
+    "sv": 1
    },
    {
     "account": "aipeekme",
