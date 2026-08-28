@@ -7721,8 +7721,14 @@
   {
    "query": "핵무기",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/0c2fb4ac8f.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.newspim.com/news/view/20260811000021",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-28T16:30:00+09:00",
    "delta": -8,
@@ -7783,8 +7789,14 @@
   {
    "query": "어벤져스",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/eb13894ac6.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008668209",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-08-28T16:20:00+09:00",
    "delta": -10,
@@ -7860,8 +7872,14 @@
   {
    "query": "주차",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/a7888a254a.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.news-wa.com/article/automobiles/drive-info/2026/08/28/20260828500027",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-28T16:50:00+09:00",
    "delta": -21,
@@ -7896,8 +7914,14 @@
   {
    "query": "south korea",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/bbd9467af7.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.incheonilbo.com/news/articleView.html?idxno=1330666",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-08-28T16:40:00+09:00",
    "delta": -20,
@@ -7910,8 +7934,14 @@
   {
    "query": "이선민",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/4e1ce7852c.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.news-wa.com/article/entertainment/celebrity-issue/2026/08/28/20260828500036",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-08-28T17:00:00+09:00",
    "isNew": true,
@@ -8090,12 +8120,14 @@
  ],
  "gtrends_pool_updated": "2026-08-28T18:40:46+09:00",
  "_trend_img": {
-  "tried": "2026-08-28T18:06:14+09:00",
+  "tried": "2026-08-28T18:40:46+09:00",
   "fail": {
-   "비밀이야": "2026-08-28T16:42:05+09:00",
-   "ok저축은행": "2026-08-28T16:42:05+09:00",
    "불": "2026-08-28T17:16:25+09:00",
-   "채무": "2026-08-28T18:11:05+09:00"
+   "채무": "2026-08-28T18:11:05+09:00",
+   "반도체": "2026-08-28T18:45:52+09:00",
+   "발사대": "2026-08-28T18:45:52+09:00",
+   "천안시": "2026-08-28T18:45:52+09:00",
+   "철도망": "2026-08-28T18:45:52+09:00"
   }
  },
  "gtrends_gl": [
@@ -18543,7 +18575,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-08-28T18:40:46+09:00"
+    "first_seen": "2026-08-28T18:40:46+09:00",
+    "kw": "오픈AI, 태국",
+    "sum": "계정이 오픈AI 태국 지원 발표 원문 링크를 공유했다",
+    "sv": 1
    },
    {
     "account": "aipeekme",
@@ -18558,7 +18593,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-08-28T18:40:46+09:00"
+    "first_seen": "2026-08-28T18:40:46+09:00",
+    "kw": "오픈AI, 태국, 액셀러레이터",
+    "sum": "오픈AI가 태국 정부와 손잡고 스타트업 액셀러레이터를 출범했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -18573,7 +18611,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-08-28T18:40:46+09:00"
+    "first_seen": "2026-08-28T18:40:46+09:00",
+    "kw": "앤트로픽, MHS",
+    "sum": "계정이 앤트로픽 MHS 발표 원문 링크를 공유했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -18588,7 +18629,10 @@
     "rh": [
      4
     ],
-    "first_seen": "2026-08-28T18:40:46+09:00"
+    "first_seen": "2026-08-28T18:40:46+09:00",
+    "kw": "앤트로픽, MHS, Claude",
+    "sum": "앤트로픽이 AI가 실험장비를 제어하는 표준 MHS를 공개했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
