@@ -7434,8 +7434,14 @@
   {
    "query": "황혜선",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/e9aa53711e.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://news.nate.com/view/20260211n38412",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-08-28T22:00:00+09:00",
    "delta": -2,
@@ -7490,8 +7496,14 @@
   {
    "query": "영재학교",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/3fa4c66869.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.etnews.com/20260807000204",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-08-28T22:10:00+09:00",
    "delta": -6,
@@ -7504,8 +7516,14 @@
   {
    "query": "축의금",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/0d17589b6b.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.munhwa.com/article/11589272",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-08-28T23:20:00+09:00",
    "isNew": true,
@@ -7832,15 +7850,14 @@
  ],
  "gtrends_pool_updated": "2026-08-29T00:41:15+09:00",
  "_trend_img": {
-  "tried": "2026-08-29T00:07:00+09:00",
+  "tried": "2026-08-29T00:41:15+09:00",
   "fail": {
-   "안산 그리너스 대 대구": "2026-08-28T22:43:54+09:00",
-   "england vs pakistan": "2026-08-28T22:43:54+09:00",
    "은가은": "2026-08-28T23:17:19+09:00",
    "thời tiết ngày mai": "2026-08-28T23:17:19+09:00",
    "혼인": "2026-08-28T23:17:19+09:00",
    "앤트로픽": "2026-08-29T00:11:52+09:00",
-   "유영우": "2026-08-29T00:11:52+09:00"
+   "유영우": "2026-08-29T00:11:52+09:00",
+   "김성현": "2026-08-29T00:47:55+09:00"
   }
  },
  "gtrends_gl": [
@@ -16735,7 +16752,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-08-29T00:41:15+09:00"
+    "first_seen": "2026-08-29T00:41:15+09:00",
+    "kw": "Grok Bot, 음성 통화, 에이전트",
+    "sum": "계정이 Grok Bot의 음성 통화 기능과 클라우드 에이전트 구조를 설명했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
