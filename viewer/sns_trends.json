@@ -7591,8 +7591,14 @@
   {
    "query": "환율",
    "traffic": "10000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/52911e6ed9.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://m.news.nate.com/view/20260826n06966",
+     "source": ""
+    }
+   ],
    "vol": 10000,
    "started": "2026-08-28T12:50:00+09:00",
    "delta": -2,
@@ -7607,8 +7613,14 @@
   {
    "query": "오마이뉴스",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/9afd897303.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.ohmynews.com/NWS_Web/View/at_pg.aspx?CNTN_CD=A0003262100&PAGE_CD=N0002&CMPT_CD=M0122",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-08-28T12:30:00+09:00",
    "delta": -2,
@@ -7644,8 +7656,14 @@
   {
    "query": "한진칼",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/8cd9da68bb.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.asiatoday.co.kr/kn/view.php?key=20260813010004805",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-08-28T13:00:00+09:00",
    "delta": -9,
@@ -7735,8 +7753,14 @@
   {
    "query": "나이키",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/09c1222184.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.hankyung.com/article/202608251939i",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-28T13:00:00+09:00",
    "delta": -12,
@@ -7750,8 +7774,14 @@
   {
    "query": "이언주",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/a112f3a3ef.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://imnews.imbc.com/news/2026/politics/article/6828441_36911.html",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-08-28T13:20:00+09:00",
    "delta": -16,
@@ -7867,10 +7897,10 @@
  ],
  "gtrends_pool_updated": "2026-08-28T16:36:06+09:00",
  "_trend_img": {
-  "tried": "2026-08-28T15:41:16+09:00",
+  "tried": "2026-08-28T16:36:06+09:00",
   "fail": {
-   "다이아몬드백스 대 자이언츠": "2026-08-28T14:16:25+09:00",
-   "댐": "2026-08-28T14:16:25+09:00"
+   "비밀이야": "2026-08-28T16:42:05+09:00",
+   "ok저축은행": "2026-08-28T16:42:05+09:00"
   }
  },
  "gtrends_gl": [
@@ -17913,7 +17943,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-08-28T16:36:06+09:00"
+    "first_seen": "2026-08-28T16:36:06+09:00",
+    "kw": "Oracle AI Studio Skill, Fusion, 거버넌스",
+    "sum": "계정이 AI Studio Skill의 권한·감사 상속 구조를 설명했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -17928,7 +17961,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-08-28T16:36:06+09:00"
+    "first_seen": "2026-08-28T16:36:06+09:00",
+    "kw": "Oracle AI Studio Skill, 에이전틱 애플리케이션",
+    "sum": "계정이 Oracle AI Studio Skill 출시 소식을 전했다",
+    "sv": 1
    },
    {
     "account": "aipeekme",
@@ -17943,7 +17979,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-08-28T16:36:06+09:00"
+    "first_seen": "2026-08-28T16:36:06+09:00",
+    "kw": "샘 올트먼, GPT-5.6, API 가격 인하",
+    "sum": "샘 올트먼이 GPT-5.6 API 가격을 대폭 인하했다고 발표했다",
+    "sv": 1
    },
    {
     "account": "aipeekme",
@@ -17958,7 +17997,10 @@
     "rh": [
      4
     ],
-    "first_seen": "2026-08-28T16:36:06+09:00"
+    "first_seen": "2026-08-28T16:36:06+09:00",
+    "kw": "Seedance2.5, 영상, 프롬프트",
+    "sum": "계정이 Seedance2.5로 만든 과거 여행 영상을 공유했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
