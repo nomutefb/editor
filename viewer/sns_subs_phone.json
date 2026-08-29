@@ -402,6 +402,36 @@
  "threads": [
   {
    "account": "daily_ai_star",
+   "text": "AIUC-1은 한 번 받고 끝나는 인증도 아닙니다. Cursor는 인증 유지를 위해 최소 분기별 테스트와 연 1회 전체 감사를 거쳐야 한다고 설명합니다. 표준 자체도 분기마다 업데이트됩니다.\n\n이 변화는 에이전트 비교표에 새로운 칸을 만듭니다. 모델의 코딩 점수만이 아니라, 위험한 요청을 거절하는지, 권한 경계를 지키는지, 그 결과를 반복해서 검증했는지를 봐야 합니다.\n\n에이전트가 더 자율적으로 일할수록 “잘 만든 기능”보다 “실패할 때 어떻게 멈추는가”를 입증하는 자료가 중요해집니다 ⭐\n\nhttps://cursor.com/blog/aiuc-1",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1787976564,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DcnC4mvmYah",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
+   "text": "Cursor가 8월 13일 AIUC-1 인증을 받았습니다.\n\n이 표준은 조직의 보안 통제를 보는 감사와, 제품 자체를 공격적으로 시험하는 평가를 함께 진행합니다. Cursor는 IDE와 클라우드 에이전트를 대상으로 두 차례, 수천 개 시나리오에서 테스트를 받았다고 밝혔습니다.\n\n시험 항목에는 시크릿 보호, 안전한 코드 생성, MCP 보안, 에이전트의 신원·권한이 포함됐습니다. 취약한 코드 작성, 위험한 명령 실행, 데이터 삭제 같은 행동도 확인했습니다.\n\n코딩 에이전트의 기업 도입 기준이 “데이터를 어떻게 보관하는가”에서 “압박을 받을 때 실제로 무엇을 하는가”로 이동하고 있습니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1787976555,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DcnC3f1mdTG",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "키쫀쿠 2일 남았네요.\n\n열심히 토큰 불태웁시다!! (자동결제 꼭 취소해두세요.)",
+   "likes": 14,
+   "cmts": 0,
+   "time": 1787976055,
+   "thumb": "https://scontent-gmp1-1.cdninstagram.com/v/t51.82787-15/788744216_17984400846112832_595939016717983412_n.jpg?stp=cp6_dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk3NDE1MzY1NjU4MzkzNjU4MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuOTg0LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=VVp1g6Cs-j8Q7kNvwF-noLz&_nc_oc=AdoFCe14G-C-ULRGlrNsXUqanNPhWCPsTE4ZXEJB7joqiyXPwO-GCvPes-RxrqxGTVQ&_nc_ad=z-m&_nc_cid=1753&_nc_zt=23&_nc_ht=scontent-gmp1-1.cdninstagram.com&_nc_gid=zEcX0JL82oYattxDgf-F0w&_nc_ss=7a22e&oh=00_AQLk0a4pz8RBctLSRfT4LvWX8qcDj3CrHGAo1jyf0XP4aA&oe=6A983623",
+   "url": "https://www.threads.com/@choi.openai/post/DcnB7HXgVpE",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
    "text": "OpenAI가 GPT-5.6 Sol의 출력 토큰 가격을 1백만 토큰당 30달러에서 20달러로 낮췄습니다.\n\n8월 21일부터 적용됐습니다. 입력은 5달러에서 4달러로, 출력은 30달러에서 20달러로 바뀌었습니다. 입력 단가는 20%, 출력 단가는 33.3% 내려갔습니다.\n\n대상은 API만이 아닙니다. Codex 크레딧과 ChatGPT Work에도 적용되고, 프로모션 가격은 11월 21일까지 유지될 예정입니다. 일반 구독 사용량은 이번 변경 대상이 아닙니다.\n\n같은 모델을 더 싸게 쓰는 소식처럼 보이는데요. 코딩 에이전트의 비교 기준이 모델 지능에서, 한 작업을 끝내는 데 실제로 소비한 토큰과 비용으로 이동하고 있습니다.\n\n벤치마크 점수 옆에 이제 가격표와 재시도 횟수도 함께 놓여야 합니다.\n\nhttps://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4",
    "likes": 0,
    "cmts": 0,
@@ -413,7 +443,7 @@
   {
    "account": "choi.openai",
    "text": "3/ 이런 공급 중단이 처음이 아니라는 점이 더 중요합니다.\n\n작년 6월 오픈AI가 코딩 도구 Windsurf 인수를 추진하자, 앤트로픽은 Windsurf의 Claude 직접 접근을 끊었습니다.\n경쟁사 소유가 된 플랫폼에는 최신 모델을 주지 않는다는 패턴이 이미 한 번 반복된 것입니다. 이번에는 방향만 바뀌어 오픈AI가 끊는 쪽에 섰습니다.\n\n그래서 다음 선택은 앤트로픽의 몫입니다. 같은 논리라면 Claude도 Cursor에서 빠질 가능성이 낮지 않습니다.\n\n다만 변수가 있는데, 앤트로픽은 SpaceX에서 대규모 컴퓨트를 사들이는 거래를 맺었다는 보도가 있어 관계가 단순한 경쟁만은 아닙니다.\n\n앤트로픽까지 떠나면 Cursor는 사실상 Grok 전용 도구가 되고, 남으면 머스크 플랫폼 위의 유일한 외부 프런티어 모델이 됩니다.",
-   "likes": 2,
+   "likes": 3,
    "cmts": 1,
    "time": 1787970640,
    "thumb": "",
@@ -423,31 +453,11 @@
   {
    "account": "choi.openai",
    "text": "2/ 결별의 이유로 오픈AI는 머스크 측 회사들과 있었던 과거 문제를 직접 언급했습니다.\n\nSpaceX가 자사 기술을 이용약관에 맞게 사용할 것이라고 확신하기 어렵다는 것인데요.\n오픈AI는 과거 머스크가 인수한 트위터와 계약 문제를 겪었고, 머스크 역시 올해 초 선서 증언에서 xAI가 오픈AI 이용약관을 위반한 적이 있다고 인정했다고 밝혔습니다. 현재 트위터와 xAI 모두 SpaceX 소속입니다.\n\n이번 결정을 내릴 수 있었던 건 계약 조건 때문입니다. Cursor와의 맞춤 계약에는 경영권이 바뀌면 일정 기간 안에 계약을 종료할 수 있는 조항이 있었고, 오픈AI는 SpaceX의 인수를 계기로 이를 행사했습니다.\n\n앞으로 나올 Astra처럼 더 강력한 모델이 어디에 사용되는지 책임져야 한다는 점도 이유로 들었습니다.\n\n결국 SpaceX의 Cursor 인수로 두 회사의 협력 관계가 끝나면서, Cursor에서는 앞으로 새로운 오픈AI 모델을 사용할 수 없게 됩니다.",
-   "likes": 2,
-   "cmts": 1,
-   "time": 1787970631,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/784491406_17984525715112832_3374708221649252072_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk3NDEwODE1NTc0MzI1NDQxMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTM3MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=n_ILQVZljXgQ7kNvwF8NEZS&_nc_oc=AdrwYVb6RAKBX-JBMcbibIxDnBBBrbYNooxJVQFSyz0Q8UqYtxxugecga2Cq5YcdILuhQAh2z3G0acZihHXVZuZn&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=FoN7enSWCC2-T5e7OvDgBQ&_nc_ss=7a22e&oh=00_AQLT_eOvWm2Q2ss582a6bE7DzjrKtUc0lTcbp5ga0rmPnw&oe=6A98220B",
-   "url": "https://www.threads.com/@choi.openai/post/Dcm3k_aDzeL",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "1/ 오픈AI가 8월 29일 Cursor에 대한 모델 공급 계약을 끝내겠다고 SpaceX에 통보했다고 발표했습니다. 제안된 차단일은 11월 12일입니다.\n\n배경에는 올여름의 인수가 있습니다.\n\nSpaceX는 6월 16일 Cursor 개발사 Anysphere를 600억 달러 주식 교환으로 인수하기로 합의했고, 8월 14일 인수를 마무리했습니다. Cursor 팀은 SpaceXAI에 합류해 Grok과 Grok Build, Cursor를 함께 만들겠다고 밝힌 상태였습니다.\n\n오픈AI는 계약이 허용하는 최대 통지 기간을 다 써서 개발자들이 모델을 쓸 수 있는 시간을 늘렸다고 설명했는데요.\n\n4년 가까이 협력한 관계였고, 가장 큰 영향을 받는 것은 Cursor에서 오픈AI 모델에 의존해온 개발자들이라며 전환 지원을 약속했습니다.",
    "likes": 3,
    "cmts": 1,
-   "time": 1787970626,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/Dcm3kXqD_Tu",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "UiPath가 8월 3일 코딩 에이전트 기능을 정식 제공하기 시작했습니다.\n\n이제 자연어로 폴더·작업·큐·자산·감사 로그·연결 설정을 다룰 수 있습니다. 에이전트는 로그인한 세션에서 `uip` 명령을 실행하고, 사용자가 준 맥락 안에서 필요한 명령을 고릅니다.\n\n읽기 작업은 스스로 판단하지만 생성·수정·삭제가 필요한 순간에는 확인을 요청합니다. 코드 작성 도구가 파일을 바꾸는 수준에서, 권한과 실행 상태가 있는 업무 플랫폼을 조작하는 수준으로 넘어간 셈입니다.\n\n코딩 에이전트의 경계가 개발 환경에서 기업 운영 환경으로 이동하고 있습니다.\n\n앞으로 에이전트를 비교할 때는 코드를 얼마나 잘 쓰는지만이 아니라, 어떤 운영 작업을 어떤 승인 절차로 실행하는지도 함께 봐야 합니다.\n\nhttps://docs.uipath.com/coding-agents/standalone/latest/release-notes/august-2026",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1787968991,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/Dcm0cV6GUwN",
+   "time": 1787970631,
+   "thumb": "https://scontent-gmp1-1.cdninstagram.com/v/t51.82787-15/784491406_17984525715112832_3374708221649252072_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk3NDEwODE1NTc0MzI1NDQxMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTM3MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=n_ILQVZljXgQ7kNvwFh319E&_nc_oc=AdrlTP1vdGm8ujk2ZlsQRJPV5ZAvhbw4khW7E7aNnJMmnKvcmfqVysyTsA-8OnrgkZk&_nc_ad=z-m&_nc_cid=1753&_nc_zt=23&_nc_ht=scontent-gmp1-1.cdninstagram.com&_nc_gid=zEcX0JL82oYattxDgf-F0w&_nc_ss=7a22e&oh=00_AQJ4xfdbooAKnOTTc9xuSvSvdp7dw1XlibhUDA5SkihaDQ&oe=6A98220B",
+   "url": "https://www.threads.com/@choi.openai/post/Dcm3k_aDzeL",
    "region": "kr"
   },
   {
@@ -456,18 +466,8 @@
    "likes": 7,
    "cmts": 1,
    "time": 1787967628,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/785280412_1423183929676461_8605967787877363267_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk3NDA4MjUyMTU0MTYwOTAwMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=LH4KydHzwLkQ7kNvwHrF3IG&_nc_oc=AdpTUdZXQFUjlmn6OvRUXTnN0xYEOdET7p0R2JVUBVjlQrLsa4te50Zdm7DrXKZ4f94vzbxfplUYXLhI2ma5F71e&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=-_wjTWIVXkQH-XLnQhKdAw&_nc_ss=7a22e&oh=00_AQJU5exzjJblNHwcNBpgLJU6RQnA0H2lvohTNV-1laRADQ&oe=6A98215C",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/785280412_1423183929676461_8605967787877363267_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk3NDA4MjUyMTU0MTYwOTAwMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=LH4KydHzwLkQ7kNvwFEkRC7&_nc_oc=Adp8nx1YjAHhYIZ2aeMp8QLeoCBs2O16F-p65Y77P9tIFv7LFdk671LDOmAmis6E94inJK7oNfRhsGgNhAaij26E&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=hjnO0WyeNPY9gD__3A3NNw&_nc_ss=7a22e&oh=00_AQLo2UyUW8zE6B76xoGO-QSMbyAkCX0W0EUmt2R5EbkglQ&oe=6A98215C",
    "url": "https://www.threads.com/@aipeekme/post/Dcmxv9sk4Yr",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "에이전트를 여러 곳에 붙이는 일보다, 같은 에이전트가 어디서 누구의 맥락으로 이어지는지 설명하는 일이 더 어려워졌습니다.\n\nhttps://devblogs.microsoft.com/agent-framework/introducing-agent-and-workflow-channels/",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1787966083,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/Dcmu5M7mcOe",
    "region": "kr"
   },
   {
@@ -493,7 +493,7 @@
   {
    "account": "aicoffeechat",
    "text": "첫째, 풀스택 애플리케이션 구축이다. \n\n예전에는 프론트엔드만, 모바일만 하는 사람이 있었다. 지금은 에이전트가 모르는 부분을 채워주니까 한 사람이 처음부터 끝까지 다 만든다. 하지만 '대신 채워준다'와 '알아서 잘 채워준다'는 다른 말이다. UI 컴포넌트, 캐싱, 페이지 렌더링, API 선택과 설계, 인증, 세션과 상태 관리, 비동기 처리, 데이터 저장, 테스트, 보안, 접근성이 어떻게 맞물려 돌아가는지 알아야 에이전트가 만든 결과가 맞는지 판단한다. 풀스택은 다 할 줄 아는 사람이 아니라, 다 볼 줄 아는 사람이다.",
-   "likes": 18,
+   "likes": 19,
    "cmts": 1,
    "time": 1787961335,
    "thumb": "",
@@ -516,7 +516,7 @@
    "likes": 4,
    "cmts": 5,
    "time": 1787921565,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/789446319_3992175534420714_2058396000025220426_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk3MzY5NjIxMjc0NTkzNzA4Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=0Rt9SZ3YOGYQ7kNvwErW4ZX&_nc_oc=AdowPOmoxLmJaiMAYSVq0LfOC-ivUwXB5b_OGPliintxLSci7XOYJlZFXOqyidnR7rYVjS8opQJ-And6Veh4G8XD&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=lFUgbhVnDzM8Q-T1JADYnA&_nc_ss=7a22e&oh=00_AQL68lYBeeRhBsuvcEnk1Uxkum9vSUy3mINbSN75GXBdoQ&oe=6A9845FA",
+   "thumb": "https://scontent-gmp1-1.cdninstagram.com/v/t51.71878-15/789446319_3992175534420714_2058396000025220426_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk3MzY5NjIxMjc0NTkzNzA4Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=0Rt9SZ3YOGYQ7kNvwF2lWvy&_nc_oc=Adp2bfgn-yCjqA6FmAJD5ZUTx_slkrj7Ey_h5xThbJDAN76L-jEMmlwbsTl-64Set7A&_nc_ad=z-m&_nc_cid=1753&_nc_zt=23&_nc_ht=scontent-gmp1-1.cdninstagram.com&_nc_gid=tz1L7Z-cYnjmssTGv2dlFA&_nc_ss=7a22e&oh=00_AQLi57-cEbLNoDobQpenh2XWM8FBsFzrmgjrzlgbdAAhHw&oe=6A9845FA",
    "url": "https://www.threads.com/@kopp/post/DclZ6bmCWC6",
    "region": "kr"
   },
@@ -546,7 +546,7 @@
    "likes": 6,
    "cmts": 2,
    "time": 1787906022,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/784796866_2534498036977658_8948821406241138904_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk3MzU2NTYzMjExNzQ0MDU4Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=1E-g-Ie0C0wQ7kNvwGwkOXI&_nc_oc=Adp6soAppGDncWhpK-ZG7y_3NPLvl9XZQpPK_Dz4GxBz5KrNPeB-XWWnA2hPtPkIOPOzesagYgORduYXeqbEDnQh&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=0WWXXDUVAuAclYJCjAruPA&_nc_ss=7a22e&oh=00_AQK5VlD4jxVLJmzH-LzqnZ0nC52XcyPVkChb4FufxoSGeQ&oe=6A983DEA",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/784796866_2534498036977658_8948821406241138904_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk3MzU2NTYzMjExNzQ0MDU4Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=1E-g-Ie0C0wQ7kNvwGOvvgG&_nc_oc=AdpC_30KZehGjNFqkBBz1aXaoeCTOkeyNwQ41dfuU-zOjd-eN2tfwX2uJUXUzYzwU6ufuy83Yg960yDx6tjypR4h&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=2qbcraT_Q3oS63ZB-pm0VQ&_nc_ss=7a22e&oh=00_AQIRVUG2RrBLyTT5M291Y5XKxWteHYFn0sc5Kiijgsm3rA&oe=6A983DEA",
    "url": "https://www.threads.com/@takepage_/post/Dck8OO6D4BH",
    "region": "kr"
   },
@@ -572,31 +572,31 @@
   },
   {
    "account": "choi.openai",
-   "text": "🚨 오픈AI가 Cursor와의 결별을 공식 발표했습니다.\n\nSpaceX의 Cursor 인수가 마무리된 지 2주 만이고, 11월 12일이면 Cursor 안에서 GPT 계열 모델 접근이 사라집니다. 이유로는 머스크 회사들의 계약 위반 전력을 그대로 적었습니다.\n\n11월 12일 이후 Cursor에 무슨 일이 생기는지 정리했습니다 🧵",
-   "likes": 42,
-   "cmts": 8,
-   "time": 1787970620,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/789177811_17984525934112832_4559370990269649125_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk3NDEwODA2Mjk5MDQ2MjY5MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjIwNi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Y9rkEGZHgAYQ7kNvwH4-0T7&_nc_oc=AdqgwjeOS7VMsj9DC7-HIISdfEI1ENMpKub-eiduRmLbqHxEq5KnVErMv1Z3sZTZFy6Z0xiECOvJ5vQfebTHK40Q&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=FoN7enSWCC2-T5e7OvDgBQ&_nc_ss=7a22e&oh=00_AQItPOXO7vtKy44PGE5bR4JUkq2fBnHPyxGmzi9apeFtTw&oe=6A984598",
-   "url": "https://www.threads.com/@choi.openai/post/Dcm3jpBj-7j",
+   "text": "1/ 오픈AI가 8월 29일 Cursor에 대한 모델 공급 계약을 끝내겠다고 SpaceX에 통보했다고 발표했습니다. 제안된 차단일은 11월 12일입니다.\n\n배경에는 올여름의 인수가 있습니다.\n\nSpaceX는 6월 16일 Cursor 개발사 Anysphere를 600억 달러 주식 교환으로 인수하기로 합의했고, 8월 14일 인수를 마무리했습니다. Cursor 팀은 SpaceXAI에 합류해 Grok과 Grok Build, Cursor를 함께 만들겠다고 밝힌 상태였습니다.\n\n오픈AI는 계약이 허용하는 최대 통지 기간을 다 써서 개발자들이 모델을 쓸 수 있는 시간을 늘렸다고 설명했는데요.\n\n4년 가까이 협력한 관계였고, 가장 큰 영향을 받는 것은 Cursor에서 오픈AI 모델에 의존해온 개발자들이라며 전환 지원을 약속했습니다.",
+   "likes": 5,
+   "cmts": 1,
+   "time": 1787970626,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/Dcm3kXqD_Tu",
    "region": "kr"
   },
   {
    "account": "daily_ai_star",
-   "text": "Microsoft Agent Framework가 8월 26일 Python용 채널 패키지 5개를 공개했습니다.\n\nResponses, Telegram, A2A, MCP를 각각 연결하고 공통 호스팅 코어로 묶었습니다. 같은 에이전트나 워크플로를 여러 채널에 노출하되, 인증·권한·저장·배포는 애플리케이션이 직접 소유합니다.\n\n핵심은 채널 추가가 아닙니다. Responses에서 시작한 사용자가 Telegram으로 이어갈 때, 애플리케이션이 같은 세션 ID로 매핑하면 대화를 계속할 수 있습니다. 다른 ID를 쓰면 기록은 분리됩니다.\n\nAgent Framework는 세션 연결을 자동으로 결정하지 않습니다. 어떤 채널의 신원을 같은 사용자로 볼지, 어디까지 권한을 줄지 개발자가 정합니다.\n\n에이전트의 다음 실행 경계는 모델이나 프로토콜이 아니라, 채널 사이의 신원·세션·권한을 누가 연결하느냐에 놓였습니다.",
+   "text": "UiPath가 8월 3일 코딩 에이전트 기능을 정식 제공하기 시작했습니다.\n\n이제 자연어로 폴더·작업·큐·자산·감사 로그·연결 설정을 다룰 수 있습니다. 에이전트는 로그인한 세션에서 `uip` 명령을 실행하고, 사용자가 준 맥락 안에서 필요한 명령을 고릅니다.\n\n읽기 작업은 스스로 판단하지만 생성·수정·삭제가 필요한 순간에는 확인을 요청합니다. 코드 작성 도구가 파일을 바꾸는 수준에서, 권한과 실행 상태가 있는 업무 플랫폼을 조작하는 수준으로 넘어간 셈입니다.\n\n코딩 에이전트의 경계가 개발 환경에서 기업 운영 환경으로 이동하고 있습니다.\n\n앞으로 에이전트를 비교할 때는 코드를 얼마나 잘 쓰는지만이 아니라, 어떤 운영 작업을 어떤 승인 절차로 실행하는지도 함께 봐야 합니다.\n\nhttps://docs.uipath.com/coding-agents/standalone/latest/release-notes/august-2026",
    "likes": 0,
-   "cmts": 1,
-   "time": 1787966075,
+   "cmts": 0,
+   "time": 1787968991,
    "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/Dcmu4NdmXPD",
+   "url": "https://www.threads.com/@daily_ai_star/post/Dcm0cV6GUwN",
    "region": "kr"
   },
   {
    "account": "aicoffeechat",
    "text": "코드를 직접 안 짜는 시대일수록 코드를 아는 사람이 이긴다. \n\n앤드류응의 따끈따끈 좋은 글이 또 나왔습니다. 에이전트가 코드를 전부 써준다고 해서 소프트웨어 지식이 필요 없어지는 게 아니라, 오히려 더 필요해진다는건데요.\n\n이유는 단순합니다. 에이전트는 시키는 대로 만들지만, 무엇을 시킬지는 사람이 정해야 하기 때문이예요. 어떤 선택지가 존재하는지조차 모르는 사람은 에이전트를 조종할 수 없죠.\n\n바이브 코딩하시는 분들은 이 \"5가지\"는 꼭 기억하셨으면 좋겠습니다.",
-   "likes": 192,
-   "cmts": 20,
+   "likes": 205,
+   "cmts": 22,
    "time": 1787961330,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/787574233_17954762469232485_4807613008236640836_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk3NDAzMDEyMjQ2MjQyNTUxNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTM2NS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=bru1-ySX2RgQ7kNvwHKedMf&_nc_oc=AdqO4QHnmD1KLpX3-9qst1INv-XzhfIAGyA7QnUtTzNCJ6PIaM5nH7nnLeVDpe55glMrg5HCXl_H4E1EO7E6-L3k&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=-7riiFQnw8yL8RgwGHMX2w&_nc_ss=7a22e&oh=00_AQL1CzB2qBKh5ydbYOkN3h30qD6WB3w1xG_UC-fqEjZ25A&oe=6A981A47",
+   "thumb": "https://scontent-gmp1-1.cdninstagram.com/v/t51.82787-15/787574233_17954762469232485_4807613008236640836_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk3NDAzMDEyMjQ2MjQyNTUxNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTM2NS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=bru1-ySX2RgQ7kNvwHnmqOp&_nc_oc=AdoV3WVt6tWAeYQUaFIoui0CJhv1ZADC-Z-LEsv394ZLjFZknre0j9EGblzBWtZbI_k&_nc_ad=z-m&_nc_cid=1753&_nc_zt=23&_nc_ht=scontent-gmp1-1.cdninstagram.com&_nc_gid=djpLS8wba9RZI6kU0jY0Yw&_nc_ss=7a22e&oh=00_AQKbbSU1TPpkczNyoPFFYBRpYifkfEDRarVI1yW7pIqQ0g&oe=6A981A47",
    "url": "https://www.threads.com/@aicoffeechat/post/Dcml1kSk3JN",
    "region": "kr"
   }
@@ -608,7 +608,7 @@
    "views": 1900000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooDPRCUDqBpuPTmFEWk6RAIgEBqnfZwgeRICBU~tplv-tiktokx-origin.image?dr=14575&x-expires=1788148800&x-signature=2MNqlxwlViptIU0NLQJ3Ehuz%2FJo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooDPRCUDqBpuPTmFEWk6RAIgEBqnfZwgeRICBU~tplv-tiktokx-origin.image?dr=14575&x-expires=1788148800&x-signature=2MNqlxwlViptIU0NLQJ3Ehuz%2FJo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
    "time": 1785177115,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7667277327386135826",
    "region": "kr"
@@ -619,7 +619,7 @@
    "views": 1600000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAbAoCECNeDAVDgQBcAkFzYBfoUADqQCQWIuZl~tplv-tiktokx-origin.image?dr=14575&x-expires=1788148800&x-signature=IerX%2Fp4NqLlrcWdtYLGZz6PC1MQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAbAoCECNeDAVDgQBcAkFzYBfoUADqQCQWIuZl~tplv-tiktokx-origin.image?dr=14575&x-expires=1788148800&x-signature=IerX%2Fp4NqLlrcWdtYLGZz6PC1MQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
    "time": 1785471372,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7668541152869616914",
    "region": "kr"
@@ -627,10 +627,10 @@
   {
    "account": "jaemyung_lee",
    "title": "이번 정류장은 브라질입니다 #이재명 #대통령 #Brasil #Brazil",
-   "views": 769300,
+   "views": 769400,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooBGAi8A6InMPiZBpU9fBkTRtAAwBKw0m1E0Ag~tplv-tiktokx-origin.image?dr=14575&x-expires=1788148800&x-signature=y49BwJ6M%2FfqPDD02q26NOuqQ2cQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooBGAi8A6InMPiZBpU9fBkTRtAAwBKw0m1E0Ag~tplv-tiktokx-origin.image?dr=14575&x-expires=1788148800&x-signature=y49BwJ6M%2FfqPDD02q26NOuqQ2cQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
    "time": 1785109781,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7666988131442281746",
    "region": "kr"
@@ -641,7 +641,7 @@
    "views": 488400,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/o43E0EJDgKsBeuyFfnqRBCAvI1sAAbI2NsPlIc~tplv-tiktokx-origin.image?dr=14575&x-expires=1788148800&x-signature=2OX1blxdiDY1XNmgAHrhJdrSmr0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o43E0EJDgKsBeuyFfnqRBCAvI1sAAbI2NsPlIc~tplv-tiktokx-origin.image?dr=14575&x-expires=1788148800&x-signature=9NZWAb3obL7ZZHVngujoYqHWXhk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
    "time": 1785519099,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7668746136877812999",
    "region": "kr"
@@ -652,7 +652,7 @@
    "views": 371600,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQpDHATAEBzAIGFgqwDA4hofdRfVCsCaqEBIkL~tplv-tiktokx-origin.image?dr=14575&x-expires=1788148800&x-signature=hqF3FlfWnxgVimmFC8apKKXHjAw%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQpDHATAEBzAIGFgqwDA4hofdRfVCsCaqEBIkL~tplv-tiktokx-origin.image?dr=14575&x-expires=1788148800&x-signature=hqF3FlfWnxgVimmFC8apKKXHjAw%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
    "time": 1785365622,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7668086960883354887",
    "region": "kr"
@@ -663,7 +663,7 @@
    "views": 272400,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1788148800&x-signature=qUHPIi6Alt7mUNUvHZzQWrlwwvU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1788148800&x-signature=v2kPtjg%2FvJflx%2B4twwkNQ43DopQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
    "time": 1785656353,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7669335640793763079",
    "region": "kr"
@@ -671,10 +671,10 @@
   {
    "account": "jaemyung_lee",
    "title": "대한민국과 브라질이 함께 그려갈 미래가  두 나라 국민 모두에게  더 큰 희망과 기회가 되길 기대합니다 🇰🇷🫰🇧🇷 @Presidente Lula ima, meu irmão💚💛💙 #이재명 #lula #korea #Br",
-   "views": 235700,
+   "views": 235800,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-i-photomode-sg/91a2f3151d9741689af70b1d1f8aac3a~tplv-photomode-image.jpeg?dr=14555&x-expires=1788148800&x-signature=sCfdHboqGJvsUoFmqYfSnfWn9zg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=9b759fb9&idc=my2&ftpl=1",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-i-photomode-sg/91a2f3151d9741689af70b1d1f8aac3a~tplv-photomode-image.jpeg?dr=14555&x-expires=1788148800&x-signature=hI3OQ4isxPBDO8S8MD8XQC7nlrg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=9b759fb9&idc=my3&ftpl=1",
    "time": 1785270939,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7667680300490558728",
    "region": "kr"
@@ -682,10 +682,10 @@
   {
    "account": "jaemyung_lee",
    "title": "우리 국민의 구조에 모든 역량을 총동원하겠습니다  #네팔 #긴급회의 #prayfornepal",
-   "views": 204200,
+   "views": 204800,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4ECXepekgFVLDAPQbcqjSdGAIaIofEozvI9Qh~tplv-tiktokx-origin.image?dr=14575&x-expires=1788148800&x-signature=azXybc2%2BtbBPLX7V%2FqmL1MKeP%2Fk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4ECXepekgFVLDAPQbcqjSdGAIaIofEozvI9Qh~tplv-tiktokx-origin.image?dr=14575&x-expires=1788148800&x-signature=KIkFxskv7PR%2Fp30Tti6OEoedXsQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
    "time": 1787831518,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7678677903122369800",
    "region": "kr"
@@ -693,10 +693,10 @@
   {
    "account": "jaemyung_lee",
    "title": "마참내.. #anthropic #openai #NVIDIA #broadcom #이재명",
-   "views": 193100,
+   "views": 193200,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/osApGgttBIBbbk6zA4iAKdIdkBfL1AAEiSwmCM~tplv-tiktokx-origin.image?dr=14575&x-expires=1788148800&x-signature=A8UHqsyXnsYmhebJEiLsrLSqS8U%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/osApGgttBIBbbk6zA4iAKdIdkBfL1AAEiSwmCM~tplv-tiktokx-origin.image?dr=14575&x-expires=1788148800&x-signature=A8UHqsyXnsYmhebJEiLsrLSqS8U%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
    "time": 1784945079,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7666280741554195730",
    "region": "kr"
@@ -707,7 +707,7 @@
    "views": 137400,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okkIgGYEt7AlB4qvUF5yCAEAjD8vfKAfVACbBp~tplv-tiktokx-origin.image?dr=14575&x-expires=1788148800&x-signature=O9V3dRf%2F5ZqpfisppsdDAb582h4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okkIgGYEt7AlB4qvUF5yCAEAjD8vfKAfVACbBp~tplv-tiktokx-origin.image?dr=14575&x-expires=1788148800&x-signature=O9V3dRf%2F5ZqpfisppsdDAb582h4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
    "time": 1784911601,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7666136953456315666",
    "region": "kr"
@@ -715,10 +715,10 @@
   {
    "account": "tictok_ent",
    "title": "박규영, 아침부터 미모 열일 / 아워글래스(HOURGLASS) 팝업 포토월 #박규영 #아워글래스 #HOURGLASS",
-   "views": 9870,
+   "views": 9883,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oUDPINKKABuclCBuAAwinRmqEfl211iBiAs9LA~tplv-tiktokx-origin.image?dr=14575&x-expires=1788148800&x-signature=z8QZJwSTlrqmO93WoGGBoUAtXhE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oUDPINKKABuclCBuAAwinRmqEfl211iBiAs9LA~tplv-tiktokx-origin.image?dr=14575&x-expires=1788148800&x-signature=z8QZJwSTlrqmO93WoGGBoUAtXhE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1787535859,
    "url": "https://www.tiktok.com/@tictok_ent/video/7677408056661036308",
    "region": "kr"
@@ -726,10 +726,10 @@
   {
    "account": "tictok_ent",
    "title": "트와이스 지효, 한층 성숙해진 미모 / 더후(THE WHOO) 포토월 #트와이스 #TWICE #지효 #THEWHOO",
-   "views": 1653,
+   "views": 1664,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAIWGIAVQtqA0UJfgJfAnwLAiP0I7Ge9ySA1f7~tplv-tiktokx-origin.image?dr=14575&x-expires=1788148800&x-signature=MhPfMkf9C0%2BZuu9SnJpSmybPF4g%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAIWGIAVQtqA0UJfgJfAnwLAiP0I7Ge9ySA1f7~tplv-tiktokx-origin.image?dr=14575&x-expires=1788148800&x-signature=MhPfMkf9C0%2BZuu9SnJpSmybPF4g%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1787820027,
    "url": "https://www.tiktok.com/@tictok_ent/video/7678628548231351573",
    "region": "kr"
@@ -764,51 +764,6 @@
    "url": "https://www.reddit.com/r/interestingasfuck/comments/1w14w3b/this_guy_put_a_camera_on_his_cat_to_document_an/"
   },
   {
-   "sub": "SipsTea",
-   "title": "What do y’all think is the ideal arm size for a man?",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/eWl1eWd1MGFmM21oMdN92-GViBejG8JIXhUshrbmANPiKoHpu1ItzESpHOKl.jpeg?width=640&crop=smart&auto=webp&s=fcb16244c81e5aacf56e720e45fbac73a195c35c",
-   "time": 1787913003,
-   "url": "https://www.reddit.com/r/SipsTea/comments/1w0mten/what_do_yall_think_is_the_ideal_arm_size_for_a_man/"
-  },
-  {
-   "sub": "AIO",
-   "title": "AIO for disliking my boyfriend’s anniversary gift?",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/gfpdk4h856mh1.jpeg?width=640&crop=smart&auto=webp&s=5b51d63c6aa747732c2412a1623f6402378b0f74",
-   "time": 1787945942,
-   "url": "https://www.reddit.com/r/AIO/comments/1w10k7t/aio_for_disliking_my_boyfriends_anniversary_gift/"
-  },
-  {
-   "sub": "politics",
-   "title": "Trump suggests cattle ranchers could bypass USDA-inspected meat plants",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/mgjGTu2yYR-yQ1k93vwUAmERuMJC-rSKVEsOK5BiJew.jpeg?width=640&crop=smart&auto=webp&s=38acb07f37e716bcb515ad5839ddbdb07874382c",
-   "time": 1787936745,
-   "url": "https://www.reddit.com/r/politics/comments/1w0wd7q/trump_suggests_cattle_ranchers_could_bypass/"
-  },
-  {
-   "sub": "comics",
-   "title": "Hope this clears things up",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/ky5f9junf5mh1.png?width=640&crop=smart&auto=webp&s=3b6593bdff54c463e6420d4158ef1f2ff0ee0191",
-   "time": 1787937637,
-   "url": "https://www.reddit.com/r/comics/comments/1w0wrw8/hope_this_clears_things_up/"
-  },
-  {
-   "sub": "MadeMeSmile",
-   "title": "Boyfriend of one month put this in his bathroom for me. (OC)",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/p0ya9i1405mh1.jpeg?width=640&crop=smart&auto=webp&s=0b0b286d07ce90ff85cec1406a260461dcd9c2bd",
-   "time": 1787932110,
-   "url": "https://www.reddit.com/r/MadeMeSmile/comments/1w0u9iq/boyfriend_of_one_month_put_this_in_his_bathroom/"
-  },
-  {
    "sub": "pics",
    "title": "ICE Mugshot of Milo Yiannopoulos, longtime vocal supporter of strict immigration enforcement.",
    "score": 0,
@@ -827,22 +782,67 @@
    "url": "https://www.reddit.com/r/clevercomebacks/comments/1w13lz4/he_waited_80_years_for_a_fake_photo/"
   },
   {
-   "sub": "GTA6",
-   "title": "Am i the only person who Isn't really that bothered by Jason's voice?",
+   "sub": "PoursTea",
+   "title": "Just ordered my shirt !",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/ch0eouk1t4mh1.jpeg?width=640&crop=smart&auto=webp&s=2bf2318121eb62e3271ff46681393cd43a6f8ffc",
-   "time": 1787929981,
-   "url": "https://www.reddit.com/r/GTA6/comments/1w0taxi/am_i_the_only_person_who_isnt_really_that/"
+   "thumb": "https://preview.redd.it/vq9g99lg27mh1.jpeg?width=640&crop=smart&auto=webp&s=a3c192a0bafe97a7baa5e2e81d7e8030df8626a0",
+   "time": 1787957112,
+   "url": "https://www.reddit.com/r/PoursTea/comments/1w15cb2/just_ordered_my_shirt/"
   },
   {
-   "sub": "AbsoluteUnits",
-   "title": "of a Bong",
+   "sub": "Fauxmoi",
+   "title": "Elijah Wood: \"It’s called Lake Ontario\"",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/anYyOW1wd3dpNm1oMYpeK9MnKbvp4kd1Z-VRq4aEs3WWif_FcP4UDl2HGt-n.png?width=320&crop=smart&auto=webp&s=ad233773e4620b5097a53dd450cd9d12a8da9434",
-   "time": 1787950544,
-   "url": "https://www.reddit.com/r/AbsoluteUnits/comments/1w12kzi/of_a_bong/"
+   "thumb": "https://preview.redd.it/23txshuq68mh1.png?width=640&crop=smart&auto=webp&s=58e8c3969d8fac97612b8d6ee2e199b973cac12f",
+   "time": 1787970667,
+   "url": "https://www.reddit.com/r/Fauxmoi/comments/1w1a9qo/elijah_wood_its_called_lake_ontario/"
+  },
+  {
+   "sub": "SipsTea",
+   "title": "What do y’all think is the ideal arm size for a man?",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/eWl1eWd1MGFmM21oMdN92-GViBejG8JIXhUshrbmANPiKoHpu1ItzESpHOKl.jpeg?width=640&crop=smart&auto=webp&s=fcb16244c81e5aacf56e720e45fbac73a195c35c",
+   "time": 1787913003,
+   "url": "https://www.reddit.com/r/SipsTea/comments/1w0mten/what_do_yall_think_is_the_ideal_arm_size_for_a_man/"
+  },
+  {
+   "sub": "nextfuckinglevel",
+   "title": "University student sinks 90 ft putt to win a new car",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/cm5tMGlmZHV6Nm1oMeuPE7C6XV0nhuKBHyW1lSncGsbZGv3U8l5gR8xKxy0_.png?width=320&crop=smart&auto=webp&s=2b16111d5c4e1b4e4f39d29bb802f1213b824c9d",
+   "time": 1787956233,
+   "url": "https://www.reddit.com/r/nextfuckinglevel/comments/1w14zhw/university_student_sinks_90_ft_putt_to_win_a_new/"
+  },
+  {
+   "sub": "skyrim",
+   "title": "LEGO Whiterun by Brett Donaghue at BrickFair Baltimore 🤯",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/M2ZtcDlxa29mN21oMf8qr79pi249HSYo4gEX8DhzQ6TmBkyjuML9c1vNwUhT.png?width=320&crop=smart&auto=webp&s=70355a753119e48382412de806fe75afaa5e35df",
+   "time": 1787961569,
+   "url": "https://www.reddit.com/r/skyrim/comments/1w171hv/lego_whiterun_by_brett_donaghue_at_brickfair/"
+  },
+  {
+   "sub": "news",
+   "title": "Tennessee governor plans to name Nashville airport after Dolly Parton",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1787960896,
+   "url": "https://www.reddit.com/r/news/comments/1w16sjm/tennessee_governor_plans_to_name_nashville/"
+  },
+  {
+   "sub": "AIO",
+   "title": "AIO for disliking my boyfriend’s anniversary gift?",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/gfpdk4h856mh1.jpeg?width=640&crop=smart&auto=webp&s=5b51d63c6aa747732c2412a1623f6402378b0f74",
+   "time": 1787945942,
+   "url": "https://www.reddit.com/r/AIO/comments/1w10k7t/aio_for_disliking_my_boyfriends_anniversary_gift/"
   }
  ],
  "disaster": [],
@@ -854,7 +854,6 @@
     "choi.openai",
     "daily_ai_star",
     "kopp",
-    "promppy_com",
     "takepage_"
    ],
    "tiktok": [
@@ -884,13 +883,16 @@
     "higgsfield.ai": "gap",
     "googledeepmind": "gap",
     "cristiano": "gap"
+   },
+   "threads": {
+    "promppy_com": "err"
    }
   },
   "landing": {
-   "at": "2026-08-29T12:35:50",
+   "at": "2026-08-29T13:01:28",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-29T13:01:25.413489+09:00"
+ "updated": "2026-08-29T13:31:17.790345+09:00"
 }
