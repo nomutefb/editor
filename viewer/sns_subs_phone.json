@@ -401,6 +401,36 @@
  ],
  "threads": [
   {
+   "account": "daily_ai_star",
+   "text": "Cursor의 OpenAI 모델 공급이 11월 12일 종료될 예정입니다.\n\nOpenAI는 8월 28일 SpaceX에 계약을 종료하겠다고 통보했습니다. Cursor가 SpaceX에 인수된 뒤, OpenAI는 약관 준수를 확신하기 어렵다고 설명했습니다. 계약상 가능한 가장 늦은 날짜까지 개발자의 접근을 유지하지만, 이후 모델은 Cursor에 제공하지 않겠다고 밝혔습니다.\n\nCursor 사용자는 에디터를 바꾸지 않아도 모델 공급 경로가 끊길 수 있습니다. 코딩 에이전트의 기준이 모델 성능만이 아니라, 공급자가 바뀌어도 작업 흐름을 유지할 수 있는 구조인지로 이동하고 있습니다.\n\nhttps://openai.com/index/our-decision-on-cursor-following-its-acquisition-by-spacex/",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1787999251,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DcnuKC7meKx",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
+   "text": "3/ 지금까지의 방어는 주로 모델이 위험한 요청을 거부하는지 확인했습니다.\n\n이번 결과는 그 앞단을 묻습니다. 어떤 텍스트가 누구의 이름으로, 어느 시점에, 어떤 권한을 가진 지시로 다시 들어가는가입니다.\n\n코딩 에이전트의 보안 경계는 모델의 지시 따르기 능력이 아니라, 하네스가 컨텍스트의 출처와 권한을 보존하는 방식에 놓였습니다.\n\n에이전트를 여러 개 연결할수록 성능보다 먼저 추적해야 할 것은 지시의 계보입니다.\n\nhttps://arxiv.org/abs/2608.27299",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1787997708,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DcnrNrhGcww",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
+   "text": "1/ Nanjing University 연구팀이 8월 27일 코딩 에이전트 하네스 6개에서 새로운 공격 유형을 제시했습니다.\n\n이름은 ‘instruction privilege escalation’입니다. 저장소 파일이나 하위 에이전트의 출력처럼 낮은 신뢰도의 텍스트가, 다음 모델 호출에서는 사용자의 지시처럼 재구성되는 문제입니다.\n\n연구팀은 기밀성·무결성·가용성·원격 코드 실행에 걸친 공격 목표 13개를 시험했습니다. 제한 없는 실행에서는 6개 하네스 모두에서 13개가 성공했습니다.\n\n2/ 중요한 지점은 프롬프트 인젝션 자체가 아닙니다.\n\n서브에이전트 위임, 저장된 목표, 예약 작업, 사용자 정의 하위 에이전트 설치가 컨텍스트를 다시 만들면서 신뢰 수준을 바꿀 수 있다는 점입니다.\n\n모델이 원래 지시를 거부해도, 하네스가 같은 내용을 더 높은 권한의 문맥으로 전달하면 결과가 달라집니다. 자동 권한 검토를 제공하는 3개 하네스에서도 13개 목표가 모두 통과했습니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1787997700,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DcnrM57GYGV",
+   "region": "kr"
+  },
+  {
    "account": "choi.openai",
    "text": "신청주소 :\nhttps://claude.com/programs/team-plan-for-scientists",
    "likes": 3,
@@ -413,50 +443,20 @@
   {
    "account": "choi.openai",
    "text": "연구원이나 대학원생이면 이건 무조건 확인해보세요.\n\n앤트로픽이 과학자를 위한 Claude Team 플랜을 공개했습니다.\n대학·비영리 연구기관 소속 연구자는 Standard 좌석을 1년간 무료로 이용할 수 있고, 5배 사용량의 Premium은 월 15달러입니다.\n\nPI(책임연구자)가 신청한 뒤 연구실 구성원을 추가하는 방식이며, 우선 1만 명을 대상으로 시작합니다.",
-   "likes": 15,
+   "likes": 31,
    "cmts": 1,
    "time": 1787995833,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/789563118_1420645329949559_328865694632230987_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk3NDMxOTU2NjUzMjU0ODYwNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Va7kMaXMjGEQ7kNvwGt_TbG&_nc_oc=Ado80rrc06hXQhTVWV0SV7p5H-8a8yb4ljy8yH5E57U7rUs2bmrK0JqRKhHEBLt0xEM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=ZYBIgTTf5tekhFGKz4qavQ&_nc_ss=7a22e&oh=00_AQJLuPsXouY8v5CJfbeJEPaAlhQKSXgfUiQazNq3U7g1PQ&oe=6A987344",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/789563118_1420645329949559_328865694632230987_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk3NDMxOTU2NjUzMjU0ODYwNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Va7kMaXMjGEQ7kNvwGt_TbG&_nc_oc=Ado80rrc06hXQhTVWV0SV7p5H-8a8yb4ljy8yH5E57U7rUs2bmrK0JqRKhHEBLt0xEM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=IJXNPloSH1oVCceXniRs9g&_nc_ss=7a22e&oh=00_AQKtWIabmZSSSk84KgPDcBg5wTwPeJfnIBrWsKDo4jQQYA&oe=6A987344",
    "url": "https://www.threads.com/@choi.openai/post/DcnnpbDDpf9",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "GitHub는 8월 17일 7시간 47분 동안 장애를 겪었습니다.\n\n웹과 API 오류율은 최고 약 20%, 아카이브·raw 콘텐츠 다운로드 오류율은 약 50%까지 올랐습니다. Issues·Pull Requests·Actions·Copilot이 함께 영향을 받았습니다.\n\n원인은 중앙 미국 데이터센터의 핵심 인프라가 새 트래픽 정점을 감당하지 못한 일이었습니다. 여기에 VS Code의 지연 재시도 버그가 겹치며 Copilot Token Service 트래픽이 약 10배 증폭됐습니다.\n\n코딩 에이전트의 기준은 이제 기능 수가 아니라, 장애가 다른 실행 경로로 번지지 않게 막고 얼마나 빨리 복구하는가에 놓입니다.\n\nhttps://www.githubstatus.com/",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1787993965,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DcnkEyYmY2O",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "https://aws.amazon.com/blogs/security/aws-partners-with-anthropic-and-openai-to-bring-aws-continuum-into-developer-workflows/",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1787991389,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DcnfKYYmTtE",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "AWS Continuum이 8월 5일 Claude Code, Codex, Kiro 안으로 들어오는 계획을 공개했습니다.\n\n코드 작성 뒤 별도 도구로 스캔하고, 보안팀이 우선순위를 정하고, 다시 수정하는 흐름을 한 연결 안에 넣습니다. Continuum은 여러 모델을 조합하고, 고객의 AWS 설정·IAM 정책·네트워크 구조·외부 노출면을 함께 본 뒤 샌드박스에서 취약점을 검증합니다.\n\nAWS는 이 구조를 모델이 아니라 하네스의 문제로 설명했습니다. 하네스는 모델에 도구·가드레일·메모리·워크플로를 붙이는 실행층입니다.\n\n코딩 에이전트의 보안 기준이 “취약점을 찾는가”에서 “내 환경에서 실제로 위험한지 확인하고 고치는가”로 이동하고 있습니다.\n\n다만 Claude Code·Codex·Kiro 통합은 아직 제공 예정이고, Continuum 자체도 프리뷰입니다. 이제 에이전트를 비교할 때 모델 성능만 보면 실행 환경을 놓치게 됩니다.",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1787991381,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DcnfJjkmfX9",
    "region": "kr"
   },
   {
    "account": "kopp",
    "text": "Upgrade Modal in ⚫◻️",
-   "likes": 1,
+   "likes": 3,
    "cmts": 0,
    "time": 1787991369,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/789013179_17908904223463148_3644469020479697293_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk3NDI4MjA5MzE2MDU3NjA1MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTg4NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=3zbYY4NZtwIQ7kNvwEx84LT&_nc_oc=AdoSmwaOLkv3lOo1-sT9-X1eQy6FPPi_T0ron5kjfqTnGDeTRFT__dNRcE9OKbHlo8Q&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=1sHhPPpQSI9ILyGIMxgPcg&_nc_ss=7a22e&oh=00_AQI4SmosbOaAMoGf8V7eu1Qasdr3lHtFpxxXIEbQSRApHQ&oe=6A9870B4",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/789013179_17908904223463148_3644469020479697293_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk3NDI4MjA5MzE2MDU3NjA1MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTg4NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=3zbYY4NZtwIQ7kNvwEx84LT&_nc_oc=AdoSmwaOLkv3lOo1-sT9-X1eQy6FPPi_T0ron5kjfqTnGDeTRFT__dNRcE9OKbHlo8Q&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=iUmnFARXXMpqEsxFCMa81A&_nc_ss=7a22e&oh=00_AQJnBONpzmUcafWP7v1bsBoosnljXoi2dLryQjjtfIZFXQ&oe=6A9870B4",
    "url": "https://www.threads.com/@kopp/post/DcnfIbBiMdZ",
    "region": "kr"
   },
@@ -476,7 +476,7 @@
    "likes": 12,
    "cmts": 1,
    "time": 1787967628,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/785280412_1423183929676461_8605967787877363267_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk3NDA4MjUyMTU0MTYwOTAwMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=LH4KydHzwLkQ7kNvwGlKOwO&_nc_oc=AdpJBRsFr_IkIL7qWlJYomaxobV6SfvI7lu65586X4m6DqO92kk_q4Cbr2aQr-tmUQs&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=R8K0bg7PXVaABEdnMFwUew&_nc_ss=7a22e&oh=00_AQIfp5mp27FjgkhcxtTot9oZFHPS5f4OTGhak3DtEiQYDg&oe=6A9891DC",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/785280412_1423183929676461_8605967787877363267_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk3NDA4MjUyMTU0MTYwOTAwMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=LH4KydHzwLkQ7kNvwGlKOwO&_nc_oc=AdpJBRsFr_IkIL7qWlJYomaxobV6SfvI7lu65586X4m6DqO92kk_q4Cbr2aQr-tmUQs&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=REOx8eLRmDo2TYcwh6eF8A&_nc_ss=7a22e&oh=00_AQLu2TnDivdHIPFvaeUB-wGRrtXQIaLl7EgsFYGanlK6ag&oe=6A9891DC",
    "url": "https://www.threads.com/@aipeekme/post/Dcmxv9sk4Yr",
    "region": "kr"
   },
@@ -526,7 +526,7 @@
    "likes": 4,
    "cmts": 5,
    "time": 1787921565,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/789446319_3992175534420714_2058396000025220426_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk3MzY5NjIxMjc0NTkzNzA4Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=0Rt9SZ3YOGYQ7kNvwFGiulW&_nc_oc=Adrth_WbfXrArRJ056kruGQDxa_mX-sPKNYm0ZVk-Jj0rPOhDkhau71-RZhs2DUNIsQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=1sHhPPpQSI9ILyGIMxgPcg&_nc_ss=7a22e&oh=00_AQIaMmPyho7-hH4S2QOkGfFgqdhYSa13biIei5h6TRFMoA&oe=6A987E3A",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/789446319_3992175534420714_2058396000025220426_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk3MzY5NjIxMjc0NTkzNzA4Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=0Rt9SZ3YOGYQ7kNvwFGiulW&_nc_oc=Adrth_WbfXrArRJ056kruGQDxa_mX-sPKNYm0ZVk-Jj0rPOhDkhau71-RZhs2DUNIsQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=iUmnFARXXMpqEsxFCMa81A&_nc_ss=7a22e&oh=00_AQLiR75m_kqzonyfm-WHjV6kCWC2xFlf0A2nVHmMT5pIGA&oe=6A987E3A",
    "url": "https://www.threads.com/@kopp/post/DclZ6bmCWC6",
    "region": "kr"
   },
@@ -551,32 +551,32 @@
    "region": "kr"
   },
   {
-   "account": "choi.openai",
-   "text": "중국 AI 모델들의 발전 속도가 정말 빠릅니다.\n이제는 모델 성능뿐만 아니라 로컬에서 돌리기 위한 최적화까지 상당한 수준으로 올라오고 있습니다.\n\nTencent이 770B 규모의 Hy4-preview를 1.5TB에서 약 200GiB까지 압축했습니다. 원본의 약 13% 크기인데도 성능 저하는 크지 않습니다.\n\nMIX-STQ1_0이라는 양자화 방식을 사용했는데요. 모든 레이어를 똑같이 줄이는 대신, 보정 데이터를 분석해 레이어마다 1.31bit~2.06bit의 서로 다른 정밀도를 적용합니다.\n\n그 결과 MCP Atlas는 83.7→83.2, SWE-Bench multi는 82.9→81.3, MRCR은 81.3→81.1에 그쳤습니다.\n\n1.5TB짜리 모델을 200GiB 수준으로 줄이고 이 정도 성능을 유지한다는 게 꽤 놀랍습니다. 이런 기술이 다른 중국 오픈 모델에도 적용되기 시작하면 고성능 AI를 직접 구동하기 위한 하드웨어 기준도 빠르게 낮아질 것 같습니다.",
-   "likes": 26,
-   "cmts": 2,
-   "time": 1787990418,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/787817982_17984549715112832_3108797442745590744_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk3NDI3NDEzMTc4NDg1NjAyMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMjI5Mi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=bdv1tA7M1B0Q7kNvwFoYe3H&_nc_oc=Adps1Ol8KRLJ3MFvfBiJ-GndiCy5OoRfn1vwxc4OhIQzOh_RGagzi1ycxg3BEFOVTPE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=ZYBIgTTf5tekhFGKz4qavQ&_nc_ss=7a22e&oh=00_AQIQWXE01792VC9D2C3Sh1c7SfnjlbvudFpMGCje9HP3hw&oe=6A98953A",
-   "url": "https://www.threads.com/@choi.openai/post/DcndUYXj0M8",
+   "account": "daily_ai_star",
+   "text": "GitHub는 8월 17일 7시간 47분 동안 장애를 겪었습니다.\n\n웹과 API 오류율은 최고 약 20%, 아카이브·raw 콘텐츠 다운로드 오류율은 약 50%까지 올랐습니다. Issues·Pull Requests·Actions·Copilot이 함께 영향을 받았습니다.\n\n원인은 중앙 미국 데이터센터의 핵심 인프라가 새 트래픽 정점을 감당하지 못한 일이었습니다. 여기에 VS Code의 지연 재시도 버그가 겹치며 Copilot Token Service 트래픽이 약 10배 증폭됐습니다.\n\n코딩 에이전트의 기준은 이제 기능 수가 아니라, 장애가 다른 실행 경로로 번지지 않게 막고 얼마나 빨리 복구하는가에 놓입니다.\n\nhttps://www.githubstatus.com/",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1787993965,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DcnkEyYmY2O",
    "region": "kr"
   },
   {
-   "account": "daily_ai_star",
-   "text": "WebMCP가 8월 25일 공개됐습니다.\n\n웹사이트가 사람용 화면만 만드는 대신, AI 에이전트가 직접 호출할 수 있는 구조화된 도구를 제공하는 실험적 웹 표준입니다. 에이전트가 버튼과 폼을 추측하며 클릭하는 대신, 사이트가 허용한 작업과 입력을 명시합니다.\n\nCloudflare는 원본 코드를 바꾸지 않고도 페이지에 WebMCP 인터페이스를 붙이는 개발자 프리뷰를 내놨습니다. 표준은 `document.modelContext`로 페이지 안에 도구를 노출하고, Chrome 146에서 실험적으로 동작합니다.\n\nOpenAI는 ChatGPT 내장 브라우저에서 WebMCP를 지원하고, 9월 3일까지 해커톤을 진행합니다. 웹 개발의 다음 기준은 에이전트가 화면을 얼마나 잘 읽는지가 아니라, 사이트가 에이전트에게 어떤 행동을 공식적으로 허용하는지가 됩니다.\n\nhttps://openai.com/ja-JP/webmcp-challenge/",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1787989590,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DcnbuwwGdT2",
+   "account": "choi.openai",
+   "text": "중국 AI 모델들의 발전 속도가 정말 빠릅니다.\n이제는 모델 성능뿐만 아니라 로컬에서 돌리기 위한 최적화까지 상당한 수준으로 올라오고 있습니다.\n\nTencent이 770B 규모의 Hy4-preview를 1.5TB에서 약 200GiB까지 압축했습니다. 원본의 약 13% 크기인데도 성능 저하는 크지 않습니다.\n\nMIX-STQ1_0이라는 양자화 방식을 사용했는데요. 모든 레이어를 똑같이 줄이는 대신, 보정 데이터를 분석해 레이어마다 1.31bit~2.06bit의 서로 다른 정밀도를 적용합니다.\n\n그 결과 MCP Atlas는 83.7→83.2, SWE-Bench multi는 82.9→81.3, MRCR은 81.3→81.1에 그쳤습니다.\n\n1.5TB짜리 모델을 200GiB 수준으로 줄이고 이 정도 성능을 유지한다는 게 꽤 놀랍습니다. 이런 기술이 다른 중국 오픈 모델에도 적용되기 시작하면 고성능 AI를 직접 구동하기 위한 하드웨어 기준도 빠르게 낮아질 것 같습니다.",
+   "likes": 27,
+   "cmts": 2,
+   "time": 1787990418,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/787817982_17984549715112832_3108797442745590744_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk3NDI3NDEzMTc4NDg1NjAyMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMjI5Mi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=bdv1tA7M1B0Q7kNvwFoYe3H&_nc_oc=Adps1Ol8KRLJ3MFvfBiJ-GndiCy5OoRfn1vwxc4OhIQzOh_RGagzi1ycxg3BEFOVTPE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=IJXNPloSH1oVCceXniRs9g&_nc_ss=7a22e&oh=00_AQJskgX_1PY1HvwpFSk0Y4xlfOVX3Kh3PxZ9lWIDT2w1Bw&oe=6A98953A",
+   "url": "https://www.threads.com/@choi.openai/post/DcndUYXj0M8",
    "region": "kr"
   },
   {
    "account": "aicoffeechat",
    "text": "코드를 직접 안 짜는 시대일수록 코드를 아는 사람이 이긴다. \n\n앤드류응의 따끈따끈 좋은 글이 또 나왔습니다. 에이전트가 코드를 전부 써준다고 해서 소프트웨어 지식이 필요 없어지는 게 아니라, 오히려 더 필요해진다는건데요.\n\n이유는 단순합니다. 에이전트는 시키는 대로 만들지만, 무엇을 시킬지는 사람이 정해야 하기 때문이예요. 어떤 선택지가 존재하는지조차 모르는 사람은 에이전트를 조종할 수 없죠.\n\n바이브 코딩하시는 분들은 이 \"5가지\"는 꼭 기억하셨으면 좋겠습니다.",
-   "likes": 313,
+   "likes": 318,
    "cmts": 25,
    "time": 1787961330,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/787574233_17954762469232485_4807613008236640836_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk3NDAzMDEyMjQ2MjQyNTUxNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTM2NS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=oNY82-eFjqAQ7kNvwGPsB_e&_nc_oc=AdrmXYV-PEYyEF08ev87mYAi8BbY-D4mI6MBR1NM_4jJ8TbIAcg4dMtAcJKMVufOk8M&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=_6cXNhrXW8CFkvQa1aQhzg&_nc_ss=7a22e&oh=00_AQId8VZLBUgVUaK-IJJo3mNScZapfkRj8ASg6i8IpAmrRQ&oe=6A988AC7",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/787574233_17954762469232485_4807613008236640836_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk3NDAzMDEyMjQ2MjQyNTUxNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTM2NS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=oNY82-eFjqAQ7kNvwGPsB_e&_nc_oc=AdrmXYV-PEYyEF08ev87mYAi8BbY-D4mI6MBR1NM_4jJ8TbIAcg4dMtAcJKMVufOk8M&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=d-sKgjqLjaJM2mdAZYidjQ&_nc_ss=7a22e&oh=00_AQJ82Jb8o9e5IxNysk05dHdJzAOTAgywTDTw7ANgeNAISQ&oe=6A988AC7",
    "url": "https://www.threads.com/@aicoffeechat/post/Dcml1kSk3JN",
    "region": "kr"
   },
@@ -586,18 +586,18 @@
    "likes": 1,
    "cmts": 1,
    "time": 1787918392,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/789325459_18083606213407306_5693187917874827099_n.webp?stp=dst-webp_p640x640_sh2.08&_nc_cat=101&ig_cache_key=Mzk3MzY2OTY0NzM1NDE3MDgwOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuNzY4LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=bbAiEngJPK0Q7kNvwHfaPBI&_nc_oc=Adp3mG4LlUm3Dr7RXI1503KJV9490yUtXhuvMCilP0Nliu7oF-YonJIkNt7xjn55dcI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=R8K0bg7PXVaABEdnMFwUew&_nc_ss=7a22e&oh=00_AQInQuovPC0VEOhsUbJb7yYJwabAmJ5rGP3W3A7PxysCeQ&oe=6A987005",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/789325459_18083606213407306_5693187917874827099_n.webp?stp=dst-webp_p640x640_sh2.08&_nc_cat=101&ig_cache_key=Mzk3MzY2OTY0NzM1NDE3MDgwOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuNzY4LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=bbAiEngJPK0Q7kNvwHfaPBI&_nc_oc=Adp3mG4LlUm3Dr7RXI1503KJV9490yUtXhuvMCilP0Nliu7oF-YonJIkNt7xjn55dcI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=REOx8eLRmDo2TYcwh6eF8A&_nc_ss=7a22e&oh=00_AQJsEj8hE3Ed-hWvXkqaRyrUF2ebW6lNCW1V56jxq_4oDw&oe=6A987005",
    "url": "https://www.threads.com/@aipeekme/post/DclT8JFk1Uu",
    "region": "kr"
   },
   {
    "account": "daily_ai_star",
-   "text": "모델 교체 때 확인할 것은 세 가지입니다.\n\n기존 모델과 대체 모델의 테스트 통과율이 같은지, 조직 정책이 새 모델을 허용하는지, 자동화와 SDK가 특정 모델 이름에 묶여 있지 않은지입니다.\n\n9월 1일은 한 달 뒤가 아니라 3일 뒤입니다. 모델 선택도 이제 개발 환경의 고정값이 아니라 관리해야 할 의존성이 됐습니다.\n\nhttps://github.blog/changelog/2026-07-31-upcoming-august-2026-model-deprecations-in-github-copilot/",
+   "text": "https://aws.amazon.com/blogs/security/aws-partners-with-anthropic-and-openai-to-bring-aws-continuum-into-developer-workflows/",
    "likes": 0,
    "cmts": 0,
-   "time": 1787987899,
+   "time": 1787991389,
    "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DcnYgOfGeG-",
+   "url": "https://www.threads.com/@daily_ai_star/post/DcnfKYYmTtE",
    "region": "kr"
   }
  ],
@@ -641,7 +641,7 @@
    "views": 488800,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o43E0EJDgKsBeuyFfnqRBCAvI1sAAbI2NsPlIc~tplv-tiktokx-origin.image?dr=14575&x-expires=1788170400&x-signature=JDHKR7IaWiYWLYp7CT9D5K2KWmU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/o43E0EJDgKsBeuyFfnqRBCAvI1sAAbI2NsPlIc~tplv-tiktokx-origin.image?dr=14575&x-expires=1788170400&x-signature=MX%2FQiZok2Fg7BRqerxkhxP5fp%2Bs%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785519099,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7668746136877812999",
    "region": "kr"
@@ -660,7 +660,7 @@
   {
    "account": "jaemyung_lee",
    "title": "프랑크푸르트에 도착했습니다🇰🇷🇩🇪 #이재명 #deutschland #frankfurt",
-   "views": 272900,
+   "views": 273000,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1788170400&x-signature=7qEtwu5IHoW7OCWlTM7G7jDJuq4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -682,7 +682,7 @@
   {
    "account": "jaemyung_lee",
    "title": "우리 국민의 구조에 모든 역량을 총동원하겠습니다  #네팔 #긴급회의 #prayfornepal",
-   "views": 210600,
+   "views": 211100,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4ECXepekgFVLDAPQbcqjSdGAIaIofEozvI9Qh~tplv-tiktokx-origin.image?dr=14575&x-expires=1788170400&x-signature=5WWa%2B8YY9ylN%2FAamPsqTxijVRwY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -693,7 +693,7 @@
   {
    "account": "jaemyung_lee",
    "title": "마참내.. #anthropic #openai #NVIDIA #broadcom #이재명",
-   "views": 193300,
+   "views": 193400,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/osApGgttBIBbbk6zA4iAKdIdkBfL1AAEiSwmCM~tplv-tiktokx-origin.image?dr=14575&x-expires=1788170400&x-signature=QLM8red1IkKVd43PuHnvnWXLXO8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -707,7 +707,7 @@
    "views": 137600,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/okkIgGYEt7AlB4qvUF5yCAEAjD8vfKAfVACbBp~tplv-tiktokx-origin.image?dr=14575&x-expires=1788170400&x-signature=QZtohP63hP42MPInbj4zXHEEox4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okkIgGYEt7AlB4qvUF5yCAEAjD8vfKAfVACbBp~tplv-tiktokx-origin.image?dr=14575&x-expires=1788170400&x-signature=Wnsb4m88kL0vqLPabqdlvIQmevU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1784911601,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7666136953456315666",
    "region": "kr"
@@ -726,7 +726,7 @@
   {
    "account": "tictok_ent",
    "title": "트와이스 지효, 한층 성숙해진 미모 / 더후(THE WHOO) 포토월 #트와이스 #TWICE #지효 #THEWHOO",
-   "views": 1704,
+   "views": 1710,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAIWGIAVQtqA0UJfgJfAnwLAiP0I7Ge9ySA1f7~tplv-tiktokx-origin.image?dr=14575&x-expires=1788170400&x-signature=Nlyz%2BTFAViX7XlDrNkTAB2OyYcU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -737,13 +737,13 @@
  ],
  "reddit": [
   {
-   "sub": "MadeMeSmile",
-   "title": "Some encounters are written in the stars 🥹",
+   "sub": "meirl",
+   "title": "meirl",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/j5zv0vfaq8mh1.jpeg?width=640&crop=smart&auto=webp&s=80d9497773337d65270f2a0c3c87b87dc6745373",
-   "time": 1787977235,
-   "url": "https://www.reddit.com/r/MadeMeSmile/comments/1w1cgtj/some_encounters_are_written_in_the_stars/"
+   "thumb": "https://preview.redd.it/6b8y8plfw9mh1.jpeg?width=640&crop=smart&auto=webp&s=8789e13c9d7b660d345111520786f564435d378e",
+   "time": 1787991410,
+   "url": "https://www.reddit.com/r/meirl/comments/1w1gqom/meirl/"
   },
   {
    "sub": "AskReddit",
@@ -755,6 +755,33 @@
    "url": "https://www.reddit.com/r/AskReddit/comments/1w133c0/whats_a_movie_so_ridiculous_or_dumb_that_it_is/"
   },
   {
+   "sub": "SipsTea",
+   "title": "Flock CEO, Garret Langley, says Americans must \"compromise on their privacy for their own safety.\"",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/qtzlso1nj9mh1.jpeg?width=640&crop=smart&auto=webp&s=6245114a6cb16ec142da936af8021b8c6a9273fd",
+   "time": 1787987108,
+   "url": "https://www.reddit.com/r/SipsTea/comments/1w1fibh/flock_ceo_garret_langley_says_americans_must/"
+  },
+  {
+   "sub": "MadeMeSmile",
+   "title": "Some encounters are written in the stars 🥹",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/j5zv0vfaq8mh1.jpeg?width=640&crop=smart&auto=webp&s=80d9497773337d65270f2a0c3c87b87dc6745373",
+   "time": 1787977235,
+   "url": "https://www.reddit.com/r/MadeMeSmile/comments/1w1cgtj/some_encounters_are_written_in_the_stars/"
+  },
+  {
+   "sub": "pcmasterrace",
+   "title": "How much money does the military burn through? Count with RTX 5090 graphics cards and you'll know.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/am04eWgxMmlmOW1oMWRgtuMc8m_6hKzI__uHEtVtdVC-1Ps1oud0N289_olx.png?width=320&crop=smart&auto=webp&s=a5c7e0575c6c5efdfdf69aea61c8e89e59760747",
+   "time": 1787985714,
+   "url": "https://www.reddit.com/r/pcmasterrace/comments/1w1f3sc/how_much_money_does_the_military_burn_through/"
+  },
+  {
    "sub": "mildlyinfuriating",
    "title": "I choked and spilled tea on my brand new gaming chair and the stain looks like I sharted",
    "score": 0,
@@ -764,13 +791,22 @@
    "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1w128r7/i_choked_and_spilled_tea_on_my_brand_new_gaming/"
   },
   {
-   "sub": "SipsTea",
-   "title": "Flock CEO, Garret Langley, says Americans must \"compromise on their privacy for their own safety.\"",
+   "sub": "Damnthatsinteresting",
+   "title": "Chuck Jones' rules for Wile E. Coyote and the Road Runner.",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/qtzlso1nj9mh1.jpeg?width=640&crop=smart&auto=webp&s=6245114a6cb16ec142da936af8021b8c6a9273fd",
-   "time": 1787987108,
-   "url": "https://www.reddit.com/r/SipsTea/comments/1w1fibh/flock_ceo_garret_langley_says_americans_must/"
+   "thumb": "https://preview.redd.it/cc31zp3h39mh1.jpeg?width=640&crop=smart&auto=webp&s=92289ecc67acf7a39bbfd0aef6c2d481a02aa2a6",
+   "time": 1787981668,
+   "url": "https://www.reddit.com/r/Damnthatsinteresting/comments/1w1dvd7/chuck_jones_rules_for_wile_e_coyote_and_the_road/"
+  },
+  {
+   "sub": "PeterExplainsTheJoke",
+   "title": "What’s wrong with tan suit petah?",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/mjvojrjyf9mh1.jpeg?width=640&crop=smart&auto=webp&s=f772d527a7aadc1eeecb096558c877861e5abb1a",
+   "time": 1787985867,
+   "url": "https://www.reddit.com/r/PeterExplainsTheJoke/comments/1w1f5b4/whats_wrong_with_tan_suit_petah/"
   },
   {
    "sub": "interestingasfuck",
@@ -791,6 +827,15 @@
    "url": "https://www.reddit.com/r/pics/comments/1w142x4/ice_mugshot_of_milo_yiannopoulos_longtime_vocal/"
   },
   {
+   "sub": "BeAmazed",
+   "title": "Ohio couple with the same birthday give birth to twins on their birthday. The whole family has the same birthday.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/5lp27vwae9mh1.jpeg?width=640&crop=smart&auto=webp&s=a739aa382e57d5a25eca212f3e6077282f021865",
+   "time": 1787985309,
+   "url": "https://www.reddit.com/r/BeAmazed/comments/1w1ezj2/ohio_couple_with_the_same_birthday_give_birth_to/"
+  },
+  {
    "sub": "politics",
    "title": "Trump suggests cattle ranchers could bypass USDA-inspected meat plants",
    "score": 0,
@@ -798,51 +843,6 @@
    "thumb": "https://external-preview.redd.it/mgjGTu2yYR-yQ1k93vwUAmERuMJC-rSKVEsOK5BiJew.jpeg?width=640&crop=smart&auto=webp&s=38acb07f37e716bcb515ad5839ddbdb07874382c",
    "time": 1787936745,
    "url": "https://www.reddit.com/r/politics/comments/1w0wd7q/trump_suggests_cattle_ranchers_could_bypass/"
-  },
-  {
-   "sub": "meirl",
-   "title": "meirl",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/6b8y8plfw9mh1.jpeg?width=640&crop=smart&auto=webp&s=8789e13c9d7b660d345111520786f564435d378e",
-   "time": 1787991410,
-   "url": "https://www.reddit.com/r/meirl/comments/1w1gqom/meirl/"
-  },
-  {
-   "sub": "comics",
-   "title": "Hope this clears things up",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/ky5f9junf5mh1.png?width=640&crop=smart&auto=webp&s=3b6593bdff54c463e6420d4158ef1f2ff0ee0191",
-   "time": 1787937637,
-   "url": "https://www.reddit.com/r/comics/comments/1w0wrw8/hope_this_clears_things_up/"
-  },
-  {
-   "sub": "pcmasterrace",
-   "title": "How much money does the military burn through? Count with RTX 5090 graphics cards and you'll know.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/am04eWgxMmlmOW1oMWRgtuMc8m_6hKzI__uHEtVtdVC-1Ps1oud0N289_olx.png?width=320&crop=smart&auto=webp&s=a5c7e0575c6c5efdfdf69aea61c8e89e59760747",
-   "time": 1787985714,
-   "url": "https://www.reddit.com/r/pcmasterrace/comments/1w1f3sc/how_much_money_does_the_military_burn_through/"
-  },
-  {
-   "sub": "AbsoluteUnits",
-   "title": "of a Bong",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/anYyOW1wd3dpNm1oMYpeK9MnKbvp4kd1Z-VRq4aEs3WWif_FcP4UDl2HGt-n.png?width=320&crop=smart&auto=webp&s=ad233773e4620b5097a53dd450cd9d12a8da9434",
-   "time": 1787950544,
-   "url": "https://www.reddit.com/r/AbsoluteUnits/comments/1w12kzi/of_a_bong/"
-  },
-  {
-   "sub": "MadeMeSmile",
-   "title": "Boyfriend of one month put this in his bathroom for me. (OC)",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/p0ya9i1405mh1.jpeg?width=640&crop=smart&auto=webp&s=0b0b286d07ce90ff85cec1406a260461dcd9c2bd",
-   "time": 1787932110,
-   "url": "https://www.reddit.com/r/MadeMeSmile/comments/1w0u9iq/boyfriend_of_one_month_put_this_in_his_bathroom/"
   }
  ],
  "disaster": [],
@@ -887,10 +887,10 @@
    }
   },
   "landing": {
-   "at": "2026-08-29T18:35:50",
+   "at": "2026-08-29T19:01:23",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-29T19:01:21.272218+09:00"
+ "updated": "2026-08-29T19:31:32.302829+09:00"
 }
