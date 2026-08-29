@@ -7400,8 +7400,14 @@
   {
    "query": "퓨리오사ai",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/3b378e313a.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://zdnet.co.kr/view/?no=20260805090416",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-08-29T14:10:00+09:00",
    "isNew": true,
@@ -7591,8 +7597,14 @@
   {
    "query": "용종",
    "traffic": "5000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/e48c9450d8.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.sedaily.com/article/20082086",
+     "source": ""
+    }
+   ],
    "vol": 5000,
    "started": "2026-08-29T11:40:00+09:00",
    "delta": -4,
@@ -7608,8 +7620,14 @@
   {
    "query": "유재석",
    "traffic": "10000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/13aafbc492.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.starnewskorea.com/broadcast-show/2026/07/22/2026072208032854559",
+     "source": ""
+    }
+   ],
    "vol": 10000,
    "started": "2026-08-29T11:40:00+09:00",
    "delta": -4,
@@ -7625,8 +7643,14 @@
   {
    "query": "오연수",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/396533ff9b.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.news-wa.com/article/life/health/2026/08/11/20260811500058",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-08-29T11:50:00+09:00",
    "delta": -7,
@@ -7656,8 +7680,14 @@
   {
    "query": "자폭",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/e5fb3feeaa.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.koreadaily.com/article/20260825200036208",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-08-29T11:40:00+09:00",
    "delta": -6,
@@ -7673,8 +7703,14 @@
   {
    "query": "엄태웅",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/ae3ea9230d.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.newsis.com/view/NISX20260730_0003729880",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-08-29T11:40:00+09:00",
    "delta": -6,
@@ -7798,7 +7834,7 @@
  ],
  "gtrends_pool_updated": "2026-08-29T15:43:46+09:00",
  "_trend_img": {
-  "tried": "2026-08-29T15:06:40+09:00",
+  "tried": "2026-08-29T15:43:46+09:00",
   "fail": {
    "공장": "2026-08-29T13:52:43+09:00",
    "포스코노동조합": "2026-08-29T14:31:32+09:00",
@@ -18996,7 +19032,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-08-29T15:43:46+09:00"
+    "first_seen": "2026-08-29T15:43:46+09:00",
+    "kw": "Huawei Cloud, CodeArts Agent",
+    "sum": "공지가 CodeArts Agent 관련 안내 페이지를 링크했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -19011,7 +19050,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-08-29T15:43:46+09:00"
+    "first_seen": "2026-08-29T15:43:46+09:00",
+    "kw": "Huawei Cloud, CodeArts Agent",
+    "sum": "계정이 CodeArts Agent의 정식 상용화와 권한 분리 구조를 정리했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -19026,7 +19068,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-08-29T15:43:46+09:00"
+    "first_seen": "2026-08-29T15:43:46+09:00",
+    "kw": "Vercel, vGPU",
+    "sum": "계정이 vGPU 사이트 주소를 공유했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -19041,7 +19086,10 @@
     "rh": [
      4
     ],
-    "first_seen": "2026-08-29T15:43:46+09:00"
+    "first_seen": "2026-08-29T15:43:46+09:00",
+    "kw": "Vercel, vGPU, WebGPU",
+    "sum": "계정이 Vercel의 오픈소스 WebGPU 라이브러리 vGPU를 소개했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
