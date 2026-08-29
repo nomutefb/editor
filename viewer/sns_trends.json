@@ -7663,8 +7663,14 @@
   {
    "query": "대구날씨",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/66158b4df0.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.gukjenews.com/news/articleView.html?idxno=3674687",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-08-30T05:20:00+09:00",
    "isNew": true,
@@ -7743,7 +7749,7 @@
  ],
  "gtrends_pool_updated": "2026-08-30T06:52:36+09:00",
  "_trend_img": {
-  "tried": "2026-08-30T06:14:39+09:00",
+  "tried": "2026-08-30T06:52:36+09:00",
   "fail": {}
  },
  "gtrends_gl": [
@@ -17625,7 +17631,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-08-30T06:52:36+09:00"
+    "first_seen": "2026-08-30T06:52:36+09:00",
+    "kw": "러시아, 요격미사일, 유럽",
+    "sum": "유럽이 러시아 미사일 공격 대응용 요격미사일이 부족하다고 전했다",
+    "sv": 1
    }
   ],
   "tiktok": [
@@ -19487,7 +19496,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-08-30T06:52:36+09:00"
+    "first_seen": "2026-08-30T06:52:36+09:00",
+    "kw": "Ollama, Claude Desktop, v0.33",
+    "sum": "Ollama v0.33이 Claude Desktop 연동을 추가했다고 전했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
