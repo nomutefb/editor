@@ -402,6 +402,56 @@
  "threads": [
   {
    "account": "daily_ai_star",
+   "text": "모델 교체 때 확인할 것은 세 가지입니다.\n\n기존 모델과 대체 모델의 테스트 통과율이 같은지, 조직 정책이 새 모델을 허용하는지, 자동화와 SDK가 특정 모델 이름에 묶여 있지 않은지입니다.\n\n9월 1일은 한 달 뒤가 아니라 3일 뒤입니다. 모델 선택도 이제 개발 환경의 고정값이 아니라 관리해야 할 의존성이 됐습니다.\n\nhttps://github.blog/changelog/2026-07-31-upcoming-august-2026-model-deprecations-in-github-copilot/",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1787987899,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DcnYgOfGeG-",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
+   "text": "GitHub Copilot이 9월 1일 모델 6개를 폐기합니다.\n\n대상에는 Gemini 3.1 Pro, Claude Opus 4.5·4.6, Claude Sonnet 4.5·4.6, Raptor Mini가 포함됩니다. 대체 모델도 이미 제시됐습니다. Claude Sonnet 5, Claude Opus 4.7·4.8·5, Gemini 3.6 Flash, MAI-Code-1-Flash입니다.\n\n이 변경은 채팅만의 문제가 아닙니다. 인라인 편집, 코드 완성, 에이전트 모드까지 같은 날짜에 영향을 받습니다. 엔터프라이즈 관리자는 대체 모델을 정책에서 먼저 허용해야 할 수도 있습니다.\n\n코딩 에이전트의 운영 기준이 “어떤 모델이 가장 좋은가”에서 “모델이 바뀌어도 작업 품질을 어떻게 유지하는가”로 이동하고 있습니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1787987890,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DcnYfHLmZh0",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "3/ 패턴은 에이전트가 어떻게 협업할지를 정해둔 일종의 설계도입니다.\n\n어떤 역할의 에이전트가 참여하고, 어떤 조건을 충족해야 다음 단계로 넘어갈지만 정의합니다. 실제 실행은 프레임워크가 맡는데요.\n\n과제에 맞춰 필요한 에이전트를 구성하기 때문에, 서로의 결과를 비판하고 검증하는 방식도 수학부터 하드웨어 시뮬레이션까지 다양한 문제에 그대로 적용할 수 있습니다.\n\n에이전트 수도 처음부터 정해두지 않습니다. 문제를 풀면서 난이도가 드러나면 필요한 만큼 에이전트를 추가하고 팀 구성도 조정합니다.\n\n아래 분산 코딩 패턴에서도 역할 자체는 정해져 있지만, 작업자를 몇 명 투입하고 몇 차례 반복할지는 오케스트레이터가 실행 과정에서 결정합니다.",
+   "likes": 1,
+   "cmts": 1,
+   "time": 1787986898,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/788996294_17984549385112832_4983019201299129002_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk3NDI0NDYxMjM4MjM4ODAxOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjQzNi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=DEKHQv9qD1kQ7kNvwHU657D&_nc_oc=AdpQpQNrGw2W-mYOUwC2uvC3KhE4luYXDCpUBlThTc2_inhZxE6a6V-aabQnkUF3NrY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=cCwPXX6yyY1SOdQZhzN0LQ&_nc_ss=7a22e&oh=00_AQIOEx2-pC16FQOKayb9VrIbE7LlfceKl7DQ5kT79sLb9Q&oe=6A9855D4",
+   "url": "https://www.threads.com/@choi.openai/post/DcnWmsjj-8z",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "2/ 어려운 문제에서는 느슨하게 연결된 에이전트들이 금방 잘못된 방향으로 빠집니다.\n\n다른 에이전트가 초반에 내린 잘못된 판단을 그대로 받아들이고, 그 위에 새로운 추론을 계속 쌓기 때문인데요.\n\n구글은 연구와 엔지니어링 문제 대부분이 여러 후보를 만들고, 검증하고, 살아남은 결과를 조합하는 비슷한 과정을 거친다고 봤습니다. 그래서 이 과정을 설정 가능한 하나의 프레임워크로 만들고, 문제에 따라 에이전트가 협업하는 방식을 ‘패턴’으로 정의했습니다.\n\n패턴은 반복 코딩, 분산 코딩, 장문 증명, 자기 검증, 문서 리뷰까지 다섯 가지입니다. /teamwork-preview를 호출하면 Gemini가 프롬프트를 분석해 적합한 패턴을 자동으로 선택합니다.\n\n다만 무엇을 해결할지 정하고, 에이전트가 내놓은 결과를 최종적으로 채택할지는 사용자가 직접 결정합니다.",
+   "likes": 2,
+   "cmts": 1,
+   "time": 1787986889,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/788926778_17984549370112832_6711168077120682784_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk3NDI0NDU0MDAyMjE5NTIyNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjUyOC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=gvwGSrFCYV4Q7kNvwEE-wIT&_nc_oc=Adpsn6Qin5QRFMY_biVecHE2De649mnLTqdRQKArw5u-JJBeoiOzVNaiYe00FvHuNaI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=cCwPXX6yyY1SOdQZhzN0LQ&_nc_ss=7a22e&oh=00_AQKS-_MDd0RRDOzorN-kT30s1tq5htbCe926DAN1iVTIhA&oe=6A98679F",
+   "url": "https://www.threads.com/@choi.openai/post/DcnWlpKjwQY",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "1/ 구글 리서치와 구글 딥마인드가 Antigravity의 멀티에이전트 프레임워크 Teamwork를 활용한 연구 성과를 공개했습니다.\n\nTeamwork에서는 여러 에이전트가 몇 시간에서 길게는 며칠 동안 사람의 개입 없이 해법을 제안하고, 서로의 결과를 검토하며 개선해 나갑니다.\n\n이번에 공개된 성과에는 수학과 이론 전산학의 미해결 문제 7개 해결, 운영체제까지 부팅할 수 있는 RISC-V CPU 시뮬레이터 개발, Eigen과 ParlayHash에 실제 반영된 성능 최적화가 포함됐습니다.\n\n특히 이번 결과는 최근 공개된 Gemini 3.7 Flash를 기반으로 만들어졌습니다.\n\n비교적 작고 빠른 모델을 여러 에이전트로 구성해, 짧은 코딩 작업을 넘어 며칠씩 이어지는 연구와 엔지니어링 문제까지 해결할 수 있다는 가능성을 보여줬습니다.",
+   "likes": 5,
+   "cmts": 1,
+   "time": 1787986881,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/788208455_17984549346112832_7056762926208659784_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk3NDI0NDQ2NzU2OTgxMzYwMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=pcLFq7wYxkMQ7kNvwE_hz7u&_nc_oc=AdqPxraYvDN4GYmekXT_-Ksu9cNEdyrdT5JQ23eT8Ykdh_FHn86XnNSMnjND56nDHsI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=cCwPXX6yyY1SOdQZhzN0LQ&_nc_ss=7a22e&oh=00_AQK4GVot9YUXhLETA7sj6s67sGaKPV-UOUYpsAB5IyWn-Q&oe=6A986ACD",
+   "url": "https://www.threads.com/@choi.openai/post/DcnWklsD2hj",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
    "text": "https://www.huaweicloud.com/intl/en-us/notice/20260825165944435.html",
    "likes": 0,
    "cmts": 0,
@@ -411,69 +461,19 @@
    "region": "kr"
   },
   {
-   "account": "daily_ai_star",
-   "text": "Huawei Cloud CodeArts Agent가 8월 26일 정식 상용화됐습니다.\n\n기본·전문 두 요금제로 제공되고, IDE·JetBrains 플러그인·VS Code·CLI에서 사용할 수 있습니다. 8월 27일 문서에는 프롬프트·스킬·도구를 조합한 커스텀 에이전트가 개인·프로젝트·팀·기업 단위로 나뉜다고 적혔습니다.\n\n주 에이전트와 서브 에이전트를 분리하고, 서브 에이전트마다 파일·프로젝트·민감 데이터 접근 권한도 따로 둘 수 있습니다. Agent Space에서는 여러 세션과 에이전트를 병렬로 실행합니다.\n\n코딩 에이전트의 경쟁 기준이 코드 생성 기능에서, 팀이 에이전트를 배치하고 권한을 나누고 여러 작업을 동시에 운영하는 구조로 이동하고 있습니다.\n\n이제 기업 도입에서 먼저 볼 것은 모델 이름보다 에이전트의 범위와 실행 경계입니다.",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1787985214,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DcnTYi1GS1G",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "주소 :\nhttps://vgpu.sh/",
-   "likes": 2,
-   "cmts": 0,
-   "time": 1787983231,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DcnPnFjCH8l",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "웹 그래픽도 점점 AI가 직접 다루기 좋은 영역으로 바뀌고 있습니다.\n\nVercel이 에이전트 중심의 WebGPU 라이브러리 vGPU를 오픈소스로 공개했습니다. \n브라우저와 headless Node.js에서 같은 코드를 실행할 수 있고, CPU 샌드박스와 CI 환경에서도 렌더링 테스트가 가능합니다.\n\n특히 .wgsl 셰이더를 재사용 가능한 모듈로 다룰 수 있어, AI 에이전트가 시각 효과를 만들고 수정한 뒤 테스트까지 이어가기 쉬운 구조입니다.\n\nWebGPU는 이미 브라우저에서 AI 모델을 직접 돌리는 기반으로 빠르게 확산되고 있었는데요. 이제는 모델 실행뿐 아니라 그래픽 제작까지 에이전트가 웹 안에서 직접 다루는 흐름이 커지고 있습니다.",
-   "likes": 30,
-   "cmts": 1,
-   "time": 1787983213,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/787698425_1040065222234549_7683137704008101705_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk3NDIxMzcwMjI5OTIwNDEyMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=PVS-FIImOwAQ7kNvwFSfPS9&_nc_oc=Adoz0oBi6cK0vxqkL-yuo4GYDJZDjEI-WwuLrE-YvoKcQ7pWeL7fBVTv5dAjXNxWNYA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=MrTU9zIfkNtJAacff_JrEw&_nc_ss=7a22e&oh=00_AQLAI8lEW1JrwbqxU05Y1PCG0FwISVTEWMIwV92c6W6WTA&oe=6A986F44",
-   "url": "https://www.threads.com/@choi.openai/post/DcnPk5TCLoZ",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "JetBrains 조사에서 2026년 5~7월 개발자의 90%가 업무에서 AI 코딩 에이전트를 주 1회 이상 사용했습니다.\n\n2026년 1월과 비교하면 Claude Code는 18%에서 39%로, Codex는 3%에서 16%로 늘었습니다. 미국에서는 Claude Code 사용률이 47%였습니다.\n\nGitHub Copilot이 오래 지킨 자리를 한 제품이 조금씩 침범하는 정도가 아닙니다. 한 분기 사이에 업무용 기본 도구의 선택지가 다시 짜이고 있습니다.\n\n이제 코딩 에이전트의 경쟁은 “누가 가장 똑똑한가”보다 “어느 팀의 기본 작업 흐름에 먼저 들어갔는가”로 측정해야 합니다.\n\nhttps://blog.jetbrains.com/research/2026/08/ai-coding-agent-adoption-2026/",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1787982937,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DcnPCklmTFs",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "🚨 코덱스 리셋 예정?\n\n아마 주간 활성 사용자 2500만을 넘어서지 않았나 싶네요.",
-   "likes": 73,
-   "cmts": 14,
-   "time": 1787982002,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/786374448_17984545416112832_7030971498078779911_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk3NDIwMzUzOTcwMjM4ODA4OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTE3OS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=fI5Z4MHZ3iMQ7kNvwEYwbbW&_nc_oc=AdpNr9pFHoBJbN7P6h2cOlJcF9qG0RdhoKIRVNv-qhkIjXBBoFTpOo-mU8VMQ0j-iP8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=MrTU9zIfkNtJAacff_JrEw&_nc_ss=7a22e&oh=00_AQKOLcm-ky78gen1Tjxe39Qd6HSwQLiQZEJiXdUlHn-lOQ&oe=6A984C1B",
-   "url": "https://www.threads.com/@choi.openai/post/DcnNRApD5V5",
-   "region": "kr"
-  },
-  {
    "account": "aipeekme",
    "text": "날씨 좋은데 동물원 놀러가보세요.\nSeedance2.5\n\n프롬프트 하단👇",
    "likes": 12,
    "cmts": 1,
    "time": 1787967628,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/785280412_1423183929676461_8605967787877363267_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk3NDA4MjUyMTU0MTYwOTAwMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=LH4KydHzwLkQ7kNvwGlKOwO&_nc_oc=AdpJBRsFr_IkIL7qWlJYomaxobV6SfvI7lu65586X4m6DqO92kk_q4Cbr2aQr-tmUQs&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=L9cp4TCbQKLXN4Clk3uBpQ&_nc_ss=7a22e&oh=00_AQJ6MDAYimu5m0kZpsComwNu5h7jyz7kTsVLVWuv-WzSlg&oe=6A98599C",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/785280412_1423183929676461_8605967787877363267_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk3NDA4MjUyMTU0MTYwOTAwMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=LH4KydHzwLkQ7kNvwGlKOwO&_nc_oc=AdpJBRsFr_IkIL7qWlJYomaxobV6SfvI7lu65586X4m6DqO92kk_q4Cbr2aQr-tmUQs&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=rLwep5r-LK3ODxxtwuOasw&_nc_ss=7a22e&oh=00_AQJXwUWhm7_X4Lo7DEqMv4O6Mxp-F6_jCz7-0PZti3Wp4A&oe=6A98599C",
    "url": "https://www.threads.com/@aipeekme/post/Dcmxv9sk4Yr",
    "region": "kr"
   },
   {
    "account": "aicoffeechat",
    "text": "셋째, 시스템 아키텍처 설계다. \n\n스택과 데이터를 이해하면 그제야 조각들을 어떻게 붙일지 결정할 수 있다. 아키텍처에는 정답이 없고 시점만 있다. 프로토타입에 맞는 구조, 첫 프로덕션에 맞는 구조, 확장 단계에 맞는 구조는 전부 다르다. 사용자가 몇 명인지, 지연시간이 얼마나 중요한지, 비용이 얼마나 중요한지에 따라 플랫폼, 프론트와 백엔드의 경계, 시스템 분해 단위, 상태를 어디 둘지, 모놀리스냐 마이크로서비스냐가 달라진다. 언어와 런타임과 프레임워크와 데이터 기술을 고르는 건 취향이 아니라 실험이다. 돌려보고 재보고 고른다. 에이전트는 지금 당장 돌아가는 구조를 만든다. 다음 단계에서도 버틸 구조를 요구하는 건 사람의 일이다.",
-   "likes": 13,
+   "likes": 14,
    "cmts": 1,
    "time": 1787961341,
    "thumb": "",
@@ -483,7 +483,7 @@
   {
    "account": "aicoffeechat",
    "text": "둘째, 데이터 관리다. \n\n풀스택 중에서도 데이터가 가장 무겁다. 코드는 틀리면 고치면 되지만 데이터는 틀리면 고치기 어렵다. 에이전트가 마이그레이션을 도와줘도 이미 쌓인 구조는 쉽게 안 바뀐다. 그래서 접근 패턴을 보고 무엇을 저장하고 얼마나 오래 보관할지, 관계형인지 문서형인지 키-값인지 그래프인지 처음부터 결정해야 한다. 이 선택이 속도와 확장성과 비용을 전부 좌우한다. 트랜잭션, 동시성, 데이터의 신선도와 정합성, 프라이버시와 규제, 데이터 생명주기까지 한 세트다. 더 중요한 게 있다. AI 시스템은 당신의 데이터에서 컨텍스트를 끌어온다. 데이터 구조가 엉망이면 AI는 자기가 뭘 모르는지조차 모른다. 빠진 걸 채우라고 AI한테 시킬 수 없다. 뭐가 빠졌는지 아는 건 맥락을 가진 사람뿐이다. 앱은 갈아엎을 수 있어도 데이터는 못 갈아엎는다.",
-   "likes": 17,
+   "likes": 18,
    "cmts": 1,
    "time": 1787961338,
    "thumb": "",
@@ -493,7 +493,7 @@
   {
    "account": "aicoffeechat",
    "text": "첫째, 풀스택 애플리케이션 구축이다. \n\n예전에는 프론트엔드만, 모바일만 하는 사람이 있었다. 지금은 에이전트가 모르는 부분을 채워주니까 한 사람이 처음부터 끝까지 다 만든다. 하지만 '대신 채워준다'와 '알아서 잘 채워준다'는 다른 말이다. UI 컴포넌트, 캐싱, 페이지 렌더링, API 선택과 설계, 인증, 세션과 상태 관리, 비동기 처리, 데이터 저장, 테스트, 보안, 접근성이 어떻게 맞물려 돌아가는지 알아야 에이전트가 만든 결과가 맞는지 판단한다. 풀스택은 다 할 줄 아는 사람이 아니라, 다 볼 줄 아는 사람이다.",
-   "likes": 26,
+   "likes": 27,
    "cmts": 1,
    "time": 1787961335,
    "thumb": "",
@@ -516,7 +516,7 @@
    "likes": 4,
    "cmts": 5,
    "time": 1787921565,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/789446319_3992175534420714_2058396000025220426_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk3MzY5NjIxMjc0NTkzNzA4Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=0Rt9SZ3YOGYQ7kNvwFGiulW&_nc_oc=Adrth_WbfXrArRJ056kruGQDxa_mX-sPKNYm0ZVk-Jj0rPOhDkhau71-RZhs2DUNIsQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=xMA7C4dZt945rICM6U9s6A&_nc_ss=7a22e&oh=00_AQKZgVOP2jfost-yCGTCv2-uk9QqmJGUjit5Uy6h1VHc1w&oe=6A9845FA",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/789446319_3992175534420714_2058396000025220426_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk3MzY5NjIxMjc0NTkzNzA4Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=0Rt9SZ3YOGYQ7kNvwFGiulW&_nc_oc=Adrth_WbfXrArRJ056kruGQDxa_mX-sPKNYm0ZVk-Jj0rPOhDkhau71-RZhs2DUNIsQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=ABdJABZTliPkG0n7r_L03A&_nc_ss=7a22e&oh=00_AQLUosplP9Q6uBDr9jvLMBkAHrjIis-PkpnVV3LbGe1nqA&oe=6A9845FA",
    "url": "https://www.threads.com/@kopp/post/DclZ6bmCWC6",
    "region": "kr"
   },
@@ -546,7 +546,7 @@
    "likes": 7,
    "cmts": 3,
    "time": 1787906022,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/784796866_2534498036977658_8948821406241138904_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk3MzU2NTYzMjExNzQ0MDU4Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=1E-g-Ie0C0wQ7kNvwFES0O-&_nc_oc=AdqdzcLvo_tS9mPhDDkKCrS5dXEa0bjK16hFjh5MxdJzr_ri9AU3Lfyjh8Ky4TZzzFU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Ey6_l4alSX2XyGvX5KrGdg&_nc_ss=7a22e&oh=00_AQKVghjYWKuXsZShLTjyEHGlzWvFgVNKnWmEQRkxuDoN_w&oe=6A983DEA",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/784796866_2534498036977658_8948821406241138904_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk3MzU2NTYzMjExNzQ0MDU4Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=1E-g-Ie0C0wQ7kNvwFES0O-&_nc_oc=AdqdzcLvo_tS9mPhDDkKCrS5dXEa0bjK16hFjh5MxdJzr_ri9AU3Lfyjh8Ky4TZzzFU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=DEwvganSw29idkis2-1d5A&_nc_ss=7a22e&oh=00_AQJZN-_YBmlqBUODqamjMBazfvzqQXKAHyi25hNizw59aQ&oe=6A98762A",
    "url": "https://www.threads.com/@takepage_/post/Dck8OO6D4BH",
    "region": "kr"
   },
@@ -571,32 +571,32 @@
    "region": "kr"
   },
   {
-   "account": "daily_ai_star",
-   "text": "이번 사례의 핵심은 프롬프트 하나가 아닙니다.\n\n저장소 콘텐츠가 컨텍스트가 되고, 에이전트가 로컬 파일을 읽고, Powers와 MCP가 외부 통신을 가능하게 하는 흐름이 이어졌습니다. 각 기능을 따로 보면 정상이어도, 연결된 전체 경로에서는 신뢰 경계가 무너질 수 있습니다.\n\nKiro는 Powers를 MCP 서버·스티어링 파일·훅을 묶는 기능으로 설명합니다. 앞으로 코딩 에이전트를 비교할 때는 생성 품질뿐 아니라 저장소 입력의 격리, 도구 권한, 외부 통신 통제까지 확인해야 합니다.\n\nhttps://mindgard.ai/learn/blog/power-leak-amazon-kiro-ide-prompt-injection-enables-data-exfiltration",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1787980117,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DcnJqT_maQe",
+   "account": "choi.openai",
+   "text": "구글 리서치와 딥마인드가 에이전트 팀 하나로 수학 미해결 난제 7개를 풀었습니다.\n\nAntigravity의 멀티에이전트 프레임워크 Teamwork가 며칠씩 자율로 증명을 만들고, 서로의 풀이를 공격하고, 살아남은 조각을 합친 결과인데요.\n\n40페이지 증명은 Lean 형식 검증까지 통과했고, 이 중 3개는 Flash급 소형 모델로 재현됐습니다.\n\n이 팀이 어떻게 조직되는지 구조를 뜯어봤습니다. 🧵",
+   "likes": 13,
+   "cmts": 9,
+   "time": 1787986875,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/790268640_17984549475112832_8749112505133536484_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk3NDI0NDQxODYwNTUyMzgxNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNzkxLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=AZfM7bJ9Q9YQ7kNvwEtlCrX&_nc_oc=AdrVQRQ2EpQ-teVLx_cFocyauX7drqAi8vOXvjWSBoGDH7Z2wP1CSZwC1RKg4UUOsXQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=cCwPXX6yyY1SOdQZhzN0LQ&_nc_ss=7a22e&oh=00_AQIbfZA3lFfzyJbAa6NllAMW2Dnkid-sXqQZHvRIhprJGQ&oe=6A98660B",
+   "url": "https://www.threads.com/@choi.openai/post/DcnWj4Fj6Nn",
    "region": "kr"
   },
   {
-   "account": "choi.openai",
-   "text": "3/ 첫 두 역량은 풀스택 구축과 데이터 관리입니다.\n\n에이전트 코딩은 프런트엔드나 모바일 같은 전문 역할의 개발자를 풀스택으로 넓혀줍니다. 낯선 영역을 에이전트가 메워주기 때문인데, 그래도 UI 컴포넌트와 캐싱, API 설계, 인증, 상태 관리, 비동기 처리, 테스트, 접근성까지 전체 스택이 실제로 어떻게 도는지는 알아야 한다는 조건이 붙습니다.\n\n데이터에는 별도의 무게를 실었습니다. 데이터는 소프트웨어가 올라서는 기반이면서 한 번 정하면 바꾸기 어렵고, 저장 유형과 모델 선택이 속도와 확장성과 비용을 함께 결정합니다.\n\n무엇보다 AI 시스템은 당신의 데이터에서 자기 컨텍스트를 얻기 때문에, 데이터 설계가 나쁘면 AI는 자기가 모르는 것을 모릅니다. 이 지점은 에이전트가 아니라 맥락을 가진 사람이 바로잡아야 한다고 응은 적었습니다.",
-   "likes": 2,
+   "account": "daily_ai_star",
+   "text": "Huawei Cloud CodeArts Agent가 8월 26일 정식 상용화됐습니다.\n\n기본·전문 두 요금제로 제공되고, IDE·JetBrains 플러그인·VS Code·CLI에서 사용할 수 있습니다. 8월 27일 문서에는 프롬프트·스킬·도구를 조합한 커스텀 에이전트가 개인·프로젝트·팀·기업 단위로 나뉜다고 적혔습니다.\n\n주 에이전트와 서브 에이전트를 분리하고, 서브 에이전트마다 파일·프로젝트·민감 데이터 접근 권한도 따로 둘 수 있습니다. Agent Space에서는 여러 세션과 에이전트를 병렬로 실행합니다.\n\n코딩 에이전트의 경쟁 기준이 코드 생성 기능에서, 팀이 에이전트를 배치하고 권한을 나누고 여러 작업을 동시에 운영하는 구조로 이동하고 있습니다.\n\n이제 기업 도입에서 먼저 볼 것은 모델 이름보다 에이전트의 범위와 실행 경계입니다.",
+   "likes": 0,
    "cmts": 1,
-   "time": 1787979636,
+   "time": 1787985214,
    "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DcnIwPwDwgq",
+   "url": "https://www.threads.com/@daily_ai_star/post/DcnTYi1GS1G",
    "region": "kr"
   },
   {
    "account": "aicoffeechat",
    "text": "코드를 직접 안 짜는 시대일수록 코드를 아는 사람이 이긴다. \n\n앤드류응의 따끈따끈 좋은 글이 또 나왔습니다. 에이전트가 코드를 전부 써준다고 해서 소프트웨어 지식이 필요 없어지는 게 아니라, 오히려 더 필요해진다는건데요.\n\n이유는 단순합니다. 에이전트는 시키는 대로 만들지만, 무엇을 시킬지는 사람이 정해야 하기 때문이예요. 어떤 선택지가 존재하는지조차 모르는 사람은 에이전트를 조종할 수 없죠.\n\n바이브 코딩하시는 분들은 이 \"5가지\"는 꼭 기억하셨으면 좋겠습니다.",
-   "likes": 255,
-   "cmts": 23,
+   "likes": 263,
+   "cmts": 25,
    "time": 1787961330,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/787574233_17954762469232485_4807613008236640836_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk3NDAzMDEyMjQ2MjQyNTUxNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTM2NS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=oNY82-eFjqAQ7kNvwGPsB_e&_nc_oc=AdrmXYV-PEYyEF08ev87mYAi8BbY-D4mI6MBR1NM_4jJ8TbIAcg4dMtAcJKMVufOk8M&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=-fvA5uXK8z9y1iaAHSAOZQ&_nc_ss=7a22e&oh=00_AQKyB8I0l8MdJ-VDggzDbnmapYxQHY-mqBaY486P5YnIHw&oe=6A985287",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/787574233_17954762469232485_4807613008236640836_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk3NDAzMDEyMjQ2MjQyNTUxNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTM2NS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=oNY82-eFjqAQ7kNvwGPsB_e&_nc_oc=AdrmXYV-PEYyEF08ev87mYAi8BbY-D4mI6MBR1NM_4jJ8TbIAcg4dMtAcJKMVufOk8M&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=MsnBcgQWt2hxboJdHH2RMA&_nc_ss=7a22e&oh=00_AQIshy-z-XTsTJEe6TTu49HHJRte24o30HhAfzknC2mu0g&oe=6A985287",
    "url": "https://www.threads.com/@aicoffeechat/post/Dcml1kSk3JN",
    "region": "kr"
   }
@@ -608,7 +608,7 @@
    "views": 1900000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooDPRCUDqBpuPTmFEWk6RAIgEBqnfZwgeRICBU~tplv-tiktokx-origin.image?dr=14575&x-expires=1788159600&x-signature=mM4ETqTMe1ZH6gK3PiAcISa5sq8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooDPRCUDqBpuPTmFEWk6RAIgEBqnfZwgeRICBU~tplv-tiktokx-origin.image?dr=14575&x-expires=1788159600&x-signature=HLqmDtkKPdBCjrIVBcBK6ei6Uf0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785177115,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7667277327386135826",
    "region": "kr"
@@ -641,7 +641,7 @@
    "views": 488600,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o43E0EJDgKsBeuyFfnqRBCAvI1sAAbI2NsPlIc~tplv-tiktokx-origin.image?dr=14575&x-expires=1788159600&x-signature=KmumkZbbXob0giD5neh9%2FKIB3%2FQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/o43E0EJDgKsBeuyFfnqRBCAvI1sAAbI2NsPlIc~tplv-tiktokx-origin.image?dr=14575&x-expires=1788159600&x-signature=kIwg07rmuf9UzuwGvRdW%2FThAy58%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785519099,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7668746136877812999",
    "region": "kr"
@@ -660,7 +660,7 @@
   {
    "account": "jaemyung_lee",
    "title": "프랑크푸르트에 도착했습니다🇰🇷🇩🇪 #이재명 #deutschland #frankfurt",
-   "views": 272600,
+   "views": 272700,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1788159600&x-signature=fWoUIraVOYuuNHAic%2FSUAN60Ugo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -682,7 +682,7 @@
   {
    "account": "jaemyung_lee",
    "title": "우리 국민의 구조에 모든 역량을 총동원하겠습니다  #네팔 #긴급회의 #prayfornepal",
-   "views": 207600,
+   "views": 208100,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4ECXepekgFVLDAPQbcqjSdGAIaIofEozvI9Qh~tplv-tiktokx-origin.image?dr=14575&x-expires=1788159600&x-signature=%2B9E2i3w2N8WscF3Ml7yULUUcq50%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -715,10 +715,10 @@
   {
    "account": "tictok_ent",
    "title": "박규영, 아침부터 미모 열일 / 아워글래스(HOURGLASS) 팝업 포토월 #박규영 #아워글래스 #HOURGLASS",
-   "views": 9956,
+   "views": 9971,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oUDPINKKABuclCBuAAwinRmqEfl211iBiAs9LA~tplv-tiktokx-origin.image?dr=14575&x-expires=1788159600&x-signature=ET8mJ9Q7K%2FkED9VQzYe2X%2FByPHM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oUDPINKKABuclCBuAAwinRmqEfl211iBiAs9LA~tplv-tiktokx-origin.image?dr=14575&x-expires=1788159600&x-signature=YgS%2BNFg3WP%2BYC9EmgymIUE7QFGQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1787535859,
    "url": "https://www.tiktok.com/@tictok_ent/video/7677408056661036308",
    "region": "kr"
@@ -726,7 +726,7 @@
   {
    "account": "tictok_ent",
    "title": "트와이스 지효, 한층 성숙해진 미모 / 더후(THE WHOO) 포토월 #트와이스 #TWICE #지효 #THEWHOO",
-   "views": 1690,
+   "views": 1696,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAIWGIAVQtqA0UJfgJfAnwLAiP0I7Ge9ySA1f7~tplv-tiktokx-origin.image?dr=14575&x-expires=1788159600&x-signature=rlOHhzu2jI988uCir45JvFVkkQ4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -764,6 +764,15 @@
    "url": "https://www.reddit.com/r/Fauxmoi/comments/1w1a9qo/elijah_wood_its_called_lake_ontario/"
   },
   {
+   "sub": "meirl",
+   "title": "Meirl",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/9dge68nzu8mh1.jpeg?width=640&crop=smart&auto=webp&s=49e3ea6dd59b3d1175f64d1673a155883de8c9cc",
+   "time": 1787978816,
+   "url": "https://www.reddit.com/r/meirl/comments/1w1cyr4/meirl/"
+  },
+  {
    "sub": "mildlyinfuriating",
    "title": "I choked and spilled tea on my brand new gaming chair and the stain looks like I sharted",
    "score": 0,
@@ -773,6 +782,24 @@
    "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1w128r7/i_choked_and_spilled_tea_on_my_brand_new_gaming/"
   },
   {
+   "sub": "OldSchoolCool",
+   "title": "Video from the 1930s explaining how the differential in your car works",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/aGtwejc2aDBzN21oMS4sokysaV28aduGOtJtZ2lhdDkLm687kpDUSBvXxCY6.png?width=320&crop=smart&auto=webp&s=36b9361b6d7e7da1bbb2fd674279600b39dc3f73",
+   "time": 1787965706,
+   "url": "https://www.reddit.com/r/OldSchoolCool/comments/1w18jz6/video_from_the_1930s_explaining_how_the/"
+  },
+  {
+   "sub": "pics",
+   "title": "ICE Mugshot of Milo Yiannopoulos, longtime vocal supporter of strict immigration enforcement.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/je5ne7jfs6mh1.jpeg?width=320&crop=smart&auto=webp&s=24017b4a41d16691007f5d0f2f62c2673fe750d2",
+   "time": 1787954086,
+   "url": "https://www.reddit.com/r/pics/comments/1w142x4/ice_mugshot_of_milo_yiannopoulos_longtime_vocal/"
+  },
+  {
    "sub": "interestingasfuck",
    "title": "This guy put a camera on his cat to document an average day in their lives. These are the highlights.",
    "score": 0,
@@ -780,15 +807,6 @@
    "thumb": "https://external-preview.redd.it/YXY0amwwazF6Nm1oMSCg_485wJUa-CDlEi2BkBk8mueYWjGOvGV6AjIfnaVr.png?width=640&crop=smart&auto=webp&s=584b412fab2dfa50081a102c1895ff60b63cf622",
    "time": 1787956009,
    "url": "https://www.reddit.com/r/interestingasfuck/comments/1w14w3b/this_guy_put_a_camera_on_his_cat_to_document_an/"
-  },
-  {
-   "sub": "SipsTea",
-   "title": "What do y’all think is the ideal arm size for a man?",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/eWl1eWd1MGFmM21oMdN92-GViBejG8JIXhUshrbmANPiKoHpu1ItzESpHOKl.jpeg?width=640&crop=smart&auto=webp&s=fcb16244c81e5aacf56e720e45fbac73a195c35c",
-   "time": 1787913003,
-   "url": "https://www.reddit.com/r/SipsTea/comments/1w0mten/what_do_yall_think_is_the_ideal_arm_size_for_a_man/"
   },
   {
    "sub": "politics",
@@ -809,33 +827,6 @@
    "url": "https://www.reddit.com/r/comics/comments/1w0wrw8/hope_this_clears_things_up/"
   },
   {
-   "sub": "pics",
-   "title": "ICE Mugshot of Milo Yiannopoulos, longtime vocal supporter of strict immigration enforcement.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/je5ne7jfs6mh1.jpeg?width=320&crop=smart&auto=webp&s=24017b4a41d16691007f5d0f2f62c2673fe750d2",
-   "time": 1787954086,
-   "url": "https://www.reddit.com/r/pics/comments/1w142x4/ice_mugshot_of_milo_yiannopoulos_longtime_vocal/"
-  },
-  {
-   "sub": "OldSchoolCool",
-   "title": "Video from the 1930s explaining how the differential in your car works",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/aGtwejc2aDBzN21oMS4sokysaV28aduGOtJtZ2lhdDkLm687kpDUSBvXxCY6.png?width=320&crop=smart&auto=webp&s=36b9361b6d7e7da1bbb2fd674279600b39dc3f73",
-   "time": 1787965706,
-   "url": "https://www.reddit.com/r/OldSchoolCool/comments/1w18jz6/video_from_the_1930s_explaining_how_the/"
-  },
-  {
-   "sub": "skyrim",
-   "title": "LEGO Whiterun by Brett Donaghue at BrickFair Baltimore 🤯",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/M2ZtcDlxa29mN21oMf8qr79pi249HSYo4gEX8DhzQ6TmBkyjuML9c1vNwUhT.png?width=320&crop=smart&auto=webp&s=70355a753119e48382412de806fe75afaa5e35df",
-   "time": 1787961569,
-   "url": "https://www.reddit.com/r/skyrim/comments/1w171hv/lego_whiterun_by_brett_donaghue_at_brickfair/"
-  },
-  {
    "sub": "memes",
    "title": "It has a nice ring to it.",
    "score": 0,
@@ -843,6 +834,15 @@
    "thumb": "https://preview.redd.it/nfptigw8i7mh1.jpeg?width=320&crop=smart&auto=webp&s=39349747e1465a2d360c98b3ecc22a50f9130042",
    "time": 1787962422,
    "url": "https://www.reddit.com/r/memes/comments/1w17dpp/it_has_a_nice_ring_to_it/"
+  },
+  {
+   "sub": "AbsoluteUnits",
+   "title": "of a Bong",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/anYyOW1wd3dpNm1oMYpeK9MnKbvp4kd1Z-VRq4aEs3WWif_FcP4UDl2HGt-n.png?width=320&crop=smart&auto=webp&s=ad233773e4620b5097a53dd450cd9d12a8da9434",
+   "time": 1787950544,
+   "url": "https://www.reddit.com/r/AbsoluteUnits/comments/1w12kzi/of_a_bong/"
   }
  ],
  "disaster": [],
@@ -887,10 +887,10 @@
    }
   },
   "landing": {
-   "at": "2026-08-29T15:35:59",
+   "at": "2026-08-29T16:01:23",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-29T16:01:16.372251+09:00"
+ "updated": "2026-08-29T16:31:21.925314+09:00"
 }
