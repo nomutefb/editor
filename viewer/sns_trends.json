@@ -7610,8 +7610,14 @@
   {
    "query": "리버풀",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/9086a29afd.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.mydaily.co.kr/page/view/2026081106005592173",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-08-29T20:40:00+09:00",
    "isNew": true,
@@ -7637,8 +7643,14 @@
   {
    "query": "리버풀 노팅엄",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/9dbc23c776.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://sports.news.nate.com/view/20260223n04886",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-29T21:30:00+09:00",
    "isNew": true,
@@ -7650,8 +7662,14 @@
   {
    "query": "t1 bfx",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/4f961bda0e.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.gamevu.co.kr/news/articleView.html?idxno=60445",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-08-29T21:00:00+09:00",
    "isNew": true,
@@ -7804,8 +7822,14 @@
   {
    "query": "기아타이거즈",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/74effd71d6.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://sports.khan.co.kr/article/202608292013003/",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-08-29T21:50:00+09:00",
    "delta": -19,
@@ -7975,11 +7999,8 @@
  ],
  "gtrends_pool_updated": "2026-08-29T23:44:12+09:00",
  "_trend_img": {
-  "tried": "2026-08-29T23:11:12+09:00",
+  "tried": "2026-08-29T23:44:12+09:00",
   "fail": {
-   "부천 대 안양": "2026-08-29T21:48:00+09:00",
-   "두산": "2026-08-29T21:48:00+09:00",
-   "의왕역": "2026-08-29T21:48:00+09:00",
    "반찬": "2026-08-29T22:33:20+09:00",
    "리버풀 대 노팅엄 포레스트": "2026-08-29T22:33:20+09:00",
    "유주은": "2026-08-29T22:33:20+09:00",
@@ -18998,7 +19019,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-08-29T23:44:12+09:00"
+    "first_seen": "2026-08-29T23:44:12+09:00",
+    "kw": "Agent Plugins, 표준 명세, 보안 경계",
+    "sum": "계정이 Agent Plugins 표준의 구조와 보안 경계를 설명했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -19013,7 +19037,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-08-29T23:44:12+09:00"
+    "first_seen": "2026-08-29T23:44:12+09:00",
+    "kw": "Agent Plugins 1.0.0, 빅테크 협업",
+    "sum": "계정이 AWS·Cursor·MS·OpenAI·Vercel의 Agent Plugins 1.0.0 공개를 전했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
