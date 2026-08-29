@@ -7619,8 +7619,14 @@
   {
    "query": "노정윤",
    "traffic": "5000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/94036783a4.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.koreadaily.com/article/20260828140042634",
+     "source": ""
+    }
+   ],
    "vol": 5000,
    "started": "2026-08-29T13:20:00+09:00",
    "delta": -4,
@@ -7648,8 +7654,14 @@
   {
    "query": "비",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/058e84d6d2.webp",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.xportsnews.com/article/2169937",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-08-29T15:40:00+09:00",
    "isNew": true,
@@ -7754,11 +7766,9 @@
  ],
  "gtrends_pool_updated": "2026-08-29T17:10:03+09:00",
  "_trend_img": {
-  "tried": "2026-08-29T15:43:46+09:00",
+  "tried": "2026-08-29T17:10:03+09:00",
   "fail": {
-   "공장": "2026-08-29T13:52:43+09:00",
-   "포스코노동조합": "2026-08-29T14:31:32+09:00",
-   "폭발": "2026-08-29T15:11:04+09:00"
+   "김경문": "2026-08-29T17:15:21+09:00"
   }
  },
  "gtrends_gl": [
@@ -19059,7 +19069,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-08-29T17:10:03+09:00"
+    "first_seen": "2026-08-29T17:10:03+09:00",
+    "kw": "허깅페이스, Hy4-preview, GGUF",
+    "sum": "계정이 Hy4-preview GGUF 모델 링크를 공유했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -19074,7 +19087,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-08-29T17:10:03+09:00"
+    "first_seen": "2026-08-29T17:10:03+09:00",
+    "kw": "Tencent, Hy4-preview, 양자화",
+    "sum": "Tencent이 770B 모델을 200GiB로 압축해 성능을 유지했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -19089,7 +19105,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-08-29T17:10:03+09:00"
+    "first_seen": "2026-08-29T17:10:03+09:00",
+    "kw": "WebMCP, 웹 표준, AI 에이전트",
+    "sum": "WebMCP가 AI 에이전트용 웹 표준으로 8월 25일 공개됐다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -19104,7 +19123,10 @@
     "rh": [
      4
     ],
-    "first_seen": "2026-08-29T17:10:03+09:00"
+    "first_seen": "2026-08-29T17:10:03+09:00",
+    "kw": "GitHub Copilot, 모델 교체, 의존성",
+    "sum": "계정이 모델 교체 시 점검할 세 가지 기준을 정리했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -19119,7 +19141,10 @@
     "rh": [
      5
     ],
-    "first_seen": "2026-08-29T17:10:03+09:00"
+    "first_seen": "2026-08-29T17:10:03+09:00",
+    "kw": "GitHub Copilot, 모델 폐기, 대체 모델",
+    "sum": "GitHub Copilot이 9월 1일 모델 6개를 폐기한다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -19134,7 +19159,10 @@
     "rh": [
      6
     ],
-    "first_seen": "2026-08-29T17:10:03+09:00"
+    "first_seen": "2026-08-29T17:10:03+09:00",
+    "kw": "Teamwork, 에이전트 패턴, 오케스트레이터",
+    "sum": "계정이 에이전트 협업 패턴의 설계 방식을 설명했다",
+    "sv": 1
    },
    {
     "account": "aipeekme",
@@ -19422,7 +19450,10 @@
     "rh": [
      16
     ],
-    "first_seen": "2026-08-29T17:10:03+09:00"
+    "first_seen": "2026-08-29T17:10:03+09:00",
+    "kw": "구글, Teamwork, 에이전트 패턴",
+    "sum": "구글이 에이전트 협업 방식을 다섯 패턴으로 정의했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -19487,7 +19518,10 @@
     "rh": [
      19
     ],
-    "first_seen": "2026-08-29T17:10:03+09:00"
+    "first_seen": "2026-08-29T17:10:03+09:00",
+    "kw": "Gpt image2, 프롬프트",
+    "sum": "계정이 Gpt image2 프롬프트를 공유했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -19502,7 +19536,10 @@
     "rh": [
      20
     ],
-    "first_seen": "2026-08-29T17:10:03+09:00"
+    "first_seen": "2026-08-29T17:10:03+09:00",
+    "kw": "구글 딥마인드, Teamwork, 미해결 문제",
+    "sum": "구글이 Teamwork로 미해결 문제 7개를 해결했다",
+    "sv": 1
    }
   ]
  },
