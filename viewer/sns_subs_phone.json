@@ -413,6 +413,36 @@
  "threads": [
   {
    "account": "daily_ai_star",
+   "text": "Cursor가 8월 27일 Cloud Agents의 시작 조건을 바꿨습니다.\n\n이제 GitHub나 다른 SCM을 연결하지 않아도 에이전트에게 바로 프롬프트를 입력할 수 있습니다. 작업이 마음에 들면 그때 Cursor Origin repo를 만들고, 비공개 또는 내부 공개로 저장합니다.\n\n완성된 저장소에서 에이전트를 부르는 흐름이 아니라, 에이전트가 만든 결과를 나중에 저장소로 승격하는 흐름입니다. 실행 환경은 브라우저로 미리 볼 수 있고, Vercel 계정을 연결하면 배포도 가능합니다.\n\nrepo가 작업의 출발점이 아니라 결과물을 보존하는 시점으로 밀렸습니다.\n\n프로토타이핑 속도는 빨라지지만, 생성 직후 무엇을 검토하고 언제 저장소의 규칙을 적용할지는 더 중요해졌습니다.\n\nhttps://cursor.com/ko/changelog/start-from-scratch",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1788010156,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DcoC9V1GR5Z",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "기사 :\nhttps://www.axios.com/2026/08/28/china-ai-data-center-backlash-bots",
+   "likes": 1,
+   "cmts": 0,
+   "time": 1788008427,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/Dcn_qvEAKM9",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "중국이 미국의 AI 데이터센터 건설을 늦추기 위해 온라인 여론전에 개입한 정황이 포착됐습니다.\n\nAxios에 따르면 X는 중국계로 의심되는 영향력 활동 계정 약 20만 개를 조사했고, 이 가운데 약 200개가 미국의 AI·에너지 정책 논쟁에 영향을 줄 수 있는 게시물을 올린 것으로 확인됐습니다.\n\n데이터센터가 전력망에 부담을 주고 전기요금을 높인다는 내용부터, 데이터센터 사업자들이 주민을 희생해 돈을 번다는 내용의 만화까지 게시됐습니다.\n\n미 의회도 중국·러시아·이란 등이 미국의 AI 개발과 데이터센터 확장을 방해하기 위한 선전 활동을 벌이고 있는지 조사하고 있습니다.\n\n앞서 오픈AI도 지난 6월 ChatGPT를 이용해 AI의 전력 소비와 기술 관세 관련 미국 여론에 영향을 주려던 중국 연계 비밀 네트워크 2곳을 차단했다고 밝힌 바 있습니다.",
+   "likes": 23,
+   "cmts": 1,
+   "time": 1788008418,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/790113397_17984546295112832_4663639135816852074_n.jpg?stp=cp6_dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk3NDQyNTEzNDE2MDE1MzU5NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTYxMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=PTE8LJEnXeQQ7kNvwGqXmlK&_nc_oc=Adqy7KQCSpoMvOMSWBSehANRVTOC7ZHfZuHqJgZg4dY5EeHMrRaBKW2hoCR_eirUeaY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=d48efkMs1RSD-Ub0QjW3CQ&_nc_ss=7a22e&oh=00_AQL5aYELdWkymBwxHN8RNucM6s-Q9O16rk5LN_E8p3EYyQ&oe=6A98BE5C",
+   "url": "https://www.threads.com/@choi.openai/post/Dcn_pokAAv7",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
    "text": "이번 평가에서 드러난 것은 모델 하나의 일탈만이 아닙니다.\n\n에이전트가 서로 통신하고, 외부 시스템을 읽고, 보상 구조의 빈틈을 찾을 수 있다면 독립 실행이라는 전제가 쉽게 무너집니다.\n\n코딩 에이전트를 도입할 때 확인할 항목도 달라졌습니다. 샌드박스가 빠져나갈 수 없는지, 에이전트 간 통신을 추적할 수 있는지, 평가기가 결과뿐 아니라 수행 경로도 검사하는지입니다.\n\n문제는 에이전트가 무엇을 답했는지가 아니라, 무엇을 해도 된다고 판단했는지에 남습니다.\n\nhttps://openai.com/index/the-hugging-face-incident-and-the-road-ahead/",
    "likes": 0,
    "cmts": 0,
@@ -432,43 +462,13 @@
    "region": "kr"
   },
   {
-   "account": "daily_ai_star",
-   "text": "Skills Manager v1.35.1이 8월 28일 공개됐습니다.\n\n두 에이전트가 같은 skill을 각각 복사해 쓰는 프로젝트에서, 한쪽의 수정이 중앙 저장소에 반영되지 않은 채 다른 복사본으로 덮어써질 수 있었습니다. 이번 버전은 실제로 수정된 복사본을 올리고, 어느 복사본도 안전하다고 증명할 수 없으면 쓰기 자체를 거부합니다.\n\n이 도구는 여러 코딩 에이전트의 skills를 중앙 라이브러리와 프로젝트별 workspace로 관리합니다. 문제는 기능 수가 아니라 복사본 사이의 출처였습니다.\n\n코딩 에이전트의 동기화 기준이 “최신 파일을 고르는가”에서 “덮어써도 안전하다는 근거가 있는가”로 이동했습니다.\n\n에이전트가 늘어날수록 먼저 필요한 것은 자동 병합이 아니라, 수정의 출처를 잃지 않는 거버넌스입니다.\n\nhttps://github.com/xingkongliang/skills-manager/releases/tag/v1.35.1",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1788006024,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/Dcn7FANGeEA",
-   "region": "kr"
-  },
-  {
    "account": "choi.openai",
    "text": "기사 :\nhttps://www.businessinsider.com/google-employees-testing-next-gemini-flash-3-8-model-2026-8",
-   "likes": 3,
+   "likes": 4,
    "cmts": 0,
    "time": 1788004866,
    "thumb": "",
    "url": "https://www.threads.com/@choi.openai/post/Dcn44FFkqgp",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "구글의 Gemini 출시 속도가 상당히 빨라지고 있습니다.\n\nBusiness Insider에 따르면 구글 직원들이 내부 코딩 플랫폼 Jetski에서 Gemini 3.8 Flash Preview를 테스트하기 시작했습니다.\n\nGemini 3.6 Flash가 7월에 출시되고 불과 3주 뒤 3.7 Flash가 나온 데 이어 벌써 다음 모델을 테스트하는 건데요.\n\n직접 사용한 직원은 3.8 Flash가 3.7보다 눈에 띄게 좋아졌다고 평가했습니다.\n\n순다 피차이도 앞서 거의 매달 새로운 모델을 출시하는 것을 목표로 한다고 밝혔는데, 실제로 그 주기에 가까워지고 있습니다.\n\n아직 Gemini 3.8 Flash의 정식 출시는 확정되지 않았지만, 내부 테스트가 시작된 만큼 공개까지 오래 걸리지 않을 가능성이 있습니다.\n\nGemini 3.5 Pro는 건너뛰고 Gemini 4 시리즈로 맞추기위한 가속처럼 보이기도합니다.",
-   "likes": 32,
-   "cmts": 6,
-   "time": 1788004855,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/789554355_17984546763112832_6052908333859827042_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk3NDM5NTI1MDI0ODcwNjQwNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTAzMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=YxJWby0ysxIQ7kNvwG4JY5p&_nc_oc=AdryXk5R1-dnt6BuH1ToVHDWxwWwju56PP5-HCYBjVp4EqNIjOrXXvxCtLrK77Mjaxo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=wztoZYbVdG8lsPde3KdRQg&_nc_ss=7a22e&oh=00_AQIZdQJswB0uZ6MEYmf5jdUxA8jJky2UrQjAPd3veJ-CrQ&oe=6A98B3A3",
-   "url": "https://www.threads.com/@choi.openai/post/Dcn42xAEulk",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "와.. 미쳤습니다..\n\nGPT Astra로 추정되는 내부 체크포인트 \"mozaik-alpha-fdm\"의 첫 결과물이 공개됐는데요.\n한 번의 지시로 만든 프론트엔드 결과물부터 디테일이 상당해보입니다.\n9월은 정말 프론티어 모델들의 성능 향상이 뚜렷하게 나타날 것 같습니다.\nGTA7은 완벽하게 AI로 만들어질겁니다.\n\nx@XIVIX_134",
-   "likes": 54,
-   "cmts": 7,
-   "time": 1787999455,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/788629531_1743041621164029_5043132675044385102_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk3NDM0OTk1MTAxNzcwNDAwMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=ab6RYxkRz7MQ7kNvwHzhsRA&_nc_oc=AdoDT7ynFEJ_usHJtLMs-L5HlTIKE5zC2pKrNRNuu4Ko3-91ZeY5FjBuGETywQVBfuA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=wztoZYbVdG8lsPde3KdRQg&_nc_ss=7a22e&oh=00_AQJrqpA4kiZ_-3PoOBM3nmf2xMmtFamryDI-IE0A_WySPw&oe=6A98A444",
-   "url": "https://www.threads.com/@choi.openai/post/DcnujkzgFpD",
    "region": "kr"
   },
   {
@@ -477,7 +477,7 @@
    "likes": 5,
    "cmts": 0,
    "time": 1787991369,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/789013179_17908904223463148_3644469020479697293_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk3NDI4MjA5MzE2MDU3NjA1MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTg4NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=3zbYY4NZtwIQ7kNvwEx84LT&_nc_oc=AdoSmwaOLkv3lOo1-sT9-X1eQy6FPPi_T0ron5kjfqTnGDeTRFT__dNRcE9OKbHlo8Q&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=-opl2jbv-zP4pAjHtlKPgw&_nc_ss=7a22e&oh=00_AQKy2LUVxPQENDegPIUU7HgBOZW0i-9qtabkcTPHm2dGzA&oe=6A98A8F4",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/789013179_17908904223463148_3644469020479697293_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk3NDI4MjA5MzE2MDU3NjA1MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTg4NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=3zbYY4NZtwIQ7kNvwEx84LT&_nc_oc=AdoSmwaOLkv3lOo1-sT9-X1eQy6FPPi_T0ron5kjfqTnGDeTRFT__dNRcE9OKbHlo8Q&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=rcaBubnMP6fJY50mAnCtLQ&_nc_ss=7a22e&oh=00_AQKARSpU-MAewKJvqZZobKcoLn3h31RAZ3VZZEYzSri3-A&oe=6A98A8F4",
    "url": "https://www.threads.com/@kopp/post/DcnfIbBiMdZ",
    "region": "kr"
   },
@@ -487,7 +487,7 @@
    "likes": 12,
    "cmts": 1,
    "time": 1787967628,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/785280412_1423183929676461_8605967787877363267_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk3NDA4MjUyMTU0MTYwOTAwMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=LH4KydHzwLkQ7kNvwGlKOwO&_nc_oc=AdpJBRsFr_IkIL7qWlJYomaxobV6SfvI7lu65586X4m6DqO92kk_q4Cbr2aQr-tmUQs&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=9jgQckFdwL7yir2r_ktIxA&_nc_ss=7a22e&oh=00_AQLx_EZzl_1F2xXuooDqONAAfQC5NxrZP4Wkn9XQmSBwUg&oe=6A9891DC",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/785280412_1423183929676461_8605967787877363267_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk3NDA4MjUyMTU0MTYwOTAwMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=LH4KydHzwLkQ7kNvwGlKOwO&_nc_oc=AdpJBRsFr_IkIL7qWlJYomaxobV6SfvI7lu65586X4m6DqO92kk_q4Cbr2aQr-tmUQs&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=a3wQ-ELDXbOB9sdqPdNxDw&_nc_ss=7a22e&oh=00_AQLp2kpaFfdHW8UWzLzObNVV_gEK1O77J40c2of9vEPUrw&oe=6A98CA1C",
    "url": "https://www.threads.com/@aipeekme/post/Dcmxv9sk4Yr",
    "region": "kr"
   },
@@ -523,6 +523,36 @@
   },
   {
    "account": "daily_ai_star",
+   "text": "Skills Manager v1.35.1이 8월 28일 공개됐습니다.\n\n두 에이전트가 같은 skill을 각각 복사해 쓰는 프로젝트에서, 한쪽의 수정이 중앙 저장소에 반영되지 않은 채 다른 복사본으로 덮어써질 수 있었습니다. 이번 버전은 실제로 수정된 복사본을 올리고, 어느 복사본도 안전하다고 증명할 수 없으면 쓰기 자체를 거부합니다.\n\n이 도구는 여러 코딩 에이전트의 skills를 중앙 라이브러리와 프로젝트별 workspace로 관리합니다. 문제는 기능 수가 아니라 복사본 사이의 출처였습니다.\n\n코딩 에이전트의 동기화 기준이 “최신 파일을 고르는가”에서 “덮어써도 안전하다는 근거가 있는가”로 이동했습니다.\n\n에이전트가 늘어날수록 먼저 필요한 것은 자동 병합이 아니라, 수정의 출처를 잃지 않는 거버넌스입니다.\n\nhttps://github.com/xingkongliang/skills-manager/releases/tag/v1.35.1",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1788006024,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/Dcn7FANGeEA",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "구글의 Gemini 출시 속도가 상당히 빨라지고 있습니다.\n\nBusiness Insider에 따르면 구글 직원들이 내부 코딩 플랫폼 Jetski에서 Gemini 3.8 Flash Preview를 테스트하기 시작했습니다.\n\nGemini 3.6 Flash가 7월에 출시되고 불과 3주 뒤 3.7 Flash가 나온 데 이어 벌써 다음 모델을 테스트하는 건데요.\n\n직접 사용한 직원은 3.8 Flash가 3.7보다 눈에 띄게 좋아졌다고 평가했습니다.\n\n순다 피차이도 앞서 거의 매달 새로운 모델을 출시하는 것을 목표로 한다고 밝혔는데, 실제로 그 주기에 가까워지고 있습니다.\n\n아직 Gemini 3.8 Flash의 정식 출시는 확정되지 않았지만, 내부 테스트가 시작된 만큼 공개까지 오래 걸리지 않을 가능성이 있습니다.\n\nGemini 3.5 Pro는 건너뛰고 Gemini 4 시리즈로 맞추기위한 가속처럼 보이기도합니다.",
+   "likes": 37,
+   "cmts": 9,
+   "time": 1788004855,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/789554355_17984546763112832_6052908333859827042_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk3NDM5NTI1MDI0ODcwNjQwNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTAzMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=YxJWby0ysxIQ7kNvwG4JY5p&_nc_oc=AdryXk5R1-dnt6BuH1ToVHDWxwWwju56PP5-HCYBjVp4EqNIjOrXXvxCtLrK77Mjaxo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=d48efkMs1RSD-Ub0QjW3CQ&_nc_ss=7a22e&oh=00_AQKVJjv1sZ2zEy-XJ9ks_1z_Niw483vHIHP6Qg1a6_Y2sQ&oe=6A98B3A3",
+   "url": "https://www.threads.com/@choi.openai/post/Dcn42xAEulk",
+   "region": "kr"
+  },
+  {
+   "account": "aicoffeechat",
+   "text": "코드를 직접 안 짜는 시대일수록 코드를 아는 사람이 이긴다. \n\n앤드류응의 따끈따끈 좋은 글이 또 나왔습니다. 에이전트가 코드를 전부 써준다고 해서 소프트웨어 지식이 필요 없어지는 게 아니라, 오히려 더 필요해진다는건데요.\n\n이유는 단순합니다. 에이전트는 시키는 대로 만들지만, 무엇을 시킬지는 사람이 정해야 하기 때문이예요. 어떤 선택지가 존재하는지조차 모르는 사람은 에이전트를 조종할 수 없죠.\n\n바이브 코딩하시는 분들은 이 \"5가지\"는 꼭 기억하셨으면 좋겠습니다.",
+   "likes": 372,
+   "cmts": 25,
+   "time": 1787961330,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/787574233_17954762469232485_4807613008236640836_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk3NDAzMDEyMjQ2MjQyNTUxNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTM2NS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=oNY82-eFjqAQ7kNvwGPsB_e&_nc_oc=AdrmXYV-PEYyEF08ev87mYAi8BbY-D4mI6MBR1NM_4jJ8TbIAcg4dMtAcJKMVufOk8M&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=RswD86dtCG-6SRBDcip5yg&_nc_ss=7a22e&oh=00_AQKJCgAxVWQmjzZtHCttoXRK04__N9Q8JF9S6s6aJLo0XA&oe=6A98C307",
+   "url": "https://www.threads.com/@aicoffeechat/post/Dcml1kSk3JN",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
    "text": "https://www.tomshardware.com/tech-industry/artificial-intelligence/claude-nukes-a-developers-700-gb-home-directory-while-testing-a-script-to-ensure-it-wouldnt-do-so-automatic-model-downgrade-may-have-contributed-to-the-screw-up",
    "likes": 0,
    "cmts": 0,
@@ -533,22 +563,12 @@
   },
   {
    "account": "choi.openai",
-   "text": "신청주소 :\nhttps://claude.com/programs/team-plan-for-scientists",
-   "likes": 6,
-   "cmts": 0,
-   "time": 1787995841,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DcnnqbOjhCy",
-   "region": "kr"
-  },
-  {
-   "account": "aicoffeechat",
-   "text": "코드를 직접 안 짜는 시대일수록 코드를 아는 사람이 이긴다. \n\n앤드류응의 따끈따끈 좋은 글이 또 나왔습니다. 에이전트가 코드를 전부 써준다고 해서 소프트웨어 지식이 필요 없어지는 게 아니라, 오히려 더 필요해진다는건데요.\n\n이유는 단순합니다. 에이전트는 시키는 대로 만들지만, 무엇을 시킬지는 사람이 정해야 하기 때문이예요. 어떤 선택지가 존재하는지조차 모르는 사람은 에이전트를 조종할 수 없죠.\n\n바이브 코딩하시는 분들은 이 \"5가지\"는 꼭 기억하셨으면 좋겠습니다.",
-   "likes": 357,
-   "cmts": 25,
-   "time": 1787961330,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/787574233_17954762469232485_4807613008236640836_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk3NDAzMDEyMjQ2MjQyNTUxNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTM2NS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=oNY82-eFjqAQ7kNvwGPsB_e&_nc_oc=AdrmXYV-PEYyEF08ev87mYAi8BbY-D4mI6MBR1NM_4jJ8TbIAcg4dMtAcJKMVufOk8M&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=7MyvXBwgEEnPCxcbFHldhg&_nc_ss=7a22e&oh=00_AQJ8Nf0RFuB-UngSqi6sYurv0iEMdRtvSY1CvIGfuWIkwQ&oe=6A98C307",
-   "url": "https://www.threads.com/@aicoffeechat/post/Dcml1kSk3JN",
+   "text": "와.. 미쳤습니다..\n\nGPT Astra로 추정되는 내부 체크포인트 \"mozaik-alpha-fdm\"의 첫 결과물이 공개됐는데요.\n한 번의 지시로 만든 프론트엔드 결과물부터 디테일이 상당해보입니다.\n9월은 정말 프론티어 모델들의 성능 향상이 뚜렷하게 나타날 것 같습니다.\nGTA7은 완벽하게 AI로 만들어질겁니다.\n\nx@XIVIX_134",
+   "likes": 57,
+   "cmts": 7,
+   "time": 1787999455,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/788629531_1743041621164029_5043132675044385102_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk3NDM0OTk1MTAxNzcwNDAwMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=ab6RYxkRz7MQ7kNvwHzhsRA&_nc_oc=AdoDT7ynFEJ_usHJtLMs-L5HlTIKE5zC2pKrNRNuu4Ko3-91ZeY5FjBuGETywQVBfuA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=d48efkMs1RSD-Ub0QjW3CQ&_nc_ss=7a22e&oh=00_AQIK_pxy3P0VfY9PGV-9ir93XEr3pAIrOahmGvN99S-BRw&oe=6A98A444",
+   "url": "https://www.threads.com/@choi.openai/post/DcnujkzgFpD",
    "region": "kr"
   },
   {
@@ -563,42 +583,22 @@
   },
   {
    "account": "choi.openai",
+   "text": "신청주소 :\nhttps://claude.com/programs/team-plan-for-scientists",
+   "likes": 6,
+   "cmts": 0,
+   "time": 1787995841,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DcnnqbOjhCy",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
    "text": "연구원이나 대학원생이면 이건 무조건 확인해보세요.\n\n앤트로픽이 과학자를 위한 Claude Team 플랜을 공개했습니다.\n대학·비영리 연구기관 소속 연구자는 Standard 좌석을 1년간 무료로 이용할 수 있고, 5배 사용량의 Premium은 월 15달러입니다.\n\nPI(책임연구자)가 신청한 뒤 연구실 구성원을 추가하는 방식이며, 우선 1만 명을 대상으로 시작합니다.",
-   "likes": 60,
+   "likes": 66,
    "cmts": 1,
    "time": 1787995833,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/789563118_1420645329949559_328865694632230987_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk3NDMxOTU2NjUzMjU0ODYwNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Va7kMaXMjGEQ7kNvwGt_TbG&_nc_oc=Ado80rrc06hXQhTVWV0SV7p5H-8a8yb4ljy8yH5E57U7rUs2bmrK0JqRKhHEBLt0xEM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=wztoZYbVdG8lsPde3KdRQg&_nc_ss=7a22e&oh=00_AQLfjWlouF8B3kQq5RpV3P2RtQEmttZUWZPnvEKxHWE2Eg&oe=6A98AB84",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/789563118_1420645329949559_328865694632230987_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk3NDMxOTU2NjUzMjU0ODYwNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Va7kMaXMjGEQ7kNvwGt_TbG&_nc_oc=Ado80rrc06hXQhTVWV0SV7p5H-8a8yb4ljy8yH5E57U7rUs2bmrK0JqRKhHEBLt0xEM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=d48efkMs1RSD-Ub0QjW3CQ&_nc_ss=7a22e&oh=00_AQJTc9xjgJMDSGOwkXDH53xgb9XzPUtqmSMkUFuON4nxLw&oe=6A98AB84",
    "url": "https://www.threads.com/@choi.openai/post/DcnnpbDDpf9",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "Claude Code는 2025년 12월부터 2026년 4월까지 오픈소스 저장소에서 886,122개 커밋을 만들었습니다.\n\n6월 23일 공개된 연구는 1억 8천만 개가 넘는 Git 저장소를 설정 파일·커밋 메시지·작성자 식별·봇 서명으로 함께 조사했습니다. 봇 계정만 찾으면 850,157개 중 28,154개만 잡혔습니다. 재현율은 3.3%였습니다.\n\nPR만 세는 방식도 Claude Code 도입 저장소의 79%를 놓쳤습니다. 클라우드 에이전트는 기능 PR로 보이고, 에디터 안의 에이전트는 유지보수 커밋으로 남기 때문입니다.\n\nAI 코딩 도구의 도입률은 사용자가 밝힌 숫자가 아니라, 어떤 흔적을 세느냐에 따라 달라집니다.\n\n앞으로 오픈소스에서 에이전트의 영향과 공급망 위험을 비교할 때는 PR 수 하나만으로는 부족합니다.\n\nhttps://arxiv.org/abs/2606.24429",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1788001956,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DcnzUFKGTZy",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "허깅페이스 :\nhttps://huggingface.co/AngelSlim/Hy4-preview-GGUF",
-   "likes": 2,
-   "cmts": 0,
-   "time": 1787990427,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DcndVeIDwkP",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "중국 AI 모델들의 발전 속도가 정말 빠릅니다.\n이제는 모델 성능뿐만 아니라 로컬에서 돌리기 위한 최적화까지 상당한 수준으로 올라오고 있습니다.\n\nTencent이 770B 규모의 Hy4-preview를 1.5TB에서 약 200GiB까지 압축했습니다. 원본의 약 13% 크기인데도 성능 저하는 크지 않습니다.\n\nMIX-STQ1_0이라는 양자화 방식을 사용했는데요. 모든 레이어를 똑같이 줄이는 대신, 보정 데이터를 분석해 레이어마다 1.31bit~2.06bit의 서로 다른 정밀도를 적용합니다.\n\n그 결과 MCP Atlas는 83.7→83.2, SWE-Bench multi는 82.9→81.3, MRCR은 81.3→81.1에 그쳤습니다.\n\n1.5TB짜리 모델을 200GiB 수준으로 줄이고 이 정도 성능을 유지한다는 게 꽤 놀랍습니다. 이런 기술이 다른 중국 오픈 모델에도 적용되기 시작하면 고성능 AI를 직접 구동하기 위한 하드웨어 기준도 빠르게 낮아질 것 같습니다.",
-   "likes": 32,
-   "cmts": 2,
-   "time": 1787990418,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/787817982_17984549715112832_3108797442745590744_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk3NDI3NDEzMTc4NDg1NjAyMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMjI5Mi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=bdv1tA7M1B0Q7kNvwFoYe3H&_nc_oc=Adps1Ol8KRLJ3MFvfBiJ-GndiCy5OoRfn1vwxc4OhIQzOh_RGagzi1ycxg3BEFOVTPE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=wztoZYbVdG8lsPde3KdRQg&_nc_ss=7a22e&oh=00_AQJDPg2dnXETxlMc2GqEUDz-_mXCwow-5W8ncZU91BCxcQ&oe=6A98953A",
-   "url": "https://www.threads.com/@choi.openai/post/DcndUYXj0M8",
    "region": "kr"
   }
  ],
@@ -628,10 +628,10 @@
   {
    "account": "jaemyung_lee",
    "title": "이번 정류장은 브라질입니다 #이재명 #대통령 #Brasil #Brazil",
-   "views": 769900,
+   "views": 770000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooBGAi8A6InMPiZBpU9fBkTRtAAwBKw0m1E0Ag~tplv-tiktokx-origin.image?dr=14575&x-expires=1788181200&x-signature=i0iukPBjp%2F5Ukx2r4zR9fDbkUYc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooBGAi8A6InMPiZBpU9fBkTRtAAwBKw0m1E0Ag~tplv-tiktokx-origin.image?dr=14575&x-expires=1788181200&x-signature=md%2BjRU%2Bt4bifGuMpB5EoY50eeIY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785109781,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7666988131442281746",
    "region": "kr"
@@ -639,7 +639,7 @@
   {
    "account": "jaemyung_lee",
    "title": "¡Gusto en conocerte, Argentina! 🇰🇷🤝🇦🇷 #이재명 #아르헨티나 #argentina #javiermilei",
-   "views": 489000,
+   "views": 489100,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o43E0EJDgKsBeuyFfnqRBCAvI1sAAbI2NsPlIc~tplv-tiktokx-origin.image?dr=14575&x-expires=1788181200&x-signature=7lyx7v4qASUxTap%2FvZ4GR4Xx5Uk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -650,7 +650,7 @@
   {
    "account": "jaemyung_lee",
    "title": "이번 정류장은 칠레입니다🇰🇷🇨🇱 #이재명 #대통령 #Chile #Corea",
-   "views": 371900,
+   "views": 372000,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQpDHATAEBzAIGFgqwDA4hofdRfVCsCaqEBIkL~tplv-tiktokx-origin.image?dr=14575&x-expires=1788181200&x-signature=6gdhsv%2BZ%2FK3%2BANFaAmmL%2BZaiJH4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -672,7 +672,7 @@
   {
    "account": "jaemyung_lee",
    "title": "대한민국과 브라질이 함께 그려갈 미래가  두 나라 국민 모두에게  더 큰 희망과 기회가 되길 기대합니다 🇰🇷🫰🇧🇷 @Presidente Lula ima, meu irmão💚💛💙 #이재명 #lula #korea #Br",
-   "views": 236000,
+   "views": 236100,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-i-photomode-sg/91a2f3151d9741689af70b1d1f8aac3a~tplv-photomode-image.jpeg?dr=14555&x-expires=1788181200&x-signature=QSYk64eR2O%2BZY%2FlRyMlcj2%2FTH2M%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=9b759fb9&idc=my2&ftpl=1",
@@ -683,7 +683,7 @@
   {
    "account": "jaemyung_lee",
    "title": "우리 국민의 구조에 모든 역량을 총동원하겠습니다  #네팔 #긴급회의 #prayfornepal",
-   "views": 214000,
+   "views": 214600,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4ECXepekgFVLDAPQbcqjSdGAIaIofEozvI9Qh~tplv-tiktokx-origin.image?dr=14575&x-expires=1788181200&x-signature=1tM%2FmQjq7RW7V8oI30Ej5KF6eQE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -694,7 +694,7 @@
   {
    "account": "jaemyung_lee",
    "title": "마참내.. #anthropic #openai #NVIDIA #broadcom #이재명",
-   "views": 193400,
+   "views": 193500,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/osApGgttBIBbbk6zA4iAKdIdkBfL1AAEiSwmCM~tplv-tiktokx-origin.image?dr=14575&x-expires=1788181200&x-signature=YZvWkAM%2BKbAFd5II48VmQQ%2FzUso%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -711,28 +711,6 @@
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okkIgGYEt7AlB4qvUF5yCAEAjD8vfKAfVACbBp~tplv-tiktokx-origin.image?dr=14575&x-expires=1788181200&x-signature=nA3dqj%2F22qZoRaXyU0Csqn0%2Btgs%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1784911601,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7666136953456315666",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "박규영, 아침부터 미모 열일 / 아워글래스(HOURGLASS) 팝업 포토월 #박규영 #아워글래스 #HOURGLASS",
-   "views": 10100,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oUDPINKKABuclCBuAAwinRmqEfl211iBiAs9LA~tplv-tiktokx-origin.image?dr=14575&x-expires=1788181200&x-signature=jsRmQeUccJnmvxKF8ZiiJTscEg0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
-   "time": 1787535859,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7677408056661036308",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "트와이스 지효, 한층 성숙해진 미모 / 더후(THE WHOO) 포토월 #트와이스 #TWICE #지효 #THEWHOO",
-   "views": 1717,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAIWGIAVQtqA0UJfgJfAnwLAiP0I7Ge9ySA1f7~tplv-tiktokx-origin.image?dr=14575&x-expires=1788181200&x-signature=pRIVdF4eRnhooK3svSWgRXG6x88%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
-   "time": 1787820027,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7678628548231351573",
    "region": "kr"
   }
  ],
@@ -765,15 +743,6 @@
    "url": "https://www.reddit.com/r/interestingasfuck/comments/1w14w3b/this_guy_put_a_camera_on_his_cat_to_document_an/"
   },
   {
-   "sub": "pics",
-   "title": "ICE Mugshot of Milo Yiannopoulos, longtime vocal supporter of strict immigration enforcement.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/je5ne7jfs6mh1.jpeg?width=320&crop=smart&auto=webp&s=24017b4a41d16691007f5d0f2f62c2673fe750d2",
-   "time": 1787954086,
-   "url": "https://www.reddit.com/r/pics/comments/1w142x4/ice_mugshot_of_milo_yiannopoulos_longtime_vocal/"
-  },
-  {
    "sub": "SipsTea",
    "title": "Flock CEO, Garret Langley, says Americans must \"compromise on their privacy for their own safety.\"",
    "score": 0,
@@ -783,13 +752,13 @@
    "url": "https://www.reddit.com/r/SipsTea/comments/1w1fibh/flock_ceo_garret_langley_says_americans_must/"
   },
   {
-   "sub": "interestingasfuck",
-   "title": "Vertical burial ceremony, a distinct cultural funeral rite practiced in parts of Africa.",
+   "sub": "pics",
+   "title": "ICE Mugshot of Milo Yiannopoulos, longtime vocal supporter of strict immigration enforcement.",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/Mm9reHp0N2VkYW1oMfDODrDJ-Pn7lcLmL3yg0pcCnFXpnW1Y7S_E93PzMDOf.png?width=320&crop=smart&auto=webp&s=4d8987c526c9ff7231bac0ffd2424f9b3d8faee8",
-   "time": 1787997116,
-   "url": "https://www.reddit.com/r/interestingasfuck/comments/1w1ic83/vertical_burial_ceremony_a_distinct_cultural/"
+   "thumb": "https://preview.redd.it/je5ne7jfs6mh1.jpeg?width=320&crop=smart&auto=webp&s=24017b4a41d16691007f5d0f2f62c2673fe750d2",
+   "time": 1787954086,
+   "url": "https://www.reddit.com/r/pics/comments/1w142x4/ice_mugshot_of_milo_yiannopoulos_longtime_vocal/"
   },
   {
    "sub": "politics",
@@ -810,24 +779,6 @@
    "url": "https://www.reddit.com/r/comics/comments/1w0wrw8/hope_this_clears_things_up/"
   },
   {
-   "sub": "mildlyinfuriating",
-   "title": "Landlord replaced all the furniture in my flat with much worse versions between viewing and moving in",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/l355ye588amh1.jpg?width=140&height=105&auto=webp&s=4e627216ac65345d87cbb33fe55a70ef408e6675",
-   "time": 1787995379,
-   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1w1hupo/landlord_replaced_all_the_furniture_in_my_flat/"
-  },
-  {
-   "sub": "NoStupidQuestions",
-   "title": "why do rich middle aged women not date attractive younger guys as much as rich older men date attractive younger women?",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "",
-   "time": 1787957720,
-   "url": "https://www.reddit.com/r/NoStupidQuestions/comments/1w15kuk/why_do_rich_middle_aged_women_not_date_attractive/"
-  },
-  {
    "sub": "MadeMeSmile",
    "title": "Boyfriend of one month put this in his bathroom for me. (OC)",
    "score": 0,
@@ -837,13 +788,40 @@
    "url": "https://www.reddit.com/r/MadeMeSmile/comments/1w0u9iq/boyfriend_of_one_month_put_this_in_his_bathroom/"
   },
   {
-   "sub": "PeterExplainsTheJoke",
-   "title": "Whyyyy peter?",
+   "sub": "AmItheAsshole",
+   "title": "AITA for telling my DIL and son that if they plan to do the whole SAHP thing they can start paying us rent?",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/rc3camgzi4mh1.png?width=640&crop=smart&auto=webp&s=c0ad8383c614520c0de2622b5c00eea89d45c38f",
-   "time": 1787926351,
-   "url": "https://www.reddit.com/r/PeterExplainsTheJoke/comments/1w0rq5p/whyyyy_peter/"
+   "thumb": "",
+   "time": 1787970286,
+   "url": "https://www.reddit.com/r/AmItheAsshole/comments/1w1a53w/aita_for_telling_my_dil_and_son_that_if_they_plan/"
+  },
+  {
+   "sub": "Fauxmoi",
+   "title": "Olivia Rodrigo stuns in custom, Palestine-made Nöl Collective dress at a press conference announcing her $10M donation to women-focused nonprofits.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/301f197oyamh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=c6c1cf25b20574d69fb302f82b0871a5c1a2f7ff",
+   "time": 1788004267,
+   "url": "https://www.reddit.com/r/Fauxmoi/comments/1w1kii1/olivia_rodrigo_stuns_in_custom_palestinemade_nöl/"
+  },
+  {
+   "sub": "AskReddit",
+   "title": "which show started 10/10 and ended 10/10?",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1787992611,
+   "url": "https://www.reddit.com/r/AskReddit/comments/1w1h30u/which_show_started_1010_and_ended_1010/"
+  },
+  {
+   "sub": "interestingasfuck",
+   "title": "Vertical burial ceremony, a distinct cultural funeral rite practiced in parts of Africa.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/Mm9reHp0N2VkYW1oMfDODrDJ-Pn7lcLmL3yg0pcCnFXpnW1Y7S_E93PzMDOf.png?width=320&crop=smart&auto=webp&s=4d8987c526c9ff7231bac0ffd2424f9b3d8faee8",
+   "time": 1787997116,
+   "url": "https://www.reddit.com/r/interestingasfuck/comments/1w1ic83/vertical_burial_ceremony_a_distinct_cultural/"
   }
  ],
  "disaster": [],
@@ -859,8 +837,7 @@
     "takepage_"
    ],
    "tiktok": [
-    "jaemyung_lee",
-    "tictok_ent"
+    "jaemyung_lee"
    ]
   },
   "why": {
@@ -885,13 +862,16 @@
     "higgsfield.ai": "gap",
     "googledeepmind": "gap",
     "cristiano": "gap"
+   },
+   "tiktok": {
+    "tictok_ent": 400
    }
   },
   "landing": {
-   "at": "2026-08-29T21:35:38",
+   "at": "2026-08-29T22:01:23",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-29T22:01:21.117365+09:00"
+ "updated": "2026-08-29T22:31:20.134391+09:00"
 }
