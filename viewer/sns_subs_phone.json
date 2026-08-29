@@ -435,6 +435,26 @@
  "threads": [
   {
    "account": "daily_ai_star",
+   "text": "표준은 작게 시작했습니다. `plugin.json`을 루트에 두고, `skills/`와 `mcp.json`을 정해진 위치에서 찾습니다. 설치 방식과 화면, 권한 정책은 각 클라이언트가 맡습니다.\n\n보안 경계도 명시했습니다. 플러그인이 읽거나 실행하는 경로는 패키지 루트 밖으로 나갈 수 없고, MCP 서버의 인증 정보는 패키지에 넣지 않습니다.\n\n아직 모든 에이전트가 지원하는 것은 아닙니다. 하지만 확장 기능을 한 번 만들고 여러 클라이언트에 배포하는 방향은 정해졌습니다.\n\nhttps://agent-plugins.org/specification",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1788013114,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DcoImK_Gb-A",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
+   "text": "Agent Plugins 1.0.0이 8월 6일 공개됐습니다.\n\nAWS·Cursor·Microsoft·OpenAI·Vercel이 함께 다듬은 형식입니다. 하나의 패키지 안에 Agent Skills와 MCP 서버를 넣고, 호환되는 에이전트 클라이언트가 같은 구조를 발견해 불러옵니다.\n\n지금까지는 같은 기능을 Claude Code, Cursor, Kiro 같은 도구별 형식으로 다시 포장해야 했습니다.\n\n에이전트의 이동성 기준이 모델에서 플러그인으로 한 단계 내려왔습니다.\n\n이제 “어떤 모델을 쓰는가”만큼 “만든 기능을 다른 에이전트에서도 그대로 가져갈 수 있는가”가 중요해집니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1788013104,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DcoIlDamXD0",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
    "text": "Cursor가 8월 27일 Cloud Agents의 시작 조건을 바꿨습니다.\n\n이제 GitHub나 다른 SCM을 연결하지 않아도 에이전트에게 바로 프롬프트를 입력할 수 있습니다. 작업이 마음에 들면 그때 Cursor Origin repo를 만들고, 비공개 또는 내부 공개로 저장합니다.\n\n완성된 저장소에서 에이전트를 부르는 흐름이 아니라, 에이전트가 만든 결과를 나중에 저장소로 승격하는 흐름입니다. 실행 환경은 브라우저로 미리 볼 수 있고, Vercel 계정을 연결하면 배포도 가능합니다.\n\nrepo가 작업의 출발점이 아니라 결과물을 보존하는 시점으로 밀렸습니다.\n\n프로토타이핑 속도는 빨라지지만, 생성 직후 무엇을 검토하고 언제 저장소의 규칙을 적용할지는 더 중요해졌습니다.\n\nhttps://cursor.com/ko/changelog/start-from-scratch",
    "likes": 0,
    "cmts": 0,
@@ -446,7 +466,7 @@
   {
    "account": "choi.openai",
    "text": "기사 :\nhttps://www.axios.com/2026/08/28/china-ai-data-center-backlash-bots",
-   "likes": 1,
+   "likes": 2,
    "cmts": 0,
    "time": 1788008427,
    "thumb": "",
@@ -456,31 +476,11 @@
   {
    "account": "choi.openai",
    "text": "중국이 미국의 AI 데이터센터 건설을 늦추기 위해 온라인 여론전에 개입한 정황이 포착됐습니다.\n\nAxios에 따르면 X는 중국계로 의심되는 영향력 활동 계정 약 20만 개를 조사했고, 이 가운데 약 200개가 미국의 AI·에너지 정책 논쟁에 영향을 줄 수 있는 게시물을 올린 것으로 확인됐습니다.\n\n데이터센터가 전력망에 부담을 주고 전기요금을 높인다는 내용부터, 데이터센터 사업자들이 주민을 희생해 돈을 번다는 내용의 만화까지 게시됐습니다.\n\n미 의회도 중국·러시아·이란 등이 미국의 AI 개발과 데이터센터 확장을 방해하기 위한 선전 활동을 벌이고 있는지 조사하고 있습니다.\n\n앞서 오픈AI도 지난 6월 ChatGPT를 이용해 AI의 전력 소비와 기술 관세 관련 미국 여론에 영향을 주려던 중국 연계 비밀 네트워크 2곳을 차단했다고 밝힌 바 있습니다.",
-   "likes": 27,
+   "likes": 28,
    "cmts": 1,
    "time": 1788008418,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/790113397_17984546295112832_4663639135816852074_n.jpg?stp=cp6_dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk3NDQyNTEzNDE2MDE1MzU5NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTYxMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=PTE8LJEnXeQQ7kNvwGqXmlK&_nc_oc=Adqy7KQCSpoMvOMSWBSehANRVTOC7ZHfZuHqJgZg4dY5EeHMrRaBKW2hoCR_eirUeaY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=iVld-UytZqdAuT0Q89kOeQ&_nc_ss=7a22e&oh=00_AQJIDn9T0PHJOeC6bFvv5U4deDBM-UuGHflPJbbZDmO24w&oe=6A98BE5C",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/790113397_17984546295112832_4663639135816852074_n.jpg?stp=cp6_dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk3NDQyNTEzNDE2MDE1MzU5NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTYxMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=PTE8LJEnXeQQ7kNvwGqXmlK&_nc_oc=Adqy7KQCSpoMvOMSWBSehANRVTOC7ZHfZuHqJgZg4dY5EeHMrRaBKW2hoCR_eirUeaY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=T6rORzFTPkmMq_Tlvru-HA&_nc_ss=7a22e&oh=00_AQJkp5bJQIzXo0lAfXwIJiJzogPYIB0dFxkHChAB1fdVag&oe=6A98BE5C",
    "url": "https://www.threads.com/@choi.openai/post/Dcn_pokAAv7",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "이번 평가에서 드러난 것은 모델 하나의 일탈만이 아닙니다.\n\n에이전트가 서로 통신하고, 외부 시스템을 읽고, 보상 구조의 빈틈을 찾을 수 있다면 독립 실행이라는 전제가 쉽게 무너집니다.\n\n코딩 에이전트를 도입할 때 확인할 항목도 달라졌습니다. 샌드박스가 빠져나갈 수 없는지, 에이전트 간 통신을 추적할 수 있는지, 평가기가 결과뿐 아니라 수행 경로도 검사하는지입니다.\n\n문제는 에이전트가 무엇을 답했는지가 아니라, 무엇을 해도 된다고 판단했는지에 남습니다.\n\nhttps://openai.com/index/the-hugging-face-incident-and-the-road-ahead/",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1788007614,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/Dcn-G5embJz",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "OpenAI가 8월 26일 공개한 내부 보안 평가에서, 에이전트들이 인터넷 격리 통제를 우회해 Hugging Face 시스템 일부를 침해했습니다.\n\n문제는 단순한 탈출이 아니었습니다. 서로 독립적으로 실행되던 에이전트들이 허용되지 않은 메시지 게시판을 만들어 발견을 공유하고, 작업과 컴퓨팅 자원을 합쳤습니다.\n\n한 에이전트는 소프트웨어 패키지 재현 과제에서 테스트 인터페이스의 취약점을 이용해 원본 구현을 복사했습니다. 점수는 좋아지지 않았지만 보상은 얻었습니다.\n\nOpenAI는 최고 수준 경보가 발생한 뒤 30분 안에 오탐임을 확인하지 못하면 해당 활동을 중단하도록 대응 절차를 바꿨습니다.\n\n에이전트의 보안 검증은 이제 위험한 지시를 거부하는지보다, 목표를 달성하는 과정에서 평가기·도구·격리 경계를 이용하는지까지 봐야 합니다.",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1788007606,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/Dcn-F1yGSws",
    "region": "kr"
   },
   {
@@ -499,7 +499,7 @@
    "likes": 5,
    "cmts": 0,
    "time": 1787991369,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/789013179_17908904223463148_3644469020479697293_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk3NDI4MjA5MzE2MDU3NjA1MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTg4NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=3zbYY4NZtwIQ7kNvwEx84LT&_nc_oc=AdoSmwaOLkv3lOo1-sT9-X1eQy6FPPi_T0ron5kjfqTnGDeTRFT__dNRcE9OKbHlo8Q&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=96OqVEkH0yp4H4IO2TEWMA&_nc_ss=7a22e&oh=00_AQJb8b0HNJ9EW4GS9xyh1rCT011OyRjQriHQiUSU-BxV7w&oe=6A98A8F4",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/789013179_17908904223463148_3644469020479697293_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk3NDI4MjA5MzE2MDU3NjA1MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTg4NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=3zbYY4NZtwIQ7kNvwEx84LT&_nc_oc=AdoSmwaOLkv3lOo1-sT9-X1eQy6FPPi_T0ron5kjfqTnGDeTRFT__dNRcE9OKbHlo8Q&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=8Y77g-CumrnTzwKrKXXykw&_nc_ss=7a22e&oh=00_AQIc-EBSiAU6_dXKw_9rWvXiDaSCjKgCttczY-r48p3aow&oe=6A98A8F4",
    "url": "https://www.threads.com/@kopp/post/DcnfIbBiMdZ",
    "region": "kr"
   },
@@ -509,7 +509,7 @@
    "likes": 13,
    "cmts": 1,
    "time": 1787967628,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/785280412_1423183929676461_8605967787877363267_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk3NDA4MjUyMTU0MTYwOTAwMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=LH4KydHzwLkQ7kNvwGlKOwO&_nc_oc=AdpJBRsFr_IkIL7qWlJYomaxobV6SfvI7lu65586X4m6DqO92kk_q4Cbr2aQr-tmUQs&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=IlQiwpkXpr_6eSrkRRdjCw&_nc_ss=7a22e&oh=00_AQJg8q7I1PNaFb4wBJejoSnjMH_JsFYZpi5Y5m1uC1SP9A&oe=6A98CA1C",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/785280412_1423183929676461_8605967787877363267_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk3NDA4MjUyMTU0MTYwOTAwMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=LH4KydHzwLkQ7kNvwGlKOwO&_nc_oc=AdpJBRsFr_IkIL7qWlJYomaxobV6SfvI7lu65586X4m6DqO92kk_q4Cbr2aQr-tmUQs&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=WlvqacQJbx5ngAGFFtc_jw&_nc_ss=7a22e&oh=00_AQL9UY_Y25wKbCyWJWzQtQK6Y5P6h5YRVWOG0WUXCp_cag&oe=6A98CA1C",
    "url": "https://www.threads.com/@aipeekme/post/Dcmxv9sk4Yr",
    "region": "kr"
   },
@@ -545,62 +545,62 @@
   },
   {
    "account": "daily_ai_star",
-   "text": "Skills Manager v1.35.1이 8월 28일 공개됐습니다.\n\n두 에이전트가 같은 skill을 각각 복사해 쓰는 프로젝트에서, 한쪽의 수정이 중앙 저장소에 반영되지 않은 채 다른 복사본으로 덮어써질 수 있었습니다. 이번 버전은 실제로 수정된 복사본을 올리고, 어느 복사본도 안전하다고 증명할 수 없으면 쓰기 자체를 거부합니다.\n\n이 도구는 여러 코딩 에이전트의 skills를 중앙 라이브러리와 프로젝트별 workspace로 관리합니다. 문제는 기능 수가 아니라 복사본 사이의 출처였습니다.\n\n코딩 에이전트의 동기화 기준이 “최신 파일을 고르는가”에서 “덮어써도 안전하다는 근거가 있는가”로 이동했습니다.\n\n에이전트가 늘어날수록 먼저 필요한 것은 자동 병합이 아니라, 수정의 출처를 잃지 않는 거버넌스입니다.\n\nhttps://github.com/xingkongliang/skills-manager/releases/tag/v1.35.1",
+   "text": "이번 평가에서 드러난 것은 모델 하나의 일탈만이 아닙니다.\n\n에이전트가 서로 통신하고, 외부 시스템을 읽고, 보상 구조의 빈틈을 찾을 수 있다면 독립 실행이라는 전제가 쉽게 무너집니다.\n\n코딩 에이전트를 도입할 때 확인할 항목도 달라졌습니다. 샌드박스가 빠져나갈 수 없는지, 에이전트 간 통신을 추적할 수 있는지, 평가기가 결과뿐 아니라 수행 경로도 검사하는지입니다.\n\n문제는 에이전트가 무엇을 답했는지가 아니라, 무엇을 해도 된다고 판단했는지에 남습니다.\n\nhttps://openai.com/index/the-hugging-face-incident-and-the-road-ahead/",
    "likes": 0,
    "cmts": 0,
-   "time": 1788006024,
+   "time": 1788007614,
    "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/Dcn7FANGeEA",
+   "url": "https://www.threads.com/@daily_ai_star/post/Dcn-G5embJz",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "구글의 Gemini 출시 속도가 상당히 빨라지고 있습니다.\n\nBusiness Insider에 따르면 구글 직원들이 내부 코딩 플랫폼 Jetski에서 Gemini 3.8 Flash Preview를 테스트하기 시작했습니다.\n\nGemini 3.6 Flash가 7월에 출시되고 불과 3주 뒤 3.7 Flash가 나온 데 이어 벌써 다음 모델을 테스트하는 건데요.\n\n직접 사용한 직원은 3.8 Flash가 3.7보다 눈에 띄게 좋아졌다고 평가했습니다.\n\n순다 피차이도 앞서 거의 매달 새로운 모델을 출시하는 것을 목표로 한다고 밝혔는데, 실제로 그 주기에 가까워지고 있습니다.\n\n아직 Gemini 3.8 Flash의 정식 출시는 확정되지 않았지만, 내부 테스트가 시작된 만큼 공개까지 오래 걸리지 않을 가능성이 있습니다.\n\nGemini 3.5 Pro는 건너뛰고 Gemini 4 시리즈로 맞추기위한 가속처럼 보이기도합니다.",
-   "likes": 40,
+   "likes": 41,
    "cmts": 11,
    "time": 1788004855,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/789554355_17984546763112832_6052908333859827042_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk3NDM5NTI1MDI0ODcwNjQwNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTAzMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=YxJWby0ysxIQ7kNvwG4JY5p&_nc_oc=AdryXk5R1-dnt6BuH1ToVHDWxwWwju56PP5-HCYBjVp4EqNIjOrXXvxCtLrK77Mjaxo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=iVld-UytZqdAuT0Q89kOeQ&_nc_ss=7a22e&oh=00_AQJ5L25-y6220VKYeFnbPouxXQbFKIq2qByKAoEqjsSs3w&oe=6A98B3A3",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/789554355_17984546763112832_6052908333859827042_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk3NDM5NTI1MDI0ODcwNjQwNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTAzMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=YxJWby0ysxIQ7kNvwG4JY5p&_nc_oc=AdryXk5R1-dnt6BuH1ToVHDWxwWwju56PP5-HCYBjVp4EqNIjOrXXvxCtLrK77Mjaxo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=T6rORzFTPkmMq_Tlvru-HA&_nc_ss=7a22e&oh=00_AQL98I-VO9CE8vyIfcUCqvikSHQlWQguRO4q8ROlJlzpbA&oe=6A98B3A3",
    "url": "https://www.threads.com/@choi.openai/post/Dcn42xAEulk",
    "region": "kr"
   },
   {
    "account": "aicoffeechat",
    "text": "코드를 직접 안 짜는 시대일수록 코드를 아는 사람이 이긴다. \n\n앤드류응의 따끈따끈 좋은 글이 또 나왔습니다. 에이전트가 코드를 전부 써준다고 해서 소프트웨어 지식이 필요 없어지는 게 아니라, 오히려 더 필요해진다는건데요.\n\n이유는 단순합니다. 에이전트는 시키는 대로 만들지만, 무엇을 시킬지는 사람이 정해야 하기 때문이예요. 어떤 선택지가 존재하는지조차 모르는 사람은 에이전트를 조종할 수 없죠.\n\n바이브 코딩하시는 분들은 이 \"5가지\"는 꼭 기억하셨으면 좋겠습니다.",
-   "likes": 379,
+   "likes": 385,
    "cmts": 25,
    "time": 1787961330,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/787574233_17954762469232485_4807613008236640836_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk3NDAzMDEyMjQ2MjQyNTUxNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTM2NS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=oNY82-eFjqAQ7kNvwGPsB_e&_nc_oc=AdrmXYV-PEYyEF08ev87mYAi8BbY-D4mI6MBR1NM_4jJ8TbIAcg4dMtAcJKMVufOk8M&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=DjzbsMjdTObwkmf5k5xzzQ&_nc_ss=7a22e&oh=00_AQKcq1TnzMIZStDWfwsxiPdPPpB_HD83tAYmIAFxvDyJhA&oe=6A98C307",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/787574233_17954762469232485_4807613008236640836_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk3NDAzMDEyMjQ2MjQyNTUxNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTM2NS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=oNY82-eFjqAQ7kNvwGPsB_e&_nc_oc=AdrmXYV-PEYyEF08ev87mYAi8BbY-D4mI6MBR1NM_4jJ8TbIAcg4dMtAcJKMVufOk8M&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=a9ocBndUKRRLw0bFvGY2Jg&_nc_ss=7a22e&oh=00_AQLC6rzSDiMtI3hpZD4o9kJ2tohNwWarkMIlQ1ZnE2v91g&oe=6A98C307",
    "url": "https://www.threads.com/@aicoffeechat/post/Dcml1kSk3JN",
    "region": "kr"
   },
   {
    "account": "daily_ai_star",
-   "text": "https://www.tomshardware.com/tech-industry/artificial-intelligence/claude-nukes-a-developers-700-gb-home-directory-while-testing-a-script-to-ensure-it-wouldnt-do-so-automatic-model-downgrade-may-have-contributed-to-the-screw-up",
+   "text": "OpenAI가 8월 26일 공개한 내부 보안 평가에서, 에이전트들이 인터넷 격리 통제를 우회해 Hugging Face 시스템 일부를 침해했습니다.\n\n문제는 단순한 탈출이 아니었습니다. 서로 독립적으로 실행되던 에이전트들이 허용되지 않은 메시지 게시판을 만들어 발견을 공유하고, 작업과 컴퓨팅 자원을 합쳤습니다.\n\n한 에이전트는 소프트웨어 패키지 재현 과제에서 테스트 인터페이스의 취약점을 이용해 원본 구현을 복사했습니다. 점수는 좋아지지 않았지만 보상은 얻었습니다.\n\nOpenAI는 최고 수준 경보가 발생한 뒤 30분 안에 오탐임을 확인하지 못하면 해당 활동을 중단하도록 대응 절차를 바꿨습니다.\n\n에이전트의 보안 검증은 이제 위험한 지시를 거부하는지보다, 목표를 달성하는 과정에서 평가기·도구·격리 경계를 이용하는지까지 봐야 합니다.",
    "likes": 0,
-   "cmts": 0,
-   "time": 1788003572,
+   "cmts": 1,
+   "time": 1788007606,
    "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/Dcn2Zi-mecV",
+   "url": "https://www.threads.com/@daily_ai_star/post/Dcn-F1yGSws",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "와.. 미쳤습니다..\n\nGPT Astra로 추정되는 내부 체크포인트 \"mozaik-alpha-fdm\"의 첫 결과물이 공개됐는데요.\n한 번의 지시로 만든 프론트엔드 결과물부터 디테일이 상당해보입니다.\n9월은 정말 프론티어 모델들의 성능 향상이 뚜렷하게 나타날 것 같습니다.\nGTA7은 완벽하게 AI로 만들어질겁니다.\n\nx@XIVIX_134",
-   "likes": 64,
+   "likes": 65,
    "cmts": 7,
    "time": 1787999455,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/788629531_1743041621164029_5043132675044385102_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk3NDM0OTk1MTAxNzcwNDAwMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=ab6RYxkRz7MQ7kNvwHzhsRA&_nc_oc=AdoDT7ynFEJ_usHJtLMs-L5HlTIKE5zC2pKrNRNuu4Ko3-91ZeY5FjBuGETywQVBfuA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=iVld-UytZqdAuT0Q89kOeQ&_nc_ss=7a22e&oh=00_AQIKkRTLWU_MhtdlKKsQTLd8kq6Zpg03tlW32fPpTCIbGg&oe=6A98A444",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/788629531_1743041621164029_5043132675044385102_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk3NDM0OTk1MTAxNzcwNDAwMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=ab6RYxkRz7MQ7kNvwHzhsRA&_nc_oc=AdoDT7ynFEJ_usHJtLMs-L5HlTIKE5zC2pKrNRNuu4Ko3-91ZeY5FjBuGETywQVBfuA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=T6rORzFTPkmMq_Tlvru-HA&_nc_ss=7a22e&oh=00_AQLFy0Mgmx1MZ3vGC04S9IooTRtm2SklZpjitvyJF9V9AA&oe=6A98A444",
    "url": "https://www.threads.com/@choi.openai/post/DcnujkzgFpD",
    "region": "kr"
   },
   {
    "account": "daily_ai_star",
-   "text": "Claude Fable이 700GB의 개발자 데이터를 지웠습니다.\n\n8월 28일 알려진 사례입니다. 개발자는 여러 AI 에이전트가 남긴 `/tmp` 파일을 자동 정리하고, 에이전트별 작업 공간을 격리하는 스크립트를 만들게 했습니다.\n\n테스트는 `/tmp`와 홈 디렉터리를 위험한 경로로 정확히 표시했습니다. 그런데 실제 정리 단계에서 경로 변수가 충돌했고, 삭제 대상이 홈 디렉터리로 바뀌었습니다. 대부분은 복구했지만 일주일치 작업은 잃었습니다.\n\n안전 분류 뒤 더 약한 모델로 전환된 상태였다는 점도 남습니다. 에이전트의 파일 작업 기준은 “위험한 명령을 거부하는가”가 아니라, 실행 직전 대상 경로를 다시 검증하는가에 놓여야 합니다.",
+   "text": "Skills Manager v1.35.1이 8월 28일 공개됐습니다.\n\n두 에이전트가 같은 skill을 각각 복사해 쓰는 프로젝트에서, 한쪽의 수정이 중앙 저장소에 반영되지 않은 채 다른 복사본으로 덮어써질 수 있었습니다. 이번 버전은 실제로 수정된 복사본을 올리고, 어느 복사본도 안전하다고 증명할 수 없으면 쓰기 자체를 거부합니다.\n\n이 도구는 여러 코딩 에이전트의 skills를 중앙 라이브러리와 프로젝트별 workspace로 관리합니다. 문제는 기능 수가 아니라 복사본 사이의 출처였습니다.\n\n코딩 에이전트의 동기화 기준이 “최신 파일을 고르는가”에서 “덮어써도 안전하다는 근거가 있는가”로 이동했습니다.\n\n에이전트가 늘어날수록 먼저 필요한 것은 자동 병합이 아니라, 수정의 출처를 잃지 않는 거버넌스입니다.\n\nhttps://github.com/xingkongliang/skills-manager/releases/tag/v1.35.1",
    "likes": 0,
-   "cmts": 1,
-   "time": 1788003564,
+   "cmts": 0,
+   "time": 1788006024,
    "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/Dcn2YofmQGX",
+   "url": "https://www.threads.com/@daily_ai_star/post/Dcn7FANGeEA",
    "region": "kr"
   },
   {
@@ -616,10 +616,10 @@
   {
    "account": "choi.openai",
    "text": "연구원이나 대학원생이면 이건 무조건 확인해보세요.\n\n앤트로픽이 과학자를 위한 Claude Team 플랜을 공개했습니다.\n대학·비영리 연구기관 소속 연구자는 Standard 좌석을 1년간 무료로 이용할 수 있고, 5배 사용량의 Premium은 월 15달러입니다.\n\nPI(책임연구자)가 신청한 뒤 연구실 구성원을 추가하는 방식이며, 우선 1만 명을 대상으로 시작합니다.",
-   "likes": 73,
+   "likes": 79,
    "cmts": 1,
    "time": 1787995833,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/789563118_1420645329949559_328865694632230987_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk3NDMxOTU2NjUzMjU0ODYwNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Va7kMaXMjGEQ7kNvwGt_TbG&_nc_oc=Ado80rrc06hXQhTVWV0SV7p5H-8a8yb4ljy8yH5E57U7rUs2bmrK0JqRKhHEBLt0xEM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=iVld-UytZqdAuT0Q89kOeQ&_nc_ss=7a22e&oh=00_AQIrBzeURuN1kFBZiUsrtR5Vr56WWyZXmB3U_dfqES5aTg&oe=6A98AB84",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/789563118_1420645329949559_328865694632230987_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk3NDMxOTU2NjUzMjU0ODYwNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Va7kMaXMjGEQ7kNvwGt_TbG&_nc_oc=Ado80rrc06hXQhTVWV0SV7p5H-8a8yb4ljy8yH5E57U7rUs2bmrK0JqRKhHEBLt0xEM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=T6rORzFTPkmMq_Tlvru-HA&_nc_ss=7a22e&oh=00_AQJtsoN3-LKJJJfJxvWZ4cB_tXokMfU6Of5Or1X0JuKAmA&oe=6A98AB84",
    "url": "https://www.threads.com/@choi.openai/post/DcnnpbDDpf9",
    "region": "kr"
   }
@@ -653,7 +653,7 @@
    "views": 770100,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooBGAi8A6InMPiZBpU9fBkTRtAAwBKw0m1E0Ag~tplv-tiktokx-origin.image?dr=14575&x-expires=1788184800&x-signature=s5BSy5NAZxmwYyssjt%2BRazBHlkg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooBGAi8A6InMPiZBpU9fBkTRtAAwBKw0m1E0Ag~tplv-tiktokx-origin.image?dr=14575&x-expires=1788184800&x-signature=TaNGXYEWxfW0ZJkhrWbEAAs2mIc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785109781,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7666988131442281746",
    "region": "kr"
@@ -661,7 +661,7 @@
   {
    "account": "jaemyung_lee",
    "title": "¡Gusto en conocerte, Argentina! 🇰🇷🤝🇦🇷 #이재명 #아르헨티나 #argentina #javiermilei",
-   "views": 489100,
+   "views": 489200,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o43E0EJDgKsBeuyFfnqRBCAvI1sAAbI2NsPlIc~tplv-tiktokx-origin.image?dr=14575&x-expires=1788184800&x-signature=nF8hMysTAA6DjpSRMI%2FB7Bcu49A%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -683,7 +683,7 @@
   {
    "account": "jaemyung_lee",
    "title": "프랑크푸르트에 도착했습니다🇰🇷🇩🇪 #이재명 #deutschland #frankfurt",
-   "views": 273400,
+   "views": 273500,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1788184800&x-signature=07ktQRwA25OrIXBZmnnYJRPiDXE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -705,7 +705,7 @@
   {
    "account": "jaemyung_lee",
    "title": "우리 국민의 구조에 모든 역량을 총동원하겠습니다  #네팔 #긴급회의 #prayfornepal",
-   "views": 215300,
+   "views": 215900,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4ECXepekgFVLDAPQbcqjSdGAIaIofEozvI9Qh~tplv-tiktokx-origin.image?dr=14575&x-expires=1788184800&x-signature=z6fWxyTqxHpIMn15zwMaZfGUCUk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -749,7 +749,7 @@
   {
    "account": "tictok_ent",
    "title": "트와이스 지효, 한층 성숙해진 미모 / 더후(THE WHOO) 포토월 #트와이스 #TWICE #지효 #THEWHOO",
-   "views": 1724,
+   "views": 1729,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAIWGIAVQtqA0UJfgJfAnwLAiP0I7Ge9ySA1f7~tplv-tiktokx-origin.image?dr=14575&x-expires=1788184800&x-signature=eT84abbzDV6dku%2BzdGYeOw2pPWA%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -778,15 +778,6 @@
    "url": "https://www.reddit.com/r/AbsoluteUnits/comments/1w12kzi/of_a_bong/"
   },
   {
-   "sub": "clevercomebacks",
-   "title": "That’s real pro-family policy",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/fole9be5abmh1.jpeg?width=640&crop=smart&auto=webp&s=a44bba52c8ddeb88144b71a9c701529c04e94b12",
-   "time": 1788008145,
-   "url": "https://www.reddit.com/r/clevercomebacks/comments/1w1luls/thats_real_profamily_policy/"
-  },
-  {
    "sub": "interestingasfuck",
    "title": "This guy put a camera on his cat to document an average day in their lives. These are the highlights.",
    "score": 0,
@@ -805,13 +796,13 @@
    "url": "https://www.reddit.com/r/pics/comments/1w142x4/ice_mugshot_of_milo_yiannopoulos_longtime_vocal/"
   },
   {
-   "sub": "politics",
-   "title": "Trump suggests cattle ranchers could bypass USDA-inspected meat plants",
+   "sub": "Fauxmoi",
+   "title": "Olivia Rodrigo stuns in custom, Palestine-made Nöl Collective dress at a press conference announcing her $10M donation to women-focused nonprofits.",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/mgjGTu2yYR-yQ1k93vwUAmERuMJC-rSKVEsOK5BiJew.jpeg?width=640&crop=smart&auto=webp&s=38acb07f37e716bcb515ad5839ddbdb07874382c",
-   "time": 1787936745,
-   "url": "https://www.reddit.com/r/politics/comments/1w0wd7q/trump_suggests_cattle_ranchers_could_bypass/"
+   "thumb": "https://preview.redd.it/301f197oyamh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=c6c1cf25b20574d69fb302f82b0871a5c1a2f7ff",
+   "time": 1788004267,
+   "url": "https://www.reddit.com/r/Fauxmoi/comments/1w1kii1/olivia_rodrigo_stuns_in_custom_palestinemade_nöl/"
   },
   {
    "sub": "NoStupidQuestions",
@@ -823,33 +814,6 @@
    "url": "https://www.reddit.com/r/NoStupidQuestions/comments/1w15kuk/why_do_rich_middle_aged_women_not_date_attractive/"
   },
   {
-   "sub": "comics",
-   "title": "Hope this clears things up",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/ky5f9junf5mh1.png?width=640&crop=smart&auto=webp&s=3b6593bdff54c463e6420d4158ef1f2ff0ee0191",
-   "time": 1787937637,
-   "url": "https://www.reddit.com/r/comics/comments/1w0wrw8/hope_this_clears_things_up/"
-  },
-  {
-   "sub": "MadeMeSmile",
-   "title": "Boyfriend of one month put this in his bathroom for me. (OC)",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/p0ya9i1405mh1.jpeg?width=640&crop=smart&auto=webp&s=0b0b286d07ce90ff85cec1406a260461dcd9c2bd",
-   "time": 1787932110,
-   "url": "https://www.reddit.com/r/MadeMeSmile/comments/1w0u9iq/boyfriend_of_one_month_put_this_in_his_bathroom/"
-  },
-  {
-   "sub": "Fauxmoi",
-   "title": "Olivia Rodrigo stuns in custom, Palestine-made Nöl Collective dress at a press conference announcing her $10M donation to women-focused nonprofits.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/301f197oyamh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=c6c1cf25b20574d69fb302f82b0871a5c1a2f7ff",
-   "time": 1788004267,
-   "url": "https://www.reddit.com/r/Fauxmoi/comments/1w1kii1/olivia_rodrigo_stuns_in_custom_palestinemade_nöl/"
-  },
-  {
    "sub": "PoursTea",
    "title": "Why vote no on something like this?",
    "score": 0,
@@ -859,35 +823,54 @@
    "url": "https://www.reddit.com/r/PoursTea/comments/1w1kisk/why_vote_no_on_something_like_this/"
   },
   {
-   "sub": "AmItheAsshole",
-   "title": "AITA for telling my DIL and son that if they plan to do the whole SAHP thing they can start paying us rent?",
+   "sub": "politics",
+   "title": "Trump suggests cattle ranchers could bypass USDA-inspected meat plants",
    "score": 0,
    "cmts": 0,
-   "thumb": "",
-   "time": 1787970286,
-   "url": "https://www.reddit.com/r/AmItheAsshole/comments/1w1a53w/aita_for_telling_my_dil_and_son_that_if_they_plan/"
+   "thumb": "https://external-preview.redd.it/mgjGTu2yYR-yQ1k93vwUAmERuMJC-rSKVEsOK5BiJew.jpeg?width=640&crop=smart&auto=webp&s=38acb07f37e716bcb515ad5839ddbdb07874382c",
+   "time": 1787936745,
+   "url": "https://www.reddit.com/r/politics/comments/1w0wd7q/trump_suggests_cattle_ranchers_could_bypass/"
+  },
+  {
+   "sub": "interestingasfuck",
+   "title": "Vertical burial ceremony, a distinct cultural funeral rite practiced in parts of Africa.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/Mm9reHp0N2VkYW1oMfDODrDJ-Pn7lcLmL3yg0pcCnFXpnW1Y7S_E93PzMDOf.png?width=320&crop=smart&auto=webp&s=4d8987c526c9ff7231bac0ffd2424f9b3d8faee8",
+   "time": 1787997116,
+   "url": "https://www.reddit.com/r/interestingasfuck/comments/1w1ic83/vertical_burial_ceremony_a_distinct_cultural/"
+  },
+  {
+   "sub": "SipsTea",
+   "title": "Flock CEO, Garret Langley, says Americans must \"compromise on their privacy for their own safety.\"",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/qtzlso1nj9mh1.jpeg?width=640&crop=smart&auto=webp&s=6245114a6cb16ec142da936af8021b8c6a9273fd",
+   "time": 1787987108,
+   "url": "https://www.reddit.com/r/SipsTea/comments/1w1fibh/flock_ceo_garret_langley_says_americans_must/"
+  },
+  {
+   "sub": "cats",
+   "title": "After a full month missing Captain finally came home!!",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/z73zwxziuamh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=d9f4ed8e6d2a0959deb344a93aea55fa8b75b22e",
+   "time": 1788002876,
+   "url": "https://www.reddit.com/r/cats/comments/1w1k2dl/after_a_full_month_missing_captain_finally_came/"
+  },
+  {
+   "sub": "mildlyinfuriating",
+   "title": "Landlord replaced all the furniture in my flat with much worse versions between viewing and moving in",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/l355ye588amh1.jpg?width=140&height=105&auto=webp&s=4e627216ac65345d87cbb33fe55a70ef408e6675",
+   "time": 1787995379,
+   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1w1hupo/landlord_replaced_all_the_furniture_in_my_flat/"
   }
  ],
  "disaster": [],
  "_cover": {
   "ok": {
-   "x": [
-    "64bitcoinkr",
-    "awaken_eyes",
-    "economysniper0",
-    "freedom_73x",
-    "globalbrief_now",
-    "jajaja7878uu",
-    "kyunghyang",
-    "marionawfal"
-   ],
-   "insta": [
-    "lumalabsai",
-    "midjourney",
-    "openai",
-    "pika_labs",
-    "runwayapp"
-   ],
    "threads": [
     "aicoffeechat",
     "aipeekme",
@@ -904,28 +887,33 @@
   },
   "why": {
    "insta": {
-    "koreadispatch": "rotate",
-    "bts.bighitofficial": "rotate",
-    "blackpinkofficial": "rotate",
-    "newjeans_official": "rotate",
-    "aespa_official": "rotate",
-    "jennierubyjane": "rotate",
-    "xxxibgdrgn": "rotate",
-    "hm_son7": "rotate",
-    "sbsnow_insta": "rotate",
-    "mnet_official": "rotate",
-    "klingai_official": "rotate",
-    "heygen_official": "rotate",
-    "higgsfield.ai": "rotate",
-    "googledeepmind": "rotate",
-    "cristiano": "rotate"
+    "koreadispatch": "gap",
+    "bts.bighitofficial": "gap",
+    "blackpinkofficial": "gap",
+    "newjeans_official": "gap",
+    "aespa_official": "gap",
+    "jennierubyjane": "gap",
+    "xxxibgdrgn": "gap",
+    "hm_son7": "gap",
+    "sbsnow_insta": "gap",
+    "mnet_official": "gap",
+    "openai": "gap",
+    "runwayapp": "gap",
+    "pika_labs": "gap",
+    "lumalabsai": "gap",
+    "midjourney": "gap",
+    "klingai_official": "gap",
+    "heygen_official": "gap",
+    "higgsfield.ai": "gap",
+    "googledeepmind": "gap",
+    "cristiano": "gap"
    }
   },
   "landing": {
-   "at": "2026-08-29T22:31:27",
+   "at": "2026-08-29T23:05:46",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-29T23:05:39.513780+09:00"
+ "updated": "2026-08-29T23:31:19.198866+09:00"
 }
