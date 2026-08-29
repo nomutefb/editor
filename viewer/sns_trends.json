@@ -7030,8 +7030,14 @@
   {
    "query": "유벤투스 대 파르마",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/effc911eab.webp",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.juventus.kr/news/7561601",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-08-30T04:10:00+09:00",
    "delta": -1,
@@ -7060,8 +7066,14 @@
   {
    "query": "종합격투기",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/6194f02930.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.mksports.co.kr/news/sports/12133820",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-08-30T05:10:00+09:00",
    "delta": -5,
@@ -7074,8 +7086,14 @@
   {
    "query": "혈압",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/897766665d.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.news-wa.com/article/life/health/2026/08/27/20260827500031",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-30T04:50:00+09:00",
    "delta": -5,
@@ -7090,8 +7108,14 @@
   {
    "query": "공항",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/7835349d37.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://tvreport.co.kr/breaking/article/1071468/",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-08-30T05:20:00+09:00",
    "delta": -9,
@@ -7207,8 +7231,10 @@
  ],
  "gtrends_pool_updated": "2026-08-30T08:11:01+09:00",
  "_trend_img": {
-  "tried": "2026-08-30T07:35:40+09:00",
-  "fail": {}
+  "tried": "2026-08-30T08:11:01+09:00",
+  "fail": {
+   "알렉스 바에나": "2026-08-30T08:16:44+09:00"
+  }
  },
  "gtrends_gl": [
   {
@@ -18734,7 +18760,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-08-30T08:11:01+09:00"
+    "first_seen": "2026-08-30T08:11:01+09:00",
+    "kw": "VoiceMem, 프로젝트 주소",
+    "sum": "계정이 VoiceMem 프로젝트 깃허브 주소를 공유했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -18749,7 +18778,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-08-30T08:11:01+09:00"
+    "first_seen": "2026-08-30T08:11:01+09:00",
+    "kw": "VoiceMem, 음성 에이전트, 기억 시스템",
+    "sum": "계정이 NUS·NTU의 음성 에이전트 기억 시스템 VoiceMem을 소개했다",
+    "sv": 1
    },
    {
     "account": "aicoffeechat",
@@ -18764,7 +18796,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-08-30T08:11:01+09:00"
+    "first_seen": "2026-08-30T08:11:01+09:00",
+    "kw": "AI 시뮬레이션, 직군 분화",
+    "sum": "계정이 AI들이 사후 분석으로 네 직군으로 갈렸다고 설명했다",
+    "sv": 1
    },
    {
     "account": "aicoffeechat",
@@ -18779,7 +18814,10 @@
     "rh": [
      4
     ],
-    "first_seen": "2026-08-30T08:11:01+09:00"
+    "first_seen": "2026-08-30T08:11:01+09:00",
+    "kw": "AI 시뮬레이션, 다중 에이전트",
+    "sum": "계정이 소통 없이도 AI들이 만든 결과물이 오래 남았다고 전했다",
+    "sv": 1
    },
    {
     "account": "aicoffeechat",
@@ -18794,7 +18832,10 @@
     "rh": [
      5
     ],
-    "first_seen": "2026-08-30T08:11:01+09:00"
+    "first_seen": "2026-08-30T08:11:01+09:00",
+    "kw": "AI 시뮬레이션, 무인도 실험",
+    "sum": "계정이 규칙 없이 AI 수백 개를 무인도에 풀어놓은 실험을 설명했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -19076,7 +19117,10 @@
     "rh": [
      15
     ],
-    "first_seen": "2026-08-30T08:11:01+09:00"
+    "first_seen": "2026-08-30T08:11:01+09:00",
+    "kw": "MIT, AI 시뮬레이션, 무인도 실험",
+    "sum": "계정이 MIT의 AI 무인도 시뮬레이션 결과를 소개했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
