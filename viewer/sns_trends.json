@@ -7666,8 +7666,14 @@
   {
    "query": "목욕탕",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/e7d31e9b45.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://imnews.imbc.com/news/2026/society/article/6844463_36918.html",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-08-29T17:30:00+09:00",
    "delta": -7,
@@ -7681,8 +7687,14 @@
   {
    "query": "2026 년 태풍 한국",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/e06b5412bb.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.wikitree.co.kr/articles/1154355",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-29T18:40:00+09:00",
    "isNew": true,
@@ -7717,8 +7729,14 @@
   {
    "query": "tvn",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/00156b5d90.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.tenasia.co.kr/article/2026080554584",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-29T17:50:00+09:00",
    "delta": -13,
@@ -7732,8 +7750,14 @@
   {
    "query": "bfx",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/d72a81f62b.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://sports.khan.co.kr/article/202608281846003",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-08-29T18:00:00+09:00",
    "delta": -15,
@@ -7747,8 +7771,14 @@
   {
    "query": "안우진",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/29a2a4aa85.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://sports.khan.co.kr/article/202608291703003/",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-08-29T18:20:00+09:00",
    "delta": -17,
@@ -7782,8 +7812,14 @@
   {
    "query": "왕실",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/485bfa2245.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.hankyung.com/article/2026082156527",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-08-29T19:10:00+09:00",
    "isNew": true,
@@ -7969,12 +8005,14 @@
  ],
  "gtrends_pool_updated": "2026-08-29T20:24:59+09:00",
  "_trend_img": {
-  "tried": "2026-08-29T19:46:25+09:00",
+  "tried": "2026-08-29T20:24:59+09:00",
   "fail": {
-   "뉴스": "2026-08-29T17:53:45+09:00",
-   "미스코리아": "2026-08-29T18:29:45+09:00",
    "전광훈": "2026-08-29T19:14:11+09:00",
-   "진기주": "2026-08-29T19:14:11+09:00"
+   "진기주": "2026-08-29T19:14:11+09:00",
+   "유주은": "2026-08-29T20:31:59+09:00",
+   "집중호우": "2026-08-29T20:31:59+09:00",
+   "북한이탈주민": "2026-08-29T20:31:59+09:00",
+   "집단감염": "2026-08-29T20:31:59+09:00"
   }
  },
  "gtrends_gl": [
@@ -18784,7 +18822,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-08-29T20:24:59+09:00"
+    "first_seen": "2026-08-29T20:24:59+09:00",
+    "kw": "GPT Astra, mozaik-alpha-fdm, 프론티어 모델",
+    "sum": "작성자가 GPT Astra 추정 체크포인트의 프론트엔드 결과물에 감탄했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
