@@ -7581,8 +7581,14 @@
   {
    "query": "대만",
    "traffic": "5000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/1a1aff59ad.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.ajunews.com/view/20260827144518960",
+     "source": ""
+    }
+   ],
    "vol": 5000,
    "started": "2026-08-29T14:10:00+09:00",
    "delta": -2,
@@ -7730,9 +7736,10 @@
  ],
  "gtrends_pool_updated": "2026-08-29T17:45:58+09:00",
  "_trend_img": {
-  "tried": "2026-08-29T17:10:03+09:00",
+  "tried": "2026-08-29T17:45:58+09:00",
   "fail": {
-   "김경문": "2026-08-29T17:15:21+09:00"
+   "김경문": "2026-08-29T17:15:21+09:00",
+   "뉴스": "2026-08-29T17:53:45+09:00"
   }
  },
  "gtrends_gl": [
@@ -18897,7 +18904,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-08-29T17:45:58+09:00"
+    "first_seen": "2026-08-29T17:45:58+09:00",
+    "kw": "AWS Continuum, Anthropic, OpenAI",
+    "sum": "AWS가 Continuum을 Anthropic·OpenAI와 협력해 공개했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -18912,7 +18922,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-08-29T17:45:58+09:00"
+    "first_seen": "2026-08-29T17:45:58+09:00",
+    "kw": "AWS Continuum, Claude Code, 보안",
+    "sum": "AWS가 Continuum을 코딩 에이전트에 통합할 계획을 공개했다",
+    "sv": 1
    },
    {
     "account": "kopp",
@@ -18927,7 +18940,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-08-29T17:45:58+09:00"
+    "first_seen": "2026-08-29T17:45:58+09:00",
+    "kw": "업그레이드 모달, UI",
+    "sum": "계정이 흑백 테마의 업그레이드 모달을 공개했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
