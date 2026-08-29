@@ -7614,8 +7614,14 @@
   {
    "query": "뉴캐슬",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/8a2b7dd059.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://sports.khan.co.kr/article/202608270524003/",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-30T01:30:00+09:00",
    "isNew": true,
@@ -7689,9 +7695,8 @@
  ],
  "gtrends_pool_updated": "2026-08-30T05:35:34+09:00",
  "_trend_img": {
-  "tried": "2026-08-30T04:52:57+09:00",
+  "tried": "2026-08-30T05:35:34+09:00",
   "fail": {
-   "나마디 조엘 진": "2026-08-30T03:10:52+09:00",
    "이용 주": "2026-08-30T03:45:53+09:00",
    "bournemouth vs everton": "2026-08-30T03:45:53+09:00"
   }
@@ -19739,7 +19744,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-08-30T05:35:34+09:00"
+    "first_seen": "2026-08-30T05:35:34+09:00",
+    "kw": "Induction Labs, intrinsic discovery",
+    "sum": "계정이 관련 블로그 링크를 공유했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -19754,7 +19762,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-08-30T05:35:34+09:00"
+    "first_seen": "2026-08-30T05:35:34+09:00",
+    "kw": "Induction Labs, intrinsic discovery, 강화학",
+    "sum": "계정이 모델 스스로 탐색 대상을 찾는 강화학습 기법을 소개했다",
+    "sv": 1
    },
    {
     "account": "takepage_",
