@@ -7450,8 +7450,14 @@
   {
    "query": "아빌라",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/9086d99c4e.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.newspim.com/news/view/20260816000150",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-08-29T20:00:00+09:00",
    "isNew": true,
@@ -7563,8 +7569,14 @@
   {
    "query": "울산 대 김천상무",
    "traffic": "5000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/3c5840fe03.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.vision21.kr/news/article.html?no=612840",
+     "source": ""
+    }
+   ],
    "vol": 5000,
    "started": "2026-08-29T18:50:00+09:00",
    "delta": -4,
@@ -7667,8 +7679,14 @@
   {
    "query": "t1",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/4567b626cf.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.khgames.co.kr/news/articleView.html?idxno=307665",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-08-29T19:20:00+09:00",
    "isNew": true,
@@ -7734,8 +7752,14 @@
   {
    "query": "국가유공자",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/88156c0211.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.newspim.com/news/view/20260813000462",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-29T18:40:00+09:00",
    "delta": -11,
@@ -7971,16 +7995,17 @@
  ],
  "gtrends_pool_updated": "2026-08-29T21:41:52+09:00",
  "_trend_img": {
-  "tried": "2026-08-29T21:06:34+09:00",
+  "tried": "2026-08-29T21:41:52+09:00",
   "fail": {
-   "전광훈": "2026-08-29T19:14:11+09:00",
-   "진기주": "2026-08-29T19:14:11+09:00",
    "유주은": "2026-08-29T20:31:59+09:00",
    "집중호우": "2026-08-29T20:31:59+09:00",
    "북한이탈주민": "2026-08-29T20:31:59+09:00",
    "집단감염": "2026-08-29T20:31:59+09:00",
    "뉴스 속보": "2026-08-29T21:12:37+09:00",
-   "티빙": "2026-08-29T21:12:37+09:00"
+   "티빙": "2026-08-29T21:12:37+09:00",
+   "부천 대 안양": "2026-08-29T21:48:00+09:00",
+   "두산": "2026-08-29T21:48:00+09:00",
+   "의왕역": "2026-08-29T21:48:00+09:00"
   }
  },
  "gtrends_gl": [
@@ -18971,7 +18996,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-08-29T21:41:52+09:00"
+    "first_seen": "2026-08-29T21:41:52+09:00",
+    "kw": "Skills Manager, 동기화 거버넌스",
+    "sum": "Skills Manager v1.35.1이 안전 미확인 복사본의 덮어쓰기를 차단한다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -18986,7 +19014,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-08-29T21:41:52+09:00"
+    "first_seen": "2026-08-29T21:41:52+09:00",
+    "kw": "Gemini Flash 3.8, 비즈니스인사이더",
+    "sum": "기사가 구글의 Gemini Flash 3.8 모델 테스트 소식을 전했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -19001,7 +19032,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-08-29T21:41:52+09:00"
+    "first_seen": "2026-08-29T21:41:52+09:00",
+    "kw": "Gemini 3.8 Flash, 구글, 순다 피차이",
+    "sum": "계정이 구글의 Gemini 3.8 Flash 내부 테스트 소식을 전했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
