@@ -401,9 +401,29 @@
  ],
  "threads": [
   {
+   "account": "daily_ai_star",
+   "text": "이번 사례의 핵심은 프롬프트 하나가 아닙니다.\n\n저장소 콘텐츠가 컨텍스트가 되고, 에이전트가 로컬 파일을 읽고, Powers와 MCP가 외부 통신을 가능하게 하는 흐름이 이어졌습니다. 각 기능을 따로 보면 정상이어도, 연결된 전체 경로에서는 신뢰 경계가 무너질 수 있습니다.\n\nKiro는 Powers를 MCP 서버·스티어링 파일·훅을 묶는 기능으로 설명합니다. 앞으로 코딩 에이전트를 비교할 때는 생성 품질뿐 아니라 저장소 입력의 격리, 도구 권한, 외부 통신 통제까지 확인해야 합니다.\n\nhttps://mindgard.ai/learn/blog/power-leak-amazon-kiro-ide-prompt-injection-enables-data-exfiltration",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1787980117,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DcnJqT_maQe",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
+   "text": "Amazon Kiro IDE 0.7.45에서 프로젝트 파일이 에이전트의 지시로 해석돼 로컬 데이터가 외부로 전송될 수 있는 취약점이 공개됐습니다.\n\n공격에는 악성 프로젝트를 워크스페이스 파일로 열고, 에이전트에 메시지를 보내는 두 동작이 필요했습니다. 사용자가 민감한 파일을 읽거나 전송하라고 직접 요청하지 않아도 됐습니다.\n\nKiro Powers는 MCP 서버 설정, POWER.md, 훅, 컨텍스트 지식을 한 묶음으로 불러옵니다. 편의 기능이었던 구성 요소가 공격자의 지시를 실행 경로로 연결했습니다.\n\n에이전트 IDE에서 저장소는 더 이상 코드만 담은 공간이 아닙니다. 실행 권한을 바꿀 수 있는 입력이기도 합니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1787980108,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DcnJpdaGZlj",
+   "region": "kr"
+  },
+  {
    "account": "choi.openai",
    "text": "3/ 첫 두 역량은 풀스택 구축과 데이터 관리입니다.\n\n에이전트 코딩은 프런트엔드나 모바일 같은 전문 역할의 개발자를 풀스택으로 넓혀줍니다. 낯선 영역을 에이전트가 메워주기 때문인데, 그래도 UI 컴포넌트와 캐싱, API 설계, 인증, 상태 관리, 비동기 처리, 테스트, 접근성까지 전체 스택이 실제로 어떻게 도는지는 알아야 한다는 조건이 붙습니다.\n\n데이터에는 별도의 무게를 실었습니다. 데이터는 소프트웨어가 올라서는 기반이면서 한 번 정하면 바꾸기 어렵고, 저장 유형과 모델 선택이 속도와 확장성과 비용을 함께 결정합니다.\n\n무엇보다 AI 시스템은 당신의 데이터에서 자기 컨텍스트를 얻기 때문에, 데이터 설계가 나쁘면 AI는 자기가 모르는 것을 모릅니다. 이 지점은 에이전트가 아니라 맥락을 가진 사람이 바로잡아야 한다고 응은 적었습니다.",
-   "likes": 0,
+   "likes": 1,
    "cmts": 1,
    "time": 1787979636,
    "thumb": "",
@@ -413,7 +433,7 @@
   {
    "account": "choi.openai",
    "text": "2/ 다섯 역량에 들어가기 전에 응은 왜 지금 기본기냐는 물음에 먼저 답합니다.\n\n에이전트가 모든 코드를 써도, 기본기는 에이전트가 내리는 트레이드오프를 조종하는 언어라는 것입니다.\n\n기본기 없이 바이브 코딩하는 초보도 간단한 앱은 만들지만, 그 과정에서 에이전트는 지연, 가용성, 일관성, 신뢰성, 유지보수성, 비용에서 나쁜 선택을 하곤 합니다. 개발자가 그런 트레이드오프의 존재 자체를 모르니 바로잡을 수도 없다는 거죠.\n\n그래서 응의 진단은 두 갈래입니다. 문법 암기 같은 지식은 낡아가지만, 소프트웨어가 어떻게 작동하는지 깊이 아는 개발자는 모른 채 바이브 코딩하는 개발자를 크게 앞선다는 것입니다.",
-   "likes": 0,
+   "likes": 1,
    "cmts": 1,
    "time": 1787979631,
    "thumb": "",
@@ -423,10 +443,10 @@
   {
    "account": "choi.openai",
    "text": "1/ 앤드류 응이 8월 29일 AI 엔지니어링 스킬맵의 세 번째 글을 공개했습니다.\n\n이 시리즈는 1만 건이 넘는 채용 공고와 전문가 인터뷰를 분석해 AI 시대 개발자의 역량을 네 가지로 정리한 지도입니다.\n\n1편이 AI 앱 구축과 배포, 소프트웨어 기본기, 코딩 에이전트 활용, 무엇을 만들지 정하는 능력이라는 큰 그림을 그렸고, 2편은 첫 번째 역량을 여섯 개 하위 역량으로 풀었습니다.\n\n이번 글은 두 번째 역량인 소프트웨어 기본기를 다섯 가지로 쪼갭니다. 풀스택 애플리케이션 구축, 데이터 관리, 시스템 아키텍처 설계, 보안과 신뢰성, 그리고 프로덕션 확장과 운영입니다.",
-   "likes": 0,
+   "likes": 1,
    "cmts": 1,
    "time": 1787979621,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/788729205_17984523165112832_7925342680641703940_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk3NDE4MzU2ODk5MzY1NzExNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=_AOJJjFqv0cQ7kNvwE3zJ7u&_nc_oc=Adq0qI26k819Gyf1SUDVhMIv3xwhGJJpM3fuMXC22bxrncbwQQ0ypyUVwQx4XU48-HJlKpOYbVcZYnVgPZCg-bd2&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=CBg3dD68tzuVPTr371I48w&_nc_ss=7a22e&oh=00_AQIhroYL0Y_vMwumPw9b-t2htabFOI1vg4NlspeH5G8NKQ&oe=6A982843",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/788729205_17984523165112832_7925342680641703940_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk3NDE4MzU2ODk5MzY1NzExNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=_AOJJjFqv0cQ7kNvwEOBILZ&_nc_oc=Adpxm6OTdqD9FwaEssRItA2Ro9-xpNi5TyzmjnrBsY4dURQTOsxHLQ82C6T1FzbSc_8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=_B8KC-1oeKPl0_zTzg54Gw&_nc_ss=7a22e&oh=00_AQKakYSALa_dx_wyU7-7_bIgkQfv5lD74N6oaEX1Cz_79Q&oe=6A982843",
    "url": "https://www.threads.com/@choi.openai/post/DcnIuZeD6Ed",
    "region": "kr"
   },
@@ -441,32 +461,12 @@
    "region": "kr"
   },
   {
-   "account": "daily_ai_star",
-   "text": "Cursor가 8월 13일 AIUC-1 인증을 받았습니다.\n\n이 표준은 조직의 보안 통제를 보는 감사와, 제품 자체를 공격적으로 시험하는 평가를 함께 진행합니다. Cursor는 IDE와 클라우드 에이전트를 대상으로 두 차례, 수천 개 시나리오에서 테스트를 받았다고 밝혔습니다.\n\n시험 항목에는 시크릿 보호, 안전한 코드 생성, MCP 보안, 에이전트의 신원·권한이 포함됐습니다. 취약한 코드 작성, 위험한 명령 실행, 데이터 삭제 같은 행동도 확인했습니다.\n\n코딩 에이전트의 기업 도입 기준이 “데이터를 어떻게 보관하는가”에서 “압박을 받을 때 실제로 무엇을 하는가”로 이동하고 있습니다.",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1787976555,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DcnC3f1mdTG",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "OpenAI가 GPT-5.6 Sol의 출력 토큰 가격을 1백만 토큰당 30달러에서 20달러로 낮췄습니다.\n\n8월 21일부터 적용됐습니다. 입력은 5달러에서 4달러로, 출력은 30달러에서 20달러로 바뀌었습니다. 입력 단가는 20%, 출력 단가는 33.3% 내려갔습니다.\n\n대상은 API만이 아닙니다. Codex 크레딧과 ChatGPT Work에도 적용되고, 프로모션 가격은 11월 21일까지 유지될 예정입니다. 일반 구독 사용량은 이번 변경 대상이 아닙니다.\n\n같은 모델을 더 싸게 쓰는 소식처럼 보이는데요. 코딩 에이전트의 비교 기준이 모델 지능에서, 한 작업을 끝내는 데 실제로 소비한 토큰과 비용으로 이동하고 있습니다.\n\n벤치마크 점수 옆에 이제 가격표와 재시도 횟수도 함께 놓여야 합니다.\n\nhttps://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1787973637,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/Dcm9TfemUAT",
-   "region": "kr"
-  },
-  {
    "account": "aipeekme",
    "text": "날씨 좋은데 동물원 놀러가보세요.\nSeedance2.5\n\n프롬프트 하단👇",
-   "likes": 8,
+   "likes": 11,
    "cmts": 1,
    "time": 1787967628,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/785280412_1423183929676461_8605967787877363267_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk3NDA4MjUyMTU0MTYwOTAwMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=LH4KydHzwLkQ7kNvwETWilC&_nc_oc=AdoIFlDcaA5xRw2O9tIgtwbxVbqucCQsHKjydIkUqhCp9BvbS58rXBpOauU-e-7piO9338fTa2BxzuYp8f0K-cHz&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Qd_PUULX9Lvx7Eo_RcsYGw&_nc_ss=7a22e&oh=00_AQI_-XrrD6CBWABwS9AmnySZJzsWTx1j7KWxeQ1pUEOOOA&oe=6A98215C",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/785280412_1423183929676461_8605967787877363267_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk3NDA4MjUyMTU0MTYwOTAwMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=LH4KydHzwLkQ7kNvwGlKOwO&_nc_oc=AdpJBRsFr_IkIL7qWlJYomaxobV6SfvI7lu65586X4m6DqO92kk_q4Cbr2aQr-tmUQs&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=4Pw-wtvfu9kMtItJahOBqQ&_nc_ss=7a22e&oh=00_AQL7vLybSkC7vOxz3gG7FsrZLKJHUhxeNeES-KAIeQjqYA&oe=6A98599C",
    "url": "https://www.threads.com/@aipeekme/post/Dcmxv9sk4Yr",
    "region": "kr"
   },
@@ -493,7 +493,7 @@
   {
    "account": "aicoffeechat",
    "text": "첫째, 풀스택 애플리케이션 구축이다. \n\n예전에는 프론트엔드만, 모바일만 하는 사람이 있었다. 지금은 에이전트가 모르는 부분을 채워주니까 한 사람이 처음부터 끝까지 다 만든다. 하지만 '대신 채워준다'와 '알아서 잘 채워준다'는 다른 말이다. UI 컴포넌트, 캐싱, 페이지 렌더링, API 선택과 설계, 인증, 세션과 상태 관리, 비동기 처리, 데이터 저장, 테스트, 보안, 접근성이 어떻게 맞물려 돌아가는지 알아야 에이전트가 만든 결과가 맞는지 판단한다. 풀스택은 다 할 줄 아는 사람이 아니라, 다 볼 줄 아는 사람이다.",
-   "likes": 19,
+   "likes": 20,
    "cmts": 1,
    "time": 1787961335,
    "thumb": "",
@@ -516,7 +516,7 @@
    "likes": 4,
    "cmts": 5,
    "time": 1787921565,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/789446319_3992175534420714_2058396000025220426_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk3MzY5NjIxMjc0NTkzNzA4Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=0Rt9SZ3YOGYQ7kNvwFsbkwj&_nc_oc=Adq2kPhWaBQmhwU4U2YUwzS4PbLYYiSsN-eTX4YK-MLvHMnHllClm_nxt7WDsgZ8JHtCT40hORx6-38hoH6AyXNG&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=XAvphIC5Bx_M2VIlCTKE0Q&_nc_ss=7a22e&oh=00_AQJbQ0V_mwlCHoOyJIyIz_DG4JhjXnpLTfl-Qf6GbtrcCA&oe=6A9845FA",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/789446319_3992175534420714_2058396000025220426_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk3MzY5NjIxMjc0NTkzNzA4Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=0Rt9SZ3YOGYQ7kNvwFGiulW&_nc_oc=Adrth_WbfXrArRJ056kruGQDxa_mX-sPKNYm0ZVk-Jj0rPOhDkhau71-RZhs2DUNIsQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=B84ri6nBrzQSpX6jZMBm2w&_nc_ss=7a22e&oh=00_AQICBORhi2CS_S5PoCzq136UDwoEjeeSqIP7jz4fjfEETA&oe=6A9845FA",
    "url": "https://www.threads.com/@kopp/post/DclZ6bmCWC6",
    "region": "kr"
   },
@@ -546,7 +546,7 @@
    "likes": 6,
    "cmts": 2,
    "time": 1787906022,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/784796866_2534498036977658_8948821406241138904_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk3MzU2NTYzMjExNzQ0MDU4Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=1E-g-Ie0C0wQ7kNvwHk1U9I&_nc_oc=Ado59Ddr1C4RQRxOM3xagzn4117kbAEDdCfcrCggwVgBdpy9qFwKlPVsTGV7IjjREO-Z0gdjmQlowX71mdD1-bsd&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Khy9FctchuhKteYinitnWw&_nc_ss=7a22e&oh=00_AQIG7-qVQ9lFka_DOKDT_3Kyku-kt-O-mqYD94karbCcFA&oe=6A983DEA",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/784796866_2534498036977658_8948821406241138904_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk3MzU2NTYzMjExNzQ0MDU4Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=1E-g-Ie0C0wQ7kNvwFES0O-&_nc_oc=AdqdzcLvo_tS9mPhDDkKCrS5dXEa0bjK16hFjh5MxdJzr_ri9AU3Lfyjh8Ky4TZzzFU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=AcrbSkcHjVxmgXIa0EyfJg&_nc_ss=7a22e&oh=00_AQIMxhCJ_07WA_U1S-L32WFbNzyY1rIoDaeK0KPeRbY3zw&oe=6A983DEA",
    "url": "https://www.threads.com/@takepage_/post/Dck8OO6D4BH",
    "region": "kr"
   },
@@ -573,30 +573,30 @@
   {
    "account": "choi.openai",
    "text": "앤드류 응이 AI 엔지니어링 스킬맵의 세 번째 글을 공개했습니다.\n\n이번 주제는 역설적이게도 소프트웨어 기본기입니다. 에이전트가 모든 코드를 써주는 시대에 왜 기본기가 오히려 더 중요해졌는지를 다섯 가지 역량으로 정리했는데요.\n\n1편의 네 역량, 2편의 AI 앱 구축에 이어 시리즈의 흐름이 어디로 향하는지까지 함께 정리했습니다 🧵",
-   "likes": 5,
-   "cmts": 8,
+   "likes": 18,
+   "cmts": 9,
    "time": 1787979614,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/787598759_17984523105112832_3947674433338253737_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk3NDE4MzUxMzY3OTE0MjYwNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTc5Ni5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=hrE0-eD0jWEQ7kNvwECbFDD&_nc_oc=AdqoA5Vq_hTNaDYt1G2XcH-VTGrnlEii47vHHAtIlNhpQhsZnti_BUpWif0hkkg4glKw6Ogxh9siLLos8bgJDrwo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=CBg3dD68tzuVPTr371I48w&_nc_ss=7a22e&oh=00_AQKpNWJAnikHOoHLCy6445t7ZptmVWW96e_rI3pyeVdjOg&oe=6A98239D",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/787598759_17984523105112832_3947674433338253737_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk3NDE4MzUxMzY3OTE0MjYwNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTc5Ni5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=hrE0-eD0jWEQ7kNvwFvEFKI&_nc_oc=AdpvoQydpLuQkmvLfBY8HUbHDF519pPry6nYTjdMyLhIwlSPISUE9Us-R-Pz0_PU_cI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=_B8KC-1oeKPl0_zTzg54Gw&_nc_ss=7a22e&oh=00_AQIf2TG-EXkligjXDDXXJ3IwdBsyscxUSkNzLVBmbh5ihg&oe=6A985BDD",
    "url": "https://www.threads.com/@choi.openai/post/DcnItl9Dx7N",
    "region": "kr"
   },
   {
    "account": "daily_ai_star",
-   "text": "UiPath가 8월 3일 코딩 에이전트 기능을 정식 제공하기 시작했습니다.\n\n이제 자연어로 폴더·작업·큐·자산·감사 로그·연결 설정을 다룰 수 있습니다. 에이전트는 로그인한 세션에서 `uip` 명령을 실행하고, 사용자가 준 맥락 안에서 필요한 명령을 고릅니다.\n\n읽기 작업은 스스로 판단하지만 생성·수정·삭제가 필요한 순간에는 확인을 요청합니다. 코드 작성 도구가 파일을 바꾸는 수준에서, 권한과 실행 상태가 있는 업무 플랫폼을 조작하는 수준으로 넘어간 셈입니다.\n\n코딩 에이전트의 경계가 개발 환경에서 기업 운영 환경으로 이동하고 있습니다.\n\n앞으로 에이전트를 비교할 때는 코드를 얼마나 잘 쓰는지만이 아니라, 어떤 운영 작업을 어떤 승인 절차로 실행하는지도 함께 봐야 합니다.\n\nhttps://docs.uipath.com/coding-agents/standalone/latest/release-notes/august-2026",
+   "text": "Cursor가 8월 13일 AIUC-1 인증을 받았습니다.\n\n이 표준은 조직의 보안 통제를 보는 감사와, 제품 자체를 공격적으로 시험하는 평가를 함께 진행합니다. Cursor는 IDE와 클라우드 에이전트를 대상으로 두 차례, 수천 개 시나리오에서 테스트를 받았다고 밝혔습니다.\n\n시험 항목에는 시크릿 보호, 안전한 코드 생성, MCP 보안, 에이전트의 신원·권한이 포함됐습니다. 취약한 코드 작성, 위험한 명령 실행, 데이터 삭제 같은 행동도 확인했습니다.\n\n코딩 에이전트의 기업 도입 기준이 “데이터를 어떻게 보관하는가”에서 “압박을 받을 때 실제로 무엇을 하는가”로 이동하고 있습니다.",
    "likes": 0,
-   "cmts": 0,
-   "time": 1787968991,
+   "cmts": 1,
+   "time": 1787976555,
    "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/Dcm0cV6GUwN",
+   "url": "https://www.threads.com/@daily_ai_star/post/DcnC3f1mdTG",
    "region": "kr"
   },
   {
    "account": "aicoffeechat",
    "text": "코드를 직접 안 짜는 시대일수록 코드를 아는 사람이 이긴다. \n\n앤드류응의 따끈따끈 좋은 글이 또 나왔습니다. 에이전트가 코드를 전부 써준다고 해서 소프트웨어 지식이 필요 없어지는 게 아니라, 오히려 더 필요해진다는건데요.\n\n이유는 단순합니다. 에이전트는 시키는 대로 만들지만, 무엇을 시킬지는 사람이 정해야 하기 때문이예요. 어떤 선택지가 존재하는지조차 모르는 사람은 에이전트를 조종할 수 없죠.\n\n바이브 코딩하시는 분들은 이 \"5가지\"는 꼭 기억하셨으면 좋겠습니다.",
-   "likes": 212,
-   "cmts": 22,
+   "likes": 233,
+   "cmts": 23,
    "time": 1787961330,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/787574233_17954762469232485_4807613008236640836_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk3NDAzMDEyMjQ2MjQyNTUxNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTM2NS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=oNY82-eFjqAQ7kNvwELB8Wr&_nc_oc=Adrdu93PizsWrUUu9YNqjs717c4iUizY9ru_D7vsJYmIgyjPulvHoTGj8V0dqx6M3NKy8L0dl1jSID7Q9ebJ2TLF&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=YKiJOvcTG7aGxrCEIhxZGA&_nc_ss=7a22e&oh=00_AQJI3UYsyLNadADTu_SYor0hPtzjMtVzpKvut3qkfHIN6g&oe=6A985287",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/787574233_17954762469232485_4807613008236640836_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk3NDAzMDEyMjQ2MjQyNTUxNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTM2NS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=oNY82-eFjqAQ7kNvwGPsB_e&_nc_oc=AdrmXYV-PEYyEF08ev87mYAi8BbY-D4mI6MBR1NM_4jJ8TbIAcg4dMtAcJKMVufOk8M&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=56kESsEr2S0hD5vn8RCslw&_nc_ss=7a22e&oh=00_AQJWM391Dys1vmAm6X0Ta7e_TErFssDVncEnyoDGd-UCfw&oe=6A985287",
    "url": "https://www.threads.com/@aicoffeechat/post/Dcml1kSk3JN",
    "region": "kr"
   }
@@ -608,7 +608,7 @@
    "views": 1900000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooDPRCUDqBpuPTmFEWk6RAIgEBqnfZwgeRICBU~tplv-tiktokx-origin.image?dr=14575&x-expires=1788152400&x-signature=wVBC4fblLmlEMKpYdrsja9zMNGU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooDPRCUDqBpuPTmFEWk6RAIgEBqnfZwgeRICBU~tplv-tiktokx-origin.image?dr=14575&x-expires=1788152400&x-signature=wVBC4fblLmlEMKpYdrsja9zMNGU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785177115,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7667277327386135826",
    "region": "kr"
@@ -619,7 +619,7 @@
    "views": 1600000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAbAoCECNeDAVDgQBcAkFzYBfoUADqQCQWIuZl~tplv-tiktokx-origin.image?dr=14575&x-expires=1788152400&x-signature=PvqDArjIL90HL9LSCu6tHZNzvYk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAbAoCECNeDAVDgQBcAkFzYBfoUADqQCQWIuZl~tplv-tiktokx-origin.image?dr=14575&x-expires=1788152400&x-signature=PvqDArjIL90HL9LSCu6tHZNzvYk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785471372,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7668541152869616914",
    "region": "kr"
@@ -630,7 +630,7 @@
    "views": 769400,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooBGAi8A6InMPiZBpU9fBkTRtAAwBKw0m1E0Ag~tplv-tiktokx-origin.image?dr=14575&x-expires=1788152400&x-signature=lc9ZNSUTfnUFxWqLA7U81FRWRfs%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooBGAi8A6InMPiZBpU9fBkTRtAAwBKw0m1E0Ag~tplv-tiktokx-origin.image?dr=14575&x-expires=1788152400&x-signature=lc9ZNSUTfnUFxWqLA7U81FRWRfs%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785109781,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7666988131442281746",
    "region": "kr"
@@ -641,7 +641,7 @@
    "views": 488500,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o43E0EJDgKsBeuyFfnqRBCAvI1sAAbI2NsPlIc~tplv-tiktokx-origin.image?dr=14575&x-expires=1788152400&x-signature=NdvB88XY4wrffIvYMRxS6LY%2BJBI%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o43E0EJDgKsBeuyFfnqRBCAvI1sAAbI2NsPlIc~tplv-tiktokx-origin.image?dr=14575&x-expires=1788152400&x-signature=NdvB88XY4wrffIvYMRxS6LY%2BJBI%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785519099,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7668746136877812999",
    "region": "kr"
@@ -649,10 +649,10 @@
   {
    "account": "jaemyung_lee",
    "title": "이번 정류장은 칠레입니다🇰🇷🇨🇱 #이재명 #대통령 #Chile #Corea",
-   "views": 371600,
+   "views": 371700,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQpDHATAEBzAIGFgqwDA4hofdRfVCsCaqEBIkL~tplv-tiktokx-origin.image?dr=14575&x-expires=1788152400&x-signature=V2yZwGVSeg73I%2BCZZqk8KX66j5E%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQpDHATAEBzAIGFgqwDA4hofdRfVCsCaqEBIkL~tplv-tiktokx-origin.image?dr=14575&x-expires=1788152400&x-signature=V2yZwGVSeg73I%2BCZZqk8KX66j5E%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785365622,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7668086960883354887",
    "region": "kr"
@@ -663,7 +663,7 @@
    "views": 272500,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1788152400&x-signature=srELhtAGMwzWFdERcBb1kkTcNPo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1788152400&x-signature=srELhtAGMwzWFdERcBb1kkTcNPo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785656353,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7669335640793763079",
    "region": "kr"
@@ -674,7 +674,7 @@
    "views": 235800,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-i-photomode-sg/91a2f3151d9741689af70b1d1f8aac3a~tplv-photomode-image.jpeg?dr=14555&x-expires=1788152400&x-signature=Ps1mXl37RPRc03sQyYgtbad1cc0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=9b759fb9&idc=my3&ftpl=1",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-i-photomode-sg/91a2f3151d9741689af70b1d1f8aac3a~tplv-photomode-image.jpeg?dr=14555&x-expires=1788152400&x-signature=Ps1mXl37RPRc03sQyYgtbad1cc0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=9b759fb9&idc=my2&ftpl=1",
    "time": 1785270939,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7667680300490558728",
    "region": "kr"
@@ -682,10 +682,10 @@
   {
    "account": "jaemyung_lee",
    "title": "우리 국민의 구조에 모든 역량을 총동원하겠습니다  #네팔 #긴급회의 #prayfornepal",
-   "views": 205600,
+   "views": 206100,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4ECXepekgFVLDAPQbcqjSdGAIaIofEozvI9Qh~tplv-tiktokx-origin.image?dr=14575&x-expires=1788152400&x-signature=OoC3iQO5hnAxTE0jX2VkO2gK4dg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4ECXepekgFVLDAPQbcqjSdGAIaIofEozvI9Qh~tplv-tiktokx-origin.image?dr=14575&x-expires=1788152400&x-signature=OoC3iQO5hnAxTE0jX2VkO2gK4dg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1787831518,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7678677903122369800",
    "region": "kr"
@@ -696,7 +696,7 @@
    "views": 193200,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/osApGgttBIBbbk6zA4iAKdIdkBfL1AAEiSwmCM~tplv-tiktokx-origin.image?dr=14575&x-expires=1788152400&x-signature=nRr%2FWG9a%2BpSmkbxrGtS2SEnBkTU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/osApGgttBIBbbk6zA4iAKdIdkBfL1AAEiSwmCM~tplv-tiktokx-origin.image?dr=14575&x-expires=1788152400&x-signature=nRr%2FWG9a%2BpSmkbxrGtS2SEnBkTU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1784945079,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7666280741554195730",
    "region": "kr"
@@ -707,7 +707,7 @@
    "views": 137400,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okkIgGYEt7AlB4qvUF5yCAEAjD8vfKAfVACbBp~tplv-tiktokx-origin.image?dr=14575&x-expires=1788152400&x-signature=scNsFNxNmVqJkrywjkpWqqpji48%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okkIgGYEt7AlB4qvUF5yCAEAjD8vfKAfVACbBp~tplv-tiktokx-origin.image?dr=14575&x-expires=1788152400&x-signature=scNsFNxNmVqJkrywjkpWqqpji48%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1784911601,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7666136953456315666",
    "region": "kr"
@@ -715,10 +715,10 @@
   {
    "account": "tictok_ent",
    "title": "박규영, 아침부터 미모 열일 / 아워글래스(HOURGLASS) 팝업 포토월 #박규영 #아워글래스 #HOURGLASS",
-   "views": 9900,
+   "views": 9914,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oUDPINKKABuclCBuAAwinRmqEfl211iBiAs9LA~tplv-tiktokx-origin.image?dr=14575&x-expires=1788152400&x-signature=PeGLqzE1IaVNqCV2Es69fIfC%2Fqk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oUDPINKKABuclCBuAAwinRmqEfl211iBiAs9LA~tplv-tiktokx-origin.image?dr=14575&x-expires=1788152400&x-signature=PeGLqzE1IaVNqCV2Es69fIfC%2Fqk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1787535859,
    "url": "https://www.tiktok.com/@tictok_ent/video/7677408056661036308",
    "region": "kr"
@@ -726,25 +726,16 @@
   {
    "account": "tictok_ent",
    "title": "트와이스 지효, 한층 성숙해진 미모 / 더후(THE WHOO) 포토월 #트와이스 #TWICE #지효 #THEWHOO",
-   "views": 1670,
+   "views": 1674,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAIWGIAVQtqA0UJfgJfAnwLAiP0I7Ge9ySA1f7~tplv-tiktokx-origin.image?dr=14575&x-expires=1788152400&x-signature=wFNx4LjelnfIHpGNYuXZ4Knu0eQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAIWGIAVQtqA0UJfgJfAnwLAiP0I7Ge9ySA1f7~tplv-tiktokx-origin.image?dr=14575&x-expires=1788152400&x-signature=wFNx4LjelnfIHpGNYuXZ4Knu0eQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1787820027,
    "url": "https://www.tiktok.com/@tictok_ent/video/7678628548231351573",
    "region": "kr"
   }
  ],
  "reddit": [
-  {
-   "sub": "mildlyinfuriating",
-   "title": "I choked and spilled tea on my brand new gaming chair and the stain looks like I sharted",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/h60pnsugf6mh1.jpeg?width=640&crop=smart&auto=webp&s=b9774eb03923ec6f011f9070fd1972531ebe7b75",
-   "time": 1787949737,
-   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1w128r7/i_choked_and_spilled_tea_on_my_brand_new_gaming/"
-  },
   {
    "sub": "AskReddit",
    "title": "Whats a movie so ridiculous or dumb that it is actually fun to watch?",
@@ -753,6 +744,15 @@
    "thumb": "",
    "time": 1787951733,
    "url": "https://www.reddit.com/r/AskReddit/comments/1w133c0/whats_a_movie_so_ridiculous_or_dumb_that_it_is/"
+  },
+  {
+   "sub": "mildlyinfuriating",
+   "title": "I choked and spilled tea on my brand new gaming chair and the stain looks like I sharted",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/h60pnsugf6mh1.jpeg?width=640&crop=smart&auto=webp&s=b9774eb03923ec6f011f9070fd1972531ebe7b75",
+   "time": 1787949737,
+   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1w128r7/i_choked_and_spilled_tea_on_my_brand_new_gaming/"
   },
   {
    "sub": "pics",
@@ -782,6 +782,15 @@
    "url": "https://www.reddit.com/r/Fauxmoi/comments/1w1a9qo/elijah_wood_its_called_lake_ontario/"
   },
   {
+   "sub": "clevercomebacks",
+   "title": "He waited 80 years for a fake photo.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/vj4jt3r2q6mh1.png?width=640&crop=smart&auto=webp&s=009f8b6a1901b3f9c7699554b20aee0f7563a932",
+   "time": 1787952958,
+   "url": "https://www.reddit.com/r/clevercomebacks/comments/1w13lz4/he_waited_80_years_for_a_fake_photo/"
+  },
+  {
    "sub": "SipsTea",
    "title": "What do y’all think is the ideal arm size for a man?",
    "score": 0,
@@ -789,6 +798,15 @@
    "thumb": "https://external-preview.redd.it/eWl1eWd1MGFmM21oMdN92-GViBejG8JIXhUshrbmANPiKoHpu1ItzESpHOKl.jpeg?width=640&crop=smart&auto=webp&s=fcb16244c81e5aacf56e720e45fbac73a195c35c",
    "time": 1787913003,
    "url": "https://www.reddit.com/r/SipsTea/comments/1w0mten/what_do_yall_think_is_the_ideal_arm_size_for_a_man/"
+  },
+  {
+   "sub": "OldSchoolCool",
+   "title": "Video from the 1930s explaining how the differential in your car works",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/aGtwejc2aDBzN21oMS4sokysaV28aduGOtJtZ2lhdDkLm687kpDUSBvXxCY6.png?width=320&crop=smart&auto=webp&s=36b9361b6d7e7da1bbb2fd674279600b39dc3f73",
+   "time": 1787965706,
+   "url": "https://www.reddit.com/r/OldSchoolCool/comments/1w18jz6/video_from_the_1930s_explaining_how_the/"
   },
   {
    "sub": "AIO",
@@ -809,15 +827,6 @@
    "url": "https://www.reddit.com/r/politics/comments/1w0wd7q/trump_suggests_cattle_ranchers_could_bypass/"
   },
   {
-   "sub": "clevercomebacks",
-   "title": "He waited 80 years for a fake photo.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/vj4jt3r2q6mh1.png?width=640&crop=smart&auto=webp&s=009f8b6a1901b3f9c7699554b20aee0f7563a932",
-   "time": 1787952958,
-   "url": "https://www.reddit.com/r/clevercomebacks/comments/1w13lz4/he_waited_80_years_for_a_fake_photo/"
-  },
-  {
    "sub": "comics",
    "title": "Hope this clears things up",
    "score": 0,
@@ -834,33 +843,11 @@
    "thumb": "https://preview.redd.it/vq9g99lg27mh1.jpeg?width=640&crop=smart&auto=webp&s=a3c192a0bafe97a7baa5e2e81d7e8030df8626a0",
    "time": 1787957112,
    "url": "https://www.reddit.com/r/PoursTea/comments/1w15cb2/just_ordered_my_shirt/"
-  },
-  {
-   "sub": "MadeMeSmile",
-   "title": "Boyfriend of one month put this in his bathroom for me. (OC)",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/p0ya9i1405mh1.jpeg?width=640&crop=smart&auto=webp&s=0b0b286d07ce90ff85cec1406a260461dcd9c2bd",
-   "time": 1787932110,
-   "url": "https://www.reddit.com/r/MadeMeSmile/comments/1w0u9iq/boyfriend_of_one_month_put_this_in_his_bathroom/"
   }
  ],
  "disaster": [],
  "_cover": {
   "ok": {
-   "x": [
-    "64bitcoinkr",
-    "awaken_eyes",
-    "economysniper0",
-    "jajaja7878uu"
-   ],
-   "insta": [
-    "aespa_official",
-    "blackpinkofficial",
-    "bts.bighitofficial",
-    "koreadispatch",
-    "newjeans_official"
-   ],
    "threads": [
     "aicoffeechat",
     "aipeekme",
@@ -876,35 +863,34 @@
    ]
   },
   "why": {
-   "x": {
-    "kyunghyang": 429,
-    "freedom_73x": 429,
-    "marionawfal": 429,
-    "globalbrief_now": 429
-   },
    "insta": {
-    "jennierubyjane": "rotate",
-    "xxxibgdrgn": "rotate",
-    "hm_son7": "rotate",
-    "sbsnow_insta": "rotate",
-    "mnet_official": "rotate",
-    "openai": "rotate",
-    "runwayapp": "rotate",
-    "pika_labs": "rotate",
-    "lumalabsai": "rotate",
-    "midjourney": "rotate",
-    "klingai_official": "rotate",
-    "heygen_official": "rotate",
-    "higgsfield.ai": "rotate",
-    "googledeepmind": "rotate",
-    "cristiano": "rotate"
+    "koreadispatch": "gap",
+    "bts.bighitofficial": "gap",
+    "blackpinkofficial": "gap",
+    "newjeans_official": "gap",
+    "aespa_official": "gap",
+    "jennierubyjane": "gap",
+    "xxxibgdrgn": "gap",
+    "hm_son7": "gap",
+    "sbsnow_insta": "gap",
+    "mnet_official": "gap",
+    "openai": "gap",
+    "runwayapp": "gap",
+    "pika_labs": "gap",
+    "lumalabsai": "gap",
+    "midjourney": "gap",
+    "klingai_official": "gap",
+    "heygen_official": "gap",
+    "higgsfield.ai": "gap",
+    "googledeepmind": "gap",
+    "cristiano": "gap"
    }
   },
   "landing": {
-   "at": "2026-08-29T13:31:20",
+   "at": "2026-08-29T14:05:54",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-29T14:05:44.921645+09:00"
+ "updated": "2026-08-29T14:31:20.443090+09:00"
 }
