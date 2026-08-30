@@ -358,11 +358,21 @@
  "threads": [
   {
    "account": "choi.openai",
+   "text": "Codex나 ChatGPT Work를 자주 썼는데 사용량이 유독 빨리 닳았다면 이유가 있었습니다.\n\n오픈AI가 여러 사용량 누수 버그를 수정하고 모든 유료 사용자의 사용량을 초기화했습니다.\n\n이미지 압축 과정에서 예전 이미지가 남거나, Memory와 /goals 작업이 끝나지 않고 계속 실행되는 문제가 있었는데요. 일부 사례는 주간 사용량의 15~70%까지 소모했다고 합니다.\n\nMCP 결과가 중복 처리되거나, Subagent가 의도보다 강한 모델을 호출하고, 자동화 작업이 설정된 주기보다 더 자주 실행되는 문제도 수정됐습니다.\n\n오픈AI는 이번 수정으로 사용 방식에 따라 이전보다 10~50% 더 오래 사용할 수 있을 것으로 보고 있습니다.",
+   "likes": 22,
+   "cmts": 2,
+   "time": 1788073225,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/785284520_17984686005112832_5032710610503792723_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk3NDk2ODc3Njg2OTUzMTY5Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTkyMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=0smUsqoZdkYQ7kNvwGcbw56&_nc_oc=AdqdZJPxbO6Ju3Pu9OyCFRUmoE3nwiezsMIcwV4i59p0OH0EOdGCAF_0oqlo5BZaUzw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=682GV1cO2wOMYbk6uovOzw&_nc_ss=7a22e&oh=00_AQJehbQjAKzkgyfoitSTWLUQ9KRme2QQ6AlDTgwMF4bjzg&oe=6A99C47A",
+   "url": "https://www.threads.com/@choi.openai/post/Dcp7QrSk9At",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
    "text": "OrcaRouter가 GLM-5.3-Flash의 검열 완화 버전을 공개했습니다.\n\n320B 파라미터 중 18B가 활성화되는 구조이며, LoRA나 탈옥 프롬프트가 아니라 모델 가중치 자체를 수정했습니다.\n\nMaliciousInstruct 거부율은 96%→11%, JailbreakBench는 93%→12%까지 떨어졌습니다.\n\n주목할 부분은 거부 성향이 완전히 사라지지는 않았다는 겁니다.\nGLM-5.3-Flash의 안전장치가 특정 한 부분에만 들어간 것이 아니라 더 복잡하게 학습됐을 가능성이 있다는 설명입니다.",
-   "likes": 10,
+   "likes": 11,
    "cmts": 0,
    "time": 1788071446,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/788461356_17984685891112832_140736152696427283_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk3NDk1MzgzOTMwODcwNTI3NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuODk4LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=kCwEAVfyYjUQ7kNvwEDfd0t&_nc_oc=AdoVuePGklVp9MuqsYe9pArUliHVpb5BWYSHvufQ2FxPABzSIoazYRctjK2haZTaL0E&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=amSJUzBDRW8vrynB05GB1Q&_nc_ss=7a22e&oh=00_AQI9wj8NFEaVeXvh5CsPvU6h6gkwKzslhe4H9NPeBvNO3w&oe=6A99B842",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/788461356_17984685891112832_140736152696427283_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk3NDk1MzgzOTMwODcwNTI3NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuODk4LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=kCwEAVfyYjUQ7kNvwEDfd0t&_nc_oc=AdoVuePGklVp9MuqsYe9pArUliHVpb5BWYSHvufQ2FxPABzSIoazYRctjK2haZTaL0E&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=682GV1cO2wOMYbk6uovOzw&_nc_ss=7a22e&oh=00_AQL6GAxlnHPPo121B7IXYpzQ5ZNYb96Eo5qvkhsp_K9OLQ&oe=6A99B842",
    "url": "https://www.threads.com/@choi.openai/post/Dcp33cyEp6r",
    "region": "kr"
   },
@@ -372,7 +382,7 @@
    "likes": 25,
    "cmts": 3,
    "time": 1788069656,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/788966068_1125213086499317_8389258940727017522_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&ig_cache_key=Mzk3NDkzODgzOTQxOTUyNjU0Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=9u4FOWatmQwQ7kNvwG6SyS7&_nc_oc=AdpqUSL-Nl758vi1d5hAPpU4s2FvedXCO0G8Z51LDa8jMaqv4-0m8x0Ca4QPM0wld6Y&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=amSJUzBDRW8vrynB05GB1Q&_nc_ss=7a22e&oh=00_AQLzgojRYDMIBGNSWtLwg1C4e_Sfe-1rqQ1y4kT_S7-Dyw&oe=6A99B664",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/788966068_1125213086499317_8389258940727017522_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&ig_cache_key=Mzk3NDkzODgzOTQxOTUyNjU0Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=9u4FOWatmQwQ7kNvwG6SyS7&_nc_oc=AdpqUSL-Nl758vi1d5hAPpU4s2FvedXCO0G8Z51LDa8jMaqv4-0m8x0Ca4QPM0wld6Y&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=682GV1cO2wOMYbk6uovOzw&_nc_ss=7a22e&oh=00_AQKZ4ESi7YZPExRgyg4kJplRUCNALXT8h20iytEWlIBTQA&oe=6A99B664",
    "url": "https://www.threads.com/@choi.openai/post/Dcp0dB3gR2T",
    "region": "kr"
   },
@@ -384,16 +394,6 @@
    "time": 1788069334,
    "thumb": "",
    "url": "https://www.threads.com/@daily_ai_star/post/Dcpz1Q3mbrK",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "3/ 이 취재의 배경에는 역전당한 1년이 있습니다.\n\n앤트로픽은 코딩에서 사업 기회를 먼저 알아보고 Claude Code를 시장의 기준이 된 제품으로 키웠고, 연환산 매출과 기업가치 모두에서 처음으로 오픈AI를 앞섰습니다.\n\n매출은 앤트로픽이 650억 달러를 넘긴 반면 오픈AI는 약 400억 달러 수준이고, 상장도 앤트로픽이 이르면 9월로 먼저 나설 전망입니다.\n\n그 사이 오픈AI에서는 2인자로 영입됐던 피지 시모, 8개월 만에 떠난 최고매출책임자, COO였던 브래드 라이트캡까지 줄줄이 회사를 떠났고, 애플의 영업비밀 소송과 ChatGPT 관련 제품 책임 소송이 쌓였습니다.\n\n봄에는 알트만 자택에 이틀 새 화염병과 총격이 있었습니다. 알트만은 \"회사로서 명백한 실책들이 있었다\"고 인정했습니다.",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1788067825,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/789652356_17984688615112832_1176237062258680456_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk3NDkyMzQ4MDU5MjI3OTc0Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjQwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=hXy5M2HRpPMQ7kNvwEfk7H9&_nc_oc=Adp6V4cDhNd5fZ6VMrVNmv2tR07Wd_HB9a5qF2EEx48M4mThdRLpA9UE-mVSYhOZt78&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=amSJUzBDRW8vrynB05GB1Q&_nc_ss=7a22e&oh=00_AQKLmBEYdi4VWLeJiow5GwNN8_qtrtLnzNOehbF9V6idbw&oe=6A999D41",
-   "url": "https://www.threads.com/@choi.openai/post/Dcpw9h2D-i_",
    "region": "kr"
   },
   {
@@ -472,7 +472,7 @@
    "likes": 2,
    "cmts": 1,
    "time": 1788016263,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/789925066_17934344088362958_3562128455959275699_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk3NDQ5MDk0NDI5MjQ2Njk0OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuODAwLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=d-e-7O2FbBgQ7kNvwFPyo7n&_nc_oc=Ado19TAok6ePVfNXlp9rXedfHTAWkalesfwOtf5LvXfEDjVjfi4duhvaFrfP08-Nzsc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=fOcUMT4ug40_sY9BXyl8dQ&_nc_ss=7a22e&oh=00_AQIv__JZLKaX240pxAmzsrehIfOKVHAvaU7kygKGJ5seDA&oe=6A99AB77",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/789925066_17934344088362958_3562128455959275699_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk3NDQ5MDk0NDI5MjQ2Njk0OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuODAwLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=d-e-7O2FbBgQ7kNvwFPyo7n&_nc_oc=Ado19TAok6ePVfNXlp9rXedfHTAWkalesfwOtf5LvXfEDjVjfi4duhvaFrfP08-Nzsc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=hHsiJa_ahsUeCVSRNLoK2g&_nc_ss=7a22e&oh=00_AQILH7azzPPdYYqVQRZUdFnn-GxIA0PNu5nAsnQCeETNBA&oe=6A99AB77",
    "url": "https://www.threads.com/@takepage_/post/DcoOnTBjzEF",
    "region": "kr"
   },
@@ -482,18 +482,18 @@
    "likes": 7,
    "cmts": 0,
    "time": 1787991369,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/789013179_17908904223463148_3644469020479697293_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk3NDI4MjA5MzE2MDU3NjA1MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTg4NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=3zbYY4NZtwIQ7kNvwH6MSEd&_nc_oc=Adq50w63QdQ3EFc1djIZQTyFHJnbG1OIBIzvEashWdELI1VSwBgZUxPyITn3gD_9xMs&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=5HB9ipi8zWkr9FJQ7haEjQ&_nc_ss=7a22e&oh=00_AQJ9nxoXK2ONkUF5RO2X3zujQwO9DX4AQLGu5fA7bY9c4A&oe=6A99C234",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/789013179_17908904223463148_3644469020479697293_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk3NDI4MjA5MzE2MDU3NjA1MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTg4NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=3zbYY4NZtwIQ7kNvwH6MSEd&_nc_oc=Adq50w63QdQ3EFc1djIZQTyFHJnbG1OIBIzvEashWdELI1VSwBgZUxPyITn3gD_9xMs&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=SLPIWydkCnCoPXo_71A5ag&_nc_ss=7a22e&oh=00_AQIXCxW1pGiZ6_Cn08UBmo2tpMD07NX9JqK7cg-jo57Q-Q&oe=6A99C234",
    "url": "https://www.threads.com/@kopp/post/DcnfIbBiMdZ",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "2/ 이미 달성한 목표도 있습니다.\n\n오픈AI의 올해 연구 목표 중 하나는 신입 AI 연구자의 업무 자동화였는데, 수석과학자 야콥 파촙키는 이 기준을 내부적으로 이미 통과했다고 밝혔습니다.\n\nAstra에게 실험 아이디어를 주면 오픈AI 코드베이스 안에 직접 구현하고, 실험을 돌리고, 결과를 가져옵니다.\n\n논문 한 편을 주면 사람 연구자가 일주일씩 매달리던 후속 작업을 해냅니다. 이게 중요한 이유는 발전이 발전을 부르는 구조이기 때문입니다.\n\nAI가 더 뛰어난 다음 AI를 만드는 실험을 돕고, 그렇게 나온 모델이 다시 다음 개발을 앞당기는 재귀적 자기 개선인데요.\n\n이달 초 Astra가 10년 넘게 풀리지 않던 에르되시 수학 문제들에서 새 결과를 냈다는 소식과 같은 맥락입니다.",
+   "text": "3/ 이 취재의 배경에는 역전당한 1년이 있습니다.\n\n앤트로픽은 코딩에서 사업 기회를 먼저 알아보고 Claude Code를 시장의 기준이 된 제품으로 키웠고, 연환산 매출과 기업가치 모두에서 처음으로 오픈AI를 앞섰습니다.\n\n매출은 앤트로픽이 650억 달러를 넘긴 반면 오픈AI는 약 400억 달러 수준이고, 상장도 앤트로픽이 이르면 9월로 먼저 나설 전망입니다.\n\n그 사이 오픈AI에서는 2인자로 영입됐던 피지 시모, 8개월 만에 떠난 최고매출책임자, COO였던 브래드 라이트캡까지 줄줄이 회사를 떠났고, 애플의 영업비밀 소송과 ChatGPT 관련 제품 책임 소송이 쌓였습니다.\n\n봄에는 알트만 자택에 이틀 새 화염병과 총격이 있었습니다. 알트만은 \"회사로서 명백한 실책들이 있었다\"고 인정했습니다.",
    "likes": 0,
    "cmts": 1,
-   "time": 1788067821,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/Dcpw9BJDxw_",
+   "time": 1788067825,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/789652356_17984688615112832_1176237062258680456_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk3NDkyMzQ4MDU5MjI3OTc0Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjQwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=hXy5M2HRpPMQ7kNvwEfk7H9&_nc_oc=Adp6V4cDhNd5fZ6VMrVNmv2tR07Wd_HB9a5qF2EEx48M4mThdRLpA9UE-mVSYhOZt78&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=682GV1cO2wOMYbk6uovOzw&_nc_ss=7a22e&oh=00_AQK5cfcba91jXafbdYEGiP7vi0yo6Adip9_onzKfJKH60Q&oe=6A999D41",
+   "url": "https://www.threads.com/@choi.openai/post/Dcpw9h2D-i_",
    "region": "kr"
   },
   {
@@ -512,7 +512,7 @@
    "likes": 20,
    "cmts": 9,
    "time": 1788043736,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/789264197_1094272499802857_1562412891687434088_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&ig_cache_key=Mzk3NDcyMDYwNTc1NjQ2NTEwMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=2qzlahU_Bz8Q7kNvwHt0Gug&_nc_oc=Adq7iC8iUR4apHWoU1S2wNmqbB2JZ9Zh4pN6u8dXFhF1loIoCKzCTopJriNZbn0-a5c&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=dBLnyDdMYR8Apz-1PgK7lA&_nc_ss=7a22e&oh=00_AQI3pGu-WnkXPDvDjyH_shT-_pprH-XOmcdJnhFoAzwEXA&oe=6A99AADF",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/789264197_1094272499802857_1562412891687434088_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&ig_cache_key=Mzk3NDcyMDYwNTc1NjQ2NTEwMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=2qzlahU_Bz8Q7kNvwHt0Gug&_nc_oc=Adq7iC8iUR4apHWoU1S2wNmqbB2JZ9Zh4pN6u8dXFhF1loIoCKzCTopJriNZbn0-a5c&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=atwLBxIaoG8hlUBnqwIgSQ&_nc_ss=7a22e&oh=00_AQLn7JOsfdnSNgUm53-j3ZNVUguOvzY7QVOhK59jrNL9xw&oe=6A99AADF",
    "url": "https://www.threads.com/@aicoffeechat/post/DcpC1T7ih_M",
    "region": "kr"
   },
@@ -522,8 +522,18 @@
    "likes": 6,
    "cmts": 3,
    "time": 1788016258,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/787884327_1420149573333257_6791427359428316245_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk3NDQ4ODQzODUwNjI1MTcwMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=PmWLX2_mA74Q7kNvwEsd-Qd&_nc_oc=AdrwrPPHYNedbMhxd8OwI2vs3HLMCQDFTU8RmirrSo_pc3r3W2zisAMks9-WdyM_H7M&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=fOcUMT4ug40_sY9BXyl8dQ&_nc_ss=7a22e&oh=00_AQJ7JwLmS_Hgcno3NKQAWhaNHHRhw3xIizAjJELhfPcX4A&oe=6A998CD2",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/787884327_1420149573333257_6791427359428316245_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk3NDQ4ODQzODUwNjI1MTcwMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=PmWLX2_mA74Q7kNvwEsd-Qd&_nc_oc=AdrwrPPHYNedbMhxd8OwI2vs3HLMCQDFTU8RmirrSo_pc3r3W2zisAMks9-WdyM_H7M&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=hHsiJa_ahsUeCVSRNLoK2g&_nc_ss=7a22e&oh=00_AQL8H81aLAbguI-D6kTDmZacu1nxIge9Q6z5NeBZt8znXQ&oe=6A99C512",
    "url": "https://www.threads.com/@takepage_/post/DcoOC1VD-W1",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "2/ 이미 달성한 목표도 있습니다.\n\n오픈AI의 올해 연구 목표 중 하나는 신입 AI 연구자의 업무 자동화였는데, 수석과학자 야콥 파촙키는 이 기준을 내부적으로 이미 통과했다고 밝혔습니다.\n\nAstra에게 실험 아이디어를 주면 오픈AI 코드베이스 안에 직접 구현하고, 실험을 돌리고, 결과를 가져옵니다.\n\n논문 한 편을 주면 사람 연구자가 일주일씩 매달리던 후속 작업을 해냅니다. 이게 중요한 이유는 발전이 발전을 부르는 구조이기 때문입니다.\n\nAI가 더 뛰어난 다음 AI를 만드는 실험을 돕고, 그렇게 나온 모델이 다시 다음 개발을 앞당기는 재귀적 자기 개선인데요.\n\n이달 초 Astra가 10년 넘게 풀리지 않던 에르되시 수학 문제들에서 새 결과를 냈다는 소식과 같은 맥락입니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1788067821,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/Dcpw9BJDxw_",
    "region": "kr"
   },
   {
@@ -539,21 +549,11 @@
   {
    "account": "choi.openai",
    "text": "\"사람 연구자가 일주일씩 매달리던 일을 이미 대신하고 있습니다.\"\n\n오픈AI가 올해 목표였던 'AI 연구 인턴 자동화'를 내부 기준으로 이미 달성했다고 TIME 커버스토리에서 밝혔습니다.\n\n차기 모델 Astra가 실험 아이디어를 받아 코드로 구현하고, 실험을 돌리고, 결과까지 가져옵니다. AI가 다음 AI의 개발을 앞당기는 순환이 시작된 것인데요.\n\n오픈AI 본사에서 2주간 내부를 취재한 TIME 커버스토리를 풀어봅니다. 🧵",
-   "likes": 18,
+   "likes": 19,
    "cmts": 9,
    "time": 1788067811,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/789399006_17984688573112832_1872057496133096896_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk3NDkyMzM2Mzk1NzA3NTc2Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjQwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=bISKKfi2I7cQ7kNvwEOUDbN&_nc_oc=Adq5I76aoQ3XHATBl303MRg20M3Rh7cj4vAINAiG99zTY7HrSqiCL1gr-x-7wtcGJQ8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=amSJUzBDRW8vrynB05GB1Q&_nc_ss=7a22e&oh=00_AQKM1BQhoCyrw409DsV2M8LERVJiXfexu-OwiZhPMYMoVg&oe=6A99B7A2",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/789399006_17984688573112832_1872057496133096896_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk3NDkyMzM2Mzk1NzA3NTc2Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjQwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=bISKKfi2I7cQ7kNvwEOUDbN&_nc_oc=Adq5I76aoQ3XHATBl303MRg20M3Rh7cj4vAINAiG99zTY7HrSqiCL1gr-x-7wtcGJQ8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=682GV1cO2wOMYbk6uovOzw&_nc_ss=7a22e&oh=00_AQIRUJHPDOtlXTPKgFzH-WTkHuripFaK2xKGhA8ffG0JYw&oe=6A99B7A2",
    "url": "https://www.threads.com/@choi.openai/post/Dcpw71OD-83",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "3/ 처음에 완전히 같았던 에이전트들은 시간이 지나며 갈라졌습니다.\n\n행동 데이터만으로 분류했더니 구조물 곁에 머물며 짓고 관리하는 무리와 넓게 돌아다니며 탐사하는 무리로 나뉘었고, 더 세밀하게는 건설자, 관리자, 조율자, 측량가라는 네 가지 상태가 반복해서 나타났는데요.\n\n이 역할은 고정 신분이 아니라 세계가 성숙하면서 갈아타는 상태였습니다. 초기의 탐험가가 후기의 건설자가 되는 식입니다.\n\n2년 전 1,000개 에이전트가 마인크래프트에서 경제와 종교를 만들던 Project Sid는 대화가 핵심 통로였는데, 이번 실험은 대화를 꺼도 분업이 생긴다는 것까지 보였습니다.",
-   "likes": 3,
-   "cmts": 1,
-   "time": 1788066055,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/789264295_17984684871112832_1946829653294286744_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk3NDkwODYyNzc5MDA0NjA1MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuODY0LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=ODE_wDf7I28Q7kNvwFE_Ewz&_nc_oc=AdpsjV9BrKoXv3OUp7uSL2LckeUFpoheweLkxKILQaBFKTldthtFLl2meYb4MYIR934&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=amSJUzBDRW8vrynB05GB1Q&_nc_ss=7a22e&oh=00_AQITMuV1T0JYhW1Es-UdZvEP_mSENIpqAeHX7yR2GJIEHw&oe=6A999240",
-   "url": "https://www.threads.com/@choi.openai/post/DcptlZGD6Ni",
    "region": "kr"
   }
  ],
@@ -583,7 +583,7 @@
   {
    "account": "jaemyung_lee",
    "title": "이번 정류장은 브라질입니다 #이재명 #대통령 #Brasil #Brazil",
-   "views": 772100,
+   "views": 772200,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooBGAi8A6InMPiZBpU9fBkTRtAAwBKw0m1E0Ag~tplv-tiktokx-origin.image?dr=14575&x-expires=1788246000&x-signature=sXzbvY%2FBsH7l6zyb1M3bKviZ4cg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -627,10 +627,10 @@
   {
    "account": "jaemyung_lee",
    "title": "대한민국과 브라질이 함께 그려갈 미래가  두 나라 국민 모두에게  더 큰 희망과 기회가 되길 기대합니다 🇰🇷🫰🇧🇷 @Presidente Lula ima, meu irmão💚💛💙 #이재명 #lula #korea #Br",
-   "views": 236600,
+   "views": 236700,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-i-photomode-sg/91a2f3151d9741689af70b1d1f8aac3a~tplv-photomode-image.jpeg?dr=14555&x-expires=1788246000&x-signature=ZSrKcb8dqq4jRSZjhlXTwUy8smo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=9b759fb9&idc=my2&ftpl=1",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-i-photomode-sg/91a2f3151d9741689af70b1d1f8aac3a~tplv-photomode-image.jpeg?dr=14555&x-expires=1788246000&x-signature=keX8Xy12ZaLHSeg5wXMckB4ydlg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=9b759fb9&idc=my2&ftpl=1",
    "time": 1785270939,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7667680300490558728",
    "region": "kr"
@@ -638,10 +638,10 @@
   {
    "account": "jaemyung_lee",
    "title": "우리 국민의 구조에 모든 역량을 총동원하겠습니다  #네팔 #긴급회의 #prayfornepal",
-   "views": 225500,
+   "views": 225700,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4ECXepekgFVLDAPQbcqjSdGAIaIofEozvI9Qh~tplv-tiktokx-origin.image?dr=14575&x-expires=1788246000&x-signature=hPMpvbcIX98KI6t25TobB4gCSzM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4ECXepekgFVLDAPQbcqjSdGAIaIofEozvI9Qh~tplv-tiktokx-origin.image?dr=14575&x-expires=1788246000&x-signature=hA0W8eQcUKAf17qN3eEXduR1kCU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1787831518,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7678677903122369800",
    "region": "kr"
@@ -693,42 +693,6 @@
  ],
  "reddit": [
   {
-   "sub": "nextfuckinglevel",
-   "title": "Duck Tales Theme Song (A cappella)",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/Z20xZDBlcjR0Zm1oMVd3ejN2HgoXfYrSdKhPwTkfVYCW-EHkVoJ0u5xlzXPE.jpeg?width=320&crop=smart&auto=webp&s=beab98132ed8a5b710b044bbd496c531fd3caf55",
-   "time": 1788062938,
-   "url": "https://www.reddit.com/r/nextfuckinglevel/comments/1w27723/duck_tales_theme_song_a_cappella/"
-  },
-  {
-   "sub": "NatureIsFuckingLit",
-   "title": "🔥 momma pig and line of piglets",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/M3FlMXRlYXd6ZW1oMVW-rtIPqHGbDPZD4g3XSpOPI6rsdVgIO2fhew3rB3WZ.png?width=320&crop=smart&auto=webp&s=9e2896181664ea220f1134a0af41d1084038bd70",
-   "time": 1788053114,
-   "url": "https://www.reddit.com/r/NatureIsFuckingLit/comments/1w23xba/momma_pig_and_line_of_piglets/"
-  },
-  {
-   "sub": "nottheonion",
-   "title": "Milo Yiannopoulos Deported After Years of Supporting Deportations",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/lU6Mhv08PjxVMWkUzq7ILNiKJTQFGjr_qvBKdJIsdMk.jpeg?width=640&crop=smart&auto=webp&s=29da00a8914b30497f820fedee11b6df80fe5783",
-   "time": 1788054978,
-   "url": "https://www.reddit.com/r/nottheonion/comments/1w24kld/milo_yiannopoulos_deported_after_years_of/"
-  },
-  {
-   "sub": "texts",
-   "title": "Dating is hell",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/liclgdddgdmh1.png?width=640&crop=smart&auto=webp&s=a059cf3597808b7db9515b725f393e0c7cde1093",
-   "time": 1788034432,
-   "url": "https://www.reddit.com/r/texts/comments/1w1wqu9/dating_is_hell/"
-  },
-  {
    "sub": "MoralityScaling",
    "title": "Morality of this",
    "score": 0,
@@ -747,6 +711,15 @@
    "url": "https://www.reddit.com/r/PoursTea/comments/1w1kisk/why_vote_no_on_something_like_this/"
   },
   {
+   "sub": "texts",
+   "title": "Dating is hell",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/liclgdddgdmh1.png?width=640&crop=smart&auto=webp&s=a059cf3597808b7db9515b725f393e0c7cde1093",
+   "time": 1788034432,
+   "url": "https://www.reddit.com/r/texts/comments/1w1wqu9/dating_is_hell/"
+  },
+  {
    "sub": "okbuddycinephile",
    "title": "In your opinion, who is the most jacked celebrity actor who definitely has never taken steroids not even once?",
    "score": 0,
@@ -754,15 +727,6 @@
    "thumb": "https://preview.redd.it/70qfxk8dcbmh1.jpeg?width=640&crop=smart&auto=webp&s=eeb845987b1dcdffad9c191f552cb748e8df537a",
    "time": 1788008873,
    "url": "https://www.reddit.com/r/okbuddycinephile/comments/1w1m4k9/in_your_opinion_who_is_the_most_jacked_celebrity/"
-  },
-  {
-   "sub": "interestingasfuck",
-   "title": "Nepalese School Principal Saved Lives of 1643 Children",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/ajRmdWl4c2FwZm1oMSpOYAYcjqB6zts3NdriWj1BBlGJqiBXJIqGUPK7MQG_.png?width=640&crop=smart&auto=webp&s=fd2f8037dda81111ab4465281981757a4848632a",
-   "time": 1788061697,
-   "url": "https://www.reddit.com/r/interestingasfuck/comments/1w26smv/nepalese_school_principal_saved_lives_of_1643/"
   },
   {
    "sub": "cats",
@@ -783,22 +747,58 @@
    "url": "https://www.reddit.com/r/Eldenring/comments/1w1shx8/just_bought_elden_ring_opened_a_random_chest_and/"
   },
   {
-   "sub": "me_irl",
-   "title": "Me_irl",
+   "sub": "science",
+   "title": "Adolescents who undergo gender-affirming chest surgery report low levels of regret and high levels of satisfaction, experiencing outcomes similar to those of young adults. These findings suggest that ",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/14iex5dnoemh1.jpeg?width=640&crop=smart&auto=webp&s=ba118cbe4dab7f512b8b25f3668c3adaebe4d11d",
-   "time": 1788049324,
-   "url": "https://www.reddit.com/r/me_irl/comments/1w22lgf/me_irl/"
+   "thumb": "https://external-preview.redd.it/gxSUNZtT_jSsdw9c8WmQw0f-XNEL6qbu7Xg_dIuOGs0.jpeg?width=640&crop=smart&auto=webp&s=1d331906dc0fd6b1c636820c19a60d0fa38f1986",
+   "time": 1788046611,
+   "url": "https://www.reddit.com/r/science/comments/1w21l14/adolescents_who_undergo_genderaffirming_chest/"
   },
   {
-   "sub": "Boxing",
-   "title": "[SPOILER] Moses Itauma vs. Filip Hrgovic",
+   "sub": "videogames",
+   "title": "Bro had a good take",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/YXAzNXh0N3l4Ym1oMW5HJvsT8I0F5Cl3PC_-BZZWB7_GvSyHmjkNFJgN_vHE.png?width=640&crop=smart&auto=webp&s=7b64fd537b3107287ac95da4835e9cdd6d1929b4",
+   "time": 1788016221,
+   "url": "https://www.reddit.com/r/videogames/comments/1w1p1ix/bro_had_a_good_take/"
+  },
+  {
+   "sub": "nottheonion",
+   "title": "Milo Yiannopoulos Deported After Years of Supporting Deportations",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/lU6Mhv08PjxVMWkUzq7ILNiKJTQFGjr_qvBKdJIsdMk.jpeg?width=640&crop=smart&auto=webp&s=29da00a8914b30497f820fedee11b6df80fe5783",
+   "time": 1788054978,
+   "url": "https://www.reddit.com/r/nottheonion/comments/1w24kld/milo_yiannopoulos_deported_after_years_of/"
+  },
+  {
+   "sub": "WhatIsTheTea",
+   "title": "An Ohio State University professor tackled a TV cameraman to the ground simply for asking questions about Epstein.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/OHF4NTVxZnVoYm1oMaVIrDyY035Iap4CkwBWoxZ4pVonabMPvwMxxIj4u7l5.png?width=320&crop=smart&auto=webp&s=a002dbec06e59d454c8c064e7ef600345ba59ef5",
+   "time": 1788010720,
+   "url": "https://www.reddit.com/r/WhatIsTheTea/comments/1w1mtrn/an_ohio_state_university_professor_tackled_a_tv/"
+  },
+  {
+   "sub": "AmIOverreacting",
+   "title": "AIO? Boyfriend doesn’t seem to want to talk to me. Like, at all.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/7nlkt4x8fdmh1.jpeg?width=640&crop=smart&auto=webp&s=d8fe10b805091b4b263d5e02cacdb8676261e1f6",
+   "time": 1788034054,
+   "url": "https://www.reddit.com/r/AmIOverreacting/comments/1w1wl57/aio_boyfriend_doesnt_seem_to_want_to_talk_to_me/"
+  },
+  {
+   "sub": "AskReddit",
+   "title": "How seriously in debt are you right now, financially?",
    "score": 0,
    "cmts": 0,
    "thumb": "",
-   "time": 1788042874,
-   "url": "https://www.reddit.com/r/Boxing/comments/1w205wd/spoiler_moses_itauma_vs_filip_hrgovic/"
+   "time": 1788057449,
+   "url": "https://www.reddit.com/r/AskReddit/comments/1w25e45/how_seriously_in_debt_are_you_right_now/"
   }
  ],
  "disaster": [],
@@ -843,10 +843,10 @@
    }
   },
   "landing": {
-   "at": "2026-08-30T15:36:05",
+   "at": "2026-08-30T16:01:33",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-30T16:01:30.720785+09:00"
+ "updated": "2026-08-30T16:31:36.994862+09:00"
 }
