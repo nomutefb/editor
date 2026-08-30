@@ -7624,8 +7624,14 @@
   {
    "query": "의료관광",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/1464c3cf77.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.g-enews.com/article/Global-Biz/2026/08/2026080216513012550c8c1c064d_1",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-08-30T13:20:00+09:00",
    "delta": -3,
@@ -7640,8 +7646,14 @@
   {
    "query": "약국",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/52637d190b.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.kpanews.co.kr/news/articleView.html?idxno=540151",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-08-30T14:10:00+09:00",
    "delta": -5,
@@ -7669,8 +7681,14 @@
   {
    "query": "부총리",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/90c81b458c.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.newspim.com/news/view/20260828000181",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-08-30T12:30:00+09:00",
    "isNew": true,
@@ -7682,8 +7700,14 @@
   {
    "query": "한동희",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/c434f25090.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://sports.khan.co.kr/article/202608190922003/",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-30T13:20:00+09:00",
    "delta": -6,
@@ -7698,8 +7722,14 @@
   {
    "query": "마라톤",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/15939a4e7c.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.khan.co.kr/article/202608201428001/",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-30T13:20:00+09:00",
    "delta": -6,
@@ -7801,8 +7831,14 @@
   {
    "query": "이소영 의원",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/fab940d618.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.ajunews.com/view/20260830134314850",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-08-30T12:40:00+09:00",
    "isNew": true,
@@ -7921,7 +7957,7 @@
  ],
  "gtrends_pool_updated": "2026-08-30T16:35:55+09:00",
  "_trend_img": {
-  "tried": "2026-08-30T15:54:05+09:00",
+  "tried": "2026-08-30T16:35:55+09:00",
   "fail": {
    "이해민": "2026-08-30T14:42:08+09:00",
    "택배기사": "2026-08-30T15:22:41+09:00",
@@ -18978,7 +19014,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-08-30T16:35:55+09:00"
+    "first_seen": "2026-08-30T16:35:55+09:00",
+    "kw": "오픈AI, 사용량 초기화, 버그 수정",
+    "sum": "계정이 오픈AI의 사용량 누수 버그 수정과 초기화를 정리했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
