@@ -369,6 +369,26 @@
  "threads": [
   {
    "account": "daily_ai_star",
+   "text": "Slack의 Code 채널에서는 팀원이 같은 에이전트 세션을 보고 계획·diff·미리보기 결과를 함께 검토할 수 있습니다. 작업을 시작한 사람만 조종하는 구조가 아니라, 대화에 참여한 사람이 방향을 바꾸거나 중단할 수 있습니다.\n\n다만 실행 권한이 넓어진 것은 아닙니다. GitHub 권한과 기존 통제를 따르고, 저장소 관리자는 에이전트가 만든 PR에 추가 승인을 요구할 수 있습니다.\n\n앞으로 팀의 개발 프로세스를 볼 때는 에이전트를 IDE에 붙였는지만으로 부족합니다. 어떤 대화가 실행 요청으로 인정되고, 누가 그 결과를 승인하는지까지 봐야 합니다.\n\nhttps://github.blog/changelog/2026-08-21-the-new-github-copilot-experience-in-slack/",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1788052060,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DcpS4b3mdTd",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
+   "text": "GitHub Copilot이 8월 21일 Slack 공개 프리뷰에 들어갔습니다.\n\n이제 대화 중 `@GitHub`를 부르면 Copilot이 코드 질문에 답하고, 버그를 분류하고, 이슈를 만들고, 실패 원인을 조사하고, 수정한 뒤 PR까지 열 수 있습니다. 작업은 보안 클라우드 샌드박스에서 비동기로 계속됩니다.\n\n사람이 먼저 이슈를 정리하고 개발자가 별도 도구에서 구현하는 순서가 줄어듭니다. 문제를 말한 대화가 곧 실행 요청이 됩니다.\n\n코딩 에이전트의 시작점이 저장소가 아니라 팀의 대화로 이동했습니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1788052051,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DcpS3XbGXb3",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
    "text": "https://github.com/anthropics/claude-code/releases/tag/v2.1.248",
    "likes": 0,
    "cmts": 0,
@@ -378,39 +398,19 @@
    "region": "kr"
   },
   {
-   "account": "daily_ai_star",
-   "text": "Claude Code v2.1.248이 8월 27일 restricted 모드를 추가했습니다.\n\n이 모드에서는 명령이나 코드를 실행하는 내장 도구가 세션 목록에서 빠집니다. WebFetch도 기본으로 제거되고, 파일 도구는 작업 디렉터리 안으로 제한됩니다. 사용자·프로젝트·로컬 설정 파일도 무시합니다.\n\n기존 방식은 위험한 도구를 남겨둔 채 실행 직전에 허가를 묻는 구조였습니다. restricted 모드는 그보다 앞단에서 에이전트가 볼 수 있는 행동 범위를 줄입니다.\n\n코딩 에이전트의 보안 기준이 “실행을 막을 수 있는가”에서 “처음부터 어떤 도구를 건네는가”로 이동했습니다.\n\nCI나 신뢰하지 않는 저장소를 읽는 세션에서는 권한 정책보다 도구 목록과 설정 로딩 경로를 먼저 확인해야 합니다. 안전성은 마지막 승인창보다 세션 시작 시점에 더 많이 결정됩니다.",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1788050379,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DcpPrN9k2ez",
-   "region": "kr"
-  },
-  {
    "account": "choi.openai",
    "text": "Exa가 검색 결과의 토큰 사용량을 줄이는 Dynamic Highlights를 공개했습니다.\n\n검색된 여러 웹페이지를 한꺼번에 살펴보고 질문과 관련 없는 내용이나 중복 정보를 제외하는 방식인데요.\n전체 페이지를 그대로 가져오는 것과 비교해 토큰을 평균 95% 줄였다고 합니다.\n\n실제 에이전트 평가에서도 전체 토큰 사용량이 30% 감소하면서 성능은 평균 2.1% 높아졌습니다. 현재 Exa API에서 리서치 프리뷰로 사용할 수 있습니다.",
-   "likes": 9,
+   "likes": 14,
    "cmts": 0,
    "time": 1788049802,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/788926800_1379925986988380_4435416664723396134_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk3NDc3MjI4NzY0Mzc3MDIyMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=ldkDna0ESfwQ7kNvwHtD2Nr&_nc_oc=AdrooUw5x4o_Sb4bTja1hMJ3uuK0UF44Wl1AkqCJsSFXqXPMVadU8t97I1TkvhPFiEw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=VFKcgFy-KUbcoPZ9oiMdjg&_nc_ss=7a22e&oh=00_AQKmoAHyFEv3IG4onRYS_lpD2Uauk1INg-QkF2ccOZaFAw&oe=6A9963EE",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/788926800_1379925986988380_4435416664723396134_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk3NDc3MjI4NzY0Mzc3MDIyMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=ldkDna0ESfwQ7kNvwH9LUht&_nc_oc=Adqav9mX0Ej2w-psDofhzsYfrqlLbAHkOH7B6WzVj4AtggZtOdaavvt3CVXKw-XtTPE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=M7Y0LPPPYmoLlI4pt4tNQA&_nc_ss=7a22e&oh=00_AQK_ofP4vx4UKY-88tHGUkafqK76u7DOkfF_myGUFjn0hw&oe=6A9963EE",
    "url": "https://www.threads.com/@choi.openai/post/DcpOlYcEt1s",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "GLM-5.3-Flash가 8월 26일 공개됐습니다.\n\n총 320B 파라미터 중 토큰마다 활성화되는 것은 18B입니다. 1M 토큰 컨텍스트와 텍스트·이미지·영상 입력을 지원하고, Z.AI는 GLM-5.2보다 높은 성능을 10분의 1 가격으로 제공한다고 설명합니다.\n\n모델이 커지는 방향과 실제 실행 비용을 낮추는 방향이 갈라졌습니다. 로컬 코딩 에이전트의 기준은 이제 “가장 큰 모델을 빌리는가”가 아니라 “필요한 능력만 활성화해 어디서 돌릴 수 있는가”로 이동합니다.\n\n개발자는 모델 크기보다 활성 파라미터, 컨텍스트 길이, 추론 비용을 함께 비교하게 됩니다.\n\nhttps://huggingface.co/zai-org/GLM-5.3-Flash",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1788048222,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DcpLj8zkwnk",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "프로젝트 주소 :\nhttps://xzf-thu.github.io/VoiceMem/",
-   "likes": 2,
+   "likes": 3,
    "cmts": 0,
    "time": 1788044436,
    "thumb": "",
@@ -420,10 +420,10 @@
   {
    "account": "choi.openai",
    "text": "음성 에이전트가 사람처럼 대화하려면 결국 ‘기억’이 필요합니다.\n\nNUS·NTU 연구진이 실시간 음성 에이전트용 기억 시스템 VoiceMem을 오픈소스로 공개했습니다.\n\n기억을 한곳에 쌓는 대신 사실과 감정·성향을 서로 다른 구조로 나눠 저장하는 방식인데요. 장기 기억 벤치마크 LoCoMo에서 기억 5개만 불러 91.2%를 기록했습니다. Mem0가 200개를 검색해 61.68%를 기록한 것과 비교하면, 사용 토큰도 430 대 6,956으로 크게 줄었습니다.\n\n사람이 말하는 동안 전사와 기억 추출을 동시에 처리하고, 말이 끝나기 전에 검색까지 마쳐 약 134ms 만에 답변 준비가 끝납니다.\n\n음성 에이전트가 늘 아쉬웠던 건 대화가 바뀔 때마다 맥락이 끊긴다는 점이었습니다.\n기억까지 지연 없이 붙기 시작하면, 전화든 스피커든 어디서 대화하더라도 이전 대화와 성향을 그대로 이어가는 개인화된 음성 에이전트에 가까워질 것 같습니다.",
-   "likes": 29,
+   "likes": 33,
    "cmts": 2,
    "time": 1788044413,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/787855767_1314988623881262_8635416497075810502_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk3NDcyNzA4MDIzNDU4NzE4NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=J7F6J2MRoFwQ7kNvwGIvz71&_nc_oc=Adri2AW76fQ4SDlYUMYfDjewArEmev3l_EWfp0ECT52H54hv8sIcxTP_Wn4ICt72HUc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=VFKcgFy-KUbcoPZ9oiMdjg&_nc_ss=7a22e&oh=00_AQLdPEzo3klQerPlQppofQ5REqyln7M32nO35oaqUDqQmQ&oe=6A99442A",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/787855767_1314988623881262_8635416497075810502_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk3NDcyNzA4MDIzNDU4NzE4NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=J7F6J2MRoFwQ7kNvwH9iHfW&_nc_oc=AdqtMGW-F3TOsPJ4SHPs3fREnmwCe1kS_fVNxwNSqojiLn_WEW_cRl9v4kAVdiWKg7I&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=M7Y0LPPPYmoLlI4pt4tNQA&_nc_ss=7a22e&oh=00_AQKnwq18FEWj9_SrM8DP0_gT-bF7jgZb000oglg5HdaHkQ&oe=6A99442A",
    "url": "https://www.threads.com/@choi.openai/post/DcpEThwghQw",
    "region": "kr"
   },
@@ -483,7 +483,7 @@
    "likes": 2,
    "cmts": 1,
    "time": 1788016263,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/789925066_17934344088362958_3562128455959275699_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk3NDQ5MDk0NDI5MjQ2Njk0OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuODAwLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=d-e-7O2FbBgQ7kNvwHDsSVj&_nc_oc=AdpSKm6jyeGRavmh-S3mAFOLk7LRE00cprql0H_ZRRVuPD-Be_ymtuHL80aCVdJQHbw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=O0K30FBsGexUAWG4_s72VQ&_nc_ss=7a22e&oh=00_AQL0OfkHXIMcClr4-DCZyCvWJe1jzacYL_zQXWL1dF8IAQ&oe=6A993AF7",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/789925066_17934344088362958_3562128455959275699_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk3NDQ5MDk0NDI5MjQ2Njk0OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuODAwLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=d-e-7O2FbBgQ7kNvwEWAynn&_nc_oc=Adq70LKoxmD-V-_bHh-FVYvBmfhco8_WNboPveJLUyKhDyQoGuIW9hXxKy6jNiNj-lU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=kf1bDgyuUztYKq9pc-jWdA&_nc_ss=7a22e&oh=00_AQJMmUZD136gR8K8r1DfIwZCDCtLc3I3tjl_MfQ8t0rDNw&oe=6A997337",
    "url": "https://www.threads.com/@takepage_/post/DcoOnTBjzEF",
    "region": "kr"
   },
@@ -493,7 +493,7 @@
    "likes": 7,
    "cmts": 0,
    "time": 1787991369,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/789013179_17908904223463148_3644469020479697293_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk3NDI4MjA5MzE2MDU3NjA1MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTg4NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=3zbYY4NZtwIQ7kNvwGxr1KC&_nc_oc=AdrYAMUCV_6xQylrlCb_itQHkqhl2Hz6Gn6baQmTZ4SXxITV-bMRowjWt3gNY3xCh50&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=EteibpmkaYO1_zOBYRb41Q&_nc_ss=7a22e&oh=00_AQJRTfvNdv_4iQ225waVf1NMz_ghj3NfMUd8dtCeCPOwFg&oe=6A9951B4",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/789013179_17908904223463148_3644469020479697293_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk3NDI4MjA5MzE2MDU3NjA1MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTg4NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=3zbYY4NZtwIQ7kNvwEx84LT&_nc_oc=AdoSmwaOLkv3lOo1-sT9-X1eQy6FPPi_T0ron5kjfqTnGDeTRFT__dNRcE9OKbHlo8Q&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=0kn-yr1WyouDC4ikXsCgjw&_nc_ss=7a22e&oh=00_AQKxUyhFsDF8AXEJY-vbwDNWR0b-UajxrT4tYvSKPmK5gA&oe=6A9951B4",
    "url": "https://www.threads.com/@kopp/post/DcnfIbBiMdZ",
    "region": "kr"
   },
@@ -503,27 +503,37 @@
    "likes": 13,
    "cmts": 1,
    "time": 1787967628,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/785280412_1423183929676461_8605967787877363267_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk3NDA4MjUyMTU0MTYwOTAwMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=LH4KydHzwLkQ7kNvwH3O_1H&_nc_oc=AdpqIjQpf9yr-cz6Y35oTp5FRqWJ4U-We_5kFPVAI7JxSXxMStI1KDwtEhP5iDzQIM8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=vuRRWl-_iC_Xu0X5TNfVCQ&_nc_ss=7a22e&oh=00_AQKFur3ZCpca9pYf9YJHM-UWSd4ylf5ZA8ZhM-bfBbGPcw&oe=6A993A9C",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/785280412_1423183929676461_8605967787877363267_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk3NDA4MjUyMTU0MTYwOTAwMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=LH4KydHzwLkQ7kNvwGlKOwO&_nc_oc=AdpJBRsFr_IkIL7qWlJYomaxobV6SfvI7lu65586X4m6DqO92kk_q4Cbr2aQr-tmUQs&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=sCWdYQPmDE9tfnkmiBMylA&_nc_ss=7a22e&oh=00_AQItMQUbR70QVhlHhfe2trtMNuV-MHurjANL0pvOB0tmyg&oe=6A9972DC",
    "url": "https://www.threads.com/@aipeekme/post/Dcmxv9sk4Yr",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
+   "text": "Claude Code v2.1.248이 8월 27일 restricted 모드를 추가했습니다.\n\n이 모드에서는 명령이나 코드를 실행하는 내장 도구가 세션 목록에서 빠집니다. WebFetch도 기본으로 제거되고, 파일 도구는 작업 디렉터리 안으로 제한됩니다. 사용자·프로젝트·로컬 설정 파일도 무시합니다.\n\n기존 방식은 위험한 도구를 남겨둔 채 실행 직전에 허가를 묻는 구조였습니다. restricted 모드는 그보다 앞단에서 에이전트가 볼 수 있는 행동 범위를 줄입니다.\n\n코딩 에이전트의 보안 기준이 “실행을 막을 수 있는가”에서 “처음부터 어떤 도구를 건네는가”로 이동했습니다.\n\nCI나 신뢰하지 않는 저장소를 읽는 세션에서는 권한 정책보다 도구 목록과 설정 로딩 경로를 먼저 확인해야 합니다. 안전성은 마지막 승인창보다 세션 시작 시점에 더 많이 결정됩니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1788050379,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DcpPrN9k2ez",
    "region": "kr"
   },
   {
    "account": "aicoffeechat",
    "text": "똑같은 AI 에이전트 수백 개를 \n한 세계에 풀어놓고 아무것도 시키지 않았습니다.\n\nMIT에서 나온 시뮬레이션 실험 결과가 꽤 충격적인데요. 가상의 무인도에 AI 수백 개를 풀어놨더니, 서로 말 한마디 없이 알아서 직업이 갈리고 남이 만든 걸 물려받아 고치고, 결국 자기들이 다 사라진 뒤에도 계속 돌아가는 시설을 지어버렸습니다.\n\n연구팀이 더 놀라워한 건 따로 있습니다. 서로 소통할 통로를 좁혀놨더니, 활짝 열어둔 쪽보다 결과가 더 좋았다는 겁니다.\n\n꼭 보셨으면 하는 것만 8개로 추렸습니다.",
-   "likes": 14,
+   "likes": 15,
    "cmts": 9,
    "time": 1788043736,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/789264197_1094272499802857_1562412891687434088_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&ig_cache_key=Mzk3NDcyMDYwNTc1NjQ2NTEwMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=2qzlahU_Bz8Q7kNvwHLEHKC&_nc_oc=AdqMFw3bU0wNiPzufq5xsK4VMpdk6LuuqSr-XK8_EOM_nSA4ITeI_UsuFnkgyw8c2So&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=ijeSIn7iLseYxOqwAsWK0Q&_nc_ss=7a22e&oh=00_AQIhI8O4FiAOM5ztstwVs4I3rQ5zJDmt9-EYejh3AesEBg&oe=6A993A5F",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/789264197_1094272499802857_1562412891687434088_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&ig_cache_key=Mzk3NDcyMDYwNTc1NjQ2NTEwMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=2qzlahU_Bz8Q7kNvwEAJRQ7&_nc_oc=AdrV0-gH69gSbhjYWtAxoQbF3q7PpeyYSYklJ_3iXVP6hgM3_qEnoOj5afsDbddTx4M&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=b9EquUqmFPPWfUUL7HDdtA&_nc_ss=7a22e&oh=00_AQIITMGyH_H-p9YEQobAN-rv3FDmM6UA3V9SoOQE6yzvlA&oe=6A99729F",
    "url": "https://www.threads.com/@aicoffeechat/post/DcpC1T7ih_M",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "Ollama v0.33에서 Claude Desktop 연동이 추가되었습니다.\n\n이제 Ollama를 서드파티 게이트웨이로 설정하면 Claude Desktop에서 로컬 모델과 클라우드 모델을 바로 사용할 수 있는데요.\n\nOllama의 웹 검색과 연구 작업, 자동 모드도 그대로 지원합니다.",
-   "likes": 23,
+   "likes": 28,
    "cmts": 1,
    "time": 1788039005,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/789013179_27743130638721183_4808064886753814336_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk3NDY4MTcxNjI4NjY3MjY3NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=07-gkyYPVOgQ7kNvwG2_Cle&_nc_oc=Adr9w74GkXmQg48Pch1edqJQVHSEryn3pdfI5YLA10OG3kUkPUBiuJ_mcer-vvK2sC4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=VFKcgFy-KUbcoPZ9oiMdjg&_nc_ss=7a22e&oh=00_AQJqb6LIpqQcPa4_xkp8EBSE96jl9tFh9uGj78lU83lIBA&oe=6A993BC2",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/789013179_27743130638721183_4808064886753814336_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk3NDY4MTcxNjI4NjY3MjY3NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=07-gkyYPVOgQ7kNvwEBUiBa&_nc_oc=Ado_opFTetVoXEwKhG-LNtabKhmC40Cmzs389Z7FYTNr1U-6kw_r2aO18OwsrDyqag4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=M7Y0LPPPYmoLlI4pt4tNQA&_nc_ss=7a22e&oh=00_AQJ_nHux6J1dIc1e1zniPSujmqkHPPd5Ld2SSl7mIitOvA&oe=6A997402",
    "url": "https://www.threads.com/@choi.openai/post/Dco5_ZSgc8i",
    "region": "kr"
   },
@@ -533,38 +543,28 @@
    "likes": 4,
    "cmts": 3,
    "time": 1788016258,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/787884327_1420149573333257_6791427359428316245_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk3NDQ4ODQzODUwNjI1MTcwMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=PmWLX2_mA74Q7kNvwEmUDNq&_nc_oc=Adp2e1W5Eg0h2TYtxI7hEQS4zKDOA9ABrsmiRqyaVxudWZhpumN-8bvNFo_nz0DZQH4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=O0K30FBsGexUAWG4_s72VQ&_nc_ss=7a22e&oh=00_AQI8R-Kij4tvCktdx8KRNojej6emci2GJJq02I_KWaWezQ&oe=6A995492",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/787884327_1420149573333257_6791427359428316245_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk3NDQ4ODQzODUwNjI1MTcwMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=PmWLX2_mA74Q7kNvwFQXOFR&_nc_oc=AdqLcQKcVxIrQeV-t8meKm8b2WTlQy5EnJRdYs3Xq2lSaDp9MdPn-rfnHhGZZu5YWrk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=kf1bDgyuUztYKq9pc-jWdA&_nc_ss=7a22e&oh=00_AQIfx9_G9R1G-zq3JoXxpJQvURdlnwZPApOD16oVSoZHNA&oe=6A995492",
    "url": "https://www.threads.com/@takepage_/post/DcoOC1VD-W1",
    "region": "kr"
   },
   {
    "account": "daily_ai_star",
-   "text": "표준은 작게 시작했습니다. `plugin.json`을 루트에 두고, `skills/`와 `mcp.json`을 정해진 위치에서 찾습니다. 설치 방식과 화면, 권한 정책은 각 클라이언트가 맡습니다.\n\n보안 경계도 명시했습니다. 플러그인이 읽거나 실행하는 경로는 패키지 루트 밖으로 나갈 수 없고, MCP 서버의 인증 정보는 패키지에 넣지 않습니다.\n\n아직 모든 에이전트가 지원하는 것은 아닙니다. 하지만 확장 기능을 한 번 만들고 여러 클라이언트에 배포하는 방향은 정해졌습니다.\n\nhttps://agent-plugins.org/specification",
+   "text": "GLM-5.3-Flash가 8월 26일 공개됐습니다.\n\n총 320B 파라미터 중 토큰마다 활성화되는 것은 18B입니다. 1M 토큰 컨텍스트와 텍스트·이미지·영상 입력을 지원하고, Z.AI는 GLM-5.2보다 높은 성능을 10분의 1 가격으로 제공한다고 설명합니다.\n\n모델이 커지는 방향과 실제 실행 비용을 낮추는 방향이 갈라졌습니다. 로컬 코딩 에이전트의 기준은 이제 “가장 큰 모델을 빌리는가”가 아니라 “필요한 능력만 활성화해 어디서 돌릴 수 있는가”로 이동합니다.\n\n개발자는 모델 크기보다 활성 파라미터, 컨텍스트 길이, 추론 비용을 함께 비교하게 됩니다.\n\nhttps://huggingface.co/zai-org/GLM-5.3-Flash",
    "likes": 0,
    "cmts": 0,
-   "time": 1788013114,
+   "time": 1788048222,
    "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DcoImK_Gb-A",
+   "url": "https://www.threads.com/@daily_ai_star/post/DcpLj8zkwnk",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "블로그 :\nhttps://www.inductionlabs.com/news/intrinsic-discovery",
-   "likes": 1,
+   "likes": 2,
    "cmts": 0,
    "time": 1788033610,
    "thumb": "",
    "url": "https://www.threads.com/@choi.openai/post/Dcovs48kzR7",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "Agent Plugins 1.0.0이 8월 6일 공개됐습니다.\n\nAWS·Cursor·Microsoft·OpenAI·Vercel이 함께 다듬은 형식입니다. 하나의 패키지 안에 Agent Skills와 MCP 서버를 넣고, 호환되는 에이전트 클라이언트가 같은 구조를 발견해 불러옵니다.\n\n지금까지는 같은 기능을 Claude Code, Cursor, Kiro 같은 도구별 형식으로 다시 포장해야 했습니다.\n\n에이전트의 이동성 기준이 모델에서 플러그인으로 한 단계 내려왔습니다.\n\n이제 “어떤 모델을 쓰는가”만큼 “만든 기능을 다른 에이전트에서도 그대로 가져갈 수 있는가”가 중요해집니다.",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1788013104,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DcoIlDamXD0",
    "region": "kr"
   }
  ],
@@ -575,7 +575,7 @@
    "views": 1900000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooDPRCUDqBpuPTmFEWk6RAIgEBqnfZwgeRICBU~tplv-tiktokx-origin.image?dr=14575&x-expires=1788224400&x-signature=4lwQ54FznHWXJzV0FOCliGFwgSg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooDPRCUDqBpuPTmFEWk6RAIgEBqnfZwgeRICBU~tplv-tiktokx-origin.image?dr=14575&x-expires=1788224400&x-signature=V0euVxcH2a0mENJKDPGpCaKqX2I%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785177115,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7667277327386135826",
    "region": "kr"
@@ -586,7 +586,7 @@
    "views": 1600000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAbAoCECNeDAVDgQBcAkFzYBfoUADqQCQWIuZl~tplv-tiktokx-origin.image?dr=14575&x-expires=1788224400&x-signature=vOZeJesTp9VRYK7J3FxERVOh%2FHM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAbAoCECNeDAVDgQBcAkFzYBfoUADqQCQWIuZl~tplv-tiktokx-origin.image?dr=14575&x-expires=1788224400&x-signature=vOZeJesTp9VRYK7J3FxERVOh%2FHM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785471372,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7668541152869616914",
    "region": "kr"
@@ -597,7 +597,7 @@
    "views": 771600,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooBGAi8A6InMPiZBpU9fBkTRtAAwBKw0m1E0Ag~tplv-tiktokx-origin.image?dr=14575&x-expires=1788224400&x-signature=Cj0BDVED1sa%2BIMOEY1dwsHekRIw%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooBGAi8A6InMPiZBpU9fBkTRtAAwBKw0m1E0Ag~tplv-tiktokx-origin.image?dr=14575&x-expires=1788224400&x-signature=Z3mtMrwjOPTOaAsDf370cwRINuc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785109781,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7666988131442281746",
    "region": "kr"
@@ -608,7 +608,7 @@
    "views": 489800,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o43E0EJDgKsBeuyFfnqRBCAvI1sAAbI2NsPlIc~tplv-tiktokx-origin.image?dr=14575&x-expires=1788224400&x-signature=MMstk4aTNdmAty59LDIcVKTLxLE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o43E0EJDgKsBeuyFfnqRBCAvI1sAAbI2NsPlIc~tplv-tiktokx-origin.image?dr=14575&x-expires=1788224400&x-signature=MMstk4aTNdmAty59LDIcVKTLxLE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785519099,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7668746136877812999",
    "region": "kr"
@@ -619,7 +619,7 @@
    "views": 372400,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQpDHATAEBzAIGFgqwDA4hofdRfVCsCaqEBIkL~tplv-tiktokx-origin.image?dr=14575&x-expires=1788224400&x-signature=03hP3azuplc9NDuHtbodLVHtKD4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQpDHATAEBzAIGFgqwDA4hofdRfVCsCaqEBIkL~tplv-tiktokx-origin.image?dr=14575&x-expires=1788224400&x-signature=03hP3azuplc9NDuHtbodLVHtKD4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785365622,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7668086960883354887",
    "region": "kr"
@@ -630,7 +630,7 @@
    "views": 274100,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1788224400&x-signature=XekV17iDnGHwe1nbSWi7s2sWdWA%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1788224400&x-signature=Sh9lPjPCQtPsXPFxV171XUEpzbc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785656353,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7669335640793763079",
    "region": "kr"
@@ -638,10 +638,10 @@
   {
    "account": "jaemyung_lee",
    "title": "대한민국과 브라질이 함께 그려갈 미래가  두 나라 국민 모두에게  더 큰 희망과 기회가 되길 기대합니다 🇰🇷🫰🇧🇷 @Presidente Lula ima, meu irmão💚💛💙 #이재명 #lula #korea #Br",
-   "views": 236400,
+   "views": 236500,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-i-photomode-sg/91a2f3151d9741689af70b1d1f8aac3a~tplv-photomode-image.jpeg?dr=14555&x-expires=1788224400&x-signature=BoWJoSacSqdSqDbFMmDykkEsypo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=9b759fb9&idc=my&ftpl=1",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-i-photomode-sg/91a2f3151d9741689af70b1d1f8aac3a~tplv-photomode-image.jpeg?dr=14555&x-expires=1788224400&x-signature=BoWJoSacSqdSqDbFMmDykkEsypo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=9b759fb9&idc=my2&ftpl=1",
    "time": 1785270939,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7667680300490558728",
    "region": "kr"
@@ -649,10 +649,10 @@
   {
    "account": "jaemyung_lee",
    "title": "우리 국민의 구조에 모든 역량을 총동원하겠습니다  #네팔 #긴급회의 #prayfornepal",
-   "views": 222100,
+   "views": 222400,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4ECXepekgFVLDAPQbcqjSdGAIaIofEozvI9Qh~tplv-tiktokx-origin.image?dr=14575&x-expires=1788224400&x-signature=4ywhRbDxQTgTm6jfs5%2BGg9GGOtU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4ECXepekgFVLDAPQbcqjSdGAIaIofEozvI9Qh~tplv-tiktokx-origin.image?dr=14575&x-expires=1788224400&x-signature=4ywhRbDxQTgTm6jfs5%2BGg9GGOtU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1787831518,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7678677903122369800",
    "region": "kr"
@@ -663,7 +663,7 @@
    "views": 193900,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/osApGgttBIBbbk6zA4iAKdIdkBfL1AAEiSwmCM~tplv-tiktokx-origin.image?dr=14575&x-expires=1788224400&x-signature=rR32klQOPpgNL5l%2FanfjmmPUMXs%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/osApGgttBIBbbk6zA4iAKdIdkBfL1AAEiSwmCM~tplv-tiktokx-origin.image?dr=14575&x-expires=1788224400&x-signature=rR32klQOPpgNL5l%2FanfjmmPUMXs%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1784945079,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7666280741554195730",
    "region": "kr"
@@ -674,7 +674,7 @@
    "views": 138000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okkIgGYEt7AlB4qvUF5yCAEAjD8vfKAfVACbBp~tplv-tiktokx-origin.image?dr=14575&x-expires=1788224400&x-signature=e9TykJ1Cx2FDmMzOE7qJecfPHT0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okkIgGYEt7AlB4qvUF5yCAEAjD8vfKAfVACbBp~tplv-tiktokx-origin.image?dr=14575&x-expires=1788224400&x-signature=e9TykJ1Cx2FDmMzOE7qJecfPHT0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1784911601,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7666136953456315666",
    "region": "kr"
@@ -685,7 +685,7 @@
    "views": 10400,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oUDPINKKABuclCBuAAwinRmqEfl211iBiAs9LA~tplv-tiktokx-origin.image?dr=14575&x-expires=1788224400&x-signature=gzLs%2BqZujd6YMVwXNSM9F8EjDxI%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oUDPINKKABuclCBuAAwinRmqEfl211iBiAs9LA~tplv-tiktokx-origin.image?dr=14575&x-expires=1788224400&x-signature=gzLs%2BqZujd6YMVwXNSM9F8EjDxI%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1787535859,
    "url": "https://www.tiktok.com/@tictok_ent/video/7677408056661036308",
    "region": "kr"
@@ -693,10 +693,10 @@
   {
    "account": "tictok_ent",
    "title": "트와이스 지효, 한층 성숙해진 미모 / 더후(THE WHOO) 포토월 #트와이스 #TWICE #지효 #THEWHOO",
-   "views": 1779,
+   "views": 1780,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAIWGIAVQtqA0UJfgJfAnwLAiP0I7Ge9ySA1f7~tplv-tiktokx-origin.image?dr=14575&x-expires=1788224400&x-signature=5CAWHP7bNXQ%2B2uF9B9D%2FFpppwsA%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAIWGIAVQtqA0UJfgJfAnwLAiP0I7Ge9ySA1f7~tplv-tiktokx-origin.image?dr=14575&x-expires=1788224400&x-signature=5CAWHP7bNXQ%2B2uF9B9D%2FFpppwsA%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1787820027,
    "url": "https://www.tiktok.com/@tictok_ent/video/7678628548231351573",
    "region": "kr"
@@ -713,13 +713,13 @@
    "url": "https://www.reddit.com/r/MoralityScaling/comments/1w1ra02/morality_of_this/"
   },
   {
-   "sub": "OldSchoolCool",
-   "title": "My great-grandfather posing with Dolly Parton after she bought a car from him (1960’s)",
+   "sub": "PoursTea",
+   "title": "Why vote no on something like this?",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/x1tdatr48emh1.jpg?width=140&height=124&auto=webp&s=dc80937dfe8bbf8ccb1f9aeb02cd6d12e0d8a61b",
-   "time": 1788043768,
-   "url": "https://www.reddit.com/r/OldSchoolCool/comments/1w20ia2/my_greatgrandfather_posing_with_dolly_parton/"
+   "thumb": "https://preview.redd.it/4x9iz4uqyamh1.jpeg?width=640&crop=smart&auto=webp&s=8e3e22a410ce97c9da33efd036542543e7713cea",
+   "time": 1788004292,
+   "url": "https://www.reddit.com/r/PoursTea/comments/1w1kisk/why_vote_no_on_something_like_this/"
   },
   {
    "sub": "texts",
@@ -729,6 +729,24 @@
    "thumb": "https://preview.redd.it/liclgdddgdmh1.png?width=640&crop=smart&auto=webp&s=a059cf3597808b7db9515b725f393e0c7cde1093",
    "time": 1788034432,
    "url": "https://www.reddit.com/r/texts/comments/1w1wqu9/dating_is_hell/"
+  },
+  {
+   "sub": "okbuddycinephile",
+   "title": "In your opinion, who is the most jacked celebrity actor who definitely has never taken steroids not even once?",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/70qfxk8dcbmh1.jpeg?width=640&crop=smart&auto=webp&s=eeb845987b1dcdffad9c191f552cb748e8df537a",
+   "time": 1788008873,
+   "url": "https://www.reddit.com/r/okbuddycinephile/comments/1w1m4k9/in_your_opinion_who_is_the_most_jacked_celebrity/"
+  },
+  {
+   "sub": "OldSchoolCool",
+   "title": "My great-grandfather posing with Dolly Parton after she bought a car from him (1960’s)",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/x1tdatr48emh1.jpg?width=140&height=124&auto=webp&s=dc80937dfe8bbf8ccb1f9aeb02cd6d12e0d8a61b",
+   "time": 1788043768,
+   "url": "https://www.reddit.com/r/OldSchoolCool/comments/1w20ia2/my_greatgrandfather_posing_with_dolly_parton/"
   },
   {
    "sub": "comics",
@@ -749,22 +767,22 @@
    "url": "https://www.reddit.com/r/meirl/comments/1w1zx0k/meirl/"
   },
   {
-   "sub": "PoursTea",
-   "title": "Why vote no on something like this?",
+   "sub": "interestingasfuck",
+   "title": "This is how people in the UK are attempting to smuggle illicit substances into UK prisons",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/4x9iz4uqyamh1.jpeg?width=640&crop=smart&auto=webp&s=8e3e22a410ce97c9da33efd036542543e7713cea",
-   "time": 1788004292,
-   "url": "https://www.reddit.com/r/PoursTea/comments/1w1kisk/why_vote_no_on_something_like_this/"
+   "thumb": "https://external-preview.redd.it/cTZyMWZ3dmt1OW1oMeJ2oTlaKFfRaSLvFhXIOX9hHzcrsm_tZuHTtpCx9ufK.png?width=320&crop=smart&auto=webp&s=485e4813c31bb9f0c1d1c590ec1a51a3f52a26e5",
+   "time": 1787990790,
+   "url": "https://www.reddit.com/r/interestingasfuck/comments/1w1gkeb/this_is_how_people_in_the_uk_are_attempting_to/"
   },
   {
-   "sub": "okbuddycinephile",
-   "title": "In your opinion, who is the most jacked celebrity actor who definitely has never taken steroids not even once?",
+   "sub": "Boxing",
+   "title": "[SPOILER] Moses Itauma vs. Filip Hrgovic",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/70qfxk8dcbmh1.jpeg?width=640&crop=smart&auto=webp&s=eeb845987b1dcdffad9c191f552cb748e8df537a",
-   "time": 1788008873,
-   "url": "https://www.reddit.com/r/okbuddycinephile/comments/1w1m4k9/in_your_opinion_who_is_the_most_jacked_celebrity/"
+   "thumb": "",
+   "time": 1788042874,
+   "url": "https://www.reddit.com/r/Boxing/comments/1w205wd/spoiler_moses_itauma_vs_filip_hrgovic/"
   },
   {
    "sub": "GenX",
@@ -776,31 +794,13 @@
    "url": "https://www.reddit.com/r/GenX/comments/1w208jo/happiness_is_55yr_old_me_enjoying_dinner_w_my/"
   },
   {
-   "sub": "interestingasfuck",
-   "title": "This is how people in the UK are attempting to smuggle illicit substances into UK prisons",
+   "sub": "technology",
+   "title": "Flock CEO’s Address Spread Online as Surveillance Backlash Explodes",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/cTZyMWZ3dmt1OW1oMeJ2oTlaKFfRaSLvFhXIOX9hHzcrsm_tZuHTtpCx9ufK.png?width=320&crop=smart&auto=webp&s=485e4813c31bb9f0c1d1c590ec1a51a3f52a26e5",
-   "time": 1787990790,
-   "url": "https://www.reddit.com/r/interestingasfuck/comments/1w1gkeb/this_is_how_people_in_the_uk_are_attempting_to/"
-  },
-  {
-   "sub": "dndmemes",
-   "title": "Play responsibly...",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/8x080mprycmh1.jpeg?width=640&crop=smart&auto=webp&s=bfd11363cc42ee2ecb7f68ae82507c220a643323",
-   "time": 1788028513,
-   "url": "https://www.reddit.com/r/dndmemes/comments/1w1u87k/play_responsibly/"
-  },
-  {
-   "sub": "Boxing",
-   "title": "[SPOILER] Moses Itauma vs. Filip Hrgovic",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "",
-   "time": 1788042874,
-   "url": "https://www.reddit.com/r/Boxing/comments/1w205wd/spoiler_moses_itauma_vs_filip_hrgovic/"
+   "thumb": "https://external-preview.redd.it/FTwjfxIAAe6p5NLUGGw-mcI7XMZ3LZZgYXCVFmn1Y9o.jpeg?width=640&crop=smart&auto=webp&s=314bd16b4797a3413d10478002e596d7dab73d8b",
+   "time": 1788043640,
+   "url": "https://www.reddit.com/r/technology/comments/1w20ggv/flock_ceos_address_spread_online_as_surveillance/"
   },
   {
    "sub": "videogames",
@@ -854,10 +854,10 @@
    }
   },
   "landing": {
-   "at": "2026-08-30T09:35:36",
+   "at": "2026-08-30T10:01:40",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-30T10:01:37.548927+09:00"
+ "updated": "2026-08-30T10:31:21.569247+09:00"
 }
