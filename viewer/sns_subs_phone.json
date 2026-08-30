@@ -412,12 +412,22 @@
  ],
  "threads": [
   {
+   "account": "daily_ai_star",
+   "text": "Tencent Hy4 preview가 8월 28일 공개됐습니다.\n\n총 770B 파라미터 중 토큰마다 활성화되는 것은 49B입니다. 컨텍스트 길이는 1M이고, Apache 2.0으로 가중치를 공개했습니다.\n\nTencent가 163명의 내부 전문가와 203개 엔지니어링 과제로 진행한 블라인드 평가에서 평균 2.99점을 받았습니다. GLM 5.3은 2.92점, Kimi K3는 2.94점이었습니다.\n\n그런데 공개됐다는 사실과 바로 쓸 수 있다는 사실은 다릅니다. 가중치는 직접 배포할 수 있지만, Tencent는 WorkBuddy·CodeBuddy와 API 경로도 함께 내놨습니다.\n\n오픈 모델의 기준이 “가중치를 공개했는가”에서 “팀이 어떤 비용과 경로로 실제 운영할 수 있는가”로 이동했습니다.\n\nhttps://www.tencent.com/tencent-releases-and-open-sources-tencent-hy4-preview/",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1788055817,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DcpaDDAmdc2",
+   "region": "kr"
+  },
+  {
    "account": "choi.openai",
    "text": "ChatGPT 무료 사용자도 이제 예약 작업을 사용할 수 있습니다.\n\n예를 들어 “매주 목요일마다 이번 주말 주변에서 열리는 재미있는 행사를 알려줘”라고 설정하면, 정해진 일정에 맞춰 ChatGPT가 반복적으로 작업을 실행하는데요.\n\n매일 뉴스 요약 받기, 매주 일정 확인하기, 특정 주기로 정보를 확인하는 용도로 활용할 수 있습니다.",
-   "likes": 2,
-   "cmts": 0,
+   "likes": 16,
+   "cmts": 1,
    "time": 1788055250,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/788750817_2151626332085331_7169029978032701674_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk3NDgxNzk5NDE4MTI5MDcxNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Rm9sVsdtTFgQ7kNvwFoNyVh&_nc_oc=AdqfGbf_-G4ybw6W1g7qrcch3gi8OjFjyBIJi9tzeOMWD9XYPLDaw6QN1MF7aGBzUT4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=lH-mn4ojAL_gr0HDRm3uGQ&_nc_ss=7a22e&oh=00_AQJIIwU5LBu0MkNNutYESNq9xv8vIURIMtkGMPrqP15qFw&oe=6A995342",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/788750817_2151626332085331_7169029978032701674_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk3NDgxNzk5NDE4MTI5MDcxNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Rm9sVsdtTFgQ7kNvwGLcXTB&_nc_oc=AdpkRt-fezvDXb5r6B8IUqRIbcCpgc79e1jqWA9hQ5fXcCkly4tq8LY9KTt-xjuLtCV7DdPjao3FaZgC0ER6MoT5&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=jgyteBau7Jrte9F-MD4HLQ&_nc_ss=7a22e&oh=00_AQKlspRnEvDRdZyaX5iUi9UtNrjZcb42IHsrxAgLDvy3Eg&oe=6A995342",
    "url": "https://www.threads.com/@choi.openai/post/DcpY-f-Aard",
    "region": "kr"
   },
@@ -442,22 +452,12 @@
    "region": "kr"
   },
   {
-   "account": "daily_ai_star",
-   "text": "Slack의 Code 채널에서는 팀원이 같은 에이전트 세션을 보고 계획·diff·미리보기 결과를 함께 검토할 수 있습니다. 작업을 시작한 사람만 조종하는 구조가 아니라, 대화에 참여한 사람이 방향을 바꾸거나 중단할 수 있습니다.\n\n다만 실행 권한이 넓어진 것은 아닙니다. GitHub 권한과 기존 통제를 따르고, 저장소 관리자는 에이전트가 만든 PR에 추가 승인을 요구할 수 있습니다.\n\n앞으로 팀의 개발 프로세스를 볼 때는 에이전트를 IDE에 붙였는지만으로 부족합니다. 어떤 대화가 실행 요청으로 인정되고, 누가 그 결과를 승인하는지까지 봐야 합니다.\n\nhttps://github.blog/changelog/2026-08-21-the-new-github-copilot-experience-in-slack/",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1788052060,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DcpS4b3mdTd",
-   "region": "kr"
-  },
-  {
    "account": "choi.openai",
    "text": "Exa가 검색 결과의 토큰 사용량을 줄이는 Dynamic Highlights를 공개했습니다.\n\n검색된 여러 웹페이지를 한꺼번에 살펴보고 질문과 관련 없는 내용이나 중복 정보를 제외하는 방식인데요.\n전체 페이지를 그대로 가져오는 것과 비교해 토큰을 평균 95% 줄였다고 합니다.\n\n실제 에이전트 평가에서도 전체 토큰 사용량이 30% 감소하면서 성능은 평균 2.1% 높아졌습니다. 현재 Exa API에서 리서치 프리뷰로 사용할 수 있습니다.",
    "likes": 18,
    "cmts": 0,
    "time": 1788049802,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/788926800_1379925986988380_4435416664723396134_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk3NDc3MjI4NzY0Mzc3MDIyMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=ldkDna0ESfwQ7kNvwH9LUht&_nc_oc=Adqav9mX0Ej2w-psDofhzsYfrqlLbAHkOH7B6WzVj4AtggZtOdaavvt3CVXKw-XtTPE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=lH-mn4ojAL_gr0HDRm3uGQ&_nc_ss=7a22e&oh=00_AQKz5UVgBD3SRtquZTsZ3dccq1tIeUgGPCvg8X599YZaxg&oe=6A9963EE",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/788926800_1379925986988380_4435416664723396134_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk3NDc3MjI4NzY0Mzc3MDIyMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=ldkDna0ESfwQ7kNvwGd8cVw&_nc_oc=AdrHkdAkROt1HvYzlRdZqYnKX-4CEosYVUS9BfzjSHKTq45_GVsSmUrpEqtkEqf13XvLJs-5BGHZ759pKsdILXo5&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=jgyteBau7Jrte9F-MD4HLQ&_nc_ss=7a22e&oh=00_AQIEvZKrnx9vf8iqvccfqSijWVFR_lHI9CwjN-F6qFX9Nw&oe=6A9963EE",
    "url": "https://www.threads.com/@choi.openai/post/DcpOlYcEt1s",
    "region": "kr"
   },
@@ -527,7 +527,7 @@
    "likes": 2,
    "cmts": 1,
    "time": 1788016263,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/789925066_17934344088362958_3562128455959275699_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk3NDQ5MDk0NDI5MjQ2Njk0OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuODAwLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=d-e-7O2FbBgQ7kNvwEWAynn&_nc_oc=Adq70LKoxmD-V-_bHh-FVYvBmfhco8_WNboPveJLUyKhDyQoGuIW9hXxKy6jNiNj-lU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Y0_8E3ikTcJyLyrtHZr57A&_nc_ss=7a22e&oh=00_AQJgWtLdy_F7AqWYU79CIjzVUBwQPGfF0oSOjiSwyTXYDw&oe=6A997337",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/789925066_17934344088362958_3562128455959275699_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk3NDQ5MDk0NDI5MjQ2Njk0OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuODAwLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=d-e-7O2FbBgQ7kNvwFo2rB0&_nc_oc=AdoS-1iPpFqfB8SO5s_jZFJCXa5BUyV7rAzcOaY210EcvLHlp4eyGLmr-rNZ73yE6MiBidAS5ogXW9xDuTjOa41i&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=ut2HcjTIPcoLhAOrxPd8Kg&_nc_ss=7a22e&oh=00_AQJeQgNzwR_oNuMD96LBLrSUi3bwKGhjiVG7P_a5Aisddw&oe=6A997337",
    "url": "https://www.threads.com/@takepage_/post/DcoOnTBjzEF",
    "region": "kr"
   },
@@ -537,8 +537,48 @@
    "likes": 7,
    "cmts": 0,
    "time": 1787991369,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/789013179_17908904223463148_3644469020479697293_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk3NDI4MjA5MzE2MDU3NjA1MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTg4NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=3zbYY4NZtwIQ7kNvwEx84LT&_nc_oc=AdoSmwaOLkv3lOo1-sT9-X1eQy6FPPi_T0ron5kjfqTnGDeTRFT__dNRcE9OKbHlo8Q&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=8N-FHLYZ7z4NOxx4ah0JlQ&_nc_ss=7a22e&oh=00_AQJ7NP0ZtN3DZFO0KKUzTMIs451vTuI_Je754bX5n2LR0g&oe=6A9951B4",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/789013179_17908904223463148_3644469020479697293_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk3NDI4MjA5MzE2MDU3NjA1MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTg4NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=3zbYY4NZtwIQ7kNvwGuRNkv&_nc_oc=AdoPXbUlEsiIl_YuiZKuvuFNmnd2d5uyFjXUh6mjo0iW9JTv8xvj_ci8Nh3ZJs4MU1ghdHbjhQyDkphoxVNBMPFY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=WsXX2w1F3yCeyR8-r61wIQ&_nc_ss=7a22e&oh=00_AQL71dyxz_8MNDbr_LtkQAMB9CxRzOYY1Za0KRnytlPi2w&oe=6A9951B4",
    "url": "https://www.threads.com/@kopp/post/DcnfIbBiMdZ",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
+   "text": "Slack의 Code 채널에서는 팀원이 같은 에이전트 세션을 보고 계획·diff·미리보기 결과를 함께 검토할 수 있습니다. 작업을 시작한 사람만 조종하는 구조가 아니라, 대화에 참여한 사람이 방향을 바꾸거나 중단할 수 있습니다.\n\n다만 실행 권한이 넓어진 것은 아닙니다. GitHub 권한과 기존 통제를 따르고, 저장소 관리자는 에이전트가 만든 PR에 추가 승인을 요구할 수 있습니다.\n\n앞으로 팀의 개발 프로세스를 볼 때는 에이전트를 IDE에 붙였는지만으로 부족합니다. 어떤 대화가 실행 요청으로 인정되고, 누가 그 결과를 승인하는지까지 봐야 합니다.\n\nhttps://github.blog/changelog/2026-08-21-the-new-github-copilot-experience-in-slack/",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1788052060,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DcpS4b3mdTd",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "음성 에이전트가 사람처럼 대화하려면 결국 ‘기억’이 필요합니다.\n\nNUS·NTU 연구진이 실시간 음성 에이전트용 기억 시스템 VoiceMem을 오픈소스로 공개했습니다.\n\n기억을 한곳에 쌓는 대신 사실과 감정·성향을 서로 다른 구조로 나눠 저장하는 방식인데요. 장기 기억 벤치마크 LoCoMo에서 기억 5개만 불러 91.2%를 기록했습니다. Mem0가 200개를 검색해 61.68%를 기록한 것과 비교하면, 사용 토큰도 430 대 6,956으로 크게 줄었습니다.\n\n사람이 말하는 동안 전사와 기억 추출을 동시에 처리하고, 말이 끝나기 전에 검색까지 마쳐 약 134ms 만에 답변 준비가 끝납니다.\n\n음성 에이전트가 늘 아쉬웠던 건 대화가 바뀔 때마다 맥락이 끊긴다는 점이었습니다.\n기억까지 지연 없이 붙기 시작하면, 전화든 스피커든 어디서 대화하더라도 이전 대화와 성향을 그대로 이어가는 개인화된 음성 에이전트에 가까워질 것 같습니다.",
+   "likes": 36,
+   "cmts": 2,
+   "time": 1788044413,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/787855767_1314988623881262_8635416497075810502_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk3NDcyNzA4MDIzNDU4NzE4NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=J7F6J2MRoFwQ7kNvwFy0cf0&_nc_oc=AdpnR9c5Yy8M2WVwkff4q9ZcV106Ku6bHMjGy-W6TodjJKCj2CDfLa61KMYP3XvGA9hAg_d-bNuTqfFD8A66j8cc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=jgyteBau7Jrte9F-MD4HLQ&_nc_ss=7a22e&oh=00_AQKqu52ZksuSERxCvlzcC2Wfj9km28IPv4geAreXatDLIw&oe=6A997C6A",
+   "url": "https://www.threads.com/@choi.openai/post/DcpEThwghQw",
+   "region": "kr"
+  },
+  {
+   "account": "aicoffeechat",
+   "text": "똑같은 AI 에이전트 수백 개를 \n한 세계에 풀어놓고 아무것도 시키지 않았습니다.\n\nMIT에서 나온 시뮬레이션 실험 결과가 꽤 충격적인데요. 가상의 무인도에 AI 수백 개를 풀어놨더니, 서로 말 한마디 없이 알아서 직업이 갈리고 남이 만든 걸 물려받아 고치고, 결국 자기들이 다 사라진 뒤에도 계속 돌아가는 시설을 지어버렸습니다.\n\n연구팀이 더 놀라워한 건 따로 있습니다. 서로 소통할 통로를 좁혀놨더니, 활짝 열어둔 쪽보다 결과가 더 좋았다는 겁니다.\n\n꼭 보셨으면 하는 것만 8개로 추렸습니다.",
+   "likes": 18,
+   "cmts": 9,
+   "time": 1788043736,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/789264197_1094272499802857_1562412891687434088_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&ig_cache_key=Mzk3NDcyMDYwNTc1NjQ2NTEwMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=2qzlahU_Bz8Q7kNvwF__oTZ&_nc_oc=Adr2xNzvlIa-xHH5V61sB6Ntx2X2NVljhmzBM_tQjZhZRz9xrLvP2xkeZ-qvGYbu0NSaSn78LnZUKteF0AJEbzfx&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=UZ_Ev2qLWUT1u0zJ03oXKA&_nc_ss=7a22e&oh=00_AQK_8CFPSnF9smBvhOBpJXWXlgHhxGo-vfvE9UImTPiQtA&oe=6A99729F",
+   "url": "https://www.threads.com/@aicoffeechat/post/DcpC1T7ih_M",
+   "region": "kr"
+  },
+  {
+   "account": "takepage_",
+   "text": "5일 전 지구본 하나에 스타가 1만개 붙었습니다.\n이름은 God's Eye View\n\n브라우저로 여는 실사 3D 지구본인데\n위에 떠 있는 비행기와 배, 위성이\n실시간으로 날고 떠다니는 것들입니다.\n\n첩보 영화에 나올법한 위성 사진처럼 보이는데\n어디까지 공개된건지 뜯어봤습니다.",
+   "likes": 5,
+   "cmts": 3,
+   "time": 1788016258,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/787884327_1420149573333257_6791427359428316245_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk3NDQ4ODQzODUwNjI1MTcwMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=PmWLX2_mA74Q7kNvwE0ze10&_nc_oc=AdpppnTMDOvslxsQIi2wgwab96wR_PgtiT_S0kXJstLzvr4oibz-aJGjYUwqEwwj7Iqlx1Qu6Hvb7OuwYLdxHANy&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=ut2HcjTIPcoLhAOrxPd8Kg&_nc_ss=7a22e&oh=00_AQLN_3FGcZ3ag_3wRTxrdxhOlVSRkYh_vzOqYp9HVBC0PQ&oe=6A995492",
+   "url": "https://www.threads.com/@takepage_/post/DcoOC1VD-W1",
    "region": "kr"
   },
   {
@@ -553,32 +593,12 @@
   },
   {
    "account": "choi.openai",
-   "text": "음성 에이전트가 사람처럼 대화하려면 결국 ‘기억’이 필요합니다.\n\nNUS·NTU 연구진이 실시간 음성 에이전트용 기억 시스템 VoiceMem을 오픈소스로 공개했습니다.\n\n기억을 한곳에 쌓는 대신 사실과 감정·성향을 서로 다른 구조로 나눠 저장하는 방식인데요. 장기 기억 벤치마크 LoCoMo에서 기억 5개만 불러 91.2%를 기록했습니다. Mem0가 200개를 검색해 61.68%를 기록한 것과 비교하면, 사용 토큰도 430 대 6,956으로 크게 줄었습니다.\n\n사람이 말하는 동안 전사와 기억 추출을 동시에 처리하고, 말이 끝나기 전에 검색까지 마쳐 약 134ms 만에 답변 준비가 끝납니다.\n\n음성 에이전트가 늘 아쉬웠던 건 대화가 바뀔 때마다 맥락이 끊긴다는 점이었습니다.\n기억까지 지연 없이 붙기 시작하면, 전화든 스피커든 어디서 대화하더라도 이전 대화와 성향을 그대로 이어가는 개인화된 음성 에이전트에 가까워질 것 같습니다.",
-   "likes": 36,
+   "text": "Ollama v0.33에서 Claude Desktop 연동이 추가되었습니다.\n\n이제 Ollama를 서드파티 게이트웨이로 설정하면 Claude Desktop에서 로컬 모델과 클라우드 모델을 바로 사용할 수 있는데요.\n\nOllama의 웹 검색과 연구 작업, 자동 모드도 그대로 지원합니다.",
+   "likes": 34,
    "cmts": 2,
-   "time": 1788044413,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/787855767_1314988623881262_8635416497075810502_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk3NDcyNzA4MDIzNDU4NzE4NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=J7F6J2MRoFwQ7kNvwH9iHfW&_nc_oc=AdqtMGW-F3TOsPJ4SHPs3fREnmwCe1kS_fVNxwNSqojiLn_WEW_cRl9v4kAVdiWKg7I&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=lH-mn4ojAL_gr0HDRm3uGQ&_nc_ss=7a22e&oh=00_AQLX57YMBvcAvYBOU7rnl9cJ4ZoESI3q3LIsKf_cXnqKkw&oe=6A997C6A",
-   "url": "https://www.threads.com/@choi.openai/post/DcpEThwghQw",
-   "region": "kr"
-  },
-  {
-   "account": "aicoffeechat",
-   "text": "똑같은 AI 에이전트 수백 개를 \n한 세계에 풀어놓고 아무것도 시키지 않았습니다.\n\nMIT에서 나온 시뮬레이션 실험 결과가 꽤 충격적인데요. 가상의 무인도에 AI 수백 개를 풀어놨더니, 서로 말 한마디 없이 알아서 직업이 갈리고 남이 만든 걸 물려받아 고치고, 결국 자기들이 다 사라진 뒤에도 계속 돌아가는 시설을 지어버렸습니다.\n\n연구팀이 더 놀라워한 건 따로 있습니다. 서로 소통할 통로를 좁혀놨더니, 활짝 열어둔 쪽보다 결과가 더 좋았다는 겁니다.\n\n꼭 보셨으면 하는 것만 8개로 추렸습니다.",
-   "likes": 18,
-   "cmts": 9,
-   "time": 1788043736,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/789264197_1094272499802857_1562412891687434088_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&ig_cache_key=Mzk3NDcyMDYwNTc1NjQ2NTEwMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=2qzlahU_Bz8Q7kNvwEAJRQ7&_nc_oc=AdrV0-gH69gSbhjYWtAxoQbF3q7PpeyYSYklJ_3iXVP6hgM3_qEnoOj5afsDbddTx4M&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=cUqwE9andm54H51oZhiecg&_nc_ss=7a22e&oh=00_AQKhz5mxYGelyF-9yXyResgFKvlHKsS0DG7FPpi64SqZXA&oe=6A99729F",
-   "url": "https://www.threads.com/@aicoffeechat/post/DcpC1T7ih_M",
-   "region": "kr"
-  },
-  {
-   "account": "takepage_",
-   "text": "5일 전 지구본 하나에 스타가 1만개 붙었습니다.\n이름은 God's Eye View\n\n브라우저로 여는 실사 3D 지구본인데\n위에 떠 있는 비행기와 배, 위성이\n실시간으로 날고 떠다니는 것들입니다.\n\n첩보 영화에 나올법한 위성 사진처럼 보이는데\n어디까지 공개된건지 뜯어봤습니다.",
-   "likes": 5,
-   "cmts": 3,
-   "time": 1788016258,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/787884327_1420149573333257_6791427359428316245_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk3NDQ4ODQzODUwNjI1MTcwMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=PmWLX2_mA74Q7kNvwFQXOFR&_nc_oc=AdqLcQKcVxIrQeV-t8meKm8b2WTlQy5EnJRdYs3Xq2lSaDp9MdPn-rfnHhGZZu5YWrk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Y0_8E3ikTcJyLyrtHZr57A&_nc_ss=7a22e&oh=00_AQL9OnMh9WMvglZ1OUXHR_86uBrd8XzT9WXO07TBohPLVg&oe=6A995492",
-   "url": "https://www.threads.com/@takepage_/post/DcoOC1VD-W1",
+   "time": 1788039005,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/789013179_27743130638721183_4808064886753814336_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk3NDY4MTcxNjI4NjY3MjY3NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=07-gkyYPVOgQ7kNvwHF-1mw&_nc_oc=AdrX14kcVpc8_TOWr4yAWzlDxo1zT9nKgSdHPqWt-pN9FGx49PKNWqXCwVlZy1mAMjhwkoILnrO5rFqp_iPqnSNu&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=jgyteBau7Jrte9F-MD4HLQ&_nc_ss=7a22e&oh=00_AQJmh3RjrKZ5kEAGLAsXwKjyFs_3cQNCGkOFcw-C1FfuGg&oe=6A997402",
+   "url": "https://www.threads.com/@choi.openai/post/Dco5_ZSgc8i",
    "region": "kr"
   },
   {
@@ -589,26 +609,6 @@
    "time": 1788050387,
    "thumb": "",
    "url": "https://www.threads.com/@daily_ai_star/post/DcpPsRMkzag",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "Ollama v0.33에서 Claude Desktop 연동이 추가되었습니다.\n\n이제 Ollama를 서드파티 게이트웨이로 설정하면 Claude Desktop에서 로컬 모델과 클라우드 모델을 바로 사용할 수 있는데요.\n\nOllama의 웹 검색과 연구 작업, 자동 모드도 그대로 지원합니다.",
-   "likes": 32,
-   "cmts": 2,
-   "time": 1788039005,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/789013179_27743130638721183_4808064886753814336_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk3NDY4MTcxNjI4NjY3MjY3NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=07-gkyYPVOgQ7kNvwEBUiBa&_nc_oc=Ado_opFTetVoXEwKhG-LNtabKhmC40Cmzs389Z7FYTNr1U-6kw_r2aO18OwsrDyqag4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=lH-mn4ojAL_gr0HDRm3uGQ&_nc_ss=7a22e&oh=00_AQJ0WpyTGeyIeX3SIGCaxmI7bwnQ5fIhY_Ttjyad-UhnQA&oe=6A997402",
-   "url": "https://www.threads.com/@choi.openai/post/Dco5_ZSgc8i",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "Claude Code v2.1.248이 8월 27일 restricted 모드를 추가했습니다.\n\n이 모드에서는 명령이나 코드를 실행하는 내장 도구가 세션 목록에서 빠집니다. WebFetch도 기본으로 제거되고, 파일 도구는 작업 디렉터리 안으로 제한됩니다. 사용자·프로젝트·로컬 설정 파일도 무시합니다.\n\n기존 방식은 위험한 도구를 남겨둔 채 실행 직전에 허가를 묻는 구조였습니다. restricted 모드는 그보다 앞단에서 에이전트가 볼 수 있는 행동 범위를 줄입니다.\n\n코딩 에이전트의 보안 기준이 “실행을 막을 수 있는가”에서 “처음부터 어떤 도구를 건네는가”로 이동했습니다.\n\nCI나 신뢰하지 않는 저장소를 읽는 세션에서는 권한 정책보다 도구 목록과 설정 로딩 경로를 먼저 확인해야 합니다. 안전성은 마지막 승인창보다 세션 시작 시점에 더 많이 결정됩니다.",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1788050379,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DcpPrN9k2ez",
    "region": "kr"
   }
  ],
@@ -638,10 +638,10 @@
   {
    "account": "jaemyung_lee",
    "title": "이번 정류장은 브라질입니다 #이재명 #대통령 #Brasil #Brazil",
-   "views": 771700,
+   "views": 771800,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooBGAi8A6InMPiZBpU9fBkTRtAAwBKw0m1E0Ag~tplv-tiktokx-origin.image?dr=14575&x-expires=1788228000&x-signature=X3yJrwUp7w1RWHGy2sMNQVLt%2BhQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooBGAi8A6InMPiZBpU9fBkTRtAAwBKw0m1E0Ag~tplv-tiktokx-origin.image?dr=14575&x-expires=1788228000&x-signature=6JPdyWJ1FQ7XDv5iF1%2BfHSCJUIA%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785109781,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7666988131442281746",
    "region": "kr"
@@ -674,7 +674,7 @@
    "views": 274200,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1788228000&x-signature=RA1Sz7hOWd72zgvrdmwsPjj7emQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1788228000&x-signature=3EvTcGadFTtNchwH0CLfo7cuj%2FU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785656353,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7669335640793763079",
    "region": "kr"
@@ -693,7 +693,7 @@
   {
    "account": "jaemyung_lee",
    "title": "우리 국민의 구조에 모든 역량을 총동원하겠습니다  #네팔 #긴급회의 #prayfornepal",
-   "views": 222800,
+   "views": 223100,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4ECXepekgFVLDAPQbcqjSdGAIaIofEozvI9Qh~tplv-tiktokx-origin.image?dr=14575&x-expires=1788228000&x-signature=uUe5cmfNLezt7aiZKu6H2%2FSM%2FEE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -748,6 +748,15 @@
  ],
  "reddit": [
   {
+   "sub": "meirl",
+   "title": "meirl",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/gf6r1jgm3emh1.jpeg?width=640&crop=smart&auto=webp&s=84ddbc26d022ae451328511dc5095890597210e1",
+   "time": 1788042252,
+   "url": "https://www.reddit.com/r/meirl/comments/1w1zx0k/meirl/"
+  },
+  {
    "sub": "MoralityScaling",
    "title": "Morality of this",
    "score": 0,
@@ -755,15 +764,6 @@
    "thumb": "https://preview.redd.it/1d6517o0ecmh1.png?width=640&crop=smart&auto=webp&s=5b33bb247b4186bd9e77f704d3cc1f55861e2c0a",
    "time": 1788021557,
    "url": "https://www.reddit.com/r/MoralityScaling/comments/1w1ra02/morality_of_this/"
-  },
-  {
-   "sub": "PoursTea",
-   "title": "Why vote no on something like this?",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/4x9iz4uqyamh1.jpeg?width=640&crop=smart&auto=webp&s=8e3e22a410ce97c9da33efd036542543e7713cea",
-   "time": 1788004292,
-   "url": "https://www.reddit.com/r/PoursTea/comments/1w1kisk/why_vote_no_on_something_like_this/"
   },
   {
    "sub": "texts",
@@ -775,13 +775,13 @@
    "url": "https://www.reddit.com/r/texts/comments/1w1wqu9/dating_is_hell/"
   },
   {
-   "sub": "meirl",
-   "title": "meirl",
+   "sub": "PoursTea",
+   "title": "Why vote no on something like this?",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/gf6r1jgm3emh1.jpeg?width=640&crop=smart&auto=webp&s=84ddbc26d022ae451328511dc5095890597210e1",
-   "time": 1788042252,
-   "url": "https://www.reddit.com/r/meirl/comments/1w1zx0k/meirl/"
+   "thumb": "https://preview.redd.it/4x9iz4uqyamh1.jpeg?width=640&crop=smart&auto=webp&s=8e3e22a410ce97c9da33efd036542543e7713cea",
+   "time": 1788004292,
+   "url": "https://www.reddit.com/r/PoursTea/comments/1w1kisk/why_vote_no_on_something_like_this/"
   },
   {
    "sub": "okbuddycinephile",
@@ -793,13 +793,13 @@
    "url": "https://www.reddit.com/r/okbuddycinephile/comments/1w1m4k9/in_your_opinion_who_is_the_most_jacked_celebrity/"
   },
   {
-   "sub": "interestingasfuck",
-   "title": "This is how people in the UK are attempting to smuggle illicit substances into UK prisons",
+   "sub": "technology",
+   "title": "Flock CEO’s Address Spread Online as Surveillance Backlash Explodes",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/cTZyMWZ3dmt1OW1oMeJ2oTlaKFfRaSLvFhXIOX9hHzcrsm_tZuHTtpCx9ufK.png?width=320&crop=smart&auto=webp&s=485e4813c31bb9f0c1d1c590ec1a51a3f52a26e5",
-   "time": 1787990790,
-   "url": "https://www.reddit.com/r/interestingasfuck/comments/1w1gkeb/this_is_how_people_in_the_uk_are_attempting_to/"
+   "thumb": "https://external-preview.redd.it/FTwjfxIAAe6p5NLUGGw-mcI7XMZ3LZZgYXCVFmn1Y9o.jpeg?width=640&crop=smart&auto=webp&s=314bd16b4797a3413d10478002e596d7dab73d8b",
+   "time": 1788043640,
+   "url": "https://www.reddit.com/r/technology/comments/1w20ggv/flock_ceos_address_spread_online_as_surveillance/"
   },
   {
    "sub": "Boxing",
@@ -811,33 +811,6 @@
    "url": "https://www.reddit.com/r/Boxing/comments/1w205wd/spoiler_moses_itauma_vs_filip_hrgovic/"
   },
   {
-   "sub": "technology",
-   "title": "Flock CEO’s Address Spread Online as Surveillance Backlash Explodes",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/FTwjfxIAAe6p5NLUGGw-mcI7XMZ3LZZgYXCVFmn1Y9o.jpeg?width=640&crop=smart&auto=webp&s=314bd16b4797a3413d10478002e596d7dab73d8b",
-   "time": 1788043640,
-   "url": "https://www.reddit.com/r/technology/comments/1w20ggv/flock_ceos_address_spread_online_as_surveillance/"
-  },
-  {
-   "sub": "comics",
-   "title": "Pest Problems",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/304r80h1ndmh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=a486292741d16f9d40a098e9cd48c6d32384ec28",
-   "time": 1788036760,
-   "url": "https://www.reddit.com/r/comics/comments/1w1xq3d/pest_problems/"
-  },
-  {
-   "sub": "GenX",
-   "title": "Happiness is 55yr old me enjoying dinner w my 81yr old parents in the same house i grew up in and some things in kitchen are just like the 1970s-dads fried double cheese burger w moms potato and noodl",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/9peypr816emh1.jpeg?width=640&crop=smart&auto=webp&s=211d40d8de8e9cc8a8eb20a1966f683a91615e1e",
-   "time": 1788043063,
-   "url": "https://www.reddit.com/r/GenX/comments/1w208jo/happiness_is_55yr_old_me_enjoying_dinner_w_my/"
-  },
-  {
    "sub": "Eldenring",
    "title": "Just bought Elden ring, opened a random chest and was teleported to an area that is way too powerful for me with no way out",
    "score": 0,
@@ -847,6 +820,24 @@
    "url": "https://www.reddit.com/r/Eldenring/comments/1w1shx8/just_bought_elden_ring_opened_a_random_chest_and/"
   },
   {
+   "sub": "cats",
+   "title": "Show me your cats, please. I'm depressed rn.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/3zr3r7zmycmh1.jpeg?width=640&crop=smart&auto=webp&s=6eaef7653d5df47ce9afc50dce2ff8c667425b46",
+   "time": 1788028469,
+   "url": "https://www.reddit.com/r/cats/comments/1w1u7ji/show_me_your_cats_please_im_depressed_rn/"
+  },
+  {
+   "sub": "videogames",
+   "title": "Bro had a good take",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/YXAzNXh0N3l4Ym1oMW5HJvsT8I0F5Cl3PC_-BZZWB7_GvSyHmjkNFJgN_vHE.png?width=640&crop=smart&auto=webp&s=7b64fd537b3107287ac95da4835e9cdd6d1929b4",
+   "time": 1788016221,
+   "url": "https://www.reddit.com/r/videogames/comments/1w1p1ix/bro_had_a_good_take/"
+  },
+  {
    "sub": "marvelstudios",
    "title": "TVA nullifies magic…right?",
    "score": 0,
@@ -854,18 +845,20 @@
    "thumb": "https://preview.redd.it/4oszetjmeemh1.jpeg?width=640&crop=smart&auto=webp&s=3c57baa8a55ff3a37053728c6af2e66128c1996f",
    "time": 1788045953,
    "url": "https://www.reddit.com/r/marvelstudios/comments/1w21c62/tva_nullifies_magicright/"
+  },
+  {
+   "sub": "GenX",
+   "title": "Happiness is 55yr old me enjoying dinner w my 81yr old parents in the same house i grew up in and some things in kitchen are just like the 1970s-dads fried double cheese burger w moms potato and noodl",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/9peypr816emh1.jpeg?width=640&crop=smart&auto=webp&s=211d40d8de8e9cc8a8eb20a1966f683a91615e1e",
+   "time": 1788043063,
+   "url": "https://www.reddit.com/r/GenX/comments/1w208jo/happiness_is_55yr_old_me_enjoying_dinner_w_my/"
   }
  ],
  "disaster": [],
  "_cover": {
   "ok": {
-   "insta": [
-    "lumalabsai",
-    "midjourney",
-    "openai",
-    "pika_labs",
-    "runwayapp"
-   ],
    "threads": [
     "aicoffeechat",
     "aipeekme",
@@ -881,39 +874,34 @@
    ]
   },
   "why": {
-   "x": {
-    "jajaja7878uu": 429,
-    "awaken_eyes": 429,
-    "64bitcoinkr": 429,
-    "economysniper0": 429,
-    "kyunghyang": 429,
-    "freedom_73x": 429,
-    "marionawfal": 429,
-    "globalbrief_now": 429
-   },
    "insta": {
-    "koreadispatch": "rotate",
-    "bts.bighitofficial": "rotate",
-    "blackpinkofficial": "rotate",
-    "newjeans_official": "rotate",
-    "aespa_official": "rotate",
-    "jennierubyjane": "rotate",
-    "xxxibgdrgn": "rotate",
-    "hm_son7": "rotate",
-    "sbsnow_insta": "rotate",
-    "mnet_official": "rotate",
-    "klingai_official": "rotate",
-    "heygen_official": "rotate",
-    "higgsfield.ai": "rotate",
-    "googledeepmind": "rotate",
-    "cristiano": "rotate"
+    "koreadispatch": "gap",
+    "bts.bighitofficial": "gap",
+    "blackpinkofficial": "gap",
+    "newjeans_official": "gap",
+    "aespa_official": "gap",
+    "jennierubyjane": "gap",
+    "xxxibgdrgn": "gap",
+    "hm_son7": "gap",
+    "sbsnow_insta": "gap",
+    "mnet_official": "gap",
+    "openai": "gap",
+    "runwayapp": "gap",
+    "pika_labs": "gap",
+    "lumalabsai": "gap",
+    "midjourney": "gap",
+    "klingai_official": "gap",
+    "heygen_official": "gap",
+    "higgsfield.ai": "gap",
+    "googledeepmind": "gap",
+    "cristiano": "gap"
    }
   },
   "landing": {
-   "at": "2026-08-30T10:31:24",
+   "at": "2026-08-30T11:05:35",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-08-30T11:05:27.795377+09:00"
+ "updated": "2026-08-30T11:31:24.254600+09:00"
 }
