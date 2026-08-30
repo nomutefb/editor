@@ -7703,8 +7703,14 @@
   {
    "query": "손흥민",
    "traffic": "10000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/f3b073cc7c.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://imnews.imbc.com/news/2026/sports/article/6841788_36946.html",
+     "source": ""
+    }
+   ],
    "vol": 10000,
    "started": "2026-08-30T10:40:00+09:00",
    "isNew": true,
@@ -7716,8 +7722,14 @@
   {
    "query": "inter miami vs montréal",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/39907ba57c.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://tsnkoreanews.com/news/article.html?no=28084",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-08-30T08:50:00+09:00",
    "delta": -5,
@@ -7769,8 +7781,14 @@
   {
    "query": "스페이스x",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/88147b9482.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.hankyung.com/article/2026081988266",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-30T08:50:00+09:00",
    "delta": -7,
@@ -7785,8 +7803,14 @@
   {
    "query": "일론 머스크",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/88147b9482.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.hankyung.com/article/2026081988266",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-08-30T08:50:00+09:00",
    "isNew": true,
@@ -7830,8 +7854,14 @@
   {
    "query": "일본 엔",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/930bcf8c34.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://biz.heraldcorp.com/article/10827743",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-30T08:40:00+09:00",
    "delta": -9,
@@ -7938,15 +7968,13 @@
  ],
  "gtrends_pool_updated": "2026-08-30T12:06:48+09:00",
  "_trend_img": {
-  "tried": "2026-08-30T11:24:38+09:00",
+  "tried": "2026-08-30T12:06:48+09:00",
   "fail": {
-   "날씨": "2026-08-30T10:11:43+09:00",
-   "인플 루 언서": "2026-08-30T10:11:43+09:00",
-   "สภาพอากาศ": "2026-08-30T10:11:43+09:00",
-   "문근영": "2026-08-30T10:11:43+09:00",
    "범죄": "2026-08-30T11:31:14+09:00",
    "살림하는 남자들": "2026-08-30T11:31:14+09:00",
-   "서영교": "2026-08-30T11:31:14+09:00"
+   "서영교": "2026-08-30T11:31:14+09:00",
+   "인플 루 언서": "2026-08-30T12:11:43+09:00",
+   "차두리": "2026-08-30T12:11:43+09:00"
   }
  },
  "gtrends_gl": [
@@ -17181,7 +17209,10 @@
      1,
      1
     ],
-    "first_seen": "2026-08-30T06:52:36+09:00"
+    "first_seen": "2026-08-30T06:52:36+09:00",
+    "kw": "러시아, 우크라이나, 요격미사일",
+    "sum": "유럽이 러시아 미사일 공격에 대응할 요격미사일이 바닥났다고 전했다",
+    "sv": 1
    }
   ],
   "tiktok": [
@@ -19065,7 +19096,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-08-30T12:06:48+09:00"
+    "first_seen": "2026-08-30T12:06:48+09:00",
+    "kw": "GitHub Copilot, 코드리뷰",
+    "sum": "Copilot 코드리뷰가 검토 의견 분류와 봇 PR 전체 리뷰 기능을 추가했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -19080,7 +19114,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-08-30T12:06:48+09:00"
+    "first_seen": "2026-08-30T12:06:48+09:00",
+    "kw": "GitHub Copilot, 코드리뷰, 파일제한",
+    "sum": "Copilot 코드리뷰가 봇 작성 PR까지 확대되고 파일 수 제한이 사라졌다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -19095,7 +19132,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-08-30T12:06:48+09:00"
+    "first_seen": "2026-08-30T12:06:48+09:00",
+    "kw": "Tencent, Hy4, 오픈소스모델",
+    "sum": "Tencent가 770B 파라미터 Hy4 모델을 공개하고 API 경로도 함께 내놨다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
