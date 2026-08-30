@@ -7498,8 +7498,14 @@
   {
    "query": "진기주",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/b1cab7b03e.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.mydaily.co.kr/page/view/2026082408550242613",
+     "source": ""
+    }
+   ],
    "isNew": true,
    "rh": [
     3
@@ -7686,8 +7692,14 @@
   {
    "query": "dc 유나이티드 대 엘에이 fc",
    "traffic": "50000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/9126d8c9b9.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.standingout.kr/news/articleView.html?idxno=1419",
+     "source": ""
+    }
+   ],
    "vol": 50000,
    "started": "2026-08-30T07:40:00+09:00",
    "delta": -2,
@@ -7742,8 +7754,14 @@
   {
    "query": "국민일보",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/8c985406fb.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.kmib.co.kr/article/view.asp?arcid=9000007152&code=11131900&sid1=soc",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-30T08:30:00+09:00",
    "delta": -8,
@@ -7938,12 +7956,15 @@
  ],
  "gtrends_pool_updated": "2026-08-30T11:24:38+09:00",
  "_trend_img": {
-  "tried": "2026-08-30T10:46:19+09:00",
+  "tried": "2026-08-30T11:24:38+09:00",
   "fail": {
    "날씨": "2026-08-30T10:11:43+09:00",
    "인플 루 언서": "2026-08-30T10:11:43+09:00",
    "สภาพอากาศ": "2026-08-30T10:11:43+09:00",
-   "문근영": "2026-08-30T10:11:43+09:00"
+   "문근영": "2026-08-30T10:11:43+09:00",
+   "범죄": "2026-08-30T11:31:14+09:00",
+   "살림하는 남자들": "2026-08-30T11:31:14+09:00",
+   "서영교": "2026-08-30T11:31:14+09:00"
   }
  },
  "gtrends_gl": [
@@ -17309,7 +17330,10 @@
      1,
      1
     ],
-    "first_seen": "2026-08-30T06:52:36+09:00"
+    "first_seen": "2026-08-30T06:52:36+09:00",
+    "kw": "유럽, 러시아, 요격미사일",
+    "sum": "유럽이 러시아 미사일 공격에 대응할 요격미사일이 부족하다고 보도됐다",
+    "sv": 1
    }
   ],
   "tiktok": [
@@ -19208,7 +19232,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-08-30T11:24:38+09:00"
+    "first_seen": "2026-08-30T11:24:38+09:00",
+    "kw": "ChatGPT, 예약 작업",
+    "sum": "ChatGPT 무료 사용자도 예약 작업 기능을 쓸 수 있게 됐다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -19223,7 +19250,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-08-30T11:24:38+09:00"
+    "first_seen": "2026-08-30T11:24:38+09:00",
+    "kw": "Cline Desktop, 릴리스",
+    "sum": "계정이 Cline Desktop v0.0.20 릴리스 링크를 공유했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -19238,7 +19268,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-08-30T11:24:38+09:00"
+    "first_seen": "2026-08-30T11:24:38+09:00",
+    "kw": "Cline Desktop, 예약 작업, 업데이트",
+    "sum": "계정이 Cline Desktop v0.0.20의 예약 작업 등 신기능을 정리했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
