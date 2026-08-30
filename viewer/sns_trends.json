@@ -7776,8 +7776,14 @@
   {
    "query": "김태균",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/dd0fb89e26.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://tvreport.co.kr/entertainment/article/1071362/",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-08-30T07:10:00+09:00",
    "delta": -7,
@@ -7937,8 +7943,14 @@
   {
    "query": "天气",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/befc64e880.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.ytn.co.kr/_ln/0108_202608251036182771",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-30T06:50:00+09:00",
    "delta": -12,
@@ -8065,11 +8077,15 @@
  ],
  "gtrends_pool_updated": "2026-08-30T10:07:05+09:00",
  "_trend_img": {
-  "tried": "2026-08-30T09:23:54+09:00",
+  "tried": "2026-08-30T10:07:05+09:00",
   "fail": {
    "알렉스 바에나": "2026-08-30T08:16:44+09:00",
    "왕즈이": "2026-08-30T08:51:15+09:00",
-   "김포 fc": "2026-08-30T08:51:15+09:00"
+   "김포 fc": "2026-08-30T08:51:15+09:00",
+   "날씨": "2026-08-30T10:11:43+09:00",
+   "인플 루 언서": "2026-08-30T10:11:43+09:00",
+   "สภาพอากาศ": "2026-08-30T10:11:43+09:00",
+   "문근영": "2026-08-30T10:11:43+09:00"
   }
  },
  "gtrends_gl": [
@@ -18971,7 +18987,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-08-30T10:07:05+09:00"
+    "first_seen": "2026-08-30T10:07:05+09:00",
+    "kw": "Claude Code, v2.1.248",
+    "sum": "Claude Code v2.1.248 릴리스 노트가 공개됐다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -18986,7 +19005,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-08-30T10:07:05+09:00"
+    "first_seen": "2026-08-30T10:07:05+09:00",
+    "kw": "Claude Code, restricted 모드, 보안",
+    "sum": "계정이 Claude Code의 restricted 모드 보안 구조를 설명했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -19001,7 +19023,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-08-30T10:07:05+09:00"
+    "first_seen": "2026-08-30T10:07:05+09:00",
+    "kw": "Exa, Dynamic Highlights, 토큰 절감",
+    "sum": "계정이 Exa의 토큰 절감 기능 Dynamic Highlights를 소개했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -19016,7 +19041,10 @@
     "rh": [
      4
     ],
-    "first_seen": "2026-08-30T10:07:05+09:00"
+    "first_seen": "2026-08-30T10:07:05+09:00",
+    "kw": "GLM-5.3-Flash, Z.AI, 파라미터",
+    "sum": "계정이 Z.AI의 GLM-5.3-Flash 공개 소식을 전했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
