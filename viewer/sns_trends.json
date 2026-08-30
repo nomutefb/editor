@@ -7714,8 +7714,14 @@
   {
    "query": "용혜인",
    "traffic": "20000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/b2c26c3901.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.ajunews.com/view/20260830130132797",
+     "source": ""
+    }
+   ],
    "vol": 20000,
    "started": "2026-08-30T11:40:00+09:00",
    "delta": -4,
@@ -7749,8 +7755,14 @@
   {
    "query": "원자력",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/cff54b2a6d.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.itinsight.kr/news/494607",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-08-30T11:10:00+09:00",
    "delta": -5,
@@ -7780,8 +7792,14 @@
   {
    "query": "이소영",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/8d51c36671.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.ajunews.com/view/20260830121928754",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-08-30T11:50:00+09:00",
    "delta": -10,
@@ -7795,8 +7813,14 @@
   {
    "query": "티파니",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/e933f463c5.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.starnewskorea.com/star/2026/08/28/2026082811414422565",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-30T11:50:00+09:00",
    "delta": -10,
@@ -7809,8 +7833,14 @@
   {
    "query": "허태정",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/ce5cdbed28.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.newspim.com/news/view/20260811000972",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-30T11:10:00+09:00",
    "delta": -8,
@@ -7848,8 +7878,14 @@
   {
    "query": "소송",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/40fda7f6d1.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.starnewskorea.com/star/2026/08/27/2026082716542235384",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-30T11:10:00+09:00",
    "delta": -9,
@@ -8034,14 +8070,13 @@
  ],
  "gtrends_pool_updated": "2026-08-30T14:36:10+09:00",
  "_trend_img": {
-  "tried": "2026-08-30T13:54:36+09:00",
+  "tried": "2026-08-30T14:36:10+09:00",
   "fail": {
-   "인플 루 언서": "2026-08-30T12:11:43+09:00",
-   "차두리": "2026-08-30T12:11:43+09:00",
    "손주": "2026-08-30T12:48:18+09:00",
    "앙투안 그리즈만": "2026-08-30T14:00:57+09:00",
    "살림하는 남자들": "2026-08-30T14:00:57+09:00",
-   "손태영": "2026-08-30T14:00:57+09:00"
+   "손태영": "2026-08-30T14:00:57+09:00",
+   "이해민": "2026-08-30T14:42:08+09:00"
   }
  },
  "gtrends_gl": [
@@ -19432,7 +19467,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-08-30T14:36:10+09:00"
+    "first_seen": "2026-08-30T14:36:10+09:00",
+    "kw": "Codex CLI, MCP 도구",
+    "sum": "계정이 Codex CLI 0.151.0의 MCP 결과 수정 기능을 소개했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -19447,7 +19485,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-08-30T14:36:10+09:00"
+    "first_seen": "2026-08-30T14:36:10+09:00",
+    "kw": "SwarmWorld, 에이전트 역할",
+    "sum": "계정이 에이전트들이 역할별로 분화되는 과정을 설명했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -19462,7 +19503,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-08-30T14:36:10+09:00"
+    "first_seen": "2026-08-30T14:36:10+09:00",
+    "kw": "SwarmWorld, 실험 설계",
+    "sum": "계정이 제안과 결과를 분리한 실험 설계를 설명했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -19477,7 +19521,10 @@
     "rh": [
      4
     ],
-    "first_seen": "2026-08-30T14:36:10+09:00"
+    "first_seen": "2026-08-30T14:36:10+09:00",
+    "kw": "MIT, SwarmWorld 논문",
+    "sum": "MIT 연구팀이 에이전트 문명 실험 논문을 공개했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -19492,7 +19539,10 @@
     "rh": [
      5
     ],
-    "first_seen": "2026-08-30T14:36:10+09:00"
+    "first_seen": "2026-08-30T14:36:10+09:00",
+    "kw": "WikiSkill, 에이전트 경험",
+    "sum": "WikiSkill 논문이 에이전트 경험을 세 층으로 나눴다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -19735,7 +19785,10 @@
     "rh": [
      14
     ],
-    "first_seen": "2026-08-30T14:36:10+09:00"
+    "first_seen": "2026-08-30T14:36:10+09:00",
+    "kw": "MIT, AI 에이전트 문명",
+    "sum": "계정이 AI 에이전트들이 대화 없이 문명을 이뤘다고 전했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -19830,7 +19883,10 @@
     "rh": [
      18
     ],
-    "first_seen": "2026-08-30T14:36:10+09:00"
+    "first_seen": "2026-08-30T14:36:10+09:00",
+    "kw": "PhoneLLM, 허깅페이스",
+    "sum": "계정이 PhoneLLM 허깅페이스 링크를 공유했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -19845,7 +19901,10 @@
     "rh": [
      19
     ],
-    "first_seen": "2026-08-30T14:36:10+09:00"
+    "first_seen": "2026-08-30T14:36:10+09:00",
+    "kw": "Pipecat, PhoneLLM",
+    "sum": "Pipecat이 전화 상담용 오픈웨이트 모델 PhoneLLM을 공개했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
