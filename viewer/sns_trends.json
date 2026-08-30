@@ -7693,8 +7693,14 @@
   {
    "query": "할인",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/6092a8e7f9.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.newspim.com/news/view/20260819001127",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-08-30T07:20:00+09:00",
    "delta": -3,
@@ -7730,8 +7736,14 @@
   {
    "query": "상장지수 펀드",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/e3a208b9e5.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.ebn.co.kr/news/articleView.html?idxno=1722117",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-08-30T07:20:00+09:00",
    "delta": -4,
@@ -7943,11 +7955,8 @@
  ],
  "gtrends_pool_updated": "2026-08-30T10:46:19+09:00",
  "_trend_img": {
-  "tried": "2026-08-30T10:07:05+09:00",
+  "tried": "2026-08-30T10:46:19+09:00",
   "fail": {
-   "알렉스 바에나": "2026-08-30T08:16:44+09:00",
-   "왕즈이": "2026-08-30T08:51:15+09:00",
-   "김포 fc": "2026-08-30T08:51:15+09:00",
    "날씨": "2026-08-30T10:11:43+09:00",
    "인플 루 언서": "2026-08-30T10:11:43+09:00",
    "สภาพอากาศ": "2026-08-30T10:11:43+09:00",
@@ -18990,7 +18999,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-08-30T10:46:19+09:00"
+    "first_seen": "2026-08-30T10:46:19+09:00",
+    "kw": "GitHub Copilot, Slack, 협업",
+    "sum": "Slack Code 채널에서 팀원들이 에이전트 작업을 함께 검토하고 통제한다고 설명했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -19005,7 +19017,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-08-30T10:46:19+09:00"
+    "first_seen": "2026-08-30T10:46:19+09:00",
+    "kw": "GitHub Copilot, Slack, 코딩 에이전트",
+    "sum": "GitHub Copilot이 Slack에서 이슈 생성부터 PR까지 처리하는 프리뷰를 공개했다고 전했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
