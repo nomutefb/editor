@@ -18,3 +18,4 @@
 {"ts": "2026-08-26T09:26:36+09:00", "kind": "grade", "ver": "35c7cfc517c5", "cases": 75, "runs": 3, "rcs": [0, 0, 0], "flips": [{"t": "‘하닉 1주에 하한가’…프리마켓 상·하한가 한시 금지", "expect": 1, "got": 2}], "miss": [], "unstable": {"31": [2, 1, 2]}, "pass": false}
 {"ts": "2026-08-26T09:27:37+09:00", "kind": "grade", "ver": "8949eadb7996", "cases": 75, "runs": 3, "rcs": [0, 0, 0], "flips": [{"t": "‘하닉 1주에 하한가’…프리마켓 상·하한가 한시 금지", "expect": 1, "got": 2}], "miss": [], "unstable": {"31": [2, 2, 1]}, "pass": false}
 {"ts": "2026-08-26T09:32:25+09:00", "kind": "grade", "ver": "1cb1d28fc457", "cases": 75, "runs": 3, "rcs": [0, 0, 0], "flips": [], "miss": [], "unstable": {}, "pass": true}
+{"ts": "2026-08-31T21:28:31+09:00", "kind": "breaking", "ver": "00c661412960", "cases": 44, "runs": 3, "rcs": [0, 0, 0], "flips": [], "miss": [], "unstable": {}, "pass": true}
