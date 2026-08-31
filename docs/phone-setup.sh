@@ -2,7 +2,7 @@
 # 노뮤트 뉴스 큐 — 폰 입구 원클릭 복구·설치 (멱등: 몇 번 돌려도 안전)
 #
 # 실행(폰 Termux 한 줄):
-#   bash <(curl -fsSL https://raw.githubusercontent.com/muteno/nomute-editor/main/docs/phone-setup.sh)
+#   bash <(curl -fsSL https://raw.githubusercontent.com/nomutefb/editor/main/docs/phone-setup.sh)
 #
 # 무엇을 고치나:
 #   ① allow-external-apps=true (Tasker가 Termux 실행하려면 필수 — 주석 처리 함정 제거)
@@ -20,7 +20,7 @@ warn(){ printf '  \342\232\240\357\270\217  %s\n' "$1"; }
 REPO="$HOME/nomute-editor"
 if [ ! -d "$REPO/.git" ]; then
   warn "리포 없음 → 클론 시도(~/nomute-editor). 첫 push 때 Username=깃아이디 / Password=PAT."
-  git clone -q https://github.com/muteno/nomute-editor "$REPO" \
+  git clone -q https://github.com/nomutefb/editor "$REPO" \
     || { warn "클론 실패 — git 설치·네트워크·PAT 확인 후 재실행"; exit 1; }
 fi
 ok "리포: $REPO"

@@ -2,7 +2,7 @@
 # 드라이브싱크 자가진단 + 최신판 설치 1발 (운영자 260811 "계속 실패하는데 이유를 모르겠네")
 #
 # ▷ 폰 Termux에서 한 줄:
-#     curl -fsSL https://raw.githubusercontent.com/muteno/nomute-editor/main/docs/drivesync-fix.sh | sh
+#     curl -fsSL https://raw.githubusercontent.com/nomutefb/editor/main/docs/drivesync-fix.sh | sh
 #
 # ▷ 하는 일 = 4단(읽기 전용 진단 → 장부 회수 → 설치 → 1회 실행)
 #   ① 지금 왜 실패하는지 그 자리에서 출력(설치된 판·마지막 실행·연결 생사·받아오기 프로그램 판
@@ -22,7 +22,7 @@ MISS="$HOME/.drivesync.miss"
 STUCK="$HOME/.drivesync.stuck"
 TMPD="$HOME/.drivesync.fixtmp"
 LOCAL="/sdcard/Pictures/DriveSync"
-URL="https://raw.githubusercontent.com/muteno/nomute-editor/main/docs/drive-gallery-sync.sh"
+URL="https://raw.githubusercontent.com/nomutefb/editor/main/docs/drive-gallery-sync.sh"
 
 # 파일이 없어도 셸 에러를 안 내는 줄 세기(구판 `wc -l < 없는파일` = sh: cannot open 실측 봉합)
 cnt(){ [ -f "$1" ] && wc -l < "$1" 2>/dev/null | tr -d ' ' || echo 0; }
@@ -36,6 +36,18 @@ else
   printf '마지막 실행: 기록 없음(Tasker가 안 쏘는 중일 수 있다)\n'
 fi
 printf '이번 배치  : %s건 대기\n' "$(cnt "$NEW")"
+
+# ── 코드가 어느 저장소를 보고 있나(260831 신설) ────────────────────────────────
+#   실사고 = 260816 계정 이관 뒤 폰에 깔린 판이 **옛 저장소 raw**를 그대로 들고 있었다.
+#   그 주소는 계정 제재로 전 파일 404 → 하루 1회 자가 갱신이 매번 조용히 실패한다
+#   (fail-soft라 동기화 자체는 돌아서 **증상이 0** = 폰만 옛 코드에 영영 갇힌다).
+#   ⚠ 아래가 「옛 주소」로 나오면 이 진단기 ③이 그 자리에서 새 판으로 덮어 해소된다.
+SU=$(grep -m1 '^SELF_URL=' "$SYNC" 2>/dev/null | cut -d'"' -f2)
+case "$SU" in
+  *nomutefb/editor*) printf '코드 출처  : ✅ 새 저장소\n' ;;
+  "")                printf '코드 출처  : ? 표기 없음(v1.8 이하 = 자가 갱신 자체가 없는 판)\n' ;;
+  *)                 printf '코드 출처  : ❌ 옛 저장소(404) — 자가 갱신이 매번 실패해 왔다\n             %s\n' "$SU" ;;
+esac
 
 echo "── 드라이브 연결(목록 조회) ──"
 if rclone lsf --contimeout 15s --timeout 60s gdrive: >/dev/null 2>&1; then
@@ -125,7 +137,7 @@ echo ""
 echo "══════════ ④ 지금 한 번 돌린다 ══════════"
 # 다음 번엔 긴 주소를 다시 붙여넣지 않아도 되게 이 진단기를 폰에 남긴다
 # (260811 실사고 = 붙여넣기 신호문자가 `[200~curl … | sh~`로 명령을 깨뜨렸다 · 짧을수록 안전)
-curl -fsSL --max-time 30 "https://raw.githubusercontent.com/muteno/nomute-editor/main/docs/drivesync-fix.sh" -o "$HOME/dsfix" 2>/dev/null \
+curl -fsSL --max-time 30 "https://raw.githubusercontent.com/nomutefb/editor/main/docs/drivesync-fix.sh" -o "$HOME/dsfix" 2>/dev/null \
   && [ -s "$HOME/dsfix" ] && head -1 "$HOME/dsfix" | grep -q '^#!' \
   && { chmod +x "$HOME/dsfix"; echo "  ℹ 다음부터는 짧게:  sh ~/dsfix"; } || rm -f "$HOME/dsfix"
 rm -f "$HOME/.drivesync.last"

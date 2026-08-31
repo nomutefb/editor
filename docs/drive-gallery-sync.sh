@@ -1,6 +1,6 @@
 #!/data/data/com.termux/files/usr/bin/sh
 # 드라이브 → 갤러리 다운싱크 (v1.9 · 정본 실물 — 문서 미러 = 드라이브싱크 플레이북 §1)
-# 설치(폰 한 줄): curl -fsSL https://raw.githubusercontent.com/muteno/nomute-editor/main/docs/drive-gallery-sync.sh -o ~/.termux/tasker/drive-gallery-sync.sh && chmod +x ~/.termux/tasker/drive-gallery-sync.sh
+# 설치(폰 한 줄): curl -fsSL https://raw.githubusercontent.com/nomutefb/editor/main/docs/drive-gallery-sync.sh -o ~/.termux/tasker/drive-gallery-sync.sh && chmod +x ~/.termux/tasker/drive-gallery-sync.sh
 #
 # ── v1.6 (2026-08-11) = 「계속 실패」 4중 봉합 ─────────────────────────────────
 # 실사고 260811 22:39 = 「드라이브싱크 실패 ⚠️ / [10:39 PM] 2026-08-11 21 19 06.jpg 외 10건」이
@@ -56,7 +56,7 @@
 # ⚠ 신뢰 모델은 **종전과 동일**(curl 한 줄 설치가 이미 같은 원천을 믿는다) — 늘어난 건
 #   「사람이 매번 붙여넣느냐」 하나뿐이다. 실패는 전부 fail-soft(받기 실패·검문 탈락 =
 #   종전 스크립트 그대로 · 동기화 무손상).
-SELF_URL="https://raw.githubusercontent.com/muteno/nomute-editor/main/docs/drive-gallery-sync.sh"
+SELF_URL="https://raw.githubusercontent.com/nomutefb/editor/main/docs/drive-gallery-sync.sh"
 SELFUP="$HOME/.drivesync.selfup"
 SELFUP_SEC=86400
 # ── 동기화 제외 칸(운영자 260811 "저런 압축파일은 동기화 안되게 조치해도됨 · 양방향 모두") ──
