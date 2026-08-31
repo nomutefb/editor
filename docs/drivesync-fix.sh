@@ -50,10 +50,17 @@ case "$SU" in
 esac
 
 echo "── 드라이브 연결(목록 조회) ──"
-if rclone lsf --contimeout 15s --timeout 60s gdrive: >/dev/null 2>&1; then
+#   ⚠ 한 번만 재면 「연결 실패」까지밖에 못 말한다 — 260831 실사고가 정확히 그 자리였다
+#   (인증·회선은 멀쩡한데 **나가는 길**만 죽어서, 그냥 재면 인증 축으로 오진한다).
+#   → 그냥 한 번 · 예전 주소로 한 번, 두 갈래로 재서 원인을 이름으로 가른다.
+ls_ok(){ rclone lsf $1 --contimeout 15s --timeout 60s gdrive: >/dev/null 2>&1; }
+if ls_ok ""; then
   echo "  ✅ 연결·인증 정상 → 범인은 받기 한 자리"
+elif ls_ok "--bind 0.0.0.0"; then
+  echo "  ⚠ 새 주소 길이 막혔다(예전 주소로는 붙는다) = 회선이 주는 길이 바뀐 것."
+  echo "     이 진단기 ③이 그 길을 고정한 판으로 덮어 그 자리에서 해소된다."
 else
-  echo "  ❌ 목록 조회부터 실패 = 인증·회선 축 → rclone config reconnect gdrive:"
+  echo "  ❌ 두 길 다 실패 = 인증·회선 축 → rclone config reconnect gdrive:"
 fi
 
 echo "── 로그가 말하는 진짜 실패 사유(최근 5줄) ──"

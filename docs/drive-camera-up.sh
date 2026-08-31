@@ -12,6 +12,13 @@ T_UPFAIL="업로드 실패"
 #   ⚠ 짝 = `drive-gallery-sync.sh`의 `EXC_RE` **동값 유지**(한쪽만 고치면 반대 방향이 조용히 샌다).
 #   늘리려면 이 한 줄에 확장자만 추가(대소문자는 -i가 흡수).
 EXC_RE='\.(zip|rar|7z|tar|gz|tgz|bz2|xz|zst|iso|dmg|apk|exe)$'
+# ── 나가는 길 고정(v1.4 · 260831 · 짝 = drive-gallery-sync.sh BIND4 동값) ──────
+#   260831 실사고(새 주소 대역으로 나가려다 회선이 안 받아 매 회차 사망)는 방향과 무관하다
+#   → 올리기도 같이 고정한다(한쪽만 고치면 반대 방향이 조용히 같은 자리에서 죽는다).
+#   공식 문서 원문 = "You can use --bind 0.0.0.0 to force rclone to use IPv4 addresses".
+#   킬스위치 = `DS_BIND4=0`.
+BIND4=""
+[ "${DS_BIND4:-1}" = 1 ] && BIND4="--bind 0.0.0.0"
 REMOTE_BASE="gdrive:Shared"
 SRCS="/sdcard/DCIM/Camera /sdcard/DCIM/Screenshots /sdcard/Pictures/Screenshots"
 WIFI_ONLY=0
@@ -59,7 +66,7 @@ for SRC in $SRCS; do
   grep "^$SRC/" "$UNEW" | sed "s|^$SRC/||" > "$UNEW.d"
   [ -s "$UNEW.d" ] || continue
   cat "$UNEW.d" >> "$DSEEN"
-  if rclone copy "$SRC" "$REMOTE_BASE" --files-from "$UNEW.d" --inplace \
+  if rclone copy "$SRC" "$REMOTE_BASE" $BIND4 --files-from "$UNEW.d" --inplace \
       --transfers 2 --log-file "$LOG" --log-level INFO; then
     sed "s|^|$SRC/|" "$UNEW.d" >> "$UPSEEN"
   else

@@ -67,6 +67,21 @@ SELFUP_SEC=86400
 #   ⚠ 짝 = `drive-camera-up.sh`의 `EXC_RE` **동값 유지**(한쪽만 고치면 반대 방향이 조용히 샌다).
 #   늘리려면 이 한 줄에 확장자만 추가(대소문자는 -i가 흡수).
 EXC_RE='\.(zip|rar|7z|tar|gz|tgz|bz2|xz|zst|iso|dmg|apk|exe)$'
+# ── 나가는 길 고정(v2.0 · 260831) ─────────────────────────────────────────────
+#   실사고 260831 = 「수집이 잘 되던 게 갑자기 안 된다」의 진범.
+#   폰 진단 실물 = `dial tcp [2001:4860:4840:400::]:443: connect: network is unreachable`
+#   (= 구글 쪽 새 주소 대역). 같은 폰에서 진단기를 내려받는 건 성공했으니 **회선은 산 상태**이고
+#   새 주소 길만 죽었다 → 받아오기 프로그램이 그 길을 먼저 골라서 매 회차 거기서 죽는다.
+#   ⚠ 「말짱한데 갑자기」의 정체 = 코드·인증 무변경이고 **회선이 주는 길이 바뀐 것**
+#      (v1.7 갈래받기 사고와 같은 축 = 입력이 바뀌어 다른 코드 경로가 켜졌다).
+#   ▷ 처방 = 나가는 길을 예전 주소로 고정. 공식 문서 원문 =
+#     "You can use --bind 0.0.0.0 to force rclone to use IPv4 addresses"
+#     (rclone.org/docs · 값 창작 0). 예전 주소는 어느 회선에서나 서므로 손해 0.
+#   ▷ 킬스위치 = `DS_BIND4=0`(환경변수). 끄면 종전 동작 100%.
+#   ⚠ 짝 = `drive-camera-up.sh`의 BIND4 **동값 유지**(한쪽만 고치면 반대 방향이 조용히 같은
+#     자리에서 죽는다 · EXC_RE 짝 계약과 같은 축).
+BIND4=""
+[ "${DS_BIND4:-1}" = 1 ] && BIND4="--bind 0.0.0.0"
 REMOTE="gdrive:Shared"
 LOCAL="/sdcard/Pictures/DriveSync"
 SEEN="$HOME/.drivesync.seen"
@@ -79,7 +94,7 @@ FAILC="$HOME/.drivesync.lsffail"
 CPFAIL="$HOME/.drivesync.copyfail"
 STUCK="$HOME/.drivesync.stuck"
 STUCK_N=10
-VER="v1.9"
+VER="v2.0"
 T=$(date +%s)
 if [ -f "$STAMP" ] && [ $((T - $(cat "$STAMP"))) -lt 120 ]; then exit 0; fi
 echo "$T" > "$STAMP"
@@ -106,7 +121,7 @@ if [ "${DS_SELFUP:-1}" = 1 ] && [ -n "${0:-}" ] && [ -f "$0" ]; then
 fi
 mkdir -p "$LOCAL"; touch "$SEEN"
 [ -s "$SEEN" ] || echo "__init__" > "$SEEN"
-if ! rclone lsf -R --files-only --contimeout 15s --timeout 60s --exclude "*.app/**" "$REMOTE" > "$NOW.raw" 2>>"$LOG"; then
+if ! rclone lsf -R $BIND4 --files-only --contimeout 15s --timeout 60s --exclude "*.app/**" "$REMOTE" > "$NOW.raw" 2>>"$LOG"; then
   N=$(($(cat "$FAILC" 2>/dev/null || echo 0) + 1)); echo "$N" > "$FAILC"
   if [ "$N" -ge 3 ]; then
     termux-notification --id drivesync-fail -t "드라이브싱크 실패 ⚠️" \
@@ -121,7 +136,7 @@ if [ -s "$NEW" ]; then
   LOGSZ=0
   [ -f "$LOG" ] && LOGSZ=$(wc -c < "$LOG" 2>/dev/null | tr -d ' ')
   [ -n "$LOGSZ" ] || LOGSZ=0
-  if rclone copy "$REMOTE" "$LOCAL" --files-from "$NEW" --inplace --multi-thread-streams 0 \
+  if rclone copy "$REMOTE" "$LOCAL" $BIND4 --files-from "$NEW" --inplace --multi-thread-streams 0 \
       --contimeout 15s --timeout 60s --transfers 4 --log-file "$LOG" --log-level INFO; then
     cat "$NEW" >> "$SEEN"
     rm -f "$CPFAIL"
