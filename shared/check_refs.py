@@ -6407,6 +6407,80 @@ def _has_exec_line(text, needle):
     return False
 
 
+
+def check_sens_mask():
+    """민감어 마스킹 = 화면과 산출물이 같은 글자를 가린다(하드 · 운영자 260831 «썸네일 제작에서 자살 이라는 걸
+    쓰면 *살 이라고 자동으로 필터링»).
+
+    ⚠ 신설 사유 = **이 축은 두 가지로 조용히 죽고 둘 다 화면 증상이 0이다.**
+      ⓐ **표 드리프트** — 마스킹 규칙은 파이썬(러너 렌더)·JS(뷰어 미리보기) **사본 1쌍**이 불가피하다(언어가
+        다르다). 한쪽만 낱말을 늘리면 미리보기와 산출물이 **다른 글자**를 보여주는데, 둘 다 정상으로 뜨므로
+        운영자가 받은 이미지를 원문과 대조해야만 보인다(`check_paste_url_stamp` 두 언어 술어 동기와 같은 축).
+      ⓑ **배선 소실** — 래핑 한 줄이 빠져도 러너는 초록이고 카드도 정상으로 나온다, 가려야 할 낱말만 그대로
+        찍힌다(insta-thumb-miss·brk_misfire 동축).
+
+    ⚠ **자리가 계약 = 강조 파싱 이후.** 별표 1~2개는 강조 델리미터라(3+만 리터럴) 파싱 전에 치환하면 그 별표가
+      강조를 열어 **별표가 안 그려지고 뒤 글자가 통째로 강조**된다(실측 `parse('*살 예방')` → `[('h','살 예방')]`).
+      그래서 러너는 파서를 래핑하고 뷰어는 그리기 관문 `esc`에서 건다 — 파싱 전 치환으로 되돌아가는 회귀를 ③이 막는다.
+
+    판정 4축 · 정적 · 렌더·LLM·네트워크 0 · **면책표 없이 하드 0** · 주석 줄 제외(처방 주석이 판정 문자열을
+    그대로 인용한다 = 자기적발 차단).
+    """
+    rc = 0
+    py = os.path.join(ROOT, 'shared', 'sens_mask.py')
+    if not os.path.exists(py):
+        print('❌ check_sens_mask: 정본 shared/sens_mask.py 없음'); return 1
+    src = open(py, encoding='utf-8').read()
+    # ① 정본 표 — 소스에서 실제로 읽는다(사본 0)
+    ns = {}
+    try:
+        exec(compile(src, 'sens_mask', 'exec'), ns)
+        pairs = [(str(a), str(b)) for a, b in ns['MASK_PAIRS']]
+        if ns['mask']('자살') != '*살':
+            print('❌ check_sens_mask: 정본 mask()가 「자살」→「*살」을 안 한다'); rc = 1
+    except Exception as e:
+        print('❌ check_sens_mask: 정본 적재 실패(fail-closed):', e); return 1
+    if not pairs:
+        print('❌ check_sens_mask: MASK_PAIRS 비어 있음(마스킹 무효)'); rc = 1
+    # ② 뷰어 사본 표 == 정본 표(순서까지 — 치환은 순차 적용이라 순서가 곧 결과)
+    vt = open(os.path.join(ROOT, 'viewer', 'thumb.html'), encoding='utf-8').read()
+    m = re.search(r"const\s+SENS_MASK\s*=\s*\[(.*?)\]\s*;", vt, re.S)
+    if not m:
+        print('❌ check_sens_mask: viewer/thumb.html 에 SENS_MASK 표 없음(fail-closed)'); return 1
+    vpairs = re.findall(r"\[\s*'([^']*)'\s*,\s*'([^']*)'\s*\]", m.group(1))
+    if vpairs != pairs:
+        print(f'❌ check_sens_mask: 표 드리프트 — 러너 {pairs} ↔ 뷰어 {vpairs}(미리보기와 산출물이 다른 글자를 가린다)'); rc = 1
+    # ③ 배선 — 러너 2레인(파싱 이후 래핑) + 파서 미경유 축(노뮤트 헤더) + 뷰어 관문
+    wires = [
+        ('.github/workflows/thumb-make.yml', 'wrap_parse(_nov.parse)', '자막·진짜예요 파서 래핑'),
+        ('.github/workflows/thumb-make.yml', "sens_mask.mask(params.get('sub'", '노뮤트 헤더(강조 파서 미경유)'),
+        ('.github/workflows/comp-make.yml', 'wrap_parse(card_news.parse_segments)', '카드뉴스 파서 래핑'),
+    ]
+    for rel, needle, why in wires:
+        f = os.path.join(ROOT, rel)
+        if not os.path.exists(f) or not _has_exec_line(open(f, encoding='utf-8').read(), needle):
+            print(f'❌ check_sens_mask: {rel} 배선 소실 — {why}({needle})'); rc = 1
+    if not re.search(r"const\s+esc\s*=\s*s\s*=>\s*sensMask\(s\)", vt):
+        print('❌ check_sens_mask: 뷰어 미리보기 관문(esc)이 sensMask 를 안 탄다 — 화면만 원문으로 되돌아간다'); rc = 1
+    # ④ 파싱 전 치환 회귀 차단 — 발사 짐 조립(a2Build)·미리보기 텍스트 조립(cpPrevVariants)에서 마스킹하면
+    #    별표가 강조 델리미터로 읽혀 산출이 깨진다(위 자리 계약).
+    for fn in ('a2Build', 'cpPrevVariants'):
+        i = vt.find('function ' + fn + '(')
+        if i < 0:
+            print(f'❌ check_sens_mask: 뷰어 {fn} 소실(fail-closed)'); rc = 1; continue
+        body = vt[i:i + 6000]
+        for ln in body.split('\n'):
+            st = ln.strip()
+            if st.startswith('//'):
+                continue
+            if 'sensMask(' in st.split('//')[0]:
+                print(f'❌ check_sens_mask: {fn} 이 파싱 **전** 텍스트를 마스킹한다 — 별표가 강조 델리미터로 읽혀 산출이 깨진다'); rc = 1
+                break
+    if rc == 0:
+        print(f'✅ check_sens_mask: 마스킹 {len(pairs)}쌍 · 러너↔뷰어 표 동기 · 배선 4자리 생존')
+    return rc
+
+
 def check_grade_fix_chain():
     """grade 수기 교정 폐루프 게이트(하드 · 운영자 260807 "어긋났을 때 고칠 수 있게 · 12시간마다 고쳐진 것만 기록" —
     check_thumb_vote_chain의 짝). 교정은 두 방식으로 조용히 죽는다: ⓐ 적재는 되는데 커밋 줄이 없어 다음 체크아웃서
@@ -10624,6 +10698,11 @@ def main():
             rc = 1
     except Exception as e:
         print('❌ check_canon_host 예외(fail-closed):', e); rc = 1
+    try:
+        if check_sens_mask() != 0:   # 민감어 마스킹(하드 — 표가 갈리거나 배선이 빠지면 화면 증상 0으로 가려야 할 낱말이 그대로 찍힌다 · 260831)
+            rc = 1
+    except Exception as e:
+        print('❌ check_sens_mask 예외(fail-closed):', e); rc = 1
     try:
         if check_font_shorthand() != 0:   # 활자 무효축약(하드 — `font:` 축약 안 inherit = 선언 전체 무효 · 조용한 상속 드리프트)
             rc = 1

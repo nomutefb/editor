@@ -1908,7 +1908,7 @@ function renderCpPrev() {   // app2 상시 표시(운영자 260714 Q03②) + 편
   const bh = cur.fmt === 'reels' ? 1920 : 1350;
   const px = n => (n / 1080 * W).toFixed(1) + 'px';                 // 가로축(폰트·마진)
   const py = n => (n / bh * 100).toFixed(2) + '%';                  // 세로축(위치)
-  const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+  const esc = s => sensMask(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');   // 민감어 마스킹 = 여기 한 곳 = 미리보기에 찍히는 전 텍스트의 유일 관문(헤더·자막·진짜예요·카드뉴스·저작권·안내문) · 강조 세그먼트를 다 가른 **뒤**라 별표가 마크업이 아니라 글자로 남는다(위 sensMask 주석)
   const emph = s => renderEmph2(s).map(([k, v]) => k === 'h' ? `<b style="color:${CPV_GREEN};font-weight:inherit">${esc(v)}</b>` : esc(v)).join('');
   const jjHdrEmph = s => renderEmph2(normEmph(stripStrayStars(s))).map(([k, v]) => k === 'h' ? `<b style="color:${CPV_GOLD};font-weight:inherit">${esc(v)}</b>` : esc(v)).join('');   // 진짜예요 헤더 문구 강조(운영자 260730) = 자막 emph 문법 그대로 · 색만 골드레몬 · 정규화(오타 * 삭제→normEmph) = 발사 payload와 동일 텍스트라 미리보기 == 산출물 // 1~2별표=강조(산출색 CPV_GREEN 유지)·3+=리터럴(마스킹) — 백엔드 parse2 미러(운영자 260720)
   let h = '';
@@ -3387,6 +3387,16 @@ function normEmph(text) {
   flushClose();                                            // 텍스트 끝 = 열린 강조 닫기(빈 열림은 open=false라 무시)
   return out;
 }
+// 민감어 마스킹 = 「자살」→「*살」(운영자 260831 «썸네일 제작에서 자살 이라는 걸 쓰면 *살 이라고 자동으로 필터링»).
+//   ⚠ 자리가 계약 = **강조 파싱 이후**(= 미리보기가 글자를 화면에 찍는 esc 단계). 별표 1~2개는 강조 델리미터라
+//     파싱 전에 치환하면 그 별표가 강조를 열어 **별표가 안 그려지고 뒤 글자가 통째로 초록**이 된다
+//     (실측 백엔드 parse('*살 예방') → [('h','살 예방')] · 뷰어 stripStrayStars는 짝 없는 그 별표를 아예 삭제).
+//   ⚠ 러너 사본 = `apps/thumbnail/sens_mask.py` MASK_PAIRS(게이트 check_sens_mask가 표 동기 강제) — 언어가 달라
+//     사본 1쌍이 불가피하고, 갈리면 화면과 산출물이 다른 글자를 보여준다.
+//   ⚠ 폭·자간 축(estHeaderTr·estTracking·hdrFit·발사 페이로드)은 **원문 그대로** = 러너 fit_tracking도 원문 기준이라
+//     3면이 같은 글자의 폭을 잰다(260807 6차 계약 보존). 마스킹은 글자 수를 줄이므로 원문 기준 판정이 항상 보수적.
+const SENS_MASK = [['자살', '*살']];   // 러너 sens_mask.MASK_PAIRS와 한 쌍
+function sensMask(s) { let o = String(s == null ? '' : s); for (const [a, b] of SENS_MASK) o = o.split(a).join(b); return o; }   // 리터럴 치환(정규식 이스케이프 불요 · 멱등)
 // 강조 파서(1~2 별표 = 델리미터 토글 · 3+ = 리터럴) — 미리보기·강조검사 공용. 백엔드 nomute_overlay.parse / card_news.parse_segments와 로직 동일(정본 3면 일치).
 function renderEmph2(line) {
   const segs = []; let on = false, buf = '';

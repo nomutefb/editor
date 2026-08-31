@@ -119,6 +119,18 @@ jobs:
               if isinstance(v, dict): return {k: _jamo_std(x) for k, x in v.items()}
               return v
           params = _jamo_std(params)
+          # ── 민감어 마스킹 = 「자살」→「*살」(운영자 260831) ──
+          #   ⚠ 자리가 계약 = **강조 파싱 이후**. parse()는 별표 1~2개를 강조 델리미터로 읽으므로(3+만 리터럴)
+          #     파싱 전에 치환하면 그 별표가 강조를 열어 **별표가 안 그려지고 뒤 글자가 통째로 초록**이 된다
+          #     (실측 parse('*살 예방') -> [('h','살 예방')]). 그래서 파서 반환 세그먼트 본문에만 건다.
+          #   ⚠ 절대규칙1(코드 4파일 불변) 준수 = 파일 수정 0 · 호출측 런타임 치환(nologo mk_logo 선례와 같은 축).
+          #   ⚠ 거처 = 이 입구 한 곳(=_jamo_std와 동축) = 오버레이·진짜예요(헤더+오버레이)가 전부 이 parse를 쓴다.
+          #     맥 잡워커도 이 Render 스텝을 그대로 뽑아 실행한다(scripts/mac/nomute_thumb_driver.sh) = 두 레인 동시 적용.
+          #   ⚠ params(=_src.json)는 원문 그대로 둔다 = 「수정」 복원이 원문으로 열린다 · 자간 sweep도 원문 기준(마스킹은
+          #     글자를 줄이므로 원문 sweep이 항상 같거나 보수적 = 마진 초과가 새로 생기지 않는다).
+          sys.path.insert(0, 'shared'); import sens_mask   # 정본 = shared/sens_mask.py(카드뉴스 comp-make와 공용 · 표가 갈리면 두 산출물이 다른 글자를 낸다)
+          import nomute_overlay as _nov
+          _nov.parse = sens_mask.wrap_parse(_nov.parse)   # 자막(노뮤트/진짜예요) + 진짜예요 헤더(_draw_line이 이 parse를 함수 안에서 import)
           image = (os.environ.get('IMAGE') or '').strip()
           # 배경 src는 Checkout(ref=image_sha)이 이미 워킹트리에 보장 — 레이스 가드/복구 불필요(원천 차단 · 260620).
           if not app or not in_id:
@@ -186,7 +198,7 @@ jobs:
           if app == '4':            # 경고문 — copyright.py 29px(작은 글씨=마진 안 넘침). 2줄=줄별 센터 렌더 후 세로 스택
               from PIL import Image as _I
               from nomute_copyright import SCALE as _CS   # 2K 스케일(스크립트와 동기 = 캔버스·줄간 ×SCALE)
-              fmt4 = params.get('fmt', 'post'); lines4 = params['lines']
+              fmt4 = params.get('fmt', 'post'); lines4 = [sens_mask.mask(l) for l in params['lines']]   # 민감어 마스킹 — 경고문·안내문은 강조 파서 미경유(copyright CLI 직행)
               canvas = _I.new('RGBA', (1080 * _CS, (1920 if fmt4 == 'reels' else 1350) * _CS), (0, 0, 0, 0))
               for i, ln in enumerate(lines4):
                   tmp = f'/tmp/_warn{i}.png'
@@ -217,7 +229,7 @@ jobs:
               elif mode == 'header':  # 부제+제목 → 흰칸(render·기본 1장). bothBg=True 면 nobg(흰칸 없이 텍스트만)도(2장). import 재사용(스크립트 코드 불변)
                   from nomute_reels2 import render, _draw_line, FONT, WHITE, GREEN, SUB_FS, SUB_Y, TITLE_FS, TITLE_Y, W, H
                   from PIL import Image, ImageDraw, ImageFont
-                  sub, title = params.get('sub', ''), params.get('title', '')
+                  sub, title = sens_mask.mask(params.get('sub', '')), sens_mask.mask(params.get('title', ''))   # 민감어 마스킹 — 노뮤트 헤더는 강조 파서를 안 타므로(reels2._draw_line = 통줄 렌더) 텍스트 단계가 그리기 직전 유일 자리 · render(흰칸)·nobg 두 분기 공용 변수라 한 곳으로 둘 다 덮는다
                   both = bool(params.get('bothBg'))   # 배경 체크 = 흰칸 없는 버전도(2장) · 기본(미체크) = 흰칸만 1장(운영자 260623)
                   box, nobg = f'{outdir}/box.jpg', f'{outdir}/nobg.jpg'   # 헤더 = 2K JPG q95(불투명 베이스+텍스트)
                   box_tmp = '/tmp/_box.png'
@@ -247,7 +259,7 @@ jobs:
           elif app == '3':          # 저작권 — 투명 오버레이 (CLI subprocess). 출력 = FHD PNG.
               argv = ['python3', 'apps/thumbnail/nomute_copyright.py', out, params.get('fmt', 'post')]
               if params.get('raw'):
-                  argv += ['--raw', params['raw']]
+                  argv += ['--raw', sens_mask.mask(params['raw'])]   # 민감어 마스킹 — 자유문구 축(강조 파서 미경유)
               else:
                   argv += [str(params['year']), params['name'], params['platform']]
               subprocess.run(argv, check=True)
