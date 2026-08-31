@@ -13903,7 +13903,7 @@ function renderSnsTrends() {
   // (구 gBS 독립 대분류 = 260720 X 우측 열 합류 → 260721 게시물 표면 소멸 "블루스카이는 실검만" — bskS/bskL/bskSec/bcard 정의 = git 이력 · 잔존 블스 표면 = 실시간 트렌드 반갈 btrSec뿐)
   // ⑧ 스레드 구독 = 큐레이션 게시물(gCUR) 합류(운영자 260723) · 공급 = 폰/맥 phone_subs 전용 · 구 gTH(스레드 대분류) 소멸
   const sthAll = divRank(bySort(sth, 'likes')).slice(0, 10);   // 스레드 구독 = 지역 무관 통합(운영자 260724) · divRank = 계정 도배 감산(260725 Q557 — 운영자 "스레드도 동일한 느낌으로" · X sx 정본 이식 = 같은 함수·같은 쿼터3/밀기3) · 정렬 = 좋아요 고정(운영자 260726 정렬바 폐지)
-  if (sthAll.length) gCUR += sec('sth', '스레드 - 구독', subStaleUnit('threads', sthAll), sthAll.length, '<div class="xgrid">' + sthAll.map((t, i) => xcard({ ...t, nocls: 'thfb' }, i)).join('') + '</div>');   // 스레드 구독 = 큐레이션 게시물 소분류(운영자 260723 · 260724 지역 무관 단일 블록) · 정렬바 폐지(260726 · X sx와 동형)
+  if (sthAll.length) gCUR += sec('sth', '스레드 - 구독', subStaleUnit('threads', sthAll), sthAll.length, '<div class="xgrid">' + sthAll.map((t, i) => xcard({ ...t, nocls: 'thfb' }, i, 1)).join('') + '</div>');   // 스레드 구독 = 큐레이션 게시물 소분류(운영자 260723 · 260724 지역 무관 단일 블록) · 정렬바 폐지(260726 · X sx와 동형)   // nokw=1 = KEYWORD 줄 폐지(운영자 260831 "스레드 수집때 키워드 안가져오게" — X 260727 "엑스에 키워드는 빼줘" 처방 동형 이식 · fillT kw 줄도 같은 커밋에 회수 = 스팬 없는 카드에 fillT가 남으면 인덱스 어긋남 · 데이터 축 kw·sum은 무접촉 = X와 동일{요약 파이프 sns_sum.sh는 kw∧sum 동시 채택 계약이라 kw를 끊으면 한줄요약까지 죽는다})
   else gCUR += subEmptySec('sth', '스레드 - 구독', 'threads');   // 0건이어도 등록 계정이 있으면(stale) 사유를 남긴다(운영자 260727)
   let gHN = '';   // ⑫ 해커뉴스 그룹(운영자 260713 · 260720 brow = 순위+제목만[스코어·삼각형·시간열 제거] · 클릭 = 원문/HN)
   const hnL = hnl.slice(0, 8);   // 상한 12→8(운영자 260721 Q383 "해커도 8위까지만" — 박스오피스와 좌우 균형)
@@ -14070,7 +14070,7 @@ function renderSnsTrends() {
   fillT('stk', '.tcard-t', stkAll.map(t => t.ko || t.title || ('@' + (t.account || ''))));   // 틱톡 구독 그리드 = ko 한글 번역 우선
   fillT('sre', '.tcard-t', sreAll.map(t => t.ko || t.title || ('@' + (t.account || ''))));   // 인스타 구독 그리드 = ko 한글 번역 우선(260801 — 형제 stk와 같은 문법. sns_tr.py `_targets`가 subs.insta를 진작 번역해 ko를 달고 있었는데 **이 줄만 안 읽어** 해외 계정 캡션이 원어로 노출되던 사각 = 수집은 됐고 표시만 빠진 축)
   fillT('sth', '.xcard-h b', sthAll.map(t => '@' + (t.account || '')));   // ⑧ 스레드 구독(260713)
-  fillT('sth', '.xcard-kw', sthAll.map(t => t.sum && t.kw ? 'KEYWORD : ' + t.kw : ''));   // 스레드도 AI 요약 1줄차 동형(운영자 260726 "엑스랑 스레드")
+  // (구 fillT('sth','.xcard-kw',…) KEYWORD 줄 = 운영자 260831 "스레드 수집때 키워드 안가져오게"로 회수 — X 260727과 동형 · 카드 쪽 nokw=1 과 한 몸{한쪽만 남으면 fillT 인덱스 어긋남} · 데이터 kw는 잔존 = 재도입 시 이 줄+nokw 복원이면 끝)
   fillH('sth', '.xcard-tx', sthAll.map(t => t.text ? xlink(t.text) : esc(t.sum || '')));   // 본문 = 작성자 원문 그대로(운영자 260728 "그 사람의 텍스트를 문단 구분 포함해서 그대로" — X 원문 전환(11266 · 260726) 문법 미러 · 구 = 요약 우선이라 "작성자가 ~했다"만 보였다) · 문단 = .xcard-tx white-space:pre-line이 \n 보존 · 3줄+… 중략 = .xcard-tx.s2 클램프 정본 그대로(260801 4→3 고정 예약) · 원문 결측(구데이터) = 요약 폴백 · xtco(t.co 컷)는 X 전용 = 스레드 비적용
   fillT('rdd', '.tcard-t', rddL.map(p2 => p2.title || ''));   // ⑥ 레딧 — 카드 제목 슬롯(.tcard-t = 유튜브·틱톡 카드 계승 · 구 .trend-q 행 슬롯에서 이관) · textContent 주입 = XSS 안전   // 서브레딧 접두 `[r/sub] ` 폐지(운영자 260727 "항상 제목이 일정하게 들어오는데 저 일정한 부분 삭제") — 수집이 r/popular 단일 피드라 전 카드가 같은 접두를 달아 정보량 0 · 한글 번역(ko) 앞에 영문 토큰이 박혀 "영어로 나온다"는 인상까지 만들던 자리 · 되돌림 = 이 줄에 접두 map 복원(형제 hn·박스오피스도 접두 없는 문법 = 통일)
   // (구 fillT/fillH 'bsk' 게시물 주입 = 운영자 260721 "블루스카이는 실검만 사용" 섹션 소멸로 동반 제거 — 재도입 = git 이력)
