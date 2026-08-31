@@ -144,9 +144,19 @@ echo ""
 echo "══════════ ④ 지금 한 번 돌린다 ══════════"
 # 다음 번엔 긴 주소를 다시 붙여넣지 않아도 되게 이 진단기를 폰에 남긴다
 # (260811 실사고 = 붙여넣기 신호문자가 `[200~curl … | sh~`로 명령을 깨뜨렸다 · 짧을수록 안전)
-curl -fsSL --max-time 30 "https://raw.githubusercontent.com/nomutefb/editor/main/docs/drivesync-fix.sh" -o "$HOME/dsfix" 2>/dev/null \
-  && [ -s "$HOME/dsfix" ] && head -1 "$HOME/dsfix" | grep -q '^#!' \
-  && { chmod +x "$HOME/dsfix"; echo "  ℹ 다음부터는 짧게:  sh ~/dsfix"; } || rm -f "$HOME/dsfix"
+# ⚠ 제자리 덮어쓰기 금지 = 임시본 → mv(260831 실사고 봉합).
+#   실사고 = `sh ~/dsfix` 로 돌리는 중에 이 줄이 **실행 중인 그 파일 자신**을 제자리에서 덮어썼다.
+#   셸은 스크립트를 통째로 안 읽고 바이트 자리를 들고 이어 읽으므로, 내용이 그 자리에서 바뀌면
+#   남은 부분을 문장 중간부터 읽는다 → `158: Syntax error: Unterminated quoted string`.
+#   ⚠ 확정 증거 = 실행 중이던 판은 **150줄**인데 오류가 난 줄은 **158** = 그 파일에 없는 줄이고,
+#     새로 받은 판이 157줄이다(양쪽 다 문법 검사 통과 = 코드 결함이 아니라 갈아치우기 사고).
+#   ▷ mv 는 이름만 바꿔 다는 것이라 원래 알맹이가 그대로 살아 있다 → 돌던 셸은 끝까지 옛 판을
+#     읽고, 다음 실행부터 새 판이 돈다. 정본 문법 = drive-gallery-sync.sh 자가 갱신($0.new → mv).
+curl -fsSL --max-time 30 "https://raw.githubusercontent.com/nomutefb/editor/main/docs/drivesync-fix.sh" -o "$HOME/dsfix.new" 2>/dev/null \
+  && [ -s "$HOME/dsfix.new" ] && head -1 "$HOME/dsfix.new" | grep -q '^#!' \
+  && [ "$(tail -1 "$HOME/dsfix.new")" = "exit 0" ] \
+  && { mv "$HOME/dsfix.new" "$HOME/dsfix"; chmod +x "$HOME/dsfix"; echo "  ℹ 다음부터는 짧게:  sh ~/dsfix"; }
+rm -f "$HOME/dsfix.new"
 rm -f "$HOME/.drivesync.last"
 sh "$SYNC"
 echo "  실행 끝 · 남은 배치: $(cnt "$NEW")건 / 못 받은 것: $(cnt "$MISS")건"
