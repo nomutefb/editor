@@ -7668,8 +7668,14 @@
   {
    "query": "전기 요금",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/eb2e5ccb65.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.ajunews.com/view/20260901090955122",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-09-01T13:20:00+09:00",
    "delta": -3,
@@ -7705,8 +7711,14 @@
   {
    "query": "kbo 리그 월간 mvp",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/335251501b.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://sports.khan.co.kr/article/202609011126013/",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-01T13:20:00+09:00",
    "delta": -4,
@@ -7721,8 +7733,14 @@
   {
    "query": "고령군수",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/25d396f7c0.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.ajunews.com/view/20260901091637158",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-01T13:40:00+09:00",
    "isNew": true,
@@ -7886,10 +7904,8 @@
  ],
  "gtrends_pool_updated": "2026-09-01T16:49:46+09:00",
  "_trend_img": {
-  "tried": "2026-09-01T16:12:53+09:00",
+  "tried": "2026-09-01T16:49:46+09:00",
   "fail": {
-   "하영": "2026-09-01T14:52:12+09:00",
-   "이진호": "2026-09-01T14:52:12+09:00",
    "스테이트 오브 플레이": "2026-09-01T15:33:24+09:00"
   }
  },
@@ -18440,7 +18456,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-01T16:49:46+09:00"
+    "first_seen": "2026-09-01T16:49:46+09:00",
+    "kw": "AWS Agent Registry, 에이전트 카탈로그",
+    "sum": "AWS가 에이전트·도구를 등록·관리하는 Agent Registry를 정식 출시했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
