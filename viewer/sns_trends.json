@@ -7603,8 +7603,14 @@
   {
    "query": "버거킹",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/210da1fbc4.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.edaily.co.kr/News/Read?newsId=02538726645552896",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-09-01T09:40:00+09:00",
    "delta": -1,
@@ -7620,8 +7626,14 @@
   {
    "query": "에너지",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/3e7a4d070c.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.segye.com/newsView/20260528512863?OutUrl=naver",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-09-01T10:10:00+09:00",
    "delta": -3,
@@ -7651,8 +7663,14 @@
   {
    "query": "서건창",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/fcbec39b45.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.newspim.com/news/view/20260831000720",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-09-01T11:10:00+09:00",
    "delta": -8,
@@ -7725,8 +7743,14 @@
   {
    "query": "감염",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/edfc952f64.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.sedaily.com/article/20082100",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-09-01T10:30:00+09:00",
    "delta": -10,
@@ -7860,7 +7884,7 @@
  ],
  "gtrends_pool_updated": "2026-09-01T13:34:35+09:00",
  "_trend_img": {
-  "tried": "2026-09-01T12:57:23+09:00",
+  "tried": "2026-09-01T13:34:35+09:00",
   "fail": {
    "도안 리쓰": "2026-09-01T11:41:31+09:00",
    "최윤범": "2026-09-01T11:41:31+09:00",
@@ -18485,7 +18509,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-01T13:34:35+09:00"
+    "first_seen": "2026-09-01T13:34:35+09:00",
+    "kw": "Hyper3D, WorldGen, 3D 공간 생성",
+    "sum": "Hyper3D가 이미지 한 장으로 3D 공간을 생성하는 WorldGen을 공개했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -18500,7 +18527,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-09-01T13:34:35+09:00"
+    "first_seen": "2026-09-01T13:34:35+09:00",
+    "kw": "GitHub Copilot, 모델 교체",
+    "sum": "GitHub Copilot이 9월 1일 모델 6개를 새 모델로 교체한다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
