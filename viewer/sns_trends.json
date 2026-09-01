@@ -7605,8 +7605,14 @@
   {
    "query": "훈련",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/e8ac0614ca.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.sedaily.com/article/20084364",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-09-01T09:10:00+09:00",
    "delta": -5,
@@ -7620,8 +7626,14 @@
   {
    "query": "제주서부경찰서",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/d45683d09a.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.mt.co.kr/policy/2026/09/01/2026090110543578740",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-01T09:00:00+09:00",
    "delta": -3,
@@ -7672,8 +7684,14 @@
   {
    "query": "육아휴직",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/cb1f3d5885.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.ytn.co.kr/_ln/0103_202608160631073500",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-01T09:10:00+09:00",
    "delta": -8,
@@ -7687,8 +7705,14 @@
   {
    "query": "김봉곤",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/4d7d9ae2ed.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.newsis.com/view/NISX20260611_0003666277",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-01T09:10:00+09:00",
    "delta": -8,
@@ -7756,8 +7780,14 @@
   {
    "query": "광주은행",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/3cc0fd951a.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://view.asiae.co.kr/article/2026083116184259323",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-09-01T09:00:00+09:00",
    "isNew": true,
@@ -7876,9 +7906,8 @@
  ],
  "gtrends_pool_updated": "2026-09-01T12:23:55+09:00",
  "_trend_img": {
-  "tried": "2026-09-01T11:34:15+09:00",
+  "tried": "2026-09-01T12:23:55+09:00",
   "fail": {
-   "김원호": "2026-09-01T10:18:04+09:00",
    "김용범": "2026-09-01T10:55:50+09:00",
    "경기지역화폐": "2026-09-01T10:55:50+09:00",
    "도안 리쓰": "2026-09-01T11:41:31+09:00",
@@ -18400,7 +18429,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-01T12:23:55+09:00"
+    "first_seen": "2026-09-01T12:23:55+09:00",
+    "kw": "TimesFM-3, 구글, 블로그",
+    "sum": "계정이 TimesFM-3 소개 구글 블로그 링크를 공유했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -18415,7 +18447,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-09-01T12:23:55+09:00"
+    "first_seen": "2026-09-01T12:23:55+09:00",
+    "kw": "TimesFM-3, 구글, 시계열예측",
+    "sum": "구글이 다변량 시계열 예측 모델 TimesFM-3를 공개했다",
+    "sv": 1
    },
    {
     "account": "aipeekme",
@@ -18430,7 +18465,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-09-01T12:23:55+09:00"
+    "first_seen": "2026-09-01T12:23:55+09:00",
+    "kw": "제품광고, 프롬프트",
+    "sum": "계정이 제품광고용 프롬프트 활용법을 소개하고 있다",
+    "sv": 1
    },
    {
     "account": "aipeekme",
