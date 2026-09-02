@@ -379,32 +379,52 @@
  ],
  "threads": [
   {
+   "account": "daily_ai_star",
+   "text": "다만 v2.37부터 Coder Tasks는 새 릴리스에서 비활성화·폐기됩니다. 기존 사용자는 v2.34 Extended Support Release에 머물거나 Coder Agents로 옮겨야 합니다.\n\nAPI도 바로 손봐야 합니다. Chats API는 `/api/experimental`에서 `/api/v2`로 이동했고, 실험 경로는 v2.38에서 제거될 예정입니다. 조직별 모델·MCP 설정도 다시 확인해야 합니다.\n\n코딩 에이전트의 기준선이 “자동화 기능이 있는가”에서 “조직 인프라 안에서 권한·비용·마이그레이션까지 운영할 수 있는가”로 이동했습니다.\n\nhttps://coder.com/changelog/coder-2-37",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1788356667,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DcyX3zkGbmZ",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
+   "text": "Coder Agents가 9월 1일 v2.37에서 정식 출시됐습니다.\n\nCoder는 대화형 개발뿐 아니라 headless 백그라운드 작업을 조직이 통제하는 인프라 안에서 실행할 수 있다고 설명했습니다. API로 장시간 작업을 맡기고 여러 에이전트를 병렬로 돌립니다.\n\n이번 GA에는 내구성 개선, 안정 API, MCP·모델 접근 제어, AI Gateway 기반 사용량·비용 관찰이 포함됐습니다.\n\n에이전트가 코드를 쓰는 기능보다, 어디서 실행되고 누가 비용과 권한을 통제하는지가 앞에 나왔습니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1788356657,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DcyX2rgGQvF",
+   "region": "kr"
+  },
+  {
    "account": "choi.openai",
    "text": "3/ Fable 5.1로 Three.js 기반의 고품질 3D 장면을 제작한 사례가 공개됐습니다.\n여러 서브에이전트를 활용해도 프롬프트 작성과 생성에 수시간이 걸리며, 비슷한 작업은 Opus 5에서도 약 4~6시간이 걸렸다고 설명했습니다.\n\nAI 3D 결과물도 모델 성능뿐 아니라 프롬프트 설계와 충분한 작업 시간이 완성도에 큰 영향을 주고 있습니다.\n\nx@ChrisGPT",
-   "likes": 3,
+   "likes": 6,
    "cmts": 1,
    "time": 1788354029,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/789925497_1413561237360046_2486293532103997070_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&ig_cache_key=Mzk3NzI2MDAxMzM5MTMyNDcxMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=qCpf9wnnu4oQ7kNvwGBhWLu&_nc_oc=AdrN2CxAMDu0p_oKOvOiRW369uSRl5bEd0XahhfMj9K8VHv4Zf2rnkbo97PelPjVoDE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=N7Tj82XYbwWJNbwuy2C54w&_nc_ss=7a22e&oh=00_AQIaac3uzjcjIx9REtQteCSqcnPsdJv_8SvS2A0Ayw13OQ&oe=6A9E12F8",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/789925497_1413561237360046_2486293532103997070_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&ig_cache_key=Mzk3NzI2MDAxMzM5MTMyNDcxMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=qCpf9wnnu4oQ7kNvwGBhWLu&_nc_oc=AdrN2CxAMDu0p_oKOvOiRW369uSRl5bEd0XahhfMj9K8VHv4Zf2rnkbo97PelPjVoDE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=QJSECXz5UA10M8Z47X5gfQ&_nc_ss=7a22e&oh=00_AQJzDgo1kuKigL-cywwppUhh1PTU9q2cmeFhsDRDpVVjXA&oe=6A9E12F8",
    "url": "https://www.threads.com/@choi.openai/post/DcyEOjljiYm",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "2/ Fable 5.1에 한 번의 프롬프트만 입력해 Mario Kart 스타일의 3D 레이싱 게임을 구현한 사례가 공개됐습니다.\n트랙과 카트, 주행 시스템을 갖춘 실제 플레이 가능한 게임을 한 번에 완성했습니다.\n\n게임 개발에서도 여러 차례 수정하지 않고 첫 결과부터 플레이 가능한 수준의 3D 게임을 만드는 사례가 나오고 있습니다.\n\nx@bridgemindai",
-   "likes": 5,
+   "likes": 10,
    "cmts": 1,
    "time": 1788354019,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/791890758_1024403903926773_6517678333212557714_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk3NzI1OTY5OTY1NzI2Mjg4OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=uSQQCfmre6gQ7kNvwE4cykn&_nc_oc=Adrfc6FzHU4wQixD8WA7t7I2kY5KaiFi-ovy87e9AFgWnVbI_Eeq0sAiLC6QYmsTQHA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=N7Tj82XYbwWJNbwuy2C54w&_nc_ss=7a22e&oh=00_AQKWxfz38oh52Hj7zd-YfmIIA67h2C58cM3u7TsYChr3XQ&oe=6A9E08F2",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/791890758_1024403903926773_6517678333212557714_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk3NzI1OTY5OTY1NzI2Mjg4OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=uSQQCfmre6gQ7kNvwE4cykn&_nc_oc=Adrfc6FzHU4wQixD8WA7t7I2kY5KaiFi-ovy87e9AFgWnVbI_Eeq0sAiLC6QYmsTQHA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=QJSECXz5UA10M8Z47X5gfQ&_nc_ss=7a22e&oh=00_AQJX2jEEwh75-O7yeSRH-zDT7CUFMfDhU6_avSYe9s4kag&oe=6A9E08F2",
    "url": "https://www.threads.com/@choi.openai/post/DcyEJ_ZjEcp",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "1/ Fable 5.1에 건축 부지 사진 한 장을 입력해 해당 공간에 맞는 주택을 설계한 사례가 공개됐습니다.\nBlender를 코드로 제어해 3D로 렌더링하고, 집 안팎을 둘러보는 시네마틱 영상까지 제작했습니다.\n\n건축도 부지 사진에서 설계와 3D 시각화, 소개 영상 제작까지 AI로 이어서 작업하는 사례가 나오고 있습니다.\n\nx@alexalbert__",
-   "likes": 49,
+   "likes": 70,
    "cmts": 5,
    "time": 1788354012,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/791564109_28209414955383276_2995164605656154987_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk3NzI1OTQ4NDkwMDYxNDUxOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=T08R6b7PKWgQ7kNvwELHW5o&_nc_oc=AdpR_blglEfRD9U43-fvvo__I7ehJYqdmxp7NABfzzbkB3-bX1NkHllJK0wSFQ7CZvg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=N7Tj82XYbwWJNbwuy2C54w&_nc_ss=7a22e&oh=00_AQKXL6K3vS0g56pd1ckdM3wNV15ms8cO-JPn80k4RkMYBg&oe=6A9DFC9D",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/791564109_28209414955383276_2995164605656154987_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk3NzI1OTQ4NDkwMDYxNDUxOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=T08R6b7PKWgQ7kNvwELHW5o&_nc_oc=AdpR_blglEfRD9U43-fvvo__I7ehJYqdmxp7NABfzzbkB3-bX1NkHllJK0wSFQ7CZvg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=QJSECXz5UA10M8Z47X5gfQ&_nc_ss=7a22e&oh=00_AQKTmPyM49urmr877f1ZKJDQYS0-fFiW0pMVajGmoxdsEQ&oe=6A9DFC9D",
    "url": "https://www.threads.com/@choi.openai/post/DcyEG3ZDeF3",
    "region": "kr"
   },
@@ -424,7 +444,7 @@
    "likes": 8,
    "cmts": 1,
    "time": 1788350776,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/792564118_1661485438873750_3396164276059583622_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk3NzI5NjgwNTI2MzYwNjAyNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Ec2T97shZQQQ7kNvwGZQMFS&_nc_oc=AdoST5G86VfCMYYTfC5CPypTpY5KA6PFe1q_N_vkYlK2Z46zYWXeSnJqbN5oCRs6_nI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=WvjSiaFcSJ8A-EHQVjVCyw&_nc_ss=7a22e&oh=00_AQL1Jn_AQJDFJj1v5bcfPehz5RZ7LsK6XVWFghS3bUXdnQ&oe=6A9DDF17",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/792564118_1661485438873750_3396164276059583622_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk3NzI5NjgwNTI2MzYwNjAyNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Ec2T97shZQQQ7kNvwGZQMFS&_nc_oc=AdoST5G86VfCMYYTfC5CPypTpY5KA6PFe1q_N_vkYlK2Z46zYWXeSnJqbN5oCRs6_nI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=-EsLlHxqPJG_Ilnguzn3Kw&_nc_ss=7a22e&oh=00_AQJ56usjXAz7lfy-cBbcnbWqBwm3CzRDvwvqdVdIWyJDmw&oe=6A9E1757",
    "url": "https://www.threads.com/@kopp/post/DcyMl8sCIEL",
    "region": "kr"
   },
@@ -451,10 +471,10 @@
   {
    "account": "aicoffeechat",
    "text": "\"Fable 5.1 좀 이렇게 써\"\n\nFable 5.1 프롬프팅 가이드 문서입니다. 어떻게 Fable 5.1의 effort를 사용해야할지의 노하우와 Fable 5.1의 \"글쓰기 능력\"을 올려주는 프롬프트 등 여러 사례들이 정리되어있습니다.\n\n공유된 프롬프트도 함께 공유드립니다.",
-   "likes": 36,
+   "likes": 37,
    "cmts": 5,
    "time": 1788339848,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/793141649_17955430212232485_9051093934243362487_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk3NzIwNTM3MTgzNjI1MTQwMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTY3MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=P88PsI2Mp88Q7kNvwGsS-_z&_nc_oc=Ado1GsMr0-gx9Q-Mc16fLHQ6Do2An4OcREB4EUrJ2lCeeT_fa0th0_jfBU5ZyVqvxwE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=0EGKnz0aKWhOWBWl9l1P_g&_nc_ss=7a22e&oh=00_AQI3SdX-7gRRXXKmBH-XcQJedRaLv4CP8wowUmKkniuIRg&oe=6A9DF897",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/793141649_17955430212232485_9051093934243362487_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk3NzIwNTM3MTgzNjI1MTQwMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTY3MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=P88PsI2Mp88Q7kNvwGsS-_z&_nc_oc=Ado1GsMr0-gx9Q-Mc16fLHQ6Do2An4OcREB4EUrJ2lCeeT_fa0th0_jfBU5ZyVqvxwE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=bcfun443iR2G3agz8PAVIg&_nc_ss=7a22e&oh=00_AQI-C3VwkhTyQarXL6OVZG0Yx8yGq-Nj5Tzkgkgggol74g&oe=6A9DF897",
    "url": "https://www.threads.com/@aicoffeechat/post/Dcx3zarEz0L",
    "region": "kr"
   },
@@ -464,7 +484,7 @@
    "likes": 0,
    "cmts": 0,
    "time": 1788323987,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/793678110_1635565601325433_4627897048651398014_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk3NzA3MjExNTc0MzU1NDE5NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=eup2JKyT2awQ7kNvwEYW-cI&_nc_oc=AdrhmNgyzLGtS_XgQcVDxORullWe2U0TuWwBbXyHjxDTIv7conN3vSlfqnCAFCMoC9M&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=WoVwAUAiOoi-_o_VrnXCRA&_nc_ss=7a22e&oh=00_AQLxRrxuJh8Qwv4xePK-Tp7wfd30RtMIECyvt1C9aB5g6g&oe=6A9DF913",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/793678110_1635565601325433_4627897048651398014_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk3NzA3MjExNTc0MzU1NDE5NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=eup2JKyT2awQ7kNvwEYW-cI&_nc_oc=AdrhmNgyzLGtS_XgQcVDxORullWe2U0TuWwBbXyHjxDTIv7conN3vSlfqnCAFCMoC9M&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=D9N5n5bdT1o6ESrSnwq5YA&_nc_ss=7a22e&oh=00_AQK7_wyE0hpTZ5ugrfZvbt-bY01qybVG-025LTO5k_rFBA&oe=6A9DF913",
    "url": "https://www.threads.com/@aipeekme/post/DcxZgSRAXqS",
    "region": "kr"
   },
@@ -476,26 +496,6 @@
    "time": 1788322711,
    "thumb": "",
    "url": "https://www.threads.com/@daily_ai_star/post/DcxXG0TGR7Y",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "Fable 5.1과 Mythos 5.1은 같은 모델입니다. 차이는 안전장치입니다.\n\nFable 5.1은 일반 공개되고, Mythos 5.1은 사이버보안·생명과학 분야의 검증된 사용자에게만 열립니다. Fable 5.1의 사이버보안 안전장치는 이전보다 오탐을 60% 줄였고, 소프트웨어 취약점 발견은 허용하지만 익스플로잇 작성은 막습니다.\n\n성능과 권한을 하나의 모델 이름으로 비교하기 어려워졌습니다.",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1788322700,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DcxXFdHmQoJ",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "Claude Fable 5.1이 9월 1일 공개됐습니다.\n\nAnthropic은 일반 작업 비용이 Fable 5보다 약 25% 낮고, 고도로 에이전트적인 작업에서는 최대 약 45% 절감된다고 설명했습니다. CursorBench 3.2.0 점수는 73.4%로 Fable 5의 70.5%보다 높았습니다.\n\n모델이 좋아졌는데 더 싸졌습니다. 문제는 여기서 끝나지 않습니다.",
-   "likes": 0,
-   "cmts": 2,
-   "time": 1788322691,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DcxXEZwmRuO",
    "region": "kr"
   },
   {
@@ -514,15 +514,15 @@
    "likes": 1,
    "cmts": 1,
    "time": 1788319884,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/791246970_18084681476407306_7175578159980146574_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk3NzAzNzgzNTUyMjc4NTQ2OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=CWgykovyOZkQ7kNvwGET7L-&_nc_oc=AdpivsbMwJ6vB3rTqdfgZm2CyCAEy4LGsyup0rlsBLd8htDheyQAlU1cbunCAXGe_XY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=WoVwAUAiOoi-_o_VrnXCRA&_nc_ss=7a22e&oh=00_AQLrXyZQ8XIb5tuQOArmQHTxzlj6_F5OBK7zNO1EfTEYKA&oe=6A9DF976",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/791246970_18084681476407306_7175578159980146574_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk3NzAzNzgzNTUyMjc4NTQ2OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=CWgykovyOZkQ7kNvwGET7L-&_nc_oc=AdpivsbMwJ6vB3rTqdfgZm2CyCAEy4LGsyup0rlsBLd8htDheyQAlU1cbunCAXGe_XY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=D9N5n5bdT1o6ESrSnwq5YA&_nc_ss=7a22e&oh=00_AQKBsmhX9uVRwFOXNHAGZQ6ofNXlKL0KEd_KWbGcKg0xfw&oe=6A9DF976",
    "url": "https://www.threads.com/@aipeekme/post/DcxRtcUn8C9",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "Claude Fable 5.1 활용 사례가 쏟아지고 있습니다.\n\nF-35A 전투기부터 SolidWorks CAD, Mario Kart 게임, 3D 월드까지 전부 코드로 만들어냈는데요.\n\n출시 직후 공개된 놀라운 활용 사례 14가지를 정리했습니다🧵",
-   "likes": 53,
-   "cmts": 19,
+   "likes": 80,
+   "cmts": 22,
    "time": 1788354008,
    "thumb": "",
    "url": "https://www.threads.com/@choi.openai/post/DcySz6lj2Rt",
@@ -539,23 +539,23 @@
    "region": "kr"
   },
   {
+   "account": "daily_ai_star",
+   "text": "Fable 5.1과 Mythos 5.1은 같은 모델입니다. 차이는 안전장치입니다.\n\nFable 5.1은 일반 공개되고, Mythos 5.1은 사이버보안·생명과학 분야의 검증된 사용자에게만 열립니다. Fable 5.1의 사이버보안 안전장치는 이전보다 오탐을 60% 줄였고, 소프트웨어 취약점 발견은 허용하지만 익스플로잇 작성은 막습니다.\n\n성능과 권한을 하나의 모델 이름으로 비교하기 어려워졌습니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1788322700,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DcxXFdHmQoJ",
+   "region": "kr"
+  },
+  {
    "account": "aipeekme",
    "text": "드론 항공 영상으로 도로 위 차량을 실시간 추적하고 교통 밀도 히트맵을 생성하는 스카이사이트 AI(SkySight AI)가 공개됐습니다.\n맞춤형으로 수정한 YOLOv12 모델과 다중 객체 추적 알고리즘인 바이트랙(ByteTrack)을 결합한 구조입니다.\n상공에서 촬영한 원본 영상 속 대형 화물차와 소형 승용차를 크기별로 분류해 흔들림 없이 추적해 냅니다.\n개별 차량 위치 데이터를 기반으로 혼잡 구역을 시각화하는 동적 밀도 지도까지 즉시 연산합니다.\n공중 촬영 영상은 객체 크기가 작고 흔들림이 잦아 추적 ID가 자주 끊기곤 합니다.\n검출 성능을 높인 최신 비전 모델과 연산량을 줄인 추적기를 묶어 이 지연을 메운 것으로 보입니다.\n관제 센터의 고정식 CCTV 사각지대를 임시로 메우는 용도로는 쓰임새가 꽤 분명해 보입니다.\n다만 배터리 한계로 비행시간이 짧은 드론 환경에서 기기 자체 연산이 가능한지, 별도 서버로 영상을 쏘아 처리하는지는 더 확인해 볼 부분입니다.",
    "likes": 2,
    "cmts": 0,
    "time": 1788316143,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/791848895_908840465278202_2169079600903227517_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk3NzAwNjMyMDYxMTg3MjMxNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=dGyFgUaUxpwQ7kNvwFhF5ub&_nc_oc=AdonozHotLnhs-gOr_5NRIkcQys2aSJXioJiNT1Kgy6P_V10VIOABnGCo4cG7lQzRy4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=WoVwAUAiOoi-_o_VrnXCRA&_nc_ss=7a22e&oh=00_AQI9iOffr8IyM0IFLeFfMzhDNzNRA3QBudvpRzzvtGcrNQ&oe=6A9E01EE",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/791848895_908840465278202_2169079600903227517_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk3NzAwNjMyMDYxMTg3MjMxNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=dGyFgUaUxpwQ7kNvwFhF5ub&_nc_oc=AdonozHotLnhs-gOr_5NRIkcQys2aSJXioJiNT1Kgy6P_V10VIOABnGCo4cG7lQzRy4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=D9N5n5bdT1o6ESrSnwq5YA&_nc_ss=7a22e&oh=00_AQLroA2Q1VcAO-GA0jGouME8agEek-rtb2oQJi3ewAnIJQ&oe=6A9E01EE",
    "url": "https://www.threads.com/@aipeekme/post/DcxKi1xjc47",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "AI 코딩 도구의 기준은 이제 답변 품질만이 아니라, 작업을 어떤 실행 프로토콜로 이어가는가에 가까워집니다.\n\nhttps://www.qt.io/blog/qt-ai-assistant-retires-as-we-invest-in-agentic-development-tools",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1788309783,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/Dcw-cxzmZ6u",
    "region": "kr"
   },
   {
@@ -564,7 +564,7 @@
    "likes": 9,
    "cmts": 1,
    "time": 1788348624,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/791738291_1504323724795405_8717133316791499954_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk3NzI0NDI0MDA3NDU5ODAyOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=YxRbM0JcJj0Q7kNvwH8Suym&_nc_oc=AdpHzabDiXHq471ELhWsLoIiJ_jMscU_bimNZH_6nj8GTcoKg7TzXWMZZtfRQPEfdlU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=N7Tj82XYbwWJNbwuy2C54w&_nc_ss=7a22e&oh=00_AQIU-7CfSiaZEY21lKkjLf_WK4W0uDeNA7xTIk48aT5Sfw&oe=6A9E08B5",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/791738291_1504323724795405_8717133316791499954_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk3NzI0NDI0MDA3NDU5ODAyOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=YxRbM0JcJj0Q7kNvwH8Suym&_nc_oc=AdpHzabDiXHq471ELhWsLoIiJ_jMscU_bimNZH_6nj8GTcoKg7TzXWMZZtfRQPEfdlU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=QJSECXz5UA10M8Z47X5gfQ&_nc_ss=7a22e&oh=00_AQLJVvmhqOJOx0JbwJx-JRO4tJ0TL_f8dA17UQTT4ETgcQ&oe=6A9E08B5",
    "url": "https://www.threads.com/@choi.openai/post/DcyApBinWaM",
    "region": "kr"
   },
@@ -574,7 +574,7 @@
    "likes": 6,
    "cmts": 1,
    "time": 1788338197,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/791143564_17955427371232485_1614497115707727635_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk3NzE5MTUxMDYxNzg2MDA3OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMjA2Ni5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=2KejGn-04GwQ7kNvwEyJmw5&_nc_oc=Adr8zIydnivMg3Go_LAgsBB8GpmbwK0qpKUkfktfjcxa3YWufNFG2BNjW7Q1zAZxKaQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=0EGKnz0aKWhOWBWl9l1P_g&_nc_ss=7a22e&oh=00_AQJqFm0UmW0k_XQ8SQOXG6Xdvqjxqr-yWxTi3EHpj_X7KA&oe=6A9E0977",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/791143564_17955427371232485_1614497115707727635_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk3NzE5MTUxMDYxNzg2MDA3OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMjA2Ni5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=2KejGn-04GwQ7kNvwEyJmw5&_nc_oc=Adr8zIydnivMg3Go_LAgsBB8GpmbwK0qpKUkfktfjcxa3YWufNFG2BNjW7Q1zAZxKaQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=bcfun443iR2G3agz8PAVIg&_nc_ss=7a22e&oh=00_AQIDVkkoJbTuIv4p4tvD8WhywL_nuzSPlV3oy4DNcfRe8g&oe=6A9E0977",
    "url": "https://www.threads.com/@aicoffeechat/post/Dcx0p03EzLX",
    "region": "kr"
   }
@@ -586,7 +586,7 @@
    "views": 1900000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooDPRCUDqBpuPTmFEWk6RAIgEBqnfZwgeRICBU~tplv-tiktokx-origin.image?dr=14575&x-expires=1788526800&x-signature=1yKo8bSr1YPv1t%2BPRdV8nVchyEg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooDPRCUDqBpuPTmFEWk6RAIgEBqnfZwgeRICBU~tplv-tiktokx-origin.image?dr=14575&x-expires=1788530400&x-signature=VliykviV2iVMUY0SYUiIhKtAVzE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785177115,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7667277327386135826",
    "region": "kr"
@@ -597,7 +597,7 @@
    "views": 1600000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAbAoCECNeDAVDgQBcAkFzYBfoUADqQCQWIuZl~tplv-tiktokx-origin.image?dr=14575&x-expires=1788526800&x-signature=8wkyf3078%2B3WUATrqly7voJtGVc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAbAoCECNeDAVDgQBcAkFzYBfoUADqQCQWIuZl~tplv-tiktokx-origin.image?dr=14575&x-expires=1788530400&x-signature=%2Fo66UfP9G6v2KYqL9UdRl1tI23Q%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785471372,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7668541152869616914",
    "region": "kr"
@@ -605,10 +605,10 @@
   {
    "account": "jaemyung_lee",
    "title": "이번 정류장은 브라질입니다 #이재명 #대통령 #Brasil #Brazil",
-   "views": 779400,
+   "views": 779500,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooBGAi8A6InMPiZBpU9fBkTRtAAwBKw0m1E0Ag~tplv-tiktokx-origin.image?dr=14575&x-expires=1788526800&x-signature=WBhNarDFfvbDSHxn6WgzuaL%2B4Ws%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooBGAi8A6InMPiZBpU9fBkTRtAAwBKw0m1E0Ag~tplv-tiktokx-origin.image?dr=14575&x-expires=1788530400&x-signature=rBJuQH9ztdjtcz42g0gI3NJcybo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785109781,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7666988131442281746",
    "region": "kr"
@@ -619,7 +619,7 @@
    "views": 493500,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o43E0EJDgKsBeuyFfnqRBCAvI1sAAbI2NsPlIc~tplv-tiktokx-origin.image?dr=14575&x-expires=1788526800&x-signature=kUHYZd4MzAAdnaZ0QLJANCZp53A%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o43E0EJDgKsBeuyFfnqRBCAvI1sAAbI2NsPlIc~tplv-tiktokx-origin.image?dr=14575&x-expires=1788530400&x-signature=O3JOTfqYaHvT4AvHTcM8qMNAlkQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785519099,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7668746136877812999",
    "region": "kr"
@@ -630,7 +630,7 @@
    "views": 375000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQpDHATAEBzAIGFgqwDA4hofdRfVCsCaqEBIkL~tplv-tiktokx-origin.image?dr=14575&x-expires=1788526800&x-signature=Xx0mu19wdsi%2B3Z4cgah3dDxLxGQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQpDHATAEBzAIGFgqwDA4hofdRfVCsCaqEBIkL~tplv-tiktokx-origin.image?dr=14575&x-expires=1788530400&x-signature=guZGuUuZ8NfXhvoXrIYWonoqJ24%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785365622,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7668086960883354887",
    "region": "kr"
@@ -641,7 +641,7 @@
    "views": 279400,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1788526800&x-signature=BI0UKNwuLWhRPvKiW43oa7cS%2FsA%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1788530400&x-signature=p6DmCXAcQESLWOIqFHi4ARcLa8k%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785656353,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7669335640793763079",
    "region": "kr"
@@ -649,10 +649,10 @@
   {
    "account": "jaemyung_lee",
    "title": "우리 국민의 구조에 모든 역량을 총동원하겠습니다  #네팔 #긴급회의 #prayfornepal",
-   "views": 256600,
+   "views": 256800,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4ECXepekgFVLDAPQbcqjSdGAIaIofEozvI9Qh~tplv-tiktokx-origin.image?dr=14575&x-expires=1788526800&x-signature=K6X%2FDRjmKM%2FwUXQEwmkG1HKoTso%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4ECXepekgFVLDAPQbcqjSdGAIaIofEozvI9Qh~tplv-tiktokx-origin.image?dr=14575&x-expires=1788530400&x-signature=2TYe8%2FdzDqsHNWJMonA5VT2Abgk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1787831518,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7678677903122369800",
    "region": "kr"
@@ -663,7 +663,7 @@
    "views": 238800,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-i-photomode-sg/91a2f3151d9741689af70b1d1f8aac3a~tplv-photomode-image.jpeg?dr=14555&x-expires=1788526800&x-signature=7ODDKXEba7e69VlKlPJVLKriL8c%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=9b759fb9&idc=my2&ftpl=1",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-i-photomode-sg/91a2f3151d9741689af70b1d1f8aac3a~tplv-photomode-image.jpeg?dr=14555&x-expires=1788530400&x-signature=6%2FYxJPc3C7%2BWn1FC1kNzqNerV9s%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=9b759fb9&idc=my2&ftpl=1",
    "time": 1785270939,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7667680300490558728",
    "region": "kr"
@@ -674,7 +674,7 @@
    "views": 196500,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/osApGgttBIBbbk6zA4iAKdIdkBfL1AAEiSwmCM~tplv-tiktokx-origin.image?dr=14575&x-expires=1788526800&x-signature=Mq0%2FLxk%2FFZlMFbcsVZQykSBVCF4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/osApGgttBIBbbk6zA4iAKdIdkBfL1AAEiSwmCM~tplv-tiktokx-origin.image?dr=14575&x-expires=1788530400&x-signature=b3mKBtgyFYs2tefc0wl5R83usPU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1784945079,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7666280741554195730",
    "region": "kr"
@@ -685,7 +685,7 @@
    "views": 139900,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okkIgGYEt7AlB4qvUF5yCAEAjD8vfKAfVACbBp~tplv-tiktokx-origin.image?dr=14575&x-expires=1788526800&x-signature=aAST7QXqwNxXCtTJTDzCo04ycfI%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okkIgGYEt7AlB4qvUF5yCAEAjD8vfKAfVACbBp~tplv-tiktokx-origin.image?dr=14575&x-expires=1788530400&x-signature=srsJC%2Ff7bgv0pYlB89K3qDAF8m8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1784911601,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7666136953456315666",
    "region": "kr"
@@ -693,10 +693,10 @@
   {
    "account": "tictok_ent",
    "title": "현빈, '메이드 인 코리아2' 기대감 높이는 카리스마 / 디즈니+ ‘메이드 인 코리아 시즌2’ 제작발표회 #현빈 #정우성 #우도환 #서은수 #원지안 #정성일 #노재원 #차희 #우민호 #메이드인코리아",
-   "views": 2040,
+   "views": 2144,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oEXkfFCVpDqClvCzrgAUAZOVEfWtp2BEENIA6A~tplv-tiktokx-origin.image?dr=14575&x-expires=1788526800&x-signature=faLDwL3OoJR6A9f87TxKaqRza%2Bg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oEXkfFCVpDqClvCzrgAUAZOVEfWtp2BEENIA6A~tplv-tiktokx-origin.image?dr=14575&x-expires=1788530400&x-signature=Sba8xgay9rX5fG1iHLElw%2FFdWdg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1788325111,
    "url": "https://www.tiktok.com/@tictok_ent/video/7680797867333750036",
    "region": "kr"
@@ -704,25 +704,16 @@
   {
    "account": "tictok_ent",
    "title": "서은수, 분위기까지 완벽 / 디즈니+ ‘메이드 인 코리아 시즌2’ 제작발표회 #현빈 #정우성 #우도환 #서은수 #원지안 #정성일 #노재원 #차희 #우민호 #메이드인코리아",
-   "views": 895,
+   "views": 944,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIeV0trEEWGLUveIKWLjzIAPDiAPQAFf1bASnA~tplv-tiktokx-origin.image?dr=14575&x-expires=1788526800&x-signature=ZcT3Sa9sCJZLgujrIC5jtNQ9LYM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIeV0trEEWGLUveIKWLjzIAPDiAPQAFf1bASnA~tplv-tiktokx-origin.image?dr=14575&x-expires=1788530400&x-signature=u4nHlA8YXvv1q13KfmIjyGMZ7R0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1788324989,
    "url": "https://www.tiktok.com/@tictok_ent/video/7680797345356942612",
    "region": "kr"
   }
  ],
  "reddit": [
-  {
-   "sub": "WhatIsTheTea",
-   "title": "A father discovered that his son was bullying a classmate with cancer because he had no hair, and he acted in this way to teach him a lesson. In your opinion, is this a fair punishment?",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/cWx0ZzE2ZXhneW1oMRB8ki4f4UR8vnoH4vDlGzmP8_gEJoLLBTQiGM1EYeZB.png?width=640&crop=smart&auto=webp&s=201f52d4598aa8e590ee86aa01086ea4c81953fe",
-   "time": 1788288868,
-   "url": "https://www.reddit.com/r/WhatIsTheTea/comments/1w4l9my/a_father_discovered_that_his_son_was_bullying_a/"
-  },
   {
    "sub": "MadeMeSmile",
    "title": "Brendan Fraser patiently helps a fan trying to take a photo with him",
@@ -731,51 +722,6 @@
    "thumb": "https://external-preview.redd.it/dXAwc2dmOGl2Mm5oMfeTUK2TFN9PzKkO-QRUcA8CjQ3q1UtdQJjTgg1Br9By.png?width=640&crop=smart&auto=webp&s=f20677a6ce8110fedb6dbf88679662b37f8bfe21",
    "time": 1788342230,
    "url": "https://www.reddit.com/r/MadeMeSmile/comments/1w55pqp/brendan_fraser_patiently_helps_a_fan_trying_to/"
-  },
-  {
-   "sub": "MoralityScaling",
-   "title": "Morality of saving your pet over a human stranger?",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/2t06e4jc9zmh1.jpeg?width=640&crop=smart&auto=webp&s=ccf80fca65342381a14a9dcdf3b384a3d20e081f",
-   "time": 1788298429,
-   "url": "https://www.reddit.com/r/MoralityScaling/comments/1w4qiqd/morality_of_saving_your_pet_over_a_human_stranger/"
-  },
-  {
-   "sub": "Weird",
-   "title": "Where is this and what do you call this",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/OWNvaTgxMjJmem1oMTiqA2U82LzVrnqgIZ_hBH_uhcHyKk_3uNulYmBHNfUz.jpeg?width=320&crop=smart&auto=webp&s=2cb428a0ebc579c55aea4340f0087715c6ee9086",
-   "time": 1788300343,
-   "url": "https://www.reddit.com/r/Weird/comments/1w4re4l/where_is_this_and_what_do_you_call_this/"
-  },
-  {
-   "sub": "AskReddit",
-   "title": "You are offered $5,000,000 to spend 1 year inside the universe of the last book you read. What are your chances of survival?",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "",
-   "time": 1788323379,
-   "url": "https://www.reddit.com/r/AskReddit/comments/1w502vl/you_are_offered_5000000_to_spend_1_year_inside/"
-  },
-  {
-   "sub": "NoStupidQuestions",
-   "title": "How are we \"not in a recession\" when almost everyone I know is broke and struggles to even pay bills?",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "",
-   "time": 1788285516,
-   "url": "https://www.reddit.com/r/NoStupidQuestions/comments/1w4jmlx/how_are_we_not_in_a_recession_when_almost/"
-  },
-  {
-   "sub": "Damnthatsinteresting",
-   "title": "Students get smudged by indigenous elders for peace and blessings throughout the year",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/cDN6ZGVyYnB5eG1oMXjJtV50Jlaw8ngY3Hesau2gtQnoC6rAEcTmKY5-7M8L.jpeg?width=640&crop=smart&auto=webp&s=e5153cbab0ff031a556a86586068b250c2209917",
-   "time": 1788282737,
-   "url": "https://www.reddit.com/r/Damnthatsinteresting/comments/1w4i9xh/students_get_smudged_by_indigenous_elders_for/"
   },
   {
    "sub": "nextfuckinglevel",
@@ -787,15 +733,6 @@
    "url": "https://www.reddit.com/r/nextfuckinglevel/comments/1w546r5/breathtaking_scenery_in_iceland_at_1am/"
   },
   {
-   "sub": "Millennials",
-   "title": "What’s a commercial you think you’ll remember for the rest of your life?",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/ux4uo76150nh1.jpeg?width=640&crop=smart&auto=webp&s=b54b773c60815bf37e149122eafbe71aebb57a27",
-   "time": 1788309077,
-   "url": "https://www.reddit.com/r/Millennials/comments/1w4uzem/whats_a_commercial_you_think_youll_remember_for/"
-  },
-  {
    "sub": "interestingasfuck",
    "title": "New whale museum opening in Norway to be shaped like a whales tail.",
    "score": 0,
@@ -805,13 +742,31 @@
    "url": "https://www.reddit.com/r/interestingasfuck/comments/1w56ykt/new_whale_museum_opening_in_norway_to_be_shaped/"
   },
   {
-   "sub": "whenthe",
-   "title": "Ah... what perfect timing, eh?",
+   "sub": "WhatIsTheTea",
+   "title": "A father discovered that his son was bullying a classmate with cancer because he had no hair, and he acted in this way to teach him a lesson. In your opinion, is this a fair punishment?",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/y5k6l7hds2nh1.gif?width=320&crop=smart&s=950125796049e78836b7f1fc09df82cd57aca55d",
-   "time": 1788341164,
-   "url": "https://www.reddit.com/r/whenthe/comments/1w55ebg/ah_what_perfect_timing_eh/"
+   "thumb": "https://external-preview.redd.it/cWx0ZzE2ZXhneW1oMRB8ki4f4UR8vnoH4vDlGzmP8_gEJoLLBTQiGM1EYeZB.png?width=640&crop=smart&auto=webp&s=201f52d4598aa8e590ee86aa01086ea4c81953fe",
+   "time": 1788288868,
+   "url": "https://www.reddit.com/r/WhatIsTheTea/comments/1w4l9my/a_father_discovered_that_his_son_was_bullying_a/"
+  },
+  {
+   "sub": "Weird",
+   "title": "Where is this and what do you call this",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/OWNvaTgxMjJmem1oMTiqA2U82LzVrnqgIZ_hBH_uhcHyKk_3uNulYmBHNfUz.jpeg?width=320&crop=smart&auto=webp&s=2cb428a0ebc579c55aea4340f0087715c6ee9086",
+   "time": 1788300343,
+   "url": "https://www.reddit.com/r/Weird/comments/1w4re4l/where_is_this_and_what_do_you_call_this/"
+  },
+  {
+   "sub": "MoralityScaling",
+   "title": "Morality of saving your pet over a human stranger?",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/2t06e4jc9zmh1.jpeg?width=640&crop=smart&auto=webp&s=ccf80fca65342381a14a9dcdf3b384a3d20e081f",
+   "time": 1788298429,
+   "url": "https://www.reddit.com/r/MoralityScaling/comments/1w4qiqd/morality_of_saving_your_pet_over_a_human_stranger/"
   },
   {
    "sub": "clevercomebacks",
@@ -821,6 +776,51 @@
    "thumb": "https://preview.redd.it/su6uiiyz73nh1.png?width=640&crop=smart&auto=webp&s=60afad5c680009d242b221b63278d908640e303e",
    "time": 1788346405,
    "url": "https://www.reddit.com/r/clevercomebacks/comments/1w56zdf/imagine_saying_this_and_calling_it_leadership/"
+  },
+  {
+   "sub": "AskReddit",
+   "title": "You are offered $5,000,000 to spend 1 year inside the universe of the last book you read. What are your chances of survival?",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1788323379,
+   "url": "https://www.reddit.com/r/AskReddit/comments/1w502vl/you_are_offered_5000000_to_spend_1_year_inside/"
+  },
+  {
+   "sub": "IThinkYouShouldLeave",
+   "title": "This is just the tiredest I've ever been.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/wq3fttf9r3nh1.jpeg?width=640&crop=smart&auto=webp&s=f28b0b6c4766fa2468b03031c7e87cdd1b18be36",
+   "time": 1788352874,
+   "url": "https://www.reddit.com/r/IThinkYouShouldLeave/comments/1w5984g/this_is_just_the_tiredest_ive_ever_been/"
+  },
+  {
+   "sub": "NoStupidQuestions",
+   "title": "How are we \"not in a recession\" when almost everyone I know is broke and struggles to even pay bills?",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1788285516,
+   "url": "https://www.reddit.com/r/NoStupidQuestions/comments/1w4jmlx/how_are_we_not_in_a_recession_when_almost/"
+  },
+  {
+   "sub": "lovethissmug",
+   "title": "When animalistic characters become realistic versions of themselves for silly dramatic effect",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/82www19ve3nh1.png?width=640&crop=smart&auto=webp&s=36f13b44d7ee28f616e55f02553dba6910a321b4",
+   "time": 1788348798,
+   "url": "https://www.reddit.com/r/lovethissmug/comments/1w57rb1/when_animalistic_characters_become_realistic/"
+  },
+  {
+   "sub": "nottheonion",
+   "title": "'Rich Dad Poor Dad' Author Robert Kiyosaki Is $1.2 Billion in Debt, Report Says",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/c5rApQ7z-IScfSpbbZMt518PHbEd7aKT03hp7uqyyHc.jpeg?width=640&crop=smart&auto=webp&s=085392466b01cc66491b703e5f764cbd6363e761",
+   "time": 1788349943,
+   "url": "https://www.reddit.com/r/nottheonion/comments/1w5855i/rich_dad_poor_dad_author_robert_kiyosaki_is_12/"
   }
  ],
  "disaster": [],
@@ -865,10 +865,10 @@
    }
   },
   "landing": {
-   "at": "2026-09-02T22:05:35",
+   "at": "2026-09-02T22:31:23",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-09-02T22:31:20.434312+09:00"
+ "updated": "2026-09-02T23:01:26.122970+09:00"
 }
