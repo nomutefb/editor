@@ -7550,8 +7550,14 @@
   {
    "query": "경매",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/689119d6a0.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.hankyung.com/article/2026083144631",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-09-02T12:30:00+09:00",
    "delta": -9,
@@ -7564,8 +7570,14 @@
   {
    "query": "경찰청장",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/22363f0095.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://view.asiae.co.kr/article/2026090122081396090",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-02T12:20:00+09:00",
    "delta": -9,
@@ -7643,8 +7655,14 @@
   {
    "query": "서울 수도권",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/9b70142ad5.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.newspim.com/news/view/20260813000750",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-02T12:20:00+09:00",
    "delta": -9,
@@ -7658,8 +7676,14 @@
   {
    "query": "이지혜",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/ef590e7e8a.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.hankyung.com/article/202608289518H",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-02T12:20:00+09:00",
    "delta": -13,
@@ -7673,8 +7697,14 @@
   {
    "query": "태국 여자 배구 국가대표팀",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/8c1463cc3e.webp",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.seoul.co.kr/news/sport/volleyball/2026/08/31/20260831500004",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-02T12:20:00+09:00",
    "delta": -13,
@@ -7688,8 +7718,14 @@
   {
    "query": "2027 9월 모의고사",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/825aab50f3.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.gukjenews.com/news/articleView.html?idxno=3682312",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-02T13:00:00+09:00",
    "isNew": true,
@@ -7889,11 +7925,12 @@
  ],
  "gtrends_pool_updated": "2026-09-02T14:53:19+09:00",
  "_trend_img": {
-  "tried": "2026-09-02T14:20:19+09:00",
+  "tried": "2026-09-02T14:53:19+09:00",
   "fail": {
    "배다 해": "2026-09-02T13:44:25+09:00",
    "김민종": "2026-09-02T14:28:40+09:00",
-   "기러기": "2026-09-02T14:28:40+09:00"
+   "기러기": "2026-09-02T14:28:40+09:00",
+   "로베르트 모레노": "2026-09-02T15:02:46+09:00"
   }
  },
  "gtrends_gl": [
@@ -20315,7 +20352,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-02T14:53:19+09:00"
+    "first_seen": "2026-09-02T14:53:19+09:00",
+    "kw": "오픈AI, Astra, 기사",
+    "sum": "기사가 오픈AI 아스트라 모델의 보안 우려를 다뤘다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -20330,7 +20370,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-09-02T14:53:19+09:00"
+    "first_seen": "2026-09-02T14:53:19+09:00",
+    "kw": "오픈AI, Astra, recurrent depth",
+    "sum": "작성자가 오픈AI 아스트라의 반복계산 기법과 감시 우려를 설명했다",
+    "sv": 1
    },
    {
     "account": "aipeekme",
