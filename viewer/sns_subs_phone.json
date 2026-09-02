@@ -324,12 +324,42 @@
  ],
  "threads": [
   {
+   "account": "aipeekme",
+   "text": "🔗 원문·자세히 보기\nhttps://github.com/Osmantic/ODS",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1788307534,
+   "thumb": "",
+   "url": "https://www.threads.com/@aipeekme/post/Dcw6KNPn1lT",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "개인 PC나 맥, 리눅스 장비를 사설 AI 서버로 바꿔주는 프로젝트 ODS(Osmantic Deployment System)가 공개되어 있습니다.\n올라마(Ollama) 모델 구동부터 오픈 웹UI(Open WebUI), n8n 자동화 워크플로, 컴피UI(ComfyUI) 이미지 생성까지 직접 수작업으로 조립할 필요 없이 한 번에 묶어 설치해 주는 통합 스택인데요.\n문서와 연동하는 RAG 및 검색, 음성과 에이전트 도구 호출, GPU 상태를 관리하는 대시보드와 프라이버시 도구도 함께 제공됩니다.\n클라우드나 구독 결제 없이 프롬프트와 데이터를 로컬 기기에 보관하며, 터미널 명령어로 하드웨어에 맞는 모델 선택부터 서비스 구동까지 진행됩니다. 현재 안정화 버전은 v2.6.0입니다.\n도구 자체는 이미 널리 쓰이던 것들이라 새로울 게 없지만, 파편화된 환경을 한 번에 묶어준 점은 분명 다루기 편해 보입니다.",
+   "likes": 1,
+   "cmts": 1,
+   "time": 1788307523,
+   "thumb": "",
+   "url": "https://www.threads.com/@aipeekme/post/Dcw6I5fn38o",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "🔗 원문·출처\nhttps://www.anthropic.com/claude-fable-and-mythos-5-1",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1788307441,
+   "thumb": "",
+   "url": "https://www.threads.com/@aipeekme/post/Dcw5-xln_ww",
+   "region": "kr"
+  },
+  {
    "account": "choi.openai",
    "text": "3/ 이 1위를 만든 방식도 살펴볼 만합니다.\n\n모델은 오디오를 0.08초 단위로 받아들이며, 조각이 들어올 때마다 더 들을지 바로 받아쓸지를 결정합니다. 어려운 단어는 조금 더 듣고, 쉬운 단어는 거의 즉시 적습니다. 메타는 이를 ‘적응 지연’이라고 부릅니다.\n\n이 방식은 강화학습으로 익혔습니다. 정확도와 속도 보상을 더하지 않고 곱했기 때문에, 둘 중 하나라도 크게 떨어지면 전체 보상이 함께 낮아집니다.\n덕분에 단순히 빠르거나 정확하기만 한 전략보다 단어마다 적절한 대기 시간을 찾는 전략이 선택됩니다.\n\n아래 차트에서도 기존 모델들이 속도와 정확도를 맞바꾸던 경계보다 더 나은 위치를 기록했습니다.",
    "likes": 4,
    "cmts": 1,
    "time": 1788305619,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/790059393_17985050454112832_505007829203698532_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk3NjkxODIzNDc1ODg1OTYyNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTkyMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=P2ZupdUOp1UQ7kNvwG17Tyg&_nc_oc=AdoiVAHWWvKCjzmUlxXRCBvHKXI5jDs0Rby6Z0tNywPP8i99yeRA1CUnB1GoCib8wdk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=uNM9kX0hT4cZg8uuabjtsA&_nc_ss=7a22e&oh=00_AQLdygFypQdo2SyEH3AxYb2AVPxpC_q3TwxPoI6aCNvwwA&oe=6A9D24AC",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/790059393_17985050454112832_505007829203698532_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk3NjkxODIzNDc1ODg1OTYyNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTkyMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=P2ZupdUOp1UQ7kNvwG17Tyg&_nc_oc=AdoiVAHWWvKCjzmUlxXRCBvHKXI5jDs0Rby6Z0tNywPP8i99yeRA1CUnB1GoCib8wdk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=tlbkIeYoUOK6yoIJFabx-Q&_nc_ss=7a22e&oh=00_AQJlHQg3WVeTENwQ3CA_yXh-aeraGrhlfVOWvr9WLVNgfg&oe=6A9D24AC",
    "url": "https://www.threads.com/@choi.openai/post/Dcw2hBbk0tq",
    "region": "kr"
   },
@@ -339,48 +369,18 @@
    "likes": 3,
    "cmts": 1,
    "time": 1788305611,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/790930628_17985050373112832_4314125846139799495_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk3NjkxODE3MTUyNTU0MDI3OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQyMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=26iU3gT_eLUQ7kNvwF22l9j&_nc_oc=AdqjHO5pRVlj8tl_a8Qlm-NxhzWLkuplUYsQJj-ArgFl9yZ9o2EETTNbe1XQhmgx7Fg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=uNM9kX0hT4cZg8uuabjtsA&_nc_ss=7a22e&oh=00_AQKP0upbFGfQW_I7DoiDkwoFTK6xnOJMIIY1bwDwKNTZ8w&oe=6A9D3E0C",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/790930628_17985050373112832_4314125846139799495_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk3NjkxODE3MTUyNTU0MDI3OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQyMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=26iU3gT_eLUQ7kNvwF22l9j&_nc_oc=AdqjHO5pRVlj8tl_a8Qlm-NxhzWLkuplUYsQJj-ArgFl9yZ9o2EETTNbe1XQhmgx7Fg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=tlbkIeYoUOK6yoIJFabx-Q&_nc_ss=7a22e&oh=00_AQITX5rXF0tg1MqSgtstAP40Wq6IwHIi7TaxC-39Dp2hrg&oe=6A9D3E0C",
    "url": "https://www.threads.com/@choi.openai/post/Dcw2gGik2m3",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "1/메타 초지능 랩 MSL이 9월 1일 현지시간 Muse Voice Transcribe를 공개했습니다.\n저커버그가 초지능 개발을 내걸고 세운 조직이 처음 내놓는 실시간 오디오 모델입니다.\n\n지금까지 음성 인식 서비스는 받아 적는 모델, 화자를 가려내는 모델, 말이 끝난 시점을 잡는 모델을 따로 이어 붙여 만들었는데요. 이번 모델은 이 세 가지를 모델 하나가 실시간으로 동시에 처리합니다.\n\n70개가 넘는 언어로 훈련했고 25개 언어는 검증을 마쳤습니다. 한 문장 안에서 언어를 바꿔도 따라오고, 1시간 넘는 오디오에서 20명 이상을 구분합니다.\n\n기반은 4월부터 이어져 온 Muse Spark 계열의 멀티모달 구조입니다.",
-   "likes": 8,
+   "likes": 11,
    "cmts": 1,
    "time": 1788305606,
    "thumb": "",
    "url": "https://www.threads.com/@choi.openai/post/Dcw2fbok9WC",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
-   "text": "🔗 원문·자세히 보기\nhttps://blog.google/innovation-and-ai/technology/google-ai-updates-august-2026/",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1788303709,
-   "thumb": "",
-   "url": "https://www.threads.com/@aipeekme/post/Dcwy3R_E0kc",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
-   "text": "구글이 8월 한 달간 공개한 주요 AI 제품과 기술 업데이트를 정리했습니다.\n\n이번 발표에는 코딩과 에이전트에 특화된 제미나이 3.7 플래시와 음성 인식 모델인 제미나이 3.5 트랜스크라이브 출시가 포함되었습니다. 제미나이 3.7 플래시는 3.6 플래시 출시 3주 만에 공개되었으며 토큰당 가격을 절반으로 낮췄습니다. 하드웨어 부문에서는 텐서 G6 칩과 최신 제미나이 나노를 탑재한 픽셀 11, 프로, 프로 XL, 프로 폴드를 선보였습니다. 아울러 제미나이 앱의 월간 활성 사용자 10억 명 돌파, 안드로이드용 크롬 내 제미나이 도입, 날씨·기후 예측용 오픈소스 모델 확장 소식도 다뤘습니다.\n\n작고 빠른 모델을 하드웨어 기기와 직접 묶는 흐름은 이제 확고해진 모양새입니다. 다만 거대 모델의 추론 능력 자체보다 경량화 모델과 기기 간 결합을 유독 앞세운 점이 눈에 밟혔습니다.\n\n📷 사진 출처: blog.google",
-   "likes": 1,
-   "cmts": 1,
-   "time": 1788303699,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/791906440_18084644105407306_5084748519876460085_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk3NjkwMjA2ODE1ODA2NjA4Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTMwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=5TNbVz-dZQQQ7kNvwH9BaGK&_nc_oc=AdqOzH_GWw8m7FF4Cg99PRx9OKLiQrrmOf1g1dCjh68mzjA6DdBacbimEyxaWmfncko&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=qdcr-cqIVhiWfi_qXCp40Q&_nc_ss=7a22e&oh=00_AQJJuHS_ia5HRRZeI0aEsv9qkeYcZNIKjT5kK1VcFdjAzw&oe=6A9D41FA",
-   "url": "https://www.threads.com/@aipeekme/post/Dcwy1xHE-2n",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
-   "text": "나를 봐!!!\n\nChatgpt image 2\n\n프롬프트 하단👇",
-   "likes": 2,
-   "cmts": 3,
-   "time": 1788268232,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/792235781_18084541757407306_5203659128801613472_n.webp?stp=dst-webp_p640x640_sh2.08&_nc_cat=103&ig_cache_key=Mzk3NjYwNDYxMDM0OTc0MzQ0NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuOTQxLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=-kjCkcsa27IQ7kNvwEFKJLF&_nc_oc=AdpqUEj7ot_KuidhLL4Lzw65oZ8pcU6XSL-jr70h1MlO2iy_5zAyldKUddPD6MLMpIo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=qdcr-cqIVhiWfi_qXCp40Q&_nc_ss=7a22e&oh=00_AQJaDAjB7Lj87AhhBdEHjCceg80wp6hc47rEIkGJBjpUpA&oe=6A9D55D2",
-   "url": "https://www.threads.com/@aipeekme/post/DcvvNL8E71V",
    "region": "kr"
   },
   {
@@ -389,7 +389,7 @@
    "likes": 34,
    "cmts": 2,
    "time": 1788257306,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/791755420_1760080608659001_1932728924598660944_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk3NjUxMjc0NjY3NzcyODU5Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=XKLknc7eXf8Q7kNvwFwaX9s&_nc_oc=Adqc6Ea_hWttiZ_hnOSllqotQg7cQDnfbh5ZvfDT737ali0wuU_hwXu1vQh02tQd9NI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=4k4PdA3mMvrm1bxfLO2zDA&_nc_ss=7a22e&oh=00_AQIenXrHNnVJvAsCo8zymBiURdnHTmth1I1BKQhZS82b_Q&oe=6A9D5520",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/791755420_1760080608659001_1932728924598660944_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk3NjUxMjc0NjY3NzcyODU5Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=XKLknc7eXf8Q7kNvwFwaX9s&_nc_oc=Adqc6Ea_hWttiZ_hnOSllqotQg7cQDnfbh5ZvfDT737ali0wuU_hwXu1vQh02tQd9NI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=-097bx53sXSaDfCNkdML3Q&_nc_ss=7a22e&oh=00_AQKu7oSYSL57LhSJUYvekUfG72QpESdnwJ1OV8HPWCcrRg&oe=6A9D5520",
    "url": "https://www.threads.com/@kopp/post/DcvaUZOifVQ",
    "region": "kr"
   },
@@ -414,69 +414,69 @@
    "region": "kr"
   },
   {
+   "account": "aipeekme",
+   "text": "앤트로픽이 코딩과 지식 작업에 맞춘 새 모델 클로드 페이블 5.1과 미토스 5.1을 발표했습니다. 두 모델은 동일 모델이지만 안전장치 수준을 다르게 적용했습니다. 페이블 5.1은 일반 공개되고, 미토스 5.1은 신뢰 접근 프로그램을 통해서만 제공되며 사이버보안과 생명과학 작업을 지원하도록 설계되었습니다. 캐시 읽기 비용을 인하하면서 일반 작업 기준으로 페이블 5 대비 비용을 약 25% 낮췄고 에이전트 작업에서는 최대 약 45%까지 절감됩니다. 또한 완전한 프라이버시를 지원하는 기업용 세이프가드 시스템 도입과 함께 사이버보안 분야 오탐을 60% 줄여 소프트웨어 취약점 탐지에 활용할 수 있게 했습니다. 결국 같은 엔진을 두고 안전 기준과 접근 권한만 분리하는 방식으로 제품군을 정리한 셈입니다. 성능 격차보다 비용 25% 절감이 실제 실무 도입에서는 더 크게 체감될 것 같습니다. 다만 제한 공개되는 미토스 5.1의 통제 기준이 실제로 어디까지 열려 있는지는 아직 명확하지 않아 보입니다.",
+   "likes": 1,
+   "cmts": 1,
+   "time": 1788307427,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/793001952_1788561465816654_304213077897220984_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk3NjkzMzIwNTE5NDQxOTEyOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Id_jHYXzgG4Q7kNvwEglbaA&_nc_oc=AdrXh4Dx867rvYNBxJ_PZRiF2M8d3j8Gx6XArUMndKKza-UhI1JK9gLqpv1TU2Y6tpQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=zoELSIg63fvewcniBtiZ5Q&_nc_ss=7a22e&oh=00_AQJE1mbiMvA_5RI9zsIrbcR27LrdBedJ66IyQ6-FELtz-g&oe=6A9D5156",
+   "url": "https://www.threads.com/@aipeekme/post/Dcw563vEau5",
+   "region": "kr"
+  },
+  {
    "account": "choi.openai",
    "text": "🚨 받아쓰기 가격이 시간당 0.18달러까지 내려왔습니다.\n\n메타 초지능 랩의 첫 실시간 오디오 모델이 단어 오류율 3.1%로 독립 벤치마크 1위에 오르면서, 1,000분에 6.5달러 받던 시장에 3달러로 들어왔는데요.\n\n20명이 넘게 떠들어도 누가 말했는지 실시간으로 가려내는 Muse Voice Transcribe 발표를 정리했습니다 🧵",
-   "likes": 27,
-   "cmts": 12,
+   "likes": 45,
+   "cmts": 13,
    "time": 1788305601,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/793160520_4176205172671474_2555550816269870644_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk3NjgwNjY0MDkwNDkwNTgwMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=koJbYq1umv4Q7kNvwF3Mwzy&_nc_oc=AdrrsxIr9r-O_yibQ-G-Ns-QhI55MiFFpFjyhpjbD7d99B7UZ7hsqvDQgJzlDeQgesg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=uNM9kX0hT4cZg8uuabjtsA&_nc_ss=7a22e&oh=00_AQLqTdinHZLAYiL0NvUHjEB-ZRuKSG1tl-CO_gQWYEgRvA&oe=6A9D322B",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/793160520_4176205172671474_2555550816269870644_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk3NjgwNjY0MDkwNDkwNTgwMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=koJbYq1umv4Q7kNvwF3Mwzy&_nc_oc=AdrrsxIr9r-O_yibQ-G-Ns-QhI55MiFFpFjyhpjbD7d99B7UZ7hsqvDQgJzlDeQgesg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=tlbkIeYoUOK6yoIJFabx-Q&_nc_ss=7a22e&oh=00_AQL9uGVOhtKJXSn3PG4ECkTt8gQBRAk9FIxiBhWp0QQjzQ&oe=6A9D322B",
    "url": "https://www.threads.com/@choi.openai/post/DcwdJHjjSRK",
    "region": "kr"
   },
   {
    "account": "aipeekme",
-   "text": "단순화하다\n이 오픈 소스 프로젝트는 노인 돌봄을 위한 24시간 가을 모니터링의 초기 시도입니다.\n실시간 노인 낙상 감지 시스템이라고 합니다.\n사람의 일부가 가구 뒤에 숨겨져 있어도 계속 추적합니다.\n→ 무릎이나 발목이 가려졌을 때 숨겨진 관절을 재건합니다.\n→ 그냥 누워서 쉬고 있는 사람과의 진짜 추락을 알려준다.\n→ 일반 CPU에서 실행됩니다.",
-   "likes": 36,
-   "cmts": 2,
-   "time": 1788266871,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/790268572_4384205551909513_111781480902980483_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk3NjU5MzAwMDIzODE5MTc2MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=L6o1ihmaEMEQ7kNvwFz0h7r&_nc_oc=AdrIKfu6y38tylMuyhfbvHODw1fqcAo8n4y0ZOhc0PWkkrFyoTBYndzckBAjqzSWO94&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=qdcr-cqIVhiWfi_qXCp40Q&_nc_ss=7a22e&oh=00_AQIt9fJBzYa653OBt7xtSkd5nsG66to4OdAmhbKpc1RfuA&oe=6A9D2D46",
-   "url": "https://www.threads.com/@aipeekme/post/DcvskPLgJSR",
+   "text": "🔗 원문·자세히 보기\nhttps://blog.google/innovation-and-ai/technology/google-ai-updates-august-2026/",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1788303709,
+   "thumb": "",
+   "url": "https://www.threads.com/@aipeekme/post/Dcwy3R_E0kc",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "블로그 :\nhttps://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-agentic-video-in-gemini/",
-   "likes": 13,
+   "likes": 15,
    "cmts": 0,
    "time": 1788300049,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/790803555_17985050244112832_3936473456326896476_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk3Njg3MTUxNDU3NDA4NjYxNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=aKFX-i3abtEQ7kNvwE6tgub&_nc_oc=AdrrQiykwK5zpT8wVoWzTClzRsAGmi2wDXlkdcwJY46pHsHc8a8NUvvJ379c24dcgCg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=uNM9kX0hT4cZg8uuabjtsA&_nc_ss=7a22e&oh=00_AQLhDoC0UlxAjSaNs7xcj8YeA-tjuW9Cl6G9Ukkpm7kM8w&oe=6A9D5100",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/790803555_17985050244112832_3936473456326896476_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk3Njg3MTUxNDU3NDA4NjYxNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=aKFX-i3abtEQ7kNvwE6tgub&_nc_oc=AdrrQiykwK5zpT8wVoWzTClzRsAGmi2wDXlkdcwJY46pHsHc8a8NUvvJ379c24dcgCg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=tlbkIeYoUOK6yoIJFabx-Q&_nc_ss=7a22e&oh=00_AQKfZyt58wpcxgztcIJhOXLBEXdYezre-RlTtaz1VvW4gQ&oe=6A9D5100",
    "url": "https://www.threads.com/@choi.openai/post/Dcwr5J3juHY",
    "region": "kr"
   },
   {
    "account": "aipeekme",
-   "text": "🔗 원문·자세히 보기\nhttps://github.com/Joowonoil/MacVirtualDisplay",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1788266514,
-   "thumb": "",
-   "url": "https://www.threads.com/@aipeekme/post/Dcvr61pH5Ke",
+   "text": "구글이 8월 한 달간 공개한 주요 AI 제품과 기술 업데이트를 정리했습니다.\n\n이번 발표에는 코딩과 에이전트에 특화된 제미나이 3.7 플래시와 음성 인식 모델인 제미나이 3.5 트랜스크라이브 출시가 포함되었습니다. 제미나이 3.7 플래시는 3.6 플래시 출시 3주 만에 공개되었으며 토큰당 가격을 절반으로 낮췄습니다. 하드웨어 부문에서는 텐서 G6 칩과 최신 제미나이 나노를 탑재한 픽셀 11, 프로, 프로 XL, 프로 폴드를 선보였습니다. 아울러 제미나이 앱의 월간 활성 사용자 10억 명 돌파, 안드로이드용 크롬 내 제미나이 도입, 날씨·기후 예측용 오픈소스 모델 확장 소식도 다뤘습니다.\n\n작고 빠른 모델을 하드웨어 기기와 직접 묶는 흐름은 이제 확고해진 모양새입니다. 다만 거대 모델의 추론 능력 자체보다 경량화 모델과 기기 간 결합을 유독 앞세운 점이 눈에 밟혔습니다.\n\n📷 사진 출처: blog.google",
+   "likes": 1,
+   "cmts": 1,
+   "time": 1788303699,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/791906440_18084644105407306_5084748519876460085_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk3NjkwMjA2ODE1ODA2NjA4Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTMwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=5TNbVz-dZQQQ7kNvwH9BaGK&_nc_oc=AdqOzH_GWw8m7FF4Cg99PRx9OKLiQrrmOf1g1dCjh68mzjA6DdBacbimEyxaWmfncko&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=zoELSIg63fvewcniBtiZ5Q&_nc_ss=7a22e&oh=00_AQJucq2W8m9wOQi76W0Nz351l9iuH2mz705el2Z3ytAFSg&oe=6A9D41FA",
+   "url": "https://www.threads.com/@aipeekme/post/Dcwy1xHE-2n",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "Fable에 묻혔지만, 미친 업데이트라고 생각합니다.\n\nGemini가 이제 영상을 처음부터 끝까지 다 볼 필요가 없어졌습니다.\n\n구글이 Gemini에 Agentic Video Understanding을 추가했는데요.\n질문에 따라 Gemini가 직접 어느 구간을 볼지, 몇 배속으로 볼지, 화면·오디오·자막 중 무엇을 확인할지 결정합니다.\n\n예를 들어 90분 강의에서 특정 장면만 찾거나 빠른 동작 횟수를 세야 한다면 필요한 구간만 다시 자세히 보는 방식입니다.\n\n그 결과 토큰 사용량은 최대 88%, 비용은 최대 66% 줄이면서 정확도는 최대 7% 높였다고 합니다. Gemini API와 Google AI Studio에서 바로 사용할 수 있습니다.",
-   "likes": 153,
+   "likes": 184,
    "cmts": 2,
    "time": 1788300040,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/791561036_1101582085737615_2624754866589190090_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk3Njg3MTQ0MTU2ODAyNDI4Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=wtdiR6hPcqMQ7kNvwFMlr-S&_nc_oc=AdoHrFD-4reSTkAppd2d59p6D41CIJepx34nDhB4zhQM1fTawBPh1WjeirPln5JAx5g&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=uNM9kX0hT4cZg8uuabjtsA&_nc_ss=7a22e&oh=00_AQL45xuGsijs475IGhOlxUJGSNEYPdGVO009vOlIE0uIQg&oe=6A9D3A77",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/791561036_1101582085737615_2624754866589190090_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk3Njg3MTQ0MTU2ODAyNDI4Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=wtdiR6hPcqMQ7kNvwFMlr-S&_nc_oc=AdoHrFD-4reSTkAppd2d59p6D41CIJepx34nDhB4zhQM1fTawBPh1WjeirPln5JAx5g&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=tlbkIeYoUOK6yoIJFabx-Q&_nc_ss=7a22e&oh=00_AQKHOOk4Ed7e6_7QjWYABTevExM498jmTfbHKLMS8ddYgQ&oe=6A9D3A77",
    "url": "https://www.threads.com/@choi.openai/post/Dcwr4F4Dsbb",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
-   "text": "맥에서 기기 맞춤형 가상 디스플레이를 생성하는 Mac Virtual Display가 공개되었습니다.\n갤럭시 Z 폴드8이나 아이패드 프로 11인치 화면비에 맞춘 120Hz 고해상도 HiDPI 가상 모니터를 생성해 주는 도구인데요.\n원격 접속 시 물리 모니터와 비율이 맞지 않아 발생하던 레터박스나 어색한 스케일링 문제를 방지합니다.\n메뉴 막대에서 제어하며, 사용 종료 시 기존 화면 배치를 안전하게 복원하는 기능과 읽기 전용 Tailscale 상태 확인이 들어갔습니다.\n항상 켜진 물리 모니터에 의존하지 않고 독립적인 가상 작업 공간을 띄우며, 선택적 Sunshine 스트리밍 연동도 지원합니다.\n소스코드가 공개되지 않는 독점 소프트웨어이며 배포는 공식 저장소와 RamterStudio 웹사이트를 통해서만 진행합니다.\n모바일 기기로 맥을 원격 제어할 때 화면 비율 때문에 겪던 피로감은 확실히 줄여줄 것 같습니다.\n\n📷 사진 출처: github.com",
-   "likes": 7,
-   "cmts": 1,
-   "time": 1788266502,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/789214956_18084536882407306_7194982915473650262_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk3NjU5MDAyMTA1OTY1ODE1Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=C9mrGUrPMnQQ7kNvwGIC0iS&_nc_oc=AdohsLfIyRm1hLT6IV7qUu9Bp3W3qmHAzPujUlByIrcsO3b-zpV2dJ-KdFbTLSD1CiU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=qdcr-cqIVhiWfi_qXCp40Q&_nc_ss=7a22e&oh=00_AQIWBwuBdwZG3r69CDwK-E37TWTS_eGqcAZWVsnv90EHCA&oe=6A9D315C",
-   "url": "https://www.threads.com/@aipeekme/post/Dcvr44mn8Gp",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "블로그 :\nhttps://www.worldlabs.ai/blog/atlas",
-   "likes": 11,
+   "likes": 14,
    "cmts": 0,
    "time": 1788294670,
    "thumb": "",
@@ -484,43 +484,43 @@
    "region": "kr"
   },
   {
+   "account": "aipeekme",
+   "text": "나를 봐!!!\n\nChatgpt image 2\n\n프롬프트 하단👇",
+   "likes": 2,
+   "cmts": 3,
+   "time": 1788268232,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/792235781_18084541757407306_5203659128801613472_n.webp?stp=dst-webp_p640x640_sh2.08&_nc_cat=103&ig_cache_key=Mzk3NjYwNDYxMDM0OTc0MzQ0NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuOTQxLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=-kjCkcsa27IQ7kNvwEFKJLF&_nc_oc=AdpqUEj7ot_KuidhLL4Lzw65oZ8pcU6XSL-jr70h1MlO2iy_5zAyldKUddPD6MLMpIo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=zoELSIg63fvewcniBtiZ5Q&_nc_ss=7a22e&oh=00_AQJkEcUwke9mMLe2HGyQQvIQD_3gNc-iUuESZo0um24pKA&oe=6A9D55D2",
+   "url": "https://www.threads.com/@aipeekme/post/DcvvNL8E71V",
+   "region": "kr"
+  },
+  {
    "account": "choi.openai",
    "text": "영상 생성 AI가 이제 장면을 만드는 수준을 넘어, 공간 자체를 이해하기 시작했습니다.\n\nFei-Fei Li가 이끄는 World Labs가 월드 모델 Atlas를 공개했습니다.\n사진 몇 장을 넣으면 공간을 3D로 재구성하고, 원하는 카메라 위치와 이동 경로를 지정해 새로운 시점의 영상까지 만들 수 있습니다.\n\n실제로 7장의 사진으로 카메라 경로를 직접 설계해 1440p 1분 영상을 생성했습니다.\n휴대폰으로 촬영한 공간을 로봇 훈련용 3D 시뮬레이션으로 바꾸는 것도 가능합니다.\n\n사진 몇 장만 찍어 실제 공간을 게임·영상·로봇이 사용할 수 있는 가상 세계로 만드는 시대가 가까워지고 있습니다.",
-   "likes": 113,
+   "likes": 126,
    "cmts": 2,
    "time": 1788294650,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/792807193_1673325544802944_532578578521709390_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk3NjgyNjIyMTgwMzEwNzE5Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=BU89F2PlcrIQ7kNvwE1AMcb&_nc_oc=AdpD5OTIZhgKfbrjk27sbWUBCaWU9xeAQIuXku60pr9AblV4CxKHT7jClymNFz_d4TQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=uNM9kX0hT4cZg8uuabjtsA&_nc_ss=7a22e&oh=00_AQKOYYX8yEuHVVLviClrf7Jc6CvYeYuScdA3p1YPKbO6OQ&oe=6A9D2DE4",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/792807193_1673325544802944_532578578521709390_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk3NjgyNjIyMTgwMzEwNzE5Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=BU89F2PlcrIQ7kNvwE1AMcb&_nc_oc=AdpD5OTIZhgKfbrjk27sbWUBCaWU9xeAQIuXku60pr9AblV4CxKHT7jClymNFz_d4TQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=tlbkIeYoUOK6yoIJFabx-Q&_nc_ss=7a22e&oh=00_AQI1wbI3ZBV8UZI35YBrZMEluC4QyynwIBfWxgOEVSlZXg&oe=6A9D2DE4",
    "url": "https://www.threads.com/@choi.openai/post/DcwhmDsCHN9",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "3/ Fable 5.1은 추론 강도를 낮게 두어도 이전 모델을 앞섭니다.\n\nTerminal-Bench-Science 0.1 비용 곡선에서 low 설정의 Fable 5.1은 태스크당 평균 11달러 남짓으로 26.3%를 냈는데, Fable 5는 max에서 44달러를 쓰고도 24.7%에 머물렀거든요.\n\n토큰 가격표는 100만 입력 토큰 10달러, 출력 50달러로 Fable 5와 같습니다. 대신 이미 처리해 둔 맥락을 다시 읽는 캐시 읽기 가격만 75% 내려 100만 토큰당 0.25달러가 됐고요.\n\n앤트로픽은 8월 4주간의 실제 사용량을 기본 추론 강도로 측정해서, 일반 작업 비용이 약 25%, 도구를 많이 쓰는 에이전트 작업은 약 45%까지 줄어든다고 밝혔습니다.",
-   "likes": 8,
+   "likes": 9,
    "cmts": 1,
    "time": 1788289358,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/789463762_17985047781112832_4144993671040568164_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk3Njc4MTgyNzk4MTQxNzAyMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTgwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=wKn113967yUQ7kNvwFwm_9n&_nc_oc=AdocaoiMh_65aZhY60NEuGHN1YgvIHzUo31wHHDfmLMEvFgK2OpilibsXjezPyCN038&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=uNM9kX0hT4cZg8uuabjtsA&_nc_ss=7a22e&oh=00_AQJe0gWercJg7J0m6WyOb6akR7b6r3mZFY9qgCm0o4YKCQ&oe=6A9D3B43",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/789463762_17985047781112832_4144993671040568164_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk3Njc4MTgyNzk4MTQxNzAyMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTgwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=wKn113967yUQ7kNvwFwm_9n&_nc_oc=AdocaoiMh_65aZhY60NEuGHN1YgvIHzUo31wHHDfmLMEvFgK2OpilibsXjezPyCN038&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=tlbkIeYoUOK6yoIJFabx-Q&_nc_ss=7a22e&oh=00_AQIMtZaujvACjyLyt4mikjSrbsBZBp8woQXAq2lLqlvhQQ&oe=6A9D3B43",
    "url": "https://www.threads.com/@choi.openai/post/DcwXgCuD5o9",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "2/ Terminal-Bench-Science 0.1은 터미널에서 과학 연구 작업을 끝까지 수행하는지 재는 평가입니다.\n\n여기서 Fable 5.1이 52.6%를 기록했고, Fable 5는 24.7%, Opus 5는 29.0%, GPT-5.6 Sol은 22.4%에 그쳤습니다.\n\n터미널 코딩 평가인 Terminal-Bench 4.0에서는 55.8%를 받았는데, 안전장치를 느슨하게 건 같은 모델 Mythos 5.1은 60.9%였죠.\n\n지식 업무 평가 GDPval-AA v2는 1853점, 업무 자동화 평가 AutomationBench는 31.4%로 Fable 5의 17.1%를 크게 웃돌았고 CursorBench 3.2.0은 73.4%입니다.\n\n앤트로픽은 운영용 안전장치를 켠 채 측정했고, 안전장치가 개입한 과제는 0점으로 처리했다고 각주에 적었습니다.",
-   "likes": 7,
+   "likes": 8,
    "cmts": 1,
    "time": 1788289349,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/791305345_17985047766112832_1326209950710378594_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk3Njc4MTc1NzA5NzY2MDE3MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTgwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=o_tY07ZoC4AQ7kNvwECpUV2&_nc_oc=Ado6xaAmxEH4a64fIU0fbIwHelhT6JAtBc68PM0qaTu7J9oSnE7-EkPeGp0XVbOvadY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=uNM9kX0hT4cZg8uuabjtsA&_nc_ss=7a22e&oh=00_AQLNGvzXLLMbTc3--zssxm9vQgmurRk1BQ08PYW99sGwog&oe=6A9D4C33",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/791305345_17985047766112832_1326209950710378594_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk3Njc4MTc1NzA5NzY2MDE3MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTgwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=o_tY07ZoC4AQ7kNvwECpUV2&_nc_oc=Ado6xaAmxEH4a64fIU0fbIwHelhT6JAtBc68PM0qaTu7J9oSnE7-EkPeGp0XVbOvadY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=tlbkIeYoUOK6yoIJFabx-Q&_nc_ss=7a22e&oh=00_AQK1CnUEORKgAMDsBBwQBlKWR2hPBTl112i8G4pyT_EK7A&oe=6A9D4C33",
    "url": "https://www.threads.com/@choi.openai/post/DcwXfAtD08K",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "1/ 앤트로픽이 9월 2일 Claude Fable 5.1과 Claude Mythos 5.1을 발표했습니다. 두 모델은 같은 모델이고 안전장치만 다르게 걸었는데요.\n\nFable 5.1은 오늘부터 모든 플랫폼에서 열리고, Mythos 5.1은 사이버 보안과 생명과학 종사자를 심사하는 신뢰 접근 프로그램으로만 열립니다.\n\n발표문은 성능 갱신과 함께 고객이 그동안 지적해 온 가격과 데이터 보관, 안전장치 세 가지를 같이 손봤다고 적었습니다.\n\nAPI 모델 이름은 claude-fable-5-1이고, 아마존 웹서비스와 구글 클라우드, 마이크로소프트 애저에서도 같은 날 쓸 수 있고요.",
-   "likes": 40,
-   "cmts": 2,
-   "time": 1788289345,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DcwXecxjyta",
    "region": "kr"
   }
  ],
@@ -550,7 +550,7 @@
   {
    "account": "jaemyung_lee",
    "title": "이번 정류장은 브라질입니다 #이재명 #대통령 #Brasil #Brazil",
-   "views": 778400,
+   "views": 778500,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooBGAi8A6InMPiZBpU9fBkTRtAAwBKw0m1E0Ag~tplv-tiktokx-origin.image?dr=14575&x-expires=1788480000&x-signature=P1uPsvTxKee79jS9xlipVrQb6gw%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -572,7 +572,7 @@
   {
    "account": "jaemyung_lee",
    "title": "이번 정류장은 칠레입니다🇰🇷🇨🇱 #이재명 #대통령 #Chile #Corea",
-   "views": 374400,
+   "views": 374500,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQpDHATAEBzAIGFgqwDA4hofdRfVCsCaqEBIkL~tplv-tiktokx-origin.image?dr=14575&x-expires=1788480000&x-signature=mTGfxFrhzpVxPbPOQOV5Q5UJyxA%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -583,7 +583,7 @@
   {
    "account": "jaemyung_lee",
    "title": "프랑크푸르트에 도착했습니다🇰🇷🇩🇪 #이재명 #deutschland #frankfurt",
-   "views": 278400,
+   "views": 278500,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1788480000&x-signature=YC%2Bv9jSXVW4M%2Bz23lu7NkM2wK1Q%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -594,7 +594,7 @@
   {
    "account": "jaemyung_lee",
    "title": "우리 국민의 구조에 모든 역량을 총동원하겠습니다  #네팔 #긴급회의 #prayfornepal",
-   "views": 251600,
+   "views": 251700,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4ECXepekgFVLDAPQbcqjSdGAIaIofEozvI9Qh~tplv-tiktokx-origin.image?dr=14575&x-expires=1788480000&x-signature=PS9PqpM6GhMjd4kiwTC26wdlehI%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -616,7 +616,7 @@
   {
    "account": "jaemyung_lee",
    "title": "마참내.. #anthropic #openai #NVIDIA #broadcom #이재명",
-   "views": 195800,
+   "views": 195900,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/osApGgttBIBbbk6zA4iAKdIdkBfL1AAEiSwmCM~tplv-tiktokx-origin.image?dr=14575&x-expires=1788480000&x-signature=SWDKjwP0rikf%2BKdx66AIUgoHqdw%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -638,10 +638,10 @@
   {
    "account": "tictok_ent",
    "title": "트와이스 지효, 한층 성숙해진 미모 / 더후(THE WHOO) 포토월 #트와이스 #TWICE #지효 #THEWHOO",
-   "views": 2713,
+   "views": 2721,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAIWGIAVQtqA0UJfgJfAnwLAiP0I7Ge9ySA1f7~tplv-tiktokx-origin.image?dr=14575&x-expires=1788480000&x-signature=MmiwiIrURDY4qrJ6K8TellThkTU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAIWGIAVQtqA0UJfgJfAnwLAiP0I7Ge9ySA1f7~tplv-tiktokx-origin.image?dr=14575&x-expires=1788480000&x-signature=MmiwiIrURDY4qrJ6K8TellThkTU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1787820027,
    "url": "https://www.tiktok.com/@tictok_ent/video/7678628548231351573",
    "region": "kr"
@@ -649,16 +649,61 @@
   {
    "account": "tictok_ent",
    "title": "아이들 미연, 독보적인 여신 자태 / 더후(THE WHOO) 포토월 #아이들 #IDLE #미연 #THEWHOO",
-   "views": 1450,
+   "views": 1451,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0DAP8ffA9feqFAJnjvKACkVEPIG9EjAWcCAJz~tplv-tiktokx-origin.image?dr=14575&x-expires=1788480000&x-signature=HyG4wzQrT78%2FqpbPgSihIaje%2Bo4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0DAP8ffA9feqFAJnjvKACkVEPIG9EjAWcCAJz~tplv-tiktokx-origin.image?dr=14575&x-expires=1788480000&x-signature=HyG4wzQrT78%2FqpbPgSihIaje%2Bo4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1787819969,
    "url": "https://www.tiktok.com/@tictok_ent/video/7678628302008978709",
    "region": "kr"
   }
  ],
  "reddit": [
+  {
+   "sub": "WhatIsTheTea",
+   "title": "A father discovered that his son was bullying a classmate with cancer because he had no hair, and he acted in this way to teach him a lesson. In your opinion, is this a fair punishment?",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/cWx0ZzE2ZXhneW1oMRB8ki4f4UR8vnoH4vDlGzmP8_gEJoLLBTQiGM1EYeZB.png?width=640&crop=smart&auto=webp&s=201f52d4598aa8e590ee86aa01086ea4c81953fe",
+   "time": 1788288868,
+   "url": "https://www.reddit.com/r/WhatIsTheTea/comments/1w4l9my/a_father_discovered_that_his_son_was_bullying_a/"
+  },
+  {
+   "sub": "AskReddit",
+   "title": "Doctors of Reddit, what’s something patients routinely lie about even though you can usually tell?",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1788280444,
+   "url": "https://www.reddit.com/r/AskReddit/comments/1w4h5e6/doctors_of_reddit_whats_something_patients/"
+  },
+  {
+   "sub": "interestingasfuck",
+   "title": "My friend was born with 4 fingers. Reddit what questions do you have ?",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/l8pjr2v3uvmh1.jpeg?width=640&crop=smart&auto=webp&s=05758f8fb366ceeef8e93e9b1573c8a09add87fe",
+   "time": 1788256978,
+   "url": "https://www.reddit.com/r/interestingasfuck/comments/1w47i01/my_friend_was_born_with_4_fingers_reddit_what/"
+  },
+  {
+   "sub": "videogames",
+   "title": "In What Game Does The Current Protagonist Encounter The Previous Protagonist Of The Series?",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/ota3i4im6xmh1.jpeg?width=640&crop=smart&auto=webp&s=aa1ad43d292af3323d44aaf81faed5f47ba52cc6",
+   "time": 1788273294,
+   "url": "https://www.reddit.com/r/videogames/comments/1w4drr0/in_what_game_does_the_current_protagonist/"
+  },
+  {
+   "sub": "Wellthatsucks",
+   "title": "Reading festival 2026",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/NTh2YzB6cXNhd21oMRnDlqEAEEORR3Mn0TuEhNxuahSMXiHzgSEqdK2Ni4R2.jpeg?width=640&crop=smart&auto=webp&s=402089d21e9a356b10d193d81b8bf76bc83e8fab",
+   "time": 1788262599,
+   "url": "https://www.reddit.com/r/Wellthatsucks/comments/1w49dgs/reading_festival_2026/"
+  },
   {
    "sub": "meirl",
    "title": "meirl",
@@ -678,22 +723,13 @@
    "url": "https://www.reddit.com/r/MadeMeSmile/comments/1w4nv1x/parents_watching_their_kid_take_his_first_steps/"
   },
   {
-   "sub": "interestingasfuck",
-   "title": "My friend was born with 4 fingers. Reddit what questions do you have ?",
+   "sub": "PeterExplainsTheJoke",
+   "title": "Petah?",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/l8pjr2v3uvmh1.jpeg?width=640&crop=smart&auto=webp&s=05758f8fb366ceeef8e93e9b1573c8a09add87fe",
-   "time": 1788256978,
-   "url": "https://www.reddit.com/r/interestingasfuck/comments/1w47i01/my_friend_was_born_with_4_fingers_reddit_what/"
-  },
-  {
-   "sub": "WhatIsTheTea",
-   "title": "A father discovered that his son was bullying a classmate with cancer because he had no hair, and he acted in this way to teach him a lesson. In your opinion, is this a fair punishment?",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/cWx0ZzE2ZXhneW1oMRB8ki4f4UR8vnoH4vDlGzmP8_gEJoLLBTQiGM1EYeZB.png?width=640&crop=smart&auto=webp&s=201f52d4598aa8e590ee86aa01086ea4c81953fe",
-   "time": 1788288868,
-   "url": "https://www.reddit.com/r/WhatIsTheTea/comments/1w4l9my/a_father_discovered_that_his_son_was_bullying_a/"
+   "thumb": "https://preview.redd.it/ss3x0tpclwmh1.jpeg?width=640&crop=smart&auto=webp&s=eb0d94ffbf795ad520ba0577fc0558d259f73070",
+   "time": 1788266139,
+   "url": "https://www.reddit.com/r/PeterExplainsTheJoke/comments/1w4api1/petah/"
   },
   {
    "sub": "oddlysatisfying",
@@ -703,6 +739,15 @@
    "thumb": "https://external-preview.redd.it/ZDVkOWZhdHB0eW1oMWEOHFZZBUqjyq2M0VXdoeW6m8NCFgh9JvukX_DGJORC.png?width=640&crop=smart&auto=webp&s=dd39570cfc6d3806403951206350efd28f68be9e",
    "time": 1788293222,
    "url": "https://www.reddit.com/r/oddlysatisfying/comments/1w4no9s/wave_steadily_changes_color/"
+  },
+  {
+   "sub": "politics",
+   "title": "Donald Trump says transgender people will \"end\" if GOP keeps Congress in midterms",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/PARuKf3DBP_xK98sbUubmoRzn9pHNptB54hX0WkQgj4.jpeg?width=640&crop=smart&auto=webp&s=9f3e2fbf08258ef29033cb8aca58e4872970c6e7",
+   "time": 1788275093,
+   "url": "https://www.reddit.com/r/politics/comments/1w4elo5/donald_trump_says_transgender_people_will_end_if/"
   },
   {
    "sub": "todayilearned",
@@ -715,57 +760,12 @@
   },
   {
    "sub": "BeAmazed",
-   "title": "Meet Dr. Mariangela Hungaria",
+   "title": "Tiny hero girl stops runaway horse",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/eyzhv4wu5ymh1.jpeg?width=320&crop=smart&auto=webp&s=e52bf6e1bc2cfb067167b8f91f0c4b93394512b4",
-   "time": 1788285142,
-   "url": "https://www.reddit.com/r/BeAmazed/comments/1w4jfzi/meet_dr_mariangela_hungaria/"
-  },
-  {
-   "sub": "SipsTea",
-   "title": "Time to collect my generational wealth",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/93uv6q2ebymh1.jpeg?width=640&crop=smart&auto=webp&s=bc35d30af533072f9ac8d951de117d3a362bfd2d",
-   "time": 1788287004,
-   "url": "https://www.reddit.com/r/SipsTea/comments/1w4kcs4/time_to_collect_my_generational_wealth/"
-  },
-  {
-   "sub": "AskReddit",
-   "title": "Doctors of Reddit, what’s something patients routinely lie about even though you can usually tell?",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "",
-   "time": 1788280444,
-   "url": "https://www.reddit.com/r/AskReddit/comments/1w4h5e6/doctors_of_reddit_whats_something_patients/"
-  },
-  {
-   "sub": "clevercomebacks",
-   "title": "The good ol' days.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/3mfrynj9eymh1.jpeg?width=640&crop=smart&auto=webp&s=0e292ced21d46db00be43af714f8658b76c17f01",
-   "time": 1788287969,
-   "url": "https://www.reddit.com/r/clevercomebacks/comments/1w4ktnz/the_good_ol_days/"
-  },
-  {
-   "sub": "UpliftingNews",
-   "title": "A Nepal school principal had minutes to act when a glacier triggered a devastating flash flood. He sounded the alarm, evacuated 1,643 children and turned buses back, saving every child as the flood sw",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/NvQttPcIZYKnghjI3X97RtVTWkkEytwdL3jqEy8k0s0.jpeg?width=640&crop=smart&auto=webp&s=580477f3738b6f96311f9e9e01c6defadd4a1a61",
-   "time": 1788288987,
-   "url": "https://www.reddit.com/r/UpliftingNews/comments/1w4lbr6/a_nepal_school_principal_had_minutes_to_act_when/"
-  },
-  {
-   "sub": "Bossfight",
-   "title": "Goldithius and the gate o f stillness, Gold Han G",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/YW83Y3ozb2xyeW1oMZuhiYEAqJmflrU427QcyReo09dgjfR2mFJ7tosI8zQr.png?width=320&crop=smart&auto=webp&s=069dfae7a270fabed2877ca112108a9a0ecc3fe1",
-   "time": 1788292460,
-   "url": "https://www.reddit.com/r/Bossfight/comments/1w4n926/goldithius_and_the_gate_o_f_stillness_gold_han_g/"
+   "thumb": "https://external-preview.redd.it/bzBoOTEwdzMwem1oMcuvhIDvnESPyn7NJkL_FjsDJgW43B3BHdUuOvASCTZP.png?width=320&crop=smart&auto=webp&s=57cb1c542a934624f75ff0e95e3cd048e7f8ba57",
+   "time": 1788295317,
+   "url": "https://www.reddit.com/r/BeAmazed/comments/1w4osw6/tiny_hero_girl_stops_runaway_horse/"
   }
  ],
  "disaster": [],
@@ -810,10 +810,10 @@
    }
   },
   "landing": {
-   "at": "2026-09-02T08:35:46",
+   "at": "2026-09-02T09:01:26",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-09-02T09:01:19.446478+09:00"
+ "updated": "2026-09-02T09:31:22.780975+09:00"
 }
