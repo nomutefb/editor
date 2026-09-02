@@ -7528,8 +7528,14 @@
   {
    "query": "눈물의 여왕",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/f289c587b8.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.hankyung.com/article/202608288946H",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-03T05:40:00+09:00",
    "isNew": true,
@@ -7598,10 +7604,8 @@
  ],
  "gtrends_pool_updated": "2026-09-03T06:55:17+09:00",
  "_trend_img": {
-  "tried": "2026-09-03T02:53:22+09:00",
-  "fail": {
-   "치안감": "2026-09-03T01:09:52+09:00"
-  }
+  "tried": "2026-09-03T06:55:17+09:00",
+  "fail": {}
  },
  "gtrends_gl": [
   {
@@ -21116,7 +21120,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-03T06:55:17+09:00"
+    "first_seen": "2026-09-03T06:55:17+09:00",
+    "kw": "다이슨, CameraJet, AI 칫솔",
+    "sum": "계정이 다이슨의 카메라 탑재 AI 전동칫솔을 소개했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
