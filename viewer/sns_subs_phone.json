@@ -357,29 +357,49 @@
  ],
  "threads": [
   {
+   "account": "aipeekme",
+   "text": "🔗 원문·자세히 보기\nhttps://www.anthropic.com/news/enterprise-frontier-safeguards",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1788312689,
+   "thumb": "",
+   "url": "https://www.threads.com/@aipeekme/post/DcxD_dJH76x",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "앤트로픽이 데이터 미보존(ZDR)의 프라이버시와 오용 탐지 기능을 결합한 솔루션 EFS를 발표했습니다.\n데이터를 앤트로픽이 아니라 고객이 통제하는 클라우드 인프라에 저장하는 방식입니다.\nAWS, 구글 클라우드, 마이크로소프트 애저 및 금융, 의료, 제조 등 100개 이상의 고객사와 협력해 개발했습니다.\nFable 5.1 등 지능이 향상된 모델은 자율적 오용 위험이 있어 세션 간 데이터 연계 감시가 필요하지만, 규제 산업 고객은 데이터 보존에 어려움을 겪어왔습니다.\nEFS는 올가을 말부터 단계적으로 배포되며 클로드 코드, 클로드 엔터프라이즈, 베드록, 파운드리 등을 지원할 예정입니다.\n준비 기간에는 대상 고객에게 Fable 5와 Fable 5.1에 대한 ZDR을 제공합니다.\n보안 규제가 까다로운 기관들을 겨냥해 데이터 주권 이슈를 다룬 셈입니다.\n탐지 성능과 완벽한 격리가 실제로 양립할 수 있을지는 여전히 지켜볼 부분입니다.\n\n📷 사진 출처: anthropic.com",
+   "likes": 0,
+   "cmts": 2,
+   "time": 1788312678,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/790547428_18084662990407306_2524260263675485571_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk3Njk3NzM4Mjg5MzQxODk5NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQzOC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Kl3tnePdGioQ7kNvwGwfzbz&_nc_oc=AdoX1TtFhBNbwrTHSWR-spoy0q9wdYfRflZlD5XOY-KbYNxVY75758wQq4YVHaSonTY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Pcf5zbdA_h3ImN_2_twPPg&_nc_ss=7a22e&oh=00_AQLfXEjLXmpXnQuZpEilvuhmQ3UA-0Jq6YpoXKUwFrB2rg&oe=6A9D43BC",
+   "url": "https://www.threads.com/@aipeekme/post/DcxD9vbH_nz",
+   "region": "kr"
+  },
+  {
    "account": "choi.openai",
    "text": "3/ 판정 근거로 먼저 든 것은 벤치마크입니다.\n\nExploitBench는 알려진 크롬 V8 취약점을 받아 실제로 작동하는 공격 코드까지 완성하는지 재는 평가인데요. Astra는 여기서 100%를 받았습니다.\n오픈AI 연구원에 따르면 CVE 41건 전부에서 임의 코드 실행까지 성공한 결과고요.\n\n공개된 취약점은 훈련 데이터에 섞였을 수 있으니 오픈AI는 6월부터 8월 사이 공개된 고위험 V8 취약점 20개로 내부 평가를 따로 만들었습니다.\n여기서 Astra는 출력 토큰 7만 5천 개쯤에서 성공률 39%에 닿았고, GPT-5.6 Sol은 13만 5천 개를 쓰고도 12% 남짓이었습니다.\n\n평가 도중 Astra는 알려지지 않은 취약점 두 개를 스스로 찾아 공격 체인에 끼워 넣었고, 오픈AI는 이를 신고하는 중입니다.\n이 수치는 제한을 완화한 Daybreak Blue 설정에서 잰 결과라 일반 사용자의 기본 설정과는 다릅니다.",
-   "likes": 0,
+   "likes": 2,
    "cmts": 1,
    "time": 1788310847,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/791532149_17985073830112832_3862913727591736564_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk3Njk2MjA5NjMxNTE5MjA2Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIyMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=b-mAqyFormQQ7kNvwHYDgdC&_nc_oc=AdpyiUyAzYqIQv0hi780RdjvyPi1TtzELbzF6wqbwdmqO1R8DCI2LbtdGNNWhUQCx9E&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=e-qNb1V5QhoU74xFezcsOA&_nc_ss=7a22e&oh=00_AQI3eFP3yN_4Rp9SN8nlbUfjanfYjtU0Yl3UZrdeEz1bEw&oe=6A9D52EE",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/791532149_17985073830112832_3862913727591736564_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk3Njk2MjA5NjMxNTE5MjA2Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIyMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=b-mAqyFormQQ7kNvwHYDgdC&_nc_oc=AdpyiUyAzYqIQv0hi780RdjvyPi1TtzELbzF6wqbwdmqO1R8DCI2LbtdGNNWhUQCx9E&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=rJ-Jj_Lo8CI8KCFpkjHzOQ&_nc_ss=7a22e&oh=00_AQLgOYX3EZWyInh2zBZn1Mm7nKpASBsGkr2U57pq_7LFJQ&oe=6A9D52EE",
    "url": "https://www.threads.com/@choi.openai/post/DcxAfSsD1MC",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "2/ 오픈AI는 8월 7일 Astra가 Critical 수준일 가능성을 배제할 수 없다고 했고, 9월 1일에는 추가 평가 끝에 그 기준을 충족한다고 확정했습니다.\n\nCritical은 오픈AI가 2023년 만든 Preparedness Framework의 최고 등급입니다. \n사람이 단계마다 지시하지 않아도 잘 방어된 여러 실제 시스템에서 알려지지 않은 취약점을 찾아 작동하는 공격 코드까지 만들거나, 목표만 주면 공격 전략을 처음부터 끝까지 세워 실행하는 수준이면 해당됩니다. 둘 중 하나만 맞아도 지정되고, Astra가 첫 사례입니다.\n\n이 등급은 배포 전만이 아니라 개발 중에도 더 강한 보호 조치를 요구합니다.\n오픈AI는 지난 몇 주 동안 Astra의 개발과 출시 일부를 미루면서 사이버 오용과 모델의 무단 행동에 대한 보호를 강화하고 시험했고, 그 결과 출시해도 심각한 피해 위험을 충분히 낮췄다고 판단했습니다.",
-   "likes": 2,
+   "likes": 4,
    "cmts": 1,
    "time": 1788310838,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/790301287_17985074568112832_3645214569654976138_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk3Njk2MjAyMDA3OTUyMDE0MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQxNi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=syxZwJyml8QQ7kNvwGMXwLt&_nc_oc=Ado4Nk9_aQCnFVKZzoWH19lhRBXbxXhY-A86cjFhRhj7oCnzNlCSN6ZNNIkFXTepjdw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=e-qNb1V5QhoU74xFezcsOA&_nc_ss=7a22e&oh=00_AQJ5pxBxrMkKELytZBN714qKpFoS-Y9AE77g-tM6BGnOaQ&oe=6A9D3F78",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/790301287_17985074568112832_3645214569654976138_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk3Njk2MjAyMDA3OTUyMDE0MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQxNi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=syxZwJyml8QQ7kNvwGMXwLt&_nc_oc=Ado4Nk9_aQCnFVKZzoWH19lhRBXbxXhY-A86cjFhRhj7oCnzNlCSN6ZNNIkFXTepjdw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=rJ-Jj_Lo8CI8KCFpkjHzOQ&_nc_ss=7a22e&oh=00_AQJxsjDE7c2abme9uZFGi2JC7q5SiSW6WJv0Mp-fnmV6Xg&oe=6A9D3F78",
    "url": "https://www.threads.com/@choi.openai/post/DcxAeLsD0mM",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "1/ 바쁘신 분들을 위해 핵심 내용만 정리해드립니다.\n\n1. 오픈AI가 9월 1일 차기 모델 Astra를 사이버 최고 위험 등급 Critical로 확정함. 8월 7일 \"배제할 수 없다\"에서 한 달 만에 바뀜\n2. 알려진 취약점 공격 평가 ExploitBench 100%. 최신 V8 취약점 20개 내부 평가에서는 GPT-5.6 Sol의 3배 넘는 성공률을 훨씬 적은 토큰으로 냄\n3. 탈옥 거부율은 59%에서 91.5%로 오름. 허깅페이스 사건을 본뜬 함정 시험에서 Sol은 56%가 시험 밖 인프라를 건드렸지만 Astra는 0건\n4. 8월 28일 보류했던 최대 규모 프런티어 강화학습을 재개함\n5. 출시 뒤 사고 과정 감시가 작업을 자동으로 멈출 수 있고, 정상 작업도 오탐으로 끊길 수 있다고 미리 알림\n6. 고급 사이버 기능은 알파 테스터부터 Daybreak Blue 순으로 열고 출시일은 \"곧\"",
-   "likes": 13,
+   "likes": 19,
    "cmts": 1,
    "time": 1788310833,
    "thumb": "",
@@ -417,32 +437,12 @@
    "region": "kr"
   },
   {
-   "account": "aipeekme",
-   "text": "개인 PC나 맥, 리눅스 장비를 사설 AI 서버로 바꿔주는 프로젝트 ODS(Osmantic Deployment System)가 공개되어 있습니다.\n올라마(Ollama) 모델 구동부터 오픈 웹UI(Open WebUI), n8n 자동화 워크플로, 컴피UI(ComfyUI) 이미지 생성까지 직접 수작업으로 조립할 필요 없이 한 번에 묶어 설치해 주는 통합 스택인데요.\n문서와 연동하는 RAG 및 검색, 음성과 에이전트 도구 호출, GPU 상태를 관리하는 대시보드와 프라이버시 도구도 함께 제공됩니다.\n클라우드나 구독 결제 없이 프롬프트와 데이터를 로컬 기기에 보관하며, 터미널 명령어로 하드웨어에 맞는 모델 선택부터 서비스 구동까지 진행됩니다. 현재 안정화 버전은 v2.6.0입니다.\n도구 자체는 이미 널리 쓰이던 것들이라 새로울 게 없지만, 파편화된 환경을 한 번에 묶어준 점은 분명 다루기 편해 보입니다.",
-   "likes": 1,
-   "cmts": 1,
-   "time": 1788307523,
-   "thumb": "",
-   "url": "https://www.threads.com/@aipeekme/post/Dcw6I5fn38o",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
-   "text": "🔗 원문·출처\nhttps://www.anthropic.com/claude-fable-and-mythos-5-1",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1788307441,
-   "thumb": "",
-   "url": "https://www.threads.com/@aipeekme/post/Dcw5-xln_ww",
-   "region": "kr"
-  },
-  {
    "account": "kopp",
    "text": "probably nobody will notice this, but in the current age we’re living in, it’s all about the little details. \n\ndid you see it?",
    "likes": 34,
    "cmts": 2,
    "time": 1788257306,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/791755420_1760080608659001_1932728924598660944_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk3NjUxMjc0NjY3NzcyODU5Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMyIn0%3D&_nc_ohc=XKLknc7eXf8Q7kNvwFwaX9s&_nc_oc=Adqc6Ea_hWttiZ_hnOSllqotQg7cQDnfbh5ZvfDT737ali0wuU_hwXu1vQh02tQd9NI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=uOagaKBUGXzUuwj9myB-cw&_nc_ss=7a22e&oh=00_AQJ6SaD2wgA-II6OCjJPxBilvn8QmQyJgMKtROfWPXZ3qA&oe=6A9D5520",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/791755420_1760080608659001_1932728924598660944_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk3NjUxMjc0NjY3NzcyODU5Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=XKLknc7eXf8Q7kNvwFwaX9s&_nc_oc=Adqc6Ea_hWttiZ_hnOSllqotQg7cQDnfbh5ZvfDT737ali0wuU_hwXu1vQh02tQd9NI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=lAMzb6YTfuUvEdv2hR8Szw&_nc_ss=7a22e&oh=00_AQI12D8YWoFzpWQWMJZ1UzkIbR-RaOirPOlWfMTetdHRQQ&oe=6A9D5520",
    "url": "https://www.threads.com/@kopp/post/DcvaUZOifVQ",
    "region": "kr"
   },
@@ -459,21 +459,21 @@
   {
    "account": "choi.openai",
    "text": "큰 거 온다..\n\n오픈AI가 자기 손으로 최고 위험 등급을 확정하고도 출시하겠다고 합니다.\n\n차기 모델 Astra가 사람 개입 없이 제로데이를 찾아 공격 코드까지 만드는 Critical 수준이라고 9월 1일 공식 판정했습니다.\n그러면서 같은 글에서 곧 공개하겠다고도 적었는데요. 능력을 깎는 대신 거부율과 정렬, 감시를 올려 출시 조건을 맞췄다는 설명입니다.\n\n오픈AI의 Astra 안전 조치 발표를 정리했습니다 🧵",
-   "likes": 54,
-   "cmts": 14,
+   "likes": 87,
+   "cmts": 16,
    "time": 1788310828,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/790268553_17985074031112832_2202542726013344571_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk3Njk2MTkzMjcyODk0MzIxNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=3Wq6p6IPUvYQ7kNvwFRNyNy&_nc_oc=Ado38gP8akxoTeUeOwQc8vkffT37jYyPC-31RXTlpt8hz2TVMJSPCl800IK52-jaIaM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=e-qNb1V5QhoU74xFezcsOA&_nc_ss=7a22e&oh=00_AQL2hwcRStDjbWG4QGKIUxAyIXELLJLuO9OwPaillFnyEQ&oe=6A9D41DA",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/790268553_17985074031112832_2202542726013344571_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk3Njk2MTkzMjcyODk0MzIxNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=3Wq6p6IPUvYQ7kNvwFRNyNy&_nc_oc=Ado38gP8akxoTeUeOwQc8vkffT37jYyPC-31RXTlpt8hz2TVMJSPCl800IK52-jaIaM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=rJ-Jj_Lo8CI8KCFpkjHzOQ&_nc_ss=7a22e&oh=00_AQKQTTvXzXIjYQVUtj7x7fiqdvkQeectgLMWtxmX65giVQ&oe=6A9D41DA",
    "url": "https://www.threads.com/@choi.openai/post/DcxAc6Vj0Jx",
    "region": "kr"
   },
   {
    "account": "aipeekme",
-   "text": "앤트로픽이 코딩과 지식 작업에 맞춘 새 모델 클로드 페이블 5.1과 미토스 5.1을 발표했습니다. 두 모델은 동일 모델이지만 안전장치 수준을 다르게 적용했습니다. 페이블 5.1은 일반 공개되고, 미토스 5.1은 신뢰 접근 프로그램을 통해서만 제공되며 사이버보안과 생명과학 작업을 지원하도록 설계되었습니다. 캐시 읽기 비용을 인하하면서 일반 작업 기준으로 페이블 5 대비 비용을 약 25% 낮췄고 에이전트 작업에서는 최대 약 45%까지 절감됩니다. 또한 완전한 프라이버시를 지원하는 기업용 세이프가드 시스템 도입과 함께 사이버보안 분야 오탐을 60% 줄여 소프트웨어 취약점 탐지에 활용할 수 있게 했습니다. 결국 같은 엔진을 두고 안전 기준과 접근 권한만 분리하는 방식으로 제품군을 정리한 셈입니다. 성능 격차보다 비용 25% 절감이 실제 실무 도입에서는 더 크게 체감될 것 같습니다. 다만 제한 공개되는 미토스 5.1의 통제 기준이 실제로 어디까지 열려 있는지는 아직 명확하지 않아 보입니다.",
+   "text": "개인 PC나 맥, 리눅스 장비를 사설 AI 서버로 바꿔주는 프로젝트 ODS(Osmantic Deployment System)가 공개되어 있습니다.\n올라마(Ollama) 모델 구동부터 오픈 웹UI(Open WebUI), n8n 자동화 워크플로, 컴피UI(ComfyUI) 이미지 생성까지 직접 수작업으로 조립할 필요 없이 한 번에 묶어 설치해 주는 통합 스택인데요.\n문서와 연동하는 RAG 및 검색, 음성과 에이전트 도구 호출, GPU 상태를 관리하는 대시보드와 프라이버시 도구도 함께 제공됩니다.\n클라우드나 구독 결제 없이 프롬프트와 데이터를 로컬 기기에 보관하며, 터미널 명령어로 하드웨어에 맞는 모델 선택부터 서비스 구동까지 진행됩니다. 현재 안정화 버전은 v2.6.0입니다.\n도구 자체는 이미 널리 쓰이던 것들이라 새로울 게 없지만, 파편화된 환경을 한 번에 묶어준 점은 분명 다루기 편해 보입니다.",
    "likes": 1,
    "cmts": 1,
-   "time": 1788307427,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/793001952_1788561465816654_304213077897220984_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk3NjkzMzIwNTE5NDQxOTEyOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Id_jHYXzgG4Q7kNvwEglbaA&_nc_oc=AdrXh4Dx867rvYNBxJ_PZRiF2M8d3j8Gx6XArUMndKKza-UhI1JK9gLqpv1TU2Y6tpQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=7KMzB2eJRJUU8Plf9sFiqw&_nc_ss=7a22e&oh=00_AQLQjnRSvSi3iMISA45FKbQDmtsx7dNOkIZ_RUVoOadQaQ&oe=6A9D5156",
-   "url": "https://www.threads.com/@aipeekme/post/Dcw563vEau5",
+   "time": 1788307523,
+   "thumb": "",
+   "url": "https://www.threads.com/@aipeekme/post/Dcw6I5fn38o",
    "region": "kr"
   },
   {
@@ -487,13 +487,53 @@
    "region": "kr"
   },
   {
+   "account": "aipeekme",
+   "text": "🔗 원문·출처\nhttps://www.anthropic.com/claude-fable-and-mythos-5-1",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1788307441,
+   "thumb": "",
+   "url": "https://www.threads.com/@aipeekme/post/Dcw5-xln_ww",
+   "region": "kr"
+  },
+  {
    "account": "choi.openai",
    "text": "3/ 이 1위를 만든 방식도 살펴볼 만합니다.\n\n모델은 오디오를 0.08초 단위로 받아들이며, 조각이 들어올 때마다 더 들을지 바로 받아쓸지를 결정합니다. 어려운 단어는 조금 더 듣고, 쉬운 단어는 거의 즉시 적습니다. 메타는 이를 ‘적응 지연’이라고 부릅니다.\n\n이 방식은 강화학습으로 익혔습니다. 정확도와 속도 보상을 더하지 않고 곱했기 때문에, 둘 중 하나라도 크게 떨어지면 전체 보상이 함께 낮아집니다.\n덕분에 단순히 빠르거나 정확하기만 한 전략보다 단어마다 적절한 대기 시간을 찾는 전략이 선택됩니다.\n\n아래 차트에서도 기존 모델들이 속도와 정확도를 맞바꾸던 경계보다 더 나은 위치를 기록했습니다.",
    "likes": 4,
    "cmts": 1,
    "time": 1788305619,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/790059393_17985050454112832_505007829203698532_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk3NjkxODIzNDc1ODg1OTYyNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTkyMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=P2ZupdUOp1UQ7kNvwG17Tyg&_nc_oc=AdoiVAHWWvKCjzmUlxXRCBvHKXI5jDs0Rby6Z0tNywPP8i99yeRA1CUnB1GoCib8wdk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=e-qNb1V5QhoU74xFezcsOA&_nc_ss=7a22e&oh=00_AQJCO9yTeWvMTpnz049iOC_20c5zA0br5tzR4vaADd_1uQ&oe=6A9D5CEC",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/790059393_17985050454112832_505007829203698532_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk3NjkxODIzNDc1ODg1OTYyNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTkyMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=P2ZupdUOp1UQ7kNvwG17Tyg&_nc_oc=AdoiVAHWWvKCjzmUlxXRCBvHKXI5jDs0Rby6Z0tNywPP8i99yeRA1CUnB1GoCib8wdk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=rJ-Jj_Lo8CI8KCFpkjHzOQ&_nc_ss=7a22e&oh=00_AQJ5C8QtOn0UnZMibpak1gp7CxoLny-hlYsGD4TmCU8NBQ&oe=6A9D5CEC",
    "url": "https://www.threads.com/@choi.openai/post/Dcw2hBbk0tq",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "앤트로픽이 코딩과 지식 작업에 맞춘 새 모델 클로드 페이블 5.1과 미토스 5.1을 발표했습니다. 두 모델은 동일 모델이지만 안전장치 수준을 다르게 적용했습니다. 페이블 5.1은 일반 공개되고, 미토스 5.1은 신뢰 접근 프로그램을 통해서만 제공되며 사이버보안과 생명과학 작업을 지원하도록 설계되었습니다. 캐시 읽기 비용을 인하하면서 일반 작업 기준으로 페이블 5 대비 비용을 약 25% 낮췄고 에이전트 작업에서는 최대 약 45%까지 절감됩니다. 또한 완전한 프라이버시를 지원하는 기업용 세이프가드 시스템 도입과 함께 사이버보안 분야 오탐을 60% 줄여 소프트웨어 취약점 탐지에 활용할 수 있게 했습니다. 결국 같은 엔진을 두고 안전 기준과 접근 권한만 분리하는 방식으로 제품군을 정리한 셈입니다. 성능 격차보다 비용 25% 절감이 실제 실무 도입에서는 더 크게 체감될 것 같습니다. 다만 제한 공개되는 미토스 5.1의 통제 기준이 실제로 어디까지 열려 있는지는 아직 명확하지 않아 보입니다.",
+   "likes": 1,
+   "cmts": 1,
+   "time": 1788307427,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/793001952_1788561465816654_304213077897220984_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk3NjkzMzIwNTE5NDQxOTEyOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Id_jHYXzgG4Q7kNvwEglbaA&_nc_oc=AdrXh4Dx867rvYNBxJ_PZRiF2M8d3j8Gx6XArUMndKKza-UhI1JK9gLqpv1TU2Y6tpQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Pcf5zbdA_h3ImN_2_twPPg&_nc_ss=7a22e&oh=00_AQLjy8R5J3hq0mFj_BeHE3PJnolzT2DI3smlG0IhjShVnw&oe=6A9D5156",
+   "url": "https://www.threads.com/@aipeekme/post/Dcw563vEau5",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "2/ 벤치마크는 독립 평가 기관 수치부터 보겠습니다.\n\nArtificial Analysis의 스트리밍 음성 인식 순위에서 최종 전사 기준 단어 오류율 3.1%, 말이 끝난 뒤 0.16초 만에 최종 문장을 내놓으며 1위에 올랐습니다.\n\n2위권인 Cartesia Ink-2와 ElevenLabs Scribe v2 Realtime이 3.4~3.6% 구간이고, 8월에 나온 구글 Gemini 3.5 Transcribe Live와 OpenAI GPT Live Transcribe, xAI와 알리바바 모델은 전부 그 아래 순위입니다.\n\n말하는 중간에 갱신되는 임시 자막 기준으로도 가장 정확합니다.\n\n이 평가는 회의, 통화, 실적 발표 같은 영어 실사용 음성 8시간으로 측정합니다.",
+   "likes": 3,
+   "cmts": 1,
+   "time": 1788305611,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/790930628_17985050373112832_4314125846139799495_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk3NjkxODE3MTUyNTU0MDI3OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQyMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=26iU3gT_eLUQ7kNvwF22l9j&_nc_oc=AdqjHO5pRVlj8tl_a8Qlm-NxhzWLkuplUYsQJj-ArgFl9yZ9o2EETTNbe1XQhmgx7Fg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=rJ-Jj_Lo8CI8KCFpkjHzOQ&_nc_ss=7a22e&oh=00_AQKLYsXPg4uRo2YvSrVd4M7F5m9tE7qoVvz3KfoWe6ItHA&oe=6A9D3E0C",
+   "url": "https://www.threads.com/@choi.openai/post/Dcw2gGik2m3",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "1/메타 초지능 랩 MSL이 9월 1일 현지시간 Muse Voice Transcribe를 공개했습니다.\n저커버그가 초지능 개발을 내걸고 세운 조직이 처음 내놓는 실시간 오디오 모델입니다.\n\n지금까지 음성 인식 서비스는 받아 적는 모델, 화자를 가려내는 모델, 말이 끝난 시점을 잡는 모델을 따로 이어 붙여 만들었는데요. 이번 모델은 이 세 가지를 모델 하나가 실시간으로 동시에 처리합니다.\n\n70개가 넘는 언어로 훈련했고 25개 언어는 검증을 마쳤습니다. 한 문장 안에서 언어를 바꿔도 따라오고, 1시간 넘는 오디오에서 20명 이상을 구분합니다.\n\n기반은 4월부터 이어져 온 Muse Spark 계열의 멀티모달 구조입니다.",
+   "likes": 14,
+   "cmts": 1,
+   "time": 1788305606,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/Dcw2fbok9WC",
    "region": "kr"
   },
   {
@@ -508,173 +548,23 @@
   },
   {
    "account": "choi.openai",
-   "text": "2/ 벤치마크는 독립 평가 기관 수치부터 보겠습니다.\n\nArtificial Analysis의 스트리밍 음성 인식 순위에서 최종 전사 기준 단어 오류율 3.1%, 말이 끝난 뒤 0.16초 만에 최종 문장을 내놓으며 1위에 올랐습니다.\n\n2위권인 Cartesia Ink-2와 ElevenLabs Scribe v2 Realtime이 3.4~3.6% 구간이고, 8월에 나온 구글 Gemini 3.5 Transcribe Live와 OpenAI GPT Live Transcribe, xAI와 알리바바 모델은 전부 그 아래 순위입니다.\n\n말하는 중간에 갱신되는 임시 자막 기준으로도 가장 정확합니다.\n\n이 평가는 회의, 통화, 실적 발표 같은 영어 실사용 음성 8시간으로 측정합니다.",
-   "likes": 3,
-   "cmts": 1,
-   "time": 1788305611,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/790930628_17985050373112832_4314125846139799495_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk3NjkxODE3MTUyNTU0MDI3OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQyMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=26iU3gT_eLUQ7kNvwF22l9j&_nc_oc=AdqjHO5pRVlj8tl_a8Qlm-NxhzWLkuplUYsQJj-ArgFl9yZ9o2EETTNbe1XQhmgx7Fg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=e-qNb1V5QhoU74xFezcsOA&_nc_ss=7a22e&oh=00_AQJ3Fo_5B4jw8-fzTWUcd1w9E8sUlOj7XWAl8pz-29oWIA&oe=6A9D3E0C",
-   "url": "https://www.threads.com/@choi.openai/post/Dcw2gGik2m3",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
-   "text": "구글이 8월 한 달간 공개한 주요 AI 제품과 기술 업데이트를 정리했습니다.\n\n이번 발표에는 코딩과 에이전트에 특화된 제미나이 3.7 플래시와 음성 인식 모델인 제미나이 3.5 트랜스크라이브 출시가 포함되었습니다. 제미나이 3.7 플래시는 3.6 플래시 출시 3주 만에 공개되었으며 토큰당 가격을 절반으로 낮췄습니다. 하드웨어 부문에서는 텐서 G6 칩과 최신 제미나이 나노를 탑재한 픽셀 11, 프로, 프로 XL, 프로 폴드를 선보였습니다. 아울러 제미나이 앱의 월간 활성 사용자 10억 명 돌파, 안드로이드용 크롬 내 제미나이 도입, 날씨·기후 예측용 오픈소스 모델 확장 소식도 다뤘습니다.\n\n작고 빠른 모델을 하드웨어 기기와 직접 묶는 흐름은 이제 확고해진 모양새입니다. 다만 거대 모델의 추론 능력 자체보다 경량화 모델과 기기 간 결합을 유독 앞세운 점이 눈에 밟혔습니다.\n\n📷 사진 출처: blog.google",
-   "likes": 1,
-   "cmts": 1,
-   "time": 1788303699,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/791906440_18084644105407306_5084748519876460085_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk3NjkwMjA2ODE1ODA2NjA4Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTMwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Y0ixXb8SqgcQ7kNvwGufHq5&_nc_oc=AdrCgaB-RHcYLwUHHICs-0koagiDtb0_XyiTwlTMRcGWwSh4WmOcYYINwsrIIbSWBLg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=7KMzB2eJRJUU8Plf9sFiqw&_nc_ss=7a22e&oh=00_AQLzJLYnt9xqbCU2PFvJzhT-abthGO6r-OJAvUwjD9iLiw&oe=6A9D41FA",
-   "url": "https://www.threads.com/@aipeekme/post/Dcwy1xHE-2n",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "1/메타 초지능 랩 MSL이 9월 1일 현지시간 Muse Voice Transcribe를 공개했습니다.\n저커버그가 초지능 개발을 내걸고 세운 조직이 처음 내놓는 실시간 오디오 모델입니다.\n\n지금까지 음성 인식 서비스는 받아 적는 모델, 화자를 가려내는 모델, 말이 끝난 시점을 잡는 모델을 따로 이어 붙여 만들었는데요. 이번 모델은 이 세 가지를 모델 하나가 실시간으로 동시에 처리합니다.\n\n70개가 넘는 언어로 훈련했고 25개 언어는 검증을 마쳤습니다. 한 문장 안에서 언어를 바꿔도 따라오고, 1시간 넘는 오디오에서 20명 이상을 구분합니다.\n\n기반은 4월부터 이어져 온 Muse Spark 계열의 멀티모달 구조입니다.",
-   "likes": 13,
-   "cmts": 1,
-   "time": 1788305606,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/Dcw2fbok9WC",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
-   "text": "나를 봐!!!\n\nChatgpt image 2\n\n프롬프트 하단👇",
-   "likes": 2,
-   "cmts": 3,
-   "time": 1788268232,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/792235781_18084541757407306_5203659128801613472_n.webp?stp=dst-webp_p640x640_sh2.08&_nc_cat=103&ig_cache_key=Mzk3NjYwNDYxMDM0OTc0MzQ0NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuOTQxLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=-kjCkcsa27IQ7kNvwEFKJLF&_nc_oc=AdpqUEj7ot_KuidhLL4Lzw65oZ8pcU6XSL-jr70h1MlO2iy_5zAyldKUddPD6MLMpIo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=7KMzB2eJRJUU8Plf9sFiqw&_nc_ss=7a22e&oh=00_AQKDQikf6cG3gffbIWg1WMYcKvKxZmGruky3PSsQch2Yjw&oe=6A9D55D2",
-   "url": "https://www.threads.com/@aipeekme/post/DcvvNL8E71V",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
    "text": "🚨 받아쓰기 가격이 시간당 0.18달러까지 내려왔습니다.\n\n메타 초지능 랩의 첫 실시간 오디오 모델이 단어 오류율 3.1%로 독립 벤치마크 1위에 오르면서, 1,000분에 6.5달러 받던 시장에 3달러로 들어왔는데요.\n\n20명이 넘게 떠들어도 누가 말했는지 실시간으로 가려내는 Muse Voice Transcribe 발표를 정리했습니다 🧵",
-   "likes": 60,
-   "cmts": 13,
+   "likes": 69,
+   "cmts": 14,
    "time": 1788305601,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/793160520_4176205172671474_2555550816269870644_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk3NjgwNjY0MDkwNDkwNTgwMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=koJbYq1umv4Q7kNvwF3Mwzy&_nc_oc=AdrrsxIr9r-O_yibQ-G-Ns-QhI55MiFFpFjyhpjbD7d99B7UZ7hsqvDQgJzlDeQgesg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=e-qNb1V5QhoU74xFezcsOA&_nc_ss=7a22e&oh=00_AQKP1Dnr7TDbDG0OFAk8RMBjK5kAKD2KDyL3lbOjmtU7Dg&oe=6A9D6A6B",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/793160520_4176205172671474_2555550816269870644_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk3NjgwNjY0MDkwNDkwNTgwMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=koJbYq1umv4Q7kNvwF3Mwzy&_nc_oc=AdrrsxIr9r-O_yibQ-G-Ns-QhI55MiFFpFjyhpjbD7d99B7UZ7hsqvDQgJzlDeQgesg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=rJ-Jj_Lo8CI8KCFpkjHzOQ&_nc_ss=7a22e&oh=00_AQL_79dA2uGuMsZ-CGW0bYErr2wJaYgrYPFybePmnqxWcQ&oe=6A9D6A6B",
    "url": "https://www.threads.com/@choi.openai/post/DcwdJHjjSRK",
    "region": "kr"
   }
  ],
  "tiktok": [
   {
-   "account": "jaemyung_lee",
-   "title": "🇰🇷🇧🇷🫰 #KOREA #BRASIL @Presidente Lula",
-   "views": 1900000,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooDPRCUDqBpuPTmFEWk6RAIgEBqnfZwgeRICBU~tplv-tiktokx-origin.image?dr=14575&x-expires=1788483600&x-signature=P1AiEDZLI%2F8tMZTeg6y8EEN6Yfw%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1785177115,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7667277327386135826",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "이번 정류장은 아르헨티나입니다🇰🇷🇦🇷 #이재명 #대통령 #argentina #buenosaireststheerastour",
-   "views": 1600000,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAbAoCECNeDAVDgQBcAkFzYBfoUADqQCQWIuZl~tplv-tiktokx-origin.image?dr=14575&x-expires=1788483600&x-signature=ZL7lEfoeGpomRADJgfKTt77hxaA%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1785471372,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7668541152869616914",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "이번 정류장은 브라질입니다 #이재명 #대통령 #Brasil #Brazil",
-   "views": 778600,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooBGAi8A6InMPiZBpU9fBkTRtAAwBKw0m1E0Ag~tplv-tiktokx-origin.image?dr=14575&x-expires=1788483600&x-signature=bBoZGlAkfOCkPl94pvPMuSTJ2kM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1785109781,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7666988131442281746",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "¡Gusto en conocerte, Argentina! 🇰🇷🤝🇦🇷 #이재명 #아르헨티나 #argentina #javiermilei",
-   "views": 492700,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o43E0EJDgKsBeuyFfnqRBCAvI1sAAbI2NsPlIc~tplv-tiktokx-origin.image?dr=14575&x-expires=1788483600&x-signature=HfzQWOd%2FqMQlNFQTf%2B5lzVFAiBs%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1785519099,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7668746136877812999",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "이번 정류장은 칠레입니다🇰🇷🇨🇱 #이재명 #대통령 #Chile #Corea",
-   "views": 374500,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQpDHATAEBzAIGFgqwDA4hofdRfVCsCaqEBIkL~tplv-tiktokx-origin.image?dr=14575&x-expires=1788483600&x-signature=70W5eRzoT2dpPTuhHT4gvr1xE9o%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1785365622,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7668086960883354887",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "프랑크푸르트에 도착했습니다🇰🇷🇩🇪 #이재명 #deutschland #frankfurt",
-   "views": 278500,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1788483600&x-signature=y%2FN3akp8tzk9RjYFX51pw12f%2F30%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1785656353,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7669335640793763079",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "우리 국민의 구조에 모든 역량을 총동원하겠습니다  #네팔 #긴급회의 #prayfornepal",
-   "views": 251800,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4ECXepekgFVLDAPQbcqjSdGAIaIofEozvI9Qh~tplv-tiktokx-origin.image?dr=14575&x-expires=1788483600&x-signature=kQjCQQkjra6CJbGmdO9NQEgGwvM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1787831518,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7678677903122369800",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "대한민국과 브라질이 함께 그려갈 미래가  두 나라 국민 모두에게  더 큰 희망과 기회가 되길 기대합니다 🇰🇷🫰🇧🇷 @Presidente Lula ima, meu irmão💚💛💙 #이재명 #lula #korea #Br",
-   "views": 238400,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-i-photomode-sg/91a2f3151d9741689af70b1d1f8aac3a~tplv-photomode-image.jpeg?dr=14555&x-expires=1788483600&x-signature=sGAyTccV01kaMAYyDfqvupgk%2Fqo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=9b759fb9&idc=my&ftpl=1",
-   "time": 1785270939,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7667680300490558728",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "마참내.. #anthropic #openai #NVIDIA #broadcom #이재명",
-   "views": 195900,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/osApGgttBIBbbk6zA4iAKdIdkBfL1AAEiSwmCM~tplv-tiktokx-origin.image?dr=14575&x-expires=1788483600&x-signature=xkGloQL6cD74HbHE2Vo0vbKEsW4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1784945079,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7666280741554195730",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "이번 정류장은 샌프란시스코입니다 🇰🇷🇺🇸 #이재명 #대통령 #US #sanfrancisco #california",
-   "views": 139600,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okkIgGYEt7AlB4qvUF5yCAEAjD8vfKAfVACbBp~tplv-tiktokx-origin.image?dr=14575&x-expires=1788483600&x-signature=nT47i43poHW95a81UT7AWS41cmM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1784911601,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7666136953456315666",
-   "region": "kr"
-  },
-  {
    "account": "tictok_ent",
    "title": "트와이스 지효, 한층 성숙해진 미모 / 더후(THE WHOO) 포토월 #트와이스 #TWICE #지효 #THEWHOO",
-   "views": 2729,
+   "views": 2740,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAIWGIAVQtqA0UJfgJfAnwLAiP0I7Ge9ySA1f7~tplv-tiktokx-origin.image?dr=14575&x-expires=1788483600&x-signature=xpTT0tSGCELObaomF%2F2eNflSjFc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAIWGIAVQtqA0UJfgJfAnwLAiP0I7Ge9ySA1f7~tplv-tiktokx-origin.image?dr=14575&x-expires=1788487200&x-signature=ygT9SIUs9f6TkDOzk1v%2FSL8GLLs%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1787820027,
    "url": "https://www.tiktok.com/@tictok_ent/video/7678628548231351573",
    "region": "kr"
@@ -682,25 +572,104 @@
   {
    "account": "tictok_ent",
    "title": "트리플에스(tripleS) 신위 / 2027 S/S 서울패션위크 두칸 포토월 #트리플에스 #tripleS #지우 #신위 #린 #연지 #두칸 #서울패션위크 #SFW",
-   "views": 1491,
+   "views": 1528,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oU4p9Coi7YykaABAqLAXZ9AAEAXmWIlmABPiZ~tplv-tiktokx-origin.image?dr=14575&x-expires=1788483600&x-signature=ORXB7G4CysvZxYk0ZrP5C%2Fg%2FSgU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oU4p9Coi7YykaABAqLAXZ9AAEAXmWIlmABPiZ~tplv-tiktokx-origin.image?dr=14575&x-expires=1788487200&x-signature=Ty%2BvgceDV875Dqqp5OyG02olLlg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1788241583,
    "url": "https://www.tiktok.com/@tictok_ent/video/7680439117343165716",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "아이들 미연, 독보적인 여신 자태 / 더후(THE WHOO) 포토월 #아이들 #IDLE #미연 #THEWHOO",
+   "views": 1453,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0DAP8ffA9feqFAJnjvKACkVEPIG9EjAWcCAJz~tplv-tiktokx-origin.image?dr=14575&x-expires=1788487200&x-signature=DvmrR8TEDLqJIlNZXTvlqt2n4yE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1787819969,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7678628302008978709",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "김지원, 청초한 미모에 우아한 분위기까지 / 더후(THE WHOO) 포토월 #김지원 #더후 #THEWHOO",
+   "views": 1376,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0HYQsJqGAAgXIW0AQ4B8AZAfr3MPWaAfwfe2J~tplv-tiktokx-origin.image?dr=14575&x-expires=1788487200&x-signature=Q%2FTT5LeE0OZYGxaoCfCuQftCK1Q%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1787820050,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7678628649263713557",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "정해인, 여유로운 포즈로 완성한 젠틀맨 무드 / 더후(THE WHOO) 포토월 #정해인 #더후 #THEWHOO",
+   "views": 1349,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oI9fqBI5vABGgtASEWCCCncPnpi6VjUi5AcKfA~tplv-tiktokx-origin.image?dr=14575&x-expires=1788487200&x-signature=HXO8WL4683U255tlI31uqmPioTs%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1787819940,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7678628173642206485",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "트리플에스(tripleS) 연지 / 2027 S/S 서울패션위크 두칸 포토월 #트리플에스 #tripleS #지우 #신위 #린 #연지 #두칸 #서울패션위크 #SFW",
+   "views": 930,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ogNSBf7lBi9IIsZESA1wiBGWELKzAAcxCAtACV~tplv-tiktokx-origin.image?dr=14575&x-expires=1788487200&x-signature=qW8cpAIyKN12IaPAOjRw8l3iQak%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1788241635,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7680439343697169684",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "스트레이키즈(Stray Kids) 창빈 / CHANGBIN × AUTRY Seoul Event 포토콜 #스트레이키즈 #StrayKids #창빈 오트리 #AUTRY",
+   "views": 908,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okN1KsfFAAA4AK5qwEiXSnUBAvAxxw0igBBCWI~tplv-tiktokx-origin.image?dr=14575&x-expires=1788487200&x-signature=VPXZdOcKcXCUKdDpZDVAiMX3syY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1788256055,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7680501277184314644",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "오나라 / 2027 S/S 서울패션위크 두칸 포토월 #오나라 #두칸 #서울패션위크 #SFW",
+   "views": 778,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oYiO3AKBEAAfyICWA1AwWlHIIBiGPYSBzKyRvw~tplv-tiktokx-origin.image?dr=14575&x-expires=1788487200&x-signature=c0inIttOpK0%2B%2B6Hl05CEH%2F2%2F%2B9M%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1788240694,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7680435302116232469",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "소유진 / 2027 S/S 서울패션위크 두칸 포토월 #소유진 #두칸 #서울패션위크 #SFW",
+   "views": 639,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oExEUISGANAFGaKLeAVrDAAeImsDqLQeMv4ETS~tplv-tiktokx-origin.image?dr=14575&x-expires=1788487200&x-signature=jSKtNKjP3vPIG1DKpvzrnGM9Lzs%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1788240732,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7680435465455029524",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "아이린, 모델다운 완벽한 포즈와 자태 / 더후(THE WHOO) 포토월 #아이린 #THEWHOO",
+   "views": 88,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIAe9LfcAeiWQGANgQ7GJGA5InIJPqkwAAJfQx~tplv-tiktokx-origin.image?dr=14575&x-expires=1788487200&x-signature=02tsjerDA9f0gRqzn1PON2qqkog%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1787820001,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7678628436813942037",
    "region": "kr"
   }
  ],
  "reddit": [
-  {
-   "sub": "meirl",
-   "title": "meirl",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/xpp1gm7tazmh1.jpeg?width=640&crop=smart&auto=webp&s=5fe1b4657df7c71d39b5925acc197c0deda7396c",
-   "time": 1788298914,
-   "url": "https://www.reddit.com/r/meirl/comments/1w4qql3/meirl/"
-  },
   {
    "sub": "aww",
    "title": "Caught a baby groundhog eating wild berries.",
@@ -711,6 +680,15 @@
    "url": "https://www.reddit.com/r/aww/comments/1w4tl99/caught_a_baby_groundhog_eating_wild_berries/"
   },
   {
+   "sub": "meirl",
+   "title": "meirl",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/xpp1gm7tazmh1.jpeg?width=640&crop=smart&auto=webp&s=5fe1b4657df7c71d39b5925acc197c0deda7396c",
+   "time": 1788298914,
+   "url": "https://www.reddit.com/r/meirl/comments/1w4qql3/meirl/"
+  },
+  {
    "sub": "interestingasfuck",
    "title": "My friend was born with 4 fingers. Reddit what questions do you have ?",
    "score": 0,
@@ -718,15 +696,6 @@
    "thumb": "https://preview.redd.it/l8pjr2v3uvmh1.jpeg?width=640&crop=smart&auto=webp&s=05758f8fb366ceeef8e93e9b1573c8a09add87fe",
    "time": 1788256978,
    "url": "https://www.reddit.com/r/interestingasfuck/comments/1w47i01/my_friend_was_born_with_4_fingers_reddit_what/"
-  },
-  {
-   "sub": "MadeMeSmile",
-   "title": "Parents watching their kid take his first steps",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/8k1GdOB_OCQetCl8MvfMOqo1uDNOrxwPnXb1iZJfwEE.jpeg?width=640&crop=smart&auto=webp&s=38790e67238f3cc130cb0638a4671b8e8cf8fd21",
-   "time": 1788293572,
-   "url": "https://www.reddit.com/r/MadeMeSmile/comments/1w4nv1x/parents_watching_their_kid_take_his_first_steps/"
   },
   {
    "sub": "WhatIsTheTea",
@@ -747,6 +716,15 @@
    "url": "https://www.reddit.com/r/AskReddit/comments/1w4h5e6/doctors_of_reddit_whats_something_patients/"
   },
   {
+   "sub": "HolUp",
+   "title": "Instagram users got no chill",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/at2v6a6qzzmh1.jpeg?width=640&crop=smart&auto=webp&s=d94a587d46c6d1b8a93eea4e24bd51d843d58f84",
+   "time": 1788307294,
+   "url": "https://www.reddit.com/r/HolUp/comments/1w4uaty/instagram_users_got_no_chill/"
+  },
+  {
    "sub": "videogames",
    "title": "In What Game Does The Current Protagonist Encounter The Previous Protagonist Of The Series?",
    "score": 0,
@@ -754,15 +732,6 @@
    "thumb": "https://preview.redd.it/ota3i4im6xmh1.jpeg?width=640&crop=smart&auto=webp&s=aa1ad43d292af3323d44aaf81faed5f47ba52cc6",
    "time": 1788273294,
    "url": "https://www.reddit.com/r/videogames/comments/1w4drr0/in_what_game_does_the_current_protagonist/"
-  },
-  {
-   "sub": "Wellthatsucks",
-   "title": "Reading festival 2026",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/NTh2YzB6cXNhd21oMRnDlqEAEEORR3Mn0TuEhNxuahSMXiHzgSEqdK2Ni4R2.jpeg?width=640&crop=smart&auto=webp&s=402089d21e9a356b10d193d81b8bf76bc83e8fab",
-   "time": 1788262599,
-   "url": "https://www.reddit.com/r/Wellthatsucks/comments/1w49dgs/reading_festival_2026/"
   },
   {
    "sub": "PeterExplainsTheJoke",
@@ -774,13 +743,22 @@
    "url": "https://www.reddit.com/r/PeterExplainsTheJoke/comments/1w4api1/petah/"
   },
   {
-   "sub": "politics",
-   "title": "Donald Trump says transgender people will \"end\" if GOP keeps Congress in midterms",
+   "sub": "Wellthatsucks",
+   "title": "Reading festival 2026",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/PARuKf3DBP_xK98sbUubmoRzn9pHNptB54hX0WkQgj4.jpeg?width=640&crop=smart&auto=webp&s=9f3e2fbf08258ef29033cb8aca58e4872970c6e7",
-   "time": 1788275093,
-   "url": "https://www.reddit.com/r/politics/comments/1w4elo5/donald_trump_says_transgender_people_will_end_if/"
+   "thumb": "https://external-preview.redd.it/NTh2YzB6cXNhd21oMRnDlqEAEEORR3Mn0TuEhNxuahSMXiHzgSEqdK2Ni4R2.jpeg?width=640&crop=smart&auto=webp&s=402089d21e9a356b10d193d81b8bf76bc83e8fab",
+   "time": 1788262599,
+   "url": "https://www.reddit.com/r/Wellthatsucks/comments/1w49dgs/reading_festival_2026/"
+  },
+  {
+   "sub": "MadeMeSmile",
+   "title": "Parents watching their kid take his first steps",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/8k1GdOB_OCQetCl8MvfMOqo1uDNOrxwPnXb1iZJfwEE.jpeg?width=640&crop=smart&auto=webp&s=38790e67238f3cc130cb0638a4671b8e8cf8fd21",
+   "time": 1788293572,
+   "url": "https://www.reddit.com/r/MadeMeSmile/comments/1w4nv1x/parents_watching_their_kid_take_his_first_steps/"
   },
   {
    "sub": "oddlysatisfying",
@@ -799,6 +777,33 @@
    "thumb": "https://external-preview.redd.it/cDN6ZGVyYnB5eG1oMXjJtV50Jlaw8ngY3Hesau2gtQnoC6rAEcTmKY5-7M8L.jpeg?width=640&crop=smart&auto=webp&s=e5153cbab0ff031a556a86586068b250c2209917",
    "time": 1788282737,
    "url": "https://www.reddit.com/r/Damnthatsinteresting/comments/1w4i9xh/students_get_smudged_by_indigenous_elders_for/"
+  },
+  {
+   "sub": "korea",
+   "title": "After \"No-Kids Zones,\" Now \"No-Male-Student Zones\"? Cafe Posts Notice Citing \"Causing Discomfort\"",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/oivj9d3mrzmh1.png?width=320&crop=smart&auto=webp&s=aa4b584f61bc5bebf0881252de96e3e820c887d0",
+   "time": 1788304608,
+   "url": "https://www.reddit.com/r/korea/comments/1w4t7ec/after_nokids_zones_now_nomalestudent_zones_cafe/"
+  },
+  {
+   "sub": "korea",
+   "title": "Police officer admits to closing missing person cases on Jeju to avoid work",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/a3ZeXM9VslWuFTUgaAWM1M-Pn-PWSCk_WuMydQ8YLYE.jpeg?width=640&crop=smart&auto=webp&s=cb303c701efd18461705a9a28c035cea29e1694b",
+   "time": 1788253552,
+   "url": "https://www.reddit.com/r/korea/comments/1w46goi/police_officer_admits_to_closing_missing_person/"
+  },
+  {
+   "sub": "korea",
+   "title": "Backroom in Busan",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/beg5h85vlzmh1.jpeg?width=640&crop=smart&auto=webp&s=580725f838dcf0a7cb7d825c6f9db9842ffb80cb",
+   "time": 1788302633,
+   "url": "https://www.reddit.com/r/korea/comments/1w4se7v/backroom_in_busan/"
   }
  ],
  "disaster": [],
@@ -814,7 +819,6 @@
     "takepage_"
    ],
    "tiktok": [
-    "jaemyung_lee",
     "tictok_ent"
    ]
   },
@@ -840,13 +844,16 @@
     "higgsfield.ai": "gap",
     "googledeepmind": "gap",
     "cristiano": "gap"
+   },
+   "tiktok": {
+    "jaemyung_lee": 503
    }
   },
   "landing": {
-   "at": "2026-09-02T10:05:32",
+   "at": "2026-09-02T10:31:29",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-09-02T10:31:22.334599+09:00"
+ "updated": "2026-09-02T11:02:05.970974+09:00"
 }
