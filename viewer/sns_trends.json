@@ -7536,8 +7536,14 @@
   {
    "query": "전원합의체",
    "traffic": "20000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/45a29e1395.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://imnews.imbc.com/news/2026/society/article/6842628_36918.html",
+     "source": ""
+    }
+   ],
    "vol": 20000,
    "started": "2026-09-02T12:50:00+09:00",
    "delta": -2,
@@ -7551,8 +7557,14 @@
   {
    "query": "의약품",
    "traffic": "5000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/aed33334cf.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.kpanews.co.kr/news/articleView.html?idxno=541651",
+     "source": ""
+    }
+   ],
    "vol": 5000,
    "started": "2026-09-02T12:30:00+09:00",
    "delta": -2,
@@ -7567,8 +7579,14 @@
   {
    "query": "양경숙",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/e67f2357d2.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.newdaily.co.kr/site/data/html/2026/09/02/2026090200052.html",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-09-02T13:00:00+09:00",
    "delta": -5,
@@ -7872,13 +7890,13 @@
  ],
  "gtrends_pool_updated": "2026-09-02T16:11:55+09:00",
  "_trend_img": {
-  "tried": "2026-09-02T15:31:48+09:00",
+  "tried": "2026-09-02T16:11:55+09:00",
   "fail": {
-   "배다 해": "2026-09-02T13:44:25+09:00",
    "김민종": "2026-09-02T14:28:40+09:00",
    "기러기": "2026-09-02T14:28:40+09:00",
    "로베르트 모레노": "2026-09-02T15:02:46+09:00",
-   "2027 9모": "2026-09-02T15:39:29+09:00"
+   "2027 9모": "2026-09-02T15:39:29+09:00",
+   "압수수색": "2026-09-02T16:18:45+09:00"
   }
  },
  "gtrends_gl": [
@@ -19891,7 +19909,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-02T16:11:55+09:00"
+    "first_seen": "2026-09-02T16:11:55+09:00",
+    "kw": "트랜스포머, Mamba, 상태공간 모델",
+    "sum": "계정이 트랜스포머 KV캐시와 상태공간 모델의 기억 방식을 비교했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -19906,7 +19927,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-09-02T16:11:55+09:00"
+    "first_seen": "2026-09-02T16:11:55+09:00",
+    "kw": "Falcon 논문, 지속학습, 앤드류 야오",
+    "sum": "계정이 바이트댄스·프린스턴·칭화의 지속학습 논문 Falcon을 소개했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -19921,7 +19945,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-09-02T16:11:55+09:00"
+    "first_seen": "2026-09-02T16:11:55+09:00",
+    "kw": "Falcon, 지속학습, 트랜스포머",
+    "sum": "계정이 Falcon 논문의 핵심 내용과 성능 결과를 요약했다",
+    "sv": 1
    },
    {
     "account": "aipeekme",
@@ -20097,7 +20124,10 @@
     "rh": [
      11
     ],
-    "first_seen": "2026-09-02T16:11:55+09:00"
+    "first_seen": "2026-09-02T16:11:55+09:00",
+    "kw": "바이트댄스 Seed, Falcon, 앤드류 야오",
+    "sum": "계정이 중국 연구진의 지속학습 모델 논문 Falcon을 소개했다",
+    "sv": 1
    },
    {
     "account": "aipeekme",
@@ -20161,7 +20191,10 @@
     "rh": [
      14
     ],
-    "first_seen": "2026-09-02T16:11:55+09:00"
+    "first_seen": "2026-09-02T16:11:55+09:00",
+    "kw": "오픈AI, Astra, Jakub Pachocki",
+    "sum": "오픈AI 수석과학자가 Astra의 recurrent depth 보도를 반박했다",
+    "sv": 1
    },
    {
     "account": "aipeekme",
