@@ -7658,8 +7658,14 @@
   {
    "query": "통합특별시",
    "traffic": "5000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/ebedc5f364.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.nongmin.com/article/20260625500547",
+     "source": ""
+    }
+   ],
    "vol": 5000,
    "started": "2026-09-03T18:50:00+09:00",
    "delta": -3,
@@ -7779,8 +7785,14 @@
   {
    "query": "국가유공자",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/65ef088d23.webp",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.seoul.co.kr/news/plan/this-week-bill/2026/08/30/20260830500035",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-09-03T18:50:00+09:00",
    "delta": -8,
@@ -7817,8 +7829,14 @@
   {
    "query": "한전",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/4c0026ea58.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.koreadaily.com/article/20260902231617960",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-03T18:50:00+09:00",
    "delta": -9,
@@ -7976,11 +7994,12 @@
  ],
  "gtrends_pool_updated": "2026-09-03T22:10:23+09:00",
  "_trend_img": {
-  "tried": "2026-09-03T21:34:43+09:00",
+  "tried": "2026-09-03T22:10:23+09:00",
   "fail": {
    "굴착기": "2026-09-03T20:30:09+09:00",
    "김병만": "2026-09-03T20:30:09+09:00",
-   "백일섭": "2026-09-03T21:40:21+09:00"
+   "백일섭": "2026-09-03T21:40:21+09:00",
+   "구본무": "2026-09-03T22:15:36+09:00"
   }
  },
  "gtrends_gl": [
@@ -19511,7 +19530,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-03T22:10:23+09:00"
+    "first_seen": "2026-09-03T22:10:23+09:00",
+    "kw": "RSA-260, 소인수분해, Cognition",
+    "sum": "Cognition 엔지니어가 35년 미해결이던 RSA-260 소인수분해를 풀었다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
