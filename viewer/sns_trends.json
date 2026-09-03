@@ -7674,8 +7674,14 @@
   {
    "query": "충남 함",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/337bbb1e73.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.etoday.co.kr/news/view/2430483",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-09-03T06:40:00+09:00",
    "delta": -9,
@@ -7753,8 +7759,14 @@
   {
    "query": "한일전",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/8e3847ab81.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.nocutnews.co.kr/news/6558902",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-09-03T06:50:00+09:00",
    "delta": -16,
@@ -7829,8 +7841,14 @@
   {
    "query": "수의사",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/420acb99a7.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.livesnews.com/news/article.html?no=63750",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-03T06:50:00+09:00",
    "delta": -18,
@@ -7879,8 +7897,14 @@
   {
    "query": "존리",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/ee3ad09659.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.edaily.co.kr/News/Read?newsId=05700646645576184",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-03T07:00:00+09:00",
    "delta": -24,
@@ -8100,9 +8124,10 @@
  ],
  "gtrends_pool_updated": "2026-09-03T08:58:12+09:00",
  "_trend_img": {
-  "tried": "2026-09-03T08:21:05+09:00",
+  "tried": "2026-09-03T08:58:12+09:00",
   "fail": {
-   "김하성": "2026-09-03T08:28:48+09:00"
+   "김하성": "2026-09-03T08:28:48+09:00",
+   "신정환": "2026-09-03T09:04:18+09:00"
   }
  },
  "gtrends_gl": [
@@ -19875,7 +19900,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-03T08:58:12+09:00"
+    "first_seen": "2026-09-03T08:58:12+09:00",
+    "kw": "미국, 이란, 유조선",
+    "sum": "미국이 이란과의 유조선 보복 원칙을 도입하고 실행했다",
+    "sv": 1
    },
    {
     "account": "freedom_73x",
@@ -21691,7 +21719,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-03T08:58:12+09:00"
+    "first_seen": "2026-09-03T08:58:12+09:00",
+    "kw": "Muse Spark 1.3, 벤치마크, 추론 설정",
+    "sum": "계정이 벤치마크 비교 시 추론 설정과 측정 방식 차이를 설명했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -21706,7 +21737,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-09-03T08:58:12+09:00"
+    "first_seen": "2026-09-03T08:58:12+09:00",
+    "kw": "Muse Spark 1.3, 벤치마크, Opus 5",
+    "sum": "계정이 Muse Spark 1.3의 벤치마크 성적을 Opus 5·Sol과 비교했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -21721,7 +21755,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-09-03T08:58:12+09:00"
+    "first_seen": "2026-09-03T08:58:12+09:00",
+    "kw": "메타, Muse Spark 1.3, 저커버그",
+    "sum": "계정이 메타의 Muse Spark 1.3 공개 소식을 전했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
