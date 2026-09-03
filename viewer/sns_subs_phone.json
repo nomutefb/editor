@@ -357,9 +357,19 @@
  ],
  "threads": [
   {
+   "account": "daily_ai_star",
+   "text": "JFrog AI Catalog이 9월 2일 MCP 서버·에이전트 스킬·플러그인·에이전트 패키지를 버전이 있는 아티팩트로 관리하기 시작했습니다.\n\n기존 보안 게이트는 파일 해시나 알려진 취약점 목록을 확인했습니다. JFrog는 이제 에이전트에게 무엇을 하라고 지시하는지까지 읽는 semantic scan을 제시합니다. 새 악성 스킬처럼 아직 해시가 없는 자산도 검사 대상에 넣겠다는 뜻입니다.\n\n승인된 자산만 레지스트리에서 꺼내게 하고, 실행 시점에는 MCP 도구와 스킬 호출을 정책과 대조합니다. 에이전트 보안의 기준이 “무엇을 설치했는가”에서 “무엇을 실행하도록 허용했는가”로 좁혀졌습니다.\n\nAI 자산도 이제 npm 패키지처럼 출처·버전·권한·실행 기록을 함께 관리해야 합니다.\n\nhttps://jfrog.com/blog/the-evolution-of-jfrog-ai-catalog/",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1788414038,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/Dc0FTD4mSw0",
+   "region": "kr"
+  },
+  {
    "account": "choi.openai",
    "text": "블로그 :\nhttps://vercel.com/blog/how-our-agents-build-on-brand-pages-with-design-md",
-   "likes": 2,
+   "likes": 4,
    "cmts": 0,
    "time": 1788411617,
    "thumb": "",
@@ -369,17 +379,17 @@
   {
    "account": "choi.openai",
    "text": "Vercel이 AI 에이전트용 디자인 가이드인 `design.md`를 공개했습니다.\n\n보고서, 제안서, 벤치마크 페이지처럼 코드 저장소 밖에서 만드는 작업에서도 Vercel이 사용하는 글꼴, 여백, 색상, 정보 배치, 문장 작성 방식 등을 AI가 참고할 수 있도록 정리한 파일입니다.\n\n처음에는 디자인 규칙을 프롬프트로 설명했지만 모델마다 결과가 크게 달랐다고 하는데요. 이후 실제 사용 사례 7개를 고정해 200회 이상 생성·평가하며 규칙을 다듬었습니다.\n\n반복되는 레이아웃 문제는 CSS와 자동 검사로 처리하고, 사람이 판단해야 하는 구성과 표현 방식은 `design.md`에 남겼습니다.\n\n테스트에서는 `design.md`를 사용했을 때 이미 정의된 디자인 오류가 91건에서 39건으로 줄었습니다.",
-   "likes": 18,
+   "likes": 30,
    "cmts": 1,
    "time": 1788411609,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/791848884_17985118224112832_3674009942114587509_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk3NzgwNzM1MDU5MzM0MjI2MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjU2MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Fzj5xPL-6a0Q7kNvwG01Qbg&_nc_oc=Ado8zfYHt5mm4dy6Nmp98klB6ys3mtr06qAGXy7UX1GrwuUCDAJgrC4eHs-GGntQES1J-pqDF4ocSVjSp4nWfkso&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=HnljmogWExumsN0yeO1m9w&_nc_ss=7a22e&oh=00_AQKK73EwN0iZSemQSBZJ5bjJW9kb_9hZ9qqQEgp76DEpQQ&oe=6A9EDA79",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/791848884_17985118224112832_3674009942114587509_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk3NzgwNzM1MDU5MzM0MjI2MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjU2MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Fzj5xPL-6a0Q7kNvwFrjyPx&_nc_oc=AdqsTe1ATw18UeCe7dy-ktSQnxIklBLvmiPPqj1hOu47-WEb_y6dcVRYNbhoRl5iUQo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=_SMuQb32G10twnAW9LekOQ&_nc_ss=7a22e&oh=00_AQKtgmn1iKpqwkS3yUAnbRHaW7MCH3kQxz6kSXCSeCLXdQ&oe=6A9EDA79",
    "url": "https://www.threads.com/@choi.openai/post/Dc0ArXFDcs0",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "발표내용 :\nhttps://cursor.com/ko/blog/self-hosted-machines",
-   "likes": 2,
+   "likes": 3,
    "cmts": 0,
    "time": 1788408049,
    "thumb": "",
@@ -407,16 +417,6 @@
    "region": "kr"
   },
   {
-   "account": "daily_ai_star",
-   "text": "에이전트 보안의 기준이 “데이터를 보관하지 않는가”에서 “탐지는 하되 데이터와 최종 검토권을 누가 보유하는가”로 이동했습니다.\n\nhttps://www.anthropic.com/news/enterprise-frontier-safeguards",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1788398965,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DczojKeGTHD",
-   "region": "kr"
-  },
-  {
    "account": "kopp",
    "text": "https://www.details.so/vault/range-slider",
    "likes": 0,
@@ -432,7 +432,7 @@
    "likes": 28,
    "cmts": 2,
    "time": 1788350776,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/792564118_1661485438873750_3396164276059583622_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk3NzI5NjgwNTI2MzYwNjAyNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Ec2T97shZQQQ7kNvwHMp_cP&_nc_oc=AdpdzFDaQSeNaLKMBWzQGjUuzMmgMVaamHtLIVlfrFi9_qMRq1NGzPmRJP1-EaWoYQjlMUC4cCMk0N1who30Alty&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=fPRGvqFiyNB5h9PKFuIGjw&_nc_ss=7a22e&oh=00_AQJbRbGz2jNQW62iOnCIgW9iLCH7VxTqUWJ7G392LmhlTg&oe=6A9EC017",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/792564118_1661485438873750_3396164276059583622_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk3NzI5NjgwNTI2MzYwNjAyNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Ec2T97shZQQQ7kNvwG655Zs&_nc_oc=Adr3C6JI-5h-BESBox59sDayXRMW1hO2Wp8kDGV78ufHhJQPBYrB3PVRxi42x69BE-Y&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=IDlHZZ72KEiJl2xFxyX_Ig&_nc_ss=7a22e&oh=00_AQL6EOCtKWciHrMWELn7r24hrRZlorsQ16_GcDIp6s4G1A&oe=6A9EF857",
    "url": "https://www.threads.com/@kopp/post/DcyMl8sCIEL",
    "region": "kr"
   },
@@ -459,31 +459,31 @@
   {
    "account": "aicoffeechat",
    "text": "\"Fable 5.1 좀 이렇게 써\"\n\nFable 5.1 프롬프팅 가이드 문서입니다. 어떻게 Fable 5.1의 effort를 사용해야할지의 노하우와 Fable 5.1의 \"글쓰기 능력\"을 올려주는 프롬프트 등 여러 사례들이 정리되어있습니다.\n\n공유된 프롬프트도 함께 공유드립니다.",
-   "likes": 45,
+   "likes": 46,
    "cmts": 5,
    "time": 1788339848,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/793141649_17955430212232485_9051093934243362487_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk3NzIwNTM3MTgzNjI1MTQwMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTY3MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=aqMSk1Y9UHUQ7kNvwFePnNr&_nc_oc=AdoZ6i0HXTtAXXPF5HOPrJ2cDnA4_pN5hfOye32_IBzOxNxNueNcRvOaQh5QnRsH20mi8ezfgMCsZ1CMkTuNT-ky&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=qZJf_3DnCV8xDDn5cyEyag&_nc_ss=7a22e&oh=00_AQLbhkYfQrvJqzvO92L_GxAHrcAamutrZUpzKYiymTLZew&oe=6A9ED997",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/793141649_17955430212232485_9051093934243362487_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk3NzIwNTM3MTgzNjI1MTQwMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTY3MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=aqMSk1Y9UHUQ7kNvwFFmmgs&_nc_oc=AdqlXxxhy4X4SUl1cN1T49J5cxqKmkhHWaTHz611VhGK7pxHlJDy-iVDnNQw1xVwxnY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=-uLjMlnvWAKlPDxoseMOQw&_nc_ss=7a22e&oh=00_AQLyqKDgFHaZFwWPp9rgTP3LejNRwgu0uJBzVVQ8YUpLKg&oe=6A9ED997",
    "url": "https://www.threads.com/@aicoffeechat/post/Dcx3zarEz0L",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "Cursor가 클라우드 Agent를 기업이나 개인이 직접 관리하는 인프라에서 실행할 수 있도록 지원합니다.\n\nAgent의 추론과 작업 관리는 Cursor에 남겨두고, 실제 파일 수정·명령 실행은 사내 서버나 GPU, Mac 등 지정한 머신에서 처리할 수 있는데요.\n\n여러 머신을 묶은 풀은 작업량에 따라 자동 확장되며 AWS Lambda, Cloudflare, E2B, Modal, Vercel 등도 지원합니다.\n\n내부 서비스 접근이 필요한 기업 환경에서 활용도가 꽤 높아 보입니다.",
-   "likes": 31,
+   "likes": 33,
    "cmts": 1,
    "time": 1788408041,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/793258390_1709000910400526_5068625961126261633_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk3Nzc3NzQxMjA0NTY0MjY0Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=LVPWDYTnoZMQ7kNvwGUMhpb&_nc_oc=AdpXGYFZKWMry_XfolUbYcR1OTdtYRk2IkLivhlwfnIPgZMPgMe37jfT_4AuAdjxUJF08hFxNh9HlhwtQ23BP58N&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=HnljmogWExumsN0yeO1m9w&_nc_ss=7a22e&oh=00_AQKw3qqlpHjVc-0gzThexOAU5xwBQXIqGx__12FrC3bQsQ&oe=6A9ED10A",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/793258390_1709000910400526_5068625961126261633_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk3Nzc3NzQxMjA0NTY0MjY0Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=LVPWDYTnoZMQ7kNvwGGt-Rr&_nc_oc=AdpzfWWaIwd_otCyP8ZjlhujblaVLM2X2Ac42xn7Bojn_FaBk_oZBRTNcUEJU0o-B38&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=_SMuQb32G10twnAW9LekOQ&_nc_ss=7a22e&oh=00_AQLr7FWhAC6i7ex7PfiAM6aLYSMUEE_MPkPRv2tblBh0mg&oe=6A9ED10A",
    "url": "https://www.threads.com/@choi.openai/post/Dcz53sojZuW",
    "region": "kr"
   },
   {
    "account": "daily_ai_star",
-   "text": "Anthropic이 9월 1일 Enterprise Frontier Safeguards를 발표했습니다.\n\nEFS는 제로 데이터 보존과 오용 탐지용 안전 모니터링을 함께 제공하는 구조입니다. 대화·활동 데이터는 Anthropic이 아니라 고객이 통제하는 클라우드 인프라에 저장할 수 있습니다.\n\nAWS S3, Azure Blob Storage, Google Cloud Storage를 쓰고, 고객 관리 암호화 키·접근 정책·감사 로그를 적용합니다. 자동 모니터링이 위험 신호를 찾으면 Anthropic 직원이 아니라 고객의 보안팀으로 전달됩니다.\n\nAnthropic은 금융·의료·제조·통신·법률 등 100곳이 넘는 고객과 설계했다고 밝혔습니다. Claude Code, Claude Enterprise, Claude Platform과 주요 클라우드 파트너 환경을 지원하며 올가을부터 단계적으로 배포합니다.",
+   "text": "에이전트 보안의 기준이 “데이터를 보관하지 않는가”에서 “탐지는 하되 데이터와 최종 검토권을 누가 보유하는가”로 이동했습니다.\n\nhttps://www.anthropic.com/news/enterprise-frontier-safeguards",
    "likes": 0,
-   "cmts": 1,
-   "time": 1788398956,
+   "cmts": 0,
+   "time": 1788398965,
    "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DczoiLbmRx2",
+   "url": "https://www.threads.com/@daily_ai_star/post/DczojKeGTHD",
    "region": "kr"
   },
   {
@@ -499,21 +499,21 @@
   {
    "account": "choi.openai",
    "text": "앤트로픽이 Claude Fable 5.1용 프롬프트 가이드를 공개했습니다.\n문서를 보면 같은 모델이라도 어떤 에이전트 환경과 시스템 프롬프트를 붙이느냐에 따라 실제 사용감이 크게 달라질 수 있다는 점이 잘 드러납니다.\n\n예를 들어 Fable 5와 5.1은 같은 effort 설정이라도 실제 추론량이 다르고, 긴 작업에서는 진행 상황을 사용자에게 덜 알려주는 경향이 있습니다.\n도구 호출도 상황에 따라 한 번씩 순차적으로 실행할 수 있어, 독립적인 작업은 한 번에 병렬 호출하도록 시스템 프롬프트로 유도하는 방법까지 안내합니다.\n\n대화 기록도 중요합니다. Fable 5.1의 thinking block은 기존 대화 내용과 강하게 연결돼 있어, 이전 메시지나 시스템 프롬프트를 중간에 수정하면 오류가 발생하거나 해당 reasoning 정보가 버려질 수 있습니다.\n\n결국 같은 Fable 5.1이라도 Claude Code, API, 별도 에이전트 서비스에서 성능이 다르게 느껴질 수 있습니다.",
-   "likes": 39,
+   "likes": 43,
    "cmts": 3,
    "time": 1788406375,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/791974175_17985218550112832_7145673867920079999_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk3Nzc2MzQzODAwMDU5NTI2NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTczOC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=ybF-Jzo6M7MQ7kNvwHSj1QI&_nc_oc=Adru0_CjlnZhg79YfZDSHRtBCr8707wm4UXjfAkyteKjJICCXdGUDI4BI9CmKQSRdjwlD212KphmmbhyxVuUkIH5&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=HnljmogWExumsN0yeO1m9w&_nc_ss=7a22e&oh=00_AQJ1AECl63VmQIVp2seNVRA8SRAH3W25Ng-m2zpp9FrnCA&oe=6A9ECE70",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/791974175_17985218550112832_7145673867920079999_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk3Nzc2MzQzODAwMDU5NTI2NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTczOC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=ybF-Jzo6M7MQ7kNvwEVaE6x&_nc_oc=AdrLMVQnYhbNuZNop4mzfDbRokeHAT6zxZ7wpLAEQ4hZMTgIytKvtKAhu4HQaUe3LAw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=_SMuQb32G10twnAW9LekOQ&_nc_ss=7a22e&oh=00_AQImOKusxwWNqiwuoSwGgNSPv8chRv5NoHqB0lL1uq8qng&oe=6A9ECE70",
    "url": "https://www.threads.com/@choi.openai/post/Dcz2sWSj-FA",
    "region": "kr"
   },
   {
    "account": "daily_ai_star",
-   "text": "다만 v2.37부터 Coder Tasks는 새 릴리스에서 비활성화·폐기됩니다. 기존 사용자는 v2.34 Extended Support Release에 머물거나 Coder Agents로 옮겨야 합니다.\n\nAPI도 바로 손봐야 합니다. Chats API는 `/api/experimental`에서 `/api/v2`로 이동했고, 실험 경로는 v2.38에서 제거될 예정입니다. 조직별 모델·MCP 설정도 다시 확인해야 합니다.\n\n코딩 에이전트의 기준선이 “자동화 기능이 있는가”에서 “조직 인프라 안에서 권한·비용·마이그레이션까지 운영할 수 있는가”로 이동했습니다.\n\nhttps://coder.com/changelog/coder-2-37",
+   "text": "Anthropic이 9월 1일 Enterprise Frontier Safeguards를 발표했습니다.\n\nEFS는 제로 데이터 보존과 오용 탐지용 안전 모니터링을 함께 제공하는 구조입니다. 대화·활동 데이터는 Anthropic이 아니라 고객이 통제하는 클라우드 인프라에 저장할 수 있습니다.\n\nAWS S3, Azure Blob Storage, Google Cloud Storage를 쓰고, 고객 관리 암호화 키·접근 정책·감사 로그를 적용합니다. 자동 모니터링이 위험 신호를 찾으면 Anthropic 직원이 아니라 고객의 보안팀으로 전달됩니다.\n\nAnthropic은 금융·의료·제조·통신·법률 등 100곳이 넘는 고객과 설계했다고 밝혔습니다. Claude Code, Claude Enterprise, Claude Platform과 주요 클라우드 파트너 환경을 지원하며 올가을부터 단계적으로 배포합니다.",
    "likes": 0,
-   "cmts": 0,
-   "time": 1788356667,
+   "cmts": 1,
+   "time": 1788398956,
    "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DcyX3zkGbmZ",
+   "url": "https://www.threads.com/@daily_ai_star/post/DczoiLbmRx2",
    "region": "kr"
   },
   {
@@ -522,14 +522,14 @@
    "likes": 10,
    "cmts": 1,
    "time": 1788338197,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/791143564_17955427371232485_1614497115707727635_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk3NzE5MTUxMDYxNzg2MDA3OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMjA2Ni5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=2KejGn-04GwQ7kNvwHEEz60&_nc_oc=Adpefrxk7mJZ_kWQcojDDXBlf38kOhyDvJFGPIPwHtJcY3PMdOWo64pL6JZtjXK6wnJyStdu91r4jzO-dlZIvJcT&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=qZJf_3DnCV8xDDn5cyEyag&_nc_ss=7a22e&oh=00_AQIXU3kktqiJPF8mHAMExe4oJ4RqfiMFJuKV9hs8YO4pkQ&oe=6A9EEA77",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/791143564_17955427371232485_1614497115707727635_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk3NzE5MTUxMDYxNzg2MDA3OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMjA2Ni5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=2KejGn-04GwQ7kNvwHCDFBH&_nc_oc=AdoQoE7pOII0WUxDulW7hQU5TyxZEVIdqIeajlH8qf56DirMAdSTkfZS1xnHsJKVZu4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=-uLjMlnvWAKlPDxoseMOQw&_nc_ss=7a22e&oh=00_AQKq28Gnabw7wHwHkSGp7x5PtQYyCW9iTjudnv8fxZGo_g&oe=6A9EEA77",
    "url": "https://www.threads.com/@aicoffeechat/post/Dcx0p03EzLX",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "주소 :\nhttps://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5-1",
-   "likes": 3,
+   "likes": 4,
    "cmts": 0,
    "time": 1788406373,
    "thumb": "",
@@ -537,37 +537,139 @@
    "region": "kr"
   },
   {
-   "account": "daily_ai_star",
-   "text": "Coder Agents가 9월 1일 v2.37에서 정식 출시됐습니다.\n\nCoder는 대화형 개발뿐 아니라 headless 백그라운드 작업을 조직이 통제하는 인프라 안에서 실행할 수 있다고 설명했습니다. API로 장시간 작업을 맡기고 여러 에이전트를 병렬로 돌립니다.\n\n이번 GA에는 내구성 개선, 안정 API, MCP·모델 접근 제어, AI Gateway 기반 사용량·비용 관찰이 포함됐습니다.\n\n에이전트가 코드를 쓰는 기능보다, 어디서 실행되고 누가 비용과 권한을 통제하는지가 앞에 나왔습니다.",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1788356657,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DcyX2rgGQvF",
+   "account": "aicoffeechat",
+   "text": "내 눈을 의심했다.\n\nFable 5.1로 제작된 게임 사례인데요. Riley Brown은 '4번'의 대화로 만들어진 게임이라고 이야기합니다.",
+   "likes": 66,
+   "cmts": 14,
+   "time": 1788338189,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/791757711_931687919992962_3598351639743783284_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk3NzE4OTIwNzgzNTMxNjc0Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=q2aLrN028XEQ7kNvwFL0YMt&_nc_oc=AdoGKEirpxWrTsDe_aV3SIXuMb0ruj8r-qNGOP3VpAfOMnglmi8DZLM9oKLzQe1EMdI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=-uLjMlnvWAKlPDxoseMOQw&_nc_ss=7a22e&oh=00_AQL_ciKPs9pL06nP4RrdXzIZd3SjHMvxign6I5o140Lb3w&oe=6A9EF583",
+   "url": "https://www.threads.com/@aicoffeechat/post/Dcx0IMxipIH",
    "region": "kr"
   },
   {
-   "account": "aicoffeechat",
-   "text": "내 눈을 의심했다.\n\nFable 5.1로 제작된 게임 사례인데요. Riley Brown은 '4번'의 대화로 만들어진 게임이라고 이야기합니다.",
-   "likes": 65,
-   "cmts": 14,
-   "time": 1788338189,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/791757711_931687919992962_3598351639743783284_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk3NzE4OTIwNzgzNTMxNjc0Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=q2aLrN028XEQ7kNvwHLgQcT&_nc_oc=AdoKeM6N0mfSH78hte2GQKD6yfVeb7rWwKx1FcYKzq3eB30FYRRIG4OexRcjfawc6RyQWwgki2-jUC4c38qjgyca&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=qZJf_3DnCV8xDDn5cyEyag&_nc_ss=7a22e&oh=00_AQKrkiX3Iq9QUnHO7Axd6_QJPn3C7OEAj90x0blIeW_D8w&oe=6A9EF583",
-   "url": "https://www.threads.com/@aicoffeechat/post/Dcx0IMxipIH",
+   "account": "choi.openai",
+   "text": "주소 :\nhttps://learn.chatgpt.com/training",
+   "likes": 25,
+   "cmts": 1,
+   "time": 1788400828,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DczsHRJk7xP",
    "region": "kr"
   }
  ],
- "tiktok": [],
- "reddit": [
+ "tiktok": [
   {
-   "sub": "MadeMeSmile",
-   "title": "Be like Gary",
-   "score": 0,
+   "account": "tictok_ent",
+   "title": "현빈, '메이드 인 코리아2' 기대감 높이는 카리스마 / 디즈니+ ‘메이드 인 코리아 시즌2’ 제작발표회 #현빈 #정우성 #우도환 #서은수 #원지안 #정성일 #노재원 #차희 #우민호 #메이드인코리아",
+   "views": 3041,
+   "likes": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/inif5gf3m7nh1.jpeg?width=640&crop=smart&auto=webp&s=20c46f0b5a775c4e4241df01bd178f02dd3800c6",
-   "time": 1788399566,
-   "url": "https://www.reddit.com/r/MadeMeSmile/comments/1w5tqpu/be_like_gary/"
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oEXkfFCVpDqClvCzrgAUAZOVEfWtp2BEENIA6A~tplv-tiktokx-origin.image?dr=14575&x-expires=1788588000&x-signature=BvDhKvhhmYSH4ZNW7zn5U9ktObc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1788325111,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7680797867333750036",
+   "region": "kr"
   },
+  {
+   "account": "tictok_ent",
+   "title": "스테이씨 재이-아이사, ‘성숙해진 재이사’ / 2027 S/S 서울패션위크 얼킨 포토월 #스테이씨 #STAYC #아이사 #재이  #서울패션위크 #SFW",
+   "views": 986,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ocIB1SA0L7gfBBD8wBFgk4AAiCUYXBAE8wPiKx~tplv-tiktokx-origin.image?dr=14575&x-expires=1788588000&x-signature=TX%2Bfm1O9r4AlS79fJvXhqxYjFzM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1788331510,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7680825352721190164",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "세이마이네임(Say My Name) 히토미, ‘빠져드는 귀여움’ / 2027 S/S 서울패션위크 얼킨 포토월 #세이마이네임 #SayMyName #혼다히토미 #아이즈원 #IZONE #AKB48 #HondaHitomi ",
+   "views": 944,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/osqCEXoCABiMFgAAbx0Cfih1MBQVJIRZVelD8A~tplv-tiktokx-origin.image?dr=14575&x-expires=1788588000&x-signature=63uMmLNK1BJmOMVokK%2F8ou8KanM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1788331570,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7680825611237051669",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "EXO(엑소) 카이 / 입생로랑 뷰티 팝업 포토월 #EXO #엑소 #카이 #KAI #입생로랑뷰티 #YSLBeauty #입생로랑뷰티",
+   "views": 83,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAEB2AfsUTIAgAKCBVwrEZiipuAbA1ZiB3gIBl~tplv-tiktokx-origin.image?dr=14575&x-expires=1788588000&x-signature=hMWcg1E3x3sfacBhbY0zyDbDP00%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1788411357,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7681168292869983509",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "레드벨벳(Red Velvet) 아이린 / 입생로랑 뷰티 팝업 포토월 #레드벨벳 #RedVelvet #아이린 #입생로랑뷰티",
+   "views": 75,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oUCEbAngE7eCprmChZvDfBiVILAFAAQgAklqIG~tplv-tiktokx-origin.image?dr=14575&x-expires=1788588000&x-signature=FzD6X6REz6xMpqrpPQHoGwalHBU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1788411355,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7681168284393360660",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "아이들(I-DLE) 미연 / 입생로랑 뷰티 팝업 포토월 #아이들 #IDLE #미연 #입생로랑뷰티",
+   "views": 65,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/osDMZcfHAqfQqFACGq3CAAcdEmIBAEAgViCAD0~tplv-tiktokx-origin.image?dr=14575&x-expires=1788588000&x-signature=yB3mUlSD1QevC7n6izpJ%2BKqWg8g%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1788411359,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7681168299107011861",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "안보현 / 입생로랑 뷰티 팝업 포토월 #안보현 #입생로랑뷰티",
+   "views": 58,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o8TAUBiIdDBAKMwIDGAoiPZAf5OAC1IBAWEp9h~tplv-tiktokx-origin.image?dr=14575&x-expires=1788588000&x-signature=EnoUye0FRiyI%2Bd3SAOZRr1z7Pfo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1788411354,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7681168279939058964",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "올리비아 마쉬, 다니엘 언니 / 2027 S/S 서울패션위크 한나신 포토월 #올리비아마쉬 #한나신 #서울패션위크 #SFW",
+   "views": 45,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQyKlANCVQ6AfcnfsEIAD9DqAG2FEB5QCg9XCm~tplv-tiktokx-origin.image?dr=14575&x-expires=1788588000&x-signature=6GvIceDGdhlclut3O8Spm4IBPpI%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1788413090,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7681175735846915348",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "이루다 / 2027 S/S 서울패션위크 한나신 포토월 #이루다 #한나신 #서울패션위크 #SFW",
+   "views": 45,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooDFZgfYAqeQqFACDXlCAJc9EmIBBEUgVuCAn3~tplv-tiktokx-origin.image?dr=14575&x-expires=1788588000&x-signature=5hkUITKtmjkOTJ34kCztbzdBd2k%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1788413097,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7681175767522315541",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "김용빈, 트로트 황태자 / 2027 S/S 서울패션위크 한나신 포토월 #김용빈 #한나신 #서울패션위크 #SFW",
+   "views": 40,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0Byo6XEAVVCAQiIzCFqACEDgwcQAB3efQmCjg~tplv-tiktokx-origin.image?dr=14575&x-expires=1788588000&x-signature=1xZ%2FUwzsHfDfQ5fLpr0WVkvmboE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1788413085,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7681175712346213653",
+   "region": "kr"
+  }
+ ],
+ "reddit": [
   {
    "sub": "nba",
    "title": "[Charania]: BREAKING: The NBA has ruled on the Los Angeles Clippers in for salary cap circumvention investigations on Kawhi Leonard after yearlong probe -- stripping the franchise of 5 first-round pic",
@@ -576,6 +678,15 @@
    "thumb": "",
    "time": 1788380549,
    "url": "https://www.reddit.com/r/nba/comments/1w5lzf9/charania_breaking_the_nba_has_ruled_on_the_los/"
+  },
+  {
+   "sub": "MadeMeSmile",
+   "title": "Be like Gary",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/inif5gf3m7nh1.jpeg?width=640&crop=smart&auto=webp&s=20c46f0b5a775c4e4241df01bd178f02dd3800c6",
+   "time": 1788399566,
+   "url": "https://www.reddit.com/r/MadeMeSmile/comments/1w5tqpu/be_like_gary/"
   },
   {
    "sub": "SipsTea",
@@ -587,15 +698,6 @@
    "url": "https://www.reddit.com/r/SipsTea/comments/1w5l9lt/the_nine_women_and_three_men_of_the_jury_remain/"
   },
   {
-   "sub": "SipsTea",
-   "title": "A 25-year-old suffered a catastrophic brain injury in a motorcycle crash and UnitedHealthcare is REFUSING to pay for the treatment that could help him wake up...",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/dG9nbjcyaGRwN25oMamUgzeXFZOQUm0jnNbEe2xw9asV7bhziH-YmFu-cKAb.jpeg?width=640&crop=smart&auto=webp&s=7216a459473969859dc1dcd23f0003bc51334051",
-   "time": 1788400682,
-   "url": "https://www.reddit.com/r/SipsTea/comments/1w5u506/a_25yearold_suffered_a_catastrophic_brain_injury/"
-  },
-  {
    "sub": "pics",
    "title": "The USS Abraham Lincoln arriving in Thailand showing signs of her long deployment",
    "score": 0,
@@ -605,15 +707,6 @@
    "url": "https://www.reddit.com/r/pics/comments/1w5apac/the_uss_abraham_lincoln_arriving_in_thailand/"
   },
   {
-   "sub": "cats",
-   "title": "15 years later, couldn’t be happier!",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/xxd6ul2s07nh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=3fdf946e03859d44dedd84961ba2a8ee76feea63",
-   "time": 1788392396,
-   "url": "https://www.reddit.com/r/cats/comments/1w5r22w/15_years_later_couldnt_be_happier/"
-  },
-  {
    "sub": "MoralityScaling",
    "title": "Morality of this?",
    "score": 0,
@@ -621,6 +714,24 @@
    "thumb": "https://preview.redd.it/kg8s48gts4nh1.png?width=640&crop=smart&auto=webp&s=4e3a78f40ced0853ba3054a68674bcf827629783",
    "time": 1788365512,
    "url": "https://www.reddit.com/r/MoralityScaling/comments/1w5espc/morality_of_this/"
+  },
+  {
+   "sub": "SipsTea",
+   "title": "A 25-year-old suffered a catastrophic brain injury in a motorcycle crash and UnitedHealthcare is REFUSING to pay for the treatment that could help him wake up...",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/dG9nbjcyaGRwN25oMamUgzeXFZOQUm0jnNbEe2xw9asV7bhziH-YmFu-cKAb.jpeg?width=640&crop=smart&auto=webp&s=7216a459473969859dc1dcd23f0003bc51334051",
+   "time": 1788400682,
+   "url": "https://www.reddit.com/r/SipsTea/comments/1w5u506/a_25yearold_suffered_a_catastrophic_brain_injury/"
+  },
+  {
+   "sub": "GadgetsIndia",
+   "title": "Free awards will be given to everyone who comments on this post.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/hcm3lfka18nh1.jpeg?width=640&crop=smart&auto=webp&s=22d41284b21c427f46a34d3c5b485fa278332bdf",
+   "time": 1788404677,
+   "url": "https://www.reddit.com/r/GadgetsIndia/comments/1w5vjn9/free_awards_will_be_given_to_everyone_who/"
   },
   {
    "sub": "florida",
@@ -641,15 +752,6 @@
    "url": "https://www.reddit.com/r/bald/comments/1w5mr0s/tell_me_i_made_the_right_choice/"
   },
   {
-   "sub": "GadgetsIndia",
-   "title": "Free awards will be given to everyone who comments on this post.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/hcm3lfka18nh1.jpeg?width=640&crop=smart&auto=webp&s=22d41284b21c427f46a34d3c5b485fa278332bdf",
-   "time": 1788404677,
-   "url": "https://www.reddit.com/r/GadgetsIndia/comments/1w5vjn9/free_awards_will_be_given_to_everyone_who/"
-  },
-  {
    "sub": "videogames",
    "title": "This is the most soulless things I've seen DLSS 5 do yet",
    "score": 0,
@@ -659,29 +761,27 @@
    "url": "https://www.reddit.com/r/videogames/comments/1w5dsi1/this_is_the_most_soulless_things_ive_seen_dlss_5/"
   },
   {
-   "sub": "meirl",
-   "title": "Meirl",
+   "sub": "antiai",
+   "title": "So happy for this ban.",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/c478ujz8x4nh1.jpeg?width=640&crop=smart&auto=webp&s=6bc227e6cf5100e6a1b59543b2969c81e05fe836",
-   "time": 1788366995,
-   "url": "https://www.reddit.com/r/meirl/comments/1w5fhmo/meirl/"
+   "thumb": "",
+   "time": 1788400122,
+   "url": "https://www.reddit.com/r/antiai/comments/1w5txs5/so_happy_for_this_ban/"
+  },
+  {
+   "sub": "cats",
+   "title": "15 years later, couldn’t be happier!",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/xxd6ul2s07nh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=3fdf946e03859d44dedd84961ba2a8ee76feea63",
+   "time": 1788392396,
+   "url": "https://www.reddit.com/r/cats/comments/1w5r22w/15_years_later_couldnt_be_happier/"
   }
  ],
  "disaster": [],
  "_cover": {
   "ok": {
-   "x": [
-    "awaken_eyes",
-    "jajaja7878uu"
-   ],
-   "insta": [
-    "cristiano",
-    "googledeepmind",
-    "heygen_official",
-    "higgsfield.ai",
-    "klingai_official"
-   ],
    "threads": [
     "aicoffeechat",
     "aipeekme",
@@ -690,44 +790,43 @@
     "kopp",
     "promppy_com",
     "takepage_"
+   ],
+   "tiktok": [
+    "tictok_ent"
    ]
   },
   "why": {
-   "x": {
-    "64bitcoinkr": 429,
-    "economysniper0": 429,
-    "kyunghyang": 429,
-    "freedom_73x": 429,
-    "marionawfal": 429,
-    "globalbrief_now": 429
-   },
    "insta": {
-    "koreadispatch": "rotate",
-    "bts.bighitofficial": "rotate",
-    "blackpinkofficial": "rotate",
-    "newjeans_official": "rotate",
-    "aespa_official": "rotate",
-    "jennierubyjane": "rotate",
-    "xxxibgdrgn": "rotate",
-    "hm_son7": "rotate",
-    "sbsnow_insta": "rotate",
-    "mnet_official": "rotate",
-    "openai": "rotate",
-    "runwayapp": "rotate",
-    "pika_labs": "rotate",
-    "lumalabsai": "rotate",
-    "midjourney": "rotate"
+    "koreadispatch": "gap",
+    "bts.bighitofficial": "gap",
+    "blackpinkofficial": "gap",
+    "newjeans_official": "gap",
+    "aespa_official": "gap",
+    "jennierubyjane": "gap",
+    "xxxibgdrgn": "gap",
+    "hm_son7": "gap",
+    "sbsnow_insta": "gap",
+    "mnet_official": "gap",
+    "openai": "gap",
+    "runwayapp": "gap",
+    "pika_labs": "gap",
+    "lumalabsai": "gap",
+    "midjourney": "gap",
+    "klingai_official": "gap",
+    "heygen_official": "gap",
+    "higgsfield.ai": "gap",
+    "googledeepmind": "gap",
+    "cristiano": "gap"
    },
    "tiktok": {
-    "jaemyung_lee": 503,
-    "tictok_ent": 503
+    "jaemyung_lee": 503
    }
   },
   "landing": {
-   "at": "2026-09-03T14:01:31",
+   "at": "2026-09-03T14:35:49",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-09-03T14:35:40.044428+09:00"
+ "updated": "2026-09-03T15:01:24.465333+09:00"
 }
