@@ -7486,8 +7486,14 @@
   {
    "query": "이재룡",
    "traffic": "10000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/6c7065de5e.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://isplus.com/article/view/isp202609030096",
+     "source": ""
+    }
+   ],
    "vol": 10000,
    "started": "2026-09-03T14:20:00+09:00",
    "delta": -10,
@@ -7536,8 +7542,14 @@
   {
    "query": "김신영",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/1bf80c17ad.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.hankyung.com/article/202609016980H",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-09-03T14:30:00+09:00",
    "isNew": true,
@@ -7549,8 +7561,14 @@
   {
    "query": "김경문",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/163ec1ed66.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.nocutnews.co.kr/news/6568738",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-09-03T14:00:00+09:00",
    "delta": -9,
@@ -7614,8 +7632,14 @@
   {
    "query": "영탁",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/af781acece.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.cbci.co.kr/news/articleView.html?idxno=601038",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-09-03T15:00:00+09:00",
    "isNew": true,
@@ -7642,8 +7666,14 @@
   {
    "query": "로저 페더러",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/752417483e.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://sports.khan.co.kr/article/202608310512003/",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-09-03T14:00:00+09:00",
    "delta": -14,
@@ -7908,17 +7938,16 @@
  ],
  "gtrends_pool_updated": "2026-09-03T16:12:02+09:00",
  "_trend_img": {
-  "tried": "2026-09-03T15:29:21+09:00",
+  "tried": "2026-09-03T16:12:02+09:00",
   "fail": {
-   "예금": "2026-09-03T14:12:54+09:00",
-   "종합 부동산 세": "2026-09-03T14:12:54+09:00",
-   "공공기관 이전": "2026-09-03T14:12:54+09:00",
-   "호텔": "2026-09-03T14:12:54+09:00",
    "이주 아": "2026-09-03T14:48:28+09:00",
    "정부": "2026-09-03T14:48:28+09:00",
    "사우나": "2026-09-03T15:35:59+09:00",
    "농협": "2026-09-03T15:35:59+09:00",
-   "공공기관 통폐합": "2026-09-03T15:35:59+09:00"
+   "공공기관 통폐합": "2026-09-03T15:35:59+09:00",
+   "정년": "2026-09-03T16:17:33+09:00",
+   "대한민국의 법무부 장관": "2026-09-03T16:17:33+09:00",
+   "협박": "2026-09-03T16:17:33+09:00"
   }
  },
  "gtrends_gl": [
@@ -19365,7 +19394,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-03T16:12:02+09:00"
+    "first_seen": "2026-09-03T16:12:02+09:00",
+    "kw": "유튜브, 영상",
+    "sum": "계정이 관련 유튜브 영상 링크를 게시했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -19380,7 +19412,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-09-03T16:12:02+09:00"
+    "first_seen": "2026-09-03T16:12:02+09:00",
+    "kw": "OpenAI, Gluon 커널, AI 코드생성",
+    "sum": "조던 나노스가 오픈AI AI 생성 커널이 고성능을 낸다고 전했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -19395,7 +19430,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-09-03T16:12:02+09:00"
+    "first_seen": "2026-09-03T16:12:02+09:00",
+    "kw": "Perplexity, 온디바이스 추론, 블로그",
+    "sum": "계정이 Perplexity 온디바이스 추론 블로그 링크를 게시했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -19632,7 +19670,10 @@
     "rh": [
      12
     ],
-    "first_seen": "2026-09-03T16:12:02+09:00"
+    "first_seen": "2026-09-03T16:12:02+09:00",
+    "kw": "Perplexity, Lily, Apple Silicon",
+    "sum": "Perplexity가 애플 실리콘용 로컬 추론엔진 Lily를 오픈소스로 공개했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
