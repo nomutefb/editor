@@ -7774,8 +7774,14 @@
   {
    "query": "중앙일보 오늘의 운세",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/7c98cc7709.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.edaily.co.kr/News/Read?newsId=02214006645576512",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-09-03T08:10:00+09:00",
    "delta": -9,
@@ -7803,8 +7809,14 @@
   {
    "query": "코레일",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/35730c9192.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.naewoeilbo.com/news/articleView.html?idxno=2405918",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-09-03T08:10:00+09:00",
    "delta": -10,
@@ -7818,8 +7830,14 @@
   {
    "query": "남보라",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/3b6ab646a5.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.newsis.com/view/NISX20260820_0003755612",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-03T08:10:00+09:00",
    "delta": -10,
@@ -7833,8 +7851,14 @@
   {
    "query": "사우 델",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/e1d9261e2d.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.kwnews.co.kr/article/20260902500535",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-03T08:20:00+09:00",
    "delta": -15,
@@ -7871,8 +7895,14 @@
   {
    "query": "마우리시오 포체티노",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/5f5b29da54.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.newspim.com/news/view/20260804000031",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-03T07:30:00+09:00",
    "isNew": true,
@@ -7884,8 +7914,14 @@
   {
    "query": "9 월 모의고사 등급 컷",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/4a931ed3e7.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.gukjenews.com/news/articleView.html?idxno=3682930",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-03T07:10:00+09:00",
    "isNew": true,
@@ -7897,8 +7933,14 @@
   {
    "query": "공동 명의",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/0d964b6915.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.fnnews.com/news/202608170547591287",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-03T07:50:00+09:00",
    "isNew": true,
@@ -8077,9 +8119,8 @@
  ],
  "gtrends_pool_updated": "2026-09-03T10:49:37+09:00",
  "_trend_img": {
-  "tried": "2026-09-03T10:11:28+09:00",
+  "tried": "2026-09-03T10:49:37+09:00",
   "fail": {
-   "김하성": "2026-09-03T08:28:48+09:00",
    "신정환": "2026-09-03T09:04:18+09:00",
    "블루제이스 대 가디언즈": "2026-09-03T09:41:40+09:00",
    "경제": "2026-09-03T10:16:56+09:00"
@@ -20508,7 +20549,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-03T10:49:37+09:00"
+    "first_seen": "2026-09-03T10:49:37+09:00",
+    "kw": "에이전트 보안, 데이터 보관",
+    "sum": "계정이 에이전트 보안 기준의 무게중심 이동을 설명하고 있다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -20523,7 +20567,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-09-03T10:49:37+09:00"
+    "first_seen": "2026-09-03T10:49:37+09:00",
+    "kw": "Anthropic, Enterprise Frontier Safeguard",
+    "sum": "계정이 Anthropic의 신규 기업용 보안 체계 발표를 정리했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
