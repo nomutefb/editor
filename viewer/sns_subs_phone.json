@@ -369,32 +369,32 @@
  "threads": [
   {
    "account": "choi.openai",
+   "text": "프로젝트 주소 :\nhttps://lucida-r2s.github.io/",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1788458444,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/Dc1aAckkmDd",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "ByteDance Seed 연구진이 실제 공간 영상을 편집 가능한 3D 시뮬레이션 환경으로 바꾸는 Lucida를 공개했습니다.\n\nLucida는 영상을 통째로 3D로 복원하는 방식이 아니라, 먼저 장면 속 물체를 각각 구분하고 여러 시점의 이미지·마스크·포인트클라우드 정보를 모읍니다.\n\n이후 가려진 부분까지 포함한 완전한 3D 물체를 생성하고, GizmoAct라는 VLM 기반 방식으로 실제 영상과 비교하면서 위치와 회전을 반복 수정합니다.\n\n결과적으로 의자나 책상 같은 물체가 하나의 3D 장면에 합쳐져 있으면서도 각각 따로 이동·편집할 수 있는데요.\n\n로봇 시뮬레이션처럼 실제 공간을 수정 가능한 디지털 환경으로 옮겨야 하는 작업에 활용할 수 있을 것으로 보입니다.",
+   "likes": 6,
+   "cmts": 1,
+   "time": 1788458434,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/791960661_4616949095252511_1487598851555669781_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk3ODIwMDEzOTE1MjEzNTk4Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=4ZA8Kp9dXgcQ7kNvwGZGC2P&_nc_oc=AdpLIEFyXE-nSvVNbBUB6-MDiQl5dnFSk_wtEQJdqU7svW7zHnGQGYQGkWFE5c6Nl7s&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=wJ65hpErfISA27cFVvVumw&_nc_ss=7a22e&oh=00_AQKAMn_9C9E2VmGbTZ_G3bWsHlcdmOa06Y5YUV5dq2xtEw&oe=6A9F865F",
+   "url": "https://www.threads.com/@choi.openai/post/Dc1Z_L7kpcu",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
    "text": "주소 :\nhttps://tangleml.com/",
    "likes": 1,
    "cmts": 0,
    "time": 1788454857,
    "thumb": "",
    "url": "https://www.threads.com/@choi.openai/post/Dc1TKloADUT",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "0.8B짜리 소형 모델이 특정 작업에서 GPT-5.6 Sol을 이겼습니다.\n\nShopify가 Qwen3.5-0.8B를 특정 업무에 맞게 미세 조정한 결과인데요.\n범용 AI를 그대로 쓰는 대신 실제 업무에서 나온 결과를 평가하고, 실패 데이터를 다시 학습에 넣어 모델을 계속 개선하는 방식을 사용했습니다.\n\nShopify CEO Tobi Lütke는 이런 자기개선 학습 구조가 있다면 작은 모델도 특정 업무에서는 대형 모델보다 좋은 성능을 낼 수 있다고 설명했습니다.\n\n이 학습 파이프라인을 만드는 기반 기술 Tangle도 오픈소스로 공개했습니다.\n모든 업무에 비싼 대형 모델을 호출하는 대신, 반복 업무마다 작고 저렴한 전용 모델을 만들어 쓰는 방식이 꽤 빠르게 늘어날 것 같습니다.",
-   "likes": 12,
-   "cmts": 1,
-   "time": 1788454847,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/792148484_17985118488112832_208439578507506412_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk3ODE3MDA1MTczODk5NDIzNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=JCqGqW2n8gwQ7kNvwH4-A3q&_nc_oc=AdqRu-Ky_pWJSTs4PaWNejWYR0HBmuRoCqTSJgvHamar2kNPa7myIX-OM0HPrYma4NY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Er2OGzVmOFYWhbNTxrKugQ&_nc_ss=7a22e&oh=00_AQIsqUHRtf6XuMqN5VE2e5aPTVfFKo_Zi8ygl8FSxvCvyw&oe=6A9F9440",
-   "url": "https://www.threads.com/@choi.openai/post/Dc1TJW2AAY9",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "풀영상 :\nhttps://www.youtube.com/watch?v=9JmlDV8TN3U",
-   "likes": 3,
-   "cmts": 0,
-   "time": 1788451221,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/Dc1MOt4DvBI",
    "region": "kr"
   },
   {
@@ -430,10 +430,10 @@
   {
    "account": "kopp",
    "text": "Made this little gradient text reveal ✨\r\n\r\nSuch a simple way to make a site more premium",
-   "likes": 22,
-   "cmts": 2,
+   "likes": 23,
+   "cmts": 3,
    "time": 1788419196,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/791922802_2506863129818881_414191119790615700_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk3Nzg3MDc0MTk3ODk2NzM1MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=uqfpHTvJ1O8Q7kNvwFCAPMy&_nc_oc=AdprHog9HNr_U2x70oyjOiybO64ElQSbgwYf6_siEdOwmAhCik_81nlb8KWdE2nxOnw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=MpP21c_TjC9NlMDJToH9CQ&_nc_ss=7a22e&oh=00_AQIGskz9vcLKCF6s3ETWk5DoxZusT268eX4zQ5m4nD0NGA&oe=6A9FA02C",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/791922802_2506863129818881_414191119790615700_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk3Nzg3MDc0MTk3ODk2NzM1MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=uqfpHTvJ1O8Q7kNvwFCAPMy&_nc_oc=AdprHog9HNr_U2x70oyjOiybO64ElQSbgwYf6_siEdOwmAhCik_81nlb8KWdE2nxOnw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=MMMreNqAOMR0oRhdcCPjTA&_nc_ss=7a22e&oh=00_AQKVZkVTvSqQbIetpL8U256Iwx0JwhU34xN4XjjM3NX4wQ&oe=6A9FA02C",
    "url": "https://www.threads.com/@kopp/post/Dc0PF06E202",
    "region": "kr"
   },
@@ -449,12 +449,12 @@
   },
   {
    "account": "choi.openai",
-   "text": "일론 머스크는 AI와 로보틱스가 가져올 생산성 혁신을 강조하며, 과거에 갇히기보다 “신기술을 적극적으로 시도하고 수용하는 자세”가 중요하다고 말했습니다.\n\n자율주행과 휴머노이드 로봇 기술이 본격화되면 글로벌 경제는 연간 20~30조 달러, 즉 세계 경제의 20~30% 규모로 성장할 것이라고 추산했습니다.\n\n특히 그는 “손으로 원자를 물리적으로 다루는 일이 아니라면, 디지털 영역의 모든 일은 AI가 처리할 수 있게 될 것”이라며, 이 시점이 이르면 내년 말쯤 도래할 수 있다고 전망했습니다.",
-   "likes": 16,
+   "text": "0.8B짜리 소형 모델이 특정 작업에서 GPT-5.6 Sol을 이겼습니다.\n\nShopify가 Qwen3.5-0.8B를 특정 업무에 맞게 미세 조정한 결과인데요.\n범용 AI를 그대로 쓰는 대신 실제 업무에서 나온 결과를 평가하고, 실패 데이터를 다시 학습에 넣어 모델을 계속 개선하는 방식을 사용했습니다.\n\nShopify CEO Tobi Lütke는 이런 자기개선 학습 구조가 있다면 작은 모델도 특정 업무에서는 대형 모델보다 좋은 성능을 낼 수 있다고 설명했습니다.\n\n이 학습 파이프라인을 만드는 기반 기술 Tangle도 오픈소스로 공개했습니다.\n모든 업무에 비싼 대형 모델을 호출하는 대신, 반복 업무마다 작고 저렴한 전용 모델을 만들어 쓰는 방식이 꽤 빠르게 늘어날 것 같습니다.",
+   "likes": 12,
    "cmts": 1,
-   "time": 1788451210,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/791942596_1057240067200695_1561211010748268700_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&ig_cache_key=Mzk3ODEzOTU0NzI5Njc3NDUyOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=1V7g1XzwrLYQ7kNvwFZys0G&_nc_oc=AdqEwov_5XguK-b7DMVgC_XjyKCmfI25a1d2NcjCzjGEM39eXb4U4287QT4nw76NNkg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Er2OGzVmOFYWhbNTxrKugQ&_nc_ss=7a22e&oh=00_AQKq5UWKdd11tF1R-gAXy_QWDDPs_b4eegLwUrYg2vfeyQ&oe=6A9F724D",
-   "url": "https://www.threads.com/@choi.openai/post/Dc1MNdXjrmA",
+   "time": 1788454847,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/792148484_17985118488112832_208439578507506412_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk3ODE3MDA1MTczODk5NDIzNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=JCqGqW2n8gwQ7kNvwH4-A3q&_nc_oc=AdqRu-Ky_pWJSTs4PaWNejWYR0HBmuRoCqTSJgvHamar2kNPa7myIX-OM0HPrYma4NY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=wJ65hpErfISA27cFVvVumw&_nc_ss=7a22e&oh=00_AQKjPuFXxLLeXmWyRJ_aHMdukhHRsFX1Me__hdkpgDaCsw&oe=6A9F9440",
+   "url": "https://www.threads.com/@choi.openai/post/Dc1TJW2AAY9",
    "region": "kr"
   },
   {
@@ -469,12 +469,12 @@
   },
   {
    "account": "choi.openai",
-   "text": "와.. 35년 동안 아무도 풀지 못했던 RSA-260이 결국 풀렸습니다.\n\nCognition 엔지니어 Eric Lu가 X에 130자리 숫자 하나를 올렸는데, 확인 결과 1991년부터 미해결이던 RSA-260의 소인수였습니다.\n\nRSA는 인터넷 통신이나 전자서명 등에 사용되는 암호 방식입니다. 아주 큰 두 소수를 곱해 숫자를 만들고, 그 결과만으로 원래 두 소수를 찾아내기 매우 어렵다는 점을 이용합니다. 그런데 RSA-260에서는 그 숫자를 실제로 찾아낸 겁니다.\n\n다만 RSA-260은 연구용 문제라 현재 사용하는 RSA-2048이 뚫렸다는 뜻은 아닙니다. 그래도 2020년 RSA-250 이후 소인수분해 기록을 다시 넘어섰습니다.\n\nEric Lu가 Cognition 엔지니어인 만큼 Devin 같은 AI 에이전트가 계산이나 코드 작성에 활용됐는지도 궁금한데요.\n\n만약 AI가 실제로 큰 역할을 했다면 AI가 수학 난제를 푸는 방식에도 상당한 변화가 시작됐다는 의미가 될 것 같습니다.",
-   "likes": 56,
-   "cmts": 4,
-   "time": 1788440458,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/791275563_17985252357112832_3567571998172398066_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk3ODA0OTM1MDQxNTgyMDI3Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTE2Ni5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=XqEI1dec-aQQ7kNvwH07_wL&_nc_oc=Adr81b0WT8kB8ncP7z4uBcD9_CxPBLBVr08enTWcvudWtLw5YfcAh3K1U24ImR4XQV0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Er2OGzVmOFYWhbNTxrKugQ&_nc_ss=7a22e&oh=00_AQKzitmqFJ6ITIkIvt52mwTz1KrLVGmMA4iFbYOTuoj4kw&oe=6A9F9736",
-   "url": "https://www.threads.com/@choi.openai/post/Dc03s6-giXw",
+   "text": "풀영상 :\nhttps://www.youtube.com/watch?v=9JmlDV8TN3U",
+   "likes": 3,
+   "cmts": 0,
+   "time": 1788451221,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/Dc1MOt4DvBI",
    "region": "kr"
   },
   {
@@ -489,42 +489,22 @@
   },
   {
    "account": "choi.openai",
-   "text": "4/ 샘 알트만 오픈AI CEO는 “AI는 본질적으로 세상을 평등하게 만드는 힘(equalizing force)이어야 한다”고 강조했습니다.\n\n그는 사이버 보안과 바이오 안보 같은 기술적 위험에 시급히 대응하지 못하면 사회 전반의 AI 도입 속도가 크게 후퇴할 것이라 경고했습니다.\n특히 권력과 컴퓨팅 자원이 소수에게만 쏠리는 독점 문제를 가장 경계해야 할 위험으로 꼽았습니다.\n\n선제적 투자 여력을 가진 부유층만이 연산 능력을 독점해 불평등이 심화되는 최악의 시나리오를 막으려면, “AI를 누구에게나 풍족하게(abundant) 제공해야 한다”고 말했습니다.",
-   "likes": 3,
+   "text": "일론 머스크는 AI와 로보틱스가 가져올 생산성 혁신을 강조하며, 과거에 갇히기보다 “신기술을 적극적으로 시도하고 수용하는 자세”가 중요하다고 말했습니다.\n\n자율주행과 휴머노이드 로봇 기술이 본격화되면 글로벌 경제는 연간 20~30조 달러, 즉 세계 경제의 20~30% 규모로 성장할 것이라고 추산했습니다.\n\n특히 그는 “손으로 원자를 물리적으로 다루는 일이 아니라면, 디지털 영역의 모든 일은 AI가 처리할 수 있게 될 것”이라며, 이 시점이 이르면 내년 말쯤 도래할 수 있다고 전망했습니다.",
+   "likes": 16,
    "cmts": 1,
-   "time": 1788437452,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/793595438_1068757875559116_5223082670279808816_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk3ODAxOTQ2NDgyNjEwNDI2NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=C6D-oLzsfcYQ7kNvwGa2184&_nc_oc=Ado8Tnis55x7HnY7XuHjWSM0SuMgpRHUmM7fPgEwmA42miRKCJJrd1T03-gU7_2Q5sQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Er2OGzVmOFYWhbNTxrKugQ&_nc_ss=7a22e&oh=00_AQKYzb507VcCFzHuSwujW7dCHF2qPgT1blqvwql6T3M15w&oe=6A9F8D42",
-   "url": "https://www.threads.com/@choi.openai/post/Dc0w6B2jKnI",
+   "time": 1788451210,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/791942596_1057240067200695_1561211010748268700_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&ig_cache_key=Mzk3ODEzOTU0NzI5Njc3NDUyOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=1V7g1XzwrLYQ7kNvwFZys0G&_nc_oc=AdqEwov_5XguK-b7DMVgC_XjyKCmfI25a1d2NcjCzjGEM39eXb4U4287QT4nw76NNkg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=wJ65hpErfISA27cFVvVumw&_nc_ss=7a22e&oh=00_AQLbtw09lfjjwEeD6CgZrfgYeENAiGhuvmqASWlM5XpjXw&oe=6A9FAA8D",
+   "url": "https://www.threads.com/@choi.openai/post/Dc1MNdXjrmA",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "3/ 샘 알트만(Sam Altman)은 한 국가가 AI를 도입하지 않겠다고 선언하는 것은 “100여 년 전 우리 나라에 전기를 들이지 않겠다고 말하는 것만큼이나 나쁜 생각”이라고 강조했습니다.\n\n그는 AI가 단순한 도구를 넘어 전기처럼 사회 전체를 지탱하는 필수 인프라가 될 것으로 내다봤습니다. 10년 뒤에는 AI를 특별히 의식하거나 거론조차 하지 않을 정도로 모든 제품과 서비스에 기본 탑재될 것이라는 전망입니다.\n\n알트만은 “오늘날 자라나는 아이는 AI보다 똑똑해질 수는 없겠지만, 접하는 모든 제품과 서비스가 고도로 유능하지 않은 세상은 결코 겪어보지 못할 것”이라고 말했습니다. \n\n아이디어가 떠오르면 즉시 소프트웨어가 생성되고 난치병 치료법이 순식간에 발견되는 시대인 만큼, 국가와 사회 전체가 이 새로운 필수재를 적극 수용해야 한다고 덧붙였습니다.",
-   "likes": 2,
-   "cmts": 1,
-   "time": 1788437445,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/792716790_1711183673444500_5903475898195208797_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk3ODAxOTQxNzg4MzQ1MjA3MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=uJuY0H-YV6YQ7kNvwFXQeMQ&_nc_oc=AdpEPLkdMNnfVN3NkNiChP9UXczVCHvxmzIkYpwTOF_WAwmTd3qfh6Ghp7nxyozXh2c&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Er2OGzVmOFYWhbNTxrKugQ&_nc_ss=7a22e&oh=00_AQIU5Mzdwtg950tCnXz235byUHOYMm9_bNEC-IpEYq5_Aw&oe=6A9F719E",
-   "url": "https://www.threads.com/@choi.openai/post/Dc0w5WIjKKm",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "2/ 샘 알트만(Sam Altman)은 기술의 역사를 단절된 개별 사건이 아닌 “하나의 연속적인 지수적 곡선(continuous exponential)”으로 바라봐야 한다고 강조했습니다.\n\n농업과 산업혁명, 컴퓨터 혁명에 이어 현재의 AI 역시 이전 세대가 쌓아 올린 사회적 발견과 글로벌 경제 인프라 위에서 탄생한 연속선상의 결과물이라는 설명입니다.\n\n그는 흔히 빠지기 쉬운 “이번 혁명이 마지막이자 가장 거대하다”는 착각을 경계하며, 인류는 머지않아 AI를 도구 삼아 지금은 상상조차 하기 힘든 ‘그다음 단계의 혁신’을 만들어낼 것이라 내다봤습니다.\n\n끝으로 경제와 산업계의 생존 전략을 짚었습니다. “지금 사람들과 기업이 AI 역량을 갖추지 못한다면, 다음 층위의 기술 사다리를 결코 발명할 수 없을 것”이라며, 급변하는 기술 구조에 끊임없이 적응하고 동참할 것을 역설했습니다.",
-   "likes": 2,
-   "cmts": 1,
-   "time": 1788437436,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/792090782_1025009587208087_4990734154322893878_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk3ODAxOTM3NDU5OTc0NDA2OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=P5SgQAHjqtkQ7kNvwFju6RC&_nc_oc=AdpfX7SentVDVkhR2gykjBx42RzueiEGDXpUZ_3URsh5iOsDDTj5IZRaiGIcNDY8tBk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Er2OGzVmOFYWhbNTxrKugQ&_nc_ss=7a22e&oh=00_AQIoOXBa-PyUZuPRVn6ZxdNK6qmNkzpUGgRFCD6GDUxaEQ&oe=6A9F7AF1",
-   "url": "https://www.threads.com/@choi.openai/post/Dc0w4t0o6pE",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "샘 알트만이 G20에서 강한 전망을 내놨습니다.\n\n“AI를 도입하지 않는 건 100년 전 전기를 도입하지 않겠다는 것과 비슷합니다.”\n\n10년 뒤에는 전기처럼 AI가 어디에나 있어 굳이 AI라는 말조차 하지 않게 될 거라고 전망했는데요.\n\n샘 알트만의 AI 미래 전망과 발언 6가지를 정리했습니다🧵",
-   "likes": 81,
-   "cmts": 7,
-   "time": 1788437270,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/Dc0xnu8D9BR",
+   "text": "와.. 35년 동안 아무도 풀지 못했던 RSA-260이 결국 풀렸습니다.\n\nCognition 엔지니어 Eric Lu가 X에 130자리 숫자 하나를 올렸는데, 확인 결과 1991년부터 미해결이던 RSA-260의 소인수였습니다.\n\nRSA는 인터넷 통신이나 전자서명 등에 사용되는 암호 방식입니다. 아주 큰 두 소수를 곱해 숫자를 만들고, 그 결과만으로 원래 두 소수를 찾아내기 매우 어렵다는 점을 이용합니다. 그런데 RSA-260에서는 그 숫자를 실제로 찾아낸 겁니다.\n\n다만 RSA-260은 연구용 문제라 현재 사용하는 RSA-2048이 뚫렸다는 뜻은 아닙니다. 그래도 2020년 RSA-250 이후 소인수분해 기록을 다시 넘어섰습니다.\n\nEric Lu가 Cognition 엔지니어인 만큼 Devin 같은 AI 에이전트가 계산이나 코드 작성에 활용됐는지도 궁금한데요.\n\n만약 AI가 실제로 큰 역할을 했다면 AI가 수학 난제를 푸는 방식에도 상당한 변화가 시작됐다는 의미가 될 것 같습니다.",
+   "likes": 57,
+   "cmts": 4,
+   "time": 1788440458,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/791275563_17985252357112832_3567571998172398066_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk3ODA0OTM1MDQxNTgyMDI3Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTE2Ni5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=XqEI1dec-aQQ7kNvwH07_wL&_nc_oc=Adr81b0WT8kB8ncP7z4uBcD9_CxPBLBVr08enTWcvudWtLw5YfcAh3K1U24ImR4XQV0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=wJ65hpErfISA27cFVvVumw&_nc_ss=7a22e&oh=00_AQLK_fvftvxf6net2X6dscYCU0pxxXfaoxsI4iRlttKsKA&oe=6A9F9736",
+   "url": "https://www.threads.com/@choi.openai/post/Dc03s6-giXw",
    "region": "kr"
   }
  ],
@@ -554,7 +534,7 @@
   {
    "account": "jaemyung_lee",
    "title": "이번 정류장은 브라질입니다 #이재명 #대통령 #Brasil #Brazil",
-   "views": 782600,
+   "views": 782700,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooBGAi8A6InMPiZBpU9fBkTRtAAwBKw0m1E0Ag~tplv-tiktokx-origin.image?dr=14575&x-expires=1788631200&x-signature=yGlpmcP6%2Bmuc5RPK%2FvrTozUr0a0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -587,10 +567,10 @@
   {
    "account": "jaemyung_lee",
    "title": "프랑크푸르트에 도착했습니다🇰🇷🇩🇪 #이재명 #deutschland #frankfurt",
-   "views": 280500,
+   "views": 280600,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1788631200&x-signature=ZfERCqyzkiC9JhM%2BrZMot5rJnOY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1788631200&x-signature=F5ABMYDzkir8vWXt0fxiIUx4Dr8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785656353,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7669335640793763079",
    "region": "kr"
@@ -598,7 +578,7 @@
   {
    "account": "jaemyung_lee",
    "title": "우리 국민의 구조에 모든 역량을 총동원하겠습니다  #네팔 #긴급회의 #prayfornepal",
-   "views": 265000,
+   "views": 265100,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4ECXepekgFVLDAPQbcqjSdGAIaIofEozvI9Qh~tplv-tiktokx-origin.image?dr=14575&x-expires=1788631200&x-signature=a94Eo029jD%2FXuTK8OMmAjf3Pc7s%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -642,7 +622,7 @@
   {
    "account": "tictok_ent",
    "title": "현빈, '메이드 인 코리아2' 기대감 높이는 카리스마 / 디즈니+ ‘메이드 인 코리아 시즌2’ 제작발표회 #현빈 #정우성 #우도환 #서은수 #원지안 #정성일 #노재원 #차희 #우민호 #메이드인코리아",
-   "views": 3237,
+   "views": 3243,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oEXkfFCVpDqClvCzrgAUAZOVEfWtp2BEENIA6A~tplv-tiktokx-origin.image?dr=14575&x-expires=1788631200&x-signature=CVcm6bUN%2FsxB1q6B27yHtU%2FLw%2BI%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -653,7 +633,7 @@
   {
    "account": "tictok_ent",
    "title": "EXO(엑소) 카이 / 입생로랑 뷰티 팝업 포토월 #EXO #엑소 #카이 #KAI #입생로랑뷰티 #YSLBeauty #입생로랑뷰티",
-   "views": 1959,
+   "views": 1971,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAEB2AfsUTIAgAKCBVwrEZiipuAbA1ZiB3gIBl~tplv-tiktokx-origin.image?dr=14575&x-expires=1788631200&x-signature=WR%2F8bdL1Lwnjt8XWpiWgb5dbnog%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -664,6 +644,15 @@
  ],
  "reddit": [
   {
+   "sub": "aww",
+   "title": "So happy finally my squirrel house has a squirrel . I will not hear otherwise .",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/4u576k3bubnh1.jpeg?width=640&crop=smart&auto=webp&s=7eb9a96d277443fa3b4441b06543f9d4a835df34",
+   "time": 1788450754,
+   "url": "https://www.reddit.com/r/aww/comments/1w6baa3/so_happy_finally_my_squirrel_house_has_a_squirrel/"
+  },
+  {
    "sub": "AskReddit",
    "title": "What TV show got canceled on a massive cliffhanger that still frustrates you to this day?",
    "score": 0,
@@ -671,6 +660,15 @@
    "thumb": "",
    "time": 1788434669,
    "url": "https://www.reddit.com/r/AskReddit/comments/1w64mew/what_tv_show_got_canceled_on_a_massive/"
+  },
+  {
+   "sub": "comics",
+   "title": "Never [OC]",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/hclkdgzb7cnh1.jpeg?width=640&crop=smart&auto=webp&s=5c2f06603bbed2fb2d255155b4c7fa0615556622",
+   "time": 1788455134,
+   "url": "https://www.reddit.com/r/comics/comments/1w6dc7s/never_oc/"
   },
   {
    "sub": "oddlysatisfying",
@@ -682,24 +680,6 @@
    "url": "https://www.reddit.com/r/oddlysatisfying/comments/1w687dr/terry_crews_drawing_sofía_vergara/"
   },
   {
-   "sub": "mildlyinfuriating",
-   "title": "My girlfriend leaves the kitchen like this every night",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/54plbnrdv7nh1.jpeg?width=640&crop=smart&auto=webp&s=59130f2955116eaf244a5e62179a75dc1d7c4606",
-   "time": 1788402692,
-   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1w5uuvp/my_girlfriend_leaves_the_kitchen_like_this_every/"
-  },
-  {
-   "sub": "aww",
-   "title": "So happy finally my squirrel house has a squirrel . I will not hear otherwise .",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/4u576k3bubnh1.jpeg?width=640&crop=smart&auto=webp&s=7eb9a96d277443fa3b4441b06543f9d4a835df34",
-   "time": 1788450754,
-   "url": "https://www.reddit.com/r/aww/comments/1w6baa3/so_happy_finally_my_squirrel_house_has_a_squirrel/"
-  },
-  {
    "sub": "interestingasfuck",
    "title": "In 1989, a pelican named Katta-kun began going to a kindergarten in Japan where it played and interacted with the children as if it were one of them.",
    "score": 0,
@@ -707,6 +687,15 @@
    "thumb": "https://external-preview.redd.it/OTNkZmt5ZzNwYm5oMai_B5ZBlwrgaQpTHBqlHm2Pewd4q3TH1vS6dslb3zFH.jpeg?width=640&crop=smart&auto=webp&s=2092995bb2dd41b14c2d8d838ac991a985c3c891",
    "time": 1788449052,
    "url": "https://www.reddit.com/r/interestingasfuck/comments/1w6aih9/in_1989_a_pelican_named_kattakun_began_going_to_a/"
+  },
+  {
+   "sub": "mildlyinfuriating",
+   "title": "My girlfriend leaves the kitchen like this every night",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/54plbnrdv7nh1.jpeg?width=640&crop=smart&auto=webp&s=59130f2955116eaf244a5e62179a75dc1d7c4606",
+   "time": 1788402692,
+   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1w5uuvp/my_girlfriend_leaves_the_kitchen_like_this_every/"
   },
   {
    "sub": "MoralityScaling",
@@ -718,24 +707,6 @@
    "url": "https://www.reddit.com/r/MoralityScaling/comments/1w66tbn/morality_of_circumcision_on_babies_that_cant/"
   },
   {
-   "sub": "MadeMeSmile",
-   "title": "Many years ago, my dentist would bring his dog in to help people with dental anxiety.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/oj7lfn9vsbnh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=a87a0094c51097b4a7e974b327170a64296a4152",
-   "time": 1788450270,
-   "url": "https://www.reddit.com/r/MadeMeSmile/comments/1w6b2a3/many_years_ago_my_dentist_would_bring_his_dog_in/"
-  },
-  {
-   "sub": "technology",
-   "title": "ChatGPT down: OpenAI chatbot not working in major outage",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/GjGc8cg8evRnUL1D1rtzpM8LDLanqWMzlpcNt7SWOf0.png?width=640&crop=smart&auto=webp&s=e84d80a621193a9ce974ef799e4389532696f638",
-   "time": 1788448170,
-   "url": "https://www.reddit.com/r/technology/comments/1w6a3m7/chatgpt_down_openai_chatbot_not_working_in_major/"
-  },
-  {
    "sub": "LeopardsAteMyFarm",
    "title": "Farmers Drove Away Their Immigrant Workforce. Now This Farmer Complains He Can’t Fill Jobs, Even With Free Housing + $1.4K A Week",
    "score": 0,
@@ -743,6 +714,15 @@
    "thumb": "https://external-preview.redd.it/bGUwN3dhbXlvN25oMWsG9rdmTyaBDcldofTI-Q8TKzTqjorqWD-1HCzuM9Et.png?width=640&crop=smart&auto=webp&s=cdea5023df517e10856fc4fe115c3e7f41e6192f",
    "time": 1788400534,
    "url": "https://www.reddit.com/r/LeopardsAteMyFarm/comments/1w5u34o/farmers_drove_away_their_immigrant_workforce_now/"
+  },
+  {
+   "sub": "MadeMeSmile",
+   "title": "Many years ago, my dentist would bring his dog in to help people with dental anxiety.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/oj7lfn9vsbnh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=a87a0094c51097b4a7e974b327170a64296a4152",
+   "time": 1788450270,
+   "url": "https://www.reddit.com/r/MadeMeSmile/comments/1w6b2a3/many_years_ago_my_dentist_would_bring_his_dog_in/"
   },
   {
    "sub": "comics",
@@ -755,21 +735,21 @@
   },
   {
    "sub": "SipsTea",
-   "title": "A 25-year-old suffered a catastrophic brain injury in a motorcycle crash and UnitedHealthcare is REFUSING to pay for the treatment that could help him wake up...",
+   "title": "The American Nightmare",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/dG9nbjcyaGRwN25oMamUgzeXFZOQUm0jnNbEe2xw9asV7bhziH-YmFu-cKAb.jpeg?width=640&crop=smart&auto=webp&s=7216a459473969859dc1dcd23f0003bc51334051",
-   "time": 1788400682,
-   "url": "https://www.reddit.com/r/SipsTea/comments/1w5u506/a_25yearold_suffered_a_catastrophic_brain_injury/"
+   "thumb": "https://preview.redd.it/txi6mmbzq9nh1.jpeg?width=640&crop=smart&auto=webp&s=77fccfa69d385e8e54e50565f2536eb38f500164",
+   "time": 1788425511,
+   "url": "https://www.reddit.com/r/SipsTea/comments/1w61u1z/the_american_nightmare/"
   },
   {
-   "sub": "whoathatsinteresting",
-   "title": "A guest saved an alligator handler during a zoo attack",
+   "sub": "technology",
+   "title": "ChatGPT down: OpenAI chatbot not working in major outage",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/aG15anMzMHJzN25oMbDeEZsnzlJuUyOfzlGgmj0ParG_ZIrmGhIc-bmpcypu.png?width=640&crop=smart&auto=webp&s=eba29947907f94a2601b37b6fd497e8f3747d241",
-   "time": 1788401815,
-   "url": "https://www.reddit.com/r/whoathatsinteresting/comments/1w5ujr7/a_guest_saved_an_alligator_handler_during_a_zoo/"
+   "thumb": "https://external-preview.redd.it/GjGc8cg8evRnUL1D1rtzpM8LDLanqWMzlpcNt7SWOf0.png?width=640&crop=smart&auto=webp&s=e84d80a621193a9ce974ef799e4389532696f638",
+   "time": 1788448170,
+   "url": "https://www.reddit.com/r/technology/comments/1w6a3m7/chatgpt_down_openai_chatbot_not_working_in_major/"
   }
  ],
  "disaster": [],
@@ -814,10 +794,10 @@
    }
   },
   "landing": {
-   "at": "2026-09-04T02:35:36",
+   "at": "2026-09-04T03:01:22",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-09-04T03:01:19.438876+09:00"
+ "updated": "2026-09-04T03:31:20.810897+09:00"
 }
