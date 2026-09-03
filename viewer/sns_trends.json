@@ -7424,8 +7424,14 @@
   {
    "query": "매일신문",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/815efb6f33.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.imaeil.com/page/view/2026090214550223720",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-09-03T10:00:00+09:00",
    "delta": -1,
@@ -7684,8 +7690,14 @@
   {
    "query": "왕 즈이",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/28e98ae3f2.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://sports.khan.co.kr/article/202608212018003/",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-09-03T09:00:00+09:00",
    "delta": -3,
@@ -7769,8 +7781,14 @@
   {
    "query": "정책",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/e650efc7ba.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.fnnews.com/news/202609011815152598",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-09-03T08:20:00+09:00",
    "isNew": true,
@@ -7782,8 +7800,14 @@
   {
    "query": "외환시장",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/a5ab116eeb.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.edaily.co.kr/News/Read?newsId=02784726645576512",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-09-03T08:40:00+09:00",
    "isNew": true,
@@ -7887,9 +7911,8 @@
  ],
  "gtrends_pool_updated": "2026-09-03T12:07:09+09:00",
  "_trend_img": {
-  "tried": "2026-09-03T11:26:52+09:00",
+  "tried": "2026-09-03T12:07:09+09:00",
   "fail": {
-   "블루제이스 대 가디언즈": "2026-09-03T09:41:40+09:00",
    "경제": "2026-09-03T10:16:56+09:00"
   }
  },
@@ -17589,7 +17612,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-03T12:07:09+09:00"
+    "first_seen": "2026-09-03T12:07:09+09:00",
+    "kw": "이란전쟁, 더쇼비츠, 데이브 스미스",
+    "sum": "더쇼비츠가 이란전쟁을 1935년 히틀러 저지 실패에 비유해 정당화했다",
+    "sv": 1
    },
    {
     "account": "freedom_73x",
@@ -17642,7 +17668,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-09-03T12:07:09+09:00"
+    "first_seen": "2026-09-03T12:07:09+09:00",
+    "kw": "인구신, 9월, 주식",
+    "sum": "인구신이 9월엔 주식투자를 하지 말라고 했다",
+    "sv": 1
    }
   ],
   "tiktok": [
@@ -19322,7 +19351,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-03T12:07:09+09:00"
+    "first_seen": "2026-09-03T12:07:09+09:00",
+    "kw": "VS Code, MCP 서버, Copilot CLI",
+    "sum": "VS Code가 MCP 서버 설치 기본값을 세션 우선으로 바꿨다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -19337,7 +19369,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-09-03T12:07:09+09:00"
+    "first_seen": "2026-09-03T12:07:09+09:00",
+    "kw": "ChatGPT Work, 교육페이지, 링크",
+    "sum": "계정이 ChatGPT Work 학습페이지 주소를 공유했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -19352,7 +19387,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-09-03T12:07:09+09:00"
+    "first_seen": "2026-09-03T12:07:09+09:00",
+    "kw": "OpenAI, ChatGPT Work, Codex",
+    "sum": "OpenAI가 ChatGPT Work와 Codex 공식 교육페이지를 공개했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
