@@ -7685,8 +7685,14 @@
   {
    "query": "교통 사고",
    "traffic": "5000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/36143885de.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008737227",
+     "source": ""
+    }
+   ],
    "vol": 5000,
    "started": "2026-09-04T11:40:00+09:00",
    "isNew": true,
@@ -7762,8 +7768,14 @@
   {
    "query": "새덕후",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/193e49e776.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.ohmynews.com/NWS_Web/View/at_pg.aspx?CNTN_CD=A0003254165",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-04T12:40:00+09:00",
    "delta": -7,
@@ -7894,11 +7906,13 @@
  ],
  "gtrends_pool_updated": "2026-09-04T14:56:14+09:00",
  "_trend_img": {
-  "tried": "2026-09-04T14:22:53+09:00",
+  "tried": "2026-09-04T14:56:14+09:00",
   "fail": {
    "트레이드": "2026-09-04T13:56:35+09:00",
    "결혼식": "2026-09-04T13:56:35+09:00",
-   "일본은행": "2026-09-04T14:32:17+09:00"
+   "일본은행": "2026-09-04T14:32:17+09:00",
+   "목줄": "2026-09-04T15:03:45+09:00",
+   "도널드 j. 트럼프": "2026-09-04T15:03:45+09:00"
   }
  },
  "gtrends_gl": [
@@ -17888,7 +17902,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-04T14:56:14+09:00"
+    "first_seen": "2026-09-04T14:56:14+09:00",
+    "kw": "음주운전, 재판",
+    "sum": "음주운전으로 2명을 죽인 여성이 경찰에게 차량 반환 시점만 묻고 있다",
+    "sv": 1
    },
    {
     "account": "MarioNawfal",
@@ -19205,7 +19222,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-04T14:56:14+09:00"
+    "first_seen": "2026-09-04T14:56:14+09:00",
+    "kw": "K2 Horizon, 발표",
+    "sum": "계정이 K2 Horizon 발표 블로그 링크를 공유했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -19220,7 +19240,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-09-04T14:56:14+09:00"
+    "first_seen": "2026-09-04T14:56:14+09:00",
+    "kw": "K2 Horizon, MBZUAI, 오픈모델",
+    "sum": "MBZUAI 산하 기관이 학습자료까지 공개한 K2 Horizon 모델군을 내놓았다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -19235,7 +19258,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-09-04T14:56:14+09:00"
+    "first_seen": "2026-09-04T14:56:14+09:00",
+    "kw": "Claude Code, 권한 설정",
+    "sum": "Claude Code에 비대화형 승인거부 옵션과 세션 충돌 수정이 추가됐다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -19250,7 +19276,10 @@
     "rh": [
      4
     ],
-    "first_seen": "2026-09-04T14:56:14+09:00"
+    "first_seen": "2026-09-04T14:56:14+09:00",
+    "kw": "Claude Code, MCP, managedMcpServers",
+    "sum": "Claude Code가 조직 단위 MCP 서버 일괄 배포 기능을 도입했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
