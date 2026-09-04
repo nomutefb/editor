@@ -7516,8 +7516,14 @@
   {
    "query": "리사",
    "traffic": "20000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/5e78e30ec1.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://isplus.com/article/view/isp202609040038",
+     "source": ""
+    }
+   ],
    "vol": 20000,
    "started": "2026-09-04T20:10:00+09:00",
    "delta": -3,
@@ -7533,8 +7539,14 @@
   {
    "query": "항공 승무원",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/047a75a4d4.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://biz.heraldcorp.com/article/10841153",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-04T20:00:00+09:00",
    "delta": -3,
@@ -7579,8 +7591,14 @@
   {
    "query": "불꽃축제 2026",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/5ca8ef3332.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://biz.heraldcorp.com/article/10832844",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-04T20:10:00+09:00",
    "isNew": true,
@@ -7688,11 +7706,12 @@
  ],
  "gtrends_pool_updated": "2026-09-04T23:57:52+09:00",
  "_trend_img": {
-  "tried": "2026-09-04T23:21:25+09:00",
+  "tried": "2026-09-04T23:57:52+09:00",
   "fail": {
    "아빌라": "2026-09-04T22:17:57+09:00",
    "티빙": "2026-09-04T22:17:57+09:00",
-   "연합뉴스tv": "2026-09-04T23:31:49+09:00"
+   "연합뉴스tv": "2026-09-04T23:31:49+09:00",
+   "주권": "2026-09-05T00:05:43+09:00"
   }
  },
  "gtrends_gl": [
@@ -19093,7 +19112,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-04T23:57:52+09:00"
+    "first_seen": "2026-09-04T23:57:52+09:00",
+    "kw": "버니 샌더스, AI 규제, 초지능 금지",
+    "sum": "샌더스가 첨단 AI 개발 중단과 초지능 영구 금지 법안 발의를 예고했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -19108,7 +19130,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-09-04T23:57:52+09:00"
+    "first_seen": "2026-09-04T23:57:52+09:00",
+    "kw": "Meta, Muse Spark, 토큰 절감",
+    "sum": "Meta가 Muse Spark 1.3을 공개해 도구 호출과 토큰 사용을 줄였다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -19123,7 +19148,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-09-04T23:57:52+09:00"
+    "first_seen": "2026-09-04T23:57:52+09:00",
+    "kw": "앤트로픽, ant CLI, Claude 에이전트",
+    "sum": "앤트로픽이 ant apply로 에이전트를 코드처럼 관리하게 했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -19138,7 +19166,10 @@
     "rh": [
      4
     ],
-    "first_seen": "2026-09-04T23:57:52+09:00"
+    "first_seen": "2026-09-04T23:57:52+09:00",
+    "kw": "Google, Gemini, 음성 기능",
+    "sum": "구글이 Gemini 음성으로 Gmail 검색과 문서 작성까지 지원한다",
+    "sv": 1
    },
    {
     "account": "kopp",
@@ -19413,7 +19444,10 @@
     "rh": [
      13
     ],
-    "first_seen": "2026-09-04T23:57:52+09:00"
+    "first_seen": "2026-09-04T23:57:52+09:00",
+    "kw": "GPT-6 Astra, Unreal Engine, AI 에이전트",
+    "sum": "GPT-6 Astra가 언리얼 엔진서 협력형 AI 에이전트를 구현했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -19494,7 +19528,10 @@
     "rh": [
      16
     ],
-    "first_seen": "2026-09-04T23:57:52+09:00"
+    "first_seen": "2026-09-04T23:57:52+09:00",
+    "kw": "GPT-6 Astra, Blender, 3D 모델",
+    "sum": "GPT-6 Astra가 기차 그림을 3D 모델 3,295개로 재구성했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -19542,7 +19579,10 @@
     "rh": [
      18
     ],
-    "first_seen": "2026-09-04T23:57:52+09:00"
+    "first_seen": "2026-09-04T23:57:52+09:00",
+    "kw": "GPT-6 Astra, KiCad, PCB 설계",
+    "sum": "GPT-6 Astra가 회로도를 보고 KiCad로 PCB를 직접 설계했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -19557,7 +19597,10 @@
     "rh": [
      19
     ],
-    "first_seen": "2026-09-04T23:57:52+09:00"
+    "first_seen": "2026-09-04T23:57:52+09:00",
+    "kw": "GPT-6 Astra, 활용 사례, 얼리 액세스",
+    "sum": "계정이 GPT-6 Astra 활용 사례 20가지를 정리했다",
+    "sv": 1
    }
   ]
  },
