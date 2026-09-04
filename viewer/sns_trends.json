@@ -7652,8 +7652,14 @@
   {
    "query": "스카이랩스",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/18aec928d0.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://view.asiae.co.kr/article/2026090410472002660",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-09-04T09:50:00+09:00",
    "delta": -4,
@@ -7668,8 +7674,14 @@
   {
    "query": "안셀 엘고트",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/c6875dfcd7.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://isplus.com/article/view/isp202609030165",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-04T09:50:00+09:00",
    "delta": -3,
@@ -7725,8 +7737,14 @@
   {
    "query": "샤인머스캣",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/e2108fd109.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.hankyung.com/article/202609029405g",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-09-04T09:50:00+09:00",
    "delta": -5,
@@ -7818,7 +7836,7 @@
  ],
  "gtrends_pool_updated": "2026-09-04T13:11:17+09:00",
  "_trend_img": {
-  "tried": "2026-09-04T12:35:58+09:00",
+  "tried": "2026-09-04T13:11:17+09:00",
   "fail": {
    "왕 즈이": "2026-09-04T11:31:21+09:00",
    "테슬라 사이버캡": "2026-09-04T11:31:21+09:00",
@@ -17770,7 +17788,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-04T13:11:17+09:00"
+    "first_seen": "2026-09-04T13:11:17+09:00",
+    "kw": "구글, WeatherNext 3, 발표",
+    "sum": "계정이 구글의 날씨예측 AI 발표 링크를 공유했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -17785,7 +17806,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-09-04T13:11:17+09:00"
+    "first_seen": "2026-09-04T13:11:17+09:00",
+    "kw": "구글, WeatherNext 3, 날씨예측",
+    "sum": "구글이 정밀도를 높인 날씨예측 AI WeatherNext 3를 공개했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
