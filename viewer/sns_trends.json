@@ -7831,8 +7831,14 @@
   {
    "query": "불꽃놀이",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/90923fc5fa.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.gukjenews.com/news/articleView.html?idxno=3678448",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-04T19:40:00+09:00",
    "isNew": true,
@@ -7844,8 +7850,14 @@
   {
    "query": "차태현",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/a2123fbe9d.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.tenasia.co.kr/article/2026090437464",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-04T18:00:00+09:00",
    "delta": -10,
@@ -8090,7 +8102,7 @@
  ],
  "gtrends_pool_updated": "2026-09-04T20:57:27+09:00",
  "_trend_img": {
-  "tried": "2026-09-04T20:22:31+09:00",
+  "tried": "2026-09-04T20:57:27+09:00",
   "fail": {
    "장 한별": "2026-09-04T19:17:24+09:00",
    "심유진": "2026-09-04T19:17:24+09:00",
@@ -18989,7 +19001,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-04T20:57:27+09:00"
+    "first_seen": "2026-09-04T20:57:27+09:00",
+    "kw": "Gemini, 음성 기능",
+    "sum": "구글이 제미나이 음성으로 문서·메모 작성하는 기능을 출시했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
