@@ -15,12 +15,32 @@
  "insta": [],
  "threads": [
   {
+   "account": "daily_ai_star",
+   "text": "코드 리뷰의 기본 effort도 Lite에서 Balanced로 바뀝니다. 조직이나 저장소에서 `Default`를 쓰고 있다면 9월 28일부터 적용됩니다.\n\nLite를 유지하려면 조직 또는 저장소 설정에서 명시적으로 Lite를 선택해야 합니다. 관리자가 확인해야 할 항목은 세 가지입니다.\n\n기존 팀이 통합 경험에 옵트아웃하지 않았는가. Chat 데이터 보존 정책이 내부 기준과 맞는가. 자동 코드 리뷰의 기본 effort가 비용·속도 기대와 맞는가.\n\n이번 변화는 모델 교체 공지가 아닙니다. Copilot 설정이 개인의 사용 취향을 넘어, 조직의 데이터 수명과 에이전트 기본 권한을 정하는 운영 자산이 됐습니다.\n\nhttps://github.blog/changelog/2026-08-28-upcoming-changes-to-github-copilot-policies-and-billing/",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1788492082,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/Dc2aKAKmZyh",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
+   "text": "GitHub Copilot이 9월 28일 전후로 세 개의 경험을 하나로 합칩니다.\n\ngithub.com의 Copilot Chat, 모바일 Chat, Copilot cloud agent가 단일 Copilot 경험으로 통합됩니다. 새 경험은 기본 활성화되고, cloud agent는 Sandbox를 사용합니다.\n\n더 큰 변화는 대화 데이터입니다. github.com의 Chat 데이터 보존 기간이 기존 28일에서 계정 수명 동안으로 바뀝니다.\n\n같은 Copilot이라는 이름 아래에서도 기능이 합쳐지는 것이 아니라, 정책·실행 환경·데이터 보존 기준이 함께 바뀌는 셈입니다.\n\n에이전트를 도입한 조직이 먼저 확인할 것은 새 기능 목록보다 기본값이 무엇을 켜고, 데이터를 얼마나 오래 남기는가입니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1788492073,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/Dc2aIw9mcXM",
+   "region": "kr"
+  },
+  {
    "account": "choi.openai",
    "text": "오픈AI는 신이다.",
-   "likes": 109,
-   "cmts": 12,
+   "likes": 125,
+   "cmts": 15,
    "time": 1788487199,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/792506484_17985367665112832_1524261071430033126_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk3ODQ0MTQzOTM5MDU1OTI1MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTE3OS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=vfqj7lA5AxIQ7kNvwEzSg4d&_nc_oc=Adru9Fkj_1POveTlHpwnRW4sr2LPBWiHtqAnA5H7dWvNd5I7Y2KED-mbMQ5VHXYIV8MX_EiCBkUiEVNGoBMt8E5u&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=R4yCjp1U71beQzREF3TypQ&_nc_ss=7a22e&oh=00_AQKEFvEZk80FbAqczLDQNNTN-fvWCApT62rch4r97t7PGw&oe=6AA021FC",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/792506484_17985367665112832_1524261071430033126_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk3ODQ0MTQzOTM5MDU1OTI1MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTE3OS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=vfqj7lA5AxIQ7kNvwHBKnAm&_nc_oc=AdpOvobT1wUL_QF5uNmg9YerctVPbHf9qLjZJFxxA25KLU6I76tP2CQw9rfkfawjZi4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=K6fZvzsHuWI43nMdqc1GrQ&_nc_ss=7a22e&oh=00_AQK1nHfW1-9HtD68zddvjWxYBPRRjZJkCXC1ZPskK8JLDQ&oe=6AA021FC",
    "url": "https://www.threads.com/@choi.openai/post/Dc2Q2kSkWwS",
    "region": "kr"
   },
@@ -47,7 +67,7 @@
   {
    "account": "choi.openai",
    "text": "GPT Astra :",
-   "likes": 14,
+   "likes": 15,
    "cmts": 0,
    "time": 1788480158,
    "thumb": "",
@@ -57,20 +77,20 @@
   {
    "account": "choi.openai",
    "text": "이게 말이 되나..\nAI는 이제 인간이 측정 불가능한 영역으로 가고있다.",
-   "likes": 166,
+   "likes": 174,
    "cmts": 19,
    "time": 1788480047,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/792518719_17985356400112832_2730479237956724103_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk3ODM4MTQ0NDI0MTI1MDkyNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=u4fOBU7TymoQ7kNvwEydaPI&_nc_oc=AdpPqqxLN9tlrCgok12YFowbNx6iqFZDOt1yBr17cf_RIm5ejkqDLI_AdawUr9-zD7Ri5DyVHA_5tEfBNqpy2p_h&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=R4yCjp1U71beQzREF3TypQ&_nc_ss=7a22e&oh=00_AQIL1uZwmLC51PEa5f9x9Eqii08hA2K0IvUO10VZ7J7BPg&oe=6AA0063F",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/792518719_17985356400112832_2730479237956724103_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk3ODM4MTQ0NDI0MTI1MDkyNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=u4fOBU7TymoQ7kNvwFJo8YY&_nc_oc=AdqBF5L0dmLakxa1JZOLDKynMudPWOROXjbbUbYK9J_xaavHtSoySB5XSMPQHGynvN8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=K6fZvzsHuWI43nMdqc1GrQ&_nc_ss=7a22e&oh=00_AQKbOYy-hQ2NYco9jtNjJF_km7J7EPlU3WYiGEeBKAMDeg&oe=6AA0063F",
    "url": "https://www.threads.com/@choi.openai/post/Dc2DNhdAVpu",
    "region": "kr"
   },
   {
    "account": "aicoffeechat",
    "text": "앞으로 다른 세계에 살 것 같아요\n\n오픈 AI의 Astra가 출시되었습니다. 출시 영상인데 되게 신경을 많이 쓴듯해요. Astra의 장점들을 하나하나 섬세하게 드러나게 잘 보여주네요. \n\n컴퓨터 유즈 능력 하나는 끝내주는 것 같아요. 꼭 놓치지 말고 보세요.",
-   "likes": 67,
-   "cmts": 7,
+   "likes": 71,
+   "cmts": 8,
    "time": 1788476604,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/792764409_1792765525254997_8267530684979768110_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk3ODM1MTIyOTEyMTc1NjI0Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=X7hUSDrXsqgQ7kNvwEN-uFB&_nc_oc=AdpM8A-u9nuezVzFPHxyfpK-4CbrkiqAWZNPSlSyfCDoNwq1KBToLCrjMvrwG9jeSvF8VUaVBVJy3hh91xuBg6tl&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Rh0IoFTVOx5bCl8WRzBfBA&_nc_ss=7a22e&oh=00_AQLDfLZ-9ZIz72666ZdsZLoMLVnExpcl8dU_ddwLu-kuNQ&oe=6A9FF45B",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/792764409_1792765525254997_8267530684979768110_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk3ODM1MTIyOTEyMTc1NjI0Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=X7hUSDrXsqgQ7kNvwEYo-bm&_nc_oc=AdpxKu6dRJEXGaCNXtiDkF97XZQxiqipOvBKntXQ6g1mufvQ55rMLu6-FdQm0cq-ib0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=eBem_TSS0Kl4ygDTnD0vKg&_nc_ss=7a22e&oh=00_AQJArhaAOr5Qj6yIBgD0zqOgNmHeaDR_aG3HswvbD3IOwA&oe=6A9FF45B",
    "url": "https://www.threads.com/@aicoffeechat/post/Dc18V1binxT",
    "region": "kr"
   },
@@ -95,16 +115,6 @@
    "region": "kr"
   },
   {
-   "account": "daily_ai_star",
-   "text": "Coder Agent Relay가 9월 2일 공개됐습니다.\n\nCursor Cloud Agents의 판단 루프는 Cursor 클라우드에 남기고, 코드 읽기·명령 실행·파일 변경은 고객이 운영하는 Coder workspace에서 처리하는 구조입니다.\n\n기존 클라우드 에이전트는 소스코드와 자격증명, 내부 서비스에 접근할 때 공급자 인프라의 실행 경계를 따라갑니다. Agent Relay는 그 실행 위치를 고객의 클라우드·VPC·온프레미스로 옮깁니다.\n\nCoder가 100개 엔지니어링 조직을 조사한 결과, 70%는 에이전트용으로 설계되지 않은 인프라에서 실행 중이었고 조직 전체 거버넌스에 도달한 곳은 31%였습니다.\n\n에이전트 도입의 병목이 모델 성능에서 실행 위치와 감사 가능성으로 이동하고 있습니다.",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1788432930,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/Dc0pVTEmXo1",
-   "region": "kr"
-  },
-  {
    "account": "kopp",
    "text": "See all resources:\r\nhttps://www.details.so/vault",
    "likes": 0,
@@ -120,27 +130,17 @@
    "likes": 28,
    "cmts": 3,
    "time": 1788419196,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/791922802_2506863129818881_414191119790615700_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk3Nzg3MDc0MTk3ODk2NzM1MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=uqfpHTvJ1O8Q7kNvwFgI2Bp&_nc_oc=AdogxHZiF0LAk3qtuCOW4fvWxjDkI1ACnjbk0oW1Uvfxk436x1Oic34nm98xJzBycAjcOev2OmVrwhNSiADVaJJO&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=vPZdAZV6PBiNpWqhgt3iLQ&_nc_ss=7a22e&oh=00_AQLt7EEDCWH5sEEkAau1V0djXXpCdBsb5UT3ugUpbUxaHQ&oe=6AA010AC",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/791922802_2506863129818881_414191119790615700_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk3Nzg3MDc0MTk3ODk2NzM1MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=uqfpHTvJ1O8Q7kNvwGxv8Xj&_nc_oc=AdpSpSWhKvwYjtb02815AmZFgxw9UkiYf3fxl36k1n_fKOOtgDMQjHVKKVjQ8MPSLKQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=cThIJQ5WxyCVeYoZgpv1jw&_nc_ss=7a22e&oh=00_AQK3RCSmo8brGMAu0kzhcgq38nf10whj-d7rAd_754NceQ&oe=6AA010AC",
    "url": "https://www.threads.com/@kopp/post/Dc0PF06E202",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "JFrog AI Catalog이 9월 2일 MCP 서버·에이전트 스킬·플러그인·에이전트 패키지를 버전이 있는 아티팩트로 관리하기 시작했습니다.\n\n기존 보안 게이트는 파일 해시나 알려진 취약점 목록을 확인했습니다. JFrog는 이제 에이전트에게 무엇을 하라고 지시하는지까지 읽는 semantic scan을 제시합니다. 새 악성 스킬처럼 아직 해시가 없는 자산도 검사 대상에 넣겠다는 뜻입니다.\n\n승인된 자산만 레지스트리에서 꺼내게 하고, 실행 시점에는 MCP 도구와 스킬 호출을 정책과 대조합니다. 에이전트 보안의 기준이 “무엇을 설치했는가”에서 “무엇을 실행하도록 허용했는가”로 좁혀졌습니다.\n\nAI 자산도 이제 npm 패키지처럼 출처·버전·권한·실행 기록을 함께 관리해야 합니다.\n\nhttps://jfrog.com/blog/the-evolution-of-jfrog-ai-catalog/",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1788414038,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/Dc0FTD4mSw0",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "3/ 수학은 실제 결과물로 증명했습니다.\n\n연구 수학자급 문제만 모은 FrontierMath Tier 4에서 Sol 83.0%, Claude Fable 5.1 87.8%였던 점수를 97.6%로 끌어올려 포화시켰습니다.\n\n소수 간격 증명 두 건도 공개됐습니다. 무한히 많은 소수 쌍이 얼마나 가까이 붙어 있는지를 다루는 문제에서 10년 넘게 246이던 상계가 최근 240으로 내려왔는데, Astra가 이를 186까지 좁힌 증명을 Lean으로 형식화해 저장소에 올렸습니다.\n\n연구 워크플로를 돌리는 Terminal-Bench Science에서는 Sol의 22.4%가 64.6%가 됐고, Fable 5.1의 52.6%보다 31% 낮은 비용으로 낸 점수입니다.\n\n수학자 Bartosz Naskręcki는 모델과 대화하며 정리를 Lean으로 실시간 증명하는 시대가 왔다고 했고, 오픈AI의 노암 브라운은 매일 아침 누군가 이 모델로 만든 새 발견을 보는 게 기대된다고 적었습니다.",
-   "likes": 13,
+   "likes": 14,
    "cmts": 1,
    "time": 1788476778,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/793000330_17985355314112832_8545525416892434836_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk3ODM1NDAxNTQ5OTE4OTYxMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA5OS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=LJwoOdfWDKoQ7kNvwFVg3Zf&_nc_oc=AdoaPZGqNA1RD8HFtCPPptYqjmV_0YsZM2YPQ-YpWj3Hy5HP476_N6NiUqfO1kroiqMUsR24dBoiQYkSwZZ_55-2&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=R4yCjp1U71beQzREF3TypQ&_nc_ss=7a22e&oh=00_AQKZHlANhE54DAzzsKksQ9-xJJyDsI5lnf28CbKuaEJTEA&oe=6A9FFA0D",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/793000330_17985355314112832_8545525416892434836_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk3ODM1NDAxNTQ5OTE4OTYxMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA5OS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=LJwoOdfWDKoQ7kNvwFcalTP&_nc_oc=Adp720J8q-YYfIsyBbv4b92_yCNSsjSKP6HqQK166EYQL7X-Jh00Gw3cNwdq-ZjH1_w&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=K6fZvzsHuWI43nMdqc1GrQ&_nc_ss=7a22e&oh=00_AQKSxeevvLMpFbQ_7ps_y8P3zoIxtM-wF7GCkemTtuR6UQ&oe=6A9FFA0D",
    "url": "https://www.threads.com/@choi.openai/post/Dc18-eQkytw",
    "region": "kr"
   },
@@ -156,6 +156,46 @@
   },
   {
    "account": "daily_ai_star",
+   "text": "Coder Agent Relay가 9월 2일 공개됐습니다.\n\nCursor Cloud Agents의 판단 루프는 Cursor 클라우드에 남기고, 코드 읽기·명령 실행·파일 변경은 고객이 운영하는 Coder workspace에서 처리하는 구조입니다.\n\n기존 클라우드 에이전트는 소스코드와 자격증명, 내부 서비스에 접근할 때 공급자 인프라의 실행 경계를 따라갑니다. Agent Relay는 그 실행 위치를 고객의 클라우드·VPC·온프레미스로 옮깁니다.\n\nCoder가 100개 엔지니어링 조직을 조사한 결과, 70%는 에이전트용으로 설계되지 않은 인프라에서 실행 중이었고 조직 전체 거버넌스에 도달한 곳은 31%였습니다.\n\n에이전트 도입의 병목이 모델 성능에서 실행 위치와 감사 가능성으로 이동하고 있습니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1788432930,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/Dc0pVTEmXo1",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "2/ 가장 먼저 봐야 할 숫자는 ARC-AGI-3입니다.\n\n처음 보는 게임에 던져져 설명 없이 규칙을 알아내고 목표를 찾아 깨야 하는 시험이라, 암기한 지식이 통하지 않고 사람은 100% 풀 수 있는 벤치마크입니다.\n\n6개월 전 GPT-5.6 Sol은 여기서 7.8%였습니다. Astra는 ARC Prize의 표준 하네스로 62.7%, 이전 추론을 기억하고 대화를 압축해 이어가는 오픈AI 하네스로는 99.9%를 받았고, 두 결과 모두 ARC Prize가 공식 검증했습니다.\n\n일반 참가자 평균은 48%입니다. 점수보다 놀라운 건 푸는 방식입니다. Astra는 게임 상태와 다음 계획을 자기만의 대수 기호로 압축해 메모하며 풀었고, 96%의 레벨에서 사람 중앙값보다 적은 행동으로 클리어했습니다.\n\n평균 행동 수는 사람보다 51.7% 적었는데요. ARC Prize는 행동 효율이 사람과 AI를 가르는 마지막 선일 거라고 예상했었는데, Astra가 그 선을 넘었다고 인정했습니다.",
+   "likes": 18,
+   "cmts": 1,
+   "time": 1788476768,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/795430654_17985355263112832_6319866438764714115_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk3ODM1MzkyOTMxNDYwNzc2NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTQzOS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=a2PWR53HTPsQ7kNvwFwq8Dr&_nc_oc=AdoHcQe5gBgYdlzh-7zYkpWQzdSFJBRVjN9wBxamQ9EnduTG_21BojV5DBtvv5Ofvc4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=K6fZvzsHuWI43nMdqc1GrQ&_nc_ss=7a22e&oh=00_AQICvVwuRyPXtnfF-YgWyR1ifoMNC_vQOmk1EfFFPzzsoQ&oe=6AA008D9",
+   "url": "https://www.threads.com/@choi.openai/post/Dc189Q_EwGz",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
+   "text": "JFrog AI Catalog이 9월 2일 MCP 서버·에이전트 스킬·플러그인·에이전트 패키지를 버전이 있는 아티팩트로 관리하기 시작했습니다.\n\n기존 보안 게이트는 파일 해시나 알려진 취약점 목록을 확인했습니다. JFrog는 이제 에이전트에게 무엇을 하라고 지시하는지까지 읽는 semantic scan을 제시합니다. 새 악성 스킬처럼 아직 해시가 없는 자산도 검사 대상에 넣겠다는 뜻입니다.\n\n승인된 자산만 레지스트리에서 꺼내게 하고, 실행 시점에는 MCP 도구와 스킬 호출을 정책과 대조합니다. 에이전트 보안의 기준이 “무엇을 설치했는가”에서 “무엇을 실행하도록 허용했는가”로 좁혀졌습니다.\n\nAI 자산도 이제 npm 패키지처럼 출처·버전·권한·실행 기록을 함께 관리해야 합니다.\n\nhttps://jfrog.com/blog/the-evolution-of-jfrog-ai-catalog/",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1788414038,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/Dc0FTD4mSw0",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "1/ 오픈AI가 9월 3일 GPT-6 Astra를 공개했습니다.\n\n8월 초 사이버 위험을 이유로 한 달 미뤘던 그 모델이고, Stargate에서 GPU 10만 장 이상을 돌린 오픈AI 역대 최대 훈련의 결과물입니다.\n\n오픈AI는 이 모델을 \"세계에서 가장 똑똑하고 가장 정렬된 모델\"이라고 소개하면서, 컴퓨터 사용, 브라우징, 소프트웨어 엔지니어링, 사이버보안, 과학, 전문직 업무 여섯 영역에서 최고 성능이라고 밝혔습니다.\n\n발표 자리에서 그렉 브록먼은 \"몇 년 뒤 돌아보며 AGI가 언제 만들어졌는지 묻는다면 이 시기, 아마 이 모델일 것\"이라고 말했는데요.\n\n출시 첫날은 일부 기관에만 열리고, 며칠 안에 ChatGPT Plus·Pro·Business·Enterprise 전부와 API, AWS Bedrock으로 확대됩니다.\n\nAPI 가격은 입력 100만 토큰당 10달러, 출력 50달러로 Sol의 2.5배입니다.",
+   "likes": 43,
+   "cmts": 3,
+   "time": 1788476758,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/794295114_17985355476112832_4457625080189586350_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk3ODM1Mzg1ODgwODMzNDg2Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTAyNC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=z6AXI9SMCXMQ7kNvwGzRzlG&_nc_oc=AdpjphuRBo11FXP8a91mofOKuWNERReIsdux4aj3rFUzjeFJL6WetwAiy7RULKSWs18&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=K6fZvzsHuWI43nMdqc1GrQ&_nc_ss=7a22e&oh=00_AQJLrenCmOQcuyOnopcKTpFWRS0guZ2yCo7m_AfGzcybTQ&oe=6AA0116E",
+   "url": "https://www.threads.com/@choi.openai/post/Dc188GhE0oT",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
    "text": "CrowdStrike와 OpenAI가 9월 2일 Codex 에이전트의 실행 중 통제를 위한 협력을 발표했습니다.\n\nCrowdStrike의 Falcon Guardian은 Codex가 실행되는 지점에서 에이전트 활동을 확인하고, 손상되거나 승인되지 않은 행동을 탐지하고, 위협이 퍼지기 전에 대응하는 기능을 내세웠습니다. OpenAI의 GPT-5.6 Cyber는 별도 승인 뒤 취약점 연구·익스플로잇 검증 같은 허가된 보안 작업에 쓰입니다.\n\n모델에는 접근 승인, 에이전트에는 실행 감시가 붙습니다. 코딩 에이전트의 보안 기준이 “무엇을 할 수 있는가”에서 “실행 중인 행동을 누가 보고 멈출 수 있는가”로 이동했습니다.\n\nhttps://www.crowdstrike.com/en-us/press-releases/crowdstrike-and-openai-expand-partnership-to-secure-the-agentic-era/",
    "likes": 0,
    "cmts": 0,
@@ -166,52 +206,12 @@
   },
   {
    "account": "choi.openai",
-   "text": "2/ 가장 먼저 봐야 할 숫자는 ARC-AGI-3입니다.\n\n처음 보는 게임에 던져져 설명 없이 규칙을 알아내고 목표를 찾아 깨야 하는 시험이라, 암기한 지식이 통하지 않고 사람은 100% 풀 수 있는 벤치마크입니다.\n\n6개월 전 GPT-5.6 Sol은 여기서 7.8%였습니다. Astra는 ARC Prize의 표준 하네스로 62.7%, 이전 추론을 기억하고 대화를 압축해 이어가는 오픈AI 하네스로는 99.9%를 받았고, 두 결과 모두 ARC Prize가 공식 검증했습니다.\n\n일반 참가자 평균은 48%입니다. 점수보다 놀라운 건 푸는 방식입니다. Astra는 게임 상태와 다음 계획을 자기만의 대수 기호로 압축해 메모하며 풀었고, 96%의 레벨에서 사람 중앙값보다 적은 행동으로 클리어했습니다.\n\n평균 행동 수는 사람보다 51.7% 적었는데요. ARC Prize는 행동 효율이 사람과 AI를 가르는 마지막 선일 거라고 예상했었는데, Astra가 그 선을 넘었다고 인정했습니다.",
-   "likes": 17,
-   "cmts": 1,
-   "time": 1788476768,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/795430654_17985355263112832_6319866438764714115_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk3ODM1MzkyOTMxNDYwNzc2NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTQzOS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=a2PWR53HTPsQ7kNvwE8O7Uz&_nc_oc=AdqahkuZn61mJvWQ-5mC4iYzOE4eqGXaK09yEiiyzrE_WBm84OEe6DuFkxb8gncTrb4pSFtjTqaH7PouVxNVy1rA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=R4yCjp1U71beQzREF3TypQ&_nc_ss=7a22e&oh=00_AQK-o-TJNt46FAGFFJCzd5x0r9O0XrSckJwFgWL0yYPbug&oe=6AA008D9",
-   "url": "https://www.threads.com/@choi.openai/post/Dc189Q_EwGz",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "1/ 오픈AI가 9월 3일 GPT-6 Astra를 공개했습니다.\n\n8월 초 사이버 위험을 이유로 한 달 미뤘던 그 모델이고, Stargate에서 GPU 10만 장 이상을 돌린 오픈AI 역대 최대 훈련의 결과물입니다.\n\n오픈AI는 이 모델을 \"세계에서 가장 똑똑하고 가장 정렬된 모델\"이라고 소개하면서, 컴퓨터 사용, 브라우징, 소프트웨어 엔지니어링, 사이버보안, 과학, 전문직 업무 여섯 영역에서 최고 성능이라고 밝혔습니다.\n\n발표 자리에서 그렉 브록먼은 \"몇 년 뒤 돌아보며 AGI가 언제 만들어졌는지 묻는다면 이 시기, 아마 이 모델일 것\"이라고 말했는데요.\n\n출시 첫날은 일부 기관에만 열리고, 며칠 안에 ChatGPT Plus·Pro·Business·Enterprise 전부와 API, AWS Bedrock으로 확대됩니다.\n\nAPI 가격은 입력 100만 토큰당 10달러, 출력 50달러로 Sol의 2.5배입니다.",
-   "likes": 40,
-   "cmts": 3,
-   "time": 1788476758,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/794295114_17985355476112832_4457625080189586350_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk3ODM1Mzg1ODgwODMzNDg2Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTAyNC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=z6AXI9SMCXMQ7kNvwFGERS4&_nc_oc=Adr5NkgUsJ7PbKR9JD9ML6Pl8PCkyS-cS7MbZODZFFBLlmXTPaiD4YfvqwPH-dAvoRTxNQPrm_OVunbBEMf2pEFS&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=R4yCjp1U71beQzREF3TypQ&_nc_ss=7a22e&oh=00_AQIdGI2Qvm_m7ek2W2NQCvwu8lfa9mZ1_Xl8p1QXFrj8_Q&oe=6AA0116E",
-   "url": "https://www.threads.com/@choi.openai/post/Dc188GhE0oT",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
    "text": "🚨 속보) 와.. 미친.. 오픈AI가 GPT-6 Astra를 출시했습니다.\n\n반년 전 GPT-5.6 Sol이 7.8%였던 ARC-AGI-3가 99.9%가 됐고, 그렉 브록먼은 \"나중에 AGI가 만들어진 시점을 찾는다면 이 모델일 것\"이라고 말했습니다.\n\n컴퓨터로 하는 일이라면 무엇이든 사람보다 빠르게 해내는 모델입니다.\n\n오픈AI의 GPT-6 Astra 출시를 정리했습니다 🧵",
-   "likes": 570,
-   "cmts": 52,
+   "likes": 598,
+   "cmts": 54,
    "time": 1788476754,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/792909946_3464451257089844_2074162951830199277_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=1&ig_cache_key=Mzk3ODM1MzI0MjMwNDgxMTE2Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=OUWAwrNOIlYQ7kNvwEGZkrh&_nc_oc=AdrxuBs3Z-P3q3uJKMSh9E7Blee846BFGMEUcnlzrfYgJNsTM7Owax-lj4mxcZSHSATVdct5Dnn1zTRvTBmqrIGy&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=R4yCjp1U71beQzREF3TypQ&_nc_ss=7a22e&oh=00_AQLdnkAAF-U8T38h5W_q9sNPCVb4zCxPagWGfqJRMR7L6A&oe=6AA0155A",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/792909946_3464451257089844_2074162951830199277_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=1&ig_cache_key=Mzk3ODM1MzI0MjMwNDgxMTE2Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=OUWAwrNOIlYQ7kNvwHwadLL&_nc_oc=AdqyeEIf4zxObOO7_JrtO90y4wzC5e-DBoYWqi8ZYmL2edBHArbf6QgivpKGIso0sXg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=K6fZvzsHuWI43nMdqc1GrQ&_nc_ss=7a22e&oh=00_AQIPRU0S1aGBSkp5RyvOjpSX-yIy8_XbwymyZ36fzeDuAQ&oe=6AA0155A",
    "url": "https://www.threads.com/@choi.openai/post/Dc18zIWmhCe",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "풀영상 :\nhttps://www.youtube.com/watch?v=9JmlDV8TN3U",
-   "likes": 4,
-   "cmts": 0,
-   "time": 1788462015,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/Dc1g0YNj_fO",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "일론 머스크는 내년쯤 AI 소프트웨어가 세계 챔피언을 쉽게 꺾는 체스 프로그램처럼 인간의 능력을 압도하는 “스톡피시(Stockfish) 수준”에 도달할 것이라고 예측했습니다.\n\n그는 “소프트웨어 작성에서 인간이 AI와 경쟁하는 것은 불가능해질 것”이라며, 코딩 영역에서 AI가 인간 개발자를 완전히 압도할 것이라고 경고했습니다.\n\n나아가 향후 12~18개월 이내에 코딩뿐만 아니라 모든 형태의 엔지니어링과 디지털 작업 전반에서 AI가 독보적인 성능을 발휘할 것이라고 전망했습니다.\n\n특이점에 다가설수록 전통적인 개발 직군과 디지털 지식 노동의 일자리 지형에는 근본적인 지각변동이 불가피해 보입니다.",
-   "likes": 51,
-   "cmts": 3,
-   "time": 1788462006,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/791227656_1075899378248062_5759196654136815311_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk3ODIzMDEwNzIwMjM2NjYzNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Ag-gy-L6SDQQ7kNvwGoTP4f&_nc_oc=AdqFWmwqSWSHIUZnqL3t5yBxOopEbTMENyFhYdyjokzilo0ctlULQngMPx6sO1-Pj3UZN6T0QhuRrMdjADWqomZo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=R4yCjp1U71beQzREF3TypQ&_nc_ss=7a22e&oh=00_AQLYUELBXwPyYZJPVMl3gP62qt8Y4EOVgnNMbKBkg3k3Zw&oe=6AA002B3",
-   "url": "https://www.threads.com/@choi.openai/post/Dc1gzR2j6yr",
    "region": "kr"
   }
  ],
@@ -222,7 +222,7 @@
    "views": 1900000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooDPRCUDqBpuPTmFEWk6RAIgEBqnfZwgeRICBU~tplv-tiktokx-origin.image?dr=14575&x-expires=1788663600&x-signature=QktxIYaVoB%2BphSviN8qu26L4ZMU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooDPRCUDqBpuPTmFEWk6RAIgEBqnfZwgeRICBU~tplv-tiktokx-origin.image?dr=14575&x-expires=1788663600&x-signature=QktxIYaVoB%2BphSviN8qu26L4ZMU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=sg1",
    "time": 1785177115,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7667277327386135826",
    "region": "kr"
@@ -233,7 +233,7 @@
    "views": 1600000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAbAoCECNeDAVDgQBcAkFzYBfoUADqQCQWIuZl~tplv-tiktokx-origin.image?dr=14575&x-expires=1788663600&x-signature=plS822gAC53Y0MrRAgF1wls2pOc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAbAoCECNeDAVDgQBcAkFzYBfoUADqQCQWIuZl~tplv-tiktokx-origin.image?dr=14575&x-expires=1788663600&x-signature=xIxZitE0Wv1xjxcVrq%2FMVeNktzU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=sg1",
    "time": 1785471372,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7668541152869616914",
    "region": "kr"
@@ -244,7 +244,7 @@
    "views": 783800,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooBGAi8A6InMPiZBpU9fBkTRtAAwBKw0m1E0Ag~tplv-tiktokx-origin.image?dr=14575&x-expires=1788663600&x-signature=TBczb2ADaigyG1lOOfC1EkfL9EQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooBGAi8A6InMPiZBpU9fBkTRtAAwBKw0m1E0Ag~tplv-tiktokx-origin.image?dr=14575&x-expires=1788663600&x-signature=JiiGAinHYhT9n3sgKwjVoY5S7kA%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=sg1",
    "time": 1785109781,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7666988131442281746",
    "region": "kr"
@@ -255,7 +255,7 @@
    "views": 494900,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o43E0EJDgKsBeuyFfnqRBCAvI1sAAbI2NsPlIc~tplv-tiktokx-origin.image?dr=14575&x-expires=1788663600&x-signature=Py0Ht%2B%2BGBlayDtJpwnOgUU9xSJE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o43E0EJDgKsBeuyFfnqRBCAvI1sAAbI2NsPlIc~tplv-tiktokx-origin.image?dr=14575&x-expires=1788663600&x-signature=Py0Ht%2B%2BGBlayDtJpwnOgUU9xSJE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=sg1",
    "time": 1785519099,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7668746136877812999",
    "region": "kr"
@@ -266,7 +266,7 @@
    "views": 376000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQpDHATAEBzAIGFgqwDA4hofdRfVCsCaqEBIkL~tplv-tiktokx-origin.image?dr=14575&x-expires=1788663600&x-signature=3Gy1ONha3witsJAaSa%2F29uNA8hU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQpDHATAEBzAIGFgqwDA4hofdRfVCsCaqEBIkL~tplv-tiktokx-origin.image?dr=14575&x-expires=1788663600&x-signature=1UHlTy3RCfRd5MizvY2hkRTApTc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=sg1",
    "time": 1785365622,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7668086960883354887",
    "region": "kr"
@@ -277,7 +277,7 @@
    "views": 280900,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1788663600&x-signature=6z6CPe0Cpun3Nhv7KUMhRpPllbQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1788663600&x-signature=6z6CPe0Cpun3Nhv7KUMhRpPllbQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=sg1",
    "time": 1785656353,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7669335640793763079",
    "region": "kr"
@@ -285,10 +285,10 @@
   {
    "account": "jaemyung_lee",
    "title": "우리 국민의 구조에 모든 역량을 총동원하겠습니다  #네팔 #긴급회의 #prayfornepal",
-   "views": 267700,
+   "views": 267900,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4ECXepekgFVLDAPQbcqjSdGAIaIofEozvI9Qh~tplv-tiktokx-origin.image?dr=14575&x-expires=1788663600&x-signature=Zv2m41dotD%2BqqDm4ClTMQ2wLp24%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4ECXepekgFVLDAPQbcqjSdGAIaIofEozvI9Qh~tplv-tiktokx-origin.image?dr=14575&x-expires=1788663600&x-signature=Zv2m41dotD%2BqqDm4ClTMQ2wLp24%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=sg1",
    "time": 1787831518,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7678677903122369800",
    "region": "kr"
@@ -296,10 +296,10 @@
   {
    "account": "jaemyung_lee",
    "title": "대한민국과 브라질이 함께 그려갈 미래가  두 나라 국민 모두에게  더 큰 희망과 기회가 되길 기대합니다 🇰🇷🫰🇧🇷 @Presidente Lula ima, meu irmão💚💛💙 #이재명 #lula #korea #Br",
-   "views": 239700,
+   "views": 239800,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-i-photomode-sg/91a2f3151d9741689af70b1d1f8aac3a~tplv-photomode-image.jpeg?dr=14555&x-expires=1788663600&x-signature=surV4e9D9s0983TKFQs9SBhb96M%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=9b759fb9&idc=my2&ftpl=1",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-i-photomode-sg/91a2f3151d9741689af70b1d1f8aac3a~tplv-photomode-image.jpeg?dr=14555&x-expires=1788663600&x-signature=surV4e9D9s0983TKFQs9SBhb96M%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=9b759fb9&idc=sg1&ftpl=1",
    "time": 1785270939,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7667680300490558728",
    "region": "kr"
@@ -310,7 +310,7 @@
    "views": 198600,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/osApGgttBIBbbk6zA4iAKdIdkBfL1AAEiSwmCM~tplv-tiktokx-origin.image?dr=14575&x-expires=1788663600&x-signature=s7H4PeydDKGXLKm3QuMazRhcJhk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/osApGgttBIBbbk6zA4iAKdIdkBfL1AAEiSwmCM~tplv-tiktokx-origin.image?dr=14575&x-expires=1788663600&x-signature=s7H4PeydDKGXLKm3QuMazRhcJhk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=sg1",
    "time": 1784945079,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7666280741554195730",
    "region": "kr"
@@ -321,13 +321,44 @@
    "views": 140700,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okkIgGYEt7AlB4qvUF5yCAEAjD8vfKAfVACbBp~tplv-tiktokx-origin.image?dr=14575&x-expires=1788663600&x-signature=1XCMuKpDC6VpsPBQMfxgi04gSYo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okkIgGYEt7AlB4qvUF5yCAEAjD8vfKAfVACbBp~tplv-tiktokx-origin.image?dr=14575&x-expires=1788663600&x-signature=1XCMuKpDC6VpsPBQMfxgi04gSYo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=sg1",
    "time": 1784911601,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7666136953456315666",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "현빈, '메이드 인 코리아2' 기대감 높이는 카리스마 / 디즈니+ ‘메이드 인 코리아 시즌2’ 제작발표회 #현빈 #정우성 #우도환 #서은수 #원지안 #정성일 #노재원 #차희 #우민호 #메이드인코리아",
+   "views": 3355,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oEXkfFCVpDqClvCzrgAUAZOVEfWtp2BEENIA6A~tplv-tiktokx-origin.image?dr=14575&x-expires=1788663600&x-signature=zlDJLmZpWWvd6QsJR%2BohEx%2BnLF8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "time": 1788325111,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7680797867333750036",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "EXO(엑소) 카이 / 입생로랑 뷰티 팝업 포토월 #EXO #엑소 #카이 #KAI #입생로랑뷰티 #YSLBeauty #입생로랑뷰티",
+   "views": 2338,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAEB2AfsUTIAgAKCBVwrEZiipuAbA1ZiB3gIBl~tplv-tiktokx-origin.image?dr=14575&x-expires=1788663600&x-signature=MIw02mJA9rTI%2BAh1QJ3AGV%2BzYW0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "time": 1788411357,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7681168292869983509",
    "region": "kr"
   }
  ],
  "reddit": [
+  {
+   "sub": "PokemonTCGCollectors",
+   "title": "30th Anniversary Celebration ETB Giveaway",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/2xto9khbacnh1.png?width=640&crop=smart&auto=webp&s=adf8f4813a4a95d7843df066a0ea0caf3e41fa5a",
+   "time": 1788456169,
+   "url": "https://www.reddit.com/r/PokemonTCGCollectors/comments/1w6dtxs/30th_anniversary_celebration_etb_giveaway/"
+  },
   {
    "sub": "bald",
    "title": "It is done.",
@@ -336,15 +367,6 @@
    "thumb": "https://preview.redd.it/n00y7vrd1enh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=3b41d87242c5dda9d0d2070946d7e07feeb499ed",
    "time": 1788477347,
    "url": "https://www.reddit.com/r/bald/comments/1w6ngg9/it_is_done/"
-  },
-  {
-   "sub": "funny",
-   "title": "She decided to check her home security camera to see what her cat was doing",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/eTIzYXgzOHp5ZG5oMeHke247bCkyI_A99ngFbWWx-R-Jo68PVXv2eO0QQG0p.png?width=640&crop=smart&auto=webp&s=586c915a384eaef05b2e142118e6e3f7be09e5d3",
-   "time": 1788476545,
-   "url": "https://www.reddit.com/r/funny/comments/1w6n528/she_decided_to_check_her_home_security_camera_to/"
   },
   {
    "sub": "comics",
@@ -356,33 +378,6 @@
    "url": "https://www.reddit.com/r/comics/comments/1w67ucv/comic_do_you_know_the_real_story_of_lia_thomas/"
   },
   {
-   "sub": "PoursTea",
-   "title": "I completely agree...",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/7ds5edriaenh1.jpeg?width=640&crop=smart&auto=webp&s=6daaf244b046a5560cd18b8ff00820cb54d0a5ba",
-   "time": 1788480420,
-   "url": "https://www.reddit.com/r/PoursTea/comments/1w6oneo/i_completely_agree/"
-  },
-  {
-   "sub": "cats",
-   "title": "The Dumpster fire has struck again",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/3dgtf2cj9enh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=c3f387364a4de26c1b97af8e7f0b3b6a8eb973a9",
-   "time": 1788480091,
-   "url": "https://www.reddit.com/r/cats/comments/1w6oiuc/the_dumpster_fire_has_struck_again/"
-  },
-  {
-   "sub": "PokemonTCGCollectors",
-   "title": "30th Anniversary Celebration ETB Giveaway",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/2xto9khbacnh1.png?width=640&crop=smart&auto=webp&s=adf8f4813a4a95d7843df066a0ea0caf3e41fa5a",
-   "time": 1788456169,
-   "url": "https://www.reddit.com/r/PokemonTCGCollectors/comments/1w6dtxs/30th_anniversary_celebration_etb_giveaway/"
-  },
-  {
    "sub": "whoathatsinteresting",
    "title": "An engineer created a crossing that doesn't need traffic lights.",
    "score": 0,
@@ -392,13 +387,13 @@
    "url": "https://www.reddit.com/r/whoathatsinteresting/comments/1w6j5vc/an_engineer_created_a_crossing_that_doesnt_need/"
   },
   {
-   "sub": "worldnews",
-   "title": "‘We Were Mistaken’: Putin Admits Russia Was Unprepared for Ukrainian Strikes on Oil Refineries",
+   "sub": "funny",
+   "title": "She decided to check her home security camera to see what her cat was doing",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/OrKMQZZqxzu4xc5TjVLuMO9wzKTULpo7cTqxkhkF_vs.jpeg?width=640&crop=smart&auto=webp&s=5dcec00f798d71f44cc6401659294fe8ec725cab",
-   "time": 1788441502,
-   "url": "https://www.reddit.com/r/worldnews/comments/1w676mb/we_were_mistaken_putin_admits_russia_was/"
+   "thumb": "https://external-preview.redd.it/eTIzYXgzOHp5ZG5oMeHke247bCkyI_A99ngFbWWx-R-Jo68PVXv2eO0QQG0p.png?width=640&crop=smart&auto=webp&s=586c915a384eaef05b2e142118e6e3f7be09e5d3",
+   "time": 1788476545,
+   "url": "https://www.reddit.com/r/funny/comments/1w6n528/she_decided_to_check_her_home_security_camera_to/"
   },
   {
    "sub": "AskReddit",
@@ -408,6 +403,24 @@
    "thumb": "",
    "time": 1788475841,
    "url": "https://www.reddit.com/r/AskReddit/comments/1w6muyh/whats_the_sickest_youve_ever_been_in_your_life/"
+  },
+  {
+   "sub": "PoursTea",
+   "title": "I completely agree...",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/7ds5edriaenh1.jpeg?width=640&crop=smart&auto=webp&s=6daaf244b046a5560cd18b8ff00820cb54d0a5ba",
+   "time": 1788480420,
+   "url": "https://www.reddit.com/r/PoursTea/comments/1w6oneo/i_completely_agree/"
+  },
+  {
+   "sub": "worldnews",
+   "title": "‘We Were Mistaken’: Putin Admits Russia Was Unprepared for Ukrainian Strikes on Oil Refineries",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/OrKMQZZqxzu4xc5TjVLuMO9wzKTULpo7cTqxkhkF_vs.jpeg?width=640&crop=smart&auto=webp&s=5dcec00f798d71f44cc6401659294fe8ec725cab",
+   "time": 1788441502,
+   "url": "https://www.reddit.com/r/worldnews/comments/1w676mb/we_were_mistaken_putin_admits_russia_was/"
   },
   {
    "sub": "mildlyinfuriating",
@@ -435,6 +448,15 @@
    "thumb": "https://external-preview.redd.it/cXZ1ZXJxNnF4YW5oMSRvoJxDta7ImzB0Ladqu9jM3Dm34af-g0Sgt_lGV9_p.png?width=320&crop=smart&auto=webp&s=29d26f68cd523547dd345cf9f8bbb25547356cde",
    "time": 1788439803,
    "url": "https://www.reddit.com/r/LoveTrash/comments/1w66hh3/this_is_disgusting/"
+  },
+  {
+   "sub": "cats",
+   "title": "The Dumpster fire has struck again",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/3dgtf2cj9enh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=c3f387364a4de26c1b97af8e7f0b3b6a8eb973a9",
+   "time": 1788480091,
+   "url": "https://www.reddit.com/r/cats/comments/1w6oiuc/the_dumpster_fire_has_struck_again/"
   }
  ],
  "disaster": [],
@@ -450,7 +472,8 @@
     "takepage_"
    ],
    "tiktok": [
-    "jaemyung_lee"
+    "jaemyung_lee",
+    "tictok_ent"
    ]
   },
   "why": {
@@ -475,16 +498,13 @@
     "higgsfield.ai": "gap",
     "googledeepmind": "gap",
     "cristiano": "gap"
-   },
-   "tiktok": {
-    "tictok_ent": 503
    }
   },
   "landing": {
-   "at": "2026-09-04T11:35:48",
+   "at": "2026-09-04T12:01:30",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-09-04T12:01:22.556165+09:00"
+ "updated": "2026-09-04T12:31:20.952817+09:00"
 }
