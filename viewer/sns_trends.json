@@ -7732,8 +7732,14 @@
   {
    "query": "기아",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/0ffef96db0.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.autotribune.co.kr/news/articleView.html?idxno=45247",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-09-04T06:10:00+09:00",
    "delta": -9,
@@ -7841,8 +7847,14 @@
   {
    "query": "astra",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/695f6916df.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.cbci.co.kr/news/articleView.html?idxno=603086",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-09-04T07:10:00+09:00",
    "isNew": true,
@@ -7976,13 +7988,14 @@
  ],
  "gtrends_pool_updated": "2026-09-04T08:54:28+09:00",
  "_trend_img": {
-  "tried": "2026-09-04T08:20:08+09:00",
+  "tried": "2026-09-04T08:54:28+09:00",
   "fail": {
    "정일우": "2026-09-04T07:52:35+09:00",
    "박항서": "2026-09-04T07:52:35+09:00",
    "손아섭": "2026-09-04T07:52:35+09:00",
    "태풍 경로": "2026-09-04T08:27:05+09:00",
-   "초계기": "2026-09-04T08:27:05+09:00"
+   "초계기": "2026-09-04T08:27:05+09:00",
+   "왕 즈이": "2026-09-04T09:01:38+09:00"
   }
  },
  "gtrends_gl": [
@@ -18120,7 +18133,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-04T08:54:28+09:00"
+    "first_seen": "2026-09-04T08:54:28+09:00",
+    "kw": "GPT-6 Astra, FrontierMath, 소수 간격 증명",
+    "sum": "Astra가 수학 벤치마크와 소수 간격 증명에서 신기록을 세웠다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -18135,7 +18151,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-09-04T08:54:28+09:00"
+    "first_seen": "2026-09-04T08:54:28+09:00",
+    "kw": "GPT-6 Astra, ARC-AGI-3",
+    "sum": "Astra가 미지의 게임 규칙을 사람보다 적은 행동으로 풀며 벤치마크 최고점을 받았다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -18150,7 +18169,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-09-04T08:54:28+09:00"
+    "first_seen": "2026-09-04T08:54:28+09:00",
+    "kw": "오픈AI, GPT-6 Astra, 출시",
+    "sum": "오픈AI가 역대 최대 훈련으로 만든 GPT-6 Astra를 공개했다",
+    "sv": 1
    },
    {
     "account": "aicoffeechat",
@@ -18165,7 +18187,10 @@
     "rh": [
      4
     ],
-    "first_seen": "2026-09-04T08:54:28+09:00"
+    "first_seen": "2026-09-04T08:54:28+09:00",
+    "kw": "오픈AI, Astra, 컴퓨터 유즈",
+    "sum": "계정이 Astra 출시 영상의 컴퓨터 사용 능력을 칭찬했다",
+    "sv": 1
    },
    {
     "account": "promppy_com",
@@ -18387,7 +18412,10 @@
     "rh": [
      12
     ],
-    "first_seen": "2026-09-04T08:54:28+09:00"
+    "first_seen": "2026-09-04T08:54:28+09:00",
+    "kw": "오픈AI, GPT-6 Astra, ARC-AGI-3",
+    "sum": "오픈AI가 GPT-6 Astra를 출시하며 ARC-AGI-3 점수를 99.9%로 올렸다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
