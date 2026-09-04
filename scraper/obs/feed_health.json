@@ -1,6 +1,6 @@
 {
- "ok": 154,
- "dead": 15,
+ "ok": 143,
+ "dead": 26,
  "dead_feeds": [
   {
    "publisher": "국민일보",
@@ -48,6 +48,61 @@
    "url": "http://rss.kmib.co.kr/data/kmibRssAll.xml"
   },
   {
+   "publisher": "동아일보",
+   "title": "사람속으로",
+   "url": "https://rss.donga.com/inmul.xml"
+  },
+  {
+   "publisher": "동아일보",
+   "title": "레져",
+   "url": "https://rss.donga.com/leisure.xml"
+  },
+  {
+   "publisher": "동아일보",
+   "title": "도서",
+   "url": "https://rss.donga.com/book.xml"
+  },
+  {
+   "publisher": "동아일보",
+   "title": "공연",
+   "url": "https://rss.donga.com/show.xml"
+  },
+  {
+   "publisher": "동아일보",
+   "title": "여성",
+   "url": "https://rss.donga.com/woman.xml"
+  },
+  {
+   "publisher": "미디어오늘",
+   "title": "정치",
+   "url": "https://www.mediatoday.co.kr/rss/S1N2.xml"
+  },
+  {
+   "publisher": "서울신문",
+   "title": "스포츠",
+   "url": "https://www.seoul.co.kr/xml/rss/rss_sports.xml"
+  },
+  {
+   "publisher": "서울신문",
+   "title": "연예",
+   "url": "https://www.seoul.co.kr/xml/rss/rss_entertainment.xml"
+  },
+  {
+   "publisher": "세계일보",
+   "title": "정치",
+   "url": "http://www.segye.com/Articles/RSSList/segye_politic.xml"
+  },
+  {
+   "publisher": "세계일보",
+   "title": "연예",
+   "url": "http://www.segye.com/Articles/RSSList/segye_entertainment.xml"
+  },
+  {
+   "publisher": "세계일보",
+   "title": "스포츠",
+   "url": "http://www.segye.com/Articles/RSSList/segye_sports.xml"
+  },
+  {
    "publisher": "시사저널",
    "title": "Health",
    "url": "http://www.sisajournal.com/rss/S2N106.xml"
@@ -93,11 +148,6 @@
    "publisher": "경향신문",
    "title": "생활/레저",
    "url": "https://www.khan.co.kr/rss/rssdata/skentertain_news.xml"
-  },
-  {
-   "publisher": "동아일보",
-   "title": "레져",
-   "url": "https://rss.donga.com/leisure.xml"
   },
   {
    "publisher": "동아일보",
