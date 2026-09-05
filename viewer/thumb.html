@@ -1704,12 +1704,12 @@ function cpPrevVariants() {   // 현재 입력으로 발사될 변형 목록(미
 // ── 첨부 사진 배치 = 이동·확대축소·크롭 선택(운영자 260805 Q01·Q02 "사진 첨부하면 딱 맞는 사이즈가 아니면 좌우상하 이동 및 축소확대 · 잘라서 들어가는 부분을 사용자가 고를 수 있게") ──
 //   상태 1벌 = CPAN. s = **cover 대비 배율**(1 = 종전 중앙 크롭 그대로 = 무조작 시 산출물 100% 무변) · x·y = 스테이지 폭·높이 대비 이동 비율.
 //   조작 = 모바일{한 손가락 드래그=이동 · 두 손가락 핀치=확대축소 · 더블탭=원상복귀} / PC{드래그=이동 · **휠=확대축소** · 더블클릭=원상복귀} + 레일 −/값/+ 스테퍼(휠 없는 환경·정밀 조절).
-//   산출 반영 = cpBake()가 발사 직전 목표 캔버스에 그대로 구움(미리보기만 바뀌고 결과가 그대로면 미완 · [7-2] 라이브 축).
+//   산출 반영 = cpBake()가 발사 직전 목표 캔버스에 그대로 구움(미리보기만 바뀌고 결과가 그대로면 미완 · [7-2] 라이브 축) · 비율이 산출 캔버스와 다르면 **무조작이어도** 굽는다(260905 · cpBake 머리 주석 = 러너 스마트 크롭이 미리보기 가운데 크롭과 갈리던 사고).
 const CPAN = { s: 1, x: 0, y: 0 };
 const CPAN_MIN = 0.3, CPAN_MAX = 4, CPAN_STEP = 0.1;   // 하한 .3 = 축소 여백(AI 채움 대상)까지 허용 · 상한 4 = 확대 크롭 · 한 칸 .1 = OPA_STEP(10단위) 결 계승
 let cpPanFmt = 'post';   // 지금 미리보기가 그리는 산출 포맷(post 4:5 / reels 9:16) — 렌더가 기록, 기하 계산이 읽는다
 let cpFillWant = false;   // 「AI 채움」 = **옵션 상태**(운영자 260808) — 탭은 켜고 끌 뿐이고 발사는 「생성」(#go)이 전담 · 여백이 사라지면 cpPanRailSync가 자동으로 내린다(보이지도 않는 옵션이 다음 생성을 가로채는 유령 ON 차단)
-function cpPanOn() { return CPAN.s !== 1 || CPAN.x !== 0 || CPAN.y !== 0; }   // 무조작 = 종전 경로 그대로(굽지 않는다 = 회귀 0)
+function cpPanOn() { return CPAN.s !== 1 || CPAN.x !== 0 || CPAN.y !== 0; }   // 무조작 = 레일·칩 상태 판정용 · 굽기 여부는 cpBake가 비율까지 보고 정한다(260905)
 function cpPanGeo(fmt) {   // 스테이지 대비 기하 — f = contain→cover 환산 배수 · wp·hp = 실제 그려지는 그림의 폭·높이(1 = 스테이지 꽉)
   const w = RSZ.w, h = RSZ.h; if (!w || !h) return null;
   const r = w / h, R = (fmt === 'reels' ? 1080 / 1920 : 1080 / 1350);   // 산출 캔버스 비 = 합성기 정본 치수(nomute_overlay SPECS · card_news 1080×1350) 그대로
@@ -1798,13 +1798,21 @@ function cpPanStep(d) { cpPanZoom(d > 0 ? 1 + CPAN_STEP : 1 / (1 + CPAN_STEP)); 
     cpPanZoom(e.deltaY < 0 ? 1.1 : 1 / 1.1, (e.clientX - rc.left) / rc.width - .5, (e.clientY - rc.top) / rc.height - .5); }, { passive: false });
   st.addEventListener('dblclick', e => { if (!live()) return; e.preventDefault(); cpPanReset(); });
 })();
-async function cpBake(fmt) {   // 배치를 **산출 좌표에 굽는다** — 목표 비율 캔버스에 그린 JPG(q90 · 투명 불요 = 260805 포맷 정본) · 무조작이면 null(종전 원본 그대로 발사)
-  if (!CIMG.b64 || !cpPanOn()) return null;
+const CP_BAKE_TOL = 0.005;   // 비율 동일 판정 = 러너 nomute_compose.prepare_background Case 2 허용치(0.5%) 사본 — 그 안이면 러너가 단순 리사이즈(= 미리보기와 같은 그림)라 굽지 않는다
+async function cpBake(fmt) {   // 배치를 **산출 좌표에 굽는다** — 목표 비율 캔버스에 그린 JPG(q90 · 투명 불요 = 260805 포맷 정본)
+  // ⚠ 260905 봉합(운영자 «미리보기 화면이 그대로 제작이 안 돼 · 사이즈가 다르거나 하면») — 구판은 **무조작이면 null**(원본 그대로 발사)이었는데,
+  //   비율이 산출 캔버스와 다른 원본을 그대로 보내면 러너(nomute_compose Case 3 · card_news smart_crop)가 **얼굴 검출 기준 스마트 크롭**
+  //   (피사체를 세로 35% 자리에 · 텍스트 구역 회피)으로 잘라, 미리보기(가운데 크롭 · object-fit:cover)와 **다른 자리**가 나왔다.
+  //   얼굴이 없어도 갈린다 = 폴백(cy 0.35h)이 세로 offset을 35% 기준으로 잡아 3:4→4:5는 31 vs 45px · 9:16→4:5는 200 vs 285px 차이.
+  //   → 비율이 다르면 무조작이어도 **미리보기가 보여준 그 크롭**을 굽는다(러너는 Case 2 단순 리사이즈 = 미리보기 == 산출물).
+  //   비율 같음(CP_BAKE_TOL 안) ∧ 무조작 = 종전대로 원본(재인코딩 0 · 러너 Case 1·2).
+  if (!CIMG.b64) return null;
   const g = cpPanGeo(fmt); if (!g) return null;
+  if (!cpPanOn() && Math.abs(g.r - g.R) / g.R < CP_BAKE_TOL) return null;
   try {
     const im = await new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = () => rej(new Error('load')); i.src = CIMG.b64.startsWith('data:') ? CIMG.b64 : 'data:image/jpeg;base64,' + CIMG.b64; });
     const bh = fmt === 'reels' ? 1920 : 1350;
-    const m = (im.naturalWidth > g.wp * 1080 * 1.5) ? 2 : 1;   // 원본이 넉넉하면 2배 캔버스(합성기가 어차피 1080으로 내려받지만 다운샘플이 업샘플보다 정직) · 상한 2 = 업로드 9MB 한도 여유
+    const m = (im.naturalWidth > g.wp * 1080) ? 2 : 1;   // 원본이 1배 캔버스보다 크면 2배 캔버스(= 러너 2K SCALE 동값 · 구 1.5배 문턱은 무조작 원본이 전해상도로 나가던 시절 값 — 이제 비율 다른 사진은 전부 여기를 지나므로 1080~1620폭 원본이 1080으로 깎였다가 러너에서 다시 2160으로 늘어나는 이중 리샘플을 막는다) · 상한 2 = 업로드 9MB 한도 여유
     const TW = 1080 * m, TH = bh * m;
     const c = document.createElement('canvas'); c.width = TW; c.height = TH;
     const cx = c.getContext('2d'); cx.imageSmoothingQuality = 'high';
@@ -5946,7 +5954,7 @@ async function a2Build(defer) {
       ? { app: '1', params: { fmt: 'post', lines: clines, opas: _opas, ...(_nolg ? { nologo: 1 } : {}) } }
       : { app: '2', params: { mode: 'overlay', lines: clines, opas: _opas, ...(_nolg ? { nologo: 1 } : {}) } };   // nologo = 노뮤트 로고 끔(운영자 260821) — 진짜예요는 비대상(지시 = «노뮤트 표기된거»)
     const it = { endpoint: '/api/thumb', payload: ovp, label: (f === 'post' ? '포스트' : '릴스') + ' OPA' + _opas.join('·'), tag: '자막' };   // 라벨 = 「포스트/릴스 OPA값」(운영자 260818 Q02 «릴스 자막 → 릴스» + «opa가 결과 박스에 출력이 안됨» — 260816 변형줄 폐지 뒤 OPA가 결과 박스 어디에도 안 남던 것 봉합 · 값 문법 = 서버 변형 라벨 'OPA60' 동일 · 배경 합성 유무 무관 = 같은 항목이라 같은 라벨)
-    if (CIMG.b64 && !ovOnly) { if (defer) it._needBg = 1; else { ovp.imageB64 = (await cpBake(f)) || CIMG.b64; ovp.name = CIMG.name; } }   // 사진 배치(이동·확대축소)가 있으면 **목표 캔버스에 구운 사진**(운영자 260805 Q02) · 무조작·굽기 실패 = 원본 그대로 · 오버레이만 ON = 사진 미동봉(운영자 260718) · defer = AI 합성 사슬(완성 그림으로 스왑 · 위 머리 주석)
+    if (CIMG.b64 && !ovOnly) { if (defer) it._needBg = 1; else { ovp.imageB64 = (await cpBake(f)) || CIMG.b64; ovp.name = CIMG.name; } }   // 사진 배치(이동·확대축소)가 있거나 **비율이 다르면** 목표 캔버스에 구운 사진(운영자 260805 Q02 · 260905 비율 축 = 미리보기 == 산출물) · 비율 같은 무조작·굽기 실패 = 원본 그대로 · 오버레이만 ON = 사진 미동봉(운영자 260718) · defer = AI 합성 사슬(완성 그림으로 스왑 · 위 머리 주석)
     items.push(it);
   }
   // 저작권·안내문 = 각자 독립 발사(운영자 260712 "서로의 온오프 관계없이") · 합성 ON이면 같은 포맷 헤더/자막 산출물에 알파합성(별도 장 없음) / 합성 OFF·매칭 없음 = 별도 장(app3·app4). 합성 기본 OFF = 별도 장이 디폴트.
@@ -6053,7 +6061,7 @@ $('#go').onclick = async () => {
     const b = await a2Build(false);
     if (b.err) return errStatus(b.err.m, b.err.cls, b.err.at);
     if (b.hasCard) {   // 카드뉴스 = /api/compose 별도 디스패치(app5 동일 파이프 · 배경 = 우측 슬롯 CIMG · 라벨 '카드뉴스' = 결과 좌상단 캡 구분 · 운영자 15)
-      dispatchJob('/api/compose', { imageB64: (await cpBake('post')) || CIMG.b64, name: CIMG.name, lines: b.cl }, '카드뉴스', SRC);   // 카드뉴스(4:5)도 같은 배치 굽기(운영자 260805 Q02) — 무조작이면 원본 그대로 · size 미동봉(운영자 260728 선택자 폐지)
+      dispatchJob('/api/compose', { imageB64: (await cpBake('post')) || CIMG.b64, name: CIMG.name, lines: b.cl }, '카드뉴스', SRC);   // 카드뉴스(4:5)도 같은 배치 굽기(운영자 260805 Q02 · 260905 비율 다르면 무조작이어도 굽는다 = card_news smart_crop 우회) — 비율 같은 무조작이면 원본 그대로 · size 미동봉(운영자 260728 선택자 폐지)
     }
     if (!b.items.length) { if (!b.hasCard) return errStatus('입력 필요', 'err', '#cSub'); return; }   // 안전망(저작권 이름만 빠진 경우 위에서 return) · 카드 단독 = compose만 · 진행 표시 = 결과 자리 .wip 타일 전담(Q469)
     dispatchBatch(b.items, b.lbl, SRC);
