@@ -1,0 +1,16 @@
+지침 버전(summary): 8581e2251ba5
+AI 썸네일 전역 OFF(settings/app.json genImgOn=false) — 이 런 요약 전건 no_thumb 도장(검색이미지·카드 프롬프팅은 유지)
+::group::분석: https://www.mk.co.kr/news/society/12143283
+지침 변경 감지(1201ccdfa027→8581e2251ba5) — 재생성(덮어쓰기): queue/260903-1353-12143283.md
+폰 선-fetch 본문 사용(2065 바이트) — 클라우드 fetch 스킵(403 우회)
+  발행시각 메타 확보: 2026-09-03T13:42:53+09:00
+  검색 유사 보강 — alt_urls 주입(1개 매체)
+  event_key 도장 주입 — 피드 사건매칭 티어 활성용
+  원문 제목 복원 — 계약 준수(title ≠ 후킹 헤드) — 무주입�
+  AI 썸네일 스킵 도장(no_thumb) — 전역 설정 OFF·검색이미지는 유지
+  🖼 병렬 사진로봇(소넷) — image_sources 7개 주입
+  FACTCOV ✓
+  🩹 분량 가드: OK ig=655 thread=417(개행포함 429) free=921
+  DIGEST_LINT ✅ 규격·자수 통과 — 260903-1353-12143283.md
+성공 → queue/260903-1353-12143283.md (지침 8581e2251ba5)
+::endgroup::
