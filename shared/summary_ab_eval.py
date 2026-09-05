@@ -217,7 +217,7 @@ def judge_packet(art_dir, runs):
 def main(d):
     out = {'ab_dir': d, 'articles': []}
     md = ['# 요약 A/B 기계 판정 — %s' % os.path.basename(d.rstrip('/')), '']
-    for art_dir in sorted(glob.glob(os.path.join(d, 'art*'))):
+    for art_dir in sorted(p for p in glob.glob(os.path.join(d, 'art[0-9]*')) if os.path.isdir(p)):
         art = os.path.basename(art_dir)
         info = json.load(open(os.path.join(art_dir, 'article.json'), encoding='utf-8')) if os.path.exists(os.path.join(art_dir, 'article.json')) else {}
         src = open(os.path.join(art_dir, 'src_body.txt'), encoding='utf-8').read() if os.path.exists(os.path.join(art_dir, 'src_body.txt')) else ''
@@ -227,7 +227,12 @@ def main(d):
             r = eval_run(md_path, src)
             r['usage'] = usage_of(os.path.join(art_dir, tag + '.usage.jsonl'))
             meta = os.path.join(art_dir, tag + '.meta.json')
-            r['meta'] = json.load(open(meta, encoding='utf-8')) if os.path.exists(meta) else {}
+            r['meta'] = {}
+            if os.path.exists(meta):
+                mt = open(meta, encoding='utf-8').read()
+                mt = re.sub(r':(\d+)\n\d+,', r':\1,', mt)   # 1차 하네스 버그 관용(grep -c 0건 시 '0\n0' 이중 출력 · 260905 실측)
+                try: r['meta'] = json.loads(mt)
+                except Exception: r['meta'] = {'elapsed_s': int((re.search(r'"elapsed_s":(\d+)', mt) or [0, 0])[1]), 'rc': int((re.search(r'"rc":(\d+)', mt) or [0, 0])[1])}
             log = os.path.join(art_dir, tag + '.log')
             if os.path.exists(log):
                 lt = open(log, encoding='utf-8', errors='ignore').read()

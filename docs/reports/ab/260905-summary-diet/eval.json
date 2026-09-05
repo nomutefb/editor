@@ -1,0 +1,150 @@
+{
+ "ab_dir": "docs/reports/ab/260905-summary-diet",
+ "articles": [
+  {
+   "art": "art1",
+   "info": {
+    "stem": "260903-1433-2026090311130215050",
+    "url": "https://view.asiae.co.kr/article/2026090311130215050",
+    "title": "정부 “티빙, 개인정보 3954만 계정 유출”... 기술자산도 함께 털렸다",
+    "alt_urls": "https://www.chosun.com/economy/tech_it/2026/09/03/AE5CFWWJAFBTROHO4EBCXUWF2Q https://news.sbs.co.kr/news/endPage.do?news_id=N1008736208&plink=RSSLINK&cooper=RSSREADER https://view.asiae.co.kr/article/2026090311151089797 https://view.asiae.co.kr/article/2026090311193408404 https://view.asiae.co.kr/article/2026090313494891600 https://www.chosun.com/economy/tech_it/2026/09/03/MEYTSMZWMZTDIZRSGBSTCOJXHE https://www.donga.com/news/Society/article/all/20260903/134598619/1 https://www.etoday.co.kr/news/view/2621550",
+    "event_key": "https://view.asiae.co.kr/article/2026090311130215050",
+    "body_bytes": 3889,
+    "pattern": "ABABS"
+   },
+   "runs": {
+    "A1": {
+     "file": "A1.md",
+     "S1_sections": 7,
+     "S2_blocks": 3,
+     "S3_fm_missing": [],
+     "S3_gver": "1201ccdfa027",
+     "S4_title_eq_h1": false,
+     "S5_lightning": [
+      0,
+      1,
+      1
+     ],
+     "S6_disclaimer": [
+      false,
+      false
+     ],
+     "S7_gauge_lines": 3,
+     "F1_num_candidates": [],
+     "F2_quote_candidates": [],
+     "F3_agency": [],
+     "F6_derive": [],
+     "lint": [
+      "⚠️ [자유요약] 실측 1120자 > 상한 1000자 (자가표기 960)",
+      "ℹ️ [자유요약] 자가표기 960 vs 실측 1120 = 괴리 +160자"
+     ],
+     "P2_title_tok_in_ig_lead": true,
+     "P1_abstract_head": false,
+     "L_len": {
+      "free": 1120,
+      "ig": 756,
+      "th": 407,
+      "th_hard": 417
+     },
+     "L_pins": {
+      "ig": 6,
+      "th": 4,
+      "ig_lead": 1
+     },
+     "L1_free_ok": true,
+     "L2_ig_ok": true,
+     "L3_th_ok": true,
+     "L_over": {
+      "free": 120,
+      "ig": 0,
+      "th": 0
+     },
+     "L4_pins_ok": true,
+     "W1_nominal_end": [],
+     "W2_preach": [],
+     "W3_anira": false,
+     "W4_date_lead": false,
+     "W5_gloss": 0,
+     "W8_xlate": 0,
+     "W_cite_brackets": 0,
+     "R1_fact_bullets": 11,
+     "R2_aug_nums": 31,
+     "R5_factcov_missing": 13,
+     "R4_free_num_density": 24,
+     "R3_media": 8,
+     "image_sources_n": 8,
+     "url": "https://view.asiae.co.kr/article/2026090311130215050",
+     "bias": "좌우 무관(N/A)",
+     "tags": "해당 없음",
+     "title": "정부 “티빙, 개인정보 3954만 계정 유출”... 기술자산도 함께 털렸다",
+     "h1": "🔓 접속키 하나에 3954만 계정, 탈퇴한 887만 개까지 털렸다",
+     "HARD_FAILS": [],
+     "usage": {
+      "dur_s": 481,
+      "turns": 12,
+      "in": 10,
+      "out": 33350,
+      "cache_r": 1132216,
+      "cache_w": 279681,
+      "cost": 4.426907,
+      "rc": 0,
+      "prefix_per_turn": 117658,
+      "repair_calls": 1,
+      "repair_cost": 1.23,
+      "repair_dur_s": 469,
+      "main_calls": 1
+     },
+     "meta": {
+      "tag": "A1",
+      "arm": "A",
+      "sha": "852a5ed797a79c5390873af5f659f0eed942c6e5",
+      "base": "260905-105101-ab1A1",
+      "rc": 0,
+      "t0": 1788573061,
+      "t1": 1788574016,
+      "elapsed_s": 955,
+      "out": "queue/260903-1433-2026090311130215050.md",
+      "account_events": 0,
+      "env": ""
+     },
+     "repair_fired": true,
+     "pre_repair": {
+      "ig": 814,
+      "th": 442
+     },
+     "gver_log": "1201ccdfa027",
+     "account_events": 0
+    }
+   },
+   "compare": {
+    "A": {
+     "n": 1,
+     "fact_bullets_min": 11,
+     "aug_nums_min": 31,
+     "media_min": 8,
+     "free_num_density_min": 24,
+     "factcov_missing_max": 13,
+     "xlate_max": 0,
+     "gloss_max": 0,
+     "date_lead_any": false,
+     "pre_repair_ig_min": 814,
+     "pre_repair_th_min": 442,
+     "turns_min": 12,
+     "hard_fails": 0,
+     "num_candidates_max": 0,
+     "over_max": 120,
+     "quote_candidates_max": 0,
+     "dur_med": 481,
+     "prefix_per_turn_med": 117658,
+     "cache_w_med": 279681,
+     "cache_r_med": 1132216,
+     "out_med": 33350,
+     "cost_med": 4.426907,
+     "elapsed_med": 955
+    }
+   },
+   "C_flags": [],
+   "failed": {}
+  }
+ ]
+}

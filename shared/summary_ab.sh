@@ -80,7 +80,7 @@ while IFS='|' read -r stem pattern; do
     cat metrics/usage/*.jsonl 2>/dev/null | grep -F "\"ref\":\"${base}\"" > "$STAGE/$art/${tag}.usage.jsonl" || true
     # REGEN_TARGET 기준 재보강 계측 행은 ref=스템이라 별도 회수(analyze-repair)
     cat metrics/usage/*.jsonl 2>/dev/null | grep -F '"src":"analyze-repair"' >> "$STAGE/$art/${tag}.usage.jsonl" || true
-    swaps="$(grep -cE '🔄|🩺' "$STAGE/$art/${tag}.log" 2>/dev/null || echo 0)"
+    swaps="$(grep -cE '🔄|🩺' "$STAGE/$art/${tag}.log" 2>/dev/null || true)"; swaps="${swaps:-0}"   # grep -c 는 0건에도 '0'을 찍고 rc 1 = `|| echo 0` 이면 '0\n0' 이중 출력(1차 런 실측 봉합)
     printf '{"tag":"%s","arm":"%s","sha":"%s","base":"%s","rc":%s,"t0":%s,"t1":%s,"elapsed_s":%s,"out":"%s","account_events":%s,"env":"%s"}\n' \
       "$tag" "$arm" "$sha" "$base" "$rc" "$t0" "$t1" "$((t1-t0))" "${out_md:-}" "${swaps:-0}" "${extra[*]:-}" > "$STAGE/$art/${tag}.meta.json"
     echo "  rc=$rc · $((t1-t0))s · out=${out_md:-없음} · 계정이벤트=${swaps:-0}"
