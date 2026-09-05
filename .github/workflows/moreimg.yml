@@ -1,7 +1,7 @@
 name: moreimg
 
 # 뷰어 '검색 이미지 +N장 더'(functions/api/moreimg.js 디스패치) + thumb_gen 7장 미달 자동 보충(ask/analyze
-# 후속 스텝 디스패치 · 운영자 260726 "원래 7개") → Claude(Opus 5·effort high = more_images.py 실값 · 구 주석 max 는 낡음 260905)가
+# 후속 스텝 디스패치 · 운영자 260726 "원래 7개") → Claude(Sonnet 5·effort high = more_images.py 실값 · 260905 운영자 «이미지는 계륵» 강등 · 구 Opus)가
 # 기사 요약·시사점을 읽고 오버레이 뒤 후킹용 카드뉴스 배경에 효과적인 관련 뉴스이미지 소스를
 # *기존과 중복없이* 더 찾아(WebSearch) og:image 추출(thumb_gen 재사용·R2) →
 # cards/<stem>/thumbs/search.json 앞쪽 append. Cloudflare가 push마다 build-viewer 재실행 → 뷰어 반영.
@@ -85,6 +85,7 @@ jobs:
           R2_PUBLIC_BASE: ${{ secrets.R2_PUBLIC_BASE }}
           R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
           R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          MOREIMG_MODEL: ${{ vars.MOREIMG_MODEL || 'claude-sonnet-5' }}   # 이미지 보충 검색 모델(운영자 260905 · 소넷 5 기본 · 되돌리기 = 이 변수에 claude-opus-5)
           MOREIMG_STEM: ${{ github.event.inputs.stem }}
           MOREIMG_WANT: ${{ github.event.inputs.want || '5' }}
           MOREIMG_ROUND: ${{ github.event.inputs.round || '1' }}
