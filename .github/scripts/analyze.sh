@@ -117,6 +117,67 @@ if [ ${#files[@]} -eq 0 ]; then
   exit 0
 fi
 
+# ── 선점(claim) = 러너 여러 대가 같은 기사를 두 번 요약하지 않게 main 에 먼저 못박는다(운영자 260905 «줄 서기 문제 고쳐줘 · 비용이 아니라 기다리는 시간») ──
+#   구판 = 워크플로 잡 레벨 concurrency 로 요약 런 전체를 직렬화 → 앞 픽이 도는 동안 뒤 픽은 통째로 대기(실측 450건 = 열에 둘이 10분↑ 줄 서기 · p90 25분).
+#   신판 = 잡 직렬화 폐지 + 기사 단위 선점 표식 `pending/<base>.claim`(내용 = 러너 id·시각) 을 **plain rebase + push** 로 main 에 착지시킨 뒤에만 그 기사를 돈다.
+#   ⚠ 원자성의 근거 = 같은 경로를 두 러너가 동시에 만들면 뒤 러너의 push 가 non-ff 로 거절되고, 되감은 뒤 다시 받으면 남의 표식이 보여 건너뛴다(git 의 main 이 곧 잠금).
+#   ⚠ 여기서는 `-X theirs` 를 쓰면 안 된다 — 리베이스에서 theirs = 내 커밋이라 남의 선점을 조용히 덮어 이중 요약이 난다(check_land_xours 가 이름 붙인 그 축).
+#   ⚠ 표식은 `.txt` 옆에 두고 `.txt` 는 제자리에 둔다 — 뷰어 대기열(functions/api/pending.js)·고아 스윕(pending-sweep.yml)이 top-level `.txt` 로 「처리중」을 판정하므로 옮기면 화면에서 사라진다.
+#   ⚠ 낡은 표식(CLAIM_TTL_MIN · 기본 40 = 본선 900s + 재보강 900s + 여유) = 러너 사망으로 본다 → 재선점(중복 요약 가능성은 40분을 넘긴 정상 런뿐 = 잡 상한 안에서 거의 0).
+#   정리 = 성공(rm)·격리(failed 이동)·과부하 유지(.retry) 어느 갈래든 `.claim` 을 지운다(남기면 그 기사가 40분 잠긴다).
+CLAIM_TTL_MIN="${CLAIM_TTL_MIN:-40}"
+CLAIM_ID="${GITHUB_RUN_ID:-$(hostname 2>/dev/null || echo local)-$$}"
+claim_stale() { local ts; ts="$(sed -n 's/.*"ts":\([0-9]*\).*/\1/p' "$1" 2>/dev/null | head -1)"; [ -z "$ts" ] || [ $(( $(date +%s) - ts )) -ge $(( CLAIM_TTL_MIN * 60 )) ]; }
+claim_mine()  { grep -q "\"id\":\"${CLAIM_ID}\"" "$1" 2>/dev/null; }
+claim_pending() {
+  local attempt f base c cand leftover
+  mine=()
+  for attempt in 1 2 3 4 5; do
+    git fetch -q origin main 2>/dev/null || true
+    git -c rebase.autostash=true rebase -q origin/main >/dev/null 2>&1 || { git rebase --abort >/dev/null 2>&1 || true; }
+    cand=()
+    for f in pending/*.txt; do
+      base="$(basename "$f" .txt)"; c="pending/${base}.claim"
+      if [ -f "$c" ] && ! claim_mine "$c" && ! claim_stale "$c"; then continue; fi   # 남의 신선한 선점 = 건너뜀
+      printf '{"id":"%s","ts":%s}\n' "$CLAIM_ID" "$(date +%s)" > "$c"; cand+=("$f")
+    done
+    [ ${#cand[@]} -gt 0 ] || { echo "선점할 기사 없음(전건 다른 러너가 처리 중) — 종료"; return 0; }
+    # 러너 하나 = 기사 ANALYZE_CLAIM_MAX 건(워크플로 = 1 · 맥 레인 = 전건) — 3건이 한꺼번에 와도 첫 러너가 다 집어 혼자 차례로 도는 것 차단(운영자 260905 «3개를 동시에 보내도 한 번에 가장 빠르게»).
+    #   남는 건수만큼 형제 러너를 깨운다(아래 fan-out) = 각 기사가 자기 러너에서 동시에 돈다.
+    leftover=0
+    if [ "${ANALYZE_CLAIM_MAX:-0}" -gt 0 ] && [ ${#cand[@]} -gt "$ANALYZE_CLAIM_MAX" ]; then
+      leftover=$(( ${#cand[@]} - ANALYZE_CLAIM_MAX ))
+      for f in "${cand[@]:$ANALYZE_CLAIM_MAX}"; do rm -f "pending/$(basename "$f" .txt).claim"; done
+      cand=("${cand[@]:0:$ANALYZE_CLAIM_MAX}")
+    fi
+    git add pending
+    if git diff --cached --quiet; then mine=("${cand[@]}"); return 0; fi   # 이미 내 표식이 착지돼 있음(재시도 루프)
+    git -c user.name='github-actions[bot]' -c user.email='github-actions[bot]@users.noreply.github.com' commit -q -m "analyze: 선점 ${#cand[@]}건(${CLAIM_ID})" || true
+    if git push -q origin HEAD:main 2>/dev/null; then
+      mine=("${cand[@]}"); echo "  🔒 선점 착지 — ${#cand[@]}건(${CLAIM_ID}) · 미선점 잔여 ${leftover}건"
+      # fan-out = 잔여 건수만큼(상한 5) 형제 러너 즉시 디스패치 — GITHUB_TOKEN 디스패치는 되고(pick.yml 동문) push 트리거만 못 깨운다.
+      #   형제는 자기 선점 루프에서 1건씩 집는다(겹치면 push 거절로 자연 배제) · 실패 = 경고만(pending-sweep 45분 백스톱이 회수).
+      if [ "$leftover" -gt 0 ] && [ -n "${GITHUB_ACTIONS:-}" ] && command -v gh >/dev/null 2>&1; then
+        local k n; n=$(( leftover > 5 ? 5 : leftover ))
+        for k in $(seq 1 "$n"); do gh workflow run news-analyze.yml --ref main >/dev/null 2>&1 || echo "::warning::형제 러너 디스패치 실패(${k}/${n}) — 잔여 pending 은 스윕이 회수"; done
+        echo "  🚀 형제 러너 ${n}개 디스패치(잔여 ${leftover}건 병렬 처리)"
+      fi
+      return 0
+    fi
+    # 거절 = 누군가 먼저 착지 → 내 선점만 되감고(pending 밖 무접촉) 다시 받아 재판정
+    git reset -q --soft HEAD~1 2>/dev/null || true
+    git restore -q --staged --worktree -- pending 2>/dev/null || git checkout -q HEAD -- pending 2>/dev/null || true
+    git clean -fq -- pending 2>/dev/null || true
+    sleep $(( attempt * 2 ))
+  done
+  echo "::warning::선점 착지 5회 실패(main 경합) — 이 런은 종료(다음 픽·스윕이 다시 집는다)"; mine=(); return 0
+}
+if [ "${ANALYZE_CLAIM:-1}" = "1" ]; then
+  claim_pending
+  files=("${mine[@]}")
+  [ ${#files[@]} -gt 0 ] || exit 0
+fi
+
 # 파일명 = ASCII-safe 한정 (타임스탬프 + URL 유래 기사ID). 한글 제목은 frontmatter title에만.
 # (구 슬러그 방식은 cut -c 바이트 절단이 UTF-8 멀티바이트를 깨뜨려 폐지 — run#2 ENOENT 원인)
 article_id() {
@@ -176,7 +237,7 @@ for f in "${files[@]}"; do
   if [ -z "$url" ]; then
     mkdir -p pending/failed
     echo "빈 URL" > "pending/failed/${base}.log"
-    git mv "$f" "pending/failed/${base}.txt" 2>/dev/null || mv "$f" "pending/failed/${base}.txt"
+    rm -f "pending/${base}.claim"; git mv "$f" "pending/failed/${base}.txt" 2>/dev/null || mv "$f" "pending/failed/${base}.txt"
     echo "::endgroup::"; continue
   fi
 
@@ -192,7 +253,7 @@ for f in "${files[@]}"; do
       echo "reason: 포털/도메인 루트 URL — 기사 경로(/v/… 등)가 없어 분석할 기사 본문이 없음(공유 중 경로 잘림 추정)."
       echo "조치: 기사 페이지를 열어 그 기사 URL로 다시 공유하거나, 막힌 매체면 전체선택→전문 붙여넣기로 공유."
     } > "pending/failed/${base}.log"
-    git mv "$f" "pending/failed/${base}.txt" 2>/dev/null || mv "$f" "pending/failed/${base}.txt"
+    rm -f "pending/${base}.claim"; git mv "$f" "pending/failed/${base}.txt" 2>/dev/null || mv "$f" "pending/failed/${base}.txt"
     echo "$url" >> /tmp/analyzed_failures.txt
     # 변종 A — '대기열 미등록'(잘못 복사한 루트 URL = 분석할 내용 자체가 안 들어옴)
     emit_fail_msg "$base" "$(printf '📥 방금 보낸 건은 내용이 제대로 들어오지 않아 대기열에 등록되지 않았어.\n\n[내가 보낸 내용]\n%s' "$url")"
@@ -402,6 +463,7 @@ ${extracted}"
         # analyzed_failures.txt 엔 안 적음 → 재시도 대기는 잡을 빨갛게 안 함(자가치유 정상상태).
         printf '{"attempts":%d,"error":"API 일시 과부하(5xx/Overloaded) — 자동 재시도 대기","last":"%s","kind":"transient"}\n' \
           "$tries" "$(TZ='Asia/Seoul' date +%FT%T%:z)" > "pending/${base}.retry"
+        rm -f "pending/${base}.claim"   # 선점 해제 = 다음 러너·스윕이 바로 다시 집는다
         echo "  🔁 API 일시 과부하 — pending 유지·재시도 대기(${tries}/${RETRY_CAP}); sweep 가 회복 시 재분석"
         echo "::endgroup::"; continue
       fi
@@ -418,7 +480,7 @@ ${extracted}"
     # 입력 에코 — URL 경로면 그 URL, 전문 붙여넣기면 본문 앞부분(운영자가 '내가 뭘 보냈는지' 식별).
     input_echo="$url"
     [[ "$url" == paste:* ]] && input_echo="$(awk '/^# body:/{f=1;next} f' "$f" | head -c 300)"
-    git mv "$f" "pending/failed/${base}.txt" 2>/dev/null || mv "$f" "pending/failed/${base}.txt"
+    rm -f "pending/${base}.claim"; git mv "$f" "pending/failed/${base}.txt" 2>/dev/null || mv "$f" "pending/failed/${base}.txt"
     echo "$url" >> /tmp/analyzed_failures.txt
     # 변종 B — '큐잉됐는데 분석 과정 실패'. 사유 분류(운영자 260623):
     #   ① 모델 혼잡(일시 과부하 — 재시도 소진) → 재시도 안내
@@ -717,7 +779,7 @@ PY
   #   🔎 마커·⚡ 혼입·# 제목 [속보] 잔존을 Actions 로그로 가시화(자가 추정만 믿던 길이 룰의 기계 눈 · exit 항상 0).
   python3 shared/digest_guard.py "$outfile" 2>/dev/null | sed 's/^/  /' || true
   python3 shared/digest_guard.py --derive "$outfile" 2>/dev/null | sed 's/^/  /' || true   # 파생 무결성(자유요약→IG·Thread 소속 소실·무주어 개문·날조 수치) 비차단 경고 · 260810
-  rm -f "$f"
+  rm -f "$f" "pending/${base}.claim"
   rm -f "pending/${base}.retry"   # 과부하 후 회복 성공 = 재시도 마커 정리(뷰어 '재시도 중' 해제)
   echo "${title_ko:-${title:-$id}}" >> /tmp/analyzed_titles.txt   # 완료 푸시 = 외신이면 번역 제목(title_ko 비면 원문 → id 폴백)
   basename "$outfile" >> /tmp/analyzed_files.txt   # 완료 푸시 딥링크용(요약 창 ?a=)

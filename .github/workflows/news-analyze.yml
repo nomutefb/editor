@@ -22,7 +22,8 @@ on:
           - MUTENO
           - EMS1130G
 
-# 동시 실행 충돌 방지 — ⚠️ 잠금은 '잡' 레벨(운영자 260717 대기열 기아 실측): 종전 워크플로(런) 레벨 그룹은
+# 동시 실행 = 260905 부터 병렬(잡 직렬화 폐지 · 아래 이력은 그때의 기록) — 기사 단위 선점은 analyze.sh `claim_pending` 참조.
+# (구) 동시 실행 충돌 방지 — ⚠️ 잠금은 '잡' 레벨(운영자 260717 대기열 기아 실측): 종전 워크플로(런) 레벨 그룹은
 #   card_plan(상한 165분)이 끝날 때까지 런 전체가 그룹을 쥐고 있어, 그 사이 제출된 pending이 분석 착수조차
 #   못 하고 스피너로 수 시간 대기(10~15분 실패 표면화 계약 파괴 · 실측 = 15:38 런의 card_plan이 17:28 제출 3건을
 #   2.5h 인질). analyze 잡만 자기 그룹으로 직렬화하면 카드 생성 중에도 새 분석·실패 격리가 즉시 돈다.
@@ -31,14 +32,14 @@ on:
 
 permissions:
   contents: write
+  actions: write    # 260905 형제 러너 fan-out(analyze.sh claim_pending · 잔여 pending 만큼 news-analyze 자기 디스패치 · pick.yml 동문)
 
 jobs:
   analyze:
     runs-on: ubuntu-latest
     timeout-minutes: 90   # 6건 직렬 분석 대비(건당 timeout 900s — 콘텐츠 초안 포함이라 상향)
-    concurrency:
-      group: news-analyze-job   # pending 소비·queue/ 커밋 직렬화(위 헤더 주석 = 잡 레벨 사유)
-      cancel-in-progress: false
+    # ⚠ 260905 잡 레벨 concurrency(news-analyze-job) 폐지 — 운영자 «줄 서기 문제 고쳐줘 · 기다리는 시간이 문제». 직렬화가 막던 「같은 기사 이중 요약」은
+    #   analyze.sh 의 기사 단위 선점 표식(pending/<base>.claim · main push 원자성)이 대신 막는다 = 런은 병렬, 기사는 한 러너만. 되돌리기 = 이 블록 복원 + ANALYZE_CLAIM=0.
     outputs:
       force_stems: ${{ steps.force.outputs.stems }}   # force 재분석(전문 직접 입력)으로 덮어쓴 카드 stem(공백 구분) → card_plan 이 단일 프롬프트 갱신(운영자 260628)
     steps:
@@ -102,6 +103,8 @@ jobs:
           ACTIVE_ACCOUNT: ${{ inputs.account || vars.ACTIVE_ACCOUNT || 'EMS1130N' }}
           SUMMARY_LEN_GUARD: ${{ vars.SUMMARY_LEN_GUARD || '1' }}   # 분량 가드(IG/Thread 과소 시 1회 보강) — 기본 ON(운영자 260823 «켜주라» 사인오프 · 구 카나리아 대기 260705는 콜 실적 0인 채 잊혀 있던 자리) · 끄기 = repo 변수 SUMMARY_LEN_GUARD를 '1' 외 값(off 권장)으로(CARD_COV_GUARD 승격 관용구 사본)
           ANALYZE_SAFE_MODE: ${{ vars.ANALYZE_SAFE_MODE || '1' }}   # 지침문서(CLAUDE.md) 스킵 = 기본 ON(260905 러너 A/B 승격 · 콜당 캐시 재기록 ~11.6만tok 소거 · 요약 규칙은 GBLOCK 인라인이라 무손실) · 끄기 = repo 변수 ANALYZE_SAFE_MODE 를 '1' 외 값(off 권장)
+          ANALYZE_CLAIM_MAX: '1'    # 러너 하나 = 기사 1건(260905 · 잔여는 형제 러너 fan-out = 동시 병렬) · 되돌리기 = '0'(전건 직렬 = 구 동작)
+          GH_TOKEN: ${{ github.token }}   # 형제 러너 디스패치용(gh workflow run · actions: write)
           PREFLIGHT_TIMEOUT: '25'   # 계정 생존 핑 상한(초) 60→25(평의회 260727 신규6) — 산 계정 = 수초 응답이라 25s 충분, 죽은 계정 침묵 행 판정만 빨라짐(핑당 35s↓). 오판 스왑은 다음 기사 reset 이 복원 = 수십초 우회로 그침 · 롤백 = 이 줄 삭제
         run: |
           echo "활성 계정: ${ACTIVE_ACCOUNT}"
