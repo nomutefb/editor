@@ -123,59 +123,92 @@ fi
 #   ⚠ 원자성의 근거 = 같은 경로를 두 러너가 동시에 만들면 뒤 러너의 push 가 non-ff 로 거절되고, 되감은 뒤 다시 받으면 남의 표식이 보여 건너뛴다(git 의 main 이 곧 잠금).
 #   ⚠ 여기서는 `-X theirs` 를 쓰면 안 된다 — 리베이스에서 theirs = 내 커밋이라 남의 선점을 조용히 덮어 이중 요약이 난다(check_land_xours 가 이름 붙인 그 축).
 #   ⚠ 표식은 `.txt` 옆에 두고 `.txt` 는 제자리에 둔다 — 뷰어 대기열(functions/api/pending.js)·고아 스윕(pending-sweep.yml)이 top-level `.txt` 로 「처리중」을 판정하므로 옮기면 화면에서 사라진다.
-#   ⚠ 낡은 표식(CLAIM_TTL_MIN · 기본 40 = 본선 900s + 재보강 900s + 여유) = 러너 사망으로 본다 → 재선점(중복 요약 가능성은 40분을 넘긴 정상 런뿐 = 잡 상한 안에서 거의 0).
-#   정리 = 성공(rm)·격리(failed 이동)·과부하 유지(.retry) 어느 갈래든 `.claim` 을 지운다(남기면 그 기사가 40분 잠긴다).
-CLAIM_TTL_MIN="${CLAIM_TTL_MIN:-40}"
+#   ⚠ 낡은 표식(CLAIM_TTL_MIN · 기본 60 = 최악 사슬 본선 900 + 124 재시도 450 + 재보강 900 + 착지 여유 ≈ 40분 · 평의회 260905 #1 = 구 40은 그 사슬보다 짧았다) = 러너 사망으로 본다 → 재선점.
+#     + 기사마다 처리 시작 시 표식 시각을 다시 찍는다(`claim_touch` · 맥 레인처럼 한 러너가 여러 건을 차례로 돌 때 뒤 기사의 표식이 선점 시각 기준으로 낡는 것 차단).
+#   정리 = 성공(rm)·격리(failed 이동)·과부하 유지(.retry)·중복 스킵 어느 갈래든 `.claim` 을 지운다(남기면 그 기사가 60분 잠긴다).
+#   ⚠ 경합 = 형제 러너들이 같은 첫 기사를 노리면 push 거절이 연쇄된다(평의회 #3) → 후보 순서를 러너 id 로 회전 + 시도 10회 · 지터.
+CLAIM_TTL_MIN="${CLAIM_TTL_MIN:-60}"
 CLAIM_ID="${GITHUB_RUN_ID:-$(hostname 2>/dev/null || echo local)-$$}"
-claim_stale() { local ts; ts="$(sed -n 's/.*"ts":\([0-9]*\).*/\1/p' "$1" 2>/dev/null | head -1)"; [ -z "$ts" ] || [ $(( $(date +%s) - ts )) -ge $(( CLAIM_TTL_MIN * 60 )) ]; }
+claim_stale() { local ts now; ts="$(sed -n 's/.*"ts":\([0-9]*\).*/\1/p' "$1" 2>/dev/null | head -1)"; now=$(date +%s); [ -z "$ts" ] || [ $(( now - ts )) -ge $(( CLAIM_TTL_MIN * 60 )) ] || [ $(( ts - now )) -gt 300 ]; }   # ts 결측·낡음·미래(시계 어긋남 5분↑ · 평의회 #8 = 영구 잠금 차단) = 낡음
 claim_mine()  { grep -q "\"id\":\"${CLAIM_ID}\"" "$1" 2>/dev/null; }
 claim_pending() {
-  local attempt f base c cand leftover
+  local attempt f base c cand leftover url off n i seen_url _perr
   mine=()
-  for attempt in 1 2 3 4 5; do
-    git fetch -q origin main 2>/dev/null || true
+  for attempt in 1 2 3 4 5 6 7 8 9 10; do
+    git fetch -q --deepen=100 origin main 2>/dev/null || git fetch -q origin main 2>/dev/null || true   # 얕은 클론 merge-base 실종 → rebase 통째 실패 차단(165행 관용구 · 평의회 #7)
     git -c rebase.autostash=true rebase -q origin/main >/dev/null 2>&1 || { git rebase --abort >/dev/null 2>&1 || true; }
-    cand=()
+    cand=(); seen_url=$'\n'
+    # 남이 신선하게 선점한 기사의 URL 은 같은 URL 의 다른 pending 도 못 집게 한다(평의회 #7 — 같은 기사 재제출 2건을 두 러너가 각각 집으면 카드 2장·2배 과금).
+    for f in pending/*.txt; do
+      base="$(basename "$f" .txt)"; c="pending/${base}.claim"
+      if [ -f "$c" ] && ! claim_mine "$c" && ! claim_stale "$c"; then url="$(head -n1 "$f" | tr -d '\r')"; [ -n "$url" ] && seen_url="${seen_url}${url}"$'\n'; fi
+    done
     for f in pending/*.txt; do
       base="$(basename "$f" .txt)"; c="pending/${base}.claim"
       if [ -f "$c" ] && ! claim_mine "$c" && ! claim_stale "$c"; then continue; fi   # 남의 신선한 선점 = 건너뜀
-      printf '{"id":"%s","ts":%s}\n' "$CLAIM_ID" "$(date +%s)" > "$c"; cand+=("$f")
+      url="$(head -n1 "$f" | tr -d '\r')"
+      if [ -n "$url" ] && printf '%s' "$seen_url" | grep -qxF -- "$url"; then continue; fi   # 같은 URL 은 1건만(뒤 건은 첫 건 착지 후 중복 게이트가 흡수)
+      [ -n "$url" ] && seen_url="${seen_url}${url}"$'\n'
+      cand+=("$f")
     done
     [ ${#cand[@]} -gt 0 ] || { echo "선점할 기사 없음(전건 다른 러너가 처리 중) — 종료"; return 0; }
+    # 후보 순서 회전 = 형제 러너들이 같은 첫 기사를 노려 push 거절이 연쇄되는 것 차단(평의회 #3 · 러너 id 해시 오프셋 · 정렬은 이름순 = 시각순 유지)
+    off=$(( $(printf '%s' "$CLAIM_ID" | cksum | cut -d' ' -f1) % ${#cand[@]} ))
+    cand=("${cand[@]:$off}" "${cand[@]:0:$off}")
     # 러너 하나 = 기사 ANALYZE_CLAIM_MAX 건(워크플로 = 1 · 맥 레인 = 전건) — 3건이 한꺼번에 와도 첫 러너가 다 집어 혼자 차례로 도는 것 차단(운영자 260905 «3개를 동시에 보내도 한 번에 가장 빠르게»).
-    #   남는 건수만큼 형제 러너를 깨운다(아래 fan-out) = 각 기사가 자기 러너에서 동시에 돈다.
     leftover=0
     if [ "${ANALYZE_CLAIM_MAX:-0}" -gt 0 ] && [ ${#cand[@]} -gt "$ANALYZE_CLAIM_MAX" ]; then
       leftover=$(( ${#cand[@]} - ANALYZE_CLAIM_MAX ))
-      for f in "${cand[@]:$ANALYZE_CLAIM_MAX}"; do rm -f "pending/$(basename "$f" .txt).claim"; done
       cand=("${cand[@]:0:$ANALYZE_CLAIM_MAX}")
     fi
+    for f in "${cand[@]}"; do printf '{"id":"%s","ts":%s}\n' "$CLAIM_ID" "$(date +%s)" > "pending/$(basename "$f" .txt).claim"; done   # 내 몫만 쓴다(남의 낡은 표식은 손대지 않는다 · 평의회 #1)
     git add pending
     if git diff --cached --quiet; then mine=("${cand[@]}"); return 0; fi   # 이미 내 표식이 착지돼 있음(재시도 루프)
-    git -c user.name='github-actions[bot]' -c user.email='github-actions[bot]@users.noreply.github.com' commit -q -m "analyze: 선점 ${#cand[@]}건(${CLAIM_ID})" || true
-    if git push -q origin HEAD:main 2>/dev/null; then
+    if ! git -c user.name='github-actions[bot]' -c user.email='github-actions[bot]@users.noreply.github.com' commit -q -m "analyze: 선점 ${#cand[@]}건(${CLAIM_ID})" 2>/dev/null; then
+      git restore -q --staged --worktree -- pending 2>/dev/null || git checkout -q HEAD -- pending 2>/dev/null || true; for f in "${cand[@]}"; do rm -f "pending/$(basename "$f" .txt).claim"; done
+      echo "::warning::선점 커밋 실패(훅 거절?) — 재시도 ${attempt}"; sleep 2; continue   # 커밋 실패를 '착지'로 오인해 미선점 기사를 돌리는 것 차단(평의회 #1)
+    fi
+    if _perr="$(git push -q origin HEAD:main 2>&1)"; then
       mine=("${cand[@]}"); echo "  🔒 선점 착지 — ${#cand[@]}건(${CLAIM_ID}) · 미선점 잔여 ${leftover}건"
-      # fan-out = 잔여 건수만큼(상한 5) 형제 러너 즉시 디스패치 — GITHUB_TOKEN 디스패치는 되고(pick.yml 동문) push 트리거만 못 깨운다.
-      #   형제는 자기 선점 루프에서 1건씩 집는다(겹치면 push 거절로 자연 배제) · 실패 = 경고만(pending-sweep 45분 백스톱이 회수).
+      : > /tmp/analyze_claimed   # 워크플로 did_work 신호(빈 런은 카드·썸네일 잡·배포 훅을 안 띄운다)
+      # fan-out = 잔여 − 이미 대기·진행 중인 형제(자기 포함) 만큼만, 상한 ANALYZE_FANOUT_MAX(기본 3 = 한 구독 계정 동시 세션 ≤3~4 · 평의회 #3) 형제 러너 즉시 디스패치.
+      #   GITHUB_TOKEN 디스패치는 되고(pick.yml 동문) push 트리거만 못 깨운다 · 형제는 자기 선점 루프에서 1건씩 집는다 · 실패 = 경고만(pending-sweep 백스톱).
       if [ "$leftover" -gt 0 ] && [ -n "${GITHUB_ACTIONS:-}" ] && command -v gh >/dev/null 2>&1; then
-        local k n; n=$(( leftover > 5 ? 5 : leftover ))
-        for k in $(seq 1 "$n"); do gh workflow run news-analyze.yml --ref main >/dev/null 2>&1 || echo "::warning::형제 러너 디스패치 실패(${k}/${n}) — 잔여 pending 은 스윕이 회수"; done
-        echo "  🚀 형제 러너 ${n}개 디스패치(잔여 ${leftover}건 병렬 처리)"
+        i="$(gh run list --workflow=news-analyze.yml --status queued --status in_progress --json databaseId -q 'length' 2>/dev/null || echo 1)"; i="${i:-1}"
+        n=$(( leftover - (i - 1) )); [ "$n" -gt "${ANALYZE_FANOUT_MAX:-3}" ] && n="${ANALYZE_FANOUT_MAX:-3}"
+        if [ "$n" -gt 0 ]; then
+          for i in $(seq 1 "$n"); do gh workflow run news-analyze.yml --ref main >/dev/null 2>&1 || echo "::warning::형제 러너 디스패치 실패(${i}/${n}) — 잔여 pending 은 스윕이 회수"; done
+          echo "  🚀 형제 러너 ${n}개 디스패치(잔여 ${leftover}건 병렬 처리)"
+        else
+          echo "  형제 러너 이미 충분(대기·진행 중) — 추가 디스패치 0"
+        fi
       fi
       return 0
     fi
     # 거절 = 누군가 먼저 착지 → 내 선점만 되감고(pending 밖 무접촉) 다시 받아 재판정
     git reset -q --soft HEAD~1 2>/dev/null || true
     git restore -q --staged --worktree -- pending 2>/dev/null || git checkout -q HEAD -- pending 2>/dev/null || true
-    git clean -fq -- pending 2>/dev/null || true
-    sleep $(( attempt * 2 ))
+    for f in "${cand[@]}"; do rm -f "pending/$(basename "$f" .txt).claim"; done   # 내가 쓴 표식만 걷는다(git clean 은 맥 레인의 미커밋 failed 로그까지 지운다 · 평의회 #4)
+    sleep $(( RANDOM % 3 + 1 ))
   done
-  echo "::warning::선점 착지 5회 실패(main 경합) — 이 런은 종료(다음 픽·스윕이 다시 집는다)"; mine=(); return 0
+  case "${_perr:-}" in *rejected*|*"fetch first"*|*non-fast-forward*|"") echo "::warning::선점 착지 10회 실패(main 경합) — 이 런은 종료(형제 1개 재디스패치 · 스윕 백스톱)";; *) echo "::warning::선점 push 실패(경합 아님 — $(printf '%s' "$_perr" | head -c 160 | tr '\n' ' ')) — 이 런은 종료";; esac; mine=()   # 사유 분류(평의회 #8 · 인증·회선 실패를 경합으로 오기 차단)
+  [ -n "${GITHUB_ACTIONS:-}" ] && command -v gh >/dev/null 2>&1 && gh workflow run news-analyze.yml --ref main >/dev/null 2>&1 || true   # 자기 재디스패치(평의회 #6 — 스윕 창까지 기사가 묶이는 것 차단)
+  return 0
+}
+# 기사 처리 시작마다 표식 시각 재도장(맥 레인 다건 직렬 · 평의회 #1) — 내 표식일 때만 · 2분 넘게 낡았을 때만 · fail-soft
+claim_touch() {
+  local c="pending/$1.claim" ts
+  [ "${ANALYZE_CLAIM:-1}" = "1" ] && [ -f "$c" ] && claim_mine "$c" || return 0
+  ts="$(sed -n 's/.*"ts":\([0-9]*\).*/\1/p' "$c" | head -1)"; [ -n "$ts" ] && [ $(( $(date +%s) - ts )) -lt 120 ] && return 0
+  printf '{"id":"%s","ts":%s}\n' "$CLAIM_ID" "$(date +%s)" > "$c"
+  git add "$c" 2>/dev/null; git -c user.name='github-actions[bot]' -c user.email='github-actions[bot]@users.noreply.github.com' commit -q -m "analyze: 선점 재도장($1)" 2>/dev/null || return 0
+  git fetch -q origin main 2>/dev/null; git -c rebase.autostash=true rebase -q origin/main >/dev/null 2>&1 || { git rebase --abort >/dev/null 2>&1 || true; }
+  git push -q origin HEAD:main 2>/dev/null || true
 }
 if [ "${ANALYZE_CLAIM:-1}" = "1" ]; then
   claim_pending
-  files=("${mine[@]}")
-  [ ${#files[@]} -gt 0 ] || exit 0
+  [ ${#mine[@]} -gt 0 ] || exit 0
+  files=("${mine[@]}")   # 빈 배열 확장은 위 가드 뒤에만(맥 bash 3.2 = set -u 에서 빈 배열 확장이 치명 오류 · 평의회 #4)
 fi
 
 # 파일명 = ASCII-safe 한정 (타임스탬프 + URL 유래 기사ID). 한글 제목은 frontmatter title에만.
@@ -203,7 +236,12 @@ article_id() {
 #   (429/쿼터/인증·ANALYSIS_FAILED·정상출력 제외 · 출력 앞 8줄만 검사로 본문 인용 오탐 억제).
 
 for f in "${files[@]}"; do
-  if [ "$SECONDS" -gt "$ANALYZE_JOB_DEADLINE" ]; then echo "⏱ 잡 시간 예산 임박(${SECONDS}s>${ANALYZE_JOB_DEADLINE}s) — 잔여 기사는 다음 런/sweep 에(pending 잔류)"; break; fi   # 배치 다건 타임아웃이 잡 timeout(90분) 넘겨 처리 중 기사까지 잘리는 것 방지(평의회 260704 A)
+  claim_touch "$(basename "$f" .txt)"   # 처리 시작 = 표식 시각 재도장(다건 직렬 러너의 뒤 기사 stale 오판 차단 · 1건 러너는 2분 미만이라 no-op)
+  if [ "$SECONDS" -gt "$ANALYZE_JOB_DEADLINE" ]; then
+    echo "⏱ 잡 시간 예산 임박(${SECONDS}s>${ANALYZE_JOB_DEADLINE}s) — 잔여 기사는 다음 런/sweep 에(pending 잔류)"
+    for g in "${files[@]}"; do [ -f "$g" ] && rm -f "pending/$(basename "$g" .txt).claim"; done   # 미처리분 선점 해제(남기면 TTL 까지 남이 못 집는다 · 평의회 #2·#4) — 삭제는 말미 Commit 스텝·맥 레인 착지가 실어간다
+    break
+  fi   # 배치 다건 타임아웃이 잡 timeout(90분) 넘겨 처리 중 기사까지 잘리는 것 방지(평의회 260704 A)
   base="$(basename "$f" .txt)"        # YYMMDD-HHMMSS
   stamp="${base:0:11}"                # YYMMDD-HHMM
   url="$(head -n1 "$f" | tr -d '\r\n')"
@@ -280,7 +318,7 @@ for f in "${files[@]}"; do
       # 무음 스킵 유음화(전수감사 260713) — "요약이 안 된다" 체감의 최다 원인 = 재픽이 여기서 조용히 증발.
       #   메시지함(기본 레벨=비경고)에 한 줄 남겨 운영자가 '이미 요약됨'을 알게 함. 단일 슬롯(dup-skip) = 누적 오염 0.
       python3 shared/msg.py set "dup-skip" "이미 요약된 기사야 — ${id} (같은 지침 버전 카드 존재 · 전문 재요약은 본문에 '# force: 1')" 2>/dev/null || true
-      rm -f "$f"
+      rm -f "$f" "pending/${base}.claim"   # 선점 표식도 같이(평의회 260905 #1 — 남기면 main 에 고아 표식이 영구 누적)
       echo "::endgroup::"; continue
     fi
     if [ -n "$FORCE" ] && [ "$ev" = "$GVER" ]; then
@@ -720,16 +758,17 @@ PY
     # 요약이 사진을 기다리지 않는다(운영자 260905 «사진이나 이미지 안 찾아져도 요약은 별개로 이미 완료되게 · 늦게 찾아져도 된다») —
     #   구판 무조건 wait 는 본선이 빨리 끝난 회차(단일 턴 85s 실측)에 로봇 상한 300s 까지 요약 착지를 붙들었다.
     #   유예 IMG_HARVEST_WAIT(기본 30s) 안에 끝나면 수확, 아니면 로봇을 끊고 빈 채 착지 = 아래 fail-soft 경로 그대로(moreimg·og:image 백필이 늦게 채운다).
-    _iw=0; while kill -0 "$img_pid" 2>/dev/null && [ "$_iw" -lt "${IMG_HARVEST_WAIT:-30}" ]; do sleep 1; _iw=$((_iw+1)); done
+    _iw=0; while kill -0 "$img_pid" 2>/dev/null && [ "$_iw" -lt "${IMG_HARVEST_WAIT:-10}" ]; do sleep 1; _iw=$((_iw+1)); done
     if kill -0 "$img_pid" 2>/dev/null; then
-      kill "$img_pid" 2>/dev/null; echo "  🖼 사진로봇 ${IMG_HARVEST_WAIT:-30}s 유예 초과 → 끊고 요약 먼저 착지(사진은 보충 레인이 늦게 채움)"
+      pkill -P "$img_pid" 2>/dev/null; kill "$img_pid" 2>/dev/null; _img_cut=1   # 자식(timeout·claude)까지 끊는다 — 서브셸만 죽이면 모델 호출이 상한까지 고아로 돈다(평의회 #7)
+      echo "  🖼 사진로봇 ${IMG_HARVEST_WAIT:-10}s 유예 초과 → 끊고 요약 먼저 착지(사진은 보충 레인이 늦게 채움)"
     fi
     wait "$img_pid" 2>/dev/null; _img_rc=$?
     IMG_SRCS="$(grep -aoE 'https?://[^"'"'"' <>|\\]+' "$img_tmp" 2>/dev/null | head -10 | tr '\n' ' ' | head -c 1800)"
     IMG_SRCS="${IMG_SRCS% }"
     # 조용한 축 표면화(260905 평의회6) — 구판은 stderr 를 버려 「못 찾음」과 「로봇이 죽음(401·쿼터·124)」이 같은 줄이었다.
     #   rc≠0 만 ::warning::(fail-soft 는 그대로 = moreimg·og:image 백필 · 코드 축이라 메시지함 점등 0).
-    if [ "${_img_rc:-0}" -ne 0 ] && [ -z "${IMG_SRCS// }" ]; then
+    if [ "${_img_rc:-0}" -ne 0 ] && [ -z "${IMG_SRCS// }" ] && [ -z "${_img_cut:-}" ]; then   # 유예 컷은 실패가 아니다(경고 0)
       echo "::warning::사진로봇 실패(rc=${_img_rc} · $(head -c 160 "${img_tmp}.err" 2>/dev/null | tr '\n' ' ')) — image_sources 무주입(moreimg·og:image 백필)"
     fi
     rm -f "$img_tmp" "${img_tmp}.err"; img_pid=""
@@ -772,6 +811,9 @@ PY
   python3 .github/scripts/card_gate.py factcov "$outfile" 2>/dev/null | sed 's/^/  /' || true
   # 분량 가드(기본 OFF · SUMMARY_LEN_GUARD='1' 카나리아) — IG/Thread 과소 시 자유요약에서 1회 보강(잡 예산 내 · fail-soft · 260705 · repair ≤+900s(260825 상향 · REPAIR_TIMEOUT)는 다음-기사 헤드룸(2×900s) 동값 = 위 데드라인 3100 하향과 한 쌍)
   # 순서 계약(260823) = 윤문 → 수선 — 윤문이 결을 다듬다 분량을 깎아도 뒤의 분량 가드가 실측·보강한다.
+  # 1차 착지 = 윤문·재보강 **전에** 요약을 먼저 main 에 올린다(운영자 260905 «자유요약·인스타·스레드가 최대한 빠르게» · 평의회 #6) —
+  #   재보강(최대 900s)이 도는 동안 화면엔 이미 요약이 떠 있고, 끝나면 아래 2차 착지가 같은 파일을 덮어 최종본으로 갈아끼운다(품질 = 최종본 그대로 · 완료 푸시는 말미 = 종전 시점).
+  land_article "$outfile" "${title_ko:-${title:-$id}}"
   if [ "$SECONDS" -le "$ANALYZE_JOB_DEADLINE" ]; then summary_polish "$outfile" analyze-polish; fi
   if [ "$SECONDS" -le "$ANALYZE_JOB_DEADLINE" ]; then summary_repair "$outfile" analyze-repair;
   else echo "::warning::분량 가드·윤문 스킵(잡 예산 ${SECONDS}s>${ANALYZE_JOB_DEADLINE}s) — ${outfile} 는 미보강 착지(260905 조용한 축 표면화)"; fi

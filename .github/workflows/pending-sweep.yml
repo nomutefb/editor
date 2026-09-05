@@ -49,6 +49,10 @@ jobs:
             fi
             age=$(( (now - ts) / 60 ))
             if [ "$age" -ge "${THRESH_MIN}" ]; then
+              # 260905 선점 표식(pending/<base>.claim · analyze.sh claim_pending) 인지 — 신선한 표식 = 어느 러너가 지금 돌리는 중 = 고아 아님(평의회 #2·#5).
+              #   낡은 표식(CLAIM_TTL_MIN 60분 ↑ · ts 결측)은 러너 사망 = 고아로 센다. TTL 값 = news-analyze.yml env 와 한 값.
+              c="pending/${base%.txt}.claim"
+              if [ -f "$c" ]; then cts="$(sed -n 's/.*"ts":\([0-9]*\).*/\1/p' "$c" | head -1)"; if [ -n "$cts" ] && [ $(( now - cts )) -lt $(( ${CLAIM_TTL_MIN:-60} * 60 )) ]; then echo "처리 중(선점 신선): $base (${age}분)"; continue; fi; fi
               echo "orphan: $base (${age}분)"; orphans=$((orphans + 1))
             fi
           done
@@ -58,12 +62,14 @@ jobs:
           # 구출 절제 = '최근 85분 내 생성된 news-analyze *dispatch* 런 존재 시 스킵'(창 85분 < analyze 잡 hard timeout 90분).
           #   ⚠️ 구 '활성 런(status) 게이트'는 card_plan 꼬리(상한 165분)가 런을 활성으로 유지해 구출을 수 시간 막는
           #   호스티지 사각(아래 asks 스텝 260720 실측 주석과 동형)이라 폐기(평의회 260728 신규3) — asks 스텝의
-          #   createdAt 창 패턴 계승. push 런은 안 셈(정상 트래픽이 구출을 안 막음) · 겹쳐도 analyze 잡 concurrency 가
-          #   직렬화 + 빈 pending 런은 즉시 exit = 정합 무해·빈 런 1회 낭비뿐.
+          #   createdAt 창 패턴 계승. push 런은 안 셈(정상 트래픽이 구출을 안 막음) · 겹쳐도 (260905 이후) 기사 단위 선점 표식이
+          #   이중 요약을 막고 빈 pending 런은 선검사에서 즉시 exit = 정합 무해·빈 런 1회 낭비뿐(구 「잡 concurrency 직렬화」 서술은 폐지).
+          # ⚠ 260905 창 85분 → 15분(900s) — 위 orphan 판정이 선점 표식을 읽어 「처리 중」을 거르므로 여기 남은 orphan 은 전부 진짜 고아(선점 없음·낡음)다.
+          #   85분을 유지하면 analyze.sh fan-out(형제 러너 = workflow_dispatch)이 뜰 때마다 구출이 85분 꺼진다(평의회 #3·#5) · 15분 = 방금 뜬 형제가 체크아웃·선점을 마칠 여유.
           recent=$(gh run list --workflow=news-analyze.yml --event=workflow_dispatch --limit 10 --json createdAt \
-                   -q '[.[] | select((now - (.createdAt | fromdateiso8601)) < 5100)] | length' 2>/dev/null || echo 0)
+                   -q '[.[] | select((now - (.createdAt | fromdateiso8601)) < 900)] | length' 2>/dev/null || echo 0)
           if [ "${recent:-0}" -gt 0 ]; then
-            echo "최근 85분 내 news-analyze 구출 디스패치 ${recent}건 — 이번 사이클 스킵(호스티지 사각 없는 절제)"; exit 0
+            echo "최근 15분 내 news-analyze 디스패치 ${recent}건 — 이번 사이클 스킵(형제 러너 선점 대기 여유)"; exit 0
           fi
 
           echo "orphan ${orphans}건 · 최근 구출 디스패치 없음 → 재디스패치"

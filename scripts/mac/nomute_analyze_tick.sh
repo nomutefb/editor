@@ -31,7 +31,7 @@ set +a
 unset ANTHROPIC_API_KEY ANTHROPIC_AUTH_TOKEN 2>/dev/null || true
 if [ "${NP:-0}" != "0" ]; then
   echo "[pend] $(date '+%H:%M:%S') pending ${NP}건 — 즉시 소비 시작(틱 편승)"
-  ANALYZE_JOB_DEADLINE=2400 bash .github/scripts/analyze.sh || echo "[pend] 분석 일부 실패(성공분 착지·실패 격리)"
+  ANALYZE_CLAIM_MAX=1 ANALYZE_JOB_DEADLINE=2400 bash .github/scripts/analyze.sh || echo "[pend] 분석 일부 실패(성공분 착지·실패 격리)"   # 260905 = 틱마다 1건만 선점(전건 선점 = 깃허브 형제 러너가 못 집어 병렬이 0 이 된다 · 평의회 #2·#4)
 fi
 if [ "${NA:-0}" != "0" ]; then
   echo "[pend] $(date '+%H:%M:%S') asks ${NA}건 — 즉시 소비"

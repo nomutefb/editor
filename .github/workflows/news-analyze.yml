@@ -34,6 +34,9 @@ permissions:
   contents: write
   actions: write    # 260905 형제 러너 fan-out(analyze.sh claim_pending · 잔여 pending 만큼 news-analyze 자기 디스패치 · pick.yml 동문)
 
+env:
+  CLAIM_TTL_MIN: '60'   # 선점 표식 유효(분) = 최악 사슬(본선 900 + 124 재시도 450 + 재보강 900 + 여유) 위 · analyze.sh 기본값과 동값 · 아래 선검사·analyze 스텝이 같이 읽는다
+
 jobs:
   analyze:
     runs-on: ubuntu-latest
@@ -42,6 +45,7 @@ jobs:
     #   analyze.sh 의 기사 단위 선점 표식(pending/<base>.claim · main push 원자성)이 대신 막는다 = 런은 병렬, 기사는 한 러너만. 되돌리기 = 이 블록 복원 + ANALYZE_CLAIM=0.
     outputs:
       force_stems: ${{ steps.force.outputs.stems }}   # force 재분석(전문 직접 입력)으로 덮어쓴 카드 stem(공백 구분) → card_plan 이 단일 프롬프트 갱신(운영자 260628)
+      did_work: ${{ steps.force.outputs.did_work }}   # 이 런이 기사를 실제로 처리했나(260905 · 빈 런 = 하류 잡·배포 훅 생략)
     steps:
       - name: Checkout
         uses: actions/checkout@v5   # Node24 (6/16 러너 디폴트 전환 대응)
@@ -72,7 +76,21 @@ jobs:
           # 처리한 pending을 재분석 → failed 로그 add/add 충돌로 push 실패(run#5 원인).
           ref: main
 
+      # 선검사(260905 평의회 #3) — 집을 기사(신선한 .claim 없는 pending/*.txt)가 없으면 Node·CLI 설치를 통째로 건너뛴다 = 빈 런 비용 ~1분 → 수초.
+      #   TTL 술어 = analyze.sh claim_stale 과 한 값(CLAIM_TTL_MIN). 판정만 하고 선점은 안 한다(선점 = analyze.sh 의 몫 · 원자성은 거기서).
+      - name: 선검사 (집을 기사가 있나)
+        id: pre
+        run: |
+          shopt -s nullglob; now=$(date +%s); work=0
+          for f in pending/*.txt; do
+            c="pending/$(basename "$f" .txt).claim"
+            if [ -f "$c" ]; then ts="$(sed -n 's/.*"ts":\([0-9]*\).*/\1/p' "$c" | head -1)"; [ -n "$ts" ] && [ $(( now - ts )) -lt $(( CLAIM_TTL_MIN * 60 )) ] && continue; fi
+            work=1; break
+          done
+          echo "work=$work" >> "$GITHUB_OUTPUT"; echo "집을 기사: $([ "$work" = 1 ] && echo 있음 || echo '없음(전건 다른 러너 처리 중 · 이 런은 설치 없이 종료)')"
+
       - name: Setup Node
+        if: steps.pre.outputs.work == '1'
         uses: actions/setup-node@v5
         with:
           node-version: '24'
@@ -81,6 +99,7 @@ jobs:
       # ⚠️ 정적 키 금지(페이블 검토 260727) — primary key 적중 시 잡 종료 후 재저장이 없어 CLI 릴리스에 곧 stale
       #   (ly-make.yml "구 정적 키 = 드리프트" 정본 동형). run_id 가변 키 + restore-keys 접두 복원 = 매 런 최신 재저장.
       - name: npm 캐시 (셋업 단축)
+        if: steps.pre.outputs.work == '1'
         uses: actions/cache@v4
         with:
           path: ~/.npm
@@ -89,9 +108,11 @@ jobs:
             npm-claude-code-${{ runner.os }}-
 
       - name: Install Claude Code CLI
+        if: steps.pre.outputs.work == '1'
         run: npm install -g --allow-scripts=@anthropic-ai/claude-code @anthropic-ai/claude-code
 
       - name: Analyze pending articles
+        if: steps.pre.outputs.work == '1'
         env:
           # 인증 = 구독 OAuth 토큰(API 키 미사용). 계정 동적 선택:
           #   수동 실행 inputs.account → 리포 변수 vars.ACTIVE_ACCOUNT → 기본 EMS1130N(서브1=MUTENO·서브2=EMS1130G·서브3=EMS1130M·쿼터 한도 시 3단 자동 폴오버)
@@ -103,7 +124,10 @@ jobs:
           ACTIVE_ACCOUNT: ${{ inputs.account || vars.ACTIVE_ACCOUNT || 'EMS1130N' }}
           SUMMARY_LEN_GUARD: ${{ vars.SUMMARY_LEN_GUARD || '1' }}   # 분량 가드(IG/Thread 과소 시 1회 보강) — 기본 ON(운영자 260823 «켜주라» 사인오프 · 구 카나리아 대기 260705는 콜 실적 0인 채 잊혀 있던 자리) · 끄기 = repo 변수 SUMMARY_LEN_GUARD를 '1' 외 값(off 권장)으로(CARD_COV_GUARD 승격 관용구 사본)
           ANALYZE_SAFE_MODE: ${{ vars.ANALYZE_SAFE_MODE || '1' }}   # 지침문서(CLAUDE.md) 스킵 = 기본 ON(260905 러너 A/B 승격 · 콜당 캐시 재기록 ~11.6만tok 소거 · 요약 규칙은 GBLOCK 인라인이라 무손실) · 끄기 = repo 변수 ANALYZE_SAFE_MODE 를 '1' 외 값(off 권장)
+          ANALYZE_CLAIM: ${{ vars.ANALYZE_CLAIM || '1' }}   # 기사 단위 선점(260905) · 되돌리기 = 레포 변수 '0' + 이 잡 concurrency 블록 복원(둘이 한 세트)
           ANALYZE_CLAIM_MAX: '1'    # 러너 하나 = 기사 1건(260905 · 잔여는 형제 러너 fan-out = 동시 병렬) · 되돌리기 = '0'(전건 직렬 = 구 동작)
+          ANALYZE_FANOUT_MAX: ${{ vars.ANALYZE_FANOUT_MAX || '3' }}   # 형제 러너 상한(한 구독 계정 동시 세션 ≤3~4 · 평의회 #3 · 병렬 429 는 미실측 = 첫 3건 동시 픽이 카나리아)
+          CLAIM_TTL_MIN: ${{ env.CLAIM_TTL_MIN }}   # 선점 표식 유효(분) — 아래 선검사 스텝과 한 값
           GH_TOKEN: ${{ github.token }}   # 형제 러너 디스패치용(gh workflow run · actions: write)
           PREFLIGHT_TIMEOUT: '25'   # 계정 생존 핑 상한(초) 60→25(평의회 260727 신규6) — 산 계정 = 수초 응답이라 25s 충분, 죽은 계정 침묵 행 판정만 빨라짐(핑당 35s↓). 오판 스왑은 다음 기사 reset 이 복원 = 수십초 우회로 그침 · 롤백 = 이 줄 삭제
         run: |
@@ -125,6 +149,8 @@ jobs:
         run: |
           s="$(tr '\n' ' ' < /tmp/force_regen_files.txt 2>/dev/null || true)"
           echo "stems=${s}" >> "$GITHUB_OUTPUT"
+          # did_work = 이 런이 기사를 실제로 선점·처리했나(analyze.sh 가 선점 착지 시 /tmp/analyze_claimed 도장) — 빈 런은 카드·썸네일 잡·배포 훅을 안 띄운다(평의회 #3 · 빈 런 1개 = 배포 빌드 2회 낭비 차단)
+          if [ -f /tmp/analyze_claimed ]; then echo "did_work=1" >> "$GITHUB_OUTPUT"; else echo "did_work=0" >> "$GITHUB_OUTPUT"; fi
 
       # 활성 계정(vars.ACTIVE_ACCOUNT)이 이번 런에 쿼터로 폴오버됐으면 누적 카운트 → 2회+ 면 체인 다음
       # 계정으로 자동 전진(sticky failover). GH_TOKEN(Variables 쓰기 PAT) 없으면 no-op = 라이브 무해.
@@ -296,7 +322,7 @@ jobs:
       # 큐레이션 즉시 전달 — 분석·카드 커밋 후 Cloudflare 재빌드 1회 트리거 → 피드에 바로 반영
       # (정기 빌드[deploy-hook 12h] 안 기다림). 픽은 드물어 빌드 한도 영향 미미. 시크릿 없으면 no-op(다음 정기빌드).
       - name: 큐레이션 즉시 전달 (Cloudflare 재빌드)
-        if: always()
+        if: always() && needs.analyze.outputs.did_work == '1'   # 빈 런(선점 0)은 배포 훅 생략(260905 평의회 #3 — 빈 런 1개 = 빌드 2회 낭비)
         env:
           CF_DEPLOY_HOOK: ${{ secrets.CF_DEPLOY_HOOK }}
         run: |
@@ -314,7 +340,7 @@ jobs:
   # ⚠️ 비용잠금(Lock A) 해제 지점 = 픽=Gemini 2장 자동과금. GEMINI_API_KEY 시크릿 없으면 no-op(스캐폴드).
   thumb_gen:
     needs: analyze
-    if: always()              # 분석 일부 실패해도 성공 큐는 썸네일 생성
+    if: always() && needs.analyze.outputs.did_work == '1'   # 분석 일부 실패해도 성공 큐는 썸네일 생성 · 빈 런(선점 0)은 생략(260905 평의회 #3)
     runs-on: ubuntu-latest
     timeout-minutes: 30
     concurrency:
@@ -387,7 +413,7 @@ jobs:
               && echo "↻ ${stem} 보충 발사(want=${want})" || echo "::warning::${stem} 보충 발사 실패(수동 '+N장 더' 폴백)"
           done
       - name: 큐레이션 즉시 전달 (Cloudflare 재빌드)
-        if: always()
+        if: always() && needs.analyze.outputs.did_work == '1'   # 빈 런(선점 0)은 배포 훅 생략(260905 평의회 #3 — 빈 런 1개 = 빌드 2회 낭비)
         env:
           CF_DEPLOY_HOOK: ${{ secrets.CF_DEPLOY_HOOK }}
         run: |

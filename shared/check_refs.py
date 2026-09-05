@@ -1235,6 +1235,109 @@ def check_settings_checkout():
     return 0
 
 
+def check_claim_before_consume():
+    """요약 병렬화 = 기사 단위 선점이 소비보다 앞서고, 어느 갈래도 표식을 안 남기며, 선점 착지에 `-X theirs` 가 없다(260905 · 평의회 8인 #8 설계).
+    CONTRACT: check_claim_before_consume
+
+    ⚠ 신설 사유 = 요약 런의 잡 직렬화(concurrency)를 폐지하고 `pending/<base>.claim` 선점 표식으로 「같은 기사 이중 요약」을 막는데,
+      그 안전성은 코드 **모양** 하나에 걸려 있다 — 킬테스트(평의회 #8 a')로 선점 push 를 바로 위 land_article 의 관용구
+      `pull --rebase -X theirs` 로 「통일」하면 세 러너가 같은 기사를 전부 자기 것으로 믿고 push 까지 성공한다(삼중 요약 · 증상 0).
+      주석의 「-X theirs 금지」는 강제력이 0 이다(check_contract_anchors 교훈). 정적 · 렌더·LLM·네트워크 0 · 면책표 없이 하드 0.
+    판정 4축 = P1 선점 블록이 기사 루프 앞 + 기본값 ANALYZE_CLAIM:-1 / P2 claim_pending 본문에 금지 문법 0 + 순서 앵커 + 술어 원형 /
+      P3 기사 루프 안 처분 줄(git mv·rm -f "$f"·.retry)마다 표식 정리 동반 + 각 continue·break 구간에 표식 정리 실존 /
+      P4 워크플로 = CLAIM_MAX>0 이면 concurrency 0 · actions:write · GH_TOKEN · Commit 스텝 `git add queue pending`(상호배타 = 반쪽 롤백 차단)."""
+    import re
+    p = '.github/scripts/analyze.sh'
+    try:
+        lines = open(p, encoding='utf-8').read().split('\n')
+    except Exception as e:
+        print('❌ check_claim_before_consume 읽기 실패(fail-closed):', e); return 1
+    def code(l):
+        # 주석 = 줄 머리 또는 공백 뒤 `#` 만(`${#mine[@]}` 의 `#` 은 코드 · 첫 실행 실측 봉합)
+        return '' if l.strip().startswith('#') else re.sub(r'\s#.*$', '', l)
+    bad = []
+    # P1
+    a = next((i for i, l in enumerate(lines) if code(l).strip().startswith('if [ "${ANALYZE_CLAIM:-1}" = "1" ]')), None)
+    L = next((i for i, l in enumerate(lines) if code(l).startswith('for f in "${files[@]}"; do')), None)
+    if a is None: bad.append('P1 선점 블록(`ANALYZE_CLAIM:-1`) 소실 — 기본값 뒤집힘 또는 블록 삭제')
+    if L is None: bad.append('P1 기사 루프 앵커(`for f in "${files[@]}"; do`) 소실')
+    if a is not None and L is not None:
+        if a > L: bad.append('P1 선점 블록(%d행)이 기사 루프(%d행) 뒤 = 선점 없이 소비' % (a + 1, L + 1))
+        blk = '\n'.join(code(l) for l in lines[a:L])
+        for need in ('claim_pending', 'files=("${mine[@]}")', '|| exit 0'):
+            if need not in blk: bad.append('P1 선점 블록에 %r 없음' % need)
+    # P2
+    s = next((i for i, l in enumerate(lines) if l.startswith('claim_pending() {')), None)
+    e = next((i for i in range(s, len(lines)) if lines[i] == '}'), None) if s is not None else None
+    if s is None or e is None:
+        bad.append('P2 claim_pending 함수 소실')
+    else:
+        body = [code(l) for l in lines[s:e + 1]]
+        for i, l in enumerate(body):
+            if re.search(r'-X\s*(theirs|ours)\b|--strategy-option[= ](theirs|ours)|pull\s+--rebase|--force|\+HEAD:main', l):
+                bad.append('P2 금지 문법 %d행 %r' % (s + i + 1, lines[s + i].strip()[:70]))
+        order = ['git fetch', 'rebase -q origin/main', '! claim_mine "$c" && ! claim_stale "$c"; then continue', 'git add pending', 'git push -q origin HEAD:main', 'git reset -q --soft HEAD~1']
+        pos = [next((i for i, l in enumerate(body) if o in l), None) for o in order]
+        for o, j in zip(order, pos):
+            if j is None: bad.append('P2 순서 앵커 %r 소실' % o)
+        if all(x is not None for x in pos) and pos != sorted(pos): bad.append('P2 순서 어긋남(fetch→rebase→skip→add→push→reset) %s' % [x + s + 1 for x in pos])
+        st = next((code(l) for l in lines if code(l).startswith('claim_stale()')), '')
+        if '-ge $(( CLAIM_TTL_MIN * 60 ))' not in st or '[ -z "$ts" ] ||' not in st: bad.append('P2 claim_stale 술어 변형(TTL·결측=낡음)')
+        cm = next((code(l) for l in lines if code(l).startswith('claim_mine()')), '')
+        if 'id' not in cm or 'CLAIM_ID' not in cm: bad.append('P2 claim_mine 이 러너 id 로 판정하지 않음')
+    # P3
+    if L is not None:
+        d = next((i for i in range(L + 1, len(lines)) if lines[i] == 'done'), None)
+        if d is None:
+            bad.append('P3 기사 루프 닫는 done 소실')
+        else:
+            depth = 0; region_start = L + 1
+            for i in range(L + 1, d):
+                cs = code(lines[i]).strip()
+                if not cs: continue
+                opens = len(re.findall(r'\b(for|while|until)\b[^\n]*\bdo\b', cs)); closes = len(re.findall(r'(^|;\s*)done\b', cs))
+                if opens and closes: continue   # 한 줄 안쪽 루프(`for … do …; done`) = 그 안의 continue 는 기사 루프 종료가 아니다
+                if depth > 0 or opens:
+                    depth += opens - closes
+                    if depth < 0: depth = 0
+                    continue
+                if re.search(r'(git mv|\bmv|rm -f) "\$f"', cs) or '> "pending/${base}.retry"' in cs:
+                    win = '\n'.join(code(lines[k]) for k in range(max(L, i - 2), min(d, i + 3)))   # 같은 줄 ±2줄(정리가 처분 줄 바로 뒤에 오는 갈래 포함)
+                    if '.claim' not in win: bad.append('P3 처분 줄 %d행에 표식 정리 없음 %r' % (i + 1, cs[:60]))
+                if re.search(r'(^|[^a-zA-Z_])(continue|break)($|[^a-zA-Z_])', cs):
+                    region = '\n'.join(code(lines[k]) for k in range(region_start, i + 1))
+                    if '.claim' not in region: bad.append('P3 %d행 종료 갈래 구간(%d~%d)에 표식 정리 없음' % (i + 1, region_start + 1, i + 1))
+                    region_start = i + 1
+            tail = '\n'.join(code(lines[k]) for k in range(region_start, d))
+            if 'rm -f "$f" "pending/${base}.claim"' not in tail: bad.append('P3 성공 갈래에 `rm -f "$f" "pending/${base}.claim"` 없음')
+    # P4
+    try:
+        import yaml
+        y = yaml.safe_load(open('.github/workflows/news-analyze.yml', encoding='utf-8'))
+        job = y['jobs']['analyze']; steps = job['steps']
+        stp = next((x for x in steps if str(x.get('name', '')).startswith('Analyze pending')), {})
+        env = stp.get('env') or {}
+        M = str(env.get('ANALYZE_CLAIM_MAX', '0')).strip('\'"')
+        if M.isdigit() and int(M) > 0:
+            if 'concurrency' in job or 'concurrency' in y: bad.append('P4 concurrency 부활 + ANALYZE_CLAIM_MAX>0 = 직렬화 위에 fan-out(큐 폭주) — 둘 중 하나만')
+            if str((y.get('permissions') or {}).get('actions')) != 'write': bad.append('P4 permissions.actions:write 없음(fan-out 무음 실패)')
+            if 'GH_TOKEN' not in env: bad.append('P4 Analyze 스텝 env 에 GH_TOKEN 없음(fan-out 무음 실패)')
+            commit = next((x for x in steps if x.get('name') == 'Commit results'), {})
+            if not _has_exec_line(str(commit.get('run', '')), 'git add queue pending'): bad.append('P4 Commit results 에 `git add queue pending` 없음(표식 삭제 미착지)')
+        elif 'concurrency' not in job:
+            bad.append('P4 잡 concurrency 없는데 ANALYZE_CLAIM_MAX 미설정 = 한 러너가 전건 선점 + 병렬 런 = 반쪽 롤백')
+    except ImportError:
+        print('⚠ check_claim_before_consume: pyyaml 없음 — P4 스킵')
+    except Exception as ex:
+        bad.append('P4 워크플로 판독 실패 %s' % ex)
+    if bad:
+        print('❌ 선점-소비 게이트 —')
+        for b in bad: print('   ·', b)
+        return 1
+    print('✅ 선점-소비 게이트 — 선점이 소비보다 앞 · claim_pending 에 -X theirs 0 · 기사 루프 전 갈래 표식 정리 · 워크플로 병렬 세트(concurrency 0·actions:write·GH_TOKEN) 정합.')
+    return 0
+
+
 def check_guidelines_checkout():
     """에디터 지침을 주입하는 러너는 **지침 폴더를 실제로 손에 쥔다**(260823 실사고 봉합 ·
     운영자 «지금 요약 시 📍가 원래 있었는데 안나와» → «응 세워줘»).
@@ -5782,7 +5885,8 @@ def check_land_xours():
 
     술어 = 「main 착지 스텝이 `-X ours` 를 쓰는데, 그 자리에서 **드랍을 인지한 대처**를 안 적었다」.
     ⚠ **획일적 금지가 아니라 인지 요구인 것이 실효 조건** = `-X theirs` 로 뒤집는 건 만능이 아니다.
-      그쪽은 **남의 최신 변경을 우리 옛 값으로 조용히 덮는다**(이 저장소도 그 위험을 알아 `news-analyze.yml`
+      그쪽은 **남의 최신 변경을 우리 옛 값으로 조용히 덮는다**(⚠ 260905 이후 `news-analyze.yml` 의 잡 직렬화는 폐지됐고 병렬 런의 안전은
+      「런마다 다른 파일만 쓴다」{queue/<id>.md · metrics/usage/<run>… · pending/<base>.*}에 기댄다 — 아래 문장은 그 이전 기록 · 당시 `news-analyze.yml`
       은 concurrency 그룹으로 직렬화해 「-X theirs 무경고 덮어쓰기」를 막고 있다). 자리마다 옳은 처방이
       다르므로 게이트는 **「알고 골랐는가」**까지만 본다 — 대처 3형 = ⓐ 임시본 재병합(imggen·img-resize·
       img-upscale 실측 정본) ⓑ `-X theirs` 전환 ⓒ 그 자리 주석에 드랍이 무해한 사유 명시.
@@ -10520,6 +10624,8 @@ def main():
         if check_settings_checkout() != 0:   # 앱 설정(AI 썸네일 전역) 체크아웃·전역 판정(하드 게이트 — 260821 실측: sparse에 settings 누락으로 전역 OFF가 「파일 부재 = ON 폴백」으로 무시·요약마다 생성·러너는 초록)
             rc = 1
         if check_guidelines_checkout() != 0:   # 에디터 지침 체크아웃(하드 게이트 — 260823 실측: sparse에 apps 누락으로 픽 요약이 지침 전체 없이 가동·📍 소멸·러너는 초록·도장 96d67a2 증거)
+            rc = 1
+        if check_claim_before_consume() != 0:   # 요약 병렬화 선점-소비 계약(하드 게이트 — 260905 평의회 #8 킬테스트: 선점 push 를 -X theirs 로 바꾸면 삼중 요약 · 증상 0)
             rc = 1
     except Exception as e:
         print('❌ check_push_send_checkout 예외(fail-closed):', e); rc = 1

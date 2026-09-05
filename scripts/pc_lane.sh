@@ -328,7 +328,7 @@ if _haveclaude && [ "$(_left)" -ge 300 ]; then
   if [ "${_np:-0}" != "0" ]; then
     echo "▶ 요약 분석 pending ${_np}건 (남은 예산 $(_left)s)"
     SUMMARY_LEN_GUARD="${SUMMARY_LEN_GUARD:-1}" \
-    ANALYZE_JOB_DEADLINE="$(( $(_left) - 120 ))" bash .github/scripts/analyze.sh || echo "⚠ 분석 일부 실패(성공분은 이미 착지)"
+    ANALYZE_CLAIM_MAX=2 ANALYZE_JOB_DEADLINE="$(( $(_left) - 120 ))" bash .github/scripts/analyze.sh || echo "⚠ 분석 일부 실패(성공분은 이미 착지)"   # 260905 = 회차당 2건만 선점(잔여는 깃허브 형제 러너가 병렬로 · 평의회 #2·#4)
     [ -n "${VAPID_PRIVATE_KEY:-}" ] && { bash .github/scripts/notify_summary.sh || true; bash .github/scripts/notify_fail.sh || true; }
     _push "analyze: 요약 착지 (pc)" queue pending metrics messages
   fi
