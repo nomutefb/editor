@@ -1,0 +1,134 @@
+name: summary-ab
+
+# 뉴스 요약 파이프 A/B 실측(운영자 260905 「실제 웹앱과 동일한 조건으로 · 품질 무손상이 제일 중요 · 백업지점 확실히」 · 평의회 8인 260905).
+#   같은 기사를 조건별(A=기준 SHA 라이브 그대로 · S=기준 SHA+지침문서 스킵만 · B=대상 SHA 기본값)로 요약해 산출·로그·토큰 계측을 모은다.
+#   ⚠ 라이브 동일 조건 = 러너·CLI 설치·OAuth 계정 체인·sparse 목록·env(분량 가드·프리플라이트 상한)를 news-analyze.yml 에서 그대로 가져온다.
+#   ⚠ 실행 트리 하나에서 SHA 만 갈아 끼운다(shared/summary_ab.sh) · 각 arm 은 그 트리의 analyze.sh 를 그대로 돈다(모델·노력도·도구 = 그 트리 값).
+#   ⚠ 안전: 건별 푸시 0(ANALYZE_LAND_EACH=0) · 결과 커밋 대상 = 실행 브랜치(main 금지 가드) · metrics/ 는 복사만(레포 add 0 = 롤업 오염 0) · 알림 발송 스크립트 미호출.
+#   ⚠ 직렬 단일 잡(매트릭스 병렬 금지 = 같은 계정·같은 프리픽스 캐시가 arm 사이에 비대칭으로 워밍되는 것 차단 · 평의회1).
+on:
+  workflow_dispatch:
+    inputs:
+      base_sha:
+        description: '기준(A·S) 커밋 SHA — 라이브 = 백업 브랜치 SHA 를 고정(main 은 분마다 움직여 재현 불가)'
+        required: true
+        type: string
+      articles:
+        description: '기사 목록 — 줄마다 stem|pattern (stem = queue/<stem>.md · pattern = A/B/S 문자열 예 ABABS)'
+        required: true
+        type: string
+      ab_id:
+        description: '결과 폴더 이름(docs/reports/ab/<ab_id>) — 비우면 run id'
+        required: false
+        type: string
+        default: ''
+      account:
+        description: '이 실행에 쓸 계정(구독 OAuth · 미선택 = 활성계정 자동) — A/B 전 구간 고정'
+        type: choice
+        options:
+          - EMS1130N
+          - MUTENO
+          - EMS1130G
+
+permissions:
+  contents: write
+
+concurrency:
+  group: summary-ab
+  cancel-in-progress: false
+
+jobs:
+  ab:
+    runs-on: ubuntu-latest
+    timeout-minutes: 330   # 기사 3 × arm ≤5 × (본선 ≤900s + 재보강 ≤900s) 직렬 최악 = 이론 5h · 통상 2~3h
+    steps:
+      - name: Checkout (news-analyze 동일 sparse + 결과 폴더)
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+          # ⚠ 아래 목록 = news-analyze.yml 의 sparse 목록 그대로(같은 조건) + docs/reports/ab(결과 커밋 자리 · cone 밖 add 거부 회피).
+          #   .claude 미포함 = 라이브와 동일(훅·스킬 비적재) · settings·apps·prompts·shared 필수(게이트 check_settings_checkout·check_guidelines_checkout).
+          sparse-checkout: |
+            prompts
+            apps
+            .github
+            push
+            assets/brand
+            shared
+            cards
+            messages
+            metrics
+            pending
+            queue
+            settings
+            docs/reports/ab
+
+      - name: Setup Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: '24'
+
+      - name: npm 캐시 (셋업 단축)
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: npm-claude-code-${{ runner.os }}-${{ github.run_id }}
+          restore-keys: |
+            npm-claude-code-${{ runner.os }}-
+
+      - name: Install Claude Code CLI
+        run: npm install -g --allow-scripts=@anthropic-ai/claude-code @anthropic-ai/claude-code
+
+      - name: A/B 실측 (조건별 직렬 · 산출은 트리 밖 스테이지)
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets[format('CLAUDE_CODE_OAUTH_TOKEN_{0}', inputs.account || vars.ACTIVE_ACCOUNT || 'EMS1130N')] }}
+          CLAUDE_CODE_OAUTH_TOKEN_ALT: ${{ (inputs.account || vars.ACTIVE_ACCOUNT || 'EMS1130N') == 'MUTENO' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_MUTENO }}
+          CLAUDE_CODE_OAUTH_TOKEN_ALT2: ${{ (inputs.account || vars.ACTIVE_ACCOUNT || 'EMS1130N') == 'EMS1130N' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130N }}
+          CLAUDE_CODE_OAUTH_TOKEN_ALT3: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130M }}
+          ACTIVE_ACCOUNT: ${{ inputs.account || vars.ACTIVE_ACCOUNT || 'EMS1130N' }}
+          SUMMARY_LEN_GUARD: ${{ vars.SUMMARY_LEN_GUARD || '1' }}   # news-analyze.yml 동값(분량 가드 ON)
+          PREFLIGHT_TIMEOUT: '25'                                    # news-analyze.yml 동값
+          AB_ID: ${{ inputs.ab_id || github.run_id }}
+          BASE_SHA: ${{ inputs.base_sha }}
+          HEAD_SHA: ${{ github.sha }}
+          ARTICLES: ${{ inputs.articles }}
+          AB_STAGE: ${{ runner.temp }}/ab_stage
+        run: |
+          [ "${GITHUB_REF_NAME}" != "main" ] || { echo "::error::main 에서 실행 금지(결과 커밋 대상 = 실행 브랜치)"; exit 1; }
+          echo "활성 계정: ${ACTIVE_ACCOUNT} · base=${BASE_SHA:0:8} · head=${HEAD_SHA:0:8} · ab_id=${AB_ID}"
+          if [ -z "${CLAUDE_CODE_OAUTH_TOKEN}" ]; then echo "::error::CLAUDE_CODE_OAUTH_TOKEN_${ACTIVE_ACCOUNT} 시크릿이 비어있음"; exit 1; fi
+          unset ANTHROPIC_API_KEY ANTHROPIC_AUTH_TOKEN
+          bash shared/summary_ab.sh
+
+      - name: 결과 아티팩트
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: summary-ab-${{ inputs.ab_id || github.run_id }}
+          path: ${{ runner.temp }}/ab_stage
+          if-no-files-found: warn
+
+      - name: 결과 커밋 (실행 브랜치 · docs/reports/ab/<id>)
+        if: always()
+        env:
+          AB_ID: ${{ inputs.ab_id || github.run_id }}
+          AB_STAGE: ${{ runner.temp }}/ab_stage
+        run: |
+          [ "${GITHUB_REF_NAME}" != "main" ] || { echo "::error::main 에서 실행 금지"; exit 1; }
+          [ -d "$AB_STAGE" ] || { echo "스테이지 없음 — 커밋 생략"; exit 0; }
+          git checkout -q -- . 2>/dev/null || true
+          git clean -fdq -- queue pending messages metrics 2>/dev/null || true
+          git fetch -q origin "${GITHUB_REF_NAME}"
+          git checkout -q -B "${GITHUB_REF_NAME}" "origin/${GITHUB_REF_NAME}"
+          mkdir -p "docs/reports/ab/${AB_ID}"
+          cp -r "$AB_STAGE"/. "docs/reports/ab/${AB_ID}/"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "docs/reports/ab/${AB_ID}"
+          git diff --cached --quiet && { echo "변경 없음"; exit 0; }
+          git commit -q -m "summary-ab: 요약 A/B 실측 산출 ${AB_ID} (러너)"
+          for i in 1 2 3; do
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}" && exit 0
+            sleep $((i*3))
+          done
+          echo "::warning::결과 push 실패 — 아티팩트로 회수"
