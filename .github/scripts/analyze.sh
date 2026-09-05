@@ -71,14 +71,19 @@ emit_fail_msg() {
 source "$ROOT/shared/inject_guidelines.sh"
 source "$ROOT/shared/claude_transient.sh"  # is_transient() SSOT — analyze·ask·cardmake 공용(재시도 판정 드리프트 차단)
 source "$ROOT/shared/claude_meter.sh"      # claude_meter() SSOT — claude -p 토큰 사용량 계측(metrics shard · 옛 동작 호환)
-# 지침문서 스킵 카나리아(평의회 260812 조건부④ · cardmake CARD_SAFE_MODE 동형) — 캐시 프로브 run 31550098261
-#   실측 = 콜마다 ~11.6만tok(CLAUDE.md+동적부)이 캐시에 재기록. 품질 정본은 PROMPT_FILE+GBLOCK 주입 블록이라
-#   이론상 무손실이나 §📰-d 명문 준수 = 기본 OFF · 승격 = A/B(산출 diff+게이트 통과율 대조) 후 '1'.
-ANALYZE_SAFE_MODE="${ANALYZE_SAFE_MODE:-0}"
+# 지침문서 스킵(평의회 260812 조건부④ · cardmake CARD_SAFE_MODE 동형) — 캐시 프로브 run 31550098261
+#   실측 = 콜마다 ~11.6만tok(CLAUDE.md+동적부)이 캐시에 재기록. 품질 정본은 PROMPT_FILE+GBLOCK 주입 블록.
+#   260905 승격 = 러너 A/B(summary-ab.yml · 같은 기사 A/S/B 조건 · 기계 판정 + 블라인드 심사) 통과 후 기본 '1'.
+#   러너 sparse 트리엔 .claude 가 없어 --safe-mode 가 지우는 건 CLAUDE.md(402KB) 뿐 = 요약 규칙 0(전부 게이트 설명).
+#   롤백 = repo 변수 ANALYZE_SAFE_MODE 를 '1' 외 값(off 권장 · news-analyze.yml env 경유) · 안전 기준 = docs/라우터_법령전문.md:489.
+ANALYZE_SAFE_MODE="${ANALYZE_SAFE_MODE:-1}"
 ANALYZE_SAFE_ARGS=()
 if [ "$ANALYZE_SAFE_MODE" = "1" ]; then ANALYZE_SAFE_ARGS=(--safe-mode); fi
+# 본선 도구 셋(260905 A/B) — 기본 = WebFetch·WebSearch 만 · ANALYZE_READ_TOOLS=1 = 구 Read·Glob·Grep 복원(롤백 레버)
+ANALYZE_TOOLS="WebFetch,WebSearch"; ANALYZE_DENY="Write,Edit,NotebookEdit,Bash,Task,Read,Glob,Grep"
+if [ "${ANALYZE_READ_TOOLS:-0}" = "1" ]; then ANALYZE_TOOLS="WebFetch,WebSearch,Read,Glob,Grep"; ANALYZE_DENY="Write,Edit,NotebookEdit,Bash,Task"; fi
 source "$ROOT/shared/summary_repair.sh"    # 분량 가드 SSOT — IG/Thread 과소 시 1회 보강(기본 OFF·SUMMARY_LEN_GUARD='1' · 260705)
-source "$ROOT/shared/summary_polish.sh"    # 한국어 윤문 SSOT — 요약 뒤 문체만 별도 1콜(운영자 260823 «프롬프트 무접촉·기능 분리» · 기본 ON·SUMMARY_POLISH='0' 끔)
+source "$ROOT/shared/summary_polish.sh"    # 한국어 윤문 SSOT — 요약 뒤 문체만 별도 1콜(운영자 260823 «프롬프트 무접촉·기능 분리» · 기본 OFF = summary_polish.sh:24 정본 · SUMMARY_POLISH='1' 로 켬)
 source "$ROOT/shared/url_guard.sh"          # is_article_url() SSOT — 포털·도메인 루트(기사경로 없는 URL) 차단(폰·분석 공용)
 GVER="$(guidelines_version summary)"
 GBLOCK="$(guidelines_block summary)"
@@ -271,7 +276,7 @@ ${GBLOCK}
 
 [⛔ image_sources 오버라이드 — 이 실행(analyze 경로) 한정] frontmatter image_sources 는 **네가 채우지 않는다** — 별도 병렬 로봇(소넷)이 찾아 스크립트가 주입한다. **이미지 소스 수집 목적의 WebSearch 를 일절 돌리지 말고** image_sources: \"\" 빈 문자열 그대로 둬라(구 '검색어 바꿔가며 7~10개' 다수 검색 = 분석 지연·타임아웃 주범이라 분리 — \"요약 완성이 관련이미지보다 우선\"의 완결). 사실 확보·교차확인·원문 url 확보용 WebSearch/WebFetch 는 종전 규칙 그대로.
 
-분석할 기사 URL: ${art_url:-(없음 — 운영자 전문 붙여넣기. 아래 [사전 추출 본문]이 기사 전문 = '사실의 축'이다. 매체·보도일·기자는 본문에서 추론하고, 이 기사의 원문 URL은 WebSearch로 간단히 찾아보되 몇 번에 안 나오면 빈 문자열로 둔다(URL 을 지어내지 말 것 · 추론한 매체+제목으로 검색 · 같은 매체 1순위). ⭐ 기본값 = 보강 모드(운영자 260803 「보강이 기본값」 — 구 260704 '전문으로 바로 요약' 폐지·역전): 축만 요약하지 말고 WebSearch(URL 확보 포함 총 3회 내 · 260825 운영자 하향)로 원문에 빠진 축 — 덩어리 숫자의 내역 분해·반대편 당사자 주장·사건 경위와 이전 보도 맥락·핵심 실체의 정체·예정된 다음 단계 — 를 찾아 채워 교차확인한 보강 다이제스트를 내라. ⚠️⚠️ 관점 축 4계약(260824 · 정본 = 위 입력 처리 0 · 보강은 원문을 두껍게 하는 것이지 갈아엎는 것이 아니다) — ① 요약의 헤드·리드·결론은 붙여넣은 원문의 제목·리드가 잡은 초점에서 나온다(원문이 주인공으로 세운 인물·행위 = 요약의 주인공 · 원문이 한 문장으로 지나간 배경을 뼈대로 승격하는 재구성·논조 뒤집기 금지) ② 보강 사실은 원문이 세운 문단 축 안에만 붙인다(원문에 없는 축으로 새 문단 금지) ③ 검색 결과는 원문의 인물+시점+장소가 일치할 때만 채택(고유명사만 같은 딴 사건 = 버림) ④ 원문만으로 요약이 서면 보강 검색 0회도 정상(상한은 천장이지 할당량이 아니다). 충돌 사실은 다수·최신 보도 우선 + 병기, 결과 미발표 사안은 「미확정」 표기(날조 금지 불변). 상한 내 안 나오는 축은 비우고 best-effort 완성(요약 완성이 보강보다 항상 우선·무한 검색은 타임아웃 유발))}"
+분석할 기사 URL: ${art_url:-(없음 — 운영자 전문 붙여넣기. 아래 [사전 추출 본문]이 기사 전문 = '사실의 축'이다. 매체·보도일·기자는 본문에서 추론하고, 이 기사의 원문 URL은 WebSearch로 간단히 찾아보되 몇 번에 안 나오면 빈 문자열로 둔다(URL 을 지어내지 말 것 · 추론한 매체+제목으로 검색 · 같은 매체 1순위). ⭐ 기본값 = 보강 모드(운영자 260803 「보강이 기본값」 — 구 260704 '전문으로 바로 요약' 폐지·역전): 축만 요약하지 말고 WebSearch(URL 확보 포함 총 3회 내 · 260825 운영자 하향)로 원문에 빠진 축 — 덩어리 숫자의 내역 분해·반대편 당사자 주장·사건 경위와 이전 보도 맥락·핵심 실체의 정체·예정된 다음 단계 — 를 찾아 채워 교차확인한 보강 다이제스트를 내라. ⚠️⚠️ 관점 축 4계약(정본 = 위 입력 처리 0 의 ①~④ 그대로 — 초점 보존 · 보강 종속 · 사건 동일성 = 원문의 인물+시점+장소 일치 시만 채택 · 상한은 천장이지 할당량이 아니다). 충돌 사실은 다수·최신 보도 우선 + 병기, 결과 미발표 사안은 「미확정」 표기(날조 금지 불변). 상한 내 안 나오는 축은 비우고 best-effort 완성(요약 완성이 보강보다 항상 우선·무한 검색은 타임아웃 유발))}"
   if [ -n "${title_hint// }" ]; then
     prompt="${prompt}
 기사 제목(수집기 메타): ${title_hint}
@@ -306,7 +311,9 @@ ${extracted}"
   fi
 
   # 900s — 큐레이션 다이제스트 + 콘텐츠 초안(자유요약·IG·Thread·썸네일·시사점)까지 생성(260612 확장)
-  # 허용 도구 = WebFetch·WebSearch(사실 확보) + Read·Glob·Grep(품질기준 §7 지침 읽기 — 읽기전용).
+  # 허용 도구 = WebFetch·WebSearch(사실 확보)뿐. 구 Read·Glob·Grep 은 「지침 읽기」 명목이었는데 지침은 GBLOCK 으로
+  #   인라인 주입되고 프롬프트 자신이 「별도로 파일을 읽지 마라」라 실제 필요 0 = 260905 A/B 로 제거(cardmake.sh 도구 셋 동형).
+  #   롤백 = env ANALYZE_READ_TOOLS=1(구 도구 셋 복원 · 세이프모드와 독립 레버).
   # ⚠️ Write·Edit·Bash 류는 일절 불허(모델이 파일 쓰기·커밋을 시도하다 권한 대기로 멈춰
   # 다이제스트 대신 '승인 요청' 텍스트를 뱉어 failed 격리된 사건 대응 — 프롬프트 §⛔와 한 쌍).
   # --disallowedTools = 미허용 도구를 '권한 대기'가 아니라 '즉시 거부'로 만들어 헤드리스가
@@ -341,7 +348,7 @@ ${extracted}"
 [본문 앞부분] $(printf '%s' "$extracted" | head -c 1200)"
     ( printf '%s' "$img_prompt" | timeout "$IMG_TIMEOUT" claude -p --model "$IMG_MODEL" --effort "$IMG_EFFORT" --safe-mode \
         --allowedTools "WebSearch,WebFetch" --disallowedTools "Write,Edit,NotebookEdit,Bash,Task" \
-        --max-turns 14 > "$img_tmp" 2>/dev/null ) &
+        --max-turns 14 > "$img_tmp" 2> "${img_tmp}.err" ) &
     img_pid=$!
   fi
   _to_tried=0                                   # 이 기사에서 타임아웃 계정전환을 이미 1회 했는지(무한 전환 차단)
@@ -351,8 +358,8 @@ ${extracted}"
     out="$(printf '%s' "$prompt" | METER_SRC=analyze METER_REF="$base" METER_MODEL="$MODEL" METER_EFFORT="$EFFORT" claude_meter "$_cur_to" \
           --model "$MODEL" \
           --effort "$EFFORT" \
-          --allowedTools "WebFetch,WebSearch,Read,Glob,Grep" \
-          --disallowedTools "Write,Edit,NotebookEdit,Bash,Task" \
+          --allowedTools "$ANALYZE_TOOLS" \
+          --disallowedTools "$ANALYZE_DENY" \
           --max-turns 40 \
           "${ANALYZE_SAFE_ARGS[@]}" \
           2> "/tmp/${base}.err")"
@@ -423,6 +430,7 @@ ${extracted}"
     #      ask.sh 와 같은 술어 = 두 경로 문구 일관(한쪽만 고치면 나머지 경로가 조용히 구 문구로 남는다).
     if grep -qm1 '^ANALYSIS_FAILED' <<<"$out"; then _fk="source"
     elif [ $rc -eq 124 ]; then _fk="timeout"
+    elif is_auth "$out$(cat "/tmp/${base}.err" 2>/dev/null)"; then _fk="auth"
     elif is_transient "$out$(cat "/tmp/${base}.err" 2>/dev/null)"; then _fk="congest"
     elif [ $rc -ne 0 ] && [ -z "${out// }" ]; then _fk="code"
     else _fk="source"; fi
@@ -433,6 +441,14 @@ w = " ".join(sys.stdin.buffer.read().decode("utf-8", "ignore").split())
 print(w[:200] + ("…" if len(w) > 200 else ""))' 2>/dev/null)"
       [ -z "${_cerr// }" ] && _cerr="(stderr 비어 있음 — 로그 참조)"
       fail_body="$(printf '⚠️ 대기열 등록 후 **코드 결함**으로 실패했어 — 기사·입력 문제가 아니야.\n사유: 분석기가 실행되지 못했다(모델이 응답한 적 없음 · exit %s · 출력 0).\n첫 오류: %s\n\n→ 재시도해도 같은 자리에서 죽어. 이 알림을 클로드에게 그대로 주면 돼(로그 = pending/failed/%s.log).\n\n[내가 보낸 내용]\n%s' "$rc" "$_cerr" "$base" "$input_echo")"
+    elif [ "$_fk" = "auth" ]; then
+      # ④ 계정 인증 실패(260905 · 실사고 260823·260824 = 401 「OAuth access token has been revoked」 6건이 else 폴백 source 로 떨어져
+      #   운영자에게 「본문을 복사해 다시 보내라」가 나갔다). 401 줄은 stdout 에 실린다(stderr 0) → $out 에서 첫 줄.
+      _aerr="$(printf '%s\n' "$out" | grep -m1 -v '^[[:space:]]*$' | tr -d '\r' \
+              | python3 -c 'import sys
+w = " ".join(sys.stdin.buffer.read().decode("utf-8", "ignore").split())
+print(w[:200] + ("…" if len(w) > 200 else ""))' 2>/dev/null)"
+      fail_body="$(printf '⚠️ 대기열 등록 후 **계정 인증 실패**로 중단됐어 — 기사·입력 문제가 아니야.\n사유: 분석 계정의 OAuth 토큰이 폐기·만료됨(401 · 활성 %s · 계정 전환 %s회 뒤에도 같은 오류)\n첫 오류: %s\n\n[내가 보낸 내용]\n%s' "${ACTIVE_ACCOUNT:-?}" "${_CLAUDE_SWAPPED:-0}" "${_aerr:-(출력 없음 — 로그 참조)}" "$input_echo")"
     elif [ "$_fk" = "timeout" ]; then
       fail_body="$(printf '⚠️ 대기열 등록 후 처리 시간 초과로 실패했어.\n사유: 원문 분석·요약이 제한 시간을 넘겨 중단됨(과부하 또는 지연)\n\n→ 그 기사를 다시 보내면 재시도돼.\n\n[내가 보낸 내용]\n%s' "$input_echo")"
     elif [ "$_fk" = "congest" ]; then
@@ -485,6 +501,7 @@ else:
       timeout) fail_body="${fail_body}"$'\n\n''👉 네가 할 일: 그 기사를 다시 보내 줘. 처리 시간이 넘어서 중간에 끊긴 거라 코드가 고칠 자리는 없어.' ;;
       congest) fail_body="${fail_body}"$'\n\n''👉 네가 할 일: 그 기사를 다시 보내 줘. 자동 재시도는 이미 다 쓰고 여기까지 온 거라 기다려도 저절로 돌아오지 않아.' ;;
       source)  fail_body="${fail_body}"$'\n\n''👉 네가 할 일: 위 안내대로 본문을 복사해서 다시 보내 줘. 원문을 못 읽은 거라 같은 링크로 다시 보내면 같은 자리에서 막혀.' ;;
+      auth)    fail_body="${fail_body}"$'\n\n'"👉 네가 할 일: 계정 토큰이 죽었어(인증 401). 활성 계정 ${ACTIVE_ACCOUNT:-?} 으로 로그인한 터미널에서 claude setup-token 을 다시 받아 GitHub 비밀칸 CLAUDE_CODE_OAUTH_TOKEN_${ACTIVE_ACCOUNT:-계정} 에 넣고 그 기사를 다시 보내 줘. 전환 ${_CLAUDE_SWAPPED:-0}회 뒤에도 같은 오류였으면 체인(news-analyze.yml ALT 순서)의 서브 계정 토큰도 같이 갈아 줘. 코드가 고칠 자리는 없어." ;;
     esac
     emit_fail_msg "$base" "$fail_body"   # 메시지함(노란 점등)+푸시 — 분석 실패 사유별 통지(운영자 260623) · 260712부터 관련 기사 링크 상시 동봉
     echo "실패 → pending/failed/${base}"
@@ -638,10 +655,15 @@ PY
   #   여는 --- 직후가 아니라서 no_thumb 2행 윈도 불변). 모델이 낸 image_sources 줄(⛔ 빈 값 규격)은 제거 후
   #   대체 = 중복 키 0. URL 만 grep = 인젝션 표면 0 · 상한 10개·1800자(alt_urls 1500 관례 동급).
   if [ -n "${img_pid:-}" ]; then
-    wait "$img_pid" 2>/dev/null || true
+    wait "$img_pid" 2>/dev/null; _img_rc=$?
     IMG_SRCS="$(grep -aoE 'https?://[^"'"'"' <>|\\]+' "$img_tmp" 2>/dev/null | head -10 | tr '\n' ' ' | head -c 1800)"
     IMG_SRCS="${IMG_SRCS% }"
-    rm -f "$img_tmp"; img_pid=""
+    # 조용한 축 표면화(260905 평의회6) — 구판은 stderr 를 버려 「못 찾음」과 「로봇이 죽음(401·쿼터·124)」이 같은 줄이었다.
+    #   rc≠0 만 ::warning::(fail-soft 는 그대로 = moreimg·og:image 백필 · 코드 축이라 메시지함 점등 0).
+    if [ "${_img_rc:-0}" -ne 0 ] && [ -z "${IMG_SRCS// }" ]; then
+      echo "::warning::사진로봇 실패(rc=${_img_rc} · $(head -c 160 "${img_tmp}.err" 2>/dev/null | tr '\n' ' ')) — image_sources 무주입(moreimg·og:image 백필)"
+    fi
+    rm -f "$img_tmp" "${img_tmp}.err"; img_pid=""
     if [ -n "${IMG_SRCS// }" ]; then
       out="$(printf '%s\n' "$out" | awk -v s="$IMG_SRCS" '
         NR==1 && /^---[[:space:]]*$/{print; f=1; next}
@@ -682,7 +704,8 @@ PY
   # 분량 가드(기본 OFF · SUMMARY_LEN_GUARD='1' 카나리아) — IG/Thread 과소 시 자유요약에서 1회 보강(잡 예산 내 · fail-soft · 260705 · repair ≤+900s(260825 상향 · REPAIR_TIMEOUT)는 다음-기사 헤드룸(2×900s) 동값 = 위 데드라인 3100 하향과 한 쌍)
   # 순서 계약(260823) = 윤문 → 수선 — 윤문이 결을 다듬다 분량을 깎아도 뒤의 분량 가드가 실측·보강한다.
   if [ "$SECONDS" -le "$ANALYZE_JOB_DEADLINE" ]; then summary_polish "$outfile" analyze-polish; fi
-  if [ "$SECONDS" -le "$ANALYZE_JOB_DEADLINE" ]; then summary_repair "$outfile" analyze-repair; fi
+  if [ "$SECONDS" -le "$ANALYZE_JOB_DEADLINE" ]; then summary_repair "$outfile" analyze-repair;
+  else echo "::warning::분량 가드·윤문 스킵(잡 예산 ${SECONDS}s>${ANALYZE_JOB_DEADLINE}s) — ${outfile} 는 미보강 착지(260905 조용한 축 표면화)"; fi
   # 규격·자수 기계 린트(비차단 · 분신술② NEW-1 · 260703) — Thread/IG 실측 자수·자가표기 괴리·분모 드리프트·
   #   🔎 마커·⚡ 혼입·# 제목 [속보] 잔존을 Actions 로그로 가시화(자가 추정만 믿던 길이 룰의 기계 눈 · exit 항상 0).
   python3 shared/digest_guard.py "$outfile" 2>/dev/null | sed 's/^/  /' || true

@@ -15,7 +15,7 @@ source "$ROOT/shared/inject_guidelines.sh"
 source "$ROOT/shared/claude_transient.sh"  # is_transient() SSOT — 일시 과부하(5xx/Overloaded) 인라인 재시도용(analyze와 공용)
 source "$ROOT/shared/claude_meter.sh"      # claude_meter() SSOT — claude -p 토큰 사용량 계측(metrics shard · 옛 동작 호환)
 # 지침문서 스킵 카나리아(평의회 260812 조건부④ · cardmake CARD_SAFE_MODE 동형 · 프로브 run 31550098261) — 기본 OFF · 승격 = A/B 후 '1'.
-ASK_SAFE_MODE="${ASK_SAFE_MODE:-0}"
+ASK_SAFE_MODE="${ASK_SAFE_MODE:-1}"   # 260905 승격(analyze 와 동축 · 러너 A/B 통과 · 캡처 첨부 Read 는 --safe-mode 에서도 동작 = ask_srcocr 선례) · 롤백 = repo 변수 ASK_SAFE_MODE 를 '1' 외 값
 ASK_SAFE_ARGS=()
 if [ "$ASK_SAFE_MODE" = "1" ]; then ASK_SAFE_ARGS=(--safe-mode); fi
 source "$ROOT/shared/summary_repair.sh"    # 분량 가드 SSOT — IG/Thread 과소 시 1회 보강(기본 OFF·SUMMARY_LEN_GUARD='1' · 260705)
@@ -288,7 +288,7 @@ $(printf '%b' "$srcimglist")]
 ${GBLOCK}
 
 [★ 요약 요청 모드 — 운영자가 자연어 + 캡처로 큐레이션을 직접 요청했다.
- 1) ⭐ **기본값 = 보강 모드(운영자 260803 「보강이 기본값」 — 구 260704 '전문만으로 바로 큐레이션' 폐지·역전)**: 요청문에 기사 본문급 전문(수백 자 이상)이 들어 있으면 그 전문은 '사실의 축'(원문)이다 — 축만 되풀이해 요약하고 끝내지 말고, WebSearch(아래 상한 내)로 **원문에 빠진 축을 찾아 채워 교차확인한 보강 다이제스트**를 내라. 보강 우선순위 = ① 덩어리 숫자의 내역 분해(총액→구성) ② 반대편·상대 당사자의 주장(원문이 한쪽 입장만 담았으면 필수) ③ 사건 경위·이전 보도 맥락(타임라인 재료) ④ 핵심 실체의 정체(등장 회사·기관·인물이 어떤 곳/누구인지) ⑤ 예정된 다음 단계. ⚠️⚠️ 관점 축 4계약(운영자 260824 «포커싱·스탠스·말하고자 했던 방향이 모두 무시» 봉합 · analyze 경로와 한 계약 · 보강은 전문을 두껍게 하는 것이지 갈아엎는 것이 아니다) — ① 요약의 헤드·리드·결론은 전문의 제목·리드가 잡은 초점에서 나온다(전문이 주인공으로 세운 인물·행위 = 요약의 주인공 · 전문이 한 문장으로 지나간 배경을 뼈대로 승격하는 재구성·논조 뒤집기 금지) ② 보강 사실은 전문이 세운 문단 축 안에만 붙인다(전문에 없는 축으로 새 문단 금지) ③ 검색 결과는 전문의 인물+시점+장소가 일치할 때만 채택(고유명사만 같은 딴 사건 = 버림) ④ 전문만으로 요약이 서면 보강 검색 0회도 정상(아래 상한은 천장이지 할당량이 아니다). 원문과 보강 사실이 충돌하면 다수·최신 보도를 우선하되 단정 대신 병기하고, 결과가 아직 안 나온 사안은 「미확정」으로 정직하게 표기하라(없는 사실 날조 금지 불변). ⚠️ 유일한 예외 = 아래 프리셋에 「원본 한정」이 있으면 이 보강 검색 전부를 생략한다(그 블록이 항상 우선). ⚠️ **관련이미지 소스(image_sources)는 별도 규칙이다**: 전문이 있어도 frontmatter \`image_sources\`는 위 문서의 image_sources 규칙(전문 = 소스 URL 2~3개까지만 best-effort)대로 WebSearch 해 채워라 — 뷰어 '검색 이미지'가 이 URL들의 대표사진(og:image)을 가져오는 유일한 원료다(비우면 관련 이미지 0장 · 운영자 260710 '검색 이미지는 유지, AI 썸네일 생성만 스킵'). 몇 번에 안 나오면 있는 만큼만 넣고 빈 값도 허용 — 요약 완성이 항상 우선(검색어 바꿔가며 여러 번 검색 = 금지 불변 · 예외는 image_sources 한 필드뿐이라 원문 \`url:\` 은 아래 4) 그대로 빈 값 유지). 전문 없이 본문에 URL만 있으면 그 기사를(운영자가 직접 고른 URL은 오래됐어도 존중), URL·전문 없이 토픽/캡처만 있으면 WebSearch 로 '제일 메이저' 기사 1건(여럿이면 합쳐서 핵심)을 찾는다. ⚠️ **토픽/캡처 검색 시 = 최신 우선(18시간 내)**: 같은 사안이면 **최근 18시간 내 보도 중 가장 메이저한 것**을 골라라(며칠·몇 주 지난 옛 기사가 뉴스요약 피드 상단 채우는 문제 방지 — 운영자 260702). 18시간 내 보도가 없으면 그중 가장 최근 것으로(억지 최신화·날짜 조작 금지), *최신 보도가 있는데 옛 기사를 고르지는 마라*. ⚠️ **검색 상한 = 총 3회(보강 검색 포함 · 260825 운영자 하향 — 구 6회)** — 상한 안에서 안 나오는 축은 비워두고 있는 정보로 best-effort 완성하라(무한 검색으로 타임아웃 나면 아예 요약이 0이 된다 — 요약 완성이 보강보다 항상 우선).
+ 1) ⭐ **기본값 = 보강 모드(운영자 260803 「보강이 기본값」 — 구 260704 '전문만으로 바로 큐레이션' 폐지·역전)**: 요청문에 기사 본문급 전문(수백 자 이상)이 들어 있으면 그 전문은 '사실의 축'(원문)이다 — 축만 되풀이해 요약하고 끝내지 말고, WebSearch(아래 상한 내)로 **원문에 빠진 축을 찾아 채워 교차확인한 보강 다이제스트**를 내라. 보강 우선순위 = ① 덩어리 숫자의 내역 분해(총액→구성) ② 반대편·상대 당사자의 주장(원문이 한쪽 입장만 담았으면 필수) ③ 사건 경위·이전 보도 맥락(타임라인 재료) ④ 핵심 실체의 정체(등장 회사·기관·인물이 어떤 곳/누구인지) ⑤ 예정된 다음 단계. ⚠️⚠️ 관점 축 4계약(정본 = 위 문서 입력 처리 0 의 ①~④ 그대로 · analyze 경로와 한 계약 — 초점 보존 · 보강 종속 · 사건 동일성 = 전문의 인물+시점+장소 일치 시만 채택 · 아래 상한은 천장이지 할당량이 아니다). 원문과 보강 사실이 충돌하면 다수·최신 보도를 우선하되 단정 대신 병기하고, 결과가 아직 안 나온 사안은 「미확정」으로 정직하게 표기하라(없는 사실 날조 금지 불변). ⚠️ 유일한 예외 = 아래 프리셋에 「원본 한정」이 있으면 이 보강 검색 전부를 생략한다(그 블록이 항상 우선). ⚠️ **관련이미지 소스(image_sources)는 별도 규칙이다**: 전문이 있어도 frontmatter \`image_sources\`는 위 문서의 image_sources 규칙(전문 = 소스 URL 2~3개까지만 best-effort)대로 WebSearch 해 채워라 — 뷰어 '검색 이미지'가 이 URL들의 대표사진(og:image)을 가져오는 유일한 원료다(비우면 관련 이미지 0장 · 운영자 260710 '검색 이미지는 유지, AI 썸네일 생성만 스킵'). 몇 번에 안 나오면 있는 만큼만 넣고 빈 값도 허용 — 요약 완성이 항상 우선(검색어 바꿔가며 여러 번 검색 = 금지 불변 · 예외는 image_sources 한 필드뿐이라 원문 \`url:\` 은 아래 4) 그대로 빈 값 유지). 전문 없이 본문에 URL만 있으면 그 기사를(운영자가 직접 고른 URL은 오래됐어도 존중), URL·전문 없이 토픽/캡처만 있으면 WebSearch 로 '제일 메이저' 기사 1건(여럿이면 합쳐서 핵심)을 찾는다. ⚠️ **토픽/캡처 검색 시 = 최신 우선(18시간 내)**: 같은 사안이면 **최근 18시간 내 보도 중 가장 메이저한 것**을 골라라(며칠·몇 주 지난 옛 기사가 뉴스요약 피드 상단 채우는 문제 방지 — 운영자 260702). 18시간 내 보도가 없으면 그중 가장 최근 것으로(억지 최신화·날짜 조작 금지), *최신 보도가 있는데 옛 기사를 고르지는 마라*. ⚠️ **검색 상한 = 총 3회(보강 검색 포함 · 260825 운영자 하향 — 구 6회)** — 상한 안에서 안 나오는 축은 비워두고 있는 정보로 best-effort 완성하라(무한 검색으로 타임아웃 나면 아예 요약이 0이 된다 — 요약 완성이 보강보다 항상 우선).
  1-2) ⭐ **요청문이 국내 커뮤니티 게시글이면(제목 + 커뮤니티 URL[fmkorea·theqoo·dcinside·mlbpark·clien·보배드림·인스티즈 등], 본문 없음·짧은 스니펫만) = 커뮤니티 원문은 봇 차단으로 못 열릴 수 있으니 제목의 핵심 키워드로 WebSearch 해 같은 화제를 다룬 메이저 기사를 찾아 요약하라**(대상 = 게시글이 아니라 그 화제 · 커뮤니티 제목 특유 표현 .jpg·ㅋㅋ·밈·축약은 핵심 키워드로 정제해 검색). 이 폴백은 자동이다 — 원문 fetch 성공 여부와 무관하게 화제의 메이저 보도를 우선한다(운영자 260729). 검색 상한(총 3회)·최신 우선(18시간)은 위와 동일.
  1-3) ⭐ **그 커뮤니티 글의 본문이 '그림뿐'일 때(260804 실측 사고 봉합)**: 커뮤니티 글은 본문 텍스트가 0이고 이미지 몇 장이 전부인 경우가 흔하다 — 이때 **제목은 검색어가 되지 못한다**(실패 사례 제목 = \"이런걸 재능이라고 하는구나\" = 사건·인물·고유명사 0). 제목만 붙들고 검색을 반복하지 마라, 안 나온다. 순서는 이렇다: ① 위 🖼 블록의 **추출문(그림 안 글자를 뽑아 놓은 텍스트)을 원문으로 삼는다** — 추출문이 없고 그림만 있으면 그림을 Read 해 화제를 확정한다 → ② 거기서 나온 고유명사·쟁점으로 WebSearch 해 보도를 보강한다(위 1) 보강 모드 그대로 — 추출문이 곧 '전문'이다) → ③ 보도가 없으면 **그 게시물 자체를 소재로** 완성한다(기사가 없는 화제도 큐레이션 대상이다 — 억지 기사 매칭 금지). 🖼 블록 자체가 없고 제목도 검색어가 안 되면 ③으로 바로 간다. **어느 경로든 ANALYSIS_FAILED 는 답이 아니다**(아래 5)).
  2) 첨부 캡처 파일이 있으면 Read 로 열어 단서로 활용한다.
@@ -307,7 +307,8 @@ ${text:-(없음 — 캡처만)}
 첨부 캡처 파일(있으면 Read 로 확인):
 $(printf '%b' "${imglist:-- (없음)\n}")"
 
-  # 허용 도구 = WebFetch·WebSearch(기사 찾기·사실확보) + Read(캡처 판독·지침 읽기) + Glob·Grep.
+  # 허용 도구 = WebFetch·WebSearch(기사 찾기·사실확보) + Read(첨부 캡처·수확 그림 판독 = 절대경로 Read 필수).
+  #   Glob·Grep 은 260905 A/B 로 제거(지침은 GBLOCK 인라인 = 파일 탐색 명목 0 · analyze 동축).
   # Write/Edit/Bash 불허 → 헤드리스가 권한대기로 멈추지 않음(analyze와 동일 방어).
   # 인라인 재시도 — Anthropic API 일시 과부하(529 Overloaded/5xx)면 짧은 백오프로 즉시 재시도(analyze와 동일·260622).
   #   성공·ANALYSIS_FAILED(막다른길)는 즉시 탈출(쿼터 낭비 0). 과부하 신호일 때만 재시도(is_transient).
@@ -319,8 +320,8 @@ $(printf '%b' "${imglist:-- (없음)\n}")"
     out="$(printf '%s' "$prompt" | METER_SRC=ask METER_REF="$base" METER_MODEL="$MODEL" METER_EFFORT="$EFFORT" claude_meter "$ASK_TIMEOUT" \
           --model "$MODEL" \
           --effort "$EFFORT" \
-          --allowedTools "WebFetch,WebSearch,Read,Glob,Grep" \
-          --disallowedTools "Write,Edit,NotebookEdit,Bash,Task" \
+          --allowedTools "WebFetch,WebSearch,Read" \
+          --disallowedTools "Write,Edit,NotebookEdit,Bash,Task,Glob,Grep" \
           --max-turns 50 \
           "${ASK_SAFE_ARGS[@]}" \
           2> "/tmp/${base}.err")"
@@ -355,6 +356,7 @@ $(printf '%b' "${imglist:-- (없음)\n}")"
     #   뒤라 timeout·congest 와 겹치지 않는다. 비용 0(문자열 검사) · 오분류 시에도 손해 = 문구뿐.
     if grep -qm1 '^ANALYSIS_FAILED' <<<"$out"; then _fk=source
     elif [ $rc -eq 124 ]; then _fk=timeout
+    elif is_auth "$out$(cat "/tmp/${base}.err" 2>/dev/null)"; then _fk=auth
     elif is_transient "$out$(cat "/tmp/${base}.err" 2>/dev/null)"; then _fk=congest
     elif [ $rc -ne 0 ] && [ -z "${out// }" ]; then _fk=code
     else _fk=source; fi
@@ -367,6 +369,13 @@ w = " ".join(sys.stdin.buffer.read().decode("utf-8", "ignore").split())
 print(w[:200] + ("…" if len(w) > 200 else ""))' 2>/dev/null)"
       [ -z "${_cerr// }" ] && _cerr="(stderr 비어 있음 — 로그 참조)"
       _fbody="$(printf '⚠️ 요약 요청이 **코드 결함**으로 실패했어 — 네 입력 문제가 아니야.\n사유: 분석기가 실행되지 못했다(모델이 응답한 적 없음 · exit %s · 출력 0).\n첫 오류: %s\n\n→ 재시도해도 같은 자리에서 죽어. 이 알림을 클로드에게 그대로 주면 돼(로그 = asks/failed/%s.log).' "$rc" "$_cerr" "$base")"
+    elif [ "$_fk" = auth ]; then
+      # 계정 인증 실패(260905 · analyze.sh 미러 · 실사고 260824 asks/failed 4건 = 401 revoked 가 source 로 오분류) · 401 줄은 stdout
+      _aerr="$(printf '%s\n' "$out" | grep -m1 -v '^[[:space:]]*$' | tr -d '\r' \
+              | python3 -c 'import sys
+w = " ".join(sys.stdin.buffer.read().decode("utf-8", "ignore").split())
+print(w[:200] + ("…" if len(w) > 200 else ""))' 2>/dev/null)"
+      _fbody="$(printf '⚠️ 요약 요청이 **계정 인증 실패**로 중단됐어 — 네 입력 문제가 아니야.\n사유: 분석 계정의 OAuth 토큰이 폐기·만료됨(401 · 활성 %s · 계정 전환 %s회 뒤에도 같은 오류).\n첫 오류: %s' "${ACTIVE_ACCOUNT:-?}" "${_CLAUDE_SWAPPED:-0}" "${_aerr:-(출력 없음 — 로그 참조)}")"
     elif [ "$_fk" = timeout ]; then
       _fbody="$(printf '⚠️ 요약 요청이 시간 초과로 실패했어.\n사유: 원문 검색·요약이 제한 시간을 넘겨 중단됨(과부하 또는 검색 지연).\n\n→ 대기열에서 “재시도”를 누르면 그 내용이 채워져 다시 요청할 수 있어(캡처는 재첨부).')"
     elif [ "$_fk" = congest ]; then
@@ -390,7 +399,7 @@ else:
     #   260804 사고 2건 다 「입력이 비었거나 불충분」 한 줄뿐이라 세션이 매번 원인 실측부터 다시 했던 축의 기계화.
     #   원장 = asks/fail_ledger.jsonl(Commit results 의 `git add queue asks` 동반 커밋) · 킬스위치 ASK_FAIL_DIAG=0 ·
     #   전 경로 fail-soft(진단 실패가 실패 알림 자체를 못 죽인다). 진단 URL = 링크칸 > 출처(srcUrl) > 요청문 첫 URL.
-    if [ "${ASK_FAIL_DIAG:-1}" != "0" ]; then
+    if [ "${ASK_FAIL_DIAG:-1}" != "0" ] && [ "$_fk" != auth ]; then   # auth = 토큰 축이라 URL 재취득 진단은 무의미(150s 낭비 + 「URL 정상」 진단이 토큰 알림에 붙는 오도)
       _pu="$link"; [ -z "${_pu// }" ] && _pu="$_su"
       [ -z "${_pu// }" ] && _pu="$(NM_T="${text}" python3 -c 'import os,re; m=re.search(r"https?://\S{8,}",(os.environ.get("NM_T") or "")); print(m.group(0)[:400] if m else "")' 2>/dev/null || true)"
       _diag="$(timeout "${ASK_FAIL_DIAG_TIMEOUT:-150}" python3 .github/scripts/ask_fail_probe.py --base "$base" --kind "$_fk" --rc "$rc" --url "$_pu" --imgs "${#srcimgs[@]}" --ocr "${#_ocr}" 2>/dev/null || true)"
@@ -404,6 +413,7 @@ else:
       timeout) _fbody="${_fbody}"$'\n\n''👉 네가 할 일: 대기열에서 “재시도”를 눌러 줘(캡처는 다시 붙여야 해). 시간이 넘어서 끊긴 거라 코드가 고칠 자리는 없어.' ;;
       congest) _fbody="${_fbody}"$'\n\n''👉 네가 할 일: 대기열에서 “재시도”를 눌러 줘. 자동 재시도는 이미 다 쓰고 여기까지 온 거야.' ;;
       source)  _fbody="${_fbody}"$'\n\n''👉 네가 할 일: 대기열에서 “재시도”를 누르거나, 보낸 내용을 확인해서 다시 요청해 줘.' ;;
+      auth)    _fbody="${_fbody}"$'\n\n'"👉 네가 할 일: 계정 토큰이 죽었어(인증 401). 활성 계정 ${ACTIVE_ACCOUNT:-?} 으로 로그인한 터미널에서 claude setup-token 을 다시 받아 GitHub 비밀칸 CLAUDE_CODE_OAUTH_TOKEN_${ACTIVE_ACCOUNT:-계정} 에 넣고 대기열에서 “재시도”를 눌러 줘. 전환 ${_CLAUDE_SWAPPED:-0}회 뒤에도 같은 오류였으면 체인(news-ask.yml ALT 순서)의 서브 계정 토큰도 같이 갈아 줘. 코드가 고칠 자리는 없어." ;;
     esac
     python3 shared/msg.py set "fail-${base}" "$_fbody" warn 2>/dev/null || true
     printf '%s\n' "$base" >> /tmp/analyzed_fail_msgs.txt

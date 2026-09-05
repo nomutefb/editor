@@ -8743,7 +8743,7 @@ def check_rpt_origin_coverage():
 # ⚠ 판정 술어는 **뷰어에서 읽는다**(사본 0) — `_RPT_CC_RE`·auto 판정 정규식을 손으로 옮겨 적으면
 #   뷰어가 술어를 바꾼 날 게이트만 옛 기준으로 남는다(260812 쿠키 칸 이름 실사고와 같은 축).
 # 정적 · 렌더·LLM·네트워크 0 · 면책표 없이 하드 0.
-_FAILMSG_OP_KINDS = ('timeout', 'congest', 'source')   # 운영자 조치 3종 · code = 규약상 👉 없음(cc 유지)
+_FAILMSG_OP_KINDS = ('timeout', 'congest', 'source', 'auth')   # 운영자 조치 4종(auth = 260905 신설 · 401 토큰 교체) · code = 규약상 👉 없음(cc 유지)
 
 
 def check_fail_msg_todo():
@@ -8788,7 +8788,7 @@ def check_fail_msg_todo():
         for b in bad:
             print('   ·', b)
         return 1
-    print('✅ 실패알림 조치주체 게이트 — 생산자 %d종 × 운영자 조치 3분류 전건 👉 보유(code 축 미부착 유지).' % len(surf))
+    print('✅ 실패알림 조치주체 게이트 — 생산자 %d종 × 운영자 조치 %d분류 전건 👉 보유(code 축 미부착 유지).' % (len(surf), len(_FAILMSG_OP_KINDS)))
     return 0
 
 

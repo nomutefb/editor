@@ -6,7 +6,7 @@ breaking_judge.py·gate_judge.py 공용 단일 출처 = 폴오버·계측 로직
 
 run_claude(args, prompt, source=None): subprocess.run 으로 claude -p 실행. 출력이 쿼터 한도면
 대체 계정 토큰으로 1단계씩 전환(서브1=CLAUDE_CODE_OAUTH_TOKEN_ALT → 서브2=CLAUDE_CODE_OAUTH_TOKEN_ALT2 → 서브3=CLAUDE_CODE_OAUTH_TOKEN_ALT3 · 4계정 체인 = 메인1+세부3).
-  - 인증죽음(401)·5xx 과부하는 전환 안 함(전환 무의미 — bash is_quota 와 동일 경계).
+  - 5xx 과부하는 전환 안 함(전환 무의미 — bash is_transient 경계). ⚠ 401 인증 죽음은 bash 쪽이 260712 부터 'failed to authenticate' 절로 전환하고 있다(260905 정정 · 이 파이썬판은 _QUOTA 정규식이 정본).
   - 최대 3회 스왑(서브1→서브2→서브3 · 넷 다 한도면 호출부가 기존대로 다음 런 재시도). ALT2/ALT3 없으면 그 단계서 폴백(하위호환).
   - source 가 주어지면(예: "gate"·"breaking") --output-format json 으로 돌려 .result(=원래 텍스트)만
     p.stdout 으로 돌려주고, .usage 토큰을 metrics/usage/<run>-<job>-<attempt>.jsonl 에 1줄 기록.

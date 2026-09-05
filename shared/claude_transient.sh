@@ -20,7 +20,9 @@ is_transient() {
 }
 
 # is_quota(): claude -p 출력/에러가 '계정 사용량 한도(쿼터·레이트리밋·429)'인지 — *다른 계정으로 전환* 트리거.
-#   인증죽음(401/oauth만료)·5xx 과부하와 구분(그건 전환해도 무의미·is_transient/health 담당). 앞 8줄만 검사(본문 인용 오탐 억제).
+#   5xx 과부하와 구분(그건 전환해도 무의미·is_transient 담당). 앞 8줄만 검사(본문 인용 오탐 억제).
+#   ⚠ 인증 죽음(401 · 토큰 폐기)은 260712 'failed to authenticate' 절이 이미 잡아 **전환 대상**이다(403 판례와 같은 활성 계정 국한 고장) —
+#     구 주석 「전환해도 무의미」는 낡은 서술(260905 정정) · 종단 분류는 아래 is_auth() 가 맡는다.
 is_quota() {
   local s; s="$(printf '%s\n' "${1:-}" | head -n 8)"
   # ⚠️ 'weekly limit'·'hit your … limit'·'limit … resets <날짜>' 추가(260629·동시세션 합본) = Claude Code 주간 한도 메시지 "You've hit your weekly limit · resets Jul 3" 포착.
@@ -45,8 +47,19 @@ _claude_mark_active_quota() {
 #   1차 = CLAUDE_CODE_OAUTH_TOKEN_ALT(서브1) · 2차 = CLAUDE_CODE_OAUTH_TOKEN_ALT2(서브2) · 3차 = CLAUDE_CODE_OAUTH_TOKEN_ALT3(서브3).
 #   전환함=0(호출부가 같은 프롬프트로 재시도) / 못 함(쿼터 아님·다음 대체 없음·체인 소진)=1.
 #   _CLAUDE_SWAPPED = 지금까지 전환 횟수(0→1→2→3). ⚠️ ALT2/ALT3 미설정이면 그 단계에서 멈춤 = 옛 동작(하위호환).
+# is_auth(): claude -p 출력/에러가 '인증 죽음(401 · OAuth 토큰 폐기/만료 · invalid_grant · authentication_error)'인지(260905 평의회6).
+#   실측 서명(260823·260824 · pending/failed/260823-095305-pick-95ba.log 외 5건 · 전부 stdout · stderr 0):
+#   `Failed to authenticate. API Error: 401 OAuth access token has been revoked.`
+#   용도 = 종단 분류(analyze/ask `_fk=auth` → 운영자 조치 = 비밀칸 토큰 교체). 폴오버는 is_quota 의 'failed to authenticate' 절이
+#   이미 잡지만 아래 claude_failover 에 명시 편입(접두 없는 raw authentication_error 도 전환).
+#   ⚠ 'failed to authenticate' 는 여기 안 넣는다(403 과 공유하는 접두 = 넣으면 403 이 auth 로 오분류) · 단독 '401' 금지(기사 본문 '401호' 오탐).
+is_auth() {
+  local s; s="$(printf '%s\n' "${1:-}" | head -n 8)"
+  grep -qiE 'API Error: 401|"status": ?401|token has been revoked|invalid_grant|authentication_error' <<<"$s"
+}
+
 claude_failover() {
-  is_quota "${1:-}" || return 1
+  { is_quota "${1:-}" || is_auth "${1:-}"; } || return 1   # 401 도 활성 계정 국한 고장 = 전환이 정확한 처방(403 판례 · 260905)
   local n="${_CLAUDE_SWAPPED:-0}"
   if [ "$n" = "0" ] && [ -n "${CLAUDE_CODE_OAUTH_TOKEN_ALT:-}" ]; then
     _claude_mark_active_quota   # 활성 계정 쿼터 신호(sticky 승격용 · account_failover.py 가 읽음)

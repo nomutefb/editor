@@ -63,10 +63,11 @@ $(cat "$file")"
         --safe-mode \
         --disallowedTools "Write,Edit,NotebookEdit,Bash,Task,WebFetch,WebSearch,Read,Glob,Grep" \
         --max-turns 2 \
-        2>/dev/null)"
+        2> /tmp/_repair_err.txt)"
   rc=$?
   if [ $rc -ne 0 ] || [ -z "${cand//[[:space:]]/}" ]; then
-    echo "  🩹 보강 콜 실패(rc=$rc) — 원본 유지(fail-soft)"; return 0
+    # 조용한 축 표면화(260905 평의회6) — 구판은 stderr 를 버려 실패 사유가 어디에도 안 남았다. 동작 불변(원본 유지) · ::warning:: 만.
+    echo "::warning::보강 콜 실패(rc=$rc · $(grep -m1 -v '^[[:space:]]*$' /tmp/_repair_err.txt 2>/dev/null | head -c 160)) — 원본 유지(fail-soft)"; return 0
   fi
   tmp="$(mktemp)"; printf '%s\n' "$cand" > "$tmp"
   python3 shared/digest_guard.py --splice "$file" "$tmp" 2>/dev/null | sed 's/^/  /' || true

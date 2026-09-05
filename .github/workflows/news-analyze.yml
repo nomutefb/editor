@@ -101,6 +101,7 @@ jobs:
           CLAUDE_CODE_OAUTH_TOKEN_ALT3: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130M }}   # 서브3 폴오버(체인 실꼬리 = 항상 EMS1130M · 앞 3계정 소진 후)
           ACTIVE_ACCOUNT: ${{ inputs.account || vars.ACTIVE_ACCOUNT || 'EMS1130N' }}
           SUMMARY_LEN_GUARD: ${{ vars.SUMMARY_LEN_GUARD || '1' }}   # 분량 가드(IG/Thread 과소 시 1회 보강) — 기본 ON(운영자 260823 «켜주라» 사인오프 · 구 카나리아 대기 260705는 콜 실적 0인 채 잊혀 있던 자리) · 끄기 = repo 변수 SUMMARY_LEN_GUARD를 '1' 외 값(off 권장)으로(CARD_COV_GUARD 승격 관용구 사본)
+          ANALYZE_SAFE_MODE: ${{ vars.ANALYZE_SAFE_MODE || '1' }}   # 지침문서(CLAUDE.md) 스킵 = 기본 ON(260905 러너 A/B 승격 · 콜당 캐시 재기록 ~11.6만tok 소거 · 요약 규칙은 GBLOCK 인라인이라 무손실) · 끄기 = repo 변수 ANALYZE_SAFE_MODE 를 '1' 외 값(off 권장)
           PREFLIGHT_TIMEOUT: '25'   # 계정 생존 핑 상한(초) 60→25(평의회 260727 신규6) — 산 계정 = 수초 응답이라 25s 충분, 죽은 계정 침묵 행 판정만 빨라짐(핑당 35s↓). 오판 스왑은 다음 기사 reset 이 복원 = 수십초 우회로 그침 · 롤백 = 이 줄 삭제
         run: |
           echo "활성 계정: ${ACTIVE_ACCOUNT}"
@@ -213,12 +214,16 @@ jobs:
         with:
           fetch-depth: 1   # 최신 1커밋만 — 구 0은 원격 브랜치 567개 전체 히스토리를 받아 실측 105s를 먹었다(260810 · imggen run 30972520521 = 체크아웃 108s 중 워킹트리 쓰기는 3s뿐)
           ref: main           # analyze가 push한 최신 queue 포함
+      # (260905) 카드 자동기획이 꺼져 있고 force 갱신도 없으면 Node·npm 캐시·CLI 설치 3스텝을 건너뛴다(잡 자체는 유지 = 아래
+      #   Sweep stuck·CF 훅이 같은 잡에 산다 · 잡 레벨 if 로 통째 스킵하면 좀비 카드 회수가 죽는다 = 평의회5 260905 · 절감 ≈ 22s/런).
       - name: Setup Node
+        if: ${{ vars.CARD_AUTOPLAN == '1' || needs.analyze.outputs.force_stems != '' }}
         uses: actions/setup-node@v5
         with:
           node-version: '24'
       # npm 캐시(운영자 260727 셋업 단축) — analyze 잡과 동일 키 축 공유(무해 · 미스 = 현행 동일 · 가변 키 사유는 analyze 잡 주석)
       - name: npm 캐시 (셋업 단축)
+        if: ${{ vars.CARD_AUTOPLAN == '1' || needs.analyze.outputs.force_stems != '' }}
         uses: actions/cache@v4
         with:
           path: ~/.npm
@@ -226,6 +231,7 @@ jobs:
           restore-keys: |
             npm-claude-code-${{ runner.os }}-
       - name: Install Claude Code CLI
+        if: ${{ vars.CARD_AUTOPLAN == '1' || needs.analyze.outputs.force_stems != '' }}
         run: npm install -g --allow-scripts=@anthropic-ai/claude-code @anthropic-ai/claude-code
 
       - name: Card-plan (텍스트 카드 프롬프트 — 제미나이 0)
