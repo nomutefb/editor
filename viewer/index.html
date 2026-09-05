@@ -8386,6 +8386,12 @@ function sysErrMsgs() {
     //   임계(INSTA_STUCK_H 기본 48h)를 넘으면 사유를 'stuck'으로 승격해 보낸다(scripts/phone_subs.py _tag) →
     //   여기서 대기(무조치)와 갈라 **운영자 조치 문구**로 바꾼다 = 알림이 조치로 소멸한다(무한 대기 종결).
     const _stk = _try.filter(v => v === 'stuck').length;
+    // 세션 거절 = HTTP 401·403(260905 알림 리포트 실사고 봉합) — 인스타 웹 API는 스레드의 HTML 로그인월('wall')과 달리 **숫자 코드**로
+    //   세션 거절을 말한다(scraper/sns_trends.py insta_subs `_sfail("insta", acc, e.code)` · 260727 판례 「쿠키 정상 = 401 아님」).
+    //   ⚠ 종전엔 이 사다리에 401·403 자리가 없어 맨 아래 'nodes' 폴백("코드 축이야 · 쿠키는 건드리지 마")으로 떨어졌다 = 쿠키가 죽었는데
+    //   쿠키를 건드리지 말라는 정반대 안내(실측 = 폰 자체 기록 260905 14:35 인스타 5계정 HTTP 401 · 회전 5계정씩 260904 07:10부터).
+    const _sessN = _try.filter(v => v === '401' || v === '403').length, _wallN = _try.filter(v => v === 'wall').length;
+    const _uaEnv = String(SYS_PHONE_PLAT[k] || '').replace(/_COOKIE$/, '_UA');   // 세션-UA 짝(260729 useragent mismatch · INSTA_UA / THREADS_UA)
     if (SYS_PHONE_PLAT[k] && !phDead && _stk * 2 > _try.length) {
       _c = 'stuck';
       text = head + '이틀 넘게 한 건도 못 걷었어요 — 쉬었다 다시 시도하는 자동 복구로는 안 풀리는 상태예요.\n\n'
@@ -8401,9 +8407,26 @@ function sysErrMsgs() {
         + '확인(✓)하면 오늘은 다시 안 떠요.';
     } else if (SYS_PHONE_PLAT[k] && phDead) {
       _c = 'dead';
+      // 폰이 죽기 **전부터** 비어 있던 축은 크론을 살려도 안 돌아온다(260905 알림 리포트 실사고 봉합) — 이 알림의 입구가 got=0
+      //   (= 72h 창 안에 글 0건 · scraper/sns_trends.py `_cut`)이라, 폰이 멈춘 지 72h 미만인데 여기 왔다면 **멈추기 전 (72h − 정지시간) 동안
+      //   이미 0건**이었다는 뜻이다(수학적으로 확정 · 새 데이터 0). 종전 문구는 「다시 돌면 30분 안에 채워져」라고 약속해 그 축을 가렸다
+      //   (실측 260905 23:22 = 인스타 정지 7h51m·72h 창 글 0 = 멈추기 전 64h+ 0건 · 폰 자체 기록 14:35 = 5계정 HTTP 401).
+      //   사유는 `since`가 폰 마지막 갱신보다 **앞선** 계정만 센다 = 폰이 살아 있을 때 폰이 직접 찍은 값(러너는 폰 신선 시 인스타 미시도 ·
+      //   폰 스테일 뒤 러너 잔향은 since가 정지 이후라 자연 제외) · 3계정 이상 = 계정 사정이 아니라 세션 축(묶음 임계 관례).
+      const _ageM = (ph.age_min === null || ph.age_min === undefined) ? NaN : Number(ph.age_min);
+      const _phT = Date.parse(String(ph.updated || '').replace(/(\.\d{3})\d+/, '$1')) || 0;   // 마이크로초 6자리 = 사파리 Date.parse NaN → 밀리초로 절삭
+      const _cv = cov[k] || {}, _snc = _cv.since || {}, _cwhy = _cv.why || {};
+      const _pre = Object.keys(_snc).filter(a => (Date.parse(String(_snc[a] || '')) || Infinity) < _phT && /^(401|403|wall)$/.test(String(_cwhy[a])));
+      const _preDead = !!(_cv.reg && !_cv.got && _ageM >= 0 && _ageM < 3 * 24 * 60);
+      const _sess = _preDead && _pre.length >= 3;
       text = head + '폰 수집기가 ' + _sysDurKo(ph.age_min) + '째 멈춰 있어서예요.\n\n'
         + '스레드·인스타는 폰에서만 걷혀요(메타가 서버 IP를 막아서 서버가 대신 못 해요).\n\n'
-        + '👉 네가 할 일: 폰에서 phone_subs 크론이 도는지 확인해 줘 — termux(또는 맥) 앱이 꺼졌거나 절전에 잠든 게 제일 흔한 원인이야. 다시 돌기 시작하면 30분 안에 저절로 채워져.\n\n'
+        + (_preDead ? ('⚠ 그런데 ' + SYS_PLAT_KO[k] + '은 폰이 멈추기 전부터 이미 ' + _sysDurKo(3 * 24 * 60 - _ageM) + ' 넘게 0건이었어'
+            + (_sess ? (' — 폰이 살아 있을 때 ' + _pre.length + '계정이 세션 거절(HTTP 401·403)로 끝났어. 크론을 살려도 이 축은 안 돌아와.')
+                     : ' — 사유 기록은 없어. 크론이 살아난 다음 회차 알림이 사유를 말해 줄 거야.') + '\n\n') : '')
+        + '👉 네가 할 일: 폰에서 phone_subs 크론이 도는지 확인해 줘 — termux(또는 맥) 앱이 꺼졌거나 절전에 잠든 게 제일 흔한 원인이야. '
+        + (_sess ? ('그리고 ' + SYS_PLAT_KO[k] + ' 부계정(본계 말고 — 자동화 감지 밴) 세션쿠키를 폰 크론 환경변수 ' + SYS_PHONE_PLAT[k] + '에 새로 뽑아 갈아 줘 — 발급 브라우저의 사용자 에이전트도 ' + _uaEnv + '에 짝으로(둘 중 하나만 갈면 또 어긋나). 크론만 살리면 ' + SYS_PLAT_KO[k] + '은 그대로 0건이야.')
+                 : '다시 돌기 시작하면 30분 안에 저절로 채워져.') + '\n\n'
         + '확인(✓)하면 오늘은 다시 안 떠요.';
     } else if (SYS_PHONE_PLAT[k] && _try.filter(v => v === 'alien').length * 2 > _try.length) {
       // 쿠키 오염(260804 2차) — 수집기가 페이지를 **정상 수신**했는데 프로필 대신 추천 피드가 실려 본인 글이 0건.
@@ -8423,11 +8446,12 @@ function sysErrMsgs() {
         + SYS_PHONE_PLAT[k] + '(쿠키)와 THREADS_UA(신분증)는 **한 쌍**이라 둘 중 하나만 갈면 또 어긋나 — 다시 뽑을 땐 같은 브라우저에서 둘을 같이 뽑아 줘. '
         + '쿠키를 빼는 건 답이 아니야(로그인으로 걷는 기능을 통째로 버리는 거라).\n\n'
         + '확인(✓)하면 오늘은 다시 안 떠요.';
-    } else if (SYS_PHONE_PLAT[k] && _try.filter(v => v === 'wall').length * 2 > _try.length) {
+    } else if (SYS_PHONE_PLAT[k] && (_wallN + _sessN) * 2 > _try.length) {
+      // 'wall'(스레드 HTML 로그인월) ∪ 401·403(인스타 API 세션 거절) = 같은 조치(쿠키+UA 짝) · 문구만 코드별로 가른다(위 _sessN 주석).
       _c = 'wall';
-      text = head + '폰 수집기는 도는데 메타 로그인월에 막혀 0건이에요.\n\n'
+      text = head + '폰 수집기는 도는데 ' + (_sessN > _wallN ? ('메타가 세션 쿠키를 거절(HTTP ' + (_try.indexOf('401') >= 0 ? '401' : '403') + ')해서') : '메타 로그인월에 막혀') + ' 0건이에요.\n\n'
         + '👉 네가 할 일: ' + SYS_PLAT_KO[k] + ' 부계정(본계 말고 — 자동화 감지 밴) 세션쿠키를 폰 크론 환경변수 ' + SYS_PHONE_PLAT[k] + '에 넣어 줘. '
-        + (k === 'threads' ? '전에 넣어둔 쿠키가 만료된 걸 수도 있어 — 그럼 새로 뽑아서 갈아 줘.' : '스레드가 지금 걷히는 것도 같은 방식이야.') + '\n\n'
+        + '전에 넣어둔 쿠키가 만료된 걸 수도 있어 — 그럼 새로 뽑아서 갈아 주고, 발급 브라우저의 사용자 에이전트도 ' + _uaEnv + '에 짝으로 넣어 줘(둘 중 하나만 갈면 또 어긋나).\n\n'
         + '확인(✓)하면 오늘은 다시 안 떠요.';
     } else if (SYS_PHONE_PLAT[k]) {
       // 로그인월도 추천 피드도 아님 = 페이지는 정상인데 **글 노드가 0**(레이아웃 개편·파서 노후·정상 침묵).
