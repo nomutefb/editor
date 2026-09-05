@@ -655,6 +655,13 @@ PY
   #   여는 --- 직후가 아니라서 no_thumb 2행 윈도 불변). 모델이 낸 image_sources 줄(⛔ 빈 값 규격)은 제거 후
   #   대체 = 중복 키 0. URL 만 grep = 인젝션 표면 0 · 상한 10개·1800자(alt_urls 1500 관례 동급).
   if [ -n "${img_pid:-}" ]; then
+    # 요약이 사진을 기다리지 않는다(운영자 260905 «사진이나 이미지 안 찾아져도 요약은 별개로 이미 완료되게 · 늦게 찾아져도 된다») —
+    #   구판 무조건 wait 는 본선이 빨리 끝난 회차(단일 턴 85s 실측)에 로봇 상한 300s 까지 요약 착지를 붙들었다.
+    #   유예 IMG_HARVEST_WAIT(기본 30s) 안에 끝나면 수확, 아니면 로봇을 끊고 빈 채 착지 = 아래 fail-soft 경로 그대로(moreimg·og:image 백필이 늦게 채운다).
+    _iw=0; while kill -0 "$img_pid" 2>/dev/null && [ "$_iw" -lt "${IMG_HARVEST_WAIT:-30}" ]; do sleep 1; _iw=$((_iw+1)); done
+    if kill -0 "$img_pid" 2>/dev/null; then
+      kill "$img_pid" 2>/dev/null; echo "  🖼 사진로봇 ${IMG_HARVEST_WAIT:-30}s 유예 초과 → 끊고 요약 먼저 착지(사진은 보충 레인이 늦게 채움)"
+    fi
     wait "$img_pid" 2>/dev/null; _img_rc=$?
     IMG_SRCS="$(grep -aoE 'https?://[^"'"'"' <>|\\]+' "$img_tmp" 2>/dev/null | head -10 | tr '\n' ' ' | head -c 1800)"
     IMG_SRCS="${IMG_SRCS% }"
