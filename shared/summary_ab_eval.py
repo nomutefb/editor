@@ -237,8 +237,8 @@ def main(d):
             if os.path.exists(log):
                 lt = open(log, encoding='utf-8', errors='ignore').read()
                 r['repair_fired'] = bool(re.search(r'분량 가드: REPAIR', lt))
-                r['pre_repair'] = (re.search(r'REPAIR \w+ ig=(\d+) thread=(\d+)', lt) or [None])
-                r['pre_repair'] = {'ig': int(r['pre_repair'].group(1)), 'th': int(r['pre_repair'].group(2))} if r['pre_repair'] else None
+                _pr = re.search(r'분량 가드: (?:REPAIR \w+|OK) ig=(\d+) thread=(\d+)', lt)
+                r['pre_repair'] = {'ig': int(_pr.group(1)), 'th': int(_pr.group(2))} if _pr else None
                 r['gver_log'] = (re.search(r'지침 버전\(summary\): (\w+)', lt) or [None, ''])[1]
                 r['account_events'] = len(re.findall(r'🔄|🩺', lt))
             runs[tag] = r
