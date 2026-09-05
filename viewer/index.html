@@ -5659,8 +5659,9 @@ let _geniRefNat = { w: 0, h: 0 };   // 첨부 원본 픽셀비(다운스케일�
 function geniCloneAspect() {   // 「이미지와 동일하게」 = 요청 비율을 첨부 원본비로 스냅(노하우 문서 §L3 단일이미지판: 요청 비율이 첨부와 다르면 ⓐ모델이 재구성하고 ⓑ서버 중앙 크롭이 피사체를 자른다) · 서버(gen_image)도 같은 계산을 재수행 = 이중 방어
   const n = _geniRefNat; if (!n.w || !n.h) return;
   const r = Math.min(4, Math.max(0.25, n.w / n.h));   // 계약 = 1:4 ~ 4:1(genimg.js·_parse_aspect 동값)
-  let bw = 1, bh = 1, be = Infinity;
-  for (let h = 1; h <= 99; h++) { const w = Math.round(r * h); if (w < 1 || w > 99) continue; const e = Math.abs(w / h - r); if (e < be - 1e-9) { be = e; bw = w; bh = h; if (e < 0.002) break; } }   // 각 항 1~99 기약 근사(비율 오차 0.2% 이내면 조기 확정)
+  // 260905: 러너(gen_image.py) 규칙 사본 = ① 분모 ≤99 중 최근사(Fraction.limit_denominator(99)) ② 그 분자가 99를 넘으면 분모 ≤24 중 최근사 — 구판은 `e<0.002 조기 중단` + 「분자>99 후보 건너뜀」이라 러너와 다른 비를 표시했다(실측 무작위 2000쌍 중 1099쌍 불일치 · 236×512 → 뷰어 6:13 vs 러너 41:89). 분모마다 round(r·h)가 그 분모의 최근사 분자라 전수 순회 = limit_denominator 와 같은 값.
+  const _best = maxH => { let w0 = 1, h0 = 1, e0 = Infinity; for (let h = 1; h <= maxH; h++) { const w = Math.max(1, Math.round(r * h)); const e = Math.abs(w / h - r); if (e < e0 - 1e-12) { e0 = e; w0 = w; h0 = h; } } return [w0, h0]; };
+  let [bw, bh] = _best(99); if (bw > 99) [bw, bh] = _best(24);   // 각 항 1~99 기약 근사(비율 오차 0.2% 이내면 조기 확정)
   const preset = bw + ':' + bh;
   if (GENI_DICT.aspect.some(([v]) => v === preset)) { _geniSel.aspect = preset; _geniSel.arW = ''; _geniSel.arH = ''; }   // 프리셋과 일치 = 프리셋 칩 점등(4:5·9:16·16:9·1:1)
   else { _geniSel.aspect = 'custom'; _geniSel.arW = String(bw); _geniSel.arH = String(bh); }   // 그 외 = 직접 N:N 칸에 실측비 주입(환산 표시가 리드백)

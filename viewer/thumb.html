@@ -1822,15 +1822,37 @@ async function cpBake(fmt) {   // 배치를 **산출 좌표에 굽는다** — �
   } catch { return null; }   // fail-soft = 굽기 실패면 원본 발사(종전 동작) — 배치 때문에 제작이 죽지 않는다
 }
 const cpFillRunning = a => JOBS.some(jb => jb && jb.rid && jb.status === 'run' && jb.payload && jb.payload.box && (!a || jb.payload.aspect === a));   // 채움 잡이 도는 중인가 — 술어 = `payload.box` 보유(box를 싣는 건 cpFillGap뿐이라 편집 탭 리사이즈·해상도 잡은 안 걸린다) · a(판형) 지정 = **그 판형만**(260818 Q08 — 포스트·릴스 채움 병행 허용, 같은 판형 재발사만 중복 과금이라 차단) · ⚠ **단일정본**: cpFillGap 중복 가드가 이 술어를 쓴다(사본으로 두면 260810 rszWait↔goFire 사고가 그대로 재발)
+async function cpFillSrc(fmt) {   // AI 채움 발사 원료 = { b64, name, box } — 미리보기가 보여주는 **그 부분**만 원본으로 삼는다(260905)
+  // ⚠ 사고 = 축소(s<1)는 한 축에만 여백을 만들고 **다른 축은 여전히 캔버스를 넘는다**(cover 정규화 = min(wp,hp)=s · 긴 축 = f·s) — 16:9→4:5에서 −를 한 번만 눌러도(s 0.909)
+  //   상자가 {x:-0.51, w:2.02} 가 되고, 서버(api/resize.js)·러너(resize_image.parse_box)는 「캔버스 밖으로 새는 배치 = 픽셀락 계약 위반」으로 상자를 **버린다** →
+  //   러너가 원본 **전체**를 가운데 배치(pad_canvas) = 미리보기(잘려 보이는 상태)와 다른 그림 · 오류 0 · 잡은 초록. 「맞춤」(s=1/f) 한 값만 검증을 통과했다.
+  // 봉합 = 캔버스 밖으로 나가는 부분을 **원본 화소 그대로** 잘라내고(리샘플 0 · 상한 = 러너 MAX_CANVAS 4096 사본) 상자를 캔버스 안으로 맞춘다 → pixel_lock 이 보존하는 원본 = 미리보기에 보이는 그 부분.
+  //   두 축 다 캔버스 안(단순 축소)이면 종전 그대로 = 원본·상자 무변.
+  if (!CIMG.b64) return null;
+  const g = cpPanGeo(fmt); if (!g) return null;
+  const r5 = n => Math.round(n * 1e5) / 1e5;
+  let bx = 0.5 + CPAN.x - g.wp / 2, by = 0.5 + CPAN.y - g.hp / 2, bw = g.wp, bh = g.hp;
+  const x0 = Math.max(0, bx), y0 = Math.max(0, by), x1 = Math.min(1, bx + bw), y1 = Math.min(1, by + bh);
+  const eps = 1e-6;
+  if (x0 - bx < eps && y0 - by < eps && (bx + bw) - x1 < eps && (by + bh) - y1 < eps) return { b64: CIMG.b64, name: CIMG.name, box: { x: r5(bx), y: r5(by), w: r5(bw), h: r5(bh) } };
+  try {
+    const im = await new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = () => rej(new Error('load')); i.src = CIMG.b64.startsWith('data:') ? CIMG.b64 : 'data:image/jpeg;base64,' + CIMG.b64; });
+    const nw = im.naturalWidth, nh = im.naturalHeight;
+    const sx = (x0 - bx) / bw * nw, sy = (y0 - by) / bh * nh, sw = (x1 - x0) / bw * nw, sh = (y1 - y0) / bh * nh;   // 원본 화소 좌표의 가시 영역
+    const k = Math.min(1, 4096 / Math.max(sw, sh));   // 러너 place_canvas MAX_CANVAS(4096) 사본 — 원본이 그보다 크면 어차피 러너가 줄인다
+    const c = document.createElement('canvas'); c.width = Math.max(1, Math.round(sw * k)); c.height = Math.max(1, Math.round(sh * k));
+    const cx = c.getContext('2d'); cx.imageSmoothingQuality = 'high';
+    cx.drawImage(im, sx, sy, sw, sh, 0, 0, c.width, c.height);
+    return { b64: c.toDataURL('image/jpeg', 0.9), name: 'crop.jpg', box: { x: r5(x0), y: r5(y0), w: r5(x1 - x0), h: r5(y1 - y0) } };   // q90 = 260805 산출 포맷 정본 · 상자 = 캔버스 안(검증 통과 = 러너가 이 자리에 앉힌다)
+  } catch { return null; }   // 자르기 실패 = 발사 중단(원본+거절될 상자를 보내면 미리보기와 다른 그림이 조용히 나온다 = 구판 사고 그대로라 fail-soft 금지)
+}
 async function cpFillGap() {   // Q03 = 축소로 생긴 빈 여백을 AI(Gemini 3.1 Flash)로 채운다 — 호출자 = 「생성」(#go) 단독(운영자 260808 · 구판은 레일 칩 탭이 직접 불렀다) — 정본 파이프 재사용(/api/resize → img-resize.yml → resize_image.py 3층 라우팅·픽셀락) · 신규 렌더 로직 0
   if (!CIMG.b64) return errStatus('입력 필요', 'err', '.cpprev-box');
   if (!cpPanGap()) return errStatus('여백 없음', 'warn');
   const _asp = cpPanFmt === 'reels' ? '9:16' : '4:5';
   if (cpFillRunning(_asp)) return errStatus('진행중...', 'warn');   // 중복 발사 = 러너 잡 2벌·중복 과금(운영자 260808) · **같은 판형만** 차단(260818 Q08 — 구 전판형 차단 + #go 우회 조합이 두 번째 판형 채움을 조용히 카드 제작으로 흘려 「릴스 채움 무한지연」을 만들었다) → 포스트·릴스 병행 = 각자 발사(러너 동시성 = 잡 id별 그룹 · 원장 = 임시본 재병합으로 유실 0)
-  const g = cpPanGeo(cpPanFmt); if (!g) return;
-  const r5 = n => Math.round(n * 1e5) / 1e5;
-  const payload = { imageB64: CIMG.b64, name: CIMG.name, aspect: _asp, size: '1K', lock: true, fill: 'auto',
-    box: { x: r5(0.5 + CPAN.x - g.wp / 2), y: r5(0.5 + CPAN.y - g.hp / 2), w: r5(g.wp), h: r5(g.hp) } };   // box = 캔버스 대비 원본 자리(미리보기와 같은 수식) · lock=원본 픽셀 보존(확장부만 채움)
+  const fs = await cpFillSrc(cpPanFmt); if (!fs) return errStatus('재시도');   // 260905 = 넘치는 축은 여기서 잘라 보낸다(아래 cpFillSrc) — 구판은 미리보기 수식 그대로의 상자를 보냈고 한 축이 캔버스를 넘으면 서버·러너가 그 상자를 **조용히 버려** 원본 전체를 가운데 배치했다(= 미리보기와 다른 그림)
+  const payload = { imageB64: fs.b64, name: fs.name, aspect: _asp, size: '1K', lock: true, fill: 'auto', box: fs.box };   // box = 캔버스 대비 원본 자리(미리보기와 같은 수식) · lock=원본 픽셀 보존(확장부만 채움)
   // 카드 사슬 스냅샷(260818 Q06·Q07) — 「생성」 한 번 = 채움 → 완성 그림으로 오버레이 카드까지(운영자 «합성된 이미지가 기존 오버레이와 합쳐져서 정상적으로 합쳐진 모습으로 나오는 것»).
   //   짐은 **지금**(발사 시점) 조립해 잡에 실어 둔다 = 채움이 도는 동안 판형 토글·문구를 바꿔도 이 발사의 카드는 안 흔들린다(폼 드리프트 0).
   //   defer=true = 배경을 안 굽고 `_needBg` 표식만(완성 그림으로 스왑) · 조립 실패(문구 없음·강조 누락 등) = 사슬 없이 채움 단독(종전 동작 = fail-soft).
@@ -1921,7 +1943,7 @@ function renderCpPrev() {   // app2 상시 표시(운영자 260714 Q03②) + 편
   const jjHdrEmph = s => renderEmph2(normEmph(stripStrayStars(s))).map(([k, v]) => k === 'h' ? `<b style="color:${CPV_GOLD};font-weight:inherit">${esc(v)}</b>` : esc(v)).join('');   // 진짜예요 헤더 문구 강조(운영자 260730) = 자막 emph 문법 그대로 · 색만 골드레몬 · 정규화(오타 * 삭제→normEmph) = 발사 payload와 동일 텍스트라 미리보기 == 산출물 // 1~2별표=강조(산출색 CPV_GREEN 유지)·3+=리터럴(마스킹) — 백엔드 parse2 미러(운영자 260720)
   let h = '';
   if (cur.k === 'hdr' || cur.k === 'nobg') {                        // 헤더 = reels2 좌표 미러(부제 y270·제목 y385·흰밴드 590~1431) · 자간 = _fit_tr 쌍둥이(estHeaderTr) 줄별 미러 + 무줄바꿈(합성기 = 절대 안 접힘 · 운영자 260716 "자간의 영역도 미리보기에")
-    if (cTpl === 'jinjja') {   // 진짜예요 헤더 = 문구 1줄(부제 잠금) · 밴드 안 · 폭 880 · 자간 -10~-45 · nomute_jinjja.py TXT_Y(469)/TXT_FS(56) 미러. 베이스 축소판은 샘플문구 wipe 적용본(잔여 0 실측)이라 흰밴드(.cpv-band) 없음 = 하부 투명(스테이지 비침) = 산출 미러
+    if (cTpl === 'jinjja') {   // 진짜예요 헤더 = 문구 1줄(부제 잠금) · 밴드 안 · 폭 880 · 자간 -10~-45 · nomute_jinjja.py TXT_Y(457)/TXT_FS(70) 미러. 베이스 축소판은 샘플문구 wipe 적용본(잔여 0 실측)이라 흰밴드(.cpv-band) 없음 = 하부 투명(스테이지 비침) = 산출 미러
       h += `<img class="cpv-bg" data-logo src="assets/brand/jinjja_header_preview.webp" alt="">`;
       const jt = hdrFit(ctitle, HDR.jinjja);   // 초과분 글자 단위 절단(운영자 260807 3차 · 오버레이와 동축) — 헤더는 중앙정렬(left:0/right:0)이라 가둘 여백 박스가 없어 절단이 유일한 수단
       const trJ = estHeaderTr(jt, HDR.jinjja).tr;   // 힌트·발사 게이트와 동일 계산기(단일 산식 · 별표 제외분으로 측정) · 자른 텍스트 기준
