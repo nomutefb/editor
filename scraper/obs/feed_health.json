@@ -1,6 +1,6 @@
 {
- "ok": 145,
- "dead": 24,
+ "ok": 153,
+ "dead": 16,
  "dead_feeds": [
   {
    "publisher": "국민일보",
@@ -48,11 +48,6 @@
    "url": "http://rss.kmib.co.kr/data/kmibRssAll.xml"
   },
   {
-   "publisher": "세계일보",
-   "title": "사회",
-   "url": "http://www.segye.com/Articles/RSSList/segye_society.xml"
-  },
-  {
    "publisher": "시사저널",
    "title": "Health",
    "url": "http://www.sisajournal.com/rss/S2N106.xml"
@@ -61,41 +56,6 @@
    "publisher": "시사저널",
    "title": "Culture",
    "url": "http://www.sisajournal.com/rss/S2N107.xml"
-  },
-  {
-   "publisher": "프레시안",
-   "title": "세계",
-   "url": "https://www.pressian.com/api/v3/site/rss/section/65"
-  },
-  {
-   "publisher": "프레시안",
-   "title": "정치",
-   "url": "https://www.pressian.com/api/v3/site/rss/section/66"
-  },
-  {
-   "publisher": "프레시안",
-   "title": "경제",
-   "url": "https://www.pressian.com/api/v3/site/rss/section/67"
-  },
-  {
-   "publisher": "프레시안",
-   "title": "사회",
-   "url": "https://www.pressian.com/api/v3/site/rss/section/68"
-  },
-  {
-   "publisher": "프레시안",
-   "title": "문화",
-   "url": "https://www.pressian.com/api/v3/site/rss/section/69"
-  },
-  {
-   "publisher": "프레시안",
-   "title": "스포츠",
-   "url": "https://www.pressian.com/api/v3/site/rss/section/70"
-  },
-  {
-   "publisher": "프레시안",
-   "title": "최신 기사",
-   "url": "https://www.pressian.com/api/v3/site/rss/news"
   },
   {
    "publisher": "한국경제",
@@ -308,6 +268,11 @@
    "publisher": "통일뉴스",
    "title": "통일문화",
    "url": "https://www.tongilnews.com/rss/S1N10.xml"
+  },
+  {
+   "publisher": "프레시안",
+   "title": "스포츠",
+   "url": "https://www.pressian.com/api/v3/site/rss/section/70"
   },
   {
    "publisher": "NYT코리아",
