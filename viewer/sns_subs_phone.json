@@ -26,6 +26,16 @@
  "insta": [],
  "threads": [
   {
+   "account": "choi.openai",
+   "text": "Astra를 사용한다면 꼭 설정해보세요.\n\nCodex에 실험적인 컨텍스트 관리 기능이 추가됐습니다.\n기존에는 컨텍스트가 가득 차면 이전 내용을 계속 요약했지만, Astra는 중요한 내용을 노트로 남기고 필요할 때 이전 대화와 도구 결과를 다시 검색할 수 있습니다.\n\n설정 방법은 `~/.codex/config.toml`에 아래 내용을 추가하면 됩니다.\n\n[features.context_management]\nexperimental_mode = true\n\n긴 코딩 작업에서 초반의 수정 이유나 실패했던 시도까지 덜 잃어버릴 수 있어 Astra를 자주 사용한다면 특히 유용합니다.",
+   "likes": 13,
+   "cmts": 0,
+   "time": 1788661800,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/798215127_17985865563112832_4277853713573886169_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk3OTkwNjA5NzMxODM2ODU2OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=U3wxewKBELYQ7kNvwHdTcXm&_nc_oc=AdqRFyk3cDZ9kg2QfcYxecXjLO_zYng3azTENQ5KiU5GQ8GEGi49-KwmzZvpEDIQqJ0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=RUKTRl1c4-TXL1uPJmEg7Q&_nc_ss=7a22e&oh=00_AQKe-MW_sCSpwRoXWyyPuTUxcJQCJqVOCB2vwRYxUtTdeA&oe=6AA28EBA",
+   "url": "https://www.threads.com/@choi.openai/post/Dc7d4JSEpU5",
+   "region": "kr"
+  },
+  {
    "account": "daily_ai_star",
    "text": "이제 에이전트 도입 전에 모델 목록뿐 아니라 컨텍스트 제외 목록도 확인해야 합니다.\n\nhttps://github.blog/changelog/2026-09-02-content-exclusions-generally-available-in-copilot-app-and-cli/",
    "likes": 0,
@@ -48,31 +58,21 @@
   {
    "account": "choi.openai",
    "text": "Grok의 영상 생성이 이제 여러 장면을 이어 만드는 방향으로 발전하고 있습니다.\n\nxAI가 Grok Imagine Video 1.5 agent를 공개했습니다.\n새로운 Image 2.0 모델을 기반으로 영상 품질과 스토리 구성 능력을 높였으며, 특히 여러 장면을 연결할 때 인물이나 배경이 갑자기 달라지는 문제를 개선했다고 합니다.\n\n예를 들어 첫 장면의 인물이 장소를 이동하거나 카메라 구도가 바뀌어도 이전 장면의 설정을 유지하며 다음 장면을 이어 만드는 방식입니다.\n\n현재 웹과 iOS·Android에서 사용할 수 있습니다. 짧은 영상 한 장면을 만드는 경쟁에서 벗어나, 여러 장면으로 구성된 하나의 이야기를 얼마나 자연스럽게 만들 수 있느냐가 중요해지고 있네요.",
-   "likes": 24,
+   "likes": 28,
    "cmts": 4,
    "time": 1788656449,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/785282140_1075010485490982_392391769641304618_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk3OTg2MTIxMjQ5MzAxNjcwOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=xn_NISsdzAAQ7kNvwFxd8Zb&_nc_oc=AdoEpZ811I7nsVj1CzSFJE0ir-A3StBmafm77wy7DLSbj-FwSv6iGBYmRZP9Lu5scNg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=P5Ck24Af0EeFkEPGZRniIw&_nc_ss=7a22e&oh=00_AQK_vGW7PW_uMP5MAazd0W6GarqbpO9ZbxWHjwVHeLK7Bg&oe=6AA2B74E",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/785282140_1075010485490982_392391769641304618_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk3OTg2MTIxMjQ5MzAxNjcwOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=xn_NISsdzAAQ7kNvwFxd8Zb&_nc_oc=AdoEpZ811I7nsVj1CzSFJE0ir-A3StBmafm77wy7DLSbj-FwSv6iGBYmRZP9Lu5scNg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=RUKTRl1c4-TXL1uPJmEg7Q&_nc_ss=7a22e&oh=00_AQJkW_fmDEbE9D3cv_OPAzoRfRSbL_ve-hXRFSrofZ6kWA&oe=6AA2B74E",
    "url": "https://www.threads.com/@choi.openai/post/Dc7Tq_CAG6E",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "GPT-6 Astra가 실제 웹 개발 평가에서도 1위에 올랐습니다.\n\nCode Arena: WebDev에서 GPT-6 Astra Max가 1797점을 기록하며 Claude Fable 5.1 Max의 1762점을 35점 차이로 앞섰습니다. GPT-5.6 Sol xHigh와 비교하면 무려 180점 상승한 결과입니다.\n\n데이터·분석, 소비자 제품, 콘텐츠 제작 도구 부문에서도 현재 1위이며 게임·시뮬레이션은 2위입니다.\n\n특히 $40/Mtoken 가격대에서 가장 높은 성능을 기록하며 Claude 최신 모델과 같은 가격에서도 앞선 성능을 보였습니다.\n\n프론트엔드에서 혹평을 받았던 GPT 시리즈가 실제 웹 개발과 에이전트 코딩에서도 강한 모습을 보이기 시작한 점이 눈에 띕니다.",
-   "likes": 48,
+   "likes": 50,
    "cmts": 3,
    "time": 1788650482,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/798317759_17985864870112832_769693293748715900_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk3OTgxMTE2MTE1MTMyNTY5NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=RZXaXks8t0QQ7kNvwHqLx_w&_nc_oc=AdoU1jNyhap9EYg6xd-27fXBiFzZ-Osvi3RC1ksMwTillluP1--Xbyj1DONwQ5-Juuo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=P5Ck24Af0EeFkEPGZRniIw&_nc_ss=7a22e&oh=00_AQL_YhC30FBM76WOvSFMbQyL3cS8bH4gVJT907cYXcl8Aw&oe=6AA29675",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/798317759_17985864870112832_769693293748715900_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk3OTgxMTE2MTE1MTMyNTY5NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=RZXaXks8t0QQ7kNvwHqLx_w&_nc_oc=AdoU1jNyhap9EYg6xd-27fXBiFzZ-Osvi3RC1ksMwTillluP1--Xbyj1DONwQ5-Juuo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=RUKTRl1c4-TXL1uPJmEg7Q&_nc_ss=7a22e&oh=00_AQLtGLCr4JMVIXuuPJhqenalIfv6VFcRjUvn75RQo_WjwQ&oe=6AA29675",
    "url": "https://www.threads.com/@choi.openai/post/Dc7ISpFj0X-",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "GPT-6 Astra, AI 모델 최초로 수능 만점.",
-   "likes": 447,
-   "cmts": 25,
-   "time": 1788622032,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/797150373_17985820077112832_6157134261069763131_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=1&ig_cache_key=Mzk3OTU3MjUwNTEyNzg4ODA1MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=CuQLXztBq1sQ7kNvwFtGPjt&_nc_oc=AdqfBviYuaF6dQ-96Lmkl-bMTnf_AjLdFw4WNUDF6wRdj9cJFsK1rHxYGYTX5JQ8KPE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=P5Ck24Af0EeFkEPGZRniIw&_nc_ss=7a22e&oh=00_AQLcJ_uyfNgQcT-mQWq1AgF3F8G4gYIFbIT3V34bPGRqSw&oe=6AA29CAC",
-   "url": "https://www.threads.com/@choi.openai/post/Dc6SBvWDySz",
    "region": "kr"
   },
   {
@@ -81,7 +81,7 @@
    "likes": 4,
    "cmts": 0,
    "time": 1788619459,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/798017691_2155274881731449_5914831503596064833_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk3OTU1MDc5ODE5NTAzNTEyNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=yy80RHjAdWgQ7kNvwHRwTRz&_nc_oc=Adp8RmLl8MNfkqro8WS_c0YjmIlhVyA0QfEqeIaHqN3nmRMyqHA6YRpXW2xQbfaEYgs&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=a-Qla7-dw83AZKhwM_rkAA&_nc_ss=7a22e&oh=00_AQLlEeFEhKPBgM2hm02DkrSARjiNEabaSGPSNSc0mZsHjQ&oe=6AA286B9",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/798017691_2155274881731449_5914831503596064833_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk3OTU1MDc5ODE5NTAzNTEyNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=yy80RHjAdWgQ7kNvwHRwTRz&_nc_oc=Adp8RmLl8MNfkqro8WS_c0YjmIlhVyA0QfEqeIaHqN3nmRMyqHA6YRpXW2xQbfaEYgs&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=zlwRz17nC4a0HYs9sIJ6QA&_nc_ss=7a22e&oh=00_AQKNCPz4Xio-5RTZGJFvM4fV1xd6D8bVPdYTbA6rB2IyjQ&oe=6AA2BEF9",
    "url": "https://www.threads.com/@kopp/post/Dc6NHl8CDQS",
    "region": "kr"
   },
@@ -111,8 +111,18 @@
    "likes": 101,
    "cmts": 7,
    "time": 1788576867,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/794139398_1784227986043627_1781298966287113893_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk3OTE4OTU3NzQ1MzMzNzk4Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=wgQH1-oRYFEQ7kNvwFOmaSC&_nc_oc=AdoT7r9Jd2YBIbhExw802JPl1CFTjZ8YrRvsRLQThBxkcpbeIilkoFEunUAjz7QnR04&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=OYIFN5EZy8L1yFexQvESUg&_nc_ss=7a22e&oh=00_AQK2ai8J2KeQWFKUqYPl7aoMfaCu5wk9rTLqeDRCU09U3A&oe=6AA28664",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/794139398_1784227986043627_1781298966287113893_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk3OTE4OTU3NzQ1MzMzNzk4Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=wgQH1-oRYFEQ7kNvwFOmaSC&_nc_oc=AdoT7r9Jd2YBIbhExw802JPl1CFTjZ8YrRvsRLQThBxkcpbeIilkoFEunUAjz7QnR04&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=CQO8nMo4O4u3iwWa5RsZSA&_nc_ss=7a22e&oh=00_AQKZg2dH8NXb2NjcDcHYcubxbRX1NWxdWKd5t37TwEudew&oe=6AA2BEA4",
    "url": "https://www.threads.com/@aicoffeechat/post/Dc469aKCv2D",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "GPT-6 Astra, AI 모델 최초로 수능 만점.",
+   "likes": 466,
+   "cmts": 28,
+   "time": 1788622032,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/797150373_17985820077112832_6157134261069763131_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=1&ig_cache_key=Mzk3OTU3MjUwNTEyNzg4ODA1MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=CuQLXztBq1sQ7kNvwFtGPjt&_nc_oc=AdqfBviYuaF6dQ-96Lmkl-bMTnf_AjLdFw4WNUDF6wRdj9cJFsK1rHxYGYTX5JQ8KPE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=RUKTRl1c4-TXL1uPJmEg7Q&_nc_ss=7a22e&oh=00_AQLGHAV_7RaahTda75FkPqayQGRrk_DoqMXfE_jGIe11FQ&oe=6AA29CAC",
+   "url": "https://www.threads.com/@choi.openai/post/Dc6SBvWDySz",
    "region": "kr"
   },
   {
@@ -126,16 +136,6 @@
    "region": "kr"
   },
   {
-   "account": "choi.openai",
-   "text": "3/ GPT-6 Astra에 한 번의 프롬프트로 도쿄 시부야를 배경으로 한 GTA 스타일의 3D 게임을 제작한 사례가 공개됐습니다.\n\n도심 거리와 건물, 차량을 구현하고 캐릭터가 직접 도시를 돌아다닐 수 있게 만들었습니다.\n\nx@TomohiroNoza",
-   "likes": 26,
-   "cmts": 1,
-   "time": 1788614272,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/797840315_1383692890558298_314754403437034454_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk3OTQ5OTQ0NDI5NTY4NTI4MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=BeCEQVi8xw0Q7kNvwEv72N9&_nc_oc=AdqEjJlUpcmp__V_1ZVSjc30Z7Lb8S6eju_2Ec2-cDM142Qv7kSmI0pGsVo5_iHqYok&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=P5Ck24Af0EeFkEPGZRniIw&_nc_ss=7a22e&oh=00_AQK2pu0XrpCgboMs-OUa8_Vjx1zFOKEgy2Ur8Q7flN-hUg&oe=6AA29679",
-   "url": "https://www.threads.com/@choi.openai/post/Dc6BakJG9Sh",
-   "region": "kr"
-  },
-  {
    "account": "daily_ai_star",
    "text": "HydraFusion은 TerminalBench 2.1에서 Opus 5보다 비용을 67% 낮추고 품질은 4.9포인트 높였습니다.\n\n9월 4일 GitHub Copilot에 연구 프리뷰로 들어온 런타임 오케스트레이션입니다. 한 모델을 고정하지 않고, 작업에 따라 직접 해결하거나 다른 모델로 검토·수정·에스컬레이션합니다.",
    "likes": 0,
@@ -146,26 +146,6 @@
    "region": "kr"
   },
   {
-   "account": "choi.openai",
-   "text": "2/ GPT-6 Astra를 활용해 초파리의 뇌와 중추신경계에 있는 16만 6,700개 뉴런을 Minecraft 안에서 시뮬레이션한 사례가 공개됐습니다.\n\n실제 신경 활동 데이터를 시뮬레이션해 게임 속 초파리의 움직임을 제어하도록 구현했습니다.\n\nx@evnsnclr",
-   "likes": 38,
-   "cmts": 2,
-   "time": 1788614262,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/797336336_958211977298999_1344120909953812865_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk3OTUwMTUzNDQ1MDY5MTM0Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=JEQrckuGe6cQ7kNvwEAZ28K&_nc_oc=AdrWe80LRo_XlUyK8rD1sItbrpaA6TkDu__-_gcFAYDp2yXE0Q6pgHL6XpWeBglPf14&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=P5Ck24Af0EeFkEPGZRniIw&_nc_ss=7a22e&oh=00_AQIJGCmBFBW8QxLKHUZKKN8ilQIDIJza4KMnkviaNYBhUA&oe=6AA29D8E",
-   "url": "https://www.threads.com/@choi.openai/post/Dc6B4-wDi0S",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "1/ GPT-6 Astra에 직접 그린 선화를 주고 Clip Studio Paint에서 채색해달라고 요청한 사례가 공개됐습니다.\n\n레이어 생성과 확대, 펜 선택부터 실제 마우스 채색까지 Astra가 직접 조작해 완성했습니다.\n\nx@taiyaki_sun",
-   "likes": 73,
-   "cmts": 1,
-   "time": 1788614252,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/796494029_1567865671475005_2204321358051378808_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&ig_cache_key=Mzk3OTQ5OTAzNDQxOTcwOTEzNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=6Jf2x6DH7FkQ7kNvwEzPGys&_nc_oc=AdrrgMN6NBf9NWKw6SGRpt8Cyt3XIh5R1DQ4rCCPF6UKWJqzxkCex6Xj6RhMN-8HS4o&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=P5Ck24Af0EeFkEPGZRniIw&_nc_ss=7a22e&oh=00_AQJmhxUux1BWl0qq_rrIpfj8lz5wdkd5WSeKNWKvv5evvg&oe=6AA2AB4E",
-   "url": "https://www.threads.com/@choi.openai/post/Dc6BUmamMTR",
-   "region": "kr"
-  },
-  {
    "account": "daily_ai_star",
    "text": "Codex가 9월 3일 브라우저와 데스크톱 앱 사용을 조직 정책으로 묶었습니다.\n\n관리자는 웹사이트별 기본 허용과 예외를 정하고, 업로드·다운로드·방문 기록·개발자 액세스를 따로 제한할 수 있습니다. macOS와 Windows 앱도 허용 목록이나 차단 목록으로 나눕니다.\n\n승인도 한 번 허용하고 끝나는 방식이 아닙니다. 한 턴, 한 스레드, 저장된 항상 허용으로 기간과 범위를 나눌 수 있습니다. 외부 브라우저의 쿠키·비밀번호·기록을 가져오는 것도 막을 수 있습니다.\n\n에이전트가 무엇을 할 수 있는지보다, 어느 사이트와 앱에서 얼마 동안 허용되는지를 먼저 운영해야 하는 단계가 됐습니다.\n\nhttps://openai.com/products/release-notes/",
    "likes": 0,
@@ -173,16 +153,6 @@
    "time": 1788601509,
    "thumb": "",
    "url": "https://www.threads.com/@daily_ai_star/post/Dc5q30LGSQB",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "코딩을 몰라서 못 만든다는 핑계는 이제 끝났습니다.\n\nGPT-6 Astra에게 원하는 걸 말하면 30분 만에 영상 편집 앱을 만들고, 게임 광고를 실제 플레이 가능한 게임으로 바꿔줍니다.\n\n게임·앱·3D 모델까지 직접 만드는 GPT-6 Astra 활용 사례 20가지를 정리했습니다🧵",
-   "likes": 614,
-   "cmts": 40,
-   "time": 1788614248,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/797775622_17985799407112832_713418487417788_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk3OTUwNzIwNTAzMjMxNDA0Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNzU0LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=-TP_JKDHRhYQ7kNvwGvk32I&_nc_oc=AdohBKxzKXEQRh59NTfVcp6Lvy4CpHap6DJ-oVmkrhyywkkKf_9-1GQe33Ja-2sCatk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=P5Ck24Af0EeFkEPGZRniIw&_nc_ss=7a22e&oh=00_AQK03rgocoph-V9-nH0oBaYGku_xdrLxbtxHLs_GQXwkwQ&oe=6AA2977E",
-   "url": "https://www.threads.com/@choi.openai/post/Dc6DLf5DwS_",
    "region": "kr"
   }
  ],
@@ -212,7 +182,7 @@
   {
    "account": "jaemyung_lee",
    "title": "이번 정류장은 브라질입니다 #이재명 #대통령 #Brasil #Brazil",
-   "views": 790600,
+   "views": 790800,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooBGAi8A6InMPiZBpU9fBkTRtAAwBKw0m1E0Ag~tplv-tiktokx-origin.image?dr=14575&x-expires=1788832800&x-signature=fUlRWb0c7cinDakM%2FU%2F%2FpG1gqaM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -234,7 +204,7 @@
   {
    "account": "jaemyung_lee",
    "title": "이번 정류장은 칠레입니다🇰🇷🇨🇱 #이재명 #대통령 #Chile #Corea",
-   "views": 377600,
+   "views": 377700,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQpDHATAEBzAIGFgqwDA4hofdRfVCsCaqEBIkL~tplv-tiktokx-origin.image?dr=14575&x-expires=1788832800&x-signature=CmX5HFr36CTpLCBO5YR3I3PMDfI%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -256,7 +226,7 @@
   {
    "account": "jaemyung_lee",
    "title": "우리 국민의 구조에 모든 역량을 총동원하겠습니다  #네팔 #긴급회의 #prayfornepal",
-   "views": 281200,
+   "views": 281400,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4ECXepekgFVLDAPQbcqjSdGAIaIofEozvI9Qh~tplv-tiktokx-origin.image?dr=14575&x-expires=1788832800&x-signature=Eeyh7i0Mqq8CF1iYbJ5PzOz0oPk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -267,7 +237,7 @@
   {
    "account": "jaemyung_lee",
    "title": "대한민국과 브라질이 함께 그려갈 미래가  두 나라 국민 모두에게  더 큰 희망과 기회가 되길 기대합니다 🇰🇷🫰🇧🇷 @Presidente Lula ima, meu irmão💚💛💙 #이재명 #lula #korea #Br",
-   "views": 241200,
+   "views": 241300,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-i-photomode-sg/91a2f3151d9741689af70b1d1f8aac3a~tplv-photomode-image.jpeg?dr=14555&x-expires=1788832800&x-signature=8wwXWJ2REy3M17Yv7SW7k4eHxPo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=9b759fb9&idc=my2&ftpl=1",
@@ -300,7 +270,7 @@
   {
    "account": "tictok_ent",
    "title": "문가영, 세련된 아우라 / SK-II 팝업 스토어 포토월 #문가영 #SKII",
-   "views": 69000,
+   "views": 69300,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oMAaCA0hKqvlGpCiqXBSkQYvBAIaQir8AAoAE~tplv-tiktokx-origin.image?dr=14575&x-expires=1788832800&x-signature=1Ed1WSSdPa2h2WXZv7l%2BWTu9oMU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -311,7 +281,7 @@
   {
    "account": "tictok_ent",
    "title": "강훈, 여심 흔드는 미소 / SK-II 팝업 스토어 포토월 #강훈 #SKII",
-   "views": 23200,
+   "views": 24100,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okddAgfBKEwOKj1BauWbCT4VaB8ACi3AiAAjIw~tplv-tiktokx-origin.image?dr=14575&x-expires=1788832800&x-signature=ZtidkHrDwGgydU7QG0BD8uizN78%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -331,13 +301,13 @@
    "url": "https://www.reddit.com/r/AskReddit/comments/1w80evl/youre_dropped_into_a_medieval_battle_in_a_tank/"
   },
   {
-   "sub": "MadeMeSmile",
-   "title": "Food connects people",
+   "sub": "interesting",
+   "title": "After 457 Years, the UN Approves a New World Map to Show Africa’s True Size",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/vl57djhcwrnh1.png?width=320&crop=smart&auto=webp&s=f5976c717921ce547c904994edf9e30876c864f8",
-   "time": 1788645161,
-   "url": "https://www.reddit.com/r/MadeMeSmile/comments/1w8dor4/food_connects_people/"
+   "thumb": "https://external-preview.redd.it/bTZoaHl0M3ZjcW5oMSNcoXfsRL32ROgNg0_Mp6tIHHGmpz2Y3WOs_PQzoNK2.png?width=320&crop=smart&auto=webp&s=fa1a7d7366120dab5691a04e4c3f25b09ac36802",
+   "time": 1788626502,
+   "url": "https://www.reddit.com/r/interesting/comments/1w85n39/after_457_years_the_un_approves_a_new_world_map/"
   },
   {
    "sub": "baseball",
@@ -349,13 +319,13 @@
    "url": "https://www.reddit.com/r/baseball/comments/1w8hxcm/kansas_city_crowd_celebrates_when_they_get_the/"
   },
   {
-   "sub": "interesting",
-   "title": "After 457 Years, the UN Approves a New World Map to Show Africa’s True Size",
+   "sub": "MadeMeSmile",
+   "title": "Food connects people",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/bTZoaHl0M3ZjcW5oMSNcoXfsRL32ROgNg0_Mp6tIHHGmpz2Y3WOs_PQzoNK2.png?width=320&crop=smart&auto=webp&s=fa1a7d7366120dab5691a04e4c3f25b09ac36802",
-   "time": 1788626502,
-   "url": "https://www.reddit.com/r/interesting/comments/1w85n39/after_457_years_the_un_approves_a_new_world_map/"
+   "thumb": "https://preview.redd.it/vl57djhcwrnh1.png?width=320&crop=smart&auto=webp&s=f5976c717921ce547c904994edf9e30876c864f8",
+   "time": 1788645161,
+   "url": "https://www.reddit.com/r/MadeMeSmile/comments/1w8dor4/food_connects_people/"
   },
   {
    "sub": "interestingasfuck",
@@ -367,15 +337,6 @@
    "url": "https://www.reddit.com/r/interestingasfuck/comments/1w7zrcl/american_airlines_passenger_duct_taped_to_seat/"
   },
   {
-   "sub": "mildlyinteresting",
-   "title": "My 60+ yr old (f) neighbor who lives alone bought an exact replica of her own car",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/3vm41rxresnh1.jpeg?width=640&crop=smart&auto=webp&s=4df2a27586bd3c04afaafcf469749ac66604b5aa",
-   "time": 1788651349,
-   "url": "https://www.reddit.com/r/mildlyinteresting/comments/1w8g32q/my_60_yr_old_f_neighbor_who_lives_alone_bought_an/"
-  },
-  {
    "sub": "aviation",
    "title": "American Airlines passenger duct taped to his seat following unruly behavior onboard flight AA618 Thursday night.",
    "score": 0,
@@ -383,15 +344,6 @@
    "thumb": "https://preview.redd.it/ohjfcqe5unnh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=e7826f2f1d3614468c49f66f584948e123a7988b",
    "time": 1788595986,
    "url": "https://www.reddit.com/r/aviation/comments/1w7upl8/american_airlines_passenger_duct_taped_to_his/"
-  },
-  {
-   "sub": "ContagiousLaughter",
-   "title": "Ugly pants exchange (0:05)",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/emh6cWpsZHhuc25oMbt_I5YeCqnMepzIra3LtAQb606wlweFtEZ73W0PO2PE.png?width=320&crop=smart&auto=webp&s=74ebc411be963a692f4a4379d9bdca5cbf0f7aeb",
-   "time": 1788654438,
-   "url": "https://www.reddit.com/r/ContagiousLaughter/comments/1w8h7km/ugly_pants_exchange_005/"
   },
   {
    "sub": "politics",
@@ -403,15 +355,6 @@
    "url": "https://www.reddit.com/r/politics/comments/1w80fqm/majority_of_canadians_now_see_us_as_an_enemy_and/"
   },
   {
-   "sub": "interestingasfuck",
-   "title": "In response to 9/11, Canada launched Operation Yellow Ribbon diverting 255 American flights to Canada to which citizens voluntarily housed thousands of Americans",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/r49f83m0vrnh1.jpeg?width=640&crop=smart&auto=webp&s=8c4fe73b6a0de5c98feb1530325f28318b197b77",
-   "time": 1788644702,
-   "url": "https://www.reddit.com/r/interestingasfuck/comments/1w8di6s/in_response_to_911_canada_launched_operation/"
-  },
-  {
    "sub": "formula1",
    "title": "Pierre Gasly takes pole position for the 2026 Italian Grand Prix",
    "score": 0,
@@ -421,18 +364,49 @@
    "url": "https://www.reddit.com/r/formula1/comments/1w835jy/pierre_gasly_takes_pole_position_for_the_2026/"
   },
   {
-   "sub": "CasualUK",
-   "title": "I just moved to the UK and bought this thing that blew my mind. No wonder industrial revolution took root in the UK.",
+   "sub": "Amazing",
+   "title": "For $30,000 per month...",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/w5t7h1goqnnh1.jpeg?width=640&crop=smart&auto=webp&s=8410c92be717cf62bf750ea8afac2c976db38b82",
-   "time": 1788594817,
-   "url": "https://www.reddit.com/r/CasualUK/comments/1w7udg8/i_just_moved_to_the_uk_and_bought_this_thing_that/"
+   "thumb": "",
+   "time": 1788629729,
+   "url": "https://www.reddit.com/r/Amazing/comments/1w87274/for_30000_per_month/"
+  },
+  {
+   "sub": "movies",
+   "title": "Danny Boyle confirms AI was used to generate animals like mice, and bring old photographs to life in his upcoming movie 'Ink'",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/t1st_TJ1l15C3xp8g2EOXlLYdpO0ZkikpJyBFtuMeRQ.jpeg?width=640&crop=smart&auto=webp&s=64abfe62945b69d62df8ae734204ef148c844574",
+   "time": 1788644492,
+   "url": "https://www.reddit.com/r/movies/comments/1w8df96/danny_boyle_confirms_ai_was_used_to_generate/"
+  },
+  {
+   "sub": "mildlyinteresting",
+   "title": "My 60+ yr old (f) neighbor who lives alone bought an exact replica of her own car",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/3vm41rxresnh1.jpeg?width=640&crop=smart&auto=webp&s=4df2a27586bd3c04afaafcf469749ac66604b5aa",
+   "time": 1788651349,
+   "url": "https://www.reddit.com/r/mildlyinteresting/comments/1w8g32q/my_60_yr_old_f_neighbor_who_lives_alone_bought_an/"
+  },
+  {
+   "sub": "memes",
+   "title": "Please spare some yellow sir?",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/pj7nk1if0qnh1.jpeg?width=640&crop=smart&auto=webp&s=c5ce718f1eaaebcd0d52cdf94ccee284d7317fc3",
+   "time": 1788622310,
+   "url": "https://www.reddit.com/r/memes/comments/1w83ubp/please_spare_some_yellow_sir/"
   }
  ],
  "disaster": [],
  "_cover": {
   "ok": {
+   "x": [
+    "awaken_eyes",
+    "jajaja7878uu"
+   ],
    "threads": [
     "aicoffeechat",
     "aipeekme",
@@ -448,34 +422,42 @@
    ]
   },
   "why": {
+   "x": {
+    "64bitcoinkr": 429,
+    "economysniper0": 429,
+    "kyunghyang": 429,
+    "freedom_73x": 429,
+    "marionawfal": 429,
+    "globalbrief_now": 429
+   },
    "insta": {
     "koreadispatch": "stuck",
     "bts.bighitofficial": "stuck",
     "blackpinkofficial": "stuck",
     "newjeans_official": "stuck",
     "aespa_official": "stuck",
-    "jennierubyjane": "stuck",
-    "xxxibgdrgn": "stuck",
-    "hm_son7": "stuck",
-    "sbsnow_insta": "stuck",
-    "mnet_official": "stuck",
-    "openai": "stuck",
-    "runwayapp": "stuck",
-    "pika_labs": "stuck",
-    "lumalabsai": "stuck",
-    "midjourney": "stuck",
-    "klingai_official": "stuck",
-    "heygen_official": "stuck",
-    "higgsfield.ai": "stuck",
-    "googledeepmind": "stuck",
-    "cristiano": "stuck"
+    "jennierubyjane": "rotate",
+    "xxxibgdrgn": "rotate",
+    "hm_son7": "rotate",
+    "sbsnow_insta": "rotate",
+    "mnet_official": "rotate",
+    "openai": "rotate",
+    "runwayapp": "rotate",
+    "pika_labs": "rotate",
+    "lumalabsai": "rotate",
+    "midjourney": "rotate",
+    "klingai_official": "rotate",
+    "heygen_official": "rotate",
+    "higgsfield.ai": "rotate",
+    "googledeepmind": "rotate",
+    "cristiano": "rotate"
    }
   },
   "landing": {
-   "at": "2026-09-06T10:31:27",
+   "at": "2026-09-06T11:01:21",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-09-06T11:01:18.957034+09:00"
+ "updated": "2026-09-06T11:35:21.231194+09:00"
 }
