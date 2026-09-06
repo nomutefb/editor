@@ -7606,8 +7606,14 @@
   {
    "query": "김밥",
    "traffic": "20000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/0471ffcc5d.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://view.asiae.co.kr/article/2026081717082789682",
+     "source": ""
+    }
+   ],
    "vol": 20000,
    "started": "2026-09-06T13:10:00+09:00",
    "delta": -4,
@@ -7622,8 +7628,14 @@
   {
    "query": "이혜영",
    "traffic": "5000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/41dd1332d9.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.khan.co.kr/article/202607172001001/",
+     "source": ""
+    }
+   ],
    "vol": 5000,
    "started": "2026-09-06T13:00:00+09:00",
    "delta": -2,
@@ -7697,8 +7709,14 @@
   {
    "query": "여주시",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/f9012b8161.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.newsview.co.kr/299207",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-06T13:30:00+09:00",
    "delta": -10,
@@ -7757,8 +7775,14 @@
   {
    "query": "농구",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/5cc7946c0c.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.etoday.co.kr/news/view/2621054",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-06T13:10:00+09:00",
    "delta": -10,
@@ -7947,7 +7971,7 @@
  ],
  "gtrends_pool_updated": "2026-09-06T16:12:17+09:00",
  "_trend_img": {
-  "tried": "2026-09-06T15:36:20+09:00",
+  "tried": "2026-09-06T16:12:17+09:00",
   "fail": {
    "돌싱글즈": "2026-09-06T14:26:09+09:00",
    "김성근": "2026-09-06T14:26:09+09:00",
@@ -17037,7 +17061,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-06T16:12:17+09:00"
+    "first_seen": "2026-09-06T16:12:17+09:00",
+    "kw": "영상",
+    "sum": "계정이 유튜브 풀영상 링크를 공유했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -17052,7 +17079,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-09-06T16:12:17+09:00"
+    "first_seen": "2026-09-06T16:12:17+09:00",
+    "kw": "톰 브라운, 앤트로픽, AI 발전속도",
+    "sum": "톰 브라운이 AI 발전과 컴퓨팅 부족 가속을 경고했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
