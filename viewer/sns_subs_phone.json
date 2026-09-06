@@ -17,10 +17,10 @@
   {
    "account": "choi.openai",
    "text": "와우.. AI가 AI 모델을 개선하는 대회에 참가해 인간 전문가들을 제치고 상위 0.2%에 들었습니다.\n\nMeta의 자율 AI 연구 시스템 AIRA₃가 NVIDIA의 Kaggle 대회에서 약 4,000개 팀 중 8위를 기록해 금메달을 받았습니다. 과제는 30B Nemotron을 미세 조정해 추론 능력을 높이는 것이었습니다.\n\nAIRA₃는 여러 AI 에이전트가 각자 실험한 뒤 게시판에서 가설과 결과를 공유하고, 공용 파일을 통해 서로의 결과를 이어서 발전시키는 방식입니다.\n\nGPU 커널 최적화에서도 지연시간을 27% 줄였다고 하는데요. AI가 연구자의 보조를 넘어 다른 AI를 직접 실험하고 개선하는 자동화 연구 시스템으로 발전하고 있습니다.",
-   "likes": 18,
+   "likes": 24,
    "cmts": 0,
    "time": 1788667229,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/798215140_973441331822517_3089059446191027963_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk3OTk1MTY0MjA5OTEyMDgwMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=mXh91vsUHCwQ7kNvwFNH2p0&_nc_oc=AdoJJnQ_eqUAb24MVfXG6cTut3-2UHPdKX3DcwoyHIVcHc25PcM-XPivcJJfODuJQFs&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=5wxQxEhfHwSe24ASABk3YA&_nc_ss=7a22e&oh=00_AQIIt6kfkXXSiZDhS54EZVxUGPbGF47vwTGjnNhhUryhlg&oe=6AA2CF81",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/798215140_973441331822517_3089059446191027963_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk3OTk1MTY0MjA5OTEyMDgwMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=mXh91vsUHCwQ7kNvwFNH2p0&_nc_oc=AdoJJnQ_eqUAb24MVfXG6cTut3-2UHPdKX3DcwoyHIVcHc25PcM-XPivcJJfODuJQFs&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=htqySTMU-_rOOv0lewBjZw&_nc_ss=7a22e&oh=00_AQJItDlPhevDxdvWRljCEzK4kn8brF1E7SNJOTZUft45CA&oe=6AA2CF81",
    "url": "https://www.threads.com/@choi.openai/post/Dc7oO6KjPqi",
    "region": "kr"
   },
@@ -47,10 +47,10 @@
   {
    "account": "choi.openai",
    "text": "Astra를 사용한다면 꼭 설정해보세요.\n\nCodex에 실험적인 컨텍스트 관리 기능이 추가됐습니다.\n기존에는 컨텍스트가 가득 차면 이전 내용을 계속 요약했지만, Astra는 중요한 내용을 노트로 남기고 필요할 때 이전 대화와 도구 결과를 다시 검색할 수 있습니다.\n\n설정 방법은 `~/.codex/config.toml`에 아래 내용을 추가하면 됩니다.\n\n[features.context_management]\nexperimental_mode = true\n\n긴 코딩 작업에서 초반의 수정 이유나 실패했던 시도까지 덜 잃어버릴 수 있어 Astra를 자주 사용한다면 특히 유용합니다.",
-   "likes": 137,
-   "cmts": 5,
+   "likes": 157,
+   "cmts": 6,
    "time": 1788661800,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/798215127_17985865563112832_4277853713573886169_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk3OTkwNjA5NzMxODM2ODU2OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=U3wxewKBELYQ7kNvwHdTcXm&_nc_oc=AdqRFyk3cDZ9kg2QfcYxecXjLO_zYng3azTENQ5KiU5GQ8GEGi49-KwmzZvpEDIQqJ0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=5wxQxEhfHwSe24ASABk3YA&_nc_ss=7a22e&oh=00_AQJdJE2nnCKdGxenmgEXZ7mTREGUH3T0-tj6_CPftEYf0w&oe=6AA2C6FA",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/798215127_17985865563112832_4277853713573886169_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk3OTkwNjA5NzMxODM2ODU2OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=U3wxewKBELYQ7kNvwHdTcXm&_nc_oc=AdqRFyk3cDZ9kg2QfcYxecXjLO_zYng3azTENQ5KiU5GQ8GEGi49-KwmzZvpEDIQqJ0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=htqySTMU-_rOOv0lewBjZw&_nc_ss=7a22e&oh=00_AQKFK38jJGsYLWo386oKl_OQhsro-c2Cz8tTh0vOwO118g&oe=6AA2C6FA",
    "url": "https://www.threads.com/@choi.openai/post/Dc7d4JSEpU5",
    "region": "kr"
   },
@@ -67,20 +67,20 @@
   {
    "account": "choi.openai",
    "text": "Grok의 영상 생성이 이제 여러 장면을 이어 만드는 방향으로 발전하고 있습니다.\n\nxAI가 Grok Imagine Video 1.5 agent를 공개했습니다.\n새로운 Image 2.0 모델을 기반으로 영상 품질과 스토리 구성 능력을 높였으며, 특히 여러 장면을 연결할 때 인물이나 배경이 갑자기 달라지는 문제를 개선했다고 합니다.\n\n예를 들어 첫 장면의 인물이 장소를 이동하거나 카메라 구도가 바뀌어도 이전 장면의 설정을 유지하며 다음 장면을 이어 만드는 방식입니다.\n\n현재 웹과 iOS·Android에서 사용할 수 있습니다. 짧은 영상 한 장면을 만드는 경쟁에서 벗어나, 여러 장면으로 구성된 하나의 이야기를 얼마나 자연스럽게 만들 수 있느냐가 중요해지고 있네요.",
-   "likes": 40,
+   "likes": 46,
    "cmts": 4,
    "time": 1788656449,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/785282140_1075010485490982_392391769641304618_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk3OTg2MTIxMjQ5MzAxNjcwOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=xn_NISsdzAAQ7kNvwFxd8Zb&_nc_oc=AdoEpZ811I7nsVj1CzSFJE0ir-A3StBmafm77wy7DLSbj-FwSv6iGBYmRZP9Lu5scNg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=5wxQxEhfHwSe24ASABk3YA&_nc_ss=7a22e&oh=00_AQJXhwb7QkaF-SMTpMwkwBaG1fCdpf5MYx-IOtp74kku6w&oe=6AA2B74E",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/785282140_1075010485490982_392391769641304618_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk3OTg2MTIxMjQ5MzAxNjcwOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=N7HyXDAn1ZgQ7kNvwGNNpdd&_nc_oc=AdrjXQKeyW0f-1iDoX_L3PADx1-AxxDU4bqQPIDpu1skbkKAg5J7ps6o7blkeFcVNQk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=htqySTMU-_rOOv0lewBjZw&_nc_ss=7a22e&oh=00_AQJ3nuErVfEPebt15oiMDHr7LL2FAxX3x-txJdpwTHDk5g&oe=6AA2B74E",
    "url": "https://www.threads.com/@choi.openai/post/Dc7Tq_CAG6E",
    "region": "kr"
   },
   {
    "account": "kopp",
    "text": "kinda crazy what you can make now without knowing anything about video editing\n\nmade these 3 videos entirely with AI + Remotion to explain how easy it is to give your AI taste\n\nif you told me a motion designer made these, i’d believe you",
-   "likes": 4,
+   "likes": 5,
    "cmts": 0,
    "time": 1788619459,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/798017691_2155274881731449_5914831503596064833_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk3OTU1MDc5ODE5NTAzNTEyNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=yy80RHjAdWgQ7kNvwHRwTRz&_nc_oc=Adp8RmLl8MNfkqro8WS_c0YjmIlhVyA0QfEqeIaHqN3nmRMyqHA6YRpXW2xQbfaEYgs&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=8NN39q2uqvqUAFfZvBvjmg&_nc_ss=7a22e&oh=00_AQIT3rYaxmpc-N7etfVgMnYhxqtKNvr5tN2kHvXS0vRu7A&oe=6AA2BEF9",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/798017691_2155274881731449_5914831503596064833_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk3OTU1MDc5ODE5NTAzNTEyNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=yy80RHjAdWgQ7kNvwHRwTRz&_nc_oc=Adp8RmLl8MNfkqro8WS_c0YjmIlhVyA0QfEqeIaHqN3nmRMyqHA6YRpXW2xQbfaEYgs&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=tLHZjR3GZJcsKu20JbLDEw&_nc_ss=7a22e&oh=00_AQJTuWkV2ME6WGa71NCdWUinrGNs38vvGQ0O4T9StJqF5w&oe=6AA2BEF9",
    "url": "https://www.threads.com/@kopp/post/Dc6NHl8CDQS",
    "region": "kr"
   },
@@ -100,7 +100,7 @@
    "likes": 57,
    "cmts": 3,
    "time": 1788650482,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/798317759_17985864870112832_769693293748715900_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk3OTgxMTE2MTE1MTMyNTY5NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=RZXaXks8t0QQ7kNvwHqLx_w&_nc_oc=AdoU1jNyhap9EYg6xd-27fXBiFzZ-Osvi3RC1ksMwTillluP1--Xbyj1DONwQ5-Juuo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=5wxQxEhfHwSe24ASABk3YA&_nc_ss=7a22e&oh=00_AQIOqfOMaALXYBPtme43WOSg1ilcAaDn2n-Z2mGkf0qsSw&oe=6AA2CEB5",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/798317759_17985864870112832_769693293748715900_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk3OTgxMTE2MTE1MTMyNTY5NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=RZXaXks8t0QQ7kNvwHqLx_w&_nc_oc=AdoU1jNyhap9EYg6xd-27fXBiFzZ-Osvi3RC1ksMwTillluP1--Xbyj1DONwQ5-Juuo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=htqySTMU-_rOOv0lewBjZw&_nc_ss=7a22e&oh=00_AQL9HGEr18lTAKnPBmtvJC8MX-lLsVUUXwC7Dsu5orbq2Q&oe=6AA2CEB5",
    "url": "https://www.threads.com/@choi.openai/post/Dc7ISpFj0X-",
    "region": "kr"
   },
@@ -152,7 +152,7 @@
    "views": 1900000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooDPRCUDqBpuPTmFEWk6RAIgEBqnfZwgeRICBU~tplv-tiktokx-origin.image?dr=14575&x-expires=1788840000&x-signature=XJ22UDZw1xkRtQheV8PNMmw8KGw%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooDPRCUDqBpuPTmFEWk6RAIgEBqnfZwgeRICBU~tplv-tiktokx-origin.image?dr=14575&x-expires=1788843600&x-signature=vO40dISLVp0X%2Bcbe2t0ledsCVPg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785177115,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7667277327386135826",
    "region": "kr"
@@ -163,7 +163,7 @@
    "views": 1600000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAbAoCECNeDAVDgQBcAkFzYBfoUADqQCQWIuZl~tplv-tiktokx-origin.image?dr=14575&x-expires=1788840000&x-signature=bfZY1oMFn4rTOj2I9DjjfwVCBSI%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAbAoCECNeDAVDgQBcAkFzYBfoUADqQCQWIuZl~tplv-tiktokx-origin.image?dr=14575&x-expires=1788843600&x-signature=RYtTeZvkfIEKulp4RNVu4ztbtL4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785471372,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7668541152869616914",
    "region": "kr"
@@ -171,10 +171,10 @@
   {
    "account": "jaemyung_lee",
    "title": "이번 정류장은 브라질입니다 #이재명 #대통령 #Brasil #Brazil",
-   "views": 791200,
+   "views": 791300,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooBGAi8A6InMPiZBpU9fBkTRtAAwBKw0m1E0Ag~tplv-tiktokx-origin.image?dr=14575&x-expires=1788840000&x-signature=y5K9EltwHJoThiN7eptsHJSESZs%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooBGAi8A6InMPiZBpU9fBkTRtAAwBKw0m1E0Ag~tplv-tiktokx-origin.image?dr=14575&x-expires=1788843600&x-signature=dcBDivljIOix0nrWL5lZoVDoMaY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785109781,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7666988131442281746",
    "region": "kr"
@@ -185,7 +185,7 @@
    "views": 497600,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o43E0EJDgKsBeuyFfnqRBCAvI1sAAbI2NsPlIc~tplv-tiktokx-origin.image?dr=14575&x-expires=1788840000&x-signature=fNBwqRK5pUeiAaMoRsSf5UVveek%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o43E0EJDgKsBeuyFfnqRBCAvI1sAAbI2NsPlIc~tplv-tiktokx-origin.image?dr=14575&x-expires=1788843600&x-signature=tPveCfXREnkS%2FEyewgpcnyIpczM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785519099,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7668746136877812999",
    "region": "kr"
@@ -193,10 +193,10 @@
   {
    "account": "jaemyung_lee",
    "title": "이번 정류장은 칠레입니다🇰🇷🇨🇱 #이재명 #대통령 #Chile #Corea",
-   "views": 377800,
+   "views": 377900,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQpDHATAEBzAIGFgqwDA4hofdRfVCsCaqEBIkL~tplv-tiktokx-origin.image?dr=14575&x-expires=1788840000&x-signature=ifhDP7zPbE7in8bU2PFUDuT0VEU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQpDHATAEBzAIGFgqwDA4hofdRfVCsCaqEBIkL~tplv-tiktokx-origin.image?dr=14575&x-expires=1788843600&x-signature=zHknpwq03hdUqOWBYaiZBU4no3U%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785365622,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7668086960883354887",
    "region": "kr"
@@ -204,10 +204,10 @@
   {
    "account": "jaemyung_lee",
    "title": "프랑크푸르트에 도착했습니다🇰🇷🇩🇪 #이재명 #deutschland #frankfurt",
-   "views": 283900,
+   "views": 284000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1788840000&x-signature=t1Q7K4IbshGYcOWMxpv6dfpaVZ8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1788843600&x-signature=z2yB8s6JpRlPFNzqkkoFnjtJ3Jg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785656353,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7669335640793763079",
    "region": "kr"
@@ -215,10 +215,10 @@
   {
    "account": "jaemyung_lee",
    "title": "우리 국민의 구조에 모든 역량을 총동원하겠습니다  #네팔 #긴급회의 #prayfornepal",
-   "views": 282000,
+   "views": 282100,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4ECXepekgFVLDAPQbcqjSdGAIaIofEozvI9Qh~tplv-tiktokx-origin.image?dr=14575&x-expires=1788840000&x-signature=1J%2B%2F%2FmPZLfsgkinuZRmlJ8MVCzQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4ECXepekgFVLDAPQbcqjSdGAIaIofEozvI9Qh~tplv-tiktokx-origin.image?dr=14575&x-expires=1788843600&x-signature=NQtvFAe%2BCFt5eogyqghikzB%2BV2Q%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1787831518,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7678677903122369800",
    "region": "kr"
@@ -229,7 +229,7 @@
    "views": 241500,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-i-photomode-sg/91a2f3151d9741689af70b1d1f8aac3a~tplv-photomode-image.jpeg?dr=14555&x-expires=1788840000&x-signature=fIph5n%2BK0YrsBCEJvuFtWIHWoEs%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=9b759fb9&idc=my2&ftpl=1",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-i-photomode-sg/91a2f3151d9741689af70b1d1f8aac3a~tplv-photomode-image.jpeg?dr=14555&x-expires=1788843600&x-signature=cGtyUXZ6v%2Fqrnm%2FLYQZbLh5b8GY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=9b759fb9&idc=my2&ftpl=1",
    "time": 1785270939,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7667680300490558728",
    "region": "kr"
@@ -237,10 +237,10 @@
   {
    "account": "jaemyung_lee",
    "title": "마참내.. #anthropic #openai #NVIDIA #broadcom #이재명",
-   "views": 201100,
+   "views": 201200,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/osApGgttBIBbbk6zA4iAKdIdkBfL1AAEiSwmCM~tplv-tiktokx-origin.image?dr=14575&x-expires=1788840000&x-signature=itCq7RLkVljw2%2Frtatz%2Fq3vYhSo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/osApGgttBIBbbk6zA4iAKdIdkBfL1AAEiSwmCM~tplv-tiktokx-origin.image?dr=14575&x-expires=1788843600&x-signature=0vlEFlMNmMfvcQQlwDytS1FcRDg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1784945079,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7666280741554195730",
    "region": "kr"
@@ -248,10 +248,10 @@
   {
    "account": "tictok_ent",
    "title": "문가영, 세련된 아우라 / SK-II 팝업 스토어 포토월 #문가영 #SKII",
-   "views": 70200,
+   "views": 70400,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oMAaCA0hKqvlGpCiqXBSkQYvBAIaQir8AAoAE~tplv-tiktokx-origin.image?dr=14575&x-expires=1788840000&x-signature=sKartftGscA%2BT%2B7%2BPO8RvI%2BF6PU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oMAaCA0hKqvlGpCiqXBSkQYvBAIaQir8AAoAE~tplv-tiktokx-origin.image?dr=14575&x-expires=1788843600&x-signature=wMsPcutEVDaTZ6M%2FOcldMaUCf8s%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1788525404,
    "url": "https://www.tiktok.com/@tictok_ent/video/7681658119625248007",
    "region": "kr"
@@ -259,10 +259,10 @@
   {
    "account": "jaemyung_lee",
    "title": "다녀오겠습니다 🇫🇷 🎬 뤼미에르 서밋 2026.09.06.~07. 🇫🇷 국빈방문 2026.09.07.~09. #이재명 #France #SommetLumière",
-   "views": 29800,
+   "views": 34200,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0IAB7tvQACi105Ea6znpBOc0ViIPUiYBqIYi~tplv-tiktokx-origin.image?dr=14575&x-expires=1788840000&x-signature=b4tXyWREF6SKYX2WzufYxkQk9VE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0IAB7tvQACi105Ea6znpBOc0ViIPUiYBqIYi~tplv-tiktokx-origin.image?dr=14575&x-expires=1788843600&x-signature=WZf6sg3tCZE93BAJ85vCi8PPnJQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1788662081,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7682245141595229448",
    "region": "kr"
@@ -270,25 +270,16 @@
   {
    "account": "tictok_ent",
    "title": "강훈, 여심 흔드는 미소 / SK-II 팝업 스토어 포토월 #강훈 #SKII",
-   "views": 27300,
+   "views": 28000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okddAgfBKEwOKj1BauWbCT4VaB8ACi3AiAAjIw~tplv-tiktokx-origin.image?dr=14575&x-expires=1788840000&x-signature=BnMHnIZgzVgmqFNMWGz6xpQs7So%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okddAgfBKEwOKj1BauWbCT4VaB8ACi3AiAAjIw~tplv-tiktokx-origin.image?dr=14575&x-expires=1788843600&x-signature=meb3016o%2F9AzSqtKzpYugQ7CDf4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1788525405,
    "url": "https://www.tiktok.com/@tictok_ent/video/7681658125828738312",
    "region": "kr"
   }
  ],
  "reddit": [
-  {
-   "sub": "interesting",
-   "title": "After 457 Years, the UN Approves a New World Map to Show Africa’s True Size",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/bTZoaHl0M3ZjcW5oMSNcoXfsRL32ROgNg0_Mp6tIHHGmpz2Y3WOs_PQzoNK2.png?width=320&crop=smart&auto=webp&s=fa1a7d7366120dab5691a04e4c3f25b09ac36802",
-   "time": 1788626502,
-   "url": "https://www.reddit.com/r/interesting/comments/1w85n39/after_457_years_the_un_approves_a_new_world_map/"
-  },
   {
    "sub": "baseball",
    "title": "Kansas City crowd celebrates when they get the inflatable hot dog into the inflatable bun",
@@ -306,6 +297,15 @@
    "thumb": "https://external-preview.redd.it/emh6cWpsZHhuc25oMbt_I5YeCqnMepzIra3LtAQb606wlweFtEZ73W0PO2PE.png?width=320&crop=smart&auto=webp&s=74ebc411be963a692f4a4379d9bdca5cbf0f7aeb",
    "time": 1788654438,
    "url": "https://www.reddit.com/r/ContagiousLaughter/comments/1w8h7km/ugly_pants_exchange_005/"
+  },
+  {
+   "sub": "interesting",
+   "title": "After 457 Years, the UN Approves a New World Map to Show Africa’s True Size",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/bTZoaHl0M3ZjcW5oMSNcoXfsRL32ROgNg0_Mp6tIHHGmpz2Y3WOs_PQzoNK2.png?width=320&crop=smart&auto=webp&s=fa1a7d7366120dab5691a04e4c3f25b09ac36802",
+   "time": 1788626502,
+   "url": "https://www.reddit.com/r/interesting/comments/1w85n39/after_457_years_the_un_approves_a_new_world_map/"
   },
   {
    "sub": "PoursTea",
@@ -335,24 +335,6 @@
    "url": "https://www.reddit.com/r/interestingasfuck/comments/1w7zrcl/american_airlines_passenger_duct_taped_to_seat/"
   },
   {
-   "sub": "mildlyinteresting",
-   "title": "My 60+ yr old (f) neighbor who lives alone bought an exact replica of her own car",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/3vm41rxresnh1.jpeg?width=640&crop=smart&auto=webp&s=4df2a27586bd3c04afaafcf469749ac66604b5aa",
-   "time": 1788651349,
-   "url": "https://www.reddit.com/r/mildlyinteresting/comments/1w8g32q/my_60_yr_old_f_neighbor_who_lives_alone_bought_an/"
-  },
-  {
-   "sub": "MadeMeSmile",
-   "title": "Food connects people",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/vl57djhcwrnh1.png?width=320&crop=smart&auto=webp&s=f5976c717921ce547c904994edf9e30876c864f8",
-   "time": 1788645161,
-   "url": "https://www.reddit.com/r/MadeMeSmile/comments/1w8dor4/food_connects_people/"
-  },
-  {
    "sub": "AskReddit",
    "title": "What YouTuber had the worst downfall?",
    "score": 0,
@@ -360,6 +342,15 @@
    "thumb": "",
    "time": 1788635090,
    "url": "https://www.reddit.com/r/AskReddit/comments/1w89fu0/what_youtuber_had_the_worst_downfall/"
+  },
+  {
+   "sub": "mildlyinteresting",
+   "title": "My 60+ yr old (f) neighbor who lives alone bought an exact replica of her own car",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/3vm41rxresnh1.jpeg?width=640&crop=smart&auto=webp&s=4df2a27586bd3c04afaafcf469749ac66604b5aa",
+   "time": 1788651349,
+   "url": "https://www.reddit.com/r/mildlyinteresting/comments/1w8g32q/my_60_yr_old_f_neighbor_who_lives_alone_bought_an/"
   },
   {
    "sub": "aviation",
@@ -387,6 +378,15 @@
    "thumb": "https://external-preview.redd.it/M_je65xPdLcxZZrDNDlrzHks93JeRXqagSm3jWOCpfE.jpeg?width=640&crop=smart&auto=webp&s=eb15a990e9575153ca6ddf94ea7a4bf63354429b",
    "time": 1788613982,
    "url": "https://www.reddit.com/r/politics/comments/1w80fqm/majority_of_canadians_now_see_us_as_an_enemy_and/"
+  },
+  {
+   "sub": "movies",
+   "title": "Danny Boyle confirms AI was used to generate animals like mice, and bring old photographs to life in his upcoming movie 'Ink'",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/t1st_TJ1l15C3xp8g2EOXlLYdpO0ZkikpJyBFtuMeRQ.jpeg?width=640&crop=smart&auto=webp&s=64abfe62945b69d62df8ae734204ef148c844574",
+   "time": 1788644492,
+   "url": "https://www.reddit.com/r/movies/comments/1w8df96/danny_boyle_confirms_ai_was_used_to_generate/"
   }
  ],
  "disaster": [],
@@ -431,10 +431,10 @@
    }
   },
   "landing": {
-   "at": "2026-09-06T13:05:37",
+   "at": "2026-09-06T13:31:22",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-09-06T13:31:19.936222+09:00"
+ "updated": "2026-09-06T14:01:20.122444+09:00"
 }
