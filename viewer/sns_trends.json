@@ -7675,8 +7675,14 @@
   {
    "query": "인도네시아",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/84019a2056.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.newspim.com/news/view/20260903001103",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-09-06T20:20:00+09:00",
    "delta": -5,
@@ -7732,8 +7738,14 @@
   {
    "query": "트레킹",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/2f9cab96a0.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://momonews.com/80927",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-09-06T20:30:00+09:00",
    "delta": -10,
@@ -7746,8 +7758,14 @@
   {
    "query": "서정희",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/0f9fdf8188.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.tenasia.co.kr/article/2026090437094",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-09-06T19:50:00+09:00",
    "delta": -7,
@@ -8057,11 +8075,12 @@
  ],
  "gtrends_pool_updated": "2026-09-06T22:45:27+09:00",
  "_trend_img": {
-  "tried": "2026-09-06T22:12:07+09:00",
+  "tried": "2026-09-06T22:45:27+09:00",
   "fail": {
-   "다음 뉴스": "2026-09-06T20:30:36+09:00",
    "위장전입": "2026-09-06T21:43:33+09:00",
-   "안양 대 강원": "2026-09-06T22:18:49+09:00"
+   "안양 대 강원": "2026-09-06T22:18:49+09:00",
+   "피터팬 아빠": "2026-09-06T22:53:25+09:00",
+   "울산광역시": "2026-09-06T22:53:25+09:00"
   }
  },
  "gtrends_gl": [
@@ -17482,7 +17501,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-06T22:45:27+09:00"
+    "first_seen": "2026-09-06T22:45:27+09:00",
+    "kw": "GPT-6 Astra, AI 소식",
+    "sum": "계정이 GPT-6 Astra 관련 AI 소식 41개를 정리했다",
+    "sv": 1
    },
    {
     "account": "aipeekme",
