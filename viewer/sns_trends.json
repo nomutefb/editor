@@ -7362,8 +7362,14 @@
   {
    "query": "오스탈",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/e2310029dc.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.asiatoday.co.kr/kn/view.php?key=20260903010001430",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-09-07T13:10:00+09:00",
    "isNew": true,
@@ -7688,8 +7694,14 @@
   {
    "query": "맥스 할로웨이",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/0d263d017d.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://sports.news.nate.com/view/20260712n07985",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-07T12:20:00+09:00",
    "delta": -12,
@@ -7715,8 +7727,14 @@
   {
    "query": "신인감독 김연경",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/4156a68ec6.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.tenasia.co.kr/article/2026090775544",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-07T12:00:00+09:00",
    "delta": -9,
@@ -7771,8 +7789,14 @@
   {
    "query": "주민등록 사실조사",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/a99f6efd25.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.djournal.co.kr/news/article.html?no=110107",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-07T11:30:00+09:00",
    "isNew": true,
@@ -7784,8 +7808,14 @@
   {
    "query": "티빙",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/c81b38421a.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.boannews.com/news/articleView.html?idxno=145629",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-09-07T12:50:00+09:00",
    "isNew": true,
@@ -7797,8 +7827,14 @@
   {
    "query": "번트",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/0a5af82b20.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://isplus.com/article/view/isp202609060117",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-07T12:20:00+09:00",
    "delta": -18,
@@ -7963,8 +7999,12 @@
  ],
  "gtrends_pool_updated": "2026-09-07T14:34:25+09:00",
  "_trend_img": {
-  "tried": "2026-09-07T13:49:52+09:00",
-  "fail": {}
+  "tried": "2026-09-07T14:34:25+09:00",
+  "fail": {
+   "해군": "2026-09-07T14:41:32+09:00",
+   "수출": "2026-09-07T14:41:32+09:00",
+   "fc 바르셀로나": "2026-09-07T14:41:32+09:00"
+  }
  },
  "gtrends_gl": [
   {
@@ -17402,7 +17442,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-07T14:34:25+09:00"
+    "first_seen": "2026-09-07T14:34:25+09:00",
+    "kw": "AI 영상, 트래핑",
+    "sum": "계정이 AI 트래핑 영상의 표현력에 감탄했다",
+    "sv": 1
    },
    {
     "account": "aipeekme",
@@ -17417,7 +17460,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-09-07T14:34:25+09:00"
+    "first_seen": "2026-09-07T14:34:25+09:00",
+    "kw": "AI 영상, 감정연기",
+    "sum": "계정이 AI 캐릭터의 감정연기 표현력에 감탄했다",
+    "sv": 1
    },
    {
     "account": "aipeekme",
@@ -17811,7 +17857,10 @@
     "rh": [
      20
     ],
-    "first_seen": "2026-09-07T14:34:25+09:00"
+    "first_seen": "2026-09-07T14:34:25+09:00",
+    "kw": "GPT-6 Astra, 리니지 스타일 게임",
+    "sum": "작성자가 GPT-6 Astra로 리니지풍 게임을 만들었다",
+    "sv": 1
    }
   ]
  },
