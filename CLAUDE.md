@@ -25,7 +25,7 @@
 
 ## 검증과 반영
 - 변경 전 현재 상태를 확인하고 관련 회귀 사례를 확보한다. 기계 산출물은 생성 코드에서 변경한다.
-- 커밋 전 `python3 shared/check_refs.py` 필수. 동작 검사는 `node --test tests/*.test.mjs`와 `python3 tests/test_git_land.py`.
+- 커밋 전 `python3 shared/check_refs.py` 필수. 동작 검사는 `node --test tests/*.test.mjs`와 `python3 -m unittest discover -s tests -p 'test_*.py'`.
 - 화면 변경은 `bash shared/smoke_all.sh`도 통과해야 한다. 스냅샷 비교는 `node shared/preview_shot.js base`와 `diff`.
 - 넓은 동작·구조 변경은 독립 검토를 수행한다. 검사 실패를 숨기거나 기존 기준을 근거 없이 낮추지 않는다.
 - 반영은 `bash shared/merge_main.sh prep` 후 검토 가능한 PR을 만들고 `bash shared/merge_main.sh land`. 기준은 항상 최신 `origin/main`.

@@ -9,7 +9,12 @@
 # 카운트 기준 = 개행 제외(분신술② 실측·PROJECT_MEMORY 사례와 정합) · 면책 줄("⚠️ 본문 내용은…")은 지침
 #     규정("면책 줄은 글자수 카운트 제외")대로 빼고 센다 · 플랫폼 하드 500 판정만 개행 포함(Threads 실카운트 통설).
 # 사용: python3 shared/digest_guard.py <queue/xxx.md>   (analyze.sh·ask.sh가 저장 직후 호출 · 수동 점검 동일)
-import os, re, sys
+import json, os, re, sys
+from pathlib import Path
+
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "apps", "news"))
+from fact_guard import check as _number_check
+sys.path.pop(0)
 
 _DISCLAIMER = re.compile(r"^⚠️ 본문 내용은.*$", re.M)   # 편향 가드 면책 한 줄(지침: 카운트 제외)
 
@@ -24,6 +29,59 @@ def _clen(s):
 def _clen_hard(s):
     # 플랫폼 하드 상한 판정 = 물리 총량(면책 줄도 실제 게시물에 포함되므로 안 뺌·개행 포함 — 재검증11)
     return len(s)
+
+def _fixed_lines(block):
+    """수정 대상에서 제외할 출처·면책 줄. 숫자를 본문 근거로 재사용하지 않는다."""
+    return tuple(l for l in block.splitlines()
+                 if l.lstrip().startswith(("⚡", "ⓔ")) or "⚠️ 본문 내용은" in l)
+
+def _prose(block, titled=False):
+    lines = block.strip().splitlines()
+    if titled:
+        lines = lines[1:]
+    return "\n".join(l for l in lines
+                     if not l.lstrip().startswith(("⚡", "ⓔ", "⚠️ 본문 내용은")))
+
+def _has_prose(block, titled=False):
+    return bool(re.search(r"[가-힣A-Za-z0-9]", _prose(block, titled)))
+
+def _frontmatter_scalar(raw, key):
+    """두 선택 필드용 단일행 문자열 읽기. 중복·다중행·잘못된 값은 면제를 만들지 않는다."""
+    fm = re.match(r"\A---[ \t]*\r?\n(.*?)\r?\n---[ \t]*(?:\r?\n|$)", raw, re.S)
+    if not fm:
+        return None
+    rows = re.findall(r"^" + re.escape(key) + r":[ \t]*(.*)$", fm.group(1), re.M)
+    if len(rows) != 1:
+        return None
+    value = rows[0].strip()
+    if value.startswith('"'):
+        try:
+            decoded, end = json.JSONDecoder().raw_decode(value)
+        except (ValueError, TypeError):
+            return None
+        if value[end:] and not re.fullmatch(r"[ \t]+#.*", value[end:]):
+            return None
+        value = decoded
+    elif value.startswith("'"):
+        quoted = re.fullmatch(r"'((?:[^']|'')*)'(?:[ \t]+#.*)?", value)
+        if not quoted:
+            return None
+        value = quoted.group(1).replace("''", "'")
+    else:
+        value = re.split(r"\s+#", value, maxsplit=1)[0].strip()
+        if (not value or value[0] in "#[]{}|>&*!%@`" or
+                value.lower() in {"null", "~", "true", "false", "yes", "no"} or
+                re.fullmatch(r"[+-]?[\d.]+", value)):
+            return None
+    return value.strip() if isinstance(value, str) and "\n" not in value and "\r" not in value else None
+
+def _brief_complete(raw):
+    """편집자가 선언한 짧은 완결본의 하한 면제. 원문 완전성을 기계 인증하는 표지가 아니다."""
+    if (_frontmatter_scalar(raw, "summary_mode") != "brief_complete" or
+            not _frontmatter_scalar(raw, "summary_reason")):
+        return False
+    return all(_has_prose(_blk(raw, name) or "", name != "자유요약")
+               for name in ("자유요약", "IG", "Thread"))
 
 _QUAL = r"(?:그룹|밴드|가수|배우|아이돌|기업|회사|의원|장관|시장|지사|교수|감독|대표|회장|사장|위원장|청장|서장|총장|주지사|대통령)"
 _SUBJ_LESS = re.compile(r"^[^은는이가\n]{0,60}?(?:에서|으로|로)\s+(?:시작됐다|번졌다|불거졌다|비롯됐다|출발했다)")
@@ -124,7 +182,8 @@ def _claim(body, name):
     return claim, denom
 
 def lint(path):
-    raw = open(path, encoding="utf-8").read()
+    raw = Path(path).read_text(encoding="utf-8")
+    brief = _brief_complete(raw)
     warns, infos = [], []
     fmm = re.search(r"^---\s*$(.*?)^---\s*$", raw, re.M | re.S)
     body = raw[fmm.end():] if fmm else raw
@@ -155,7 +214,7 @@ def lint(path):
         claim, denom = _claim(body, name)
         if hi and n > hi:
             warns.append("[{}] 실측 {}자 > 상한 {}자 (자가표기 {})".format(name, n, hi, claim if claim is not None else "없음"))
-        elif lo and n < lo:
+        elif lo and n < lo and not brief:
             infos.append("[{}] 실측 {}자 < 완충 하한 {}자 = 과소 활용 의심 (자가표기 {})".format(name, n, lo, claim if claim is not None else "없음"))
         if hard and _clen_hard(b) > hard:   # 플랫폼 하드 상한 = 개행 포함 실카운트로 판정(검증5)
             warns.append("[{}] ⛔ 개행 포함 {}자 > 플랫폼 하드 {} — 게시 시 잘림 위험".format(name, _clen_hard(b), hard))
@@ -217,18 +276,32 @@ def lint(path):
         print("DIGEST_LINT ✅ 규격·자수 통과 — " + base)
     return 0   # 비차단(경고 전용) — 하드 차단은 오탐 시 파이프라인을 세우므로 안 함(운영자 승인 전)
 
-# ── 분량 가드(SUMMARY_LEN_GUARD · 260705 · 기본 OFF 카나리아) ─────────────────────────────
-# 왜: #1552(effort max→high) 후 IG 630→540자·Thread 415→347자 급감(자유요약 무손상 = 압축 단계만 부실 ·
-#     진단 = docs/작업이력.md 260705). 보강 임계 = 지침 목표선 하단(IG 600·Thread 390) — lint 완충 550과
-#     별개 축(lint = 경고 소음 억제·guard = 재작성 발동, 값 다름 = 의도). 결빈약(자유요약<800) = 면제(지침
-#     "짧음의 근거 = 원문 결 부족" 존중). 호출 = shared/summary_repair.sh (ask.sh·analyze.sh 공용).
-REPAIR_IG_LO, REPAIR_TH_LO, REPAIR_FREE_MIN = 600, 370, 800
+# ── 분량 가드(SUMMARY_LEN_GUARD) ────────────────────────────────────────────────
+# 하한은 재검토 목표이고 짧은 출력 자체는 원문이 짧거나 완전하다는 근거가 아니다.
+# 명시적인 brief_complete만 하한 면제. 상한·플랫폼 하드는 면제하지 않는다.
+# 호출 = shared/summary_repair.sh (ask.sh·analyze.sh 공용).
+REPAIR_IG_LO, REPAIR_TH_LO = 600, 370
 REPAIR_IG_HI, REPAIR_TH_HI = 800, 430        # 상한(01_지침) — 초과도 교정 대상(260810)
 REPAIR_TH_HARD = 500   # Thread over 발동선 = 플랫폼 하드(개행 포함 · 260825 운영자 «465는 괜찮다» — 실측 최근 150건: 안전선 430 초과 31%인데 개행포함>500은 0% = 실제 잘림 없는 8분 재작성이 1/3 회차에 물리던 것 소거 · 재작성 목표·splice 검증은 종전 370~430 유지)
 
+def _repair_targets(blks, brief):
+    """블록별 발동 사유. 검사와 후보 이식이 같은 대상을 사용한다."""
+    targets = {}
+    for name, lo, hi, hard in (("IG", REPAIR_IG_LO, REPAIR_IG_HI, None),
+                               ("Thread", REPAIR_TH_LO, REPAIR_TH_HI, REPAIR_TH_HARD)):
+        block = blks.get(name)
+        if block is None:
+            continue
+        n = _clen(block)
+        if (hard is None and n > hi) or (hard is not None and _clen_hard(block) > hard):
+            targets[name] = "over"
+        elif not brief and n < lo:
+            targets[name] = "under"
+    return targets
+
 def repair_check(path):
     """보강 필요 판정 — 'REPAIR ig=N thread=N free=N' 또는 'OK …'/'SKIP …' 1줄. 항상 exit 0(fail-soft)."""
-    raw = open(path, encoding="utf-8").read()
+    raw = Path(path).read_text(encoding="utf-8")
     fmm = re.search(r"^---\s*$(.*?)^---\s*$", raw, re.M | re.S)
     body = raw[fmm.end():] if fmm else raw
     vals = {}; blks = {}
@@ -237,32 +310,35 @@ def repair_check(path):
         if b is None:
             print("SKIP {} 블록 미검출".format(n)); return 0
         blks[n] = b; vals[n] = _clen(b)
-    if vals["자유요약"] < REPAIR_FREE_MIN:
-        print("OK 결빈약 면제 ig={} thread={} free={}".format(vals["IG"], vals["Thread"], vals["자유요약"])); return 0
-    under = vals["IG"] < REPAIR_IG_LO or vals["Thread"] < REPAIR_TH_LO
-    # ⚠️ 초과 축(260810 신설) — 구판은 **미달만** 봤다. 그래서 상한 초과에는 자동 교정 경로가
-    #   아예 없었고, 260810 3세대 실측에서 Thread 500자(개행 포함 510)가 그대로 나갔다 =
-    #   플랫폼 하드 500 초과 = **게시 시 잘림**. 「짧으면 고치고 길면 방치」는 반쪽 가드다.
-    th_hard = _clen_hard(blks["Thread"])   # Thread over 축 = 개행 포함 실측 vs 플랫폼 하드 500(260825 — 안전선 430은 재작성 목표로만 잔존)
-    over = vals["IG"] > REPAIR_IG_HI or th_hard > REPAIR_TH_HARD
+    brief = _brief_complete(raw)
+    targets = _repair_targets(blks, brief)
+    under, over = "under" in targets.values(), "over" in targets.values()
+    th_hard = _clen_hard(blks["Thread"])
     tag = "REPAIR over" if over else ("REPAIR under" if under else "OK")
-    print("{} ig={} thread={}(개행포함 {}) free={}".format(tag, vals["IG"], vals["Thread"], th_hard, vals["자유요약"]))
+    print("{} ig={} thread={}(개행포함 {}) free={} mode={} blocks={}".format(
+        tag, vals["IG"], vals["Thread"], th_hard, vals["자유요약"],
+        "brief_complete" if brief else "standard", ",".join(n + ":" + why for n, why in targets.items()) or "none"))
     return 0
-
-def _nums(s):
-    return set(re.findall(r"\d{2,}", s.replace(",", "")))   # 2자리+ 숫자 토큰(쉼표 정규화 — '5,000'='5000')
 
 def splice(path, cand_path):
     """보강 후보의 IG/Thread 코드블록 '내용'만 검증 후 원본에 이식(헤더·📊 줄·frontmatter 불변 ·
     헤더 자수 라벨은 실측으로 갱신). 블록별 독립 판정 — 검증 실패 블록 = 원본 유지(fail-soft·항상 exit 0).
     후보 펜스는 ```text·``` 둘 다 허용(평의회4 — 언어태그 누락 변동성 흡수 · 원본은 항상 ```text라 무영향).
     Thread 상한·분모 = 현행 430(v1.19.2 정본) — 구 /500·/450 표기 파일도 보강 성공 시 /430로 정규화(lint 드리프트 교정과 동방향)."""
-    raw = open(path, encoding="utf-8").read()
+    raw = Path(path).read_text(encoding="utf-8")
     raw_orig = raw
-    cand = open(cand_path, encoding="utf-8").read()
-    src_nums = _nums(raw_orig)   # 날조 경량 가드 기준 = 원본 다이제스트 전체(frontmatter·자유요약 포함)
+    cand = Path(cand_path).read_text(encoding="utf-8")
+    brief = _brief_complete(raw_orig)
+    blks = {n: _blk(raw_orig, n) for n in ("자유요약", "IG", "Thread")}
+    if any(b is None for b in blks.values()):
+        print("SPLICE 기준본/파생 블록 미검출 — 원본 유지")
+        return 0
+    targets = _repair_targets(blks, brief)
+    source = _prose(blks["자유요약"])
     results = []
     for name, hi, hard, lo in (("IG", 800, None, REPAIR_IG_LO), ("Thread", 430, 500, REPAIR_TH_LO)):
+        if name not in targets:
+            results.append("{}: 보강 대상 아님 — 유지".format(name)); continue
         pat = re.compile(r"(^###\s*\[" + name + r"[^\]]*\]\s*\n+```(?:text)?\n)(.*?)(\n```)", re.M | re.S)
         mc, mt = pat.search(cand), pat.search(raw)
         if not mc or not mt:
@@ -270,23 +346,25 @@ def splice(path, cand_path):
         new, old = mc.group(2), mt.group(2)
         n_new, n_old = _clen(new), _clen(old)
         why = []
-        # 방향 인지 검증(260817) — 구판은 '증가 아님' 단조 검증뿐이라 REPAIR over(260810 신설)가 잘라낸
-        #   결과를 전건 기각했다 = 상한 초과 교정이 구조적으로 착지 불가(over 보강이 돌아도 원본 유지 ·
-        #   실측 최근 120건 Thread 상한 초과 38%가 그 사각의 증상). 원본이 상한 초과면 '줄어들었는가'로,
-        #   그 외엔 종전대로 '늘었는가'로 판정. 과절단 하한 = 보강 발동 하한(REPAIR_*_LO)과 한 값.
-        if n_old > hi:
-            if n_new >= n_old: why.append("감소 아님 {}→{}".format(n_old, n_new))
-            elif n_new < lo: why.append("과절단 {} < 하한 {}".format(n_new, lo))
+        # Thread는 개행만으로도 플랫폼 하드를 넘을 수 있다. 발동 때와 같은 총량으로 감소를 판정한다.
+        if targets[name] == "over":
+            old_size, new_size = (_clen_hard(old), _clen_hard(new)) if hard else (n_old, n_new)
+            if new_size >= old_size: why.append("감소 아님 {}→{}".format(old_size, new_size))
+            if not brief and n_new < lo: why.append("과절단 {} < 하한 {}".format(n_new, lo))
         elif n_new <= n_old: why.append("증가 아님 {}→{}".format(n_old, n_new))
         if n_new > hi: why.append("상한 {} 초과({})".format(hi, n_new))
         if hard and _clen_hard(new) > hard: why.append("개행 포함 {} > 플랫폼 하드 {}".format(_clen_hard(new), hard))
         if name == "IG" and "🔎" not in new: why.append("🔎 리드 누락")
+        if not _has_prose(new, titled=True): why.append("본문 누락")
         if "⚡" not in new and "ⓔ" not in new: why.append("⚡/ⓔ 출처 줄 누락")
         if bool(_DISCLAIMER.search(old)) != bool(_DISCLAIMER.search(new)): why.append("면책 줄 유무 불일치(소실/무단 삽입)")   # 대칭 검증(평의회2 — 역방향 무단 삽입도 차단)
         ofl, nfl = old.strip().split("\n", 1)[0].strip(), new.strip().split("\n", 1)[0].strip()
         if ofl != nfl: why.append("제목 줄 변경")   # 헤드 원문 보존 강제(평의회2·4)
-        fab = sorted(x for x in (_nums(new) - _nums(old)) if x not in src_nums)
-        if fab: why.append("원본에 없는 숫자 도입({})".format("·".join(fab[:3])))   # 날조 경량 가드(평의회4 — 오탐=원본 유지라 안전)
+        if _fixed_lines(old) != _fixed_lines(new): why.append("출처·면책 줄 변경")
+        # 1자리도 검사하고 조/억/만 정규화는 fact_guard와 공유한다. 제목·출처는 그대로 보존하되
+        # 그 숫자나 frontmatter·다른 블록의 숫자가 후보 본문을 정당화하지는 못한다.
+        fab = _number_check(source, _prose(new, titled=True))
+        if fab: why.append("자유요약 본문에 없는 수치({})".format("·".join(fab[:3])))
         if why:
             results.append("{}: 검증 실패({}) — 유지".format(name, " · ".join(why))); continue
         raw = raw[:mt.start(2)] + new + raw[mt.end(2):]
@@ -294,7 +372,7 @@ def splice(path, cand_path):
         results.append("{}: {}→{}자 보강".format(name, n_old, n_new))
     if raw != raw_orig:   # 원자적 쓰기 + 무변경 시 무접촉(평의회2 — truncate 창 제거)
         tmp = path + ".tmp"
-        open(tmp, "w", encoding="utf-8").write(raw)
+        Path(tmp).write_text(raw, encoding="utf-8")
         os.replace(tmp, path)
     print("SPLICE " + " · ".join(results))
     return 0

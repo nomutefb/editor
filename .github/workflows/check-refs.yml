@@ -51,10 +51,10 @@ jobs:
         run: python3 -m pip install 'PyYAML==6.0.2' 'Pillow==11.3.0'
       - name: check_refs (경로·버전·디자인거울·JS 구문)
         run: python3 shared/check_refs.py
-      - name: Save and recovery regressions
+      - name: Regression tests
         run: |
           node --test tests/*.test.mjs
-          python3 tests/test_git_land.py
+          python3 -m unittest discover -s tests -p 'test_*.py'
       - name: Build viewer
         run: node build-viewer.mjs
       - name: UI regressions

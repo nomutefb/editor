@@ -30,6 +30,7 @@ import sys
 SCALE = {'조': 10**12, '억': 10**8, '만': 10**4}
 NUM = re.compile(r'(\d[\d,]*(?:\.\d+)?)(조|억|만)?')
 TOL = 0.05  # 스케일 수치 반올림 허용(±5%)
+URL = re.compile(r"(?:https?://|www\.)[^\s<>()\[\]\"'`]+", re.I)
 
 
 def _clean(text):
@@ -45,6 +46,9 @@ def _clean(text):
 
 def tokens(text):
     """[(값, 원문표기, 스케일유무)] — '1조2000억'·'1만5000' 같은 연속 표기는 1값으로 합침."""
+    # 링크의 기사 ID·경로 날짜는 기사 사실이 아니다. Markdown의 설명 글과 URL 주변 본문은 남긴다.
+    # 정방향(check)·누락(coverage)이 같은 토크나이저를 써서 링크 숫자의 근거 오인/누락 경고를 함께 막는다.
+    text = URL.sub(" ", text)
     out, run_val, run_start, run_end, run_scaled = [], 0.0, None, None, False
     for m in NUM.finditer(text):
         v = float(m.group(1).replace(',', ''))

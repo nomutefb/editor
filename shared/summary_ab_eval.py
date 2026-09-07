@@ -68,7 +68,8 @@ def h1_of(body):
 
 
 def eval_run(path, src_body):
-    t = open(path, encoding='utf-8').read()
+    with open(path, encoding='utf-8') as source_file:
+        t = source_file.read()
     fm, body = fm_of(t)
     free, ig, th = dg._blk(body, '자유요약'), dg._blk(body, 'IG'), dg._blk(body, 'Thread')
     fact = sec(body, '## 📰 Fact')
@@ -76,6 +77,11 @@ def eval_run(path, src_body):
     draft = '\n'.join(x or '' for x in (free, ig, th)) + '\n' + insight
     allow = (src_body or '') + '\n' + fact
     r = {'file': os.path.basename(path)}
+    # 편집자가 명시한 단신 예외만 공유 판정기로 인정한다. 원문 검증 완료 표시는 아니다.
+    brief = dg._brief_complete(t)
+    r['summary_mode'] = dg._frontmatter_scalar(t, 'summary_mode') or 'standard'
+    r['summary_reason'] = dg._frontmatter_scalar(t, 'summary_reason') or ''
+    r['L_brief_exception'] = brief
     # ── S 골격 ──
     r['S1_sections'] = sum(1 for s in SECTIONS if s in body)
     r['S2_blocks'] = int(bool(free)) + int(bool(ig)) + int(bool(th))
@@ -114,12 +120,14 @@ def eval_run(path, src_body):
     # ── L 분량·골격 ──
     r['L_len'] = {'free': dg._clen(free or ''), 'ig': dg._clen(ig or ''), 'th': dg._clen(th or ''), 'th_hard': len((th or '').strip())}
     r['L_pins'] = {'ig': (ig or '').count('📍'), 'th': (th or '').count('📍'), 'ig_lead': (ig or '').count('🔎')}
-    # 하드 = 미달(과소 활용 = 지침이 실패로 규정) · Thread 개행포함 500 초과(게시 잘림). 상한 초과는 라이브 A 도 흔해 비교 축(아래 C)으로.
-    r['L1_free_ok'] = r['L_len']['free'] >= 850 or (r['L_len']['free'] < 800 and len(src_body or '') < 1500)
-    r['L2_ig_ok'] = r['L_len']['ig'] >= 600
-    r['L3_th_ok'] = r['L_len']['th'] >= 370 and r['L_len']['th_hard'] <= 500
+    # 단신 예외는 하한만 면제한다. 짧거나 누락된 src_body 자체는 면제 근거가 아니다.
+    # Thread 개행포함 500은 모든 모드에 하드; 나머지 초과량은 종전대로 L_over/C에 보존한다.
+    r['L1_free_ok'] = brief or r['L_len']['free'] >= 850
+    r['L2_ig_ok'] = brief or r['L_len']['ig'] >= 600
+    r['L3_th_ok'] = (brief or r['L_len']['th'] >= 370) and r['L_len']['th_hard'] <= 500
     r['L_over'] = {'free': max(0, r['L_len']['free'] - 1000), 'ig': max(0, r['L_len']['ig'] - 800), 'th': max(0, r['L_len']['th'] - 430)}
-    r['L4_pins_ok'] = 4 <= r['L_pins']['ig'] <= 6 and 3 <= r['L_pins']['th'] <= 5
+    r['L4_pins_ok'] = ((1 if brief else 4) <= r['L_pins']['ig'] <= 6 and
+                       (1 if brief else 3) <= r['L_pins']['th'] <= 5)
     # ── W 문체 ──
     sents = sentences('\n'.join(x or '' for x in (free, ig, th)))
     r['W1_nominal_end'] = [s for s in sents if NOMINAL_RE.search(s) and not re.search(r'다\.?$', s)][:5]
@@ -200,7 +208,9 @@ def judge_packet(art_dir, runs):
     """심사 패킷 = FM 제거(title 만) · 자수 라벨·📊 줄 제거 · 실측 자수 표기(평의회2 ②)"""
     outdir = os.path.join(art_dir, 'judge'); os.makedirs(outdir, exist_ok=True)
     def strip(path):
-        t = open(path, encoding='utf-8').read(); fm, body = fm_of(t)
+        with open(path, encoding='utf-8') as source_file:
+            t = source_file.read()
+        fm, body = fm_of(t)
         body = re.sub(r'^### \[(자유요약|IG|Thread)[^\]]*\]', lambda m: '### [%s]' % m.group(1), body, flags=re.M)
         body = re.sub(r'^📊 편향.*$', '', body, flags=re.M)
         keep = []
@@ -208,10 +218,19 @@ def judge_packet(art_dir, runs):
             i = body.find(head); keep.append(body[i:] if i >= 0 else body)
         h1 = h1_of(body)
         lens = {n: dg._clen(dg._blk(body, n) or '') for n in ('자유요약', 'IG', 'Thread')}
+        if dg._brief_complete(t):
+            return ('원문 제목: %s\n헤드: %s\n'
+                    '분량 판단: 짧은 완결 기사 예외(편집 판단·사실 검증 완료 인증 아님). '
+                    '원문 대비 핵심 누락·주장 귀속은 별도로 확인한다.\n'
+                    '예외 사유: %s\n'
+                    '실측 자수: 자유요약 %d · IG %d(상한 800) · Thread %d(상한 430)\n\n%s') % (
+                fm.get('title', ''), h1, dg._frontmatter_scalar(t, 'summary_reason'),
+                lens['자유요약'], lens['IG'], lens['Thread'], keep[0].strip())
         return '원문 제목: %s\n헤드: %s\n실측 자수: 자유요약 %d(목표 850~1000) · IG %d(600~780 · 상한 800) · Thread %d(370~420 · 상한 430)\n\n%s' % (
             fm.get('title', ''), h1, lens['자유요약'], lens['IG'], lens['Thread'], keep[0].strip())
     for tag, path in runs.items():
-        open(os.path.join(outdir, tag + '.txt'), 'w', encoding='utf-8').write(strip(path))
+        with open(os.path.join(outdir, tag + '.txt'), 'w', encoding='utf-8') as packet_file:
+            packet_file.write(strip(path))
 
 
 def main(d):
