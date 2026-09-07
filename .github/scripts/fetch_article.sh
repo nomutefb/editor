@@ -130,4 +130,11 @@ res = '\n'.join(out).strip()
 # 추출이 빈약하면(본문 한글 200자 미만) 빈 출력 → 분석기 WebFetch 폴백에 맡긴다.
 if len(re.findall(r'[가-힣]', res)) >= 200:
     print(res[:6000])
+    clipped = []
+    if len(keep) > 40: clipped.append('본문 40줄')
+    if len(res) > 6000: clipped.append('6,000자')
+    if clipped:
+        # 본문 선택·길이는 그대로 두고 상태만 절단 밖에 붙인다. 짧은 완결 기사로 오인하지 않게 한다.
+        print('\n[원문 추출 일부 생략] 추출 한도로 뒤 내용이 생략됐음(' + ', '.join(clipped)
+              + '). 원문이 짧거나 끝났다는 뜻이 아니며, 누락된 사실·반론·조건은 원문 확인이 필요함.')
 PY
