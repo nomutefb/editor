@@ -7739,8 +7739,14 @@
   {
    "query": "fcl",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/91840bfced.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.gameple.co.kr/news/articleView.html?idxno=216349",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-07T21:20:00+09:00",
    "delta": -10,
@@ -7753,8 +7759,14 @@
   {
    "query": "의료",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/553269eeec.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.m-i.kr/news/articleView.html?idxno=1405962",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-07T21:10:00+09:00",
    "delta": -10,
@@ -7768,8 +7780,14 @@
   {
    "query": "미군",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/8d032f14fd.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://imnews.imbc.com/news/2026/politics/article/6841542_36911.html",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-07T21:00:00+09:00",
    "delta": -9,
@@ -7803,8 +7821,14 @@
   {
    "query": "김지찬",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/1152bc2302.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.koreadaily.com/article/20260810023558408",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-07T20:30:00+09:00",
    "delta": -9,
@@ -7877,8 +7901,14 @@
   {
    "query": "여인형",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/193363ef27.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.newspim.com/news/view/20260818000616",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-09-07T22:00:00+09:00",
    "isNew": true,
@@ -7910,8 +7940,14 @@
   {
    "query": "오스틴 딘",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/589496ac18.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.mt.co.kr/sports/2026/08/17/202608170529770734O",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-07T20:00:00+09:00",
    "delta": -13,
@@ -7926,8 +7962,14 @@
   {
    "query": "이소나",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/e01a491a3f.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.kwnews.co.kr/article/20260720500035",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-09-07T20:40:00+09:00",
    "delta": -17,
@@ -8106,10 +8148,11 @@
  ],
  "gtrends_pool_updated": "2026-09-07T23:40:48+09:00",
  "_trend_img": {
-  "tried": "2026-09-07T23:01:19+09:00",
+  "tried": "2026-09-07T23:40:48+09:00",
   "fail": {
    "다랑어": "2026-09-07T21:45:52+09:00",
-   "카페": "2026-09-07T22:31:09+09:00"
+   "카페": "2026-09-07T22:31:09+09:00",
+   "종합격투기": "2026-09-07T23:45:15+09:00"
   }
  },
  "gtrends_gl": [
@@ -17503,7 +17546,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-07T23:40:48+09:00"
+    "first_seen": "2026-09-07T23:40:48+09:00",
+    "kw": "유튜브 영상, 영상 공유",
+    "sum": "계정이 유튜브 영상 링크를 공유했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -17518,7 +17564,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-09-07T23:40:48+09:00"
+    "first_seen": "2026-09-07T23:40:48+09:00",
+    "kw": "구글 딥마인드, Gemini 4, 코라이 카부쿠오글루",
+    "sum": "딥마인드 카부쿠오글루가 제미나이 4와 3.5프로 병렬 개발을 밝혔다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
