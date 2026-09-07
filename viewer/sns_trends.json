@@ -7388,8 +7388,14 @@
   {
    "query": "제주특별자치도",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/551ab313ca.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.anewsa.com/detail.php?number=3196269",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-09-07T10:20:00+09:00",
    "isNew": true,
@@ -7692,8 +7698,14 @@
   {
    "query": "아스트라",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/d6cd379e15.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.etnews.com/20260904000011",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-09-07T08:40:00+09:00",
    "delta": -5,
@@ -7708,8 +7720,14 @@
   {
    "query": "gpt 6 astra",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/64070a95e6.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.aitimes.com/news/articleView.html?idxno=214821",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-09-07T09:10:00+09:00",
    "isNew": true,
@@ -7786,8 +7804,14 @@
   {
    "query": "sk그룹",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/5c595c9879.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.fnnews.com/news/202608170834072720",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-09-07T08:50:00+09:00",
    "delta": -11,
@@ -7802,8 +7826,14 @@
   {
    "query": "아스트라 ai",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/9f2a915367.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.aitimes.com/news/articleView.html?idxno=214736",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-09-07T08:40:00+09:00",
    "delta": -10,
@@ -7920,9 +7950,8 @@
  ],
  "gtrends_pool_updated": "2026-09-07T11:57:48+09:00",
  "_trend_img": {
-  "tried": "2026-09-07T11:23:57+09:00",
+  "tried": "2026-09-07T11:57:48+09:00",
   "fail": {
-   "대도서관": "2026-09-07T09:41:10+09:00",
    "교통": "2026-09-07T10:16:51+09:00",
    "이정효": "2026-09-07T10:16:51+09:00",
    "미니스커트": "2026-09-07T10:58:31+09:00",
@@ -17339,7 +17368,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-07T11:57:48+09:00"
+    "first_seen": "2026-09-07T11:57:48+09:00",
+    "kw": "DevDay, 제작 방법",
+    "sum": "계정이 제작 방법을 오늘 오후 7시에 공유하겠다고 예고했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -17354,7 +17386,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-09-07T11:57:48+09:00"
+    "first_seen": "2026-09-07T11:57:48+09:00",
+    "kw": "DevDay, 라이브챗",
+    "sum": "계정이 DevDay 라이브 챗을 7500분과 함께 진행한다고 알렸다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -17369,7 +17404,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-09-07T11:57:48+09:00"
+    "first_seen": "2026-09-07T11:57:48+09:00",
+    "kw": "미국, 소식 전달",
+    "sum": "계정이 작년에 이어 미국발 큰 소식을 전달하겠다고 예고했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -17384,7 +17422,10 @@
     "rh": [
      4
     ],
-    "first_seen": "2026-09-07T11:57:48+09:00"
+    "first_seen": "2026-09-07T11:57:48+09:00",
+    "kw": "코딩 에이전트, 병렬 작업, OpenAI",
+    "sum": "계정이 코딩 에이전트 평가 기준으로 병렬 작업량과 개입 최소화를 제시했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
