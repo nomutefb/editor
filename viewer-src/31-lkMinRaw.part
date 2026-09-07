@@ -1,0 +1,21 @@
+// ── 화면 잠금(응답없음 lock) — 운영자 260703. 유휴 N분(기본 2) → 챠콜 90% 모피즘 전면 오버레이 + PIN 키패드.
+//    키패드 = 발행본 /s/ pinForm 정본 이식(고정 정상배열 1-9·0·숫자픽·명조 *·빨강 3초·오류 5회=10분 잠금·마스터 통일).
+//    설정 저장 = 서버 SSOT(NM_SET · lockOn/lockPinHash/lockLen/lockMin). 기기별 상태(현재 잠김·활동·오류)만 로컬(nm_locked/_last/_fails/_until).
+//    ⚠️ 성격 = 사생활 가림막(클라 검증·DevTools로 우회 가능) — 접근 보안 자체는 CF Access 담당(발행본 서버 검증과 별개).
+const LK_MASTER_H = '19bd473e8747c6ac41e3477aac557468f2010b7d9d2205a3fd6e7e0cc8eef2eb';   // sha256('898900:nmlock') = 발행본 마스터(898900) 통일·평문 미노출
+const LK_MAX = 5, LK_OUT_MS = 600000;   // 오류 5회 = 10분(발행본 LOCK_MAX·LOCK_TTL 정본 동일)
+const lkOn = () => NM_SET.lockOn !== false;   // 잠금 활성 플래그(서버 설정) — PIN과 독립축(요구4: on/off는 PIN 1회 인증 토글, PIN은 유지). 실효 잠금 = lkActive.
+const lkPinH = () => NM_SET.lockPinHash || '';   // 잠금 PIN 해시(서버 설정) — 'PIN 변경' 항목이 수명 소유(요구6). 잠금 on/off와 분리.
+const LK_LEN = 4;   // 잠금 PIN 자리수 = 4(운영자 260706 · 발행본 PIN 6자리는 별개 불변). 구 6자리 마이그레이션은 _setBoot가 처리(승계 제외).
+const lkActive = () => lkOn() && !!lkPinH();   // 실효 잠금 = 활성 플래그 ON + PIN 존재 = 자동 발동·토글 표시 단일 진리(260710 재구성: lockOn·PIN 독립축 — 끄면 PIN 유지, 다음 켜기는 1회 인증)
+const LK_STEPS = [1, 2, 3, 4, 5, 10, 15, 30, 60];   // 자동잠금 분 스텝(운영자 260705 · 1 최소 · 60 최대)
+function lkMinRaw() {                                // 자동잠금 분 = 서버 설정(NM_SET.lockMin · 전역 1개 · PC/모바일 통일 · 운영자 260705 "하나만")
+  const v = parseInt(NM_SET.lockMin, 10) || 2;
+  return LK_STEPS.reduce((a, b) => Math.abs(b - v) <= Math.abs(a - v) ? b : a, LK_STEPS[0]);   // 가장 가까운 스텝으로 스냅
+}
+const lkMin = () => lkMinRaw();   // 실제 잠금 = 단일 자동잠금 분(PC·모바일 동일)
+async function lkHash(p) { const d = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(p + ':nmlock')); return [...new Uint8Array(d)].map(b => b.toString(16).padStart(2, '0')).join(''); }
+const lockscr = $('#lockscr'), lkSlotsEl = $('#lkSlots'), lkPadEl = $('#lkPad'), lkErrEl = $('#lkErr');
+const isLocked = () => !lockscr.hidden;
+// ── 유휴 감시: 활동 = _lkLast만 갱신(이벤트마다 타이머 재무장 안 함) · 타이머는 만기 시 경과 재확인 후 잔여만큼 재무장 · 제작중 = 잠금 보류(lkProdBusy) ──
+let _lkLast = Date.now(), _lkT = null;

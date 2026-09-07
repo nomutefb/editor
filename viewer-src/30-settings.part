@@ -1,0 +1,179 @@
+// ── 앱 설정 서버 SSOT(잠금·AI썸네일) — 전역 1인 귀속(요구1·2). 서버(settings/app.json · api/settings)가 정본, localStorage는 부팅 즉시값·오프라인 폴백 캐시.
+//    기기별 상태(현재 잠김·활동시각·오류카운터 = nm_locked/_last/_fails/_until)는 서버 안 함(각 기기의 유휴는 로컬 사건 · 전역 아님).
+const SET_CACHE = 'nm_settings_cache', SET_SEEDED = 'nm_settings_seeded';
+const KW_CAP = 40;   // 등록 키워드 상한(서버 settings.js KW_CAP 미러)
+const MEMO_CAP = 200, MEMO_LEN = 4000;   // 메모(설정 ▸ 메모) 상한 — 건수·1건 길이(서버 settings.js MEMO_CAP·MEMO_LEN 미러)
+const SET_DEFAULTS = { lockOn: true, lockPinHash: '', lockLen: 4, lockMin: 2, genImgOn: true, kwAlertOn: false, kwItems: [], memos: [] };
+function _mmClean(a) {   // 메모 항목 정규화(서버 settings.js cleanMemos 미러) — { ts(작성 epoch), text(본문) }
+  if (!Array.isArray(a)) return [];
+  const out = [];
+  for (const it of a) {
+    if (!it || typeof it !== 'object') continue;
+    const text = typeof it.text === 'string' ? it.text.slice(0, MEMO_LEN).trim() : '';
+    if (!text) continue;
+    out.push({ ...(typeof it.id === 'string' ? { id: it.id.slice(0, 100) } : {}), ts: Number.isFinite(it.ts) ? it.ts : 0, text });
+    if (out.length >= MEMO_CAP) break;
+  }
+  return out;
+}
+function _kwClean(a) {   // 키워드 항목 정규화(서버 settings.js cleanKwItems 미러) — { kw, ts(등록 epoch), hit(첫 매칭 epoch·0=미매칭), done(체크=확인), url(발견 출처), moved(이동 누른 epoch=밑줄·감시중단), rearm(재가동 epoch=발송 세대) }
+  if (!Array.isArray(a)) return [];
+  const out = [];
+  for (const it of a) {
+    if (!it || typeof it !== 'object') continue;
+    const kw = typeof it.kw === 'string' ? it.kw.slice(0, 120).trim() : '';
+    if (!kw) continue;
+    const url = (typeof it.url === 'string' && /^https?:\/\//i.test(it.url)) ? it.url.slice(0, 400) : '';   // 발견 출처(이동 버튼 목적지) · http(s)만 허용 = javascript: 등 차단
+    out.push({ ...(typeof it.id === 'string' ? { id: it.id.slice(0, 100) } : {}), kw, ts: Number.isFinite(it.ts) ? it.ts : 0, hit: Number.isFinite(it.hit) ? it.hit : 0, done: it.done === true, doneAt: Number.isFinite(it.doneAt) ? it.doneAt : 0, url,
+      moved: Number.isFinite(it.moved) ? it.moved : 0, rearm: Number.isFinite(it.rearm) ? it.rearm : 0 });   // moved = 이동(↗) 누른 시각 = 밑줄 + 감시 중단 · rearm = 재가동 시각 = 알림 발송 세대 도장(운영자 260801)
+    if (out.length >= KW_CAP) break;
+  }
+  return out;
+}
+function _setNorm(o) {   // 정규화(서버 settings.js clean 미러 — 캐시/응답 오염 차단·무효값=기본 폴백)
+  const r = { ...SET_DEFAULTS };
+  if (o && typeof o === 'object') {
+    if (typeof o.lockOn === 'boolean') r.lockOn = o.lockOn;
+    if (o.lockPinHash === '' || (typeof o.lockPinHash === 'string' && /^[a-f0-9]{64}$/.test(o.lockPinHash))) r.lockPinHash = o.lockPinHash;
+    if (o.lockLen === 4 || o.lockLen === 6) r.lockLen = o.lockLen;
+    if (Number.isInteger(o.lockMin) && o.lockMin >= 1 && o.lockMin <= 60) r.lockMin = o.lockMin;
+    if (typeof o.genImgOn === 'boolean') r.genImgOn = o.genImgOn;
+    if (typeof o.kwAlertOn === 'boolean') r.kwAlertOn = o.kwAlertOn;
+    if (Array.isArray(o.kwItems)) r.kwItems = _kwClean(o.kwItems);
+    if (Array.isArray(o.memos)) r.memos = _mmClean(o.memos);
+  }
+  return r;
+}
+function _setBoot() {   // 부팅 즉시값 = 캐시 우선 → 없으면 레거시 개별키 마이그레이션(구 기기 설정 승계 · 오프라인 첫 페인트)
+  try { const c = localStorage.getItem(SET_CACHE); if (c) return _setNorm(JSON.parse(c)); } catch {}
+  const o = { ...SET_DEFAULTS };   // 레거시(개별 localStorage 키) → 초기값
+  try {
+    if (localStorage.getItem('nm_lock_on') === '0') o.lockOn = false;
+    const lp = localStorage.getItem('nm_lock_pin');
+    if (lp && /^[a-f0-9]{64}$/.test(lp) && localStorage.getItem('nm_lock_len') === '4') o.lockPinHash = lp;   // 구 6자리 PIN(len≠4)은 무효화(운영자 260706 4자리 전환 계승) = 승계 제외
+    const lm = parseInt(localStorage.getItem('nm_lock_min') || '', 10); if (lm >= 1 && lm <= 60) o.lockMin = lm;
+    if (localStorage.getItem('nomute_genimg') === '0') o.genImgOn = false;
+  } catch {}
+  return o;
+}
+let NM_SET = _setBoot();   // 동기 접근 메모리 캐시(lkOn/lkPinH/lkMin/genImgOn이 읽음)
+const SET_OUTBOX = 'nm_settings_outbox';
+let _setQueue = [];
+try { const q = JSON.parse(localStorage.getItem(SET_OUTBOX) || '[]'); if (Array.isArray(q)) _setQueue = q.filter(x => x && x.patch && x.base); } catch {}
+let _setBusy = false, _setGeneration = 0, _setDebounced = null;
+let _setDirty = _setQueue.length > 0;     // 이 세션에 사용자가 저장한 로컬 변경 존재 = 부팅 GET가 서버값으로 덮지 않게(경합 클로버 방지 · 평의회 감사4·8)
+function _setSaveCache() { try { localStorage.setItem(SET_CACHE, JSON.stringify(NM_SET)); } catch {} }
+async function loadSettings() {
+  if (_setQueue.length) { await _setDrain(); return; }
+  const generation = _setGeneration;   // 서버 GET → SSOT 적용(+ 서버 최초면 이 기기 레거시/캐시 설정 seed 1회 = 구 설정 승격)
+  try {
+    const r = await fetch('api/settings', { cache: 'no-store' });
+    if (r.ok) {
+      const s = await r.json();
+      if (s && !s.error && typeof s.lockOn === 'boolean') {
+        if (_setDirty || generation !== _setGeneration) { _onSettingsLoaded(); return; }   // 로컬에 미반영 사용자 변경 = 부팅 GET가 덮지 않음(경합 클로버 방지 · 평의회 감사4·8)
+        const localNonDefault = !!NM_SET.lockPinHash || NM_SET.lockOn === false || NM_SET.genImgOn === false || NM_SET.lockMin !== SET_DEFAULTS.lockMin;
+        if (s.exists === false && localNonDefault && !localStorage.getItem(SET_SEEDED)) {   // 서버 파일 최초 + 이 기기 비기본 설정(PIN·AI썸네일 OFF·잠금 OFF·자동잠금분) = 전역 seed 1회(평의회 감사3·7·8·10 — genImg 유실 봉합)
+          const local = { lockPinHash: NM_SET.lockPinHash, lockLen: NM_SET.lockLen, lockOn: NM_SET.lockOn, lockMin: NM_SET.lockMin, genImgOn: NM_SET.genImgOn };
+          NM_SET = _setNorm({ ...s, ...local }); _setSaveCache();
+          const ok = await saveSettings(local);   // await → 서버 반영 성공해야 SEEDED 확정(실패면 다음 접속 재seed = PIN·설정 영구유실 방지 · 평의회 감사3 발견1)
+          if (ok) { try { localStorage.setItem(SET_SEEDED, '1'); } catch {} }
+          _onSettingsLoaded(); return;
+        }
+        if (!s.lockPinHash && NM_SET.lockPinHash) { _onSettingsLoaded(); return; }   // 서버 빈 PIN인데 로컬 PIN 존재(seed 미완/out-of-band) = 덮지 않음 = 잠금 영구소실 차단(평의회 감사3 발견1)
+        NM_SET = _setNorm(s); _setSaveCache(); try { localStorage.setItem(SET_SEEDED, '1'); } catch {}
+      }
+    }
+  } catch {}   // 실패 = 캐시 폴백(NM_SET 유지)
+  _onSettingsLoaded();
+}
+function _setPersistQueue() {
+  try { localStorage.setItem(SET_OUTBOX, JSON.stringify(_setQueue.map(({patch, base}) => ({patch, base})))); } catch {}
+  _setDirty = _setQueue.length > 0 || !!_setDebounced;
+}
+async function _setDrain() {
+  if (_setBusy || !_setQueue.length) return false;
+  _setBusy = true;
+  try {
+    while (_setQueue.length) {
+      const entry = _setQueue[0];
+      let r, j;
+      try {
+        r = await fetch('api/settings', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({patch: entry.patch, base: entry.base}) });
+        j = await r.json();
+      } catch {}
+      if (!r?.ok || !j?.settings) {
+        try { miniToast(j?.error || '아직 서버에 저장하지 못했어. 이 기기에 보관하고 연결되면 다시 저장할게.'); } catch {}
+        // Keep every queued edit in durable recovery before accepting current server state.
+        if (j?.code === 'settings-conflict' || j?.code === 'refresh-required') {
+          try {
+            const previous = JSON.parse(localStorage.getItem('nm_settings_conflict') || 'null');
+            const history = previous ? [...(previous.history || []), {at: previous.at, settings: previous.settings, queue: previous.queue}] : [];
+            localStorage.setItem('nm_settings_conflict', JSON.stringify({at: Date.now(), settings: NM_SET, queue: _setQueue.map(({patch, base}) => ({patch, base})), history}));
+            for (const e of _setQueue) e.resolve?.(false);
+            _setQueue = []; _setPersistQueue(); _setGeneration++;
+            miniToast('저장이 충돌했어. 내 변경은 설정 메뉴의 보관된 변경에서 받을 수 있어.');
+            _setRecoveryButton();
+            setTimeout(loadSettings, 0);
+            return false;
+          } catch {} // If durable recovery fails, retain the original pending queue.
+        }
+        for (const e of _setQueue) { e.resolve?.(false); delete e.resolve; }
+        _setPersistQueue(); return false;
+      }
+      _setQueue.shift();
+      NM_SET = _setNorm(j.settings);
+      for (const e of _setQueue) NM_SET = _setNorm({...NM_SET, ...e.patch});
+      if (_setDebounced) NM_SET = _setNorm({...NM_SET, ..._setDebounced});
+      _setSaveCache(); _setPersistQueue(); entry.resolve?.(true);
+    }
+    _setBusy = false;
+    _onSettingsLoaded();
+    return true;
+  } finally { _setBusy = false; }
+}
+function saveSettings(patch) {
+  const base = {};
+  for (const field of ['memos', 'kwItems']) if (Array.isArray(patch[field])) base[field] = JSON.parse(JSON.stringify(NM_SET[field] || []));
+  _setGeneration++;
+  NM_SET = _setNorm({ ...NM_SET, ...patch }); _setSaveCache();
+  const done = new Promise(resolve => _setQueue.push({patch: JSON.parse(JSON.stringify(patch)), base, resolve}));
+  _setPersistQueue(); _setDrain();
+  return done;
+}
+window.addEventListener('online', () => _setDrain());
+function _setRecoveryButton() {
+  let recovery;
+  try { recovery = JSON.parse(localStorage.getItem('nm_settings_conflict') || 'null'); } catch {}
+  if (!recovery || document.getElementById('setRecoveryBtn')) return;
+  const menu = document.getElementById('linkpop'); if (!menu) return;
+  const b = document.createElement('button'); b.type = 'button'; b.id = 'setRecoveryBtn';
+  const sibling = menu.querySelector('button'); if (sibling) b.className = sibling.className;
+  b.textContent = '보관된 변경 내려받기';
+  b.onclick = () => {
+    const data = JSON.parse(localStorage.getItem('nm_settings_conflict') || 'null'); if (!data) return;
+    const text = ['저장이 충돌했을 때 이 기기에 남긴 내용', '', '메모', ...(data.settings.memos || []).map(x => x.text), '', '키워드', ...(data.settings.kwItems || []).map(x => x.kw), '', '전체 복구 데이터 (이전 충돌 포함)', JSON.stringify(data, null, 2)].join('\n\n');
+    const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([text], {type: 'text/plain;charset=utf-8'}));
+    a.download = '보관된_변경.txt'; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  };
+  menu.appendChild(b);
+}
+setTimeout(_setRecoveryButton, 0);
+
+function _onSettingsLoaded() {   // 서버 로드 후 = UI 동기 + 잠금 재판정(부팅 즉시 판정이 stale일 수 있어 재평가 · 후반 선언 참조라 TDZ 방어 try)
+  try { lkSettingsRefresh(); } catch {}
+  try { paintGenImgRow(); paintGenImgTg(); } catch {}
+  try { paintKwRow(); if (kwAlertOn()) checkKwAlerts(); } catch {}   // 키워드 알림 토글 실상태 반영 + 서버 로드 직후 1회 매칭(부팅 stale 재평가)
+  try { lkBootEval(); } catch {}
+}
+// 복귀 재동기(운영자 260821 «기기에 상관없이 on off가 잘 적용되어야함») — 부팅 1회 GET 만으론 오래 열린 탭이
+//   다른 기기에서 바꾼 설정(AI 썸네일·잠금 토글)을 낡은 상태로 계속 보여줬다 → 탭·앱 복귀 순간 서버 설정 재GET.
+//   _setDirty(이 세션에 이 기기가 저장) = 어차피 loadSettings 가 안 덮는다 → fetch 자체 생략 · 60s 스로틀 = checkNewVersion 4분 스로틀 동문(연타 흡수).
+let _setSyncLast = 0;
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) return;
+  if (_setQueue.length) { _setDrain(); return; }
+  if (_setDirty) return;
+  if (Date.now() - _setSyncLast < 60000) return;
+  _setSyncLast = Date.now(); loadSettings();
+});

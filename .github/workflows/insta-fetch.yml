@@ -76,7 +76,7 @@ jobs:
       - name: 실패 시 알림만 착지(if failure · 앱 알림함 점등)
         if: ${{ failure() || steps.igfetch.outcome == 'failure' }}
         run: |
-          bash .github/scripts/git_land.sh "insta: 접속 열쇠 사망 알림 (bot)" messages || true
+          bash .github/scripts/git_land.sh "insta: 접속 열쇠 사망 알림 (bot)" messages
       - name: 전 게시물 백필(수동 발사 전용 · 운영자 260713 "기존꺼 파악")
         if: ${{ github.event_name == 'workflow_dispatch' && inputs.backfill }}
         env:
@@ -219,3 +219,11 @@ jobs:
         run: |
           echo "::error::인스타 수집 스텝이 실패했다 — 뒤 축(페이스북·회차 원장)은 살렸지만 이 잡은 실패로 끝낸다. 원인·조치 = 위 수집 스텝 로그와 앱 알림함(insta-token-dead)."
           exit 1
+      - name: Preserve results when repository save fails
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: recovery-${{ github.job }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/editor-recovery/
+          if-no-files-found: ignore
+          retention-days: 3

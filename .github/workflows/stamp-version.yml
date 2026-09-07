@@ -21,6 +21,7 @@ on:
     branches: [main]
     paths:                     # live-smoke.yml paths와 동일 집합(평의회 260802 — 부분집합이면 js/css/_headers 푸시가 도장 없이 배포돼 라이브 검문의 수렴 대기가 원리적으로 불가 = 침묵 스킵/오MISS의 근원)
       - 'viewer/*.html'
+      - 'viewer-src/**'
       - 'viewer/*.js'
       - 'viewer/*.css'
       - 'viewer/_headers'
@@ -60,12 +61,13 @@ jobs:
           #   ⚠ reset --hard 안전 조건 = 이 잡은 도장 외 산출이 0(안 밀린 로컬 커밋이 없다) — pc_lane 의 「안 밀린 커밋
           #   보호」가 필요한 다스테이지 레인과 다른 조건이다.
           stamp_once() {   # BUILDSTAMP 마커 줄만 치환 = 마커 영속(다음 배포도 재매칭) · 값은 'dev'·직전 도장 무관하게 통째 교체
-            sed -i "s|const BUILD_STAMP = '[^']*';\(.*\)/\*BUILDSTAMP\*/|const BUILD_STAMP = '${SHA} · ${TS}';\1/*BUILDSTAMP*/|" viewer/index.html
+            sed -i "s|const BUILD_STAMP = '[^']*';\(.*\)/\*BUILDSTAMP\*/|const BUILD_STAMP = '${SHA} · ${TS}';\1/*BUILDSTAMP*/|" viewer-src/*.part
+            node shared/build_shell.mjs && node shared/build_shell.mjs --check
           }
           for i in 1 2 3 4 5 6; do
             git fetch -q origin main && git reset -q --hard origin/main || { echo "::warning::기점 재동기 실패 — 재시도 $i"; sleep $((2**i)); continue; }
-            stamp_once
-            git add viewer/index.html
+            stamp_once || exit 1
+            git add viewer-src viewer/index.html
             git diff --cached --quiet && { echo "도장 변동 없음 — 생략"; exit 0; }
             git commit -q -m "chore(stamp): ${SHA} 배포 버전 도장 [stamp]"
             git push -q origin HEAD:main && { echo "도장 착지 ✓ (${SHA} · 시도 ${i})"; exit 0; }

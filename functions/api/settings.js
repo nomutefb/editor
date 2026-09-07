@@ -1,3 +1,4 @@
+import { mergeItems } from '../_settings-merge.js';
 // Cloudflare Pages Function — 뷰어 앱 설정(잠금·AI썸네일) 전역 저장/조회 → settings/app.json 커밋(GitHub Contents API).
 // 목적 = 설정을 특정 기기(localStorage)가 아니라 서버에 두어, 어느 기기로 접속해도 동일(운영자 1인 전역 귀속 · 요구1·2). push.js 저장 패턴 계승.
 //   GET  → { lockOn, lockPinHash, lockLen, lockMin, genImgOn }   (settings/app.json 없으면 기본값 · no-store)
@@ -17,7 +18,7 @@ function cleanMemos(a) {
     if (!it || typeof it !== 'object') continue;
     const text = typeof it.text === 'string' ? it.text.slice(0, MEMO_LEN).trim() : '';
     if (!text) continue;
-    out.push({ ts: Number.isFinite(it.ts) ? it.ts : 0, text });
+    out.push({ ...(typeof it.id === 'string' ? { id: it.id.slice(0, 100) } : {}), ts: Number.isFinite(it.ts) ? it.ts : 0, text });
     if (out.length >= MEMO_CAP) break;
   }
   return out;
@@ -32,7 +33,7 @@ function cleanKwItems(a) {
     const kw = typeof it.kw === 'string' ? it.kw.slice(0, 120).trim() : '';
     if (!kw) continue;
     const url = (typeof it.url === 'string' && /^https?:\/\//i.test(it.url)) ? it.url.slice(0, 400) : '';   // 발견 출처 URL(뷰어 _kwClean 미러) — http(s)만 통과
-    out.push({ kw, ts: Number.isFinite(it.ts) ? it.ts : 0, hit: Number.isFinite(it.hit) ? it.hit : 0, done: it.done === true, doneAt: Number.isFinite(it.doneAt) ? it.doneAt : 0, url,
+    out.push({ ...(typeof it.id === 'string' ? { id: it.id.slice(0, 100) } : {}), kw, ts: Number.isFinite(it.ts) ? it.ts : 0, hit: Number.isFinite(it.hit) ? it.hit : 0, done: it.done === true, doneAt: Number.isFinite(it.doneAt) ? it.doneAt : 0, url,
       moved: Number.isFinite(it.moved) ? it.moved : 0, rearm: Number.isFinite(it.rearm) ? it.rearm : 0 });   // doneAt = 확인 시각(빗금 1일 뒤 자동 삭제 기산점) · moved = 이동(↗) 누른 시각(밑줄 + 감시 중단) · rearm = 재가동 시각(알림 발송 세대 도장) — 뷰어 _kwClean 미러(운영자 260801)
     if (out.length >= KW_CAP) break;
   }
@@ -75,7 +76,7 @@ export async function onRequestGet({ env }) {
   const g = await fetch(`https://api.github.com/repos/${REPO}/contents/${FILE}?ref=main`, { headers: H });
   if (g.status === 404) return json({ ...clean(null), exists: false });   // 최초(파일 없음) = 기본값 · exists=false → 클라 seed 판정(레거시 승격)
   if (!g.ok) return json({ error: `GitHub ${g.status}` }, 502);
-  let m; try { m = JSON.parse(await g.text()); } catch { m = null; }
+  let m; try { m = JSON.parse(await g.text()); } catch { return json({ error: '저장된 설정을 읽을 수 없어. 기존 설정은 보존했어.' }, 502); }
   return json({ ...clean(m), exists: true });
 }
 
@@ -93,10 +94,23 @@ export async function onRequestPost({ request, env }) {
   for (let attempt = 0; attempt < 4; attempt++) {
     let cur = {}, sha;
     const g = await fetch(`${url}?ref=main`, { headers: H });
-    if (g.ok) { const j = await g.json(); sha = j.sha; try { cur = JSON.parse(atobUtf8(j.content)); } catch { cur = {}; } }
+    if (g.ok) { const j = await g.json(); sha = j.sha; try { cur = JSON.parse(atobUtf8(j.content)); } catch { return json({ error: '저장된 설정을 읽을 수 없어. 기존 설정은 보존했어.' }, 502); } }
     else if (g.status !== 404) return json({ error: `GitHub read ${g.status}` }, 502);
 
-    const next = clean({ ...clean(cur), ...patch });   // 기존(정규화) 위에 허용 patch만 덮기 → 재정규화
+    const merged = { ...patch };
+    for (const [field, normalize, cap] of [['memos', cleanMemos, MEMO_CAP], ['kwItems', cleanKwItems, KW_CAP]]) {
+      if (!Array.isArray(patch[field])) continue;
+      const current = normalize(cur[field]);
+      if (body.patch[field].length > cap) return json({ error: `최대 ${cap}개까지 저장할 수 있어.` }, 400);
+      if (!Array.isArray(body.base?.[field])) {
+        if (JSON.stringify(current) !== JSON.stringify(patch[field]))
+          return json({ error: '새로고침 후 다시 저장해줘. 이전 화면의 목록으로 덮어쓰지 않았어.', code: 'refresh-required' }, 409);
+      } else {
+        try { merged[field] = mergeItems(current, normalize(body.base[field]), patch[field], cap); }
+        catch (e) { return json({ error: e.message, code: 'settings-conflict' }, 409); }
+      }
+    }
+    const next = clean({ ...clean(cur), ...merged });   // 기존(정규화) 위에 허용 patch만 덮기 → 재정규화
     const put = await fetch(url, {
       method: 'PUT', headers: H,
       body: JSON.stringify({ message: 'settings: 앱 설정 갱신', content: b64utf8(JSON.stringify(next)), branch: 'main', ...(sha ? { sha } : {}) }),

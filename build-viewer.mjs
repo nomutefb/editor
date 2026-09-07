@@ -4,6 +4,9 @@
 import { copyFileSync, cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { execSync } from 'node:child_process';
 import { join } from 'node:path';
+import { buildShell } from './shared/build_shell.mjs';
+
+buildShell();
 
 const QUEUE = 'queue';
 const OUT = 'viewer/articles.json';

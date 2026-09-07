@@ -1,0 +1,27 @@
+</style>
+</head>
+<body>
+<div class="nm-root">
+  <div class="nm-bg" aria-hidden="true">
+    <div style="position:absolute;top:-180px;left:-150px;width:460px;height:460px;border-radius:50%;background:radial-gradient(circle at center,rgba(0,238,210,.17),rgba(0,238,210,0) 70%);filter:blur(50px);"></div>
+    <div style="position:absolute;top:32%;right:-180px;width:560px;height:560px;border-radius:50%;background:radial-gradient(circle at center,rgba(0,238,210,.12),rgba(0,238,210,0) 70%);filter:blur(50px);"></div>
+    <div style="position:absolute;bottom:-220px;left:18%;width:620px;height:620px;border-radius:50%;background:radial-gradient(circle at center,rgba(0,238,210,.12),rgba(10,40,28,0) 72%);filter:blur(60px);"></div>
+    <div style="position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 0%,rgba(255,255,255,.04),rgba(0,0,0,0) 55%);"></div>
+  </div>
+  <div class="nm-wrap">
+    <div class="nm-head">
+      <div class="nm-head-l">
+        <img class="nm-logo" src="%LOGO%" alt="NO mute">
+        %META%
+        <h1 class="nm-title">%TITLE%<button type="button" class="nm-titlecopy" title="제목 복사"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V5a2 2 0 0 1 2-2h10"></path></svg></button></h1>
+        %ORIG%
+      </div>
+      <button type="button" class="nm-allbtn" title="전체 복사"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;display:block"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V5a2 2 0 0 1 2-2h10"></path></svg><span>전체 복사</span></button>
+    </div>
+    %BOXES%
+    <div class="nm-foot">
+      <div class="cr">%CR%</div>
+    </div>
+  </div>
+  <button type="button" class="nm-top" title="맨 위로"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;display:block"><path d="M12 19V6"></path><path d="M5 12l7-7 7 7"></path></svg></button>
+</div>

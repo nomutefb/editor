@@ -1,0 +1,26 @@
+</script>
+<link rel="stylesheet" href="nm-cards.css">
+<link rel="stylesheet" href="nm-shared.css"><!-- 뷰어 공용 부품 CSS SSOT(값 사본 금지 · 운영자 260807) -->
+<link rel="stylesheet" href="nm-hist.css">   <!-- 이전 제작·결과 섹션 CSS SSOT — thumb·tr에 이어 index(AI 생성 geni-hist 별칭) 합류(운영자 260803 Q1243 · 인라인이 뒤라 geni 고유 축만 인라인 잔류) -->   <!-- 다운로드·결과/이전제작 카드 공용 CSS SSOT(전 앱 단일정본 · 운영자 260731 "하나 바꾸면 다 연동") — 색·플레이트·✓팝 계약은 여기서만 고친다(인라인 사본 금지 · 인라인이 뒤라 남기면 이 SSOT가 죽음) -->
+<link rel="stylesheet" href="nm-clip.css">   <!-- 입력칸 클립 CSS SSOT(복사·붙여넣기·지우개/되돌리기 · 운영자 260803 "모든 텍스트 입력창에 · 공식처럼") — 전 뷰어 공용 · 표면 스코프 오버라이드만 인라인 잔류 -->
+<link rel="stylesheet" href="nm-input.css">   <!-- 이미지 스튜디오 텍스트 입력칸 SSOT(활자+박스 · 운영자 260804 "편집의 폰트 형태를 따라가는게 정석 · 딱 그부분만 다른 곳에 다 배선") — 정본 원천 = thumb.html 입력칸 블록 · 신규 칸 = class="nmin" 한 줄 -->
+<link rel="stylesheet" href="nm-job.css">   <!-- 제작 잡 카드(대기열·진행·완료) CSS SSOT — thumb(이미지 스튜디오)와 공동 정본(운영자 260802 "이미지 스튜디오를 거의 따라서 가져온다") · 설정 ▸ 다운로드(#dlgrab) 받기 잡이 같은 부품을 쓴다 -->
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#070a12"><!-- 상태바 = 웨이브 배경(#wavebg) 상단 실측 톤 — 스플래시→앱 연속 설계(운영자 260706 5차 "배경에 깔린 움직이는 그림을 그대로" · manifest theme/background와 한 세트·meta는 var() 불가라 실측값 복사) -->
+<meta name="color-scheme" content="dark"><!-- 브라우저 기본 캔버스 = 다크 — 하드 새로고침·네비게이션 때 첫 페인트 전 기본 흰 캔버스가 드러나 '배경 확 날아가며 흰색' 번쩍이던 것 차단(운영자 260705) -->
+<title>뉴스 큐레이션</title>
+<!-- 파비콘·홈 아이콘 = 노뮤트 프로필(PNG). 모바일 홈화면은 SVG data-uri 미지원 → PNG 필수 -->
+<link rel="icon" href="/favicon.ico?v=260724" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/favicon-globe-260724.svg"><!-- 테마적응(prefers-color-scheme): 흰 배경(라이트)=파랑 지구본(첨부1)·검정(다크)=청록+옐로 시그니처 지구본(첨부2) 자동 전환. 파랑/시그니처 이중 임베드 + @media(dark) 스왑 · SVG 미지원 레거시는 위 .ico 폴백(시그니처) · 운영자 260724 -->
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=260724"><!-- 【260724 시그니처 지구본】 브랜드 아이콘 = 스트라이프 지구본(소스 assets/brand/globe-sig-260724.png · 운영자 imgi_38 제공)로 교체. 탭 favicon = 테마적응 SVG(라이트 파랑 globe-blue / 다크 청록+옐로 시그니처 = --accent+--accent-2) · apple-touch·icon-sig-192/512 = 시그니처 투명(여백0 꽉참) · maskable = 시그니처 78% on #000. 웹앱 헤더 지구본(.hdr-globe)은 earth 유지(별개 축). 구 NEWS icon-news-*·favicon-news 대체. 【이력 참고】 아래는 대체된 구 설계(260723b earth 원형투명 · 260706 워드마크). 아래 260707 워드마크/얼굴 스플래시 설계는 이 결정으로 대체(스플래시도 지구본) — 이력 참고용 보존. // (구) 안드로이드 홈·OS 스플래시 = 워드마크 통일(운영자 260707) — 260706 "로고↔스플래시 분리"는 실측상 실패: 크롬 WebAPK는 런처 홈아이콘 = 콜드부트 OS 스플래시에 같은 파일을 써서 둘을 못 나눔 → maskable 슬롯의 팝아트 얼굴이 스플래시에 그대로 노출("옛날 파비콘"). ∴ manifest icons = c판 워드마크(any = icon-192/512-260706c 엣지투엣지 65% · maskable = 전용 패딩판 icon-maskable-512-260706c 워드마크 54.9%<세이프 80% = 원형 크롭 안 잘림 실측) → OS 스플래시가 잠금화면 뒤 배경(오션+워드마크)과 일치 = 스플래시→앱 자연 전환. 워드마크 좌표 정합(구 --lk-intro-shift 정중앙 출발)은 실기기서 안 맞아 폐기(운영자 260707 "타이틀 안 맞네 걍 배경만") — 스플래시→앱 연속은 **배경**(#bootveil = manifest background_color 단색 베일)과 페이드 교차가 담당·워드마크는 lkWmFade 단순 페이드인. 브라우저 탭 favicon(icon-192-260706.png)·iOS apple-touch = 팝아트 로고 유지(운영자 "파비콘 없애는 거 아님"). 한계 = 설치된 폰 홈(WebAPK)은 크롬 manifest 재확인(1~3일) 후 갱신 — 즉시 = 앱 제거 후 재설치 · 배경 연속(#bootveil)은 PIN 유무 무관 전 경로 공통(비PIN = 베일→피드 크로스페이드 · PIN = 베일→잠금 물결) -->
+<link rel="manifest" href="manifest.json">
+<!-- 공유카드(OG · 운영자 260723 지구본 우주 통일) — 절대 URL 필수(크롤러). /assets/*는 Access 면제라 무인증 크롤 가능 -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="뉴스 큐레이션 : News Curation">
+<meta property="og:description" content="글로벌 뉴스 큐레이션 — SNS 트렌드·레거시 미디어를 한눈에.">
+<meta property="og:image" content="https://edit.nomute.kr/assets/brand/og-card-260723.jpg"><!-- 260816 계정 이관 잔재 봉합: 공유 미리보기 그림을 옛 화면에서 끌어오고 있었다 — 옛 계정 정리 시점에 카톡·X 미리보기가 통째로 깨진다(양쪽 200 실측이라 지금은 무증상) · 정본 = edit.nomute.kr · 강제 = check_canon_host -->
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="뉴스 큐레이션 : News Curation">
+<meta name="twitter:image" content="https://edit.nomute.kr/assets/brand/og-card-260723.jpg">

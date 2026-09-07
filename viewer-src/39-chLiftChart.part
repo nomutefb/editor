@@ -1,0 +1,720 @@
+function chLiftChart(buckets, ax, x2) {   // x2 = 오버레이 재료(운영자 260719 "ㄱ 고도화 뭐든") — {peaks: 접속 피크 시각[], now: KST 시각, today: KST 요일} · 전부 선택(없으면 조용히 생략 = fail-soft)
+  x2 = x2 || {};
+  const ord = SIG_ORD[ax] || [];
+  const bs = (buckets || []).slice().sort((a, b) => { const ia = ord.indexOf(a.bucket), ib = ord.indexOf(b.bucket); return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib); });
+  if (bs.length < 2) return '';
+  const val = (b, k) => (b.lift || {})[k] ?? null;
+  const vals = [];
+  bs.forEach(b => { const s2 = val(b, 'share_pm'); if (s2 != null) vals.push(s2); });   // Y범위 = 공유 단독(운영자 260723 "저장 삭제·공유로 통일") — 저장 축 제거로 공유 곡선이 세로폭 최대 활용
+  if (vals.length < 2) return '';
+  const W = 600, H = 154, mL = 46, mR = 16, mT = 16, mB = 26, pw = W - mL - mR, ph = H - mT - mB;   // mB·H = 일일 추이(chChart) 단일줄 라벨 규격 계승 — n= 병기 줄 제거(운영자 260722)로 2줄 예약 해제 · 플롯 높이 ph=112 불변
+  const cH = [];   // 버킷 중심 좌표(h 단위) — hour: "새벽0-6" 범위 파싱 중심시각 · dow: 요일 인덱스×24+12(주간 168h 타임라인 · 운영자 260724 "요일별 0-8/8-16/16-24 3개씩") · 실패 밴드 있으면 선형축·시각 오버레이 전체 스킵 = fail-soft·창작 0
+  if (ax === 'hour_band') bs.forEach(b => { const m = /(\d+)\s*-\s*(\d+)/.exec(b.bucket); cH.push(m ? (+m[1] + +m[2]) / 2 : null); });
+  if (ax === 'dow') bs.forEach(b => { const di = ord.indexOf(b.bucket); cH.push(di < 0 ? null : di * 24 + 12); });
+  const SPAN = ax === 'dow' ? 168 : 24;   // 선형축 전장 = 하루 24h / 한 주 168h
+  const hlin = cH.length === bs.length && cH.length > 1 && !cH.some(c => c == null);   // 선형 시간축(운영자 260723 "24분할 해서 숫자만" · 260724 요일 3분할 동조) — X = 실제 시각 비례 배치 = 눈금·핵심 구간 경계 세로변·지금/오늘 마커가 같은 자 위에 정렬
+  const X = i => hlin ? mL + pw * cH[i] / SPAN : mL + pw * i / (bs.length - 1);   // Y·lo·hi = 아래 GEN_EFF 뒤로 이관(260809 6차 = 노란선이 같은 자를 쓰므로 Y범위 산출에 참여한다)
+  // 실측 우선 게이트(운영자 260803 "내 팔로워 접속 실측이 있어? 그러면 그걸 붙이면 매우 좋을듯 · 그에 따라서 보라색 강조점도 맞춰") — x2.curve = online_curve_kst(내 팔로워 online_followers API 실측 · KST 24슬롯 · 피크=100 · insta_signals 산출). 시간대 축 한정: 24슬롯을 밴드 평균으로 내려 SIG_GEN(공개 벤치 실루엣) '값만' 대체 → 노란선·툴팁·핵심구간·접속피크가 한 실측 원천(시각 문법 전부 불변 = 260801 "표현방법은 기존과 동일" 동축). 6밴드 전원 산출일 때만 채택(부분 결측 = 벤치 폴백) · dow = 260804 실측 승격 배선(x2.curve = online_dow_kst 요일 7키 — 원장 7요일×24시 커버부터 산출기가 동봉 = 자동 전환 · 그전 = 종전 벤치) · FB = 종전 null 경로 · 곡선 부재 = 종전 100% 불변(fail-soft·창작 0)
+  // ⚠ 260809 3차(운영자 "팔로워 접속이 아니구 · 팔로워 접속은 강조색1번이잖아 · 앱 사용자 접속인데") — 260803·260804 실측 승격 **철회**.
+  //   이 노란선의 역할은 원래 「내 채널(터콰이즈 = 강조색1 = 팔로워) 위에 겹치는 **바깥 레퍼런스**」(운영자 260723 "일반적인 사용자들 기준으로 그 차트 위에 오버레이 · 어찌보면 이 평균이 더 중요")인데,
+  //   그 자리를 내 팔로워 접속 실측(online_followers)이 덮으면서 두 선이 **둘 다 내 계정 축**이 됐다 = 비교 대상이 사라진다(라벨도 「팔로워」/「팔로워 접속」으로 이름이 겹쳤다).
+  //   게다가 실측 = 요일 편차 2.7%p · 시간대 후반 고원 = 신호가 거의 없다(팔로워 풀 65,501에 피크대 47% 포화 = 구조적) → 레퍼런스로도 못 쓴다.
+  //   벤치(SIG_GEN)는 **국내 기준**이고 편차 = 시간대 78%p · 요일 16%p로 실제로 크다(운영자 "전세계로 지정되어서 그런게 아닌지" 검증 결과 = 아니다).
+  //   → 노란선 = 항상 SIG_GEN(앱 사용자 접속). 팔로워 접속 실측은 폐기하지 않고 **접속 피크 밴드**(아래 bandLabs = 내가 올릴 시각 결정)로 계속 산다 = 역할 분리.
+  const GEN_MEAS = null;   // 승격 철회 = 항상 벤치 경로(아래 전 소비처가 이 값으로 분기 · 실측 재승격 시 여기만 되살린다)
+  const GEN_EFF = CHAN_SRC === 'fb' ? null : (GEN_MEAS || SIG_GEN[ax] || null);   // 단일 유효 소스(아래 전 소비처 공용 — 실측 우선·벤치 폴백·FB null)
+  // ⚠ 자 통일(운영자 260809 6차 "그렇게 아이디어 2) 보완해주고") — 두 곡선이 **서로 다른 자**를 쓰던 걸 하나로 합친다.
+  //   구판 = 터콰이즈는 데이터 산포(lo~hi) 자동 스케일 / 노랑은 0~100을 ph×.82에 **고정 매핑** → 두 선의 상하 관계에 물리적
+  //   의미가 없었다(260801 주석이 이미 인정한 사실 · 그래서 핵심 구간은 픽셀 교차를 버리고 곱셈[도달 기대값]으로 옮겼다).
+  //   그런데 260809 4차 「보완 필요」는 다시 그 픽셀 관계를 쓴다 = 눈에 보이는 그림과는 맞지만 자가 둘인 채였다.
+  //   → 노랑을 **자기 평균으로 나눠 ×배율**로 환산(시간대 22·60·74·82·100·78[평균 69.3] → ×0.32·0.87·1.07·1.18·1.44·1.13)하면
+  //   공유 lift와 **같은 단위**가 되어 같은 Y축에서 읽힌다("저녁엔 사람이 ×1.44 몰리는데 내 공유는 ×1.05" = 숫자로 확정).
+  //   새 상수·새 데이터 0 = 이미 그리는 값을 자기 평균으로 나누기 한 번. ⚠ 핵심 구간(sc = 공유 × gen/100)은 **완전 불변** —
+  //   전 버킷에 같은 상수가 곱해지므로 피크·임계 T·교차 보간이 모두 같은 배수로 스케일돼 산술적으로 약분된다(gpts[2] = 원 0~100 유지).
+  //   ⚠ 비용 = Y범위가 노랑 진폭까지 담아 넓어지므로 **터콰이즈 곡선이 그만큼 납작해진다**(시간대 실측 = 플롯 높이 점유 100%→38%).
+  //   요일 축은 노랑 ×0.93~1.11이 공유 산포(0.75~1.20) 안쪽이라 범위·모양 **변화 0**.
+  const genR = {};   // 버킷 → ×배율(gen ÷ 그 축 gen 평균)
+  if (GEN_EFF) {
+    const _gv = Object.values(GEN_EFF).filter(v => typeof v === 'number');
+    const _gm = _gv.length ? _gv.reduce((a, c) => a + c, 0) / _gv.length : 0;
+    if (_gm > 0) Object.keys(GEN_EFF).forEach(k => { if (typeof GEN_EFF[k] === 'number') genR[k] = GEN_EFF[k] / _gm; });
+  }
+  bs.forEach(b => { const r = genR[b.bucket]; if (r != null) vals.push(r); });   // Y범위 참여 = 같은 자 계약(구판은 공유 단독 · 노랑이 고정 매핑이라 범위 밖이었다)
+  const lo = Math.max(0, Math.min(...vals, 1) - .1), hi = Math.max(...vals, 1) + .1;
+  const Y = v => mT + ph * (1 - (v - lo) / (hi - lo));
+  SIG_HIT[ax] = bs.map((b, i) => { const sv = val(b, 'share_pm'); return { x: X(i), y: sv != null ? Y(sv) : Y(1), bucket: b.bucket, share: sv, n: b.n, low: !!b.low_sample, gm: GEN_MEAS ? 1 : 0, gen: genR[b.bucket] != null ? Math.round(genR[b.bucket] * 100) / 100 : null }; });   // gen = ×배율(구 0~100 % 표기 → 공유와 같은 자 · 툴팁 문법 동조)   // FB 소스분기(평의회 260724 must-fix) — GEN_EFF가 FB=null → 툴팁 % 자동 생략(곡선·범례 제거와 단일 정합) · gm = 실측 채택 플래그(툴팁 라벨 분기)
+  let s = `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">`;
+  for (let g = 0; g <= 3; g++) {   // hairline 격자 + ×배율 Y라벨(chChart 문법)
+    const v = lo + (hi - lo) * g / 3, y = Y(v);
+    s += `<line x1="${mL}" y1="${y.toFixed(1)}" x2="${W - mR}" y2="${y.toFixed(1)}" stroke="var(--line)" stroke-width="1" vector-effect="non-scaling-stroke"/>`;
+    s += `<text x="${mL - 6}" y="${(y + 3).toFixed(1)}" text-anchor="end" font-size="9" fill="var(--mut)">×${v.toFixed(2)}</text>`;
+  }
+  s += `<line x1="${mL}" y1="${mT}" x2="${mL}" y2="${(H - mB).toFixed(1)}" stroke="var(--line)" stroke-width="1" vector-effect="non-scaling-stroke"/>`;   // Y축 스파인(일일 추이 세로줄 계승)
+  const hourX = hh => hlin && ax === 'hour_band' ? mL + pw * Math.max(0, Math.min(24, hh)) / 24 : null;   // 시각(0~24h) → x = 선형 시간축 그대로(hour 전용 — 접속 피크·지금 마커 · 파싱 실패 = null = 시각 오버레이 생략 fail-soft)
+  // 표본 볼륨 언더레이(무채 저알파 바) — 게시 몰림 편향(스크래퍼 flags)을 숨기지 않고 시각화 · n 라벨과 동축(운영자 260719 고도화)
+  const maxN = Math.max(...bs.map(b => b.n || 0), 1), bw = Math.min(26, pw / bs.length * .42);
+  bs.forEach((b, i) => { const bh = (b.n || 0) / maxN * ph * .26; if (bh > 0) s += `<rect x="${(X(i) - bw / 2).toFixed(1)}" y="${(H - mB - bh).toFixed(1)}" width="${bw.toFixed(1)}" height="${bh.toFixed(1)}" rx="1" fill="var(--mut)" opacity=".13"/>`; });
+  // 일반 인스타 이용자 평균선(운영자 260723 요청 → 260723 교정: 노랑 실선·저장 삭제 후 공유와 2선 비교) — 전체 IG 이용자 평균 이용 강도(SIG_GEN · 자체 정규화 피크=100 → 플롯 .82 높이 · 상단 콜아웃 선반 여유) · 볼륨 뒤 배경층(공유 곡선은 위 = 채널 실데이터 우선) · 실선 노랑(--accent-4 · 팔레트 정본 · 운영자 "노란색·실선") · 점·area 없음 = 공유(터콰이즈 선+점+area)와 형태 분리 · 결측 버킷 = 조용히 생략(fail-soft·창작 0)
+  const shoulder = pts => { if (!hlin) return pts; const a = pts[0], b = pts[pts.length - 1], dl = a[0] - mL, dr = W - mR - b[0], D = dl + dr, yW = D > 0 ? b[1] + (a[1] - b[1]) * dr / D : (a[1] + b[1]) / 2; return [[mL, yW], ...pts, [W - mR, yW]]; };   // 선형 시간축 벽 종점 = 주기(순환) 보간 한 값(운영자 260810 "아이디어 ㄱ") — 구 「첫/끝 밴드 값 수평 연장」은 좌·우 벽이 같은 순간(자정 24=24 · 일24시=월0시)인데 서로 다른 밴드 값을 그려 이음매 절벽(실측 = 시간대 터콰이즈 ×1.00↔×0.68 · 노랑 ×0.32↔×1.12) → 끝 밴드 중심↔(한 바퀴 너머) 첫 밴드 중심을 벽 시각에서 선형 보간 = 곡선이 밴드 사이를 잇는 기존 문법을 자정 이음매에 동일 적용(새 데이터·상수 0 · 보간값은 항상 두 밴드 사이 = Y범위 이탈 0) · 좌·우 벽 동일값 = 순환 폐합 · 곡선·area가 스파인·우변에 붙는 실루엣·교차 산출 원본 좌표 사용 = 불변
+  const gen = GEN_EFF;   // 단일 유효 소스(260803 실측 GEN_MEAS 우선 · 벤치 SIG_GEN 폴백 · FB = null 종전 경로 — 위 실측 우선 게이트) → 곡선·핵심구간·범례 자동 제거(gen null = fail-soft 그대로)
+  let gpts = null, gl = '';
+  if (gen) {
+    const _g = bs.map((b, i) => { const gv = gen[b.bucket], gr = genR[b.bucket]; return (gv == null || gr == null) ? null : [X(i), Y(gr), gv]; });   // y = 공유와 **같은 자**(Y · 260809 6차 자 통일) — 구 `(H-mB) − gv/100 × ph×.82` 고정 매핑 폐기 · [2] = 원 0~100 유지(핵심구간 sc 불변)
+    if (_g.length >= 2 && _g.every(Boolean)) { gpts = _g; gl = chPath(shoulder(_g).map(p => [p[0], p[1]]), 1); }
+  }
+  const spts = []; bs.forEach((b, i) => { const v = val(b, 'share_pm'); if (v != null) spts.push([X(i), Y(v), !!b.low_sample]); });   // 팔로워(공유) 곡선 좌표 = 핵심 구간 산출·시리즈 렌더 공용(단일 산출)
+  const sx0 = spts.length && !hlin ? spts[0][0] : mL, sx1 = spts.length && !hlin ? spts[spts.length - 1][0] : W - mR;   // area 폐합 x = 숄더 반영 양끝(비선형축 = 기존 첫/끝 점 그대로)
+  const sline = spts.length >= 2 ? chPath(shoulder(spts).map(p => [p[0], p[1]]), 1) : '';
+  // 핵심 구간 = 팔로워 파도 아래 세로 커튼(운영자 260723 재개정: 음영 바닥 = X축 정지 — 눈금·요일 라벨 행 침범 금지 · 축 살짝 관통 = 양옆 세로변 선분만 · "인덱싱까지 이어짐"은 선분 +4 관통 + 해당 눈금 보라 틴트가 대체) — 팔로워 area(파도→X축)를 [x0,x1] 컬럼으로 하드 클립 · 세로 그라데이션(위 파도 .34 → 바닥 .06 잔광) · 색 = --cat-tech(팔레트 유일 형광 보라) · 불투명 금지(아래 무채 볼륨 바 비침). ⚠️ 표현 문법(음영·세로변·라벨·눈금 틴트) = 260723 확립본 그대로 — 아래는 *어디를 칠할지 고르는 산출식*만 교체(운영자 260801 "표현방법은 기존과 동일").
+  // 코어 산출 = 도달 기대값(운영자 260801 판정 "동그라미 친 18~19시가 제일 핵심 아닌지 · 앱 사용자가 주로 쓰는 시간대로 늘려야 · 좌측 − 우측 +") — score = 공유 lift × 앱 사용자 이용 강도(반응률 × 볼 사람 수) · 피크 중심 연속 런 { score ≥ 피크 × CORE_TH }.
+  //   구식(팔로워 곡선이 앱 사용자 곡선 '위'인 런) 폐기 사유 3점(실측 insta 1,005건): ① 단위 불일치 — 팔로워는 lift를 데이터 산포 lo~hi로 자동 스케일 / 앱 사용자는 0~100을 ph×.82로 고정 매핑 = 두 곡선의 픽셀 교차에 물리적 의미 없음(밤22-24 ×0.68 하나가 lo를 끌어내리면 코어가 통째로 이동). ② 상대 우위 판정이라 *앱 사용자가 적은 한산한 시간대*가 유리 — 오전6-11은 공유 ×0.93으로 통과(여유 +0.9px)·저녁18-22는 ×1.01인데 탈락(표본은 저녁이 최다 n=225). ③ 같은 차트의 접속 피크 1위 18시를 코어가 17:54에서 배제 = 두 오버레이가 반대를 지시.
+  //   전후(현 데이터 실렌더 실측): 시간대 08:30~17:54 → 14:08~20:57(좌 −5.6h·우 +3.1h · 접속 피크 1·2위 15·18시 포섭 — 구식은 18시를 17:54로 잘랐다 · 3위 21시는 경계 3분 밖 = 저녁 밴드 대표값이 20시라 곱이 21시부터 꺾임 = 데이터 그대로) · 요일 목 → 금22시~일12시(주말 = 260724 "주말이 이용 훨 높은데" 판정과 동방향). 시안·전후 = docs/reports/260801_핵심구간_산출식_플레이그라운드.html
+  const coreLabs = [];   // 코어 라벨 앵커(밴드마다 1개 · 복수 밴드 = 운영자 260801 "빨간색 덧칠한 부분도 핵심 구간이야 · 동일하게 표기")
+  let coreXRs = [];      // 코어 x범위 목록(눈금 보라 틴트 판정 = 어느 밴드에든 들면 틴트)
+  const fixLabs = [];    // 보완 필요 라벨 앵커(운영자 260805 첨부 판정 "이용자 핫한 시간대를 내가 못 따라감 = 보완 필요")
+  let fixXRs = [];       // 보완 필요 x범위 목록(범례 칩 노출 판정)
+  if (gpts && gpts.length === bs.length && spts.length === bs.length && sline) {
+    const sc = spts.map((p, i) => val(bs[i], 'share_pm') * (gpts[i][2] / 100));   // 도달 기대값 = 공유 lift × 앱 사용자 지수/100(둘 다 이 차트가 이미 그리는 정본 — 새 데이터·새 상수 0)
+    let pk = 0; sc.forEach((v, i) => { if (v > sc[pk]) pk = i; });   // 임계 기준점 = 도달 기대값 최대(구식 '팔로워 y 최소' = lift 최대와 다름 — 볼 사람 수를 곱한 뒤의 최대)
+    if (sc[pk] > 0) {
+      const T = sc[pk] * CORE_TH, aB = H - mB;   // aB = X축(하단 눈금선) = 음영 바닥(운영자 260723 "음영이 눈금/요일 라벨 영역 넘지 않게" — 구 +11 라벨행 연장 폐지 · 축 관통은 아래 세로변 선분만)
+      const runs = [];   // 임계 이상인 *모든* 연속 런(구 단일 밴드 = 피크 런만 그려 2등 구간[요일 수~목 = 도달 .950·1.062]을 통째로 숨겼다 · 운영자 260801 실기 지적)
+      for (let i = 0; i < sc.length; i++) { if (sc[i] >= T) { const r = runs[runs.length - 1]; if (r && r[1] === i - 1) r[1] = i; else runs.push([i, i]); } }
+      const cross = (a, b) => { const t = (sc[a] - T) / (sc[a] - sc[b]); return { x: X(a) + (X(b) - X(a)) * t, y: spts[a][1] + (spts[b][1] - spts[a][1]) * t }; };   // 경계 = 임계 교차점 선형 보간(x·팔로워 파도 y) — 버킷 스냅 금지 = 구 edge() 문법 계승 · a는 항상 임계 이상·b는 미만이라 t∈(0,1) 보장(구식 '두 점 다 dfs≤0 음수 t' 오이동 구조적 소멸)
+      const at = i => ({ x: X(i), y: spts[i][1] });   // 축 끝(확장 벽)에서 멈춤 = 그 버킷 중심(교차 아님 = 보간 불요)
+      const yWave = xq => { const q = Math.max(spts[0][0], Math.min(spts[spts.length - 1][0], xq)); for (let i = 1; i < spts.length; i++) { if (spts[i][0] >= q) { const [xa, ya] = spts[i - 1], [xb, yb] = spts[i]; return xb === xa ? ya : ya + (yb - ya) * (q - xa) / (xb - xa); } } return spts[spts.length - 1][1]; };   // 음영 상단(팔로워 파도) y = 중앙 x에서 선형 보간(곡선 chPath와 미세차 있으나 라벨 배치용 = 육안 무차)
+      s += `<defs><linearGradient id="sigCore-${ax}" gradientUnits="userSpaceOnUse" x1="0" y1="${mT}" x2="0" y2="${aB.toFixed(1)}"><stop offset="0" stop-color="var(--cat-tech)" stop-opacity=".34"/><stop offset="1" stop-color="var(--cat-tech)" stop-opacity=".06"/></linearGradient>${runs.map(([i0, i1], k) => { const a = i0 > 0 ? cross(i0, i0 - 1) : at(i0), b = i1 < sc.length - 1 ? cross(i1, i1 + 1) : at(i1); return `<clipPath id="sigCoreClip-${ax}-${k}"><rect x="${a.x.toFixed(1)}" y="${mT}" width="${(b.x - a.x).toFixed(1)}" height="${ph}"/></clipPath>`; }).join('')}</defs>`;   // 그라데이션 = 밴드 공용 1개(userSpaceOnUse 세로축 = 위치 무관) · 클립만 밴드별
+      runs.forEach(([i0, i1], k) => {
+        const e0 = i0 > 0 ? cross(i0, i0 - 1) : at(i0), e1 = i1 < sc.length - 1 ? cross(i1, i1 + 1) : at(i1);
+        s += `<path d="${sline} L${sx1.toFixed(1)} ${aB.toFixed(1)} L${sx0.toFixed(1)} ${aB.toFixed(1)} Z" fill="url(#sigCore-${ax})" stroke="none" clip-path="url(#sigCoreClip-${ax}-${k})"/>`;   // 팔로워 area(파도→X축)를 코어 컬럼으로 하드 클립 = 세로 커튼(라벨 행 무접촉)
+        [[e0.x, e0.y], [e1.x, e1.y]].forEach(([xe, ye]) => { s += `<line x1="${xe.toFixed(1)}" y1="${(aB + 4).toFixed(1)}" x2="${xe.toFixed(1)}" y2="${ye.toFixed(1)}" stroke="var(--cat-tech)" stroke-width="1.2" opacity=".72" vector-effect="non-scaling-stroke"/>`; });   // 양 옆 세로변(파도 곡선 y → X축 +4) = 선분만 아주 살짝 축 관통(운영자 260723 "선분 쫙 이어서 · 음영을 넘기란 게 아니야") — 아래 해당 눈금 숫자와 연결감
+        coreXRs.push([e0.x, e1.x]);
+        const cx = (e0.x + e1.x) / 2;
+        if (e1.x - e0.x >= 46) coreLabs.push({ x: cx, y: (yWave(cx) + aB) / 2 });   // 라벨 = 음영 중앙 각인(운영자 260730) · 폭 46 미만 밴드는 라벨 생략(글리프가 음영 밖으로 삐져나가는 오표기 차단 — 라벨 실측 폭 41 + 여유 · 밴드 자체는 그대로 표기)
+      });
+      // 보완 필요 존 3차 확정(운영자 260805 3차 "앱 사용자의 이용 선은 높은데 팔로워의 이용선이 낮을 때 — 그때 게시물을 안 올리거나
+      //   해서 제대로 활용을 못 하고 있다는 뜻 · 핵심 보라와는 거의 겹칠 일 없을 것[핵심 = 이미 공략 중 = 보완의 60~70% 반대 개념]") —
+      //   판정 = 이용 강도 핫존(gen ≥ 피크 85 · CORE_TH 동값 재사용 = 새 상수 0) ∧ 내 공유 lift < 1.0(채널 중앙 기준선 = 화면의
+      //   ×1.0 점선 아래 = "평소보다 약함"). 2차(파란선<노란선 픽셀 비교)는 벤치 노랑이 평평·상단이라 주중 대부분+핵심(토·일)까지
+      //   물들어 폐기 — 운영자 재판정으로 "이용률 높은데 못 쓰는 자리"만 남김(실측 = 요일 화·금 / 시간대 밤22-24 = 운영자 동그라미
+      //   [금 골짜기] 정합 · 핵심과는 구조상 거의 배타[핵심 = 고공유 = ×1.0 위]). 드문 동시 성립 시 렌더 순서상 빨강이 뒤 = 우위 레이어(2차 지시 유지).
+      //   경계 = 공유↔×1.0 교차(= 터콰이즈가 점선을 뚫는 그 점 · y = 기준선) 또는 gen↔85 교차 선형 보간(버킷 스냅 금지) · 색·그라데 스톱 = 핵심 커튼 정본값.
+      //   음영 기하 4차(운영자 260805 4차 "파란색 선 위 > 공간 < 노란색 선 아래 · 파란 아래에 이미 확보되는 점유율은 필요 없음") —
+      //   칠하는 곳 = **터콰이즈 위 ~ 노랑 아래 밴드**(= 끌어올려야 할 여백) · 구현 = 마스크(노랑 아래 흰 − 터콰이즈 아래 검)
+      //   = 화면에 실제 그려진 두 베지어 그대로의 사이 공간(다각형 근사 0) · 터콰이즈가 노랑 위로 솟은 곳은 마스크가 자연 소거.
+      //   범위·톤 5차(운영자 260805 5차) = 기둥 클립·세로변 폐지 → 갭 주머니 전체 렌즈(아래 fruns 확장) + 불투명도 감쇠(.26/.05).
+      const shv = bs.map(b => val(b, 'share_pm'));
+      const dfs = spts.map((p, i) => p[1] - gpts[i][1]);   // 파란y − 노랑y(>0 = 파란이 노랑 아래 = 갭 열림) — 렌즈 범위·경계 축
+      // 범위 5차(운영자 260805 5차 "이 부분 전체에 음영 · 꼭 기둥 모양일 필요 없음") — 트리거(위 3차 판정)가 든 **갭 주머니 전체**로
+      // 확장: 트리거 런에서 양옆으로 dfs>0인 동안 넓혀 파란·노랑이 실제로 만나는 교차점(또는 안 닫히면 플롯 가장자리)까지.
+      // 한 주머니에 트리거 2개 = 병합 1렌즈 · 트리거 없는 주머니(예: 오전~점심 = 이용 강도 낮음)는 종전대로 무음영.
+      // ⚠ 판정 6차(운영자 260809 4차 첨부 «이렇게 앱 사용자 이용률이 더 높은 구간에는, 전에와 마찬가지로 보완 필요가 있어야함» = 밤22-24 동그라미) —
+      //   구 게이트 `gpts[i][2] >= 85`(이용 강도 **절대** 임계) 폐기. 사유 = 그 85는 260805 3차 당시 노란선이 **실측**(GEN_MEAS = online_curve_kst)
+      //   이던 시절의 값인데, 260809 3차에 노란선이 벤치(SIG_GEN)로 되돌아가면서 같은 밴드의 값이 통째로 내려앉아 게이트만 홀로 낡았다
+      //   (실측 밴드평균 vs 벤치: 밤22-24 **95.0 → 78** · 점심 90.4→74 · 오후 93.3→82) → 밤22-24가 85에 잘려 **시간대 축 보완 필요가 0개**가 됐다
+      //   = 운영자가 260805에 "여기"라고 지목했던 바로 그 자리가 조용히 사라진 것(전 축 실측 = 이 커밋 근거).
+      //   → 판정을 화면에 **실제로 그려진 두 선의 관계**로 되돌린다 = 「노랑이 터콰이즈 위(dfs>0) ∧ 내 공유 < ×1.0」 = 운영자 문장 그대로
+      //   (「앱 사용자 이용률이 더 높은 구간」 + 260805 3차 「팔로워의 이용선이 낮을 때」). 새 상수·새 데이터 0 — 오히려 낡을 수 있는 절대 상수 하나를 **제거**한다.
+      //   ⚠ 260805 2차 폐기(픽셀 비교 → "주중 대부분+핵심[토·일]까지 물들어") 재발 없음 = 그때 없던 `shv < 1`(3차 신설)이 핵심을 구조적으로 배타한다
+      //   — 현 데이터 실측으로 확인: 토(dfs +19.5)·일(+10.6)은 노랑이 위지만 공유 ×1.07·×1.10이라 **전건 배제**(핵심 보라와 겹침 0 유지).
+      //   전후(현 데이터 실렌더) = 시간대 **0개 → 밤22-24 1개**(저녁18-22 교차점~우변 = 동그라미 정합) · 요일 = 화·금 → 월·화·금(월은 종전에도 화 렌즈 확장이 덮던 자리 = 화면 변화 실질 0).
+      const trig = [];
+      for (let i = 0; i < shv.length; i++) { if (shv[i] != null && shv[i] < 1 && dfs[i] > 0) { const r = trig[trig.length - 1]; if (r && r[1] === i - 1) r[1] = i; else trig.push([i, i]); } }
+      let fruns = [];
+      trig.forEach(([a, b]) => { while (a > 0 && dfs[a - 1] > 0) a--; while (b < dfs.length - 1 && dfs[b + 1] > 0) b++; const m = fruns[fruns.length - 1]; if (m && a <= m[1] + 1) m[1] = Math.max(m[1], b); else fruns.push([a, b]); });
+      if (fruns.length) {
+        const fedge = (a, b) => {   // a = 렌즈 안(dfs>0) · b = 밖(dfs≤0) = 두 선 교차점 보간 · b가 차트 밖 = 렌즈가 안 닫힘 = 숄더 끝(플롯 가장자리)까지 = "전체"
+          if (b < 0) return { x: sx0, y: spts[a][1] };
+          if (b >= dfs.length) return { x: sx1, y: spts[a][1] };
+          const t = dfs[a] / (dfs[a] - dfs[b]); return { x: X(a) + (X(b) - X(a)) * t, y: spts[a][1] + (spts[b][1] - spts[a][1]) * t };
+        };
+        const yGen = xq => { const q = Math.max(gpts[0][0], Math.min(gpts[gpts.length - 1][0], xq)); for (let i = 1; i < gpts.length; i++) { if (gpts[i][0] >= q) { const [xa, ya] = gpts[i - 1], [xb, yb] = gpts[i]; return xb === xa ? ya : ya + (yb - ya) * (q - xa) / (xb - xa); } } return gpts[gpts.length - 1][1]; };   // 노랑 선 y 보간 = yWave 문법 미러(gpts 축) — 밴드 상단·세로변·라벨 배치용
+        s += `<defs><mask id="sigFixM-${ax}" maskUnits="userSpaceOnUse" x="0" y="0" width="${W}" height="${H}"><path d="${gl} L${sx1.toFixed(1)} ${aB.toFixed(1)} L${sx0.toFixed(1)} ${aB.toFixed(1)} Z" fill="#fff"/><path d="${sline} L${sx1.toFixed(1)} ${aB.toFixed(1)} L${sx0.toFixed(1)} ${aB.toFixed(1)} Z" fill="#000"/></mask>${fruns.map(([i0, i1], k) => { const a = fedge(i0, i0 - 1), b = fedge(i1, i1 + 1); const g1 = Math.min(...gpts.slice(i0, i1 + 1).map(p => p[1])), g2 = Math.max(a.y, b.y, ...spts.slice(i0, i1 + 1).map(p => p[1])); return `<linearGradient id="sigFixG-${ax}-${k}" gradientUnits="userSpaceOnUse" x1="0" y1="${g1.toFixed(1)}" x2="0" y2="${(g2 > g1 ? g2 : aB).toFixed(1)}"><stop offset="0" stop-color="var(--danger)" stop-opacity=".26"/><stop offset="1" stop-color="var(--danger)" stop-opacity=".05"/></linearGradient><clipPath id="sigFixClip-${ax}-${k}"><rect x="${a.x.toFixed(1)}" y="${mT}" width="${(b.x - a.x).toFixed(1)}" height="${ph}"/></clipPath>`; }).join('')}</defs>`;   // 마스크 = 축당 1개(노랑 아래 − 터콰이즈 아래 = 두 선 사이 렌즈) · 그라데 y축 = 렌즈 실범위(상단 노랑 최고점 → 하단 터콰이즈 최저점 = 「위 진하고 아래 잔광」 정본 의도) · raw-ok: 스톱 .26/.05 = 핵심 정본 .34/.06의 감쇠 사본(운영자 260805 5차 "빨간색 불투명도 좀만 낮춰줘" — 색상 자체는 --danger 토큰 유지)
+        fruns.forEach(([i0, i1], k) => {
+          const e0 = fedge(i0, i0 - 1), e1 = fedge(i1, i1 + 1);
+          s += `<path d="${gl} L${sx1.toFixed(1)} ${aB.toFixed(1)} L${sx0.toFixed(1)} ${aB.toFixed(1)} Z" fill="url(#sigFixG-${ax}-${k})" stroke="none" mask="url(#sigFixM-${ax})" clip-path="url(#sigFixClip-${ax}-${k})"/>`;   // 노랑 아래 area를 마스크로 깎아 = 터콰이즈 위~노랑 아래 렌즈만 잔존 · 세로변 없음(운영자 260805 5차 "꼭 기둥 모양일 필요 없음" — 렌즈 양끝 = 두 선의 실제 교차점이라 형상이 스스로 닫힌다 · 핵심 커튼 세로변 문법은 코어 전용 잔류)
+          fixXRs.push([e0.x, e1.x]);
+          let li = i0; for (let i2 = i0; i2 <= i1; i2++) { if (dfs[i2] > dfs[li]) li = i2; }   // 라벨 앵커 = 렌즈에서 갭이 가장 깊은 버킷(확장된 얇은 꼬리가 아니라 주머니 배에 각인)
+          const fcx = Math.max(mL + 24, Math.min(W - mR - 24, X(li)));
+          if (e1.x - e0.x >= 46) fixLabs.push({ x: fcx, y: (yGen(fcx) + yWave(fcx)) / 2 });   // 라벨 = 그 지점 밴드(노랑~터콰이즈) 정중앙 · 폭 게이트 46 = 핵심 정본 사본 · x 클램프 = 피크 콜아웃 lx 문법 사본
+        });
+      }
+    }
+  }
+  if (gl) s += `<path d="${gl}" fill="none" stroke="var(--accent-4)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/>`;
+  // 팔로워 접속 피크 밴드(운영자 260719 승인 한 수) — online_peak_kst 상위 3시각 · 연속 시각 = 한 밴드 병합 · 앰버 저알파 = 게시 예약 필과 동일 데이터 축
+  const bandLabs = [];
+  if (ax === 'hour_band' && Array.isArray(x2.peaks) && x2.peaks.length) {
+    const phs = [...new Set(x2.peaks)].sort((a, b) => a - b), runs = [];
+    phs.forEach(hh => { const r = runs[runs.length - 1]; if (r && hh - r[r.length - 1] <= 1) r.push(hh); else runs.push([hh]); });
+    runs.forEach(r => {
+      const x0 = hourX(r[0]), x1 = hourX(r[r.length - 1]);
+      if (x0 == null || x1 == null) return;
+      const top1 = r.indexOf(x2.peaks[0]) >= 0;   // 1위 시각 포함 런 = 진하게+라벨 · 나머지 = 은은
+      s += `<rect x="${(x0 - 7).toFixed(1)}" y="${mT}" width="${(x1 - x0 + 14).toFixed(1)}" height="${ph}" rx="2" fill="var(--mut)" fill-opacity="${top1 ? '.14' : '.08'}"/>`;   // 무채 워시(운영자 260723 한 수) — 일반 평균 노랑선과 색 충돌 회피 · 색=데이터(공유·일반평균)/무채=맥락(접속피크·볼륨·마커) 위계
+      if (top1) bandLabs.push({ x: (x0 + x1) / 2, txt: `접속 피크 ${r.length > 1 ? r[0] + '~' + r[r.length - 1] : r[0]}시` });
+    });
+  }
+  let mkX = null, mkTxt = '';   // 지금(시간대)·오늘(요일) 마커 — 무채 은은 hairline(변곡 리더 톤 계승 · KST [12])
+  if (ax === 'hour_band' && x2.now != null) { mkX = hourX(x2.now); mkTxt = '지금'; }
+  if (ax === 'dow' && x2.today) { const ti = bs.findIndex(b => b.bucket === x2.today); if (ti >= 0) { mkX = X(ti); mkTxt = '오늘'; } }
+  if (mkX != null) s += `<line x1="${mkX.toFixed(1)}" y1="${mT + 2}" x2="${mkX.toFixed(1)}" y2="${(H - mB).toFixed(1)}" stroke="var(--mut)" stroke-width="1" stroke-dasharray="2 3" opacity=".55" vector-effect="non-scaling-stroke"/>`;
+  const bY = Y(1);   // ×1.0 = 채널 중앙값 기준선 — 위 = 평소보다 호응↑ · 아래 = ↓
+  s += `<line x1="${mL}" y1="${bY.toFixed(1)}" x2="${W - mR}" y2="${bY.toFixed(1)}" stroke="var(--mut)" stroke-width="1" stroke-dasharray="4 3" opacity=".6" vector-effect="non-scaling-stroke"/>`;
+  s += `<text x="${mL + 4}" y="${(bY - 4).toFixed(1)}" text-anchor="start" font-size="9" fill="var(--mut)">채널 중앙 ×1.0</text>`;
+  if (sline) {   // 팔로워(구 라벨 '공유' · 운영자 260723 리네임) 단독(운영자 260723 "저장 삭제·공유로 통일") — area 글래스+선+점 · 저장(구 --accent-2 시리즈) 폐지 · 좌표 = 위 spts 단일 산출 재사용
+    s += `<path d="${sline} L${sx1.toFixed(1)} ${H - mB} L${sx0.toFixed(1)} ${H - mB} Z" fill="rgba(var(--accent-rgb),.10)" stroke="none"/>`;
+    s += `<path d="${sline}" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/>`;
+    spts.forEach(p => { s += `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="3" fill="${p[2] ? 'var(--bg)' : 'var(--accent)'}" stroke="${p[2] ? 'var(--accent)' : 'var(--bg)'}" stroke-width="1.6"/>`; });   // low_sample = 속빈 점
+  }
+  const hs = SIG_HIT[ax].filter(p => p.share != null), topLabs = [];   // topLabs = 상단 선반 라벨 점유 기록(소프트 충돌 회피)
+  let trLab = null;   // 최저 콜아웃 잉크 앵커 — 보완 라벨 충돌 회피 재료(보완 존은 정의상 공유 저점과 자주 겹친다 · 260805 실렌더 실측 = 화·밤 트로프 정면 충돌)
+  if (hs.length >= 3) {   // 피크·최저 콜아웃(공유 기준 · chChart 극값 문법 계승)
+    let pk = hs[0], tr = hs[0];
+    hs.forEach(p => { if (p.share > pk.share) pk = p; if (p.share < tr.share) tr = p; });
+    const lx = v => Math.max(mL + 24, Math.min(W - mR - 24, v));
+    if (pk.share !== tr.share) {
+      const pky = Math.max(mT + 9, pk.y - 8);
+      s += `<circle cx="${pk.x.toFixed(1)}" cy="${pk.y.toFixed(1)}" r="4.2" fill="var(--accent-bright)" stroke="var(--bg)" stroke-width="2"/>`;
+      s += `<text x="${lx(pk.x).toFixed(1)}" y="${pky.toFixed(1)}" text-anchor="middle" font-size="8.5" fill="var(--accent-bright)" font-weight="700">피크 ×${pk.share}</text>`;
+      topLabs.push({ x: lx(pk.x), y: pky });
+      s += `<circle cx="${tr.x.toFixed(1)}" cy="${tr.y.toFixed(1)}" r="4.5" fill="none" stroke="var(--mut)" stroke-width="1.5"/>`;   // 최저 = 속빈 무채 링(점 위 겹침 시인 위해 r 확대 · chChart 트로프 문법)
+      trLab = { x: lx(tr.x), y: Math.min(H - mB - 4, tr.y + 13) };
+      s += `<text x="${trLab.x.toFixed(1)}" y="${trLab.y.toFixed(1)}" text-anchor="middle" font-size="8" fill="var(--mut)">최저 ×${tr.share}</text>`;
+    }
+  }
+  const putTop = (x, txt, fill) => {   // 상단 선반 라벨 배치(가로 70·세로 10px 근접 = 한 칸 아래 · 엣지 클램프) — 접속 피크·지금·오늘 공용
+    const cx = Math.max(mL + 16, Math.min(W - mR - 16, x));
+    let y = mT + 8;
+    for (let t = 0; t < 3 && topLabs.some(l => Math.abs(l.x - cx) < 70 && Math.abs(l.y - y) < 10); t++) y += 10;
+    topLabs.push({ x: cx, y });
+    s += `<text x="${cx.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="middle" font-size="8" fill="${fill}" font-weight="700">${txt}</text>`;
+  };
+  coreLabs.forEach(l => { s += `<text x="${l.x.toFixed(1)}" y="${l.y.toFixed(1)}" text-anchor="middle" dominant-baseline="central" font-size="8" fill="var(--cat-tech)" font-weight="700" style="filter:drop-shadow(0 1px 2px rgba(0,0,0,.45))">${ax === 'hour_band' ? '핵심 시간대' : '핵심 요일'}</text>`; });   // 핵심 구간 라벨 = 상단 선반(putTop) 이탈 → 음영 블록 정중앙 각인(운영자 260730 "양옆 중앙·위아래 중앙") · 색 = 음영 동색 네온바이올렛(260723 계승) · 그림자 = 레포 텍스트 가독 정본값 drop-shadow(0 1px 2px rgba(0,0,0,.45)) 계승(.ch-th .rl·.dlbtn) = 파도·볼륨바 위 판독
+  fixLabs.forEach(l => { if ((trLab && Math.abs(trLab.x - l.x) < 60 && Math.abs(trLab.y - l.y) < 16) || coreLabs.some(c => Math.abs(c.x - l.x) < 60 && Math.abs(c.y - l.y) < 16)) { putTop(l.x, '보완 필요', 'var(--danger)'); return; } s += `<text x="${l.x.toFixed(1)}" y="${l.y.toFixed(1)}" text-anchor="middle" dominant-baseline="central" font-size="8" fill="var(--danger)" font-weight="700" style="filter:drop-shadow(0 1px 2px rgba(0,0,0,.45))">보완 필요</text>`; });   // 보완 필요 라벨 = 핵심 라벨 문법 100% 미러(중앙 각인·8px·그림자 동값) · 색 = 존 동색 --danger(운영자 260805 "빨간색으로 보완 필요 적어줘야"). 최저 콜아웃 충돌 = 상단 선반 putTop 이관 — 보완 존은 정의상 공유 저점과 상습 동거인데 트로프 커튼(파도~축 ~17px)엔 '한 칸 아래'가 물리적으로 없다(260805 실렌더 실측 = 화·밤 정면 충돌 · 바닥 클램프 무효). 창 60×16 = 라벨 실폭 41+여유·잉크 8px 스택 감안(10px 창은 화 케이스가 0.3px 차로 빠져나가는 걸 실측)
+  bandLabs.forEach(l => putTop(l.x, esc(l.txt), 'var(--mut)'));   // 접속 피크 라벨 = 무채(운영자 260723 한 수 · 밴드 무채 워시와 동색 · 일반 평균 노랑과 분리)
+  if (mkX != null) putTop(mkX, mkTxt, 'var(--mut)');
+  const inCore = x => coreXRs.some(r => x >= r[0] - 1 && x <= r[1] + 1);   // 핵심 구간에 드는 눈금/라벨 = 음영 동색 보라 틴트(운영자 260723 "해당하는 숫자를 보라색 음영" · ±1px = 경계 부동소수 여유) — 구 경계시각 별도 라벨("9시/18시" 행) 대체
+  const tick = x => { s += `<line x1="${x.toFixed(1)}" y1="${H - mB}" x2="${x.toFixed(1)}" y2="${(H - mB + 3).toFixed(1)}" stroke="var(--mut)" stroke-width="1" opacity=".55" vector-effect="non-scaling-stroke"/>`; };   // X축 미니 눈금선(운영자 260724 "보라 튀어나온 것처럼 각각 다 mut으로") — 문법 = 핵심 구간 세로변 축 관통 미러(관통 3 = 보라 4보다 반 계단 아래 위계) · 톤 = 지금/오늘 무채 마커(--mut·1px·op .55) 계승 · 전 인덱싱 위치(숫자 눈금 + 요일명 중심선)
+  const DAY_MARKS = [6, 14, 22];   // 하루 3구간 표기 정본(운영자 260801 "6 14 22 이렇게 세구간을 하루에 표기") = 22–6 야간 / 6–14 오전 / 14–22 오후 8h 3분할 · 자정 표기는 0 금지 = 24로만(운영자 260801 "0을 24로 표기") — 시간대 축·요일 서브행 공용 SSOT(두 축 표기 문법 동조)
+  if (hlin && ax === 'hour_band') {   // X축 = 시각 눈금(운영자 260723 "밴드명 말고 그냥 숫자만" → 260801 표기 솎음: 눈금선은 24분할 전량 유지[미세 자] · *숫자는* 3구간 마크 + 양끝 자정 24만) — 크기·굵기·베이스라인(9·700·H-7) = 구 버킷 라벨 규격 계승 · 밴드명은 호버 툴팁에 유지 = 정보 손실 0
+    for (let hh = 0; hh <= 24; hh++) tick(mL + pw * hh / 24);   // 미세 자 = 전 시각 눈금선(보라 세로변이 임의 x에 서므로 위치 판독용 · 260724 톤 그대로)
+    [0, ...DAY_MARKS, 24].forEach(hh => {
+      const xh = mL + pw * hh / 24, lab = hh === 0 ? 24 : hh;   // 좌끝 0 = "24"(자정 = 전날 24시 · 우끝과 같은 순간이라 표기 통일)
+      s += `<text x="${xh.toFixed(1)}" y="${H - 7}" text-anchor="middle" font-size="9" fill="${inCore(xh) ? 'var(--cat-tech)' : 'var(--mut)'}" font-weight="700">${lab}</text>`;
+    });
+  } else if (hlin) {   // 요일 = 주간 선형축 2단 눈금(운영자 260724 "요일별로 3개씩 — 지금 너무 모호" · 260801 위상 교체: 0·8·16 → 6·14·22 = 시간대 축과 동일 3구간) — 서브행 y = 구 경계시각 행 +1(눈금선 3px과 글리프 캡 간섭 회피) · font 8 = putTop 선반 티어 = 요일명 아래 위계 · 요일명 행 = H-7·9·700 계승 · 핵심 구간 = 두 행 다 보라 틴트 · 눈금선 = 요일 경계(자정) + 3구간 마크 + 요일 중심선
+    for (let d = 0; d <= ord.length; d++) tick(mL + pw * (d * 24) / SPAN);   // 요일 경계(자정) 눈금선 = 숫자 없이 선만(0 표기 금지 · 날 구분은 위 요일명 행이 담당)
+    ord.forEach((_, d) => DAY_MARKS.forEach(hh => {
+      const xt = mL + pw * (d * 24 + hh) / SPAN;
+      tick(xt);
+      s += `<text x="${xt.toFixed(1)}" y="${(H - mB + 9).toFixed(1)}" text-anchor="middle" font-size="8" fill="${inCore(xt) ? 'var(--cat-tech)' : 'var(--mut)'}" font-weight="700">${hh}</text>`;   // +10 → +9(260801): 6·14·22 위상에선 14가 요일명 중심(12시)과 2h차 = x 잉크 1.98px 겹침 → 세로 여백 확보가 유일한 해(실측 = 눈금선 하단 131 ↔ 숫자 잉크 상단 132 · 숫자 잉크 하단 137 ↔ 요일명 잉크 상단 139 = 양쪽 1·2px 클린)
+    }));
+    bs.forEach((b, i) => { tick(X(i)); s += `<text x="${X(i).toFixed(1)}" y="${H - 7}" text-anchor="middle" font-size="9" fill="${inCore(X(i)) ? 'var(--cat-tech)' : 'var(--mut)'}" font-weight="700">${esc(b.bucket)}</text>`; });
+  } else bs.forEach((b, i) => {   // 축 파싱 실패 폴백 = 구 버킷 라벨(첫/끝 = 엣지 앵커 = 삐침 방지 · y = 일일 추이 베이스라인 H-7 계승) · 핵심 구간 안 라벨 = 동일 보라 틴트(형제 동조[4]) · n 병기 줄 = 운영자 260722 제거(툴팁 n= 유지)
+    const anc = i === 0 ? 'start' : i === bs.length - 1 ? 'end' : 'middle', xa = i === 0 ? mL : i === bs.length - 1 ? W - mR : X(i);
+    tick(xa);
+    s += `<text x="${xa.toFixed(1)}" y="${H - 7}" text-anchor="${anc}" font-size="9" fill="${inCore(xa) ? 'var(--cat-tech)' : 'var(--mut)'}" font-weight="700">${esc(b.bucket)}</text>`;
+  });
+  s += '</svg>';
+  let pk2 = null; hs.forEach(p => { if (!pk2 || p.share > pk2.share) pk2 = p; });   // 캡션 우측 피크 요약(헤더 .ct-v 대값 문법의 축약 계승)
+  return `<div class="sig-cap"><span class="sig-t">${(CHAN_SRC === 'fb' ? SIG_CAP_FB : SIG_CAP)[ax] || esc(ax)}</span>${pk2 ? `<span class="sig-pk">피크 ${esc(pk2.bucket)} · ${CHAN_SRC === 'fb' ? '반응' : '공유'} ×${pk2.share}</span>` : ''}<span class="sig-lgd"><i class="lg-sh">팔로워</i>${GEN_MEAS ? `<i class="lg-gen" title="팔로워 접속 = 내 팔로워의 ${ax === 'dow' ? '요일별 접속 강도 — 하루 총량이 아니라 접속 피크대(위 차트 상위 3시각)만 집계한다. 총량은 팔로워 수와 거의 같아 요일차가 상쇄되지만, 피크대는 「올릴 시간에 그 요일 사람이 얼마나 붙어 있나」를 남긴다(260809)' : '시간대별 접속 강도'}(Meta online_followers API 실측 · 피크=100 상대 · 시간대 260803·요일 260804 실측 편입 — 구 벤치 실루엣 대체)">팔로워 접속</i>` :(CHAN_SRC !== 'fb' && SIG_GEN[ax]) ? '<i class="lg-gen" title="앱 사용자 이용 = 전체 인스타 이용자의 평균 이용 강도(원천 = 이용시간 통계 · 상대값 · 측정치 아님). ⚠ 「접속」과 다른 축이다 — 이 차트의 무채 밴드 「접속 피크」·하단 「접속 실측」은 내 팔로워가 실제로 앱을 켜고 있는 수(Meta online_followers 실측)이고, 이 노란선은 전체 이용자가 얼마나 오래 쓰는가(바깥 벤치 실루엣)다. 내 팔로워가 아니라 바깥 레퍼런스(내 채널 축 = 터콰이즈 「팔로워」) — 시간대: 국내 이용시간(오픈애즈·소셜비즈 2025 3Q) · 요일: 이용시간 종합(와이즈앱·App Ape·글로벌 스크린타임 2025~26 — 주말 확산·소폭↑)">앱 사용자 이용</i>' : ''}${coreXRs.length ? `<i class="lg-core" title="핵심 구간 = 도달 기대값(공유 lift × ${GEN_MEAS ? '팔로워 접속 강도' : '앱 사용자 이용 강도'})이 피크의 85% 이상인 구간 전부(복수 가능) — 반응률만이 아니라 볼 사람 수까지 곱한 값(운영자 260801)">핵심 구간</i>` : ''}${fixXRs.length ? '<i class="lg-fix" title="보완 필요 = 이용자 선(노랑)이 내 공유 선 위에 있는데 그 공유가 채널 중앙(×1.0 점선) 아래로 처진 자리 — 그때 안 올리거나 활용을 못 해 이용자 흐름을 놓치는 것(운영자 260805·260809). 음영 = 그 자리가 든 갭 주머니 전체(내 곡선 위~이용자 선 아래 = 끌어올릴 여백 · 파란 아래 확보 점유율 제외) · 핵심 구간과 반대 개념 · 게시 실험 우선 후보">보완 필요</i>' : ''}${bandLabs.length ? '<i class="lg-pk">접속 피크</i>' : ''}</span>${x2.curve && x2.led ? `<span class="sig-live" title="팔로워 접속 실측(Meta online_followers)을 워크플로가 상시 자동 수집 — 원장 ${x2.led.days || '?'}일 축적${x2.led.last ? ' · 마지막 적재 ' + esc(x2.led.last) : ''} · 3일 이상 끊기면 메시지함 경보(매월 말~초 지연 경향 = 운영자 260805 관측)">${x2.led.stall != null && x2.led.stall >= 3 ? '실측 수신 지연 ' + x2.led.stall + '일' : '접속 실측 수집 중' + (x2.led.days ? ' · ' + x2.led.days + '일' : '')}</span>` : ''}</div>` +
+    `<div class="ch-chartwrap sig-chartwrap" data-ax="${esc(ax)}">${s}<div class="ch-tip"></div><div class="ch-dot"></div></div>`;
+}
+function wireSigCharts(box) {   // 최근접 포인트 툴팁+호버점 = 일일 추이 크로스헤어 배선 대칭(호버·탭 공용 · 재렌더마다 새 노드라 중복 배선 없음)
+  box.querySelectorAll('.sig-chartwrap').forEach(wrap => {
+    const hits = SIG_HIT[wrap.dataset.ax] || [], tip = wrap.querySelector('.ch-tip'), dot = wrap.querySelector('.ch-dot');
+    if (!hits.length || !tip) return;
+    const place = (x, y) => { const r = wrap.getBoundingClientRect(); return [x / 600 * r.width, y / 154 * r.height]; };   // 154 = chLiftChart viewBox H(260722 170→154 축소 동조 누락 정정 — 구 170 잔존 = 호버점·툴팁 ~9% 상방 이탈)
+    const hide = () => { tip.style.opacity = '0'; if (dot) dot.style.opacity = '0'; };
+    const move = ev => {
+      const r = wrap.getBoundingClientRect();
+      const cx = ev.touches ? ev.touches[0].clientX : ev.clientX;
+      const px = (cx - r.left) / r.width * 600;
+      let best = hits[0], bd = 1e9;
+      hits.forEach(pt => { const dd = Math.abs(pt.x - px); if (dd < bd) { bd = dd; best = pt; } });
+      const [tx, ty] = place(best.x, best.y);
+      tip.innerHTML = `<b>${esc(best.bucket)}</b><br><span style="color:var(--mut);font-size:10px">${CHAN_SRC === 'fb' ? '반응' : '공유'} ×${best.share ?? '—'}${best.gen != null ? ' · ' + (best.gm ? '접속 ' : '앱 사용자 이용 ') + '×' + best.gen : ''} · n=${best.n}${best.low ? ' · 표본부족' : ''}</span>`;   // FB 소스분기(평의회 260724 must-fix) — eng lift를 '공유'로 오표기 방지 · gen(앱사용자%)은 11245 gen 게이트가 FB=null이라 자동 생략(곡선·범례 제거와 정합)
+      const _hw = (tip.offsetWidth || 110) / 2; tip.style.left = Math.max(_hw + 2, Math.min(r.width - _hw - 2, tx)) + 'px'; tip.style.top = ty + 'px';   // 좌우 클램프(260720 평의회 F5 — translate(-50%)라 엣지 포인트서 화면 밖 잘림 실측 · innerHTML 후 실폭 측정)
+      tip.style.opacity = '1';
+      if (dot) { dot.style.left = tx + 'px'; dot.style.top = ty + 'px'; dot.style.opacity = '1'; }
+    };
+    wrap.addEventListener('pointermove', move);
+    wrap.addEventListener('pointerleave', hide);
+    wrap.addEventListener('touchmove', move, { passive: true });
+  });
+}
+// ⚠️ 소스 순서 = **api/chan(GitHub main 직독 · 빌드 우회) → 정적 파일**(loadTrends·loadCandidates 정본 문법 동축 · 운영자 260803 2차).
+//    정적 = Cloudflare Pages 빌드 시점 사본이라 몇 시간 밀린다(실측 260803: 라이브 insta_data 15:34 vs 레포 19:11 = 3h37m) →
+//    채널 수동 재수집(#chanFreshBtn)이 수집을 돌려도 화면이 안 바뀌면 완료 판정이 영영 안 온다. 정적 폴백 보존 = 로컬·Functions 장애 시 종전 동작(회귀 0).
+async function chanGet(k, file, ok, force) {   // ok = 유효 응답 판별 키(부재 = 서빙 실패 → 다음 소스) · force = api 캐시버스터(수동 감시 폴 전용)
+  for (const u of ['api/chan?f=' + k + (force ? '&_=' + Date.now() : ''), file + '?ts=' + Date.now()]) {
+    try {
+      const sig = (typeof AbortSignal !== 'undefined' && AbortSignal.timeout) ? AbortSignal.timeout(12000) : null;   // ⚠️ 시도마다 새 시그널 = loadCandidates·loadTrends 관용구(260803 평의회 지적: 여기만 빠져 있었다). 없으면 **매달린 소켓이 CHAN_LOADING을 영구 점유** → 채널 탭이 통째로 정지(자매 로더 주석이 명시한 그 사고 경로)
+      const r = await fetch(u, sig ? { signal: sig } : undefined); if (!r.ok) continue;
+      const t = await r.text(); if (/^\s*</.test(t)) continue;   // SPA 폴백(HTML 200) 가드
+      const j = JSON.parse(t); if (!j || !j[ok]) continue;
+      return j;
+    } catch { /* 다음 소스 */ }
+  }
+  return null;
+}
+let CHAN_INFLIGHT = null;   // 진행 중 로드 프로미스 — force(수동 재수집)가 그 착지를 기다렸다 반드시 한 번 더 돌게(아래 ⚠)
+async function loadChan(force) {
+  // ⚠️ 재진입 가드가 force보다 앞이면 **수동 재수집의 강제 재fetch가 진행 중 로드에 삼켜져 조용히 무효**가 된다(260803 평의회 지적) —
+  //   그러면 클릭 직후 base 재앵커가 화면의 묵은 generated_kst를 집어 첫 틱이 '완료'로 오판정한다(가짜 완료). force는 대기 후 재실행.
+  if (CHAN_LOADING) { if (!force) return; try { await CHAN_INFLIGHT; } catch {} if (CHAN_LOADING) return; }
+  if (!force && CHAN && Date.now() - CHAN_AT < 300e3) { renderChan(); return; }   // force = 수동 재수집 감시(TTL 우회)
+  CHAN_LOADING = true;
+  const _prevG = (CHAN && CHAN.generated_kst) || '';   // 변화 판정용 스냅(아래 재조립 억제)
+  try {
+    CHAN_INFLIGHT = Promise.all([chanGet('ig', 'insta_data.json', 'generated_kst', force), chanGet('brief', 'chan_brief.json', 'updated', force), chanGet('fb', 'fb_data.json', 'generated_kst', force), chanGet('brieffb', 'chan_brief_fb.json', 'updated', force)]);   // 브리프·페이스북(1-2 · Q155)·FB브리프(운영자 260724) = 병행 fetch·실패 무해(파일 없음 = 유닛/소스 미표시 = 조용한 공백)
+    const [d, b, f, bf] = await CHAN_INFLIGHT;
+    if (d) { CHAN = d; CHAN_AT = Date.now(); }
+    if (b) CHANB = b;
+    if (f) CHAN_FB = f;
+    if (bf) CHANB_FB = bf;
+  } catch {}
+  finally {
+    CHAN_LOADING = false; CHAN_INFLIGHT = null;
+    // force 폴(수동 재수집 감시 = 30초 주기)은 **변화가 있을 때만** 재조립 — 무가드면 폴마다 채널 화면 전체가 innerHTML로 재부양해
+    //   스크롤·접힘·토글이 튄다(renderSnsTrends가 _trSig 시그니처 가드로 막아둔 바로 그 축 · 260803 평의회 지적).
+    if (CURTAB === 'chan' && (!force || ((CHAN && CHAN.generated_kst) || '') !== _prevG)) renderChan();
+    try { renderMsgBadge(); } catch {}
+  }   // 채널 데이터 도착 = 인구통계 기준일 판정 재계산(demoStaleMsgs) → 배지·기어 상태 동기(운영자 260726 · 데이터 없을 땐 조용 = 오탐 0)
+}
+// 커버 로드 실패(CDN URL 만료·404) = 타일 **소멸**이 아니라 캡션 텍스트 타일로 강등(운영자 260803 "이번 문제 안일어나게") —
+// 구 onerror는 this.parentNode.style.display='none' 이라 12칸 그리드에 **구멍**이 남았다(260718이 없애려던 그 공백을
+// URL 만료가 되살리는 축 · 서버 3단 회수 체인[insta_signals _thumb_src]이 뚫려도 만료는 시간이 지나면 반드시 온다).
+// 부품 = .ch-th.txt 정본 100% 재사용(신규 컴포넌트·값 0) · 캡션은 data-cap(esc 통과분)을 textContent로만 주입 = XSS 0.
+function chThFail(img) {
+  const a = img && img.parentNode; if (!a) return;
+  // 1회 재시도 = 인스타 **공개** 커버 경로(운영자 260803 "빈칸을 최대한 없애는 방향") — 서버가 구운 CDN URL은
+  // oe= 만료·CDN 교체로 죽지만 permalink는 안 죽는다 → 화면에서 그 자리에 살아있는 커버를 다시 집어온다.
+  // 커버 자산이 없으면 IG가 null.jpg로 302 → 그건 400 응답이라 onerror가 재발동하고, 그땐 dataset.rt가
+  // 막아 아래 캡션 강등으로 떨어진다(무한 루프 0 · 서버측 동일 소스 = insta_fetch._public_cover).
+  if (!a.dataset.rt) {
+    const mo = /instagram\.com\/(?:p|reel|reels|tv)\/([A-Za-z0-9_-]+)/.exec(a.getAttribute('href') || '');
+    if (mo) { a.dataset.rt = '1'; img.src = 'https://www.instagram.com/p/' + mo[1] + '/media/?size=l'; return; }
+  }
+  img.remove();
+  a.classList.add('txt');
+  const s = document.createElement('span'); s.className = 'cap'; s.textContent = a.dataset.cap || '';
+  a.appendChild(s);
+}
+// 판단 이력 카드 = **화면 비노출**(운영자 260809 "판단 이력 같은 경우는 내가 볼 필요는 없음 · AI 요약을 진행하는 프로그램이 체킹하면 됨").
+// 260808 4차에 화면에 올렸던 판을 걷는다 — 라이브러리 자신은 그대로 산다(brief_lib → LIB_BLOCK → PROMPT = 프로그램이 읽는 축).
+// 즉 기능 폐기가 아니라 **독자 변경**: 과거 회차 판단은 계속 다음 회차 판단에 실리고, 운영자 화면에서만 사라진다.
+function renderChan() {
+  const box = $('#chanBox'); if (!box) return;
+  // 채널 소스 세그(1-1/1-2) = 헤더 .vh-acts 정적 요소로 이주(Q157 · 운영자 260718 "우상단 픽토그램과 같은 라인") — 여기선 on 상태 동기만(콘텐츠부 인라인 주입 폐지 · 배선 = 하단 전역 1회)
+  { const tgl = document.getElementById('chanSrcTgl'); if (tgl) { const isFb = CHAN_SRC === 'fb'; tgl.dataset.cs = CHAN_SRC; tgl.classList.add('on'); tgl.setAttribute('aria-label', '채널 소스: 현재 ' + (isFb ? '페이스북 — 탭하면 인스타' : '인스타 — 탭하면 페이스북')); } }   // 단일 IG⇄FB 아이콘 토글 활성 동기(운영자 260720 · data-cs = .cs-rail 촤르륵 슬라이드 구동[아이콘은 마크업 고정·JS는 상태만] · 항상 on = 활성 소스만 · 구 텍스트뮤테이션[Q273] 대체)
+  const d = CHAN_SRC === 'fb' ? CHAN_FB : CHAN;
+  const CB = CHAN_SRC === 'fb' ? CHANB_FB : CHANB;   // 활성 소스 AI 브리프(운영자 260724 "페이스북도 요약 동일 조건") — IG=chan_brief.json · FB=chan_brief_fb.json · 결측 = 블록 미표시(조용한 공백)
+  { const vt = document.getElementById('vhTimeTxt') || document.getElementById('vhTime'); if (vt) vt.textContent = (d && d.generated_kst) ? (fmtK12(d.generated_kst) || '') : ''; const rb = document.getElementById('chanFreshBtn'); if (rb) rb.hidden = !(d && d.generated_kst); try { CHANF.paint(); } catch (_) {} }   // 시각 있을 때만 재수집 픽토 점등 · paint 재호출 = IG/FB 토글 시 문맥 불일치 점등 즉시 소등(평의회 260803)(빈 헤더에 글리프 단독 방지 · SNS 축 동문법) · 수집 시각 = 최상단 채널 헤더 좌상단 1회(운영자 260720 Q290 "받아오는 시간 같으니 대칭 정반대에 1회 · 라임 강조") — 구 대분류별 반복(prof·_ctm) 폐지 대체 · vh-acts(우) 대칭 좌측 · 라임 = --accent-2 · 260803 픽토 동거 = #vhTimeTxt 이관(재수집 픽토는 trend 전용이라 chan에선 CSS 소등)
+  if (!d || !d.profile) { box.innerHTML = ''; return; }   // 빈 상태 = 조용한 공백(§디자인 e-가 · 전환 복귀 경로 = 헤더 세그 상시)
+  const q = ($('#q') ? $('#q').value : '').trim().toLowerCase();
+  const vf = chVf;
+  const p = d.profile, a = d.account_day || {}, avg = d.avg || {};
+  // follows 말미 0-fill 방어(평의회4 P1 · 260721) — 수집기가 follows 미수집일을 0으로 메움(views = 키 생략과 비대칭): 수집 종료일(daily_meta.history.follows.to) 이후의 0 = 결측으로 간주(null) · 진짜 실측(>0) 보존 · 메타 부재 = 무변화 fail-soft · 🔒[15] 원천 json 무접촉(뷰어 사본 우회) · 근본 수정 = 스크래퍼 gap화(후속 축)
+  const _fTo = ((((d.daily_meta || {}).history || {}).follows || {}).to) || null;
+  const series = _fTo ? (d.daily_series || []).map(r => (r.date > _fTo && r.follows === 0) ? Object.assign({}, r, { follows: null }) : r) : (d.daily_series || []);
+  const stUnit = k => (CH_MET[k] ? CH_MET[k][1] : '회');   // 지표 단위 = 일일추이 차트(CH_MET)와 동일 어휘 계승(조회=회·도달=계정)
+  const vu = (n, u) => n == null ? '—' : vf(n) + ' ' + u;   // 값 없으면 단위도 생략('— 회' 방지 · fb 결측 지표 대비 Q155)
+  // 델타(▲▼N%) 폐지(운영자 260718 "팔로워 옆 88% 하락 = 팔로워가 88% 빠진 걸로 오해") — '평소 대비 %'는 하락처럼 읽혀 → 전기간 평균값 병기로 대체(수치 = avg.avg_all 실측 · 창작 0)
+  const rnd = x => x >= 100 ? Math.round(x) : Math.round(x * 10) / 10;   // 소수 지표(게시 3.8개/일) 정수 반올림 시 0/4로 뭉개짐 → 100 미만만 1자리 보존
+  const winAvg = (key) => {   // 프로필 공통 세그(CHAN_PROF_R) 창 일평균 = series 실측(구 avg_7d 고정 대체 · 운영자 260720 Q290 "다 같이 움직") · 앵커 = 마지막 실측일 · 결측 제외 카운트
+    let end = -1; for (let i = series.length - 1; i >= 0; i--) if (series[i][key] != null) { end = i; break; }
+    if (end < 0) return null;
+    const cnt = CHAN_PROF_R === 'all' ? series.length : parseInt(CHAN_PROF_R, 10);
+    let sum = 0, n = 0;
+    for (let i = end; i > end - cnt && i >= 0; i--) { const v = series[i][key]; if (v != null) { sum += v; n++; } }
+    return n ? { a: sum / n, n, all: CHAN_PROF_R === 'all' } : null;
+  };
+  const st = (lb, v, sub2, lgd) => `<div class="ch-st"><span class="ch-k">${lb}</span><div class="ch-strow"><b>${v}</b></div>${sub2 || ''}${lgd || ''}</div>`;   // 타일 = 라벨 우상단 → 값 중앙 → 하단 증감 행(운영자 260721 목업) — 구 타일 스파크·우상단 배지 폐지(추이 = 일일추이 차트 단일 담당)
+  const stTall = (lb, v, sub2, chart) => `<div class="ch-st ch-st-tall"><span class="ch-k">${lb}</span><div class="ch-strow"><b>${v}</b></div>${sub2 || ''}${chart || ''}</div>`;   // 세로 2칸 타일(운영자 260721 — 팔로워·조회수 = 빈 칸 합침 + 도형 안 미니 차트)
+  const winSum = (key) => {   // 창 합계 + 동일 길이 직전 창(운영자 260720 "오늘~7일 vs 8~14일 — 현재 포함 창과 동일 범위 직전 창 비교") — 앵커 = 마지막 실측일·결측 제외 = winAvg 문법 동일
+    let end = -1; for (let i = series.length - 1; i >= 0; i--) if (series[i][key] != null) { end = i; break; }
+    if (end < 0) return null;
+    const cnt = CHAN_PROF_R === 'all' ? end + 1 : parseInt(CHAN_PROF_R, 10);
+    const sumIn = (hi, n2) => { let t = 0, has = false; for (let i = hi; i > hi - n2 && i >= 0; i--) { const v = series[i][key]; if (v != null) { t += v; has = true; } } return has ? t : null; };
+    return { cur: sumIn(end, cnt), prev: CHAN_PROF_R === 'all' ? null : sumIn(end - cnt, cnt) };   // 전체 창 = 직전 창 부재(괄호 자동 생략)
+  };
+  const dl = (df, unit) => df == null ? '' : `<span class="ch-dl ${df > 0 ? 'fd-up' : df < 0 ? 'fd-dn' : 'fd-zero'}">${df > 0 ? '+' + (df >= 1e4 ? vf(df) : df.toLocaleString()) : df < 0 ? '−' + (Math.abs(df) >= 1e4 ? vf(Math.abs(df)) : Math.abs(df).toLocaleString()) : '±0'}${unit || ''}</span>`;   // 증감 = 하단 행 볼드(운영자 260721 목업 — fd-* 의미색·만 축약 계승 · 1만 미만 = 콤마) · unit = 팔로워 '명'(운영자 260721 "7일 대비 +1,100명" 예시 그대로)
+  const rt = key => { const w = winAvg(key); return w ? `<span class="ch-rt">${vf(rnd(w.a))}/일</span>` : ''; };   // 일평균 = 'N/일' 축약(목업 "38.6/일" — 구 우상단 'X / 일 평균' 배지 대체 · 값 = winAvg 그대로)
+  const winAvgPair = (key) => {   // 현재 창 vs 직전 동창 '일평균' 짝(운영자 260722 "조회수·도달·게시 = N일 대비 ±X만/일" — 창 합계 증감 → 일평균 증감으로 교체) · 앵커 = 마지막 실측일 · 결측 제외 = winAvg 문법 동일 · 전체 = 직전 창 부재(종전 관례 = 접두·증감 생략)
+    if (CHAN_PROF_R === 'all') return null;
+    let end = -1; for (let i = series.length - 1; i >= 0; i--) if (series[i][key] != null) { end = i; break; }
+    if (end < 0) return null;
+    const cnt = parseInt(CHAN_PROF_R, 10);
+    const avgIn = (hi) => { let t = 0, n2 = 0; for (let i = hi; i > hi - cnt && i >= 0; i--) { const v = series[i][key]; if (v != null) { t += v; n2++; } } return n2 ? t / n2 : null; };
+    const c = avgIn(end), p2 = avgIn(end - cnt);
+    return (c != null && p2 != null) ? { d: c - p2 } : null;
+  };
+  const dlRate = (key, unit) => { const w = winAvgPair(key); return w ? dl(w.d < 0 ? -rnd(-w.d) : rnd(w.d), unit) : ''; };   // 일평균 증감 = '±N만/일'·'±N.N개/일'(dl 의미색·만 축약 계승 · rnd = 크기 기준 부호 분리 — 음수 −503.3 소수 잔존/양수 503 정수 비대칭 방지 · 소수 지표 1자리 보존)
+  const rateSub = (key, unit, fb) => { const r = dlRate(key, unit); return sub(r, r ? '' : (fb !== undefined ? fb : rt(key))); };   // 증감 불가(전체·직전 창 결측) = 종전 일평균(또는 지정 폴백) 단독 fail-soft
+  const sub = (dh, rh) => { const vs = dh && CHAN_PROF_R !== 'all' ? `<span class="ch-vs">${CHAN_PROF_R}일 대비</span>` : ''; const rte = rh ? `<span class="ch-rte">${dh ? '<i class="ch-sep" aria-hidden="true"></i>' : ''}${rh}</span>` : ''; return (dh || rh) ? `<div class="ch-sub">${vs}${dh}${rte}</div>` : ''; };   // 'N일 대비' 접두 = 프로필 세그(CHAN_PROF_R) 연동(운영자 260721 "7일 대비 +1,100명 | 37.3/일" — 전체 = 접두 생략 "전체는 어쩔수없는거고") · 구분 세로선+일평균 = 한 덩어리(.ch-rte — 협폭 개행 시 선이 줄 끝에 홀로 안 남게 동반 이동)
+  const PER_D = ' <span class="ch-per">/일</span>';   // '/일' 접미(70% 축소·앞 띄어쓰기) = 게시 postsTile PER 문법 계승 — 개수 단위('개')가 없는 지표(조회·도달·상호작용)용
+  const avgTile = (lb, key, fbv, tf, chart) => {   // 주값 = 창 일평균 'N /일'(운영자 260729 "조회수랑 도달 일평균 수로") — 구 창 합계 주값(sumTile) 대체 · 구성 = 게시 postsTile 100% 계승(주값 일평균 + 하단 'N일 대비 ±X만/일' 증감 + 증감 불가 시 누적 합계 폴백) · 결측 = 당일값(fbv) fail-soft
+    const wa = winAvg(key), ws = winSum(key);
+    const big = wa ? vf(rnd(wa.a)) + PER_D : fbv;   // 주값 = 창 일평균(토글 연동 · 앵커·결측 처리 = winAvg 문법 그대로)
+    const cumul = (ws && ws.cur != null) ? `<span class="ch-rt">${vf(ws.cur)}</span>` : '';   // 누적 합계 = 증감 불가(전체 창·직전 창 결측)일 때만 하단 폴백 = postsTile cumul 동일 문법(구 주값 강등)
+    return (tf || st)(lb, big, rateSub(key, '/일', cumul), chart);
+  };
+  const postsTile = () => {   // 게시(운영자 260722 자리·폰트 스왑) — 주값 = 일평균 '개/일'(토글 연동 · 그 기간 꾸준함이 핵심) · 하단 보조 = 누적량 'N개'(구 주값 51개 강등 = 그냥 누적) + 직전창 대비 증감 · 구 sumTile(누적 주값) 대체
+    const w = winSum('posts'), a = winAvg('posts');
+    const PER = '개 <span class="ch-per">/일</span>';   // '/일' = 70% 축소 + 앞 띄어쓰기(운영자 260722 "강조될만한 내용 아님") · '개'는 주값 크기 유지
+    const big = a ? vf(rnd(a.a)) + PER : (avg.posts && avg.posts.avg_7d != null ? vf(rnd(avg.posts.avg_7d)) + PER : '—');   // 주값 = 창 일평균(토글별) · 폴백 = avg_7d
+    const cumul = (w && w.cur != null) ? `<span class="ch-rt">${vf(w.cur)}개</span>` : '';   // 누적량 = 증감 불가(전체) 시에만 폴백 노출(운영자 260722 하단 행 단일화)
+    return st('게시', big, rateSub('posts', '개/일', cumul));   // 하단 행 = 'N일 대비 ±X.X개/일' 일평균 증감(운영자 260722 "게시 도 7일 대비 +-0.0개/일" — 구 누적 증감+누적량 병기 대체)
+  };
+  // 팔로워 = 카운트 본값 + 하단 행 '+신규합 N/일'(운영자 260721 목업 · CHAN_PROF_R 창 연동 · 신규 팔로워 합 = winSum('follows') — 언팔 미수집이라 순증감 아님 · 🔒[15]) — 구 flwSt 증감 카드(chSpark2)·괄호 병기(Q290) 폐지 대체
+  const flwVal = () => p.followers_count == null ? '—' : p.followers_count.toLocaleString();
+  const flwSub = () => { const w = winSum('follows'); return sub(w && w.cur != null ? dl(w.cur, '명') : '', ''); };   // 팔로워 = '명' 접미(운영자 260721 "7일 대비 +1,100명" 예시 그대로 · 타 지표 = 만 축약이 단위 담당이라 무접미) · 일평균 'N/일' 병기 = 삭제(운영자 260722 "팔로워에 70.3/일 삭제")
+  // 팔로워 구성(성별 = 세로 100% 누적 막대 · 연령 = 가로 막대 top4 · 운영자 260722) — 원천 = audience_sample.gender(전 셀 3분할 남/여/미 100%)·age_full(전 버킷 내림차순) · 구 age_gender_top(TOP5 도넛) 과소집계 폐지 · lifetime 지표라 기간 토글 비연동 · 데이터 부재(fb 등) = 빈 칸(조용한 공백)
+  const demoTile = (ax) => {
+    const AUD = d.audience_sample || {};
+    const manual = !!(AUD.pinned || /^manual/.test(String(AUD.src || '')));   // 수기 고정 소스(FB 성별·연령 = 스샷 폴백 · demoStaleMsgs 억제축과 동일 판정) = 도넛 중앙에 「수동」 각인(운영자 260726 "그 도형 안에 수동이라고 조그맣게") · 자동(IG · src=api·무src) = 미표기 → IG 자동값과 육안 구분
+    const mAsOf = /^\d{4}-\d{2}-\d{2}$/.test(String(AUD.as_of || '')) ? (+String(AUD.as_of).slice(5, 7)) + '/' + (+String(AUD.as_of).slice(8, 10)) : '';   // 기준일 = M/D 축약(단위 헤더 fmtK12 표기 문법 계승 — 연도 생략 = 도넛 중앙 폭 한계) · 없으면 빈 문자 = 1행만
+    // 성별 = 전 셀 3분할 남/여/미(100% 누적 · 운영자 260722 세로 막대) — 구 데이터(gender 부재) = age_gender_top 폴백 합산
+    let G = AUD.gender;
+    if (!G) { const gm = {}; ((AUD.age_gender_top) || []).forEach(x => { const m = /·([MFU])$/.exec(String(x.k || '')); if (m) gm[m[1]] = (gm[m[1]] || 0) + (+x.pct || 0); }); const t = (gm.M || 0) + (gm.F || 0) + (gm.U || 0); if (t) G = { M: gm.M / t * 100, F: gm.F / t * 100, U: gm.U / t * 100 }; }
+    const GCOL = { M: 'var(--accent)', F: 'var(--accent-2)', U: 'rgba(255,255,255,.28)' };   // 남=터콰이즈(--accent)·여=네온레몬(--accent-2 = 릴스 '레몬' 정본 어휘)·미지정=무채(운영자 260722 "남 더콰이즈 · 여 네온레몬" — 구 파랑/빨강 폐지 · 팔레트 정본만)
+    const GLAB = { M: '남', F: '여', U: '미' };   // 미 = 미지정 축약(운영자 260722)
+    // 성별 = 남:여 정규화(미지정 제외 = IG 앱 표기 정합 · 운영자 260722 IG 스샷 참고 "남 64.3 / 여 35.7" 모든 기간 동일) — 구 3분할(미 포함) 폐지 · M_norm 우선, 폴백 = M/F 정규화
+    const gN = G ? { M: G.M_norm != null ? +G.M_norm : ((G.M + G.F) ? G.M / (G.M + G.F) * 100 : 0), F: G.F_norm != null ? +G.F_norm : ((G.M + G.F) ? G.F / (G.M + G.F) * 100 : 0) } : null;
+    const gseg = gN ? ['M', 'F'].filter(k => gN[k] > 0).map(k => ({ k, lb: GLAB[k], pct: +gN[k], col: GCOL[k] })) : [];
+    // 연령 = 전 버킷 상위 4(운영자 260722 가로 막대 · 블릿X) — age_full 우선, 폴백 = age_gender_top 연령 합산
+    let aseg = [];
+    if (Array.isArray(AUD.age_full) && AUD.age_full.length) aseg = AUD.age_full.slice(0, 4).map(x => ({ lb: x.k, pct: +x.pct }));
+    else { const am = {}; ((AUD.age_gender_top) || []).forEach(x => { const m = /^(.+?)·[MFU]$/.exec(String(x.k || '')); if (m) am[m[1]] = (am[m[1]] || 0) + (+x.pct || 0); }); aseg = Object.keys(am).sort((a, b) => am[b] - am[a]).slice(0, 4).map(k => ({ lb: k, pct: am[k] })); }
+    // 지역 = 상위 도시·국가 top4(운영자 260726 Meta 인구통계 스샷 "이거 반영" — 수집은 260713부터 살아 있었고 화면에만 없던 축) — 원천 = audience_sample.city_top/country_top(퍼센트 분모 = 팔로워 총수 = Meta 화면 정합) · 막대 문법 = 아래 연령 abars 100% 계승 · 부재(fb·구 데이터) = 빈 칸(조용한 공백)
+    const KCITY = { Seoul: '서울', Busan: '부산', Incheon: '인천', Daegu: '대구', Daejeon: '대전', Gwangju: '광주', Ulsan: '울산', Sejong: '세종', Suwon: '수원', Yongin: '용인', Hwaseong: '화성', Goyang: '고양', Changwon: '창원', Seongnam: '성남', Cheongju: '청주', Cheonan: '천안', Pyeongtaek: '평택', Namyangju: '남양주', Bucheon: '부천', Paju: '파주', Ansan: '안산', Anyang: '안양', Gimhae: '김해', Pohang: '포항', Jeonju: '전주', Jeju: '제주', Gimpo: '김포', Siheung: '시흥' };   // 도시 = IG API가 영문만 준다(Meta 화면도 화성은 영문 노출) → 한글 표기 대조표 · 미등재 도시 = 영문 원문 폴백(지어내기 0)
+    const cityLab = k => { const c = String(k || '').split(',')[0].trim(); return KCITY[c] || c; };
+    const ctryLab = k => { const c = String(k || '').trim(); try { return (new Intl.DisplayNames(['ko'], { type: 'region' })).of(c) || c; } catch { return c; } };   // 국가 = ISO 코드 → 한글(브라우저 네이티브 Intl · 대조표 창작 0) · 미지원·비정상 코드 = 코드 그대로
+    const cseg = (Array.isArray(AUD.city_top) ? AUD.city_top : []).slice(0, 4).map(x => ({ lb: cityLab(x.k), pct: +x.pct }));
+    const nseg = (Array.isArray(AUD.country_top) ? AUD.country_top : []).slice(0, 4).map(x => ({ lb: ctryLab(x.k), pct: +x.pct }));
+    if (!gseg.length && !aseg.length && !cseg.length && !nseg.length) return '';
+    // 성별 = 100% 누적 원형(도넛) 복원(운영자 260722 "누적 원형 차트로 다시 · 100% 원형차트" — 세로 막대·목표/마지노선 틱·각주 폐지) · 남+여 = 정규화 100%라 링 완전 충전 · 렌더 = 앱 인라인 SVG 문법(REELGLYPH 계승) · 여(전체 링) 밑층 + 남(호) 상층 = 이음새 0
+    const gdonut = (segs, manual, asOf) => { const R = 15.5, C = 2 * Math.PI * R; let off = 0; const rot = segs.length === 2 ? -90 + 225 - (segs[0].pct * 3.6 + segs[1].pct * 1.8) : -90; const two = manual && asOf; return `<span class="demo-donut" aria-hidden="true"><svg viewBox="0 0 46 46"><g transform="rotate(${rot.toFixed(1)} 23 23)">` + (segs.length === 2 ? `<circle cx="23" cy="23" r="${R}" fill="none" stroke="${segs[1].col}" stroke-width="7"/>` : '') + segs.slice(0, segs.length === 2 ? 1 : segs.length).map(s2 => { const len = C * s2.pct / 100, o = off; off += len; return `<circle cx="23" cy="23" r="${R}" fill="none" stroke="${s2.col}" stroke-width="7" stroke-dasharray="${len.toFixed(2)} ${(C - len).toFixed(2)}" stroke-dashoffset="${(-o).toFixed(2)}"/>`; }).join('') + `</g>` + (manual ? `<text class="demo-manual" x="23" y="${two ? 20.8 : 23}" text-anchor="middle" dominant-baseline="central">수동</text>` + (two ? `<text class="demo-manual demo-manual-d" x="23" y="27.6" text-anchor="middle" dominant-baseline="central">${esc(asOf)}</text>` : '') : '') + `</svg></span>`; };   // manual = 도넛 빈 중앙(회전 g 밖 = 미회전)에 「수동」 + 기준일 2행 각인(운영자 260726 · 한 수 채택 "기준일까지 · 투박하지 않게 기틀 따라") — 2행 = 중앙 23 기준 위 −2.2/아래 +4.6u(광학 = 아래 행이 작아 시각 무게 중심 보정 · 260726 실캡처 튜닝) · 링 안쪽 반경 12u 안 여백 확보 = 세그 미간섭 · 기준일 없으면 1행(중앙 23) 종전 그대로   // rot = 여(레몬) 세그 중심을 좌하단 225°(시계방향 · 12시 기준)에 고정(운영자 260722 "차트 좌하단에 라임레몬") — 남 시작각 = 225 − (남×3.6 + 여×1.8) 데이터 연동이라 비율 변해도 좌하단 유지 · 2세그 외 = 종전 12시 시작
+    const glist = segs => `<span class="demo-glist">` + segs.map(s2 => `<b style="color:${s2.col}">${esc(s2.lb)} ${Math.round(s2.pct * 10) / 10}%</b>`).join('') + '</span>';   // 목표·마지노선 각주 = 삭제(운영자 260722 "목표라는 말은 삭제")
+    // 연령 가로 막대(.ch-bar 부품 계승 · 막대 좌·글자 우 · 높이 중앙정렬 · 운영자 260722) — 막대 길이 = 최댓값 대비 스케일(주제 막대 문법)
+    const abars = (segs, dec) => { const amx = Math.max(1, ...segs.map(s => s.pct)), pf = v => dec ? Math.round(v * 10) / 10 : Math.round(v); return `<span class="demo-bars">` + segs.map((s2, i) => `<span class="demo-brow"><span class="ch-bar demo-bar"><i style="width:${Math.max(6, Math.round(s2.pct / amx * 100))}%${i < 2 ? '' : ';background:var(--fg)'}"></i></span><span class="demo-blab demo-bage${i < 2 ? ' hi' : ''}">${esc(s2.lb)}</span><span class="demo-blab demo-bpct${i < 2 ? ' hi' : ''}">${pf(s2.pct)}%</span></span>`).join('') + '</span>'; };   // dec = 소수 1자리(도시·국가 = 0.8%가 정수 반올림에 뭉개짐 · Meta 화면도 19.5/5.4/5 표기 = 트레일링 0 자동 탈락) · 연령 = 종전 정수 그대로   // top2 = 강조색 터쿼이즈 그라데(운영자 260722 "TOP 2 강조색") · 3·4위 = 흰색 --fg 막대+글자("아래 그냥 흰색") · 나이/% = 분리 2열 우측정렬(운영자 260722 "개별 배치 표문법" — 한자리 % 정렬 깨짐 해소 · 그리드 열 공유)
+    const gT = `<div class="ch-st ch-demo ch-demo-g"${manual ? ` role="group" aria-label="성별 구성 — 수동 입력${mAsOf ? ' · ' + esc(String(AUD.as_of)) + ' 기준' : ''}"` : ''}><span class="ch-k">성별</span><div class="demo-gwrap">${gdonut(gseg, manual, mAsOf)}${glist(gseg)}</div></div>`;   // manual = 타일에 접근성 라벨(도넛 svg는 aria-hidden 장식 = 낭독기서 「수동」이 안 읽히던 사각 · 한 수 채택 260726) · 라벨엔 연도 포함 전체 기준일(시각 각인은 폭 한계로 M/D 축약)
+    const aT = `<div class="ch-st ch-demo ch-demo-a"><span class="ch-k">연령</span>${abars(aseg)}</div>`;
+    const cT = `<div class="ch-st ch-demo ch-demo-c ch-st-wide"><span class="ch-k">도시</span>${abars(cseg, 1)}</div>`;   // 도시·국가 = 가로 2칸 타일(3행 · 운영자 260726) · 셸·라벨·막대 = 연령 타일 그대로
+    const nT = `<div class="ch-st ch-demo ch-demo-n ch-st-wide"><span class="ch-k">국가</span>${abars(nseg, 1)}</div>`;
+    return ax === 'g' ? (gseg.length ? gT : '') : ax === 'a' ? (aseg.length ? aT : '')
+      : ax === 'c' ? (cseg.length ? cT : '') : ax === 'n' ? (nseg.length ? nT : '') : gT + aT;   // ax 분리 호출(운영자 260721 재배치 · 무인자 = 성별+연령 양쪽 = fb 분기 무접촉)
+  };
+  // ── 최상위 단위 = 메뉴3(SNS) tgroup 원문 계승(운영자 260713 "AI 요약 디자인 계승해 메뉴4 재구성 · 내용은 그대로") : 접이 글래스 카드 + 글래스 필 헤더(순번 원형 배지·라임 체브론 촤르륵) · 접힘 기억 = nm_chan_gfold(nm_trend_gfold 미러) · 구 ch-card 3장+맨몸 섹션 → 단위 승격(구 소머리 .ch-lbl = 단위 헤더로 · 타일·차트·행 내용 = 종전 그대로) ──
+  let CGF = {}; try { CGF = JSON.parse(localStorage.getItem('nm_chan_gfold') || '{}') || {}; } catch { CGF = {}; }
+  const DEFF = { sig: 1, recent: 1 };   // 첫 방문 기본 접힘 = 데이터 큰 꼬리 유닛(시간대별 반응[구 호응 신호]·최근 게시물 — 운영자 260713 "기본 접힘 ㄱ") · nm_chan_gfold 기억값 있으면 그게 우선
+  const RLAB = { prof: '프로필', daily: '일일 추이', topic: '주제별 반응', sig: '시간대별 반응', tpost: 'TOP 게시물', recent: '최근 게시물' };   // 책갈피 레일 aria 라벨(운영자 260713 "레일 여기도 · 일치할수록 좋아") · 릴스·피드/알고리즘 3기 유닛 = 폐지 · 호응 신호 → 시간대별 반응(운영자 260719)
+  const RAIL = [];   // 렌더된 단위 수집(순번 = 헤더 배지와 자동 동기 · 데이터 결측 유닛 = 레일서도 자동 제외) → 좌측 책갈피 레일
+  const GPIC = { brief: AISPARK_SVG };   // AI 요약 = ✨ 스파크(운영자 260723 Q478 복귀 · 메뉴4 채널도 메뉴3과 동일 ✨ — 같은 작업 다른 메뉴 · 순번 밖·레일 제외)
+  let gno = 0, gfirst = true;
+  const gsec = (id, ttl, body, extra, hstale) => { const first = gfirst; gfirst = false; if (!GPIC[id]) RAIL.push({ id, n: ++gno, lab: RLAB[id] || id }); const op = CGF[id] !== undefined ? !CGF[id] : !DEFF[id]; const core = `<details class="tgroup${first ? ' dash' : ''}" data-g="${id}" id="cg-${id}"${op ? ' open' : ''}><summary class="tgroup-h${hstale ? ' hdr-stale' : ''}"><i${GPIC[id] ? ' class="gpic" aria-hidden="true"' : ''}>${GPIC[id] || gno}</i>${ttl}</summary>${extra ? `<div class="chseg-row">${extra}</div>` : ''}${body}</details>`; return extra ? `<div class="chu">${core}</div>` : core; };   // hstale = 픽토 라이트 멎음(수집 죽음 · 메뉴3 .hdr-stale CSS 공유 = 추가 0 · 운영자 260714 빛멎음)   // extra = 헤더 우측 심층 필(summary 밖 형제 = 인터랙티브 중첩 해소 · 평의회7-①) — 시각 위치는 .chu absolute가 담당
+  let h = '';
+  let chanStale = false;   // insta 수집(하루 1회 · generated_kst ISO+09:00) 26h+ 밀림 = 하루치 통째 거름 → AI 요약 빛 멎음(정상이면 계속 돎 = 운영자 260714 "자주 돌수록 좋지") · 메뉴3 트렌드 65분과 다른 기준 = 수집 주기 차이(트렌드 30분×N vs insta 1일)
+  if (d.generated_kst) { const _ah = (Date.now() - new Date(d.generated_kst).getTime()) / 3600000; chanStale = _ah > 26; }
+  // 채널 브리프(성장 서사+현황+전략 · 운영자 260714 "이래야겠네 전략이 뿅뿅") — 셸·라벨·항상 전문 펼침 = 메뉴3 AI 요약 원문 계승 · 접기 = tgroup 체브론
+  // + 기간 구분 탭(운영자 260714 "7일·14일·28일·3개월·전체 총론 구분해서 요약") — sections 있으면 칩 세그(.ch-mchip 정본 계승·data-bs 축) · 구 단일 text JSON = 칩 없이 종전 렌더(하위호환 fail-soft)
+  const bsecs = (CB && Array.isArray(CB.sections) && CB.sections.length >= 2) ? CB.sections : null;
+  const bov = bsecs ? bsecs.find(s => s.k === 'overview') : null;   // 총론(비전·방향성·미션 큰 그림 · 운영자 260714) = (3) 고정 판 · 세그에선 제외 · 없으면(구 데이터) all 폴백
+  const bsegs = bsecs ? bsecs.filter(s => s.k !== 'overview') : null;   // 세그 = 기간 5창(3일~전체 · overview 제외)
+  if (bsegs && !bsegs.some(s => s.k === CHAN_BSEC)) CHAN_BSEC = bsegs[0].k;   // 결측·overview 방어(생성분 일부만 와도 첫 탭으로 · CHAN_BSEC이 세그 밖 값 차단)
+  const bhasAll = bsegs && bsegs.some(s => s.k === 'all');   // (3) 폴백(overview 부재 시 all) 노출 근거
+  // (분석시각 btm 폐지 260720 — 운영자 "일시 삭제" · 대분류 헤더 자리를 기간 탭에 양보 · 수집 죽음 신호는 픽토 빛멎음 hdr-stale로 유지)
+  const _g12 = fmtK12(d.generated_kst);
+  const _ctm = _g12 ? `<span class="tdash-time${chanStale ? ' stale' : ''}">${esc(_g12)}</span>` : '';   // 수집 시각 필 = 데이터 단위 헤더 우측 공통(운영자 260720 "받아온 시간 대분류 우측에 · sns 메뉴 표기 계승") — btm(AI 요약)·prof·메뉴3 top .tdash-time 정본 그대로 · 소스 = d.generated_kst(insta 산출 · prof와 동일) · stale = 26h+ 밀림 warn · 무효 = '' fail-soft
+  const BSEG_LAB = { d28: '30일', m3: '90일' };   // 기간 탭 용어 통일(운영자 260720 "맨 위 AI만 다른 곳에 맞춰") — AI 요약 탭을 나머지 IG 지표 세그(7일/30일/90일/전체) 어휘와 일치 · 표시 라벨만 우회([15] 뷰어 코드), data-bs 키(d28/m3)·분석 창·본문 프로즈는 불변 · 3일·7일·전체는 원본 유지
+  const bseg = bsegs ? `<span class="ch-rangeseg tb-seg">${bsegs.map(s => `<button type="button" data-bs="${esc(s.k)}"${s.k === CHAN_BSEC ? ' class="on"' : ''}>${esc(BSEG_LAB[s.k] || (s.label === '전체 총론' ? '전체' : s.label))}</button>`).join('')}</span>` : null;   // 기간 책갈피(3일~전체) = 헤더 우측 extra(운영자 260716 "옵션 선택지를 세부 NAV(우측 상단)에") — .chu 심층 필 앵커 계승(summary 밖 = 접기 오클릭 0 · 접힘에도 노출) · 세그 = .ch-rangeseg 정본
+  if (CB && (CB.text || bsecs)) h += gsec('brief', `AI 요약`, `<div class="tbrief">` +   // AI 요약 = 활성 소스 브리프(운영자 260724 — IG chan_brief · FB chan_brief_fb 동일 조건 · CB 소스분기 · 결측 소스 = 미표시 조용한 공백)
+    // 구 ① 분석시각+세그 행(.tb-segrow) 폐지(운영자 260716 "가장 위로 + 옵션 선택지는 세부 NAV로") — 시각 = 헤더 좌(타이틀 옆) · 기간 세그 = 헤더 우측 칩(extra) · 본문 = 분석 텍스트부터 즉시 시작(상단 구분선도 동반 제거)
+    `<p class="tbrief-t"></p><div class="tbrief-prop" hidden><span class="tbrief-lbl">클로신의 제안</span><ul></ul></div>` +
+    `</div>` +
+    // ⑤ (3) 총론 = 항상 고정 노출(운영자 260714 "채널 전체 아우르는 비전·방향성·미션 큰 그림 · 마인드셋 · 기간 무관") — 총론(overview)은 세그 '전체'(기간 분석)와 별개 글이라 어느 탭에서도 안 숨김 · 구 데이터(overview 부재) = all 폴백 + '전체' 선택 시 중복 숨김(하위호환)
+    // ⑥ 판 분리(운영자 260729 "기간 요약과 총론은 엄연히 두 div → 도형을 둘로") — 구 = 한 .tbrief 안에서 .tb-div 헤어라인으로만 구획 → 신 = 총론이 자기 .tbrief 판을 가짐(셸·톤·패딩·라운드 = 위 판 100% 계승 · 판 간격 = .tbrief margin-bottom 14 그대로) · 클래스·id·JS 훅(.tb-allwrap/.tb-allt/hidden 토글) 전부 불변
+    (bov ? `<div class="tbrief tb-allwrap"><span class="tbrief-lbl">총론</span><p class="tbrief-t tb-allt"></p></div>`
+         : (bhasAll ? `<div class="tbrief tb-allwrap"${CHAN_BSEC === 'all' ? ' hidden' : ''}><span class="tbrief-lbl">전체 총론</span><p class="tbrief-t tb-allt"></p></div>` : '')),
+    // ⑦ 판단 이력 판 = 화면에서 걷음(운영자 260809 "내가 볼 필요는 없음 · 프로그램이 체킹하면 됨") — 라이브러리는 프롬프트 축으로 계속 산다.
+    bseg, chanStale);   // bseg = 헤더 우측 기간 칩(extra · 운영자 260716) · chanStale = insta 수집 26h+ 죽음 → 스파크 빛 멎음(메뉴3 대칭)
+  const pfSeg = `<span class="ch-rangeseg ch-hdrseg pf-seg">` + [['7', '7일'], ['30', '30일'], ['90', '90일'], ['all', '전체']].map(r => `<button type="button" data-pr="${r[0]}"${CHAN_PROF_R === r[0] ? ' class="on"' : ''}>${r[1]}</button>`).join('') + '</span>';   // 프로필 공통 기간 세그(운영자 260720 Q290 · 일일추이 .ch-rangeseg.ch-hdrseg 디자인 계승 · data-pr 별축 · CHAN_PROF_R 연동) — 헤더 우측 extra
+  h += gsec('prof', `<b class="ch-nm"></b>`, '<div class="ch-stats">' +   // 헤더 수집시각 제거(운영자 260720 Q290 "1번 대분류에도 시각 없애 · 최상단 헤더에 1회로 갈음") — 시각 = #vhTime(좌상단 라임)로 이관
+    // 배치(운영자 260721 재편) = 4열 2행: [팔로워↕2][조회수↕2][도달][성별] / [게시][연령] — 상호작용·프로필 방문 삭제 · 팔로워·조회수 = 아래 빈 칸 합침(세로 2칸) + 도형 안 미니 차트(chTileChart · 토글 창 연동)
+    (d.src === 'facebook'
+      // fb 6칸(운영자 260719 "인스타 페이지에서 보여준 그대로 · 죽은 지표만 제일 유의미한 걸로 대체") — 메타 페이지 인사이트 폐지로 조회·도달·팔로우증감·방문 = 수집 불가 실측 → 생존 축 대체: 반응·댓글·공유(최근 10게시물 합 · fb_totals) + 상호작용(일별 시리즈 = 스파크·평균) · 골격·컴포넌트 = 인스타 st() 그대로(분기 = 라벨·키만)
+      ? st('팔로워', flwVal(), flwSub()) +
+        st('반응 (최근 10게시물)', (d.fb_totals && d.fb_totals.reactions != null) ? vf(d.fb_totals.reactions) + ' 회' : '—') +
+        st('댓글 (최근 10게시물)', (d.fb_totals && d.fb_totals.comments != null) ? vf(d.fb_totals.comments) + ' 회' : '—') +
+        st('공유 (최근 10게시물)', (d.fb_totals && d.fb_totals.shares != null) ? vf(d.fb_totals.shares) + ' 회' : '—') +
+        postsTile() +
+        avgTile('상호작용', 'interactions', vu(a.interactions, '회')) + demoTile()
+      : (() => { const _dg = demoTile('g'), _da = demoTile('a'), _tall = !!(_dg || _da);   // 인구통계 결측 = 6타일→4타일 · tall 해제(2행 우측 구멍 방어 · 평의회2/5 — 라이브 = 데이터 상존이라 통상 미발동 fail-soft)
+        const _fT = _tall ? stTall : st, _fC = k2 => _tall ? chTileChart(series, k2 === 'f' ? 'follower_net' : 'views', k2 === 'f' ? 'zero' : 'avg', k2 === 'f' ? '명' : '회') : '';
+        return _fT('팔로워', flwVal(), flwSub(), _fC('f')) +   // 팔로워 차트 = 일일 순증감(총수 차이 = 언팔 반영 · 0 기준선 아래 = 감소일 danger · 운영자 260722 · 구 follows[신규유입 항상≥0] 대체 — IG follows_and_unfollows 빈반환이라 총수 diff만이 감소원)
+        avgTile('조회수', 'views', vu(a.views, '회'), _fT, _fC('v')) +   // 주값 = 창 일평균(운영자 260729 · 구 창 합계 대체 — 차트 평균 기준선과 같은 수치 = 도형·숫자 정합) · 차트 = 창 평균 기준선 대비 오르내림(운영자 260721 11) · 하단 행 = 'N일 대비 ±X만/일' 일평균 증감(운영자 260722 "조회수 7일 대비 +-00만/일")
+        avgTile('도달', 'reach', vu(a.reach, '계정')) + _dg +
+        postsTile() + _da + demoTile('c') + demoTile('n'); })()) + '</div>', pfSeg);   // 3행 = 도시·국가(가로 2칸씩 = 행 꽉 참 · 데이터 부재 = 행 자체 미생성 조용한 공백 · 운영자 260726)   // 공통 기간 세그(pfSeg) = 헤더 우측 extra · fb = 종전 6칸+성별·연령(무접촉)
+  // ── 일일 추이 단위(지표 칩 + 기간 세그 + SVG 차트 + 변곡 마커) — 전체(일별 상세) 필 = 단위 헤더 우측 ──
+  if (series.length >= 2) {
+    const events = (d.daily_meta || {}).events || [];
+    const lastV = (() => { for (let i = series.length - 1; i >= 0; i--) if (series[i][CHAN_MET] != null) return series[i][CHAN_MET]; return null; })();
+    h += gsec('daily', `일일 추이`, '<div class="ch-seg">' +
+      '<div class="geni-railwrap"><span class="geni-opts geni-rail" id="chMetRail">' +   // 지표 선택 = 화풍 레일 계승(운영자 260715 "동그란 칩 → +동영상 화풍처럼") · | 구분·활성 강조색·‹›/드래그·끝선 페이드
+      Object.keys(CH_MET).map((k, i) => `<span class="geni-subit">${i ? '<span class="geni-sep" aria-hidden="true">|</span>' : ''}<button class="geni-opt${k === CHAN_MET ? ' on' : ''}" type="button" data-m="${k}">${CH_MET[k][0]}</button></span>`).join('') +
+      '</span><div class="geni-navs"><button type="button" class="geni-nav" data-dir="-1" aria-label="이전"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button><button type="button" class="geni-nav" data-dir="1" aria-label="다음"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button></div></div>' +
+      '</div>' +
+      `<div class="ch-charttop"><span class="ct-v">${lastV != null ? lastV.toLocaleString() : '—'}</span><span class="ct-u">${CH_MET[CHAN_MET][1]} · 최근일</span></div>` +
+      `<div class="ch-chartwrap" id="chChartWrap">${chChart(series, CHAN_MET, events)}<div class="ch-tip" id="chTip"></div><div class="ch-dot" id="chDot"></div><div class="ch-postpop" id="chPostPop"></div></div>` +
+      '<button class="ch-morelink ch-hdrmore" type="button" id="chDayMore" aria-label="일별 상세">내역<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.5 5l11 7-11 7z"/></svg></button>',
+      `<span class="ch-rangeseg ch-hdrseg">` + [['7', '7일'], ['30', '30일'], ['90', '90일'], ['all', '전체']].map(r => `<button type="button" data-r="${r[0]}"${CHAN_RANGE === r[0] ? ' class="on"' : ''}>${r[1]}</button>`).join('') + '</span>');   // 기간 세그 = 헤더 우측 이관(운영자 260719) · 지표 레일은 본문 유지 · 내역 = tpost chPostMore 그대로 계승(운영자 260723 "타이틀 옆으로 · TOP게시물 코드 그대로") — .ch-hdrmore 오버레이(--tpm-l = 타이틀 잉크 우변+16 · top35·translateY-50% = 4분할 중심 세로정렬) + ▶ SVG(문자 금지 [3-1]) · id·핸들러·aria 불변
+  }
+  // ── 반응 분석 단위(주제별 게이지 — 신호 모듈 절대 요약 소비) · 릴스·피드/알고리즘 3기 유닛 = 표시 폐지(운영자 260719 "호응 신호 말고 다른거 날려" — 산출 데이터 fmt·eras는 보존 = 🔒 [15] 뷰어 코드 우회 원칙) ──
+  const topics = d.topics || {};
+  const tkeys = Object.keys(topics).filter(k => topics[k].n >= 5).sort((x, y) => topics[y].views_med - topics[x].views_med);
+  if (tkeys.length) {
+    const tmax = topics[tkeys[0]].views_med || 1;
+    const tavg = tkeys.reduce((s, k) => s + (topics[k].views_med || 0), 0) / tkeys.length;   // 주제 평균치(운영자 260722 "각 차트의 평균치 대비 ±%")
+    h += gsec('topic', `주제별 반응`, '<div class="ch-tgrid">' + tkeys.map((k, ti) => {
+      const v = topics[k];
+      const devStr = tavg ? '×' + (v.views_med / tavg).toFixed(1) : '—';   // 평균 대비 ×배수(운영자 260722 "±% 말고 1.9배식으로" — TOP 게시물 dev 정본 문법 '×'+toFixed(1) 계승 · 구 ±% 표기 대체)
+      return `<div class="ch-trow${ti < 2 ? ' top2' : ''}"><span class="tl">${esc(k)}</span><span class="ch-bar"><i style="width:${Math.max(4, Math.round(v.views_med / tmax * 100))}%"></i></span><span class="tv">${vf(v.views_med).replace(/^(.+?)([만억])$/, '<i>$1</i>$2')} <b class="tdev">(${devStr})</b></span></div>`;
+    }).join('') + '</div>');   // ch-tgrid 표문법 래퍼(운영자 260722 — 수치 열 전 행 통일·우측정렬 = 트랙 길이도 자동 통일) · 'n=' 병기 삭제(운영자 "n 이거는 그냥 없애고") · 수치 색·타이포 = .tv 정본 · 단위(만/억) = <i> 분리(운영자 260722 "만 분리·정렬" ★프리셋 채택 = 수치↔만 간격 열)
+  }
+  // 시간대별 반응(구 호응 신호 · 운영자 260719 "시간대별 반응으로 변경 + 시간대·요일 호응정도 = 일일추이처럼 차트로 고도화" + "ㄱ 고도화 뭐든") — 축 = 시간대·요일 2종(구 포맷·네이밍 lift 행 = 동반 폐지) · 차트 = chLiftChart(일일 추이 시각 문법 계승 프로필 곡선) + 오버레이{접속 피크 밴드·볼륨 바·지금/오늘 마커}
+  const axes = (d.signals || {}).axes || {};
+  const nowK3 = new Date(Date.now() + (540 + new Date().getTimezoneOffset()) * 60000);   // KST 벽시계(기기 TZ 무관 · [12] · 예약 필 idiom 계승)
+  const sigPk = (d.online_peak_kst || []).map(p => parseInt(p, 10)).filter(n2 => Number.isInteger(n2) && n2 >= 0 && n2 <= 23);   // "21시(KST)" → 21 · 결측 = 밴드 자동 생략(창작 0)
+  // 실측 수신 상태(운영자 260805 "항시 받아온다는 느낌 · 동그라미 디밍 + mut 설명") — days = online_src 'api-ledger(N일)' 파싱 · stall = 마지막 적재일(online_led_last · insta_signals 동봉) 대비 KST 경과일(필드 미도착 구본 데이터 = null = 수집 중 문구만 = fail-soft) · 실측 채택(GEN_MEAS) 차트에만 노출
+  const _ledSt = d.online_src ? { days: +((String(d.online_src).match(/(\d+)일/) || [])[1] || 0) || null, last: d.online_led_last || null, stall: d.online_led_last ? Math.max(0, Math.round((nowK3 - new Date(d.online_led_last + 'T00:00:00Z')) / 864e5)) : null } : null;
+  const sg = chLiftChart(axes.hour_band, 'hour_band', { peaks: sigPk, now: nowK3.getHours() + nowK3.getMinutes() / 60, curve: d.online_curve_kst || null, led: _ledSt }) +   // curve = 팔로워 접속 실측(insta_signals online_curve_kst · 260803) — 부재 = 벤치 폴백(fail-soft)
+    chLiftChart(axes.dow, 'dow', { today: ['일', '월', '화', '수', '목', '금', '토'][nowK3.getDay()], curve: d.online_dow_kst || null, led: _ledSt });   // curve = 요일별 팔로워 접속 실측(insta_signals online_dow_kst · 260804) — 원장 7요일×24시 커버 전 = 필드 부재 = 벤치 폴백(fail-soft)
+  if (sg) h += gsec('sig', `시간대별 반응`, sg);   // 편향 각주(.sig-note) = 운영자 260722 제거
+  // TOP 게시물(운영자 260719 재설계 · 병합 = main 시간대별 반응 + 내 새 행 결합) — 순위·포스트/릴스·제목·조회수·포맷별 편차. 정렬 = ×배수 내림차순(운영자 260723 "xn.m 순서로 배치 — 기준선이 릴스냐 포스터냐, 공평하게 x로 순위" · 구 순수 조회수순 대체 · 동률 = 조회수) · 포맷색 = thumb.html .ovfmt 계승(릴스 레몬/포스트 시안) · 제목 이모지 제거는 아래 .ch-pt 채움에서(기존 관용구)
+  // 편차 기준 = 포맷별 중앙값(운영자 260720 "포스트는 포스트 기준 · 릴스는 릴스끼리") — 고조회 릴스·저조회 포스트를 한 평균(posts_view_avg)에 섞으면 포스트가 늘 ×0.x로 눌려 왜곡 → 릴스는 릴스끼리·포스트는 포스트끼리 그 포맷 중앙값 대비 ×배수(같은 종류끼리 성과 비교). 중앙값 = 앱 공통 "×1.0 = 채널 중앙값 기준선"(sig ×배율·차트 bY·모달 views_med) 관례 계승 + 릴스 mega-hit 꼬리에 강건(평균은 꼬리 오염 · 강건성 철학 §OUT) · 표본 = 표시 창(_pf 아래) · 포맷 표본 0 = 혼합평균(_avgV) 폴백
+  const _pAll = (d.posts || []).filter(x => !q || String(x.name || '').toLowerCase().includes(q));
+  const _mv = x => x.views != null ? x.views : (x.eng != null ? x.eng : null);   // TOP게시물 표시 지표 = views(IG) 우선·부재 시 eng(FB 반응 = 게시물별 조회 대체 · 평의회 260724 승인 — 구 x.views 하드코딩이 FB 전 행 '—'이던 것 점등 · IG는 views 그대로 = 무회귀)
+  const _avgV = d.posts_view_avg || (_pAll.length ? _pAll.reduce((s, x) => s + (_mv(x) || 0), 0) / _pAll.length : 0);   // 혼합평균 = 포맷 표본 0일 때만 쓰는 폴백
+  // 기간 필터(운영자 260719 "일일 추이처럼 일자별 · 기본 7일") — 최신 게시일 앵커 기준 직전 N일 창(일일추이 종료앵커 관례 계승 · 앵커 게시물은 어느 창에도 포함이라 공란 없음) · 전체 = 무필터
+  const _tpAnc = _pAll.reduce((m, x) => { const i = String(x.iso || '').slice(0, 10); return i > m ? i : m; }, '');   // 앵커 = 날짜부 10자리만(운영자 260722 fb 공백 교정 — fb iso = 풀 타임스탬프 "…T02:07:49+0000"이라 구현부 `new Date(anc+'T00:00:00Z')` = Invalid Date → toISOString 예외로 renderChan 전체 사망 = fb 전환 공백의 원인 · IG 날짜만 iso = slice 무해)
+  const _tpCut = (() => { if (CHAN_TPR === 'all' || !_tpAnc) return ''; const dt = new Date(_tpAnc + 'T00:00:00Z'); dt.setUTCDate(dt.getUTCDate() - (parseInt(CHAN_TPR, 10) - 1)); return dt.toISOString().slice(0, 10); })();
+  const _pf = CHAN_TPR === 'all' ? _pAll : _pAll.filter(x => String(x.iso || '') >= _tpCut);
+  const _fmtMed = f => { const v = _pf.filter(x => (x.format === '릴스') === f).map(x => _mv(x) || 0).sort((m, n) => m - n); if (!v.length) return 0; const h = v.length >> 1; return v.length % 2 ? v[h] : (v[h - 1] + v[h]) / 2; };   // 포맷별 중앙값(표시 창 _pf 안 · 릴스끼리·포스트끼리) — 정렬키(×배수)보다 먼저 산출(구 조회수 정렬 뒤 → 260723 앞으로 이동) · _mv = views/eng(FB) 소스분기
+  const _medReels = _fmtMed(true), _medPost = _fmtMed(false);   // ×1.0 = 그 포맷 중앙값(전형) 기준선
+  const _devR = x => { const b = ((x.format === '릴스') ? _medReels : _medPost) || _avgV; return b > 0 && _mv(x) ? _mv(x) / b : 0; };   // 포맷별 ×배수(릴스↔릴스·포스트↔포스트 중앙값 대비 · 표본0 = 혼합평균 _avgV 폴백 · 결측 = 0) — 정렬키 겸 편차 표시 공용(DRY) · _mv = views/eng(FB) 소스분기
+  const posts = _pf.slice().sort((a, b) => _devR(b) - _devR(a) || (_mv(b) || 0) - (_mv(a) || 0)).slice(0, 5);   // 순위 = ×배수 내림차순(운영자 260723 "x로 공평하게 순위") · 동률 = 지표 내림차순(안정 타이브레이크) · 구 순수 조회수순 대체
+  const chVwR = n => n == null ? '—' : n >= 1e8 ? (n / 1e8).toFixed(1).replace(/\.0$/, '') + '억' : n >= 1e4 ? Math.round(n / 1e4) + '만' : String(Math.round(n || 0));   // 조회수 = 반올림 정수 만(운영자 260719 "소수 빼고 6만회 식") · null = '—'(운영자 260722 ㄱ — fb views 미수집이 0으로 위장되던 것 결측 표기로 · chVf 정본 문법 계승)
+  const tpSeg = `<span class="ch-rangeseg ch-hdrseg tp-seg tb-seg">` + [['7', '7일'], ['30', '30일'], ['90', '90일'], ['all', '전체']].map(r => `<button type="button" data-tpr="${r[0]}"${CHAN_TPR === r[0] ? ' class="on"' : ''}>${r[1]}</button>`).join('') + '</span>';   // TOP 게시물 기간 세그 = 헤더 우측(운영자 260719 "토글 항목 옆에·90일 포함") · data-tpr = CHAN_TPR 축(daily data-r과 분리) · 켜진 것 강조색 · tb-seg = 협폭 칩 창 가로 스크롤(top 플랫폼 칩 문법 계승 — 260722 내역 링크 헤더 이관분 예약 확대를 스크롤이 흡수)
+  if (posts.length) h += gsec('tpost', `TOP 게시물`, posts.map((x, i) => {
+    const rl = x.format === '릴스';
+    const _r = _devR(x);   // ×배수 = 정렬키와 동일 함수(DRY · 0 = 결측)
+    const dev = _r ? '×' + _r.toFixed(1) : '—';   // 편차 = ×배수만(운영자 260719 "평균 빼고") · 기준 = 같은 포맷끼리(운영자 260720) · 0 = '—'
+    return `<a class="ch-post" href="${escUrl(x.permalink || '#')}" target="_blank" rel="noopener"><span class="trend-rank">${i + 1}</span><span class="ch-fmt ${rl ? 'reels' : 'post'}">${rl ? '릴스' : '포스트'}</span><span class="ch-pt"></span><span class="ch-dev ${rl ? 'reels' : 'post'}">${dev}</span><span class="ch-vw">${chVwR(_mv(x))}</span></a>`;   // 열 순서 = ×편차 먼저·조회수 나중(운영자 260723 "x11이 먼저" — 구 vw먼저·dev나중 반전 · 각 열 정렬 기준선 유지·서로 교환: ×편차=좌측 ×열·조회수=우측 만열[토글선]) · ×편차 = 전 행 포맷색(릴스 레몬·포스트 시안 · 운영자 260722) · chVwR(_mv) = FB는 eng(반응) 수 표시(평의회 260724 · 구 x.views '—' 대체)
+  }).join('') + '<button class="ch-morelink ch-hdrmore" type="button" id="chPostMore" aria-label="게시물 탐색">내역<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.5 5l11 7-11 7z"/></svg></button>',
+    tpSeg);   // 내역 ▶ = 헤더 타이틀 옆 이관(운영자 260722 "내역 ▶로 용어 변경해 타이틀 옆으로" — 구 '내역 확인 ›' 본문 하단 폐지) · ▶ = SVG 삼각(FIN_ARROW 문법 회전 · 문자 ▶ 금지 [3-1]) · id·핸들러·aria 불변 · 배치 = .ch-hdrmore 오버레이(daily #chDayMore 하단 잔류 = 무접촉)
+  const th = (d.thumbs || []).slice(0, 12);   // 커버 없는 릴스도 보존(th='' → 캡션 텍스트 타일 · 운영자 260718)
+  const _embDead = new Set(th.filter(x => x.e === 0).map(x => (String(x.u || '').match(/instagram\.com\/(?:p|reel|reels|tv)\/([\w-]+)/) || [])[1]).filter(Boolean));   // 임베드 사망 숏코드 판(수집기 프로브 도장 e:0 재사용 · 운영자 260810 "이렇게 에러가 될 경우는 아예 링크를 하지마") — 타일과 같은 게시물을 브리프 골드 참조가 걸 때 링크를 떼는 조인 키
+  const _lnAttr = x => x.e === 0 ? '' : ` href="${escUrl(x.u || '#')}" target="_blank" rel="noopener"`;   // 사망 도장 타일 = href 자체를 안 단다 — 인앱 팝업 위임(인스타 URL 검사)·새탭 어느 쪽도 안 걸린다 · 무도장 = 종전 링크(fail-open · 260810 실측 = 임베드 사망 게시물은 팝업이 인스타 「Instagram 방문」 에러 카드만 그린다)
+  const REELGLYPH = '<svg class="rl" width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="rgba(0,0,0,.42)"/><path d="M10 8.5v7l6-3.5z" fill="rgba(255,255,255,.96)"/></svg>';   // 릴스 표식 ▶ — 커버 릴스·텍스트 타일 공용(운영자 260718 통일)
+  const POSTGLYPH = '<svg class="rl" width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="rgba(0,0,0,.42)"/><rect x="9.2" y="6.6" width="8.2" height="8.2" rx="1.8" fill="rgba(255,255,255,.55)"/><rect x="6.6" y="9.2" width="8.2" height="8.2" rx="1.8" fill="rgba(255,255,255,.96)"/></svg>';   // 포스트 표식 = 카드 스택(운영자 260722 "릴스 재생버튼처럼 포스트도 카드스택으로 동일하게") — 원판·크기·좌상단 앵커(.rl)·fill 문법 = REELGLYPH 100% 계승 · 뒤장 .55/앞장 .96 = 겹침 위계
+  // 호버 지표 오버레이 재료(운영자 260805 "오 그렇게해줘") — 커버 타일 ↔ posts 조인 키 = permalink 한 개(수집기 무접촉 = 다음 수집 회차 기다림 0 · 미매칭·결측 = 칩 생략 fail-soft)
+  const _thP = new Map((d.posts || []).filter(p => p.permalink).map(p => [String(p.permalink), p]));
+  const _thAgeH = p => {   // 경과 h — iso(날짜부) + date_kst 시각으로 KST 벽시계 앵커([12] · 기기 TZ 무관) · FB iso = 풀 타임스탬프라 그대로 파싱
+    const s = String(p.iso || ''); if (!s) return NaN;
+    const hh = (String(p.date_kst || '').match(/(\d{1,2})\s*시/) || [])[1];   // "08/05 14시" = 시각 정밀도(날짜부만 쓰면 자정 앵커라 최대 24h 과대표기)
+    const t = new Date(/T/.test(s) ? s : s.slice(0, 10) + 'T' + String(hh == null ? 12 : hh).padStart(2, '0') + ':00:00+09:00').getTime();   // 시각 결측 = 정오 앵커(오차 ±12h 대칭 = 한쪽으로 안 쏠린다)
+    return isFinite(t) ? (Date.now() - t) / 3600e3 : NaN;
+  };
+  const thMeta = x => {   // ×배수(_devR 정본 재사용) + 조회수(EYE_SVG+vfmt 지표 정본 짝) + 경과(relAge 공통 사다리 · 24h 이내 = fresh 골드)
+    const p = _thP.get(String(x.u || '')); if (!p) return '';
+    const _r = _devR(p);   // 같은 포맷 중앙값 대비 ×배수 = TOP 게시물과 **동일 함수·동일 기준선**(대조 가능 · 0 = 결측)
+    const dv = _r ? `<span class="dev ${p.format === '릴스' ? 'reels' : 'post'}">×${_r.toFixed(1)}</span>` : '';   // 순서 = ×배수 먼저(운영자 260723 "x11이 먼저" 열 순서 계승) · 색 = 포맷색(.ch-dev.reels/.post 토큰 동일)
+    const v = p.views > 0 ? `<i>${EYE_SVG}<span>${vfmt(p.views)}</span></i>` : '';   // 0·결측 = 미표기(met() 0지표 규약 계승)
+    const ah = _thAgeH(p), ag = relAge(ah);
+    const a = ag ? `<span class="${isFinite(ah) && ah < 24 ? 'fresh' : ''}">${ag}</span>` : '';   // 시간 = 항상 끝(.tcard-ago ml:auto 관례)
+    return (dv || v || a) ? `<span class="ch-thm">${dv}${v}${a}</span>` : '';
+  };
+  if (th.length) h += gsec('recent', `최근 게시물`, '<div class="ch-grid">' + th.map(x => x.th
+    ? `<a class="ch-th"${_lnAttr(x)} data-cap="${esc(x.t || '')}">${x.r ? REELGLYPH : POSTGLYPH}<img loading="lazy" referrerpolicy="no-referrer" src="${escUrl(x.th)}" onerror="chThFail(this)" alt="">${thMeta(x)}</a>`
+    : `<a class="ch-th txt"${_lnAttr(x)}>${x.r ? REELGLYPH : POSTGLYPH}<span class="cap">${esc(x.t || '')}</span></a>`).join('') + '</div>');   // 포스트 = 스택 배지(구 무표식 → 명시 표식 · 텍스트 타일도 동일 분기)
+  // 세로 책갈피 레일 = 메뉴3 .trailwrap/.trail 원문 계승(운영자 260713 "일치할수록 좋아" — CSS 클래스 공유 = 신규 스타일 0 · fixed는 chanview[hidden] 조상 연동 자동 소거 = trendview 동일 메커니즘 · 우측 배치 = #chanRailWrap → #trendRailWrap 동일 공식 합류 = 운영자 260720 "SNS 메뉴처럼 우측") · 버튼 = TOP 위화살(정본 SVG path 동일) + 단위 순번 숫자(헤더 배지 정체성 · 숫자 = 문자 렌더 허용 축)
+  box.innerHTML = (RAIL.length > 1 ? '<div class="trailwrap" id="chanRailWrap"><nav class="trail" id="chanRail" aria-label="단위 바로가기"><button type="button" class="trail-i" data-tg="top" aria-label="맨 위"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V6M6 12l6-6 6 6"/></svg></button>' +
+    RAIL.map(r => `<button type="button" class="trail-i" data-tg="${r.id}" aria-label="${r.lab}">${r.n}</button>`).join('') + '</nav></div>' : '') + h;   // 소스 세그 = 헤더 이주(Q157)로 콘텐츠부 주입 폐지
+  box.querySelector('.ch-nm').textContent = p.username ? '@' + p.username : (p.name || '');   // fb 페이지 = username 없을 수 있음 → 페이지명 폴백(Q155)
+  const bt = box.querySelector('.tbrief-t');   // 브리프 본문 주입 = *별표*→<b> + [텍스트](url)·URL→<a> (텍스트노드/href 검증만 = XSS 안전 · 메뉴3 파서 미러 — 스크랩 refs 축만 제외 · 줄바꿈 = .tbrief-t pre-line)
+  if (bt && CB) {
+    bt.textContent = '';
+    const bcur = bsecs ? bsecs.find(s => s.k === CHAN_BSEC) : null;   // 기간 탭 선택분(운영자 260714) — sections 없으면 종전 전문(text)
+    const parseInto = (el, s) => {   // 인라인 파서(**별표2**→볼드만 · *별표1*→강조색볼드 · [텍스트](url)·URL→<a>) — 본문·제안 블릿 공용(텍스트노드/href 검증 = XSS 안전 · 메뉴3 파서 미러) · ⚠ 더블스타를 싱글 앞에 = 같은 위치서 먼저 매칭(운영자 260714 2층 강조)
+      const TOK = /(\*\*[^*\n]+\*\*)|(\*{2,})|(\*[^*\n]+\*(?!\*))|(\[[^\]\n]+\]\(https?:\/\/[^\s)]+\))|(https?:\/\/[^\s)]+)/g;   // 2층(**..**) 먼저 → 안 닫힌 **런 = 리터럴(strip) → 1층(*..*·닫기 (?!\*) = **의 첫 별표 안 삼킴) → 링크/URL · 운영자 260720 과흡수 봉합(SNS 미러와 통일 · 룩어헤드만 = 사파리 호환)
+      const addText = z => {   // 짝 없는 경계 단일 * = 오탈자 플래그(tb-starwarn) · 숫자/글자 사이 *(수식 3*4)는 리터럴(오탐 방지) · SNS 미러와 통일 · 운영자 260720
+        if (!z) return;
+        if (z.indexOf('*') < 0) { el.appendChild(document.createTextNode(z)); return; }
+        const A = z.split(/(\*)/), aln = c => c && /[0-9A-Za-z가-힣]/.test(c);
+        A.forEach((p, i) => {
+          if (p === '*') {
+            if (aln((A[i - 1] || '').slice(-1)) && aln((A[i + 1] || '')[0])) el.appendChild(document.createTextNode('*'));
+            else { const w = document.createElement('span'); w.className = 'tb-starwarn'; w.textContent = '*'; w.title = '짝 없는 별표 — 오탈자 확인'; el.appendChild(w); }
+          } else if (p) el.appendChild(document.createTextNode(p));
+        });
+      };
+      const addLink = (label, url) => { try { const u = new URL(url); if (u.protocol !== 'http:' && u.protocol !== 'https:') return addText(label); const igc = /(?:^|\.)instagram\.com$/.test(u.hostname) ? (u.pathname.match(/^\/(?:p|reel|reels|tv)\/([\w-]+)/) || [])[1] : '';
+        if (igc && _embDead.has(igc)) return addText(label);   // 임베드 사망 게시물 = 링크 자체를 안 건다(운영자 260810 "이렇게 에러가 될 경우는 아예 링크를 하지마") — 골드 참조로 걸면 인앱 팝업이 인스타 에러 카드만 그린다(260810 실측 = 임베드·공개커버 전 표면 결손 가족) · 도장 없는 URL = 종전 링크(fail-open)
+        const a2 = document.createElement('a'); a2.href = u.href; a2.target = '_blank'; a2.rel = 'noopener noreferrer'; a2.textContent = label; if (igc) a2.classList.add('tbrief-ref'); el.appendChild(a2); } catch { addText(label); } };
+      let last = 0, m;
+      while ((m = TOK.exec(s))) {
+        addText(s.slice(last, m.index)); last = TOK.lastIndex;
+        if (m[1]) { const b2 = document.createElement('b'); b2.className = 'tb-em'; b2.textContent = m[1].slice(2, -2); el.appendChild(b2); }   // **2층** = 강조색 없이 볼드만
+        else if (m[2]) { /* 안 닫힌 **런 = 리터럴 제거(과흡수·별표 누출 차단) */ }
+        else if (m[3]) { const b2 = document.createElement('b'); b2.textContent = m[3].slice(1, -1); el.appendChild(b2); }   // *1층* = 강조색 볼드
+        else if (m[4]) { const mm = m[4].match(/^\[([^\]\n]+)\]\((https?:\/\/[^\s)]+)\)$/); addLink(mm[1], mm[2]); }
+        else if (m[5]) { addLink(m[5], m[5]); }
+      }
+      addText(s.slice(last));
+    };
+    // 클로신의 제안(운영자 260714 "위 = 분석·브리핑 / 아래 = 왓투두 블릿") — '→ ' 전략 줄을 본문에서 떼어 분리 판으로 · 전략 줄 없는 기간 탭 = 판 hidden 유지
+    const rawTxt = (bcur ? bcur.text : CB.text) || '', props = [], bodyLn = [];
+    rawTxt.split('\n').forEach(ln => { const t2 = ln.trim(); if (/^→/.test(t2)) props.push(t2.replace(/^→\s*/, '')); else bodyLn.push(ln); });
+    parseInto(bt, bodyLn.join('\n').replace(/\n{3,}/g, '\n\n').trim());
+    const pb = box.querySelector('.tbrief-prop'), pu = pb ? pb.querySelector('ul') : null;
+    if (pu && props.length) {
+      pb.hidden = false;
+      // 행동 필(운영자 260714 승인 "한수 진행") = 전략 줄마다 게시 예약 — 팔로워 접속 피크(KST · insta_data online_peak_kst 1위) 시각으로 구글 캘린더 템플릿 · 피크 데이터 없으면 다음 정시(시각 날조 금지 = 라벨서 '피크' 문구 제외)
+      const peakH = (() => { const pk = (d.online_peak_kst || [])[0]; const n2 = parseInt(pk, 10); return Number.isInteger(n2) && n2 >= 0 && n2 <= 23 ? n2 : null; })();
+      const nowK = new Date(Date.now() + (540 + new Date().getTimezoneOffset()) * 60000);   // KST 벽시계(기기 TZ 무관 · 캘린더 ctz=Asia/Seoul와 정합)
+      const st = new Date(nowK); st.setMinutes(0, 0, 0);
+      if (peakH != null) { st.setHours(peakH); if (st <= nowK) st.setDate(st.getDate() + 1); } else st.setHours(st.getHours() + 1);
+      const fmtG = d2 => `${d2.getFullYear()}${String(d2.getMonth() + 1).padStart(2, '0')}${String(d2.getDate()).padStart(2, '0')}T${String(d2.getHours()).padStart(2, '0')}0000`;
+      const en2 = new Date(st.getTime() + 30 * 60000);
+      const dayLb = st.getDate() === nowK.getDate() ? '오늘' : '내일';
+      props.forEach(tx => {
+        const li = document.createElement('li'); parseInto(li, tx);
+        const act = document.createElement('a'); act.className = 'ch-mchip tbrief-act';
+        act.href = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent('[노뮤트] ' + tx.replace(/\*/g, '').split('—')[0].trim().slice(0, 60)) +
+          '&dates=' + fmtG(st) + '/' + fmtG(en2) + '&ctz=Asia/Seoul&details=' + encodeURIComponent(tx.replace(/\*/g, '') + (peakH != null ? '\n(팔로워 접속 피크 ' + peakH + '시 KST — 노뮤트 채널 요약)' : '\n(노뮤트 채널 요약)'));
+        act.target = '_blank'; act.rel = 'noopener noreferrer';
+        act.textContent = `${dayLb} ${st.getHours()}시 예약`;
+        li.appendChild(act); pu.appendChild(li);
+      });
+    }
+    // (3) 총론 고정 판(운영자 260714 "비전·방향성·미션 큰 그림 · 마인드셋") — 총론(overview) 우선, 없으면 all 폴백(하위호환) · 본문 통째 주입(→ 줄 포함) · '전체' 탭 폴백이면 HTML서 tb-allwrap hidden = tb-allt 부재(주입 스킵)
+    const ballt = box.querySelector('.tb-allt');
+    if (ballt && bsecs) { const bsrc = bov || bsecs.find(s => s.k === 'all'); if (bsrc) parseInto(ballt, (bsrc.text || '').replace(/\n{3,}/g, '\n\n').trim()); }
+  }
+  const pts = box.querySelectorAll('.ch-pt'); posts.forEach((x, i) => { if (pts[i]) { const nm = String(x.name || '').replace(/^\s*\p{Extended_Pictographic}️?\s*/u, '').trim(); pts[i].textContent = nm || x.name || '(무캡션)'; } });   // 제목 이모지 앞자름 = 소머리 관용구 계승(운영자 260719 "이모지 빼")
+  wireSigCharts(box);   // 시간대별 반응 차트 툴팁·호버점 배선(최근접 포인트 = 일일 추이 크로스헤어 문법 대칭)
+  // 타일 미니차트 왜곡 보정(평의회2 P1 · 260721) — preserveAspectRatio none 채움(운영자 '도형 안에' 유지)에서 원·글자만 실측비 역보정 = 화면 정비율 복원(선·리더 = ㄱ자 직교+non-scaling-stroke라 무왜곡 · 리사이즈 미추적 = 재렌더 시 재보정 한계 명기)
+  box.querySelectorAll('.ch-tchart .ch-tc').forEach(sv => { try {
+    const r = sv.getBoundingClientRect(), vb = sv.viewBox.baseVal;
+    if (!(r.width > 10 && r.height > 10)) return;
+    const sx = vb.width / r.width, sy = vb.height / r.height;   // svg단위/화면px
+    sv.querySelectorAll('circle[data-mk]').forEach(c => { c.setAttribute('transform', `translate(${c.getAttribute('cx')} ${c.getAttribute('cy')}) scale(${sx.toFixed(4)} ${sy.toFixed(4)})`); c.setAttribute('cx', 0); c.setAttribute('cy', 0); });
+    sv.querySelectorAll('text').forEach(t => { const x = t.getAttribute('x'), y = t.getAttribute('y'); t.setAttribute('transform', `translate(${x} ${y}) scale(${sx.toFixed(4)} ${sy.toFixed(4)})`); t.setAttribute('x', 0); t.setAttribute('y', 0); });
+  } catch (e) {} });
+  // 추이 차트 배선(지표 칩·기간 세그·crosshair 툴팁 — 재렌더 = 스크롤 보존)
+  box.querySelectorAll('#chMetRail [data-m]').forEach(b => b.addEventListener('click', () => { CHAN_MET = b.dataset.m; const y = window.scrollY; renderChan(); window.scrollTo(0, y); }));   // 지표 레일(#chMetRail) 옵션 = 화풍 .geni-opt 계승 · [data-m] 한정(브리프 data-bs 오염 방지 260714)
+  try { (window._chDemoRot || []).forEach(clearInterval); window._chDemoRot = []; } catch (e) {}   // (구) 도넛 축 교대 회전 잔여 타이머 정리 — 성별·연령 = 독립 타일 분리로 회전 폐지(운영자 260721 4×2 · 캡처마다 다른 축 혼선 해소) · 기동 세션 잔존 인터벌 청소만 유지
+  geniRailSetup('#chMetRail'); geniRailUpd($('#chMetRail'));   // 지표 레일 = 화풍 레일 배선 계승(드래그·‹›·끝선 페이드 · geniRailSetup 범용 재사용 · 재렌더마다 새 노드라 _railSet 가드 자동 통과)
+  box.querySelectorAll('[data-bs]').forEach(b => b.addEventListener('click', () => { CHAN_BSEC = b.dataset.bs; const y = window.scrollY; renderChan(); window.scrollTo(0, y); }));   // 브리프 기간 책갈피(3일~전체) — [data-bs] 통합 셀렉터(우상단 세그→세로 내비 미니바 이관(260716)에도 불변) · 재렌더·스크롤 보존
+  box.querySelectorAll('.ch-rangeseg:not(.tb-seg):not(.cs-seg):not(.tp-seg):not(.pf-seg) button').forEach(b => b.addEventListener('click', () => { CHAN_RANGE = b.dataset.r; const y = window.scrollY; renderChan(); window.scrollTo(0, y); }));   // :not(.tb-seg) = 브리프 기간 세그 · :not(.cs-seg) = 채널 소스 세그(Q155) · :not(.tp-seg) = TOP 게시물 세그 · :not(.pf-seg) = 프로필 공통 세그(CHAN_PROF_R 별축 Q290) — data-r 없는 세그가 CHAN_RANGE 오염 차단(일일추이 기간 세그만)
+  box.querySelectorAll('.tp-seg button').forEach(b => b.addEventListener('click', () => { CHAN_TPR = b.dataset.tpr; const y = window.scrollY; renderChan(); window.scrollTo(0, y); }));   // TOP 게시물 기간 필터(7/30/90/all · 운영자 260719) — data-tpr 별축 · 스크롤 보존
+  box.querySelectorAll('.pf-seg button').forEach(b => b.addEventListener('click', () => { CHAN_PROF_R = b.dataset.pr; const y = window.scrollY; renderChan(); window.scrollTo(0, y); }));   // 프로필 공통 기간 세그(7/30/90/all · 운영자 260720 Q290) — data-pr 별축 · 팔로워 증감·조회·도달·방문 평균/스파크 전부 연동 · 스크롤 보존
+  chuFit(box);   // 헤더 우측 칩 실폭 예약(시각 텍스트 겹침 차단 · 운영자 260717 — 메뉴3과 동일 배선)
+  const wrap = $('#chChartWrap'), tip = $('#chTip'), dot = $('#chDot');
+  if (wrap && tip) {
+    const place = (x, y) => { const r = wrap.getBoundingClientRect(); return [x / 600 * r.width, y / 150 * r.height]; };   // SVG좌표(600×150)→픽셀(툴팁·호버점 공용)
+    const showDot = (x, y) => { if (!dot) return; const [px, py] = place(x, y); dot.style.left = px + 'px'; dot.style.top = py + 'px'; dot.style.opacity = '1'; };
+    const hide = () => { tip.style.opacity = '0'; tip.classList.remove('ev'); if (dot) dot.style.opacity = '0'; };
+    const move = ev => {   // 크로스헤어 = 최근접 데이터점 툴팁 + 흰 호버점(운영자 260715)
+      if (!CH_HIT.length) return;
+      const r = wrap.getBoundingClientRect();
+      const cx = ev.touches ? ev.touches[0].clientX : ev.clientX;
+      const px = (cx - r.left) / r.width * 600;
+      let best = CH_HIT[0], bd = 1e9;
+      CH_HIT.forEach(pt => { const dd = Math.abs(pt.x - px); if (dd < bd) { bd = dd; best = pt; } });
+      const [tx, ty] = place(best.x, best.y);
+      tip.classList.remove('ev');
+      const bref = best.refs && best.refs.length ? ` · ${esc(best.refs[0].name || '(무캡션)')}${best.refs.length > 1 ? ` 외 ${best.refs.length - 1}` : ''}` : '';   // 그날 게시물 제목 미리보기(운영자 260718 "어떤 게시물 올렸는지 확인" · 링크는 러그 탭 팝오버가 담당)
+      tip.innerHTML = `<b>${best.v.toLocaleString()}</b> ${esc(CH_MET[CHAN_MET][1])}${best.pc ? ` · 게시 ${best.pc}개` : ''}<br><span style="color:var(--mut);font-size:10px">${esc(best.day)}${bref}</span>`;
+      const _hw = (tip.offsetWidth || 110) / 2; tip.style.left = Math.max(_hw + 2, Math.min(r.width - _hw - 2, tx)) + 'px'; tip.style.top = ty + 'px';   // 좌우 클램프(260720 평의회 F5 — 좌단 -73px 화면 밖 실측 봉합 · innerHTML 후 실폭 측정)
+      tip.style.opacity = '1';
+      showDot(best.x, best.y);
+    };
+    wrap.addEventListener('pointermove', move);
+    wrap.addEventListener('pointerleave', hide);
+    wrap.addEventListener('touchmove', move, { passive: true });
+    // 변곡 주석(그 문구) 호버 = 그 일자 값 + 요약(라벨·note)으로 전환(운영자 260715 "그 문구 호버하면 그 일자 추이·요약으로")
+    wrap.querySelectorAll('.ch-ev').forEach(g => {
+      const showEv = ev => {
+        ev.stopPropagation();   // 크로스헤어와 툴팁 다툼 차단(밴드 위에선 주석 우선)
+        const e = CH_EV[+g.getAttribute('data-ei')]; if (!e) return;
+        const [tx, ty] = place(e.x, e.y);
+        tip.classList.add('ev');
+        const _wr = wrap.getBoundingClientRect();
+        tip.style.top = ty + 'px';
+        tip.innerHTML = `<b>${esc(e.label)}</b><br><span style="color:var(--mut);font-size:10px">${esc(e.date)}${e.v != null ? ` · <span style="color:var(--accent)">${e.v.toLocaleString()} ${esc(CH_MET[CHAN_MET][1])}</span>` : ''}</span>${e.note ? `<br><span style="color:var(--mut);font-size:10px;opacity:.85">${esc(e.note)}</span>` : ''}`;
+        const _hw = (tip.offsetWidth || 110) / 2; tip.style.left = Math.max(_hw + 2, Math.min(_wr.width - _hw - 2, tx)) + 'px';   // 좌우 클램프(260720 평의회 F5 · 크로스헤어 툴팁 동일 문법)
+        tip.style.opacity = '1';
+        if (e.v != null) showDot(e.x, e.y); else if (dot) dot.style.opacity = '0';
+      };
+      g.addEventListener('pointerenter', showEv);
+      g.addEventListener('pointermove', showEv);
+      g.addEventListener('pointerleave', hide);
+    });
+    // 게시일 러그 탭 → 그날 게시물 팝오버(운영자 260718 "각 부분에 어떤 게시물 올렸는지 링킹" · 추천안 = 페이블) — .chp-row 문법·글래스·z-float 계승 · 탭 밖 클릭 = 닫힘 · 제목 = textContent 주입(XSS 안전)
+    const pop = $('#chPostPop');
+    if (pop) {
+      const hidePop = () => pop.classList.remove('on');
+      wrap.querySelectorAll('.ch-rug-hit').forEach(hb => hb.addEventListener('click', ev => {
+        ev.stopPropagation();
+        const r0 = CH_RUG[+hb.getAttribute('data-ri')]; if (!r0) return;
+        const refs = r0.refs || [];
+        let h = `<div class="pph">${esc(r0.date)} · 게시 ${r0.pc}개${refs.length !== r0.pc ? ` · 수집분 ${refs.length}건` : ''}</div>`;
+        if (refs.length) h += refs.map((x, i) => `<a class="pprow" href="${escUrl(x.permalink || '#')}" target="_blank" rel="noopener"><span class="ppr">${i + 1}</span><span class="ppt"></span>${x.views != null ? `<span class="ppv">${chVf(x.views)}</span>` : ''}</a>`).join('');
+        else h += `<div class="ppnone">수집분 0 — 다음 수집 때 채워짐(fail-soft)</div>`;
+        pop.innerHTML = h;
+        const tts = pop.querySelectorAll('.ppt'); refs.forEach((x, i) => { if (tts[i]) tts[i].textContent = x.name || '(무캡션)'; });   // textContent = XSS 안전 관용구
+        const wr = wrap.getBoundingClientRect(), hbr = hb.getBoundingClientRect();
+        let lx = hbr.left - wr.left + hbr.width / 2 - 100; lx = Math.max(4, Math.min(wr.width - 210, lx));
+        pop.style.left = lx.toFixed(0) + 'px';
+        pop.style.top = Math.max(4, (hbr.top - wr.top) - 8 - (refs.length ? 62 : 48)).toFixed(0) + 'px';
+        pop.classList.add('on');
+      }));
+      wrap.addEventListener('pointerdown', e => { if (!e.target.closest('.ch-rug-hit') && !e.target.closest('.ch-postpop')) hidePop(); });
+      document.addEventListener('click', e => { if (!e.target.closest('#chChartWrap')) hidePop(); }, { passive: true });
+    }
+  }
+  const dm = $('#chDayMore'), pm2 = $('#chPostMore');   // 심층 진입(운영자 260713 "앱 내에서 볼 경로") — 필 = summary 밖 형제(.chu 앵커·평의회7-①)라 접기 토글과 무간섭 = preventDefault 불요
+  if (dm) dm.addEventListener('click', openChDay);
+  if (pm2) pm2.addEventListener('click', openChPost);
+  box.querySelectorAll('details.tgroup').forEach(dt => dt.addEventListener('toggle', () => {   // 단위 접힘 기억(nm_chan_gfold · 3상태: 키 없음=기본값(DEFF)·1=접힘·0=펼침 — 기본 접힘 유닛의 "펼침"도 기억해야 칩 전환 재렌더에 도로 안 접힘 · toggle = 사용자 탭에만 발화·초기 파싱 open 미발화·재렌더 = 새 노드라 중복 바인딩 없음)
+    const g = dt.dataset.g;
+    let f2 = {}; try { f2 = JSON.parse(localStorage.getItem('nm_chan_gfold') || '{}') || {}; } catch { f2 = {}; }
+    if (dt.open === !DEFF[g]) delete f2[g]; else f2[g] = dt.open ? 0 : 1;   // 기본과 같으면 기록 삭제(원장 최소·구 1-기록 데이터 호환)
+    try { localStorage.setItem('nm_chan_gfold', JSON.stringify(f2)); } catch {}
+    const rail0 = box.querySelector('#chanRail');   // 접기/펼치기 시 레일 그 단위 점등 = 네비 싱크(메뉴3 미러 · 브리프 = 레일 제외 → 1 프로필 매핑)
+    if (rail0) { const gm = g === 'brief' ? 'prof' : g; rail0.querySelectorAll('.trail-i').forEach(b2 => b2.classList.toggle('on', b2.dataset.tg === gm)); }
+  }));
+  const rl = box.querySelector('#chanRail');   // 레일 점프 = 접힌 단위면 펼치며(toggle이 nm_chan_gfold 기억) 스크롤 · TOP = 최상단 · scroll-margin-top = .tgroup 계승(메뉴3 동작 그대로)
+  if (rl) rl.addEventListener('click', e => {
+    const ri = e.target.closest('.trail-i'); if (!ri) return;
+    const g2 = ri.dataset.tg;
+    const sb = matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';   // 전정계 배려 = 기존 rm 삼항 정본 계승(평의회7-⑤ — 레일만 미가드였던 패턴 불일치 봉합)
+    if (g2 === 'top') { window.scrollTo({ top: 0, behavior: sb }); return; }
+    const el2 = document.getElementById('cg-' + g2);
+    if (el2) { if (!el2.open) el2.open = true; el2.scrollIntoView({ behavior: sb, block: 'start' }); }
+  });
+  if (box._chIO) { try { box._chIO.disconnect(); } catch {} box._chIO = null; }   // 레일 스크롤스파이 = IO(상단 -12%~-58% 밴드 · 메뉴3 미러) — 재렌더마다 구 관측 해제(누수 방지)
+  if (rl && 'IntersectionObserver' in window) {
+    const mark = id => rl.querySelectorAll('.trail-i').forEach(b2 => b2.classList.toggle('on', b2.dataset.tg === id));
+    box._chIO = new IntersectionObserver(es => {
+      const v2 = es.filter(x => x.isIntersecting).sort((a2, b2) => b2.intersectionRatio - a2.intersectionRatio)[0];
+      if (v2) { const gid = (v2.target.id || '').replace('cg-', ''); mark(gid === 'brief' ? 'prof' : gid); }   // 브리프 = 레일 제외 → 최상단 구간 = 1(프로필) 점등(메뉴3 brief→top 매핑 미러)
+    }, { rootMargin: '-12% 0px -58% 0px' });
+    box.querySelectorAll('details.tgroup').forEach(g3 => box._chIO.observe(g3));
+  }
+}
+// ── 채널 심층 모달 2종(일별 상세 · 게시물 탐색) — 셸 = base dialog + .modal-head 정본 · 폰 뒤로가기 = lbox pushState 패턴 계승 ──
+let _chPop = false, _chClosing = false;   // _chClosing = X 닫기가 유발한 back의 popstate가 직후 연 모달을 과닫힘시키는 것 차단(_dlgClosing 패턴 미러)

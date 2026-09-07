@@ -1,0 +1,633 @@
+function renderPinSlots(slotsEl, value, opts) {
+  const v = value || '', sl = slotsEl ? slotsEl.querySelectorAll('span') : [], last = v.length - 1;   // span만 = 형제 .pin-eye 버튼 미간섭
+  const reveal = (opts && opts.reveal) || 'last';
+  const see = !!(slotsEl && slotsEl._see);   // 눈 토글 ON = 전체 숫자 노출(운영자 260705)
+  if (slotsEl) { slotsEl._v = v; slotsEl._opts = opts || null; }   // 눈 토글이 값 재렌더에 씀(어댑터 상태 안 건드림)
+  for (let i = 0; i < sl.length; i++) {
+    const filled = i < v.length;
+    const cur = !see && reveal === 'last' && i === last && last >= 0 && v.length < sl.length;   // 방금 입력 = 강조색 숫자(peek) · 단 마지막 자리까지 채워 완성되면 즉시 마스킹 = 인증/이동 진입 시 마지막 번호 노출 차단(운영자 260707)
+    sl[i].classList.toggle('cur', cur);
+    sl[i].classList.toggle('see', see && filled);                       // 눈 ON = 입력분 전부 숫자(흰)
+    sl[i].classList.toggle('on', filled && !cur && !see);               // 입력됨(이전) = 칠해진 원
+    sl[i].textContent = (cur || (see && filled)) ? v[i] : '';
+  }
+  clearTimeout(slotsEl && slotsEl._maskT);   // 2초 자동 마스킹(운영자 260705 "입력 후 2초 지나면 가만있어도 동그라미로") — 입력마다 리셋·눈 ON은 계속 노출
+  if (slotsEl && !see && reveal === 'last' && last >= 0) slotsEl._maskT = setTimeout(() => {
+    const el = sl[last]; if (!el || !el.classList.contains('cur')) return;   // 그 사이 재렌더로 바뀌었으면 무시
+    el.classList.remove('cur'); el.classList.add('on'); el.textContent = '';   // CSS 전이(원 스케일-인)로 자연 접힘
+  }, 2000);
+}
+// 눈(전체 표시) 버튼 배선 — 3표면 공유(설정 #pinboxes·발행 #pubSlots·화면잠금 #lkSlots). 아이콘 = EYE_SVG(nm-svg SSOT) 주입 · on=강조색.
+document.querySelectorAll('.pin-eye').forEach(b => {
+  b.innerHTML = EYE_SVG;
+  const slots = b.parentElement.querySelector('.pin-slots,.pub-slots,.lk-slots'); if (!slots) return;
+  b.addEventListener('pointerdown', e => e.preventDefault());   // 오버레이 input 포커스 유지 = OS 키패드 안 닫힘(어색함 방지)
+  b.addEventListener('click', e => { e.stopPropagation(); pinEyeSet(slots, !slots._see); });
+});
+function pinEyeSet(slotsEl, on) {   // 토글 + 재렌더(저장된 값) — 열 때 리셋에도 사용
+  if (!slotsEl) return;
+  slotsEl._see = !!on;
+  const wrap = slotsEl.closest('.pin-boxwrap,.pin-fs,.lk-slotwrap'), b = wrap && wrap.querySelector('.pin-eye');
+  if (b) { b.classList.toggle('on', slotsEl._see); b.setAttribute('aria-pressed', String(slotsEl._see)); }
+  renderPinSlots(slotsEl, slotsEl._v || '', slotsEl._opts);
+  if (!slotsEl._see) {   // 눈 OFF = 전부 점 즉시(마지막 숫자 재노출 quirk 차단 — 2초 타이머 안 기다림)
+    clearTimeout(slotsEl._maskT);
+    const c = slotsEl.querySelector('span.cur'); if (c) { c.classList.remove('cur'); c.classList.add('on'); c.textContent = ''; }
+  }
+}
+function renderPubSlots() { renderPinSlots($('#pubSlots'), ($('#pubPin') && $('#pubPin').value) || ''); }   // 발행 어댑터 = wrapper(호출부·2단 상태머신 유지)
+function pubPinBad() { const s = $('#pubSlots'); if (!s) return; s.classList.remove('shake'); void s.offsetWidth; s.classList.add('bad', 'shake'); setTimeout(() => s.classList.remove('bad', 'shake'), 480); }
+function pubPinReset() { _pubStage = 1; _pubPin1 = ''; _pubPinOK = false; if ($('#pubPin')) $('#pubPin').value = ''; const lg = $('#pubPinLeg'); if (lg) lg.textContent = '잠금 설정 (PIN)'; renderPubSlots(); pinEyeSet($('#pubSlots'), false); }   // 리셋 = 눈 OFF 복귀(260705)
+if ($('#pubPin')) $('#pubPin').addEventListener('input', () => {
+  const raw = $('#pubPin').value, clean = raw.replace(/\D/g, '').slice(0, 6);
+  if (clean !== raw) { $('#pubPin').value = clean; pubPinBad(); }   // 숫자 외/6자리 초과 = 흔들림+붉게
+  _pubPinOK = false; renderPubSlots();
+  if ($('#pubPin').value.length !== 6) return;
+  if (_pubStage === 1) {                                              // 1차 6자리 완료 → 잠깐 노출 후 2차 재입력으로
+    _pubPin1 = $('#pubPin').value;
+    setTimeout(() => { if (_pubStage === 1 && $('#pubPin').value === _pubPin1) { _pubStage = 2; $('#pubPin').value = ''; const lg = $('#pubPinLeg'); if (lg) lg.textContent = '다시 입력'; renderPubSlots(); } }, 520);
+  } else {                                                            // 2차: 1차와 일치 = 확정(강조 유지) / 불일치 = 흔들림+처음부터
+    if ($('#pubPin').value === _pubPin1) { _pubPinOK = true; const lg = $('#pubPinLeg'); if (lg) lg.textContent = '잠금 설정 완료'; }
+    else { pubPinBad(); setTimeout(pubPinReset, 500); }
+  }
+});
+$('#pubdlgX').addEventListener('click', () => pubdlg.close());
+pubdlg.addEventListener('click', e => { if (e.target === pubdlg) pubdlg.close(); });
+pubdlg.addEventListener('close', () => { pubdlg.style.maxHeight = ''; pubdlg.style.marginTop = ''; });   // geniVV 키보드 클램프 원복(gdlg close 미러 — 잔존 시 다음 열림이 stale 위치 · 감사 260718)
+$('#pubGo').addEventListener('click', async () => {
+  if (_pubBusy || !CUR_A) return;
+  const go = $('#pubGo'), st = $('#pubStatus'), pin = _pubPinOK ? ($('#pubPin').value || '').trim() : '';   // 2단 확정(_pubPinOK) 시만 잠금 PIN 전송 · 미확정/미입력 = 잠금 없이 발행
+  const fail = (msg) => { gaugeClear(go); go.classList.add('shake'); setTimeout(() => go.classList.remove('shake'), 420); go.disabled = false; st.textContent = msg; st.classList.add('err'); };
+  if (pin && !/^\d{6}$/.test(pin)) { fail('PIN은 숫자 6자리로'); return; }
+  _pubBusy = true; go.disabled = true; st.classList.remove('err'); st.textContent = '';
+  gaugeStart(go);   // 발행 즉시 게이지 = html 생성·업로드 응답까지 진행(옛 pickGauge 0.72s는 업로드 길면 꽉 찬 채 멈춤 · 운영자 260702)
+  try {
+    const html = await buildSummaryHtml($('#dlFull') && $('#dlFull').checked, { embedFont: false });   // 폰트 CDN링크(발행 크기↓·600KB초과 방지) · 나머지 자기완결(API호출0=우회차단)
+    const title = (CUR_A && CUR_A.title) || '뉴스 요약';
+    const r = await fetch('api/publish', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ file: CUR, title, html, scope: _pubScope, days: 3, pin }) });
+    const d = await r.json().catch(() => ({}));
+    if (r.ok && d.ok && d.slug) {
+      if (pin) try { localStorage.setItem('nm_pub_pin', pin); } catch (e2) {}   // 발행 확정 PIN = 고정 PIN으로 기억(다음 발행 프리필 · 운영자 260707)
+      await copyText(location.origin + '/s/' + d.slug);   // ?p=핀 미포함 = PIN 잠금 무력화 방지(검증3·7·1). PIN은 별도 전달.
+      go.classList.remove('done'); void go.offsetWidth; go.classList.add('done'); gaugeDone(go);   // settle 팝 + 게이지 현위치→100% 급속 = 전송/수정 버튼과 동일 메커니즘(askShowCheck·.ack·운영자 "다른 버튼과 동일")
+      setTimeout(() => askShowCheck(go), 300);   // 게이지 채움완료(gdone .3s)와 물려 ✓ 팝(멈칫 제거·운영자 260703)
+      qFlash(pin ? ('발행 및 링크 복사 완료 · PIN ' + pin + ' 별도 전달') : '발행 및 링크 복사 완료');   // 성공 안내 = 전경 토스트(팝업 내 상태문자열 폐지 · 운영자 260720 "문자열 말고 포스트 알림") — 모달이 1.5s 뒤 닫혀도 close 캡처가 body 귀환시켜 잔여 표시 보존 = 복사됐다는 사실이 화면에 남음(운영자 260801 "발행본을 찾아가야 한다") · ✓ 자체는 발행 버튼 .ack SVG 담당(§🔒 3-1)
+      setTimeout(() => { pubdlg.close(); gaugeClear(go); go.classList.remove('done'); askHideCheck(go); go.disabled = false; loadPub(); }, 1500);   // ✓ 노출 시간 확보 후 닫기(askSend 계승)
+    } else { fail((d && d.error) ? String(d.error).slice(0, 90) : '발행 실패 — 다시'); }
+  } catch { fail('네트워크 오류 — 다시'); }
+  finally { _pubBusy = false; }
+});
+
+let PUBITEMS = [], PUBPAGE = 0, _pubCloseTimer = 0, _pubPushed = false, _pubPop = false;
+const _pubBtnEl = $('#pubBtn'); if (_pubBtnEl) _pubBtnEl.addEventListener('click', e => { e.stopPropagation(); openPub(); });   // stopPropagation = #msgbtn 패턴(pmenu 안 버튼이라 안 하면 열자마자 바깥클릭 닫힘·검증8·9)
+
+/* SNS 2차 아코디언(_snsToggle) 삭제 — Home·SNS 링크 메뉴 제거(운영자 260705) · 설정 아코디언(_setToggle)이 동일 패턴 정본 */
+const _setToggle = $('#setToggle'); if (_setToggle) _setToggle.addEventListener('click', e => {   // 설정 2차 아코디언(알림·잠금) 펼침/접힘 = SNS 패턴 계승(pmenu 안 유지·운영자 260703)
+  e.stopPropagation();
+  const sub = $('#setSub'), open = _setToggle.getAttribute('aria-expanded') === 'true';
+  if (open) {
+    sub.classList.remove('open'); _setToggle.setAttribute('aria-expanded', 'false');
+    const done = () => { sub.hidden = true; sub.removeEventListener('transitionend', done); };
+    sub.addEventListener('transitionend', done); setTimeout(done, 320);   // reduced-motion 백스톱
+  } else {
+    sub.hidden = false; void sub.offsetHeight; _setToggle.setAttribute('aria-expanded', 'true');
+    sub.classList.add('open');   // SNS와 동일 — 리플로우 후 .open(촤르륵 확정 발화 · 운영자 260704)
+    if (typeof lkSettingsRefresh === 'function') lkSettingsRefresh();   // 잠금 토글이 팝업 밖(메뉴)으로 이관 → 열 때마다 실제 상태 반영(옛 openLockPop 갱신 대체 · 스테일 표시 회귀 교정 · 평의회8 260705)
+    if (typeof pushRefresh === 'function') pushRefresh();   // 알림 토글도 열 때 실제 구독(pushManager) 상태로 갱신 = 잠금과 대칭 · 표시=실제 SSOT. 설정 진입로 pushRefresh 누락 → 새로고침·재진입 시 버튼이 stale 'OFF'로 굳어 켜기 클릭이 끄기로 오작동하던 원천 교정(운영자 260707)
+    if (typeof paintKwRow === 'function') paintKwRow();   // 키워드 알림 토글도 열 때 실상태 반영(잠금·알림과 대칭)
+  }
+});
+// 채널·필터 아코디언(운영자 260710) = _setToggle 패턴 계승(그 자리 펼침 촤르륵 · lkSettingsRefresh 없는 일반 아코디언 · 라벨은 lp-yellow 노랑)
+[['chanToggle', 'chanSub'], ['filterToggle', 'filterSub']].forEach(([bid, sid]) => {
+  const btn = $('#' + bid); if (!btn) return;
+  btn.addEventListener('click', e => {
+    e.stopPropagation();
+    const sub = $('#' + sid), open = btn.getAttribute('aria-expanded') === 'true';
+    if (open) {
+      sub.classList.remove('open'); btn.setAttribute('aria-expanded', 'false');
+      const done = () => { sub.hidden = true; sub.removeEventListener('transitionend', done); };
+      sub.addEventListener('transitionend', done); setTimeout(done, 320);   // reduced-motion 백스톱
+    } else {
+      sub.hidden = false; void sub.offsetHeight; btn.setAttribute('aria-expanded', 'true');
+      sub.classList.add('open');   // 리플로우 후 .open(촤르륵 확정)
+    }
+  });
+});
+const _pmenuX = $('#pmenuX'); if (_pmenuX) _pmenuX.addEventListener('click', e => { e.stopPropagation(); hidePmenu(); });   // 헤더 X = 프로필 메뉴 닫기(촤르륵 접힘 popOut 재사용 · 운영자 260704)
+function placePubpop() { placePopNearMenu(pubpop); }   // 발행본 팝업 위치 = 메시지함 공용(placePopNearMenu) — 링크 메뉴(linkfab) 위 앵커(운영자 260707 "열린 메뉴 가까이" · 구 프로필 앵커 폐지)
+function openPub() {   // 발행본 팝업 열기 — 메시지함 UI/UX 계승(글래스·msgUnfold·앵커)
+  closeOverlays('pubpop');
+  clearTimeout(_pubCloseTimer); pubpop.classList.remove('closing');
+  pubpop.hidden = false;
+  placePubpop();   // hidden 해제 후 배치(placePopNearMenu 폭 측정 요건)
+  if (!_pubPushed) { history.pushState({ pubpop: true }, ''); _pubPushed = true; }
+  loadPub();
+}
+function closePubUser() {   // 닫힘 = 즉시 hidden(메시지함 msgpop 동일 · 옛 popOut 슬라이드 폐지)
+  if (pubpop.hidden) return;
+  pubpop.hidden = true; pubpop.classList.remove('closing'); clearTimeout(_pubCloseTimer);
+  if (_pubPushed) { _pubPushed = false; if (_pubPop) _pubPop = false; else if (history.state && history.state.pubpop) history.back(); }
+}
+['resize', 'orientationchange'].forEach(ev => window.addEventListener(ev, () => { if (!pubpop.hidden) placePubpop(); }, { passive: true }));   // 회전·리사이즈 재배치(placeMsgpop 대칭)
+$('#pubpopX').addEventListener('click', e => { e.stopPropagation(); closePubUser(); linkpop.hidden = false; placeHeadPop(linkpop, $('#profile')); });   // 세부(발행본) X 닫힘 → 전단계 설정메뉴(linkpop) 되띄움 · stopPropagation = 버블 click이 linkpop 바깥클릭 가드(L6939)에 닿아 방금 되띄운 걸 즉시 닫는 것 차단(msgclose 동일 패턴) · 발행본은 linkpop 단일 진입이라 무조건 복원(바깥클릭·백버튼 공유 closePubUser엔 안 넣음 = 그건 전부닫기 · 운영자 260710)
+const _LOCKSVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
+const _LOCKOPENSVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 7.5-1.3"/></svg>';   // 열린 자물쇠(고리 젖혀짐) — 미잠금
+const _TRASHSVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m2 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>';
+function _pubAgeLabel(it) {   // 대기열 표기 완전 통일(운영자 260702): D-N 폐지 → qAgo(qRowHtml과 동일 함수 = 분 정밀도 포함)·색도 대기열과 동일 경계(≤60분 qt-new·≤240분 qt-mid)
+  const t = it.created ? qAgo(it.created) : '방금';
+  const am = it.created ? (Date.now() - it.created) / 60000 : 1e9;
+  const c = am <= 60 ? 'qt-new' : (am <= 240 ? 'qt-mid' : '');
+  return { t, c };
+}
+function pubRowHtml(it) {   // qRowHtml 미러: N시간 전 | 제목 | 잠금토글 | 공유 | 삭제 · 행 클릭=새 탭 열기+링크 자동복사(운영자 260702)
+  const al = _pubAgeLabel(it);
+  const ttl = it.title || '(제목 없음)', cp = [...ttl], ttlS = cp.length > 40 ? cp.slice(0, 40).join('') + '…' : ttl;
+  const pin = '<span class="pinmark ' + (it.pinned ? 'locked' : 'open') + '" data-slug="' + qEsc(it.slug) + '" role="button" tabindex="0" title="' + (it.pinned ? '잠금됨 · 눌러서 해제' : '눌러서 잠금') + '">' + (it.pinned ? _LOCKSVG : _LOCKOPENSVG) + '</span>';   // 잠금 = 클릭 토글(옛 롱프레스 600ms 폐지 · 운영자 260704 "클릭만 해도 동작")
+  const share = it.expired ? '<button class="pub-ico pub-share" type="button" disabled title="만료됨">' + SHARE_SVG + '</button>'
+    : '<button class="pub-ico pub-share" type="button" data-motion="share" title="공유">' + SHARE_SVG + '</button>';   // 공유 = navigator.share(폴백 복사) · 도형없는 픽토그램(PR 1377 복원) · 누름 = 별자리 훑기(data-motion share → ic-share · 옛 rise 대체 · 운영자 260703)
+  const rm = '<button class="pub-ico pub-rm" type="button" title="발행 취소(삭제)">' + _TRASHSVG + '</button>';   // 삭제 = 도형없는 픽토그램(무채색·hover만 빨강·:active scale 유지)
+  return '<div class="qrow' + (it.expired ? ' exp' : ' pub-open') + '"' + (it.expired ? '' : ' title="눌러서 새 탭 열기 · 링크 복사"') + '><span class="qt ' + al.c + '">' + qEsc(al.t) + '</span><span class="qmain" title="' + qEsc(ttl) + '">' + qEsc(ttlS) + '</span><span class="qact">' + pin + '</span><span class="qact">' + share + '</span><span class="qact">' + rm + '</span></div>';   // 대기열 표 미러: 시간 | 제목(…축약) | 잠금 | 공유 | 삭제 — 액션 3개 = 동일 고정폭 셀(.qact 30px=--btn-sm·가운데 정렬·행 gap 10)로 등간격·공유가 정중간(옛 .pub-acts 묶음 폐지 · 운영자 260704 "공유 중간·간격 동일") · 삭제(최우측) = 헤더 X와 세로 일직선(qh-xcell width30·qh pr14·qrow pr0 정합 · 운영자 260712)
+}
+function renderPubPage() {   // renderQueuePage 미러
+  const box = $('#pubpopList'), pg = $('#pubpopPage'); if (!box) return;
+  if (!PUBITEMS.length) { box.innerHTML = '<div class="qempty">현재 발행본 없음</div>'; if (pg) pg.innerHTML = ''; return; }
+  const pages = Math.ceil(PUBITEMS.length / QPER);
+  PUBPAGE = Math.min(Math.max(0, PUBPAGE), pages - 1);
+  const slice = PUBITEMS.slice(PUBPAGE * QPER, PUBPAGE * QPER + QPER);
+  box.innerHTML = slice.map(pubRowHtml).join('');
+  slice.forEach((it, i) => {
+    const row = box.children[i]; if (!row) return;
+    const url = location.origin + '/s/' + it.slug;
+    if (!it.expired) row.onclick = (e) => {   // 행 클릭 = 링크 새 탭 열기 + 클립보드 자동복사(버튼·잠금토글 클릭은 제외)
+      if (e.target.closest('button, .pinmark')) return;
+      copyText(url);                           // 새 탭이 포커스 뺏기 전 먼저 복사(clipboard.writeText는 포커스 필요)
+      failOpen({ url });                       // 앵커클릭 새 탭(모바일 빈모달 회피 · qGo 패턴 계승)
+      miniToast('링크를 복사했어 · 새 탭에서 열림');
+    };
+    const sbtn = row.querySelector('.pub-share'); if (sbtn) sbtn.onclick = async (e) => {   // 공유 = navigator.share, 미지원/취소 폴백=클립보드 복사+✓플래시
+      e.stopPropagation();
+      try { if (navigator.share) { await navigator.share({ title: it.title || '노뮤트 뉴스', url }); return; } }
+      catch (err) { if (err && err.name === 'AbortError') return; }   // 공유 취소 = 정상(폴백 안 함)
+      copyText(url).then(() => setTimeout(() => { sbtn.innerHTML = CHECK_SVG; sbtn.classList.add('ok'); setTimeout(() => { sbtn.innerHTML = SHARE_SVG; sbtn.classList.remove('ok'); }, 1200); }, 560));   // ✓ 교체는 별자리 훑기(≈.54s) 완주 직후 — 모션 중단 방지(운영자 260703)
+    };
+    const rbtn = row.querySelector('.pub-rm'); if (rbtn) rbtn.onclick = (e) => { e.stopPropagation(); _pubRemove(it, rbtn); };
+    const pm = row.querySelector('.pinmark'); if (pm) wirePinToggle(pm, it);   // 잠금 토글 = 클릭 → PIN 입력(운영자 260704)
+  });
+  if (pg) { pg.innerHTML = pagerHtml(pages, PUBPAGE); pg.querySelectorAll('[data-pg]').forEach(b => b.onclick = (e) => { e.stopPropagation(); PUBPAGE = +b.dataset.pg; setTimeout(renderPubPage, 0); }); }
+}
+async function _pubRemove(it, btn) {
+  if (it.pinned) return _pubRemoveLocked(it, btn);   // 잠긴 발행본 = 기존 PIN 확인 후 삭제(아래 · 운영자 260702)
+  if (btn) btn.disabled = true;
+  try {
+    const r = await fetch('api/unpublish', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ slug: it.slug }) });
+    const d = await r.json().catch(() => ({}));
+    if (r.ok && d.ok) { animateRowOut(btn && btn.closest('.qrow'), () => { PUBITEMS = PUBITEMS.filter(x => x.slug !== it.slug); renderPubPage(); _updatePubBadge(); }); }
+    else if (btn) btn.disabled = false;
+  } catch { if (btn) btn.disabled = false; }
+}
+// 잠긴 발행본 삭제 — #pindlg로 기존 PIN 확인 → api/unpublish(pin 동봉·서버 pinHash 검증). 불일치=흔들기 재입력. lockToggle 패턴 계승. ⚠️ 서버(unpublish.js)도 pinHash면 pin 필수 = 클라 우회 시에도 방어(운영자 260702).
+async function _pubRemoveLocked(it, btn) {
+  if ($('#pindlg').open) return;   // 재진입 가드(다른 PIN 흐름 진행 중)
+  openPinDlg('잠금 삭제', 'PIN 6자리 입력');
+  while (true) {
+    const pin = await _awaitPin();
+    if (pin == null) return;   // 취소(X·ESC·백드롭·폰 뒤로가기)
+    _pinBusy(true);   // 변경중 오버레이(네트워크 2~3초)
+    let d = null, ok = false;
+    try {
+      const r = await fetch('api/unpublish', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ slug: it.slug, pin }) });
+      d = await r.json().catch(() => ({}));
+      ok = r.ok && d && d.ok;
+    } catch { /* 네트워크 오류 → 아래 흔들기 */ }
+    _pinBusy(false);
+    if (ok) {
+      PUBITEMS = PUBITEMS.filter(x => x.slug !== it.slug);
+      $('#pindlg').close(); renderPubPage(); _updatePubBadge();
+      return;
+    }
+    if (!$('#pindlg').open) return;   // in-flight 중 사용자가 닫음 → 좀비 await 방지(lockToggle 패턴)
+    _pinShake(d && d.mismatch ? 'PIN이 틀렸어. 다시.' : ((d && d.error) ? String(d.error).slice(0, 40) : '실패 — 다시'));
+  }
+}
+let _pubGen = 0;
+async function loadPub() {   // loadQueue 미러(api/published)
+  const g = ++_pubGen, box = $('#pubpopList'); if (!box) return;
+  box.innerHTML = '<div class="qempty">' + (window.nmLoader?nmLoader('loading','Now loading…'):'Now loading…') + '</div>'; const pg = $('#pubpopPage'); if (pg) pg.innerHTML = '';
+  try {
+    const r = await fetch('api/published?_=' + Date.now());
+    if (g !== _pubGen) return;
+    if (!r.ok) { box.innerHTML = '<div class="qempty">네트워크 오류</div>'; return; }
+    const j = await r.json(); PUBITEMS = (j.items || []).sort((a, b) => (b.created || 0) - (a.created || 0));   // 누적은 클라가 활성 개수로 계산(j.total 미사용·운영자 260702 재정의)
+  } catch { if (g === _pubGen) box.innerHTML = '<div class="qempty">네트워크 오류</div>'; return; }
+  if (g !== _pubGen) return;
+  PUBPAGE = 0; renderPubPage(); _updatePubBadge();
+}
+function _updatePubBadge() { const c = $('#pubBtnCnt'); if (c) c.textContent = ''; }   // '발행본 (N)' 개수·괄호 폐지(운영자 260702) — 프로필 버튼엔 라벨만
+let _pubBadgeInit = false;
+function loadPubBadge() { if (_pubBadgeInit) return; _pubBadgeInit = true; (async () => { try { const r = await fetch('api/published'); const j = await r.json(); PUBITEMS = j.items || []; _updatePubBadge(); } catch {} })(); }   // 배지 = 프로필 메뉴 첫 열림 시 1회 로드(매 페이지로드 41콜 PAT 경합 방지·검증9)
+
+// ── 발행본 잠금 토글 — 자물쇠 픽토그램 롱프레스(600ms) → #pindlg PIN 입력 → api/relock(실제 공개링크 PIN 보호 토글). 잠금=새 PIN 설정 / 해제=기존 PIN 정확히(불일치=흔들기 재입력). qFeedBtn 롱프레스 패턴 계승. 운영자 260702. ──
+function _awaitPin() { return new Promise(res => { _pinResolve = res; }); }   // 6자리 채우면 resolve(값)·닫히면 resolve(null) — 기존 #pindlg 배선 재사용
+function openPinDlg(title, sub, len) {
+  _wirePin();
+  _pinRiseClear();   // 이전 '방금 PIN' 힌트 잔상 제거(stale·평문 소거 · 평의회 감사5·10)
+  _pinLen = len || 6;   // 표면별 자리수(발행본 기본 6 · 화면잠금 4 = 운영자 260706 전환)
+  const tt = $('#pinTitleTxt'); if (tt) tt.textContent = title;
+  const ss = $('#pinSub'); if (ss) ss.textContent = sub;
+  const er = $('#pinerr'); if (er) er.textContent = '';
+  const el = _pinInput(); if (el) { el.value = ''; el.setAttribute('maxlength', String(_pinLen)); }
+  const boxes = $('#pinboxes');
+  if (boxes) {
+    let sp = boxes.querySelectorAll('span.pin-slot');   // 슬롯 수 = _pinLen 동기(공유 다이얼로그 가변 · span만 = 형제 버튼 미간섭)
+    while (sp.length > _pinLen) { sp[sp.length - 1].remove(); sp = boxes.querySelectorAll('span.pin-slot'); }
+    while (sp.length < _pinLen) { const s = document.createElement('span'); s.className = 'pin-slot'; boxes.appendChild(s); sp = boxes.querySelectorAll('span.pin-slot'); }
+    boxes.classList.remove('bad', 'shake'); renderPinSlots(boxes, ''); pinEyeSet(boxes, false);   // 열 때마다 눈(전체표시) OFF 복귀(보안 기본값 · 260705)
+  }
+  _pinBusy(false);
+  if (!$('#pindlg').open) openComposeDlg($('#pindlg'));   // showModal + 폰 뒤로가기 스택(다른 모달과 동일 · #pindlg는 isComposingModalOpen 등재로 over-close 차단) · 이미 열림이면 슬롯·타이틀만 리셋(화면잠금 2단 설정 재호출용·260704)
+  // focus() 제거 = OS 숫자키보드 안 띄움(입력=커스텀 키패드 .pin-pad · 운영자 260707 "키보드 입력말고 메인 화면 입력 계승")
+}
+function _pinBusy(on) {   // 변경중(잠금/해제/삭제 2~3초 · 네트워크 왕복) — 타이틀 옆 인라인 '변경중 gdots' 표시 + 입력칸 흐림·잠금
+  const b = $('#pinBusy'); if (b) b.hidden = !on;
+  const boxes = $('#pinboxes'); if (boxes) boxes.classList.toggle('busy', on);   // 슬롯 흐림
+  const el = _pinInput(); if (el) el.style.pointerEvents = on ? 'none' : '';     // 오버레이 재입력 차단(변경중)
+}
+{ const _px = $('#pinX'); if (_px) _px.addEventListener('click', () => $('#pindlg').close()); }   // 헤더 X = 닫기 → 뒤 발행본 팝업으로 복귀(pubpop은 뒤에 유지됨)
+function _paintPinmark(pm, pinned) {   // 같은 노드 제자리 갱신 = 색 CSS transition 살림(겉면 자연 스위칭·재렌더로 노드 파괴 안 함)
+  if (!pm) return;
+  pm.classList.toggle('locked', pinned); pm.classList.toggle('open', !pinned);
+  pm.innerHTML = pinned ? _LOCKSVG : _LOCKOPENSVG;
+  const t = pinned ? '잠금됨 · 눌러서 해제' : '눌러서 잠금';   // 클릭 토글 문구(롱프레스 폐지 · 운영자 260704)
+  pm.title = t; pm.setAttribute('aria-label', t);
+}
+async function lockToggle(it, pm) {
+  if ($('#pindlg').open) return;   // 재진입 가드(키 리핏·이중 발동 → showModal 재호출 InvalidStateError 방지)
+  const locked = !!it.pinned;
+  openPinDlg(locked ? '잠금 해제' : '잠금 설정', 'PIN 6자리 입력');
+  while (true) {
+    const pin = await _awaitPin();
+    if (pin == null) return;   // 취소(X·ESC·백드롭·폰 뒤로가기)
+    _pinBusy(true);   // 변경중 오버레이(네트워크 2~3초)
+    let d = null, ok = false;
+    try {
+      const r = await fetch('api/relock', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ slug: it.slug, pin }) });
+      d = await r.json().catch(() => ({}));
+      ok = r.ok && d && d.ok;
+    } catch { /* 네트워크 오류 → 아래 흔들기 */ }
+    _pinBusy(false);
+    if (ok) {
+      it.pinned = !!d.pinned;
+      if (pm && pm.isConnected) _paintPinmark(pm, it.pinned); else renderPubPage();   // 노드 유지=색 트윈 / 소실 시 폴백
+      $('#pindlg').close();
+      return;
+    }
+    if (!$('#pindlg').open) return;   // in-flight 중 사용자가 닫음 → 숨은 다이얼로그에 흔들기·좀비 await 방지(평의회 260702)
+    _pinShake(d && d.mismatch ? 'PIN이 틀렸어. 다시.' : ((d && d.error) ? String(d.error).slice(0, 40) : '실패 — 다시'));
+  }
+}
+// 롱프레스 타이머 = 단일 공유(한 번에 하나만) + window 취소는 *모듈 1회 등록*(행마다 등록하면 window 리스너 누수 — qFeedBtn 단일등록 패턴 계승·평의회 260702)
+function wirePinToggle(el, it) {   // 잠금/해제 = 클릭 즉시 토글(옛 롱프레스 600ms 폐지 · 운영자 260704 "클릭만 해도 동작") · 키보드 Enter/Space 동일
+  el.addEventListener('click', e => { e.stopPropagation(); e.preventDefault(); lockToggle(it, el); });   // stopPropagation = 행 클릭(새 탭 열기)과 분리 유지
+  el.addEventListener('contextmenu', e => e.preventDefault());   // 모바일 길게누름 시 iOS/안드 컨텍스트 메뉴 억제(관성 롱프레스 오발 방지)
+  el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); lockToggle(it, el); } });
+}
+$('#revX').addEventListener('click', () => revdlg.close());
+revdlg.addEventListener('click', e => { if (e.target === revdlg) revdlg.close(); });   // 바깥(백드롭) 클릭 닫기
+revdlg.addEventListener('close', () => { resetRevSend(); updateRevFab(); if (!revdlg._minimizing) draftClear('#revText', updateRevClip); });   // 닫으면 재확인 해제 + FAB 재평가 + 초안 폐기(운영자 260727 — 구 "재진입 복원" 보존 규칙 철회 · 최소화만 보존)
+$('#revText').addEventListener('input', () => { resetRevSend(); });    // 텍스트 바꾸면 재확인 취소(오발사 방지) · 복사/붙여넣기/지우개는 attachCopyPaste가 처리(이미지 제작 이식·260627)
+$('#revSend').addEventListener('click', async () => {
+  if (CUR && isRevising(CUR)) { return; }   // 진행 중 재전송 차단 — silent(표기 없음·운영자 260623)
+  const instruction = $('#revText').value.trim();
+  if (!instruction) { qFlash('수정 지시를 한 줄 적어줘'); return; }   // 전 상태문구 = qFlash 토스트(팝업 내 문자열 폐지 · 운영자 260720)
+  if (!CUR) { qFlash('대상 카드를 못 찾음'); return; }
+  const btn = $('#revSend'), lbl = btn.querySelector('span');
+  if (!btn.classList.contains('confirm')) {   // 1차 클릭 = 재확인(버튼 색·라벨로만 표시 — 안내 문구 없음)
+    btn.classList.add('confirm'); if (lbl) lbl.textContent = '재확인';
+    clearTimeout(revConfirmT); revConfirmT = setTimeout(resetRevSend, 4000);   // 4초 내 재확인 없으면 원복
+    return;
+  }
+  clearTimeout(revConfirmT);                   // 2차 클릭 = 실제 전송
+  btn.classList.remove('confirm'); if (lbl) lbl.textContent = '수정';
+  btn.disabled = true; askHideCheck(btn); gaugeStart(btn);   // 게이지 = 재확인 탭 즉시 시작·응답까지 진행(옛 'fetch 후 firing'은 fetch 동안 무반응 멈춤 · 운영자 260702) · '보내는 중' 문구 없음
+  try {
+    const r = await fetch('api/revise', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ file: CUR, instruction }) });
+    const d = await r.json().catch(() => ({}));
+    if (r.ok && d.ok) {
+      gaugeDone(btn);   // 게이지 현재위치→100% 급속 마무리
+      setTimeout(() => askShowCheck(btn), 300);   // 게이지 채움완료(gdone .3s)와 물려 ✓ 팝(멈칫 제거·시안2·운영자 260703)
+      startRevising(CUR);   // 완료 폴링·자동 갱신만 시작(시각 표기 없음 · 운영자 260623)
+      setTimeout(() => { revdlg.close(); gaugeClear(btn); askHideCheck(btn); btn.disabled = false;
+        $('#revText').value = ''; updateRevClip();   // ⚠️ 입력 리셋 = 닫은 뒤(게이지 도는 1.6s 동안 빈칸이 보여 '내가 쓴 게 사라졌나' 불안 차단 · askSend와 동일 표준 · 운영자 260622·260627)
+      }, 1600);   // 닫힐 때까지 disabled(중복전송 차단)
+      return;
+    }
+    qFlash(d.error || `서버 ${r.status}`);
+  } catch { qFlash('전송 실패 (백엔드 배선 전이면 예상된 동작)'); }
+  gaugeClear(btn); btn.disabled = false;
+});
+
+// ── 이미지 재생성(코멘트 반영) — 요약 수정(revise) 미러. 대상 = 현재 기사(CUR)의 특정 화풍(TREDO_SID). api/thumbredo {article,sid,wish}. ──
+// 연필 버튼 탭 → #tredodlg 팝업(코멘트) → 1차=재확인·2차=전송(초록 게이지) → 그 슬롯에 진행바 오버레이(markSlotReshooting) → load 폴이 새 이미지(?v=) 오면 섹션 교체.
+// 헬퍼 3종(genImgOf·thumbRedoPending·markSlotReshooting)은 load()/thumbStatic가 먼저 호출하므로 function 선언(호이스팅)으로 둠.
+let TREDO_SID = '', TREDO_LAST = '', tredoConfirmT = null;   // TREDO_LAST = 직전 연 화풍(슬롯 전환 시 코멘트 잔류 차단·평의회 UX)
+function genImgOf(a, sid) { return (((a && a.cards && a.cards.thumb_gen) || []).find(g => g && g.sid === sid) || {}).img || ''; }   // 그 화풍의 현재 이미지 URL(?v= 포함) — 구 완료 판정 기준(260807 '수정 = +1장' 전환으로 호출 0 · dormant 보존)
+// ── 수정본 = +1 슬롯(운영자 260807) 판정 3종 ──
+// 구판은 '원본 img(?v=)가 바뀌면 완료'였는데, 이제 수정은 원본을 덮지 않고 파생 슬롯(photo_r2…)을 **추가**한다
+// → 원본 URL이 영영 안 바뀌므로 그 판정은 10분 타임아웃까지 완료를 못 낸다. 기준을 '그 화풍 계열 장수'로 옮긴다.
+function thumbBaseSid(sid) { return String(sid || '').replace(/_r\d+$/, ''); }   // 파생 → 베이스(photo_r3 → photo) · thumb_gen.py `_base_sid` 미러
+function genGenCount(a, base) { return ((a && a.cards && a.cards.thumb_gen) || []).filter(g => g && g.sid && thumbBaseSid(g.sid) === base).length; }   // 그 화풍 계열(원본+수정본) 장수
+function thumbRedoPendList(file) { const r = THUMB_REDO.get(file); return (r && r.snap) ? Object.keys(r.snap) : []; }   // 도착 대기 중인 수정본 화풍들 = 트랙 끝 '제작중' 슬롯 수
+function thumbRedoPending(file, sid) { const r = THUMB_REDO.get(file); return !!(r && r.snap && r.snap[thumbBaseSid(sid)] !== undefined); }   // 그 화풍이 수정 대기 중?(키 = 베이스 화풍 — 같은 화풍 연타 발사 차단)
+function markSlotReshooting(slot) {   // 슬롯 진행바 오버레이(카드 .reshoot-badge 계승 + 움직이는 바)
+  if (!slot || slot.classList.contains('reshooting')) return;
+  slot.classList.add('reshooting');
+  const b = document.createElement('div'); b.className = 'reshoot-badge';
+  b.innerHTML = window.nmLoader ? nmLoader('solving','제작중…',{size:15,gap:6,fs:12}) : '수정중<span class="gdots"><i>.</i><i>.</i><i>.</i></span>';   // 이미지 재수정 = orb(Solving · 운영자 260723 Q460) · 폴백 = 구 점3
+  slot.appendChild(b);
+}
+function updateTredoClip() { const t = $('#tredoText'); if (t) t.dispatchEvent(new Event('input', { bubbles: true })); }   // 클립(복사/붙여넣기/지우개) 갱신 — revText 패턴
+function resetTredoSend() {   // 발사 버튼 원복(재확인·게이지 해제)
+  clearTimeout(tredoConfirmT);
+  const btn = $('#tredoSend'); if (!btn) return;
+  btn.classList.remove('confirm'); gaugeClear(btn); askHideCheck(btn); btn.disabled = false;
+  const lbl = btn.querySelector('span'); if (lbl) lbl.textContent = '수정';
+}
+function openTredo(sid) {
+  if (!CUR) return;
+  if (thumbRedoPending(CUR, sid)) return;   // 이미 그 화풍 수정 중 = 무반응(중복 발사 방지 · openRev 미러)
+  if (TREDO_LAST && TREDO_LAST !== sid) { const _t = $('#tredoText'); if (_t) _t.value = ''; }   // 다른 화풍 전환 = 이전 화풍 코멘트 잔류 차단(오전송 방지·평의회 UX) · 같은 화풍 재진입은 초안 보존
+  TREDO_LAST = sid || ''; TREDO_SID = sid || '';
+  resetTredoSend();
+  updateTredoClip(); openComposeDlg($('#tredodlg'));   // 폰 뒤로가기 칸(입력 손실 방지)
+  setTimeout(() => $('#tredoText').focus(), 60);
+}
+$('#tredoX').addEventListener('click', () => $('#tredodlg').close());
+$('#tredodlg').addEventListener('close', () => { resetTredoSend(); if (!$('#tredodlg')._minimizing) draftClear('#tredoText', updateTredoClip); });   // 닫으면 재확인 해제 + 초안 폐기(운영자 260727 · revdlg 미러 — 최소화만 보존) · TREDO_LAST 화풍 잔류 차단(openTredo)과 중복이지만 이탈 축은 여기가 담당
+$('#tredodlg').addEventListener('click', e => { if (e.target === $('#tredodlg')) $('#tredodlg').close(); });   // 백드롭 탭 닫기(형제 컴포즈 모달 전부 보유 · 평의회 UX 미러)
+$('#tredoText').addEventListener('input', () => { resetTredoSend(); });  // 텍스트 바꾸면 재확인 취소(오발사 방지) · 복사/붙여넣기/지우개는 attachCopyPaste가 처리
+$('#tredoSend').addEventListener('click', async () => {
+  if (CUR && thumbRedoPending(CUR, TREDO_SID)) return;   // 진행 중 재전송 차단
+  const btn = $('#tredoSend'), lbl = btn.querySelector('span');
+  const wish = $('#tredoText').value.trim();   // 비우면 그대로 재추첨(운영자 260702)
+  if (!btn.classList.contains('confirm')) {   // 1차 = 재확인(색·라벨로만)
+    btn.classList.add('confirm'); if (lbl) lbl.textContent = '재확인';
+    clearTimeout(tredoConfirmT); tredoConfirmT = setTimeout(resetTredoSend, 4000);
+    return;
+  }
+  clearTimeout(tredoConfirmT);                 // 2차 = 실제 전송
+  btn.classList.remove('confirm'); if (lbl) lbl.textContent = '수정';
+  btn.disabled = true; askHideCheck(btn); gaugeStart(btn);   // 게이지 = 재확인 탭 즉시·응답까지 진행(옛 'fetch 후 firing' 무반응 멈춤 제거 · 운영자 260702)
+  try {
+    const r = await fetch('/api/thumbredo', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ article: CUR, sid: TREDO_SID, wish }) });
+    const d = await r.json().catch(() => ({}));
+    if (r.ok && d.ok) {
+      gaugeDone(btn);   // 게이지 현재위치→100% 급속 마무리
+      setTimeout(() => askShowCheck(btn), 300);   // 게이지 채움완료(gdone .3s)와 물려 ✓ 팝(멈칫 제거·운영자 260703)
+      const rec = THUMB_REDO.get(CUR) || { t0: Date.now(), snap: {} };   // per-화풍 등록(동일 기사 다화풍 동시 수정 추적)
+      rec.t0 = Date.now();
+      const _rb = thumbBaseSid(TREDO_SID), _fa = DATA.find(x => x.file === CUR) || CUR_A;
+      rec.snap[_rb] = genGenCount(_fa, _rb);   // 완료 기준 = 그 화풍 계열 장수(수정본이 +1되면 도착) · ⚠️ fresh 소스 — CUR_A는 open서 동결이라 재발사 시 stale→조기완료(260630 클래스) 방지(평의회 async)
+      THUMB_REDO.set(CUR, rec);
+      const _old = $('#mdbody .thumbsec'), _fresh = thumbSec(_fa);
+      if (_old && _fresh) _old.replaceWith(_fresh);   // 즉시 재렌더 = 원본은 그대로 두고 트랙 끝에 '제작중' 슬롯이 붙는다(1/2 2/2 → 1/3 2/3 3/3 · 운영자 260807)
+      setTimeout(() => { $('#tredodlg').close(); resetTredoSend(); $('#tredoText').value = ''; updateTredoClip(); }, 1600);   // 게이지 후 닫기 + 입력 리셋(닫은 뒤 = 빈칸 불안 차단)
+      return;
+    }
+    qFlash(d.error || ('서버 ' + r.status));   // 전 상태문구 = qFlash 토스트(팝업 내 문자열 폐지 · 운영자 260720)
+  } catch { qFlash('전송 실패 (백엔드 배선 전이면 예상된 동작)'); }
+  gaugeClear(btn); btn.disabled = false;
+});
+// ── PC(마우스) 전용: 팝업 모달 헤더 잡고 드래그 이동(메뉴 아님 · 운영자 260619) ──
+function makeDraggable(dlg, handleSel) {
+  if (!dlg || !window.matchMedia('(pointer:fine)').matches) return;   // 정밀 포인터(마우스)만 — 터치 제외
+  const h = dlg.querySelector(handleSel); if (!h) return;
+  h.classList.add('drag-handle');
+  let dx = 0, dy = 0, sx = 0, sy = 0, bx = 0, by = 0, bL = 0, bT = 0, W = 0, on = false;   // dx/dy=현재 오프셋 · bx/by=드래그 시작 오프셋(고정)
+  const move = e => {
+    if (!on) return;
+    let nx = bx + (e.clientX - sx), ny = by + (e.clientY - sy);   // 시작오프셋 + 시작마우스 기준 이동량 = 선형 1:1(누적 폭주 차단)
+    nx = Math.max((80 - W) - bL, Math.min((window.innerWidth - 80) - bL, nx));   // 좌우 최소 80px 노출
+    ny = Math.max(-bT, Math.min((window.innerHeight - 46) - bT, ny));            // 헤더 항상 보이게
+    dlg.style.setProperty('transform', 'translate(' + nx + 'px,' + ny + 'px)', 'important');   // 진입애니/CSS 어떤 transform보다 우선
+    dx = nx; dy = ny;   // 현재 오프셋 갱신(클램프 base·다음 드래그용 — move 계산엔 안 씀)
+  };
+  const end = () => { on = false; window.removeEventListener('pointermove', move); window.removeEventListener('pointerup', end); };
+  h.addEventListener('pointerdown', e => {
+    if (e.button !== 0 || e.target.closest('button, a, input, textarea, select, label, .dlg-prog')) return;   // 헤더 내 컨트롤 클릭은 드래그 아님
+    on = true; sx = e.clientX; sy = e.clientY; bx = dx; by = dy;   // 시작마우스 + 시작오프셋 스냅샷(드래그 동안 고정)
+    dlg.style.animation = 'none';   // 진입 애니가 transform 고정하는 것 확실 차단(fill-mode 무관)
+    const r = dlg.getBoundingClientRect();
+    bL = r.left - dx; bT = r.top - dy; W = r.width;   // 자연(translate 전) 위치 역산
+    window.addEventListener('pointermove', move);     // document 레벨 = 포인터가 헤더 밖으로 나가도 끊김 없이 추적(setPointerCapture 실패 무관)
+    window.addEventListener('pointerup', end);
+    e.preventDefault();
+  });
+  dlg.addEventListener('close', () => { dx = dy = 0; dlg.style.transform = ''; dlg.style.animation = ''; on = false; });   // 닫으면 중앙 복귀 + 애니 복원(다음 열기 재생)
+}
+[['#dlg', '.dlg-h'], ['#editdlg', '.ed-h'], ['#askdlg', '.askhead'], ['#revdlg', '.askhead'], ['#tredodlg', '.askhead'], ['#pastedlg', '.askhead'], ['#tooldlg', '.tool-h']]
+  .forEach(([d, sel]) => makeDraggable($(d), sel));
+
+// 분석/요약 완료 푸시 탭 → URL ?a=<기사파일> 진입이면 그 요약 창을 자동으로 연다.
+// ⚠️ 빌드/배포 랙: Cloudflare Pages가 push마다 build-viewer를 재실행·배포하는데, 완료 알림은 analyze 커밋 *직후*
+//    떠서 알림을 빨리 누르면 articles.json 이 아직 옛 버전(그 요약 미포함)이라 못 찾는다. 30s만 재시도하면
+//    배포(보통 30~90s, 길면 ~2분)가 안 끝나 '못 찾음→피드(메뉴)만'으로 떨어졌었음 → 재시도창을 ~2분으로 넓혀
+//    배포가 끝나는 대로 자동 오픈. 끝내 못 찾으면 조용한 메뉴착지 대신 토스트로 '곧 표시' 안내(운영자 260622).
+async function openDeepLink(tries = 0) {
+  let key = null;
+  try { key = new URLSearchParams(location.search).get('a'); } catch (_) {}
+  if (!key) return;
+  const a = DATA.find(x => x.file === key || x.file === key + '.md');
+  if (a) {
+    try { const u = new URL(location.href); u.searchParams.delete('a'); history.replaceState(history.state, '', u.pathname + u.search + u.hash); } catch (_) {}   // 새로고침 시 재오픈·재요청 방지
+    if ($('#dlg').open && CUR === a.file) return;   // 이미 그 요약이 열려있으면 그대로
+    showTab('feed'); open(a);                       // 요약은 뉴스요약 탭
+    return;
+  }
+  if (tries >= 18) {                                // 배포 랙 한계(≈2분) 초과 — 못 찾으면 피드 + 안내 토스트(조용한 메뉴착지 방지)
+    if (typeof qFlash === 'function') qFlash('요약 반영 중 — 곧 표시돼');
+    return;
+  }
+  await new Promise(r => setTimeout(r, Math.min(2000 + tries * 1000, 8000)));   // 2s→8s 점증 백오프(과도 재요청 없이 ~2분 창 확보)
+  try { await load(); } catch (_) {}
+  return openDeepLink(tries + 1);
+}
+
+// 긴급(breaking) 알림 탭 → /?brk=<키>&bl=<메이저링크> 진입. 탭 *시점*에 그 사건이 요약 완료됐나로 분기(운영자 260622):
+//   요약 완료 = 그 요약창 / 미완료 = 스크랩 기사 중 가장 메이저 링크(breaking_pick)로 이동(웹앱 먼저 뜬 뒤 이동).
+//   ⚠️ 요약을 *기다리지 않음* = 누른 그 순간 기준(요약 안 됐으면 즉시 메이저 원문). 후보(candidates) 못 찾을 때만
+//   짧게 재시도(스크랩 랙) 후 bl 폴백→수집함. ?a=(요약완료 알림)와 별개 핸들러(그건 요약 전용·장기 재시도).
+async function openBreakingDeepLink(tries = 0, key = null, bl = null) {
+  if (tries === 0) {
+    try { const sp = new URLSearchParams(location.search); key = sp.get('brk'); bl = sp.get('bl'); } catch (_) {}
+    if (!key && !bl) return;
+    if (bl && !/^https?:\/\//i.test(bl)) bl = null;   // bl 스킴 가드 — URL 쿼리서 raw로 들어오므로 javascript:/data: 차단(분신술3·10)
+    // 딥링크 파라미터를 *먼저* URL서 제거(replaceState) = 새로고침 재진입 방지(+동일탭 폴백 시 BACK 무한루프 차단).
+    //   key/bl은 지역변수로 잡아 재시도 재귀에 인자로 넘김(URL 비워도 유지 · 분신술1·4).
+    try { const u = new URL(location.href); u.searchParams.delete('brk'); u.searchParams.delete('bl'); history.replaceState(history.state, '', u.pathname + u.search + u.hash); } catch (_) {}
+  }
+  if (!key && !bl) return;
+  // 후보(candidates.json) 적재 대기 — eager loadCandidates()가 in-flight면 SCRAP_LOADING 가드로 즉시 반환되므로
+  //   SCRAP_LOADED 플립까지 짧게 폴(분신술2·3·7 = 첫 탭 ~1.2s 헛 백오프 제거).
+  for (let i = 0; i < 12 && !SCRAP_LOADED; i++) { try { await loadCandidates(true); } catch (_) {} if (!SCRAP_LOADED) await new Promise(r => setTimeout(r, 200)); }
+  const nk = key ? _normU(key) : '';
+  const c = key ? CANDS.find(x => x && (x.event_key === key || x.url === key || (x.url && _normU(x.url) === nk) || (x.event_key && _normU(x.event_key) === nk))) : null;
+  if (c) { goBreaking(c, bl); return; }   // 요약 완료?→요약창 / 미완료→가장 메이저 원문(새 탭·앱 보존)
+  if (tries >= 8) {   // 후보 못 찾음(스크랩 랙·만료) — bl(서버 계산 메이저링크) 폴백, 없으면 수집함
+    if (bl) { openExt(bl); return; }
+    showTab('scrap'); if (typeof qFlash === 'function') qFlash('긴급 기사 불러오는 중…'); return;
+  }
+  await new Promise(r => setTimeout(r, Math.min(1200 + tries * 600, 4500)));   // 후보 적재 짧은 백오프(요약을 기다리는 게 아님)
+  try { await loadCandidates(true); } catch (_) {}
+  return openBreakingDeepLink(tries + 1, key, bl);
+}
+
+// 수집 실패 알림 딥링크 — 푸시(/?msg=fail-…) 탭 시 메시지함 열고 해당 메시지 강조(운영자 260623).
+function openMsgDeepLink() {
+  try {
+    const id = new URLSearchParams(location.search).get('msg');
+    if (!id) return;
+    _msgFromMenu = false;   // 푸시 딥링크 진입 = 설정메뉴서 온 게 아님 → X 닫힘 시 linkpop 복원 안 함
+    openMsgbox(id);
+    history.replaceState(null, '', location.pathname);   // 쿼리 제거(새로고침·공유 시 재발동 방지)
+  } catch (_) {}
+}
+
+// 부팅 reveal — 첫 피드 렌더 + 배너 이미지 로드 둘 다 끝난 뒤 한 번에 노출(시계만 먼저 뜨는 FOUC 차단·운영자 260626). idempotent.
+// 전역 버튼 탭 햅틱 = 폐지(운영자 260706 5차 "PIN 입력 빼고는 진동 넣지 마") — 진동 허용 = PIN 키패드(lkFlash)만 · 향후 검색 중앙 오버레이(첨부2 글래스필) 확정 시 그 인터랙션 추가 검토
+const _bootReveal = () => { document.body.classList.add('booted'); setTimeout(() => { const _v = document.getElementById('bootveil'); if (_v) _v.remove(); }, 700); };   // 2초 홀드 폐지(운영자 260706 "항상 바로 본화면") · 준비 즉시 노출 + 배경 교차 베일(#bootveil)은 페이드(.5s) 끝난 뒤 DOM서 제거(운영자 260707 · 안전망 booted 스크립트 경로는 CSS opacity 0 + pointer-events:none로 무해)
+const _bannerReady = new Promise(res => {
+  const im = document.querySelector('.banner.layer-feed');
+  if (!im || im.complete) { res(); return; }
+  im.addEventListener('load', res, { once: true }); im.addEventListener('error', res, { once: true });
+});
+const _firstLoad = load().then(() => { openDeepLink(); openBreakingDeepLink(); });   // 첫 로드 후 딥링크 — ?a=(요약완료)→요약창 · ?brk=(긴급)→요약완료?분기
+Promise.allSettled([_firstLoad, _bannerReady]).then(_bootReveal);   // 피드·배너 준비되면 즉시 노출(실패해도 allSettled로 진행 · render는 load 안에서 동기 완료라 rAF 불필요·백그라운드 탭서 rAF 멈춰도 안전)
+// 검색·필터(viewhead) = *지금 보이는 탭*의 실제 콘텐츠와 동시 등장(운영자 260707 "미리 마중나오지 마" · 260710 "실제 내용하고 동시에 출력").
+//   구판 구멍 2개 봉합(260710 스샷 = 레거시 빈 화면에 검색만 선등장): ① 세 컨테이너 아무거나 감지 — 부팅 load()가 숨은 피드(#list)를 먼저 채우면
+//   보이는 레거시(첫 진입 기본탭 = scrap)가 빈데도 해금 ② 8s 백스톱 = 빈 화면에도 강제 노출. → 활성 탭 호스트 기준 상시 재판정(탭 전환 = showTab 훅 ·
+//   렌더/비움 = 3호스트 MutationObserver) · 빈 탭 = 픽토그램도 조용한 공백 동행(§디자인 e-가 — 검색할 콘텐츠 자체가 없음 · 콘텐츠 도착 즉시 옵저버 해금).
+const VH_HOSTS = { feed: '#list', scrap: '#scrapList', sns: '#snsList' };
+function vhSync() {
+  const el = document.querySelector(VH_HOSTS[document.body.dataset.tab] || '#list');
+  document.body.classList.toggle('vh-ready', !!(el && el.children.length > 0));
+}
+(function () {
+  vhSync();
+  const mo = new MutationObserver(vhSync);
+  Object.values(VH_HOSTS).forEach(s => { const el = document.querySelector(s); if (el) mo.observe(el, { childList: true }); });
+})();
+setTimeout(_bootReveal, 1800);   // 안전망 — load/배너가 지연·실패해도 화면 반드시 노출(영구 블랙 방지)
+
+// ── 앰비언트 웨이브 엔진(운영자 260705 확정 조합 + 260707 "1.3배 빠르게 + 릴레이 리듬" — 260706 완전순차·겹침0 지시를 운영자가 뒤집음) — 5s 무입력(터치·스크롤·키·포인터) 시
+// 활성 탭 카드(뉴스요약 #list .card · 레거시 #scrapList 컬럼 .sc-item · SNS #snsList .soc-item)가 **화면 순서**(위→아래 · 같은 줄은 좌→우 = 레거시 2열이면 좌→우→대각선 아래 좌→우)로 하나씩
+// .amb(강조 테두리+얇은 글로우+부양·CSS .amb 블록) 1.85s 점등 → **볼록이 끝나는(하강 시작) 그 순간 다음 카드가 바로 상승** = 하강(0.46s)과 다음 상승이 자연스럽게 오버랩(이어졌다 풀렸다 릴레이 · 대기 0)
+// — 운영자 260707 "끝났을때 기다렸다가 다음이 아니라 바로 이징되며 이어지는 리드미컬". 동시 최대 2개(하강1+상승1)뿐 = 옛 55% 겹침 물결(3~4개 동시)과 다름.
+// 한 바퀴 후 재수집 반복(휴지 0s·순서 고정 = 매 바퀴 동일 패턴·랜덤 셔플 폐지 → 3탭 동일 움직임).
+// 입력 즉시 전체 소등+5s 재대기. reduced-motion = 엔진 미가동 + 런타임 토글 즉응(change 리스너 · 분신1). brk/iss(긴급·이슈)도 부양(자기 색 유지 = CSS 기본무시) · 숨은 탭 카드는 rect 높이 0으로 자동 제외.
+// 실패 트레이(.sc-failtray) = 수집 제외(에러 표면은 안 띄움 — 앰버 의미색 보존 · 분신2). 잠금화면(body.scr-locked) = dialog 아니라서 별도 가드(뒤 페인트 낭비 차단 · 분신5).
+// 모달 열림·문서 숨김 = 시작 안 함(뒤 DOM 재렌더 아님·클래스 토글뿐이라 §깜빡임 가드 대상 아님 — 모달 중 뒤 움직임 자체가 산만해서 차단).
+const AMB = { idle: 5000, dur: 1850, gap: 0, rest: 0, fall: 460 };   // 1.3배속(운영자 260707: dur 2400→1850 · fall 600→460 · CSS 전이 .5/.55→.38/.42 동기) · gap 0 = 릴레이(다음 카드는 직전 볼록이 끝나는 dur 시점에 바로 상승 — fall은 클래스 잔류 시간일 뿐 대기 아님)
+const AMB_SEL = '#list .card, #scrapList .scrap-list .sc-item, #snsList .soc-item';   // 3탭 공통 후보(활성 탭만 rect로 걸림 · brk/iss 포함 = 부양 대상 · .scrap-list 스코프 = 실패 트레이 제외)
+const AMB_SEL_ON = '#list .card.amb, #list .card.amb-fall, #scrapList .sc-item.amb, #scrapList .sc-item.amb-fall, #snsList .soc-item.amb, #snsList .soc-item.amb-fall';
+let _ambT = 0, _ambStep = 0, _ambOff = 0, _ambFall = 0, _ambIdx = 0, _ambCards = [], _ambOn = false;
+const _ambRM = matchMedia('(prefers-reduced-motion:reduce)');
+function ambClear() { document.querySelectorAll(AMB_SEL_ON).forEach(c => c.classList.remove('amb', 'amb-fall')); }
+function ambStop() { _ambOn = false; clearTimeout(_ambStep); clearTimeout(_ambOff); clearTimeout(_ambFall); ambClear(); }   // fall 타이머도 추적·해제 = "전 타이머 추적" 불변식(분신1)
+function ambGuarded() { return document.hidden || document.querySelector('dialog[open]') || document.body.classList.contains('scr-locked'); }   // 웨이브 부적합 상태 3종 — scr-locked는 div라 dialog 가드에 안 걸림(분신5)
+function ambCollect() { return [...document.querySelectorAll(AMB_SEL)].map(c => ({ c, r: c.getBoundingClientRect() })).filter(x => x.r.height > 0 && x.r.bottom > 90 && x.r.top < innerHeight - 70).sort((a, b) => (Math.round(a.r.top / 24) - Math.round(b.r.top / 24)) || (a.r.left - b.r.left) || (a.r.top - b.r.top)).map(x => x.c); }   // 뷰포트 내 활성 탭 카드 → 화면 순서 정렬{top 24px 버킷(레거시 2열 같은 줄) → 좌→우 → top} = 전순서(추이적) 비교자 = V8 sort 비결정 제거(분신2 — 옛 상대오차 비교자는 비추이) · 3탭 동일 패턴
+function ambStart() {
+  if (document.hidden || _ambRM.matches) return;
+  if (typeof isComposingModalOpen === 'function' && isComposingModalOpen()) { ambKick(); return; }
+  if (ambGuarded()) { ambKick(); return; }   // 리더·라이트박스·잠금화면 = 뒤 웨이브 산만·낭비 → 보류
+  _ambCards = ambCollect(); if (!_ambCards.length) { ambKick(); return; }
+  _ambOn = true; _ambIdx = 0; ambNext();
+}
+function ambNext() {
+  if (!_ambOn) return;
+  if (ambGuarded()) { ambStop(); ambKick(); return; }
+  let c = _ambCards[_ambIdx];
+  if (c && !c.isConnected) { _ambCards = ambCollect(); _ambIdx = 0; c = _ambCards[0]; if (!c) { ambStop(); ambKick(); return; } }   // livePoll 재렌더로 스냅샷 실효 → 즉시 재수집(옛 3.3s×잔여장수 데드타임 봉합 · 분신2)
+  if (c) {
+    c.classList.remove('amb-fall'); c.classList.add('amb');
+    _ambOff = setTimeout(() => { c.classList.remove('amb'); c.classList.add('amb-fall'); _ambFall = setTimeout(() => c.classList.remove('amb-fall'), AMB.fall); }, AMB.dur);
+  }
+  _ambIdx++;
+  let next = _ambCards.length === 1 ? AMB.dur + AMB.fall + 300 : AMB.dur + AMB.gap;   // 릴레이(운영자 260707): 직전 볼록이 끝나는(하강 시작) dur 시점에 다음 카드 바로 상승 = 하강·상승 오버랩 리듬(260706 완전순차 대체) · 카드 1장뿐인 탭은 예외 = 같은 카드 재점등이라 하강 완주+300ms 쉼(안 그러면 remove→add 동일 프레임 = 전이 0 = 영구 볼록 고정)
+  if (_ambIdx >= _ambCards.length) { _ambIdx = 0; next += AMB.rest; _ambCards = ambCollect(); if (!_ambCards.length) { ambStop(); ambKick(); return; } }   // 한 바퀴 = 휴지 + 재수집(스크롤·재렌더 대응 · 순서 고정 = 화면 위치 정렬이라 매 바퀴 동일)
+  _ambStep = setTimeout(ambNext, next);
+}
+function ambKick() { clearTimeout(_ambT); if (_ambOn) ambStop(); if (_ambRM.matches) return; _ambT = setTimeout(ambStart, AMB.idle); }   // _ambOn 가드 = 입력 핫패스(스크롤·이동 60~120Hz)서 무의미한 querySelectorAll 반복 차단 — 안전성: _ambOn=false ⟺ amb 클래스·라이브 타이머 0 불변식(분신4 증명 · fall 타이머는 _ambOff 콜백서만 생성 = _ambOn 하에서만)
+const _ambEvs = ['pointerdown', 'wheel', 'touchstart', 'keydown', 'scroll'];
+if (matchMedia('(hover:hover) and (pointer:fine)').matches) _ambEvs.push('pointermove');   // pointermove = 데스크톱만 — 폰 터치 이동은 scroll/touchstart가 이미 커버 = 모바일 핫패스 슬림(분신4)
+_ambEvs.forEach(ev => addEventListener(ev, ambKick, { passive: true, capture: true }));   // capture = 내부 스크롤러 포함 전 입력이 유휴 리셋
+document.addEventListener('visibilitychange', ambKick);
+if (_ambRM.addEventListener) _ambRM.addEventListener('change', ambKick);   // 유휴 중 OS "동작 줄이기" 토글 즉응 — 진행 중 웨이브 즉시 정지·재개 판단(분신1 中)
+ambKick();
+loadRevising();   // 새로고침 전 진행 중이던 수정 복원(잠금·완료감지·라이브 전환 유지)
+loadCardFire();   // 새로고침 전 발사해둔 카드 프롬프트 임시상태 복원(로더 유지·완료감지)
+loadMessages().then(() => openMsgDeepLink());   // ?msg=fail-… (수집 실패 푸시 탭) → 메시지함 열고 강조
+// ⑭ 지진 알림 탭(/?dis=1) → 안전(재난문자) 섹션 착지(운영자 260802) — openMsgDeepLink 문법 미러(쿼리 제거까지 동일).
+//   트렌드가 아직 안 실렸을 수 있어 loadTrends 뒤에 간다(섹션이 없으면 goDisSec가 조용히 빠져 '눌러도 아무 일 없음'이 되는 걸 차단).
+(function openDisDeepLink() {
+  try {
+    if (new URLSearchParams(location.search).get('dis') !== '1') return;
+    history.replaceState(null, '', location.pathname);   // 쿼리 제거(새로고침·공유 시 재발동 방지)
+    Promise.resolve(loadTrends()).then(() => goDisSec()).catch(() => goDisSec());
+  } catch (_) {}
+})();
+loadHealth();       // eager — 맞춤법 검사기 건강(불건강이면 프로필 노란 링 + 메시지)
+loadCandidates();   // eager — 속보(breaking) 감지로 링/토스트(수집함 미진입이어도 알림)
+loadPickFails();    // eager — 픽 분석 실패(전문 필요) 감지로 앰버 링/토스트(수집함 밖에서도 알림)
+loadPending();      // eager — 대기열 처리중 건수 배지 초기 표시(탭 무관·발견성)
+// 라이브 자동 갱신 — 보일 때만 60초마다 피드(load)+수집함+메시지 재확인. location.reload 아님(보던 화면·탭 유지) ·
+// quiet=수집함 목록 안 흔듦 · 다이얼로그 열림은 load() 가드가 펼친 기사 보존 · 피드 위로 튕기면 스크롤 복원. (운영자 260620)
+// ⚠️⚠️ 깜빡임 재발 방지 게이트(필수 참조 · 260627) ─────────────────────────────────
+// 작성(텍스트 입력) 모달이 떠 있는 동안 뒤 DOM(피드·#mdbody)을 폴링·타이머·render()가 다시 그리면
+// 배경이 '번쩍'인다 — ① askdlg·pastedlg·editdlg = 자기 ::backdrop 블러(7px) 재합성 ② revdlg·crevdlg =
+// ::backdrop 투명이라(L1750 .revdlg) 아래 #dlg 내용 교체가 그대로 비쳐 번쩍(#dlg blur는 L1752에서 끔).
+// 어느 쪽이든 진짜 원인 = '모달 뒤 DOM이 바뀌는 것'(블러 재합성이든 내용 교체든). 입력 중 60초 livePoll·
+// 1초 시계·revise/카드수정 완료 폴·moreimg 폴이 겹치면 간헐 깜빡임 = 운영자 보고 현상. ∴ 작성 모달 열림 중엔 배경 재렌더를 보류(닫으면 다음 틱 따라잡음).
+// 🔧 유지보수 규칙(필수): 새 폴링·자동갱신·setTimeout/setInterval·render 경로가 *모달 뒤 DOM*을 건드리면 반드시 이 가드로 감쌀 것
+//                  (moreImgGo tick의 thumbsec 교체도 이 가드 적용 = 분신술7 발견분). 새 작성 모달 만들면 id를 아래 목록에 추가. (정본=이 주석 + docs/작업이력.md §2)
+function isComposingModalOpen() {
+  return ['#revdlg', '#crevdlg', '#tredodlg', '#askdlg', '#pastedlg', '#editdlg', '#pubdlg', '#pindlg', '#genidlg', '#snsaccdlg', '#trviewdlg', '#trefdlg', '#tooldlg', '#dlgrab', '#chdaydlg', '#chpostdlg'].some(s => { const d = $(s); return !!(d && d.open); });   // #pindlg=발행본 잠금 PIN(pubpop 위 top-layer) → 폰 뒤로가기 시 pindlg만 닫고 pubpop 유지·over-close 차단(평의회 260702) · #genidlg=이미지 생성 팝업(옵션 고르는 중 배경 재렌더 보류 · 260707) · #snsaccdlg=구독 계정 모달(누락 시 시계·폴 갱신마다 ::backdrop 재샘플 셔머 — 평의회 260711) · #tooldlg=제작 도구 셸(Image/Video Studio · 운영자 260727 "화면마다 번쩍번쩍" 실측 진범 — 셸이 ::backdrop blur7을 상속하는데 가드 미등재라 스튜디오 여는 내내 뒤 시계가 초당 1회 innerHTML 교체 → 매초 재샘플 셔머{헤드리스 12s/12건 실측} · 최소화(minimizeTool=close)·닫기 = .open false로 폴 즉시 재개) · #dlgrab=다운로드 모달(주소 입력 = 작성 계열) · #chdaydlg·#chpostdlg=채널 일별 상세·게시물 탐색(동일 누락 · 읽는 중 뒤 갱신 셔머)
+}
+// 요약 리더(#dlg) 폰 뒤로가기 = 모달 먼저 닫기(lbox/tooldlg/merge 패턴 계승·§🎨·260630 QA ③). 상위 오버레이(컴포즈·라이트박스·도구·대기열·병합)·컴포즈 자기칸 회수 back은 그쪽 몫 → #dlg over-close 차단.
+window.addEventListener('popstate', () => {
+  if (_composeRecovering) return;
+  if (history.state && history.state.dlg) return;   // ⚠️ 핵심 가드: 내 {dlg} 칸이 *아직 현재* = 상위 오버레이(lbox/tooldlg 등)만 pop됨 → #dlg 유지. dialog.close()는 .open을 *동기* false로 바꿔(close 이벤트만 비동기) 먼저 등록된 lbox(3156)/tooldlg(6580) 핸들러가 자기 모달을 동기 close하면 아래 .open 가드가 무력화돼 #dlg까지 닫던 over-close를 차단(등록순서·동기 close에 면역 · 검증4 적대 발견 · 260630 QA ③)
+  if (isComposingModalOpen() || (LBOX && LBOX.open) || (tooldlg && tooldlg.open) || !qpop.hidden || MERGE_MODE) return;   // 2차 안전망(컴포즈는 #dlg보다 늦게 등록=가드 유효)
+  const d = $('#dlg');
+  if (d && d.open) { _dlgPop = true; d.close(); }
+});
+// ⚠️ (원복 260701) #askdlg 키보드 가림 보정(visualViewport로 marginTop을 12px로 당겨 위로 올림) 제거 —
+//   텍스트영역 포커스 시 창이 화면 최상단으로 점프하는 문제(운영자 보고)로 변경 직전 상태 원복.
+//   → 모달은 CSS 위치(margin:30dvh·max-height:calc(70dvh-28px)·overflow:auto)를 그대로 유지(키보드 열려도 자리 고정·내부 스크롤로 접근).
+// ── 작성 모달 폰 뒤로가기 = 모달 먼저 닫기(입력 손실 방지 · §🎨 "모달+폰뒤로가기 = pushState/popstate" lbox/tooldlg 패턴 계승 · 분신술6 발견 · 260627) ──
+// 작성 모달(ask·rev·crev·paste·edit)을 openComposeDlg로 열면 history 칸 1개 push → 폰 뒤로가기 1번 = 그 모달만 닫고 앱 안 벗어남(입력 유지).
+// 다른 경로(X·백드롭·ESC·전송완료 close())로 닫히면 push한 칸을 history.back()으로 회수(잔류 칸 = 다음 뒤로가기 2번 눌러야 하는 것 방지).
+// ⚠️ 단일 추적자(_composeDlgPushed) → 스택 배열로 교체 (평의회 5인 260628): 최소화로 컴포즈 모달이 *겹치면*(editdlg 최소화 → revdlg 열기 → editdlg 복원 = 둘 다 open) 단일 변수가 마지막 것으로 덮어써져, 가려진 모달이 자기 history 칸을 회수 못 하던 orphan 버그(X·뒤로가기가 부모 레벨로 안 감). 스택은 *열린 컴포즈 모달 전부*를 추적 → 각자 자기 칸을 정확히 1회 회수. 닫기는 항상 LIFO(showModal inert로 최상위만 상호작용 = top부터 닫힘)라 history.back()이 top 칸을 정확히 pop. popping 표식은 per-modal(dlg._composePopping).
+let _composeDlgStack = [], _composeRecovering = false;   // 스택 = history 칸을 가진(열려있는) 컴포즈 모달들(push 순서·맨 뒤=최상위) · _composeRecovering = 닫힌 모달이 자기 칸 회수로 부른 back인지(그 popstate는 다음 모달을 닫으면 안 됨)
+function openComposeDlg(dlg) {
+  if (!dlg) return;
+  if (isLocked()) return;   // 잠금화면 뜬 동안엔 어떤 컴포즈 모달도 열지 않음 — top-layer라 z로 못 막는 dialog가 딥링크/async로 잠금 위에 뜨는 레이스 차단(lockNow의 1회 close 보완 · 평의회3 260705)
+  if (!dlg._composeHistBound) {   // close 시 칸 회수 = 모달당 1회만 바인딩(showModal 사이트 5곳 외 close 사이트 안 건드림)
+    dlg._composeHistBound = true;
+    dlg.addEventListener('close', () => {   // ⚠️ <dialog>.close()의 close 이벤트는 비동기(queued) → popping 리셋은 *여기서*(동기 리셋하면 이 핸들러가 볼 땐 이미 false라 back 중복)
+      const i = _composeDlgStack.indexOf(dlg); if (i < 0) return;   // 이 모달이 칸을 안 가졌으면(이미 회수·composeDlg 외 경로) 무시
+      _composeDlgStack.splice(i, 1);                                // 자기 칸 제거(겹쳐 있어도 자기 것만)
+      const wasPopping = dlg._composePopping; dlg._composePopping = false;
+      if (!wasPopping && history.state && history.state.composeDlg) { _composeRecovering = true; try { history.back(); } catch { _composeRecovering = false; } }   // X·ESC·백드롭·전송완료·최소화 = push한 칸 회수(popstate 경로면 이미 소비 → 생략). ⚠️ 내 칸이 history top일 때만 back(no-op back에 _composeRecovering stuck·非LIFO 오취소 방지 — 평의회 V1/V2/V3). _composeRecovering = 이 back의 popstate가 *아래 모달·뒤 오버레이까지* 닫는 cascade/누수 차단 표식(compose 핸들러만 소비·리셋 · 타 popstate 핸들러는 첫 줄서 무시)
+    });
+  }
+  dlg.showModal();
+  try { history.pushState({ composeDlg: true }, ''); if (_composeDlgStack.indexOf(dlg) < 0) _composeDlgStack.push(dlg); } catch {}   // includes 가드 = 같은 모달 이중 push 방지(정상 흐름엔 닫힐 때 pop돼 없음)
+}
+window.addEventListener('popstate', () => {   // 폰 뒤로가기 = 최상위 열린 컴포즈 모달부터 닫기(스택 top · 다른 모달 popstate 핸들러는 자기 모달 open일 때만 동작 = 무충돌)
+  if (_composeRecovering) { _composeRecovering = false; return; }   // 자기 칸 회수용 back = 무시(겹친 아래 모달 닫지 않음 = 한 번에 한 레벨만)
+  const top = _composeDlgStack[_composeDlgStack.length - 1];
+  if (top && top.open) {
+    top._composePopping = true;     // close 이벤트(비동기)가 이 플래그를 보고 back 생략 후 스스로 리셋
+    top.close();
+  }
+});

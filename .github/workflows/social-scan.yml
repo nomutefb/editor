@@ -93,3 +93,11 @@ jobs:
           if-no-files-found: warn
       - name: Core self-check (sample · 마지막 — out 덮어써도 발행 후라 무관)
         run: python3 scraper/social_burst.py --sample
+      - name: Preserve results when repository save fails
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: recovery-${{ github.job }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/editor-recovery/
+          if-no-files-found: ignore
+          retention-days: 3

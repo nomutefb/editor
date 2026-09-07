@@ -96,6 +96,8 @@ const STUB_FN = `(on) => {
     const st = await startServer(); srv = st.srv;
     browser = await chromium.launch({ executablePath: chromiumPath() });
     const pg = await browser.newPage({ viewport: { width: 390, height: 844 } });
+    // Prior production results are not part of this interaction fixture.
+    await pg.route(/\/thumb-hist\.json(?:\?|$)/, route => route.fulfill({ status: 200, contentType: 'application/json', body: '[]' }));
     pg.on('pageerror', e => errs.push(String(e.message).slice(0, 160)));
     await pg.goto('http://127.0.0.1:' + st.port + '/', { waitUntil: 'domcontentloaded', timeout: 25000 });
     await pg.waitForTimeout(1800);
@@ -162,7 +164,7 @@ const STUB_FN = `(on) => {
     const s11 = await tf.evaluate(S => {
       const j = JOBS[0]; if (!j) return { ok: false };
       j.status = 'done'; j.done = (j.outs || [{}]).map(() => true); renderJob(j);   // 완료 전이 시뮬(렌더 경로 실코드)
-      const mr = document.getElementById('job-' + j.n).querySelector(S.jmore);
+      const mr = document.getElementById('job-' + j.uid).querySelector(S.jmore);
       return { ok: !!mr, label: mr ? mr.textContent.trim() : '', gated: !!(j.payload && j.endpoint && j.gfree) };
     }, SEL);
     ok('S11 완료 카드 = 한 장 더 노출(payload 게이트 충족)', s11.ok && s11.label.indexOf('한 장 더') >= 0 && s11.gated, JSON.stringify(s11));
@@ -179,7 +181,7 @@ const STUB_FN = `(on) => {
     await tf.evaluate('(' + STUB_FN + ')(false)');   // 스텁 해제 = 실서버(POST 미지원) 실패 경로
     const s13 = await tf.evaluate(async S => {
       const j = JOBS[0]; j.status = 'done'; j.done = j.outs.map(() => true); renderJob(j);
-      const mr = document.getElementById('job-' + j.n).querySelector(S.jmore);
+      const mr = document.getElementById('job-' + j.uid).querySelector(S.jmore);
       mr.click();
       await new Promise(r => setTimeout(r, 600));
       return { txt: mr.textContent.trim(), enabled: !mr.disabled };

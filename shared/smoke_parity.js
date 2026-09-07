@@ -232,6 +232,8 @@ async function runOnce(pg) {
     const runs = [];
     for (let i = 0; i < 2; i++) {   // 결정론 2회(뷰포트 고정 = 크로스-탭 등가는 뷰포트 무관 축)
       const pg = await browser.newPage({ viewport: { width: 1012, height: 1218 } });
+      // Prior production results are not part of this interaction fixture.
+      await pg.route(/\/thumb-hist\.json(?:\?|$)/, route => route.fulfill({ status: 200, contentType: 'application/json', body: '[]' }));
       const errs = [];
       const reqLog = { ext: [], api: [] };
       pg.on('request', rq => { const u = rq.url(); if (!u.startsWith('http://127.0.0.1:') && !u.startsWith('data:') && !u.startsWith('blob:')) reqLog.ext.push(u.slice(0, 60)); if (u.includes('/api/')) reqLog.api.push(u.slice(0, 60)); });

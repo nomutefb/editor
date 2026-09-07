@@ -1,6 +1,6 @@
 # LOVE 마퀴 펫 에셋 재작화기(260704 v4 · 운영자 "LOVE 크기 원본 유지") — v3 전구 테두리 전광판은 유지하되,
 # LOVE♥ 텍스트의 120% 확대·세로중앙정렬을 롤백해 원본 크기·원본 코럴색으로 복원.
-# 입력 = v2 원본(전구·120% 이전): _versions/260703_2119_배너_LOVE마퀴펫/love_marquee.webp
+# 입력 = v2 원본(전구·120% 이전): assets/source/love_marquee_original.webp
 # 출력 = viewer/love_marquee.webp. 전구 테두리+크림 패널+플레이트+펫 = 유지 · LOVE♥ = v2 원본 크롭(원본 크기)을 원위치 합성.
 # 펫 복원 = 정적 기준프레임(f70) 차분 + 공간 게이트(x≥188 ∨ 플레이트 위) — 옛 텍스트 고스트 차단.
 # ⚠ 수동 실행 전용(워크플로·훅 미배선 — 평의회 o9 260718) · 기본 산출 viewer/love_marquee.webp = Q169에서 레포 제거(소비 0·마퀴 폐지 260705) — 재생성 = 로컬 확인용, 커밋 재개는 운영자 지시로만.
@@ -8,8 +8,8 @@ import math, sys
 import numpy as np
 from PIL import Image, ImageDraw
 
-SRC = '_versions/260703_2119_배너_LOVE마퀴펫/love_marquee.webp'   # v2 원본(전구·120% 이전 = 원본 크기 텍스트 보유)
-PLATE_SRC = '_versions/260704_0720_마퀴펫_LOVE원본크기복원/love_marquee.webp'  # 직전 v3(반듯한 NOW SHOWING 플레이트 — v2 원본은 라벨이 기울어져 크롭 어긋남)
+SRC = 'assets/source/love_marquee_original.webp'   # v2 원본(전구·120% 이전 = 원본 크기 텍스트 보유)
+PLATE_SRC = 'assets/source/love_marquee_plate.webp'  # 직전 v3(반듯한 NOW SHOWING 플레이트 — v2 원본은 라벨이 기울어져 크롭 어긋남)
 OUT = sys.argv[1] if len(sys.argv) > 1 else 'viewer/love_marquee.webp'
 
 # ── 실측 기하(f70 기준) ──

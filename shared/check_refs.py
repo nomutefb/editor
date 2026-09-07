@@ -5151,7 +5151,7 @@ def check_model_ids():
 # SSOT + 규칙·큐레이션 정본 문서(로그류 큐/이력 제외). 기존 미등재 = _GATE_DOC_BASELINE 면책(품질 유지 =
 # 대량 소급 문서화 강제 안 함 · 신규만 래칫 · 베이스라인 = 소급 문서화 TODO·축소 지향). 자기 자신
 # (check_gate_docs)도 대상 = SSOT §6·CLAUDE.md [15] 등재(자기참조 정합).
-_GATE_DOC_CANON = ('CLAUDE.md', '디자인기틀/디자인기틀_SSOT.md', '디자인기틀/CII_컴포넌트계승인덱스.md',
+_GATE_DOC_CANON = ('docs/current-contracts.md', 'CLAUDE.md', '디자인기틀/디자인기틀_SSOT.md', '디자인기틀/CII_컴포넌트계승인덱스.md',
                    'docs/라우터_법령전문.md', 'docs/실행계약_전문.md', '디자인기틀/플레이그라운드_포터블.md',
                    'docs/curation-algorithm.md', 'docs/curation-rubric.md')
 _GATE_DOC_BASELINE = frozenset({   # 260723 스냅샷 = 소급 문서화 대상(신규 추가 = 문서화 회피라 지양 · diff 가시 · 축소 지향)
@@ -5784,7 +5784,7 @@ def check_land_share():
     #   JSONDecodeError 로 죽고 `to_candidates.load_json` 은 예외를 삼켜 **[] 로 폴백** = grade·breaking 도장과
     #   first_seen 이력이 통째로 소실 · api/candidates 는 깨진 JSON 을 서빙). 판별 = 꼬리 개행 + `*.json` 배제
     #   (여러 줄인 스냅샷 = `viewer/insta_data.json` 13,151줄·꼬리 개행 없음 → 「줄 2개 이상」류로는 못 막는다).
-    if 'case "$mod" in *.json)' not in code or 'tail -c 1 "$mod"' not in code:
+    if 'case "$mod" in *.jsonl|*/seen_urls.txt|seen_urls.txt)' not in code or 'tail -c 1 "$mod"' not in code:
         bad.append('③-b 합집합 대상 판별 소실 — 통짜 스냅샷(JSON)에 줄 합집합이 걸려 파일이 이어붙어 깨진다(260817 실사고)')
     # ⚠⚠ 260820 실사고 — ②는 남이 **얹은** 것의 삭제만 본다. 남이 **고친** 것을 우리 옛 사본으로
     #   되돌리는 것은 수정(M)이라 ②를 빠져나가고 ③은 *.json 을 배제하므로 어느 층에도 안 걸린다.
@@ -10277,6 +10277,8 @@ def check_algo_ledger():
 
 
 def main():
+    if subprocess.run(['node', os.path.join(ROOT, 'shared', 'build_shell.mjs'), '--check'], cwd=ROOT).returncode:
+        return 1
     _gate_hits_install()   # 전 check_* 자동 계측(호출부 0줄 수정 · 새 게이트도 자동 편입 — check_gate_hits 참조)
     fails = check_paths() + check_versions() + check_inject_dividers() + check_inject_markers() + check_conflict_markers() + check_workflow_yaml() + check_git_idiom()
     rc = 0

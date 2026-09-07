@@ -1,0 +1,735 @@
+function renderChips() {
+  const c = $('#chips'); if (!c) return;
+  const none = !FILTERS.cats.size && !FILTERS.issue;
+  let h = `<button class="chip chip-all${none ? ' on' : ''}" data-f="all">전체</button>`;
+  h += `<button class="chip chip-iss${FILTERS.issue ? ' on' : ''}" data-f="issue">이슈</button>`;   // 이슈 = 긴급+이슈 통합 토글(켜면 breaking·issue 둘 다 표시·운영자 260621)
+  h += CHIP_CATS.map(cat => { const on = FILTERS.cats.has(cat); return `<button class="chip${on ? ' on' : ''}" data-cat="${cat}">${cat}</button>`; }).join('');   // 무채색 통일 — 활성 칩 = 중립 흰색(.chip.on)·카테고리 고유색 inline 제거(운영자 260629 · 카드 카테고리색 CAT_COLOR는 불변)
+  c.innerHTML = h;
+}
+
+let LOAD_SEQ = 0;   // load() 세대 토큰 — 복귀 핸들러·60s 폴·탭전환이 겹칠 때 늦게 도착한 옛 응답이 새 DATA를 덮는 out-of-order 차단(QA7 선존 지적 260706)
+async function load() {
+  const _g = ++LOAD_SEQ;
+  try {
+    const r = await fetch('articles.json?_=' + Date.now());
+    const j = await r.json();
+    if (_g !== LOAD_SEQ) return;   // stale 응답 폐기 — 더 새 load가 떠 있음(그쪽이 렌더)
+    DATA = j.articles || [];
+    FEED_GEN = j.generated || '';   // 이 피드가 만들어진 배포본 시각 — 대기열 lag 행이 '어디까지 반영됐나'를 그 자리서 말한다(배포 적체 진단 · 260803)
+    dateHead(j.count || DATA.length);
+  } catch(e) { if (_g !== LOAD_SEQ) return; if (!DATA_LOADED) DATA = []; const d = $('#dhCnt'); if (d) d.textContent = 'articles.json 없음'; }   // last-good 유지(분신8 260706): 60s 폴 중 네트워크 blip 1회에 피드 전체가 '결과 없음'으로 비워지던 것 차단 — 첫 로드 실패만 빈 상태
+  const _firstLoad = !DATA_LOADED; DATA_LOADED = true;   // 첫 로드 완료 표시
+  render();
+  if (_firstLoad && CURTAB === 'scrap' && SCRAP_LOADED) renderScrap();   // 첫 DATA 도착 = 수집함 1회 재렌더(pickInFeed 정확·Picking 깜빡 보정)
+  if ($('#dlg').open && CUR) {
+    const a = DATA.find(x => x.file === CUR);
+    if (a) await ensureDetail(a);   // 폴링이 DATA를 통째 교체 → 열린 기사의 lazy body/md 재로드(없으면 재렌더가 빈 카드로 깨짐)
+    // 상태 안 바뀌면 재렌더 생략 — 60초 폴링이 펼쳐둔 프롬프트를 도로 접는 것 방지
+    if (a && ((a.cards && a.cards.state) || '') !== CUR_STATE) { cardSec(a); feedSec(a); }
+    // 썸네일 섹션 라이브 동기화 — 픽 직후 '생성 중' 자리표시를 thumb_gen 도착 시 실제 썸네일로 자동 교체(폴링). 수동 '다시 만들기'(THUMB_REDO)는 아래 전용 경로가 처리하므로 제외.
+    if (a && !THUMB_REDO.has(CUR)) {
+      const cur = $('#mdbody .thumbsec'), sig = thumbSecSig(a);
+      if ((cur ? cur.dataset.sig : '') !== sig) {
+        const fresh = thumbSec(a);
+        if (cur && fresh) cur.replaceWith(fresh);
+        else if (cur) cur.remove();
+        else if (fresh) { const h1 = $('#mdbody h1'); (h1 ? h1.insertAdjacentElement('afterend', fresh) : $('#mdbody').insertAdjacentElement('afterbegin', fresh)); }
+      }
+    }
+  }
+  // 변경 발사 후 자동 제자리 교체 — Map에서 새 이미지(?v 갱신) 온 카드만 빼고 1회 재구성(스크롤 보존).
+  if (REPENDING.size && $('#dlg').open && CUR) {
+    const a = DATA.find(x => x.file === CUR), c = a && a.cards;
+    if (c && c.images && c.images.length) {
+      const model = buildFeedModel(a); let swapped = false;
+      for (const [k, v] of [...REPENDING]) {
+        if (v.file !== CUR) continue;
+        // 완료판정 = oldImg(발사 시점 card.versions[cur].image)와 *같은 소스*인 model.versions[cur].image로 비교.
+        // ⚠️ c.images[slot](R2/name 경로)은 versions 경로(oldImg)와 URL 체계가 달라, 2판+(이미 한 번 수정) 카드선
+        //    내용 무관 항상 !== → 첫 폴(빌드 전)에 조기 '완료' 오판 → 옛 이미지로 되돌리고 폴 중단 = 미반영(운영자 260630).
+        const mm = model.find(m => m.n === v.card);
+        const newImg = mm ? ((mm.versions[mm.cur] || {}).image || null) : null;
+        if (newImg && newImg !== v.oldImg) { REPENDING.delete(k); swapped = true; }
+      }
+      if (swapped) {   // 새 이미지(+버전) 반영 — 캐러셀 위치 보존하며 피드 재구성(고정 UI가 현재 사진에 재바인딩)
+        const tr = $('#feedsec .feedtrack');
+        const keepIdx = tr ? Math.round(tr.scrollLeft / (tr.clientWidth || 1)) : 0;
+        feedSec(a, keepIdx);
+      }
+    }
+  }
+  // 썸네일 '수정·재생성' 완료 감지 — per-sid: 그 화풍 img(?v=)가 바뀌면 그 sid만 해제. 어느 하나 완료 시 섹션 재렌더(완료분=새 이미지 · 잔여분=진행바 유지=thumbStatic 복원)·6분 타임아웃.
+  if (THUMB_REDO.size && $('#dlg').open && CUR && THUMB_REDO.has(CUR)) {
+    const a = DATA.find(x => x.file === CUR);
+    if (a) {
+      const rec = THUMB_REDO.get(CUR); let dirty = false;
+      for (const base of Object.keys(rec.snap || {})) {
+        if (genGenCount(a, base) > rec.snap[base]) { delete rec.snap[base]; dirty = true; }   // 그 화풍 계열이 +1장 = 수정본 도착(운영자 260807) — 구판은 원본 img ?v= 변화를 봤는데 이제 원본은 안 바뀐다
+      }
+      if (Date.now() - rec.t0 > 600000) {   // 10분 타임아웃(러너 큐+Pages 배포로 6분 초과 가능·평의회 async)
+        THUMB_REDO.delete(CUR); dirty = true;
+        if (typeof qFlash === 'function') qFlash('이미지 수정이 지연되거나 실패했을 수 있어 — 안 바뀌면 다시 시도해', WARN_SVG);   // 무피드백 침묵 타임아웃 해소(revise 20분 폴백 패턴 계승)
+      } else if (!Object.keys(rec.snap || {}).length) THUMB_REDO.delete(CUR);   // 전부 완료(방어적 ||{} — 평의회 통합)
+      if (dirty) {
+        const old = $('#mdbody .thumbsec'), fresh = thumbSec(a);
+        if (old && fresh) old.replaceWith(fresh); else if (old) old.remove();
+      }
+    }
+  }
+  reapplyReshooting();   // 재렌더(상태변화·교체)로 사라진 대기 카드 잠금 배지 재적용
+}
+
+let _feedSig = '';   // 피드 렌더 시그니처(행·상태·필터) — 직전과 동일하면 재애니 생략(미세 깜빡임 방지)
+function render() {
+  const q = $('#q').value.trim().toLowerCase();
+  const cardonly = $('#cardonly').checked;
+  const rows = DATA.filter(a =>
+    (!cardonly || hasCardImage(a)) &&
+    (!q || ((a.title||'')+' '+(a.title_orig||'')+' '+(a.media||'')).toLowerCase().includes(q)) &&   // 외신 = 번역 제목(a.title)·원문(title_orig) 둘 다 검색 매칭(260703) · ||'' 가드+공백구분자(평의회4: null/undefined 리터럴 오매칭·필드경계 오매칭 차단 = scrap/sns 필터와 통일)
+    (!FILTERS.cats.size || FILTERS.cats.has(articleCat(a))) &&
+    (!FILTERS.issue || feedBrk(a) || a.issue));   // 이슈 필터 = 긴급(breaking·속보 — feedBrk = grade 게이트 내장 = 배지와 동일 술어)+이슈(a.issue = 빌드타임 issEligible: cross≥10·grade게이트·정형컷 260702) 통합. ⚠️ 구판 raw a.breaking||/속보/ 는 grade 무게이트라 g1 경미가 이슈 필터에 섞였다(운영자 260810 · 배지와 같은 축으로 통일)(a.issue = 빌드타임 issEligible: cross≥10·grade게이트·정형컷 260702) 통합
+  const list = $('#list');
+  if (!rows.length) { list.innerHTML = (q || cardonly || FILTERS.cats.size || FILTERS.issue) ? '<div class="empty">결과 없음</div>' : '<div class="ghost-card" aria-hidden="true"></div><div class="ghost-card" aria-hidden="true"></div>'; _feedSig = ''; return; }   // 빈 기본 탭 = 고스트 카드 실루엣 2장(운영자 260712 Q2-ⓐ 승인 — 평의회⑩ 1순위 '기본 착지 백지' · 산문 0 = §디자인 e 정신 유지 · 검색·필터 걸렸을 때만 '결과 없음' 피드백)
+  // 깜빡임 방지: 행 구성·상태·필터가 직전 렌더와 동일하면 스태거(cardIn) 애니 생략 — 탭 전환·60초 폴의 *동일 데이터* 재렌더가 카드 페이드를 매번 재생해 미세 깜빡임. DOM은 항상 재구성(데이터 최신 보장), 애니만 게이트.
+  const sig = rows.map(a => a.file + ':' + (Number(a.rev) || 0) + ':' + ((a.cards && a.cards.state) || '') + ':' + (brkIssueKind(a) || '') + ':' + (isRevising(a.file) ? 'r' : '') + (isCardRetrying(a) ? 'k' : '') + (cardFirePending(a.file) ? 'f' : '')).join(',') + '|' + q + '|' + cardonly + '|' + [...FILTERS.cats].sort().join('+') + '|' + (FILTERS.issue ? 'i' : '');
+  if (sig === _feedSig && list.childElementCount) return;   // 구성·상태·필터 완전 동일 = DOM 무접촉 스킵(renderScrap 커밋 스킵 미러 · 평의회6 260707 — 탭 전환 즉시렌더 직후 fetch 재렌더가 통재빌드로 스태거를 절단·이중 비용 내던 것 차단 · sig에 rev/cards.state/긴급/수정중 전부 탑승이라 실변경은 항상 통과). ⚠️ 정직: dlReport/dlScrap의 relAge 상대시간 라벨·progGauge stuck 판정은 sig 밖 = 유휴 동일탭 폴에선 동결·다음 실변경/탭 전환 때 갱신(자가치유) — scrap 7309 커밋 스킵과 동일한 의도적 트레이드오프(신선도 한정·데이터 무영향). sig 밖 동적 요소 추가 시 여기 재검토.
+  const _anim = sig !== _feedSig && !_searchRender;   // 내용·필터 바뀐 렌더만 촤르륵, 동일 재렌더·검색 타이핑은 즉시(깜빡임 0) — sig 커밋은 루프 성공 후(아래)
+  list.innerHTML = '';
+  let _cardFail = false;   // 카드 1장 예외 = 그 장만 스킵 + sig 미커밋(부분 렌더가 3429 스킵으로 영구 동결되던 것 차단 · 평의회 260713 ⑤)
+  rows.forEach((a, i) => {
+    try {
+    const c = document.createElement('div'); c.className='card';
+    const kind = brkIssueKind(a); if (kind) c.classList.add(kind);   // 긴급/이슈 → 카드 테두리 점등(.card.brk/.iss) + 우상단 배지
+    const g = Number(a.rev) || 0;                    // 서버 회차(완료색·정본) — 1=노랑·2=파랑·0=초록기본
+    if (g % 3) c.dataset.gen = (((g % 3) + 3) % 3);
+    if (isRevising(a.file)) {                         // 진행 중(클라 임시) = 진행바 물결(현재→다음 색)
+      c.classList.add('revving');
+      c.style.setProperty('--rv-from', 'rgb(' + revColor(g) + ')');
+      c.style.setProperty('--rv-to', 'rgb(' + revColor(g + 1) + ')');
+    }
+    if (_anim) c.style.animationDelay = Math.min(i, 14) * 32 + 'ms';   // 촤르륵 스태거(내용·필터 바뀐 렌더만)
+    else c.style.animation = 'none';   // 동일 재렌더(탭전환·폴) = 즉시 표시 = 깜빡임 0
+    c.innerHTML = `
+      <div class="cardmain">
+        <div class="cardtop"><span class="catslot"><b style="color:${CAT_COLOR[articleCat(a)] || 'var(--fg)'}">${esc(articleCat(a))}</b></span>${dlReport(a)}${kind ? `<span class="urg ${kind}">${kind === 'brk' ? '긴급' : '이슈'}</span>` : ''}<span class="ctop-r">${dlScrap(a)}</span></div>
+        <div class="row1"><span class="t"></span></div>
+        <div class="s"></div>
+        <div class="kv">
+          <div class="outcol"><span>매체</span>${a.media ? (/^https?:\/\//i.test(a.url || '') ? `<a class="mlink" href="${esc(a.url)}" target="_blank" rel="noopener"><b>${esc(outletShort(primaryMedia(a.media)))}</b></a>` : `<b>${esc(outletShort(primaryMedia(a.media)))}</b>`) : '<b class="senshyphen">—</b>'}</div>
+          <div><span>편향</span>${a.bias ? biasLabel(a) : '<b class="senshyphen">—</b>'}</div>
+          ${(_sc => _sc ? `<div class="typecol"><span>민감</span><div class="typewrap">${_sc}</div></div>` : '')(sensChips(a.tags))}
+        </div>
+        <div class="botrow">
+          ${progGauge(a)}
+        </div>
+      </div>`;
+    c.querySelector('.t').textContent = a.title;
+    c.querySelector('.s').textContent = a.summary || '';
+    c.onclick = () => open(a);
+    const _fb = c.querySelector('.urg.brk');   // 피드 긴급 배지 = 수집함 .sc-badge.brk 와 **같은 신고 배선**(한쪽만 달면 다른 화면에선 무반응)
+    if (_fb) brkClaimBadge(_fb, a);
+    c.querySelector('.mlink')?.addEventListener('click', e => e.stopPropagation());   // 대표 매체 = 원문 링크(새 탭) — 카드 열기(open)와 충돌 방지
+    // 진행바 세그먼트 = N/M/T 모달 점프(nav 통합·A5). 본문 클릭(open)과 충돌 방지 stopPropagation.
+    c.querySelectorAll('.prog .seg[data-j]').forEach(seg => {
+      const go = async e => {
+        e.stopPropagation();
+        if (seg.dataset.retry) return retryPromptSeg(a, seg);   // 실패한 프롬프트 세그 = 점프 대신 그 자리 재시도(운영자 260727)
+        await open(a); requestAnimationFrame(() => jumpTo(seg.dataset.j));
+      };
+      seg.onclick = go;
+      seg.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(e); } };
+    });
+    list.appendChild(c);
+    } catch (err) { _cardFail = true; }   // malformed 1건이 루프 전체(피드 blank)를 못 죽이게
+  });
+  if (!_cardFail) _feedSig = sig;   // 전 카드 성공 시에만 커밋 — 실패 렌더는 다음 폴에 전체 재시도(자가치유)
+}
+
+// 편향 게이지 바 — N/10 → 옐로→그린 채움, 좌우 무관(N/A) → 빗금
+function gauge(b) {
+  const m = /(\d+)\s*\/\s*10/.exec(b || '');
+  if (m) return `<div class="gauge"><i style="width:${Math.min(100, +m[1]*10)}%"></i></div>`;
+  return `<div class="gauge na"></div>`;
+}
+
+// ── 카드 셀 하단 헬퍼들(#4~#7) ──
+// (NMT 레일 제거 — 진행바 세그먼트가 N/M/T 점프 겸함. A5)
+// 민감 태그 → 개별 칩. "#성범죄 #자살자해" 공백 split. "해당 없음"/빈값이면 '' (민감 칸 자체를 안 그림 — 옛 '—' 대시는 베이스라인서 떠 보여 폐지·운영자 260625).
+// 본체 7개(SENS_PROTECT)=앰버 경고 틴트(.warn). 목록 외(옛 큐 잔여 태그)=기본 흰 칩(.tagchip).
+function sensChips(tags) {
+  if (!tags || tags === '해당 없음') return '';
+  const arr = tags.split(/\s+/).filter(Boolean).slice(0, 2);   // 민감 = 최대 2개(카드 게이지바 우측선 안 · 초과분은 typewrap …클립·운영자 260702)
+  if (!arr.length) return '';
+  return arr.map(t => {
+    const warn = SENS_PROTECT.includes(t) ? ' warn' : '';
+    return `<span class="tagchip${warn}">${esc(t)}</span>`;
+  }).join('');
+}
+// ── 프롬프트 단계 실패 = 게이지 라벨 탭으로 그 자리 재시도(운영자 260727) ──
+// 경로 = #cardsec '프롬프트 다시 생성' 버튼과 완전 동일(makeCards 'text' = 2단계만 · 이미지 0). 유료 3단계는 이 축 아님.
+// 발사 후 서버 state(generating) 반영까지 60초 폴 공백이 있어, 그 사이만 클라 임시상태로 진행 중 표시(빗금 → 펄스).
+const CARD_RETRY = new Map();      // file → 발사 ts
+const RETRY_HOLD_MS = 3 * 60000;   // 폴백 해제 — 서버 미반영·응답 유실이어도 이 시간 뒤 진짜 상태로 복귀(영구 가짜 진행 차단)
+function isCardRetrying(a) {
+  const ts = a && CARD_RETRY.get(a.file); if (!ts) return false;
+  if (Date.now() - ts > RETRY_HOLD_MS) { CARD_RETRY.delete(a.file); return false; }
+  const up = a.cards && a.cards.updated ? Date.parse(a.cards.updated) : 0;
+  if (up && up > ts) { CARD_RETRY.delete(a.file); return false; }   // 서버가 새로 갱신 = 임시상태 종료(진짜 상태가 이김)
+  return true;
+}
+async function retryPromptSeg(a, seg) {
+  if (CARD_RETRY.has(a.file)) return;                       // 연타 = 중복 발사 차단
+  CARD_RETRY.set(a.file, Date.now());
+  seg.classList.remove('fail'); seg.classList.add('cur'); delete seg.dataset.retry;   // 탭 즉시 피드백(재렌더 전에도 빗금 → 진행 펄스)
+  const ok = await makeCards(a.file, null, 'text');         // btn 없음 = 게이지 버튼 상태머신 미사용(이 표면엔 버튼이 없다)
+  if (!ok) CARD_RETRY.delete(a.file);                       // 실패(alert는 makeCards가) = 임시상태 즉시 해제 → 다시 빗금
+  render();
+  setTimeout(load, 4000);                                   // 서버 state 조기 반영(60초 폴 대기 단축)
+}
+// 진행 스텝퍼 B안 — 요약·프롬프트·카드 3세그먼트. 클릭 = N/M/T 모달 점프(nav 통합·A5). 기존 cards.state만.
+function progGauge(a) {
+  const st = (a.cards && a.cards.state) || '';
+  const segs = [['요약','n'], ['프롬프트','m'], ['카드','t']];
+  // 시간 초과 미완 = 멈춤 → 펄스 정지(무한 회전 방지·시간 기반 실패 로직). 임계 = 백엔드 상한 정합(cardSec stuck/genStuck과 동일 기준):
+  //   렌더(fired_partial) = 10분(운영자 260704) · 프롬프팅(generating) = 26분(CARD_TIMEOUT 25분+1 · 260711 동행 — 성공할 11~25분 카드 오표시 방지).
+  const up = a.cards && a.cards.updated;
+  const upMin = up ? (Date.now() - Date.parse(up)) / 60000 : 0;
+  const stuck = up && upMin > 10;
+  const genStuckG = up && upMin > 26;
+  const hasMd = !!(a.cards && (a.cards.md || a.cards.has_md));   // 프롬프트(텍스트)까지 갔는지 → 실패 표식 위치 판정 (has_md = 경량 인덱스 플래그·md는 detail lazy)
+  let done = 1, busy = false, fail = false;   // done=완료 세그먼트 수(요약은 큐 전건 완료)
+  if (st === 'done') done = 3;
+  // 멈춤(stuck)이면 '진행되다 깨짐' → 펄스 대신 그 세그먼트에 실패 표식(노랑 빗금·빨강 라벨), 재시도는 cardSec 버튼.
+  else if (st === 'fired_partial') { done = 2; if (stuck) fail = true; else busy = true; }   // 카드 발사·이미지 대기
+  else if (st === 'text_done') done = 2;                        // 프롬프트까지·카드 대기
+  else if (st === 'generating') { if (genStuckG) fail = true; else busy = true; }   // 카드 프롬프팅 중(26분 = CARD_TIMEOUT 정합)
+  else if (st === 'failed') { fail = true; if (hasMd) done = 2; }   // 텍스트 있으면 카드 단계 실패(seg 카드)
+  if (isCardRetrying(a)) { done = 1; busy = true; fail = false; }   // 라벨 탭 재시도 발사 직후(클라 임시) = 서버 state 반영 전까지 프롬프트 세그를 진행 중으로(빗금 → 펄스 · 운영자 260727)
+  // 모달 버튼 발사(CARD_FIRE) = 같은 공백 구간을 이 게이지에도 반영(운영자 260805 "프롬프트 제작중 들어갔는데 진행중인게 안뜬다").
+  //   구조 = #cardsec 은 cardFirePending 으로 '제작중…' 로더를 띄우는데(6189·6200) 이 게이지는 서버 st 만 봐서 요약 1칸에 멈춰 있었다
+  //   — **같은 발사인데 두 화면이 서로 다른 말**을 했고, 그 공백이 러너 큐·Pages 배포까지라 수 분(실측 260805: dispatch 후 3분 23초 만에 pending 취소 = 끝내 안 옴).
+  //   범위 = cardSec 가드와 동일하게 ''·failed 뿐 — 완성분(done/text_done/fired_partial)의 stale 재생성은 3칸 완료를 1칸으로 후퇴시키지 않는다.
+  if ((!st || st === 'failed') && cardFirePending(a.file)) { done = 1; busy = true; fail = false; }
+  // 실패 이력(error.log 잔존) = 한 번이라도 깨진 흔적 → 해당 단계에 영속 흉터(scar). 재시도·성공해도 유지.
+  const scarSeg = (a.cards && a.cards.failedOnce) ? (hasMd ? 2 : 1) : -1;
+  const aria = { n:'인스타 요약으로 이동', m:'카드 프롬프트로 이동', t:'카드 이미지로 이동' };
+  const retry = (st === 'generating' && busy) ? (Number(a.cards && a.cards.retry) || 0) : 0;   // 자동 재시도 회차(프롬프팅 중일 때만) — 진행 세그먼트 라벨 우측에 MUT '(N회)'
+  const html = segs.map(([lb, j], i) => {
+    let cls = '';
+    if (i < done) cls = ' done';
+    else if (i === done && busy) cls = retry > 0 ? ' cur retry' : ' cur';   // 재시도(트라이 N) = cur에 .retry → 글자만 네온레몬(게이지바·펄스는 메인색 유지·운영자 260705)
+    else if (i === done && fail) cls = ' fail';
+    if (i === scarSeg) cls += ' scar';
+    const rn = (i === done && busy && retry > 0) ? `<span class="rn">(${retry})</span>` : '';   // '프롬프트'는 가운데 고정(rn=absolute라 라벨 안 밀림), 그 우측에 MUT '(N)'(숫자만·크기·정렬 라벨과 동일 · 운영자 260701)
+    // 프롬프트 세그(i=1)가 실패면 그 라벨 자체가 재시도 버튼 = 모달 안 들어가고 그 자리에서 다시 생성(운영자 260727).
+    // 카드(i=2) 실패는 대상 아님 — 유료(제미나이 렌더)라 재확인 2탭 '카드 이미지 생성' 버튼 경로 유지.
+    const rt = (i === 1 && i === done && fail) ? ' data-retry="text"' : '';   // ⚠ i===done 필수 — fail은 카드 전체 플래그라, 카드(3단계) 실패 기사(done=2)에서 완료된 프롬프트 세그까지 재시도로 오표시되던 것 차단(260727 QA 실측)
+    return `<div class="seg${cls}" data-j="${j}"${rt} role="button" tabindex="0" aria-label="${rt ? '프롬프트 다시 생성' : aria[j]}"${rt ? ' title="눌러서 프롬프트 다시 생성"' : ''}><span class="sl">${lb}${rn}</span><span class="bar"></span></div>`;
+  }).join('');
+  return `<div class="prog">${html}</div>`;
+}
+// #1 보도일 — "M/D (요일)" + 시각(time:HH:MM이면 뒤에 붙임). 박스 없이 텍스트, 카드 맨 위.
+function repDate(date) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(date || '');
+  if (!m) return esc(date || '');
+  const W = ['일','월','화','수','목','금','토'];
+  const d = new Date(+m[1], +m[2] - 1, +m[3]);
+  return `${+m[2]}/${+m[3]} (${W[d.getDay()]})`;
+}
+// #1 보도일 + 시각 — a.time이 HH:MM 형식일 때만 ' HH:MM' 붙임(아니면 날짜만). 6/14 (일) 11:00 꼴.
+function repDateTime(a) {
+  const base = repDate(a.date);
+  const t = (a.time || '').trim();
+  if (!/^\d{1,2}:\d{2}$/.test(t)) return base;
+  const est = a.time_est && String(a.time_est).trim() && String(a.time_est).trim() !== 'false';   // 추정 시각이면 "(추정)" 꼬리표(운영자 260621)
+  return `${base} ${esc(t)}${est ? ' (추정)' : ''}`;
+}
+// IN(적재) 날짜 — 파일명 YYMMDD-HHMM 파싱. WRITE는 repDateTime(a). (B)
+function inDateTime(a) {
+  const m = /^(\d{2})(\d{2})(\d{2})-(\d{2})(\d{2})/.exec(a.file || '');
+  if (!m) return { txt: '', today: false };
+  const W = ['일','월','화','수','목','금','토'];
+  const d = new Date(2000 + +m[1], +m[2] - 1, +m[3]);
+  return { txt: `${+m[2]}/${+m[3]} (${W[d.getDay()]}) ${m[4]}:${m[5]}`, today: `${m[1]}${m[2]}${m[3]}` === todayYMD6() };
+}
+// 공통 상대시간 사다리(기틀 · 피드+대기열 공용 · 운영자 260621): <30분=방금 / 30분 전 / N시간 전(1h부터 분 생략·복합표기 없음) / N일(1~6) / N주일(1~4) / N개월. 무효(파싱실패=1e7 sentinel·9000 가드 밖)는 ''→발행일 폴백.
+function relAge(h) {
+  if (!isFinite(h) || h < 0 || h >= 9000) return '';
+  const min = h * 60;
+  if (min < 30) return '방금';
+  if (min < 60) return '30분 전';
+  if (h < 24) return Math.floor(h) + '시간 전';
+  const d = Math.floor(h / 24);
+  if (d < 7) return d + '일 전';
+  if (d < 30) return Math.floor(d / 7) + '주일 전';
+  return Math.floor(d / 30) + '개월 전';
+}
+// ── 표기 전용 발행 나이(260805) — time 실측값이 있으면 정본 그대로, **빈칸이면 자정 대신 수집시각(파일명)** ──
+// ⚠ 스코프 = 표기(dlReport) 한정. 배지·매칭 축(brkIssueKind·feedMatch·feedAgeH)은 articleAgeH를 그대로 쓴다 —
+//   자정 폴백은 참나이의 *상한*(과대계상 = 오컷 방향)이고 수집시각은 *하한*(과소 = 긴급 오발 방향)이라 요구가 반대다.
+//   실측(평의회 260805): 폴백을 배지 축까지 바꾸면 4730 Math.max(inAge,pubAge)가 pubAge≡inAge로 항등식이 되어
+//   syndication 지연 가드(260623)가 34.8%에서 소멸 → 속보∧time="" 12건이 실나이 18.6·22.6·33.5h인데 수집 순간 🚨긴급으로 뒤집힌다.
+//   반대로 표기 축은 정확도가 요구라 상한 폴백이 오답이다(실측 과대계상 중앙값 +16.9h · 67%가 +12h↑ = "3시간 전 기사가 1일 전").
+// ⚠ feedAgeH 호출 금지 = 상호재귀(feedAgeH가 time 무효 시 articleAgeH를 되부른다) → 파일명 정규식을 직접 파싱한다.
+function articleAgeDispH(a) {
+  a = a || {};
+  if (/^\d{1,2}:\d{2}/.test(String(a.time || '').trim())) return articleAgeH(a);   // 실측 발행시각 보유 = 정본 경로 그대로(무변경)
+  const fm = /^(\d{2})(\d{2})(\d{2})-(\d{2})(\d{2})/.exec(String(a.file || ''));   // 수집(IN) 시각 = 파일명 YYMMDD-HHMM(KST wall-clock)
+  if (!fm) return articleAgeH(a);                                                  // 파일명도 무효 = 폴백의 폴백 = 종전 동작(발행일 표기로 강등)
+  const t = Date.UTC(2000 + +fm[1], +fm[2] - 1, +fm[3], +fm[4] - 9, +fm[5]);       // KST → UTC instant(−9h · feedAgeH와 동일 기준)
+  if (isNaN(t)) return articleAgeH(a);
+  const dm = /^(\d{4})[.\-](\d{1,2})[.\-](\d{1,2})/.exec(String(a.date || ''));    // 발행일(자정)과 수집이 이틀 넘게 벌어지면 = 옛 글 직접공유(폰공유·붙여넣기)
+  if (dm && t - Date.UTC(+dm[1], +dm[2] - 1, +dm[3], -9, 0) > 48 * 3600000) return articleAgeH(a);   // 그 건은 수집시각 대체가 오히려 왜곡(3개월 전 글이 "방금") → 구 폴백 유지(실측 8건)
+  return Math.max(0, (Date.now() - t) / 3600000);
+}
+// 피드 메타라인 = [카테고리] 보도시간(좌·페이드) ··· 스크랩(우·NEW<30분/흰/회). "보도/스크랩" 라벨 없이 시간만(디자인안04).
+function dlReport(a) {   // 보도(좌): ≤6h 라임 / 7~11h 흰 / 12h↑ 회 · 무효=발행일 폴백
+  const h = articleAgeDispH(a), s = relAge(h);
+  if (!s) return a && a.date ? `<b class="wr" style="color:var(--mut)">${repDate(a.date)}</b>` : '';
+  return `<b class="wr" style="color:${h < 7 ? 'var(--accent)' : h < 12 ? 'var(--fg)' : 'var(--mut)'}">${s}</b>`;
+}
+function dlScrap(a) {    // 스크랩(우): <30분 NEW(라임 강조) / 30분~6h 흰 / 7h↑ 회
+  const h = feedAgeH(a);
+  if (!isFinite(h) || h < 0 || h >= 9000) return '';
+  if (h * 60 < 30) return '<b class="scrap nw">NEW</b>';
+  return `<b class="scrap" style="color:${h < 7 ? 'var(--fg)' : 'var(--mut)'}">${relAge(h)}</b>`;
+}
+// (옛 biasText/BIAS_COLOR 제거 260624 — 카드가 biasLabel 텍스트 라벨로 바뀌어 유일 호출부 사라진 죽은코드 + 옛 색맵은 좌우 반전[약우=파랑]이라 미래 재호출 시 위험. 평의회 검증5·6·10 권고.) · 게이지바 CSS(.bgauge·.biasrow)는 카드 게이지 롤백 도먼트였다가 평의회 Q165에서 정리 완료 — --bias-*-rgb 토큰은 soc-gauge가 사용 중이라 존치.
+// ── 편향 텍스트 라벨(카드 kv 줄) — 게이지바(#922) 롤백, 텍스트 라벨로 복귀(운영자 260624). 본문 자유요약은 게이지흐름 유지(decorate M).
+//    형식: 원문→요약 보정 있으면 '좌 보정(4+1)'(원문방향+N±델타), 보정0이면 '좌 4', 원문값 부재면 '중립 5'(요약값만). 좌우무관(N/A)→'무관'.
+//    라벨은 숫자에서 도출(1~2강좌·3~4좌·5~6중립·7~8우·9~10강우) = 같은 숫자에 다른 라벨 뜨던 드리프트 차단. 색은 원문방향(보정 전) 기준. (260629 #1203 '좌 4 +1(우 보정)' 흰색안 → 운영자 요청으로 카드 라벨만 이전 방향색 형식으로 복원·본문 decorate 줄은 불변)
+const biasNum = s => { const m = /(\d+)\s*[\/／]\s*10/.exec(s || ''); return m ? +m[1] : null; };
+const biasZone = v => { v = Math.min(10, Math.max(1, v)); return v <= 2 ? '강좌' : v <= 4 ? '좌' : v <= 6 ? '중립' : v <= 8 ? '우' : '강우'; };
+const biasZoneCol = v => { v = Math.min(10, Math.max(1, v)); return v <= 2 ? 'var(--bias-l2)' : v <= 4 ? 'var(--bias-l1)' : v <= 6 ? 'var(--bias-mid)' : v <= 8 ? 'var(--bias-r1)' : 'var(--bias-r2)'; };
+// 편향 줄 새 포맷(운영자 260629) — '중립 5 (+1 / 우 보정) → 중립 6'. 보정을 원문 옆 괄호로(가운데) · 강조색=숫자/델타/방향, 흰색=존라벨/괄호/슬래시.
+const biasZoneHtml = v => `<span class="biasv">${biasZone(v)} </span><span class="biasnum">${v}</span>`;   // 존 라벨(흰)+숫자(강조)
+const biasFlowHtml = (N, M) => {   // 원문 N → 요약 M (보정 표기 포함). 보정0이면 단일값.
+  const d = M - N;
+  if (!d) return biasZoneHtml(N);
+  const corr = ` <span class="biaspar">(</span><span class="biascorr">${d > 0 ? '+' : '−'}${Math.abs(d)}</span><span class="biaspar"> / </span><span class="biasdir">${d > 0 ? '우' : '좌'} 보정</span><span class="biaspar">)</span>`;
+  return `${biasZoneHtml(N)}${corr} <span class="biasar">${ARROW_R_SVG}</span> ${biasZoneHtml(M)}`;
+};
+const outletShort = m => { m = m || ''; return m.length > 7 ? m.slice(0, 6) + '…' : m; };   // 매체명 7자 초과 → 6자+… (고정폭 매체 칸 안·운영자 260630). 예: 한국조선대한일보 → 한국조선대한…
+const primaryMedia = m => (m || '').split('·')[0].trim().replace(/\s*등\s*$/, '').trim();   // 다매체("뉴스1·아시아경제·연합뉴스 등") → 대표(소스) 매체 1개 — 원문(a.url)의 소스 매체(analyze가 앞에 둠). 카드엔 대표 1개만·원문 링크(운영자 260701).
+function biasLabel(a) {
+  const M = biasNum(a.bias);
+  if (M == null || /무관|N\s*\/?\s*A/i.test(a.bias || ''))
+    return `<b class="bias" style="color:var(--mut)">무관</b>`;
+  const N = biasNum(a.bias_src);
+  if (N == null)   // 원문 없음(옛 기사·IG·Thread·폴백) = 요약값만 표시(보정 표기 생략)
+    return `<b class="bias" style="color:${biasZoneCol(M)}">${biasZone(M)} ${M}</b>`;
+  const d = M - N;
+  if (!d)   // 보정 0 = 단일값
+    return `<b class="bias" style="color:${biasZoneCol(N)}">${biasZone(N)} ${N}</b>`;
+  // 카드 라벨 = 콤팩트 방향색 '좌 보정(4+1)'(운영자 #1215 복원 재적용 — #1218 풀플로우 '중립 5 (+1/우 보정)→중립 6'는 본문 decorate에만, 카드 제외). 본문 편향줄(biasFlowHtml)은 불변.
+  const zc = biasZoneCol(N);   // 원문방향 '좌'=방향색 · N=방향색 · '보정'·델타 부호=흰(--fg) · 괄호=mut
+  return `<b class="bias"><span style="color:${zc}">${biasZone(N)}</span> <span style="color:var(--fg)">보정</span><span style="color:var(--mut)">(</span><span style="color:${zc}">${N}</span><span style="color:var(--fg)">${d > 0 ? '+' : '−'}${Math.abs(d)}</span><span style="color:var(--mut)">)</span></b>`;   // 예: 좌 보정(4+1)
+}
+// 대분류(C) — 옛 큐 category 값 → 5버킷 UI 매핑(지침엔 없음·표면화만). 박스 없는 색글자.
+const CAT_MAP = { '사회':'사회','정치':'정치','시사':'사회','경제':'경제','문화':'문화','국제':'국제','외교':'국제','테크':'테크','과학':'테크','IT':'테크','AI':'테크','스포츠':'문화','연예':'문화' };   // 정치 → 독립 버킷(사회서 분리·운영자 260621) · 스포츠·연예 = 문화(260625)
+const CAT_COLOR = { '정치':'var(--cat-pol)','사회':'var(--cat-soc)','경제':'var(--cat-eco)','국제':'var(--cat-intl)','문화':'var(--cat-cul)','테크':'var(--cat-tech)' };   // 카테고리 색 = 전용 구분자 토큰 --cat-*(:root 팔레트 등재 · 260623 6색 복원 — 강조색 매핑(동일 260704 오전분)은 운영자 불승인 롤백 · 운영자 260704 "24시간 전 색으로 복원 + 팔레트에 별도로")
+function catBucket(cat) { const c = (cat || '').trim(); return CAT_MAP[c] || (['정치','사회','경제','문화','국제','테크'].includes(c) ? c : ''); }
+function catChip(cat) {
+  const b = catBucket(cat); if (!b) return '';
+  return `<span class="cat" style="color:${CAT_COLOR[b]}">${esc(b)}</span>`;
+}
+// category 프론트매터가 없는 새 기사 → 제목+요약 키워드로 대분류 추정(배지 복원). 큐에 값 있으면 그게 정본.
+const CAT_KW = {
+  국제: ['트럼프','바이든','미국','중국','일본','러시아','우크라','이란','이스라엘','가자','전쟁','외교','정상','종전','협상','백악관','관세','푸틴','시진핑','나토','중동','북한','김정은','파병'],
+  경제: ['경제','금융','증시','주가','코스피','코스닥','환율','부동산','집값','금리','매출','영업','실적','투자','수출','무역','물가','부채','고용','세금','상장','은행','인수','합병','스타트업','채무','부도','파산','임금','실업','연봉','회장','경영','독점','IMF','한은','금값','은값','시가총액','배당금','공매도','증자','감자','유상증자','무상증자','영구채','전환사채','한국은행','금융위원회','금융감독원','우대금리','분기실적','반기실적','연간실적','어닝서프라이즈','어닝쇼크','턴어라운드','주당순이익','주가수익비율','주가순자산비율','배당성향','배당수익률','소비자물가지수','생산자물가지수','대출규제','LTV','DTI','DSR','특례보금자리론','디딤돌대출','버팀목대출','정책대출','가산금리','변동금리','고정금리','코픽스','국고채금리','콜금리','기준금리','연준금리','수주','우협','공모가','출하','납품','배당','증권','IPO'],   // 1차 경제 대폭 확장(운영자 260701·금리·실적·대출 전문어·py 동기) + 8어휘(수주·우협·공모가·출하·납품·배당·증권·IPO — 미분류 구제·전수 diff gain 25건 전부 경제 타당·충돌 0 실측·260702 fable 패널4)
+  문화: ['영화','드라마','음악','가수','배우','공연','전시','예술','연예','아이돌','스포츠','축구','야구','올림픽','월드컵','중계','게임','웹툰','콘서트','앨범','예능','감독','넷플릭스','OTT','시즌','데뷔','컴백','신곡','개봉','관객','흥행','박스오피스','빌보드','그래미','뮤지컬','박물관','미술관','축제','만화','문학','소설','작가','OST'],   // 1차 문화 축소(운영자 260701 · 스포츠 전문어·아티스트/배우 실명은 3차 CULTURE_FORCE로 이관 · AMBIG_ARTIST 조건부[음악문맥 AND]는 별도 유지 · py 동기)
+  정치: ['국회','의원','장관','선거','여론조사','국회의원','추경','필리버스터'],   // 3차 POL_FORCE 겹침 제거 + 여론조사(3차서 이관·소비자조사도 있어 범용)·국회의원·추경·필리버스터 추가(운영자 260701·py 동기)
+  사회: ['사건','사고','경찰','검찰','법원','재판','판결','구속','파업','교육','학교','복지','의료','병원','범죄','화재','시위','노조','수사','고소','갑질','마약',
+        '음주운전','기소','입건','혐의','체포','송치','압수수색','구형','사망','성범죄','폭행',
+        '성착취','아동학대','디지털성범죄'],   // 정치어(국회·대통령·여당·야당·선거·의원·장관·논란) 제거→정치 버킷 이관(감사1·260628 py 동기) · 범죄·사법 절차어(운영자 260627·평의회5) + 중대범죄어(헌재/대법원/합헌은 정치[탄핵] 겹쳐 lexicon 제외·JUDICIAL 하드가드[문화 한정]만)
+  테크: ['인공지능','반도체','배터리','전기차','자율주행','로봇','드론','메타버스','챗봇','클라우드','빅데이터','블록체인','양자컴퓨터','파운드리','엔비디아','오픈AI','생성형AI','누리호','스마트폰','갤럭시','아이폰','소프트웨어','알고리즘'],   // 1차 테크 재구성(운영자 260701 위임·AI 추천·순수 기술어·py 동기)
+};
+// 하트(♥♡❤ 등) — 제목에 들어가면 연예인 열애/결혼·2세 = 100% 문화(운영자 260624). 사회 오분류·미분류 구제.
+const HEART_RE = /[♡♥❣❤\u{1F493}-\u{1F49F}\u{1F9E1}\u{1FA77}]/u;
+// 3차 정치 강마커 = 무조건 정치(articleCat 최우선 · to_candidates.py POL_FORCE_RE와 바이트 동기 · 운영자 260701 "정치인=정치"). 여야 정치인 실명+정치전용어 → 국제·경제 활동도 정치(방미 정상회담·부동산 대책도 대통령 주체면 정치). ⚠️ 승격(260701): 1차(사회/미분류만·AI가 덮음)→3차(무조건·최우선). 中 李强은 매체가 한자 李 안 써 무충돌(운영자 판단) · 인물셋 운영자 튜닝.
+const POL_FORCE_RE = /李|尹|이재명|윤석열|한동훈|이준석|조국|김건희|김문수|우원식|한덕수|한성숙|추미애|홍준표|안철수|오세훈|이낙연|나경원|김기현|권성동|정청래|박찬대|김민석|대통령실|청와대|탄핵|내란|여당|야당|국민의힘|민주당|대선|총선|공천|비대위|당대표|원내대표|거부권|국정감사|영부인|특검|특사경|친문|친윤|친한|친명/;
+// 직책어(대통령·총리·내각) 강마커 — articleCat 맨 뒤(INTL 다음): 외국 지도자는 국제, 실명 없는 국내 '대통령/총리 주재'만 정치(운영자 260702 · 스타머·트럼프·바이든 등 외국정상 국제 오분류 방지 · 대통령실/청와대는 국내전용이라 POL_FORCE 유지). py POL_TITLE_RE 동기.
+const POL_TITLE_RE = /대통령|총리|내각/;
+// 3차 문화 강마커 = 무조건 문화(articleCat · 정치 다음 · 충돌없는 고유명만[2글자·일반단어충돌 제외] · py CULTURE_FORCE_RE 바이트 동기 · 운영자 260701)
+// + 해외리그·야구 어휘 21종(260704 — 송성문 MLB '국제' 오분류 교정 · 코퍼스 오폭 0 실측 · py와 바이트 동기)
+const CULTURE_FORCE_RE = /BTS|블랙핑크|뉴진스|아이브|세븐틴|에스파|르세라핌|MLB|KBO|프로야구|월드컵|손흥민|이정후|류현진|갤러리|뮤직비디오|전시회|끝내기|방어율|평균자책|자책점|선발투수|마무리투수|연타석|벤치클리어링|결승타|세이브|노히트|퍼펙트게임|호수비|역전승|한국시리즈|포스트시즌|플레이오프|와일드카드|골든글러브|선취점|해트트릭|페널티킥|코너킥|자책골|선제골|결승골|어시스트|득점왕|프로농구|프로배구|K리그|챔피언스리그|포메이션|원클럽맨|이적료|열애설|청첩장|브이로그|인플루언서|예비신부|예비신랑|PGA|LPGA|KLPGA|KPGA|UFC|MMA|테니스|윔블던|32강|16강|홍명보|순간포착|다승왕|타격왕|도루왕|타점왕|홈런왕|선발승|구원승|완봉승|매직넘버|가을야구|와이어투와이어|사이클링히트|타이거즈|라이온즈|트윈스|베어스|랜더스|다이노스|자이언츠|히어로즈|이글스|베이비몬스터|엔하이픈|투모로우바이투게더|스트레이키즈|제로베이스원|보이넥스트도어|투어스|플레이브|에이티즈|더보이즈|몬스타엑스|슈퍼주니어|샤이니|엔시티|엔믹스|아일릿|키스오브라이프|스테이씨|프로미스나인|레드벨벳|트와이스|오마이걸|마마무|비비지|ITZY|여자아이들|아이유|임영웅|성시경|멜로망스|헤이즈|이무진|김호중|정승환|정지훈|다이나믹듀오|에픽하이|빈지노|코드쿤스트|페노메코|호미들|릴보이|데이식스|잔나비|실리카겔|검정치마|새소년|너드커넥션|QWER|카더가든|선우정아|이찬원|정동원|장민호|송가인|박서진|카리나|장원영|안유진|홍석천|박명수|유재석|강호동|신동엽|전현무|최민식|송강호|이병헌|전도연|손예진|김수현|송중기|이민호|김지원|김고은|차은우|박보검|한소희|이정재|황정민|한효주|박서준|마동석|손석구|이경규|김구라|서장훈|김종국|조용필|이선희|서태지|김건모|신승훈|엄정화|이효리|박진영|지드래곤|봉준호|박찬욱|이창동|홍상수|김지운|최동훈|이준익|류승완|장항준|연상호|한재림|황동혁|방탄소년단|소녀시대|스트레이 키즈|라이즈|조인성|강동원|하정우|김태리|한지민|박보영|남궁민|이하늬|박은빈|설경구|변우석|김혜윤|박신혜|지창욱|이제훈|천우희|고민시|이도현|신혜선|채종협|조정석|김범수|이승철|박효신|조성모|조승우|로제|제니|엑소|EXO|테일러스위프트|브루노마스|빌리아일리시|에드시런|두아리파|아리아나그란데|저스틴비버|콜드플레이|켄드릭라마|찰리푸스|비욘세|마룬파이브|이매진드래곤스|포스트말론|샘스미스|셀레나고메즈|올리비아로드리고|사브리나카펜터|라우브|쌈디|사이먼도미닉|더콰이엇|박재범|창모|기리보이|비와이|우원재|릴러말즈|로꼬|저스디스|딥플로우|슈퍼비|나플라|식케이|스윙스|매드클라운|씨잼|던말릭|조광일|애쉬아일랜드|언에듀케이티드키드|마미손|버벌진트|화지|오왼|던밀스|E-sens|ZICO|SanE|옥주현|김준수|홍광호|정선아|최재림|신영숙|전동석|손준호|김소현|정성화|마이클리|박은태|조정은|윤공주|에녹|아이비|조성진|임윤찬|손열음|백건우|정경화|정명화|장영주|김선욱|선우예권|클라라주미강|양인모|문지영|김봄소리|임지영|최하영|강동석|한동일|정명훈|임헌정|장한나|성시연|홍석원|윤한결|최수열|함신익|금난새|시립교향|교향악단|필하모닉|피아니스트|바이올리니스트|첼리스트|소프라노|테너|바리톤|협연|리사이틀|콩쿠르|콩쿨|윤이상|오타니|김하성|송성문|다저스|파드리스|양키스|메이저리그|빅리그|만루|쓰리런|투런|승리투수|패전투수|블론세이브|퀄리티스타트|병살타|그랜드슬램|프리미어리그|분데스리가|라리가|A매치/;
+// 4차 국제 강마커 = 무조건 국제(정치·문화 안 걸리면 · 후순위 · py INTL_FORCE_RE 바이트 동기 · 운영자 260701)
+const INTL_FORCE_RE = /트럼프|정상회담|다카이치|한미일|한중일|NATO|오커스|G20|BRICS|자유무역협정|바이든|시진핑|멜로니|스타머|트뤼도|알바니지|프라보워|페제시키안|스톨텐베르그|구테흐스|상호방위조약|FTA|EPA|USMCA|MERCOSUR|APEC|WTO|IBRD|OECD|케빈워시|이시바|메르츠|마크롱|젤렌스키|푸틴|네타냐후|숄츠|기시다|라이칭더|폰데어라이엔|룰라|모디|카르니|밴스/;
+// OSEN(오!쎈) — 조선일보 문화부 스포츠·연예 브랜드 → 100% 문화(운영자 260625). 제목 [오!쎈]/[Oh!쎈]/[OSEN=] 태그로 잡힘(영문 'Oh!쎈' 스펠링 보강·운영자 260628).
+const OSEN_RE = /오\s*!?\s*쎈|Oh\s*!?\s*쎈|OSEN/i;
+// 스포츠·연예 전문 매체 — 매체명만으로 100% 문화(운영자 260625). 선수·팀명 아님(선수 사회면 논란 오분류 방지)·연예도 문화라 안전. to_candidates.py와 동기.
+const SPORTS_MEDIA_RE = /스포츠|스포탈|스포티비|SPOTV|OSEN|오\s*!?\s*쎈|마이데일리|엑스포츠|인터풋볼|풋볼리스트|베스트일레븐|점프볼|데일리스포츠/i;
+// 정치 우선 마커 — 대통령·정부·정책 주체면 소재(반도체 등 테크)보다 정치다(운영자 260627·to_candidates.py POL_OVERRIDE_RE와 동기). '李대통령 호남반도체…'식 정부발화가 테크로 새던 것 봉합. 테크만 뒤집음.
+const POL_OVERRIDE_RE = /대통령|대통령실|청와대|국무총리|총리|장관|차관|내각|국무회의|국회|여당|야당|여야|정부|정책/;
+// 범죄·사법 절차어 하드가드 — 셀럽이라도 실제 사건이면 문화 아닌 사회(운영자 260627·평의회5 · to_candidates.py CRIME_OVERRIDE_RE와 동기). 절차어만(영화 플롯 오염 방지).
+const CRIME_OVERRIDE_RE = /음주운전|뺑소니|구속|불구속|기소|입건|체포|송치|압수수색|집행유예|피의자|검거|구속영장|징역형/;
+// 사법·헌재 하드가드 — 헌재·대법원 판결·성착취물·아동학대 등 사법 판단·중대범죄면 만화·게임·영화 소재여도 사회(운영자 260628 · to_candidates.py JUDICIAL_OVERRIDE_RE와 동기). 콘텐츠 위법성을 '판단'한 기사는 소재가 만화여도 본질이 사법 = 사회. 기관·판단어만 = 문화 플롯 오염 0.
+const JUDICIAL_OVERRIDE_RE = /헌재|헌법재판소|합헌|위헌|대법원|항소심|상고심|성착취|아동학대|디지털성범죄|불법촬영물/;
+// 모호 가수·그룹명(흔한 단어와 substring 충돌) — 단독이면 무시, 음악 문맥 동반될 때만 문화 가점(운영자 260628 · to_candidates.py와 동기).
+// 지수=주가지수·가을=가을총선·리즈=시리즈 등은 단독 등재 불가 → 그룹명·소속사·앨범·타 가수명과 함께일 때만 문화.
+const AMBIG_ARTIST_RE = /지수|가을|리즈|레이|리사|슈화|청하|태연|선미|하니|미연|소연|민지|다니엘|이서|라이즈|케플러|빅뱅/;
+const MUSIC_CTX_RE = /앨범|음악|신곡|컴백|데뷔|타이틀곡|뮤직비디오|뮤비|음원|콘서트|공연|팬미팅|월드투어|걸그룹|보이그룹|아이돌|완전체|솔로곡|소속사|엔터테인먼트|블랙핑크|블핑|에스파|아이브|뉴진스|르세라핌|세븐틴|방탄|BTS|트와이스|레드벨벳|여자아이들|YG|JYP|HYBE|제니|로제|카리나|윈터|장원영|안유진/i;
+// 테크→경제 오버라이드 — 애플·맥북·아이폰·반도체 등 테크 소재라도 가격·실적·마진 등 경제 본질이면 경제(운영자 260629 · to_candidates.py ECON_CTX_RE와 동기).
+const ECON_CTX_RE = /값|가격|인상|인하|마진|매출|실적|영업이익|순이익|적자|흑자|주가|관세|판매량|출하량|점유율|어닝|원가|수익성|투자|증시/;
+const STOCK_FORCE_RE = /상한가|하한가|목표가|사이드카|서킷브레이커/;   // 주식 전문어 = 경제 무조건(운영자 260701 · to_candidates.py STOCK_FORCE_RE와 바이트 동기) — 가격제한폭·증권사 목표주가·매매중단(사이드카·서킷브레이커). articleCat 최상단서 어느 카테고리든 경제로.
+const ENT_NAME_RE = /장윤정/;   // 개인 연예인명(운영자 큐레이션·점증 · to_candidates.py ENT_NAME_RE 동기) — 연예인 주체 + 경제어면 문화(연예 가십/비즈니스). 스포츠·엔터회사 제외.
+const ECON_HINT_RE = /투자|펀드|주식|증권|코인|상장|매출|주가|자산|재테크/;   // 경제어 힌트(to_candidates.py ECON_HINT_RE 동기) — ENT_NAME_RE와 동반 시 문화.
+// 정치→사회 오버라이드 — 지자체·도청·시청 등 지방행정이고 정치 쟁점(여야·선거·탄핵…) 아니면 사회(운영자 260629 · to_candidates.py LOCALGOV_RE/POL_DISPUTE_RE와 동기).
+const LOCALGOV_RE = /지자체|지방자치|도청|시청|구청|군청|도지사|구청장|군수|시의회|도의회|구의회|자치구|광역시|특별자치|조례|구역청|행정구역/;
+const POL_DISPUTE_RE = /대통령|여당|야당|여야|국회|의원|장관|특검|탄핵|공천|선거|여론조사|내각|대선|총선/;
+const _catCache = new WeakMap();   // 버퍼 260701: articleCat이 렌더당 카드마다 filter·색·esc·수집함서 3~4회 재호출 → 정규식 10+개 재평가 폭주. WeakMap 캐시(title/category 불변·load 시 새 객체라 자동 무효·객체 미오염). 계산 정본=_articleCatCompute.
+function articleCat(a) {
+  if (!a) return '사회';
+  const hit = _catCache.get(a); if (hit !== undefined) return hit;
+  const r = _articleCatCompute(a); _catCache.set(a, r); return r;
+}
+function _articleCatCompute(a) {
+  if (POL_FORCE_RE.test(a.title || '')) return '정치';   // 3차 정치 강마커 = 무조건 정치(py cat_force 최우선 동기·운영자 260701 · 정치인 실명·정치전용어 → 국제·경제 활동도 정치)
+  if (CULTURE_FORCE_RE.test(a.title || '')) return '문화';   // 3차 문화 강마커 = 무조건 문화(정치 다음 · 충돌없는 고유명만 · py cat_force 동기·운영자 260701)
+  if (STOCK_FORCE_RE.test(a.title || '')) return '경제';   // 주식 전문어(상한가·하한가·목표가·사이드카·서킷브레이커) = 경제 무조건(py cat_force STOCK_FORCE_RE 동기·운영자 260701)
+  if (ENT_NAME_RE.test(a.title || '') && ECON_HINT_RE.test(a.title || '') && !(CRIME_OVERRIDE_RE.test(a.title || '') || JUDICIAL_OVERRIDE_RE.test(a.title || ''))) return '문화';   // 개인 연예인 + 경제어 = 문화(범죄절차·사법 제외·주식전문어는 위서 경제 · py cat_force 동기·운영자 260701)
+  if (INTL_FORCE_RE.test(a.title || '')) return '국제';   // 4차 국제 강마커 = 무조건 국제(정치·문화·경제 다음 = 후순위 · py cat_force INTL_FORCE_RE 동기·운영자 260701)
+  if (POL_TITLE_RE.test(a.title || '')) return '정치';   // 직책어(대통령·총리·내각) = 국내 가정 — 외국 정상은 위 INTL서 이미 국제, 실명 없는 국내 '대통령/총리 주재'만 정치(py cat_force POL_TITLE 동기·운영자 260702)
+  const b = catBucket(a.category);
+  const pol = POL_OVERRIDE_RE.test(a.title || '');   // 정치 주체 마커 — 테크 오버라이드용
+  if (b && b !== '사회') { if (b === '테크' && pol) return '정치'; if (b === '테크' && ECON_CTX_RE.test(a.title || '')) return '경제'; if (b === '정치' && LOCALGOV_RE.test(a.title || '') && !POL_DISPUTE_RE.test(a.title || '')) return '사회'; if (b === '문화' && (CRIME_OVERRIDE_RE.test(a.title || '') || JUDICIAL_OVERRIDE_RE.test(a.title || ''))) return '사회'; return b; }   // 큐 category 있으면 정본(단 테크+경제본질[값·마진]=경제 · 테크+정부정책=정치 · 정치+지방행정·쟁점無=사회 · 문화+사법본질[헌재·성착취]=사회 = 저장 라벨도 즉시 교정 · 사회는 하트 재분류 여지)
+  if (OSEN_RE.test(a.title || '') || SPORTS_MEDIA_RE.test(a.media || '')) return '문화';   // OSEN 태그·스포츠 전문매체 = 100% 문화(사회·미분류 위로)
+  if (HEART_RE.test(a.title || '')) return '문화';   // 하트 = 100% 문화(사회·미분류 위로)
+  if (b) return b;   // 사회(하트 없음 · 정치는 함수 최상단서 처리=위로 이동 260701)
+  const t = `${a.title || ''} ${a.summary || ''}`;
+  let best = '', bn = 0;
+  const musicCombo = AMBIG_ARTIST_RE.test(t) && MUSIC_CTX_RE.test(t);   // 모호 가수명 + 음악문맥 동반(운영자 260628)
+  for (const k in CAT_KW) { let n = 0; for (const w of CAT_KW[k]) if (t.includes(w)) n++; if (k === '문화' && musicCombo) n += 2; if (n > bn || (n === bn && n > 0 && k === '사회')) { bn = n; best = k; } }   // 사회-우선 tie-break(운영자 260627·평의회5) — 셀럽 범죄는 문화·사회 동점이면 사회 보존 · 모호 가수명은 음악문맥 동반시만 +2 · to_candidates.py와 동기
+  if (best === '문화' && (CRIME_OVERRIDE_RE.test(t) || JUDICIAL_OVERRIDE_RE.test(t))) return '사회';   // 셀럽 범죄·사법(헌재·대법원·성착취 등)이면 문화어 다수여도 사회(평5 하드가드 + 운영자 260628)
+  if (best === '테크' && pol) return '정치';   // 키워드 매칭서 테크 1등이어도 정부·대통령 마커 있으면 정치(반도체+대통령 동시 = 정치)
+  if (best === '테크' && ECON_CTX_RE.test(t)) return '경제';   // 테크 1등이어도 경제 본질이면 경제(애플·반도체+가격·실적 = 경제 · 운영자 260629)
+  if (best === '정치' && LOCALGOV_RE.test(t) && !POL_DISPUTE_RE.test(t)) return '사회';   // 정치 1등이어도 지방행정+정치쟁점無면 사회(운영자 260629)
+  return bn ? best : '사회';   // 운영자 260617: 미분류 0 — frontmatter category 없고 키워드도 0이면 사회(catch-all)로 강제 분류.
+}
+// (참고) 피드 배지 정본 = 아래 brkIssueKind. 최신 판정 기준 = feedAgeH(스크랩/IN 시각).
+function articleAgeH(a) {   // 보도(발행) 나이 — a.date(+a.time)=KST → Date.UTC(−9h)로 절대시각 고정(브라우저 TZ 무관·feedAgeH와 동일 기준). 무효=1e7(relAge 9000 가드 밖 → 폴백 · 옛 999는 사다리 '달' 티어에 걸려 가짜 "1달 전" 회귀라 상향·260621).
+  a = a || {};   // null 방어
+  const dm = /^(\d{4})[.\-](\d{1,2})[.\-](\d{1,2})/.exec(String(a.date || ''));
+  if (!dm) return 1e7;
+  const tm = /^(\d{1,2}):(\d{2})/.exec(String(a.time || '').trim());
+  const t = Date.UTC(+dm[1], +dm[2] - 1, +dm[3], (tm ? +tm[1] : 0) - 9, tm ? +tm[2] : 0);
+  return isNaN(t) ? 1e7 : Math.max(0, (Date.now() - t) / 3600000);
+}
+// 피드 최신 판정(긴급↔이슈 전이용) = 스크랩(IN) 시각(파일명 YYMMDD-HHMM) 기준 — 항상 정확(보도시각 time은 빈 경우 多 → 폴백만).
+function feedAgeH(a) {
+  const m = /^(\d{2})(\d{2})(\d{2})-(\d{2})(\d{2})/.exec(a.file || '');
+  if (m) return Math.max(0, (Date.now() - Date.UTC(2000 + +m[1], +m[2] - 1, +m[3], +m[4] - 9, +m[5])) / 3600000);   // 파일명=KST wall-clock → UTC instant(−9h) = 브라우저 TZ 무관·KST 고정(수집함 scTs와 동일 절대시각 기준)
+  return articleAgeH(a);
+}
+// 배지 = 상호배타·나이 전이(문서 §라벨 최종확정·수집함 scBadge와 동일): 긴급(breaking 신규<4h) → 이슈(4h~24h AND [a.issue 또는 aged breaking]) → 1일↑·신규(<4h)·비이슈는 없음. 둘 다 만족이면 긴급 우선.
+// 긴급/이슈 분류(상호배타·긴급우선) → 카드 테두리 점등 클래스. 'brk'(IN<4h breaking)·'iss'(4h~24h AND [a.issue 또는 aged breaking])·''(1일↑·신규<4h·비이슈). a.issue = build-viewer issEligible(cross≥10·grade게이트·정형컷 — 수집함 issCross와 규칙 동일·260702).
+// 피드 유효 breaking = 수집함 isBreaking(11242행) 정본 계승 = breaking(또는 제목 속보 폴백) AND 경중 게이트(grade 0·1 컷 · null 미채점=유보 통과).
+// ⚠️ 260617 계약("grade1 경미인데 ⚡이슈 모순 차단")이 수집함에만 적용돼 있었다 — 피드 인덱스에 grade 필드가 없어 raw a.breaking으로 판정했고, 그래서 g1 기사가 피드에서만 4~24h에 ⚡이슈(+<4h 🚨긴급)를 달았다(운영자 260810 "g1급은 이슈 조건에서 배제" · 실측 = [속보] 카카오게임즈 2분기 영업손실 g1·cr15 = 제목 [속보] 폴백으로 breaking true). build-viewer가 grade를 패스스루하면서 봉합 = 수집함↔피드 동일 규칙 복구.
+const feedBrk = a => (a.breaking || /속보/.test(a.title || '')) && (a.grade == null || a.grade >= 2);
+function brkIssueKind(a) {
+  const brk = feedBrk(a);
+  // 긴급/이슈 나이 = IN(수집)나이·발행나이 中 *큰 값* → 둘 다 <4h여야 긴급(운영자 260623). 발행 16h 지난 syndication-지연 건을 방금 수집(IN<4h)했다고 IN만 보고 긴급 뜨던 버그 차단 — 화면 'N시간 전'(발행)과 배지 일치. 발행 무효(1e7)면 IN만(time 빈 매체 폴백 유지 = 옛 동작).
+  const inAge = feedAgeH(a), pubAge = articleAgeH(a), ageH = Math.max(inAge, pubAge < 9e6 ? pubAge : 0);
+  if (brk && ageH < FAST_MAX_H) return 'brk';            // breaking AND IN·발행 둘 다 <4h → 긴급(이슈도 만족이면 긴급 우선)
+  if (ageH >= FAST_MAX_H && ageH < BADGE_MAX_AGE_H && (a.issue || brk)) return 'iss';   // 4h~24h AND (issEligible OR aged breaking) → 이슈 · 신규(<4h)엔 안 뜸·1일↑ 없음(260618 · 게이트 260702 · 소멸선 = BADGE_MAX_AGE_H 단일출처 260710)
+  return '';
+}
+
+// 상세 lazy-load(렉 해소 260624) — body·cards.md는 인덱스에 없고 detail/<file>.json 에 있음.
+// 기사 열 때/폴링 재렌더 직전에 1회 받아 메모리 객체에 채움(같은 버전이면 재요청 X).
+// ver = rev·cards.rev·cards.updated 조합 → 수정(revise)·재슛으로 내용 바뀌면 자동 무효화.
+async function ensureDetail(a) {
+  if (!a || !a.file) return;
+  const ver = (a.rev || 0) + '.' + ((a.cards && a.cards.rev) || 0) + '.' + ((a.cards && a.cards.updated) || '');
+  if (a._detVer === ver && a.body != null) return;   // 이 버전 이미 로드됨
+  try {
+    const r = await fetch('detail/' + encodeURIComponent(a.file) + '.json?v=' + encodeURIComponent(ver));
+    const d = await r.json();
+    a.body = d.body || '';
+    if (!a.cards) a.cards = {};
+    a.cards.md = d.cards_md || '';
+    a._detVer = ver;
+  } catch { if (a.body == null) a.body = ''; }   // 실패해도 렌더는 진행(빈 상태)
+}
+
+async function open(a) {
+  CUR = a.file; CUR_A = a;
+  await ensureDetail(a);
+  if (CUR !== a.file) return;   // 로딩 중 다른 기사로 이동했으면 이 렌더 폐기(레이스 가드)
+  const md = $('#mdbody');
+  md.innerHTML = DOMPurify.sanitize(marked.parse(a.body || ''));
+  decorate(md);
+  addCopyButtons(md);
+  md.insertAdjacentHTML('afterbegin', overviewMeta(a));   // Z: 요약 헤더 아래 기본 개요(지침칩 대체)
+  const _h1c = md.querySelector('h1');   // 화면에 보이는 그 제목(AI 헤드라인) 그대로 복사 (운영자 260620·260627 표시값 우선 정정)
+  const _ttl = _h1c ? (_h1c.textContent.trim() || a.title || '') : '';   // ⚠️ 표시값(h1=AI 헤드) 우선 — a.title(원본 스크랩 제목)이 아니라 화면에 보이는 제목을 복사(불일치 버그 봉합) · 아래 기사 타이틀 중복대조와 공용
+  if (_h1c && _ttl) tapCopy(_h1c, _ttl);   // 우상단 복사버튼 폐지 → 제목 탭 = 복사(운영자 260805 "복사 버튼이 나란히 있으니 버그같은데 · 둘다 제목 클릭 > 복사")
+  // 기사 원래 타이틀(기자가 뽑은 헤드 = frontmatter title) = 개요메타 아래·요약 타이틀 위(운영자 260805 "기자들이 뽑은 것이라 퀄리티가 제법 있어") — 표현·간격 = 위 CSS .md-srct(h1 100% 사본).
+  // ⚠️ div로 그린다(h1 태그 금지) — md.querySelector('h1')이 썸네일 후보 박스·외신 원문제목·타이틀 복사·다운로드 헤더의 공용 앵커라, 두 번째 h1이 생기면 그 넷이 전부 이 줄을 물어 오작동한다.
+  { const _st = (a.title || '').trim();
+    const _tkey = s => String(s).replace(/^\s*\p{Extended_Pictographic}️?\s*/u, '').replace(/\s+/g, '');   // 선두 토픽 이모지·공백 무시 비교(피드 목록 이모지 앞자름 관용구 계승)
+    if (_st && _tkey(_st) !== _tkey(_ttl)) {   // 옛 분석분(H1 = 원본 제목 그대로 · 260805 실측 = 표시분 559건 중 117건)은 같은 제목이 2줄 = 잡음 → 생략
+      const _sd = document.createElement('div'); _sd.className = 'md-srct'; _sd.textContent = _st;   // textContent = XSS 안전(.md-orig 문법 계승)
+      tapCopy(_sd, _st);   // 복사 = 요약 타이틀과 같은 탭 복사(버튼 0 = 두 줄이 같은 문법)
+      if (_h1c) _h1c.insertAdjacentElement('beforebegin', _sd);
+      else { const _om = md.querySelector('.ovmeta'); if (_om) _om.insertAdjacentElement('afterend', _sd); }   // H1 없는 본문(요약 유실·빈 상태) 폴백 = 개요메타 바로 아래
+    } }
+  const tsec = thumbSec(a);   // 썸네일 후보(검색 + AI생성 2화풍) — 기사 제목 바로 아래
+  if (tsec) { const h1 = md.querySelector('h1'); (h1 ? h1.insertAdjacentElement('afterend', tsec) : md.insertAdjacentElement('afterbegin', tsec)); }
+  if (a.title_orig && _h1c) { const _od = document.createElement('div'); _od.className = 'md-orig'; _od.textContent = a.title_orig; _h1c.insertAdjacentElement('afterend', _od); }   // 외신 = 번역 제목(H1) *바로 아래* 원문 기사 타이틀 MUT 1줄 → 그 다음이 구분선(다음 섹션 border-top) — 운영자 260703 확정 배치("제목 아래 mut·그 다음 구분선" · 옛 하단 배치 폐지의 재배치). ⚠️ tsec 삽입 *뒤*에 넣어야 h1↔썸네일 사이(제목 직하)에 선다 · textContent = XSS 안전.
+  cardSec(a);
+  feedSec(a);     // 섹션 3: 카드 피드(이미지 있을 때만 표시)
+  const _rt = $('#revText'); if (_rt) _rt.value = '';   // 기사로 이동 시 = 수정 요청 입력칸도 비움(이전 기사에 적던 지시 안 넘어오게 · 체크박스 리셋과 마찬가지 · 운영자 260622)
+  const _crt = $('#crevText'); if (_crt) _crt.value = ''; if (typeof resetCrevSend === 'function') resetCrevSend(); if (typeof updateCrevClip === 'function') updateCrevClip();   // 카드 수정 입력칸도 동일 리셋 + 클립버튼 갱신(이전 기사 지시 누수 차단·260627)
+  _editKeptKey = null;   // 기사 이동 = 이전 기사 카드의 보존 편집 폐기(다른 기사 카드에 복원 누수 차단·운영자 260628)
+  resetRevSend(); updateRevClip();   // 버튼 재확인(arm) 상태·클립(붙여넣기/복사) 아이콘도 원복
+  { const _tt = $('#tredoText'); if (_tt) _tt.value = ''; if (typeof resetTredoSend === 'function') resetTredoSend(); if (typeof updateTredoClip === 'function') updateTredoClip(); TREDO_SID = ''; TREDO_LAST = ''; }   // 이미지 재생성 코멘트도 기사 이동 시 리셋(이전 기사 지시 누수·오발사 차단 · 평의회 엣지 ❌ 픽스 · crev 패턴)
+  const _dlf = $('#dlFull'); if (_dlf) { _dlf.checked = false; const _dlb = $('#dlbox'); if (_dlb) _dlb.classList.remove('full'); }   // 새 기사 = 요약 '전체 포함' 체크 기본 해제(이전 기사 체크 잔상 제거 · 운영자 260622)
+  applyReviseMarks();   // 이 기사가 변경 중이면 IG/Thread 소주제 '(변경 중)' + 연필 FAB 물결
+  setupScrub();   // 모달 헤더 = 스크롤 위치 스크러버(게이지 + 요약·프롬프트·카드 틱 + 클릭 점프)
+  // 원문 버튼 = 항상 표시. url 있으면 이동 / 없으면(전문 붙여넣기 등) .off = 흐리게+빗금·클릭 불가(운영자 260704)
+  const src = $('#src'); src.style.display='';
+  if (a.url){ src.href=hrefOk(a.url); src.classList.remove('off'); src.removeAttribute('aria-disabled'); src.title='원문 열기'; src.setAttribute('aria-label','원문 열기'); }
+  else { src.removeAttribute('href'); src.classList.add('off'); src.setAttribute('aria-disabled','true'); src.title='원문 링크 없음'; src.setAttribute('aria-label','원문 링크 없음'); }
+  const dlg = $('#dlg'); const _dlgWasOpen = dlg.open; if (!_dlgWasOpen) { dlg.showModal(); try { history.pushState({ dlg: true }, ''); } catch {} }   // 신규 열림만 showModal+pushState(폰 뒤로가기=요약모달 먼저 닫기·lbox 패턴·!wasOpen=재진입 이중 push/show 방지·260630 QA ③)
+  $('#dlgbody').scrollTop = 0;  // 재진입 시 이전 스크롤 위치 유지 버그 → 맨 위 리셋(스크롤=본문 래퍼 .dlg-body)
+  const dt = $('#dlgtop'); if (dt) dt.classList.remove('show');   // 모달 탑 버튼(제거됨) 초기 숨김 — null 가드(없으면 throw로 아래 스크롤락·포커스가 안 돌던 잠복버그 차단)
+  updateRevFab();   // 열릴 때 FAB 초기 상태(맨 위라 보통 숨김)
+  updateCrevFab();   // 🃏 카드 수정 FAB도 동일 초기화
+  document.documentElement.style.overflow = 'hidden';   // PC: 모달 밖(백드롭) 스크롤 시 배경 페이지 스크롤 차단(#5)
+  // 첫 focusable 버튼(요약/원문)이 showModal에 auto-focus되면 포커스 링(테두리)·상태바 URL 노출 →
+  // 닫기(X) 버튼으로 포커스를 옮겨 차단. (.dlg-x 명시 — 첫 버튼=요약 ⬇에 링 안 생기게.)
+  const cb = $('#dlg').querySelector('.dlg-x'); if (cb) cb.focus();
+}
+
+function addCopyButtons(root) {
+  root.querySelectorAll('pre').forEach(pre => {
+    const code = pre.querySelector('code');
+    // 강조 마커 *문구*/**문구** → 문구만 강조색 <i>(별표 미표시). 복사는 codeCopyText가 data-mk로 *…* 복원.
+    if (code && !code.dataset.hl) {
+      code.dataset.hl = '1';
+      // marked가 *문구*를 <em>/<strong>로 먼저 바꿨어도(코드펜스 밖 등) .cem으로 흡수 → 색·복사 일관(별표 복원)
+      code.innerHTML = code.innerHTML
+        .replace(/<em>([^<>]*)<\/em>/g, '<i class="cem" data-mk="*">$1</i>')
+        .replace(/<strong>([^<>]*)<\/strong>/g, '<i class="cem" data-mk="**">$1</i>')
+        .replace(/(\*{1,2})([^*\n<>]+?)\*{1,2}/g,
+          (m, mk, t) => `<i class="cem" data-mk="${mk}">${t}</i>`);
+    }
+    const _cb = copyBtn(() => code ? codeCopyText(code) : pre.innerText, '복사'); _cb.classList.add('boxcopy'); pre.insertBefore(_cb, pre.firstChild);   // float:right 첫 자식 = 텍스트가 버튼 위만 비켜 감기고 나머지 폭 활용(우측 컬럼 안 놀게)
+  });
+}
+// 강조 <i class="cem" data-mk="*|**"> → *문구*/**문구** 복원(나머지 텍스트 그대로) — 복사 시 합성기 포맷 보존.
+function codeCopyText(code) {
+  let out = '';
+  code.childNodes.forEach(n => {
+    if (n.nodeType === 1 && n.classList && n.classList.contains('cem')) {
+      const mk = n.getAttribute('data-mk') || '*'; out += mk + n.textContent + mk;
+    } else { out += n.textContent; }
+  });
+  return out;
+}
+
+// 오늘(브라우저 로컬=KST) YYMMDD — 기사 파일명 앞 6자와 비교(자정 기준 New/Today)
+function todayYMD6() {
+  const n = new Date(), p = x => String(x).padStart(2,'0');
+  return `${String(n.getFullYear()).slice(2)}${p(n.getMonth()+1)}${p(n.getDate())}`;
+}
+// 다운로드 파일명 시각 프리픽스 = 기사 IN 시각(파일명 YYMMDD-HHMM) → yymmdd_hhmm. 시스템 파일규칙과 일치(모든 다운로드 일관). 없으면 다운로드 시각.
+function dlStamp(a) {
+  const m = a && /^(\d{6})-(\d{4})/.exec(a.file || '');
+  if (m) return `${m[1]}_${m[2]}`;
+  const n = new Date(), p = x => String(x).padStart(2, '0');
+  return `${String(n.getFullYear()).slice(2)}${p(n.getMonth() + 1)}${p(n.getDate())}_${p(n.getHours())}${p(n.getMinutes())}`;
+}
+// 다운로드 파일명 슬러그 — 파일명 금지문자 제거·공백→_·40자컷(thumbDlName 등에서 사용). ⚠️ 미정의면 다운로드 클릭이 ReferenceError로 죽음(260622 버그픽스).
+function dlSlug(s) { return (String(s == null ? '' : s).replace(/[\\/:*?"<>|]+/g, '').replace(/\s+/g, '_').replace(/^[._]+|[._]+$/g, '').slice(0, 40)) || 'thumb'; }
+// 날짜 헤더: yyyy-mm-dd 요일 │ Today {오늘} / {총합}
+function dateHead(total) {
+  const W = ['일','월','화','수','목','금','토'];
+  const n = new Date();
+  const dd = $('#dhDate'); if (dd) dd.textContent = `${n.getMonth()+1}월 ${n.getDate()}일 ${W[n.getDay()]}`;
+  const t6 = todayYMD6();
+  const todayN = DATA.filter(a => (a.file||'').slice(0,6) === t6).length;
+  const dc = $('#dhCnt'); if (dc) dc.innerHTML = `오늘 <b${todayN ? '' : ' class="z"'}>${todayN}</b> / ${total}`;
+}
+
+// 긴 박스(카드 프롬프트·요약 드래프트) 3줄 클립 + 더보기/접기
+function addClip(pre) {
+  pre.classList.add('clip');
+  // 강제 줄바꿈만(뷰어 모달용) — 줄바꿈은 강제하되 폭은 건드리지 않는다. ⚠️ 옛 max-width:calc(100vw-44px)·box-sizing는 자유요약 박스를 .md 컨테이너보다 좁혀 IG 박스와 폭이 어긋나고(우측 여백) 복사버튼이 같은 세로선에서 밀리던 원인 → 제거(운영자 260625). 오버플로는 .md pre의 white-space:pre-wrap !important·overflow-wrap:anywhere !important가 이미 보장.
+  const _wrapForce = el => { if (!el) return; el.style.setProperty('white-space', 'pre-wrap', 'important'); el.style.setProperty('word-break', 'break-word', 'important'); el.style.setProperty('overflow-wrap', 'anywhere', 'important'); };
+  _wrapForce(pre); _wrapForce(pre.querySelector('code'));
+  const mb = document.createElement('button');
+  mb.className = 'morebtn'; mb.innerHTML = '더 보기 ' + CHEVRON_SVG;
+  mb.onclick = ev => { ev.stopPropagation();
+    const clipped = pre.classList.toggle('clip');
+    mb.innerHTML = clipped ? '더 보기 ' + CHEVRON_SVG : '접기 ' + CHEVRON_SVG.replace('vertical-align:-1px', 'vertical-align:-1px;transform:rotate(180deg)'); };
+  pre.after(mb);
+}
+
+// 다이제스트 후처리: [썸네일] 섹션 제거 · 헤더 이모지 strip(💡 시사점 유지) · 편향 색도형 strip · 키워드 강조 · 드래프트 더보기
+const BIAS_RE = /[🟥🟦🟩🟨🟧🟪🟫🔴🟠🟡🟢🔵🟣⬛⬜📊✅]/gu;
+const KW_RE = /(앵글(?:\s*후보)?\s*[①-⑳0-9]+|약보수 보정|[가-힣A-Za-z0-9]{1,8} ?관점)/g;   // 앵글 후보 ① / 앵글 ① 둘 다 매치(운영자 260621)
+function decorate(root) {
+  // 0) 다각도 '이렇게 볼 수도' 래퍼 li 제거 + 중첩된 관점 불릿을 한 단계 끌어올림(들여쓰기 삭제 · 운영자 260621)
+  root.querySelectorAll('li').forEach(li => {
+    if (!/^\s*이렇게\s*볼\s*수도/.test(li.textContent)) return;
+    const inner = li.querySelector('ul, ol'); if (!inner) return;
+    const parent = li.parentElement;
+    while (inner.firstElementChild) parent.insertBefore(inner.firstElementChild, li);
+    li.remove();
+  });
+  // 0a) 다각도 '이렇게 볼 수도 ①' 인라인 접두 제거 → 관점 라벨로 바로(템플릿 고정 보강 · 기존 분석건·LLM 일탈 대비 · 운영자 260625)
+  root.querySelectorAll('li').forEach(li => {
+    const tn = li.firstChild;
+    if (!tn || tn.nodeType !== 3 || !/^\s*이렇게\s*볼\s*수도/.test(tn.data)) return;
+    tn.data = tn.data.replace(/^\s*이렇게\s*볼\s*수도\s*[①-⑳0-9]*\s*[)）.·]?\s*/, '');
+  });
+  // 0c) 활용옵션 편향 불릿(li) 통째 제거 → 편향은 콘텐츠 초안(자유요약) 편향줄에서만 표시(중복 제거 · 운영자 260629·260630).
+  //   ⚠️ textContent + 머리 편향 이모지(📊 등 BIAS_RE) 제거 후 판정 — '**편향**:'(bold·firstChild=<strong>)·'📊 편향:'(이모지 머리) 둘 다 포착(이모지 strip은 step3라 0c 시점엔 잔존). 옛 firstChild-텍스트노드 검사는 bold·이모지 누락.
+  root.querySelectorAll('li').forEach(li => {
+    if (/^편향\s*[:：]/.test((li.textContent || '').replace(BIAS_RE, '').trimStart())) li.remove();   // (이모지 제외) 불릿 머리가 '편향:'인 것만 — 앵글·시사점 본문 중 편향 언급은 보존
+  });
+  // 0b) 다각도 해석: '라벨: 설명'의 라벨(콜론 앞)을 항상 강조(굵게)로 통일 — AI가 **굵게** 안 달아도(라벨은 창의·고정 아님) 앵글 요약 라벨이면 항상 강조(운영자 260622)
+  const _dh2 = [...root.querySelectorAll('h2')].find(h => /다각도/.test(h.textContent || ''));
+  if (_dh2) {
+    const _lis = [];
+    for (let el = _dh2.nextElementSibling; el && el.tagName !== 'H2' && el.tagName !== 'H1'; el = el.nextElementSibling) {
+      if (el.tagName === 'UL' || el.tagName === 'OL') _lis.push(...el.querySelectorAll(':scope > li'));
+    }
+    _lis.forEach(li => {
+      const f = li.firstChild; if (!f) return;
+      if (f.nodeType === 1 && /^(STRONG|B)$/.test(f.tagName)) { f.classList.add('angle-lbl'); return; }   // AI가 이미 **굵게** → 표식만(키워드 데코 제외 → 초록 [] 안 붙고 통일)
+      if (f.nodeType !== 3) return;
+      const m = f.data.match(/^(\s*)([^:：\n(][^:：\n]{0,23}?)(\s*[:：]\s)/);   // 라벨: (1~24자 · 괄호시작/문장 제외)
+      if (!m || /[.!?。…]/.test(m[2])) return;
+      const sp = document.createElement('strong'); sp.className = 'angle-lbl'; sp.textContent = m[2].trim();
+      f.data = m[3] + f.data.slice(m[0].length);
+      li.insertBefore(sp, f);
+    });
+  }
+  // 1) [썸네일 타이틀] 섹션 제거(h3 + 다음 heading 전까지) — 맨 위 기사 제목이 곧 썸네일
+  root.querySelectorAll('h3').forEach(h => {
+    if (!/썸네일/.test(h.textContent)) return;
+    let n = h.nextElementSibling;
+    while (n && !/^H[1-3]$/.test(n.tagName)) { const k = n; n = n.nextElementSibling; k.remove(); }
+    h.remove();
+  });
+  // 2) 섹션 헤더 이모지 strip(시사점 💡만 유지) + 드래프트 글자수 메타(— 약 N자) 미강조
+  root.querySelectorAll('h2, h3').forEach(h => {
+    if (/시사점/.test(h.textContent)) return;
+    if (h.firstChild && h.firstChild.nodeType === 3)
+      h.firstChild.data = h.firstChild.data.replace(/^\s*\p{Extended_Pictographic}️?\s*/u, '');
+    // h3 드래프트 [라벨 — 약 N/M자]: 라벨·실제 카운트(N)만 강조, 나머지([·—·약·/M·자])는 미강조
+    const dm = h.textContent.match(/^(\[)(.+?)(\s*[—\-]\s*약\s*)(\d+)(.*)$/);
+    if (dm) { h.innerHTML = `<span class="cnt">${esc(dm[1])}</span>${esc(dm[2])}<span class="cnt">${esc(dm[3])}</span>${esc(dm[4])}<span class="cnt">${esc(dm[5])}</span>`; return; }
+    // h2 섹션: 괄호 부연(…) 제거 (📍 말머리 폐지 — 운영자 260621: • 소머리와 겹쳐 어색)
+    if (h.tagName === 'H2') {
+      const pm = h.textContent.match(/^(.+?)\s*\(([^)]+)\)\s*$/);   // AO: 부제 괄호 부연 제거(해시태그도 X)
+      if (pm) h.innerHTML = esc(pm[1].trim());
+    }
+  });
+  // 2c) 섹션 헤더(h2) 바로 밑 서브헤더(h3) = 사이 구분선·빈 줄 제거(콘텐츠 초안→자유요약 등)
+  root.querySelectorAll('h3').forEach(h => {
+    const pv = h.previousElementSibling;
+    if (pv && pv.tagName === 'H2') h.classList.add('subtop');
+  });
+  // 2b) 기사 제목(h1) 맨 앞 이모지 제거(요청 — 제목엔 이모지 X)
+  root.querySelectorAll('h1').forEach(h => {
+    if (h.firstChild && h.firstChild.nodeType === 3)
+      h.firstChild.data = h.firstChild.data.replace(/^\s*\p{Extended_Pictographic}️?\s*/u, '');
+  });
+  // 2d) 시사점 = 마지막 문장(던지는 메시지) 강조 — 흰 산문 끝에서 메시지가 또렷(운영자 260625·A 꼬리강조).
+  //     서식 없는 순수 문단만(children 0). 문장경계 = 문장부호+공백(소수점 '7.1' 등 제외) 중 마지막. 단문(경계 없음)이면 그대로.
+  const sisaH = [...root.querySelectorAll('h2, h3, h4')].find(h => /시사점/.test(h.textContent || ''));
+  if (sisaH) {
+    let sp = null;
+    for (let el = sisaH.nextElementSibling; el && !/^H[1-4]$/.test(el.tagName); el = el.nextElementSibling)
+      if (el.tagName === 'P' && el.children.length === 0 && el.textContent.trim()) sp = el;   // 헤더 뒤 마지막 순수 문단
+    if (sp) {
+      const t = sp.textContent.trim();
+      const re = /(?<![0-9])[.!?][)”"'’]?\s+/g; let last = -1, mm;
+      while ((mm = re.exec(t))) last = re.lastIndex;   // 마지막 문장 경계
+      if (last > 0 && last < t.length) {
+        sp.textContent = '';
+        sp.appendChild(document.createTextNode(t.slice(0, last)));
+        const msg = document.createElement('span'); msg.className = 'sisa-msg'; msg.textContent = t.slice(last);
+        sp.appendChild(msg);
+      }
+    }
+  }
+  // 3) 본문 텍스트노드: 편향 색도형 strip + 키워드 강조 (pre/code/헤더 제외 — 복사 draft 보존)
+  const nodes = [], tw = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  for (let n; (n = tw.nextNode());) {
+    if (!n.parentElement || n.parentElement.closest('pre, code, h1, h2, h3, .angle-lbl, .sisa-msg')) continue;   // .angle-lbl(앵글 라벨)·.sisa-msg(시사점 메시지) = 통일 강조 유지(키워드 [] 중복 데코 차단)
+    nodes.push(n);
+  }
+  nodes.forEach(n => {
+    const s = n.data.replace(BIAS_RE, '').replace(/노뮤트\s*(?=앵글(?:\s*후보)?\s*[①-⑳0-9])/g, '');   // 앵글 후보 앞 '노뮤트' 브랜드 접두 제거(기존 생성분 소급 · 프롬프트도 260704 동시 제거 — 운영자 260704 "노뮤트 어쩌고 안 나오게")
+    const parts = s.split(KW_RE);
+    if (parts.length < 2) { if (s !== n.data) n.data = s; return; }
+    const frag = document.createDocumentFragment();
+    parts.forEach((p, i) => { if (!p) return;
+      if (i % 2) {
+        if (/^앵글/.test(p)) {                                                       // 앵글 ①② / 앵글 후보 ①② = [] 감쌈 + 강조색 볼드(관점 키워드와 통일·운영자 260621)
+          const sp = document.createElement('span'); sp.className = 'angle'; sp.textContent = '[' + p.trim() + ']'; frag.append(sp);
+        } else if (/관점\s*$/.test(p)) {                                              // 관점 키워드(…관점) = [] 감쌈 + 강조색 볼드(운영자 260621)
+          const sp = document.createElement('span'); sp.className = 'kw'; sp.textContent = '[' + p.trim() + ']'; frag.append(sp);
+        } else {
+          const sp = document.createElement('span'); sp.className = 'kw'; sp.textContent = p; frag.append(sp);   // J: 약보수 보정 등 — 그대로(편향과 같은 줄)
+        }
+      } else frag.append(document.createTextNode(p)); });
+    n.replaceWith(frag);
+  });
+  // 다각도 '이렇게 볼 수도' 불릿 맨 앞 (관점 라벨) → [관점 라벨] 강조색 볼드(운영자 260621). 라벨=괄호 1~16자(문장 아님)만 — Fact/Inference/활용옵션 불릿은 (로 시작 안 해 미적용.
+  root.querySelectorAll('li').forEach(li => {
+    const tn = li.firstChild;
+    if (!tn || tn.nodeType !== 3) return;
+    const m = tn.data.match(/^\s*\(([^)]{1,16})\)\s*/);
+    if (!m) return;
+    const sp = document.createElement('span'); sp.className = 'kw'; sp.textContent = '[' + m[1].trim() + ']';
+    tn.data = ' ' + tn.data.slice(m[0].length);
+    li.insertBefore(sp, tn);
+  });
+  // G: 앵글 후보 배지 뒤 ' : ' 콜론 제거
+  root.querySelectorAll('.angle').forEach(ag => {
+    const nx = ag.nextSibling;
+    if (nx && nx.nodeType === 3) nx.data = nx.data.replace(/^\s*:\s*/, ' ');
+  });
+  // M: 편향 줄(단독 p) — 자유요약은 원문→요약 보정 흐름으로 재구성(라벨은 숫자 도출=드리프트 차단). IG·Thread 섹션 편향줄은 위(자유요약·활용옵션)에 이미 나오므로 삭제(운영자 260624). 무관/N/A=축약.
+  root.querySelectorAll('p').forEach(p => {
+    if (!/^\s*편향\s*[:：]/.test(p.textContent)) return;
+    let _h = p.previousElementSibling;   // 섹션 헤더 역추적 — IG·Thread면 중복이라 줄 통째 제거(클립 로직과 동일 워크)
+    while (_h && !/^H[1-3]$/.test(_h.tagName)) _h = _h.previousElementSibling;
+    if (_h && /\b(IG|Thread)\b/.test(_h.textContent)) { p.remove(); return; }
+    const t = p.textContent;
+    const why = (t.match(/보정[^()]*\(([^)]*)\)/) || [])[1] || '';   // 약보수 보정 사유 — 화살표 줄 아래 '약보수 보정 :' 흰색 줄로(운영자 260625 · 옛 ↳ 회색 폐지)
+    const whyHtml = why ? ` <span class="biaswhy"><b>약보수 보정</b> : ${esc(why)}</span>` : '';
+    // 무관(면제) — 지침 §79 'F형·아동피해·성범죄·추모·순수정보·스포츠·행정' 등 좌우 축 부적용. 'N/A'·'무관' 외 'AI가 숫자(중립N)로 줬는데 why=면제/좌우 쟁점 아님'인 일탈도 포착 → '무관'(mut·카드 biasLabel과 통일·운영자 260629 "본문도 무관으로"). 설명(why)은 그대로.
+    if (/무관|N\s*\/?\s*A|좌우\s*쟁점.{0,8}아/i.test(t)) { p.innerHTML = '편향: <b class="bias" style="color:var(--mut)">무관</b>' + whyHtml; p.classList.add('bullet'); return; }
+    const flow = t.match(/원문\s*(\d+)\s*[\/／]\s*10[^\n]*?(?:요약|큐레이션)\s*(\d+)\s*[\/／]\s*10/);   // 자유요약 = 원문→요약 (전각슬래시·줄경계 강건화·평의회1)
+    if (flow) {
+      const N = +flow[1], M = +flow[2];
+      // 새 포맷(운영자 260629): '중립 5 (+1 / 우 보정) → 중립 6' — 보정을 원문 옆 괄호로 · 강조색=숫자/델타/방향
+      p.innerHTML = `편향: ${biasFlowHtml(N, M)}` + whyHtml;
+    } else {
+      const one = t.match(/(\d+)\s*[\/／]\s*10/);   // IG·Thread = 단일값(원문 없음) → 숫자 도출 라벨로 정리
+      if (one) { const M = +one[1];
+        p.innerHTML = `편향: ${biasZoneHtml(M)}` + whyHtml;
+      }
+    }
+    p.classList.add('bullet');
+  });
+  // 4) 요약 드래프트 더보기/접기 — '자유요약'만 클립(IG·Thread는 전체 표시)
+  root.querySelectorAll('pre').forEach(pre => {
+    let h = pre.previousElementSibling;
+    while (h && !/^H[1-3]$/.test(h.tagName)) h = h.previousElementSibling;
+    if (h && /자유요약/.test(h.textContent)) addClip(pre);
+  });
+  // 5) 상단 기사 제목 = 복사 버튼 없음(#3) — 카드뉴스 제목만 복사 영역으로(cardSec)
+}
+
+// ── 썸네일 후보 섹션 — 기사 제목 바로 아래(픽한 기사). 검색 이미지 + AI 생성 2화풍(각 4:5 캐러셀). ──
+// 데이터: a.cards.thumb_search[]={img,link,label} (기사 og:image+유사 · label=''(대표)/'유사') · a.cards.thumb_gen[]={img,label} (Gemini 2화풍).
+// 백엔드 채워지기 전(P1): 검색=라이브 폴백(Wikimedia 이미지 + 구글 검색 링크) / 생성=대기 플레이스홀더.
+const _thumbFile = a => (a && a.file) || '';   // 발사 대상 stem(api/genimg body.file) — 없으면 버튼 미표시(free 모드 아님)

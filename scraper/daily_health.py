@@ -587,7 +587,7 @@ def main():
     if not hits:
         print("      (최근 15커밋에 큐레이션 변경 없음)")
     print(f"  · 롤백 방법: git revert <커밋> 또는 git diff {CHECKPOINT}..origin/main 으로 분기 후 변경 검토")
-    print(f"             · _versions/ 백업 폴더에서 개별 파일 복원")
+    print(f"             · Git 이력 백업 폴더에서 개별 파일 복원")
     print("\n[판단] ①②에 ⚠️/❌ 있으면 원인 추적 → 알고리즘 변경 탓이면 ③으로 롤백 검토."
           " 깨끗하면 '수집·알고리즘 정상, 롤백 불요' 보고.")
 

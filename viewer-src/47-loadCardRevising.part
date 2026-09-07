@@ -1,0 +1,338 @@
+<script>%SCRIPT%<\/script>
+</body>
+</html>`;
+let _nmFontCss = null;   // Pretendard base64 캐시(세션 1회 fetch·재사용)
+async function nmFontFace() {   // woff2 → @font-face(base64) 임베드용 CSS. 실패 시 '' → CDN 폴백.
+  if (_nmFontCss !== null) return _nmFontCss;
+  try {
+    const r = await fetch('assets/fonts/pretendard.woff2', { cache: 'force-cache' });
+    if (!r.ok) throw 0;
+    const bytes = new Uint8Array(await r.arrayBuffer());
+    let bin = ''; const CH = 0x8000;
+    for (let i = 0; i < bytes.length; i += CH) bin += String.fromCharCode.apply(null, bytes.subarray(i, i + CH));
+    _nmFontCss = "@font-face{font-family:'Pretendard Variable';font-weight:45 920;font-style:normal;font-display:swap;src:url(data:font/woff2;base64," + btoa(bin) + ") format('woff2-variations')}";
+  } catch (e) { _nmFontCss = ''; }
+  return _nmFontCss;
+}
+async function buildSummaryHtml(full, opts) {   // full=true('전체'): IG·스레드+카드뉴스 · opts.embedFont=false면 폰트 CDN링크(발행=크기↓·600KB초과 방지·검증7/10)
+  const src = document.createElement('div');
+  src.innerHTML = (($('#mdbody') || {}).innerHTML) || '';
+  src.querySelectorAll('button, .copy, .ovmeta').forEach(el => el.remove());   // 뷰어 복사·더보기 + 개요칩(.ovmeta=매체·기자·IN 적재시각 등 내부 운영메타) 제거 — 공유 요약엔 불필요·출처줄과 중복·IN 유출 방지
+  src.querySelectorAll('pre.clip').forEach(p => p.classList.remove('clip'));   // 클립 해제(전문 표시)
+  src.querySelectorAll('.thumbsec').forEach(el => el.remove());                // 썸네일 후보 박스(검색·AI생성) 제거 — 다운로드 요약엔 잡음(운영자 260621)
+  src.querySelectorAll('.md-orig').forEach(el => el.remove());                 // 원문 영문 제목 = 본문 박스 아님 → 헤더 제목 바로 아래로 이관(%ORIG% · 운영자 요청)
+  src.querySelectorAll('.md-srct').forEach(el => el.remove());                 // 기사 원래 타이틀(뷰어 화면 전용 · 260805) = 다운로드·발행 HTML은 종전 그대로(제목은 아래 h1 제거와 짝으로 헤더가 담당) — 본문 맨 위 제목 2줄 방지
+  src.querySelectorAll('pre').forEach(p => { p.textContent = p.textContent.replace(/ /g, ' '); });   // nbsp→일반공백 = 자유요약 줄바꿈 막던 비분리공백 제거(가로 잘림 방지 · 운영자 260621)
+  src.querySelectorAll('img').forEach(el => el.remove());                      // 본문 이미지 제거(텍스트 요약)
+  src.querySelectorAll('h1').forEach(el => el.remove());                       // 제목 h1은 헤더로 따로
+  src.querySelectorAll('[style]').forEach(el => el.removeAttribute('style'));  // 뷰어 인라인 스타일 제거(서식 CSS만 적용)
+  const SECBTN = '<button type="button" class="nm-secbtn" title="이 항목 복사"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;display:block"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V5a2 2 0 0 1 2-2h10"></path></svg></button>';
+  const tipRe = /시사점|💡/;
+  const snsRe = /^\s*\[?\s*(IG|Thread|인스타|스레드|쓰레드)/i;   // 인스타·스레드(SNS) 소주제 = 다운로드 HTML서 배제 — [자유요약]은 유지(운영자 260620)
+  const card = (name, inner, tip) => '<div class="nm-sec' + (tip ? ' nm-tip' : '') + '" data-sec>'
+    + (name ? '<h2 class="nm-h">' + (tip ? '' : '<span class="nm-dot"></span>') + esc(name) + '</h2>' : '')   // 시사점(tip)=●말머리 제거·💡만(운영자 260621)
+    + inner + SECBTN + '</div>\n';
+  const kids = [...src.children], isH = el => /^H[2-6]$/.test(el.tagName);
+  let boxes = '', i = 0;
+  while (i < kids.length) {                                                    // 헤딩 경계로 항목 분할
+    if (isH(kids[i])) {
+      const name = kids[i].textContent.trim();
+      const parts = []; let j = i + 1;
+      while (j < kids.length && !isH(kids[j])) { parts.push(kids[j]); j += 1; }
+      if (!full && snsRe.test(name)) { i = j; continue; }   // 인스타·스레드 섹션 = 기본 제외 · '전체' 체크 시 포함(운영자 260621)
+      if (!parts.length) { i = j; continue; }   // 본문 없는 그룹 헤더(예: 콘텐츠 초안) = 표기 안 함 — 잡음(운영자 260621)
+      // '편향' 줄 = 복사 대상(본문)서 분리 → data-body 밖 .nm-ref 글래스 영역(읽기전용 참고·복사 제외 · 운영자 260621)
+      const _refRe = /^[\s•·📊]*편향\s*[:：]/;
+      const _ref = parts.filter(p => _refRe.test((p.textContent || '').trim()));
+      const _cont = parts.filter(p => !_refRe.test((p.textContent || '').trim()));
+      const _refHtml = _ref.length ? '<div class="nm-ref" data-ref>' + _ref.map(p => p.outerHTML).join('') + '</div>' : '';
+      if (_cont.length === 1 && _cont[0].tagName === 'PRE') {   // 자유요약 등 단일 코드블록 = 텍스트→<p>문단(빈 줄 기준)·단일 줄바꿈→<br>·공백 정규화(nbsp·전각·탭→일반)
+        const _t = _cont[0].textContent.replace(/[ 　\t]/g, ' ').replace(/ +\n/g, '\n').trim();
+        const _ps = _t.split(/\n{2,}/).map(s => s.trim()).filter(Boolean).map(s => '<p>' + esc(s).replace(/\n/g, '<br>') + '</p>').join('') || ('<p>' + esc(_t) + '</p>');
+        boxes += card(name, '<div class="nm-body draft-scroll" data-body>' + _ps + '</div>' + _refHtml, tipRe.test(name));
+      }
+      else if (_cont.length)
+        boxes += card(name, '<div class="nm-body draft-scroll" data-body>' + _cont.map(p => p.outerHTML).join('') + '</div>' + _refHtml, tipRe.test(name));
+      else if (_refHtml)   // 본문 없이 참고(편향)줄만 = 빈 본문칸 없이 참고영역만
+        boxes += card(name, _refHtml, tipRe.test(name));
+      i = j;
+    } else {
+      const parts = []; let j = i;
+      while (j < kids.length && !isH(kids[j])) { parts.push(kids[j]); j += 1; }
+      const body = parts.map(p => p.outerHTML).join('');
+      if (body.trim()) boxes += card('', '<div class="nm-body draft-scroll" data-body>' + body + '</div>', false);
+      i = j;
+    }
+  }
+  if (full) {   // '전체' 체크 = 카드뉴스 = 카드마다 별도 박스(각자 복사 버튼 · 고정높이 내부스크롤 · 외부 페이지 스크롤 우선 · 운영자 260622). 기본(미체크)=없음.
+    const cmd = (CUR_A && CUR_A.cards && CUR_A.cards.md) || '';   // cards.md = SSOT(파싱이 DOM 스크랩보다 깨끗 — 클립/버튼 오염 없음)
+    if (cmd) {
+      const cds = parseCards(cmd);
+      if (cds.length) {
+        const ctitle = feedTitle(cmd);
+        boxes += '<div class="nm-grp">카드뉴스' + (ctitle ? ' · <span class="nm-grp-t">' + esc(ctitle) + '</span>' : '') + '<span class="nm-grp-m">Model: Nano Banana Pro (Gemini 3.1 Flash image)</span></div>';   // 1줄: 카드뉴스 · 제목(볼드X) / 2줄: 이미지모델(볼드X·원표기 · 운영자 260622)
+        cds.forEach(cd => {
+          let inner = '';
+          if (cd.caption) inner += '<pre>' + esc(cd.caption).replace(/\*([^*\n]+)\*/g, '<span class="cem">$1</span>') + '</pre>';   // *강조* → 형광(카드와 동일 톤)
+          if (cd.prompt) inner += '<p class="nm-sublbl">이미지 프롬프트</p><pre>' + esc(cd.prompt) + '</pre>';
+          if (inner) boxes += card('카드 ' + cd.n, '<div class="nm-body draft-scroll nm-cardbody" data-body>' + inner + '</div>', false);   // 카드별 = data-sec → _expCopy가 카드마다 복사 버튼
+        });
+      }
+    }
+  }
+  // 검색 이미지 + AI 썸네일 슬라이드 = 발행본 상단(운영자 260702). 자기완결 유지 = R2 https URL만 인라인(상대경로 git폴백은 apps.nomute.kr/Access 뒤라 공개 뷰어서 못 뜸 → 제외). API 호출 0.
+  const _pimgs = [];
+  if (CUR_A && CUR_A.cards) {
+    const _ts = Array.isArray(CUR_A.cards.thumb_search) ? CUR_A.cards.thumb_search : [];
+    const _tg = Array.isArray(CUR_A.cards.thumb_gen) ? CUR_A.cards.thumb_gen : [];
+    [..._ts, ..._tg].forEach(it => { const u = it && it.img; if (u && /^https:\/\//i.test(u) && !_pimgs.includes(u)) _pimgs.push(u); });   // 검색 먼저·썸네일 뒤 · 중복 제거
+  }
+  if (_pimgs.length) {
+    // 이미지별 저장 = 오버레이 .nm-imdl(.dlbtn 계승·검정 플레이트) — 자기완결이라 <a download>+새탭(교차출처 R2는 새탭 열림 = 길게눌러 저장). §🎨 오버레이 검정
+    const slots = _pimgs.map((u, i) => '<div class="nm-imslot"><img loading="lazy" referrerpolicy="no-referrer" src="' + escUrl(u) + '" alt="" onerror="this.closest(\'.nm-imslot\').style.display=\'none\'"><span class="nm-imno">' + (i + 1) + '/' + _pimgs.length + '</span>'
+      + '<a class="nm-imdl" href="' + escUrl(u) + '" download="' + esc('검색이미지-' + (i + 1)) + '" target="_blank" rel="noopener" title="이미지 저장" aria-label="이미지 저장">' + DOWNLOAD_SVG + '</a></div>').join('');
+    // 검색 헤더 = 제목검색 돋보기 + 키워드 K검색(한/영 토글) · 자기완결(구글 이미지검색 링크만·API 0) — 뷰어 thumbStatic 계승(운영자 요청)
+    const _chip = q => String(q || '').trim().split(/\s+/).filter(Boolean).join(', ');
+    const _gis = (q, en) => 'https://www.google.com/search?tbm=isch&' + (en ? 'hl=en&gl=us&' : '') + 'tbs=qdr:d&q=' + encodeURIComponent((q || '').slice(0, 100));
+    const _kwko = (CUR_A && (CUR_A.image_query || '')).trim(), _kwen = (CUR_A && (CUR_A.image_query_en || '')).trim();
+    const _hasKw = !!(_kwko || _kwen), _initEn = !!_kwen;   // 🌍해외(en 有)=영문 우선 기본 · 국내=한
+    const _titleQ = (CUR_A && CUR_A.title) || '뉴스';
+    const _tsrch = '<a class="nm-imsrch" href="' + escUrl(_gis(_titleQ, false)) + '" target="_blank" rel="noopener" title="기사 제목으로 이미지 검색" aria-label="제목 이미지 검색">' + SEARCH_SVG + '</a>';
+    let _kwbox = '';
+    if (_hasKw) {
+      const _both = _kwko && _kwen;
+      _kwbox = '<span class="nm-kwbox' + (_initEn ? ' en' : '') + '" data-cko="' + esc(_chip(_kwko)) + '" data-cen="' + esc(_chip(_kwen)) + '" data-init="' + (_initEn ? 'en' : 'ko') + '">'
+        + '<a class="nm-kwsrch" href="' + escUrl(_gis(_initEn ? _kwen : _kwko, _initEn)) + '" target="_blank" rel="noopener" data-hko="' + escUrl(_gis(_kwko, false)) + '" data-hen="' + escUrl(_gis(_kwen, true)) + '" aria-label="키워드로 이미지 검색"><span class="nm-klbl">K</span>' + SEARCH_SVG + '</a>'
+        + (_both ? '<button type="button" class="nm-kwtog" title="키워드 언어 전환(한/영)" aria-label="키워드 언어 전환(한/영)">' + (_initEn ? '영' : '한') + '</button>'
+                 : '<span class="nm-kwtog st">' + (_kwen ? '영' : '한') + '</span>')
+        + '</span>';
+    }
+    const _kwrow = _hasKw ? '<div class="nm-kwrow"><span class="nm-kw" title="키워드 복사">' + esc(_initEn ? _chip(_kwen) : _chip(_kwko)) + '</span></div>' : '';
+    boxes = '<div class="nm-sec nm-imsec"><div class="nm-imhead"><h2 class="nm-h"><span class="nm-dot"></span>검색 이미지</h2><span class="nm-imacts">' + _tsrch + _kwbox + '</span></div>' + _kwrow + '<div class="nm-imtrack">' + slots + '</div></div>\n' + boxes;   // 맨 위(요약 카드 위) · data-sec 없음 = 복사버튼 미부착
+  }
+  const now = new Date(), pz = n => String(n).padStart(2, '0');
+  const ymd = now.getFullYear() + '-' + pz(now.getMonth() + 1) + '-' + pz(now.getDate());
+  const mdh1 = ($('#mdbody') ? $('#mdbody').querySelector('h1') : null);
+  const title = (CUR_A && CUR_A.title) || (mdh1 ? mdh1.textContent.trim() : '') || '뉴스 요약';
+  const _orig = (CUR_A && (CUR_A.title_orig || '')).trim();   // 외신 원문 영문 제목 — 제목 바로 아래 mut 1줄로 이관(%ORIG% · 운영자 요청)
+  const cat = catBucket(CUR_A && CUR_A.category);
+  let dt = CUR_A ? repDateTime(CUR_A) : '';
+  if (!dt && CUR_A) dt = (inDateTime(CUR_A).txt || '');   // 보도일(a.date) 없으면 적재(스크랩) 일시로 폴백 — 일시 항상 표기(운영자 260621)
+  // 기자명 = frontmatter(reporter/byline) 우선, 없으면 본문 '출처: 매체 (기자)' 패턴 추출 → fmtReporter로 「000 기자 / 000 기자 외 N명」 통일(개요칩과 동일 · 운영자 260621)
+  const rpRaw = (CUR_A && (CUR_A.reporter || CUR_A.byline)) || (((CUR_A && CUR_A.body) || '').match(/출처[:：]\s*[^()\n]*\(([^)]+)\)/) || [, ''])[1].trim();
+  const rpFmt = CUR_A ? fmtReporter(rpRaw, CUR_A.media) : '';
+  const repMeta = '<span class="nm-reporter">' + (rpFmt || '확인 必') + '</span>';   // 미상이면 '확인 必'(일반 글자 — 강조 없음)
+  const mbits = [];
+  if (CUR_A && CUR_A.media) {
+    const _su = /^https?:\/\//i.test(CUR_A.url || '') ? esc(CUR_A.url) : '';   // 기사 원문 URL(스킴 가드)
+    mbits.push(_su ? '<a class="nm-media nm-srclink" href="' + _su + '" target="_blank" rel="noopener">' + LINK_SVG + ' ' + esc(CUR_A.media) + '</a>' : '<span class="nm-media">' + esc(CUR_A.media) + '</span>');   // 매체명 = 출처 하이퍼링크(🔗+밑줄 강조색 → 원문 · 출처를 상단으로 · 운영자 260621)
+  }
+  mbits.push(repMeta);   // 기자(미상=확인 必) — 항상 표기
+  if (dt) mbits.push('<span class="nm-date"><span class="nm-dlabel">보도:</span> ' + dt + '</span>');   // "보도:" 라벨(mut) + 날짜(흰)·운영자 260621
+  const mline = mbits.length ? '<span class="nm-mline">' + mbits.join('<span class="nm-dotsep"></span>') + '</span>' : '';
+  const badge = cat ? '<span class="nm-badge">' + esc(cat) + '</span>' : '';
+  const meta = (badge || mline) ? ('<div class="nm-meta">' + badge + mline + '</div>') : '';
+  const crLine = 'ⓒ ' + now.getFullYear() + '. <a class="nm-iglink" href="https://www.instagram.com/no_mute/" target="_blank" rel="noopener">에디터 노뮤트(@no_mute, 인스타그램)</a>. all rights reserved. (' + ymd + ')';   // @no_mute = 인스타 하이퍼링크·강조색(운영자 260621)
+  const fontCss = (opts && opts.embedFont === false) ? '' : await nmFontFace();   // 발행 경로는 폰트 인라인 스킵(616KB) → 아래 CDN링크 폴백 사용
+  const fontHead = fontCss ? ('<style>' + fontCss + '</style>')
+    : '<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@1.3.9/dist/web/variable/pretendardvariable.min.css">';
+  return SUMMARY_TPL
+    .replace('%FONTFACE%', () => fontHead)
+    .replace(/%TITLE%/g, () => esc(title))
+    .replace('%LOGO%', () => NM_LOGO)
+    .replace('%META%', () => meta)
+    .replace('%ORIG%', () => _orig ? '<div class="nm-orig" title="영문 제목 복사">' + esc(_orig) + '</div>' : '')   // 제목 아래 영문 제목(클릭 복사·accent 플래시 = _expCopy)
+    .replace('%BOXES%', () => boxes)
+    .replace('%CR%', () => crLine)
+    .replace('%SCRIPT%', () => '(' + _expCopy.toString() + ')();');
+}
+let _pdfBusy = false;
+async function downloadSummaryHtml() {
+  if (_pdfBusy || !CUR_A) return; _pdfBusy = true;
+  const btn = $('#pdfBtn'), lbl = btn && btn.querySelector('.dl-lbl'), old = lbl ? lbl.textContent : '';
+  if (lbl) lbl.textContent = '만드는 중…'; if (btn) btn.disabled = true;
+  try {
+    const html = await buildSummaryHtml($('#dlFull') && $('#dlFull').checked);
+    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+    const url = URL.createObjectURL(blob), a = document.createElement('a');
+    a.href = url;
+    a.download = dlStamp(CUR_A) + '_' + (((CUR_A && CUR_A.title) || '뉴스요약').replace(/[\\/:*?"<>|]+/g, ' ').slice(0, 60).trim() || '뉴스요약') + ' — 노뮤트.html';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 4000);
+  } catch (e) {
+    alert('요약 HTML 생성 실패: ' + ((e && e.message) || e));
+  } finally {
+    if (lbl) lbl.textContent = old; if (btn) btn.disabled = false; _pdfBusy = false;
+  }
+}
+$('#pdfBtn').addEventListener('click', () => {   // '공유' = 공개 발행(다운로드 대신 · 운영자 260702). ⚠️ 별자리 훑기(ic-share 위임)가 보이게 창 열기를 ~0.28s 지연 — 즉시 열면 발행창이 요약 헤더를 덮어 모션·okflash가 안 보임(발행본 메뉴는 창 안 떠서 잘 보였던 것 · reduced-motion=즉시 · 운영자 260704).
+  const rm = window.matchMedia && matchMedia('(prefers-reduced-motion:reduce)').matches;
+  setTimeout(openPubDlg, rm ? 0 : 280);
+});
+// 요약 헤더 인터랙션 — 체크(전체)=알약 강한 링+켤 때 펄스 / 공유 탭=초록 플래시+별자리 훑기(ic-share·위임 핸들러 260703) / 원문=흰빛+↗튐 / 알약 눌림(260621)
+(function(){
+  const box = $('#dlbox'), chk = $('#dlFull'), pdf = $('#pdfBtn'), src = $('#src');
+  if (chk && box) chk.addEventListener('change', () => {
+    box.classList.toggle('full', chk.checked);
+    if (chk.checked) { box.classList.remove('rip'); void box.offsetWidth; box.classList.add('rip'); }
+  });
+  if (box) {   // 눌림 = 알약 전체(체크·요약 어디를 눌러도 통합 알약이 눌림)
+    const on = () => box.classList.add('press'), off = () => box.classList.remove('press');
+    box.addEventListener('pointerdown', on);
+    ['pointerup','pointerleave','pointercancel'].forEach(e => box.addEventListener(e, off));
+  }
+  if (pdf) pdf.addEventListener('click', () => { pdf.classList.add('okflash'); setTimeout(() => pdf.classList.remove('okflash'), 520); });
+  if (src) src.addEventListener('pointerdown', e => {   // 원문(↗) = 플래시+ic-rise를 pointerdown(누르는 순간·탭 전환 *전*)에 선발화 — click 시점 발화는 새 탭 전환 즉시라 백그라운드 재생 = 안 보임, :active만으론 모바일 빠른 탭서 미점등(운영자 260705 "이동 픽토그램 액티브 작동 안 함"). ⚠️ 열기 지연(0.28s) 금지 — 합성 앵커클릭(failOpen 패턴)은 setTimeout 안에선 팝업 차단(실측 260705) + window.open은 전역 open(피드 모달)에 가려짐 → 선발화가 유일 경로. 위임 click 모션 셀렉터에서 #src 제외(이중발화 방지·짝 수정).
+    if (e.pointerType === 'mouse' && e.button !== 0) return;   // 마우스 우클릭·휠클릭 = 발화 제외
+    const svg = src.querySelector('svg'); if (svg) { svg.classList.remove('ic-src'); void src.offsetWidth; svg.classList.add('ic-src'); }   // 리플로우는 HTMLElement 기준(svg.offsetWidth는 undefined = 플러시 안 됨 · 8364 동일 함정) · openflash(배경 알약) 제거 = 픽토온리(운영자 260705 배경 네모 X) → 누름 피드백은 ic-src 모션 단독
+  });
+})();
+// 원문 픽토 선발화 = #src 문법 그대로 계승(쇼츠 #tvOpen·스크랩 #trefOpen — 운영자 260717 원문이동 픽토그램 통일 · click 위임 제외 짝도 동일 = 이중발화 0 · 새 탭 전환 前 pointerdown 발화)
+['tvOpen', 'trefOpen'].forEach(id => { const a = document.getElementById(id); if (!a) return; a.addEventListener('pointerdown', e => {
+  if (e.pointerType === 'mouse' && e.button !== 0) return;   // 마우스 우클릭·휠클릭 = 발화 제외(#src 동일)
+  const svg = a.querySelector('svg'); if (svg) { svg.classList.remove('ic-src'); void a.offsetWidth; svg.classList.add('ic-src'); }   // 리플로우 = HTMLElement 기준(#src 11484 동일 문법)
+}); });
+// 픽토그램 누름 = 시맨틱 아이콘 모션(전 아이콘 버튼 통일 · 위임 1핸들러 · 운영자 260621). 다운로드/저장=바운스, 그 외=회전. 기존 svg 애니(bnav·rev-fab 등)는 셀렉터서 제외. ts-rf(상단 강제새로고침)도 ic-spin으로 편입 = .pmenu-rf와 동일 픽토그램 액티브(운영자 260629).
+document.addEventListener('click', e => {
+  if (e.defaultPrevented) return;   // 드래그/취소된 클릭(캐러셀 스와이프 등)엔 헛모션 방지
+  const b = e.target.closest('.sbtn,.tool-x,.dlg-x,.mx,.ed-x,.askx,.qh-x,.pmenu-rf,.ts-rf,.vh-rf,#profile,.fb-x,.sc-rsn-x,.askimg-x,.copy,.titlecopy,.gsrch,.dlgtop,.bnav-fab,.fi-saveall,.pub-share,.dlg-pdf');   /* .vh-rf = 헤더 수동 재수집 픽토(260803 평의회 지적 — CSS 주석은 'ic-spin 위임'이라 적었는데 이 목록에 없어 누름 피드백이 0이었다 = 주석과 사실 불일치) */   // .pub-share·.dlg-pdf = 요약 헤더 '공유'도 별자리 훑기(ic-share) 편입(260703) · #src(원문·외부이동)는 click 발화가 새 탭 전환에 삼켜져 여기서 제외 → 전용 pointerdown 선발화(8355 · 운영자 260705)
+  if (!b) return;
+  const svg = b.querySelector('svg'); if (!svg) return;
+  const m = b.dataset.motion ? ('ic-' + b.dataset.motion) : (b.matches('.save,.fi-saveall,[aria-label*="저장"],[aria-label*="다운로드"],[title*="다운로드"]') ? 'ic-bounce' : 'ic-spin');   // data-motion=rise(↗이동)/check(✓확인)/share(별자리 훑기) 명시 우선(운영자 260702·260703) · 없으면 다운로드=바운스/그외=회전
+  svg.classList.remove('ic-spin', 'ic-bounce', 'ic-rise', 'ic-check', 'ic-share', 'ic-arrow'); void b.offsetWidth; svg.classList.add(m);   // ⚠️ 리플로우는 버튼(HTMLElement) 기준 — svg.offsetWidth는 SVGElement에 없어(undefined) 스타일 플러시가 안 일어나 remove→add가 한 프레임에 합쳐짐 = 2회째부터 모션 무발화(별자리 훑기 '처음만 작동' 진범 · 운영자 260704)
+}, true);
+// 다운로드 버튼 표준 클릭효과 = ✓ 팝 + 링 리플(.dlbtn 전 앱 공통 · 위임·캡처 · 운영자 260622)
+document.addEventListener('click', e => {
+  const b = e.target.closest('.dlbtn'); if (!b) return;
+  if (!b.matches('.cref-dlall')) b.classList.add('dl-done');   // 클릭 즉시 '받음' mut(전체=.cref-dlall은 완료 시 별도 처리·운영자 260701·색 260706)
+  const o = document.createElement('span'); o.className = 'dl-ack';
+  o.innerHTML = '<span class="dl-ring"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>';
+  if (getComputedStyle(b).position === 'static') b.style.position = 'relative';
+  b.appendChild(o); setTimeout(() => o.remove(), 700);
+}, true);
+$('#revFab').addEventListener('click', openRev);
+$('#crevFab').addEventListener('click', openCrev);   // 🃏 카드 수정 FAB → 카드 수정 팝업(요약 FAB↔revdlg 미러)
+
+// ── 🃏 카드 수정 요청 — 요약 수정(revise)의 카드판 미러. 동작 동일, 범위=카드 프롬프트 전체(api/revise-cards). 제미나이 0(이미지 재슛 X). ──
+// 완료 감지 = a.cards.updated 변화(revise-cards.sh가 status.json updated 갱신 → lag split ensureDetail ver도 무효화 = 새 cards.md 자동 재로드).
+const CARD_REVISING = new Map();   // file → { reqUpdated(요청 시 cards.updated 스냅), ts }
+const CREV_PEND_KEY = 'nomute_crev_pending';
+const cardUpdated = file => { const a = DATA.find(x => x.file === file); return (a && a.cards && a.cards.updated) || ''; };
+const isCardRevising = file => CARD_REVISING.has(file);
+const saveCardRevising = () => { try { localStorage.setItem(CREV_PEND_KEY, JSON.stringify([...CARD_REVISING])); } catch {} };
+function loadCardRevising() {
+  try {
+    const now = Date.now();
+    for (const [file, v] of JSON.parse(localStorage.getItem(CREV_PEND_KEY) || '[]'))
+      if (v && typeof v.ts === 'number' && now - v.ts < 20 * 60000) CARD_REVISING.set(file, v);
+  } catch {}
+  if (CARD_REVISING.size) startCardRevisePoll();
+}
+function startCardRevising(file) {
+  if (!file) return;
+  CARD_REVISING.set(file, { reqUpdated: cardUpdated(file), ts: Date.now() });
+  saveCardRevising();
+  startCardRevisePoll();
+  updateCrevFab();   // 즉시 revving(물결) 반영
+}
+let _crevPoll = null;
+function startCardRevisePoll() {
+  if (_crevPoll) return;
+  _crevPoll = setInterval(async () => {
+    if (isComposingModalOpen()) return;   // ⚠️ 작성 모달 중엔 폴 보류(backdrop-filter 깜빡임 방지 · 다음 틱 재개 · 260627)
+    await load();
+    let changed = false;
+    for (const [file, v] of [...CARD_REVISING]) {
+      if (cardUpdated(file) !== v.reqUpdated) {           // cards.updated 변경 = 카드 재기획 반영 완료
+        CARD_REVISING.delete(file); changed = true;
+        if ($('#dlg').open && CUR === file) {              // 열린 카드 자동 갱신(스크롤 보존) — open이 ensureDetail로 새 cards.md 재로드
+          const a = DATA.find(x => x.file === file);
+          if (a) { const db = $('#dlgbody'), st = db ? db.scrollTop : 0; open(a).then(() => { if (db) db.scrollTop = st; }); }
+        }
+      } else if (Date.now() - v.ts > 20 * 60000) {        // 20분 폴백 — 조용히 사라지지 말고 표면화
+        CARD_REVISING.delete(file); changed = true;
+        const ra = DATA.find(x => x.file === file);
+        qFlash('카드 수정요청 20분째 반영 안 됨 — 지연이거나 실패. 안 바뀌면 다시 시도해' + (ra && ra.title ? ' (' + ra.title.slice(0, 16) + '…)' : ''), WARN_SVG);
+      }
+    }
+    if (changed) { saveCardRevising(); updateCrevFab(); }   // 완료 → revving 해제·회차색(crev) 반영
+    if (!CARD_REVISING.size) { clearInterval(_crevPoll); _crevPoll = null; }
+  }, 20000);
+}
+let crevConfirmT = null;
+function resetCrevSend() {
+  clearTimeout(crevConfirmT);
+  const btn = $('#crevSend'); if (!btn) return;
+  btn.classList.remove('confirm');
+  const lbl = btn.querySelector('span'); if (lbl) lbl.textContent = '수정';
+}
+function openCrev() {
+  if (!CUR) return;
+  if (isCardRevising(CUR)) return;   // 카드 수정 중 = FAB 눌러도 입력 팝업 안 열림(무반응) · 시각 표식(카드 수정 중)은 유지 — 운영자 260626(요약 openRev 미러)
+  resetCrevSend();
+  $('#crevSend').classList.remove('firing'); $('#crevSend').disabled = false;   // (crevStatus 잔상 리셋 소멸 — 상태문자열 폐지·qFlash 위임 260720)
+  updateCrevClip(); openComposeDlg($('#crevdlg'));   // 폰 뒤로가기 칸(입력 손실 방지·260627)
+  setTimeout(() => $('#crevText').focus(), 60);
+}
+function updateCrevClip() { const t = $('#crevText'); if (t) t.dispatchEvent(new Event('input', { bubbles: true })); }   // 클립 = attachCopyPaste 이식(이미지 제작 동일) → input 디스패치로 갱신(운영자 260627)
+$('#crevX').addEventListener('click', () => $('#crevdlg').close());
+$('#crevdlg').addEventListener('click', e => { if (e.target === $('#crevdlg')) $('#crevdlg').close(); });
+$('#crevdlg').addEventListener('close', () => { resetCrevSend(); if (!$('#crevdlg')._minimizing) draftClear('#crevText', updateCrevClip); });   // 닫으면 재확인 해제 + 초안 폐기(운영자 260727 · revdlg 미러 — 최소화만 보존)
+$('#crevText').addEventListener('input', () => { resetCrevSend(); });   // 복사/붙여넣기/지우개는 attachCopyPaste가 처리(이미지 제작 이식·260627)
+$('#crevSend').addEventListener('click', async () => {
+  if (CUR && isCardRevising(CUR)) return;   // 진행 중 재전송 차단(silent)
+  const instruction = $('#crevText').value.trim();
+  if (!instruction) { qFlash('카드 수정 지시를 한 줄 적어줘'); return; }   // 전 상태문구 = qFlash 토스트(팝업 내 문자열 폐지 · 운영자 260720)
+  if (!CUR) { qFlash('대상 카드를 못 찾음'); return; }
+  const btn = $('#crevSend'), lbl = btn.querySelector('span');
+  if (!btn.classList.contains('confirm')) {   // 1차 = 재확인
+    btn.classList.add('confirm'); if (lbl) lbl.textContent = '재확인';
+    clearTimeout(crevConfirmT); crevConfirmT = setTimeout(resetCrevSend, 4000);
+    return;
+  }
+  clearTimeout(crevConfirmT);                  // 2차 = 전송
+  btn.classList.remove('confirm'); if (lbl) lbl.textContent = '수정';
+  btn.disabled = true; askHideCheck(btn); gaugeStart(btn);   // 게이지 = 재확인 탭 즉시·응답까지 진행(옛 'fetch 후 firing' 무반응 멈춤 제거 · 운영자 260702)
+  try {
+    const r = await fetch('api/revise-cards', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ file: CUR, instruction }) });
+    const d = await r.json().catch(() => ({}));
+    if (r.ok && d.ok) {
+      gaugeDone(btn);
+      setTimeout(() => askShowCheck(btn), 300);   // 게이지 채움완료(gdone .3s)와 물려 ✓ 팝(멈칫 제거·운영자 260703)
+      startCardRevising(CUR);
+      setTimeout(() => { $('#crevdlg').close(); $('#crevText').value = ''; btn.disabled = false; gaugeClear(btn); updateCrevClip(); }, 1400);
+    } else {
+      gaugeClear(btn); btn.disabled = false; qFlash((d && d.error) ? String(d.error).slice(0, 80) : '전송 실패 — 다시');
+    }
+  } catch {
+    gaugeClear(btn); btn.disabled = false; qFlash('네트워크 오류 — 다시');
+  }
+});
+loadCardRevising();
+
+// ── 공개 발행(공유 버튼 → #pubdlg → api/publish) + 발행본 팝업(#pubpop = 대기열 qpop 미러) · 260702 ──
+const pubdlg = $('#pubdlg'), pubpop = $('#pubpop');
+let _pubScope = 'public', _pubBusy = false;
+function openPubDlg() {
+  if (!CUR_A) return;
+  _pubScope = 'public';
+  const _pv = $('#pubVis'); if (_pv) { _pv.classList.remove('private'); _pv.textContent = '누구나'; _pv.dataset.scope = 'public'; }
+  pubPinReset();
+  try {   // 고정 PIN 프리필(운영자 260707 "그때그때 바뀌니까 항상 고정") — 직전 발행 확정 PIN 자동 채움 = 모든 발행본 PIN 단일화(재잠금·해제도 같은 번호 하나만 기억). 지우고 새로 치면 기존 2단 그대로(고정 갱신 정문 = 다음 발행 성공) · 다 지우면 잠금 없이 발행(기존 문법 불변) · 발행 PIN = 공유용 저위험이라 로컬 평문 저장(nm_lock_pin 로컬 저장 선례·본인 기기)
+    const fp = localStorage.getItem('nm_pub_pin') || '';
+    if (/^\d{6}$/.test(fp)) { $('#pubPin').value = fp; _pubPinOK = true; const lg = $('#pubPinLeg'); if (lg) lg.textContent = '고정 PIN 사용 중'; renderPubSlots(); }
+  } catch (e) {}
+  const ex = new Date(Date.now() + 3 * 86400e3 + 9 * 3600e3);   // 만료 = +3일 · KST(§📐)로 mm/dd 표기
+  $('#pubExp').textContent = '3일 (~' + String(ex.getUTCMonth() + 1).padStart(2, '0') + '/' + String(ex.getUTCDate()).padStart(2, '0') + ')';
+  const st = $('#pubStatus'); st.textContent = ''; st.classList.remove('err');
+  const go = $('#pubGo'); go.classList.remove('firing', 'shake', 'done'); askHideCheck(go); go.disabled = false; _pubBusy = false;   // firing·done·✓(ack) 리셋 = 전송/수정 버튼 동일 · _pubBusy = in-flight 중 닫고 재열기 죽은버튼 방지(검증7)
+  openComposeDlg(pubdlg);   // dialog 스택·폰 뒤로가기 = 기존 컴포즈 모달 시스템 계승
+}
+$('#pubVis').addEventListener('click', () => {
+  const v = $('#pubVis'); const priv = v.classList.toggle('private');
+  v.textContent = priv ? '비공개' : '누구나';
+  _pubScope = priv ? 'private' : 'public'; v.dataset.scope = _pubScope;
+});
+// ── 발행 PIN = 슬롯 6칸(입력자리 숫자 노출·미입력 점) + 2단 입력(1차 설정→2차 확인) · 화면잠금 .lk-slot 계승(마스킹 없음·운영자 260703) ──
+let _pubStage = 1, _pubPin1 = '', _pubPinOK = false;
+// 공통 PIN 슬롯 렌더(§🎨 정본·분신술10 260703) — 방금 자리만 숫자·나머지 동그라미. reveal='last'(방금 노출·발행/조회 운영자 260703) / 'none'(완전마스킹). 입력·상태머신은 각 어댑터가 value만 넘김(뷰/컨트롤러 분리 = pub(발행)·pin(#pindlg)·lk(화면잠금) 공유).

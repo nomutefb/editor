@@ -1,0 +1,585 @@
+function checkFreshLane() {
+  const el = document.getElementById('sysFreshToast');
+  const kstH = new Date(Date.now() + 9 * 3600000).getUTCHours();   // 브라우저 로컬 tz 무관 KST 시(naive Date 금지 축과 무관한 산술 시프트)
+  const n = CANDS.filter(c => (Date.now() - scTs(c)) < FAST_MAX_H * 3600000).length;   // scTs = 발행(미래 오기록 = first_seen 폴백) — 신규 칼럼 판정과 동축
+  const laneBad = candFresh() && CANDS.length > 100 && n < FRESH_ALERT_MIN;   // candFresh = 소스축(CAND_LIVE) × 시간축(CAND_TS) 자격검사(정의·사유 = 9696행 블록). CAND_LIVE만이던 구식은 정적 폴백 스냅샷 오탐만 막고(260725), *fetch가 통째로 실패해 last-good이 몇 시간 묵는* 경로는 못 막아 260731 오탐이 났다 — 둘 다 "낡은 데이터로 수집 고장을 외치는" 같은 뿌리   // 건강 판정 = 야간·탭 게이트와 분리(평의회A "야간 게이트 ≠ 회복" — 융합 시 자정마다 ack 무단 리셋)   // 건강 판정 = 야간·탭 게이트와 분리(평의회A "야간 게이트 ≠ 회복" — 융합 시 자정마다 ack 무단 리셋)
+  if (candFresh() && CANDS.length > 100 && n >= FRESH_ALERT_MIN * 2) { try { localStorage.removeItem(FRESH_ACK_KEY); } catch {} _freshMute = false; _freshAckTs = 0; if (srvFreshAckTs()) postSysSeen('rearm'); }   // ⚠ candFresh 동반 필수(260731 실측) — **회복 선언은 고장 판정과 같은 신뢰 등급의 데이터로만**. 게이트를 고장 선언(laneBad)에만 걸고 이 줄을 밖에 두면, 서빙이 죽어 얼어붙은 last-good에 4h내 건이 남아 있는 동안 그 기기가 "고장 판정은 못 하면서 회복 선언만 하는 기기"가 된다 = 계정 ack·로컬 ack·✗뮤트를 무단 해제하고 rearm을 쏴서, ✓를 눌러도 타 기기서 되살아나는 잔소리 루프(최대 4h). 교착 없음 = 계정 ack 12h TTL·_freshMute 세션한정·서빙 복구 첫 성공 폴에서 정상 재무장   // 재무장 = 확실 회복(임계×2 히스테리시스)만 — 경계 진동(4↔6건 = 주간 12.9% 체류 실측)이 ✓·✗를 10~30분마다 지우던 플리커 봉합(평의회B). ✗(접속 숨김)도 확실 회복 후 재고장 = 새 사건이라 재표시(의도). 계정 ack 활성 시 rearm 이벤트 1회 동기(낙관 add로 srvFreshAckTs 즉시 0 = 매 폴 재발송 차단·운영자 260717 계정 종속 일반화).
+  document.body.classList.toggle('has-freshbad', (laneBad && kstH >= 8) || candStale());   // ⚠ `|| candStale()` 동반 필수(260731 실측) — 붉은 경보에 자격검사를 걸면서 기어까지 같이 끄면 "진짜 고장 + 서빙 사망"에서 **화면 표시가 0**이 된다. 대체 채널이라던 staleDataMsg는 id도 `_sys`도 없어 renderMsgBadge(7766~7769행)의 unread·warn·sysbad 어디에도 안 잡히기 때문(= 메시지함을 직접 열어야만 보임 · 260725 "항상 뜨게"가 실제로는 무점등이던 구멍의 동반 봉합). 역할 분리 = **기어(상태: 정상 아님) vs 붉은 경보(원인 주장: 수집이 죽었다)** — 원인을 단정 못 할 땐 경보는 침묵하고 기어만 켠다(원인 설명은 메시지 문구 담당)   // 🚨 기어 빨강 점등 = 고장 판정만 따른다(운영자 260725 "해결될 때까지 출력") — ✓·✗ 억제도, 수집함 탭 양보도 무시(그건 *토스트* 잔소리 억제 축) · 야간 오탐 가드(08시)만 공유 · 소등 = 신규 수집 실회복. 선례 = body.has-pickfail 토글 문법 그대로
+  if (!laneBad || kstH < 8 || CURTAB === 'scrap') { if (el) el.classList.remove('show'); return; }   // 소등만(ack·mute 무접촉): 회복 완충대(5~9건)·야간(08시 전 = 새벽 발행 저조 오탐 가드)·수집함 탭(빈 신규 칼럼을 직접 보는 중 = 잔소리 0 — 긴급 토스트 CURTAB!=='scrap' 관례 계승 · 평의회B)
+  let ack = 0; try { ack = +localStorage.getItem(FRESH_ACK_KEY) || 0; } catch {}
+  const _rT = srvSysMax().r;   // 계정 rearm(재무장)을 로컬 축에도 전파(평의회① — ✓ 누른 기기가 회복 시점에 닫혀 있으면 로컬 ✓가 살아남아 12h 내 '새 고장'을 그 기기만 놓치던 구멍): 최신 계정 rearm보다 과거인 로컬 ✓ = 그 사건 종결 = 무효
+  if (_rT && ack && ack < _rT) { ack = 0; try { localStorage.removeItem(FRESH_ACK_KEY); } catch {} }
+  if (_rT && _freshAckTs && _freshAckTs < _rT) _freshAckTs = 0;
+  if (_freshMute || Date.now() - Math.max(ack, _freshAckTs, srvFreshAckTs()) < FRESH_ACK_MS) { if (el) el.classList.remove('show'); return; }   // 억제 = 로컬(기기 즉시) ∪ 계정(타 기기 ✓ — 폰에서 처리하면 PC도 조용 · 운영자 260717)
+  if (_toastC || document.querySelector('#nmToast.show, #nmFailToast.show')) { if (el) el.classList.remove('show'); return; }   // 긴급·실패 토스트 우선(상태변수+DOM 실측 이중) — 표시 중이던 경보도 즉시 소등(같은 자리·같은 z 겹침 차폐 차단 · 평의회C — 가족 내려간 다음 폴에 재점등)
+  if (el && el.classList.contains('show')) { el.title = '발행 ' + FAST_MAX_H + '시간 내 ' + n + '건 (기준 ' + FRESH_ALERT_MIN + '건 미만) — 수집 파이프라인 점검 필요'; return; }   // 이미 표시 중 = 수치만 갱신 — 60s 폴마다 innerHTML 재구축 시 role=alert 라이브영역이 매분 재낭독(SR 잔소리)·탭 순간 노드 교체 유실 방지
+  let t = el;
+  if (!t) { t = document.createElement('div'); t.id = 'sysFreshToast'; t.className = 'nm-toast'; t.setAttribute('role', 'alert'); t.setAttribute('aria-live', 'assertive'); document.body.appendChild(t); }
+  t.title = '발행 ' + FAST_MAX_H + '시간 내 ' + n + '건 (기준 ' + FRESH_ALERT_MIN + '건 미만) — 수집 파이프라인 점검 필요';
+  t.innerHTML = '<span class="tg">' + WARN_SVG + '</span><span class="ft-msg">신규 뉴스가 안 들어오고 있어요.</span>'
+    + '<button class="sbtn ft-act" type="button" data-bt="ack" data-motion="check" aria-label="처리 완료" title="처리 완료 — 12시간 조용히(신규가 회복되면 자동 재무장)">' + CHECK_SVG + '</button>'
+    + '<button class="sbtn ft-act" type="button" data-bt="x" aria-label="닫기" title="닫기 — 이번 접속 동안만 숨김">' + X_TOAST_SVG + '</button>';
+  t.querySelector('[data-bt="ack"]').onclick = ev => { ev.stopPropagation(); _freshAckTs = Date.now(); try { localStorage.setItem(FRESH_ACK_KEY, String(_freshAckTs)); } catch {} postSysSeen('ack'); t.classList.remove('show'); };   // 메모리 미러 선기록 = 저장 실패해도 이 접속에선 ✓ 유효(평의회E) · 계정 ack 동기 = 타 기기도 조용(운영자 260717)
+  t.querySelector('[data-bt="x"]').onclick = ev => { ev.stopPropagation(); _freshMute = true; t.classList.remove('show'); };
+  requestAnimationFrame(() => t.classList.add('show'));   // 상주형(자동닫힘 없음) = "처리 완료 체크까지 뜸" — 긴급 토스트 8s 자동닫힘과 다른 점(의도)
+}
+// ── ⚠ 픽 분석 실패 알림 — fetch 막는 매체(chosun 등)로 분석 실패해 'PICKED'로 남고 피드에 안 뜬
+//    '내가 픽한' 기사. 속보와 동일 급(프로필 링·토스트)으로 알리고, 수집함서 '다시'(전문 붙여넣기)로 복구.
+//    build-viewer 가 pending/failed/ → picks-failed.json 으로 떨궈줌(이미 queue에 든 복구분은 제외). ──
+let PFAIL = new Map();   // 정규화url → {reason, ts}
+const PF_SKEY = 'nomute_pickfail_seen', PF_RKEY = 'nomute_pickfail_resolved';
+const _normU = u => String(u || '').trim().replace(/\/+$/, '');   // build-viewer normUrl 과 동일(끝슬래시만)
+// 수집함 카드 '원문 링크' = 클러스터 대표 매체 픽(breaking_pick) 우선. c.url 은 최초보도(흔히 통신사·군소)라
+// 다매체 이슈에서 내용 빈약/외딴 매체로 튐(운영자 260622). 제목·매체는 이미 픽 기준(breaking_pick)이라 링크까지
+// 일치시킴 = 조선/동아 보수메이저 → 중진보 메이저(scraper PICK_PRIORITY) url 로 이동. 픽 url 비거나 비-http 면
+// c.url 폴백. dedup·픽·api 호출은 그대로 c.url(1차 키 불변) — 이 함수는 *읽기(링크 이동)* 전용.
+const scLinkUrl = c => {
+  const bp = (c && c.breaking_pick && c.breaking_pick.url) || '';
+  if (/^https?:\/\//i.test(bp)) return bp;
+  return /^https?:\/\//i.test((c && c.url) || '') ? c.url : '';
+};
+// 외부 원문 새 탭 — *앵커 클릭* 패턴(failOpen과 동일). window.open 안 씀 = ① 전역 open(피드 모달)에 셰도잉
+//   안 됨 ② iOS 스탠드얼론 PWA서 location.href면 외부 사이트에 갇힘(뒤로 못 옴) → target=_blank는 사파리로 빠져
+//   앱 보존(분신술9·10). hrefOk로 javascript:/data: 차단. 앱을 *안* 떠나므로 BACK 무한루프도 원천 없음(분신술1·4).
+function openExt(url) {
+  const u = hrefOk(url); if (!u || u === '#') return false;
+  try { const a = document.createElement('a'); a.href = u; a.target = '_blank'; a.rel = 'noopener noreferrer'; document.body.appendChild(a); a.click(); a.remove(); }
+  catch (_) { try { location.href = u; } catch (__) {} }
+  return true;
+}
+// 긴급(breaking) 건 공용 랜딩 — 백그라운드 푸시 딥링크·포그라운드 토스트가 *같은* 경로 = '해당 건에 정확히' 일관(분신술9·10):
+//   누른 시점에 요약 완료면 그 요약창(pickedOpen) / 아니면 스크랩 기사 중 가장 메이저(breaking_pick) 원문 새 탭. bl=서버 폴백 메이저 url.
+function goBreaking(c, bl) {
+  if (!c) { if (/^https?:\/\//i.test(bl || '')) openExt(bl); else showTab('scrap'); return; }
+  if (scFeedArticle(c)) { showTab('feed'); pickedOpen(c); return; }   // ← 요약 완료? YES → 그 요약 페이지
+  const link = scLinkUrl(c) || (/^https?:\/\//i.test(bl || '') ? bl : '');   // NO → 가장 메이저 기사(대표 매체 픽) 원문
+  if (link) { openExt(link); return; }
+  showTab('scrap');
+}
+// 멤버기반 picked 승계 — rep url이 점프(클러스터 split)해 candId가 바뀌어도, cluster_members 중
+// picked 찍힌 옛 url이 있으면 PICKED 유지(+pickCross 증분). 스크래퍼 별칭승계의 뷰어 짝.
+function ratingFor(c) {
+  const rt = ratingsAll(), own = rt[candId(c)] || {};
+  if (own.picked) return own;
+  for (const m of (c.cluster_members || [])) {
+    const rm = rt[m] || rt[_normU(m)];
+    if (rm && rm.picked) return { ...own, picked: true, pickCross: rm.pickCross };   // 멤버로 PICKED 승계
+  }
+  return own;
+}
+const pfSeen = () => { try { return new Set(JSON.parse(localStorage.getItem(PF_SKEY) || '[]')); } catch { return new Set(); } };
+const pfResolved = () => { try { const s = new Set(JSON.parse(localStorage.getItem(PF_RKEY) || '[]')); TF_SRV.pr.forEach(id => s.add(id)); return s; } catch { return new Set(TF_SRV.pr); } };   // 로컬 ∪ 계정(pr축 — 폰에서 해소한 실패가 PC서도 Picking 탈출 · 운영자 260717 "경계도 ㄱ")
+const pfAddResolved = id => { try { const s = pfResolved(); s.add(id); localStorage.setItem(PF_RKEY, JSON.stringify([...s])); } catch {} postSeenIds('pr', [id]); };
+// 전문 직접 입력(재제출) 진행창 — Failed 칩 메뉴 '내용 입력'으로 전문을 보낸 직후 candId→타임스탬프 기록.
+//   활성 동안(폴 상한과 동일) pfailHas 억제 → Failed가 Picking…으로 전환. 성공하면 pickInFeed로 PICKED(영구),
+//   창 지나도 미성공이면 다시 Failed(재실패 인지·또 시도 가능). pfResolved(영구해소·api/submit 경로)와 달리 *임시*.
+const PF_USKEY = 'nomute_pickfail_resub';
+const pfResub = () => { try { return JSON.parse(localStorage.getItem(PF_USKEY) || '{}'); } catch { return {}; } };
+const pfAddResub = id => { try { const m = pfResub(); m[id] = Date.now(); localStorage.setItem(PF_USKEY, JSON.stringify(m)); } catch {} };
+const pfRemoveResub = id => { try { const m = pfResub(); delete m[id]; localStorage.setItem(PF_USKEY, JSON.stringify(m)); } catch {} };   // 재시도 발사 롤백 짝(api/pick 거절 시 Picking 낙관 표시 회수 · 평의회 260713 ⑦)
+const pfResubActive = id => { const t = pfResub()[id]; return !!t && (Date.now() - t < PICK_TIMEOUT_MS + 60000); };
+// 실패 표시 대상 = picks-failed 에 있음 + 복구표시 안 함(api/submit) + 재제출창 아님(전문 직접입력 진행 중) + 피드 미등장(늦은 성공이면 PICKED 우선·stale 실패기록 무시).
+// 실패 키 = c.url 또는 클러스터 멤버 url 중 picks-failed에 있는 첫 키(pendStatus·srvTriage와 동일 패턴 — rep-url 점프 시 형제 url로 기록된 실패도 매칭·운영자 260620).
+// 픽 alt(대체 fetch 후보) = breaking_pick(본문 풍부한 메이저·PICK_PRIORITY 조선>…) 우선 + cluster_members. rep url 제외·중복제거.
+//   analyze 가 alt 를 본문 폴백/모델 제시로 쓰는데, 대표(rep)가 '최초보도=통신사'면 본문이 빈약 → 시스템이 이미 고른
+//   메이저 신문을 맨 앞에 둬 더 완전한 본문을 먼저 시도하게 한다(통신사 rep 실패 근본해결 · 운영자 260622). mega 클러스터(cluster_members=[])도 breaking_pick는 살아있어 보강됨.
+function pickAlt(c) {
+  const rep = _normU(c.url);
+  const major = (c && c.breaking_pick && c.breaking_pick.url) ? _normU(c.breaking_pick.url) : '';
+  return [...new Set([major, ...((c.cluster_members || []).map(_normU))])].filter(u => u && u !== rep);
+}
+const pfKeyOf = c => [_normU(c.url), ...((c.cluster_members || []).map(_normU))].find(u => u && PFAIL.has(u)) || '';
+const pfailHas = c => !!pfKeyOf(c) && !pfResolved().has(candId(c)) && !pfResubActive(candId(c)) && !pickInFeedStrict(c);   // ⚠️ Strict(url+event_key) — 제목 폴백으로 서버실패를 무관 동일제목 요약에 잘못 은폐하는 것 차단(병렬검증 R1). 드리프트 성공 복구는 build가 큐된 url을 picks-failed서 빼며 자연 해소.
+const pfReason = c => (PFAIL.get(pfKeyOf(c)) || {}).reason || '';
+let PFAIL_LOADING = false;   // in-flight 가드 = 부팅 eager(9069) + enterScrap(7359) 동시호출 중복 fetch 차단(loadCandidates 패턴 · 운영자 260705 로딩 진단)
+async function loadPickFails() {
+  if (PFAIL_LOADING) return; PFAIL_LOADING = true;
+  try {
+    const r = await fetch('picks-failed.json?_=' + Date.now());
+    if (r.ok) { const d = await r.json(); if (Array.isArray(d)) PFAIL = new Map(d.map(x => [_normU(x.url), { reason: x.reason || '', ts: x.ts || '' }])); }
+  } catch { /* 없으면 무시 */ }
+  finally { PFAIL_LOADING = false; }
+  detectPickFail();
+}
+// 알림 대상 = 내가 픽함(로컬 ratings) + 실패목록에 있음(같은 기기서 픽→실패 인지).
+const pickFailNow = () => { const RA = ratingsAll(); return CANDS.filter(c => { const r = RA[candId(c)] || {}; return r.picked && pickFailedShow(c) && !failRequeued(c); }); };   // 링/토스트 알림 대상 = 서버실패 OR 무응답 타임아웃(체크로 제자리 복귀한 건 = 확인처리라 알림 제외) · RA 호이스트 = breakingNow와 동일 축(건당 localStorage 통파싱 → 폴당 1회 · 260717)
+// ── 픽 후 'Picking…'(분석 중) → 뉴스요약(피드)에 떴으면 PICKED · 실패면 '분석 실패' ──
+// ── 픽↔피드 요약 매칭 — url(rep+cluster) 1차 → event_key 2차 = 강한 식별(_feedStrict) · 정규화 제목 3차 = 표시 재연결(feedMatch). ──
+//   url 드리프트(막힌 매체 403 우회·리다이렉트·재클러스터링)로 분석 url이 후보 url군 밖으로 새면 요약이 피드에
+//   멀쩡히 있어도 후보가 영영 Picking→Failed에 갇히고 카드 탭이 요약창 대신 원문으로 새던 버그("픽되도 요약창 안뜸")
+//   근본봉합(운영자 260714 · 병렬검증 5인 하드닝 반영). ⚠️ 품질 무손상 설계:
+//     ① _feedStrict(url+event_key) = **안전게이트(실패은폐·긴급·트리아지) 전용** = 종전 동작 그대로(오탐 0).
+//     ② 제목 폴백(feedMatch)은 **표시·요약창 열기 전용** + 5중 가드: has_body(요약본만)·내가 픽한 카드(픽의도)만·
+//        한국어 제목만(JUNK_HEAD 한글전용 사각 봉합·외신 false-match 차단)·JUNK_HEAD 제외·발행시각 12h 창(scDedup 클럭 일치)·최근접 1건.
+//     ③ 서버 분석실패(PFAIL) 등록분은 제목 폴백 제외 = 실패를 무관 동일제목 요약으로 은폐 금지(병렬검증 R1/#3).
+//   event_key 티어는 피드 기사에 event_key가 실릴 때만 발동 = 지금은 휴면(후속 파이프라인 배선 시 자동 활성).
+const _feedTitleKey = t => String(t || '').replace(/\s+/g, '').toLowerCase();   // scDedup scTitleKey 와 동일 규칙(제목 완전일치=같은 기사)
+const FEED_MATCH_WINDOW = 12 * 3600000;   // 제목 폴백 발행시각 창 = scDedup SC_DUP_WINDOW 계승(밖 동일제목 = 다른 날 보일러플레이트 = 다른 사건)
+let _feedIdxRef = null, _feedUrlAny = null, _feedUrlBody = null, _feedTitleMap = null, _feedEkMap = null;   // DATA 참조 바뀔 때만 재구축(O(1) 조회 = 카드 수백장 렌더 렉 0)
+function _buildFeedIdx() {
+  if (_feedIdxRef === DATA) return;   // 같은 DATA면 재사용(load()마다 1회만 구축)
+  _feedIdxRef = DATA;
+  _feedUrlAny = new Map(); _feedUrlBody = new Map(); _feedTitleMap = new Map(); _feedEkMap = new Map();
+  for (const x of (DATA || [])) {
+    if (!x) continue;
+    if (x.url) { const u = _normU(x.url); if (u) { if (!_feedUrlAny.has(u)) _feedUrlAny.set(u, x); if (x.has_body && !_feedUrlBody.has(u)) _feedUrlBody.set(u, x); } }
+    if (!x.has_body) continue;   // 폴백(제목·event_key)은 실제 요약본만 색인
+    for (const t of [x.title, x.title_orig]) { const k = _feedTitleKey(t); if (k) { const arr = _feedTitleMap.get(k); if (arr) arr.push(x); else _feedTitleMap.set(k, [x]); } }
+    if (x.event_key) { const e = _normU(x.event_key); if (e && !_feedEkMap.has(e)) _feedEkMap.set(e, x); }
+  }
+}
+function _feedStrict(c, needBody) {   // 강한 식별만: url(rep+cluster) → event_key. 안전게이트 전용(제목 폴백 없음·종전 동작 100% 보존).
+  if (!c) return null;
+  _buildFeedIdx();
+  const um = needBody ? _feedUrlBody : _feedUrlAny;
+  for (const u of [_normU(c.url), ...((c.cluster_members || []).map(_normU))]) { if (u && um.has(u)) return um.get(u); }
+  if (c.event_key) { const a = _feedEkMap.get(_normU(c.event_key)); if (a) return a; }   // event_key(휴면 — 피드에 실릴 때 활성)
+  return null;
+}
+function feedMatch(c, needBody) {   // 표시용: 강한 식별 → 제목 폴백(가드 5중). needBody=true면 has_body 요약본만(빈 모달 차단).
+  const s = _feedStrict(c, needBody); if (s) return s;
+  if (!c) return null;
+  const tk = _feedTitleKey(c.title);   // 3차 정규화 제목 폴백 = url/event_key로 못 이은 드리프트 요약만 사건동일성으로 재연결
+  // 가드: 한국어 제목(JUNK_HEAD 한글전용 사각 봉합) · JUNK_HEAD 제외 · 서버실패(PFAIL) 아님 · 내가 픽한 카드(로컬 픽 or 파이프라인 진행) = 미픽 트리아지 카드 오PICKED 차단
+  if (tk && /[가-힣]/.test(c.title) && !JUNK_HEAD.test(c.title) && !pfKeyOf(c)
+      && ((ratingsAll()[candId(c)] || {}).picked || pendStatus(c))) {
+    const arr = _feedTitleMap.get(tk);
+    if (arr) {   // 발행시각 12h 창 안에서 최근접 1건(충돌 시 가장 가까운 사건으로 수렴)
+      const cts = scTs(c); let best = null, bestD = FEED_MATCH_WINDOW;
+      for (const x of arr) { const d = Math.abs((Date.now() - articleAgeH(x) * 3600000) - cts); if (d < bestD) { bestD = d; best = x; } }
+      if (best) return best;
+    }
+  }
+  return null;
+}
+const pickInFeedStrict = c => !!_feedStrict(c, false);   // 실패은폐·긴급 게이트 전용 = 강한 식별만(제목 폴백 오탐 차단 · 병렬검증 R1/R2 봉합)
+const pickInFeed = c => !!feedMatch(c, false);   // 픽 결과가 피드(3번 메뉴)에 등장했나 = 표시·PICKED 배지·라우팅. url 1차→event_key→제목 폴백. 막힌 매체(403)·리다이렉트·재클러스터링 url 드리프트로 후보 url군 밖으로 샌 요약도 사건 동일성으로 재연결(영구 Picking·요약창 고아 차단·260619·260714)
+const pickSettled = c => pickInFeed(c) || pfResolved().has(candId(c));   // 픽 종결 = 피드 등장 OR 실패복구 해소 → 둘 다 'Picking' 탈출(해소된 픽이 영구 Picking에 갇히던 버그 차단·260618)
+// 무응답 타임아웃 — 픽 후 PICK_TIMEOUT_MS 지나도 피드 미등장·서버 실패기록(picks-failed)도 없음 = '무응답 실패'로 표시(운영자: 길게 안 끌기).
+// ⚠ 비파괴 = client 표시일 뿐(pending/failed 안 만듦) → 늦게 피드 뜨면 pickInFeed로 PICKED 자동복구. 백엔드 analyze는 최대 ~15분(900s 모델+빌드/배포)이라 10분은 '대부분 끝남' 지점(드물게 느린 건 자동복구).
+const PICK_TIMEOUT_MS = 10 * 60000;
+const PICK_HARD_MS = 130 * 60000;   // 서버 'processing' 신뢰의 절대 상한(서버 ACTIVE_STUCK_MIN 120분 + 그레이스) — 서버가 파일명 파싱불가·미래 타임스탬프 등으로 'processing'을 영구 반환하는 병리에서도 클라 백스톱이 살아 있게(평의회3 이슈1 · 260703)
+const pickTimedOut = c => { if (!DATA_LOADED) return false; const r = ratingsAll()[candId(c)] || {}; const _ps = pendStatus(c); const _trust = _ps === 'retry' || (_ps === 'processing' && !!r.pickedAt && (Date.now() - r.pickedAt < PICK_HARD_MS)); if (!r.picked || _trust || pickInFeed(c) || pfailHas(c) || pfResolved().has(candId(c)) || pfResubActive(candId(c))) return false; return !r.pickedAt || (Date.now() - r.pickedAt > PICK_TIMEOUT_MS); };   // pickedAt 없는 옛 픽 = 즉시 타임아웃 처리(무한 Picking 차단·260618) · retry(서버 일시 과부하 자동 재시도 중)·processing(서버 진실원본 = pending 잔류·직렬 배치 대기 중, 단 PICK_HARD_MS 내에서만 신뢰)이면 타임아웃 비활성 = 빨강 링/토스트 거짓FAIL 차단(pickState와 짝·운영자 260622 · 직렬 배치 52분 대기가 Failed(3)로 오표시되던 것 차단 260703 — 진짜 실패는 서버 stuck[런 비활성 20분·활성 120분]/picks-failed 가 알림)
+const pickFailedShow = c => pfailHas(c) || pickTimedOut(c);   // 화면 '실패' 표시 = 서버 분석실패(picks-failed) OR 클라 무응답 타임아웃
+// 실패 재시도 횟수(누적) — Failed(N) 표시 · 재시도(대기열 재투입)할 때마다 +1 (운영자 260701)
+const FAILRETRY_KEY = 'nm_fail_retries';
+const failRetriesGet = () => { try { return JSON.parse(localStorage.getItem(FAILRETRY_KEY) || '{}'); } catch { return {}; } };
+function bumpFailRetry(c) { const m = failRetriesGet(), id = candId(c); m[id] = (m[id] || 0) + 1; try { localStorage.setItem(FAILRETRY_KEY, JSON.stringify(m)); } catch {} }
+const failCount = c => 1 + (failRetriesGet()[candId(c)] || 0);   // 최초 실패 1 + 재시도 횟수
+const failLabel = c => 'Failed' + (failCount(c) >= 2 ? '(' + failCount(c) + ')' : '');   // N≥2만 괄호(첫 실패=Failed) · '회' 없이 숫자만
+// Failed 칩 = 탭→재시도(failRetry·다시 분석) · 픽 취소(픽 전으로)는 옆 ✓ 체크(cancelPickPrepick) · 원문은 제목 탭 — 운영자 260722 재배선(260711 스왑 되돌림: Failed 탭=재시도가 직관).
+const failChipHtml = c => `<button class="sc-fail" type="button" title="탭 = 재시도(다시 분석) · 길게 = 실패 사유·내용 입력 · 제목 = 원문">${failLabel(c)}</button>`;
+// '픽 취소(픽 전으로)' = ✓ 체크(구 260701 체크=제자리복귀 → 260711 끄기 → 260722 픽취소): 로컬 픽 해제 + 취소셋(nm_fail_requeue) 등재로
+// pickState 가드가 트리아지(null=[PASS][PICK])로 확정한다(picks-failed·pending 'fail' 잔존도 무시). 순위·자격은 일반 규칙 그대로라
+// 픽 하기 전 그 후보 자리서 다시 PASS/PICK 판단 가능. 일방향(add) — 재픽 시 r.picked=true라 가드 자동 우회. 되돌리려면 localStorage nm_fail_requeue 삭제.
+const FAILREQUEUE_KEY = 'nm_fail_requeue';
+const failRequeuedSet = () => { try { return new Set(JSON.parse(localStorage.getItem(FAILREQUEUE_KEY) || '[]')); } catch { return new Set(); } };
+const failRequeued = c => failRequeuedSet().has(candId(c));
+function cancelPickPrepick(c) {   // ✓ 체크 = 픽 취소(픽 하기 전으로): 로컬 픽 해제 → 취소셋 등재 → renderScrap이 [PASS][PICK] 정상카드로 복귀
+  const id = candId(c);
+  saveRating(id, { picked: false });   // 로컬 픽 해제 = pickState 트리아지(null) 경로 진입 · pickTimedOut(picked 의존)도 해제
+  const s = failRequeuedSet(); s.add(id);
+  try { localStorage.setItem(FAILREQUEUE_KEY, JSON.stringify([...s])); } catch {}   // 취소셋 등재 → pickState 가드가 ps='fail' 잔존도 무시하고 null 확정
+  markPickFailSeenOne(c);   // 이 건 실패 링/토스트 '봤음'(개별) = 재알림 차단
+  if (CURTAB === 'scrap') renderScrap();   // 즉시 반영 = [PASS][PICK]로 morph
+}
+const failGoChk = () => `<button class="sc-tg ack sc-failgo" type="button" aria-label="픽 취소 — 픽 하기 전으로" title="체크 = 픽 취소(픽 하기 전으로 되돌림 · PASS/PICK 다시 선택)">${CHECK_SVG}</button>`;   // 운영자 260722 재배선: 체크 = 픽 취소(픽 전으로) — 재시도는 Failed 칩(탭)으로 이동
+const failBotHtml = c => failChipHtml(c) + failGoChk();   // 실패 카드 하단 = [Failed(탭=재시도)][✓(픽 취소=픽 전으로)] 한 쌍 — 트레이·칼럼 공통(운영자 260722 재배선)
+function wireFailBot(root, c) { wireFailChip(root.querySelector('.sc-fail'), c); const g = root.querySelector('.sc-failgo'); if (g) g.onclick = e => { e.stopPropagation(); cancelPickPrepick(c); }; }   // Failed 칩=재시도(wireFailChip) · ✓=픽 취소(cancelPickPrepick)
+// ── 픽 상태 cross-device 동기화 (B안 · 운영자 260620): 픽 표시는 로컬 nm_ratings(기기락)이라 폰↔PC 미동기였다.
+//    이미 전역인 pending/(픽하면 생김)·queue(피드 DATA)·picks-failed 를 진실원본으로 *유도* → 어느 기기서 픽해도 같은 상태.
+//    localStorage(r.picked)는 발사 직후 깜빡임 가리는 낙관적 오버레이로 유지. (정본 설계 = docs/_세션_작업큐_260620.md §D)
+let PEND = new Map();   // normUrl → 'processing'|'retry'|'fail'|'succ' (api/pending 라이브 · retry=일시 과부하 자동 재시도 대기)
+let PEND_PROC = 0;      // 처리중(processing) 대기열 건수 = 피드버튼 발견성 배지(숨은 롱프레스 의존 제거·운영자 260620)
+let PEND_LOADING = false;   // in-flight 가드 = 부팅 eager(9070) + enterScrap(7359) 동시호출 중복 fetch 차단(운영자 260705 로딩 진단)
+async function loadPending(render) {
+  if (PEND_LOADING) return; PEND_LOADING = true;
+  let changed = false;   // 상태 전이 감지 — 폴(render 미지정)에서도 processing→fail/succ 전이면 재렌더(스크랩 상주 시 칩 스테일 차단 · 평의회3 이슈2 · 260703)
+  try {
+    const r = await fetch('api/pending?_=' + Date.now());
+    if (r.ok) { const d = await r.json(); const m = new Map();
+      const its = qCxlFilter(qOptMerge(d.items || []));   // 접수분 병합 후 취소분 제외 = 배지·기어 레몬·픽칩 전 축이 대기열 목록과 한 값(loadQueue 동문 · qCancelTap 기록 · 운영자 260728)
+      its.forEach(it => { if (it && it.key && !it._opt) m.set(_normU(it.key), it.status); });   // ⚠ PEND = **서버 진실만**(낙관 접수분 제외) — 이 맵이 pickState·pickTimedOut 의 판정 원본이라 클라 낙관을 섞으면 '서버가 처리중이라 했다'는 근거가 거짓이 된다(배지·목록은 위 its 가 이미 반영)
+      changed = m.size !== PEND.size || [...m].some(([k, v]) => PEND.get(k) !== v);   // 키 추가/삭제·상태 변화 모두 감지(전이 드묾 = 재렌더 비용 미미)
+      PEND = m;
+      PEND_PROC = its.filter(it => it && (it.status === 'processing' || it.status === 'retry')).length;   // 발견성 배지 = 처리중 + 재시도 대기(둘 다 진행 중 · 운영자 260622)
+      if (socSyncSent(its) && CURTAB === 'trend') { _snsSig = ''; renderSns(); }   // SNS 카드 Pk-ng→Pk-ed(또는 실패 = 전송 복귀) — 이 폴이 유일한 전이 관측점(운영자 260804) · 시그니처 리셋 = 행 구성이 같아도 버튼 상태가 바뀌었으니 재빌드 강제
+      updateQBadge(); setQFail(its); }   // setQFail = 요약 막힘(실패) 기어 레몬 점등 축(대기열 안 열어도 전 탭서 알림 · 운영자 260727)
+  } catch { /* GH_TOKEN 미설정·네트워크 실패 = 로컬 폴백(현행 유지) */ }
+  finally { PEND_LOADING = false; }   // 리셋 필수 = 안 하면 플래그 영구 true로 이후 폴링 전면 차단
+  if ((render || changed) && CURTAB === 'scrap' && SCRAP_LOADED) renderScrap();
+}
+// ── 🍋 요약 막힘 알림(운영자 260727 "뉴스요약을 했는데 막힌 게 있으면 설정버튼을 재시도 색 골드 레몬으로 뜨게 · 없애려면 대기열 들어가서 확인") ──
+//   ⚠ 260822 기어 점등 철거(운영자 «실패한게 남아있다 는 설정 픽토그램 알림 안오게 · 해당 알림을 끄라는 건 아냐») — CSS 4줄만 삭제했고 아래 축(실패 id 수집·확인 기록·클래스 토글)은 **그대로 살아 있다**(대기열 실패 행·재시도 무접촉 · 재점등 = CSS 복원 1회).
+//   구 점등 = 대기열에 '실패' 항목이 하나라도 있고 그걸 아직 확인 안 했을 때 → 기어 픽토 레몬(CSS body.has-qfail · 문법·소등축 = 키워드 발견 has-kwhit 사다리 그대로).
+//   소등 = **대기열을 여는 즉시**(openQueue → qfMarkSeen) · 액션 0(열기만 하면 꺼짐 = 시스템 알림 '메시지함 열면 읽음' 축 계승).
+//   확인 기록 = 로컬(즉시) ∪ 계정 qf축(api/seen — 폰에서 확인하면 PC도 소등 · CLAUDE.md D3-1 "localStorage 단독 금지").
+//   새 실패가 생기면 그 id는 미확인이라 다시 점등(영구 묵음 금지 = 형제 알림 계약 그대로).
+let QFAIL_IDS = [];   // 현재 대기열의 실패 항목 id 목록(loadPending·loadQueue 공용 갱신)
+const QF_SEEN_KEY = 'nomute_qfail_seen';
+function qfSeenSet() { try { const s = new Set(JSON.parse(localStorage.getItem(QF_SEEN_KEY) || '[]')); TF_SRV.qf.forEach(id => s.add(id)); return s; } catch { return new Set(TF_SRV.qf); } }   // 로컬(즉시성 캐시) ∪ 계정(qf축) = msgReadSet 문법 미러
+function paintQFailGear() { try { const s = qfSeenSet(); document.body.classList.toggle('has-qfail', QFAIL_IDS.some(id => !s.has(id))); } catch {} }   // 미확인 실패 잔존 = 점등(paintKwGear 문법 계승)
+function qfMarkSeen() {   // 대기열 열림 = 지금 보이는 실패분 전부 확인 처리(로컬 즉시 + 계정 동기) → 즉시 소등
+  const s = qfSeenSet(), fresh = QFAIL_IDS.filter(id => id && !s.has(id));
+  if (fresh.length) {
+    fresh.forEach(id => s.add(id));
+    try { localStorage.setItem(QF_SEEN_KEY, JSON.stringify([...s].slice(-300))); } catch {}   // 롤링 300 = 서버 CAP(800) 안쪽 · 실패 id 수명(24h 대기열)에 충분
+    postSeenIds('qf', fresh);   // 계정 종속(다건 배치 = 커밋 1회 · fail-soft = 로컬이 이 기기 커버)
+  }
+  paintQFailGear();
+}
+function setQFail(items) { QFAIL_IDS = (items || []).filter(it => it && it.status === 'fail' && it.id).map(it => String(it.id)); paintQFailGear(); }   // api/pending 응답 → 실패 id 갱신 + 재도색(loadPending·loadQueue 공용 = 어디서 세든 같은 값)
+function updateQBadge() {   // 처리중 건수 배지 = 하단 뉴스요약 + 헤더 대기열 픽토그램 공용(0이면 숨김 · 운영자 260710 헤더 추가)
+  const txt = PEND_PROC > 99 ? '99+' : String(PEND_PROC), show = PEND_PROC > 0;
+  ['qbadge', 'qbadgeHead'].forEach(id => { const b = document.getElementById(id); if (!b) return; if (show) { b.innerHTML = ''; const i = document.createElement('i'); i.textContent = txt; b.appendChild(i); b.hidden = false; } else b.hidden = true; });   // 이너 <i> = 잉크 서브픽셀 보정 앵커(운영자 260717 Q06 · textContent 주입 유지 = XSS 안전 동일)
+}
+const pendStatus = c => { for (const u of [_normU(c.url), ...((c.cluster_members || []).map(_normU))].filter(Boolean)) { const s = PEND.get(u); if (s) return s; } return null; };   // 이 후보 url(또는 클러스터 멤버)이 pending에 있나 = 전역 픽 진행/실패
+function pickState(c) {   // 픽 상태 통합 = 로컬(r.picked) + 전역(api/pending·picks-failed·피드 DATA). null=트리아지 / 'picking' / 'settled' / 'failed'
+  const r = ratingsAll()[candId(c)] || {};
+  const ps = pendStatus(c);
+  if (!r.picked && !ps && !pickInFeed(c)) return null;        // 픽·파이프라인·피드 전부 무관 → 트리아지 버튼
+  if (!r.picked && failRequeued(c) && !pickInFeed(c)) return null;   // ✓ 픽 취소 = 픽 하기 전으로 되돌림 — 서버 실패기록(picks-failed)·pending 'fail' 잔존도 무시하고 트리아지([PASS][PICK])로 복귀(운영자 260722). 재픽 시 r.picked=true라 이 가드 자동 우회.
+  if (pfResubActive(candId(c)) && !pickInFeed(c)) return 'picking';   // 재시도 발사(대기열 재투입) = 재분석 중 → 서버 fail 잔존(ps='fail')·무응답 타임아웃 무시하고 Picking 유지. pfailHas/pickTimedOut의 pfResubActive 억제를 ps='fail' 경로에도 확장(재탭이 Picking 못 들고 Failed로 덮이던 버그·운영자 260701). 성공=피드 등장은 아래 settled 우선.
+  if (ps === 'retry') return 'picking';                        // 일시 과부하 자동 재시도 중 = 분석 진행(클라 10분 타임아웃의 거짓 FAIL 차단 · 서버 진실원본 우선 · 운영자 260622)
+  if (pickFailedShow(c) || ps === 'fail') return 'failed';     // 서버 분석실패(picks-failed/pending failed) OR 무응답 타임아웃
+  if (pickSettled(c) || ps === 'succ') return 'settled';       // 피드 등장(전역) OR 실패복구 해소 → PICKED
+  return 'picking';                                            // 픽됨/pending인데 아직 미완 = 분석 중
+}
+const pickingNow = () => DATA_LOADED ? CANDS.filter(c => pickState(c) === 'picking') : [];   // 분석 중(로컬픽 OR 전역 pending). DATA 로드 전엔 [](깜빡 방지)
+// ── 트리아지(PASS/👎/확인) cross-device 동기화 (운영자 260620): 로컬 nm_ratings는 기기락이라 PC서 PASS/👎한
+//    후보가 폰서 다시 떴다. 전 기기 ledger 축약 = triage-state.json(읽기전용 오버레이·build-viewer 생성)을
+//    로컬 *아래* 깔아 병합(로컬=이 기기 최신 의도 우선). 픽은 D(pendStatus)가 따로 담당 = 역할 분리. ──
+let SRV_TRI = new Map();   // normUrl → {action?,dismissed?,acked?} (전 기기 ledger 축약 = triage-state.json)
+let _triGen = 0;   // 세대 토큰 — 재진입/폴 경합 시 늦게 온 stale 응답이 최신 SRV_TRI를 덮는 것 폐기(loadQueue qGen 형제 패턴 · 평의회 260713 ⑤)
+async function loadTriage(render) {
+  const g = ++_triGen;
+  try {
+    const r = await fetch('triage-state.json?_=' + Date.now());
+    if (r.ok) { const d = await r.json(); if (g !== _triGen) return; if (Array.isArray(d)) SRV_TRI = new Map(d.map(x => [_normU(x.url), x])); }
+  } catch { /* 없으면 로컬만(현행 유지) */ }
+  if (g !== _triGen) return;
+  if (render && CURTAB === 'scrap' && SCRAP_LOADED) renderScrap();
+}
+const srvTriage = c => { for (const u of [_normU(c.url), ...((c.cluster_members || []).map(_normU))].filter(Boolean)) { const s = SRV_TRI.get(u); if (s) return s; } return null; };   // 이 후보의 전 기기 트리아지 결정
+let _pickPolling = false;
+async function pollPicking() {   // 분석 완료까지 폴링 → Picking… 칩만 제자리 교체(전체 재렌더 X = 깜빡임 방지)
+  if (_pickPolling || !pickingNow().length) return;
+  _pickPolling = true;
+  const t0 = Date.now();
+  while (Date.now() - t0 < PICK_TIMEOUT_MS + 60000) {   // 상한 = 무응답 타임아웃(PICK_TIMEOUT_MS 10분)+1분 그레이스 = 픽 조건과 일치(15분 헛폴·무한 재시동 차단·260618)
+    await new Promise(r => setTimeout(r, 25000));
+    if (document.visibilityState !== 'visible') break;   // ⚡버퍼 260701(A2): 백그라운드=폴 중단(옛 continue는 루프를 안 죽여 최대 11분 좀비·remaining 체크 도달 불가로 조기종료 불능이었음). 재가시 시 renderScrap→pollPicking 재시동, 완료분은 재렌더가 PICKED 표시.
+    try { await load(); await loadPickFails(); await loadPending(); } catch {}   // 피드(DATA)·실패목록·pending(cross-device 픽) 갱신
+    let remaining = 0;
+    document.querySelectorAll('.sc-item.picked').forEach(el => {
+      if (el.querySelector('.sc-got:not(.picking)')) return;   // 이미 PICKED(완료)면 건너뜀(실패칩은 늦은 성공 자동복구 위해 재평가)
+      const c = CANDS.find(x => candId(x) === el.dataset.cid), bot = el.querySelector('.sc-bot');
+      if (!c || !bot) return;
+      if (pickSettled(c)) { bot.innerHTML = '<div class="sc-got" aria-label="픽 완료" title="탭하면 피드에서 이 기사 열기">PICKED</div>'; el.classList.remove('pickfail'); const g = bot.querySelector('.sc-got'); if (g) g.onclick = () => pickedOpen(c); return; }   // 피드 등장 OR 해소 → PICKED(클릭=피드 이동+팝업)
+      if (pickFailedShow(c)) { if (!bot.querySelector('.sc-failgo')) { bot.innerHTML = failBotHtml(c); wireFailBot(bot, c); } el.classList.add('pickfail'); return; }   // Failed 표시. ⚠️ 이미 실패칩(.sc-failgo) 있으면 재빌드 스킵 — 매 25초 무조건 .sc-bot innerHTML 재빌드가 ✓ 재시도 버튼 노드를 파괴 → 첫 탭 진행 중 노드 교체되면 모바일 합성 click 유실 = '두 번 눌러야 실효' 진범(Picking→Failed 전이 때만 재빌드) · 운영자 260713. remaining 미가산 → 전건 PICKED/Failed면 즉시 break. 늦은 성공은 pickInFeed·다음 render로 자동복구.
+      remaining++;
+    });
+    if (!remaining) break;
+  }
+  _pickPolling = false;
+}
+let _pfClaiming = false;
+function detectPickFail() {
+  const seen = pfSeen();
+  const fresh = pickFailNow().filter(c => !seen.has(candId(c)) && !TF_SRV.f.has(candId(c)));   // 로컬 OR 계정 seen 제외(운영자 260712 계정 종속)
+  document.body.classList.toggle('has-pickfail', fresh.length > 0);   // 점등 = 전 탭. 해제 = 수집함 진입(markPickFailSeen).
+  if (fresh.length && CURTAB !== 'scrap') {   // 개별 회전 + 표시 전 계정 선점(claimSeen) = 크로스 플랫폼 정확히 1회(운영자 260712)
+    const c = fresh[0], showing = document.querySelector('#nmFailToast.show');
+    if (showing && _failToastC && candId(_failToastC) === candId(c)) return;
+    if (_pfClaiming) return;
+    _pfClaiming = true;
+    claimSeen('f', c).then(ok => { _pfClaiming = false;
+      if (ok) showFailToast(1, c);
+      else { try { const s = pfSeen(); s.add(candId(c)); localStorage.setItem(PF_SKEY, JSON.stringify([...s])); } catch {} detectPickFail(); }   // 타 기기 선점 = 로컬 기록·다음 건
+    });
+  }
+}
+function markPickFailSeen() {
+  const seen = pfSeen();
+  const fresh = [];
+  pickFailNow().forEach(c => { seen.add(candId(c)); if (!TF_SRV.f.has(candId(c))) { TF_SRV.f.add(candId(c)); fresh.push(candId(c)); } });
+  try { localStorage.setItem(PF_SKEY, JSON.stringify([...seen])); } catch {}
+  if (fresh.length) fetch('api/seen', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ f: fresh.slice(0, 50) }) }).catch(() => {});   // 일괄 해제도 계정 종속(배치 1커밋 · 운영자 260712)
+  document.body.classList.remove('has-pickfail');
+}
+function markPickFailSeenOne(c) {   // 개별 seen(운영자 260712 "모든 실패 건 개별로") — 그 건만 기록 · 다음 건은 detectPickFail 회전이 표시 · bulk(markPickFailSeen)는 수집함 진입 일괄 해제용으로 유지
+  if (!c) return;
+  const seen = pfSeen(); seen.add(candId(c));
+  try { localStorage.setItem(PF_SKEY, JSON.stringify([...seen])); } catch {}
+  postSeen('f', c);   // 계정 종속(운영자 260712) — 타 플랫폼 재알림 차단
+}
+let _failToastT, _failToastC = null;
+function showFailToast(n, sample) {   // 개별 알림(운영자 260712 "모든 실패 건 개별로 — N건 집계 폐지") — 한 번에 한 건·제목만 · 처리(✓↻↗·본체·8s 만료) = *그 건만* seen → detectPickFail 회전이 다음 건 표시(마를 때까지) · n 인자 = 호출처 호환용(미사용)
+  const _sf2 = document.getElementById('sysFreshToast'); if (_sf2) _sf2.classList.remove('show');   // 시스템 경보 양보 — 실패 토스트도 같은 자리(.nm-toast fixed·bottom 86) = 겹침 차단(평의회C)
+  let t = document.getElementById('nmFailToast');
+  if (!t) {
+    t = document.createElement('div'); t.id = 'nmFailToast'; t.className = 'nm-toast fail'; t.setAttribute('role', 'status'); t.setAttribute('aria-live', 'polite');   // 픽 실패 알림 = SR announce(분신술10 260704)
+    t.onclick = () => { markPickFailSeenOne(_failToastC); t.classList.remove('show'); failSrcOpen(_failToastC); setTimeout(detectPickFail, 250); };   // 본체 탭 = 원문(URL 없으면 유추 관련기사) + 그 건 seen + 다음 건
+    document.body.appendChild(t);
+  }
+  _failToastC = sample || null;
+  const title = sample ? esc((sample.title || '').slice(0, 60)) : '';   // 60자(플레이트 폐지분 = 글자 몫 · 운영자 260712)
+  t.innerHTML = `<span class="tg">${WARN_SVG}</span><span class="ft-msg">${title ? title + '…' : '분석 실패'}</span>`
+    + `<button class="sbtn ft-act" type="button" data-fa="ack" data-motion="check" aria-label="확인 — 실패 이해" title="확인 — 실패 알았고 재시도 안 함(없던 일로 · 이 건 알림 끄기)">${CHECK_SVG}</button>`
+    + `<button class="sbtn ft-act" type="button" data-fa="retry" aria-label="재시도 — 재분석" title="재시도 — 원인은 됐고 다시 분석(대기열 재투입)">${REFRESH_SVG}</button>`
+    + `<button class="sbtn ft-act go-wait" type="button" data-fa="src" data-motion="arrow" aria-label="기사 확인" title="어떤 기사인지 확인(원문 · 없으면 유추 관련기사)">${Q_ARR}</button>`;
+  // 버튼 의미(운영자 확정): ✓=실패 이해·무시 / ↻=재시도 / ↗=기사 확인 · 전 처리 = 그 건만 seen + 다음 건 회전(집계 폐지 260712) · stopPropagation 분리.
+  const _ack = t.querySelector('[data-fa="ack"]'), _rt = t.querySelector('[data-fa="retry"]'), _sr = t.querySelector('[data-fa="src"]');
+  if (_ack) _ack.onclick = e => { e.stopPropagation(); _ack.classList.add('ok'); markPickFailSeenOne(_failToastC); clearTimeout(_failToastT); _failToastT = setTimeout(() => { t.classList.remove('show'); setTimeout(detectPickFail, 250); }, 300); };   // 확인 = 초록 플래시 후 이 건 끄고 다음 건
+  if (_rt) _rt.onclick = e => { e.stopPropagation(); markPickFailSeenOne(_failToastC); clearTimeout(_failToastT); t.classList.remove('show'); if (_failToastC) failRetry(_failToastC, { noOpen: true }); setTimeout(detectPickFail, 250); };   // 재시도 = 재분석 + 다음 건
+  if (_sr) _sr.onclick = e => { e.stopPropagation(); markPickFailSeenOne(_failToastC); clearTimeout(_failToastT); t.classList.remove('show'); failSrcOpen(_failToastC); setTimeout(detectPickFail, 250); };   // ↗ = 기사 확인 + 다음 건
+  requestAnimationFrame(() => t.classList.add('show'));
+  clearTimeout(_failToastT); _failToastT = setTimeout(() => { markPickFailSeenOne(_failToastC); t.classList.remove('show'); setTimeout(detectPickFail, 300); }, 8000);   // 8s 만료 = 그 건 seen + 다음 건 회전
+}
+// 실패 기사 열기 = 원문 URL 우선 · 없으면(직접 준 전문 = paste) 유추 관련기사(pickAlt = 같은 사건 타매체) 무조건 링크(운영자 260712 "실패 시 관련 기사 무조건 링크") · 그마저 없으면 수집함으로
+function failSrcOpen(c) {
+  if (!c) return showTab('scrap');
+  if (c.url) return failOpen(c);
+  const alt = (pickAlt(c) || [])[0];
+  if (alt) return failOpen({ url: alt });
+  const q = encodeURIComponent(String(c.title || '').slice(0, 60).trim());   // 최후 폴백 = 제목 구글뉴스 유추 검색(운영자 260712 "무조건 링크" — alt까지 빈 단독 후보 방어)
+  if (q) failOpen({ url: 'https://news.google.com/search?q=' + q + '&hl=ko&gl=KR&ceid=KR:ko' }); else showTab('scrap');
+}
+// Failed 탭 = 묻지 말고 그냥 원문으로 이동(요약요청 모달 안 띄움 · 운영자 요청 260618). 제목 <a>와 동일 동작.
+function failOpen(c) {   // ⚠️ window.open이 전역 open(피드 모달)에 가려져 빈 모달이 뜨던 버그 → 앵커 클릭으로 원문 새 탭
+  if (!c || !c.url) return;
+  const a = document.createElement('a'); a.href = hrefOk(c.url); a.target = '_blank'; a.rel = 'noopener noreferrer';
+  document.body.appendChild(a); a.click(); a.remove();
+}
+function failRetry(c, opts) {   // ↻ 재시도 — ① 재분석 재발사(대기열 재투입 · 전문 없이 fetch 재시도 · alt=cluster_members로 원매체 403 우회) ② (옵션) 가까운 관련기사 새 탭. 칩 재시도=noOpen(대기열만·원문은 제목 탭) / 토스트=새 탭 유지(운영자 260701·260622)
+  if (!c) return;
+  const alt = pickAlt(c);   // 같은 사건 타매체(메이저 우선·가까운 관련기사)
+  if (c.url) {   // ① 재분석 재발사(body 없이 → fetch 재시도 · alt 동반) = 다시 대기열(pending)로 · Failed→Picking(pfResubActive)
+    const id = candId(c); saveRating(id, { picked: true, pickedAt: Date.now() }); pfAddResub(id);
+    fetch('api/pick', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ url: c.url, title: c.title || '', alt, event_key: c.event_key || '' }) })
+      .then(async r => { if (r.ok) return;   // 서버 거절(GH_TOKEN 회귀·429 등) = 낙관 Picking 회수 + 표면화(무통보 유실 차단 · pickCard 8624 패턴 · 평의회 260713 ⑦)
+        const j = await r.json().catch(() => ({}));
+        saveRating(id, { picked: false }); pfRemoveResub(id); if (CURTAB === 'scrap' && SCRAP_LOADED) renderScrap();
+        alert('재시도 발사 실패 — 다시 시도해줘\n' + (j.error || ('HTTP ' + r.status))); })
+      .catch(() => {});   // 네트워크 예외 = 종전대로 조용히(오프라인 순간 등 — 타임아웃 감시가 Failed 복귀 커버)
+  }
+  if (!(opts && opts.noOpen)) {   // ② 가까운 관련기사 원문 새 탭 — 토스트 재시도만(칩 재시도는 생략 = 대기열만 · 원문은 제목 탭)
+    const go = alt[0] || c.url;
+    if (go) { const a = document.createElement('a'); a.href = hrefOk(go); a.target = '_blank'; a.rel = 'noopener noreferrer'; document.body.appendChild(a); a.click(); a.remove(); }
+  }
+  if (!(opts && opts.noRender) && CURTAB === 'scrap') renderScrap();   // noRender = 칩 재시도(발사 게이지 재생 중) — 모션이 끝난 뒤 호출부가 렌더한다(즉시 렌더 = 게이지 파괴). 서버 거절 회수 경로의 renderScrap은 그대로(실패는 즉시 되돌린다)
+}
+// 실패 카드 두 버튼 배선(운영자 260722 재배선 — 260711 스왑 되돌림: Failed 탭=재시도가 직관 · 체크는 '픽 취소'로 명확. ✓ = 픽 취소(픽 전으로) · Failed 칩 = 탭 재시도·길게 메뉴).
+function wireFailChip(fb, c) {   // Failed 칩 = 재시도: 탭 = 다시 대기열 재분석(failRetry→Picking…) · 길게(480ms)/우클릭 = 메뉴(실패 사유·내용 입력) · 제목 <a> = 원문.
+  if (!fb) return;
+  // 컨텍스트 메뉴 진입점(전수감사 260713) — #failmenu = "길게 누르거나(480ms) 우클릭". 실패 사유(진단 MD)·내용 입력(403 매체 전문 붙여넣기 재분석).
+  // ⚠️ 260803 수리 — 구판은 pointerdown 핸들러가 이벤트 인자조차 안 받아 `stopPropagation` 이 0이었다.
+  //   그래서 누름이 부모 카드(.sc-item)로 버블 → **480ms 실패메뉴 + 600ms 병합모드 동시 발화**(우클릭도 동일:
+  //   구 contextmenu 는 preventDefault 만 있고 전파 차단이 없어 카드 우클릭=enterMerge 로 샜다). openFailMenu 의
+  //   closeOverlays 로도 못 막는다 — 480ms 시점엔 MERGE_MODE 가 아직 false 라 닫을 게 없고 병합은 그 뒤에 켜진다.
+  //   → 긴급 배지와 **같은 문법**(claimLongPress 4종 방어)으로 재배선. 이동 취소도 movementX 8px →
+  //   부모와 같은 clientX 절대거리 10px 로 통일(iOS movementX 0버그 회피 · 스크롤 중 칩만 살아남던 축 제거).
+  let _lpFired = false;
+  claimLongPress(fb, 480, () => { _lpFired = true; openFailMenu(c, fb); }, () => openFailMenu(c, fb));   // ctxFn = 우클릭은 _lpFired 미설정(click 이 안 오는 경로라 다음 진짜 탭이 삼켜지는 것 차단)
+  fb.onclick = e => {
+    e.stopPropagation();
+    if (_lpFired || Date.now() - _failMenuAt < 350) { _lpFired = false; return; }   // 롱프레스 직후 합성 click = 재시도 오발 차단(_failMenuAt 타임스탬프 가드)
+    if (fb.classList.contains('picking') || pfResubActive(candId(c))) return;   // 이미 재분석 중 = 무시(이중발사 차단 — failRetry가 pfResubActive 세팅·렌더가 비활성 Picking… 칩으로 교체)
+    bumpFailRetry(c);
+    // 재시도 발사 비주얼 = 픽 발사(askReason 'pick') 정본 100% 사본: 초록 게이지 풀필(.sc-got.firing/goFill .72s) → ✓ 체크(okdone/gck) → Picking… 칩.
+    // ⚠ 260722 재배선(칩=재시도·✓=픽취소) 때 게이지가 붙어 있던 ✓(.sc-failgo)만 정리되고 칩 쪽엔 이식이 안 돼 재시도가 '즉시 빗금 Picking…'으로 점프했다(운영자 260817 "게이지 차는 모션이 사라졌어").
+    //   발사(api/pick)는 정본과 같이 **먼저** 쏘고 모션은 순수 시각 — 그래서 failRetry(noRender)로 재렌더만 미룬다(모션 중 renderScrap = 게이지 파괴).
+    const bot = fb.closest('.sc-bot');
+    if (!bot) { failRetry(c, { noOpen: true }); return; }   // 하단 슬롯이 없으면 종전대로(모션 없이 재발사)
+    const _red = matchMedia('(prefers-reduced-motion:reduce)').matches;
+    failRetry(c, { noOpen: true, noRender: true });   // ① 재발사(대기열 재투입) — 렌더는 모션 끝에
+    bot.innerHTML = '<div class="sc-got firing" aria-label="재시도 발사"><span>전송</span></div>';   // ② 초록 게이지 풀필(goFill .72s)
+    const go = bot.querySelector('.sc-got');
+    setTimeout(() => {
+      if (!go || !go.isConnected) return;   // 그새 재렌더면 중단(무해 — 그쪽이 이미 Picking… 칩을 그렸다)
+      go.classList.remove('firing'); go.classList.add('okdone'); go.innerHTML = '<svg class="gck" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7"/></svg>';   // ✓ 체크(goTick)
+      setTimeout(() => { if (CURTAB === 'scrap') renderScrap(); }, _red ? 60 : 440);   // ✓ 잠깐 보인 뒤 Picking…(pfResubActive → .sc-fail.picking 칩)
+    }, _red ? 90 : 740);   // goFill .72s 채움 후
+  };
+}
+let _failMenuC = null, _failMenuAt = 0;   // _failMenuAt = 메뉴 오픈 시각 — 직후 합성 click 억제(아래 onclick)
+function openFailMenu(c, anchor) {
+  const m = $('#failmenu'); if (!m || !anchor) return;
+  closeOverlays(); _failMenuC = c;
+  m.hidden = false;   // 먼저 표시해야 offset 측정 가능
+  const r = anchor.getBoundingClientRect(), mh = m.offsetHeight, mw = m.offsetWidth;
+  let top = r.bottom + 6;
+  if (top + mh > window.innerHeight - 8) top = r.top - mh - 6;   // 아래 공간 부족 → 칩 위로
+  top = Math.max(8, top);
+  let left = r.left + r.width / 2 - mw / 2;
+  left = Math.max(8, Math.min(left, window.innerWidth - mw - 8));
+  m.style.top = top + 'px'; m.style.left = left + 'px';
+  _failMenuAt = Date.now();   // focus()가 칩 blur→lp 리셋을 유발해도 직후 click 은 위 onclick 의 타임스탬프 가드로 억제
+  const f0 = m.querySelector('.failmenu-it'); if (f0) f0.focus();   // 키보드 접근성 — 첫 항목 포커스(Tab/Enter 도달)
+}
+function closeFailMenu() { const m = $('#failmenu'); if (m && !m.hidden) m.hidden = true; }
+(() => {   // #failmenu 항목·바깥탭·ESC 배선(전수감사 260713) — 진입점 복원과 짝(종전 소비 코드 증발분). diag = 진단 MD 다운로드 · paste = 전문 붙여넣기 재분석.
+  const m = $('#failmenu'); if (!m) return;
+  m.querySelectorAll('.failmenu-it').forEach(b => b.onclick = e => {
+    e.stopPropagation();
+    const c = _failMenuC; closeFailMenu();
+    if (!c) return;
+    if (b.dataset.act === 'diag') failDownload(c); else if (b.dataset.act === 'paste') openPaste(c);
+  });
+  document.addEventListener('click', e => {
+    const mm = $('#failmenu'); if (!mm || mm.hidden) return;
+    if (Date.now() - _failMenuAt < 350) return;   // 롱프레스 뗌 직후 합성 click이 메뉴를 즉시 닫던 것 억제(오픈 가드와 동일 창)
+    if (!mm.contains(e.target)) closeFailMenu();
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeFailMenu(); });
+})();
+// 실패 사유(#failmenu) = 왜 실패했는지 다음에 조치할 수 있게 육하원칙으로 정리한 진단 MD — 클릭 시 바로 다운로드(표시 X).
+function failDownload(c) {
+  if (!c) return;
+  const nowK = new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' });
+  const rt = ratingsAll()[candId(c)] || {};
+  const pickedK = rt.pickedAt ? new Date(rt.pickedAt).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' }) : '?';
+  const reason = pfReason(c) || (pickTimedOut(c) ? '무응답(10분+ 미반영) — 서버 실패기록 없음(analyze 미완/지연 추정)' : 'fetch 차단(403 추정)');
+  const onServer = PFAIL.has(_normU(c.url));   // 서버 실패목록(picks-failed) 등재 = 분석단계 실패 / 아니면 클라 타임아웃
+  const mems = [...new Set((c.cluster_members || []).map(_normU))].filter(u => u && u !== _normU(c.url));
+  const L = [];
+  L.push('# 픽 분석 실패 진단 — ' + (c.title || '(제목 없음)'));
+  L.push('', '> 자동 생성(수집함 Failed 칩). 이 파일을 클로드에게 전달하면 원인 분석·복구에 사용합니다. 또는 같은 메뉴의 「내용 입력」으로 기사 전문을 붙여넣어 재분석할 수 있습니다.', '');
+  L.push('## 요약 (5W1H)');
+  L.push('- **언제(When)**: 픽 ' + pickedK + ' (KST) · 진단 ' + nowK);
+  L.push('- **무엇(What)**: ' + (c.title || '(제목 없음)') + (c.media ? ' · 매체 ' + c.media : ''));
+  L.push('- **어디서(Where)**: ' + (onServer ? '`pending/failed/`(분석 단계 실패로 격리) + `picks-failed.json` 등재' : '서버 실패기록 없음 — 클라이언트 무응답 타임아웃(10분 초과)'));
+  L.push('- **어떻게(How)**: 수집함 PICK → api/pick → pending → news-analyze. 원매체 fetch 가 데이터센터 IP 403 으로 막히면 본문 확보 실패.');
+  L.push('- **누가(Who)**: 운영자 픽');
+  L.push('- **왜(Why·추정)**: ' + reason);
+  L.push('', '## 입력 (Input)');
+  L.push('- 원문 URL: ' + (c.url || '(없음)'));
+  L.push('- 식별자(candId): `' + candId(c) + '`');
+  L.push('- 교차보도(cross): ' + (c.cross != null ? c.cross : '?') + ' 매체');
+  if (mems.length) { L.push('- 같은 사건 다른 매체(cluster_members · 대체 fetch 후보):'); mems.slice(0, 12).forEach(u => L.push('  - ' + u)); }
+  L.push('', '## 진단·복구 힌트 (클로드용)');
+  L.push('- 데이터센터 IP 403 = 매체 WAF(조선·동아·연합·중앙 등)가 러너 IP 차단. 헤더로 못 뚫음 → **기사 전문 직접 입력**이 정공법.');
+  L.push('- 복구 A(웹앱): 이 메뉴의 「내용 입력」 → 기사 본문 붙여넣기 → 전송. body 동봉 pending 으로 재분석(403 무관).');
+  L.push('- 복구 B(폰): Termux 공유로 전문 전달(가정용 IP=200).');
+  L.push('- 대체: 위 cluster_members 중 접근 가능한 매체를 alt 로 줘 본문 확보.');
+  L.push('- 확인: GitHub Actions `news-analyze` 최근 run → `Analyze pending articles` 스텝 로그(`pending/failed/*.log`).');
+  try {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([L.join('\n')], { type: 'text/markdown;charset=utf-8' }));
+    a.download = '픽실패_' + candId(c).replace(/[^\w.-]+/g, '_').slice(0, 40) + '.md';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => { try { URL.revokeObjectURL(a.href); } catch {} }, 1500);
+  } catch (e) { console.warn('진단 MD 다운로드 실패', e); }   // Blob/ObjectURL 극한 실패(모바일 WebView 등) — 미처리 예외 차단(손상 없음·재시도 가능)
+}
+// 내용 입력 = 기사 전문을 직접 붙여넣어 재분석(막힌 매체 403 우회). askdlg UIUX 계승(.sbtn 클립·X·전송).
+let _pasteC = null;
+function openPaste(c) {
+  if (!c) return;
+  if (pastedlg.open) return;   // 전송 중(1.3s)·이미 열림 = 재진입 차단(_pasteC 덮어쓰기·중복 커밋 방지)
+  _pasteC = c;
+  $('#pasteText').value = '';   // (pasteStatus 잔상 리셋 소멸 — 상태문자열 폐지·qFlash 위임 260720)
+  $('#pasteSub').textContent = (c.title || '').slice(0, 80) || (c.url || '');
+  updatePasteClip();
+  openComposeDlg(pastedlg);   // showModal + 폰 뒤로가기 칸(입력 손실 방지·260627)
+  setTimeout(() => $('#pasteText').focus(), 60);
+}
+// PICKED 클릭 → 피드(메뉴3) 이동 + 해당 기사 팝업. 픽 결과가 피드에 떴으니(pickInFeed) url/클러스터로 매칭해 open(a).
+function pickedOpen(c) {   // PICKED → 피드 이동+모달. feedMatch(url→event_key→제목 폴백), 없으면 load() 후 재매칭(feedOpenBy 공용)
+  feedOpenBy(() => feedMatch(c, true));   // has_body 필수(needBody) — body 없는 stub 매치 시 빈 모달 대신 feedOpenBy가 '피드 반영 중' 안내(scFeedArticle 게이트와 일관·260630)
+}
+function scFeedArticle(c) {   // 이 후보가 요약돼 피드(DATA=articles.json)에 떠 있나 → 그 기사 객체(없으면 null).
+  // 카드 탭 라우팅에 사용: 있으면 뉴스 요약으로, 없으면 기사 전문으로(요약 안된 빈 요약 목업 차단 · 운영자 260621).
+  return feedMatch(c, true);   // ⚠️ has_body 필수(needBody) — 요약 body가 *실제로 있는* 피드 기사만 매치(픽됐으나 분석 미완·실패로 body 없는 stub은 제외 → 클릭이 빈 요약 모달 대신 기사 원문으로 폴백·운영자 260630 재발버그) · url 실패 시 event_key·제목 폴백으로 드리프트 요약 재연결(260714)
+}
+// 보관한도(데이터)는 크게(10일·수천 건) 두되, 화면은 컬럼당 SC_PAGE장만 그려 가볍게 유지.
+// 전량 렌더 + 매 탭마다 재렌더는 수백 장 넘으면 모바일이 버벅임 → 청크 추가 렌더.
+const SC_PAGE = 150;
+const scShown = { cross: SC_PAGE, new: SC_PAGE };   // 컬럼별 현재 렌더 장수(재렌더에도 유지)
+// '더 보기' 버튼 폐지 → 무한 스크롤(운영자 260703 — "hover/클릭 모호 + 누르다 기사 오탭" 교정): 컬럼 바닥의
+// 투명 센티널이 화면 600px 앞에 들어오면 SC_PAGE 추가 렌더(도달 전 미리 채워 끊김 없음 · 페이지 스크롤 구조라 root=viewport).
+// IO 1개 재사용 — 재렌더마다 disconnect 후 새 센티널만 관찰(콜백은 렌더 1회만 = 양 컬럼 동시 교차해도 이중 렌더 방지).
+const _scIO = ('IntersectionObserver' in window) ? new IntersectionObserver(ents => {
+  for (const e of ents) {
+    if (!e.isIntersecting) continue;
+    const key = e.target.dataset.col;
+    _scIO.unobserve(e.target);
+    if (scShown[key] != null) { scShown[key] += SC_PAGE; renderScrap(); break; }   // 재렌더가 남은 센티널 재생성·재관찰
+  }
+}, { rootMargin: '600px 0px' }) : null;   // IO 미지원 구형 = 옛 더보기 버튼 폴백(아래 renderScrap)
+let scFoldOpen = false, _scFoldN = 0;   // 검증대기 접기(Q-1·260702): 토글 상태(재렌더 유지·새로고침 접힘 기본) · 이번 렌더의 접힌 건수(양수=접힘·음수=펼침)
+let ratedKeep = new Set();   // 이번 세션에 별점 매긴 카드 = 다음 갱신(새로고침) 전까진 유지, 갱신 때 리스트서 제외
+let _scrapSig = '';   // 직전 렌더 시그니처(동일 구성 재렌더 = 스태거 생략 게이트 · 피드 _feedSig 대응 · 운영자 260621)
+// 같은 사건 중복 대표 접기 — 정규화 제목 동일(=같은 헤드라인=같은 기사)이면 우세한 1장만 남김(운영자 260625 · 분신술 10인 보강).
+//   원인: 한 사건의 클러스터 대표 2개가 동시에 살아있을 때(to_candidates alias-merge는 *세션간* rep점프만 흡수·co-fresh는 §보수성으로 미병합) 카테고리/매체만 다르게 2장 뜸(실측: 동아 '정치' + 뉴시스 '사회' = 자카드 .79).
+//   ⚠️ 멤버겹침(자카드) dedup은 클러스터 노이즈로 *다른* 기사를 오접음(실측: '선관위 압수수색'이 '개표소 올다르크'로 접힘) → **제목 완전일치만** = 보수(특정 헤드라인 충돌 사실상 불가·일반머리표는 JUNK_HEAD가 선제거). 근사 제목(다른 헤드라인 같은 사건)은 안 접음 = 진짜 distinct 보호 우선.
+//   ⏱ 시간창(SC_DUP_WINDOW): 같은 제목이라도 scTs가 12h 넘게 벌어지면 = 다른 날 동일 헤드라인(날씨 '낮 최고 32도'·환율 '10.3원 오른…출발' 등 보일러플레이트) = 다른 사건 → 안 접음(분신술1 false-merge 실측 차단).
+//   📍 전역(칼럼 분배 *전*) 1회 적용 — 같은 제목 대표가 신규(<4h)/누적(≥4h) 경계로 갈려 둘 다 뜨던 누설 차단(분신술2). 우세도(cross→report_count→최신)로 대표 1개 선택 = 순서 무관 결정적.
+//   픽 상태는 makeScItem의 cluster_members 멤버승계(ratingFor)로 접힌 대표가 픽이어도 생존 카드에 PICKED 유지 → 픽 고아 0(분신술3 확인).
+const scTitleKey = c => (c.title || '').replace(/\s+/g, '').toLowerCase();
+const SC_DUP_WINDOW = 12 * 3600000;   // 12h — 이 안의 동일제목만 같은 기사로 접음(밖 = 다른 날 보일러플레이트로 보존)
+const scMoreDom = (a, b) => (a.cross || 0) !== (b.cross || 0) ? (a.cross || 0) > (b.cross || 0)   // 우세 = cross↑ → 연속보도↑ → 최신↑ (접힐 때 더 대표성 큰 쪽 보존)
+  : (a.report_count || 0) !== (b.report_count || 0) ? (a.report_count || 0) > (b.report_count || 0) : scTs(a) > scTs(b);
+function scDedup(arr) {   // 같은 제목 + 시간근접(<12h) = 같은 기사 → 우세한 1장. 무제목(title 없음)·시간상 먼 동명은 보존.
+  const rep = new Map(), out = [];   // titleKey → {c, idx}
+  for (const c of arr) {
+    const k = scTitleKey(c);
+    if (!k) { out.push(c); continue; }   // 무제목 = 안 접음(distinct 보호)
+    const prev = rep.get(k);
+    if (prev && Math.abs(scTs(c) - scTs(prev.c)) < SC_DUP_WINDOW) {   // 같은 기사 중복 대표
+      if (scMoreDom(c, prev.c)) { out[prev.idx] = c; rep.set(k, { c, idx: prev.idx }); }   // 우세한 쪽으로 교체(제자리)
+      continue;   // 약한 쪽 접음
+    }
+    rep.set(k, { c, idx: out.length }); out.push(c);   // 첫 등장 또는 시간상 다른 사건 → 유지
+  }
+  return out;
+}
+// ── 수집함 병합(merge·운영자 260625) ── 토큰 클러스터링서 갈라진 같은 사건을 운영자가 수동으로 묶음(롱프레스→체크→병합).
+//   저장 = localStorage(이 기기·앵커 candId → 멤버 candId들). fold = applyMerges가 멤버를 접고 앵커에 cluster_members·cross 합산.
+//   🔑 우아함 = cluster_members 확장 하나로 pickAlt(→api/pick alt 종합요약)·pickInFeed·cross·픽상태가 전부 기존 메커니즘 재사용(파이프라인·알고리즘 0 변경 = 뷰어 소비만).
+const MERGE_KEY = 'nm_merges', MERGE_TS_KEY = 'nm_merges_ts';
+const mergesAll = () => { try { return JSON.parse(localStorage.getItem(MERGE_KEY) || '{}'); } catch { return {}; } };
+const saveMerges = (m, delta) => {   // bool 반환 = 저장 실패(quota·시크릿) 시 거짓 성공 토스트 차단(분신술7·9) · delta = {set,del} 계정 동기(운영자 260717 "경계도 ㄱ" — 폰 병합 = PC도 접힘 · fail-soft)
+  let ok = true; try { localStorage.setItem(MERGE_KEY, JSON.stringify(m)); } catch { ok = false; }
+  if (ok && delta && ((delta.set && Object.keys(delta.set).length) || (delta.del && delta.del.length))) {
+    try { localStorage.setItem(MERGE_TS_KEY, String(Date.now())); } catch {}
+    fetch('api/mapsync', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ file: 'merges', ...delta }) }).catch(() => {});
+  }
+  return ok;
+};
+async function loadMergesSrv() {   // 계정 병합 적재(60s 폴 편승) — 로컬 최근 편집(5분 유예 = 배포 지연 1~2분 창에서 서버 구본이 내 편집을 되감는 것 차단) 없을 때만 서버 = 정본 채택
+  try {
+    if (Date.now() - (+localStorage.getItem(MERGE_TS_KEY) || 0) < 300e3) return;
+    const r = await fetch('merges.json?_=' + Date.now()); if (!r.ok) return;
+    const d = await r.json(); if (!d || typeof d !== 'object' || Array.isArray(d)) return;
+    if (JSON.stringify(d) === JSON.stringify(mergesAll())) return;
+    try { localStorage.setItem(MERGE_KEY, JSON.stringify(d)); } catch {}
+    if (CURTAB === 'scrap') renderScrap();
+  } catch { /* 없으면 로컬만 */ }
+}
+const kstNow = () => new Date(Date.now() + 9 * 3600e3).toISOString();   // KST 스탬프(§📐 시각 표준)
+// 앵커 카드 *복제본*에 멤버 흡수 — cross=union 매체수, cluster_members=[멤버 대표 url 먼저(픽 alt 8캡서 각 사건 보장) + 앵커기존 + 멤버클러스터]. 원본 CANDS 불변(복제라 다음 렌더·타 참조 오염 0).
+function mergeDecorate(anchor, memCands) {
+  const aRep = _normU(anchor.url);
+  // cm = _normU 키로 dedup(종합 alt용·8캡에 각 사건 포함). 멤버 대표 먼저.
+  const cm = [], cmSeen = new Set([aRep]);
+  for (const u of [...memCands.map(m => m.url), ...(anchor.cluster_members || []), ...memCands.flatMap(m => m.cluster_members || [])]) {
+    const k = _normU(u); if (k && !cmSeen.has(k)) { cmSeen.add(k); cm.push(String(u)); }
+  }
+  // breaking/grade/rc/burst = 멤버 max 승계 = 긴급 멤버가 비-긴급 앵커에 접혀도 🚨 배지 안 사라지게(분신술8 F3). grade null(미채점)은 보존.
+  const grades = [anchor.grade, ...memCands.map(m => m.grade)].filter(g => g != null);
+  // cross = 매체 수 단순 합산(운영자 260625: 15+7+2=24 · union 아닌 합 = 갈라진 같은 사건이라 매체 거의 안 겹침). 표시·게이트(진입/이슈/점등)·moreN은 이 raw 합산값.
+  const _base = anchor.cross || 0, _summed = _base + memCands.reduce((s, m) => s + (m.cross || 0), 0);
+  // _rankCross = 랭킹(scScore) 전용 댐핑값 — 합산이 기준의 1.5배(MERGE_DAMP_RATIO) 초과면 *초과분만* 75%(MERGE_DAMP_GAIN) 반영(운영자 260628: 병합으로 매체수 폭증해도 랭킹 과대강조 억제 · 표시/배지/진입은 raw 불변 · 평의회10 만장일치 "랭킹전용·초과분 연속식"). 연속식이라 1.49배↔1.5배 역전 없음·단조.
+  const _cap = _base * MERGE_DAMP_RATIO, _rankCross = _summed <= _cap ? _summed : _cap + (_summed - _cap) * MERGE_DAMP_GAIN;
+  return { ...anchor,
+    cross: _summed, _rankCross, _baseCross: _base,
+    breaking: anchor.breaking || memCands.some(m => m.breaking),
+    grade: grades.length ? Math.max(...grades) : anchor.grade,
+    report_count: Math.max(anchor.report_count || 0, ...memCands.map(m => m.report_count || 0)),
+    burst: Math.max(anchor.burst || 0, ...memCands.map(m => m.burst || 0)),
+    cluster_members: cm,
+    _mergeCount: memCands.length, _mergeMembers: memCands.map(candId) };
+}
+// AI 확정 사건 묶기(group_judge · 운영자 260702) — 같은 group_id 카드를 자동 병합(수동 병합과 동일 mergeDecorate 파이프 = UI·픽·랭킹댐핑 공짜).
+// group_id는 breaking-judge의 group_judge(opus)가 '같은 실제 사건' YES 확정한 그룹에만 박힘 — 렉시컬 단독 병합 금지 선례(260625 안산↔청주) 준수.
+// 수동 병합(applyMerges)이 먼저 접은 멤버는 pool에 이미 없음 = 수동 우선 자연 보장. 홀로 남은 group 카드는 그대로(병합 없음).

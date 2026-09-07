@@ -50,3 +50,18 @@ grok_probe_log.json
 
 # Cloudflare wrangler 로컬 캐시(빌드 부산물 · 커밋 대상 아님)
 .wrangler/
+
+# Historical copies and generated reports are reproducible; keep them out of source control.
+_versions/
+_산출/
+docs/reports/*
+!docs/reports/260716_기틀훅킷_v2.sh
+Desktop.zip
+Desktop.z[0-9][0-9]
+apps/storyboard/샘플/*
+!apps/storyboard/샘플/9-1.png
+!apps/storyboard/샘플/9-2.png
+!apps/storyboard/샘플/9-3.png
+!apps/storyboard/샘플/스토리보드 (1).png
+!apps/storyboard/샘플/캐릭터 시트 (1).png
+apps/storyboard/자료/

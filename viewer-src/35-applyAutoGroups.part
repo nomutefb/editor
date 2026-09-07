@@ -1,0 +1,588 @@
+function applyAutoGroups(pool) {
+  const by = new Map();
+  for (const c of pool) if (c.group_id) { const a = by.get(c.group_id) || []; a.push(c); by.set(c.group_id, a); }
+  if (!by.size) return pool;
+  const drop = new Set(), deco = new Map();
+  for (const [gid, cards] of by) {
+    if (cards.length < 2) continue;
+    const anchor = cards.find(c => c.url === gid) || cards.slice().sort((a, b) => (b.cross || 0) - (a.cross || 0))[0];
+    const mem = cards.filter(c => c !== anchor);
+    deco.set(candId(anchor), mergeDecorate(anchor, mem));
+    mem.forEach(c => drop.add(candId(c)));
+  }
+  if (!deco.size) return pool;
+  return pool.map(c => deco.get(candId(c)) || c).filter(c => !drop.has(candId(c)));
+}
+// 병합 적용 = pool(dedup된 후보)서 멤버 카드 접고 앵커는 mergeDecorate. 멤버가 pool 밖(타 필터로 빠짐)이면 CANDS 폴백으로 찾음.
+function applyMerges(pool) {
+  const M = mergesAll();
+  if (!Object.keys(M).length) return pool;
+  const _mems = a => Array.isArray(M[a] && M[a].members) ? M[a].members : [];   // 손상 localStorage(members 비배열) 방어(분신술9)
+  // lazy GC: 앵커도 멤버도 전원 CANDS 부재인 죽은 병합 제거(rep-url 점프로 candId 죽음·픽완료·quota 출혈 방지·분신술6·7)
+  const liveId = new Set(CANDS.map(candId));
+  let pruned = false;
+  const _prunedKeys = [];
+  for (const a of Object.keys(M)) { if (!liveId.has(a) && !_mems(a).some(m => liveId.has(m))) { delete M[a]; _prunedKeys.push(a); pruned = true; } }
+  if (pruned) saveMerges(M, { del: _prunedKeys });   // GC도 계정 동기 — 전 기기 동일 결정(liveId 기반 결정적이라 어느 기기가 먼저 지워도 같은 결과)
+  const byId = new Map(pool.map(c => [candId(c), c]));
+  const anchorSet = new Set(Object.keys(M).filter(a => byId.has(a)));   // pool에 실존하는 앵커만 = 앵커 부재면 멤버 안 접음(그룹 통째 실종 방지)
+  const memberOf = new Map();   // 멤버 candId → 앵커 candId
+  for (const a of anchorSet) for (const mid of _mems(a)) { if (mid !== a && !anchorSet.has(mid)) memberOf.set(mid, a); }   // 멤버가 그 자체로 앵커면 접지 않음(A↔B 사이클·중첩 방어·분신술1)
+  const out = [];
+  for (const c of pool) {
+    const id = candId(c);
+    if (memberOf.has(id)) continue;   // 멤버 = 접힘(앵커에 흡수)
+    if (anchorSet.has(id) && _mems(id).length) {
+      const mem = _mems(id).filter(mid => mid !== id).map(mid => byId.get(mid) || CANDS.find(x => candId(x) === mid)).filter(Boolean);
+      out.push(mem.length ? mergeDecorate(c, mem) : c);
+    } else out.push(c);
+  }
+  return out;
+}
+function renderScrap() {
+  let _scSig = '';   // 이번 렌더 카드 구성(트레이+양 칼럼 ID·칩 상태·검색어·접힘) 누적 — 커밋 직전 _scrapSig와 비교
+  const host = $('#scrapList'); if (!host) return;
+  const neo = document.createElement('div');   // 오프스크린 빌드 — 시그니처 완전 동일이면 커밋(DOM 교체) 자체를 생략. 종전 no-anim은 스태거만 억제하고 innerHTML 통재빌드는 그대로라, 라이브 재렌더(_firstLoad·loadPending 전이)가 웨이브 안착 직후 화면을 번쩍 갈아엎었음(운영자 260706 2차 "지그재그 안착하면 번쩍 갱신")
+  const _sents = [];   // IO 센티널 = 커밋 후에만 observe(커밋 생략 시 기존 센티널 관찰 유지 = 무한스크롤 무중단)
+  const q = ($('#q') ? $('#q').value : '').trim().toLowerCase();
+  const rt = ratingsAll();
+  CANDS.forEach(c => { const s = srvTriage(c); if (s) { const id = candId(c); rt[id] = { ...s, ...(rt[id] || {}) }; } });   // 서버 트리아지(전 기기 ledger) 아래에 로컬 오버레이 = PASS/👎/확인 cross-device(운영자 260620)
+  scRT = rt;   // scRT = 정렬에서 픽 상태(누적 고정 제외) 참조
+  const base = q ? CANDS.filter(c => ((c.title || '') + ' ' + (c.title_ko || '') + ' ' + (c.media || c.source || '')).toLowerCase().includes(q)) : CANDS;   // 수집된 후보 전반 대상(외신 번역 제목도 한글 검색 매칭) · 국제 칩 = 260704 운영자 결정으로 제거(미승인 등장 요소 롤백 · §🎨 신규 UI 배치 승인 룰)
+  // 픽 분석실패 = 카드(칼럼) 종속서 분리해 상단 전폭 '실패 트레이'에 모음 — cross<8·4h 솎여 칼럼에 미렌더돼도 실패가 안 사라지게(운영자 260620 분신술 표면작업).
+  const _mm = mergesAll(), _mergedMembers = new Set(), _liveIds = new Set(CANDS.map(candId));   // 병합 멤버 = 실패트레이서도 제외(앵커에 흡수=이중표면 방지·분신술8 F1) — ⚠️ 단 앵커가 *살아있을 때만*(앵커 탈락[GC·rep점프·별점] 시 흡수처 사라져 멤버 증발 silent-loss 방지·재검4)
+  for (const a of Object.keys(_mm)) { if (!_liveIds.has(a)) continue; (Array.isArray(_mm[a] && _mm[a].members) ? _mm[a].members : []).forEach(m => _mergedMembers.add(m)); }
+  const failed = base.filter(c => pickState(c) === 'failed' && !JUNK_HEAD.test(c.title || '') && !failRequeued(c) && !_mergedMembers.has(candId(c)));   // 체크(제자리 복귀)한 실패·병합 멤버는 트레이서 제외 → requeue 건은 칼럼 원래 자리로(운영자 260701·260625)
+  const failSet = new Set(failed.map(c => candId(c)));   // 전체 실패 candId = 칼럼서 제외(누설 방지 — dedup 전 집합)
+  failed.sort((a, b) => scTs(b) - scTs(a));   // 최신 실패 먼저
+  const failedShown = scDedup(failed);   // 트레이 표시도 동일제목 중복 접기(분신술2 — 트레이 미적용 보강)
+  const pool = applyAutoGroups(applyMerges(scDedup(base.filter(c => {   // 📍 전역 dedup(칼럼 분배 *전* 1회) = 같은 제목 대표가 신규/누적 경계로 갈려 둘 다 뜨던 누설 차단(분신술2) · applyMerges = 운영자 수동 병합 fold(멤버 접고 앵커 종합·운영자 260625) · applyAutoGroups = AI 확정 사건 묶기(group_id·260702 — 수동 뒤 = 수동 우선)
+    const r = rt[candId(c)] || {};
+    if (failSet.has(candId(c))) return false;                       // 실패 = 트레이로(칼럼서 제외 = 카드 종속분리)
+    if (r.dismissed && !pickState(c)) return false;                 // 👎 관심없음 = 제외 · 단 타기기/파이프라인이 픽한 건(전역 pickState)은 잔류→PICKED 표시(운영자 260620 B1)
+    // (실패 체크 → 트레이서만 빼고 칼럼 제자리로 = requeue 건은 여기서 안 막음. failSet[위]이 '체크 안 한 실패'만 칼럼서 걸러 트레이로 보냄 · 운영자 260701)
+    if (r.score >= 1 && !ratedKeep.has(candId(c))) return false;    // 별점 매긴 건 = 다음 갱신 때 제외(이번 세션은 유지·DB엔 남김)
+    if (JUNK_HEAD.test(c.title || '')) return false;                // 머리표 junk([알림]·[사진]·[부고] 등 = 뉴스 아님) 양 컬럼서 제외
+    return true;
+  }))));
+  if (!pool.length && !failedShown.length) {
+    _scSig = 'E|' + q;
+    if (_scSig === _scrapSig && host.childElementCount) return;   // 동일 빈 상태 재호출 = 무접촉
+    closeFailMenu(); document.querySelectorAll('.sc-rsn').forEach(closeRsn);
+    if (_scIO) _scIO.disconnect();
+    host.classList.remove('scrap-cols'); host.innerHTML = q ? '<div class="scrap-empty">검색 결과 없음</div>' : ''; _scrapSig = _scSig; return;   // 빈 메뉴 = 조용한 공백(설명 글자열 전폐 · 운영자 260706 — §디자인 e) · 검색 중일 때만 상태 1줄
+  }
+  neo.innerHTML = (failedShown.length ? `<div class="sc-failtray"><div class="sc-failtray-list"></div></div>` : '') + SC_COLS_HTML;   // 실패 트레이 = 리스트만(설명 헤더 폐지 — 어포던스가 설명 = §디자인 e)가) 조용한 공백 · 운영자 260713)
+  if (failedShown.length) {   // 실패 트레이 렌더(makeScItem 재사용 = Failed칩·재시도메뉴·카드탭→원문 그대로). 최신 실패 먼저.
+    const tray = neo.querySelector('.sc-failtray-list');
+    failedShown.forEach((c, i) => { const el = makeScItem(c, { ...(srvTriage(c) || {}), ...ratingFor(c) }, 'fail'); el.style.animationDelay = Math.min(i, 14) * 32 + 'ms'; tray.appendChild(el); _scSig += 'f' + candId(c) + '~' + failCount(c) + ','; });   // 시그니처에 재시도 횟수 = Failed(N) 라벨 변화도 커밋 유발
+  }
+  // CROSS_MIN(누적 진입선 8)은 top-level 승격 — fbJunk veto와 값 공용(의미 같은 리터럴 이중 정의 봉합 · 분신술 260710). 값·설명 = 상수 선언부.
+  const _untri = c => { const r = rt[candId(c)] || {}; return pickState(c) || !((r.action && r.action !== 'pick') || r.passed); };   // down/pass=양 컬럼서 제외 · PICK 잔류(맨 아래 PICKED 비활성) · 전역 픽(pickState=타기기/파이프라인)은 down/pass였어도 PICKED로 잔류(운영자 260620 B1)
+  // 픽은 더 이상 가라앉히지 않음(운영자 260617: PICKED도 제자리서 인식 필요) → _pk 정렬키 제거. PICKED 표시·비활성만 유지.
+  if (!q) outStatUpd(pool, CROSS_MIN);   // 아웃라이어 z 통계 갱신(§아웃라이어 감쇠하한) = 병합 후 pool·랭킹축 — 검색 중엔 직전 전체 통계 유지(부분 풀 왜곡 방지)
+  neo.querySelectorAll('.scrap-list[data-col]').forEach(col => {
+    const key = col.dataset.col;
+    let arr;
+    if (key === 'new') {   // 신규 칼럼 = 최신분만. scFast(속보 OR 2+매체 양질) AND 발생 4h 내. 4h 지난 건 신규서 빠져 누적行(거기서 찾음). 정렬 = 핀 → fastScore → 최신순.
+      arr = pool.filter(c => _untri(c) && (scFast(c) || failRequeued(c) || pickState(c)) && (Date.now() - scTs(c)) < FAST_MAX_H * 3600000);   // 신규 = scFast AND 발생 <FAST_MAX_H(4h). 4h+ 는 누적行(아래). · 실패 체크복귀(failRequeued)·픽 이력(pickState=picking[재시도 포함]/settled[완료]) = cross 낮아도 자격 면제 = 리스트 유지(재시도 Picking 중·완료도 안 사라짐) · 정렬은 아래 그대로라 가산점 순위 제자리(강제 상단 X · 운영자 260701)
+      arr = arr.map(c => ({ c, p: pinFresh(c), f: fastScore(c), t: scTs(c) })).sort((a, b) => (b.p - a.p) || (b.f - a.f) || (b.t - a.t)).map(x => x.c);   // 최신 속보 핀 → fastScore decay 하강(톱 독차지 방지). 픽은 가라앉히지 않음 — 제자리 유지·PICKED 표시. ⚡버퍼 260701: Schwartzian(정렬키 요소당 1회 사전계산) — 비교당 재계산(Math.pow·Date.parse ~2·log₂n회) 제거·순서 동일.
+      // 검증대기 접기(Q-1 · 운영자 승인 260702 · 260720 grade0 포함 확장): 미채점·비뉴스(grade null/0)·cross≤3·burst<3·비속보(확정/후보)·비액션(픽/재시도)은
+      // 하단 접힘 묶음 — 신규 표시분의 85%가 이런 미채점 소규모 보도자료(실측 142/168)라 스크롤 절반 잠식(fable2).
+      // 컷 아닌 접기 = 소실 0(§1 보수성 무위반) · 랭킹/신호/수집 0 변경(순수 표시층) · 펼침 = 기존 더보기 페이지네이션에 그대로 합류.
+      _scFoldN = 0;
+      if (!q) {   // 검색 중엔 접기 비활성(브라우즈 중 = 전부 표시)
+        const heldIds = new Set(arr.filter(c => (c.grade == null || c.grade === 0) && (c.cross || 0) <= 3 && (c.burst || 0) < 3
+          && !c.breaking && !c.breaking_candidate && !failRequeued(c) && !pickState(c)
+          && (Date.now() - scTs(c)) >= FRESH_UNFOLD_H * 3600000).map(candId));   // 갓 뜬(<1.5h) 기사 = 미채점이어도 접지 않음(운영자 260710 "30분 전 기사가 안 올라옴" — 실시간 이슈 = 핵심 기능인데 신선분이 전부 접힘 트레이에 갇혀 2~3h짜리만 보이던 근본. judge가 ~15분 내 채점하면 자연 재분류라 노이즈 노출 창 짧음·cross≥2는 이미 통과한 것들)
+        if (heldIds.size >= 4 && (arr.length - heldIds.size) >= 10) {   // 3건 이하면 접을 가치 없음(버튼이 더 시끄러움) · 접기 미발동 기준 = 검증대기 뺀 *활성 표시분*이 10건 미만이면 접지 않고 다 펼침(적은 날 = 활성 2건인데 검증대기만 접히면 칼럼이 "검증대기 +N 펼치기" 하나로 휑·기사 안 들어온 인상 → 활성이 적을수록 검증대기라도 채워 보여줌 · 접기 목적=활성 많은 날 스크롤 잠식 방지라 활성<10은 접을 이유 없음 · 운영자 260705)
+          if (scFoldOpen) { arr = arr.filter(c => !heldIds.has(candId(c))).concat(arr.filter(c => heldIds.has(candId(c)))); _scFoldN = -heldIds.size; }
+          else { arr = arr.filter(c => !heldIds.has(candId(c))); _scFoldN = heldIds.size; }
+        }
+      }
+    } else {   // 누적 = 9시뉴스감(좌측·넓은 누적). 발생 4h↑(신규서 졸업) AND (cross≥8 OR 긴급[breaking] OR 연속보도 보조진입[followEnters: cross≥4 AND rc≥6 — grade 조건 없음·운영자 260720 "grade는 긴급용"]). 최신(<4h)과 시간 배타. ⚠️ 긴급이었던 건 cross<8이어도 누적 합류(사라지는 구멍 차단·운영자 260617) → 일반 누적 점수(scScore)로 랭킹. 중요도순.
+      arr = pool.filter(c => _untri(c) && ((c.cross || 0) >= CROSS_MIN || isBreaking(c) || followEnters(c) || failRequeued(c) || pickState(c)) && (Date.now() - scTs(c)) >= FAST_MAX_H * 3600000);   // + 실패 체크복귀(failRequeued)·픽 이력(pickState=picking[재시도 포함]/settled[완료]) = cross<8·non-breaking이라 원래 자격 없어도 면제 = 리스트 유지(재시도 Picking 중·완료도 안 사라짐) · 정렬은 아래 scScore 그대로라 가산점 순위 제자리(강제 상단 X · 운영자 260701)
+      arr = arr.map(c => ({ c, s: scScore(c), t: scTs(c) })).sort((a, b) => (b.s - a.s) || (b.t - a.t)).map(x => x.c);   // 순수 scScore 순. 픽은 가라앉히지 않음 — 제자리 유지·PICKED 표시(운영자 인식 필요). ⚠️ 강제핀(pinB) 제거(260617): 오래된 breaking이 최신 고득점 위에 박혀 시간 가속감점을 무력화하던 것 차단(실측: 밀양 28h·score9.5가 최신 score71 위 점유). ⚡이슈 배지는 유지(찾기 가능)·최신 pinFresh(최신속보 핀)는 별개 유지. ⚡버퍼 260701: Schwartzian(scScore 요소당 1회) — 비교당 재계산 제거·순서 동일. ⚠️ 24h+ 순위 게이트(260713 v2)는 같은 날 v3서 폐지 — 운영자 "23h↔24h 1시간 차가 넘사(하드 경계)면 안 됨" = 하드 컷 재도입 금지(ageMul 연속 시그모이드가 전담·§8 260713).
+    }
+    const lim = Math.min(scShown[key], arr.length);   // dedup은 pool 단계서 전역 1회(위) — 칼럼별 중복 접기 불요
+    for (let i = 0; i < lim; i++) {
+      const _c = arr[i], _r = { ...(srvTriage(_c) || {}), ...ratingFor(_c) };   // 멤버기반 picked 승계 + 서버 트리아지(확인 등) 오버레이(cross-device)
+      const el = makeScItem(_c, _r, key);
+      el.style.animationDelay = Math.min(i, 14) * 32 + 'ms';   // 촤르륵 스태거(펼쳐짐)
+      col.appendChild(el);
+      _scSig += key[0] + candId(_c) + '~' + (pickState(_c) || '') + (_r.action || '') + (_r.passed ? 'p' : '') + (_r.acked ? 'k' : '') + (_r.dismissed ? 'd' : '') + (_r.score || 0) + (isBuzzLv(_c) ? 'X' : '') + ',';   // +대세(GX) = 칩 글자가 G2↔GX로 바뀌는 축 → 시그니처에 없으면 **커밋 스킵에 걸려 화면이 옛 글자로 굳는다**(260810 실측: isBuzzLv는 true인데 칩은 G2 · 실검이 첫 렌더보다 늦게 오는 게 정상 순서라 상시 재현)   // 시그니처 = ID·순서 + 칩 상태(Picking/PICKED/Failed·확인·별점) — 상태 전이 재렌더(_firstLoad·loadPending changed)의 목적을 보존하면서, 무변화 재호출만 커밋 생략
+    }
+    if (arr.length > lim) {                                             // 나머지는 보관만 — 스크롤 도달 시 자동 추가(더보기 버튼 폐지·운영자 260703)
+      if (_scIO) {
+        const sent = document.createElement('div');
+        sent.className = 'sc-sentinel'; sent.dataset.col = key; sent.setAttribute('aria-hidden', 'true');
+        col.appendChild(sent);
+        _sents.push(sent);   // observe = 커밋 후(커밋 생략 시 옛 센티널이 계속 살아 무한스크롤 유지)
+      } else {                                                          // IO 미지원 구형 브라우저만 옛 버튼 폴백
+        const more = document.createElement('button');
+        more.className = 'sc-more'; more.type = 'button';
+        more.textContent = `더 보기 +${Math.min(SC_PAGE, arr.length - lim)}  ·  남은 ${arr.length - lim}건`;
+        more.onclick = () => { scShown[key] += SC_PAGE; renderScrap(); };
+        col.appendChild(more);
+      }
+    }
+    if (key === 'new' && _scFoldN !== 0) {   // 검증대기 접기 토글 — .sc-more 컴포넌트 계승(텍스트 단독 = §📐 라벨 규칙·신규 CSS 0)
+      const fold = document.createElement('button');
+      fold.className = 'sc-more sc-fold'; fold.type = 'button';
+      fold.textContent = _scFoldN > 0 ? `검증대기 +${_scFoldN}건 펼치기` : '검증대기 접기';
+      fold.onclick = () => { scFoldOpen = !scFoldOpen; renderScrap(); };
+      col.appendChild(fold);
+    }
+  });
+  _scSig += '|' + q + '|fold' + _scFoldN;   // 접힘 건수(펼치기 +N 라벨)도 커밋 판정에 포함
+  if (_scSig === _scrapSig && host.childElementCount) { pollPicking(); if (MERGE_MODE) markMergeCards(); return; }   // 구성·칩 상태 완전 동일 = DOM 무접촉(스킵) — 스태거 억제(no-anim)를 넘어 통재빌드 플래시 자체 제거 = 웨이브·스크롤 무중단(시간 라벨 등 부수 텍스트는 다음 실변경·탭 전환 때 갱신 = 종전 quiet 라이브폴 신선도와 동일 · 운영자 260706 2차)
+  closeFailMenu();   // 커밋 확정 시에만 — 전체 재렌더 = Failed 칩·사유 팝오버 앵커 stale → 닫음(orphan 방지)
+  document.querySelectorAll('.sc-rsn').forEach(closeRsn);
+  if (_scIO) _scIO.disconnect();   // 교체될 옛 센티널 관찰 해제(detached 노드 참조 누적 방지)
+  host.classList.add('scrap-cols');
+  host.classList.toggle('no-anim', _searchRender);   // 커밋 = 구성이 실제로 바뀐 경우뿐 → 새 카드·삭제 촤르륵 유지 · 검색 타이핑만 스태거 생략(동일 구성 케이스는 위 스킵이 흡수 · 분신술 A2 계승)
+  host.replaceChildren(...neo.childNodes);
+  _scrapSig = _scSig;
+  if (_scIO) _sents.forEach(s => _scIO.observe(s));
+  pollPicking();   // 픽 후·새로고침 잔존 Picking… 분석완료 폴 시동(가드: 진행중·picking 없으면 즉시 반환)
+  if (MERGE_MODE) markMergeCards();   // 병합모드 중 재렌더(라이브폴 등) = 앵커/선택 표시 재적용
+}
+// ── 병합모드 컨트롤러(롱프레스 진입 → 멤버 체크 → 병합박스 누름 = 묶음) · 운영자 260625 ──
+let MERGE_MODE = false, MERGE_ANCHOR = null, MERGE_SEL = new Set(), _mergeLpT = null, _mergeLpX = 0, _mergeLpY = 0;
+function enterMerge(c) {
+  if (MERGE_MODE) return;
+  MERGE_MODE = true; MERGE_ANCHOR = candId(c); MERGE_SEL = new Set();
+  document.body.classList.add('merge-mode');
+  markMergeCards(); updateMergeBox();
+  try { history.pushState({ merge: 1 }, ''); } catch {}   // 폰 뒤로가기 = 병합모드 취소(딴 화면 안 벗어남·§🎨 패턴)
+}
+function markMergeCards() {   // 앵커/멤버/선택 표시(재렌더 후에도 재적용)
+  let anchorSeen = false;
+  document.querySelectorAll('#scrapList .sc-item').forEach(el => {
+    const isA = el.dataset.cid === MERGE_ANCHOR;
+    if (isA) anchorSeen = true;
+    el.classList.toggle('sc-anchor', isA);
+    el.classList.toggle('sc-mergeable', !isA);
+    el.classList.toggle('sc-sel', !isA && MERGE_SEL.has(el.dataset.cid));
+    if (isA) ensureMergeTags(el);
+    else { const t = el.querySelector(':scope > .merge-tags'); if (t) t.remove(); }   // 비앵커엔 칩줄 없음
+  });
+  if (!anchorSeen && MERGE_MODE && !CANDS.some(c => candId(c) === MERGE_ANCHOR)) exitMerge();   // 앵커가 CANDS서도 소멸 = 유령 박스 자동 종료(분신술6·10). pool 필터로만 빠진 경우(CANDS엔 존재)는 유지 = 곧 복귀 가능.
+  updateMergeBox();   // 재렌더(라이브폴 등) 후 병합 칩 선택수 상태 갱신
+}
+function ensureMergeTags(el) {   // 앵커 카드 상단선에 칩줄[기준·병합·X] 주입(없으면) — 재렌더 후에도 멱등
+  if (el.querySelector(':scope > .merge-tags')) return;
+  const t = document.createElement('div'); t.className = 'merge-tags';
+  t.innerHTML = '<span class="mtag mtag-base">기준</span>'
+    + '<button class="mtag mtag-go empty" type="button" aria-label="선택한 기사 병합">병합</button>'
+    + '<button class="mtag mtag-x" type="button" aria-label="병합 취소"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6 18 18M18 6 6 18"/></svg></button>';
+  el.appendChild(t);
+}
+function toggleMergeSel(id, card) {
+  if (MERGE_SEL.has(id)) { MERGE_SEL.delete(id); card.classList.remove('sc-sel'); }
+  else { MERGE_SEL.add(id); card.classList.add('sc-sel'); }
+  updateMergeBox();
+}
+function updateMergeBox() {   // 병합 칩 = 선택 0이면 흐릿(.empty·눌러도 무동작), 1+면 활성
+  const go = document.querySelector('#scrapList .sc-anchor .mtag-go'); if (!go) return;
+  go.classList.toggle('empty', MERGE_SEL.size === 0);
+}
+function exitMerge(fromPop) {
+  if (!MERGE_MODE) return;
+  MERGE_MODE = false; MERGE_ANCHOR = null; MERGE_SEL = new Set();
+  document.body.classList.remove('merge-mode');
+  document.querySelectorAll('#scrapList .sc-anchor, #scrapList .sc-mergeable, #scrapList .sc-sel')
+    .forEach(el => el.classList.remove('sc-anchor', 'sc-mergeable', 'sc-sel'));
+  document.querySelectorAll('#scrapList .merge-tags').forEach(t => t.remove());   // 인라인 칩줄 정리
+  if (!fromPop) { try { if (history.state && history.state.merge) history.back(); } catch {} }
+}
+function doMerge() {
+  if (!MERGE_MODE || !MERGE_SEL.size) return;
+  if (!CANDS.some(c => candId(c) === MERGE_ANCHOR)) { exitMerge(); miniToast('기준 기사가 사라져 병합 취소됐어.'); return; }   // 유령 앵커(라이브폴 등으로 소멸) 차단(분신술6)
+  const M = mergesAll(), anchor = MERGE_ANCHOR;
+  const _ms = x => Array.isArray(M[x] && M[x].members) ? M[x].members : [];   // 손상 방어(분신술9)
+  const set = new Set(_ms(anchor)), _absorbed = [];
+  for (const id of MERGE_SEL) {
+    if (id === anchor) continue;
+    set.add(id);
+    if (M[id]) { _ms(id).forEach(x => set.add(x)); delete M[id]; _absorbed.push(id); }   // 멤버가 다른 그룹의 앵커였으면 그그룹 흡수(중첩 방지)
+  }
+  M[anchor] = { members: [...set].filter(x => x !== anchor), at: kstNow() };
+  if (!saveMerges(M, { set: { [anchor]: M[anchor] }, del: _absorbed })) { miniToast('저장 공간이 부족해 병합 실패.'); return; }   // 거짓 성공 토스트 차단(분신술7·9)
+  exitMerge(); renderScrap();
+  // (병합 완료 안내 토스트 폐지 — 운영자 260712 "해당 건은 없애자" · 카드가 눈앞에서 묶이는 것 자체가 어포던스 = §디자인 e · 구 cnt 계산도 토스트 전용이라 동반 정리)
+}
+let _miniToastT;
+function miniToast(msg) {   // (도먼트 위임 260712 — 운영자 "관련 건 모두 qFlash로 전환") 미니 토스트(초록 ✓) 폐지 → 전 호출(병합 취소·실패·해제·링크 복사) = qFlash 무채 안내로 · 병합 *완료* 안내는 호출 자체 폐지 · 구 초록 본문·#nmMiniToast·.nm-toast.mini CSS = 도먼트(재도입 = git 이력 260712 직전)
+  qFlash(msg);
+}
+function unmergeAnchor(c) {   // 실제 해제(저장·재렌더). 확인 UI는 openUnmergePop이 담당(오발 방지 2탭·게이지·운영자 260626).
+  const M = mergesAll(), id = candId(c);
+  if (!M[id]) return;
+  delete M[id]; saveMerges(M, { del: [id] }); renderScrap();
+}
+// 병합 해제 확인 팝오버 = 누른 주황 숫자 바로 위에 글래스 버튼 1개 → 누르면 게이지 풀필→✓ 체크 후 해제(잘못 눌러도 한 번 더 눌러야 풀림·운영자 260626).
+let _unmergePop = null, _unmergeOutside = null;
+function closeUnmergePop() {
+  if (!_unmergePop) return;
+  _unmergePop.remove(); _unmergePop = null;
+  if (_unmergeOutside) { document.removeEventListener('click', _unmergeOutside, true); _unmergeOutside = null; }
+  window.removeEventListener('scroll', closeUnmergePop, true);
+}
+function openUnmergePop(numEl, c) {
+  closeUnmergePop();
+  const pop = document.createElement('div');
+  pop.className = 'unmerge-pop';
+  pop.innerHTML = '<button type="button" class="unmerge-go">병합 해제 실행</button>';
+  document.body.appendChild(pop); _unmergePop = pop;
+  const r = numEl.getBoundingClientRect();   // 누른 숫자 바로 위·가운데 정렬(transform translate(-50%,-100%))
+  pop.style.left = (window.scrollX + r.left + r.width / 2) + 'px';
+  pop.style.top = (window.scrollY + r.top) + 'px';
+  const btn = pop.querySelector('.unmerge-go');
+  btn.addEventListener('click', async e => {   // 풀필 .72s → ✓ 체크 그려짐(제작버튼 계승) → 해제
+    e.stopPropagation();
+    btn.classList.add('firing'); btn.style.pointerEvents = 'none';
+    await new Promise(res => setTimeout(res, 740));
+    btn.classList.add('okdone', 'checking');
+    btn.innerHTML = '<svg class="gck" viewBox="0 0 24 24" role="img" aria-label="병합 해제됨"><path d="M5 13l4 4L19 7"/></svg>';
+    await new Promise(res => setTimeout(res, 460));
+    closeUnmergePop(); unmergeAnchor(c); miniToast('병합을 해제했어.');
+  });
+  _unmergeOutside = ev => { if (_unmergePop && !_unmergePop.contains(ev.target)) closeUnmergePop(); };   // 바깥 탭 = 취소
+  setTimeout(() => document.addEventListener('click', _unmergeOutside, true), 0);   // 여는 클릭이 즉시 닫지 않게 1틱 뒤 배선
+  window.addEventListener('scroll', closeUnmergePop, true);
+}
+// (positionMergeBar·_mergeBarReflow 폐지 — 플로팅 바 → 앵커 카드 인라인 칩줄로 통합·운영자 260629)
+// 이벤트 배선(1회) — 카드 선택·인라인 칩은 위임(capture)으로 카드 자체 click보다 먼저 가로채 stopPropagation(중복 동작 차단).
+(function wireMerge() {
+  const host = $('#scrapList');
+  if (host) host.addEventListener('click', e => {
+    if (!MERGE_MODE) return;
+    if (e.target.closest('.mtag-x')) { e.stopPropagation(); e.preventDefault(); exitMerge(); return; }   // 인라인 X(강조색) = 취소
+    if (e.target.closest('.mtag-go')) { e.stopPropagation(); e.preventDefault(); doMerge(); return; }   // 인라인 '병합' = 커밋(선택 0이면 doMerge 자체 가드)
+    const card = e.target.closest('.sc-item'); if (!card) return;
+    e.stopPropagation(); e.preventDefault();
+    if (card.dataset.cid === MERGE_ANCHOR) return;   // 앵커(기준)는 선택 불가
+    toggleMergeSel(card.dataset.cid, card);
+  }, true);
+  ['pointerup', 'pointercancel'].forEach(ev => window.addEventListener(ev, () => { clearTimeout(_mergeLpT); _mergeLpT = null; }));   // 손가락 뗌을 카드서 못 잡는 기기 대비(qFeedBtn 패턴·분신술3) = 빠른 탭이 600ms 뒤 오발 진입하는 것 차단
+  window.addEventListener('popstate', () => { const _td = $('#tooldlg'); if (_composeRecovering || (LBOX && LBOX.open) || isComposingModalOpen() || (_td && _td.open) || !qpop.hidden) return; if (MERGE_MODE) exitMerge(true); });   // 폰 뒤로가기 = 취소(이미 pop됨 → back 안 함) · ⚠️ 상위 오버레이(모달·대기열)·컴포즈 회수 back이면 그 몫 → 병합 over-close 차단(평의회 G4/V4 · 260628)
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && MERGE_MODE) exitMerge(); });
+  document.addEventListener('click', e => {   // 빈 곳(카드 밖) 탭 = 취소(카드 위·칩은 host capture가 stopPropagation으로 선점)
+    if (!MERGE_MODE) return;
+    if (e.target.closest('#scrapList .sc-item')) return;
+    exitMerge();
+  });
+})();
+// scTs = 발행시각(정렬·최신성 판정용). ⚠️ 일부 매체가 KST(+09:00)를 +00:00로 오기록 → 발행이 미래/수집(first_seen)보다 뒤로 박혀 '미래 기사'가 신규 최상단을 부당 점유(260618 실측 0.2%). 가드: 발행이 *미래*면 first_seen 사용.
+// ⛔ 대칭 가드(STALE_PUB_H=6h · PR #2951 260725 낮) = **당일 롤백**(운영자 260725 "일단 복구"). 사유 = 실측 지연분포와 전제 불일치: 가드가 '정상 수집 지연은 수시간'을 전제했으나 실데이터 first_seen−published 갭은 12~24h가 363/800(45%) → 6h 컷이 **439/800(55%)을 회춘**시켜 어제 기사가 신규 4h칼럼 진입(40건)·누적 근사랭킹 상위 20/20 전건 점유(화면 표기는 published라 "1일 3시간 전"인데 최상단 = 운영자 육안 발견). 원 타깃(경향)도 파이프라인 자가교정이라 가드 무접촉 = 이득 0·부작용만. **재도입 조건** = 갭 단독 판정 금지 → burst↑/last_report 신선 등 '지금 실제 보도 중' 신호 AND 결합(Q519 work-to-do 방향).
+// ⚠️ published>first_seen 역전 = '물리적 불가'로 보던 가드가 **연속보도 클러스터**에서 오발화(과감점 버그·운영자 260630·평의회10): first_seen이 *이탈한 옛 멤버*서 별칭승계돼(살아있는 멤버는 전부 신선) published>first_seen이 정상 발생 → 24h로 늙혀 9시뉴스감(rc 큰 대형) 강등(미스매치 324건/10.8%·cross≥8 34건). 교정 = `report_count≥FOLLOW_RC_MIN`(=확인된 연속보도 클러스터·기존 상수 재사용·새 임계 0)이면 역전이어도 published 채택. **future-cut(p≤now)은 불변** = KST/UTC 미래 오기록은 계속 first_seen(보호 보존·진짜 미래발행 8건·누적자격 0). rc 낮은 단발 역전(의심)은 보수적으로 first_seen 유지(§★ 보수성).
+const scTs = c => {
+  const p = Date.parse(c.published || ''), f = Date.parse(c.first_seen || '');
+  if (!isNaN(p) && p <= Date.now() + 60000 && (isNaN(f) || p <= f + 60000 || (c.report_count || 0) >= FOLLOW_RC_MIN)) return p;   // 발행 정상(미래 아님) AND (수집보다 앞 OR 연속보도 클러스터[rc≥6]) → 발행 우선
+  if (!isNaN(f)) return f;                                                               // 발행 미래(오기록) 또는 rc낮은 역전 → 수집시각(존재 확인된 상한)
+  return isNaN(p) ? 0 : p;
+};
+// ── 최신 게이트(scFast): 속보 OR 다매체(cross≥2·fbJunk 제외). grade는 진입 조건 아님(운영자 260720 "표시는 전부·grade는 긴급용") — 저신호는 접힘, 랭킹에서 연속보도(scFollow)·경중(gradeW)이 정렬. ──
+const BADGE_MAX_AGE_H = 24;   // 배지(⚡이슈)·OUT 완화 공용 소멸선(1일) — brkIssueKind(피드)·scBadgeType(수집함)·OUT_MAX_AGE_H 단일출처. 맨 리터럴 24가 두 곳에 이중 존재해 OUT만 바꾸면 "배지·완화 동시 소멸" 계약이 조용히 깨지던 드리프트 지뢰 봉합(분신술 10인 감사·260710). 조정 가능.
+const CROSS_MIN = 8;   // 누적 진입선 = 8개 매체 이상(운영자 260617: 5→8 엄선 — 어중간한 건 컷·DB엔 잔존). renderScrap(진입·OUT 통계)·fbJunk veto 공용 — 함수 로컬이던 것을 top-level 승격해 fbJunk의 맨 리터럴 8 제거(의미 같은 값 이중 정의 봉합·분신술 260710). 조정 가능.
+const FRESH_UNFOLD_H = 1.5;   // 신선 접기 면제 나이(h) — 이보다 어린 기사는 검증대기 접기 비대상(운영자 260710 "30분 전 기사" 실시간성 · 조정 가능)
+const FAST_MAX_H = 4, FAST_HALF_H = 2;   // ⏱ 신규↔누적 칼럼 경계 = 발생 4h(운영자 정본 260617: 최신=나이<4h=화면 '3시간 전'까지 / 누적=나이≥4h='4시간 전'부터). 자리(칼럼)=신규·누적 / 사건(배지)=긴급=속보[breaking] = 별개 축 — 긴급 사건은 나이 들면 *자리만* 신규→누적로 이동(개념 불변). 이 한 상수가 최신진입·누적진입·속보핀·토스트·배지(🚨긴급↔⚡이슈)를 전부 결정 = 단일출처(드리프트 차단). FAST_HALF_H=하강 반감기. 조정 가능.
+const scFast = c => isBreaking(c) || ((c.cross || 0) >= 2 && !fbJunk(c));   // 신규 진입 = 구조 신호만(cross≥2 + fbJunk 잡음컷). grade 거부권 폐지(운영자 260720 "일단 모든 게 다 나오는 게 맞고 grade는 긴급용" — grade0이 월드컵 결승·영화 흥행 등 문화 전면 차단하던 사각 해소·구 260628 grade0 제외 조항 폐기). grade0 정리 = 검증대기 접기(cross≤3 접힘)+랭킹 가중(×0.5)이 담당 · 긴급 축(isBreaking g≥2)은 원목적(중대 속보 감지) 그대로.
+const FOLLOW_W = 0.5;   // 연속보도 가점 가중 — 또 보도될수록↑(0.2→0.5·260628 Stage2 보름치 검증: §★ '연속보도 제일 무겁게'가 cross^POW에 묻히던 것 교정 — rank×연속보도 상관 0.098→0.162·호르무즈 선박 cr5·rc16이 26→12위). 조정 가능.
+// 연속보도 가점 = report_count(arts=기사 수 증가 사이클 = '또 보도됨', 같은 매체 1곳이여도 +1). seen_count(12h 윈도우 존재만으로도 올라 결함) 대체. 보도 끊기면 안 오름 → 시간 decay에 밀림(보도자료 자연 침몰).
+const scFollow = c => 1 + FOLLOW_W * Math.log2(1 + (c.report_count || 0));
+// 누적 '연속보도' 보조진입 — cross<8이어도 계속 또 보도되면(report_count↑) + AI 양질(grade≥2)이면 9시뉴스감 합류. ⚠️ cross≥8 단독선은 *불변*, 이건 rc+grade 동반 *보조* 진입로(§1 "cross 임계 낮추기" 아님 — cross·연속·품질 3중 게이트). §★·§5 '연속보도=제일 무거운 신호'를 진입에도 관철(260618 · cross-only서 rc=14짜리 지속보도 누락 실측·Opus 5명 검증).
+const FOLLOW_CROSS_MIN = 4, FOLLOW_RC_MIN = 6;   // 보조진입 임계(4매체+ AND 6회+ 후속보도 — grade 조건 없음·운영자 260720). 조정 가능.
+// ── 지문 축(운영자 260720 Q286): SNS 발행 이력 결 매칭 — 정본 사전 = docs/sns_지문사전.md · 생성기 = scraper/fp_culture_dict.py(수동) · 데이터 = viewer/fp_dict.json(기계 산출·fail-soft: 없으면 전부 0 = 현행 동일) ──
+// 운영자 원칙: "일단 안 걸러지기만 해도 이득 — 가점은 크게 안 줘도 됨" → 주 레버 = 보조문 완화(강지문 성장주 문 열기), 부 레버 = 소폭 가점(FP_W 0.25).
+const FP_W = 0.25;    // 지문 가중 — 정규화 점수(0~1)에 곱해 최대 ×1.25(0 = 무효과 · 조정 가능·믹서 튜닝 대상)
+const FP_STRONG = 2.0, FP_RC_RELAX = 3;   // 강지문 임계(점수 0~4축) · 보조문 rc 완화선 6→3. v1.3(평의회 260720): persons 상한 1.0이라 인물 단독으론 2.0 도달 불가 = 완화는 결어휘·크로스 동반만
+let FPD = null;
+fetch('fp_dict.json').then(r => r.ok ? r.json() : null).then(j => { FPD = j; }).catch(() => {});
+const FP_CROSS_RE = /논란|공분|역풍|고소|고발|소송|법원|재판|구속|입건|유출|폭로|사과|퇴출|하차|파문|청원|신상|악플|혐의|갑질|미투|표절|난입/;   // ⚠️ scraper/fp_culture_dict.py CROSS_RE와 문자열 동일 유지(수동 패리티)
+const _fpCache = new Map();
+const fpScore = c => {   // 0~4 (①문화결 어휘[시간가중] + ②전역 인물·브랜드[÷10·상한2] + ③사회크로스 +1 · 상한 4)
+  if (!FPD) return 0;
+  const id = candId(c); if (_fpCache.has(id)) return _fpCache.get(id);
+  const t = c.title || '', ts = new Set(t.match(/[가-힣A-Za-z0-9]{2,}/g) || []);
+  let s = 0, p = 0;
+  for (const x of ts) { s += (FPD.dict || {})[x] || 0; p += (FPD.persons && FPD.persons[x]) || 0; }
+  s += Math.min(p / 10, 1); if (FP_CROSS_RE.test(t)) s += (FPD.cross_bonus ?? 1);
+  s = Math.min(s, 4); if (_fpCache.size > 4000) _fpCache.clear(); _fpCache.set(id, s); return s;   // 상한 1.0 = 인물축이 만점의 25%로 제한(평의회D: 상한2.0이 트럼프 단독 만점 → 정치 스레드 +4~9 편중 실측) · 캐시 캡 4000(평의회B: 장수명 탭 무한성장)
+};
+const fpW = c => 1 + FP_W * (fpScore(c) / 4);   // 정규화(0~1) × 소폭 가중 — 랭킹 곱셈항(신규·누적 공용)
+const followEnters = c => (c.cross || 0) >= FOLLOW_CROSS_MIN && ((c.report_count || 0) >= FOLLOW_RC_MIN || ((c.report_count || 0) >= FP_RC_RELAX && fpScore(c) >= FP_STRONG && !fbJunk(c)));   // 보조진입 = 발행량 2축 + 강지문 완화로(운영자 260720 "안 걸러지기만 해도 이득"). PR 살포 방어: rc<3 차단·cross≥4 필수·완화로는 잡음마커 하드제외(평의회A 선제 봉쇄).
+// AI 경중 게이트 가중 — gate_judge가 grade 0~3 채점(0 비뉴스/보도자료 · 1 경미 · 2 주목 · 3 대형). 구조가 못 가르는 보도자료·잡음 침몰·대형 부상. 미채점(grade 없음)=중립 1(콜드스타트=구조만). docs §2.5.
+const GRADE_W = { 0: 0.5, 1: 0.7, 2: 1.0, 3: 1.7 };   // ★재정의(운영자 260628·분신술2차 전수검증): grade=긴급탐지 도구지 경중 도구 아님 → 경중·랭킹은 발행량(cross·연속보도)이 정함. floor 0.05→0.5(곱셈 지배 제거): 보도자료/비뉴스는 ×0.5 약한 감점(JUNK_HEAD가 정형잡음 별도 컷·rc 낮아 시간감점 침몰), 대형(3)만 ×1.7 부상(1.8→1.5 · 운영자 260807 "3 그레이드 가점 x1.5로" → **1.5→1.7 · 운영자 260810 "2는 1.0배, 3은 1.7배"** = S(1.2)와의 간격 복원[1.5는 S 대비 1.25배뿐이라 대형이 대세에 눌리던 축]·2는 1.0 유지 확인). 옛 ×0.05는 cross17·rc11 전국민 대세(홍명보·송영길 축구)를 1/20로 짓밟던 드리프트(문화 452건 grade2·3=0건·드리프트 541건 실측). 긴급축(isBreaking g≥2·isAlert g≥3)은 raw grade 직독이라 불변.
+// ── 피드백 학습 감점/거르기 (운영자 가치없음·홍보성 마킹 공통패턴 · 260701 적대 10인 평의회) ──
+//  AI 미채점(grade=null) 사각만 보완 — RUBRIC §0이 연예가십·홍보·줍줍을 grade0로 채점하나 AI가 cross<3에 늦게 닿음(backlog).
+//  ⚠️ 대형뉴스 절대 veto = cross≥8 OR grade≥2 OR rc≥FOLLOW_RC_MIN OR 이미 grade0 이면 무발화 — node 실측 3000건 과컷 0
+//     (강마커=품목허가·인증획득·론칭·특허취득 = 보도자료 정형구. 대형뉴스는 cross≥8/grade2로 veto 보호.) 키워드 단독배제는 금지(§8 묘비=대형뉴스 학살).
+//  ⚠️ '데이터센터·수주' 제거(260701 평의회10 ❌ 재검증): 정책·산업 대형뉴스에도 빈출하는 *약마커*라, 클러스터가 cross 파편화된 위성기사(cross2·grade=null)는 per-기사 veto가 못 닿아 오살됐음
+//     (실측: '3대 메가프로젝트'[이재명 2천조 국가산업정책·본류 cross17~19·grade2·rc14]의 데이터센터 분석기사 3건 — 그중 1건은 정책 *비판* 기사 = 홍보 정반대). 강마커만 남김 + HOLBO에도 !NOTFIN 가드(금융·정책기관 MOU 면제).
+const FB_HOLBO = /(업무협약|MOU|리브랜딩|품목허가|인증\s*획득|론칭|파트너십|특허\s*취득)/;
+const FB_CHEONG = /(줍줍|무순위\s*청약|청약\s*경쟁률)/, FB_ANCHOR = /(아파트|분양|단지|푸르지오|자이|래미안|힐스테이트|국평|특별공급|1순위)/, FB_NOTFIN = /(코스피|코스닥|증시|개미|外人|외국인|순매수|순매도|투매|보험|약관|금감원|금융위|공정위|국토부|건보공단)/;   // 금융·정책기관 제외가드(청약·홍보 양 브랜치 공용 — 정부기관 주체 MOU·협약은 홍보 아닌 정책)
+const FB_CELEB = /(레깅스|화보|열애|결별|이혼|장모상|하객|근황|몸매|애엄마|훈훈|핫몸|일상룩|순간포착|♥)/;   // +순간포착·♥(예능리캡 포토태그·커플표기 가십 — 문화 한정·candidates 100% 문화·260701 평의회10 +12도달·FP0·운영자 '연예가십 더 잘 잡아')
+const fbJunk = c => {
+  if ((c.cross || 0) >= CROSS_MIN || (c.report_count || 0) >= FOLLOW_RC_MIN || (c.grade != null && c.grade !== 0)) return false;   // veto = 대형뉴스 OR 채점 1~3(구제 등급 — grade1 결별 재컷 사고 260710 봉합 유지). ⚠️ grade0은 검사 대상(260720 평의회: 게이트 grade 거부권 폐지로 grade0의 유일 차단막이 사라져 "잡음 확정될수록 입장하는 역전" 발생 — 마커 매치 grade0만 재차단 = 구 게이트 시절과 동일 결과·월드컵/영화 등 마커 미매치 문화는 무영향).
+  const t = c.title || '';
+  if ((c.cat === '경제' || c.cat === '테크') && FB_HOLBO.test(t) && !FB_NOTFIN.test(t)) return true;   // 홍보성(기업 보도자료 — 경제/테크 한정·강마커, 금융규제·정책기관 주체 MOU는 NOTFIN으로 제외·260701 평의회10)
+  if (FB_CHEONG.test(t) && FB_ANCHOR.test(t) && !FB_NOTFIN.test(t)) return true;        // 부동산 청약/줍줍(앵커 AND 증시·금융 제외)
+  if (c.cat === '문화' && FB_CELEB.test(t)) return true;                                 // 연예 가십·신변잡기(문화 한정·마커)
+  return false;
+};
+// ── S 레벨 = 대세(운영자 260808 2차 "grade에 관계없이 · 0 1 2 S 3 · S가 대세 · S = 1.2") ──
+//    카드 제목이 sns_trends 실검(gtrends·gtrends_pool·xtrends) 키워드와 매칭되면 등급 사다리에서 S 취급 —
+//    gradeW = 1.2(grade 2[1.0] 위 · grade 3[1.5] 아래) · grade 0·1·2·미채점 전부 대상(카테고리 무관 · 3은 불변).
+//    grade 원값·⚡배지·긴급·푸시·자동픽 전부 무접촉(랭킹 전용) — 시변 신호(대세)는 정적 룰북(RUBRIC)에 안 박는다(평의회 8인 260807 만장일치).
+const BUZZ_W = 1.2;   // S 레벨 배율(등급 사다리 0.5/0.7/1.0/**1.2**/1.7의 네 번째 단 · 운영자 260808 · 3점 1.5→1.7 = 260810) — 조정 가능 · 칩 표기 = GX(`isBuzzLv`)
+let _buzzKw = null, _buzzTs = 0;
+const _buzzSet = () => {   // 실검 키워드 집합(5분 캐시) — TRENDS는 livePoll이 이미 물어오는 같은 데이터(추가 fetch 0)
+  if (_buzzKw && Date.now() - _buzzTs < 300e3) return _buzzKw;
+  const s = new Set();
+  try {
+    if (TRENDS) {
+      for (const t of (TRENDS.gtrends || [])) { const q = String(t.query || '').trim(); if (q.length >= 2) s.add(q); }
+      for (const t of (TRENDS.gtrends_pool || [])) { const q = String(t.q || '').trim(); if (q.length >= 2) s.add(q); }
+      for (const t of (TRENDS.xtrends || [])) { const q = String(t.name || t.q || t.query || '').trim(); if (q.length >= 2) s.add(q); }
+    }
+  } catch { /* 실검 파싱 실패 = 빈 집합 = 보정 없음(fail-soft) */ }
+  if (!TRENDS) return s;   // ⚠️ 실검 **미로드** 상태는 캐시하지 않는다(260810 실측 봉합) — 구판은 빈 집합을 그대로 5분 캐시로 굳혀서, 부팅 직후처럼 loadTrends가 아직 안 끝난 순간에 첫 렌더가 들어오면 **대세 승격(1.2배)이 5분 내내 통째로 미발동**했다(브라우저 실측 = TRENDS 로드 완료인데 _buzzSet 크기 0 · 화면 증상은 「그냥 순위가 좀 다름」뿐이라 눈으로 못 잡는 축). 미로드는 캐시 없이 빈 집합만 돌려주고 다음 렌더에서 다시 시도한다(추가 fetch 0).
+  _buzzKw = s; _buzzTs = Date.now(); return s;
+};
+const snsBuzz = c => {   // 매칭 술어(운영자 260808 "확인 로직이 중요") — 짧은 키워드(2~3자)는 substring이 오탐한다("로제"가 "프로젝트"에 매치) → ⓐ 4자+ 또는 공백 포함 구문 = 제목 substring ⓑ 2~3자 = 제목 토큰([가-힣A-Za-z0-9]+ 단위)의 정확일치 or 조사꼬리 2자 이내 전방일치("리센느가" ✓ · "프로젝트"의 중간 매치 ✗)
+  const t = c.title || '';
+  const toks = t.match(/[가-힣A-Za-z0-9]+/g) || [];
+  for (const k of _buzzSet()) {
+    if (k.length >= 4 || k.includes(' ')) { if (t.includes(k)) return true; }
+    else { for (const w of toks) { if (w === k || (w.length <= k.length + 2 && w.startsWith(k) && [...w.slice(k.length)].every(ch => '이가은는을를의와과도만에서부터께랑님씨측'.includes(ch)))) return true; } }   // 꼬리 = 조사 문자만 허용("리센느가" ✓ · "로제타석" ✗ — 타≠조사)
+  }
+  return false;
+};
+const gradeBase = c => { const ge = gEff(c); return gfixOf(c) ? (ge == null ? 1 : (GRADE_W[ge] ?? 1)) : (fbJunk(c) ? 0.5 : (ge == null ? 1 : (GRADE_W[ge] ?? 1))); };   // S 승격 *전* 배율(등급·교정·잡음눌림까지) — gradeW와 칩 표기(GX)가 **같은 술어**를 쓰게 분리(운영자 260810 "대세는 GX로 표기"): 표시를 따로 계산하면 화면이 1.2배가 아닌 카드에 GX를 그리는 거짓말이 난다.
+const isBuzzLv = c => gradeBase(c) < BUZZ_W && snsBuzz(c);   // S(대세) 승격이 **실제로 발동**했나 = 칩 GX 표기 술어 = gradeW의 승격 조건과 1:1(문자 동일). grade3(1.7)·교정3은 이미 S보다 위라 승격 미발동 = G3 유지(GX 아님 — 배율이 1.2가 아닌데 GX라 쓰면 표기가 거짓).
+const gradeW = c => isBuzzLv(c) ? BUZZ_W : gradeBase(c);   // 피드백 잡음 = grade0 floor(0.5) 취급(우선순위 감점 — 누적서 하강) · **S 레벨(운영자 260808 "grade에 관계없이 · 0 1 2 S 3 · S가 대세")** = 대세 키워드 매칭이면 등급 무관 gradeW 1.2로 승격(0·1·2·미채점 전부 → S · 3[1.5]은 S보다 위라 불변 · 카테고리 무관 — 문화 한정 폐지)
+// 최신 정렬 = (긴급도[burst+breaking] + 보도량[cross]) × 시간 반감 decay × 연속보도 가점 × AI 경중. 옛·후속끊긴·비뉴스 자연 하강.
+const FRESH_CROSS_W = 0.4;   // 신규 칼럼 보도량 가중 = base에 +W×cross(운영자 260803 "보도 지표 13인데 너무 아래 — 묻히면 신뢰도 하락으로 사용을 안 하게 됨"): 종전 base=burst+breaking뿐이라 cross(매체 수)가 신규(0~4h) 랭킹에 0% 반영 → cr13·25건 대형(경산 방화 수사경찰 사망)이 cr2 보도자료 밑 9/173위 실측. cross축 = 누적 crossConvex와 동일 _rankCross(병합 댐핑 반영) · 진입 게이트(scFast)·검증대기 접기·핀·시간반감 전부 무접촉 = 순수 정렬항 추가. 평의회 260803 W 검증. 조정 가능.
+const fastScore = c => ((c.burst || 0) + (c.breaking ? 5 : 0) + FRESH_CROSS_W * (c._rankCross ?? (c.cross || 0))) * Math.pow(0.5, Math.max(0, (Date.now() - scTs(c)) / 3600000) / FAST_HALF_H) * scFollow(c) * gradeW(c) * fpW(c);
+const JUNK_HEAD = /^(?!.*(?:서킷브레이커|사이드카|폭락|급락|폭등|급등|역대급|패닉|상한가|하한가|돌파|최고치|최저치|폭염특보|한파경보|호우경보|태풍특보|주의보|온열질환|침수|범람|산사태|대피|이재민))(?:\s*(?:[\[\(](알림|공고|부고|부음|동정|인사|프로필|단신|사진|포토|표|그래픽|증시|특징주|마감시황|개장시황|시황|프로야구|프로농구|프로배구|게시판)(?:\s[^\]\)]*)?[\]\)]|[\[\(][^\]\)]*(운세|날씨|데이터랩|증시|마켓뷰)[^\]\)]*[\]\)]|오늘의\s*(?:부고|운세|날씨|증시|주요뉴스))|.*원.?달러\s*환율.*마감)/;   // 머리표 junk(뉴스 아님) — 양 컬럼서 제외. ① 사건어 예외(맨 앞 `(?!.*서킷브레이커|폭락…)`) = 머리표가 시황/날씨류여도 본문에 *증시/재난 사건어* 있으면 컷 면제(감사2·8·12: '[마감시황] 코스피 급락 서킷브레이커'·'[날씨]폭염특보 온열질환 사망' 과잉컷 구제·260628·260630 평의회10 재난날씨 대칭화 · 260701 평의회10 하위티어 대칭보강=주의보[폭염/호우/한파 주의보]·산사태·대피·이재민 추가 · 260702 fable패널: 돌파·최고치·최저치 추가[환율마감 보호짝·전 패턴 공용 부활 0 실측]) ② 괄호 정확 머리표 + *부가어 허용*(`(?:\s…)?` = '[프로야구 중간순위]'도 컷·감사6 우회 봉합 · `프로필`·`단신` = 정치인약력/연예·스포츠 단신 = 운영자 가치없음 마킹·260630 평의회10 실측 오컷0) ③ 괄호 포함 머리표(운세·날씨·데이터랩·증시·마켓뷰 = 정형 컬럼어) ④ '오늘의 X' ⑤ 정례 환율마감(mid-title `.*원·달러 환율…마감` — 260702 fable패널: 5/5 숨김·부활 0·"1600원 돌파 마감"은 ①예외로 보호·개장('출발')은 의식적 스코프 밖·기대는 UX 아닌 위생+breaking AI콜 절약). ⚠️ 본문 키워드 매칭은 사건어 예외(부정)+⑤에만(교통량↔교통사고 오살 방지). gradeW floor 0.5와 한 쌍. 조정 가능.
+// ── 누적 점수 = 두 가속 곡선 (260617 운영자 재설계) ──────────────────
+// 구결함: 옛 누적은 ① cross가 concave(log)라 다매체 변별 약하고 ② 시간감쇠를 활동시각(last_report)
+//   기준으로 재는데 활성 사이클선 거의 모든 클러스터가 매 스크랩 새 기사 붙어 last_report가 0~2h로 *균일*
+//   → 시간축이 사실상 죽어 발행 20h·40h가 랭킹에 무영향("뒤죽박죽"). → 아래 두 곡선으로 재설계.
+// 1) cross 볼록 가점(가속): 매체수 늘수록 단계 가점 더 큼 — 5^1.6≈13·7≈23·9≈34·11≈48 (Δ 9.8·11.5·13.1).
+//    다수 동시보도일수록 가속 상단. (concave log 대체 · 운영자 "5→7→9→11 가속".) 잡음은 gradeW가 veto.
+const CROSS_POW = 1.3;   // cross^POW. 조정 가능(↑일수록 다매체 더 지배). 1.6→1.3(260628 Stage2): cross 볼록 가속이 연속보도를 압도해 'rc 높은 지속보도'가 'cross 높은 한탕'에 묻히던 것 완화 — 발행량 두 축(매체수·연속보도)의 균형 복원(§★ 연속보도 우선).
+const MERGE_DAMP_RATIO = 1.5, MERGE_DAMP_GAIN = 0.75;   // 병합 cross 댐핑(mergeDecorate가 _rankCross 산출): 기준의 1.5배 초과분만 75% 랭킹반영 · 운영자 260628
+const crossConvex = c => Math.pow(c._rankCross ?? (c.cross || 0), CROSS_POW);   // 병합카드면 댐핑된 _rankCross, 평상시 raw cross. 랭킹에만 적용(표시/게이트/배지는 raw c.cross).
+// 2) 시간 가속 감점(Hill): 발생(발행 pubAge=scTs, 화면 'N시간 전') 기준. 최신엔 거의 1, ~12h 넘으면 *가속* 침몰
+//    (8→10h보다 10→12h가 더 깎임 — 운영자 "12h 후 가속"). 활동시각(last_report)은 활성 사이클서 0~2h 균일이라
+//    시간축이 죽어 폐기 → 발행 기준 복원(계속보도 가치는 scFollow가 따로 가점 — 역할 분리).
+//    timeW=1/(1+(age/HALF)^POW): 6h=.91·12h=.56·18h=.27·24h=.14·36h=.045·48h=.02 (13·3.0 — 12h 반값·이후 가속).
+const ACC_T_HALF = 13, ACC_T_POW = 3.0;   // 반값 나이(h)·가속지수 — 12h 후 가속 침몰(운영자 260618: 18·2.5는 12h=.73로 완만 → cross^1.6 볼록에 눌려 철지난 다수매체가 상위 점유 '묵은 피드'였음. 13·3.0=12h 반값·이후 급강). 조정 가능.
+const timeAcc = c => 1 / (1 + Math.pow(Math.max(0, (Date.now() - scTs(c)) / 3600000) / ACC_T_HALF, ACC_T_POW));
+// ── 아웃라이어 감쇠하한(OUT · 운영자 260706): '표준편차 기준 압도적 다매체'는 하루 안엔 안 묻힌다 ──
+//    배경 실측: 병합 합산 cr39(장윤기 · z7.0) 사회 대형이 23h 시점 timeAcc .15에 눌려 신선 중형(cr9~13)들과 순위가 계속 뒤바뀜(운영자 "계속 순서가 바껴 본지도 모르겠다").
+//    완화 = scScore의 시간항만 하한: z ≥ OUT_Z1이면 timeAcc가 OUT_AGE_CAP_H(12h) 시점 값(.560) 밑으로 안 내려감 · OUT_Z0~Z1 선형 램프(경계 순위 플리커 방지 — 단 24h 나이 경계는 의도적 하드 컷 = 운영자 "1일" 스펙·배지 동시 소멸이라 비대칭 아님·§8).
+//    z = 강건 z(중앙값+MAD×1.4826) — 평균/표준편차는 아카이브 고래 꼬리에 오염돼 아웃라이어가 안 잡힘(실측·병합 후 랭킹축 풀: raw σ9.56[꼬리 = 병합 앵커 rk94·82·77…] → cr39가 z2.0 / MAD σr2.97 → z7.0 · 병합 전 raw 클러스터 풀은 σ2.9라 차이가 안 보임 = 축 주의). 통계 풀 = 병합 후 pool 랭킹축(_rankCross??cross) ≥ CROSS_MIN(8·누적 진입선) — renderScrap이 outStatUpd로 갱신.
+//    자격 = issCross(⚡이슈 배지 자격 그대로 상속: cross≥10[g3=8]·grade null‖≥2·정형컷) AND rc≥FOLLOW_RC_MIN(§★ '다매체 AND 계속보도') — 배지도 못 다는 시황/PR 합산몬스터·일회성 신디케이션은 대상 아님. OUT_MAX_AGE_H(24h=배지 소멸선·배지와 동일 max축)부터 정상 감쇠 복귀(운영자 "1일 넘어가면 밀리는 게 맞다").
+//    풀 n<OUT_POOL_N_MIN(콜드스타트·데이터 희박 — 풀은 전연령이라 평시 ~470건 = 통상 미발동 안전망)이면 통계 무의미 = 완화 OFF(보수·§1). σr 하한 2 = 동질 풀서 z 폭주 방지(그땐 사실상 med+5~7 절대마진 게이트로 동작·§8). 신호·진입·배지·표시·신규(fastScore) 0 변경 = 누적 랭킹 시간항 전용.
+//    실측 260706(라이브 스냅샷 한정 — 시불변 아님·신규 유입 의존): 발동 3건{cr44 z8.7·cr39 z7.0 완전 / cr25 z2.6 ×1.2 미미} · 장윤기 23h 7위→2위 · 25h 완화 OFF 9위 자연 침몰. 감시 = daily_health OUT 계기판(근사). 정본 = docs/curation-algorithm.md §8 260706.
+const OUT_Z0 = 2.5, OUT_Z1 = 3.5, OUT_AGE_CAP_H = 12, OUT_MAX_AGE_H = BADGE_MAX_AGE_H, OUT_POOL_N_MIN = 15, OUT_SD_MIN = 2;   // z 램프 시작/완전 · 감쇠 하한 나이(h) · 완화 상한 나이(h) · 통계 최소 풀(콜드스타트 가드) · σr 하한(동질 풀 z 폭주 방지). 조정 가능(§8).
+let _outMed = 0, _outSd = 0;   // 강건 통계(중앙값 · MAD σ환산) — renderScrap이 매 렌더 갱신(검색 중 제외 · 초기 0 = 완화 OFF 보수 폴백)
+const _outMedian = a => { const s = a.slice().sort((x, y) => x - y), m = s.length >> 1; return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2; };
+const outStatUpd = (pool, min) => {
+  const xs = []; for (const c of pool) { const x = c._rankCross ?? (c.cross || 0); if (x >= min) xs.push(x); }
+  if (xs.length < OUT_POOL_N_MIN) { _outSd = 0; return; }   // 풀 얇음(콜드스타트·데이터 희박) = 완화 전체 OFF
+  _outMed = _outMedian(xs);
+  _outSd = Math.max(1.4826 * _outMedian(xs.map(x => Math.abs(x - _outMed))), OUT_SD_MIN);
+};
+const timeAccOut = c => {   // 아웃라이어면 시간항 하한(램프 블렌드) — 게이트 순서 = 싼 것부터(통계→나이→rc→issCross 정규식 · 24h+ 다수가 정규식 스킵). issCross는 아래 정의(호출은 렌더시라 TDZ 무해)
+  const t = timeAcc(c);
+  if (_outSd <= 0) return t;
+  const fsT = Date.parse(c.first_seen || ''), pubAge = Math.max(0, (Date.now() - scTs(c)) / 3600000),
+    ageH = isNaN(fsT) ? pubAge : Math.max(pubAge, (Date.now() - fsT) / 3600000);   // 나이 = 배지(scBadgeType)와 동일 max(발행,수집)축 — "배지·완화 동시 소멸" 실보장(rep점프 first_seen 승계로 fs나이>발행나이 역전 264건 실측 — scTs 단독이면 배지 죽고 완화만 사는 비대칭)
+  if (ageH >= OUT_MAX_AGE_H) return t;
+  if ((c.report_count || 0) < FOLLOW_RC_MIN || !issCross(c)) return t;   // §★ '다매체 AND 계속보도' — rc<6 일회성 신디케이션은 압도적이어도 하한 없음(연속보도 동반 필수) + 이슈 배지 자격
+  const r = scRT[candId(c)] || {};   // 픽·확인 완료 = 처리물 — 하한 혜택 제외(운영자 260710 "12h+ 상단" 스샷 1위 = PICKED 21h·cr33: 이미 처리한 카드가 하한으로 상단 고정되던 것 → 정상 timeAcc로 자연 침몰. 리스트 잔존은 pickState 면제가 따로 보장 = 소실 0)
+  if (r.picked || r.acked) return t;
+  const s = Math.min(1, Math.max(0, (((c._rankCross ?? (c.cross || 0)) - _outMed) / _outSd - OUT_Z0) / (OUT_Z1 - OUT_Z0)));
+  if (!s) return t;
+  const fl0 = 1 / (1 + Math.pow(OUT_AGE_CAP_H / ACC_T_HALF, ACC_T_POW)),      // 12h 값 .560
+    fl24 = 1 / (1 + Math.pow(OUT_MAX_AGE_H / ACC_T_HALF, ACC_T_POW)),         // 24h 정상값 .137
+    fv = ageH <= OUT_AGE_CAP_H ? fl0 : fl0 + (fl24 - fl0) * (ageH - OUT_AGE_CAP_H) / (OUT_MAX_AGE_H - OUT_AGE_CAP_H);   // 하한 나이 램프(운영자 260710 "12시간 이후 지난 것도 상단 — 더 감점"): 구 고정 .560이 21h 대형을 1위 고정 → 12h .560에서 24h .137로 선형 착지(압도적 다매체도 서서히 밀림). 덤 = 24h 경계 ÷4 절벽 소멸(fv가 24h에 정상 timeAcc와 연속 접합 · 분신술 260710 감사 ⑧ 지적 해소)
+  return t + s * Math.max(0, fv - t);
+};
+// 누적(좌) 정렬 = cross 볼록가점 × 시간 가속감점(발행) × 연속보도(scFollow) × AI 경중(gradeW). 다수동시+최신+계속+양질=상단.
+const BREAKING_RANK_BOOST = 3.0;   // 누적 긴급 부스트 — 긴급(isBreaking) 사건은 누적칼럼서도 가시성↑(운영자 260628 "긴급할수록 가시성 높인다" 목적). **1.5→3.0(260628 A/B 분신술 10인·7일치 전수)**: ×1.5는 죽은 파라미터(churn0·대형재난 묻힘)였음 → ×3.0이 긴급 top20 2→3·일본강진 39→19·화성화재 15→3·베네수920 52→28. 안전 확증(옛긴급 top20진입 0[timeAcc가 누름]·비긴급오염 0[breaking에만 곱]·breaking오탐 0[grade≥2 게이트]·중요훼손 top20밖 96%). 조정 가능. ⏳후속(라운드2): 저cross 신선긴급=effective cross floor(#7)·老 대형재난(rc큰 g3 52h+)=g3한정 timeAcc 연장(#4/#5) — 곱셈만으론 timeAcc 못 이김.
+const BOOST_FLAT_H = 1, BOOST_RAMP_END_H = 6, BOOST_EASE_G = 12.0;   // 신선창 곡선(운영자 260717 플레이그라운드 회신 "이거로 갈게" · §8): 풀 ×3.0 유지 ~1h · 1~6h 이징 착지 · 6h+ ×1. 구 24/48 선형 램프(260710) 대체 — "12h+ 긴급 눌러앉음"(260713 ⚠️ 운영자 대기) 종결. 이징강도 g(0=직선·클수록 S커브) · 조정 가능 · 튜너 = docs/reports/260717_긴급부스트곡선_플레이그라운드.html.
+const brkBoost = c => {   // 긴급 부스트 = 신선창 전용(운영자 260717 "긴급인데 아직 뜨기 전인 걸 확 알기 쉽게" — 누적 진입 4h 직후 ×1.46 테이퍼 → 6h ×1.00 · 12h+ 부스트 0 = 눌러앉음 원천 소멸 · 12h+ 가시성은 배지·핀·푸시 축 전담). 정규화 로지스틱 이징(260717 튜너 곡선식 그대로) · 나이축 = 배지·OUT과 동일 max(발행, 수집). 0~4h 구간은 신규 칼럼(핀·fastScore) 무대라 누적 실효 없음(명목 유지).
+  if (!isBreaking(c)) return 1;
+  const pubAge = (Date.now() - scTs(c)) / 3600000, fsT = Date.parse(c.first_seen || ''),
+    ageH = isNaN(fsT) ? pubAge : Math.max(pubAge, (Date.now() - fsT) / 3600000);
+  if (ageH < BOOST_FLAT_H) return BREAKING_RANK_BOOST;
+  if (ageH >= BOOST_RAMP_END_H) return 1;
+  const t = (ageH - BOOST_FLAT_H) / (BOOST_RAMP_END_H - BOOST_FLAT_H), g = BOOST_EASE_G,
+    sg = x => 1 / (1 + Math.exp(-x)),
+    f = g < .05 ? 1 - t : (sg(g * (.5 - t)) - sg(-g / 2)) / (sg(g / 2) - sg(-g / 2));   // g→0 = 직선 폴백(0 나눗셈 가드)
+  return 1 + (BREAKING_RANK_BOOST - 1) * f;
+};
+// ── 나이 감쇠(ageMul = 시그모이드 · 운영자 260713 3차 "특정 시간 명시 싫다 — 23h와 24h가 넘사가 되면 안 됨 · 이징 곡선이 스펙"): 경계 0개 연속 곡선 ──
+//    문제(스샷): cross^1.3 볼록가점이 timeAcc를 압도 — cr59·24h(통일부 대북협조)가 누적 1위 점유. timeAcc(24h)=.137인데 crossConvex(59)≈200으로 신규 다매체(cross~10=20)의 10배 → 시간이 매체수를 못 이김.
+//    변천(같은 날): v1 = 12/16/24h 3구간+크러시(.08) → v2 = .30 동결+24h 상위10 순위 게이트 → v3 = 운영자 "시간 경계로 큐레이션이 갈리면 안 된다(1h 차가 넘사 금지) · 12/16/24 언급은 로그 곡선을 못 그려 시각으로 찍어준 것" → 구간 경계·순위 게이트 전부 폐지, 매끈한 로지스틱(시그모이드) 하나로.
+//    ageMul(a) = FLOOR + (1-FLOOR)/(1+e^((a-MID)/STEEP)) — 어디에도 하드 경계 없음(전 구간 미분 가능·1h 차이는 항상 점진 차이).
+//    확정값(운영자 260713 플레이그라운드 회신 = 반영 스펙 · §플레이그라운드 d): MID 13h(변곡 = 기울기 최대 지점 — 이른 시작) · STEEP 3.8(넓은 이징 = 완만하게 오래) · FLOOR .12(잔존 하한 = "바닥까지는 아니고"). [초판 18·2.2는 §8 이력]
+//    실측(회신값 · rank_sim): sig = 4h .925 · 8h .814 · 12h .618 · 16h .395 · 20h .240 · 24h .166 · 30h .130 → 통일부 cr59: 18h 56.3 → 19h~ 기준선(44.1) 교차 → 24h 15.3 · 23h 18.4 vs 24h 15.3(연속·넘사 없음) · 극단 cr100·24h 31.5 · 속보 부스트 중첩 cr40·25h 39.0 전부 기준선 밑 = 상위권 밖(순위 게이트 없이 곡선 깊이만으로) · FLOOR 덕에 36h에도 잔존(소멸 아님). ⚠️ 정직: 넓은 이징이라 젊은 구간도 완만 감점(4h −7.5%·8h −18.6%·12h −38.2% — 운영자 선택 = 신선 우대 강화·나이 오름차 감점 = 누적 칼럼 내 상대 순위로만 작용).
+//    시간 경계는 배지·긴급/이슈 분리에만 잔존(운영자 "분류엔 시간 기준 OK") — 랭킹 축은 이 곡선과 timeAcc(역시 연속 Hill)만. OUT(12~16h 대형보호)·brkBoost(신선창 1~6h 이징 — 260717 · 12h+ 긴급 가시성은 배지 축 전담)와 역할분리. 신규 칼럼(fastScore)·진입·배지·글로우·표시 cross 0 변경 = 누적 랭킹 전용(§8 260713).
+const AGE_MID_H = 13, AGE_STEEP = 3.8, AGE_FLOOR = 0.12;   // 변곡 나이(h) · 기울기 시상수(작을수록 가파름) · 잔존 하한("바닥까지는 아니고"). 운영자 260713 플레이그라운드 회신값 배선(초판 18·2.2 → 13·3.8 = 이른 변곡·넓은 이징 · 재튜닝 = docs/reports/260713_나이감쇠곡선_플레이그라운드.html). 조정 가능(§8 260713).
+const scAgeH = c => {   // 랭킹 나이(h) = 배지·OUT·부스트와 동일 max(발행,수집)축 — first_seen 승계 역전 방어(§5 ②-b).
+  const fsT = Date.parse(c.first_seen || ''), pubAge = Math.max(0, (Date.now() - scTs(c)) / 3600000);
+  return isNaN(fsT) ? pubAge : Math.max(pubAge, (Date.now() - fsT) / 3600000);
+};
+const ageMul = c => AGE_FLOOR + (1 - AGE_FLOOR) / (1 + Math.exp((scAgeH(c) - AGE_MID_H) / AGE_STEEP));   // 누적 랭킹 나이 배율 ∈(FLOOR,1) — 연속 시그모이드(0h .9997·8h .989·12h .946 — 어디에도 경계·동결·컷 없음).
+const scScore = c => crossConvex(c) * timeAccOut(c) * scFollow(c) * gradeW(c) * brkBoost(c) * ageMul(c) * fpW(c);   // 누적(좌) = 중요(cross 볼록 × 연속보도) × 최신감점[timeAccOut = 아웃라이어 감쇠하한 포함 · 비아웃라이어는 timeAcc 동일값] × AI경중 × [긴급이면 부스트(나이 램프)] × 나이 감쇠[ageMul 시그모이드 = 경계 없는 연속 이징 · 운영자 260713 3차]. 목적 2축(중요·긴급)을 한 점수에 — 신규=핀, 누적=발행량+긴급부스트, 옛 대형은 곡선 깊이로 자연 후퇴(잔존).
+let scRT = {};   // 정렬 중 픽 상태 참조용(renderScrap이 채움)
+// pinB = 확정 breaking & 아직 안 픽이면 1(픽하면 0). 누적칼럼 강제핀은 260617 제거 — 이 값은 pinFresh(신규칼럼 최신속보 핀)에서만 씀.
+const pinB = c => { const r = scRT[candId(c)] || {}; return (isBreaking(c) && !r.picked && !r.acked) ? 1 : 0; };   // 확인(✓)·픽 = 핀 해제(상단 고정 안 함 — 확인=처리됨, 운영자 260619)
+// 최신 핀 = 확정 속보 AND 발생 4h 내(최신)만 상단 고정. 오래된 속보는 핀 안 함 → fastScore decay로 하강(findable but 톱 아님 — 16h 속보가 최신 톱 차지하던 문제 해결).
+const pinFresh = c => (pinB(c) && (Date.now() - scTs(c)) < FAST_MAX_H * 3600000) ? 1 : 0;
+// 수집함 배지(사건 속성) = 🚨긴급(breaking 신규<4h·미확인) / ⚡이슈(4h~24h AND [issCross 또는 aged breaking]) / 없음. 신규(<4h)엔 이슈 안 뜸(이슈=넓게 쌓인 누적 속성)·1일↑ 없음(운영자 260618). 나이기준=scTs(발행·칼럼 경계와 동일)·brkIssueKind(피드)와 동일 규칙. ⚠️ ✓확인(acked)해도 🚨 유지 = 긴급은 사건속성·계속 표시(운영자 260620 · 4h 지나면 자연히 ⚡이슈).
+// 배지 타입 = 배지칩·테두리(b-)·글로우(lit-) 공용 단일출처. 긴급(breaking 신규<4h) > 이슈(4~24h·issCross 또는 aged-breaking) · 둘다면 긴급. (✓확인해도 유지=긴급은 사건속성·운영자 260620)
+// ── ⚡이슈 배지 게이트 (260702 옵션2·운영자 승인 · build-viewer.mjs issEligible과 **규칙 동일** 유지 — 한쪽만 고치면 수집함↔피드 배지 드리프트) ──
+// 옛 cross≥8 단독 = grade 무게이트(🚨긴급과 비대칭)라 홍보·시황이 다매체 동시배포만으로 배지 획득 + 수집확대(6/26 분야·7/2 경제지) cross 인플레 2.5배로 남발(38건 실측→20건).
+// 배지 강조 전용 — 칼럼 진입(CROSS_MIN 8)·랭킹(scScore)·fbJunk veto(cross≥8 floor)와 무관 = 컷돼도 기사는 누적 칼럼 잔존(강조 해제일 뿐 소멸 아님).
+const ISS_CROSS_MIN = 10;   // 8→10(260702): "오늘 cr10 = 확대 전 cr8" 실측 환산(스냅샷당 cross≥8 클러스터 5.3→12.35 인플레 보정) · 260702 저녁 정적 확정(fable 4인 토론 — 캘린더 재측정 폐지·신호/잡음 변곡점 cr9↔10 실측 · 감시 = daily_health ② 배지계기판 상시 + 새 소스[네이버 API·구글뉴스 RSS 등] 투입 머지일 = 재검토 의무 · §8 260702).
+const issGrade = c => c.grade == null || c.grade >= 2;   // 🚨긴급(isBreaking)과 동일 게이트 — null(미채점) 관용 필수(strict ≥2 금지 = 갓 도착 미채점 대형 보호 · gate_judge 도달률 100% 실측이라 통상 전부 채점됨).
+const BJ_CRASH = /(폭락|급락|폭등|급등|서킷브레이커|사이드카|붕괴|패닉|쇼크)/;   // 사건어 가드 — 시황 정형이어도 진짜 사건(코스피 폭락 등)이면 컷 면제
+const BJ_MKT = /(증시|코스피|코스닥|환율|유가(?!족)|나스닥|다우|뉴욕증시).{0,20}(출발|개장|마감|장중)/;   // 정례 시황(개장·마감 — JUNK_HEAD ⑤가 '환율마감'만 다뤄 '출발'류 보강 · '유가족…마감' 오컷 방지 lookahead = 10인 검증5)
+const BJ_HEAD = /^\[(포토|사진|사설|기고|칼럼|만평|증시|시황|특징주)/;   // 연성 머리표(배지만 컷 — JUNK_HEAD와 달리 칼럼엔 잔존)
+const BJ_PR = /^(?!.*(대통령|방사청|국방부|방산|잠수함|전투기|호위함|군함)).*(수주|공급\s*계약|계약\s*체결|지분.{0,6}(취득|매각|확보|인수)|지분율|자사주|합작사|출자)/;   // 기업 PR 정형구(다매체 동시배포 = cross 높게 잡히는 홍보성 — FB_HOLBO 어휘공백 보완 · 배지 전용이라 fbJunk의 cross≥8 veto 미적용 · ⚠️'공시' 제외 = 공시가격[부동산 정책]·공공시설[복지]·공시송달[사법] substring 오컷 실증 → 기업공시는 '지분율' 등이 커버 · 10인 검증5 · ⚠️선두 ^(?!…) 정치·방산 면제 = '수주' substring이 국가 계약 대형(李 잠수함 수주 cr19·g2 등 매칭 45%가 정치·방산 실측)까지 배지 박탈하던 오컷 봉합[260713 평의회8 · ^ 앵커 필수 — 무앵커 lookahead는 test()가 중간 위치서 재시도해 무력] · build-viewer와 바이트 동일 = check_refs 패리티)
+const badgeJunk = c => { const t = c.title || ''; return (BJ_MKT.test(t) && !BJ_CRASH.test(t)) || BJ_HEAD.test(t) || BJ_PR.test(t); };
+const issCross = c => ((c.cross || 0) >= ISS_CROSS_MIN || (c.grade === 3 && (c.cross || 0) >= 8)) && issGrade(c) && !badgeJunk(c);   // 이슈 배지 cross 경로 — grade3(AI확정 대형)만 옛 임계 8 유지(인플레 보정 예외: 저cross 국제 대형재난[미얀마 내전·베네수엘라 강진]이 배지 잃던 비대칭 구제 = §1 "중요한 게 묻히면 안 됨" · 10인 검증6). aged-breaking 경로는 별도(isBreaking이 grade 게이트 내장).
+const scBadgeType = c => {
+  // 긴급/이슈 나이 = 발행나이·수집(first_seen)나이 中 *큰 값* → 둘 다 <4h여야 긴급(피드 brkIssueKind와 동일 원칙·운영자 260623). scTs는 이미 발행우선이라 통상 발행기준 유지, 발행<수집 오기록 엣지만 추가 방어.
+  const pubAge = (Date.now() - scTs(c)) / 3600000, fsT = Date.parse(c.first_seen || ''),
+    ageH = isNaN(fsT) ? pubAge : Math.max(pubAge, (Date.now() - fsT) / 3600000);
+  if (isBreaking(c) && ageH < FAST_MAX_H) return 'brk';
+  if (ageH >= FAST_MAX_H && ageH < BADGE_MAX_AGE_H && (issCross(c) || isBreaking(c))) return 'iss';
+  return ''; };
+const BADGE_HTML = { brk: '<span class="sc-badge brk">긴급</span>', iss: '<span class="sc-badge iss">이슈</span>' };   // 인라인 메타 텍스트(긴급=빨강·이슈=노랑 · 글래스 칩 폐지·운영자 260621)
+// scLit = 이슈 글로우(노랑) 점등 조건 = <12h AND cross≥16 AND 이슈 게이트(grade·정형컷) — 배지(ISS_CROSS_MIN 10)보다 엄격한 독립 층(옛 '배지 8×2' 관계는 260702 배지 10 상향으로 소멸·값 16은 불변 유지). ⚠️ 게이트 상속(260702·10인 검증3): 안 하면 cross≥16 시황/PR이 "배지는 컷됐는데 노랑 글로우만 점등"하는 모순(환율출발 cr16 실측). lit-iss로 부여(테두리와 독립). ⚠️ 260619엔 '긴급 빨강 테두리 없음'이었으나 디자인안02(운영자 260621)로 긴급 빨강 테두리(b-brk)+글로우(lit-brk) 복원 — 테두리=라벨색·글로우=독립.
+const scLit = c => ((Date.now() - scTs(c)) / 3600000) < 12 && (c.cross || 0) >= 16 && issGrade(c) && !badgeJunk(c);
+function scKoTitle(c) { return (c && c.title_ko && c.title_ko_of === c.title) ? c.title_ko : ''; }   // 외신 번역 제목(title_translate 도장) — 원문 일치(title_ko_of===title)일 때만 유효 = rep 점프 시 자동 원문 폴백(260703)
+const SC_COLS_HTML =
+  '<div class="scrap-col green"><div class="scrap-coltitle ct-cross">누적</div><div class="scrap-list" data-col="cross"></div></div>' +
+  '<div class="scrap-col black"><div class="scrap-coltitle ct-new">신규</div><div class="scrap-list" data-col="new"></div></div>';
+function makeScItem(c, st, col) {       // 카드 1장 생성(반환). col='cross'(누적/주요도)면 👎 없음 — 다매체 누적=검증된 메이저.
+  const el = document.createElement('div');
+  const pstate = pickState(c);   // 픽 상태(로컬 r.picked + 서버 api/pending·picks-failed·피드) 통합 = cross-device(운영자 260620)
+  const bt = scBadgeType(c);   // ''|'brk'|'iss' — 배지·테두리·글로우 공용
+  const badge = BADGE_HTML[bt] || '';   // 긴급/이슈 = 메타라인 인라인(카테고리 · 매체 N · 배지)
+  const bCls = bt === 'brk' ? ' b-brk' : bt === 'iss' ? ' b-iss' : '';   // 테두리 우선순위(긴급>이슈, !important로 PICK/베이스 위)
+  const litCls = bt === 'brk' ? ' lit-brk' : scLit(c) ? ' lit-iss' : '';   // 점등(독립): 긴급<4h 빨강 / scLit 노랑(brk 우선)
+  el.className = 'sc-item' + bCls + litCls + (st.score ? ' rated' : '') + (pstate ? ' picked' : '') + (pstate === 'failed' ? ' pickfail' : '') + (st.acked ? ' acked' : '');
+  el.dataset.cid = candId(c);   // Picking…→PICKED 제자리 갱신 매칭용
+  const lo = (c.cross || 0) < 2 ? ' lo' : '';
+  const tm = scRelTime(c.published) || c.time || '';
+  const catB = articleCat({ category: c.cat, title: c.title, media: c.media });
+  const triage = true;   // 누적·최신 둘 다 트리아지([👎][PASS][PICK]+사유)로 통일(사용자 요청 — 판단 기준 일원화)
+  const showMemo = !triage && (st.score === 1 || st.score === 5);   // 극단 평점(1·5) = 이유 입력칸(누적만)
+  const moreN = (st.picked && st.pickCross != null) ? Math.max(0, (c.cross || 0) - st.pickCross) : 0;   // 픽 후 추가 보도 매체 수
+  el.innerHTML =
+    `<div class="sc-top"><span class="sc-metal">${[c.gossip ? catChip('문화') : (catB ? catChip(catB) : ''), `<span class="sc-cross${lo}${c._mergeCount ? ' merged' : ''}"${c._mergeCount ? ` title="병합된 기사 ${c._mergeCount}건 — 탭 = 해제"` : ''}><span class="cn">${c.cross || 0}</span></span>`, `<button type="button" class="sc-grade${gfixOf(c) ? ' fx' : ''}" title="AI 경중 ${c.grade == null ? '미채점' : 'G' + c.grade}${gfixOf(c) ? ' → 교정 G' + gEff(c) : ''}${isBuzzLv(c) ? ' · 대세(실검 매칭) → 랭킹 GX(1.2배)' : ''} — 탭 = 교정" aria-label="경중 등급 교정">G${isBuzzLv(c) ? 'X' : (gEff(c) == null ? '–' : gEff(c))}</button>`, badge].filter(Boolean).join('<span class="sc-sep">·</span>')}${moreN ? `<span class="sc-more" title="픽 후 추가 보도 매체">＋${moreN} 더</span>` : ''}</span><span class="sc-media">${tm ? esc(tm) : ''}</span></div>
+     <div class="sc-title"><a href="${escUrl(scLinkUrl(c) || '#')}" target="_blank" rel="noopener"></a></div>
+     <div class="sc-bot${triage ? ' triage' : ''}">${triage
+       ? (pstate
+           ? (pstate === 'failed'
+               ? failBotHtml(c)
+               : ((pstate === 'settled' || !DATA_LOADED)
+                   ? `<div class="sc-got" aria-label="픽 완료" title="탭하면 피드에서 이 기사 열기">PICKED</div>`
+                   : (pfResubActive(candId(c))
+                       ? `<button class="sc-fail picking" type="button" aria-label="재분석 중" tabindex="-1"><span>Picking…</span></button>`
+                       : `<div class="sc-got picking" aria-label="분석 중"><span>Picking…</span></div>`)))
+           : `<button class="sc-tg pass" type="button">PASS</button><button class="sc-tg pick" type="button">PICK</button><button class="sc-tg ack${st.acked ? ' on' : ''}" type="button" aria-label="확인 — 봤음 표시" title="확인 — 봤다고 표시(신규와 구분·흐려짐)">${ACK_MORPH}</button>`)
+       : `<div class="sc-stars">${[1, 2, 3, 4, 5].map(n => `<button class="sc-star${st.score >= n ? ' on' : ''}" type="button" data-n="${n}" aria-label="관심도 ${n}점">${STAR_SVG}</button>`).join('')}</div><button class="sc-pick${st.picked ? ' done' : ''}" type="button" title="${st.picked ? '큐레이션 보냄 — 몇 분 뒤 피드에 떠' : '분석·카드 자동 생성(피드로) — 한 번 더 눌러 확정'}"><span>${st.picked ? '큐레이션 ' + CHECK_SVG : 'PICK'}</span></button>`}</div>
+     ${showMemo ? `<div class="sc-memo"><input class="sc-memo-in" data-id="${esc(candId(c))}" type="text" maxlength="200" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="왜 ${st.score}점? 한 줄 (안 쓰면 주요도서 숨김·엔터 저장)"></div>` : ''}`;
+  el.querySelector('.sc-title a').textContent = scKoTitle(c) || c.title || '(제목 없음)';   // 외신 = 번역 제목 단독 표시(원문 보조줄 없음 — 운영자 260703 "원문으로 표시 안되게" · 원문 확인 = 제목 링크가 어차피 원기사)
+  // 타이틀 링크 라우팅: 요약돼 피드에 있으면 → 뉴스 요약(가로채기) / 아니면 → 기사 전문(원래 a href 그대로).
+  { const ta = el.querySelector('.sc-title a'); if (ta) ta.addEventListener('click', e => { if (scFeedArticle(c) || (!DATA_LOADED && pstate !== 'failed')) { e.preventDefault(); pickedOpen(c); } }); }
+  { const gb = el.querySelector('.sc-grade'); if (gb) gb.onclick = e => { e.stopPropagation(); askGrade(c, el); }; }   // grade 칩 탭 = 교정 선택지(운영자 260807)   // DATA(articles.json) 로드 전엔 scFeedArticle이 무조건 null이라 preventDefault가 안 걸려 원문 href(외신=영문)로 새던 버그 → pre-DATA 픽카드는 요약 경로로(feedOpenBy가 await load 후 재매칭·미요약이면 '피드 반영 중' 토스트) · 실패카드(pstate==='failed')는 '제목=원문' 계약 유지 · 운영자 260713
+  if (triage) {   // 최신 = [👎][PASS][PICK] → 각각 사유(객관식) 받고 처리. PICK은 잔류(PICKED 비활성), down/pass는 접힘.
+    if (!pstate) {
+      el.querySelector('.sc-tg.pass').onclick = () => askReason('pass', c, el);
+      el.querySelector('.sc-tg.pick').onclick = () => askReason('pick', c, el);
+      el.querySelector('.sc-tg.ack').onclick = () => toggleAck(c, el);
+    } else if (pstate === 'failed') {   // 픽했는데 분석 실패/무응답 = [Failed 칩(탭=재시도)][✓ 체크(픽 취소=픽 전으로)] 배선(운영자 260722 재배선)
+      wireFailBot(el, c);
+    } else {   // PICKED(완료) = 탭하면 피드(메뉴3)로 이동 + 해당 기사 팝업
+      const g = el.querySelector('.sc-got:not(.picking)'); if (g) g.onclick = () => pickedOpen(c);
+    }
+  } else {   // 누적 = ★평점 + PICK 2단 확인게이지(기존)
+    el.querySelectorAll('.sc-star').forEach(s => s.onclick = () => rateCard(c, +s.dataset.n));
+    const _pk = el.querySelector('.sc-pick');
+    if (!st.picked) {
+      const _lbl = _pk.querySelector('span'); let _armed = false, _armT;
+      _pk.onclick = () => {
+        if (_pk.classList.contains('firing')) return;
+        if (!_armed) { _armed = true; _pk.classList.add('arm'); _lbl.textContent = '재확인';
+          clearTimeout(_armT); _armT = setTimeout(() => { _armed = false; _pk.classList.remove('arm'); _lbl.textContent = 'PICK'; }, 3500); return; }
+        clearTimeout(_armT); _pk.classList.remove('arm'); _pk.classList.add('firing'); _lbl.textContent = '전송';
+        setTimeout(() => pickCard(c), 720);
+      };
+    }
+  }
+  const mi = el.querySelector('.sc-memo-in');
+  if (mi) {
+    mi.value = st.memo || '';
+    const saveMemo = () => {
+      const v = mi.value.trim().slice(0, 200);
+      const cur = ratingsAll()[candId(c)] || {};
+      if (v === (cur.memo || '')) return;
+      saveRating(candId(c), { memo: v });
+      postRate({ id: candId(c), url: c.url || '', title: c.title || '', score: cur.score || 0, picked: !!cur.picked, memo: v });
+    };
+    mi.onblur = saveMemo;
+    mi.onkeydown = e => { if (e.key === 'Enter') { e.preventDefault(); mi.blur(); } };
+  }
+  // 카드 본문 탭 라우팅(운영자 260621): 요약돼 피드에 있으면 → 뉴스 요약(pickedOpen) / 아니면 → 기사 전문(원문 새 탭).
+  //   (옛날엔 무조건 한 쪽이라 요약 안된 후보 탭 시 빈 요약 목업이 뜨던 버그 → DATA 매칭으로 분기.)
+  if (scFeedArticle(c) || scLinkUrl(c)) {
+    el.classList.add('sc-clickable');
+    el.addEventListener('click', e => {
+      if (MERGE_MODE) return;   // 병합모드 = 위임(capture) 핸들러가 선택 처리(카드탭=선택)
+      if (e.target.closest('a, button, input, textarea, .sc-bot, .sc-memo')) return;   // 버튼·타이틀 링크·칩·메모는 각자 핸들러(가드)
+      if (scFeedArticle(c) || (!DATA_LOADED && pstate !== 'failed')) { pickedOpen(c); return; }   // 요약됨 = 뉴스 요약 · pre-DATA(로드 전) 픽카드도 원문 대신 요약 경로(외신 영문 원문 오이동 차단 · 실패카드는 제외=원문 · 운영자 260713)
+      const u = scLinkUrl(c);   // 안됨 = 기사 전문 → 대표 매체 픽(breaking_pick) url 우선(통신사·군소 회피)
+      if (u) openExt(u);   // ⚠️ window.open 금지 = 전역 open(피드 모달)에 섀도잉돼 빈 요약창이 뜸(failOpen과 동일 버그) → 앵커클릭 openExt(PWA 안전·hrefOk 정화)로 원문 새 탭(운영자 260701)
+    });
+  }
+  // 롱프레스(600ms) = 병합모드 진입(이 카드 = 기준 앵커). 트레이(실패) 카드는 앵커 불가(분신술8 F5). 기존 카드탭·버튼과 공존(짧은 탭/스와이프/병합모드 중 취소). 단일 전역 타이머 + window 안전망(wireMerge) + clientX 절대거리(iOS movementX 부정확·분신술4) = qFeedBtn 패턴 계승.
+  if (col !== 'fail') {
+    el.addEventListener('pointerdown', e => { if (e.button || MERGE_MODE) return; clearTimeout(_mergeLpT); _mergeLpX = e.clientX; _mergeLpY = e.clientY; _mergeLpT = setTimeout(() => enterMerge(c), 600); });
+    ['pointerup', 'pointercancel', 'pointerleave'].forEach(ev => el.addEventListener(ev, () => { clearTimeout(_mergeLpT); _mergeLpT = null; }));
+    el.addEventListener('pointermove', e => { if (_mergeLpT && Math.abs(e.clientX - _mergeLpX) + Math.abs(e.clientY - _mergeLpY) > 10) { clearTimeout(_mergeLpT); _mergeLpT = null; } });   // 스와이프/스크롤 중 오발 취소(clientX = iOS movementX 0버그 회피)
+    el.addEventListener('contextmenu', e => { if (MERGE_MODE) return; e.preventDefault(); enterMerge(c); });   // PC 우클릭 = 병합모드
+  }
+  const _brkB = bt === 'brk' ? el.querySelector('.sc-badge.brk') : null;   // 🚨긴급 배지 롱프레스 = 「긴급 아님」 신고(brkClaimBadge 공용 문법 · 피드 .urg.brk 와 같은 배선)
+  if (_brkB) brkClaimBadge(_brkB, c);
+  const _mtag = el.querySelector('.sc-cross.merged');   // 병합 앵커 = 주황 숫자 탭 → 위에 '병합 해제 실행' 확인 버튼(별도 '합' 라벨 폐지·오발 방지·운영자 260626)
+  if (_mtag) _mtag.addEventListener('click', e => { e.stopPropagation(); if (!MERGE_MODE) openUnmergePop(_mtag, c); });
+  return el;
+}
+// ── 🚨긴급 배지 롱프레스 = 「긴급 아님」 신고(운영자 260803 4차) ─────────────────────────────────────
+// 체인: 배지 롱프레스 → /api/rate(reason 예약키 'brkno') → ratings.jsonl → scraper/brk_misfire.py 가
+//       3건 적체(또는 72h 아사창)에서 알림메시지에 **개선안**을 굽는다 = 오발이 쌓이면 스스로 교정 제안하는 폐루프.
+// ⚠️ 전용 필드를 못 만드는 구조적 이유 = rate.yml workflow_dispatch inputs 가 이미 10개 = GitHub 상한.
+//    11번째를 추가하면 디스패치가 400으로 죽어 평점 레일 전체가 사망한다 → 기존 reason(40자)에 예약키로 태운다.
+//
+// claimLongPress = 카드 **자식** 요소가 자기 롱프레스를 가질 때의 표준 4종 방어(평의회3 260803 실측 지적).
+//   ① pointerdown stopPropagation + 부모 병합 타이머 강제 취소 — 안 하면 배지 신고와 병합모드가 **동시 발화**.
+//   ② 합성 click 350ms 시간창 소비 — 안 하면 손 뗄 때 카드 click 이 버블해 요약창/원문 새 탭이 열린다
+//      (배지는 span 이라 카드 click 가드 `closest('a,button,input,textarea,.sc-bot,.sc-memo')`에 안 걸린다).
+//      ⚠️ 불린 플래그 대신 **시간창** = 롱프레스 후 click 이 아예 안 오는 기기에서 다음 탭이 삼켜지는 것 차단.
+//   ③ 이동 10px 취소 = 부모 병합과 **같은 축**(clientX 절대거리 · iOS movementX 0버그 회피).
+//   ④ contextmenu 선점 = PC 우클릭·안드로이드 롱프레스가 부모 병합이나 브라우저 기본메뉴로 새는 것 차단.
+//   임계 480ms = openFailMenu 선례값(병합 600 보다 **먼저** 확정 발화 = 순서 경합 원천 제거 + iOS 콜아웃 前).
+// ctxFn = 우클릭 전용 콜백(생략 시 fn 공용). 호출자가 '롱프레스로 발화했다' 플래그를 들고 있을 때,
+// 우클릭까지 그 플래그를 세우면 **다음 진짜 탭 1회가 삼켜지므로** 두 경로를 가를 수 있게 뚫어둔다(Failed 칩).

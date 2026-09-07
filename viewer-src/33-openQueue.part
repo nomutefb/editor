@@ -1,0 +1,577 @@
+function openQueue(anchor) {
+  _qAnchor = (anchor && anchor.id === 'queueBtn') ? anchor : null;   // 헤더 픽토그램서 열면 head 모드(픽토 아래) · 그 외(롱프레스·더블탭·우클릭·배지·pageshow)=하단 네비 앵커
+  closeOverlays('qpop');
+  clearTimeout(_qCloseTimer); qpop.classList.remove('closing');   // 닫힘 애니 중 재오픈 = 취소(다시 촤르륵 열림)
+  qpop.hidden = false;   // 폭 측정 위해 먼저 표시
+  placeQpop();           // 위치 = 헤더 픽토 아래(head) or PC 버튼 위/모바일 중앙 + 뷰포트 클램프
+  { const hb = document.getElementById('queueBtn'); if (hb) { hb.classList.toggle('on', !!_qAnchor); hb.setAttribute('aria-expanded', 'true'); } }   // 헤더서 열면 픽토 활성(accent 강조 · filterBtn.on 패턴)
+  try { sessionStorage.setItem('nomute_q_open', '1'); } catch {}   // 열림 기억 → 외부 링크(↗) 갔다 돌아오면(pageshow) 자동 재오픈
+  if (!_qPushed) { history.pushState({ qpop: true }, ''); _qPushed = true; }   // 폰 뒤로가기 한 번 = 대기열 먼저 닫기(딴 화면 안 벗어남)
+  qfMarkSeen();   // 🍋 확인 즉시 = 기어 레몬 소등(운영자 260727 "대기열 들어가서 확인 · 확인 즉시") — 지금 아는 실패분으로 먼저 끄고, 라이브 응답분은 아래 loadQueue 가 이어서 처리(네트워크 실패해도 소등은 성립)
+  loadQueue();
+}
+function closeQueueUser() {   // 사용자가 직접 닫음(X·바깥탭·다른 오버레이·더블탭) → 재오픈 플래그 해제(↗ 네비게이션 닫힘과 구분 · 운영자 260622)
+  if (qpop.hidden) return;
+  { const hb = document.getElementById('queueBtn'); if (hb) { hb.classList.remove('on'); hb.setAttribute('aria-expanded', 'false'); } }   // 헤더 대기열 픽토 비활성(운영자 260710)
+  if (!qpop.classList.contains('closing')) {   // 시각 닫힘 = popOut(촤르륵 접힘) 후 hidden · 1회만(재진입 중복 차단) · pmenu hidePmenu 패턴
+    if (matchMedia('(prefers-reduced-motion:reduce)').matches) { qpop.hidden = true; }
+    else { qpop.classList.add('closing'); clearTimeout(_qCloseTimer); _qCloseTimer = setTimeout(() => { qpop.hidden = true; qpop.classList.remove('closing'); }, 190); }   // .18s 애니 + 버퍼
+  }
+  try { sessionStorage.removeItem('nomute_q_open'); } catch {}
+  if (_qPushed) { _qPushed = false; if (_qPop) _qPop = false; else if (_qHistYield) { /* 칸은 위에 뜬 모달이 인계(openTool replaceState) — 여기서 back() 하면 그 모달을 삼킨다 */ } else if (history.state && history.state.qpop) history.back(); }   // 직접 닫기면 푸시한 히스토리 칸 정리(뒤로가기로 닫힌 경우는 이미 pop됨)
+}
+
+// ── (폐지 260710 · 운영자 "호버했을 때 메뉴 뜨게 하는 거 없애줘") 하단 네비·프로필 마우스 호버 자동 열기(hoverAuto) 제거 ──
+// 열기 트리거 = 탭·클릭·롱프레스·더블탭·우클릭·배지만 유지(마우스 pointerenter 0.5초 예약 열기 폐지 = 스쳐 지나가다 팝업 뜨던 것 제거). 구 hoverAuto/HOVER_OPEN_MS는 git 이력에 보존.
+
+window.addEventListener('popstate', () => {   // 폰 뒤로가기 = 대기열 떠 있으면 그것부터 닫기 · 닫는 중(closing)이면 재진입 안 함(deferred-hide 가드)
+  const _wasDlgClosing = _dlgClosing; _dlgClosing = false;   // 리더 X/ESC/백드롭 close가 유발한 {dlg} 회수 back = 소비 — 검색 위 리더 닫을 때 이 back이 검색을 과닫힘시키던 것 차단(평의회3 260710)
+  if (_composeRecovering) return;   // 컴포즈 모달 자기칸 회수 back은 무시(마지막 모달 닫을 때 .open=false라 아래 isComposingModalOpen 가드가 풀려도 뒤 대기열 over-close 차단·평의회 V4·260628)
+  const _td = $('#tooldlg');
+  if ((LBOX && LBOX.open) || isComposingModalOpen() || (_td && _td.open)) return;   // ⚠️ 상위 모달(라이트박스·작성·도구)이 떠 있으면 이 뒤로가기는 그 모달 몫 → 대기열까지 같이 닫히던 over-close 차단(평의회 G4 · 260628)
+  if (!sovl.hidden) { if (_wasDlgClosing) return; const _dlg = $('#dlg'); if (!(_dlg && _dlg.open)) { _sovPop = true; closeSearch(); } return; }   // 검색 오버레이 = 자기 몫 소비(260706 5차) — 리더(#dlg)가 오버레이 *위*에 열릴 수 있음: 백버튼 닫기 = _dlg.open 아직 true라 검색 유지 / X·ESC·백드롭 닫기 = _dlgClosing가 그 back을 리더 몫으로 표식(검색 과닫힘·{sov} 누수 차단 · 평의회3 260710) · 다음 back이 검색 닫음
+  if (!qpop.hidden && !qpop.classList.contains('closing')) { _qPop = true; closeQueueUser(); }
+  if (!pubpop.hidden && !pubpop.classList.contains('closing')) { _pubPop = true; closePubUser(); }
+});
+const qEsc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+function qAgo(t) {
+  if (!t) return '?';
+  const m = Math.max(0, Math.round((Date.now() - t) / 60000));
+  if (m < 1) return '방금';
+  if (m < 60) return m + '분 전';
+  return relAge(m / 60);   // 1시간 이상 = 공통 사다리(N시간/N일/N주일/N개월) — 복합표기('5시간 17분') 폐지·열 정렬 일정·기틀(운영자 260621)
+}
+/* DL_SVG 폐지(픽토 전수감사 260713) — nm-svg.js DOWNLOAD_SVG 인라인 복제(굵기 2.2 드리프트)·사용처 0 = 죽은 상수 */
+// 큐 항목 id ↔ 피드(DATA=articles.json) 기사 매칭 — file은 .md 유무 양쪽 허용(제목·준비여부·이동 공용 단일출처)
+const qMatch = id => DATA.find(x => x && x.file && (x.file === id || String(x.file).replace(/\.md$/, '') === id));
+// SUCC 제목 = 피드(DATA)서 file 매칭 우선(없으면 API title). file은 .md 유무 양쪽 허용.
+function qKo(it) {   // 외신 픽 대기열 = 수집함 후보 title_ko 역참조(한국어 표시 · 서버 무변경 — it.key = api/pending normU(url) 매칭키 재사용 · 260703). 제목이 외국어(한글 0)일 때만 조회.
+  if (!it || !it.key || !it.title || /[가-힣]/.test(it.title)) return '';
+  const c = (CANDS || []).find(x => String(x.url || '').trim().replace(/\/+$/, '') === it.key);
+  return c ? scKoTitle(c) : '';
+}
+function qTitle(it) {
+  if (it.status === 'succ') { const a = qMatch(it.id); if (a && a.title) return a.title; return qKo(it) || it.title || '분석 완료'; }
+  return qKo(it) || it.title || '(내용 없음)';
+}
+// 대기열 행 = 시간 | 제목 | 상태(픽토그램) | 바로가기(↗·목적지 색). 전부 좌측정렬·30px·테두리 색맞춤(시안 확정 260622).
+const Q_REFR = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36M21 4v5h-5"/></svg>';   // ↻ 새로고침
+const Q_SPIN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M21 12a9 9 0 1 1-6.2-8.55"/></svg>';   // 스피너(열린 호)
+const Q_ARR = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><g class="qsrc-arrow"><path class="qsrc-shaft" pathLength="1" d="M7 17 17 7"/><path class="qsrc-tip" d="M8.5 7H17v8.5"/></g></svg>';   // ↗ 1시방향 · 3조각(지지대선 shaft + 촉 tip · 받침 없음) = ic-arrow 모션 훅(대기열·토스트 이동버튼 공용)
+function qGoBtn(kind, title) {   // kind: green(요약완료) | amber(원문) | gray(갈 곳 없음 — 모습·회색 톤은 비활성 그대로 두되 탭 = 취소 상태머신 진입이라 disabled 속성 제거 · 운영자 260728 "비활성일 때 클릭하면 휴지통")
+  const gray = kind === 'gray';
+  const t = gray ? title + ' · 탭하면 이 요청 취소' : title;   // 회색 = 사유(왜 못 가나) + 조치(탭=취소) 병기 — 정본 .jcancel 대기상태가 title 로 취소를 알리는 문법 계승(어포던스 없이 눌러야 알던 것 봉합)
+  return '<button class="qgo go-' + kind + '" type="button" title="' + t + '"' + (gray ? ' aria-label="이 요청 취소"' : '') + '>' + Q_ARR + '</button>';
+}
+function qRetryBtn(title) {   // ✨요약요청 실패 재시도 = arm(레몬) ↻ · 클릭 = api/askget 으로 전문 복원 → 요약창 재오픈(askRetry)
+  return '<button class="qgo go-arm qretry" type="button" title="' + title + '">' + Q_REFR + '</button>';
+}
+function qPickRetryBtn(title) {   // URL 픽/분석 실패 재시도 = arm(레몬) ↻ · 클릭 = api/pick 재발사(qPickRetry) — askget 복원(요약요청)과 별개 = pending URL 항목용 · 운영자 260713
+  return '<button class="qgo go-arm qpretry" type="button" title="' + title + '">' + Q_REFR + '</button>';
+}
+// 대기열 실효 상태 = API status + '피드 미반영 succ' 보정 **단일 출처**(qRowHtml·정렬·취소가 같은 함수를 쓴다 — 세 군데 같은 식이 흩어져 있어 한쪽만 고치면 갈렸다).
+//  ⓐ 백엔드 succ(분석완료)여도 뷰어 피드(DATA)에 아직 안 떴으면 사실상 미준비 → 조기 '완료/초록 뉴스요약 이동' 금지(운영자 260622).
+//  ⓑ 다만 그 미반영이 Q_LAG_MIN 을 넘으면 '배포 랙'이 아니라 **배포 적체 확정** → 스피너를 멈추고 'lag'(대기)로 못박는다.
+//     ⚠ 신설 사유 = 260803 실측: Cloudflare Pages 빌드 큐가 ~4시간 밀려(19:01 배포본이 15:03 커밋) 분석 끝난 7건이
+//     피드에 없는 채 **영구 회전**. 구판은 상한이 없어 "언제 끝나는지 모르는 스피너"가 무한정 돌았다(운영자 260803 지목).
+const Q_LAG_MIN = 20;   // api/pending STUCK_MIN(20) 동값 계승 — "이 이상 안 끝나면 정상 대기가 아니다"의 레포 단일 사다리(신설 값 0)
+function qEff(it) {
+  if (!it) return '';
+  if (it.status !== 'succ' || qMatch(it.id)) return it.status;
+  const age = it.t ? (Date.now() - it.t) / 60000 : 0;
+  return age >= Q_LAG_MIN ? 'lag' : 'processing';
+}
+function qGenAgo() {   // 배포본 기준시 → 'HH:MM 배포본' (없으면 '') · 시각 표기는 대기열 공용 로케일(ko-KR 24h)
+  if (!FEED_GEN) return '';
+  const d = new Date(FEED_GEN); if (isNaN(d)) return '';
+  return d.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false }) + ' 배포본';
+}
+function qRowHtml(it) {
+  const url = /^https?:\/\//i.test(String(it.alt1 || it.key || ''));   // 활성 게이트 = 목적지(alt1‖key)와 동일 소스(게이트-목적지 갈림 차단 · 평의회7 V-1)
+  const eff = qEff(it);
+  let status, action;
+  if (eff === 'succ') {
+    status = '<span class="qb-done">완료</span>';
+    action = qGoBtn('green', '뉴스요약 열기');
+  } else if (eff === 'fail') {
+    status = '<span class="qb-failt">실패</span>';
+    const isAsk = it.via === '요약요청';   // ✨요약요청 실패 = 원문 링크(URL 없음) 대신 '재시도' = 붙여넣은 전문 복원 → 요약창 재오픈(운영자 260704)
+    action = isAsk ? qRetryBtn('재시도 — 요청 내용을 복원해 다시 요약')
+           : url ? qPickRetryBtn('재시도 — 다시 분석(대기열 재투입)')   // URL 실패 = 재분석 재발사(api/pick) — 요약요청과 대칭 재시도 제공(운영자 260713 · 구 amber 원문 대체 = 재시도 우선 · 수집함 Failed→✓ 재시도와 일관)
+           : qGoBtn('gray', '원문 링크 없음');   // 전문(paste) 실패 = key='' (url無)라 재발사 복원 경로 없음 → 재시도 불가(현행 유지). 실패 보고서는 깃에 자동저장.
+  } else if (eff === 'lag') {   // 분석은 끝났고 '피드 배포 반영'만 남음 = 회전 정지 + 무채 '대기'(운영자 260803 무한 스피너 종식) — 실패가 아니라서 빨강 금지·아직 못 여니 초록도 금지 = 취소 라벨과 같은 무채 셀
+    const _g = qGenAgo();
+    status = '<span class="qb-lag" title="분석 완료 · 피드 배포 반영 대기' + (_g ? ' (현재 피드 = ' + _g + ')' : '') + '">대기</span>';
+    action = url ? qGoBtn('amber', '원문 새 탭 — 요약은 배포 반영 후 열림')
+                 : qGoBtn('gray', '분석 완료 · 피드 배포 반영 대기' + (_g ? ' (현재 피드 = ' + _g + ')' : ''));   // 회색 = 갈 곳 없음 그대로(탭 = 이 요청 추적 취소 · qCancelTap 정본)
+  } else if (eff === 'retry') {   // API 일시 과부하 자동 재시도 — ↻ 회전 + 횟수(FAIL 아님)
+    status = '<span class="qico s-retry spin" title="API 일시 과부하 — 자동 재시도 중' + (it.tries ? ' (' + it.tries + '회)' : '') + '">' + Q_REFR + '</span>' + (it.tries ? '<span class="qcnt">' + it.tries + '</span>' : '');
+    action = url ? qGoBtn('amber', '원문 새 탭') : qGoBtn('gray', '전문 — 원문 링크 없음');
+  } else {   // 처리중(또는 succ인데 피드 미반영=빌드 랙) = 스피너 + 주황 원문(재시도와 동색 앰버)
+    status = '<span class="qico s-proc spin" title="분석 처리 중">' + Q_SPIN + '</span>';
+    action = url ? qGoBtn('amber', '원문 새 탭') : qGoBtn('gray', '전문 분석 중 — 원문 링크 없음');
+  }
+  const ttl = qTitle(it), cp = [...ttl], ttlS = cp.length > 40 ? cp.slice(0, 40).join('') + '…' : ttl;   // 40자 하드캡 + … (코드포인트 단위)
+  const _am = it.t ? (Date.now() - it.t) / 60000 : 1e9;   // 경과(분)
+  const tnew = _am <= 60 ? ' qt-new' : _am <= 240 ? ' qt-mid' : '';   // ≤1h 메인 강조 / 1~4h 노랑 / 그외 기본(운영자 260622)
+  const pp = qPresetPP(it);   // 수집 프리셋 표기(Q495 시안 확정) — 있으면 제목만 말줄임(qm-flex)·표기 생존
+  const mainCell = pp ? '<span class="qmain qm-flex" title="' + qEsc(ttl) + '"><i class="qm-t">' + qEsc(ttlS) + '</i>' + pp + '</span>'
+                      : '<span class="qmain" title="' + qEsc(ttl) + '">' + qEsc(ttlS) + '</span>';
+  return '<div class="qrow q-' + eff + '"><span class="qt' + tnew + '">' + qEsc(qAgo(it.t)) + '</span>' + mainCell + '<span class="qst">' + status + '</span><span class="qact">' + action + '</span></div>';
+}
+const PP_LBL = { h24: '24h', fp: '외신', mj: '주요', og: '원본' };   // 수집 프리셋 축약 라벨(Q495 시안 확정 · Q491 스트립 짝 · og = 원본 한정 260727)
+function qPresetPP(it) {   // 프리셋 적용된(켜진) 요약요청만 표기 — 켜진 조건 나열 · 스크랩/픽·구 asks(무필드)·전부 꺼짐 = ''(운영자 260724 "역방향 아님 · 보통은 무표기")
+  const p = it && it.preset; if (!p) return '';
+  const on = ['h24', 'fp', 'mj', 'og'].filter(k => p[k]);
+  return on.length ? '<span class="pp">' + on.map(k => PP_LBL[k]).join(' · ') + '</span>' : '';
+}
+function pagerHtml(pages, cur) {   // 5개/페이지 · 페이지번호 슬라이딩 윈도우(최대 5개)
+  if (pages <= 1) return '';
+  let h = '<button class="qpg-nav" data-pg="' + Math.max(0, cur - 1) + '"' + (cur === 0 ? ' disabled' : '') + '>' + CHEV_L_SVG + '</button>';
+  const W = 5, end = Math.min(pages, Math.max(0, cur - 2) + W), start = Math.max(0, end - W);
+  for (let i = start; i < end; i++) h += '<button class="qpg' + (i === cur ? ' on' : '') + '" data-pg="' + i + '">' + (i + 1) + '</button>';
+  h += '<button class="qpg-nav" data-pg="' + Math.min(pages - 1, cur + 1) + '"' + (cur === pages - 1 ? ' disabled' : '') + '>' + CHEV_R_SVG + '</button>';
+  return h;
+}
+function renderQueuePage() {
+  const box = $('#qpopList'), pg = $('#qpopPage'); if (!box) return;
+  if (!QITEMS.length) { box.innerHTML = '<div class="qempty">최근 내역 없음</div>'; if (pg) pg.innerHTML = ''; return; }   // 빈 문구 = '최근 내역 없음'(운영자 260622)
+  const pages = Math.ceil(QITEMS.length / QPER);
+  QPAGE = Math.min(Math.max(0, QPAGE), pages - 1);
+  const slice = QITEMS.slice(QPAGE * QPER, QPAGE * QPER + QPER);
+  box.innerHTML = slice.map(qRowHtml).join('');
+  slice.forEach((it, i) => {
+    const row = box.children[i]; if (!row) return;
+    // 프리셋 표기가 제목을 줄이면(말줄임 발동) 표기 제거·제목 전폭 복원(운영자 260724 "제목 줄어들 여지 높으면 그냥 안 표기") —
+    //   .pp는 .qmain(flex:1·min-width:0) 안에 갇혀 우측 픽토그램(.qst/.qact flex:none)은 구조상 무침범 · 제목 잠식만 이 가드로 차단.
+    const pp = row.querySelector('.pp');
+    if (pp) { const qt = row.querySelector('.qm-t');
+      if (qt && qt.scrollWidth > qt.clientWidth + 0.5) {   // 표기 있는 채로 제목이 잘림 = 표기가 폭 잠식 → 제거하고 제목 전폭 환원(무표기 행과 동일 구조)
+        const main = row.querySelector('.qmain'); pp.remove();
+        if (main) { main.classList.remove('qm-flex'); main.textContent = qt.textContent; }
+      }
+    }
+    const go = row.querySelector('.qgo');
+    if (go && go.classList.contains('go-gray')) { go.onclick = (e) => { e.stopPropagation(); qCancelTap(it, row, go); }; }   // 비활성(회색 ↗) = 탭하면 취소 상태머신(휴지통 arm → 확정 · 정본 = thumb jobCancelTap · 운영자 260728)
+    else if (go && !go.disabled) go.onclick = (e) => { e.stopPropagation(); const s = go.querySelector('svg'); if (s) { const m = (go.classList.contains('qretry') || go.classList.contains('qpretry')) ? 'ic-spin' : 'ic-arrow'; s.classList.remove('ic-arrow', 'ic-spin'); void go.offsetWidth; s.classList.add(m); } if (go.classList.contains('qretry')) askRetry(it); else if (go.classList.contains('qpretry')) qPickRetry(it); else if (go.classList.contains('go-green')) qGo(it.id); else if (it.alt1 || it.key) failOpen({ url: it.alt1 || it.key }); };   // 이동(↗)=ic-arrow(지지대선 슉+촉 플레어+pop·버튼색) / 재시도(↻)=ic-spin 회전 · 리플로우는 버튼 기준(svg.offsetWidth undefined 함정 · 운영자 260705)   // ↗ 목적지 = 버튼 색 기준(초록=뉴스요약 준비됨만 / 주황=기사 원문 새 탭) → succ여도 피드 미반영이면 초록 안 뜨므로 조기 이동·'곧 표시' 토스트 0 · 주황 원문 = alt1(api/pending이 '# alt:' 첫 url = breaking_pick 있으면 메이저·없으면 타 클러스터 멤버) 우선 — 대표 url이 최초보도 속보 스텁(본문 한 줄)로 튀던 것 교정 = 수집함 카드 scLinkUrl(breaking_pick 우선)과 동일 방향 정책(운영자 260703) · failOpen 앵커클릭(window.open 모바일 빈모달 회피·hrefOk 정화) · 원문 없으면 qGoBtn('gray') disabled=완전 비활(운영자 260622)
+  });
+  if (pg) {
+    pg.innerHTML = pagerHtml(pages, QPAGE);
+    pg.querySelectorAll('[data-pg]').forEach(b => b.onclick = (e) => { e.stopPropagation(); QPAGE = +b.dataset.pg; setTimeout(() => renderQueuePage(), 0); });   // 재렌더를 클릭 종료 후로 미룸 — 클릭 도중 innerHTML 교체로 누른 버튼이 떨어져 팝업 닫히던 것 차단(가드+stopPropagation과 3중·운영자 260622)
+  }
+}
+// ── 대기열 행 취소(운영자 260728 "비활성 ↗ 클릭=휴지통 → 또 클릭=취소") — 정본 = 이미지 스튜디오 제작 대기열 취소(thumb.html jobCancelTap) 그대로: 1탭 무장(3s 원복 = #histClr 동값) → 2탭 확정 ✓(ok) → 1200ms 잔상 후 행 회수 · 무장 픽토만 X 대신 휴지통(운영자 지목) ──
+//   취소 = 이 뷰의 추적만 끊는다(행 숨김·배지 제외·기어 레몬 제외) — 파이프라인 자체를 멈추는 API 없음(thumb jobCancel 동일 한계) · 기록 = localStorage(같은 함 '내역 지우기' nomute_q_cleared 문법 계승 = 기기별)
+const QCXL_KEY = 'nomute_q_cancelled';
+const qCxlId = it => String((it && (it.id || it.key)) || (it && it.t) || '');
+function qCxlSet() { try { return new Set(JSON.parse(localStorage.getItem(QCXL_KEY) || '[]')); } catch { return new Set(); } }
+function qCxlFilter(items) {   // api/pending 응답 공용 게이트(loadQueue·loadPending) — 취소분 제외 + 서버서 사라진 id 정리(저장분 무한 증식 방지)
+  const s = qCxlSet(); if (!s.size) return items || [];
+  const live = new Set((items || []).map(qCxlId));
+  const keep = [...s].filter(id => live.has(id));
+  if (keep.length !== s.size) { try { localStorage.setItem(QCXL_KEY, JSON.stringify(keep)); } catch {} }
+  return (items || []).filter(it => !s.has(qCxlId(it)));
+}
+function qCancelTap(it, row, btn) {   // 상태머신 = jobCancelTap 100% 계승(3s·1200ms 동값) · 아이콘 축만 ↗(회색)→휴지통(arm 레몬)→✓(ok)
+  if (!it._cxArm) {
+    it._cxArm = 1; btn._t0 = btn.title;
+    btn.classList.remove('go-gray'); btn.classList.add('go-arm'); btn.innerHTML = _TRASHSVG; btn.title = '한 번 더 누르면 이 요청 취소'; btn.setAttribute('aria-label', '취소 확정');
+    clearTimeout(it._cxT); it._cxT = setTimeout(() => { it._cxArm = 0; if (!row.isConnected) return; btn.classList.remove('go-arm'); btn.classList.add('go-gray'); btn.innerHTML = Q_ARR; btn.title = btn._t0 || ''; btn.removeAttribute('aria-label'); }, 3000);   // 3s 내 재탭 없으면 원복(#histClr·thumb 동값)
+    return;
+  }
+  clearTimeout(it._cxT); it._cxArm = 0;
+  try { const s = qCxlSet(); s.add(qCxlId(it)); localStorage.setItem(QCXL_KEY, JSON.stringify([...s])); } catch {}
+  const eff = qEff(it);   // qRowHtml 과 같은 단일 출처(배포 미반영 succ = processing/lag)
+  if (eff === 'processing' || eff === 'retry') { PEND_PROC = Math.max(0, PEND_PROC - 1); updateQBadge(); }   // 배지 즉시 동기(이후 폴은 qCxlFilter가 유지)
+  btn.classList.remove('go-arm'); btn.classList.add('qcx-ok'); btn.innerHTML = CHECK_SVG; btn.title = '취소됨'; btn.setAttribute('aria-label', '취소됨'); btn.disabled = true;
+  const st = row.querySelector('.qst'); if (st) st.innerHTML = '<span class="qb-cxl">취소</span>';   // 상태셀 = 이 함 2자 문법(완료·실패) 계승
+  setTimeout(() => { const i = QITEMS.indexOf(it); if (i >= 0) QITEMS.splice(i, 1); renderQueuePage(); }, 1200);   // ✓ 잔상(thumb 1200 동값) 후 행 회수 — 리스트·페이저 재계산 = renderQueuePage 재사용
+}
+// ── 픽 접수 = 대기열에 즉시 꽂힌다(운영자 260816 "picking 하면 대기열에 바로 꽂혀야되는데 약 1분간의 텀이 있음") ──
+//   ⚠ 원인은 폴 주기가 아니라 **파일 착지 지연**이다 — 픽 → /api/pick 은 pick.yml 을 디스패치할 뿐이고,
+//   pending/<id>.txt 는 러너가 [체크아웃 → 파이썬 설치 → pick_pending.py → 본문 선-fetch(timeout 60s) → 커밋·푸시]
+//   를 다 끝낸 뒤에야 main 에 착지한다. 그 전까지 api/pending(=GitHub contents 조회)은 그 항목을 **물리적으로 모른다**
+//   = 뷰어를 아무리 자주 폴해도 빈손이고, 운영자에겐 "픽했는데 대기열에 없음"으로만 보인다(접수 확인 불가).
+//   봉합 = api/pick 이 200(디스패치 접수 확정)을 준 순간 같은 규격의 행을 로컬에 심어 목록·배지에 즉시 반영하고,
+//   서버 pending 에 같은 url 이 뜨는 순간 로컬분을 회수한다(중복 0 · 파이프라인·서버 무접촉 = 읽기전용 계약 유지).
+//   ⚠ 낙관 행은 **대기열 목록·배지에만** 태운다 — PEND(픽 상태 판정축)는 서버 진실만 담는다(loadPending `!it._opt`).
+//   기록 = localStorage(qCxl·'내역 지우기' 문법 계승 = 기기별) · TTL 초과분 자동 회수(러너가 죽어도 유령 행이 안 남는다).
+const QOPT_KEY = 'nomute_q_optimistic';
+const QOPT_TTL = 15 * 60000;   // 15분 — 정상 착지 ~1분 · 선-fetch 60s + 푸시 재시도 백오프(2·4·8s×4)까지 덮는 여유폭(초과 = 러너 사망 = 행 회수)
+function qOptAll() { try { const a = JSON.parse(localStorage.getItem(QOPT_KEY) || '[]'); return Array.isArray(a) ? a : []; } catch { return []; } }
+function qOptSave(a) { try { localStorage.setItem(QOPT_KEY, JSON.stringify(a.slice(-20))); } catch {} }   // 롤링 20 = 대기열 1페이지(5)·CAP_PEND(25) 안쪽
+function qOptAdd(url, title) {   // 픽 접수 확정(api/pick ok) 직후 호출 — 같은 url 재접수는 최신 1건으로 수렴
+  const u = _normU(url); if (!/^https?:\/\/\S+$/i.test(u)) return;
+  const a = qOptAll().filter(o => o && _normU(o.url) !== u);
+  a.push({ id: 'opt-' + u.slice(-80), url: u, title: String(title || ''), t: Date.now() });
+  qOptSave(a); PEND_PROC++; updateQBadge();   // 배지도 그 자리에서 +1 = 다음 폴을 안 기다린다(loadQueue·loadPending 재계산이 이어서 정합)
+}
+function qOptDrop(url) { const u = _normU(url); qOptSave(qOptAll().filter(o => o && _normU(o.url) !== u)); }   // api/pick 거절 롤백 짝(pickCard catch = 낙관 표시 회수 · 평의회 260713 ⑦ 문법)
+function qOptLive(items) {   // 서버가 아직 못 보는 접수분만 반환(+ 착지·만료분 회수) — 정리 문법 = qCxlFilter 동축(저장분 무한 증식 차단)
+  const now = Date.now();
+  const live = new Set((items || []).map(it => (it && it.key) ? _normU(it.key) : '').filter(Boolean));
+  const all = qOptAll(), keep = all.filter(o => o && o.url && (now - o.t) < QOPT_TTL && !live.has(_normU(o.url)));
+  if (keep.length !== all.length) qOptSave(keep);
+  return keep;
+}
+function qOptMerge(items) {   // api/pending 응답 + 접수분 = 대기열 목록 공용 입구(행 규격 = 서버 pending 항목과 동일 필드)
+  return (items || []).concat(qOptLive(items).map(o => ({
+    id: o.id, t: o.t, status: 'processing', via: 'URL', src: qOptHost(o.url), key: o.url, title: o.title, _opt: 1,
+  })));
+}
+function qOptHost(u) { try { return new URL(u).hostname.replace(/^www\./, ''); } catch { return ''; } }   // api/pending prettyUrl 동값(표시 전용)
+let qGen = 0;
+async function loadQueue() {
+  const g = ++qGen;   // 세대 토큰 — 재오픈/폴 경합 시 늦게 온 stale 응답 폐기(페이지 튕김 방지)
+  const box = $('#qpopList'); if (!box) return;
+  box.innerHTML = '<div class="qempty">' + (window.nmLoader?nmLoader('loading','Now loading…'):'Now loading…') + '</div>'; const pg = $('#qpopPage'); if (pg) pg.innerHTML = '';
+  let items;
+  try {
+    const r = await fetch('api/pending?_=' + Date.now());
+    if (g !== qGen) return;
+    if (!r.ok) { box.innerHTML = '<div class="qempty">대기열 조회 실패 (' + r.status + ')</div>'; return; }
+    const j = await r.json(); items = qCxlFilter(qOptMerge(j.items || []));   // 접수분(서버 미착지) 병합 → 취소분 제외(qCancelTap 기록 · 운영자 260728) · ⚠ 순서 = 병합이 먼저 — qCxlFilter 의 '서버서 사라진 id 정리'가 낙관 id 를 죽은 것으로 읽어 취소를 되살리는 것 차단
+  } catch { if (g === qGen) box.innerHTML = '<div class="qempty">네트워크 오류 — 다시 시도</div>'; return; }
+  if (g !== qGen) return;
+  let cut = 0; try { cut = +localStorage.getItem('nomute_q_cleared') || 0; } catch {}
+  // 발견성 배지(진행중 건수)도 이 응답으로 즉시 동기화 — 리스트 열 때 별도 폴 안 기다리고 배지 최신화(stale 불일치 방지·추가 fetch 0·운영자 260701). status 기준(loadPending과 동일 = 파이프라인 처리중 = 어디서 세든 같은 값).
+  PEND_PROC = items.filter(it => it && (it.status === 'processing' || it.status === 'retry')).length; updateQBadge();
+  setQFail(items); qfMarkSeen();   // 리스트가 실제로 그려지는 이 응답으로 실패분 최신화 → 그 자리서 확인 처리(열어 놓은 채 새 실패가 들어와도 '보고 있는 중'이므로 소등 유지 · 운영자 260727)
+  // 화면상 '진행중'(스피너로 그려지는 것) 최상단 고정 → 리스트 1페이지가 배지·진행상태와 일치.
+  //   _qProg를 eff 기준(succ인데 피드 미반영=빌드랙도 qRowHtml서 스피너로 그려짐 → 상단)으로 잡아 '스피너인데 하단' 모순 차단(260701).
+  //   시각 파싱 실패로 t=null이어도 진행중이면 status로 상단 → API 최신순 정렬 맨뒤로 밀려 안 뜨던 불일치 방어. 완료(succ/fail)는 API 최신순 유지(JS 안정정렬). '내역 지우기' 컷오프 이후만.
+  const _qProg = it => { const e = qEff(it); return (e === 'processing' || e === 'retry') ? 0 : 1; };   // 상단 고정 = '진짜 도는 것'만 — lag(배포 대기 확정)는 완료 계열로 시간순(스피너 아닌 행이 1페이지를 점거하던 것 해소)
+  QITEMS = items.filter(it => !it.t || it.t > cut).sort((a, b) => _qProg(a) - _qProg(b) || (b.t || 0) - (a.t || 0));
+  QPAGE = 0;
+  renderQueuePage();
+}
+// 피드(메뉴3) 이동 + 해당 기사 모달. 즉시 매칭되면 바로, 없으면(빌드 랙) load() 후 재매칭.
+async function feedOpenBy(match, keepQ) {
+  if (!keepQ) closeQueueUser();   // 큐 ↗(keepQ)면 대기열 안 닫음 — 요약 모달(top-layer·모바일 풀스크린)이 위를 덮고 닫히면 그대로 다시 보임(close→reopen 깜빡임 제거·운영자 260622). 그 외(PICKED 등)는 정식 닫기.
+  showTab('feed');
+  let a = match();
+  if (a) { open(a); return; }   // 즉시(이미 피드에 있음 = 흔한 경우)
+  try { await load(); } catch {}   // 빌드 랙 — 기사 재요청 후 재매칭
+  a = match();
+  if (a) open(a); else qFlash('피드 반영 중 — 곧 표시돼');
+}
+function qGo(id) {   // SUCC 링크 — queue 파일명(id) ↔ 피드 기사 매칭(qMatch 공용). 초록 버튼만 호출되므로 항상 매칭됨
+  feedOpenBy(() => qMatch(id), true);   // true = 대기열 안 닫음(요약 모달이 위를 덮음)
+}
+async function askRetry(it) {   // ✨요약요청(ask) 실패 재시도 — api/askget 으로 원문(전문)을 복원해 요약창에 채워 다시 요청(운영자 260704).
+  // 원문 링크(URL)를 못 찾은 실패라도 '내가 붙여넣은 내용'을 그대로 되살려 재요청 = 사용자가 다시 검색해 붙일 필요 없음(우선순위 = 재시도).
+  let text = '', imgs = 0;
+  try {
+    const r = await fetch('api/askget?id=' + encodeURIComponent(it.id) + '&_=' + Date.now());
+    if (r.ok) { const j = await r.json(); text = String(j.text || ''); imgs = +j.images || 0; }
+  } catch {}
+  // ⚠️ 대기열을 closeQueueUser 로 닫지 않는다 — 그 history.back() 과 openAsk 의 pushState 가 같은 틱서 경쟁하면
+  //   방금 연 요약창이 떠돌이 popstate 로 닫힌다(평의회10 ★). 요약창(showModal·top-layer)이 대기열을 덮으므로 안 닫아도 무방(qGo keepQ 패턴).
+  openAsk({ prefill: text, retryOf: it.id });   // retryOf = 옛 실패 id → 재제출 성공 시 submit 이 옛 asks/failed 삭제(옛 실패행 24h 잔존·중복 누적 방지 = 평의회10 Q1·Q3)
+  if (!text && imgs) qFlash('텍스트 없이 캡처만 있던 요청 — 캡처 ' + imgs + '장을 다시 첨부해줘');   // 재시도 복원 안내 = qFlash 토스트(팝업 내 상태문자열 폐지 · 운영자 260720 — 모달 위 표시는 qFlash 호스트 이주가 처리)
+  else if (!text) qFlash('원문 복원 실패 — 직접 붙여넣어 재시도해줘');
+  else if (imgs) qFlash('캡처 ' + imgs + '장은 다시 첨부해줘(텍스트만 복원됨)');
+}
+async function qPickRetry(it) {   // URL 픽/분석 실패 재시도 — api/pick 로 재분석 재발사(대기열 재투입). askRetry(요약요청·askget 전문복원)와 별개 = pending URL 항목 전용(운영자 260713).
+  const u = String(it.key || it.alt1 || '');
+  if (!/^https?:\/\//i.test(u)) { qFlash('원문 링크가 없어 다시 분석 못 해 — 전문을 다시 붙여넣어줘'); return; }   // 전문(paste) 실패 = url無(복원 경로 없음)
+  try { await fetch('api/pick', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ url: u, title: it.title || '', alt: (it.alt1 && it.alt1 !== u) ? [it.alt1] : [] }) }); } catch {}   // 수집함 failRetry와 동일 재발사(alt=대체 매체로 원매체 403 우회)
+  qFlash('다시 분석 요청했어 — 잠시 뒤 처리중으로 바뀌어');
+  setTimeout(loadQueue, 1200); setTimeout(loadQueue, 4000);   // 재발사 후 대기열 갱신(실패행→처리중 · submit 패턴 계승)
+}
+function qFlash(msg, iconSvg) {   // 짧은 토스트(링크 빌드 랙 안내 + 팝업 상태문구 전량 위임 · 운영자 260720 "문자열 말고 포스트 알림") · iconSvg 주면 픽토그램+esc(메시지) innerHTML(XSS 가드)
+  let t = document.getElementById('qFlash');
+  if (!t) { t = document.createElement('div'); t.id = 'qFlash'; t.className = 'qflash'; }
+  // 열린 모달(showModal·top-layer)은 z로 못 이김(reparentNav 11219 실측 전례) → 최상위 열린 dialog 안으로 이주 = 비inert 자식으로 백드롭 위에 표시 · 없으면 body. fixed라 좌표는 viewport 그대로(컴포즈 모달 transform 잔존은 popIn to{none}이라 무해 · PC 드래그 중 예외 열화만 수용).
+  const _dl = document.querySelectorAll('dialog[open]');
+  const host = _dl.length ? _dl[_dl.length - 1] : document.body;
+  if (t.parentElement !== host) host.appendChild(t);
+  t.innerHTML = '<span class="ft-msg">' + esc(msg) + '</span>';   // iconSvg 인자 무시(호출처 호환 유지) — 가족 픽토그램 = 긴급 BELL·실패 WARN 둘만(운영자 260712) · 한 줄 말줄임 = .ft-msg CSS
+  t.classList.add('show');
+  clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('show'), 2500);   // 2600→2500(운영자 260712 회신)
+}
+document.addEventListener('close', e => {   // 호스트 모달이 토스트 표시 중 닫히면(성공 1.3s 자동닫힘 등) body로 귀환 = 잔여 표시시간 보존(close는 버블 안 함 → 캡처로 수신 · reparentNav 고아 정리와 동일 축)
+  const t = document.getElementById('qFlash');
+  if (t && e.target instanceof Element && e.target.contains(t)) document.body.appendChild(t);
+}, true);
+$('#qpopX').addEventListener('click', e => { e.stopPropagation(); closeQueueUser(); });   // 닫기(작은 ✕ → 직접 닫기, 재오픈 플래그 해제)
+window.addEventListener('pageshow', () => { try { if (sessionStorage.getItem('nomute_q_open') === '1' && qpop.hidden) openQueue(); } catch {} });   // 외부 링크(↗) 갔다 뒤로가기로 복귀 시 대기열 자동 재오픈 — 열어둔 채 떠났을 때만(직접 닫으면 플래그 해제됨) · 운영자 260622
+
+
+// ── 스크랩(수집·큐레이션) 뷰 ─────────────────────────────────────
+// candidates.json = RSS 후보(제목·매체·시각·교차점수·카테고리·url). 관심도 ★ = localStorage(UI 상태) + api/rate(레포 누적=취향 데이터).
+let CANDS = [], SCRAP_LOADED = false, CAND_LIVE = false, CAND_TS = 0;   // CAND_LIVE = 지금 든 CANDS가 *라이브*(api/candidates = GitHub main 직독)인지 · false = 정적 candidates.json 폴백 = Cloudflare Pages **빌드 시점 스냅샷**(재빌드 한도 때문에 며칠~몇 주 낡음) → 그 데이터로 '수집 고장'을 판정하면 100% 오탐(260725 채굴: 리포 실데이터는 4h내 25건 = 정상인데 경보가 뜨던 경로)   // CAND_TS = 지금 든 CANDS를 **실제로 받아온 시각**(loadTrends `_trFetched` 관용구 계승) — CAND_LIVE는 "어느 소스에서 왔나"만 말하고 "언제 받았나"를 못 말해서 생긴 260731 오탐의 짝(아래 candFresh 주석)
+// 후보 데이터 신선도 = 소스축(CAND_LIVE) × 시간축(CAND_TS) — '수집 고장' 판정의 **자격 검사**(억제 스위치 아님).
+//   왜(260731 실증): loadCandidates는 두 소스가 다 실패하면 CANDS·CAND_LIVE를 last-good 그대로 두는데(9727행) finally의 판정은 그대로 돈다(9728행).
+//   폰은 백그라운드면 폴이 아예 멈추므로(livePoll 15336행) 몇 시간 자다 깨어나 복귀 첫 fetch가 실패하면 = **몇 시간 묵은 CANDS + CAND_LIVE=true**로 4h창을 세게 되고, 당연히 비어 있어 붉은 경보가 뜬다.
+//   실측: 그날 서버 n은 24시간 내내 8건 밑으로 안 내려갔는데(임계 5) 12:20 폰에서 경보 발화·✓ 기록(toast-seen `ack:1785468042205`) = 100% 오탐.
+//   이 게이트가 막은 상황은 **침묵이 아니라 채널 이관**이다 — syncStaleMsg(7515행)가 같은 축을 써서 노란 "갱신이 안 되고 있어요"를 켠다(CLAUDE.md [관측] "fail-soft는 실패를 감추는 장치가 아니다").
+//   ⚠ 이 게이트는 laneBad에서 끝난다 — ack·rearm·야간·탭 양보 축은 무접촉(평의회A·B·C·E 봉합분 회귀 금지).
+const CAND_STALE_MS = 20 * 60000;   // 20분 = 폴 20회(60s·15336행) 연속 실패 허용. 하한 근거 = 정상 경로도 데이터가 최대 ~6.5분 묵는다(functions/api/candidates.js: 브라우저 max-age 60s + 엣지 cacheTtl 30s + raw 폴백 ~5분 캐시) · 수집 크론 15분(scrape.yml 외부 cron-job.org)이 실측 20~25분까지 벌어짐(260731 실측: max last_seen 12:07 vs 현재 12:33). 상한은 널널해도 무해 = 이 오탐이 성립하려면 데이터가 최소 4h(FAST_MAX_H) 묵어야 하므로 20분이든 60분이든 차단력 동일 · 반대로 값이 짧을수록 짧은 블립에 진짜 고장을 놓친다(미탐) → 큰 값이 정답. 조정 가능.
+const candFresh = () => CAND_LIVE && Date.now() - CAND_TS < CAND_STALE_MS;
+const candStale = () => !candFresh() && CANDS.length > 0;   // "지금 화면이 옛 사본" 상태 = 붉은 경보의 자격미달분 + 260725 정적 폴백분. **기어 점등·노란 메시지가 이 한 축을 공유**한다(syncStaleMsg 7515행 = 기어 토글 9843행) — 갈라두면 "기어는 빨간데 메시지함은 비어 있음" 같은 드리프트가 난다. len>0 = 부팅 전패(빈 화면)는 이 축 밖(기존 구멍 · 별건)
+let SOCIAL = [], SOCIAL_LOADED = false, SOCIAL_LOADING = false, SOC_LM = 0;   // 소셜 버스트(커뮤니티 공론화) 레인 = SNS 탭(메뉴2). social_candidates.json(scraper/social_burst.py 출력 · 설계 docs/social-burst.md). SOC_LM = 파일 Last-Modified(ms) — age_h 스냅샷 경과 보정 앵커(Q359 ㉠)
+// ── 전송한 카드 = 'Pk-ng'(분석 중) 잔류 원장(운영자 260804 "전송 누르고 나면 다시 전송으로 돌아오는데 picking으로") ──
+//   왜 저장하나: renderSns는 행 구성이 바뀌면 리스트를 통째 재빌드한다 → 메모리에만 두면 다음 스캔 갱신 때 Pk-ng가 '전송'으로 되돌아가 운영자가 지적한 그 증상이 그대로 재발한다. 새로고침도 동축.
+//   ⚠ 종단(PICKED 상당)은 없다 — 커뮤니티 제목은 뉴스 제목과 달라 feedMatch 계열로 완료를 신뢰성 있게 못 짚는다(메뉴1 픽과 다른 점). 확실한 완료 신호를 못 만들 바엔 추측 표시를 안 한다 = 보낸 카드는 Pk-ng로 잔류.
+const SOC_SENT_KEY = 'nm_soc_sent', SOC_PKLABEL = 'Pk-ng', SOC_PKDONE = 'Pk-ed';   // 라벨 = 한 곳(운영자 260804 "칸이 좁으니까 그냥 Pk-ng" · 완료 = "Pk-ed" — 렌더·런타임 전환 공용)
+const SOC_SENT_CAP = 200;   // 원장 상한 = 최근 200건(커뮤니티 행은 빠르게 회전 → 무한 누적 방지 · 넘치면 오래된 것부터 탈락)
+const SOC_PIN_MS = 24 * 3600e3;   // 전송 카드 잔류 창(운영자 260821 "전송 후에도 그 자리에 남아있게 — 전송하면 사라져서 곤란") — 목록 데이터(social_candidates.json)는 스캔마다 통째 교체라 글이 회전해 빠지면 전송한 카드도 같이 사라졌다(Pk-ng/Pk-ed 추적 고리 단절) → 전송 시점 스냅샷(snap)으로 24시간 잔류. 24h = 이 레포 작업 추적 TTL 정본 동값(nm-jobs 슬롯·pending 계승 · 값 창작 0) · 창을 넘긴 스냅샷은 저장 시 스스로 걷힌다(원장 {ask,q} 본체는 종전대로 상한 200 회전 = 버튼 상태·중복 전송 가드 축 무접촉).
+// 원장 = Map(카드키 → {ask, q[, snap, at]}) · ask = asks/<id>.json 베이스(submit 응답) · q = 완료된 queue 파일 id(있으면 Pk-ed = 그 요약으로 이동 가능) · snap/at = 전송 시점 카드 스냅샷·전송 시각(260821 잔류 축 — 구 원장 항목엔 없다 = 그 전송분은 종전대로 회전 소멸 · fail-soft).
+//   ⚠ 구판(260804 1차)은 키 배열이었다 → 배열이면 {ask:'',q:''}로 승격해 읽는다(그 회차 전송분은 ask id를 모르니 Pk-ng에 머문다 = 정보 없는 걸 완료로 꾸미지 않는다).
+let SOC_SENT = (() => {
+  try {
+    const a = JSON.parse(localStorage.getItem(SOC_SENT_KEY) || '[]');
+    if (Array.isArray(a)) return new Map(a.map(x => (x && typeof x === 'object') ? [String(x.k || ''), { ask: String(x.ask || ''), q: String(x.q || ''), ...(x.snap && x.at ? { snap: x.snap, at: +x.at || 0 } : {}) }] : [String(x || ''), { ask: '', q: '' }]).filter(([k]) => k));
+  } catch {}
+  return new Map();
+})();
+const socKey = r => (r && (r.url || r.title)) || '';   // 카드 동일성 = url 우선(제목은 폴백 · renderSns 시그니처 축과 동일 문법)
+const socSentSave = () => { try { const _n = Date.now(); localStorage.setItem(SOC_SENT_KEY, JSON.stringify([...SOC_SENT].slice(-SOC_SENT_CAP).map(([k, v]) => ({ k, ask: v.ask || '', q: v.q || '', ...(v.snap && v.at && _n - v.at <= SOC_PIN_MS ? { snap: v.snap, at: v.at } : {}) })))); } catch {} };   // 잔류 창 지난 스냅샷 = 저장에서 탈락(자가 청소 · {ask,q}는 잔존 = Pk-ed 열기·재전송 가드 유지)
+const socSentAdd = (k, ask, snap) => { if (!k) return; SOC_SENT.delete(k); SOC_SENT.set(k, { ask: String(ask || ''), q: '', ...(snap ? { snap, at: Date.now() } : {}) }); socSentSave(); };   // delete→set = 삽입순 갱신(상한 컷에서 최근 것이 살아남음) · snap = 전송 시점 카드 스냅샷(못 떴으면 종전 동작 = 잔류 없음)
+const socPinned = k => { const v = SOC_SENT.get(k); return !!(v && v.at && Date.now() - v.at <= SOC_PIN_MS); };   // 잔류 자격 = 전송 후 24h 안(구 원장 항목 = at 없음 = 비잔류 → 종전 동작)
+const socSnap = (url, title) => {   // 전송 시점 카드 스냅샷 — renderSns가 그리는 필드 전부(수집 목록에서 빠져도 이 값으로 같은 카드를 다시 그린다) · age0 = 전송 시점 표시 나이(스캔 스냅샷 나이 + 파일 경과 = renderSns 보정과 같은 자)
+  const r = (Array.isArray(SOCIAL) ? SOCIAL : []).find(x => socKey(x) === socKey({ url, title })); if (!r) return null;
+  const _el = SOC_LM ? Math.max(0, (Date.now() - SOC_LM) / 3600000) : 0;
+  return { url: r.url || '', title: r.title || '', desc: r.desc || '', burst: +r.burst || 0, source_count: +r.source_count || 0, posts: +r.posts || 0, sources: (r.sources || []).slice(0, 14), age0: Math.round(((+r.age_h || 0) + _el) * 10) / 10 };
+};
+const socGhosts = () => {   // 전송분 중 수집 목록에서 이미 빠진 카드 = 스냅샷으로 잔류(운영자 260821) — 목록에 살아있는 행이 있으면 그쪽이 정본(스냅샷 미사용 = 최신 수집값 우선) · _pinAge = 전송 시점 나이 + 전송 후 경과(자기 앵커 = 나이 표기가 계속 정직하게 자란다)
+  if (!SOC_SENT.size || !Array.isArray(SOCIAL)) return [];
+  const live = new Set(SOCIAL.map(socKey)), out = [];
+  for (const [k, v] of SOC_SENT) { if (v && v.snap && !live.has(k) && socPinned(k)) out.push({ ...v.snap, _pinAge: (+v.snap.age0 || 0) + (Date.now() - v.at) / 3600000 }); }
+  return out;
+};
+const socAskNorm = s => String(s || '').replace(/-/g, '');   // asks/2026-08-04-0112-xbo3n → 202608040112xbo3n = queue/260804-1012-ask-**202608040112xbo3n**.md 안에 그대로 박히는 형태(ask.sh 명명 규칙)
+const RKEY = 'nm_ratings';
+const ratingsAll = () => { try { return JSON.parse(localStorage.getItem(RKEY) || '{}'); } catch { return {}; } };
+const saveRating = (id, patch) => { const r = ratingsAll(); r[id] = { ...(r[id] || {}), ...patch }; localStorage.setItem(RKEY, JSON.stringify(r)); };
+const candId = c => c.id || c.url || c.title;
+// ── grade 수기 교정(운영자 260807 "grade가 나오게, 어긋났을 때 고칠 수 있게") — 로컬 즉시 반영(랭킹·표시) + postRate로 원장 적재(scraper/grade_votes.jsonl · 12h 소비 = grade_fix_report) ──
+//    ⚠️ 배지·긴급(isBreaking·issGrade)은 raw c.grade 유지 = build-viewer 미러와 규칙 동일 계약 보존(피드↔수집함 배지 드리프트 게이트 축) — 교정은 랭킹(gradeW)·표시 칩만.
+const GFIX_KEY = 'nomute_grade_fix';
+const gfixAll = () => { try { return JSON.parse(localStorage.getItem(GFIX_KEY) || '{}'); } catch { return {}; } };
+const gfixOf = c => { const f = gfixAll()[candId(c)]; return (f && f.g != null) ? f : null; };
+const gEff = c => { const f = gfixOf(c); return f ? f.g : c.grade; };   // 실효 등급 = 교정 우선
+const scRelTime = iso => {   // published(ISO) → 상대시각(렌더 시점 계산 = 안 틀어짐)
+  if (!iso) return '';
+  const t = new Date(iso); if (isNaN(t)) return '';
+  const s = Math.max(0, (Date.now() - t.getTime()) / 1000);
+  if (s < 60) return '방금 전';
+  if (s < 3600) return Math.floor(s / 60) + '분 전';
+  if (s < 86400) return Math.floor(s / 3600) + '시간 전';
+  const d = Math.floor(s / 86400);
+  if (d === 1) return '1일 ' + Math.floor((s % 86400) / 3600) + '시간 전';   // 1일대(24~48h)는 시간까지 — '1일 전'끼리 구분(2일+는 그대로)
+  return d + '일 전';
+};
+let SCRAP_LOADING = false;
+async function loadCandidates(quiet) {   // quiet=라이브 폴링: CANDS·속보감지만 갱신, 목록 재렌더 안 함(재애니 깜빡임 방지)
+  if (SCRAP_LOADING) return; SCRAP_LOADING = true;   // 동기 가드 — eager 부트 + 탭 진입 + 라이브폴 중복 fetch 방지
+  if (!quiet) ratedKeep.clear();   // 갱신(새로고침/부트/탭 첫 진입) = 별점 매긴 카드 리스트서 비움(라이브폴은 유지)
+  try {
+    // api/candidates = 라이브 서빙(GitHub 직독, 빌드 우회) 우선 → 실패 시 정적 candidates.json 폴백.
+    for (const u of ['api/candidates', 'candidates.json?_=' + Date.now()]) {
+      try {
+        const sig = (typeof AbortSignal !== 'undefined' && AbortSignal.timeout) ? AbortSignal.timeout(12000) : null;   // 12s 상한 = loadTrends(11244행) 관용구 그대로(새 규칙 창작 0 · 기능검출 가드 동일). 없으면 **매달린 소켓이 SCRAP_LOADING을 영구 점유**한다 — 그 상태에선 재진입 가드(9725행)가 이후 모든 폴을 즉시 return시키고, 그 return엔 finally가 안 붙어 checkFreshLane·syncStaleMsg가 **아예 안 돈다** = 서버가 회복돼도 빨강 기어·상주 토스트가 스스로 못 꺼진다(260725 "자가 소등 불능" 봉합의 재발 경로 · 모바일 백그라운드 전환 중 소켓 정지가 실제 트리거). 12s 초과 = 죽은 요청이라 폴 주기(60s·15345행) 안에서 다음 시도가 정상 재개
+        const r = await fetch(u, sig ? { signal: sig } : undefined);
+        if (r.ok) { const d = await r.json(); if (Array.isArray(d) && d.length) { CANDS = d; CAND_LIVE = (u === 'api/candidates'); CAND_TS = Date.now(); SCRAP_LOADED = true; detectBreaking(); detectPickFail(); if (!quiet && CURTAB === 'scrap') renderScrap(); return; } }   // &&d.length: api/candidates가 GitHub 서빙 실패 시 빈 [](HTTP 200)을 뱉으면 그걸 유효응답으로 수용해 정적 폴백을 건너뛰고 수집함이 통째로 비던 SPOF 봉합(260714) — 빈 배열이면 다음 소스(정적 candidates.json)로 폴백. 실뉴스 0건은 현실적 부재라 [] = 서빙실패 신호
+      } catch { /* 다음 소스 */ }
+    }
+    if (!SCRAP_LOADED) CANDS = []; SCRAP_LOADED = true; if (!quiet && CURTAB === 'scrap') renderScrap();   // last-good 유지(분신8 — loadSocial 실패 처리와 패턴 통일 260706)
+  } finally { SCRAP_LOADING = false; checkFreshLane(); syncStaleMsg(); }   // 신선도 판정 = 성공 분기 밖(finally)에서 *매 폴 무조건* — 구 위치(api 성공 줄 안)면 fetch가 통째로 실패하는 동안 판정이 아예 안 돌아 이미 뜬 상주 토스트·빨강 기어가 회복돼도 안 꺼졌다(자가 소등 불능 · 260725 실측 봉합)
+}
+// SNS 레인 로드 — social_candidates.json(커뮤니티 공론화 후보). 없거나 비면 빈 레인(정상). 탭 진입 시 1회.
+async function loadSocial() {
+  if (SOCIAL_LOADING) return; SOCIAL_LOADING = true;
+  try {
+    await loadSocLean();   // 소스 성향 정본 선로드 — 렌더 전 완료 보장(깜빡임 0)·1회 가드·fail-soft(운영자 260717)
+    const r = await fetch('social_candidates.json?_=' + Date.now());
+    if (r.ok) { const d = await r.json(); if (Array.isArray(d)) SOCIAL = d; SOC_LM = Date.parse(r.headers.get('last-modified') || '') || 0; }   // Last-Modified = 스캔 산출 시각 근사(정적 서빙 = 파일 도장) — age_h 경과 보정 앵커(Q359 ㉠ · 결측 = 0 = 보정 없음 fail-soft)
+  } catch { /* 없으면 빈 레인 */ }
+  finally { SOCIAL_LOADED = true; SOCIAL_LOADING = false; if (CURTAB === 'trend') renderSns(); }
+}
+// ── 🚨 속보 알림(포그라운드) — backend가 breaking 확정한 사건을 하단 토스트로 한 건씩.
+// 재알림 = '체크(확인) 전까지 계속'(운영자 260702) — seen 숨김(BRK_SEEN) 폐지 → 미처리 큐(breakingNow)가 빌 때까지 유지.
+//   처리 = ✓체크(ack)·PICK(픽)·수집함 PASS. 나이 4h↑(FAST_MAX_H)면 breakingNow서 자연 소멸.
+// ⚡ 유효 breaking = backend 속보확정(breaking) AND 경중 게이트가 잡음/경미(grade 0·1)로 깐 게 아님(미채점 null=유보 통과). 🚨배지·핀·최신 공용(grade≥2) — 'grade1 경미인데 ⚡이슈' 모순 차단(260617). ⚠️ 토스트·점등은 isAlert(grade≥3)로 분리(운영자 260622).
+const isBreaking = c => !!c.breaking && (c.grade == null || c.grade >= 2);
+const isAlert = c => !!c.breaking && c.grade != null && c.grade >= 3;   // 📢 화면알림(점등·토스트)·앱푸시·자동요약 공용 = breaking AND grade≥3(대형/엄중) · 운영자 260622 3단위계: 앱푸시긴급(grade≥3·알림류)⊂긴급(grade≥2·🚨배지·핀)⊂일반 · 이슈(⚡)는 별개 개념 · 미채점(null)=제외.
+const breakingNow = () => { const RA = ratingsAll(); return CANDS.filter(c => { const r = { ...(srvTriage(c) || {}), ...(RA[candId(c)] || {}) }; return isAlert(c) && !JUNK_HEAD.test(c.title || '') && (Date.now() - scTs(c)) < FAST_MAX_H * 3600000 && !r.dismissed && !r.action && !r.score && !r.picked && !r.acked && pickState(c) !== 'failed' && !brkToastSeen(c) && !!scFeedArticle(c); }); };   // RA 호이스트(운영자 260717 "호이스트 ㄱ" · 평의회G 실측) — ratingsAll() = localStorage 통파싱이라 필터 내 건당 호출 = 800회/폴 → 밖 1회(동기 루프라 결과 동일·비용만 소거)   // 토스트·점등=최신 *알림긴급*만(breaking AND grade≥3·<FAST_MAX_H=4h · 🚨배지/핀은 grade≥2로 별개). JUNK_HEAD·수집함 처리분·경중<3·failed(fail 토스트 담당)·로컬 seen 제외. ⚠️ scFeedArticle 게이트(운영자 260712 "적어도 내용을 알 수 있을 때 긴급을 띄우셈 · 10분 전후 늦어도 OK") = 자동요약이 피드에 실제 등장(has_body·분석+배포 완료)한 뒤에만 토스트 — 구 260702 '분석중에도 뜸' 폐지 · 즉시 인지 = 웹푸시(백엔드 독립)·수집함 🚨배지 담당 · 미요약 긴급(자동픽 컷·일캡)은 토스트 생략(배지·푸시만 = 정직 한계).
+let _brkClaiming = false;
+function detectBreaking() {
+  return;   // 🔕 긴급 뉴스 포그라운드 속보 토스트 폐지(운영자 260817 "포그라운드 알림 안 뜨게") — 백엔드 auto_pick_breaking이 이미 자동요약하고 수집함 🚨배지·핀도 남으므로 이 하단 토스트는 중복. 이 함수만 무력화(호출부 6곳은 그대로 호출해도 no-op·무해)로 발화만 막는다(되돌리기 = 이 줄 삭제). ⚠ 무접촉: showToast·breakingNow·isAlert 정의 · smoke_clickshield/smoke_fresh의 수동 #nmToast 검사 · 다른 토스트(새버전 upd·실패 fail·키워드 kw·지진/화재 quake·시스템 sysFresh) · 🚨배지/핀(isBreaking grade≥2) · 앱닫힘 웹푸시(sw.js).
+  // 미처리 긴급 큐 = breakingNow()(isAlert·grade≥3·<4h·미픽/미확인/미패스 · 요약 피드 등장 게이트). 표시 전 계정 선점(claimSeen) = 처음 선점한 기기만 표시(운영자 260712 "같은 알림 2번 금지" = 크로스 플랫폼 정확히 1회) · 표시 중 건은 자기 8s 타이머가 닫음(폴이 조기 종료 안 함).
+  const q = breakingNow();
+  if (q.length && CURTAB !== 'scrap') {
+    const c = q[0];
+    if (_toastC && candId(_toastC) === candId(c)) return;   // 그 건 이미 표시 중
+    if (_brkClaiming) return;
+    _brkClaiming = true;
+    claimSeen('t', c).then(fresh => { _brkClaiming = false;
+      if (fresh) showToast(c, q.length);
+      else { brkToastMark(c); detectBreaking(); }   // 타 기기가 먼저 띄운 건 = 로컬 기록 후 다음 건
+    });
+  } else if (!_toastC) hideToast();
+}
+// 긴급 토스트 seen = 로컬(brkTSeen·즉시) + 계정(TF_SRV·viewer/toast-seen.json) 이중 — 운영자 260712 "한번 뜬 거는 플랫폼 바꿔서 접속해도 안 떠야 · 뜬 거/체크 = 계정 종속".
+//   ✓체크 = 확인 = 수집함 acked 동기화(ratings acked + postRate 원장 · toggleAck 불변) + 계정 seen · 만료/이동도 계정 seen 기록.
+//   계정 축 전파 = api/seen 직접 커밋 → Pages 배포(1~2분) — 그 사이 타 기기 1회 중복 표시는 허용 오차(로컬이 그 기기 재알림은 차단).
+const TF_AXES = ['t', 'f', 's', 'mr', 'md', 'pr', 'kw', 'qf'];   // 계정 seen 축(서버 seen.js AXES와 동기): t=긴급·f=실패·s=시스템 경보 이벤트·mr=메시지 읽음·md=메시지 치움·pr=픽실패 해소·kw=키워드 알림 발송 dedup(slug#버킷)·qf=요약 막힘 확인(대기열 열면 기록 → 기어 레몬 소등 · 260727)
+let TF_SRV = Object.fromEntries(TF_AXES.map(k => [k, new Set()]));
+async function loadToastSeen() { try { const r = await fetch('toast-seen.json?_=' + Date.now()); if (r.ok) { const d = await r.json(); TF_SRV = Object.fromEntries(TF_AXES.map(k => [k, new Set(d[k] || [])])); renderMsgBadge(); paintQFailGear(); } } catch { /* 없으면 로컬만 */ } }   // 적재 후 배지 재계산 = 타 기기 읽음/치움이 60s 폴에 반영(계정 종속 소급 감사 260717)
+function postSeenIds(axis, ids) { const fresh = (ids || []).filter(id => id && !TF_SRV[axis].has(id)); if (!fresh.length) return; fresh.forEach(id => TF_SRV[axis].add(id)); fetch('api/seen', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ [axis]: fresh.slice(0, 50) }) }).catch(() => {}); }   // 다건 계정 동기(postSeen 문법 미러 — 낙관 add·fail-soft·서버 50/축 상한 정합)
+// 시스템 경보 계정 ack(운영자 260717 "계정 종속이 이런 거에 모두 걸려야" — 260712 계정 종속 확립의 일반화): 이벤트형(append-only 롤링) 스키마에 '상태+재무장'을 싣기 위해
+//   ack:<epochMs>(✓ 처리 완료)·rearm:<epochMs>(확실 회복 = 재무장) 페어로 기록 — 유효 계정 ack = 최신 ack가 최신 rearm보다 뒤일 때만(삭제 없는 스토어에서 상태 되돌림 표현).
+const srvSysMax = () => { const lim = Date.now() + 1800e3; let a = 0, r = 0; TF_SRV.s.forEach(v => { const m = /^(ack|rearm):(\d+)$/.exec(v); if (!m) return; const e = +m[2]; if (e > lim) return; if (m[1] === 'ack') { if (e > a) a = e; } else if (e > r) r = e; }); return { a, r }; };   // +30분 초과 미래 epoch = 무효 스킵(평의회③ — 시계 크게 빠른 기기의 ✓ 한 번이 '미래 ack'로 전 기기 영구 침묵 + rearm이 영원히 못 이기는 자가복구 불능 차단 · 선의 스큐 ≤30분 허용 · 서버 클램프와 이중)
+const srvFreshAckTs = () => { const { a, r } = srvSysMax(); return a > r ? a : 0; };
+let _lastRearmPost = 0; try { _lastRearmPost = +localStorage.getItem('nmRearmPost') || 0; } catch {}   // rearm 발송 rate-limit 시계 — localStorage 미러(평의회⑤·⑥: 배포 지연 창 새로고침 리셋발 +1커밋도 0) · loadToastSeen(60s)이 낙관 add를 덮는 배포 지연(1~2분) 창에서 매 폴 새 id 재커밋(스팸)되던 것 차단(260717). id 양자화(floor)안은 같은 10분 버킷의 직후 rearm이 방금 ✓보다 과거로 찍혀 억제가 안 풀리는 회귀 = smoke_fresh S5~9 실측 기각.
+function postSysSeen(kind) { if (kind === 'rearm') { if (Date.now() - _lastRearmPost < 600e3) return; _lastRearmPost = Date.now(); try { localStorage.setItem('nmRearmPost', String(_lastRearmPost)); } catch {} } const v = kind + ':' + Date.now(); if (TF_SRV.s.has(v)) return; TF_SRV.s.add(v); fetch('api/seen', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ s: [v] }) }).catch(() => {}); }   // fire-and-forget·낙관 add(postSeen 문법 계승) — 불통 = 로컬 ack가 이 기기는 커버(fail-soft) · rearm = 정밀 시각(재무장 즉시성) + 10분 rate-limit(커밋 스팸 0 · 다기기 동시 관측 = 기기 수만큼 커밋 = 희귀 허용)
+function postSeen(kind, c) { const id = candId(c); if (!id || TF_SRV[kind].has(id)) return; TF_SRV[kind].add(id); fetch('api/seen', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ [kind]: [id] }) }).catch(() => {}); }   // fire-and-forget(fail-soft = 로컬이 커버) · 낙관 add = 세션 내 재발송 0
+async function claimSeen(kind, c) {   // 표시 전 선점(운영자 260712 "같은 알림 2번 뜨는 건 무조건 막아야") — 서버가 sha 원자 병합으로 '처음 기록' 판정(fresh) → 처음 선점한 기기만 표시 = 크로스 플랫폼 정확히 1회. API 불통 = fail-open(알림 놓침 방지 우선 — 그 순간만 중복 가능성 감수·주석 정직)
+  const id = candId(c); if (!id) return true;
+  if (TF_SRV[kind].has(id)) return false;   // 이미 계정 기록(타 기기 표시분) = 표시권 없음
+  try {
+    const ctl = new AbortController(); const to = setTimeout(() => ctl.abort(), 2500);
+    const r = await fetch('api/seen', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ [kind]: [id] }), signal: ctl.signal });
+    clearTimeout(to); TF_SRV[kind].add(id);
+    if (r.ok) { const d = await r.json().catch(() => null); if (d && d.fresh && Array.isArray(d.fresh[kind])) return d.fresh[kind].includes(id); }
+  } catch {}
+  TF_SRV[kind].add(id); return true;
+}
+loadToastSeen();
+const BRK_TSEEN = 'nomute_brk_toast_seen';
+const brkTSeen = () => { try { return new Set(JSON.parse(localStorage.getItem(BRK_TSEEN) || '[]')); } catch { return new Set(); } };
+const brkToastSeen = c => brkTSeen().has(candId(c)) || TF_SRV.t.has(candId(c));   // 로컬 OR 계정(타 플랫폼서 뜬/처리한 건 = 재알림 금지)
+function brkToastMark(c) { try { const s = brkTSeen(); s.add(candId(c)); localStorage.setItem(BRK_TSEEN, JSON.stringify([...s])); } catch {} postSeen('t', c); }
+let _toastC = null, _brkToastT = null;
+// 하단 긴급 토스트 = [✓확인][↗원문] 2버튼(운영자 260712 의미 확정). 긴급은 auto_pick_breaking이 이미 자동요약(picking)이라 PICK 불필요.
+//   ✓확인 = "봤음" = 수집함(메뉴1) acked 동기화(+로컬 seen) → 다음 건.
+//   ↗공유·본체 탭 = 원문 기사 확인(항상 원문 새 탭 · 구 goBreaking 요약 분기 폐지 = 운영자 "긴급의 공유 - 원문 기사 확인") + 로컬 seen → 다음 건.
+//   자동닫힘 8s(회신 260712 · 구 260702 상주 폐지) = 로컬 seen만(acked 아님 — 확인은 ✓ 명시 행위만). 한 건씩 = breakingNow()[0] 상주. failed는 fail 토스트가 담당.
+function showToast(c, total) {
+  if (!c) { hideToast(); return; }
+  const _sf = document.getElementById('sysFreshToast'); if (_sf) _sf.classList.remove('show');   // 시스템 경보 즉시 양보(양방향 · 평의회C·D — 같은 자리·같은 z 차폐로 속보가 가려진 채 8s seen 소모되던 우선순위 역전 차단 · 경보는 조건 지속 시 다음 폴 재점등)
+  let t = document.getElementById('nmToast');
+  if (!t) { t = document.createElement('div'); t.id = 'nmToast'; t.className = 'nm-toast'; t.setAttribute('role', 'alert'); t.setAttribute('aria-live', 'assertive'); document.body.appendChild(t); }   // 긴급속보 = SR 즉시 announce(role=alert·분신술10 260704 P0)
+  _toastC = c;
+  const move = () => { brkToastMark(c); hideToast(); failOpen(c); setTimeout(detectBreaking, 60); };   // ↗공유·본체 탭 = 원문 기사 고정(운영자 260712) + seen + 닫고 다음 건(선점 구조에선 명시 hide 필수 — 폴 else가 표시 중 건 안 닫음)
+  t.onclick = move;   // 본체 탭 = ↗과 동일
+  const title = esc(((scKoTitle(c) || c.title) || '').slice(0, 60));   // 외신 긴급이면 번역 제목으로 토스트 · 34→60자(버튼 플레이트 폐지분 = 글자 몫 · 실폭은 1줄 말줄임이 재단 · 운영자 260712)
+  t.innerHTML = `<span class="tg">${BELL_SVG}</span><span class="ft-msg">${title || '속보'}</span>`
+    + `<button class="sbtn ft-act" type="button" data-bt="ack" data-motion="check" aria-label="확인 — 봤음" title="확인 — 봤음(수집함 확인✓ 동기화 · 다음 건으로)">${CHECK_SVG}</button>`
+    + `<button class="sbtn ft-act go-ready" type="button" data-bt="go" data-motion="arrow" aria-label="기사 원문" title="기사 원문 확인(새 탭)">${Q_ARR}</button>`;
+  // +N 건수 표기 폐지 · 태그 = BELL 픽토그램 단독(운영자 260712 "긴급 SVG 하나만 · +N 불요")
+  const _ak = t.querySelector('[data-bt="ack"]'), _go = t.querySelector('[data-bt="go"]');
+  // ✓확인 = 수집함(메뉴1) acked 동기화(운영자 260712) — toggleAck(8612)와 동일 기록(ratings acked + postRate 원장) → 핀 해제·전 기기 동기 · 이미 acked면 재기록 0
+  if (_ak) _ak.onclick = ev => { ev.stopPropagation(); brkToastMark(c);
+    const id = candId(c), cur = ratingsAll()[id] || {};
+    if (!cur.acked) { saveRating(id, { acked: true }); postRate({ id, url: c.url || '', title: c.title || '', acked: true, score: cur.score || 0, picked: !!cur.picked, dismissed: !!cur.dismissed, action: cur.action || '', reason: cur.reason || '' }); }
+    hideToast(); detectBreaking(); };   // 명시 hide = 선점 구조 짝(폴 else가 표시 중 건 안 닫음)
+  if (_go) _go.onclick = ev => { ev.stopPropagation(); move(); };
+  requestAnimationFrame(() => t.classList.add('show'));
+  clearTimeout(_brkToastT);   // 자동닫힘 8s(운영자 260712 회신 — 구 260702 상주 폐지) · 만료 = 로컬 seen만(수집함 acked 아님 = 확인은 ✓ 명시 행위만) → 60s 폴 재알림은 seen이 차단
+  _brkToastT = setTimeout(() => { if (_toastC === c) { brkToastMark(c); hideToast(); detectBreaking(); } }, 8000);
+}
+function hideToast() { const t = document.getElementById('nmToast'); if (t) t.classList.remove('show'); _toastC = null; clearTimeout(_brkToastT); }
+// (PICK 게이지 함수 toastPickGo 폐지 — 게이지 없이 누르면 :active 후 바로 pickCard 발동으로 변경·운영자 260702)
+// ── 「보이면 뒤가 안 눌린다」 클릭 방패(운영자 260803 "긴급이나 새 버전이 있어요, 경고 등 포그라운드 알림 —
+//    이 영역은 아무데나 클릭해도 뒤에 배경이 클릭 안되도록" → 2차 "아이디어 ㄱㄱ" = 닫힘 팝업 확장 → 3차 4인 적대검증 반영) ──
+//   실측 사고(430px 실클릭 재현): 부양 표면이 **눈에 100% 보이는데** 클릭이 전부 뒤로 샌다.
+//     ⓐ 토스트 = 닫힘 t=0ms에 opacity "1"(완전 불투명) · pointer-events "none" → 전 영역 관통(뒤 .scrap-col 피격 · 15/15 지점).
+//        원인 = hideToast류는 .show만 떼는데 `.nm-toast:not(.show){pointer-events:none}`이 **즉시** 걸리고
+//        opacity는 .3s에 걸쳐 내려간다 = 그 300ms 동안 「보이는 것」과 「눌리는 것」이 갈린다.
+//     ⓑ 닫힘 팝업 = 같은 구조가 `.closing` 관용구에 그대로 있다(popOut 애니 도는 동안 pointer-events:none).
+//        실측 = 설정 메뉴(.pmenu)·메시지함(#msgpop)·잠금 설정(#lockpop) 셋 다 opacity 1.00인데 관통(27/27 → 0/27).
+//   봉합 = 캡처단계에서 「보이는 표면 영역 안 클릭인데 타깃이 그 표면 밖」이면 삼킨다(뒤 화면 무반응).
+//     · 표시 중 정상 클릭(타깃이 표면 안) = 무접촉 — 본체 탭·✓·↗·✗·메뉴 항목 동작 100% 그대로.
+//     · 히트 소유권은 추정하지 않고 **실측**(관통 원인인 pointer-events만 잠깐 걷고 elementFromPoint) →
+//       모달(top-layer)·잠금(z300)·최소화 ▲(z200) 등 더 위 표면의 클릭은 그쪽 몫으로 통과.
+//     · .qflash(2.5s 무동작 안내)는 대상 아님 — pointer-events:none이 그 셸의 정본 성격(탭을 안 먹는 안내).
+//   대상 = **자동발견**(손 레지스트리 0): 알림 가족 `.nm-toast` + 닫힘 관용구 `.closing`. 새 표면이 관용구를 계승하면 자동 상속.
+//
+//   ⚠ 260803 4인 적대검증 반영분 — 아래 7개는 전부 **실측으로 재현된 결함**의 봉합이다(추측 아님):
+//     [D1·치명] 첫 술어가 `return`이라 첫 표면이 클릭을 받으면 나머지를 안 봤다. `.nm-toast` 가족은 좌표가 **같게 설계**돼
+//        있고(z60 긴급 / z59 새버전·키워드) DOM 순서상 하위가 먼저다 → 78% 불투명하게 보이는 긴급 토스트를 탭하면
+//        그 밑 「새 버전」이 먹어 **applyShellUpdate = 페이지 리로드**가 돌았다. → `continue`(위에 보이는 표면이 이긴다).
+//     [R3·중] click은 pointerdown과 **독립 판정**이라, 메인스레드 잼으로 click이 300ms(=페이드 길이) 넘게 늦으면
+//        그 사이 opacity가 0이 돼 판정이 뒤집혀 **원 사고가 그대로 재발**했다(잼 350·600ms 실측 뒤 카드 피격).
+//        → pointerdown에서 삼키기로 한 결정을 1회분 기억해 뒤따르는 click이 재판정 없이 승계한다.
+//     [D3·중] 캡처 `stopPropagation`이 document **버블** 층을 통째로 막아 「바깥 탭 = 닫기」 전역 리스너 10곳이 죽었다
+//        (실측: 페이드 중 토스트 위 탭 → 열린 설정 메뉴가 안 닫힘). → 삼킨 뒤 **타깃 없는 click을 document에 재발사**해
+//        카드·앵커 핸들러(closest 기반)는 안 타고 전역 닫기만 되살린다.
+//     [D2·중] 라디얼(＋) 면제가 과광범위했다 — CSS 면제는 `.nm-toast`에만 걸려 있는데 JS는 **모든 표면**의 방패를 껐다.
+//        (실측: pmenu 닫히는 중 + 라디얼 열림 = pmenu 영역 클릭이 뒤 티커로 관통) → 면제를 `.nm-toast`에만 건다.
+//     [D4·중] 탭마다 셀렉터 질의 2발이 296µs+102µs(복합 셀렉터 = Blink 고속경로 탈락 · 표면 0개여도 상수 비용).
+//        → `getElementsByClassName`(0.2µs) 2발로 교체 + 라디얼 조회는 필요할 때만.
+//     [D5·소] `!x && !y` 가드가 좌상단 (0,0) **실클릭**까지 통과시켰다. → 키보드·합성 판정을 `detail === 0`으로 정확히.
+//     [R7·잠재] `.closing`은 관용구가 아니라 **일반 클래스명**이다. 미래에 전면 스크림·풀스크린 시트가 이 클래스를
+//        계승하면 화면 전체가 조용히 언다(합성 재현 확인). → 뷰포트 80% 넘는 표면은 방패 대상에서 제외.
+//   ⚠ 미봉합(정직 기록) — 조상이 `opacity:0`이면 자기 opacity는 1이라 「안 보이는데 얼린다」가 원리상 가능하다.
+//     현행 index DOM에 실인스턴스 0(구조적 사각이지 관측된 버그 아님) · 조상 체인 곱 계산은 탭마다 비용이라 보류.
+const NM_SHIELD_CLASSES = ['nm-toast', 'closing'];   // 자동발견 2축(= 구 NM_SHIELD_SEL · getElementsByClassName 고속경로)
+let _nmShieldPD = 0;   // [R3] pointerdown에서 「삼킨다」고 판단한 시각 — 뒤따르는 click이 재판정 없이 승계한다
+function nmShieldSwallow(e) {
+  e.stopPropagation();
+  if (e.type !== 'click') return;
+  e.preventDefault();                                  // 앵커 기본 이동까지 차단(pointerdown은 안 함 = 스크롤·제스처 보존)
+  // [D3] 「바깥 탭 = 닫기」 전역 리스너 복원 — 타깃이 document라 closest() 기반 카드·앵커 핸들러는 안 타고
+  //      document 버블 닫기(linkpop·msgpop·lockpop·kwpop·failmenu·사유팝업 등)만 반응한다.
+  //      detail:0 = 아래 방패 진입 가드에 걸려 재진입 0(무한루프 차단).
+  try { document.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, clientX: e.clientX, clientY: e.clientY, detail: 0 })); } catch (_) {}
+}
+function nmClickShield(e) {
+  if (e.type === 'click' && e.detail === 0) return;    // [D5] 키보드 활성화·합성 click = 무접촉(좌표 0,0 실클릭은 정상 보호)
+  const x = e.clientX, y = e.clientY;
+  if (e.type === 'click' && _nmShieldPD) {             // [R3] 누름 때 내린 결정 승계 — 페이드가 끝나도 안 뒤집힌다
+    const fresh = performance.now() - _nmShieldPD < 1200;
+    _nmShieldPD = 0;
+    if (fresh) { nmShieldSwallow(e); return; }
+  }
+  let rad = null;   // [D2] 라디얼 조회는 .nm-toast를 만났을 때만(성능 + 면제 범위 정확)
+  for (const cls of NM_SHIELD_CLASSES) {
+    const nodes = document.getElementsByClassName(cls);   // [D4] 복합 셀렉터 대신 고속경로
+    for (let i = 0; i < nodes.length; i++) {
+      const t = nodes[i];
+      if (t.contains(e.target)) continue;              // [D1] 그 표면이 이미 받았다 = 정상 · 단 **다른 표면 검사는 계속**
+      const r = t.getBoundingClientRect();              // 싼 것부터 = 영역 밖 클릭(대부분)은 여기서 탈락
+      if (x < r.left || x > r.right || y < r.top || y > r.bottom) continue;
+      if (r.width * r.height > innerWidth * innerHeight * 0.8) continue;   // [R7] 전면급 표면 = 방패 제외(전 화면 잠김 차단)
+      if (cls === 'nm-toast') {                         // [D2] CSS 1537의 의도적 관통(별버튼 z36)은 토스트에만 해당
+        if (rad === null) rad = !!document.querySelector('.radmenu.open');
+        if (rad) continue;
+      }
+      const cs = getComputedStyle(t);
+      if (cs.display === 'none' || cs.visibility === 'hidden' || +cs.opacity < 0.02) continue;   // 안 보이면 방패 아님(유령 표면 무접촉 = 260705 봉합 존중)
+      const pe = t.style.pointerEvents;                 // 히트 소유권 실측 — 관통 원인만 잠깐 걷고 즉시 되돌림
+      t.style.pointerEvents = 'auto';
+      const top = document.elementFromPoint(x, y);
+      t.style.pointerEvents = pe;                       // ⚠ 복원은 예외 가능 지점보다 항상 앞(적대검증 #2 무결 확인분 · 잔류 0)
+      if (!top || !t.contains(top)) continue;           // 더 위 표면이 주인(또는 라운드 코너 바깥 = 눈에도 뒤가 보이는 자리) = 통과
+      if (e.type === 'pointerdown') _nmShieldPD = performance.now();   // [R3] 결정 기억
+      nmShieldSwallow(e);
+      return;
+    }
+  }
+}
+['pointerdown', 'mousedown', 'click'].forEach(ev => document.addEventListener(ev, nmClickShield, true));
+// ── (스크롤 오탭 방패 철회 · 260803 3차 4인 적대검증) ────────────────────────────────
+//   도입했다가 **같은 날 되돌린다**. 검증관 2인이 독립적으로 「이득보다 해가 크다」에 도달했고, 실측이 그걸 뒷받침한다.
+//   ⓐ 이득 구간이 거의 없다 — 롤백 스위치 A/B 실측: **손가락 제스처로 흐르는 중엔 크로미엄이 스스로 click을 안 보낸다**
+//      (방패 OFF에서도 click 0건). 방패가 실제로 일하는 건 rAF·behavior:smooth 같은 **프로그램 스크롤 중**뿐인데,
+//      이 앱에서 그건 맨 위로·탭 재탭·레일 점프 = 대부분 운영자가 방금 스스로 누른 이동이다.
+//   ⓑ 해는 확정적이고 다면적 — 전부 실클릭 재현: ① 스크롤 앵커링(lazy 이미지 13곳·overflow-anchor:none 0곳)이 낳은
+//      자동 보정 1발로 **사용자가 스크롤조차 안 했는데** 120ms 삼킴(y 4500→4500 불변) ② scrollTo 순간점프 뒤
+//      **완전 정지 화면**에서 97~103ms 삼킴 ③ 짝 잃은 표식 700ms가 pointerdown 없는 click을 먹어 **키보드 Enter**(4/4)와
+//      `a.click()` 관용구 15곳(다운로드·새 탭)이 조용히 무동작 ④ pointerType 미검사로 **마우스·트랙패드 정상 클릭** 삼킴.
+//   ⓒ 도입 때 내건 안전 논거 2개가 반증됐다 — 「정지인데 삼킴은 구조적으로 없다」(①②가 반례: 판정축이 *물리적 정지*가
+//      아니라 *scroll 이벤트 도착 시각*이라 순간점프·자동보정에서 깨진다) · 「화면이 서는 것 자체가 피드백」(마우스에선
+//      삼킨 뒤에도 스크롤이 계속 흘러 y 900→1800 = 피드백 0).
+//   → 부분 수정으로 봉합할 물건이 아니다. 판정축 자체가 「화면이 실제로 움직이는가」를 대리하지 못한다. 통째로 철회.
+//   재도입하려면 먼저 **실기기(iOS PWA·안드로이드) 실측**으로 ⓐ가 뒤집히는지부터 확인할 것. 되살릴 코드 = git 이력 260803.
+// ── 🚨 신규 레인 계기판 경보(운영자 260716 "신규 뉴스가 안 들어오고 있어요 — 긴급 경고랑 같은 레벨·디자인 · 처리 완료 체크까지 ✓/✗") ──
+//    260714~16 아사 사고(수집은 도는데 발행<4h 사건이 수집함서 증발 · 이틀 무감지)를 화면이 직접 알림. 판정 = 뷰어가 이미 든 CANDS로 셈(추가 fetch 0).
+//    셸 = .nm-toast 긴급 정본 그대로(빨강 --danger·위치·모션·ft-act 픽토버튼) · 픽토만 WARN(고장 의미 — 가족 2종[BELL·WARN] 내 선택·신규 도형 창작 0).
+//    조건 = CANDS 정상 적재(>100건 = 서빙실패·부분적재와 구분) AND 발행 FAST_MAX_H(4h) 내 < FRESH_ALERT_MIN AND KST 08시 이후(새벽 발행 저조 오탐 가드).
+//    ✓ 처리 완료 = 12h 억제(localStorage — 회복되면 자동 해제 = 다음 고장은 새로 알림) · ✗ 닫기 = 이번 접속 동안만 숨김(메모리) · 긴급속보 토스트 표시 중 = 양보(같은 자리 · 다음 폴 재시도).
+const FRESH_ALERT_MIN = 5, FRESH_ACK_MS = 12 * 3600000, FRESH_ACK_KEY = 'nmFreshAck';   // 5건 = 260716 사고 실측 레벨(정상 저녁 = 수십 건) · 스크레이퍼 계기판(신선1군 로그)과 한 쌍
+const X_TOAST_SVG = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6 18 18M18 6 6 18"/></svg>';   // 닫기 X = 전역 정본 path(CII·문자 × 금지) · 14px = 토스트 가족 아이콘 크기
+let _freshMute = false, _freshAckTs = 0;   // _freshAckTs = ✓ 메모리 미러 — localStorage 차단 환경(프라이빗 모드)서 ✓가 60초 스누즈로 퇴화 + SR 매분 재낭독 루프 돌던 구멍 봉합(평의회E)

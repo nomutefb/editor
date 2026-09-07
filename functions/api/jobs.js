@@ -45,19 +45,26 @@ export async function onRequestGet({ env }) {
   } catch { return J({ items: [], reason: 'r2-error' }); }
 
   const out = [];
+  let unavailable = 0;
   for (const k of items.slice(0, CAP)) {
+    let o;
     try {
-      const o = await env.R2.get(k);
+      o = await env.R2.get(k);
+    } catch {
+      unavailable++;
+      continue; // 일시적인 읽기 장애는 삭제 근거가 아니다.
+    }
+    try {
       if (!o) continue;
       const r = JSON.parse(await o.text());
       if (!r || !r.id) { dead.push(k); continue; }
       if (Date.now() - (+r.t0 || 0) > TTL) { dead.push(k); continue; }   // 본문 t0 = 발사 시각 정본(업로드 시각과 어긋나도 이쪽이 맞다)
       out.push(r);
-    } catch { dead.push(k); }   // 손상 레코드 = 청소 대상(조용히 쌓이면 목록이 영영 안 준다)
+    } catch { unavailable++; } // 본문 읽기 실패도 보존. 만료된 기록만 이후 정리한다.
   }
   for (const k of dead.slice(0, 40)) { try { await env.R2.delete(k); } catch { /* 다음 회차 재시도 */ } }
   out.sort((a, b) => (+b.t0 || 0) - (+a.t0 || 0));   // 최신 먼저 = 화면 진행 중 큐 정렬 동축(nm-rail pendList)
-  return J({ items: out });
+  return J({ items: out, ...(unavailable ? { reason: 'partial-read', unavailable } : {}) });
 }
 
 // POST {done:[{kind,id}|"id", …]} — 화면이 완료·포기를 확정한 작업을 원장에서 뺀다.

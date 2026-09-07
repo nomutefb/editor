@@ -12,8 +12,9 @@
 #     동시에 쓰면 reset 재적층이 그쪽 변경을 덮을 수 있음). insta 산출물(insta_data·chan_brief·apps/insta/data)·
 #     sns 산출물 등은 각 파이프라인 단독 소유라 안전. 공유 원장(append-only)엔 쓰지 말 것.
 # 사용: bash .github/scripts/git_land.sh "<커밋 메시지>" <경로 ...>
-# rc: 항상 0(fail-soft — 커밋 스텝/후속 스텝 비차단) · 미착지 시 ::warning만.
+# rc: 0 = 원격 반영 또는 실제 무변경. 실패 = 1 + 복구 스냅샷(성공 시 삭제).
 set -u
+fail() { echo "::error::git_land: $* — 복구: ${SNAP:-스냅샷 생성 전}" >&2; exit 1; }
 MSG="${1:-chore: bot commit}"; shift || true
 # ── [CF-Pages-Skip] 코얼레싱(운영자 260803 평의회 5인 · Q1331) — 이 헬퍼를 쓰는 봇 산출물(sns-trends·insta·fb·lucy)은
 #    「화면에 수 분 늦게 떠도 되는 데이터 churn」이라 CF Pages 빌드를 커밋마다 돌리지 않는다. [CF-Pages-Skip]은
@@ -31,14 +32,16 @@ PATHS=("$@")
 # 에러 은닉만 = 복구 아님 · fb_data.json 스캐폴드[시크릿 미등록 = 파일 미생성]가 트리거였음).
 # 아직 안 태어난 스캐폴드 산출물은 여기서 자연 탈락 → 전 경로 실존 케이스 = 종전 동작 바이트 동일.
 LIVE=()
-for p in "${PATHS[@]}"; do [ -e "$p" ] && LIVE+=("$p") || echo "git_land: 경로 결측 스킵 — $p"; done
+for p in "${PATHS[@]}"; do
+  if [ -e "$p" ] || git ls-files --error-unmatch -- "$p" >/dev/null 2>&1; then LIVE+=("$p"); else echo "git_land: 미생성 선택 산출물 건너뜀: $p"; fi
+done
 [ "${#LIVE[@]}" -gt 0 ] || { echo "git_land: 실존 대상 0 — no-op"; exit 0; }
 PATHS=("${LIVE[@]}")
 git config user.name "nomute-bot"
 git config user.email "bot@users.noreply.github.com"
 
 # 변동 선판정 — 없으면 조용히 종료(푸시 0)
-git add -- "${PATHS[@]}" 2>/dev/null || true
+git add -A -- "${PATHS[@]}" || fail "스테이징 실패"
 if git diff --cached --quiet 2>/dev/null; then echo "git_land: 변동 없음 — 커밋 생략"; exit 0; fi
 
 # ★ git 조작(fetch/reset --hard) 전에 산출물을 워킹트리에서 스냅샷 — reset가 덮기 전 원본 보존이 핵심.
@@ -46,11 +49,18 @@ if git diff --cached --quiet 2>/dev/null; then echo "git_land: 변동 없음 —
 #     자기 삭제와 남의 삭제를 가른다. 스냅샷 이후 남이 얹은 것은 BASE 에 없고, 우리가 소비해서 지운 것은
 #     BASE 에 있다 = 삭제 의도의 유일한 구분점(샌드박스 재현으로 오분류 0 실증).
 BASE="$(git rev-parse HEAD 2>/dev/null || echo '')"
-SNAP="$(mktemp -d)"
+RECOVERY="${RUNNER_TEMP:-$(git rev-parse --absolute-git-dir)}/editor-recovery"
+mkdir -p "$RECOVERY" || fail "복구 폴더 생성 실패"
+SNAP="$(mktemp -d "$RECOVERY/run-XXXXXX")" || fail "스냅샷 생성 실패"
+printf '%s\n' "$BASE" > "$SNAP/base.txt"
+printf '%s\n' "$MSG" > "$SNAP/message.txt"
+printf '%s\0' "${PATHS[@]}" > "$SNAP/paths.zlist"
+git diff --cached --name-only --diff-filter=D -z > "$SNAP/deleted.zlist"
+mkdir -p "$SNAP/files" || fail "스냅샷 폴더 생성 실패"
 for p in "${PATHS[@]}"; do
   [ -e "$p" ] || continue
-  mkdir -p "$SNAP/$(dirname "$p")"
-  cp -a "$p" "$SNAP/$p" 2>/dev/null || true
+  mkdir -p "$SNAP/files/$(dirname "$p")"
+  cp -a "$p" "$SNAP/files/$p" || fail "스냅샷 복사 실패: $p"
 done
 
 pushed=0
@@ -58,15 +68,19 @@ for i in 1 2 3 4 5 6; do
   git rebase --abort 2>/dev/null || true      # 잔여 리베이스/머지 상태 청소(멱등)
   git merge --abort 2>/dev/null || true
   if ! git fetch -q origin main 2>/dev/null; then echo "git_land: fetch 실패 — 재시도 $i"; sleep $((i * 2)); continue; fi
-  git reset -q --hard origin/main 2>/dev/null || true   # 최신 원격 = 기점(이전 로컬 커밋 폐기 = 충돌 원천 제거)
+  git reset -q --hard origin/main || fail "최신 기준 복원 실패"   # 최신 원격 = 기점(이전 로컬 커밋 폐기 = 충돌 원천 제거)
   # 스냅샷을 최신 main 위에 재적층(경로가 dir이어도 안전하게 교체)
   for p in "${PATHS[@]}"; do
-    [ -e "$SNAP/$p" ] || continue
-    rm -rf "$p" 2>/dev/null || true
+    if [ ! -e "$SNAP/files/$p" ]; then rm -rf -- "$p" || fail "삭제 반영 실패"; continue; fi
+    rm -rf "$p" || fail "스냅샷 대상 교체 실패"
     mkdir -p "$(dirname "$p")"
-    cp -a "$SNAP/$p" "$p" 2>/dev/null || true
+    cp -a "$SNAP/files/$p" "$p" || fail "스냅샷 복원 실패"
   done
-  git add -- "${PATHS[@]}" 2>/dev/null || true
+  LIVE=()
+  for p in "${PATHS[@]}"; do
+    if [ -e "$p" ] || git ls-files --error-unmatch -- "$p" >/dev/null 2>&1; then LIVE+=("$p"); fi
+  done
+  if [ "${#LIVE[@]}" -gt 0 ]; then git add -A -- "${LIVE[@]}" || fail "스테이징 실패"; fi
   # ⚠⚠ 남의 착지분 복원(260816 봉합 · 운영자 「확인해서 머지」 · 별도 모델 교차검증 실증) ─────────────
   #   이 헬퍼의 재적층은 `rm -rf` + `cp -a` 라 **경로 통째 교체**다. 그래서 스냅샷을 뜬 뒤에 남이 그 경로에
   #   얹은 것(픽 파일·알림 슬롯·요약 md·원장 줄)이 **삭제로 스테이징된 채 push 가 성공**한다 = 조용한 삭제.
@@ -97,12 +111,16 @@ for i in 1 2 3 4 5 6; do
     while IFS= read -r keep; do
       [ -n "$keep" ] || continue
       git cat-file -e "$BASE:$keep" 2>/dev/null || continue          # BASE 에 없다 = 우리 신규 = 대상 아님
-      [ -f "$SNAP/$keep" ] || continue
-      git show "$BASE:$keep" 2>/dev/null | cmp -s - "$SNAP/$keep" || continue   # 우리가 고쳤다 = 우리 것 유지
-      git checkout -q origin/main -- "$keep" 2>/dev/null \
-        && echo "git_land: 남의 최신본 유지(이 런 무변경) — $keep"
+      [ -f "$SNAP/files/$keep" ] || continue
+      git show "$BASE:$keep" 2>/dev/null | cmp -s - "$SNAP/files/$keep" || continue   # 우리가 고쳤다 = 우리 것 유지
+      if git cat-file -e "origin/main:$keep" 2>/dev/null; then
+        git checkout -q origin/main -- "$keep" || fail "원격 최신본 복원 실패"
+      else
+        git rm -f --ignore-unmatch -- "$keep" || fail "원격 삭제 반영 실패"
+      fi
+      echo "git_land: 남의 최신본 유지(이 런 무변경) — $keep"
     done <<EOF_KEEP
-$(git diff --cached --name-only --diff-filter=M 2>/dev/null)
+$(git -c core.quotePath=false diff --cached --name-only --diff-filter=AM)
 EOF_KEEP
     while IFS= read -r gone; do
       [ -n "$gone" ] || continue
@@ -131,12 +149,12 @@ EOF_GONE
       #   판별 = **꼬리 개행**(append 원장은 레코드마다 개행으로 닫는다 · json.dumps 스냅샷은 안 닫는다)
       #   + `*.json` 확장자 배제(2중 안전판 — `viewer/insta_data.json` 처럼 **여러 줄인 스냅샷**도 있어서
       #     「줄이 2개 이상」류 판별로는 못 막는다 = 실측 13,151줄·꼬리 개행 없음).
-      case "$mod" in *.json) continue ;; esac
+      case "$mod" in *.jsonl|*/seen_urls.txt|seen_urls.txt) ;; *) continue ;; esac
       [ -s "$mod" ] && [ "$(tail -c 1 "$mod" | od -An -c | tr -d ' \n')" = "\\n" ] || continue
       git show "origin/main:$mod" > "$SNAP/.remote" 2>/dev/null || continue
       git show "$BASE:$mod" > "$SNAP/.base" 2>/dev/null || continue
       if comm -23 <(sort -u "$SNAP/.remote") <(sort -u "$SNAP/.base") | grep -q .; then
-        comm -23 <(sort -u "$SNAP/.remote") <(sort -u "$SNAP/.base") >> "$mod"
+        comm -23 <(comm -23 <(sort -u "$SNAP/.remote") <(sort -u "$SNAP/.base")) <(sort -u "$mod") >> "$mod"
         git add -- "$mod" 2>/dev/null || true
         echo "git_land: 남의 원장 줄 합류 — $mod"
       fi
@@ -145,9 +163,10 @@ $(git diff --cached --name-only --diff-filter=M 2>/dev/null)
 EOF_MOD
   fi
   if git diff --cached --quiet 2>/dev/null; then echo "git_land: 최신 main과 동일 — 착지 불필요"; pushed=1; break; fi
-  git commit -q -m "$MSG" 2>/dev/null || true
+  git commit -q -m "$MSG" || fail "커밋 실패"
   if git push -q origin HEAD:main 2>/dev/null; then echo "git_land: 착지 성공(시도 $i)"; pushed=1; break; fi
   echo "git_land: push 경쟁 — 최신 main 재기점 재시도 $i"; sleep $((i * 2))
 done
-[ "$pushed" = 1 ] || echo "::warning::git_land: 착지 실패(6회 재기점 소진) — 다음 주기 재수집"
+[ "$pushed" = 1 ] || fail "착지 실패(6회 재시도 소진)"
+rm -rf "$SNAP"
 exit 0

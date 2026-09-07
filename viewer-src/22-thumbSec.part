@@ -1,0 +1,589 @@
+function thumbSec(a) {
+  const c = a.cards || {};
+  if (!a.has_body && !a.body && !c.state) return null;   // 픽(분석)된 기사에만 (has_body=경량 인덱스 플래그·body는 detail lazy → 게이트는 플래그 우선)
+  // 실제 이미지(검색 og:image / AI 생성)가 하나라도 있을 때만 표시 — 빈 안내·레거시 폴백(구글검색 링크·위키미디어·'곧 반영' placeholder)은 띄우지 않음(요약 위 잡음 제거 · 운영자 260620)
+  const search = Array.isArray(c.thumb_search) ? c.thumb_search : [];
+  const gen = Array.isArray(c.thumb_gen) ? c.thumb_gen : [];
+  if (!search.length && !gen.length) {
+    // 픽됐는데 썸네일 아직 = thumb_gen은 분석과 별도 잡(픽 후 ~십몇 분) — 신규(30분 내)면 '생성 중' 자리표시(폴링이 준비 시 실제 썸네일로 자동 교체). 오래된 기사(생성 안 옴)는 종전대로 미표시(잡음 0·운영자 260621).
+    if ((a.has_body || a.body) && feedAgeH(a) < 0.5) {
+      const ph = document.createElement('div'); ph.className = 'thumbsec'; ph.dataset.sig = thumbSecSig(a);
+      ph.innerHTML = '<div class="thumbsec-h">썸네일 후보 — 검색 · AI 생성</div>'
+        + '<div class="thumb-pending">썸네일 생성 중… <small>준비되면 자동 표시</small></div>';
+      return ph;
+    }
+    return null;
+  }
+  const wrap = document.createElement('div'); wrap.className = 'thumbsec'; wrap.dataset.sig = thumbSecSig(a);
+  const dlAllH = (search.length + gen.length) ? '<button type="button" class="sbtn cref-dlall dlbtn thsec-dlall" title="썸네일 후보 전체 저장" aria-label="썸네일 후보 전체 저장">' + DLSEQ_IC + '<span class="cref-dllbl">전체</span></button>' : '';   // 전체저장 = 제목 라인 우측(검색+AI생성 통합 · .dlbtn 표준 · 운영자 260622)
+  const secLbl = (search.length ? ['검색'] : []).concat(gen.length ? ['AI 생성'] : []).join(' · ');   // 헤더 = 실존 캐러셀만 표기 — AI 생성 스킵(no_thumb) 기사에 'AI 생성' 영구 오버-프로미스 방지(평의회 260711)
+  // 발사 버튼 폴백 = 검색 카러셀이 없는 기사(og:image 0장 = fetch 차단 매체 등)에만 섹션 헤더로 이주 — 정상 기사는 종전대로 검색 소머리 우측 그대로(운영자 260801 "거기 버튼 위치 좋고").
+  // 없으면 그 기사만 영영 진입로 0(누를 + 자체가 안 그려짐) = 사후 AI 생성 불가 구멍이었다.
+  const secGenH = (!search.length && _thumbFile(a)) ? '<button type="button" class="sbtn cref-more cref-gen thsec-gen" title="AI 이미지 생성" aria-label="AI 이미지 생성"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg><span class="cref-dllbl">AI</span></button>' : '';
+  wrap.innerHTML = '<div class="thumbsec-h"><span class="thsec-t">썸네일 후보 — ' + secLbl + '</span>' + secGenH + dlAllH + '</div>';
+  // 1) 검색 이미지(4:5 캐러셀) — 실제 추출분이 있을 때만. 라벨 옆 토큰=검색·비전 비용(현재 0)
+  if (search.length) {
+    // 좌측(회색 돋보기) = 기사 제목 검색(불변) · 키워드(한/영 + 토글)는 thumbStatic이 kwData로 처리(운영자 260622)
+    const _titleHref = 'https://www.google.com/search?tbm=isch&tbs=qdr:d&q=' + encodeURIComponent((a.title || '뉴스').slice(0, 100));
+    wrap.appendChild(thumbStatic('검색 이미지', search, 'search', _titleHref, c.thumb_usage,
+      { ko: (a.image_query || '').trim(), en: (a.image_query_en || '').trim() }));
+  }
+  // 2) AI 생성(4:5 × 2화풍) — 생성분이 있을 때만. 라벨 옆 토큰=생성 비용(2화풍+재생성 누적)
+  if (gen.length) wrap.appendChild(thumbStatic('AI 생성', gen, 'gen', null, c.thumb_usage));
+  const genH = wrap.querySelector('.thsec-gen');   // 폴백 발사(검색 카러셀 부재 기사) = 검색 소머리 + 와 동일 경로(openGenIdlg) · wrap = 섹션(=imgFetchGo가 AI 트랙을 찾거나 만든다)
+  if (genH) genH.addEventListener('click', e => { e.stopPropagation(); openGenIdlg(_thumbFile(a), wrap, genH); });
+  const dlH = wrap.querySelector('.thsec-dlall');   // 제목 라인 전체저장 = 검색+AI생성 전 이미지 통합 순차 다운로드(.dlbtn 표준 dlAllSeq)
+  if (dlH) {
+    const meta = search.map((it, i) => ['검색 이미지', it, i]).concat(gen.map((it, i) => ['AI 생성', it, i]));
+    dlH.addEventListener('click', e => { e.stopPropagation(); dlAllSeq(dlH, meta.map(m => m[1].img), k => thumbDlName(meta[k][0], meta[k][1], meta[k][2])); });
+  }
+  return wrap;
+}
+// ── AI 썸네일 화풍 선호 투표(운영자 260805 "좋으면 thumb up · 별로면 thumb down · 그게 남게끔 해서 나중에 한번 보자") ──
+// 왜 = 지금 시스템엔 **운영자가 어느 썸네일을 좋다고 봤나**가 어디에도 안 남는다. 그래서 260805 프롬프트
+//   개선을 실제 발사분 236건 손 재판독으로 역추정해야 했다(정답지 부재). 이 원장이 그 정답지가 된다 —
+//   화풍(photo/webtoon)·연출코드(thumb_dispatch)·SUBJECT 유무별 선호를 나중에 숫자로 볼 수 있다.
+// 부품 = 카드뉴스 투표 정본 100% 계승(.fbup/.fbdown · .voted · 2탭 취소 armCancelThumb 문법) — 새 창작 0.
+// 레일 = 기존 postRate(api/rate) 재사용 = **워크플로·inputs 신설 0**(rate.yml inputs는 이미 10/10 = GitHub 상한이라
+//   11번째를 늘리면 디스패치 400 = 평점 레일 전체 사망 · brkno 예약키 선례와 같은 축). action='thumb' +
+//   reason='<up|down>:<sid>' 로 실어 러너(rate_record.py)가 **별도 원장** scraper/thumb_votes.jsonl 로 분기한다
+//   (기사 취향 원장 ratings.jsonl 오염 0 = 자동픽 학습 무영향).
+const THV_KEY = 'nm_thvote';   // ⚠️ 카드 투표(nomute_fb)와 **다른 키** — 같은 키를 쓰면 카드 n번과 화풍 sid가 충돌한다
+function thVoteGet(file, sid) { try { return (JSON.parse(localStorage.getItem(THV_KEY) || '{}'))[file + '#' + sid] || null; } catch { return null; } }
+function thVoteSet(file, sid, v) {
+  let m = {}; try { m = JSON.parse(localStorage.getItem(THV_KEY) || '{}'); } catch { /* noop */ }
+  if (v) m[file + '#' + sid] = v; else delete m[file + '#' + sid];
+  try { localStorage.setItem(THV_KEY, JSON.stringify(m)); } catch { /* noop */ }
+}
+function thVoteApply(slot, file, sid) {
+  const v = thVoteGet(file, sid), up = slot.querySelector('.fbup'), dn = slot.querySelector('.fbdown');
+  if (!up || !dn) return;
+  up.classList.toggle('voted', v === 'up'); dn.classList.toggle('voted', v === 'down');
+  up.disabled = v === 'down'; dn.disabled = v === 'up';   // 한쪽 기록되면 반대쪽 잠금(카드 정본 applyVoteState 동일)
+}
+function thVoteWire(slot, a, sid) {
+  const file = a.file || '';
+  thVoteApply(slot, file, sid);
+  slot.querySelectorAll('.fbup, .fbdown').forEach(btn => {
+    const vote = btn.classList.contains('fbup') ? 'up' : 'down';
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const cur = thVoteGet(file, sid);
+      if (cur === vote) {                                   // 같은 쪽 재탭 = 인라인 arm → 한 번 더 탭하면 취소(카드 정본 문법·팝업 0)
+        if (btn.classList.contains('thumb-arm')) { disarmThumb(btn); thVoteSend(a, sid, ''); thVoteSet(file, sid, null); thVoteApply(slot, file, sid); return; }
+        slot.querySelectorAll('.sbtn.thumb-arm').forEach(disarmThumb);
+        btn._iconHTML = btn.innerHTML; btn.classList.add('thumb-arm'); btn.textContent = '취소';   // 픽토→텍스트 단독 교체(§📐 공존금지)
+        clearTimeout(btn._armT); btn._armT = setTimeout(() => disarmThumb(btn), 2600);
+        return;
+      }
+      if (cur) return;                                      // 반대쪽 이미 투표 = 잠김(disabled와 이중)
+      thVoteSet(file, sid, vote); thVoteApply(slot, file, sid);   // 로컬 먼저 = 즉시 반응(전송은 fire-and-forget · 실패해도 화면 안 죽는다)
+      thVoteSend(a, sid, vote);
+    });
+  });
+}
+function thVoteSend(a, sid, vote) {
+  postRate({ id: a.file || '', url: a.url || '', title: (a.title || '').slice(0, 300),
+             action: 'thumb', reason: (vote ? vote : 'clear') + ':' + sid });
+}
+// 제미나이 추정$ 표기(plain 텍스트 · 버튼 아님) — 라벨(AI 생성·검색 이미지) 우측. 형식 "$ 0.0"(토큰 T는 hover 툴팁 title에만 · 운영자 260630, 카드 3498과 통일).
+// bucket={calls,total,cumulative}. 토큰=정확(API) · $=추정(이미지 토큰 단가). 운영자 260620: 돈아이콘·볼드·pill 제거.
+const GEM_RATE = 0.00003;   // 이미지 토큰 추정단가(≈$30/1M·$0.039/장 기준). $=추정·T=정확. ⚠️ 실측 usage.json 들어오면 1콜 totalTokenCount로 재캘리브레이션(이미지 과금은 장당 고정이라 토큰선형은 근사)
+function usageText(bucket, kind) {
+  if (!bucket) return '';
+  const tok = bucket.cumulative || 0;
+  const usd = (tok * GEM_RATE).toFixed(1);
+  const title = kind === 'search'
+    ? (tok ? '검색·비전 Gemini 누적 ' + tok.toLocaleString() + '토큰 · 추정 $' + usd
+           : '검색 = og:image 스크래핑(AI 비전 미사용) · Gemini 0')
+    : 'Gemini — 2화풍+재생성 누적 ' + tok.toLocaleString() + '토큰 · 추정 $' + usd
+      + (bucket.calls ? ' (최근 ' + bucket.calls + '콜)' : '');
+  return '<span class="cref-usage" title="' + esc(title) + '">$ ' + usd + '</span>';   // 달러만 표시(토큰 T는 hover 툴팁 title에만 · 카드 비용표시(3498)와 동일 통일 · 운영자 260630)
+}
+const REFRESH_SVG = '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 4v5h-5"/></svg>';
+const SEARCH_SVG = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>';
+// 정적 캐러셀(thumb_search/thumb_gen) — items=[{img,label?,sid?}]. 탭=확대 · 우상단 액션행 .sbtn(저장 · 생성슬롯=재생성+저장 · §🎨 .slide-acts 계승). usage={gen,search}.
+function thumbStatic(label, items, kind, href, usage, kwData) {
+  const list = items.slice(0, kind === 'search' ? 60 : 40);   // 검색이미지 = '+5장 더'로 누적되니 cap 해제(7→60, 12장↑ 표시) · 운영자 260622   // AI 생성 cap 7→40(운영자 260807): 수정본이 덮어쓰기가 아니라 +1장으로 쌓이므로(1/2→1/3→1/4…) 구 7은 수정 5회면 도달해 그 뒤 수정본이 **조용히 잘린다**
+  const wrap = document.createElement('div'); wrap.className = 'cref';
+  // 수정 대기 슬롯 = 아직 도착 안 한 수정본의 자리(운영자 260807 "1/3 2/3 3/3(새로 만들어지고 있는 중인 거)").
+  // 원본 위에 진행바를 덮던 구판(markSlotReshooting)과 달리 **원본은 그대로 보이고** 트랙 끝에 제작중 슬롯이 붙는다.
+  const _pend = (kind === 'gen' && CUR_A) ? thumbRedoPendList(CUR_A.file).length : 0;
+  const _total = list.length + _pend;   // 순번 분모 = 실존분 + 대기분(= 발사 즉시 1/3 2/3 3/3으로 늘어난다)
+  const kd = kwData || {};
+  const _moreFile = (kind === 'search' && CUR_A) ? CUR_A.file : '';   // '+5장 더' = 현재 모달 기사(CUR_A)에 관련 뉴스이미지 더 검색(api/moreimg · 운영자 260622)
+  const hasKw = kind === 'search' && (kd.ko || kd.en);
+  let _lang = kd.en ? 'en' : 'ko';   // 🌍해외(en 有)=영문 우선 기본 / 국내=한
+  const _gis = (q, en) => 'https://www.google.com/search?tbm=isch&' + (en ? 'hl=en&gl=us&' : '') + 'tbs=qdr:d&q=' + encodeURIComponent((q || '').slice(0, 100));
+  const _chip = q => String(q || '').trim().split(/\s+/).filter(Boolean).join(', ');   // 공백→쉼표+간격(#736)
+  // 검색 헤더 우측 = [제목 돋보기(회색)] · [키워드 분절박스: K돋보기(검색) | 한/영(토글)·박스색 전환] · [전체저장(아이콘+전체)]
+  const hbtn = href ? '<a class="sbtn cref-srch" href="' + escUrl(href) + '" target="_blank" rel="noopener" title="기사 제목으로 이미지 검색" aria-label="제목 이미지 검색">' + SEARCH_SVG + '</a>' : '';
+  const kwbox = hasKw
+    ? '<span class="cref-kwbox iq">'
+      + '<a class="cref-kwsrch" target="_blank" rel="noopener" aria-label="키워드로 이미지 검색"><span class="cref-klbl">K</span>' + SEARCH_SVG + '</a>'
+      + ((kd.ko && kd.en)
+          ? '<button type="button" class="cref-kwtog" title="키워드 언어 전환(한/영)" aria-label="키워드 언어 전환(한/영)"></button>'
+          : '<span class="cref-kwtog cref-kwtog-static"></span>')
+      + '</span>'
+    : '';
+  const dlAll = '';   // 전체저장 = 섹션 제목 라인(.thumbsec-h)으로 이관 = 검색+AI생성 통합 1버튼(운영자 260622)
+  const moreBtn = _moreFile ? '<button type="button" class="sbtn cref-more cref-gen" title="AI 이미지 생성·더 가져오기 — 버튼 옵션 프롬프팅(Opus 5 작성·Gemini 렌더) 또는 관련 실사진 재검색(1~2분)" aria-label="AI 이미지 생성·더 가져오기"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg><span class="cref-dllbl">AI</span></button>' : '';   // + AI = 이미지 생성 팝업(#genidlg · 기존 실사진 재검색 = 팝업 보조 버튼으로 보존 · 운영자 260707) · 'AI' 라벨 = 운영자 260801(픽토만으론 발사 버튼 식별 불가 — .cref-dlall 문법 계승)
+  const acts = (hbtn || kwbox || moreBtn) ? '<span class="cref-acts">' + moreBtn + hbtn + kwbox + '</span>' : '';   // 전체(dlAll)는 키워드와 함께 cref-kwrow 한 줄(우측정렬·세로중앙 · 운영자 260622)
+  const bucket = usage ? (kind === 'gen' ? usage.gen : kind === 'search' ? usage.search : null) : null;
+  const kwHtml = hasKw ? '<span class="cref-kw"></span>' : '';   // 키워드 칩(검정 글래스) — 텍스트·색은 언어따라 JS가 채움
+  // 키워드(좌) + 전체저장(우)을 한 줄에 세로중앙 — 키워드를 '전체' 버튼과 같은 중앙선에(운영자 260622: 더는 별도 줄로 안 내려감)
+  const kwRow = (kwHtml || dlAll) ? '<div class="cref-kwrow">' + kwHtml + dlAll + '</div>' : '';
+  // 대기 슬롯 = imgFetchGo 로딩 슬라이드(.cref-slot.cref-loading + .cref-ld + nmLoader) **100% 계승**(새 부품 창작 0).
+  // 다른 점 두 가지뿐 = ⓐ 자리가 맨 좌측이 아니라 **트랙 끝**(수정본은 마지막 N/N으로 붙는다) ⓑ .tredo-ld 마커 —
+  // imgFetchGo 의 중복발사 가드(`track.querySelector('.cref-loading')`)가 이 슬롯을 '진행 중'으로 오인해
+  // AI 생성 버튼을 조용히 잠그는 것을 막는다(수정 대기 ≠ 생성 진행). 로더 종류 solving = 구 markSlotReshooting 동값.
+  const _pendH = Array.from({ length: _pend }, (_, k) =>
+    '<div class="cref-slot cref-loading tredo-ld chin" style="animation-delay:0ms,0s">'
+    + '<span class="cref-no"><b>' + (list.length + k + 1) + '</b>/' + _total + '</span>'
+    + '<div class="cref-ld">' + (window.nmLoader ? nmLoader('solving', '제작중…') : '<span class="cref-ld-tx">제작중…</span>') + '</div></div>').join('');
+  wrap.innerHTML = '<div class="cref-h"><span class="cref-lblrow"><span class="cref-lbl">' + esc(label) + '</span>' + usageText(bucket, kind) + '</span>' + acts + '</div>'
+    + kwRow   // 키워드(좌)+전체(우) 한 줄·세로중앙(운영자 260622)
+    + '<div class="cref-track">' + (list.map((it, i) => {
+        const cap = ((kind === 'gen' || it.label === '생성') && it.label) ? '<span class="tgen-cap">' + esc(it.label) + '</span>' : '';   // gen=화풍명 유지 · search '유사' 라벨 제거(의미없음·운영자 260622) · '생성'(genimg 제미나이 생성물)은 검색 카러셀 안에서 구분 표기(운영자 260707)
+        const no = '<span class="cref-no"><b>' + (i + 1) + '</b>/' + _total + '</span>';   // 좌상단 순번 = 카드 캐러셀 '1/N'(현재 초록·총개수) 동일
+        const dname = thumbDlName(label, it, i);
+        const sidAttr = (kind === 'gen' && it.sid) ? ' data-sid="' + esc(it.sid) + '"' : '';   // 생성 슬롯 = 화풍 sid(재생성 진행바 타깃·복원용)
+        // 저장 = 진짜 <a download href=api/dl 프록시>(같은-출처 attachment) = 모바일/인앱 브라우저 네이티브 다운로드(합성 a.click()보다 안정 · 운영자 260622).
+        // AI 생성 슬롯만 = 화풍 선호 투표(운영자 260805 "좋으면 thumb up · 별로면 thumb down · 남게끔") —
+        // 부품은 카드뉴스 투표 정본 100% 계승(.fbup/.fbdown · THUMBUP/THUMBDOWN_SVG · .voted · 2탭 취소).
+        // 검색 이미지는 우리가 만든 게 아니라 프롬프트 개선의 정답지가 못 된다 → gen 한정.
+        const voteH = (kind === 'gen' && it.sid)
+          ? '<button type="button" class="sbtn fbup" aria-label="좋은 썸네일" title="좋음">' + THUMBUP_SVG + '</button>'
+            + '<button type="button" class="sbtn fbdown" aria-label="아쉬운 썸네일" title="아쉬움">' + THUMBDOWN_SVG + '</button>'
+          : '';
+        return '<div class="cref-slot ' + kind + '" data-i="' + i + '"' + sidAttr + ' role="button" tabindex="0" aria-label="확대">'
+          + '<img loading="lazy" referrerpolicy="no-referrer" src="' + escUrl(it.img) + '" alt=""'
+          + ' onerror="this.closest(\'.cref-slot\').style.display=\'none\'">' + no + cap
+          + '<div class="timg-acts">' + voteH
+          +   '<a class="sbtn timg-dl dlbtn" href="' + escUrl(dlSrc(it.img, dname)) + '" download="' + esc(dname) + '" aria-label="이미지 저장" title="이미지 저장">' + DOWNLOAD_SVG + '</a>'
+          + '</div></div>';
+      }).join('') + _pendH || '<div class="cref-empty">이미지 없음</div>') + '</div>';
+  wrap.querySelectorAll('.cref-slot').forEach(slot => {
+    const i = +slot.dataset.i, it = list[i]; if (!it) return;
+    const acts = slot.querySelector('.timg-acts');
+    if (kind === 'gen') { slot.classList.add('chin'); slot.style.animationDelay = Math.min(i, 14) * 32 + 'ms'; }   // 생성물 등장 촤르륵 = cardIn + i×32ms 스태거(4223 산식 그대로 · 운영자 260801 "추가되는 거 촤르륵으로") — 검색 슬롯은 무접촉(재검색 5장 누적이라 매번 전체 재생 = 과함)
+    if (kind === 'gen' && it.sid) acts.insertBefore(thumbRedoSbtn(it.sid), acts.firstChild);   // 생성 슬롯마다 수정 .sbtn(저장 앞)
+    // (구) 재생성 대기 화풍 = 원본 슬롯에 진행바 오버레이 → 폐지(운영자 260807) : 수정은 원본을 덮지 않으므로 원본은 끝까지 깨끗하게 보인다.   // 대기 표시는 트랙 끝 .tredo-ld 슬롯(_pendH)이 담당 — markSlotReshooting은 dormant 보존.
+    if (kind === 'gen' && it.sid && CUR_A) thVoteWire(slot, CUR_A, it.sid);   // 화풍 선호 투표(👍/👎) — 상태 복원 + 1탭 기록 + 2탭 취소
+    const _tdl = slot.querySelector('.timg-dl'); if (dlSeen(it.img)) _tdl.classList.add('dl-done');   // 재렌더 시 '받음' mut 복원
+    _tdl.addEventListener('click', e => { e.stopPropagation(); dlMark(it.img, _tdl); });   // 저장 앵커 탭 = 네이티브 다운로드(확대 라이트박스로 안 번지게만) + '받음' mut
+    slot.addEventListener('click', e => { if (!e.target.closest('.timg-acts')) openLightbox(list, i, label); });   // 탭=확대(복사는 확대뷰에서)
+    slot.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLightbox(list, i, label); } });
+  });
+  // 키워드 분절박스 — 칩 텍스트/색 · 박스 색 · 검색 쿼리 · 토글 라벨(한/영)을 _lang 따라 즉시 갱신(운영자 260622)
+  if (hasKw) {
+    const kwEl = wrap.querySelector('.cref-kw');
+    const box = wrap.querySelector('.cref-kwbox'), srch = box && box.querySelector('.cref-kwsrch'), tog = box && box.querySelector('.cref-kwtog');
+    let _curChip = '';
+    const apply = () => {
+      const en = _lang === 'en', q = en ? kd.en : kd.ko, chip = _chip(q);
+      _curChip = chip;
+      if (kwEl) { kwEl.textContent = chip; kwEl.title = '탭하면 키워드 복사'; kwEl.classList.toggle('en', en); }
+      if (box) box.classList.toggle('en', en);   // 박스 전체 색 한(초록)↔영(파랑)
+      if (srch) { srch.href = _gis(q, en); srch.title = (en ? '영문' : '한글') + ' 키워드로 이미지 검색'; }
+      if (tog) tog.textContent = en ? '영' : '한';
+    };
+    apply();
+    if (tog && !tog.classList.contains('cref-kwtog-static'))
+      tog.addEventListener('click', e => { e.stopPropagation(); e.preventDefault(); _lang = _lang === 'en' ? 'ko' : 'en'; apply(); });
+    if (kwEl) {   // 키워드 칩 탭 = 복사 + 눌림 플래시(글자 스왑 없음 · 안 B · 운영자 260622)
+      kwEl.addEventListener('animationend', () => kwEl.classList.remove('copied'));   // 끝나면 클래스 제거 = 반복 탭 재생
+      kwEl.addEventListener('click', async e => {
+        e.stopPropagation();
+        await copyText(_curChip);
+        kwEl.classList.remove('copied'); void kwEl.offsetWidth; kwEl.classList.add('copied');   // reflow로 애니 재시작
+      });
+    }
+  }
+  const dlAllBtn = wrap.querySelector('.cref-dlall');   // 우상단 전체 저장 — 이 카러셀 이미지 전부 순차 다운로드
+  if (dlAllBtn) dlAllBtn.addEventListener('click', e => { e.stopPropagation(); dlAllSeq(dlAllBtn, list.map(it => it.img), i => thumbDlName(label, list[i], i)); });   // 통합: 진행 i/N → 초록 ✓
+  const moreEl = wrap.querySelector('.cref-more');   // + = 이미지 생성 팝업 열기(버튼 프롬프팅 · 기존 재검색은 팝업 안 보조 버튼 · 운영자 260707)
+  if (moreEl && _moreFile) moreEl.addEventListener('click', e => { e.stopPropagation(); openGenIdlg(_moreFile, wrap, moreEl); });
+  attachCarouselDrag(wrap.querySelector('.cref-track'));   // PC 마우스 드래그 좌우 슬라이드(feedtrack 패턴 계승·운영자 260622)
+  return wrap;
+}
+// 이미지 받아오기 공통기 — api 발사(moreimg 재검색·genimg 제미나이 생성 공용 · 운영자 260707) ·
+// 맨 좌측 반투명 로딩 슬라이드 · articles.json 폴링(~25s×ticks)으로 thumb_search 늘면 thumbsec 재렌더(새 이미지 좌측·번호 갱신).
+// 생성(thumb_gen) 로딩 슬롯이 들어갈 트랙 = **AI 생성 카러셀**. 발사 버튼은 검색 소머리(또는 섹션 헤더)에 있어 wrap이 검색 카러셀/섹션이라
+// 종전엔 생성 로딩이 검색 카러셀에 떴고(산출은 AI 카러셀 = 자리 불일치), AI 카러셀이 없던 기사는 도착 순간 섹션째 튀어나왔다(운영자 260801 "딱딱 안끊기게").
+// → 있으면 그 트랙을 쓰고, 없으면 정본 문법(.cref/.cref-h/.cref-lbl/.cref-track) 그대로 카러셀을 만들어 붙인다(틀도 cardIn 촤르륵으로 등장).
+function genTrackOf(wrap) {
+  const sec = wrap.closest('.thumbsec') || wrap;
+  const cur = sec.querySelector('.cref-slot.gen, .cref-slot.cref-loading');
+  if (cur) return cur.closest('.cref').querySelector('.cref-track');
+  const cf = document.createElement('div'); cf.className = 'cref chin';
+  cf.innerHTML = '<div class="cref-h"><span class="cref-lblrow"><span class="cref-lbl">AI 생성</span></span></div><div class="cref-track"></div>';
+  sec.appendChild(cf);
+  const t = sec.querySelector('.thsec-t'); if (t && !/AI 생성/.test(t.textContent)) t.textContent += ' · AI 생성';   // 헤더 라벨 = 실존 카러셀만 표기(secLbl 계약) — 이제 실존하므로 추가
+  return cf.querySelector('.cref-track');
+}
+async function imgFetchGo(file, wrap, btn, o) {   // o = { url, body, ld(로딩 문구), ticks, field(완료 폴링 대상) }
+  const track = (o.field === 'thumb_gen') ? genTrackOf(wrap) : wrap.querySelector('.cref-track'); if (!track) return false;
+  const field = o.field || 'thumb_search';   // 완료 감지 대상 = moreimg(재검색)=thumb_search / genimg(생성)=thumb_gen (운영자 260713 정합 봉합 — genimg가 thumb_search 폴링해 완료 영영 미감지=로딩 잔류·화면 이상 버그)
+  if (track.querySelector('.cref-loading:not(.tredo-ld)')) return 'busy';   // 이미 진행 중(중복 발사 가드) — 발사측이 조용히 처리   // :not(.tredo-ld) = 수정 대기 슬롯은 '생성 진행 중'이 아니다(운영자 260807) — 안 빼면 수정 대기 동안 AI 생성 버튼이 조용히 잠긴다
+  const a0 = DATA.find(x => x && x.file === file);
+  const before = ((a0 && a0.cards && a0.cards[field]) || []).length;   // 기준 = 현재 해당 카러셀(검색/생성) 이미지 수
+  // 로딩 슬라이드를 await 전에 먼저(동기) 꽂는다 = .cref-loading 가드 즉시 작동 → 연타 레이스 차단(평의회 검증·260622)
+  const ph = document.createElement('div'); ph.className = 'cref-slot cref-loading chin';   // 맨 좌측 반투명 로딩(N장 추가 예정 의미) · chin = 등장 촤르륵(cardIn — 구 즉시 삽입 = 툭 튐 · 운영자 260801)
+  ph.style.animationDelay = '0ms, 0s';   // cardIn(등장) 지연 0 · crefDim(브리딩)은 즉시 = 2값 = 두 애니 각각(단일 값이면 브리딩까지 밀림)
+  ph.innerHTML = '<div class="cref-ld">' + (window.nmLoader?nmLoader('thinking', o.ld):'<span class="cref-ld-tx">'+esc(o.ld)+'</span>') + '</div>';   // 로딩 스피너 → 도트 픽토그램(nm-loader.js · 강조색 --accent)
+  track.insertBefore(ph, track.firstChild);
+  track.scrollTo({ left: 0, behavior: 'smooth' });
+  if (btn) { btn.classList.add('busy'); btn.disabled = true; }
+  let ok = false;
+  try { const r = await fetch(o.url, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(o.body) }); ok = !!((await r.json().catch(() => ({})) || {}).ok); } catch {}
+  if (btn) setTimeout(() => { btn.classList.remove('busy'); btn.disabled = false; }, 2500);   // 버튼은 곧 풀어줌(중복은 .cref-loading 가드)
+  if (!ok) { ph.remove(); if (btn && typeof _flashBtn === 'function') _flashBtn(btn, 'err'); return false; }   // 실패 = 로딩 제거(가드 해제)
+  let n = 0;
+  const ticks = (o.ticks || 10) * 3;   // ×3 = 폴 주기를 25s→8s로 줄인 짝(아래) — 총 대기창은 그대로 유지(14틱×25s=350s ≒ 42틱×8s=336s) · 호출부 ticks 값 무접촉 = 형제 발사 경로 회귀 0
+  const tick = async () => {
+    if (isComposingModalOpen()) { setTimeout(tick, 25000); return; }   // ⚠️ 작성 모달 중엔 thumbsec 교체(아래 replaceWith = 배경 재렌더) 보류 — §깜빡임 게이트(분신술7) · n 미소모 · 모달 닫으면 다음 틱 재개
+    n++;
+    try {
+      const rr = await fetch('articles.json?_=' + Date.now()); const j = await rr.json();
+      const a = (j.articles || []).find(x => x && x.file === file);
+      const now = ((a && a.cards && a.cards[field]) || []).length;
+      if (a && now > before) {   // 새 이미지 도착 → DATA 갱신 + 열린 모달이면 thumbsec 통째 재렌더(로딩 슬라이드 자동 소거·새 이미지 좌측·번호 갱신)
+        await ensureDetail(a);   // 경량 인덱스라 body/md 빈 채 → CUR_A/DATA 교체 전 detail 복원(다운로드 카드·출처 유실 방지 · 평의회 260624)
+        const idx = DATA.findIndex(x => x && x.file === file); if (idx >= 0) { DATA[idx] = a; _feedIdxRef = null; }   // 같은 배열참조·요소 교체 = feedMatch 색인 강제 재구축(다음 조회 시 346회·~0ms) — 인덱스 필드 in-place 변경 대비 구조적 보험(병렬검증 성능 한 수)
+        // 교체 = 로딩 슬롯을 그 자리서 .18s 페이드아웃(crefSwapOut)한 뒤 섹션 스왑 → 새 슬롯이 촤르륵(chin)으로 들어온다.
+        // 구 동작 = 즉시 replaceWith = 로딩→이미지가 한 프레임에 번쩍(운영자 260801 "딱딱 안끊기게"). 도착 슬롯 스태거는 thumbStatic이 i×32ms로 부여.
+        if (CUR_A && CUR_A.file === file) {
+          CUR_A = a;
+          const swap = () => { const old = $('#mdbody .thumbsec'), fresh = thumbSec(a); if (old && fresh) old.replaceWith(fresh); };
+          const lds = [...document.querySelectorAll('#mdbody .thumbsec .cref-loading')];
+          if (lds.length && !matchMedia('(prefers-reduced-motion:reduce)').matches) { lds.forEach(el => el.classList.add('swapout')); setTimeout(swap, 180); } else swap();   // 관용구 = 6978행 동일(전정계 배려 = 즉시 교체)
+        }
+        return;   // 완료
+      }
+    } catch {}
+    if (n < ticks) setTimeout(tick, 8000);   // raw-ok: 폴 주기(ms — 지속시간 토큰 아님) · 구 25s(260810 개정) = 제작이 끝나도 최대 25초를 더 기다렸다 — 제작 자체가 실측 35s 안팎인 판에서 대기의 상당분이 이 주기였다(6308행 이력 폴 10s와 같은 결)
+    else { const tx = ph.querySelector('.cref-ld-tx'); if (tx) tx.textContent = '곧 반영 — 새로고침'; }   // 타임아웃(빌드 지연/0장) = 소프트 안내
+  };
+  setTimeout(tick, 25000);
+  return true;   // 접수 성공 = 발사측(#geniGo) 게이지 완료(gaugeDone)·✓ 판정 신호(thumbRedo 미러)
+}
+function moreImgGo(file, wrap, btn) { return imgFetchGo(file, wrap, btn, { url: 'api/moreimg', body: { file }, ld: '5장 받아오는 중…', ticks: 10 }); }   // 실사진 재검색(기존 경로 그대로 · field 생략 = thumb_search 기본)
+function genImgGo(file, wrap, btn, opts) { geniFreqBump('style', _geniSel.style); geniFreqBump('sub', _geniSel.sub); return imgFetchGo(file, wrap, btn, { url: 'api/genimg', body: { file, opts }, ld: '생성 중…', ticks: 14, field: 'thumb_gen' }); }   // 제미나이 생성(Opus 프롬프트 1~2분 + 렌더 → 여유 폴) · field:thumb_gen = 생성물 카러셀 폴링(완료 감지 정합·운영자 260713) · 발사 = 화풍·세부 제작빈도 +1(다음 열림 좌측 정렬)
+
+// ── 이미지 생성 팝업(#genidlg) — 버튼이 곧 프롬프팅 · 3부 재편(운영자 260710: 개요{해상도·비율·장수·품질} → 표현{화풍·세부·웹툰화·무드} → 내용{주문·문구}) ──
+// 라벨 = 평문 한국어 · 값 = 백엔드 화이트리스트 키(genimg.js·gen_image.py와 동일 집합).
+const GENI_FMT = 'jpg';   // 산출 포맷 = JPG q90 고정(운영자 260805 "오버레이용 png(투명) 말고는 모두 jpg 90") — 화면 선택지 0개라 사전이 아니라 상수 1곳이 소유(발사 opts.fmt 단일 원천) · 투명이 필요한 산출(오버레이 exportOverlay·누끼 cutout)만 PNG 잔류 = 별개 경로
+const GENI_DICT = {
+  size: [['720p', '720p'], ['FHD', 'FHD'], ['2K', '2K'], ['4K', '4K']],   // 픽셀 라벨(기본 FHD · 운영자 260710) — 서버가 렌더 크기·짧은변 px 환산(gen_image SIZE_RENDER/SIZE_SHORT · FHD = 1K 렌더 보간 = 과금 현행 동일)
+  aspect: [['4:5', '4:5'], ['9:16', '9:16'], ['16:9', '16:9'], ['custom', '직접']],   // ⚠배치 1:1 프리셋 제거(운영자 260727 "1:1 말고 직접 · 공간확보") — 정사각은 '직접' N:N에 1:1 입력 = 기능 손실 0 · 두 탭(번역·AI 생성) 동시 적용 = 비율 목록 대칭 유지 · 옛 스냅샷 1:1 = GENI_DICT 미포함이라 기본값 강하(21:9·fmt jpg→png 선례 그대로)   // 순서·집합 = 4:5·9:16·16:9·1:1·직접(운영자 260718 "21:9 대신 직접" — 21:9 프리셋 제거, 커스텀 N:N이 초광폭 겸함 · 한 줄 밀집 정리 · 구 260713 21:9 포함) · 1:1 = gen_image NATIVE_ASPECTS·genimg.js N:N(0.25~4) 계약 내 · 직접 = N:N 입력(각 1~99 · 아래 아코디언 행 · 환산 표시) · 구 21:9 스냅샷 = GENI_DICT 미포함이라 복원 시 기본값 강하(fmt jpg→png 선례)
+  count: [['1', '1개'], ['2', '2개'], ['3', '3개'], ['4', '4개']],   // 라벨 '개수'·표기 'N개'(운영자 260713 "장수 → 텍스트 개수로 변경") — 값(1~4)·서버 계약 불변
+  // (구 fmt 축 = 폐지 · 운영자 260805 "투명일 필요 없는 건 모두 jpg 90") — 산출은 JPG q90 고정이라 고를 값이 0개 = 사전 항목·'품질' 행 동시 제거 · 발사 파라미터는 GENI_FMT 상수 1곳(아래) · 옛 스냅샷의 fmt 키 = 사전 미포함이라 복원 대상에서 자연 탈락(구 21:9·1:1 선례 동문)
+  place: [['auto', '자동'], ['top23', '썸네일'], ['center', '중앙'], ['full', '전신']],   // 썸네일(구 라벨 상단⅔) = 카드뉴스·썸네일 정본(주요 피사체 상단 2/3 앵커·하단 캡션존 비움 — 운영자 260707 "조건에 썸네일" 명칭 확정 · 값 top23 불변)
+  shot: [['auto', '자동'], ['S10', '표정 클로즈'], ['S08', '클로즈업'], ['S06', '상반신'], ['S04', '전신'], ['S03', '와이드']],   // 카메라 거리 = 01b 샷 크기 실코드(운영자 260707 "얼마나 가까이")
+  expr: [['auto', '자동'], ['EM-03', '슬픔'], ['EM-05', '분노'], ['EM-16', '눈물'], ['EM-17', '결연'], ['EM-09', '억눌림'], ['EM-12', '직시']],   // 표정 = 22 FACS 실코드(운영자 260707 "표정 묘사")
+  angle: [['auto', '자동'], ['AG-01', '눈높이'], ['AG-02', '로우 위압'], ['AG-03', '하이 왜소'], ['AG-04', '부감'], ['AG-06', '더치'], ['AG-09', '측면']],   // /k 라이브러리 39(앵글·높이) 실코드
+  point: [['auto', '자동'], ['DF-01', '눈물 클로즈'], ['DF-02', '주먹'], ['DF-04', '서류·물건'], ['DF-05', '대치 투샷'], ['DF-07', '군중 속 1인']],   // 38(거리·크롭 = 표현 포인트)
+  light: [['auto', '자동'], ['LGT05', '촛불'], ['LGT06', '골든아워'], ['LGT08', '흐린 확산'], ['LGT09', '하드 측광'], ['LGT10', '역광 실루엣'], ['LGT12', '형광 임상']],   // 12(감정 조명)
+};
+const GENI_MOOD_AX = [['ct', '긴장도', '차분', '긴장'], ['sh', '정서', '침통', '희망'], ['ew', '온도', '스산', '온기'], ['rr', '격앙', '냉정', '격앙']];   // 무드 게이지 4축(각 -2..+2 · 0=중립) — 서버 gen_image MOOD_AX 동일 키 · 양끝 = 축별 기준 라벨(운영자 260710 "종류별 분리·기준 달기")
+const GENI_CAM_KEYS = ['shot', 'expr', 'angle', 'point', 'light', 'place'];   // 접힘 카메라·구도군 — 배지 = non-auto 개수(숨은 활성 은폐 방지)
+let _geniCtx = null;   // {file, wrap, btn, free}
+let _geniSel = { style: 'webtoon', sub: 'auto', size: 'FHD', aspect: '4:5', arW: '1', arH: '1' /* 직접 기본 = 1:1(운영자 260727 "누르면 1:1이였다가 자릿수가 비는 느낌") — 빈 칸이 아니라 값이 앉아 있고 탭하면 그 자리가 비며 바로 타이핑 · ⚠ 한 줄 객체 리터럴이라 // 주석 금지(뒤 필드가 통째로 먹힌다 = 260727 부팅 크래시 실측) */, count: '1', mood: 'auto', moodAx: { ct: 0, sh: 0, ew: 0, rr: 0 }, kweb: true, textOn: false, engine: 'gemini', engineTouched: false, colorAx: { sat: 0, bri: 0 }, colorTouched: false, place: 'auto', shot: 'auto', expr: 'auto', angle: 'auto', point: 'auto', light: 'auto', refMode: 'ref' };   // 기본 = 극화·4:5·FHD·PNG·웹툰화 ON·무드 자동(운영자 260710) · 참고 이미지 기본 참고(refMode 첨부 시만 의미)
+let _geniInited = false;
+let _geniDD = null;   // 열려 있는 선택박스(도먼트 — 260713 화풍 전량 나열로 열기 호출처 0 · 항상 null·닫기 경로만 잔존)
+function geniEngIco() { const [ko, ico] = GENI_ENG_ICO[_geniSel.engine] || GENI_ENG_ICO.gemini; return '<i class="eng-ico" title="' + ko + '" aria-label="' + ko + '">' + ico() + '</i>'; }   // 아이콘만 남는 자리 = title·aria-label로 모델명 보존(스크린리더·호버)
+function geniStyleKo(v) { const hit = GENI_ALL_STYLES.find(x => x[0] === v); return hit ? hit[1] : v; }
+function geniSubKo(v) { if (v === 'auto') return '자동'; const hit = (GENI_SUB[_geniSel.style] || []).find(x => x[0] === v); return hit ? hit[1] : v; }
+function geniArVal() { const w = parseInt(_geniSel.arW, 10), h = parseInt(_geniSel.arH, 10); return (w >= 1 && w <= 99 && h >= 1 && h <= 99 && w / h >= 0.25 && w / h <= 4) ? w + ':' + h : null; }   // 직접 비율 유효값 — 각 1~99 + 비율 1:4~4:1(극단값 후처리 병리 차단 · 평의회3) = 서버·python 3층 동일 계약
+function geniArFit(el) { if (el) el.style.width = Math.max(1, (el.value || '').length) + 'ch'; }   // 숫자칩 폭 = 값 길이 동기(1~2ch · tabular-nums라 자릿수당 폭 일정) — 고정폭이면 「1 : 1」이 빈 상자처럼 벌어진다(구 26px 고정 = 박스 입력칸 잔재)
+function geniAspect() { return _geniSel.aspect === 'custom' ? geniArVal() : _geniSel.aspect; }   // 발사 비율 — 직접 미완성 = null(게이트가 막음)
+// 옵션바 모델 표기 = 축약(운영자 260727 "gemini는 gem, gpt는 gpt로 · 모델명 풀로 안나오게") — 풀네임(Gemini 3.1 Flash·GPT Image 2.0)이 요약 스트립을 2줄로 랩시키던 것 회수(구 5항 축소와 동축) · 스코프 = 옵션바 리드백 한정 = 본문 개요 '모델' 행(#geniEngine)은 값을 고르는 자리라 풀네임 유지(운영자 260727 "모델 영어로 각각 쓰고 토글" 정본 불변)
+const GENI_ENG_ICO = { gemini: ['Gemini 3.1 Flash', () => GEMINI_SVG], gpt: ['GPT Image 2.0', () => AI_SVG] };   // 요약 스트립 모델 값 = 브랜드 픽토(운영자 260727 "줄임말 gem/gpt … 아니, 픽토그램으로 대체") — Gemini = 구글 G 레터마크 · OpenAI = AI 스파클 = **레터마크 ↔ 별로 판별**(정본 = nm-svg.js · 260803 별 계열 2안 회수 = 별끼리는 어느 조합이든 겹쳐 읽힌다) · 지연 참조(() =>) = 스크립트 로드 순서 무관
+function geniRoot() { const h = $('#geniHost'); return (h && !h.hidden) ? h : $('#genidlg'); }   // 폼 뿌리 단일점(이중 홈 · 운영자 260713 B) — 이식 탭 표시 중 = geniHost · 그 외(팝업·보관) = genidlg. 스코프 질의·선택박스 앵커 전부 이걸 경유
+// ── 선택박스(드롭다운) — 무채 크롬 목록(§디자인 i) · 도먼트(260713 화풍·세부 화풍 전량 인라인 파이프 나열 전환으로 열기 호출처 0 — 함수·CSS 보존 = 재도입 비용 0 · 닫기(geniDDClose)는 close/ESC 경로에 잔존·무해) ──
+function geniDDClose() { if (_geniDD) { try { _geniDD._anchor.setAttribute('aria-expanded', 'false'); } catch {} _geniDD.remove(); _geniDD = null; document.removeEventListener('pointerdown', geniDDDoc, true); } }
+function geniDDDoc(e) { if (_geniDD && !_geniDD.contains(e.target) && !(_geniDD._anchor && _geniDD._anchor.contains(e.target))) geniDDClose(); }   // 바깥 탭 = 닫기(앵커 자체는 클릭 토글에 맡김)
+function geniDDOpen(anchor, list, cur, pick) {
+  if (_geniDD) { const same = _geniDD._anchor === anchor; geniDDClose(); if (same) return; }   // 같은 버튼 재탭 = 토글 닫기 · 다른 버튼 = 갈아끼움
+  const host = geniRoot();   // 폼 뿌리 직속 앵커(6인 검증 P2 · 이식 탭 = geniHost relative 기준 · 260713 B) — 구 .geni-body 자식 = 스크롤 박스에 클리핑 + scroll=닫힘이라 잘린 항목 도달 불가 → 뿌리(:modal/relative = positioned) 기준이면 바디 스크롤 무관·클립 여유 최대
+  const dd = document.createElement('div'); dd.className = 'geni-dd'; dd.setAttribute('role', 'listbox');
+  dd.innerHTML = list.map(([v, ko]) => '<button type="button" class="geni-dd-it' + (v === cur ? ' on' : '') + '" role="option" aria-selected="' + (v === cur) + '" data-v="' + v + '">' + ko + '</button>').join('');
+  dd.addEventListener('click', e => { const b = e.target.closest('.geni-dd-it'); if (!b) return; e.stopPropagation(); geniDDClose(); pick(b.dataset.v); });
+  dd._anchor = anchor;
+  host.appendChild(dd);
+  geniDDPlace(dd, anchor, host);
+  anchor.setAttribute('aria-expanded', 'true');
+  _geniDD = dd;
+  setTimeout(() => { document.addEventListener('pointerdown', geniDDDoc, true); try { (dd.querySelector('.on') || dd.firstElementChild).focus({ preventScroll: true }); } catch {} }, 0);   // 첫 포커스 = 현 선택(키보드/SR 도달) · preventScroll = 포커스 스크롤 격발 방지
+}
+function geniDDPlace(dd, anchor, host) {   // 배치 단일점(열기+스크롤 추적 공용) — 아래 협소 = 위로 flip · 가용공간 클램프(6인 검증 P2)
+  const ar = anchor.getBoundingClientRect(), hr = host.getBoundingClientRect();
+  const below = hr.bottom - ar.bottom - 12, above = ar.top - hr.top - 12;   // 앵커 아래/위 가용(다이얼로그 박스 기준)
+  const up = below < 150 && above > below;
+  dd.style.maxHeight = Math.max(96, Math.min(230, Math.round(up ? above : below))) + 'px';
+  if (up) { dd.style.top = ''; dd.style.bottom = Math.round(hr.bottom - ar.top + 4) + 'px'; dd.style.transformOrigin = 'bottom right'; }
+  else { dd.style.bottom = ''; dd.style.top = Math.round(ar.bottom - hr.top + 4) + 'px'; dd.style.transformOrigin = ''; }
+  dd.style.right = Math.max(4, Math.round(hr.right - ar.right)) + 'px';   // 칩 우변 정렬(transform-origin과 짝)
+}
+function geniDDSync() {   // 바디 스크롤 = 닫기 아닌 앵커 추적 재배치 — 클릭 직전 스크롤 이벤트가 다음 프레임에 늦게 와 방금 연 목록을 닫던 레이스 수리(실측 260710) · 앵커가 가시영역 밖으로 나가면 그때 닫기
+  if (!_geniDD) return;
+  const host = geniRoot(), body = host.querySelector('.geni-body');
+  const ar = _geniDD._anchor.getBoundingClientRect(), br = body.getBoundingClientRect();
+  if (ar.bottom < br.top + 6 || ar.top > br.bottom - 6) { geniDDClose(); return; }
+  geniDDPlace(_geniDD, _geniDD._anchor, host);
+}
+function geniAccordion(el, open) { if (!el) return; el.classList.toggle('open', !!open); if (open) el.removeAttribute('inert'); else el.setAttribute('inert', ''); }   // 아코디언 = class+inert 한 쌍(camsub 계승 — 접힘 시 tab-order·SR 제거)
+let _geniMoodScrollY = null, _geniMoodT = 0;   // 무드 게이지 열기 직전 바디 스크롤 위치(닫을 때 복원) + 재발행 타이머(운영자 260713)
+function geniMoodScroll(open) {   // 무드 직접 = 게이지 아코디언(.geni-moodsub .26s ease) 열림에 맞춰 개수 행을 바디 최상단으로 이징 스크롤(표현 구간+게이지 가시) · 자동 닫힘 = 열기 전 위치로 복귀 · 개수 행은 게이지보다 위라 offsetTop 불변
+  const body = geniRoot().querySelector('.geni-body'); if (!body) return;
+  clearTimeout(_geniMoodT);   // 연타(직접↔자동) 재발행 타이머 정리
+  const rm = matchMedia('(prefers-reduced-motion: reduce)').matches;   // 이징 감쇠(하우스 규율 · 평의회5)
+  if (open) {
+    const cnt = geniRoot().querySelector('.geni-opts[data-k="count"]');
+    const row = cnt && cnt.closest('.geni-row'); if (!row) return;
+    if (_geniMoodScrollY === null) _geniMoodScrollY = body.scrollTop;   // 복원 기준 1회만 저장(게이지 드래그 중 재저장 방지)
+    const go = () => body.scrollTo({ top: Math.max(0, row.offsetTop - 12), behavior: rm ? 'auto' : 'smooth' });   // 개수 행 상단(위 12px 여백)
+    go();                                        // 즉시 = 아코디언 확장과 동시 이징
+    if (!rm) _geniMoodT = setTimeout(go, 300);   // 확장 완료(.26s) 후 재발행 = 접힘 시점 maxScroll 클램프로 개수 행이 top에 못 붙던 언더슛 보정(평의회1) · reduced-motion은 아코디언도 즉시 확장(2710행 transition:none)이라 불요
+  } else if (_geniMoodScrollY !== null) {
+    body.scrollTo({ top: _geniMoodScrollY, behavior: rm ? 'auto' : 'smooth' }); _geniMoodScrollY = null;
+  }
+}
+let _geniSubT = 0;   // 세부 화풍 촤르륵 스왑 타이머(연타 레이스 가드)
+// ── 제작 빈도(로컬·기기별 · 서버동기화 0 · 운영자 260713 "선택 아닌 제작 누적") ──
+function geniFreq() { try { return JSON.parse(localStorage.getItem('geni_freq') || '{}') || {}; } catch { return {}; } }
+function geniFreqBump(kind, v) { if (!v || v === 'auto') return; try { const f = geniFreq(); f[kind] = f[kind] || {}; f[kind][v] = (f[kind][v] || 0) + 1; localStorage.setItem('geni_freq', JSON.stringify(f)); } catch {} }   // 제작 발사 시 +1
+function geniFreqSort(kind, items) {   // auto/기본 선두 고정 + 나머지 제작빈도 내림차순(동률=원순서·JS stable) — 자주 쓰는 게 좌측(초기 노출) · 재정렬 = 다음 로드/열림
+  const f = geniFreq()[kind] || {};
+  const head = items.filter(([v]) => v === 'auto'), rest = items.filter(([v]) => v !== 'auto');
+  rest.sort((a, b) => (f[b[0]] || 0) - (f[a[0]] || 0));
+  return [...head, ...rest];
+}
+// ── 가로 레일 = 드래그(마우스)·화살표(PC)·끝선 페이드(운영자 260713 전광판) · 폰 = 네이티브 터치 ──
+function geniRailUpd(rail) {   // 끝선 페이드 클래스 + 화살표 disabled(렌더/스크롤 후 갱신)
+  if (!rail) return;
+  const max = rail.scrollWidth - rail.clientWidth, sl = rail.scrollLeft;   // 재는 것을 **먼저 한 번에**(260811 평의회1 실측 봉합) — 구판은 `읽기 → 클래스 토글 → 또 읽기` 를 세 번 번갈아서 한 번 부를 때마다 배치 계산이 3회 돌았다(실측 3회 → 1회). 값은 그대로다(클래스 문자열·화살표 꺼짐 상태 양쪽 동일 실측)
+  const atS = sl <= 1, atE = max <= 1 || sl >= max - 1;
+  rail.classList.toggle('atStart', atS);
+  rail.classList.toggle('atEnd', atE);
+  const wrap = rail.closest('.geni-railwrap'); if (wrap) { const nv = wrap.querySelectorAll('.geni-nav'); if (nv[0]) nv[0].disabled = atS; if (nv[1]) nv[1].disabled = atE; }
+}
+function geniRailHome() { ['#geniStyle', '#geniSub'].forEach(s =>{ const r = $(s); if (r) { r.scrollLeft = 0; requestAnimationFrame(() => geniRailUpd(r)); } }); }   // 폼 개막 = 두 레일 좌측 정렬선에서 시작(끌어둔 스크롤 잔존 = 열림 순간 첫 키워드가 선 밖 · 평의회⑦ 260714) + 페이드·화살표 실측 재계산(표시 후 호출 정본 — 숨김 중 계산 = scrollWidth 0 오판) · 호출 = 팝업 openGenIdlg·이식 geniMount 두 홈
+// ⚠ 재계산은 **다음 프레임**으로(260811 평의회3 실측 봉합) — AI 생성 탭은 이 직전에 노드 388개를 통째로 옮기고 호스트를 방금 켠 참이라 문서가 전부 더러운 상태다.
+//   그 자리에서 `scrollWidth` 를 읽으면 브라우저가 7,572노드 문서의 배치를 통째로 끝내야 한다(실측 = 노드 이동 자체는 0.4ms인데 이 한 줄이 43.3ms · 그 탭 강제 배치 412ms 전부가 여기 귀속).
+//   `scrollLeft = 0`(눈에 보이는 위치 되돌림)은 즉시 그대로 실행되고, 미뤄지는 것은 끝선 흐림 표시와 화살표 잠금 둘뿐이라 한 프레임(16ms) 늦게 붙는다 — cscroll.js:57 이 같은 판단을 이미 「시각·거동 무변경」으로 적어뒀다.
+function geniRailSetup(sel) {
+  const rail = $(sel); if (!rail || rail._railSet) return; rail._railSet = true;
+  let down = false, moved = false, sx = 0, sl = 0;
+  rail.addEventListener('pointerdown', e => { if (e.pointerType !== 'mouse') return; down = true; moved = false; sx = e.clientX; sl = rail.scrollLeft; rail.classList.add('grabbing'); });
+  rail.addEventListener('pointermove', e => { if (!down) return; const dx = e.clientX - sx; if (Math.abs(dx) > 4) moved = true; rail.scrollLeft = sl - dx; });
+  const end = () => { down = false; rail.classList.remove('grabbing'); };
+  rail.addEventListener('pointerup', end); rail.addEventListener('pointerleave', end);
+  rail.addEventListener('click', e => { if (moved) { e.preventDefault(); e.stopPropagation(); } }, true);   // 드래그 후 오클릭 차단(캡처)
+  rail.addEventListener('scroll', () => geniRailUpd(rail), { passive: true });
+  const wrap = rail.closest('.geni-railwrap');
+  if (wrap) wrap.querySelectorAll('.geni-nav').forEach(btn => btn.addEventListener('click', () => rail.scrollBy({ left: (+btn.dataset.dir) * Math.max(110, rail.clientWidth * 0.7), behavior: 'smooth' })));
+  geniRailUpd(rail);
+}
+function geniSubList() { return geniFreqSort('sub', [['auto', '자동'], ...(GENI_SUB[_geniSel.style] || []).filter(([v]) => v !== 'auto')]); }   // 현 화풍의 세부 목록 단일 계산점 — 레일 HTML(geniSubHTML)과 요약바 순환(GENI_SUM_TG.sub)이 같은 순서를 쓴다(표시 순서 = 넘어가는 순서)
+function geniSubHTML() {   // 자동(선두 고정) + 현 화풍 세부 = 제작빈도순 — 항목 사이 | 구분자(운영자 260713) · --i = 촤르륵 스태거 순번
+  const items = geniSubList();
+  return items.map(([v, ko], i) => '<span class="geni-subit" style="--i:' + i + '">' + (i ? '<span class="geni-sep" aria-hidden="true">|</span>' : '') + '<button type="button" class="geni-opt" data-v="' + v + '">' + ko + '</button></span>').join('');
+}
+function geniSubOn() { $('#geniSub').querySelectorAll('.geni-opt').forEach(b => b.classList.toggle('on', b.dataset.v === _geniSel.sub)); }
+function geniSubRender() {   // 세부 화풍 인라인 나열 단일 렌더점 — 화풍이 바뀌었을 때만 아웃 촤르륵(.out) → 300ms 스왑 → 신노드 인 촤르륵(동일 화풍 재호출 = on 토글만)
+  const sb = $('#geniSub'); if (!sb) return;
+  const cur = sb.dataset.style || '';
+  if (cur === _geniSel.style) { if (sb.classList.contains('out')) { clearTimeout(_geniSubT); sb.classList.remove('out'); } geniSubOn(); return; }   // 아웃 진행 중 원래 화풍 복귀 연타 = 스왑 취소 + 재등장(out 해제 = animation-name 복귀라 인 촤르륵 재생)
+  clearTimeout(_geniSubT);
+  const swap = () => { sb.dataset.style = _geniSel.style; sb.innerHTML = geniSubHTML(); sb.classList.remove('out'); geniSubOn(); sb.scrollLeft = 0; geniRailUpd(sb); };   // 세부 목록 교체 = 좌측 리셋 + 페이드/화살표 갱신
+  if (cur) { sb.classList.add('out'); _geniSubT = setTimeout(swap, 300); } else swap();   // 최초(빈 목록) = 즉시 · 이후 = 페이드아웃 완주 뒤 교체
+}
+function geniPickStyle(v) {   // 화풍 선택 단일 진입점(부수효과 포함) — 본문 레일 클릭·요약바 글자 탭이 같은 함수를 탄다(두 입구 드리프트 0)
+  _geniSel.style = v;
+  if (!(GENI_SUB[_geniSel.style] || []).some(([sv]) => sv === _geniSel.sub)) _geniSel.sub = 'auto';   // 미보유 세부 = 자동 강하
+  if (_geniSel.style === 'lego' && !_geniSel.engineTouched) _geniSel.engine = 'gpt';   // 레고 = GPT 기본(운영자 260727 반전 재지시) — 엔진 칩을 한 번이라도 손댔으면 그 선택이 이긴다
+}
+let _geniRef = null;   // 참고 이미지 { b64, url }(운영자 260713) — 세션 한정(미저장) · geniGo에 refB64/refMode 동봉 · 닫기·재선택 시 정리
+const GENI_COLOR_AX = [['sat', '채도', '흐리게', '진하게'], ['bri', '명도', '어둡게', '밝게']];   // 색 보정 2축(운영자 260727) — 값 = ±50% · 렌더 후 픽셀 교정
+function geniColorPreset() {   // 기본값 = 게이지 가운데(0)가 아니라 실측 되돌림 배율(운영자 260727 "몇% 부족하다했으니 기본값을 거기에")
+  // 260727 실측(같은 원본·복제 모드): GPT Image = 채도 +29% 과포화(되돌림 ×0.775 = -22%) · 명도 -3%(노이즈 수준 = 0)
+  //                                   Gemini    = 채도 -1% · 명도 +2% (둘 다 노이즈 수준 = 0)
+  return (_geniSel.engine === 'gpt' && _geniSel.refMode === 'clone') ? { sat: -20, bri: 0 } : { sat: 0, bri: 0 };
+}
+const GENI_REFMODES = ['keep', 'ref', 'clone'];   // 참고 이미지 모드 = 원본 유지 / 참고(기본) / 이미지와 동일하게(운영자 260726) — 값 집합 SSOT(genimg.js·gen_image.py 화이트리스트와 3층 동일 계약)
+let _geniRefNat = { w: 0, h: 0 };   // 첨부 원본 픽셀비(다운스케일해도 비는 보존) — 복제 모드 비율 스냅 재료
+function geniCloneAspect() {   // 「이미지와 동일하게」 = 요청 비율을 첨부 원본비로 스냅(노하우 문서 §L3 단일이미지판: 요청 비율이 첨부와 다르면 ⓐ모델이 재구성하고 ⓑ서버 중앙 크롭이 피사체를 자른다) · 서버(gen_image)도 같은 계산을 재수행 = 이중 방어
+  const n = _geniRefNat; if (!n.w || !n.h) return;
+  const r = Math.min(4, Math.max(0.25, n.w / n.h));   // 계약 = 1:4 ~ 4:1(genimg.js·_parse_aspect 동값)
+  // 260905: 러너(gen_image.py) 규칙 사본 = ① 분모 ≤99 중 최근사(Fraction.limit_denominator(99)) ② 그 분자가 99를 넘으면 분모 ≤24 중 최근사 — 구판은 `e<0.002 조기 중단` + 「분자>99 후보 건너뜀」이라 러너와 다른 비를 표시했다(실측 무작위 2000쌍 중 1099쌍 불일치 · 236×512 → 뷰어 6:13 vs 러너 41:89). 분모마다 round(r·h)가 그 분모의 최근사 분자라 전수 순회 = limit_denominator 와 같은 값.
+  const _best = maxH => { let w0 = 1, h0 = 1, e0 = Infinity; for (let h = 1; h <= maxH; h++) { const w = Math.max(1, Math.round(r * h)); const e = Math.abs(w / h - r); if (e < e0 - 1e-12) { e0 = e; w0 = w; h0 = h; } } return [w0, h0]; };
+  let [bw, bh] = _best(99); if (bw > 99) [bw, bh] = _best(24);   // 각 항 1~99 기약 근사(비율 오차 0.2% 이내면 조기 확정)
+  const preset = bw + ':' + bh;
+  if (GENI_DICT.aspect.some(([v]) => v === preset)) { _geniSel.aspect = preset; _geniSel.arW = ''; _geniSel.arH = ''; }   // 프리셋과 일치 = 프리셋 칩 점등(4:5·9:16·16:9·1:1)
+  else { _geniSel.aspect = 'custom'; _geniSel.arW = String(bw); _geniSel.arH = String(bh); }   // 그 외 = 직접 N:N 칸에 실측비 주입(환산 표시가 리드백)
+}
+function _imgFromClipboard(e) {   // paste 이벤트 → 첫 이미지 File(없으면 null) — askText 선례(#askText paste) 공통화
+  const items = (e.clipboardData || (e.originalEvent && e.originalEvent.clipboardData) || {}).items || [];
+  for (const it of items) { if (it.type && it.type.indexOf('image/') === 0) { const f = it.getAsFile(); if (f) return f; } }
+  return null;
+}
+function bindImgPaste(el, onImg) {   // el(입력칸·슬롯·모달)에서 Ctrl+V 이미지 → onImg(file) · 전 이미지 첨부 슬롯 공통 배선(운영자 260713 "붙여넣기 핸들러가 모든 곳에 다 들어가야함")
+  if (!el || el._imgPasteBound) return; el._imgPasteBound = true;   // 이중 바인딩 가드(재호출·reparent 대비)
+  el.addEventListener('paste', e => { const f = _imgFromClipboard(e); if (f) { e.preventDefault(); onImg(f); } });
+}
+// 미리보기 확대 상태 저장소(운영자 260802 3차 승인 = 보고 6-4) — thumb·tr과 **같은 키**(동일 origin) = 이미지 스튜디오 4탭이 한 크기로 열린다 · 저장 차단 환경은 무저장 = 상시 축소(종전 동작)
+const PVZOOM = {   // 확대 = 비영속 인메모리(운영자 260803 "확대가 아닌 상황을 기본값으로" — 구 localStorage nm.pvzoom 영속[260802 3차 '마지막 상태 기억']이 확대를 사실상 기본값으로 만들던 축 개정 · 부팅 = 항상 비확대 · 세션 내 수동/자동 토글만 · 3표면 동문{thumb·tr·index})
+  h() { try { return (window.top && window.top.document) ? window.top : window; } catch (_) { return window; } },   // 슬롯 = 동일 origin 최상위 창 1벌(thumb·tr 동문) — 이 창이 곧 최상위라 자기 슬롯이지만, 산식을 3표면 한 벌로 두는 게 사본 드리프트 0
+  get() { return !!this.h().__nmPvZoom; },
+  set(on) { this.h().__nmPvZoom = !!on; } };
+var geniZoomPaint = null;   // AI 생성 판 확대 페인터 핸들(아래 배선에서 장착) — 탭 진입 재도색(pvZoomSyncActive)이 iframe 표면과 같은 문법으로 부른다
+function pvZoomSyncActive() {   // 탭 전환 = 확대 상태 1벌 재도색(운영자 260802 3차 "4탭이 한 상태를 공유 = 탭 이동에 크기가 튀지 않는다" 정본 복구 · 260803 인메모리 전환으로 끊겼던 축)
+  const on = PVZOOM.get();
+  try { if (geniZoomPaint) geniZoomPaint(on); } catch (_) {}
+  try { const f = document.querySelector('#tooldlg .toolfr.active'); const w = f && f.contentWindow; if (w && w.nmPvZoomSync) w.nmPvZoomSync(on); } catch (_) {}   // 미장착 표면 = 무동작(fail-soft)
+}
+function geniPrevSize() {   // 미리보기 박스 높이 = 편집 탭 렌더 등가(운영자 260719 "이 둘이 완전 다르다" 교정) — thumb 쉘 정본 min(29svh,300)의 svh가 iframe 뷰포트 기준이라, 부모 문서인 이 폼은 같은 슬롯(genihost=iframe 자리·팝업=다이얼로그) clientHeight×0.29 캡 300으로 등가 산출(edit pvSync .29/300 동미러 · CSS min(29svh,300)은 무JS 폴백)
+  const box = $('#geniPrevBox'); if (!box) return;
+  const h = $('#geniHost'), d = $('#genidlg');
+  const ref = (h && !h.hidden) ? h.clientHeight : ((d && d.open) ? d.clientHeight : 0);
+  // 폭 측정 = rect(소수 유지 · 260803) — 구 offsetWidth는 **정수 반올림**이라 형제 4탭(CSS aspect-ratio = 소수 그대로)과 상시 최대 0.5px 갈라졌다(실측: 창 257.5 vs AI 258 · C7 허용 0.6px 밑이라 게이트를 그냥 통과하던 잔여 드리프트) · 폴백 = 구 offsetWidth(rect 0 환경)
+  if (ref > 0) { const w = box.getBoundingClientRect().width || box.offsetWidth || 0; box.style.height = w + 'px'; geniPrevSize._miss = 0; }   // ⚠ offsetWidth(테두리 포함 = border-box) — clientWidth는 좌우 1px 테두리를 뺀 값이라 thumb의 `aspect-ratio:1/1`(border-box 기준)보다 2px 낮아져 파리티 C1이 Δ-2로 깨졌다(실측 260801) · 통일 프레임 등가(운영자 260731 22차 · 260801 비율 갱신) = **폭 그대로(1:1)** — thumb `.cpprev-box{aspect-ratio:1/1}` 정본 미러 · 캡(구 ref*.58·620)은 운영자 260801 "max-height 해제"로 폐지(캡이 살면 높이만 눌려 1:1이 깨진다 = 파리티도 갈라짐) · 성공 측정 = 미스 카운터 리셋
+  else if ((geniPrevSize._miss = (geniPrevSize._miss || 0) + 1) <= 30 && !geniPrevSize._raf) { geniPrevSize._raf = requestAnimationFrame(() => { geniPrevSize._raf = 0; geniPrevSize(); }); }   // 마운트 직후 host 미표시(clientHeight 0) = 다음 프레임 재측정(실측 260719 타이밍 덫) — 단 연속 미측정 30프레임(~0.5s) 상한으로 폼이 닫혀 영구 0일 때의 무한 rAF 루프·CPU/배터리 누수 차단(실측 260720)
+}
+function geniWishShow(on, focus) {   // 글 프롬프팅 행 표시 단일점(운영자 260721 미리보기 반갈 — 260719 "미리보기 위 새 입력 = 다음 지시 배선"의 그 배선) · DOM = 기존 #geniWishHead/#geniWishRow hidden 해제(예고된 복원 경로 · 신설 0) · 재숨김 = 다음 geniPrep이 값 유무로 재판정
+  const hd = $('#geniWishHead'), rw = $('#geniWishRow');
+  if (hd) hd.hidden = false;   // 주문칸 = **상시 고정**(운영자 260802 "텍스트 입력창은 별도의 픽토그램으로 만들지 말고, 아래에 입력창을 그냥 고정값으로 박아놔 · 이미지 스튜디오 카드 제작 부분처럼") — 구 「글 픽토 탭 → 노출」 관문 폐지(레일 픽토 #geniTxtBtn 동반 회수) · 인자 on은 호출부 무접촉을 위해 남기되 숨김에는 쓰지 않는다(thumb 카드 제작 입력칸 = 상시 노출 정본 계승)
+  if (rw) rw.hidden = false;
+  if (on && focus) setTimeout(() => { try { const w = $('#geniWish'); w.focus(); w.scrollIntoView({ block: 'center', behavior: 'smooth' }); } catch {} }, 60);   // 포커스+가시 스크롤 = 비율 직접(geniArW) 진입 처리 동문법
+}
+function geniRefClear() {   // 참고 이미지 해제 = 상태·미리보기·툴버튼·토글행·파일입력 원복(260719 미리보기 쉘 이주 — 빈 상태 = 스테이지 정중앙 픽토그램 진입점)
+  if (_geniRef && _geniRef.url) { try { URL.revokeObjectURL(_geniRef.url); } catch {} }
+  _geniRef = null;
+  _geniRefNat = { w: 0, h: 0 };   // 첨부 해제 = 원본비 실측값도 폐기(다음 첨부의 복제 비율 스냅이 옛 값을 쓰지 않게)
+  const pv = $('#geniPrev'), th = $('#geniRefThumb'), gh = $('#geniRefGhost'), xb = $('#geniRefX'), sw = $('#geniRefSwap'), rm = $('#geniRefModeRow'), fi = $('#geniRefFile');
+  if (pv) pv.classList.remove('has');
+  if (th) { th.hidden = true; th.removeAttribute('src'); }
+  if (gh) { gh.hidden = true; gh.removeAttribute('src'); }
+  if (xb) xb.hidden = true;
+  if (sw) sw.hidden = true;
+  if (rm) rm.hidden = true;
+  if (fi) fi.value = '';
+}
+function geniRefDownscale(file) {   // ≤512px 최장변 JPEG · base64 ≤48000자(dispatch input 상한 65535 안전여유) — 참고용 512px면 충분 · 초과 = 품질 낮춰 재시도, 그래도 크면 null
+  return new Promise(res => {
+    const url = URL.createObjectURL(file), img = new Image();
+    img.onload = () => {
+      let w = img.naturalWidth, h = img.naturalHeight;
+      const s = Math.min(1, 512 / Math.max(w, h)); w = Math.max(1, Math.round(w * s)); h = Math.max(1, Math.round(h * s));
+      const c = document.createElement('canvas'); c.width = w; c.height = h;
+      try { c.getContext('2d').drawImage(img, 0, 0, w, h); } catch { URL.revokeObjectURL(url); res(null); return; }
+      URL.revokeObjectURL(url);
+      let q = 0.72, out = c.toDataURL('image/jpeg', q);   // q-ok: 산출물 아님 = 모델 첨부용 적응형 압축(48KB 상한에 맞춰 q를 낮춰가는 루프라 q90 고정이 불가 · 화면·다운로드에 안 나간다)
+      while (out.length - 23 > 48000 && q > 0.3) { q = Math.round((q - 0.1) * 100) / 100; out = c.toDataURL('image/jpeg', q); }   // q-ok: 위 루프의 재인코딩 — 같은 축
+      res(out.length - 23 <= 48000 ? out : null);
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); res(null); };
+    img.src = url;
+  });
+}
+async function geniRefPick(file) {   // 파일 선택 → 다운스케일 → 미리보기·배지·토글행 표시 · geniGo가 opts.refB64/refMode로 동봉
+  if (!file || !/^image\//.test(file.type || '')) return;
+  const dataUrl = await geniRefDownscale(file);
+  const btn = $('#geniRefBtn');
+  if (!dataUrl) { if (typeof _flashBtn === 'function' && btn) _flashBtn(btn, 'err'); return; }   // 너무 큰/깨진 이미지 = 실패 플래시(현행 헬퍼 계승)
+  geniRefClear();
+  _geniRef = { b64: dataUrl.split(',')[1], url: dataUrl };
+  if (!GENI_REFMODES.includes(_geniSel.refMode)) _geniSel.refMode = 'ref';
+  _geniRefNat = { w: 0, h: 0 };   // 첨부 원본 픽셀비 = 복제 모드 비율 스냅 재료(아래 onload에서 실측 · 실패 = 0 유지 = 스냅 없음)
+  try { const _pi = new Image(); _pi.onload = () => { _geniRefNat = { w: _pi.naturalWidth, h: _pi.naturalHeight }; if (_geniSel.refMode === 'clone') { geniCloneAspect(); geniApply(); } }; _pi.src = dataUrl; } catch {}
+  const pv = $('#geniPrev'), th = $('#geniRefThumb'), gh = $('#geniRefGhost'), xb = $('#geniRefX'), sw = $('#geniRefSwap'), rm = $('#geniRefModeRow');
+  if (th) { th.src = dataUrl; th.hidden = false; }
+  if (gh) { gh.src = dataUrl; gh.hidden = false; }   // 고스트 = 같은 이미지 cover 반투명 언더레이(운영자 260719 승인 — 비율 프레임에 앉는 모습)
+  if (pv) pv.classList.add('has');
+  if (xb) xb.hidden = false;   // 첨부됨 = 삭제(휴지통)·교체 툴 노출(thumb 편집 미리보기 이주분 동일 문법 — 260719 쉘 이주)
+  if (sw) sw.hidden = false;
+  if (rm) rm.hidden = false;
+  geniApply();
+}
+function geniApply() {   // 선택 상태 → 화면 단일 반영점(칩 .on · 선택박스 라벨 · 아코디언 · 게이지 · 요약 리드백 · 게이트)
+  geniRoot().querySelectorAll('.geni-opts[data-k]').forEach(box => {
+    const k = box.dataset.k;
+    box.querySelectorAll('.geni-opt').forEach(b => b.classList.toggle('on', b.dataset.v === _geniSel[k]));
+  });
+  $('#geniStyle').querySelectorAll('.geni-opt').forEach(b => b.classList.toggle('on', b.dataset.v === _geniSel.style));   // 화풍: 9종 전량 인라인 나열(운영자 260713 — 구 상용3+기타 라벨 승격 로직 폐지)
+  geniRailUpd($('#geniStyle')); geniRailUpd($('#geniSub'));   // 레일 페이드·화살표 상태 갱신(열림·선택 반영 후)
+  const subOn = _geniSel.sub !== 'auto';   // 세부 화풍: 인라인 파이프 나열(운영자 260713 — 구 자동+직접 선택박스 폐지) · 목록 재구성·on 토글 = geniSubRender 단일점
+  geniSubRender();
+  const kwb = $('#geniKweb'); if (kwb) { kwb.classList.toggle('on', !!_geniSel.kweb); kwb.setAttribute('aria-pressed', _geniSel.kweb ? 'true' : 'false'); kwb.textContent = _geniSel.kweb ? '켜짐' : '꺼짐'; }   // 한국웹툰화 = 단일 칩 ON/OFF 토글(운영자 260728 "웹툰화는 토글이 on off" — 260728 나열화 회수) · 반갈 뒤 칩 = 상태값 전담(운영자 260727 — 이름은 좌측 .pub-l 라벨이 가져갔다) — 켜면 ON+강조, 끄면 OFF+중립(문구 토글과 대칭)
+  const eng = $('#geniEngine'); if (eng) eng.querySelectorAll('.geni-opt').forEach(b => { const ico = b.querySelector('.eng-ico'); if (ico && !ico.firstChild) ico.innerHTML = b.dataset.v === 'gpt' ? AI_SVG : GEMINI_SVG;   /* Gemini = 구글 G 레터마크(운영자 260727 "구글을 나타내는 G 그거 써서 표시" → 260803 재확인 「G라고 뉴스 요약한 부분에 보면 있음」 · nm-svg.js GEMINI_SVG = G_SVG 별칭) — 별 계열 2안(260802 쌍성 ⑤ · 260803 4점 별 ②)은 GPT 스파클 결과 겹쳐 전건 회수 · 구글 이미지 검색 버튼과 한 픽토 공용 = 260727 정본 복귀 */ b.classList.toggle('on', b.dataset.v === _geniSel.engine); });   // 모델 = 두 칩 상시 나열(운영자 260728) · 브랜드 자리 = 픽토그램(운영자 260727 "구글 나타내는 G로 제미나이 표시 · 오픈에이아이는 인공지능 픽토그램") — 구글 = G_SVG 레터마크 · OpenAI = AI_SVG 스파클(둘 다 nm-svg.js 정본) · 픽토+텍스트 조합 문법 = #toolTitle 정본 · 픽토 주입 = 최초 1회(빈 자리일 때만 = #geniEngTip .eng-ico 문법 계승 · 매 apply innerHTML 재작성 안 함)
+  const engTip = $('#geniEngTip'); if (engTip) engTip.hidden = !(_geniSel.style === 'lego' && _geniSel.engine === 'gemini');   // 레고 + 제미나이일 때만 안내 노출(운영자 260727 반전 재지시) — GPT로 되돌리거나 화풍을 바꾸면 조용히 사라진다
+  const engTipIco = $('#geniEngTip .eng-ico'); if (engTipIco && !engTipIco.firstChild) engTipIco.innerHTML = AI_SVG;   // 안내 안 GPT 브랜드 자리 = 모델 칩과 같은 AI 스파클(같은 대상을 가리킨다는 신호)   // 렌더 엔진 = 두 모델 교대 토글(기본 Gemini = 중립 · GPT = 점등 = 기본값 이탈 표기 관례 계승 · 운영자 260727)
+  const ton = $('#geniTextOn'); if (ton) { ton.classList.toggle('on', !!_geniSel.textOn); ton.setAttribute('aria-pressed', _geniSel.textOn ? 'true' : 'false'); ton.textContent = _geniSel.textOn ? '켜짐' : '꺼짐'; }   // 문구 = 단일 칩 ON/OFF 토글(운영자 260728 · 한국웹툰화와 한 쌍 회수) · 반갈 뒤 칩 = 상태값 전담(운영자 260727)
+  const rmMode = GENI_REFMODES.includes(_geniSel.refMode) ? _geniSel.refMode : 'ref';   // 참고 이미지 모드 = 원본 유지/참고/이미지와 동일하게(운영자 260726)
+  const rmb = $('#geniRefMode'); if (rmb) rmb.querySelectorAll('.geni-opt').forEach(b => b.classList.toggle('on', b.dataset.v === rmMode));   // 참고 이미지 모드 토글 on-state
+  const cloneOn = !!(_geniRef && rmMode === 'clone');   // 복제 모드 = 화풍·세부·웹툰화·문구가 프롬프트에서 통째로 빠지는 모드(스타일 낱말 0개가 이 모드의 전부 — 서버가 무시하므로 요약도 그렇게 읽혀야 은폐가 아니다)
+  if (!_geniSel.colorTouched) _geniSel.colorAx = geniColorPreset();   // 미조정 = 엔진·모드 실측 프리셋 자동 추종(손대면 그 값 고정)
+  document.querySelectorAll('#geniColorGauges .geni-gg').forEach(gg => {
+    const k = gg.dataset.ax, v = _geniSel.colorAx[k] || 0;
+    const r = gg.querySelector('input'); if (r && +r.value !== v) r.value = v;
+    const vl = gg.querySelector('.geni-gg-val'); if (vl) { vl.textContent = (v > 0 ? '+' : '') + v + '%'; vl.classList.toggle('set', v !== 0); }
+    gg.classList.toggle('set', v !== 0);
+  });
+  const crb = $('#geniColorReset'); if (crb) { const pre = geniColorPreset(); crb.classList.toggle('on', !_geniSel.colorTouched); crb.textContent = _geniSel.colorTouched ? '기본값' : (pre.sat || pre.bri ? '실측 기본' : '보정 없음'); }
+  const axesOn = _geniSel.mood === 'axes';   // 무드: 자동/직접 + 게이지 아코디언(촤르륵)
+  const md = $('#geniMood');
+  md.querySelector('[data-v="auto"]').classList.toggle('on', !axesOn);
+  md.querySelector('[data-v="axes"]').classList.toggle('on', axesOn);
+  geniAccordion($('#geniMoodSub'), axesOn);
+  document.querySelectorAll('#geniGauges .geni-gg').forEach(gg => {
+    const k = gg.dataset.ax, v = _geniSel.moodAx[k] || 0;
+    const r = gg.querySelector('input'); if (r && +r.value !== v) r.value = v;
+    const vl = gg.querySelector('.geni-gg-val'); if (vl) { vl.textContent = v > 0 ? '+' + v : String(v); vl.classList.toggle('set', v !== 0); }
+    gg.classList.toggle('set', v !== 0);
+  });
+  const arOn = _geniSel.aspect === 'custom';   // 비율 직접 = N:N 아코디언 + 환산 표시
+  geniAccordion($('#geniArWrap'), arOn);
+  const aw = $('#geniArW'), ah = $('#geniArH');
+  if (aw && aw.value !== _geniSel.arW) aw.value = _geniSel.arW;
+  if (ah && ah.value !== _geniSel.arH) ah.value = _geniSel.arH;
+  geniArFit(aw); geniArFit(ah);   // 값 세팅 조건 밖 = 외부 주입(실측비 역산 등)·초기 렌더에서도 폭이 따라온다
+  const arout = $('#geniArOut');
+  if (arout) {
+    const val = geniArVal();
+    if (!arOn) arout.textContent = '';
+    else if (!val) { const w = parseInt(_geniSel.arW, 10), h = parseInt(_geniSel.arH, 10); arout.textContent = (w >= 1 && w <= 99 && h >= 1 && h <= 99) ? '범위 1:4 ~ 4:1' : '각 1~99'; }   // 숫자는 유효한데 비율 초과 = 범위 안내(단위/경고 = §디자인 e 허용)
+    else { const w = parseInt(_geniSel.arW, 10), h = parseInt(_geniSel.arH, 10); const g = (function gcd(a, b) { return b ? gcd(b, a % b) : a; })(w, h); arout.textContent = '= ' + (w / g) + ':' + (h / g) + ' (' + (w / h).toFixed(2) + ')'; }   // 환산(운영자 260710 "입력하면 비율이 계산되어 나와야")
+  }
+  const camN = GENI_CAM_KEYS.filter(k => _geniSel[k] && _geniSel[k] !== 'auto').length;   // 접힘 그룹 활성 배지(복원값 포함 — 모르고 발사 방지)
+  const nb = $('#geniCamN'); if (nb) { nb.textContent = camN; nb.hidden = !camN; }
+  const fh = $('#geniCamHead'); if (fh) fh.setAttribute('aria-label', '카메라 · 구도' + (camN ? ', 설정 ' + camN + '개' : ''));   // 배지 숫자 = aria-hidden → SR 의미는 버튼 aria-label로(적대검증B)
+  const pvs = $('#geniPrevStage');   // 미리보기 스테이지 = 선택 비율 동기(260719 쉘 이식 — 편집 탭 rszPreview 비율 반영 결 계승 · 직접 N:N 미완성 = CSS 기본 4/5 유지)
+  if (pvs) { const av = geniAspect(), m = /^(\d{1,2}):(\d{1,2})$/.exec(av || ''); if (m) pvs.style.setProperty('--pv-ar', m[1] + ' / ' + m[2]); else pvs.style.removeProperty('--pv-ar'); }   // 비율 소유자 = 커스텀 속성 1곳(--pv-ar) — CSS가 이 값으로 aspect-ratio와 무대 폭(contain 산식)을 동시에 산출(260730 두 축 contain) · 미완성 N:N = removeProperty = CSS 기본 4/5 강하(⚠ setProperty('')는 빈 토큰이라 var()가 무효화되며 폭까지 무너진다)
+  geniPrevSize._miss = 0; geniPrevSize();   // 박스 높이 = 편집 탭(iframe) 렌더 등가 동기(운영자 260719 "완전 동일" 교정) · 마운트마다 미스 카운터 리셋(재개방 재시도 예산 복원 · 260720)
+  const sx = $('#geniStyleEx');   // 화풍 예시 스왑(운영자 260719 "화풍이 글로만 = 덜 직관적 — 화풍별 예시를 미리보기에") — 가시성은 load/error 이벤트가 전담(자산 없는 화풍 = 조용히 빈 스테이지 유지)
+  if (sx && sx.dataset.k !== _geniSel.style) { sx.dataset.k = _geniSel.style; sx.src = 'assets/geni-styles/' + _geniSel.style + '.webp'; }
+  const sum = $('#geniSum');   // 요약 리드백 = 편집 탭 editSpec 문법 통계승(운영자 260720 "켜지든 안켜지든 다 점등 = 오류 — 다른쪽 이식"): 라벨(mut)+값 쌍 · 나열 = 5항 한정(운영자 260721 "비율·화풍·세부 화풍·한국웹툰화·문구만" — 구 10항 전량 나열이 스트립을 2줄로 랩시키던 것 축소 · OFF·기본값 표기 = thumb 스트립 260718 법 유지) · 점등 = 기본값 이탈/ON만 .gs-v.on — 구 전량 <b> 상시 점등·활성시 조건부 나열(카메라·문구) 폐지
+  if (sum) {
+    const gsV = (txt, on, tg, tip, pressed) => '<span class="gs-v' + (on ? ' on' : '') + (tg ? ' gs-tog' : '') + '"' + (tg ? ' data-tg="' + tg + '" role="button" tabindex="0" title="' + tip + '"' + (pressed ? ' aria-pressed="' + (on ? 'true' : 'false') + '"' : '') : '') + '>' + txt + '</span>';   // 값 1칸 = 소등(mut)/점등(accent) + 탭 전환(선택) — 토글 부품 문법 = #askStrip .gs-tog 정본 그대로(role=button·tabindex·title·press-m)
+    const gsSelf = (nm, on, tg) => gsV(nm, on, tg, '탭=켜기/끄기', true);   // 자립 토글 항목 = 옵션 이름 자체가 값(운영자 260727 "ON/OFF 없애고 글자만 · 글자 토글로 대체" · 레퍼런스 = #askStrip 정본) · aria-pressed = ON/OFF 축이라 부여
+    const gsPair = (lbl, val, on, tg, tip) => '<span class="gs-lbl">' + lbl + '</span> ' + gsV(val, on, tg, tip);   // 쌍 골격 = 편집 탭 editSpec 정본(콜론 없음 · 라벨 mut + 값 상태색) · 값만 탭 대상(라벨은 글자 그대로)
+    const engRail = $('#geniEngRail');   // 모델 칩 = 픽토 자리(구분선 위 · 운영자 260803 "첨부1(편집)이 맞는내용") — 아이콘 칩이 값 그룹 피치(37)에 섞이던 것을 편집 탭 [픽토 묶음→구분선→값] 정본 리듬으로 분리 · 문법·핸들러(gs-tog engine) 불변
+    if (engRail) engRail.innerHTML = gsPair('모델', geniEngIco(), true, 'engine', '탭=모델 바꾸기');
+    sum.innerHTML = (cloneOn ? [   // 복제 모드 = 화풍·세부·웹툰화·문구가 서버에서 통째로 무시된다 → 요약도 2항으로(켜둔 화풍을 그대로 나열하면 '반영되는 척' = 은폐)
+      gsPair('비율', geniAspect() || 'N:N?', true, 'aspect', '탭=다음 비율'),
+      gsPair('참고 이미지', '이미지와 동일하게', true),
+      gsPair('색 보정', (_geniSel.colorAx.sat ? '채도 ' + (_geniSel.colorAx.sat > 0 ? '+' : '') + _geniSel.colorAx.sat + '%' : '') + (_geniSel.colorAx.sat && _geniSel.colorAx.bri ? ' · ' : '') + (_geniSel.colorAx.bri ? '명도 ' + (_geniSel.colorAx.bri > 0 ? '+' : '') + _geniSel.colorAx.bri + '%' : '') || '없음', !!(_geniSel.colorAx.sat || _geniSel.colorAx.bri))
+    ] : [   // 나열 순서 = 본문 행 상대 순서 유지(개요{비율} → 표현{화풍·세부·한국웹툰화·문구}) — 모델 = 위 #geniEngRail(픽토 자리) · 카메라·해상도·개수·품질·무드 = 요약 비표기(운영자 260721 · 본문 행·발사 파라미터·카메라 배지 #geniCamN은 불변)
+      gsPair('비율', geniAspect() || 'N:N?', true, 'aspect', '탭=다음 비율'),
+      gsPair('화풍', geniStyleKo(_geniSel.style), true, 'style', '탭=다음 화풍'),
+      gsPair('세부 화풍', geniSubKo(_geniSel.sub), true, 'sub', '탭=다음 세부 화풍'),
+      gsSelf('한국웹툰화', !!_geniSel.kweb, 'kweb'),
+      gsSelf('문구', !!_geniSel.textOn, 'textOn')
+    ]).join('<span class="gs-sep" aria-hidden="true">/</span>');   // 구분자 = 편집 스트립 .gs-sep 정본(운영자 260719 스트립 통일 — 간격은 클래스 margin이 전담)
+    // 점등 규칙(운영자 260728 "선택된 옵션은 모두 강조색") = **값을 고르는 항목은 항상 점등**(모델·비율·화풍·세부 화풍 — 무엇을 골랐든 그건 선택된 값이다) + **켜고 끄는 항목은 ON일 때만**(한국웹툰화·문구 — 꺼짐 = 미선택이라 중립 유지 = #askStrip 소등 문법 동일).
+    //   구 = '기본값 이탈만 점등'(4:5·극화·자동·Gemini면 소등) — 기본값을 고른 것도 선택인데 안 고른 것처럼 읽혀 오독(운영자 실측 "지피티 이미지만 들어옴" = Gemini 기본이라 소등이던 자리).
+  }
+  geniGate();
+}

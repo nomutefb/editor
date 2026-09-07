@@ -1,0 +1,175 @@
+function kwDocs() {
+  const docs = [];
+  // ⚠ 문자열 필드만 취한다 — 수집 산출물에 타입이 섞여 온다(260729 실측: tiktok.videos[].account 가 dict {'12': …}).
+  //    방어 없이 이으면 "[object object]"가 haystack에 박혀 조용한 오탐원이 된다(서버 kw_watch.txt() 미러).
+  const _s = v => (typeof v === 'string' ? v : '');
+  const put = (...a) => { const u = _s(a.pop()); const v = kwNorm(a.map(_s).join(' ')); if (v) docs.push({ t: v, u }); };
+  try { (SOCIAL || []).forEach(r => put(r.title, Array.isArray(r.sources) ? r.sources.join(' ') : '', r.url)); } catch {}
+  try { KW_TBS.forEach(o => put(o && o.t, o && o.u)); } catch {}
+  try {
+    const T = TRENDS || {};
+    (T.reddit || []).forEach(p => put(p.title, p.url));
+    (T.hackernews || []).forEach(p => put(p.title, p.ko, p.url));
+    (T.bsky || []).forEach(p => put(p.text, p.url));
+    (T.bsky_trends || []).forEach(p => put(p.query, p.ko, p.link));
+    (T.xtrends || []).forEach(p => put(p.query, ''));
+    // 실검 축(운영자 260729 "국내 커뮤니티랑 실검 잡으면 사실상 거의 다 커버됨") —
+    //   gtrends = 구글 급상승(검색어 + 딸린 뉴스 제목 = 한 글 취급 · 이동 URL = 첫 뉴스) · gtrends_pool = 24h 급상승 풀(검색어만) · signal = 시그널 실검.
+    (T.gtrends || []).forEach(p => put(p.query, Array.isArray(p.news) ? p.news.map(n => (n && n.title) || '').join(' ') : '', (Array.isArray(p.news) && p.news[0] && p.news[0].url) || ''));
+    (T.gtrends_pool || []).forEach(p => put(p.q, ''));
+    (T.signal || []).forEach(p => put(p.query, ''));
+    // AI 영상 축(Q1051 갭② 이행) — '그록 영상'·'image to video'류 키워드가 실제로 뜨는 자리인데 감시 밖이었다.
+    (T.aivid || []).forEach(p => put(p.title, p.ko, p.url));
+    // ── SNS 탭 잔여 축 전량 편입(운영자 260729 "sns채널에 있는 모든 소스를 대상으로 하면 더 좋은데") —
+    //   빠져 있던 큰 덩어리 = 틱톡 인기(제목이 뉴스 본문급) · 구독 계정 축(x·틱톡·유튜브·스레드·인스타 = 내가 고른 계정들의 실제 게시물).
+    //   해외 축(gtrends_gl·youtube_gl)도 함께 = '전부'가 지시 · 재난/고속도로는 지금 0건이나 배선은 미리(재난 문자 = 키워드 감시 가치 큼).
+    //   ⚠ 제외 2축 = `finance`(환율·지수·종목 = 고정 명칭 6건 → '삼성전자' 같은 등록어가 상시 hit = 알림 소음) · `health`(수집 상태 지표 = 글이 아님).
+    (T.youtube || []).forEach(p => put(p.title, p.ko, p.url));
+    (T.youtube_news || []).forEach(p => put(p.title, p.url));
+    (T.youtube_gl || []).forEach(p => put(p.title, p.ko, p.url));
+    (T.shorts || []).forEach(p => put(p.title, p.url));
+    ((T.tiktok && T.tiktok.videos) || []).forEach(p => put(p.title, p.account, p.url));
+    (T.gtrends_gl || []).forEach(p => put(p.query, p.ko, Array.isArray(p.news) ? p.news.map(n => (n && n.title) || '').join(' ') : '', (Array.isArray(p.news) && p.news[0] && p.news[0].url) || ''));
+    (T.kobis || []).forEach(p => put(p.title, p.url));
+    (T.disaster || []).forEach(p => put(p.title, p.text, p.msg, p.url));
+    (T.expressway || []).forEach(p => put(p.title, p.text, p.url));
+    const _sb = T.subs || {};   // 구독 축 = 계정별 실제 게시물(글 = text 또는 title · 계정명도 한 글에 포함 = "누가 올렸나"로도 잡힌다)
+    ['x', 'tiktok', 'insta', 'youtube', 'threads'].forEach(k => (_sb[k] || []).forEach(p => put(p.text, p.title, p.account, p.url)));
+  } catch {}
+  return docs;
+}
+let _kwChecking = false;
+async function checkKwAlerts() {
+  if (!kwAlertOn() || _kwChecking) return;
+  if (kwPurgeDone() && !$('#kwpop').hidden) renderKwList();   // 폴링(60s)마다 만료분 자동 삭제 — 대기열을 안 열어둬도 정리된다
+  const scanned = kwGetItems().map(it => ({...it}));
+  const active = scanned.filter(it => it && it.kw && !it.done && !it.moved);   // moved = 이동으로 처리한 줄 = 감시 중단(재가동 = 밑줄 클릭 · 운영자 260801)
+  if (!active.length) return;
+  _kwChecking = true;
+  try {
+    await loadTbsKw();
+    if (!(Array.isArray(SOCIAL) && SOCIAL.length)) { try { await loadSocial(); } catch {} }
+    if (!(TRENDS && (TRENDS.reddit || TRENDS.hackernews || TRENDS.bsky))) { try { await loadTrends(); } catch {} }
+    const hay = kwDocs(), now = Date.now();   // 글 단위 배열(구판 합본 문자열 → 260726 오탐 봉합)
+    let dirty = false;
+    for (const it of active) {
+      if (!it.hit) {
+        const found = kwFind(it.kw, hay);
+        if (found && kwGetItems().some(x => (x.id || x.ts + ':' + x.kw) === (it.id || it.ts + ':' + it.kw) && x.kw === it.kw && x.rearm === it.rearm && !x.done && !x.moved)) { it.hit = now; it.url = found.u || ''; dirty = true; fireKwToast(it, 0); }   // url = 발견한 글(이동 버튼 목적지)
+        continue;
+      }
+      const el = now - it.hit;
+      if (el > KW_MAX_BUCKET * KW_BUCKET_MS + 30 * 60000) continue;   // 24h(+30m 여유) 지남 = 종료
+      const due = Math.floor(el / KW_BUCKET_MS);   // 0~8
+      if (due >= 1 && due <= KW_MAX_BUCKET) fireKwToast(it, due);
+    }
+    if (dirty) { const live = kwGetItems().map(it => { const found = scanned.find(x => (x.id || x.ts + ':' + x.kw) === (it.id || it.ts + ':' + it.kw)); return found && found.kw === it.kw && found.rearm === it.rearm && !it.done && !it.moved && !it.hit && found.hit ? {...it, hit: found.hit, url: found.url} : it; }); kwSaveItems(live); if (!$('#kwpop').hidden) renderKwList(); }
+    paintKwGear();   // 발견 = 기어 보라 점등(dirty 아니어도 미확인 잔존분 상시 반영)
+  } finally { _kwChecking = false; }
+}
+async function fireKwToast(it, bucket) {   // 발송 dedup = seen 'kw'축(slug#bucket claimSeen) → 크로스기기·재방문 정확히 1회
+  const id = kwSlug(it.kw) + '#' + bucket + (it.rearm ? '@' + it.rearm : '');   // 재가동분은 세대 도장(@rearm)으로 id를 갈라 '이미 보냈다'에 안 삼켜진다(구 등록분 = 접미 없음 = 무회귀)
+  let ok = true;
+  try { ok = await claimSeen('kw', { id }); } catch {}
+  if (ok) { showKwToast(it); kwNotify(it, bucket); }   // 인앱 토스트 + 기기 알림 동시(운영자 260801 "포그라운드 알림이 오게 · 웹앱 알림도")
+}
+// 발견 알림 = **앱을 보고 있는 그 순간에도 기기 알림**(운영자 260801). 서버 감시(.github/scripts/kw_watch.py)는 앱을 *닫았을 때*의 웹푸시 축이고,
+//   이건 앱이 켜져 있어 인앱 토스트만 뜨던 구간(토스트는 8초 뒤 사라지고 다른 토스트에 양보하면 아예 안 뜸)을 메운다.
+//   중복 방지 = 서버 푸시와 **같은 tag('nomute-kw')** = 같은 자리 교체(둘이 겹쳐도 알림은 1개) · 아이콘·배지·data.url = sw.js push 핸들러 문법 100% 미러.
+//   권한 요청은 여기서 안 한다 — 알림 권한·구독 정본 경로 = 설정 알림 토글(pushToggle) · 미허용이면 조용히 스킵(토스트는 그대로).
+async function kwNotify(it, bucket) {
+  try {
+    if (!('Notification' in window) || Notification.permission !== 'granted' || !('serviceWorker' in navigator)) return;
+    const reg = await navigator.serviceWorker.getRegistration() || await navigator.serviceWorker.ready;
+    if (!reg || !reg.showNotification) return;
+    const dark = matchMedia('(prefers-color-scheme: dark)').matches;   // sw.js iconFor(kind 없음) 미러 = 라이트 파랑 / 다크 시그니처
+    await reg.showNotification('🔔 키워드 발견', {
+      body: "'" + it.kw + "' 가 커뮤니티에 떴어요" + (bucket ? ' (재알림 ' + bucket * 3 + '시간째)' : ''),   // 문구 = 서버 kw_watch.send() 미러(«» 폐지·'' 표기 = 260727 토스트 계약)
+      icon: '/assets/brand/icon-notif-' + (dark ? 'sig' : 'blue') + '-512-260727.png',
+      badge: '/assets/brand/badge-260723.png',
+      tag: 'nomute-kw', renotify: true, data: { url: '/' }, lang: 'ko',
+    });
+  } catch (_) {}   // fail-soft — 알림이 안 떠도 인앱 토스트·대기열은 그대로(감시 파이프 무영향)
+}
+// ⑭ 지진 포그라운드 기기 알림 — 문법·아이콘·배지·data.url = 바로 위 kwNotify **100% 미러**(운영자 260802 "포그라운드 알림도 박아").
+//   중복 방지 2중: ① tag 'nomute-quake' = 같은 자리 교체(겹쳐도 알림 1개) ② 발령시각 도장(로컬) = 새로고침·탭 재진입에 재발동 0.
+//   권한 요청은 여기서 안 한다 — 정본 경로 = 설정 알림 토글(pushToggle) · 미허용이면 조용히 스킵(알림함 경고는 그대로 남는다).
+const QUAKE_SEEN_K = 'nomute_quake_seen';
+function quakeSeen() { try { return new Set(JSON.parse(localStorage.getItem(QUAKE_SEEN_K) || '[]')); } catch { return new Set(); } }
+function quakeMark(id) { try { const s = quakeSeen(); s.add(id); localStorage.setItem(QUAKE_SEEN_K, JSON.stringify([...s].slice(-40))); } catch (_) {} }
+//   ⑭-e 랜드마크 화재 동승(운영자 260803 "바로 긴급알림") — 소스만 quakeMsgs∪fireMsgs로 넓히고, **축별로 1발씩** 낸다.
+//     ⚠ tag를 공유하면 안 된다: 지진과 화재가 같은 12h 창에 겹치면 나중 것이 앞 것을 *교체*해 한 건이 통째로 사라진다(놓침 = 안전 축 최악).
+async function quakeNotify() {
+  const ms = quakeMsgs().concat(fireMsgs()); if (!ms.length) return;
+  const seen = quakeSeen();
+  const fresh = ms.filter(m => !seen.has(m.id));
+  if (!fresh.length) return;
+  fresh.forEach(m => quakeMark(m.id));   // 도장은 알림 성공 여부와 무관하게 먼저 = 권한 거부 기기서 매 로드 재시도 루프 차단
+  try {
+    if (!('Notification' in window) || Notification.permission !== 'granted' || !('serviceWorker' in navigator)) return;
+    const reg = await navigator.serviceWorker.getRegistration() || await navigator.serviceWorker.ready;
+    if (!reg || !reg.showNotification) return;
+    const dark = matchMedia('(prefers-color-scheme: dark)').matches;   // sw.js iconFor 미러 = 라이트 파랑 / 다크 시그니처
+    for (const g of [['quake', '지진'], ['fire', '화재']]) {   // 축별 1발(각자 tag) — 종전 지진 단독 동작은 완전 동일(문구·tag·data 불변)
+      const lot = fresh.filter(m => String(m.id).startsWith('sys:' + g[0] + ':'));
+      if (!lot.length) continue;
+      await reg.showNotification('⚠️ ' + String(lot[0].text || '').split('\n')[0], {
+        body: lot.length > 1 ? g[1] + ' 재난문자 ' + lot.length + '건 — 눌러서 안전 탭에서 확인' : '눌러서 안전 탭에서 확인',
+        icon: '/assets/brand/icon-notif-' + (dark ? 'sig' : 'blue') + '-512-260727.png',
+        badge: '/assets/brand/badge-260723.png',
+        tag: 'nomute-' + g[0], renotify: true, data: { url: '/?dis=1' }, lang: 'ko',
+      });
+    }
+  } catch (_) {}   // fail-soft — 기기 알림이 안 떠도 알림함 경고(quakeMsgs·fireMsgs)는 그대로
+}
+// 발견한 글로 이동 — URL 미보유 소스(xtrends 등)면 대기열로 폴백해 '눌러도 아무 일 없음'을 만들지 않는다.
+//   ⚠ window.open 금지(실측 260801 재발) — 이 앱은 전역 `async function open(a)`(기사 열기)가 window.open을 **가려서**
+//   눌러도 발견한 글로 안 가고 **빈 요약 모달**이 떴다(운영자 260801 "해당 건을 찾은 곳으로 안 가고"). 정본 = 앵커클릭 openExt(failOpen 가족·PWA 안전).
+//   이동에 성공한 그 시점 = 그 줄 밑줄 처리(kwMarkMoved · 운영자 260801 지시4) — 못 간 경우(URL 없음)엔 안 찍는다.
+function kwOpenSrc(it) {
+  const u = it && typeof it.url === 'string' && /^https?:\/\//i.test(it.url) ? it.url : '';
+  if (!u) { openKwpop(); return; }
+  const kp = $('#kwpop'), wasOpen = kp && !kp.hidden;
+  const ok = openExt(u);
+  // ⚠ openExt의 합성 앵커는 body에 붙었다가 클릭된다 = 그 클릭이 document까지 올라가 **바깥클릭 닫기**(아래 kwpop 핸들러)에 걸린다
+  //   → 대기열에서 이동을 누르면 창이 같이 닫혀 '밑줄 처리된 그 줄'을 못 본다. 앵커 클릭은 동기라 여기서 복원하면 깜빡임 0.
+  if (wasOpen && kp) kp.hidden = false;
+  if (ok) kwMarkMoved(it);
+}
+let _kwToastT = null, _kwToastIt = null;
+function hideKwToast() { const t = $('#nmKwToast'); if (t) t.classList.remove('show'); }
+function showKwToast(it) {
+  if (document.querySelector('#nmToast.show, #nmFailToast.show, #sysFreshToast.show')) return;   // 긴급·실패·경보 표시 중 = 양보(정보성=최하 · 다음 폴 재시도 · upd 계승)
+  _kwToastIt = it;
+  let t = $('#nmKwToast');
+  if (!t) { t = document.createElement('div'); t.id = 'nmKwToast'; t.className = 'nm-toast kw'; t.setAttribute('role', 'status'); t.setAttribute('aria-live', 'polite'); document.body.appendChild(t); }
+  t.title = "키워드 '" + it.kw + "' 가 커뮤니티에 떴어요 — 대기열에서 체크하면 알림 중단";   /* «» 폐지·'' 표기(260727) · 중단 경로 = 대기열 체크(토스트 ✓는 확인일 뿐) */
+  t.innerHTML = '<span class="tg">' + BELL_SVG + '</span><span class="ft-msg">키워드 \'<b class="kw-hl">' + qEsc(it.kw) + '</b>\' 발견</span>'   /* 260727 운영자: 키워드 '000' 발견 표기 · 고정어 흰색 + 키워드만 강조(shimmer) */   /* 260727 운영자: «» 괄호 폐지 · "키워드/발견" = 흰색(.ft-msg 기본 --fg) · 키워드 값만 강조색 = .kw-hl 보라 */
+    + '<button class="sbtn ft-act" type="button" data-kw="open" data-motion="check" aria-label="키워드 알림 열기" title="키워드 알림 창 열기">' + CHECK_SVG + '</button>'
+    + '<button class="sbtn ft-act go-ready" type="button" data-kw="src" aria-label="발견한 글로 이동" title="이 키워드가 뜬 글로 이동">' + Q_ARR + '</button>';
+  // 좌 ✓ = 키워드 알림 창 열기(포커싱) · 우 ↗ = 발견한 글로 이동(운영자 260727 자리 교체 · 둘 다 형광)
+  t.onclick = (e) => { if (e.target.closest('[data-kw]')) return; openKwpop(); hideKwToast(); };
+  t.querySelector('[data-kw="open"]').onclick = (e) => { e.stopPropagation(); openKwpop(); hideKwToast(); };
+  t.querySelector('[data-kw="src"]').onclick = (e) => { e.stopPropagation(); kwOpenSrc(it); hideKwToast(); };   /* ✓ = '확인'일 뿐 = 토스트만 닫음(운영자 260727 "체크하면 확인의 개념이고 확인한다고 알람이 사라지지는 않음") — 알림 중단(done)은 **대기열 체크로만** · 기어 보라 점등도 유지(kwMarkDoneByKw = 대기열 전용으로 존치) */
+  requestAnimationFrame(() => t.classList.add('show'));
+  clearTimeout(_kwToastT); _kwToastT = setTimeout(hideKwToast, 8000);   // 자동닫힘 8s(긴급 토스트 계승)
+}
+{
+  const _kwAlertBtn = $('#kwAlertBtn'), _kwListBtn = $('#kwListBtn');
+  if (_kwAlertBtn) _kwAlertBtn.addEventListener('click', async (e) => {   // ON/OFF 토글(genImgOnBtn 패턴 · 감시 기능이라 PIN 게이트 없음)
+    e.stopPropagation();
+    const next = !kwAlertOn();
+    await saveSettings({ kwAlertOn: next });
+    paintKwRow();
+    if (next) { openKwpop(); checkKwAlerts(); }   // ON = 대기열 자동 오픈(등록 유도) + 즉시 매칭
+    else closeKwpop();
+  });
+  if (_kwListBtn) _kwListBtn.addEventListener('click', (e) => { e.stopPropagation(); openKwpop(); });   // 좌측 라벨버튼 = 대기열 열기(lockBtn 패턴)
+  const _kwAddOpen = $('#kwAddOpen'); if (_kwAddOpen) _kwAddOpen.addEventListener('click', (e) => { e.stopPropagation(); kwAddBox(); });   /* 헤더 + = 입력창 토글 */
+  const _kwpopX = $('#kwpopX'); if (_kwpopX) _kwpopX.addEventListener('click', (e) => { e.stopPropagation(); closeKwpop(); });
+  const _kwAddBtn = $('#kwAddBtn'), _kwIn = $('#kwIn');
+  if (_kwAddBtn) _kwAddBtn.addEventListener('click', (e) => { e.stopPropagation(); kwAdd(_kwIn ? _kwIn.value : ''); if (_kwIn) _kwIn.focus(); });
+  if (_kwIn) _kwIn.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); kwAdd(_kwIn.value); } });
+  document.addEventListener('click', (e) => { const kp = $('#kwpop'); if (kp && !kp.hidden && !kp.contains(e.target) && !$('#profile').contains(e.target)) kp.hidden = true; });   // 바깥클릭 닫기(msgpop 패턴 · profile은 linkpop 토글이 처리)
+}
+paintKwRow();

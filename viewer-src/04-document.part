@@ -1,0 +1,2 @@
+<script defer src="marked.min.js"></script><!-- self-host(옛 jsdelivr CDN → 레포 번들 · 운영자 260705 "시작 시 멈춤" 진단: CDN SPOF 제거) · defer = 첫 피드 렌더는 textContent라 marked 불필요(상세 열 때만) → 파싱 비차단으로 부팅 가속 · setOptions는 window.marked 가드로 defer 늦어도 안전(parse는 open() 시점=로드 완료) -->
+
