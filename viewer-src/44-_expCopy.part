@@ -1,0 +1,83 @@
+function _expCopy() {
+  var CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;display:block"><path d="M5 13l4 4L19 7"></path></svg>';
+  function secText(box) {
+    var out = [], h = box.querySelector('h2');
+    if (h) out.push(h.textContent.trim());
+    var body = box.querySelector('[data-body]') || box;
+    if (body.tagName === 'PRE') { out.push(body.textContent.replace(/\s+$/, '')); return out.join('\n'); }
+    Array.prototype.forEach.call(body.children, function (el) {
+      var tag = el.tagName;
+      if (tag === 'BUTTON') return;
+      if (tag === 'UL' || tag === 'OL') {
+        Array.prototype.forEach.call(el.querySelectorAll('li'), function (li) { out.push('• ' + li.textContent.trim().replace(/\s+/g, ' ')); });
+      } else if (tag === 'PRE') { out.push(el.textContent.replace(/\s+$/, '')); }
+      else { var t = el.textContent.trim().replace(/\s+/g, ' '); if (t) out.push(t); }
+    });
+    return out.join('\n');
+  }
+  function fullText() {
+    var h1 = document.querySelector('h1'), parts = [h1 ? h1.textContent.trim() : '', ''];
+    Array.prototype.forEach.call(document.querySelectorAll('[data-sec]'), function (b) { parts.push(secText(b), ''); });
+    var s = document.querySelector('.src'), c = document.querySelector('.cr');
+    if (s) parts.push(s.textContent.trim());
+    if (c) parts.push(c.textContent.trim());
+    return parts.join('\n');
+  }
+  function legacy(t) { var ta = document.createElement('textarea'); ta.value = t; document.body.appendChild(ta); ta.select(); var ok = false; try { ok = document.execCommand('copy'); } catch (e) {} ta.remove(); return ok; }
+  function copyText(t) { if (navigator.clipboard && navigator.clipboard.writeText) return navigator.clipboard.writeText(t).then(function () { return true; }, function () { return legacy(t); }); return Promise.resolve(legacy(t)); }
+  function flash(btn, label) { var orig = btn.innerHTML; btn.classList.add('ok'); btn.innerHTML = CHECK + (label ? '<span>완료</span>' : ''); setTimeout(function () { btn.classList.remove('ok'); btn.innerHTML = orig; }, 1300); }
+  Array.prototype.forEach.call(document.querySelectorAll('[data-sec]'), function (box) {
+    var btn = box.querySelector('.nm-secbtn'); if (!btn) return;
+    btn.addEventListener('click', function () { copyText(secText(box)).then(function (ok) { if (ok) flash(btn, false); }); });
+  });
+  var all = document.querySelector('.nm-allbtn');
+  if (all) all.addEventListener('click', function () { copyText(fullText()).then(function (ok) { if (ok) flash(all, true); }); });
+  var tcp = document.querySelector('.nm-titlecopy'), th1 = document.querySelector('.nm-title');   // 제목만 복사(운영자 260621)
+  if (tcp && th1) tcp.addEventListener('click', function () { var t = ''; Array.prototype.forEach.call(th1.childNodes, function (n) { if (n.nodeType === 3) t += n.textContent; }); copyText(t.trim()).then(function (ok) { if (ok) flash(tcp, false); }); });
+  var orig = document.querySelector('.nm-orig');   // 원문 영문 제목 = 클릭 복사 + 강조색 잠시 플래시(운영자 요청)
+  if (orig) orig.addEventListener('click', function () { copyText(orig.textContent.trim()).then(function (ok) { if (!ok) return; orig.classList.remove('flash'); void orig.offsetWidth; orig.classList.add('flash'); setTimeout(function () { orig.classList.remove('flash'); }, 650); }); });
+  var kb = document.querySelector('.nm-kwbox');   // 검색 키워드 = 한/영 토글 + 칩 탭 복사(제목검색·K검색 링크는 순수 <a>=자기완결)
+  if (kb) {
+    var chip = document.querySelector('.nm-kw'), ksr = kb.querySelector('.nm-kwsrch'), tog = kb.querySelector('.nm-kwtog');
+    var cko = kb.getAttribute('data-cko') || '', cen = kb.getAttribute('data-cen') || '';
+    var hko = ksr ? (ksr.getAttribute('data-hko') || '') : '', hen = ksr ? (ksr.getAttribute('data-hen') || '') : '';
+    var lang = kb.getAttribute('data-init') === 'en' ? 'en' : 'ko';
+    var applyKw = function () {
+      var en = lang === 'en';
+      kb.classList.toggle('en', en);
+      if (chip) chip.textContent = en ? cen : cko;
+      var hh = en ? hen : hko; if (ksr && hh) ksr.setAttribute('href', hh);
+      if (tog && tog.tagName === 'BUTTON') tog.textContent = en ? '영' : '한';
+    };
+    applyKw();
+    if (tog && tog.tagName === 'BUTTON') tog.addEventListener('click', function (e) { e.preventDefault(); lang = lang === 'en' ? 'ko' : 'en'; applyKw(); });
+    if (chip) chip.addEventListener('click', function () { copyText(chip.textContent).then(function (ok) { if (!ok) return; chip.classList.remove('kwok'); void chip.offsetWidth; chip.classList.add('kwok'); setTimeout(function () { chip.classList.remove('kwok'); }, 900); }); });
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('.nm-imdl'), function (a) { a.addEventListener('click', function () { flash(a, false); }); });   // 이미지 저장 = ✓ 팝 피드백(.dlbtn 계승) · 실제 저장은 <a download>/새탭
+  var top = document.querySelector('.nm-top');
+  if (top) {
+    var onScroll = function () { top.style.display = (window.scrollY || document.documentElement.scrollTop || 0) > 320 ? 'inline-flex' : 'none'; };
+    window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
+    top.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+  }
+  // 카드 박스 = 외부(페이지) 스크롤 우선: 평소 내부 스크롤 끔(스와이프=페이지 넘어감). 넘치는 카드는 하단 페이드, 탭하면 그 박스만 내부 스크롤 활성(운영자 260622).
+  var cbs = document.querySelectorAll('.nm-cardbody');
+  function _markOf() { Array.prototype.forEach.call(cbs, function (b) { if (!b.classList.contains('nm-sactive')) b.classList.toggle('nm-of', b.scrollHeight - b.clientHeight > 4); }); }
+  function _deact(except) { Array.prototype.forEach.call(cbs, function (b) { if (b !== except && b.classList.contains('nm-sactive')) { b.classList.remove('nm-sactive'); b.scrollTop = 0; } }); _markOf(); }
+  Array.prototype.forEach.call(cbs, function (b) {
+    b.addEventListener('click', function () {
+      if (b.classList.contains('nm-sactive') || b.scrollHeight - b.clientHeight <= 4) return;   // 이미 활성·안 넘치면 무시
+      _deact(b); b.classList.add('nm-sactive'); b.classList.remove('nm-of');
+    });
+  });
+  document.addEventListener('click', function (e) { if (!e.target.closest('.nm-cardbody, .nm-secbtn')) _deact(null); }, true);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(_markOf);   // 폰트 로드 후 높이 재측정
+  _markOf();
+}
+const SUMMARY_TPL = `<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>%TITLE% — 노뮤트 요약</title>
+%FONTFACE%

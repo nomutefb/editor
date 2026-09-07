@@ -36,3 +36,11 @@ jobs:
       - name: 착지(원장 + 알림)
         run: |
           bash .github/scripts/git_land.sh "yt-cookie: 쿠키 생사 원장 갱신 (bot)" push/yt_cookie_health.json messages
+      - name: Preserve results when repository save fails
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: recovery-${{ github.job }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/editor-recovery/
+          if-no-files-found: ignore
+          retention-days: 3

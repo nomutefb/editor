@@ -107,28 +107,4 @@ jobs:
           name: summary-ab-${{ inputs.ab_id || github.run_id }}
           path: ${{ runner.temp }}/ab_stage
           if-no-files-found: warn
-
-      - name: 결과 커밋 (실행 브랜치 · docs/reports/ab/<id>)
-        if: always()
-        env:
-          AB_ID: ${{ inputs.ab_id || github.run_id }}
-          AB_STAGE: ${{ runner.temp }}/ab_stage
-        run: |
-          [ "${GITHUB_REF_NAME}" != "main" ] || { echo "::error::main 에서 실행 금지"; exit 1; }
-          [ -d "$AB_STAGE" ] || { echo "스테이지 없음 — 커밋 생략"; exit 0; }
-          git checkout -q -- . 2>/dev/null || true
-          git clean -fdq -- queue pending messages metrics 2>/dev/null || true
-          git fetch -q origin "${GITHUB_REF_NAME}"
-          git checkout -q -B "${GITHUB_REF_NAME}" "origin/${GITHUB_REF_NAME}"
-          mkdir -p "docs/reports/ab/${AB_ID}"
-          cp -r "$AB_STAGE"/. "docs/reports/ab/${AB_ID}/"
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add "docs/reports/ab/${AB_ID}"
-          git diff --cached --quiet && { echo "변경 없음"; exit 0; }
-          git commit -q -m "summary-ab: 요약 A/B 실측 산출 ${AB_ID} (러너)"
-          for i in 1 2 3; do
-            git pull --rebase --autostash origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}" && exit 0
-            sleep $((i*3))
-          done
-          echo "::warning::결과 push 실패 — 아티팩트로 회수"
+          retention-days: 3

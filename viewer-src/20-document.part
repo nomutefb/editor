@@ -1,0 +1,19 @@
+<script>
+const $ = s => document.querySelector(s);
+let DATA = [], DATA_LOADED = false;   // DATA_LOADED = 피드 1회 로드 완료 — 새로고침 시 DATA 전 picked가 Picking…으로 깜빡 방지
+let FEED_GEN = '';   // 이 피드(articles.json)가 구워진 배포본 시각 — 대기열 lag 행 툴팁이 '어느 배포본까지 반영됐나'를 말한다(선언 위치 = DATA 옆 = load() 보다 위 · TDZ 차단 · 260803)
+let CUR = '';
+let CUR_A = null;     // 현재 모달에 연 기사 객체(요약 PDF 다운로드에서 제목·출처 참조)
+let CUR_STATE = '';   // 모달에 마지막 렌더한 카드 state — 안 바뀌면 재렌더 생략(펼친 프롬프트 보존)
+document.addEventListener('DOMContentLoaded', () => { if (window.marked) marked.setOptions({ breaks:true }); });   // DOMContentLoaded = defer marked 로드 완료 후 setOptions(defer는 DCL 전 순서 실행 보장) → breaks:true 적용 · window.marked 가드 = 로드 실패해도 throw 안 나 부팅 계속(SPOF 방어 · parse는 상세 open() 시점이라 더 나중 = 옵션 반영됨 · 운영자 260705)
+
+// 민감 태그 — 에디터 본체(01 [민감 이슈 분기]) 통제어휘 7개 → 앰버 경고 틴트(.warn).
+// 앞 5개=콘텐츠 보호(선정성·피해자 안전·장면 검열) · #북·중외교=사실 무결성↑(날조 금지·오전달 중죄급)·표현/창작 제약 아님·좌우 부여(정부정책 두둔 좌/비판 우·현 정부 기준)·운영자 260622.
+// #마약=마약·약물 민감 플래그(장면 제약은 01 [민감 이슈 분기]: 그림내 특정약물명·복용장면 금지·제조 OK·운영자 260625). build-viewer가 본문 약물어(DRUG_RE)로 frontmatter tags에 자동 보강 → LLM 누락·기존 분석분도 칩에 뜸.
+// (기타 대분류·정치 태그는 본체에 없어 정합 위해 폐기 — 옛 큐 잔여 태그는 sensChips가 muted로 흘림.)
+const SENS_PROTECT = ['#성범죄','#자살자해','#아동피해','#재난참사','#추모','#북·중외교','#마약'];
+// '카드만' 토글 = 이미지까지 실제 렌더된 기사만(text_done=프롬프트만은 제외 — 자동 생성이라 거의 전건이 포함돼버림)
+const hasCardImage = a => a.cards && (a.cards.state === 'done' || (a.cards.state === 'fired_partial' && (a.cards.images || []).length > 0));   // fired_partial도 이미지가 실재하면 포함(부분 렌더 = '이미지까지 실제 렌더' 의도 부합 · 평의회 260713 ⑧)
+// R 필터 칩 상태 — 카테고리(OR)
+const FILTERS = { cats: new Set(), issue: false };   // issue = 긴급+이슈 통합 필터(breaking·issue 합침·운영자 260621) · (naver 소스 칩 = 260704 제거 — 켰다 껐다 기능 자체 폐지·운영자)
+const CHIP_CATS = ['정치','사회','경제','문화','국제','테크'];   // 정치 신규(요즘 비중 큼 → 사회서 분리·운영자 260621)

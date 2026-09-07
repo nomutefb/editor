@@ -222,3 +222,11 @@ jobs:
         # 착지 실패 시 rc는 여전히 0 + ::warning만 = 종전 "다음 주기 재수집" 계약 그대로(후속 스텝·잡 비차단).
         run: |
           bash .github/scripts/git_land.sh "sns-trends: 유튜브·트렌드 갱신" viewer/sns_trends.json viewer/sns_brief.json viewer/tbs_data.json push/kw_sent.json push/trend_sent.json "metrics/usage/${GITHUB_RUN_ID}-${GITHUB_JOB}-${GITHUB_RUN_ATTEMPT}.jsonl"
+      - name: Preserve results when repository save fails
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: recovery-${{ github.job }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/editor-recovery/
+          if-no-files-found: ignore
+          retention-days: 3

@@ -1,0 +1,18 @@
+<script>/* 부팅 인트로 스킵 판정 — 잠금(PIN 설정 + locked/유휴초과) 기기는 스플래시 없이 바로 PIN. 첫 페인트 전 html.boot-lock 세팅(플래시 0). 실제 lockNow는 메인 스크립트가 실행(여기선 스플래시만 선차단) · 설정 = 서버 캐시(nm_settings_cache) 우선 + 레거시 개별키 폴백(260710 전역 이전) · 자동잠금 분 = 메인 lkMinRaw와 동일 산식(LK_STEPS 최근접 스냅)이라 마이그레이션 유저도 판정 일치(평의회2·1·6·10 260705) */
+try {
+  var _sc = null; try { _sc = JSON.parse(localStorage.getItem('nm_settings_cache') || 'null'); } catch (e2) {}   // 서버 설정 캐시 우선(메인 NM_SET 미러) → 없으면 레거시 개별 키
+  var _bp, _bon, _b4;
+  if (_sc && typeof _sc === 'object') { _bp = _sc.lockPinHash || ''; _bon = _sc.lockOn !== false; _b4 = _sc.lockLen === 4; }
+  else { _bp = localStorage.getItem('nm_lock_pin') || ''; _bon = localStorage.getItem('nm_lock_on') !== '0'; _b4 = localStorage.getItem('nm_lock_len') === '4'; }
+  if (_bp && !_b4) _bp = '';   // 구 6자리 PIN(길이 마커 불일치) = 메인이 무효화 예정 → boot-lock 스킵(4자리 전환 마이그레이션 · 260706)
+  if (_bp) {
+    var _blk = localStorage.getItem('nm_locked') === '1';
+    var _bl = parseInt(localStorage.getItem('nm_lock_last') || '0', 10) || 0;
+    var _braw = (_sc && _sc.lockMin != null) ? _sc.lockMin : localStorage.getItem('nm_lock_min');
+    if (_braw == null) _braw = localStorage.getItem('nm_lock_min_pc') || localStorage.getItem('nm_lock_min_mo');   // 옛 기기별값 승계(메인 lkMinRaw와 동일)
+    var _bm = parseInt(_braw || '2', 10) || 2;
+    var _bsteps = [1, 2, 3, 4, 5, 10, 15, 30, 60];
+    _bm = _bsteps.reduce(function (a, b) { return Math.abs(b - _bm) <= Math.abs(a - _bm) ? b : a; }, _bsteps[0]);   // LK_STEPS 최근접 스냅(메인과 단일 진리)
+    if (_blk || (_bon && _bl && (Date.now() - _bl >= _bm * 60000))) document.documentElement.classList.add('boot-lock');
+  }
+} catch (e) {}

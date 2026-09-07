@@ -12,7 +12,23 @@ on:
   # (봇 데이터 커밋 viewer/*.json 등은 트리거 안 됨 · 원장 변경은 하루 몇 건) · concurrency가 연타를 취소한다.
   push:
     branches: [main]
-    paths: ['docs/요구사항_큐.md']
+    paths:
+      - 'docs/요구사항_큐.md'
+      - 'docs/current-contracts.md'
+      - 'AGENTS.md'
+      - 'CLAUDE.md'
+      - 'viewer-src/**'
+      - 'viewer/*.html'
+      - 'viewer/*.js'
+      - 'viewer/*.css'
+      - 'functions/**'
+      - 'shared/**'
+      - 'tests/**'
+      - '.github/**'
+      - 'apps/**/*.py'
+      - 'apps/**/*.sh'
+      - 'scraper/*.py'
+      - 'build-viewer.mjs'
   workflow_dispatch:
 
 concurrency:
@@ -25,11 +41,21 @@ permissions:
 jobs:
   check:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
+      - name: Validation dependencies
+        run: python3 -m pip install 'PyYAML==6.0.2' 'Pillow==11.3.0'
       - name: check_refs (경로·버전·디자인거울·JS 구문)
         run: python3 shared/check_refs.py
+      - name: Save and recovery regressions
+        run: |
+          node --test tests/*.test.mjs
+          python3 tests/test_git_land.py
+      - name: Build viewer
+        run: node build-viewer.mjs
+      - name: UI regressions
+        run: bash shared/smoke_all.sh

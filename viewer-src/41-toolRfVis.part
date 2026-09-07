@@ -1,0 +1,597 @@
+function toolRfVis(key) { const b = $('#toolRf'); if (b) b.hidden = (key !== 'thumb' && key !== 'cap'); }   // 이미지·비디오 스튜디오 셸만 노출(요약 셸 = 종전 2버튼)
+// 한바퀴 픽토 = 입력 초기화(운영자 260821 «그거 누르면 화면에 있는 글자 텍스트나 사진 기 입력된거 없어지게 · 휴지통하고 비슷한 개념인데 좀 다름 · 비디오 스튜디오도 마찬가지 · 세부 메뉴 모두 · 단 그 열려있는 세부메뉴 한정»)
+//   — 구 역할(수동 재동기 nmRefresh · 260731)은 갈아끼움: 재동기는 nm-sync ①(복귀 시 자동 nmRefresh)이 이미 전담이라 수동 축 소멸 = 기능 손실 0.
+//   경로 2갈래(열린 세부 메뉴 한정이 계약) =
+//   ⓐ AI 생성 판 = 부모(index)가 그림 → 부모가 직접 비운다(주문 텍스트 + 참고 이미지 — geniRefClear = 기존 해제 정본 1벌 · 동작 사본 0).
+//   ⓑ 그 외 = 활성 프레임에 위임: 문서가 nmTabReset(내부 세부탭 보유 = thumb 전용 훅)을 들면 그걸로(그 탭만) ·
+//      없으면 프레임 리로드 — 영상 5탭·번역은 문서 하나 = 세부 메뉴 하나라 리로드가 곧 「그 메뉴만 초기화」다(새 탭도 자동 커버 = 손 목록 0 ·
+//      진행 중 작업·결과 레일은 localStorage 재개 계약(nm-jobs 260810)이라 리로드에 안 죽는다).
+if ($('#toolRf')) $('#toolRf').addEventListener('click', () => {
+  const gh = $('#geniHost');
+  if (gh && !gh.hidden) {
+    try { const w0 = $('#geniWish'); if (w0 && w0.value) { w0.value = ''; w0.dispatchEvent(new Event('input', { bubbles: true })); } } catch (_) {}
+    try { geniRefClear(); } catch (_) {}
+    return;
+  }
+  const f = document.querySelector('#tooldlg .toolfr.active'); const w = f && f.contentWindow;   // .active = 실표시 프레임(세부탭·번역 전용 프레임 포함)
+  if (!w) return;
+  try { if (typeof w.nmTabReset === 'function') { w.nmTabReset(); return; } } catch (_) {}
+  try { w.location.reload(); } catch (_) {}
+});
+tooldlg.addEventListener('close', () => {
+  tooldlg.style.maxHeight = ''; tooldlg.style.marginTop = '';                    // 키보드 클램프(toolVV) 인라인 원복 — genidlg close 클리어 선례(다음 오픈 = CSS dvh 기본)
+  toolMenuHide(true);                                                            // 헤더 메뉴 팝업 즉시 소등(모달 자체가 닫히는 중 = 퇴장 애니 불요 · 최소화 포함)
+  askUnmount();                                                                  // 요약 가상 탭 원복(최소화 포함 — DOM 이동 = 입력값 보존 · 복원 시 askMount 재이식)
+  geniUnmount();                                                                 // 프롬프팅 이식 탭 원복(최소화 포함 · 260713 B) — 기사 카러셀 팝업 경로가 언제든 폼을 되찾게(보관함 = genidlg)
+  tooldlg.classList.remove('no-tin');                                           // 복원-생략 플래그 해제 → 다음 정규 오픈은 toolIn 페이드 정상(운영자 260627)
+  if (toolMinimizing) {                                                          // ★ 최소화 경로 = iframe·탭·{tool}칸 보존(파괴·history.back 스킵)
+    toolMinimizing = false;
+    showRestoreNav();                                                            // ▲ 복원 버튼 등장
+    if (!document.querySelector('dialog[open]')) document.documentElement.style.overflow = '';   // 스크롤락만 해제(뒤 화면 조작)
+    try { $('#toolRestore').focus(); } catch (_) {}
+    return;
+  }
+  if (curToolKey === 'ask') { if (askImages.length) { askImages = []; renderAskImgs(); } askDraftClear(); }   // 요약 셸 정규 닫기 = 첨부 비움(askdlg close 핸들러의 stale ✓N 배지 차단 이식 · 운영자 260622 규칙 승계 — 최소화는 위 return으로 보존) + 초안 폐기(260727 · askdlg 경로와 동일 규칙)
+  discardTool(curToolKey);   // 닫는 도구 프레임 회수(복제면 DOM 제거·원본이면 blank)
+  tooldlg.classList.remove('has-tabs'); $('#toolTabs').innerHTML = '';
+  if (MIN_REG.size) { showRestoreNav(); minRegRefresh(); } else hideRestoreNav();   // 다른 도구가 최소화돼 있으면 ▲ 유지(독립 창)
+  if (!document.querySelector('dialog[open]')) document.documentElement.style.overflow = ''; const f = $('#toolfab'); if (f) f.focus();
+  if (toolPopHandled) toolPopHandled = false;                                    // 백버튼으로 닫힘 = 히스토리 이미 pop됨
+  else if (history.state && history.state.tool) history.back();                  // X·백드롭·ESC로 닫힘 = 푸시한 칸 정리   // iframe 정지 + 스크롤락 해제(중첩 가드) + 트리거 포커스 복귀
+});
+// ── 최소화 / 복원 / 완전종료 (운영자 260627) ─────────────────────────────────
+// 최소화 = close()를 타되 toolMinimizing 가드로 iframe blank·has-tabs정리·history.back을 건너뜀 → thumb/영상 폼 입력값이 그대로 산다(1054 :not([open]){display:none}는 iframe을 리로드하지 않음 · 실측 확인). 복원 = showModal() 재호출(loadToolFrame 미호출 = 리로드 0). 모션은 본체(blur34) 대신 블러 없는 고스트로(1055 스내그 회피).
+// ⚠️ 복원 ▲는 일반 fixed(팝오버 아님) — 실측: 이 렌더엔진은 popover/일반z 모두 모달 <dialog>(showModal·top-layer) 위로 못 뜸. 그래서 요약리더(#dlg)·라이트박스(모바일 풀스크린)가 열리면 reparentNav가 ▲를 그 열린 모달 안으로 옮겨(그 모달의 비inert 자식이 되어) 위에 보이게 한다. 풀스크린이라 CSS bottom:150이 viewport와 일치(좌표 보정 불요). 모달 닫히면 body로 복귀.
+function navCenter() {                                                           // ▲ 중심(고스트 수렴 좌표) — 떠있으면 실측, 아니면 계산
+  const b = $('#toolRestore');
+  if (b && toolMin) { const r = b.getBoundingClientRect(); if (r.width) return { cx: r.left + r.width / 2, cy: r.top + r.height / 2 }; }
+  return { cx: window.innerWidth - 16 - 17, cy: window.innerHeight - 132 - 17 };   // ▲ 우하단(right:16·bottom:132·34px) 근사 폴백
+}
+function reduceMotion() { try { return matchMedia('(prefers-reduced-motion:reduce)').matches; } catch (_) { return false; } }
+function flyGhost(dir, done, navPt) {                                            // 'in'=모달→▲ 접힘 / 'out'=▲→모달 펼침
+  const m = lastToolRect;
+  if (reduceMotion() || !m || !m.width) { if (done) done(); return; }
+  const g = document.createElement('div'); g.className = 'tool-ghost';
+  g.style.left = m.left + 'px'; g.style.top = m.top + 'px'; g.style.width = m.width + 'px'; g.style.height = m.height + 'px';
+  document.body.appendChild(g);
+  const n = navPt || navCenter(), navW = 34;   // ▲ 컴팩트 크기로 수렴
+  const sx = navW / m.width, sy = navW / m.height;
+  const tx = n.cx - (m.left + m.width / 2), ty = n.cy - (m.top + m.height / 2);
+  const small = { transform: 'translate(' + tx + 'px,' + ty + 'px) scale(' + sx + ',' + sy + ')', opacity: 0, borderRadius: '50%' };
+  const full  = { transform: 'translate(0px,0px) scale(1)', opacity: 0.92, borderRadius: '22px' };
+  const seq = dir === 'in' ? [full, small] : [small, full];
+  let fin = false; const end = () => { if (fin) return; fin = true; if (done) done(); g.remove(); };
+  try { const a = g.animate(seq, { duration: 230, easing: 'cubic-bezier(.2,.7,.3,1)', fill: 'forwards' }); a.onfinish = end; a.oncancel = () => { fin = true; g.remove(); }; }   // 230ms = 더 빠르고 자연(운영자 260627 · 옛 340 느림) · easing=표준 --ease
+  catch (_) { end(); }                                                          // WAAPI 미지원 = 즉시 완료
+}
+function toolMinLabel() {   // 최소화 라벨 = "메뉴 - 세부탭"(운영자 260628). 영상=부모가 src 앎 / 이미지=thumb iframe .tab.on 텍스트 읽음(동일출처).
+  const base = ($('#toolTitle') || {}).textContent || '제작 도구';
+  try {
+    if (curToolKey === 'ask') { const src = (toolMeta.ask && toolMeta.ask.src) || '#ask'; return src === '#ask' ? '요약 - 요약 요청' : '요약 - 미디어 요약'; }
+    if (curToolKey === 'cap') { const src = (toolMeta.cap && toolMeta.cap.src) || ''; return '영상 - ' + (/\/sb\.html/.test(src) ? '스토리보드' : /\/k\.html/.test(src) ? '프롬프트 생성' : /\/song\.html/.test(src) ? '음원' : '자막 생성'); }
+    if (curToolKey === 'thumb') { if (((toolMeta.thumb || {}).app) === 'tr') return '이미지 - 번역'; const d = toolFrames.thumb && toolFrames.thumb.contentDocument; const t = d && d.querySelector('.tab.on'); const sub = t ? (t.textContent || '').trim() : ''; return sub ? '이미지 - ' + sub : '이미지'; }   // 번역 탭 = 부모가 앎(thumb 내부 .tab.on엔 없음 · 260721)
+  } catch (_) {}
+  return base;
+}
+function minimizeTool() {
+  if (!tooldlg.open || toolMinimizing) return;
+  lastToolRect = tooldlg.getBoundingClientRect();                               // ★ close() 전 캡처(닫으면 display:none → rect 0)
+  showRestoreNav();                                                             // ▲ 먼저 띄워 정확한 수렴 좌표 확보
+  const _k = curToolKey || 'tool';
+  MIN_REG.set(_k, { label: toolMinLabel(), restore: () => restoreTool(_k) }); minRegRefresh();   // 도구키별 등록 = 이미지·영상 독립 최소화 · 라벨 "메뉴 - 세부탭"(운영자 260628)
+  toolMinimizing = true;
+  flyGhost('in');                                                              // 모달 위치서 ▲로 수렴
+  try { tooldlg.close(); } catch (_) { toolMinimizing = false; }                // 가드 close = 폼 보존(close 핸들러의 showRestoreNav는 이미 떠서 스킵) · throw 시 가드 stuck 방지
+}
+function restoreTool(key) {
+  key = key || curToolKey || 'tool';
+  if (tooldlg.open || !MIN_REG.has(key)) return;
+  const n = navCenter();                                                        // ▲ 위치 먼저 캡처(숨기기 전)
+  MIN_REG.delete(key);
+  if (MIN_REG.size) minRegRefresh(); else hideRestoreNav();                     // 남은 최소화 있으면 ▲ 유지(없으면 숨김)
+  activateToolFrame(key);                                                       // 보존된 이 도구 프레임 활성(폼 그대로 · 리로드 0)
+  const meta = toolMeta[key] || {};
+  setToolTitle(meta.title);
+  renderToolTabs(meta.tabs);                                                    // 타이틀·탭 복원(활성 서브탭 포함)
+  toolRfVis(key);                                                               // 입력 초기화 유틸 표시 복원(260821 전환 · 스튜디오 셸만 · 운영자 260731)
+  if (((meta.src || '')[0]) === '#') askMount();                                // 요약 가상 탭이었으면 askwrap 재이식(close 때 원복됐던 것 · 입력값 보존)
+  if (key === 'thumb' && ((toolMeta.thumb || {}).app) === '6') {   // 복원 = 무조건 재이식(운영자 260714 Q02 "이 창을 처음 킨다는 전제 하에는 저 버튼이 항상 눌려야 다음거가 나와 → 그러지 않게" — 구 geniFired 예외{발사 직후 복원 = 잡 그리드 유지 · fable 260713} 폐지: 밤새 PWA 최소화 후 복원이 '이미지 생성' 버튼 관문에 갇히던 덫 · 잡 진행 = 발사 직후 화면+표준 잡 흐름(편집 탭 공유)이 전담 · geniFired 마킹 = 4684·다리 sync에 존속{발사 직후 역동기 잡 그리드 유지} — 복원 예외 재도입은 이 행 조건 1개)
+    const _g = $('#genidlg'); if (_g && _g.open) _g.close();                    // 팝업 열림 중 복원 = 팝업 닫고 이식(폼 단일 거처 — close 핸들러가 장면 스냅샷 저장 · 구 gdlg.open 조기 return이 하이라이트·내용 불일치 만들던 것 봉합 · 평의회 1번)
+    geniMount();                                                                // 프롬프팅 이식 탭이었으면 재이식(askMount 미러 · 260713 B — 장면은 GENI_FREE_TXT 스냅샷 복원)
+  }
+  if (key === 'thumb' && ((toolMeta.thumb || {}).app) === 'tr') trMount();      // 번역 탭이었으면 전용 보존 프레임 재표시(위 geni 복원 미러 · 폼 그대로 · 260721) — trMount이 _trLoaded 기준 frame-ready 자체 관리
+  else tooldlg.classList.add('frame-ready');                                    // 그 외 보존 프레임 = load 이벤트 없음 → 즉시 보이게(opacity 1) · 번역 탭은 trMount 전담(예열 미완 프레임 조기 부분노출 방지 · 평의회1 260724 · 구 무조건 add가 trMount 판정 덮던 것 봉합)
+  trWarm();                                                                     // 복원 경로도 번역 탭 예열(운영자 260724 한 수 — 최소화 전 번역 미방문이라 thumbtr 미존재 시 지금 선로드 → 복원 후 번역 클릭도 즉시 · self-guard: thumb 셸·thumbtr 미존재일 때만)
+  closeOverlays(); document.documentElement.style.overflow = 'hidden';
+  flyGhost('out', () => {                                                       // 고스트가 이미 모달 크기로 펼침 → 모달은 그 자리에 즉시 등장(toolIn 재페이드 생략 · 운영자 260627)
+    if (!(history.state && history.state.tool)) history.pushState({ tool: true }, '');   // 최소화 중 백버튼이 {tool}칸 소비했으면 복원, 보존됐으면 재사용
+    tooldlg.classList.add('no-tin');                                           // 복원 = toolIn 생략(고스트가 등장 모션 담당)
+    try { tooldlg.showModal(); } catch (_) {}                                   // 이미 열렸으면 무시(연타 방어)
+    setTimeout(() => { try { $('#toolX').focus(); } catch (_) {} }, 0);
+  }, n);
+}
+// [죽은코드 제거 260701·분신술 A10] closeToolFully — 호출 0. 완전종료 실경로 = closeNow→closeAllMinimized(260627 다중최소화 리팩터 잔해).
+// ── 다중 최소화 레지스트리 + 뉴스요약 최소화 + 선택 picker (운영자 260627) ──────────────────
+// ▲ 복원 버튼은 공유. 최소화된 게 1개면 ▲ 탭=바로 복원 / 2개+면 ▲ 탭=어느 걸 펼칠지 선택 picker.
+const MIN_REG = new Map();   // id → { label, restore } · 최소화된 모달 추적
+function minRegRefresh() {    // ▲ 위 배지 = ⓐ 최소화 2개+ 개수(종전) · ⓑ 접어둔 다운로드의 「받는 중」 건수(운영자 260803 "그거는 진행 ㄱ")
+  const b = $('#toolRestore'); if (!b) return;
+  const run = MIN_REG.has('dlgrab') ? _dgRunN() : 0;                              // 접어둔 다운로드 창이 지금 몇 건 받고 있나
+  const e = MIN_REG.get('dlgrab');
+  if (e) e.label = run ? '다운로드 · 받는 중 ' + run : '다운로드';                 // picker 라벨도 같은 사실을 문자로 — 최소화 2개+라 배지 자리를 창 개수에 내준 경우엔 여기가 건수를 전담
+  const n = MIN_REG.size > 1 ? MIN_REG.size : run;                                // 창이 여럿이면 창 개수가 1순위(배지의 원 의미 = 어느 걸 펼칠지) · 1개뿐이면 그 자리에 진행 건수
+  let badge = b.querySelector('.tr-count');
+  if (n > 0) { if (!badge) { badge = document.createElement('span'); badge.className = 'tr-count'; b.appendChild(badge); } badge.textContent = String(n); }
+  else if (badge) badge.remove();
+}
+function restoreDispatch() {  // ▲ 탭 = picker 떠있으면 닫기(토글) / 1개면 바로 복원 / 2개+면 선택 picker
+  if ($('#minPick')) { closeMinPicker(); return; }   // 이미 열린 picker = ▲ 재탭으로 토글 닫기(중복 재오픈 방지)
+  if (MIN_REG.size > 1) { showMinPicker(); return; }
+  const first = MIN_REG.values().next().value;
+  if (first && first.restore) first.restore(); else restoreTool();
+}
+function showMinPicker() {    // 2개+ 최소화 = 어느 걸 펼칠지 고르는 작은 메뉴(▲ 바로 위)
+  closeMinPicker();
+  const b = $('#toolRestore'); if (!b) return;
+  const host = b.parentElement || document.body;
+  const pop = document.createElement('div'); pop.className = 'min-pick'; pop.id = 'minPick';
+  for (const [, e] of MIN_REG) {
+    const it = document.createElement('button'); it.type = 'button'; it.className = 'min-pick-it'; it.textContent = e.label;   // 좌측 아이콘(⤢) 제거·라벨만 좌측정렬(text-align:left · 운영자 260703)
+    it.addEventListener('click', ev => { ev.stopPropagation(); const r = e.restore; closeMinPicker(); if (r) r(); });
+    pop.appendChild(it);
+  }
+  host.appendChild(pop);
+  const r = b.getBoundingClientRect();
+  const pw = pop.offsetWidth, M = 8;                                           // popInCx가 transform:none으로 translateX(-50%)를 덮음 → 중앙정렬 대신 *좌변* 직접 지정+클램프(▲가 우측 끝이라 안 하면 우측 잘림 — 운영자 260628 모바일 픽스)
+  let left = r.left + r.width / 2 - pw / 2;                                     // ▲ 중심에 트레이 가운데를 맞춘 좌변
+  left = Math.min(left, window.innerWidth - M - pw);                           // 우측 밖 방지
+  left = Math.max(left, M);                                                    // 좌측 밖 방지
+  pop.style.left = left + 'px'; pop.style.bottom = (window.innerHeight - r.top + 10) + 'px';   // ▲ 바로 위
+  setTimeout(() => document.addEventListener('pointerdown', onMinPickOutside, { capture: true }), 0);   // 바깥 탭 = 닫기(가드 리스너 · once 제거: 내부/▲ 탭엔 살아남아야 함)
+}
+// picker 바깥 탭만 닫기 — ⚠️ picker 내부·▲ 자체 탭은 제외(안 그러면 pointerdown[capture]이 항목 click보다 먼저 picker를 지워 *선택이 죽음* = 누적 2개+ 복원 불가 버그·운영자 260628). 검증본 데모(260628 보고서)의 .closest 가드를 라이브에 반영.
+function onMinPickOutside(e) {
+  const t = e.target;
+  if (t && t.closest && (t.closest('.min-pick') || t.closest('#toolRestore'))) return;   // 내부/▲ 탭은 유지(각자의 click 핸들러가 처리)
+  closeMinPicker();
+}
+function closeMinPicker() { const p = $('#minPick'); if (p) p.remove(); document.removeEventListener('pointerdown', onMinPickOutside, { capture: true }); }   // 리스너 명시 해제(once 대신 — 가드로 살아남은 리스너 정리)
+// 뉴스 요약 최소화 — askMinimizing 가드로 close()를 타되 첨부·입력 보존(close 핸들러가 이미지 비움 스킵). 복원 = openComposeDlg 재호출(입력·이미지 그대로).
+let askMinimizing = false;
+function minimizeAsk() {
+  if (!askdlg.open || askMinimizing) return;
+  lastToolRect = askdlg.getBoundingClientRect();                                // ★ close() 전 rect 캡처(고스트 수렴)
+  showRestoreNav();
+  MIN_REG.set('askdlg', { label: '요약 요청', restore: restoreAsk }); minRegRefresh();   // 라벨 = 기능 정명 '요약 요청'(운영자 260712 개명 — 메뉴명 '뉴스 요약'과 중첩 해소 · 구 '뉴스 요약 - 신청')
+  askMinimizing = true;
+  flyGhost('in');
+  try { askdlg.close(); } catch (_) { askMinimizing = false; }
+}
+function restoreAsk() {
+  if (askdlg.open || !MIN_REG.has('askdlg')) return;
+  const n = navCenter();
+  MIN_REG.delete('askdlg');
+  if (MIN_REG.size) minRegRefresh(); else hideRestoreNav();                     // 남은 게 있으면 ▲ 유지
+  closeOverlays(); document.documentElement.style.overflow = 'hidden';
+  flyGhost('out', () => { openComposeDlg(askdlg); setTimeout(() => { try { $('#askText').focus(); } catch (_) {} }, 0); }, n);
+}
+// ── 작성 모달 일반 최소화 (revdlg·crevdlg·pastedlg·editdlg 공통 · 운영자 260628) ──
+// dlg._minimizing 가드 = 각 close 핸들러가 파괴적 리셋(입력·첨부·foot)을 스킵 → 최소화 = 상태 보존. 복원 = openComposeDlg 재호출(입력 그대로).
+function minimizeComposeDlg(dlg, id, label) {
+  if (!dlg || !dlg.open || MIN_REG.has(id)) return;
+  lastToolRect = dlg.getBoundingClientRect();
+  showRestoreNav();
+  MIN_REG.set(id, { label, restore: () => restoreComposeDlg(dlg, id) }); minRegRefresh();
+  dlg._minimizing = true;
+  flyGhost('in');
+  try { dlg.close(); } catch (_) { dlg._minimizing = false; }
+}
+function restoreComposeDlg(dlg, id) {
+  if (!dlg || dlg.open || !MIN_REG.has(id)) return;
+  const n = navCenter();
+  MIN_REG.delete(id);
+  if (MIN_REG.size) minRegRefresh(); else hideRestoreNav();
+  closeMinPicker();                                                            // 작은 중앙 모달 = body 스크롤락 안 검(백드롭이 모달성 처리·복원→X 후 락 잔존 방지)
+  flyGhost('out', () => { openComposeDlg(dlg); }, n);
+}
+function closeAllMinimized() {                                                  // ▲ 롱프레스 닫기 = 최소화된 것 전부 종료
+  const hadTool = Object.keys(toolFrames).some(k => MIN_REG.has(k));            // 최소화된 도구(이미지·영상) 전부 회수
+  Object.keys(toolFrames).forEach(k => { if (MIN_REG.has(k)) discardTool(k); });
+  if (hadTool) { tooldlg.classList.remove('has-tabs'); $('#toolTabs').innerHTML = ''; if (history.state && history.state.tool) history.back(); }
+  if (MIN_REG.has('askdlg')) { askMinimizing = false; askImages = []; renderAskImgs(); }   // Fix C: askdlg 칸은 minimize-close 때 compose-hist 핸들러가 이미 회수(rev/crev/paste/edit와 동일) → raw history.back() 제거 = 함께 열려있던 *다른* 컴포즈 모달 칸을 잘못 pop·over-close하던 것 차단(평의회 V1/V2/V3 · 260628)
+  ['revdlg', 'crevdlg', 'pastedlg', 'editdlg'].forEach(id => { const d = $('#' + id); if (d) d._minimizing = false; });   // 이미 minimize-close 때 composeDlg 칸 pop됨 → 추가 back 불요·플래그만 정리
+  MIN_REG.clear(); hideRestoreNav();
+  const f = $('#toolfab'); if (f) { try { f.focus(); } catch (_) {} }
+}
+function hostForNav() {                                                          // ▲가 들어갈 곳 = 최상위 열린 모달 dialog(tooldlg 제외) 없으면 body.
+  // ⚠️ DOM 마지막을 최상위로 가정 — 실경로(요약리더 #dlg 안에서 라이트박스 #lbox[body에 동적 append=항상 DOM 뒤] 열기)는 정합. 정적 dialog 역순 중첩은 showModal-시-body-inert로 실트리거 없음(B 검증).
+  // ⚠️ 컴포즈 모달(ask/rev/crev/paste/edit)은 *중앙정렬 작은 모달* → fixed bottom:150이 모달 기준으로 어긋나 ▲가 textarea 안에 뜸(운영자 260628 잔여버그). 풀스크린 리더(#dlg)·라이트박스만 호스트(거기선 bottom:150=viewport 일치). 컴포즈 모달만 열린 경우 = body 유지(showModal 백드롭 아래라 ▲ 가려짐=정상, 작성 중엔 복원 불필요).
+  const NO_HOST = ['tooldlg', 'askdlg', 'revdlg', 'crevdlg', 'pastedlg', 'editdlg', 'genidlg'];   // genidlg = 260713 B 후발 컴포즈 모달(openComposeDlg 경유) — 누락 시 ▲가 팝업 안 textarea 위로 오정렬 이식(평의회 260713 ①)
+  const dl = [].slice.call(document.querySelectorAll('dialog[open]')).filter(d => !NO_HOST.includes(d.id));
+  return dl.length ? dl[dl.length - 1] : document.body;
+}
+function reparentNav() {                                                         // 열린 모달(실경로 #dlg/#lbox = 모바일 풀스크린)이 있으면 ▲를 그 자식으로 = 그 inert 모달의 비inert 자식이라 위에 보임. 풀스크린이라 CSS bottom:150이 viewport와 일치(좌표 보정 불요).
+  const b = $('#toolRestore'); if (!b || !toolMin) return;
+  const host = hostForNav();
+  if (b.parentElement !== host) { closeMinPicker(); host.appendChild(b); }       // 모달 open/close로 ▲ 이동 시 열린 picker는 닫음 — picker는 옛 부모(닫힌 모달)에 안 따라와 고아됨(폰 뒤로가기·ESC 닫힘서 #minPick·리스너 잔존) → 컨텍스트 바뀌면 transient 메뉴 정리(평의회 A3 · 260628)
+}
+function showRestoreNav() {
+  const b = $('#toolRestore'); if (!b) return;
+  toolMin = true; b.classList.remove('arming'); b.classList.add('show');
+  b.setAttribute('aria-label', '제작 도구 펼치기 (길게 누르면 닫기)');
+  reparentNav();                                                                // 열린 모달 있으면 그 위로(없으면 body 유지)
+  if (!reduceMotion()) { try { b.animate([{ transform: 'scale(.3)', opacity: 0 }, { transform: 'scale(1)', opacity: 1 }], { duration: 300, easing: 'cubic-bezier(.2,.7,.3,1)' }); } catch (_) {} }   // 등장 팝(reduced-motion이면 생략)
+  clearTimeout(showRestoreNav._p); clearTimeout(showRestoreNav._s);
+  showRestoreNav._p = setTimeout(() => { if (toolMin) b.classList.add('pulsing'); }, 420);   // 발견성 펄스 링
+  showRestoreNav._s = setTimeout(() => b.classList.remove('pulsing'), 6600);     // 6s 후 펄스 자동 정지(주의 분산·배터리)
+}
+function hideRestoreNav() {
+  const b = $('#toolRestore'); if (!b) return;
+  closeMinPicker();                                                              // ▲ 숨김 = 열린 picker도 동반 정리 — 롱프레스 닫기·다른 도구 열기 경로서 #minPick·바깥탭 리스너가 고아로 남던 것 차단(평의회 A4/A7/A10 · 260628)
+  toolMin = false; clearTimeout(showRestoreNav._p); clearTimeout(showRestoreNav._s);
+  if (b._disarm) b._disarm();                                                    // armed면 "닫기" 칩/실드 정리 + armed 리셋
+  b.classList.remove('pulsing', 'show', 'arming');
+  if (b.parentElement !== document.body) document.body.appendChild(b);           // 모달서 꺼내 body로 복귀
+}
+// ▲ 롱프레스(550ms) → 삼각형 유지 + 위쪽에 "닫기" 칩(첨부1 라디얼 라벨 .radlab 도형 계승) + 풀스크린 실드(아래 내용 클릭 차단) · 칩 탭=닫기(액티브) / 다른 곳 탭=취소 · 평시 탭=펼침 (운영자 260627)
+(function () {
+  const tr = $('#toolRestore'); if (!tr) return;
+  const LBL = '제작 도구 펼치기 (길게 누르면 닫기)';
+  let lpTimer = null, armed = false, moved = false, autoT = null, armGuard = false, sx = 0, sy = 0, chip = null, shield = null;
+  function positionChip() { if (!chip) return; const r = tr.getBoundingClientRect(); chip.style.left = (r.left + r.width / 2) + 'px'; chip.style.top = (r.top - 7) + 'px'; }   // 삼각형 실제 위쪽 중앙
+  function teardown() { if (chip) { chip.remove(); chip = null; } if (shield) { shield.remove(); shield = null; } }
+  function arm() {
+    if (armed) return; armed = true;
+    closeMinPicker();                                                            // 롱프레스 닫기 진입 = 열린 picker 먼저 정리(shield가 picker 위 덮는 시각 겹침 제거 · 평의회 A2 · 260628)
+    tr.classList.remove('pulsing'); tr.classList.add('arming');
+    tr.setAttribute('aria-label', '위 "닫기"를 탭하면 종료 · 다른 곳 탭하면 취소');
+    const host = tr.parentElement || document.body;                             // ▲와 같은 레이어(모달 reparent 시 그 안 = 위에 보임)
+    shield = document.createElement('div'); shield.className = 'tr-shield';
+    shield.addEventListener('click', e => { e.stopPropagation(); if (armGuard) return; disarm(); });   // 아래 내용 클릭 차단 + 다른 곳 탭=취소
+    chip = document.createElement('button'); chip.type = 'button'; chip.className = 'tr-closebtn'; chip.textContent = '닫기';
+    chip.addEventListener('click', e => { e.stopPropagation(); closeNow(); });  // 칩 탭 = 닫기
+    host.appendChild(shield); host.appendChild(chip);
+    positionChip();
+    armGuard = true; clearTimeout(arm._g); arm._g = setTimeout(() => { armGuard = false; }, 350);   // arm 띄운 그 press의 release-click 무시(오발 차단)
+    clearTimeout(autoT); autoT = setTimeout(disarm, 4000);                      // 안전 자동 취소(4s)
+  }
+  function disarm() {
+    if (!armed) return; armed = false; tr.classList.remove('arming');
+    tr.setAttribute('aria-label', LBL); teardown(); clearTimeout(autoT);
+    if (toolMin) tr.classList.add('pulsing');
+  }
+  function closeNow() {                                                          // 칩 탭 = 닫기 액티브(칩 팝) → 완전종료
+    clearTimeout(autoT); armed = false; tr.classList.remove('arming');
+    if (chip) chip.classList.add('closing');
+    setTimeout(() => { teardown(); closeAllMinimized(); }, 190);   // 롱프레스 닫기 = 최소화된 것 전부 종료(운영자 260627)
+  }
+  tr._disarm = disarm;                                                          // hideRestoreNav가 armed 잔재(칩/실드) 정리용
+  tr.addEventListener('pointerdown', e => { if (e.button && e.button !== 0) return; moved = false; sx = e.clientX; sy = e.clientY; clearTimeout(lpTimer); lpTimer = setTimeout(() => { lpTimer = null; arm(); }, 550); });
+  tr.addEventListener('pointermove', e => { if (Math.abs(e.clientX - sx) > 10 || Math.abs(e.clientY - sy) > 10) { moved = true; if (lpTimer) { clearTimeout(lpTimer); lpTimer = null; } } }, { passive: true });   // 10px 임계 — 미세 떨림 무시
+  ['pointerup', 'pointercancel', 'pointerleave'].forEach(ev => tr.addEventListener(ev, () => { if (lpTimer) { clearTimeout(lpTimer); lpTimer = null; } }));
+  tr.addEventListener('click', e => { e.preventDefault(); if (armed || armGuard) return; if (moved) { moved = false; return; } restoreDispatch(); });   // 평시 탭=펼침(1개 바로 복원·2개+ 선택 picker · 운영자 260627)
+  tr.addEventListener('contextmenu', e => { e.preventDefault(); arm(); });
+})();
+// 재부모 옵저버 = 모달 dialog가 열리고/닫힐 때마다 ▲를 최상위 열린 모달(없으면 body)로 옮겨 항상 보이게. [open] 토글 1개로 #dlg·#lbox·#askdlg 등 커버.
+try {
+  new MutationObserver(ms => { if (!toolMin) return; for (const m of ms) { if (m.attributeName === 'open' && m.target.tagName === 'DIALOG' && m.target.id !== 'tooldlg') { reparentNav(); break; } } })
+    .observe(document.body, { subtree: true, attributes: true, attributeFilter: ['open'] });
+} catch (_) {}
+// 백드롭 클릭 닫기 폐지(운영자 260729) — 스튜디오(이미지·영상)는 창 밖을 눌러도 안 닫힌다. 퇴장은 −(최소화·폼 보존)·X(닫기) 두 버튼만 = PC에서 여백 오클릭 한 번에 제작 내역이 통째로 날아가던 유실 차단(모바일 동일 경로 = 같은 click 이벤트라 한 줄로 양쪽 커버). ESC·폰 뒤로가기는 명시적 조작이라 존치.
+bindToolFrameLoad($('#toolframe'));   // 원본 도구 iframe load 배선(복제 프레임은 activateToolFrame이 동일 배선) · 페이드인(frame-ready)+ESC 브릿지
+if (window.visualViewport) { window.visualViewport.addEventListener('resize', vvSchedule); window.visualViewport.addEventListener('scroll', vvSchedule); }   // 4핸들러(toolVV·geniVV × resize·scroll) → **1스케줄러**로 합침(운영자 260803 아이디어 적용) — 구 배선은 키보드 상승 한 번에 두 함수가 각각 수십 번 돌며 dialog 인라인 스타일을 갈아써 창이 계단식으로 떨렸다 · vvSchedule이 프레임당 1회 toolVV+geniVV를 호출하므로 **호출 대상·순서·결과는 종전과 동일**하고 횟수만 줄어든다   // 스튜디오 셸 키보드 클램프 = 톱레벨 상시 배선(⚠️ geniInit 안에 두면 프롬프팅 첫 진입 전 미등록 — geniVV도 동일 사유로 합류: pubdlg가 geniInit 이전에 열려도 클램프 도달 + scroll 청취(키보드 뜬 채 vv.offsetTop 이동 추적 · 구 resize 단독의 반쪽 보완 · 감사 260718) · geniInit 내 기존 등록은 동일 참조라 중복 무해)
+$('#askX').addEventListener('click', () => askdlg.close());
+if ($('#askMin')) $('#askMin').addEventListener('click', () => minimizeAsk());   // 뉴스요약 최소화(영상/tooldlg와 동일 ▲ 복원·운영자 260627)
+// 작성 모달 최소화 — 일반 minimizeComposeDlg (▲ 복원·2개+ picker · 운영자 260628)
+// ⚠️ 요약 수정(revdlg)·카드 수정(crevdlg)은 최소화 제거(운영자 260628) — X가 입력 보존·수정 FAB 재진입으로 복원(아래 close 핸들러). pastedlg·editdlg만 최소화 유지.
+if ($('#pasteMin')) $('#pasteMin').addEventListener('click', () => minimizeComposeDlg(pastedlg, 'pastedlg', '전문 입력'));
+// editdlg(카드 이미지 수정) 최소화 폐지(운영자 260628) — X가 입력 보존·같은 카드 변경버튼 재진입으로 복원(openEdit kept-restore). pastedlg만 최소화 유지.
+askdlg.addEventListener('click', e => { if (e.target === askdlg) askdlg.close(); });   // 바깥(백드롭) 클릭 닫기
+askdlg.addEventListener('close', () => {
+  if (askMinimizing) { askMinimizing = false; showRestoreNav(); if (!document.querySelector('dialog[open]')) document.documentElement.style.overflow = ''; try { $('#toolRestore').focus(); } catch (_) {} return; }   // ★ 최소화 경로 = 첨부·입력 보존(이미지 비움 스킵·운영자 260627)
+  if (askImages.length) { askImages = []; renderAskImgs(); }   // 닫으면 첨부 비움 = 재오픈 시 stale '✓N' 배지/이미지 잔존 차단(운영자 260622)
+  askDraftClear();   // 초안도 함께 폐기(운영자 260727 "최소화 한 게 아닌데 다른 페이지 갔다오면 휘발") — 최소화는 위 return이 이미 보존
+});
+// 초안 폐기 = 「최소화 = 보존 / 그 밖의 이탈(X·백드롭·ESC·뒤로가기·도구 정규 닫기) = 비움」 규칙의 실행부(운영자 260727 승인 · 4작성면 통일).
+//   value 직접 비우고 input 디스패치 = 지우개·복사 노출·placeholder 리드백이 정본 경로로 한 번에 따라온다(각 UI 갱신자 산탄 호출 금지).
+function draftClear(sel, after) { const t = $(sel); if (!t || !t.value) return; t.value = ''; t.dispatchEvent(new Event('input', { bubbles: true })); if (after) after(); }
+function askDraftClear() { draftClear('#askText'); draftClear('#askLink', () => { paintAskLink(); askLinkOpen(false); }); }   // 링크도 같은 규칙(최소화=보존 / 그 밖 이탈=비움 · 운영자 260731)
+// ── 링크 넣기(운영자 260731 "우측 사진 아래에 링크도") — 🔗 픽토 = 링크 행 펼침/접힘 · 값 있으면 ✓ 배지(.askattach-badge 문법 계승) ──
+//   기사 링크 = 그 원문으로 요약 · 영상·음성 링크 = Whisper large-v3 전사 후 전사문을 원문으로 요약. 판별·전사는 파이프(ask.sh 링크 레일) 담당 = 클라는 URL만 실어 보낸다.
+function askLinkVal() { const el = $('#askLink'); return el ? el.value.trim() : ''; }
+function paintAskLink() { const tg = $('#askLinkTg'), bd = $('#askLinkBadge'), v = askLinkVal(); if (!tg) return; tg.classList.toggle('has', !!v); if (bd) bd.hidden = !v; }
+function askLinkOpen(on) { const row = $('#askLinkRow'), tg = $('#askLinkTg'); if (!row || !tg) return; row.hidden = !on; tg.setAttribute('aria-expanded', String(on)); if (on) { try { $('#askLink').focus(); } catch (_) {} } }
+if ($('#askLinkTg')) $('#askLinkTg').addEventListener('click', () => askLinkOpen($('#askLinkRow').hidden));
+if ($('#alkForce')) {   // 전사 강행 = 스트립 토글(.gs-tog) 정본 동작(탭·Enter/Space · aria-pressed) — 켜면 상한 30분 → 55분
+  const fb = $('#alkForce'), flip = () => { askLinkForce = !askLinkForce; fb.classList.toggle('on', askLinkForce); fb.setAttribute('aria-pressed', askLinkForce ? 'true' : 'false'); paintAskLinkSt('stt'); };
+  fb.addEventListener('click', flip);
+  fb.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flip(); } });
+}
+// 경로 리드백(운영자 260731) — 링크를 넣으면 api/linkprobe 가 자막 유무를 미리 확인해 [자막]/[전사 large-v3] 중 실제로 탈 쪽만 점등, 나머지는 디밍.
+//   ⚠️ 화면 표시 전용 사전판별(정본 판정 = 파이프 ask_link.py·ask_link_stt.sh 실측) · 미상(비유튜브 미디어·봇 차단)이면 둘 다 디밍 = 과신 금지.
+let _alkSeq = 0, _alkDur = 0, askLinkForce = false;   // _alkDur = 마지막 프로브가 준 영상 길이(초) — 전사 예상은 이 길이에 비례 · askLinkForce = 전사 강행(길이 상한 올림)
+const ALK_STT_CAP = 1800, ALK_STT_FORCE_CAP = 3300;   // 전사 길이 상한(초) = news-ask.yml ASK_LINK_STT_MAX_SEC / _FORCE_SEC 사본(화면 안내용 · 실제 게이트는 파이프가 판정)
+// 예상 시간(운영자 260731 "걸린시간을 유튜브 시간과 대조해서 예상 시간이 항상 나오게") = nmEta 정본:
+//   자막 경로 = 고정 오버헤드(ask-link) · 전사 경로 = 오버헤드 + 분당배율(ask-link-stt-min) × 영상분 · 길이 미상이면 오버헤드만.
+function askLinkEtaSec(state) {
+  if (!window.nmEta) return 0;
+  const base = nmEta.sec('ask-link');
+  if (state !== 'stt') return base;
+  return base + nmEta.sec('ask-link-stt-min') * ((_alkDur || 0) / 60);
+}
+function paintAskLinkSt(state) {   // state = 'hide' | 'wait' | 'subs' | 'stt' | 'unknown'
+  const box = $('#askLinkSt'), s = $('#alkSubs'), t = $('#alkStt'), et = $('#alkEta'), fb = $('#alkForce'); if (!box) return;
+  box.hidden = state === 'hide';
+  s.classList.toggle('on', state === 'subs'); t.classList.toggle('on', state === 'stt');
+  // 길이 정책(운영자 260731) — 자막 있으면 길이 무관 / 자막 없으면 30분까지, '전사 강행'을 켜면 55분까지(그 이상은 잡 캡 100분에 못 담아 강행도 거절).
+  const overCap = state === 'stt' && _alkDur > ALK_STT_CAP;
+  if (fb) { fb.hidden = !overCap; if (!overCap && askLinkForce) { askLinkForce = false; fb.classList.remove('on'); fb.setAttribute('aria-pressed', 'false'); } }   // 짧은 영상·자막 경로로 바뀌면 강행 상태도 소비(stale 전송 차단)
+  if (et) et.textContent = (state === 'wait' || state === 'hide' || !window.nmEta) ? ''
+    : (overCap && !askLinkForce) ? (_alkDur > ALK_STT_FORCE_CAP ? '전사 상한 초과 — 자막 있는 영상으로' : Math.round(_alkDur / 60) + '분 영상 — 기본 상한 30분 초과')
+    : '(예상 : ' + nmEta.fmt(askLinkEtaSec(state === 'unknown' ? 'stt' : state)) + ')';   // 미상 = 보수적으로 긴 쪽(전사)으로 안내
+  const tip = { wait: '링크 확인 중…', subs: '자막이 있어 자막을 그대로 쓴다(전사 안 함)', stt: '자막이 없어 Whisper large-v3 로 전사한다', unknown: '자막 유무를 미리 확인 못 했다 — 실제 처리 때 자막 먼저 보고 없으면 large-v3 전사' }[state] || '';
+  box.title = tip;
+}
+async function probeAskLink() {
+  const v = askLinkVal(); const seq = ++_alkSeq;
+  if (!v || !/^https?:\/\//i.test(v)) { paintAskLinkSt('hide'); return; }
+  paintAskLinkSt('wait');
+  try {
+    const r = await fetch('api/linkprobe?u=' + encodeURIComponent(v));
+    const d = await r.json().catch(() => ({}));
+    if (seq !== _alkSeq) return;   // 늦게 온 옛 응답 폐기(타이핑 중 순서 뒤집힘 차단)
+    if (!r.ok || d.kind !== 'media') { _alkDur = 0; paintAskLinkSt('hide'); return; }   // 기사 링크 = 전사 축 무관 = 미표시
+    _alkDur = Number(d.dur) || 0;   // 영상 길이 = 전사 예상시간의 비례 원료
+    paintAskLinkSt(d.subs === true ? 'subs' : d.subs === false ? 'stt' : 'unknown');
+  } catch { if (seq === _alkSeq) paintAskLinkSt('unknown'); }
+}
+let _alkTimer = null;
+if ($('#askLink')) { $('#askLink').addEventListener('input', () => { paintAskLink(); updateAskPh(); paintAskLinkSt(askLinkVal() ? 'wait' : 'hide'); if (_alkTimer) clearTimeout(_alkTimer); _alkTimer = setTimeout(probeAskLink, 600); }); attachCopyPaste($('#askLink'), true); }   // 600ms 디바운스 = 타이핑 중 과호출 차단   // 클립 = [복사][붙여넣기][지우개] 정본(attachCopyPaste · 한 줄 입력칸 상단 걸침)
+// 복사·붙여넣기 = [복사][붙여넣기] 별도 2버튼(attachCopyPaste 정본과 동일 분리 · 운영자 260628): 붙여넣기 항상 / 복사는 내용 있을 때만.
+function updateAskClip() {
+  const b = $('#askClip'); if (!b) return;
+  const setIcon = (el, svg, key) => { if (el._icon !== key) { el.innerHTML = svg; el._icon = key; } };   // 동일 아이콘 재대입 안 함 = 타이핑마다 SVG 재생성(번쩍) 차단(분신술 A1·운영자 260628)
+  if (!b.classList.contains('ok')) { setIcon(b, PASTE_SVG, 'paste'); b.setAttribute('aria-label', '붙여넣기'); b.title = '붙여넣기'; }   // 붙여넣기 전용(고정)
+  const cp = $('#askCopy'); const has = $('#askText').value.trim().length > 0;
+  if (cp && !cp.classList.contains('ok')) { setIcon(cp, COPY_SVG, 'copy'); cp.classList.toggle('ask-cphide', !has); }   // 복사 = 내용 있을 때만 노출
+  if (window.__syncAskErase) window.__syncAskErase();
+}
+// 지우개(되돌리기) = thumb 입력칸 패턴 계승(운영자 260627): 비면 dim·비활성 / 누르면 입력 비움 → 직후 ~10초 되돌리기(직전 입력 복원) / 직접 입력하면 되돌리기 창 즉시 종료
+(function(){
+  const ta = $('#askText'), er = $('#askErase'); if (!ta || !er) return;
+  const ERASE_UNDO_MS = 10000; let undoTimer = null, undoVal = '', prog = false;   // prog = 프로그램적 변경(지움/복원) = 되돌리기창 종료 트리거 아님
+  er.innerHTML = ERASE_SVG;
+  const sync = () => { const filled = (ta.value || '').trim().length > 0; if (!er.classList.contains('ask-undo')) er.classList.toggle('ask-off', !filled); };
+  const exitUndo = () => { if (undoTimer) { clearTimeout(undoTimer); undoTimer = null; } er.classList.remove('ask-undo'); er.innerHTML = ERASE_SVG; er.setAttribute('aria-label', '입력 지우기'); er.title = '입력 지우기'; sync(); };
+  er.addEventListener('click', e => {
+    e.preventDefault();
+    if (er.classList.contains('ask-undo')) {   // 되돌리기 모드 = 직전 입력 복원
+      prog = true; ta.value = undoVal; ta.dispatchEvent(new Event('input', { bubbles: true })); prog = false; try { ta.focus(); } catch {} exitUndo(); return;
+    }
+    if (!(ta.value || '').length) return;       // 빈칸 = 지울 것 없음(평소 dim·무동작)
+    undoVal = ta.value;                          // 지운 내용 보관(복원용)
+    prog = true; ta.value = ''; ta.dispatchEvent(new Event('input', { bubbles: true })); prog = false; try { ta.focus(); } catch {}
+    er.classList.remove('ask-off'); er.classList.add('ask-undo'); er.innerHTML = UNDO_SVG; er.setAttribute('aria-label', '되돌리기'); er.title = '되돌리기 (직전 입력 복원)';
+    if (undoTimer) clearTimeout(undoTimer); undoTimer = setTimeout(exitUndo, ERASE_UNDO_MS);
+  });
+  ta.addEventListener('input', () => { if (!prog && undoTimer) exitUndo(); });   // 직접 입력/붙여넣기 = 새 내용 우선 → 되돌리기 창 즉시 종료
+  window.__syncAskErase = sync; sync();
+})();
+function updateAskPh() { const h = $('#askPh'); if (!h) return; const empty = !$('#askText').value.trim() && !askImages.length && !askLinkVal(); h.classList.toggle('hide', !empty); }   // 링크만 넣은 요청도 '내용 있음'(운영자 260731)   // 빈 입력 안내 = 입력창 안 반짝 placeholder(내용/이미지 있으면 숨김)
+$('#askText').addEventListener('input', () => { updateAskClip(); updateAskPh(); });
+$('#askClip').addEventListener('click', async () => {        // 붙여넣기 전용(교체)
+  const ta = $('#askText');
+  const selS = ta.selectionStart, selE = ta.selectionEnd;   // await 전 캐럿 스냅
+  try { const t = await navigator.clipboard.readText(); if (t) { if (typeof ta.setRangeText === 'function' && typeof selS === 'number') ta.setRangeText(t, selS, selE, 'end'); else ta.value += t; ta.focus(); updateAskClip(); updateAskPh(); } } catch { qFlash('클립보드 권한 막힘 — 직접 붙여넣어'); }   // 캐럿 삽입(덮어쓰기 폐지·운영자 260702) · 안내 = qFlash(상태문자열 폐지 260720)
+});
+$('#askCopy').addEventListener('click', async () => {        // 복사 전용(체크 플래시)
+  const ta = $('#askText'), cp = $('#askCopy'); if (!ta.value.trim()) return;
+  try { await navigator.clipboard.writeText(ta.value); cp.innerHTML = CHECK_SVG; cp._icon = 'check'; cp.classList.add('ok'); setTimeout(() => { cp.classList.remove('ok'); updateAskClip(); }, 1200); } catch { /* 버튼 ✓ 플래시로 충분(상태문구 생략·운영자 260627) */ }
+});
+$('#askFile').addEventListener('change', e => {
+  const files = [...e.target.files]; e.target.value = '';   // ★ value 리셋 전에 배열로 복사(비동기 압축 중 FileList 증발 방지) → 몇 장을 고르든 선택 순서대로 상한(ASK_MAX)까지 채우고 초과분만 씹힘(운영자 260702)
+  addAskImages(files);
+});
+$('#askAttach').addEventListener('click', e => { if (askImages.length >= ASK_MAX) { e.preventDefault(); shakeAskAttach(); } });   // 3장인데 🖼 또 누르면 파일창 안 열고 빨강+흔들림(운영자 260702) · 교체(programmatic input.click)는 라벨 아니라 무영향
+// AI 썸네일 생성 = 2층 스위치(운영자 260709 재구성): ① 설정(프로필 메뉴 #genImgOnBtn) = 전역 디폴트·고유값(localStorage)·PIN 게이트(잠금 lkVerifyOldPin 계승 — PIN 미설정이면 통과)
+//   ② (폐지 260726) 요약창 '이미지' 건별 토글(#genImgTg) = 운영자 "전송 옆 이미지 용어 삭제"로 UI 제거 → _genImgOvr 는 null 고정 = 설정 디폴트 단층으로 복귀. 오버라이드 배선(paintGenImgTg·flip)은 도먼트 보존(전부 `if (el)` 가드 = 무해 · 복원 = 스팬 1줄 되살리기) · 검색 og:image는 어느 쪽이든 무관 = 항상 수집
+const GENIMG_KEY = 'nomute_genimg';
+let _genImgOvr = null;   // null = 설정 디폴트 계승 · true/false = 이번 건 오버라이드(openAsk·전송 성공 시 리셋)
+function genImgOn() { return NM_SET.genImgOn !== false; }   // 설정(전역 디폴트) — 서버 SSOT(NM_SET · 요구2 · GENIMG_KEY는 레거시 마이그레이션 소스). 요약창 토글은 안 씀
+function genImgEff() { return _genImgOvr === null ? genImgOn() : _genImgOvr; }   // 실효값(전송 nothumb 기준) = 건별 오버라이드 우선
+function paintGenImgTg() { const t = $('#genImgTg'); if (!t) return; const on = genImgEff(); t.classList.toggle('off', !on); t.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+function paintGenImgRow() { const b = $('#genImgOnBtn'); if (!b) return; const on = genImgOn(); b.textContent = on ? 'ON' : 'OFF'; b.classList.toggle('on', on); }
+if ($('#genImgTg')) {
+  const flip = () => { _genImgOvr = !genImgEff(); paintGenImgTg(); };   // 건별 오버라이드 = 무PIN·localStorage 무접촉(설정 고유값 보존 · 운영자 260709)
+  $('#genImgTg').addEventListener('click', flip);
+  $('#genImgTg').addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flip(); } });
+  paintGenImgTg();
+}
+const _genImgOnBtn = $('#genImgOnBtn');
+_genImgOnBtn && _genImgOnBtn.addEventListener('click', async (e) => {   // 설정 토글 = PIN 1회 인증 후 전역 디폴트 전환(요구3 · lockOnBtn 패턴 계승)
+  e.stopPropagation();                          // 링크 메뉴 유지(문서클릭 닫힘 차단 · lockOnBtn 계승)
+  if ($('#pindlg').open) return;                // 재진입 가드(더블클릭 좀비 await · lockOnBtn 계승)
+  const ok = await lkVerifyOldPin();            // AI 썸네일 on/off = 잠금 PIN 1회 인증(요구3 · #pindlg·5회잠금·마스터 공유 · PIN 미설정 = 통과)
+  if (!ok) return;
+  await saveSettings({ genImgOn: !genImgOn() });   // 서버 전역 저장(요구2)
+  _genImgOvr = null;                            // 설정 변경 = 최우선 → 걸려있던 건별 오버라이드 해제(새 디폴트 즉시 계승 · 운영자 260709)
+  paintGenImgRow(); paintGenImgTg();
+});
+paintGenImgRow();
+// ── 키워드 알림 — 국내(social·tbs)·해외(reddit·hn·bsky·xtrends) 커뮤니티에 등록 키워드가 뜨면 첫 1회 + 24h 동안 3h마다 토스트(운영자 요구).
+//    설정 = 서버 SSOT(NM_SET.kwAlertOn·kwItems · settings/app.json). 발송 dedup = seen 'kw'축(slug#3h버킷 = 크로스기기 정확히 1회 · claimSeen 계승).
+//    각 키워드 상태 = kwItems[i] { kw, ts(등록), hit(첫 매칭 epoch·0=미매칭), done(체크=중단) }. 매칭 = livePoll(60s) 훅 checkKwAlerts. 스케줄러 신설(기존 토스트는 1회성만).
+const KW_BUCKET_MS = 3 * 3600000, KW_MAX_BUCKET = 8;   // 3시간 간격 · 24h = 8버킷(0=첫 발견 즉시, 1~8 = 3~24h) = "첫 1회 + 24h/3h"
+function kwAlertOn() { return NM_SET.kwAlertOn === true; }
+function kwGetItems() { return Array.isArray(NM_SET.kwItems) ? NM_SET.kwItems : []; }
+function kwNorm(s) { return String(s || '').toLowerCase().replace(/\s+/g, ' ').trim(); }   // 매칭·비교 정규화(대소문자·공백 무시)
+function kwSlug(s) { return kwNorm(s).replace(/[^a-z0-9가-힣]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60) || 'kw'; }   // seen id용 발송 dedup 키
+// 토큰 분해 = `+` **와 띄어쓰기 둘 다 AND 구분자**(운영자 260729 "띄어쓴 키워드도 자동 커버되게").
+//   구판은 공백을 문자 그대로 봐서 '그록 영상'이 "그록으로 영상 만들기"를 못 잡았다(연속 문자열 매칭) → 이제 '그록'·'영상' 각각 포함이면 매칭.
+//   `+` 문법은 그대로 살아 있다(구 등록분 무회귀 · 'a+b b c' = a·b·c 4토큰 → 중복 제거).
+function kwToks(kw) { return [...new Set(kwNorm(kw).split(/[+\s]+/).map(t => t.trim()).filter(Boolean))]; }
+function kwFind(kw, docs) {   // 매칭된 '그 글'을 돌려준다(없으면 null) — 발견 URL을 남기려면 참/거짓이 아니라 문서가 필요
+  const ts = kwToks(kw); if (!ts.length) return null;
+  const ds = Array.isArray(docs) ? docs : [{ t: kwNorm(docs), u: '' }];
+  for (const d of ds) { const tx = (d && typeof d === 'object') ? d.t : String(d || ''); if (ts.every(t => tx.includes(t))) return (d && typeof d === 'object') ? d : { t: tx, u: '' }; }
+  return null;
+}
+function kwMatch(kw, docs) { return !!kwFind(kw, docs); }   // 불리언 래퍼(기존 호출부 호환)   // "A+B C" = *한 글 안에* A·B·C 전부(`+`·띄어쓰기 동급 AND) · 배열 = kwDocs() 글 단위(문자열도 허용 = 단일 문서 취급 · 하위호환)
+function kwSaveItems(items) { return saveSettings({ kwItems: _kwClean(items) }); }
+function paintKwRow() { const b = $('#kwAlertBtn'); if (!b) return; const on = kwAlertOn(); b.textContent = on ? 'ON' : 'OFF'; b.classList.toggle('on', on); paintKwGear(); }   /* OFF로 끄면 기어도 동반 소등 */
+function openKwpop() {   // 대기열 열기 = 설정 팝업(linkpop) 자리에 촤르륵(placeHeadPop 프로필 앵커 · head-pop 미러)
+  const kp = $('#kwpop'), prof = $('#profile'); if (!kp) return;
+  closeOverlays('kwpop');   // linkpop 등 형제 오버레이 닫기
+  kp.hidden = false;
+  if (prof) placeHeadPop(kp, prof);
+  renderKwList();
+  kwAddBox(!kwGetItems().length);   // 비었으면 입력창까지 펼쳐 첫 등록 유도 · 이미 있으면 목록만(+ 로 열기)
+}
+function closeKwpop() { const kp = $('#kwpop'); if (kp) kp.hidden = true; kwAddBox(false); }   /* 닫으면 입력창도 접어 다음 열림이 항상 '목록만'에서 시작 */
+// 키워드 입력창 = 헤더 + 로 여닫는다(운영자 260727 "x옆에 +가 있으면 될듯 — 키워드 입력창 뜨게").
+//   show 미지정 = 토글. 열 때 포커스(바로 타이핑) · 접을 때 입력값도 비움(반쯤 쓴 값이 다음에 남지 않게).
+function kwAddBox(show) {
+  const box = $('#kwpop .kw-add'), inp = $('#kwIn'); if (!box) return;
+  const next = (show === undefined) ? box.hidden : !!show;
+  box.hidden = !next;
+  const b = $('#kwAddOpen'); if (b) b.setAttribute('aria-expanded', next ? 'true' : 'false');
+  if (next) { setTimeout(() => { try { inp.focus(); } catch (_) {} }, 40); }
+  else if (inp) { inp.value = ''; kwEditCancel(); }   // 접으면 수정 모드도 해제(버튼 라벨 '추가' 복귀)
+}
+function kwStatusLabel(it) {   // 상태 셀 = 발견 / 미발견 2분류(운영자 260727 "키워드 나오고 우측에 발견 미발견") + 발견이면 그 아래 일시 한 줄(운영자 260801)
+  if (!it.hit) return { t: '미발견', c: 'kws-wait', at: '' };
+  return { t: '발견', c: it.done ? 'kws-done' : 'kws-hit', at: kwHitAt(it.hit) };   // 확인(done)해도 '발견'은 사실 = 라벨 유지·색만 무채로
+}
+function kwDate(ts) { const d = ts ? new Date(ts) : null; return d && !isNaN(d) ? (d.getMonth() + 1) + '. ' + d.getDate() + '.' : '-'; }   // 등록 시기 = "10. 28." 날짜 표기(운영자 260727 "7시간 전 > 10. 28. 이런식으로")
+function kwHitAt(ts) {   // 발견 일시 = "(8.27. 13:00)"(운영자 260801 표기 지목 그대로) · 기준시 = 형제 kwDate와 동일(브라우저 로컬 = 운영자 기기 KST)
+  const d = ts ? new Date(ts) : null; if (!d || isNaN(d)) return '';
+  const p2 = n => String(n).padStart(2, '0');
+  return '(' + (d.getMonth() + 1) + '.' + d.getDate() + '. ' + p2(d.getHours()) + ':' + p2(d.getMinutes()) + ')';
+}
+function renderKwList() {
+  const list = $('#kwpopList'); if (!list) return;
+  kwPurgeDone();   // 그릴 때마다 만료분 정리 → 목록이 스스로 갱신된다
+  const items = kwGetItems();
+  if (!items.length) { list.innerHTML = '<div class="qempty">등록된 키워드 없음</div>'; paintKwGear(); return; }   /* 안내 소문구 폐지(운영자 260727 "안내문구는 없어도되고" · 입력칸 placeholder도 동반 소등) */
+  // 행 = no · 등록 시기 · 키워드 · 체크 · 휴지통(운영자 260727 지목 5열) — 셀 문법은 qRowHtml 정본 100% 미러
+  //   (.qt = 시간 고정폭 64 + qAgo 사다리 · .qmain = 본문 · .qst = 고정폭 상태칸[여기선 체크] · .qact = 최우측 액션).
+  //   구 상태 라벨(대기/발견/완료)은 운영자 지목 5열에 없어 소등 — '발견'은 기어 보라 점등 + 토스트가 담당(kwStatusLabel = 도먼트).
+  list.innerHTML = items.map((it, i) => {
+    const st = kwStatusLabel(it);
+    // 최우측 액션 = 상태가 정한다(운영자 260727) — 발견·미확인 = 체크(확인) / 미발견·확인완료 = 휴지통(삭제).
+    //   확인을 누르면 체크가 휴지통으로 바뀌고 키워드엔 빗금+무채(= 처리 끝난 줄이라는 표시).
+    // 좌 칸(헤더 + 와 같은 세로선) = 미발견이면 수정(키워드 고치기) · 발견이면 이동(발견한 글로) — 발견 뒤엔 수정 불가(운영자 260727)
+    const left = it.hit
+      ? '<button class="pub-ico kw-go" type="button" title="발견한 글로 이동" aria-label="발견한 글로 이동">' + Q_ARR + '</button>'
+      : '<button class="pub-ico kw-edit" type="button" title="키워드 수정" aria-label="키워드 수정">' + EDIT_SVG + '</button>';
+    // 우 칸(헤더 X 와 같은 세로선) = 발견이면 **체크(껐다 켰다 토글)** · 미발견이면 휴지통(운영자 260727 최종).
+    //   체크 ON = 키워드에 빗금 + 알림 중단 · 다시 누르면 빗금 풀리고 알림 재개 · 빗금인 채로 1일 넘기면 자동 삭제(kwPurgeDone).
+    const act = it.hit
+      ? '<label class="ed-match kw-chk" title="' + (it.done ? '확인 해제 — 알림 재개' : '확인 — 알림 중단(하루 뒤 자동 삭제)') + '"><input type="checkbox"' + (it.done ? ' checked' : '') + '><span class="ed-cbx">' + ACK_MORPH + '</span></label>'
+      : '<button class="pub-ico pub-rm kw-del" type="button" title="삭제" aria-label="삭제">' + _TRASHSVG + '</button>';
+    return '<div class="qrow kwrow' + (it.done ? ' kw-done' : '') + (it.moved ? ' kw-moved' : '') + '" data-i="' + i + '"' + (it.moved ? ' title="눌러서 발견 재가동 — 이 키워드를 다시 감시한다"' : '') + '>'
+      + '<span class="qno">' + (i + 1) + '</span>'
+      + '<span class="qt">' + qEsc(kwDate(it.ts)) + '</span>'
+      + '<span class="qmain" title="' + qEsc(it.kw) + '">' + qEsc(it.kw) + '</span>'
+      + '<span class="qst kwst ' + st.c + '"><span class="kws-t">' + st.t + '</span>' + (st.at ? '<em class="kws-at">' + qEsc(st.at) + '</em>' : '') + '</span>'
+      + '<span class="qact kw-a1">' + left + '</span>'
+      + '<span class="qact">' + act + '</span></div>';
+  }).join('');
+  list.querySelectorAll('.kw-chk input').forEach(cb => cb.onchange = (e) => { e.stopPropagation(); const i = +cb.closest('.kwrow').dataset.i; kwSetDone(i, cb.checked); });   /* 체크 = 껐다 켰다 토글(운영자 260727 최종) */
+  list.querySelectorAll('.kw-del').forEach(b => b.onclick = (e) => { e.stopPropagation(); const row = b.closest('.qrow'), i = +row.dataset.i; animateRowOut(row, () => kwRemove(i)); });
+  list.querySelectorAll('.kw-go').forEach(b => b.onclick = (e) => { e.stopPropagation(); kwOpenSrc(kwGetItems()[+b.closest('.kwrow').dataset.i]); });   /* 이동 = 발견한 글(대기열에서도 이동 가능 · 운영자 260727 "키워드 알림창에서 이동하는 방법이 없더라고") */
+  list.querySelectorAll('.kw-edit').forEach(b => b.onclick = (e) => { e.stopPropagation(); kwEdit(+b.closest('.kwrow').dataset.i); });   /* 수정 = 미발견 항목만(발견 뒤엔 이동 버튼이 그 자리) */
+  list.querySelectorAll('.kwrow.kw-moved').forEach(row => row.onclick = (e) => { if (e.target.closest('button, label, input')) return; e.stopPropagation(); kwRearm(+row.dataset.i); });   /* 밑줄 줄 클릭 = 발견 재가동(운영자 260801) · 행 안 액션(이동·체크·삭제)은 자기 일 그대로 = 제외 */
+  paintKwGear();   // 목록이 그려질 때마다 기어 점등 재평가(체크·삭제 직후 반영)
+}
+function kwAdd(raw) {
+  const kw = String(raw || '').trim().slice(0, 120); if (!kw) return false;
+  const items = kwGetItems().slice();
+  const inp = $('#kwIn');
+  if (_kwEditIdx >= 0 && items[_kwEditIdx]) {   // 수정 모드 = 그 자리 덮어쓰기(등록 시기 유지 · 문구가 바뀌었으니 발견 이력은 초기화)
+    const i = _kwEditIdx; kwEditCancel();
+    if (items.some((it, j) => j !== i && kwNorm(it.kw) === kwNorm(kw))) { if (inp) inp.value = ''; return false; }   // 다른 행과 중복이면 무시
+    items[i] = { ...items[i], kw, hit: 0, done: false, url: '' };
+    kwSaveItems(items); renderKwList(); if (inp) inp.value = '';
+    kwAddBox(false); checkKwAlerts(); return true;
+  }
+  if (items.some(it => kwNorm(it.kw) === kwNorm(kw))) { if (inp) inp.value = ''; return false; }   // 중복 무시
+  if (items.length >= KW_CAP) return false;
+  items.push({ id: crypto.randomUUID(), kw, ts: Date.now(), hit: 0, done: false });
+  kwSaveItems(items); renderKwList();
+  if (inp) inp.value = '';
+  kwAddBox(false);   // 등록 완료 = 입력창 접기(목록이 바로 보이게 · 연속 등록은 + 재클릭)
+  checkKwAlerts();   // 등록 즉시 1회 매칭 검사(오늘 이미 떠 있으면 바로 알림)
+  return true;
+}
+// 키워드 수정 = 새 입력 UI를 만들지 않는다 — 헤더 + 로 여는 그 입력창을 그대로 재사용(값 채우고 포커스),
+//   저장하면 그 자리(인덱스)에 덮어쓴다. 등록과 수정이 같은 칸을 쓰므로 학습 비용 0(운영자 260727 "수정 버튼(키워드를 수정할 수 있음)").
+let _kwEditIdx = -1;
+function kwEdit(i) {
+  const items = kwGetItems(); if (!items[i]) return;
+  _kwEditIdx = i;
+  kwAddBox(true);
+  const inp = $('#kwIn'); if (inp) { inp.value = items[i].kw; setTimeout(() => { try { inp.focus(); inp.select(); } catch (_) {} }, 50); }
+  const b = $('#kwAddBtn'); if (b) b.textContent = '수정';
+}
+function kwEditCancel() { _kwEditIdx = -1; const b = $('#kwAddBtn'); if (b) b.textContent = '추가'; }
+function kwRemove(i) { const items = kwGetItems().slice(); if (i < 0 || i >= items.length) return; items.splice(i, 1); kwSaveItems(items); renderKwList(); paintKwGear(); }
+// 이동(↗)을 누른 그 시점 = '이 건은 봤다' 처리(운영자 260801 "이동버튼을 누르면 그 시점부터 그 키워드 라인에 모두 밑줄").
+//   밑줄 = 알림 중단(반복 토스트·기기 알림·서버 웹푸시 전부 정지) · 삭제는 안 한다(체크=done의 24h 자동삭제와 다른 축).
+//   되돌리기 = 그 줄을 다시 눌러 재가동(kwRearm) — 운영자 지시 5번의 짝.
+function kwMarkMoved(it) {
+  const items = kwGetItems().slice();
+  const i = items.findIndex(x => x && kwNorm(x.kw) === kwNorm(it && it.kw));
+  if (i < 0 || items[i].moved) return;
+  items[i] = { ...items[i], moved: Date.now() };
+  kwSaveItems(items);
+  if (!$('#kwpop').hidden) renderKwList();
+  paintKwGear();
+}
+// 밑줄 줄 클릭 = **발견 재가동**(운영자 260801 "밑줄 사용자가 누르면 다시 발견 재가동") — 발견 이력·URL을 비워 '미발견'으로 되돌리고 감시 재개.
+//   rearm = 재가동 시각 = **발송 세대 도장**: 뷰어 dedup(claimSeen 'kw' id)과 서버 원장(push/kw_sent.json)이 이 값으로 세대를 갈라
+//   같은 키워드가 다시 떠도 알림이 '이미 보냈다'로 삼켜지지 않는다(구판 id = slug#버킷 뿐이라 재가동해도 영구 침묵이었다).
+function kwRearm(i) {
+  const items = kwGetItems().slice(); if (!items[i] || !items[i].moved) return;
+  items[i] = { ...items[i], hit: 0, url: '', moved: 0, done: false, doneAt: 0, rearm: Date.now() };
+  kwSaveItems(items); renderKwList(); paintKwGear();
+  checkKwAlerts();   // 재가동 즉시 1회 재검사(kwAdd 문법 계승) — 아직 원문에 떠 있으면 바로 다시 '발견'
+}
+function kwSetDone(i, done) { const items = kwGetItems().slice(); if (!items[i]) return; items[i] = { ...items[i], done: !!done, doneAt: done ? Date.now() : 0 }; kwSaveItems(items); renderKwList(); paintKwGear(); }   /* 대기열 체크 = 기어 소등의 유일 경로 · doneAt = 자동 삭제 기산점(운영자 260727) */
+// 빗금(확인) 상태로 하루를 넘긴 항목은 스스로 사라진다(운영자 260727 "빗금 1일 유지된건 자동으로 삭제되고 리스트 갱신").
+//   기산 = doneAt(체크한 시각) · 구 데이터(doneAt 없음)는 hit 시각으로 폴백해 영구 잔존을 막는다. 반환 = 실제로 지웠는지(호출부 재렌더 판단).
+const KW_DONE_TTL = 24 * 3600000;
+function kwPurgeDone() {
+  const items = kwGetItems(), now = Date.now();
+  const keep = items.filter(it => !(it && it.done && (now - (it.doneAt || it.hit || 0)) > KW_DONE_TTL));
+  if (keep.length === items.length) return false;
+  kwSaveItems(keep); return true;
+}
+// 기어 점등 = '미확인 발견'(hit 있고 done 아님)이 하나라도 있으면 ON — 소등 조건 = 대기열 체크(done)뿐(운영자 260727).
+//   body 클래스 토글 = has-freshbad/has-sysbad(수집 고장) 관용구 그대로 계승 = 새 표시물 0.
+function paintKwGear() {
+  try { document.body.classList.toggle('has-kwhit', kwAlertOn() && kwGetItems().some(it => it && it.hit && !it.done && !it.moved)); } catch {}   /* 이동으로 처리한 줄(moved)도 소등 축에 편입(260801) — 봤다는 뜻이라 기어를 계속 켜둘 이유가 없다 */
+}
+function kwMarkDoneByKw(kw) { const items = kwGetItems().slice(); const i = items.findIndex(it => kwNorm(it.kw) === kwNorm(kw)); if (i < 0) return; items[i] = { ...items[i], done: true }; kwSaveItems(items); if (!$('#kwpop').hidden) renderKwList(); }
+// 국내 커뮤니티 전반(tbs_data = 21개 커뮤니티 베스트글 제목 ≈630) — 프론트 미로드라 키워드 매칭용으로만 별도 fetch(4분 캐시)
+let KW_TBS = [], _kwTbsAt = 0;
+async function loadTbsKw() {
+  if (KW_TBS.length && Date.now() - _kwTbsAt < 4 * 60000) return;
+  // 소스 순서 = api/trends?f=tbs(GitHub 직독·빌드 우회) → 정적 폴백(loadTrends 문법 동축 · 260803 3차).
+  //   ⚠️ 필수인 이유 = Q1331 [CF-Pages-Skip] 코얼레싱이 sns-trends 커밋의 Pages 빌드를 건너뛰므로, 정적 tbs_data.json은 무관한 다른 커밋이
+  //   빌드를 물 때까지 갱신되지 않는다 → **키워드 알림 국내 커뮤니티 감시가 조용히 멈춘다**(같은 축의 260720~26 6일 공백 사고 재발 경로).
+  for (const u of ['api/trends?f=tbs', 'tbs_data.json?_=' + Date.now()]) {
+    try {
+      const r = await fetch(u); if (!r.ok) continue;
+      const tx = await r.text(); if (/^\s*</.test(tx)) continue;   // SPA 폴백(HTML 200) 가드
+      const d = JSON.parse(tx); if (!d || !d.updated || !Array.isArray(d.communities)) continue;   // **형상까지** 검사(260803 평의회 심층방어) — updated만 보면 엉뚱한 파일(sns_trends.json도 updated 보유)이 통과해 빈 코퍼스를 확정하고 정적 폴백까지 건너뛴다(candidates.js `&& d.length` 교훈의 정확한 미러)
+      const out = []; (d.communities || []).forEach(c => (c.posts || []).forEach(p => { if (p && p.title) out.push({ t: p.title, u: p.url || '' }); }));
+      KW_TBS = out; _kwTbsAt = Date.now(); break;
+    } catch { /* 다음 소스 */ }
+  }   /* 제목만 → {제목,URL} = 발견 출처 이동용 */
+}
+// 매칭 대상 = 국내(SOCIAL 집계 제목+소스, tbs 커뮤 글 제목) + 해외(reddit·hackernews·bsky·bsky_trends·xtrends)
+// ⚠ 260726 교정 — 구판은 전 소스를 *한 덩어리 문자열*로 합쳐 AND를 검사해서, "A"가 더쿠 글에 "B"가 HN 글에 있으면
+//    같은 글이 아닌데도 매칭됐다(오탐 구조). 이제 **글 1건 = 배열 1칸**으로 두고 "한 글이 전 토큰을 다 품을 때"만 매칭.
+// 문서 = { t: 정규화 텍스트, u: 원문 URL } — u가 있어야 '발견한 곳으로 이동'(운영자 260727)이 성립한다.
+//   URL 필드는 소스마다 이름이 다르다(tbs/social/hn/bsky = url · bsky_trends = link · xtrends = 없음[검색 표면뿐]).

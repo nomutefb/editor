@@ -1,0 +1,498 @@
+function chDlgOpen(dg) { if (!dg.open) { dg.showModal(); try { history.pushState({ chdlg: true }, ''); } catch {} } }
+window.addEventListener('popstate', () => {
+  if (_chClosing) { _chClosing = false; return; }
+  ['#chdaydlg', '#chpostdlg'].forEach(sl => { const dg = $(sl); if (dg && dg.open) { _chPop = true; dg.close(); } });
+});
+['#chdaydlg', '#chpostdlg'].forEach(sl => { const dg = $(sl); if (!dg) return;
+  dg.addEventListener('close', () => { if (_chPop) { _chPop = false; } else if (history.state && history.state.chdlg) { _chClosing = true; try { history.back(); } catch {} } });
+  dg.querySelector('.dlg-x').addEventListener('click', () => dg.close());
+});
+function openChDay() {   // 일별 상세 = 전 기간 표(최신 위 · 게시>0 = 강조)
+  const rows = ((chActive() || {}).daily_series || []).slice().reverse();   // 활성 소스(1-1/1-2) 상세 — 전역 CHAN 하드코딩 정정(Q155 후속 · 페이블 검증단)
+  if (!rows.length) return;
+  let h = '<table class="chd-t"><thead><tr><th>날짜</th><th>게시</th><th>조회</th><th>도달</th><th>방문</th><th>팔로우</th></tr></thead><tbody>';
+  rows.forEach(r => {
+    h += `<tr><td>${esc(String(r.date).slice(2))}</td><td class="${r.posts ? 'pp' : 'pz'}">${r.posts != null ? r.posts : '—'}</td>` +
+      ['views', 'reach', 'profile_views', 'follows'].map(k => `<td>${r[k] != null ? chFmtK(r[k]) : '—'}</td>`).join('') + '</tr>';
+  });
+  $('#chdBody').innerHTML = h + '</tbody></table>';
+  $('#chdN').textContent = rows.length + '일';
+  chDlgOpen($('#chdaydlg'));
+}
+let CHP = { sort: 'views', fmt: '전체', cat: '전체' };   // 게시물 탐색 상태(정렬·포맷·주제)
+function renderChPost() {
+  const all = (chActive() || {}).posts || [];   // 활성 소스 게시물(1-1/1-2)
+  const cats = ['전체', ...new Set(all.map(x => x.cat).filter(Boolean))];
+  $('#chpFmt').innerHTML = ['전체', '릴스', '피드'].map(f => `<button class="ch-mchip${CHP.fmt === f ? ' on' : ''}" type="button" data-f="${f}">${f}</button>`).join('');
+  $('#chpCat').innerHTML = cats.map(c => `<button class="ch-mchip${CHP.cat === c ? ' on' : ''}" type="button" data-c="${c}">${c}</button>`).join('');
+  const hasV = k => k === 'new' || all.some(x => x[k] != null);   // 정렬축 데이터 존부(활성 소스 게시물 기준 · 최신 = iso 상존)
+  if (!hasV(CHP.sort)) CHP.sort = hasV('views') ? 'views' : hasV('eng') ? 'eng' : 'new';   // 활성 소스에 값 없는 축 선택 잔존 시 폴백(조회수→반응→최신)
+  $('#chpSort').innerHTML = [['views', '조회수'], ['eng', '반응'], ['share_pm', '공유율'], ['save_pm', '저장률'], ['new', '최신']].filter(s0 => s0[0] !== 'eng' || hasV('eng')).map(s0 => `<button type="button" data-s="${s0[0]}"${CHP.sort === s0[0] ? ' class="on"' : ''}${hasV(s0[0]) ? '' : ' disabled'}>${s0[1]}</button>`).join('');   // 값 전무 축 = disabled 흐림(운영자 260723 "ㄱ 아니면 다른 값이 있으면 대체" — fb views·share_pm 미수집 축 눌러도 무변화 혼란 차단) · '반응'(eng = 반응+댓글+공유 합 · fb_fetch 산출) = 값 있을 때만 노출되는 대체 축(disabled 버튼 = 클릭 이벤트 자체 미발화라 기존 위임 배선 무접촉)
+  let list = all.filter(x => (CHP.fmt === '전체' || x.format === CHP.fmt) && (CHP.cat === '전체' || x.cat === CHP.cat));
+  list = list.slice().sort((a, b) => CHP.sort === 'new' ? String(b.iso || '').localeCompare(String(a.iso || '')) : (b[CHP.sort] || 0) - (a[CHP.sort] || 0));
+  const tmed = (chActive() || {}).topics || {};   // 활성 소스 주제 중앙값(fb = topics 방출 시 eng 중앙값 · 미방출이면 배지 자동 미표시)
+  $('#chpList').innerHTML = list.map((x, i) => {
+    const _mv = x.views != null ? x.views : x.eng, tm = tmed[x.cat], ratio = tm && tm.views_med && _mv != null ? _mv / tm.views_med : null;   // 주제 중앙값 대비 배율(운영자 260713 한 수 ㄱㄱ) — 같은 주제 안 특출도 · FB 소스분기(평의회 260724 must-fix): views 부재 시 eng로 비교(topics.views_med = fb는 eng 중앙값) + null 방어(구: null/med = ×0.0 유령 배지 전 행 부착 회귀 차단 · IG는 x.views 그대로 = 무회귀)
+    const rt = ratio != null ? ` <i class="${ratio >= 10 ? 'hot' : ''}">×${ratio.toFixed(1)}</i>` : '';   // hot = ×10+(TOP100 분포 실측 p90 17.4·중앙 2.3 — 상위 20%만 점등)
+    return `<a class="chp-row" href="${escUrl(x.permalink || '#')}" target="_blank" rel="noopener"><span class="trend-rank">${i + 1}</span><span class="chp-tt" data-nm></span><span class="chp-ct">${esc(x.cat || '—')}${rt}</span><span class="chp-mt">${x.views == null && x.eng != null ? '반응 ' + chVf(x.eng) : chVf(x.views) + ' · 공유 ' + (x.share_pm != null ? (+x.share_pm).toFixed(1) : '—')}</span></a>`;
+  }).join('');
+  const nms = $('#chpList').querySelectorAll('[data-nm]'); list.forEach((x, i) => { if (nms[i]) nms[i].textContent = x.name || '(무캡션)'; });   // 캡션 = textContent 주입(XSS 안전 관용구)
+  $('#chpN').textContent = list.length + '/' + all.length;
+}
+function openChPost() { if (!((chActive() || {}).posts || []).length) return; renderChPost(); chDlgOpen($('#chpostdlg')); }   // 활성 소스 게이트(fb 게시물 없으면 조용 무동작 유지)
+// 채널 소스 세그(헤더 정적 · Q157) 전역 1회 배선 — 전환 = 재렌더·스크롤 보존 · fb 미적재 = 캐시 무효화 재적재(페이블 검증단 LOW 유지)
+{ const _cst = document.getElementById('chanSrcTgl'); if (_cst) _cst.addEventListener('click', () => {
+  CHAN_SRC = CHAN_SRC === 'fb' ? 'ig' : 'fb'; const y = window.scrollY; renderChan(); window.scrollTo(0, y);   // 단일 IG⇄FB 토글 = 소스 순환(운영자 260720 — 구 2버튼 명시 선택[Q233] 대체 · 항상 점등 · 활성/라벨은 renderChan 갱신)
+  if (CHAN_SRC === 'fb' && !CHAN_FB && !CHAN_LOADING) { CHAN_AT = 0; loadChan(); }   // fb 최초 탭 lazy 로드 유지
+}); }
+// 채널 요약 인스타 링크 = 인앱 팝업(운영자 260809 "링크가 창 위에 팝업되게 · sns 요약에서 새창으로 안 넘어가는 것처럼 · 다른 앱이나 웹 창으로 전환 안 되게").
+// 대상 2종 = ⓐ 브리프 본문의 골드 참조(a.tbrief-ref) ⓑ 최근 게시물 타일 12칸(a.ch-th — 운영자 "혹시 인스타 아래 12개도 그렇게 가능한지" = 같은 팝업 재사용이라 가능).
+// ⚠ 마크업은 <a href> 그대로 둔다(창작 0 · 접근성·공유·새 탭 폴백 보존) — 여기서 기본 동작만 가로챈다.
+// ⚠ 새 탭 의도(중·보조 클릭·Ctrl/Cmd/Shift·롱프레스 컨텍스트)는 통과시킨다 = trefdlg의 "롱프레스/새탭 = href 보존 폴백" 관례 계승.
+// ⚠ document 위임 1회 = renderChan이 innerHTML을 통째로 갈아끼워도 배선이 안 끊긴다(재렌더 무관 = 아래 #chpostdlg 관례 동축).
+document.addEventListener('click', e => {
+  if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+  const box = e.target.closest('#chanBox'); if (!box) return;   // 스코프 = 채널 요약 판(메뉴3 스크랩 참조는 openTref가 계속 담당)
+  const a = e.target.closest('a.tbrief-ref, a.ch-th'); if (!a) return;
+  const u = a.getAttribute('href') || '';
+  if (!/^https?:\/\/(?:www\.)?instagram\.com\/(?:p|reel|reels|tv)\//.test(u)) return;   // 인스타 게시물만(그 외 링크는 종전 동작)
+  e.preventDefault();
+  openIgPost(u, a.classList.contains('ch-th') ? (a.dataset.cap || '') : a.textContent);   // 타일 = data-cap(캡션) · 브리프 참조 = 링크 글자 자신
+});
+(() => { const w = $('#chpostdlg'); if (!w) return;   // 칩·세그 = 위임 1회 배선(재렌더 무관)
+  w.addEventListener('click', e => {
+    const f = e.target.closest('[data-f]'), c = e.target.closest('[data-c]'), s0 = e.target.closest('[data-s]');
+    if (f) CHP.fmt = f.dataset.f; else if (c) CHP.cat = c.dataset.c; else if (s0) CHP.sort = s0.dataset.s; else return;
+    renderChPost();
+  });
+})();
+
+// ── ✨ 요약 요청(멀티모달 입력) — 자연어+캡처 → 큐레이션 요청 ──
+const askdlg = $('#askdlg');
+let askImages = [];   // 압축 이미지 {dataUrl, kb}
+const ASK_MAX = 3;   // 첨부 최대 3장(운영자 260629 · 한 줄 유지)
+let _askResolveId = null;   // 실패 픽 복구로 열렸으면 그 candId — 전송 성공 시 복구표시
+let _askRetryOf = null;     // ✨요약요청 실패 재시도로 열렸으면 옛 실패 base id — 전송 성공 시 submit 이 옛 asks/failed 삭제(중복 잔존 방지 · 평의회10 Q1·Q3)
+// ── 수집 프리셋(운영자 260723 "항상 기본 프리셋" · 260803 외신⇄국내 단일 토글) — 24시간 내 h24 · 외신 기반 fp · 원본 한정 og · AI 미제작 noai · 창 열 때마다 기본 점등 재계승(_genImgOvr 건별 리셋 문법) · 값 = api/submit preset → asks/*.json → ask.sh 프롬프트 배선 ──
+let askPreset = { h24: 1, fp: 0, mj: 1, og: 0, noai: 1 };   // fp = 외신 기반 = 기본 소등(소등 = 국내 기반 · 운영자 260803 "하나로 합쳐서 on off" — 구 「외신 기사 위주」에서 라벨 개정) · mj = 다매체 종합(주요 언론 2~4곳·≈2천자) = **상시 1 고정**(운영자 260803 — 구 「주요 언론 기반」 칩 철거·외신 기반 토글로 흡수: 종합은 어느 축이든 항상 · 값을 계속 전송해 서버 submit·ask.sh 파서·구 대기열 표기 전층 무접촉 = 260803 기본 보강 모드 손상 0) · og = 원본 한정(운영자 260727) · noai = AI 미제작(운영자 260727 "미제작이 기본값") = **기본 점등**[= 평소엔 AI 썸네일을 안 만들고, 만들 건에서만 끈다] · fp·og 는 소등 출발(평소 동작이 아니라 명시적으로 켜는 제한). noai 만 성격이 다르다 = 수집 조건(ask.sh 프롬프트)이 아니라 산출 조건 = 전송 nothumb 축(제미나이 썸네일 생성 skip · 검색 og:image 는 무관·항상 수집)
+const ASK_PRESET_IDS = { h24: 'apH24', fp: 'apFp', mj: 'apMj', og: 'apOg', noai: 'apNoai' };   // apMj = 260803 UI 철거(요소 부재 → 아래 paint·바인딩의 if(el) 가드가 자동 스킵 = mj 상시 1 유지 · 키 잔존 = 코드 경로 무변경)
+function paintAskPreset() { for (const k in ASK_PRESET_IDS) { const el = $('#' + ASK_PRESET_IDS[k]); if (el) { el.classList.toggle('on', !!askPreset[k]); el.setAttribute('aria-pressed', askPreset[k] ? 'true' : 'false'); } } }   // 표기 = 라벨 상시 노출 + 점등(.on = accent)/소등(mut)만 — ON/OFF 문자 교체 폐지(운영자 260726 "on, off로 구분하지 않음") · 상태 전달은 aria-pressed 가 담당(role=button 짝)
+for (const k in ASK_PRESET_IDS) { const el = $('#' + ASK_PRESET_IDS[k]); if (el) { const tg = () => { askPreset[k] = askPreset[k] ? 0 : 1; paintAskPreset(); }; el.addEventListener('click', tg); el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); tg(); } }); } }   // 토글 바인딩 = thumb 스트립 bind 정본 문법(클릭 + Enter/Space)
+function openAsk(opts) {
+  opts = opts || {};
+  bpop.hidden = true; linkpop.hidden = true;   // (상태문자열 잔상 리셋 소멸 — askStatus 폐지·qFlash 위임 260720)
+  _askResolveId = opts.resolveId || null;
+  _askRetryOf = opts.retryOf || null;   // 재시도 재제출이면 옛 실패 id(전송 성공 시 submit 이 옛 asks/failed 삭제) · 일반 열기면 null
+  _genImgOvr = null; paintGenImgTg();   // AI 썸네일 = 창 열 때마다 설정 디폴트 계승(건별 오버라이드 리셋 · 운영자 260709) — 호출 시점엔 선언 완료(이벤트 경유)라 TDZ 무해
+  askPreset = { h24: 1, fp: 0, mj: 1, og: 0, noai: 1 }; paintAskPreset();   // 수집 프리셋 = 창 열 때마다 기본 상태 재계승(fp·og = 소등, noai = 점등으로 복귀 · 건별로 끈 걸 다음 요청까지 끌고 가지 않는다) · 화면 기본 점등 = h24·noai 2종 + mj = 비표시 상시 1(260803 외신 기반 토글로 흡수 · 건별 오버라이드 리셋 · 운영자 260723 "항상 기본 프리셋 · 불 들어와 있고 끄면 꺼지게")
+  if (opts.prefill != null) $('#askText').value = opts.prefill;   // 프리필 = askRetry 가 복원한 전문 전체(실패 재시도) 또는 제목·URL
+  updateAskClip(); updateAskPh();
+  openTool(null, '요약 요청', ASK_TABS, 'ask');   // 도구 셸(운영자 260712 — 이미지·영상과 동일 UIUX) = 탭 {요약 요청(기본)·미디어 요약} · 히스토리 칸 = 도구 모달이 관리(옛 openComposeDlg(askdlg) 대체 · 전 진입로[라디얼·실패 재시도·프리필] 공통)
+  setTimeout(() => { const ta = $('#askText'); ta.focus(); if (opts.prefill != null) { const i = ta.value.length; try { ta.setSelectionRange(i, i); } catch {} } }, 60);
+}
+// ── 요약 요청 가상 탭(#ask) — askdlg 폼을 도구 셸에 이식(운영자 260712 "이미지 부분하고 동일하게 · 요약 요청/미디어 요약 2구분") ──
+// 폼·전송·첨부·AI썸네일 토글·재시도 로직 = #askdlg 원본 그대로(reparent = 복제 0·드리프트 0). askdlg <dialog>는 보관함으로 잔존.
+const _askWrap = document.querySelector('#askdlg .askwrap');
+function askMount() {   // 가상 탭 활성 = askwrap을 도구 셸 안으로 + iframe 전부 숨김(보존)
+  const h = $('#askHost'); if (!h || !_askWrap) return;
+  if (_askWrap.parentElement !== h) h.appendChild(_askWrap);   // DOM 이동 = 입력값·리스너 보존
+  h.hidden = false;
+  for (const k in toolFrames) toolFrames[k].classList.remove('active');   // iframe 숨김(폼 보존 · 미디어 요약 탭 복귀 시 재활성)
+  tooldlg.classList.add('frame-ready');   // 가상 탭 = load 이벤트 없음 → 즉시 표시
+}
+function askUnmount() {   // 닫기·최소화 시 원위치(askdlg 보관함) — DOM 이동이라 입력값 그대로 보존
+  const h = $('#askHost'); if (h) h.hidden = true;
+  if (_askWrap && _askWrap.parentElement !== askdlg) askdlg.appendChild(_askWrap);
+}
+function closeAskSurface() {   // 전송 성공 후 닫기 — 도구 셸에 떠 있으면 셸을, 아니면(레거시 경로) askdlg를
+  if (tooldlg.open && curToolKey === 'ask') { try { tooldlg.close(); } catch (_) {} }
+  else { try { askdlg.close(); } catch (_) {} }
+}
+// 제작 도구(썸네일·자막) = 라디얼 항목 클릭 → 새 페이지 대신 뷰어 위 모달(iframe)로 등장.
+const tooldlg = $('#tooldlg');
+// 폰/브라우저 뒤로가기 = 도구 닫고 메인으로(앱 이탈 차단). 열 때 히스토리 1칸 푸시 → 백버튼이 그 칸을 pop.
+let toolPopHandled = false;   // popstate(백버튼)로 닫혔는지 — close 핸들러의 히스토리 정리 분기
+let toolMinimizing = false;   // close 핸들러 1-shot 가드 — 최소화(폼 보존 닫기) vs 정규 닫기 구분
+let toolMin = false;          // 최소화 상태(▲ 복원 버튼 떠있음)
+let lastToolRect = null;      // 최소화 직전 모달 rect — 고스트 FLIP·펼침 타깃 재사용
+// ── 다중 도구 창(이미지·영상) 독립 최소화 (운영자 260628 버그픽스) ───────────────
+// 옛: #tooldlg 단일 iframe 공유 + MIN_REG 고정키 'tooldlg' → 둘째 도구 최소화가 첫째 엔트리를 덮어 1개만 떴다.
+// 픽스: 도구별 iframe 보존 + 도구키별 MIN_REG. 활성 프레임만 .active(표시)·나머지는 display:none로 살려둠(폼 보존). 활성 프레임 참조 = activeToolFrame().
+const toolFrames = {};        // toolKey → iframe
+const toolMeta = {};          // toolKey → { title, tabs, src } (복원용)
+let curToolKey = null;
+function activeToolFrame() { return (curToolKey && toolFrames[curToolKey]) || document.querySelector('#tooldlg .toolfr.active') || document.getElementById('toolframe'); }
+function thumbTabBridge(d) {   // 이미지(thumb) 탭 부모 승격(260704) = 내부 #tabs 숨김 + 내부 탭변화(b4 FAB·selApp) 역동기 → 부모 .tooltab 하이라이트. thumb.html 무접촉(부모가 style 주입+observer·same-origin).
+  try {
+    if (!d.getElementById('_thumbTabHide')) { const s = d.createElement('style'); s.id = '_thumbTabHide'; s.textContent = '#tabs{display:none!important} .panel{margin-top:-18px}'; (d.head || d.documentElement).appendChild(s); }   // 내부 탭바 숨김(부모 .tool-tabs로 승격) + 첫 소머리 −18px = 영상(ly/k) 첫 블릿 화면선 정합(thumb 첫 .csec margin-top 16 vs 영상 label 0 델타 · thumb.html 무접촉 · 운영자 260704 · 구 −16 → −18 = 260803 덜컹 소멸 개정 — wrap 상단패딩(18) 전액 상쇄 = 도크 정지 y0 → sticky top:0 동일점, 7표면 도크 -18 동시 개정과 한 축) · ⚠️ thumb.html:36 .tabs margin-bottom 26(옛 187px 첫블릿 정렬 보정)은 이 display:none으로 dead화 — 첫 소머리 화면선 잔차(~2~5px thumb-low 추정)는 라이브 실측 후 필요시 이 주입 스타일에 스코프 보정(예 .wrap padding-top·첫 .csec margin-top 델타 = thumb.html 무접촉 유지)
+    const tabsEl = d.getElementById('tabs'); if (!tabsEl) return;
+    const sync = () => { if (curToolKey !== 'thumb') return; if (((toolMeta.thumb || {}).app) === 'tr') return; /* 번역 탭 활성 중 = 숨은 thumb 내부 상태 역동기 차단(하이라이트 강탈·geni 자동이식 방지 · 260721) */ const on = d.querySelector('.tab.on'); const app = on && on.getAttribute('data-app'); if (!app) return; if (toolMeta.thumb) toolMeta.thumb.app = app; $('#toolTabs').querySelectorAll('.tooltab').forEach(x => x.classList.toggle('on', x.getAttribute('data-app') === app)); if (app === '6' && tooldlg.open && !(toolMeta.thumb && toolMeta.thumb.geniFired)) geniMount(); };   // curToolKey 가드 = cap(영상) 활성 중 비활성 thumb 탭변화가 공유 #toolTabs(=cap 탭바) 오염하는 것 차단(재검증 2명 수렴·미래 방어·260704) · app 6 역동기 = 폼 자동 이식(운영자 260714 Q02 "처음 켜도 버튼 없이 폼 바로" — 부팅이 app 6으로 복원돼 하이라이트만 옮고 폼은 버튼 관문 뒤에 갇히던 덫 봉합 · geniFired 발사 직후 = 잡 그리드 유지 · geniMount 내부 가드{팝업 열림·이미 이식}가 이중 방어 · tooldlg.open = 최소화 중 백그라운드 격발 차단)
+    if (!tabsEl._parentSynced) { tabsEl._parentSynced = true; new MutationObserver(sync).observe(tabsEl, { subtree: true, attributes: true, attributeFilter: ['class'] }); }
+    sync();   // 초기 동기(thumb 로드 시 selApp('2')=썸네일 → 부모 하이라이트 정합)
+  } catch (_) {}
+}
+// ── 프레임 로드 워치독(운영자 260725 "번역 무한로딩") — load 이벤트가 *영영 안 오는* 경우의 탈출구 ──
+// 왜: 리빌 게이트(.ready)는 오직 iframe load에만 걸려서, load가 안 오면 .tool-loading orb가 무한 회전(멈춤 오인).
+//   load가 안 오는 실사례 = ⓐ Access 세션 만료 → 로그인 페이지가 X-Frame-Options로 프레임 차단(이벤트 자체 없음)
+//   ⓑ 폰 네트워크 스톨 ⓒ 탭 백그라운드 스로틀. 어느 쪽이든 사용자에겐 '무한로딩'으로만 보인다.
+// 처방(2단): ① 1회 자동 재로드(전형적 일시 스톨은 여기서 해소) ② 그래도 무응답이면 fail-safe 리빌(.ready 부여)
+//   = 구 260724 이전 동작으로 복귀 = 빈 화면일지언정 '멈춘 로딩'에 갇히지 않음(정직 · orb는 즉시 사라짐).
+// ── 조기 리빌 = '틀 먼저'(운영자 260725 "일단 틀 띄워놓고 로딩에 제반되는 내용을 그 다음에 준비하게 하지") ──
+// 왜: iframe load는 폰트·이미지·CDN 등 *마지막 하위 리소스 1개*까지 기다린다 → 뼈대는 진작 다 그려졌는데
+//   느린 리소스 하나 때문에 프레임 전체가 opacity 0로 잠겨 "왜 이렇게 늦게 떠?"가 된다(무한로딩의 완만한 형제).
+// 처방: same-origin 문서의 readyState가 'loading'을 벗어나는 순간(=DOMContentLoaded = 인라인 스크립트까지
+//   실행 완료 = 틀 완성) 즉시 리빌. 남은 리소스는 보이는 화면 뒤에서 계속 채워진다(체감 = 즉시 표시).
+//   cross-origin(폴링 불가) = 종전대로 load/워치독에 위임.
+// ── 노출 직전 부모 주입(운영자 260805 「첨부1 화면이 나왔다가 지연된 다음 정상 출력」) ───────────────
+// 왜: thumbTabBridge(내부 #tabs 숨김 + .panel −18)는 **iframe load**에만 걸려 있었는데, 리빌(.ready)은
+//   frEarly·워치독이 그보다 **먼저** 붙인다 → 그 사이 구간엔 thumb 내부 탭바가 부모 탭바 밑에 겹쳐 그려진다
+//   (실측 260805 폰 4G·CPU4x: 리빌 515ms → 주입 3,779ms = **3,264ms 동안 탭바 2줄 + 첫 소머리 −18 미적용**).
+//   운영자 첨부1이 정확히 이 구간의 사진이다(둘째 줄 탭 4개 = 번역이 빠진 thumb **자체** 탭바 = 부모 승격 전 원본).
+// 처방: 리빌을 붙이는 **모든** 경로(frEarly·워치독 fail-safe)가 이 함수를 먼저 통과 = 주입이 페인트보다 항상 앞선다.
+//   idempotent(_thumbTabHide id 가드·tabsEl._parentSynced 가드)라 load 때 재호출돼도 무해 = 기존 load 경로는 무접촉 존치(폴백).
+function frPreReveal(fr, d) {
+  try { if (d && fr === toolFrames.thumb) thumbTabBridge(d); } catch (_) {}
+}
+const FR_DCL_TICKS = 30;   // raw-ok: 폴링 틱 수(개수 — 지속시간 토큰 아님) · 100ms×30 = 3s 유예(아래 사유) · 워치독 11s보다 짧아 폴백 순서 보존
+function frEarly(fr) {
+  if (!fr) return;
+  clearInterval(fr._er);
+  let n = 0;
+  fr._er = setInterval(() => {
+    if (fr.classList.contains('ready') || ++n > 180) { clearInterval(fr._er); return; }   // 이미 노출·상한(≈18s) = 워치독이 뒤를 받음
+    let d = null;
+    try { d = fr.contentDocument; if (!d || d.location.href === 'about:blank') return; } catch (_) { clearInterval(fr._er); return; }   // cross-origin = 위임
+    if (!d.body || !d.body.firstElementChild) return;   // 뼈대 0 = 빈/흰 프레임 노출 차단
+    // 「파싱 중이어도 그려진 게 있으면 통과」는 **3s 유예 뒤**로 미룬다(운영자 260805) — 위 260725 주석이 선언한 정본은
+    //   「readyState가 'loading'을 벗어나는 순간(= DOMContentLoaded = 인라인 스크립트까지 실행 완료 = **틀 완성**)」인데
+    //   실제 조건은 그보다 앞선 '뭐라도 그려졌으면 통과'라, thumb처럼 **틀을 인라인 스크립트가 만드는** 문서에선 반쪽 화면이 나갔다
+    //   (thumb.html 실측 260805 = 마크업 27.8~35.1% · 나머지 65%가 인라인 <script> 430KB → 마크업만 파싱된 순간 리빌 =
+    //    도크·폼 없이 내부 탭바 + 결과/이전제작 뼈대만 뜬 화면 = 운영자 첨부1의 나머지 절반).
+    //   유예 안에 DCL이 오면 완성 틀이 나가고, 안 오면 구 동작 그대로 통과 = 「파서를 막는 스크립트 뒤에서 무한정 기다리지 않는다」는
+    //   260725 취지 보존(최종 폴백 = 워치독 FR_WD_MS).
+    if (d.readyState === 'loading' && (n <= FR_DCL_TICKS || !d.body.getBoundingClientRect().height)) return;
+    clearInterval(fr._er);
+    clearTimeout(fr._wd);                                                   // 틀 도착 = 워치독 해제(재로드 금지 — 화면 날림 방지)
+    if ((d.location.href || '').indexOf('/tr.html') >= 0) fr._trLoaded = true;   // 번역 프레임 판정도 조기 확정(trMount 재토글이 되벗기지 않게)
+    frPreReveal(fr, d);   // 부모 주입 먼저(내부 탭바 숨김) → 그 다음 노출 = 중복 탭바가 한 프레임도 안 그려진다
+    fr.classList.add('ready');
+    if (fr.classList.contains('active')) tooldlg.classList.add('frame-ready');
+  }, 100);   // raw-ok: 폴링 간격(ms — 지속시간 토큰 아님) · 100ms = 체감 즉시 + 부하 무시가능
+}
+const FR_WD_MS = 11000;   // raw-ok: 워치독 대기(ms 상수 — 지속시간 토큰 아님) · 폰 4G 실측 여유 + 체감 상한
+function frWatch(fr, src) {   // src 있으면 1회 재로드 대상(없으면 리빌만)
+  if (!fr) return;
+  clearTimeout(fr._wd);
+  fr._wd = setTimeout(() => {
+    if (fr.classList.contains('ready')) return;                       // 이미 리빌 = 정상 도착
+    if (src && !fr._wdRetried) {                                      // ① 1회 자동 재로드
+      fr._wdRetried = true;
+      const _b = src + (src.indexOf('?') >= 0 ? '&' : '?') + 'v=' + Date.now();
+      try { fr.contentWindow.location.replace(_b); } catch (_) { fr.src = _b; }
+      frWatch(fr, null); return;
+    }
+    try { frPreReveal(fr, fr.contentDocument); } catch (_) {}          // 리빌 전 부모 주입(frEarly와 같은 계약 — fail-safe 경로만 중복 탭바로 새던 구멍 봉합)
+    fr.classList.add('ready');                                        // ② fail-safe 리빌 = 무한 orb 차단
+    if (fr.classList.contains('active')) tooldlg.classList.add('frame-ready');   // 재클릭 가드 신호도 동반 복구(탭 재클릭 = 정상 재로드 경로)
+  }, FR_WD_MS);
+}
+function bindToolFrameLoad(fr) {   // load = 페이드인(frame-ready)+ESC 브릿지. 복제 프레임에도 필수(없으면 opacity:0로 안 보임).
+  fr.addEventListener('load', () => {
+    let _blank = false; try { _blank = fr.contentWindow.location.href === 'about:blank'; } catch (_) {}
+    if (!_blank) { clearTimeout(fr._wd); fr._wdRetried = false; }   // 실 콘텐츠 도착 = 워치독 해제·재시도권 원복(다음 로드용)
+    if (!_blank) fr.classList.add('ready');   // 한수(운영자 260724 · frame-ready 전역클래스 → 프레임별 상태 승격): 이 프레임 실 콘텐츠 로드 = 리빌 준비 완료. CSS 리빌 게이트 = .toolfr.active.ready(전역 frame-ready 의존 제거) → 타 프레임 load가 로딩중 활성 프레임을 빈 채 조기 노출하던 부류(번역 탭 "안 떠" #2930) 구조적 재발불가. 활성 무관 = 프리로드(tr 예열) 프레임도 로드시 결속(활성화 시 즉시 표시). _blank(about:blank) 가드 = 프리로드 공백 자기노출 방어. cross-origin = fail-safe 실페이지 취급(구 동작)
+    if (!_blank && fr.classList.contains('active')) tooldlg.classList.add('frame-ready');   // 전역 frame-ready = 이제 리빌 아닌 보조 신호(재클릭 멱등 가드·trWarm 예열 판정) · 활성 프레임 실 load시만 = "활성 콘텐츠 표시중" 의미 유지(#2930 활성 게이트 존속)
+    if (_blank) return;   // about:blank = 바인딩할 실 문서 없음
+    try { const d = fr.contentDocument; if (d) { d.addEventListener('keydown', e => { if (e.key === 'Escape') { try { if (d.querySelector('dialog[open]')) return; } catch (_) {} e.preventDefault(); tooldlg.close(); } });   // 내부 dialog 열림 = 브릿지 양보(native ESC가 그 층만 닫음) — 한 번에 내부 UI+스튜디오 통째 닫혀 작업 유실되던 것 차단(평의회 260713 ③)
+      ['pointerdown', 'keydown', 'touchstart', 'input'].forEach(ev => d.addEventListener(ev, () => { if (!isLocked()) _lkLast = Date.now(); }, { passive: true, capture: true }));   // 도구 iframe 안 작업도 유휴 타이머 리셋(운영자 260706 4차 r — 부모 창만 보던 유휴 판정이 도구 작업 중 잠그던 원인)
+      if (fr === toolFrames.thumb) thumbTabBridge(d);   // 이미지 = 내부 탭 숨김+역동기(부모 탭바 승격)
+    } } catch (_) {} });
+}
+function renderToolTabs(tabs) {   // 탭 묶음 렌더(openTool·restoreTool 공용) · 활성 서브탭 하이라이트 = toolMeta.src(영상) / toolMeta.app(thumb)
+  const tt = $('#toolTabs');
+  if (tabs && tabs.length) {
+    tooldlg.classList.add('has-tabs');
+    tt.style.gridTemplateColumns = 'repeat(' + tabs.length + ',minmax(0,1fr))';   // minmax(0,…) = 컬럼이 라벨 min-content 아래로도 균등 축소(keep-all 짝 — 없으면 6탭 폰폭서 그리드가 컨테이너 밖으로 넘침)
+    const isThumb = curToolKey === 'thumb';   // 이미지 묶음(thumb 3탭 · 260712 8차) = 동일-src 탭 → app 키로 식별(src-유일성 회피). 영상 = 탭마다 src 다름.
+    const meta = curToolKey && toolMeta[curToolKey];
+    const act = isThumb ? ((meta && meta.app) || tabs[0].app) : ((meta && meta.src) || tabs[0].src);
+    tt.innerHTML = tabs.map(t => {
+      const key = isThumb ? t.app : t.src;
+      const attr = isThumb ? ('data-app="' + t.app + '"') : ('data-src="' + t.src + '"');
+      return '<button type="button" class="tooltab' + (key === act ? ' on' : '') + '" ' + attr + '>' + (t.icon ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + t.icon + '</svg>' : '') + t.label + '</button>';
+    }).join('');
+  } else { tooldlg.classList.remove('has-tabs'); tt.innerHTML = ''; }
+}
+function activateToolFrame(key) {   // 이 도구 전용 iframe을 .active로(나머지 보존). 첫 도구=원본 점유, 이후=복제 생성.
+  let f = toolFrames[key];
+  if (!f) {
+    const orig = document.getElementById('toolframe');
+    if (!Object.keys(toolFrames).length && orig) { f = orig; }                        // 첫 도구 = 원본 #toolframe 재사용
+    else { f = orig.cloneNode(false); f.removeAttribute('id'); f.classList.add('toolfr'); f.classList.remove('active', 'ready'); f.src = 'about:blank'; orig.parentNode.appendChild(f); bindToolFrameLoad(f); }   // ⚠ cloneNode가 원본 #toolframe의 .active·.ready(한수 260724 리빌 게이트)를 복사 → strip 필수(안 하면 신생 about:blank 클론이 활성화 순간 빈 채 노출) · .ready = 아래 bindToolFrameLoad load가 실 콘텐츠 로드시 재부여
+    toolFrames[key] = f;
+  }
+  for (const k in toolFrames) toolFrames[k].classList.toggle('active', toolFrames[k] === f);   // 활성 1개만 표시
+  curToolKey = key;
+  tooldlg.classList.toggle('tool-glass', key === 'thumb' || key === 'thumbtr');   // 프레임 글래스 = 이미지 스튜디오 한정(영상 5탭 깜빡임 회귀 차단 · 운영자 260729 실기기)
+  tooldlg.classList.toggle('hdr-tabs', key === 'thumb' || key === 'thumbtr' || key === 'cap');     // 헤더 메뉴 모드 = 이미지 스튜디오(운영자 260805 "아래 5개 메뉴 없애고 그만큼 위로") + **영상 스튜디오 계승**(운영자 260806 "저거를 정본으로 영상에도 다 반영" — 스튜디오 레일 무조건 상속 계약과 동축) — 부착 지점 = tool-glass 동일(단일 관문 · 열기·복원·번역 전용 프레임 전부 통과) · 영상 탭은 data-src 축이지만 팝업 항목이 기존 .tooltab을 **클릭 프록시**하므로 subMount 라우팅 무접촉
+  try { const w = f.contentWindow; if (w && w.nmSync && typeof w.nmSync.resumeNow === 'function') w.nmSync.resumeNow(); } catch (_) {}   // 탭 활성 = 그 프레임의 동기화 생명선 재개(nm-sync SSOT 위임 훅 `window.nmSync` 경유 · 신규 로직 0) — ⚠ 사각 봉합(운영자 260803 6차 "아직도 콘텐츠라고 적혀있는데"): 도구 셸은 탭 iframe을 **살려둔 채 .active만 토글**하므로(위 줄 · 폼 보존 계약) 모달을 연 뒤 배포된 신규 코드가 그 프레임엔 영영 안 실린다 — nm-sync의 자체 트리거 3종(visibilitychange = **브라우저 탭** 축 · focus · pageshow)은 **모달 안 탭 전환에 하나도 발화하지 않는다**(실측 260803 = 음원 탭이 구 「Contents」 라벨 표시 · 정본은 07:41부터 「내용」·배포 도장 8회 통과). 여기서 재개를 걸면 탭을 여는 그 순간 ETag 대조 → 한가하면 자동 리로드(입력 중·nmSyncBusy면 종전대로 이월 = 강제 이탈 0)
+  tooldlg.classList.toggle('tool-full', key === 'thumb' || key === 'thumbtr' || key === 'cap');    // 전체창(최대화) = 이미지+영상 스튜디오(운영자 260801 "팝업 아니라 전체창" → 260802 2차 "비디오 스튜디오는 이미지 스튜디오와 다르게 전체 화면을 안쓰네, 계승하게 해줘" = cap 합류 — 영상 4탭에 이미 심어둔 ≥1100px 2단 그리드가 이 스위치로 비로소 점화된다{600 팝업에선 iframe 폭이 1100 미달 = 사문}) — 부착 지점 = tool-glass 동일(열기 openTool·복원 restoreTool·번역 전용 프레임 전부 이 함수를 지나감 = 단일 관문) · 요약(ask) 셸만 종전 팝업 유지
+}
+function discardTool(key) {   // 도구 완전 종료 = 프레임 회수(원본은 blank해 재사용·복제는 DOM 제거)·메타/레지스트리 정리
+  if (key === 'thumb' && toolFrames.thumbtr) discardTool('thumbtr');   // 번역 전용 프레임 = thumb 수명 동반(정규 닫기 = 함께 회수 · 고아 스테일 프레임 차단 · 260721)
+  if (!key) { const af = activeToolFrame(); if (af) { af.src = 'about:blank'; af.classList.remove('ready'); } return; }   // .ready 제거(한수 260724) = blank된 프레임이 스테일 리빌 게이트로 재사용 시 조기 노출되는 것 방어
+  const orig = document.getElementById('toolframe');
+  const kill = f => { if (!f) return; if (f === orig) { f.src = 'about:blank'; f.classList.remove('active', 'ready', 'snap'); } else { try { f.remove(); } catch (_) {} } };   // 원본 재사용 대비 .ready strip(한수 260724 · 재오픈 loadToolFrame도 제거하나 이중 방어)
+  Object.keys(toolFrames).forEach(k => { if (k === key || k.indexOf(key + SUBSEP) === 0) { kill(toolFrames[k]); delete toolFrames[k]; } });   // 세부탭 보존 프레임(key+SUBSEP+src · subMount)도 함께 회수 = 고아 iframe 0(도구 닫기 = 그 스튜디오 전체 종료 계약 유지)
+  delete toolMeta[key]; MIN_REG.delete(key);
+  if (curToolKey === key) curToolKey = null;
+}
+// ── 번역(tr.html) 탭 전용 프레임 (운영자 260721 "tr 메뉴 = 이미지 생성기 3번째 탭") ──
+// thumb 3탭 = 동일 문서 selApp 전환(리로드 0 계약)이라 tr.html을 thumb 프레임에 실으면 폼·이미지 슬롯 통째 증발
+// → askMount 「iframe 숨김-보존」 + activateToolFrame 복제·토글 문법 그대로 전용 프레임에 싣는다(curToolKey = 'thumb' 유지 = 탭바·selApp 라우팅 무접촉 · 번역 폼도 탭 왕복 간 보존).
+function trEnsureFrame() {   // tr 전용 프레임 생성+로드(예열·활성 공용) — 이미 있으면 그대로(리로드 0). 반환 f는 미활성(표시 결정은 호출부)
+  let f = toolFrames.thumbtr;
+  if (f) return f;
+  const orig = document.getElementById('toolframe');
+  f = orig.cloneNode(false); f.removeAttribute('id'); f.classList.add('toolfr'); f.classList.remove('active', 'ready'); f.src = 'about:blank'; orig.parentNode.appendChild(f); bindToolFrameLoad(f);   // activateToolFrame 복제 문법 계승(ESC 브릿지·리빌 재부여 포함) · ⚠ active·ready 명시 제거 = cloneNode가 활성 원본 #toolframe의 'active'·'ready'(한수 260724 리빌 게이트)를 복사 → 예열 경로는 trMount 토글 루프를 안 거쳐 그대로 노출되던 것 봉합(.ready = tr.html 실 로드시 bindToolFrameLoad가 재부여)
+  f.addEventListener('load', () => { try { if ((f.contentWindow.location.href || '').indexOf('/tr.html') >= 0) { f._trLoaded = true; trFontWarm(f); } } catch (_) { f._trLoaded = true; } });   // 로드 완료 플래그(즉시표시 판정 trMount) — tr.html 로드만 인정(구 about:blank 예비 load가 _trLoaded 조기 true로 굳혀 빈 tr 조기표시하던 프래질리티 봉합 · 평의회2 260724 · 접근불가 예외 = fail-safe true) · trFontWarm = 폰트도 함께 예열(아래 정의)
+  f.classList.add('trfr');   // 판 색 = tr 문서 바탕 동값(번쩍 교정 260727)
+  toolFrames.thumbtr = f;   // 레지스트리 등재 = 타 도구 전환(activateToolFrame 토글 루프)이 자동 숨김 — 고아 .active 이중 표시 차단
+  const _u = '/tr.html';   // ⚠ 캐시버스트(`?v=`+Date.now()) 폐지(운영자 260727 "번쩍이라기보다 새로고침해서 창이 다시 뜨는 개념 · 제로베이스에서 생기는 느낌") — 매번 새 URL이라 브라우저가 **문서·폰트·CSS를 전부 새 리소스로 다시 받았다**(= 진짜 재로딩). `_headers`에 `/tr`·`/tr.html` no-cache가 이미 걸려 있어 신선도는 조건부 재검증(304)이 보장하고, 본문은 캐시 재사용 = 첫 페인트가 즉시. 프레임 연사 실측(100ms)에서 about:blank → tr.html?v=… 순의 '새 문서' 시퀀스로 잡혔던 그 지점
+  try { f.contentWindow.location.replace(_u); } catch (_) { f.src = _u; }
+  frWatch(f, '/tr.html');   // 무한로딩 탈출구(운영자 260725 "번역 무한로딩") — 예열 프레임은 load 미도착이 곧 무한 orb라 워치독 필수
+  frEarly(f);               // 틀 먼저 = 번역 폼 뼈대 완성 즉시 노출(폰트·아이콘 등 잔여는 뒤에서)
+  return f;
+}
+// ── 예열 프레임 웹폰트 선로드(운영자 260725 "번역 누르면 살짝 펑 튄다") ──
+// 왜: display:none iframe은 *레이아웃이 없어* 브라우저가 그 문서의 웹폰트를 아예 안 받는다 → trWarm이 문서만
+//   받아놓고 폰트는 미예열 → 번역 탭 노출 직후에야 fetch 시작(실측 260725: 노출 t=181ms 'loading' →
+//   t=264ms 'loaded') = 폴백 글꼴로 그려진 폼이 83ms 뒤 Pretendard로 스왑되며 글자가 한 번 튄다(FOUT).
+// 처방: 부모가 tr 문서의 FontFaceSet.load()를 직접 호출 = 숨김 상태에서도 강제 페치(예열의 본뜻 회복).
+//   글꼴 목록 = tr.html @font-face 정본(Pretendard Variable 본문 / Noto Sans KR 카드 콘텐츠) · 한글 1자
+//   샘플로 서브셋까지 커버 · 실패(구형 미지원·cross-origin)는 조용히 무시 = 종전 동작.
+function trFontWarm(f) {
+  try {
+    const d = f.contentDocument; if (!d || !d.fonts) return;
+    ['15px "Pretendard Variable"', '800 15px "Pretendard Variable"', '15px "Noto Sans KR"', '700 15px "Noto Sans KR"']
+      .forEach(s => { try { const p = d.fonts.load(s, '가'); if (p && p.catch) p.catch(() => {}); } catch (_) {} });   /* 비동기 거절도 조용히(주석 「실패는 조용히 무시」의 이행 — try/catch는 Promise 거절을 못 잡아 폰트 자산 404 환경(로컬 스모크)에서 unhandled rejection = pageerror 4건 실측 260802) */
+  } catch (_) {}
+}
+function trWarm() {   // 예열(운영자 260723) = Image Studio 열 때 tr 프레임을 백그라운드 선로드(활성화 X) → 번역 탭 클릭 시 즉시 표시 = 카드생성·편집·AI생성(selApp 리로드0)과 동일 체감. thumb 로드 완료 후 시작(tr load의 frame-ready 부수효과가 thumb 조기노출 안 하게 순서 보장)
+  if (curToolKey !== 'thumb' || toolFrames.thumbtr) return;   // thumb 셸일 때만·중복 예열 금지
+  const go = () => { if (curToolKey === 'thumb' && !toolFrames.thumbtr) trEnsureFrame(); };
+  if (tooldlg.classList.contains('frame-ready')) go();   // thumb 이미 로드 완료 = 바로 예열
+  else { const tf = toolFrames.thumb; if (tf) tf.addEventListener('load', go, { once: true }); else go(); }   // thumb 로드 대기 후 예열(순서 보장)
+}
+function trMount() {   // 번역 탭 활성 = 전용 프레임 표시(예열됐으면 즉시 · 미예열이면 로드 후 페이드인)
+  const f = trEnsureFrame();
+  if (!f._trLoaded) { frWatch(f, '/tr.html'); frEarly(f); }   // 미완 프레임 = 워치독+조기리빌 재무장(운영자 260725) — 이 토글이 워치독 fail-safe 리빌을 다시 벗겨 무한 orb로 되돌리는 경로 봉합
+  // ⚠ 구 `f.classList.remove('ready')`(260725 "살짝 펑 튄다" 처방) 폐지 — **그 은폐 구간 자체가 지금의 번쩍이었다**(운영자 260728 "번역부분 번쩍거리는데").
+  //   왜: 리빌을 벗기면 프레임이 opacity 0 = *투명*이라 그 자리에 모달 글래스(--modal-glass 반투명)+::backdrop blur7이 그대로 비친다 → 뒤 피드가 유리 너머로 밝게 들어온 프레임이 2×rAF 동안 끼어든다.
+  //   .toolfr 배경을 불투명 --bg로 깔아둔 260727 처방(2122행)도 opacity 0 앞에선 무력 = 판 색이 아니라 '투명해지는 것'이 진범.
+  //   실측(헤드리스 CDP 스크린캐스트 = DOM 무접촉 · 430×900): 구 코드 = 클릭 +143ms에 20KB 빈-유리 프레임 1장 → +177ms에 37KB 완성 화면(= 34ms 번쩍). 신 코드 = 빈 프레임 0장, 첫 페인트가 곧바로 37KB 완성 화면.
+  //   은폐가 막으려던 0폭 재레이아웃은 아래 동기 강제로 대체한다(같은 프레임 안에서 레이아웃을 끝내고 그리게 하는 쪽 = 숨겼다 보여주는 쪽보다 정직).
+  if (f._trLoaded) tooldlg.classList.add('frame-ready');   // 전역 보조 신호(재클릭 가드·trWarm)만 동반 갱신 — 예열·보존 프레임(로드 완료) 기준
+  else tooldlg.classList.remove('frame-ready');   // 로딩 중(방금 생성/예열 미완)
+  const ah = $('#askHost'); if (ah) ah.hidden = true;   // 호스트 슬롯 상호 배타(geniMount 방어 미러)
+  for (const k in toolFrames) toolFrames[k].classList.toggle('active', toolFrames[k] === f);   // 활성 1개만 표시(activateToolFrame 토글 문법 · curToolKey 불변 = activeToolFrame()는 thumb 문서를 계속 가리켜 selApp 경로 무변)
+  if (f._trLoaded) { f.classList.add('snap'); try { const _d = f.contentDocument; if (_d && _d.body) { void _d.body.getBoundingClientRect().width; void _d.documentElement.offsetHeight; } } catch (_) {}   // display:none→block 직후 자식 문서 레이아웃을 **동기로** 끝낸다(부모가 자식 기하를 읽으면 그 자리에서 재레이아웃이 강제된다) = 이 프레임의 첫 페인트가 이미 실폭 화면 → 0폭 잔상(구 "펑") 없이 은폐 구간도 없앤다 · cross-origin·미로드 = catch로 종전 경로
+    f.classList.add('ready'); requestAnimationFrame(() => requestAnimationFrame(() => f.classList.remove('snap'))); }   // 보존 프레임 = 같은 프레임에 '스냅' 노출(빈-유리 프레임 0장 · snap 해제 = 2×rAF 뒤 = 이후 상태 변화는 종전 페이드 문법 복귀)   // 구 주석: 재레이아웃 뒤 '스냅' 노출(운영자 260727 번쩍 교정 — 구 0.2s 페이드가 매 클릭 깜빡임으로 읽혔다) · snap 해제 = 다음 프레임(이후 상태 변화는 종전 페이드 문법 복귀)   // 재레이아웃이 끝난 *다음* 프레임에 리빌 = 완성된 화면이 0.2s 페이드로 들어옴(튐 0) · 2×rAF ≈ 32ms = 체감 즉시 · .tool-loading orb는 transition-delay .28s라 이 사이 미표시(플래시 0) · 활성 확인 = 32ms 안에 타 탭으로 떠난 경우 고아 리빌 차단 · 미로드분은 종전대로 load/워치독이 .ready 부여
+}
+function trLeave() { const f = toolFrames.thumbtr; if (f && f.classList.contains('active')) activateToolFrame(curToolKey); }   // 번역 이탈(thumb 앱 탭 클릭) = 이 도구 프레임 재활성(geniLeave 미러 · 번역 프레임은 숨김-보존)
+// ── 세부 탭(src 다른 탭) = 탭별 전용 보존 프레임 (운영자 260729 "비디오 스튜디오 세부 메뉴 전환할때마다 번쩍") ──
+// 왜: 영상 5탭(편집·자막·콘티·프롬프팅·음원)은 탭마다 src가 달라 클릭 = loadToolFrame = **한 iframe에 다른 문서 통재로드**였다.
+//   ① `.ready` 벗김 = 프레임 opacity 0(투명) → 그 자리에 모달 글래스+::backdrop이 비치는 은폐 구간(260728 번역 탭과 동일 진범)
+//   ② `?v=Date.now()` 캐시버스트 = 문서·CSS·폰트를 전부 새 리소스로 재수신 = 진짜 재로딩(빈 판 → 폼 순으로 그려짐 · 260727 tr 진단 동문)
+//   두 구간이 겹쳐 매 전환이 '창이 다시 뜨는' 번쩍으로 읽혔다. 이미지 스튜디오가 멀쩡한 이유가 곧 리로드 0(selApp·tr 전용 프레임).
+// 처방: 번역 탭(trEnsureFrame/trMount) 정본 그대로 이 셸에 일반화 — 탭별 iframe 숨김-보존 + 재방문 리로드 0(폼·업로드 그대로) +
+//   동기 재레이아웃 후 '스냅' 노출(빈-유리 프레임 0장). 캐시버스트 폐지 = `_headers`의 edit/ly/sb/k/song no-cache가 신선도 담당(tr 선례).
+const SUBSEP = '\u0001';   // 세부탭 레지스트리 합성키 구분자(도구키+SUBSEP+src) — src에 못 들어가는 제어문자 = 실키 충돌 0
+function subWarm(src, key) {   // 세부 탭 보존 프레임 생성·선로드(활성화 X · subMount 생성부 분리 — capWarm 예열이 공유 · 운영자 260803 "모든 화면이 바뀔때마다 로딩")
+  key = key || curToolKey || 'tool'; const sk = key + SUBSEP + src;
+  let f = toolFrames[sk];
+  if (!f) {
+    const orig = document.getElementById('toolframe');
+    f = orig.cloneNode(false); f.removeAttribute('id'); f.classList.add('toolfr'); f.classList.remove('active', 'ready', 'snap'); f.src = 'about:blank'; orig.parentNode.appendChild(f); bindToolFrameLoad(f);   // trEnsureFrame 복제 문법 계승(⚠ cloneNode가 활성 원본의 active·ready 복사 → strip 필수)
+    toolFrames[sk] = f;
+    try { f.contentWindow.location.replace(src); } catch (_) { f.src = src; }   // location.replace = 세션 히스토리 미적재(폰 백버튼 빈화면 차단 · loadToolFrame 계약 동일)
+    frWatch(f, src);   // 무한로딩 탈출구(운영자 260725)
+    frEarly(f);        // 틀 먼저 = DOM 파싱 완료 즉시 리빌
+  }
+  return f;
+}
+function capWarm() {   // 영상 셸 예열(운영자 260803 "모든 화면이 바뀔때마다 로딩이 뜨는데" — 원인 = 탭 첫 방문마다 iframe 최초 로드 = orb · 처방 = trWarm(번역 예열 260723) 선례를 영상 4탭으로: 셸 열 때 나머지 탭을 백그라운드 선로드 → 탭 클릭 = 보존 프레임 즉시 표시 = 로딩 0) — 스태거 450ms = 동시 로드 폭주로 활성 첫 탭이 느려지는 역효과 방지 · 첫 탭 로드 완료 후 시작(trWarm 순서 보장 동문)
+  if (curToolKey !== 'cap') return;
+  const go = () => CAP_TABS.slice(1).forEach((t, i) => setTimeout(() => {
+    if (curToolKey === 'cap' && !toolFrames['cap' + SUBSEP + t.src]) subWarm(t.src, 'cap');
+  }, 450 * (i + 1)));   // slice(1) = 첫 탭(편집)은 openTool이 이미 활성 로드 중
+  if (tooldlg.classList.contains('frame-ready')) go();
+  else { const tf = toolFrames.cap; if (tf) tf.addEventListener('load', go, { once: true }); else setTimeout(go, 1200); }   // 폴백 = 활성 프레임 미확보 시 1.2s 뒤(예열은 최선노력 — 실패해도 종전 첫클릭 로드로 동작)
+}
+function subMount(src) {   // 세부 탭 활성 = 그 src 전용 보존 프레임 표시(최초 1회만 로드 · 생성 = subWarm 공유)
+  const key = curToolKey || 'tool';
+  const f = subWarm(src, key);
+  toolFrames[key] = f;   // 활성 참조 승계 = activeToolFrame()·최소화 복원(activateToolFrame(key))이 이 세부 프레임을 가리킨다(탭 기억 = 복원도 같은 탭)
+  const loaded = f.classList.contains('ready');
+  tooldlg.classList.toggle('frame-ready', loaded);   // 전역 보조 신호(재클릭 가드) = 이 프레임 로드 기준(trMount 미러)
+  const ah = $('#askHost'); if (ah && !ah.hidden) { ah.hidden = true; }   // 가상 탭(#ask) 이탈 = 호스트 숨김(askwrap은 보존)
+  for (const k in toolFrames) toolFrames[k].classList.toggle('active', toolFrames[k] === f);   // 활성 1개만 표시(activateToolFrame 토글 문법)
+  if (loaded) { f.classList.add('snap'); try { const _d = f.contentDocument; if (_d && _d.body) { void _d.body.getBoundingClientRect().width; void _d.documentElement.offsetHeight; } } catch (_) {}   // display:none→block 직후 자식 문서 레이아웃을 동기로 끝낸다 = 첫 페인트가 이미 실폭 완성 화면(0폭 잔상 0 · trMount 260728 정본)
+    requestAnimationFrame(() => requestAnimationFrame(() => f.classList.remove('snap'))); }   // 스냅 해제 = 2×rAF 뒤(이후 상태 변화는 종전 페이드 문법 복귀)
+}
+window.addEventListener('popstate', () => { if (_composeRecovering) return; if (tooldlg.open) { toolPopHandled = true; tooldlg.close(); } });   // ⚠️ 컴포즈 회수 back은 무시(뒤 도구모달 over-close 차단·평의회 V4) · 최소화 중 백버튼은 {tool}칸만 소비(복원 ▲는 DOM으로 유지) — 다른 모달(#lbox 등) popstate 핸들러와 한 번에 둘 다 발화해 편집기가 잘못 펼쳐지던 것 차단(재펼침 안 함). 재오픈은 ▲ 탭으로.
+// 도구 모달: showModal()을 src보다 먼저(iframe가 표시된 상태서 로드 → 애니 정상·빈화면 차단) · 배경 스크롤 락 · 열 때 #toolX 포커스
+// iframe 로드 = location.replace(.src 대신 = 세션 히스토리에 항목 안 쌓음 · 폰 백버튼 빈화면 차단 · 운영자 260623) + 캐시버스트(stale 방지 · _headers no-cache 한 쌍)
+function loadToolFrame(src) {
+  if (!src) return;   // 빈 src 가드 — undefined 유입이 frame-ready만 벗기고 TypeError(src.indexOf)로 중단하면 load 재부여가 없어 iframe이 영구 opacity 0(빈 화면 · 실측 260713) → 벗기기 전에 차단
+  tooldlg.classList.remove('frame-ready');   // 로드 시작 = 보조 신호 내림(재클릭 가드 = 복구 경로 허용) · 리빌은 아래 .ready 제거가 담당
+  const _fr = activeToolFrame(); _fr.classList.remove('ready');   // 이 프레임 미준비 = iframe 숨김(흰 프레임 차단 · 한수 260724 리빌 게이트) → 재로드 완료 시 bindToolFrameLoad load가 .ready 재부여(페이드인)
+  const _bust = src + (src.indexOf('?') >= 0 ? '&' : '?') + 'v=' + Date.now();
+  try { _fr.contentWindow.location.replace(_bust); } catch { _fr.src = _bust; }
+  frWatch(_fr, src);   // 무한로딩 탈출구(운영자 260725) = load 미도착 시 1회 재로드 → fail-safe 리빌
+  frEarly(_fr);        // 틀 먼저(운영자 260725) = DOM 파싱 완료 즉시 리빌 · 남은 리소스는 뒤에서
+}
+function setToolTitle(t) { $('#toolTitle').innerHTML = AI_SVG + '<span>' + (t || '제작 도구') + '</span>'; }   // 스튜디오 타이틀 = AI 스파클 픽토(nm-svg SSOT · 형광) + 텍스트(운영자 260712 8차 "AI 픽토그램 + Image/Video Studio" 명시 지시 = §📐 라 타이틀 픽토+텍스트 공존 금지의 운영자 승인 예외 · t = 코드 상수만 유입)
+// 제작 도구 모달 — src 단일 또는 tabs([{src,title,label}…]) = 자막생성처럼 한 도구 안 탭 분기(thumb 탭 계승). showModal 전 로드 시작 = 깜빡임 완화.
+function openTool(src, title, tabs, key) {
+  key = key || 'tool';
+  if (MIN_REG.has(key)) { restoreTool(key); return; }   // 이미 최소화된 같은 도구 = 복원(리로드 0)
+  const wasOpen = tooldlg.open;
+  if (!wasOpen && toolMin) hideRestoreNav();   // 최소화 중 새 도구 열기 = ▲ 숨김(모달 뜸) · 다른 최소화 MIN_REG 엔트리·프레임은 보존(독립 창)
+  activateToolFrame(key);                      // 이 도구 전용 프레임 활성(나머지 도구 프레임은 보존)
+  const realSrc = (tabs && tabs.length) ? tabs[0].src : src;   // 타이틀은 호출부 묶음명 고정(탭 따라 안 바뀜)
+  setToolTitle(title);
+  toolMeta[key] = { title: title || '제작 도구', tabs: tabs || null, src: realSrc };
+  renderToolTabs(tabs);
+  toolRfVis(key);   // 입력 초기화 유틸(260821 전환 · 구 새로고침) = 이미지·비디오 스튜디오만(운영자 260731 — 요약 셸 등은 종전 [최소화|X] 유지)
+  if (realSrc && realSrc[0] === '#') askMount();   // 가상 탭(#ask) = iframe 로드 대신 askwrap 이식(운영자 260712 요약 셸)
+  else { loadToolFrame(realSrc); if (tabs && tabs.length > 1 && key !== 'thumb') toolFrames[key + SUBSEP + realSrc] = toolFrames[key]; }   // 첫 탭 프레임을 세부탭 레지스트리에 등재(subMount 인계 = 1번 탭으로 되돌아와도 리로드 0) · thumb 3탭은 동일-src selApp 계약이라 제외
+  // ⚠️ 대기열이 히스토리 칸({qpop})을 쥔 채 열려 있으면 그 칸을 이 모달이 **인계**한다(운영자 260727 "재시도 버튼 눌러도 작동을 안 해" 실측 봉합).
+  //   아래 closeOverlays()가 closeQueueUser → history.back() 을 부르는데, back 은 비동기라 같은 틱의 pushState({tool}) 가 먼저 스택에 얹힌다
+  //   → back 이 방금 얹은 {tool} 칸을 되돌리며 popstate 발동 → 막 연 요약창이 즉시 닫혔다(대기열 실패행 ↻ = 무반응으로 보임).
+  //   askRetry 가 closeQueueUser 를 일부러 안 부른 이유(평의회10 ★)와 같은 함정이 openTool 안에서 되살아난 것 = 여기서 봉합.
+  //   인계 = 대기열이 back() 을 포기(_qHistYield)하고, 모달이 pushState 대신 replaceState 로 그 칸을 {tool} 로 치환 → 칸 수 불변·백버튼 1회 = 도구 닫힘.
+  const qHandoff = !wasOpen && !(history.state && history.state.tool) && !qpop.hidden && _qPushed;
+  if (qHandoff) _qHistYield = true;
+  closeOverlays(); document.documentElement.style.overflow = 'hidden';
+  tooldlg.showModal(); toolVV(); setTimeout(() => $('#toolX').focus(), 0);   // toolVV 1회 = 키보드 이미 뜬 상태서 열기도 즉시 클램프(이후는 vv 리스너)
+  if (!wasOpen && !(history.state && history.state.tool)) { if (qHandoff) history.replaceState({ tool: true }, ''); else history.pushState({ tool: true }, ''); }   // 백버튼 = 메인 복귀 · 최소화서 재오픈이면 기존 {tool}칸 재사용 · 대기열서 열렸으면 그 칸 치환(위 인계)
+  _qHistYield = false;   // 소비 완료(대기열이 닫히지 않는 예외 경로에 플래그가 남아 다음 닫기의 back 을 삼키는 것 차단)
+}
+// 도구 탭 클릭 = iframe 스왑(영상: src 스왑) / thumb: iframe 내부 selApp 직접 호출(same-origin·리로드0·폼/IDB 보존) · 모달 유지·히스토리 칸 안 늘림
+$('#toolTabs').addEventListener('click', e => { const b = e.target.closest('.tooltab'); if (!b) return;
+  if (b.classList.contains('on') && tooldlg.classList.contains('frame-ready') && !(curToolKey === 'thumb' && b.dataset.app === '6' && $('#geniHost').hidden)) return;   // 활성 탭 재클릭 = 무동작(멱등 계약 · 평의회 260713 fable) — 예외 1: AI 생성 탭이 켜져 있는데 폼 미이식(부팅 역동기·발사 후 잡 그리드)이면 재클릭 = 폼 복구 정문(운영자 260714 Q02 "버튼 안 눌러도 폼이 나오게" — 폼 미이식이라 geniPrep 재실행의 타이핑 덮임 리스크 0) — 영상 셸은 재클릭이 loadToolFrame 통재로드 = 폼·업로드 소실, 프롬프팅은 geniPrep 재실행 = 타이핑 중 장면이 stale 스냅샷으로 덮임. frame-ready 없을 때(빈 신생 클론 복구 등 비정상)만 통과 = 재클릭이 복구 경로로 흐르게.
+  $('#toolTabs').querySelectorAll('.tooltab').forEach(x => x.classList.toggle('on', x === b));
+  if (curToolKey === 'thumb') {   // 이미지 묶음(thumb 3탭 · 260712 8차 — 합성 comp 분기 재폐지) — 탭 = 동일 문서 내부 전환 selApp(same-origin·리로드0·폼/이미지슬롯 DOM·IDB초안 보존)
+    const app = b.dataset.app;
+    if (toolMeta.thumb) toolMeta.thumb.app = app; else toolMeta.thumb = { title: 'Image Studio', tabs: THUMB_TABS, src: '/thumb.html', app: app };   // 방어 — thumb 메타 소실 시 재구성
+    setTimeout(pvZoomSyncActive, 0);   // 새 탭에 확대 상태 1벌 재도색(운영자 260802 3차 "4탭이 한 상태를 공유 = 탭 이동에 크기가 튀지 않는다") — 이 핸들러가 전부 동기라 0ms면 아래 selApp·trMount·geniMount가 DOM을 앉힌 **뒤**에 돈다 = 분기마다 사본 놓는 것보다 진입점 1개(early return 3갈래 전부 커버)
+    if (app === 'tr') { geniLeave(); trMount(); return; }   // 번역 탭(tr.html) = 전용 보존 프레임 표시(운영자 260721 — thumb 문서 무접촉 = 리로드 0 계약 유지 · selApp 미격발 · 프롬프팅 이식 중이면 먼저 원복)
+    try { const w = activeToolFrame().contentWindow; if (w && w.selApp) w.selApp(app); else loadToolFrame('/thumb.html'); } catch (_) {}       // 방어 — thumb 프레임이 빈 신생 클론이면 로드(bridge sync가 하이라이트 재정합)
+    if (app === '6') geniMount();   // 프롬프팅 탭 = genidlg 폼을 탭 콘텐츠로 이식(운영자 260713 B "B로 간다" — 구 팝업 즉시(같은날 1차)를 ask 가상 탭 문법으로 재정렬 = 3도구 폼 거처 통일 · 발사 = 원복+작업내역 노출 · 기사 카러셀 + = 팝업 유지(이중 홈) · selApp 역동기·복원은 클릭 아님 = 미격발)
+    else { geniLeave(); trLeave(); }   // 프롬프팅·번역 이탈(카드 생성/편집 클릭) = 폼 원복·전용 프레임 숨김 + iframe 재활성(ask 이탈 선례 · 노드 거처 불변식 유지)
+    return;   // 이미지 묶음 = 내부 전환(selApp)으로 끝(리로드 0 계약) — 아래 공통부로 흐르면 thumb 탭 버튼엔 data-src가 없어 loadToolFrame(undefined)가 frame-ready만 벗기고 TypeError로 중단 = iframe 영구 opacity 0(스튜디오 빈 화면 · 실측 260713). 260712 8차 재편 때 이 블록이 공통부까지 삼키며(닫는 중괄호 위치 회귀) 영상·요약 셸 탭 전환도 죽었었음 — 공통부는 블록 밖이 정본.
+  }
+  if (curToolKey && toolMeta[curToolKey]) toolMeta[curToolKey].src = b.dataset.src;   // 활성 서브탭 기억(복원 시 하이라이트 정합)
+  if (b.dataset.src === '#ask') { askMount(); return; }   // 요약 요청 가상 탭 = askwrap 재표시(iframe 보존 · 리로드 0)
+  subMount(b.dataset.src);   // 세부 탭 = 탭별 전용 보존 프레임 표시(리로드 0 = 번쩍 0 · 운영자 260729) — 구 loadToolFrame(같은 iframe 통재로드) 폐지 · 타이틀 고정(탭은 세부기능만 전환) · 운영자 260626 · 가상 탭(#ask) 이탈 호스트 숨김도 subMount가 인계
+});
+/* ── 수정(연필) 세부 메뉴 라우터 = 이미지 스튜디오 단일 진입(운영자 260806 "해당 수정 건이 카드 제작 세부메뉴면 그 메뉴로 자동으로 변경후 수정 가능하도록") ──
+   왜 부모가 갖나: 세부 메뉴 5개가 문서 3개(thumb{카드 제작·편집·특수} · tr{번역} · index{AI 생성})에 흩어져 있어, 어느 판에서 눌러도 남의 문서로 건너가야 한다.
+   그 전환을 아는 곳은 탭바를 소유한 이 문서뿐 = 각 판이 사본을 들면 3벌 드리프트(레일·이력 사본 드리프트와 같은 축).
+   라우팅 로직 사본 0 = **기존 `.tooltab` 클릭 프록시**(툴메뉴 팝업 선례 그대로 — selApp·trMount·geniMount·geniLeave·브리지 역동기 전부 종전 경로) + thumb `importToEditor` 직결(부모가 same-origin 프레임 함수를 직접 부르는 기존 문법 = 같은 핸들러의 `w.selApp(app)` 동문).
+   ⚠ 번역(tr)은 복원 경로가 없다(읽기 전용 규약) → src.app 'tr'은 애초에 발급되지 않고, 와도 탭 전환까지만 하고 조용히 끝낸다(없는 기능을 있는 척하지 않는다). */
+function studioTabOf(app) {   // 제작 조건의 app → 스튜디오 탭 키(THUMB_TABS) — 7/8/9→편집 매핑 = thumbTabBridge 하이라이트 규칙 동문(사본 아님·같은 계약)
+  const a = String(app || '');
+  if (a === '6' || a === 'tr' || a === 'sp') return a;
+  if (a === '7' || a === '8' || a === '9') return '7';
+  return '2';   // 1·2·3·4·5(레거시 포함) = 카드 제작 — 세부 강하는 importToEditor가 전담(구 app3·app1 흡수 규칙 그대로)
+}
+function studioEditOpen(src, url) {
+  if (!src || !src.app) return;
+  const tab = studioTabOf(src.app);
+  const btn = document.querySelector('#toolTabs .tooltab[data-app="' + tab + '"]');
+  if (btn && !btn.classList.contains('on')) btn.click();   // 탭 전환 = 클릭 프록시(활성 탭이면 무동작 = 멱등 계약 존중)
+  if (tab === 'tr') return;                                 // 번역 = 복원 경로 없음(읽기 전용) — 탭 전환까지가 정직한 상한
+  if (tab === '6') { geniRestoreOpts(src.gopts); return; }  // AI 생성 = 이 문서 폼 · geniMount(위 클릭)가 폼을 앉힌 **뒤** 복원(클릭 핸들러는 동기)
+  const deliver = n => {   // thumb 프레임 = 탭 클릭이 방금 로드를 걸었을 수 있다 → 함수가 설 때까지 짧게 재시도(최대 ≈6s · 실패해도 탭은 이미 전환 = 조용한 폴백)
+    let w = null; try { w = (toolFrames.thumb && toolFrames.thumb.contentWindow) || null; } catch (_) {}
+    try { if (w && w.importToEditor) { w.importToEditor(src, url); return; } } catch (_) {}
+    if (n < 40) setTimeout(() => deliver(n + 1), 150);   // raw-ok: 폴 간격·횟수(ms/개수 — 지속시간 토큰 아님) · frEarly 100ms×180 문법 동축
+  };
+  deliver(0);
+}
+window.addEventListener('message', e => {   // 도구 iframe(번역 tr·이미지 thumb) 연필 → 부모 라우터 — same-origin 도구 프레임만 신뢰(genfree 리스너 출처검증 문법 동문)
+  if (e.origin !== location.origin || !e.data || e.data.nm !== 'nm-edit-open') return;
+  let ok = false; try { document.querySelectorAll('#tooldlg .toolfr').forEach(f => { if (f.contentWindow === e.source) ok = true; }); } catch (_) {}
+  if (!ok) return;
+  studioEditOpen(e.data.src, e.data.url);
+});
+// ── 스튜디오 헤더 메뉴(운영자 260805 "이미지 스튜디오 우측에 가로로 편집이라고 써지게 · 토글하면 나머지 4개 · 아래 5개 메뉴 없애고 그만큼 위로") ──
+// 라벨 = 활성 탭 워드(.tooltab.on 텍스트 미러) · 선택 = 기존 #toolTabs .tooltab 클릭 **프록시**(라우팅 로직 사본 0 — selApp·trMount·geniMount·thumbTabBridge 역동기·최소화 복원 전부 종전 경로 그대로 · #toolTabs DOM 보존 = 스모크 evaluate-클릭 경로도 동일) · 팝업 = .pmenu 정본 계승 · 닫힘 = hidePmenu 문법 사본
+const toolMenuBtn = $('#toolMenu'), toolMenuPop = $('#toolMenuPop');
+function toolMenuHide(now) {   // now = 즉시(모달 닫힘 동행 — 퇴장 애니 불요)
+  toolMenuPicto(false);   // 픽토 복귀 = 닫힘 판정보다 먼저(퇴장 애니 중에도 뒤가 정상으로 보이게)
+  if (toolMenuPop.hidden) return;
+  toolMenuBtn.setAttribute('aria-expanded', 'false');
+  if (now || (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) { clearTimeout(toolMenuPop._t); toolMenuPop.hidden = true; toolMenuPop.classList.remove('closing'); return; }
+  if (toolMenuPop.classList.contains('closing')) return;
+  toolMenuPop.classList.add('closing'); clearTimeout(toolMenuPop._t);
+  toolMenuPop._t = setTimeout(() => { toolMenuPop.hidden = true; toolMenuPop.classList.remove('closing'); }, 190);   // .18s 애니+버퍼 = hidePmenu 정본 동값
+}
+function toolMenuSync() {   // 라벨 = 활성 탭 textContent 단일 진입(탭 클릭·브리지 역동기·복원·renderToolTabs 전부 .on 변이로 수렴 = 경로별 사본 0)
+  const on = document.querySelector('#toolTabs .tooltab.on');
+  $('#toolMenuLb').textContent = on ? on.textContent : '';
+}
+new MutationObserver(toolMenuSync).observe($('#toolTabs'), { subtree: true, childList: true, attributes: true, attributeFilter: ['class'] });
+toolMenuBtn.addEventListener('click', () => {
+  if (!toolMenuPop.hidden && !toolMenuPop.classList.contains('closing')) { toolMenuHide(); return; }   // 재토글 = 닫힘
+  toolMenuPop.innerHTML = '';
+  document.querySelectorAll('#toolTabs .tooltab:not(.on)').forEach(t => {   // 나머지 4개만(활성 탭 = 헤더 라벨 자신)
+    const b = document.createElement('button'); b.type = 'button'; b.textContent = t.textContent;   // textContent 주입(XSS 안전 관용구) · 항목 스킨 = .pmenu button 정본 상속
+    b.addEventListener('click', () => { toolMenuHide(); t.click(); });   // 프록시 = 종전 탭 클릭 그대로(멱등 가드 포함)
+    toolMenuPop.appendChild(b);
+  });
+  clearTimeout(toolMenuPop._t); toolMenuPop.classList.remove('closing'); toolMenuPop.hidden = false;
+  const _sp = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--sp-1')) || 6;   // 간격 = --sp-1 실값 계승(vd .vpop margin-top 6 정본 동값 · 폴백 6 = 동값)
+  const _host = toolMenuBtn.offsetParent || toolMenuBtn.parentElement;   // = .tool-h(hdr-tabs 모드 relative 앵커)
+  const _cx = toolMenuBtn.offsetLeft + toolMenuBtn.offsetWidth / 2;      // 누른 곳(토글) 중심 x
+  toolMenuPop.style.left = Math.max(_sp, Math.min(_cx - toolMenuPop.offsetWidth / 2, _host.clientWidth - toolMenuPop.offsetWidth - _sp)) + 'px';   // 창 = 누른 곳 기준 중앙 정렬 + 좌우 클램프(qpop 선례) — 텍스트 좌측정렬은 .pmenu 정본 그대로(운영자 260805)
+  toolMenuPop.style.top = (toolMenuBtn.offsetTop + toolMenuBtn.offsetHeight + _sp) + 'px';   // 누른 곳 바로 아래
+  toolMenuBtn.setAttribute('aria-expanded', 'true');
+  toolMenuPicto(true);   // 뒤 사진 픽토 은닉(운영자 260806)
+});
+// 헤더 메뉴 펼침 = 뒤 미리보기 빈 상태 사진 픽토 은닉(반투명 팝업 뒤로 비쳐 보기 싫다는 지시) — 표면 2곳:
+//   ⓐ iframe 탭(카드생성·편집·번역·특수) = same-origin이라 그 문서 documentElement에 클래스(thumb `html.nm-menuopen` 규칙이 받는다)
+//   ⓑ AI 생성 판 = 부모가 그리므로 셸 자신에 `.menuopen`(#tooldlg.menuopen .geni-prev 규칙)
+//   opacity만 = 레이아웃 무접촉 · 닫으면 즉시 복귀 · cross-origin·미로드는 조용히 통과(fail-soft)
+function toolMenuPicto(on) {
+  tooldlg.classList.toggle('menuopen', !!on);
+  try { const f = document.querySelector('#tooldlg .toolfr.active'); const d = f && f.contentDocument;
+    if (d && d.documentElement) d.documentElement.classList.toggle('nm-menuopen', !!on); } catch (_) {}
+}
+tooldlg.addEventListener('click', e => { if (!toolMenuPop.hidden && !e.target.closest('#toolMenu') && !e.target.closest('#toolMenuPop')) toolMenuHide(); });   // 바깥 클릭 닫힘(.pmenu 캡처 닫힘 관례 — iframe 안 클릭은 문서 경계 밖이라 미포착 = 항목 선택·재토글이 정규 닫힘)
+// 라디얼 제작 메뉴 라우팅 — 타이틀 = 라디얼 라벨과 통일(뉴스 요약·이미지·영상 고정 · 세부는 탭) · 운영자 260626
+const ASK_TABS = [{ src: '#ask', label: '요약 요청', icon: '' }, { src: '/nb.html', label: '미디어 요약', icon: '' }];   // 요약 셸 2탭(운영자 260712 "요약 요청 = 이미지와 동일 UIUX · 기본 요약 요청(뉴스) / 2번째 미디어 요약") — #ask = 가상 탭(askdlg 폼 이식 · iframe 아님) · 미디어 요약 = nb.html(유튜브 자료화 · 구 영상 스튜디오 자료 탭서 이동 = 진입로 단일화)
+const CAP_TABS = [{ src: '/edit.html', label: '편집', icon: '' }, { src: '/sb.html', label: '생성', icon: '' /* 라벨 개명 '콘티'→'생성'(운영자 260817 — 탭이 콘티 산출을 넘어 참조 그림·영상 생성까지 가는 관문 = 이름을 실체에 맞춤 · src·탭 식별축·정식명 스토리보드 불변 = 라벨만 · 산출물 이름 「콘티 시트」·엔진 행 「콘티 : Gemini」는 결과물 축이라 무접촉) */ }, { src: '/k.html', label: '프롬프팅', icon: '' }, { src: '/song.html', label: '음원', icon: '' }, { src: '/vd.html', label: '큐영상', icon: '' }];   // 큐영상 = 5탭째 신설(운영자 260802 "영상 스튜디오에 탭 추가" — 큐 기사 선택 → video/ hyperframes 렌더 발사 · 소스 = viewer/articles.json[= queue/*.md 산출] · 산출 = viewer/vd_out/<id>/video.json 폴링) · 콘티(스토리보드) = 3탭째 신설(운영자 260714 "기존 영상 프롬프팅 메뉴를 대체 · 세부 메뉴에 기틀 계승 구현" — 감독×촬영 2축 분리 관문 = apps/storyboard/260714_설계확정 · 프롬프팅[클링 수동 레인] 보존 · 라벨 = 축약형 '콘티'[정식명 스토리보드 — 5탭 폰폭 한 줄 유지])   // 자료 탭 = 요약 셸 '미디어 요약'으로 이동(운영자 260712 재배치 — 복원은 이 행에 {src:'/nb.html',label:'자료'} 1개 추가) · 음원 = 4탭째 추가(운영자 260712 "+>영상>음원 제작" 지시 — 수노 규격 가사·스타일 프롬프팅 B안 · 오디오 생성 아님) · 운영자 260711 3차 "영상 통합 3분류" 확정 — 2차 선택값(trackEntry=tab4·convTab=restore)의 5탭을 뒤집고 진짜 3탭{편집·자막·프롬프팅}: 트래킹 = 편집 탭 기타 기능 → 핸드오프 서브뷰(아래 nmToolTab 폴백 · 탭 없음) · 변환 = 재도먼트(축 전부 편집 카드{비율·해상도·프레임·음량}가 전담 · conv.html·api/conv.js·conv-make.yml 보존 = 복원은 이 행에 탭 1개 추가) · **자막 = 재도먼트(운영자 260729 "자막뽑기 필요없고 · 자막 탭 없애주라")** — 스타일·표기법·처리 축 전부가 편집 카드로 수렴 완료(자막·번역 토글·음영 종류·폰트·글로우·상세 편집기{조각·찾아바꾸기·SRT 내려받기·다시 입히기}) · 편집 탭이 못 하는 잔여 = {음성·SRT 파일 직접 투입 · 번인 끄고 자막만 뽑기} 2개인데 운영자 불요 판정 · ⚠ **ly.html·api/ly.js·ly-make.yml은 삭제 금지 보존** = 편집 탭 '다시 입히기'가 /api/ly를 호출하고 러너도 ly_stt·ly_burn·ly_out 계약을 공유 · 복원은 이 행에 {src:'/ly.html',label:'자막'} 1개 추가 · 라벨 = 축약형(정식명 §📐 불변) · 진입 = 항상 첫 탭(openTool realSrc=tabs[0] = menuMemory off)   // 편집기 = 최좌측(차기 주력 · 운영자 260710 골격 B 확정 — 업로드 1번·1잡) · 탭 글자 앞 아이콘 폐지(운영자 260705) — 글자만·활성 강조색(.tooltab.on) 유지 · thumb 내부 탭(텍스트 단독·260704)과 일관 · §📐 헤더 텍스트·SVG 공존 금지 부합
+// 이미지(thumb) 탭 = 영상처럼 부모 탭바로 승격(3단 셸 통일 · 260704). 영상은 탭마다 src 다르나(ly/k) thumb 탭은 전부 /thumb.html 동일 → app 키로 식별(제작·합성2·편집8 = 2탭 · 260712 2차 통폐합 — 저작권3·카드뉴스5·리사이즈7 = 내부 토글/도먼트 · 생성6 폐지 260710, thumb.html .tab data-app 계승) · 클릭 = iframe 내부 selApp 직접 호출(same-origin·리로드0·폼/IDB 보존). 아이콘 = thumb.html .tab svg 계승. (합성 탭 comp.html = 카드뉴스 탭과 중복이라 진입로 폐지 260710 — 전용 프레임 'comp' 로직도 제거)
+const THUMB_TABS = [{ src: '/thumb.html', app: '2', label: '카드 제작', icon: '' }, { src: '/thumb.html', app: '7', label: '편집', icon: '' }, { src: '/tr.html', app: 'tr', label: '번역', icon: '' }, { src: '/thumb.html', app: '6', label: 'AI 생성', icon: '' }, { src: '/thumb.html', app: 'sp', label: '특수', icon: '' }];   // 특수 = 5탭째 신설(운영자 260729 "메뉴에 특수 제작을 하나" → 3차 개명 "특수 제작 > 특수" · app 'sp' id 불변 — thumb selApp 첫 줄 정규화 = 카드 생성(2) 잡·발사 축 별칭 · 화면은 3차부터 sp 전용{프리셋 구역 + 빈 미리보기 + 대기열·이전 제작 = 카드 생성 폼·옵션·미리보기 미러 숨김} · ⚠배치 = 위치 미지정이라 말미 부착{기존 4탭 순서 무접촉·번역 3탭째 선례 = 위치 지정시만 끼움} · 동일-src app 키 식별축 그대로라 탭바·브리지·최소화 칩 문법 무변) · 번역 = 3탭째(운영자 260723 위치이동 오독 원복 — "이걸 2번째로 바꿔야해"는 "편집(2번 탭)처럼 만들라"는 뜻이었는데 탭 위치 이동으로 오해 → 원복 · 실제 정합 = 번역 도크가 편집 4:5 미리보기 무대 계승) · (구 260721)번역 = 3탭째 끼움(운영자 260721 "apps.nomute.kr/tr 메뉴를 이미지 생성기 메뉴 3개 중 3번째로" — 정식명 번역카드 tr.html·라벨 = 축약형[CAP '콘티' 선례] · AI 생성 = 4탭째로 밀림[기능 무변] · app 'tr' = 동일-src 식별축 그대로라 탭바·하이라이트 문법 무변 · 문서 = 전용 보존 프레임 trMount = thumb 3탭 리로드 0 계약 무접촉) · 3탭 재편(운영자 260718 "카드 생성 | 편집 | AI 생성 — 2분할>3분할"): 구 '편집'(app2)→'카드 생성' 개명 · 편집(app7 대표) = 비율·해상도(구 화질)·모자이크 전담 탭 부활(260713 옵션 이식의 역재편 — 도먼트 복원 하우스 패턴 그대로 · app7/8/9 발사·잡·이력 로직 불변 = 진입 구조만) · 하이라이트 7/8/9→편집(7) = thumb selApp 내부 매핑을 thumbTabBridge sync가 그대로 읽음 · (구 260713 기록: '제작·합성'→'편집' · 비율 순환 = 원본→9:16→16:9→4:5→1:1→21:9 → 260718 편집 탭 = AI 생성 비율 문법 계승{21:9 프리셋 제거·직접 N:N}) · 프롬프팅6 = 구 '생성'(제미나이 자유 생성 · 260707) 부활·개명(운영자 260712 8차 "프롬프팅이라고 만들어줘" — 도먼트{genJob·genidlg free·api/genimg} 진입로만 복원 = 하우스 패턴 · 발사 = 부모 #genidlg 팝업) · 합성(comp) 탭 = 7차 복원분 재폐지(운영자 260712 8차 "합성탭이랑 그런 거 다 없애 — 카드뉴스는 첫 탭에 다 넣었다" = 제작·합성 탭 카드뉴스 토글 전담 확정 · comp.html 재삭제 · 재복원 = b9b3b40 스냅샷+PR #2096 배선) · 탭 통폐합 2탭(운영자 260712 2차 "기존 이미지를 합치는 거" → 3차 "리사이즈를 더 많이 써 · 원본 유지=사실상 off 기본 → 기능들이 옵션" 역전) — ① 구 썸네일 라벨 → 제작·합성 개명(app='2' id 불변 · 포스트|카드뉴스 ON 토글 포함 그대로) ② 편집 탭 대표 = 리사이즈(app7) 기본 전면{비율 기본 = 원본(무변환) 칩 · 발사 가드} · 모자이크(app8) = 편집 탭 안 '모자이크 ON/OFF' 옵션 토글(thumb #ieTogRow · ON=selApp('8')+비율 원본 강제 · 비율 선택=자동 OFF · 하이라이트 8→편집(7) 매핑 = thumbTabBridge 역동기 · 썸네일 UIUX 문법 계승) — app7·8 발사·잡·이력·복원 로직 전부 불변 = 진입 구조만 재편 ③ 복원(구 3탭) = 이 행 탭 1개 + thumb #tabs 1행 · 저작권3 탭 폐지(운영자 260712 메뉴 삭제) — 썸네일 저작권 통합(260711 cpThumb 3단·#cpBlock 공유·app3/4 payload 동일)이 전담 · thumb app3 발사/복원 로직은 도먼트 보존   // 탭 글자 앞 아이콘 폐지(운영자 260705) — 글자만·활성 강조색 유지 · ⚠ 합성 탭(comp.html) = 카드뉴스와 중복이라 진입로 폐지(운영자 260710 · comp 도먼트) · 구 생성6도 운영자 260710 제거(자유 생성 경로 도먼트)
+$('#bpop').addEventListener('click', e => { const b = e.target.closest('.raditem[data-act]'); if (!b) return; e.preventDefault();
+  bpop.hidden = true; bpop.classList.remove('open'); const _tf = $('#toolfab'); if (_tf) _tf.classList.remove('open');   // 라디얼 닫고
+  const a = b.dataset.act;
+  if (a === 'ask') openAsk();
+  else if (a === 'thumb') { openTool('/thumb.html', 'Image Studio', THUMB_TABS, 'thumb'); trWarm(); }   // 타이틀 = AI 픽토 + Image Studio(운영자 260712 8차 · comp 최소화 분기 = 합성 재폐지로 제거) · trWarm = 번역 탭 예열(운영자 260723 — 셸 열 때 tr 프레임 선로드 → 번역 클릭 즉시 = 타 탭 동일 체감)
+  else if (a === 'cap') { openTool(null, 'Video Studio', CAP_TABS, 'cap'); capWarm(); } });   // 타이틀 = 운영자 260711 선택값(headTit) · capWarm = 나머지 탭 선로드(운영자 260803 탭 전환 로딩 0 · trWarm 동문)
+window.addEventListener('message', e => {   // 편집 탭 기타 기능 → 트래킹 핸드오프(운영자 260711 3분류 — 설정 프리로드 후 전환 · same-origin만)
+  const d = e.data; if (!d || d.nm !== 'nmToolTab' || typeof d.src !== 'string' || e.origin !== location.origin) return;
+  if (!/^\/[a-z0-9_-]+\.html$/.test(d.src)) return;   // 셀렉터 주입 가드(닫힌 형태만 · 배선평의회5 ⑤)
+  const b = document.querySelector('#toolTabs .tooltab[data-src="' + d.src + '"]'); if (b) { b.click(); return; }
+  // 탭 없는 대상 = 서브뷰 폴백(260711 3차 3탭 축소로 트래킹 탭 소멸 — 화이트리스트 = 트래킹만): 3탭 하이라이트 전부 해제 + 같은 프레임에 직접 로드 · 돌아오기 = 탭 클릭(정규 경로 그대로) · toolMeta.src 갱신 = 최소화→복원 시 트래킹 뷰·무하이라이트 유지(renderToolTabs는 일치 탭 없으면 .on 없음)
+  if (d.src !== '/track.html' || !tooldlg.open || curToolKey !== 'cap') return;
+  $('#toolTabs').querySelectorAll('.tooltab').forEach(x => x.classList.remove('on'));
+  if (toolMeta.cap) toolMeta.cap.src = d.src;
+  loadToolFrame(d.src);
+});
+$('#toolX').addEventListener('click', () => tooldlg.close());
+if ($('#toolMin')) $('#toolMin').addEventListener('click', () => minimizeTool());
+// ── 헤더 새로고침(운영자 260731 "다른 플랫폼에서 제작했더라도 받아오게") — 활성 프레임의 nmRefresh 훅 호출(same-origin) = 서버 인덱스 재fetch(thumb-hist·ly_out/index·song_out/index 등 = 타 기기·타 플랫폼 제작분 수신). 프레임 리로드는 절대 안 함(폼·입력값 보존 계약 — 최소화·세부탭 리로드 0 문법과 동축) · 훅 미보유 탭(콘티·프롬프팅 = 로컬 보관)은 무동작(번역 = 260803 nmRefresh 합류로 미보유 목록서 제외) ──

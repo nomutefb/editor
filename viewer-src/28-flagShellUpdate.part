@@ -1,0 +1,636 @@
+function flagShellUpdate() {
+  try { if (Date.now() - (+sessionStorage.getItem('nmUpdCoolT') || 0) < 90000) return; } catch {}   // 반영 직후 90s 억제(회로차단기 계승 · toast 버전과 동일)
+  if (_shellUpdPending) return;   // 이미 대기 = 중복 무해(SWR 재검증 반복 흡수)
+  _shellUpdPending = true; _shellUpdWhen = Date.now();
+  try { renderMsgBadge(); } catch {}   // 프로필 상태·카운트 갱신
+  try { const mp = $('#msgpop'); if (mp && !mp.hidden) renderMsgList(); } catch {}   // 메시지함 열려있으면 즉시 목록 반영
+}
+// 재점등 260802(운영자 "새버전은 보라색 토스트 하면 됨 키워드 알림 처럼" — 260724 도먼트 해제) — 메시지함 채널(flagShellUpdate)과 병행 · 셸 색 = .nm-toast.upd 보라 오버라이드(키워드 알림 축 합류) · 발화 = SW nm-shell-updated + 아래 checkNewVersion(스탬프 자기확인).
+function showUpdateToast() {
+  if (_shellUpdShown || _shellUpdApplying) return;   // 표시 중 1회 = 중복 postMessage·재검증 반복 무해화(✗ 누르면 해제 = 다음 배포 재알림) · 적용 중 재알림 = 무시('반영중' 문구를 '탭하면 반영'으로 되감아 죽은 탭처럼 오도하는 창 봉쇄 · 평의회 260717-2)
+  try { if (Date.now() - (+sessionStorage.getItem('nmUpdCoolT') || 0) < 90000) return; } catch {}   // 반영 탭 후 90s = 재알림 억제(회로차단기 · 운영자 260717 "탭하면 반영 무한루프") — 잔여 미지 변이가 있어도 루프 절단 · 캐시는 SW put이 계속 수렴
+  if (_toastC || document.querySelector('#nmToast.show, #sysFreshToast.show, #nmFailToast.show')) { clearTimeout(_shellUpdT); _shellUpdT = setTimeout(showUpdateToast, 4000); return; }   // 긴급·경보 우선 = 양보 후 재시도(단일 타이머 clear→set = 다중 메시지 재시도 체인 중첩 차단·평의회 260717)
+  _shellUpdShown = true;
+  let t = document.getElementById('nmUpdateToast');
+  if (!t) { t = document.createElement('div'); t.id = 'nmUpdateToast'; t.className = 'nm-toast upd'; t.setAttribute('role', 'status'); t.setAttribute('aria-live', 'polite'); document.body.appendChild(t); }   // role=status·polite = 비긴급(긴급 토스트 role=alert·assertive와 분리)
+  t.onclick = () => applyShellUpdate(t);   // 본체 탭 = 최신 셸 재확보 후 새로고침(중첩 N건 일괄 해소)
+  t.innerHTML = '<span class="tg">' + Q_REFR + '</span><span class="ft-msg">새 버전이 있어요 · 탭하면 반영</span>'
+    + '<button class="sbtn ft-act" type="button" data-bt="x" aria-label="닫기" title="닫기 — 이번 접속 동안만 숨김">' + X_TOAST_SVG + '</button>';
+  t.querySelector('[data-bt="x"]').onclick = ev => { ev.stopPropagation(); if (_shellUpdApplying) return; t.classList.remove('show'); _shellUpdShown = false; };   // ✗ = 숨김 + 래치 해제 = 다음 배포(재검증) 감지 시 재알림(주석·의도 정합·평의회 260717) · 적용 중엔 무시 — 숨긴 직후 돌연 리로드되는 title 약속("이번 접속 동안만 숨김") 배신 차단(평의회 260717-8)
+  requestAnimationFrame(() => t.classList.add('show'));   // 상주형(자동닫힘 없음) = 사용자가 탭할 때까지 대기(§CII 토스트 행)
+}
+// ── 배포 스탬프 자기확인(운영자 260802 승인 "아이디어 해주고") — SWR 통지(nm-shell-updated)는 재검증이 도는 '재진입 내비게이션'에서만 오므로,
+//    화면을 열어 둔 채로는 배포가 와도 영영 모른다(260802 16:53 유령 신고 "첨부 안 됨"의 근원 = 1분 전 머지 미착화면). 열린 페이지가 스스로
+//    서버의 BUILD_STAMP를 대조해 위 보라 토스트를 당긴다. 반영 탭 = applyShellUpdate(기존 정본 그대로 = SW 캐시 갱신 + reload).
+//    데이터 절약 = If-None-Match 조건부 GET(기준 ETag와 동일하면 304 = 본문 0바이트 · 2.2MB 셸을 매번 안 받음).
+//    재알림 억제 = 같은 스탬프 1회(_verAlerted — ✗ 닫기 후 같은 판 재토스트 방지 · '다음 배포 감지 시 재알림' 계약은 스탬프가 바뀌면 자동 충족).
+let _verEtag = '', _verAlerted = '', _verChkLast = 0;
+async function checkNewVersion(force) {
+  if (typeof BUILD_STAMP === 'undefined' || BUILD_STAMP === 'dev' || _shellUpdApplying) return;   // dev(로컬·미배포) = 대조 축 없음 · 반영 중 = 곧 reload
+  if (!force && Date.now() - _verChkLast < 240000) return;   // 4분 스로틀 = visibilitychange 연타 흡수
+  _verChkLast = Date.now();
+  try {
+    const res = await fetch(location.pathname, { cache: 'no-store', headers: _verEtag ? { 'If-None-Match': _verEtag } : {}, signal: (typeof AbortSignal !== 'undefined' && AbortSignal.timeout) ? AbortSignal.timeout(8000) : undefined });   // 비내비게이션 fetch = SW 불간섭 순수 네트워크(applyShellUpdate 동문법)
+    if (res.status === 304) return;   // 기준 도장과 동일 = 무변화(본문 0)
+    if (!(res.ok && !res.redirected && res.type === 'basic')) return;   // 가드 = sw.js ⓐ·applyShellUpdate 동일(Access 리다이렉트 오염 차단)
+    _verEtag = res.headers.get('etag') || '';
+    const m = new RegExp("BUILD_" + "STAMP = '([^']+)'").exec(await res.text());   // 패턴 분절 = 이 파일 자신을 읽으므로, 검사 코드 자신의 문자열이 스탬프보다 먼저 매칭되는 자기참조 오탐 차단
+    const sv = m && m[1];
+    if (!sv || sv === 'dev' || sv === BUILD_STAMP || sv === _verAlerted) return;   // 스탬프 = 진실 판정(ETag 변이·압축 변주는 여기서 걸러짐 = sw.js scrub와 같은 취지)
+    _verAlerted = sv;
+    if (autoApplyUpdate(sv)) return;        // 한가하면 그 자리 자동 반영(SW 통지 유실·SW 미등록 경로의 짝 — 한쪽만 배선하면 나머지가 조용히 종전 동작으로 남는다) · 도장(sv) 전달 = 배포별 1회 회로차단의 키
+    flagShellUpdate(); showUpdateToast();   // 메시지함(조용) + 보라 토스트(운영자 260802) 동시 — 억제 로직은 각자 보유
+  } catch {}   // 오프라인·타임아웃 = 다음 주기 재시도(fail-soft)
+}
+setTimeout(() => { checkNewVersion(true); }, 45000);   // 부팅 45s 후 1회(초기 로드·데이터 fetch 경쟁 회피)
+setInterval(checkNewVersion, 600000);                  // 10분 주기 = 열어 둔 화면도 배포를 안다
+document.addEventListener('visibilitychange', () => { if (!document.hidden) checkNewVersion(); });   // 폰·탭 복귀 순간 = 즉검(4분 스로틀 안에서)
+// '탭하면 반영' reload 후 스크롤 복원(운영자 260717 — 시각 튜닝 시 맨위 튕김 방지) · 세션 1회성 · 콘텐츠 async 렌더라 충분히 길어질 때(또는 2.5s)까지 rAF 대기 후 복원 · 앱 재렌더 scrollY 보존 관례(12347 등) 계승
+(function restoreUpdScroll() {
+  let y; try { y = sessionStorage.getItem('nmUpdScrollY'); if (y != null) sessionStorage.removeItem('nmUpdScrollY'); } catch { return; }
+  if (y == null) return; y = +y; if (!(y > 0)) return;
+  try { if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; } catch {}   // 브라우저 자동복원과 충돌 차단(내가 콘텐츠 준비 후 복원)
+  const t0 = Date.now();
+  const step = () => {
+    const se = document.scrollingElement || document.documentElement;
+    if ((se && se.scrollHeight >= y + window.innerHeight) || Date.now() - t0 > 2500) { window.scrollTo(0, y); return; }   // 콘텐츠 충분히 김 or 2.5s 타임아웃 = 복원
+    requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+})();
+
+// ── 긴급 속보 웹푸시(구독) — service worker(sw.js) + PushManager. 발송 = push_send.py. VAPID 공개키 박음(비밀 아님). 정본 = CLAUDE.md §🚨 ──
+const VAPID_PUB = 'BORNTh3cNd05vsxi2fZ-BykxM0NwKGTvIETz81g757RVFL6cDu29aAv5I7uit0WbGOmiZ4hlyMOEvb8B2HptU-I';
+const pushOK = () => 'serviceWorker' in navigator && 'PushManager' in window && 'Notification' in window;
+const b64ToU8 = s => { const pad = '='.repeat((4 - s.length % 4) % 4); const b = atob((s + pad).replace(/-/g, '+').replace(/_/g, '/')); return Uint8Array.from([...b].map(c => c.charCodeAt(0))); };
+async function pushState() {   // 'on'|'off'|'denied'|'unsupported'
+  if (!pushOK()) return 'unsupported';
+  if (Notification.permission === 'denied') return 'denied';
+  try {
+    let r = await navigator.serviceWorker.getRegistration();
+    if (!r) r = await Promise.race([navigator.serviceWorker.ready, new Promise(res => setTimeout(res, 1500))]);   // 강제 새로고침·콜드부트 직후 등록 조회가 일시 비는 창 = ready 최대 1.5s 대기 후 재시도(일시 null → OFF 오판 방지 · 운영자 260707 "강제 새로고침하면 다시 OFF")
+    const s = r && await r.pushManager.getSubscription(); return s ? 'on' : 'off';
+  } catch { return 'off'; }
+}
+async function pushRefresh() {
+  const row = $('#pushrow'), btn = $('#pushbtn'); if (!row || !btn) return;
+  const st = await pushState();
+  if (st === 'unsupported') { row.hidden = true; return; }   // iOS 미설치 등 = 숨김
+  row.hidden = false;
+  // ON/OFF 2-state 통일(운영자 260703): denied(차단)도 'OFF'로 표기 — 클릭 시 pushToggle이 해제 안내(차단은 거의 안 생김·항상 허용해둠). '차단됨'/앰버 폐지.
+  btn.disabled = false; btn.classList.remove('denied'); btn.textContent = st === 'on' ? 'ON' : 'OFF'; btn.classList.toggle('on', st === 'on');
+  if (st === 'on') { try { localStorage.setItem('nm_push_want', '1'); } catch (e) {} }   // 백필 — want 플래그 도입(260707) 전에 켠 구독은 플래그가 없어 pushHeal이 침묵 → ON으로 읽히는 순간 편입
+  else if (st === 'off') pushHeal();   // OFF가 '보이는 순간' = 치유 시점(부팅 1회만으론 팝업 열 때 어긋남) — want·권한 미충족이면 pushHeal이 스스로 무시·성공 시 ON 재렌더
+}
+// 기기 정보 = 등록 요청이 같이 들고 가는 값(운영자 260819 "안드로이드 오에스 버전이나 브라우저라도 나온다던지").
+//   서버는 요청 헤더의 브라우저 신분 문자열을 스스로 읽는다 — 여기서 보태는 건 **크롬 계열만 주는 더 정확한 값**(플랫폼 판·기기 모델)이다.
+//   없는 브라우저(사파리·파이어폭스)면 null = 서버가 읽은 문자열만 남는다(그래도 안드로이드 판·브라우저는 거기 다 들어 있다).
+async function nmDevHint() {
+  try {
+    const u = navigator.userAgentData; if (!u || !u.getHighEntropyValues) return null;
+    const h = await u.getHighEntropyValues(['platform', 'platformVersion', 'model', 'fullVersionList']);
+    const bl = (h.fullVersionList || u.brands || []).filter(b => b && b.brand && !/not.?a.?brand/i.test(b.brand));
+    const b = bl[bl.length - 1] || null;   // 목록 마지막 = 실제 브라우저(앞쪽은 Chromium 공용 표식)
+    return { plat: h.platform || '', pv: h.platformVersion || '', model: h.model || '', br: b ? (b.brand + ' ' + String(b.version || '').split('.')[0]) : '' };
+  } catch (e) { return null; }
+}
+async function pushToggle() {
+  const btn = $('#pushbtn'); if (!btn || !pushOK()) return;
+  if (Notification.permission === 'denied') {   // denied는 JS로 못 풂(웹 표준·PWA도 동일·설정 deeplink API 없음) → 환경별 설정 안내
+    const pwa = nmStandalone();   // 설치앱 판정 = nmStandalone 정본 계승(구 인라인 중복 · 260731 SSOT화)
+    alert(pwa
+      ? '알림이 꺼져 있어요(설치된 앱). 버튼으론 못 켜요(보안 제약).\n\n켜는 법:\n① 홈 화면 노뮤트 아이콘 꾹 누르기 → 앱 정보(ⓘ) → 알림 → 허용\n② 또는 폰 설정 → 앱 → 노뮤트(없으면 Chrome) → 알림 → 허용\n→ 앱 다시 열고 알림 ON\n\n그래도 안 되면: 아이콘 삭제 후 다시 "홈 화면에 추가"로 재설치 = 권한 초기화(가장 확실).'
+      : '알림이 브라우저에서 차단돼 있어요. 켜는 법:\n주소창 왼쪽 🔒 → 사이트 설정 → 알림 → "허용" → 새로고침.');
+    return;
+  }
+  btn.disabled = true; btn.innerHTML = '변경중…';   // 처리중 = gdots 점모션 정본 계승(§디자인 g — 맨글자 '변경중'은 먹통처럼 보임 · 운영자 260707)
+  try {
+    const reg = await navigator.serviceWorker.register('sw.js'); await navigator.serviceWorker.ready;
+    const cur = await reg.pushManager.getSubscription();
+    if (cur) {   // 끄기
+      await fetch('api/push', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ action: 'unsubscribe', subscription: cur.toJSON() }) }).catch(() => {});
+      await cur.unsubscribe();
+      try { localStorage.setItem('nm_push_want', '0'); } catch (e2) {}   // 의도 = OFF(자가치유 대상 아님)
+    } else {     // 켜기 — 권한 요청 → 구독 → 서버 저장
+      const perm = await Notification.requestPermission();
+      if (perm !== 'granted') { await pushRefresh(); return; }
+      const sub = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: b64ToU8(VAPID_PUB) });
+      const r = await fetch('api/push', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ action: 'subscribe', subscription: sub.toJSON(), hint: await nmDevHint() }) });
+      if (!r.ok) { await sub.unsubscribe().catch(() => {}); throw new Error('구독 저장 실패(' + r.status + ')'); }
+      try { localStorage.setItem('nm_push_want', '1'); } catch (e2) {}   // 의도 = ON(구독 증발 시 pushHeal 재구독 기준)
+    }
+  } catch (e) {
+    const m = (e && e.message) || String(e);
+    // 'push service error'(Chromium) = 브라우저가 푸시 백엔드(구글 FCM)에 등록 실패 — 알림 권한(granted)과 별개 단계.
+    // 대표 원인 = Brave가 '구글 푸시 메시징'을 기본 차단(JS로 못 켬 → 설정 안내). denied 안내와 같은 방식(운영자 260702).
+    if (/push service|service not available|registration failed|abort/i.test(m)) {
+      let brave = false; try { if (navigator.brave && navigator.brave.isBrave) brave = await navigator.brave.isBrave(); } catch {}
+      alert(brave
+        ? '브라우저(Brave)가 구글 푸시 메시징을 꺼놔서 알림을 못 켜요. 켜는 법:\n① 주소창에 brave://settings/privacy 붙여넣기\n② "Use Google services for push messaging"(구글 푸시 메시징 사용) 켜기\n③ Brave 완전 종료 후 다시 열기\n④ 다시 "켜기"\n\n(brave:// 주소는 클릭이 안 되니 복사해서 주소창에 붙여넣어요.)'
+        : '브라우저가 푸시 서비스(구글 FCM)에 등록하지 못했어요. 켜는 법:\n① VPN·방화벽이 있으면 끄고 다시 시도\n② 회사·학교 관리 PC면 정책 차단일 수 있어요\n③ Brave 브라우저면 brave://settings/privacy → "Use Google services for push messaging" 켠 뒤 재시작\n\n(' + m + ')');
+    } else {
+      alert('알림 설정 실패: ' + m);
+    }
+  }
+  finally { await pushRefresh(); }
+}
+const _pushBtn = $('#pushbtn'); if (_pushBtn) _pushBtn.addEventListener('click', pushToggle);
+const _pushRow = $('#pushrow'); if (_pushRow) _pushRow.addEventListener('click', e => { if (e.target.closest('#pushbtn')) return; if (_pushBtn && !_pushBtn.disabled) pushToggle(); });   // 행 전체 탭 = 토글(라벨·여백 눌러도 무반응이던 것 교정 · 버튼 자체 클릭은 기존 리스너 = 중복 발화 차단)
+let _healBusy = null, _healCool = 0;   // 단일비행 + 쿨다운(실패 60s·성공 3s) = 팝업 연타·포그라운드 복귀마다 구독 재시도 폭주 방지
+function pushHeal() {   // 자가치유(운영자 260707 "ON 해놔도 어느 순간 OFF") — 의도(ON 플래그)와 실제 구독이 어긋나면 조용히 재구독.
+  // 원인 = 브라우저(FCM)가 구독을 만료·교체(pushsubscriptionchange — sw.js 핸들러와 짝) · 크롬 '미사용 사이트 권한 자동 제거' 등.
+  // 발동 = 부팅 1회 + 포그라운드 복귀 + pushRefresh가 OFF를 그리는 순간(표시 = 치유 트리거).
+  // 권한 granted면 무프롬프트로 복구되고, 권한이 회수됐으면 조용히 실패(프롬프트 남발 금지) = OFF 표시가 정직.
+  if (_healBusy || Date.now() < _healCool) return _healBusy;
+  _healBusy = (async () => {
+    try {
+      if (!pushOK()) return;
+      if ((localStorage.getItem('nm_push_want') || '') !== '1') return;
+      if (Notification.permission !== 'granted') return;
+      const reg = await navigator.serviceWorker.register('sw.js'); await navigator.serviceWorker.ready;
+      if (await reg.pushManager.getSubscription()) { _healCool = Date.now() + 3e3; await pushRefresh(); return; }   // 살아있음 = 표시만 동기화(pushState 일시 null로 OFF 그려진 경우 교정)
+      const sub = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: b64ToU8(VAPID_PUB) });
+      const r = await fetch('api/push', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ action: 'subscribe', subscription: sub.toJSON(), hint: await nmDevHint() }) });
+      if (!r.ok) { await sub.unsubscribe().catch(() => {}); _healCool = Date.now() + 60e3; return; }
+      _healCool = Date.now() + 3e3;
+      await pushRefresh();   // ON 표시 복구
+    } catch (e) { _healCool = Date.now() + 60e3; /* 조용 — 쿨다운 후 재시도 */ }
+  })().finally(() => { _healBusy = null; });
+  return _healBusy;
+}
+pushHeal();
+document.addEventListener('visibilitychange', () => { if (!document.hidden) pushHeal(); });   // 앱 전환 복귀 = 백그라운드 새 SW 활성·구독 로테이션 직후일 수 있음 → 재점검
+
+// 프로필 메뉴
+const pmenu = $('#pmenu');
+const msgpop = $('#msgpop');
+// 프로필 메뉴 = 다른 부분 활성화 시 popOut(촤르륵)으로 닫힘 — hidden 즉시 대신 애니 후 hidden(reduced-motion이면 즉시).
+let pmTimer = null;
+function showPmenu(){ clearTimeout(pmTimer); pmenu.classList.remove('closing'); ['position','left','right','top','bottom','maxHeight','overflowY','transformOrigin'].forEach(p => { pmenu.style[p] = ''; }); pmenu.hidden = false; loadPubBadge(); $('#profile').classList.add('on'); }   // 메뉴 열림 = 기어 강조색 on-state(vh-fbtn.on 패턴 계승 · 260706) · 인라인 위치 리셋 = 링크 메뉴 경유(fixed 하단 앵커) 잔상이 헤더 앵커 오픈에 안 새게(운영자 260706 튀어나감 버그 수리 짝가드)
+function hidePmenu(){
+  $('#profile').classList.remove('on');   // 기어 on-state 해제(어느 닫힘 경로든)
+  if (pmenu.hidden || pmenu.classList.contains('closing')) return;
+  if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) { pmenu.hidden = true; return; }
+  pmenu.classList.add('closing'); clearTimeout(pmTimer);
+  pmTimer = setTimeout(() => { pmenu.hidden = true; pmenu.classList.remove('closing'); }, 190);   // .18s 애니 + 버퍼
+}
+// 오버레이 상호배타 — 하나 열 때 나머지(프로필·메시지·제작도구·링크·검색) 닫기(겹침 방지)
+function closeOverlays(keep) {
+  if (keep !== 'pmenu') hidePmenu();
+  if (keep !== 'msg') msgpop.hidden = true;
+  if (keep !== 'lockpop') { const _lp = $('#lockpop'); if (_lp) _lp.hidden = true; }
+  if (keep !== 'marqpop') { const _mp = $('#marqpop'); if (_mp) _mp.hidden = true; }
+  if (keep !== 'bpop') { bpop.hidden = true; bpop.classList.remove('open'); const _tf = $('#toolfab'); if (_tf) _tf.classList.remove('open'); }   // 라디얼 닫힘 = .open 제거(다음 열림 애니 복원) + FAB ×→+ 복귀
+  if (keep !== 'linkpop') linkpop.hidden = true;
+  if (keep !== 'kwpop') { const _kp = $('#kwpop'); if (_kp) _kp.hidden = true; }   // 키워드 알림 대기열도 화면전환 시 정리(linkpop 형제)
+  if (keep !== 'mmpop') { const _mm = $('#mmpop'); if (_mm) _mm.hidden = true; }   // 메모함도 동일(kwpop 형제)
+  if (keep !== 'devpop') { const _dv = $('#devpop'); if (_dv) _dv.hidden = true; }   // 구독 기기함도 동일(kwpop 형제)
+  if (keep !== 'qpop') closeQueueUser();
+  if (keep !== 'pubpop') closePubUser();
+  if (keep !== 'search') closeSearch();
+  if (keep !== 'filterpop') closeFilterPop(true);   // 필터 오버레이 = 프로필 팝업 등과 상호배타(전환=즉시 닫힘·촤르륵 생략 · 운영자 260627·260629)
+  if (keep !== 'merge' && MERGE_MODE) exitMerge();   // 병합모드도 정리(다른 화면전환 시 잔존·z누수 차단·분신술4) — exitMerge가 pushState 칸도 회수
+  closeFailMenu();   // Failed 칩 컨텍스트 메뉴도 같이 닫음(겹침 방지 — 자기 자신은 직후 다시 표시)
+}
+let _menuToMsg = null;
+let _msgFromMenu = false;   // 메시지함이 설정메뉴(linkpop) 안 버튼으로 열렸는지 — X로 닫을 때 상위 linkpop 복원 여부(딥링크 진입은 false = 복원 안 함 · 운영자 260710 "세부 닫히면 전단계 메뉴 떠야")
+$('#profile').addEventListener('click', e => {
+  e.stopPropagation();
+  // 설정 톱니바퀴(운영자 260710 재활성) = 설정 메뉴(linkpop) 헤더 아래 우측 촤르륵 · pmenu(도먼트)→linkpop 전환 · 채널·필터·메시지·발행본·기본값 한 메뉴
+  const willOpen = linkpop.hidden;
+  closeOverlays('linkpop'); clearTimeout(_menuToMsg);
+  if (willOpen) { linkpop.hidden = false; placeHeadPop(linkpop, $('#profile')); pushRefresh(); }
+  else linkpop.hidden = true;
+});
+document.addEventListener('click', e => {
+  if (!msgpop.hidden && !msgpop.contains(e.target) && !$('#profile').contains(e.target)) msgpop.hidden = true;
+});
+// 프로필 메뉴는 캡처단계로 닫음 — 다른 부분이 stopPropagation 해도 촤르륵 닫힘 보장(바깥 어디든 탭하면).
+document.addEventListener('click', e => {
+  if (pmenu.hidden || pmenu.classList.contains('closing')) return;
+  if (pmenu.contains(e.target) || $('#profile').contains(e.target)) return;
+  if ($('#pindlg') && $('#pindlg').open) return;   // PIN 모달(#pindlg) 입력 중이면 메뉴 유지 — 입력칸 탭(모달 안=pmenu 밖)에 메뉴가 닫혀 설정 완료 후 토글 갱신이 안 보이던 것 차단(lockpop/pubpop 동일 관용구 · 평의회5 260705)
+  hidePmenu();
+}, true);
+// 스크롤·휠 등 다른 액션 활성화 = 프로필(·메시지) 메뉴 자동 닫힘(운영자 260621: 켜진 채 스크롤하면 거슬림). 메뉴 항목 탭은 페이지 스크롤 아님 → 안 닫힘.
+// ⚠ 창 **자기 안쪽** 스크롤은 '다른 액션'이 아니다 — 알림 상세 전문(.msgdetail = max-height 5*51 스크롤 영역)·목록(.qlist 5행 캡)을 굴리면 wheel이 버블링으로 window까지 올라와 그 자리에서 창이 닫혔다(운영자 260814 "메세지 세부 스크롤이 안돌아 · 스크롤 하는 순간 창이 꺼져버림" · 실측 260814 = 전문 1788px/창 255px인데 휠 1틱에 hidden=true·scrollTop 0 = 내용을 한 줄도 못 읽는다 · 목록도 동일 · 터치는 element scroll이 window로 안 올라가 종전에도 정상이었다 = **PC 휠 전용 사각**).
+//   판정 = 발원 요소가 그 팝업 안이면 그 팝업만 유지(다른 팝업은 종전대로 닫힘) · 페이지 스크롤은 e.target이 document(nodeType 9) → 후보 제외 = 260621 계약 100% 보존.
+['scroll', 'wheel'].forEach(ev => window.addEventListener(ev, e => {
+  const t = (e && e.target && e.target.nodeType === 1) ? e.target : null;   // 요소 발원만 후보 — document·window 발원 = 페이지 스크롤 = 종전대로 닫는다
+  const inPop = el => !!(t && el && el.contains(t));
+  if (!pmenu.hidden && !pmenu.classList.contains('closing') && !inPop(pmenu)) hidePmenu();
+  if (!msgpop.hidden && !inPop(msgpop)) msgpop.hidden = true;
+  closeFilterPop();   // 스크롤하면 필터 오버레이도 닫힘(pmenu·msgpop과 동일 · 운영자 260627)
+}, { passive: true }));
+$('#refresh').addEventListener('click', () => { hidePmenu(); load(); loadMessages(); loadCandidates(); loadPickFails(); loadHealth(true); });
+$('#topRefresh').addEventListener('click', () => { setTimeout(hardReload, 420); });   // 강제 하드 새로고침(코드+데이터 · SW 셸 캐시 우회 = 진짜 최신 셸 · 탭은 localStorage 복원). 위임 ic-spin(누름 회전)이 한 바퀴 보이고 리로드 — 즉시 reload면 스핀이 안 보임(운영자 260629·260619 · 260713 hardReload=nosw 우회로 강제화).
+// (🚨 긴급 확인 버튼 핸들러 폐지 — 운영자 260620: 프로필 긴급 점등·확인 루틴 제거. 토스트 재알림 de-dup은 수집함 진입(showTab scrap)으로 이전.)
+// 메시지·발행본·잠금 팝업 위치 = 링크 메뉴(#linkfab) 위 앵커(운영자 260707 "열린 메뉴 가까이" — 진입로가 linkpop으로 이관됐는데 앵커만 구 프로필에 남아 딴 데서 뜨던 것 교정)
+function vhAnchor() { const p = $('#profile'); return (p && p.getClientRects().length) ? p : $('#searchToggle'); }   // 구 프로필 앵커 = linkfab 부재 시 최후 폴백으로만 잔존(기어 도먼트 260706 3차)
+function placePopNearMenu(pop) {   // 설정 안 팝업(메시지·발행본·잠금·전광판) = 설정 톱니(#profile) 아래 우변 촤르륵(운영자 260710 요구5 "검색 외 모든 창 우측 상단 모서리가 픽토에 고정" · 구 linkfab 하단 앵커 폐지) · ⚠️ 호출 전 pop.hidden 해제 필수(폭 측정)
+  pop.classList.remove('anch-b');   // 구 bottom 앵커(msgUnfoldUp) 해제 → head-pop = top 앵커(msgUnfold 우상단 원점)
+  placeHeadPop(pop, $('#profile') || $('#queueBtn') || $('#searchToggle'));
+}
+function placeMsgpop() { placePopNearMenu(msgpop); }
+['resize', 'orientationchange'].forEach(ev => window.addEventListener(ev, () => { if (!msgpop.hidden) placeMsgpop(); }, { passive: true }));
+['resize', 'orientationchange'].forEach(ev => window.addEventListener(ev, () => { if (!qpop.hidden && !qpop.classList.contains('closing')) placeQpop(); }, { passive: true }));   // 대기열도 창 크기 바뀌면 재배치(PC 버튼 위 앵커·좌우 클램프 유지 = 창 좁혀도 안 짤림 · 운영자 260705)
+$('#msgbtn').addEventListener('click', e => { e.stopPropagation(); _msgFromMenu = true; openMsgbox(); });   // 설정메뉴 안 버튼 진입 = X 닫힘 시 linkpop 복원 대상
+const _accBtnEl = $('#accBtn'); if (_accBtnEl) _accBtnEl.addEventListener('click', e => { e.stopPropagation(); openSnsAcc(); });   // SNS 구독 계정(운영자 260713 헤더→설정 이관) · linkpop 안 버튼 = msgbtn/pubBtn 패턴(stopPropagation) · 모달(snsaccdlg) top-layer로 위에
+
+// ── 설정 ▸ 다운로드(#dlgrab · 링크 자료수집) — 이식 원본 = muteno/yeulmaru-promo lg-* 블록(운영자 260721 이식 패키지 §3 유닛 A) ──
+//  URL 붙여넣기 → /api/linkgrab 전수 스캔 → 종류별 섹션(사진 1:1 그리드 · 영상 · 문서 · 음성 · 압축 · 기타) → 골라서 [선택 받기].
+//  노뮤트 커스터마이징(§5·§6): esc()/escUrl 계승 · 같은 오리진 무헤더 fetch(인증 = CF Access 엣지 · X-App-Password 폐지) · UI = #genidlg 문법
+//  (geni-lead/geni-body/geni-sechead/geni-opt/geni-sum/geni-hist* · 이모지 섹션머리 → 소머리) · 체크 픽토 = nm-svg CHECK 경로(문자 ✓ 금지)
+//  · 받음 표시·입력 기록 = 기기 로컬(원본 설계 유지 = 서버/깃 무저장 · 기록 = 최근 1건 12시간 휘발) · 프록시 저장 = 같은 오리진 attachment(블롭 불요).
+//  ⚠ 동의 체크(dgConsent) 폐지 = 운영자 260802 명시 지시("나머지 부가적 설명 및 동의 … 다 없애주셈") — 구 260721 "동의 체크 제거 금지"를 오늘 지시가 개정한다.
+//   진입 = 링크 행 픽토 2개([받기]=영상+자막 · [자막]=자막만) 즉시 발사 · 부가 산문·예시 placeholder·동의 줄 전부 제거(리드백은 점등/디밍 한 축).
+const DG_GOT_KEY = 'dg_got_v1';   // 받음(URL 키 · 최대 500)
+//  ⚠ 구 '기록' 접이(DG_HIST_KEY = 최근 입력 주소 1건) 폐지 = 운영자 260802 "기록, 받은영상 이 2개가 뭔 차이인지 모르겠고"
+//    + "이미지 스튜디오에 있는 제작 중인거랑 이전 제작물을 그대로 따라하게" — 이미지 스튜디오에 없는 축이라 접이 2개 중 하나가 통째로 잉여였다.
+//    주소 되찾기는 「이전 받기」 행이 이미 URL을 들고 있으므로 기능 손실 0. 남은 키는 창 열 때 1회 청소.
+const DG_SECTIONS = [['img', '사진'], ['video', '영상'], ['doc', '문서'], ['audio', '음성'], ['zip', '압축'], ['link', '기타 링크']];
+let _dg = { busy: false, res: null, err: '', lastUrl: '', sel: {}, meta: {}, got: {}, jobs: [], resOpen: true, vdOpen: false, yt: {}, peek: null };
+//  jobs = 받기 잡 **배열**(최신이 앞) = 이미지 스튜디오 JOBS 모델 계승(운영자 260802 "한번 링크 입력하면 다음거를 입력을 못해 …
+//    큐잉 시킬수가 없음"). 구 설계는 슬롯 1개(_dg.vid)라 ⓐ 받는 중엔 다운로드 버튼이 하드 잠기고 ⓑ 새 주소를 넣으면
+//    앞 건이 통째로 교체될 판이라, 두 번째 주소를 넣을 길이 아예 없었다. 이제 잡마다 독립 폴 = 동시 N건.
+let _dgJobSeq = 0;   // 잡 표시 번호(#1, #2…) = thumb job.n 계승 · 창 세션 안에서만 증가
+let _dgPop = false;   // 폰 뒤로가기로 닫혔는지(§🎨 pushState/popstate · tooldlg toolPopHandled 패턴 계승)
+function _dgLoadGot() { try { return JSON.parse(localStorage.getItem(DG_GOT_KEY) || '{}') || {}; } catch { return {}; } }
+function openDlGrab() {
+  _dg = { busy: false, res: null, err: '', lastUrl: '', sel: {}, meta: {}, got: _dgLoadGot(), jobs: [], resOpen: true, vdOpen: false, yt: {}, peek: null, q: _dgQLoad() };   // q = 화질 상한(운영자 260804) — 기기 보존(매번 다시 고르지 않게 · got·보관함과 같은 축)   // 스캔 결과는 매번 새로(공용 PC 원칙) · 받음/보관함만 기기 보존
+  try { localStorage.removeItem('dg_hist_v1'); } catch {}   // 폐지된 '기록' 축 잔여 청소(1회성)
+  const d = $('#dlgrab'); const inp = $('#dgUrl'); if (inp) inp.value = '';
+  _dgSubs = null; _dgProbeSeq++;   // 창을 새로 열면 자막 리드백도 초기화(옛 프로브 응답 폐기)
+  _dgVidLoadJob().forEach(j => { _dg.jobs.push({ url: j.url, plat: j.plat, id: j.id, mode: j.mode, q: j.q, t0: j.t0, n: ++_dgJobSeq, st: 'run', msg: '받는 중' }); });   // 진행 중 받기 = 창 닫았다 다시 열어도 전건 복원(평의회2·8 · 이제 복수)
+  _dgPaintPic();
+  _dgRenderBody();
+  if (!d.open) { d.showModal(); try { history.pushState({ dlgrab: true }, ''); } catch {} }
+  _dg.jobs.forEach(v => { if (v.st === 'run') _dgVidPoll(v); });   // 복원 폴 재개(모달 open 후)
+}
+function _dgKey(it) { return String(it.dl || it.url || ''); }
+// 「받기 폴이 살아 있어야 하는 상태」 = 창이 열려 있거나 **최소화돼 ▲에 걸려 있을 때**(운영자 260803 아이디어 승인 "그거는 진행 ㄱ").
+//   왜: 최소화는 '접어둔 채 기다린다'는 뜻인데 구 가드(`.open`)는 접는 순간 폴을 끊어, ▲에 진행을 띄워도 숫자가 얼어붙는다.
+//   백그라운드 상주는 여전히 아니다 — 창을 **완전히 닫으면**(X·ESC) MIN_REG에도 없으니 종전대로 멈춘다(재열람 시 localStorage 복원).
+function _dgAlive() { const d = $('#dlgrab'); return !!(d && d.open) || MIN_REG.has('dlgrab'); }
+function _dgRunN() { return (_dg.jobs || []).filter(v => v.st === 'run').length; }   // 진행 중 받기 건수(▲ 배지·picker 라벨 공용)
+function _dgFmt(b) { b = Number(b) || 0; if (!b) return ''; if (b < 1024) return b + 'B'; if (b < 1048576) return (b / 1024).toFixed(b < 10240 ? 1 : 0) + 'KB'; if (b < 1073741824) return (b / 1048576).toFixed(1) + 'MB'; return (b / 1073741824).toFixed(2) + 'GB'; }
+// ── 본문 = 이미지 스튜디오 결과 판 **그대로**(운영자 260802 "이미지 스튜디오를 거의 따라서 가져온다고 생각하고") ──
+//   위 = 「• 결과 (N)」 접이(강조색·기본 펼침) 안에 **제작 중 잡 카드**(.jobs > .job) → 완료 카드 → 페이지 스캔 결과
+//   아래 = 「• 이전 받기 (N)」 접이(.prev 이력색·기본 접힘)
+//   ⚠ 순서 = 운영자 260802 "영상 받는중 이게 받은 기록보다는 위에 가있어야함(제작중 뜨는거)" — 구 배치는
+//     [기록][받은 영상][받는 중] 이라 **진행 중이 맨 밑**이었다(정확히 반대). 이미지 스튜디오는 결과·진행이 위, 이전 제작이 아래.
+function _dgRenderBody() {
+  try { _dgQClose(); } catch (_) {}   // 재렌더 = 화질 목록의 앵커(칩)가 교체되므로 먼저 걷는다(고아 팝업 차단)
+  try { if (MIN_REG.has('dlgrab')) minRegRefresh(); } catch (_) {}   // 접어둔 상태에서 받기가 늘거나 끝나면 ▲ 배지도 같이 움직인다(발사·완료·실패가 전부 이 렌더를 지난다 = 갱신 지점 단일)
+  const body = $('#dgBody'); if (!body) return;
+  const jobs = _dg.jobs, r = _dg.res;
+  const n = jobs.length + (r ? 1 : 0);
+  let inner = '';   // 상단 안내 산문 폐지(운영자 260802) — 리드백은 링크 행 버튼 점등/디밍 한 축이 전담
+  if (_dg.err) inner += '<div class="dg-err">' + esc(_dg.err) + '</div>';
+  inner += _dgPeekHtml();   // 「받을 내용」 = 판 맨 위(= 지금 손에 든 주소가 무엇인지) · 그 아래가 받는 중·받은 것
+  if (jobs.length) inner += '<div class="jobs">' + jobs.map((v, i) => _dgJobHtml(v, i)).join('') + '</div>';   // 제작 중·완료 잡 카드 = nm-job.css 공동 정본(이미지 스튜디오와 같은 부품)
+  if (r) {
+    const items = r.items || [];
+    inner += '<div class="geni-sechead"><span class="cref-lbl">' + esc(r.title || '결과') + ' <span class="dg-cnt">— 자료 ' + items.length + '건</span></span></div>';
+    if (!items.length) inner += '<div class="geni-histempty">이 페이지에서 내려받을 자료를 찾지 못했어요</div>';
+    DG_SECTIONS.forEach(sec => {
+      const kind = sec[0], label = sec[1];
+      const idxs = []; items.forEach((it, i) => { if ((it.kind || 'link') === kind) idxs.push(i); });
+      if (!idxs.length) return;
+      const dlable = idxs.filter(i => items[i].dl);
+      inner += '<div class="geni-sechead"><span class="cref-lbl">' + label + ' <span class="dg-cnt">' + idxs.length + '</span></span>' + (dlable.length > 1 ? _dgAllBtnHtml('secall', ' data-k="' + kind + '"', label + ' 전체 다운로드') : '') + '</div>';   // 구 권리 동의 줄(dgConsent) 폐지 = 운영자 260802 · 구 '모두 선택' 워드칩 → [전체] 다운로드(카드피드 정본) = 운영자 260802 "거기 보면 전체 다운 있는데 그 다운 버튼 활용하고"
+      if (kind === 'img') {
+        inner += '<div class="dg-grid">';
+        idxs.forEach(i => { inner += _dgCardHtml(items[i], i); });
+        inner += '</div>';
+      } else {
+        idxs.forEach(i => { inner += _dgRowHtml(items[i], i); });
+      }
+    });
+  }
+  if (!n && !_dg.err && !_dg.peek) inner += '<div class="geni-histempty">아직 받은 게 없습니다</div>';   // 미리보기가 떠 있으면 생략 — 받을 게 눈앞에 있는데 「없습니다」는 서로 어긋난다(빈 상태 = 정말 빈 판일 때만)   // 빈 상태 문구 = 이미지 스튜디오 결과 빈 상태(#carEmpty '아직 제작한 게 없습니다') 미러
+  let h = '<div class="geni-histwrap"><button class="geni-histfold" type="button" data-act="resfold" aria-expanded="' + (_dg.resOpen ? 'true' : 'false') + '" aria-controls="dgResBody"><span class="geni-histttl"><span class="geni-histbul" aria-hidden="true">•</span>결과 <span class="geni-histcnt">(' + n + ')</span></span><span class="geni-histchev" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></button>'
+    + '<div class="geni-histbody' + (_dg.resOpen ? ' open' : '') + '" id="dgResBody"' + (_dg.resOpen ? '' : ' inert') + '><div class="geni-histbody-in">' + inner + '</div></div></div>';
+  h += _dgDoneHtml();   // 「이전 받기」 = 맨 아래(이미지 스튜디오 '이전 제작'과 같은 자리 · 운영자 260802)
+  body.innerHTML = h;
+  // 미리보기 액자 영상 = 탭 재생/일시정지(vd.html 정본 배선 그대로 · 무컨트롤이라 이 한 줄이 유일한 재생 수단)
+  body.querySelectorAll('.dg-card > video').forEach(v => {
+    const pb = v.parentNode.querySelector('.monplay');
+    v.onclick = () => { if (v.paused) v.play(); else v.pause(); };
+    if (pb) { v.onplay = () => { pb.hidden = true; }; v.onpause = () => { pb.hidden = false; }; }
+  });
+  _dgPeekMeasure(body);   // 치수 미상 항목 = **화면에 뜬 실물에서 재서** 채운다(전 플랫폼 통일 · 운영자 260805 8차)
+  if (r) _dgMetaScan();
+}
+// 받기 잡 카드 = 이미지 스튜디오 제작 잡 행(thumb renderJob) 마크업 100% 미러 — 부품·클래스·자리 전부 nm-job.css 공동 정본.
+//   [jlab 「플랫폼 · 받을 것 #N」] [jst 우측 상태(orb/✓/⚠ + 경과·소요)] / [jgrid: jvars 파일 [i] 이름 ⬇ | jsave-row ⬇전체] / 진행 중 = .jdel 취소 X
+// 받은 파일 라벨 = 이미지 스튜디오 변형 라벨(「흰칸」·「기본」)과 같은 **짧은 말**(운영자 260804 "양식을 첨부2처럼").
+//   왜 파일명을 안 쓰나: X 게시물은 {영상.mp4 · 자막.srt · 자막.txt}가 접두 100자를 공유하고 **확장자만** 다르다
+//   → 행에 파일명을 깔면 [1][2][3]이 눈으로 구분이 안 된다(260804 실측 스샷 = 세 줄이 같은 글자로 보임).
+//   구분이 필요한 축은 「이게 무엇인가」지 「파일명이 무엇인가」가 아니다 — 파일명·크기는 title로 간다.
+function _dgFileLabel(f, imgN) {
+  const n = String((f && f.name) || ''), low = n.toLowerCase();
+  const ext = (low.match(/\.([a-z0-9]+)$/) || ['', ''])[1];
+  const stt = low.indexOf('.stt.') >= 0;   // 받아쓰기 폴백 산출(vidl_run stt_fallback) = 플랫폼 자막과 구분해 말한다
+  if (f && f.kind === 'img') return '사진' + (imgN > 0 ? ' ' + imgN : '');
+  if (/_본문[_.]/.test(n)) return '본문';
+  if (ext === 'srt' || ext === 'vtt') return stt ? '받아쓰기 자막' : '자막';
+  if (ext === 'txt') return (stt ? '받아쓰기 자막' : '자막') + ' (txt)';
+  if (f && f.kind === 'video') {
+    if (n.indexOf('_maxfps_') >= 0) return '영상 · 프레임별';   // ②판 표식(vidl_run name_tag) — 어느 판인지가 이 화면의 구분점
+    if (n.indexOf('_1080p_') >= 0) return '영상 · FHD판';      // ③판 표식
+    return '영상';
+  }
+  return ext ? ext.toUpperCase() : '파일';
+}
+function _dgJobHtml(v, i) {
+  const fs = (v.res && v.res.files) || [];
+  const sec = Math.max(0, Math.round((Date.now() - (v.t0 || Date.now())) / 1000));
+  const modeLbl = ({ subs: '자막', video: '영상', both: '영상+자막' })[v.mode] || '영상+자막';
+  // 화질 자리 = 완료면 **실측**(러너 ffprobe · 예 「4K 24fps」) · 아니면 「최대 <선택값>」 — 선택값은 상한이라
+  //   그대로 말하면 거짓이 된다(운영자 260805 "가능하지도 않은데 4k 60fps가 나오거든"). 실측 없는 구 완료분은 요청 표기 유지.
+  //   ⚠ 완료면 **실측만**(없으면 빈칸) — 구판은 실측이 없을 때 요청 표기로 되돌아갔고, 그 경로엔 구 결과뿐 아니라
+  //     **영상 0건 완료**(인스타·X·틱톡 사진 게시물 = 러너가 img를 성공으로 인정)가 들어와 「최대 4K 60fps」라고 말했다(평의회2 실측).
+  const qLbl = v.st === 'done' ? _dgResActual(v.res) : (v.q === 'best' ? '최고 화질' : v.q ? '최대 ' + _dgQName(v.q) : '');   // best(스레드) = 「최고 화질」 — _dgQName의 4K 60fps 폴백을 타면 그게 또 거짓 표기가 된다
+  let ic, tx, shim = '';   // shim = 받는 중만 글자 위 빛 스윕(`.nm-shim` 도료 SSOT = nm-loader.js) — 이미지 스튜디오 잡 행(thumb renderJob)과 **한 벌**로 간다(같은 nm-job.css 부품인데 한쪽만 빛나면 조용히 갈린다 · 운영자 260809)
+  if (v.st === 'fail') { ic = WARN_SVG; tx = '실패' + (v.msg ? ' · ' + esc(String(v.msg).slice(0, 60)) : ''); }
+  else if (v.st === 'done') { ic = CHECK_SVG; tx = '완료 · ' + fs.length + '건' + (v.sec ? ' (' + _dgSecTxt(v.sec) + ')' : ''); }   // 「✓ 완료 · N장 (32s)」 정본 문법 · 단위만 이 화면 것(장→건)
+  else { ic = window.nmOrbHTML ? nmOrbHTML('solving', 14) : ''; tx = '받는 중 <b class="jsec">' + _dgSecTxt(sec) + '</b>' + (window.nmEta ? ' · ' + nmEta.label(_dgEtaKey(v)).trim() : ''); shim = ' class="nm-shim"'; }   // 경과 = 흰색 .jsec(운영자 260728 정본) · 예상 = nmEta → 진행 중이므로 빛 스윕(도료가 색을 대체 = thumb 잡 행과 한 벌)
+  let h = '<div class="job' + (v.st === 'done' ? ' done' : '') + (v.st === 'fail' ? ' err' : '') + '" id="dgjob' + i + '">'
+    + '<span class="jlab">' + esc(_dgVidPlatName(v.plat) || '링크') + ' · ' + modeLbl + (qLbl ? ' · ' + esc(qLbl) : '') + ' #' + (v.n || (i + 1)) + '</span>'
+    + '<span class="jst">' + ic + '<span' + shim + '>' + tx + '</span></span>';   // shim = 받는 중만 빛 스윕(상수 문자열 = 주입 여지 0)
+  // (받는 중 취소 X = 운영자 260802 미채택 — 러너를 실제로 멈추는 API가 없어 「이 화면의 추적만 끊는」 반쪽 취소였다.
+  //  버튼이 없어도 40분 폴 상한이 스스로 실패로 닫고, 창을 닫으면 폴은 멈춘 채 잡만 보존된다 = 갇히는 상태 없음.)
+  if (v.st === 'fail') h += '<button type="button" class="geni-opt" data-act="vidgo" data-i="' + i + '">다시 시도</button>';
+  if (v.st === 'done' && fs.length) {
+    let _imgN = 0;
+    h += '<div class="jgrid"><div class="jvars">'
+      + fs.map((f, k) => {
+        const got = !!_dg.got[f.url];
+        if (f.kind === 'img') _imgN++;
+        const lab = _dgFileLabel(f, _imgN);
+        const tip = f.name + (f.size ? ' · ' + _dgFmt(f.size) : '');   // 풀 파일명·크기 = 툴팁으로 보존(행에서 뺀 정보를 버리지 않는다)
+        // 변형 행 = 이미지 스튜디오 정본 100% 사본: `.jvar.on` + 점선 밑줄 라벨(클릭) + 픽토온리 ⬇.
+        // ⚠ `.on`은 **어포던스**다(cursor:pointer + 점선 = "눌리는 자리") → 라벨에도 같은 다운로드를 물린다
+        //   = 거짓 어포던스 0(정본은 라벨 클릭 = 그 변형으로 점프 · 여기선 그 파일 받기 = 이 화면의 유일한 동작).
+        return '<span class="jvar on"><span class="jvar-tx" data-act="vidget" data-j="' + i + '" data-i="' + k + '" title="' + esc(tip) + '">[' + (k + 1) + '] ' + esc(lab) + '</span>'
+          + '<button type="button" class="jvar-dl dlbtn' + (got ? ' dl-done' : '') + '" data-act="vidget" data-j="' + i + '" data-i="' + k + '" title="' + esc(tip) + '" aria-label="' + esc(lab) + ' 다운로드">' + DOWNLOAD_SVG + '</button></span>';   // 개별 다운로드 = 이미지 스튜디오 변형 행 ⬇(.jvar-dl.dlbtn 픽토온리·골드레몬) 그대로
+      }).join('')
+      + '</div>' + (fs.length > 1 ? '<div class="jsave-row">' + _dgAllBtnHtml('vidall', ' data-j="' + i + '"', '받은 파일 ' + fs.length + '건 전체 다운로드') + '</div>' : '') + '</div>';   // 전체 다운로드 = 같은 카드 우측 .jsave-row(정본 자리)
+    const dr0 = (v.res && v.res.drive) || {};
+    if (!(dr0.on && dr0.n) || (v.res && v.res.up_err)) h += '<div class="dg-err" style="flex-basis:100%">' + esc(_dgDriveWhy(dr0.why)) + ((v.res && v.res.up_err) ? ' · 업로드 실패 ' + v.res.up_err + '건' : '') + '</div>';   // 실패만 말한다(정상 = 무언 · 산문 안내 폐지 260802)
+    const st0 = (v.res && v.res.stt) || {};
+    if (st0.why && !st0.on) h += '<div class="dg-err" style="flex-basis:100%">' + esc('받아쓰기: ' + st0.why) + '</div>';   /* ⚠ (260816) 받아쓰기 폴백 실패 사유 표기 — 러너 `apps/vidl/vidl_run.py` 가 사유 **8종**(348·352·354·364·370·376·384·386행 = 「영상 없음」·「길이 판독 실패」·「영상 N분 — 받아쓰기는 10분 이하만」{상한 = `STT_MAX_DUR` 600초}·「시간 예산 부족」·「오디오 추출 실패」·「받아쓰기 실패(음성 인식 불가)」·「받아쓰기 시간 초과」·일반 예외)를 `result.json` 의 `stt` 로 쓰고 그 파일 헤더(17행)가 **「사유는 result.json "stt"로 정직 표기」라고 선언까지 하는데**, 화면은 그 키를 한 곳에서도 안 읽고 있었다(실측 = viewer 전수 grep 0건). 그래서 자막·영상+자막으로 받았는데 플랫폼 자막이 없고 받아쓰기까지 죽으면 화면은 「완료 · N건」만 말했다 = **자막이 왜 없는지가 어디에도 안 뜬다**(같은 축 = 영상 편집 `xtr_note` 260816 봉합). 부품 창작 0 = 바로 윗줄 드라이브 실패 문법·`.dg-err` 그대로. ⚠ 술어 `!st0.on` 이 실효 조건 = 성공분도 `why` 를 채운다(382행 「자막 0개 → Whisper large-v3 받아쓰기 N조각」) → 그것까지 띄우면 정상 회차마다 붉은 줄이 떠서 윗줄의 「실패만 말한다(정상 = 무언)」 계약을 깬다. ⚠⚠ **지금 이 줄이 실제로 뜨는 경우는 드물다(260816 적대검증 실측 · 정직 기록)** — 현 화면의 유일한 발사 경로가 「영상만」 고정이고(10111행) 「영상+자막」 워드칩은 260805에 마크업에서 빠졌다(`data-act="vidsubs"` 실측 0건 · 10214행 핸들러는 죽은 잔재) → 러너가 자막 모드가 아니면 사유를 아예 안 채운다. 그래서 이 표기가 살아 있는 창구는 ⓐ 옛 「영상+자막」 결과를 「이전 받기」·알림 딥링크로 다시 열 때 ⓑ 저장소에서 손으로 발사할 때(기본값이 자막 동반) ⓒ 자막 모드가 되살아날 때 셋뿐이다. **그래도 지운다면 그 셋에서 다시 무증상이 되므로 남긴다** — 이 줄의 값은 「지금 자주 뜨는가」가 아니라 「사유가 있는데 화면이 안 읽는 상태로 되돌아가지 않는가」다. */
+  }
+  return h + '</div>';
+}
+// [전체] 다운로드 버튼 = 카드피드 전체저장(.sbtn.cref-dlall.dlbtn + DLSEQ_IC + '전체') 정본 사본 — 마크업·색·모션 재설계 0.
+function _dgAllBtnHtml(act, extra, label) {
+  return '<button type="button" class="sbtn cref-dlall dlbtn dg-dlall" data-act="' + act + '"' + (extra || '') + ' title="' + esc(label || '전체 다운로드') + '" aria-label="' + esc(label || '전체 다운로드') + '">' + DLSEQ_IC + '<span class="cref-dllbl">전체</span></button>';
+}
+// 개별 다운로드 버튼 = 전 앱 다운로드 표준(.sbtn.dlbtn + DOWNLOAD_SVG) — 뉴스 요약 카드피드 개별 저장과 동일 부품.
+function _dgDlBtnHtml(act, i, cls) {
+  return '<button type="button" class="sbtn dlbtn ' + (cls || '') + '" data-act="' + act + '" data-i="' + i + '" title="다운로드" aria-label="다운로드">' + DOWNLOAD_SVG + '</button>';
+}
+// 사진 카드 — 1:1 박스 · 우상단 2줄(해상도/용량 · var(--bg) 플레이트) · 좌하단 받음 배지 · 우하단 ⬇ 다운로드.
+//   구 [열기](window.open = 앱 밖 새 탭으로 튐 · 운영자 260802 "열기 하면 이상하게 창이 뉴스요약으로 가버리는데") 폐지 = 이 화면의 목적은 '받기' 하나.
+function _dgCardHtml(it, i) {
+  const got = !!_dg.got[_dgKey(it)];
+  const m = _dg.meta[i] || {};
+  return '<div class="dg-card" id="dgc' + i + '">'
+    + '<img src="' + escUrl(it.thumb || it.url) + '" alt="" loading="lazy" referrerpolicy="no-referrer" data-metai="' + i + '">'
+    + '<span class="dg-meta" aria-hidden="true"><span id="dgres' + i + '">' + (m.w ? m.w + '×' + m.h : '해상도 확인 중') + '</span><span id="dgsz' + i + '">' + (_dgFmt(m.size) || '용량 확인 중') + '</span></span>'
+    + '<span class="dg-got" id="dgg' + i + '"' + (got ? '' : ' hidden') + '>받음</span>'
+    + (it.dl ? _dgDlBtnHtml('dl', i, 'dg-dl' + (got ? ' dl-done' : '')) : '')
+    + '</div>';
+}
+// 영상·문서·음성·압축·기타 행 — (썸네일) + 이름·용량 + [저장 요청] 워드칩 + ⬇ 다운로드.
+function _dgRowHtml(it, i) {
+  const got = !!_dg.got[_dgKey(it)];
+  const m = _dg.meta[i] || {};
+  return '<div class="dg-item" id="dgc' + i + '">'
+    + (it.thumb ? '<span class="dg-ithumb"><img src="' + escUrl(it.thumb) + '" alt="" loading="lazy" referrerpolicy="no-referrer"></span>' : '')
+    + '<div class="dg-imain"><div class="dg-ittl">' + esc(it.title || '자료') + '<span class="dg-got" id="dgg' + i + '"' + (got ? '' : ' hidden') + '>받음</span></div>'
+    + '<div class="dg-imeta"><span id="dgsz' + i + '">' + (_dgFmt(m.size) || (it.dl ? '용량 확인 중' : '')) + '</span>' + (it.note ? ' · ' + esc(it.note) : '') + ' <span class="dg-ytst" id="dgy' + i + '"></span></div></div>'
+    + (it.stream && !it.dl ? '<button type="button" class="geni-opt" id="dgyb' + i + '" data-act="ytreq" data-i="' + i + '">저장 요청</button>' : '')
+    + (it.dl ? _dgDlBtnHtml('dl', i, 'dg-dl' + (got ? ' dl-done' : '')) : '')
+    + '</div>';
+}
+function _dgEach(fn) { (((_dg.res || {}).items) || []).forEach(fn); }
+function _dgDlUrl(it) {
+  if (it.via === 'direct') return it.dl;
+  const nm = String(it.title || '').replace(/[\\/:*?"<>|]+/g, ' ').trim().slice(0, 120);
+  return '/api/linkgrab/file?url=' + encodeURIComponent(it.dl) + (nm ? '&name=' + encodeURIComponent(nm) : '');
+}
+function _dgDl(i) {
+  const it = ((_dg.res || {}).items || [])[i]; if (!it || !it.dl) return;
+  const a = document.createElement('a');
+  a.href = _dgDlUrl(it); a.rel = 'noopener';
+  if (it.via === 'direct') a.target = '_blank';   // 원본이 직접 저장을 강제하는 링크(드롭박스 dl=1 등) = 새 탭 · 프록시는 같은 오리진 attachment = 즉시 저장
+  document.body.appendChild(a); a.click();
+  setTimeout(() => { try { a.remove(); } catch {} }, 1500);
+  _dgGotMark(i);
+}
+// 받을 내용 액자 저장(운영자 260805 7차) — 저장 수단 = 이 창 스캔 결과와 **같은 프록시**(/api/linkgrab/file = 같은 오리진
+//   attachment라 즉시 저장 · 서명 CDN 주소를 그대로 열면 브라우저가 재생만 하고 저장이 안 된다) · 이름 = 제목_번호.
+// 사진 표시 주소 — 메타 CDN(cdninstagram·fbcdn)은 **같은 오리진 프록시** 경유(정본 = api/thembed?img= · 스레드 임베드
+//   사진에 260727부터 쓰던 그 경로 · 화이트리스트도 그쪽이 검문). 직접 로드는 핫링크 차단으로 검은 칸이 된다(인스타 실측 260805).
+//   X(pbs.twimg.com)는 직접 로드가 정상이라 무접촉 = 종전 그대로.
+function _dgImgSrc(u) {
+  try { const h = new URL(u).hostname; return /(cdninstagram\.com|fbcdn\.net)$/.test(h) ? 'api/thembed?img=' + encodeURIComponent(u) : u; } catch { return u; }
+}
+function _dgPeekItems() { return ((_dg.peek && Array.isArray(_dg.peek.items)) ? _dg.peek.items : []).filter(it => it && it.u).slice(0, 12); }
+// 치수 통일(운영자 260805 8차 "사진의 경우 픽셀이 없는 경우가 있네 · 통일해줘") — 서버가 못 주는 플랫폼이 있다
+//   (인스타 임베드 = srcset 폭만 · X 사진은 원본 w/h 완비 · 스레드는 노드 값). 그래서 **이미 화면에 뜬 실물**을
+//   재서(img.naturalWidth · video.videoWidth) 빈 자리만 채운다 — 추가 요청 0 · 전 플랫폼 한 문법 · 지어내기 0.
+//   채운 뒤 한 번만 재렌더해 헤더 「항목 N — …」까지 같은 값으로 맞춘다(재귀 = 채울 게 없으면 멈춘다).
+function _dgPeekMeasure(root) {
+  const its = _dgPeekItems(); if (!its.length) return;
+  let pend = 0, filled = false;
+  const done = () => { if (--pend <= 0 && filled) _dgRenderBody(); };
+  its.forEach((it, k) => {
+    // ⚠ 영상은 **값이 있어도 다시 잰다**(운영자 260806) — 서버 값은 주소(efg)에서 유도한 값이라 인코더 반올림만큼 어긋날 수 있고,
+    //   여기서 재는 건 지금 재생 중인 **그 스트림 자신** = 액자 ⬇가 저장하는 바로 그 파일이다. 진실이 유도값을 이긴다.
+    //   사진은 종전대로 빈 자리만(로드된 실물과 후보 치수가 같으므로 재렌더 낭비 0).
+    if (it.w && it.h && it.kind !== 'video') return;
+    const c = root.querySelector('#dgpc' + k); if (!c) return;
+    const el = c.querySelector('video, img'); if (!el) return;
+    const take = () => {
+      const w = el.naturalWidth || el.videoWidth || 0, h = el.naturalHeight || el.videoHeight || 0;
+      if (w && h && (w !== it.w || h !== it.h)) { it.w = w; it.h = h; filled = true; }   // 값이 **달라졌을 때만** 재렌더 = 무한 재렌더 0
+      done();
+    };
+    pend++;
+    if (el.tagName === 'IMG') { if (el.complete) { take(); return; } el.addEventListener('load', take, { once: true }); el.addEventListener('error', done, { once: true }); }
+    else { if (el.videoWidth) { take(); return; } el.addEventListener('loadedmetadata', take, { once: true }); el.addEventListener('error', done, { once: true }); }
+  });
+}
+function _dgPeekGet(k) {
+  const it = _dgPeekItems()[k]; if (!it) return;
+  const base = String((_dg.peek && _dg.peek.title) || '받은자료').replace(/[\\/:*?"<>|\n]+/g, ' ').trim().slice(0, 60) || '받은자료';
+  const nm = base + '_' + (k + 1);
+  const a = document.createElement('a');
+  a.href = '/api/linkgrab/file?url=' + encodeURIComponent(it.u) + '&name=' + encodeURIComponent(nm);
+  a.rel = 'noopener';
+  document.body.appendChild(a); a.click();
+  setTimeout(() => { try { a.remove(); } catch {} }, 1500);
+  const b = $('#dgpc' + k); const db = b && b.querySelector('.dg-dl'); if (db) db.classList.add('dl-done');   // 받음 = mut(.dl-done 전 앱 표준)
+}
+function _dgPeekGetAll(btn) {   // [전체] = 순차 저장 · 진행표기·✓팝은 dlAllSeq 정본이 담당(스캔 [전체]와 같은 함수)
+  const n = _dgPeekItems().length; if (!n) return;
+  dlAllSeq(btn, Array.from({ length: n }, (_, k) => k), () => '', k => _dgPeekGet(k));
+}
+function _dgGotMark(i) {   // 받음 마킹 — 기기 로컬 보존(최대 500 롤링) + 배지 즉시 갱신(전체 재렌더 없이)
+  const it = ((_dg.res || {}).items || [])[i]; if (!it) return;
+  _dg.got[_dgKey(it)] = Date.now();
+  try { const g = _dgLoadGot(); g[_dgKey(it)] = Date.now(); const ks = Object.keys(g); if (ks.length > 500) ks.sort((a, b) => g[a] - g[b]).slice(0, ks.length - 500).forEach(k => { delete g[k]; }); localStorage.setItem(DG_GOT_KEY, JSON.stringify(g)); } catch {}
+  const b = $('#dgg' + i); if (b) b.hidden = false;
+  const d = $('#dgc' + i); const db = d && d.querySelector('.dg-dl'); if (db) db.classList.add('dl-done');   // 개별 버튼 = 받음 mut(.dl-done 전 앱 표준)
+}
+// 섹션 [전체] = 그 종류의 받을 수 있는 항목 전량 순차 저장 — 진행표기·✓팝은 dlAllSeq 정본이 담당(fire 주입 = 저장 방식만 이 화면 것).
+function _dgDlSec(btn, kind) {
+  const idx = []; _dgEach((it, i) => { if (it.dl && (it.kind || 'link') === kind) idx.push(i); });
+  if (!idx.length) return;
+  dlAllSeq(btn, idx, () => '', n => _dgDl(n));
+}
+function _dgMetaScan() {   // 용량 = head 지연 조회(동시 4 · 캡 80 = 과다 조회 방지 · 원본 계승)
+  const r = _dg.res; if (!r) return;
+  const q = []; (r.items || []).forEach((it, i) => { const m = _dg.meta[i]; if (it.dl && it.via !== 'direct' && !(m && m.size)) q.push(i); });
+  const list = q.slice(0, 80);
+  let k = 0;
+  const next = () => {
+    if (k >= list.length || !$('#dlgrab').open) return;
+    const i = list[k++]; const it = r.items[i];
+    fetch('/api/linkgrab/head?url=' + encodeURIComponent(it.dl))
+      .then(x => x.json()).catch(() => ({}))
+      .then(d => {
+        if (_dg.res !== r) return;   // 새 스캔으로 교체됐으면 구 응답 폐기
+        const m = _dg.meta[i] = _dg.meta[i] || {}; m.size = (d && d.size) || 0; m.type = (d && d.type) || '';
+        const el = $('#dgsz' + i); if (el) el.textContent = _dgFmt(m.size) || '용량 미확인';
+        next();
+      });
+  };
+  for (let w = 0; w < 4 && w < list.length; w++) next();
+}
+// --- 스트리밍 영상 저장(yt-dlp 파이프라인) — 요청 → Actions 변환(2~5분) → 서명 URL 직접 수신 (동의 체크 폐지 · 운영자 260802) ---
+async function _dgYtReq(i) {
+  const it = ((_dg.res || {}).items || [])[i]; if (!it || !it.stream) return;
+  const y = _dg.yt[i] = { st: 'req', polls: 0 };
+  _dgYtPaint(i, '요청 중', true);
+  try {
+    const r = await fetch('/api/linkgrab/ytdl', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ url: it.url, title: it.title }) });
+    const d = await r.json().catch(() => ({}));
+    if (!r.ok || d.error) throw new Error(d.error || ('HTTP ' + r.status));
+    y.id = d.id;
+    if (d.ready) { y.st = 'ready'; y.asset = d.asset; y.parts = d.parts; y.size = d.size; _dgYtReady(i); return; }   // 같은 영상 변환분(단일/분할) 재사용
+    y.st = 'run'; _dgYtPaint(i, '변환 중 — 보통 2~5분(긴 영상은 더)', true);
+    _dgYtPoll(i);
+  } catch (e2) { y.st = 'idle'; _dgYtPaint(i, '저장 요청 실패 — ' + ((e2 && e2.message) || '오류'), false); }
+}
+function _dgYtPoll(i) {
+  const y = _dg.yt[i]; if (!y || y.st !== 'run') return;
+  if (!$('#dlgrab').open) return;   // 창을 닫으면 폴링도 멈춘다(백그라운드 상주 금지)
+  if (++y.polls > 40) { y.st = 'idle'; _dgYtPaint(i, '시간 초과 — 다시 요청해 주세요', false); return; }
+  setTimeout(() => {
+    fetch('/api/linkgrab/ytstat?id=' + encodeURIComponent(y.id))
+      .then(r => r.json()).catch(() => ({}))
+      .then(d => {
+        if (y.st !== 'run') return;
+        if (d && d.ready) { y.st = 'ready'; y.asset = d.asset; y.parts = d.parts; y.size = d.size; _dgYtReady(i); return; }
+        if (d && d.failed) { y.st = 'fail'; _dgYtPaint(i, '변환 실패 — 주소·연령 제한·초대형(6GB 초과) 여부를 확인해 주세요', false); return; }
+        _dgYtPoll(i);
+      });
+  }, 15000);
+}
+function _dgYtPaint(i, msg, busy) {
+  const st = $('#dgy' + i); if (st) st.textContent = msg || '';
+  const b = $('#dgyb' + i); if (b && b.dataset.act === 'ytreq') b.disabled = !!busy;
+}
+function _dgYtReady(i) {
+  const y = _dg.yt[i]; if (!y) return;
+  const n = (y.parts && y.parts.length) || 0;
+  const st = $('#dgy' + i); if (st) st.textContent = '변환 완료' + (n ? ' · ' + n + '편 분할' : '') + (y.size ? ' · ' + _dgFmt(y.size) : '');
+  const b = $('#dgyb' + i);
+  if (b) { b.disabled = false; b.textContent = n ? ('받기 ' + n + '편') : '받기'; b.dataset.act = 'ytget'; }
+}
+async function _dgYtFetchOne(assetId) {
+  const r = await fetch('/api/linkgrab/ytfile?asset=' + encodeURIComponent(assetId));
+  const d = await r.json().catch(() => ({}));
+  if (!d || !d.url) throw new Error((d && d.error) || '파일 위치 조회 실패');
+  const a = document.createElement('a'); a.href = d.url; a.rel = 'noopener'; document.body.appendChild(a); a.click();   // GitHub 서명 URL — 브라우저 직접 수신(대용량 안전)
+  setTimeout(() => { try { a.remove(); } catch {} }, 1500);
+}
+async function _dgYtGet(i) {
+  const y = _dg.yt[i]; if (!y) return;
+  try {
+    if (y.parts && y.parts.length) {   // 1.9GB 초과 자동 분할본 — 각 편이 독립 재생되는 mp4, 합치기 불필요
+      _dgYtPaint(i, y.parts.length + '편으로 나눠 받는 중 — 각 편은 그대로 재생돼요', false);
+      for (let n = 0; n < y.parts.length; n++) { await _dgYtFetchOne(y.parts[n].asset); await new Promise(rs => setTimeout(rs, 1600)); }
+    } else if (y.asset) {
+      await _dgYtFetchOne(y.asset);
+    } else return;
+    _dgGotMark(i);
+  } catch (e2) { _dgYtPaint(i, '받기 실패 — ' + ((e2 && e2.message) || '오류'), false); }
+}
+// --- 영상 플랫폼 경로(운영자 260728 "배치파일 조건대로") — 조건 정본 = apps/vidl/vidl_run.py(로컬 Downloader.bat v7.0 이식):
+//     최고화질+자막(en,ko srt·txt) / 프레임별(maxfps_) / FHD별(1080p_) · 재생목록 방지 · 파일명 TS_플랫폼_계정_제목.
+//     받기 = api/dl 프록시(같은 오리진 attachment) = 항상 로컬 다운로드 폴더 · 드라이브 연결(GDRIVE_SA_JSON) 시 러너가 내 드라이브/Shared에도 업로드(= bat robocopy 축).
+//     UI = 기존 #dlgrab 문법 그대로(geni-sechead/dg-item/geni-opt — 신규 클래스·색 0) · 발사 = 링크 행 픽토([받기]/[자막])(구 동의 게이트 dgConsent 폐지 = 운영자 260802).
+// 영상 게시물 URL만 vidl 경로로(호스트 + 경로 이중 화이트리스트 · 평의회1·3) — 프로필·채널·탐색 페이지는 '' 반환 = 기존 스캔 폴백(사진 수집 보존).
+//   서버(functions/api/vidl.js·apps/vidl/vidl_run.py)도 동일 목록으로 이중 차단 = 이 감지는 UX용, 최종 게이트는 서버.
+function _dgVidPlat(u) {
+  let h, path;
+  try { const x = new URL(u); h = x.hostname.toLowerCase().replace(/^www\./, ''); path = x.pathname.toLowerCase(); } catch { return ''; }
+  const host = (d) => h === d || h.endsWith('.' + d);
+  if (host('youtu.be')) return path.length > 1 ? 'YT' : '';   // youtu.be/<id>
+  if (host('youtube.com')) return (/^\/(watch|shorts\/|live\/|embed\/)/.test(path) || (path === '/watch')) ? 'YT' : '';
+  if (host('instagram.com')) return /^\/(p|reel|reels|tv)\//.test(path) ? 'IG' : '';
+  if (host('x.com') || host('twitter.com')) return /\/status\/\d/.test(path) ? 'X' : '';
+  if (host('tiktok.com')) return (/\/(video|photo)\/\d/.test(path) || /^\/(t|v)\//.test(path) || h.startsWith('vm.') || h.startsWith('vt.')) ? 'TT' : '';
+  if (host('fb.watch')) return path.length > 1 ? 'FB' : '';
+  if (host('facebook.com')) return (/\/(videos|reel|watch)\//.test(path) || path === '/watch' || /\/videos\/\d/.test(path)) ? 'FB' : '';
+  if (host('threads.net') || host('threads.com')) return /\/(post|t|share)\//.test(path) ? 'TH' : '';   // 공유 시트가 주는 두 형식(/share/<코드>/ · /t/<코드>)도 수용(운영자 260802 "스레드 다운로드가 안되네") — 구 정규식은 `/post/`만 맞아 공유 링크는 잠긴 채 무반응이었다(레포 큐에도 https://www.threads.com/share/… 형식이 실제로 들어와 있다) · 러너 플러그인이 share→post 정규 주소를 페이지에서 되찾는다
+  return '';
+}
+// 화질 = **해상도×프레임 한 축 6값**(운영자 260804 3차 "묶어서 6개 선택자중 하나로 하는게 맞다고 봄 —
+//   왜냐면 소스 안에 다양한 영상이 있는경우가 별로 없음"). 2칸으로 쪼개면 같은 조합에 조작이 두 번이다.
+//   값 = api/vidl.js·vidl-make.yml·vidl_run.QUAL_OK 3면 동일 문자 · 'best'(하위호환)는 여기 없다 = UI 비노출.
+//   라벨 = 짧은 통칭(운영자 260805 "2160p > 4K 1440p > 2K 1080p > K 이런식으로 줄여줄래?") — 칩·목록 폭이 줄어
+//   제목 자리를 덜 먹는다. ⚠ **값(2160-60…)은 그대로** = 4면 배선의 전선 문자라 표시만 갈아끼운다.
+const DG_QUALS = [['2160-60', '4K 60F'], ['2160-30', '4K 30F'], ['1440-60', '2K 60F'],
+                  ['1440-30', '2K 30F'], ['1080-60', 'K 60F'], ['1080-30', 'K 30F']];   // 라벨 = 최단 통칭(운영자 260805 11차 "말을 더 줄임 4K 30F 이런식으로") · 값(2160-60…)은 4면 배선 문자라 불변
+const DG_Q_KEY = 'dg_q_v1';
+function _dgQLoad() { try { const v = localStorage.getItem(DG_Q_KEY); return (v === 'best' || DG_QUALS.some(x => x[0] === v)) ? v : DG_QUALS[0][0]; } catch { return DG_QUALS[0][0]; } }   // 'best' = 사다리 미상 2택에서 고른 값(운영자 260805 14차) — 화이트리스트 밖 값은 종전대로 최고 티어로 폴백   // 기본 = 최고 티어(2160p 60fps)
+function _dgQName(q) { const h = DG_QUALS.find(x => x[0] === q); return h ? h[1] : DG_QUALS[0][1]; }
+// 실측 화질 라벨(운영자 260805 "가능하지도 않은데 4k 60fps가 나오거든? 30프레임이 한계로 알고있는데") —
+//   선택값(_dg.q)은 **상한**이라 영상이 그보다 낮으면 그대로 뿌리는 표기가 거짓이 된다(4K 60fps 요청 · 실물 30fps).
+//   러너(vidl_run ffprobe_dims)가 받은 파일을 실측해 files[]에 실어주는 {w,h,fps}만 여기서 말로 바꾼다 —
+//   실측 없음(구 결과·자막만) = '' = 지어내지 않고 「최대 …」 요청 표기로 남긴다.
+//   말 = DG_QUALS 통칭 그대로(짧은 변 2160=4K · 1440=2K · 1080=K · 그 외 Np — 세로 영상은 짧은 변이 곧 통칭 축) · 새 어휘 창작 0.
+function _dgTierName(s) { return s === 2160 ? '4K' : s === 1440 ? '2K' : s === 1080 ? 'K' : s + 'p'; }   // 통칭 = DG_QUALS 값 사본 · 그 외는 짧은 변 그대로(새 어휘 0)
+// 화질 목록 = **그 영상에 실제로 있는 것만**(운영자 260805 4차 "그 가능한 포맷만 리스트업에 띄워달라는거임").
+//   재료 = 서버 vidpeek이 실은 `fmts`([[height,fps],…] · 유튜브 innertube 실측). 없으면 종전 정적 6값 그대로(fail-soft).
+//   규칙 = ⓐ 그 높이가 **실재하는 티어만** 행을 만든다(720p뿐인 영상에 4K 행을 만들지 않는다)
+//         ⓑ 60fps가 있는 티어만 30/60 두 줄로 가른다 — 24fps 영상은 상한을 어느 쪽으로 걸어도 같은 파일이라
+//            두 줄이 곧 거짓 어포던스다(운영자 1차 지적의 후반부 = 「영상에 맞게끔 지정 가능하게」)
+//         ⓒ 라벨의 fps = **그 티어의 실제 최대 fps**(4K 24fps처럼 진짜 값) · 값(2160-60…)은 4면 배선 문자라 불변.
+function _dgQOpts() {
+  const fm = (_dg.peek && Array.isArray(_dg.peek.fmts)) ? _dg.peek.fmts : null;
+  // 사다리를 못 얻었으면(유튜브 봇검문 등) **정적 6값을 띄우지 않는다** — 그 영상에 없는 화질이 섞인다.
+  //   대신 어느 영상에서나 참인 2택만 낸다(운영자 260805 14차 "조회가 안될때는 그냥 '최고 화질'로 고정 · 저화질 하나 넣어주고").
+  //   best = 러너가 그 영상의 최대를 집는다 · 1080-30 = 짧은 변 ≤1080·30fps 상한 = 우리가 표현 가능한 가장 낮은 단(값은 4면 배선 문자 그대로).
+  if (!fm || !fm.length) return [['best', '최고 화질'], ['1080-30', '저화질']];
+  const out = [];
+  [2160, 1440, 1080].forEach(T => {
+    const at = fm.filter(x => +x[0] === T);
+    if (!at.length) return;
+    const mx = Math.max(...at.map(x => +x[1] || 0));
+    if (mx > 30) {
+      out.push([T + '-60', _dgTierName(T) + ' ' + mx + 'F']);
+      if (at.some(x => (+x[1] || 0) <= 30)) out.push([T + '-30', _dgTierName(T) + ' 30F']);
+    } else out.push([T + '-60', _dgTierName(T) + (mx ? ' ' + mx + 'F' : '')]);
+  });
+  if (out.length) return out;
+  const top = fm.reduce((a, b) => (+b[0] > +a[0] ? b : a));   // 티어 미만(720p 등)뿐 = 최고 1줄만(상한 K = 그 아래를 그대로 집는다)
+  return [['1080-60', _dgTierName(+top[0]) + ((+top[1]) ? ' ' + Math.round(+top[1]) + 'F' : '')]];
+}

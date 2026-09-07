@@ -1,0 +1,121 @@
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { background:#0b0d0c; }
+  ::selection { background:rgba(0,238,210,.28); }
+  body { color:#e9e9e9; font-family:'Pretendard Variable',Pretendard,-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic','Segoe UI',Roboto,sans-serif; -webkit-font-smoothing:antialiased; font-size:15px; line-height:1.72; }   /* 임베드 woff2=흔한 한글 서브셋 / 한자·희귀한글·必·ⓒ는 OS 한국어 폰트(Apple SD/Noto/Malgun)로 per-glyph 폴백 */
+  .nm-root { position:relative; min-height:100vh; min-height:100dvh; padding:30px 16px 56px; overflow:hidden; }   /* raw-ok: padding 30/16/56 = 기존값 문자 유지(이 편집 = min-height dvh 폴백 추가만 · SUMMARY_TPL은 자체 CSS 발행물이라 index :root 토큰 부재) · 2줄 폴백 = vh(구형 엔진) 위에 dvh 덮어쓰기(본체 dvh 규율 합류 · 발행물 = 수신자 브라우저 통제 불가라 폴백 병기 필수 · 감사 260718 iOS 주소창 하단 경계 어긋남 봉합) */
+  .nm-bg { position:absolute; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
+  .nm-wrap { position:relative; z-index:1; max-width:720px; margin:0 auto; }
+  .nm-head { position:relative; margin:0 2px 26px; }   /* 복사버튼=absolute → 제목칼럼이 폭 안 뺏김(제목 전체폭 사용 · 운영자 260621) */
+  .nm-head-l { min-width:0; }                           /* 전체폭 — 로고는 좌상단·버튼은 우상단(top:0)이라 가로충돌 0, 메타/제목은 로고 아래라 버튼 무관 */
+  .nm-logo { display:block; width:58px; height:58px; object-fit:contain; margin:-6px 0 10px -6px; }   /* 로고 = 기존 78px의 75%(운영자 260621) */
+  .nm-meta { display:flex; flex-wrap:wrap; align-items:center; gap:9px 16px; margin:0 0 14px; font-size:12.5px; }
+  .nm-badge { display:inline-flex; align-items:center; height:25px; padding:0 12px; border-radius:999px; background:rgba(0,238,210,.16); border:1px solid rgba(0,238,210,.42); color:#00EED2; font-weight:800; font-size:11.5px; letter-spacing:.02em; flex:none; white-space:nowrap; }
+  .nm-mline { display:inline-flex; align-items:center; gap:11px; flex-wrap:wrap; }
+  .nm-media { color:#8fa697; font-weight:700; white-space:nowrap; }   /* 매체 = mut(운영자 260621) */
+  .nm-meta .nm-media, .nm-meta .nm-srclink { color:#8fa697; }        /* 링크여도 메타 매체는 mut(nm-srclink 흰색 override) */
+  .nm-dotsep { width:3px; height:3px; border-radius:50%; background:#565656; flex:none; }
+  .nm-date { color:var(--fg); font-weight:700; white-space:nowrap; }       /* 보도 날짜값 = 흰색(운영자 260621) */
+  .nm-dlabel { color:#8fa697; font-weight:600; }                      /* "보도:" 라벨 = mut */
+  .nm-reporter { color:#8fa697; font-weight:600; white-space:nowrap; }   /* 기자 = mut(영문이면 빌더서 스킵) */
+  .nm-title { position:relative; font-size:23px; font-weight:900; line-height:1.34; margin:0; padding-right:56px; letter-spacing:-.6px; color:var(--fg); }   /* 우측 56px = 제목 복사 버튼 자리 + 여유 간격(긴 제목도 버튼과 안 겹치게 캡·운영자 260621) */
+  .nm-titlecopy { position:absolute; top:2px; right:0; width:30px; height:30px; display:inline-flex; align-items:center; justify-content:center; border-radius:50%; background:rgba(20,22,21,.55); -webkit-backdrop-filter:blur(12px); backdrop-filter:blur(12px); color:var(--fg); border:1px solid rgba(255,255,255,.18); cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,.45); transition:transform .1s, background .15s, color .15s; }   /* 제목 우상단 = 전체복사·섹션복사와 같은 우측 정렬(틀어짐 X) */
+  .nm-titlecopy svg { width:14px; height:14px; display:block; }
+  .nm-titlecopy:hover { background:#00EED2; color:#000; border-color:#00EED2; }
+  .nm-titlecopy:active { transform:scale(var(--press-m,.88)); }
+  .nm-titlecopy.ok { background:#00EED2; color:#000; border-color:#00EED2; }
+  .nm-allbtn { position:absolute; top:0; right:0; z-index:2; display:inline-flex; align-items:center; gap:4px; height:26px; padding:0 11px; border:none; border-radius:999px; background:#00EED2; color:#000; font-family:inherit; font-size:11px; font-weight:600; cursor:pointer; transition:transform .12s, background .15s; }
+  .nm-allbtn:hover { background:#5AFFE6; transform:scale(1.03); }
+  .nm-allbtn:active { transform:scale(var(--press-l,.95)); }
+  .nm-allbtn.ok { background:#00EED2; }
+  .nm-grp { margin:20px 4px 8px; font-size:11px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:#7d7d7d; }
+  .nm-grp .nm-grp-t { color:var(--fg); font-weight:400; text-transform:none; font-size:13px; letter-spacing:0; }                          /* 카드뉴스 제목 = 흰색·볼드 제거·본문 톤(라벨 자간/대문자 해제 · 운영자 260622) */
+  .nm-grp .nm-grp-m { display:block; margin-top:3px; color:#8fa697; font-weight:400; text-transform:none; font-size:13px; letter-spacing:0; }   /* 이미지 모델 = 다음 줄·미강조(mut #8fa697 = 매체/기자 톤)·볼드 제거·원 표기 · 운영자 260622 */
+  .nm-sec { position:relative; background:rgba(28,30,29,.64); -webkit-backdrop-filter:blur(18px) saturate(120%); backdrop-filter:blur(18px) saturate(120%); border:1px solid rgba(255,255,255,.12); border-radius:14px; padding:18px 20px; margin:0 0 14px; box-shadow:0 8px 30px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.08); transition:background .15s; }
+  .nm-sec:hover { background:rgba(42,44,43,.72); }
+  .nm-tip { border:1px solid #00EED2; }   /* 시사점 = 일반 박스(nm-sec 배경 상속) + 강조색 테두리만(초록 채움 폐지·운영자 260621) */
+  .nm-h { display:flex; align-items:center; gap:9px; font-size:13px; font-weight:700; letter-spacing:.04em; color:var(--fg); margin:0 0 10px; text-transform:uppercase; }
+  .nm-tip .nm-h { color:#00EED2; }
+  .nm-dot { width:7px; height:7px; border-radius:50%; background:#00EED2; display:inline-block; flex:none; }
+  .nm-tip .nm-dot { box-shadow:0 0 8px rgba(0,238,210,.7); }
+  .nm-body { background:rgba(0,0,0,.3); -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,.1); border-radius:9px; padding:13px 15px; max-width:100%; word-break:break-word; overflow-wrap:anywhere !important; }   /* 긴 URL·연속문자 박스 안에서 줄바꿈(복사 칸 벗어남 방지 · 운영자 260620) — overflow:hidden 제거(잘림 유발 · 줄바꿈으로 해결 · 260621) */
+  .nm-tip .nm-body { background:rgba(0,0,0,.3); border:1px solid rgba(255,255,255,.1); }   /* 시사점 본문칸 = 일반 박스와 동일(운영자 260621) */
+  .nm-body > :first-child { margin-top:0; }
+  .nm-body > :last-child { margin-bottom:0; }
+  .nm-body p { margin:7px 0; color:#e6e6e6; }
+  .nm-body .nm-sublbl { margin:12px 0 3px; color:#8fa697; font-size:11px; font-weight:800; letter-spacing:.06em; }   /* 카드 프롬프트 소라벨(이미지 프롬프트) = mut 톤 */
+  .nm-body ul { margin:7px 0; padding-left:0; list-style:none; color:#e6e6e6; }   /* 불릿 = 커스텀 •(아래) — 기본 ul 들여쓰기(19px) 제거해 말머리를 본문 좌측에 맞춤(운영자 260621) */
+  .nm-body ol { margin:7px 0; padding-left:17px; color:#e6e6e6; }
+  .nm-body li { margin:4px 0; line-height:1.64; }
+  .nm-body ul > li { position:relative; padding-left:14px; }                       /* 행잉 인덴트 = 말머리는 좌측 끝, 본문만 14px(둘째줄도 정렬) */
+  .nm-body ul > li::before { content:'•'; position:absolute; left:1px; top:0; }
+  .nm-body strong, .nm-body b { color:var(--fg); font-weight:700; }
+  .nm-body a { color:#00EED2; word-break:break-all; }
+  .nm-body .kw { color:#00EED2; font-weight:700; }                          /* 관점 키워드·[관점 라벨] = 뷰어 decorate와 동등 강조(운영자 260621) */
+  .nm-body .angle { color:#00EED2; font-weight:800; white-space:nowrap; }   /* [앵글 ①] 등 */
+  .nm-body .angle-lbl { color:#00EED2; font-weight:800; }                    /* 다각도 앵글 라벨 = 강조색 굵게(뷰어와 동등 · 운영자 260622) */
+  .nm-body .cem { color:#00EED2; font-weight:700; font-style:normal; }      /* 코드블록 *강조* 키워드 */
+  .nm-body h3, .nm-body h4 { font-size:13.5px; font-weight:800; color:var(--fg); margin:11px 0 5px; }
+  .nm-body pre { font-family:inherit; font-size:inherit; line-height:1.64; color:#e6e6e6; margin:0; white-space:pre-wrap; word-break:break-word; overflow-wrap:anywhere; max-width:100%; }   /* ★ 자유요약(pre) 가로 오버플로 수정 — pre 기본 white-space:pre라 줄바꿈 안 되던 것 pre-wrap로(운영자 260621 · Claude Code 제공) */
+  .nm-ref { margin:9px 0 0; padding:9px 13px; border-radius:9px; background:rgba(255,255,255,.045); -webkit-backdrop-filter:blur(9px); backdrop-filter:blur(9px); border:1px solid rgba(255,255,255,.1); font-size:11.5px; line-height:1.55; color:#8fa697; word-break:break-word; overflow-wrap:anywhere; }   /* 참고(편향 등) = 글래스 읽기전용 영역, 복사 제외(data-body 밖 · 운영자 260621) */
+  .nm-ref p { margin:0; }   /* 참고줄 = 단일 행 */
+  .nm-secbtn { position:absolute; top:8px; right:14px; width:34px; height:34px; display:inline-flex; align-items:center; justify-content:center; border-radius:50%; background:rgba(20,22,21,.55); -webkit-backdrop-filter:blur(12px); backdrop-filter:blur(12px); color:var(--fg); border:1px solid rgba(255,255,255,.18); cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,.45); transition:transform .1s, background .15s, color .15s; }
+  .nm-tip .nm-secbtn { border-color:rgba(0,238,210,.5); }
+  .nm-secbtn:hover { background:#00EED2; color:#000; border-color:#00EED2; }
+  .nm-secbtn:active { transform:scale(var(--press-m,.88)); }
+  .nm-secbtn.ok { background:#00EED2; color:#000; border-color:#00EED2; }
+  .draft-scroll { scrollbar-width:thin; scrollbar-color:rgba(0,0,0,.45) rgba(255,255,255,.05); }
+  .draft-scroll::-webkit-scrollbar { width:9px; }
+  .draft-scroll::-webkit-scrollbar-track { background:rgba(255,255,255,.04); border-radius:9px; margin:4px 0; }
+  .draft-scroll::-webkit-scrollbar-thumb { background:rgba(0,0,0,.42); border-radius:9px; border:2px solid transparent; background-clip:padding-box; }
+  .draft-scroll::-webkit-scrollbar-thumb:hover { background:rgba(0,0,0,.6); background-clip:padding-box; }
+  .nm-cardbody { max-height:18em; overflow:hidden; overscroll-behavior:contain; -webkit-overflow-scrolling:touch; }   /* 카드 = 고정높이 박스 · 평소 overflow:hidden = 스와이프가 페이지로(외부 스크롤 우선) · 운영자 260622 */
+  .nm-cardbody.nm-of { -webkit-mask-image:linear-gradient(180deg,#000 84%,transparent); mask-image:linear-gradient(180deg,#000 84%,transparent); cursor:pointer; }   /* 넘침 = 하단 페이드(더 있음 신호) + 탭하면 그 박스 스크롤 가능(커서 힌트) */
+  .nm-cardbody.nm-sactive { overflow-y:auto; -webkit-mask-image:none; mask-image:none; box-shadow:0 0 0 2px rgba(0,238,210,.5) inset; }   /* 탭 활성 = 그 박스만 내부 스크롤 ON(외부 우선의 예외) + 라임 링 */
+  .nm-foot { margin:24px 2px 0; padding-top:16px; border-top:1px solid rgba(255,255,255,.12); }
+  .nm-foot-h { font-size:11px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:#7d7d7d; margin:0 0 10px; }
+  .src { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:9px; font-size:13px; }
+  .src li { display:flex; align-items:baseline; gap:8px; }
+  .src .ic { flex:none; font-size:13px; line-height:1; position:relative; top:1px; }
+  .src .meta { color:#8fa697; font-weight:500; }
+  .nm-srclink { color:var(--fg); font-weight:800; text-decoration:none; border-bottom:1px solid rgba(0,238,210,.5); }
+  .nm-srclink:hover { color:#00EED2; border-color:#00EED2; }
+  .nm-iglink { color:#00EED2; font-weight:700; text-decoration:none; border-bottom:1px solid rgba(0,238,210,.45); }   /* ⓒ 노뮤트 = 인스타 링크·강조색(운영자 260621) */
+  .nm-iglink:hover { border-color:#00EED2; }
+  .cr { text-align:center; color:#7d7d7d; font-size:12px; margin-top:18px; }
+  .nm-top { position:fixed; right:18px; bottom:20px; z-index:30; width:44px; height:44px; display:none; align-items:center; justify-content:center; border-radius:50%; background:rgba(20,22,21,.62); -webkit-backdrop-filter:blur(14px) saturate(120%); backdrop-filter:blur(14px) saturate(120%); color:#00EED2; border:1px solid rgba(0,238,210,.4); cursor:pointer; box-shadow:0 8px 24px rgba(0,0,0,.5); transition:transform .14s, background .15s, color .15s; }
+  .nm-top:hover { background:#00EED2; color:#000; border-color:#00EED2; transform:translateY(-2px); }
+  .nm-top:active { transform:scale(var(--press-m,.92)); }
+  /* 검색 이미지 슬라이드(발행본 상단) — 리더 .cref-track 계승·자기완결(R2 https 인라인) */
+  .nm-imtrack { display:flex; gap:8px; overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; padding-bottom:5px; margin-top:2px; }
+  .nm-imtrack::-webkit-scrollbar { height:5px; }
+  .nm-imtrack::-webkit-scrollbar-thumb { background:rgba(255,255,255,.14); border-radius:9px; }
+  .nm-imslot { position:relative; flex:0 0 60%; max-width:240px; aspect-ratio:4/5; scroll-snap-align:start; border-radius:11px; overflow:hidden; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1); }
+  .nm-imslot img { width:100%; height:100%; object-fit:cover; display:block; }
+  .nm-imno { position:absolute; left:7px; top:7px; font-size:11px; font-weight:700; color:var(--fg); background:rgba(0,0,0,.45); -webkit-backdrop-filter:blur(4px); backdrop-filter:blur(4px); padding:1px 7px; border-radius:999px; }
+  /* 검색 이미지 헤더 = 제목 + 검색 버튼(제목검색·키워드 K·한/영 토글) — 뷰어 썸네일 후보 계승(자기완결·링크만·API 0) */
+  .nm-imsec { padding-top:13px; }                                    /* 라벨 위로 — 상단 여백 축소(운영자 요청) */
+  .nm-imhead { display:flex; align-items:center; gap:10px; margin:0 0 9px; }
+  .nm-imhead .nm-h { margin:0; flex:none; }
+  .nm-imacts { display:inline-flex; align-items:center; gap:6px; margin-left:auto; flex:none; }
+  .nm-imsrch { width:30px; height:30px; display:inline-flex; align-items:center; justify-content:center; border-radius:8px; color:var(--fg); text-decoration:none; background:rgba(20,22,21,.55); border:1px solid rgba(255,255,255,.18); transition:background .15s, color .15s; }
+  .nm-imsrch:hover { background:#00EED2; color:#000; border-color:#00EED2; }
+  .nm-imsrch svg, .nm-kwsrch svg { width:15px; height:15px; }
+  .nm-kwbox { display:inline-flex; align-items:center; height:30px; border-radius:8px; border:1px solid rgba(255,255,255,.18); overflow:hidden; color:rgba(255,255,255,.92); }
+  .nm-kwbox.en { border-color:rgba(90,160,255,.55); }                /* 영문 키워드 = 파랑 테두리(뷰어 한↔영 색전환 계승) */
+  .nm-kwsrch { display:inline-flex; align-items:center; gap:5px; height:100%; padding:0 8px; color:inherit; text-decoration:none; cursor:pointer; border-right:1px solid rgba(255,255,255,.2); }
+  .nm-kwsrch:hover { background:rgba(255,255,255,.09); }
+  .nm-klbl { font-weight:800; font-size:13px; line-height:1; }
+  .nm-kwtog { display:inline-flex; align-items:center; justify-content:center; height:100%; padding:0 10px; font-weight:800; font-size:13px; color:inherit; background:none; border:none; cursor:pointer; }
+  .nm-kwtog.st { cursor:default; opacity:.78; background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.14) 0 1.5px,transparent 1.5px 5px); }   /* 국내(영문 없음) = 전환 불가 빗금 */
+  .nm-kwtog:not(.st):hover { background:rgba(255,255,255,.09); }
+  .nm-kwrow { margin:0 0 10px; }
+  .nm-kw { display:inline-block; max-width:100%; font-size:11.5px; font-weight:600; color:#8fa697; line-height:1.5; word-break:break-word; cursor:pointer; padding:4px 10px; border-radius:8px; background:rgba(0,0,0,.28); border:1px solid rgba(255,255,255,.08); -webkit-tap-highlight-color:transparent; transition:color .15s, background .15s; }
+  .nm-kw:active { transform:scale(var(--press-l,.95)); }   /* raw→근접토큰(.985→--press-l .95·미세) */
+  .nm-kw.kwok { color:#00EED2; background:rgba(255,255,255,.06); }   /* 복사 완료 = 강조색 잠시 */
+  .nm-imslot .nm-imdl { position:absolute; right:7px; bottom:7px; width:30px; height:30px; display:inline-flex; align-items:center; justify-content:center; border-radius:8px; color:#00EED2; text-decoration:none; background:#0b0d0c; border:1px solid transparent; cursor:pointer; transition:transform .1s; }   /* 이미지 위 오버레이 = 불투명 플레이트(§🎨 n 260709 · 이 문서 html,body 배경색(0b0d0c) 동값 복사 = 자기완결 템플릿이라 var() 불가) + accent 아이콘 · hover 배경 단계 폐지 */
+  .nm-imslot .nm-imdl:active { transform:scale(.86); }
+  .nm-imdl svg { width:16px; height:16px; display:block; }
+  .nm-orig { margin:7px 0 0; padding-right:56px; font-size:12.5px; font-weight:600; color:#8fa697; line-height:1.45; word-break:break-word; cursor:pointer; -webkit-tap-highlight-color:transparent; transition:color .18s; }   /* 외신 원문 영문 제목 = 제목 바로 아래 mut 1줄 · 클릭 복사(accent 플래시) */
+  .nm-orig:hover { color:#c9d6cd; }
+  .nm-orig.flash { color:#00EED2; }

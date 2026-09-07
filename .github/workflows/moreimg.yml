@@ -137,3 +137,11 @@ jobs:
               -d "{\"ref\":\"main\",\"inputs\":{\"stem\":\"${stem}\",\"want\":\"${want}\",\"round\":\"${rnd}\"}}" \
               && echo "↻ ${stem} 라운드 ${rnd} 발사(want=${want})" || echo "::warning::${stem} 라운드 ${rnd} 발사 실패"
           done
+      - name: Preserve results when repository save fails
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: recovery-${{ github.job }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/editor-recovery/
+          if-no-files-found: ignore
+          retention-days: 3

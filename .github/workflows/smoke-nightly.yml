@@ -67,3 +67,11 @@ jobs:
           bash .github/scripts/git_land.sh "watchdog: smoke_last 관측 갱신 (bot)" scraper/obs/smoke_last.json
       - name: 결과 반영(FAIL = 런 붉게 · 알림은 watchdog ⑥이 담당)
         run: exit "$RC"
+      - name: Preserve results when repository save fails
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: recovery-${{ github.job }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/editor-recovery/
+          if-no-files-found: ignore
+          retention-days: 3

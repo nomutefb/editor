@@ -38,3 +38,11 @@ jobs:
         # viewer/fb_data.json = insta-fetch 3h 동승 스텝과 이중 기록자 — 동일 생성기의 덮어쓰기 스냅샷이라 이중 실행 무해(최신 수렴).
         run: |
           bash .github/scripts/git_land.sh "fb: 페이지 인사이트 스냅샷 (bot)" viewer/fb_data.json
+      - name: Preserve results when repository save fails
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: recovery-${{ github.job }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/editor-recovery/
+          if-no-files-found: ignore
+          retention-days: 3

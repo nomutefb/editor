@@ -176,7 +176,7 @@ jobs:
           #   원장 축의 유일 무손실이 이 방식이다(`-X theirs` 는 남의 줄을 지운다 = 샌드박스 실측).
           #   PAGES_COALESCE=0 = 이 축들은 코얼레싱 금지 축이라 접두를 끈다(pc_lane `_push` 문법 사본).
           git reset -q HEAD -- . 2>/dev/null || true
-          PAGES_COALESCE=0 bash .github/scripts/git_land.sh "AI 판정: 속보 breaking 조기 반영" viewer/candidates.json 2>/dev/null || true
+          PAGES_COALESCE=0 bash .github/scripts/git_land.sh "AI 판정: 속보 breaking 조기 반영" viewer/candidates.json
           git fetch -q origin main 2>/dev/null || true
           pushed=0; git merge-base --is-ancestor HEAD origin/main 2>/dev/null && pushed=1
           # 조기 반영은 지연 단축용이라 실패해도 red 로 세우지 않는다 — 아래 최종 Commit(경중·묶기 포함) 스텝이
@@ -240,7 +240,7 @@ jobs:
           # ⚠ 접두는 여기만 ON(PAGES_COALESCE 미지정 = 워크플로 env 그대로) — 「경중 grade 갱신」이
           #   _PAGES_SKIP_ALLOW 등재 축이고, 짝(빌드 우회 라이브 서빙)은 functions/api/candidates.js 가 담당한다.
           git reset -q HEAD -- . 2>/dev/null || true
-          bash .github/scripts/git_land.sh "AI 판정: 속보 breaking · 경중 grade 갱신" viewer/candidates.json metrics 2>/dev/null || true
+          bash .github/scripts/git_land.sh "AI 판정: 속보 breaking · 경중 grade 갱신" viewer/candidates.json metrics
           git fetch -q origin main 2>/dev/null || true
           pushed=0; git merge-base --is-ancestor HEAD origin/main 2>/dev/null && pushed=1
           # git_land 는 rc 항상 0(fail-soft)이라 착지 판정을 따로 세운다 — 안 세우면 채점 결과가 통째로
@@ -277,7 +277,7 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           # 착지 = git_land 위임(260816 계약) · 선행 커밋 없음(260817 계약) · 접두 OFF = 발송 원장은 즉시축.
-          PAGES_COALESCE=0 bash .github/scripts/git_land.sh "push: 발송 원장·구독 정리" push 2>/dev/null || true
+          PAGES_COALESCE=0 bash .github/scripts/git_land.sh "push: 발송 원장·구독 정리" push
           git fetch -q origin main 2>/dev/null || true
           pushed=0; git merge-base --is-ancestor HEAD origin/main 2>/dev/null && pushed=1
           # 원장이 안 올라가면 같은 사건이 다음 런에 또 발송된다(dedup 원장 = push/sent.json) → red 로 세운다.
@@ -316,7 +316,7 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           # 착지 = git_land 위임(260816) · 선행 커밋 없음(260817) — 'pending'은 pick_pending._clear_stale_failed의
           #   pending/failed/* 삭제까지 포함해야 한다(제2 오염원 — 목록서 빼면 재발 · 평의회1).
-          PAGES_COALESCE=0 bash .github/scripts/git_land.sh "auto-pick: 긴급 grade≥3 자동 분석 (픽 ${{ steps.autopick.outputs.picked }}건)" pending scraper/seen_urls.txt push/autopick.json push/autopick_events.json metrics 2>/dev/null || true
+          PAGES_COALESCE=0 bash .github/scripts/git_land.sh "auto-pick: 긴급 grade≥3 자동 분석 (픽 ${{ steps.autopick.outputs.picked }}건)" pending scraper/seen_urls.txt push/autopick.json push/autopick_events.json metrics
           git fetch -q origin main 2>/dev/null || true
           pushed=0; git merge-base --is-ancestor HEAD origin/main 2>/dev/null && pushed=1
           # ⚠️ pending·seen·ledger = 한 커밋(원자) → push 실패면 셋 다 main 미반영 = 분석 발동해도 news-analyze가 pending 못 봄(무과금)
@@ -331,3 +331,11 @@ jobs:
             done
             [ "$ok" = 1 ] || echo "::warning::news-analyze 디스패치 3회 실패 — pending 적재됨(다음 흡수)"
           fi
+      - name: Preserve results when repository save fails
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: recovery-${{ github.job }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/editor-recovery/
+          if-no-files-found: ignore
+          retention-days: 3

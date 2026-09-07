@@ -1,0 +1,862 @@
+function openEdit(o) {
+  const dlg = $('#editdlg'), key = cardKeyOf(o);
+  // ★ 같은 카드 변경버튼 재진입 = 보존된 미제출 편집 복원(재로드·리셋 스킵 · wish·edLines·sync·scene는 globals/DOM에 그대로 살아있음 · 최소화 폐지·운영자 260628)
+  if (_editKeptKey && _editKeptKey === key && EDIT_CTX) {
+    _editKeptKey = null; EDIT_CTX = o;   // 카드 ref만 갱신(미제출이라 caption 동일 = edLines 유효)
+    dlg.querySelector('.ed-title').textContent = `카드 ${o.card.n} 변경`;
+    const img = dlg.querySelector('.ed-img'); img.alt = `카드 ${o.card.n}`;
+    if (!editScene) { const v = o.card.versions[o.card.cur] || {}; img.src = v.image || ''; }   // scene 있으면 updateEditAttach→updateEditBaf가 미리보기로 채움
+    renderEditChips(); resetEditFootLight(); updateEditAttach();   // 보존 칩·버튼클린·첨부UI/전후배지 복원
+    dlg.querySelector('.ed-body').scrollTop = 0; $('#edtop').classList.remove('show');
+    openComposeDlg(dlg); fitEditLines($('#edChips'));
+    if (editScene) schedEditPreview();   // 첨부 미리보기 재합성
+    return;
+  }
+  _editKeptKey = null;   // 다른 카드 = 보존 폐기·fresh 로드
+  EDIT_CTX = o;
+  const v = o.card.versions[o.card.cur];
+  dlg.querySelector('.ed-title').textContent = `카드 ${o.card.n} 변경`;
+  const img = dlg.querySelector('.ed-img'); img.src = v.image || ''; img.alt = `카드 ${o.card.n}`;
+  edLines = parseEmphLines(v.caption || '');   // *마커 → 줄별 어절 배열(줄바꿈 보존·강조 어절)
+  PENDING_FOCUS = null; PENDING_EDIT = null; _edRendering = false;   // 이전 세션 잔여 편집상태 격리(재열기 stale 차단)
+  $('#edWish').value = '';
+  renderEditChips();
+  resetEditFoot();   // 확인 게이트·#edGo 비활성/라벨·확인메시지·발사잠금 초기화(끊긴 fetch·재열기 잔존 차단)
+  dlg.querySelector('.ed-body').scrollTop = 0; $('#edtop').classList.remove('show');   // 맨 위
+  openComposeDlg(dlg);   // showModal + 폰 뒤로가기 칸(입력 손실 방지·260627)
+  fitEditLines($('#edChips'));   // 모달 표시 직후(레이아웃 확정) 행 폭 즉시 맞춤(첫 열림 보장)
+}
+// "*전쟁 종전*을\n끝" → [[{text:'전쟁',on:true},…],[…]]. *마커=강조, \n=줄, 공백=어절 구분.
+// 어절 중간서 강조가 끊기면(예: 종전을 = 종전 강조·을 비강조) on 통째 대신 글자맵 em[]로 보존(왕복 일치).
+function parseEmphLines(s) {
+  const arr = [...s]; const plain = []; const ce = []; let on = false;
+  for (let p = 0; p < arr.length; p++) {
+    if (arr[p] === '*') { on = !on; continue; }
+    plain.push(arr[p]); ce.push(on);   // ce[i] = plain[i]가 강조 안인지
+  }
+  const lines = [[]]; let cur = lines[0]; let i = 0;
+  while (i < plain.length) {
+    const ch = plain[i];
+    if (ch === '\n') { cur = []; lines.push(cur); i++; continue; }
+    if (ch === ' ' || ch === '\t') { i++; continue; }   // 공백 = 어절 구분(토큰 안 만듦)
+    let j = i, text = ''; const em = []; let allOn = true, allOff = true;
+    while (j < plain.length && plain[j] !== ' ' && plain[j] !== '\t' && plain[j] !== '\n') {
+      em.push(ce[j]); if (ce[j]) allOff = false; else allOn = false; text += plain[j]; j++;
+    }
+    if (allOn) cur.push({ text, on: true });
+    else if (allOff) cur.push({ text, on: false });
+    else cur.push({ text, on: false, em });   // 어절 중간 경계 → 글자맵 보존
+    i = j;
+  }
+  return lines.slice(0, MAX_LINES);   // 로드 시 4줄 하드캡(방어)
+}
+// 카드 텍스트 제약(card-make 지침 §출력형식): 줄 ≤4 · 한글 ≤18/줄 · 가중폭 ≤19.5/줄. SOFT=14(실측 99% 보존·권장 줄넘김).
+const EDLINE_HANGUL = 18, EDLINE_WIDTH = 19.5, EDLINE_SOFT = 14;
+function edHangul(s) { return (s.match(/[가-힣]/g) || []).length; }
+// 가중폭 = 한글/자모/전각/곡선따옴표·전각부호=1.0, 그외(영문·숫자·반각·공백)=0.5 (wcswidth/2 동치).
+function edWidth(s) { let w = 0; for (const ch of s) w += /[가-힣ㄱ-ㅎㅏ-ㅣ‘-‟…　-〿＀-￯]/.test(ch) ? 1 : 0.5; return w; }
+function edMarkWarn() {   // 줄별 '글자단위': 누적이 한도(가중폭19.5·한글18) 넘는 글자부터 빨강(_overFrom). 줄 길면 호박(_warn).
+  for (const line of edLines) {
+    let w = 0, hg = 0, over = false;
+    line.forEach((wd, k) => {
+      if (k) w += 0.5;   // 어절 사이 공백
+      const wasOver = over; let from = -1;
+      const chars = [...wd.text];
+      for (let ci = 0; ci < chars.length; ci++) {
+        w += edWidth(chars[ci]); hg += edHangul(chars[ci]);
+        if (!over && (w > EDLINE_WIDTH || hg > EDLINE_HANGUL)) { over = true; from = ci; }   // 이 글자에서 처음 넘침
+      }
+      if (wasOver) { wd._over = true; wd._overFrom = 0; }          // 앞 어절서 이미 초과 → 통째 빨강
+      else if (over) { wd._over = true; wd._overFrom = from >= 0 ? from : 0; }   // 이 어절의 from글자부터 빨강
+      else { wd._over = false; wd._overFrom = -1; }
+    });
+    let tw = 0; line.forEach((wd, k) => { if (k) tw += 0.5; tw += edWidth(wd.text); });
+    const warn = tw > EDLINE_SOFT;
+    line.forEach(wd => { wd._warn = warn && !wd._over; });
+  }
+}
+// 줄 하나라도 한도 초과(빨강)면 true — 저장(변경) 게이트.
+function edAnyOver() {
+  for (const line of edLines) {
+    let w = 0, hg = 0;
+    for (let k = 0; k < line.length; k++) {
+      if (k) w += 0.5;
+      for (const ch of line[k].text) { w += edWidth(ch); hg += edHangul(ch); if (w > EDLINE_WIDTH || hg > EDLINE_HANGUL) return true; }
+    }
+  }
+  return false;
+}
+function lineWidthWith(li, wi, newText) {   // li줄에서 wi어절을 newText로 본 줄 길이(편집 중 라이브 빨강 체크)
+  let w = 0, hg = 0;
+  edLines[li].forEach((wd, k) => { if (k) w += 0.5; const t = k === wi ? newText : wd.text; w += edWidth(t); hg += edHangul(t); });
+  return { w, hg };
+}
+function lineFull(line) {   // 줄이 한도(가중폭19.5·한글18)에 닿음 = 더 못 담음 → 줄끝 어절+ 숨김(item 3)
+  let w = 0, hg = 0;
+  line.forEach((wd, k) => { if (k) w += 0.5; w += edWidth(wd.text); hg += edHangul(wd.text); });
+  return w >= EDLINE_WIDTH || hg >= EDLINE_HANGUL;
+}
+function clipLineOver(li) {   // 도형 이탈 시: 줄 한도 넘는 글자부터 전부 탈락(걸린 음절·뒤 어절 자동 정리) — 가나다라마 → 가나다라
+  const line = edLines[li]; if (!line) return;
+  let w = 0, hg = 0;
+  for (let k = 0; k < line.length; k++) {
+    if (k) w += 0.5;   // 어절 사이 공백
+    const chars = [...line[k].text];
+    let cut = -1;
+    for (let ci = 0; ci < chars.length; ci++) {
+      w += edWidth(chars[ci]); hg += edHangul(chars[ci]);
+      if (w > EDLINE_WIDTH || hg > EDLINE_HANGUL) { cut = ci; break; }
+    }
+    if (cut < 0) continue;
+    const kept = chars.slice(0, cut).join('');
+    if (kept) { line[k].text = kept; line[k].em = null; line.length = k + 1; }   // 이 어절 일부만 남기고 뒤 어절 전부 제거(글자맵 무효)
+    else { line.length = k; }                                  // 앞 공백서 이미 초과 → 이 어절 통째 탈락
+    for (let j = line.length - 1; j >= 0; j--) if (line[j].text === '') line.splice(j, 1);   // 빈 어절 정리
+    return;
+  }
+}
+function edReject(el) { el.classList.add('reject'); setTimeout(() => el.classList.remove('reject'), 600); }
+function renderEditChips() {   // 어절칩 렌더 — 중첩 모델(edLines). 메인 필터칩 renderChips와 별개.
+  _edRendering = true;   // innerHTML='' 가 포커스 칩을 떼면 동기 blur가 터짐 → 그 stale blur가 분할 재실행하는 것 차단
+  edDisarm();   // 텍스트 바뀌면 재확인(arm) 해제(stale 발사 방지)
+  schedEditPreview();   // 첨부 사진 미리보기 있으면 새 문구로 갱신(디바운스·editScene 없으면 no-op)
+  const wrap = $('#edChips'); wrap.innerHTML = ''; wrap.classList.add('ed-building');   // 재빌드 동안 전환 억제(아래 rAF서 해제)
+  // 빈 어절칩 정리 — 갓 추가돼 편집 대기 중인 1개(PENDING_EDIT)만 남기고 모두 제거.
+  // (_edRendering 가드가 빈칩 blur 정리를 삼켜 '+' 반복 시 빈 도형이 잔존하던 것 방지)
+  edLines.forEach((line, li) => {
+    for (let j = line.length - 1; j >= 0; j--) {
+      const pending = PENDING_EDIT && PENDING_EDIT.li === li && PENDING_EDIT.wi === j;
+      if (line[j].text === '' && !pending) {
+        line.splice(j, 1);
+        if (PENDING_EDIT && PENDING_EDIT.li === li && PENDING_EDIT.wi > j) PENDING_EDIT.wi--;   // 인덱스 보정
+      }
+    }
+  });
+  edMarkWarn();
+  const full = edLines.length >= MAX_LINES;
+  edLines.forEach((line, li) => {
+    const row = document.createElement('div'); row.className = 'ed-line'; row.dataset.li = li;
+    if (line.length === 0) {   // 빈 줄 = 입력용 placeholder 칩
+      const e = document.createElement('span'); e.className = 'ed-chip ed-empty'; e.contentEditable = 'true'; e.spellcheck = true; e.lang = 'ko';
+      e.oninput = ev => {   // 타이핑 중 스페이스 = 그 자리서 즉시 어절 분리(어절칩 oninput 세포분열과 동일 · IME 조합 중 제외 · 제작 칩과 통일 · 운영자 260710)
+        const raw = e.textContent, si = raw.search(/\s/);
+        if (si >= 0 && !ev.isComposing) {
+          const left = raw.slice(0, si).trim(), right = raw.slice(si + 1).trim();
+          if (left) { edLines[li] = [{ text: left, on: false }, { text: right, on: false }]; PENDING_EDIT = { li, wi: 1 }; renderEditChips(); return; }
+          e.textContent = right;   // 맨 앞 공백만 = 제거하고 계속
+          const sel = window.getSelection(), r = document.createRange(); r.selectNodeContents(e); r.collapse(false); sel.removeAllRanges(); sel.addRange(r);   // textContent 교체로 캐럿이 앞으로 튐 → 끝 복원
+        }
+        fitEditLines(wrap);
+      };
+      e.onkeydown = ev => {
+        if (ev.key === 'Enter') {   // 엔터 = 줄바꿈: 기존 커밋(blur=어절 분리·한도 클립) 후 아래 새 줄 + 커서(빈 입력은 기존 줄 정리 그대로 · 제작 칩과 통일 · 운영자 260710)
+          ev.preventDefault();
+          const filled = !!e.textContent.replace(/\s+/g, ' ').trim();
+          e.blur();
+          if (filled) addLineAfter(li);   // MAX_LINES 가드 = addLineAfter
+        }
+      };
+      e.onblur = () => {
+        if (_edRendering || !e.isConnected) return;   // 재렌더 중/떨어져 나간 stale blur 무시(빈줄 이중삭제 방지)
+        const nt = e.textContent.replace(/\s+/g, ' ').trim();
+        if (!nt) { dropLine(li); return; }   // 안 채우고 떠남 → 줄 제거
+        edLines[li] = nt.split(/\s+/).map(t => ({ text: t, on: false }));
+        clipLineOver(li);   // 한 줄에 너무 많이 입력 → 한도 초과분 자동 탈락
+        renderEditChips();
+      };
+      row.appendChild(e);
+    } else {
+      line.forEach((wd, wi) => {
+        const chip = document.createElement('span');
+        chip.className = 'ed-chip' + (wd.on ? ' on' : '') + (wd._warn ? ' warn' : '') + (wd._over ? ' over' : '');
+        chip.dataset.li = li; chip.dataset.wi = wi;
+        if (wd._over && wd._overFrom > 0) {   // 글자단위: 안전부분 + 초과부분(빨강 span)
+          const a = [...wd.text];
+          chip.innerHTML = esc(a.slice(0, wd._overFrom).join('')) + '<span class="ovc">' + esc(a.slice(wd._overFrom).join('')) + '</span>';
+        } else if (wd._over) { chip.innerHTML = '<span class="ovc">' + esc(wd.text) + '</span>'; }   // 통째 초과
+        else if (wd.em) {   // 어절 중간 강조 경계 = 글자별 초록/흰색 부분 하이라이트(카드와 동일)
+          const a = [...wd.text]; let h = '', run = null;
+          a.forEach((c, ci) => { const e = !!wd.em[ci]; if (e !== run) { if (run !== null) h += '</span>'; h += e ? '<span class="emon">' : '<span>'; run = e; } h += esc(c); });
+          if (run !== null) h += '</span>'; chip.innerHTML = h;
+        }
+        else { chip.textContent = wd.text; }
+        chip.title = '탭=강조 / 더블탭=수정(비우면 삭제)';
+        chip.onclick = () => {   // 탭=강조 토글. 더블탭(수정)과 충돌 차단 — 칩별 200ms 디바운스(dblclick 오면 취소). 칩별 타이머라 다른 칩 탭끼린 안 지움.
+          if (chip.isContentEditable) return;
+          clearTimeout(chip._tapT);
+          chip._tapT = setTimeout(() => {
+            if (wd.em) { wd.em = null; wd.on = true; renderEditChips(); return; }   // 혼합 → 탭 1회로 통째 강조 확정
+            wd.on = !wd.on; chip.classList.toggle('on');
+          }, 200);
+        };
+        chip.ondblclick = () => { clearTimeout(chip._tapT); chip.textContent = wd.text; chip.contentEditable = 'true'; chip.spellcheck = true; chip.lang = 'ko'; chip.classList.add('editing'); chip.focus(); window.getSelection()?.selectAllChildren(chip); };
+        chip.onkeydown = ev => {
+          if (ev.key === 'Enter') {   // 엔터 = 커밋 + 줄바꿈(줄 끝 어절 입력 중 한정 = 타이핑 흐름 · 중간 어절 수정은 커밋만 · 제작 칩과 통일 · 운영자 260710)
+            ev.preventDefault();
+            const last = wi === edLines[li].length - 1, survive = !!chip.textContent.replace(/\s+/g, ' ').trim() || edLines[li].length > 1;
+            chip.blur();   // 기존 커밋 경로 그대로(분할·삭제·한도 클립)
+            if (last && survive) addLineAfter(li);   // 줄 자체가 사라지는 경우(마지막 어절 비움) 제외 · MAX_LINES 가드 = addLineAfter
+            return;
+          }
+          // 어절을 다 지운 뒤 백스페이스 = 앞 어절로 넘어가 이어서 지움(같은 줄 안에서만 · wi=0이면 멈춤=이전 줄로 안 감=마지노선 · 운영자 260630)
+          if (ev.key === 'Backspace' && !ev.isComposing && wi > 0 && !chip.textContent.replace(/[\s\u200b\uFEFF\u2060]/g, '')) {   // !isComposing=IME 조합 중 자모삭제 보호 · 정규식=ZWSP/BOM/word-joiner 잔존도 빈칩 판정
+            ev.preventDefault();
+            edLines[li].splice(wi, 1);           // 빈 어절 제거
+            PENDING_EDIT = { li, wi: wi - 1 };   // 앞 어절 편집 진입(커서 끝 — 이어서 백스페이스 가능)
+            renderEditChips();
+          }
+        };
+        chip.oninput = ev => {   // 편집 중: 스페이스=그 자리서 두 어절로 분리(세포 분열·IME 조합 중 제외) / 폭 / 라이브 빨강
+          const raw = chip.textContent, si = raw.search(/\s/);
+          if (si >= 0 && !ev.isComposing) {
+            const left = raw.slice(0, si).trim(), right = raw.slice(si + 1).trim();
+            if (left) { edLines[li].splice(wi, 1, { text: left, on: wd.on }, { text: right, on: wd.on }); PENDING_EDIT = { li, wi: wi + 1 }; renderEditChips(); return; }
+            chip.textContent = right;   // 맨 앞 공백만 = 제거하고 계속
+          }
+          fitEditLines(wrap);
+          const { w, hg } = lineWidthWith(li, wi, raw.replace(/\s+/g, ' ').trim());
+          chip.classList.toggle('over', w > EDLINE_WIDTH || hg > EDLINE_HANGUL);
+        };
+        chip.onblur = () => {
+          if (_edRendering || !chip.isConnected) return;   // 재렌더 중/떨어진 stale blur 무시(분할 이중실행 차단)
+          chip.contentEditable = 'false'; chip.classList.remove('editing');
+          const nt = chip.textContent.replace(/\s+/g, ' ').trim();
+          if (nt === wd.text) { clipLineOver(li); renderEditChips(); return; }
+          if (!nt) { edLines[li].splice(wi, 1); if (edLines[li].length === 0) { dropLine(li); return; } }   // 비움 → 어절 삭제(+빈줄이면 줄 제거)
+          else if (/\s/.test(nt)) { edLines[li].splice(wi, 1, ...nt.split(/\s+/).map(t => ({ text: t, on: wd.on }))); }   // 공백 → 어절 분할(줄 수 불변)
+          else { wd.text = nt; wd.em = null; }   // 텍스트 변경 → 글자맵 무효(인덱스 어긋남)
+          clipLineOver(li);   // 이탈 시 한도 초과분 자동 탈락
+          renderEditChips();
+        };
+        row.appendChild(chip);
+      });
+      if (!lineFull(line)) {   // 한도 닿은 줄엔 어절+ 안 보임(item 3 — 더 못 담음)
+        const addw = document.createElement('span'); addw.className = 'ed-addw'; addw.textContent = '+'; addw.title = '이 줄에 어절 추가';   // 줄 끝 글자 + = 어절 추가
+        addw.onclick = () => { edLines[li].push({ text: '', on: false }); PENDING_EDIT = { li, wi: edLines[li].length - 1 }; renderEditChips(); };
+        row.appendChild(addw);
+      }
+    }
+    const add = document.createElement('button'); add.type = 'button'; add.className = 'ed-add' + (full ? ' cap' : '') + (li === 0 ? ' ed-half' : ''); add.textContent = '+'; add.setAttribute('aria-label', '새 줄 추가'); add.title = full ? '최대 4줄' : '아래에 줄 추가';   // 첫 줄 +는 절반·우하단(위 클립버튼 겹침 회피·260629)
+    add.onclick = () => { if (full) { edReject(add); return; } addLineAfter(li); };   // 4줄이면 거부(흔들기)
+    row.appendChild(add);
+    wrap.appendChild(row);
+  });
+  if (PENDING_FOCUS != null) {   // 줄 추가 직후 '동기' 포커스(모바일 키보드 유지 — rAF 금지)
+    const e = wrap.querySelector(`.ed-line[data-li="${PENDING_FOCUS}"] .ed-empty`);
+    if (e) e.focus();
+    PENDING_FOCUS = null;
+  }
+  if (PENDING_EDIT) {   // 어절 추가·분할 직후 그 칩 편집 진입(커서 끝)
+    const { li: pl, wi: pw } = PENDING_EDIT; PENDING_EDIT = null;
+    const c = wrap.querySelector(`.ed-chip[data-li="${pl}"][data-wi="${pw}"]`), pwd = edLines[pl] && edLines[pl][pw];
+    if (c && pwd) {
+      c.textContent = pwd.text; c.contentEditable = 'true'; c.spellcheck = true; c.lang = 'ko'; c.classList.add('editing'); c.focus();
+      const sel = window.getSelection(), r = document.createRange(); r.selectNodeContents(c); r.collapse(false); sel.removeAllRanges(); sel.addRange(r);
+    }
+  }
+  _edRendering = false;   // 렌더·포커스 복원 끝 — 이후 사용자 blur는 정상 처리
+  if (edCardIo) edCardIo();   // 카드변경 칩 클립버튼(복사/지우개) 상태 갱신(내용 유무 따라)
+  requestAnimationFrame(() => { wrap.classList.remove('ed-building'); fitEditLines(wrap); });   // 다음 프레임 = 전환 복원(탭 토글 애니 정상) + 반응형 폭 맞춤
+}
+function addLineAfter(li) {   // 그 줄 바로 아래 빈 줄 + 커서
+  if (edLines.length >= MAX_LINES) return;
+  edLines.splice(li + 1, 0, []);
+  PENDING_FOCUS = li + 1;
+  renderEditChips();
+}
+function dropLine(li) {   // 빈 줄 제거 — 단 마지막 1줄은 빈 채로 유지(저장 게이트가 빈 텍스트 막음)
+  if (edLines.length <= 1) { edLines[0] = []; renderEditChips(); return; }
+  edLines.splice(li, 1);
+  renderEditChips();
+}
+// 각 행(=카드 줄)이 박스 폭에 들어오도록 균일 축소율(--eds) 계산 — 자간·폰트·여백을 한꺼번에 % 스케일.
+// 박스 폭 = 카드 한 줄 '최대치'(가중폭 EDLINE_WIDTH≈19.5)에 대응하도록 보정(--eds = 폰트·자간·여백 % 스케일).
+// 방법: 19.5짜리 대표 줄을 숨겨(content-width로) 측정 → 그게 박스폭(avail)이 되게 scale. 그러면 실제 줄은
+// 한도대비 비율만큼 가로를 차지(가득 차면 박스 끝). 폰 가로 달라도 % 비례. 비선형/빽빽한 줄은 안전망이 흡수.
+function fitEditLines(wrap) {
+  if (!wrap) return;
+  const rows = wrap.querySelectorAll('.ed-line');
+  if (!rows.length) return;
+  const cs = getComputedStyle(wrap);
+  const avail = wrap.clientWidth - parseFloat(cs.paddingLeft || 0) - parseFloat(cs.paddingRight || 0) - 2;
+  if (avail <= 0) return;
+  // 기준 줄 = 가중폭 ~19.5(카드 전형 4어절). content-width로 재려고 absolute(stretch 영향 제거).
+  // 측정 1배는 ref에만 — 실제 줄(wrap)을 매 키마다 1배로 리셋하면 폰트크기가 커졌다 줄며 떨림(분신술 A9). ref만 1배라 측정값 동일·실제 줄은 직전 스케일 유지.
+  const ref = document.createElement('div'); ref.className = 'ed-line';
+  ref.style.cssText = 'position:absolute; left:-9999px; top:0; visibility:hidden; width:max-content; --eds:1;';
+  ['뉴스종합', '정치경제', '국제사회', '심층분석속보'].forEach(t => {   // 18자 4어절 ≈ 가중폭 19.5(어절 사이 = .ed-line gap)
+    const c = document.createElement('span'); c.className = 'ed-chip'; c.textContent = t; ref.appendChild(c);
+  });
+  { const aw = document.createElement('span'); aw.className = 'ed-addw'; aw.textContent = '+'; ref.appendChild(aw); }   // 줄 끝 어절+ 도 폭 반영(실제 행과 대칭)
+  wrap.appendChild(ref);
+  const refW = ref.getBoundingClientRect().width;
+  wrap.removeChild(ref);
+  let eds = refW > 0 ? Math.min(1.1, avail / refW) : 1;   // 19.5 줄 = 박스폭 (소폭 확대 허용)
+  eds = Math.max(0.45, eds);
+  const setEds = v => { const s = v.toFixed(3); if (wrap.style.getPropertyValue('--eds') !== s) wrap.style.setProperty('--eds', s); };   // 값 동일하면 set 생략(불필요 style 무효화·떨림 차단)
+  setEds(eds);
+  // 안전망 — 어느 줄이든 박스를 넘으면(빽빽/비선형/한도초과) 수렴 축소해 박스 안에 둠
+  // (초과줄도 박스 안에 들어오되 넘치는 어절은 빨강으로 보임 → '오버되는 부분'이 화면 안에서 빨갛게 보임).
+  for (let pass = 0; pass < 4; pass++) {
+    let maxw = 0; rows.forEach(r => { if (r.scrollWidth > maxw) maxw = r.scrollWidth; });
+    if (maxw <= avail) break;
+    eds = Math.max(0.4, eds * avail / maxw);
+    setEds(eds);
+  }
+}
+// edLines → '*강조*' 문자열. 줄=\n · 어절=공백 · 글자단위 강조(em) 반영 · 연속 강조 병합 · 줄끝 닫기 · 빈 줄 제거.
+function buildEmphText() {
+  const charEm = (wd, ci) => wd.em ? !!wd.em[ci] : wd.on;   // 글자 ci의 강조 여부(em 있으면 글자맵, 없으면 어절 통째)
+  return edLines.map(line => {
+    const words = line.filter(wd => wd.text !== '');
+    // (글자, 강조) 시퀀스 — 어절 사이 공백은 양쪽 끝 글자가 둘 다 강조일 때만 강조 안(=병합)
+    const seq = [];
+    words.forEach((wd, k) => {
+      const chars = [...wd.text];
+      if (k) {
+        const prev = words[k - 1], pc = [...prev.text];
+        seq.push({ c: ' ', e: charEm(prev, pc.length - 1) && charEm(wd, 0) });
+      }
+      chars.forEach((c, ci) => seq.push({ c, e: charEm(wd, ci) }));
+    });
+    let out = '', on = false;
+    seq.forEach(s => { if (s.e && !on) { out += '*'; on = true; } else if (!s.e && on) { out += '*'; on = false; } out += s.c; });
+    if (on) out += '*';   // 줄끝 강조 닫기(합성기 '줄넘김 강조 금지')
+    return out;
+  }).filter(s => s !== '').join('\n');   // 빈 줄(앞·중간·끝) 제거 → 카드에 빈 줄 안 들어감
+}
+// 변경 흐름 — '변경'=확인 게이트 노출, '확인'=단일 카드 재발사(유료 Gemini, mode=edit) → 캐러셀 복귀·자동 제자리 교체.
+const REPENDING = new Map();   // key `${file}#${card}` → {file, card, oldImg, textOnly, tries} — 카드별 동시 재생성 추적(단일슬롯 덮어쓰기 버그 수정)
+let _polling = false;
+const rpKey = (file, card) => file + '#' + card;
+
+// ── 요약 수정(revise) 상태머신 — 시각 표기는 전면 제거(운영자 260623), 완료 감지·자동 갱신만 보이지 않게 유지 ──
+// 수정요청 전송 → REVISING 등록 → articles.json 폴링으로 a.rev가 올라가면 완료 → 열린 본문 자동 갱신·임시상태 해제.
+// (옛 연필 물결/빗금/완료색·피드바 펄스·소주제 노랑·(변경 중) 표기 일체 삭제 — 1차든 n차든 안 뜸.)
+const REVISING = new Map();   // file → { reqRev(요청시 서버 회차), ts } — 진행 중 추적(시각 표기 없음)
+const REV_PEND_KEY = 'nomute_rev_pending';   // 진행 상태 영속 — 새로고침/앱종료에도 완료전환·reqRev 유지
+const RV_COLORS = ['0,238,210', '255,225,61', '56,198,255'];   // 0 강조색(터쿼이즈 = --accent · 원본 전용) · 1 골드레몬(--accent-4) · 2 스카이시안(--bias-l1) — 값은 :root 실측 계승(구 raw 255,210,74/12,208,247 정렬 · 1·2 = 피드카드 회차색 [data-gen] 정본과 동값)
+// ⚠ 완료 회차(g≥1)는 **0번(원본색)을 절대 안 쓴다** — 구 `RV_COLORS[g%3]` 3칸 순환은 3·6·9트가 RV_COLORS[0]으로 돌아왔고, 그 값이 .rev-fab 기본색 --accent와 같아 "3번 고쳤는데 한 번도 안 고친 것처럼" 보였다(운영자 260728 "3트에는 버튼이 이상" · 진단 = docs/reports/260728_수정회차버튼_진단.html).
+// 0트는 그대로 원본색 = 진행 중 물결 시작색(--rv-from)이 기본색에서 자연히 출발. 완료색만 1↔2 순환.
+const revColor = g => g <= 0 ? RV_COLORS[0] : RV_COLORS[1 + ((((g - 1) % 2) + 2) % 2)];
+const artRev = file => { const a = DATA.find(x => x.file === file); return a ? (Number(a.rev) || 0) : 0; };   // 서버 회차
+const isRevising = file => REVISING.has(file);
+const saveRevising = () => { try { localStorage.setItem(REV_PEND_KEY, JSON.stringify([...REVISING])); } catch {} };
+function loadRevising() {   // 부팅 복원 — 진행 중이던 수정(20분 내)만 되살려 폴 재개(reqRev 원값 보존 = 완료 오인 방지)
+  try {
+    const now = Date.now();
+    for (const [file, v] of JSON.parse(localStorage.getItem(REV_PEND_KEY) || '[]'))
+      if (v && typeof v.ts === 'number' && now - v.ts < 20 * 60000) REVISING.set(file, v);
+  } catch {}
+  if (REVISING.size) startRevisePoll();
+}
+function startRevising(file) {
+  if (!file) return;
+  REVISING.set(file, { reqRev: artRev(file), ts: Date.now() });   // 요청 시점 서버 회차 스냅(완료 = a.rev가 이보다 ↑)
+  saveRevising();
+  render();                                                  // 피드 카드 물결·잠금 반영(복원 260623)
+  if ($('#dlg').open && CUR === file) applyReviseMarks();
+  startRevisePoll();
+}
+let _revPoll = null;
+function startRevisePoll() {
+  if (_revPoll) return;
+  _revPoll = setInterval(async () => {
+    if (isComposingModalOpen()) return;   // ⚠️ 작성 모달 중엔 폴 보류(load→render가 backdrop-filter 뒤 DOM 갱신 = 깜빡임 · 다음 틱 재개 · 260627)
+    await load();                                            // DATA 갱신(articles.json = a.rev 최신)
+    let changed = false;
+    for (const [file, v] of [...REVISING]) {
+      if (artRev(file) > v.reqRev) {                         // 서버 회차 ↑ = 수정 반영 완료
+        REVISING.delete(file); changed = true;
+        if ($('#dlg').open && CUR === file) {                // 열린 본문 자동 갱신(스크롤 위치 보존)
+          const a = DATA.find(x => x.file === file);
+          if (a) { const db = $('#dlgbody'), st = db ? db.scrollTop : 0; open(a).then(() => { if (db) db.scrollTop = st; }); }
+        }
+      } else if (Date.now() - v.ts > 20 * 60000) {           // 20분 폴백 — revise 최대 15분+빌드 여유(색은 a.rev로 추후 자동 반영)
+        REVISING.delete(file); changed = true;
+        const ra = DATA.find(x => x.file === file);           // 조용히 사라지지 말고 표면화(운영자 260620): 20분 내 회차 안 오름 = 지연이거나 실패 → 다시 시도 안내(정직 = 단정 안 함)
+        qFlash('수정요청 20분째 반영 안 됨 — 지연이거나 실패. 색 안 바뀌면 다시 시도해' + (ra && ra.title ? ' (' + ra.title.slice(0, 16) + '…)' : ''), WARN_SVG);
+      }
+    }
+    if (changed) { saveRevising(); render(); if ($('#dlg').open && CUR) applyReviseMarks(); }
+    if (!REVISING.size) { clearInterval(_revPoll); _revPoll = null; }
+  }, 20000);
+}
+// ── 카드 프롬프트 발사 임시상태(CARD_FIRE) — dispatch 204 후 서버 cards.state 반영 전 공백 구간 추적 ──
+// 그 공백에 기사를 다시 열면 버튼이 그대로 복귀해 '안 눌린' 오인 → 연타 → GitHub 큐 대기건이 서로 취소(실측 260727 08:21 KST 17:21 두 건 cancelled)까지 가던 것 봉합.
+// REVISING(위) 패턴 그대로 계승: localStorage 영속 + 20s 폴 + 20분 폴백 표면화(조용히 사라지지 않기).
+const CARD_FIRE = new Map();   // file → { req(발사 시점 카드 시그), ts } — 시그가 바뀌면(상태·updated·rev 무엇이든) 서버 접수로 보고 해제
+const CF_PEND_KEY = 'nomute_cardfire_pending';
+const cardSig = file => { const a = DATA.find(x => x.file === file), c = (a && a.cards) || {}; return (c.state || '') + '|' + (c.updated || '') + '|' + (c.rev || ''); };
+const saveCardFire = () => { try { localStorage.setItem(CF_PEND_KEY, JSON.stringify([...CARD_FIRE])); } catch {} };
+function loadCardFire() {   // 부팅 복원 — 20분 내 발사만 되살려 폴 재개(req 원값 보존 = 완료 오인 방지)
+  try {
+    const now = Date.now();
+    for (const [file, v] of JSON.parse(localStorage.getItem(CF_PEND_KEY) || '[]'))
+      if (v && typeof v.ts === 'number' && now - v.ts < 20 * 60000) CARD_FIRE.set(file, v);
+  } catch {}
+  if (CARD_FIRE.size) startCardFirePoll();
+}
+function startCardFire(file) { if (!file) return; CARD_FIRE.set(file, { req: cardSig(file), ts: Date.now() }); saveCardFire(); render(); startCardFirePoll(); }   // render() = 피드 진행바 프롬프트 세그 즉시 점등(모달 로더와 동시 · 260805) — 없으면 다음 폴(20s)까지 게이지만 침묵
+let _cfPoll = null;
+function startCardFirePoll() {
+  if (_cfPoll) return;
+  _cfPoll = setInterval(async () => {
+    if (isComposingModalOpen()) return;   // 작성 모달 중 폴 보류(REVISING 6471 동일 사유)
+    await load();   // cards.state 최신화 — 열린 기사면 load 내 상태변화 감지가 cardSec까지 자동 재렌더
+    let changed = false;
+    for (const [file, v] of [...CARD_FIRE]) {
+      if (cardSig(file) !== v.req) { CARD_FIRE.delete(file); changed = true; }   // 서버가 카드 상태를 뭐라도 씀 = 접수 확인(이후는 기존 상태머신)
+      else if (Date.now() - v.ts > 20 * 60000) {   // 20분 폴백 — 큐 취소·워크플로 불발 표면화 후 버튼 복귀(재시도 가능)
+        CARD_FIRE.delete(file); changed = true;
+        const ra = DATA.find(x => x.file === file);
+        qFlash('프롬프트 생성 20분째 반영 안 됨 — 지연이거나 실패(다른 카드 제작 대기 중 취소됐을 수 있어). 다시 눌러봐' + (ra && ra.title ? ' (' + ra.title.slice(0, 16) + '…)' : ''), WARN_SVG);
+        if ($('#dlg').open && CUR === file && ra) { cardSec(ra); feedSec(ra); }
+      }
+    }
+    if (changed) { saveCardFire(); render(); }   // render() = 임시상태 해제(접수·20분 폴백)를 피드 진행바에도 반영 — 20분 폴백은 서버 데이터가 안 바뀌어 load()의 sig 가 동일 = 그 경로가 없으면 게이지가 영원히 펄스로 남는다(260805)
+    if (!CARD_FIRE.size) { clearInterval(_cfPoll); _cfPoll = null; }
+  }, 20000);
+}
+const cardFirePending = file => CARD_FIRE.has(file);
+// ⚠️ 「예상 : N분 NN초」 미표기(운영자 260805 "정확하게 할 수 있는 방법은? 거의 불가능하면 가짜이느니 없앤다") — 카드뉴스 축만 해당(다른 탭은 nmEta 유지).
+//   근거 = ⓐ 이 축은 nmEta.done() 배선이 **한 곳도 없다**(sb·k·tr·conv·track·thumb·vidl 은 있다) → 시드 300/600초가 영원히 고정 = 실측으로 수렴할 길이 원천 차단.
+//   ⓑ 시드 자체가 근거 없음(nm-loader.js 주석 "임시 시드"). ⓒ 실측 분포가 초 단위 표기를 허용하지 않는다 — card_plan 잡 순수 실행 최근 10건 =
+//   233·570·604·740·797·804·1474·1695·1717·1718초(3분53초~28분38초 · 편차 7.4배), 여기에 concurrency 대기(같은 group 을 5개 워크플로가 공유 ·
+//   실측 2초~653초)와 Pages 배포([CF-Pages-Skip] 코얼레싱 최대 17분)가 더 붙고, 최악은 pending 취소라 완료가 **영영 안 온다**(260805 실측).
+//   ∴ 정직한 값을 만들 수단이 없다 → 표기 삭제. 되살리려면 서버가 실소요를 굽는 축(cards.updated 시작·종료 스탬프)이 먼저다.
+const cardFireStat = () => `<div class="genstat live">${window.nmLoader ? nmLoader('prompting', '제작중…') : '카드뉴스 프롬프팅 중<span class="gdots"><i>.</i><i>.</i><i>.</i></span>'}</div>`;   // makeCards 성공 직후 로더와 동일 마크업(계승)
+
+// 연필 FAB 표기 = 제거(운영자 260623) — 진행/완료 회차색·물결·빗금 안 표시. 잔류 클래스만 방어적으로 정리.
+// 연필 FAB — 진행 중: 현재→다음 색 왕복 물결+빗금+'수정 중' / 완료(a.rev>0): 회차색 고정(물결 X) / 원본: 평소. (복원 260623)
+function applyReviseFab() {
+  const fab = $('#revFab'); if (!fab) return;
+  const pending = !!(CUR && isRevising(CUR));
+  const g = CUR ? artRev(CUR) : 0;
+  fab.classList.toggle('revving', pending);
+  fab.classList.toggle('locked', pending);
+  fab.classList.toggle('revdone', !pending && g > 0);
+  if (pending) {
+    fab.style.setProperty('--rv-from', 'rgb(' + revColor(g) + ')');
+    fab.style.setProperty('--rv-to', 'rgb(' + revColor(g + 1) + ')');
+    fab.style.setProperty('--rv-ring', 'rgba(' + revColor(g + 1) + ',.5)');
+  } else if (g > 0) {
+    fab.style.setProperty('--rv-solid', revColor(g));
+  }
+}
+// 본문 IG·Thread 소주제 표기 = 제거(운영자 260623) — '(변경 중)'·소주제 노랑 안 붙임. 잔류 마크만 정리.
+// 본문 IG·Thread 소주제 — 진행 중: 강조↔노랑 펄스 + (변경 중) / 완료(a.rev>0): 노랑 고정. (복원 260623)
+function applyReviseMarks() {
+  const root = $('#mdbody'); if (!root) { applyReviseFab(); return; }
+  const pending = !!(CUR && isRevising(CUR));
+  const g = CUR ? artRev(CUR) : 0;
+  root.querySelectorAll('h3').forEach(h => {
+    const old = h.querySelector('.revchg'); if (old) old.remove();
+    h.classList.remove('revsec', 'revsec-done'); h.style.removeProperty('--rv-solid');
+    if (!/\[\s*(IG|Thread|인스타|스레드|쓰레드)/i.test(h.textContent)) return;
+    if (pending) {                                           // 진행 중 = 펄스 + (변경 중)
+      h.classList.add('revsec');
+      const s = document.createElement('i'); s.className = 'revchg'; s.textContent = ' (변경 중)';
+      h.appendChild(s);
+    } else if (g > 0) {                                      // 완료 = 노랑 고정(펄스 없음)
+      h.classList.add('revsec-done');
+      h.style.setProperty('--rv-solid', revColor(g));
+    }
+  });
+  applyReviseFab();
+}
+const edReduced = () => !!(window.matchMedia && matchMedia('(prefers-reduced-motion:reduce)').matches);
+function edSetLabel(t) { const x = $('#edGo .ed-tx'); if (x) x.textContent = t; }   // 변경 버튼 라벨(스팬) — textContent로 버튼 자체 건드리면 .ed-ic/.gck 스팬 날아감
+function edUpdateRegen() {   // 유료(재생성 = 체크 or wish) 신호 = ↻ 재생성 아이콘 노출(없으면 숨김)
+  const g = $('#edGo'); if (!g) return;
+  const paid = edSync() || !!$('#edWish').value.trim();
+  g.classList.toggle('regen', paid);
+  const ic = g.querySelector('.ed-ic'); const key = paid ? 'refresh' : 'none';
+  if (ic && ic._icon !== key) { ic.innerHTML = paid ? REFRESH_SVG : ''; ic._icon = key; }   // 동일 상태면 재대입 안 함 = 타이핑마다 ↻ SVG 재생성(번쩍) 차단(분신술 A7·260628)
+}
+function edDisarm() {   // 재확인(arm)·발사 상태 해제 — 의도(텍스트·체크·wish) 바뀌면 stale arm 발사 방지
+  _edArmed = false; clearTimeout(_edArmT);
+  const g = $('#edGo'); if (g) { g.classList.remove('arm', 'firing', 'okdone', 'checking'); g.removeAttribute('aria-busy'); edSetLabel('변경'); }
+  edUpdateRegen();   // 의도 바뀌었으니 ↻ 재생성 아이콘 상태도 갱신(wish·체크 변경 반영)
+}
+function resetEditFoot() {   // 변경 푸터 초기화 — 확인 게이트·arm 해제·#edGo 재활성·라벨·발사잠금·체크박스/wish 초기화(open·close 공통 choke point)
+  _edFiring = false; edDisarm();
+  const foot = $('#editdlg .ed-foot'); if (foot) foot.classList.remove('confirm');
+  const g = $('#edGo'); if (g) { g.disabled = false; g.classList.remove('firing', 'okdone', 'checking', 'arm', 'regen'); edSetLabel('변경'); }
+  const y = $('#editdlg .ed-cyes'); if (y) { y.disabled = false; y.textContent = '확인'; }
+  const m = $('#editdlg .ed-cmsg'); if (m) m.textContent = '이 카드만 다시 생성할까요?';
+  const s = $('#edSync'); if (s) { s.checked = false; s.disabled = false; }   // 첨부가 비활성화했던 체크 재활성
+  const w = $('#edWish'); if (w) { w.disabled = false; w.removeAttribute('aria-disabled'); }
+  // 첨부 사진 상태 초기화 — stale 첨부/배지/게이지/미리보기 차단(열기·닫기 공통)
+  editScene = null; _edSceneArmed = false; _edAfterSrc = null; _edBaf = 'after'; clearTimeout(_edPrevT);
+  const ga = $('#edAttach'); if (ga) ga.classList.remove('firing', 'okdone', 'checking', 'armed', 'has', 'shake');
+  const th = $('#edAttachThumb'); if (th) { th.hidden = true; th.removeAttribute('src'); }
+  const gb = $('#edAttachBadge'); if (gb) { gb.hidden = true; gb.classList.remove('pop'); }
+  const gf = $('#edFile'); if (gf) gf.value = '';
+  const im = $('#editdlg .ed-img'); if (im) { im.classList.remove('scene-on'); im.title = ''; }
+  const bf = $('#editdlg .ed-baf'); if (bf) bf.hidden = true;
+  edStatus('');
+  edUpdateRegen();   // 초기화 후 ↻ 재생성 아이콘 상태 동기화(열 때 깨끗)
+}
+function resetEditFootLight() {   // 버튼·확인게이트·발사잠금만 리셋(wish·edLines·sync·scene 보존) — X 닫기/같은카드 재진입 복원용(운영자 260628)
+  _edFiring = false; edDisarm();
+  const foot = $('#editdlg .ed-foot'); if (foot) foot.classList.remove('confirm');
+  const g = $('#edGo'); if (g) { g.disabled = false; g.classList.remove('firing', 'okdone', 'checking', 'arm', 'regen'); edSetLabel('변경'); }
+  const y = $('#editdlg .ed-cyes'); if (y) { y.disabled = false; y.textContent = '확인'; }
+  const m = $('#editdlg .ed-cmsg'); if (m) m.textContent = '이 카드만 다시 생성할까요?';
+  edStatus('');
+  edUpdateRegen();   // wish/sync 따라 ↻ 아이콘 동기화
+}
+function edSync() { const s = $('#edSync'); return !!(s && s.checked); }
+function validateEdit() {   // 발사 전 공통 게이트(빈 텍스트·한도 초과) — 문구만/재생성 양쪽 재사용
+  if (!buildEmphText().trim()) { alert('텍스트가 비어 있어.'); return false; }
+  if (edAnyOver()) { alert('빨간 글자 = 카드 한 줄 한도(한글 18자) 초과야.\n그 어절을 줄이거나 지우고, 필요하면 + 로 새 줄을 만들어줘.'); return false; }
+  return true;
+}
+function edLaunch() {   // 발사 비주얼 = 게이지(좌→우 풀필) → ✓ 체크 드로우 → fireEdit (무료·유료 공통 · .mkbtn 계승)
+  const g = $('#edGo');
+  if (g.classList.contains('firing') || g.classList.contains('checking')) return;
+  g.classList.remove('arm'); g.classList.add('firing'); g.setAttribute('aria-busy', 'true');
+  setTimeout(() => {
+    g.classList.remove('firing'); g.classList.add('okdone', 'checking');   // ✓ 체크 드로우
+    const p = g.querySelector('.gck path'); if (p) { p.style.animation = 'none'; void p.offsetWidth; p.style.animation = ''; }
+    setTimeout(fireEdit, edReduced() ? 60 : 420);
+  }, edReduced() ? 160 : 720);
+}
+function submitEdit() {
+  if (!EDIT_CTX) return;
+  const g = $('#edGo');
+  if (g.classList.contains('firing') || g.classList.contains('checking')) return;   // 발사 중 재진입 차단
+  // 첨부(scene)는 무료 합성(제미나이 0) → 아래 regen=false 경로로 바로 게이지→발사(2단 위임 폐지·운영자 260627). fireEdit이 editScene을 동봉.
+  const regen = edSync() || !!$('#edWish').value.trim();   // 유료(제미나이 재생성) = 체크(텍스트 반영) 또는 수동 이미지수정희망
+  if (!regen) { if (validateEdit()) edLaunch(); return; }   // 무료(과금 0) = 재확인 없이 바로 게이지→✓
+  // 유료 = 재확인(arm) 1회 거쳐 발사(오발 과금 방지). 체크든 수동 wish든 동일 게이트.
+  if (!_edArmed) {
+    if (!validateEdit()) return;
+    _edArmed = true; g.classList.add('arm'); edSetLabel('재확인');
+    clearTimeout(_edArmT); _edArmT = setTimeout(edDisarm, edReduced() ? 12000 : 3500);   // 무동작 자동 해제(reduced-motion=연장 = 접근성 spec 준수)
+    return;
+  }
+  clearTimeout(_edArmT); _edArmed = false;
+  edLaunch();   // 재확인된 유료 = 게이지→✓ 후 발사
+}
+function fireEdit() {
+  if (!EDIT_CTX || _edFiring) return;   // 재진입 잠금(더블탭·중복 발사 → 유료 제미나이 2발 차단)
+  const ctx = EDIT_CTX;
+  if (REPENDING.has(rpKey(ctx.file, ctx.card.n))) { alert('이 카드는 지금 다시 그리는 중이야 — 잠시 후 다시.'); return; }   // 이미 발사된 카드 재발사 차단(중복 과금·스왑꼬임)
+  _edFiring = true;
+  const scene = editScene;                           // 첨부 4:5 사진(있으면 장면 교체 = 순수 합성·제미나이 0)
+  const sync = !scene && edSync();                   // 첨부 시 체크 무시(사진이 곧 장면)
+  const text = buildEmphText().trim(), wish = (scene || sync) ? '' : $('#edWish').value.trim();   // 첨부/체크면 wish 무시
+  const regen = !!scene || sync || !!wish;           // 첨부 = 이미지 교체이므로 재생성 취급(🍌 다시 그리는 중 배지)
+  if (!scene) $('#edGo').disabled = true;            // #edGo 경로만 disable(첨부버튼은 firing 클래스로 잠금)
+  const reset = () => { _edFiring = false;
+    const gg = $('#edGo'); if (gg) { gg.classList.remove('firing', 'arm', 'okdone', 'checking', 'regen'); gg.removeAttribute('aria-busy'); gg.disabled = false; }
+    const ga = $('#edAttach'); if (ga) ga.classList.remove('firing', 'okdone'); _edSceneArmed = !!editScene;
+    edSetLabel('변경'); edUpdateRegen(); updateEditAttach();
+  };
+  fetch('api/make-cards', {
+    method: 'POST', headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ article: ctx.file, mode: 'edit', card: String(ctx.card.n), text, wish, sync: sync ? 1 : 0, sceneB64: scene ? scene.dataUrl : '' }),
+  }).then(async r => ({ ok: r.ok, j: await r.json().catch(() => ({})) }))
+    .then(({ ok, j }) => {
+      reset();
+      if (ok && j.ok) {
+        REPENDING.set(rpKey(ctx.file, ctx.card.n), { file: ctx.file, card: ctx.card.n, oldImg: ctx.card.versions[ctx.card.cur].image, textOnly: !regen, tries: 0 });
+        markReshooting(ctx.card.n, !regen);   // 재생성(첨부 포함)=🍌 다시그리는중 / 문구만=✍️ 배지 구분
+        _editDiscardOnClose = true;     // 제출 성공 = 닫을 때 full 리셋(보존 안 함·편집 적용됨)
+        $('#editdlg').close();          // 보던 캐러셀 그대로(스크롤 유지)
+        pollWhilePending();
+      } else { alert(j.error || `실패 (${ok ? 'ok' : 'err'})`); }
+    }).catch(e => { reset(); alert('요청 실패: ' + e.message); });
+}
+function markReshooting(n, textOnly) {
+  const s = $(`#feedsec .slide[data-card="${n}"]`); if (!s) return;
+  s.classList.add('reshooting');
+  const ui = $('#feedsec .feed-ui'); if (ui) ui.classList.add('reshooting');   // 편집은 현재 표시 카드 = 오버레이 즉시 잠금(중복 발사 방지)
+  if (!s.querySelector('.reshoot-badge')) {
+    const b = document.createElement('div'); b.className = 'reshoot-badge';
+    b.innerHTML = (window.nmLoader ? nmLoader('solving','제작중…',{size:15,gap:7,fs:12.5}) : (textOnly ? '문구 바꾸는 중' : '다시 그리는 중') + '<span class="gdots"><i>.</i><i>.</i><i>.</i></span>');   /* 강조색 텍스트 + gdots 점모션(수정중 표시 통일·운영자 260705) */
+    (s.querySelector('.slide-img') || s).appendChild(b);
+  }
+}
+// 18s 간격 단일 루프 — Map 전체를 훑어 새 이미지 오면 제자리 교체(load). 카드당 상한 ~6분(20회).
+function reapplyReshooting() {   // 재렌더로 사라진 잠금 배지를 대기 중 카드에 재적용
+  if (!REPENDING.size || !$('#dlg').open || !CUR) return;
+  for (const v of REPENDING.values()) if (v.file === CUR) markReshooting(v.card, v.textOnly);
+}
+async function pollWhilePending() {
+  if (_polling || !REPENDING.size) return;   // 단일 루프(중복 폴러 방지)
+  _polling = true;
+  while (REPENDING.size) {
+    await new Promise(res => setTimeout(res, 18000));
+    for (const [k, v] of [...REPENDING]) { v.tries++; if (v.tries > 20) REPENDING.delete(k); }   // 상한 초과 = 포기
+    if (!REPENDING.size) break;
+    await load();
+  }
+  _polling = false;
+}
+
+
+// ── 따봉/다운 피드백 누적 — 좋았던/아쉬운 카드의 (텍스트+프롬프트)를 측면(이미지/텍스트)·의견과 적재 → 품질개선 데이터 ──
+function openFeedback(card, vote, slideEl, file) {
+  const host = slideEl.querySelector('.slide-img') || slideEl; if (!host) return;   // 오버레이(.feed-ui)면 자신이 host
+  const ex = host.querySelector('.slide-fb'); if (ex) { ex.remove(); }
+  const up = vote === 'up';
+  const fb = document.createElement('div'); fb.className = 'slide-fb';
+  fb.innerHTML =
+    `<div class="fb-head"><b class="fb-title">${up ? '좋았던 점' : '아쉬운 점'}</b><div class="fb-headact"><button type="button" class="fb-save asksend"><span>기록</span></button><button type="button" class="fb-x askx" aria-label="닫기"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><path d="M6 6 18 18M18 6 6 18"/></svg></button></div></div>
+     <div class="fb-aspect"><button type="button" data-a="image" class="on">이미지</button><button type="button" data-a="text">텍스트</button></div>
+     <textarea class="fb-comment" rows="2" maxlength="300" placeholder="의견" autocapitalize="off" autocorrect="off" spellcheck="false"></textarea>`;
+  let aspect = 'image';
+  fb.querySelectorAll('.fb-aspect button').forEach(b => b.onclick = () => {
+    aspect = b.dataset.a; fb.querySelectorAll('.fb-aspect button').forEach(x => x.classList.toggle('on', x === b));
+  });
+  fb.querySelector('.fb-x').onclick = () => fb.remove();
+  fb.querySelector('.fb-save').onclick = () => submitFeedback({ file, card: card.n, vote, aspect, comment: fb.querySelector('.fb-comment').value.trim() }, fb, slideEl);
+  host.appendChild(fb);
+  attachCopyPaste(fb.querySelector('.fb-comment'), true);   // 첨부3(수정요청) 통일 = [붙여넣기][지우개] 클립(하단걸침 · .slide-fb 스코프)
+  setTimeout(() => fb.querySelector('.fb-comment').focus({ preventScroll: true }), 50);
+}
+function submitFeedback(p, fb, slideEl) {
+  const save = fb.querySelector('.fb-save');
+  if (save.classList.contains('firing')) return;                                  // 중복 전송 가드(게이지 진행 중)
+  // 전송버튼(.asksend) 계승 = 초록 게이지 좌→우 채움 → 다 차면 ✓ 팝(요약요청/수정요청과 동일 상태머신·askShowCheck 공용)
+  save.disabled = true; askHideCheck(save); gaugeStart(save);   // 게이지 = 응답까지 진행(옛 pickGauge 0.72s는 fetch 길면 꽉 찬 채 멈춤 · 운영자 260702)
+  fetch('api/feedback', {
+    method: 'POST', headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ action: 'record', article: p.file, card: String(p.card), vote: p.vote, aspect: p.aspect, comment: p.comment }),
+  }).then(async r => ({ ok: r.ok, j: await r.json().catch(() => ({})) }))
+    .then(({ ok, j }) => {
+      if (ok && j.ok) {
+        setVote(p.file, p.card, p.vote);            // 1표 상태 저장 → 반대쪽 잠금
+        applyVoteState(slideEl, p.file, p.card);
+        save.classList.remove('done'); void save.offsetWidth; save.classList.add('done'); gaugeDone(save);   // settle 펄스 + 게이지 현위치→100% 급속(asksend 공용)
+        setTimeout(() => askShowCheck(save), 300);   // 게이지 채움완료(gdone .3s)와 물려 ✓ 팝(멈칫 제거·시안2·운영자 260703)
+        setTimeout(() => fb.remove(), 1500);                                                             // ✓ 보여주고 패널 닫음
+      } else { gaugeClear(save); save.classList.add('shake'); setTimeout(() => save.classList.remove('shake'), 420); save.disabled = false; alert(j.error || '실패'); }
+    }).catch(e => { gaugeClear(save); save.classList.add('shake'); setTimeout(() => save.classList.remove('shake'), 420); save.disabled = false; alert('요청 실패: ' + e.message); });
+}
+// ── 투표 상태(1카드 1표·localStorage) — 기록하면 반대쪽 잠금, 같은 쪽 재탭=취소(DB 삭제) ──
+function getVote(file, card) { try { return (JSON.parse(localStorage.getItem('nomute_fb') || '{}'))[`${file}#${card}`] || null; } catch { return null; } }
+function setVote(file, card, v) {
+  let m = {}; try { m = JSON.parse(localStorage.getItem('nomute_fb') || '{}'); } catch { /* noop */ }
+  if (v) m[`${file}#${card}`] = v; else delete m[`${file}#${card}`];
+  try { localStorage.setItem('nomute_fb', JSON.stringify(m)); } catch { /* noop */ }
+}
+function applyVoteState(fig, file, card) {
+  const v = getVote(file, card), up = fig.querySelector('.fbup'), down = fig.querySelector('.fbdown');
+  if (!up || !down) return;
+  up.classList.toggle('voted', v === 'up'); down.classList.toggle('voted', v === 'down');
+  up.disabled = v === 'down'; down.disabled = v === 'up';   // 하나 기록되면 다른 쪽 비활성
+}
+function onThumb(card, vote, fig, file) {
+  const cur = getVote(file, card.n);
+  if (cur === vote) { armCancelThumb(card, vote, fig, file); return; }   // 같은 쪽 재탭 = 인라인 arm(버튼 안 '취소' 표시) → 한 번 더 탭하면 취소(팝업 폐지·운영자 260629)
+  if (cur) return;                                                          // 다른 쪽 이미 투표 = 잠김(disabled)
+  openFeedback(card, vote, fig, file);                                      // 미투표 = 패널(크로스전환은 패널서)
+}
+// 투표 취소 = 인라인 2탭(확인 팝업 폐지·운영자 260629). 이미 투표한 썸을 재탭 → 버튼 내용이 '취소'로 arm → 한 번 더 탭하면 삭제. 미확정이면 자동 해제(아이콘 복원).
+function armCancelThumb(card, vote, fig, file) {
+  const btn = fig.querySelector(vote === 'up' ? '.fbup' : '.fbdown'); if (!btn) return;
+  if (btn.classList.contains('thumb-arm')) { cancelVote(card, vote, fig, file, btn); return; }   // 2탭 = 취소 확정
+  fig.querySelectorAll('.sbtn.thumb-arm').forEach(disarmThumb);   // 한 번에 하나만 arm
+  btn._iconHTML = btn.innerHTML; btn.classList.add('thumb-arm'); btn.textContent = '취소';   // 픽토그램 보존 → '취소' 텍스트(텍스트/픽토 단독 교체 = §📐 공존금지 준수)
+  clearTimeout(btn._armT); btn._armT = setTimeout(() => disarmThumb(btn), 2600);   // 미확정 = 자동 해제
+}
+function disarmThumb(btn) {
+  if (!btn || !btn.classList.contains('thumb-arm')) return;
+  clearTimeout(btn._armT); btn.classList.remove('thumb-arm');
+  if (btn._iconHTML != null) { btn.innerHTML = btn._iconHTML; btn._iconHTML = null; }   // 아이콘 복원
+}
+function cancelVote(card, vote, fig, file, btn) {
+  if (btn) { clearTimeout(btn._armT); btn.disabled = true; }
+  fetch('api/feedback', { method: 'POST', headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ action: 'delete', article: file, card: String(card.n), vote }) })
+    .then(async r => ({ ok: r.ok, j: await r.json().catch(() => ({})) }))
+    .then(({ ok, j }) => {
+      if (btn) { btn.disabled = false; disarmThumb(btn); }
+      if (ok && j.ok) { setVote(file, card.n, null); applyVoteState(fig, file, card.n); }   // 성공 = 투표 제거 + 썸 원복(아이콘·활성)
+      else alert(j.error || '취소 실패');
+    }).catch(e => { if (btn) { btn.disabled = false; disarmThumb(btn); } alert('요청 실패: ' + e.message); });
+}
+// ── PIN 입력 UI (발행 슬롯 정본 계승 · stage-2 260703) ──
+// confirm/prompt 대체. #pindlg 슬롯 6개(동그라미)를 단일 투명 오버레이(.pin-in-h)로 받아 Promise로 돌려준다.
+// 입력→슬롯 시각화(방금 자리 숫자·이전 mut원), 6자리 채우면 엔터 없이 자동 resolve. 취소=null.
+// 숫자만(비숫자 무시)·6자리 상한(붙여넣기도 이 필터 통과). ⚠️ PIN은 세션/로컬에 저장 안 함(매번 입력).
+let _pinWired = false, _pinResolve = null, _pinLen = 6;   // _pinLen = 표면별 자리수(발행본 6 · 화면잠금 4 — openPinDlg 3번째 인자·운영자 260706)
+function _pinInput() { return $('#pinInput'); }
+function _pinValue() { const el = _pinInput(); return el ? el.value : ''; }   // 단일 오버레이 input이 값의 원천(옛 6칸 join 폐지)
+function _pinPaint() { const boxes = $('#pinboxes'); if (boxes) renderPinSlots(boxes, _pinValue()); }   // 슬롯 시각화 = 발행 정본(방금 자리 숫자·나머지 동그라미)
+function _pinReset() {                        // 값 비우고 오버레이 포커스(도먼트 · 재도입 대비 슬롯식)
+  const el = _pinInput(); if (el) el.value = '';
+  const boxes = $('#pinboxes'); if (boxes) boxes.classList.remove('bad', 'shake');
+  _pinPaint();   // focus() 제거 = OS 키보드 안 띄움(입력은 커스텀 키패드 · 운영자 260707)
+}
+function _pinShake(msg) {                      // 오답: 흔들기(lkShake) + 에러문구 + 초기화 재입력
+  const boxes = $('#pinboxes'), err = $('#pinerr'), el = _pinInput();
+  if (err) err.textContent = msg || '암호가 틀렸어. 다시.';
+  if (el) el.value = '';
+  if (boxes) { boxes.classList.remove('shake'); void boxes.offsetWidth; boxes.classList.add('bad', 'shake'); }   // 리플로우 → 애니 재시작 · bad=붉은 동그라미(정본 .pin-slots.bad)
+  _pinPaint();   // focus() 제거 = OS 키보드 안 띄움(입력=커스텀 키패드 · 운영자 260707)
+}
+function _pinShakeSilent() {                   // 재입력 불일치 = 흔들림만(에러문구 없음 · 요구6 "텍스트로 알려주지말고 흔들어") · 슬롯 붉게 후 초기화 재입력
+  const boxes = $('#pinboxes'), err = $('#pinerr'), el = _pinInput(), sr = $('#pinSrLive');
+  if (err) err.textContent = '';
+  if (sr) { sr.textContent = ''; void sr.offsetWidth; sr.textContent = '재입력이 일치하지 않습니다. 다시 입력하세요.'; }   // 시각 텍스트 없이 SR만 고지(무텍스트 흔들림 + a11y 양립 · 평의회 감사5)
+  if (el) el.value = '';
+  if (boxes) { boxes.classList.remove('shake'); void boxes.offsetWidth; boxes.classList.add('bad', 'shake'); }
+  _pinPaint();
+}
+function _pinRiseClear() { const el = $('#pinRise'); if (el) { clearTimeout(el._t); el.classList.remove('go'); el.innerHTML = ''; } }   // '방금 PIN' 힌트 즉시 정리(평문 소거 · 다이얼로그 열기/닫기 수명에 연결 · 평의회 감사5·10)
+function lkRiseHint(pin) {                     // '방금 PIN'이 슬롯 위로 떠오르는 힌트(요구6 재입력 단계 · ic-rise 결 계승) — reduced-motion·빈값 무효
+  const el = $('#pinRise'); if (!el || !pin) return;
+  if (matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  el.innerHTML = '';
+  [...String(pin)].forEach((d, i) => { const s = document.createElement('span'); s.textContent = d; s.style.animationDelay = (i * 0.05) + 's'; el.appendChild(s); });
+  el.classList.remove('go'); void el.offsetWidth; el.classList.add('go');
+  clearTimeout(el._t); el._t = setTimeout(_pinRiseClear, 1200);   // 애니 후 정리(잔상·평문 소거)
+}
+function _wirePin() {                          // 입력 배선(1회만) — 발행 pubPin 핸들러 계승(단일 오버레이 input·자동이동/paste분배 불필요)
+  if (_pinWired) return;
+  const dlg = $('#pindlg'), el = _pinInput(), boxes = $('#pinboxes');
+  if (!el || !boxes) return;                   // DOM 미준비면 다음 open 때 재시도(_pinWired 미설정)
+  _pinWired = true;
+  el.addEventListener('input', () => {
+    const raw = el.value, clean = raw.replace(/\D/g, '').slice(0, _pinLen);   // 숫자만·자리수 상한 = 표면별 가변(_pinLen · 발행본 6 / 화면잠금 4 = 운영자 260706 전환 · type=text라 붙여넣기도 이 필터를 통과)
+    if (clean !== raw) el.value = clean;
+    boxes.classList.remove('bad', 'shake');
+    renderPinSlots(boxes, el.value);
+    if (el.value.length === _pinLen && _pinResolve) {                         // 자리수 다 차면 자동 인증(엔터 X) — 값 배관·서버검증은 불변
+      const r = _pinResolve; _pinResolve = null; r(el.value);
+    }
+  });
+  // 커스텀 키패드(.pin-pad) = 잠금화면 .lk-key 계승 · 탭 → #pinInput.value 갱신 → 위 input 이벤트 재사용(슬롯·자동 resolve 로직 불변 · OS 키보드 폐지 · 운영자 260707)
+  const pad = $('#pinPad');
+  const padAct = k => {   // 발화 = pointerdown 즉시(잠금화면 lkKeyAct 동일 전환 · click은 AT 폴백 · 운영자 260707 입력 딜레이)
+    if (boxes.classList.contains('busy')) return;   // 변경중(네트워크 대기) = 입력 차단(_pinBusy가 boxes에 busy · 오버레이 pointer-events와 동일 게이트)
+    if (k.dataset.back) { if (!el.value.length) return; el.value = el.value.slice(0, -1); }
+    else if (k.dataset.d != null) { if (el.value.length >= _pinLen) return; el.value += k.dataset.d; }
+    else return;
+    k.classList.remove('hit'); void k.offsetWidth; k.classList.add('hit'); clearTimeout(k._ht); k._ht = setTimeout(() => k.classList.remove('hit'), 220);   // 눌림 채움 플래시(잠금화면 lkFlash 계승)
+    try { navigator.vibrate && navigator.vibrate(12); } catch {}                                   // PIN 입력 햅틱(잠금화면 동일)
+    el.dispatchEvent(new Event('input', { bubbles: true }));                                        // 기존 input 핸들러 재사용(슬롯 렌더 + 자리수 차면 자동 resolve)
+  };
+  if (pad) pad.addEventListener('pointerdown', e => {
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    const k = e.target.closest('.lk-key'); if (!k || k.classList.contains('empty')) return;
+    k._pd = true; padAct(k);
+  });
+  if (pad) pad.addEventListener('click', e => {
+    const k = e.target.closest('.lk-key'); if (!k || k.classList.contains('empty')) return;
+    if (k._pd) { k._pd = false; return; }   // pointerdown이 이미 처리 — 합성 click 이중 입력 차단
+    padAct(k);
+  });
+  // dialog가 닫히면(취소·esc·백드롭) 대기 중 Promise를 null로 정리
+  dlg.addEventListener('close', () => { _pinRiseClear(); if (_pinResolve) { const r = _pinResolve; _pinResolve = null; r(null); } });   // 닫힘 시 '방금 PIN' 힌트 즉시 소거(평문 잔류 방지 · 평의회 감사5)
+}
+// PIN 한 번 받기 — err 있으면 흔들기 표시 후 재입력. resolve = 6자리 문자열 또는 null(취소)
+// [죽은코드 제거 260701·분신술 A10] askPin — 호출 0(PIN 다이얼로그 진입점 미배선 = 기능 도먼트). 재도입 시 이 함수 복원.
+
+async function makeCards(target, btn, mode) {
+  // mode: 'text'=프롬프트(2단계)만 생성·이미지 0 / 'shoot'=이미지(3단계·유료)만 / 그 외=full(프롬프트+이미지 한방)
+  const reqMode = (mode === 'shoot' || mode === 'text') ? mode : 'full';
+  const isText = reqMode === 'text';
+  // 유료(3단계 슛) 재확인 — 한 번 더 눌러야 발사(오발 과금 방지·운영자 260622 재설정). text(2단계)·full은 즉시.
+  if (reqMode === 'shoot' && btn) {
+    if (!btn.dataset.armed) {
+      btn.dataset.armed = '1';
+      if (!btn.dataset.lbl) btn.dataset.lbl = btn.textContent;
+      btn.classList.add('arm'); btn.textContent = '이미지 생성 확인';
+      clearTimeout(btn._armT);
+      btn._armT = setTimeout(() => { delete btn.dataset.armed; btn.classList.remove('arm'); btn.textContent = btn.dataset.lbl || '카드 이미지 생성'; }, 3500);
+      return;   // 1차 = 재확인 무장만(발사 X)
+    }
+    clearTimeout(btn._armT); btn.classList.remove('arm');   // 2차 = 확정 → 발사 진행
+  }
+  // 액티브 효과 = 합성기 '이미지 제작'(.go) 전송 상태머신 계승: 초록 풀필 → ✓ 체크(문구는 그대로·운영자 260622).
+  if (btn) { gaugeStart(btn); btn.style.pointerEvents = 'none'; }   // glive 점근(응답까지 차오름) = 전송·수정 버튼과 동일 기틀(운영자 260704 · 옛 goFill 고정 .72s는 fetch 늦으면 꽉 찬 채 멈칫)
+  try {
+    const r = await fetch('api/make-cards', {
+      method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ article: target, mode: reqMode }),
+    });
+    const j = await r.json().catch(() => ({}));
+    if (r.ok && j.ok) {
+      if (reqMode !== 'shoot') startCardFire(target);   // 발사 접수 임시상태 등록(shoot는 text_done 이후라 상태 공백 없음) — cards.state 반영 전 재열람에도 로더 유지·연타 차단
+      if (btn) {   // 응답 = 게이지 현위치→100% 급속 마무리(gdone) → ✓ 체크 그려짐 → 상태문구로 교체
+        gaugeDone(btn);
+        await new Promise(res => setTimeout(res, reduceMotion() ? 90 : 340));   // gdone(.3s) 채움이 눈에 따라오게
+        btn.classList.remove('glive', 'grun', 'gdone');   // 게이지 클래스 정리(okdone 초록 배경으로 인계)
+        btn.classList.add('okdone', 'checking');
+        btn.innerHTML = '<svg class="gck" viewBox="0 0 24 24" role="img" aria-label="전송됨"><path d="M5 13l4 4L19 7"/></svg>';
+        await new Promise(res => setTimeout(res, 520));
+      }
+      if (btn) btn.outerHTML = `<div class="genstat live">${window.nmLoader ? nmLoader(isText ? 'prompting' : 'solving', '제작중…') : (isText ? '카드뉴스 프롬프팅 중' : '카드 이미지 생성 중') + '<span class="gdots"><i>.</i><i>.</i><i>.</i></span>'}</div>`;   // orb 로더(카드뉴스=Prompting·이미지=Solving · 운영자 260723 Q461) · 폴백 = 구 점3   // 「예상 : N분」 제거(운영자 260805) = cardFireStat 주석 참조
+      return true;   // 발사 성공 — 버튼 없는 호출부(피드 게이지 라벨 재시도)가 성패로 임시상태를 켜고 끈다
+    }
+    if (btn) { gaugeClear(btn); btn.classList.remove('okdone', 'checking'); btn.style.pointerEvents = ''; }
+    alert(j.error || `실패 (${r.status})`);
+    return false;
+  } catch (e) { if (btn) { gaugeClear(btn); btn.classList.remove('okdone', 'checking'); btn.style.pointerEvents = ''; } alert('요청 실패: ' + e.message); return false; }
+}
+// (입력칸 클립 = nm-clip.js로 SSOT 승격 · 운영자 260803 "공식처럼가야함" — ERASE_UNDO_MS·clipCopy·clipPasteText·clipPasteFallback·attachCopyPaste 전부 그 파일이 정본 · 인라인 사본 금지 · 로드는 head의 nm-clip.js 1줄)
+attachCopyPaste($('#revText'), true); attachCopyPaste($('#crevText'), true);   // 기사 요약 수정·카드 프롬프트 수정 = [복사][붙여넣기][지우개/되돌리기] (이미지 제작 동일)
+attachCopyPaste($('#tredoText'), true);   // 이미지 재생성 코멘트 = 동일 클립(복사/붙여넣기/지우개)
+attachCopyPaste($('#edWish'), true); attachCopyPaste($('#pasteText'), true);   // 이미지 수정 희망·전문 직접 입력도 통일 = [복사][붙여넣기][지우개/되돌리기] (운영자 260628)
+attachCopyPaste($('#geniWish'), true);   // AI 생성 주문칸 = 같은 부품(운영자 260803 "저 내용도 텍스트 입력칸이니까 다른 텍스트 입력칸처럼 복사 붙여넣기 있는 그 버튼 동일하게 적용") — 상단 걸침 [복사][붙여넣기][지우개/되돌리기] · 이 칸만 클립이 빠져 있던 마지막 스튜디오 입력칸 · 래퍼(.iowrap)째 geniMount의 통째 이식(reparent)에 동행하므로 팝업↔탭 두 거처 모두에서 살아 있다(부착 = 톱레벨 1회 = 재부착 0)
+attachCopyPaste($('#dgUrl'), true);
+// ── 「모든 텍스트 입력창 = 클립」 공식화(운영자 260803 "붙어있어야돼 · 공식처럼가야함") — 아래는 그 전수 부착분 ──
+//   면제 = 숫자칩(.geni-ar-in/.rsz-ar-in/.opa-in = 1~2자리 값 선택 UI · 생김새가 칩이라 클립 비대상)과
+//   PIN(#pinInput readonly · #pubPin 숫자 키패드) 뿐 — 그 경계는 check_refs.check_clip_coverage가 지킨다.
+attachCopyPaste($('#mmIn'), true);        // 구독 메모(4000자 textarea) = 첨부 이미지와 같은 넓은 글칸
+attachCopyPaste($('#kwIn'), true);        // 키워드 추가(120자)
+attachCopyPaste($('#marqKwIn'), true);    // 흐름 문구(5자)
+attachCopyPaste($('#accIn'), true);       // 구독 계정명
+attachCopyPaste($('#q'), true);           // 검색바 = 붙여넣기 수요가 가장 큰 칸(링크·기사명 그대로 던지기)   // 설정 ▸ 다운로드 주소칸 = 이미지 스튜디오 입력부와 **같은 부품**(운영자 260802 "여기는 입력하는 곳 스타일") — 상단 걸침 [복사][붙여넣기][지우개/되돌리기] · 주소는 붙여넣기가 주 입력 경로라 계승 효용이 가장 큰 칸
+// 카드 변경 칩 에디터 복사/붙여넣기/지우개 — thumb.html 카드뉴스 칩(cardIo)과 **동일 기능**(통일 기틀·운영자 260628). 붙여넣기=clipPasteText(readText→폴백)·문자수/줄수 조건은 parseEmphLines(MAX_LINES)·renderEditChips가 보장. (SVG 상수·clipCopy 정의 뒤라야 TDZ 회피)
+(function () {
+  const wrap = $('#editdlg .edcardwrap'); if (!wrap) return;
+  const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'iobtn iobtn-edge iobtn-pp'; wrap.appendChild(btn);   // 붙여넣기 = 항상 노출(지우개 좌측 46)
+  const copyB = document.createElement('button'); copyB.type = 'button'; copyB.className = 'iobtn iobtn-edge iobtn-copy-e iobtn-hide'; copyB.innerHTML = COPY_SVG; copyB.setAttribute('aria-label', '복사'); copyB.title = '복사'; wrap.appendChild(copyB);   // 복사 = 내용 있을 때만(78)
+  const eraser = document.createElement('button'); eraser.type = 'button'; eraser.className = 'iobtn iobtn-edge iobtn-erase'; eraser.innerHTML = ERASE_SVG; eraser.setAttribute('aria-label', '입력 지우기'); eraser.title = '입력 지우기'; wrap.appendChild(eraser);   // 지우개 = 최우측(14)
+  let undoTimer = null, undoLines = null;
+  const setIcon = (el, svg, key) => { if (el._icon !== key) { el.innerHTML = svg; el._icon = key; } };   // 번쩍임 차단(§🎨 _icon 가드 — 칩 편집/분할마다 SVG 재생성하던 것 차단·260630 QA)
+  const exitUndo = () => { if (undoTimer) { clearTimeout(undoTimer); undoTimer = null; } eraser.classList.remove('iobtn-undo'); eraser.innerHTML = ERASE_SVG; eraser.setAttribute('aria-label', '입력 지우기'); eraser.title = '입력 지우기'; if (edCardIo) edCardIo(); };
+  edCardIo = () => {   // 붙여넣기 항상 / 복사는 내용 있을 때만 / 지우개 = 빈칸 dim
+    const filled = buildEmphText().trim().length > 0;
+    if (!btn.classList.contains('ok')) { setIcon(btn, PASTE_SVG, 'paste'); btn.dataset.mode = 'paste'; btn.setAttribute('aria-label', '붙여넣기'); btn.title = '붙여넣기'; }
+    if (!copyB.classList.contains('ok')) { setIcon(copyB, COPY_SVG, 'copy'); copyB.classList.toggle('iobtn-hide', !filled); }
+    if (!eraser.classList.contains('iobtn-undo')) eraser.classList.toggle('iobtn-off', !filled);
+  };
+  copyB.onclick = ev => { ev.preventDefault(); clipCopy(buildEmphText(), copyB, edCardIo); };   // 복사 전용
+  btn.onclick = async ev => {   // 붙여넣기(readText→폴백 공용·칩 교체)
+    ev.preventDefault();
+    const t = await clipPasteText(); if (t) { edLines = parseEmphLines(t); if (!edLines.length) edLines = [[]]; renderEditChips(); } edCardIo();
+  };
+  eraser.onclick = ev => {   // 지우개 = 칩 전부 비움 → ~10초 되돌리기(직전 칩 구조 복원·무손실)
+    ev.preventDefault();
+    if (eraser.classList.contains('iobtn-undo')) { if (undoLines) { edLines = undoLines; if (!edLines.length) edLines = [[]]; renderEditChips(); } exitUndo(); return; }
+    if (buildEmphText().trim().length === 0) return;
+    try { undoLines = JSON.parse(JSON.stringify(edLines)); } catch { undoLines = null; }
+    edLines = [[]]; renderEditChips();
+    eraser.classList.remove('iobtn-off'); eraser.classList.add('iobtn-undo'); eraser.innerHTML = UNDO_SVG; eraser.setAttribute('aria-label', '되돌리기'); eraser.title = '되돌리기 (직전 입력 복원)';
+    if (undoTimer) clearTimeout(undoTimer); undoTimer = setTimeout(exitUndo, ERASE_UNDO_MS);
+  };
+  edCardIo();
+})();
+// LAYERS_SVG = nm-svg.js 정본 승격(260731 — ly 자막 오버레이 영상 버튼과 공용 · 인라인 복제 폐지 CII P1)
+// ── 오버레이만 투명 PNG (클라이언트 canvas — card_news.py 렌더 포팅: 하단 그라데이션 + 글자, 투명 배경) ──
+const OVL = { W: 1080, H: 1350, FS: 54, LH: 88, SX: 87, SY: 888, HL: '#00EED2', DEF: '#ffffff' };
+const OVL_OPEN = '“‘「『«‹', OVL_CLOSE = '”’」』»›';
+let _ovlFont = false;
+async function ovlLoadFont() {   // 카드 폰트(NotoSansCJK Bold) 근사 = Noto Sans KR 700
+  if (_ovlFont) return;
+  if (!document.getElementById('ovl-font')) {
+    const l = document.createElement('link'); l.id = 'ovl-font'; l.rel = 'stylesheet';
+    l.href = 'https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700&display=block';
+    document.head.appendChild(l);
+  }
+  try { await document.fonts.load('700 54px "Noto Sans KR"'); await document.fonts.ready; } catch { /* 실패 시 시스템 한글 폴백 */ }
+  _ovlFont = true;
+}

@@ -329,6 +329,8 @@ const settleFast = async pg => {   // 정적 측정용 경량 settle — 프레�
 };
 async function gapSweep(browser, port) {
   const pg = await browser.newPage({ viewport: { width: 430, height: 900 } });
+  // Prior production results are not part of this interaction fixture.
+  await pg.route(/\/thumb-hist\.json(?:\?|$)/, route => route.fulfill({ status: 200, contentType: 'application/json', body: '[]' }));
   const gap = {};
   try {
     await pg.goto('http://127.0.0.1:' + port + '/index.html', { waitUntil: 'domcontentloaded', timeout: 25000 });
@@ -381,6 +383,8 @@ async function cloneSweep(browser, port) {
   const out = { tiers: {}, polluted: null, injected: false };
   for (const [W, H] of CLONE_TIERS) {
     const pg = await browser.newPage({ viewport: { width: W, height: H } });
+    // Prior production results are not part of this interaction fixture.
+    await pg.route(/\/thumb-hist\.json(?:\?|$)/, route => route.fulfill({ status: 200, contentType: 'application/json', body: '[]' }));
     try {
       await pg.goto('http://127.0.0.1:' + port + '/index.html', { waitUntil: 'domcontentloaded', timeout: 25000 });
       await pg.waitForTimeout(900);
@@ -462,6 +466,8 @@ async function railRowSweep(browser, port) {
   const IMG = SHELLS[0];   // 이미지 셸 5탭(영상 셸 결과 레일은 nm-rail.js 상속 = 자기 계약 · C12와 동축 스코프)
   const out = {};
   const pg = await browser.newPage({ viewport: { width: 1280, height: 900 } });   // 1280 = 2단 티어(운영자가 캡처한 그 폭 · 사고가 사는 자리)
+  // Prior production results are not part of this interaction fixture.
+  await pg.route(/\/thumb-hist\.json(?:\?|$)/, route => route.fulfill({ status: 200, contentType: 'application/json', body: '[]' }));
   try {
     await pg.addInitScript(RAIL_SEED);   // 로드 **전** 시드 = 뷰어가 부팅하며 자기 경로로 읽어 그린다(렌더 후 주입 = 경합)
     await pg.goto('http://127.0.0.1:' + port + '/index.html', { waitUntil: 'domcontentloaded', timeout: 25000 });
@@ -600,6 +606,8 @@ const ANIM_PROBE = () => {
 };
 async function animSweep(browser, port) {
   const pg = await browser.newPage({ viewport: { width: 430, height: 900 } });   // 폰 티어 = 배터리가 실제로 닳는 자리
+  // Prior production results are not part of this interaction fixture.
+  await pg.route(/\/thumb-hist\.json(?:\?|$)/, route => route.fulfill({ status: 200, contentType: 'application/json', body: '[]' }));
   try {
     await pg.goto('http://127.0.0.1:' + port + '/thumb.html', { waitUntil: 'load', timeout: 25000 });
     await pg.waitForTimeout(2500);
@@ -609,6 +617,8 @@ async function animSweep(browser, port) {
 }
 async function budgetSweep(browser, port) {
   const pg = await browser.newPage({ viewport: { width: 430, height: 900 } });   // 폰 티어 = 발열이 실제로 사는 자리
+  // Prior production results are not part of this interaction fixture.
+  await pg.route(/\/thumb-hist\.json(?:\?|$)/, route => route.fulfill({ status: 200, contentType: 'application/json', body: '[]' }));
   try {
     await pg.goto('http://127.0.0.1:' + port + '/thumb.html', { waitUntil: 'load', timeout: 25000 });
     await pg.waitForTimeout(2500);   // 웹폰트 도착 대기(아래 fontOK가 실판정 · 못 오면 SKIP)
@@ -658,6 +668,8 @@ const IDLE_ARM = () => {   // 관찰 개시 = 모달을 연 **뒤**(여는 동�
 };
 async function idleSweep(browser, port) {
   const pg = await browser.newPage({ viewport: { width: 430, height: 900 } });   // 폰 티어 = 배터리가 실제로 닳는 자리
+  // Prior production results are not part of this interaction fixture.
+  await pg.route(/\/thumb-hist\.json(?:\?|$)/, route => route.fulfill({ status: 200, contentType: 'application/json', body: '[]' }));
   try {
     await pg.addInitScript(IDLE_HOOK);
     await pg.goto('http://127.0.0.1:' + port + '/index.html', { waitUntil: 'load', timeout: 25000 });
@@ -966,6 +978,8 @@ async function runOnce(pg, gap, clone, railRow, budget, idle, anim) {
     const runs = [];
     for (let i = 0; i < 2; i++) {   // 결정론 2회 — 1280 = 2단 그리드 티어(이미지 ≥900·영상 ≥1100)가 둘 다 사는 폭
       const pg = await browser.newPage({ viewport: { width: 1280, height: 900 } });
+      // Prior production results are not part of this interaction fixture.
+      await pg.route(/\/thumb-hist\.json(?:\?|$)/, route => route.fulfill({ status: 200, contentType: 'application/json', body: '[]' }));
       const errs = []; const ext = [];
       pg.on('pageerror', e => errs.push(String(e.message).slice(0, 120)));
       pg.on('request', rq => { const u = rq.url(); if (!u.startsWith('http://127.0.0.1:') && !u.startsWith('data:') && !u.startsWith('blob:')) ext.push(u.slice(0, 60)); });

@@ -1,0 +1,3 @@
+<style>@font-face{font-family:'Pretendard Variable';font-weight:45 920;font-style:normal;font-display:swap;src:local('Pretendard Variable'),url(assets/fonts/pretendard.woff2) format('woff2-variations')}</style><!-- 본문 폰트 = 자체호스팅 비차단(분신1·6 260706 — 구 jsdelivr dynamic-subset CSS가 유일한 렌더 차단 교차출처(SPOF·marked/purify 자체호스팅과 불일치) → 로컬 woff2 + swap = 첫 페인트 무차단·시스템 한글 폴백 후 스왑 · 경로는 요약 다운로드(nmFontFace)와 동일 자산) -->
+<!-- 상태 타이포 = Pretendard로 통일(Orbitron 폐지·운영자 260621). -->
+<!-- 배너 preload 일시 해제(슬림 헤더 260706 — 배너 숨김 상태라 377KB 선다운로드 낭비 · 배너 복귀 시 아래 줄 원복): <link rel="preload" as="image" href="assets/brand/main_background.jpg?v=260705t" fetchpriority="high"> --><!-- 헤더 CI 로고 preload 제거(260706 운영자 "좌상단 CI 없애줘" — 워드마크는 PGSans 임베드라 fetch 0) -->

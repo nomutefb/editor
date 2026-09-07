@@ -147,16 +147,18 @@ async function runOnce(pg, reqLog) {
   //   P1 첨부 실페인트(카드 변형 cpv-bg = 픽스처 그라데가 진짜 칠해졌나 — 검은 캔버스·디코드 깨짐 검출)
   //   P2 로고 잉크(베이스 = 세로 그라데라 행내 균일 — 로고 글리프가 행을 깨뜨리는 행 수 ≥ 1)
   //   P3 글자 잉크(로드된 노토로 오프스크린 렌더 → 잉크 비율 정상 대역 = 빈 렌더·통짜 뭉개짐 검출)
-  const c8 = await pg.evaluate(S => {
+  const c8 = await pg.evaluate(async S => { // seal-ok: 기존 픽셀 평가에 이미지 decode 대기만 추가; 이미지 변형 전환 없는 검사는 비대상.
     const draw = (img, w, h) => { const cv = document.createElement('canvas'); cv.width = w; cv.height = h; const cx = cv.getContext('2d', { willReadFrequently: true }); cx.drawImage(img, 0, 0, w, h); return cx.getImageData(0, 0, w, h).data; };
     const probe = {};
     // 변형 전환 = 선택칩(#cpPrevOpts) 제거(Q293) 후 = 내부 상태(cpPrevSel) 직접 세팅 · 라벨→인덱스는 cpPrevVariants().v로 조회(로직이 정본)
     const setVar = lbl => { try { const vv = cpPrevVariants().v; const i = vv.findIndex(x => x.lbl === lbl); if (i >= 0) { cpPrevSel = i; renderCpPrev(); return true; } } catch (_) {} return false; };
     setVar('카드뉴스');   // P1 = 첨부가 보이는 카드 변형에서 실측
     const bg = document.querySelector(S.stage + ' img.cpv-bg:not([data-logo])');
+    if (bg) await bg.decode(); // Render replaces images; wait for the new element, even with a warm cache.
     if (bg && bg.complete) { const d = draw(bg, 54, 67); let mn = 255, mx = 0; for (let i = 0; i < d.length; i += 4) { const l = (d[i] + d[i + 1] + d[i + 2]) / 3; if (l < mn) mn = l; if (l > mx) mx = l; } probe.p1 = Math.round(mx - mn); }
     setVar('흰칸');       // 원복 = 후속 어서션 결정론 유지
     const lg = document.querySelector(S.logo);
+    if (lg) await lg.decode();
     if (lg && lg.complete) { const W = 90, H = 160, d = draw(lg, W, H); let rows = 0; for (let y = 0; y < H; y += 2) { let rmn = 255, rmx = 0; for (let x = 0; x < W; x++) { const i = (y * W + x) * 4, l = (d[i] + d[i + 1] + d[i + 2]) / 3; if (l < rmn) rmn = l; if (l > rmx) rmx = l; } if (rmx - rmn > 40) rows++; } probe.p2 = rows; }
     const cv = document.createElement('canvas'); cv.width = 240; cv.height = 48; const cx = cv.getContext('2d', { willReadFrequently: true });
     cx.fillStyle = '#000'; cx.fillRect(0, 0, 240, 48); cx.fillStyle = '#fff'; cx.font = '700 32px "' + (typeof CP_PREV_FONT !== 'undefined' ? CP_PREV_FONT : 'sans-serif') + '"'; cx.textBaseline = 'middle'; cx.fillText('큐에이 제목', 4, 24);
@@ -221,6 +223,8 @@ async function runOnce(pg, reqLog) {
     for (let i = 0; i < 2; i++) {   // 결정론 2회(동일 결과 = 무플레이크 실증)
       const vp = i === 0 ? { width: 390, height: 844 } : { width: 1012, height: 1218 };   // 뷰포트 매트릭스 = 폰 + 데스크톱(운영자 샘 목격 환경 근사 · 평의회⑥ 픽스처 보강 축)
       const pg = await browser.newPage({ viewport: vp });
+      // Prior production results are not part of this interaction fixture.
+      await pg.route(/\/thumb-hist\.json(?:\?|$)/, route => route.fulfill({ status: 200, contentType: 'application/json', body: '[]' }));
       const errs = [];
       const reqLog = { ext: [], api: [] };
       pg.on('request', rq => { const u = rq.url(); if (!u.startsWith('http://127.0.0.1:') && !u.startsWith('data:')) reqLog.ext.push(u.slice(0, 60)); if (u.includes('/api/') && !u.includes('/api/thumb?recent=') && !u.includes('/api/jobs')) reqLog.api.push(u.slice(0, 60)); });   // recent= 면책(260731 즉시 발견 폴 = 읽기전용 id 목록 · 부팅+10s 상시라 미리보기 흐름과 무관 발화 — C5 취지{발사·과금성 API 0}는 유지) · jobs 면책(260817 진행 중 공유 원장 = 읽기전용 목록 + 완료분 정리 · 부팅·복귀 상시라 미리보기 흐름과 무관 · 러너를 안 깨우므로 과금 0 = recent= 와 같은 성격)

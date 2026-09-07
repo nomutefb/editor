@@ -1,0 +1,25 @@
+<script>
+/* 셸 절단 자가치유(260802 웹앱 '상단만 렌더·하단 nav 실종' 사고) — sw.js가 index 셸을 캐시-우선(SWR)으로 서빙하는데
+   라이브 응답이 content-length 없는 청크 스트림이라(실측 260802) 전송 중 절단이 '정상 EOF'처럼 보여 잘린 셸이
+   nm-shell-v2에 박힐 수 있다 → 그 기기는 매 진입 상단만 렌더(§: 정적 #bnav조차 DOM에 없음 = 인라인 부팅 JS 전멸 =
+   갱신 리스너도 없어 자가회복 불능). 이 가드는 head 최상단이라 절단 사본 안에서도 살아남는다:
+   DCL 때 문서 끝 센티널 #nm-eod(</body> 직전 · 이 스크립트와 한 쌍 = 삭제·이동 금지)가 없으면 절단 셸로 판정 →
+   nm-shell-v2 퍼지 + ?nosw=1(sw.js ⓑ 캐시 전면 우회 탈출구) 1회 재진입 = 순수 네트워크 온전 셸.
+   루프 가드 3중: ①sessionStorage 세션당 1회 ②nosw 진입서 또 절단 = 회선 자체 문제 → 재발사 안 함 ③저장 불가(프라이빗) = 치유 포기.
+   짝 = sw.js 절단 검문(put 전 </html> 꼬리 확인 = 오염 원천 차단) — 이쪽은 이미 오염된 기기의 탈출로. */
+(function () {
+  function heal() {
+    try {
+      if (document.getElementById('nm-eod')) { try { sessionStorage.removeItem('nmShellHeal'); } catch (_) {} return; }   // 온전 셸 = 무동작(+다음 사고 대비 가드 리셋)
+      var qs = new URLSearchParams(location.search);
+      if (qs.has('nosw')) return;                                                     // 순수 네트워크로도 절단 = 회선 문제 — 재발사 무의미(루프 차단 ②)
+      try { if (sessionStorage.getItem('nmShellHeal')) return; sessionStorage.setItem('nmShellHeal', '1'); } catch (_) { return; }   // 루프 차단 ①·③
+      var fired = false, go = function () { if (fired) return; fired = true; qs.set('nosw', '1'); location.replace(location.pathname + '?' + qs.toString() + location.hash); };
+      var t = setTimeout(go, 1500);                                                   // caches API 무응답 대비 상한
+      try { caches.delete('nm-shell-v2').then(function () { clearTimeout(t); go(); }, function () { clearTimeout(t); go(); }); }
+      catch (_) { clearTimeout(t); go(); }                                            // caches 미지원(비보안 컨텍스트 등) = 캐시 퍼지 생략하고 재진입만
+    } catch (_) {}
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', heal);
+  else heal();
+})();

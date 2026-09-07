@@ -1,0 +1,633 @@
+function lkProdBusy() {   // 제작중 = 자동잠금 보류(운영자 260707 "유휴 확실할때만·제작중엔 잠금 금지") — ① 제작 도구 모달 열림(이미지·자막·영상·합성 = 화면 작업 중 · 무터치 대기 포함) ② 최소화·비활성 프레임의 생성 진행[aria-busy(ly goWait·k/comp poll #status·thumb 전송/맞춤법) · thumb 진행 잡 행(#jobs .job 무상태 = 제작중 · 12분 하드초과 = err 전환 = 유계)]. 요약 요청(askdlg·대기열)은 도구 아님 = 종전대로 잠금 정상 작동(운영자 "뉴스 요약 전송중일때 빼고"). 정규 닫기(X)는 discardTool로 프레임 회수 = 신호 소멸 → 잠금 재개.
+  try {   // try = tooldlg·toolFrames 후반 선언 TDZ 방어(부팅 중 호출돼도 잠금 흐름 유지 = lockNow closeOverlays 패턴)
+    if (tooldlg.open) return true;
+    for (const k in toolFrames) { const d = toolFrames[k] && toolFrames[k].contentDocument; if (d && d.querySelector('[aria-busy="true"],#jobs .job:not(.done):not(.err)')) return true; }
+  } catch (_) {}
+  return false;
+}
+function lockArm() {
+  clearTimeout(_lkT); _lkT = null;
+  if (!lkOn() || !lkPinH() || isLocked()) return;
+  const remain = lkMin() * 60000 - (Date.now() - _lkLast);
+  _lkT = setTimeout(() => { _lkT = null; if (lkProdBusy()) { _lkLast = Date.now(); lockArm(); return; } (Date.now() - _lkLast >= lkMin() * 60000 - 500) ? lockNow() : lockArm(); }, Math.max(1000, remain));   // 만기 시 제작중이면 활동 간주(_lkLast 갱신) 후 재무장 = 제작이 끝난 뒤에도 N분 유휴가 차야 잠금(운영자 260707)
+}
+['pointerdown', 'keydown', 'wheel', 'touchstart', 'scroll', 'input'].forEach(ev =>
+  window.addEventListener(ev, () => { if (!isLocked()) _lkLast = Date.now(); }, { passive: true, capture: true }));   // input 추가 = 모바일 IME 조합 타이핑(keydown 229 편차)도 활동으로 집계(운영자 260706 4차 r "작업 중 잠김") · iframe 내부 활동은 bindToolFrameLoad가 동일 훅 부착
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) { try { localStorage.setItem('nm_lock_last', String(_lkLast)); } catch {} return; }   // 이탈 시 활동시각 보존(재진입 경과 판정용)
+  const last = Math.max(_lkLast, parseInt(localStorage.getItem('nm_lock_last') || '0', 10) || 0);
+  if (lkProdBusy()) { _lkLast = Date.now(); lockArm(); return; }   // 탭 복귀 시 제작중(도구 열림·생성 진행) = 잠금 보류·활동 간주(운영자 260707 — 자막 STT 등 무터치 대기 중 잠기던 것 차단)
+  if (lkOn() && lkPinH() && !isLocked() && Date.now() - last >= lkMin() * 60000) lockNow(); else lockArm();
+});
+function lockNow() {
+  if (isLocked() || !lkPinH()) return;   // PIN 미설정 = 잠그면 못 푼다 → 무시(토글이 선행 차단)
+  try { if (tooldlg && tooldlg.open) minimizeTool(); } catch {}   // 제작 도구 = 닫지 말고 최소화(도구별 iframe 보존 = 입력값 기억 · 운영자 260706 4차 r "잠기더라도 제작 내역 기억") — 언락 후 ▲ 복원
+  try { const _ad = $('#askdlg'); if (_ad && _ad.open) minimizeAsk(); } catch {}   // 요약 요청도 동일 보존
+  document.querySelectorAll('dialog[open]').forEach(d => { try { d.close(); } catch {} });   // <dialog> top-layer는 z로 못 이김 → 잠금 시 닫음(§🎨 함정 · 보존형은 위에서 이미 최소화됨)
+  try { closeOverlays(''); } catch {}   // 팝업류 전부 정리(부팅 직후 등 후반 const 미초기화 시에도 잠금은 진행 = TDZ 방어)
+  try { localStorage.setItem('nm_locked', '1'); } catch {}
+  document.documentElement.style.overflow = 'hidden';
+  lkReal = ''; lkBusy = false; lkErrEl.textContent = ''; lkSlotsEl.classList.remove('bad', 'shake'); const _ow = lkSlotsEl.closest('.lk-slotwrap'); if (_ow) _ow.classList.remove('ok');   // 성공 스윕 링(ok)도 리셋 — 없으면 직전 언락의 링이 재잠금 화면에 미입력 상태로 점등 잔존(QA6 260706)
+  document.body.classList.remove('lk-hold');   // 언락 아웃(720ms 창) 도중 재잠금 경합 시 숨김 클래스 잔존 → 화면 통째 블랙 방지(멱등 리셋)
+  lkA = lkOrder(); lkBuildPad(); lkApply(); lkFill(); pinEyeSet(lkSlotsEl, false);   // 고정 정상 배열(1-9·0 · 셔플 폐지 운영자 260707 · 구 판B 전환도 삭제됨 260706 3차 e) · 눈(전체표시) OFF 복귀(260705)
+  document.body.classList.add('scr-locked');   // 오션 물결(#wavebg)을 앱 위로 승격 = PIN 배경(운영자 260705 "인트로 PIN 배경에 블루 물결")
+  lockscr.classList.remove('out', 'ent');
+  lockscr.hidden = false;
+  void lockscr.offsetWidth; lockscr.classList.add('ent');   // 진입 = 워드마크 페이드인(lkWmFade) + 핀 라이즈 업 — 구 lkWmIntro 좌표 측정(--lk-intro-shift) 폐기(운영자 260707 "타이틀 정합 안 맞네 걍 배경만" · 배경 연속 = #bootveil)
+}
+function lkUnlock() {
+  try { localStorage.setItem('nm_locked', '0'); localStorage.removeItem('nm_lock_fails'); localStorage.removeItem('nm_lock_until'); } catch {}
+  lkReal = ''; _lkLast = Date.now();
+  const _lkReveal = () => { document.body.classList.remove('lk-hold'); window.scrollTo(0, 0); try { _lastTabShown = null; showTab((typeof CURTAB === 'string' && CURTAB) ? CURTAB : 'feed'); } catch {} };   // 메뉴 등장 = 기초화면 복귀(운영자 260706 4차 j: 최상단 + showTab 재렌더 촤르륵 · 탭 미확정 = feed) — _lastTabShown=null = 동일 탭이어도 촤르륵 강제(탭전환 게이트 우회) · 호출 시점만 아래 720ms로 분리
+  const _lkDone = () => { lockscr.hidden = true; lockscr.classList.remove('out', 'ent'); document.body.classList.remove('scr-locked', 'lk-hold'); document.documentElement.classList.remove('boot-lock'); document.documentElement.style.overflow = ''; lockArm(); };   // boot-lock 클래스 해제 필수 — 부여(부팅 인라인)만 있고 제거가 없으면 html.boot-lock{overflow:hidden}(4차 거터 차단)이 언락 후에도 남아 스크롤 불능(자체 적발 핫픽스 260706) · lk-hold 이중 제거 = 멱등 안전망(영구 블랙 차단)
+  if (matchMedia('(prefers-reduced-motion:reduce)').matches) { _lkDone(); _lkReveal(); return; }   // 전정계 = 즉시 해제·즉시 메뉴
+  document.body.classList.add('lk-hold');   // 아웃 동안 뒤 메뉴 숨김(물결만) — "페이드아웃 중에 메뉴가 이미 올라와 보임" 차단(운영자 260706 "로딩바 없어진 다음에 메뉴")
+  lockscr.classList.add('out');
+  setTimeout(_lkReveal, 720);   // 잠금막 잔존 ~10% 시점(lkOut .8s의 90%) = 메뉴 촤르륵 시작(운영자 "거의 10% 남았을 때 올라와야 자연스러움") · 스윕(로딩바) 타이밍은 불변
+  setTimeout(_lkDone, 820);   // 해제 = 블러 아웃(.8s) 후 정리 — 물결 승격(scr-locked)은 아웃 끝날 때까지 유지(중간 스냅 방지 · 운영자 260706 확정)
+}
+// ── 키패드(정본 이식 · lk- 프리픽스) ──
+let lkReal = '', lkBusy = false, lkA = null, lkKds = null, lkBadT = null;   // lkB(판B) 폐지 — 단판(운영자 260706 3차 e)
+const LK_BSVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 5H9l-6 7 6 7h11a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1z"/><path d="M16 9l-4 4M12 9l4 4"/></svg>';
+function lkOrder() { return [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]; }   // 고정 정상 배열(1-9·0) = 설정창 #pinPad와 통일 · 셔플 폐지(운영자 260707 "정상 PIN 입력 순서로 항상 고정" — 근육기억 UX > shoulder-surfing)
+function lkBuildPad() {
+  let h = ''; for (let i = 0; i < 9; i++) h += '<button type="button" class="lk-key kd"><span class="lk-d"></span></button>';
+  h += '<button type="button" class="lk-key empty" tabindex="-1" aria-hidden="true"></button><button type="button" class="lk-key kd"><span class="lk-d"></span></button>';
+  h += '<button type="button" class="lk-key back" data-back="1" aria-label="지우기">' + LK_BSVG + '</button>';
+  lkPadEl.innerHTML = h; lkKds = lkPadEl.querySelectorAll('.kd');
+}
+function lkApply() { const o = lkA; for (let i = 0; i < 10; i++) { lkKds[i].querySelector('.lk-d').textContent = o[i]; lkKds[i].setAttribute('data-d', o[i]); } }   // 단판 고정 — 구 "앞 2/3 판A·뒤 판B" 4번째 자리 전환 삭제(운영자 260706 3차 e "그냥 삭제") · 숫자 = 전용 스팬(.lk-d)만 갱신(잔상 .lk-fx 보존 260706)
+function lkFill() { renderPinSlots(lkSlotsEl, lkReal); }   // 슬롯 시각 = stage-2/발행 정본 공유(방금 자리 숫자 노출·이전·미입력 모두 mut 동그라미) · 옛 * 마스킹+peek 0.7s → 동그라미 통일(운영자 260704) · 입력/검증/셔플 로직은 불변
+function lkFlash(el, d) {
+  if (!el) return; el.classList.remove('hit'); void el.offsetWidth; el.classList.add('hit'); clearTimeout(el._ht); el._ht = setTimeout(() => el.classList.remove('hit'), 260);
+  try { navigator.vibrate && navigator.vibrate(15); } catch {}   // 진동 = PIN 키패드 전용(숫자·백스페이스 공통 진입점 · 운영자 260706 5차 "PIN 입력 빼고 진동 제거" — 전역 버튼 햅틱은 폐지·중간 강도 15ms만 여기 유지)
+  if (d != null) { const f = document.createElement('span'); f.className = 'lk-fx'; f.textContent = d; el.appendChild(f); setTimeout(() => f.remove(), 520); }   // 잔상 = 숫자 확대 페이드(운영자 260706 확정 · 백스페이스는 숫자 없어 미주입)
+}
+function lkUnbad() { clearTimeout(lkBadT); lkSlotsEl.classList.remove('bad', 'shake'); if (!lkOutLeft()) lkErrEl.textContent = ''; }
+const lkFails = () => parseInt(localStorage.getItem('nm_lock_fails') || '0', 10) || 0;
+const lkOutLeft = () => Math.max(0, (parseInt(localStorage.getItem('nm_lock_until') || '0', 10) || 0) - Date.now());   // 5회 잠금 잔여 ms
+function lkPress(d) {
+  if (lkBusy || !isLocked() || lkReal.length >= LK_LEN) return;
+  lkFlash(lkPadEl.querySelector('.kd[data-d="' + d + '"]'), d);   // 잔상 = 눌린 숫자 확대 페이드(260706)
+  lkUnbad(); lkReal += String(d); lkFill(); lkApply();
+  if (lkReal.length === LK_LEN) setTimeout(lkFire, 120);   // 340→120 = 성공 스윕 링 시작 당김(운영자 260707 "감싸는 속도는 좋은데 시작 텀") — 마지막 자리 팝(lkFillBnc .36s)과 오버랩·스윕 속도(.5s)·언락 오버랩(380)은 불변
+}
+function lkBack() { if (lkBusy || !isLocked() || !lkReal.length) return; lkFlash(lkPadEl.querySelector('.back')); lkUnbad(); lkReal = lkReal.slice(0, -1); lkFill(); lkApply(); }
+async function lkFire() {
+  if (lkBusy || lkReal.length !== LK_LEN) return;
+  lkBusy = true; lkFill();   // 검증 진입 = 슬롯 갱신(stage-2 정본 · 방금 자리 노출 상태 = 발행/조회 동일)
+  let h = ''; try { h = await lkHash(lkReal); } catch {}
+  const master = h === LK_MASTER_H;
+  if (master || (h && h === lkPinH() && !lkOutLeft())) {   // 마스터 = 5회 잠금도 즉시 해제(발행본 동일)
+    const okw = lkSlotsEl.closest('.lk-slotwrap');   // 성공 = 플레이트 테두리 스윕 1바퀴 후 해제(운영자 260706 4차 l "지금은 그냥 사라져서 엥?" — 인증 느낌) · lkBusy는 유지(스윕 중 재입력 차단 · 다음 lockNow가 리셋)
+    if (okw) { okw.classList.remove('ok'); void okw.offsetWidth; okw.classList.add('ok'); }
+    const _rm = matchMedia('(prefers-reduced-motion:reduce)').matches;
+    setTimeout(lkUnlock, _rm ? 0 : 380);   // 스윕(.5s)이 도는 중 블러아웃 시작 = "돌면서 페이드아웃" 오버랩 · 전정계 = 즉시
+    return;
+  }
+  const out = lkOutLeft();
+  let n = lkFails();
+  if (!out) { n += 1; try { localStorage.setItem('nm_lock_fails', String(n)); if (n >= LK_MAX) localStorage.setItem('nm_lock_until', String(Date.now() + LK_OUT_MS)); } catch {} }
+  lkErrEl.textContent = (out || n >= LK_MAX) ? `PIN 오류 ${LK_MAX}회 누적 — ${Math.ceil((lkOutLeft() || LK_OUT_MS) / 60000)}분 후 다시` : `PIN 번호가 틀립니다 (${n}/${LK_MAX})`;
+  lkReal = ''; lkFill(); lkApply();
+  lkSlotsEl.classList.add('bad'); void lkSlotsEl.offsetWidth; lkSlotsEl.classList.add('shake');
+  clearTimeout(lkBadT); lkBadT = setTimeout(() => { lkSlotsEl.classList.remove('bad', 'shake'); if (!lkOutLeft()) lkErrEl.textContent = ''; }, 3000);   // 빨강 3초 후 초기색 복귀(정본 동일 · 5회 잠금 문구는 유지)
+  lkBusy = false;
+}
+// 입력 발화 = pointerdown(누르는 순간 · OS 키패드 동일) — 구 click은 손가락 뗄 때 발화라 누른 시간만큼 반응 지연(운영자 260707 "입력 딜레이") · click은 AT(스크린리더 등 pointerdown 미발생 경로) 폴백으로만 유지 + _pd 플래그로 합성 click 중복 입력 차단
+function lkKeyAct(b) {
+  b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop');   // 작아졌다 커지는 팝 재트리거(빠른 연타에도)
+  if (b.getAttribute('data-back') !== null) lkBack();
+  else if (b.getAttribute('data-d') !== null) lkPress(b.getAttribute('data-d'));
+}
+lkPadEl.addEventListener('pointerdown', e => {
+  if (e.pointerType === 'mouse' && e.button !== 0) return;   // 우클릭 제외
+  const b = e.target.closest('.lk-key'); if (!b || b.classList.contains('empty')) return;
+  b._pd = true; lkKeyAct(b);
+});
+lkPadEl.addEventListener('click', e => {
+  const b = e.target.closest('.lk-key'); if (!b || b.classList.contains('empty')) return;
+  if (b._pd) { b._pd = false; return; }   // pointerdown이 이미 처리 — 뒤따르는 click 소비(이중 입력 차단)
+  lkKeyAct(b);
+});
+document.addEventListener('keydown', e => {   // 물리 키보드(잠금 중에만)
+  if (!isLocked()) return;
+  if (e.key >= '0' && e.key <= '9') { lkPress(e.key); e.preventDefault(); }
+  else if (e.key === 'Backspace') { lkBack(); e.preventDefault(); }
+});
+// ── 설정 팝업(프로필 → 잠금 설정) — msgpop 앵커 미러 · 토글 = pushbtn ON/OFF 동일 구성 ──
+const lockpop = $('#lockpop');
+function lkSettingsRefresh() {
+  const on = lkActive();
+  const btn = $('#lockOnBtn'); if (btn) { btn.textContent = on ? 'ON' : 'OFF'; btn.classList.toggle('on', on); }   // 잠금 on/off 토글(서버 lockOn+PIN 실효 · 260710 분리)
+  const openBtn = $('#lockBtn'); if (openBtn) openBtn.classList.toggle('lk-dim', !on);   // 세부(자동잠금) 진입(라벨) = ON일 때만 활성(요구: on일때만 세부 활성)
+  const chgBtn = $('#pinChgBtn'); if (chgBtn) chgBtn.textContent = lkPinH() ? '변경' : '설정';   // 우측 버튼 = PIN 있으면 '변경'/없으면 '설정'(pushbtn 어포던스 = 알림/AI썸네일 행 동형 · 평의회 감사6)
+  const minEl = $('#lockMin');
+  if (minEl) minEl.textContent = String(lkMinRaw());   // 자동잠금 분 = 단일값 표시(PC/모바일 통일)
+  const _sp = LK_STEPS.length > 1 ? lkStepIdx() / (LK_STEPS.length - 1) * 100 : 0;   // 슬라이더 위치 = 스텝 인덱스 비율(9단계 등간격)
+  const _th = $('#lkThumb'), _fl = $('#lkFill'), _tk = $('#lkTrack');
+  if (_th) _th.style.left = _sp + '%'; if (_fl) _fl.style.width = _sp + '%';
+  if (_tk) _tk.setAttribute('aria-valuenow', String(lkMinRaw()));
+  ['#lkRowMin', '#lkSldRow'].forEach(id => { const r = $(id); if (r) r.classList.toggle('off', !on); });   // 화면 잠금 OFF = 하위(자동잠금·슬라이더) 비활성 표기(요구7 · PIN변경은 설정 직하위 독립 항목이라 제외)
+}
+function openLockPop() {
+  if (!lkActive()) return;   // OFF(PIN 없음) = 세부 설정 비활성(요구: on일때만 · 프로필 라벨 dim = 어포던스)
+  closeOverlays('lockpop');
+  clearTimeout(_lockPopT); lockpop.classList.remove('closing');   // 닫힘 애니 중 재오픈 = 즉시 열림 상태 복구
+  lkSettingsRefresh(); lockpop.hidden = false;
+  placePopNearMenu(lockpop);   // 링크 메뉴(linkfab) 위 앵커(운영자 260707 "열린 메뉴 가까이" · 구 프로필 앵커 폐지) · hidden 해제 후 배치(폭 측정)
+}
+let _lockPopT = 0;
+function closeLockPop() {   // 닫힘 = popOut 촤르륵 접힘(qpop.closing 패턴 계승 · 운영자 260707 "닫히는 거랑") — 즉시 hidden 대신 애니 후
+  const lp = $('#lockpop'); if (!lp || lp.hidden || lp.classList.contains('closing')) return;
+  if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) { lp.hidden = true; return; }
+  lp.classList.add('closing'); clearTimeout(_lockPopT);
+  _lockPopT = setTimeout(() => { lp.hidden = true; lp.classList.remove('closing'); }, 190);   // .18s 애니 + 버퍼(hidePmenu 동일)
+}
+['resize', 'orientationchange'].forEach(ev => window.addEventListener(ev, () => { if (!lockpop.hidden && !lockpop.classList.contains('closing')) placePopNearMenu(lockpop); }, { passive: true }));   // 회전·리사이즈 재배치 = msgpop·pubpop·qpop과 파리티(평의회3·10 260707 — 누락이면 회전 시 stale 좌표)
+$('#lockBtn').addEventListener('click', e => { e.stopPropagation(); openLockPop(); });
+$('#lockpopX').addEventListener('click', e => { e.stopPropagation(); closeLockPop(); });
+lockpop.addEventListener('click', e => e.stopPropagation());
+document.addEventListener('click', () => { if (!lockpop.hidden && !($('#pindlg') && $('#pindlg').open)) closeLockPop(); });   // #pindlg(잠금 PIN) 열림 중이면 유지 = 인증 중 뒤배경 숨김 방지(평의회10)
+// ── 전광판(마퀴펫) 설정 = 잠금 설정(lockpop) 계승 · 문구·글자색 → localStorage + marquee.js 실시간 반영(260704) ──
+const _marqAcc = (getComputedStyle(document.documentElement).getPropertyValue('--accent') || '').trim() || '#c85c5c';
+const MARQ_COLS = ['#c85c5c', _marqAcc, '#d8ff3d', '#4aa3ff', '#ff6ba9', '#f0e8d8'];   // 코럴(기본)·강조색 터쿼이즈(--accent 토큰 getComputedStyle=raw 금지 §🎨)·레몬·블루·핑크·크림 (색 = 의미 요소 §🎨 예외)
+let marqSelCol = localStorage.getItem('marqColor') || '#c85c5c';
+const marqpop = $('#marqpop');
+function marqLivePreview() {
+  const kw = (($('#marqKwIn').value || '').toUpperCase().slice(0, 5)) || 'LOVE♥';
+  try { localStorage.setItem('marqKeyword', kw); localStorage.setItem('marqColor', marqSelCol); } catch {}
+  if (window.marqueeReload) window.marqueeReload();
+}
+function renderMarqCols() {
+  const box = $('#marqCols'); if (!box) return; box.innerHTML = '';
+  MARQ_COLS.forEach(c => {
+    const b = document.createElement('button'); b.type = 'button';
+    b.className = 'marq-col' + (c === marqSelCol ? ' sel' : ''); b.style.background = c; b.setAttribute('aria-label', '색 ' + c);
+    b.onclick = () => { marqSelCol = c; renderMarqCols(); marqLivePreview(); };
+    box.appendChild(b);
+  });
+}
+function openMarqPop() {
+  closeOverlays('marqpop');
+  $('#marqKwIn').value = (localStorage.getItem('marqKeyword') || 'LOVE♥');
+  marqSelCol = localStorage.getItem('marqColor') || '#c85c5c'; renderMarqCols();
+  marqpop.hidden = false;
+  placePopNearMenu(marqpop);   // 링크 메뉴(linkfab) 위 앵커 = msgpop·lockpop 공용 미러(운영자 260707 · 도먼트지만 앵커 드리프트 방지 동기화)
+}
+// 전광판 진입점 삭제(운영자 260706) — 옛 핸들러: $('#marqBtn').addEventListener('click', e => { e.stopPropagation(); openMarqPop(); });  (marqBtn DOM 제거로 null 크래시 방지 위해 주석화 · openMarqPop·marqpop 도먼트 보존)
+$('#marqX').addEventListener('click', e => { e.stopPropagation(); marqpop.hidden = true; });
+marqpop.addEventListener('click', e => e.stopPropagation());
+document.addEventListener('click', () => { if (!marqpop.hidden) marqpop.hidden = true; });
+$('#marqKwIn').addEventListener('input', e => { e.target.value = e.target.value.toUpperCase().slice(0, 5); marqLivePreview(); });   // 입력=실시간 반영(적용 버튼 폐지·운영자 260705)
+// ── 화면잠금 PIN·자동잠금 = 소형 슬롯 팝업(#pindlg 재사용) 인증/설정 (운영자 260705 재구성 · 260710 PIN·잠금 분리) ──
+//    잠금 ON/OFF = 설정 인라인 토글(#lockOnBtn) — PIN 1회 인증으로 전환(PIN 유지 · 요구4). PIN 없이 첫 ON = 새 PIN 설정. 실효 = lkActive(lockOn+PIN).
+//    PIN 변경 = 설정 직하위 독립 항목(#pinChgBtn · 요구6·7) — 현재 확인→새 설정(lkChangePin) / PIN 없으면 바로 설정(lkAskNewPin). 세부 팝업(#lockpop) = 자동잠금 시간만.
+//    보호 해제성 조작(잠금 끄기·PIN 변경) = 기존 PIN 인증 요구(요구4). 핀 입력 모달(#pindlg) 유지. 보안(lkHash·5회잠금·마스터 898900 · 설정=서버 전역) 불변.
+// 새 PIN 설정 = #pindlg 소형 슬롯 2단(1회차 → 재입력 일치)·성공 시 서버 lockPinHash 저장·true 반환
+async function lkAskNewPin() {
+  openPinDlg('새 PIN 설정', '새 PIN 4자리 입력', LK_LEN);
+  const p1 = await _awaitPin();
+  if (p1 == null) return false;                          // 취소(X·ESC·백드롭)
+  openPinDlg('PIN 재입력', '같은 PIN 다시 입력', LK_LEN);        // 이미 열림 → 슬롯·타이틀 리셋만(openPinDlg 가드)
+  lkRiseHint(p1);   // 방금 입력한 PIN이 슬롯 위로 떠오르는 힌트(요구6 · reduced-motion 무효)
+  while (true) {
+    const p2 = await _awaitPin();
+    if (p2 == null) return false;
+    if (p2 === p1) break;
+    _pinShakeSilent();                                   // 재입력 불일치 = 텍스트 없이 흔들림만(요구6) · 슬롯 리셋 후 재대기(while)
+  }
+  let h = ''; try { h = await lkHash(p1); } catch {}
+  if (!h) { $('#pindlg').close(); return false; }   // 해시 실패 = 다이얼로그·history 칸 정리 후 종료(평의회4 260705)
+  await saveSettings({ lockPinHash: h, lockLen: LK_LEN });   // 서버 전역 저장(요구1·2) — PIN·자리수
+  try { localStorage.removeItem('nm_lock_fails'); localStorage.removeItem('nm_lock_until'); } catch {}   // 오류카운터 = 기기별(서버 안 함)
+  $('#pindlg').close();
+  return true;
+}
+// 기존 PIN 인증 = #pindlg 입력 → lkHash 비교(마스터 898900 통과)·5회잠금 반영·성공 시 true
+async function lkVerifyOldPin() {
+  if (!lkPinH()) return true;                            // PIN 없으면 인증 불필요(통과)
+  openPinDlg('PIN 확인', '기존 PIN 4자리 입력', LK_LEN);
+  while (true) {
+    const p = await _awaitPin();
+    if (p == null) return false;                         // 취소
+    let h = ''; try { h = await lkHash(p); } catch {}
+    if (h === LK_MASTER_H) {                             // 마스터(898900) = 5회잠금도 우회하는 복구수단(잠금화면 lkFire와 통일 · 평의회4·6 260705)
+      try { localStorage.removeItem('nm_lock_fails'); localStorage.removeItem('nm_lock_until'); } catch {}
+      $('#pindlg').close(); return true;
+    }
+    if (lkOutLeft()) { _pinShake(`${LK_MAX}회 초과 — ${Math.ceil(lkOutLeft() / 60000)}분 후 다시`); continue; }
+    if (h && h === lkPinH()) {                           // 일치 = 통과 + 오류카운터 리셋
+      try { localStorage.removeItem('nm_lock_fails'); localStorage.removeItem('nm_lock_until'); } catch {}
+      $('#pindlg').close(); return true;
+    }
+    const n = lkFails() + 1;                             // 오답 = 5회잠금 누적(잠금화면 lkFire와 카운터 공유)
+    try { localStorage.setItem('nm_lock_fails', String(n)); if (n >= LK_MAX) localStorage.setItem('nm_lock_until', String(Date.now() + LK_OUT_MS)); } catch {}
+    _pinShake(`PIN 번호가 틀립니다 (${Math.min(n, LK_MAX)}/${LK_MAX})`);
+  }
+}
+// PIN 변경 = 기존 PIN 확인 → 새 PIN 2단(#pindlg 열린 채 전환 = close/reopen history 레이스 회피 · 260705)
+async function lkChangePin() {
+  openPinDlg('기존 PIN 확인', '현재 PIN 4자리 입력', LK_LEN);
+  while (true) {                                        // 1단: 기존 PIN 인증(마스터 우선·5회잠금 = lkVerifyOldPin 동일 규칙)
+    const p = await _awaitPin();
+    if (p == null) return false;
+    let h = ''; try { h = await lkHash(p); } catch {}
+    if (h === LK_MASTER_H) { try { localStorage.removeItem('nm_lock_fails'); localStorage.removeItem('nm_lock_until'); } catch {} break; }   // 마스터 = 5회잠금 우회(lkFire 통일 · 평의회4·6)
+    if (lkOutLeft()) { _pinShake(`${LK_MAX}회 초과 — ${Math.ceil(lkOutLeft() / 60000)}분 후 다시`); continue; }
+    if (h && h === lkPinH()) { try { localStorage.removeItem('nm_lock_fails'); localStorage.removeItem('nm_lock_until'); } catch {} break; }
+    const n = lkFails() + 1;
+    try { localStorage.setItem('nm_lock_fails', String(n)); if (n >= LK_MAX) localStorage.setItem('nm_lock_until', String(Date.now() + LK_OUT_MS)); } catch {}
+    _pinShake(`PIN 번호가 틀립니다 (${Math.min(n, LK_MAX)}/${LK_MAX})`);
+  }
+  openPinDlg('새 PIN 설정', '새 PIN 4자리 입력', LK_LEN);       // 2단: 새 PIN(dialog 열린 채 슬롯·타이틀 리셋 = openPinDlg 재호출 가드)
+  const p1 = await _awaitPin();
+  if (p1 == null) return false;
+  openPinDlg('PIN 재입력', '같은 PIN 다시 입력', LK_LEN);
+  lkRiseHint(p1);   // 방금 입력한 PIN이 슬롯 위로 떠오르는 힌트(요구6 · reduced-motion 무효)
+  while (true) {
+    const p2 = await _awaitPin();
+    if (p2 == null) return false;
+    if (p2 === p1) break;
+    _pinShakeSilent();   // 재입력 불일치 = 텍스트 없이 흔들림만(요구6 "텍스트로 알려주지말고 흔들어") · 슬롯 리셋 후 재대기
+  }
+  let nh = ''; try { nh = await lkHash(p1); } catch {}
+  if (!nh) { $('#pindlg').close(); return false; }   // 해시 실패(비보안 컨텍스트 등) = 다이얼로그·history 칸 정리 후 종료(평의회4 260705)
+  await saveSettings({ lockPinHash: nh, lockLen: LK_LEN });   // 서버 전역 저장(요구1·2) — PIN·자리수
+  try { localStorage.removeItem('nm_lock_fails'); localStorage.removeItem('nm_lock_until'); } catch {}   // 오류카운터 = 기기별
+  $('#pindlg').close();
+  return true;
+}
+const pinChgBtn = $('#pinChgBtn');   // PIN 변경/설정 = 설정 직하위 독립 항목(요구6·7 · 구 lockpop 내 lkChgBtn 진입 대체)
+pinChgBtn && pinChgBtn.addEventListener('click', async (e) => {   // PIN 있으면 현재확인→새설정→재입력(떠오르는 모션), 없으면 바로 새설정(현재확인 스킵). 오답(재입력 불일치) = 텍스트 없는 흔들림(요구6).
+  e.stopPropagation();                                          // 링크 메뉴 유지(형제 토글 lockOnBtn/genImgOnBtn과 일관 · 평의회 감사5)
+  if ($('#pindlg').open) return;                                // 재진입 가드(더블클릭 좀비 await · 평의회6)
+  const ok = lkPinH() ? await lkChangePin() : await lkAskNewPin();
+  if (!ok) return;
+  _lkLast = Date.now();
+  lkSettingsRefresh(); lockArm();
+});
+$('#lockOnBtn').addEventListener('click', async (e) => {
+  e.stopPropagation();                                   // 링크 메뉴 내 인라인 토글 = 문서클릭 닫힘 차단(메뉴 유지 · 260705)
+  if ($('#pindlg').open) return;                         // 재진입 가드(더블클릭 좀비 await 방지 · 평의회6)
+  if (lkActive()) {                                      // 실효 ON(lockOn+PIN) → OFF : 기존 PIN 1회 인증 → lockOn=false. PIN 해시는 유지(수명 = 'PIN 변경' 소유) = 다음 켜기도 1회 인증(요구4 · 260710 분리)
+    const ok = await lkVerifyOldPin();
+    if (!ok) return;
+    await saveSettings({ lockOn: false });               // 서버 전역(요구1·2) — lockPinHash는 안 건드림
+    try { localStorage.setItem('nm_locked', '0'); } catch {}   // 현재 잠김만 로컬 해제(기기별)
+    clearTimeout(_lkT); if (lockpop) lockpop.hidden = true;   // 세부 팝업 열려 있었으면 비활성 → 닫기
+    if (isLocked()) { lockscr.hidden = true; document.body.classList.remove('scr-locked'); document.documentElement.classList.remove('boot-lock'); document.documentElement.style.overflow = ''; }   // 인증 중(await) 유휴잠금이 떠 lockscr가 올라온 레이스 = 갇힘 방지(표시 정리 · 이미 nm_locked=0 · 평의회1 · boot-lock 해제 = _lkDone과 대칭[분신5 H1 260706])
+  } else {                                               // OFF → ON
+    if (lkPinH()) {                                      // PIN 이미 있음(끈 상태서 유지) → 1회 인증 → lockOn=true (요구4: on/off 전환은 1회만)
+      const ok = await lkVerifyOldPin();
+      if (!ok) return;
+      await saveSettings({ lockOn: true });
+    } else {                                             // PIN 없음(최초) → 새 PIN 2단 설정(설정+재입력) → lockOn=true. 취소 = ON 안 됨(켜짐↔무장 일치).
+      const ok = await lkAskNewPin();
+      if (!ok) return;
+      await saveSettings({ lockOn: true });
+    }
+    _lkLast = Date.now();
+  }
+  lkSettingsRefresh(); lockArm();
+});
+// ── 자동 잠금(분) 스테퍼 = OPA 컨트롤 계승(±탭·휠·세로드래그) · PIN 안 물음(운영자 260705 "잠금 시간 바꿀 때 핀 안 묻게") ──
+const lkStepIdx = () => LK_STEPS.indexOf(lkMinRaw());
+let _lkMinSaveT = 0;
+function lkMinSetIdx(i) {                                // 인덱스 직접 설정(슬라이더 드래그·±·휠 공용) — 경계 클램프·무변화 스킵
+  i = Math.max(0, Math.min(LK_STEPS.length - 1, i));
+  if (LK_STEPS[i] === lkMinRaw()) return;
+  const v = LK_STEPS[i];
+  _setDebounced = {lockMin: v}; _setGeneration++; NM_SET = _setNorm({ ...NM_SET, lockMin: v }); _setSaveCache(); _setDirty = true;   // 로컬·캐시 즉시(드래그 부드럽게 · 전역 요구1·2)
+  clearTimeout(_lkMinSaveT); _lkMinSaveT = setTimeout(() => { _setDebounced = null; saveSettings({ lockMin: v }); }, 500);   // 서버 커밋은 디바운스 = 드래그 연속이면 마지막 1회만(커밋 스팸·PAT 경합 방지 · 평의회 감사10 발견3) · PIN 안 물음(운영자 260705)
+  lkSettingsRefresh(); lockArm();
+}
+function lkMinApply(dir) { lkMinSetIdx(lkStepIdx() + dir); }   // ±·휠 = 현재 인덱스 기준 상대 이동
+function lkMinReq(dir) {                                 // 요청 = OFF·경계 가드 → 즉시 적용(인증 없음 · 운영자 260705)
+  if (!lkOn()) return;                                   // 화면잠금 OFF = 비활성(요구7 · pointer-events + JS 이중가드)
+  if (lkStepIdx() + dir < 0 || lkStepIdx() + dir >= LK_STEPS.length) return;   // 경계
+  lkMinApply(dir);
+}
+// PC 휠 = 자동잠금 행 위에 마우스 있으면 스크롤로 증감(운영자 260705 "PC서 해당 부분 위 마우스 올라가있을 때 스크롤 위아래") — ±/숫자 어디든 행 전체가 휠 타깃(값칸만이던 것 확대) · OFF면 무시(페이지 스크롤 허용)
+{ const _row = $('#lkRowMin'); if (_row) _row.addEventListener('wheel', e => { if (!lkOn()) return; e.preventDefault(); lkMinReq(e.deltaY < 0 ? 1 : -1); }, { passive: false }); }
+{ const _tk = $('#lkTrack');                                                            // 자동잠금 = 좌우 드래그 슬라이더(LK_STEPS 9단계 스냅 · 운영자 260705)
+  if (_tk) {
+    const sldByX = cx => { if (!lkOn()) return; const r = _tk.getBoundingClientRect(); if (!r.width) return; const p = Math.max(0, Math.min(1, (cx - r.left) / r.width)); lkMinSetIdx(Math.round(p * (LK_STEPS.length - 1))); };
+    let sdrag = false;
+    _tk.addEventListener('pointerdown', e => { if (!lkOn()) return; sdrag = true; _tk.classList.add('drag'); try { _tk.setPointerCapture(e.pointerId); } catch {} sldByX(e.clientX); });
+    _tk.addEventListener('pointermove', e => { if (sdrag) sldByX(e.clientX); });
+    const send = e => { if (sdrag) { sdrag = false; _tk.classList.remove('drag'); try { _tk.releasePointerCapture(e.pointerId); } catch {} } };
+    _tk.addEventListener('pointerup', send); _tk.addEventListener('pointercancel', send);
+    _tk.addEventListener('keydown', e => { if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') { lkMinReq(-1); e.preventDefault(); } else if (e.key === 'ArrowRight' || e.key === 'ArrowUp') { lkMinReq(1); e.preventDefault(); } });   // 키보드 좌우(a11y)
+  } }
+// 부팅: 잠근 채 이탈(새로고침 포함) 또는 켜둔 채 유휴 초과 = 즉시 잠금(F5 우회 차단) · 아니면 무장만.
+// ⚠️ setTimeout(0) = 스크립트 전체 완주 후 실행 — 즉시 호출하면 lockNow→closeOverlays가 이 아래에서 선언되는 const(bpop 등)를 TDZ로 쳐 부팅째 죽음(헤드리스 실측).
+function lkBootEval() {   // 잠금 판정 = 캐시(부팅 즉시)로 1차 + 서버 로드 후(_onSettingsLoaded) 재평가 = stale 캐시 교정(요구1 전역)
+  if (isLocked()) return;   // 이미 잠김 = 재판정 스킵(재잠금 경합 차단 · 서버 OFF 반영은 PIN 입력으로 해제)
+  if (lkPinH() && (localStorage.getItem('nm_locked') === '1'
+    || (lkOn() && Date.now() - (parseInt(localStorage.getItem('nm_lock_last') || '0', 10) || Date.now()) >= lkMin() * 60000))) setTimeout(lockNow, 0);
+  else lockArm();
+}
+lkBootEval();        // 캐시(NM_SET) 기반 즉시 판정 — 오프라인·느린 네트워크서도 잠금 유지
+loadSettings();      // 서버 SSOT 로드(async) → 완료 시 _onSettingsLoaded가 UI 동기 + lkBootEval 재실행(전역 반영)
+
+// 모달 닫히면 배경 스크롤 복구(#5 — 닫기 버튼·Esc 모두 close 이벤트)
+let _dlgPop = false;   // 폰 뒤로가기(popstate)로 #dlg가 닫혔는지 — close 핸들러의 히스토리 정리 분기(lbox _lboxPop 패턴·260630 QA ③)
+let _dlgClosing = false;   // 리더 X/ESC/백드롭 닫기가 history.back()을 유발했는지 — 그 back의 popstate가 검색을 과닫힘시키는 것 차단(평의회3 260710: 검색 위 리더 X 닫기 → {dlg} 회수 back을 검색 몫으로 오인)
+$('#dlg').addEventListener('close', () => { document.documentElement.style.overflow = '';
+  if (_dlgPop) { _dlgPop = false; } else if (history.state && history.state.dlg) { _dlgClosing = true; try { history.back(); } catch {} } });   // X·백드롭·ESC로 닫힘 = push한 {dlg}칸 회수(뒤로가기로 닫혔으면 이미 pop돼 _dlgPop만 리셋) · _dlgClosing = 이 back이 검색이 아닌 리더 회수임을 popstate에 알림
+$('#dlgbody').addEventListener('scroll', updateScrub, { passive: true });
+// 본문 레이아웃 변화(짧은 본문·details 펼침·리사이즈·폴링 재렌더)도 FAB/scrub 갱신 — 스크롤 없으면 scroll 이벤트가 안 와 stale되던 것 차단(260630 QA 엣지)
+new ResizeObserver(() => { if ($('#dlg').open) updateScrub(); }).observe($('#dlgbody'));
+// 접근성 — 전 <dialog>에 role/aria-modal 부여(showModal이 자동 안 줌·스크린리더 "대화상자" 인지) + #dlg 접근명(260630 QA)
+document.querySelectorAll('dialog').forEach(d => { d.setAttribute('role', 'dialog'); if (!d.hasAttribute('aria-modal')) d.setAttribute('aria-modal', 'true'); });
+$('#dlg') && $('#dlg').setAttribute('aria-label', '뉴스 요약');
+
+// 모달 헤더 스크러버 — 스크롤 위치 게이지 + 섹션(요약·프롬프트·카드) 틱 + 클릭 점프. 맨위=원문/X, 스크롤=스크러버.
+function setupScrub() {
+  const dp = $('#dlgprog'); if (!dp) return;
+  const h = $('.dlg-h'); if (h) h.classList.remove('scrolled');   // 열릴 땐 맨 위(원문/X)
+  dp.innerHTML = `<div class="scrub"><div class="scrub-bar" id="scrubBar"><div class="scrub-fill" id="scrubFill"></div><i class="scrub-tick" data-j="n"></i><i class="scrub-tick" data-j="s"></i><i class="scrub-tick" data-j="m"></i><i class="scrub-tick" data-j="t"></i><div class="scrub-dot" id="scrubDot"></div></div><div class="scrub-labels"><span class="scrub-lb" data-j="n">요약</span><span class="scrub-lb" data-j="s">SNS 요약</span><span class="scrub-lb" data-j="m">프롬프트</span><span class="scrub-lb" data-j="t">카드</span></div></div>`;
+  const bar = $('#scrubBar');
+  bar.onclick = e => {
+    const db = $('#dlgbody'), r = bar.getBoundingClientRect(), range = db.scrollHeight - db.clientHeight;
+    db.scrollTo({ top: Math.max(0, Math.min(1, (e.clientX - r.left) / r.width)) * range, behavior: 'smooth' });
+  };
+  dp.querySelectorAll('.scrub-lb').forEach(lb => { lb.onclick = () => jumpTo(lb.dataset.j); });
+  requestAnimationFrame(updateScrub);
+}
+function scrubTargets() {
+  const sec = $('#cardsec'), f = $('#ph-feed');
+  return { n: $('#ph-sum'), s: igHead(), m: $('#ph-card'), t: (f && !f.hidden) ? f : (sec ? (sec.querySelector('.mkbtn') || null) : null) };
+}
+function updateScrub() {
+  const dlg = $('#dlg'); if (!dlg || !dlg.open) return;
+  const dp = $('#dlgprog'); if (!dp || !dp.firstElementChild) return;
+  const db = $('#dlgbody'), range = db.scrollHeight - db.clientHeight, st = db.scrollTop;
+  const pct = range > 0 ? Math.max(0, Math.min(100, st / range * 100)) : 0;
+  // ① 읽기 일괄 — getBoundingClientRect를 style 쓰기 사이에 끼우면 scroll마다 강제 reflow 5회(쓰기→읽기 thrash).
+  //   읽기(db.top + 4타깃)를 먼저 모아 reflow 1회로. 스크럽바 쓰기는 헤더 요소라 #dlgbody 콘텐츠 위치 불변 = 출력 동일(260630 QA ③).
+  const top = db.getBoundingClientRect().top, tg = scrubTargets();
+  let cur = 'n';
+  const rows = ['n', 's', 'm', 't'].map(k => {
+    const tick = dp.querySelector(`.scrub-tick[data-j="${k}"]`), lb = dp.querySelector(`.scrub-lb[data-j="${k}"]`), el = tg[k];
+    if (!el) return { tick, lb, el: null };
+    const off = st + (el.getBoundingClientRect().top - top);
+    if (st >= off - 8) cur = k;
+    return { tick, lb, el, p: range > 0 ? Math.max(0, Math.min(100, off / range * 100)) : 0 };
+  });
+  // ② 쓰기 일괄(읽기 끝난 뒤 = reflow 1회)
+  const fill = $('#scrubFill'), dot = $('#scrubDot');
+  if (fill) fill.style.width = pct + '%';
+  if (dot) dot.style.left = pct + '%';
+  rows.forEach(r => {
+    if (!r.el) { if (r.tick) r.tick.style.display = 'none'; if (r.lb) r.lb.classList.add('off'); return; }
+    if (r.lb) r.lb.classList.remove('off');
+    if (r.tick) { r.tick.style.display = ''; r.tick.style.left = r.p + '%'; }
+  });
+  dp.querySelectorAll('.scrub-lb').forEach(lb => lb.classList.toggle('cur', lb.dataset.j === cur && !lb.classList.contains('off')));
+  const hd = $('.dlg-h'); if (hd) hd.classList.toggle('scrolled', st > 60);
+  updateRevFab();   // 요약 수정 FAB 점멸 구간 갱신(콘텐츠 초안~시사점)
+  updateCrevFab();   // 🃏 카드 수정 FAB 점멸 구간 갱신(카드 프롬프트~이미지 직전)
+}
+
+// (모달 플로팅 N/M/T 네비는 카드 셀 .nmt 버튼으로 이관 — render()에서 배선)
+
+// 맨 위로 — 첫 화면(스크롤 전)엔 숨김, 어느정도 내려가면 페이드인 노출(탑 버튼이 안 떠도 되게)
+const totop = $('#totop');
+totop.addEventListener('click', () => window.scrollTo({ top:0, behavior:'smooth' }));
+// 페이지 스크롤 진행 게이지(운영자 260729 · MengTo scroll-progress-timeline 역이식) — 탭 리스트가
+// 수십 카드로 길어 '어디쯤인지' 감이 없던 것 보완. 리더(#dlg)는 .scrub 스크러버가 이미 담당 = 중복 신설 0.
+// 기존 fadeTop 스크롤 리스너에 합승(신규 리스너 0) · rAF 스로틀 · 요소 1개(#pgprog)·CSS 폭만 갱신.
+const pgprog = $('#pgprog');
+let _pgQ = false;
+const pgSync = () => {
+  _pgQ = false;
+  if (!pgprog) return;
+  const h = document.documentElement.scrollHeight - window.innerHeight;
+  const r = h > 40 ? Math.min(1, Math.max(0, window.scrollY / h)) : 0;   // 짧은 화면(h≤40) = 게이지 무의미 → 0
+  pgprog.style.width = (r * 100).toFixed(2) + '%';
+  pgprog.classList.toggle('on', h > 40 && window.scrollY > 8);
+};
+const fadeTop = () => {
+  const on = window.scrollY > 240; totop.style.opacity = on ? '1' : '0'; totop.style.pointerEvents = on ? 'auto' : 'none';
+  if (!_pgQ) { _pgQ = true; requestAnimationFrame(pgSync); }
+};
+window.addEventListener('scroll', fadeTop, { passive:true }); fadeTop();
+// (모달 내부 '맨 위로' 버튼 제거 — #dlg backdrop-filter가 position:fixed를 깨 '날아다님' + sticky 헤더로 대체 가능)
+// 카드 변경 팝업 배선(1회) — 텍스트는 어절칩(입력창 없음). 맨위로 = ed-body 스크롤.
+$('#edGo').onclick = submitEdit;
+$('#editdlg .ed-cno').onclick = () => $('#editdlg .ed-foot').classList.remove('confirm');
+$('#editdlg .ed-cyes').onclick = fireEdit;
+$('#editdlg').addEventListener('close', () => {   // 닫힘(✕·취소·백드롭·ESC) 시 — 최소화 폐지(운영자 260628): X=입력 보존(라이브 globals 유지·버튼만 리셋·같은 카드 변경버튼 재진입서 복원) / 제출·기사이동=full 리셋(편집 적용·소멸)
+  if (_editDiscardOnClose) { _editDiscardOnClose = false; _editKeptKey = null; resetEditFoot(); return; }   // 제출 성공 = 편집 적용됐으니 깨끗이 비움
+  resetEditFootLight();   // X·백드롭·ESC = wish·edLines·sync·scene 보존(끊긴 fetch·arm·firing만 정리)
+  _editKeptKey = EDIT_CTX ? cardKeyOf(EDIT_CTX) : null;   // 이 카드 변경버튼 재진입 시 복원할 키
+});
+$('#edSync').addEventListener('change', () => {   // 체크 = 이미지수정희망 잠금(이미지=텍스트 따라감) · 의도 변하니 arm 해제
+  const on = $('#edSync').checked, w = $('#edWish');
+  w.disabled = on; w.setAttribute('aria-disabled', on ? 'true' : 'false');   // disabled=true면 브라우저가 자동 포커스 해제(키보드 닫힘) — 별도 호출 불필요
+  edDisarm();
+});
+$('#edWish').addEventListener('input', edDisarm);   // wish 바뀌면 arm 해제(stale 발사 방지)
+// 사진 첨부(4:5)→합성 배선 — #edFile 선택=addEditScene(4:5 검증·미리보기) / #edAttach 재클릭(첨부됨)=합성 발사(파일선택 가로채기)
+$('#edFile').addEventListener('change', e => { addEditScene(e.target.files && e.target.files[0]); e.target.value = ''; });
+$('#edAttach').addEventListener('click', edAttachClick);
+bindImgPaste($('#editdlg'), f => addEditScene(f));   // 붙여넣기(Ctrl+V) = 편집 모달 어디서든 클립보드 이미지 → 장면 첨부(edWish disabled 대비 모달 레벨 · 텍스트 붙여넣기는 통과 · 운영자 260713 "모든 곳에 다")
+$('#editdlg .ed-img').addEventListener('click', () => { edToggleBaf(); });   // 첨부 시 상단 미리보기 탭 = 전/후 비교(원본↔첨부 · 운영자 260627). 취소는 첨부 버튼 탭.
+$('#editdlg .ed-baf').addEventListener('click', e => { e.stopPropagation(); edToggleBaf(); });   // 전/후 배지 탭도 전환
+const edBody = $('#editdlg .ed-body'), edTop = $('#edtop');
+edTop.onclick = () => edBody.scrollTo({ top: 0, behavior: 'smooth' });
+edBody.addEventListener('scroll', () => {
+  const ae = document.activeElement;   // 입력 중(키보드 자동스크롤)엔 토글 안 함 — '번쩍' 방지(상태는 그대로 유지)
+  if (ae && (ae.tagName === 'TEXTAREA' || ae.tagName === 'INPUT' || ae.isContentEditable)) return;
+  edTop.classList.toggle('show', edBody.scrollTop > 56);   // 조금만 내려도 노출
+}, { passive: true });
+// 화면 회전·리사이즈 시 어절칩 행 폭 재계산(팝업 열려 있을 때만)
+window.addEventListener('resize', () => { if ($('#editdlg').open) fitEditLines($('#edChips')); }, { passive: true });
+// 메인 모달 #dlg·편집팝업 #editdlg 백드롭(바깥) 클릭 = 닫기
+$('#dlg').addEventListener('click', e => { if (e.target.id === 'dlg') $('#dlg').close(); });
+$('#editdlg').addEventListener('click', e => { if (e.target.id === 'editdlg') $('#editdlg').close(); });
+
+let CURTAB = 'feed';   // 현재 탭(검색이 어느 콘텐츠에 걸릴지 결정)
+let _searchRender = false;   // 검색 타이핑발 렌더 표식 = 스태거(cardIn) 강제 OFF(매 keystroke 리스트 재애니 번쩍 차단 · 분신술 A2·운영자 260628)
+function searchActive() { _searchRender = true; try { if (CURTAB === 'scrap') renderScrap(); else if (CURTAB === 'trend') { renderSnsTrends(); renderSns(); } else if (CURTAB === 'chan') renderChan(); else render(); } finally { _searchRender = false; } }
+// (구 renderSovResults·sovHl[매칭 하이라이트] 폐지 — 재설계로 뒤 리스트[render/renderScrap/renderSns]가 직접 필터·결과 담당, 별도 플로팅 결과목록[sovResults] 소멸 · 평의회1·8 260710 · 뒤 리스트 하이라이트 이관은 후속 후보)
+let _searchDebT = null;
+function sovXIcon() { const sx = $('#sovClr'); if (!sx) return; const has = !!$('#q').value; if (sx._xIcon === has) return; sx._xIcon = has;   // 우측 픽토그램: 빈=돋보기(검색)/입력=X(비우기·해제) · 아이콘 변경 시만 재대입(§디자인 o 번쩍 방지 · 운영자 260710 "검색어 입력하면 X로")
+  sx.innerHTML = has ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 6 18 18M18 6 6 18"/></svg>' : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>';
+  sx.setAttribute('aria-label', has ? '검색어 지우기' : '검색 종료'); }
+$('#q').addEventListener('input', () => { clearTimeout(_searchDebT); _searchDebT = setTimeout(searchActive, 140); syncSearchBtn(); sovXIcon(); });   // 검색바=탭별: 레거시→후보 전반 / 뉴스요약→기사 / SNS→SNS. ⚡버퍼 260701(A1): 140ms 디바운스(뒤 리스트 직접 필터=renderScrap/render/renderSns) · 돋보기 점등(syncSearchBtn) · 우측 아이콘 빈=돋보기/입력=X(sovXIcon) · 구 sovPill.has·renderSovResults 폐지(평의회8·재설계 260710)
+// 검색 = 중앙 오버레이(운영자 260706 5차 확정 — 인라인 펼침 폐지): 돋보기 → 딤·블러 + 중앙 글래스 필. 닫혀도 검색어·필터 유지(결과 탐색 · 버튼확답) — 완전 해제는 X로 비움. 닫기 = 바깥 탭/Enter/폰 뒤로가기(안내 산문 0 = §디자인 e)
+const topsearch = $('#topsearch'), searchToggle = $('#searchToggle'), sovl = $('#sovl'), sovPill = $('#sovPill');
+let _sovPushed = false, _sovPop = false;   // 폰 뒤로가기 = 오버레이 먼저 닫기(§🎨 pushState/popstate · qpop _qPushed 패턴 계승)
+function syncSearchBtn() { searchToggle.classList.toggle('on', !sovl.hidden || !!$('#q').value.trim()); searchToggle.setAttribute('aria-expanded', String(!sovl.hidden)); }   // 점등 = 열림 OR 검색어 활성(닫혀도 필터 중 표시)
+function openSearch() {
+  if (!sovl.hidden) return;
+  closeOverlays('search');
+  sovl.hidden = false; sovl.classList.remove('ent'); void sovl.offsetWidth; sovl.classList.add('ent');   // 재열림에도 라이즈 재생(reflow 재시작)
+  document.body.classList.add('sov-open'); { const _ts = $('#topsearch'); if (_ts) _ts.inert = true; }   // 헤더 워드마크·타이틀 흐림 + 헤더 돋보기 숨김(운영자 260710) · inert = 키보드 Tab 포커스·SR 유령 잔존 차단(평의회5·9: opacity0+pe-none만으론 안 숨겨짐)
+  searchActive(); sovXIcon();   // 열 때 검색어 있으면 뒤 리스트(누적/신규) 필터 반영 + 우측 아이콘 상태 동기(빈=돋보기/입력=X) — 구 renderSovResults·sovPill.has 토글 폐지(평의회8)
+  const q = $('#q'); q.tabIndex = 0;
+  setTimeout(() => { try { q.focus({ preventScroll: true }); } catch {} }, 120);   // 라이즈(.25s) 중반 포커스 = OS 키보드 슬라이드와 겹침 완화
+  if (!_sovPushed) { try { history.pushState({ sov: true }, ''); _sovPushed = true; } catch {} }
+  syncSearchBtn();
+}
+function closeSearch() {   // 오버레이만 접음 — 검색어·필터는 유지(운영자 260706 버튼확답 "동작 유지·문구만 삭제" · 구 '닫기=쿼리 비움' 폐지)
+  if (sovl.hidden) return;
+  clearTimeout(_searchDebT);   // 종료 시 대기 중 디바운스 취소 = 닫힌 뒤 트레일링 재렌더 차단(평의회5)
+  sovl.hidden = true; sovl.classList.remove('ent'); document.body.classList.remove('sov-open'); { const _ts = $('#topsearch'); if (_ts) _ts.inert = false; }   // 헤더 복원 + 돋보기 inert 해제(평의회5·9)
+  const q = $('#q'); q.tabIndex = -1; q.blur();   // 닫힘 = 유령 탭포커스 차단(평의회4 B2 계승)
+  if (_sovPushed) { _sovPushed = false; if (_sovPop) _sovPop = false; else if (history.state && history.state.sov) history.back(); }   // 직접 닫기 = 푸시 칸 정리(뒤로가기 닫힘은 이미 pop됨 · qpop 패턴)
+  syncSearchBtn();
+}
+searchToggle.addEventListener('click', e => { e.stopPropagation();   // 검색 픽토그램 진입 = main 커스텀 계승(운영자 260710 "검색 위치·진입 = 신규[main]") + 활성 동작은 재설계(뒤 리스트 필터·renderSovResults 없음)
+  if (!sovl.hidden) { closeSearch(); return; }   // 열림 = 닫기
+  const q = $('#q');
+  if (q.value.trim()) { q.value = ''; searchActive(); syncSearchBtn(); return; }   // 필터 남음(타 오버레이/탭전환으로 검색바만 닫혔던 상태) = 검색 전 화면 복귀 · 구 sovPill.has·renderSovResults(플로팅) 호출 제거 = 재설계 정합(뒤 리스트가 결과 · 겉+안 병합 260710)
+  openSearch();   // 필터 없음 = 검색 열기
+});
+// (구 sovl 바깥탭 닫기·#sovResults 결과카드 클릭 위임 핸들러 폐지 — 재설계로 sovl은 pointer-events:none이라 바깥탭 발화 불가, #sovResults는 빈 채 dead · 결과 = 뒤 리스트 직접 클릭(통과) · 평의회2·3·8 260710)
+// 종료 경로 = 검색바 우측 돋보기(sovClr 완전해제) · 폰 뒤로가기(popstate) · 타 오버레이 열림(closeOverlays) · ESC(아래 keydown) · 검색 픽토그램 재클릭(위 필터복귀/닫기)
+$('#sovClr').addEventListener('click', () => { const q = $('#q'); if (q.value) { q.value = ''; searchActive(); } closeSearch(); });   // 우측 돋보기 = 완전 해제(검색어 비움 + 필터 해제 + 오버레이 닫기 = 원래 화면 · 운영자 260710) · if(q.value) 가드 = 빈 검색 닫기 시 불필요 재렌더 skip(평의회5) · closeSearch가 디바운스 clearTimeout
+$('#q').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.isComposing) { e.preventDefault(); $('#q').blur(); }   // Enter = 키보드 내림(검색바·필터 유지 → 뒤 리스트 결과 보기) · 완전 해제는 우측 돋보기(운영자 260710)
+  else if (e.key === 'Escape') { e.preventDefault(); const q = $('#q'); if (q.value) { q.value = ''; searchActive(); } closeSearch(); }   // ESC = 완전 해제(데스크톱 종료 경로 — 재설계로 클릭어웨이 소거돼 키보드 종료 필요 · 평의회10)
+});
+$('#cardonly').addEventListener('change', () => { syncCardBtn(); render(); });   // #cardonly hidden = 버튼(#cardonlyBtn)이 주경로(직접 render). 이 리스너는 외부서 change 디스패치 시에도 버튼상태 동기 보장(방어적·운영자 260628)
+// R 필터 칩 토글
+$('#chips').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  e.stopPropagation();   // 칩 클릭은 바깥-닫기로 전파 안 함 — renderChips가 칩 노드를 교체(detach)해 filterpop.contains(detached)=false로 오작동 닫힘 방지 · 이슈+카테고리 조합 위해 오버레이 유지(운영자 260627)
+  if (b.dataset.f === 'all') { FILTERS.cats.clear(); FILTERS.issue = false; }
+  else if (b.dataset.f === 'issue') { FILTERS.issue = !FILTERS.issue; }   // 이슈만 다중 가능(카테고리와 조합)
+  else if (b.dataset.cat) { const k = b.dataset.cat; FILTERS.cats.has(k) ? FILTERS.cats.delete(k) : FILTERS.cats.add(k); }   // 카테고리 = 다중 선택(토글·여러 개 동시 OR = 2차 필터 · 적용부 2219 OR 매칭 · 운영자 260629)
+  renderChips(); render(); syncFilterBtn();   // 칩 선택 후 깔때기 네온 동기화(필터 켜지면 닫혀도 보임)
+});
+
+// 필터 픽토그램 버튼 + 모피즘 오버레이 (운영자 260627 점2·4·7·9) — 옛 카테고리 칩바·'카드만' 토글 대체
+// 필터 = 설정>필터 아코디언(#filterSub)으로 이관(운영자 260710) · 헤더 filterpop 팝업·filterBtn·filterClose·filterReset 폐지 · 카드만(#cardonlyBtn)·칩(#chips) id 유지 = renderChips/render 그대로
+const cardonlyBtn = $('#cardonlyBtn'), cardonlyChk = $('#cardonly');
+const _RMQ = matchMedia('(prefers-reduced-motion:reduce)');
+function syncFilterBtn() {   // 필터 적용 표시 = '필터' 아코디언 라벨(#filterToggle) 강조(적용 중 발견성 · 구 깔때기 네온 대체 · 닫혀도 켜진 게 보임)
+  const ft = $('#filterToggle'); if (!ft) return;
+  ft.classList.toggle('flt-on', FILTERS.cats.size > 0 || FILTERS.issue);
+}
+function syncCardBtn() { if (!cardonlyBtn) return; cardonlyBtn.classList.toggle('on', cardonlyChk.checked); cardonlyBtn.setAttribute('aria-pressed', String(cardonlyChk.checked)); }
+function closeFilterPop() {}   // no-op 스텁 — 필터가 아코디언(linkpop 안)으로 이관 → linkpop 닫힘에 종속(구 팝업 여닫기 폐지) · 호출처(closeOverlays·scroll) 하위호환
+if (cardonlyBtn) cardonlyBtn.addEventListener('click', () => { cardonlyChk.checked = !cardonlyChk.checked; syncCardBtn(); render(); });   // 카드만 = 직접 토글(off 무채색→on 네온그린) + 재렌더
+
+renderChips(); syncFilterBtn(); syncCardBtn();
+// W 실시간 시계(초까지·KST)
+function tickClock() {
+  if (document.visibilityState !== 'visible') return;   // 백그라운드 탭 = 갱신 보류(매초 DOM churn 배터리 낭비 차단 · 복귀 시 다음 초 자동 복원 · 평의회 260713 ④)
+  const el = $('#dhClock'); if (!el) return;
+  if (isComposingModalOpen()) return;   // ⚠️ 작성 모달 중엔 시계 DOM 갱신 보류(같은 backdrop-filter 깜빡임 방지 · 닫으면 다음 초 복귀 · 260627)
+  const t = new Date().toLocaleTimeString('en-GB', { timeZone: 'Asia/Seoul', hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  el.innerHTML = `<b class="ck-t">${t}</b> KST`;
+}
+setInterval(tickClock, 1000); tickClock();
+// (주기 자동 새로고침 제거 — 사용자 요청 260614. 갱신 = 메뉴 새로고침 버튼.)
+
+// S(개정) 하단 네비 — 스크랩/피드=인앱 탭 전환 / SNS=<a> 직접 이동 / FAB(+)=제작도구 팝업.
+const bpop = $('#bpop'), linkpop = $('#linkpop'), qpop = $('#qpop');
+function popAt(pop, btn) {        // 팝업을 버튼 위에 띄움(좌우 화면 밖 안 나가게 클램프). ⚠️ translateX 안 씀(fixed+translateX 히트테스트 누수 차단·운영자 260622) → 폭 재서 좌변 직접 지정. 호출부서 hidden 해제 후 호출(폭 측정).
+  const r = btn.getBoundingClientRect();
+  pop.style.bottom = (window.innerHeight - r.top + 8) + 'px';
+  const w = pop.offsetWidth || 200, cx = r.left + r.width / 2;
+  pop.style.left = Math.round(Math.max(8, Math.min(cx - w / 2, window.innerWidth - w - 8))) + 'px';
+}
+function placeHeadPop(pop, btn) {   // 헤더 픽토그램 아래 우변 앵커 촤르륵(운영자 260710 요구5 "우측 상단 모서리가 픽토에 고정 · 7시방향") · 검색 외 헤더 팝업(설정 linkpop·메시지·발행본) 공통 = qpop head 모드 미러
+  if (!pop || !btn) return;
+  const r = btn.getBoundingClientRect();
+  const w = pop.offsetWidth || Math.min(window.innerWidth * 0.94, 320);
+  pop.style.top = Math.round(r.bottom + 8) + 'px';
+  pop.style.bottom = 'auto';
+  pop.style.maxHeight = Math.round(window.innerHeight - r.bottom - 16) + 'px';   // 픽토 아래 가용높이 캡
+  pop.style.left = Math.round(Math.max(8, Math.min(r.right - w, window.innerWidth - w - 8))) + 'px';   // 우변 = 픽토 우변(r.right) + 좌우 8px 클램프
+  pop.classList.add('head-pop');   // transform-origin top right + msgUnfold 촤르륵
+}
+$('#bnav').addEventListener('click', e => {
+  // 레거시/SNS/뉴스요약 = 탭 전환(showTab). ＋=제작도구 팝업 / 링크=피드 탐색 팝업(둘은 상호 배타).
+  const b = e.target.closest('.bnav-i[data-tab]');
+  if (b) {
+    e.preventDefault();
+    if (lpFired) { lpFired = false; return; }   // 롱프레스(대기열) 후 click이면 탭전환 스킵
+    if (b.dataset.tab === 'feed') {   // 뉴스요약 버튼 = 대기열 토글(롱프레스/우클릭/배지는 그대로 + 더블탭·닫기 추가)
+      if (!qpop.hidden) { closeQueueUser(); lastFeedTap = 0; return; }   // 떠있는 상태 한번 더 탭 = 닫기(직접 닫기 → 재오픈 플래그 해제)
+      if (e.detail && Date.now() - lastFeedTap < 400) { lastFeedTap = 0; openQueue(); return; }   // 연달아 두번 탭(포인터·<400ms) = 대기열 열기 (키보드 Enter는 detail=0 → 평범한 탭전환·오발 차단)
+      lastFeedTap = Date.now();   // 첫 탭 = 평소대로 피드 탭 전환(아래) + 더블탭 후보 기록
+    } else { lastFeedTap = 0; }   // 다른 탭 누르면 더블탭 후보 리셋(피드→타탭→피드 <400ms 오발 차단)
+    closeOverlays();
+    if (b.dataset.tab !== 'feed' && b.dataset.tab === CURTAB) { window.scrollTo({ top: 0, behavior: 'smooth' }); return; }   // 스크랩·SNS 활성 탭 재탭 = 재렌더·스태거 재생 없이 맨 위로만(깜빡임 차단·운영자 260621) · 피드는 위 더블탭 로직이 처리
+    showTabFx(b.dataset.tab); return;   // 일반 탭전환 = 열린 팝업 자동 닫힘 · [260804] 나가는 화면 디졸브 경유(showTabFx → 지운 뒤 showTab) — 프로그램 호출(토스트·딥링크·부팅 복원)은 종전대로 showTab 직행
+  }
+  const f = e.target.closest('#toolfab');
+  if (f) { e.preventDefault(); const wasOpen = !bpop.hidden; closeOverlays('bpop');
+    if (!wasOpen) { bpop.hidden = false; void bpop.offsetWidth; bpop.classList.add('open'); f.classList.add('open'); }   // 반원 펼침 = .open(reflow 후 add → 트랜지션 발동) + FAB 액티브(+→×)
+    else { bpop.hidden = true; bpop.classList.remove('open'); f.classList.remove('open'); } return; }
+  // (구 linkfab no-op 분기 폐지 — 260711 linkfab이 data-tab=trend 실탭이 되어 위 .bnav-i[data-tab] 브랜치가 처리)
+});
+// 팝업(bpop·linkpop·qpop) 바깥클릭 닫기 — 단 '포인터가 팝업 안에서 눌린' 클릭은 제외.
+//   페이저(2페이지) 클릭 시 renderQueuePage 가 innerHTML 로 누른 버튼을 DOM서 떼어내 qpop.contains(target)=false 가 되며
+//   팝업이 오발 닫히던 버그 차단(폰 웹뷰선 타깃 탈락 시 stopPropagation 도 불안정). pointerdown 은 재렌더 전이라 타깃이 붙어있어 판정 정확(운영자 260622).
+let _popDownInside = false;
+['pointerdown', 'mousedown'].forEach(ev => document.addEventListener(ev, e => {
+  _popDownInside = !!(e.target && e.target.closest && e.target.closest('#bpop, #linkpop, #qpop, #pubpop, #pindlg'));   // #pindlg = pubpop 위 top-layer 모달 — 그 안 클릭이 pubpop 바깥클릭 닫힘을 오발동 안 하게(평의회 260702)
+}, true));
+document.addEventListener('click', e => {
+  if (_popDownInside) return;   // 팝업 내부에서 시작한 클릭 = 안 닫음(타깃 탈락 무관)
+  if (!bpop.hidden && !bpop.contains(e.target) && !$('#bnav').contains(e.target)) { bpop.hidden = true; bpop.classList.remove('open'); const _tf = $('#toolfab'); if (_tf) _tf.classList.remove('open'); }
+  if (!linkpop.hidden && !linkpop.contains(e.target) && !$('#bnav').contains(e.target)) linkpop.hidden = true;
+  if (!qpop.hidden && !qpop.contains(e.target) && !$('#bnav').contains(e.target)) closeQueueUser();
+  if (!pubpop.hidden && !pubpop.contains(e.target) && !$('#profile').contains(e.target) && !($('#pindlg') && $('#pindlg').open)) closePubUser();   // pindlg(잠금 PIN) 열려 있으면 pubpop 유지(평의회 260702)
+});
+// 설정 = #linkpop 안 setToggle 아코디언으로 그 자리 펼침(운영자 260707 "설정 눌러도 딴 창 안 뜨고 그 아래 세부") — 옛 lpSettings→showPmenu 별도창 오픈 핸들러 폐지 · 메시지·발행본·설정 전부 linkpop 이관 = _setToggle(아코디언)/openMsgbox/openPub가 linkpop 안에서 그대로 작동(id 유지) · linkpop 바깥클릭 가드가 setToggle 보호(linkpop.contains + _popDownInside)
+
+// ── 대기열(뉴스요약 = 롱프레스 600ms · 연달아 두번 탭 · 우클릭 · 배지 → 열기 / 떠있을 때 한번 더 탭 → 닫기) — 분석 대기/중(pending/) 기사 개요. api/pending 라이브 조회(파이프라인 0 변경·읽기전용). ──
+const qFeedBtn = $('#bnav .bnav-i[data-tab="feed"]');
+let lpTimer = null, lpFired = false, lastFeedTap = 0;   // lastFeedTap = 직전 뉴스요약 탭 시각(연달아 두번 = 대기열 열기 판정)
+let QITEMS = [], QPAGE = 0, _qCloseTimer = 0; const QPER = 5;   // 대기열 = 페이지당 5개 페이지네이션
+function lpStart(e) { if (e && e.button) return;   // 1차 버튼(좌클릭/터치)만 롱프레스 — 우클릭은 contextmenu가 처리(중복 방지)
+  lpFired = false; clearTimeout(lpTimer); lpTimer = setTimeout(() => { lpFired = true; openQueue(); }, 600); }   // 600ms — 일반 탭(살짝 눌러도)은 이동, 의도적 길게눌림만 대기열(480ms는 일반 탭에도 오발·운영자 260621)
+function lpCancel() { clearTimeout(lpTimer); }
+if (qFeedBtn) {
+  qFeedBtn.addEventListener('pointerdown', lpStart);
+  ['pointerup', 'pointercancel', 'pointerleave'].forEach(ev => qFeedBtn.addEventListener(ev, lpCancel));
+  // ⚠️ 손가락 뗌(release)을 버튼에서 못 잡는 기기·합성이벤트 순서 어긋남 대비 — window 레벨에서도 취소(빠른 탭인데 pointerup이 버튼에 안 잡혀 600ms 뒤 대기열 여는 오발 차단·운영자 260621)
+  ['pointerup', 'pointercancel'].forEach(ev => window.addEventListener(ev, lpCancel));
+  qFeedBtn.addEventListener('contextmenu', e => { e.preventDefault(); openQueue(); });   // PC 우클릭 = 대기열(네이티브 메뉴 막고 즉시 열기)
+  qFeedBtn.addEventListener('pointermove', e => { if (Math.abs(e.movementX) + Math.abs(e.movementY) > 8) clearTimeout(lpTimer); });   // 스와이프 제스처 중 롱프레스 오발 취소(Failed칩 패턴 계승·260620)
+  qFeedBtn.addEventListener('blur', () => { lpFired = false; });   // 대기열 열려 포커스 이동 후 lpFired 고착 → 다음 탭전환 1회 삼킴 방지(Failed칩 blur 리셋 계승)
+  const qb = document.getElementById('qbadge');
+  if (qb) {   // 발견성 배지 = 탭하면 대기열(숨은 롱프레스 의존 제거 · 롱프레스·우클릭은 추가로 유지). stopPropagation = 탭전환·롱프레스 타이머 억제.
+    qb.addEventListener('pointerdown', e => e.stopPropagation());
+    qb.addEventListener('click', e => { e.stopPropagation(); openQueue(); });
+  }
+}
+// 헤더 대기열 픽토그램(운영자 260710 "필터 우측·모든 페이지") = 클릭 토글 · 하단 뉴스요약 롱프레스/더블탭/우클릭과 병존 · stopPropagation = 헤더 클릭이 document 바깥닫힘(6970)으로 열자마자 닫히는 것 차단
+{ const _qHeadBtn = document.getElementById('queueBtn');
+  if (_qHeadBtn) _qHeadBtn.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); if (!qpop.hidden) closeQueueUser(); else openQueue(_qHeadBtn); }); }
+let _qPushed = false, _qPop = false;   // 대기열 폰 뒤로가기 = 먼저 닫기(§🎨 pushState/popstate · 라이트박스 패턴 계승 · 운영자 260622)
+let _qHistYield = false;   // 히스토리 칸 인계 플래그 — 대기열 위로 뜨는 모달(openTool)이 {qpop} 칸을 replaceState 로 가져갈 때 ON → closeQueueUser 가 back() 을 포기(back↔pushState 경쟁이 그 모달을 즉시 닫던 것 차단 · 운영자 260727 재시도 먹통 봉합)
+let _qAnchor = null;   // 대기열 앵커 = 헤더 픽토그램(#queueBtn·head 모드) or null(하단 뉴스요약 기본) — placeQpop 위치 분기(운영자 260710)
+function placeQpop() {   // 대기열 위치 — 헤더 픽토그램(head)=픽토 아래 우변 앵커 촤르륵 / 하단 네비=PC 버튼 위·모바일 화면중앙 · 둘 다 뷰포트 클램프(운영자 260705·260710)
+  const head = !!(_qAnchor && _qAnchor.id === 'queueBtn');   // 헤더 대기열 픽토그램서 열림 = 아래로
+  qpop.classList.toggle('qpop-head', head);
+  const a = head ? _qAnchor : qFeedBtn;
+  const r = a.getBoundingClientRect();
+  const w = qpop.offsetWidth || Math.min(window.innerWidth * 0.94, 440);   // 실측 폭(hidden 해제 후 호출 · CSS min(94vw,440) 폴백)
+  if (head) {   // 헤더 픽토그램 아래로 촤르륵 · 팝업 우변 = 픽토그램(클러스터) 우변(운영자 260710 "우측 모서리 맞춰 7시 방향")
+    qpop.style.top = Math.round(r.bottom + 8) + 'px';
+    qpop.style.bottom = 'auto';
+    qpop.style.maxHeight = Math.round(window.innerHeight - r.bottom - 16) + 'px';   // 픽토 아래 가용높이로 캡(세로 안 짤림)
+    qpop.style.left = Math.round(Math.max(8, Math.min(r.right - w, window.innerWidth - w - 8))) + 'px';   // 우변 정렬(r.right) + 좌우 8px 클램프
+  } else {   // 하단 네비 위(기존) — PC 버튼 위 앵커 / 모바일 화면 중앙
+    qpop.style.top = 'auto';
+    qpop.style.bottom = (window.innerHeight - r.top + 12) + 'px';   // 네비 위로(크게·위로 띄움)
+    qpop.style.maxHeight = (r.top - 16) + 'px';   // 네비 위 가용높이로만 캡(세로 안 짤림 · 헤더·페이지=flex:none, 리스트만 압축)
+    const fine = !!(window.matchMedia && matchMedia('(pointer: fine)').matches);   // 정밀 포인터(마우스)=PC → 버튼 위 앵커 / 터치=모바일 → 화면 중앙
+    const cx = fine ? (r.left + r.width / 2) : (window.innerWidth / 2);   // 앵커 중심 = PC는 버튼 중앙, 모바일은 화면 중앙
+    qpop.style.left = Math.round(Math.max(8, Math.min(cx - w / 2, window.innerWidth - w - 8))) + 'px';   // 좌우 8px 클램프(좁은 창서도 안 넘침·translateX 안 씀=히트테스트 누수 차단)
+  }
+}

@@ -1,0 +1,512 @@
+function geniInit() {
+  if (_geniInited) return; _geniInited = true;
+  geniRoot().querySelectorAll('.geni-opts[data-k]').forEach(box => {
+    const k = box.dataset.k;
+    box.innerHTML = GENI_DICT[k].map(([v, ko]) => '<button type="button" class="geni-opt"' + (k === 'aspect' || k === 'size' || k === 'count' ? ' data-num="1"' : '') + ' data-v="' + v + '">' + ko + '</button>').join('');
+    box.addEventListener('click', e => {
+      const b = e.target.closest('.geni-opt'); if (!b) return;
+      if (k === 'aspect' && b.dataset.v === 'custom' && _geniSel.aspect === 'custom') { _geniSel.aspect = '4:5'; _geniSel.arW = '1'; _geniSel.arH = '1'; geniApply(); return; }   // 켜진 「직접」 재탭 = 프리셋으로 복귀(인라인 전환의 되돌아가기 정문 · 운영자 260727 "순간 바껴서"의 왕복 축)
+      _geniSel[k] = b.dataset.v;
+      if (k === 'aspect' && b.dataset.v === 'custom') setTimeout(() => { try { const w = $('#geniArW'); w.focus(); w.scrollIntoView({ block: 'center', behavior: 'smooth' }); } catch {} }, 280);   // 직접 = 아코디언 펼침 뒤 W 포커스 + 키보드 가림 구제(주문칸과 동일 처리 · 6인 검증)
+      geniApply();
+    });
+  });
+  // 화풍 = 상용 3칩 + '기타' 선택박스 / 세부 화풍 = 자동 + '직접' 선택박스 / 무드 = 자동 + 직접(게이지) — 운영자 260710
+  $('#geniStyle').innerHTML = geniFreqSort('style', GENI_ALL_STYLES).map(([v, ko], i) => '<span class="geni-subit">' + (i ? '<span class="geni-sep" aria-hidden="true">|</span>' : '') + '<button type="button" class="geni-opt" data-v="' + v + '">' + ko + '</button></span>').join('');   // 9화풍 전량 = 제작빈도순 가로 레일(운영자 260713 전광판 · 좌측=자주 쓰는 화풍) · 정적 목록 = 촤르륵 비대상(인/아웃 애니는 #geniSub 스코프)
+  $('#geniStyle').addEventListener('click', e => {
+    const b = e.target.closest('.geni-opt'); if (!b) return;
+    geniPickStyle(b.dataset.v);   // 부수효과(미보유 세부 자동 강하 · 레고→GPT 기본) = geniPickStyle 단일점 — 요약바 글자 탭과 공유(복제 모드 GPT 자동 전환[geniRefMode]과 동일 문법)
+    geniApply();
+  });
+  geniSubRender();   // 세부 화풍 = 현 화풍 목록 인라인 즉시 구축(운영자 260713 — 구 자동+'직접' 선택박스 폐지 · 클릭은 아래 위임 1핸들러)
+  $('#geniSub').addEventListener('click', e => {
+    const b = e.target.closest('.geni-opt'); if (!b) return;
+    _geniSel.sub = b.dataset.v; geniApply();
+  });
+  // ── 요약바(#geniSum) 글자 탭 = 그 옵션 바꾸기(운영자 260728 "옵션바에 해당 비율 또는 토글되는 글자 클릭하면 옵션이 바뀌게 · 각 옵션에 따라 귀속") ──
+  //   레퍼런스 = #askStrip .gs-tog 정본 그대로(클릭 + Enter/Space · role=button · press-m 눌림) · 값 축은 「다음 값으로 순환」, ON/OFF 축은 뒤집기 = 각 옵션 성격에 귀속.
+  //   순환 순서 = 본문 나열 순서 계승(비율 = GENI_DICT.aspect · 화풍·세부 = 레일 표시 순서) → 요약바로 넘겨도 본문 레일이 같은 순서로 따라온다(반영은 geniApply 단일점).
+  const GENI_SUM_TG = {
+    engine: () => { _geniSel.engine = _geniSel.engine === 'gpt' ? 'gemini' : 'gpt'; _geniSel.engineTouched = true; },   // 모델 = 두 모델 교대(본문 칩과 같은 손댐 도장 = 복제 자동 전환이 덮지 않는다)
+    aspect: () => { const ps = GENI_DICT.aspect.filter(([v]) => v !== 'custom').map(([v]) => v); _geniSel.aspect = ps[(ps.indexOf(_geniSel.aspect) + 1) % ps.length]; },   // 비율 = 프리셋만 순환('직접'은 N:N 입력이라 순환 대상 아님 · 직접 상태에서 탭하면 첫 프리셋으로 복귀 = indexOf -1)
+    style: () => { const ls = geniFreqSort('style', GENI_ALL_STYLES).map(([v]) => v); geniPickStyle(ls[(ls.indexOf(_geniSel.style) + 1) % ls.length]); },   // 화풍 = 레일 순서 순환 + 부수효과 공유
+    sub: () => { const ls = geniSubList().map(([v]) => v); _geniSel.sub = ls[(ls.indexOf(_geniSel.sub) + 1) % ls.length]; },   // 세부 화풍 = 현 화풍 목록 순환(자동 포함 · 세부 없는 화풍[레고]은 자동 1개라 제자리)
+    kweb: () => { _geniSel.kweb = !_geniSel.kweb; },
+    textOn: () => { _geniSel.textOn = !_geniSel.textOn; },
+  };
+  const sumEl = $('#geniSum');
+  if (sumEl) {
+    const sumFire = e => {
+      const t = e.target.closest('.gs-tog'); if (!t) return;
+      const fn = GENI_SUM_TG[t.dataset.tg]; if (!fn) return;
+      e.preventDefault();
+      const k = t.dataset.tg;
+      fn(); geniApply();
+      if (document.activeElement === document.body || !sumEl.contains(document.activeElement)) { const n = document.querySelector('#geniEngRail [data-tg="' + k + '"], #geniSum [data-tg="' + k + '"]'); if (n && e.type === 'keydown') n.focus(); }   // 매 반영마다 innerHTML 재작성 = 노드 교체 → 키보드 경로만 같은 항목으로 포커스 재착지(마우스는 원복 불필요) · 탐색 = 두 거처(모델 칩 = #geniEngRail 승격분 260803)
+    };
+    sumEl.addEventListener('click', sumFire);
+    const engEl = $('#geniEngRail');   // 모델 칩 거처(260803 픽토 자리 승격) = 같은 위임 1벌 재사용(재구현 0)
+    if (engEl) { engEl.addEventListener('click', sumFire); engEl.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') sumFire(e); }); }
+    sumEl.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') sumFire(e); });   // 바인딩 = #askStrip 토글 정본 문법(클릭 + Enter/Space)
+  }
+  geniRailSetup('#geniStyle'); geniRailSetup('#geniSub');   // 레일 = 드래그·화살표·끝선 페이드 배선(운영자 260713 전광판)
+  $('#geniMood').innerHTML = '<button type="button" class="geni-opt" data-v="auto">자동</button><button type="button" class="geni-opt" data-v="axes">직접</button>';
+  $('#geniMood').addEventListener('click', e => {
+    const b = e.target.closest('.geni-opt'); if (!b) return;
+    const nv = b.dataset.v === 'axes' ? 'axes' : 'auto';
+    const changed = nv !== _geniSel.mood;
+    _geniSel.mood = nv; geniApply();
+    if (changed) requestAnimationFrame(() => geniMoodScroll(nv === 'axes'));   // 무드 직접/자동 토글 = 게이지 아코디언 열림·닫힘에 맞춰 개수 행 정렬 스크롤(운영자 260713 "장수까지 이징하며 올라오고 닫으면 내려감") · geniApply 아코디언 반영 뒤(rAF)
+  });
+  $('#geniGauges').innerHTML = GENI_MOOD_AX.map(([k, name, lo, hi]) =>
+    '<div class="geni-gg" data-ax="' + k + '"><div class="geni-gg-h"><span class="geni-gg-name">' + name + '</span><span class="geni-gg-val">0</span></div>' +
+    '<div class="geni-gg-bar"><span class="geni-gg-end">' + lo + '</span><input type="range" min="-2" max="2" step="1" value="0" aria-label="' + name + ' (' + lo + ' ↔ ' + hi + ')"><span class="geni-gg-end">' + hi + '</span></div></div>').join('');
+  $('#geniColorGauges').innerHTML = GENI_COLOR_AX.map(([k, name, lo, hi]) =>
+    '<div class="geni-gg" data-ax="' + k + '"><div class="geni-gg-h"><span class="geni-gg-name">' + name + '</span><span class="geni-gg-val">0</span></div>' +
+    '<div class="geni-gg-bar"><span class="geni-gg-end">' + lo + '</span><input type="range" min="-50" max="50" step="5" value="0" aria-label="' + name + ' (' + lo + ' ↔ ' + hi + ')"><span class="geni-gg-end">' + hi + '</span></div></div>').join('');   // 셸·문법 = 무드 게이지 정본 그대로(범위만 ±50% step 5)
+  $('#geniColorGauges').addEventListener('input', e => {
+    const r = e.target.closest('input[type=range]'); if (!r) return;
+    _geniSel.colorAx[r.closest('.geni-gg').dataset.ax] = Math.max(-50, Math.min(50, parseInt(r.value, 10) || 0));
+    _geniSel.colorTouched = true;   // 손댄 뒤엔 엔진·모드가 바뀌어도 운영자 값이 이긴다
+    geniApply();
+  });
+  const crst = $('#geniColorReset'); if (crst) crst.addEventListener('click', () => { _geniSel.colorTouched = false; _geniSel.colorAx = geniColorPreset(); geniApply(); });   // 실측 프리셋 복귀
+  $('#geniGauges').addEventListener('input', e => {
+    const r = e.target.closest('input[type=range]'); if (!r) return;
+    const k = r.closest('.geni-gg').dataset.ax;
+    _geniSel.moodAx[k] = Math.max(-2, Math.min(2, parseInt(r.value, 10) || 0));
+    geniApply();
+  });
+  [['#geniArW', 'arW'], ['#geniArH', 'arH']].forEach(([sel, key]) => {   // 비율 직접 N:N — 숫자만 · 환산 표시는 geniApply
+    const el = $(sel); if (!el) return;
+    el.addEventListener('input', () => { const v = el.value.replace(/\D/g, '').slice(0, 2); if (el.value !== v) el.value = v; _geniSel[key] = v; geniApply(); });
+    el.addEventListener('focus', () => el.select());   // 탭하면 그 자리가 비는 느낌(운영자 260727 "1:1이였다가 자릿수가 비는 느낌") = 값 전체 선택 → 첫 타건이 바로 덮어쓴다
+    el.addEventListener('blur', () => { if (!el.value) { el.value = '1'; _geniSel[key] = '1'; geniApply(); } });   // 비운 채 떠나면 1로 복귀 = '값이 앉아 있는' 상태 유지(빈 칸 = 발사 게이트 차단 상태로 방치되는 것 방지)
+  });
+  const kwbtn = $('#geniKweb'); if (kwbtn) kwbtn.addEventListener('click', () => { _geniSel.kweb = !_geniSel.kweb; geniApply(); });   // 웹툰화 = 독립 on/off 토글(기본 ON · 운영자 260710 · 260728 토글 유지 재확인)
+  const engbtn = $('#geniEngine'); if (engbtn) engbtn.addEventListener('click', e => { const b = e.target.closest('.geni-opt'); if (!b) return; _geniSel.engine = b.dataset.v === 'gpt' ? 'gpt' : 'gemini'; _geniSel.engineTouched = true; geniApply(); });   // 손댄 뒤엔 복제 자동 전환이 덮지 않는다   // 탭 = 누른 모델 즉시 선택(운영자 260728 · 구 교대 토글) · 위임 문법 = #geniRefMode 정본 그대로
+  const tonbtn = $('#geniTextOn'); if (tonbtn) tonbtn.addEventListener('click', () => { _geniSel.textOn = !_geniSel.textOn; geniApply(); });   // 문구 살리기 = on/off 토글(260728 한국웹툰화와 한 쌍 회수) — 문구 자체는 Opus가 주문(장면 설명)에서 정해 자연스럽게 살림(운영자 260710)
+  const rfBtn = $('#geniRefBtn'), rfFile = $('#geniRefFile'), rfBox = $('#geniPrevBox'), rfSwap = $('#geniRefSwap'), rfX = $('#geniRefX');   // 참고 이미지 첨부 = 미리보기 쉘 이주(운영자 260719 — 빈 상태 픽토그램 진입점 #geniRefBtn 승계 · 교체/삭제 = .cpv-tool · thumb 편집 미리보기 입구 문법 동일)
+  // ── 미리보기 확대(돋보기) + 레일 생성 칩 = thumb 정본 동문(운영자 260802 2차) — 창은 상시 52%·확대는 버튼만 · 생성 칩은 정본 발사 버튼(#geniGo) 대리클릭(상태·비활성 1벌) ──
+  //   확대 상태 = 표면 공용 키 1벌(운영자 260802 3차 승인 = 보고 6-4) — thumb·tr과 같은 `nm.pvzoom`이라 4탭이 한 크기로 열린다
+  const zmBtn = $('#geniZoom'), zmPv = $('#geniPrev');
+  if (zmBtn && zmPv) {
+    const paint = on => { zmPv.classList.toggle('dockzoom', on); zmBtn.classList.toggle('on', on); zmBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      zmBtn.setAttribute('aria-label', on ? '미리보기 원상복귀' : '미리보기 확대'); zmBtn.title = on ? '탭=원상복귀' : '탭=미리보기 확대 · 다시 탭=원상복귀'; };
+    geniZoomPaint = on => { paint(on); geniPrevSize(); };   // 탭 진입 재도색 = 폭 전환 후 실폭 1:1 높이 재산출 동반(아래 클릭 배선과 같은 짝 · 쉘 높이 단일출처 = geniPrevSize)
+    paint(PVZOOM.get());
+    zmBtn.addEventListener('click', () => { const on = !zmPv.classList.contains('dockzoom'); paint(on); PVZOOM.set(on); setTimeout(geniPrevSize, 280); });   // 폭 전환 후 실폭 1:1 높이 재산출(쉘 높이 단일출처 = geniPrevSize)
+  }
+  if (rfBtn && rfFile) {
+    rfBtn.addEventListener('click', () => { if (!_geniRef) rfFile.click(); });   // 빈 상태 = 파일 선택(네이티브 button = 키보드 Enter/Space 자동 페어 — 구 div role 키다운 폐지)
+    if (rfSwap) rfSwap.addEventListener('click', () => rfFile.click());   // 교체 = 파일 선택 재진입(thumb #cpImgSwap → #cFile 위임 동일)
+    if (rfX) rfX.addEventListener('click', () => { geniRefClear(); geniApply(); });   // 삭제(휴지통) = 빈 상태 복귀(thumb #cpImgDel → _reset 위임 동일)
+    rfFile.addEventListener('change', () => { const f = rfFile.files && rfFile.files[0]; if (f) geniRefPick(f); rfFile.value = ''; });   // value 리셋 = 같은 파일 재선택 허용
+    bindImgPaste($('#geniWish'), geniRefPick);   // 붙여넣기(Ctrl+V) = 주문칸에 클립보드 이미지 → 참고 이미지(askText 선례 이식 · 운영자 260713 "모든 곳에 다")
+    if (rfBox) {
+      bindImgPaste(rfBox, geniRefPick);          // 미리보기 박스 포커스 상태 붙여넣기(구 슬롯 바인딩 승계)
+      ['dragover', 'dragenter'].forEach(t => rfBox.addEventListener(t, e => { e.preventDefault(); rfBox.classList.add('dropping'); }));   // 드롭 첨부 = thumb .cpprev-box.dropping 힌트 동일(운영자 260716 "드롭 ㄱ" 축 계승)
+      ['dragleave', 'drop'].forEach(t => rfBox.addEventListener(t, e => { if (t === 'drop') { e.preventDefault(); const f = [...((e.dataTransfer && e.dataTransfer.files) || [])].find(x => /^image\//.test(x.type || '')); if (f) geniRefPick(f); } rfBox.classList.remove('dropping'); }));
+    }
+  }
+  const rfMode = $('#geniRefMode'); if (rfMode) rfMode.addEventListener('click', e => { const b = e.target.closest('.geni-opt'); if (!b) return; _geniSel.refMode = GENI_REFMODES.includes(b.dataset.v) ? b.dataset.v : 'ref'; if (_geniSel.refMode === 'clone') { geniCloneAspect(); if (!_geniSel.engineTouched) _geniSel.engine = 'gpt'; } geniApply(); });   // 복제 = 엔진도 GPT로 자동 전환(운영자 260727 한 수 채택 · 근거 = Gemini엔 input_fidelity가 없어 선 강도 축을 구조적으로 못 잡음 · 260727 실측 GPT+fidelity+채도-20% = 문서 §4 전지표 합격) · 엔진 칩을 한 번이라도 손댔으면 그 선택이 이긴다   // 복제 선택 = 비율을 첨부 원본비로 스냅(운영자 260726 · 문서 §L3) — 다른 모드로 되돌리면 비율은 그대로 남는다(운영자가 다시 고르면 그 값 승)
+  geniRoot().querySelectorAll('.geni-fold').forEach(fold => fold.addEventListener('click', () => {   // 소머리 접이 = 카메라·구도 단독 배선을 .geni-fold 전체로 일반화(운영자 260727 "개요에도 화살표" — 개요·표현 폴드 편입 · 대상은 aria-controls가 지목 = 구 #geniCamSub 하드코딩 해소 · 동작 문법·CSS 신설 0)
+    const open = fold.getAttribute('aria-expanded') !== 'true';
+    fold.setAttribute('aria-expanded', open ? 'true' : 'false');
+    const sub = document.getElementById(fold.getAttribute('aria-controls')); if (sub) { if (open) { sub.removeAttribute('inert'); setTimeout(() => { try { fold.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); } catch {} }, 60); } else sub.setAttribute('inert', ''); }   // inert = 접힘 시 tab-order·SR 제거(적대검증B P1: 구 max-height:0만 = 안 보이는 37칩이 tab-order 잔류 = 거짓 계승 · 원본 .pmenu-sub[hidden] 핵심 복원)
+  }));
+  geniRoot().querySelectorAll('.geni-histfold').forEach(btn => { let _cT = null; btn.addEventListener('click', () => {   /* ⚠ 스코프 = 폼 뿌리(geniRoot) — 구 전역 질의는 **다운로드 창(#dlgrab)의 같은 클래스 폴드 2개**까지 물어 남의 창 버튼에 geni 핸들러를 덧바인딩했다(재검증관 CDP 실측: dg 폴드 리스너 0→1 · 재현 = 다운로드 창을 최소화로 남긴 뒤 AI 생성 첫 진입). 지금은 dg가 본문을 통째 재구축해 덮어 증상이 잠복이지만, 부분 갱신으로 바뀌는 날 바로 터진다 — 260803 6차 `geniOutPlace` 전역 `.geni-body` 사고와 **같은 계열**이라 같은 처방으로 동봉 봉합 */   // AI 생성 결과·이전 제작 접이 = thumb/tr #histH 정본 동문(hidden+closing 촤르륵 · 운영자 260803 Q1249 "접이 애니메이션도 적용" — 구 grid-rows 슬라이드+inert 폐지 · dg 다운로드 창 폴드는 자기 재렌더 문법 = 무접촉)
+    const sub = document.getElementById(btn.getAttribute('aria-controls')); if (!sub) return;
+    const open = sub.hidden;
+    clearTimeout(_cT); sub.classList.remove('closing');
+    btn.setAttribute('aria-expanded', String(open));
+    if (open) { sub.hidden = false; }
+    else if (matchMedia('(prefers-reduced-motion:reduce)').matches) { sub.hidden = true; }
+    else { sub.classList.add('closing'); _cT = setTimeout(() => { sub.hidden = true; sub.classList.remove('closing'); }, 270); }
+  }); });
+  const sx0 = $('#geniStyleEx');   // 화풍 예시 = load/error가 가시성 전담(자산 없는 화풍 = 숨김 유지 · 260719)
+  if (sx0) { sx0.addEventListener('load', () => { sx0.hidden = false; }); sx0.addEventListener('error', () => { sx0.hidden = true; }); }
+  window.addEventListener('resize', geniPrevSize);   // 박스 높이 = 뷰포트 변화 추적(편집 iframe svh 등가 · 260719)
+  // 자유모드 생성 게이트 + 키보드 가림 회피(적대검증A·C) — 입력 포커스 = 뷰포트 클램프 + scrollIntoView
+  const wishEl = $('#geniWish');
+  wishEl.addEventListener('input', geniGate);
+  wishEl.addEventListener('focus', () => { geniVV(); setTimeout(() => { try { wishEl.scrollIntoView({ block: 'center', behavior: 'smooth' }); } catch {} }, 90); });
+  if (window.visualViewport) window.visualViewport.addEventListener('resize', vvSchedule);   // 톱레벨 상시 배선과 **같은 참조** = 중복 등록이 addEventListener에서 무시된다(구 geniVV 직등록은 톱레벨분과 다른 함수라 실제로 2벌 돌던 것 — 합치기의 이득을 이 줄이 새게 하던 구멍)
+  const gdlg = $('#genidlg'); if (gdlg) {
+    gdlg.addEventListener('close', () => { gdlg.style.maxHeight = ''; gdlg.style.marginTop = ''; geniDDClose(); _geniMoodScrollY = null; geniRefClear(); const _gb = $('#geniGo'); if (_gb) { gaugeClear(_gb); askHideCheck(_gb); _gb.disabled = false; } if (_geniCtx && _geniCtx.free) { nmDraftSave('GENI_FREE_TXT', { wish: $('#geniWish').value }); } });   // 키보드 클램프 복원 + 선택박스 정리 + 발사 게이지 원복(다음 열림 = 깨끗 · thumbRedo close 미러) + 자유모드 장면 스냅샷(발사·X·백버튼 전부 close 경유 = 단일 저장점 · 260709)
+    gdlg.addEventListener('scroll', geniDDSync, true);   // 바디 스크롤 = 앵커 추적 재배치(가시영역 이탈 시에만 닫기 · 캡처 = geni-body 스크롤 수신 — 닫기 즉발은 클릭 직전 스크롤 잔이벤트 레이스로 자폭했음 · 실측 260710)
+    const gh0 = $('#geniHost'); if (gh0) gh0.addEventListener('scroll', geniDDSync, true);   // 이식 탭 홈에도 동일 캡처(운영자 260713 "품질 저하 없이" QA — 이식 모드선 바디 스크롤이 다이얼로그를 안 지나 선택박스가 앵커 추적을 못 받았음 · geniDDSync는 DD 없으면 no-op = 이중 바인딩 무해)
+    gdlg.addEventListener('cancel', e => { if (_geniDD) { e.preventDefault(); geniDDClose(); } });   // ESC = 선택박스만 먼저 닫기(팝업 통째 닫힘 방지 · 6인 검증 a11y)
+  }
+  $('#geniX').addEventListener('click', () => $('#genidlg').close());
+  $('#geniMore5').addEventListener('click', () => {   // 기존 실사진 재검색(보조 경로 보존)
+    const c = _geniCtx; $('#genidlg').close();
+    if (c) moreImgGo(c.file, c.wrap, c.btn);
+  });
+  $('#geniGo').addEventListener('click', async () => {
+    const c = _geniCtx; if (!c) { $('#genidlg').close(); return; }
+    const wish = $('#geniWish').value.replace(/\s+/g, ' ').trim().slice(0, 300);   // 주문 = 서버(genimg.js) 정규화·클램프 동값(개행→공백·300)
+    const aspect = geniAspect();
+    if (!aspect) { try { $('#geniArW').focus(); } catch {} return; }   // 직접 비율 미완성 = 발사 불가(게이트와 이중 방어)
+    const anyAx = GENI_MOOD_AX.some(([k]) => _geniSel.moodAx[k]);
+    const opts = { style: _geniSel.style, sub: _geniSel.sub, aspect, size: _geniSel.size, count: parseInt(_geniSel.count, 10) || 1, fmt: GENI_FMT,
+      mood: (_geniSel.mood === 'axes' && anyAx) ? 'axes' : 'auto', moodAx: { ..._geniSel.moodAx },
+      kweb: !!_geniSel.kweb, textOn: !!_geniSel.textOn, engine: _geniSel.engine === 'gpt' ? 'gpt' : 'gemini', satAdj: _geniSel.colorAx.sat | 0, briAdj: _geniSel.colorAx.bri | 0,
+      place: _geniSel.place, shot: _geniSel.shot, expr: _geniSel.expr, angle: _geniSel.angle, point: _geniSel.point, light: _geniSel.light, wish };
+    if (_geniRef && _geniRef.b64) { opts.refB64 = _geniRef.b64; opts.refMode = GENI_REFMODES.includes(_geniSel.refMode) ? _geniSel.refMode : 'ref'; }   // 참고 이미지 첨부 시 = base64+모드 동봉(미첨부 = 필드 없음 = 현행 발사 동일 · 운영자 260713 · clone = 260726)
+    try { localStorage.setItem('GENI_OPTS2', JSON.stringify(_geniSel)); } catch {}   // 전 옵션 스냅샷 — 구 GENI_OPTS 키는 스키마 변경으로 폐기(260710)
+    if (c.free) {   // 자유 생성(도구 /6 탭 · 운영자 260707): 기사 카러셀 없음 → api 직접 발사 + 도구 iframe에 통지(그쪽 그리드가 폴링)
+      if (!wish && !(_geniRef && _geniRef.b64)) { geniWishShow(true, true); return; }   // 장면 소재 0 방지(서버·python 3층 동일 계약) — 글 또는 사진 하나면 발사(운영자 260721 반갈 · 구 숨은 텍스트칸 focus 무반응 결함도 노출로 봉합)
+      const gb = $('#geniGo'); if (gb.disabled || _geniFireBlocked(gb)) return; gb.disabled = true; askHideCheck(gb); gaugeStart(gb);   // 게이지 = 발사 즉시 채움(운영자 260718 Q134 ③ "생성 버튼 액티브 동작 = 1번[#go] 역공유") — free 모드도 게이지·✓·복귀 배선(구 무피드백 = '게이지 동작 안함' 버그축) · article 모드/thumb goFire와 동일 헬퍼
+      try {
+        geniFreqBump('style', _geniSel.style); geniFreqBump('sub', _geniSel.sub);   // 이식 모드 발사도 제작빈도 +1(genImgGo 경로와 동일 · 운영자 260713)
+        const r = await fetch('api/genimg', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ free: true, opts }) });
+        const jr = await r.json().catch(() => ({}));
+        // 발사 실패도 **대기열로 보낸다**(운영자 260730 Q03 "일단 생성 누르면 실패든 뭐든 대기열 들어가서 제작중까지 가게해").
+        // 구: !r.ok면 throw → genfree-fired 미발신 = 잡 카드가 아예 안 생겨 버튼 빨간 플래시 0.4초가 전부였다(= "눌러도 반응 없음"의 다른 얼굴).
+        // 신: 같은 통지에 fireErr(사유)를 얹어 보낸다 → thumb genJob이 카드를 세우고 '제작 중'을 거쳐 실패+사유로 전환.
+        const fireErr = (!r.ok || jr.error) ? (jr.error || ('서버 ' + r.status)) : '';
+        const { refB64: _rb, ...optsLite } = opts;   // 잡 카드는 count·요약만 씀 → 48KB base64는 브로드캐스트서 제외(구조화복제 경량화 · 평의회5) · refThumb = 512px 다운스케일 dataURL만 별도 동봉 = 진행 타일 스캐닝 안 원본 표시(운영자 260727 "이미지 원본이 있을 경우 스캐닝 하는곳 안에 들어가야함" · 영상 스튜디오 .wmock 등가)
+        document.querySelectorAll('#tooldlg .toolfr').forEach(f => { try { f.contentWindow.postMessage({ nm: 'genfree-fired', count: opts.count, opts: optsLite, refThumb: (_geniRef && _geniRef.url) || '', fireErr, jid: (jr && jr.id) || '' }, '*'); } catch (err) {} });   // jid = 서버 발사 id(260821) — 이게 있어야 그 문서가 진행 중 작업을 영속 슬롯에 얹는다(새로고침·기기 이동 생존) · 구 서버(=id 미반환)면 빈 문자열 = 종전 동작   // 도구 폴링 즉시 시작(피드백 딜레이와 무관 · count·opts[경량] 동봉 = /6 표준 잡 카드 재료 · 운영자 260710 축11)
+        if (fireErr) { gaugeClear(gb); askHideCheck(gb); if (typeof _flashBtn === 'function') _flashBtn(gb, 'err'); return; }   // 발사 실패 = 버튼은 종전대로 빨간 플래시(피드백 무회귀) · 사유 표기는 위에서 보낸 대기열 카드가 전담
+        gaugeDone(gb); setTimeout(() => askShowCheck(gb), 300);   // 게이지 현위치→100%→✓ 팝(멈칫 제거 · thumb goFire okdone/체크 리듬 미러)
+        await new Promise(res => setTimeout(res, 1100));   // 게이지·✓ 피드백 노출(thumb goFire 900+체크 리듬) 후 결과 전환
+        if ($('#geniHost').hidden) $('#genidlg').close();   // 팝업 모드만 닫는다. 이식 탭(AI 생성) = **폼 존속** = 편집 탭 계약 그대로 계승(운영자 260727 "생성 누르면 미리보기 창이 없어지거든? 추가로 생성할 수 있어야 하는데, 이미지 편집 부분같이 동일하게") — 편집(app7)은 발사해도 상단 도크(#topDock 미리보기+요약+생성)가 sticky로 존속해 연속 발사가 되는데, AI 생성만 발사 순간 geniLeave()로 폼을 통째 원복해 미리보기·옵션·참고이미지가 사라졌다(구 계약 = 잡 진행 가시 우선 · 260713 B). 참고 이미지도 geniUnmount의 geniRefClear를 안 거쳐 스테이지에 남는다 = 편집 탭이 발사 후에도 원본을 물고 있는 것과 동문법(같은 소재로 옵션만 바꿔 재발사). 버튼 원복은 바로 아래 gaugeClear·finally가 이미 전담 · geniFired 마킹도 불요(폼이 안 사라지니 최소화→복원 덮임 문제 자체가 소멸)
+        gaugeClear(gb); askHideCheck(gb);   // 버튼 원복(다음 발사 깨끗 · 이식 모드는 close 핸들러 미경유 = 명시 리셋)
+      } catch (err) { gaugeClear(gb); askHideCheck(gb); if (typeof _flashBtn === 'function') _flashBtn(gb, 'err'); }   // 실패 = 게이지/체크 원복 + 실패 플래시(errflash · 운영자 "실패 문구")
+      finally { gb.disabled = false; }
+      return;
+    }
+    // 기사 모드 발사 = 이미지 편집(thumbRedo #tredoSend) 게이지·✓·후닫기 정본 계승(운영자 260713 버그수정: 게이지 무동작 + 즉시 close 튕김 + thumb_gen 폴링 미스매치 3봉합) — #geniGo는 .asksend 보유라 게이지 CSS 계승, 그간 gaugeStart 호출만 없었음
+    const gb = $('#geniGo'); if (gb.disabled || _geniFireBlocked(gb)) return;
+    gb.disabled = true; askHideCheck(gb); gaugeStart(gb);   // 게이지 = 발사 즉시·응답까지 진행(thumbRedo 미러)
+    let r = false;
+    try { r = await genImgGo(c.file, c.wrap, c.btn, opts); } catch {}
+    if (r === true) {
+      gaugeDone(gb); setTimeout(() => askShowCheck(gb), 300);   // 게이지 현위치→100%→✓ 팝(멈칫 제거)
+      setTimeout(() => $('#genidlg').close(), 1600);            // 피드백 후 닫기(즉시 close 폐지 = 버튼만 화면 튕김 차단 · close 핸들러가 게이지·disabled 원복)
+    } else {
+      gaugeClear(gb); gb.disabled = false;
+      if (r === 'busy') $('#genidlg').close();                  // 이미 진행 중 = 조용히 닫기(에러 아님 · 여러 발사 대기열은 후속 유닛)
+      else if (typeof _flashBtn === 'function') _flashBtn(gb, 'err');
+    }
+  });
+}
+window.addEventListener('message', e => {   // 도구 iframe(/6 생성 탭) → 자유 생성 팝업 열기 — same-origin 도구 iframe만 신뢰(source 대조). ⚠ 부트 등록 필수(geniInit 밖): geniInit은 팝업 최초 열림 때야 도는데 이 리스너가 그 안에 있으면 '생성 탭 → 버튼'이 첫 경로일 땐 수신자 0 = 버튼 무반응(닭-달걀 · 260709 수리)
+  if (!e.data || e.data.nm !== 'genfree') return;
+  const frs = Array.from(document.querySelectorAll('#tooldlg .toolfr'));
+  if (!frs.some(f => f.contentWindow === e.source)) return;
+  geniMount();   // 스튜디오 표면(작업내역 화면 버튼) = 이식 탭으로(팝업 아님 · 운영자 260713 B — 표면당 한 방식: 스튜디오=탭 콘텐츠·기사 카러셀=팝업)
+});
+function geniGate() {   // 발사 게이트 — 자유모드 = 주문 또는 참고 이미지 필수(운영자 260721 반갈: 사진 단독 재생성 허용) · 직접 비율 = 유효 N:N 필수(사후 에러 대신 사전 disabled 어포던스)
+  const go = $('#geniGo'); if (!go) return;
+  const badAr = _geniSel.aspect === 'custom' && !geniArVal();
+  const emptyWish = !$('#geniWish').value.trim();
+  go.disabled = false;   // 생성 버튼 = 소스 유무와 무관하게 상시 점등(운영자 260727 "메뉴에 아무것도 넣지 않았을 때도 생성에 동일하게 불들어오게 · 다른 메뉴들도 소스 없어도 불은 들어와있음") — 구 사전 disabled 어포던스 폐지 · 검증은 **발사 시점 1곳**으로 단일화(thumb 260725 "사진 필수는 발사 시점 검증 1곳" 선례 그대로) · 아래 _geniFireBlocked()가 그 자리
+  void badAr; void emptyWish;   // 판정값 자체는 발사 가드(_geniFireBlocked)가 재사용 = 로직 이원화 0
+}
+function _geniFireBlocked(btn) {   // 발사 시점 검증(구 사전 disabled의 대체 · 운영자 260727) — 막을 때는 '왜'를 보여준다: 직접비율 무효 = 버튼 흔들림 · 주문·참고 0 = 주문칸 열기
+  const badAr = _geniSel.aspect === 'custom' && !geniArVal();
+  if (badAr) { if (typeof _flashBtn === 'function' && btn) _flashBtn(btn, 'err'); return true; }
+  return false;
+}
+// ── 키보드 클램프 공용부(운영자 260803 "아이디어까지 적용") — 구조: vv 이벤트 폭주 → **다음 프레임 1회**로 합치고(vvSchedule), 계산값이 직전과 같으면 **스타일을 아예 안 쓴다**(vvSet).
+//   왜: 폰 키보드는 250ms 안팎에 걸쳐 올라오며 visualViewport의 resize·scroll을 수십 번 발화한다. 구 배선은 발화마다 곧장 dialog의 maxHeight·marginTop을 문자열로 다시 써서, 같은 값이어도 매번 레이아웃 재계산이 걸렸다(= 운영자 "드드득"의 근본 축 — 260803 1차는 AI 생성 탭의 자동 포커스만 막아 '창 열림 순간'만 덮었고, 운영자가 직접 입력칸을 탭하면 그대로 재현됐다).
+//   합치기 = 프레임당 최대 1회 계산 · 동일값 skip = 실제 값이 바뀐 프레임에서만 리플로우. 두 축 다 **값·산식 무변경**(클램프 결과 픽셀은 종전과 1:1 동일) = 시각 회귀 0.
+let _vvRaf = 0;
+function vvSchedule() {   // vv 이벤트 → 다음 프레임 1회로 코얼레스(가드 = 큐에 콜백 1개만 · 콜백은 발화 시점의 최신 vv를 읽으므로 중간 값을 건너뛰어도 최종 상태는 정확)
+  if (_vvRaf) return;
+  _vvRaf = requestAnimationFrame(() => { _vvRaf = 0; toolVV(); geniVV(); });
+}
+function vvSet(dlg, mh, mt) {   // 동일값 재대입 금지 — style 문자열이 그대로면 브라우저가 리플로우를 안 하지만, 대입 자체가 스타일 무효화를 트리거하는 경로(인라인 CSSOM 쓰기)라 '값이 안 변한 프레임'을 건너뛰는 게 실제 이득
+  if (dlg.style.maxHeight !== mh) dlg.style.maxHeight = mh;
+  if (dlg.style.marginTop !== mt) dlg.style.marginTop = mt;
+}
+function geniVV() {   // 키보드로 축소된 visual viewport에 팝업 높이 맞춤(적대검증C: dialog top-layer는 키보드에 안 줄어듦 → 수동 클램프 → 입력이 키보드 위로) · toolVV 완성 패턴 이식(감사 260718: maxHeight만으론 마진 auto가 layout viewport 중앙 = 키보드 위 아님 — 괴리 게이트·marginTop·원복 3종 동일) + 형제 컴팩트 모달 #pubdlg 합류(pubPin = OS 숫자 키보드 실물 · VV 클램프 부재였음)
+  if (!window.visualViewport) return;
+  const vv = window.visualViewport;
+  [$('#genidlg'), $('#pubdlg')].forEach(dlg => {
+    if (!dlg || !dlg.open) return;
+    if (vv.height < window.innerHeight - 60) {   /* raw-ok: 60 = toolVV 4826 게이트 상수 문자 계승(JS 키보드 괴리 임계 · CSS 토큰 비대상) */   // 시각 뷰포트 < 레이아웃 −60px = 키보드류 괴리일 때만(평시·PC = 인라인 0 = 현행 CSS 그대로 → 출렁 0)
+      vvSet(dlg, Math.round(vv.height * 0.92) + 'px',   /* raw-ok: vv 기하 산식 = toolVV 4828 문자 계승(런타임 픽셀 계산 · CSS 토큰 비대상) */   // 보이는 영역 상단 기준 배치 · top만 오버라이드 = 좌우 중앙 유지
+        Math.round(vv.offsetTop + vv.height * 0.04) + 'px');
+    } else { vvSet(dlg, '', ''); }                                               // 키보드 내려감 = 즉시 원복(CSS dvh 복귀)
+  });
+}
+function toolVV() {   // 스튜디오 셸(tooldlg) 키보드 클램프 — geniVV의 셸 일반화(260713 B 회귀 봉합: 프롬프팅·요약이 팝업→이식 탭이 되며 geniVV의 genidlg.open 게이트 밖 = 88/90dvh 하단이 키보드에 가림 · 평의회 260713 ③) · geniVV(팝업 경로)와 독립 병존
+  if (!tooldlg || !tooldlg.open || !window.visualViewport) return;
+  const vv = window.visualViewport;
+  const full = tooldlg.classList.contains('tool-full');                                  // 전체창(이미지 스튜디오) = 여백 없이 '보이는 영역'을 그대로 채운다(팝업 셸의 92%+4% 인셋은 최대화 계약과 모순 · 운영자 260801)
+  if (vv.height < window.innerHeight - 60) {   // 시각 뷰포트 < 레이아웃 −60px = 키보드류 괴리일 때만(평시·PC = 인라인 0 = 현행 CSS 그대로 → 출렁 0)
+    vvSet(tooldlg, Math.round(vv.height * (full ? 1 : 0.92)) + 'px',                     // height:dvh 고정은 max-height가 클램프 · 전체창 = 배율 1(키보드 위 잔여 영역 전부)
+      Math.round(vv.offsetTop + (full ? 0 : vv.height * 0.04)) + 'px');                  // 보이는 영역 상단 기준 배치(margin:auto는 layout viewport 중앙 = 키보드 위 아님) · top만 오버라이드 = 좌우 중앙 유지 · 전체창 = 인셋 0(margin:0 CSS와 동일선)
+  } else { vvSet(tooldlg, '', ''); }                                                     // 키보드 내려감 = 즉시 원복(CSS dvh 복귀)
+}
+function geniPrep(file, wrap, btn) {   // 상태 준비 공통부(팝업 openGenIdlg·이식 geniMount 겸용 분리 · 운영자 260713 B)
+  geniInit();
+  _geniCtx = { file, wrap, btn, free: !file };   // free = 기사 컨텍스트 없음(이미지 제작 도구 /6 생성 탭 · 운영자 260707)
+  const _free = !file;
+  $('#geniWish').placeholder = _free ? '' : '선택 · 자유 요청 한 줄';   // 자유모드 = 설명 산문 제거(운영자 260713 "필수·그릴 장면·상황 설명 문구 없애") = 빈 플레이스홀더(§디자인 e 어포던스 · 발사 게이트가 미입력 방어) · 기사모드는 보조 힌트 유지
+  $('#geniMore5').hidden = !file;       // 실사진 재검색 = 기사 카러셀 전용(자유 모드 숨김)
+  try {   // 최근 사용 옵션 복원(GENI_OPTS2 · 축별 사전 검증 — 스키마 개편 260710이라 구 GENI_OPTS 키는 무시)
+    const s = JSON.parse(localStorage.getItem('GENI_OPTS2') || 'null');
+    if (s) {
+      if (GENI_ALL_STYLES.some(([v]) => v === s.style)) _geniSel.style = s.style;
+      _geniSel.sub = (GENI_SUB[_geniSel.style] || []).some(([v]) => v === s.sub) ? s.sub : 'auto';
+      ['size', 'count', 'aspect'].forEach(k => { if (GENI_DICT[k].some(([v]) => v === s[k])) _geniSel[k] = s[k]; });   // ⚠ 'fmt' 제거(260805 포맷 고정) — 사전에서 지운 축을 여기 남겨두면 GENI_DICT.fmt가 undefined라 `.some`에서 TypeError = 옵션 복원 전체가 죽는다(구 21:9·1:1은 사전엔 없어도 축은 살아 있어 조용히 강하했지만, 축 자체를 지울 땐 이 목록이 짝)
+      _geniSel.arW = /^\d{1,2}$/.test(String(s.arW || '')) ? String(s.arW) : '';
+      _geniSel.arH = /^\d{1,2}$/.test(String(s.arH || '')) ? String(s.arH) : '';
+      if (_geniSel.aspect === 'custom' && !geniArVal()) _geniSel.aspect = '4:5';   // 미완성 직접값 복원 = 안전 강하
+      _geniSel.mood = s.mood === 'axes' ? 'axes' : 'auto';
+      GENI_MOOD_AX.forEach(([k]) => { const v = parseInt(s.moodAx && s.moodAx[k], 10); _geniSel.moodAx[k] = Number.isFinite(v) ? Math.max(-2, Math.min(2, v)) : 0; });
+      _geniSel.engine = s.engine === 'gpt' ? 'gpt' : 'gemini';
+      if (s.colorAx && typeof s.colorAx === 'object') { GENI_COLOR_AX.forEach(([k]) => { const v = parseInt(s.colorAx[k], 10); _geniSel.colorAx[k] = Number.isFinite(v) ? Math.max(-50, Math.min(50, v)) : 0; }); _geniSel.colorTouched = !!s.colorTouched; }   // 색 보정 복원(미조정 스냅샷 = 프리셋 추종 유지)   // 렌더 엔진 복원(미지정·구 스냅샷 = Gemini 기본 강하)
+      if (typeof s.kweb === 'boolean') _geniSel.kweb = s.kweb;
+      if (typeof s.textOn === 'boolean') _geniSel.textOn = s.textOn;
+      GENI_CAM_KEYS.forEach(k => { if (GENI_DICT[k].some(([v]) => v === s[k])) _geniSel[k] = s[k]; });
+    }
+  } catch {}
+  if (_free) {   // 자유 모드 = 직전 장면 복원(이어쓰기·실수 이탈 복구 · 260709) — 기사 모드는 기사별이라 비움(현행 유지)
+    const t = nmDraftLoad('GENI_FREE_TXT');   // 30분 만료(draft.js SSOT · 운영자 260801) — 예전 테스트 문구가 영구 복원되던 것 차단 · 만료분은 로드가 키까지 폐기
+    $('#geniWish').value = (t && t.wish) ? String(t.wish).slice(0, 300) : '';
+  } else { $('#geniWish').value = ''; }
+  $('#geniWish').dispatchEvent(new Event('input', { bubbles: true }));   // 클립 리드백 동기(운영자 260803 클립 편입) — value 직접 대입은 attachCopyPaste의 refresh를 안 태워, 복원 글이 있는데 [복사]가 숨어 있거나 비운 뒤에도 남는 stale이 난다(updateRevClip·updatePasteClip이 같은 사유로 쓰는 input 디스패치 문법 그대로) · 되돌리기 창도 여기서 종료 = 새 장면 로드가 옛 undo 값을 물고 가지 않는다
+  geniWishShow(!!$('#geniWish').value.trim(), false);   // 복원 글 있으면 행 노출·없으면 숨김(운영자 260721 반갈 — 숨은 값이 발사에 몰래 실리는 것 차단 · 빈 상태 진입점 = 미리보기 픽토그램)
+  geniApply();
+  // 카메라군에 복원값 있으면 자동 펼침(적대검증B: 개수 배지만으론 "무엇이" 안 보임 → 발사 전 열어 보이게) · 없으면 접힘+inert
+  const _camOpen = GENI_CAM_KEYS.some(k => _geniSel[k] && _geniSel[k] !== 'auto');
+  const _fold = $('#geniCamHead'), _sub = $('#geniCamSub');
+  if (_fold) _fold.setAttribute('aria-expanded', _camOpen ? 'true' : 'false');
+  if (_sub) { if (_camOpen) _sub.removeAttribute('inert'); else _sub.setAttribute('inert', ''); }
+  geniHistBoot();   // 결과·이전 제작 공유 이력 개시(팝업·이식 두 홈의 공통 경유점 = 단일 개시점 · 260803 실데이터 배선)
+  return _free;
+}
+function openGenIdlg(file, wrap, btn) {   // 기사 카러셀 + = 팝업 홈(이중 홈 정본 · 운영자 260713 B — 스튜디오 탭 홈 = geniMount)
+  geniUnmount();   // 이식 잔류 방어 — 폼 노드가 호스트에 남았으면 회수(다이얼로그 = 보관함)
+  const _free = geniPrep(file, wrap, btn);
+  openComposeDlg($('#genidlg'));   // showModal + 폰 뒤로가기 칸(컴포즈 모달 표준)
+  geniRailHome();   // 개막 = 레일 좌측 정렬선 시작(평의회⑦ 260714)
+  if (_free) setTimeout(() => { try { const w = $('#geniWish'); w.focus(); if (w.value) w.select(); } catch {} }, 80);   // 자유모드 = 주문칸 진입점(필수 입력이 곧 시작점 · 지연 = 모달 애니 후) · 복원값 전체선택 = 새 장면은 즉시 덮어쓰기·이어쓰기는 탭 한 번(260709)
+}
+/* (결과 레일 거처 판정 JS = 폐지 · 260803 6차 평의회7 ALT-A2 — 폭에 따라 `#geniOut`을 재부모화하던 13줄(matchMedia + geniOutPlace + mount/unmount 훅)을
+   CSS 절대배치 containing-block 탈출로 대체했다. reparent가 만들던 계열 결함 2종{폭 왕복 시 레일 내부 스크롤 소실 · 거처 질의가 남의 창을 무는 사고}이 원천 소멸.
+   `check_geni_scope` 게이트는 존치 = 다른 geni JS의 전역 질의를 계속 막는다. 롤백 = 이 자리 + CSS 블록. */
+function geniMount() {   // 프롬프팅 탭 = genidlg 폼을 탭 콘텐츠로 이식(운영자 260713 B "B로 간다" — askMount 선례 미러 · 팝업 한 겹 없이 폼이 바로 화면 · 발사·이탈·닫힘 = 원복)
+  const h = $('#geniHost'), gdlg = $('#genidlg'); if (!h || !gdlg || gdlg.open || !h.hidden) return;   // 팝업(모달) 열림 중 = 불가(뒤 탭 클릭 물리 불가 — 방어선) · 이미 이식 표시 중(!hidden) = 재진입 no-op — geniPrep 재실행이 타이핑 중 장면을 GENI_FREE_TXT stale 스냅샷으로 덮던 것 차단(탭 재클릭 가드와 이중 방어 · 평의회 260713 fable)
+  geniPrep(null);   // 자유 모드 상태 준비(옵션·장면 복원·placeholder·게이트) — 재진입 복원값 = 이탈 시점 스냅샷이라 왕복 무손실
+  while (gdlg.firstChild) h.appendChild(gdlg.firstChild);   // 통째 이식(무복제 = 드리프트 0 · askwrap 선례) — 노드 거처 불변식: 호스트에 있음 ⇔ 호스트 표시 중
+  document.querySelectorAll('#tooldlg .toolfr').forEach(f => f.classList.remove('active'));   // iframe 숨김(보존 · askMount 동일)
+  const ah = $('#askHost'); if (ah) ah.hidden = true;   // 호스트 슬롯 상호 배타(방어)
+  if (toolMeta.thumb) delete toolMeta.thumb.geniFired;   // 재이식 = 발사 마킹 해제(다음 최소화→복원은 다시 폼 · fable 260713)
+  h.hidden = false;
+  geniRailHome();   // 개막 = 레일 좌측 정렬선 시작(평의회⑦ 260714 · 팝업 홈과 대칭)
+  // 자동 포커스 폐지(운영자 260803 "ai생성 메뉴를 클릭하면 자동으로 글을 입력하게끔 활성화가 되어버리는데, 그렇지 않게 해줘") — 탭 진입 = '보러 들어오는' 동작이라 입력 개시로 단정하지 않는다(구 동작 실측: 탭 클릭 84ms에 document.activeElement=#geniWish). 폰에선 그 포커스가 곧 키보드 상승 → visualViewport 연속 resize → toolVV()가 발화마다 tooldlg의 maxHeight·marginTop을 새 픽셀로 다시 써서 전체창이 계단식으로 떨렸다(= 운영자 "드드득 거리는 창 열림"). 입력 개시 = 운영자가 주문칸을 탭할 때(칸 자체는 geniWishShow가 상시 노출 = 어포던스 무손실 · 260802 "입력창을 그냥 고정값으로 박아놔") · 발사 게이트의 소재 0 경로(geniWishShow(true,true))는 종전 포커스 유지 = 막힘 피드백 무접촉 · 기사 카러셀 팝업 홈(openGenIdlg)은 별 진입점이라 종전 유지
+}
+function geniUnmount() {   // 원복(탭 이탈·닫기·최소화·발사·팝업 열기 직전) — DOM 이동 = 입력값 보존 · 기사 팝업 경로가 폼을 되찾음(askUnmount 선례)
+  const h = $('#geniHost'); if (!h) return;
+  if (!h.hidden && _geniCtx && _geniCtx.free) { nmDraftSave('GENI_FREE_TXT', { wish: $('#geniWish').value }); }   // 보이던 이식 폼 = 장면 스냅샷(다이얼로그 close 저장점 미러 — 재진입 geniPrep 복원과 한 쌍)
+  if (!h.hidden) geniRefClear();   // 보이던 이식 폼 = 참고 이미지 정리(발사·이탈 후 유령 첨부가 다음 발사에 조용히 재전송되는 것 차단 · 평의회5 — 팝업 close 정리와 대칭 · reparent 직전이라 노드 ID 질의 유효)
+  _geniMoodScrollY = null;   // 이식 사이클 넘어 stale 무드 스크롤 복원값 잔존 방지(평의회1)
+  geniDDClose();
+  const gdlg = $('#genidlg');
+  while (h.firstChild) gdlg.appendChild(h.firstChild);
+  h.hidden = true;
+}
+function geniLeave() { const h = $('#geniHost'); if (h && !h.hidden) { geniUnmount(); activateToolFrame(curToolKey); } }   // 셸 유지 이탈(타 탭 클릭·발사) = 원복 + 이 도구 iframe 재활성(ask 이탈 선례)
+
+/* ── AI 생성 결과·이전 제작 실데이터 배선(운영자 260803 "다른 곳처럼 배선이 안되어있어" — 구 '정적 빈 상태(실데이터 미배선)' 해소) ──
+   = tr.html 공유 이력 합류 문법 그대로 이식(운영자 260802 "편집·번역·AI생성에도 결과·이전제작 일맥상통 공유"의 마지막 미배선 표면).
+   이전 제작 = thumb-hist.json(전 기기 공통 인덱스) + 로컬 12h 브리지(nomute_thumb_hist = thumb·tr 공유 키) 병합 · 읽기 전용(다운로드만 = tr 규약 · 기록 지우기·수정 복원 = 카드 생성 탭 전속).
+   결과 = 이번 세션 완료분(T0 이후 브리지 유입 · thumb .out 캐러셀의 세션 축 등가) — 완료 감지 = genfree-fired → thumb genJob → carAppend/histAdd(localStorage) 체인의 종점을 storage 이벤트로 수신(이 판은 부모 문서라 iframe 완료를 직접 못 봄 = 브리지 키가 유일한 실시간 신호 · 같은 브리지라 카드·편집·특수 완료도 같이 흐름 = thumb 공유 .out과 동일 데이터).
+   브리지 키·스키마·병합 문법 = thumb/tr 정본 동값(공유 키라 값 불일치 = 상호 절단 사고 — 개정 시 세 문서 동시에). */
+const GENI_HKEY = 'nomute_thumb_hist', GENI_HMS = 12 * 3600e3;   // thumb/tr 정본 동값(로컬 12h 브리지)
+const GENI_HCLEAR_KEY = 'nomute_thumb_hist_cleared';
+const geniHistKey = u => String(u || '').split('?')[0].replace(/^https?:\/\/[^/]+\//, '');   // 중복판정 키 = tr histKey 동문(호스트 제거 = R2 절대·상대 통일)
+function geniHistLoad() { try { const a = JSON.parse(localStorage.getItem(GENI_HKEY) || '[]'); return Array.isArray(a) ? a : []; } catch { return []; } }
+function geniHistPrune(a) { const cut = Date.now() - GENI_HMS; return a.filter(e => e && e.ts && e.ts >= cut); }
+function geniHistTime(ts) { const d = new Date(ts); let h = d.getHours(); const m = d.getMinutes(); const ap = h < 12 ? 'AM' : 'PM'; h = h % 12 || 12;
+  const now = new Date(); const dayDiff = Math.round((new Date(now.getFullYear(), now.getMonth(), now.getDate()) - new Date(d.getFullYear(), d.getMonth(), d.getDate())) / 86400000);
+  const pre = dayDiff === 0 ? '오늘 ' : dayDiff === 1 ? '어제 ' : (d.getMonth() + 1) + '/' + d.getDate() + ' ';
+  return pre + h + ':' + String(m).padStart(2, '0') + ' ' + ap; }   // 시각 표기 = 카드 제작(thumb histTime) 정본 동문 — 오늘/어제 H:MM AM/PM(운영자 260818 11차 «번역칸 등 다른 이미지 스튜디오 칸도 통일» · 10차에 카드 제작만 바뀌어 갈렸던 자리 · 오늘/어제/월일 접두는 무접촉)
+function geniDlBlob(url, name) {   // tr dlBlob 정본 동문 — R2(교차출처)는 api/dl 프록시로 강제 저장·비R2는 download 직접
+  const a = document.createElement('a');
+  a.href = /\/\/pub-[0-9a-fA-F]+\.r2\.dev\//.test(url) ? ('api/dl?u=' + encodeURIComponent(url) + '&n=' + encodeURIComponent(name || 'gen.png')) : url;
+  a.download = name || 'gen.png';
+  document.body.appendChild(a); a.click(); a.remove();
+}
+let GENI_SRV_HIST = [], GENI_SRV_CLEAR = 0; const _geniDeadUrls = new Set(); const GENI_T0 = Date.now();   // 죽은 404 항목 = 세션 내 재표시 차단(tr _deadUrls 동축) · T0 = 이 문서 부팅(= '이번 세션' 경계)
+const geniBidOf = e => { const s = e && e.src; return (s && typeof s === 'object' && typeof s.bid === 'string') ? s.bid : ''; };   // 묶음 키 = thumb bidOf 정본 동문(구 이력 = '' = 낱장)
+let GENI_NEWEST = [], _geniNewestSig = '';   // 최신 추종 = 스튜디오 전체 최신 제작 1묶음(thumb followNewestRestored 동문 · 운영자 260805 "편집·번역이 다른 세부 메뉴하고 동기화가 안 됨" — 구판 결과 축은 T0 이후·AI생성분만이라 형제 탭 제작이 결과에 안 떴다)
+let GENI_LIVE = [];   // 즉시 축(운영자 260804 "번역·AI생성만 결과랑 이전제작 동기화를 안 물어 — 다른 메뉴들과 싱크") = api/genihist(free.json@main 라이브 서빙)가 준 최신 인덱스 — Pages(thumb-hist) 빌드·배포 랙을 건너뛰어 형제 탭 R2 즉시 축과 같은 박자 · 정식 도착 시 renderGeniPrev url dedup 자연 교체
+try { GENI_SRV_CLEAR = +localStorage.getItem('nomute_thumb_srvclr') || 0; } catch {}
+/* ── 수정(연필) 복원 = 이 제작을 만든 **세부 메뉴로 되돌아가** 그 설정으로 폼을 채운다(운영자 260806 "ai 생성에서 수정버튼을 눌렀는데, 해당 수정 건이 카드 제작 세부메뉴면 그 메뉴로 자동으로 변경후 수정") ──
+   AI 생성 판 항목의 `src`(제작 조건 스냅샷)는 두 출처가 섞인다 = ⓐ 형제 탭(카드 제작·편집·특수)이 thumb histAdd로 실어준 것 ⓑ AI 생성 자신의 발사 옵션(`{app:'6',gopts}` · thumb genJob이 동봉).
+   라우팅 사본 0 = 부모 `studioEditOpen`(#toolTabs 탭 클릭 프록시 + thumb importToEditor 직결) 단일 진입 — 여기선 버튼만 그린다. */
+function geniRestoreOpts(g) {   // AI 생성 발사 옵션(gopts) → 폼 복원 = geniPrep의 GENI_OPTS2 복원 블록 문법 그대로(축별 사전 검증 · 값 창작 0)
+  if (!g || typeof g !== 'object') return;
+  try {
+    if (GENI_ALL_STYLES.some(([v]) => v === g.style)) _geniSel.style = g.style;
+    _geniSel.sub = (GENI_SUB[_geniSel.style] || []).some(([v]) => v === g.sub) ? g.sub : 'auto';
+    ['size', 'count'].forEach(k => { if (GENI_DICT[k].some(([v]) => v === String(g[k]))) _geniSel[k] = String(g[k]); });
+    const asp = String(g.aspect || '');
+    if (GENI_DICT.aspect.some(([v]) => v === asp)) { _geniSel.aspect = asp; }
+    else { const m = /^(\d{1,2}):(\d{1,2})$/.exec(asp); if (m) { _geniSel.arW = m[1]; _geniSel.arH = m[2]; _geniSel.aspect = geniArVal() ? 'custom' : _geniSel.aspect; } }   // 발사분은 '직접'이 이미 W:H로 해소돼 온다 → 되돌려 직접 칩 + 두 칸으로(미유효 = 종전 비율 유지 = 안전 강하)
+    _geniSel.mood = g.mood === 'axes' ? 'axes' : 'auto';
+    GENI_MOOD_AX.forEach(([k]) => { const v = parseInt(g.moodAx && g.moodAx[k], 10); _geniSel.moodAx[k] = Number.isFinite(v) ? Math.max(-2, Math.min(2, v)) : 0; });
+    _geniSel.engine = g.engine === 'gpt' ? 'gpt' : 'gemini'; _geniSel.engineTouched = true;   // 복원 = 그 발사가 쓴 엔진이 정답(복제 모드 자동전환이 되덮지 않게)
+    const _sa = parseInt(g.satAdj, 10), _br = parseInt(g.briAdj, 10);
+    _geniSel.colorAx.sat = Number.isFinite(_sa) ? Math.max(-50, Math.min(50, _sa)) : 0;
+    _geniSel.colorAx.bri = Number.isFinite(_br) ? Math.max(-50, Math.min(50, _br)) : 0;
+    _geniSel.colorTouched = !!(_geniSel.colorAx.sat || _geniSel.colorAx.bri);
+    if (typeof g.kweb === 'boolean') _geniSel.kweb = g.kweb;
+    if (typeof g.textOn === 'boolean') _geniSel.textOn = g.textOn;
+    GENI_CAM_KEYS.forEach(k => { if (GENI_DICT[k].some(([v]) => v === g[k])) _geniSel[k] = g[k]; });
+    const w = $('#geniWish'); if (w) { w.value = String(g.wish || '').slice(0, 300); w.dispatchEvent(new Event('input', { bubbles: true })); geniWishShow(!!w.value.trim(), false); }   // 주문 글 = 복원도 '입력'으로(클립 리드백 동기 = geniPrep 동문)
+    geniApply();
+    const _camOpen = GENI_CAM_KEYS.some(k => _geniSel[k] && _geniSel[k] !== 'auto');   // 카메라군 복원값 있으면 자동 펼침 = geniPrep 동문(무엇이 복원됐는지 보이게)
+    const _fold = $('#geniCamHead'), _sub = $('#geniCamSub');
+    if (_fold) _fold.setAttribute('aria-expanded', _camOpen ? 'true' : 'false');
+    if (_sub) { if (_camOpen) _sub.removeAttribute('inert'); else _sub.setAttribute('inert', ''); }
+  } catch (_) { /* 복원 실패 = 종전 폼 그대로(발사 막지 않음) */ }
+}
+/* 캡션 표기 = 이미지 스튜디오 공용 규칙(nm-seq.js window.nmCap · 260819) — 모듈 부재 시 = 종전 표기 그대로(화면은 안 깨진다) · 정규식 사본 0 */
+const _geniCapTx = s => (window.nmCap ? nmCap.text(s) : String(s == null ? '' : s));
+function geniSrvSrcOf(url) {   // 같은 산출물의 서버 이력(src 동봉분)에서 제작 조건 대여(260822 · thumb srvSrcOf 동문) — src 없는 로컬 이력(기기 간 재개 완료분)이 서버 동봉본을 가려 연필이 꺼지는 축 봉합
+  if (!url || !(GENI_SRV_HIST && GENI_SRV_HIST.length)) return null;
+  const k = geniHistKey(url);
+  for (const e of GENI_SRV_HIST) { if (e && e.url && e.src && e.src.app && geniHistKey(e.url) === k) return e.src; }
+  return null;
+}
+function geniHistItem(e, grid, cntSel) {   // 항목 빌더 = tr renderTrHist 정본 그대로 + 수정 연필(운영자 260806 · src 보유 항목만 = thumb renderHist 게이트 동문)
+  if (!(e.src && e.src.app)) { const _bs = geniSrvSrcOf(e.url); if (_bs) e.src = _bs; }   // src 대여(260822) — 결과·이전 제작 두 레일이 이 빌더 하나를 쓴다(표시 시점만 · 저장 무접촉)
+  const it = document.createElement('div'); it.className = 'hist-it';
+  const _sn = (window.nmSeq && nmSeq.of) ? nmSeq.of(e.url) : 0;   // 제작 순번(260818 12차 · 이미지 스튜디오 공용 번호줄) — 없으면 무표기(카드 제작 관례 동문)
+  const hd = document.createElement('div'); hd.className = 'hist-hd'; hd.textContent = (_sn ? String(_sn).padStart(3, '0') + ' · ' : '') + geniHistTime(e.ts);
+  const th = document.createElement('div'); th.className = 'hist-thumb';
+  const dl = document.createElement('a'); dl.className = 'imgdl dlbtn'; dl.href = e.url;
+  dl.setAttribute('aria-label', '다운로드'); dl.innerHTML = DOWNLOAD_SVG;
+  dl.addEventListener('click', ev => { ev.preventDefault(); ev.stopPropagation(); geniDlBlob(e.url, e.dlname || 'gen.png'); });
+  const img = document.createElement('img'); img.loading = 'lazy'; img.alt = ''; img.src = e.url;
+  img.onerror = () => { it.remove(); _geniDeadUrls.add(geniHistKey(e.url)); const cc = $(cntSel); if (cc) cc.textContent = '(' + grid.children.length + ')'; };   // 죽은 슬롯 제거+카운트 정정 = tr 동문
+  const cap = document.createElement('span'); cap.className = 'hist-cap'; cap.textContent = _geniCapTx(e.cap || '');   // 표기 = 이미지 스튜디오 공용 규칙(nm-seq.js window.nmCap · 260819 «opa라는 말을 결과에 안나오게») — 이 칸 이력에도 카드 제작 산출물이 섞인다(저장소 공유)
+  if (e.varStr) { const v = document.createElement('span'); v.className = 'hist-cap-v'; v.textContent = _geniCapTx(e.varStr); cap.appendChild(v); }
+  th.append(dl, img, cap);
+  if (e.src && e.src.app) {   // 수정(편집) = 이 설정으로 작성기 복원 — 부품·게이트 = thumb renderHist 연필 정본 그대로(.imgedit + EDIT_SVG + '이 설정으로 수정' · src 미보유 항목은 종전대로 미노출)
+    const ed = document.createElement('button'); ed.type = 'button'; ed.className = 'imgedit'; ed.title = '이 설정으로 수정'; ed.setAttribute('aria-label', '수정');
+    ed.innerHTML = EDIT_SVG;
+    ed.addEventListener('click', ev => { ev.preventDefault(); ev.stopPropagation(); studioEditOpen(e.src, e.url); });   // 세부 메뉴 라우팅 = 부모 단일 진입(카드 제작 건이면 그 탭으로 전환 후 복원)
+    th.appendChild(ed);
+  }
+  it.append(hd, th);
+  return it;
+}
+function renderGeniPrev() {   // 이전 제작 = 서버+로컬 병합 · 지우기 존중(로컬·서버 공용 중 큰 것) — 데이터 산출 = tr renderTrHist 동문
+  const grid = $('#geniPrevGrid'); if (!grid) return;
+  const local = geniHistPrune(geniHistLoad());
+  let clr = 0; try { clr = +localStorage.getItem(GENI_HCLEAR_KEY) || 0; } catch {}
+  const cut = Math.max(clr, GENI_SRV_CLEAR);
+  const localF = local.filter(e => (e.ts || 0) > cut);
+  const seen = new Set(localF.map(e => geniHistKey(e.url)));
+  const srv = (GENI_SRV_HIST || []).filter(e => e && e.url && !seen.has(geniHistKey(e.url)) && (e.ts || 0) > GENI_SRV_CLEAR);
+  srv.forEach(e => seen.add(geniHistKey(e.url)));
+  const live = (GENI_LIVE || []).filter(e => e && e.url && !seen.has(geniHistKey(e.url)) && (e.ts || 0) > cut);   // 즉시 축 = 셋째 소스(로컬·정식 인덱스가 이미 가진 건 스킵 = 정식 도착 시 자연 교체 · 지우기 컷 동일 존중 · tr renderTrHist 동문)
+  const resK = new Set(geniResList().map(e => geniHistKey(e.url)));   // '결과'에 실제로 뜬 것만 이전 제작서 제외 = 결과와 **같은 산출**(260817 최신 1묶음) — 구판처럼 세션분 전체를 빼면 결과 축소분이 어느 칸에도 안 뜨는 유실이 된다(thumb renderHist CARSLIDES 제외 동문 = 5탭 카운트 한 값)
+  const a = localF.concat(srv, live).sort((x, y) => (y.ts || 0) - (x.ts || 0)).filter(e => !_geniDeadUrls.has(geniHistKey(e.url)) && !resK.has(geniHistKey(e.url)));
+  if (window.nmSeq) nmSeq.tag(a);   // 이미지 스튜디오 공용 순번 도장(운영자 260818 12차 «이미지 스튜디오 안에 있는거는 모두 같은 인덱싱을 공유») — 목록을 통째로 넘기면 표에 없는 산출물만 제작 시각 오름차순으로 발번한다(도입 첫 회 = 과거분 무표기)
+  const cc = $('#geniPrevCnt'); if (cc) cc.textContent = '(' + a.length + ')';
+  const em = $('#geniPrevEmpty'); if (em) em.hidden = !!a.length;
+  grid.innerHTML = '';
+  a.forEach(e => grid.appendChild(geniHistItem(e, grid, '#geniPrevCnt')));
+}
+function geniResSess() {   // 결과 세션분(T0 이후) — renderGeniRes·renderGeniPrev·최신 추종 공용 산출(구 renderGeniRes 인라인 승격 · 로직 무변경)
+  const loc = geniHistPrune(geniHistLoad()).filter(e => (e.ts || 0) >= GENI_T0 && !_geniDeadUrls.has(geniHistKey(e.url)));
+  const seen = new Set(loc.map(e => geniHistKey(e.url)));
+  const live = (GENI_LIVE || []).filter(e => e && e.url && (e.ts || 0) >= GENI_T0 && !seen.has(geniHistKey(e.url)) && !_geniDeadUrls.has(geniHistKey(e.url)));   // 부팅 이후 타 기기 제작 = 결과에도 합류(thumb 결과 최신 추종 동문 — 운영자 260803 "결과 부분 모든 기기에서 언제든 동기화" · 260804 "다른 메뉴들과 싱크")
+  return loc.concat(live);
+}
+function geniFollowNewest() {   // 스튜디오 전체 최신 1묶음을 결과로(부팅 전 제작 포함 = thumb 부팅 복원 동문 · 세션분이 이미 최신이면 무동작 · tr trFollowNewest 동문)
+  let clr = 0; try { clr = +localStorage.getItem(GENI_HCLEAR_KEY) || 0; } catch {}
+  const cut = Math.max(clr, GENI_SRV_CLEAR);   // 기록 지우기 존중 = renderGeniPrev 동문
+  const pool = geniHistPrune(geniHistLoad()).concat(GENI_SRV_HIST || [], GENI_LIVE || []).filter(e => e && e.url && (e.ts || 0) > cut && !_geniDeadUrls.has(geniHistKey(e.url)));
+  let newest = null; pool.forEach(e => { if (!newest || (e.ts || 0) > (newest.ts || 0)) newest = e; });
+  const resK = new Set(geniResSess().map(x => geniHistKey(x.url)));
+  let grp = [];
+  if (newest && !resK.has(geniHistKey(newest.url))) {
+    const bid = geniBidOf(newest); grp = bid ? pool.filter(e => geniBidOf(e) === bid) : [newest];   // 묶음(bid) 통째 = 1/2·2/2 한 결과(thumb findResultById 동문)
+    const seen = new Set(); grp = grp.filter(e => { const k = geniHistKey(e.url); if (seen.has(k) || resK.has(k)) return false; seen.add(k); return true; });
+  }
+  const sig = grp.map(e => geniHistKey(e.url)).join('|');
+  if (sig === _geniNewestSig) return false;   // 무변경 = 재렌더 0(sig 게이트 관례)
+  _geniNewestSig = sig; GENI_NEWEST = grp;
+  renderGeniRes(); renderGeniPrev();   // 결과 합류 + 이전 제작 제외 동시 반영(파티션 한 값)
+  return true;
+}
+/* ── 결과 레일 진행 행 = 발사 즉시(운영자 260821 «생성버튼을 눌러도 대기열 큐에 안들어가는데 · 다른 이미지 스튜디오의 세부 화면들은 가능하거든») ──
+   정본 = tr.html `TR_JOBS` 블록 100% 계승(마크업 `.job > .jlab + .jst` · 문구 · orb · `.nm-shim` · `.jretry`/`.jdel`)
+   + 상태 문구는 thumb `renderJob` 정본 3갈래 exact(「제작중 · 46s · 0/1장」 / 「지연 · …」 / 「실패 · 사유」) = 신규 클래스·값 0.
+   ⚠ 왜 이 판만 화면에 대기열이 없었나 = AI 생성 탭은 geniMount가 thumb 프레임을 통째로 숨기고(.toolfr active 제거 = display:none)
+     부모가 폼을 그린다 → 대기열 `#jobs` 가 **그 숨은 문서 안**에 있어 화면에 물리적으로 없다(잡 카드 자체는 정상 생성 = 260821 실측).
+     번역 탭은 260817에 같은 봉합을 받았고 이 판만 안 따라왔다 = 「형제는 가진 걸 자기만 안 가졌다」 축의 재현.
+   ⚠ 판정(완료·실패·경과·장수)은 **thumb 정본 단독** — 여기는 그 상태를 받아 그리기만 한다(판정 사본 0).
+     그래서 이 대기열은 AI 생성분만이 아니라 **그 문서의 대기열 전체**다(카드 생성·편집·특수 = 한 문서 한 대기열 계약 그대로). */
+let GENI_JOBS = [], _geniJobTick = 0;
+const GENI_XCLOSE_SVG = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6 18 18M18 6 6 18"/></svg>';   // raw-ok: thumb `XCLOSE_SVG` 정본 exact 사본(취소·닫기 X = CII 「닫기 X」 path · 신규 창작 0)
+function geniJobDur(sec) { return sec < 60 ? sec + 's' : Math.floor(sec / 60) + 'm ' + (sec % 60) + 's'; }   // raw-ok: 경과 표기 = thumb `jobDur` 정본 exact 사본(tr 동문 · 값 창작 0)
+function geniJobStat(job) {   // 상태 span 안쪽 = thumb renderJob 조립 문법 동일(사용자 조각은 esc 통과분뿐)
+  if (job.status === 'err') return WARN_SVG + '<span>실패 · ' + esc(String(job.msg || '').slice(0, 60)) + '</span>';
+  const sec = Math.round((Date.now() - job.t0) / 1000);
+  const orb = window.nmOrbHTML ? nmOrbHTML('solving', 14) : '';
+  return orb + '<span class="nm-shim">' + (job.queued ? '지연' : '제작중') + ' · <b class="jsec">' + geniJobDur(sec) + '</b> · ' + (job.dn || 0) + '/' + (job.tot || '?') + '장</span>';   // 「지연」 = 러너 배정 대기(thumb 260809 통일 문법)
+}
+function geniJobAct(uid, act) {   // [재시도]·[취소] = 그 문서의 같은 버튼을 누른다(동작 사본 0)
+  document.querySelectorAll('#tooldlg .toolfr').forEach(f => { try { f.contentWindow.postMessage({ nm: 'jobs-act', uid, act }, location.origin); } catch (e) {} });
+}
+function geniJobRow(job) {
+  const row = document.createElement('div'); row.className = 'job' + (job.status === 'err' ? ' err' : '');
+  const lab = document.createElement('span'); lab.className = 'jlab'; lab.textContent = (job.label || '제작') + ' #' + job.n;
+  const st = document.createElement('span'); st.className = 'jst'; st.innerHTML = geniJobStat(job);
+  row.append(lab, st);
+  if (job.status === 'err') {
+    row.title = job.msg || '';
+    const rt = document.createElement('button'); rt.type = 'button'; rt.className = 'jretry'; rt.title = '같은 설정으로 다시 제작';   // 재시도 = thumb 실패 행 정본 부품(.jretry + RETRY_SVG)
+    rt.innerHTML = (window.RETRY_SVG || '') + '<span>재시도</span>';
+    rt.onclick = () => { rt.disabled = true; geniJobAct(job.uid, 'retry'); };
+    row.append(rt);
+    const del = document.createElement('button'); del.type = 'button'; del.className = 'jdel'; del.title = '이 실패 기록 삭제'; del.setAttribute('aria-label', '삭제');
+    del.innerHTML = (window.TRASH_SVG || '');
+    del.onclick = () => geniJobAct(job.uid, 'del');
+    row.append(del);
+  } else {
+    const cx = document.createElement('button'); cx.type = 'button'; cx.className = 'jdel jcancel' + (job.arm ? ' arm' : '');   // 취소 = thumb 진행 행 정본 부품(.jdel.jcancel) · 2단 탭(1탭 무장 → 2탭 확정)도 정본 그대로 — 무장 상태는 그 문서가 쥐고 미러로 따라온다
+    if (job.arm) { cx.innerHTML = CHECK_SVG; cx.title = '한 번 더 누르면 취소'; cx.setAttribute('aria-label', '취소 확정'); }
+    else { cx.innerHTML = GENI_XCLOSE_SVG; cx.title = '이 제작 취소'; cx.setAttribute('aria-label', '제작 취소'); }
+    cx.onclick = () => geniJobAct(job.uid, 'del');
+    row.append(cx);
+  }
+  return row;
+}
+/* 경과 1초 틱 = **진행 중 행이 있을 때만** 켜지고 없으면 스스로 끈다 + 가려진 동안 정지(유휴 정숙 C16 동축 · tr trTickOn 정본 동문). */
+function geniTickOn() {
+  if (_geniJobTick) return;
+  _geniJobTick = setInterval(() => {
+    if (!GENI_JOBS.some(j => j.status === 'run')) { clearInterval(_geniJobTick); _geniJobTick = 0; return; }
+    if (!document.hidden) geniJobPaint();
+  }, 1000);
+}
+function geniJobPaint() {   // 1초 틱 = 진행 행 상태 span만 교체(타일·요약 통째 재렌더 0 = 깜빡임·GC 0 · tr trJobPaint 동문)
+  const host = $('#geniResJobs'); if (!host) return;
+  const rows = host.querySelectorAll('.job:not(.done)');
+  if (rows.length !== GENI_JOBS.length) { renderGeniRes(); return; }   // 개수 어긋남 = 통째 재렌더(부분 갱신이 남의 행을 칠하는 것 차단)
+  GENI_JOBS.forEach((j, i) => { if (j.status !== 'run') return; const st = rows[i] && rows[i].querySelector('.jst'); if (st) st.innerHTML = geniJobStat(j); });
+}
+window.addEventListener('message', e => {   // 이미지 스튜디오 문서(thumb) → 대기열 상태 수신 = 이 판의 진행 행 원천
+  if (e.origin !== location.origin) return;
+  if (!e.data || e.data.nm !== 'jobs-mirror') return;
+  if (![...document.querySelectorAll('#tooldlg .toolfr')].some(f => f.contentWindow === e.source)) return;   // 우리 도구 프레임만 신뢰(genfree 리스너 출처 검증 동문)
+  GENI_JOBS = (e.data.jobs || []).filter(j => j && j.status !== 'done');   // 완료 행은 결과 요약 줄이 그 자리를 대신한다(tr trJobEnd 계약 동문)
+  renderGeniRes();
+  if (GENI_JOBS.some(j => j.status === 'run')) geniTickOn();
+});
+/* 결과 요약 줄 = 「완료 · N장 · 시각」 + [수정][전체 다운로드](운영자 260806 "이 두부분에도 적용하셈 · 왜 저게 계속 따로노는지 모르겟으유") ──
+   정본 = thumb `renderJob` 완료 행(.job.done > .jlab + .jst + .jsave-row) 마크업 그대로 · 부품 CSS = nm-job.css 공동 정본(index는 이미 링크 보유) · 신규 클래스·값 0.
+   재료 = 결과 배열 그 자체 = 새 상태 신설 0(tr resJobRow 동문 — 두 판 같은 문법). */

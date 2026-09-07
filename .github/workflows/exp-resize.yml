@@ -1,5 +1,5 @@
 # 나노바나나 비율 재구성 v0 실험 — workflow_dispatch 전용(유료 Gemini 수동 발사만 · §📰 불변)
-# 자동 트리거 0 = 라이브 파이프라인 무접촉. 산출 = _산출/exp_resize_v0/<ts>/ (main 커밋).
+# 자동 트리거 0 = 라이브 파이프라인 무접촉. 산출 = _산출/exp_resize_v0/<ts>/ (아티팩트 3일 보관).
 name: exp-resize
 on:
   workflow_dispatch:
@@ -51,14 +51,11 @@ jobs:
           EXP_SIZE: ${{ inputs.size }}
         run: python3 .github/scripts/exp_resize_v0.py
 
-      - name: Commit results
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add _산출/exp_resize_v0
-          git diff --cached --quiet && { echo "산출 없음"; exit 0; }
-          git commit -m "exp: 비율 재구성 v0 실측 산출 (${{ inputs.aspect }})"
-          for i in 1 2 3 4; do
-            git push origin main && exit 0 || { echo "push 재시도 $i"; git pull --rebase --autostash origin main; sleep $((2**i)); }
-          done
-          echo "::error::push 실패(재시도 소진) — 실험 산출 유실"; exit 1   # 런1처럼 실패가 success로 삼켜지는 것 차단
+      - name: Experiment results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: exp-resize-${{ github.run_id }}
+          path: _산출/exp_resize_v0
+          if-no-files-found: warn
+          retention-days: 3

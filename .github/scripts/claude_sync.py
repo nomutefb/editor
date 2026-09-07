@@ -160,7 +160,11 @@ def sync_one(repo, block):
 
 def main():
     with open("CLAUDE.md", encoding="utf-8") as f:
-        block = span(f.read())
+        source = f.read()
+    if START not in source and END not in source:
+        print('::notice::현재 지침은 저장소별로 관리 — 공통 전파 구간 없음')
+        return 0
+    block = span(source)
     if not block:
         print("::error::원본 CLAUDE.md의 SYNC-COMMON 마커가 정확히 1쌍이 아니다 — 전파 중단")
         return 1

@@ -70,6 +70,11 @@ function chromiumPath() {
   const { srv, port } = await serve();
   const browser = await pw.chromium.launch({ executablePath: chromiumPath() });
   const page = await browser.newPage({ viewport: { width: 412, height: 915 } });
+  // Empty-state contract: generated production history must not restore a result
+  // while this test injects synthetic in-progress jobs (C8/C12).
+  await page.route(/\/thumb-hist\.json(?:\?|$)/, route => route.fulfill({
+    status: 200, contentType: 'application/json', body: '[]'
+  }));
   const errs = [];
   page.on('pageerror', e => errs.push(String(e)));
   await page.goto('http://127.0.0.1:' + port + '/thumb.html', { waitUntil: 'load' });
