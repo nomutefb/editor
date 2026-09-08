@@ -7496,8 +7496,14 @@
   {
    "query": "최준희",
    "traffic": "10000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/6a116c7a62.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.tenasia.co.kr/article/2026081997044",
+     "source": ""
+    }
+   ],
    "vol": 10000,
    "started": "2026-09-08T19:30:00+09:00",
    "delta": -7,
@@ -7605,8 +7611,14 @@
   {
    "query": "삼성반도체",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/07a6fa9438.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008622700",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-08T20:30:00+09:00",
    "isNew": true,
@@ -7670,8 +7682,14 @@
   {
    "query": "고발",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/a0e0840d6e.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://imnews.imbc.com/news/2026/society/article/6850291_36918.html",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-08T20:00:00+09:00",
    "isNew": true,
@@ -7683,8 +7701,14 @@
   {
    "query": "사우디아라비아",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/368d698640.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://imnews.imbc.com/news/2026/world/article/6850393_36925.html",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-08T19:30:00+09:00",
    "delta": -17,
@@ -7698,8 +7722,14 @@
   {
    "query": "야구여왕",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/1a6d1fc961.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://sports.khan.co.kr/article/202609021612003/",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-08T18:20:00+09:00",
    "isNew": true,
@@ -7883,12 +7913,14 @@
  ],
  "gtrends_pool_updated": "2026-09-08T22:10:51+09:00",
  "_trend_img": {
-  "tried": "2026-09-08T21:28:48+09:00",
+  "tried": "2026-09-08T22:10:51+09:00",
   "fail": {
    "두산 대 한화": "2026-09-08T20:47:57+09:00",
    "이집트": "2026-09-08T20:47:57+09:00",
    "이상우": "2026-09-08T20:47:57+09:00",
-   "야구 감독": "2026-09-08T21:36:39+09:00"
+   "야구 감독": "2026-09-08T21:36:39+09:00",
+   "김영옥": "2026-09-08T22:16:33+09:00",
+   "이수지": "2026-09-08T22:16:33+09:00"
   }
  },
  "gtrends_gl": [
@@ -17439,7 +17471,10 @@
     "rh": [
      19
     ],
-    "first_seen": "2026-09-08T22:10:51+09:00"
+    "first_seen": "2026-09-08T22:10:51+09:00",
+    "kw": "Xpeng, IRON, 휴머노이드 로봇",
+    "sum": "Xpeng이 로봇이 로봇을 만드는 자동화 생산라인을 가동했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -17454,7 +17489,10 @@
     "rh": [
      20
     ],
-    "first_seen": "2026-09-08T22:10:51+09:00"
+    "first_seen": "2026-09-08T22:10:51+09:00",
+    "kw": "Copilot, JetBrains, MCP",
+    "sum": "계정이 Copilot의 JetBrains용 MCP 서버 프리뷰 출시를 정리했다",
+    "sv": 1
    }
   ]
  },
