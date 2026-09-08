@@ -14,6 +14,7 @@ sys.path.insert(0, os.path.join(ROOT, 'shared'))
 sys.path.insert(0, os.path.join(ROOT, 'apps', 'news'))
 import digest_guard as dg   # noqa: E402
 import fact_guard as fg     # noqa: E402
+import ko_tone_scan as kts  # noqa: E402  한국어 결 측정기(260908 · W9 = 문서당 규칙 축 점수 · 인용 마스킹·허용목록 포함)
 
 SECTIONS = ['## 🧷', '## 📰 Fact', '## 🔎 Inference', '## 🧭', '## 🛠', '## 📦 콘텐츠 초안', '### 💡 이 기사의 시사점']
 FM_REQ = ['reader', 'emotion', 'hook', 'thumb_scene', 'thumb_dispatch', 'bias', 'tags']
@@ -143,7 +144,8 @@ def eval_run(path, src_body):
     r['W3_anira'] = bool(ins_s and re.search(r'가 아니라 .{1,25}(다|이다)\.?\s*$', ins_s[-1]))
     r['W4_date_lead'] = bool(LEAD_RE.search(lead_ig.replace('🔎', '').strip()))
     r['W5_gloss'] = len(GLOSS_RE.findall(ig or ''))
-    r['W8_xlate'] = len(XLATE_RE.findall(draft))
+    r['W8_xlate'] = len(XLATE_RE.findall(kts.mask_quotes(draft)))   # 260908: 인용 마스킹(실측 = post 4히트 중 인용·오탐 3)
+    r['W9_tone'] = kts.score(draft)                                   # 260908: 규칙 축 합(정본 ko_tone_rules 1:1 · 히트 수 단독 판정 금지 = 비교 열)
     r['W_cite_brackets'] = len(CITE_RE.findall('\n'.join(x or '' for x in (free, ig, th))))
     # ── R 풍부도 ──
     r['R1_fact_bullets'] = len(re.findall(r'^\s*-\s', fact, re.M))
@@ -280,6 +282,7 @@ def main(d):
                 'free_num_density_min': worst(a, lambda r: r.get('R4_free_num_density')),
                 'factcov_missing_max': worst(a, lambda r: r.get('R5_factcov_missing'), max),
                 'xlate_max': worst(a, lambda r: r['W8_xlate'], max),
+                'tone_max': worst(a, lambda r: r.get('W9_tone'), max),
                 'gloss_max': worst(a, lambda r: r['W5_gloss'], max),
                 'date_lead_any': any(r['W4_date_lead'] for r in groups[a]),
                 'pre_repair_ig_min': worst(a, lambda r: (r.get('pre_repair') or {}).get('ig')),
@@ -309,6 +312,7 @@ def main(d):
             chk(A['free_num_density_min'] and (B['free_num_density_min'] or 0) < 0.8 * A['free_num_density_min'], 'R4 수치밀도 B%s < 0.8·A%s' % (B['free_num_density_min'], A['free_num_density_min']))
             chk((B['factcov_missing_max'] or 0) > (A['factcov_missing_max'] or 0) + 1, 'R5 factcov 누락 B%s > A%s+1' % (B['factcov_missing_max'], A['factcov_missing_max']))
             chk((B['xlate_max'] or 0) > (A['xlate_max'] or 0) + 1, 'W8 번역투 B%s > A%s+1' % (B['xlate_max'], A['xlate_max']))
+            chk((B['tone_max'] or 0) > (A['tone_max'] or 0) + 2, 'W9 한국어 결 점수 B%s > A%s+2' % (B['tone_max'], A['tone_max']))
             chk((B['gloss_max'] or 0) > (A['gloss_max'] or 0), 'W5 용어풀이 B%s > A%s' % (B['gloss_max'], A['gloss_max']))
             chk(B['date_lead_any'] and not A['date_lead_any'], 'W4 날짜 리드 B 만')
             chk(A['pre_repair_ig_min'] and B['pre_repair_ig_min'] and B['pre_repair_ig_min'] < A['pre_repair_ig_min'] - 40, 'L5 재보강 전 IG B%s < A%s−40' % (B['pre_repair_ig_min'], A['pre_repair_ig_min']))
@@ -326,11 +330,11 @@ def main(d):
                 tag, tag[0], r['meta'].get('rc'), r['meta'].get('elapsed_s'), u['dur_s'], u['turns'], u['out'], u['cache_w'], u['cache_r'], u['prefix_per_turn'], u['cost'],
                 ('%d콜 %ss $%s' % (u['repair_calls'], u['repair_dur_s'], u['repair_cost'])) if u['repair_calls'] else '—',
                 L['free'], L['ig'], L['th'], P['ig'], P['th'], r['R1_fact_bullets'], r.get('R2_aug_nums'), r['R3_media'], ' · '.join(r['HARD_FAILS']) or '0'))
-        md += ['', '**arm 요약(중앙값 · 최악값)**', '', '| arm | n | 본선 dur | 벽시계 | prefix/turn | cache_w | cache_r | out | cost | 하드실패 런 | Fact불릿 min | 보강수치 min | 매체 min | 수치밀도 min | 번역투 max | 재보강전 IG/TH min |', '|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|']
+        md += ['', '**arm 요약(중앙값 · 최악값)**', '', '| arm | n | 본선 dur | 벽시계 | prefix/turn | cache_w | cache_r | out | cost | 하드실패 런 | Fact불릿 min | 보강수치 min | 매체 min | 수치밀도 min | 번역투 max | 결점수 max | 재보강전 IG/TH min |', '|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|']
         for a, c in comp.items():
-            md.append('| %s | %d | %s | %s | %s | %s | %s | %s | %s | %d | %s | %s | %s | %s | %s | %s/%s |' % (
+            md.append('| %s | %d | %s | %s | %s | %s | %s | %s | %s | %d | %s | %s | %s | %s | %s | %s | %s/%s |' % (
                 a, c['n'], c['dur_med'], c['elapsed_med'], c['prefix_per_turn_med'], c['cache_w_med'], c['cache_r_med'], c['out_med'], c['cost_med'], c['hard_fails'],
-                c['fact_bullets_min'], c['aug_nums_min'], c['media_min'], c['free_num_density_min'], c['xlate_max'], c['pre_repair_ig_min'], c['pre_repair_th_min']))
+                c['fact_bullets_min'], c['aug_nums_min'], c['media_min'], c['free_num_density_min'], c['xlate_max'], c.get('tone_max'), c['pre_repair_ig_min'], c['pre_repair_th_min']))
         md += ['', '**C 비교 플래그**: %s' % (' · '.join(cflags) if cflags else '없음'), '']
         for tag, r in runs.items():
             if r['HARD_FAILS'] or r.get('F1_num_candidates') or r.get('F2_quote_candidates') or r.get('F6_derive') or r.get('lint'):

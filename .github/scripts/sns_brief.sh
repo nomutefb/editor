@@ -124,7 +124,7 @@ tail.append('[유튜브 뉴스] ' + ' / '.join((v.get('title') or '')[:40] for v
 tail.append('[쇼츠] ' + ' / '.join((v.get('title') or '')[:40] for v in _cut(sh, 5)))
 tail.append('[틱톡] ' + ' / '.join(((t.get('title') or ('@' + (t.get('account') or '')))[:40]) for t in _cut(tk, 5)))
 body = '\n'.join(L + tail)
-PVER = 'brief-v14-260823-tone'   # v14 = 한국어 결 공용 블록 편입(운영자 260823 «sns 요약에도 그 말투» · 정본 shared/tone_block.sh · [말투] 레인 톤이 우선) · 구 v13: 24시간 입장컷 + 등가 점수 + 발행 나이 명시(260816 실사고 봉합 — 6일 전 쇼츠가 「오늘 가장 크게 튄 것」으로 1위를 먹던 축) · v12: 소재별 다중 링크(문단 끝 1개 → 소재 바뀔 때마다 · 데이터 동봉 URL 직결 · refs 4→10 · 상한 URL 무과금 · 운영자 260727) · v11 강조 2층(*별표1*=강조색 / **별표2**=볼드만) · v10 [신규 진입] 신상 딱지(first_seen 6h) · v9 이슈 원장 감쇠+채널·URL·댓글, v8 호칭 제거, v7 참고자료 카드 유지
+PVER = 'brief-v14-260823-tone' + '-t' + __import__('os').environ.get('TONE_VER', '')   # 260908: 한국어 결 정본 해시 결합 = 규칙 개정 시 자동 캐시 버스트(감사 R4)   # v14 = 한국어 결 공용 블록 편입(운영자 260823 «sns 요약에도 그 말투» · 정본 shared/tone_block.sh · [말투] 레인 톤이 우선) · 구 v13: 24시간 입장컷 + 등가 점수 + 발행 나이 명시(260816 실사고 봉합 — 6일 전 쇼츠가 「오늘 가장 크게 튄 것」으로 1위를 먹던 축) · v12: 소재별 다중 링크(문단 끝 1개 → 소재 바뀔 때마다 · 데이터 동봉 URL 직결 · refs 4→10 · 상한 URL 무과금 · 운영자 260727) · v11 강조 2층(*별표1*=강조색 / **별표2**=볼드만) · v10 [신규 진입] 신상 딱지(first_seen 6h) · v9 이슈 원장 감쇠+채널·URL·댓글, v8 호칭 제거, v7 참고자료 카드 유지
 print(hashlib.sha256((PVER + '\n' + body).encode()).hexdigest()[:16])
 print('\n'.join(E + tail))
 PY

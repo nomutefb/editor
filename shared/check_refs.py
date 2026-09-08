@@ -10276,6 +10276,81 @@ def check_algo_ledger():
     return 0
 
 
+
+def check_ko_tone_ssot():
+    """한국어 결 정본 단일화(하드 · 운영자 260908 «반영하자»).
+    CONTRACT: check_ko_tone_ssot
+
+    왜: 260823 편입된 [한국어 결] 규칙이 세 곳(01_지침 절 · tone_block.sh 인라인 · polish-korean.md)에 손 복사돼
+    260908 감사에서 이미 문구가 갈려 있었다(tone_block에 '에 기반하여' 누락 · polish에만 13규칙 · 예시 3벌 상이) —
+    이 레포 최빈 사고 축(사본 드리프트)의 재현. 정본을 shared/ko_tone_rules.md 하나로 두고 나머지는 추출·참조만 한다.
+
+    술어 5축(정적 · LLM 0 · 면책 없이 하드) =
+      ① 정본 실존 + KO-TONE 3구간(COMMON·NEWS-CAP·POLISH) START/END 짝 + INJECT-SKIP 짝 균형
+      ② 주입기(inject_guidelines.sh) 주석 아닌 줄에 정본 경로가 summary·card 두 case 모두 실존
+      ③ tone_block.sh · summary_polish.sh 주석 아닌 줄이 같은 정본을 읽는다(awk 추출 문자열 KO-TONE 실존)
+      ④ `${TONE_BLOCK}`/`${TONE_BLOCK_SENT}` 를 프롬프트에 쓰는 .sh 는 주석 아닌 줄에 tone_block.sh 적재(source) 실존 — 손 목록 0
+      ⑤ 규칙 본문 사본 0 — 01_지침 [한국어 결] 절·tone_block.sh·polish-korean.md 에 규칙 불릿 지문('에 의해\" 피동 금지'·'AI 관용구 금지') 재작성 금지"""
+    rules = os.path.join(ROOT, 'shared', 'ko_tone_rules.md')
+    try:
+        rtxt = open(rules, encoding='utf-8').read()
+    except Exception as e:
+        print('❌ check_ko_tone_ssot 정본 없음(shared/ko_tone_rules.md · fail-closed):', e); return 1
+    bad = []
+    for sec in ('COMMON', 'NEWS-CAP', 'POLISH'):
+        if rtxt.count('KO-TONE:%s-START' % sec) != 1 or rtxt.count('KO-TONE:%s-END' % sec) != 1:
+            bad.append('정본 구간 마커 불균형: %s' % sec)
+    if rtxt.count('INJECT-SKIP-START') != rtxt.count('INJECT-SKIP-END'):
+        bad.append('정본 INJECT-SKIP 마커 불균형')
+    if 'profile=card' not in rtxt or 'profile=summary' not in rtxt:
+        bad.append('정본에 프로필 스코프 마커(profile=card·profile=summary) 부재 — 요약/카드 비대칭이 풀린다')
+    def _live(p):
+        try:
+            return [l for l in open(os.path.join(ROOT, p), encoding='utf-8').read().splitlines() if not l.lstrip().startswith('#')]
+        except Exception:
+            return None
+    inj = _live('shared/inject_guidelines.sh')
+    if inj is None or sum(1 for l in inj if 'shared/ko_tone_rules.md' in l) < 2:
+        bad.append('주입기(inject_guidelines.sh) summary·card 두 case 에 정본 경로 미등재')
+    for p in ('shared/tone_block.sh', 'shared/summary_polish.sh'):
+        lv = _live(p)
+        if lv is None or not any('ko_tone_rules.md' in l for l in lv) or not any('KO-TONE:' in l for l in lv):
+            bad.append('%s 가 정본을 추출해 읽지 않음' % p)
+    for d in ('.github/scripts', 'shared'):
+        dd = os.path.join(ROOT, d)
+        for n in sorted(os.listdir(dd)):
+            if not n.endswith('.sh') or n == 'tone_block.sh':
+                continue
+            lv = _live(os.path.join(d, n))
+            if lv is None:
+                continue
+            if any('${TONE_BLOCK' in l for l in lv) and not any('tone_block.sh' in l for l in lv):
+                bad.append('%s/%s 가 TONE_BLOCK 을 쓰면서 tone_block.sh 를 적재하지 않음' % (d, n))
+    finger = ('에 의해" 피동 금지', 'AI 관용구 금지')
+    for p in ('shared/tone_block.sh', 'prompts/polish-korean.md'):
+        try:
+            t = open(os.path.join(ROOT, p), encoding='utf-8').read()
+        except Exception:
+            t = ''
+        if any(f in t for f in finger):
+            bad.append('%s 에 규칙 본문 사본 재작성(정본 밖 불릿)' % p)
+    g01 = sorted(glob.glob(os.path.join(ROOT, 'apps', 'news', '01_지침_에디터_뉴스_*.md')))
+    if g01:
+        t01 = open(g01[-1], encoding='utf-8').read()
+        m = re.search(r'\*\*\[한국어 결 — AI 번역투 소거\]\*\*.*?(?=\n\*\*\[|\Z)', t01, re.S)
+        if not m:
+            bad.append('01_지침 [한국어 결] 절 부재(정본 포인터 절이 사라짐)')
+        elif any(f in m.group(0) for f in finger) or 'ko_tone_rules.md' not in m.group(0):
+            bad.append('01_지침 [한국어 결] 절에 규칙 본문 사본 또는 정본 포인터 부재')
+    if bad:
+        print('❌ 한국어 결 정본 단일화 게이트(운영자 260908) — 사본 드리프트 축 재개방:')
+        for b in bad:
+            print('   -', b)
+        return 1
+    print('✅ 한국어 결 정본 단일화 게이트 — shared/ko_tone_rules.md 3구간·주입기 2case·tone_block/polish 추출·소비자 source·사본 0.')
+    return 0
+
+
 def main():
     if subprocess.run(['node', os.path.join(ROOT, 'shared', 'build_shell.mjs'), '--check'], cwd=ROOT).returncode:
         return 1
@@ -10628,6 +10703,8 @@ def main():
         if check_guidelines_checkout() != 0:   # 에디터 지침 체크아웃(하드 게이트 — 260823 실측: sparse에 apps 누락으로 픽 요약이 지침 전체 없이 가동·📍 소멸·러너는 초록·도장 96d67a2 증거)
             rc = 1
         if check_claim_before_consume() != 0:   # 요약 병렬화 선점-소비 계약(하드 게이트 — 260905 평의회 #8 킬테스트: 선점 push 를 -X theirs 로 바꾸면 삼중 요약 · 증상 0)
+            rc = 1
+        if check_ko_tone_ssot() != 0:   # 한국어 결 정본 단일화(하드 게이트 — 260908 감사: 세 사본 드리프트 실측 · 요약/카드 비대칭은 정본 마커로 고정)
             rc = 1
     except Exception as e:
         print('❌ check_push_send_checkout 예외(fail-closed):', e); rc = 1

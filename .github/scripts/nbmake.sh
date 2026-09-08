@@ -11,6 +11,7 @@ MODEL="${NB_MODEL:-$PIPE_MODEL}"     # 모델 토글(운영자 260722 · 소넷5
 NB_EFFORT="${NB_EFFORT:-high}"       # 전사→분석 노트 = 전사는 GPU(STT)·분석은 정해진 변환 → high(운영자 260722 · max 불필요) · 토글 high/medium/low
 source "$ROOT/shared/claude_transient.sh"  # is_quota()/claude_failover()/is_transient() SSOT — 4계정 로테이션(§📰)
 source "$ROOT/shared/claude_meter.sh"      # claude_meter() SSOT — 토큰 계측
+. "$ROOT/shared/tone_block.sh"             # 한국어 결 공용 문장축(정본 shared/ko_tone_rules.md 추출 · 260908 감사 R8 = 분석 노트 산문에만 조건부 부착)
 INLINE_TRIES="${INLINE_TRIES:-4}"   # 쿼터 폴오버 체인 깊이(4계정)와 동수 — songmake 동일
 ID="${1:?usage: nbmake.sh <id> (NB_ASK=env · /tmp/nb_meta.json·/tmp/nb_tr.json 선행 필수)}"
 case "$ID" in *[!0-9a-f-]*) echo "::error::잘못된 id"; exit 1;; esac
@@ -68,7 +69,10 @@ print(f"""[영상 메타]
 PY
 )" || { echo "전사 조립 실패 — 다시 시도해줘." > "$OUTDIR/error.log"; echo "::error::프롬프트 조립 실패"; exit 1; }
 
-prompt="$(cat prompts/nb-make.md)"
+prompt="$(cat prompts/nb-make.md)
+
+${TONE_BLOCK_SENT}
+(위 문장 규칙은 summary·points·use 산문에만 — 인용(quotes)·전사 발췌·고유 표기·terms 원문은 제외)"
 ASK="${NB_ASK:-}"
 if [ -n "$ASK" ]; then
   prompt="$prompt
