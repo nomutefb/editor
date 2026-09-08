@@ -7580,8 +7580,14 @@
   {
    "query": "땅",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/68e86b9a0e.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.etoday.co.kr/news/view/2622726",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-09-08T08:00:00+09:00",
    "delta": -2,
@@ -7811,8 +7817,14 @@
   {
    "query": "최동원",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/2a3eed89a6.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://sports.khan.co.kr/article/202609011733003/",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-08T08:30:00+09:00",
    "isNew": true,
@@ -7824,8 +7836,14 @@
   {
    "query": "야구",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/6a48de7370.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://isplus.com/article/view/isp202609070261",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-09-08T07:30:00+09:00",
    "isNew": true,
@@ -8027,11 +8045,11 @@
  ],
  "gtrends_pool_updated": "2026-09-08T10:49:48+09:00",
  "_trend_img": {
-  "tried": "2026-09-08T10:10:16+09:00",
+  "tried": "2026-09-08T10:49:48+09:00",
   "fail": {
-   "발견": "2026-09-08T08:27:58+09:00",
    "아나스타샤 포타포바": "2026-09-08T09:02:38+09:00",
-   "sf": "2026-09-08T09:02:38+09:00"
+   "sf": "2026-09-08T09:02:38+09:00",
+   "용준형": "2026-09-08T10:58:07+09:00"
   }
  },
  "gtrends_gl": [
@@ -19376,7 +19394,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-08T10:49:48+09:00"
+    "first_seen": "2026-09-08T10:49:48+09:00",
+    "kw": "VS Code, 에이전트 아티팩트",
+    "sum": "계정이 VS Code의 에이전트 아티팩트 프리뷰 기능을 소개했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
