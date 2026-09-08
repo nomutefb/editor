@@ -7593,8 +7593,14 @@
   {
    "query": "lng선",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/4f75de8740.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.fnnews.com/news/202609081231257617",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-08T16:00:00+09:00",
    "delta": -5,
@@ -7722,8 +7728,14 @@
   {
    "query": "야차룰",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/d28fdaae5a.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.hankyung.com/article/2026090819667",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-09-08T15:00:00+09:00",
    "delta": -6,
@@ -7738,8 +7750,14 @@
   {
    "query": "한국토지주택공사",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/ef6343a02b.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://view.asiae.co.kr/article/2026090723312440989",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-09-08T14:20:00+09:00",
    "delta": -5,
@@ -7778,8 +7796,14 @@
   {
    "query": "김혜경",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/d46f665854.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.ajunews.com/view/20260908011304129",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-08T15:40:00+09:00",
    "delta": -10,
@@ -7793,8 +7817,14 @@
   {
    "query": "낸시 랭",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/dd0d819872.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.newsis.com/view/NISX20260908_0003780745",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-09-08T16:50:00+09:00",
    "isNew": true,
@@ -7806,8 +7836,14 @@
   {
    "query": "미국",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/9295157987.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.fnnews.com/news/202609040626334987",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-08T14:20:00+09:00",
    "delta": -8,
@@ -7943,11 +7979,10 @@
  ],
  "gtrends_pool_updated": "2026-09-08T18:03:09+09:00",
  "_trend_img": {
-  "tried": "2026-09-08T17:24:20+09:00",
+  "tried": "2026-09-08T18:03:09+09:00",
   "fail": {
-   "담보 대출": "2026-09-08T15:34:13+09:00",
-   "직업": "2026-09-08T15:34:13+09:00",
-   "이현배": "2026-09-08T17:32:32+09:00"
+   "이현배": "2026-09-08T17:32:32+09:00",
+   "겨울": "2026-09-08T18:09:52+09:00"
   }
  },
  "gtrends_gl": [
@@ -18292,7 +18327,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-08T18:03:09+09:00"
+    "first_seen": "2026-09-08T18:03:09+09:00",
+    "kw": "vault, details.so, 링크 공유",
+    "sum": "계정이 요청받은 vault 링크를 공유했다",
+    "sv": 1
    },
    {
     "account": "takepage_",
