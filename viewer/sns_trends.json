@@ -7441,8 +7441,14 @@
   {
    "query": "경기일보",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/0fb41413b2.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.kyeonggi.com/article/20260908580387",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-08T16:10:00+09:00",
    "isNew": true,
@@ -7705,8 +7711,14 @@
   {
    "query": "임신",
    "traffic": "10000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/4796e6fe3c.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.segye.com/newsView/20260907517695",
+     "source": ""
+    }
+   ],
    "vol": 10000,
    "started": "2026-09-08T14:00:00+09:00",
    "delta": -4,
@@ -7782,8 +7794,14 @@
   {
    "query": "위조",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/294bdb3b96.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://view.asiae.co.kr/article/2026090808210443697",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-08T14:00:00+09:00",
    "delta": -7,
@@ -7843,8 +7861,14 @@
   {
    "query": "수학",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/7323360495.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.veritas-a.com/news/articleView.html?idxno=625930",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-08T13:30:00+09:00",
    "isNew": true,
@@ -7856,8 +7880,14 @@
   {
    "query": "nol 티켓",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/6db16a6625.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.fnnews.com/news/202609080928207275",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-08T14:10:00+09:00",
    "delta": -13,
@@ -7974,10 +8004,11 @@
  ],
  "gtrends_pool_updated": "2026-09-08T17:24:20+09:00",
  "_trend_img": {
-  "tried": "2026-09-08T16:50:42+09:00",
+  "tried": "2026-09-08T17:24:20+09:00",
   "fail": {
    "담보 대출": "2026-09-08T15:34:13+09:00",
-   "직업": "2026-09-08T15:34:13+09:00"
+   "직업": "2026-09-08T15:34:13+09:00",
+   "이현배": "2026-09-08T17:32:32+09:00"
   }
  },
  "gtrends_gl": [
@@ -18402,7 +18433,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-08T17:24:20+09:00"
+    "first_seen": "2026-09-08T17:24:20+09:00",
+    "kw": "프로젝트 재시작, 폴더 관리",
+    "sum": "작성자가 프로젝트를 새 폴더로 시작할지 기존 폴더를 정리할지 묻고 있다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
