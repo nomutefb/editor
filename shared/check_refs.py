@@ -9422,13 +9422,30 @@ def check_thumb_prompt_sanity():
             # ⑤ SCENE 위계 = 아래 연출 줄이 전부 '어떻게'만 말한다는 못박음. 빠지면 장면 경합이 부활한다
             if tg.SCENE_PRIME not in p:
                 bad.append('%s SCENE 위계줄(SCENE_PRIME) 누락' % tag)
+    # ── 만평(cartoon) 축(260908 평의회 · 4화풍 복귀) — build_cartoon_prompt 는 위 루프가 안 탄다(별도 빌더) → 대표 케이스 1건 직접 조립.
+    #    술어 = 만평 정체성 3줄(GOVERNING_SATIRE·TEXT & FIGURES·LAYOUT) 생존 · CAMERA 실존 · SCENE 위계줄 혼입 0(만평은 장면 재현 금지).
+    _cart = next((x for x in tg.STYLES if x[0] == 'cartoon'), None)
+    if _cart and hasattr(tg, 'build_cartoon_prompt') and hasattr(tg, 'LAYOUT_CARTOON'):
+        try:
+            _cp = tg.build_cartoon_prompt(_cart[2], _cart[3], '시사점 한 단락', hook='화두 한 마디', lead=LEAD,
+                                          satire=tg._SATIRE_LINES[3].format(target='제도의 허점'), codes='SG-16 EM-02 LGT05')
+            _cl = _cp.split('\n')
+            for _need, _why in ((tg.GOVERNING_SATIRE, '만평 지배조건'), (tg.CARTOON_TEXT_RULES, '텍스트·안전 하한'), (tg.LAYOUT_CARTOON, '배치(하단 자막 존)')):
+                if _need not in _cp:
+                    bad.append('cartoon %s 줄 누락' % _why)
+            if not any(x.startswith('CAMERA:') for x in _cl):
+                bad.append('cartoon CAMERA 줄 누락')
+            if tg.SCENE_PRIME in _cp:
+                bad.append('cartoon 에 SCENE 위계줄 혼입(만평은 장면 재현 금지)')
+        except Exception as e:
+            bad.append('cartoon 빌더 조립 실패: %s' % e)
     if bad:
         print('❌ 썸네일 프롬프트 자기모순 게이트 — %d건:' % len(bad))
         for b in bad[:14]:
             print('   ·', b)
         print('   → 정본 = .github/scripts/thumb_gen.py build_prompt(모순은 «지시 vs 금지» 두 문장 중 하나를 조건부로).')
         return 1
-    print('✅ 썸네일 프롬프트 자기모순 게이트 — 케이스 %d × 화풍 %d 전건 5술어 청정(정본 함수 재판정 · LLM 0).'
+    print('✅ 썸네일 프롬프트 자기모순 게이트 — 케이스 %d × 화풍 %d 전건 5술어 청정 + 만평 빌더 축(정본 함수 재판정 · LLM 0).'
           % (len(CASES), len(tg.STYLES)))
 
     # ── 짝 축(WARN·비차단) — 이미 구워진 발사분에 구판 모순이 남아 있는가(데이터는 세션이 못 씻는다) ──

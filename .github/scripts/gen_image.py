@@ -111,10 +111,11 @@ STYLE_KO = {"photo": "실사 보도", "webtoon": "웹툰 극화", "cartoon": "�
 STYLE_FRAG = {
     "photo": (_TG.get("photo") or ("", "", "reportage press photograph, documentary realism", ""))[2],
     "webtoon": (_TG.get("webtoon") or ("", "", "korean webtoon serious drama illustration", ""))[2],
-    "cartoon": ("korean newspaper editorial cartoon satire, bold hand-drawn caricature with exaggerated "
-                "features, clean ink outlines and flat colors, one witty visual metaphor that lands the point"),
-    "watercolor": ("soft watercolor illustration, translucent layered washes, delicate brush strokes, "
-                   "muted emotional palette, subtle paper texture"),
+    # 260908 4화풍 복귀 — cartoon·watercolor 도 썸네일 정본(tg.STYLES) look 계승(드리프트 0 · 미정의면 종전 전용 look 폴백).
+    "cartoon": (_TG.get("cartoon") or ("", "", "korean newspaper editorial cartoon satire, bold hand-drawn caricature with exaggerated "
+                "features, clean ink outlines and flat colors, one witty visual metaphor that lands the point", ""))[2],
+    "watercolor": (_TG.get("watercolor") or ("", "", "soft watercolor illustration, translucent layered washes, delicate brush strokes, "
+                   "muted emotional palette, subtle paper texture", ""))[2],
     "cinematic": ("cinematic film still, anamorphic framing, dramatic volumetric key light, moody teal-and-amber "
                   "color grading, shallow depth of field, high production value"),
     "illust": ("modern flat editorial illustration, clean bold vector shapes, confident color blocking, "
