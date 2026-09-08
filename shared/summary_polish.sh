@@ -5,12 +5,12 @@
 #     만약 1개 모델이 문구 + 프롬프트까지 한다면, 기능 분리해야해」 — 요약 본선 콜은 내용을, 이 콜은 결만.
 #     규칙 원천 = im-not-ai 분류 체계 v2.0(github.com/epoko77-ai/im-not-ai · MIT) 중 **문장 축만** 개작 —
 #     이모지·볼드·대시·불릿을 지우는 구조·장식 축(C·J 계열)은 우리 카드의 구조 문법 그 자체라 제외(보존 계약으로 반전).
-# 기능 분리 계약: ① 요약 프롬프트(prompts/news-analysis.md) 무접촉 ② 윤문 규칙의 거처 = prompts/polish-korean.md 단독
+# 기능 분리 계약: ① 요약 프롬프트(prompts/news-analysis.md) 무접촉 ② 윤문 규칙의 거처 = shared/ko_tone_rules.md 정본(polish-korean.md 는 보존 계약·출력 형식만)
 #     ③ 별도 1콜(무도구·safe-mode) ④ 모델·노력도 독립 레버(SUMMARY_POLISH_MODEL/EFFORT · 기본 = 호출측 MODEL + high
 #     = 정형 변환 선례 260722 「max 헛사고 회피」) — 나중에 「요약은 A모델·윤문은 B모델」 조합도 env 두 줄.
 # 순서 = 요약 → 윤문(이것) → 수선(summary_repair) — 윤문이 분량을 깎아도 뒤의 분량 가드가 실측·보강하는 안전망 순서.
 # 260908(운영자 «윤문체는 조건부가 아니라 off로 — 기사체랑 안 맞아 애매») : **기본 OFF 확정 · 조건부(auto) 없음**.
-#     규칙 본문은 이 파일·polish-korean.md 에 없다 — 정본 shared/ko_tone_rules.md 의 세 구간(공용 문장축·기사체 상한선·윤문 추가축)을
+#     규칙 본문은 이 파일·polish-korean.md 에 없다 — 정본 shared/ko_tone_rules.md 의 두 구간(공용 문장축·기사체 상한선 — 대상이 요약 파일이라 카드 전용 윤문 추가축은 제외)을
 #     호출 시점에 추출해 붙인다(사본 0 · check_ko_tone_ssot). 검증 6축 = 종전 5축 + ⓕ 격 하락 사전 대조(한자어→고유어 쌍이
 #     원문에서 줄고 후보에서 늘면 기각 — 260823 실호출 8쌍이 프롬프트 금지문에만 기대던 것을 기계로 닫음).
 # 게이트: SUMMARY_POLISH **기본 OFF**('1'로 켬) — 260823 2차(운영자 «좋다고 하는 부분만 가져와서 녹이자» = 규칙을
@@ -31,9 +31,9 @@ summary_polish() {
   local pmodel peff pprompt cand rc tmp why
   pmodel="${SUMMARY_POLISH_MODEL:-$MODEL}"
   peff="${SUMMARY_POLISH_EFFORT:-high}"
-  # 규칙 정본 결합(260908) — [공용 문장축]+[기사체 상한선]+[윤문 추가축] 세 구간만(사람용 설명·미채택 절은 제외)
+  # 규칙 정본 결합(260908) — [공용 문장축]+[기사체 상한선] 두 구간만(요약 프로필 동문 · 윤문 추가축은 카드 전용 = 상한선과 충돌 · 사람용 설명·미채택 절 제외)
   local rules_f="shared/ko_tone_rules.md" rules_txt
-  rules_txt="$(awk '/KO-TONE:(COMMON|NEWS-CAP|POLISH)-START/{f=1;next} /KO-TONE:(COMMON|NEWS-CAP|POLISH)-END/{f=0} f' "$rules_f" 2>/dev/null)"
+  rules_txt="$(awk '/KO-TONE:(COMMON|NEWS-CAP)-START/{f=1;next} /KO-TONE:(COMMON|NEWS-CAP)-END/{f=0} f' "$rules_f" 2>/dev/null)"
   [ -n "${rules_txt//[[:space:]]/}" ] || { echo "  ✒ 윤문: 규칙 정본 없음(shared/ko_tone_rules.md) — 스킵"; return 0; }
   pprompt="$(cat prompts/polish-korean.md)
 
@@ -83,9 +83,11 @@ if fences(orig) != fences(cand) or hlines(orig) != hlines(cand): print('구조 �
 bo, bc = len(orig) - len(fo), len(cand) - len(fc)
 if not (0.85 * bo <= bc <= 1.10 * bo): print(f'분량 이탈({bc}/{bo})'); sys.exit(1)
 # ⓕ 격 하락 사전 대조(260908) — 한자어 기사 어휘가 줄고 그 고유어가 늘면 기사체 격 하락 = 기각(260823 실호출 8쌍 + 확장)
-_PAIRS = [('삭제', '지울'), ('삭제', '지웠'), ('담당', '맡'), ('동일', '같'), ('유사', '닮'), ('장기간', '오랫동안'),
-          ('발견', '나오'), ('지원', '돕'), ('포함', '들어'), ('확인', '알아본'), ('발생', '벌어'), ('사망', '숨졌'),
-          ('부상', '다쳤'), ('체포', '붙잡'), ('구속', '가뒀'), ('제출', '냈'), ('요청', '부탁'), ('검토', '살펴')]
+#   고유어 쪽 키는 흔한 어간('같이'·'만들어'·'보냈')을 안 물도록 어형을 좁힌다(260908 리뷰 — 부분열 오기각).
+_PAIRS = [('삭제', '지울'), ('삭제', '지웠'), ('담당', '맡은'), ('담당', '맡았'), ('동일', '같은'), ('동일', '같다'), ('유사', '닮았'),
+          ('장기간', '오랫동안'), ('발견', '나오지'), ('지원', '돕는'), ('지원', '돕기'), ('포함', '들어간'), ('포함', '들어 있'),
+          ('확인', '알아본'), ('발생', '벌어졌'), ('사망', '숨졌'), ('부상', '다쳤'), ('체포', '붙잡'), ('구속', '가뒀'),
+          ('제출', '냈다'), ('요청', '부탁'), ('검토', '살펴')]
 _drop = [f'{a}→{b}' for a, b in _PAIRS if orig.count(a) > cand.count(a) and cand.count(b) > orig.count(b)]
 if _drop: print('격 하락(' + ' · '.join(_drop[:4]) + ')'); sys.exit(1)
 open(sys.argv[2], 'w', encoding='utf-8').write(cand)

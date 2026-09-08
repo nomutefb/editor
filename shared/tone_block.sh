@@ -15,12 +15,14 @@
 
 _TB_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 _TB_FILE="$_TB_ROOT/shared/ko_tone_rules.md"
+_tb_sha() { if command -v sha256sum >/dev/null 2>&1; then sha256sum; else shasum -a 256; fi; }   # 맥 로컬(shasum) 호환
 if [ -f "$_TB_FILE" ]; then
   TONE_BLOCK="$(awk '/KO-TONE:COMMON-START/{f=1;next} /KO-TONE:COMMON-END/{f=0} f' "$_TB_FILE")"
+  TONE_VER="$(printf '%s' "$TONE_BLOCK" | _tb_sha | cut -c1-8)"
 else
-  echo "::warning::shared/ko_tone_rules.md 없음 — TONE_BLOCK 비어 있음(체크아웃 목록에 shared 확인)" >&2
-  TONE_BLOCK=''
+  # 정본 부재 = 빈 규칙이 정상 해시로 캐시에 굳는 축(260908 리뷰) — 해시 대신 'missing' 을 키에 남겨 정상 판과 구분 · 레인은 계속(fail-soft)
+  echo "::error::shared/ko_tone_rules.md 없음 — TONE_BLOCK 비어 있음 · TONE_VER=missing(체크아웃 목록에 shared 확인)" >&2
+  TONE_BLOCK=''; TONE_VER='missing'
 fi
-TONE_BLOCK_SENT="$(printf '%s\n' "$TONE_BLOCK" | grep -v '^- \[리듬\]')"
-TONE_VER="$(printf '%s' "$TONE_BLOCK" | sha256sum | cut -c1-8)"
+TONE_BLOCK_SENT="$(printf '%s\n' "$TONE_BLOCK" | grep -v '^- \[리듬\]' || true)"
 export TONE_VER

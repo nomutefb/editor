@@ -384,7 +384,7 @@ def check_palette_sync():
 #   현재 0건. 이 게이트로 미래에 그런 줄이 들어오는 걸 차단(분신술 8인 권고 260624).
 _DIVIDER_RE = re.compile(r'^----- .+ -----\s*$')
 _INJECT_GLOBS = ('apps/news/00_에디터_뉴스_운영.md', 'apps/news/01_지침_에디터_뉴스_*.md',
-                 'apps/news/02_라이브러리_이미지_*.md', 'PROJECT_MEMORY.md')
+                 'apps/news/02_라이브러리_이미지_*.md', 'PROJECT_MEMORY.md', 'shared/ko_tone_rules.md')
 
 
 def check_inject_dividers():
@@ -10290,7 +10290,8 @@ def check_ko_tone_ssot():
       ② 주입기(inject_guidelines.sh) 주석 아닌 줄에 정본 경로가 summary·card 두 case 모두 실존
       ③ tone_block.sh · summary_polish.sh 주석 아닌 줄이 같은 정본을 읽는다(awk 추출 문자열 KO-TONE 실존)
       ④ `${TONE_BLOCK}`/`${TONE_BLOCK_SENT}` 를 프롬프트에 쓰는 .sh 는 주석 아닌 줄에 tone_block.sh 적재(source) 실존 — 손 목록 0
-      ⑤ 규칙 본문 사본 0 — 01_지침 [한국어 결] 절·tone_block.sh·polish-korean.md 에 규칙 불릿 지문('에 의해\" 피동 금지'·'AI 관용구 금지') 재작성 금지"""
+      ⑤ 규칙 본문 사본 0 — 01_지침 [한국어 결] 절·tone_block.sh·polish-korean.md 의 불릿 줄에 정본 규칙 토큰 2개+(표기 독립) 재작성 금지
+      ①′ 구간 순서 + 프로필 스코프(NEWS-CAP ⊂ profile=card 스킵 · POLISH ⊂ profile=summary 스킵) — 개수만 세면 스코프 이탈이 초록(260908 리뷰)"""
     rules = os.path.join(ROOT, 'shared', 'ko_tone_rules.md')
     try:
         rtxt = open(rules, encoding='utf-8').read()
@@ -10304,6 +10305,24 @@ def check_ko_tone_ssot():
         bad.append('정본 INJECT-SKIP 마커 불균형')
     if 'profile=card' not in rtxt or 'profile=summary' not in rtxt:
         bad.append('정본에 프로필 스코프 마커(profile=card·profile=summary) 부재 — 요약/카드 비대칭이 풀린다')
+    # ①′ 구간 순서 + 프로필 스코프(260908 리뷰: 개수만 보면 상한선이 card 스킵 밖으로 나가도 초록) — 상한선 ⊂ profile=card 스킵 · 윤문 추가축 ⊂ profile=summary 스킵
+    def _span(tag):
+        return rtxt.find('KO-TONE:%s-START' % tag), rtxt.find('KO-TONE:%s-END' % tag)
+    for sec in ('COMMON', 'NEWS-CAP', 'POLISH'):
+        s, e = _span(sec)
+        if s >= 0 and e >= 0 and s > e:
+            bad.append('정본 구간 마커 순서 역전: %s' % sec)
+    def _scoped(tag, prof):
+        s, e = _span(tag)
+        for m in re.finditer(r'<!-- *INJECT-SKIP-START profile=(\w+)[^\n]*-->', rtxt):
+            end = rtxt.find('INJECT-SKIP-END', m.end())
+            if m.group(1) == prof and 0 <= m.end() <= s and e <= end:
+                return True
+        return False
+    if not _scoped('NEWS-CAP', 'card'):
+        bad.append('정본 [기사체 상한선](NEWS-CAP) 이 profile=card 스킵 안에 없다 — 카드 주입에 상한선이 새어 들어간다')
+    if not _scoped('POLISH', 'summary'):
+        bad.append('정본 [윤문 추가축](POLISH) 이 profile=summary 스킵 안에 없다 — 요약 주입에 윤문 추가축이 새어 들어간다')
     def _live(p):
         try:
             return [l for l in open(os.path.join(ROOT, p), encoding='utf-8').read().splitlines() if not l.lstrip().startswith('#')]
@@ -10326,21 +10345,32 @@ def check_ko_tone_ssot():
                 continue
             if any('${TONE_BLOCK' in l for l in lv) and not any('tone_block.sh' in l for l in lv):
                 bad.append('%s/%s 가 TONE_BLOCK 을 쓰면서 tone_block.sh 를 적재하지 않음' % (d, n))
+    # ⑤ 사본 0 — 표기 독립 술어(260908 리뷰: 지문 2개('…금지')는 옛 polish-korean 규칙 목록을 못 잡았다 = 위음성).
+    #   불릿·번호 줄 하나에 정본 규칙 토큰 2개+ = 규칙 본문 재작성. 정본 포인터 한 줄(산문 · 토큰 0~1개)은 통과.
+    _toks = ('에 의해', '결론적으로', '가지고 있', '이루어지', '에 대해', '시사하는 바', '라는 점에 있', '수 있다', '-적', '있는/있다는', '정도부사', '피동')
     finger = ('에 의해" 피동 금지', 'AI 관용구 금지')
+    def _rule_copy(t):
+        for l in t.splitlines():
+            ls = l.lstrip()
+            if (ls.startswith('- ') or re.match(r'\d+\.\s', ls)) and sum(k in ls for k in _toks) >= 2:
+                return True
+        return any(f in t for f in finger)
     for p in ('shared/tone_block.sh', 'prompts/polish-korean.md'):
         try:
             t = open(os.path.join(ROOT, p), encoding='utf-8').read()
         except Exception:
             t = ''
-        if any(f in t for f in finger):
+        if _rule_copy(t):
             bad.append('%s 에 규칙 본문 사본 재작성(정본 밖 불릿)' % p)
-    g01 = sorted(glob.glob(os.path.join(ROOT, 'apps', 'news', '01_지침_에디터_뉴스_*.md')))
+    def _vkey(p):   # 주입기(ls | sort -V)와 같은 자연 정렬 — v1.18.9 < v1.18.10 (사전순은 역전)
+        return [int(x) if x.isdigit() else x for x in re.split(r'(\d+)', os.path.basename(p))]
+    g01 = sorted(glob.glob(os.path.join(ROOT, 'apps', 'news', '01_지침_에디터_뉴스_*.md')), key=_vkey)
     if g01:
         t01 = open(g01[-1], encoding='utf-8').read()
         m = re.search(r'\*\*\[한국어 결 — AI 번역투 소거\]\*\*.*?(?=\n\*\*\[|\Z)', t01, re.S)
         if not m:
             bad.append('01_지침 [한국어 결] 절 부재(정본 포인터 절이 사라짐)')
-        elif any(f in m.group(0) for f in finger) or 'ko_tone_rules.md' not in m.group(0):
+        elif _rule_copy(m.group(0)) or 'ko_tone_rules.md' not in m.group(0):
             bad.append('01_지침 [한국어 결] 절에 규칙 본문 사본 또는 정본 포인터 부재')
     if bad:
         print('❌ 한국어 결 정본 단일화 게이트(운영자 260908) — 사본 드리프트 축 재개방:')
@@ -10704,10 +10734,13 @@ def main():
             rc = 1
         if check_claim_before_consume() != 0:   # 요약 병렬화 선점-소비 계약(하드 게이트 — 260905 평의회 #8 킬테스트: 선점 push 를 -X theirs 로 바꾸면 삼중 요약 · 증상 0)
             rc = 1
+    except Exception as e:
+        print('❌ check_push_send_checkout 예외(fail-closed):', e); rc = 1
+    try:
         if check_ko_tone_ssot() != 0:   # 한국어 결 정본 단일화(하드 게이트 — 260908 감사: 세 사본 드리프트 실측 · 요약/카드 비대칭은 정본 마커로 고정)
             rc = 1
     except Exception as e:
-        print('❌ check_push_send_checkout 예외(fail-closed):', e); rc = 1
+        print('❌ check_ko_tone_ssot 예외(fail-closed):', e); rc = 1
     try:
         if check_push_abs_url() != 0:   # 알림 딥링크 절대 주소(하드 게이트 — 260816 실측: 상대경로가 폰 SW의 origin을 따라가 옛 화면으로 데려갔다·옛 SW는 코드로 못 고친다)
             rc = 1
