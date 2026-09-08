@@ -115,9 +115,10 @@ if [ $rc -ne 0 ] || [ -z "${out// }" ]; then
 fi
 
 # 센티넬에서 재작성 블록 추출 + in-place 치환 → 같은 파일 저장(프론트매터·시사점·기타 섹션 무손상).
-python3 - "$TARGET" "$out" <<'PY'
+python3 - "$TARGET" "$out" "$INSTRUCTION" <<'PY'
 import sys, re
 path, out = sys.argv[1], sys.argv[2]
+instr = (sys.argv[3] if len(sys.argv) > 3 else '').replace('-->', '- ->').replace('\n', ' ').strip()[:300]   # 260908: 지시문 원장(감사 Y4 — 운영자가 무엇을 고쳤나가 어디에도 안 남던 것)
 
 def between(s, a, b):
     m = re.search(re.escape(a) + r'\n?(.*?)\n?' + re.escape(b), s, re.S)
@@ -177,7 +178,10 @@ if bias_new and re.match(r'^\s*\d{1,2}\s*/\s*10\b', bias_new):
     else:
         fmeta = fmeta.rstrip('\n') + '\nbias: "%s"' % bnew
     bset = ' · bias => ' + bnew
-open(path, 'w', encoding='utf-8').write(fhead + fmeta + fsep + frest)   # 단일 write = 원자 반영(블록+rev+bias)
+if instr:   # 지시문 로그 = 파일 끝 HTML 주석 1줄(마크다운 렌더 비노출 · ```text 파서 밖 · 문체 지시 비율 집계 원료)
+    import datetime as _dt
+    frest = frest.rstrip('\n') + '\n<!-- rev %d %s: %s -->\n' % (nrev, _dt.datetime.now(_dt.timezone(_dt.timedelta(hours=9))).strftime('%y%m%d-%H%M'), instr)
+open(path, 'w', encoding='utf-8').write(fhead + fmeta + fsep + frest)   # 단일 write = 원자 반영(블록+rev+bias+지시 로그)
 print('치환+rev 완료:', path, '· rev =>', nrev, bset)
 PY
 prc=$?

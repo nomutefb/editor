@@ -19,7 +19,7 @@ ASK_SAFE_MODE="${ASK_SAFE_MODE:-1}"   # 260905 승격(analyze 와 동축 · 러�
 ASK_SAFE_ARGS=()
 if [ "$ASK_SAFE_MODE" = "1" ]; then ASK_SAFE_ARGS=(--safe-mode); fi
 source "$ROOT/shared/summary_repair.sh"    # 분량 가드 SSOT — IG/Thread 과소 시 1회 보강(기본 OFF·SUMMARY_LEN_GUARD='1' · 260705)
-source "$ROOT/shared/summary_polish.sh"    # 한국어 윤문 SSOT — 요약 뒤 문체만 별도 1콜(운영자 260823 «프롬프트 무접촉·기능 분리» · 기본 ON·SUMMARY_POLISH='0' 끔)
+source "$ROOT/shared/summary_polish.sh"    # 한국어 윤문 SSOT — 요약 뒤 문체만 별도 1콜(운영자 260823 «프롬프트 무접촉·기능 분리» · 기본 OFF = summary_polish.sh:24 정본 · 운영자 260908 «off» 확정 · SUMMARY_POLISH='1'로만 켬)
 INLINE_TRIES=4   # 인라인 재시도 = 4계정 폴오버 체인 깊이(서브3까지 실호출) + 일시 과부하(529/5xx)·타임아웃(rc=124)·버스트 ✨요약요청 유실 차단(analyze와 동일·260622·4계정 3→4)
 EFFORT="${PIPE_SEARCH_EFFORT:-max}"   # 검색·요약 추론깊이 — max 상향(운영자 260810 2차 지시 · analyze.sh 와 일괄 대칭). 타임아웃 재발 시 롤백 = env PIPE_SEARCH_EFFORT(high/medium).
 ASK_TIMEOUT="${ASK_TIMEOUT:-600}"      # claude -p 타임아웃(초) — 요약요청은 요약만이라 10분이면 충분(검색완화 후). 초과 시 계정 1회 전환 후 격리(운영자 260704 "10분 넘으면 다른 계정" · 옛 900s는 배치 timeout 시 45분→워크플로 초과라 하향).

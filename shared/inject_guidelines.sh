@@ -15,20 +15,21 @@
 
 _IG_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 
-# 프로필별 지침 파일 집합 (정본 = apps/news/ + PROJECT_MEMORY). 최신 01 지침은 glob 1개.
+# 프로필별 지침 파일 집합 (정본 = apps/news/ + PROJECT_MEMORY + shared/ko_tone_rules.md[한국어 결 정본 · 260908 — 마커 profile=summary/card 로 요약=문장축+기사체 상한선 · 카드=문장축+윤문 추가축 비대칭]). 최신 01 지침은 glob 1개.
 _ig_files() {
   local profile="$1" latest01
   latest01="$(ls -1 "$_IG_ROOT"/apps/news/01_지침_에디터_뉴스_*.md 2>/dev/null | sort -V | tail -n1)"
   case "$profile" in
     summary)
-      printf '%s\n' "$latest01" "$_IG_ROOT/PROJECT_MEMORY.md"
+      printf '%s\n' "$latest01" "$_IG_ROOT/PROJECT_MEMORY.md" "$_IG_ROOT/shared/ko_tone_rules.md"
       ;;
     card)
       printf '%s\n' \
         "$_IG_ROOT/apps/news/00_에디터_뉴스_운영.md" \
         "$latest01" \
         "$_IG_ROOT"/apps/news/02_라이브러리_이미지_*.md \
-        "$_IG_ROOT/PROJECT_MEMORY.md"
+        "$_IG_ROOT/PROJECT_MEMORY.md" \
+        "$_IG_ROOT/shared/ko_tone_rules.md"
       ;;
     *) return 1 ;;
   esac

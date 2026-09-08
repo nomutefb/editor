@@ -23,7 +23,12 @@ import sys
 _ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..")
 sys.path.insert(0, os.path.join(_ROOT, "apps", "news"))
 sys.path.insert(0, os.path.join(_ROOT, "apps", "comp"))
+sys.path.insert(0, os.path.join(_ROOT, "shared"))
 import fact_guard  # tokens/check/coverage 재사용 (SSOT)
+try:
+    import ko_tone_scan  # 한국어 결 측정기(정본 shared/ko_tone_rules.md 1:1) — TONE ℹ️ 비차단 관측(260908)
+except Exception:
+    ko_tone_scan = None
 try:
     import card_news  # 합성기 폭 판정 SSOT — 폰트 실측(있으면)·폴백 표(없으면)
 except Exception:     # PIL/cv2 부재 등 — 구 가중폭 프록시로 폴백(rc 의미 불변)
@@ -183,6 +188,20 @@ def lint(md_path):
         ink = sum(r[0] for r in fill_rows)
         print("FILL %.1f%% · 잉크 %dpx · %d줄 · 자=%s"
               % (avg * 100, ink, len(fill_rows), "폰트실측" if fill_font else "폴백표"))
+    # ── 문장 결 관측(항상 출력 · rc 불변 · 260908) — 카드는 윤문체(card-make.md §문장 결)라 Sunny 7 전부를 본다.
+    #   판정이 아니라 관측이다: 한 줄 폭 규격이 이미 무늬를 밀어내 실측 455줄 중 2줄(감사 R7) · 표본 n≥60 전엔 임계 없음.
+    if ko_tone_scan is not None:
+        tone_rows, tone_total = [], 0
+        for n, body in cards:
+            tm = TEXT_RE.search(body)
+            if not tm:
+                continue
+            h = ko_tone_scan.scan(tm.group(1))
+            hit = {k: v for k, v in h.items() if v and k in ("S1", "S2", "S3", "S4", "S5", "S6", "S7", "A1", "A2", "A3", "D1", "G1", "I1", "F1")}
+            if hit:
+                tone_rows.append("카드%s %s" % (n, " ".join("%s%d" % (k, v) for k, v in hit.items())))
+            tone_total += ko_tone_scan.score(tm.group(1))
+        print("TONE ℹ️ 규칙 축 %d건(비차단 · 정본 shared/ko_tone_rules.md)%s" % (tone_total, (" — " + " · ".join(tone_rows)) if tone_rows else ""))
     if viol:
         for v in viol:
             print("LINT ✗ " + v)

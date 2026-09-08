@@ -9,6 +9,10 @@
 #     ③ 별도 1콜(무도구·safe-mode) ④ 모델·노력도 독립 레버(SUMMARY_POLISH_MODEL/EFFORT · 기본 = 호출측 MODEL + high
 #     = 정형 변환 선례 260722 「max 헛사고 회피」) — 나중에 「요약은 A모델·윤문은 B모델」 조합도 env 두 줄.
 # 순서 = 요약 → 윤문(이것) → 수선(summary_repair) — 윤문이 분량을 깎아도 뒤의 분량 가드가 실측·보강하는 안전망 순서.
+# 260908(운영자 «윤문체는 조건부가 아니라 off로 — 기사체랑 안 맞아 애매») : **기본 OFF 확정 · 조건부(auto) 없음**.
+#     규칙 본문은 이 파일·polish-korean.md 에 없다 — 정본 shared/ko_tone_rules.md 의 세 구간(공용 문장축·기사체 상한선·윤문 추가축)을
+#     호출 시점에 추출해 붙인다(사본 0 · check_ko_tone_ssot). 검증 6축 = 종전 5축 + ⓕ 격 하락 사전 대조(한자어→고유어 쌍이
+#     원문에서 줄고 후보에서 늘면 기각 — 260823 실호출 8쌍이 프롬프트 금지문에만 기대던 것을 기계로 닫음).
 # 게이트: SUMMARY_POLISH **기본 OFF**('1'로 켬) — 260823 2차(운영자 «좋다고 하는 부분만 가져와서 녹이자» = 규칙을
 #     지침 [한국어 결 — AI 번역투 소거]에 편입해 별도 콜 없이 초고부터 적용 · 콜당 70초·출력 5.7천 토큰 절약).
 #     이 콜은 예비 레버로 잔존(지침 편입만으로 부족하면 SUMMARY_POLISH=1 한 줄로 재가동 · 검증 5축 그대로).
@@ -16,7 +20,7 @@
 #     콜 실패·검증 실패 = 원본 유지(다이제스트 유실 0) · 재시도·폴오버 없음(1콜 상한 · summary_repair 계약 동문).
 # 검증(어느 하나라도 어기면 원본 유지 — 윤문은 좋아야 채택이 아니라 **안전해야 채택**):
 #     ⓐ frontmatter 바이트 동일 ⓑ 숫자 나열 다중집합 동일(수치 날조·소실 0) ⓒ 원문 따옴표 인용 전건 보존
-#     ⓓ 구조 계수 동일(#헤더 줄 수 · 코드펜스 수) ⓔ 본문 분량 85~110%(하한 미달 = 수선 몫이 아니라 윤문 과절삭 = 기각)
+#     ⓓ 구조 계수 동일(#헤더 줄 수 · 코드펜스 수) ⓔ 본문 분량 85~110%(하한 미달 = 수선 몫이 아니라 윤문 과절삭 = 기각) ⓕ 격 하락 사전 대조(260908)
 # 사용: source 후 summary_polish <queue파일> <METER_SRC 라벨>   (MODEL·claude_meter 는 호출측 환경 상속)
 
 summary_polish() {
@@ -27,7 +31,14 @@ summary_polish() {
   local pmodel peff pprompt cand rc tmp why
   pmodel="${SUMMARY_POLISH_MODEL:-$MODEL}"
   peff="${SUMMARY_POLISH_EFFORT:-high}"
+  # 규칙 정본 결합(260908) — [공용 문장축]+[기사체 상한선]+[윤문 추가축] 세 구간만(사람용 설명·미채택 절은 제외)
+  local rules_f="shared/ko_tone_rules.md" rules_txt
+  rules_txt="$(awk '/KO-TONE:(COMMON|NEWS-CAP|POLISH)-START/{f=1;next} /KO-TONE:(COMMON|NEWS-CAP|POLISH)-END/{f=0} f' "$rules_f" 2>/dev/null)"
+  [ -n "${rules_txt//[[:space:]]/}" ] || { echo "  ✒ 윤문: 규칙 정본 없음(shared/ko_tone_rules.md) — 스킵"; return 0; }
   pprompt="$(cat prompts/polish-korean.md)
+
+## 다듬는 것(규칙 정본 = shared/ko_tone_rules.md · 아래 목록이 지목한 무늬만 고친다)
+${rules_txt}
 
 [요약 카드 파일 전문]
 $(cat "$file")"
@@ -71,11 +82,17 @@ if sorted(quotes(orig)) != sorted(quotes(cand)): print('인용 변경(횟수 포
 if fences(orig) != fences(cand) or hlines(orig) != hlines(cand): print('구조 계수 변경'); sys.exit(1)
 bo, bc = len(orig) - len(fo), len(cand) - len(fc)
 if not (0.85 * bo <= bc <= 1.10 * bo): print(f'분량 이탈({bc}/{bo})'); sys.exit(1)
+# ⓕ 격 하락 사전 대조(260908) — 한자어 기사 어휘가 줄고 그 고유어가 늘면 기사체 격 하락 = 기각(260823 실호출 8쌍 + 확장)
+_PAIRS = [('삭제', '지울'), ('삭제', '지웠'), ('담당', '맡'), ('동일', '같'), ('유사', '닮'), ('장기간', '오랫동안'),
+          ('발견', '나오'), ('지원', '돕'), ('포함', '들어'), ('확인', '알아본'), ('발생', '벌어'), ('사망', '숨졌'),
+          ('부상', '다쳤'), ('체포', '붙잡'), ('구속', '가뒀'), ('제출', '냈'), ('요청', '부탁'), ('검토', '살펴')]
+_drop = [f'{a}→{b}' for a, b in _PAIRS if orig.count(a) > cand.count(a) and cand.count(b) > orig.count(b)]
+if _drop: print('격 하락(' + ' · '.join(_drop[:4]) + ')'); sys.exit(1)
 open(sys.argv[2], 'w', encoding='utf-8').write(cand)
 print('ok')
 PY
 )" || { echo "  ✒ 윤문 기각(${why}) — 원본 유지"; rm -f "$tmp"; return 0; }
   cp "$tmp" "$file"; rm -f "$tmp"
-  echo "  ✒ 윤문 적용(${pmodel} · ${peff}) — 검증 5축 통과"
+  echo "  ✒ 윤문 적용(${pmodel} · ${peff}) — 검증 6축 통과"
   return 0
 }
