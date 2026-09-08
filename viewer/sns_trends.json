@@ -7504,8 +7504,14 @@
   {
    "query": "주식",
    "traffic": "10000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/605553b13c.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.segye.com/newsView/20260908503343",
+     "source": ""
+    }
+   ],
    "vol": 10000,
    "started": "2026-09-08T07:10:00+09:00",
    "delta": -4,
@@ -7519,8 +7525,14 @@
   {
    "query": "엄태웅",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/efe8aecf6a.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.topstarnews.net/news/articleView.html?idxno=16024943",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-09-08T07:00:00+09:00",
    "delta": -4,
@@ -7534,8 +7546,14 @@
   {
    "query": "아이유",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/a0f4893df4.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.sedaily.com/article/20087125",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-09-08T06:50:00+09:00",
    "delta": -3,
@@ -7713,8 +7731,14 @@
   {
    "query": "수원남문시장",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/c94d1e8bf8.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.etoday.co.kr/news/view/2622689",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-08T07:00:00+09:00",
    "delta": -13,
@@ -8046,10 +8070,8 @@
  ],
  "gtrends_pool_updated": "2026-09-08T09:33:17+09:00",
  "_trend_img": {
-  "tried": "2026-09-08T08:54:06+09:00",
+  "tried": "2026-09-08T09:33:17+09:00",
   "fail": {
-   "엘체 대 레알 소시에다드": "2026-09-08T07:17:43+09:00",
-   "공희용": "2026-09-08T07:17:43+09:00",
    "나솔": "2026-09-08T07:55:09+09:00",
    "회사": "2026-09-08T07:55:09+09:00",
    "성과급": "2026-09-08T07:55:09+09:00",
@@ -20260,7 +20282,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-08T09:33:17+09:00"
+    "first_seen": "2026-09-08T09:33:17+09:00",
+    "kw": "GitHub CLI, 서명 키, Linux 패키지",
+    "sum": "계정이 GitHub CLI 리눅스 서명 키 만료 이슈를 안내했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -20823,7 +20848,10 @@
     "rh": [
      20
     ],
-    "first_seen": "2026-09-08T09:33:17+09:00"
+    "first_seen": "2026-09-08T09:33:17+09:00",
+    "kw": "톰 브라운, 앤트로픽, 데이터센터",
+    "sum": "계정이 톰 브라운의 데이터센터 부족 병목 발언을 전했다",
+    "sv": 1
    }
   ]
  },
