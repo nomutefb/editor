@@ -7681,8 +7681,14 @@
   {
    "query": "대한항공",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/825c3c15f2.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.khan.co.kr/article/202609080903001",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-09-08T10:40:00+09:00",
    "delta": -11,
@@ -7717,8 +7723,14 @@
   {
    "query": "박선주",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/5922b17fe5.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.starnewskorea.com/star/2025/11/26/2025112611421171253",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-08T09:20:00+09:00",
    "delta": -5,
@@ -7916,8 +7928,14 @@
   {
    "query": "응급실",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/f582570caf.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.imaeil.com/page/view/2026090614341268143",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-09-08T08:30:00+09:00",
    "isNew": true,
@@ -8056,7 +8074,7 @@
  ],
  "gtrends_pool_updated": "2026-09-08T12:36:24+09:00",
  "_trend_img": {
-  "tried": "2026-09-08T12:00:45+09:00",
+  "tried": "2026-09-08T12:36:24+09:00",
   "fail": {
    "용준형": "2026-09-08T10:58:07+09:00",
    "한병도": "2026-09-08T11:31:18+09:00",
@@ -18640,7 +18658,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-08T12:36:24+09:00"
+    "first_seen": "2026-09-08T12:36:24+09:00",
+    "kw": "튜링 테스트, GPT-4.5, Astra",
+    "sum": "작성자가 튜링 테스트 통과 무반응이 Astra에도 반복된다고 짚었다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -18655,7 +18676,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-09-08T12:36:24+09:00"
+    "first_seen": "2026-09-08T12:36:24+09:00",
+    "kw": "AGI 논쟁, 벤치마크, Astra",
+    "sum": "작성자가 AGI 논쟁 반복 자체가 점진적 확정 과정의 증거라고 봤다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -18670,7 +18694,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-09-08T12:36:24+09:00"
+    "first_seen": "2026-09-08T12:36:24+09:00",
+    "kw": "GPT-6 Astra, 오픈AI, AGI",
+    "sum": "오픈AI 경영진이 Astra 출시를 AGI 도달로 언급했다고 전했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -18960,7 +18987,10 @@
     "rh": [
      14
     ],
-    "first_seen": "2026-09-08T12:36:24+09:00"
+    "first_seen": "2026-09-08T12:36:24+09:00",
+    "kw": "GPT-6 Astra, AGI, 특이점",
+    "sum": "작성자가 AGI는 사건이 아닌 과정이라며 논쟁 자체를 답으로 제시했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
