@@ -16,6 +16,10 @@ on:
         description: '재생성 지시(자연어·선택). 프롬프트에 얹어 반영. 비우면 기존 프롬프트로 재추첨.'
         required: false
         default: ''
+      dry:
+        description: "1 = 프롬프트 4종만 산출(Gemini 0 · cards/<stem>/thumbs/prompts.json 갱신 · 뷰어 「프롬프트」 패널 · 운영자 260908 Q1680). 비우면 종전 재생성."
+        required: false
+        default: ''
       gate:
         description: '품질 게이트 카나리아(1=THUMB_GATE 점화 — 단색 밴드 검출 시 1회 재생성 · 기본 꺼짐 · §📰 카나리아 절차)'
         required: false
@@ -48,6 +52,8 @@ jobs:
             shared
             scraper
             cards
+            queue           # ⚠ 260908 실사고 봉합 — thumb_gen 은 queue/<stem>.md 를 읽는다. 260810 다이어트가 이 폴더를 빠뜨려 「다시 만들기」가
+            apps/k/library  #   "THUMB_ONLY 대상 없음"으로 조용히 no-op(rc 0 · 변경 없음 · 08-20 run 32346083119 실측). 라이브러리 = 연출 코드 조회 원천.
           ref: main
       - name: AI 썸네일 재생성 (단일 기사 · THUMB_ONLY · sid면 그 화풍만)
         env:
@@ -62,7 +68,14 @@ jobs:
           WISH: ${{ inputs.wish }}
           THUMB_GATE: ${{ inputs.gate }}
           THUMB_REF: ${{ inputs.ref }}
+          DRY: ${{ inputs.dry }}
         run: |
+          if [ "${DRY}" = "1" ]; then   # 프롬프트 4종만(운영자 260908 Q1680) — 키·Pillow·R2 불요 · Gemini 0 · 결정론 합성기(compose_all)
+            STEM="${ARTICLE%.md}"
+            echo "프롬프트 산출 대상: ${STEM}"
+            python3 .github/scripts/thumb_gen.py --dry "queue/${STEM}.md" --json "cards/${STEM}/thumbs/prompts.json" || echo "::warning::프롬프트 산출 실패"
+            exit 0
+          fi
           [ -n "${GEMINI_API_KEY}" ] || { echo "GEMINI_API_KEY 미설정 — 생략"; exit 0; }
           # Pillow = 로고필터(_is_logo_card)·게이트(_band_fail) 픽셀 판독용 — 없으면 둘 다 조용히 no-op이라 명시 설치(검증4).
           pip install --quiet Pillow 2>/dev/null || echo "Pillow 설치 실패(픽셀 판독 없이 진행 · fail-soft)"
@@ -77,13 +90,15 @@ jobs:
         env:
           ARTICLE: ${{ inputs.article }}
           SID: ${{ inputs.sid }}
+          DRY: ${{ inputs.dry }}
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add cards 2>/dev/null || true
           git add scraper/thumb_wishes.jsonl 2>/dev/null || true   # wish 원장(운영자 재생성 지시 적립 · TH-07 260703)
           if git diff --cached --quiet; then echo "변경 없음"; exit 0; fi
-          git commit -m "thumbs: 재생성 ${ARTICLE%.md} ${SID:+(${SID})}"
+          if [ "${DRY}" = "1" ]; then MSG="thumbs: 프롬프트 4종 ${ARTICLE%.md}"; else MSG="thumbs: 재생성 ${ARTICLE%.md} ${SID:+(${SID})}"; fi
+          git commit -m "${MSG}"
           for i in 1 2 3 4; do
             git fetch --deepen=100 origin main 2>/dev/null || true   # 얕은 클론(fetch-depth:1) 짝 — 원격 새 커밋과 로컬 HEAD 사이가 끊겨 merge-base를 못 찾으면 아래 rebase가 통째로 실패한다(= 산출 유실). main 100커밋만이라 수 초 · 실패해도 무해(260810)
             git pull --rebase --autostash -X theirs origin main && git push origin HEAD:main && exit 0

@@ -25,11 +25,14 @@ export async function onRequestPost({ request, env }) {
   // 재생성 지시(자연어·선택) — Gemini 프롬프트에 얹어 반영. 비우면 기존 프롬프트로 재추첨(깜깜이 재생성).
   // 제어문자 제거 + 500자 상한. 워크플로가 env(WISH)로 받아 셸 비보간 → 인젝션 안전.
   const wish = String(body.wish || '').replace(/[\x00-\x1f\x7f]/g, ' ').trim().slice(0, 500);
+  // 프롬프트 4종만(운영자 260908 Q1680) — 워크플로 dry 분기(Gemini 0). 값은 '1'만 인정.
+  const dry = (body.dry === '1' || body.dry === 1 || body.dry === true) ? '1' : '';
 
-  const r = await dispatchWf(env, 'thumb-redo.yml', { ref: 'main', inputs: { article, sid, wish } });   // (260820) 재시도 3회(_fire.js) — 판정·에러 문구 계약 종전 동일(반환 = {status,text()})
-  if (r.status === 204) return json({ ok: true, article, sid, wish });
+  const r = await dispatchWf(env, 'thumb-redo.yml', { ref: 'main', inputs: { article, sid, wish, dry } });   // (260820) 재시도 3회(_fire.js) — 판정·에러 문구 계약 종전 동일(반환 = {status,text()})
+  if (r.status === 204) return json({ ok: true, article, sid, wish, dry });
   // 발사 실패 → R2 잡 큐 착지(260815 코워크 fail-soft) — 맥 잡워커가 같은 입력 계약으로 소비.
-  if (env.R2) {
+  // ⚠️ dry(프롬프트만)는 큐에 안 넣는다 — 워커 입력 계약이 dry 를 모르면 **유료 4화풍 재생성**으로 둔갑(과금 0 요청이 과금으로) → 정직한 실패 반환.
+  if (env.R2 && !dry) {
     try {
       const qid = new Date(Date.now() + 9 * 3600e3).toISOString().replace(/[^0-9]/g, '').slice(2, 14) + '-' + crypto.randomUUID().slice(0, 6);
       await env.R2.put(`queue/jobs/${qid}-thumbredo.json`, JSON.stringify({

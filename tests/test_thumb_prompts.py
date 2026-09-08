@@ -159,12 +159,23 @@ class ThumbPromptTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             md = Path(d) / '260908-0000-cli.md'
             md.write_text(FM.format(**BASE), encoding='utf-8')
-            out = Path(d) / 'p.json'
+            out = Path(d) / 'cards' / 'stem' / 'thumbs' / 'prompts.json'   # 중첩 경로 = thumb-redo.yml dry 분기와 동일(디렉터리 선생성)
+            out.parent.mkdir(parents=True)
+            out.write_text('{"photo_r2": "옛 수정본 프롬프트", "photo": "옛 원본"}', encoding='utf-8')   # 기존 원장 = 병합(파생 보존·베이스 갱신)
             r = subprocess.run([sys.executable, str(ROOT / '.github/scripts/thumb_gen.py'), '--dry', str(md), '--json', str(out)],
                                capture_output=True, text=True, timeout=60, env=dict(os.environ, GEMINI_API_KEY=''))
             self.assertEqual(r.returncode, 0, r.stderr)
             self.assertIn('=== cartoon (시사만평)', r.stdout)
-            self.assertTrue(out.exists())
+            import json
+            saved = json.loads(out.read_text(encoding='utf-8'))
+            self.assertEqual(saved['photo_r2'], '옛 수정본 프롬프트')
+            self.assertNotEqual(saved['photo'], '옛 원본')
+            self.assertEqual(sorted(k for k in saved if '_r' not in k), ['cartoon', 'photo', 'watercolor', 'webtoon'])
+            out2 = Path(d) / 'new' / 'dir' / 'p.json'   # 없는 디렉터리도 생성
+            r2 = subprocess.run([sys.executable, str(ROOT / '.github/scripts/thumb_gen.py'), '--dry', str(md), '--json', str(out2)],
+                                capture_output=True, text=True, timeout=60, env=dict(os.environ, GEMINI_API_KEY=''))
+            self.assertEqual(r2.returncode, 0, r2.stderr)
+            self.assertTrue(out2.exists())
 
 
 if __name__ == '__main__':

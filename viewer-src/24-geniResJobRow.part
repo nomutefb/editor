@@ -220,7 +220,7 @@ function thumbDlName(label, it, i) {
 }
 let LBOX = null, LBOX_ITEMS = [], LBOX_LABEL = '', _lboxPop = false;
 // 썸네일 섹션 상태 시그니처 — 'r|…'=실제 이미지 / 'p'=생성 중 자리표시(신규<30분) / ''=없음. thumbSec 산출과 일치(모달 라이브 교체 게이트).
-function thumbSecSig(a) { const c = (a && a.cards) || {}; const j = arr => (Array.isArray(arr) ? arr : []).map(x => x && x.img).join(','); const s = j(c.thumb_search), g = j(c.thumb_gen); if (s || g) return 'r|' + s + '|' + g; return (a && (a.has_body || a.body) && feedAgeH(a) < 0.5) ? 'p' : ''; }
+function thumbSecSig(a) { const c = (a && a.cards) || {}; const j = arr => (Array.isArray(arr) ? arr : []).map(x => x && x.img).join(','); const s = j(c.thumb_search), g = j(c.thumb_gen), p = c.thumb_prompts_url || ''; if (s || g || p) return 'r|' + s + '|' + g + '|' + p; return (a && (a.has_body || a.body) && feedAgeH(a) < 0.5) ? 'p' : ''; }   // p = 프롬프트 원장 URL(?v= 캐시버스트 포함 · 드라이런 도착 = 재렌더 · 260908 Q1680)
 const THUMB_REDO = new Map();   // file → {t0, snap:{sid:imgUrl}} : '수정·재생성' per-sid 추적(load 폴이 그 화풍 img ?v= 바뀌면 해제·섹션 교체·타임아웃 10분)
 function _ensureLbox() {
   if (LBOX) return LBOX;

@@ -238,7 +238,7 @@ for (const a of articles) {
   // 썸네일 후보: cards/<stem>/thumbs/{search.json, gen.json + gen-*.<ext>}   ← 260805 JPG q90 통일 이후 실제 확장자는 .jpg(구 생성분 .png도 그대로 읽힌다 = 값은 gen.json의 file 필드가 소유)
   //  search.json = [{url, link, label}] (url=R2 재호스팅 or 외부 hotlink · label=''(대표)/'유사' = 기사 og:image 추출)
   //  gen.json    = [{file, label}] (gen-*.jpg 로컬 생성물 → viewer/cards/<stem>/thumbs/ 복사)
-  let thumbSearch = [], thumbGen = [], thumbUsage = null;
+  let thumbSearch = [], thumbGen = [], thumbUsage = null, thumbPromptsUrl = '';
   const tdir = join(dir, 'thumbs');
   if (existsSync(tdir)) {
     try {
@@ -268,6 +268,17 @@ for (const a of articles) {
         }).filter(Boolean);
       }
     } catch { /* 생성 없음 */ }
+    // 프롬프트 원장 — thumb_gen.py 가 남긴 prompts.json({sid: 실발사 프롬프트} · 드라이런 포함). 뷰어 「프롬프트」 패널(운영자 260908 Q1680)이
+    // 열 때 fetch — 인덱스(articles.json)는 경량 계약이라 본문(~5KB×4)을 싣지 않고 정적 사본 URL(+캐시버스트)만 싣는다.
+    try {
+      const pp = join(tdir, 'prompts.json');
+      const pj = JSON.parse(readFileSync(pp, 'utf8'));
+      if (pj && typeof pj === 'object' && Object.values(pj).some(v => typeof v === 'string' && v.trim())) {
+        mkdirSync(join('viewer/cards', stem, 'thumbs'), { recursive: true });
+        copyFileSync(pp, join('viewer/cards', stem, 'thumbs', 'prompts.json'));
+        thumbPromptsUrl = `cards/${stem}/thumbs/prompts.json${bust(pp)}`;
+      }
+    } catch { /* 프롬프트 없음 */ }
     // 제미나이 토큰 사용량 — thumb_gen.py가 남긴 usage.json. 뷰어 '🍌 AI 생성'·'🔎 검색' 라벨 우측에 각 비용 표기.
     //  usage.json = {…, gen:{calls,total,cumulative}, search:{…}} (구 데이터=버킷 없음 → gen은 top-level로 폴백, search=0)
     try {
@@ -290,7 +301,8 @@ for (const a of articles) {
   a.cards = {
     state: status.state || (images.length ? 'done' : cardsMd ? 'text_done' : ''),
     thumb_search: thumbSearch,   // 검색이미지(기사 og:image+유사) — R2 재호스팅 or 외부 hotlink · label=''(대표)/'유사'
-    thumb_gen: thumbGen,         // AI 생성 2화풍(P3 Gemini · 포토에디토리얼·극화)
+    thumb_gen: thumbGen,         // AI 생성 4화풍(P3 Gemini · 포토에디토리얼·극화·수채화·시사만평 · 260908 복귀)
+    thumb_prompts_url: thumbPromptsUrl,   // 프롬프트 4종 원장 정적 URL(''=없음) — 뷰어 「프롬프트」 패널 fetch 대상(260908 Q1680)
     thumb_usage: thumbUsage,     // 제미나이 토큰 — {gen:{calls,total,cumulative}, search:{…}} · 없으면 null
     card_usage: cardUsage,       // 카드 생성 제미나이 토큰 — {calls,total,cumulative} · 없으면 null(카드 개요 '비용')
 

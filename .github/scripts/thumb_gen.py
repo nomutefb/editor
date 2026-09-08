@@ -807,7 +807,17 @@ def dry_run(argv):
     for sid, label, _look, _cam in STYLES:
         print("\n=== {} ({}) · {}자 ===\n{}".format(sid, label, len(prompts[sid]), prompts[sid]))
     if out:
-        json.dump(prompts, open(out, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+        # 뷰어 「프롬프트」 패널(운영자 260908 Q1680) = thumb-redo.yml dry 분기가 cards/<stem>/thumbs/prompts.json 으로 호출 —
+        # 디렉터리 선생성 + 기존 원장과 **병합**(베이스 sid 4개 갱신 · 수정 파생 _rN 프롬프트 보존 = process_one 의 prompts.json 병합 문법 동일).
+        os.makedirs(os.path.dirname(os.path.abspath(out)) or ".", exist_ok=True)
+        try:
+            prev = json.load(open(out, encoding="utf-8")) if os.path.exists(out) else {}
+            if not isinstance(prev, dict):
+                prev = {}
+        except Exception:
+            prev = {}
+        prev.update(prompts)
+        json.dump(prev, open(out, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
         print("\n→ {}".format(out))
     return 0
 
