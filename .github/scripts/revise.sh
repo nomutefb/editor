@@ -178,9 +178,15 @@ if bias_new and re.match(r'^\s*\d{1,2}\s*/\s*10\b', bias_new):
     else:
         fmeta = fmeta.rstrip('\n') + '\nbias: "%s"' % bnew
     bset = ' · bias => ' + bnew
-if instr:   # 지시문 로그 = 파일 끝 HTML 주석 1줄(마크다운 렌더 비노출 · ```text 파서 밖 · 문체 지시 비율 집계 원료)
+if instr:   # 지시문 원장 = 프론트매터 rev_log(문체 지시 비율 집계 원료). 본문 끝 HTML 주석은 안 쓴다 — 💡 시사점을 EOF까지 읽는
+            #   소비자(thumb_gen 만평 원료 · ko_tone_scan · summary_ab_eval)와 cardmake 다이제스트 프롬프트에 운영자 지시문이 섞였다(260908 리뷰).
     import datetime as _dt
-    frest = frest.rstrip('\n') + '\n<!-- rev %d %s: %s -->\n' % (nrev, _dt.datetime.now(_dt.timezone(_dt.timedelta(hours=9))).strftime('%y%m%d-%H%M'), instr)
+    ent = 'rev%d %s: %s' % (nrev, _dt.datetime.now(_dt.timezone(_dt.timedelta(hours=9))).strftime('%y%m%d-%H%M'), instr.replace('"', "'"))
+    rl = re.search(r'^rev_log:\s*"(.*)"\s*$', fmeta, re.M)
+    if rl:
+        fmeta = fmeta[:rl.start()] + 'rev_log: "%s"' % (rl.group(1) + ' | ' + ent) + fmeta[rl.end():]
+    else:
+        fmeta = fmeta.rstrip('\n') + '\nrev_log: "%s"' % ent
 open(path, 'w', encoding='utf-8').write(fhead + fmeta + fsep + frest)   # 단일 write = 원자 반영(블록+rev+bias+지시 로그)
 print('치환+rev 완료:', path, '· rev =>', nrev, bset)
 PY

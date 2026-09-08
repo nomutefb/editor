@@ -72,6 +72,7 @@ def eval_run(path, src_body):
     with open(path, encoding='utf-8') as source_file:
         t = source_file.read()
     fm, body = fm_of(t)
+    body = kts.strip_html_comments(body)   # HTML 주석(수정 지시 로그 등)은 측정 대상 밖(260908 리뷰)
     free, ig, th = dg._blk(body, '자유요약'), dg._blk(body, 'IG'), dg._blk(body, 'Thread')
     fact = sec(body, '## 📰 Fact')
     insight = body.split('### 💡 이 기사의 시사점', 1)[1] if '### 💡 이 기사의 시사점' in body else ''

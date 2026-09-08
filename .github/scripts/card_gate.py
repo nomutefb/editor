@@ -197,10 +197,12 @@ def lint(md_path):
             if not tm:
                 continue
             h = ko_tone_scan.scan(tm.group(1))
-            hit = {k: v for k, v in h.items() if v and k in ("S1", "S2", "S3", "S4", "S5", "S6", "S7", "A1", "A2", "A3", "D1", "G1", "I1", "F1")}
+            _ids = ko_tone_scan.rule_ids('card')   # 카드 레인 = S2·S3·S6 도 규칙(윤문체) · 행 표시와 점수가 같은 키 집합(260908 리뷰)
+            hit = {k: (max(0, v - 2) if k == 'A4' else v) for k, v in h.items() if k in _ids}
+            hit = {k: v for k, v in hit.items() if v}
             if hit:
                 tone_rows.append("카드%s %s" % (n, " ".join("%s%d" % (k, v) for k, v in hit.items())))
-            tone_total += ko_tone_scan.score(tm.group(1))
+            tone_total += ko_tone_scan.score(tm.group(1), lane='card')
         print("TONE ℹ️ 규칙 축 %d건(비차단 · 정본 shared/ko_tone_rules.md)%s" % (tone_total, (" — " + " · ".join(tone_rows)) if tone_rows else ""))
     if viol:
         for v in viol:

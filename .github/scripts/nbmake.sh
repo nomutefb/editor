@@ -69,10 +69,13 @@ print(f"""[영상 메타]
 PY
 )" || { echo "전사 조립 실패 — 다시 시도해줘." > "$OUTDIR/error.log"; echo "::error::프롬프트 조립 실패"; exit 1; }
 
-prompt="$(cat prompts/nb-make.md)
+prompt="$(cat prompts/nb-make.md)"
+if [ -n "${TONE_BLOCK_SENT//[[:space:]]/}" ]; then   # 정본 부재면 안내문만 남는 빈 부착 방지(260908 리뷰) = 진짜 조건부
+  prompt="$prompt
 
 ${TONE_BLOCK_SENT}
 (위 문장 규칙은 summary·points·use 산문에만 — 인용(quotes)·전사 발췌·고유 표기·terms 원문은 제외)"
+fi
 ASK="${NB_ASK:-}"
 if [ -n "$ASK" ]; then
   prompt="$prompt
