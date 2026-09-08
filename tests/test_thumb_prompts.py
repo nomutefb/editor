@@ -62,9 +62,9 @@ class ThumbPromptTests(unittest.TestCase):
         self.assertEqual(len({p for p in prompts.values()}), 4, '4화풍이 서로 달라야 한다')
         for sid in ('photo', 'webtoon', 'watercolor'):
             self.assertIn(tg.SCENE_PRIME, prompts[sid], sid)
-        self.assertIn('MOMENT (this style', prompts['watercolor'])
-        self.assertIn('MOMENT (this style', prompts['webtoon'])
-        self.assertNotIn('MOMENT (this style', prompts['photo'])
+        for sid in ('photo', 'webtoon', 'watercolor'):
+            self.assertIn('MOMENT (this style', prompts[sid], sid)   # 화풍별 순간 파생(4장 유사 방지 · 평의회 260908 photo 추가)
+        self.assertNotIn('MOMENT (this style', prompts['cartoon'])
         self.assertIn('extreme close-up', prompts['watercolor'].split('CAMERA: ')[1].split('\n')[0])   # cam_lock
         self.assertIn(tg.GOVERNING_SATIRE, prompts['cartoon'])
         self.assertIn(tg.CARTOON_TEXT_RULES, prompts['cartoon'])
@@ -73,8 +73,32 @@ class ThumbPromptTests(unittest.TestCase):
     def test_style_canon_from_library(self):
         prompts, _ = compose()
         lib = tg._load_lib()
-        self.assertIn(lib['NST-B'], prompts['webtoon'])       # 극화 = 13_style_news_canon 런타임 병기
-        self.assertIn(lib['NST-A'], prompts['watercolor'])
+        self.assertIn(tg._delight(lib['NST-B']), prompts['webtoon'])       # 극화 = 13_style_news_canon 런타임 병기(조명 절 절삭)
+        self.assertIn(tg._delight(lib['NST-A']), prompts['watercolor'])
+        self.assertNotIn('warm ambient lighting', prompts['watercolor'])   # NST-A 조명 꼬리 ∧ LIGHT 줄 색온도 충돌 차단(평의회 260908 P0)
+        for sid, p in prompts.items():
+            self.assertNotIn('at runtime', p, sid)   # 빌드 메모 누출 0
+
+    def test_likeness_only_with_named_public_figure(self):
+        prompts, _ = compose()   # 사인(A씨) 기사 = 인명 0 → 닮음 꼬리·SUBJECT 없음(유령 지시 차단 · 평의회 260908 P1) · ANATOMY 락은 유지
+        for sid in ('webtoon', 'watercolor'):
+            self.assertIn('generic faces', prompts[sid], sid)
+            self.assertNotIn('REAL person', prompts[sid], sid)
+            self.assertNotIn('SUBJECT (', prompts[sid], sid)
+            self.assertIn('ANATOMY & PROPS', prompts[sid], sid)
+        prompts, _ = compose(lead='이재명 대통령이 8월 5일 청와대에서 업무보고를 받으며 정쟁화를 지적했다.')
+        for sid in ('webtoon', 'watercolor'):
+            self.assertIn('REAL person', prompts[sid], sid)
+            self.assertIn('SUBJECT (', prompts[sid], sid)
+        self.assertNotIn('REAL person', prompts['photo'])   # 실사 = 항상 익명
+
+    def test_camera_no_gaze_conflict_and_no_dup(self):
+        prompts, _ = compose(dispatch='AG-01 LGT02 SG-09')   # 메뉴 최다 AG-01 = "looking straight at the subject" ∧ 자유 꼬리절 충돌 봉합
+        for sid in ('photo', 'webtoon', 'watercolor'):
+            cam = next(x for x in prompts[sid].split('\n') if x.startswith('CAMERA:'))
+            self.assertNotIn('looking straight at', cam, sid)
+            self.assertLessEqual(cam.split(', a frozen split-second')[0].lower().count('eye-level'), 1, sid)   # 꼬리절 제외
+        self.assertIn('LAYOUT (a caption block will later cover roughly the lower 40% of this image): at this very close crop', prompts['watercolor'])
 
     def test_satire_caps_and_target(self):
         prompts, _ = compose()   # 공인 없음 · 권력어 없음 → 수위 2 → 만평 2·극화 2·수채·포토 1
@@ -113,6 +137,10 @@ class ThumbPromptTests(unittest.TestCase):
         self.assertIn('METAPHOR (the visual substitution', prompts['cartoon'])
         self.assertNotIn(tg.CARTOON_DEVICES, prompts['cartoon'])
         self.assertIn('STAGING (adapt this motif to the metaphor', prompts['cartoon'])   # SG-08(dispatch) 계승
+        _, codes = tg.cs_structure('세금 부담을 누가 지나', '', '')
+        self.assertEqual(codes, 'SG-20')   # 논쟁형 = 저울질 1개만(SG-08 무조건 주입 제거 · 평의회 260908 P1)
+        self.assertIn('SG-08', tg.cs_structure('양극화와 격차가 커졌다', '', '')[1])
+        self.assertEqual(tg.lib_buckets('AG-11 LGT05'), tg.lib_buckets('LGT05'))   # AG-11 = 2컷 시퀀스 전용 드롭
         prompts, _ = compose(insight='정부의 위선이 드러났다 — 말과 행동이 다르다')
         self.assertIn(tg.CARTOON_DEVICES, prompts['cartoon'])
         self.assertIn('DEVICE (commentary structure to lean on): Two-Faced Duality', prompts['cartoon'])   # 48 CS-07

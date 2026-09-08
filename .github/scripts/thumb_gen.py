@@ -78,7 +78,7 @@ STYLES = [
     #    소급 재과금은 워크플로 THUMB_SINCE=260908 캡이 막는다(2화풍 완료 백로그가 '미완성'으로 재판정되는 축 = main() target_sids).
     ("watercolor", "수채화",
      "korean manhwa watercolor illustration — a quiet human moment painted with sympathy, never a caricature; translucent layered "
-     "washes on textured paper, loose hand-drawn ink contours, muted emotional palette (the 13 NST-A canon is appended at runtime)",
+     "washes on textured paper, loose hand-drawn ink contours, muted emotional palette",
      "extreme close-up on the protagonist's face or hands, eye-level, shallow painterly focus with the background dissolving into wash"),
     ("cartoon", "시사만평",
      "korean daily-newspaper editorial cartoon, confident hand-drawn ink caricature with exaggerated proportions, "
@@ -170,14 +170,14 @@ _LIB_FILES = ["38_cardnews_distance_crop", "39_cardnews_angle_height", "40_cardn
               # 추가(없는 파일 = 히트 0 죽은 로드). 17 COMP 는 칼럼 번호 지정(_LIB_COL). 15 VR·48 CS·16 CD 는 한국어 산문 표라
               # 키워드가 아니라 **라우팅 표**(_load_table)로 쓴다.
               "36_korea_cultural_ref",                       # KR 한국 고증(국회·압수수색·급식…) → props · 장면 텍스트 토큰 자동 파생(kr_props)
-              "29_wardrobe_props", "27_materials_texture",   # WP 복장·권력 기호 · MT 질감 → props(명시 dispatch 시)
-              "05_negative_control",                         # NEG 실패 방지 → avoid(명시 dispatch 시 AVOID 줄에 병기)
-              "23_weather_atmosphere", "03_lighting_modules",   # WX 날씨 · LIGHT 조명 모듈(16 CD 표가 LIGHT 코드도 참조) → light
-              "01c_camera_height_tilt", "01d_camera_orientation", "01e_camera_relationship_pov",   # H·O·R (16 CD·48 CS 참조) → camera
-              "02_style_modules", "41_style_fusion", "30_genre_conventions", "24_film_movements", "34_era_period_visual",   # → style
-              "04_environment_modules", "17_composition"]   # ENV → staging · COMP → composition
-# Gemini 헤더가 없는 파일의 키워드 칼럼(0-base) — 자동 탐지 실패 = 히트 0 이라 명시(17 COMP = '설명/키워드').
-_LIB_COL = {"17_composition": 2}
+              "03_lighting_modules",                         # LIGHT 조명 모듈 → light (16 CD 표가 참조 · cd_fallback 경로)
+              "01c_camera_height_tilt", "01d_camera_orientation", "01e_camera_relationship_pov",   # H·O·R → camera (16 CD·48 CS 참조)
+              "02_style_modules", "24_film_movements", "34_era_period_visual"]   # STYLE(CD-20) · FM·ERA(CS-08) → style
+# ⚠️ 배선 ≠ 활용(평의회 260908 수렴): 코드 공급원은 4경로뿐(analyze 메뉴 · cd_fallback · cs_structure · kr_props). 어디서도 안 나오는 접두사는
+#    넣어도 히트 0 = 죽은 로드라 넣지 않는다 — 29 WP·23 WX·17 COMP·04 ENV·41 FUS·30 GEN·27 MT·05 NEG 회수(NEG 는 부정문 프라이밍 원복이라 회수).
+#    WP(복장·권력 기호)·WX(날씨)를 살리려면 analyze 메뉴 선택 1줄 추가 = 상류 기틀 축 → 운영자 결정 대기.
+# Gemini 헤더가 없는 파일의 키워드 칼럼(0-base) — 필요 시 명시(예: {"17_composition": 2} · 한국어 값 행은 로더가 드롭).
+_LIB_COL = {}
 _LIB = None
 def _load_lib():
     """코드ID → Gemini 키워드 문자열 dict(1회 캐시). 헤더에 'Gemini' 들어간 칼럼을 키워드로 잡음(파일마다 위치 달라도)."""
@@ -231,6 +231,8 @@ _BUCKET_PREFIX = {"AG": "camera", "S": "camera", "L": "camera",
 # 동일 모티프 SG↔DF 쌍 — analyze가 습관적으로 둘 다 찍음(큐 실측 SG-09+DF-09 동시 지정 ~23건 · 검증3).
 # 같은 모티프(부재·군중고립·이중성)를 FOCUS·STAGING 2줄로 반복하면 'adapt' 래핑을 뚫고 리터럴 소품 확률↑ → DF 쪽 드롭.
 _MOTIF_DUP = (("SG-09", "DF-09"), ("SG-04", "DF-07"), ("SG-16", "DF-12"))
+# 카드뉴스 2컷 시퀀스 전용 코드(AG-11 "paired cards, first low-angle … then high-angle") = 단일 4:5 프레임과 구조 모순 → 드롭(평의회 260908).
+_SEQ_ONLY = {"AG-11"}
 
 def lib_buckets(dispatch):
     """thumb_dispatch 코드열 → 버킷별 Gemini 키워드 dict(camera/focus/light/staging/expression).
@@ -238,7 +240,7 @@ def lib_buckets(dispatch):
     out = {}
     if not dispatch:
         return out
-    codes = [c.strip() for c in dispatch.replace(",", " ").split() if c.strip()]
+    codes = [c.strip() for c in dispatch.replace(",", " ").split() if c.strip() and c.strip() not in _SEQ_ONLY]
     for sg, df in _MOTIF_DUP:
         if sg in codes and df in codes:
             codes.remove(df)
@@ -329,6 +331,7 @@ _CS_RULES = (
     ("CS-01", ("선전", "캠페인", "광고", "홍보")),
 )
 _DEBATE_WORDS = ("논란", "논쟁", "주장", "찬반", "반발", "갑론을박", "세금", "부담", "형평", "자유", "vs")
+_GAP_WORDS = ("격차", "빈곤", "양극화", "불평등", "특혜", "재벌", "부유층", "호화")
 def cs_structure(insight, hook="", dispatch=""):
     """만평 구조·연출 코드 = (DEVICE 문자열, 코드열). ① 48 CS 첫 매치 행 → 영문명+구조 + '실행 모듈' 실코드 ② 논쟁형 어휘 = SG-20 저울질·SG-08 병치
     ③ 사건 dispatch 중 만평이 계승하는 축 = SG·EM·GST·ACT 만(카메라·조명은 은유가 정한다 = 현행 유지). 미존재 코드는 lib_buckets 가 드롭."""
@@ -342,7 +345,9 @@ def cs_structure(insight, hook="", dispatch=""):
                 codes += [c for c in _CODE_RE.findall(row.get("실행 모듈", "")) if c in _load_lib()]
             break
     if not codes and any(w in text for w in _DEBATE_WORDS):
-        codes += ["SG-20", "SG-08"]
+        codes += ["SG-20"]                       # 논쟁형 = 저울질·갈림길 1개만(은유 1개 commit 계약 · 평의회 260908 수렴 P1)
+    if any(w in text for w in _GAP_WORDS):
+        codes += ["SG-08"]                       # 빈부·격차 축이 실제로 있을 때만 병치 모티프
     codes += [c for c in (dispatch or "").replace(",", " ").split() if re.match(r"(SG|EM|GST|ACT)-", c)]
     seen, out = set(), []
     for c in codes:
@@ -391,11 +396,19 @@ LAYOUT_LINE = ("LAYOUT (a caption block will later cover roughly the lower 40% o
                "sides may be cropped for a 9:16 story); let the lower part carry only low-detail "
                "continuation of the same scene (ground, floor, the subject's lower body, soft background) with no faces or essential "
                "objects there — still filled edge to edge with the scene, never a blank or dark band.")
+# 초근접 잠금(수채화 cam_lock) 전용 — ECU 얼굴은 정의상 프레임 전역을 채우므로 LAYOUT_LINE 의 "하단에 얼굴 금지" 와 동시 만족 불가
+# (평의회 260908 수렴 P1) → 같은 배치 계약을 근접 뷰의 문법으로 다시 쓴다(눈 = 상단 3분할 · 하단 = 같은 근접 뷰의 저정보 연속).
+LAYOUT_TIGHT = ("LAYOUT (a caption block will later cover roughly the lower 40% of this image): at this very close crop, put the eyes "
+                "— or the key hand or object — on the upper-third line inside the central 70% of the width; the lower part of the frame "
+                "holds only the continuation of the same close view (chin, neck, shoulder, the object's lower edge, dissolving wash) "
+                "with nothing there that needs to be read — still filled edge to edge, never a blank or dark band.")
 LAYOUT_CARTOON = ("LAYOUT (a caption block will later cover roughly the lower 40% of this image): keep the punchline — faces, labels, "
                   "the key object — in the upper two-thirds of the panel and inside its central 70% of the width; the panel's lower third is simple floor or ground with "
                   "nothing essential in it.")
 # 화풍별 장면 파생(4장 유사 방지) — 같은 SCENE 을 화풍이 다른 순간으로 읽는다(사실 추가 0 · 같은 인물·장소·광원).
 _MOMENT = {
+    "photo": ("MOMENT (this style's own take on SCENE): the decisive documentary instant exactly as a press photographer standing "
+              "there would catch it — the whole gesture and its setting in one unposed frame, nothing arranged for the camera."),
     "webtoon": ("MOMENT (this style's own take on SCENE): the exact peak of the action and the emotion — tighten on the "
                 "protagonist's face and hands as the moment breaks, background reduced to what explains the place."),
     "watercolor": ("MOMENT (this style's own take on SCENE): not the loud peak instant but the quiet human breath just before or "
@@ -434,6 +447,21 @@ _CAM_TAIL_TOP = (", a frozen split-second; commit to this elevated viewpoint —
 # 정한 각도를 다시 지시해 정면 충돌 → 연출 버킷에서 각도 절만 걷어낸다(의미가 각도뿐인 절은 12자 하한으로 보존).
 _ANGLE_RE = re.compile(r"low[- ]?angle|high[- ]?angle|from above|from below|looking (?:up|down)|bird'?s[- ]?eye|top[- ]?down|"
                        r"worm'?s[- ]?eye|overhead|eye[- ]?level|dutch angle|canted", re.I)
+# NST 화풍 캐논 병기의 조명 절 절삭(평의회 260908 수렴 P0) — NST-A 꼬리 "warm ambient lighting" 이 LIGHT 줄(LGT 정본 · cold blue…)과
+# 색온도를 반대로 지시했다 → 조명은 LIGHT 줄 단일 정본(각도의 _deangle 과 같은 문법).
+_STYLE_LIGHT_RE = re.compile(r"light(?:ing)?|glow|backlit|golden hour", re.I)
+def _delight(kw):
+    keep = [c.strip() for c in kw.split(",") if c.strip() and not _STYLE_LIGHT_RE.search(c)]
+    out = ", ".join(keep)
+    return out if len(out) >= 12 else kw
+# 자유 꼬리절(_CAM_TAIL_FREE = "not a flat head-on") 앞에서 정면 시선 절만 걷어낸다(평의회 260908 수렴 P0) — AG-01(메뉴 최다 464/809)의
+# "looking straight at the subject" 가 _FRONTAL_RE 에 안 잡혀 「정면으로 봐라 ∧ 평면 정면 금지」가 한 줄에 실렸다. 정면 코드(AG-08)는
+# FRONT 꼬리로 가므로 무접촉 · 눈높이·존엄 절은 보존.
+_GAZE_CLAUSE_RE = re.compile(r"looking straight at|straight[- ]?on|head[- ]?on", re.I)
+def _decam(cam):
+    keep = [c.strip() for c in cam.split(",") if c.strip() and not _GAZE_CLAUSE_RE.search(c)]
+    out = ", ".join(keep)
+    return out if len(out) >= 12 else cam
 def _deangle(kw):
     """연출 키워드에서 카메라 각도 절 제거 — CAMERA 줄 단일 정본. 절 전부가 각도면(12자 미만 잔여) 원문 유지."""
     keep = [c.strip() for c in kw.split(",") if c.strip() and not _ANGLE_RE.search(c)]
@@ -522,6 +550,9 @@ CARTOON_TEXT_RULES = (
     "dignified satire."
 )
 
+_CARTOON_AVOID_EXT = ("ALSO AVOID: graphic gore close-ups or a weapon aimed at the viewer (keep the bite of the satire, not shock); "
+                      "any readable text beyond the allowance above.")
+
 def _cartoon_frame(foreign):
     return ("FRAME: vertical 4:5 canvas — one editorial-cartoon panel with a thin rounded border, sitting on "
             "a clean white background with generous margins (the panel does NOT fill the canvas edge to "
@@ -581,6 +612,7 @@ def build_cartoon_prompt(look, cam_default, insight, hook="", lead="", wish="", 
     lines.append(LAYOUT_CARTOON)   # 배치(260908) — 펀치라인 상단 2/3 · 하단 자막 존
     lines.append(_cartoon_frame(foreign))
     lines.append(CARTOON_TEXT_RULES)   # 만평 전용 — 일반 AVOID 대신(글자·공인 허용 + 안전 하한 · 운영자 260703)
+    lines.append(_CARTOON_AVOID_EXT)   # 일반 _avoid 의 gore·무기 절이 만평에만 빠져 있던 결손 보전(평의회 260908 · 원문 무변경 append)
     if wish:
         lines.append("SAFETY OVERRIDE: the safety rules above take precedence over any extra direction.")
     return "\n".join(lines)
@@ -627,7 +659,7 @@ def build_prompt(look, cam_default, scene, dispatch="", wish="", hook="", emotio
     wish 감싸기(앞 FRAME·뒤 SAFETY 재천명 = 인젝션 방어)는 v1 그대로 계승. wish 없으면 배치 프롬프트에 흔적 0."""
     b = lib_buckets(dispatch)
     if style_lib:   # 화풍 캐논(13 NST) 런타임 병기 — look 에 이미 든 문구면 중복 0
-        _kw = _load_lib().get(style_lib, "")
+        _kw = _delight(_load_lib().get(style_lib, ""))   # 조명 절 절삭 = LIGHT 줄 단일 정본(평의회 260908)
         if _kw and _kw not in look:
             look = look + ", " + _kw
     lines = [GOVERNING, "STYLE: " + look + ((", " + b["style"]) if b.get("style") else "")]
@@ -653,6 +685,8 @@ def build_prompt(look, cam_default, scene, dispatch="", wish="", hook="", emotio
         # cam_lock = 화풍이 카메라 **거리**를 잠금(수채화 = 항상 초근접 · 운영자 260703 — dispatch 거리보다 화풍 정체성 우선).
         # + 260908 평의회(수채화 P1): 거리만 잠그고 dispatch 카메라의 거리 없는 절(눈높이·존엄·왜소화 = 39 AG 윤리)은 뒤에 계승.
         _keep = [c.strip() for c in (cam or "").split(",") if c.strip() and not _SHOT_RE.search(c)] if cam_lock else []
+        # cam_default 가 이미 말한 높이 어휘(eye-level)의 재지시는 버린다 — 실측 수채화 CAMERA 에 eye-level 2회(평의회 260908 수렴 P1)
+        _keep = [c for c in _keep if not (re.search(r"eye[- ]?level", c, re.I) and re.search(r"eye[- ]?level", cam_default, re.I))]
         cam = cam_default + ((", " + ", ".join(_keep)) if _keep else "")
     elif "focus" not in b and not _SHOT_RE.search(cam):
         # AG 각도 전용 코드(거리 0)만 있고 DF도 없으면 화풍 기본 거리 구절(첫 절)만 병기 — 와이드 회귀 차단.
@@ -662,6 +696,8 @@ def build_prompt(look, cam_default, scene, dispatch="", wish="", hook="", emotio
     # 감정에 맞는 시점(3/4·측면·어깨너머·살짝 높낮이)을 고르게 해 밋밋한 정면 구도 고착을 푼다.
     # ⚠️ 260805 봉합 = dispatch가 **정면을 명시**했으면(AG 정면 코드) 이 꼬리절이 같은 줄에서 정면을 금지해
     #    자기모순이 된다(실측 6%) → 거리 병기와 동일한 조건부로 이관, 정면 건은 그 정면을 굳히는 긍정문으로 교체.
+    if not _FRONTAL_RE.search(cam):
+        cam = _decam(cam)   # 자유 꼬리절과 싸우는 "looking straight at" 류 시선 절만 절삭(AG-01 · 평의회 260908)
     lines.append("CAMERA: " + cam + (_CAM_TAIL_FRONT if _FRONTAL_RE.search(cam) else
                                      (_CAM_TAIL_TOP if _TOPDOWN_RE.search(cam) else _CAM_TAIL_FREE)))
     if b.get("focus") and not cam_lock:
@@ -704,7 +740,7 @@ def build_prompt(look, cam_default, scene, dispatch="", wish="", hook="", emotio
                      "portrait of this real person's face; everything about the moment still comes from "
                      "SCENE): " + subject)
     if layout:
-        lines.append(LAYOUT_LINE)   # 배치(260908) — 초점 상단 60% · 하단 40% 저정보(빈 띠 아님)
+        lines.append(LAYOUT_TIGHT if cam_lock else LAYOUT_LINE)   # 배치(260908) — 초점 상단 60% · 하단 40% 저정보(빈 띠 아님) · 초근접은 근접 문법
     lines.append(_frame(foreign, likeness))
     lines.append(_avoid(likeness) + (("; also: " + b["avoid"]) if b.get("avoid") else ""))
     if wish:
@@ -726,11 +762,13 @@ def compose_prompt(sid, look, cam_default, parsed, wish=""):
         return build_cartoon_prompt(look, cam_default, ex.get("insight", "") or ex.get("hook", ""), hook=ex.get("hook", ""), lead=lead, wish=wish,
                                     foreign=ex.get("foreign", False), satire=sat, metaphor=ex.get("metaphor", ""),
                                     device=device, codes=codes, props=props)
-    like = bsid in ("webtoon", "watercolor")   # 일러스트 계열 = 공인 닮음 허용(운영자 260703 · photo=익명 유지)
+    illu = bsid in ("webtoon", "watercolor")   # 일러스트 계열 = ANATOMY 락 대상(260727) — likeness 와 축 분리(평의회 260908 수렴 P1)
+    subj = _subject_name(lead) if illu else ""
+    like = bool(illu and subj)                  # 공인 닮음(FRAME/AVOID 꼬리)은 **인명이 실제로 뽑힐 때만** — 사인 기사에 "그 named public figure 의 얼굴" 유령 지시 차단
     return build_prompt(look, cam_default, parsed.get("scene") or parsed.get("iq") or lead, parsed.get("dispatch", ""), wish,
                         hook=ex.get("hook", ""), emotion=ex.get("emotion", ""), foreign=ex.get("foreign", False),
                         cam_lock=(bsid == "watercolor"), light_mod=_LIGHT_MOD.get(bsid, ""),
-                        likeness=like, subject=(_subject_name(lead) if like else ""),
+                        likeness=like, subject=subj, illustration=illu,
                         satire=sat, moment=_MOMENT.get(bsid, ""), props=props, style_lib=_STYLE_LIB.get(bsid, ""))
 
 def parse_for_prompts(md):
@@ -1592,7 +1630,7 @@ def process_one(md, stem, redo_new=""):
             prompt = compose_prompt(sid, look, cam_default, parsed, wish=redo_wish)
             # 참조 체이닝(THUMB_REF · 극화·수채만) — 대표 실사진을 첨부하고 "이 얼굴로 그려라" 프리픽스(앞=최우선).
             #   ⚠️ 안전 하한: 사인·피해자·미성년이면 익명 유지(모델 판단 지시) — photo는 애초 REF 대상 아님·cartoon은 이번 제외.
-            use_ref = ref_face if (REF_ON and bsid in ("webtoon", "watercolor")) else None
+            use_ref = ref_face if (REF_ON and bsid in ("webtoon", "watercolor") and _subject_name(lead)) else None   # 인명 있을 때만 첨부(사인·유족 og:image 얼굴 재현 차단 · 평의회 260908)
             if use_ref:
                 prompt = ("REFERENCE FACE: the attached photo is the REAL face of the public figure this "
                           "story is about. Redraw THAT exact person — same face, hairstyle and build, "

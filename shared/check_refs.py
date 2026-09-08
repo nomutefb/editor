@@ -9390,19 +9390,33 @@ def check_thumb_prompt_sanity():
         ('', ''),                                                   # dispatch 무지정(화풍 기본 폴백)
     ]
     # 모순 술어 — 전부 「같은 프롬프트 안에서 서로를 무효화하는 두 문장」만 잡는다(문체 취향 판정 0).
-    FRONT = re.compile(r'front[- ]?on|head[- ]?on|straight[- ]?on|symmetr|frontal', re.I)
+    FRONT = re.compile(r'front[- ]?on|head[- ]?on|straight[- ]?on|symmetr|frontal|looking straight at', re.I)   # +AG-01 어형(평의회 260908)
+    # ⑧ 각도 어휘 중복(같은 CAMERA 줄에 eye-level 2회 등 = cam_lock 병합·기본 카메라 병기가 겹친 흔적 · 평의회 260908 수렴 P1 · 꼬리절 제외)
+    ANGLE_DUP = ('eye-level', 'eye level', 'low-angle', 'low angle', 'high-angle', 'high angle', 'extreme close-up')
     GAZE = re.compile(r'(?:in)?to the camera|eye contact', re.I)
     META = re.compile(r'순위|포지셔닝|독자|스크롤')
     bad = []
+    _compose = getattr(tg, 'compose_prompt', None)   # 260908 평의회 판정관: 게이트는 **프로덕션 함수 그대로** 재현(build_prompt 직접 호출 = style_lib·moment·satire·props 누락 = 2줄 짧은 판정)
     for disp, emo in CASES:
         for sid, _label, look, cam_default in tg.STYLES:
-            like = sid in ('webtoon', 'watercolor')
-            p = tg.build_prompt(look, cam_default, SCENE, disp, '', hook='화두 한 마디', emotion=emo,
-                                foreign=False, cam_lock=(sid == 'watercolor'),
-                                light_mod=tg._LIGHT_MOD.get(sid, ''), likeness=like,
-                                subject=(tg._subject_name(LEAD) if like else ''))
+            if _compose:
+                _parsed = {'head': '', 'lead': LEAD, 'iq': '', 'scene': SCENE, 'dispatch': disp,
+                           'extras': {'hook': '화두 한 마디', 'emotion': emo, 'insight': '', 'foreign': False,
+                                      'tags': '', 'satire_target': '', 'metaphor': ''}}
+                p = _compose(sid, look, cam_default, _parsed)
+            else:
+                like = sid in ('webtoon', 'watercolor')
+                p = tg.build_prompt(look, cam_default, SCENE, disp, '', hook='화두 한 마디', emotion=emo,
+                                    foreign=False, cam_lock=(sid == 'watercolor'),
+                                    light_mod=tg._LIGHT_MOD.get(sid, ''), likeness=like,
+                                    subject=(tg._subject_name(LEAD) if like else ''))
             L = p.split('\n')
             tag = '%s/[%s]' % (sid, disp or '무지정')
+            # ⑥ 빌드 메모 누출(평의회 260908 실측 — 수채화 look 의 "(… appended at runtime)" 이 Gemini 로 발사됐다)
+            if re.search(r'at runtime|appended at|런타임', p):
+                bad.append('%s 빌드 메모 누출(at runtime/appended at)' % tag)
+            if sid == 'cartoon':
+                continue   # 만평 = 별도 빌더(아래 만평 축이 판정) — ①~⑤는 build_prompt 문법 전용
             cam = next((x for x in L if x.startswith('CAMERA:')), '')
             # ① 정면을 지시하면서 같은 줄에서 정면을 금지 = 모델이 둘을 평균내 어중간한 각도로 도망간다
             if 'not a flat head-on' in cam and FRONT.search(cam.split(', a frozen split-second')[0]):
@@ -9415,6 +9429,11 @@ def check_thumb_prompt_sanity():
             # ③ 감정 자리에 집필 메타어 = 이미지 모델엔 순수 노이즈(라벨이 'emotion'이라 더 헷갈린다)
             if mood and META.search(mood):
                 bad.append('%s MOOD 메타어 누출(%s)' % (tag, mood.split('): ', 1)[-1][:30]))
+            _camhead = cam.split(', a frozen split-second')[0].lower()   # 꼬리절("eye-level dignity …") 제외
+            for _tok in ANGLE_DUP:
+                if _camhead.count(_tok) > 1:
+                    bad.append('%s CAMERA 각도 어휘 중복(%s ×%d)' % (tag, _tok, _camhead.count(_tok)))
+                    break
             subj = next((x for x in L if x.startswith('SUBJECT')), '')
             # ④ 얼굴 지시 자리에 문장 = 그 문장의 장소·시각이 제2의 장면으로 SCENE과 싸운다
             if subj and len(subj.split('): ', 1)[-1]) > 35:
