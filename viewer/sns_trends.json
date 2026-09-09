@@ -7396,8 +7396,14 @@
   {
    "query": "동아일보",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/45ee21764d.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/006/0000137598",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-09T15:20:00+09:00",
    "rh": [
@@ -7561,8 +7567,14 @@
   {
    "query": "최태원",
    "traffic": "5000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/ab05f59553.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/056/0012254076",
+     "source": ""
+    }
+   ],
    "vol": 5000,
    "started": "2026-09-09T14:30:00+09:00",
    "delta": -1,
@@ -7596,8 +7608,14 @@
   {
    "query": "z세대",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/a369b3c354.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/018/0006366149",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-09-09T14:30:00+09:00",
    "isNew": true,
@@ -7698,8 +7716,14 @@
   {
    "query": "오픈ai",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/0e17a305fd.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/003/0014179329",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-09T16:30:00+09:00",
    "isNew": true,
@@ -7781,8 +7805,14 @@
   {
    "query": "알카라스",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/f5f7323608.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/009/0005732084",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-09-09T16:30:00+09:00",
    "isNew": true,
@@ -7973,11 +8003,11 @@
  ],
  "gtrends_pool_updated": "2026-09-09T17:41:31+09:00",
  "_trend_img": {
-  "tried": "2026-09-09T16:51:38+09:00",
+  "tried": "2026-09-09T17:41:31+09:00",
   "fail": {
-   "조혜련": "2026-09-09T15:03:20+09:00",
-   "데이브 로버츠": "2026-09-09T15:39:18+09:00",
-   "kbo 리그 신인 드래프트": "2026-09-09T16:54:53+09:00"
+   "kbo 리그 신인 드래프트": "2026-09-09T16:54:53+09:00",
+   "이한위": "2026-09-09T17:43:13+09:00",
+   "데이브 로버츠": "2026-09-09T17:43:13+09:00"
   }
  },
  "gtrends_gl": [
@@ -18144,7 +18174,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-09T17:41:31+09:00"
+    "first_seen": "2026-09-09T17:41:31+09:00",
+    "kw": "프롬프트 캐싱, 캐시 무효화, 서브에이전트",
+    "sum": "계정이 캐시가 깨지는 네 가지 원인을 설명했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -18159,7 +18192,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-09-09T17:41:31+09:00"
+    "first_seen": "2026-09-09T17:41:31+09:00",
+    "kw": "프롬프트 캐싱, 프리필, 비용 절감",
+    "sum": "계정이 프롬프트 캐싱의 원리와 비용 차이를 설명했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -18174,7 +18210,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-09-09T17:41:31+09:00"
+    "first_seen": "2026-09-09T17:41:31+09:00",
+    "kw": "앤트로픽, 클로드 비용 절감, claude-api 스킬",
+    "sum": "앤트로픽이 클로드 비용 절감법 세 가지를 공개했다",
+    "sv": 1
    },
    {
     "account": "aipeekme",
@@ -18545,7 +18584,10 @@
     "rh": [
      18
     ],
-    "first_seen": "2026-09-09T17:41:31+09:00"
+    "first_seen": "2026-09-09T17:41:31+09:00",
+    "kw": "앤트로픽, 프롬프트 문구 제거, 비용 절감",
+    "sum": "앤트로픽이 지시 문구 삭제로 비용과 정확도를 개선했다",
+    "sv": 1
    },
    {
     "account": "takepage_",
