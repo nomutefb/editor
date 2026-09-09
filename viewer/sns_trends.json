@@ -7709,8 +7709,14 @@
   {
    "query": "걷기",
    "traffic": "5000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/3ee8272408.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/015/0005330590",
+     "source": ""
+    }
+   ],
    "vol": 5000,
    "started": "2026-09-10T05:00:00+09:00",
    "delta": -9,
@@ -7723,8 +7729,14 @@
   {
    "query": "금양",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/c0d51b649d.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/082/0001397647",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-10T05:00:00+09:00",
    "delta": -9,
@@ -7760,8 +7772,14 @@
   {
    "query": "채무",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/5a8dc8c4f7.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/011/0004660230",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-10T05:10:00+09:00",
    "delta": -14,
@@ -7788,8 +7806,14 @@
   {
    "query": "psg vs slovan bratislava",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/c47987f031.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/091/0010306214",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-10T05:20:00+09:00",
    "delta": -18,
@@ -7802,8 +7826,14 @@
   {
    "query": "napoli vs arsenal",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/d741836cf7.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/091/0010306341",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-10T05:00:00+09:00",
    "delta": -13,
@@ -8055,16 +8085,18 @@
  ],
  "gtrends_pool_updated": "2026-09-10T07:10:37+09:00",
  "_trend_img": {
-  "tried": "2026-09-10T06:33:40+09:00",
+  "tried": "2026-09-10T07:10:37+09:00",
   "fail": {
-   "바르셀로나 대 페예노르트": "2026-09-10T04:50:38+09:00",
-   "틈만나면,": "2026-09-10T04:50:38+09:00",
    "바르셀로나": "2026-09-10T05:26:08+09:00",
    "리버풀 대 아틀레티코": "2026-09-10T06:35:17+09:00",
    "psg 대 슬로반 브라티슬라바": "2026-09-10T06:35:17+09:00",
    "첼시 대 리즈 유나이티드": "2026-09-10T06:35:17+09:00",
    "챔피언스리그 경기": "2026-09-10T06:35:17+09:00",
-   "스포티비": "2026-09-10T06:35:17+09:00"
+   "스포티비": "2026-09-10T06:35:17+09:00",
+   "이강인": "2026-09-10T07:12:14+09:00",
+   "liverpool vs atlético madrid": "2026-09-10T07:12:14+09:00",
+   "엘레나 리바키나": "2026-09-10T07:12:14+09:00",
+   "fc barcelona vs feyenoord standings": "2026-09-10T07:12:14+09:00"
   }
  },
  "gtrends_gl": [
@@ -17859,7 +17891,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-10T07:10:37+09:00"
+    "first_seen": "2026-09-10T07:10:37+09:00",
+    "kw": "파키스탄, 예멘 내전, 사우디",
+    "sum": "파키스탄이 예멘 내전 개입 가능성을 경고했다",
+    "sv": 1
    }
   ],
   "tiktok": [
@@ -19070,7 +19105,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-10T07:10:37+09:00"
+    "first_seen": "2026-09-10T07:10:37+09:00",
+    "kw": "AlphaGenome Atlas, 구글 Antigravity, 유전자 변",
+    "sum": "AlphaGenome Atlas가 구글 Antigravity에서 유전자 변이 분석을 지원한다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
