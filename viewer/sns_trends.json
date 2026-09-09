@@ -7704,8 +7704,14 @@
   {
    "query": "이하정",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/c7b54b7aaf.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.tenasia.co.kr/article/2026090784264",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-09T07:40:00+09:00",
    "delta": -14,
@@ -7802,8 +7808,14 @@
   {
    "query": "권원일",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/1550b9e4ad.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://isplus.com/article/view/isp202609090026",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-09T07:30:00+09:00",
    "delta": -15,
@@ -7816,8 +7828,14 @@
   {
    "query": "한화오션",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/441e8db0c8.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.edaily.co.kr/News/Read?newsId=02840486645576512&mediaCodeNo=257",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-09-09T06:30:00+09:00",
    "isNew": true,
@@ -8101,7 +8119,7 @@
  ],
  "gtrends_pool_updated": "2026-09-09T09:40:33+09:00",
  "_trend_img": {
-  "tried": "2026-09-09T09:06:49+09:00",
+  "tried": "2026-09-09T09:40:33+09:00",
   "fail": {
    "도르트문트 대 비야레알": "2026-09-09T07:56:35+09:00",
    "미래에셋": "2026-09-09T07:56:35+09:00",
@@ -17667,7 +17685,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-09T09:40:33+09:00"
+    "first_seen": "2026-09-09T09:40:33+09:00",
+    "kw": "GitHub CLI, gh issue, gh pr",
+    "sum": "GitHub CLI 2.99.0이 이슈·PR에 이미지·영상 첨부 기능을 정식 지원했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -17682,7 +17703,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-09-09T09:40:33+09:00"
+    "first_seen": "2026-09-09T09:40:33+09:00",
+    "kw": "GitHub CLI, 코딩 에이전트, 첨부 기능",
+    "sum": "계정이 gh CLI의 이미지·영상 첨부 기능과 에이전트 작업 증거 변화를 설명했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
