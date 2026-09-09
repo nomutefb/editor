@@ -27,22 +27,32 @@
  "threads": [
   {
    "account": "daily_ai_star",
+   "text": "https://github.blog/changelog/2026-09-01-github-cli-media-in-issues-pull-requests-and-comments",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1788913533,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdC-ArVGYE-",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
+   "text": "GitHub CLI 2.99.0에 로컬 이미지와 영상을 이슈·PR·댓글에 바로 올리는 `--attach`가 정식으로 들어갔습니다.\n\n9월 1일부터 `gh issue`와 `gh pr`의 생성·수정·댓글 명령에서 사용할 수 있습니다. 플래그를 여러 번 붙일 수 있고, 본문에 적은 로컬 경로는 업로드된 자산으로 바뀝니다. PNG·JPEG·GIF·WebP·SVG와 MP4·MOV·WebM을 지원합니다.\n\n코딩 에이전트의 완료 증거가 “무엇을 바꿨는가”에서 “실행 결과를 어떤 화면과 함께 남겼는가”로 이동하고 있습니다.\n\n버그를 설명하는 스크린샷, UI 변경 전후, 테스트 실패 화면이 브라우저를 거치지 않고 작업 기록에 붙습니다. 에이전트가 코드를 고쳤다고 말하는 것과 결과를 재현 가능한 증거로 남기는 것은 다른 기준입니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1788913524,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdC9_gQGZUU",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
    "text": "이번 재활성화에는 조건이 붙었습니다.\n\nGitHub는 6월 23일 처음 공개한 뒤, 일부 npm 업데이트가 public package를 GitHub Packages로 해석하는 충돌 때문에 기능을 잠시 되돌렸다고 설명했습니다. 이번에는 자동 자격증명을 fallback으로만 사용해, 명시적 registry 설정과 일반적인 라우팅이 우선합니다.\n\nAI 에이전트가 dependabot.yml이나 패키지 권한을 수정하는 팀이라면, 토큰 제거보다 먼저 Manage Actions access와 패키지별 Read 범위를 기록해야 합니다. 권한이 코드 밖에 남기 때문입니다.\n\nhttps://github.blog/changelog/2026-09-08-automatic-dependabot-access-to-github-hosted-registries/",
    "likes": 0,
    "cmts": 0,
    "time": 1788912042,
    "thumb": "",
    "url": "https://www.threads.com/@daily_ai_star/post/DdC7KtTk1SH",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "GitHub Dependabot이 9월 8일 private GitHub Packages 접근 방식을 바꿨습니다.\n\n이제 Dependabot은 PAT 없이 GitHub Packages와 ghcr.io의 private 패키지를 읽을 수 있습니다. 패키지 설정의 Manage Actions access에서 저장소에 Read 권한을 주면 GITHUB_TOKEN이 packages: read를 요청해 인증합니다.\n\ndependabot.yml에 registry 자격증명을 추가하지 않아도 되고, 기존 PAT 설정은 제거할 수 있습니다.\n\n단순한 인증 방식 변경이 아닙니다. 의존성 업데이트 봇의 권한이 토큰 보관에서 저장소와 패키지의 연결로 이동했습니다.\n\n자동화가 늘어날수록 비밀값을 하나 더 만드는 것보다, 어떤 저장소가 어떤 패키지를 읽을 수 있는지 고정하는 일이 기준이 됩니다.",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1788912033,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdC7JyBk3gH",
    "region": "kr"
   },
   {
@@ -58,10 +68,10 @@
   {
    "account": "aicoffeechat",
    "text": "챗GPT Image 2.5 출시 \n\n> 결과를 기다리는 시간이 절반으로\n> 피부 톤이나 옷감 결이 덜 매끈매끈해서, 렌더링한 티가 덜 남\n> 내 사진을 넣고 배경을 사무실로 바꿔도 여전히 나로 보임 (전에는 남이 됐죠)\n> \"카피만 바꿔줘\"라고 하면 카피만 바뀜. 인물 자세도, 제품도, 구도도 그대로\n> 열 번째 수정을 해도 세 번째에 잡아둔 디테일이 살아 있음\n> 로고나 UI 요소용 배경 없는 이미지가 제대로 나옴",
-   "likes": 18,
+   "likes": 30,
    "cmts": 1,
    "time": 1788911556,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/801326264_1068419765809199_5792360360852728743_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk4MTk5NjEyMjI4OTM1MjcwNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=K7trVrr8b0EQ7kNvwHTWmRg&_nc_oc=AdofI9tQuCccoLEmdahVvwQFrpkQKWrsw2C6OiCSK-3lz9WW6IPSUrM4VFatJmHyFaE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=H7nkrxsYkcanYda5TJi9jA&_nc_ss=7a22e&oh=00_AQJnIUP2HO2bOCnklJWIsweyMaRN4ZyDh4ec-rM78ij_AQ&oe=6AA66C45",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/801326264_1068419765809199_5792360360852728743_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk4MTk5NjEyMjI4OTM1MjcwNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=K7trVrr8b0EQ7kNvwHTWmRg&_nc_oc=AdofI9tQuCccoLEmdahVvwQFrpkQKWrsw2C6OiCSK-3lz9WW6IPSUrM4VFatJmHyFaE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=_1pT053LnZQN8DcMSsgCOA&_nc_ss=7a22e&oh=00_AQK7iwoiQ5LW4Brtb_3M-DUKIoleMadv3fFGAWJf8nTJwA&oe=6AA66C45",
    "url": "https://www.threads.com/@aicoffeechat/post/DdC5GAuCjAD",
    "region": "kr"
   },
@@ -78,20 +88,20 @@
   {
    "account": "aipeekme",
    "text": "구글 딥마인드가 인간 게놈 내 90억 개 단일 염기 변이의 영향을 예측한 '알파게놈 아틀라스'를 공개했습니다.\n한 글자 단위로 가능한 모든 DNA 돌연변이를 다룬 플랫폼 형태인데요.\n그동안 90억 개에 달하는 변이 하나하나를 실험실에서 직접 검증하는 것은 현실적으로 불가능했습니다.\n이번 공개로 학술 연구자들은 무료 웹 포털과 API 등을 통해 예측값을 바로 활용할 수 있게 됐습니다.\n규모는 방대합니다. 1페타바이트 크기의 데이터셋으로 알파폴드 데이터베이스보다 30배 이상 큽니다.\n결국 이 방대한 데이터가 미해결 희귀 질환의 원인 규명 속도를 얼마나 앞당길지가 핵심입니다.\n다만 컴퓨터 모델의 분자 수준 예측치와 실제 생체에서 나타나는 양상 사이의 간극은 여전히 남아 있습니다.\n저는 데이터 자체의 규모보다 실험실 연구진이 이 예측 결과를 어디까지 신뢰하고 초기 후보군 압축에 반영할지가 관건이라고 봅니다.\n\n📷 사진 출처: deepmind.google",
-   "likes": 1,
+   "likes": 2,
    "cmts": 1,
    "time": 1788908494,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/801326265_18086178275407306_1700045372625573847_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk4MTk3NTQ1MDYzNzQ5MjcwMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=jxSG-mgeR1UQ7kNvwG50vk_&_nc_oc=AdpEY-uM-PGB1qsJUK2L7iYfIDCshn1ctwGUKmrjBik4Jm_CZ0UjpmGnb3F8gw8qIwA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=K0VAzz0y-RHp6aMKhUrhjg&_nc_ss=7a22e&oh=00_AQLiLj7mMNhAzFPblZM8r1VsNdmTL5Oiy77a42G4hJMkiw&oe=6AA65C9C",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/801326265_18086178275407306_1700045372625573847_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk4MTk3NTQ1MDYzNzQ5MjcwMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=jxSG-mgeR1UQ7kNvwG50vk_&_nc_oc=AdpEY-uM-PGB1qsJUK2L7iYfIDCshn1ctwGUKmrjBik4Jm_CZ0UjpmGnb3F8gw8qIwA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=CQ99wjmTBaAAMZwygTgkcw&_nc_ss=7a22e&oh=00_AQLj54tm_6RSU4C8F_t3FNEu5nYqqQjNgj0jU3UhTcvcgg&oe=6AA694DC",
    "url": "https://www.threads.com/@aipeekme/post/DdC0ZMvkuHc",
    "region": "kr"
   },
   {
    "account": "kopp",
    "text": "buttons don't get enough love",
-   "likes": 19,
+   "likes": 20,
    "cmts": 1,
    "time": 1788890464,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/800958814_1891937612175332_5533311426160694914_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk4MTgyNDAwOTczNzkyODUyMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=hyzlk87JjMkQ7kNvwFMREJh&_nc_oc=AdpAJvtU8xTou-J0_MHtP4uKg5vzxLU5MwqUZJwDD60Ukv0I7dpyiHbxrY5iN9SJ1Ls&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=xmYgL4uzF1CPbSt817SVEw&_nc_ss=7a22e&oh=00_AQIDC6paI6OXTfjOGvlZTAwFqNBo7F03TFFBCoxUPGbRsg&oe=6AA665AE",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/800958814_1891937612175332_5533311426160694914_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk4MTgyNDAwOTczNzkyODUyMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=hyzlk87JjMkQ7kNvwFMREJh&_nc_oc=AdpAJvtU8xTou-J0_MHtP4uKg5vzxLU5MwqUZJwDD60Ukv0I7dpyiHbxrY5iN9SJ1Ls&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Ighrpmkr74jPtlQzfgYDpQ&_nc_ss=7a22e&oh=00_AQK2r_qk5HaNocgNpbtMBGaOk_8lM2S9TwRTI_IPQmdozA&oe=6AA665AE",
    "url": "https://www.threads.com/@kopp/post/DdCR9cajP9L",
    "region": "kr"
   },
@@ -101,7 +111,7 @@
    "likes": 2,
    "cmts": 1,
    "time": 1788886455,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/800715330_17910397329463148_4626456056095069977_n.jpg?stp=cp6_dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk4MTc5MDY0MjY5MDM3MTQ0Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuODk2LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=pexpap7IZ-8Q7kNvwFR-gOz&_nc_oc=AdqhExhom8T2N1p_oH_J0wycsC2uhPD79gCk25a09k7_1wAcItD0b9Me6eAmebHTDb4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=xmYgL4uzF1CPbSt817SVEw&_nc_ss=7a22e&oh=00_AQL9sxpqt5SbCCFxSL0-oIzjFhVpMSRIx8XZcHbJlUVZ8Q&oe=6AA67456",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/800715330_17910397329463148_4626456056095069977_n.jpg?stp=cp6_dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk4MTc5MDY0MjY5MDM3MTQ0Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuODk2LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=pexpap7IZ-8Q7kNvwFR-gOz&_nc_oc=AdqhExhom8T2N1p_oH_J0wycsC2uhPD79gCk25a09k7_1wAcItD0b9Me6eAmebHTDb4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Ighrpmkr74jPtlQzfgYDpQ&_nc_ss=7a22e&oh=00_AQIZgyEqmAK_HBA1HqT8x_FOobPrAwZIc3W25dZivS87Sw&oe=6AA67456",
    "url": "https://www.threads.com/@kopp/post/DdCKX47iK93",
    "region": "kr"
   },
@@ -111,7 +121,7 @@
    "likes": 23,
    "cmts": 0,
    "time": 1788876559,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/798488158_1119910697658608_2281763869760945576_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk4MDI0Njk3OTUxODc1NjUwMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=pRmpsBUoo7UQ7kNvwGasoCH&_nc_oc=AdqHh3CH2w4Kkft03Jgfkb1EPO0cTK9pZIv_pPw3ijjn7fw2-_bjvB6i7S5VJbzv9Ds&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=xmYgL4uzF1CPbSt817SVEw&_nc_ss=7a22e&oh=00_AQJsjPAdi78NmVCF4ANXPH-W2IA9rLA7j8GvmJE39shY8Q&oe=6AA65C6F",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/798488158_1119910697658608_2281763869760945576_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk4MDI0Njk3OTUxODc1NjUwMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=pRmpsBUoo7UQ7kNvwGasoCH&_nc_oc=AdqHh3CH2w4Kkft03Jgfkb1EPO0cTK9pZIv_pPw3ijjn7fw2-_bjvB6i7S5VJbzv9Ds&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Ighrpmkr74jPtlQzfgYDpQ&_nc_ss=7a22e&oh=00_AQLCd3zhF10KxlQ24h0k2LC2i-ADARL2DXDcrg6m1DgNXg&oe=6AA694AF",
    "url": "https://www.threads.com/@kopp/post/DdB3f3EgVJx",
    "region": "kr"
   },
@@ -128,17 +138,17 @@
   {
    "account": "choi.openai",
    "text": "난 구글이 뭔가 해줄 것이라고 믿는다.\n\n구글 DeepMind가 인간 DNA에서 일어날 수 있는 90억 가지 단일 염기 변화를 AI로 미리 분석한 AlphaGenome Atlas를 공개했습니다.\n\nDNA 한 글자가 바뀌었을 때 유전자 발현이나 RNA 스플라이싱 등에 어떤 영향을 주는지 예측해둔 1PB 규모의 데이터베이스로, AlphaFold Database보다 30배 이상 큽니다.\n\n이미 희귀질환 연구에서는 기존 분석이 놓쳤던 변이를 찾아 실험으로 확인했고, UK Biobank 분석에서는 비암호화 영역의 유전적 연관성을 22% 더 발견했습니다.\n\nAlphaFold가 단백질 구조 연구의 문턱을 낮췄다면, AlphaGenome Atlas는 질병의 원인이 되는 유전자 변이를 찾고 신약 표적 후보를 좁히는 과정에 비슷한 역할을 할 수 있을 것 같습니다.",
-   "likes": 58,
+   "likes": 60,
    "cmts": 1,
    "time": 1788876470,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/800715019_1410575204354610_946358353958359617_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk4MTcwNjY4MzQ0NTI0MzcyMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=N-OHhaLyyhYQ7kNvwGfhzfF&_nc_oc=AdrK0oFR6GbOP2A49lzKVK1G7VrenmMrZ6XDFp_ufpQ2aS6-Qa2X1F2Bid5d-86ykQI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=R37tjqyUAM-34HNMO97gJg&_nc_ss=7a22e&oh=00_AQJHJp-IXymTjfhzNPR9u-I2F5o-XsmK3i0tKu4fYmcI_A&oe=6AA67D9E",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/800715019_1410575204354610_946358353958359617_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk4MTcwNjY4MzQ0NTI0MzcyMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=N-OHhaLyyhYQ7kNvwGfhzfF&_nc_oc=AdrK0oFR6GbOP2A49lzKVK1G7VrenmMrZ6XDFp_ufpQ2aS6-Qa2X1F2Bid5d-86ykQI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=RNCU4su1zTg_OiRdEojoMg&_nc_ss=7a22e&oh=00_AQLvuECh-itfBiRUX-OJV6Y4nblSKVCagnnHNxSYEW9j_g&oe=6AA67D9E",
    "url": "https://www.threads.com/@choi.openai/post/DdB3SHyjW9K",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "GPT-6 아스트라는 나노 바나나 출시했을 때의 임펙트인 것 같다.\n뭔가 이미지 생성 모델이 “한국어”를 제대로 그리지 못하다 뭔가 그 임계점을 넘긴 순간의 와우 모먼트가 재현되는 것 같음.\n기존 언어모델이 지능적으로는 압도했다지만 뭔가 모르게 막힌 부분을 이번에 확 뚫어준 느낌.\n나노 바나나 2와 GPT IMAGE 가 그랬듯 다음 세대 모델은 지금 느껴지는 그 작은 어색함도 해결해줄 것 같다.\n그리고 거기에 지속학습이 붙는다면, 그 누구도 AGI가 아니라고 말하지는 못할 것 같다.",
-   "likes": 129,
+   "likes": 132,
    "cmts": 1,
    "time": 1788873400,
    "thumb": "",
@@ -181,18 +191,18 @@
    "likes": 2,
    "cmts": 3,
    "time": 1788841716,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/799843770_1058840013635566_8312243142608206853_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk4MTQxNTA1Mzk0MTUwMzg2MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=r7VSmBY1uaYQ7kNvwFQSYtm&_nc_oc=Adp9R36kWRtmfP8HPvhThcc-dJKGYA79r-KDjV9Fp07Y2kTtDYcTvN32VSSuNi_cFCU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=K0VAzz0y-RHp6aMKhUrhjg&_nc_ss=7a22e&oh=00_AQIMq73qMjvm1LKyQvzAkTzLml2-3s3cpm1EPTwVvpEcRw&oe=6AA68073",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/799843770_1058840013635566_8312243142608206853_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk4MTQxNTA1Mzk0MTUwMzg2MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=r7VSmBY1uaYQ7kNvwFQSYtm&_nc_oc=Adp9R36kWRtmfP8HPvhThcc-dJKGYA79r-KDjV9Fp07Y2kTtDYcTvN32VSSuNi_cFCU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=CQ99wjmTBaAAMZwygTgkcw&_nc_ss=7a22e&oh=00_AQLoV3eYxDsg_SdEIVamy8FaPs9sjnlyZGrsWryFTpgNsA&oe=6AA68073",
    "url": "https://www.threads.com/@aipeekme/post/DdA0-Wpk3d1",
    "region": "kr"
   },
   {
    "account": "daily_ai_star",
-   "text": "GitHub Actions에 재사용 워크플로의 출처를 확인하는 4개 `job` 속성이 추가됐습니다.\n\n9월 3일부터 워크플로는 실행 중에 정의 파일의 ref, commit SHA, 저장소, 파일 경로를 확인할 수 있습니다. 기존 `github.workflow_ref`와 `github.workflow_sha`는 호출한 워크플로를 가리킬 수 있었지만, 새 값은 현재 작업을 정의한 재사용 워크플로를 가리킵니다.\n\nCI 파이프라인의 감사 기준이 “어떤 이벤트로 실행됐나”에서 “실제로 어떤 저장소의 어떤 파일이 이 작업을 정의했나”로 이동했습니다.\n\nAI 에이전트가 여러 저장소의 워크플로를 수정하는 팀이라면, 실행 결과와 함께 정의 파일의 출처도 기록해야 합니다.\n\nhttps://github.blog/changelog/2026-09-03-github-actions-early-september-2026-updates",
+   "text": "GitHub Dependabot이 9월 8일 private GitHub Packages 접근 방식을 바꿨습니다.\n\n이제 Dependabot은 PAT 없이 GitHub Packages와 ghcr.io의 private 패키지를 읽을 수 있습니다. 패키지 설정의 Manage Actions access에서 저장소에 Read 권한을 주면 GITHUB_TOKEN이 packages: read를 요청해 인증합니다.\n\ndependabot.yml에 registry 자격증명을 추가하지 않아도 되고, 기존 PAT 설정은 제거할 수 있습니다.\n\n단순한 인증 방식 변경이 아닙니다. 의존성 업데이트 봇의 권한이 토큰 보관에서 저장소와 패키지의 연결로 이동했습니다.\n\n자동화가 늘어날수록 비밀값을 하나 더 만드는 것보다, 어떤 저장소가 어떤 패키지를 읽을 수 있는지 고정하는 일이 기준이 됩니다.",
    "likes": 0,
-   "cmts": 0,
-   "time": 1788831643,
+   "cmts": 1,
+   "time": 1788912033,
    "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdAh0VgmZKV",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdC7JyBk3gH",
    "region": "kr"
   },
   {
@@ -201,7 +211,7 @@
    "likes": 6,
    "cmts": 1,
    "time": 1788860216,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/800295699_17986199628112832_655456855911220273_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk4MTU3MDUzMTc5MDkxNTk4Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTM3Ni5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=EWHRf8fQol8Q7kNvwFymkqY&_nc_oc=AdqLwc2p4mKxSCED-jplK1GGaN7SddddgkdSRIPt0YFk1bL73KFl6IeyX4RW6EFKvMQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=R37tjqyUAM-34HNMO97gJg&_nc_ss=7a22e&oh=00_AQLoX3AJ2feQDQq2z_2IoJjTg88o35RrGbn-xJwhRHC6GQ&oe=6AA685F4",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/800295699_17986199628112832_655456855911220273_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk4MTU3MDUzMTc5MDkxNTk4Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTM3Ni5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=EWHRf8fQol8Q7kNvwFymkqY&_nc_oc=AdqLwc2p4mKxSCED-jplK1GGaN7SddddgkdSRIPt0YFk1bL73KFl6IeyX4RW6EFKvMQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=RNCU4su1zTg_OiRdEojoMg&_nc_ss=7a22e&oh=00_AQJAmPC2OVJYc51UKrJOktrM0IHYMkTNPDmXuqxHQ3prLg&oe=6AA685F4",
    "url": "https://www.threads.com/@choi.openai/post/DdBYU2rj4mT",
    "region": "kr"
   },
@@ -213,16 +223,6 @@
    "time": 1788846238,
    "thumb": "",
    "url": "https://www.threads.com/@takepage_/post/DdA9qpWE1d6",
-   "region": "kr"
-  },
-  {
-   "account": "kopp",
-   "text": "Explore all resources:\r\nhttps://www.details.so/vault",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1788843854,
-   "thumb": "",
-   "url": "https://www.threads.com/@kopp/post/DdA5G4_jK3G",
    "region": "kr"
   }
  ],
@@ -255,7 +255,7 @@
    "views": 380300,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQpDHATAEBzAIGFgqwDA4hofdRfVCsCaqEBIkL~tplv-tiktokx-origin.image?dr=14575&x-expires=1789084800&x-signature=cP%2F8eBrvL7TT3dBMrEm5sNKyc%2F8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQpDHATAEBzAIGFgqwDA4hofdRfVCsCaqEBIkL~tplv-tiktokx-origin.image?dr=14575&x-expires=1789084800&x-signature=B02HfFousK99HacnEYK6l6JlGuk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785365622,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7668086960883354887",
    "region": "kr"
@@ -263,7 +263,7 @@
   {
    "account": "jaemyung_lee",
    "title": "우리 국민의 구조에 모든 역량을 총동원하겠습니다  #네팔 #긴급회의 #prayfornepal",
-   "views": 290600,
+   "views": 290700,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4ECXepekgFVLDAPQbcqjSdGAIaIofEozvI9Qh~tplv-tiktokx-origin.image?dr=14575&x-expires=1789084800&x-signature=gAAImxbloX1v6kRe9%2Bdya5avcNc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -274,7 +274,7 @@
   {
    "account": "jaemyung_lee",
    "title": "프랑크푸르트에 도착했습니다🇰🇷🇩🇪 #이재명 #deutschland #frankfurt",
-   "views": 287900,
+   "views": 288000,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1789084800&x-signature=lHR3s3iT75yWnoS%2Fi6nRvxXQIfw%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -296,7 +296,7 @@
   {
    "account": "jaemyung_lee",
    "title": "Aux Champs-Élysées #이재명 #France #macron #fyp",
-   "views": 121800,
+   "views": 124100,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0CGAI6ooFCAPECAEqED63ffIARmgNxjBUg0zR~tplv-tiktokx-origin.image?dr=14575&x-expires=1789084800&x-signature=2TNQF3te0IUfAUTqgc%2BQjuegAR0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -307,7 +307,7 @@
   {
    "account": "jaemyung_lee",
    "title": "다녀오겠습니다 🇫🇷 🎬 뤼미에르 서밋 2026.09.06.~07. 🇫🇷 국빈방문 2026.09.07.~09. #이재명 #France #SommetLumière",
-   "views": 118900,
+   "views": 119100,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0IAB7tvQACi105Ea6znpBOc0ViIPUiYBqIYi~tplv-tiktokx-origin.image?dr=14575&x-expires=1789084800&x-signature=4yA%2FEYqaP1slSk7E9Rk385UXhbo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -318,7 +318,7 @@
   {
    "account": "jaemyung_lee",
    "title": "새로운 영감과 끝없는 도전을 위해 🇰🇷🇫🇷 뤼미에르 서밋 레디, 액션 #Korea #France #Lumiere",
-   "views": 18600,
+   "views": 18700,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIqB6INciK7CI3iw10LAp5vfZO6IAlCTdIAI06~tplv-tiktokx-origin.image?dr=14575&x-expires=1789084800&x-signature=PXhq8We0xuSGgOJeqmuHCSlZ9Hg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -340,10 +340,10 @@
   {
    "account": "tictok_ent",
    "title": "한소희 / 부쉐론(boucheron) 하이주얼리 이벤트 포토월 #한소희 #부쉐론 #boucheron",
-   "views": 6160,
+   "views": 6174,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oEQefADn8CEBvFVKqEn9VApCgIT9CaqQAA1oEQ~tplv-tiktokx-origin.image?dr=14575&x-expires=1789084800&x-signature=zqd3hYQiaNnU2HDdsV7oJymNam4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oEQefADn8CEBvFVKqEn9VApCgIT9CaqQAA1oEQ~tplv-tiktokx-origin.image?dr=14575&x-expires=1789084800&x-signature=zqd3hYQiaNnU2HDdsV7oJymNam4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1788773793,
    "url": "https://www.tiktok.com/@tictok_ent/video/7682724942231670036",
    "region": "kr"
@@ -351,10 +351,10 @@
   {
    "account": "tictok_ent",
    "title": "휴닝카이-휴닝바히에, ‘다정한 눈빛의 오빠’ / 2027 S/S 서울패션위크 곽현주컬렉션 포토월 #투모로우바이투게더 #TOMORROWXTOGETHER #TXT#휴닝카이 #케플러 #Kep1er #휴닝바히에 #직캠 #f",
-   "views": 3951,
+   "views": 3953,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oYAADEfV4EwAArAQf03fEFjNEDMBp4IpJAyu8A~tplv-tiktokx-origin.image?dr=14575&x-expires=1789084800&x-signature=PuTcXCdvliS0R6RqYFRVYGynAqM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oYAADEfV4EwAArAQf03fEFjNEDMBp4IpJAyu8A~tplv-tiktokx-origin.image?dr=14575&x-expires=1789084800&x-signature=PuTcXCdvliS0R6RqYFRVYGynAqM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1788594160,
    "url": "https://www.tiktok.com/@tictok_ent/video/7681953426883792149",
    "region": "kr"
@@ -371,13 +371,13 @@
    "url": "https://www.reddit.com/r/AskReddit/comments/1wait5c/what_did_you_not_realise_was_optional_in_life/"
   },
   {
-   "sub": "LoveTrash",
-   "title": "Don't touch my stuff",
+   "sub": "law",
+   "title": "Lindsay Clancy jurors revealed: Three women break cover to share details of their explosive arguments with male holdout who wouldn't acquit",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/aTNueGphY2pzYW9oMSRIDF0gGXcUOPsS197H66ZoSH4Y4L-fSQBwxSNvlaN-.png?width=320&crop=smart&auto=webp&s=5477ae17c1f5e26f7265927bd338e53fd9c206b3",
-   "time": 1788873901,
-   "url": "https://www.reddit.com/r/LoveTrash/comments/1waocid/dont_touch_my_stuff/"
+   "thumb": "https://external-preview.redd.it/65PSIy7CCIMPo-wPicW61uNdQ6xZ_HWAXNqIzjt1EZ4.jpeg?width=640&crop=smart&auto=webp&s=410107d75e6a1fc4325e3e8e8b21643360af88ad",
+   "time": 1788899133,
+   "url": "https://www.reddit.com/r/law/comments/1wb01pf/lindsay_clancy_jurors_revealed_three_women_break/"
   },
   {
    "sub": "SipsTea",
@@ -389,22 +389,22 @@
    "url": "https://www.reddit.com/r/SipsTea/comments/1wax5lb/chicago_really_did_this/"
   },
   {
-   "sub": "meirl",
-   "title": "meirl",
+   "sub": "MaliciousCompliance",
+   "title": "\"We need you in the office full-time starting Monday.\" Okay, you got it.",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/kyt0kmflecoh1.jpeg?width=640&crop=smart&auto=webp&s=5a850196ddaf6c788e3d3f8f43a17cdcf90de13d",
-   "time": 1788893424,
-   "url": "https://www.reddit.com/r/meirl/comments/1waxbrv/meirl/"
+   "thumb": "",
+   "time": 1788903973,
+   "url": "https://www.reddit.com/r/MaliciousCompliance/comments/1wb28rk/we_need_you_in_the_office_fulltime_starting/"
   },
   {
-   "sub": "law",
-   "title": "Lindsay Clancy jurors revealed: Three women break cover to share details of their explosive arguments with male holdout who wouldn't acquit",
+   "sub": "LoveTrash",
+   "title": "Don't touch my stuff",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/65PSIy7CCIMPo-wPicW61uNdQ6xZ_HWAXNqIzjt1EZ4.jpeg?width=640&crop=smart&auto=webp&s=410107d75e6a1fc4325e3e8e8b21643360af88ad",
-   "time": 1788899133,
-   "url": "https://www.reddit.com/r/law/comments/1wb01pf/lindsay_clancy_jurors_revealed_three_women_break/"
+   "thumb": "https://external-preview.redd.it/aTNueGphY2pzYW9oMSRIDF0gGXcUOPsS197H66ZoSH4Y4L-fSQBwxSNvlaN-.png?width=320&crop=smart&auto=webp&s=5477ae17c1f5e26f7265927bd338e53fd9c206b3",
+   "time": 1788873901,
+   "url": "https://www.reddit.com/r/LoveTrash/comments/1waocid/dont_touch_my_stuff/"
   },
   {
    "sub": "TikTokCringe",
@@ -416,6 +416,15 @@
    "url": "https://www.reddit.com/r/TikTokCringe/comments/1wakvj0/the_easiest_30k_this_guy_ever_made/"
   },
   {
+   "sub": "meirl",
+   "title": "meirl",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/kyt0kmflecoh1.jpeg?width=640&crop=smart&auto=webp&s=5a850196ddaf6c788e3d3f8f43a17cdcf90de13d",
+   "time": 1788893424,
+   "url": "https://www.reddit.com/r/meirl/comments/1waxbrv/meirl/"
+  },
+  {
    "sub": "interestingasfuck",
    "title": "Reindeer listens to man asking it to stop another reindeer from bugging him",
    "score": 0,
@@ -423,24 +432,6 @@
    "thumb": "https://external-preview.redd.it/MmRrNzMwenRiY29oMWKhRualo1wt7WpqEU2YfeePcKZlDT2qQk-sZeFajhPh.png?width=640&crop=smart&auto=webp&s=c7a35fec2e8c105e22486176754372bf044ef8bd",
    "time": 1788892604,
    "url": "https://www.reddit.com/r/interestingasfuck/comments/1wawxht/reindeer_listens_to_man_asking_it_to_stop_another/"
-  },
-  {
-   "sub": "PoursTea",
-   "title": "BREAKING: Trump claims he was lifted out of the rubble on 9/11: \"Two fireman, big strong guys, they grabbed me under the arms -- 'got to get our of here!' -- and they literally lifted me up, and they ",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/emci91rsjcoh1.jpeg?width=640&crop=smart&auto=webp&s=6fa3311c7d6c951d74e37d53b84e7ace2036dc9c",
-   "time": 1788895174,
-   "url": "https://www.reddit.com/r/PoursTea/comments/1way6m9/breaking_trump_claims_he_was_lifted_out_of_the/"
-  },
-  {
-   "sub": "MaliciousCompliance",
-   "title": "\"We need you in the office full-time starting Monday.\" Okay, you got it.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "",
-   "time": 1788903973,
-   "url": "https://www.reddit.com/r/MaliciousCompliance/comments/1wb28rk/we_need_you_in_the_office_fulltime_starting/"
   },
   {
    "sub": "CFB",
@@ -452,49 +443,31 @@
    "url": "https://www.reddit.com/r/CFB/comments/1wawlvf/vannini_breaking_the_mac_has_reversed_its/"
   },
   {
-   "sub": "comics",
-   "title": "Reference [OC]",
+   "sub": "PoursTea",
+   "title": "¯\\_(ツ)_/¯",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/dzet2tt03doh1.png?width=140&height=140&auto=webp&s=252b4edfdd2824340ca4d61cbb0821817c05a4ee",
-   "time": 1788901700,
-   "url": "https://www.reddit.com/r/comics/comments/1wb17l0/reference_oc/"
+   "thumb": "https://preview.redd.it/bllgvzcjpdoh1.jpeg?width=640&crop=smart&auto=webp&s=5279f7c12b46b0f9a353180af4998230a26d5b76",
+   "time": 1788909307,
+   "url": "https://www.reddit.com/r/PoursTea/comments/1wb4gnm/ツ/"
   },
   {
-   "sub": "Damnthatsinteresting",
-   "title": "University of Waterloo Students Launch Rocket Breaking World Record",
+   "sub": "politics",
+   "title": "'Stolen Valor': Trump's Fabricated 9/11 Story Draws Immediate Scorn",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/emx0MmdudzlnY29oMR3IDXSKRh9KwWmUDhZoiGACXfLGJYSa4jir73qwU_Bd.jpeg?width=320&crop=smart&auto=webp&s=4ad1b28e61ea2725647e6a4af8f28e403faa6c71",
-   "time": 1788894005,
-   "url": "https://www.reddit.com/r/Damnthatsinteresting/comments/1waxm3e/university_of_waterloo_students_launch_rocket/"
+   "thumb": "https://external-preview.redd.it/zx3ckNXWGDqKsP0_NBWdVUkLJ5wFQXlsezC3c4D-cxE.jpeg?width=640&crop=smart&auto=webp&s=f0600d15eabd650bf50f899fe7ed9d0548e23cb3",
+   "time": 1788900577,
+   "url": "https://www.reddit.com/r/politics/comments/1wb0ph4/stolen_valor_trumps_fabricated_911_story_draws/"
   },
   {
-   "sub": "worldnews",
-   "title": "/r/WorldNews Live Thread: Russian Invasion of Ukraine Day 1658, Part 1 (Thread #1805)",
+   "sub": "spaceporn",
+   "title": "Just 2 Hours Ago, the Moon Passed Directly Past the Jupiter System as it Orbited Earth. This is Not a Composite Image — They Actually Appeared This Close Together.",
    "score": 0,
    "cmts": 0,
-   "thumb": "",
-   "time": 1788840176,
-   "url": "https://www.reddit.com/r/worldnews/comments/1wadsr3/rworldnews_live_thread_russian_invasion_of/"
-  },
-  {
-   "sub": "worldnews",
-   "title": "/r/WorldNews Discussion Thread: US and Israel launch attack on Iran; Iran retaliates (Thread #22)",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "",
-   "time": 1788541956,
-   "url": "https://www.reddit.com/r/worldnews/comments/1w7agwp/rworldnews_discussion_thread_us_and_israel_launch/"
-  },
-  {
-   "sub": "worldnews",
-   "title": "Iceland calls post ‘wholly inappropriate,’ summons U.S. ambassador",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/HM07-0uXRvlC7knpHXbiUotZUIvb1Rx3fFvOp_8BErA.jpeg?width=640&crop=smart&auto=webp&s=6066ba02ea1ffbd9a24cdaee1945a48040ce27bf",
-   "time": 1788885474,
-   "url": "https://www.reddit.com/r/worldnews/comments/1watixr/iceland_calls_post_wholly_inappropriate_summons/"
+   "thumb": "https://preview.redd.it/izw1gqx8vcoh1.jpeg?width=640&crop=smart&auto=webp&s=2d7f39f1633ff89dcc10056528da299e45115b64",
+   "time": 1788899025,
+   "url": "https://www.reddit.com/r/spaceporn/comments/1wazzs8/just_2_hours_ago_the_moon_passed_directly_past/"
   }
  ],
  "disaster": [],
@@ -539,10 +512,10 @@
    }
   },
   "landing": {
-   "at": "2026-09-09T08:35:49",
+   "at": "2026-09-09T09:02:12",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-09-09T09:02:04.917537+09:00"
+ "updated": "2026-09-09T09:31:59.113368+09:00"
 }
