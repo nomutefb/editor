@@ -7542,8 +7542,14 @@
   {
    "query": "홍라희",
    "traffic": "5000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/6338e1769b.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/001/0016300901",
+     "source": ""
+    }
+   ],
    "vol": 5000,
    "started": "2026-09-09T19:30:00+09:00",
    "delta": -2,
@@ -7655,8 +7661,14 @@
   {
    "query": "관리종목",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/cd7922db4d.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/003/0014178686",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-09-09T19:10:00+09:00",
    "delta": -7,
@@ -7708,8 +7720,14 @@
   {
    "query": "대한민국 정부",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/3b16c77284.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/001/0016300856",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-09-09T18:30:00+09:00",
    "isNew": true,
@@ -7743,8 +7761,14 @@
   {
    "query": "로또 1등 당첨!",
    "traffic": "5000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/db3e308c21.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/020/0003746806",
+     "source": ""
+    }
+   ],
    "vol": 5000,
    "started": "2026-09-09T19:50:00+09:00",
    "isNew": true,
@@ -7770,8 +7794,14 @@
   {
    "query": "김희정",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/9a810a6067.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/031/0001056890",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-09T20:50:00+09:00",
    "isNew": true,
@@ -7783,8 +7813,14 @@
   {
    "query": "고려대 경쟁률",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/3f283825a6.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/001/0016301094",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-09T18:50:00+09:00",
    "isNew": true,
@@ -7983,7 +8019,7 @@
  ],
  "gtrends_pool_updated": "2026-09-09T22:11:00+09:00",
  "_trend_img": {
-  "tried": "2026-09-09T21:37:26+09:00",
+  "tried": "2026-09-09T22:11:00+09:00",
   "fail": {
    "옥순이": "2026-09-09T20:28:08+09:00",
    "nc 대 kia": "2026-09-09T20:28:08+09:00",
@@ -7996,7 +8032,8 @@
    "공군사관학교": "2026-09-09T20:28:08+09:00",
    "스토킹": "2026-09-09T21:03:05+09:00",
    "노소영": "2026-09-09T21:03:05+09:00",
-   "ssg 대 두산": "2026-09-09T21:40:47+09:00"
+   "ssg 대 두산": "2026-09-09T21:40:47+09:00",
+   "김도영 부상": "2026-09-09T22:12:39+09:00"
   }
  },
  "gtrends_gl": [
@@ -18205,7 +18242,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-09T22:11:00+09:00"
+    "first_seen": "2026-09-09T22:11:00+09:00",
+    "kw": "Astra, Pro 모드, chat",
+    "sum": "작성자가 Astra 챗의 Pro 모드가 연산량을 늘려 응답 품질을 높인다고 설명했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
