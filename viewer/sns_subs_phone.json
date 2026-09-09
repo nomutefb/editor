@@ -17,7 +17,7 @@
   {
    "account": "choi.openai",
    "text": "3/ 클레이의 공식 문제는 네 가지 중 하나만 증명하면 해결로 인정됩니다.\n\n(A)(B)는 외력 없이 매끄러운 흐름이 영원히 유지된다는 증명이고, (C)(D)는 매끄러운 외력을 가했을 때 유한 시간 안에 흐름이 깨지는 사례를 찾는 것입니다.\n\n오픈AI가 증명한 것은 (C)(D)입니다.\n\n모든 점성 계수에서 정지한 유체에 좁은 영역에서만 작용하는 매끄러운 힘을 가하면, 운동에너지는 유한하게 유지되지만 시각 1에서 속도의 최댓값은 무한대로 커집니다. \n해는 안쪽으로 감기면서 축 방향으로 점점 가늘고 길어지는 소용돌이입니다.\n\n가속, 압력 기울기, 운동량 전달, 점성 항이 모두 커지면서도 서로 정확히 상쇄돼 외력만 매끄럽게 남도록 만드는 것이 가장 어려웠다고 합니다.\n\n외력이 없는 (A)(B)는 여전히 풀리지 않았고, 실제 비행기 설계나 기상 계산이 당장 달라지는 것도 아닙니다.",
-   "likes": 4,
+   "likes": 6,
    "cmts": 1,
    "time": 1788919364,
    "thumb": "",
@@ -27,7 +27,7 @@
   {
    "account": "choi.openai",
    "text": "2/ 나비에-스토크스 방정식은 1822년 나비에와 1845년 스토크스가 만든 유체 운동 방정식이고, 날씨 예보와 비행기 날개 설계, 혈관 속 혈류 계산이 모두 이 식으로 이루어집니다.\n\n그런데 200년 가까이 써 온 식인데도 가장 기본적인 질문 하나에 답이 없었거든요. 매끄럽게 시작한 3차원 흐름이 계속 매끄럽게 유지되는지, 아니면 유한한 시간 안에 어느 지점의 속도가 무한대로 커지는 특이점이 생기는지입니다.\n\n2차원에서는 오래전에 답이 나왔지만, 3차원에서는 큰 소용돌이가 작은 소용돌이를 만들며 에너지를 점점 작은 크기로 몰아넣는 작용과 점성이 그 구조를 마찰로 없애는 작용 가운데 무엇이 이기는지 증명하지 못했습니다.\n\n1934년 르레가 거친 형태의 약한 해가 영원히 존재한다는 것까지 증명했고, 2000년 클레이 수학연구소는 이 문제를 7개 밀레니엄 난제에 넣어 각각 100만 달러를 걸었는데요. 26년 동안 풀린 것은 푸앵카레 추측 하나였습니다.",
-   "likes": 8,
+   "likes": 10,
    "cmts": 1,
    "time": 1788919360,
    "thumb": "",
@@ -37,10 +37,10 @@
   {
    "account": "choi.openai",
    "text": "1/ 오픈AI가 9월 8일 홈페이지를 통해 나비에-스토크스 밀레니엄 문제의 해답을 공개했습니다.\n\n증명은 오픈AI 내부 모델을 사용하는 여러 에이전트가 함께 만들었고, 오픈AI는 이 모델이 9월 3일 공개한 GPT-6 Astra보다 훨씬 강한 연구용 시스템이라고 설명했습니다.\n\n결과물은 165쪽 논문과 Lean으로 형식 검증한 증명으로 함께 공개됐습니다. 매끄러운 유체가 정지한 상태에서 시작해 매끄러운 외력을 계속 가하면, 전체 에너지는 유한하게 유지되면서도 유한한 시간 안에 속도가 무한대로 커지는 특이점이 생긴다는 내용입니다.\n\n오픈AI는 이 결과가 클레이 수학연구소의 공식 문제에서 (C)와 (D)를 충족한다고 밝혔고, 100만 달러 상금은 청구하지 않겠다고 했습니다.\n\n발표문 마지막에는 현재 이 모델의 능력을 이해하는 데 집중하고 있으며, 사람이 계속 통제하고 책임질 수 있는 AI를 만들기 위해서는 앞으로 발전 속도를 더 신중하게 조절해야 할 수도 있다고 적었습니다.",
-   "likes": 19,
-   "cmts": 1,
+   "likes": 31,
+   "cmts": 2,
    "time": 1788919351,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/801667756_17986290954112832_7626287098082145719_n.jpg?stp=cp6_dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk4MjA2NjU5OTA2MjM0Mjg1Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA5Mi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=kWv59mBR_Z8Q7kNvwFkDxU-&_nc_oc=Adopijs4GlqctrnpCwwh3W16FeFrNiP-y56yCwQTXTkZECZ4fc_HMfjPX4cFQUxo3IraDOI7_5goSRTDaGsixVPJ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=ss4d2PiONi7XG3mgynxeKw&_nc_ss=7a22e&oh=00_AQItPjkwe3bWTUxr6_OSrnLR3NdZ4qmzdy266RlrZrVItg&oe=6AA6B2AB",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/801667756_17986290954112832_7626287098082145719_n.jpg?stp=cp6_dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk4MjA2NjU5OTA2MjM0Mjg1Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA5Mi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=kWv59mBR_Z8Q7kNvwE1JHI6&_nc_oc=Adp0HiEpH55VC4uEST28fJkqFTMoUtBJcOVg00qjCHEKtUhuB3lhI2S4xQxUmTpKFOTGQIztt_lpQDijplROW3zV&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=zvNgM8Y9ajACOqERhax5LA&_nc_ss=7a22e&oh=00_AQLBpY5Bpno8VoRIrPjSzXyjwTWqtoWokD5Ykc2P0PAOnw&oe=6AA6B2AB",
    "url": "https://www.threads.com/@choi.openai/post/DdDJHlVDwzJ",
    "region": "kr"
   },
@@ -90,7 +90,7 @@
    "likes": 0,
    "cmts": 1,
    "time": 1788917513,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/799561408_18086194250407306_6810960243770196944_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk4MjA1MTExNDQ2NDc5MTY5OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=TvFHqzZ_wzQQ7kNvwGwrlTK&_nc_oc=Ado7YEpz_9e5KdAmDYAtIOMy90j5Qhx_znYx3SV2bdAFCIq_jUEeCj78LJw6FQkGq45kielajXj2zpBiEliMGXWh&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=FYpFqnicDFpplVLp7i1aow&_nc_ss=7a22e&oh=00_AQKwRdXCzcOvUbC5DFr33Ehw8I9_8q4o3H9ae9JcbgxCBQ&oe=6AA69AC1",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/799561408_18086194250407306_6810960243770196944_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk4MjA1MTExNDQ2NDc5MTY5OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=TvFHqzZ_wzQQ7kNvwG1uy8k&_nc_oc=AdrDCNey4aMG5t6VpxllJOIfQR8W42anlMr1sOb_s3YdFy52EWFy1bR9ZHplbSHdYNDEm_0Cxwg365Ppqe9v6E11&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=9Q0PVwZWGBGyUZsM5WgiAQ&_nc_ss=7a22e&oh=00_AQKBcPA_LdE_g6voHuyHjbMwm4I-szyPyhwG59YAjivYQQ&oe=6AA69AC1",
    "url": "https://www.threads.com/@aipeekme/post/DdDFmQLH0yS",
    "region": "kr"
   },
@@ -130,17 +130,17 @@
    "likes": 46,
    "cmts": 1,
    "time": 1788911556,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/801326264_1068419765809199_5792360360852728743_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk4MTk5NjEyMjI4OTM1MjcwNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=K7trVrr8b0EQ7kNvwGri1ar&_nc_oc=AdpYNQA4Xl4Fn-31PVugAP7doE-B9QyV629UJtyfcRu0jrSssh_OUKdurdgY_q9CKWmkwAh0J5FqauowzvTATtbM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=G2byRLbPOxfhP-FvOCQPcw&_nc_ss=7a22e&oh=00_AQLDQ3KAGCBEIgsQ_2nKZJg_poyaC_MJPSmzr-H_tO1Rlw&oe=6AA6A485",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/801326264_1068419765809199_5792360360852728743_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk4MTk5NjEyMjI4OTM1MjcwNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=K7trVrr8b0EQ7kNvwFLjimj&_nc_oc=Adr3jIXO-e3qbmzuxp8rHuKQGsiJgXfBWtya4wQZCdtWFOx6kW4S85l_XQ3HXeArY8RBeGgqi_Q5g446of-f7SPP&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=ayclcgy38qQo3iCQU5ELJA&_nc_ss=7a22e&oh=00_AQJUukX737BYUm3o-SdjafH2TfIlsTMoYs0mPJBD1RPK2A&oe=6AA6A485",
    "url": "https://www.threads.com/@aicoffeechat/post/DdC5GAuCjAD",
    "region": "kr"
   },
   {
    "account": "kopp",
    "text": "buttons don't get enough love",
-   "likes": 21,
+   "likes": 22,
    "cmts": 1,
    "time": 1788890464,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/800958814_1891937612175332_5533311426160694914_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk4MTgyNDAwOTczNzkyODUyMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=hyzlk87JjMkQ7kNvwGfYt16&_nc_oc=AdrXnQLpaAwPhQ09-QMqNRmE6oYgtfoFGgWXSPDkdsZ64yq2j7CzM1fNg4SkN0yuaEsn8FFxHmrZ6G5H-3ED2KVH&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=gUl6kd_dNqKKCSUx5t-q7g&_nc_ss=7a22e&oh=00_AQKSSqo9BrMB7Ik-Ll-aZykvkLzeV78_qo_rcizUFSbA6g&oe=6AA69DEE",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/800958814_1891937612175332_5533311426160694914_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk4MTgyNDAwOTczNzkyODUyMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=hyzlk87JjMkQ7kNvwHpwUl9&_nc_oc=Adrvjj_azpOx5hksRX4xAIlY6e_UZY2wLn_t3hS3vvc43bxbrFBcED3CYyuVD0udFNbQBuV0DnxNKLhhFRiSMJ21&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=8z7oPtV4BwjYlNbl_ugv0g&_nc_ss=7a22e&oh=00_AQKkequtRZ3XmdJdFscZGkQw_QWKWHSLwjDBAAPSjQWTvQ&oe=6AA69DEE",
    "url": "https://www.threads.com/@kopp/post/DdCR9cajP9L",
    "region": "kr"
   },
@@ -150,17 +150,17 @@
    "likes": 3,
    "cmts": 1,
    "time": 1788886455,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/800715330_17910397329463148_4626456056095069977_n.jpg?stp=cp6_dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk4MTc5MDY0MjY5MDM3MTQ0Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuODk2LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=pexpap7IZ-8Q7kNvwHdSFV2&_nc_oc=AdpfivjU9rMea71PUuDYr20Ze8BzBNP7kpZA_ub2yeSJdPb3tGDYPpd3dPN3XK2YLaYpSvzfUAUGUa4jZqoT9LOB&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=gUl6kd_dNqKKCSUx5t-q7g&_nc_ss=7a22e&oh=00_AQKdNusz3ojAfjXScvntMPNRn05YrWvhyMUjr4knihTmkw&oe=6AA6AC96",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/800715330_17910397329463148_4626456056095069977_n.jpg?stp=cp6_dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk4MTc5MDY0MjY5MDM3MTQ0Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuODk2LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=pexpap7IZ-8Q7kNvwF1CZek&_nc_oc=Adqk9cl7YyjdIB-yC5uSdAjtqkwWKst4zuejY6DIVfmyYz5H8DvDnxvnR3bQ5pA9DfVbCgrw2I8VcSPCy4v8BEJU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=8z7oPtV4BwjYlNbl_ugv0g&_nc_ss=7a22e&oh=00_AQKRW-Jt5Z_ED2wN1xI_hnRCaGfv4b7e8RdKpvY25Qn7_Q&oe=6AA6AC96",
    "url": "https://www.threads.com/@kopp/post/DdCKX47iK93",
    "region": "kr"
   },
   {
    "account": "kopp",
    "text": "Command menu in ⚫◻️",
-   "likes": 26,
+   "likes": 27,
    "cmts": 0,
    "time": 1788876559,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/798488158_1119910697658608_2281763869760945576_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk4MDI0Njk3OTUxODc1NjUwMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=pRmpsBUoo7UQ7kNvwEo8Lgd&_nc_oc=AdppZPYMBfDIfScU56PEhKVFAP9SKVJGAfnsKYkTUowyCPb-cNpZdvjXlnZnBeQwAXyHLY-UDPre4edALtaUOcXF&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=gUl6kd_dNqKKCSUx5t-q7g&_nc_ss=7a22e&oh=00_AQJHEOsLcr-79vNNRX0LmewdlvI9DscHPIhe2f42ockbww&oe=6AA694AF",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/798488158_1119910697658608_2281763869760945576_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk4MDI0Njk3OTUxODc1NjUwMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=pRmpsBUoo7UQ7kNvwGH6ZEG&_nc_oc=AdrhaDkUPU_rEyiN-DRyTZl6NHQ_Tx2vR8443P21WFDfa4_WAZAfL2jcpZJ02RrjCPvnc7CgI19ZYdfmDqY_hAqf&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=8z7oPtV4BwjYlNbl_ugv0g&_nc_ss=7a22e&oh=00_AQJHSowUVDkhDK0lyuMX1Znwfqr4kQBoK6FxQzAOfERFJA&oe=6AA694AF",
    "url": "https://www.threads.com/@kopp/post/DdB3f3EgVJx",
    "region": "kr"
   },
@@ -168,7 +168,7 @@
    "account": "takepage_",
    "text": "해외에서는 코덱스의 토큰 정책에 불만이 꽤 있는듯 합니다\n\n이전에는 토큰 초기화 권을 사용하면 기존 초기화 날짜는 그대로이고, 토큰만 초기화 되었습니다.\n\n하지만 최근 잠수함 패치로 토큰 초기화 권 사용시 기존\n초기화 날짜도 사용시점의 1주 후로 바뀝니다.\n\nAstra로 유입한 코린이는 그저 초기화에 감사할 뿐..",
    "likes": 10,
-   "cmts": 4,
+   "cmts": 3,
    "time": 1788865479,
    "thumb": "",
    "url": "https://www.threads.com/@takepage_/post/DdBiXThE7nU",
@@ -178,7 +178,7 @@
    "account": "takepage_",
    "text": "Astra 사용 2일차\n철저히 클로드 앱과 코덱스 앱 간의 비교입니다!\n\n1. 주간 토큰은 신이다\nFable로는 한창 기획해서 물 오르면 5시간 리밋\n거의 다 차서 흐름 팍 끊기는데, 이 놈은 주간으로 주니 마르지 않는 샘물이구만요\n(자고 일어나니 되어있는 토큰 초기화는 강제 굿모닝이다)\n\n2. 세션 분할이 아쉽다\n뭔가 UI는 전체적으로 코덱스가 더 부드럽고, 깔끔함\n하지만 클로드는 세션을 최대 6개까지 분할해둘 수 있는데\n코덱스는 하나의 세션만 열 수 있어서 왔다갔다 해야댐.\n\n3. AI 난독 해소\n왜인지 모르겠지만 Fable로는 안 읽히던 답변들이 코덱스에서는 술술 읽힌다. 문장이나 문맥 구성이 가독성이 좋은 느낌적인 느낌이다.\n\n4. 사용자 편향은 좀 있는 듯\nFable은 내 의견에 좀 비판적으로 접근하는 경우도 있지만, Astra는 내가 프롬프트에 은연 중에 섞은 의견을 콕 집어내 백이면 백 첫마디에 그걸 칭찬해주고 시작한다.",
    "likes": 5,
-   "cmts": 4,
+   "cmts": 5,
    "time": 1788865301,
    "thumb": "",
    "url": "https://www.threads.com/@takepage_/post/DdBiBl_E1-R",
@@ -187,8 +187,8 @@
   {
    "account": "choi.openai",
    "text": "🚨 속보) 진짜 이건 미친게 맞는 것 같다..\n\n오픈AI가 90년 동안 풀리지 않던 나비에-스토크스 밀레니엄 문제를 풀었다고 발표했습니다.\n\n증명을 만든 것은 9월 3일 출시된 GPT-6 Astra보다 훨씬 강하다는 비공개 내부 모델이고, 에이전트 1만 개를 88시간 돌려 165쪽 논문과 Lean 형식 증명까지 내놓았습니다.\n\n상금 100만 달러는 받지 않겠다고 했고, 발표문은 발전 속도를 더 신중하게 정하겠다는 문장으로 끝납니다.\n\n이번 발표를 정리했습니다 🧵",
-   "likes": 106,
-   "cmts": 17,
+   "likes": 147,
+   "cmts": 19,
    "time": 1788919348,
    "thumb": "",
    "url": "https://www.threads.com/@choi.openai/post/DdDJHNUD04N",
@@ -217,12 +217,122 @@
  ],
  "tiktok": [
   {
-   "account": "tictok_ent",
-   "title": "한소희 / 부쉐론(boucheron) 하이주얼리 이벤트 포토월 #한소희 #부쉐론 #boucheron",
-   "views": 6249,
+   "account": "jaemyung_lee",
+   "title": "이번 정류장은 아르헨티나입니다🇰🇷🇦🇷 #이재명 #대통령 #argentina #buenosaireststheerastour",
+   "views": 1600000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oEQefADn8CEBvFVKqEn9VApCgIT9CaqQAA1oEQ~tplv-tiktokx-origin.image?dr=14575&x-expires=1789095600&x-signature=sYIuZBFBBgX8ung2dJDrFJktqNg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAbAoCECNeDAVDgQBcAkFzYBfoUADqQCQWIuZl~tplv-tiktokx-origin.image?dr=14575&x-expires=1789095600&x-signature=otD%2B%2FmSmMLvGJviuhNg0t3wT4eA%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "time": 1785471372,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7668541152869616914",
+   "region": "kr"
+  },
+  {
+   "account": "jaemyung_lee",
+   "title": "¡Gusto en conocerte, Argentina! 🇰🇷🤝🇦🇷 #이재명 #아르헨티나 #argentina #javiermilei",
+   "views": 501000,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/o43E0EJDgKsBeuyFfnqRBCAvI1sAAbI2NsPlIc~tplv-tiktokx-origin.image?dr=14575&x-expires=1789095600&x-signature=KINfJdJCu3tlVWuLZcy6OnVALaw%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "time": 1785519099,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7668746136877812999",
+   "region": "kr"
+  },
+  {
+   "account": "jaemyung_lee",
+   "title": "이번 정류장은 칠레입니다🇰🇷🇨🇱 #이재명 #대통령 #Chile #Corea",
+   "views": 380400,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQpDHATAEBzAIGFgqwDA4hofdRfVCsCaqEBIkL~tplv-tiktokx-origin.image?dr=14575&x-expires=1789095600&x-signature=yiI0%2FUkTOz1IGy%2ByZVMDDH315oQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "time": 1785365622,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7668086960883354887",
+   "region": "kr"
+  },
+  {
+   "account": "jaemyung_lee",
+   "title": "우리 국민의 구조에 모든 역량을 총동원하겠습니다  #네팔 #긴급회의 #prayfornepal",
+   "views": 291000,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4ECXepekgFVLDAPQbcqjSdGAIaIofEozvI9Qh~tplv-tiktokx-origin.image?dr=14575&x-expires=1789095600&x-signature=%2FNlakIqoFTfGSMV5z9YzHX4jeUM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "time": 1787831518,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7678677903122369800",
+   "region": "kr"
+  },
+  {
+   "account": "jaemyung_lee",
+   "title": "프랑크푸르트에 도착했습니다🇰🇷🇩🇪 #이재명 #deutschland #frankfurt",
+   "views": 288100,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1789095600&x-signature=81vkjt4nPzJht6T2lLZ%2F9oSTtrU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "time": 1785656353,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7669335640793763079",
+   "region": "kr"
+  },
+  {
+   "account": "jaemyung_lee",
+   "title": "대한민국과 브라질이 함께 그려갈 미래가  두 나라 국민 모두에게  더 큰 희망과 기회가 되길 기대합니다 🇰🇷🫰🇧🇷 @Presidente Lula ima, meu irmão💚💛💙 #이재명 #lula #korea #Br",
+   "views": 244000,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-i-photomode-sg/91a2f3151d9741689af70b1d1f8aac3a~tplv-photomode-image.jpeg?dr=14555&x-expires=1789095600&x-signature=EQ4dOw7t849LNceIfeECY3cE3d4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=9b759fb9&idc=my2&ftpl=1",
+   "time": 1785270939,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7667680300490558728",
+   "region": "kr"
+  },
+  {
+   "account": "jaemyung_lee",
+   "title": "Aux Champs-Élysées #이재명 #France #macron #fyp",
+   "views": 133300,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0CGAI6ooFCAPECAEqED63ffIARmgNxjBUg0zR~tplv-tiktokx-origin.image?dr=14575&x-expires=1789095600&x-signature=GALfmAK0sq9hvI5Hvp147WPIvoI%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "time": 1788879730,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7683179938026900754",
+   "region": "kr"
+  },
+  {
+   "account": "jaemyung_lee",
+   "title": "다녀오겠습니다 🇫🇷 🎬 뤼미에르 서밋 2026.09.06.~07. 🇫🇷 국빈방문 2026.09.07.~09. #이재명 #France #SommetLumière",
+   "views": 120000,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0IAB7tvQACi105Ea6znpBOc0ViIPUiYBqIYi~tplv-tiktokx-origin.image?dr=14575&x-expires=1789095600&x-signature=iJ02CmNm5UTsYd0xmFeZaabcUw8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "time": 1788662081,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7682245141595229448",
+   "region": "kr"
+  },
+  {
+   "account": "jaemyung_lee",
+   "title": "새로운 영감과 끝없는 도전을 위해 🇰🇷🇫🇷 뤼미에르 서밋 레디, 액션 #Korea #France #Lumiere",
+   "views": 19100,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIqB6INciK7CI3iw10LAp5vfZO6IAlCTdIAI06~tplv-tiktokx-origin.image?dr=14575&x-expires=1789095600&x-signature=VMbMrUGcw4KfLx7XzquV56l8MUI%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "time": 1788733294,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7682551001663982855",
+   "region": "kr"
+  },
+  {
+   "account": "jaemyung_lee",
+   "title": "Bonjour, Lumière #France #lumière #fyp",
+   "views": 17500,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/owtqH3lHOA8nCRR6gQFkn2UDJfUKTYtEBEBUeQ~tplv-tiktokx-origin.image?dr=14575&x-expires=1789095600&x-signature=RKVvMi9%2BPnk0o0Oodghlaqf4Yjw%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "time": 1788795259,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7682817137672555794",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "한소희 / 부쉐론(boucheron) 하이주얼리 이벤트 포토월 #한소희 #부쉐론 #boucheron",
+   "views": 6268,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oEQefADn8CEBvFVKqEn9VApCgIT9CaqQAA1oEQ~tplv-tiktokx-origin.image?dr=14575&x-expires=1789095600&x-signature=sYIuZBFBBgX8ung2dJDrFJktqNg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1788773793,
    "url": "https://www.tiktok.com/@tictok_ent/video/7682724942231670036",
    "region": "kr"
@@ -230,211 +340,123 @@
   {
    "account": "tictok_ent",
    "title": "휴닝카이-휴닝바히에, ‘다정한 눈빛의 오빠’ / 2027 S/S 서울패션위크 곽현주컬렉션 포토월 #투모로우바이투게더 #TOMORROWXTOGETHER #TXT#휴닝카이 #케플러 #Kep1er #휴닝바히에 #직캠 #f",
-   "views": 3961,
+   "views": 3963,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oYAADEfV4EwAArAQf03fEFjNEDMBp4IpJAyu8A~tplv-tiktokx-origin.image?dr=14575&x-expires=1789095600&x-signature=AXC23Smu9Sjr1XX8elz7HE8NM2U%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oYAADEfV4EwAArAQf03fEFjNEDMBp4IpJAyu8A~tplv-tiktokx-origin.image?dr=14575&x-expires=1789095600&x-signature=AXC23Smu9Sjr1XX8elz7HE8NM2U%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1788594160,
    "url": "https://www.tiktok.com/@tictok_ent/video/7681953426883792149",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "뉴진스(NewJeans) 해린 / 크리스챤 디올 뷰티 루즈 디올 온 스테이지 팝업 포토월 #뉴진스 #NewJeans #해린 #크리스챤디올뷰티",
-   "views": 1704,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooIqnADnIBCEAEuHfCAgQNAFEneDMYrd0oDVpd~tplv-tiktokx-origin.image?dr=14575&x-expires=1789095600&x-signature=hkUIGrT5SCod9vnlHYGzqqANKVg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1788770469,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7682710666532244757",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "케플러(Kep1er) 최유진 김채현 / 2027 S/S 서울패션위크 곽현주컬렉션 포토월 #케플러 #Kep1er #최유진 #김채현 #키모우이 #서울패션위크 #SFW #2027SS서울패션위크",
-   "views": 1410,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/owAbCA188nvlzpPivs8Gd6YxBAIaAiSHVA7AE~tplv-tiktokx-origin.image?dr=14575&x-expires=1789095600&x-signature=IQWQPaP6nS3yz5g5T5k%2FjobULFo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1788594127,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7681953283371732245",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "레드벨벳(Red Velvet) 조이 / 크리스챤 디올 뷰티 루즈 디올 온 스테이지 팝업 포토월 #레드벨벳 #RedVelvet #조이 #크리스챤디올뷰티",
-   "views": 1218,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4ICeFqRoCAqBKDXQfJWApAgEOgugnwlYEIAVi~tplv-tiktokx-origin.image?dr=14575&x-expires=1789095600&x-signature=Q7PELJXI3Oqonu0IZfsV7Vqaqwk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1788772927,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7682721224379895060",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "남주혁 / 크리스챤 디올 뷰티 루즈 디올 온 스테이지 팝업 포토월 #남주혁 #크리스챤디올뷰티",
-   "views": 1145,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o02kq2G7ILASQzFPeAISABEADEQeerM9VnLEAL~tplv-tiktokx-origin.image?dr=14575&x-expires=1789095600&x-signature=llhCOlODeIBkOXRRTqHWCB0nhJ8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1788772982,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7682721459252284692",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "노상현 / 부쉐론(boucheron) 하이주얼리 이벤트 포토월 #노상현 #부쉐론 #boucheron",
-   "views": 953,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4Oe6LgQECDAnpJFo5CuEqhVxA5BVCAAIRUcft~tplv-tiktokx-origin.image?dr=14575&x-expires=1789095600&x-signature=FCjmvdivaHbgg5jWj%2FbfFBi4758%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1788773729,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7682724666024283412",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "김민주, 청담동에 뜬 ‘주얼리 여신’ / 다미아니(Damiani) 포토월 #김민주 #다미아니 #Damiani",
-   "views": 21,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o8YAVAfi7wUI1CmKxIBRKXAnAIEUizBAB7CGyg~tplv-tiktokx-origin.image?dr=14575&x-expires=1789095600&x-signature=ZiPCiG9k7PuZtSolFH%2F2BjOyewo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1788922152,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7683362138638781704",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "이나영, 변치 않는 우아함 / 다미아니(Damiani) 포토월 #이나영 #다미아니 #Damiani",
-   "views": 9,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/os1AU8gRJBbEGAiK5gWILhOAAUBOwnfCVUyBiY~tplv-tiktokx-origin.image?dr=14575&x-expires=1789095600&x-signature=Vthgwo3G38DFNQ5VAVngHmIxu0I%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1788922598,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7683364057042406663",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "김선호, 청담동 사로잡은 젠틀한 매력 / 다미아니(Damiani) 포토월 #김선호 #다미아니 #Damiani",
-   "views": 5,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0GBADkfCgF1iAAxESU9KynBwiXBKkAZ7HUdIA~tplv-tiktokx-origin.image?dr=14575&x-expires=1789095600&x-signature=BNw3n9xlsgUjgfPEcE8d2M%2BBFVI%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1788922337,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7683362933262355720",
    "region": "kr"
   }
  ],
  "reddit": [
   {
-   "sub": "somethingimade",
-   "title": "“Automatic” step for my dog",
+   "sub": "bald",
+   "title": "My girlfriend's journey",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/bHd1M2loYmQwZW9oMSXilnJw2RikwtPDyRZYEBiHMlJkUKJNpDVm6Iq4CdYZ.jpeg?width=640&crop=smart&auto=webp&s=9074a94eb0a9d83affce0b2bcfbef00d564e8114",
-   "time": 1788912858,
-   "url": "https://www.reddit.com/r/somethingimade/comments/1wb5uxs/automatic_step_for_my_dog/"
+   "thumb": "https://preview.redd.it/eqt32vln3eoh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=e73effdd982c5bb3d2d98bba9e2348a7a05ea439",
+   "time": 1788913972,
+   "url": "https://www.reddit.com/r/bald/comments/1wb6ad1/my_girlfriends_journey/"
   },
   {
-   "sub": "science",
-   "title": "Scientists have created concrete using treated human waste, and the resulting material was up to 42% stronger than conventional concrete. Researchers say the approach could reduce waste while lowering",
+   "sub": "law",
+   "title": "Lindsay Clancy jurors revealed: Three women break cover to share details of their explosive arguments with male holdout who wouldn't acquit",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/SVgj-sMwg1eYPkGT1x9RFND70xVQv9v1y7gOV_jbVQY.jpeg?width=640&crop=smart&auto=webp&s=043fdfe0dcd8008f3c322a94e3763b5dae08adc1",
-   "time": 1788882681,
-   "url": "https://www.reddit.com/r/science/comments/1was7t0/scientists_have_created_concrete_using_treated/"
+   "thumb": "https://external-preview.redd.it/65PSIy7CCIMPo-wPicW61uNdQ6xZ_HWAXNqIzjt1EZ4.jpeg?width=640&crop=smart&auto=webp&s=410107d75e6a1fc4325e3e8e8b21643360af88ad",
+   "time": 1788899133,
+   "url": "https://www.reddit.com/r/law/comments/1wb01pf/lindsay_clancy_jurors_revealed_three_women_break/"
   },
   {
-   "sub": "Music",
-   "title": "Breaking Benjamin frontman pauses concert to rant about Fallout 4 modding beef: 'There was a modder in the community that was really mean to me'",
+   "sub": "LoveTrash",
+   "title": "Don't touch my stuff",
    "score": 0,
    "cmts": 0,
-   "thumb": "",
-   "time": 1788902665,
-   "url": "https://www.reddit.com/r/Music/comments/1wb1nny/breaking_benjamin_frontman_pauses_concert_to_rant/"
+   "thumb": "https://external-preview.redd.it/aTNueGphY2pzYW9oMSRIDF0gGXcUOPsS197H66ZoSH4Y4L-fSQBwxSNvlaN-.png?width=320&crop=smart&auto=webp&s=5477ae17c1f5e26f7265927bd338e53fd9c206b3",
+   "time": 1788873901,
+   "url": "https://www.reddit.com/r/LoveTrash/comments/1waocid/dont_touch_my_stuff/"
   },
   {
-   "sub": "Guitar",
-   "title": "Would a guitarist be angry about a pick flower?",
+   "sub": "PoursTea",
+   "title": "¯\\_(ツ)_/¯",
    "score": 0,
    "cmts": 0,
-   "thumb": "",
-   "time": 1788896527,
-   "url": "https://www.reddit.com/r/Guitar/comments/1wayt87/would_a_guitarist_be_angry_about_a_pick_flower/"
-  },
-  {
-   "sub": "todayilearned",
-   "title": "TIL that New Jersey and Wisconsin are the only two states where first time drunk driving is classified as a traffic offense and not a crime",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "",
-   "time": 1788879284,
-   "url": "https://www.reddit.com/r/todayilearned/comments/1waqo34/til_that_new_jersey_and_wisconsin_are_the_only/"
-  },
-  {
-   "sub": "videos",
-   "title": "Trump was caught snapping at the Marine One Pilot after returning from vacation at Trump National Golf Club in Bedminster. He then forgets to perform the Traditional Salute to the Marines standing nea",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/_I-g84Av_UX9IgwNFLk9olsh-MJHkxqp6gP83dUWolQ.jpeg?width=320&crop=smart&auto=webp&s=d736cae18e66d9378ce3c9ee1c2f99b4725283ba",
-   "time": 1788890141,
-   "url": "https://www.reddit.com/r/videos/comments/1wavqta/trump_was_caught_snapping_at_the_marine_one_pilot/"
-  },
-  {
-   "sub": "spreadsmile",
-   "title": "“Absolutely Have fun!”🥹",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/veki5bk3pdoh1.jpeg?width=640&crop=smart&auto=webp&s=198cdc5fc71e1e68c9a337f9fad4ff594803469d",
-   "time": 1788909068,
-   "url": "https://www.reddit.com/r/spreadsmile/comments/1wb4dan/absolutely_have_fun/"
+   "thumb": "https://preview.redd.it/bllgvzcjpdoh1.jpeg?width=640&crop=smart&auto=webp&s=5279f7c12b46b0f9a353180af4998230a26d5b76",
+   "time": 1788909307,
+   "url": "https://www.reddit.com/r/PoursTea/comments/1wb4gnm/ツ/"
   },
   {
    "sub": "AskReddit",
-   "title": "What is the worst way someone you know has died?",
+   "title": "What's the craziest 9/11 fact that you know?",
    "score": 0,
    "cmts": 0,
    "thumb": "",
-   "time": 1788910979,
-   "url": "https://www.reddit.com/r/AskReddit/comments/1wb5493/what_is_the_worst_way_someone_you_know_has_died/"
+   "time": 1788889461,
+   "url": "https://www.reddit.com/r/AskReddit/comments/1wavext/whats_the_craziest_911_fact_that_you_know/"
   },
   {
-   "sub": "MadeMeSmile",
-   "title": "Snail made it to the party!",
+   "sub": "TikTokCringe",
+   "title": "The easiest $30k this guy ever made",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/9p7sjmdiiboh1.jpeg?width=320&crop=smart&auto=webp&s=68b0885c07844cd9827d45bbb793a14c4da52bae",
-   "time": 1788882634,
-   "url": "https://www.reddit.com/r/MadeMeSmile/comments/1was70m/snail_made_it_to_the_party/"
+   "thumb": "https://external-preview.redd.it/aTl1ZDU0cHF6OW9oMScsrdk3bY-amzDFmU0hTNROgeYD28dN1Ts7KRQB_bf5.png?width=320&crop=smart&auto=webp&s=2ca8c5f46caadf4c3bd3df0f1d4e1cbfc6b5dc97",
+   "time": 1788864216,
+   "url": "https://www.reddit.com/r/TikTokCringe/comments/1wakvj0/the_easiest_30k_this_guy_ever_made/"
   },
   {
-   "sub": "Music",
-   "title": "Third Person Dies at Burning Man",
+   "sub": "MoralityScaling",
+   "title": "Morality of this?",
    "score": 0,
    "cmts": 0,
-   "thumb": "",
-   "time": 1788890782,
-   "url": "https://www.reddit.com/r/Music/comments/1waw24r/third_person_dies_at_burning_man/"
+   "thumb": "https://preview.redd.it/40hudehyqcoh1.jpeg?width=640&crop=smart&auto=webp&s=c880cf2e723b07c827739ffc718494b5ee0cc945",
+   "time": 1788897582,
+   "url": "https://www.reddit.com/r/MoralityScaling/comments/1wazavr/morality_of_this/"
   },
   {
-   "sub": "cringereels",
-   "title": "She got scammed by her \"friend\" when he overcharged her for a cruise ticket and tried to pocket the extra money. She then calls him out on it and things get awkward",
+   "sub": "mildlyinfuriating",
+   "title": "Guest at rental home left 45 cans of nitrous oxide aka whippets",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/MGdqMXloMXo5ZG9oMWPP7xngtup-Yl5abLdKavk2tx3AVc9KEvMAOlxcOhoH.png?width=640&crop=smart&auto=webp&s=1d6692fd27cb8842c4bd717e7208ebd6bee23dbf",
-   "time": 1788904026,
-   "url": "https://www.reddit.com/r/cringereels/comments/1wb29lf/she_got_scammed_by_her_friend_when_he_overcharged/"
+   "thumb": "https://preview.redd.it/g6nne50kgeoh1.jpeg?width=640&crop=smart&auto=webp&s=91840af9be14c97ca28ff06718541b1db09ab0df",
+   "time": 1788918299,
+   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1wb7x7a/guest_at_rental_home_left_45_cans_of_nitrous/"
   },
   {
-   "sub": "Overwatch",
-   "title": "Hazard’s VA on the new Widow Mythic",
+   "sub": "madlads",
+   "title": "Madlad",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/cTJ2cHUyZm82ZW9oMf55gF1fXftKflkVqulWQgPh9dzrmOtaZOOW-huq1Hqa.jpeg?width=320&crop=smart&auto=webp&s=1e5a888b44d6b6e8457db6fdc96cf0750f6ffea1",
-   "time": 1788914976,
-   "url": "https://www.reddit.com/r/Overwatch/comments/1wb6o6q/hazards_va_on_the_new_widow_mythic/"
+   "thumb": "https://preview.redd.it/ysibu3jn5eoh1.jpeg?width=640&crop=smart&auto=webp&s=64059182796dea866da7834bc4f5083ce433ff8c",
+   "time": 1788914631,
+   "url": "https://www.reddit.com/r/madlads/comments/1wb6jec/madlad/"
+  },
+  {
+   "sub": "90s",
+   "title": "The amount of times I rewound this",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/u86p0o5gieoh1.jpeg?width=320&crop=smart&auto=webp&s=1cac902c7e8fb5b82dce7d563e7940e095615cf8",
+   "time": 1788918938,
+   "url": "https://www.reddit.com/r/90s/comments/1wb85mo/the_amount_of_times_i_rewound_this/"
+  },
+  {
+   "sub": "PoursTea",
+   "title": "BREAKING: Trump claims he was lifted out of the rubble on 9/11: \"Two fireman, big strong guys, they grabbed me under the arms -- 'got to get our of here!' -- and they literally lifted me up, and they ",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/emci91rsjcoh1.jpeg?width=640&crop=smart&auto=webp&s=6fa3311c7d6c951d74e37d53b84e7ace2036dc9c",
+   "time": 1788895174,
+   "url": "https://www.reddit.com/r/PoursTea/comments/1way6m9/breaking_trump_claims_he_was_lifted_out_of_the/"
+  },
+  {
+   "sub": "CFB",
+   "title": "[Vannini] BREAKING: The MAC has reversed its position and is fighting the Big Ten’s extra 1 second for Michigan. “The established replay protocol requires that the game clock displayed on the program ",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/nN4WmxqGD81EJpng-FoAz2Of8v7lK5NbA39RuBJgSwk.jpeg?width=320&crop=smart&auto=webp&s=4ee460eed423ecd0d97fcdbaa6aa11b789c1d6f9",
+   "time": 1788891930,
+   "url": "https://www.reddit.com/r/CFB/comments/1wawlvf/vannini_breaking_the_mac_has_reversed_its/"
   }
  ],
  "disaster": [],
@@ -450,6 +472,7 @@
     "takepage_"
    ],
    "tiktok": [
+    "jaemyung_lee",
     "tictok_ent"
    ]
   },
@@ -475,16 +498,13 @@
     "higgsfield.ai": "stuck",
     "googledeepmind": "stuck",
     "cristiano": "stuck"
-   },
-   "tiktok": {
-    "jaemyung_lee": 503
    }
   },
   "landing": {
-   "at": "2026-09-09T11:36:50",
+   "at": "2026-09-09T12:01:25",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-09-09T12:01:22.313375+09:00"
+ "updated": "2026-09-09T12:31:19.393148+09:00"
 }
