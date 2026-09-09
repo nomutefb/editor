@@ -2,30 +2,95 @@
 """트렌드 카드 이미지 백필 — 구글 급상승 꼬리(비공식 API산 = picture 결측) 키워드에 관련 뉴스이미지 매칭
 (운영자 260718 Q126 · more_images.py 미러 · "뉴스 요약의 이미지 받아오는 지점 재사용").
 
-파이프: ① sns_trends.json 구글 급상승 picture 결측분 키워드 수집 → ② Claude(Sonnet·WebSearch) **배치 1콜**로
-키워드별 대표 뉴스 URL 검색(CSE 키워드 이미지 API 死의 대체 = 실제 웹 검색) → ③ thumb_gen og:image 추출
-+ _is_logo_card 컷(로고/'G' 브랜딩 차단) + R2 재호스팅 → ④ picture 주입 → ⑤ sns_trends.json 재기록.
+파이프: ① sns_trends.json 구글 급상승 picture 결측분 키워드 수집 → ② **무키 뉴스검색(LLM 0)** = 네이버 뉴스검색
+(n.news.naver.com 기사 링크 · 1주 필터 → 전체) → 다음 뉴스검색(v.daum.net · ID 앞 14자리 = 발행시각 · 7일 내) 순으로
+키워드별 후보 URL 최대 4개 → ③ thumb_gen og:image 추출 + _is_logo_card 컷(로고/'G' 브랜딩 차단) + R2 재호스팅
+→ ④ picture 주입 → ⑤ sns_trends.json 재기록.
 
-비용 = run당 LLM 1콜(배치 · 운영자 260718 "사진 안 중요 → 소넷"). 카나리아 게이트(TREND_IMG=1 · cron 기본 OFF).
+비용 = LLM 0(운영자 260909 «트렌드 저거는 llm 필요없는 일로» — 구판 = Sonnet WebSearch 배치 1콜 · 실측 7일 227콜·콜당 50만tok·
+하루 $27 = 남은 구독 토큰의 49% · 키워드→기사 URL 은 판단이 아니라 검색이라 LLM 이 필요 없었다). 러너 실측: 네이버·다음 검색 HTML
+전부 서버 렌더(200) · n.news.naver.com og:image 는 추출기 승격(800→1400)까지 통과 · 구글 뉴스 RSS 는 리다이렉트 ID 라 서버 해제 불가 ·
+Bing RSS 는 msn.com 재호스팅뿐(og 0) = 둘 다 제외. 게이트(TREND_IMG=1 · 기본 ON).
 안전 = 전부 fail-soft(무매칭·오류 = picture "" 유지 = 뷰어 로고 타일 폴백 · rc 항상 0 = 수집 커밋 비차단)."""
 import os
 import sys
 import re
 import json
-import subprocess
 import hashlib
 import datetime as _dt
+import time
+import urllib.parse
+import urllib.request
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import thumb_gen as tg   # __main__ 가드 有 = import 안전. fetch_article_images·http_image·r2_upload·_is_logo_card·_norm_key·R2_ON 재사용.
-sys.path.insert(0, os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "shared")))
-from claude_py import run_claude   # 폴오버 SSOT(쿼터 한도 시 백업계정 4체인 자동 전환 · breaking_judge·gate_judge 공용 · 운영자 260718 "전사 적용")
 
 OUT = os.path.join("viewer", "sns_trends.json")
-MODEL = os.environ.get("TREND_IMG_MODEL", "claude-sonnet-5")   # 운영자 260718 "사진 안 중요하니 소넷으로"
 MAX_TARGETS = max(1, min(20, int(os.environ.get("TREND_IMG_MAX", "14") or "14")))   # 결측 대상 상한(꼬리 노출대 커버·LLM 예산 보호)
 KST = _dt.timezone(_dt.timedelta(hours=9))
 FAIL_TTL_H = max(0.0, float(os.environ.get("TREND_IMG_FAIL_TTL_H", "2") or "2"))   # 실패 키워드 재검색 유예(평의회 260812 권고3ⓒ · 0 = 유예 없음)
+
+
+# ── 무키 뉴스검색 리졸버(LLM 0 · 운영자 260909) — 파서는 순수 함수(tests/test_trend_images.py 오프라인 회귀) ──
+_UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36",
+       "Accept-Language": "ko-KR,ko;q=0.9"}
+URLS_PER_KW = max(1, min(8, int(os.environ.get("TREND_IMG_URLS", "4") or "4")))   # 키워드당 후보 URL 상한(첫 성공에서 멈춤 = 대개 1~2 fetch)
+DAUM_MAX_AGE_H = 24 * 7   # 다음 = ID 발행시각으로 7일 컷(급상승 키워드 = 최근 기사여야 사진이 사건과 맞는다)
+_NAVER_RE = re.compile(r'https://n\.news\.naver\.com/mnews/article/\d+/\d+')
+_DAUM_RE = re.compile(r'https?://v\.daum\.net/v/(\d{14})\d*')
+
+
+def _http_text(url, timeout=12):
+    """검색 페이지 GET → 본문 문자열(실패·비200 = "" · 호출부 fail-soft)."""
+    try:
+        with urllib.request.urlopen(urllib.request.Request(url, headers=_UA), timeout=timeout) as r:
+            if r.status != 200:
+                return ""
+            return r.read().decode("utf-8", "ignore")
+    except Exception:  # noqa: BLE001
+        return ""
+
+
+def naver_news_urls(html):
+    """네이버 뉴스검색 HTML → n.news.naver.com 기사 URL(검색 순서 유지 · 중복 제거).
+    n.news.naver.com 만 잡는 이유 = 서버 렌더 + og:image 원본급(imgnews.pstatic.net · 추출기 승격 통과 실측 260909)."""
+    return list(dict.fromkeys(_NAVER_RE.findall(html or "")))
+
+
+def daum_news_urls(html, now_ts=None, max_age_h=DAUM_MAX_AGE_H):
+    """다음 뉴스검색 HTML → v.daum.net 기사 URL(검색 순서 유지 · 중복 제거 · ID 앞 14자리 = KST 발행시각 → max_age_h 컷).
+    시각 파싱 실패 = 통과(fail-open · 화질 컷이 뒤에서 거른다)."""
+    now_ts = time.time() if now_ts is None else now_ts
+    out, seen = [], set()
+    for m in _DAUM_RE.finditer(html or ""):
+        u = m.group(0)
+        if u in seen:
+            continue
+        seen.add(u)
+        try:
+            pub = _dt.datetime.strptime(m.group(1), "%Y%m%d%H%M%S").replace(tzinfo=KST).timestamp()
+            if (now_ts - pub) / 3600 > max_age_h:
+                continue
+        except Exception:  # noqa: BLE001
+            pass
+        out.append(u)
+    return out
+
+
+def resolve_news_urls(query, fetch=_http_text, limit=None):
+    """키워드 → 대표 기사 후보 URL 목록(최대 limit · 네이버 1주 → 네이버 전체 → 다음 7일 순 · 중복 제거).
+    검색 자체가 실패해도 예외 없이 빈 목록(호출부가 실패 유예 도장)."""
+    limit = URLS_PER_KW if limit is None else limit
+    q = urllib.parse.quote(query)
+    out = []
+    for u in (f"https://search.naver.com/search.naver?where=news&query={q}&sort=0&nso=so:r,p:1w,a:all",
+              f"https://search.naver.com/search.naver?where=news&query={q}"):
+        out += naver_news_urls(fetch(u))
+        if len(dict.fromkeys(out)) >= limit:
+            break
+    if len(dict.fromkeys(out)) < limit:
+        out += daum_news_urls(fetch(f"https://search.daum.net/search?w=news&q={q}"))
+    return list(dict.fromkeys(out))[:limit]
 
 
 def _fail_fresh(ts, now_iso):
@@ -97,52 +162,18 @@ def main():
         d["_trend_img"] = st
         json.dump(d, open(OUT, "w", encoding="utf-8", errors="replace"), ensure_ascii=False, indent=1)   # indent=1 = sns_trends.py 기록 포맷 미러(재포맷 차단)
 
-    prompt = """다음은 지금 한국에서 급상승 중인 검색어 목록이다. 각 검색어를 **가장 잘 대표하는 최신 한국 뉴스기사 1개의 원문 URL**을 찾아라.
-
-[기준]
-- 각 검색어마다 WebSearch/WebFetch로 **실제 존재를 확인한 최근 한국어 뉴스기사** URL 1개(스니펫 추측 URL 금지).
-- 기사에 대표사진(og:image)이 있을 법한 일반 기사 — 지수·증권 숫자 단신, PDF, 동영상 전용 페이지는 피한다.
-- 선정적·시신·실존인물 닮기 위험 사진 기사는 피한다(안전).
-- 못 찾은 검색어는 그냥 생략(억지 URL 금지).
-
-[검색어 목록]
-{qlist}
-
-[출력 형식 — 엄수]
-각 줄에 `검색어<TAB>기사URL` 형태로 하나씩(검색어와 URL 사이는 탭 문자). 설명·번호·마크다운·따옴표 없이 URL만.""".format(
-        qlist="\n".join("- " + q for q in queries))
-
-    print("Claude({}) 트렌드 키워드 {}개 대표 뉴스 URL 배치 검색".format(MODEL, len(queries)), flush=True)
-    _args = ["claude", "-p", "--model", MODEL, "--safe-mode",   # --safe-mode = CLAUDE.md/스킬/MCP 비활성·내장 WebSearch/WebFetch 유지 · --bare 금지(OAuth 즉사)
-             "--effort", "high",   # 명시 지명(운영자 260823 «없음으로 하지 말고 높음으로 지명») — 미지정 = CLI 기본이 높음 상당이라 동작 동일·값을 못박기만. 구 「sonnet 비호환」 서술은 낡음(sonnet-5 는 노력도 지원 · sns_sum 상시 high 실증)
-             "--allowedTools", "WebFetch,WebSearch",
-             "--disallowedTools", "Bash,Edit,Write,Read,Glob,Grep,Task,NotebookEdit,TodoWrite",
-             "--max-turns", "50"]
-    # 폴오버 SSOT 경유 — 주계정 쿼터(주간한도) 시 백업 4계정 자동 전환(Q126 카나리아 rc=1 = "You've hit your weekly limit" 실측 → 전사 폴오버 배선 · 운영자 260718)
-    res, rc, err = run_claude(_args, prompt, timeout=600, source="trend")   # 600s(검증값 · 카나리아4 성공값) — ⚠ 240 회귀실측: 상시 크론(run 29640230240)서 폴오버(서브1 전환)는 성공했으나 14키워드 WebSearch가 240s 초과→TimeoutExpired→0충전. 14개 배치 검색은 변동 크게 240s 넘김 → 600 필수(잡 timeout 36이 수용)
-    out = (res.stdout if res else "") or ""
-    if rc != 0 or not out.strip():
-        print("::warning::claude rc={} · stderr: {} · stdout(head): {}".format(rc, (err or "")[:600], out[:600]), flush=True)
-        _persist_state(())   # 호출 실패 — 이 수집분 재발사만 봉인(키워드 유예 없음 · 다음 수집분에 재시도)
-        return
-
-    # 파싱: '검색어\tURL' (탭 없으면 '검색어 ... URL' 폴백) — 검색어는 목록 매칭으로만 수용(환각 방어).
-    pairs, seen_q = [], set()
-    for line in out.splitlines():
-        line = line.strip()
-        if not line or "http" not in line:
-            continue
-        mu = re.search(r'https?://[^\s<>"\')]+', line)
-        if not mu:
-            continue
-        url = mu.group(0).rstrip('.,);]')
-        qpart = line[:mu.start()].strip().strip("\t -|·").strip()
-        # 검색어 확정 = 목록 정확일치 우선 → 부분포함 폴백
-        q = qpart if qpart in qmap else next((k for k in qmap if k and (k == qpart or k in line[:mu.start()])), "")
-        if not q or q in seen_q:
-            continue
-        seen_q.add(q)
-        pairs.append((q, url))
+    print("무키 뉴스검색(LLM 0) — 트렌드 키워드 {}개 → 기사 URL 후보(키워드당 ≤{})".format(len(queries), URLS_PER_KW), flush=True)
+    pairs = []   # (검색어, [후보 URL…]) — 검색 실패·0건은 뒤에서 실패 유예 도장
+    for q in queries:
+        try:
+            urls = resolve_news_urls(q)
+        except Exception as e:  # noqa: BLE001
+            urls = []
+            print("  ⏭ 검색 실패({}): {}".format(q, str(e)[:80]))
+        if urls:
+            pairs.append((q, urls))
+        else:
+            print("  ⏭ 기사 0({})".format(q))
 
     if not pairs:
         print("URL 0 — 변경 없음(시도분 실패 유예 도장)")
@@ -150,15 +181,19 @@ def main():
         return
 
     filled = 0
-    for q, url in pairs:
+    for q, urls in pairs:
         g = qmap.get(q)
         if not g or (g.get("picture") or "").strip():
             continue
-        try:
-            cand = tg.fetch_article_images(None, image_sources=[url], want=1)   # og:image 추출(과금 0 · art_url=None → image_sources만)
-        except Exception as e:  # noqa: BLE001
-            print("  ⏭ fetch 실패({}): {}".format(q, str(e)[:80]))
-            continue
+        cand = []
+        for url in urls:   # 후보를 차례로 — og:image 가 나오는 첫 기사에서 멈춤(대개 1~2 fetch)
+            try:
+                cand = tg.fetch_article_images(None, image_sources=[url], want=1)   # og:image 추출(과금 0 · art_url=None → image_sources만)
+            except Exception as e:  # noqa: BLE001
+                print("  ⏭ fetch 실패({}): {}".format(q, str(e)[:80]))
+                cand = []
+            if cand:
+                break
         for c in cand:
             src = c.get("src", "")
             if not src:
