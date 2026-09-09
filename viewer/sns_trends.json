@@ -7564,8 +7564,14 @@
   {
    "query": "임기",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/42b0054602.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/001/0016301051",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-09T23:10:00+09:00",
    "isNew": true,
@@ -7577,8 +7583,14 @@
   {
    "query": "제주 sk fc",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/fdca58501c.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/087/0001216823",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-09T23:10:00+09:00",
    "delta": -5,
@@ -7678,7 +7690,7 @@
  ],
  "gtrends_pool_updated": "2026-09-10T02:54:57+09:00",
  "_trend_img": {
-  "tried": "2026-09-10T02:20:43+09:00",
+  "tried": "2026-09-10T02:54:57+09:00",
   "fail": {
    "한지윤": "2026-09-10T01:03:58+09:00"
   }
@@ -18553,7 +18565,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-10T02:54:57+09:00"
+    "first_seen": "2026-09-10T02:54:57+09:00",
+    "kw": "kopp, MCP",
+    "sum": "작성자가 요청받은 MCP 관련 링크를 공유했다",
+    "sv": 1
    },
    {
     "account": "kopp",
@@ -18568,7 +18583,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-09-10T02:54:57+09:00"
+    "first_seen": "2026-09-10T02:54:57+09:00",
+    "kw": "아이폰18 프로",
+    "sum": "작성자가 아이폰18 프로에 대한 감탄을 표했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
