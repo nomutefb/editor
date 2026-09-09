@@ -7617,8 +7617,14 @@
   {
    "query": "정치",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/dfc21340b2.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/055/0001387027",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-10T01:30:00+09:00",
    "isNew": true,
@@ -7630,8 +7636,14 @@
   {
    "query": "apple event",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/0b5f89ac0b.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/091/0010305952",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-09-10T03:00:00+09:00",
    "isNew": true,
@@ -7643,8 +7655,14 @@
   {
    "query": "서안",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/ca65d13145.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/001/0016298476",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-09-10T00:40:00+09:00",
    "delta": -4,
@@ -7721,10 +7739,8 @@
  ],
  "gtrends_pool_updated": "2026-09-10T04:09:19+09:00",
  "_trend_img": {
-  "tried": "2026-09-10T02:54:57+09:00",
-  "fail": {
-   "한지윤": "2026-09-10T01:03:58+09:00"
-  }
+  "tried": "2026-09-10T04:09:19+09:00",
+  "fail": {}
  },
  "gtrends_gl": [
   {
@@ -18543,7 +18559,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-10T04:09:19+09:00"
+    "first_seen": "2026-09-10T04:09:19+09:00",
+    "kw": "Apple, 오프닝 애니메이션",
+    "sum": "작성자가 애플의 오프닝 애니메이션이 역대급이라고 평가했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
