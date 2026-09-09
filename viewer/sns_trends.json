@@ -7355,8 +7355,14 @@
   {
    "query": "김설현",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/723612a713.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/382/0001292344",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-09-09T17:00:00+09:00",
    "isNew": true,
@@ -7658,8 +7664,14 @@
   {
    "query": "한화그룹",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/5c0ba4739b.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/009/0005732699",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-09T15:10:00+09:00",
    "delta": -9,
@@ -7673,8 +7685,14 @@
   {
    "query": "노동조합",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/87725644e9.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/001/0016298572",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-09-09T15:30:00+09:00",
    "delta": -15,
@@ -7710,8 +7728,14 @@
   {
    "query": "스마트 tv",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/c824fd2286.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/003/0014176859",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-09T14:50:00+09:00",
    "delta": -11,
@@ -7726,8 +7750,14 @@
   {
    "query": "스트레티지",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/a4293d9f42.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/009/0005732432",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-09T14:50:00+09:00",
    "delta": -11,
@@ -7784,8 +7814,14 @@
   {
    "query": "테트리스",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/30185d0f63.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/215/0001264908",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-09T14:50:00+09:00",
    "delta": -13,
@@ -7800,8 +7836,14 @@
   {
    "query": "만평",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/e06f9b3bd0.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/005/0001871719",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-09-09T14:30:00+09:00",
    "isNew": true,
@@ -7953,11 +7995,12 @@
  ],
  "gtrends_pool_updated": "2026-09-09T18:24:28+09:00",
  "_trend_img": {
-  "tried": "2026-09-09T17:41:31+09:00",
+  "tried": "2026-09-09T18:24:28+09:00",
   "fail": {
    "kbo 리그 신인 드래프트": "2026-09-09T16:54:53+09:00",
    "이한위": "2026-09-09T17:43:13+09:00",
-   "데이브 로버츠": "2026-09-09T17:43:13+09:00"
+   "데이브 로버츠": "2026-09-09T17:43:13+09:00",
+   "고군분투": "2026-09-09T18:27:51+09:00"
   }
  },
  "gtrends_gl": [
@@ -18220,7 +18263,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-09T18:24:28+09:00"
+    "first_seen": "2026-09-09T18:24:28+09:00",
+    "kw": "details.so",
+    "sum": "작성자가 링크를 직접 확인해보라고 제시했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
