@@ -397,8 +397,10 @@ jobs:
       # 검색이미지 7장 미달·원문 url 부재 건 = moreimg 자동 보충(운영자 260726 "원래 7개" + "검색으로 원문 URL 공유에 링크").
       # 대상 = thumb_gen.py가 RUNNER_TEMP/thumb_topup.txt 마커로 지목(이번 런 신규 기록분만). 커밋·push *뒤* 발사 =
       # moreimg 체크아웃이 이번 search.json 포함(즉발이면 add/add 경합). 실패 = 경고만(수동 '+N장 더' 폴백 불변) · 중단 = 이 스텝 제거.
+      # ⏸ 자동 발사 기본 OFF(운영자 260909 «검색이미지 보충 거의 활용 안 함» — 실측 7일 76콜·콜당 182만tok·$1.56·하루 $20 = 전체 토큰 24%).
+      #   재개 = repo 변수 MOREIMG_AUTO=1(이 조건만 열린다 · 마커·dispatch 본문 무접촉) · 수동 '+N장 더'(functions/api/moreimg.js → moreimg.yml)는 이 게이트 밖 = 불변.
       - name: 검색이미지 미달 자동 보충 (moreimg 디스패치)
-        if: always()
+        if: ${{ always() && (vars.MOREIMG_AUTO || '0') == '1' }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |

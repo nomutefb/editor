@@ -165,12 +165,12 @@ jobs:
           bash .github/scripts/git_land.sh "sns-trends: 수집 갱신" viewer/sns_trends.json viewer/tbs_data.json push/kw_sent.json push/trend_sent.json "metrics/usage/${GITHUB_RUN_ID}-${GITHUB_JOB}-${GITHUB_RUN_ATTEMPT}.jsonl"
 
       - name: Install Claude Code CLI (브리프 스텝용 — LLM 0콜 수집 레인이라 브리프 게이트와 동기)
-        if: ${{ (inputs.brief || '1') == '1' || (inputs.bsky_tr || '0') == '1' || (inputs.gt_img || '1') == '1' || (inputs.sns_sum || '1') == '1' }}   # 기본 ON 승격(§📰-e 이행 — 카나리아 run 2차 실측 260712: rc=0·브리프 626자 생성·sns_brief.json 커밋 09:44 KST · 1차 rc=127 = CLI 부재 → 이 스텝 신설로 봉합) · 롤백 = || '0' · 블루스카이 번역(bsky_tr)·트렌드 이미지(gt_img)·X/스레드 요약(sns_sum · 260726)도 CLI 필요(운영자 260713·260718 · gt_img 상시 ON 승격 = || '1')
+        if: ${{ (inputs.brief || vars.SNS_BRIEF || '0') == '1' || (inputs.bsky_tr || '0') == '1' || (inputs.gt_img || '1') == '1' || (inputs.sns_sum || '1') == '1' }}   # 기본 ON 승격(§📰-e 이행 — 카나리아 run 2차 실측 260712: rc=0·브리프 626자 생성·sns_brief.json 커밋 09:44 KST · 1차 rc=127 = CLI 부재 → 이 스텝 신설로 봉합) · 롤백 = || '0' · 블루스카이 번역(bsky_tr)·트렌드 이미지(gt_img)·X/스레드 요약(sns_sum · 260726)도 CLI 필요(운영자 260713·260718 · gt_img 상시 ON 승격 = || '1')
         run: npm install -g --allow-scripts=@anthropic-ai/claude-code @anthropic-ai/claude-code
 
       - name: AI 브리프(비서 페르소나 · 운영자 260712) — 입력 동일 = 스킵(토큰 0) · 실패 = 직전 유지(fail-soft)
         env:
-          SNS_BRIEF: ${{ inputs.brief || '1' }}   # 기본 ON 승격(§📰-e 이행 완료 — 카나리아 2차 run 실측 260712: 브리프 626자·sha 8d8d8af9·fail-soft/스킵 게이트 정상 · schedule = inputs 없음 → '1') · dispatch brief='0' = 일시 OFF · 롤백 = || '0'
+          SNS_BRIEF: ${{ inputs.brief || vars.SNS_BRIEF || '0' }}   # 기본 OFF(운영자 260909 «필요한 건 수집이지 요약이 아니다» — 실측 7일 494콜·콜당 $1.18·하루 $84 = 구독 추정비용 33% · 수집 스텝 무접촉) · 재개 = repo 변수 SNS_BRIEF=1 또는 dispatch brief=1 · 구 기본 ON 승격(§📰-e 이행 완료 — 카나리아 2차 run 실측 260712: 브리프 626자·sha 8d8d8af9·fail-soft/스킵 게이트 정상 · schedule = inputs 없음 → '1') · dispatch brief='0' = 일시 OFF · 롤백 = || '0'
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets[format('CLAUDE_CODE_OAUTH_TOKEN_{0}', vars.ACTIVE_ACCOUNT || 'EMS1130N')] }}
           CLAUDE_CODE_OAUTH_TOKEN_ALT: ${{ (vars.ACTIVE_ACCOUNT || 'EMS1130N') == 'MUTENO' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_MUTENO }}   # 서브1 폴오버(체인 EMS1130N→MUTENO→EMS1130G→EMS1130M · news-analyze 관용구)
           CLAUDE_CODE_OAUTH_TOKEN_ALT2: ${{ (vars.ACTIVE_ACCOUNT || 'EMS1130N') == 'EMS1130N' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130N }}   # 서브2 폴오버(체인 3번째)

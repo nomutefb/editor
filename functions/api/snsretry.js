@@ -3,8 +3,8 @@
 //        workflow_dispatch 로 즉시 재발사(GitHub schedule 은 best-effort 라 피크시 1~4h 드롭 =
 //        stale 근본원인 · 폰/러너 하트비트가 놓친 사이 사용자가 손으로 한 번 당기는 수동 재수집).
 // env: GH_TOKEN = 동일 PAT(이 레포 Actions:write+contents:write · compose/conv/track 와 공유).
-// inputs = {brief:'1', force:'1'}(260803 헤더 수동 재수집 픽토 편입) — 수동 당김의 목적은 "지금 최신 내용"이라
-//   AI 브리프까지 스케줄 런과 동일하게 재생성(brief 자체에 입력 동일=스킵 게이트 = 무변동 시 토큰 0) ·
+// inputs = {force:'1'}(260803 헤더 수동 재수집 픽토 편입 · 260909 brief 인자 제거) — 수동 당김의 목적은 "지금 최신 수집"이고
+//   AI 브리프는 워크플로 기본(vars.SNS_BRIEF · 기본 OFF = 운영자 260909 «필요한 건 수집이지 요약이 아니다»)을 그대로 따른다(스위치 1원천) ·
 //   force = 28분 신선도 게이트 우회(운영자 명시 클릭 = 게이트가 수동 의도를 침묵 스킵하면 픽토가 영원히 회전) ·
 //   gt_img·bsky_tr 등 나머지 = 워크플로 선언 기본값 그대로(이미지 백필은 다음 정기 런 몫 = 소넷 콜 절약).
 import { rateGate } from './_rate.js';
@@ -30,7 +30,7 @@ export async function onRequestPost({ env }) {
     if (rl) return json({ error: rl.error }, 429);
 
     // 발사 = GitHub 5xx(그쪽 일시 장애)만 1.2s 뒤 1회 재시도(260817 · chanretry 미러 동반) — 4xx(권한·비활성·경로)는 재시도 무익 = 즉시 사유 반환.
-    const fire = () => GH(env.GH_TOKEN, 'actions/workflows/sns-trends.yml/dispatches', 'POST', { ref: REF, inputs: { brief: '1', force: '1' } });   // brief=1 = 스케줄 런 등가(AI 요약 동반 갱신) · force=1 = 신선도 게이트 우회(수동 의도 존중) · 나머지 축 = 선언 기본값
+    const fire = () => GH(env.GH_TOKEN, 'actions/workflows/sns-trends.yml/dispatches', 'POST', { ref: REF, inputs: { force: '1' } });   // brief 미지정 = 워크플로 기본(vars.SNS_BRIEF · 기본 OFF) 그대로 · force=1 = 신선도 게이트 우회(수동 의도 존중) · 나머지 축 = 선언 기본값
     let r = await fire();
     if (r.status >= 500) { await new Promise(w => setTimeout(w, 1200)); r = await fire(); }
     if (r.status === 204) return json({ ok: true });
