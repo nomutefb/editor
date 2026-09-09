@@ -7618,8 +7618,14 @@
   {
    "query": "메이드인코리아2",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/d84c5bcd74.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/366/0001190947",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-09T19:50:00+09:00",
    "isNew": true,
@@ -7645,8 +7651,14 @@
   {
    "query": "고승민",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/5b2c177451.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/056/0012253950",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-09T19:40:00+09:00",
    "isNew": true,
@@ -7658,8 +7670,14 @@
   {
    "query": "k리그1",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/a9b2755e83.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/001/0016300973",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-09-09T22:20:00+09:00",
    "isNew": true,
@@ -7778,11 +7796,8 @@
  ],
  "gtrends_pool_updated": "2026-09-09T23:42:17+09:00",
  "_trend_img": {
-  "tried": "2026-09-09T22:52:31+09:00",
+  "tried": "2026-09-09T23:42:17+09:00",
   "fail": {
-   "스토킹": "2026-09-09T21:03:05+09:00",
-   "노소영": "2026-09-09T21:03:05+09:00",
-   "ssg 대 두산": "2026-09-09T21:40:47+09:00",
    "김도영 부상": "2026-09-09T22:12:39+09:00",
    "이로운": "2026-09-09T22:55:45+09:00"
   }
@@ -18113,7 +18128,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-09T23:42:17+09:00"
+    "first_seen": "2026-09-09T23:42:17+09:00",
+    "kw": "Mercury 2.5, Inception Labs",
+    "sum": "계정이 Mercury 2.5 발표 블로그 링크를 공유했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -18128,7 +18146,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-09-09T23:42:17+09:00"
+    "first_seen": "2026-09-09T23:42:17+09:00",
+    "kw": "Mercury 2.5, Inception, diffusion LLM",
+    "sum": "계정이 Mercury 2.5 diffusion LLM 출시를 소개했다",
+    "sv": 1
    },
    {
     "account": "takepage_",
