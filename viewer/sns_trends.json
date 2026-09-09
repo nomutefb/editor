@@ -7643,8 +7643,14 @@
   {
    "query": "공소청",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/cdaefba2a3.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.hankookilbo.com/news/article/A2026090416350003600",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-09T07:40:00+09:00",
    "isNew": true,
@@ -7720,8 +7726,14 @@
   {
    "query": "나비에 스톡스",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/f8cf692554.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.fnnews.com/news/202609090408263841",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-09T08:30:00+09:00",
    "isNew": true,
@@ -7753,8 +7765,14 @@
   {
    "query": "코레일 추석예매",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/54e734b427.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.etoday.co.kr/news/view/2622821",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-09-09T06:30:00+09:00",
    "isNew": true,
@@ -7787,8 +7805,14 @@
   {
    "query": "삼성 갤럭시",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/64044bffaa.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://zdnet.co.kr/view/?no=20260903095042",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-09-09T06:50:00+09:00",
    "isNew": true,
@@ -8067,10 +8091,8 @@
  ],
  "gtrends_pool_updated": "2026-09-09T10:21:41+09:00",
  "_trend_img": {
-  "tried": "2026-09-09T09:40:33+09:00",
+  "tried": "2026-09-09T10:21:41+09:00",
   "fail": {
-   "도르트문트 대 비야레알": "2026-09-09T07:56:35+09:00",
-   "미래에셋": "2026-09-09T07:56:35+09:00",
    "대학생": "2026-09-09T08:37:16+09:00",
    "인플 루 언서": "2026-09-09T09:13:10+09:00"
   }
@@ -16188,7 +16210,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-09T10:21:41+09:00"
+    "first_seen": "2026-09-09T10:21:41+09:00",
+    "kw": "이란 미사일, 유조선 폭격, 미국 정책",
+    "sum": "미국이 이란 유조선을 폭격하자 이란이 대규모 미사일로 보복했다고 전했다",
+    "sv": 1
    }
   ],
   "tiktok": [
@@ -17405,7 +17430,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-09T10:21:41+09:00"
+    "first_seen": "2026-09-09T10:21:41+09:00",
+    "kw": "VS Code 1.136, Copilot, 에이전트 훅",
+    "sum": "VS Code 1.136이 멀티 루트 세션을 지원하지만 훅은 단일 폴더 한정이라고 설명했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -17420,7 +17448,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-09-09T10:21:41+09:00"
+    "first_seen": "2026-09-09T10:21:41+09:00",
+    "kw": "ChatGPT, Sketch, 이미지 생성",
+    "sum": "오픈AI가 스케치를 참조해 이미지를 완성하는 Sketch 기능을 소개했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -17435,7 +17466,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-09-09T10:21:41+09:00"
+    "first_seen": "2026-09-09T10:21:41+09:00",
+    "kw": "ChatGPT Images, 이미지 편집, API",
+    "sum": "오픈AI가 부분 편집과 반복 수정 시 화질 유지 성능을 개선했다고 밝혔다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -17450,7 +17484,10 @@
     "rh": [
      4
     ],
-    "first_seen": "2026-09-09T10:21:41+09:00"
+    "first_seen": "2026-09-09T10:21:41+09:00",
+    "kw": "ChatGPT Images 2.5, GPT-Image-2.5, 오픈AI",
+    "sum": "오픈AI가 얼굴 유지력과 속도를 높인 이미지 생성 모델 2.5를 공개했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -17804,7 +17841,10 @@
     "rh": [
      18
     ],
-    "first_seen": "2026-09-09T10:21:41+09:00"
+    "first_seen": "2026-09-09T10:21:41+09:00",
+    "kw": "ChatGPT Images 2.5, Sketch, Flare Sunbur",
+    "sum": "오픈AI가 속도와 편집 일관성을 높인 이미지 모델 2.5와 신기능들을 발표했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
