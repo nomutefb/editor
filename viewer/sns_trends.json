@@ -7580,8 +7580,14 @@
   {
    "query": "손녀",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/b8eff58b80.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.fnnews.com/news/202609090923253875",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-09-09T08:10:00+09:00",
    "delta": -3,
@@ -7638,8 +7644,14 @@
   {
    "query": "이재명 정부",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/f524773e58.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.ohmynews.com/NWS_Web/View/at_pg.aspx?CNTN_CD=A0003264268",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-09-09T08:40:00+09:00",
    "delta": -9,
@@ -7672,8 +7684,14 @@
   {
    "query": "삼성sds",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/78e0db17dc.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.fnnews.com/news/202609081816305040",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-09T08:10:00+09:00",
    "delta": -7,
@@ -7782,8 +7800,14 @@
   {
    "query": "dwcs",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/ccfee36f53.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://www.edaily.co.kr/News/Read?newsId=03401366645578480",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-09T08:20:00+09:00",
    "delta": -15,
@@ -7992,9 +8016,10 @@
  ],
  "gtrends_pool_updated": "2026-09-09T11:42:42+09:00",
  "_trend_img": {
-  "tried": "2026-09-09T10:59:11+09:00",
+  "tried": "2026-09-09T11:42:42+09:00",
   "fail": {
-   "인플 루 언서": "2026-09-09T09:13:10+09:00"
+   "무인 잠수정": "2026-09-09T11:49:43+09:00",
+   "땅집고": "2026-09-09T11:49:43+09:00"
   }
  },
  "gtrends_gl": [
@@ -17348,7 +17373,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-09T11:42:42+09:00"
+    "first_seen": "2026-09-09T11:42:42+09:00",
+    "kw": "나비에스토크스, 클레이 문제, 오픈AI",
+    "sum": "계정이 오픈AI 증명의 소용돌이 해와 조건을 설명했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -17363,7 +17391,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-09-09T11:42:42+09:00"
+    "first_seen": "2026-09-09T11:42:42+09:00",
+    "kw": "나비에스토크스 방정식, 밀레니엄 난제",
+    "sum": "계정이 나비에-스토크스 방정식의 역사와 난제를 설명했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -17378,7 +17409,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-09-09T11:42:42+09:00"
+    "first_seen": "2026-09-09T11:42:42+09:00",
+    "kw": "오픈AI, 나비에스토크스, GPT-6 Astra",
+    "sum": "오픈AI가 나비에-스토크스 밀레니엄 문제 해답을 공개했다",
+    "sv": 1
    },
    {
     "account": "takepage_",
@@ -17393,7 +17427,10 @@
     "rh": [
      4
     ],
-    "first_seen": "2026-09-09T11:42:42+09:00"
+    "first_seen": "2026-09-09T11:42:42+09:00",
+    "kw": "Agents.md, GPT-6 Astra, 맥스 스토이버",
+    "sum": "계정이 Astra 출시 후 Agents.md 삭제 사례를 소개했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -17408,7 +17445,10 @@
     "rh": [
      5
     ],
-    "first_seen": "2026-09-09T11:42:42+09:00"
+    "first_seen": "2026-09-09T11:42:42+09:00",
+    "kw": "Dependabot, GitHub Packages, 인증",
+    "sum": "계정이 Dependabot의 GitHub Packages 접근 방식을 설명했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -17423,7 +17463,10 @@
     "rh": [
      6
     ],
-    "first_seen": "2026-09-09T11:42:42+09:00"
+    "first_seen": "2026-09-09T11:42:42+09:00",
+    "kw": "Dependabot, GitHub Packages, 토큰",
+    "sum": "Dependabot이 토큰 없이 private 패키지를 읽기 시작했다",
+    "sv": 1
    },
    {
     "account": "aipeekme",
@@ -17438,7 +17481,10 @@
     "rh": [
      7
     ],
-    "first_seen": "2026-09-09T11:42:42+09:00"
+    "first_seen": "2026-09-09T11:42:42+09:00",
+    "kw": "오픈AI, 코덱스, 양자컴퓨팅",
+    "sum": "계정이 오픈AI 코덱스 양자컴퓨팅 실험 링크를 공유했다",
+    "sv": 1
    },
    {
     "account": "aipeekme",
@@ -17453,7 +17499,10 @@
     "rh": [
      8
     ],
-    "first_seen": "2026-09-09T11:42:42+09:00"
+    "first_seen": "2026-09-09T11:42:42+09:00",
+    "kw": "MIT, GPT-5.6 Sol, 코덱스",
+    "sum": "MIT 연구팀이 양자칩 측정에 GPT-5.6 Sol과 코덱스를 도입했다",
+    "sv": 1
    },
    {
     "account": "aipeekme",
@@ -17713,7 +17762,10 @@
     "rh": [
      18
     ],
-    "first_seen": "2026-09-09T11:42:42+09:00"
+    "first_seen": "2026-09-09T11:42:42+09:00",
+    "kw": "오픈AI, 나비에스토크스, 속보",
+    "sum": "오픈AI가 나비에-스토크스 문제를 풀었다고 발표했다",
+    "sv": 1
    },
    {
     "account": "aipeekme",
