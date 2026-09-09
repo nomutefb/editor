@@ -16,21 +16,31 @@
  "threads": [
   {
    "account": "kopp",
-   "text": "test it yourself : https://details.so/",
-   "likes": 0,
+   "text": "your AI now has taste.\n\nthe Details MCP gives it access to every inspiration in Details, so it builds from real references instead of guessing.\n\nwatch it work ↓",
+   "likes": 1,
    "cmts": 0,
-   "time": 1788943704,
-   "thumb": "",
-   "url": "https://www.threads.com/@kopp/post/DdD3kRcCFiO",
+   "time": 1788945817,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/798537822_1404632694958918_856852555103596967_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk4MjI4ODYwODc0ODcwMzk3NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=6LNKmJDzLpUQ7kNvwEYhOLm&_nc_oc=Adogss__f6KoYbWhKYsBby9Ions1CCbNN6RdONXpDVXy5sEbCxycWnL6WtUpUIimZWv3e9zSVhCV9CtMZhHDhmNY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=giIvMU9DY1kGVS33LUemrg&_nc_ss=7a22e&oh=00_AQKOmI6_UyJQcQttK2Hic-8vZOD2AZ87hSTozEGgN0naYw&oe=6AA6EC03",
+   "url": "https://www.threads.com/@kopp/post/DdD7mP9jRDm",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "세상엔 정말 미친 사람들이 많은 것 같습니다.\n\n얼마 전 구글과 HHMI 연구진이 초파리 수컷의 뇌와 중추신경계 전체 연결 지도를 공개했는데, 벌써 이걸 이용해 Beat Saber를 학습시키는 사람이 등장했습니다.\n\nMaleCNS v1.0 초파리 커넥톰을 시뮬레이션하고 신경 활동을 게임 조작으로 연결한 방식입니다. 현재는 운동 신경계를 플레이 영상에 맞춰 학습시킨 단계이며, 시각 자극에 반응하는 부분과 실제 플레이는 강화학습 중이라고 합니다.\n\n심지어 같은 커넥톰으로 Doom을 학습시키는 프로젝트도 진행되고 있습니다. 뇌 지도를 완성하자마자 게임부터 시키는 걸 보면 인간은 정말 한결같네요.",
+   "likes": 85,
+   "cmts": 12,
+   "time": 1788944404,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/801326278_2475327152948730_5307628879473666089_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk4MjI3Njc1NDYxMzYyMDkwNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=aMzrjmjXU5EQ7kNvwEBS1tt&_nc_oc=AdoqnpppYCn4eYjVzNJBL6JfiFQyKZ4lxwldZXI_K4ijMrk3bAiMmTT7YhhyVmZrNYIMt4-jgVSSn9nX-4A14o89&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=ZW-NnBjA-Z217SXaeqCH5A&_nc_ss=7a22e&oh=00_AQLxLu0PKX8SxU8-m3aenMsJfh0P5pCRZhe9ctG09au6kQ&oe=6AA6F7D2",
+   "url": "https://www.threads.com/@choi.openai/post/DdD45v8ClCr",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "3/ 이렇게 구성해도 캐시가 깨지는 경우가 생기는데요.\n앤트로픽 콘솔에서는 캐시 적중률과 함께 어느 부분에서 문제가 생겼는지 확인할 수 있습니다.\n\n공개된 예시에서는 일주일간 캐시 읽기 비율이 71.3%였고, 캐시를 사용하지 못한 토큰은 12억 개였습니다. 원인은 메시지, 시스템 프롬프트, 도구, 모델 변경 네 가지로 구분됩니다.\n\n특히 추론 강도는 프롬프트 본문보다 앞에서 처리되기 때문에 대화 중간에 설정을 바꾸면 기존 캐시를 사용할 수 없습니다. 예외적으로 Opus 5와 Fable 5.1 계열은 추론 강도를 바꿔도 캐시를 유지할 수 있습니다.\n\n시스템 프롬프트에 시간이나 ID처럼 요청마다 달라지는 값을 넣거나, 도구 정의의 순서가 바뀌어도 캐시가 깨집니다.\n\n서브에이전트 역시 프롬프트 앞부분과 모델, 추론 강도가 부모 에이전트와 모두 같아야 기존 캐시를 그대로 사용할 수 있습니다.",
-   "likes": 2,
+   "likes": 3,
    "cmts": 1,
    "time": 1788939082,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/800594943_17986317144112832_1719753866942574237_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk4MjIzMjEwOTI0MjYwNTcwNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTU2OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=qkV20nVdU-UQ7kNvwEFSSRu&_nc_oc=AdoN3VMOk03VIfTMHQEmlgKGvsdV2XHHQ26eGLWpyJOhFJoDmjpShmDwKri5bAAZNvNY_1tTvjyzzs26yXDDTWKh&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=amt_J6hZOW3dw-FnrqHLFQ&_nc_ss=7a22e&oh=00_AQJkynPsrK3SstaHwblyDxauQ5qxGytQru-2a4ojMkWh5Q&oe=6AA6EEFD",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/800594943_17986317144112832_1719753866942574237_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk4MjIzMjEwOTI0MjYwNTcwNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTU2OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=qkV20nVdU-UQ7kNvwEFSSRu&_nc_oc=AdoN3VMOk03VIfTMHQEmlgKGvsdV2XHHQ26eGLWpyJOhFJoDmjpShmDwKri5bAAZNvNY_1tTvjyzzs26yXDDTWKh&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=ZW-NnBjA-Z217SXaeqCH5A&_nc_ss=7a22e&oh=00_AQJIgDDdn59UGYLcI_9nLsSSb-6JcUXoqVKBQWvdVelIHQ&oe=6AA6EEFD",
    "url": "https://www.threads.com/@choi.openai/post/DdDuwEsj2CL",
    "region": "kr"
   },
@@ -40,18 +50,8 @@
    "likes": 2,
    "cmts": 1,
    "time": 1788939073,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/785200864_17986317129112832_2542805662591478871_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk4MjIzMjAzNzg5NzQ5OTQ2MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTU2OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=7bhGAR8FMjsQ7kNvwHfJCfU&_nc_oc=AdqHlbomOy8uMY5dckkhz_ECgc3-hMltQGdCBqb8h7EvXagBax1nOWHsCfi50RmY9tC8ea6tvujQpCntTJU9R1kp&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=amt_J6hZOW3dw-FnrqHLFQ&_nc_ss=7a22e&oh=00_AQK5OOUz1kiMPDyd1aqfs6JVGvwqNTbySgyJcxXIxwlRPQ&oe=6AA6EBA2",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/785200864_17986317129112832_2542805662591478871_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk4MjIzMjAzNzg5NzQ5OTQ2MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTU2OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=7bhGAR8FMjsQ7kNvwHfJCfU&_nc_oc=AdqHlbomOy8uMY5dckkhz_ECgc3-hMltQGdCBqb8h7EvXagBax1nOWHsCfi50RmY9tC8ea6tvujQpCntTJU9R1kp&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=ZW-NnBjA-Z217SXaeqCH5A&_nc_ss=7a22e&oh=00_AQLS317Y0dQ7pNxlTrU1DBQdW8Mhj--_A4OJ2Yx_-xWxAw&oe=6AA6EBA2",
    "url": "https://www.threads.com/@choi.openai/post/DdDuvCQD3NE",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "1/ 앤트로픽이 9월 9일 새벽, Claude 플랫폼의 비용을 줄이는 방법을 공식 글로 공개했습니다.\n\n단순히 더 싼 모델을 쓰거나 성능을 낮추는 방식이 아니라, 품질을 유지하거나 오히려 높이면서 비용을 줄일 수 있는 세 가지 방법을 제시했는데요.\n\n첫째는 프롬프트 캐시 적중률을 높이는 것, 둘째는 새 모델로 옮길 때 프롬프트에 남아 있는 이전 모델용 지침을 정리하는 것, 셋째는 작업 난이도에 맞춰 추론 강도를 조절하는 것입니다.\n\n앤트로픽은 이 과정을 Claude Code의 claude-api 스킬에 명령으로 넣었습니다. 프롬프트를 검사하는 prompt-audit, 애플리케이션 전체 비용을 분석하는 cost-optimize, 평가 결과를 보면서 여러 설정을 자동으로 시험하는 hillclimb입니다.\n\n글에는 고객지원 평가와 공개 벤치마크 4종의 실제 측정 결과도 함께 공개됐습니다. 가장 큰 절감 효과를 낸 방법은 프롬프트 캐시였습니다.",
-   "likes": 11,
-   "cmts": 2,
-   "time": 1788939070,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DdDuulvjzEn",
    "region": "kr"
   },
   {
@@ -60,7 +60,7 @@
    "likes": 4,
    "cmts": 1,
    "time": 1788936302,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/801582402_1667910594720315_2950086285393815964_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk4MjIwODUyODU2Mzc5NTQwOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=cXHmaZULYGsQ7kNvwF3zto2&_nc_oc=Adqt71SEtIQ9y7bImr20xYWvQf8yVCSK3qj6ohdkZwbn98fkXbG7oRxnfK6HYoe38a5NVyjb8vGS97Lqf2q-tlIN&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Ar3laRAfaATVZgdALRzS6Q&_nc_ss=7a22e&oh=00_AQJjnnWjv-oTvy4Ki29myx6AIRzE78cKg9XCQiibEytq-A&oe=6AA6DCA0",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/801582402_1667910594720315_2950086285393815964_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk4MjIwODUyODU2Mzc5NTQwOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=cXHmaZULYGsQ7kNvwF3zto2&_nc_oc=Adqt71SEtIQ9y7bImr20xYWvQf8yVCSK3qj6ohdkZwbn98fkXbG7oRxnfK6HYoe38a5NVyjb8vGS97Lqf2q-tlIN&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=tS2W4yh6HTK6b1jwlVrgww&_nc_ss=7a22e&oh=00_AQKR38b1Wyf24-3mYnML6HY8M5yMQ-L6h5Ae0fIKGcyTtg&oe=6AA714E0",
    "url": "https://www.threads.com/@aipeekme/post/DdDpY7ek3XQ",
    "region": "kr"
   },
@@ -80,7 +80,7 @@
    "likes": 4,
    "cmts": 1,
    "time": 1788934548,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/801755247_1394150845466016_629352983083334484_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk4MjE5MzgyODk3MDgzMDY2Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Gjf8mzUvgboQ7kNvwH6btoA&_nc_oc=AdrNvAZIxs9ltyrHx9SFd_Lhgp3nm1G5i_Tps-R5JvRIRpYD83smgesOEUSv2I85AcVWMXex1uxRCy79pFoAy3gj&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=o-PlTTf2xQfr1kkpSosbKg&_nc_ss=7a22e&oh=00_AQKlHU4axZGReB4NVDdC6m2GGQu78nqywceEgs-ZTy2PKQ&oe=6AA6E7ED",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/801755247_1394150845466016_629352983083334484_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk4MjE5MzgyODk3MDgzMDY2Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Gjf8mzUvgboQ7kNvwH6btoA&_nc_oc=AdrNvAZIxs9ltyrHx9SFd_Lhgp3nm1G5i_Tps-R5JvRIRpYD83smgesOEUSv2I85AcVWMXex1uxRCy79pFoAy3gj&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=giIvMU9DY1kGVS33LUemrg&_nc_ss=7a22e&oh=00_AQJVNUeqwwLgPM4gPYGNdxElfmsGpIeprISvOMUydjk28A&oe=6AA6E7ED",
    "url": "https://www.threads.com/@kopp/post/DdDmDBajxtH",
    "region": "kr"
   },
@@ -110,7 +110,7 @@
    "likes": 1,
    "cmts": 0,
    "time": 1788928221,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/801263925_17935952316362958_7955649241216534143_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk4MjE0MTAwNTQ0NTE4NjIyMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA1NS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=L5gfvLBeJLwQ7kNvwFEgMNp&_nc_oc=Adpg9LUrFK72M23wQLwhwx493jO3UGNNSERQveJ5U8ytwFtx5Q2mWm_eRs4CXiLH3EKhjz-L3fzB62a0sd7C14mj&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=t6OZZLL8eKt3kKkiY007iA&_nc_ss=7a22e&oh=00_AQKcgvS0qSRHZt9v5pKGKaIFMBkE0SJRxzR_suImDOvoIw&oe=6AA701F4",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/801263925_17935952316362958_7955649241216534143_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk4MjE0MTAwNTQ0NTE4NjIyMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA1NS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=L5gfvLBeJLwQ7kNvwFEgMNp&_nc_oc=Adpg9LUrFK72M23wQLwhwx493jO3UGNNSERQveJ5U8ytwFtx5Q2mWm_eRs4CXiLH3EKhjz-L3fzB62a0sd7C14mj&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=tQvWIcRs0QJu48KwU6_uVQ&_nc_ss=7a22e&oh=00_AQISuImPN6Crb8lZaYwUs3Ngn3BNakL8z_RtHWXAjP-wGw&oe=6AA701F4",
    "url": "https://www.threads.com/@takepage_/post/DdDaCVrE8Kt",
    "region": "kr"
   },
@@ -130,7 +130,7 @@
    "likes": 2,
    "cmts": 1,
    "time": 1788927655,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/801219965_18086219051407306_7420753206613665662_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk4MjEzNjE3ODM0NzMyNTgyNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=K1vfkq_SGasQ7kNvwEyNiGW&_nc_oc=AdpgZx-DxwpvbGEhNCWAOEARw4JZ94ULt3CG0DgFlOsdK6IamMOwlj094l3eKE35TzoicqmammoE95r096tPbQ_B&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Ar3laRAfaATVZgdALRzS6Q&_nc_ss=7a22e&oh=00_AQK-crB_5-va_N3bbALCg45vTU1Md65T1GJHM53-uArEKA&oe=6AA6DD54",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/801219965_18086219051407306_7420753206613665662_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk4MjEzNjE3ODM0NzMyNTgyNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=K1vfkq_SGasQ7kNvwEyNiGW&_nc_oc=AdpgZx-DxwpvbGEhNCWAOEARw4JZ94ULt3CG0DgFlOsdK6IamMOwlj094l3eKE35TzoicqmammoE95r096tPbQ_B&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=tS2W4yh6HTK6b1jwlVrgww&_nc_ss=7a22e&oh=00_AQJYb7nfNtXbliIAd5Du4WYg0kAj9daZHWZo38lYCCU2XQ&oe=6AA71594",
    "url": "https://www.threads.com/@aipeekme/post/DdDY8GFn7mB",
    "region": "kr"
   },
@@ -180,18 +180,18 @@
    "likes": 58,
    "cmts": 1,
    "time": 1788911556,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/801326264_1068419765809199_5792360360852728743_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk4MTk5NjEyMjI4OTM1MjcwNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=K7trVrr8b0EQ7kNvwGHzOzi&_nc_oc=Adpn0-mlAKx0riDoKsq9BgDw7EXAXeUMPAJ3p7u1B-1Hx1Cdo1_aJhRxX-LQ9rbwA94DGWGuR0cz_5-uD_2gH90v&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=0miBFDCI_z9DKSpf7Mahmw&_nc_ss=7a22e&oh=00_AQLOAV8n1OgZDpbgxDSXhVYMebaJUFg3w49f6iomOraepg&oe=6AA6DCC5",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/801326264_1068419765809199_5792360360852728743_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk4MTk5NjEyMjI4OTM1MjcwNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=K7trVrr8b0EQ7kNvwGHzOzi&_nc_oc=Adpn0-mlAKx0riDoKsq9BgDw7EXAXeUMPAJ3p7u1B-1Hx1Cdo1_aJhRxX-LQ9rbwA94DGWGuR0cz_5-uD_2gH90v&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=92zaXShzkMOsSCIUnfcENQ&_nc_ss=7a22e&oh=00_AQLhItMMoGDUW7BFzHg6AGLgWZFM0t0PiJceVOEdv3BMQA&oe=6AA71505",
    "url": "https://www.threads.com/@aicoffeechat/post/DdC5GAuCjAD",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "앤트로픽이 클로드 비용을 줄이는 방법을 공개했습니다.\n\n그중 하나는 사용자가 프롬프트에 써 둔 문장을 지우는 일입니다.\n두 번 확인하라거나 최대한 철저히 하라는 지시가 지금 모델에서는 토큰을 더 쓰고 정확도를 떨어뜨렸습니다.\n\n고객지원 평가에서 이 문장들을 걷어내자 비용이 14.6% 내려가고 정확도가 5.3%p 올랐습니다.\n\n이번 발표를 정리했습니다 🧵",
-   "likes": 42,
-   "cmts": 16,
-   "time": 1788939065,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/799782896_17986317315112832_5466151010795159781_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk4MjIzMTk3MTAwNjc1Mjc2NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=jsocJmQYqsUQ7kNvwE_ssPI&_nc_oc=AdqfJJyLh6W--LZ6dviB46gwB-XX951j_4LRXflbK9lqarACkWbFS9Dp7eZxDXd11xhVSKSC0fiYxZLJeISPVacM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=amt_J6hZOW3dw-FnrqHLFQ&_nc_ss=7a22e&oh=00_AQJcgyh2wozb74ysrhAHEuhr5Z77Ga8xeqaxjSCMorFs_A&oe=6AA6E342",
-   "url": "https://www.threads.com/@choi.openai/post/DdDuuD9D6f8",
+   "text": "1/ 앤트로픽이 9월 9일 새벽, Claude 플랫폼의 비용을 줄이는 방법을 공식 글로 공개했습니다.\n\n단순히 더 싼 모델을 쓰거나 성능을 낮추는 방식이 아니라, 품질을 유지하거나 오히려 높이면서 비용을 줄일 수 있는 세 가지 방법을 제시했는데요.\n\n첫째는 프롬프트 캐시 적중률을 높이는 것, 둘째는 새 모델로 옮길 때 프롬프트에 남아 있는 이전 모델용 지침을 정리하는 것, 셋째는 작업 난이도에 맞춰 추론 강도를 조절하는 것입니다.\n\n앤트로픽은 이 과정을 Claude Code의 claude-api 스킬에 명령으로 넣었습니다. 프롬프트를 검사하는 prompt-audit, 애플리케이션 전체 비용을 분석하는 cost-optimize, 평가 결과를 보면서 여러 설정을 자동으로 시험하는 hillclimb입니다.\n\n글에는 고객지원 평가와 공개 벤치마크 4종의 실제 측정 결과도 함께 공개됐습니다. 가장 큰 절감 효과를 낸 방법은 프롬프트 캐시였습니다.",
+   "likes": 14,
+   "cmts": 2,
+   "time": 1788939070,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DdDuulvjzEn",
    "region": "kr"
   },
   {
@@ -200,7 +200,7 @@
    "likes": 0,
    "cmts": 0,
    "time": 1788925375,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/801582195_17935948407362958_3328706529630104574_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk4MjExNzEyMTIzMjcxMTA5MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTE3MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=u_hZm4wUFL8Q7kNvwFxKeCL&_nc_oc=AdqoYGcqYv1Piwgw0U0h8xJClzT0aLhrp0JX3sxtpK-SbySU3IbDwRr2shshSqPMi-yOEoWV4jl_0O8rv505SHMS&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=t6OZZLL8eKt3kKkiY007iA&_nc_ss=7a22e&oh=00_AQK0gHBqHCyONaISHbFWheWd4hZGpfEtnyDG2P1TzRRtlg&oe=6AA6E170",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/801582195_17935948407362958_3328706529630104574_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk4MjExNzEyMTIzMjcxMTA5MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTE3MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=u_hZm4wUFL8Q7kNvwFxKeCL&_nc_oc=AdqoYGcqYv1Piwgw0U0h8xJClzT0aLhrp0JX3sxtpK-SbySU3IbDwRr2shshSqPMi-yOEoWV4jl_0O8rv505SHMS&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=tQvWIcRs0QJu48KwU6_uVQ&_nc_ss=7a22e&oh=00_AQJ0WirFfS-tJypNyr3ke0gAbCV4NWi2ew9tP5ygDw3Sew&oe=6AA6E170",
    "url": "https://www.threads.com/@takepage_/post/DdDUm5Mk5WG",
    "region": "kr"
   },
@@ -222,7 +222,7 @@
    "views": 1600000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAbAoCECNeDAVDgQBcAkFzYBfoUADqQCQWIuZl~tplv-tiktokx-origin.image?dr=14575&x-expires=1789117200&x-signature=wNq5V2fDUtcmxb%2BLWdxX59Ig%2FnQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAbAoCECNeDAVDgQBcAkFzYBfoUADqQCQWIuZl~tplv-tiktokx-origin.image?dr=14575&x-expires=1789117200&x-signature=YLBsaudhnxkEFIIvDN9PPh28FNk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785471372,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7668541152869616914",
    "region": "kr"
@@ -230,7 +230,7 @@
   {
    "account": "jaemyung_lee",
    "title": "¡Gusto en conocerte, Argentina! 🇰🇷🤝🇦🇷 #이재명 #아르헨티나 #argentina #javiermilei",
-   "views": 501300,
+   "views": 501400,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o43E0EJDgKsBeuyFfnqRBCAvI1sAAbI2NsPlIc~tplv-tiktokx-origin.image?dr=14575&x-expires=1789117200&x-signature=qiseygpV6Yey1BEOOBnaWsmZsk0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -252,7 +252,7 @@
   {
    "account": "jaemyung_lee",
    "title": "우리 국민의 구조에 모든 역량을 총동원하겠습니다  #네팔 #긴급회의 #prayfornepal",
-   "views": 291900,
+   "views": 292000,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4ECXepekgFVLDAPQbcqjSdGAIaIofEozvI9Qh~tplv-tiktokx-origin.image?dr=14575&x-expires=1789117200&x-signature=AjPIlUoID2yvayJRF1mUkP2cR8U%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -263,7 +263,7 @@
   {
    "account": "jaemyung_lee",
    "title": "프랑크푸르트에 도착했습니다🇰🇷🇩🇪 #이재명 #deutschland #frankfurt",
-   "views": 288600,
+   "views": 288700,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1789117200&x-signature=%2FL904LjM%2BlrWYIBGNnmVZQVmeJY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -277,7 +277,7 @@
    "views": 244200,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-i-photomode-sg/91a2f3151d9741689af70b1d1f8aac3a~tplv-photomode-image.jpeg?dr=14555&x-expires=1789117200&x-signature=8uWdG1%2BiLwZCFjyENmKPSFd7SqQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=9b759fb9&idc=my2&ftpl=1",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-i-photomode-sg/91a2f3151d9741689af70b1d1f8aac3a~tplv-photomode-image.jpeg?dr=14555&x-expires=1789117200&x-signature=3D2ahn5ubck0z6YsXpbzVJ%2F3YTo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=9b759fb9&idc=my2&ftpl=1",
    "time": 1785270939,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7667680300490558728",
    "region": "kr"
@@ -285,10 +285,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Aux Champs-Élysées #이재명 #France #macron #fyp",
-   "views": 185300,
+   "views": 191900,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0CGAI6ooFCAPECAEqED63ffIARmgNxjBUg0zR~tplv-tiktokx-origin.image?dr=14575&x-expires=1789117200&x-signature=d3Ira%2FWRxVbifvwxnyrOKg7j2lI%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0CGAI6ooFCAPECAEqED63ffIARmgNxjBUg0zR~tplv-tiktokx-origin.image?dr=14575&x-expires=1789117200&x-signature=1q6A7J9NN85P6SFXBoZUm5QFhy4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1788879730,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7683179938026900754",
    "region": "kr"
@@ -296,7 +296,7 @@
   {
    "account": "jaemyung_lee",
    "title": "다녀오겠습니다 🇫🇷 🎬 뤼미에르 서밋 2026.09.06.~07. 🇫🇷 국빈방문 2026.09.07.~09. #이재명 #France #SommetLumière",
-   "views": 123300,
+   "views": 123600,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0IAB7tvQACi105Ea6znpBOc0ViIPUiYBqIYi~tplv-tiktokx-origin.image?dr=14575&x-expires=1789117200&x-signature=%2FILlVAVfAM%2Fe4PcN5LsjzNJxzDk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -307,7 +307,7 @@
   {
    "account": "tictok_ent",
    "title": "이나영, 변치 않는 우아함 / 다미아니(Damiani) 포토월 #이나영 #다미아니 #Damiani",
-   "views": 42100,
+   "views": 46500,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/os1AU8gRJBbEGAiK5gWILhOAAUBOwnfCVUyBiY~tplv-tiktokx-origin.image?dr=14575&x-expires=1789117200&x-signature=ma%2F4rAa%2BU7hYwrKr1IKXj92WUXU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -318,7 +318,7 @@
   {
    "account": "jaemyung_lee",
    "title": "새로운 영감과 끝없는 도전을 위해 🇰🇷🇫🇷 뤼미에르 서밋 레디, 액션 #Korea #France #Lumiere",
-   "views": 20600,
+   "views": 20800,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIqB6INciK7CI3iw10LAp5vfZO6IAlCTdIAI06~tplv-tiktokx-origin.image?dr=14575&x-expires=1789117200&x-signature=1W%2F5pnV%2Bh8ykbxf9njrE%2F7xv8hk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -329,10 +329,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Bonjour, Lumière #France #lumière #fyp",
-   "views": 19200,
+   "views": 19400,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/owtqH3lHOA8nCRR6gQFkn2UDJfUKTYtEBEBUeQ~tplv-tiktokx-origin.image?dr=14575&x-expires=1789117200&x-signature=fl1INu0CC2FNRVP%2FVO6xo7LXcdg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/owtqH3lHOA8nCRR6gQFkn2UDJfUKTYtEBEBUeQ~tplv-tiktokx-origin.image?dr=14575&x-expires=1789117200&x-signature=5Mw5WQwlzJToMi87l9dadxjFZDg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1788795259,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7682817137672555794",
    "region": "kr"
@@ -340,7 +340,7 @@
   {
    "account": "tictok_ent",
    "title": "한소희 / 부쉐론(boucheron) 하이주얼리 이벤트 포토월 #한소희 #부쉐론 #boucheron",
-   "views": 6610,
+   "views": 6626,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oEQefADn8CEBvFVKqEn9VApCgIT9CaqQAA1oEQ~tplv-tiktokx-origin.image?dr=14575&x-expires=1789117200&x-signature=5nzU4opkaCclvNckbGX4TSmaINc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -351,6 +351,15 @@
  ],
  "reddit": [
   {
+   "sub": "AbsoluteUnits",
+   "title": "of a polar bear. Literally trying to figure out how to eat them.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/bHdnMjhyN2ZuZW9oMYHCzSZsgmfDfvBTZuOrQRsfiZHM0JYcpHRPMJinZYNC.png?width=320&crop=smart&auto=webp&s=86d9b55739f3b1e1cd533e23c4f5ba657b67e5b1",
+   "time": 1788920629,
+   "url": "https://www.reddit.com/r/AbsoluteUnits/comments/1wb8slx/of_a_polar_bear_literally_trying_to_figure_out/"
+  },
+  {
    "sub": "law",
    "title": "Lindsay Clancy jurors revealed: Three women break cover to share details of their explosive arguments with male holdout who wouldn't acquit",
    "score": 0,
@@ -358,15 +367,6 @@
    "thumb": "https://external-preview.redd.it/65PSIy7CCIMPo-wPicW61uNdQ6xZ_HWAXNqIzjt1EZ4.jpeg?width=640&crop=smart&auto=webp&s=410107d75e6a1fc4325e3e8e8b21643360af88ad",
    "time": 1788899133,
    "url": "https://www.reddit.com/r/law/comments/1wb01pf/lindsay_clancy_jurors_revealed_three_women_break/"
-  },
-  {
-   "sub": "LoveTrash",
-   "title": "Don't touch my stuff",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/aTNueGphY2pzYW9oMSRIDF0gGXcUOPsS197H66ZoSH4Y4L-fSQBwxSNvlaN-.png?width=320&crop=smart&auto=webp&s=5477ae17c1f5e26f7265927bd338e53fd9c206b3",
-   "time": 1788873901,
-   "url": "https://www.reddit.com/r/LoveTrash/comments/1waocid/dont_touch_my_stuff/"
   },
   {
    "sub": "RentnerfahreninDinge",
@@ -378,31 +378,13 @@
    "url": "https://www.reddit.com/r/RentnerfahreninDinge/comments/1wbcqwh/rentnerin_86_fährt_in_meinen_vater_er_stirbt/"
   },
   {
-   "sub": "AbsoluteUnits",
-   "title": "of a polar bear. Literally trying to figure out how to eat them.",
+   "sub": "LoveTrash",
+   "title": "Don't touch my stuff",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/bHdnMjhyN2ZuZW9oMYHCzSZsgmfDfvBTZuOrQRsfiZHM0JYcpHRPMJinZYNC.png?width=320&crop=smart&auto=webp&s=86d9b55739f3b1e1cd533e23c4f5ba657b67e5b1",
-   "time": 1788920629,
-   "url": "https://www.reddit.com/r/AbsoluteUnits/comments/1wb8slx/of_a_polar_bear_literally_trying_to_figure_out/"
-  },
-  {
-   "sub": "mildlyinfuriating",
-   "title": "Guest at rental home left 45 cans of nitrous oxide aka whippets",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/g6nne50kgeoh1.jpeg?width=640&crop=smart&auto=webp&s=91840af9be14c97ca28ff06718541b1db09ab0df",
-   "time": 1788918299,
-   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1wb7x7a/guest_at_rental_home_left_45_cans_of_nitrous/"
-  },
-  {
-   "sub": "bald",
-   "title": "My girlfriend's journey",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/eqt32vln3eoh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=e73effdd982c5bb3d2d98bba9e2348a7a05ea439",
-   "time": 1788913972,
-   "url": "https://www.reddit.com/r/bald/comments/1wb6ad1/my_girlfriends_journey/"
+   "thumb": "https://external-preview.redd.it/aTNueGphY2pzYW9oMSRIDF0gGXcUOPsS197H66ZoSH4Y4L-fSQBwxSNvlaN-.png?width=320&crop=smart&auto=webp&s=5477ae17c1f5e26f7265927bd338e53fd9c206b3",
+   "time": 1788873901,
+   "url": "https://www.reddit.com/r/LoveTrash/comments/1waocid/dont_touch_my_stuff/"
   },
   {
    "sub": "icast",
@@ -412,33 +394,6 @@
    "thumb": "https://preview.redd.it/vefcqe5ydeoh1.jpeg?width=320&crop=smart&auto=webp&s=2f7a4452a7c5a34c4405fbaa87be8ae32cce991a",
    "time": 1788917464,
    "url": "https://www.reddit.com/r/icast/comments/1wb7m8o/i_cast/"
-  },
-  {
-   "sub": "NatureIsFuckingLit",
-   "title": "🔥Long nose horned frog aka Malayan leaf frog eating it's meal",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/ZWlvYXoxMDNwZW9oMRoFKeTKdhuhmsLm_WbEVHXzDvJeKAn7r4kHsKaWD6uw.jpeg?width=320&crop=smart&auto=webp&s=5e88bebc10dc008cd447d4517d96fc7d512dbcda",
-   "time": 1788921169,
-   "url": "https://www.reddit.com/r/NatureIsFuckingLit/comments/1wb8zop/long_nose_horned_frog_aka_malayan_leaf_frog/"
-  },
-  {
-   "sub": "cats",
-   "title": "This is the best thing that could ever happen to me",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/ams5ajhhODF1ZW9oMWy0A2QjxqkhbfS6yJTUIqQOTABPnJsAiwFU52Cftswp.png?width=640&crop=smart&auto=webp&s=a67e2eef19e47519deab1d2122c944f23b707794",
-   "time": 1788922834,
-   "url": "https://www.reddit.com/r/cats/comments/1wb9l45/this_is_the_best_thing_that_could_ever_happen_to/"
-  },
-  {
-   "sub": "AskReddit",
-   "title": "What's the craziest 9/11 fact that you know?",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "",
-   "time": 1788889461,
-   "url": "https://www.reddit.com/r/AskReddit/comments/1wavext/whats_the_craziest_911_fact_that_you_know/"
   },
   {
    "sub": "MoralityScaling",
@@ -457,6 +412,51 @@
    "thumb": "https://preview.redd.it/de2qrbd4kdoh1.png?width=640&crop=smart&auto=webp&s=b54a7a3f6628beeb73c6ab41fd31320261357b97",
    "time": 1788907454,
    "url": "https://www.reddit.com/r/funComunitty/comments/1wb3pxw/napoleons_orders_not_mine/"
+  },
+  {
+   "sub": "AskReddit",
+   "title": "What is the worst way someone you know has died?",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1788910979,
+   "url": "https://www.reddit.com/r/AskReddit/comments/1wb5493/what_is_the_worst_way_someone_you_know_has_died/"
+  },
+  {
+   "sub": "mildlyinfuriating",
+   "title": "Guest at rental home left 45 cans of nitrous oxide aka whippets",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/g6nne50kgeoh1.jpeg?width=640&crop=smart&auto=webp&s=91840af9be14c97ca28ff06718541b1db09ab0df",
+   "time": 1788918299,
+   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1wb7x7a/guest_at_rental_home_left_45_cans_of_nitrous/"
+  },
+  {
+   "sub": "TikTokCringe",
+   "title": "The easiest $30k this guy ever made",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/aTl1ZDU0cHF6OW9oMScsrdk3bY-amzDFmU0hTNROgeYD28dN1Ts7KRQB_bf5.png?width=320&crop=smart&auto=webp&s=2ca8c5f46caadf4c3bd3df0f1d4e1cbfc6b5dc97",
+   "time": 1788864216,
+   "url": "https://www.reddit.com/r/TikTokCringe/comments/1wakvj0/the_easiest_30k_this_guy_ever_made/"
+  },
+  {
+   "sub": "NatureIsFuckingLit",
+   "title": "🔥Long nose horned frog aka Malayan leaf frog eating it's meal",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/ZWlvYXoxMDNwZW9oMRoFKeTKdhuhmsLm_WbEVHXzDvJeKAn7r4kHsKaWD6uw.jpeg?width=320&crop=smart&auto=webp&s=5e88bebc10dc008cd447d4517d96fc7d512dbcda",
+   "time": 1788921169,
+   "url": "https://www.reddit.com/r/NatureIsFuckingLit/comments/1wb8zop/long_nose_horned_frog_aka_malayan_leaf_frog/"
+  },
+  {
+   "sub": "cats",
+   "title": "This is the best thing that could ever happen to me",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/ams5ajhhODF1ZW9oMWy0A2QjxqkhbfS6yJTUIqQOTABPnJsAiwFU52Cftswp.png?width=640&crop=smart&auto=webp&s=a67e2eef19e47519deab1d2122c944f23b707794",
+   "time": 1788922834,
+   "url": "https://www.reddit.com/r/cats/comments/1wb9l45/this_is_the_best_thing_that_could_ever_happen_to/"
   }
  ],
  "disaster": [],
@@ -501,10 +501,10 @@
    }
   },
   "landing": {
-   "at": "2026-09-09T17:35:53",
+   "at": "2026-09-09T18:01:26",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-09-09T18:01:23.461836+09:00"
+ "updated": "2026-09-09T18:31:20.628802+09:00"
 }
