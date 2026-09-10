@@ -7445,8 +7445,14 @@
   {
    "query": "이혜정",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/a360628475.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/002/0002455827",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-10T22:50:00+09:00",
    "delta": -7,
@@ -7460,8 +7466,14 @@
   {
    "query": "jyp엔터테인먼트",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/038853ed15.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/009/0005733243",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-11T00:10:00+09:00",
    "isNew": true,
@@ -7494,8 +7506,14 @@
   {
    "query": "가천대",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/41e01f40c3.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/421/0009163291",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-10T22:50:00+09:00",
    "delta": -9,
@@ -7509,8 +7527,14 @@
   {
    "query": "농구",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/cbe2dc8e88.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/052/0002405508",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-10T23:00:00+09:00",
    "delta": -12,
@@ -7524,8 +7548,14 @@
   {
    "query": "수시원서접수",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/4238a01fec.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/001/0016296896",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-10T23:10:00+09:00",
    "isNew": true,
@@ -7576,8 +7606,14 @@
   {
    "query": "원서접수",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/4238a01fec.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/001/0016296896",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-09-10T23:00:00+09:00",
    "isNew": true,
@@ -7589,8 +7625,14 @@
   {
    "query": "cpi",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/183907703f.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/001/0016298555",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-09-10T22:50:00+09:00",
    "delta": -13,
@@ -7748,7 +7790,7 @@
  ],
  "gtrends_pool_updated": "2026-09-11T01:38:15+09:00",
  "_trend_img": {
-  "tried": "2026-09-11T00:58:01+09:00",
+  "tried": "2026-09-11T01:38:15+09:00",
   "fail": {
    "사랑 이 온다": "2026-09-11T00:27:44+09:00"
   }
@@ -19062,7 +19104,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-11T01:38:15+09:00"
+    "first_seen": "2026-09-11T01:38:15+09:00",
+    "kw": "팝오버, HTML/CSS/JS",
+    "sum": "작성자가 의존성 없는 순수 코드 리퀴드 팝오버를 만들었다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -19077,7 +19122,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-09-11T01:38:15+09:00"
+    "first_seen": "2026-09-11T01:38:15+09:00",
+    "kw": "허깅페이스, LingBot-World",
+    "sum": "계정이 LingBot-World v2 컬렉션 링크를 공유했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -19092,7 +19140,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-09-11T01:38:15+09:00"
+    "first_seen": "2026-09-11T01:38:15+09:00",
+    "kw": "LingBot-World 2.0, Robbyant, 월드모델",
+    "sum": "Robbyant가 개인용 GPU 실시간 구동 월드모델을 오픈소스로 공개했다",
+    "sv": 1
    },
    {
     "account": "takepage_",
@@ -19107,7 +19158,10 @@
     "rh": [
      4
     ],
-    "first_seen": "2026-09-11T01:38:15+09:00"
+    "first_seen": "2026-09-11T01:38:15+09:00",
+    "kw": "업무자동화, 전자책",
+    "sum": "작성자가 업무 자동화 기준을 담은 책을 출시해 홍보하고 있다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
