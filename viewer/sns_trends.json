@@ -7580,8 +7580,14 @@
   {
    "query": "송은이",
    "traffic": "5000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/ebf27c94ad.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/009/0005733088",
+     "source": ""
+    }
+   ],
    "vol": 5000,
    "started": "2026-09-10T10:40:00+09:00",
    "delta": -3,
@@ -7613,8 +7619,14 @@
   {
    "query": "조혜련",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/534dbdede7.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/009/0005733053",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-09-10T10:50:00+09:00",
    "delta": -6,
@@ -7644,8 +7656,14 @@
   {
    "query": "장훈",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/f7816c9169.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/001/0016302057",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-09-10T10:40:00+09:00",
    "delta": -5,
@@ -7696,8 +7714,14 @@
   {
    "query": "김녹완",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/855eef79dc.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/001/0016301912",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-10T11:10:00+09:00",
    "delta": -12,
@@ -7959,14 +7983,14 @@
  ],
  "gtrends_pool_updated": "2026-09-10T13:37:09+09:00",
  "_trend_img": {
-  "tried": "2026-09-10T13:01:24+09:00",
+  "tried": "2026-09-10T13:37:09+09:00",
   "fail": {
-   "우규민": "2026-09-10T11:12:38+09:00",
    "레이스 대 브레이브스": "2026-09-10T11:53:12+09:00",
    "김대호": "2026-09-10T12:28:55+09:00",
    "알렉산더 즈베레프": "2026-09-10T12:28:55+09:00",
    "앙투안 그리즈만": "2026-09-10T12:28:55+09:00",
-   "nep vs oma": "2026-09-10T13:05:04+09:00"
+   "nep vs oma": "2026-09-10T13:05:04+09:00",
+   "지민": "2026-09-10T13:38:53+09:00"
   }
  },
  "gtrends_gl": [
@@ -18932,7 +18956,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-10T13:37:09+09:00"
+    "first_seen": "2026-09-10T13:37:09+09:00",
+    "kw": "Astra, 추론 레벨, 토큰 소모",
+    "sum": "작성자가 Astra medium과 xhigh의 토큰 소모를 비교했다",
+    "sv": 1
    },
    {
     "account": "takepage_",
@@ -18947,7 +18974,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-09-10T13:37:09+09:00"
+    "first_seen": "2026-09-10T13:37:09+09:00",
+    "kw": "아이폰 듀오, 소개 영상",
+    "sum": "작성자가 아이폰 듀오 소개 영상을 공유했다",
+    "sv": 1
    },
    {
     "account": "aipeekme",
@@ -18962,7 +18992,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-09-10T13:37:09+09:00"
+    "first_seen": "2026-09-10T13:37:09+09:00",
+    "kw": "폴 크리스티아노, OpenAI 재단 이사회",
+    "sum": "계정이 폴 크리스티아노의 OpenAI 이사회 합류 소식을 링크했다",
+    "sv": 1
    },
    {
     "account": "aipeekme",
@@ -18977,7 +19010,10 @@
     "rh": [
      4
     ],
-    "first_seen": "2026-09-10T13:37:09+09:00"
+    "first_seen": "2026-09-10T13:37:09+09:00",
+    "kw": "폴 크리스티아노, OpenAI, 이사회 합류",
+    "sum": "폴 크리스티아노가 OpenAI 재단 이사회에 합류했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
