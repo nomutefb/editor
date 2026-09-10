@@ -7454,8 +7454,14 @@
   {
    "query": "한우랑 사과랑 축제",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/5851534b82.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/001/0016301952",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-09-11T02:00:00+09:00",
    "delta": -2,
@@ -7469,8 +7475,14 @@
   {
    "query": "숲",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/f55526d509.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/015/0005330507",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-11T02:30:00+09:00",
    "delta": -4,
@@ -7485,8 +7497,14 @@
   {
    "query": "google usa",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/371dab91f1.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/091/0010161251",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-09-11T02:30:00+09:00",
    "delta": -6,
@@ -7563,7 +7581,7 @@
  ],
  "gtrends_pool_updated": "2026-09-11T05:57:12+09:00",
  "_trend_img": {
-  "tried": "2026-09-11T05:20:27+09:00",
+  "tried": "2026-09-11T05:57:12+09:00",
   "fail": {}
  },
  "gtrends_gl": [
@@ -18126,7 +18144,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-11T05:57:12+09:00"
+    "first_seen": "2026-09-11T05:57:12+09:00",
+    "kw": "예멘, 후티, 홍해",
+    "sum": "후티가 홍해 연안을 따라 세력을 확장하고 있다",
+    "sv": 1
    },
    {
     "account": "64bitcoinkr",
@@ -19306,7 +19327,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-11T05:57:12+09:00"
+    "first_seen": "2026-09-11T05:57:12+09:00",
+    "kw": "UnifoLM-WLA, Unitree",
+    "sum": "계정이 UnifoLM-WLA 프로젝트 페이지를 공유했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -19321,7 +19345,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-09-11T05:57:12+09:00"
+    "first_seen": "2026-09-11T05:57:12+09:00",
+    "kw": "Unitree, UnifoLM-WLA, 휴머노이드",
+    "sum": "Unitree가 휴머노이드 파운데이션 모델을 오픈소스로 공개했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
