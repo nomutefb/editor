@@ -7682,8 +7682,14 @@
   {
    "query": "아이폰 듀오 무게",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/5948565dfd.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/001/0016301826",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-09-10T07:40:00+09:00",
    "isNew": true,
@@ -7715,8 +7721,14 @@
   {
    "query": "nfl",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/607e44902b.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/001/0016298648",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-10T06:50:00+09:00",
    "isNew": true,
@@ -7809,8 +7821,14 @@
   {
    "query": "코레일 추석예매",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/7290de7463.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/422/0000903789",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-09-10T06:40:00+09:00",
    "isNew": true,
@@ -7822,8 +7840,14 @@
   {
    "query": "한예슬",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/00ad886eb1.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/009/0005730959",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-10T07:00:00+09:00",
    "isNew": true,
@@ -7835,8 +7859,14 @@
   {
    "query": "구미시",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/2de8fcc4bd.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/003/0014180403",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-10T06:40:00+09:00",
    "isNew": true,
@@ -7848,8 +7878,14 @@
   {
    "query": "주식",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/57fd645a70.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/015/0005330805",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-09-10T06:40:00+09:00",
    "isNew": true,
@@ -7861,8 +7897,14 @@
   {
    "query": "브래드 피트",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/c45eede2e2.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/088/0001027439",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-10T07:10:00+09:00",
    "isNew": true,
@@ -8061,7 +8103,7 @@
  ],
  "gtrends_pool_updated": "2026-09-10T10:33:45+09:00",
  "_trend_img": {
-  "tried": "2026-09-10T09:54:52+09:00",
+  "tried": "2026-09-10T10:33:45+09:00",
   "fail": {
    "이강인": "2026-09-10T09:58:34+09:00",
    "시청률": "2026-09-10T09:58:34+09:00"
@@ -19494,7 +19536,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-10T10:33:45+09:00"
+    "first_seen": "2026-09-10T10:33:45+09:00",
+    "kw": "GitHub, PR 병합 규칙, secret scanning",
+    "sum": "계정이 PR 병합 규칙 통과 증거의 중요성을 설명했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -19509,7 +19554,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-09-10T10:33:45+09:00"
+    "first_seen": "2026-09-10T10:33:45+09:00",
+    "kw": "GitHub, secret scanning, PR 병합",
+    "sum": "계정이 GitHub의 비밀값 노출 PR 병합 차단 정책을 정리했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
