@@ -1,12 +1,12 @@
 {
- "generated_kst": "2026-09-10T21:02:07+09:00",
- "source_fetched_kst": "2026-09-10T21:02:07+09:00",
+ "generated_kst": "2026-09-10T21:32:11+09:00",
+ "source_fetched_kst": "2026-09-10T21:32:11+09:00",
  "n_posts": 1009,
  "span": [
   "01/01 08시",
   "12/31 18시"
  ],
- "posts_view_avg": 675080,
+ "posts_view_avg": 675189,
  "weights": {
   "share_pm": 3.0,
   "save_pm": 2.0,
@@ -15,9 +15,9 @@
   "vpd": 1.5
  },
  "global_median": {
-  "vpd": 1765.47,
+  "vpd": 1765.32,
   "share_pm": 5.642,
-  "save_pm": 0.643,
+  "save_pm": 0.64,
   "cmt_pm": 0.465,
   "like_pm": 4.403
  },
@@ -29,14 +29,14 @@
     "lift": {
      "vpd": 1.02,
      "share_pm": 1.3,
-     "save_pm": 1.13,
+     "save_pm": 1.14,
      "cmt_pm": 0.86,
      "like_pm": 1.18
     },
     "low_sample": false,
     "top": {
      "name": "🏔 네팔서 무너진 산이 국경을 넘었다…중국 지룽 커우안 직격",
-     "score": 176.88
+     "score": 176.69
     }
    },
    {
@@ -45,14 +45,14 @@
     "lift": {
      "vpd": 1.0,
      "share_pm": 0.75,
-     "save_pm": 0.89,
+     "save_pm": 0.9,
      "cmt_pm": 1.1,
      "like_pm": 0.85
     },
     "low_sample": false,
     "top": {
      "name": "⚖ 출소 후 다시 강남…승리, 특수폭행 혐의로 피소",
-     "score": 301.45
+     "score": 621.45
     }
    }
   ],
@@ -63,14 +63,14 @@
     "lift": {
      "vpd": 0.9,
      "share_pm": 2.5,
-     "save_pm": 1.4,
+     "save_pm": 1.41,
      "cmt_pm": 1.56,
      "like_pm": 1.14
     },
     "low_sample": false,
     "top": {
      "name": "",
-     "score": 63.61
+     "score": 63.66
     }
    },
    {
@@ -86,23 +86,7 @@
     "low_sample": false,
     "top": {
      "name": "🏆 (설문) 여러분이 뽑은 올해의 개인정보 유출 대상은?",
-     "score": 47.91
-    }
-   },
-   {
-    "bucket": "이모지브리핑",
-    "n": 312,
-    "lift": {
-     "vpd": 1.05,
-     "share_pm": 1.09,
-     "save_pm": 0.89,
-     "cmt_pm": 0.87,
-     "like_pm": 0.94
-    },
-    "low_sample": false,
-    "top": {
-     "name": "⚖ 출소 후 다시 강남…승리, 특수폭행 혐의로 피소",
-     "score": 301.45
+     "score": 47.96
     }
    },
    {
@@ -118,7 +102,23 @@
     "low_sample": false,
     "top": {
      "name": "성평등가족부 장관 후보로 지명된 용혜인 의원의 2015년 오마이뉴스 인터뷰가 공무원 커뮤니티에서 재조명되고 ",
-     "score": 94.13
+     "score": 93.96
+    }
+   },
+   {
+    "bucket": "이모지브리핑",
+    "n": 312,
+    "lift": {
+     "vpd": 1.05,
+     "share_pm": 1.08,
+     "save_pm": 0.89,
+     "cmt_pm": 0.87,
+     "like_pm": 0.94
+    },
+    "low_sample": false,
+    "top": {
+     "name": "⚖ 출소 후 다시 강남…승리, 특수폭행 혐의로 피소",
+     "score": 621.45
     }
    },
    {
@@ -127,14 +127,14 @@
     "lift": {
      "vpd": 1.0,
      "share_pm": 0.86,
-     "save_pm": 0.99,
+     "save_pm": 1.0,
      "cmt_pm": 1.12,
      "like_pm": 0.98
     },
     "low_sample": false,
     "top": {
      "name": "🚨 “방금 한 얘기 왜 광고로 뜨지?”, “최근 975억원 구글 소송도 이 때문” 내 정보 내가 지키는 간단",
-     "score": 112.75
+     "score": 113.18
     }
    }
   ],
@@ -152,7 +152,7 @@
     "low_sample": false,
     "top": {
      "name": "🚨 “방금 한 얘기 왜 광고로 뜨지?”, “최근 975억원 구글 소송도 이 때문” 내 정보 내가 지키는 간단",
-     "score": 112.75
+     "score": 113.18
     }
    },
    {
@@ -161,14 +161,14 @@
     "lift": {
      "vpd": 0.78,
      "share_pm": 1.08,
-     "save_pm": 1.3,
+     "save_pm": 1.33,
      "cmt_pm": 1.05,
      "like_pm": 1.4
     },
     "low_sample": false,
     "top": {
      "name": "",
-     "score": 63.61
+     "score": 63.66
     }
    },
    {
@@ -184,7 +184,7 @@
     "low_sample": false,
     "top": {
      "name": "⚖ 출소 후 다시 강남…승리, 특수폭행 혐의로 피소",
-     "score": 301.45
+     "score": 621.45
     }
    },
    {
@@ -193,14 +193,14 @@
     "lift": {
      "vpd": 1.02,
      "share_pm": 0.98,
-     "save_pm": 0.94,
+     "save_pm": 0.95,
      "cmt_pm": 0.87,
      "like_pm": 0.98
     },
     "low_sample": false,
     "top": {
      "name": "🌧 시간당 104.5㎜, 나고야가 멈췄다…아시안게임 11일 앞",
-     "score": 153.96
+     "score": 151.9
     }
    },
    {
@@ -209,14 +209,14 @@
     "lift": {
      "vpd": 1.0,
      "share_pm": 0.86,
-     "save_pm": 0.99,
+     "save_pm": 1.0,
      "cmt_pm": 1.12,
      "like_pm": 0.98
     },
     "low_sample": false,
     "top": {
      "name": "🚨 “방금 한 얘기 왜 광고로 뜨지?”, “최근 975억원 구글 소송도 이 때문” 내 정보 내가 지키는 간단",
-     "score": 112.75
+     "score": 113.18
     }
    },
    {
@@ -232,7 +232,7 @@
     "low_sample": false,
     "top": {
      "name": "⚖ 출소 후 다시 강남…승리, 특수폭행 혐의로 피소",
-     "score": 301.45
+     "score": 621.45
     }
    }
   ],
@@ -250,7 +250,7 @@
     "low_sample": false,
     "top": {
      "name": "",
-     "score": 63.61
+     "score": 63.66
     }
    },
    {
@@ -259,14 +259,14 @@
     "lift": {
      "vpd": 0.8,
      "share_pm": 1.2,
-     "save_pm": 1.15,
+     "save_pm": 1.16,
      "cmt_pm": 2.39,
      "like_pm": 1.24
     },
     "low_sample": false,
     "top": {
      "name": "성평등가족부 장관 후보로 지명된 용혜인 의원의 2015년 오마이뉴스 인터뷰가 공무원 커뮤니티에서 재조명되고 ",
-     "score": 94.13
+     "score": 93.96
     }
    },
    {
@@ -275,14 +275,14 @@
     "lift": {
      "vpd": 0.45,
      "share_pm": 1.15,
-     "save_pm": 1.35,
+     "save_pm": 1.37,
      "cmt_pm": 0.63,
      "like_pm": 1.15
     },
     "low_sample": false,
     "top": {
      "name": "🚨 “방금 한 얘기 왜 광고로 뜨지?”, “최근 975억원 구글 소송도 이 때문” 내 정보 내가 지키는 간단",
-     "score": 112.75
+     "score": 113.18
     }
    },
    {
@@ -298,7 +298,7 @@
     "low_sample": false,
     "top": {
      "name": "🏔 네팔서 무너진 산이 국경을 넘었다…중국 지룽 커우안 직격",
-     "score": 176.88
+     "score": 176.69
     }
    },
    {
@@ -314,7 +314,7 @@
     "low_sample": false,
     "top": {
      "name": "🛒 혁신을 내세운 와디즈, 상업적 플랫폼으로 전락했나",
-     "score": 51.42
+     "score": 51.46
     }
    },
    {
@@ -325,12 +325,12 @@
      "share_pm": 0.86,
      "save_pm": 0.98,
      "cmt_pm": 1.06,
-     "like_pm": 0.87
+     "like_pm": 0.86
     },
     "low_sample": false,
     "top": {
      "name": "⚖ 출소 후 다시 강남…승리, 특수폭행 혐의로 피소",
-     "score": 301.45
+     "score": 621.45
     }
    },
    {
@@ -346,7 +346,7 @@
     "low_sample": false,
     "top": {
      "name": "🌧 시간당 104.5㎜, 나고야가 멈췄다…아시안게임 11일 앞",
-     "score": 153.96
+     "score": 151.9
     }
    }
   ],
@@ -364,7 +364,7 @@
     "low_sample": false,
     "top": {
      "name": "볼 걸 맞춘 일본 배구 선수의 빠른 사과가 누리꾼 사이에서 화제다",
-     "score": 44.41
+     "score": 44.47
     }
    },
    {
@@ -373,14 +373,14 @@
     "lift": {
      "vpd": 0.85,
      "share_pm": 1.02,
-     "save_pm": 1.01,
+     "save_pm": 1.02,
      "cmt_pm": 1.02,
      "like_pm": 0.92
     },
     "low_sample": false,
     "top": {
      "name": "🇻🇪 베네수 국민에게 한소리 들은 조국혁신당 대표 조국",
-     "score": 45.0
+     "score": 45.06
     }
    },
    {
@@ -389,14 +389,14 @@
     "lift": {
      "vpd": 0.73,
      "share_pm": 1.01,
-     "save_pm": 1.21,
+     "save_pm": 1.22,
      "cmt_pm": 0.89,
      "like_pm": 1.1
     },
     "low_sample": false,
     "top": {
      "name": "🏆 (설문) 여러분이 뽑은 올해의 개인정보 유출 대상은?",
-     "score": 47.91
+     "score": 47.96
     }
    },
    {
@@ -412,7 +412,7 @@
     "low_sample": false,
     "top": {
      "name": "⚖ 출소 후 다시 강남…승리, 특수폭행 혐의로 피소",
-     "score": 301.45
+     "score": 621.45
     }
    },
    {
@@ -421,14 +421,14 @@
     "lift": {
      "vpd": 1.08,
      "share_pm": 0.95,
-     "save_pm": 0.97,
+     "save_pm": 0.98,
      "cmt_pm": 0.86,
      "like_pm": 1.01
     },
     "low_sample": false,
     "top": {
      "name": "🌧 시간당 104.5㎜, 나고야가 멈췄다…아시안게임 11일 앞",
-     "score": 153.96
+     "score": 151.9
     }
    },
    {
@@ -444,7 +444,7 @@
     "low_sample": false,
     "top": {
      "name": "🚨 “방금 한 얘기 왜 광고로 뜨지?”, “최근 975억원 구글 소송도 이 때문” 내 정보 내가 지키는 간단",
-     "score": 112.75
+     "score": 113.18
     }
    }
   ],
@@ -454,15 +454,15 @@
     "n": 126,
     "lift": {
      "vpd": 1.13,
-     "share_pm": 1.27,
-     "save_pm": 1.11,
+     "share_pm": 1.24,
+     "save_pm": 1.1,
      "cmt_pm": 1.15,
      "like_pm": 1.0
     },
     "low_sample": false,
     "top": {
      "name": "⚖ 출소 후 다시 강남…승리, 특수폭행 혐의로 피소",
-     "score": 301.45
+     "score": 621.45
     }
    },
    {
@@ -478,7 +478,7 @@
     "low_sample": false,
     "top": {
      "name": "🚨 “방금 한 얘기 왜 광고로 뜨지?”, “최근 975억원 구글 소송도 이 때문” 내 정보 내가 지키는 간단",
-     "score": 112.75
+     "score": 113.18
     }
    },
    {
@@ -494,7 +494,7 @@
     "low_sample": false,
     "top": {
      "name": "🎬 이재명 대통령, 틱톡 가입… 결재서류에 ’손도장‘ 찍는 숏폼 공개",
-     "score": 88.01
+     "score": 88.02
     }
    },
    {
@@ -503,14 +503,14 @@
     "lift": {
      "vpd": 1.03,
      "share_pm": 1.06,
-     "save_pm": 0.96,
+     "save_pm": 0.97,
      "cmt_pm": 0.94,
      "like_pm": 0.93
     },
     "low_sample": false,
     "top": {
      "name": "🏔 네팔서 무너진 산이 국경을 넘었다…중국 지룽 커우안 직격",
-     "score": 176.88
+     "score": 176.69
     }
    },
    {
@@ -526,7 +526,7 @@
     "low_sample": false,
     "top": {
      "name": "청와대가 어린이날 영상을 '게임 로딩 화면'으로 열었다.",
-     "score": 107.08
+     "score": 107.11
     }
    },
    {
@@ -542,7 +542,7 @@
     "low_sample": false,
     "top": {
      "name": "북한군이 선 넘어도 사격 자제하라는 국방부 지시 논란",
-     "score": 36.07
+     "score": 36.12
     }
    },
    {
@@ -551,14 +551,14 @@
     "lift": {
      "vpd": 0.91,
      "share_pm": 0.77,
-     "save_pm": 0.99,
+     "save_pm": 1.0,
      "cmt_pm": 1.03,
      "like_pm": 1.08
     },
     "low_sample": false,
     "top": {
      "name": "성평등가족부 장관 후보로 지명된 용혜인 의원의 2015년 오마이뉴스 인터뷰가 공무원 커뮤니티에서 재조명되고 ",
-     "score": 94.13
+     "score": 93.96
     }
    }
   ],
@@ -569,14 +569,14 @@
     "lift": {
      "vpd": 0.9,
      "share_pm": 2.5,
-     "save_pm": 1.4,
+     "save_pm": 1.41,
      "cmt_pm": 1.56,
      "like_pm": 1.14
     },
     "low_sample": false,
     "top": {
      "name": "",
-     "score": 63.61
+     "score": 63.66
     }
    },
    {
@@ -592,7 +592,7 @@
     "low_sample": false,
     "top": {
      "name": "출처: @vbaeluga",
-     "score": 35.22
+     "score": 35.24
     }
    },
    {
@@ -608,7 +608,7 @@
     "low_sample": false,
     "top": {
      "name": "⚖ 출소 후 다시 강남…승리, 특수폭행 혐의로 피소",
-     "score": 301.45
+     "score": 621.45
     }
    },
    {
@@ -624,7 +624,7 @@
     "low_sample": false,
     "top": {
      "name": "🚨 “방금 한 얘기 왜 광고로 뜨지?”, “최근 975억원 구글 소송도 이 때문” 내 정보 내가 지키는 간단",
-     "score": 112.75
+     "score": 113.18
     }
    }
   ],
@@ -633,16 +633,16 @@
     "bucket": "회복기(7/11~)",
     "n": 28,
     "lift": {
-     "vpd": 14.74,
-     "share_pm": 1.39,
-     "save_pm": 0.96,
-     "cmt_pm": 1.4,
+     "vpd": 14.69,
+     "share_pm": 1.29,
+     "save_pm": 0.92,
+     "cmt_pm": 1.33,
      "like_pm": 0.94
     },
     "low_sample": false,
     "top": {
      "name": "⚖ 출소 후 다시 강남…승리, 특수폭행 혐의로 피소",
-     "score": 301.45
+     "score": 621.45
     }
    },
    {
@@ -651,14 +651,14 @@
     "lift": {
      "vpd": 1.19,
      "share_pm": 1.14,
-     "save_pm": 0.94,
+     "save_pm": 0.95,
      "cmt_pm": 0.92,
      "like_pm": 0.98
     },
     "low_sample": false,
     "top": {
      "name": "🚨 “방금 한 얘기 왜 광고로 뜨지?”, “최근 975억원 구글 소송도 이 때문” 내 정보 내가 지키는 간단",
-     "score": 112.75
+     "score": 113.18
     }
    },
    {
@@ -667,14 +667,14 @@
     "lift": {
      "vpd": 0.6,
      "share_pm": 0.71,
-     "save_pm": 1.11,
+     "save_pm": 1.12,
      "cmt_pm": 1.17,
      "like_pm": 1.1
     },
     "low_sample": false,
     "top": {
      "name": "🏛 친명·친청 이어 '친석'… 민주당은 지금 프레임 전쟁",
-     "score": 84.16
+     "score": 84.2
     }
    }
   ]
@@ -682,7 +682,7 @@
  "format_summary": {
   "피드": {
    "n": 511,
-   "views_avg": 499728,
+   "views_avg": 499939,
    "views_med": 220722,
    "share_pm_med": 4.25,
    "save_pm_med": 0.58,
@@ -691,8 +691,8 @@
   },
   "릴스": {
    "n": 498,
-   "views_avg": 855008,
-   "views_med": 262948,
+   "views_avg": 855014,
+   "views_med": 262954,
    "share_pm_med": 7.32,
    "save_pm_med": 0.73,
    "cmt_pm_med": 0.4,
@@ -702,16 +702,16 @@
  "topic_summary": {
   "사회": {
    "n": 270,
-   "views_avg": 714527,
+   "views_avg": 714925,
    "views_med": 252170,
    "share_pm_med": 4.83,
    "save_pm_med": 0.63,
    "cmt_pm_med": 0.49,
-   "like_pm_med": 3.83
+   "like_pm_med": 3.77
   },
   "정치": {
    "n": 105,
-   "views_avg": 360737,
+   "views_avg": 360738,
    "views_med": 151142,
    "share_pm_med": 6.78,
    "save_pm_med": 0.74,
@@ -738,17 +738,17 @@
   },
   "테크": {
    "n": 75,
-   "views_avg": 448450,
+   "views_avg": 448485,
    "views_med": 99043,
    "share_pm_med": 6.49,
-   "save_pm_med": 0.87,
+   "save_pm_med": 0.88,
    "cmt_pm_med": 0.29,
    "like_pm_med": 5.06
   },
   "기타": {
    "n": 46,
-   "views_avg": 363542,
-   "views_med": 113085,
+   "views_avg": 363548,
+   "views_med": 113100,
    "share_pm_med": 7.23,
    "save_pm_med": 0.62,
    "cmt_pm_med": 0.8,
@@ -767,11 +767,11 @@
  "era_summary": {
   "회복기(7/11~)": {
    "n": 28,
-   "views_avg": 349258,
-   "views_med": 110690,
-   "share_pm_med": 7.85,
-   "save_pm_med": 0.62,
-   "cmt_pm_med": 0.65,
+   "views_avg": 353211,
+   "views_med": 130397,
+   "share_pm_med": 7.25,
+   "save_pm_med": 0.59,
+   "cmt_pm_med": 0.62,
    "like_pm_med": 4.15
   },
   "침체기(5/8~7/10)": {
@@ -815,18 +815,18 @@
    "hour_band": "저녁18-22",
    "dow": "목",
    "len_band": "21~35자",
-   "views": 99463,
-   "vpd": 397852.0,
-   "share_pm": 9.521128459829283,
-   "save_pm": 0.7942652041462654,
-   "cmt_pm": 0.6937253048872445,
-   "like_pm": 4.0618119300644455,
+   "views": 206828,
+   "vpd": 827312.0,
+   "share_pm": 6.106523294718317,
+   "save_pm": 0.6043669135706965,
+   "cmt_pm": 0.5898621076449997,
+   "like_pm": 3.1717175624190146,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/p/DdGoBe2TE78/",
-   "score": 301.45,
+   "score": 621.45,
    "drivers": [
     "vpd",
-    "share_pm"
+    "cmt_pm"
    ],
    "fp": null,
    "exp": false
@@ -852,15 +852,15 @@
    "hour_band": "저녁18-22",
    "dow": "수",
    "len_band": "21~35자",
-   "views": 3321671,
-   "vpd": 222022.74625452372,
-   "share_pm": 20.60589384078074,
-   "save_pm": 1.5431991910095852,
-   "cmt_pm": 0.25378792782307463,
-   "like_pm": 3.655088056583569,
+   "views": 3321685,
+   "vpd": 221714.25569555713,
+   "share_pm": 20.605806992535417,
+   "save_pm": 1.543192686844177,
+   "cmt_pm": 0.2537868581758957,
+   "like_pm": 3.6550726513802485,
    "watch_ms": 20397,
    "permalink": "https://www.instagram.com/reel/DcgQ4_gznk-/",
-   "score": 176.88,
+   "score": 176.69,
    "drivers": [
     "vpd",
     "share_pm"
@@ -889,15 +889,15 @@
    "hour_band": "오전6-11",
    "dow": "수",
    "len_band": "21~35자",
-   "views": 324068,
-   "vpd": 210915.65626129924,
-   "share_pm": 5.165582532061173,
-   "save_pm": 0.34869224977473867,
-   "cmt_pm": 0.08331584729130923,
-   "like_pm": 2.7309083278818025,
-   "watch_ms": 7047,
+   "views": 324214,
+   "vpd": 208181.64630339784,
+   "share_pm": 5.163256367707748,
+   "save_pm": 0.34545084419550054,
+   "cmt_pm": 0.0832783285114153,
+   "like_pm": 2.7327629281894055,
+   "watch_ms": 7048,
    "permalink": "https://www.instagram.com/reel/DdC1PnFzYly/",
-   "score": 153.96,
+   "score": 151.9,
    "drivers": [
     "vpd"
    ],
@@ -926,14 +926,14 @@
    "dow": "일",
    "len_band": "36자+",
    "views": 236050,
-   "vpd": 1068.532178139622,
+   "vpd": 1068.4311940509856,
    "share_pm": 23.965261597119255,
    "save_pm": 22.6646896843889,
    "cmt_pm": 0.02965473416649015,
    "like_pm": 3.7788604109298873,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/p/DUN9mY7kxNo/",
-   "score": 112.75,
+   "score": 113.18,
    "drivers": [
     "save_pm",
     "share_pm"
@@ -963,14 +963,14 @@
    "dow": "월",
    "len_band": "21~35자",
    "views": 1343106,
-   "vpd": 10410.287389034891,
+   "vpd": 10408.60290204701,
    "share_pm": 184.06886723758214,
    "save_pm": 1.3855942866758095,
    "cmt_pm": 0.5561735261401557,
    "like_pm": 17.733522149405932,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DX6lGCuzvA3/",
-   "score": 107.08,
+   "score": 107.11,
    "drivers": [
     "share_pm",
     "vpd"
@@ -999,15 +999,15 @@
    "hour_band": "저녁18-22",
    "dow": "화",
    "len_band": "36자+",
-   "views": 1040085,
-   "vpd": 114571.6332926198,
-   "share_pm": 17.44376661522856,
-   "save_pm": 0.9499223621146349,
-   "cmt_pm": 1.010494334597653,
-   "like_pm": 4.183311940850988,
+   "views": 1040116,
+   "vpd": 114312.12828151514,
+   "share_pm": 17.443246714789506,
+   "save_pm": 0.9498940502790074,
+   "cmt_pm": 1.0104642174526688,
+   "like_pm": 4.183187259882552,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/p/DcvahIxE30C/",
-   "score": 94.13,
+   "score": 93.96,
    "drivers": [
     "vpd",
     "share_pm"
@@ -1037,14 +1037,14 @@
    "dow": "토",
    "len_band": "36자+",
    "views": 677364,
-   "vpd": 3483.2821205434025,
+   "vpd": 3482.9081552038288,
    "share_pm": 168.53715284544205,
    "save_pm": 0.8223052893274517,
    "cmt_pm": 0.702724089263675,
    "like_pm": 7.455371115087309,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DVSEOeLkxs9/",
-   "score": 88.01,
+   "score": 88.02,
    "drivers": [
     "share_pm",
     "vpd"
@@ -1074,14 +1074,14 @@
    "dow": "일",
    "len_band": "21~35자",
    "views": 304950,
-   "vpd": 4091.750878483866,
+   "vpd": 4090.6048619916432,
    "share_pm": 143.78094769634367,
    "save_pm": 1.5215609116248565,
    "cmt_pm": 2.085587801278898,
    "like_pm": 9.503197245450073,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DaG4nC4SgQs/",
-   "score": 84.16,
+   "score": 84.2,
    "drivers": [
     "share_pm",
     "cmt_pm"
@@ -1110,15 +1110,15 @@
    "hour_band": "저녁18-22",
    "dow": "화",
    "len_band": "21~35자",
-   "views": 847653,
-   "vpd": 94107.66407787948,
-   "share_pm": 22.220177360311354,
-   "save_pm": 0.5509329879089675,
-   "cmt_pm": 0.29021309427324626,
-   "like_pm": 3.1038644350931333,
+   "views": 847683,
+   "vpd": 93893.34181161798,
+   "share_pm": 22.219390975164067,
+   "save_pm": 0.5509134900664517,
+   "cmt_pm": 0.29020282346112874,
+   "like_pm": 3.1037545875049988,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/p/DcvmLExz9Wh/",
-   "score": 76.59,
+   "score": 76.45,
    "drivers": [
     "vpd",
     "share_pm"
@@ -1148,14 +1148,14 @@
    "dow": "목",
    "len_band": "36자+",
    "views": 131712,
-   "vpd": 671.6028142606281,
+   "vpd": 671.5313191691905,
    "share_pm": 80.30399659863946,
    "save_pm": 0.9186710398445093,
    "cmt_pm": 8.047862001943633,
    "like_pm": 10.272412536443149,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/p/DVNzn9tEaj6/",
-   "score": 65.2,
+   "score": 65.22,
    "drivers": [
     "share_pm",
     "cmt_pm"
@@ -1185,14 +1185,14 @@
    "dow": "일",
    "len_band": "0(무캡션)",
    "views": 403365,
-   "vpd": 1383.303196351237,
+   "vpd": 1383.2041523348312,
    "share_pm": 64.1875224672443,
    "save_pm": 2.674996591176726,
    "cmt_pm": 0.22064383374858998,
    "like_pm": 74.62967783521128,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DRX9CpRE9pM/",
-   "score": 63.61,
+   "score": 63.66,
    "drivers": [
     "share_pm",
     "like_pm"
@@ -1222,14 +1222,14 @@
    "dow": "토",
    "len_band": "21~35자",
    "views": 170525,
-   "vpd": 1118.744206332911,
+   "vpd": 1118.5909787876055,
    "share_pm": 95.62234276499048,
    "save_pm": 2.0172995161999707,
    "cmt_pm": 0.2756194106436007,
    "like_pm": 3.0494062454185604,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/p/DW-TmrSExV2/",
-   "score": 51.42,
+   "score": 51.46,
    "drivers": [
     "share_pm",
     "save_pm"
@@ -1259,14 +1259,14 @@
    "dow": "화",
    "len_band": "21~35자",
    "views": 195963,
-   "vpd": 1525.329911359675,
+   "vpd": 1525.0820517804677,
    "share_pm": 53.453968351168335,
    "save_pm": 4.077300306690549,
    "cmt_pm": 3.1638625658925412,
    "like_pm": 6.848231553915791,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/p/DX7-526T0hE/",
-   "score": 50.37,
+   "score": 50.45,
    "drivers": [
     "share_pm",
     "save_pm"
@@ -1296,14 +1296,14 @@
    "dow": "월",
    "len_band": "21~35자",
    "views": 1035133,
-   "vpd": 4558.9582540674855,
+   "vpd": 4558.539057293082,
    "share_pm": 78.42084060695582,
    "save_pm": 1.5341023810466867,
    "cmt_pm": 2.26927361025105,
    "like_pm": 4.734657285585524,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/p/DT-JEO4kx9d/",
-   "score": 49.76,
+   "score": 49.8,
    "drivers": [
     "share_pm",
     "cmt_pm"
@@ -1333,14 +1333,14 @@
    "dow": "목",
    "len_band": "21~35자",
    "views": 1409657,
-   "vpd": 5912.042445962985,
+   "vpd": 5911.524783831067,
    "share_pm": 49.33611509750244,
    "save_pm": 4.125116961076347,
    "cmt_pm": 0.5065061926411886,
    "like_pm": 22.08622381189183,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/p/DTg1HoJk5Yq/",
-   "score": 48.69,
+   "score": 48.77,
    "drivers": [
     "share_pm",
     "save_pm"
@@ -1370,14 +1370,14 @@
    "dow": "수",
    "len_band": "21~35자",
    "views": 965120,
-   "vpd": 3699.831599082824,
+   "vpd": 3699.535477113567,
    "share_pm": 63.52992374005305,
    "save_pm": 2.6421584880636604,
    "cmt_pm": 0.35643236074270557,
    "like_pm": 25.27975795755968,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DSnEt8FEw5j/",
-   "score": 47.91,
+   "score": 47.96,
    "drivers": [
     "share_pm",
     "save_pm"
@@ -1406,15 +1406,15 @@
    "hour_band": "오전6-11",
    "dow": "목",
    "len_band": "36자+",
-   "views": 327728,
-   "vpd": 43626.577428136945,
-   "share_pm": 22.927549675340526,
-   "save_pm": 0.8085973734316262,
-   "cmt_pm": 1.9864033588829761,
-   "like_pm": 6.355880486256896,
+   "views": 327737,
+   "vpd": 43506.84995490519,
+   "share_pm": 22.926920060902493,
+   "save_pm": 0.8085751685040139,
+   "cmt_pm": 1.9894000372249703,
+   "like_pm": 6.355705947146645,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/p/DczckNWzXkr/",
-   "score": 46.75,
+   "score": 46.69,
    "drivers": [
     "vpd",
     "share_pm"
@@ -1443,15 +1443,15 @@
    "hour_band": "오전6-11",
    "dow": "목",
    "len_band": "36자+",
-   "views": 262342,
-   "vpd": 34541.14563411575,
-   "share_pm": 8.20684450068994,
-   "save_pm": 1.8639790807419323,
-   "cmt_pm": 2.4738699865061635,
-   "like_pm": 28.089288028603885,
+   "views": 262355,
+   "vpd": 34448.15559476427,
+   "share_pm": 8.2064378418555,
+   "save_pm": 1.8638867183777705,
+   "cmt_pm": 2.4737474033275526,
+   "like_pm": 28.091707800499325,
    "watch_ms": 10868,
    "permalink": "https://www.instagram.com/reel/DczO11BzvOg/",
-   "score": 46.57,
+   "score": 46.54,
    "drivers": [
     "vpd",
     "like_pm"
@@ -1481,14 +1481,14 @@
    "dow": "일",
    "len_band": "21~35자",
    "views": 372004,
-   "vpd": 1492.129995822742,
+   "vpd": 1492.005041256136,
    "share_pm": 34.445866173482,
    "save_pm": 3.080612036429716,
    "cmt_pm": 2.830614724572854,
    "like_pm": 36.04531134073827,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DTE1LLrEWob/",
-   "score": 45.0,
+   "score": 45.06,
    "drivers": [
     "share_pm",
     "save_pm"
@@ -1518,14 +1518,14 @@
    "dow": "수",
    "len_band": "36자+",
    "views": 2931601,
-   "vpd": 13430.99998488756,
+   "vpd": 13429.715310444259,
    "share_pm": 25.023869210032334,
    "save_pm": 3.131735867193387,
    "cmt_pm": 0.1367853265161255,
    "like_pm": 46.26345808996518,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DUUwfKQkfa8/",
-   "score": 44.41,
+   "score": 44.47,
    "drivers": [
     "like_pm",
     "save_pm"
@@ -1555,14 +1555,14 @@
    "dow": "일",
    "len_band": "0(무캡션)",
    "views": 236018,
-   "vpd": 1557.9727820212358,
+   "vpd": 1557.7580793026802,
    "share_pm": 71.43946648137006,
    "save_pm": 0.7287579760865697,
    "cmt_pm": 3.495496106229186,
    "like_pm": 5.109779762560483,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DXAtjH3k3uC/",
-   "score": 44.08,
+   "score": 44.1,
    "drivers": [
     "share_pm",
     "cmt_pm"
@@ -1592,14 +1592,14 @@
    "dow": "수",
    "len_band": "36자+",
    "views": 322760,
-   "vpd": 1581.5301943265943,
+   "vpd": 1581.368403598696,
    "share_pm": 28.699343165200148,
    "save_pm": 2.9371669351840377,
    "cmt_pm": 3.0363118106332876,
    "like_pm": 41.44875449250217,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/p/DU5Q7CMk3rz/",
-   "score": 43.97,
+   "score": 44.03,
    "drivers": [
     "like_pm",
     "share_pm"
@@ -1629,14 +1629,14 @@
    "dow": "수",
    "len_band": "36자+",
    "views": 693041,
-   "vpd": 2466.7219287698895,
+   "vpd": 2466.538624754731,
    "share_pm": 87.99479395879898,
    "save_pm": 0.8037042541494659,
    "cmt_pm": 0.13130536288617844,
    "like_pm": 6.439734445725433,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DRzWTNqEwvO/",
-   "score": 43.44,
+   "score": 43.46,
    "drivers": [
     "share_pm",
     "save_pm"
@@ -1666,14 +1666,14 @@
    "dow": "목",
    "len_band": "36자+",
    "views": 284245,
-   "vpd": 1562.695617182471,
+   "vpd": 1562.516255819647,
    "share_pm": 68.42688525743637,
    "save_pm": 0.7528716424211508,
    "cmt_pm": 3.8874914246512695,
    "like_pm": 3.0607398547028093,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DVybORCE-Xc/",
-   "score": 43.17,
+   "score": 43.19,
    "drivers": [
     "share_pm",
     "cmt_pm"
@@ -1702,15 +1702,15 @@
    "hour_band": "오전6-11",
    "dow": "월",
    "len_band": "21~35자",
-   "views": 105675,
-   "vpd": 29822.638280081264,
-   "share_pm": 35.37260468417317,
-   "save_pm": 1.050390347764372,
-   "cmt_pm": 1.3248166548379465,
-   "like_pm": 9.964513839602555,
+   "views": 105706,
+   "vpd": 29656.636294559645,
+   "share_pm": 35.36223109378843,
+   "save_pm": 1.0500823037481317,
+   "cmt_pm": 1.3244281308534993,
+   "like_pm": 9.96159158420525,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/p/Dc9qlr4k2ZO/",
-   "score": 43.1,
+   "score": 42.98,
    "drivers": [
     "vpd",
     "share_pm"
@@ -1740,14 +1740,14 @@
    "dow": "일",
    "len_band": "21~35자",
    "views": 867899,
-   "vpd": 3581.707299947774,
+   "vpd": 3581.3986996317944,
    "share_pm": 70.59461988088475,
    "save_pm": 1.9437745636300998,
    "cmt_pm": 0.4205558480883144,
    "like_pm": 9.846767884281466,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DTW2UiTEQGP/",
-   "score": 42.88,
+   "score": 42.91,
    "drivers": [
     "share_pm",
     "save_pm"
@@ -1777,14 +1777,14 @@
    "dow": "수",
    "len_band": "21~35자",
    "views": 329290,
-   "vpd": 2122.835075261535,
+   "vpd": 2122.5493699568233,
    "share_pm": 78.59637401682409,
    "save_pm": 0.6498830817820158,
    "cmt_pm": 1.5973761729782259,
    "like_pm": 5.314464453824896,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/p/DW3X3c-ESXF/",
-   "score": 41.85,
+   "score": 41.87,
    "drivers": [
     "share_pm",
     "cmt_pm"
@@ -1814,14 +1814,14 @@
    "dow": "목",
    "len_band": "21~35자",
    "views": 291835,
-   "vpd": 2076.5760212281543,
+   "vpd": 2076.267548648244,
    "share_pm": 42.73305121044426,
    "save_pm": 2.3369369678071514,
    "cmt_pm": 3.553377764832868,
    "like_pm": 14.799458598180479,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/p/DXc6zeJk0iy/",
-   "score": 40.96,
+   "score": 41.0,
    "drivers": [
     "share_pm",
     "cmt_pm"
@@ -1851,14 +1851,14 @@
    "dow": "월",
    "len_band": "21~35자",
    "views": 10970171,
-   "vpd": 41885.45114337287,
+   "vpd": 41882.112260629685,
    "share_pm": 11.863898931019397,
    "save_pm": 1.5399942261611055,
    "cmt_pm": 0.09516715828768758,
    "like_pm": 13.985561391887146,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DSkZDLbEwQG/",
-   "score": 39.9,
+   "score": 39.93,
    "drivers": [
     "vpd",
     "save_pm"
@@ -1888,14 +1888,14 @@
    "dow": "수",
    "len_band": "21~35자",
    "views": 895049,
-   "vpd": 3743.4669650639526,
+   "vpd": 3743.1400867833554,
    "share_pm": 68.07560256477578,
    "save_pm": 1.1116709811418146,
    "cmt_pm": 0.5854428081591064,
    "like_pm": 12.817175372521506,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DTfIoarkawz/",
-   "score": 39.28,
+   "score": 39.31,
    "drivers": [
     "share_pm",
     "like_pm"
@@ -1925,14 +1925,14 @@
    "dow": "목",
    "len_band": "36자+",
    "views": 400792,
-   "vpd": 2290.4214765164593,
+   "vpd": 2290.148212313713,
    "share_pm": 4.3938002754546,
    "save_pm": 5.144813269725943,
    "cmt_pm": 0.5414279726142238,
    "like_pm": 53.71863709854488,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/p/DWENtEOE8mf/",
-   "score": 38.93,
+   "score": 39.03,
    "drivers": [
     "save_pm",
     "like_pm"
@@ -1962,14 +1962,14 @@
    "dow": "목",
    "len_band": "21~35자",
    "views": 1091549,
-   "vpd": 7048.98372923364,
+   "vpd": 7048.03340015936,
    "share_pm": 39.54746878060445,
    "save_pm": 1.551006871885733,
    "cmt_pm": 3.8065171604756176,
    "like_pm": 11.207925617631457,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/p/DW4DtXnkxbP/",
-   "score": 38.85,
+   "score": 38.88,
    "drivers": [
     "share_pm",
     "cmt_pm"
@@ -1999,14 +1999,14 @@
    "dow": "월",
    "len_band": "36자+",
    "views": 4343400,
-   "vpd": 30365.29160877808,
+   "vpd": 30360.85976456585,
    "share_pm": 41.53497260210895,
    "save_pm": 0.6923147764424183,
    "cmt_pm": 0.07827968872312013,
    "like_pm": 2.761661371275959,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/p/DXWeiz3k1st/",
-   "score": 38.46,
+   "score": 38.47,
    "drivers": [
     "vpd",
     "share_pm"
@@ -2035,15 +2035,15 @@
    "hour_band": "저녁18-22",
    "dow": "화",
    "len_band": "21~35자",
-   "views": 897061,
-   "vpd": 56141.80991364979,
-   "share_pm": 7.484440857422182,
-   "save_pm": 0.27980259982320044,
-   "cmt_pm": 0.07134408919794752,
-   "like_pm": 2.215011019317527,
+   "views": 897127,
+   "vpd": 56072.66840043549,
+   "share_pm": 7.483890240735147,
+   "save_pm": 0.27978201525536517,
+   "cmt_pm": 0.0713388405432007,
+   "like_pm": 2.214848064989684,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/p/DcdpWnazNNR/",
-   "score": 38.12,
+   "score": 38.08,
    "drivers": [
     "vpd",
     "share_pm"
@@ -2073,14 +2073,14 @@
    "dow": "화",
    "len_band": "36자+",
    "views": 7197587,
-   "vpd": 32782.88443132296,
+   "vpd": 32779.76705743443,
    "share_pm": 11.049814333609305,
    "save_pm": 3.351262027121034,
    "cmt_pm": 0.11434387663532238,
    "like_pm": 4.428150712176178,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DURa_QCE_8Q/",
-   "score": 38.0,
+   "score": 38.07,
    "drivers": [
     "vpd",
     "save_pm"
@@ -2110,14 +2110,14 @@
    "dow": "일",
    "len_band": "36자+",
    "views": 1855892,
-   "vpd": 11228.213222031347,
+   "vpd": 11226.79502511813,
    "share_pm": 15.031585889696167,
    "save_pm": 6.366210964862179,
    "cmt_pm": 0.10399312028932718,
    "like_pm": 3.576177924146448,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DWdLM2SEbr4/",
-   "score": 37.92,
+   "score": 38.04,
    "drivers": [
     "save_pm",
     "vpd"
@@ -2147,14 +2147,14 @@
    "dow": "토",
    "len_band": "21~35자",
    "views": 11211727,
-   "vpd": 46113.13190476037,
+   "vpd": 46109.172205327624,
    "share_pm": 8.391213949465591,
    "save_pm": 1.4247582018363452,
    "cmt_pm": 0.20933438711092411,
    "like_pm": 2.8739551007619077,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DTUvCbuke6k/",
-   "score": 37.19,
+   "score": 37.22,
    "drivers": [
     "vpd",
     "save_pm"
@@ -2184,14 +2184,14 @@
    "dow": "토",
    "len_band": "21~35자",
    "views": 4380239,
-   "vpd": 30092.381222199332,
+   "vpd": 30088.065278202346,
    "share_pm": 24.75458530915779,
    "save_pm": 0.7830622940894321,
    "cmt_pm": 0.08561176684651225,
    "like_pm": 21.474855595779136,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/p/DXP_BosEy9w/",
-   "score": 36.66,
+   "score": 36.68,
    "drivers": [
     "vpd",
     "share_pm"
@@ -2221,14 +2221,14 @@
    "dow": "수",
    "len_band": "36자+",
    "views": 1209633,
-   "vpd": 5202.242445365706,
+   "vpd": 5201.775343777004,
    "share_pm": 63.012500485684505,
    "save_pm": 1.8096397833061764,
    "cmt_pm": 0.14963216115962447,
    "like_pm": 3.94830498175893,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DTwEAPKE-Fk/",
-   "score": 36.6,
+   "score": 36.64,
    "drivers": [
     "share_pm",
     "save_pm"
@@ -2258,14 +2258,14 @@
    "dow": "화",
    "len_band": "21~35자",
    "views": 312480,
-   "vpd": 1916.1598040452154,
+   "vpd": 1915.9144979077937,
    "share_pm": 26.936123911930363,
    "save_pm": 1.5681003584229392,
    "cmt_pm": 5.993983614951357,
    "like_pm": 14.03289810547875,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/p/DWi4ZjUE_Y-/",
-   "score": 36.5,
+   "score": 36.53,
    "drivers": [
     "cmt_pm",
     "share_pm"
@@ -2295,56 +2295,19 @@
    "dow": "일",
    "len_band": "21~35자",
    "views": 853946,
-   "vpd": 5402.098664590007,
+   "vpd": 5401.3852203339,
    "share_pm": 30.55228316544606,
    "save_pm": 1.3080452393945283,
    "cmt_pm": 3.121977267883449,
    "like_pm": 30.177552210561323,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/p/DWvwSnPkWR4/",
-   "score": 36.31,
+   "score": 36.34,
    "drivers": [
     "share_pm",
     "like_pm"
    ],
    "fp": "좋아요형",
-   "exp": false
-  },
-  {
-   "id": "18367789138208907",
-   "date_kst": "08/30 12시",
-   "iso": "2026-08-30",
-   "name": "🏛 기본소득당 원내대표 용혜인, 성평등가족부 장관 후보로",
-   "ovt": "",
-   "format": "피드",
-   "style": "이모지브리핑",
-   "feats": {
-    "이모지머리": true,
-    "인용부호": false,
-    "질문형": false,
-    "숫자포함": false,
-    "말줄임": false
-   },
-   "cat": "정치",
-   "cat_src": "kw+news+ovr",
-   "era": "회복기(7/11~)",
-   "hour_band": "점심11-14",
-   "dow": "일",
-   "len_band": "21~35자",
-   "views": 49958,
-   "vpd": 4396.358547411606,
-   "share_pm": 47.90023619840667,
-   "save_pm": 0.7206053084591056,
-   "cmt_pm": 4.183514151887586,
-   "like_pm": 4.743984947355779,
-   "watch_ms": null,
-   "permalink": "https://www.instagram.com/p/Dcph4QizSbV/",
-   "score": 36.1,
-   "drivers": [
-    "share_pm",
-    "cmt_pm"
-   ],
-   "fp": "댓글형",
    "exp": false
   },
   {
@@ -2369,17 +2332,54 @@
    "dow": "금",
    "len_band": "21~35자",
    "views": 21867,
-   "vpd": 82.39506910569123,
+   "vpd": 82.38858721259902,
    "share_pm": 24.145973384552065,
    "save_pm": 2.652398591484886,
    "cmt_pm": 4.390176979009467,
    "like_pm": 20.533223578908856,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DSbbO2Bk7Xp/",
-   "score": 36.07,
+   "score": 36.12,
    "drivers": [
     "cmt_pm",
     "save_pm"
+   ],
+   "fp": "댓글형",
+   "exp": false
+  },
+  {
+   "id": "18367789138208907",
+   "date_kst": "08/30 12시",
+   "iso": "2026-08-30",
+   "name": "🏛 기본소득당 원내대표 용혜인, 성평등가족부 장관 후보로",
+   "ovt": "",
+   "format": "피드",
+   "style": "이모지브리핑",
+   "feats": {
+    "이모지머리": true,
+    "인용부호": false,
+    "질문형": false,
+    "숫자포함": false,
+    "말줄임": false
+   },
+   "cat": "정치",
+   "cat_src": "kw+news+ovr",
+   "era": "회복기(7/11~)",
+   "hour_band": "점심11-14",
+   "dow": "일",
+   "len_band": "21~35자",
+   "views": 49963,
+   "vpd": 4388.734559429042,
+   "share_pm": 47.895442627544384,
+   "save_pm": 0.7205331945639774,
+   "cmt_pm": 4.18309549066309,
+   "like_pm": 4.743510197546184,
+   "watch_ms": null,
+   "permalink": "https://www.instagram.com/p/Dcph4QizSbV/",
+   "score": 36.1,
+   "drivers": [
+    "share_pm",
+    "cmt_pm"
    ],
    "fp": "댓글형",
    "exp": false
@@ -2406,17 +2406,17 @@
    "dow": "목",
    "len_band": "21~35자",
    "views": 329683,
-   "vpd": 1960.8531138855078,
+   "vpd": 1960.6096343683282,
    "share_pm": 69.52436128038146,
    "save_pm": 0.9008653767406873,
    "cmt_pm": 0.8584003421468501,
    "like_pm": 3.8764510150659874,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DWV3FWTEaol/",
-   "score": 35.39,
+   "score": 35.41,
    "drivers": [
     "share_pm",
-    "cmt_pm"
+    "save_pm"
    ],
    "fp": "공유형",
    "exp": false
@@ -2443,14 +2443,14 @@
    "dow": "일",
    "len_band": "~20자",
    "views": 674748,
-   "vpd": 2436.3033442853307,
+   "vpd": 2436.119685728497,
    "share_pm": 63.84161197958349,
    "save_pm": 1.3234570535963057,
    "cmt_pm": 0.5216762406113097,
    "like_pm": 7.977793190939433,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DR9pRBgE7rP/",
-   "score": 35.22,
+   "score": 35.24,
    "drivers": [
     "share_pm",
     "save_pm"
@@ -2480,14 +2480,14 @@
    "dow": "금",
    "len_band": "21~35자",
    "views": 274094,
-   "vpd": 1311.80527843591,
+   "vpd": 1311.6742038140358,
    "share_pm": 12.90433209045072,
    "save_pm": 1.4374630601180618,
    "cmt_pm": 5.972403627952454,
    "like_pm": 32.25535765102483,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DUswgVXk1QU/",
-   "score": 34.55,
+   "score": 34.58,
    "drivers": [
     "cmt_pm",
     "like_pm"
@@ -2517,14 +2517,14 @@
    "dow": "목",
    "len_band": "21~35자",
    "views": 369321,
-   "vpd": 2623.9727068253333,
+   "vpd": 2623.58350668037,
    "share_pm": 48.30215449432878,
    "save_pm": 1.2996823901159154,
    "cmt_pm": 2.84034755673249,
    "like_pm": 7.324251802632398,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DXcXyw1E4Gj/",
-   "score": 34.38,
+   "score": 34.41,
    "drivers": [
     "share_pm",
     "cmt_pm"
@@ -2554,19 +2554,56 @@
    "dow": "월",
    "len_band": "36자+",
    "views": 194634,
-   "vpd": 1590.027829589833,
+   "vpd": 1589.756660950692,
    "share_pm": 59.29077139656997,
    "save_pm": 1.9061417840665043,
    "cmt_pm": 0.7604015742367726,
    "like_pm": 3.493736962709496,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/p/DYLmHrWAXJS/",
-   "score": 34.21,
+   "score": 34.24,
    "drivers": [
     "share_pm",
     "save_pm"
    ],
    "fp": "공유형",
+   "exp": false
+  },
+  {
+   "id": "18581773180068146",
+   "date_kst": "09/10 19시",
+   "iso": "2026-09-10",
+   "name": "한 유저가 아이폰 듀오의 폴딩 모션을 갤럭시 폴드로 재현해서 화제를 모으고 있다.",
+   "ovt": "",
+   "format": "릴스",
+   "style": "평서",
+   "feats": {
+    "이모지머리": false,
+    "인용부호": false,
+    "질문형": false,
+    "숫자포함": false,
+    "말줄임": false
+   },
+   "cat": "테크",
+   "cat_src": "kw+news+ovr",
+   "era": "회복기(7/11~)",
+   "hour_band": "저녁18-22",
+   "dow": "목",
+   "len_band": "36자+",
+   "views": 12238,
+   "vpd": 48952.0,
+   "share_pm": 0.0,
+   "save_pm": 0.9805523778395162,
+   "cmt_pm": 0.08171269815329302,
+   "like_pm": 6.537015852263441,
+   "watch_ms": 8081,
+   "permalink": "https://www.instagram.com/reel/DdGpqynTtDN/",
+   "score": 33.78,
+   "drivers": [
+    "vpd",
+    "save_pm"
+   ],
+   "fp": null,
    "exp": false
   },
   {
@@ -2591,14 +2628,14 @@
    "dow": "목",
    "len_band": "21~35자",
    "views": 2908738,
-   "vpd": 17276.2462801225,
+   "vpd": 17274.10406488463,
    "share_pm": 37.83599622929257,
    "save_pm": 0.837132804673367,
    "cmt_pm": 1.610664143693932,
    "like_pm": 6.369085149642216,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DWVQj65kWv1/",
-   "score": 33.55,
+   "score": 33.57,
    "drivers": [
     "share_pm",
     "vpd"
@@ -2628,14 +2665,14 @@
    "dow": "토",
    "len_band": "36자+",
    "views": 1224348,
-   "vpd": 5679.089483145076,
+   "vpd": 5678.539520389937,
    "share_pm": 49.98088778680571,
    "save_pm": 1.5943179553525633,
    "cmt_pm": 0.3626419939428986,
    "like_pm": 14.304756490801635,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DUbqfzaE3My/",
-   "score": 33.54,
+   "score": 33.57,
    "drivers": [
     "share_pm",
     "save_pm"
@@ -2665,14 +2702,14 @@
    "dow": "토",
    "len_band": "36자+",
    "views": 5359672,
-   "vpd": 26610.33671976429,
+   "vpd": 26607.578427388205,
    "share_pm": 30.244761246583746,
    "save_pm": 1.1554811563095653,
    "cmt_pm": 0.4830519479550241,
    "like_pm": 3.106346806297102,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/p/DVAKqjZk7tc/",
-   "score": 33.44,
+   "score": 33.47,
    "drivers": [
     "vpd",
     "share_pm"
@@ -2702,14 +2739,14 @@
    "dow": "일",
    "len_band": "36자+",
    "views": 687547,
-   "vpd": 3553.2614407346637,
+   "vpd": 3552.8780621367855,
    "share_pm": 30.99715364913235,
    "save_pm": 1.6333428841955533,
    "cmt_pm": 3.71029180550566,
    "like_pm": 15.486941256379565,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/p/DVUjIrKE8ny/",
-   "score": 33.41,
+   "score": 33.44,
    "drivers": [
     "share_pm",
     "cmt_pm"
@@ -2739,14 +2776,14 @@
    "dow": "화",
    "len_band": "21~35자",
    "views": 1205983,
-   "vpd": 8923.77791813777,
+   "vpd": 8922.399401479466,
    "share_pm": 45.89119415447813,
    "save_pm": 1.1252231582037227,
    "cmt_pm": 0.7255491992839036,
    "like_pm": 15.576504809769292,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DXqzaiXke4M/",
-   "score": 33.23,
+   "score": 33.25,
    "drivers": [
     "share_pm",
     "vpd"
@@ -2776,14 +2813,14 @@
    "dow": "화",
    "len_band": "21~35자",
    "views": 70019,
-   "vpd": 291.7697535002387,
+   "vpd": 291.7443701092549,
    "share_pm": 33.1195818277896,
    "save_pm": 2.5850126394264414,
    "cmt_pm": 1.2282380496722318,
    "like_pm": 28.13522044016624,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/p/DTc2_kTEydR/",
-   "score": 33.16,
+   "score": 33.21,
    "drivers": [
     "share_pm",
     "save_pm"
@@ -2813,14 +2850,14 @@
    "dow": "금",
    "len_band": "36자+",
    "views": 121731,
-   "vpd": 447.41918518559174,
+   "vpd": 447.3848517329958,
    "share_pm": 54.21790669591148,
    "save_pm": 0.7721944286993453,
    "cmt_pm": 2.7683991752306314,
    "like_pm": 7.270128397860857,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DSKNhTNE30r/",
-   "score": 33.02,
+   "score": 33.03,
    "drivers": [
     "share_pm",
     "cmt_pm"
@@ -2850,14 +2887,14 @@
    "dow": "수",
    "len_band": "21~35자",
    "views": 1616196,
-   "vpd": 12047.67589354166,
+   "vpd": 12045.801038373012,
    "share_pm": 41.81732908632369,
    "save_pm": 1.1483755683097843,
    "cmt_pm": 0.48137725869882114,
    "like_pm": 15.03716133439261,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DXtXROVES81/",
-   "score": 32.62,
+   "score": 32.64,
    "drivers": [
     "share_pm",
     "vpd"
@@ -2887,57 +2924,20 @@
    "dow": "목",
    "len_band": "21~35자",
    "views": 1465179,
-   "vpd": 6753.3972438413375,
+   "vpd": 6752.747361250092,
    "share_pm": 52.69799799205421,
    "save_pm": 1.0763190026611085,
    "cmt_pm": 0.9213891271987927,
    "like_pm": 6.124848909245901,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DUYJar6k0qR/",
-   "score": 32.15,
+   "score": 32.18,
    "drivers": [
     "share_pm",
     "vpd"
    ],
    "fp": "공유형",
    "exp": true
-  },
-  {
-   "id": "18031002887577579",
-   "date_kst": "01/17 04시",
-   "iso": "2026-01-17",
-   "name": "💔 잉꼬부부로 알려진 개코·김수미, 15년만에 ‘이혼’",
-   "ovt": "",
-   "format": "릴스",
-   "style": "인용·서사",
-   "feats": {
-    "이모지머리": true,
-    "인용부호": true,
-    "질문형": false,
-    "숫자포함": true,
-    "말줄임": false
-   },
-   "cat": "문화",
-   "cat_src": "kw+news+ovr",
-   "era": "부흥기(~5/7)",
-   "hour_band": "새벽0-6",
-   "dow": "토",
-   "len_band": "21~35자",
-   "views": 10028733,
-   "vpd": 42370.2576603694,
-   "share_pm": 9.867148721578289,
-   "save_pm": 0.7174385837174048,
-   "cmt_pm": 0.09941435274027138,
-   "like_pm": 3.6155115506614846,
-   "watch_ms": null,
-   "permalink": "https://www.instagram.com/reel/DTlUtgsk1uX/",
-   "score": 31.65,
-   "drivers": [
-    "vpd",
-    "share_pm"
-   ],
-   "fp": null,
-   "exp": false
   },
   {
    "id": "18329274847168708",
@@ -2961,19 +2961,56 @@
    "dow": "월",
    "len_band": "21~35자",
    "views": 240119,
-   "vpd": 1090.2907630302586,
+   "vpd": 1090.1874060628647,
    "share_pm": 57.48399751789737,
    "save_pm": 2.178086698678572,
    "cmt_pm": 0.15825486529595742,
    "like_pm": 1.686663695917441,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DUPswjpkaK5/",
-   "score": 31.64,
+   "score": 31.68,
    "drivers": [
     "share_pm",
     "save_pm"
    ],
    "fp": "공유형",
+   "exp": false
+  },
+  {
+   "id": "18031002887577579",
+   "date_kst": "01/17 04시",
+   "iso": "2026-01-17",
+   "name": "💔 잉꼬부부로 알려진 개코·김수미, 15년만에 ‘이혼’",
+   "ovt": "",
+   "format": "릴스",
+   "style": "인용·서사",
+   "feats": {
+    "이모지머리": true,
+    "인용부호": true,
+    "질문형": false,
+    "숫자포함": true,
+    "말줄임": false
+   },
+   "cat": "문화",
+   "cat_src": "kw+news+ovr",
+   "era": "부흥기(~5/7)",
+   "hour_band": "새벽0-6",
+   "dow": "토",
+   "len_band": "21~35자",
+   "views": 10028733,
+   "vpd": 42366.520337464324,
+   "share_pm": 9.867148721578289,
+   "save_pm": 0.7174385837174048,
+   "cmt_pm": 0.09941435274027138,
+   "like_pm": 3.6155115506614846,
+   "watch_ms": null,
+   "permalink": "https://www.instagram.com/reel/DTlUtgsk1uX/",
+   "score": 31.67,
+   "drivers": [
+    "vpd",
+    "share_pm"
+   ],
+   "fp": null,
    "exp": false
   },
   {
@@ -2998,14 +3035,14 @@
    "dow": "금",
    "len_band": "21~35자",
    "views": 91924,
-   "vpd": 387.8593154235373,
+   "vpd": 387.8251486419951,
    "share_pm": 53.67477481397676,
    "save_pm": 1.2183978068839476,
    "cmt_pm": 2.0342891954223052,
    "like_pm": 4.895348331230147,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DTkhaIQE3_4/",
-   "score": 31.64,
+   "score": 31.67,
    "drivers": [
     "share_pm",
     "cmt_pm"
@@ -3035,14 +3072,14 @@
    "dow": "월",
    "len_band": "36자+",
    "views": 2733293,
-   "vpd": 37429.43880847862,
+   "vpd": 37418.73990977603,
    "share_pm": 8.860374646991742,
    "save_pm": 0.5239101698939703,
    "cmt_pm": 1.4283137592640087,
    "like_pm": 5.562155246437173,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DaKwMOdT6qM/",
-   "score": 31.41,
+   "score": 31.42,
    "drivers": [
     "vpd",
     "cmt_pm"
@@ -3072,14 +3109,14 @@
    "dow": "금",
    "len_band": "21~35자",
    "views": 566863,
-   "vpd": 3243.465825670849,
+   "vpd": 3243.0783794303243,
    "share_pm": 39.91969841037429,
    "save_pm": 2.1786569241598057,
    "cmt_pm": 0.8644063909621902,
    "like_pm": 14.010439912289213,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DWExHJOk7ZE/",
-   "score": 30.8,
+   "score": 30.84,
    "drivers": [
     "share_pm",
     "save_pm"
@@ -3109,14 +3146,14 @@
    "dow": "화",
    "len_band": "21~35자",
    "views": 587656,
-   "vpd": 4583.592279076418,
+   "vpd": 4582.845931971649,
    "share_pm": 46.389384265624784,
    "save_pm": 1.1775596607539105,
    "cmt_pm": 0.28758321194712555,
    "like_pm": 20.049144397402564,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DX8qLvWR52-/",
-   "score": 30.66,
+   "score": 30.68,
    "drivers": [
     "share_pm",
     "like_pm"
@@ -3146,14 +3183,14 @@
    "dow": "토",
    "len_band": "21~35자",
    "views": 401672,
-   "vpd": 2513.938125519791,
+   "vpd": 2513.6096495138604,
    "share_pm": 52.40345356410205,
    "save_pm": 1.132765042123922,
    "cmt_pm": 0.3759286183751917,
    "like_pm": 15.034655141508495,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DWrX4TnkwY4/",
-   "score": 30.49,
+   "score": 30.52,
    "drivers": [
     "share_pm",
     "like_pm"
@@ -3183,56 +3220,19 @@
    "dow": "목",
    "len_band": "36자+",
    "views": 1536541,
-   "vpd": 5474.8983703207605,
+   "vpd": 5474.491085286374,
    "share_pm": 49.34525014301604,
    "save_pm": 1.3087838202820492,
    "cmt_pm": 0.4750930824494758,
    "like_pm": 9.350873162512423,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DR0IbL0E9QO/",
-   "score": 30.29,
+   "score": 30.31,
    "drivers": [
     "share_pm",
     "save_pm"
    ],
    "fp": "공유형",
-   "exp": false
-  },
-  {
-   "id": "17922705129319366",
-   "date_kst": "04/29 07시",
-   "iso": "2026-04-29",
-   "name": "🏛 1000명에 1인당 6000만원… 검증 빠진 1600억 청년 공약",
-   "ovt": "",
-   "format": "피드",
-   "style": "이모지브리핑",
-   "feats": {
-    "이모지머리": true,
-    "인용부호": false,
-    "질문형": false,
-    "숫자포함": true,
-    "말줄임": true
-   },
-   "cat": "정치",
-   "cat_src": "kw+news+ovr",
-   "era": "부흥기(~5/7)",
-   "hour_band": "오전6-11",
-   "dow": "수",
-   "len_band": "36자+",
-   "views": 265955,
-   "vpd": 1976.4510136977442,
-   "share_pm": 32.17085597187494,
-   "save_pm": 1.3761726607884792,
-   "cmt_pm": 4.3014795736120774,
-   "like_pm": 6.39957887612566,
-   "watch_ms": null,
-   "permalink": "https://www.instagram.com/p/DXsTaQyE_Xz/",
-   "score": 30.26,
-   "drivers": [
-    "share_pm",
-    "cmt_pm"
-   ],
-   "fp": "댓글형",
    "exp": false
   },
   {
@@ -3257,20 +3257,57 @@
    "dow": "일",
    "len_band": "21~35자",
    "views": 3148354,
-   "vpd": 19037.687229010644,
+   "vpd": 19035.283902493095,
    "share_pm": 31.339233135790955,
    "save_pm": 1.7199463592721784,
    "cmt_pm": 0.1607189026392839,
    "like_pm": 3.909979627449772,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DWc9gqhk72F/",
-   "score": 30.26,
+   "score": 30.3,
    "drivers": [
     "share_pm",
     "vpd"
    ],
    "fp": "공유형",
    "exp": true
+  },
+  {
+   "id": "17922705129319366",
+   "date_kst": "04/29 07시",
+   "iso": "2026-04-29",
+   "name": "🏛 1000명에 1인당 6000만원… 검증 빠진 1600억 청년 공약",
+   "ovt": "",
+   "format": "피드",
+   "style": "이모지브리핑",
+   "feats": {
+    "이모지머리": true,
+    "인용부호": false,
+    "질문형": false,
+    "숫자포함": true,
+    "말줄임": true
+   },
+   "cat": "정치",
+   "cat_src": "kw+news+ovr",
+   "era": "부흥기(~5/7)",
+   "hour_band": "오전6-11",
+   "dow": "수",
+   "len_band": "36자+",
+   "views": 265955,
+   "vpd": 1976.1443803689592,
+   "share_pm": 32.17085597187494,
+   "save_pm": 1.3761726607884792,
+   "cmt_pm": 4.3014795736120774,
+   "like_pm": 6.39957887612566,
+   "watch_ms": null,
+   "permalink": "https://www.instagram.com/p/DXsTaQyE_Xz/",
+   "score": 30.29,
+   "drivers": [
+    "share_pm",
+    "cmt_pm"
+   ],
+   "fp": "댓글형",
+   "exp": false
   },
   {
    "id": "18091478710760736",
@@ -3294,14 +3331,14 @@
    "dow": "화",
    "len_band": "21~35자",
    "views": 2233138,
-   "vpd": 8545.960066199777,
+   "vpd": 8545.277265045328,
    "share_pm": 37.08727360333307,
    "save_pm": 1.4808757900317848,
    "cmt_pm": 0.2865922303055163,
    "like_pm": 19.933385218468363,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DSl7qfZk6iE/",
-   "score": 30.23,
+   "score": 30.26,
    "drivers": [
     "share_pm",
     "like_pm"
@@ -3331,14 +3368,14 @@
    "dow": "토",
    "len_band": "36자+",
    "views": 6245378,
-   "vpd": 28932.508582692717,
+   "vpd": 28929.710282923214,
    "share_pm": 15.059296651059391,
    "save_pm": 0.8118003425893516,
    "cmt_pm": 1.5283302307722608,
    "like_pm": 6.456774914184538,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DUa9yivk9Ob/",
-   "score": 30.22,
+   "score": 30.23,
    "drivers": [
     "vpd",
     "share_pm"
@@ -3368,54 +3405,17 @@
    "dow": "일",
    "len_band": "~20자",
    "views": 1094044,
-   "vpd": 6610.431899063941,
+   "vpd": 6609.598039553653,
    "share_pm": 28.540899634749607,
    "save_pm": 2.6434037387892992,
    "cmt_pm": 0.23308020518370376,
    "like_pm": 19.565940675146518,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DWcofaHE2cv/",
-   "score": 29.64,
+   "score": 29.69,
    "drivers": [
     "share_pm",
     "save_pm"
-   ],
-   "fp": "공유형",
-   "exp": true
-  },
-  {
-   "id": "18059903270260212",
-   "date_kst": "11/25 22시",
-   "iso": "2025-11-25",
-   "name": "⚠️ 본 영상은 AI로 제작된 영상입니다. 시청에 유의바랍니다.",
-   "ovt": "",
-   "format": "릴스",
-   "style": "이모지브리핑",
-   "feats": {
-    "이모지머리": true,
-    "인용부호": false,
-    "질문형": false,
-    "숫자포함": false,
-    "말줄임": false
-   },
-   "cat": "테크",
-   "cat_src": "kw+news+ovr",
-   "era": "부흥기(~5/7)",
-   "hour_band": "밤22-24",
-   "dow": "화",
-   "len_band": "21~35자",
-   "views": 2087411,
-   "vpd": 7224.472248748111,
-   "share_pm": 51.331050760966576,
-   "save_pm": 1.0922621371641714,
-   "cmt_pm": 0.40049611696019616,
-   "like_pm": 3.8449543477542276,
-   "watch_ms": null,
-   "permalink": "https://www.instagram.com/reel/DRey49UE-BF/",
-   "score": 29.43,
-   "drivers": [
-    "share_pm",
-    "vpd"
    ],
    "fp": "공유형",
    "exp": true
@@ -3442,20 +3442,57 @@
    "dow": "금",
    "len_band": "21~35자",
    "views": 311519,
-   "vpd": 1174.948840091662,
+   "vpd": 1174.856318740918,
    "share_pm": 26.081876225848184,
    "save_pm": 2.94364067681265,
    "cmt_pm": 2.096180329289706,
    "like_pm": 13.267248546637605,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DScE8ECEeBh/",
-   "score": 29.42,
+   "score": 29.48,
    "drivers": [
     "save_pm",
     "share_pm"
    ],
    "fp": "공유형",
    "exp": false
+  },
+  {
+   "id": "18059903270260212",
+   "date_kst": "11/25 22시",
+   "iso": "2025-11-25",
+   "name": "⚠️ 본 영상은 AI로 제작된 영상입니다. 시청에 유의바랍니다.",
+   "ovt": "",
+   "format": "릴스",
+   "style": "이모지브리핑",
+   "feats": {
+    "이모지머리": true,
+    "인용부호": false,
+    "질문형": false,
+    "숫자포함": false,
+    "말줄임": false
+   },
+   "cat": "테크",
+   "cat_src": "kw+news+ovr",
+   "era": "부흥기(~5/7)",
+   "hour_band": "밤22-24",
+   "dow": "화",
+   "len_band": "21~35자",
+   "views": 2087411,
+   "vpd": 7223.950218468121,
+   "share_pm": 51.331050760966576,
+   "save_pm": 1.0922621371641714,
+   "cmt_pm": 0.40049611696019616,
+   "like_pm": 3.8449543477542276,
+   "watch_ms": null,
+   "permalink": "https://www.instagram.com/reel/DRey49UE-BF/",
+   "score": 29.45,
+   "drivers": [
+    "share_pm",
+    "vpd"
+   ],
+   "fp": "공유형",
+   "exp": true
   },
   {
    "id": "18090635336273278",
@@ -3479,14 +3516,14 @@
    "dow": "금",
    "len_band": "21~35자",
    "views": 3864560,
-   "vpd": 23043.103769540518,
+   "vpd": 23040.235297494775,
    "share_pm": 26.06506303434285,
    "save_pm": 1.584656468006707,
    "cmt_pm": 0.2183948496077173,
    "like_pm": 1.8110729293891155,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/p/DWW8xJAE1hq/",
-   "score": 29.37,
+   "score": 29.39,
    "drivers": [
     "vpd",
     "share_pm"
@@ -3516,14 +3553,14 @@
    "dow": "토",
    "len_band": "36자+",
    "views": 6265062,
-   "vpd": 36109.787942749885,
+   "vpd": 36105.44289021045,
    "share_pm": 13.211042444591929,
    "save_pm": 0.6383017438614335,
    "cmt_pm": 0.26735569416551663,
    "like_pm": 4.979200525070622,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DWICe5dk6XF/",
-   "score": 29.3,
+   "score": 29.31,
    "drivers": [
     "vpd",
     "share_pm"
@@ -3553,17 +3590,17 @@
    "dow": "금",
    "len_band": "36자+",
    "views": 76509,
-   "vpd": 353.65033501773985,
+   "vpd": 353.6162065728202,
    "share_pm": 31.04209962226666,
    "save_pm": 2.065116522239214,
    "cmt_pm": 1.5945836437543295,
    "like_pm": 23.74884000575096,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/p/DUZupN9EzaL/",
-   "score": 29.26,
+   "score": 29.3,
    "drivers": [
     "share_pm",
-    "like_pm"
+    "save_pm"
    ],
    "fp": "공유형",
    "exp": false
@@ -3590,14 +3627,14 @@
    "dow": "목",
    "len_band": "21~35자",
    "views": 5648092,
-   "vpd": 42419.915861694404,
+   "vpd": 42413.264776128744,
    "share_pm": 5.49052671238358,
    "save_pm": 0.5729368430967484,
    "cmt_pm": 0.39411539330449996,
    "like_pm": 2.203221902192811,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DXv8fDFRC8t/",
-   "score": 29.18,
+   "score": 29.2,
    "drivers": [
     "vpd"
    ],
@@ -3626,14 +3663,14 @@
    "dow": "토",
    "len_band": "36자+",
    "views": 146001,
-   "vpd": 1777.5978046231262,
+   "vpd": 1777.1460281810625,
    "share_pm": 9.068431038143576,
    "save_pm": 0.6164341340127807,
    "cmt_pm": 8.753364702981488,
    "like_pm": 6.602694502092451,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/p/DZzTR5gRO_f/",
-   "score": 28.8,
+   "score": 28.82,
    "drivers": [
     "cmt_pm",
     "share_pm"
@@ -3663,14 +3700,14 @@
    "dow": "화",
    "len_band": "36자+",
    "views": 137722,
-   "vpd": 1740.4615846370143,
+   "vpd": 1740.0024566431725,
    "share_pm": 15.371545577322431,
    "save_pm": 2.062125150665834,
    "cmt_pm": 4.334819418829236,
    "like_pm": 17.50628076850467,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DZ7CWPkxLSl/",
-   "score": 28.72,
+   "score": 28.76,
    "drivers": [
     "cmt_pm",
     "save_pm"
@@ -3700,14 +3737,14 @@
    "dow": "일",
    "len_band": "21~35자",
    "views": 586924,
-   "vpd": 4500.564640315483,
+   "vpd": 4499.844187733948,
    "share_pm": 39.37477424675086,
    "save_pm": 1.2267346368524714,
    "cmt_pm": 1.8792893117337168,
    "like_pm": 10.0047024827746,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/p/DX2_bLFkxfl/",
-   "score": 28.72,
+   "score": 28.75,
    "drivers": [
     "share_pm",
     "cmt_pm"
@@ -3737,14 +3774,14 @@
    "dow": "수",
    "len_band": "36자+",
    "views": 91810,
-   "vpd": 685.3901964223534,
+   "vpd": 685.2833792960099,
    "share_pm": 6.360962858076462,
    "save_pm": 1.8516501470428057,
    "cmt_pm": 3.1369131902842824,
    "like_pm": 46.17144101949679,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DXt3PeAEzf7/",
-   "score": 28.56,
+   "score": 28.6,
    "drivers": [
     "like_pm",
     "cmt_pm"
@@ -3774,14 +3811,14 @@
    "dow": "일",
    "len_band": "36자+",
    "views": 2440648,
-   "vpd": 11382.316137815247,
+   "vpd": 11381.207890615788,
    "share_pm": 6.864980120033696,
    "save_pm": 4.5303542337936475,
    "cmt_pm": 0.14750181099445722,
    "like_pm": 12.543799843320299,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DUeqVidE1qW/",
-   "score": 28.34,
+   "score": 28.43,
    "drivers": [
     "save_pm",
     "vpd"
@@ -3811,14 +3848,14 @@
    "dow": "월",
    "len_band": "21~35자",
    "views": 2780349,
-   "vpd": 19433.373911524013,
+   "vpd": 19430.53823612867,
    "share_pm": 27.0933613010453,
    "save_pm": 1.1016602591976763,
    "cmt_pm": 1.0948265847201197,
    "like_pm": 3.655656178415012,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DXWY9qdEQrQ/",
-   "score": 28.29,
+   "score": 28.32,
    "drivers": [
     "vpd",
     "share_pm"
@@ -3848,14 +3885,14 @@
    "dow": "수",
    "len_band": "21~35자",
    "views": 4145808,
-   "vpd": 22590.709233406527,
+   "vpd": 22588.13928781848,
    "share_pm": 20.443542006769245,
    "save_pm": 1.2687514713657748,
    "cmt_pm": 1.143082361749507,
    "like_pm": 3.7114598650009842,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DVuPiHtkxli/",
-   "score": 28.21,
+   "score": 28.24,
    "drivers": [
     "vpd",
     "share_pm"
@@ -3885,19 +3922,56 @@
    "dow": "일",
    "len_band": "21~35자",
    "views": 8115411,
-   "vpd": 32544.765742429554,
+   "vpd": 32542.04091998398,
    "share_pm": 17.065186224086496,
    "save_pm": 0.6433438799341155,
    "cmt_pm": 0.15538338107583213,
    "like_pm": 4.081617061662065,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DTEs_l0E5x0/",
-   "score": 27.97,
+   "score": 27.98,
    "drivers": [
     "vpd",
     "share_pm"
    ],
    "fp": "공유형",
+   "exp": false
+  },
+  {
+   "id": "17873711121524241",
+   "date_kst": "06/27 08시",
+   "iso": "2026-06-27",
+   "name": "🏛 트럼프 '공산주의는 나라 갉는 암'… 박멸 선언",
+   "ovt": "",
+   "format": "릴스",
+   "style": "인용·서사",
+   "feats": {
+    "이모지머리": true,
+    "인용부호": true,
+    "질문형": false,
+    "숫자포함": false,
+    "말줄임": true
+   },
+   "cat": "국제",
+   "cat_src": "kw+news+ovr",
+   "era": "침체기(5/8~7/10)",
+   "hour_band": "오전6-11",
+   "dow": "토",
+   "len_band": "21~35자",
+   "views": 68922,
+   "vpd": 912.5820653433227,
+   "share_pm": 10.025826296393024,
+   "save_pm": 2.9308493659499146,
+   "cmt_pm": 1.160732422158382,
+   "like_pm": 41.42363831577726,
+   "watch_ms": null,
+   "permalink": "https://www.instagram.com/reel/DaEXXyzTZJj/",
+   "score": 27.89,
+   "drivers": [
+    "like_pm",
+    "save_pm"
+   ],
+   "fp": "좋아요형",
    "exp": false
   },
   {
@@ -3922,57 +3996,20 @@
    "dow": "일",
    "len_band": "36자+",
    "views": 3927661,
-   "vpd": 17228.018476807203,
+   "vpd": 17226.440794050042,
    "share_pm": 17.609208126668776,
    "save_pm": 1.1592140971433125,
    "cmt_pm": 0.1614192263538019,
    "like_pm": 28.64020087273316,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DT7wYcNEwWW/",
-   "score": 27.86,
+   "score": 27.88,
    "drivers": [
     "vpd",
     "like_pm"
    ],
    "fp": "좋아요형",
    "exp": true
-  },
-  {
-   "id": "17873711121524241",
-   "date_kst": "06/27 08시",
-   "iso": "2026-06-27",
-   "name": "🏛 트럼프 '공산주의는 나라 갉는 암'… 박멸 선언",
-   "ovt": "",
-   "format": "릴스",
-   "style": "인용·서사",
-   "feats": {
-    "이모지머리": true,
-    "인용부호": true,
-    "질문형": false,
-    "숫자포함": false,
-    "말줄임": true
-   },
-   "cat": "국제",
-   "cat_src": "kw+news+ovr",
-   "era": "침체기(5/8~7/10)",
-   "hour_band": "오전6-11",
-   "dow": "토",
-   "len_band": "21~35자",
-   "views": 68922,
-   "vpd": 912.8344301909838,
-   "share_pm": 10.025826296393024,
-   "save_pm": 2.9308493659499146,
-   "cmt_pm": 1.160732422158382,
-   "like_pm": 41.42363831577726,
-   "watch_ms": null,
-   "permalink": "https://www.instagram.com/reel/DaEXXyzTZJj/",
-   "score": 27.83,
-   "drivers": [
-    "like_pm",
-    "save_pm"
-   ],
-   "fp": "좋아요형",
-   "exp": false
   },
   {
    "id": "18099538522847471",
@@ -3996,14 +4033,14 @@
    "dow": "수",
    "len_band": "21~35자",
    "views": 627147,
-   "vpd": 2624.7750021616594,
+   "vpd": 2624.5456516812314,
    "share_pm": 37.77742698282859,
    "save_pm": 1.3760729143247117,
    "cmt_pm": 0.2551235994113023,
    "like_pm": 25.410310501365707,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DTfjbLYE6v6/",
-   "score": 27.46,
+   "score": 27.49,
    "drivers": [
     "share_pm",
     "like_pm"
@@ -4033,14 +4070,14 @@
    "dow": "목",
    "len_band": "0(무캡션)",
    "views": 165797,
-   "vpd": 2356.989533219396,
+   "vpd": 2356.29012208909,
    "share_pm": 43.97546397100068,
    "save_pm": 1.1640741388565534,
    "cmt_pm": 1.5500883610680531,
    "like_pm": 8.052015416442998,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DaRqWkvxQZ_/",
-   "score": 27.45,
+   "score": 27.47,
    "drivers": [
     "share_pm",
     "cmt_pm"
@@ -4070,14 +4107,14 @@
    "dow": "수",
    "len_band": "~20자",
    "views": 660693,
-   "vpd": 4262.870987606103,
+   "vpd": 4262.29677997424,
    "share_pm": 32.67326882530918,
    "save_pm": 2.2960739708154922,
    "cmt_pm": 0.3375243872721521,
    "like_pm": 14.80415260945704,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DW3tSL2E-NC/",
-   "score": 27.0,
+   "score": 27.05,
    "drivers": [
     "share_pm",
     "save_pm"
@@ -4107,14 +4144,14 @@
    "dow": "토",
    "len_band": "21~35자",
    "views": 75426,
-   "vpd": 473.1767125374425,
+   "vpd": 473.1147411019189,
    "share_pm": 14.00047728899849,
    "save_pm": 0.7557075809402594,
    "cmt_pm": 7.663140031288945,
    "like_pm": 4.719857873942672,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DWsU7O1k6pc/",
-   "score": 26.89,
+   "score": 26.9,
    "drivers": [
     "cmt_pm",
     "share_pm"
@@ -4144,14 +4181,14 @@
    "dow": "토",
    "len_band": "~20자",
    "views": 1218799,
-   "vpd": 8389.731381639991,
+   "vpd": 8388.52572290173,
    "share_pm": 42.62885020417641,
    "save_pm": 0.9960625172813564,
    "cmt_pm": 0.5702334839460813,
    "like_pm": 6.536762829638029,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DXQuTLGEUjO/",
-   "score": 26.85,
+   "score": 26.87,
    "drivers": [
     "share_pm",
     "vpd"
@@ -4180,15 +4217,15 @@
    "hour_band": "오전6-11",
    "dow": "화",
    "len_band": "21~35자",
-   "views": 297375,
-   "vpd": 31051.923613805204,
-   "share_pm": 9.55359394703657,
-   "save_pm": 0.5313156788566625,
-   "cmt_pm": 1.519966372425389,
-   "like_pm": 4.297604035308954,
+   "views": 297387,
+   "vpd": 30985.62017097769,
+   "share_pm": 9.553208445560836,
+   "save_pm": 0.5312942394926475,
+   "cmt_pm": 1.519905039561245,
+   "like_pm": 4.297430620706352,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/p/DcuIVZXTazS/",
-   "score": 26.84,
+   "score": 26.81,
    "drivers": [
     "vpd",
     "cmt_pm"
@@ -4218,14 +4255,14 @@
    "dow": "수",
    "len_band": "36자+",
    "views": 116766,
-   "vpd": 1028.7724978730785,
+   "vpd": 1028.5832786768583,
    "share_pm": 58.12479660175051,
    "save_pm": 0.7022592192932874,
    "cmt_pm": 0.5909254406248394,
    "like_pm": 3.065960981792645,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/p/DYiiQGdz45K/",
-   "score": 26.73,
+   "score": 26.75,
    "drivers": [
     "share_pm",
     "cmt_pm"
@@ -4254,15 +4291,15 @@
    "hour_band": "밤22-24",
    "dow": "일",
    "len_band": "21~35자",
-   "views": 91653,
-   "vpd": 23567.984428525084,
-   "share_pm": 20.250291861695743,
-   "save_pm": 0.6655537734716813,
-   "cmt_pm": 1.2220003709643983,
-   "like_pm": 5.117126553413418,
+   "views": 91707,
+   "vpd": 23455.933783891793,
+   "share_pm": 20.23836784542074,
+   "save_pm": 0.6651618742298843,
+   "cmt_pm": 1.2212808182581483,
+   "like_pm": 5.1141134264559955,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/p/Dc8xqLZTjNt/",
-   "score": 26.71,
+   "score": 26.64,
    "drivers": [
     "vpd",
     "share_pm"
@@ -4292,14 +4329,14 @@
    "dow": "목",
    "len_band": "36자+",
    "views": 171654,
-   "vpd": 1062.147033138253,
+   "vpd": 1062.0098243157759,
    "share_pm": 25.5921796171368,
    "save_pm": 2.6215526582543953,
    "cmt_pm": 0.22137555780814896,
    "like_pm": 26.19222389224836,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DWmp4tBE_Bk/",
-   "score": 26.14,
+   "score": 26.19,
    "drivers": [
     "share_pm",
     "save_pm"
@@ -4329,14 +4366,14 @@
    "dow": "토",
    "len_band": "36자+",
    "views": 1536882,
-   "vpd": 9256.823416716123,
+   "vpd": 9255.659420385318,
    "share_pm": 23.401926758202645,
    "save_pm": 1.1139436859823981,
    "cmt_pm": 3.108891899313025,
    "like_pm": 5.925633848272021,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/p/DWbSIwak5wf/",
-   "score": 26.0,
+   "score": 26.03,
    "drivers": [
     "share_pm",
     "cmt_pm"
@@ -4366,94 +4403,20 @@
    "dow": "목",
    "len_band": "36자+",
    "views": 326433,
-   "vpd": 1411.199567690899,
+   "vpd": 1411.0721979092536,
    "share_pm": 14.872883562630003,
    "save_pm": 1.399981006822227,
    "cmt_pm": 3.7863818915367013,
    "like_pm": 24.605355463448856,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/reel/DTzKytGEw0x/",
-   "score": 25.8,
+   "score": 25.83,
    "drivers": [
     "cmt_pm",
     "like_pm"
    ],
    "fp": "댓글형",
    "exp": true
-  },
-  {
-   "id": "18581773180068146",
-   "date_kst": "09/10 19시",
-   "iso": "2026-09-10",
-   "name": "한 유저가 아이폰 듀오의 폴딩 모션을 갤럭시 폴드로 재현해서 화제를 모으고 있다.",
-   "ovt": "",
-   "format": "릴스",
-   "style": "평서",
-   "feats": {
-    "이모지머리": false,
-    "인용부호": false,
-    "질문형": false,
-    "숫자포함": false,
-    "말줄임": false
-   },
-   "cat": "테크",
-   "cat_src": "kw+news+ovr",
-   "era": "회복기(7/11~)",
-   "hour_band": "저녁18-22",
-   "dow": "목",
-   "len_band": "36자+",
-   "views": 9590,
-   "vpd": 38360.0,
-   "share_pm": 0.0,
-   "save_pm": 0.8342022940563086,
-   "cmt_pm": 0.10427528675703858,
-   "like_pm": 6.673618352450469,
-   "watch_ms": 7857,
-   "permalink": "https://www.instagram.com/reel/DdGpqynTtDN/",
-   "score": 25.19,
-   "drivers": [
-    "vpd",
-    "save_pm"
-   ],
-   "fp": null,
-   "exp": false
-  },
-  {
-   "id": "18098049239565979",
-   "date_kst": "09/05 18시",
-   "iso": "2026-09-05",
-   "name": "🤖 \"AGI 시대\" 선언한 GPT-6, 종합 지능은 전작과 비슷하지만 실무는 '차원이 다른 성능'",
-   "ovt": "",
-   "format": "피드",
-   "style": "인용·서사",
-   "feats": {
-    "이모지머리": true,
-    "인용부호": true,
-    "질문형": false,
-    "숫자포함": true,
-    "말줄임": false
-   },
-   "cat": "기타",
-   "cat_src": "kw+news+ovr",
-   "era": "회복기(7/11~)",
-   "hour_band": "저녁18-22",
-   "dow": "토",
-   "len_band": "36자+",
-   "views": 145043,
-   "vpd": 28481.235639171908,
-   "share_pm": 12.513530470274333,
-   "save_pm": 1.185855229138945,
-   "cmt_pm": 0.07583957860772322,
-   "like_pm": 4.4538516164172,
-   "watch_ms": null,
-   "permalink": "https://www.instagram.com/p/Dc5rTMqE_pv/",
-   "score": 25.03,
-   "drivers": [
-    "vpd",
-    "share_pm"
-   ],
-   "fp": "공유형",
-   "exp": false
   },
   {
    "id": "18390792067084125",
@@ -4477,19 +4440,56 @@
    "dow": "화",
    "len_band": "36자+",
    "views": 138398,
-   "vpd": 1022.4329254262572,
+   "vpd": 1022.2752385156133,
    "share_pm": 5.520310987152993,
    "save_pm": 0.8164857873668695,
    "cmt_pm": 8.063700342490497,
    "like_pm": 6.011647567161376,
    "watch_ms": null,
    "permalink": "https://www.instagram.com/p/DXqPph8kQtQ/",
-   "score": 24.95,
+   "score": 24.97,
    "drivers": [
     "cmt_pm",
     "save_pm"
    ],
    "fp": "댓글형",
+   "exp": false
+  },
+  {
+   "id": "18098049239565979",
+   "date_kst": "09/05 18시",
+   "iso": "2026-09-05",
+   "name": "🤖 \"AGI 시대\" 선언한 GPT-6, 종합 지능은 전작과 비슷하지만 실무는 '차원이 다른 성능'",
+   "ovt": "",
+   "format": "피드",
+   "style": "인용·서사",
+   "feats": {
+    "이모지머리": true,
+    "인용부호": true,
+    "질문형": false,
+    "숫자포함": true,
+    "말줄임": false
+   },
+   "cat": "기타",
+   "cat_src": "kw+news+ovr",
+   "era": "회복기(7/11~)",
+   "hour_band": "저녁18-22",
+   "dow": "토",
+   "len_band": "36자+",
+   "views": 145079,
+   "vpd": 28371.97936636917,
+   "share_pm": 12.503532558123505,
+   "save_pm": 1.1855609702300127,
+   "cmt_pm": 0.07582075972401243,
+   "like_pm": 4.452746434701094,
+   "watch_ms": null,
+   "permalink": "https://www.instagram.com/p/Dc5rTMqE_pv/",
+   "score": 24.97,
+   "drivers": [
+    "vpd",
+    "share_pm"
+   ],
+   "fp": "공유형",
    "exp": false
   }
  ],
