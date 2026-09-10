@@ -7330,8 +7330,14 @@
   {
    "query": "구글",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/4b95a4934f.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/001/0016301189",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-09-11T00:10:00+09:00",
    "delta": -4,
@@ -7346,8 +7352,14 @@
   {
    "query": "웹툰",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/1e755d63bb.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/009/0005733413",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-09-11T00:00:00+09:00",
    "isNew": true,
@@ -7359,8 +7371,14 @@
   {
    "query": "메일",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/0eb8e4439c.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/092/0002437055",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-10T23:50:00+09:00",
    "isNew": true,
@@ -7497,7 +7515,7 @@
  ],
  "gtrends_pool_updated": "2026-09-11T03:37:53+09:00",
  "_trend_img": {
-  "tried": "2026-09-11T02:57:00+09:00",
+  "tried": "2026-09-11T03:37:53+09:00",
   "fail": {
    "히 샬리 송": "2026-09-11T03:02:02+09:00"
   }
