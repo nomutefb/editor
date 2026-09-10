@@ -7627,8 +7627,14 @@
   {
    "query": "오륙도",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/edc027392c.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/022/0004157806",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-09-10T12:30:00+09:00",
    "delta": -5,
@@ -7657,8 +7663,14 @@
   {
    "query": "습관",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/36729672dd.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/001/0016302041",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-09-10T12:10:00+09:00",
    "delta": -4,
@@ -7672,8 +7684,14 @@
   {
    "query": "의과대학",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/281aa3e0fc.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/028/0002822456",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-09-10T12:40:00+09:00",
    "isNew": true,
@@ -7821,8 +7839,14 @@
   {
    "query": "김하성",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/845da1ef29.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/001/0016299867",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-09-10T12:30:00+09:00",
    "delta": -15,
@@ -7996,16 +8020,15 @@
  ],
  "gtrends_pool_updated": "2026-09-10T14:59:11+09:00",
  "_trend_img": {
-  "tried": "2026-09-10T14:21:59+09:00",
+  "tried": "2026-09-10T14:59:11+09:00",
   "fail": {
-   "김대호": "2026-09-10T12:28:55+09:00",
-   "알렉산더 즈베레프": "2026-09-10T12:28:55+09:00",
-   "앙투안 그리즈만": "2026-09-10T12:28:55+09:00",
    "nep vs oma": "2026-09-10T13:05:04+09:00",
    "지민": "2026-09-10T13:38:53+09:00",
    "레즈 대 다저스": "2026-09-10T14:25:22+09:00",
    "주드 테리": "2026-09-10T14:25:22+09:00",
-   "라이언 와이스": "2026-09-10T14:25:22+09:00"
+   "라이언 와이스": "2026-09-10T14:25:22+09:00",
+   "엘에이 fc": "2026-09-10T15:02:28+09:00",
+   "chicago fire fc vs inter miami standings": "2026-09-10T15:02:28+09:00"
   }
  },
  "gtrends_gl": [
@@ -18956,7 +18979,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-10T14:59:11+09:00"
+    "first_seen": "2026-09-10T14:59:11+09:00",
+    "kw": "리소스, vault",
+    "sum": "계정이 리소스 모음 링크를 공유했다",
+    "sv": 1
    },
    {
     "account": "kopp",
@@ -18971,7 +18997,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-09-10T14:59:11+09:00"
+    "first_seen": "2026-09-10T14:59:11+09:00",
+    "kw": "프로스티드 메뉴, UI 구현",
+    "sum": "작성자가 블러 메뉴 UI 구현 기법을 설명했다",
+    "sv": 1
    },
    {
     "account": "takepage_",
@@ -18986,7 +19015,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-09-10T14:59:11+09:00"
+    "first_seen": "2026-09-10T14:59:11+09:00",
+    "kw": "GPT Chat, 작업 플로우, Codex",
+    "sum": "작성자가 GPT Chat과 Codex를 병행하는 작업 플로우를 구상했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
