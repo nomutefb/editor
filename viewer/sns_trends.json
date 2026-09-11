@@ -7615,8 +7615,14 @@
   {
    "query": "와이파이",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/a3738bbe4e.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/003/0014183835",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-11T12:20:00+09:00",
    "delta": -5,
@@ -7629,8 +7635,14 @@
   {
    "query": "김민수",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/50ccb89011.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/057/0001968357",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-11T12:10:00+09:00",
    "delta": -5,
@@ -7668,8 +7680,14 @@
   {
    "query": "브루노마스 콘서트",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/6da51fd166.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/031/0001057367",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-11T12:30:00+09:00",
    "isNew": true,
@@ -7873,7 +7891,7 @@
  ],
  "gtrends_pool_updated": "2026-09-11T15:35:10+09:00",
  "_trend_img": {
-  "tried": "2026-09-11T14:58:34+09:00",
+  "tried": "2026-09-11T15:35:10+09:00",
   "fail": {
    "엘레나 리바키나": "2026-09-11T13:51:31+09:00"
   }
@@ -17866,7 +17884,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-11T15:35:10+09:00"
+    "first_seen": "2026-09-11T15:35:10+09:00",
+    "kw": "vault, 리소스",
+    "sum": "계정이 볼트 리소스 모음 링크를 공유했다",
+    "sv": 1
    },
    {
     "account": "kopp",
@@ -17881,7 +17902,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-09-11T15:35:10+09:00"
+    "first_seen": "2026-09-11T15:35:10+09:00",
+    "kw": "parallax, 드래깅, vault",
+    "sum": "계정이 패럴랙스와 드래깅 조합을 볼트에 추가했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
