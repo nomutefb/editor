@@ -3,10 +3,10 @@
   "dead_streak": 4,
   "alert_id": "yt-cookie-dead-202609070921-4",
   "last_ok": "2026-09-07 09:21",
-  "last_run": "2026-09-10 21:17",
+  "last_run": "2026-09-11 09:18",
   "acct": "황세…(3자)",
   "slots": {
-   "YT_T_COOKIES": "죽음"
+   "YT_T_COOKIES": "판정불가"
   },
   "half_id": ""
  },
@@ -676,6 +676,15 @@
    "acct": "",
    "slots": {
     "YT_T_COOKIES": "죽음"
+   }
+  },
+  {
+   "t": "2026-09-11 09:18",
+   "ok": null,
+   "why": "⑤ 계정 식별 실패 — 로그인 신호는 있는데 이름·핸들 파싱이 안 됨(응답 구조 변경 가능). LOGGED_IN 값을 우선 신뢰하고, 파싱 정규식을 손봐야 한다.",
+   "acct": "",
+   "slots": {
+    "YT_T_COOKIES": "판정불가"
    }
   }
  ]
