@@ -7568,8 +7568,14 @@
   {
    "query": "사형",
    "traffic": "5000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/d36ab20e15.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/001/0016304113",
+     "source": ""
+    }
+   ],
    "vol": 5000,
    "started": "2026-09-11T14:30:00+09:00",
    "delta": -7,
@@ -7582,8 +7588,14 @@
   {
    "query": "테니스",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/bcc430f585.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/003/0014179830",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-09-11T13:40:00+09:00",
    "delta": -3,
@@ -7598,8 +7610,14 @@
   {
    "query": "운전",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/e51097f3cc.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/023/0003997872",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-09-11T14:40:00+09:00",
    "delta": -10,
@@ -7612,8 +7630,14 @@
   {
    "query": "김예건",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/6abbf21a2f.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/421/0009161672",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-09-11T14:50:00+09:00",
    "delta": -12,
@@ -7659,8 +7683,14 @@
   {
    "query": "홍준표",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/75461ac6ce.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/448/0000638753",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-09-11T13:50:00+09:00",
    "delta": -10,
@@ -7675,8 +7705,14 @@
   {
    "query": "에버랜드",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/20d30893ac.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/001/0016304156",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-11T14:30:00+09:00",
    "delta": -13,
@@ -7731,8 +7767,14 @@
   {
    "query": "그랜드 테프트 오토 vi",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/36da0d904f.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/020/0003746654",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-11T15:00:00+09:00",
    "delta": -20,
@@ -7745,8 +7787,14 @@
   {
    "query": "mlb",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/c5ca3913d1.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/001/0016303799",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-11T14:10:00+09:00",
    "delta": -16,
@@ -7942,7 +7990,7 @@
  ],
  "gtrends_pool_updated": "2026-09-11T16:51:04+09:00",
  "_trend_img": {
-  "tried": "2026-09-11T16:10:43+09:00",
+  "tried": "2026-09-11T16:51:04+09:00",
   "fail": {
    "이용진": "2026-09-11T16:12:22+09:00",
    "김강우": "2026-09-11T16:12:22+09:00",
@@ -18089,7 +18137,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-11T16:51:04+09:00"
+    "first_seen": "2026-09-11T16:51:04+09:00",
+    "kw": "details.so, 볼트 링크",
+    "sum": "계정이 요청받은 details.so 볼트 링크를 공유했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
