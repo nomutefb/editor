@@ -7334,8 +7334,14 @@
   {
    "query": "jtbc",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/be51effa62.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/006/0000137660",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-11T13:40:00+09:00",
    "isNew": true,
@@ -7542,8 +7548,14 @@
   {
    "query": "이동건",
    "traffic": "5000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/febf8d4c20.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/469/0000953477",
+     "source": ""
+    }
+   ],
    "vol": 5000,
    "started": "2026-09-11T12:00:00+09:00",
    "delta": -7,
@@ -7558,8 +7570,14 @@
   {
    "query": "두산에너 빌리티",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/d8011bb4ef.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/018/0006351585",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-09-11T12:00:00+09:00",
    "delta": -7,
@@ -7574,8 +7592,14 @@
   {
    "query": "이더 리움",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/243820829a.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/028/0002406213",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-11T12:00:00+09:00",
    "delta": -7,
@@ -7610,8 +7634,14 @@
   {
    "query": "인터파크",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/92ca6d15cf.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/092/0002436594",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-11T11:20:00+09:00",
    "delta": -6,
@@ -7627,8 +7657,14 @@
   {
    "query": "푸바오",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/6035db6bb1.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/421/0009164498",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-11T11:50:00+09:00",
    "delta": -8,
@@ -7643,8 +7679,14 @@
   {
    "query": "livenation",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/fc7cc07612.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/001/0016299408",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-09-11T12:00:00+09:00",
    "delta": -10,
@@ -7679,8 +7721,14 @@
   {
    "query": "갤럽",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/3ff418354c.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/023/0003997873",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-09-11T13:50:00+09:00",
    "isNew": true,
@@ -7714,8 +7762,14 @@
   {
    "query": "박선원",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/e904fb32b1.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/421/0009164871",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-09-11T13:20:00+09:00",
    "isNew": true,
@@ -7839,7 +7893,7 @@
  ],
  "gtrends_pool_updated": "2026-09-11T14:58:34+09:00",
  "_trend_img": {
-  "tried": "2026-09-11T14:21:07+09:00",
+  "tried": "2026-09-11T14:58:34+09:00",
   "fail": {
    "엘레나 리바키나": "2026-09-11T13:51:31+09:00"
   }
@@ -17825,7 +17879,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-11T14:58:34+09:00"
+    "first_seen": "2026-09-11T14:58:34+09:00",
+    "kw": "YuE2, 프로젝트 주소",
+    "sum": "계정이 YuE2 프로젝트 깃허브 주소를 공유했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -17840,7 +17897,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-09-11T14:58:34+09:00"
+    "first_seen": "2026-09-11T14:58:34+09:00",
+    "kw": "YuE2, 음악 생성 모델",
+    "sum": "M-A-P 팀이 오픈 음악 생성 모델 YuE2-3B를 공개했다",
+    "sv": 1
    },
    {
     "account": "takepage_",
@@ -17855,7 +17915,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-09-11T14:58:34+09:00"
+    "first_seen": "2026-09-11T14:58:34+09:00",
+    "kw": "Astra, Sol, 서브에이전트",
+    "sum": "작성자가 Astra xhigh와 Sol medium 조합이 토큰 효율이 가장 좋다고 밝혔다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
