@@ -7558,8 +7558,14 @@
   {
    "query": "구축함",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/0d9abeba9f.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/001/0016303725",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-11T09:10:00+09:00",
    "delta": -5,
@@ -7573,8 +7579,14 @@
   {
    "query": "강남구",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/f79124d082.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/001/0016303802",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-11T09:50:00+09:00",
    "delta": -7,
@@ -7589,8 +7601,14 @@
   {
    "query": "빅뱅",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/ed6ffccaec.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/023/0003997743",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-11T12:00:00+09:00",
    "isNew": true,
@@ -7674,12 +7692,8 @@
  ],
  "gtrends_pool_updated": "2026-09-11T13:10:25+09:00",
  "_trend_img": {
-  "tried": "2026-09-11T12:34:47+09:00",
-  "fail": {
-   "엘링 홀란": "2026-09-11T10:52:55+09:00",
-   "양민혁": "2026-09-11T10:52:55+09:00",
-   "manchester united f.c. vs sabah fk standings": "2026-09-11T10:52:55+09:00"
-  }
+  "tried": "2026-09-11T13:10:25+09:00",
+  "fail": {}
  },
  "gtrends_gl": [
   {
@@ -18227,7 +18241,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-11T13:10:25+09:00"
+    "first_seen": "2026-09-11T13:10:25+09:00",
+    "kw": "Programmable World Model, 프로젝트 주소",
+    "sum": "계정이 프로젝트 페이지 링크를 공유했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -18242,7 +18259,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-09-11T13:10:25+09:00"
+    "first_seen": "2026-09-11T13:10:25+09:00",
+    "kw": "Alaya Lab, Programmable World Model, 게임 ",
+    "sum": "Alaya Lab이 화면 생성과 세계 상태를 분리한 월드모델을 공개했다",
+    "sv": 1
    },
    {
     "account": "aipeekme",
@@ -18257,7 +18277,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-09-11T13:10:25+09:00"
+    "first_seen": "2026-09-11T13:10:25+09:00",
+    "kw": "OpenAI, 항균 분자, 원문 링크",
+    "sum": "계정이 항균제 탐색 관련 원문 링크를 공유했다",
+    "sv": 1
    },
    {
     "account": "aipeekme",
@@ -18272,7 +18295,10 @@
     "rh": [
      4
     ],
-    "first_seen": "2026-09-11T13:10:25+09:00"
+    "first_seen": "2026-09-11T13:10:25+09:00",
+    "kw": "세사르 데 라 푸엔테, 코덱스, 항생제 내성",
+    "sum": "연구팀이 코덱스와 챗GPT로 새로운 항균 분자를 탐색하고 있다",
+    "sv": 1
    },
    {
     "account": "takepage_",
