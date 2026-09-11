@@ -7565,8 +7565,14 @@
   {
    "query": "귀금속",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/9cdf04f54b.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/422/0000905011",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-09-11T13:30:00+09:00",
    "delta": -5,
@@ -7695,8 +7701,14 @@
   {
    "query": "청소",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/eda3487a6f.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/243/0000102889",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-11T12:50:00+09:00",
    "isNew": true,
@@ -7895,9 +7907,12 @@
  ],
  "gtrends_pool_updated": "2026-09-11T16:10:43+09:00",
  "_trend_img": {
-  "tried": "2026-09-11T15:35:10+09:00",
+  "tried": "2026-09-11T16:10:43+09:00",
   "fail": {
-   "엘레나 리바키나": "2026-09-11T13:51:31+09:00"
+   "이용진": "2026-09-11T16:12:22+09:00",
+   "김강우": "2026-09-11T16:12:22+09:00",
+   "앤 해서웨이": "2026-09-11T16:12:22+09:00",
+   "유보영": "2026-09-11T16:12:22+09:00"
   }
  },
  "gtrends_gl": [
@@ -17999,7 +18014,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-11T16:10:43+09:00"
+    "first_seen": "2026-09-11T16:10:43+09:00",
+    "kw": "SoL-Pi, 깃허브",
+    "sum": "계정이 SoL-Pi 깃허브 저장소 링크를 공유했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -18014,7 +18032,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-09-11T16:10:43+09:00"
+    "first_seen": "2026-09-11T16:10:43+09:00",
+    "kw": "엔비디아, SoL-Pi, AI 에이전트",
+    "sum": "엔비디아가 AI 에이전트 작업 방식을 개선하는 SoL-Pi를 공개했다",
+    "sv": 1
    },
    {
     "account": "kopp",
