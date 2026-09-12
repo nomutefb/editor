@@ -28,12 +28,30 @@ import ask_srcimg          # noqa: E402
 KEY = bytes(range(16))
 IV = bytes(range(16, 32))
 SECRET = bytes(range(32, 48))     # 복호 결과 = 쿠키 값의 원본 평문
+STUB_COOKIE = 'de' * 16           # AES 없는 환경에서 쓰는 가짜 쿠키(값은 서버가 안 본다 — 존재만 본다)
+
+# ⚠ CI(check-refs.yml)는 **stdlib 만** 깐다(그 워크플로가 선언한 「과금 0·pip 0」 계약) = pycryptodome 없음.
+#   그래서 이 파일은 두 층으로 쪼갠다:
+#     ⓐ AES 복호 그 자체(1케이스) = 설치 환경에서만 검증(skipUnless)
+#     ⓑ 그 밖의 전부(감지·호스트 판정·재요청·302 회수·정제·주입·fail-soft·언패킹) = `cookie_for` 를
+#        스텁으로 갈아 **AES 없이도 CI 에서 전건 검증**한다. 봇월 배선의 회귀는 복호 한 줄이 아니라
+#        이 층에서 나기 때문에(260912 실측 = 언패킹·하한·내비 잔해) 여기를 CI 사각으로 남기면 안 된다.
+try:
+    from Crypto.Cipher import AES as _AES
+    HAS_AES = True
+except Exception:
+    _AES, HAS_AES = None, False
 
 
 def _cipher_hex():
-    """챌린지 페이지에 박히는 c(암호문) — 평문 SECRET 을 KEY/IV 로 CBC 암호화한 1블록."""
-    from Crypto.Cipher import AES
-    return AES.new(KEY, AES.MODE_CBC, IV).encrypt(SECRET).hex()
+    """챌린지 페이지에 박히는 c(암호문) — 평문 SECRET 을 KEY/IV 로 CBC 암호화한 1블록.
+
+    AES 가 없으면 길이만 맞는 더미를 쓴다(감지·전송 계약 검증엔 암호문 내용이 무관 — 복호 대조
+    케이스만 진짜 암호문을 요구하고 그 케이스는 skipUnless 로 분리돼 있다).
+    """
+    if not HAS_AES:
+        return '00' * 16
+    return _AES.new(KEY, _AES.MODE_CBC, IV).encrypt(SECRET).hex()
 
 
 def _challenge_html():
@@ -77,11 +95,16 @@ class _Wall(http.server.BaseHTTPRequestHandler):
 
 
 class CupidWallCanonTests(unittest.TestCase):
-    def test_detect_and_decrypt(self):
-        html = _challenge_html()
-        self.assertTrue(cupid_wall.is_challenge(html))
+    def test_detect(self):
+        """감지는 stdlib 축 — 어느 환경에서도 껍데기와 통과 페이지를 가른다."""
+        self.assertTrue(cupid_wall.is_challenge(_challenge_html()))
         self.assertFalse(cupid_wall.is_challenge(PASS_HTML))
-        self.assertEqual(cupid_wall.cookie_for(html), SECRET.hex())   # 1블록 CBC 복호 = 원 평문
+        self.assertIsNotNone(cupid_wall.CHALLENGE_RE.search(_challenge_html()))
+
+    @unittest.skipUnless(HAS_AES, 'pycryptodome 미설치(CI = stdlib 전용) — 복호 대조만 건너뜀')
+    def test_decrypt(self):
+        """1블록 CBC 복호 = 원 평문(쿠키 값) — 통과의 수학적 근거."""
+        self.assertEqual(cupid_wall.cookie_for(_challenge_html()), SECRET.hex())
 
     def test_host_gate(self):
         self.assertTrue(cupid_wall.is_wall_host('www.issuelink.co.kr'))
@@ -89,8 +112,10 @@ class CupidWallCanonTests(unittest.TestCase):
         self.assertFalse(cupid_wall.is_wall_host('mlbpark.donga.com'))
 
     def test_why_failed_splits_causes(self):
+        """사유 3분류(포맷·의존성·복호)를 뭉개면 다음 세션이 엉뚱한 자리를 판다 — 환경별 정답이 다르다."""
         self.assertIn('파싱 실패', cupid_wall.why_failed('<html>본문</html>'))
-        self.assertEqual(cupid_wall.why_failed(_challenge_html()), 'cupid 복호 실패')  # 설치된 환경 기준
+        why = cupid_wall.why_failed(_challenge_html())
+        self.assertEqual(why, 'cupid 복호 실패' if HAS_AES else 'pycryptodome 미설치 — cupid 우회 불가')
 
     def test_no_duplicate_regex_in_callers(self):
         """정본 1곳 — 호출부가 챌린지 정규식·AES 복호 사본을 다시 들고 있으면 드리프트가 재발한다."""
@@ -114,11 +139,15 @@ class HarvestWallTests(unittest.TestCase):
         # SSRF 가드는 사설 IP 를 차단한다(프로덕션 계약 = 무접촉) → 루프백 테스트 동안만 통과시킨다.
         cls._guard = ask_srcimg._blocked_host
         ask_srcimg._blocked_host = lambda h: False
+        # 복호는 AES 축(별도 케이스) — 여기서는 고정 쿠키 스텁으로 갈아 전송·정제·주입 배선만 잰다.
+        cls._cookie = cupid_wall.cookie_for
+        cupid_wall.cookie_for = lambda t: STUB_COOKIE
 
     @classmethod
     def tearDownClass(cls):
         cupid_wall.WALL_HOSTS = cls._hosts
         ask_srcimg._blocked_host = cls._guard
+        cupid_wall.cookie_for = cls._cookie
         cls.srv.shutdown()
         cls.srv.server_close()
 
@@ -158,7 +187,7 @@ class HarvestWallTests(unittest.TestCase):
         try:
             res = self._harvest('/post/1')
         finally:
-            cupid_wall.cookie_for = real
+            cupid_wall.cookie_for = real      # 스텁으로 복원(클래스 teardown 이 원본으로 되돌린다)
         self.assertTrue(res['ok'])
         self.assertIn('cupid', res['wall'])
         self.assertEqual(res['text'], '')
@@ -179,13 +208,24 @@ class FailProbeWallTests(unittest.TestCase):
         threading.Thread(target=cls.srv.serve_forever, daemon=True).start()
         cls._hosts, cupid_wall.WALL_HOSTS = cupid_wall.WALL_HOSTS, ('127.0.0.1',)
         cls._guard, ask_srcimg._blocked_host = ask_srcimg._blocked_host, (lambda h: False)
+        # 복호는 AES 축(별도 케이스) — 여기서는 고정 쿠키 스텁으로 갈아 전송·정제·주입 배선만 잰다.
+        cls._cookie = cupid_wall.cookie_for
+        cupid_wall.cookie_for = lambda t: STUB_COOKIE
 
     @classmethod
     def tearDownClass(cls):
         cupid_wall.WALL_HOSTS = cls._hosts
         ask_srcimg._blocked_host = cls._guard
+        cupid_wall.cookie_for = cls._cookie
         cls.srv.shutdown()
         cls.srv.server_close()
+
+    def test_probe_unpacks_without_wall(self):
+        """봇월 축이 아니어도 반환 개수 계약은 같다 — 언패킹 회귀의 최소 방어선(의존성 0)."""
+        import ask_fail_probe
+        p = ask_fail_probe.probe('http://127.0.0.1:%d/real' % self.port)
+        self.assertEqual(set(p), {'fetched', 'bytes', 'ko', 'shell', 'final', 'wall'})
+        self.assertTrue(p['fetched'])
 
     def test_probe_unpacks_and_reports_wall(self):
         import ask_fail_probe
