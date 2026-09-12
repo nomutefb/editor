@@ -7444,8 +7444,14 @@
   {
    "query": "전원주",
    "traffic": "5000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/5fd905705f.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/448/0000638902",
+     "source": ""
+    }
+   ],
    "vol": 5000,
    "started": "2026-09-12T09:10:00+09:00",
    "delta": -3,
@@ -7461,8 +7467,14 @@
   {
    "query": "최정훈",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/540a1f8b45.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/001/0016303210",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-12T11:50:00+09:00",
    "isNew": true,
@@ -7474,8 +7486,14 @@
   {
    "query": "메이플 블루 아카이브",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/d71fbaebfd.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/092/0002437165",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-12T09:10:00+09:00",
    "delta": -4,
@@ -7511,8 +7529,14 @@
   {
    "query": "db하이텍",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/ee72e3f757.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/092/0002436763",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-09-12T09:20:00+09:00",
    "delta": -8,
@@ -7528,8 +7552,14 @@
   {
    "query": "사격",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/ad4fe5a9de.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/055/0001387627",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-09-12T09:40:00+09:00",
    "isNew": true,
@@ -7623,10 +7653,8 @@
  ],
  "gtrends_pool_updated": "2026-09-12T13:12:02+09:00",
  "_trend_img": {
-  "tried": "2026-09-12T12:33:50+09:00",
+  "tried": "2026-09-12T13:12:02+09:00",
   "fail": {
-   "허수봉": "2026-09-12T10:51:12+09:00",
-   "유격수": "2026-09-12T10:51:12+09:00",
    "도루": "2026-09-12T11:26:48+09:00",
    "아스트리드 공주": "2026-09-12T11:26:48+09:00",
    "박명수": "2026-09-12T11:26:48+09:00",
@@ -18400,7 +18428,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-12T13:12:02+09:00"
+    "first_seen": "2026-09-12T13:12:02+09:00",
+    "kw": "수학, AI, 사이트 공유",
+    "sum": "계정이 수학과 AI 연구 사이트 링크를 공유했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -18415,7 +18446,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-09-12T13:12:02+09:00"
+    "first_seen": "2026-09-12T13:12:02+09:00",
+    "kw": "필즈상 수상자, AI 수학 연구, 테렌스 타오",
+    "sum": "필즈상 수상자 25명이 AI 기업의 수학 연구 방식을 비판했다",
+    "sv": 1
    },
    {
     "account": "aipeekme",
@@ -18430,7 +18464,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-09-12T13:12:02+09:00"
+    "first_seen": "2026-09-12T13:12:02+09:00",
+    "kw": "퍼플렉시티, GPT-6 아스트라",
+    "sum": "계정이 퍼플렉시티와 GPT-6 아스트라 관련 글을 공유했다",
+    "sv": 1
    },
    {
     "account": "aipeekme",
@@ -18445,7 +18482,10 @@
     "rh": [
      4
     ],
-    "first_seen": "2026-09-12T13:12:02+09:00"
+    "first_seen": "2026-09-12T13:12:02+09:00",
+    "kw": "퍼플렉시티, GPT-6 아스트라, 조니 호",
+    "sum": "퍼플렉시티가 운영 전반에 GPT-6 아스트라를 도입해 사람 개입을 줄였다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -18460,7 +18500,10 @@
     "rh": [
      5
     ],
-    "first_seen": "2026-09-12T13:12:02+09:00"
+    "first_seen": "2026-09-12T13:12:02+09:00",
+    "kw": "챗GPT, 리셋",
+    "sum": "챗GPT가 4시간 내 리셋될 예정이라고 알렸다",
+    "sv": 1
    },
    {
     "account": "aipeekme",
