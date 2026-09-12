@@ -7295,8 +7295,14 @@
   {
    "query": "t1",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/5b214a0978.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/119/0003131914",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-09-12T16:30:00+09:00",
    "isNew": true,
@@ -7699,8 +7705,14 @@
   {
    "query": "숲",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/c934c740ad.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/003/0014184081",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-09-12T14:00:00+09:00",
    "isNew": true,
@@ -7712,8 +7724,14 @@
   {
    "query": "설영우",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/a9b2755e83.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/001/0016300973",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-12T14:40:00+09:00",
    "isNew": true,
@@ -7725,8 +7743,14 @@
   {
    "query": "이정후",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/1fd11dcfc2.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/001/0016305963",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-09-12T15:00:00+09:00",
    "isNew": true,
@@ -7760,8 +7784,14 @@
   {
    "query": "슈퍼스타k",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/cbca6965af.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/014/0005566447",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-12T14:20:00+09:00",
    "isNew": true,
@@ -7908,12 +7938,12 @@
  ],
  "gtrends_pool_updated": "2026-09-12T17:57:41+09:00",
  "_trend_img": {
-  "tried": "2026-09-12T17:23:44+09:00",
+  "tried": "2026-09-12T17:57:41+09:00",
   "fail": {
-   "오스틴 딘": "2026-09-12T15:39:23+09:00",
    "캠 브리 콘": "2026-09-12T16:13:36+09:00",
    "트롯 데스 매치 금 타는 금요일": "2026-09-12T16:13:36+09:00",
-   "이범호": "2026-09-12T16:13:36+09:00"
+   "이범호": "2026-09-12T16:13:36+09:00",
+   "앤서니 조슈아": "2026-09-12T18:01:01+09:00"
   }
  },
  "gtrends_gl": [
@@ -19227,7 +19257,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-12T17:57:41+09:00"
+    "first_seen": "2026-09-12T17:57:41+09:00",
+    "kw": "PlayTrain, 프로젝트 주소",
+    "sum": "계정이 PlayTrain 프로젝트 주소를 공유했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -19242,7 +19275,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-09-12T17:57:41+09:00"
+    "first_seen": "2026-09-12T17:57:41+09:00",
+    "kw": "PlayTrain, 강화학습, AI 게임",
+    "sum": "계정이 AI가 게임을 만들어 AI를 학습시키는 PlayTrain을 소개했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -19257,7 +19293,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-09-12T17:57:41+09:00"
+    "first_seen": "2026-09-12T17:57:41+09:00",
+    "kw": "챗GPT, 리셋",
+    "sum": "계정이 챗GPT 리셋 완료를 알렸다",
+    "sv": 1
    },
    {
     "account": "aipeekme",
