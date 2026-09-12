@@ -202,7 +202,7 @@ PY
   #   스코프 = 출처 URL 축 전용(srcUrl 우선 → 없으면 요청문 첫 URL) · link 레일이 잡은 요청은 무접촉
   #   (그쪽은 이미 원문·전사문을 확보한다) · 실패는 전부 fail-soft(수확이 요약을 죽이지 않는다).
   srcurl="$(python3 -c "import json; print((json.load(open('$f')).get('srcUrl') or '').strip())" 2>/dev/null || true)"
-  SRCIMG_BLOCK=""; srcimglist=""; srcimgs=(); _su=""; FRAMEURL_BLOCK=""   # ⚠ if 밖 선언 필수 — 아래 OCR 블록·프롬프트 조립이 수확 성공 여부와 무관하게 참조한다(`set -u` = 미선언 참조 시 즉사)
+  SRCIMG_BLOCK=""; srcimglist=""; srcimgs=(); _su=""; FRAMEURL_BLOCK=""; SRCTEXT_BLOCK=""; _swall=""   # ⚠ if 밖 선언 필수 — 아래 OCR 블록·프롬프트 조립이 수확 성공 여부와 무관하게 참조한다(`set -u` = 미선언 참조 시 즉사)
   if [ -z "$LINK_BLOCK" ] && [ "${ASK_SRCIMG:-1}" != "0" ]; then   # ASK_SRCIMG=0 = 롤백 킬스위치
     _su="${srcurl}"
     [ -z "${_su// }" ] && _su="$(NM_T="${text}" python3 -c '
@@ -221,6 +221,26 @@ print(m.group(0)[:400] if m else "")
       #   공회전 = ANALYSIS_FAILED. 수확기가 해제한 실제 본문 주소(실측 257,516B·한글 5,495자)를 본선에
       #   그대로 준다. 이미지 유무와 무관(텍스트 본문 블로그도 이 축으로 살아난다) · frontmatter url 은
       #   원래 출처 주소 유지 = 뷰어 '원문' 링크 불변.
+      # ── 봇월(cupid.js) 통과 본문 = '전문' 주입(260912 · 사고 fail-2026-09-12-0926 봉합의 본체) ──
+      #   [사고] 이슈링크 커뮤니티 글 전송 → 수확기가 797B 챌린지 껍데기를 받아 페이지 텍스트 0자 →
+      #   모델은 원문을 한 글자도 못 보고 제목만으로 1-2 폴백 검색에 들어갔고 그 검색이 600s 예산을
+      #   두 번 태웠다(21분 실패). ⚠ 본선의 WebFetch 도 **같은 봇월에 막힌다** — 주소만 넘기면 모델은
+      #   여전히 0자를 본다. 그래서 스크립트가 통과해서 읽은 본문을 여기서 직접 전문으로 넘긴다.
+      #   지위 문법 = ask_link_stt.sh 「이 전사문이 곧 원문이다」·OCR 추출문 계승(창작 0).
+      _stext="$(printf '%s' "$_sj" | python3 -c 'import json,sys; print((json.load(sys.stdin).get("text") or "").strip())' 2>/dev/null || true)"
+      _swall="$(printf '%s' "$_sj" | python3 -c 'import json,sys; print((json.load(sys.stdin).get("wall") or "").strip())' 2>/dev/null || true)"
+      if [ -n "${_stext// }" ]; then
+        echo "· 봇월 통과 본문 전문 전달: ${#_stext}자 (${_swall})"
+        SRCTEXT_BLOCK="[📄 출처 글의 본문 전문 — 운영자가 보낸 글(${_su})은 **자바스크립트 봇월 뒤에 있어 네가 WebFetch 로 열면 빈 껍데기(텍스트 0자)만 온다**(실측 확인됨). 스크립트가 봇월을 통과해 읽은 본문을 아래에 그대로 붙였다. ⭐ **이 본문이 곧 원문이다** — 위 1) 보강 모드에서 말하는 '전문'으로 취급하라(미디어 전사문·이미지 추출문과 같은 지위).
+ - ⚠️ **제목만으로 기사를 찾는 1-2) 폴백을 타지 마라** — 그 폴백은 본문을 못 구했을 때의 수단이고, 지금은 본문이 여기 있다. 이 본문의 초점·스탠스를 축으로 삼고, 빠진 축만 위 1) 보강 우선순위대로 WebSearch(총 3회 상한 내)로 채워라(관점 축 4계약 그대로 — 초점 보존·보강 종속).
+ - 커뮤니티 글이라 본문 뒤에 **댓글·광고 문구가 섞여 있을 수 있다**: 앞부분이 게시글 본문이고, 뒤쪽 짧은 발언 묶음은 댓글(여론 재료로만 쓰고 사실 출처로 쓰지 마라), 상품·쇼핑 문구는 광고이니 무시하라.
+ - 원문 주소를 열 필요가 있으면 위 🔓 블록의 실제 본문 주소를 써라(봇월 주소가 아니다).
+ - ⚠️ 여기 없는 사실·수치·인용은 지어내지 마라. **ANALYSIS_FAILED 는 내지 마라**(재료는 확보됐다 · 위 5) 불변).
+
+본문 전문:
+${_stext}]
+"
+      fi
       _sfin="$(printf '%s' "$_sj" | python3 -c 'import json,sys; print((json.load(sys.stdin).get("final") or "").strip())' 2>/dev/null || true)"
       if [ -n "${_sfin// }" ] && [ "$_sfin" != "$_su" ]; then
         echo "· 프레임 해제: ${_su} → ${_sfin}"
@@ -300,6 +320,7 @@ ${GBLOCK}
 ${PRESET_BLOCK}
 ${LINK_BLOCK}
 ${FRAMEURL_BLOCK}
+${SRCTEXT_BLOCK}
 ${SRCIMG_BLOCK}
 사용자 요청(자연어):
 ${text:-(없음 — 캡처만)}
@@ -317,8 +338,18 @@ $(printf '%b' "${imglist:-- (없음)\n}")"
   claude_preflight "$MODEL" 2>/dev/null || true # 본선(≤600s) 직전 60s 핑으로 산 계정 선탑승 — 죽은 활성계정 침묵 행이 본선 timeout을 통째로 태우던 공회전 소거(preflight SSOT 본선 확장 배선 260717 · fail-soft)
   _to_tried=0                                   # 이 기사에서 타임아웃 재시도(노력도 하향 또는 계정전환)를 이미 1회 했는지(무한 재시도 차단)
   _cur_eff="$EFFORT"                            # 이 기사의 현재 노력도 — rc=124 재시도부터 한 단계 하향(260912 · 계측 effort 도 실값 = metrics 가 재시도 분포를 따로 본다)
+  # ── 타임아웃 재시도용 조건 완화 블록(260912 2차) ──
+  #   [왜 노력도만으론 부족한가] 노력도는 '한 번 생각하는 깊이'를 줄이지만, 예산을 실제로 태우는 건
+  #   **검색 왕복 수**다(실사고 = 본문 0자 + 미국 정치 화제 = 영문·국문 교차검색). 기본 상한 3회는
+  #   평시 품질용 천장이고, 이미 한 번 600s 를 넘긴 재시도에서는 같은 천장을 다시 주면 같은 자리에서 죽는다.
+  #   → 재시도는 검색 1회 + 확보분 완성으로 조건을 바꾼다(계정만 바꿔 같은 조건을 반복하던 구판의 반대 축).
+  #   ⚠ 평시 요청은 이 블록이 빈 값이라 프롬프트 바이트 무변경(회귀 0) · 킬스위치 ASK_RETRY_SLIM=0.
+  _slim=""
+  _slim_txt="
+
+[⏱ 재시도 조건(이 시도에만 적용 · 앞 시도가 제한 시간을 넘겨 중단됐다) — **위 검색 상한을 총 1회로 줄인다**. 검색을 더 돌려 빈 축을 채우려 하지 말고, **이미 확보된 재료**(요청문·전문·전사문·추출문·첨부 그림)만으로 위 출력 포맷을 끝까지 채워라. 빈 축은 비워두거나 「미확정」으로 적는다. 완성이 보강보다 우선이다(위 1) 그대로 · ANALYSIS_FAILED 는 여전히 금지).]"
   for attempt in $(seq 1 "$INLINE_TRIES"); do
-    out="$(printf '%s' "$prompt" | METER_SRC=ask METER_REF="$base" METER_MODEL="$MODEL" METER_EFFORT="$_cur_eff" claude_meter "$ASK_TIMEOUT" \
+    out="$(printf '%s' "${prompt}${_slim}" | METER_SRC=ask METER_REF="$base" METER_MODEL="$MODEL" METER_EFFORT="$_cur_eff" claude_meter "$ASK_TIMEOUT" \
           --model "$MODEL" \
           --effort "$_cur_eff" \
           --allowedTools "WebFetch,WebSearch,Read" \
@@ -340,11 +371,12 @@ $(printf '%b' "${imglist:-- (없음)\n}")"
     if [ $rc -eq 124 ] && [ "$_to_tried" = "0" ]; then
       _to_tried=1
       _nxt_eff="$(claude_effort_down "$_cur_eff")"
+      [ "${ASK_RETRY_SLIM:-1}" != "0" ] && _slim="$_slim_txt"   # 검색 예산도 1회로(노력도와 함께 조건 자체를 가볍게)
       if [ "$_nxt_eff" != "$_cur_eff" ]; then
-        echo "  ⏱ 시간초과(${ASK_TIMEOUT}s · effort ${_cur_eff}) — 같은 계정에서 effort ${_nxt_eff} 로 1회 재시도(입력바운드 = 계정 전환 무효 · 260912)"
+        echo "  ⏱ 시간초과(${ASK_TIMEOUT}s · effort ${_cur_eff}) — 같은 계정에서 effort ${_nxt_eff} + 검색 상한 1회로 1회 재시도(입력바운드 = 계정 전환 무효 · 260912)"
         _cur_eff="$_nxt_eff"; continue
       fi
-      if claude_failover_force; then continue; fi   # 사다리 바닥 = 종전 폴백(계정 1회 전환 · claude_reset_force_swap 이 다음 기사서 되돌림)
+      if claude_failover_force; then continue; fi   # 사다리 바닥 = 종전 폴백(계정 1회 전환 · claude_reset_force_swap 이 다음 기사서 되돌림 · 검색 상한 1회는 위에서 이미 적용)
     fi
     # 일시 과부하(5xx)면 백오프 후 재시도(마지막 시도면 탈출→격리). ⚠️ 타임아웃(rc=124)은 여기서 재시도 안 함(위 1회 재시도로 끝) — `[ $rc -ne 124 ]` 명시 가드 = 과부하성 타임아웃 stderr(Overloaded)가 is_transient 에 매칭돼 3회로 새는 것 봉인(2회 상한 airtight · 평의회 260704 B).
     if [ "$attempt" -lt "$INLINE_TRIES" ] && [ $rc -ne 124 ] && is_transient "$out$(cat "/tmp/${base}.err" 2>/dev/null)"; then
@@ -389,7 +421,15 @@ w = " ".join(sys.stdin.buffer.read().decode("utf-8", "ignore").split())
 print(w[:200] + ("…" if len(w) > 200 else ""))' 2>/dev/null)"
       _fbody="$(printf '⚠️ 요약 요청이 **계정 인증 실패**로 중단됐어 — 네 입력 문제가 아니야.\n사유: 분석 계정의 OAuth 토큰이 폐기·만료됨(401 · 활성 %s · 계정 전환 %s회 뒤에도 같은 오류).\n첫 오류: %s' "${ACTIVE_ACCOUNT:-?}" "${_CLAUDE_SWAPPED:-0}" "${_aerr:-(출력 없음 — 로그 참조)}")"
     elif [ "$_fk" = timeout ]; then
-      _fbody="$(printf '⚠️ 요약 요청이 시간 초과로 실패했어.\n사유: 원문 검색·요약이 제한 시간을 넘겨 중단됨(과부하 또는 검색 지연).\n\n→ 대기열에서 “재시도”를 누르면 그 내용이 채워져 다시 요청할 수 있어(캡처는 재첨부).')"
+      # ⚠ 원인 2분류(260912) — 구판은 사유를 '과부하 또는 검색 지연' 하나로 적고 조치문에 「코드가 고칠
+      #   자리는 없어」를 박았다. 실사고(fail-2026-09-12-0926)의 실제 원인은 **출처 본문을 0자로 받은 것**
+      #   (봇월)이었고, 그건 정확히 코드가 고칠 자리였다 = 오안내가 운영자를 재시도 루프로 보냈다.
+      #   → 본문 확보 실패가 동반됐는지를 실측값(_swall · 페이지 텍스트 자수)으로 갈라 적는다.
+      if [ -n "${_swall// }" ] && [ -z "${SRCTEXT_BLOCK// }" ]; then
+        _fbody="$(printf '⚠️ 요약 요청이 시간 초과로 실패했어 — 원인은 **출처 본문 확보 실패**야.\n사유: 출처 글이 자바스크립트 봇월 뒤에 있어 본문을 못 읽었고(%s), 원문 없이 제목만으로 검색하다 제한 시간을 넘겼어.\n\n→ 재시도해도 같은 자리에서 막힐 수 있어. 이 알림을 그대로 넘겨 주면 통과 경로를 점검해.' "$_swall")"
+      else
+        _fbody="$(printf '⚠️ 요약 요청이 시간 초과로 실패했어.\n사유: 원문 검색·요약이 제한 시간을 넘겨 중단됨(노력도 하향 + 검색 1회 재시도까지 쓰고도 초과).\n\n→ 대기열에서 “재시도”를 누르면 그 내용이 채워져 다시 요청할 수 있어(캡처는 재첨부).')"
+      fi
     elif [ "$_fk" = congest ]; then
       _fbody="$(printf '⚠️ 요약 요청이 분석 과정에서 실패했어.\n사유: 분석 도구 혼잡(일시 과부하 — 재시도 소진).\n\n→ 대기열에서 “재시도”를 누르면 그 내용이 채워져 다시 요청할 수 있어.')"
     else
@@ -421,8 +461,11 @@ else:
     # 두 경로가 같이 붙어야 한다 — 한쪽만 고치면 나머지 경로가 조용히 구 동작(클로드 칸)으로 남는다
     #   (이 레포 최빈 미러 드리프트 · `_fk` 분류 자체가 그 이유로 두 파일 동기인 것과 같은 축).
     # ⚠ code 축은 안 붙인다(cc 유지) · '클로드' 낱말 금지(cc로 튐) · '없어요/없음' 시작 금지(auto로 튐).
+    # ⚠ timeout 분기는 **한 줄 유지** = check_fail_notice_actor 가 `timeout)` 줄 안에서 👉를 찾는다(분기해
+    #   여러 줄로 내리면 그 줄엔 👉가 없어 「코드 축」으로 오분류된다). 같은 이유로 줄 끝 주석도 금지 —
+    #   게이트가 👉 뒤 전체를 조치 문구로 읽어 주석 낱말까지 판정에 섞인다(260912 실측).
     case "$_fk" in
-      timeout) _fbody="${_fbody}"$'\n\n''👉 네가 할 일: 대기열에서 “재시도”를 눌러 줘(캡처는 다시 붙여야 해). 시간이 넘어서 끊긴 거라 코드가 고칠 자리는 없어.' ;;
+      timeout) if [ -n "${_swall// }" ] && [ -z "${SRCTEXT_BLOCK// }" ]; then _fbody="${_fbody}"$'\n\n''👉 네가 할 일: 이 알림을 그대로 넘겨 줘 — 출처 사이트 차단을 통과하는 자리가 막힌 거야(재시도만으론 같은 결과가 나올 수 있어). 급하면 글 본문을 복사해 붙여서 다시 보내도 돼.'; else _fbody="${_fbody}"$'\n\n''👉 네가 할 일: 대기열에서 “재시도”를 눌러 줘(캡처는 다시 붙여야 해). 자동 재시도(노력도 하향 + 검색 1회)는 이미 다 쓰고 여기까지 온 거야.'; fi ;;
       congest) _fbody="${_fbody}"$'\n\n''👉 네가 할 일: 대기열에서 “재시도”를 눌러 줘. 자동 재시도는 이미 다 쓰고 여기까지 온 거야.' ;;
       source)  _fbody="${_fbody}"$'\n\n''👉 네가 할 일: 대기열에서 “재시도”를 누르거나, 보낸 내용을 확인해서 다시 요청해 줘.' ;;
       auth)    _fbody="${_fbody}"$'\n\n'"👉 네가 할 일: 계정 토큰이 죽었어(인증 401). 활성 계정 ${ACTIVE_ACCOUNT:-?} 으로 로그인한 터미널에서 claude setup-token 을 다시 받아 GitHub 비밀칸 CLAUDE_CODE_OAUTH_TOKEN_${ACTIVE_ACCOUNT:-계정} 에 넣고 대기열에서 “재시도”를 눌러 줘. 전환 ${_CLAUDE_SWAPPED:-0}회 뒤에도 같은 오류였으면 체인(news-ask.yml ALT 순서)의 서브 계정 토큰도 같이 갈아 줘. 코드가 고칠 자리는 없어." ;;

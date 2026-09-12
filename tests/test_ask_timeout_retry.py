@@ -17,7 +17,11 @@ ASK_BASE = '2026-09-12-0800-test1'
 # 가짜 claude — 호출마다 토큰·인자를 로그에 남기고, 프리플라이트(--effort low)는 산 계정으로 답한다.
 # 그 밖의 호출은 FAKE_PLAN(쉼표 구분 · n번째 호출의 rc · 빈값/0 = 성공)대로 종료하거나 다이제스트를 낸다.
 FAKE_CLAUDE = r'''#!/usr/bin/env bash
-cat > /dev/null
+if [ -n "${FAKE_STDIN:-}" ] && ! printf '%s' "$*" | grep -q -- '--effort low'; then
+  { printf '<<<CALL>>>\n'; cat; } >> "$FAKE_STDIN"      # 본선 호출의 프롬프트 적재(프리플라이트 제외)
+else
+  cat > /dev/null
+fi
 printf '%s\t%s\n' "${CLAUDE_CODE_OAUTH_TOKEN:-}" "$*" >> "$FAKE_LOG"
 case " $* " in *" --effort low "*) echo ok; exit 0;; esac
 n=$(grep -vc -- '--effort low' "$FAKE_LOG")
@@ -103,7 +107,20 @@ class AskTimeoutRetryTests(unittest.TestCase):
     def test_timeout_retries_once_on_same_account_with_lower_effort(self):
         out = self.run_ask('124')
         self.assertEqual(self.main_calls(), [('tok-primary', 'high'), ('tok-primary', 'medium')])
-        self.assertIn('effort medium 로 1회 재시도', out)
+        self.assertIn('effort medium + 검색 상한 1회로 1회 재시도', out)
+
+    def test_timeout_retry_also_slims_search_budget(self):
+        """260912 2차 — 재시도는 노력도만 내리지 않고 **검색 예산**도 1회로 줄인다.
+
+        노력도는 한 번 생각하는 깊이를 줄이지만 예산을 태우는 건 검색 왕복 수다(실사고 = 본문 0자 +
+        영문·국문 교차검색). 그래서 첫 콜엔 없고 재시도 콜에만 완화 블록이 실려야 한다(평시 회귀 0).
+        """
+        stdin_log = self.sb / 'fake_stdin.txt'
+        self.run_ask('124', FAKE_STDIN=str(stdin_log))
+        calls = [c for c in stdin_log.read_text().split('<<<CALL>>>') if c.strip()]
+        self.assertEqual(len(calls), 2, '본선 2콜(첫 시도 + 하향 재시도)')
+        self.assertNotIn('검색 상한을 총 1회로 줄인다', calls[0])
+        self.assertIn('검색 상한을 총 1회로 줄인다', calls[1])
         self.assertEqual(len(list((self.sb / 'queue').glob('*.md'))), 1)
         self.assertFalse((self.sb / 'asks' / f'{ASK_BASE}.json').exists())
 

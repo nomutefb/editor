@@ -29,6 +29,9 @@ _STOP = {"속보", "단독", "종합", "전문", "공식", "오늘", "내일", "
          "추가", "폭로", "증언", "위협", "확산", "출동", "충격", "경악", "레전드", "논란", "소식", "일파만파", "수준", "정도", "클라스"}
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / 'shared'))   # cupid_wall 정본(260912 · 봇월 통과는 shared 1곳)
+
+import cupid_wall   # noqa: E402  (경로 배선 뒤 import = 이 레포 관용구)
 try:
     import knews_scraper as K   # 토큰 추출(tokenize)은 뉴스와 공유 = 드리프트0. 단 매칭(same_topic)은 소셜용으로 분리.
     tokenize = K.tokenize
@@ -222,39 +225,23 @@ def _parse_reltime(s, now):
     return now - timedelta(hours=age)
 
 
-# ── cupid.js(SlowAES JS 쿠키) 챌린지 우회 (260625) ──
+# ── cupid.js(SlowAES JS 쿠키) 챌린지 우회 (260625 · 260912 정본 이동) ──
 # 이슈링크가 06-22부터 cupid.js 봇월로 전환 → 평문 GET은 767B 챌린지 페이지만 받아 0건.
-# 챌린지는 결정론적 SlowAES: a=키·b=IV·c=암호문(1블록) → 쿠키 CUPID=hex(AES-128-CBC-decrypt(c, a, b)) → ?ckattempt=1 재요청.
-# 무료·무키. pycryptodome 미설치면 graceful 0건(옛 동작과 동일).
-_CUPID_RE = re.compile(
-    r'a\s*=\s*toNumbers\("([0-9a-fA-F]+)"\)\s*,\s*'
-    r'b\s*=\s*toNumbers\("([0-9a-fA-F]+)"\)\s*,\s*'
-    r'c\s*=\s*toNumbers\("([0-9a-fA-F]+)"\)')
-
-
+# ⚠ 감지·복호 정본 = shared/cupid_wall.py(260912) — 요약 요청 수확기(ask_srcimg.py)가 같은 도메인에서
+#   같은 껍데기를 받아 본문 0자로 21분 타임아웃을 낸 사고(fail-2026-09-12-0926) 뒤 사본을 1곳으로 합쳤다.
+#   여기 남는 건 **전송계층**(requests.Session 쿠키 자동)뿐 = 동작 무변경.
 def _get_cupid(session, url, _depth=0):
     """이슈링크 GET — cupid 챌린지면 AES-CBC 복호로 CUPID 쿠키 발급 후 재요청(통과 페이지 반환)."""
     r = session.get(url, timeout=20)
-    if _depth < 2 and "toNumbers(" in r.text and "ckattempt" not in url:
-        m = _CUPID_RE.search(r.text)
-        if not m:
-            print("::warning::cupid 챌린지 파싱 실패 — 포맷 변경 가능(이슈링크 0건)")
+    if _depth < 2 and cupid_wall.is_challenge(r.text) and cupid_wall.RETRY_PARAM.split("=")[0] not in url:
+        cookie = cupid_wall.cookie_for(r.text)
+        if not cookie:
+            print(f"::warning::{cupid_wall.why_failed(r.text)}(이슈링크 0건)")
             return r
-        try:
-            from Crypto.Cipher import AES
-        except Exception:
-            print("::warning::pycryptodome 미설치 — cupid 우회 불가(이슈링크 0건)")
-            return r
-        try:
-            from urllib.parse import urlparse
-            a, b, c = (bytes.fromhex(x) for x in m.groups())
-            cookie = AES.new(a, AES.MODE_CBC, b).decrypt(c).hex()   # 1블록 CBC = AES-ECB-dec(c,a) XOR b
-            session.cookies.set("CUPID", cookie, domain=urlparse(url).netloc)
-        except Exception as ex:  # noqa: BLE001
-            print(f"::warning::cupid 복호 실패: {ex} (이슈링크 0건)")
-            return r
+        from urllib.parse import urlparse
+        session.cookies.set(cupid_wall.COOKIE_NAME, cookie, domain=urlparse(url).netloc)
         sep = "&" if "?" in url else "?"
-        return _get_cupid(session, url + sep + "ckattempt=1", _depth + 1)
+        return _get_cupid(session, url + sep + cupid_wall.RETRY_PARAM, _depth + 1)
     return r
 
 

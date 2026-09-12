@@ -38,6 +38,18 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
+# ── cupid.js 봇월 통과 정본(shared/cupid_wall.py · 260912) ──
+#   [왜 여기냐 = 실측 사고 fail-2026-09-12-0926] 이슈링크 커뮤니티 글(맘다니 뉴욕시장) 전송 →
+#   이 수확기가 797B 챌린지 껍데기를 받아 페이지 텍스트 0자 → 본선이 원문을 못 보고 제목만으로
+#   검색 시작 → effort max 600s 두 번 초과 = 21분 실패. 통과 코드는 레포에 이미 있었다
+#   (scraper/social_burst.py 260625 · 같은 도메인) — 그 정본을 여기서도 쓴다(사본 0).
+#   ⚠ 미설치·import 실패는 None 으로 떨어뜨려 **종전 동작 그대로**(회귀 0 · 수확기 전 경로 fail-soft 원칙).
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'shared'))
+try:
+    import cupid_wall
+except Exception:
+    cupid_wall = None
+
 # UA 2단(⚠️ 실측 260804 = 이 순서가 사고 재현의 핵심): 보배드림은 **모바일 UA 를 봇으로 차단**한다 —
 #   fetch_article.sh 의 모바일 UA 그대로면 http 200 인데 본문 없는 3,566바이트 껍데기만 온다(조용한 실패).
 #   데스크톱 UA 로 바꾸면 같은 URL 이 160,268바이트 = 본문 이미지 2장(IMG_0551·IMG_0552) 취득 성공.
@@ -58,6 +70,13 @@ TRY_MAX = 14            # 이미지 다운로드 시도 상한 — 커뮤니티 
 #   낭비 우려는 스코프가 흡수한다 — 이 수확기는 ask.sh 에서 **출처 URL 축(SNS 카드 전송·요청문 URL)에만**
 #   걸리고, 원문 링크 레일(link)이 잡은 요청은 건드리지 않는다.
 THIN_DEFAULT = 0        # 0 = 텍스트 길이와 무관하게 수확 · >0 이면 그 글자 수 이상일 때 생략(카나리아용)
+WALL_TEXT_MIN = 50     # 봇월 통과 본문을 '전문'으로 실을 최소 자수(정제 후) — 이보다 짧으면 본문 선별 실패로 보고 안 싣는다.
+#   ⚠ 기사용 하한(fetch_article.sh 200자)을 그대로 쓰면 안 된다 — 커뮤니티 글 본문은 원래 짧다
+#   (실사고 글의 게시자 본문은 4줄·약 120자 · 나머지는 댓글). 그 120자가 바로 제목만으론 안 나오던
+#   검색어(인물·쟁점)를 주는 대목이라, 기사 하한으로 걸러 버리면 사고 경로가 그대로 남는다.
+#   dense_text 가 이미 '한글 20자 이상 줄'만 남기므로 50자 = 유의미한 2~3줄 = 잔해와 본문의 실질 경계.
+WALL_TEXT_MAX = 6000   # 전문 주입 문자 상한 — fetch_article.sh 정본 값 계승(창작 0)
+DENSE_LINES = 40       # 본문 줄 상한 — 같은 정본 값 계승
 MAX_DEFAULT = 4         # 수확 상한(뷰어 캡처 images[:8]과 합류해도 여유) — 짤방 글은 대개 1~3장
 IMG_MIN_BYTES = 15_000  # 이보다 작으면 아이콘·버튼·1x1 추적픽셀 취급(본문 짤방은 수십 KB↑)
 IMG_MAX_BYTES = 12 << 20
@@ -169,23 +188,30 @@ def _guard(url):
     return url
 
 
-def _get(url, referer='', limit=PAGE_MAX_BYTES, ua=UA_DESK):
-    """(bytes, content_type) — 실패는 (b'', '')."""
+def _get(url, referer='', limit=PAGE_MAX_BYTES, ua=UA_DESK, cookie='', ret_url=False):
+    """(bytes, content_type) — 실패는 (b'', ''). ret_url=True 면 (bytes, ct, 최종URL).
+
+    cookie = 'NAME=value' 한 줄(cupid 챌린지 재요청용 · 빈 값이면 헤더 자체를 안 붙여 종전 요청과 동일).
+    ret_url = 리다이렉트 최종 도착지 반환(이슈링크 /community/go/… → 실제 커뮤니티 글 주소 축 · 260912).
+    """
     if not _guard(url):
-        return b'', ''
+        return (b'', '', '') if ret_url else (b'', '')
     req = urllib.request.Request(url, headers={
         'User-Agent': ua,
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
         'Accept-Language': 'ko-KR,ko;q=0.9,en;q=0.8',
         **({'Referer': referer} if referer else {}),
+        **({'Cookie': cookie} if cookie else {}),
     })
     try:
         with urllib.request.urlopen(req, timeout=TIMEOUT) as r:
-            if not _guard(r.geturl()):    # 리다이렉트 최종 도착지 재검문(linkgrab lgFinalGuard 축)
-                return b'', ''
-            return r.read(limit + 1), (r.headers.get('content-type') or '')
+            fin = r.geturl()
+            if not _guard(fin):           # 리다이렉트 최종 도착지 재검문(linkgrab lgFinalGuard 축)
+                return (b'', '', '') if ret_url else (b'', '')
+            raw, ct = r.read(limit + 1), (r.headers.get('content-type') or '')
+            return (raw, ct, fin) if ret_url else (raw, ct)
     except Exception:
-        return b'', ''
+        return (b'', '', '') if ret_url else (b'', '')
 
 
 def _ua_swap_get(url, referer=''):
@@ -226,11 +252,44 @@ def _frame_target(raw, base):
     return u if _guard(u) else ''
 
 
+def _cupid_pass(raw, ct, url):
+    """cupid.js 봇월 껍데기면 쿠키를 만들어 재요청 — (raw, ct, final_url, note) · 미해당은 입력 그대로.
+
+    [왜 UA 교대로는 안 되나] 챌린지 응답은 어느 UA 로도 같은 797B 스크립트다(실측). 통과의 조건은
+    **쿠키 한 개**뿐이고 그 값은 페이지 안 a·b·c 로 결정론적으로 계산된다(shared/cupid_wall.py 참조).
+    통과 뒤 이슈링크 `/community/go/<커뮤니티>/<id>` 는 302 로 실제 글로 가므로 그 최종 주소도 함께
+    돌려준다 — 본선 WebFetch 가 봇월 주소가 아니라 실제 글 주소를 열게 하는 축(FRAMEURL_BLOCK).
+    """
+    if cupid_wall is None:
+        return raw, ct, url, ''
+    try:
+        host = urllib.parse.urlparse(url).netloc
+        if not cupid_wall.is_wall_host(host):
+            return raw, ct, url, ''
+        text = _decode(raw, ct)
+        if not cupid_wall.is_challenge(text):
+            return raw, ct, url, ''          # 이미 통과 페이지(쿠키 불요)
+        cookie = cupid_wall.cookie_for(text)
+        if not cookie:
+            return raw, ct, url, cupid_wall.why_failed(text)
+        sep = '&' if '?' in url else '?'
+        raw2, ct2, fin = _get(url + sep + cupid_wall.RETRY_PARAM,
+                              cookie='%s=%s' % (cupid_wall.COOKIE_NAME, cookie), ret_url=True)
+        if len(raw2) <= len(raw):
+            return raw, ct, url, 'cupid 재요청이 껍데기 — 봇월 포맷 변경 의심'
+        return raw2, ct2, (fin or url), 'cupid 봇월 통과'
+    except Exception as ex:   # noqa: BLE001 — 수확기 전 경로 fail-soft(통과 실패가 요약을 죽이지 않는다)
+        return raw, ct, url, 'cupid 통과 예외: %s' % ex
+
+
 def _get_page(url):
-    """페이지 취득 — ① UA 교대(260804) ② 그래도 껍데기면 프레임 셸 해제 추적(260805 · 최대 2홉).
-    반환 = (raw, ct, final_url) — final 은 실제 본문을 준 주소(프레임 해제 결과 · 미해제면 입력 그대로)."""
+    """페이지 취득 — ① UA 교대(260804) ② cupid 봇월 쿠키 통과(260912) ③ 그래도 껍데기면 프레임 셸 해제 추적(260805 · 최대 2홉).
+    반환 = (raw, ct, final_url) — final 은 실제 본문을 준 주소(봇월 통과 후 302 · 프레임 해제 결과 · 미해당이면 입력 그대로)."""
     raw, ct = _ua_swap_get(url)
     final = url
+    raw, ct, final, wall = _cupid_pass(raw, ct, url)
+    if wall:
+        print('::warning::%s (%s)' % (wall, url), file=sys.stderr)
     for _ in range(FRAME_HOP_MAX):
         nxt = _frame_target(raw, final)
         if not nxt or nxt == final:
@@ -239,7 +298,7 @@ def _get_page(url):
         if len(raw2) <= len(raw):
             break             # 해제해도 안 커지면 셸이 아니었던 것 — 원본 유지(오탐 0 지향)
         raw, ct, final = raw2, ct2, nxt
-    return raw, ct, final
+    return raw, ct, final, wall
 
 
 def _decode(raw, ct):
@@ -262,6 +321,29 @@ def body_text(t):
     b = re.sub(r'<[^>]+>', ' ', b)
     b = html.unescape(b)
     return re.sub(r'[ \t ]+', ' ', b).strip()
+
+
+def dense_text(txt):
+    """본문 줄만 남긴 밀집 텍스트 — `fetch_article.sh` 본문 선별 정본 관용구 계승(창작 0).
+
+    정본 4축 그대로: ① 한글 20자 미만 줄 버림(내비·메뉴·잔재) ② 중복 줄 제거
+    ③ 40줄 상한 ④ 문자 상한. 커뮤니티 페이지는 사이트 메뉴가 수백 줄이라(실측 mlbpark
+    34,583자 중 앞 수천 자가 통째로 메뉴) 이 선별 없이 앞부분만 자르면 **본문이 한 줄도 안 실린다**.
+    ⚠ 바이라인 면제 축은 안 가져온다 — 이 경로의 산출물은 '기자명 추출'이 아니라 '읽을 본문'이고,
+      커뮤니티 글엔 바이라인이 없다(정본의 그 축은 기사 경로 전용 = 여기서 쓰면 잡음만 늘린다).
+    """
+    seen, keep = set(), []
+    for l in (txt or '').split('\n'):
+        l = re.sub(r'\s+', ' ', l).strip()
+        if len(re.findall(r'[가-힣]', l)) < 20:
+            continue
+        if l in seen:
+            continue
+        seen.add(l)
+        keep.append(l)
+        if len(keep) >= DENSE_LINES:
+            break
+    return '\n'.join(keep)
 
 
 def _meta_og_image(t):
@@ -308,12 +390,13 @@ def candidates(page, base):
 
 
 def harvest(url, outdir, max_n=MAX_DEFAULT, thin=THIN_DEFAULT, prefix='src'):
-    res = {'ok': False, 'text_len': -1, 'saved': [], 'why': '', 'final': ''}
+    res = {'ok': False, 'text_len': -1, 'saved': [], 'why': '', 'final': '', 'wall': '', 'text': ''}
     if not _guard(url):
         res['why'] = '차단·비정상 URL'
         return res
-    raw, ct, final = _get_page(url)
-    res['final'] = final   # 프레임 해제 결과 주소 — ask.sh 가 본선 프롬프트에 '실제 본문 주소'로 전달
+    raw, ct, final, wall = _get_page(url)
+    res['final'] = final   # 프레임 해제·봇월 통과 결과 주소 — ask.sh 가 본선 프롬프트에 '실제 본문 주소'로 전달
+    res['wall'] = wall     # 봇월 통과 사유 문구(빈 값 = 해당 없음) — 실패 알림·진단서가 원인 분류에 쓴다
     if not raw:
         res['why'] = '페이지 취득 실패(차단·타임아웃)'
         return res
@@ -323,6 +406,16 @@ def harvest(url, outdir, max_n=MAX_DEFAULT, thin=THIN_DEFAULT, prefix='src'):
     page = _decode(raw, ct)
     txt = body_text(page)
     res['text_len'] = len(txt)
+    # ⭐ 봇월을 통과해서 얻은 본문만 프롬프트에 전문으로 싣는다(260912 · 사고 봉합의 본체).
+    #   [왜 봇월 축에만 주는가] 이 글은 **모델이 직접은 못 읽는다** — 본선의 WebFetch 도 같은 챌린지에
+    #   막혀 0자를 받는다(실측). 그러니 스크립트가 확보한 본문을 넘겨주지 않으면 모델에게 남는 건 제목뿐이고,
+    #   그 상태의 검색이 정확히 10분 예산을 태운 원인이다(fail-2026-09-12-0926).
+    #   반대로 평범한 기사 URL 은 모델이 스스로 잘 열기 때문에 주입하지 않는다 = 종전 동작 보존(회귀 0 ·
+    #   프롬프트 팽창 0). 상한은 커뮤니티 글 실측(3,006자)의 여유 배수.
+    if wall:
+        _dense = dense_text(txt)
+        if len(_dense) >= WALL_TEXT_MIN:
+            res['text'] = _dense[:WALL_TEXT_MAX]
     if thin and len(txt) >= thin:
         res['ok'] = True
         res['why'] = f'페이지 텍스트 {len(txt)}자≥{thin} — 수확 생략'
@@ -351,8 +444,10 @@ def harvest(url, outdir, max_n=MAX_DEFAULT, thin=THIN_DEFAULT, prefix='src'):
             fp.write(blob)
         res['saved'].append(p)
     res['ok'] = True
-    res['why'] = (f'본문 이미지 {n}장 수확(후보 {tried}장 시도 · 페이지 텍스트 {len(txt)}자)'
-                  if n else f'수확 가능한 본문 이미지 0장(후보 {tried}장 시도 · 페이지 텍스트 {len(txt)}자)')
+    _w = f' · {wall}' if wall else ''
+    _t = f' · 본문 전문 {len(res["text"])}자 전달' if res['text'] else ''
+    res['why'] = ((f'본문 이미지 {n}장 수확(후보 {tried}장 시도 · 페이지 텍스트 {len(txt)}자{_w}{_t})'
+                   if n else f'수확 가능한 본문 이미지 0장(후보 {tried}장 시도 · 페이지 텍스트 {len(txt)}자{_w}{_t})'))
     return res
 
 
@@ -363,7 +458,7 @@ if __name__ == '__main__':
         # 해제기를 공용화(260805). 실패·미해제 = 빈 출력(호출부 fail-soft).
         try:
             if len(a) > 1 and _guard(a[1]):
-                _, _, _fin = _get_page(a[1])
+                _, _, _fin, _ = _get_page(a[1])
                 if _fin and _fin != a[1]:
                     print(_fin)
         except Exception:

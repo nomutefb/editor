@@ -48,11 +48,15 @@ def _dom(url):
 
 
 def probe(url):
-    """URL 재실측 — {bytes, ko, shell, final, fetched} (실패도 값으로 보고)."""
-    out = {'fetched': False, 'bytes': 0, 'ko': -1, 'shell': False, 'final': ''}
+    """URL 재실측 — {bytes, ko, shell, final, wall, fetched} (실패도 값으로 보고).
+
+    ⚠ `wall` = cupid.js 류 봇월 통과 사유(260912) — 진단이 '껍데기 = 새 셸 문법 의심'으로 빗나가던
+    축의 봉합. 실사고(fail-2026-09-12-0926)의 껍데기는 프레임 셸이 아니라 **쿠키 챌린지**였다.
+    """
+    out = {'fetched': False, 'bytes': 0, 'ko': -1, 'shell': False, 'final': '', 'wall': ''}
     if not url or not si._guard(url):
         return out
-    raw, ct, final = si._get_page(url)
+    raw, ct, final, out['wall'] = si._get_page(url)
     out['bytes'] = len(raw)
     out['final'] = final if final != url else ''
     if not raw:
@@ -71,6 +75,13 @@ def _verdict(p, url):
     if not p['fetched']:
         return '페이지 취득 실패(차단·타임아웃) — 봇차단/회선 축'
     where = f" · 프레임 해제됨 → {p['final']}" if p['final'] else ''
+    # 봇월 축을 껍데기·그림본문 판정보다 먼저 본다 — 원인이 다르면 다음 행동도 다르다(쿠키 축 ≠ 셸 문법 축).
+    if p['wall'] and '통과' not in p['wall']:
+        return (f"자바스크립트 봇월에 막힘({p['wall']} · {p['bytes']:,}B){where}"
+                ' — 통과 정본 shared/cupid_wall.py 축(의존성·챌린지 포맷 확인)')
+    if p['wall']:
+        return (f"봇월은 통과했다({p['bytes']:,}B · 한글 {p['ko']:,}자){where}"
+                ' — 페이지 문제 아님, 분석 단계 축을 봐라')
     if p['shell']:
         return (f"껍데기 응답 {p['bytes']:,}B(8KB 미만 = 봇차단/프레임 셸인데 해제 실패){where}"
                 ' — 새 셸 문법 의심(해제 정규식 미매치)')
@@ -106,11 +117,11 @@ def _ledger_append(path, row):
 def handover(url, dom, n, verdict):
     """인수인계 진단서(재발 승격) — 다른 세션이 이 알림만 받아도 조사 0 으로 착수 가능하게."""
     return f"""🔁 재발 감지 — {dom} 실패 {n}회째(14일 창) · [인수인계 진단서]
-· 이미 시도한 층(전부 자동 발동) = UA 2단(데스크톱→모바일) → 프레임 셸 해제(mainFrame/JS/meta) → 본문 이미지 수확 → OCR 일괄 추출 → 본선 WebFetch/WebSearch 폴백
+· 이미 시도한 층(전부 자동 발동) = UA 2단(데스크톱→모바일) → cupid 봇월 쿠키 통과(shared/cupid_wall.py) → 프레임 셸 해제(mainFrame/JS/meta) → 본문 전문 주입 → 본문 이미지 수확 → OCR 일괄 추출 → 본선 WebFetch/WebSearch 폴백
 · 이번 실측 = {verdict}
 · 재현 = bash .github/scripts/fetch_article.sh '{url}' | head -5 그리고 python3 .github/scripts/ask_srcimg.py '{url}' /tmp/probe --max 2
 · 코드 위치 = .github/scripts/ask.sh(레일·실패 분기) · ask_srcimg.py(취득·해제·수확) · fetch_article.sh(텍스트) · 게이트 = shared/check_refs.py check_ask_srcimg_chain
-· 다음 확인 순서 = ① 껍데기·해제 실패 = 새 셸 문법(_frame_target 정규식에 그 매체 축 추가) ② 정상 취득인데 한글 빈약 = JS 렌더/그림 본문(수확·OCR 강화) ③ 취득 실패 = 봇차단(UA·쿠키 축) ④ 본문 정상 = 페이지가 아니라 분석 단계(asks/failed/<base>.log 확인)"""
+· 다음 확인 순서 = ⓪ 봇월 막힘 = 쿠키 축(cupid_wall 챌린지 포맷·pycryptodome 설치) ① 껍데기·해제 실패 = 새 셸 문법(_frame_target 정규식에 그 매체 축 추가) ② 정상 취득인데 한글 빈약 = JS 렌더/그림 본문(수확·OCR 강화) ③ 취득 실패 = 봇차단(UA·쿠키 축) ④ 본문 정상 = 페이지가 아니라 분석 단계(asks/failed/<base>.log 확인)"""
 
 
 def main():
