@@ -3,10 +3,10 @@
 **[프롬프트 설계]**
 - 화풍: B 한국웹툰 극화 — 감시·국가 연계 데이터·기업 간 무단 복제라는 구조 고발 결이라 수채화의 온기가 맞지 않고, 잉크 선과 스크린톤이 관제실·서버홀·키보드의 차가운 질감을 견딘다
 - 분위기: 화면 불빛만 남은 방의 정적 — 누가 시켜서가 아니라 스스로 넣은 자료가 어디로 갔는지 모르는 서늘함. 폭로의 흥분이 아니라 '나도 저랬을 수 있다'는 체감
-- 연출 방향: 서사 = **역추적**. 카드1은 '들어와 있으면 안 되는 자료가 클로드 서버에 있다'는 의문으로 열고(질문형 훅 1회), 카드2가 경로를 되짚어 문샷의 몰래 호출을 찾고, 카드3이 이유(증류)와 규모, 카드4가 중국만이 아닌 러시아까지, 카드5가 반박과 침묵, 카드6이 '제 나라 AI가 스파이가 된 셈'으로 닫는다. 그래서 얼굴 대신 등·손·화면 테두리·케이블 같은 '자료가 지나간 경로'를 그리고, 네온그린 1색은 매 카드에서 그 경로가 열린 지점(확대된 화면·슬롯의 LED·케이블·커서·발신 램프)에만 앉힌다. 마지막은 태평양으로 들어가는 해저케이블 정면. thumb_dispatch의 스크린 언더글로 톤과 감시당함 정조를 전 카드 키노트로 잇되 앵글은 카드마다 분산
+- 연출 방향: **이미지 = 글의 도해**(운영자 지시 260912 · 분위기 컷 금지). 카드마다 '누가 → 무엇을 → 어디로'가 그림만 봐도 읽히게 파이프·화살 방향·로고로 그린다: 자료(중국 오성기 태그·러시아 삼색기 태그)가 키미/딥시크 화면에서 파이프를 타고 클로드 서버로 흘러가는 한 방향 흐름을 전 카드가 공유하고, 카드3은 '클로드(선생) 답이 깔때기로 떨어져 키미(학생) 머리로 들어가는' 증류 도해. 네온그린 1색은 그 파이프·케이블·방울에만. 핵심 피사체는 전부 상단 절반.
 - 독자 동선: **단일 관점 = 중국 AI가 제 나라 사용자를 속였고, 그 길로 자국 자료가 미국 서버로 갔다(역추적으로 드러남)** · **발단** 카드1(들어온 자료·의문)→**전개** 카드2(되짚은 경로 = 문샷)~3(이유 = 증류·규모)→**피크** 카드4(러시아 국방 DB까지)→**해소** 카드5(반박·침묵·미 정보기관 지목)→**시사점** 카드6 · 훅=카드1 끝(질문형 — 어떻게 들어온 걸까)+카드3 끝(예고형 — 중국 것만이 아니었다) · 착지 = 제 나라 AI가 스파이가 된 셈이고 가장 중요한 자료가 태평양을 건넜다
 - 상단 배치: 합성기가 하단 약 40%를 글자로 덮으므로 전 카드 핵심 피사체(얼굴·손·화면·증류기·케이블 진입점)는 상단 절반에 두고 하단 40%는 빈 바닥·책상·모래로 비운다(각 Scene 말미 + Composition 행에 명시)
-- 연속성 앵커: (없음) / 반복 장소 (없음)
+- 연속성 앵커: 인물 (없음) / **로고 앵커(전 카드 동일 문자열 · 운영자 지시로 로고 렌더 허용)** — Claude: the Claude logo of Anthropic (an orange-red radiating sunburst asterisk mark with the wordmark Claude beneath it) / Kimi: the Kimi logo of Moonshot AI (a rounded black wordmark Kimi) / DeepSeek: the DeepSeek logo (a blue whale mark with the wordmark DeepSeek) / 중국 자료 태그: a small red flag tag with five yellow stars / 러시아 자료 태그: a small white-blue-red tricolor flag tag
 
 ### [카드 1]
 **텍스트**
@@ -19,24 +19,24 @@
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the stiff back of an engineer's neck as he leans toward a wall of monitors, his hand frozen on the mouse. One young engineer in a plain grey hoodie sits alone at a long desk in a dim server operations room, seen from behind, facing a grid of dozens of screens; most show blank grey log panes, but one enlarged feed on the far right shows a rainy Chinese city street with a tall CCTV pole and no people. His gaze runs to that enlarged feed at the right edge of the frame, with nose room on the right and gaze directed toward the right edge. Only that feed carries a thin neon green frame; everything else is grey. His head, his shoulders and the whole wall of screens sit in the upper half of the frame, and the lower forty percent is only the empty dark floor with nothing to read.
-Camera: wide shot, full body, surrounding environment, spatial context, from eye-level with neutral realistic perspective, back shot rear view, shot on 24mm wide lens with cinematic wide shot and spatial context
+Scene: Emotional focal point: a large glowing question mark hovering over a server tower that carries the Claude logo of Anthropic (an orange-red radiating sunburst asterisk mark with the wordmark Claude beneath it) on its front. In the upper half of the frame a tall grey server tower stands at the right with the Claude mark large and clear on its face; into its side, along a single pipe from the left, slide three items in a row: a monitor frame showing a rainy Chinese street with a CCTV pole, a folder of source-code sheets, and a stack of documents, each tagged with a small red flag tag with five yellow stars. No person is present; the pipe glows neon green where it enters the tower. The tower, the question mark, the pipe and the three items all sit in the upper half of the frame, and the lower forty percent of the frame is only empty dark server-room floor with nothing to read.
+Camera: wide shot, full body, surrounding environment, spatial context, from eye-level with neutral realistic perspective, front-on shot with symmetrical composition facing camera, shot on 24mm wide lens with cinematic wide shot and spatial context
 Lighting/mood: flat cold even surveillance light, no shadow no warmth, detached and watchful
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
-Text handling: the feeds show only streets and buildings, no timestamps, no camera labels, no on-screen characters; the desk carries no papers or signage.
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast; the brand marks and flag tags keep their own true colours, and the neon green is reserved for the pipe, cable or drip that carries the data
+Text handling: render the brand marks and only the short wordmarks Claude, Kimi and DeepSeek clearly and legibly at large size; no other lettering anywhere, no screen text, no signage, no document text, no labels on tags.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the operations-room floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper half of the frame on this same surface, and the lower forty percent of the frame is left as quiet empty surface for a caption overlay. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the dark server-room floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper half of the frame on this same surface, and the lower forty percent of the frame is left as quiet empty surface for a caption overlay. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
 - no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
-- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
+- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text other than the brand wordmarks Claude, Kimi and DeepSeek, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
 ```
 **검색어**
 ```text
-Anthropic threat report Chengdu CCTV Kimi
+Claude Anthropic logo server
 ```
 
 ### [카드 2]
@@ -50,11 +50,11 @@ Anthropic threat report Chengdu CCTV Kimi
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a young woman's relaxed thumb tapping a smartphone, her face lit by the screen, unaware. One Chinese woman in her 20s in a plain sweater sits at a small cafe table at night in the upper-left of the frame, looking down at her phone with a faint smile. From the back of her phone a single thin cable, drawn like a cutaway, runs behind her chair, through a gap in the wall and away along one clean sightline to a tall grey server tower standing far off on the horizon across dark water, so that the phone in front and the distant tower behind read as one connected line. A neon green pulse travels along that cable toward the tower. Her head, the phone and the whole cable path sit in the upper half of the frame, and the lower forty percent is only the empty cafe floor with nothing to read.
+Scene: Emotional focal point: a young woman's relaxed thumb tapping a smartphone whose screen shows the Kimi logo of Moonshot AI (a rounded black wordmark Kimi) large and clear, her face lit by the screen, unaware. One Chinese woman in her 20s in a plain sweater sits at a cafe table at night in the upper-left of the frame, smiling down at the Kimi screen. Drawn as a cutaway, a thin pipe runs from the back of her phone behind her chair, through the wall and along one clean sightline across dark water to a server tower on the far right that carries the Claude logo of Anthropic (an orange-red radiating sunburst asterisk mark with the wordmark Claude beneath it) on its front; a small document icon tagged with a small red flag tag with five yellow stars travels along the pipe toward the Claude tower, and the pipe glows neon green. Her head, the Kimi phone, the pipe and the Claude tower all sit in the upper half of the frame, and the lower forty percent of the frame is only empty cafe floor with nothing to read.
 Camera: medium shot, waist-up framing, face and gestures, from a high angle looking down with the subject small and observed, three-quarter angle with natural face depth, shot on 24mm wide lens with cinematic wide shot, spatial context and deep focus so both the phone and the far tower stay sharp
 Lighting/mood: cold blue screen under-glow lighting the face from below in a dark room, restless paranoid unease
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
-Text handling: the phone screen shows only a soft blank glow, no app icons, no chat bubbles, no characters; the tower has no logo or lettering; the cafe has no signage.
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows; the brand marks and flag tags keep their own true colours, and the neon green is reserved for the pipe, cable or drip that carries the data
+Text handling: render the brand marks and only the short wordmarks Claude, Kimi and DeepSeek clearly and legibly at large size; no other lettering anywhere, no screen text, no signage, no document text, no labels on tags.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
 Composition: ONE continuous surface (the cafe floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper half of the frame on this same surface, and the lower forty percent of the frame is left as quiet empty surface for a caption overlay. No other surface, no transition between two distinct surfaces anywhere in the frame.
@@ -63,11 +63,11 @@ NEGATIVE — strictly avoid:
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
 - no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
-- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
+- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text other than the brand wordmarks Claude, Kimi and DeepSeek, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
 ```
 **검색어**
 ```text
-Kimi app smartphone Moonshot AI
+Kimi Moonshot logo Claude logo
 ```
 
 ### [카드 3]
@@ -81,24 +81,24 @@ Kimi app smartphone Moonshot AI
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a technician's two hands tipping a heavy armful of printed chat transcripts into the wide glass mouth at the top of a tall laboratory distillation column. One Chinese technician in a grey work jacket stands beside the column in a dark lab, seen from a low angle so the glass column towers over him, his eyes on the paper sliding in. Inside the glass the pages dissolve into a churning cloudy liquid, the column narrows as it descends, and at its lower spout a single clear drop is about to fall into a tiny stoppered vial held in a clamp; that one drop glows neon green while everything else stays grey. The column mouth, the pouring hands, the churning liquid and the falling drop all sit in the upper half of the frame, and the lower forty percent is only the empty lab floor with nothing to read.
-Camera: wide shot, full body, surrounding environment, spatial context, from a low angle looking up with the glass column given dramatic presence, shot on 24mm wide lens with cinematic wide shot and spatial context
+Scene: Emotional focal point: a small student robot with the Kimi logo of Moonshot AI (a rounded black wordmark Kimi) on its chest copying answers into a notebook, eyes fixed on a giant teacher. In the upper half of the frame a tall teacher figure stands at a lectern on the right with the Claude logo of Anthropic (an orange-red radiating sunburst asterisk mark with the wordmark Claude beneath it) large on its chest, holding up a sheet of answers; from that sheet a stream of paper answers pours down a glass funnel and drips as a glowing neon green liquid straight into the open head of the small Kimi robot seated at a school desk on the left, so that Claude's answers visibly become Kimi's learning. Beside the Kimi robot a second small student robot with the DeepSeek logo (a blue whale mark with the wordmark DeepSeek) on its chest holds out an empty cup under the same funnel. The teacher, the funnel, the drip and both student robots all sit in the upper half of the frame, and the lower forty percent of the frame is only empty classroom floor with nothing to read.
+Camera: wide shot, full body, surrounding environment, spatial context, from a low angle looking up with the teacher figure given dramatic presence, shot on 24mm wide lens with cinematic wide shot and spatial context
 Lighting/mood: single hard side-light cutting across the subject, deep chiaroscuro shadows, tense atmosphere
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
-Text handling: the printed sheets carry no legible characters, only soft blurred grey lines; the glassware carries no labels, no scale markings, no stickers.
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows; the brand marks and flag tags keep their own true colours, and the neon green is reserved for the pipe, cable or drip that carries the data
+Text handling: render the brand marks and only the short wordmarks Claude, Kimi and DeepSeek clearly and legibly at large size; no other lettering anywhere, no screen text, no signage, no document text, no labels on tags.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the dark lab floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper half of the frame on this same surface, and the lower forty percent of the frame is left as quiet empty surface for a caption overlay. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the classroom floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper half of the frame on this same surface, and the lower forty percent of the frame is left as quiet empty surface for a caption overlay. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
 - no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
-- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
+- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text other than the brand wordmarks Claude, Kimi and DeepSeek, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
 ```
 **검색어**
 ```text
-laboratory distillation column glass apparatus
+Claude logo Kimi logo DeepSeek logo
 ```
 
 ### [카드 4]
@@ -112,24 +112,24 @@ laboratory distillation column glass apparatus
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a single fingertip pressing the enter key, the nail bed blanched white with pressure. One hand of an unseen IT operator rests on a dark keyboard on an office desk, seen from directly above and cropped tight, with a lanyard access card lying face-down beside the keyboard and the lower edge of a monitor glowing faintly at the top of the frame. The gaze of the scene is the hand itself; no face is visible. A thin neon green cursor glow catches the edge of the pressed key, and everything beyond the pool of light falls into black. The hand, the pressed key and the access card sit in the upper half of the frame, and the lower forty percent is only bare empty desk surface with nothing to read.
-Camera: extreme close-up, single detail, hand, texture, from a high angle looking straight down, shot on 100mm macro lens with fine detail, shallow depth of field and precise texture
+Scene: Emotional focal point: a man's hand sliding a key card tagged with a small white-blue-red tricolor flag tag into a laptop whose lid shows the DeepSeek logo (a blue whale mark with the wordmark DeepSeek) large and clear. One IT operator in his 40s in a dark shirt sits at a desk in the upper-left of the frame, looking only at the DeepSeek laptop. Drawn as a cutaway, a pipe runs out of the back of the laptop, through the wall and across dark water to a server tower on the far right carrying the Claude logo of Anthropic (an orange-red radiating sunburst asterisk mark with the wordmark Claude beneath it); along the pipe travel the same key card with the Russian flag tag and a folder of case files tagged with a small red flag tag with five yellow stars, the pipe glowing neon green. The operator, the DeepSeek laptop, the pipe and the Claude tower all sit in the upper half of the frame, and the lower forty percent of the frame is only empty office floor with nothing to read.
+Camera: medium close-up, chest-up framing, facial emotion, slight body context, from a high angle looking down with the subject small and observed, shot on 35mm lens with natural documentary perspective, balanced subject and background and deep focus
 Lighting/mood: single pool of hard light isolating the figure in surrounding blackness, claustrophobic loneliness
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
-Text handling: keycaps are out of focus with no legible characters, the access card shows only its blank back, the monitor edge shows no readable content.
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows; the brand marks and flag tags keep their own true colours, and the neon green is reserved for the pipe, cable or drip that carries the data
+Text handling: render the brand marks and only the short wordmarks Claude, Kimi and DeepSeek clearly and legibly at large size; no other lettering anywhere, no screen text, no signage, no document text, no labels on tags.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the office desk top) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper half of the frame on this same surface, and the lower forty percent of the frame is left as quiet empty surface for a caption overlay. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the office floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper half of the frame on this same surface, and the lower forty percent of the frame is left as quiet empty surface for a caption overlay. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
 - no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
-- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
+- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text other than the brand wordmarks Claude, Kimi and DeepSeek, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
 ```
 **검색어**
 ```text
-DeepSeek Anthropic distillation credentials leak
+DeepSeek logo Claude logo credentials
 ```
 
 ### [카드 5]
@@ -143,24 +143,24 @@ DeepSeek Anthropic distillation credentials leak
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the tightly controlled face of a spokesperson in profile, jaw set and lips pressed, fighting back a visible emotion. One Chinese man in his 50s in a dark suit stands at a plain briefing-room podium, one palm flat on the lectern, looking straight ahead toward the left side of the frame at an unseen press corps. In the foreground at the frame's edge, out of focus, a few microphone heads on a stand point up at him. A small neon green on-air lamp on the podium's edge is the only colour in the room; the backdrop is a bare grey wall. His head, the podium top and the microphones sit in the upper half of the frame, and the lower forty percent is only the plain podium front and floor with nothing to read.
+Scene: Emotional focal point: a spokesperson's open palm pushed out flat toward a thick report that bears the Claude logo of Anthropic (an orange-red radiating sunburst asterisk mark with the wordmark Claude beneath it) on its cover. One Chinese man in his 50s in a dark suit stands at a briefing podium in the upper-left of the frame, jaw set and lips pressed, a small red flag with five yellow stars standing on the podium; the Claude-marked report lies on a table in front of him, held up toward him by an unseen hand from the right edge. On the same table two smartphones lie face-up with their screens dark, one showing the Kimi logo of Moonshot AI (a rounded black wordmark Kimi) faintly and the other showing the DeepSeek logo (a blue whale mark with the wordmark DeepSeek) faintly, both silent. The spokesperson, his palm, the report and the two dark phones all sit in the upper half of the frame, and the lower forty percent of the frame is only empty briefing-room floor with nothing to read.
 Camera: medium shot, waist-up framing, face and gestures, from eye-level with neutral perspective and balanced emotion, profile shot side view with clear silhouette, shot on 70mm short telephoto with gentle background compression and subject isolation
 Lighting/mood: flat sterile clinical fluorescent light, cold even greenish-white, emotionless institutional
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
-Text handling: the backdrop carries no emblem, no flag, no lettering; the podium front is plain; microphones carry no station logos.
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast; the brand marks and flag tags keep their own true colours, and the neon green is reserved for the pipe, cable or drip that carries the data
+Text handling: render the brand marks and only the short wordmarks Claude, Kimi and DeepSeek clearly and legibly at large size; no other lettering anywhere, no screen text, no signage, no document text, no labels on tags.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the bare grey briefing-room wall) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper half of the frame on this same surface, and the lower forty percent of the frame is left as quiet empty surface for a caption overlay. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the briefing-room floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper half of the frame on this same surface, and the lower forty percent of the frame is left as quiet empty surface for a caption overlay. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
 - no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
-- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
+- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text other than the brand wordmarks Claude, Kimi and DeepSeek, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
 ```
 **검색어**
 ```text
-China Ministry of Commerce spokesperson distillation briefing
+China spokesperson podium Kimi DeepSeek Claude logo
 ```
 
 ### [카드 6]
@@ -174,22 +174,22 @@ China Ministry of Commerce spokesperson distillation briefing
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: a single armoured fibre-optic cable emerging from wet sand and running straight away from the viewer into the dark surf, tiny against the whole Pacific. An empty cable-landing beach at pre-dawn, seen head-on and dead centre, with no people anywhere; a small concrete landing hut stands at the left with one neon green indicator lamp glowing on its wall. The cable is the only line in the frame and it rises from the mid-frame sand straight out to the flat black horizon. The hut, the horizon and the point where the cable enters the surf sit in the upper half of the frame, and the lower forty percent is only smooth empty wet sand with nothing to read.
+Scene: Emotional focal point: a long undersea cable crossing a dark ocean from left to right, carrying a stream of tagged documents like beads on a wire. In the upper half of the frame, seen head-on, the left shore holds two small phone screens showing the Kimi logo of Moonshot AI (a rounded black wordmark Kimi) and the DeepSeek logo (a blue whale mark with the wordmark DeepSeek) clearly; the right shore holds a server tower carrying the Claude logo of Anthropic (an orange-red radiating sunburst asterisk mark with the wordmark Claude beneath it) large and clear; between them the cable arcs across the water and along it slide folders and key cards tagged with a small red flag tag with five yellow stars and a small white-blue-red tricolor flag tag, all moving toward the Claude tower, the cable glowing neon green. No people are present. Both shores, the cable and every document all sit in the upper half of the frame, and the lower forty percent of the frame is only empty smooth black water surface with nothing to read.
 Camera: extreme long shot, tiny subject, vast environment, scale, isolation, from a front-on eye-level angle with symmetrical composition facing camera, shot on 24mm wide lens with cinematic wide shot and spatial context
 Lighting/mood: cold blue pre-dawn tone, lone streetlight reflection on wet ground, desolate stillness
-Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
-Text handling: the hut carries no signage, no warning plate, no lettering; the cable has no printed markings.
+Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows; the brand marks and flag tags keep their own true colours, and the neon green is reserved for the pipe, cable or drip that carries the data
+Text handling: render the brand marks and only the short wordmarks Claude, Kimi and DeepSeek clearly and legibly at large size; no other lettering anywhere, no screen text, no signage, no document text, no labels on tags.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the wet sand running into the surf) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper half of the frame on this same surface, and the lower forty percent of the frame is left as quiet empty surface for a caption overlay. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the black water surface) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper half of the frame on this same surface, and the lower forty percent of the frame is left as quiet empty surface for a caption overlay. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
 - no border, no frame, no panel border, no inner outline, no outer rectangular outline, no white margin around the image, no thick black outline framing the scene, no comic page border, no painted picture frame, no canvas border, no matted edge
 - no main subject in the lower portion, no key figure in the bottom area, no face placed in the bottom of the frame, no central focal point in the bottom third
-- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
+- no long sentences rendered, no paragraphs of text, no full newspaper headlines, no document body text, no long signage text, no English text other than the brand wordmarks Claude, Kimi and DeepSeek, no garbled letters, no fake script, no dense text covering the image; minimal Korean text only if essential (a few characters max)
 ```
 **검색어**
 ```text
-Pacific submarine cable landing station beach
+Pacific undersea cable China US data
 ```
