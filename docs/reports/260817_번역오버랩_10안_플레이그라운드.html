@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>번역 오버랩 10안 — 플레이그라운드</title>
+<style>
+/* ── 값 원천 ─────────────────────────────────────────────────────────────
+   UI 껍데기 = viewer/index.html :root 토큰 계승(창작 0)
+   카드 안 산출물 색 = viewer/tr.html 캔버스 상수 계승(발행 콘텐츠 색 축 · UI 재유입 금지)
+     TR_WHITE #fff · TR_GREEN #2ee65c · OV_MARK rgba(120,240,90,.5)
+     OV_CHIP rgba(18,18,18,.85) · OV_LINE rgba(255,255,255,.13) · OV_TEXT #f4f7f4 · OV_EMPH #8dff6a
+     CHIP_FS 30 / padX 12 / padY 9 / maxW 900 @ TR_W 1080 · TRACK -0.01em · FONT_KO Noto Sans KR 700
+   ──────────────────────────────────────────────────────────────────────── */
+:root{
+  --bg:#121212; --fg:#eef7f0; --mut:#8fa697;
+  --glass2:rgba(18,19,22,.55);
+  --modal-glass:rgba(17,18,20,.64); --modal-head-bg:rgba(24,25,28,.85);
+  --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.06);
+  --accent:#00EED2; --accent-rgb:0,238,210; --accent-dim:rgba(var(--accent-rgb),.13); --on-accent:#032322;
+  --accent-2:#FFE13D; --accent-5:#0FFD02;
+  --r-l:16px; --r-m:11px; --r-s:9px; --r-pill:999px; --r-modal:22px;
+  --sp-1:6px; --sp-2:12px; --sp-3:18px; --sp-4:24px;
+  --blur-s:8px; --blur-m:14px; --blur-l:22px; --blur-backdrop:7px;
+  --fs-display:22px; --fs-h1:19px; --fs-h2:15px; --fs-h3:14px; --fs-label:13px;
+  --fs-body:15px; --fs-sm:12px; --fs-xs:11px; --fw-b:700; --fw-x:800; --lh-base:1.6;
+  --ease:cubic-bezier(.2,.7,.3,1); --dur:.18s; --dur-fast:.12s;
+  /* 카드 산출물 상수(캔버스 정본 사본) */
+  --tr-white:#fff; --tr-green:#2ee65c;
+  --ov-mark:rgba(120,240,90,.5); --ov-chip:rgba(18,18,18,.85);
+  --ov-line:rgba(255,255,255,.13); --ov-text:#f4f7f4; --ov-emph:#8dff6a;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+  font:400 var(--fs-body)/var(--lh-base) 'Noto Sans KR','Noto Sans',-apple-system,sans-serif;
+  letter-spacing:-.01em;-webkit-font-smoothing:antialiased}
+header{padding:var(--sp-4) var(--sp-3) var(--sp-2);border-bottom:1px solid var(--line);
+  position:sticky;top:0;background:var(--modal-head-bg);backdrop-filter:blur(var(--blur-backdrop));z-index:5}
+h1{margin:0 0 6px;font-size:var(--fs-display);font-weight:var(--fw-x)}
+.sub{margin:0;color:var(--mut);font-size:var(--fs-sm)}
+.wrap{padding:var(--sp-3);max-width:1400px;margin:0 auto}
+
+/* 조절판 */
+.panel{background:var(--glass2);border:1px solid var(--line);border-radius:var(--r-l);
+  padding:var(--sp-3);margin-bottom:var(--sp-3);backdrop-filter:blur(var(--blur-s))}
+.panel h2{margin:0 0 var(--sp-2);font-size:var(--fs-h3);font-weight:var(--fw-b);color:var(--mut)}
+.ctl{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:var(--sp-2)}
+.f{display:flex;flex-direction:column;gap:5px}
+.f label{font-size:var(--fs-xs);color:var(--mut);display:flex;justify-content:space-between}
+.f label b{color:var(--accent);font-weight:var(--fw-b);font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:var(--accent);height:20px}
+textarea{width:100%;background:rgba(14,15,17,.55);color:var(--fg);border:1px solid rgba(var(--accent-rgb),.35);
+  border-radius:var(--r-s);padding:12px;font:400 13.5px/1.6 inherit;letter-spacing:-.2px;resize:vertical}
+.presets{display:flex;flex-wrap:wrap;gap:var(--sp-1);margin-top:var(--sp-2)}
+button{font:var(--fw-b) var(--fs-label)/1 inherit;letter-spacing:-.01em;cursor:pointer;
+  background:rgba(255,255,255,.06);color:var(--fg);border:1px solid var(--line);
+  border-radius:var(--r-s);padding:9px 13px;transition:transform var(--dur-fast) var(--ease),background var(--dur) var(--ease),border-color var(--dur) var(--ease)}
+button:hover{background:rgba(var(--accent-rgb),.13);border-color:rgba(var(--accent-rgb),.35)}
+button:active{transform:scale(.97)}
+button.on{background:rgba(var(--accent-rgb),.13);border-color:var(--accent);color:var(--accent)}
+button.pri{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+
+/* 격자 */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:var(--sp-3)}
+.cell{background:rgba(255,255,255,.02);border:1px solid var(--line);border-radius:var(--r-l);overflow:hidden;
+  transition:border-color var(--dur) var(--ease)}
+.cell:hover{border-color:rgba(var(--accent-rgb),.35)}
+.cell.pick{border-color:var(--accent);box-shadow:0 0 0 3px rgba(var(--accent-rgb),.08)}
+.chead{display:flex;align-items:center;justify-content:space-between;gap:8px;
+  padding:11px 15px;border-bottom:1px solid var(--line2);background:rgba(255,255,255,.02)}
+.cnum{font-size:var(--fs-xs);color:var(--accent);font-weight:var(--fw-x);font-variant-numeric:tabular-nums}
+.cname{font-size:var(--fs-h3);font-weight:var(--fw-b);flex:1}
+.cnote{padding:10px 15px 14px;font-size:var(--fs-xs);color:var(--mut);line-height:1.55}
+
+/* ══ 카드 = 원문 소스 재현(1080 기준을 컨테이너 폭으로 축소) ══════════════ */
+.card{position:relative;aspect-ratio:1080/1350;background:#0b0d10;overflow:hidden;
+  container-type:inline-size;font-weight:700}
+/* 원문 소스 = 트윗 캡처 흉내(검정 판 + 초록 글자) — 실제로는 사용자가 올린 사진이 온다 */
+.src{position:absolute;inset:0;padding:5cqw 4cqw;background:
+  linear-gradient(#101318,#0a0c0f);color:#7de08a;
+  font:700 3.55cqw/1.42 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:-.01em;
+  white-space:pre-wrap;overflow:hidden}
+.src .hd{display:flex;align-items:center;gap:2cqw;color:#dfe6ee;font-size:3.9cqw;margin-bottom:2.6cqw}
+.src .hd i{width:7cqw;height:7cqw;border-radius:50%;background:linear-gradient(135deg,#2b4a7a,#8a2b2b);display:block}
+.src .hd s{text-decoration:none;color:#8fa697;font-size:3.1cqw;font-weight:400}
+.wm{position:absolute;left:5.5cqw;font:800 4.2cqw/.92 'Noto Sans KR',sans-serif;color:#fff;
+  letter-spacing:-.02em;text-shadow:0 .3cqw 1.2cqw rgba(0,0,0,.55);z-index:6}
+.wm em{display:block;font-style:normal;font-size:3.2cqw;font-weight:700;padding-left:1.4cqw}
+.g{color:var(--tr-green)}
+
+/* ── 1 인스타 띠 ── */
+.s1 .ov{position:absolute;left:0;right:0;display:flex;flex-direction:column;gap:.8cqw;z-index:5}
+.s1 .ln{align-self:flex-start;background:var(--ov-chip);color:var(--ov-text);
+  padding:1.05cqw 1.7cqw;font-size:var(--fz);line-height:1.34;letter-spacing:-.01em}
+.s1 .wm{bottom:auto}
+/* ── 2 현행(발췌 팝아웃 + 칩) ── */
+.s2 .lift{position:absolute;background:#fff;padding:.5cqw .8cqw;box-shadow:0 .8cqw 2.4cqw rgba(0,0,0,.42);z-index:4;
+  font:700 3.9cqw/1.4 ui-monospace,Menlo,monospace;color:#111;transform:scale(1.16);transform-origin:center}
+.s2 .lift mark{background:var(--ov-mark);mix-blend-mode:multiply;color:#111;padding:.1cqw .3cqw}
+.s2 .chip{position:absolute;background:var(--ov-chip);border:1px solid var(--ov-line);color:var(--ov-text);
+  padding:.95cqw 1.25cqw;font-size:var(--fz);line-height:1.3;z-index:5;max-width:83%}
+/* ── 3 형광펜 + 하단 자막 ── */
+.s3 mark{background:var(--ov-mark);mix-blend-mode:screen;color:inherit;padding:.1cqw .35cqw;border-radius:.4cqw}
+.s3 .sub{position:absolute;left:0;right:0;bottom:0;padding:4cqw 5cqw 5cqw;z-index:5;
+  background:linear-gradient(transparent,rgba(10,11,13,.86) 22%,rgba(10,11,13,.96));
+  color:var(--ov-text);font-size:var(--fz);line-height:1.4;display:flex;flex-direction:column;gap:.7cqw}
+/* ── 4 유리 띠 ── */
+.s4 .ov{position:absolute;left:4cqw;right:4cqw;z-index:5;display:flex;flex-direction:column;gap:.7cqw}
+.s4 .ln{background:rgba(18,19,22,.55);backdrop-filter:blur(1.6cqw);-webkit-backdrop-filter:blur(1.6cqw);
+  border:1px solid var(--ov-line);border-radius:1cqw;color:var(--ov-text);
+  padding:1.15cqw 1.7cqw;font-size:var(--fz);line-height:1.34}
+/* ── 5 좌측 강조바 ── */
+.s5 .ov{position:absolute;left:0;right:6cqw;z-index:5;display:flex;flex-direction:column;gap:.7cqw}
+.s5 .ln{background:var(--ov-chip);color:var(--ov-text);border-left:.9cqw solid var(--tr-green);
+  padding:1.05cqw 1.7cqw 1.05cqw 2.2cqw;font-size:var(--fz);line-height:1.34;align-self:flex-start}
+/* ── 6 스포트라이트 ── */
+.s6 .dim{position:absolute;inset:0;background:rgba(6,7,9,.68);z-index:3}
+.s6 .spot{position:absolute;z-index:4;box-shadow:0 0 0 100vmax rgba(6,7,9,.72);border-radius:1cqw;
+  outline:.25cqw solid var(--ov-emph);outline-offset:.3cqw}
+.s6 .ov{position:absolute;left:5cqw;right:5cqw;z-index:5;display:flex;flex-direction:column;gap:.6cqw}
+.s6 .ln{color:var(--ov-text);font-size:var(--fz);line-height:1.36;text-shadow:0 .25cqw 1.1cqw rgba(0,0,0,.85)}
+/* ── 7 줄 사이 삽입 ── */
+.s7 .ins{display:block;background:var(--ov-chip);color:var(--ov-text);
+  font:700 var(--fz)/1.32 'Noto Sans KR',sans-serif;letter-spacing:-.01em;
+  padding:.85cqw 1.4cqw;margin:.8cqw 0 1.3cqw;border-left:.6cqw solid var(--tr-green)}
+/* ── 8 레터박스 ── */
+.s8 .bar{position:absolute;left:0;right:0;background:#000;z-index:5;
+  display:flex;flex-direction:column;justify-content:center;gap:.6cqw;padding:2.6cqw 5cqw;
+  color:var(--ov-text);font-size:var(--fz);line-height:1.32}
+.s8 .bar.t{top:0}.s8 .bar.b{bottom:0}
+/* ── 9 앵커선 칩 ── */
+.s9 .chip{position:absolute;background:var(--ov-chip);border:1px solid var(--ov-line);border-radius:.8cqw;
+  color:var(--ov-text);padding:.95cqw 1.35cqw;font-size:var(--fz);line-height:1.3;z-index:5;max-width:62%}
+.s9 .lead{position:absolute;height:.22cqw;background:var(--ov-emph);z-index:4;opacity:.75}
+.s9 .dot{position:absolute;width:1.2cqw;height:1.2cqw;border-radius:50%;background:var(--ov-emph);z-index:4}
+/* ── 10 전면 카드 ── */
+.s10 .sheet{position:absolute;left:5cqw;right:5cqw;z-index:5;background:rgba(17,18,20,.86);
+  backdrop-filter:blur(2cqw);-webkit-backdrop-filter:blur(2cqw);
+  border:1px solid var(--ov-line);border-radius:1.6cqw;padding:3.2cqw;
+  color:var(--ov-text);font-size:var(--fz);line-height:1.46;display:flex;flex-direction:column;gap:1.1cqw;
+  box-shadow:0 1.4cqw 4cqw rgba(0,0,0,.5)}
+.s10 .sheet .cap{font-size:2.7cqw;color:var(--ov-emph);letter-spacing:.04em}
+
+/* 산출 */
+.out{background:rgba(14,15,17,.55);border:1px solid rgba(var(--accent-rgb),.35);border-radius:var(--r-s);
+  padding:var(--sp-2);font:400 12px/1.6 ui-monospace,Menlo,monospace;color:var(--fg);
+  white-space:pre-wrap;max-height:260px;overflow:auto;margin-top:var(--sp-2)}
+.foot{margin-top:var(--sp-4);padding:var(--sp-3);border:1px solid var(--line);border-radius:var(--r-l);
+  background:rgba(255,255,255,.02);color:var(--mut);font-size:var(--fs-sm);line-height:1.7}
+.foot b{color:var(--accent-2)}
+.foot ul{margin:8px 0 0;padding-left:18px}
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(14px);opacity:0;
+  background:var(--accent);color:var(--on-accent);font-weight:var(--fw-b);font-size:var(--fs-label);
+  padding:11px 18px;border-radius:var(--r-pill);pointer-events:none;
+  transition:opacity var(--dur) var(--ease),transform var(--dur) var(--ease);z-index:99}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<header>
+  <h1>번역 오버랩 10안</h1>
+  <p class="sub">원문 소스 위에 번역을 얹는 열 가지 · 값은 전부 정본 계승(카드 색 = tr.html 캔버스 상수 · 껍데기 = index.html 토큰) · 새 색 창작 0</p>
+</header>
+
+<div class="wrap">
+
+  <div class="panel">
+    <h2>조절판</h2>
+    <div class="ctl">
+      <div class="f"><label>번역 글자 크기 <b><span id="vFz">30</span>px <span style="color:var(--mut)">@1080</span></b></label>
+        <input type="range" id="fz" min="20" max="46" step="1" value="30"></div>
+      <div class="f"><label>띠 불투명도 <b><span id="vOp">85</span>%</b></label>
+        <input type="range" id="op" min="30" max="100" step="1" value="85"></div>
+      <div class="f"><label>세로 위치 <b><span id="vPos">72</span>%</b></label>
+        <input type="range" id="pos" min="8" max="88" step="1" value="72"></div>
+      <div class="f"><label>줄 간격 <b><span id="vGap">8</span>px</b></label>
+        <input type="range" id="gap" min="0" max="26" step="1" value="8"></div>
+      <div class="f"><label>좌우 여백 <b><span id="vPad">54</span>px</b></label>
+        <input type="range" id="pad" min="0" max="120" step="2" value="54"></div>
+      <div class="f"><label>강조 방식</label>
+        <div class="presets" id="emph">
+          <button data-e="text" class="on">글자만 초록</button>
+          <button data-e="fill">초록 형광펜</button>
+          <button data-e="under">초록 밑줄</button>
+        </div></div>
+    </div>
+
+    <div class="presets" style="margin-top:14px">
+      <span style="font-size:var(--fs-xs);color:var(--mut);align-self:center;margin-right:4px">프리셋</span>
+      <button data-p="insta" class="on">인스타 정본</button>
+      <button data-p="now">현행 tr.html</button>
+      <button data-p="broad">방송 자막</button>
+      <button data-p="doc">문서 대역</button>
+    </div>
+
+    <div style="margin-top:14px" class="ctl">
+      <div class="f"><label>원문(위에 깔리는 소스)</label>
+        <textarea id="txtSrc" rows="4">Based on my very good relationship with Kim Jong Un, of North Korea, I am not happy with the fact that the United States has, long ago, agreed to participate in Joint Military Exercises with South Korea.</textarea></div>
+      <div class="f"><label>번역문(한 줄 = 한 띠 · **별표**로 감싸면 강조)</label>
+        <textarea id="txtTr" rows="4">트럼프 「김정은과 아주 좋은 관계」…**한미 연합훈련에 불만** 표명
+한국 대통령에 이란 비핵화 동참 제안…답은 「노 땡스!」 **축소** 지시</textarea></div>
+    </div>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <div class="panel" style="margin-top:var(--sp-3)">
+    <h2>고른 값</h2>
+    <div class="presets">
+      <button class="pri" id="copy">고른 안 + 값 복사</button>
+      <button id="copyAll">10안 전부 값 복사</button>
+      <span style="font-size:var(--fs-xs);color:var(--mut);align-self:center">카드를 눌러 고른다</span>
+    </div>
+    <div class="out" id="out">아직 안 골랐어 — 위 카드 하나를 눌러봐.</div>
+  </div>
+
+  <div class="foot">
+    <b>⚠ 한계 각주 — 이 화면이 못 보여주는 것</b>
+    <ul>
+      <li>실제 산출은 <b>캔버스 1080 폭</b>에 굽는다. 여긴 브라우저 글자 그리기라 <b>줄바꿈 위치와 자간이 1~2px 다르게</b> 잡힌다. 확정은 실제로 한 장 구워서 재야 한다.</li>
+      <li>원문 배경은 <b>트윗 캡처를 흉내 낸 가짜</b>다. 진짜 사진은 밝기가 제각각이라 <b>3·6번(딤·형광펜)</b>은 밝은 사진에서 결과가 달라진다.</li>
+      <li>번역문 자리는 지금 <b>손으로 정한 위치</b>다. 실제로는 글자를 읽어낸 좌표를 따라가므로 원문 줄 위치에 붙는다. <b>7·9번</b>은 그 좌표가 정확해야만 성립한다.</li>
+      <li>흐림 효과(4·10번)는 <b>캔버스에서 그대로 안 나온다</b>. 구우려면 배경을 미리 흐리게 만든 판을 따로 깔아야 하고 그만큼 시간이 더 든다.</li>
+      <li>2번은 <b>지금 쓰고 있는 방식</b>을 나란히 놓은 대조군이다. 새 안이 아니다.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="toast" id="toast">복사했어</div>
+
+<script>
+const SRC_HD = `<div class="hd"><i></i><span>Donald J. Trump</span><s>@realDonaldTrump</s></div>`;
+const STYLES = [
+  {n:'인스타 정본 띠', k:'s1', note:'네 카드 그대로. 회색 검정 띠를 줄마다 따로 깔고 흰 글자에 초록 강조. 띠가 글자 폭만큼만 늘어나 원문이 최대한 보인다.'},
+  {n:'현행 tr.html (대조군)', k:'s2', note:'지금 방식. 형광펜 친 구절을 오려 116% 확대해 띄우고 그 아래 검정 칩. 원문 위치는 알려주지만 화면이 어수선하다.'},
+  {n:'형광펜 + 하단 자막', k:'s3', note:'원문엔 형광펜만 치고 번역은 전부 아래로 내린다. 위아래 역할이 갈려서 읽기 편하다.'},
+  {n:'유리 띠', k:'s4', note:'띠를 반투명 유리로. 뒤 원문이 비쳐서 답답하지 않다. 다만 구울 때 손이 더 간다.'},
+  {n:'좌측 초록 바', k:'s5', note:'띠 왼쪽에 초록 세로선. 인용문 느낌이 나서 번역이라는 게 바로 읽힌다.'},
+  {n:'스포트라이트', k:'s6', note:'원문 전체를 어둡게 깔고 해당 구절만 밝게. 번역은 띠 없이 흰 글자로. 시선이 한 곳에 꽂힌다.'},
+  {n:'줄 사이 삽입', k:'s7', note:'원문 각 줄 바로 아래에 번역을 끼워 넣는다. 어느 문장의 번역인지 헷갈릴 여지가 0.'},
+  {n:'상하 레터박스', k:'s8', note:'위아래 검은 띠에 번역. 원문은 가운데에 온전히 남는다. 영화 자막 느낌.'},
+  {n:'앵커선 칩', k:'s9', note:'원문 구절에 점을 찍고 선으로 칩을 연결. 짚어주는 힘이 가장 세지만 선이 많으면 지저분해진다.'},
+  {n:'전면 반투명 카드', k:'s10', note:'원문 위에 카드 한 장. 번역을 통째로 담을 수 있어 문장이 길 때 유리하다.'},
+];
+const PRESETS = {
+  insta:{fz:30,op:85,pos:72,gap:8,pad:54,e:'text'},
+  now:  {fz:30,op:85,pos:46,gap:10,pad:32,e:'fill'},
+  broad:{fz:36,op:92,pos:80,gap:6,pad:70,e:'text'},
+  doc:  {fz:26,op:70,pos:30,gap:14,pad:40,e:'under'},
+};
+let S={fz:30,op:85,pos:72,gap:8,pad:54,e:'text'}, picked=null;
+
+const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+/* **강조** → 초록 처리(방식 3종) */
+function emph(s){
+  return esc(s).replace(/\*\*(.+?)\*\*/g,(_,t)=>{
+    if(S.e==='fill')  return `<span style="background:var(--tr-green);color:#0b0d10;padding:.05em .25em">${t}</span>`;
+    if(S.e==='under') return `<span style="color:var(--tr-white);box-shadow:inset 0 -.22em 0 var(--tr-green)">${t}</span>`;
+    return `<span class="g">${t}</span>`;
+  });
+}
+const lines=()=>document.getElementById('txtTr').value.split('\n').filter(x=>x.trim());
+const srcTxt=()=>document.getElementById('txtSrc').value;
+const cq=px=>(px/1080*100).toFixed(3)+'cqw';   /* 1080 기준 px → 컨테이너 비율 */
+
+function srcBlock(mark){
+  let t=esc(srcTxt());
+  if(mark) t=t.replace(/(Joint Military Exercises with South Korea)/,
+    '<mark>$1</mark>');
+  return `<div class="src">${SRC_HD}${t}</div>`;
+}
+function body(k){
+  const L=lines(), fz=cq(S.fz), gap=cq(S.gap), pad=cq(S.pad), chip=`rgba(18,18,18,${(S.op/100).toFixed(2)})`;
+  const wm=`<div class="wm" style="bottom:${(100-S.pos)+4}%">NO<em>mute</em></div>`;
+  const st=`--fz:${fz}`;
+  if(k==='s1') return srcBlock()+wm+
+    `<div class="ov" style="${st};top:${S.pos}%;gap:${gap};padding:0 ${pad}">`+
+    L.map(x=>`<span class="ln" style="background:${chip}">${emph(x)}</span>`).join('')+`</div>`;
+  if(k==='s2') return srcBlock()+wm+
+    `<div class="lift" style="left:8%;top:${Math.max(6,S.pos-30)}%;width:74%">Joint Military Exercises <mark>with South Korea</mark></div>`+
+    L.map((x,i)=>`<div class="chip" style="${st};left:8%;top:${S.pos+i*13}%;background:${chip}">${emph(x)}</div>`).join('');
+  if(k==='s3') return srcBlock(true)+wm.replace(/bottom:[^"]*/,'bottom:34%')+
+    `<div class="sub" style="${st};gap:${gap};padding-left:${pad};padding-right:${pad}">`+
+    L.map(x=>`<span>${emph(x)}</span>`).join('')+`</div>`;
+  if(k==='s4') return srcBlock()+wm+
+    `<div class="ov" style="${st};top:${S.pos}%;gap:${gap}">`+
+    L.map(x=>`<span class="ln">${emph(x)}</span>`).join('')+`</div>`;
+  if(k==='s5') return srcBlock()+wm+
+    `<div class="ov" style="${st};top:${S.pos}%;gap:${gap}">`+
+    L.map(x=>`<span class="ln" style="background:${chip}">${emph(x)}</span>`).join('')+`</div>`;
+  if(k==='s6') return srcBlock()+`<div class="dim"></div>`+
+    `<div class="spot" style="left:6%;top:26%;width:82%;height:15%"></div>`+wm+
+    `<div class="ov" style="${st};top:${S.pos}%;gap:${gap}">`+
+    L.map(x=>`<span class="ln">${emph(x)}</span>`).join('')+`</div>`;
+  if(k==='s7'){
+    const parts=esc(srcTxt()).split(/(?<=\.)\s+|(?<=,)\s+/);
+    const half=Math.ceil(parts.length/2);
+    let t=parts.slice(0,half).join(' ')+
+      `<span class="ins" style="${st};background:${chip}">${emph(L[0]||'')}</span>`+
+      parts.slice(half).join(' ');
+    if(L[1]) t+=`<span class="ins" style="${st};background:${chip}">${emph(L[1])}</span>`;
+    return `<div class="src">${SRC_HD}${t}</div>`+wm;
+  }
+  if(k==='s8') return srcBlock()+
+    `<div class="bar t" style="${st};min-height:16%">${emph(L[0]||'')}</div>`+
+    `<div class="bar b" style="${st};min-height:16%;gap:${gap}">${L.slice(1).map(x=>`<span>${emph(x)}</span>`).join('')}</div>`;
+  if(k==='s9') return srcBlock()+wm+
+    `<div class="dot" style="left:12%;top:31%"></div><div class="lead" style="left:13%;top:31.5%;width:26%"></div>`+
+    `<div class="chip" style="${st};left:39%;top:27%;background:${chip}">${emph(L[0]||'')}</div>`+
+    (L[1]?`<div class="dot" style="left:20%;top:46%"></div><div class="lead" style="left:21%;top:46.5%;width:18%"></div>
+      <div class="chip" style="${st};left:39%;top:42%;background:${chip}">${emph(L[1])}</div>`:'');
+  if(k==='s10') return srcBlock()+
+    `<div class="sheet" style="${st};top:${Math.min(S.pos,62)}%;gap:${gap};background:rgba(17,18,20,${(S.op/100).toFixed(2)})">`+
+    `<span class="cap">번역</span>`+L.map(x=>`<span>${emph(x)}</span>`).join('')+`</div>`;
+  return srcBlock();
+}
+function render(){
+  document.getElementById('grid').innerHTML=STYLES.map((s,i)=>
+    `<div class="cell${picked===i?' pick':''}" data-i="${i}">
+       <div class="chead"><span class="cnum">${String(i+1).padStart(2,'0')}</span><span class="cname">${s.n}</span></div>
+       <div class="card ${s.k}">${body(s.k)}</div>
+       <div class="cnote">${s.note}</div>
+     </div>`).join('');
+}
+function sync(){
+  for(const k of ['fz','op','pos','gap','pad']){
+    document.getElementById(k).value=S[k];
+    document.getElementById('v'+k[0].toUpperCase()+k.slice(1)).textContent=S[k];
+  }
+  document.querySelectorAll('#emph button').forEach(b=>b.classList.toggle('on',b.dataset.e===S.e));
+  render(); if(picked!==null) out();
+}
+function valTxt(i){
+  const s=STYLES[i];
+  return `[${String(i+1).padStart(2,'0')} ${s.n}]  (기준 폭 1080)
+  번역 글자   ${S.fz}px / 700 / 자간 -0.01em / Noto Sans KR
+  띠 색        rgba(18,18,18,${(S.op/100).toFixed(2)})   ← tr.html OV_CHIP 계승
+  글자 색      #f4f7f4 (OV_TEXT) / 강조 ${S.e==='text'?'#2ee65c 글자(TR_GREEN)':S.e==='fill'?'#2ee65c 형광펜 채움':'#2ee65c 밑줄'}
+  세로 위치   ${S.pos}%  (${Math.round(1350*S.pos/100)}px @1350)
+  줄 간격      ${S.gap}px
+  좌우 여백   ${S.pad}px
+  적용처       viewer/tr.html  drawChips() / drawExcerpts()`;
+}
+function out(){ document.getElementById('out').textContent = picked===null?'아직 안 골랐어 — 위 카드 하나를 눌러봐.':valTxt(picked); }
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),1400);}
+function cp(s){navigator.clipboard?.writeText(s).then(()=>toast('복사했어'),()=>toast('복사 실패 — 직접 긁어'));}
+
+['fz','op','pos','gap','pad'].forEach(k=>document.getElementById(k).addEventListener('input',e=>{S[k]=+e.target.value;sync();}));
+document.getElementById('emph').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;S.e=b.dataset.e;sync();});
+document.querySelectorAll('[data-p]').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('[data-p]').forEach(x=>x.classList.toggle('on',x===b));
+  S={...PRESETS[b.dataset.p]};sync();}));
+['txtSrc','txtTr'].forEach(id=>document.getElementById(id).addEventListener('input',render));
+document.getElementById('grid').addEventListener('click',e=>{const c=e.target.closest('.cell');if(!c)return;picked=+c.dataset.i;render();out();});
+document.getElementById('copy').addEventListener('click',()=>cp(picked===null?'아직 안 골랐어':valTxt(picked)));
+document.getElementById('copyAll').addEventListener('click',()=>cp(STYLES.map((_,i)=>valTxt(i)).join('\n\n')));
+sync();
+</script>
+</body>
+</html>
