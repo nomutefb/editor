@@ -7517,8 +7517,14 @@
   {
    "query": "치지직",
    "traffic": "10000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/53f3315113.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/003/0014181767",
+     "source": ""
+    }
+   ],
    "vol": 10000,
    "started": "2026-09-12T13:50:00+09:00",
    "delta": -7,
@@ -7554,8 +7560,14 @@
   {
    "query": "경찰",
    "traffic": "5000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/795313b036.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/001/0016305966",
+     "source": ""
+    }
+   ],
    "vol": 5000,
    "started": "2026-09-12T13:30:00+09:00",
    "delta": -6,
@@ -7642,8 +7654,14 @@
   {
    "query": "lck",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/13f82c1a2e.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/277/0005815318",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-09-12T13:30:00+09:00",
    "delta": -9,
@@ -7732,8 +7750,14 @@
   {
    "query": "궁금한 이야기 y",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/c32b29d555.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/025/0003550665",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-12T13:30:00+09:00",
    "delta": -13,
@@ -7958,14 +7982,14 @@
  ],
  "gtrends_pool_updated": "2026-09-12T16:11:57+09:00",
  "_trend_img": {
-  "tried": "2026-09-12T15:36:12+09:00",
+  "tried": "2026-09-12T16:11:57+09:00",
   "fail": {
-   "nep vs uae": "2026-09-12T13:51:01+09:00",
-   "황신혜": "2026-09-12T13:51:01+09:00",
-   "요즘 남자 라이프 - 신랑수업": "2026-09-12T13:51:01+09:00",
    "지민": "2026-09-12T14:26:41+09:00",
    "박지현": "2026-09-12T14:59:09+09:00",
-   "오스틴 딘": "2026-09-12T15:39:23+09:00"
+   "오스틴 딘": "2026-09-12T15:39:23+09:00",
+   "캠 브리 콘": "2026-09-12T16:13:36+09:00",
+   "트롯 데스 매치 금 타는 금요일": "2026-09-12T16:13:36+09:00",
+   "이범호": "2026-09-12T16:13:36+09:00"
   }
  },
  "gtrends_gl": [
@@ -18787,7 +18811,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-12T16:11:57+09:00"
+    "first_seen": "2026-09-12T16:11:57+09:00",
+    "kw": "ElevenLabs, Music v2.5",
+    "sum": "ElevenLabs가 음악 생성 모델 Music v2.5를 공개했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
