@@ -7539,8 +7539,14 @@
   {
    "query": "연금",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/66a6c3a33c.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/001/0016306243",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-09-13T05:10:00+09:00",
    "delta": -15,
@@ -7553,8 +7559,14 @@
   {
    "query": "디아블로 5",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/df8eea11b1.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/092/0002437205",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-09-13T05:20:00+09:00",
    "isNew": true,
@@ -7566,8 +7578,14 @@
   {
    "query": "홍서범",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/8ab8a12cc6.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/448/0000638938",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-09-13T04:50:00+09:00",
    "delta": -13,
@@ -7675,8 +7693,14 @@
   {
    "query": "외국인",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/dde011ca87.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/011/0004661126",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-13T05:00:00+09:00",
    "delta": -21,
@@ -7689,8 +7713,14 @@
   {
    "query": "real madrid vs rayo vallecano",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/72a346552c.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/091/0010310345",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-09-13T04:20:00+09:00",
    "delta": -15,
@@ -7906,15 +7936,11 @@
  ],
  "gtrends_pool_updated": "2026-09-13T07:10:45+09:00",
  "_trend_img": {
-  "tried": "2026-09-13T06:22:31+09:00",
+  "tried": "2026-09-13T07:10:45+09:00",
   "fail": {
-   "박재현": "2026-09-13T04:31:01+09:00",
-   "인벤": "2026-09-13T05:08:11+09:00",
-   "안정환": "2026-09-13T05:08:11+09:00",
-   "twitch": "2026-09-13T05:08:11+09:00",
-   "토트넘 에버튼": "2026-09-13T05:08:11+09:00",
    "안은진": "2026-09-13T06:25:58+09:00",
-   "아스날": "2026-09-13T06:25:58+09:00"
+   "아스날": "2026-09-13T06:25:58+09:00",
+   "박재현": "2026-09-13T07:12:21+09:00"
   }
  },
  "gtrends_gl": [
@@ -17602,7 +17628,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-13T07:10:45+09:00"
+    "first_seen": "2026-09-13T07:10:45+09:00",
+    "kw": "유튜브 영상, 링크 공유",
+    "sum": "계정이 유튜브 영상 링크를 공유했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
