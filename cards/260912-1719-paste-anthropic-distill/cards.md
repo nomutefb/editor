@@ -4,7 +4,7 @@
 - 화풍: B 한국웹툰 극화 — 감시·국가 연계 데이터·기업 간 무단 복제라는 구조 고발 결이라 수채화의 온기가 맞지 않고, 잉크 선과 스크린톤이 관제실·서버홀·키보드의 차가운 질감을 견딘다
 - 분위기: 화면 불빛만 남은 방의 정적 — 누가 시켜서가 아니라 스스로 넣은 자료가 어디로 갔는지 모르는 서늘함. 폭로의 흥분이 아니라 '나도 저랬을 수 있다'는 체감
 - 연출 방향: AI를 매일 쓰는 독자가 멈추는 지점은 '중국 AI가 클로드를 훔쳤다'보다 **중국 AI가 제 나라 사용자를 속였고, 내가 넣은 자료를 누가 읽었는지 모른다**는 사실이다. '증류'는 카드3에서 '남의 AI 답으로 제 AI를 가르치는' 한 구절로 풀어 낯선 독자도 통과시킨다. 그래서 얼굴 대신 등·손·화면 테두리·케이블 같은 '경로'를 그린다 — 자료가 지나가는 관(파이프)이 카드 전체의 키노트이고, 네온그린 1색은 매 카드에서 그 관이 열려 있는 지점(확대된 화면·슬롯의 LED·서버 LED·커서·발신 램프·케이블)에만 앉힌다. 마지막은 태평양으로 들어가는 해저케이블을 정면에 세워, 앞 다섯 장의 자료가 실제로 건너간 길을 그림 하나로 닫는다. thumb_dispatch의 스크린 언더글로 톤과 감시당함 정조를 전 카드 키노트로 잇되 앵글은 카드마다 분산
-- 독자 동선: **발단** 카드1→**전개** 카드2~3→**피크** 카드4→**해소** 카드5→**시사점** 카드6 · 훅=카드1 끝(단서형 — 읽은 건 키미가 아니었다)+카드3 끝(예고형 — 흐른 건 데이터만이 아니었다) · 착지 = 파이프가 열려 있던 동안 청두의 카메라 영상과 러시아 국방 DB 접속키는 어디로 가는지 모른 채 태평양을 건넜다
+- 독자 동선: **단일 관점 = 자국 AI가 자국 사용자를 속였고, 그 길로 자국 자료가 미국 서버로 갔다** (카드 6장 전부 이 한 축 · '누가 얼마나 훔쳤나'·미중 공방은 축 밖) · **발단** 카드1(속은 사람)→**전개** 카드2(속인 회사)~3(속인 이유)→**피크** 카드4(속아서 넘어간 것)→**해소** 카드5(속인 쪽의 답)→**시사점** 카드6 · 훅=카드1 끝(단서형 — 읽은 건 키미가 아니었다)+카드3 끝(예고형 — 흐른 건 데이터만이 아니었다) · 착지 = 파이프가 열려 있던 동안 청두의 카메라 영상과 러시아 국방 DB 접속키는 어디로 가는지 모른 채 태평양을 건넜다
 - 연속성 앵커: (없음) / 반복 장소 (없음)
 
 ### [카드 1]
@@ -72,22 +72,22 @@ Moonshot Kimi Claude rerouting Anthropic
 ### [카드 3]
 **텍스트**
 ```text
-남의 AI 답으로 제 AI를 가르치는 '증류'를
-*중국 연구소 7곳이 약 2억 건 했다고*
-앤트로픽이 10일 보고서에서 밝혔다
+속인 이유는 남의 AI 답을 긁어
+제 AI를 가르치는 '증류'였다
+*딥시크도 같은 수법, 7곳이 2억 건이었다*
 그 파이프에 흐른 건 데이터만이 아니었다
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the upturned face of a lone technician, eyebrows raised and eyes wide, dwarfed at the foot of server racks that climb out of the top of the frame. One Chinese technician in a grey work jacket stands at the base of a canyon of black server racks in a hyperscale data hall, head tilted back, one hand loose at his side, his gaze climbing toward the upper right edge of the frame with nose room on the right. A single column of neon green status LEDs runs up the rack beside him like a vein; every other rack light is dead grey. Cold haze fills the aisle between the towering racks.
+Scene: Emotional focal point: the upturned face of a lone technician, eyebrows raised and eyes wide, as the back panel he has just pried off a towering sleek consumer AI terminal swings open above him. One Chinese technician in a grey work jacket crouches at the base of a tall matte-black consumer AI kiosk in an empty showroom, one hand still on the loosened panel, his gaze climbing toward the upper right edge of the frame with nose room on the right. Behind the opened panel a thick bundle of cables runs up and out of the top of the frame into darkness, and a single neon green light pulses along that bundle like a vein; the kiosk's smooth front face stays blank and dark.
 Camera: wide shot, full body, surrounding environment, spatial context, from a ground-level worm's-eye view near the floor with exaggerated scale, shot on 14mm ultra-wide lens with vast environment, dramatic depth and strong spatial presence
 Lighting/mood: single hard side-light cutting across the subject, deep chiaroscuro shadows, tense atmosphere
 Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), film-noir low-key lighting, deep shadows
-Text handling: the racks carry no brand plates, no rack numbers, no warning stickers; plain black metal only.
+Text handling: the kiosk carries no logo, no brand name, no screen text; the front panel is a blank dark surface; cables carry no printed markings.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the raised data-hall floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the showroom floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -97,7 +97,7 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-Alibaba Cloud hyperscale data center server hall
+Moonshot Kimi DeepSeek app Claude Anthropic
 ```
 
 ### [카드 4]
@@ -134,10 +134,10 @@ DeepSeek Anthropic distillation credentials leak
 ### [카드 5]
 **텍스트**
 ```text
-중국 정부는 사실과 법 모두 근거가 없다며
-미국이 증류를 정치화한다고 반박했다
+앤트로픽이 10일 이를 보고서로 공개하자
+중국 정부는 근거 없는 정치화라 반박했다
 알리바바·문샷·딥시크는 답이 없었고
-*앤트로픽도 2월엔 자국 국방부와 부딪혔다*
+*속은 사용자에게 한 말은 아직 없다*
 ```
 **이미지 프롬프트**
 ```text
