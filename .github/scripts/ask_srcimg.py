@@ -252,11 +252,52 @@ def _frame_target(raw, base):
     return u if _guard(u) else ''
 
 
+def _cupid_session_get(url):
+    """cupid 봇월을 requests.Session 으로 통과 — (raw, ct, final) · 불가·미설치는 None.
+
+    [왜 urllib 이 아니라 세션인가 = 260912 2차 실측] 쿠키 계산(cupid_wall 정본)이 같아도
+    **전송계층에 따라 통과 여부가 갈린다**. 같은 주소·같은 알고리즘 실측:
+      · urllib 쿠키 재요청 = 1/8 (재요청이 통과가 아니라 **새 챌린지**를 받아 되돌아온다)
+      · requests.Session = 30/30
+    성공 체인은 `?ckattempt=1` → 307 → 302 2단 리다이렉트를 타고 쿠키자에 CUPID 외 csrfc·d 가
+    쌓인다 — urllib 의 단발 Cookie 헤더로는 그 체인이 서지 않는다(Accept-Encoding·Accept·
+    Connection 개별 흉내로도 안정화 실패 = 실측 2~3/4 · 단일 헤더가 원인이 아니다).
+    ⚠ 1차 봉합(260912)이 「전송계층은 호출부가 각자 유지」로 갈라놓은 자리가 정확히 이 사각이었다.
+      social_burst 가 같은 도메인에서 30분마다 이슈링크 251건을 멀쩡히 걷는 경로가 이 전송계층이다.
+    ⚠ requests 미설치는 None → 호출부가 종전 urllib 경로로 폴백 = 도입 전 동작 보존(회귀 0).
+      이 모듈의 '표준 라이브러리만' 설계는 유지된다(requests = 있으면 쓰는 선택 의존).
+    """
+    try:
+        import requests                       # 선택 의존 — 없으면 종전 경로로 떨어진다
+    except Exception:
+        return None
+    try:
+        s = requests.Session()
+        s.headers['User-Agent'] = UA_DESK
+        r = s.get(url, timeout=TIMEOUT)
+        if cupid_wall.is_challenge(r.text):
+            ck = cupid_wall.cookie_for(r.text)
+            if not ck:
+                return None                   # 사유 3분류는 호출부가 why_failed 로 적는다(뭉개지 않는다)
+            sep = '&' if '?' in url else '?'
+            # 쿠키는 요청 단위로 싣는다 — 쿠키자 domain 에 포트가 섞이는 자리를 피한다
+            #   (실측: 쿠키자 hostname·netloc·요청단위 3방식 전부 6/6 = 축은 전송계층이지 주입 방식이 아니다).
+            r = s.get(url + sep + cupid_wall.RETRY_PARAM,
+                      cookies={cupid_wall.COOKIE_NAME: ck}, timeout=TIMEOUT)
+        if not _guard(r.url):                 # 리다이렉트 최종 도착지 재검문(urllib 경로와 동일 계약)
+            return None
+        return r.content[:PAGE_MAX_BYTES + 1], (r.headers.get('content-type') or ''), r.url
+    except Exception:
+        return None                           # 전 경로 fail-soft — 통과 실패가 요약을 죽이지 않는다
+
+
 def _cupid_pass(raw, ct, url):
     """cupid.js 봇월 껍데기면 쿠키를 만들어 재요청 — (raw, ct, final_url, note) · 미해당은 입력 그대로.
 
     [왜 UA 교대로는 안 되나] 챌린지 응답은 어느 UA 로도 같은 797B 스크립트다(실측). 통과의 조건은
     **쿠키 한 개**뿐이고 그 값은 페이지 안 a·b·c 로 결정론적으로 계산된다(shared/cupid_wall.py 참조).
+    ⚠ 다만 **쿠키 값이 맞아도 전송계층이 틀리면 통과하지 못한다**(260912 2차 실측 = urllib 1/8 ·
+      requests.Session 30/30) — 그래서 세션 경로가 1순위고 urllib 은 폴백이다(_cupid_session_get).
     통과 뒤 이슈링크 `/community/go/<커뮤니티>/<id>` 는 302 로 실제 글로 가므로 그 최종 주소도 함께
     돌려준다 — 본선 WebFetch 가 봇월 주소가 아니라 실제 글 주소를 열게 하는 축(FRAMEURL_BLOCK).
     """
@@ -269,6 +310,11 @@ def _cupid_pass(raw, ct, url):
         text = _decode(raw, ct)
         if not cupid_wall.is_challenge(text):
             return raw, ct, url, ''          # 이미 통과 페이지(쿠키 불요)
+        # ① 정본 전송계층 = requests.Session(실측 30/30) — social_burst 가 쓰는 그 경로.
+        _sess = _cupid_session_get(url)
+        if _sess and len(_sess[0]) > len(raw):
+            return _sess[0], _sess[1], (_sess[2] or url), 'cupid 봇월 통과'
+        # ② 폴백 = 종전 urllib 쿠키 재요청(requests 미설치 환경 · 실측 1/8 이지만 0 보다 낫다).
         cookie = cupid_wall.cookie_for(text)
         if not cookie:
             return raw, ct, url, cupid_wall.why_failed(text)

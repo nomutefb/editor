@@ -18,9 +18,15 @@
   (1블록 CBC = AES-ECB-dec(c, a) XOR b — 블록이 하나라 패딩·체이닝 상태가 없다.)
 
 [전송계층은 호출부 몫 = 이 모듈은 HTTP 를 모른다]
-  social_burst 는 requests.Session(쿠키 자동), ask_srcimg 는 표준 urllib(Cookie 헤더 수동)로
-  서로 다르다. 그 차이를 흡수하려고 한쪽 전송계층을 다른 쪽에 이식하면 두 경로 다 위험해진다
-  → 여기서는 **감지·복호만** 책임지고(순수 함수 · 부작용 0), 쿠키를 어떻게 실어 보낼지는 호출부가 정한다.
+  여기서는 **감지·복호만** 책임진다(순수 함수 · 부작용 0). 쿠키를 어떻게 실어 보낼지는 호출부 몫이다.
+  ⚠⚠ 단 「전송계층은 아무거나 써도 된다」는 뜻이 **아니다** — 1차 봉합(260912)이 그렇게 읽고
+    ask_srcimg 를 urllib 단발 Cookie 헤더로 둔 자리가 곧 사각이었고, 2차 실측이 뒤집었다:
+      · urllib 쿠키 재요청 = 1/8 (재요청이 통과가 아니라 **새 챌린지**를 받아 되돌아온다)
+      · requests.Session = 30/30
+    통과 체인이 `?ckattempt=1` → 307 → 302 를 타면서 CUPID 외 csrfc·d 쿠키를 더 쌓기 때문이다
+    (Accept-Encoding·Accept·Connection 개별 흉내로는 안정화 실패 = 단일 헤더가 원인이 아니다).
+  → 두 호출부 모두 **세션 전송**을 쓴다: social_burst = requests.Session(정본) ·
+    ask_srcimg = `_cupid_session_get`(같은 방식 · requests 미설치면 urllib 폴백 = 회귀 0).
 
 [의존성 = pycryptodome 있으면 통과, 없으면 종전 동작(fail-soft)]
   news-ask.yml·social-scan.yml 이 설치를 배선한다. 미설치 환경에서는 None 을 돌려주고

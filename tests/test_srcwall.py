@@ -42,6 +42,14 @@ try:
 except Exception:
     _AES, HAS_AES = None, False
 
+# 전송계층(requests)도 같은 두 층 원칙을 탄다 — 실동작 검증은 설치 환경에서만, **배선 검문은 의존성 0**.
+#   260912 2차 실측: 통과의 축은 쿠키 값이 아니라 전송계층이다(urllib 1/8 · requests.Session 30/30).
+try:
+    import requests as _requests
+    HAS_REQUESTS = True
+except Exception:
+    _requests, HAS_REQUESTS = None, False
+
 
 def _cipher_hex():
     """챌린지 페이지에 박히는 c(암호문) — 평문 SECRET 을 KEY/IV 로 CBC 암호화한 1블록.
@@ -117,6 +125,22 @@ class CupidWallCanonTests(unittest.TestCase):
         why = cupid_wall.why_failed(_challenge_html())
         self.assertEqual(why, 'cupid 복호 실패' if HAS_AES else 'pycryptodome 미설치 — cupid 우회 불가')
 
+    def test_session_transport_wired_first(self):
+        """통과의 축은 전송계층 — 세션 경로가 urllib 폴백보다 **먼저** 와야 한다(의존성 0 검문).
+
+        260912 2차 실측 = 같은 쿠키 값으로도 urllib 단발 Cookie 헤더 재요청은 1/8 만 통과하고
+        requests.Session 은 30/30 통과했다. 순서가 뒤집히면 평소엔 urllib 이 먼저 먹고
+        대부분 새 챌린지를 받아 되돌아온다 = 1차 봉합의 사각이 그대로 재발한다.
+        """
+        src = (REPO / '.github' / 'scripts' / 'ask_srcimg.py').read_text(encoding='utf-8')
+        self.assertIn('def _cupid_session_get(', src, '세션 통과 경로 결손')
+        self.assertIn('import requests', src, '세션 전송계층 결손')
+        body = src.split('def _cupid_pass(', 1)[1].split('\ndef ', 1)[0]
+        self.assertIn('_cupid_session_get(', body, '_cupid_pass 가 세션 경로를 안 탄다')
+        self.assertLess(body.index('_cupid_session_get('), body.index('cupid_wall.cookie_for(text)'),
+                        'urllib 폴백이 세션보다 먼저 온다 — 순서가 곧 성공률이다')
+        self.assertIn('_guard(r.url)', src, '세션 경로 SSRF 최종 도착지 재검문 결손')
+
     def test_no_duplicate_regex_in_callers(self):
         """정본 1곳 — 호출부가 챌린지 정규식·AES 복호 사본을 다시 들고 있으면 드리프트가 재발한다."""
         for rel in ('scraper/social_burst.py', '.github/scripts/ask_srcimg.py'):
@@ -179,6 +203,40 @@ class HarvestWallTests(unittest.TestCase):
             cupid_wall.WALL_HOSTS = ('127.0.0.1',)
         self.assertEqual(res['wall'], '')
         self.assertEqual(res['text'], '')
+
+    @unittest.skipUnless(HAS_REQUESTS, 'requests 미설치 — 세션 실동작은 설치 환경에서만')
+    def test_session_transport_is_primary(self):
+        """urllib 쿠키 재요청을 통째로 막아도 통과·전문이 그대로 나와야 한다(= 세션이 실제 경로).
+
+        실사이트에서 urllib 재요청은 1/8 만 통과했다(재요청이 새 챌린지를 받아 되돌아온다).
+        여기서 그 경로를 0 으로 만들어도 결과가 같으면 배선이 세션으로 살아 있는 것이다.
+        """
+        real = ask_srcimg._get
+
+        def _block_cookie_get(url, referer='', limit=ask_srcimg.PAGE_MAX_BYTES,
+                              ua=ask_srcimg.UA_DESK, cookie='', ret_url=False):
+            if cookie:            # urllib 폴백만 차단(1차 GET·이미지 내려받기 경로는 그대로)
+                return (b'', '', '') if ret_url else (b'', '')
+            return real(url, referer, limit, ua, cookie, ret_url)
+
+        ask_srcimg._get = _block_cookie_get
+        try:
+            res = self._harvest('/post/1')
+        finally:
+            ask_srcimg._get = real
+        self.assertEqual(res['wall'], 'cupid 봇월 통과', res['why'])
+        self.assertIn('유가족이 추도식에', res['text'])
+
+    def test_urllib_fallback_survives_without_session(self):
+        """requests 미설치 = 세션 None → 종전 urllib 재요청으로 떨어진다(도입 전 동작 보존 · 회귀 0)."""
+        real = ask_srcimg._cupid_session_get
+        ask_srcimg._cupid_session_get = lambda u: None
+        try:
+            res = self._harvest('/post/1')
+        finally:
+            ask_srcimg._cupid_session_get = real
+        self.assertEqual(res['wall'], 'cupid 봇월 통과', res['why'])
+        self.assertIn('유가족이 추도식에', res['text'])
 
     def test_missing_dependency_is_failsoft(self):
         """pycryptodome 미설치 = 통과 불가지만 사유를 명시하고 rc=0(구 동작 = 조용한 0자)."""

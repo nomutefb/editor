@@ -81,8 +81,11 @@ jobs:
       # 출처 수확기(ask_srcimg.py)의 cupid.js 봇월 통과에 필요(260912 · social-scan.yml 43줄 정본 계승).
       #   미설치면 수확기가 챌린지 껍데기를 그대로 받아 본문 0자 → 모델이 제목만으로 검색 = 실사고
       #   fail-2026-09-12-0926(21분 타임아웃)의 경로. 설치 실패도 fail-soft(수확기가 종전 동작으로 떨어진다).
-      - name: 봇월 통과 의존성 (pycryptodome)
-        run: pip install pycryptodome
+      #   ⚠ requests = 통과의 **전송계층**(260912 2차 실측 = urllib 재요청 1/8 vs requests.Session 30/30 ·
+      #     통과 체인이 307→302 를 타며 csrfc·d 쿠키를 더 쌓는다). pycryptodome 만 깔면 복호는 되는데
+      #     통과가 안 되는 반쪽 상태가 된다 = 두 개를 같이 깐다.
+      - name: 봇월 통과 의존성 (pycryptodome · requests)
+        run: pip install pycryptodome requests
         continue-on-error: true
 
       # ── 링크 레일(운영자 260731 "링크가 원문이면 원문 활용 · 미디어면 large v3 전사") ──
