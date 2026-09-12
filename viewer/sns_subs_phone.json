@@ -16,32 +16,32 @@
  "threads": [
   {
    "account": "choi.openai",
-   "text": "ElevenLabs가 음악 생성 모델 Music v2.5를 공개했습니다.\n\n멜로디와 악기 표현, 편곡의 깊이를 개선했고 장르 전환, 랩, 가사·보컬 생성과 긴 곡 제작도 지원합니다.\n\n예를 들어 광고 영상용 배경음악이나 게임 OST를 만들고, 마음에 안 드는 구간만 다시 생성하는 방식으로 활용할 수 있습니다.\n\n무료 요금제도 하루 5곡까지 내려받을 수 있고, ElevenMusic 표기 시 상업적으로 사용할 수 있습니다.\n\nPro는 월 400개의 무손실 다운로드를 제공합니다.",
-   "likes": 15,
-   "cmts": 1,
-   "time": 1789196442,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/806453136_2144093059521401_4081401269814045387_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk4NDM5MTAwMjQ3OTQ2Njk0NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=obVtRn0rpAAQ7kNvwHb_ocm&_nc_oc=Adr17cnGgxYuC__Rxx0MnCxZBtiPTgzqyLrTHGSUlEGrDghnCzAdpOLxCdiTxoCV8yE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=5Rsl7D9ca87NSMDvovC-JA&_nc_ss=7a22e&oh=00_AQLqV2WLvwnbdaOZbR43XARIGIEJvq2wtr_0Bxc97-Capw&oe=6AAAE528",
-   "url": "https://www.threads.com/@choi.openai/post/DdLZoGtDRnB",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "내용 :\nhttps://www.rubyhack.ai/",
-   "likes": 1,
+   "text": "프로젝트 주소 :\nhttps://playtrain.org/",
+   "likes": 0,
    "cmts": 0,
-   "time": 1789191014,
+   "time": 1789201849,
    "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DdLPRdQjIQk",
+   "url": "https://www.threads.com/@choi.openai/post/DdLj8EwgoUp",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "오픈AI 내부 에이전트가 실제 소프트웨어 저장소를 공격한 정황이 또 발견됐습니다.\n\n지난 5월 RubyGems에 수백 개의 악성 패키지를 올리고, RubyDoc에서 원격 코드 실행까지 성공한 것으로 조사됐는데요. API 키 탈취용 취약점도 개발했지만 실제 탈취 여부는 확인되지 않았습니다.\n\n오픈AI는 에이전트가 공개 정보를 찾는 정상 작업을 수행하다 벌어진 일이라고 확인했습니다.\n\n문제는 정보 하나를 찾기 위해 에이전트가 해킹에 가까운 우회 경로까지 스스로 선택했다는 점인데요.\n\n지난 Hugging Face 공격보다 두 달 앞선 사건이라, 에이전트가 왜 이런 방식까지 선택했는지와 당시 오픈AI가 이를 얼마나 파악하고 있었는지가 논란입니다.",
-   "likes": 15,
+   "text": "AI가 게임을 만들고, 그 게임에서 다른 AI를 훈련시키기 시작했습니다.\n\n새롭게 공개된 PlayTrain은 LLM이 만든 JavaScript 게임을 그대로 강화학습(RL) 환경으로 바꿔 AI 에이전트를 학습시키는 프레임워크입니다.\n\n예를 들어 원하는 게임 규칙을 프롬프트로 설명하면 LLM이 새로운 게임을 만들고, PlayTrain이 이를 AI가 반복해서 플레이하며 학습할 수 있는 환경으로 변환합니다.\n\n게임은 브라우저에서 사람이 직접 플레이할 수도 있어 같은 화면과 조건에서 인간과 AI의 행동을 비교할 수도 있습니다.\n\n이제 강화학습 연구도 정해진 게임을 푸는 데서 벗어나, 실험하고 싶은 환경부터 AI로 만들어 학습시키는 방식이 가능해졌습니다.",
+   "likes": 3,
    "cmts": 1,
-   "time": 1789191003,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/806299656_17986735293112832_6669960432709300642_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk4NDM0NTM4MTQ0NTg5MTQ0NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTE5OS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=PTe6msxzFwQQ7kNvwECzpMS&_nc_oc=Adq5g1aY0QFJLUAleoiz4cnHIQxWBXUYpdfzCxJRGsfI3IH3DVQWcsim_rThMM-A1qQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=5Rsl7D9ca87NSMDvovC-JA&_nc_ss=7a22e&oh=00_AQKwjvvRQ-8cd_4rauEtCk4sC-QGAHUjSKrDpAA2qHZ61A&oe=6AAAD8E5",
-   "url": "https://www.threads.com/@choi.openai/post/DdLPQOzjPV1",
+   "time": 1789201824,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/805833603_1853256166045816_8382427739410777939_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk4NDQzNjE1MTUzNTcxNDc0NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=quf-_Mzt7Y8Q7kNvwFuRA9s&_nc_oc=Ado6M9ExBHdzDnN6hbRn9E9tPTcXiShWH3diLmRaoDT34tPIVFQ2wHjdVWxyOehBPD4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Gibq2-VKML_6yk97yVQcJg&_nc_ss=7a22e&oh=00_AQJ5phSK8q095SUIHB4EIJ1tUwQ1rWEMSfXdKkU4DASu3w&oe=6AAADB53",
+   "url": "https://www.threads.com/@choi.openai/post/DdLj5HCgsG5",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "🚨 챗GPT 리셋 완료.",
+   "likes": 43,
+   "cmts": 6,
+   "time": 1789200729,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DdLhzbrjxS_",
    "region": "kr"
   },
   {
@@ -60,7 +60,7 @@
    "likes": 1,
    "cmts": 1,
    "time": 1789183897,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/805975606_18086847404407306_4477081259277779097_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk4NDI4NTY5MTMzMzgzNTcyMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=pKO3GfXLszwQ7kNvwGgjeoZ&_nc_oc=AdpqzQs4N-N5cn3J312juNz73CI2_x7KXgdDASdO28SColXPsHbplDvkReAa8Oj4TgY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=dnnDw0zBnyGmfR1DfAOKzw&_nc_ss=7a22e&oh=00_AQJgMoYWndEAkd3hnW-BzWQ_GoIssyjXtwykvfo8sosNxg&oe=6AAAD402",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/805975606_18086847404407306_4477081259277779097_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk4NDI4NTY5MTMzMzgzNTcyMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMSJ9&_nc_ohc=pKO3GfXLszwQ7kNvwGgjeoZ&_nc_oc=AdpqzQs4N-N5cn3J312juNz73CI2_x7KXgdDASdO28SColXPsHbplDvkReAa8Oj4TgY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=9VDfa1zYRqOm9zEcI76mFg&_nc_ss=7a22e&oh=00_AQLD1xboOfflvPyoVkn7pycby-TGKywiL88WHuVotLkXeQ&oe=6AAAD402",
    "url": "https://www.threads.com/@aipeekme/post/DdLBroDn_vK",
    "region": "kr"
   },
@@ -87,8 +87,8 @@
   {
    "account": "kopp",
    "text": "spent hours fine tuning the motion on this dropdown. really happy how it turned out.",
-   "likes": 390,
-   "cmts": 14,
+   "likes": 412,
+   "cmts": 17,
    "time": 1789142526,
    "thumb": "http://static.cdninstagram.com/rsrc.php/null.jpg",
    "url": "https://www.threads.com/@kopp/post/DdJyvLnCsyz",
@@ -106,12 +106,12 @@
   },
   {
    "account": "choi.openai",
-   "text": "내용 :\nhttps://mathandai.org/",
-   "likes": 4,
-   "cmts": 0,
-   "time": 1789185607,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DdLE9ecgXeW",
+   "text": "ElevenLabs가 음악 생성 모델 Music v2.5를 공개했습니다.\n\n멜로디와 악기 표현, 편곡의 깊이를 개선했고 장르 전환, 랩, 가사·보컬 생성과 긴 곡 제작도 지원합니다.\n\n예를 들어 광고 영상용 배경음악이나 게임 OST를 만들고, 마음에 안 드는 구간만 다시 생성하는 방식으로 활용할 수 있습니다.\n\n무료 요금제도 하루 5곡까지 내려받을 수 있고, ElevenMusic 표기 시 상업적으로 사용할 수 있습니다.\n\nPro는 월 400개의 무손실 다운로드를 제공합니다.",
+   "likes": 19,
+   "cmts": 1,
+   "time": 1789196442,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/806453136_2144093059521401_4081401269814045387_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk4NDM5MTAwMjQ3OTQ2Njk0NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=obVtRn0rpAAQ7kNvwHb_ocm&_nc_oc=Adr17cnGgxYuC__Rxx0MnCxZBtiPTgzqyLrTHGSUlEGrDghnCzAdpOLxCdiTxoCV8yE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Gibq2-VKML_6yk97yVQcJg&_nc_ss=7a22e&oh=00_AQLE4W8otWTUqdI7-MKX3NY_hsyroRrUhygg99V3Mg_ORg&oe=6AAAE528",
+   "url": "https://www.threads.com/@choi.openai/post/DdLZoGtDRnB",
    "region": "kr"
   },
   {
@@ -120,52 +120,43 @@
    "likes": 4,
    "cmts": 2,
    "time": 1789176690,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/804647424_18086831345407306_5843943104236120806_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk4NDIyNTIzOTc2MTM4ODg0Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=t_DukJpBAqAQ7kNvwFyflnK&_nc_oc=AdqI2CU-JcCAPr-pCYsphyo2HFsUp6YxApyftUU3PVNKrKQaVcXgz7w_-VxnhRVWCAc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=dnnDw0zBnyGmfR1DfAOKzw&_nc_ss=7a22e&oh=00_AQKnz72FuaMPniquxSfznp-AMwwQKPlixc6YmVXhrGgHJw&oe=6AAAE5E6",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/804647424_18086831345407306_5843943104236120806_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk4NDIyNTIzOTc2MTM4ODg0Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMSJ9&_nc_ohc=t_DukJpBAqAQ7kNvwFyflnK&_nc_oc=AdqI2CU-JcCAPr-pCYsphyo2HFsUp6YxApyftUU3PVNKrKQaVcXgz7w_-VxnhRVWCAc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=9VDfa1zYRqOm9zEcI76mFg&_nc_ss=7a22e&oh=00_AQIwPBbT3-nm-zuiGAjjBwXzHmOCNRuiQoFQ3MKVp_94bA&oe=6AAAE5E6",
    "url": "https://www.threads.com/@aipeekme/post/DdKz78JH4Uv",
    "region": "kr"
   },
   {
    "account": "kopp",
    "text": "i love Higgsfield but couldn’t justify the price, so i built my own image generation playground for GPT-Image-2.5 + other models.\n\n- uses your own ChatGPT subscription\n- bring your own API keys for other models\n- chat with it naturally\n- it automatically optimizes your prompts\n- generates multiple variations at once\n\ncompletely free + open source ↓",
-   "likes": 95,
+   "likes": 97,
    "cmts": 11,
    "time": 1789123283,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/803827949_2173084356946056_8709311686220170328_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk4Mzc3NzE1Mzc3NDM0MDcxOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=3wNSTkYSlGMQ7kNvwH1_rPG&_nc_oc=AdphvI6vX_XD52oaaXrbCixIYgzfnsEB4dcVIqdTUIOPWfHieI6gLb1BFtdahoGcKGg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=yx_-SXtb2NUA5I6VGwgjxQ&_nc_ss=7a22e&oh=00_AQLugDTLohK8Y3k3tDLcFRK-c_62OAnw-8IFehWyi5JmUg&oe=6AAAF49D",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/803827949_2173084356946056_8709311686220170328_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk4Mzc3NzE1Mzc3NDM0MDcxOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=3wNSTkYSlGMQ7kNvwH1_rPG&_nc_oc=AdphvI6vX_XD52oaaXrbCixIYgzfnsEB4dcVIqdTUIOPWfHieI6gLb1BFtdahoGcKGg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=deo5GgVWf69uLg32JV6zqQ&_nc_ss=7a22e&oh=00_AQI5LCyagNz_y2bERjh2ssf6yzp--6D60B-HcvLyGAslew&oe=6AAAF49D",
    "url": "https://www.threads.com/@kopp/post/DdJODbjCUpv",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "테렌스 타오를 포함한 필즈상 수상자 25명이 AI 기업의 수학 연구 방식을 공개 비판했습니다.\n\nAI가 난제를 푸는 것 자체보다, 문제 풀이를 벤치마크처럼 소비하며 결과를 빠르게 발표하는 과정에서 기존 연구 인용과 아이디어 출처가 흐려지고, 수학의 목적이 ‘정답’으로 축소될 수 있다고 지적했는데요.\n\nAI가 수학을 발전시킬 수는 있지만, 무엇을 위해 수학을 하는지까지 바뀌어선 안 된다는 주장입니다.",
-   "likes": 72,
-   "cmts": 7,
-   "time": 1789185597,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/804647628_17986705137112832_4232291795988142043_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk4NDMwMDAzMTI5NjQ3Mzk2Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTU5MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=gfEjoB-fxggQ7kNvwHLWFmb&_nc_oc=Adq44X-r_TuXbFi9XzHN8wzl1J2skQwKe_2KBpt_J4ICLUejkjuvuP514ZHYhBrPnXs&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=5Rsl7D9ca87NSMDvovC-JA&_nc_ss=7a22e&oh=00_AQKAQYIXsPgcugFtVpdlW1AOPj2eMWVYxkoGjLvbRCOLGg&oe=6AAAC88E",
-   "url": "https://www.threads.com/@choi.openai/post/DdLE8TMAQtr",
+   "text": "내용 :\nhttps://www.rubyhack.ai/",
+   "likes": 2,
+   "cmts": 0,
+   "time": 1789191014,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DdLPRdQjIQk",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "🚨 챗GPT, 4시간 이내 리셋예정",
-   "likes": 197,
-   "cmts": 51,
-   "time": 1789183715,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/806050329_17986724469112832_8016830437356537869_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk4NDI4NDIxMTQwMDgzNjAyOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTE3OS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=pqBS8ULXBGAQ7kNvwEpwiSc&_nc_oc=AdrZjN4ouWridV9obGIt_biW9N7p5O3cSnJSAW-oT3N1SXqSFP4JhMwTVJUt_G_ZpPk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=5Rsl7D9ca87NSMDvovC-JA&_nc_ss=7a22e&oh=00_AQKsdseJmGjKIkc2BGD6BYfF4808cP8h94tnJyUVmtFbQA&oe=6AAACC1A",
-   "url": "https://www.threads.com/@choi.openai/post/DdLBWe7D7fi",
+   "text": "오픈AI 내부 에이전트가 실제 소프트웨어 저장소를 공격한 정황이 또 발견됐습니다.\n\n지난 5월 RubyGems에 수백 개의 악성 패키지를 올리고, RubyDoc에서 원격 코드 실행까지 성공한 것으로 조사됐는데요. API 키 탈취용 취약점도 개발했지만 실제 탈취 여부는 확인되지 않았습니다.\n\n오픈AI는 에이전트가 공개 정보를 찾는 정상 작업을 수행하다 벌어진 일이라고 확인했습니다.\n\n문제는 정보 하나를 찾기 위해 에이전트가 해킹에 가까운 우회 경로까지 스스로 선택했다는 점인데요.\n\n지난 Hugging Face 공격보다 두 달 앞선 사건이라, 에이전트가 왜 이런 방식까지 선택했는지와 당시 오픈AI가 이를 얼마나 파악하고 있었는지가 논란입니다.",
+   "likes": 17,
+   "cmts": 1,
+   "time": 1789191003,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/806299656_17986735293112832_6669960432709300642_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk4NDM0NTM4MTQ0NTg5MTQ0NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTE5OS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=PTe6msxzFwQQ7kNvwECzpMS&_nc_oc=Adq5g1aY0QFJLUAleoiz4cnHIQxWBXUYpdfzCxJRGsfI3IH3DVQWcsim_rThMM-A1qQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Gibq2-VKML_6yk97yVQcJg&_nc_ss=7a22e&oh=00_AQIweLgpL9oli_vFV4icuM6PRMIPZjiHoWVjTkQwCnf7QA&oe=6AAAD8E5",
+   "url": "https://www.threads.com/@choi.openai/post/DdLPQOzjPV1",
    "region": "kr"
   }
  ],
  "tiktok": [],
  "reddit": [
-  {
-   "sub": "PoursTea",
-   "title": "Pictures are worth a thousand words...",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/tfl68q9wszoh1.jpeg?width=640&crop=smart&auto=webp&s=f6b97e996b265e4edbdbdaf742c6551a52c32f9c",
-   "time": 1789176692,
-   "url": "https://www.reddit.com/r/PoursTea/comments/1wdyzs3/pictures_are_worth_a_thousand_words/"
-  },
   {
    "sub": "FavoriteCharacter",
    "title": "Favorite obscure Character",
@@ -174,15 +165,6 @@
    "thumb": "https://preview.redd.it/v7q8asphswoh1.png?width=640&crop=smart&auto=webp&s=6df4e6967a40233c0cdee87659027cdc825bef7f",
    "time": 1789140302,
    "url": "https://www.reddit.com/r/FavoriteCharacter/comments/1wdjdd4/favorite_obscure_character/"
-  },
-  {
-   "sub": "MadeMeSmile",
-   "title": "My sister is a librarian at a high school (oc)",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/q3zdz92qwzoh1.jpeg?width=640&crop=smart&auto=webp&s=29cdf0463f27162e0fc3ef068002c5ed2f06e5d6",
-   "time": 1789177979,
-   "url": "https://www.reddit.com/r/MadeMeSmile/comments/1wdzg5s/my_sister_is_a_librarian_at_a_high_school_oc/"
   },
   {
    "sub": "okbuddycinephile",
@@ -203,6 +185,15 @@
    "url": "https://www.reddit.com/r/pics/comments/1wdqvw6/oc_cost_of_having_a_baby_in_canada_after_spending/"
   },
   {
+   "sub": "PoursTea",
+   "title": "Pictures are worth a thousand words...",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/tfl68q9wszoh1.jpeg?width=640&crop=smart&auto=webp&s=f6b97e996b265e4edbdbdaf742c6551a52c32f9c",
+   "time": 1789176692,
+   "url": "https://www.reddit.com/r/PoursTea/comments/1wdyzs3/pictures_are_worth_a_thousand_words/"
+  },
+  {
    "sub": "WhatIsTheTea",
    "title": "8:46 AM. 25 years ago today. Never forget",
    "score": 0,
@@ -221,24 +212,6 @@
    "url": "https://www.reddit.com/r/videogames/comments/1wdhnhw/insomniacs_wolverine_automatically_completes/"
   },
   {
-   "sub": "me_irl",
-   "title": "Me_irl",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/rvq4ncwbiwoh1.jpeg?width=640&crop=smart&auto=webp&s=45b7d6f6597a22db0a59593d1b10dc651f95e0de",
-   "time": 1789136830,
-   "url": "https://www.reddit.com/r/me_irl/comments/1wdhu6e/me_irl/"
-  },
-  {
-   "sub": "nextfuckinglevel",
-   "title": "Christian Bale spent roughly 17 years fighting to make this happen. This week, his foster-care village opened in Palmdale, California: 12 homes built specifically to help keep siblings together when t",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/bmJmOHQ5Y2l1em9oMfHWit45zrPfAPpBWeH2w1zv5U2q_Asu07w3Lf41-9KI.jpeg?width=320&crop=smart&auto=webp&s=dd49b1e313a9ea67ec51763fa205dbdc1f209537",
-   "time": 1789177237,
-   "url": "https://www.reddit.com/r/nextfuckinglevel/comments/1wdz6sv/christian_bale_spent_roughly_17_years_fighting_to/"
-  },
-  {
    "sub": "AskReddit",
    "title": "What’s the greatest ‘well, their career is over’ moment of all time?",
    "score": 0,
@@ -248,13 +221,13 @@
    "url": "https://www.reddit.com/r/AskReddit/comments/1wdrr0k/whats_the_greatest_well_their_career_is_over/"
   },
   {
-   "sub": "MoralityScaling",
-   "title": "Morality of potentially doing blackface by cosplaying a character of color that you really love?",
+   "sub": "me_irl",
+   "title": "Me_irl",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/8y5p6sqlpxoh1.jpeg?width=640&crop=smart&auto=webp&s=64dbc83ace09fe8b652e05f9e5603805ef11090d",
-   "time": 1789151372,
-   "url": "https://www.reddit.com/r/MoralityScaling/comments/1wdohbw/morality_of_potentially_doing_blackface_by/"
+   "thumb": "https://preview.redd.it/rvq4ncwbiwoh1.jpeg?width=640&crop=smart&auto=webp&s=45b7d6f6597a22db0a59593d1b10dc651f95e0de",
+   "time": 1789136830,
+   "url": "https://www.reddit.com/r/me_irl/comments/1wdhu6e/me_irl/"
   },
   {
    "sub": "meirl",
@@ -264,11 +237,42 @@
    "thumb": "https://preview.redd.it/x0ghzb9ngwoh1.jpeg?width=640&crop=smart&auto=webp&s=ba729e6f0c72d584e15c4939ecdead4f365d5dae",
    "time": 1789136252,
    "url": "https://www.reddit.com/r/meirl/comments/1wdhl21/meirl/"
+  },
+  {
+   "sub": "cringereels",
+   "title": "TikTok prankster tried to trick someone",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/MnVjdmdrZDUwem9oMZNApgLKo6GhVlP3jFSWWaIUoNgKdUe3QkpY8LHOPofy.png?width=320&crop=smart&auto=webp&s=0427d36c5b5a06b5692f124594fe8728fa70d88d",
+   "time": 1789167036,
+   "url": "https://www.reddit.com/r/cringereels/comments/1wdvdlk/tiktok_prankster_tried_to_trick_someone/"
+  },
+  {
+   "sub": "TopCharacterTropes",
+   "title": "[Funny Trope] Children’s show with insane lore implications.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/hjc3shhsvvoh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=32878f987e4897947192c5b62868866243420a30",
+   "time": 1789129238,
+   "url": "https://www.reddit.com/r/TopCharacterTropes/comments/1wdepqv/funny_trope_childrens_show_with_insane_lore/"
+  },
+  {
+   "sub": "news",
+   "title": "Saudi Arabia shut down East-West crude oil pipeline after multiple attacks",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1789152663,
+   "url": "https://www.reddit.com/r/news/comments/1wdp3vk/saudi_arabia_shut_down_eastwest_crude_oil/"
   }
  ],
  "disaster": [],
  "_cover": {
   "ok": {
+   "x": [
+    "awaken_eyes",
+    "jajaja7878uu"
+   ],
    "threads": [
     "aicoffeechat",
     "aipeekme",
@@ -280,27 +284,35 @@
    ]
   },
   "why": {
+   "x": {
+    "64bitcoinkr": 429,
+    "economysniper0": 429,
+    "kyunghyang": 429,
+    "freedom_73x": 429,
+    "marionawfal": 429,
+    "globalbrief_now": 429
+   },
    "insta": {
     "koreadispatch": "stuck",
     "bts.bighitofficial": "stuck",
     "blackpinkofficial": "stuck",
     "newjeans_official": "stuck",
     "aespa_official": "stuck",
-    "jennierubyjane": "stuck",
-    "xxxibgdrgn": "stuck",
-    "hm_son7": "stuck",
-    "sbsnow_insta": "stuck",
-    "mnet_official": "stuck",
-    "openai": "stuck",
-    "runwayapp": "stuck",
-    "pika_labs": "stuck",
-    "lumalabsai": "stuck",
-    "midjourney": "stuck",
-    "klingai_official": "stuck",
-    "heygen_official": "stuck",
-    "higgsfield.ai": "stuck",
-    "googledeepmind": "stuck",
-    "cristiano": "stuck"
+    "jennierubyjane": "rotate",
+    "xxxibgdrgn": "rotate",
+    "hm_son7": "rotate",
+    "sbsnow_insta": "rotate",
+    "mnet_official": "rotate",
+    "openai": "rotate",
+    "runwayapp": "rotate",
+    "pika_labs": "rotate",
+    "lumalabsai": "rotate",
+    "midjourney": "rotate",
+    "klingai_official": "rotate",
+    "heygen_official": "rotate",
+    "higgsfield.ai": "rotate",
+    "googledeepmind": "rotate",
+    "cristiano": "rotate"
    },
    "tiktok": {
     "jaemyung_lee": 503,
@@ -308,10 +320,10 @@
    }
   },
   "landing": {
-   "at": "2026-09-12T16:31:20",
+   "at": "2026-09-12T17:01:29",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-09-12T17:01:26.987421+09:00"
+ "updated": "2026-09-12T17:35:31.837529+09:00"
 }
