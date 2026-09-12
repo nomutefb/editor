@@ -1,6 +1,6 @@
 {
- "ok": 153,
- "dead": 16,
+ "ok": 152,
+ "dead": 17,
  "dead_feeds": [
   {
    "publisher": "국민일보",
@@ -73,9 +73,14 @@
    "url": "https://www.nocutnews.co.kr/rss/news"
   },
   {
-   "publisher": "매일경제",
+   "publisher": "머니투데이",
    "title": "전체기사",
-   "url": "https://www.mk.co.kr/rss/40300001/"
+   "url": "https://rss.mt.co.kr/mt_news.xml"
+  },
+  {
+   "publisher": "전자신문",
+   "title": "IT·산업전반",
+   "url": "https://rss.etnews.com/Section901.xml"
   },
   {
    "publisher": "스포티비뉴스",
@@ -150,6 +155,11 @@
    "url": "https://www.mediatoday.co.kr/rss/S1N8.xml"
   },
   {
+   "publisher": "서울신문",
+   "title": "정치",
+   "url": "https://www.seoul.co.kr/xml/rss/rss_politics.xml"
+  },
+  {
    "publisher": "시사인",
    "title": "정치",
    "url": "https://www.sisain.co.kr/rss/S1N6.xml"
@@ -193,6 +203,11 @@
    "publisher": "에이블뉴스",
    "title": "정보세상",
    "url": "https://www.ablenews.co.kr/rss/S1N1.xml"
+  },
+  {
+   "publisher": "에이블뉴스",
+   "title": "문화/체육",
+   "url": "https://www.ablenews.co.kr/rss/S1N8.xml"
   },
   {
    "publisher": "여성신문",
