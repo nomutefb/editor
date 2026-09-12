@@ -87,6 +87,7 @@ jobs:
           CLAUDE_CODE_OAUTH_TOKEN_ALT3: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130M }}
           ACTIVE_ACCOUNT: ${{ inputs.account || vars.ACTIVE_ACCOUNT || 'EMS1130N' }}
           SUMMARY_LEN_GUARD: ${{ vars.SUMMARY_LEN_GUARD || '1' }}   # news-analyze.yml 동값(분량 가드 ON)
+          SUMMARY_REPAIR_EFFORT: ${{ vars.SUMMARY_REPAIR_EFFORT || 'high' }}   # news-analyze.yml 동값(보정 콜 high · 260912)
           PREFLIGHT_TIMEOUT: '25'                                    # news-analyze.yml 동값
           AB_ID: ${{ inputs.ab_id || github.run_id }}
           BASE_SHA: ${{ inputs.base_sha }}

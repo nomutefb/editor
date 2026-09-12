@@ -11,8 +11,10 @@
 # 설계: fail-soft 전면 — 보강 실패·검증 실패 = 원본 유지(다이제스트 유실 0). 재시도·폴오버 없음(1콜 상한 —
 #     쿼터 보호 · 메인 콜이 이미 계정 전환을 끝낸 상태를 그대로 씀 · check_refs 폴오버 게이트의 의도된 예외).
 #     `--safe-mode` = judge 선례(§파이프라인 d) — 아래 프롬프트가 자족적(골격+다이제스트 전문)이라 CLAUDE.md
-#     40k 로드 불요 = cache_w 절감·도구 유혹 제거(평의회4 · `--bare`는 OAuth 즉사라 절대 금지). 무도구·단발이라
-#     effort max 안전(#1552 원인 = '검색 도구 왕복 × max' — 여기 해당 없음 = 품질 레버 복원) · REPAIR_TIMEOUT
+#     40k 로드 불요 = cache_w 절감·도구 유혹 제거(평의회4 · `--bare`는 OAuth 즉사라 절대 금지). effort 기본 **high**
+#     (260912 운영자 지시 · 구 max = 「무도구·단발이라 max 안전 = 품질 레버」였으나 실측 보정 콜 5건 = max 4.6~7.4분 → 요약 요청
+#     화면 도달을 통째로 늦추던 자리. 본선 high 하향(ask.sh 260912)으로 발동이 늘 축이라 짝으로 내림 · 무도구 재작성은 정형 변환
+#     = 260722 「max 헛사고 회피」 선례 · 레버 = env SUMMARY_REPAIR_EFFORT[repo 변수 동명 배선] · 롤백 = 'max') · REPAIR_TIMEOUT
 #     900s(260825 운영자 «8분 제한 없애» = 본선 동값 — 완전 무제한은 잡 90분 하드킬에 통째 유실이라 불가·최대치로 해석 · 짝 = analyze ANALYZE_JOB_DEADLINE 3100 하향).
 # 프롬프트 = 지침 [산문 흐름]·[본문 종결]·[분량] 최소 발췌 인라인(§파이프라인 a 하드코딩 금지의 의도된 예외 —
 #     풀 주입 76KB는 보강 1콜에 과적. 지침 해당 절 개정 시 이 발췌도 함께 갱신할 것 = 드리프트 주의 · 평의회10).
@@ -28,7 +30,8 @@ summary_repair() {
     REPAIR\ *) ;;
     *) [ -n "$chk" ] && echo "  🩹 분량 가드: ${chk}"; return 0;;
   esac
-  echo "  🩹 분량 가드: ${chk} → 대상 블록만 1회 보정(자유요약 기준 · effort max·safe-mode·무도구)"
+  local reff; reff="${SUMMARY_REPAIR_EFFORT:-high}"   # 보정 콜 노력도(260912 high · 헤더 참조)
+  echo "  🩹 분량 가드: ${chk} → 대상 블록만 1회 보정(자유요약 기준 · effort ${reff}·safe-mode·무도구)"
   local rprompt cand rc tmp chk2 DIRW
   # 방향 분기(260810) — 구판은 보강(늘리기) 문구 고정이라 상한 초과에 발동하면 더 늘어 악화됐다.
   case "$chk" in
@@ -60,9 +63,9 @@ summary_repair() {
 
 [다이제스트 원문]
 $(cat "$file")"
-  cand="$(printf '%s' "$rprompt" | METER_SRC="$src" METER_REF="$(basename "$file" .md)" METER_MODEL="$MODEL" METER_EFFORT=max claude_meter "${REPAIR_TIMEOUT:-900}" \
+  cand="$(printf '%s' "$rprompt" | METER_SRC="$src" METER_REF="$(basename "$file" .md)" METER_MODEL="$MODEL" METER_EFFORT="$reff" claude_meter "${REPAIR_TIMEOUT:-900}" \
         --model "$MODEL" \
-        --effort max \
+        --effort "$reff" \
         --safe-mode \
         --disallowedTools "Write,Edit,NotebookEdit,Bash,Task,WebFetch,WebSearch,Read,Glob,Grep" \
         --max-turns 2 \

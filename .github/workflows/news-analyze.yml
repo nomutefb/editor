@@ -123,6 +123,7 @@ jobs:
           CLAUDE_CODE_OAUTH_TOKEN_ALT3: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130M }}   # 서브3 폴오버(체인 실꼬리 = 항상 EMS1130M · 앞 3계정 소진 후)
           ACTIVE_ACCOUNT: ${{ inputs.account || vars.ACTIVE_ACCOUNT || 'EMS1130N' }}
           SUMMARY_LEN_GUARD: ${{ vars.SUMMARY_LEN_GUARD || '1' }}   # 분량 가드(IG/Thread 과소 시 1회 보강) — 기본 ON(운영자 260823 «켜주라» 사인오프 · 구 카나리아 대기 260705는 콜 실적 0인 채 잊혀 있던 자리) · 끄기 = repo 변수 SUMMARY_LEN_GUARD를 '1' 외 값(off 권장)으로(CARD_COV_GUARD 승격 관용구 사본)
+          SUMMARY_REPAIR_EFFORT: ${{ vars.SUMMARY_REPAIR_EFFORT || 'high' }}   # 분량 가드 보정 콜 노력도 = high(운영자 260912 · 공용 SSOT shared/summary_repair.sh 기본값과 동값 · 본선 analyze effort 는 max 무접촉) · 롤백 = repo 변수 SUMMARY_REPAIR_EFFORT=max
           ANALYZE_SAFE_MODE: ${{ vars.ANALYZE_SAFE_MODE || '1' }}   # 지침문서(CLAUDE.md) 스킵 = 기본 ON(260905 러너 A/B 승격 · 콜당 캐시 재기록 ~11.6만tok 소거 · 요약 규칙은 GBLOCK 인라인이라 무손실) · 끄기 = repo 변수 ANALYZE_SAFE_MODE 를 '1' 외 값(off 권장)
           ANALYZE_CLAIM: ${{ vars.ANALYZE_CLAIM || '1' }}   # 기사 단위 선점(260905) · 되돌리기 = 레포 변수 '0' + 이 잡 concurrency 블록 복원(둘이 한 세트)
           ANALYZE_CLAIM_MAX: '1'    # 러너 하나 = 기사 1건(260905 · 잔여는 형제 러너 fan-out = 동시 병렬) · 되돌리기 = '0'(전건 직렬 = 구 동작)

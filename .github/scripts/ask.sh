@@ -21,8 +21,8 @@ if [ "$ASK_SAFE_MODE" = "1" ]; then ASK_SAFE_ARGS=(--safe-mode); fi
 source "$ROOT/shared/summary_repair.sh"    # 분량 가드 SSOT — IG/Thread 과소 시 1회 보강(기본 OFF·SUMMARY_LEN_GUARD='1' · 260705)
 source "$ROOT/shared/summary_polish.sh"    # 한국어 윤문 SSOT — 요약 뒤 문체만 별도 1콜(운영자 260823 «프롬프트 무접촉·기능 분리» · 기본 OFF = summary_polish.sh 게이트 줄(SUMMARY_POLISH:-0) 정본 · 운영자 260908 «off» 확정 · SUMMARY_POLISH='1'로만 켬)
 INLINE_TRIES=4   # 인라인 재시도 = 4계정 폴오버 체인 깊이(서브3까지 실호출) + 일시 과부하(529/5xx)·타임아웃(rc=124)·버스트 ✨요약요청 유실 차단(analyze와 동일·260622·4계정 3→4)
-EFFORT="${PIPE_SEARCH_EFFORT:-max}"   # 검색·요약 추론깊이 — max 상향(운영자 260810 2차 지시 · analyze.sh 와 일괄 대칭). 타임아웃 재발 시 롤백 = env PIPE_SEARCH_EFFORT(high/medium).
-ASK_TIMEOUT="${ASK_TIMEOUT:-600}"      # claude -p 타임아웃(초) — 요약요청은 요약만이라 10분이면 충분(검색완화 후). 초과 시 계정 1회 전환 후 격리(운영자 260704 "10분 넘으면 다른 계정" · 옛 900s는 배치 timeout 시 45분→워크플로 초과라 하향).
+EFFORT="${PIPE_SEARCH_EFFORT:-high}"   # 검색·요약 추론깊이 — high(운영자 260912 지시 · 구 max = 260810). 실측(metrics ask 181건) = max 54건 중앙값 476s·p90 564s vs high 11건 212s·p90 241s(출력 토큰 31k vs 13k = 사고 토큰이 시간) · 600s 타임아웃 실패 4건 전부 max 기간. 요약 요청 한 건 화면 도달 평균 11분 → 6분대 축. ⚠ analyze.sh 는 max 유지(900s 상한 · 별도 레인) = 비대칭 의도. 롤백 = repo 변수 ASK_EFFORT=max(news-ask.yml env → 이 값).
+ASK_TIMEOUT="${ASK_TIMEOUT:-600}"      # claude -p 타임아웃(초) — 요약요청은 요약만이라 10분이면 충분(검색완화 후). 초과 시 같은 계정에서 노력도 한 단계 하향(claude_effort_down) 1회 재시도 후 격리(260912 · 구 「계정 1회 전환」[운영자 260704]은 사다리 바닥(medium)일 때만 폴백 · 옛 900s는 배치 timeout 시 45분→워크플로 초과라 하향).
 ASK_JOB_DEADLINE="${ASK_JOB_DEADLINE:-2200}"   # 스크립트 SECONDS 이 초 넘으면 새 요약요청 처리 시작 안 함(잔여 잔류→다음 런) — 과부하 다건 타임아웃이 잡 timeout(60분) 초과해 처리 중 기사까지 잘리는 것 방지(평의회 260704 A · 여유 = 60분 - 셋업 - 다음기사 최악 2×600s).
 GVER="$(guidelines_version summary)"
 GBLOCK="$(guidelines_block summary)"
@@ -315,11 +315,12 @@ $(printf '%b' "${imglist:-- (없음)\n}")"
   inline_delay=15
   claude_reset_force_swap 2>/dev/null || true   # 앞 기사가 타임아웃으로 강제전환(force)한 계정을 쿼터 확정 위치로 복원 → 쿼터 4계정 체인 예산 보존(평의회 260704 Q5)
   claude_preflight "$MODEL" 2>/dev/null || true # 본선(≤600s) 직전 60s 핑으로 산 계정 선탑승 — 죽은 활성계정 침묵 행이 본선 timeout을 통째로 태우던 공회전 소거(preflight SSOT 본선 확장 배선 260717 · fail-soft)
-  _to_tried=0                                   # 이 기사에서 타임아웃 계정전환을 이미 1회 했는지(무한 전환 차단)
+  _to_tried=0                                   # 이 기사에서 타임아웃 재시도(노력도 하향 또는 계정전환)를 이미 1회 했는지(무한 재시도 차단)
+  _cur_eff="$EFFORT"                            # 이 기사의 현재 노력도 — rc=124 재시도부터 한 단계 하향(260912 · 계측 effort 도 실값 = metrics 가 재시도 분포를 따로 본다)
   for attempt in $(seq 1 "$INLINE_TRIES"); do
-    out="$(printf '%s' "$prompt" | METER_SRC=ask METER_REF="$base" METER_MODEL="$MODEL" METER_EFFORT="$EFFORT" claude_meter "$ASK_TIMEOUT" \
+    out="$(printf '%s' "$prompt" | METER_SRC=ask METER_REF="$base" METER_MODEL="$MODEL" METER_EFFORT="$_cur_eff" claude_meter "$ASK_TIMEOUT" \
           --model "$MODEL" \
-          --effort "$EFFORT" \
+          --effort "$_cur_eff" \
           --allowedTools "WebFetch,WebSearch,Read" \
           --disallowedTools "Write,Edit,NotebookEdit,Bash,Task,Glob,Grep" \
           --max-turns 50 \
@@ -330,11 +331,22 @@ $(printf '%b' "${imglist:-- (없음)\n}")"
       break
     fi
     if claude_failover "$out$(cat "/tmp/${base}.err" 2>/dev/null)"; then continue; fi   # 쿼터 한도 → 대체 계정 1단계씩 전환·재시도(서브1→서브2→서브3 · SSOT)
-    # 타임아웃(rc=124 = claude_meter ASK_TIMEOUT 초과) = 출력이 비어 is_quota/is_transient 가 못 잡는 사각지대였다(이번 '중국인 렌터카' 실패의 원인).
-    #   서버 과부하 응답지연이면 다른 계정(부하 편차)에서 회복될 수 있으므로 *딱 1회* 강제 계정 전환 후 재시도(운영자 260704 "10분 넘으면 다른 계정").
-    #   ⚠️ 1회 제한 = 타임아웃은 대개 입력바운드(계정 바꿔도 반복)라 무한 전환은 워크플로 시간·쿼터만 소진(평의회 260704). 그 1회 전환도 claude_reset_force_swap 이 다음 기사서 되돌림.
-    if [ $rc -eq 124 ] && [ "$_to_tried" = "0" ] && claude_failover_force; then _to_tried=1; continue; fi
-    # 일시 과부하(5xx)면 백오프 후 재시도(마지막 시도면 탈출→격리). ⚠️ 타임아웃(rc=124)은 여기서 재시도 안 함(force 1회로 끝) — `[ $rc -ne 124 ]` 명시 가드 = 과부하성 타임아웃 stderr(Overloaded)가 is_transient 에 매칭돼 3회로 새는 것 봉인(2회 상한 airtight · 평의회 260704 B).
+    # 타임아웃(rc=124 = claude_meter ASK_TIMEOUT 초과) = 출력이 비어 is_quota/is_transient 가 못 잡는 사각지대 → *딱 1회* 재시도.
+    #   260912 개정 = 재시도는 **같은 계정 · 노력도 한 단계 하향**(claude_effort_down · max→high→medium). 구판(운영자 260704 "10분 넘으면
+    #   다른 계정")은 계정만 바꾸고 같은 노력도로 다시 600s 를 태웠는데, 타임아웃은 대개 입력바운드(계정 바꿔도 반복 · 평의회 260704 자인)라
+    #   260912 실사고 = max 600s 초과 → 서브계정 max 재시도 → 또 600s 초과 = 21분 실패. 노력도를 내리면 재시도가 상한 안에 든다
+    #   (실측 high 중앙값 212s·p90 241s · medium 167s·p90 236s). 사다리 바닥(medium·미지 값)이면 더 내릴 단이 없으니 종전 계정 1회 전환 폴백.
+    #   ⚠️ 1회 제한 불변 = 무한 재시도는 워크플로 시간·쿼터만 소진 · 잡 예산(ASK_JOB_DEADLINE) 가정 「다음 기사 최악 2×600s」 그대로.
+    if [ $rc -eq 124 ] && [ "$_to_tried" = "0" ]; then
+      _to_tried=1
+      _nxt_eff="$(claude_effort_down "$_cur_eff")"
+      if [ "$_nxt_eff" != "$_cur_eff" ]; then
+        echo "  ⏱ 시간초과(${ASK_TIMEOUT}s · effort ${_cur_eff}) — 같은 계정에서 effort ${_nxt_eff} 로 1회 재시도(입력바운드 = 계정 전환 무효 · 260912)"
+        _cur_eff="$_nxt_eff"; continue
+      fi
+      if claude_failover_force; then continue; fi   # 사다리 바닥 = 종전 폴백(계정 1회 전환 · claude_reset_force_swap 이 다음 기사서 되돌림)
+    fi
+    # 일시 과부하(5xx)면 백오프 후 재시도(마지막 시도면 탈출→격리). ⚠️ 타임아웃(rc=124)은 여기서 재시도 안 함(위 1회 재시도로 끝) — `[ $rc -ne 124 ]` 명시 가드 = 과부하성 타임아웃 stderr(Overloaded)가 is_transient 에 매칭돼 3회로 새는 것 봉인(2회 상한 airtight · 평의회 260704 B).
     if [ "$attempt" -lt "$INLINE_TRIES" ] && [ $rc -ne 124 ] && is_transient "$out$(cat "/tmp/${base}.err" 2>/dev/null)"; then
       echo "  ⏳ API 일시 과부하 추정(인라인 ${attempt}/${INLINE_TRIES}, rc=$rc) — ${inline_delay}s 후 재시도"
       sleep "$inline_delay"; inline_delay=$((inline_delay * 2)); continue
