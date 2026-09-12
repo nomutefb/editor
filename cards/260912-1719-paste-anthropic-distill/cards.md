@@ -3,29 +3,29 @@
 **[프롬프트 설계]**
 - 화풍: B 한국웹툰 극화 — 감시·국가 연계 데이터·기업 간 무단 복제라는 구조 고발 결이라 수채화의 온기가 맞지 않고, 잉크 선과 스크린톤이 관제실·서버홀·키보드의 차가운 질감을 견딘다
 - 분위기: 화면 불빛만 남은 방의 정적 — 누가 시켜서가 아니라 스스로 넣은 자료가 어디로 갔는지 모르는 서늘함. 폭로의 흥분이 아니라 '나도 저랬을 수 있다'는 체감
-- 연출 방향: AI를 매일 쓰는 독자가 멈추는 지점은 '중국 AI가 클로드를 훔쳤다'보다 **중국 AI가 제 나라 사용자를 속였고, 내가 넣은 자료를 누가 읽었는지 모른다**는 사실이다. '증류'는 카드3에서 '남의 AI 답으로 제 AI를 가르치는' 한 구절로 풀어 낯선 독자도 통과시킨다. 그래서 얼굴 대신 등·손·화면 테두리·케이블 같은 '경로'를 그린다 — 자료가 지나가는 관(파이프)이 카드 전체의 키노트이고, 네온그린 1색은 매 카드에서 그 관이 열려 있는 지점(확대된 화면·슬롯의 LED·서버 LED·커서·발신 램프·케이블)에만 앉힌다. 마지막은 태평양으로 들어가는 해저케이블을 정면에 세워, 앞 다섯 장의 자료가 실제로 건너간 길을 그림 하나로 닫는다. thumb_dispatch의 스크린 언더글로 톤과 감시당함 정조를 전 카드 키노트로 잇되 앵글은 카드마다 분산
-- 독자 동선: **단일 관점 = 자국 AI가 자국 사용자를 속였고, 그 길로 자국 자료가 미국 서버로 갔다** (카드 6장 전부 이 한 축 · '누가 얼마나 훔쳤나'·미중 공방은 축 밖) · **발단** 카드1(속은 사람)→**전개** 카드2(속인 회사)~3(속인 이유)→**피크** 카드4(속아서 넘어간 것)→**해소** 카드5(속인 쪽의 답)→**시사점** 카드6 · 훅=카드1 끝(단서형 — 읽은 건 키미가 아니었다)+카드3 끝(예고형 — 흐른 건 데이터만이 아니었다) · 착지 = 파이프가 열려 있던 동안 청두의 카메라 영상과 러시아 국방 DB 접속키는 어디로 가는지 모른 채 태평양을 건넜다
+- 연출 방향: 서사 = **역추적**. 카드1은 '들어와 있으면 안 되는 자료가 클로드 서버에 있다'는 의문으로 열고(질문형 훅 1회), 카드2가 경로를 되짚어 문샷의 몰래 호출을 찾고, 카드3이 이유(증류)와 규모, 카드4가 중국만이 아닌 러시아까지, 카드5가 반박과 침묵, 카드6이 '제 나라 AI가 스파이가 된 셈'으로 닫는다. 그래서 얼굴 대신 등·손·화면 테두리·케이블 같은 '자료가 지나간 경로'를 그리고, 네온그린 1색은 매 카드에서 그 경로가 열린 지점(확대된 화면·슬롯의 LED·케이블·커서·발신 램프)에만 앉힌다. 마지막은 태평양으로 들어가는 해저케이블 정면. thumb_dispatch의 스크린 언더글로 톤과 감시당함 정조를 전 카드 키노트로 잇되 앵글은 카드마다 분산
+- 독자 동선: **단일 관점 = 중국 AI가 제 나라 사용자를 속였고, 그 길로 자국 자료가 미국 서버로 갔다(역추적으로 드러남)** · **발단** 카드1(들어온 자료·의문)→**전개** 카드2(되짚은 경로 = 문샷)~3(이유 = 증류·규모)→**피크** 카드4(러시아 국방 DB까지)→**해소** 카드5(반박·침묵·미 정보기관 지목)→**시사점** 카드6 · 훅=카드1 끝(질문형 — 어떻게 들어온 걸까)+카드3 끝(예고형 — 중국 것만이 아니었다) · 착지 = 제 나라 AI가 스파이가 된 셈이고 가장 중요한 자료가 태평양을 건넜다
 - 연속성 앵커: (없음) / 반복 장소 (없음)
 
 ### [카드 1]
 **텍스트**
 ```text
-청두 시내 CCTV 수백 대의 영상을
-인민해방군 연계 인물이
-중국 AI 키미에 올려 동선을 찾게 했다
-*그 영상을 읽은 건 키미가 아니었다*
+클로드 서버에 중국 내부 자료가 들어왔다
+청두 CCTV 영상, 국유기업 소스코드까지
+중국이 밖으로 내보낼 리 없는 것들이었다
+*이 자료는 어떻게 들어온 걸까*
 ```
 **이미지 프롬프트**
 ```text
 korean manhwa style serious drama illustration, sharp black ink outlines with varying line weight, precise anatomical rendering, screentone shading, cel-shaded color with defined edges, high contrast chiaroscuro, muted desaturated palette with selective color accents, heavy atmosphere
-Scene: Emotional focal point: the stiff back of a man's neck as he leans toward a wall of surveillance feeds, a vacant thousand-yard stare reflected faintly in the glass. One Chinese man in his 30s in a plain dark windbreaker sits alone at a long desk in a windowless monitoring room in Chengdu, seen from behind, facing a grid of dozens of CCTV feeds that show empty streets, gates and crosswalks. His right hand rests on a mouse and his gaze runs to the far right edge of the frame where one feed is enlarged, with nose room on the right and gaze directed toward the right edge. Only that enlarged feed carries a thin neon green frame; every other screen is grey.
+Scene: Emotional focal point: the stiff back of an engineer's neck as he leans toward a wall of monitors, his hand frozen on the mouse. One young engineer in a plain grey hoodie sits alone at a long desk in a dim server operations room, seen from behind, facing a grid of dozens of screens; most show blank grey log panes, but one enlarged feed on the far right shows a rainy Chinese city street with a tall CCTV pole and no people. His gaze runs to that enlarged feed at the right edge of the frame, with nose room on the right and gaze directed toward the right edge. Only that feed carries a thin neon green frame; everything else is grey.
 Camera: wide shot, full body, surrounding environment, spatial context, from eye-level with neutral realistic perspective, back shot rear view, shot on 24mm wide lens with cinematic wide shot and spatial context
 Lighting/mood: flat cold even surveillance light, no shadow no warmth, detached and watchful
 Accent: monochrome desaturated base with a single color accent (neon green #0FFD02), muted daylight contrast
 Text handling: the feeds show only streets and buildings, no timestamps, no camera labels, no on-screen characters; the desk carries no papers or signage.
 Aspect ratio: 4:5 vertical portrait, full bleed single image filling the entire frame edge to edge with no inner border, no outer frame, no rectangular outline, no white margin around the image.
 MANDATORY: This is ONE single seamless illustration on ONE continuous surface. The entire canvas shows ONE continuous scene without any horizontal division, without any line cutting the image, without any frame inside the frame. The whole image is one unified visual flowing edge to edge.
-Composition: ONE continuous surface (the monitoring-room floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
+Composition: ONE continuous surface (the operations-room floor) extending edge to edge from top to bottom of the frame. The main subject is anchored in the upper-center area on this same surface. No other surface, no transition between two distinct surfaces anywhere in the frame.
 NEGATIVE — strictly avoid:
 - no comic panel layout, no split panel, no panel division, no horizontal divider line cutting the image, no upper and lower separate scenes, no two stacked frames, no boxed sections, no inset, no second view of the same subject, no duplicate elements
 - no letterbox, no black bands at top or bottom, no padding, no empty black areas, no UI overlay, no caption space rendered as a solid color block
@@ -35,16 +35,16 @@ NEGATIVE — strictly avoid:
 ```
 **검색어**
 ```text
-Chengdu CCTV surveillance monitoring room
+Anthropic threat report Chengdu CCTV Kimi
 ```
 
 ### [카드 2]
 **텍스트**
 ```text
-읽은 건 미국 앤트로픽의 클로드였다
-키미를 만든 문샷이 사용자 요청을 몰래
-클로드로 보내고 답은 키미 것처럼 달았다
-*자국 사용자를 속인 건 자국 AI였다*
+앤트로픽이 경로를 되짚자 답이 나왔다
+키미를 만든 문샷이 키미 사용자 몰래
+요청을 클로드로 보내고 있었다
+*키미에 넣은 자료가 그대로 미국으로 갔다*
 ```
 **이미지 프롬프트**
 ```text
@@ -72,10 +72,10 @@ Moonshot Kimi Claude rerouting Anthropic
 ### [카드 3]
 **텍스트**
 ```text
-속인 이유는 남의 AI 답을 긁어
-제 AI를 가르치는 '증류'였다
-*딥시크도 같은 수법, 7곳이 2억 건이었다*
-그 파이프에 흐른 건 데이터만이 아니었다
+이유는 하나, 남의 AI 답을 긁어다
+제 AI를 가르치는 '증류' 때문이었다
+*중국 연구소 7곳이 2억 건을 가져갔다*
+그런데 새어 나간 건 중국 것만이 아니었다
 ```
 **이미지 프롬프트**
 ```text
@@ -105,7 +105,7 @@ Moonshot Kimi DeepSeek app Claude Anthropic
 ```text
 *러시아 국방부 연계 DB의 접속 자격증명이*
 딥시크를 거쳐 미국 서버로 건너갔다
-국유기업 소스코드, 공안 시스템도 그랬다
+공안 사건관리 시스템 작업도 흘러갔다
 입력한 사람들은 그 사실을 몰랐다
 ```
 **이미지 프롬프트**
@@ -134,10 +134,10 @@ DeepSeek Anthropic distillation credentials leak
 ### [카드 5]
 **텍스트**
 ```text
-앤트로픽이 10일 이를 보고서로 공개하자
-중국 정부는 근거 없는 정치화라 반박했다
-알리바바·문샷·딥시크는 답이 없었고
-*속은 사용자에게 한 말은 아직 없다*
+중국 정부는 미국이 이를 정치화한다며
+근거 없는 주장이라고 반박했다
+정작 문샷과 딥시크는 답이 없었고
+*미 정보기관 3곳은 이미 이들을 지목했다*
 ```
 **이미지 프롬프트**
 ```text
@@ -165,10 +165,10 @@ China Ministry of Commerce spokesperson distillation briefing
 ### [카드 6]
 **텍스트**
 ```text
-중국 AI가 제 나라 사용자를 속인 사이
-자국 국방·치안 자료가 미국 서버로 갔다
-청두 카메라 영상도 모스크바 접속키도
-*어디로 가는지 모른 채 태평양을 건넜다*
+중국 연구소가 미국 AI를 몰래 쓰는 사이
+자국의 국방과 치안이 미국으로 간 셈이다
+제 나라 AI가 스파이가 된 셈이고
+*가장 중요한 자료가 태평양을 건넜다*
 ```
 **이미지 프롬프트**
 ```text
