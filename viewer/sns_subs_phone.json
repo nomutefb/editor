@@ -3,9 +3,9 @@
   {
    "account": "MarioNawfal",
    "text": "🇺🇸🇮🇷 Jonathan Swan: Trump wants out of this war\n\nIf Trump really believed he had won, he wouldn't have quietly sent Vance, Witkoff and Kushner to negotiate an exit.\n\nThat's what Jonathan Swan watches; actions, not statements. The public line is total victory. The behaviour says a",
-   "likes": 137,
-   "rts": 33,
-   "cmts": 22,
+   "likes": 153,
+   "rts": 37,
+   "cmts": 23,
    "views": 0,
    "time": "Fri Sep 11 19:34:17 +0000 2026",
    "url": "https://x.com/MarioNawfal/status/2098495364672180502",
@@ -16,32 +16,32 @@
  "threads": [
   {
    "account": "choi.openai",
+   "text": "주소 :\nhttps://developers.openai.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1789174858,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DdKwdT4gUHd",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "GPT-6 Astra를 사용한다면, 꼭 참고해보세요.\n\n오픈AI가 GPT-6 Astra에 맞춰 Skills, AGENTS.md, 작업 프롬프트를 다시 정리하라고 권장했습니다.\n\n예를 들어 “DB 관련 작업이면 항상 migration skill 사용”보다 “migration 추가·변경·검토 때만 사용”처럼 조건을 좁히는 방식입니다.\n\nAGENTS.md도 오타 하나 고치는데 architecture.md, database.md, deployment.md를 전부 읽게 하지 말고 필요한 문서만 보게 하라고 합니다. Astra는 테스트도 알아서 수행하는 편이라 예전 모델용 지침이 오히려 작업을 늘릴 수 있고요.\n\n또 첫 구현 뒤 멈추는 경우가 있어 “실행→오류 확인→수정→재실행까지 완료”처럼 끝나는 기준을 미리 적는 것이 좋다고 합니다.",
+   "likes": 3,
+   "cmts": 1,
+   "time": 1789174846,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/805958872_17986705464112832_544805928864361757_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk4NDIwOTg0MTM5NTcwMjk5Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuOTU5LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=ABymcvyWbYwQ7kNvwF0meya&_nc_oc=AdoiOldAOsr0nk_r5AdgoeTfs1pRTAuignZdecQsqRCwZne0EI6-YVtjC__JCnxOqkM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=gt-E8XAnhcf2IDhLjTDp7w&_nc_ss=7a22e&oh=00_AQJKDFcSejzsco4ZmNRuNEz_4y_dmpr_9E2WcPiwgqQaPA&oe=6AAA8551",
+   "url": "https://www.threads.com/@choi.openai/post/DdKwb3TAZzU",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
    "text": "발표내용 :\nhttps://openai.com/index/introducing-the-agents-api/",
-   "likes": 4,
+   "likes": 5,
    "cmts": 0,
    "time": 1789169461,
    "thumb": "",
    "url": "https://www.threads.com/@choi.openai/post/DdKmKkBCZT6",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "이제 Codex 같은 에이전트를 직접 구축하는 데 필요한 기반을 API 하나로 가져다 쓸 수 있게 됐습니다.\n\n오픈AI가 Codex에서 사용하는 에이전트 실행 구조를 그대로 가져온 Agents API를 공개했습니다.\n모델과 작업, 도구, 실행 환경만 지정하면 GPT-6 Astra 기반 에이전트를 클라우드에서 실행할 수 있습니다.\n\n에이전트는 파일을 다루고 코드를 실행하며, MCP나 외부 도구를 사용하고 여러 Subagent에게 작업을 나눠 동시에 처리할 수도 있습니다. 몇 시간 이상 이어지는 작업을 위한 컨텍스트 관리도 자동으로 처리합니다.\n\n오픈AI가 샌드박스를 직접 제공하지만 Cloudflare, Vercel, Modal 등 외부 환경이나 자체 인프라도 연결할 수 있습니다.\n\nAI 에이전트를 직접 서비스에 넣는 과정이 훨씬 쉬워지고 있습니다.",
-   "likes": 27,
-   "cmts": 3,
-   "time": 1789169454,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/805729347_2136832286945964_9138526161494275943_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk4NDE2NDYwNzk2NjY2MTcwNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=FIJbVyZD31EQ7kNvwGeUhna&_nc_oc=AdrD8e6SLVkhgMf93SHCAgP-KdEJdjxJX_A7gaJtOgvRI4uOxEF7MIJSCye7a-OQo5Q&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=gJkrfSQWABFFCNbJ5clQKA&_nc_ss=7a22e&oh=00_AQJ7U2lZ5LLebr1XKeakeZtFG2oVotQzzkgIOrPT0TJLbQ&oe=6AAA8180",
-   "url": "https://www.threads.com/@choi.openai/post/DdKmJoYiUxK",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "내용 :\nhttps://epoch.ai/frontiermath",
-   "likes": 2,
-   "cmts": 0,
-   "time": 1789164074,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DdKb46Kilae",
    "region": "kr"
   },
   {
@@ -57,7 +57,7 @@
   {
    "account": "kopp",
    "text": "spent hours fine tuning the motion on this dropdown. really happy how it turned out.",
-   "likes": 130,
+   "likes": 144,
    "cmts": 4,
    "time": 1789142526,
    "thumb": "http://static.cdninstagram.com/rsrc.php/null.jpg",
@@ -72,16 +72,6 @@
    "time": 1789123292,
    "thumb": "",
    "url": "https://www.threads.com/@kopp/post/DdJOGo4CCrz",
-   "region": "kr"
-  },
-  {
-   "account": "takepage_",
-   "text": "Astra는 반드시 Sol과 사용하세요\n\nmedium, xhigh로 서브에이전트 없이 사용도 해봤고\n서브에이전트로 Luna max 도 붙혀보았고,\nchat과 협업하는 브릿지 구조로도 사용해보았습니다.\n\n하지만 가장 토큰 효율이 잘 나오는 건 \nAstra xhigh + Sol medium 같습니다.\n\nLuna max에게는 Astra의 지시가 버거운 느낌이 있습니다.\n재작업을 하거나 결과물이 만족스럽지 않은 적이 많았죠.\n\n근데 서브에이전트를 Sol medium으로 올리니\nAstra와 서로 어느정도 대화가 되는 느낌이고\n맡은 임무를 매우 꼼꼼히 잘 진행하는 느낌입니다.\n\n가장 중요한 건 luna max보다\n토큰 효율이 체감상 더 좋은 것 같습니다!",
-   "likes": 46,
-   "cmts": 6,
-   "time": 1789103225,
-   "thumb": "",
-   "url": "https://www.threads.com/@takepage_/post/DdIn1E9k3-y",
    "region": "kr"
   },
   {
@@ -100,18 +90,8 @@
    "likes": 0,
    "cmts": 1,
    "time": 1789097491,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/804365093_18086624795407306_6643590475262408984_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk4MzU2MDg3NDExMjU3NDk1OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=HX0Y-NkLY-IQ7kNvwFJm1XW&_nc_oc=AdrGD8b8QrcU_wRwd7LyARtRVdkXKbJXNV_9L1WCeeU7vRloS_iP64zzTYfnBHy5ghk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=BGRSQc3KVK9c8_GRWvpRig&_nc_ss=7a22e&oh=00_AQL5zJZYPkl8b28xjyvINd7r2j5ImU4-6CQ7CBIS6erFQw&oe=6AAA54A1",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/804365093_18086624795407306_6643590475262408984_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk4MzU2MDg3NDExMjU3NDk1OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=HX0Y-NkLY-IQ7kNvwFJm1XW&_nc_oc=AdrGD8b8QrcU_wRwd7LyARtRVdkXKbJXNV_9L1WCeeU7vRloS_iP64zzTYfnBHy5ghk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=MSm9JtBEYKWyS_BkSgA2Jw&_nc_ss=7a22e&oh=00_AQKC8MAupXh0iT5d7nJy4iMr9kr7mHvx_hpJjMhL8qHRkQ&oe=6AAA8CE1",
    "url": "https://www.threads.com/@aipeekme/post/DdIc4Jan-Xv",
-   "region": "kr"
-  },
-  {
-   "account": "takepage_",
-   "text": "혹시나 x20 pro 망설이다 못지르신 분들\n한국은 카카오 우회로 아직 가능하다고 합니다!\n\n기존 계정으로 시도해보고 안되면 \n신규 계정으로는 가능하다고 합니다!",
-   "likes": 8,
-   "cmts": 11,
-   "time": 1789095664,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/803826156_17936234433362958_5393386789684375920_n.webp?_nc_cat=105&ig_cache_key=Mzk4MzU0NTYxMjU0OTQyODYwMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNTkxLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=Qnocn5SAyu4Q7kNvwEks_Gc&_nc_oc=Adr0MdV9TLqHase53C-gIYMluys8Dp6-8UgCCTYJVK4Vyzh7yp5JGeddQIKzZ7Z9AKs&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=w6pEJdGbz81V11_hihuwrw&_nc_ss=7a22e&oh=00_AQJejopvAjqf6PGvkI_2LPqifbn9C8JGZmGsDNsFPs9I9A&oe=6AAA678D",
-   "url": "https://www.threads.com/@takepage_/post/DdIZaD-kxV6",
    "region": "kr"
   },
   {
@@ -126,21 +106,21 @@
   },
   {
    "account": "choi.openai",
-   "text": "AI가 FrontierMath Tier 4의 모든 문제를 풀었습니다.\n\n2025년 7월 공개 당시 최고 점수는 5%였지만, 14개월도 안 돼 98%까지 올라갔는데요. 마지막까지 남았던 Jay Pantone의 문제를 GPT-6 Astra가 해결하면서 Epoch AI는 해당 벤치마크가 사실상 포화됐다고 평가했습니다.\n\nTier 4는 수학 교수와 박사후연구원들이 만든 연구 수준의 난제로, 한 문제를 전문가가 며칠간 풀어야 할 정도입니다.\n\n특히 이전 문제들은 AI가 예상치 못한 지름길을 찾았다는 평가도 있었지만 마지막 문제는 그런 방식이 통하지 않았다고 합니다.",
-   "likes": 15,
-   "cmts": 1,
-   "time": 1789164054,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/804646280_17986623570112832_8506772949890171348_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk4NDExOTI5MDcwOTg2NzUwNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=tMcqJkzgNBMQ7kNvwH4dBEs&_nc_oc=Adpms-p2cSstk7poMIWm6ITrrvdtVCjTMKwi5EVLyVx7YQjRfCoJIN3FUycSz_ubAvE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=gJkrfSQWABFFCNbJ5clQKA&_nc_ss=7a22e&oh=00_AQJ2G7IN51VggYTKCzBpDxuGJJ3w3AElJa_fuo04rzyoiw&oe=6AAA62AE",
-   "url": "https://www.threads.com/@choi.openai/post/DdKb2d1irbS",
+   "text": "이제 Codex 같은 에이전트를 직접 구축하는 데 필요한 기반을 API 하나로 가져다 쓸 수 있게 됐습니다.\n\n오픈AI가 Codex에서 사용하는 에이전트 실행 구조를 그대로 가져온 Agents API를 공개했습니다.\n모델과 작업, 도구, 실행 환경만 지정하면 GPT-6 Astra 기반 에이전트를 클라우드에서 실행할 수 있습니다.\n\n에이전트는 파일을 다루고 코드를 실행하며, MCP나 외부 도구를 사용하고 여러 Subagent에게 작업을 나눠 동시에 처리할 수도 있습니다. 몇 시간 이상 이어지는 작업을 위한 컨텍스트 관리도 자동으로 처리합니다.\n\n오픈AI가 샌드박스를 직접 제공하지만 Cloudflare, Vercel, Modal 등 외부 환경이나 자체 인프라도 연결할 수 있습니다.\n\nAI 에이전트를 직접 서비스에 넣는 과정이 훨씬 쉬워지고 있습니다.",
+   "likes": 36,
+   "cmts": 4,
+   "time": 1789169454,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/805729347_2136832286945964_9138526161494275943_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk4NDE2NDYwNzk2NjY2MTcwNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=FIJbVyZD31EQ7kNvwGeUhna&_nc_oc=AdrD8e6SLVkhgMf93SHCAgP-KdEJdjxJX_A7gaJtOgvRI4uOxEF7MIJSCye7a-OQo5Q&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=gt-E8XAnhcf2IDhLjTDp7w&_nc_ss=7a22e&oh=00_AQLnmUXAVr76c6XxeP8S5_vlTSG7oBSQ4McnIKhkrguW6g&oe=6AAA8180",
+   "url": "https://www.threads.com/@choi.openai/post/DdKmJoYiUxK",
    "region": "kr"
   },
   {
    "account": "kopp",
    "text": "i love Higgsfield but couldn’t justify the price, so i built my own image generation playground for GPT-Image-2.5 + other models.\n\n- uses your own ChatGPT subscription\n- bring your own API keys for other models\n- chat with it naturally\n- it automatically optimizes your prompts\n- generates multiple variations at once\n\ncompletely free + open source ↓",
-   "likes": 65,
+   "likes": 69,
    "cmts": 10,
    "time": 1789123283,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/803827949_2173084356946056_8709311686220170328_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk4Mzc3NzE1Mzc3NDM0MDcxOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=3wNSTkYSlGMQ7kNvwFXTSN0&_nc_oc=AdqgHRekD8HFNhw-_aFJCL-v3A0QKwFbP4u4s2OxixysgnoN_W6OlrxOpt4KeZUK0Pk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=xtseJY_AUW9fTB71tKSPSQ&_nc_ss=7a22e&oh=00_AQL--AdTHoWzPant8nY0N6x1dVe75s6sq8olLVZWAmhb7A&oe=6AAA841D",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/803827949_2173084356946056_8709311686220170328_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk4Mzc3NzE1Mzc3NDM0MDcxOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMyIn0%3D&_nc_ohc=3wNSTkYSlGMQ7kNvwFXTSN0&_nc_oc=AdqgHRekD8HFNhw-_aFJCL-v3A0QKwFbP4u4s2OxixysgnoN_W6OlrxOpt4KeZUK0Pk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=O9cTVsHW2aP8JE54ri3YAQ&_nc_ss=7a22e&oh=00_AQI_detV_FAivHMyrdJfSjpJJLVMm980xyTP5TfxbUnYyw&oe=6AAA841D",
    "url": "https://www.threads.com/@kopp/post/DdJODbjCUpv",
    "region": "kr"
   },
@@ -150,18 +130,18 @@
    "likes": 0,
    "cmts": 1,
    "time": 1789090282,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/803725127_18086605727407306_4896343013860199631_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk4MzUwMDQwMDYwMzk0MzA2NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=xXSkL_nZQ8IQ7kNvwG55Dsr&_nc_oc=AdrsAsO9weTfBscNMqfz5R960n-nN53So5riyPHo10Bhx9t_YKxNPttHh5XbJxz8WKs&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=BGRSQc3KVK9c8_GRWvpRig&_nc_ss=7a22e&oh=00_AQJpmLjL-8esAQHqA7qkn_XBbnk2EdV6jhDQepmTAdBLOg&oe=6AAA85A1",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/803725127_18086605727407306_4896343013860199631_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk4MzUwMDQwMDYwMzk0MzA2NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=xXSkL_nZQ8IQ7kNvwG55Dsr&_nc_oc=AdrsAsO9weTfBscNMqfz5R960n-nN53So5riyPHo10Bhx9t_YKxNPttHh5XbJxz8WKs&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=MSm9JtBEYKWyS_BkSgA2Jw&_nc_ss=7a22e&oh=00_AQI322RPMpGen41lhjTCmZLThpfG83syfP2Ua0TIM7aFOg&oe=6AAA85A1",
    "url": "https://www.threads.com/@aipeekme/post/DdIPIJEn9CY",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "발표내용 :\nhttps://cursor.com/ko/cursorbench",
+   "text": "내용 :\nhttps://epoch.ai/frontiermath",
    "likes": 2,
    "cmts": 0,
-   "time": 1789158661,
+   "time": 1789164074,
    "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DdKRkKmDJa8",
+   "url": "https://www.threads.com/@choi.openai/post/DdKb46Kilae",
    "region": "kr"
   },
   {
@@ -186,12 +166,12 @@
   },
   {
    "account": "choi.openai",
-   "text": "Cursor가 더 어려워진 코딩 벤치마크 CursorBench 4.0을 공개했습니다.\n\n지시를 얼마나 잘 따르는지, 긴 프로젝트를 얼마나 안정적으로 수행하는지를 더 많이 보도록 바뀌면서 모든 모델 점수가 내려갔는데요.\n\nFable 5.1이 가장 높은 성능을 보였고, Muse Spark 1.3은 GPT-5.6 Sol과 비슷한 성능을 내면서 비용은 40% 이하라는 평가를 받았습니다.\n\nGrok 4.6은 이전보다 낮아졌고 GPT-6 Astra는 이번 평가에 포함되지 않았습니다.",
-   "likes": 16,
-   "cmts": 2,
-   "time": 1789158654,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/803926508_17986623036112832_4841788190911632950_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk4NDA3NDAxNzA5MDYyODE1Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjAyOC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=a9Banfop5S8Q7kNvwHvqq_T&_nc_oc=Adq5nbo5JFEaqYiti4oaYqSWNkbwytk4K3TZlI9IkSG7t9o0cj8eoZetx30yr4Pva_M&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=gJkrfSQWABFFCNbJ5clQKA&_nc_ss=7a22e&oh=00_AQLI-SSStjr_6Au7es24sOjFtbXHoCQXm3ZrztVUulFlPw&oe=6AAA8446",
-   "url": "https://www.threads.com/@choi.openai/post/DdKRjXDjOo5",
+   "text": "AI가 FrontierMath Tier 4의 모든 문제를 풀었습니다.\n\n2025년 7월 공개 당시 최고 점수는 5%였지만, 14개월도 안 돼 98%까지 올라갔는데요. 마지막까지 남았던 Jay Pantone의 문제를 GPT-6 Astra가 해결하면서 Epoch AI는 해당 벤치마크가 사실상 포화됐다고 평가했습니다.\n\nTier 4는 수학 교수와 박사후연구원들이 만든 연구 수준의 난제로, 한 문제를 전문가가 며칠간 풀어야 할 정도입니다.\n\n특히 이전 문제들은 AI가 예상치 못한 지름길을 찾았다는 평가도 있었지만 마지막 문제는 그런 방식이 통하지 않았다고 합니다.",
+   "likes": 17,
+   "cmts": 1,
+   "time": 1789164054,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/804646280_17986623570112832_8506772949890171348_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk4NDExOTI5MDcwOTg2NzUwNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=tMcqJkzgNBMQ7kNvwH4dBEs&_nc_oc=Adpms-p2cSstk7poMIWm6ITrrvdtVCjTMKwi5EVLyVx7YQjRfCoJIN3FUycSz_ubAvE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=gt-E8XAnhcf2IDhLjTDp7w&_nc_ss=7a22e&oh=00_AQLISRYJzc4PvWkUahaEjsFFsff7d_oxob5d-TVCvZgIAw&oe=6AAA62AE",
+   "url": "https://www.threads.com/@choi.openai/post/DdKb2d1irbS",
    "region": "kr"
   },
   {
@@ -210,129 +190,39 @@
    "likes": 0,
    "cmts": 1,
    "time": 1789089366,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/804647427_18086603918407306_7623257383248932571_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk4MzQ5MjcxNTc0OTgxNzcyMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=XeVvMXtAUi0Q7kNvwGyH7i1&_nc_oc=AdqNY-Ni4I94P-D3q2q_xO6bKzpWnZPdnwE_Jyy_jueXk4y1fLixeANb_FEpkWfwfNA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=BGRSQc3KVK9c8_GRWvpRig&_nc_ss=7a22e&oh=00_AQL4-91RbTCoMiaGQI1pFIwgdI5HlLtbvNiQ5dYO9tMxPw&oe=6AAA6C1D",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/804647427_18086603918407306_7623257383248932571_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk4MzQ5MjcxNTc0OTgxNzcyMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=XeVvMXtAUi0Q7kNvwGyH7i1&_nc_oc=AdqNY-Ni4I94P-D3q2q_xO6bKzpWnZPdnwE_Jyy_jueXk4y1fLixeANb_FEpkWfwfNA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=MSm9JtBEYKWyS_BkSgA2Jw&_nc_ss=7a22e&oh=00_AQLGpF3hE59U07qySAWKd_tvCOI9V0AF1Sj-qppSqzmt1w&oe=6AAA6C1D",
    "url": "https://www.threads.com/@aipeekme/post/DdINYT_n714",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "발표내용 :\nhttps://cursor.com/ko/cursorbench",
+   "likes": 2,
+   "cmts": 0,
+   "time": 1789158661,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DdKRkKmDJa8",
+   "region": "kr"
+  },
+  {
+   "account": "kopp",
+   "text": "parallax + dragging is the best combo.\r\n\r\njust dropped in the vault.",
+   "likes": 109,
+   "cmts": 4,
+   "time": 1789105783,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/803504748_1252989360287955_4884142926445009402_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk4MzYzMDI2ODA0OTM3MTQ5Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMyIn0%3D&_nc_ohc=ZFSKTILAuxwQ7kNvwHQJB0p&_nc_oc=Ado2qJh6BD4y1K8akJGbt424n-xq0ruJC1HXab-_qJl2gMqtx5KtD2sJoZcSjfdD6bs&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=O9cTVsHW2aP8JE54ri3YAQ&_nc_ss=7a22e&oh=00_AQLrmJtypZ6ionRtIOLVbM8FTPxeAz6ozDUbHrw1rZiebw&oe=6AAA793E",
+   "url": "https://www.threads.com/@kopp/post/DdIsp9jk7Fp",
    "region": "kr"
   }
  ],
  "tiktok": [
   {
-   "account": "jaemyung_lee",
-   "title": "이번 정류장은 아르헨티나입니다🇰🇷🇦🇷 #이재명 #대통령 #argentina #buenosaireststheerastour",
-   "views": 1600000,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAbAoCECNeDAVDgQBcAkFzYBfoUADqQCQWIuZl~tplv-tiktokx-origin.image?dr=14575&x-expires=1789344000&x-signature=V0aLaubCBld%2BfSXB4Uig5apoGJc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
-   "time": 1785471372,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7668541152869616914",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "Aux Champs-Élysées #이재명 #France #macron #fyp",
-   "views": 565800,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0CGAI6ooFCAPECAEqED63ffIARmgNxjBUg0zR~tplv-tiktokx-origin.image?dr=14575&x-expires=1789344000&x-signature=b4pKyb9mD9ZPAzh7iPYomUqFGRM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
-   "time": 1788879730,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7683179938026900754",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "¡Gusto en conocerte, Argentina! 🇰🇷🤝🇦🇷 #이재명 #아르헨티나 #argentina #javiermilei",
-   "views": 504200,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o43E0EJDgKsBeuyFfnqRBCAvI1sAAbI2NsPlIc~tplv-tiktokx-origin.image?dr=14575&x-expires=1789344000&x-signature=aGDlrVDVMQ0pTmmizzk8oYE9EhA%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
-   "time": 1785519099,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7668746136877812999",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "이번 정류장은 칠레입니다🇰🇷🇨🇱 #이재명 #대통령 #Chile #Corea",
-   "views": 382500,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQpDHATAEBzAIGFgqwDA4hofdRfVCsCaqEBIkL~tplv-tiktokx-origin.image?dr=14575&x-expires=1789344000&x-signature=ICs1XGsdxlvIGd%2Bgw2%2F%2BCQAJGAc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
-   "time": 1785365622,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7668086960883354887",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "우리 국민의 구조에 모든 역량을 총동원하겠습니다  #네팔 #긴급회의 #prayfornepal",
-   "views": 299100,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4ECXepekgFVLDAPQbcqjSdGAIaIofEozvI9Qh~tplv-tiktokx-origin.image?dr=14575&x-expires=1789344000&x-signature=bpAiGbzvpo449y%2Fbyy3P8UQawcg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
-   "time": 1787831518,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7678677903122369800",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "프랑크푸르트에 도착했습니다🇰🇷🇩🇪 #이재명 #deutschland #frankfurt",
-   "views": 292600,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1789344000&x-signature=F4xfZkOYulTs4yeC2VkWuBWG7Bs%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
-   "time": 1785656353,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7669335640793763079",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "다녀오겠습니다 🇫🇷 🎬 뤼미에르 서밋 2026.09.06.~07. 🇫🇷 국빈방문 2026.09.07.~09. #이재명 #France #SommetLumière",
-   "views": 142600,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0IAB7tvQACi105Ea6znpBOc0ViIPUiYBqIYi~tplv-tiktokx-origin.image?dr=14575&x-expires=1789344000&x-signature=l78t8YEjQ96uSl%2FVijhd%2Fs3y%2FTU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
-   "time": 1788662081,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7682245141595229448",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "새로운 영감과 끝없는 도전을 위해 🇰🇷🇫🇷 뤼미에르 서밋 레디, 액션 #Korea #France #Lumiere",
-   "views": 30400,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIqB6INciK7CI3iw10LAp5vfZO6IAlCTdIAI06~tplv-tiktokx-origin.image?dr=14575&x-expires=1789344000&x-signature=V2VASWqEwQuYeHzBRIB%2FGyA1zts%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
-   "time": 1788733294,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7682551001663982855",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "Bonjour, Lumière #France #lumière #fyp",
-   "views": 30100,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okJSEtbnglnRAQHtqOQ1UIFeETBEUtfhBKGkDV~tplv-tiktokx-origin.image?dr=14575&x-expires=1789344000&x-signature=bYagyB9%2B69NVIyapi2yUN7gtSWI%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
-   "time": 1788795259,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7682817137672555794",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "빛으로 담아내는, 제7의 예술🎥",
-   "views": 20500,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oMMIdnnHDI6bTifTAPFDcDRbtBfWqzBIEDgvEo~tplv-tiktokx-origin.image?dr=14575&x-expires=1789344000&x-signature=QD7758EkecSlkzGe52FYaTma%2FXM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
-   "time": 1789031851,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7683833293816614151",
-   "region": "kr"
-  },
-  {
    "account": "tictok_ent",
    "title": "김소현, 청순미 끝판왕 / 바이레도(BYREDO) 포토월 #김소현 #바이레도 #BYREDO",
-   "views": 9881,
+   "views": 10000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAAYwu5rDQFVKF9CAOFAUlVvFCfeqABIE3gtCo~tplv-tiktokx-origin.image?dr=14575&x-expires=1789344000&x-signature=eBfjfdcAnAc49iAv92j7Ft69RjU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAAYwu5rDQFVKF9CAOFAUlVvFCfeqABIE3gtCo~tplv-tiktokx-origin.image?dr=14575&x-expires=1789347600&x-signature=ec2l4Aba0fDpdRSjAY2FwslNjLw%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789041590,
    "url": "https://www.tiktok.com/@tictok_ent/video/7683875122704403720",
    "region": "kr"
@@ -340,25 +230,104 @@
   {
    "account": "tictok_ent",
    "title": "트와이스(twice) 나연, 향기보다 더 달콤한 미소 / 바이레도(BYREDO) 포토월 #트와이스 #twice #나연 #바이레도 #BYREDO",
-   "views": 3148,
+   "views": 3154,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4ipwUBAAI1AiCPBUKfBKXgMMwgG4XBEAiAy5E~tplv-tiktokx-origin.image?dr=14575&x-expires=1789344000&x-signature=uE9xX3w1sElQaryjsIE2cPmSMGg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4ipwUBAAI1AiCPBUKfBKXgMMwgG4XBEAiAy5E~tplv-tiktokx-origin.image?dr=14575&x-expires=1789347600&x-signature=n2ApJ4d01rLOe2jz4xi%2BbF%2F4vaY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789041591,
    "url": "https://www.tiktok.com/@tictok_ent/video/7683875128492444936",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "전소미, 독보적인 비주얼 / 바이레도(BYREDO) 포토월 #전소미 #바이레도 #BYREDO",
+   "views": 1796,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooKvAi4ALxBAOi3qgaUIIlJEAih4CSAlsAYA2~tplv-tiktokx-origin.image?dr=14575&x-expires=1789347600&x-signature=3oj2cQCHJQse8eil3ZxWgweCzrw%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "time": 1789041592,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7683875132170898695",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "제로베이스원(ZEROBASEONE) 성한빈, 청량한 미소에 심쿵 / 바이레도(BYREDO) 포토월 #제로베이스원 #ZEROBASEONE #성한빈 #바이레도 #BYREDO#",
+   "views": 1178,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oILPARGAAgVALK5HYoeEr2pfeUCkgcEEAIDEQQ~tplv-tiktokx-origin.image?dr=14575&x-expires=1789347600&x-signature=lHeNtNzJiUj7%2FnpCBoeo0jZZDgM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "time": 1789041593,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7683875134419062024",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "이수혁, 누가봐도 GD친구 / 바이레도(BYREDO) 포토월 #이수혁 #바이레도 #BYREDO",
+   "views": 1154,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oACopEGIDHAEuC4lgEfQAbAAwFeWAqBCIxiVWi~tplv-tiktokx-origin.image?dr=14575&x-expires=1789347600&x-signature=28%2Byixvjed4MCy%2B%2FEmcGkfh9VFU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "time": 1789041594,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7683875140878388487",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "트와이스(twice) 지효, 상큼한 미소 / 헬리녹스(Helinox) 웨어 포토월 #트와이스 #twice #지효 #헬리녹스 #Helinox",
+   "views": 1070,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/owqAU1iKNC0EmAFVeB7IVk1AAoC5gvfCqZZDE2~tplv-tiktokx-origin.image?dr=14575&x-expires=1789347600&x-signature=4YXYUikIhZImY9t4xRcq5wg9eCg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "time": 1789027972,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7683816631440641297",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "더보이즈(TheBoyz) 주연, 향기로운 가을 남자 / 바이레도(BYREDO) 포토월 #더보이즈 #TheBoyz #주연 #바이레도 #BYREDO",
+   "views": 1066,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/owBNEAOIA1i3rAALZAv4qCAliKavqgYogiqIl~tplv-tiktokx-origin.image?dr=14575&x-expires=1789347600&x-signature=8TsECMR5YHr3KgSwK9oQTJ52YcU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "time": 1789041592,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7683875129268522247",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "이종원, 쑥스러움은 못참아 / 바이레도(BYREDO) 포토월 #이종원 #바이레도 #BYREDO",
+   "views": 1019,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o84cVDI2EADCAeAeE5CEE9FiGoFJrR4ErAMPfA~tplv-tiktokx-origin.image?dr=14575&x-expires=1789347600&x-signature=3v91sOwo%2BSE8danwoEt0Dq08Qns%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "time": 1789041593,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7683875133706161416",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "황민현, 완벽한 남친상 / 헬리녹스(Helinox) 웨어 포토월 #황민현 #헬리녹스 #Helinox",
+   "views": 1006,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oEAQgEwAVXlIqAyfEAGoFmegzIlDCCFjU3NB6t~tplv-tiktokx-origin.image?dr=14575&x-expires=1789347600&x-signature=yronATvjhVXNV4SRtZpRrjel%2B30%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "time": 1789027810,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7683815935769201937",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "임시완, 변함없는 동안 비주얼 / 바이레도(BYREDO) 포토월 #임시완 #바이레도 #BYREDO",
+   "views": 327,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oso4NAAI1CApRoQiBxiiwBBoBUAKUHAIEwfzKX~tplv-tiktokx-origin.image?dr=14575&x-expires=1789347600&x-signature=oTOCwZ3g4v8uIzMDsXnHd9BUaxo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "time": 1789041590,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7683875123740593416",
    "region": "kr"
   }
  ],
  "reddit": [
-  {
-   "sub": "MaliciousCompliance",
-   "title": "My landlord told me to go ahead and report her to the city, it did not go as planned",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "",
-   "time": 1789159612,
-   "url": "https://www.reddit.com/r/MaliciousCompliance/comments/1wds9vf/my_landlord_told_me_to_go_ahead_and_report_her_to/"
-  },
   {
    "sub": "FavoriteCharacter",
    "title": "Favorite obscure Character",
@@ -369,49 +338,13 @@
    "url": "https://www.reddit.com/r/FavoriteCharacter/comments/1wdjdd4/favorite_obscure_character/"
   },
   {
-   "sub": "interestingasfuck",
-   "title": "Fake notice on London Underground mocks people wearing smart glasses",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/oimc78vikyoh1.jpeg?width=640&crop=smart&auto=webp&s=8f485589d0840a8db99297e46dc8fb14533d85ba",
-   "time": 1789161824,
-   "url": "https://www.reddit.com/r/interestingasfuck/comments/1wdt8q2/fake_notice_on_london_underground_mocks_people/"
-  },
-  {
-   "sub": "mildlyinteresting",
-   "title": "I took apart the washer and found all my missing socks.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/zir91uvqmyoh1.jpeg?width=640&crop=smart&auto=webp&s=bc9a95e5a74a976f524b808fab93a23fb505301a",
-   "time": 1789162518,
-   "url": "https://www.reddit.com/r/mildlyinteresting/comments/1wdtje8/i_took_apart_the_washer_and_found_all_my_missing/"
-  },
-  {
-   "sub": "pics",
-   "title": "[OC] Cost of having a baby in Canada after spending three days in the hospital",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/f9fg9r6u4yoh1.jpeg?width=640&crop=smart&auto=webp&s=26df7061b3248d65188c145610cdfa5533063aa5",
-   "time": 1789156495,
-   "url": "https://www.reddit.com/r/pics/comments/1wdqvw6/oc_cost_of_having_a_baby_in_canada_after_spending/"
-  },
-  {
-   "sub": "funny",
-   "title": "Short film about hope",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/bXBnMTYxem9peW9oMZig_Bfax0wicPNF_CxNHQWb4TGF4zEYVKwPvEGF8Eav.png?width=640&crop=smart&auto=webp&s=4c2fa5d1cbb6346dd27633802f48d0ef6be6bd9b",
-   "time": 1789161154,
-   "url": "https://www.reddit.com/r/funny/comments/1wdsyna/short_film_about_hope/"
-  },
-  {
    "sub": "PoursTea",
-   "title": "🤔",
+   "title": "'The Daily Show' said it best...",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/dv1jmzdizxoh1.jpeg?width=640&crop=smart&auto=webp&s=4904be65c7b6ba3b2e3b1392f3e2e2a3181defa2",
-   "time": 1789154703,
-   "url": "https://www.reddit.com/r/PoursTea/comments/1wdq2nb/_/"
+   "thumb": "https://preview.redd.it/cawfzcebyyoh1.jpeg?width=640&crop=smart&auto=webp&s=f0e65b29549b54139ebe90c7156489c5d3ed91a7",
+   "time": 1789166409,
+   "url": "https://www.reddit.com/r/PoursTea/comments/1wdv4us/the_daily_show_said_it_best/"
   },
   {
    "sub": "okbuddycinephile",
@@ -421,6 +354,24 @@
    "thumb": "https://preview.redd.it/fdb4nfmrzxoh1.jpeg?width=320&crop=smart&auto=webp&s=3bc9fd0b31b57dbdaeee0ed622392e35809af1ce",
    "time": 1789154789,
    "url": "https://www.reddit.com/r/okbuddycinephile/comments/1wdq434/favorite_underrated_quote_by_an_overrated_director/"
+  },
+  {
+   "sub": "MaliciousCompliance",
+   "title": "My landlord told me to go ahead and report her to the city, it did not go as planned",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1789159612,
+   "url": "https://www.reddit.com/r/MaliciousCompliance/comments/1wds9vf/my_landlord_told_me_to_go_ahead_and_report_her_to/"
+  },
+  {
+   "sub": "mildlyinteresting",
+   "title": "I took apart the washer and found all my missing socks.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/zir91uvqmyoh1.jpeg?width=640&crop=smart&auto=webp&s=bc9a95e5a74a976f524b808fab93a23fb505301a",
+   "time": 1789162518,
+   "url": "https://www.reddit.com/r/mildlyinteresting/comments/1wdtje8/i_took_apart_the_washer_and_found_all_my_missing/"
   },
   {
    "sub": "BlackPeopleofReddit",
@@ -441,6 +392,15 @@
    "url": "https://www.reddit.com/r/technology/comments/1wd8dnz/dating_apps_are_dying/"
   },
   {
+   "sub": "funny",
+   "title": "Short film about hope",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/bXBnMTYxem9peW9oMZig_Bfax0wicPNF_CxNHQWb4TGF4zEYVKwPvEGF8Eav.png?width=640&crop=smart&auto=webp&s=4c2fa5d1cbb6346dd27633802f48d0ef6be6bd9b",
+   "time": 1789161154,
+   "url": "https://www.reddit.com/r/funny/comments/1wdsyna/short_film_about_hope/"
+  },
+  {
    "sub": "videogames",
    "title": "Insomniac's Wolverine automatically completes quick time events for the players if they miss them",
    "score": 0,
@@ -450,6 +410,15 @@
    "url": "https://www.reddit.com/r/videogames/comments/1wdhnhw/insomniacs_wolverine_automatically_completes/"
   },
   {
+   "sub": "pics",
+   "title": "I just finished this mural in Knoxville (OC).",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/8keaersvkyoh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=10884d4544803bf29983731cae4a967960a9c647",
+   "time": 1789161895,
+   "url": "https://www.reddit.com/r/pics/comments/1wdt9tj/i_just_finished_this_mural_in_knoxville_oc/"
+  },
+  {
    "sub": "WhatIsTheTea",
    "title": "8:46 AM. 25 years ago today. Never forget",
    "score": 0,
@@ -457,54 +426,77 @@
    "thumb": "https://external-preview.redd.it/enBrbjIzNDFid29oMQaEkDxNHK5mnEKk_qPfjDzgfckDnEZG32si9x3YcDI1.png?width=640&crop=smart&auto=webp&s=2851a34abecbe7bff4f548c9d4c7e841cd68068a",
    "time": 1789134374,
    "url": "https://www.reddit.com/r/WhatIsTheTea/comments/1wdgrv2/846_am_25_years_ago_today_never_forget/"
+  },
+  {
+   "sub": "me_irl",
+   "title": "Me_irl",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/rvq4ncwbiwoh1.jpeg?width=640&crop=smart&auto=webp&s=45b7d6f6597a22db0a59593d1b10dc651f95e0de",
+   "time": 1789136830,
+   "url": "https://www.reddit.com/r/me_irl/comments/1wdhu6e/me_irl/"
   }
  ],
  "disaster": [],
  "_cover": {
   "ok": {
+   "x": [
+    "64bitcoinkr",
+    "awaken_eyes",
+    "economysniper0",
+    "freedom_73x",
+    "globalbrief_now",
+    "jajaja7878uu",
+    "kyunghyang",
+    "marionawfal"
+   ],
    "threads": [
     "aicoffeechat",
     "aipeekme",
     "choi.openai",
     "daily_ai_star",
     "kopp",
-    "promppy_com",
-    "takepage_"
+    "promppy_com"
    ],
    "tiktok": [
-    "jaemyung_lee",
     "tictok_ent"
    ]
   },
   "why": {
    "insta": {
-    "koreadispatch": "stuck",
-    "bts.bighitofficial": "stuck",
-    "blackpinkofficial": "stuck",
-    "newjeans_official": "stuck",
-    "aespa_official": "stuck",
-    "jennierubyjane": "stuck",
-    "xxxibgdrgn": "stuck",
-    "hm_son7": "stuck",
-    "sbsnow_insta": "stuck",
-    "mnet_official": "stuck",
-    "openai": "stuck",
-    "runwayapp": "stuck",
-    "pika_labs": "stuck",
-    "lumalabsai": "stuck",
-    "midjourney": "stuck",
     "klingai_official": "stuck",
     "heygen_official": "stuck",
     "higgsfield.ai": "stuck",
     "googledeepmind": "stuck",
-    "cristiano": "stuck"
+    "cristiano": "stuck",
+    "koreadispatch": "rotate",
+    "bts.bighitofficial": "rotate",
+    "blackpinkofficial": "rotate",
+    "newjeans_official": "rotate",
+    "aespa_official": "rotate",
+    "jennierubyjane": "rotate",
+    "xxxibgdrgn": "rotate",
+    "hm_son7": "rotate",
+    "sbsnow_insta": "rotate",
+    "mnet_official": "rotate",
+    "openai": "rotate",
+    "runwayapp": "rotate",
+    "pika_labs": "rotate",
+    "lumalabsai": "rotate",
+    "midjourney": "rotate"
+   },
+   "threads": {
+    "takepage_": "alien"
+   },
+   "tiktok": {
+    "jaemyung_lee": "err"
    }
   },
   "landing": {
-   "at": "2026-09-12T09:01:22",
+   "at": "2026-09-12T09:31:19",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-09-12T09:31:16.595086+09:00"
+ "updated": "2026-09-12T10:05:42.721633+09:00"
 }
