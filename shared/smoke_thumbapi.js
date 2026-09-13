@@ -48,6 +48,11 @@ const MOD = path.resolve(__dirname, '..', 'functions', 'api', 'thumb.js');
     ['C7 [가드 생존] 연도 없음 = 400', CR('', '노뮤트', 'threads'), 'err'],
     ['C8 [가드 생존] 연도 비숫자(--raw 혼동 차단) = 400', CR('--raw', 'x', 'y'), 'err'],
     ['C9 [가드 생존] 알 수 없는 app = 400', { app: '9', params: {} }, 'err'],
+    ['C10 묶음키 에코(260913) = src.bid·bi 가 응답에 실린다(진행 중 원장이 형제 id를 한 잡으로 합치는 단서)',
+      { app: '2', params: { mode: 'overlay', lines: ['*강조* 자막'], opas: [60] }, src: { app: '2', lbl: '릴스 OPA60', bid: 'mtz926re-fb3k', bi: 1 } }, 'ok',
+      (p, body) => (body.bid === 'mtz926re-fb3k' && body.bi === 1 && body.lbl === '릴스 OPA60') ? '' : 'bid/bi 에코 소실: ' + JSON.stringify({ bid: body.bid, bi: body.bi, lbl: body.lbl })],
+    ['C11 [가드 생존] 묶음키 형식 위반(공백·따옴표) = 에코 안 함', { app: '3', params: { fmt: 'reels', year: '2026', name: '', platform: '' }, src: { app: '3', bid: 'bad key"', bi: 99 } }, 'ok',
+      (p, body) => (body.bid === undefined && body.bi === undefined) ? '' : '위생 실패: ' + JSON.stringify({ bid: body.bid, bi: body.bi })],
   ];
 
   let fail = 0;
@@ -56,7 +61,7 @@ const MOD = path.resolve(__dirname, '..', 'functions', 'api', 'thumb.js');
     let why = '';
     if (want === 'err') { if (r.status !== 400) why = '400 기대인데 ' + r.status; }
     else if (r.status !== 200 || !r.params) why = '발사 실패 ' + r.status + ' ' + JSON.stringify(r.body).slice(0, 90);
-    else if (extra) why = extra(r.params) || '';
+    else if (extra) why = extra(r.params, r.body) || '';   // body = 응답 JSON(에코 검사용 · C10)
     console.log((why ? 'FAIL' : 'PASS') + ' | ' + name + (why ? ' | ' + why : ''));
     if (why) fail = 1;
   }

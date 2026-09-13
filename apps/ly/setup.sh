@@ -15,6 +15,7 @@ python3 -c "import faster_whisper" 2>/dev/null || timeout 300 pip3 install -q fa
 # ⚠ 평의회8 F — site-packages 캐시는 `bin/yt-dlp` 콘솔 스크립트를 안 담아 `command -v`가 **매 런 무조건 실패**했다
 #   (워크플로는 `python3 -m yt_dlp`로만 부르므로 콘솔 스크립트는 애초에 안 쓴다) → import 판정으로 교체 = 캐시 히트 시 pip 0.
 python3 -c "import yt_dlp" 2>/dev/null || timeout 180 pip3 install -q yt-dlp
+python3 -c "import PIL" 2>/dev/null || timeout 120 pip3 install -q pillow   # 포스터 JPEG q90(ly_burn poster_jpg → thumb_gen.to_jpg90) — 260913 실측 = 러너에 PIL 부재라 정규화가 매 런 폴백(PNG 원본)이었다 · import 판정 = 캐시 히트 시 pip 0(위 두 줄 동형)
 
 # 작업 경로 (Claude Code 임시 파일 — 러너선 /tmp 사용하므로 실패해도 무방)
 mkdir -p /home/claude 2>/dev/null || true

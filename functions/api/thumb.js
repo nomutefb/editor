@@ -238,7 +238,9 @@ export async function onRequestPost(context) {
       // /3 저작권 = 이름(variant 태그) · /4 경고문 = variant 없음(잡 라벨 '경고문 (포맷)'로 구분)
       outs = [{ path: `${dir}/out.png`, label: app === '3' ? (params.name || '') : '' }];
     }
-    const _lbl = (body.src && typeof body.src.lbl === 'string' && body.src.lbl.trim()) ? body.src.lbl.trim().slice(0, 80) : '';   // 발사 이름표 에코(260818 운영자 «그 기기의 내용이 쓰여졌으면») — 진행 중 원장(putLive)이 응답만 읽으므로 여기 실어야 다른 기기 합류분이 '제작' 대신 실제 이름을 단다 · 원천 = 뷰어 payload.src.lbl(5300행 · 이미 오던 값 = 새 입력 0)
-    return json({ ok: true, id, out: outs[0].path, outs, ...(_lbl ? { lbl: _lbl } : {}), ...(dispatched ? {} : { via: 'r2-queue', note: failNote.slice(0, 200) }) });   // 발사 성공 시 큐 회수 훅 = 관문 공통 자리로 이관(functions/_middleware.js · 260820 형제 이식 — 레인별 사본 0)
+    const _lbl = (body.src && typeof body.src.lbl === 'string' && body.src.lbl.trim()) ? body.src.lbl.trim().slice(0, 80) : '';
+    const _bid = (body.src && typeof body.src.bid === 'string' && /^[A-Za-z0-9-]{1,40}$/.test(body.src.bid)) ? body.src.bid : '';   // 묶음키 에코(260913) — 배치(헤더+자막)는 요청마다 작업 id가 따로라, 진행 중 원장(_middleware putLive)이 이 값을 실어야 다른 기기가 형제 id 2개를 **한 잡**으로 합친다(구판 = 낱개 2잡 · 발사 기기에서는 중복 잡의 원인) · 원천 = 뷰어 payload.src.bid(dispatchBatch · 이미 오던 값 = 새 입력 0)
+    const _bi = (body.src && Number.isInteger(body.src.bi) && body.src.bi >= 0 && body.src.bi < 16) ? body.src.bi : null;   // 묶음 안 순서(헤더 0 · 자막 1) = 합류 순서   // 발사 이름표 에코(260818 운영자 «그 기기의 내용이 쓰여졌으면») — 진행 중 원장(putLive)이 응답만 읽으므로 여기 실어야 다른 기기 합류분이 '제작' 대신 실제 이름을 단다 · 원천 = 뷰어 payload.src.lbl(5300행 · 이미 오던 값 = 새 입력 0)
+    return json({ ok: true, id, out: outs[0].path, outs, ...(_lbl ? { lbl: _lbl } : {}), ...(_bid ? { bid: _bid } : {}), ...(_bi != null ? { bi: _bi } : {}), ...(dispatched ? {} : { via: 'r2-queue', note: failNote.slice(0, 200) }) });   // 발사 성공 시 큐 회수 훅 = 관문 공통 자리로 이관(functions/_middleware.js · 260820 형제 이식 — 레인별 사본 0)
   }
 }

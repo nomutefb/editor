@@ -288,7 +288,7 @@ def poster_jpg(mp4_bytes):
         subprocess.run(["ffmpeg", "-y", "-v", "error", "-ss", "0.1", "-i", tmpv, "-frames:v", "1",
                         "-vf", "scale='min(640,iw)':-2", tmpp], check=True, timeout=120)   # 0.1s = 페이드인 첫 검은 프레임 회피 · 640 상한 = 타일 실측 최대 178.7px의 여유 배수(원본이 더 작으면 그대로)
         with open(tmpp, "rb") as f:
-            return tg.to_jpg90(f.read())
+            return tg.to_jpg90(f.read())[0]   # ⚠ to_jpg90 = (bytes, ext, content_type) 3튜플 — 구판은 튜플째 반환해 r2_upload가 「bytes-like object is required, not 'tuple'」로 매 런 죽었다(260913 실측 run 34736090066 · 260810 도입 이래 poster가 video.json에 실린 적 0 = 타일이 영상 본체를 받던 그 낭비 그대로) · 러너 PIL 부재면 원본 PNG 바이트(fail-soft · 브라우저 <img>는 확장자 무관 디코드)
     except Exception as e:
         print("::warning::포스터 생성 실패(타일은 플레이트로 강등·무해):", str(e)[:140]); return None
     finally:
