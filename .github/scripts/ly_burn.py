@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # 영상 자막 번인(자동 합성) + 편집기 컴포지터 — 자막 ASS 번인·무음 컷·배경음 제거에 더해 편집기(edit) 축
-#   {vid_ar/vid_fit(크롭·검정 여백·블러 여백[blur = 원본 블러 확대 배경 패드 · 260711])·vid_res(src=원본 4K 캡 3840·1080·720 — 결측 1920)·vid_fps(60i 보간·다운)·vid_t0/t1(트림 — 자막·컷과 동시 = 조각·word·스팬 동행 리맵 260711)·aud_norm(음량 통일)}을
+#   {vid_ar/vid_fit(크롭·검정 여백·블러 여백[blur = 원본 블러 확대 배경 패드 · 260711])·vid_res(src=원본 무캡 · 사다리 720/1080/2k/4k = 긴 변 목표 · 결측 = QHD 이하 원본 유지·4K급만 1920 — 260913)·vid_fps(60i 보간·다운)·vid_t0/t1(트림 — 자막·컷과 동시 = 조각·word·스팬 동행 리맵 260711)·aud_norm(음량 통일)}을
 #   한 ffmpeg 파이프로 합성해 R2 업로드 → viewer/ly_out/<id>/video.json. 편집기 축 전부 결측 = 종전 ly 경로 그대로(회귀 0 · 260710).
 #   4K(운영자 260711): 4K급 = 캔버스 픽셀 > FHD 2배(긴 변 판별은 세로 1080×2340을 오분류 = 평의회4 교체) → EDIT_4K_MAX_SEC(180초) 선게이트 + 60i 보간 제외.
 #   enc 백스톱 = 픽셀 비례(FHD 900s → 4K 2400s 캡) · 다운스케일은 note로 표면화(침묵 금지 — FHD 자막 경로는 종전 무note = 표면 회귀 0).
@@ -25,6 +25,10 @@
 #   발화 진행 곡선에 자막 어절을 글자 진행률로 투영 = 침묵·속도변화 반영(구 글자수 균등 분배 대체). word 없으면 글자수 비례 폴백(회귀 0).
 #   원문 모드(자막≈STT)=거의 정확 · 의역 모드=진행률 근사(균등보다 우수). segments.json word를 시간 겹침으로 subs 세그에 주입.
 # 키워드 강조색 = 콘텐츠 브랜드 형광그린 #0FFD02(릴스 오버레이 GREEN 계승 · UI 팔레트와 별개 축 = §핵심명령 3-b-1).
+# 색 정합(260913): 러너 ffmpeg 6.1 `ass` 필터는 자막 RGB→YUV 를 BT.601 고정 변환 → 자막 합성 구간만 **원본 매트릭스로 RGB 왕복**(ass_chain) ·
+#   출력 -colorspace 태그 동봉 · 오버레이 webm 도 RGBA 캔버스 + 709 변환. 영상 자체는 같은 매트릭스 왕복 = 무손상(PSNR 53dB대 실측).
+# 줄박스(260913): box 모양 = 박스 레이어(layer 0 · 글자 투명 · 런 1개 = 박스 1장)와 글자 레이어(layer 1 · \bord0\shad0)로 분리 —
+#   강조(\1c)·팝(\fscx)·카라오케(\kf)가 런을 쪼개도 박스는 한 장 그대로(계단·줄무늬·부풀기 0) · 강조 복귀는 \r(전체 리셋) 아닌 \1c 글자색.
 import json
 import math
 import os
@@ -61,6 +65,16 @@ REPO_FONT_KEYS = {"paper"}   # 레포 동봉 축(assets/fonts/subs) — 새 깃 
 GIT_FALLBACK_MAX = 30 * 1024 * 1024   # R2 미설정 시 git 커밋 상한(레포 비대 방지)
 MAX_DUR = 600                    # 릴스/쇼츠 도구 — 10분 초과 영상은 번인 거절(러너 시간 보호)
 OVL_MAX_SEC = 600                # 자막 오버레이(투명 WebM) 산출 상한 — VP9 알파 인코딩 예산 보호(운영자 260731 · 릴스/쇼츠 주사용 ≤ 수 분이라 실사용 전량 커버)
+
+
+def default_cap(cw, ch):
+    """해상도 미지정(결측)일 때의 긴 변 상한 px — 0 = 상한 없음(원본 유지).
+    (260913 · 운영자 "HD 로 강제 다운그레이드 안 되고 유지되면서 자막 넣는 방법") — 구본은 자막 단독 경로 = **폭 1080**,
+    편집 축 동반 경로 = 긴 변 1920 이 무조건 상한이라 폰 원본 1440×2560(QHD) 이 매번 1080×1920 으로 내려갔고 note 도 없었다
+    (가로 FHD 1920×1080 은 자막 단독 경로에서 1080×608 까지 · run 34744684907 실측 = 1440×2560 HLG → 1080×1920).
+    새 규칙 = FHD 픽셀 2배(4K급) 초과만 1920 으로 내리고(러너 인코딩 예산 · 종전 4K 동작과 동일 = 그때만 note) 그 이하(FHD·QHD·2K)는
+    **원본 그대로**. 4K 원본을 그대로 두려면 해상도 카드 '원본'(vid_res=src · EDIT_4K_MAX_SEC 180초 게이트)."""
+    return 1920 if cw * ch > 2 * 2073600 else 0
 
 
 def req_span(opts, dur):
@@ -341,6 +355,48 @@ def probe(path):
     return w, h, dur
 
 
+_SWS_CSP = {"bt709": "bt709", "bt2020nc": "bt2020", "bt2020c": "bt2020", "smpte170m": "smpte170m",
+            "bt470bg": "bt470bg", "fcc": "fcc", "smpte240m": "smpte240m"}   # ffprobe color_space → swscale 매트릭스 이름
+
+
+def probe_color(path):
+    """영상 색 메타(매트릭스·레인지) — 자막 합성 색공간 정합용(260913). 실패·미지 = ('', '')."""
+    try:
+        r = subprocess.run(["ffprobe", "-v", "error", "-select_streams", "v:0",
+                            "-show_entries", "stream=color_space,color_range", "-of", "json", path],
+                           capture_output=True, text=True, timeout=60)
+        st = (json.loads(r.stdout or "{}").get("streams") or [{}])[0]
+        return str(st.get("color_space") or ""), str(st.get("color_range") or "")
+    except Exception:
+        return "", ""
+
+
+def sub_matrix(csp, rng, w, h):
+    """자막 합성에 쓸 (swscale 매트릭스, 레인지, 출력 -colorspace 태그).
+    원본 태그가 있으면 그대로(bt709 · bt2020nc(HLG 폰 원본) 등) · 없으면 HD(긴 변 ≥1280) = bt709 · SD = smpte170m(재생기 기본 추정과 동형).
+    ⚠ 왕복의 in/out 은 반드시 같은 매트릭스 — 영상 픽셀은 그래야 제자리로 돌아온다(자막 색만 그 매트릭스로 인코딩)."""
+    key = (csp or "").lower()
+    m = _SWS_CSP.get(key)
+    tag = key if m else ("bt709" if max(w or 0, h or 0) >= 1280 else "smpte170m")
+    m = m or tag
+    r = "pc" if (rng or "").lower() in ("pc", "jpeg", "full") else "tv"
+    return m, r, tag
+
+
+def ass_chain(ass_path, matrix="bt709", rng="tv"):
+    """자막 번인 필터 체인 — **RGB 왕복**으로 자막 색을 영상 매트릭스에 정합(260913 · 운영자 "강조색이 이미지 그린이 아니라 더 어둡다").
+    ⚠ 러너 ffmpeg 6.1.1(ubuntu-24.04 apt)의 `ass`/`subtitles` 필터는 자막 RGB→YUV 를 **BT.601 고정**으로 변환한다
+      (vf_subtitles.c `ff_draw_init(&ass->draw, inlink->format, …)` = 색공간 미지정 → drawutils 기본 SMPTE170M · 7.0 부터
+      `ff_draw_init2(…, inlink->colorspace, inlink->color_range, …)`). 폰 영상(BT.709 · HLG BT.2020)은 재생기가 그 매트릭스로
+      되돌리므로 그린 #0FFD02 가 화면에선 약 (0,216,0) 으로 어두워졌다(로컬 6.1.1 실측 YUV 148/53/41). ASS 헤더 `YCbCr Matrix` 는 이 필터가 읽지 않는다.
+    → 영상을 **원본 매트릭스로** RGB(gbrp)로 풀고 → ass(RGB 직접 합성 = 매트릭스 무관) → **같은 매트릭스로** 다시 YUV.
+      영상 자체는 같은 매트릭스 왕복이라 무손상(실측 PSNR 53.7dB · 4:2:0 크로마 재표본뿐) · 자막 색 = 재생 시 (15,252,2) 실측.
+      비용 ≈ +3ms/프레임@1080p(gbrp · bicubic+accurate_rnd+full_chroma) · 어느 ffmpeg 버전에서도 결과 동일(7.x 도 정합 유지)."""
+    fl = "flags=bicubic+accurate_rnd+full_chroma_int+full_chroma_inp"
+    return ("scale=in_color_matrix={m}:in_range={r}:{f},format=gbrp,ass={p},"
+            "scale=out_color_matrix={m}:out_range={r}:{f},format=yuv420p").format(m=matrix, r=rng, f=fl, p=ass_path)
+
+
 def load_segs(outdir):
     # subs.json = {"segs":[{"s","e","ko","src"?}]} (의역·*별표* 키워드) / segments.json = {"segs":[{"s","e","t"}]}
     p = os.path.join(outdir, "subs.json")
@@ -573,7 +629,7 @@ def cut_xfade(keeps, ujoints=(), uw=0.0):
     return ",volume=eval=frame:volume='{}'".format(env)
 
 
-def cut_filter(keeps, audio, mid, ass_path, asrc="[0:a]", ass_on=True, ujoints=(), uw=0.0):
+def cut_filter(keeps, audio, mid, ass_path, asrc="[0:a]", ass_on=True, ujoints=(), uw=0.0, ass_vf=None):
     # 단일 패스 select+setpts 시프트 — trim+concat 팬아웃은 브랜치 버퍼링으로 keep 10개에 피크 RSS 4.7GB 실측
     # (러너 7GB OOM 위험 · 평의회8) → select가 한 패스에서 갭 프레임만 드롭 = 메모리 O(1).
     # new_pts = t − (그 keep 앞 제거 누적) = cut_remap과 동일 사상 → 자막·영상·오디오 드리프트 구조적 0(VFR 포함 · 평의회1).
@@ -606,7 +662,7 @@ def cut_filter(keeps, audio, mid, ass_path, asrc="[0:a]", ass_on=True, ujoints=(
         #   ⚠ volume은 **loudnorm 앞**이 정본(재검② 260728 되돌림): loudnorm 통과 프레임은 19200샘플@192kHz = **100ms**라, 뒤에 두면 `volume=eval=frame` 분해능이 21ms→100ms로 무너져
         #     이음매마다 100ms 완전 묵음이 뚫린다(로컬 실측: 3.00~3.09 게인 0.00). '틱' 억제하려다 더 큰 드롭아웃을 만드는 역효과.
         #     평의회⑧이 우려한 "loudnorm이 딥을 되메움"은 실측에서 재현되지 않았다(딥 깊이 0.0242 vs 레퍼런스 0.0236 = 차이 무의미).
-    tail = ((mid + ",") if mid else "") + ("ass={}".format(ass_path) if ass_on else "")
+    tail = ((mid + ",") if mid else "") + ((ass_vf or "ass={}".format(ass_path)) if ass_on else "")   # ass_vf = 색 정합 왕복 체인(ass_chain · 260913) · 결측 = 종전 ass 직결
     chain = (tail.rstrip(",") + fades) if tail else (fades.lstrip(",") or "null")
     parts.append("[vs]" + chain + "[vo]")   # mid = 편집기 지오메트리(크롭·스케일·fps·패드) — 컷 시간축 뒤에 적용 · **디졸브(fades)를 ass 뒤로** = 자막도 함께 어두워짐(평의회⑧ 260728 실측: 앞에 두면 이음매 최심부에서 배경만 검고 자막은 255 순백으로 떠 이음매를 되레 지목했다) · 덤으로 스케일 뒤라 eq 픽셀 비용도 감소
     return "\n".join(parts)
@@ -813,14 +869,19 @@ def prep_line(text, seg_dur, keyword, fs, avail_px, seg_words=None):
     return words, hits, cs_list, lines, eff_fs
 
 
-def _word(w, green, eff_fs, fs, bounce=False):
-    # 어절 1개 렌더 — 그린 강조면 \1c + \r(축소 조각은 \fs 재적용 짝가드)
+def _word(w, green, eff_fs, fs, bounce=False, fg="&HFFFFFF&"):
+    # 어절 1개 렌더 — 강조 어절 = \1c 강조색 → 뒤에서 \1c 글자색(fg)으로 **색만** 복귀.
+    #   ⚠ 구본은 `{\r}`(스타일 전체 리셋)로 복귀했다 — 260812 줄 선두 박스 태그(\ybord0\xshad0\yshad)·글로우(\blur)가 강조 어절
+    #     뒤에서 통째로 풀려 그 뒤 글자들의 박스 상단이 pad 만큼 솟았고(실측 540×960 fs48: 윗변 679→672 = 7px 계단), 강조 위치가
+    #     옮겨갈 때마다 그 계단이 따라 움직였다(운영자 260913 "강조 들어갈 때마다 배경이 조금씩 튀어나온다"). 지금은 박스가 별도
+    #     레이어라 글자 태그가 박스에 닿지 않지만, 획·그림자 모양의 글로우도 같은 \r 에 풀리므로 색 복귀로 통일한다.
+    #     \fs 재적용 짝가드도 \r 이 \fs 를 되돌리던 것의 보정이라 함께 소거(색 복귀는 \fs 를 건드리지 않는다 · eff_fs/fs 인자는 호출부 호환용).
     #   bounce = 툭 튀어나오기(운영자 260810) — 그 어절만 잠깐 커졌다 제자리(\fscx/\fscy + \t) · 되돌림 태그로 뒤 어절 무오염
     pre = ("{\\fscx" + str(POP_SCALE) + "\\fscy" + str(POP_SCALE) +
            "\\t(0," + str(POP_MS) + ",\\fscx100\\fscy100)}") if bounce else ""
     post = "{\\fscx100\\fscy100}" if bounce else ""
     if green:
-        return pre + "{\\1c" + KW["c"] + "}" + w + "{\\r" + ("" if eff_fs == fs else "}{\\fs" + str(eff_fs)) + "}" + post   # 강조색 = KW 슬롯(260711 kwc)
+        return pre + "{\\1c" + KW["c"] + "}" + w + "{\\1c" + (fg or "&HFFFFFF&") + "}" + post   # 강조색 = KW 슬롯(260711 kwc) · 복귀 = 글자색 슬롯(\r 금지)
     return pre + w + post
 
 
@@ -836,9 +897,10 @@ def build_line(text, seg_dur, karaoke, keyword, fs, avail_px, seg_words=None, ka
     #     「아직 안 지난 글자 = 자막 글자색(\2c) · 지나간 글자 = 강조색(\1c)」로 두 슬롯을 줄 앞에서 바꿔 끼운다.
     #     구본은 두 슬롯을 안 건드려 스타일 SecondaryColour(회록 &HB8C4BE)에서 흰색으로 밝아지기만 했다 = 강조색이 안 나옴.
     #     키워드 어절은 \r(스타일 복귀)로 이 두 슬롯이 풀리므로 여기선 \r 대신 \2c 만 잠깐 강조색으로 바꿔 쓴다.
+    #   반환 4번째 = **태그 없는 평문 배치**(같은 청킹·\N·\fs) = 박스 레이어(layer 0) 원료(260913 — 색·타이밍 태그 0 = libass 런 1개 = 박스 1장)
     prep = prep_line(text, seg_dur, keyword, fs, avail_px, seg_words)
     if not prep:
-        return "", 0, fs
+        return "", 0, fs, ""
     words, hits, cs_list, lines, eff_fs = prep
     fg = kara_fg or "&HFFFFFF&"
     rendered = []
@@ -847,28 +909,30 @@ def build_line(text, seg_dur, karaoke, keyword, fs, avail_px, seg_words=None, ka
             seg = "{\\kf" + str(cs_list[k]) + "}"
             rendered.append(seg + ("{\\2c" + KW["c"] + "}" + w + "{\\2c" + fg + "}" if hits[k] else w))
         else:
-            rendered.append(_word(w, hits[k], eff_fs, fs))
+            rendered.append(_word(w, hits[k], eff_fs, fs, False, fg))
     body = _assemble(rendered, lines, eff_fs, fs)
     if karaoke:
         body = "{\\1c" + KW["c"] + "}{\\2c" + fg + "}" + body
-    return body, len(lines), eff_fs
+    return body, len(lines), eff_fs, _assemble(list(words), lines, eff_fs, fs)
 
 
-def build_pop_frames(text, seg_dur, keyword, fs, avail_px, seg_words=None, bounce=False):
+def build_pop_frames(text, seg_dur, keyword, fs, avail_px, seg_words=None, bounce=False, fg=None):
     # 어절 점등 모드: 발화 중인 어절만 강조색 점등 — 어절 시간창마다 라인 전체를 다시 그린 이벤트 프레임 목록.
     #   창 경계 = \kf와 동일한 글자수 비례 분배(진짜 발화 싱크 = Whisper word 타임스탬프 후속) · 키워드(*별표*)는 전 창 상시 그린.
     #   레이아웃(청킹·축소·줄수)은 프레임 간 동일 → 박스·위치 픽셀 불변 = 창 전환 시 어절 색만 바뀜(깜빡임 0).
     #   bounce=False = 자막 스타일 「강조」(운영자 260810 "딱딱 끊어져서 딱 말하고 있는 그 지점에 강조") · True = 「툭 튀어나오기」(색 + 크기 튐)
+    #   fg = 글자색 슬롯(강조 어절 뒤 색 복귀 · 260913) · 반환 4번째 = 태그 없는 평문 배치(박스 레이어 원료 · build_line 과 동형)
     prep = prep_line(text, seg_dur, keyword, fs, avail_px, seg_words)
     if not prep:
-        return [], 0, fs
+        return [], 0, fs, ""
     words, hits, cs_list, lines, eff_fs = prep
+    fgc = fg or "&HFFFFFF&"
     frames, off = [], 0   # (시작 오프셋 cs, 길이 cs, ASS 텍스트)
     for cur in range(len(words)):
-        rendered = [_word(w, k == cur or hits[k], eff_fs, fs, bounce and k == cur) for k, w in enumerate(words)]
+        rendered = [_word(w, k == cur or hits[k], eff_fs, fs, bounce and k == cur, fgc) for k, w in enumerate(words)]
         frames.append((off, cs_list[cur], _assemble(rendered, lines, eff_fs, fs)))
         off += cs_list[cur]
-    return frames, len(lines), eff_fs
+    return frames, len(lines), eff_fs, _assemble(list(words), lines, eff_fs, fs)
 
 
 def pos_pct(opts):
@@ -915,6 +979,17 @@ def lead_trim(s, e, words):
     if e - new_s < LEAD_MIN_DUR:
         return s, words                       # 남는 표시 구간이 너무 짧다 = 번쩍임 → 포기
     return new_s, (ws[cut:] if cut else words)
+
+
+def _box_lines(plain, hp, alpha_hex):
+    """박스 레이어 줄별 태그(260913) — 여러 줄일 때 **마지막 줄만** pad/2 그림자 트릭(아랫변 + pad), 앞 줄들은 [어센트, 디센트] 박스 자체.
+    libass 줄 전진 = fs = 어센트+디센트(LINE_F 1.0 실측)라 앞 줄 박스 아랫변과 다음 줄 박스 윗변이 **정확히 맞닿는다**(겹침 0·틈 0) —
+    전 줄에 그림자 트릭을 걸면 앞 줄 그림자(디센트+pad)가 다음 줄 박스 위로 pad 만큼 겹쳐 반투명 배경에 줄 사이 진한 띠가 남는다(실측 1,822px)."""
+    parts = plain.split("\\N")
+    if len(parts) <= 1:
+        return plain
+    return ("{\\ybord0\\yshad0\\3a&H" + alpha_hex + "&}" + "\\N".join(parts[:-1])
+            + "\\N{\\ybord" + str(hp) + "\\yshad" + str(hp) + "\\3a&HFF&}" + parts[-1])
 
 
 def build_ass(segs, w, h, opts):
@@ -972,15 +1047,20 @@ def build_ass(segs, w, h, opts):
     except (TypeError, ValueError):
         glow = 0.0
     glow_tag = ("{\\blur%.1f}" % (fs * 0.0025 * glow)) if glow > 0 else ""   # ScaledBorderAndShadow yes 전제(헤더 상수) — 외곽선(bg=0)·줄박스(bg>0) 가장자리를 가우시안 번짐
-    # ── 줄박스 **상단만** 깎기(운영자 260812 "글자 상단의 영역이 좀 두터워 · 좀 더 깎아줘 · 상단만 그럼 하단은 아니고")
-    #   ⚠ 원인은 패딩이 아니라 **폰트 세로 여백**이다 — 박스 높이는 글리프의 어센트~디센트 기준이고, 한글은 라틴 어센더 높이를
-    #     안 쓰므로 글자 윗변 위로 빈 칸이 남는다(실측 fs67: 위 23 / 아래 16 / 좌우 9 = 위가 아래보다 7px 두껍다).
-    #     그래서 패딩(pad 게이지)을 줄이면 **위아래가 같이** 줄어 하단이 먼저 사라진다 = 상단만 못 깎는다.
-    #   → 세로 패딩만 0으로 죽이고(\ybord0 = 위아래 동시 −pad) 하단은 **아래로만 드리운 그림자**로 되돌린다(\xshad0\yshad<pad>).
-    #     그림자는 BorderStyle 3에서 박스를 그대로 복제해 오프셋하므로 색·알파가 박스와 같다 = 아래로 연장한 것과 같은 그림.
-    #     실측(fs67 · pad 6.7): 현행 위23/아래16/좌우9 → 적용 후 **위17 / 아래16 / 좌우9**(상단만 6px 감소 · 나머지 축 불변).
-    #   가로 패딩(\xbord)은 손대지 않는다 = 좌우 여백 종전 그대로. box가 아닌 모양엔 태그 자체를 안 붙인다(렌더 바이트 동일).
-    box_tag = ("{\\ybord0\\xshad0\\yshad%s}" % ass_px(fs * pad)) if shtype == "box" else ""
+    # ── 줄박스 = **별도 레이어**(260913 · 운영자 "강조 들어갈 때마다 배경이 조금씩 튀어나온다" 봉합) ──
+    #   ⚠ 한 이벤트 안에서 글자색(\1c 강조)·크기(\fscx 팝)·카라오케(\kf)가 바뀌면 libass 는 그 지점마다 **런(run)을 쪼개** 런마다 박스를
+    #     따로 그린다 → ① 런 경계에서 박스가 xbord 폭만큼 겹쳐 반투명 배경에 진한 줄무늬(2~4중 합성 실측 · 강조 어절 양옆에서 따라다님)
+    #     ② 팝 어절은 박스도 12% 부풀고 ③ 260812 「상단만 깎기」 태그(\ybord0\xshad0\yshad pad)는 박스+그림자 겹침으로 배경 전면이
+    #     이중 합성(44% 게이지 → 실측 69%)이었고 ④ 강조 어절 뒤 \r 이 그 태그를 풀어 박스 윗변이 어절마다 pad 만큼 계단졌다(운영자 지목 증상).
+    #   → 박스는 **layer 0 이벤트 하나**(글자 투명 · 색/크기/타이밍 태그 0 = 런 1개 = 박스 1장), 글자는 **layer 1**(\bord0\shad0 = 박스 없음).
+    #     박스 기하 = 260812 결정 그대로(윗변 = 글리프 어센트선 · 아랫변 = 디센트 + pad · 좌우 = pad): 세로 보더 pad/2 의 박스를 **투명**
+    #     (\3a&HFF&)으로 두고 그 **그림자**(같은 모양 · pad/2 아래로)만 보이게 = [어센트 − pad/2 + pad/2, 디센트 + pad/2 + pad/2] · 단일 합성
+    #     (실측 540×960 fs48: 박스 픽셀 100% 1중 · 윗변 727 = 종전 동일 · 프레임 간 윤곽 불변 · 글로우 \blur 는 그림자에도 번져 종전과 같이 가장자리 흐림).
+    #   box 가 아닌 모양(획·그림자·기본)은 종전 단일 이벤트 그대로(박스 자체가 없다) · 원문(dual) 줄의 얇은 박스는 글자 레이어가 종전처럼 그린다.
+    box_mode = shtype == "box"
+    _hp = ass_px(fs * pad / 2.0)
+    box_l0 = ("{\\ybord%s\\xshad0\\yshad%s\\3a&HFF&\\1a&HFF&}" % (_hp, _hp)) if box_mode else ""   # 박스 레이어 = 글자 투명 + 박스 투명 + 그림자(=박스)만
+    txt_l1 = "{\\bord0\\shad0}" if box_mode else ""                                                # 글자 레이어 = 박스·그림자 없음(색·크기·카라오케 태그 자유)
     # 자막 스타일 3택(운영자 260810 "가라오케 | 강조 | 툭 튀어나오기 · 셋 다 안 고르면 일반 자막") — 셋 다 상호배타.
     #   karaoke = 발화 진행에 맞춰 강조색이 차오름(\kf) · hi = 말하는 그 어절만 딱 점등(색만) · pop = 점등 + 크기 튐.
     #   hi·pop은 어절 창별 이벤트 분할(build_pop_frames)로 같은 골격을 쓴다 = 자막 끊는 로직(prep_line 청킹) 3택 전부 동일.
@@ -1039,18 +1119,19 @@ def build_ass(segs, w, h, opts):
         frames = None
         sw_ts = sg.get("w")   # STT word 타임스탬프(실싱크 · 없으면 None → 글자수 비례 폴백)
         s, sw_ts = lead_trim(s, e, sw_ts)   # 리드인 침묵 제거 = 자막을 소리에 붙인다(운영자 260804 · 구본은 세그 s 직결이라 최대 10.26초 선행)
+        plain_main = ""   # 태그 없는 평문 배치 = 박스 레이어 원료(260913)
         if snap and ko:
-            frames, n_main, m_fs = build_pop_frames(ko, e - s, keyword, fs, avail, sw_ts, pop)
+            frames, n_main, m_fs, plain_main = build_pop_frames(ko, e - s, keyword, fs, avail, sw_ts, pop, kara_fg)
             main = frames[0][2] if frames else ""
         else:
-            main, n_main, m_fs = build_line(ko, e - s, karaoke, keyword, fs, avail, sw_ts, kara_fg) if ko else ("", 0, fs)
+            main, n_main, m_fs, plain_main = build_line(ko, e - s, karaoke, keyword, fs, avail, sw_ts, kara_fg) if ko else ("", 0, fs, "")
         if not main and src:
-            main, n_main, m_fs = build_line(src, e - s, karaoke, False, fs, avail, sw_ts, kara_fg)   # 원문 폴백 = STT 원문이라 word 1:1 = 최상 싱크
+            main, n_main, m_fs, plain_main = build_line(src, e - s, karaoke, False, fs, avail, sw_ts, kara_fg)   # 원문 폴백 = STT 원문이라 word 1:1 = 최상 싱크
             src = ""
             frames = None
         if not main:
             continue
-        src_suf = ""
+        src_suf, src_ghost = "", ""
         block_px = n_main * m_fs * LINE_F
         if lang == "dual" and src and ko:
             sw = src.split(" ")
@@ -1071,21 +1152,31 @@ def build_ass(segs, w, h, opts):
             #   {\r} = 본선이 남긴 카라오케·팝·키워드 태그 리셋 → {\1c 흰} {\3c 검정 외곽선} {\4c 검정 그림자} {\bord 얇게} {\shad 1} {\blur0}.
             src_fx = ("{\\r}{\\fs" + str(small) + "}{\\1c&HFFFFFF&}{\\3c&H000000&}{\\4c&H000000&}{\\bord" + ("%.1f" % max(1.0, small * 0.04)) + "}{\\shad1}{\\blur0}{\\1a&H00&}{\\3a&H00&}{\\4a&H60&}")
             src_suf = "\\N" + gap_tag + src_fx + src_txt + "{\\r}"
+            src_ghost = "\\N" + gap_tag + src_fx + "{\\1a&HFF&\\3a&HFF&\\4a&HFF&}" + src_txt + "{\\r}"   # 박스 레이어용 원문 줄 = 같은 배치(줄 수·크기)에 전부 투명(원문 박스는 글자 레이어가 그린다 = 이중 없음 · 260913)
             block_px += len(src_chunks) * small * LINE_F + gap * LINE_F
         # 중앙 불변 배치(운영자 260707 "1줄/2줄 중앙점 동일선"): 하단 앵커는 위로만 자라 줄이 늘면 블록 중심이 떠오름 →
         #   초과 높이의 절반만큼 MarginV를 내려 블록 세로중심 고정(1줄 = 보정 0 = 종전·캡처 그대로). 패딩은 전 이벤트 동일이라 상쇄.
         mv_e = margin_v - int(round((block_px - ref_px) / 2))
         mv_e = min(mv_e, max(floor_v, h - int(block_px) - floor_v))   # 상단 캡 = 이벤트 블록 실측(전역 줄예산 추정보다 정밀)
         mv_e = max(floor_v, mv_e)
+        # 이벤트 방출(260913) — box 모양: 글자 = layer 1(팝/강조는 어절 창마다) · 박스 = layer 0 **조각당 1개**(전 창을 덮는 한 장 · 글자 투명)
+        #   box 아닌 모양: 종전 단일 layer 0 이벤트(글로우 태그 선두) 그대로 = 렌더 바이트 동일.
+        _lay = 1 if box_mode else 0
+        _lead = txt_l1 if box_mode else glow_tag   # box 글자 레이어엔 \blur 를 안 붙인다(보더 0 이면 \blur 가 글리프 자체를 흐린다 · 글로우는 박스 레이어 몫)
+        t_end = e
         if frames:   # 팝 = 어절 창마다 이벤트(레이아웃 동일·MarginV 동일 = 색만 이동)
+            t_end = s
             for fi, (off, dur, ftxt) in enumerate(frames):
                 fst = s + off / 100.0
                 if fst >= e - 0.004:
                     break   # 초단컷(0.05s대) 보호 — cs 하한 분배가 실구간을 넘치면 잔여 창 스킵
                 fe = e if fi == len(frames) - 1 else min(e, s + (off + dur) / 100.0)
-                lines.append("Dialogue: 0,{},{},nomute,,0,0,{},,{}".format(ass_time(fst), ass_time(fe), mv_e, glow_tag + box_tag + ftxt + src_suf))
+                t_end = max(t_end, fe)
+                lines.append("Dialogue: {},{},{},nomute,,0,0,{},,{}".format(_lay, ass_time(fst), ass_time(fe), mv_e, _lead + ftxt + src_suf))
         else:
-            lines.append("Dialogue: 0,{},{},nomute,,0,0,{},,{}".format(ass_time(s), ass_time(e), mv_e, glow_tag + box_tag + main + src_suf))
+            lines.append("Dialogue: {},{},{},nomute,,0,0,{},,{}".format(_lay, ass_time(s), ass_time(e), mv_e, _lead + main + src_suf))
+        if box_mode and t_end > s:
+            lines.append("Dialogue: 0,{},{},nomute,,0,0,{},,{}".format(ass_time(s), ass_time(t_end), mv_e, glow_tag + box_l0 + _box_lines(plain_main, _hp, back[2:4]) + src_ghost))
     return head + "\n" + "\n".join(lines) + "\n"
 
 
@@ -1119,6 +1210,8 @@ def run(vid_id, video, outdir):
         out_json(outdir, {"error": "영상 정보 읽기 실패: {}".format(str(e)[:120])}); return 0
     if not w or not h:
         out_json(outdir, {"error": "영상 스트림 없음(오디오 파일) — 자막 텍스트만"}); return 0
+    _csp, _rng = probe_color(video)
+    sub_m, sub_r, sub_tag = sub_matrix(_csp, _rng, w, h)   # 자막 합성 매트릭스 = 원본 태그(bt709 · HLG 폰 = bt2020nc) · 미지 = HD 709/SD 601(260913)
     # ── 길이 캡 = 워크플로 선게이트(edit-make.yml '길이 캡' 스텝)와 **동형**(260731 봉합) ──
     #   구 코드는 조건 없이 `dur > MAX_DUR`였고, 그것도 트림 파싱(아래 t0_req/t1_req·useg)보다 **앞**이라
     #   판정 기준이 언제나 '트림 전 원본 길이'였다. 그래서 워크플로가 방금 "구간 편집도 원본 60분까지"로
@@ -1164,7 +1257,11 @@ def run(vid_id, video, outdir):
     #   ⚠ src(원본) = **상한 없음**(구판 3840 캡) — 원본이 사다리의 기준축이고 「건드리지 마」가 그 뜻이다. 4K 캡이 필요하면 4k 칩이 그 일을 한다.
     #   하위호환: 구 저장값 '1080'·'720'은 같은 키로 남기고 값만 정정(뷰어 localStorage 잔존분이 그대로 산다).
     _RES_LADDER = {"720": 1280, "1080": 1920, "2k": 2560, "4k": 3840}
-    vid_res = dict(_RES_LADDER, src=0).get(str(opts.get("vid_res") or "")) or None   # src·미지정 = None = 종전 결측 기본(캡 1920)
+    _res_key = str(opts.get("vid_res") or "")
+    vid_res = _RES_LADDER.get(_res_key)   # 사다리 값 = 긴 변 목표 · src·미지정 = None
+    # 'src'(원본) = **상한 없음**(260913 봉합 — 구본 `dict(_RES_LADDER, src=0)… or None` 은 0 이 거짓이라 src 가 결측과 같은 캡을 탔다 =
+    #   뷰어 「원본」 칩을 눌러도 1440×2560 이 1080×1920 으로 내려갔다). 결측 = default_cap(QHD 이하 무캡 · 4K급 1920) · 4K급 그대로는 아래 180초 선게이트.
+    vid_src = _res_key == "src"
     # 「1080p」 = 상한이 아니라 **목표**(운영자 260809 "해상도를 키운다는거는 사실상 선명하게에 가까운거" · "선명하게를 별도로 넣을 필요가 있나").
     #   구판은 전 값이 상한이라 640×360에 1080p를 골라도 **640×360 그대로 나갔다**(260809 실측 · 원본·4K·720p도 전건 동일) =
     #   고른 이름과 결과가 어긋나는 자리였다. → 사다리 값 **전부 목표**로 승격한다(운영자 260809 2차):
@@ -1444,8 +1541,8 @@ def run(vid_id, video, outdir):
             cy = int(vid_pos * (h - ch)) & ~1
     cropf = "crop={}:{}:{}:{}".format(cw, ch, cx, cy) if (cw, ch) != (w, h) else ""
     pw = ph = 0
-    if has_vid:   # 편집기 경로 = conv 캡 문법(긴 변 캡·res 캡·패드 캔버스 목표비 스냅·contain) — 결측=1920 · '원본(4K)'=3840
-        cap = vid_res if vid_res else 1920
+    if has_vid:   # 편집기 경로 = conv 캡 문법(긴 변 캡·res 캡·패드 캔버스 목표비 스냅·contain) — 결측 = default_cap(QHD 이하 무캡 · 4K급 1920) · 'src' = 무캡(0)
+        cap = vid_res if vid_res else (0 if vid_src else default_cap(cw, ch))
         tw, th = cw, ch
         if pad_t:
             if cw / ch > pad_t:
@@ -1455,7 +1552,7 @@ def run(vid_id, video, outdir):
             # 캔버스를 cap에 맞춘다 — 구판은 **초과분 축소**만 했다(`>`). up은 미달분도 키워야 한다:
             #   실측 260809 = 640×360 + 9:16 패드 + up → 캔버스가 원본 폭 기준 640×1138에 머물러 k가 1.0으로 눌리고
             #   **확대가 통째로 무동작**(패드만 붙었다). 여백 경로만 조용히 안 커지는 구멍이라 눈으로는 안 잡힌다.
-            if max(pw, ph) > cap or (vid_up and max(pw, ph) < cap):
+            if (cap and max(pw, ph) > cap) or (vid_up and max(pw, ph) < cap):   # cap 0 = 무캡(원본·QHD 이하 결측)
                 if pw >= ph:
                     pw, ph = cap, max(2, int(round(cap / pad_t)) & ~1)
                 else:
@@ -1463,15 +1560,15 @@ def run(vid_id, video, outdir):
             pw, ph = max(2, pw & ~1), max(2, ph & ~1)
             k = min(pw / cw, ph / ch) if vid_up else min(pw / cw, ph / ch, 1.0)   # 목표 = 1.0 클램프 해제(캔버스를 꽉 채우게 키운다) · src·미지정 = 종전 contain 축소 전용
             tw, th = max(2, int(cw * k) & ~1), max(2, int(ch * k) & ~1)
-        elif max(cw, ch) > cap:
+        elif cap and max(cw, ch) > cap:
             k = cap / max(cw, ch)
             tw, th = max(2, int(cw * k) & ~1), max(2, int(ch * k) & ~1)
         elif vid_up and max(cw, ch) < cap:   # 목표 = 긴 변을 그 값까지 키운다 — 이미 그 값 이상이면 위 가지가 받아 축소(양방향 = 이름값 일치)
             k = cap / max(cw, ch)
             tw, th = max(2, int(cw * k) & ~1), max(2, int(ch * k) & ~1)
         tw, th = tw & ~1, th & ~1
-        if max(cw, ch) > cap and (not vid_res or vid_res == 3840):   # 침묵 다운스케일 표면화(운영자 260711 + src 초과 소스 평의회4) — 명시 1080/720 선택은 본인 선택이라 제외
-            edit_notes.append("원본 {}×{} → 긴 변 {} 축소{}".format(w, h, cap, "" if vid_res else "(4K 유지 = 해상도 카드 '원본(4K)')"))
+        if cap and max(cw, ch) > cap and (not vid_res or vid_res == 3840):   # 침묵 다운스케일 표면화(운영자 260711 + src 초과 소스 평의회4) — 명시 1080/720 선택은 본인 선택이라 제외
+            edit_notes.append("원본 {}×{} → 긴 변 {} 축소{}".format(w, h, cap, "" if vid_res else "(4K 유지 = 해상도 카드 '원본')"))
         # 「기존 → 변경」 표기(운영자 260809 "해상도가 커질경우는 기존 > 변경 이걸 알려줄 수 있어야 함") — 축소 note 문법 사본.
         #   ⚠ 안 커졌으면 안 쓴다(이미 1920 이상 소스 = 그대로 통과 = 알릴 변화가 없다 = 정직).
         #   ⚠ 1080p는 「1080으로 맞춘다」 = 작으면 키우고 **크면 줄인다**(위 축소 가지가 먼저 받는다). 줄어든 경우도 반드시 말한다 —
@@ -1480,13 +1577,13 @@ def run(vid_id, video, outdir):
         if vid_up and (pw or tw, ph or th) != (w, h):
             _big = max(pw or tw, ph or th) > max(w, h)
             edit_notes.append("해상도 — {}×{} → {}×{} {}".format(w, h, pw or tw, ph or th, "확대" if _big else "축소"))
-    else:         # 종전 ly 다운스케일 캡(비용 보호·업스케일 없음) 그대로 = 회귀 0
+    else:         # 자막 단독 경로 — 긴 변 캡 = default_cap(QHD 이하 무캡 · 4K급 1920 · 'src' = 무캡) · 업스케일 없음(260913 · 구 「폭 1080 캡」 폐지)
         tw, th = cw, ch
-        if tw > 1080:
-            th = int(round(th * 1080 / tw / 2) * 2)
-            tw = 1080
-            if cw > 1920:   # note는 2K+/4K 소스만(평의회3·10) — FHD(1920)의 일상 자막 잡은 종전대로 무note = 표면 회귀 0
-                edit_notes.append("원본 폭 {} → 1080 축소(4K 유지 = 해상도 카드 '원본(4K)')".format(cw))
+        cap = 0 if vid_src else default_cap(cw, ch)
+        if cap and max(cw, ch) > cap:
+            k = cap / max(cw, ch)
+            tw, th = max(2, int(cw * k) & ~1), max(2, int(ch * k) & ~1)
+            edit_notes.append("원본 {}×{} → 긴 변 {} 축소(4K 유지 = 해상도 카드 '원본')".format(w, h, cap))   # 4K급만 내려가므로 note 도 그때만(침묵 축소 0)
     canvas_w, canvas_h = (pw or tw), (ph or th)
     canvas_px = canvas_w * canvas_h
     # 4K급 판별 = 픽셀 수(FHD 2배 초과) — 긴 변>1920 판별은 세로 1080×2340(폰 화면녹화 2.5MP)을 4K로 오분류해 순수 자막 경로를 거절시킴(평의회4 불가 → 교체)
@@ -1544,6 +1641,8 @@ def run(vid_id, video, outdir):
     ass_path = "/tmp/ly_subs.ass"
     with open(ass_path, "w", encoding="utf-8") as f:
         f.write(ass)
+    ass_vf = ass_chain(ass_path, sub_m, sub_r)   # 자막 색 정합 왕복 체인(260913) — 번인 있을 때만 -vf 에 들어간다(자막 없는 편집 = 종전 그대로)
+    csp_out = ["-colorspace", sub_tag] if ass else []   # 6.1 scale 필터가 프레임 매트릭스 태그를 비우므로 인코더에 명시(원본 태그 그대로 · 무자막 = 종전 전파)
     out_mp4 = "/tmp/ly_subbed.mp4"
 
     tcut = ["-ss", "{:.3f}".format(trim[0]), "-t", "{:.3f}".format(trim[1])] if trim else []
@@ -1551,7 +1650,7 @@ def run(vid_id, video, outdir):
 
     def plain_cmd():
         # ⚠️ -shortest 금지: vocals가 영상보다 짧으면 영상을 절단(6.4s→5.0s 실측 회귀 · 평의회1 P1) — 영상 길이가 출력을 주도(꼬리 무음 = 무해)
-        vf = ((mid + ",") if mid else "") + ("ass={}".format(ass_path) if ass else "")
+        vf = ((mid + ",") if mid else "") + (ass_vf if ass else "")
         vf = vf.rstrip(",") or "null"   # 자막 없는 편집 경로에서 mid도 비면 무변환 통과(null) — 오디오만 손대는 조합
         # 소리 축(운영자 260810 "편집후에 음질이 엄청나게 망가지거든") — 자막 번인·비율·해상도·프레임·트림은 **그림만** 바꾼다.
         #   보컬 분리(vocals)가 걸린 경로만 소리 필터를 타므로 그때만 다시 굽고, 나머지는 원본 스트림 그대로 통과 = 재압축 0.
@@ -1560,7 +1659,7 @@ def run(vid_id, video, outdir):
         acodec = ["-c:a", "aac", "-b:a", "192k"] if vocals else audio_norm.audio_passthrough(video, "192k")
         return ["ffmpeg", "-y"] + ins + ["-vf", vf] \
             + (["-map", "0:v:0", "-map", "1:a:0", "-af", "loudnorm=I=-14:TP=-1.5:LRA=11"] if vocals else []) \
-            + ["-c:v", "libx264", "-preset", "veryfast", "-crf", "18", "-pix_fmt", "yuv420p"] \
+            + ["-c:v", "libx264", "-preset", "veryfast", "-crf", "18", "-pix_fmt", "yuv420p"] + csp_out \
             + acodec + ["-movflags", "+faststart", out_mp4]   # crf 20→18 = 재인코딩 열화 체감 개선(운영자 260722 "자르기+60프레임 하면 원본 좋아도 화질 많이 저하" · 18 = 시각적 무손실 근접 · 파일 ~1.5× · preset veryfast 유지 = 잡 시간 예산 불변 = 속도는 preset이 지배·crf는 무영향)
 
     enc_base = min(2400, int(900 * max(1.0, canvas_px / 2073600.0)))   # 백스톱 = 캔버스 픽셀 비례(x264 실단가 비례 · FHD 900 → 4K 2400 캡 · 세로 2340 = ~1015 — 이진 오분류 없음 · 평의회4)
@@ -1575,11 +1674,11 @@ def run(vid_id, video, outdir):
             if keeps:
                 fc_path = "/tmp/ly_cut.filter"
                 with open(fc_path, "w", encoding="utf-8") as f:
-                    f.write(cut_filter(keeps, aud, mid, ass_path, "[1:a]" if vocals else "[0:a]", bool(ass), ujoints, xfade_w))   # +구간 이어붙기 디졸브(260728 — 이음매 딥 페이드·오디오 V-딥)
+                    f.write(cut_filter(keeps, aud, mid, ass_path, "[1:a]" if vocals else "[0:a]", bool(ass), ujoints, xfade_w, ass_vf))   # +구간 이어붙기 디졸브(260728 — 이음매 딥 페이드·오디오 V-딥)
                 cmd = ["ffmpeg", "-y"] + ins + ["-filter_complex_script", fc_path, "-map", "[vo]"] \
                     + (["-map", "[ac]"] if aud else []) \
                     + ["-c:v", "libx264", "-preset", "veryfast", "-crf", "18", "-pix_fmt", "yuv420p",   # crf 18 = 컷(자르기)+60fps 단일패스 경로 동일 상향(운영자 260722 · plain_cmd와 동값 = 이 경로가 '자르기 후 60프레임'의 실제 인코더)
-                       "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart", out_mp4]
+                       "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart", out_mp4] + csp_out
                 ok, err = encode(cmd)
             else:
                 ok, err = encode(plain_cmd())
@@ -1638,10 +1737,13 @@ def run(vid_id, video, outdir):
         else:
             ovl_webm = "/tmp/ly_overlay.webm"
             try:
+                # (260913) 캔버스 = RGBA 로 그리고(ass 가 RGB 직접 합성) → BT.709 매트릭스로 yuva420p 변환 + -colorspace 태그
+                #   = 본 영상과 같은 색 정합(구본 = yuva420p 캔버스 위 ass = 601 변환 = 그린 (0,216,0) → 실측 (15,252,2)) · SDR 자산이라 709 고정.
+                #   format=rgba 는 소스 그래프 안(밖에 두면 color 소스가 yuv 로 먼저 협상돼 알파 소실 = 종전 ①과 같은 이유) · 알파 플레인은 swscale 이 그대로 넘긴다(실측 A=255).
                 r = subprocess.run(["ffmpeg", "-y", "-f", "lavfi",
-                                    "-i", "color=c=black@0.0:s={}x{}:r=30:d={:.3f},format=yuva420p".format(canvas_w, canvas_h, dur),
-                                    "-vf", "ass={}:alpha=1".format(ass_path),
-                                    "-c:v", "libvpx-vp9", "-pix_fmt", "yuva420p", "-auto-alt-ref", "0",
+                                    "-i", "color=c=black@0.0:s={}x{}:r=30:d={:.3f},format=rgba".format(canvas_w, canvas_h, dur),
+                                    "-vf", "ass={}:alpha=1,scale=out_color_matrix=bt709:out_range=tv:flags=bicubic+accurate_rnd+full_chroma_int,format=yuva420p".format(ass_path),
+                                    "-c:v", "libvpx-vp9", "-pix_fmt", "yuva420p", "-auto-alt-ref", "0", "-colorspace", "bt709",
                                     "-crf", "32", "-b:v", "0", "-row-mt", "1", "-cpu-used", "5", "-an", ovl_webm],
                                    capture_output=True, text=True, timeout=min(900, 180 + int(dur * 3)))   # 대부분 투명·정지 프레임 = VP9 스킵이 잘 먹어 실측 수십 초급 — 백스톱만 길이 비례
                 if r.returncode == 0 and os.path.isfile(ovl_webm) and os.path.getsize(ovl_webm) >= 1024:
