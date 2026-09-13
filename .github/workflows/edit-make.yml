@@ -27,7 +27,7 @@ on:
         type: string
         default: ''
       opts:
-        description: '편집 옵션 JSON — ly 자막 축{burn,lang,tone,filler,style,pos,size,bg,karaoke,pop,keyword,cut,cutlv,bgm,outline,pad,oc,font,dual_small} + 편집기 축{vid_ar,vid_fit(crop/pad/blur),vid_pos,vid_res,vid_fps,vid_t0,vid_t1,vid_segs([[s,e],…] n구간 이어붙기 · 260728),vid_xfade(이음매 디졸브 % · 260728),aud_norm} + 클리퍼{clip=배타 스캔: STT→구간픽→clips.json·컴포즈 스킵 · 260711} + 컷 강화{cutfill=필러 컷·take=반복 테이크 감지(claude)·cutscan=컷 미리보기 스캔(컴포즈 스킵→cuts.json)·cutref/cutoff=승인 컷 소비 · 260727}'
+        description: '편집 옵션 JSON — ly 자막 축{burn,lang,tone,filler,style,pos,size,bg,karaoke,pop,keyword,cut,cutlv,bgm,outline,pad,oc,font,dual_small} + 편집기 축{vid_ar,vid_fit(crop/pad/blur),vid_pos,vid_res,vid_fps,vid_t0,vid_t1,vid_segs([[s,e],…] n구간 이어붙기 · 260728),vid_xfade(이음매 디졸브 % · 260728),aud_norm,vid_sdr(HDR HLG/PQ → SDR 709 톤매핑 · 260913)} + 클리퍼{clip=배타 스캔: STT→구간픽→clips.json·컴포즈 스킵 · 260711} + 컷 강화{cutfill=필러 컷·take=반복 테이크 감지(claude)·cutscan=컷 미리보기 스캔(컴포즈 스킵→cuts.json)·cutref/cutoff=승인 컷 소비 · 260727}'
         type: string
         default: '{}'
       account:

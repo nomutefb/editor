@@ -43,7 +43,7 @@ export async function onRequestPost({ request, env }) {
   const o = (body.opts && typeof body.opts === 'object') ? body.opts : {};
   const num = (v, lo, hi) => (typeof v === 'number' && Number.isFinite(v)) ? Math.max(lo, Math.min(hi, v)) : null;
   const opts = {};
-  for (const k of ['burn', 'filler', 'karaoke', 'hi', 'pop', 'keyword', 'cut', 'bgm', 'aud_norm', 'clip', 'cutfill', 'take', 'cutscan']) { if (typeof o[k] === 'boolean') opts[k] = o[k]; }   // clip = 클리퍼 스캔(하이라이트 후보픽 · 260711) · cutfill=필러 컷 · take=반복 테이크 감지 · cutscan=컷 미리보기 스캔(260727)
+  for (const k of ['burn', 'filler', 'karaoke', 'hi', 'pop', 'keyword', 'cut', 'bgm', 'aud_norm', 'clip', 'cutfill', 'take', 'cutscan', 'vid_sdr']) { if (typeof o[k] === 'boolean') opts[k] = o[k]; }   // clip = 클리퍼 스캔(하이라이트 후보픽 · 260711) · cutfill=필러 컷 · take=반복 테이크 감지 · cutscan=컷 미리보기 스캔(260727)
   if (typeof o.clip_model === 'string' && ['fable', 'opus'].includes(o.clip_model)) opts.clip_model = o.clip_model;   // 클리퍼 감독 모델(fable/opus · 운영자 260722 · 배타 정규화에서 보존 → 워크플로가 CLIP_MODEL로 매핑)
   const STR = { lang: ['auto', 'ko', 'dual', 'src'], tone: ['lit', 'plain', 'sns', 'mz'],   // tone = 의역 강도 4단(운영자 260812 "직역 기본 의역 MZ어" · 기본 선택 = sns) — 여기 없는 값은 러너까지 못 가고 조용히 기본으로 떨어진다
     style: ['bold', 'clean', 'box'], cutlv: ['soft', 'std', 'hard'],
@@ -149,7 +149,7 @@ export async function onRequestPost({ request, env }) {
   else delete opts.cutscan;
   if (opts.clip === true) { for (const k of Object.keys(opts)) { if (k !== 'clip' && k !== 'clip_model') delete opts[k]; } }   // 클리퍼 = 배타 스캔 모드(후보만 뽑음 · 렌더 옵션 무시 = 서버 정규화 — 러너 스텝 게이트와 계약 일치) · clip_model은 감독 선택이라 보존
   else { delete opts.clip; delete opts.clip_model; }   // clip:false 잔여 키 제거 = 워크플로 contains 게이트 오발동 차단 · clip_model도 동반 삭제(clip 없이 잔존 방지·평의회 260722 P2 청결성)
-  if (!opts.clip && !opts.cutscan && !opts.cutref && !opts.burn && !opts.cut && !opts.cutfill && !opts.take && !opts.vid_ar && !opts.vid_res && !opts.vid_fps && !opts.aud_norm && !opts.bgm
+  if (!opts.clip && !opts.cutscan && !opts.cutref && !opts.burn && !opts.cut && !opts.cutfill && !opts.take && !opts.vid_ar && !opts.vid_res && !opts.vid_fps && !opts.aud_norm && !opts.vid_sdr && !opts.bgm
     && !opts.xtr && opts.vid_t0 === undefined && opts.vid_t1 === undefined && !opts.vid_segs) return json({ error: '적용할 처리가 없어 — 스택에 하나는 넣어줘' }, 400);   // xtr 단독 = 유효(가림·키잉·크로마키만 켜고 생성 = 운영자 260808 주 시나리오)   // vid_segs 단독 = 유효(n구간 이어붙기 · 260728)   // cut 단독 = 유효(STT-only 컷 260711) · 필러·테이크 단독도 유효(260727)
 
   const optsStr = JSON.stringify(opts);   // 구 .slice(0,900) = 초과 시 *깨진 JSON*을 러너에 넘겨 옵션이 통째로 증발했다(조용한 무력화) → 길이 초과는 정직 거절(260727)

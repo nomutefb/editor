@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # 영상 자막 번인(자동 합성) + 편집기 컴포지터 — 자막 ASS 번인·무음 컷·배경음 제거에 더해 편집기(edit) 축
-#   {vid_ar/vid_fit(크롭·검정 여백·블러 여백[blur = 원본 블러 확대 배경 패드 · 260711])·vid_res(src=원본 무캡 · 사다리 720/1080/2k/4k = 긴 변 목표 · 결측 = QHD 이하 원본 유지·4K급만 1920 — 260913)·vid_fps(60i 보간·다운)·vid_t0/t1(트림 — 자막·컷과 동시 = 조각·word·스팬 동행 리맵 260711)·aud_norm(음량 통일)}을
+#   {vid_ar/vid_fit(크롭·검정 여백·블러 여백[blur = 원본 블러 확대 배경 패드 · 260711])·vid_res(src=원본 무캡 · 사다리 720/1080/2k/4k = 긴 변 목표 · 결측 = QHD 이하 원본 유지·4K급만 1920 — 260913)·vid_fps(60i 보간·다운)·vid_t0/t1(트림 — 자막·컷과 동시 = 조각·word·스팬 동행 리맵 260711)·aud_norm(음량 통일)·vid_sdr(HDR HLG/PQ → SDR 709 톤매핑 · 260913)}을
 #   한 ffmpeg 파이프로 합성해 R2 업로드 → viewer/ly_out/<id>/video.json. 편집기 축 전부 결측 = 종전 ly 경로 그대로(회귀 0 · 260710).
 #   4K(운영자 260711): 4K급 = 캔버스 픽셀 > FHD 2배(긴 변 판별은 세로 1080×2340을 오분류 = 평의회4 교체) → EDIT_4K_MAX_SEC(180초) 선게이트 + 60i 보간 제외.
 #   enc 백스톱 = 픽셀 비례(FHD 900s → 4K 2400s 캡) · 다운스케일은 note로 표면화(침묵 금지 — FHD 자막 경로는 종전 무note = 표면 회귀 0).
@@ -360,15 +360,16 @@ _SWS_CSP = {"bt709": "bt709", "bt2020nc": "bt2020", "bt2020c": "bt2020", "smpte1
 
 
 def probe_color(path):
-    """영상 색 메타(매트릭스·레인지) — 자막 합성 색공간 정합용(260913). 실패·미지 = ('', '')."""
+    """영상 색 메타(매트릭스·레인지·전달함수·원색) — 자막 합성 색공간 정합 + HDR 판별용(260913). 실패·미지 = ''."""
     try:
         r = subprocess.run(["ffprobe", "-v", "error", "-select_streams", "v:0",
-                            "-show_entries", "stream=color_space,color_range", "-of", "json", path],
+                            "-show_entries", "stream=color_space,color_range,color_transfer,color_primaries", "-of", "json", path],
                            capture_output=True, text=True, timeout=60)
         st = (json.loads(r.stdout or "{}").get("streams") or [{}])[0]
-        return str(st.get("color_space") or ""), str(st.get("color_range") or "")
+        return (str(st.get("color_space") or ""), str(st.get("color_range") or ""),
+                str(st.get("color_transfer") or ""), str(st.get("color_primaries") or ""))
     except Exception:
-        return "", ""
+        return "", "", "", ""
 
 
 def sub_matrix(csp, rng, w, h):
@@ -395,6 +396,42 @@ def ass_chain(ass_path, matrix="bt709", rng="tv"):
     fl = "flags=bicubic+accurate_rnd+full_chroma_int+full_chroma_inp"
     return ("scale=in_color_matrix={m}:in_range={r}:{f},format=gbrp,ass={p},"
             "scale=out_color_matrix={m}:out_range={r}:{f},format=yuv420p").format(m=matrix, r=rng, f=fl, p=ass_path)
+
+
+HDR_TRC = {"arib-std-b67": "HLG", "smpte2084": "PQ"}   # 전달함수 → HDR 종류(HLG = 갤럭시·아이폰 기본 HDR 영상 · PQ = HDR10)
+SDR_PEAK = 1000.0 / 203.0   # 톤매핑 입력 피크 = 1000nit ÷ 확산 백색 203nit(BT.2408 기준 백색 · HLG 75% 신호) = 4.926
+
+
+def hdr_kind(trc, prim=""):
+    """HDR 종류 — 'HLG' · 'PQ' · None(SDR 또는 판별 불가). 원색만 bt2020 이고 전달함수 미상이면 추측하지 않는다(None = 변환 생략 note)."""
+    return HDR_TRC.get((trc or "").lower())
+
+
+def sdr_chain(kind, rng="tv", csp=""):
+    """HDR 원본 → SDR(BT.709) 톤매핑 체인(260913 · 운영자 "제안 반영" = 편집기 「SDR 변환」 축).
+    입력 색 속성은 **setparams 로 프로브값을 프레임에 도장**한 뒤 zscale 에 넘긴다 — 프레임 태그에 기대면 태그 없는 소스에서 zimg 가
+    「no path between colorspaces」로 죽고, zscale 의 tin/pin/min 입력 오버라이드도 출력 m/p 를 같이 안 주면 같은 오류(로컬 실측 4변형 · setparams 만 태그 유무 무관 통과).
+    왜: 폰 HDR(HLG BT.2020) 원본을 그대로 굽고 8bit HLG 태그로 내보내면 SDR 화면·인스타 SDR 재생에서 색이 뜨고, 자막 그린도 HDR 화면에선
+        이미지(sRGB #0FFD02)와 다르게 보인다 → 켜면 영상을 SDR 로 내려 어디서나 같은 색 · 자막은 709 에서 합성 = 이미지와 동일 색.
+    곡선 선정 = 로컬 실측(260913 · SDR 원본 → 합성 HLG[확산 백색 = 75% 신호 = 203nit/1000] → 후보 체인 → 원본 대비):
+      · 표준 레시피(npl=100 + hable) = 중간톤 12% 어두워짐(PSNR 24.9) · hable+노출 = 20.3 ✗ (hable 은 전 구간 압축)
+      · mobius/clip = 중간톤 오차 ≤2코드(PSNR 29.6) · 1000nit 패치 = 흰색(235) ✓ → **mobius(param .75)** = 확산 백색까지 선형 보존
+        (백색 235→약 222) + 그 위 하이라이트(~1000nit)만 부드러운 롤오프(clip 은 하늘·조명이 경계 없이 날아간다).
+    산식: HLG → 1000nit 디스플레이 선형(npl=1000 · OOTF γ1.2) → ×4.926(exposure +2.3 stop = 203nit 를 SDR 백색 1.0 으로) → 2020→709 원색
+          → mobius 톤매핑(peak 4.926) → BT.709 OETF · tv 레인지 · yuv420p. PQ 는 절대휘도라 npl=203 이 곧 그 스케일(노출 불요 · 피크 1000nit 가정).
+    비용 실측 = 720p 16ms/프레임(zscale float 3단) → QHD ≈ 64ms/프레임(84초 30fps ≈ +160s) — 켠 잡만 낸다."""
+    if kind not in ("HLG", "PQ"):
+        return ""
+    stamp = "setparams=colorspace={m}:color_primaries=bt2020:color_trc={t}:range={r}".format(
+        t={"HLG": "arib-std-b67", "PQ": "smpte2084"}[kind],
+        m="bt2020c" if (csp or "").lower() == "bt2020c" else "bt2020nc",
+        r="pc" if (rng or "").lower() in ("pc", "jpeg", "full") else "tv")
+    if kind == "HLG":
+        lin = stamp + ",zscale=t=linear:npl=1000,format=gbrpf32le,exposure=exposure=2.3"
+    else:
+        lin = stamp + ",zscale=t=linear:npl=203,format=gbrpf32le"
+    return (lin + ",zscale=p=bt709,tonemap=tonemap=mobius:param=0.75:desat=0:peak={:.3f},"
+            "zscale=t=bt709:m=bt709:r=tv,format=yuv420p").format(SDR_PEAK)
 
 
 def load_segs(outdir):
@@ -1180,7 +1217,7 @@ def build_ass(segs, w, h, opts):
     return head + "\n" + "\n".join(lines) + "\n"
 
 
-EDIT_KEYS = ("vid_ar", "vid_fit", "vid_pos", "vid_res", "vid_fps", "vid_t0", "vid_t1", "vid_segs", "vid_xfade", "aud_norm")   # 편집기 축(재입히기 승계 대상 — cut·bgm은 ly 자막 축이라 제외) · vid_segs/vid_xfade = n구간 이어붙기 동승(260728)
+EDIT_KEYS = ("vid_ar", "vid_fit", "vid_pos", "vid_res", "vid_fps", "vid_t0", "vid_t1", "vid_segs", "vid_xfade", "aud_norm", "vid_sdr")   # 편집기 축(재입히기 승계 대상 — cut·bgm은 ly 자막 축이라 제외) · vid_segs/vid_xfade = n구간 이어붙기 동승(260728)
 
 
 def run(vid_id, video, outdir):
@@ -1210,8 +1247,13 @@ def run(vid_id, video, outdir):
         out_json(outdir, {"error": "영상 정보 읽기 실패: {}".format(str(e)[:120])}); return 0
     if not w or not h:
         out_json(outdir, {"error": "영상 스트림 없음(오디오 파일) — 자막 텍스트만"}); return 0
-    _csp, _rng = probe_color(video)
+    _csp, _rng, _trc, _prim = probe_color(video)
     sub_m, sub_r, sub_tag = sub_matrix(_csp, _rng, w, h)   # 자막 합성 매트릭스 = 원본 태그(bt709 · HLG 폰 = bt2020nc) · 미지 = HD 709/SD 601(260913)
+    sdr_on = bool(opts.get("vid_sdr"))   # 편집기 「SDR 변환」(260913) — HDR(HLG·PQ) 원본만 실변환 · SDR 원본 = 생략 note(요청은 존중 = 잡은 진행)
+    hdr_k = hdr_kind(_trc, _prim)
+    sdrf = sdr_chain(hdr_k, _rng, _csp) if sdr_on else ""
+    if sdrf:
+        sub_m, sub_r, sub_tag = "bt709", "tv", "bt709"   # 변환 뒤 프레임 = BT.709 → 자막 왕복 매트릭스·출력 태그도 709(자막 그린 = 이미지와 동일 sRGB)
     # ── 길이 캡 = 워크플로 선게이트(edit-make.yml '길이 캡' 스텝)와 **동형**(260731 봉합) ──
     #   구 코드는 조건 없이 `dur > MAX_DUR`였고, 그것도 트림 파싱(아래 t0_req/t1_req·useg)보다 **앞**이라
     #   판정 기준이 언제나 '트림 전 원본 길이'였다. 그래서 워크플로가 방금 "구간 편집도 원본 60분까지"로
@@ -1317,9 +1359,11 @@ def run(vid_id, video, outdir):
         _xf = 0.0
     xfade_w = round(_xf / 100.0 * 0.5, 3) if len(useg) >= 2 else 0.0   # 디졸브 반폭(초) — 강도 100% = 0.5s(이음매 양쪽 합 1s)
     ujoints = []   # 사용자 이음매(출력 시간축) — keeps 확정 후 채움
-    has_vid = bool(vid_ar or vid_res or vid_fps or t0_req or t1_req or len(useg) >= 2)
-    _EK_LBL = {"vid_ar": "비율", "vid_fit": "채움", "vid_pos": "위치", "vid_res": "해상도", "vid_fps": "프레임", "vid_t0": "구간", "vid_t1": "구간", "vid_segs": "구간", "vid_xfade": "디졸브", "aud_norm": "음량"}
+    has_vid = bool(vid_ar or vid_res or vid_fps or t0_req or t1_req or len(useg) >= 2 or sdr_on)   # sdr_on = 편집기 축(자막 없어도 유효 편집 · 260913)
+    _EK_LBL = {"vid_ar": "비율", "vid_fit": "채움", "vid_pos": "위치", "vid_res": "해상도", "vid_fps": "프레임", "vid_t0": "구간", "vid_t1": "구간", "vid_segs": "구간", "vid_xfade": "디졸브", "aud_norm": "음량", "vid_sdr": "SDR"}
     edit_notes = (["이전 편집 설정 승계(" + "·".join(dict.fromkeys(_EK_LBL[k] for k in inherited)) + ")"] if inherited else [])   # 실승계 축만 표기(침묵 금지·과대 표기 금지 · 검증3)
+    if sdr_on:   # SDR 변환 결과 표면화(침묵 금지) — 실변환 / SDR 원본 생략 둘 다 말한다
+        edit_notes.append("HDR({}) → SDR(BT.709) 변환".format(hdr_k) if sdrf else "SDR 변환 생략 — 원본이 이미 SDR(HDR 전달함수 없음)")
     f_key = opts.get("font")
     if segs and not no_burn and f_key in REPO_FONT_KEYS:
         register_repo_fonts()   # 레포 동봉 축(paper) = 무조건 선등록 — fc 판별 불가 환경(font_avail fail-soft True)에서도 libass가 실파일을 찾게(260805)
@@ -1636,13 +1680,14 @@ def run(vid_id, video, outdir):
     _upf = "," + "unsharp=5:5:0.4:5:5:0.0" if (has_vid and max(tw, th) > max(cw, ch)) else ""
     scalef = "scale={}:{}:flags=lanczos{}".format(tw, th, _upf) if (tw, th) != (cw, ch) else ""   # lanczos = 다운스케일 표준(기본 bicubic 대비 선명 · 이 파이프는 업스케일 없음=링잉 저위험) · 비용 실측 ≈0(260722 4K→1080 2s: 1.3s 동일) · 블러 여백 bg 가지는 블러가 덮어 비대상(비용 절약)
     sarf = "setsar=1" if (has_vid and scalef and not padf) else ""   # 스케일 짝수화 잔여 SAR 제거 — 패드 경로(padf 내장)와 대칭(P2평의회9 실측)
-    mid = ",".join(x for x in [cropf, scalef, fpsf, padf, sarf] if x)
+    mid = ",".join(x for x in [cropf, scalef, fpsf, padf, sarf, sdrf] if x)   # sdrf = 지오메트리 뒤(출력 캔버스에서 톤매핑 = 축소 시 비용 절감) · 자막 앞(자막은 709 에서 합성)
     ass = build_ass(segs, canvas_w, canvas_h, opts) if (segs and not no_burn) else ""   # no_burn = 컷 계산용 전사만 · 번인 0
     ass_path = "/tmp/ly_subs.ass"
     with open(ass_path, "w", encoding="utf-8") as f:
         f.write(ass)
     ass_vf = ass_chain(ass_path, sub_m, sub_r)   # 자막 색 정합 왕복 체인(260913) — 번인 있을 때만 -vf 에 들어간다(자막 없는 편집 = 종전 그대로)
-    csp_out = ["-colorspace", sub_tag] if ass else []   # 6.1 scale 필터가 프레임 매트릭스 태그를 비우므로 인코더에 명시(원본 태그 그대로 · 무자막 = 종전 전파)
+    csp_out = (["-colorspace", sub_tag] if (ass or sdrf) else []) \
+        + (["-color_primaries", "bt709", "-color_trc", "bt709"] if sdrf else [])   # 6.1 scale 필터가 프레임 매트릭스 태그를 비우므로 인코더에 명시(원본 태그 그대로 · 무자막·무SDR = 종전 전파) · SDR 변환 = 3태그 전부 709
     out_mp4 = "/tmp/ly_subbed.mp4"
 
     tcut = ["-ss", "{:.3f}".format(trim[0]), "-t", "{:.3f}".format(trim[1])] if trim else []
@@ -1663,7 +1708,8 @@ def run(vid_id, video, outdir):
             + acodec + ["-movflags", "+faststart", out_mp4]   # crf 20→18 = 재인코딩 열화 체감 개선(운영자 260722 "자르기+60프레임 하면 원본 좋아도 화질 많이 저하" · 18 = 시각적 무손실 근접 · 파일 ~1.5× · preset veryfast 유지 = 잡 시간 예산 불변 = 속도는 preset이 지배·crf는 무영향)
 
     enc_base = min(2400, int(900 * max(1.0, canvas_px / 2073600.0)))   # 백스톱 = 캔버스 픽셀 비례(x264 실단가 비례 · FHD 900 → 4K 2400 캡 · 세로 2340 = ~1015 — 이진 오분류 없음 · 평의회4)
-    enc_to = enc_base + int(interp_est * 1.5)   # 60i 보간 예산(≤900s)만큼 백스톱 연장(1080p 최대 2250s · 4K 2400s) — 스텝 내 최악 스택{probe+Demucs 분리(≤780)+본 인코딩+음량(≤270)}은 컴포즈 스텝 60분 캡이 수용(P2평의회2 산술 + 4K 260711)
+    sdr_est = int(dur * 30 * 0.035 * canvas_px / 2073600.0) if sdrf else 0   # SDR 톤매핑 예산(zscale float · FHD 실측 ≈35ms/프레임 × 픽셀 비례 · 30fps 가정) — 백스톱에만 더한다
+    enc_to = enc_base + int(interp_est * 1.5) + sdr_est   # 60i 보간 예산(≤900s)만큼 백스톱 연장(1080p 최대 2250s · 4K 2400s) — 스텝 내 최악 스택{probe+Demucs 분리(≤780)+본 인코딩+음량(≤270)}은 컴포즈 스텝 60분 캡이 수용(P2평의회2 산술 + 4K 260711)
     def encode(c, to=None):   # 15분 백스톱(폴백은 600+보간 = 예산 스택 축소 · 평의회2·3) — 잡 하드킬 전에 우아하게 실패 기록
         to = enc_to if to is None else to
         r = subprocess.run(c, capture_output=True, text=True, timeout=to)
@@ -1692,7 +1738,7 @@ def run(vid_id, video, outdir):
                 if vocals:
                     vocals, ins = "", tcut + ["-i", video]   # 트림 보존(-ss/-t 유지) — 폴백이 구간을 잃지 않게
                     bgm_note = "배경음 제거 실패 — 원본 소리로 합성"
-                ok, err = encode(plain_cmd(), 600 + (enc_base - 900) + int(interp_est * 1.5))   # 폴백 백스톱도 4K분 확장(1080p = 종전 600 유지)
+                ok, err = encode(plain_cmd(), 600 + (enc_base - 900) + int(interp_est * 1.5) + sdr_est)   # 폴백 백스톱도 4K분·SDR분 확장(1080p = 종전 600 유지)
         else:
             ok, err = encode(plain_cmd())
         if not ok:

@@ -860,7 +860,7 @@ async function lrTiltApply(file){   // 첨부 직후 1회 — 쏠렸으면 음�
 }
 
 /* ══ 처리 스택 모델 — ORDER = 서버 처리 순서(캐노니컬·재정렬 없음 v1) ══ */
-const ORDER=['sub','trn','screen','res','fps','cut','trim','clip','bgm','anorm'];   // trn 합류(운영자 260728 번역 토글 — 발사 게이트·시트 계수용 · eta 0 = dual은 같은 전사·의역 파이프)   // sub 복원(운영자 260721 "자막 키잉도 쓸 때가 있거든 — 여기에 자막 프리셋도" · 260711 이관 때 도먼트 보존해둔 축 재점등 — eta·리드백 합류)   // 표시 순서 = IA(운영자 260711 secOrder=ia "리사이징 먼저" — 화면{비율·해상도·프레임}→컷·구간→소리 · 구 bgm 선두 재배열 = 평의회 260711 3차 · eta 합산·발사 게이트는 순서 무관 = 파급 0 · 서버 실처리 순서는 페이로드 키 기반이라 클라 순서 비의존) · 자막(sub) 카드 = 자막 탭 전담 이관(운영자 260711 3분류 m1Sub=m2 — 코드·프리셋·음영 3축은 도먼트 보존 · 복원 = 'sub' 재추가 한 줄)
+const ORDER=['sub','trn','screen','res','fps','sdr','cut','trim','clip','bgm','anorm'];   // sdr 합류(운영자 260913 제안 승인 — HDR 원본 → SDR 톤매핑 · 스트립 워드 토글 · 기본 OFF)   // trn 합류(운영자 260728 번역 토글 — 발사 게이트·시트 계수용 · eta 0 = dual은 같은 전사·의역 파이프)   // sub 복원(운영자 260721 "자막 키잉도 쓸 때가 있거든 — 여기에 자막 프리셋도" · 260711 이관 때 도먼트 보존해둔 축 재점등 — eta·리드백 합류)   // 표시 순서 = IA(운영자 260711 secOrder=ia "리사이징 먼저" — 화면{비율·해상도·프레임}→컷·구간→소리 · 구 bgm 선두 재배열 = 평의회 260711 3차 · eta 합산·발사 게이트는 순서 무관 = 파급 0 · 서버 실처리 순서는 페이로드 키 기반이라 클라 순서 비의존) · 자막(sub) 카드 = 자막 탭 전담 이관(운영자 260711 3분류 m1Sub=m2 — 코드·프리셋·음영 3축은 도먼트 보존 · 복원 = 'sub' 재추가 한 줄)
 const CARD={
   sub:{nm:'자막', grp:'자막', eta:210},
   trn:{nm:'번역', grp:'자막', eta:0},   // 번역 토글(운영자 260728 Q06 — dual 번인이라 추가 eta 0)
@@ -871,9 +871,10 @@ const CARD={
   res:{nm:'해상도', grp:'화면', eta:0},
   fps:{nm:'고프레임', grp:'화면', eta:0},   // 개명(운영자 260728 Q06 "고프레임 on off — on 시 60fps 보간" · 축 키·발사 vid_fps 불변)
   anorm:{nm:'음량 통일', grp:'소리', eta:15},
+  sdr:{nm:'SDR 변환', grp:'화면', eta:90},   // HDR(HLG·PQ) 원본 → SDR(BT.709) 톤매핑(운영자 260913 제안 승인) — 옵션 스트립 워드 토글 · SDR 원본이면 러너가 생략 note · eta = zscale float 실측(720p 16ms/프레임 → 1분 QHD ≈ +115s) 근사
   clip:{nm:'클리퍼', grp:'컷·구간', eta:230},   // 배타 스캔(STT→하이라이트 후보픽 · 260711) — 후보 탭 = 구간 적용 → 일반 렌더
 };
-let ON={sub:true,trn:true,bgm:false,cut:false,trim:false,screen:false,res:false,fps:false,anorm:true,clip:false};   /* ★ 자막·번역 기본 ON(운영자 260812 2차 "번역 기본값 켜짐으로 바꿔줘") — 번역은 자막 위에 얹히는 줄이라 둘은 한 몸이다(setAxis 계약 = trn ON 이면 sub 자동 ON) → 번역만 켜고 자막을 끄는 상태는 존재할 수 없어 둘을 같이 켠다. 파급 = 첫 진입 발사 기본값이 「자막 굽기 + 원문 병기」(구 = 둘 다 끔) · 끄면 종전 동작 그대로 */   // trn = 번역 토글(운영자 260728 Q06 — 켜면 자막 자동 ON·발사 lang dual+dual_small 0.5 · '사실상 자막의 옵션인데 토글로 뺌')
+let ON={sub:true,trn:true,bgm:false,cut:false,trim:false,screen:false,res:false,fps:false,anorm:true,clip:false,sdr:false};   /* ★ 자막·번역 기본 ON(운영자 260812 2차 "번역 기본값 켜짐으로 바꿔줘") — 번역은 자막 위에 얹히는 줄이라 둘은 한 몸이다(setAxis 계약 = trn ON 이면 sub 자동 ON) → 번역만 켜고 자막을 끄는 상태는 존재할 수 없어 둘을 같이 켠다. 파급 = 첫 진입 발사 기본값이 「자막 굽기 + 원문 병기」(구 = 둘 다 끔) · 끄면 종전 동작 그대로 */   // trn = 번역 토글(운영자 260728 Q06 — 켜면 자막 자동 ON·발사 lang dual+dual_small 0.5 · '사실상 자막의 옵션인데 토글로 뺌')
 let SCAN_ONCE=false;   // 다음 발사 1회를 '컷 미리보기 스캔'으로(버튼이 세움 · buildOpts가 읽고 즉시 내림 · 260727 ③)
 let CUT_REF=null;      // 승인 컷 참조 {id, off:[뺀 인덱스]} — 발사 성공 시 소진
 let CLIP_SAVE=null;   // 클리퍼 진입 직전 ON 스냅샷(운영자 260722 "도중에 누르면 다른 옵션값이 날아가 — 방지") — P값은 원래 보존이라 ON 플래그만 저장·복원
@@ -933,6 +934,7 @@ function sum(k){
   if(k==='fps') return P.fps==='60i'?'60fps 보간(부드러움)':P.fps+'fps';   // (부드러움) = 기대치 관리(운영자 260722 — 화질 옵션 오해로 켰다 실망 방지) · 요약 스트립 한정(전폭·ellipsis 안전) — 반폭 칩 라벨(CYL)은 줄바꿈 위험이라 무접촉
   if(k==='anorm') return '음량 강도 · 좌우 밸런스 보정';   // 문구 = 운영자 260712 선택값(구 '−14LUFS·좌우 통일' — 렌더 스펙 −14LUFS·TP−1.5는 audio_norm.py 불변)
   if(k==='bgm') return '목소리만';
+  if(k==='sdr') return 'HDR 원본 → SDR(BT.709)';   // SDR 변환 요약(운영자 260913) — 러너 note 문구와 동축
   if(k==='clip') return '하이라이트 후보 3~5개';
   return '';
 }
@@ -1054,16 +1056,16 @@ function setEta(){   // 도먼트(운영자 260722 "이미지 스튜디오처럼
 /* 섹션 상시 노출 IA(운영자 260712 — 시안 3분류 뷰 정합: "1 리사이징"류 번호 섹션이 항상 펼쳐져 축 칩이 바로 보임 · 빈 스택+시트 추가형 폐지) — 기본 = 음량 통일만 ON(운영자 260712 보정 기본)·나머지 축 '원본/그대로/끔' · 칩 선택 = ON[k] 파생이라 buildOpts·etaCalc·레시피·클리퍼 배타 전부 불변 */
 const IA=[['설계',['trim','sub','cut']],['기본',['screen','res']]];   // 소머리 '하이라이트' → '설계'(운영자 260804 "다른 부분하고 동일하게 용어 통일") = 콘티(sb)·프롬프팅(k)·음원(song) 「설계」 소머리와 한 어휘 — 라벨 1개만 교체(축 키 trim/sub/cut·카드·발사 페이로드 전부 불변)   // 섹션 재편(운영자 260803 7차) — ⓐ 번역 = 자막 **안**으로 이주("어짜피 자막에 포함되어 있는거니까") ⓑ 고프레임 = 레일 전용("네비게이션에서만 선택") ⓒ 음량 통일 = 기본값 고정·카드 삭제(ON.anorm 기본 true 불변) ⓓ 배경음 = 레일 전용(기본 활성 · 끄면 '배경음 제거') → 음향 섹션 통째 소멸 · 구 'hl3' 3분할 행 = 도먼트(hlRow 보존 · 복원 = 'sub' 자리에 'hl3' 1줄) · 클리퍼 = 숨김(Q08 · 복원 = 'cut' 뒤 'clip' 재추가 1줄 + PREC 쇼츠 클립 재추가) · 구 IA = git 이력
 /* ── 순환값 문법(운영자 260712 5문법 — 잔여 선택지 나열 폐지 · 탭=한 바퀴 · 단일축 카드 = 반폭 페어) ── */
-const CYC={ ar:['off','9:16','1:1','4:5','16:9'], fit:['crop','pad','blur'], res:['off','src','720','1080','2k','4k'], fps:['off','60i'], cutlv:['off','soft','std','hard'], clip:['off','on'], bgm:['off','on'], anorm:['off','on'], trim:['off','on'], sub:['off','on'], trn:['off','on'] };   // fps = 고프레임 OFF/ON 토글(운영자 260728 Q06 — 30fps 선택지 도먼트 · 복원 = '30' 재추가) · cutlv = 4값 복구(평의회⑦ 260728 — ['off','std']로 좁혔더니 게이지로 고른 '살짝/많이'가 헤더 탭 왕복 한 번에 말없이 '기본'으로 덮이던 것 · 게이지와 값 도메인 일치) · trn = 번역 토글 신설 · 24fps 삭제(운영자 260712) · trim = OFF/ON 토글(운영자 260713) · sub = OFF/ON(운영자 260721)
-const CYL={ ar:{off:'원본','9:16':'9:16','1:1':'1:1','4:5':'4:5','16:9':'16:9'}, fit:{crop:'자르기',pad:'검정 여백',blur:'블러 여백'}, res:{off:'원본',src:'원본',720:'720p','1080':'FHD','2k':'2K','4k':'4K'}, fps:{off:'OFF','60i':'ON','30':'30fps'}, cutlv:{off:'OFF',soft:'살짝',std:'기본',hard:'많이'}, clip:{off:'OFF',on:'후보 스캔'}, bgm:{off:'ON',on:'OFF'} /* ⚠ 의도적 반전(운영자 260803 7차 "배경음 > 활성화가 기본값, 비활성화 하면 > 배경음 제거") — 축 키 ON.bgm은 종전 그대로 **'배경음 제거' 플래그**(발사 페이로드·eta·요약 전부 무접촉)이고 표시만 뒤집는다: 제거 안 함(off) = 배경음 'ON'(점등·기본) · 제거함(on) = 배경음 'OFF'(소등) */, anorm:{off:'OFF',on:'ON'}, trim:{off:'OFF',on:'ON'}, sub:{off:'OFF',on:'ON'}, trn:{off:'OFF',on:'ON'} };   // fps 표기 = 고프레임 OFF/ON(운영자 260728 — '60fps 보간' 산문은 카드 title·요약 sum()이 전담 · '30' 라벨은 도먼트 짝) · trn 합류   // 말 통일(운영자 260712 5차): 미적용 = 비율과 동일 '원본'(res·fps — 구 '그대로' 폐지 · src는 '4K'로 개명 = '원본' 중복 회피·의미 동일 3840캡) · 이진/세기 축 미적용 = 'OFF'(구 '끔' — 이미지 모달 OFF/ON 문법 계승) · 적용 = 실값 or 'ON'
+const CYC={ ar:['off','9:16','1:1','4:5','16:9'], fit:['crop','pad','blur'], res:['off','src','720','1080','2k','4k'], fps:['off','60i'], cutlv:['off','soft','std','hard'], clip:['off','on'], bgm:['off','on'], anorm:['off','on'], sdr:['off','on'], trim:['off','on'], sub:['off','on'], trn:['off','on'] };   // fps = 고프레임 OFF/ON 토글(운영자 260728 Q06 — 30fps 선택지 도먼트 · 복원 = '30' 재추가) · cutlv = 4값 복구(평의회⑦ 260728 — ['off','std']로 좁혔더니 게이지로 고른 '살짝/많이'가 헤더 탭 왕복 한 번에 말없이 '기본'으로 덮이던 것 · 게이지와 값 도메인 일치) · trn = 번역 토글 신설 · 24fps 삭제(운영자 260712) · trim = OFF/ON 토글(운영자 260713) · sub = OFF/ON(운영자 260721)
+const CYL={ ar:{off:'원본','9:16':'9:16','1:1':'1:1','4:5':'4:5','16:9':'16:9'}, fit:{crop:'자르기',pad:'검정 여백',blur:'블러 여백'}, res:{off:'원본',src:'원본',720:'720p','1080':'FHD','2k':'2K','4k':'4K'}, fps:{off:'OFF','60i':'ON','30':'30fps'}, cutlv:{off:'OFF',soft:'살짝',std:'기본',hard:'많이'}, clip:{off:'OFF',on:'후보 스캔'}, sdr:{off:'OFF',on:'ON'}, bgm:{off:'ON',on:'OFF'} /* ⚠ 의도적 반전(운영자 260803 7차 "배경음 > 활성화가 기본값, 비활성화 하면 > 배경음 제거") — 축 키 ON.bgm은 종전 그대로 **'배경음 제거' 플래그**(발사 페이로드·eta·요약 전부 무접촉)이고 표시만 뒤집는다: 제거 안 함(off) = 배경음 'ON'(점등·기본) · 제거함(on) = 배경음 'OFF'(소등) */, anorm:{off:'OFF',on:'ON'}, trim:{off:'OFF',on:'ON'}, sub:{off:'OFF',on:'ON'}, trn:{off:'OFF',on:'ON'} };   // fps 표기 = 고프레임 OFF/ON(운영자 260728 — '60fps 보간' 산문은 카드 title·요약 sum()이 전담 · '30' 라벨은 도먼트 짝) · trn 합류   // 말 통일(운영자 260712 5차): 미적용 = 비율과 동일 '원본'(res·fps — 구 '그대로' 폐지 · src는 '4K'로 개명 = '원본' 중복 회피·의미 동일 3840캡) · 이진/세기 축 미적용 = 'OFF'(구 '끔' — 이미지 모달 OFF/ON 문법 계승) · 적용 = 실값 or 'ON'
 const HALF=new Set(['bgm','anorm']);   // 반폭 페어 = 배경음|음량만(운영자 260728 재편 — 비율·해상도 = 칩 나열 전폭 · 컷 편집 = 게이지 전폭 · 자막|번역|고프레임 = hl3 3분할 별도 행)
-const AXNM={ ar:'비율', fit:'방식', res:'해상도', fps:'고프레임', cutlv:'컷 편집', trim:'구간', clip:'클리퍼', bgm:'배경음', anorm:'음량', sub:'자막', trn:'번역' };   // fps = 고프레임 개명·trn 합류(운영자 260728)   // 축 이름(a11y+스트립 어휘 — CARD 키와 별개: ar/fit/cutlv는 CARD에 없음 · trim = 스트립 라벨 정식 등재 = 무언 폴백 제거 · 평의회2 260718) · cutlv = '컷 편집'(운영자 260724 — 스트립 라벨을 CARD.cut.nm '컷 편집'과 일치시켜 구 '컷 세기' 불일치 교정)
-function curCyc(k){ if(k==='ar')return ON.screen?P.ar:'off'; if(k==='res')return ON.res?P.res:'off'; if(k==='fps')return ON.fps?P.fps:'off'; if(k==='cutlv')return ON.cut?P.cutlv:'off'; if(k==='clip')return ON.clip?'on':'off'; if(k==='bgm')return ON.bgm?'on':'off'; if(k==='anorm')return ON.anorm?'on':'off'; if(k==='trim')return ON.trim?'on':'off'; if(k==='sub')return ON.sub?'on':'off'; if(k==='trn')return ON.trn?'on':'off'; if(k==='fit')return P.fit; return P[k]; }
+const AXNM={ ar:'비율', fit:'방식', res:'해상도', fps:'고프레임', cutlv:'컷 편집', trim:'구간', clip:'클리퍼', bgm:'배경음', anorm:'음량', sdr:'SDR 변환', sub:'자막', trn:'번역' };   // fps = 고프레임 개명·trn 합류(운영자 260728)   // 축 이름(a11y+스트립 어휘 — CARD 키와 별개: ar/fit/cutlv는 CARD에 없음 · trim = 스트립 라벨 정식 등재 = 무언 폴백 제거 · 평의회2 260718) · cutlv = '컷 편집'(운영자 260724 — 스트립 라벨을 CARD.cut.nm '컷 편집'과 일치시켜 구 '컷 세기' 불일치 교정)
+function curCyc(k){ if(k==='ar')return ON.screen?P.ar:'off'; if(k==='res')return ON.res?P.res:'off'; if(k==='fps')return ON.fps?P.fps:'off'; if(k==='cutlv')return ON.cut?P.cutlv:'off'; if(k==='clip')return ON.clip?'on':'off'; if(k==='bgm')return ON.bgm?'on':'off'; if(k==='anorm')return ON.anorm?'on':'off'; if(k==='sdr')return ON.sdr?'on':'off'; if(k==='trim')return ON.trim?'on':'off'; if(k==='sub')return ON.sub?'on':'off'; if(k==='trn')return ON.trn?'on':'off'; if(k==='fit')return P.fit; return P[k]; }
 function cyv(k,word){ const v=curCyc(k); const lab=CYL[k][v]||String(v); const bin=(lab==='OFF'||lab==='ON'); const on=bin?(lab==='ON'):(v!=='off'); return '<span class="cyv'+(on?'':' off')+'" data-cyc="'+k+'" role="button" tabindex="0" aria-label="'+(AXNM[k]||k)+'"'+(bin?' aria-pressed="'+on+'"':'')+'>'+esc(bin?(word||AXNM[k]||k):lab)+'</span>'; }   // 점등 판정 = **라벨이 곧 상태**(lab==='ON')로 승격(260803 7차) — 구 `v!=='off'`는 축 키 값에 직결돼 배경음처럼 「플래그 뜻과 표시 뜻이 반대」인 축을 표현할 수 없었다 · 나머지 축(CYL off:'OFF'/on:'ON')은 두 식이 항등 = 종전 100% 불변   // 이진 상태(라벨이 ON/OFF뿐) = 워드 토글(운영자 260803 "기능 워딩이 점등하냐 안하냐로 onoff" · thumb #cnTog 정본 계승 — ON/OFF 값 텍스트 폐지 · 칩 텍스트 = 기능 워딩 · 점등 = .off 소등/accent 점등 기존 축 그대로) · 실값 상태(살짝·목소리만·원본 등)는 종전 값 표기 유지 · data-cyc·핸들러 불변
 // ── 선택 요약 스트립 리드백(운영자 260718 "이미지 스튜디오 통일 규격 → 비디오 정합") — thumb #editSpec 문법 계승: Q128 모든 옵션 나열·OFF도 표기 + Q144 슬래시 구분자·활성값(적용 중) .on accent · 값 어휘 = CYL·curCyc(카드와 동일 SSOT = 이중정의 0) · 방식 = 비율 ON일 때만(카드 조건부 등장 문법 동조) · 구 #pvAttr 명세줄 대체(도먼트) ──
 function updateOptStrip(){
   const el=document.getElementById('editSpec'); if(!el) return;
-  const axes=['ar','fit','res','fps','bgm','anorm','cutlv'];   // 노출 항목(운영자 260724 "옵션 선택자 = 비율·해상도·프레임·배경음·컷편집") — 편집 탭 잔류 코어 축만 요약(자막·구간·클리퍼 = 세부 탭 이관 방향[req5·6]) · fit = 비율 종속 조건부 · 순서 = 지시 원문 그대로 · 구 sub/trim/clip 리드백 = 도먼트(복원 = 이 배열 키 재추가 한 줄 · 축 상태·발사·카드 로직은 무접촉 = 요약만 축소)   // ⚠ anorm 재점등(운영자 260810 "일단 1번대로 한번 누르는거로 배선 ㄱ" = 260803 7차 「음량 = 기본값 고정·카드 삭제」의 **끄는 수단만** 복구 · 기본 ON = ON.anorm 불변 = 평소 동작 100% 종전) — 사유 = 260810 소리 봉합으로 재압축이 3회 → 1회가 됐고 **남은 유일한 소리 가공이 이 축**이라, 음질이 의심될 때 그 마지막 하나를 꺼봐야 원인을 가릴 수 있다(운영자 "또 이상해지면 어떻게 해야돼?"). 거처 = 코너 레일 · 레퍼런스 = 바로 앞 'bgm' 그대로(같은 '소리' 그룹 · 같은 이진 워드 점등 문법 · 렌더 분기는 이 파일 971행에 이미 생존) = 신규 부품·신규 값 0 · 짝 = smoke_editdock C4 계약 동반 개정(5축·점등1 → 6축·점등2)
+  const axes=['ar','fit','res','fps','sdr','bgm','anorm','cutlv'];   // sdr 합류(운영자 260913 — HDR→SDR 워드 토글 · 화면 축 뒤·소리 축 앞)   // 노출 항목(운영자 260724 "옵션 선택자 = 비율·해상도·프레임·배경음·컷편집") — 편집 탭 잔류 코어 축만 요약(자막·구간·클리퍼 = 세부 탭 이관 방향[req5·6]) · fit = 비율 종속 조건부 · 순서 = 지시 원문 그대로 · 구 sub/trim/clip 리드백 = 도먼트(복원 = 이 배열 키 재추가 한 줄 · 축 상태·발사·카드 로직은 무접촉 = 요약만 축소)   // ⚠ anorm 재점등(운영자 260810 "일단 1번대로 한번 누르는거로 배선 ㄱ" = 260803 7차 「음량 = 기본값 고정·카드 삭제」의 **끄는 수단만** 복구 · 기본 ON = ON.anorm 불변 = 평소 동작 100% 종전) — 사유 = 260810 소리 봉합으로 재압축이 3회 → 1회가 됐고 **남은 유일한 소리 가공이 이 축**이라, 음질이 의심될 때 그 마지막 하나를 꺼봐야 원인을 가릴 수 있다(운영자 "또 이상해지면 어떻게 해야돼?"). 거처 = 코너 레일 · 레퍼런스 = 바로 앞 'bgm' 그대로(같은 '소리' 그룹 · 같은 이진 워드 점등 문법 · 렌더 분기는 이 파일 971행에 이미 생존) = 신규 부품·신규 값 0 · 짝 = smoke_editdock C4 계약 동반 개정(5축·점등1 → 6축·점등2)
   const sig=axes.map(k=>k+':'+curCyc(k)).join('|')+(ON.screen?'|s':'');   // 서명 캐시 = 게이지 드래그(pvSync 연타 ~60/s) 중 동일 내용 innerHTML 재생성 낭비 제거(평의회7 260718 · 값 불변 = 조기 return)
   if(el._sig===sig) return; el._sig=sig;
   el.innerHTML=axes.filter(k=>k!=='fit'||ON.screen).map(k=>{
@@ -1078,7 +1080,7 @@ function setAxis(k,v){   // 축 상태 단일 정본(순환값·잔존 chip 공�
   if(k==='res'||k==='fps'){ if(v==='off')ON[k]=false; else {clipRelease();ON[k]=true;P[k]=v;} return; }
   if(k==='cutlv'){ if(v==='off'){ON.cut=false; if(!LR_TILT) ON.anorm=true;} else {clipRelease();ON.cut=true;P.cutlv=v;ON.anorm=false;} return; }   // 컷 ON = 음량 자동 OFF(운영자 260810 "컷편집 등 말 줄이기나 그런게 안들어가는 상황이면, 음량이 켜지는걸 기본으로") — 컷은 소리를 **잘라야** 해서 필터를 타므로 압축을 못 피한다(실측 260810: 컷만 1회 · 컷+음량 2회 · 압축 1회당 신호대잡음 15.2→11.4dB) → 둘이 겹칠 때 음량을 빼서 1회로 유지 · 컷 OFF 복귀 = 음량 자동 복원(단 좌우 쏠림 자동 OFF 상태면 그쪽이 우선 = 아래 LR_TILT) · 수동 재점등은 레일 탭으로 언제든 가능(이 줄은 **기본값**만 정한다)
   if(k==='clip'){ if(v==='on'){ clipSnap(); } else { const had=!!CLIP_SAVE; clipRelease(); if(!had) ON.anorm=true; } return; }   // 클립 = 배타 스캔 · 끔 = 스냅샷 복원(260722 — 없으면 종전 기본 음량 보정 복귀)
-  if(k==='bgm'||k==='anorm'||k==='sub'){ if(v==='on'){clipRelease();ON[k]=true;} else { ON[k]=false; if(k==='sub') ON.trn=false; } return; }   // sub 합류(운영자 260721 자막 복원 — 이진 토글·클리퍼 배타 동일 문법) · 자막 OFF = 번역 동반 OFF(번역은 자막 위에 얹히는 줄 · Q06)
+  if(k==='bgm'||k==='anorm'||k==='sub'||k==='sdr'){ if(v==='on'){clipRelease();ON[k]=true;} else { ON[k]=false; if(k==='sub') ON.trn=false; } return; }   // sdr 합류(260913 · 이진 토글 동일 문법)   // sub 합류(운영자 260721 자막 복원 — 이진 토글·클리퍼 배타 동일 문법) · 자막 OFF = 번역 동반 OFF(번역은 자막 위에 얹히는 줄 · Q06)
   if(k==='trn'){ if(v==='on'){clipRelease();ON.trn=true;ON.sub=true;} else ON.trn=false; return; }   // 번역 ON = 자막 자동 ON(운영자 260728 Q06 "사실상 자막의 옵션" — 번역 줄만 단독 번인 불가)
   if(k==='trim'){ if(v==='on'){clipRelease();ON.trim=true;} else ON.trim=false; return; }   // 구간 = OFF/ON 토글(운영자 260713 · ON시 구간 입력 펼침 · 클리퍼 배타)
   if(k==='spre'){ const pr=SUBPRE[v]; if(pr){ for(const kk in pr){ if(kk!=='nm') P[kk]=pr[kk]; } if(!('fg' in pr)) P.fg='white'; } return; }   // 글자색 미동봉 프리셋 = 흰 복귀(fg = 색 UI 없는 프리셋 전용 축 — 감성 네온 이탈 시 노랑 잔존 차단 · ly 260720 동일 문법 · 음영색/폰트/글로우는 UI 실존 = 직교 유지)
@@ -1090,7 +1092,7 @@ function setAxis(k,v){   // 축 상태 단일 정본(순환값·잔존 chip 공�
   if(['filler','karaoke','hi','pop','keyword'].includes(k)){ P[k]=v==='1'; if(P[k]&&SUBSTY.includes(k)) SUBSTY.forEach(x=>{ if(x!==k) P[x]=false; }); return; }   // 자막 스타일 3택 = 상호배타(운영자 260810) — 켜진 칩을 다시 누르면 셋 다 꺼짐 = 일반 자막 · 구 2축 짝배타(karaoke↔pop) 일반화
   P[k]=v; if(k==='fit'&&v!=='crop') scrubClose();
 }
-const CARDAX={ res:'res', fps:'fps', cut:'cutlv', clip:'clip', bgm:'bgm', anorm:'anorm', trim:'trim', sub:'sub', trn:'trn' };   // 카드 키 → 순환 축 키(컷 = cutlv · trim = OFF/ON 토글 260713 · trn 합류 260728 · screen 별도)
+const CARDAX={ res:'res', fps:'fps', cut:'cutlv', clip:'clip', bgm:'bgm', anorm:'anorm', sdr:'sdr', trim:'trim', sub:'sub', trn:'trn' };   // 카드 키 → 순환 축 키(컷 = cutlv · trim = OFF/ON 토글 260713 · trn 합류 260728 · screen 별도)
 // 해상도 사다리 = 긴 변 K 축(러너 ly_burn._RES_LADDER 짝 · 운영자 260809 "720p FHD 원본 2K 4K").
 //   ⚠ 세로 숫자가 아니라 **긴 변**이다 — 16:9의 720p는 1280×720이라 긴 변 1280. 구판이 720/1080을 긴 변에 그대로 써서
 //     「1080p」가 1080×606을 내던 오류를 정정한 값(260809 실측).
@@ -1555,7 +1557,7 @@ document.addEventListener('click', e => {
 
 /* ══ 레시피(원탭 · UX 평의회3 — 기본값이 일) ══ */
 function recipe(r){
-  ON={sub:false,trn:false,bgm:false,cut:false,trim:false,screen:false,res:false,fps:false,anorm:false,clip:false};   // trn 합류(평의회⑦ 260728 — 객체째 교체라 키가 빠지면 ON.trn이 undefined가 돼 프리셋 스냅샷·clipSnap 순회에서 누락되던 시한폭탄)
+  ON={sub:false,trn:false,bgm:false,cut:false,trim:false,screen:false,res:false,fps:false,anorm:false,clip:false,sdr:false};   // trn 합류(평의회⑦ 260728 — 객체째 교체라 키가 빠지면 ON.trn이 undefined가 돼 프리셋 스냅샷·clipSnap 순회에서 누락되던 시한폭탄)
   if(r==='reels'){ ON.cut=ON.screen=ON.anorm=true; P.ar='9:16'; P.fit='blur'; }   // 자막 = 자막 탭 전담(운영자 260711 m1Sub=m2 — 레시피서 제외) · 여백 = 블러 기본(fitDef)
   if(r==='fmt'){ ON.screen=ON.anorm=true; P.ar='9:16'; P.fit='blur'; }
   if(r==='hq'){ ON.res=ON.anorm=true; P.res='src'; }   // 화질만 = 원본 해상도 유지(4K까지·침묵 1920 다운스케일 방지) + 음량 통일(운영자 260722 승인 — 구 60i 보간 자동 ON은 합성 프레임 아티팩트로 화질을 되레 깎는 모순이라 제외 · 부드러움 원하면 프레임 카드 수동)
@@ -2159,6 +2161,7 @@ function buildOpts(scan){   // scan = 이번 발사가 '컷 미리보기 스캔'
   if(ON.res) o.vid_res=P.res;
   if(ON.fps) o.vid_fps=P.fps;
   if(ON.anorm) o.aud_norm=true;
+  if(ON.sdr) o.vid_sdr=true;   // SDR 변환(운영자 260913) — 러너 ly_burn sdr_chain: HDR(HLG·PQ) 원본만 실변환 · SDR 원본 = 생략 note
   { const xo=xtrOpts(); if(xo) o.xtr=xo; }   // 추가 옵션(가림·키잉·크로마키) 동봉(운영자 260808) — 러너 edit_track이 컴포즈 산출에 인물 분석→자동 전대상 적용까지 이어 붙인다(트래킹 탭 경유 0) · 스캔 경로(clip·cutscan)는 위에서 early return = 미동봉(렌더가 아니라 분석이라 얹을 그림이 없다)
   if(CUT_REF){   // 승인 컷 렌더(260727 ③) — 자를 곳은 스캔 승인본이 정본이라 자동 컷 축을 뺀다 = **전사 재실행 0**(자막 ON이면 자막 몫으로만 돎)
     delete o.cut; delete o.cutlv; delete o.cutfill; delete o.take;

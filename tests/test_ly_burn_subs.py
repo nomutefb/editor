@@ -147,7 +147,7 @@ class SubColorChain(unittest.TestCase):
     def test_run_wires_chain_and_colorspace_tag(self):
         src = inspect.getsource(ly_burn.run)
         self.assertIn("ass_vf = ass_chain(ass_path, sub_m, sub_r)", src)
-        self.assertIn('csp_out = ["-colorspace", sub_tag] if ass else []', src)
+        self.assertIn('csp_out = (["-colorspace", sub_tag] if (ass or sdrf) else [])', src)
         self.assertNotIn('"ass={}".format(ass_path) if ass else ""', src, "번인 -vf 는 왕복 체인만(601 직결 금지)")
         self.assertIn("format=rgba", src, "오버레이 webm 캔버스 = RGBA")
 
@@ -257,6 +257,66 @@ class SubColorRender(unittest.TestCase):
         if 0 < major < 7:
             legacy, _ = self._burn(d, "ass={}".format(p), [])
             self.assertLess(legacy[1], 230, "구 경로는 6.x 에서 그린이 어두워져야(≈216) 이 검사가 의미 있다: %r" % (legacy,))
+
+
+
+class SdrChain(unittest.TestCase):
+    """편집기 「SDR 변환」(운영자 260913 제안 승인) — HDR 판별·체인 모양·run 배선."""
+    def test_hdr_kind(self):
+        self.assertEqual(ly_burn.hdr_kind("arib-std-b67", "bt2020"), "HLG")
+        self.assertEqual(ly_burn.hdr_kind("smpte2084", "bt2020"), "PQ")
+        self.assertIsNone(ly_burn.hdr_kind("bt709", "bt709"))
+        self.assertIsNone(ly_burn.hdr_kind("", "bt2020"), "원색만 2020 = 추측 금지(변환 생략 note)")
+
+    def test_sdr_chain_shapes(self):
+        c = ly_burn.sdr_chain("HLG", "tv", "bt2020nc")
+        self.assertTrue(c.startswith("setparams=colorspace=bt2020nc:color_primaries=bt2020:color_trc=arib-std-b67:range=tv,"
+                                     "zscale=t=linear:npl=1000,format=gbrpf32le,exposure=exposure=2.3,"),
+                        "HLG = 프로브값 도장(태그 의존 금지) + 1000nit 선형 + 203nit→백색 노출: " + c)
+        self.assertIn("zscale=p=bt709,tonemap=tonemap=mobius:param=0.75:desat=0:peak=4.926,", c)
+        self.assertTrue(c.endswith("zscale=t=bt709:m=bt709:r=tv,format=yuv420p"))
+        self.assertTrue(ly_burn.sdr_chain("PQ").startswith("setparams=colorspace=bt2020nc:color_primaries=bt2020:color_trc=smpte2084:range=tv,"
+                                                           "zscale=t=linear:npl=203,format=gbrpf32le,zscale=p=bt709"), "PQ = 절대휘도 203nit 스케일(노출 불요)")
+        self.assertIn("setparams=colorspace=bt2020c:color_primaries=bt2020:color_trc=arib-std-b67:range=pc,", ly_burn.sdr_chain("HLG", "pc", "bt2020c"), "레인지·CL 매트릭스는 프로브값 추종")
+        self.assertEqual(ly_burn.sdr_chain(None), "")
+
+    def test_run_wiring(self):
+        src = inspect.getsource(ly_burn.run)
+        for frag in ('sdr_on = bool(opts.get("vid_sdr"))', 'sdrf = sdr_chain(hdr_k, _rng, _csp) if sdr_on else ""',
+                     'sub_m, sub_r, sub_tag = "bt709", "tv", "bt709"', '"-color_primaries", "bt709", "-color_trc", "bt709"',
+                     'padf, sarf, sdrf]', 'or sdr_on)', 'SDR 변환 생략'):
+            self.assertIn(frag, src, frag)
+        self.assertIn("vid_sdr", ly_burn.EDIT_KEYS, "재입히기 승계 대상")
+
+
+@unittest.skipUnless(shutil.which('ffmpeg'), 'ffmpeg 없음')
+class SdrRender(unittest.TestCase):
+    def test_hlg_to_sdr_keeps_midtones_and_white(self):
+        """합성 HLG(확산 백색 = 75% 신호) → sdr_chain → 중간톤·백색 복원 + 1000nit 하이라이트는 흰색(표준 hable 레시피의 12% 어두워짐 재발 금지)."""
+        flt = subprocess.run(['ffmpeg', '-hide_banner', '-filters'], capture_output=True, text=True).stdout
+        if 'zscale' not in flt or 'tonemap' not in flt or 'exposure' not in flt:
+            self.skipTest('zscale/tonemap/exposure 필터 없음')
+        d = tempfile.mkdtemp()
+        hlg = os.path.join(d, 'hlg.mp4')
+        # SDR 회색(0x808080) 바탕 + 왼쪽 위 SDR 백색 패치 → 선형 ×0.203 → HLG · 오른쪽 위 = 선형 1.0(=1000nit) 패치
+        mk = ("drawbox=x=8:y=8:w=40:h=30:c=white@1:t=fill,setparams=colorspace=bt709:color_primaries=bt709:color_trc=bt709:range=tv,zscale=t=linear:npl=100,format=gbrpf32le,exposure=exposure=-2.3,"
+              "drawbox=x=112:y=8:w=40:h=30:c=white@1:t=fill,zscale=p=bt2020,zscale=t=arib-std-b67:m=2020_ncl:r=tv:npl=1000,format=yuv420p10le")
+        subprocess.run(['ffmpeg', '-v', 'error', '-y', '-f', 'lavfi', '-i', 'color=c=0x808080:s=160x120:r=10:d=0.3,format=yuv420p',
+                        '-vf', mk, '-c:v', 'libx264', '-crf', '8', '-pix_fmt', 'yuv420p10le',
+                        '-colorspace', 'bt2020nc', '-color_primaries', 'bt2020', '-color_trc', 'arib-std-b67', hlg], check=True)
+        out = os.path.join(d, 'sdr.mp4')
+        subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', hlg, '-vf', ly_burn.sdr_chain('HLG'), '-c:v', 'libx264', '-crf', '8',
+                        '-pix_fmt', 'yuv420p', '-colorspace', 'bt709', '-color_primaries', 'bt709', '-color_trc', 'bt709', out], check=True)
+        raw = subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', out, '-frames:v', '1', '-f', 'rawvideo', '-pix_fmt', 'gray', '-'],
+                             capture_output=True, check=True).stdout
+        W = 160
+        gray, white, hi = raw[80 * W + 80], raw[20 * W + 28], raw[20 * W + 132]
+        self.assertLessEqual(abs(gray - 126), 5, '중간 회색(0x808080 → Y126)이 그대로 돌아와야 한다: %d' % gray)
+        self.assertGreaterEqual(white, 215, 'SDR 백색 패치는 백색 근처로(≈222): %d' % white)
+        self.assertGreaterEqual(hi, 228, '1000nit 하이라이트는 흰색으로 정착(회색 뭉개짐 금지): %d' % hi)
+        tag = subprocess.run(['ffprobe', '-v', 'error', '-select_streams', 'v:0', '-show_entries', 'stream=color_space,color_transfer,color_primaries',
+                              '-of', 'csv=p=0', out], capture_output=True, text=True).stdout.strip()
+        self.assertEqual(tag, 'bt709,bt709,bt709')
 
 
 if __name__ == '__main__':
