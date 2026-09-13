@@ -46,6 +46,7 @@ import feedparser
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from stock_filter import is_excluded_title  # 증권/시황 노이즈 수집 제외(SSOT · 운영자 260701)
+from lb_member import pick_lb              # 클러스터 최신 국면 멤버(lb) 선택 — 예고 대표에 묻힌 발생 1보 판정 입력(260913 평의회)
 
 # ── 설정 ────────────────────────────────────────────────────────────
 # 평범한 브라우저로 위장. RSS는 봇 차단이 거의 없지만,
@@ -420,6 +421,16 @@ def score_crosspost(articles):
         # mega(over-merge 의심·별칭 비대상, >40)는 미직렬화 = 페이로드 절감 + 정합.
         articles[rep]["cluster_members"] = sorted(
             {articles[m].get("link") for m in members if articles[m].get("link")}) if len(members) <= 40 else []
+        # 최신 국면 멤버(lb) — 대표=최초 발행·픽=메이저 최초라 「예고 → 발생」 순서면 발생 1보는 제목이 될 수 없어 판정기가
+        # 끝까지 예고 제목만 보던 사고(260913 용혜인 자진사퇴) 봉합. 창 안 최초 [속보] 멤버 1건만 rep 에 싣는다(정본 = lb_member.py).
+        # 해당 클러스터만 ≤~200B · mega(멤버>40)도 객체 1개 = 예산 무접촉 · 표시·url·cross·클러스터링 불변(판정 입력 전용) ·
+        # 실패 = 필드 없음(수집 무영향). 소비 = to_candidates(캐리) → breaking_judge(2행 판정 · BREAKING_LB).
+        try:
+            lb = pick_lb(members, articles, rep, pick, tokenize, _pick_rank)
+            if lb:
+                articles[rep]["lb"] = lb
+        except Exception:  # noqa: BLE001
+            pass
     return articles
 
 

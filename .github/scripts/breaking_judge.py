@@ -376,7 +376,78 @@ def _stamp(c):
       바로 밑에서 돌고(실측 800건 = 0.99MiB) 항목당 필드를 늘리면 예산 초과분이 꼬리부터 기계적으로 잘린다(= 기사 소실).
       해시 길이가 12자로 불변이라 **용량 증가 0**.
     """
-    return hashlib.sha256((RUBRIC_VER + "\n" + (c.get("title") or "")).encode("utf-8")).hexdigest()[:12]
+    parts = [RUBRIC_VER, c.get("title") or ""]
+    lb = _lb_of(c)
+    if lb:
+        parts.append(lb["t"])   # lb 축(260913): 최신 국면 멤버 제목도 도장에 접는다 = 멤버가 바뀌면 재판정 · lb 없는 엔트리는 종전 해시 그대로(폭풍 0)
+    return hashlib.sha256("\n".join(parts).encode("utf-8")).hexdigest()[:12]
+
+
+# ── 최신 국면 멤버(lb) 2행 판정 — 260913 평의회 8인 수렴(정본 선택 = scraper/lb_member.py · 캐리 = to_candidates.carry_lb) ──
+# 왜: 판정 입력이 「대표 제목 1줄」뿐이라 예고 기사가 덩어리 대표를 선점하면 뒤에 온 발생 1보(「[속보] 자진사퇴」)는 멤버로만 흡수돼
+#   판정기가 끝까지 예고 제목만 봤다(260913 용혜인 · 현행 RUBRIC 은 그 1보를 YES 로 낸다 = 드라이런 3/3 실측 · 규칙이 아니라 입력의 문제).
+# 무엇: 엔트리에 lb 가 있으면 판정 목록에 **독립 행**(짝 표기 없음 — 짝으로 묶으면 모델이 둘을 한 사건으로 판정할 여지 · 실측 34행 간섭 0)을 하나 더 넣고
+#   breaking = 대표 행 ∨ lb 행. lb 행이 YES 이고 대표 행이 NO 면 제목·매체·픽·발행을 그 멤버 기사로 스왑(lby=1 · 푸시 문구·링크·발행 나이·자동픽
+#   입력이 전부 실제 사건 기사로) + 처음 뒤집힐 때 grade_rubric 을 지워 경중 1회 재채점(예고 제목의 grade 1 이 알림 축을 잠그는 것 해제 · 사다리 도장 무접촉).
+# 모드(BREAKING_LB · 적용 레버): shadow(기본) = lb 행을 판정하되 breaking 은 대표 행만 반영 · 결과를 scraper/obs/lb_shadow.jsonl 에 기록(운영자가 1주 뒤
+#   「대표 NO·lb YES」 목록을 판독하고 live 결정) / live = 위 스왑·재채점 적용 / 데이터 레버는 to_candidates CAND_LB=0(필드 소멸 = 이 축 전체 소등).
+#   ⚠ 도장은 shadow·live 공통으로 lb 를 접는다 — scrape.yml 의 `--count`(env 없음 = shadow)와 판정 런의 계상이 같아야 디스패치가 안 갈린다.
+# 비용: 콜 수 불변(행만 +1 · 청크 40행) · 재판정 = lb 변경 시(창당 1회 수렴) · judge() 조립부·RUBRIC 무변경 = 회귀 스탬프·RUBRIC_VER 무접촉.
+LB_MODE = (os.environ.get("BREAKING_LB", "shadow") or "shadow").strip().lower()
+LB_LIVE = LB_MODE in ("1", "live", "on", "true")
+LB_SHADOW_LOG = ROOT / "scraper" / "obs" / "lb_shadow.jsonl"
+LB_SHADOW_MAX = 2000   # 롤링 상한(원장은 증거지 아카이브가 아니다 · regress_runs 선례)
+
+
+def _lb_of(c):
+    lb = c.get("lb")
+    return lb if isinstance(lb, dict) and lb.get("t") else None
+
+
+def build_rows(pending):
+    """판정 행 = [(row_id:int, text, entry_idx, kind)] — 대표 행 + (lb 있으면) lb 행. 발행 나이 라벨은 각자 발행시각(⏱ 게이트 입력)."""
+    rows = []
+    for i, c in enumerate(pending):
+        rows.append((len(rows), f"{c.get('title', '')} {_pub_age_label(c)}", i, "rep"))
+        lb = _lb_of(c)
+        if lb:
+            rows.append((len(rows), f"{lb['t']} {_pub_age_label({'published': lb.get('p') or ''})}", i, "lb"))
+    return rows
+
+
+def apply_lb(c, rv, lv, live):
+    """대표 행 판정 rv · lb 행 판정 lv(없으면 None)를 엔트리에 적용. 반환 (breaking, swapped, flipped).
+    live ∧ lv=YES ∧ rv=NO → 스왑(+첫 뒤집힘이면 grade_rubric 삭제 = 1회 재채점). 그 외 = 대표 행 그대로(종전 동작)."""
+    lb = _lb_of(c)
+    if live and lv is True and not rv and lb:
+        flipped = not bool(c.get("breaking"))
+        c["title"] = lb["t"]
+        if lb.get("m"):
+            c["media"] = lb["m"]
+        c["breaking_pick"] = {"url": lb.get("u") or "", "media": lb.get("m") or "", "title": lb["t"]}
+        if lb.get("p") and str(lb["p"]) > str(c.get("published") or ""):   # ISO(+00:00 통일) 문자열 비교 — 멤버가 더 새로울 때만 발행 갱신(푸시 8h·자동픽 4h 창 = 실제 사건 시각)
+            c["published"] = lb["p"]
+        c["lby"] = 1
+        c["breaking"] = True   # 여기서도 확정(뒤집힘 판정의 기준 = 다음 호출이 flipped 를 다시 내지 않게)
+        if flipped:
+            c.pop("grade_rubric", None)   # D2: breaking False→True 뒤집힘 시 경중 1회 재채점(같은 런 gate 스텝이 새 제목으로 채점 · 사다리 도장 무접촉)
+        return True, True, flipped
+    return bool(rv), False, False
+
+
+def _shadow_log(recs):
+    """lb 행이 있던 엔트리의 판정 결과를 원장에 append(롤링 상한) — 비치명."""
+    if not recs:
+        return
+    try:
+        LB_SHADOW_LOG.parent.mkdir(parents=True, exist_ok=True)
+        old = []
+        if LB_SHADOW_LOG.exists():
+            old = LB_SHADOW_LOG.read_text(encoding="utf-8").splitlines()
+        lines = (old + [json.dumps(r, ensure_ascii=False) for r in recs])[-LB_SHADOW_MAX:]
+        LB_SHADOW_LOG.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    except Exception as e:  # noqa: BLE001
+        print(f"::warning::lb_shadow 기록 실패(비치명): {e}")
 
 
 REJUDGE_MAX_H = float(os.environ.get("BREAKING_REJUDGE_MAX_H", "48"))   # rubric 변경 재판정 창(h) — 72→48 축소(운영자 260713 승인 · gate와 짝 · 속보는 시간 민감이라 48h+ 재판정 무의미 · 롤백 = env 72)
@@ -509,11 +580,13 @@ def main():
     total = len(pending)
     pending.sort(key=lambda c: c.get("first_seen") or "", reverse=True)   # 최신(최근 등장) 먼저 판정 → 갓 뜬 속보 우선
     pending = pending[:MAX_PER_RUN]   # 이번 런 상한 — 나머지는 다음 디스패치(self-gate)가 이어 판정(점진 클리어)
-    print(f"판정 대상 {len(pending)}건 (전체 미판정 {total} · 모델 {MODEL} · rubric {RUBRIC_VER} · 청크 {CHUNK})")
+    rows = build_rows(pending)   # 대표 행 + lb 행(있는 엔트리만 · 260913) — 행 단위 청크 = 콜 수는 행 수/40
+    nlb = sum(1 for r in rows if r[3] == "lb")
+    print(f"판정 대상 {len(pending)}건 (전체 미판정 {total} · 모델 {MODEL} · rubric {RUBRIC_VER} · 청크 {CHUNK} · lb행 {nlb} · lb {'live' if LB_LIVE else LB_MODE})")
     verdicts = {}
-    for start in range(0, len(pending), CHUNK):       # 청크별 독립 콜 — 일부 실패해도 나머지 도장
-        chunk = pending[start:start + CHUNK]
-        items = [(str(start + j), f"{c.get('title', '')} {_pub_age_label(c)}") for j, c in enumerate(chunk)]   # 발행나이 라벨 = ⏱ 게이트 입력(제목 자체는 무변형 — 라벨은 판정 프롬프트 전용·candidates 미기록)
+    for start in range(0, len(rows), CHUNK):       # 청크별 독립 콜 — 일부 실패해도 나머지 도장
+        chunk = rows[start:start + CHUNK]
+        items = [(str(rid), text) for rid, text, _, _ in chunk]   # 발행나이 라벨 = ⏱ 게이트 입력(제목 자체는 무변형 — 라벨은 판정 프롬프트 전용·candidates 미기록)
         v, rc, err = judge(items)
         if rc != 0 or not v:
             print(f"::warning::청크 {start}~ 속보 판정 실패(rc={rc}) — 미도장 유지(다음 런 재시도). err={(err or '')[:200]}")
@@ -525,22 +598,40 @@ def main():
             _write(cands)   # EXCLUDE 스윕 유실 봉합(260713 평의회3) — 판정 전멸이어도 제외 소급(breaking→False 보수 강등)은 즉시 반영(구: pending 있으면 이 분기서 스윕이 디스크 미기록 = 하류 push·autopick 노출 창)
         print("::warning::속보 판정 전 청크 실패 — 다음 런 재시도")
         sys.exit(0)
+    rep_row = {i: rid for rid, _, i, k in rows if k == "rep"}
+    lb_row = {i: rid for rid, _, i, k in rows if k == "lb"}
     nbreak = 0
+    shadow = []
     for i, c in enumerate(pending):
-        v = verdicts.get(str(i))
-        if v is None:
+        rv = verdicts.get(str(rep_row[i]))
+        if rv is None:
             continue  # 누락분 = 미도장 유지(다음 런 재시도)
+        lv = verdicts.get(str(lb_row[i])) if i in lb_row else None
+        if i in lb_row and lv is None:
+            continue  # lb 행만 누락 = 반쪽 도장 금지(다음 런 두 행 재판정)
         if is_excluded(c.get("title", "")):
-            v = False                      # 운영자 제외 키워드(김건희 등) → AI가 YES여도 긴급 강제 차단
+            rv = False                     # 운영자 제외 키워드(김건희 등) → AI가 YES여도 긴급 강제 차단
+        lb = _lb_of(c)
+        rep_title = c.get("title") or ""   # 스왑 전 대표 제목(기록용)
+        v, swapped, flipped = apply_lb(c, rv, lv, LB_LIVE)
+        if swapped and is_excluded(c.get("title", "")):
+            v = False
+        if i in lb_row:
+            shadow.append({"ts": datetime.now(timezone(timedelta(hours=9))).strftime("%Y-%m-%dT%H:%M:%S%z"),
+                           "mode": "live" if LB_LIVE else "shadow", "url": c.get("url"), "rep_title": rep_title,
+                           "lb": (lb or {}).get("t"), "lb_url": (lb or {}).get("u"), "rep": bool(rv), "lb_v": bool(lv),
+                           "swapped": swapped, "flipped": flipped, "grade": c.get("grade"), "cross": c.get("cross"),
+                           "arts": c.get("arts"), "burst": c.get("burst"), "first_seen": c.get("first_seen"), "published": c.get("published")})
         c["breaking"] = bool(v)            # pending 은 cands 원소 참조 → 직접 반영
-        c["breaking_rubric"] = _stamp(c)   # 판정 도장(이 규칙 + 이 제목으로 판정됨 — 제목이 갈리면 다음 런이 재판정)
+        c["breaking_rubric"] = _stamp(c)   # 판정 도장(이 규칙 + 이 제목(+lb)으로 판정됨 — 제목·lb 가 갈리면 다음 런이 재판정)
         if v:
             nbreak += 1
     _write(cands)                                # 원자 쓰기(공통 헬퍼)
-    print(f"판정 완료: 🚨속보 {nbreak}건 / 후보 {len(pending)}건 (rubric {RUBRIC_VER})")
+    _shadow_log(shadow)
+    print(f"판정 완료: 🚨속보 {nbreak}건 / 후보 {len(pending)}건 (rubric {RUBRIC_VER} · lb행 {nlb} · lb기록 {len(shadow)})")
     for i, c in enumerate(pending):
-        if verdicts.get(str(i)):
-            print(f"  🚨 {c.get('title', '')[:54]}")
+        if c.get("breaking") and verdicts.get(str(rep_row[i])) is not None:
+            print(f"  🚨 {c.get('title', '')[:54]}{' (lb 스왑)' if c.get('lby') else ''}")
 
 
 if __name__ == "__main__":
