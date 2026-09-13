@@ -1343,7 +1343,9 @@
   .acc-add { min-width:64px; padding:7px 14px; }
   .acc-err { color:var(--warn); font-size:var(--fs-xs); }   /* 행위 피드백 1줄(§🎨 e-가 예외 — 형식·중복·저장 실패) */
   .acc-note { color:var(--mut); font-size:var(--fs-xs); line-height:var(--lh-base); }   /* 구독 채널 안내 1줄(운영자 260723 · 명단=최신글 그대로·팔로우/알고리즘 무관 · .acc-err 형제 계승·톤만 mut) */
-  .acc-foot { display:flex; justify-content:flex-end; }
+  .acc-foot { display:flex; justify-content:space-between; align-items:center; gap:8px; }   /* 좌 = 구독 끄기 토글 · 우 = 저장 */
+  .acc-off { display:flex; align-items:center; gap:6px; color:var(--mut); font-size:var(--fs-xs); cursor:pointer; }   /* 구독 끄기(숨김) 토글 — 보조 톤(.acc-err와 같은 xs 크기) */
+  .acc-off input { accent-color:var(--accent); margin:0; }
   .soc-item { display:block; text-decoration:none; color:var(--fg); padding:12px 14px; border-radius:var(--r-l);   /* 최외곽 박스 모서리 = 레거시(.scrap-cols) 16px로 통일(운영자 260701·옛 14px) */
     background:linear-gradient(135deg,rgba(18,30,34,.18),rgba(11,19,23,.20)); border:1px solid var(--line);   /* 글래스 = 실크 비침 · 테두리 = 피드 .card와 동일 var(--line)(거의 borderless) 통일 → 전 카드 일관(SNS 시안 정체성은 hover·burst·src 텍스트로) · 운영자 260626 */
     box-shadow:0 8px 22px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.05); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
@@ -4128,7 +4130,7 @@ try {
     <div class="acc-chips" id="accChips"></div>
     <div class="acc-addrow"><input type="text" id="accIn" placeholder="계정명 (예: OpenAI)" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="done" aria-label="계정명"><button class="ed-go acc-add" id="accPlus" type="button">추가</button></div>
     <div class="acc-err" id="accErr" role="alert"></div>
-    <div class="acc-foot"><button class="ed-go" id="accSave" type="button">저장</button></div>
+    <div class="acc-foot"><label class="acc-off"><input type="checkbox" id="accOff">구독 끄기(화면 숨김)</label><button class="ed-go" id="accSave" type="button">저장</button></div><!-- 구독 끄기 = 계정 목록은 두고 수집·알림·섹션만 끈다(sns_accounts.json <plat>.off) -->
   </div>
 </dialog>
 
@@ -13760,6 +13762,7 @@ function renderSnsTrends() {
   //   부품 = `.qempty`(레포 공용 인라인 빈 상태 정본 · 2700행 주석 "인라인 로딩 플레이스홀더 공용") + sec() 그대로 = 새 CSS·새 셀렉터 0.
   //   사유 판정 = sysErrMsgs와 **동일 소스**(TRENDS.health.phone) — 알림과 화면이 어긋나지 않게 한 축으로 묶는다(상세 조치는 알림함이 정본이라 여긴 한 줄 + 유도).
   const _subStale = new Set((((TRENDS && TRENDS.health) || {}).subs || {}).stale || []);
+  const _subOff = new Set((((TRENDS && TRENDS.health) || {}).subs || {}).off || []);   // 운영자가 끈 플랫폼(설정 → 구독 채널 → 구독 끄기) = 섹션 자체를 안 그린다(비움 문구도 없음 = 숨김)
   const _PHONE_PLAT = { insta: 1, threads: 1 };   // 메타 데센 IP 차단 = 폰 전용 공급원(sysErrMsgs SYS_PHONE_PLAT과 동일 축)
   const subEmptySec = (key, lbl, plat) => {
     // 등록 0개 = 「구독 비움 상태」 명시(운영자 260810 "비었다고 - 구독 비움 상태 라고 뜨게해줘") — 구판은 여기서 ''를 반환해 **섹션을 통째로 안 그렸다**. `_subStale` 소스가 health.subs.stale = 「등록 계정 있음 ∧ 이번 런 0건」이라, 등록이 0개면 애초에 그 집합에 못 들어와 침묵이 유일한 출력이었다. ⚠ 실사고 260810 = 틱톡 등록 계정이 0개(`viewer/sns_accounts.json` tiktok {kr:[],gl:[]} · 형제는 x6·insta20·youtube30·threads5)라 「틱톡 - 구독」이 화면에서 사라졌고, 바로 옆 「틱톡 - 추천」(tikwm for-you 표본)이 그 자리를 대신하는 것처럼 보여 운영자가 **그것을 자기 구독 채널로 읽었다**. 화면이 침묵하면 사람이 옆 것으로 메운다 = 이 레포가 반복해 겪은 「관측이 지워지면 다음 사람이 추측으로 메운다」와 같은 축(스레드 `[1차 실측]`·틱톡 `_e1`·smoke 사유 0자). 부품 = 아래 stale 분기의 `sec()`+`.qempty` **그대로** = 신규 CSS·신규 셀렉터 0
@@ -14039,19 +14042,22 @@ function renderSnsTrends() {
   //  ⚠ 수집(sns_trends.py AI_QUERIES)·데이터(aivid)·설정 키워드 칩은 **그대로 둔다** — 키워드 알림 감시가 그 배열을 원료로 쓴다(그 자리를 끊으면 'AI 영상' 키워드 감시가 조용히 죽는다).
   //  되돌림 = 아래 한 줄의 주석 해제)
   // if (aiL.length) gCUR += sec('ai', '유튜브 - AI 영상', rtBase, aiL.length, '<div class="trend-grid wd">' + aiL.map((t, i) => card({ ...t, nocls: 'ytfb' }, i, 1)).join('') + '</div>');
-  if (sytAll.length) gCUR += sec('syt', '유튜브 - 구독', subStaleUnit('youtube', sytAll), sytAll.length, '<div class="trend-grid wd">' + sytAll.map((t, i) => card({ ...t, nocls: 'ytfb' }, i, 1)).join('') + '</div>');   // 유튜브 구독 = 큐레이션 게시물 소분류(운영자 260723 · 260724 지역 무관 단일 블록) · 16:9 wd 카드 계승 · 빈 = 미표기(조용한 공백)
+  if (_subOff.has('youtube')) { /* 구독 끔 = 숨김 */ }
+  else if (sytAll.length) gCUR += sec('syt', '유튜브 - 구독', subStaleUnit('youtube', sytAll), sytAll.length, '<div class="trend-grid wd">' + sytAll.map((t, i) => card({ ...t, nocls: 'ytfb' }, i, 1)).join('') + '</div>');   // 유튜브 구독 = 큐레이션 게시물 소분류(운영자 260723 · 260724 지역 무관 단일 블록) · 16:9 wd 카드 계승 · 빈 = 미표기(조용한 공백)
   else gCUR += subEmptySec('syt', '유튜브 - 구독', 'youtube');   // 0건이어도 등록 계정이 있으면(stale) 사유를 남긴다(운영자 260727)
   // 틱톡 인기(260726 통합 랭킹 = 18h·10만↑·해외 ×0.2 감점 = tkv/TK_CUT_H 로직 그대로 계승) → 큐레이션 게시물(gCUR) 이관(운영자 260727 "다 큐레이션으로 보내줘" — 틱톡은 공개 최다조회순 API 부재 = tikwm for-you 표본이라 진짜 인기 아님 · 대분류만 이동, 랭킹 로직 무접촉) · 라벨 '틱톡 인기'로 구독 '틱톡'(stk)과 구분 · gTK 대분류 소멸(→ GRPS 자동 제외)
   if (tkL.length) gCUR += sec('tk', '틱톡 - 추천', rtBase, tkL.length, '<div class="trend-grid wd">' + tkL.map((t, i) => card({ ...t, cover: t.cover, nocls: 'tkfb' }, i, 1)).join('') + '</div>');   // 16:9 wd 그리드(AI영상 계승) · 정렬바 0(카드 그리드 문법 · 게시물 xgrid만 정렬바)
   else if (tkv.length) gCUR += sec('tk', '틱톡 - 추천', rtBase, tkv.length, tkv.map((t, i) =>
     row(i, t.url || '#', t.views ? vfmt(t.views) : '', t, '')).join(''));
   else if (tk.length) gCUR += sec('tk', '틱톡 - 해시태그', '· 인기', Math.min(tk.length, 10), '<div class="trend-tags">' + tk.slice(0, 10).map(() => '<span class="trend-tag"></span>').join('') + '</div>');
-  if (stkAll.length) gCUR += sec('stk', '틱톡 - 구독', subStaleUnit('tiktok', stkAll), stkAll.length, '<div class="trend-grid wd">' + stkAll.map((t, i) => card({ ...t, nocls: 'tkfb' }, i, 1)).join('') + '</div>');   // 틱톡 구독 = 큐레이션 게시물 소분류(운영자 260723 · 260724 지역 무관 단일 블록) · 16:9 wd 통일 · 정렬바 없음(stk 기본 조회수순)
+  if (_subOff.has('tiktok')) { /* 구독 끔 = 숨김 */ }
+  else if (stkAll.length) gCUR += sec('stk', '틱톡 - 구독', subStaleUnit('tiktok', stkAll), stkAll.length, '<div class="trend-grid wd">' + stkAll.map((t, i) => card({ ...t, nocls: 'tkfb' }, i, 1)).join('') + '</div>');   // 틱톡 구독 = 큐레이션 게시물 소분류(운영자 260723 · 260724 지역 무관 단일 블록) · 16:9 wd 통일 · 정렬바 없음(stk 기본 조회수순)
   else gCUR += subEmptySec('stk', '틱톡 - 구독', 'tiktok');   // 0건이어도 등록 계정이 있으면(stale) 사유를 남긴다(운영자 260727)
-  if (sreAll.length) gCUR += sec('sre', '인스타그램 - 구독', subStaleUnit('insta', sreAll), sreAll.length, '<div class="trend-grid wd">' + sreAll.map((t, i) => card({ ...t, nocls: 'igfb' }, i, 1)).join('') + '</div>');   // 인스타 구독 = 큐레이션 게시물 소분류(운영자 260723 · 260724 지역 무관 단일 블록) · 16:9 wd 통일
+  if (_subOff.has('insta')) { /* 구독 끔 = 숨김 */ }
+  else if (sreAll.length) gCUR += sec('sre', '인스타그램 - 구독', subStaleUnit('insta', sreAll), sreAll.length, '<div class="trend-grid wd">' + sreAll.map((t, i) => card({ ...t, nocls: 'igfb' }, i, 1)).join('') + '</div>');   // 인스타 구독 = 큐레이션 게시물 소분류(운영자 260723 · 260724 지역 무관 단일 블록) · 16:9 wd 통일
   else gCUR += subEmptySec('sre', '인스타그램 - 구독', 'insta');   // 0건이어도 등록 계정이 있으면(stale) 사유를 남긴다(운영자 260727)
   // X 큐레이션 = 소분류 라벨('큐레이션 게시물 · 한국') 폐지·대분류 직속(운영자 260720 — kcomm 이중 라벨 해소 선례 계승) · 정렬 칩 = 대분류 헤더 xSeg 이관 · div.trend-sec = 형제 리듬(rt2col 리셋·모바일 구분선)만 계승(details 아님 = 접기 비대상) · data-sec 유지 = fill 계약 불변
-  const sxSec = sxAll.length ? sec('sx', 'X - 구독', subStaleUnit('x', sxAll), sxAll.length, '<div class="xgrid">' + sxAll.map((t, i) => xcard({ ...t, nocls: 'xfb' }, i, 1)).join('') + '</div>') : subEmptySec('sx', 'X - 구독', 'x');   // nokw=1 = KEYWORD 줄 폐지(운영자 260727 "엑스에 키워드는 빼줘 · 그만큼 글자를 당기면됨") — 그 한 줄을 본문 클램프가 흡수 · 본문 줄수 = .xcard-tx.s2 단일 정본(운영자 260801 3줄 고정 예약 · 구 X 전용 5줄 분기 흡수)   // X 구독 = 큐레이션 게시물 소분류(운영자 260723 · 260724 지역 무관 단일 블록) · 정렬바 폐지 = 좋아요 고정(운영자 260726)
+  const sxSec = _subOff.has('x') ? '' : sxAll.length ? sec('sx', 'X - 구독', subStaleUnit('x', sxAll), sxAll.length, '<div class="xgrid">' + sxAll.map((t, i) => xcard({ ...t, nocls: 'xfb' }, i, 1)).join('') + '</div>') : subEmptySec('sx', 'X - 구독', 'x');   // nokw=1 = KEYWORD 줄 폐지(운영자 260727 "엑스에 키워드는 빼줘 · 그만큼 글자를 당기면됨") — 그 한 줄을 본문 클램프가 흡수 · 본문 줄수 = .xcard-tx.s2 단일 정본(운영자 260801 3줄 고정 예약 · 구 X 전용 5줄 분기 흡수)   // X 구독 = 큐레이션 게시물 소분류(운영자 260723 · 260724 지역 무관 단일 블록) · 정렬바 폐지 = 좋아요 고정(운영자 260726)
   // ⑦ 블루스카이 = X 우측 열 합류(운영자 260720 "엑스랑 좌우로 배치 · 첨부1 참고" = rt2col 구글|시그널 문법 계승 · 기타(Q240) 대분류 통합 선례) — 한쪽 결측 = 단독 폭(조용한 공백 동축) · 번역본만 노출(운영자 260718) 유지
   gCUR += sxSec;   // X 구독 = 큐레이션 게시물 합류(운영자 260723 · 260724 지역 무관 단일 블록) · 구 gX(X 대분류) 소멸(트렌드는 gGG·구독은 gCUR)
   // (구 X 세계군 별도 sec[sx-gl] = 260724 지역 무관 통합으로 sx 단일 블록에 병합 · 국내/세계 구분 폐지)
@@ -14079,7 +14085,8 @@ function renderSnsTrends() {
   // (구 gBS 독립 대분류 = 260720 X 우측 열 합류 → 260721 게시물 표면 소멸 "블루스카이는 실검만" — bskS/bskL/bskSec/bcard 정의 = git 이력 · 잔존 블스 표면 = 실시간 트렌드 반갈 btrSec뿐)
   // ⑧ 스레드 구독 = 큐레이션 게시물(gCUR) 합류(운영자 260723) · 공급 = 폰/맥 phone_subs 전용 · 구 gTH(스레드 대분류) 소멸
   const sthAll = divRank(bySort(sth, 'likes')).slice(0, 10);   // 스레드 구독 = 지역 무관 통합(운영자 260724) · divRank = 계정 도배 감산(260725 Q557 — 운영자 "스레드도 동일한 느낌으로" · X sx 정본 이식 = 같은 함수·같은 쿼터3/밀기3) · 정렬 = 좋아요 고정(운영자 260726 정렬바 폐지)
-  if (sthAll.length) gCUR += sec('sth', '스레드 - 구독', subStaleUnit('threads', sthAll), sthAll.length, '<div class="xgrid">' + sthAll.map((t, i) => xcard({ ...t, nocls: 'thfb' }, i, 1)).join('') + '</div>');   // 스레드 구독 = 큐레이션 게시물 소분류(운영자 260723 · 260724 지역 무관 단일 블록) · 정렬바 폐지(260726 · X sx와 동형)   // nokw=1 = KEYWORD 줄 폐지(운영자 260831 "스레드 수집때 키워드 안가져오게" — X 260727 "엑스에 키워드는 빼줘" 처방 동형 이식 · fillT kw 줄도 같은 커밋에 회수 = 스팬 없는 카드에 fillT가 남으면 인덱스 어긋남 · 데이터 축 kw·sum은 무접촉 = X와 동일{요약 파이프 sns_sum.sh는 kw∧sum 동시 채택 계약이라 kw를 끊으면 한줄요약까지 죽는다})
+  if (_subOff.has('threads')) { /* 구독 끔 = 숨김 */ }
+  else if (sthAll.length) gCUR += sec('sth', '스레드 - 구독', subStaleUnit('threads', sthAll), sthAll.length, '<div class="xgrid">' + sthAll.map((t, i) => xcard({ ...t, nocls: 'thfb' }, i, 1)).join('') + '</div>');   // 스레드 구독 = 큐레이션 게시물 소분류(운영자 260723 · 260724 지역 무관 단일 블록) · 정렬바 폐지(260726 · X sx와 동형)   // nokw=1 = KEYWORD 줄 폐지(운영자 260831 "스레드 수집때 키워드 안가져오게" — X 260727 "엑스에 키워드는 빼줘" 처방 동형 이식 · fillT kw 줄도 같은 커밋에 회수 = 스팬 없는 카드에 fillT가 남으면 인덱스 어긋남 · 데이터 축 kw·sum은 무접촉 = X와 동일{요약 파이프 sns_sum.sh는 kw∧sum 동시 채택 계약이라 kw를 끊으면 한줄요약까지 죽는다})
   else gCUR += subEmptySec('sth', '스레드 - 구독', 'threads');   // 0건이어도 등록 계정이 있으면(stale) 사유를 남긴다(운영자 260727)
   let gHN = '';   // ⑫ 해커뉴스 그룹(운영자 260713 · 260720 brow = 순위+제목만[스코어·삼각형·시간열 제거] · 클릭 = 원문/HN)
   const hnL = hnl.slice(0, 8);   // 상한 12→8(운영자 260721 Q383 "해커도 8위까지만" — 박스오피스와 좌우 균형)
@@ -14641,6 +14648,7 @@ const _accDirty = new Set();   // 편집된 플랫폼 키 — 저장 활성(미�
 function accPlat(p) {   // 구 평면 배열 = 세계(gl) 흡수(서버 cleanPlat 미러) · 유튜브 토픽 3축(shorts·aivid·news_cat) 동행 보존(운영자 260730 — 안 실으면 저장 시 유실 = snsacc.js "youtube patch = 토픽 전체 동봉 필수")
   const o = Array.isArray(p) ? { kr: [], gl: p.slice() } : { kr: (p && p.kr) || [], gl: (p && p.gl) || [] };
   if (p && !Array.isArray(p)) {
+    if (p.off === true) o.off = true;   // 구독 끔(숨김) 플래그 동행 보존 — 안 실으면 저장 시 유실(서버 patch = 키 통째 교체)
     if (Array.isArray(p.shorts)) o.shorts = p.shorts.slice();
     if (Array.isArray(p.aivid)) o.aivid = p.aivid.slice();
     if (Number.isInteger(p.news_cat)) o.news_cat = p.news_cat;
@@ -14683,8 +14691,11 @@ function renderAccChips() {
       YT_CATS.map(c => `<button class="acc-chip${c[0] === cur ? ' on' : ''}" type="button" data-cat="${c[0]}"><span></span></button>`).join('') + '</div>';
     box.querySelectorAll('.acc-chip').forEach((c, i) => { c.querySelector('span').textContent = YT_CATS[i][1]; c.setAttribute('aria-pressed', String(YT_CATS[i][0] === cur)); });
   }
+  const offEl = $('#accOff'); if (offEl) offEl.checked = P.off === true;   // 구독 끔(숨김) 토글 = 현재 탭 플랫폼 상태 반영
   $('#accSave').disabled = !_accDirty.size;   // 저장 = 편집 있을 때만 활성(dim = 미저장 어포던스 · §🎨 e)
 }
+// 구독 끔(숨김) 토글 — 켜면 그 플랫폼 구독을 수집·정체 알림·화면 섹션 전부에서 뺀다(계정 목록은 보존 · 다시 끄면 그대로 복귀). 저장 = 아래 저장 버튼(dirty 축 계승).
+const _accOffEl = $('#accOff'); if (_accOffEl) _accOffEl.addEventListener('change', e => { const P = SNS_ACC && SNS_ACC[_accTab]; if (!P) return; if (e.target.checked) P.off = true; else delete P.off; _accDirty.add(_accTab); renderAccChips(); });
 async function openSnsAcc(plat) {
   if (plat && ['x', 'tiktok', 'insta', 'youtube', 'threads'].indexOf(plat) >= 0) _accTab = plat;   // 대분류 헤더 펜 진입 = 해당 플랫폼 탭 선착지(운영자 260721 · .on 동기 = renderAccChips 기존 경로)
   $('#accErr').textContent = '';

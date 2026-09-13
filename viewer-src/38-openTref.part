@@ -165,6 +165,7 @@ const _accDirty = new Set();   // 편집된 플랫폼 키 — 저장 활성(미�
 function accPlat(p) {   // 구 평면 배열 = 세계(gl) 흡수(서버 cleanPlat 미러) · 유튜브 토픽 3축(shorts·aivid·news_cat) 동행 보존(운영자 260730 — 안 실으면 저장 시 유실 = snsacc.js "youtube patch = 토픽 전체 동봉 필수")
   const o = Array.isArray(p) ? { kr: [], gl: p.slice() } : { kr: (p && p.kr) || [], gl: (p && p.gl) || [] };
   if (p && !Array.isArray(p)) {
+    if (p.off === true) o.off = true;   // 구독 끔(숨김) 플래그 동행 보존 — 안 실으면 저장 시 유실(서버 patch = 키 통째 교체)
     if (Array.isArray(p.shorts)) o.shorts = p.shorts.slice();
     if (Array.isArray(p.aivid)) o.aivid = p.aivid.slice();
     if (Number.isInteger(p.news_cat)) o.news_cat = p.news_cat;
@@ -207,8 +208,11 @@ function renderAccChips() {
       YT_CATS.map(c => `<button class="acc-chip${c[0] === cur ? ' on' : ''}" type="button" data-cat="${c[0]}"><span></span></button>`).join('') + '</div>';
     box.querySelectorAll('.acc-chip').forEach((c, i) => { c.querySelector('span').textContent = YT_CATS[i][1]; c.setAttribute('aria-pressed', String(YT_CATS[i][0] === cur)); });
   }
+  const offEl = $('#accOff'); if (offEl) offEl.checked = P.off === true;   // 구독 끔(숨김) 토글 = 현재 탭 플랫폼 상태 반영
   $('#accSave').disabled = !_accDirty.size;   // 저장 = 편집 있을 때만 활성(dim = 미저장 어포던스 · §🎨 e)
 }
+// 구독 끔(숨김) 토글 — 켜면 그 플랫폼 구독을 수집·정체 알림·화면 섹션 전부에서 뺀다(계정 목록은 보존 · 다시 끄면 그대로 복귀). 저장 = 아래 저장 버튼(dirty 축 계승).
+const _accOffEl = $('#accOff'); if (_accOffEl) _accOffEl.addEventListener('change', e => { const P = SNS_ACC && SNS_ACC[_accTab]; if (!P) return; if (e.target.checked) P.off = true; else delete P.off; _accDirty.add(_accTab); renderAccChips(); });
 async function openSnsAcc(plat) {
   if (plat && ['x', 'tiktok', 'insta', 'youtube', 'threads'].indexOf(plat) >= 0) _accTab = plat;   // 대분류 헤더 펜 진입 = 해당 플랫폼 탭 선착지(운영자 260721 · .on 동기 = renderAccChips 기존 경로)
   $('#accErr').textContent = '';

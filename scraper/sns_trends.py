@@ -95,6 +95,7 @@ SUB_OK = {}
 #   사유는 러너 것**이라 miss와 why의 주체가 어긋나 있었다(260728: 러너 429/403 기록이 폰 결과 위에 얹힘).
 #   scripts/phone_subs.py가 sns_subs_phone.json `_cover`로 같이 실어 보내면 채택 시 이 값으로 갈아 끼운다.
 PHONE_COVER = {"ok": {}, "why": {}}
+SUB_OFF = set()   # 운영자가 끈 구독 플랫폼(sns_accounts.json <plat>.off=true · 목록은 보존 = 숨김) — _load_accounts가 채우고 health.subs.off로 화면에 전달
 
 
 def _hcode(e):
@@ -589,6 +590,7 @@ def _load_accounts():
     반환 = (플랫폼별 평면 핸들 목록[kr 먼저 = 수집 우선순위], 지역 맵 dict[k][handle.lower()]='kr'|'gl')."""
     out = {k: [] for k in ("x", "tiktok", "insta", "youtube", "threads")}
     reg = {k: {} for k in out}
+    SUB_OFF.clear()
     try:
         j = json.load(open(ACC, encoding="utf-8"))
         if not isinstance(j, dict):
@@ -599,6 +601,9 @@ def _load_accounts():
                 v = {"gl": v}   # 구 평면 스키마 = 세계
             if not isinstance(v, dict):
                 v = {}
+            if v.get("off") is True:   # 구독 끔(숨김) = 목록은 그대로 두고 수집·정체 판정·화면 전부 미등록과 동일하게(0계정 게이트 재사용)
+                SUB_OFF.add(k)
+                continue
             for r in ("kr", "gl"):
                 n = 0
                 for x in (v.get(r) if isinstance(v.get(r), list) else []):
@@ -2843,6 +2848,7 @@ def main():
               "expressway": _hh("expressway", exw, bool(EX_KEY)),
               "subs": _hh("subs", (subs_new if (subs_new is not None and subs_any) else []), SUBS_ON)}
     if subs_new is not None and acc:
+        health["subs"]["off"] = sorted(SUB_OFF)   # 운영자가 끈 플랫폼 — 뷰어 renderSnsTrends가 그 구독 섹션을 아예 안 그린다(비움 상태 문구도 없음 = 숨김)
         health["subs"]["stale"] = [k for k in ("x", "tiktok", "insta", "youtube", "threads") if acc[k] and not subs_new[k]]   # 이번 런 carry 폴백 축 — 집계 ok=True가 개별 플랫폼 7일 부패를 가리던 은폐 보강(260721 틱톡 판례 · 표시 전용)
         # 부분 실패 관측(운영자 260727 "재발 방지 대책") — stale은 **전멸(0건)만** 잡아서, 등록 11계정 중 8개만
         #   걷혀도 화면·알림 어디에도 안 뜨던 사각(260727 판례: 틱톡 @g_i_dle·@kleague·@formula1 403 3계정 조용히 누락).

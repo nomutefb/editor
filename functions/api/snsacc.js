@@ -39,6 +39,7 @@ function cleanPlat(v, k) {   // 한국/세계 2군(운영자 260712) — 구 평
   if (!v || typeof v !== 'object') v = {};
   const seen = new Set();
   const o = { kr: cleanList(v.kr, CAP[k], seen), gl: cleanList(v.gl, CAP[k], seen) };
+  if (v.off === true) o.off = true;   // 구독 끔(숨김) — 목록은 보존 · 스크래퍼 _load_accounts가 0계정으로 취급 · 미설정 = 키 없음(하위호환)
   if (k === 'youtube') {   // 큐레이션 계정 + 쇼츠·AI영상 키워드·뉴스 카테고리(스크래퍼 sns_trends.py _ytc가 소비 · 없으면 하드코딩 폴백 = 하위호환) · 미설정 키는 미보존(폴백 유지)
     if (Array.isArray(v.shorts)) o.shorts = cleanKw(v.shorts);
     if (Array.isArray(v.aivid)) o.aivid = cleanKw(v.aivid);

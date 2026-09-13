@@ -163,7 +163,7 @@
     <div class="acc-chips" id="accChips"></div>
     <div class="acc-addrow"><input type="text" id="accIn" placeholder="계정명 (예: OpenAI)" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="done" aria-label="계정명"><button class="ed-go acc-add" id="accPlus" type="button">추가</button></div>
     <div class="acc-err" id="accErr" role="alert"></div>
-    <div class="acc-foot"><button class="ed-go" id="accSave" type="button">저장</button></div>
+    <div class="acc-foot"><label class="acc-off"><input type="checkbox" id="accOff">구독 끄기(화면 숨김)</label><button class="ed-go" id="accSave" type="button">저장</button></div><!-- 구독 끄기 = 계정 목록은 두고 수집·알림·섹션만 끈다(sns_accounts.json <plat>.off) -->
   </div>
 </dialog>
 

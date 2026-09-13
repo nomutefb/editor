@@ -1282,7 +1282,9 @@
   .acc-add { min-width:64px; padding:7px 14px; }
   .acc-err { color:var(--warn); font-size:var(--fs-xs); }   /* 행위 피드백 1줄(§🎨 e-가 예외 — 형식·중복·저장 실패) */
   .acc-note { color:var(--mut); font-size:var(--fs-xs); line-height:var(--lh-base); }   /* 구독 채널 안내 1줄(운영자 260723 · 명단=최신글 그대로·팔로우/알고리즘 무관 · .acc-err 형제 계승·톤만 mut) */
-  .acc-foot { display:flex; justify-content:flex-end; }
+  .acc-foot { display:flex; justify-content:space-between; align-items:center; gap:8px; }   /* 좌 = 구독 끄기 토글 · 우 = 저장 */
+  .acc-off { display:flex; align-items:center; gap:6px; color:var(--mut); font-size:var(--fs-xs); cursor:pointer; }   /* 구독 끄기(숨김) 토글 — 보조 톤(.acc-err와 같은 xs 크기) */
+  .acc-off input { accent-color:var(--accent); margin:0; }
   .soc-item { display:block; text-decoration:none; color:var(--fg); padding:12px 14px; border-radius:var(--r-l);   /* 최외곽 박스 모서리 = 레거시(.scrap-cols) 16px로 통일(운영자 260701·옛 14px) */
     background:linear-gradient(135deg,rgba(18,30,34,.18),rgba(11,19,23,.20)); border:1px solid var(--line);   /* 글래스 = 실크 비침 · 테두리 = 피드 .card와 동일 var(--line)(거의 borderless) 통일 → 전 카드 일관(SNS 시안 정체성은 hover·burst·src 텍스트로) · 운영자 260626 */
     box-shadow:0 8px 22px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.05); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
