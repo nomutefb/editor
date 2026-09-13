@@ -37,6 +37,46 @@ GRADE3_PROMOTE_H = int(os.environ.get("BREAKING_GRADE3_PROMOTE_H", "4"))
 ALIAS_MIN_SHARED = int(os.environ.get("CAND_ALIAS_MIN_SHARED", "2"))  # 공유 멤버 url 최소(다를수록 보수)
 ALIAS_JACCARD = float(os.environ.get("CAND_ALIAS_JACCARD", "0.5"))    # 멤버집합 자카드 최소
 REPORT_CAP = int(os.environ.get("CAND_REPORT_CAP", "60"))             # report_count 상한(블롭 증폭 방지·§보수성)
+# ── 최신 국면 멤버(lb) 캐리 — 예고 대표에 묻힌 발생 1보를 판정기 2행 입력으로(정본 scraper/lb_member.py · 260913 평의회 8인) ──
+# CAND_LB=0 = 데이터 레버(롤백): lb 를 싣지도 캐리하지도 않음 → 한 회차 안에 필드 소멸 → 판정 도장이 lb 축을 자연히 잃어 그 엔트리만
+#   대표 제목으로 1회 재판정(폭풍 아님 · 해당 클러스터만). 적용 레버(BREAKING_LB shadow|live)는 breaking_judge 쪽.
+LB_ON = os.environ.get("CAND_LB", "1").strip().lower() not in ("0", "false", "no", "off")
+LB_KEEP_H = float(os.environ.get("CAND_LB_KEEP_H", "2"))   # 스크래퍼가 이번 런에 lb 를 안 실었을 때 prev lb 유지 시한(발행 기준) — 창 이탈·옛 코드 회차 완충 · 예산 상한(동시 보유 객체 수 = 최근 2h 태그 클러스터 수)
+
+
+def _lb_age_h(iso, now):
+    """lb 발행 나이(h) — 파싱 실패 = 무한(=버림 방향 · 예산 보수)."""
+    try:
+        t = datetime.fromisoformat(str(iso).replace("Z", "+00:00"))
+    except Exception:  # noqa: BLE001
+        try:
+            t = datetime.strptime(str(iso), "%Y-%m-%dT%H:%M:%S%z")
+        except Exception:  # noqa: BLE001
+            return float("inf")
+    if t.tzinfo is None:
+        t = t.replace(tzinfo=timezone.utc)
+    return (now - t).total_seconds() / 3600
+
+
+def carry_lb(prev, c, entry, now):
+    """병합된 entry 에 lb·스왑 상태를 캐리한다(entry = {**prev, **c} 직후 호출 · 제자리 수정).
+    ⓐ 스왑(lby=1 · breaking_judge live 가 lb 멤버를 긴급으로 확정해 제목·픽·발행을 그 기사로 바꾼 것)은 스크래퍼 픽이 매 런
+       예고 기사로 되돌리므로 prev 의 제목·매체·픽·발행을 고정한다(= 「YES 한정 픽 스왑」 영속).
+    ⓑ 이번 런 c 에 lb 가 없으면(창 이탈·옛 코드 회차·CAND_LB=0) prev lb 는 스왑됐거나 발행 LB_KEEP_H 내일 때만 유지, 아니면 제거
+       (예산 상한 + lb 이탈 시 도장이 바뀌어 대표 제목만으로 1회 재판정 — 스왑건은 유지라 강등 경로 없음)."""
+    if not LB_ON:
+        entry.pop("lb", None)
+        return entry
+    if prev.get("lby"):
+        for k in ("title", "media", "breaking_pick", "published"):
+            if prev.get(k):
+                entry[k] = prev[k]
+        entry["lby"] = 1
+    if "lb" not in c and prev.get("lb"):
+        keep = bool(prev.get("lby")) or _lb_age_h((prev.get("lb") or {}).get("p"), now) < LB_KEEP_H
+        if not keep:
+            entry.pop("lb", None)
+    return entry
 
 KST = timezone(timedelta(hours=9))
 # 스크래퍼 영문 섹션 → 뷰어 카테고리(catBucket 호환: 정치→사회 매핑은 뷰어가 처리)
@@ -240,6 +280,8 @@ def main():
             "breaking_pick": a.get("breaking_pick") or None,
             "cluster_members": a.get("cluster_members") or [],   # 별칭승계 입력(rep url 점프 추적)
         }
+        if LB_ON and isinstance(a.get("lb"), dict) and a["lb"].get("t"):
+            fresh[url]["lb"] = a["lb"]   # 최신 국면 멤버(lb_member.pick_lb) — 있는 클러스터만 키를 박는다(없으면 키 자체 없음 = 예산)
 
     # ── 별칭 승계 준비 — 멤버 보유·non-mega 기존 후보만 별칭 풀(결정적 정렬). 1:1(claimed)·보수 임계. ──
     def _members(e):
@@ -302,6 +344,7 @@ def main():
         if not c.get("cat") and prev.get("cat"):
             c["cat"] = prev["cat"]
         entry = {**prev, **c}                     # prev의 grade/breaking 도장 등 보존 + c가 최신 덮음
+        carry_lb(prev, c, entry, now)             # lb 캐리·스왑 고정(260913 · 위 carry_lb 정본)
         if is_alias:                              # 별칭=다른 url(제목 다를 수 있음) → AI rubric 비워 재판정 유도(stale 도장 전파 차단)
             entry.pop("grade_rubric", None)
             entry.pop("breaking_rubric", None)

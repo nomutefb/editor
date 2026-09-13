@@ -146,7 +146,8 @@ jobs:
           BREAKING_MODEL: claude-opus-5   # **운영자 260810 "속보 판정도 오퍼스 5 노력도 max로 가자 어쩔수없다"** — 경중 채점(GATE)에 이어 속보 이진 판정도 260630 sonnet 강등을 되돌린다. 사유 = 이 판정이 **폰 긴급알림·자동요약의 유일한 문지기**라 오탐·누락 비용이 랭킹 오차보다 비싸다(경중은 순위가 좀 틀리는 것, 속보는 안 울려야 할 때 울리거나 울려야 할 때 안 울리는 것). ⚠️ 대가 = 쿼터 소모 복귀 · 롤백 = 이 값을 claude-sonnet-5 로.
           BREAKING_EFFORT: max   # 운영자 260810 지정. 구 주석의 "이진 판정엔 추론 불필요"는 이번 지시로 무효 — 실제 판정은 게이트 8종(해외 군사·개별 강력범죄·증시·수사 절차·연예·기상·발행 12h·영문 문체)의 **우선순위 대조**라 추론이 듣는 자리다. ⚠️ 아래 BREAKING_TIMEOUT 동반 필수.
           BREAKING_TIMEOUT: "900"   # 콜당 상한 300→900s(260810) — effort max 는 추론 토큰이 붙어 300s 를 넘길 수 있고, 초과하면 rc≠0 = 미도장 = 다음 런 재시도라 **증상 없이 영원히 재시도만 도는** 상태로 굳는다(gate GATE_TIMEOUT 과 동일 사유·동일 값).
-          BREAKING_SAFE: '1'   # 승격 완료(260701 카나리아 실측 rc=0·OAuth 정상·cache_creation 53,855→1,512 −97.2%): 자동/예약 judge 런도 --safe-mode(CLAUDE.md 로드 스킵). 롤백=이 줄을 '' 또는 제거(코드 기본 OFF).
+          BREAKING_SAFE: '1'   # 승격 완료(260701 카나리아 실측 rc=0·OAuth 정상·cache_creation 53,855→1,512 −97.2%): 자동/예약 judge 런도 --safe-mode(CLAUDE.md 로드 스킵). 롤백=이 줄을 ''
+          BREAKING_LB: ${{ vars.BREAKING_LB || 'shadow' }}   # 최신 국면 멤버(lb) 2행 판정 적용 레버(260913 평의회) — shadow(기본) = 판정·기록만(scraper/obs/lb_shadow.jsonl) / live = 스왑·재채점 적용. repo variable BREAKING_LB 로 승격 · 데이터 레버(소등)는 scrape 쪽 CAND_LB=0 · 정본 주석 = breaking_judge.py LB_MODE 또는 제거(코드 기본 OFF).
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets[format('CLAUDE_CODE_OAUTH_TOKEN_{0}', inputs.account || vars.ACTIVE_ACCOUNT || 'EMS1130N')] }}
           CLAUDE_CODE_OAUTH_TOKEN_ALT: ${{ (inputs.account || vars.ACTIVE_ACCOUNT || 'EMS1130N') == 'MUTENO' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_MUTENO }}   # 서브1 폴오버(활성 다음 우선순위 · 체인 EMS1130N→MUTENO→EMS1130G→EMS1130M)
           CLAUDE_CODE_OAUTH_TOKEN_ALT2: ${{ (inputs.account || vars.ACTIVE_ACCOUNT || 'EMS1130N') == 'EMS1130N' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130N }}   # 서브2 폴오버(체인 3번째)
@@ -166,7 +167,7 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add viewer/candidates.json 2>/dev/null || true
+          for f in viewer/candidates.json scraper/obs/lb_shadow.jsonl; do [ -e "$f" ] && git add "$f"; done   # 파일별 add(Q980 · 결측 경로가 전체 스테이징을 무음 abort 못 하게) · lb_shadow = lb 2행 판정 원장(append · git_land 줄 합집합 축 · 260913)
           if git diff --cached --quiet; then echo "속보 변동 없음 — 조기 커밋 생략"; exit 0; fi
           # ⚠⚠ 260817 봉합 — 선행 `git commit` 제거(pick.yml 과 같은 병 · 그쪽 주석이 정본).
           # ⚠⚠ 260816 봉합 — 구판 `pull --rebase -X ours` 는 리베이스에서 ours = **upstream** 이라 충돌 시
@@ -176,7 +177,7 @@ jobs:
           #   원장 축의 유일 무손실이 이 방식이다(`-X theirs` 는 남의 줄을 지운다 = 샌드박스 실측).
           #   PAGES_COALESCE=0 = 이 축들은 코얼레싱 금지 축이라 접두를 끈다(pc_lane `_push` 문법 사본).
           git reset -q HEAD -- . 2>/dev/null || true
-          PAGES_COALESCE=0 bash .github/scripts/git_land.sh "AI 판정: 속보 breaking 조기 반영" viewer/candidates.json
+          PAGES_COALESCE=0 bash .github/scripts/git_land.sh "AI 판정: 속보 breaking 조기 반영" viewer/candidates.json scraper/obs/lb_shadow.jsonl
           git fetch -q origin main 2>/dev/null || true
           pushed=0; git merge-base --is-ancestor HEAD origin/main 2>/dev/null && pushed=1
           # 조기 반영은 지연 단축용이라 실패해도 red 로 세우지 않는다 — 아래 최종 Commit(경중·묶기 포함) 스텝이
@@ -229,7 +230,7 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add viewer/candidates.json 2>/dev/null || true
+          for f in viewer/candidates.json scraper/obs/lb_shadow.jsonl; do [ -e "$f" ] && git add "$f"; done   # 파일별 add(Q980) · lb_shadow 동반(조기 커밋이 실패했을 때 회수 · 260913)
           git add metrics 2>/dev/null || true   # 토큰 계측 shard(claude_meter·gate/breaking) 동반 커밋 — 있을 때만
           if git diff --cached --quiet; then echo "변동 없음 — 커밋 생략"; exit 0; fi
           # ⚠⚠ 260817 복구 — 이 스텝(과 아래 3스텝)은 260816 일괄 편집에서 파일 뒤쪽이 잘려 통째로 사라져 있었다.
@@ -240,7 +241,7 @@ jobs:
           # ⚠ 접두는 여기만 ON(PAGES_COALESCE 미지정 = 워크플로 env 그대로) — 「경중 grade 갱신」이
           #   _PAGES_SKIP_ALLOW 등재 축이고, 짝(빌드 우회 라이브 서빙)은 functions/api/candidates.js 가 담당한다.
           git reset -q HEAD -- . 2>/dev/null || true
-          bash .github/scripts/git_land.sh "AI 판정: 속보 breaking · 경중 grade 갱신" viewer/candidates.json metrics
+          bash .github/scripts/git_land.sh "AI 판정: 속보 breaking · 경중 grade 갱신" viewer/candidates.json metrics scraper/obs/lb_shadow.jsonl
           git fetch -q origin main 2>/dev/null || true
           pushed=0; git merge-base --is-ancestor HEAD origin/main 2>/dev/null && pushed=1
           # git_land 는 rc 항상 0(fail-soft)이라 착지 판정을 따로 세운다 — 안 세우면 채점 결과가 통째로

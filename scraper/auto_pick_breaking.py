@@ -119,6 +119,10 @@ def eligible(c):
 def pick_url(c):
     # PICK_URL = 후보 대표 url(c.url) = 뷰어 '고르기'(수동픽)가 보내는 키와 동일 → pick_pending 의 load_active dedup 가
     # 수동·자동 같은 사건을 같은 키로 봐서 중복 분석 0. 보수 메이저 픽(breaking_pick.url)은 fetch 폴백으로 alt 에 넣음(접근성↑).
+    if c.get("lby"):   # lb 스왑(최신 국면 멤버가 긴급으로 확정 · breaking_judge apply_lb 260913) = 대표 url(예고 기사)이 아니라 그 멤버 기사를 요약
+        bp = (c.get("breaking_pick") or {}).get("url") or ""
+        if isinstance(bp, str) and bp.startswith(("http://", "https://")):
+            return bp
     u = c.get("url") or c.get("id") or ""
     return u if u.startswith(("http://", "https://")) else ""
 
@@ -234,7 +238,7 @@ def main():
                     led[k] = "d:" + stamp
                 continue
         bp = (c.get("breaking_pick") or {}).get("url")
-        alts = ([bp] if isinstance(bp, str) else []) + [u for u in (c.get("cluster_members") or c.get("alt_urls") or []) if isinstance(u, str)]
+        alts = ([bp] if isinstance(bp, str) else []) + [c.get("url") or ""] + [u for u in (c.get("cluster_members") or c.get("alt_urls") or []) if isinstance(u, str)]   # 대표 url 도 대체 후보에(lb 스왑 시 PICK_URL 이 멤버 기사라 대표가 alt 로 내려감)
         alt = " ".join(u for u in alts if u and u != url)[:1500]   # breaking_pick(메이저·접근성↑) + 클러스터 — PICK_URL(c.url) 자신 제외
         if DRY:
             print(f"  [dry] 자동픽 후보: grade{c.get('grade')} cross{c.get('cross')} age{age_h(c):.1f}h | {title[:40]} | {url}", file=sys.stderr)
