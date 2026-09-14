@@ -7142,8 +7142,14 @@
   {
    "query": "마약",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/bef6fe4237.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/001/0016307797",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-09-15T02:10:00+09:00",
    "isNew": true,
@@ -7378,8 +7384,14 @@
   {
    "query": "ios27",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/94806fa5ab.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/092/0002436889",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-09-15T00:50:00+09:00",
    "isNew": true,
@@ -7408,10 +7420,8 @@
  ],
  "gtrends_pool_updated": "2026-09-15T04:09:52+09:00",
  "_trend_img": {
-  "tried": "2026-09-15T01:09:30+09:00",
-  "fail": {
-   "염경엽": "2026-09-14T23:42:58+09:00"
-  }
+  "tried": "2026-09-15T04:09:52+09:00",
+  "fail": {}
  },
  "gtrends_gl": [
   {
@@ -17370,7 +17380,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-15T04:09:52+09:00"
+    "first_seen": "2026-09-15T04:09:52+09:00",
+    "kw": "다리오 아모데이, 앤스로픽, AI 리스크",
+    "sum": "아모데이가 업계의 AI 리스크 은폐를 비판하며 투명한 공개와 사회적 합의를 촉구했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
