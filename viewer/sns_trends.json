@@ -7452,8 +7452,14 @@
   {
    "query": "여자 축구",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/086f852852.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/003/0014189686",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-15T03:40:00+09:00",
    "delta": -7,
@@ -7468,8 +7474,14 @@
   {
    "query": "독소",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/4380e88181.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/003/0014189413",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-15T03:10:00+09:00",
    "delta": -7,
@@ -7503,8 +7515,14 @@
   {
    "query": "바둑",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/d124067645.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/003/0014187465",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-09-15T04:10:00+09:00",
    "delta": -11,
@@ -7595,8 +7613,10 @@
  ],
  "gtrends_pool_updated": "2026-09-15T07:11:17+09:00",
  "_trend_img": {
-  "tried": "2026-09-15T06:34:17+09:00",
-  "fail": {}
+  "tried": "2026-09-15T07:11:17+09:00",
+  "fail": {
+   "제임스 네일": "2026-09-15T07:13:06+09:00"
+  }
  },
  "gtrends_gl": [
   {
@@ -16835,7 +16855,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-15T07:11:17+09:00"
+    "first_seen": "2026-09-15T07:11:17+09:00",
+    "kw": "사우디, 호르무즈, 파이프라인",
+    "sum": "사우디의 대체 송유관이 마비되어 호르무즈 의존도가 커졌다고 전했다",
+    "sv": 1
    }
   ],
   "tiktok": [
@@ -17899,7 +17922,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-15T07:11:17+09:00"
+    "first_seen": "2026-09-15T07:11:17+09:00",
+    "kw": "풀영상, 유튜브",
+    "sum": "계정이 풀영상 유튜브 링크를 공유했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -17914,7 +17940,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-09-15T07:11:17+09:00"
+    "first_seen": "2026-09-15T07:11:17+09:00",
+    "kw": "AI 에이전트, 피진 영어, 코코타일로",
+    "sum": "전 오픈AI 연구원이 AI가 인간이 못 읽는 방언을 만들 위험을 경고했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
