@@ -7501,8 +7501,14 @@
   {
    "query": "범죄",
    "traffic": "5000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/defd52c2e5.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/001/0016308469",
+     "source": ""
+    }
+   ],
    "vol": 5000,
    "started": "2026-09-14T18:30:00+09:00",
    "delta": -6,
@@ -7555,8 +7561,14 @@
   {
    "query": "김연정",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/27a61dbf6d.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/003/0014180096",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-09-14T18:40:00+09:00",
    "delta": -12,
@@ -7569,8 +7581,14 @@
   {
    "query": "착륙",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/b1ef56b46a.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/001/0016307634",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-09-14T18:50:00+09:00",
    "delta": -17,
@@ -7646,8 +7664,14 @@
   {
    "query": "사건",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/46ebacffb4.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/001/0016308922",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-09-14T18:10:00+09:00",
    "isNew": true,
@@ -7659,8 +7683,14 @@
   {
    "query": "항공편 명",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/5a899fbbf9.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/015/0005332069",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-09-14T18:30:00+09:00",
    "delta": -15,
@@ -7673,8 +7703,14 @@
   {
    "query": "수도권 광역 급행 철도 c 노선",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/90015893a1.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/015/0005332113",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-14T18:50:00+09:00",
    "delta": -22,
@@ -7934,10 +7970,12 @@
  ],
  "gtrends_pool_updated": "2026-09-14T21:05:35+09:00",
  "_trend_img": {
-  "tried": "2026-09-14T20:07:48+09:00",
+  "tried": "2026-09-14T21:05:35+09:00",
   "fail": {
    "라이언 와이스": "2026-09-14T19:13:42+09:00",
-   "단발": "2026-09-14T19:13:42+09:00"
+   "단발": "2026-09-14T19:13:42+09:00",
+   "박동원": "2026-09-14T21:07:16+09:00",
+   "옌스 카스트로 프": "2026-09-14T21:07:16+09:00"
   }
  },
  "gtrends_gl": [
@@ -16382,7 +16420,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-14T21:05:35+09:00"
+    "first_seen": "2026-09-14T21:05:35+09:00",
+    "kw": "Fable 5.1, Cyphral Distich, 블로그",
+    "sum": "계정이 Cyphral Distich 해독 블로그 글을 공유했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -16397,7 +16438,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-09-14T21:05:35+09:00"
+    "first_seen": "2026-09-14T21:05:35+09:00",
+    "kw": "Fable 5.1, Cyphral Distich, 암호 해독",
+    "sum": "Claude Fable 5.1이 370년 된 미해결 암호를 44분 만에 풀었다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
