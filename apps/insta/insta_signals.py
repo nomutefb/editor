@@ -830,6 +830,28 @@ def _echo_block(topic_sum, man):
               'pol_vs_soc_views_pct': round(pol['views_med'] / soc['views_med'] * 100)}
     return {'note': note, 'evidence': ev}
 
+# ── 접속 원장 정체 알림의 조치 주체 판정(순수 함수 · main() 감시 블록과 tests/test_insta_online_stall.py 공용) ──
+#   왜 함수로: 판정 규칙이 감시 블록 안에 묻혀 있으면 회귀 검사를 못 걸고(260914 실측 = 사흘짜리 Meta 공회신이
+#   "조치 없음" 알림으로 매 회차 발행 · 운영자 "문제 없는 거면 안 뜨게") 문구와 분류가 조용히 어긋난다.
+#   규약 = sysErrMsgs 자동복구 게이트(viewer 260803 "알림이 안 와도 되는 거면 안 오게")와 같은 문법:
+#     조치 없는 구간(Meta 공회신 = auto)은 발행 0 · 장기화가 확정된 뒤에만 조치형(op)으로 승격 = 영구 묵음 0.
+STALL_DAYS = 3          # 이 미만 = Meta 자연 지연·딸꾹질 = 무경보
+STALL_ESC_DAYS = 14     # 공회신 장기화 승격 문턱 — 260713~0801 전례(≈19일)가 수기 대체(audience_manual.json)로 간 구간
+TOKEN_AGE_D = 50        # 재발급 문턱 = docs/인스타_직결_세팅.md §6 동값(창작 0)
+
+
+def online_stall_who(stall, token_age=None, blank=False):
+    """정체 일수·토큰 나이·공회신 여부 → None(발행 안 함) | 'op' | 'auto_esc' | 'cc'.
+    순서 = 토큰 먼저(늙은 토큰은 공회신의 원인일 수 있어 운영자 조치 선행). 'auto_esc' = 공회신이 STALL_ESC_DAYS
+    이상 = 수기 대체 안내(op 칸). 공회신인데 그 미만 = None(조치 없음 = 알림 아님). 둘 다 아님 = 코드 축(cc)."""
+    if stall is None or stall < STALL_DAYS:
+        return None
+    if token_age is not None and token_age >= TOKEN_AGE_D:
+        return 'op'
+    if blank:
+        return 'auto_esc' if stall >= STALL_ESC_DAYS else None
+    return 'cc'
+
 
 def main():
     # 표본 = 전 게시물 백필(media_all · 운영자 260713 "기존꺼 파악")에 최근 수집(media_latest) top-up 병합.
@@ -1184,14 +1206,13 @@ def main():
     #     online_followers가 공회신(빈 value)으로 돌아서면(260713~ 전례 · 260803 8/3~ 재발 실측) 원장이
     #     조용히 멈춘다 — 화면은 벤치 폴백이라 멀쩡해 보여서 '영원 대기'가 되어도 아무도 모르는 사각.
     #     썸네일 none_streak(위 · 운영자 260803 "조용히 나빠지는 것" 봉합)와 같은 축의 원장판.
-    # 판정 = KST 오늘 − 원장 최신 키(end_time 날짜) ≥ _STALL_DAYS. 1~2일 = Meta 자연 지연·딸꾹질 = 무경보.
+    # 판정 = KST 오늘 − 원장 최신 키(end_time 날짜) ≥ STALL_DAYS. 1~2일 = Meta 자연 지연·딸꾹질 = 무경보.
+    # 조치 주체 = online_stall_who(모듈 상단 정본) — 공회신 단기는 발행 0 · 장기화만 op 승격(260914).
     # id = 에피소드 회전 `insta-online-stall-<마지막적재일>` — 고정 id는 뷰어 unread가 id축이라 한 번 열면
     #     재점등 불가(brk-misfire 교훈 · CLAUDE.md 회전 관례) · 에피소드 안에서는 같은 id 덮어쓰기 = 자연
     #     dedupe(본문 일수만 갱신). 해소 = 원장 전진 → 최근 키 4개 id 일괄 clear(알림 시점의 최신 키는 반드시
     #     그 안 = 무상태 청소) + 묵은 파일은 msg.py TTL 24h가 마저 소거. 전 경로 fail-soft(감시 실패 ≠ 산출 피해).
     try:
-        _STALL_DAYS = 3
-        _TOKEN_AGE_D = 50   # 재발급 문턱 = 본문 [다음 확인 순서] 2)·docs/인스타_직결_세팅.md §6 동값(창작 0)
         _led = jload('online_ledger.json')
         _mdays = sorted(k for k in (_led if isinstance(_led, dict) else {})
                         if isinstance(_led.get(k), dict) and _led[k])
@@ -1199,7 +1220,19 @@ def main():
         if _mdays:
             _last = _mdays[-1]
             _stall = (datetime.datetime.now(KST).date() - datetime.date.fromisoformat(_last)).days
-            if _stall >= _STALL_DAYS:
+            # 판정 재료 — 토큰 나이(늙으면 공회신의 원인일 수 있음) · 최신 버킷 value가 빈 dict(= Meta 공회신)
+            _tage = None
+            try:
+                _fs = (jload('token_meta.json') or {}).get('first_seen_kst')
+                if _fs:
+                    _tage = (datetime.datetime.now(KST) - datetime.datetime.fromisoformat(_fs)).days
+            except Exception:
+                _tage = None
+            _of = (jload('audience.json') or {}).get('online_followers')
+            _tail = _of[-1] if isinstance(_of, list) and _of else None
+            _blank = isinstance(_tail, dict) and not _tail.get('value')
+            _who = online_stall_who(_stall, _tage, _blank)
+            if _who:
                 _lines = [
                     f"Meta online_followers(팔로워 접속 실측)가 {_stall}일째 빈 회신 — 접속 원장이 {_last}에서 멈췄습니다"
                     "(화면은 안 깨짐 = 시간대 노란선은 축적분 유지 · 요일 노란선은 벤치 폴백).",
@@ -1211,7 +1244,7 @@ def main():
                     '',
                     '[다음 확인 순서]',
                     ' 1) apps/insta/data/audience.json online_followers의 value가 빈 dict인지 — 빈 값이면 Meta측 공회신',
-                    '    = 코드 조치 불요(회복 시 원장 자동 재개 · 이 알림도 자동 해소).',
+                    f'    = 코드 조치 불요(회복 시 원장 자동 재개 · {STALL_ESC_DAYS}일 미만은 알림 자체를 안 냄).',
                     ' 2) 토큰 나이 = apps/insta/data/token_meta.json(50일↑ = 재발급 · docs/인스타_직결_세팅.md §6) ·',
                     '    insights_daily.jsonl dropped에 online_followers 오류가 찍히는지(찍히면 권한·지표 폐지 축 의심).',
                     " 3) 인스타 앱 인사이트 '팔로워 활동 시간'이 앱에서는 보이면 = API만 막힘 → audience_manual.json",
@@ -1220,40 +1253,26 @@ def main():
                     '[재현] python3 apps/insta/insta_signals.py → 이 메시지 갱신 · 원장 = apps/insta/data/online_ledger.json',
                     '[코드] .github/scripts/insta_fetch.py 원장 적재 · apps/insta/insta_signals.py online_curve_kst/online_dow_kst/정체 감시',
                 ]
-                # ── 조치문 규약(👉 문단 · scraper/watchdog.py `PHONE_TODO` 문법 100% 계승 · 창작 0) ──
-                # 왜: 리포트 조치주체 분류(viewer/index.html `_rptWho`)는 **👉 문단이 있어야** 가르고, 없으면 폴백이
-                #     '클로드가 볼 일'이다. 이 알림은 본문이 스스로 "빈 값이면 Meta측 공회신 = 코드 조치 불요"라고
-                #     말하면서도 👉가 없어서 클로드 칸에 앉았다 — 260808 실사고(`yt-cookie-dead`·`fire-*`)와 **같은 병**이고
-                #     그때 생산자 2곳(`yt_cookie_health.COOKIE_TODO`·`fire_watch.FIRE_TODO`)만 고쳐졌고 이 생산자는
-                #     안 따라왔다(= `check_seal_completeness`가 이름 붙인 「같은 병의 형제」).
-                #     비용 = 조치 불요 1건이 같은 칸의 **진짜 코드 건**을 가린다(260812 리포트 실측 = 클로드 2건 중 1건이
-                #     이 알림이었고, 나머지 1건[묻힌 대형 grade3]이 그만큼 묻혔다).
-                # ⚠ 👉를 무조건 붙이면 안 된다 — 이 알림은 **원인에 따라 조치 주체가 갈린다**(본문 [다음 확인 순서] 그대로):
-                #     ① 토큰 노후 = 재발급 = 운영자(op)  ② value가 빈 dict = Meta 공회신 = 손 쓸 게 없다(auto)
-                #     ③ 둘 다 아님 = 권한·지표 폐지 축 의심 = **코드 축** → 👉 안 붙임(cc 유지) = 규약 「원인이 코드
-                #     축이면 👉를 안 붙인다」(viewer/index.html 8308행). 하나로 뭉쳐 always-auto로 두면 ③이 자동 대기로
-                #     밀려 진짜 결함이 무증상이 된다(= 이 봉합이 막으려는 병을 반대 방향으로 재현하는 짓).
-                # 순서 = 토큰 먼저. 토큰이 늙으면 빈 회신의 **원인일 수 있어** 운영자 조치가 선행이다(빈 값 판정이
-                #     먼저 걸리면 갈아야 할 토큰을 "기다리면 된다"로 잘못 안내한다).
-                _tage = None
-                try:
-                    _fs = (jload('token_meta.json') or {}).get('first_seen_kst')
-                    if _fs:
-                        _tage = (datetime.datetime.now(KST) - datetime.datetime.fromisoformat(_fs)).days
-                except Exception:
-                    _tage = None
-                _of = (jload('audience.json') or {}).get('online_followers')
-                _tail = _of[-1] if isinstance(_of, list) and _of else None
-                _blank = isinstance(_tail, dict) and not _tail.get('value')
-                if _tage is not None and _tage >= _TOKEN_AGE_D:
+                # ── 조치문 규약(👉 문단 · scraper/watchdog.py `PHONE_TODO` 문법 계승) ──
+                # 리포트 조치주체 분류(viewer `_rptWho`)는 👉 문단으로 가른다: 👉 없음 = '클로드가 볼 일'(cc) ·
+                # 👉에 할 일 있음 = 운영자(op). 판정은 online_stall_who 정본 하나뿐(여기서 다시 세지 않는다).
+                #   op       = 토큰 노후 → 재발급(공회신의 원인일 수 있어 선행)
+                #   auto_esc = Meta 공회신이 STALL_ESC_DAYS 이상 장기화 → 수기 대체 안내(260713 전례 그대로)
+                #   cc       = 빈 값도 토큰도 아님 = 권한·지표 폐지 축 의심 → 👉 안 붙임(코드 축 유지)
+                # ⚠ 공회신 단기(STALL_ESC_DAYS 미만)는 발행하지 않는다(_who=None → 아래 clear 경로). 구판은 이 구간을
+                #   "👉 네가 할 일: 없어요"로 매 회차 발행했고 = 받아도 할 일이 0인 알림이 상주(운영자 260914).
+                if _who == 'op':
                     _lines += ['', f'👉 네가 할 일: 인스타 접근 토큰이 {_tage}일째라 만료 구간이야 — '
                                'docs/인스타_직결_세팅.md §6 순서로 새로 발급해서 갈아 줘. '
                                '토큰이 늙으면 메타가 이 지표만 조용히 빈 값으로 돌려주기도 해.']
-                elif _blank:
-                    _lines += ['', '👉 네가 할 일: 없어요 — 메타가 이 지표를 빈 값으로 돌려주는 중이라(우리 쪽 고장 아님) '
-                               '손댈 게 없어요. 회신이 돌아오면 원장이 저절로 다시 쌓이고 이 알림도 자동으로 사라져요.']
+                elif _who == 'auto_esc':
+                    _lines += ['', f'👉 네가 할 일: 메타가 이 지표를 {_stall}일째 빈 값으로 돌려주고 있어(우리 쪽 고장 아님). '
+                               "인스타 앱 인사이트 '팔로워 활동 시간'이 앱에서는 보이면 스크린샷 기준으로 "
+                               'apps/insta/data/audience_manual.json을 수기 갱신해 줘(260713 문법). '
+                               '회신이 돌아오면 원장이 저절로 다시 쌓이고 이 알림도 자동으로 사라져.']
                 subprocess.run(['python3', _msg_py, 'set', f'insta-online-stall-{_last}', '\n'.join(_lines), 'warn'], check=False)
             else:
+                # 해소(원장 전진) 또는 조치 없는 공회신 단기 구간 = 최근 키 4개 id 일괄 clear(무상태 청소 · 구판 발행분 회수 포함)
                 for _k in _mdays[-4:]:
                     subprocess.run(['python3', _msg_py, 'clear', f'insta-online-stall-{_k}'], check=False)
     except Exception as e5:
