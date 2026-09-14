@@ -16,32 +16,32 @@
  "threads": [
   {
    "account": "choi.openai",
+   "text": "깃허브 :\nhttps://github.com/SakanaAI/pc-alm",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1789417859,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DdR_8kyiZhY",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "AI 학습의 기본 공식처럼 쓰이던 역전파(backpropagation)를 사용하지 않고 1,000층 신경망을 학습시키는 방법이 나왔습니다.\n\nSakana AI가 발표한 PC-ALM은 뇌에서 아이디어를 얻었습니다.\n\n학습 오차를 마지막 층에서 처음까지 역으로 전달하는 대신, 각 층이 주변 층과 정보를 주고받으며 자체적으로 오차를 줄이도록 설계했습니다.\n\n기존 predictive coding은 신경망이 깊어질수록 학습 신호 전달이 어려웠지만, PC-ALM은 Lagrange multiplier를 이용한 ‘dual neuron’을 추가해 1,000층에서도 학습이 가능했다고 합니다.\n\n당장 GPU에서 역전파를 대체한다기보다는, 뉴로모픽 칩처럼 뇌의 동작을 모방하는 하드웨어에서 AI를 학습하는 새로운 방법으로 이어질 가능성이 있습니다.",
+   "likes": 2,
+   "cmts": 1,
+   "time": 1789417850,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/809601789_1387380616304909_31381131568691799_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&ig_cache_key=Mzk4NjI0ODMxMDY0NTY2NjcwOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=VRIpGW_4kqUQ7kNvwG85FDt&_nc_oc=AdqvUosJjWtjb6htbhtbYqnB6OyyoQLH68ujniuAzLHWTpMf90dZ2QG3mHPm8hVqJ7s&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=pCKVDXbLT8fPEZuDJDg7dw&_nc_ss=7a22e&oh=00_AQK3qp39ENjhxpltPbB4bDKvl_3DrHrU-AAWfql5fl4rOw&oe=6AAE2E71",
+   "url": "https://www.threads.com/@choi.openai/post/DdR_7fuiTOV",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
    "text": "앤스로픽 CEO 다리오 아모데이(Dario Amodei)는 “그동안 업계는 기술의 리스크를 숨기고 대중을 속여왔다”며 진실을 밝힐 때라고 직격했습니다.\n\n그는 클로드(Claude)가 의사조차 놓친 질병을 진단해내는 등 수억 명의 일상과 생산성을 바꾸는 막대한 혜택을 제공하고 있음을 인정하면서도, “위험은 실제로 존재한다”고 경고했습니다.\n\nAI가 경제와 노동 구조 전반을 재편하는 전환점에서, 그 위험을 어떻게 통제하고 관리할지는 소수 빅테크나 기업가가 독점해서는 안 된다는 입장입니다.\n그는 “배포 방식과 규제 감독에 대한 결정권은 유권자와 선출된 관료, 즉 모두에게 있어야 한다”고 역설했습니다.\n\n인류 역사상 가장 중요한 기술적 분기점을 지나고 있는 만큼, 경제적 이익 뒤에 감춰진 리스크를 투명하게 공개하고 사회적 합의를 통해 안전장치를 마련해야 한다고 강조했습니다.",
-   "likes": 4,
+   "likes": 6,
    "cmts": 0,
    "time": 1789412433,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/809209764_1576881890845037_3980267231422914140_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk4NjIwMjg2NjczNzA3NDc3NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=R1mGYn-Y2i4Q7kNvwGoqE9o&_nc_oc=Adrow6CvCTRe8JWAJkUodSEthcC4Bol3tG8Xh5uc07d8JX5qwvcwg7m5f-ENV_Ier5U&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=FxVz07aQGvutRX50jpTy_Q&_nc_ss=7a22e&oh=00_AQLfpfhclQsGNgPQBmQJdZLfkWsAYKVSs-wsNMxhcp2bWg&oe=6AAE1E5B",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/809209764_1576881890845037_3980267231422914140_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk4NjIwMjg2NjczNzA3NDc3NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=R1mGYn-Y2i4Q7kNvwGoqE9o&_nc_oc=Adrow6CvCTRe8JWAJkUodSEthcC4Bol3tG8Xh5uc07d8JX5qwvcwg7m5f-ENV_Ier5U&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=pCKVDXbLT8fPEZuDJDg7dw&_nc_ss=7a22e&oh=00_AQIPhazS6FoPOlGixJ71guZM2mZVw1_0_jbHArCHbXccBg&oe=6AAE1E5B",
    "url": "https://www.threads.com/@choi.openai/post/DdR1mMygdJW",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "풀영상 :\nhttps://www.youtube.com/watch?v=hQR_VJF6ukk",
-   "likes": 1,
-   "cmts": 0,
-   "time": 1789407031,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DdRrSzyDo0O",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "앤트로픽 CEO 다리오 아모데이(Dario Amodei)는 미·중 경쟁 속 AI 개발 속도전이 “가장 까다로운 딜레마”라고 밝혔습니다.\n\n그는 반도체 수출 통제와 자체 보안을 강화해 “확보 가능한 마진 안에서 개발 속도를 늦추는 시간 벌기”가 첫 번째 전략이라고 말했습니다.\n하지만 기술 통제만으로는 한계가 있기에, 과거 미·소 핵 군축 협상처럼 중국과도 직접 대화에 나서야 한다고 제안했습니다.\n\n최근 AI를 악용한 생물 테러와 바이러스 전파력 강화 위협이 보고된 만큼, “이 기술의 발전 속도에 속도 제한을 두는 국제적 합의”가 필요하다고 강조했습니다.\n\n파멸적 위협 앞에서는 진영을 불문하고 글로벌 공조 체계를 구축해야 한다는 설명입니다.",
-   "likes": 7,
-   "cmts": 1,
-   "time": 1789407023,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/809601698_1112610414664978_4081572895827386181_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk4NjE1NzQ4MzEyNzA4MzU0MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=nD3jQdTKB88Q7kNvwEaduUp&_nc_oc=AdoCxlXtEW029-DeRpC3t2bETyHgPXhIRttC9_lBbWhUmBNvzsF7ZoqDInoJYp_coyU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=FxVz07aQGvutRX50jpTy_Q&_nc_ss=7a22e&oh=00_AQIZPbRzRxkjcVze_z-wa4y6KrPlW9L8SA0cRzCn8d82fg&oe=6AAE2860",
-   "url": "https://www.threads.com/@choi.openai/post/DdRrRyAjhIU",
    "region": "kr"
   },
   {
@@ -107,10 +107,10 @@
   {
    "account": "kopp",
    "text": "a tiny ASCII experiment with 4 different cursor modes.",
-   "likes": 66,
+   "likes": 70,
    "cmts": 2,
    "time": 1789362819,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/802699983_1760520755150146_4995807663197982812_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk4NTc4NjQzNDAyMzQwNjUzOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=iV1PI8d7s_IQ7kNvwGYh61B&_nc_oc=Adq0ek3oXoKaVMr5L603ksIWnCCyQenL-lPm1Vg7ylu3_1TT5x7lDe6WnDxPYmQYQf8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=2RWaB1_W7s0PLB9ABp3M6Q&_nc_ss=7a22e&oh=00_AQLjUsITXZbdbzMacNz_YITl8y24XuVjsYbD3zsW7hasew&oe=6AAE0F8E",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/802699983_1760520755150146_4995807663197982812_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk4NTc4NjQzNDAyMzQwNjUzOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=iV1PI8d7s_IQ7kNvwGYh61B&_nc_oc=Adq0ek3oXoKaVMr5L603ksIWnCCyQenL-lPm1Vg7ylu3_1TT5x7lDe6WnDxPYmQYQf8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=KHYtHluPiBL_X4kD3WSrmg&_nc_ss=7a22e&oh=00_AQK-e-5VIQ196HQxrRKY8FHn_zWFlCgq-UNre1TsNrYOjw&oe=6AAE47CE",
    "url": "https://www.threads.com/@kopp/post/DdQW6TmiTvL",
    "region": "kr"
   },
@@ -120,8 +120,48 @@
    "likes": 1,
    "cmts": 0,
    "time": 1789362047,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/809201842_18087302210407306_8894442588293001445_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk4NTc4MDEyODU4NTA0ODE0Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNzIwLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=JKbiGv8PP_cQ7kNvwEKD2qj&_nc_oc=AdrTNe2ryFuXCFX7nuZAHp7JtofPCvhakuQ_o3L7Hvu3giugzlA1EbYURwkMudN6Nuw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=jOiMOFurm_jOL_Byo4OmEw&_nc_ss=7a22e&oh=00_AQJmf3JuO862bt5Zg0_PB6eewpibXES6mY-yPxWFN5Jr1A&oe=6AAE2758",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/809201842_18087302210407306_8894442588293001445_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk4NTc4MDEyODU4NTA0ODE0Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNzIwLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=JKbiGv8PP_cQ7kNvwEKD2qj&_nc_oc=AdrTNe2ryFuXCFX7nuZAHp7JtofPCvhakuQ_o3L7Hvu3giugzlA1EbYURwkMudN6Nuw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=LrdiOCsel2gjscPc20vQDw&_nc_ss=7a22e&oh=00_AQJJeWUhX8xtiVzKgbmta9vbUiYDNoluzg0zwYj15_pNYQ&oe=6AAE2758",
    "url": "https://www.threads.com/@aipeekme/post/DdQVejNH2BS",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "풀영상 :\nhttps://www.youtube.com/watch?v=hQR_VJF6ukk",
+   "likes": 1,
+   "cmts": 0,
+   "time": 1789407031,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DdRrSzyDo0O",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "350억 개(35B) 매개변수 모델이 아이폰 16 프로에서 오프라인으로 질문에 답변하는 데 성공했습니다.\nEdge0 기술을 통해 전체 모델을 기기 플래시 저장공간에 두고 각 토큰 처리에 필요한 4개 전문가 모듈만 불러오는 방식을 썼는데요.\n최대 메모리 사용량은 1.8GB에 그쳤습니다.\n자체 벤치마크 기준으로 4비트 양자화 버전은 원본 크기 모델 대비 점수 차이가 3.9점 낮아진 수준에 머물렀습니다.\n애플 실리콘 전용으로 구동되며 처리 속도는 초당 약 15토큰 정도 나옵니다.\n다만 에이전트 작업 수행 능력은 현재 기준으로 취약하다는 평가가 명확합니다.\n이 속도로 복잡한 다단계 호출을 돌리기에는 체감 지연이 길 것 같습니다.\n그럼에도 내년 온디바이스 AI 논의의 핵심이 플래시 읽기 속도로 옮겨갈 것이라는 관측은 설득력이 있습니다.\n스마트폰 저장장치 규격이 모델 구동의 직접 변수로 들어오는 흐름으로 이어질 것 같습니다.",
+   "likes": 1,
+   "cmts": 0,
+   "time": 1789361440,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/809536906_1057179900282359_5903858291077408027_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk4NTc3NDcxNzg2NDM0NzI5NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=iYb9JpBYOtcQ7kNvwF4FsGB&_nc_oc=AdocMKUE1wrcnW6Z_zcTYmaY1b5lN6e4jZ9Mc2CTJ0SdOLGVhWEFN7sQ4kWRojy3j0o&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=LrdiOCsel2gjscPc20vQDw&_nc_ss=7a22e&oh=00_AQIRusXoVBJ4enaX-Boi-1hnNts-6NtB1LxCrvabiogl5Q&oe=6AAE2485",
+   "url": "https://www.threads.com/@aipeekme/post/DdQUP0FCYaf",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "앤트로픽 CEO 다리오 아모데이(Dario Amodei)는 미·중 경쟁 속 AI 개발 속도전이 “가장 까다로운 딜레마”라고 밝혔습니다.\n\n그는 반도체 수출 통제와 자체 보안을 강화해 “확보 가능한 마진 안에서 개발 속도를 늦추는 시간 벌기”가 첫 번째 전략이라고 말했습니다.\n하지만 기술 통제만으로는 한계가 있기에, 과거 미·소 핵 군축 협상처럼 중국과도 직접 대화에 나서야 한다고 제안했습니다.\n\n최근 AI를 악용한 생물 테러와 바이러스 전파력 강화 위협이 보고된 만큼, “이 기술의 발전 속도에 속도 제한을 두는 국제적 합의”가 필요하다고 강조했습니다.\n\n파멸적 위협 앞에서는 진영을 불문하고 글로벌 공조 체계를 구축해야 한다는 설명입니다.",
+   "likes": 9,
+   "cmts": 1,
+   "time": 1789407023,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/809601698_1112610414664978_4081572895827386181_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk4NjE1NzQ4MzEyNzA4MzU0MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=nD3jQdTKB88Q7kNvwEaduUp&_nc_oc=AdoCxlXtEW029-DeRpC3t2bETyHgPXhIRttC9_lBbWhUmBNvzsF7ZoqDInoJYp_coyU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=pCKVDXbLT8fPEZuDJDg7dw&_nc_ss=7a22e&oh=00_AQI-UrTnUZDCBO_05pqc0jZofMJmyHAmgB7SyB_Db_MHpg&oe=6AAE2860",
+   "url": "https://www.threads.com/@choi.openai/post/DdRrRyAjhIU",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "신박한 전기차 충전 \n나중에는 전기차 충전이 필요없는 시대가 올지도..",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1789361031,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/809766958_1598862298630931_25161659209244841_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk4NTc3MTU4NjAzNjc3MDkyMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=o5KMbsdLRhoQ7kNvwHcaCvO&_nc_oc=Adq1S5Cr7P1FcI_G3iEoNHvgDtdxk8mlesGncDftyHj2pM87JqXaTmx7x4V40Y_Z42s&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=LrdiOCsel2gjscPc20vQDw&_nc_ss=7a22e&oh=00_AQI8kmfGNwKalVHnHrwomJqSMiBc3ctV2fQo_MaG3zGY4g&oe=6AAE1D4F",
+   "url": "https://www.threads.com/@aipeekme/post/DdQTiPVkShq",
    "region": "kr"
   },
   {
@@ -135,43 +175,13 @@
    "region": "kr"
   },
   {
-   "account": "aipeekme",
-   "text": "350억 개(35B) 매개변수 모델이 아이폰 16 프로에서 오프라인으로 질문에 답변하는 데 성공했습니다.\nEdge0 기술을 통해 전체 모델을 기기 플래시 저장공간에 두고 각 토큰 처리에 필요한 4개 전문가 모듈만 불러오는 방식을 썼는데요.\n최대 메모리 사용량은 1.8GB에 그쳤습니다.\n자체 벤치마크 기준으로 4비트 양자화 버전은 원본 크기 모델 대비 점수 차이가 3.9점 낮아진 수준에 머물렀습니다.\n애플 실리콘 전용으로 구동되며 처리 속도는 초당 약 15토큰 정도 나옵니다.\n다만 에이전트 작업 수행 능력은 현재 기준으로 취약하다는 평가가 명확합니다.\n이 속도로 복잡한 다단계 호출을 돌리기에는 체감 지연이 길 것 같습니다.\n그럼에도 내년 온디바이스 AI 논의의 핵심이 플래시 읽기 속도로 옮겨갈 것이라는 관측은 설득력이 있습니다.\n스마트폰 저장장치 규격이 모델 구동의 직접 변수로 들어오는 흐름으로 이어질 것 같습니다.",
-   "likes": 1,
-   "cmts": 0,
-   "time": 1789361440,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/809536906_1057179900282359_5903858291077408027_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk4NTc3NDcxNzg2NDM0NzI5NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=iYb9JpBYOtcQ7kNvwF4FsGB&_nc_oc=AdocMKUE1wrcnW6Z_zcTYmaY1b5lN6e4jZ9Mc2CTJ0SdOLGVhWEFN7sQ4kWRojy3j0o&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=jOiMOFurm_jOL_Byo4OmEw&_nc_ss=7a22e&oh=00_AQIsVE2w7VAncohAs870U2xytIMlpZyLlZ5gKqYAWQ0Ecg&oe=6AAE2485",
-   "url": "https://www.threads.com/@aipeekme/post/DdQUP0FCYaf",
-   "region": "kr"
-  },
-  {
    "account": "choi.openai",
    "text": "전 앤트로픽 연구원 제이콥 콕슨(Jacob Coxon)은 코딩과 수학 분야에서 AI 발전 속도가 인간 노동의 대체를 눈앞에 둘 만큼 가속화되었다고 경고했습니다.\n\n불과 2년 전만 해도 제안 수준에 불과했던 AI가 이제 인간을 대체할 단계에 이르렀으며, “1년 내에 수많은 영역에서 연구를 수행하는 데 더 이상 인간이 필요하지 않을 수 있다”고 밝혔습니다.\n\n특히 가장 위협적인 지점으로 “AI가 스스로를 더 똑똑하게 만드는 연구에 투입되는 순간”을 꼽았습니다.\n\n수학 난제를 자율적으로 푸는 데 쓰인 알고리즘을 AI 연구 자체에 적용하면, 인간의 개입 없이 스스로 지능을 증폭시키는 “지능 폭발(intelligence explosion)”이 발생한다는 분석입니다.\n\n그는 인간을 아득히 뛰어넘는 지능의 등장이 매우 임박했다며, 기술적 특이점에 대비할 시간이 얼마 남지 않았음을 시사했습니다.",
    "likes": 7,
    "cmts": 1,
    "time": 1789401616,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/807888301_1083856191004482_8363867187638936241_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk4NjExMjEyNjQxODgwMzM1MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=RLRPJ573psgQ7kNvwEUZfBP&_nc_oc=AdrX3Va9bR3KG0ny7Yf8oYBAb5SzbfT4HVTaYT5a1BGU2D169iZMKxwliaqqJp7uv9s&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=FxVz07aQGvutRX50jpTy_Q&_nc_ss=7a22e&oh=00_AQJ-OXU4VEdoGEsrVfrn4BjezjFxq9zdv2tGlRSwGBBanQ&oe=6AAE22DB",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/807888301_1083856191004482_8363867187638936241_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk4NjExMjEyNjQxODgwMzM1MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=RLRPJ573psgQ7kNvwEUZfBP&_nc_oc=AdrX3Va9bR3KG0ny7Yf8oYBAb5SzbfT4HVTaYT5a1BGU2D169iZMKxwliaqqJp7uv9s&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=pCKVDXbLT8fPEZuDJDg7dw&_nc_ss=7a22e&oh=00_AQIWRiEnEoN4CNKmF-Wlst1HxPV0CDsmLOXsomXAum_oEg&oe=6AAE22DB",
    "url": "https://www.threads.com/@choi.openai/post/DdRg9wSEdqW",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
-   "text": "신박한 전기차 충전 \n나중에는 전기차 충전이 필요없는 시대가 올지도..",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1789361031,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/809766958_1598862298630931_25161659209244841_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk4NTc3MTU4NjAzNjc3MDkyMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=o5KMbsdLRhoQ7kNvwHcaCvO&_nc_oc=Adq1S5Cr7P1FcI_G3iEoNHvgDtdxk8mlesGncDftyHj2pM87JqXaTmx7x4V40Y_Z42s&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=jOiMOFurm_jOL_Byo4OmEw&_nc_ss=7a22e&oh=00_AQJABv1dxQ18_dEpOM4xRwP-01zLDGk92owB6A1ZXm1uzg&oe=6AAE1D4F",
-   "url": "https://www.threads.com/@aipeekme/post/DdQTiPVkShq",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "🚨 트럼프가 AI 감속론을 작정하고 때리기 시작했습니다.\n\n트럼프는 AI에 필요한 유일한 통제장치는 “강하고 똑똑한 대통령”이라며, 다리오 아모데이를 직접 지목해 이제 와서 “완벽하고 착한 천사인 척한다”고 공격했습니다.\n\n또 미국 정부는 AI 기업을 통제할 충분한 형사·규제 권한을 이미 가지고 있으며, AI와 데이터센터 개발을 막으려는 움직임은 중국만 좋아할 “역겨운 음모”라고 주장했습니다. 내부 정보 유출자와 관련자들에게도 직접 경고했습니다.\n\n마지막에는 “AI에서 이기는 자가 승리한다”며 미국이 중국보다 앞서 있고 계속 우위를 유지하겠다고 강조했습니다.\n\nAI 업계에서는 안전을 위해 속도를 조절하자는 목소리가 나오는데, 트럼프는 오히려 국가 경쟁 때문에 더 달려야 한다는 입장입니다.\n\nAI 안전 논쟁이 기술을 넘어 미국의 국가 전략과 정면으로 부딪히고 있습니다.",
-   "likes": 40,
-   "cmts": 5,
-   "time": 1789397004,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/806786015_17987097828112832_6328066175741936361_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk4NjA3MzQ0MjgzOTQxMDIyMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=PEz45x-gonIQ7kNvwE99IX-&_nc_oc=Adqhh_8-GDYpwjCY6UGkBxSHFyMWqy9CrHAFyHeaQygLxqRqc-qnBv04-T2696P4lzQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=FxVz07aQGvutRX50jpTy_Q&_nc_ss=7a22e&oh=00_AQLKZ93wo46Lmg4iM1pKoSnO-YHEuzEq47QUSmTPOdlA7Q&oe=6AAE33DD",
-   "url": "https://www.threads.com/@choi.openai/post/DdRYK1ZD7Yv",
    "region": "kr"
   }
  ],
@@ -212,7 +222,7 @@
   {
    "account": "jaemyung_lee",
    "title": "우리 국민의 구조에 모든 역량을 총동원하겠습니다  #네팔 #긴급회의 #prayfornepal",
-   "views": 301900,
+   "views": 302000,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4ECXepekgFVLDAPQbcqjSdGAIaIofEozvI9Qh~tplv-tiktokx-origin.image?dr=14575&x-expires=1789588800&x-signature=dd8drpd%2FxpFu6VKC%2BBcnLvoC98Q%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -259,7 +269,7 @@
    "views": 34000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okJSEtbnglnRAQHtqOQ1UIFeETBEUtfhBKGkDV~tplv-tiktokx-origin.image?dr=14575&x-expires=1789588800&x-signature=2JNev3aHtXdAQvBnbQmvxRSTbZM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/okJSEtbnglnRAQHtqOQ1UIFeETBEUtfhBKGkDV~tplv-tiktokx-origin.image?dr=14575&x-expires=1789588800&x-signature=nRAiLojnaq9IF7QZS6u3JzxRDY8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1788795259,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7682817137672555794",
    "region": "kr"
@@ -267,12 +277,23 @@
   {
    "account": "jaemyung_lee",
    "title": "빛으로 담아내는, 제7의 예술🎥",
-   "views": 31900,
+   "views": 32000,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oMMIdnnHDI6bTifTAPFDcDRbtBfWqzBIEDgvEo~tplv-tiktokx-origin.image?dr=14575&x-expires=1789588800&x-signature=UA9B8vpDGSaYSR3jK57b4KCHr2M%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789031851,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7683833293816614151",
+   "region": "kr"
+  },
+  {
+   "account": "jaemyung_lee",
+   "title": "Assalomu alaykum, O‘zbekiston!🇺🇿🇰🇷 #이재명 #우즈베키스탄 #Uzbekistan",
+   "views": 16500,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAUOEAPEroYfNoFaeAAfZQATIAiVPvDB5WhDFE~tplv-tiktokx-origin.image?dr=14575&x-expires=1789588800&x-signature=MApn5DIp12HXYIhu36Rb52Ky6Og%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "time": 1789393470,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7685386435158887688",
    "region": "kr"
   },
   {
@@ -287,20 +308,9 @@
    "region": "kr"
   },
   {
-   "account": "jaemyung_lee",
-   "title": "Assalomu alaykum, O‘zbekiston!🇺🇿🇰🇷 #이재명 #우즈베키스탄 #Uzbekistan",
-   "views": 15800,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAUOEAPEroYfNoFaeAAfZQATIAiVPvDB5WhDFE~tplv-tiktokx-origin.image?dr=14575&x-expires=1789588800&x-signature=MApn5DIp12HXYIhu36Rb52Ky6Og%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
-   "time": 1789393470,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7685386435158887688",
-   "region": "kr"
-  },
-  {
    "account": "tictok_ent",
    "title": "트와이스(twice) 나연, 향기보다 더 달콤한 미소 / 바이레도(BYREDO) 포토월 #트와이스 #twice #나연 #바이레도 #BYREDO",
-   "views": 3465,
+   "views": 3466,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4ipwUBAAI1AiCPBUKfBKXgMMwgG4XBEAiAy5E~tplv-tiktokx-origin.image?dr=14575&x-expires=1789588800&x-signature=%2BesVnzafWsza09d9QCameKD7fhY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -320,13 +330,13 @@
    "url": "https://www.reddit.com/r/popculturechat/comments/1wg7v19/macklemore_speaks_out_about_the_tour_situation/"
   },
   {
-   "sub": "AskReddit",
-   "title": "What hobby has become too expensive for the average person?",
+   "sub": "Damnthatsinteresting",
+   "title": "Pluto images: 1994 Vs 2019",
    "score": 0,
    "cmts": 0,
-   "thumb": "",
-   "time": 1789400818,
-   "url": "https://www.reddit.com/r/AskReddit/comments/1wg736i/what_hobby_has_become_too_expensive_for_the/"
+   "thumb": "https://preview.redd.it/6dptklgq3jph1.jpeg?width=320&crop=smart&auto=webp&s=e7394c5a279a7f4ec30ae1893ec66669de6d0f3f",
+   "time": 1789410371,
+   "url": "https://www.reddit.com/r/Damnthatsinteresting/comments/1wgbne0/pluto_images_1994_vs_2019/"
   },
   {
    "sub": "Fauxmoi",
@@ -338,22 +348,13 @@
    "url": "https://www.reddit.com/r/Fauxmoi/comments/1wg73id/macklemore_speaks_out_after_being_dropped_from_ed/"
   },
   {
-   "sub": "Music",
-   "title": "Macklemore Speaks Out After Being Dropped From Ed Sheeran Tour: “I’m going to speak from the heart and share the truth”",
+   "sub": "AskReddit",
+   "title": "What hobby has become too expensive for the average person?",
    "score": 0,
    "cmts": 0,
    "thumb": "",
-   "time": 1789401794,
-   "url": "https://www.reddit.com/r/Music/comments/1wg7jma/macklemore_speaks_out_after_being_dropped_from_ed/"
-  },
-  {
-   "sub": "meirl",
-   "title": "meirl",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/jfbj0pee9iph1.png?width=640&crop=smart&auto=webp&s=51707bcb20a6d3716f019acba21ea6cc4ffde5d9",
-   "time": 1789400166,
-   "url": "https://www.reddit.com/r/meirl/comments/1wg6snr/meirl/"
+   "time": 1789400818,
+   "url": "https://www.reddit.com/r/AskReddit/comments/1wg736i/what_hobby_has_become_too_expensive_for_the/"
   },
   {
    "sub": "Music",
@@ -365,40 +366,13 @@
    "url": "https://www.reddit.com/r/Music/comments/1wg4c3d/macklemore_dropped_from_ed_sheeran_tour_after/"
   },
   {
-   "sub": "BlackPeopleTwitter",
-   "title": "Pick a side, man",
+   "sub": "Music",
+   "title": "Macklemore Speaks Out After Being Dropped From Ed Sheeran Tour: “I’m going to speak from the heart and share the truth”",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/locjb5pyciph1.jpeg?width=640&crop=smart&auto=webp&s=0b56bc830c17e0b6300cc8eefd1ebe3a952c4510",
-   "time": 1789401367,
-   "url": "https://www.reddit.com/r/BlackPeopleTwitter/comments/1wg7c78/pick_a_side_man/"
-  },
-  {
-   "sub": "interestingasfuck",
-   "title": "On April 14, 1994, the seven largest tobacco companies in the USA swore that nicotine is not addictive.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/atz91vyn2iph1.jpeg?width=640&crop=smart&auto=webp&s=5f5c4372b1a1e28dd03b6a5de715b97481323e8e",
-   "time": 1789397929,
-   "url": "https://www.reddit.com/r/interestingasfuck/comments/1wg5s0w/on_april_14_1994_the_seven_largest_tobacco/"
-  },
-  {
-   "sub": "Damnthatsinteresting",
-   "title": "Pluto images: 1994 Vs 2019",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/6dptklgq3jph1.jpeg?width=320&crop=smart&auto=webp&s=e7394c5a279a7f4ec30ae1893ec66669de6d0f3f",
-   "time": 1789410371,
-   "url": "https://www.reddit.com/r/Damnthatsinteresting/comments/1wgbne0/pluto_images_1994_vs_2019/"
-  },
-  {
-   "sub": "meirl",
-   "title": "Meirl",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/22z0h9rpghph1.jpeg?width=640&crop=smart&auto=webp&s=2945a1ce23983efa5dcb301f18bc6f2d927567e5",
-   "time": 1789390519,
-   "url": "https://www.reddit.com/r/meirl/comments/1wg2n9e/meirl/"
+   "thumb": "",
+   "time": 1789401794,
+   "url": "https://www.reddit.com/r/Music/comments/1wg7jma/macklemore_speaks_out_after_being_dropped_from_ed/"
   },
   {
    "sub": "askanything",
@@ -410,6 +384,15 @@
    "url": "https://www.reddit.com/r/askanything/comments/1wg2frd/does_trump_shit_his_pants/"
   },
   {
+   "sub": "meirl",
+   "title": "meirl",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/jfbj0pee9iph1.png?width=640&crop=smart&auto=webp&s=51707bcb20a6d3716f019acba21ea6cc4ffde5d9",
+   "time": 1789400166,
+   "url": "https://www.reddit.com/r/meirl/comments/1wg6snr/meirl/"
+  },
+  {
    "sub": "LoveTrash",
    "title": "Stopping a shoplifter",
    "score": 0,
@@ -417,11 +400,42 @@
    "thumb": "https://external-preview.redd.it/d3phZ2RuM3JuaHBoMaBC1FCGJPIKkl0VzSi0fzQRo8r1ncROQPjEY2MvDcoT.png?width=320&crop=smart&auto=webp&s=4eba8d836646c285e76631c83f7a8a200bf7bbd3",
    "time": 1789392887,
    "url": "https://www.reddit.com/r/LoveTrash/comments/1wg3lwj/stopping_a_shoplifter/"
+  },
+  {
+   "sub": "WhatIsTheTea",
+   "title": "Contractor takes back the wooden fence after the customer refuses to pay.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/am0xaWQyazVnaHBoMULWg2hERbmEsi1p0BuIkQ9cStieLZhWtxDtGnKcBohR.png?width=640&crop=smart&auto=webp&s=7ed385c5d65d71d7358fd90296be1bce59a8daeb",
+   "time": 1789390362,
+   "url": "https://www.reddit.com/r/WhatIsTheTea/comments/1wg2l0l/contractor_takes_back_the_wooden_fence_after_the/"
+  },
+  {
+   "sub": "AbsoluteUnits",
+   "title": "of a residential property",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/emFta3J3MXFvZnBoMd1HiuQs8MwTL8blG2KL-39Wt7l-1RNgibomVNp2sbkV.png?width=320&crop=smart&auto=webp&s=effc653da68fe886b045faff87273e69e1ab99a0",
+   "time": 1789369014,
+   "url": "https://www.reddit.com/r/AbsoluteUnits/comments/1wfw4ix/of_a_residential_property/"
+  },
+  {
+   "sub": "nextfuckinglevel",
+   "title": "Joe Gibbs Racing pit crew completing a flawless sub-10 second pit stop up close",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/bWZpanJvc2NqZXBoMQKMHyZr0TWOXMgEMwf6n626BJUPcHOnoi88el0l4deQ.png?width=640&crop=smart&auto=webp&s=142fe94b75cf7b3d5f44960a01bd58a66b7b2b49",
+   "time": 1789355099,
+   "url": "https://www.reddit.com/r/nextfuckinglevel/comments/1wfrqqr/joe_gibbs_racing_pit_crew_completing_a_flawless/"
   }
  ],
  "disaster": [],
  "_cover": {
   "ok": {
+   "x": [
+    "awaken_eyes",
+    "jajaja7878uu"
+   ],
    "threads": [
     "aicoffeechat",
     "aipeekme",
@@ -436,12 +450,21 @@
     "tictok_ent"
    ]
   },
-  "why": {},
+  "why": {
+   "x": {
+    "64bitcoinkr": 429,
+    "economysniper0": 429,
+    "kyunghyang": 429,
+    "freedom_73x": 429,
+    "marionawfal": 429,
+    "globalbrief_now": 429
+   }
+  },
   "landing": {
-   "at": "2026-09-15T04:31:18",
+   "at": "2026-09-15T05:01:19",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-09-15T05:01:16.971550+09:00"
+ "updated": "2026-09-15T05:34:51.854070+09:00"
 }
