@@ -27,10 +27,10 @@
   {
    "account": "choi.openai",
    "text": "사진 한 장만 보고도 물체가 얼마나 앞에 있고 뒤에 있는지 계산해주는 Marigold V2가 공개됐습니다.\n\n기존보다 머리카락, 털, 풀잎처럼 얇고 복잡한 경계를 훨씬 선명하게 구분하는 게 특징인데요. Qwen-Image-Edit-2509를 기반으로 만들었고, 32GB GPU 한 장에서도 추가 학습할 수 있습니다.\n\n학습 방식도 재미있습니다. 깊이 데이터가 완벽하지 않아도 픽셀 하나하나를 억지로 맞추지 않고, 주변 영역끼리 비교하는 SinkLoss를 사용해 오류 영향을 줄였습니다.\n\n활용처도 많습니다. 일반 사진을 3D 장면으로 바꾸거나, 영상의 카메라 시점을 이동하고, AR·게임·로봇이 주변 공간을 이해하는 데 쓸 수 있습니다.\n\nComfyUI 같은 생성형 이미지 작업에서도 깊이맵을 이용한 후처리나 3D 연출에 활용하기 좋습니다.",
-   "likes": 20,
-   "cmts": 2,
+   "likes": 32,
+   "cmts": 3,
    "time": 1789342226,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/790114289_1408925937332204_6497218311874240299_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk4NTYxMzkyNDQ4ODg0NTcyNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=9VHhmu3im3QQ7kNvwE5l20t&_nc_oc=Adqhd_vwHJHLsuTN5SsJJErPAe2M1gmgQpabViMe1Akv6PlOEGoVapzP5afwdCHyJIY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=IPPSYL9hs08gm-nx8mMQqA&_nc_ss=7a22e&oh=00_AQKhhvl2X9ZkP7yXSrwVjj-QxsZXcaPhoq4Gh3JKRw0-5A&oe=6AAD08BB",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/790114289_1408925937332204_6497218311874240299_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk4NTYxMzkyNDQ4ODg0NTcyNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=9VHhmu3im3QQ7kNvwE5l20t&_nc_oc=Adqhd_vwHJHLsuTN5SsJJErPAe2M1gmgQpabViMe1Akv6PlOEGoVapzP5afwdCHyJIY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=73HGwt5DawDqZnutq31mCg&_nc_ss=7a22e&oh=00_AQIUc8Pb288S_MJalMgaABvmQkT9fJ127hQPt1gA377i4Q&oe=6AAD08BB",
    "url": "https://www.threads.com/@choi.openai/post/DdPvr9lAhmd",
    "region": "kr"
   },
@@ -50,7 +50,7 @@
    "likes": 10,
    "cmts": 0,
    "time": 1789298300,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/808490887_2929398694092128_2893696878876978165_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk4NTI0NTI0ODI0NjU3MDgyNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=nlfHafZf6OcQ7kNvwHpmdXs&_nc_oc=Adotdk2U0ih8XAkv5kILDrC5K2gMwXScNsRr9QX1nvLOja0A8vwS5mnM2JO0qcIEssc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=ue1sM_0kNXlO6C3bUQb4Rw&_nc_ss=7a22e&oh=00_AQK_vZo6fW4JKz7kdVQSVruVxHGqQKeFL-nAGuERbHCOmQ&oe=6AACF44F",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/808490887_2929398694092128_2893696878876978165_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk4NTI0NTI0ODI0NjU3MDgyNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=nlfHafZf6OcQ7kNvwHpmdXs&_nc_oc=Adotdk2U0ih8XAkv5kILDrC5K2gMwXScNsRr9QX1nvLOja0A8vwS5mnM2JO0qcIEssc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=pWHIFXEAKOT1lfZuSdcyXg&_nc_ss=7a22e&oh=00_AQLMZg2Q-72W75ryo2vD5mBPoTxu5fyNvFZgid2ks-fr0g&oe=6AAD2C8F",
    "url": "https://www.threads.com/@aipeekme/post/DdOb3BEjN9I",
    "region": "kr"
   },
@@ -60,7 +60,7 @@
    "likes": 0,
    "cmts": 1,
    "time": 1789297485,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/808478640_2999957500351605_5849565426987961879_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk4NTIzODI0NTU3OTU0ODYxMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=ux1pMbH37xcQ7kNvwEBl2sq&_nc_oc=AdrW94d7PqMl1cN0oVTtVYv62AGrr1Qi4RycU6M6efIrAbUm120oAjIfIgEWBwg7f1I&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=ue1sM_0kNXlO6C3bUQb4Rw&_nc_ss=7a22e&oh=00_AQKxvI2OkhD-IgpM2ryZkclxSgy25QbR88ymOmssUKN5zw&oe=6AAD13BC",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/808478640_2999957500351605_5849565426987961879_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk4NTIzODI0NTU3OTU0ODYxMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=ux1pMbH37xcQ7kNvwEBl2sq&_nc_oc=AdrW94d7PqMl1cN0oVTtVYv62AGrr1Qi4RycU6M6efIrAbUm120oAjIfIgEWBwg7f1I&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=pWHIFXEAKOT1lfZuSdcyXg&_nc_ss=7a22e&oh=00_AQLIar0sLbVHWo2IC51sU58HaFzqpKkW1qPbE1x1z3gqzg&oe=6AAD13BC",
    "url": "https://www.threads.com/@aipeekme/post/DdOaRHVEefC",
    "region": "kr"
   },
@@ -70,7 +70,7 @@
    "likes": 3,
    "cmts": 1,
    "time": 1789297029,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/808450992_1089226637373952_1358046437611068598_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk4NTIzNDYwNTM5MzU3MDM3OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=T73Eo6rI6fcQ7kNvwFxk_Ir&_nc_oc=AdpuQyXctArPj9yNBRhziZHYqFxGB78vS7Sei3rhlUnwUwUMULe7kdd89rkbbR2wcEI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=ue1sM_0kNXlO6C3bUQb4Rw&_nc_ss=7a22e&oh=00_AQLkMfubMWbPwauqcDwuvGGSeDnZX4epcERqvpGqcEX0Fw&oe=6AACF20D",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/808450992_1089226637373952_1358046437611068598_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk4NTIzNDYwNTM5MzU3MDM3OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=T73Eo6rI6fcQ7kNvwFxk_Ir&_nc_oc=AdpuQyXctArPj9yNBRhziZHYqFxGB78vS7Sei3rhlUnwUwUMULe7kdd89rkbbR2wcEI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=pWHIFXEAKOT1lfZuSdcyXg&_nc_ss=7a22e&oh=00_AQJ_A5VVRZeoZ4iHbwZbNpdsmvOXv-5E3M8F-twyaBI2Xg&oe=6AAD2A4D",
    "url": "https://www.threads.com/@aipeekme/post/DdOZcJJE-pK",
    "region": "kr"
   },
@@ -80,7 +80,7 @@
    "likes": 14,
    "cmts": 0,
    "time": 1789281620,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/805579745_17936576418362958_3012312620873436321_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk4NTEwNTUyODE3OTM3MTUxOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ1MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=lEGH2H7nri0Q7kNvwEYRrG4&_nc_oc=AdolrnAU0zc-MSgA-W1mD7ey1PYRRAhD5j8q5viLnRFWk3Pz1AZoTB6TlMh3aWra9cQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=icHoOcjx7liRQyLztPDqrA&_nc_ss=7a22e&oh=00_AQKzBCwVLWTIM3Ou-MkUx21YUTR_Q7SxmNyN4YvcAPZxLw&oe=6AAD10CC",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/805579745_17936576418362958_3012312620873436321_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk4NTEwNTUyODE3OTM3MTUxOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ1MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=lEGH2H7nri0Q7kNvwEYRrG4&_nc_oc=AdolrnAU0zc-MSgA-W1mD7ey1PYRRAhD5j8q5viLnRFWk3Pz1AZoTB6TlMh3aWra9cQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=PW581ELwUm28J6DUO37_fg&_nc_ss=7a22e&oh=00_AQJyefDiJEL3O5LV3ZloUXnJ2OKHhZZMSdPefD569lnpLA&oe=6AAD10CC",
    "url": "https://www.threads.com/@takepage_/post/DdN8F0nk63_",
    "region": "kr"
   },
@@ -97,10 +97,10 @@
   {
    "account": "choi.openai",
    "text": "시장이 도대체 어떻게 돌아가는 걸까요?\n\n불과 하루 전 다리오 아모데이, 샘 알트먼, 일론 머스크까지 AI 개발 속도를 늦추자는 쪽에 섰는데요. 이번에는 트럼프가 정반대 입장을 내놨습니다.\n\n트럼프는 “AI에서 이기는 쪽이 이긴다”며 중국에 대한 미국의 우위를 유지해야 한다고 강조했습니다. 안전장치는 가능하지만, 일부 AI 위험론은 실제로 일어나지 않을 일을 과장하는 “부정적인 세력\"라고 표현했습니다.\n\n결국 AI 업계는 안전 때문에 속도를 늦추자고 하고, 미국 정부는 중국 때문에 늦출 수 없다고 하는 상황입니다.\n\nAI 개발 경쟁이 이제 기술 기업끼리의 경쟁을 넘어 국가 안보와 패권 경쟁으로 완전히 넘어가고 있습니다.",
-   "likes": 55,
+   "likes": 58,
    "cmts": 3,
    "time": 1789336824,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/809477372_1611296857032674_9071502466487064383_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk4NTU2ODYxMTE0MjA4OTQ2OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=kr8ptaT13CsQ7kNvwFevCev&_nc_oc=AdrCq4u1i2vgLO93VE-wI4a_CEv0wopdVQCB4QCXR2C3vp4MupvgLvHhrwtMyCdhcMw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=IPPSYL9hs08gm-nx8mMQqA&_nc_ss=7a22e&oh=00_AQIl-k1EJxX-3XkJb3G_STHLwC0WI4qD0lWEGHmYK3Ej_g&oe=6AACF16D",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/809477372_1611296857032674_9071502466487064383_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk4NTU2ODYxMTE0MjA4OTQ2OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=kr8ptaT13CsQ7kNvwFevCev&_nc_oc=AdrCq4u1i2vgLO93VE-wI4a_CEv0wopdVQCB4QCXR2C3vp4MupvgLvHhrwtMyCdhcMw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=73HGwt5DawDqZnutq31mCg&_nc_ss=7a22e&oh=00_AQJGidiPJBEwZp3RGNLImjDGZEzDhhOjVo0z8FP-18gFmw&oe=6AAD29AD",
    "url": "https://www.threads.com/@choi.openai/post/DdPlYkPEjr9",
    "region": "kr"
   },
@@ -110,14 +110,14 @@
    "likes": 5,
    "cmts": 1,
    "time": 1789296696,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/808137322_1585056449740822_1576243614649547737_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk4NTIzMTg0NzE5NDA2OTY4OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=WLKjF0dFvA4Q7kNvwG8XATL&_nc_oc=AdrtZmGcOmuWj_PTii_1FAecWj9lNsmZNB9T9Nf_UZ_b0j02rJhDCNqrzxO16TM4KPQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=ue1sM_0kNXlO6C3bUQb4Rw&_nc_ss=7a22e&oh=00_AQJ2qlpi-wiFTjI_nHIZBCwPcWhfzlI4MuIlUDiDsgha8A&oe=6AAD209B",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/808137322_1585056449740822_1576243614649547737_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk4NTIzMTg0NzE5NDA2OTY4OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=WLKjF0dFvA4Q7kNvwG8XATL&_nc_oc=AdrtZmGcOmuWj_PTii_1FAecWj9lNsmZNB9T9Nf_UZ_b0j02rJhDCNqrzxO16TM4KPQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=pWHIFXEAKOT1lfZuSdcyXg&_nc_ss=7a22e&oh=00_AQKZ4-lQ6ank8szXI5x7dPKhsWWStEleAkV2uNW45rXtJQ&oe=6AAD209B",
    "url": "https://www.threads.com/@aipeekme/post/DdOY0AXk4q4",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "프로젝트 페이지 :\nhttps://linzhanmou.com/unimate/",
-   "likes": 3,
+   "likes": 4,
    "cmts": 0,
    "time": 1789331465,
    "thumb": "",
@@ -127,10 +127,10 @@
   {
    "account": "choi.openai",
    "text": "사람뿐 아니라 동물·새·뱀·곤충·물고기·관절형 물체까지, 텍스트 한 줄로 움직이게 하는 UniMate가 공개됐습니다.\n\n기존 방식은 골격이 달라지면 모델을 다시 맞추는 경우가 많았는데요.\nUniMate는 하나의 모델로 서로 다른 뼈 구조를 이해해, “걷기”, “고개를 돌리며 이동하기” 같은 지시를 바로 애니메이션으로 만듭니다. 별도 재학습도 필요 없습니다.\n\n게임 캐릭터·몬스터·동물 NPC 애니메이션을 빠르게 만들 수 있고, 기존 동작 일부만 수정하거나 시작·끝 자세 사이를 자연스럽게 채우는 작업도 가능합니다.\n\n13,006개 모션으로 구성된 UniML3D 데이터셋도 함께 공개됐습니다.",
-   "likes": 35,
-   "cmts": 1,
+   "likes": 39,
+   "cmts": 2,
    "time": 1789331455,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/806317975_1423152626420206_2429606063990521185_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk4NTUyMzU3NTU0MTE1NTM1Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=InK2x35-cfgQ7kNvwFBpZdG&_nc_oc=AdquqXyiGJhvPMxMODrwmXO3YHqg3GxrNgSn8lK4Svb1YjLNI9tsADf9MVdyAsJHFw0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=IPPSYL9hs08gm-nx8mMQqA&_nc_ss=7a22e&oh=00_AQJ35BPEgiynCxDLDPrFeuy6Zt0OA1D48w3NzPpRACDtDg&oe=6AAD1878",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/806317975_1423152626420206_2429606063990521185_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk4NTUyMzU3NTU0MTE1NTM1Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=InK2x35-cfgQ7kNvwFBpZdG&_nc_oc=AdquqXyiGJhvPMxMODrwmXO3YHqg3GxrNgSn8lK4Svb1YjLNI9tsADf9MVdyAsJHFw0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=73HGwt5DawDqZnutq31mCg&_nc_ss=7a22e&oh=00_AQIXdLy4LTB0PtwOEOraTrRrjlUi9OXPLfBTH7PNVOdkvg&oe=6AAD1878",
    "url": "https://www.threads.com/@choi.openai/post/DdPbJNkE0Yd",
    "region": "kr"
   },
@@ -147,10 +147,10 @@
   {
    "account": "choi.openai",
    "text": "사람의 움직임을 서로 다른 휴머노이드 로봇에 자동으로 옮기는 UMR(Unified Motion Retargeting)이 공개됐습니다.\n\n기존에는 사람과 로봇의 관절 구조가 달라 뼈대를 하나씩 맞춰줘야 했는데요.\nUMR은 사람과 로봇의 3D 표면을 점군으로 비교해 대응 관계를 학습하기 때문에 수작업 관절 매핑을 줄일 수 있습니다.\n\n걷기뿐 아니라 물체를 잡거나 상호작용하는 동작도 옮길 수 있어, 사람의 모션캡처 데이터를 여러 종류의 휴머노이드 로봇 학습에 재사용하는 데 활용할 수 있습니다.\n\n코드도 공개됐습니다.",
-   "likes": 36,
+   "likes": 41,
    "cmts": 1,
    "time": 1789326037,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/808136364_1053702324054323_5449713401981112106_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk4NTQ3ODEyMTEzODMwMzg2NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=SPmLkOYr1vYQ7kNvwFUUn1O&_nc_oc=Adr1cvFE8aQBMgsvtCOuOwVPqTTtZZhDFfbplKjY5J199t_1Jl305KMuEidl0ng2mq0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=IPPSYL9hs08gm-nx8mMQqA&_nc_ss=7a22e&oh=00_AQIXMelspiufxHHcR_zg0UgnsfYYR_qu8zuvG2ZpvNh2uA&oe=6AAD005B",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/808136364_1053702324054323_5449713401981112106_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk4NTQ3ODEyMTEzODMwMzg2NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=SPmLkOYr1vYQ7kNvwFUUn1O&_nc_oc=Adr1cvFE8aQBMgsvtCOuOwVPqTTtZZhDFfbplKjY5J199t_1Jl305KMuEidl0ng2mq0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=73HGwt5DawDqZnutq31mCg&_nc_ss=7a22e&oh=00_AQIgMQTzw2dsQoipQlpYQ7T7VpeVBWCacXbUbV4ffPGwBQ&oe=6AAD005B",
    "url": "https://www.threads.com/@choi.openai/post/DdPQzw2ijN5",
    "region": "kr"
   }
@@ -181,7 +181,7 @@
   {
    "account": "jaemyung_lee",
    "title": "¡Gusto en conocerte, Argentina! 🇰🇷🤝🇦🇷 #이재명 #아르헨티나 #argentina #javiermilei",
-   "views": 505400,
+   "views": 505500,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o43E0EJDgKsBeuyFfnqRBCAvI1sAAbI2NsPlIc~tplv-tiktokx-origin.image?dr=14575&x-expires=1789516800&x-signature=j0jqqC6Kz2BKDn66%2BqmVvLYvuqk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -236,7 +236,7 @@
   {
    "account": "jaemyung_lee",
    "title": "새로운 영감과 끝없는 도전을 위해 🇰🇷🇫🇷 뤼미에르 서밋 레디, 액션 #Korea #France #Lumiere",
-   "views": 33800,
+   "views": 33900,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIqB6INciK7CI3iw10LAp5vfZO6IAlCTdIAI06~tplv-tiktokx-origin.image?dr=14575&x-expires=1789516800&x-signature=e3jn2o4LAuiTXciDSP2W51%2BGJsM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -258,10 +258,10 @@
   {
    "account": "jaemyung_lee",
    "title": "빛으로 담아내는, 제7의 예술🎥",
-   "views": 29400,
+   "views": 29500,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oMMIdnnHDI6bTifTAPFDcDRbtBfWqzBIEDgvEo~tplv-tiktokx-origin.image?dr=14575&x-expires=1789516800&x-signature=WaPdubAblSL2c3Gt%2BCGgopSg%2FYo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oMMIdnnHDI6bTifTAPFDcDRbtBfWqzBIEDgvEo~tplv-tiktokx-origin.image?dr=14575&x-expires=1789516800&x-signature=D6WETt13UAyzcN7eIR6IcwB49MY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789031851,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7683833293816614151",
    "region": "kr"
@@ -318,13 +318,13 @@
    "url": "https://www.reddit.com/r/interesting/comments/1wf1hq0/55_years_of_inflation/"
   },
   {
-   "sub": "Damnthatsinteresting",
-   "title": "a spider built web around a wasp nest trapping them in,and the ants are eating the larvae, stockpilin for winter",
+   "sub": "BeAmazed",
+   "title": "catamount saved from drowning",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/aDV3OHRybTdwY3BoMfsEuxLt9aGZBKvO53MsSY4aThCdzIMwpncBrwqkfNvj.png?width=640&crop=smart&auto=webp&s=3ce2a53b4192b80e152ddf8f3164cd49398e869f",
-   "time": 1789332951,
-   "url": "https://www.reddit.com/r/Damnthatsinteresting/comments/1wfjgs7/a_spider_built_web_around_a_wasp_nest_trapping/"
+   "thumb": "https://external-preview.redd.it/czNjOGpmdGNlOHBoMecum_NnXvHvjLoFV-AXq99cXfh3GAO1lKM6cc6oQ4EM.jpeg?width=320&crop=smart&auto=webp&s=f52a2335f6e0dce5008825a9a72731baa38adec2",
+   "time": 1789280793,
+   "url": "https://www.reddit.com/r/BeAmazed/comments/1wezxkv/catamount_saved_from_drowning/"
   },
   {
    "sub": "MadeMeSmile",
@@ -336,22 +336,13 @@
    "url": "https://www.reddit.com/r/MadeMeSmile/comments/1wfm68m/they_had_no_photographer_for_their_courthouse/"
   },
   {
-   "sub": "HistoryMemes",
-   "title": "Buxom maidens",
+   "sub": "Damnthatsinteresting",
+   "title": "a spider built web around a wasp nest trapping them in,and the ants are eating the larvae, stockpilin for winter",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/tar3otra3dph1.jpeg?width=640&crop=smart&auto=webp&s=0c63e53945476e4dc9704ea4a65ff5ec69a7f8bb",
-   "time": 1789337580,
-   "url": "https://www.reddit.com/r/HistoryMemes/comments/1wfldha/buxom_maidens/"
-  },
-  {
-   "sub": "BeAmazed",
-   "title": "catamount saved from drowning",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/czNjOGpmdGNlOHBoMecum_NnXvHvjLoFV-AXq99cXfh3GAO1lKM6cc6oQ4EM.jpeg?width=320&crop=smart&auto=webp&s=f52a2335f6e0dce5008825a9a72731baa38adec2",
-   "time": 1789280793,
-   "url": "https://www.reddit.com/r/BeAmazed/comments/1wezxkv/catamount_saved_from_drowning/"
+   "thumb": "https://external-preview.redd.it/aDV3OHRybTdwY3BoMfsEuxLt9aGZBKvO53MsSY4aThCdzIMwpncBrwqkfNvj.png?width=640&crop=smart&auto=webp&s=3ce2a53b4192b80e152ddf8f3164cd49398e869f",
+   "time": 1789332951,
+   "url": "https://www.reddit.com/r/Damnthatsinteresting/comments/1wfjgs7/a_spider_built_web_around_a_wasp_nest_trapping/"
   },
   {
    "sub": "SipsTea",
@@ -363,6 +354,15 @@
    "url": "https://www.reddit.com/r/SipsTea/comments/1wflbo6/work_shouldnt_consume_life/"
   },
   {
+   "sub": "HistoryMemes",
+   "title": "Buxom maidens",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/tar3otra3dph1.jpeg?width=640&crop=smart&auto=webp&s=0c63e53945476e4dc9704ea4a65ff5ec69a7f8bb",
+   "time": 1789337580,
+   "url": "https://www.reddit.com/r/HistoryMemes/comments/1wfldha/buxom_maidens/"
+  },
+  {
    "sub": "mildlyinfuriating",
    "title": "My neighbor put up a flagpole yesterday. We live in the north.",
    "score": 0,
@@ -370,15 +370,6 @@
    "thumb": "https://preview.redd.it/418gu351japh1.jpeg?width=640&crop=smart&auto=webp&s=675b8a72bcf2768910289a4c6c38ac55286cddd6",
    "time": 1789306634,
    "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1wf7wul/my_neighbor_put_up_a_flagpole_yesterday_we_live/"
-  },
-  {
-   "sub": "PeopleBeingRidiculous",
-   "title": "We’re the ones with TDS right?",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/3zgx98tdp9ph1.jpeg?width=640&crop=smart&auto=webp&s=95cd0be26733956b853829d40369d967f8b80a17",
-   "time": 1789296580,
-   "url": "https://www.reddit.com/r/PeopleBeingRidiculous/comments/1wf4fdi/were_the_ones_with_tds_right/"
   },
   {
    "sub": "politics",
@@ -390,13 +381,22 @@
    "url": "https://www.reddit.com/r/politics/comments/1wfh4xd/mitch_mcconnell_absent_for_3_months_as_senate_set/"
   },
   {
-   "sub": "interestingasfuck",
-   "title": "The mugshots of Russian sleeper agents caught in America",
+   "sub": "PeopleBeingRidiculous",
+   "title": "We’re the ones with TDS right?",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/ei5juu6b0cph1.jpeg?width=640&crop=smart&auto=webp&s=1209d458132dd0dacef455295c7e0037283e5774",
-   "time": 1789324468,
-   "url": "https://www.reddit.com/r/interestingasfuck/comments/1wffp8t/the_mugshots_of_russian_sleeper_agents_caught_in/"
+   "thumb": "https://preview.redd.it/3zgx98tdp9ph1.jpeg?width=640&crop=smart&auto=webp&s=95cd0be26733956b853829d40369d967f8b80a17",
+   "time": 1789296580,
+   "url": "https://www.reddit.com/r/PeopleBeingRidiculous/comments/1wf4fdi/were_the_ones_with_tds_right/"
+  },
+  {
+   "sub": "anime",
+   "title": "Mushoku Tensei: Jobless Reincarnation Season 3 • Mushoku Tensei III: Isekai Ittara Honki Dasu - Episode 12 discussion",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1789311679,
+   "url": "https://www.reddit.com/r/anime/comments/1wfa192/mushoku_tensei_jobless_reincarnation_season_3/"
   }
  ],
  "disaster": [],
@@ -418,10 +418,10 @@
   },
   "why": {},
   "landing": {
-   "at": "2026-09-14T08:35:11",
+   "at": "2026-09-14T09:01:17",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-09-14T09:01:15.352871+09:00"
+ "updated": "2026-09-14T09:31:16.140643+09:00"
 }
