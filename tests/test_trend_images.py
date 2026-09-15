@@ -7,6 +7,7 @@ import os
 from pathlib import Path
 import sys
 import unittest
+from unittest.mock import patch
 import datetime as dt
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -53,10 +54,14 @@ class TrendResolverTest(unittest.TestCase):
             if 'naver' in url:
                 return '<a href="https://n.news.naver.com/mnews/article/001/0000000001">x</a>'
             return DAUM_HTML
-        got = ti.resolve_news_urls('키워드', fetch=fake, limit=3)
-        self.assertEqual(got[0], 'https://n.news.naver.com/mnews/article/001/0000000001')
-        self.assertTrue(all(u.startswith('http') for u in got))
-        self.assertEqual(len(got), 3)                       # 네이버 1 + 다음 2(7일 컷 뒤) = limit 3
+        # 고정 HTML의 발행일과 현재시각을 맞춰 실행 날짜와 무관하게 7일 컷을 검증한다.
+        with patch.object(ti.time, 'time', return_value=NOW):
+            got = ti.resolve_news_urls('키워드', fetch=fake, limit=3)
+        self.assertEqual(got, [                            # 네이버 1 + 다음 2(7일 컷 뒤) = limit 3
+            'https://n.news.naver.com/mnews/article/001/0000000001',
+            'http://v.daum.net/v/20260909052149228',
+            'https://v.daum.net/v/20260908110000000',
+        ])
         self.assertEqual(len(calls), 3)                     # 네이버 1주 · 네이버 전체 · 다음 = 키워드당 최대 3 GET
 
     def test_resolve_stops_early_when_naver_is_enough(self):
