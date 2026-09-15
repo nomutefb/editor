@@ -46,7 +46,7 @@ jobs:
         uses: actions/checkout@v5
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
-          fetch-depth: 0
+          fetch-depth: 2
           persist-credentials: false
 
       - name: Decide whether new LLM verification is needed
@@ -87,8 +87,14 @@ jobs:
           if not reason:
               stamp_commit = subprocess.check_output(
                   ['git', 'log', '-1', '--format=%H', '--', str(stamp_path)], text=True).strip()
+              shallow_path = Path(subprocess.check_output(
+                  ['git', 'rev-parse', '--git-path', 'shallow'], text=True).strip())
+              shallow_commits = set(shallow_path.read_text(encoding='ascii').splitlines()) if shallow_path.is_file() else set()
+              # 얕은 이력의 경계는 파일을 처음 만든 커밋처럼 보인다. 도장 생성 시점의 증거로 쓰지 않는다.
+              if stamp_commit in shallow_commits:
+                  reason = 'shallow history cannot establish the verification stamp commit'
               # 케이스 기대값·실행기 변경은 기존 해시/개수 검사만으로 잡히지 않는다.
-              if not stamp_commit or subprocess.run(
+              elif not stamp_commit or subprocess.run(
                   ['git', 'diff', '--quiet', stamp_commit, 'HEAD', '--', *watched]).returncode:
                   reason = 'regression inputs changed since the committed verification stamp'
           run = bool(reason)
