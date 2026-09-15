@@ -7541,8 +7541,14 @@
   {
    "query": "김한정",
    "traffic": "5000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/dcd1b6106e.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/421/0009171617",
+     "source": ""
+    }
+   ],
    "vol": 5000,
    "started": "2026-09-15T15:40:00+09:00",
    "delta": -7,
@@ -7556,8 +7562,14 @@
   {
    "query": "어부",
    "traffic": "5000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/3cd0ac83e4.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/003/0014189905",
+     "source": ""
+    }
+   ],
    "vol": 5000,
    "started": "2026-09-15T15:40:00+09:00",
    "delta": -7,
@@ -7644,8 +7656,14 @@
   {
    "query": "에너지",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/420fa37e19.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/003/0014191911",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-09-15T15:30:00+09:00",
    "delta": -10,
@@ -7659,8 +7677,14 @@
   {
    "query": "해상 작전 헬기",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/56ff65b8e9.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/001/0016310729",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-09-15T16:00:00+09:00",
    "delta": -16,
@@ -7736,8 +7760,14 @@
   {
    "query": "소방관",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/f3349ec224.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/023/0003998548",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-15T16:10:00+09:00",
    "delta": -21,
@@ -7750,8 +7780,14 @@
   {
    "query": "나영석",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/2eea38c9dc.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/001/0016311032",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-15T15:20:00+09:00",
    "delta": -14,
@@ -7940,12 +7976,12 @@
  ],
  "gtrends_pool_updated": "2026-09-15T18:37:30+09:00",
  "_trend_img": {
-  "tried": "2026-09-15T17:39:58+09:00",
+  "tried": "2026-09-15T18:37:30+09:00",
   "fail": {
-   "기 영식": "2026-09-15T16:13:17+09:00",
    "뉴스 속보": "2026-09-15T17:08:40+09:00",
    "신주아": "2026-09-15T17:42:38+09:00",
-   "황 유민": "2026-09-15T17:42:38+09:00"
+   "황 유민": "2026-09-15T17:42:38+09:00",
+   "에코프로 비엠": "2026-09-15T18:39:11+09:00"
   }
  },
  "gtrends_gl": [
@@ -17760,7 +17796,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-15T18:37:30+09:00"
+    "first_seen": "2026-09-15T18:37:30+09:00",
+    "kw": "details.so, vault",
+    "sum": "작성자가 details.so vault 링크에 자료를 모아뒀다고 밝혔다",
+    "sv": 1
    },
    {
     "account": "kopp",
@@ -17775,7 +17814,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-09-15T18:37:30+09:00"
+    "first_seen": "2026-09-15T18:37:30+09:00",
+    "kw": "스크롤 디자인, 서비스 소개",
+    "sum": "작성자가 서비스와 기능을 보여주는 스택형 스크롤을 소개했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
