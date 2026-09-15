@@ -15,33 +15,43 @@
  "insta": [],
  "threads": [
   {
-   "account": "choi.openai",
-   "text": "트럼프가 AI 규제론을 또 강하게 비판했습니다.\n\n트럼프는 “강한 규제를 받으면 파산할 AI 기업들이 왜 스스로 규제를 요구하겠느냐”며 AI가 인류를 파괴하거나 세계를 장악할 것이라는 주장을 “사기”라고 표현했습니다.\n\n또 중국은 AI의 미래를 막지 않을 것이라고 주장하며, 미국의 까다로운 인허가 때문에 구글이 핀란드에 대규모 시설을 건설하려는 상황에도 불만을 드러냈습니다.\n\n특히 AI와 데이터센터를 “석유, 금, 다이아몬드, 인터넷보다 큰 역사상 최대의 경제 성장 엔진”이라고 표현했습니다.\n\n트럼프에게 AI는 규제해야 할 위험 기술보다 중국과의 경쟁에서 절대 놓쳐서는 안 될 차세대 산업에 가까워 보입니다.",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1789432204,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/810730933_17987146425112832_7417406587541748394_n.jpg?stp=cp6_dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk4NjM2ODcyMDM1NjIxMzUwMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTMyMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Qyj1EUej4_MQ7kNvwGmcNGu&_nc_oc=AdqkE3l-xRw_VkXiIfNqHWj3uO1g9bYoNgMmq7-4IBNQw85PquY7HrF5kEsfNxP4CfM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=kKlJUxV2OIjkgi68QDsM6w&_nc_ss=7a22e&oh=00_AQJV6zl9nKf_z5tjgxP1HxwvVlD0nUG2uQ6XAXAoAAbOKw&oe=6AAE54E0",
-   "url": "https://www.threads.com/@choi.openai/post/DdSbTsAj4L-",
-   "region": "kr"
-  },
-  {
    "account": "daily_ai_star",
-   "text": "사용 요금은 선택한 기준이 아니라 실제로 고른 모델을 기준으로 계산됩니다. 유료 구독자는 Auto 사용량에 10% 할인을 받습니다.\n\n지금까지는 모델을 직접 고정하거나 Auto에 맡겼습니다. 이제 팀은 “어떤 모델이 좋은가”보다 “어떤 작업에 어느 비용·품질 기준을 적용할 것인가”를 정해야 합니다.\n\nhttps://github.blog/changelog/2026-09-14-configure-cost-and-quality-in-copilot-auto-model-selection/",
+   "text": "코딩 에이전트의 안전성 기준이 “위험한 요청을 거절했는가”에서 “여러 세션과 도구 호출을 합쳤을 때 어떤 시스템을 완성하게 되는가”로 이동하고 있습니다.\n\n앞으로는 모델 평가표에 거부율만 적을 수 없습니다. 세션 간 연결, 파일에 남은 작업물, 외부 시뮬레이션과의 결합까지 함께 봐야 합니다 ⭐\n\nhttps://www.anthropic.com/threat-intelligence-report-september-2026",
    "likes": 0,
    "cmts": 0,
-   "time": 1789431926,
+   "time": 1789433454,
    "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdSaxSSAc0-",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdSdr2YmVQe",
    "region": "kr"
   },
   {
    "account": "daily_ai_star",
-   "text": "GitHub Copilot Auto에 9월 14일 세 가지 선택 기준이 추가됐습니다.\n\n효율은 비용, 균형은 비용·품질·응답 시간, 지능은 품질을 우선합니다. 세 기준이 서로 다른 모델 묶음을 쓰는 것은 아닙니다. 같은 사용 가능 모델 안에서 프롬프트마다 적합한 모델을 고릅니다.\n\n간단한 함수 설명에는 작은 모델을 쓰고, 복잡한 작업에는 더 높은 품질의 모델을 고를 수 있습니다. 이 기능은 VS Code, Copilot CLI, Copilot 앱에 순차적으로 적용됩니다.\n\n코딩 에이전트의 모델 선택이 개발자의 취향이 아니라 작업별 비용·품질 정책으로 이동하고 있습니다.",
+   "text": "보고서의 핵심은 모델이 모든 요청을 통과시켰다는 이야기가 아닙니다.\n\nAnthropic은 일부 요청을 차단했지만, 공격자들이 목적을 숨기고 작업을 여러 세션으로 나눠 전체 의도를 감췄다고 설명합니다. 한 러시아 기반 행위자는 Claude Code와 시뮬레이션 환경을 함께 써 드론 군집의 협업 로직과 유도 기능을 개발했습니다.\n\n에이전트가 한 번의 대화에서 무엇을 답했는지만 보면 놓치는 구조입니다.",
    "likes": 0,
    "cmts": 1,
-   "time": 1789431919,
+   "time": 1789433445,
    "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdSawN3gWZC",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdSdqgiGaRu",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
+   "text": "Anthropic이 9월 10일 공개한 위협 보고서에는 Claude Code로 만든 무기·감시 시스템 사례가 함께 들어 있습니다.\n\n한 사례에서는 에이전트가 드론 군집의 공유 메모리, 고장 허용 협업 로직, 카메라 기반 유도 소프트웨어까지 작성했습니다. 다른 사례에서는 국가 감시 플랫폼이 약 2,500만 개 SIM을 대상으로 설계됐습니다.\n\n코딩 에이전트의 위험은 생성된 코드의 품질만으로 측정하기 어려워졌습니다.",
+   "likes": 0,
+   "cmts": 2,
+   "time": 1789433436,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdSdpXQmaSN",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "트럼프가 AI 규제론을 또 강하게 비판했습니다.\n\n트럼프는 “강한 규제를 받으면 파산할 AI 기업들이 왜 스스로 규제를 요구하겠느냐”며 AI가 인류를 파괴하거나 세계를 장악할 것이라는 주장을 “사기”라고 표현했습니다.\n\n또 중국은 AI의 미래를 막지 않을 것이라고 주장하며, 미국의 까다로운 인허가 때문에 구글이 핀란드에 대규모 시설을 건설하려는 상황에도 불만을 드러냈습니다.\n\n특히 AI와 데이터센터를 “석유, 금, 다이아몬드, 인터넷보다 큰 역사상 최대의 경제 성장 엔진”이라고 표현했습니다.\n\n트럼프에게 AI는 규제해야 할 위험 기술보다 중국과의 경쟁에서 절대 놓쳐서는 안 될 차세대 산업에 가까워 보입니다.",
+   "likes": 15,
+   "cmts": 1,
+   "time": 1789432204,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/810730933_17987146425112832_7417406587541748394_n.jpg?stp=cp6_dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk4NjM2ODcyMDM1NjIxMzUwMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTMyMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Qyj1EUej4_MQ7kNvwF-p3xj&_nc_oc=AdqhgyhR8ScSB4X-cbhX-1liBNx24_UL2WkZobQt091VYj4aHJEh32fR5QeZPU-MwJs&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=wYeZGCLw5jhj6wg71i89wA&_nc_ss=7a22e&oh=00_AQJZC4PqRAjygQCwUGJAJKWcbSUMxq5L8X0Yw2zXUdke4w&oe=6AAE54E0",
+   "url": "https://www.threads.com/@choi.openai/post/DdSbTsAj4L-",
    "region": "kr"
   },
   {
@@ -57,28 +67,18 @@
   {
    "account": "choi.openai",
    "text": "깔끔한 버전 :",
-   "likes": 10,
-   "cmts": 1,
+   "likes": 39,
+   "cmts": 2,
    "time": 1789431256,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/810350733_1595709922352465_703877323717910826_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk4NjM2MDA5MDEwNTgyNjk4MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Z-HikweyG44Q7kNvwFkv0Xk&_nc_oc=AdopRl6IV-k1YxVGHZy8S_0LVGL7QEtp5fsfFQCwtiHmU79jwgmurMw5nFHMb531eOQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=kKlJUxV2OIjkgi68QDsM6w&_nc_ss=7a22e&oh=00_AQKYXtjZ8ep0jYpVyZHu6vh15MdhfjQIZfVUiSVGCC7-iQ&oe=6AAE7D85",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/810350733_1595709922352465_703877323717910826_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk4NjM2MDA5MDEwNTgyNjk4MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Z-HikweyG44Q7kNvwGLu1Pz&_nc_oc=AdpCohDHlG05qUcRehJ-mA1GDncs3J67yzKa1HlinlMvfAnV9qVxDrmK7Q-KDEzTL78&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=wYeZGCLw5jhj6wg71i89wA&_nc_ss=7a22e&oh=00_AQJHmg91EmZ4n2kXub0iXShSIHu4BE3vKvyrmzzdXJTUFg&oe=6AAE7D85",
    "url": "https://www.threads.com/@choi.openai/post/DdSZWGdjU6k",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "팀에서 확인할 숫자는 사용량 하나가 아닙니다. 비용이 큰 세션, 자주 멈추는 단계, 여러 사람이 반복하는 작업을 따로 봐야 합니다.\n\n에이전트를 추가하는 것보다, 반복 작업을 공유 스킬로 바꿀 근거를 남기는 쪽이 다음 운영 과제가 됐습니다.\n\nhttps://support.claude.com/en/articles/12138966-release-notes",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1789430467,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdSX_LekwCJ",
    "region": "kr"
   },
   {
    "account": "aicoffeechat",
    "text": "감사하게도 미국에 출장을 왔어요\n\n시골쥐가 미국에 와서 뭐를 해봐야 좋은 경험을 해보는걸까요. \nLA랑 SF에서 꼭 해봐야하는 것들은 뭐가 있을까요 !!! \n\n🇺🇸🇺🇸🇺🇸🇺🇸🇺🇸🇺🇸🇺🇸🇺🇸🇺🇸🇺🇸🇺🇸",
-   "likes": 27,
-   "cmts": 10,
+   "likes": 30,
+   "cmts": 11,
    "time": 1789427063,
    "thumb": "",
    "url": "https://www.threads.com/@aicoffeechat/post/DdSRgIkD0p5",
@@ -100,14 +100,14 @@
    "likes": 1,
    "cmts": 1,
    "time": 1789426918,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/811340156_18087472298407306_3204694237241992642_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk4NjMyNDMwMTQzNjQxNTg3Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTMwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=k3kLQYm4j5AQ7kNvwG4MMrx&_nc_oc=Adpl0EvV4gqlGsn-0dde-uZ-c1DDKez2l6BKFptNoZ56S12Cf_5yXi2OonYHpM2y_2Y&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=2u_bglv08mXSdzxN2FD-Bw&_nc_ss=7a22e&oh=00_AQJgCWIikAXUvbuoWrZsjisbYKv4BpgNcOFNHwiSmrvsRA&oe=6AAE49BF",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/811340156_18087472298407306_3204694237241992642_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk4NjMyNDMwMTQzNjQxNTg3Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTMwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=k3kLQYm4j5AQ7kNvwG4ZbSu&_nc_oc=AdrT8HExFob52VOSSh4tT4ZQzpO0rB2_OqpQExS80Q0cTN5EXTr7orGMfpdEiwcgWgQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=4-7LCGhxY-_tAl06jSZedQ&_nc_ss=7a22e&oh=00_AQJi07QhIDs_Au2-pogGTnhhrG-iW56Z_h1iKEIbcdAQFA&oe=6AAE81FF",
    "url": "https://www.threads.com/@aipeekme/post/DdSRNTqn--F",
    "region": "kr"
   },
   {
    "account": "aicoffeechat",
    "text": "설치는 터미널에 npx inspo-mcp install 한 줄을 넣으면 됩니다.\n\n링크: https://inspomcp.dev/",
-   "likes": 5,
+   "likes": 6,
    "cmts": 1,
    "time": 1789426602,
    "thumb": "",
@@ -117,10 +117,10 @@
   {
    "account": "aicoffeechat",
    "text": "더 이상 레퍼런스 없이 코드 짜지 마세요\n\nInspo MCP인데요. 심지어 무료입니다. Inspo에는 보기 좋은 웹사이트가 800개 넘게 모여 있어요. 에이전트가 화면을 만들 때 Inspo가 이 사이트들을 뒤져서 지금 작업에 맞는 디자인 참고 자료를 찾아 건네줍니다.\n\n'세련되게', '모던하게'를 쓰지마시고, 해당 MCP를 사용해보시는 것을 추천합니다.",
-   "likes": 61,
+   "likes": 70,
    "cmts": 3,
    "time": 1789426598,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/811102587_28649623134650760_7062205172886847186_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk4NjMxOTU4MjIzMDY3NDk4Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=E_AQWdxf7lcQ7kNvwEW0g7H&_nc_oc=AdphNzT9LoWgJeY0LrY1Iul7xPALgjhtNETIh9ZwwYoqPKX0kPBoOvaDPgos1bnu9q0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=dnqsOkLq23cDoJHoNcqQxQ&_nc_ss=7a22e&oh=00_AQJa50uRpXh__W-eBlqCkiwqEK0SgHBXJCBndTg4HA-Heg&oe=6AAE6763",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/811102587_28649623134650760_7062205172886847186_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk4NjMxOTU4MjIzMDY3NDk4Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=E_AQWdxf7lcQ7kNvwE92Lrv&_nc_oc=Adoy05lQ6ph0zLYJJ1xu5ZC7ai2AFqTHITqE9wLWPOlo92Aa6DIK0MZKomMxouLsTYg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=eGQSII811iH9BQyplMuhkQ&_nc_ss=7a22e&oh=00_AQJ2xphWaYTfqIYQXnh6moyN9ejohMpstpW4u-1GE67lkA&oe=6AAE6763",
    "url": "https://www.threads.com/@aicoffeechat/post/DdSQIokCv4r",
    "region": "kr"
   },
@@ -157,31 +157,31 @@
   {
    "account": "kopp",
    "text": "a tiny ASCII experiment with 4 different cursor modes.",
-   "likes": 81,
+   "likes": 84,
    "cmts": 2,
    "time": 1789362819,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/802699983_1760520755150146_4995807663197982812_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk4NTc4NjQzNDAyMzQwNjUzOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=iV1PI8d7s_IQ7kNvwEJETui&_nc_oc=Ado20J3iaHA9GUv2QO1rNRXL9CpbvqmlM7VLTNV9TN7bY7WiYn_IE60WqXs1r5FI-ZM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=pejQwXwipa7heOls10i1bg&_nc_ss=7a22e&oh=00_AQKAUHO1zNbD1JhhzDZVliyrKfZhBkvUhyX6YABf-gla1A&oe=6AAE800E",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/802699983_1760520755150146_4995807663197982812_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk4NTc4NjQzNDAyMzQwNjUzOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=iV1PI8d7s_IQ7kNvwE36nEe&_nc_oc=AdrD3A_pnfRpbuttcq8rIa3qwY5JPEsjWkdPk57Z53lzHuY5bH4TyelhD_ynPSuCArE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=3IjIVaxQtZgy88ldrPbmog&_nc_ss=7a22e&oh=00_AQLF38W3VTJLSMsXnICzD20bVEzyQDx1oUtEGWIRMhy3Og&oe=6AAE800E",
    "url": "https://www.threads.com/@kopp/post/DdQW6TmiTvL",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
+   "text": "사용 요금은 선택한 기준이 아니라 실제로 고른 모델을 기준으로 계산됩니다. 유료 구독자는 Auto 사용량에 10% 할인을 받습니다.\n\n지금까지는 모델을 직접 고정하거나 Auto에 맡겼습니다. 이제 팀은 “어떤 모델이 좋은가”보다 “어떤 작업에 어느 비용·품질 기준을 적용할 것인가”를 정해야 합니다.\n\nhttps://github.blog/changelog/2026-09-14-configure-cost-and-quality-in-copilot-auto-model-selection/",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1789431926,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdSaxSSAc0-",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "젠슨황 진짜 대단하네.. 저기서 삼성 갤러시 폴드 8를..\n\n발신자 : 도널드 트럼프",
-   "likes": 54,
-   "cmts": 5,
+   "likes": 180,
+   "cmts": 14,
    "time": 1789430993,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/810813934_17987154117112832_1807684459530064760_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk4NjM1ODU2MDc2MjA0NjQwOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMzM5Ni5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=8aODGwT3HIYQ7kNvwHRT3uc&_nc_oc=AdqpH2mlpinC7IS8DtKRqEyPg23tpZMUbPAzCKeiONwMbxjhJGuBgJXs3ARLseLN-ks&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=kKlJUxV2OIjkgi68QDsM6w&_nc_ss=7a22e&oh=00_AQIy_hclvzH6vBbkutdsNSX9vOo3DiBSueMZF2y9RNXshQ&oe=6AAE7E81",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/810813934_17987154117112832_1807684459530064760_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk4NjM1ODU2MDc2MjA0NjQwOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMzM5Ni5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=8aODGwT3HIYQ7kNvwEeugEh&_nc_oc=AdqsjhO9oiJXsA7lMje5DV-sfnB1n9gVEWVQxqS03OCrSshypWUSMPnT4T_CIsDQ4uU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=wYeZGCLw5jhj6wg71i89wA&_nc_ss=7a22e&oh=00_AQIE9fssVYCKfPOKb86DwKPl5DFNWlFmDrCxVzFsH_4w2w&oe=6AAE7E81",
    "url": "https://www.threads.com/@choi.openai/post/DdSY_2JjyfI",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "Claude가 9월 10일 Enterprise용 Smart Reports 베타를 공개했습니다.\n\n팀이 Claude를 어떻게 쓰는지 분석해 완료한 업무, 비용, 세션이 막힌 지점, 반복되어 공유 스킬로 만들 만한 패턴을 보여줍니다.\n\n지금까지 에이전트 도입 평가는 사용자 수나 메시지 수를 세는 쪽에 가까웠습니다. 이번 기능은 같은 업무가 몇 번 반복되는지와 어디서 시간이 새는지까지 보려는 방식입니다.\n\n에이전트의 운영 기준이 “얼마나 많이 썼는가”에서 “어떤 작업을 표준화할 수 있게 됐는가”로 이동하고 있습니다.",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1789430459,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdSX-NEkze1",
    "region": "kr"
   },
   {
@@ -195,6 +195,16 @@
    "region": "kr"
   },
   {
+   "account": "daily_ai_star",
+   "text": "GitHub Copilot Auto에 9월 14일 세 가지 선택 기준이 추가됐습니다.\n\n효율은 비용, 균형은 비용·품질·응답 시간, 지능은 품질을 우선합니다. 세 기준이 서로 다른 모델 묶음을 쓰는 것은 아닙니다. 같은 사용 가능 모델 안에서 프롬프트마다 적합한 모델을 고릅니다.\n\n간단한 함수 설명에는 작은 모델을 쓰고, 복잡한 작업에는 더 높은 품질의 모델을 고를 수 있습니다. 이 기능은 VS Code, Copilot CLI, Copilot 앱에 순차적으로 적용됩니다.\n\n코딩 에이전트의 모델 선택이 개발자의 취향이 아니라 작업별 비용·품질 정책으로 이동하고 있습니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1789431919,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdSawN3gWZC",
+   "region": "kr"
+  },
+  {
    "account": "choi.openai",
    "text": "풀영상 :\nhttps://www.youtube.com/watch?v=HGtoY1b9Ub4",
    "likes": 1,
@@ -202,16 +212,6 @@
    "time": 1789428615,
    "thumb": "",
    "url": "https://www.threads.com/@choi.openai/post/DdSUdlwjbLc",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "https://cloud.google.com/blog/topics/developers-practitioners/introducing-the-google-cloud-developer-plugin-for-ai-coding-agents",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1789367620,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdQgHeKGS3T",
    "region": "kr"
   }
  ],
@@ -222,7 +222,7 @@
    "views": 1600000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAbAoCECNeDAVDgQBcAkFzYBfoUADqQCQWIuZl~tplv-tiktokx-origin.image?dr=14575&x-expires=1789603200&x-signature=3u5GUKD0hOzo4TTVKqVjoC08dC8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAbAoCECNeDAVDgQBcAkFzYBfoUADqQCQWIuZl~tplv-tiktokx-origin.image?dr=14575&x-expires=1789606800&x-signature=3%2F6LpNz6GTRJR4Jt3xV7MpeVcKU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785471372,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7668541152869616914",
    "region": "kr"
@@ -233,7 +233,7 @@
    "views": 614500,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0CGAI6ooFCAPECAEqED63ffIARmgNxjBUg0zR~tplv-tiktokx-origin.image?dr=14575&x-expires=1789603200&x-signature=NEPrcbEev%2BMLDhPxML4SXAsTV9k%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0CGAI6ooFCAPECAEqED63ffIARmgNxjBUg0zR~tplv-tiktokx-origin.image?dr=14575&x-expires=1789606800&x-signature=r5RY7jj1rMX6sUQJIsqs9PE5ROI%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1788879730,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7683179938026900754",
    "region": "kr"
@@ -241,10 +241,10 @@
   {
    "account": "jaemyung_lee",
    "title": "¡Gusto en conocerte, Argentina! 🇰🇷🤝🇦🇷 #이재명 #아르헨티나 #argentina #javiermilei",
-   "views": 505900,
+   "views": 506000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o43E0EJDgKsBeuyFfnqRBCAvI1sAAbI2NsPlIc~tplv-tiktokx-origin.image?dr=14575&x-expires=1789603200&x-signature=qnmFdx5LptRFvPeWezsPE7WQUq8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o43E0EJDgKsBeuyFfnqRBCAvI1sAAbI2NsPlIc~tplv-tiktokx-origin.image?dr=14575&x-expires=1789606800&x-signature=ft%2BR7DW1N7b0wapvGDw8ftYjm9Q%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785519099,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7668746136877812999",
    "region": "kr"
@@ -252,10 +252,10 @@
   {
    "account": "jaemyung_lee",
    "title": "우리 국민의 구조에 모든 역량을 총동원하겠습니다  #네팔 #긴급회의 #prayfornepal",
-   "views": 302000,
+   "views": 302100,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4ECXepekgFVLDAPQbcqjSdGAIaIofEozvI9Qh~tplv-tiktokx-origin.image?dr=14575&x-expires=1789603200&x-signature=9IDFUXH8r851Tyw1BQkDNKGwW1E%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4ECXepekgFVLDAPQbcqjSdGAIaIofEozvI9Qh~tplv-tiktokx-origin.image?dr=14575&x-expires=1789606800&x-signature=VMnOGHNYMq7VRdmAkdlqIPrYxw4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1787831518,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7678677903122369800",
    "region": "kr"
@@ -266,7 +266,7 @@
    "views": 294500,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1789603200&x-signature=eF19ELskanTy7AffxA1PznKa640%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1789606800&x-signature=hlxd29m%2BZmgE7Vi%2BN1883YAWaiM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1785656353,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7669335640793763079",
    "region": "kr"
@@ -277,7 +277,7 @@
    "views": 148400,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0IAB7tvQACi105Ea6znpBOc0ViIPUiYBqIYi~tplv-tiktokx-origin.image?dr=14575&x-expires=1789603200&x-signature=p3xaXQXVrZ4qByXs1e%2FACbhPqPk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0IAB7tvQACi105Ea6znpBOc0ViIPUiYBqIYi~tplv-tiktokx-origin.image?dr=14575&x-expires=1789606800&x-signature=7yjrjEF3T8YohMH%2Fp8xIQzZ5hV4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1788662081,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7682245141595229448",
    "region": "kr"
@@ -288,7 +288,7 @@
    "views": 35200,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIqB6INciK7CI3iw10LAp5vfZO6IAlCTdIAI06~tplv-tiktokx-origin.image?dr=14575&x-expires=1789603200&x-signature=99GfILlryxea9J0w%2BWt8T8GM6SQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIqB6INciK7CI3iw10LAp5vfZO6IAlCTdIAI06~tplv-tiktokx-origin.image?dr=14575&x-expires=1789606800&x-signature=706n7uSOjpRJ4ZGQlZnNC%2B0iKuY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1788733294,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7682551001663982855",
    "region": "kr"
@@ -299,7 +299,7 @@
    "views": 34100,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okJSEtbnglnRAQHtqOQ1UIFeETBEUtfhBKGkDV~tplv-tiktokx-origin.image?dr=14575&x-expires=1789603200&x-signature=fr74btIbT%2BBBwaDTp%2FOcPdL00dM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okJSEtbnglnRAQHtqOQ1UIFeETBEUtfhBKGkDV~tplv-tiktokx-origin.image?dr=14575&x-expires=1789606800&x-signature=lwgge6RJtIIqvv9T9AEYS6y%2FM34%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1788795259,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7682817137672555794",
    "region": "kr"
@@ -307,10 +307,10 @@
   {
    "account": "jaemyung_lee",
    "title": "빛으로 담아내는, 제7의 예술🎥",
-   "views": 32200,
+   "views": 32300,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oMMIdnnHDI6bTifTAPFDcDRbtBfWqzBIEDgvEo~tplv-tiktokx-origin.image?dr=14575&x-expires=1789603200&x-signature=npEl6Jxi29nKFzzRmoxUikZ%2Bk2I%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oMMIdnnHDI6bTifTAPFDcDRbtBfWqzBIEDgvEo~tplv-tiktokx-origin.image?dr=14575&x-expires=1789606800&x-signature=GAEdBPgBXJf%2F807VDRYCgpcXrlk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789031851,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7683833293816614151",
    "region": "kr"
@@ -318,10 +318,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Assalomu alaykum, O‘zbekiston!🇺🇿🇰🇷 #이재명 #우즈베키스탄 #Uzbekistan",
-   "views": 19900,
+   "views": 20500,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAUOEAPEroYfNoFaeAAfZQATIAiVPvDB5WhDFE~tplv-tiktokx-origin.image?dr=14575&x-expires=1789603200&x-signature=SoegpTXiayPyF%2BXArn460lwfEwE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAUOEAPEroYfNoFaeAAfZQATIAiVPvDB5WhDFE~tplv-tiktokx-origin.image?dr=14575&x-expires=1789606800&x-signature=LOq7BHjJaHk%2BfUgwN%2BitDtmAdZo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789393470,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685386435158887688",
    "region": "kr"
@@ -332,7 +332,7 @@
    "views": 16200,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAAYwu5rDQFVKF9CAOFAUlVvFCfeqABIE3gtCo~tplv-tiktokx-origin.image?dr=14575&x-expires=1789603200&x-signature=Jxk%2BMLrLW4O6o4x4lS5%2By2X62Kk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAAYwu5rDQFVKF9CAOFAUlVvFCfeqABIE3gtCo~tplv-tiktokx-origin.image?dr=14575&x-expires=1789606800&x-signature=SF%2FDIB3D6eZlys1eMVNBc%2FymVSo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789041590,
    "url": "https://www.tiktok.com/@tictok_ent/video/7683875122704403720",
    "region": "kr"
@@ -343,13 +343,22 @@
    "views": 3475,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4ipwUBAAI1AiCPBUKfBKXgMMwgG4XBEAiAy5E~tplv-tiktokx-origin.image?dr=14575&x-expires=1789603200&x-signature=IsTJeO9c%2Bu0IZdJvdEtIqyE420k%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4ipwUBAAI1AiCPBUKfBKXgMMwgG4XBEAiAy5E~tplv-tiktokx-origin.image?dr=14575&x-expires=1789606800&x-signature=ZCneakpML57aDuLyECvMV8O15%2BM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789041591,
    "url": "https://www.tiktok.com/@tictok_ent/video/7683875128492444936",
    "region": "kr"
   }
  ],
  "reddit": [
+  {
+   "sub": "meirl",
+   "title": "meirl",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/89oyf7q8pkph1.png?width=640&crop=smart&auto=webp&s=b1cee51986fbfc0293b6d647b829488ce9fba6a9",
+   "time": 1789429716,
+   "url": "https://www.reddit.com/r/meirl/comments/1wgk4ty/meirl/"
+  },
   {
    "sub": "AskReddit",
    "title": "What hobby has become too expensive for the average person?",
@@ -360,15 +369,6 @@
    "url": "https://www.reddit.com/r/AskReddit/comments/1wg736i/what_hobby_has_become_too_expensive_for_the/"
   },
   {
-   "sub": "Music",
-   "title": "Macklemore Dropped From Ed Sheeran Tour After Onstage Statements",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "",
-   "time": 1789394601,
-   "url": "https://www.reddit.com/r/Music/comments/1wg4c3d/macklemore_dropped_from_ed_sheeran_tour_after/"
-  },
-  {
    "sub": "pics",
    "title": "Mitch McConnell returns to the Senate after three-month absence",
    "score": 0,
@@ -376,6 +376,15 @@
    "thumb": "https://preview.redd.it/fjd1hvjbakph1.jpeg?width=640&crop=smart&auto=webp&s=e719c5a8f83f9e6bb5c0a47ed0f8696d410dac30",
    "time": 1789424708,
    "url": "https://www.reddit.com/r/pics/comments/1wgi64b/mitch_mcconnell_returns_to_the_senate_after/"
+  },
+  {
+   "sub": "Music",
+   "title": "Macklemore Dropped From Ed Sheeran Tour After Onstage Statements",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1789394601,
+   "url": "https://www.reddit.com/r/Music/comments/1wg4c3d/macklemore_dropped_from_ed_sheeran_tour_after/"
   },
   {
    "sub": "LoveTrash",
@@ -396,6 +405,15 @@
    "url": "https://www.reddit.com/r/Fauxmoi/comments/1wgd35o/ms_rachel_calls_out_ed_sheeran_and_says_we_all/"
   },
   {
+   "sub": "Millennials",
+   "title": "There's Always a crisis to recover from.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/x1i94k8bdjph1.png?width=640&crop=smart&auto=webp&s=663fe54e4d2146b1a0e9fd1e80c6acc46ab290e4",
+   "time": 1789413639,
+   "url": "https://www.reddit.com/r/Millennials/comments/1wgd7f3/theres_always_a_crisis_to_recover_from/"
+  },
+  {
    "sub": "Fauxmoi",
    "title": "Macklemore speaks out after being dropped from Ed Sheeran’s tour following his ‘Free Palestine’ speech; says Gillette Stadium owner Robert Kraft rallied other stadium owners and gave Ed Sheeran an ult",
    "score": 0,
@@ -403,15 +421,6 @@
    "thumb": "https://preview.redd.it/7mlggk6ebiph1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=bed78b7c4a877440368c15e2be6c0e8da1592b45",
    "time": 1789400838,
    "url": "https://www.reddit.com/r/Fauxmoi/comments/1wg73id/macklemore_speaks_out_after_being_dropped_from_ed/"
-  },
-  {
-   "sub": "meirl",
-   "title": "meirl",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/89oyf7q8pkph1.png?width=640&crop=smart&auto=webp&s=b1cee51986fbfc0293b6d647b829488ce9fba6a9",
-   "time": 1789429716,
-   "url": "https://www.reddit.com/r/meirl/comments/1wgk4ty/meirl/"
   },
   {
    "sub": "popculturechat",
@@ -423,13 +432,13 @@
    "url": "https://www.reddit.com/r/popculturechat/comments/1wg7v19/macklemore_speaks_out_about_the_tour_situation/"
   },
   {
-   "sub": "Millennials",
-   "title": "There's Always a crisis to recover from.",
+   "sub": "law",
+   "title": "Lindsay Clancy judge orders jurors names sealed indefinitely after lone holdout's domestic violence accusations come to light",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/x1i94k8bdjph1.png?width=640&crop=smart&auto=webp&s=663fe54e4d2146b1a0e9fd1e80c6acc46ab290e4",
-   "time": 1789413639,
-   "url": "https://www.reddit.com/r/Millennials/comments/1wgd7f3/theres_always_a_crisis_to_recover_from/"
+   "thumb": "https://external-preview.redd.it/Jeouo3KO67wZcHA79wGyf-gSArH6Lgyfs3kWEq_S1Nw.jpeg?width=640&crop=smart&auto=webp&s=4375ae00811852faadecca620f3371a5919769a4",
+   "time": 1789426721,
+   "url": "https://www.reddit.com/r/law/comments/1wgiz94/lindsay_clancy_judge_orders_jurors_names_sealed/"
   },
   {
    "sub": "WhatIsTheTea",
@@ -439,15 +448,6 @@
    "thumb": "https://external-preview.redd.it/am0xaWQyazVnaHBoMULWg2hERbmEsi1p0BuIkQ9cStieLZhWtxDtGnKcBohR.png?width=640&crop=smart&auto=webp&s=7ed385c5d65d71d7358fd90296be1bce59a8daeb",
    "time": 1789390362,
    "url": "https://www.reddit.com/r/WhatIsTheTea/comments/1wg2l0l/contractor_takes_back_the_wooden_fence_after_the/"
-  },
-  {
-   "sub": "AmItheAsshole",
-   "title": "AITA for not giving my daughter compensation for a flight I paid for",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "",
-   "time": 1789415487,
-   "url": "https://www.reddit.com/r/AmItheAsshole/comments/1wge2wa/aita_for_not_giving_my_daughter_compensation_for/"
   },
   {
    "sub": "technology",
@@ -462,6 +462,10 @@
  "disaster": [],
  "_cover": {
   "ok": {
+   "x": [
+    "awaken_eyes",
+    "jajaja7878uu"
+   ],
    "threads": [
     "aicoffeechat",
     "aipeekme",
@@ -476,12 +480,21 @@
     "tictok_ent"
    ]
   },
-  "why": {},
+  "why": {
+   "x": {
+    "64bitcoinkr": 429,
+    "economysniper0": 429,
+    "kyunghyang": 429,
+    "freedom_73x": 429,
+    "marionawfal": 429,
+    "globalbrief_now": 429
+   }
+  },
   "landing": {
-   "at": "2026-09-15T09:01:29",
+   "at": "2026-09-15T09:33:21",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-09-15T09:33:18.993813+09:00"
+ "updated": "2026-09-15T10:04:54.327165+09:00"
 }
