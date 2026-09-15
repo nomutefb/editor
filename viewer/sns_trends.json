@@ -7479,8 +7479,14 @@
   {
    "query": "이봉원",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/2f71e8680b.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/009/0005735217",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-09-15T08:30:00+09:00",
    "delta": -3,
@@ -7495,8 +7501,14 @@
   {
    "query": "맞춤형복지",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/bc6244e77b.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/092/0002437448",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-09-15T08:30:00+09:00",
    "delta": -3,
@@ -7511,8 +7523,14 @@
   {
    "query": "아크 인베스트",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/501f9dab93.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/003/0014189696",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-15T08:30:00+09:00",
    "delta": -3,
@@ -7527,8 +7545,14 @@
   {
    "query": "lpga",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/e382b85991.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/277/0005816180",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-15T08:40:00+09:00",
    "delta": -7,
@@ -7640,10 +7664,8 @@
  ],
  "gtrends_pool_updated": "2026-09-15T12:36:01+09:00",
  "_trend_img": {
-  "tried": "2026-09-15T11:39:03+09:00",
-  "fail": {
-   "맨체스터 유나이티드 fc": "2026-09-15T10:13:33+09:00"
-  }
+  "tried": "2026-09-15T12:36:01+09:00",
+  "fail": {}
  },
  "gtrends_gl": [
   {
@@ -16684,7 +16706,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-15T12:36:01+09:00"
+    "first_seen": "2026-09-15T12:36:01+09:00",
+    "kw": "Claude Code, 업데이트",
+    "sum": "계정이 Claude Code 업데이트 내역 링크를 공유했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -16699,7 +16724,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-09-15T12:36:01+09:00"
+    "first_seen": "2026-09-15T12:36:01+09:00",
+    "kw": "Claude Code, Claude Mods",
+    "sum": "앤트로픽이 Claude Code를 개조 가능한 Claude Mods를 배포했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
