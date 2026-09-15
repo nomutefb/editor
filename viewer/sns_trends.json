@@ -7340,8 +7340,14 @@
   {
    "query": "엄지성",
    "traffic": "10000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/4c7035582b.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/015/0005332729",
+     "source": ""
+    }
+   ],
    "vol": 10000,
    "started": "2026-09-15T19:30:00+09:00",
    "isNew": true,
@@ -7353,8 +7359,14 @@
   {
    "query": "교도소",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/0c948b13d8.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/022/0004159144",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-09-15T18:10:00+09:00",
    "isNew": true,
@@ -7468,8 +7480,14 @@
   {
    "query": "삼성중공업 거제조선소",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/cb06af5ec4.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/056/0012257646",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-15T18:50:00+09:00",
    "delta": -10,
@@ -7611,10 +7629,10 @@
  ],
  "gtrends_pool_updated": "2026-09-15T22:10:46+09:00",
  "_trend_img": {
-  "tried": "2026-09-15T21:36:47+09:00",
+  "tried": "2026-09-15T22:10:46+09:00",
   "fail": {
-   "kia 대 ssg": "2026-09-15T20:08:49+09:00",
-   "lg 대 nc": "2026-09-15T20:43:39+09:00"
+   "lg 대 nc": "2026-09-15T20:43:39+09:00",
+   "베트남 u-23 대 쿠웨이트 u-23 축구 국가대표팀": "2026-09-15T22:12:27+09:00"
   }
  },
  "gtrends_gl": [
@@ -17729,7 +17747,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-15T22:10:46+09:00"
+    "first_seen": "2026-09-15T22:10:46+09:00",
+    "kw": "유튜브, 영상",
+    "sum": "계정이 유튜브 영상 링크를 공유했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -17744,7 +17765,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-09-15T22:10:46+09:00"
+    "first_seen": "2026-09-15T22:10:46+09:00",
+    "kw": "그렉 브록만, AGI, 연산량",
+    "sum": "브록만이 AGI 도달 시점을 연산량으로 예측한 일화를 전했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
