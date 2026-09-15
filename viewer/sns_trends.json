@@ -7547,8 +7547,14 @@
   {
    "query": "스포츠",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/d81aff6ab9.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/003/0014189532",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-09-15T12:40:00+09:00",
    "delta": -4,
@@ -7606,8 +7612,14 @@
   {
    "query": "김승원",
    "traffic": "5000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/0d1dd1b960.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/003/0014190289",
+     "source": ""
+    }
+   ],
    "vol": 5000,
    "started": "2026-09-15T12:40:00+09:00",
    "delta": -6,
@@ -7659,8 +7671,14 @@
   {
    "query": "서동주",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/cd59ee3b83.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/022/0004158999",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-15T12:50:00+09:00",
    "delta": -11,
@@ -7894,10 +7912,8 @@
  ],
  "gtrends_pool_updated": "2026-09-15T15:38:05+09:00",
  "_trend_img": {
-  "tried": "2026-09-15T14:42:14+09:00",
+  "tried": "2026-09-15T15:38:05+09:00",
   "fail": {
-   "김호영": "2026-09-15T13:12:53+09:00",
-   "홍진영": "2026-09-15T13:12:53+09:00",
    "스포츠조선": "2026-09-15T14:10:22+09:00",
    "옥순이": "2026-09-15T14:45:56+09:00"
   }
@@ -17836,7 +17852,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-15T15:38:05+09:00"
+    "first_seen": "2026-09-15T15:38:05+09:00",
+    "kw": "Reward AI, OM-1, 로봇 파운데이션 모델",
+    "sum": "Reward AI가 손동작 데이터로 학습한 범용 로봇 모델 OM-1을 공개했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -17851,7 +17870,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-09-15T15:38:05+09:00"
+    "first_seen": "2026-09-15T15:38:05+09:00",
+    "kw": "예고",
+    "sum": "작성자가 큰 발표가 임박했다고 예고했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -17866,7 +17888,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-09-15T15:38:05+09:00"
+    "first_seen": "2026-09-15T15:38:05+09:00",
+    "kw": "트럼프, 젠슨 황, AI 투자",
+    "sum": "트럼프와 젠슨 황이 통화로 AI 패권 경쟁과 투자 확대를 강조했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
