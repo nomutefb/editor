@@ -7281,8 +7281,14 @@
   {
    "query": "유주상",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/9ae69797a4.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/396/0000755249",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-09-16T21:30:00+09:00",
    "delta": -1,
@@ -7354,10 +7360,8 @@
  ],
  "gtrends_pool_updated": "2026-09-17T01:08:31+09:00",
  "_trend_img": {
-  "tried": "2026-09-17T00:34:51+09:00",
-  "fail": {
-   "놀면 뭐하니?": "2026-09-16T23:08:28+09:00"
-  }
+  "tried": "2026-09-17T01:08:31+09:00",
+  "fail": {}
  },
  "gtrends_gl": [
   {
@@ -17459,7 +17463,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-17T01:08:31+09:00"
+    "first_seen": "2026-09-17T01:08:31+09:00",
+    "kw": "GPT-6 Astra, 마인크래프트",
+    "sum": "GPT-6 Astra가 마인크래프트에서 자원을 모으다 크리퍼 폭발로 아이템을 잃었다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
