@@ -7373,8 +7373,14 @@
   {
    "query": "김구라",
    "traffic": "10000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/60acbd89be.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/009/0005735909",
+     "source": ""
+    }
+   ],
    "vol": 10000,
    "started": "2026-09-17T04:20:00+09:00",
    "delta": -3,
@@ -7425,8 +7431,14 @@
   {
    "query": "barcelona vs racing santander",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/8d6891d236.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/091/0010313781",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-09-17T04:50:00+09:00",
    "delta": -11,
@@ -7491,8 +7503,14 @@
   {
    "query": "로스앤젤레스 fc",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/2cec914173.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/003/0014189869",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-17T04:20:00+09:00",
    "delta": -8,
@@ -7543,8 +7561,14 @@
   {
    "query": "hd현대",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/31a8f7a1a0.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/001/0016311249",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-17T04:40:00+09:00",
    "delta": -16,
@@ -7557,8 +7581,14 @@
   {
    "query": "김지민",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/8f6ef8723c.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/016/0002698251",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-17T04:50:00+09:00",
    "delta": -18,
@@ -7599,8 +7629,14 @@
   {
    "query": "정준원",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/0e233b41cf.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/025/0003551303",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-17T04:30:00+09:00",
    "delta": -18,
@@ -7755,12 +7791,16 @@
  ],
  "gtrends_pool_updated": "2026-09-17T07:11:02+09:00",
  "_trend_img": {
-  "tried": "2026-09-17T06:36:05+09:00",
+  "tried": "2026-09-17T07:11:02+09:00",
   "fail": {
    "atlético vs osasuna": "2026-09-17T05:40:29+09:00",
    "바르셀로나 대 라싱 산탄데르": "2026-09-17T06:37:32+09:00",
    "man utd đấu với brighton": "2026-09-17T06:37:32+09:00",
-   "김원형": "2026-09-17T06:37:32+09:00"
+   "김원형": "2026-09-17T06:37:32+09:00",
+   "spcx": "2026-09-17T07:14:26+09:00",
+   "man utd vs brighton": "2026-09-17T07:14:26+09:00",
+   "แมนยู พบ ไบรตัน": "2026-09-17T07:14:26+09:00",
+   "밀란 대 벤피카": "2026-09-17T07:14:26+09:00"
   }
  },
  "gtrends_gl": [
@@ -18348,7 +18388,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-17T07:11:02+09:00"
+    "first_seen": "2026-09-17T07:11:02+09:00",
+    "kw": "BrowserSkill, Tencent, 깃허브",
+    "sum": "계정이 텐센트 BrowserSkill 깃허브 저장소를 공유했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -18363,7 +18406,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-09-17T07:11:02+09:00"
+    "first_seen": "2026-09-17T07:11:02+09:00",
+    "kw": "BrowserSkill, Tencent, 브라우저 에이전트",
+    "sum": "계정이 텐센트의 브라우저 자동화 도구 BrowserSkill 공개를 소개했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
