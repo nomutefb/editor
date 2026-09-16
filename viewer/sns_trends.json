@@ -7356,8 +7356,14 @@
   {
    "query": "엔씨",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/b9747b1e75.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/021/0002819257",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-17T02:50:00+09:00",
    "delta": -5,
@@ -7371,8 +7377,14 @@
   {
    "query": "금리",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/5e5dca38e2.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/001/0016316252",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-17T02:50:00+09:00",
    "delta": -7,
@@ -7461,8 +7473,10 @@
  ],
  "gtrends_pool_updated": "2026-09-17T05:38:45+09:00",
  "_trend_img": {
-  "tried": "2026-09-17T04:09:30+09:00",
-  "fail": {}
+  "tried": "2026-09-17T05:38:45+09:00",
+  "fail": {
+   "atlético vs osasuna": "2026-09-17T05:40:29+09:00"
+  }
  },
  "gtrends_gl": [
   {
@@ -18487,7 +18501,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-17T05:38:45+09:00"
+    "first_seen": "2026-09-17T05:38:45+09:00",
+    "kw": "Vidu, 링크 공유",
+    "sum": "계정이 Vidu 스트리밍 서비스 주소를 공유했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -18502,7 +18519,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-09-17T05:38:45+09:00"
+    "first_seen": "2026-09-17T05:38:45+09:00",
+    "kw": "Vidu S2, 실시간 영상 생성, 영상 편집",
+    "sum": "계정이 Shengshu의 실시간 영상 생성 모델 Vidu S2를 소개했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
