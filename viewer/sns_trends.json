@@ -7423,8 +7423,14 @@
   {
    "query": "엔씨",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/b9747b1e75.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/021/0002819257",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-09-17T02:50:00+09:00",
    "isNew": true,
@@ -7453,7 +7459,7 @@
  ],
  "gtrends_pool_updated": "2026-09-17T04:09:30+09:00",
  "_trend_img": {
-  "tried": "2026-09-17T03:35:26+09:00",
+  "tried": "2026-09-17T04:09:30+09:00",
   "fail": {}
  },
  "gtrends_gl": [
@@ -18028,7 +18034,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-17T04:09:30+09:00"
+    "first_seen": "2026-09-17T04:09:30+09:00",
+    "kw": "Union Alpha, 신모델, OpenRouter",
+    "sum": "정체불명 프론티어 모델 Union Alpha가 무료로 공개됐다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
