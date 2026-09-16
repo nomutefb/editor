@@ -16,8 +16,18 @@
  "threads": [
   {
    "account": "choi.openai",
+   "text": "Cognition의 AI 소프트웨어 엔지니어 Devin이 macOS를 지원합니다.\n\n이제 클라우드의 Mac VM에서 Xcode와 iOS Simulator를 직접 실행해 iPhone·iPad·Mac 앱을 개발하고 테스트할 수 있습니다.\n\n컴파일만 확인하는 게 아니라 앱을 실행해 버튼을 누르고, 종료·재실행한 뒤 상태가 제대로 복원되는지까지 검증합니다.\n\n완성된 결과는 화면 녹화로 Slack에 보내거나 TestFlight 링크로 바로 전달할 수 있습니다.",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1789534806,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/797693669_3259917384396200_654941585085947318_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk4NzIyOTQwMjIzMjY5OTgwMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=OeAHfjn4E10Q7kNvwHznpLt&_nc_oc=AdoPDQsbXBx8v8JeIINTqLEmqLCWRiZhIFb39kNka8CS3nD8BnZDqtr5Wfm0mBb3pzE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=S2bgbbIKBX_Tl6IM0pHr6g&_nc_ss=7a22e&oh=00_AQJcytKvFILcTLoG44Yz0MeRN4b6QronkFwhtwSTlEzErg&oe=6AAFE33B",
+   "url": "https://www.threads.com/@choi.openai/post/DdVfAQeErub",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
    "text": "발표내용 :\nhttps://typesafe.ai/blog/introducing-system-one-models-and-jev",
-   "likes": 6,
+   "likes": 7,
    "cmts": 0,
    "time": 1789529464,
    "thumb": "",
@@ -27,21 +37,11 @@
   {
    "account": "choi.openai",
    "text": "ChatGPT와 RLHF 개발에 참여했던 Diogo Almeida가 2년간 개발한 AI 모델 Jev를 공개했습니다.\n\nJev는 문장을 토큰 단위로 생성하는 LLM과 달리 여러 질문의 선택지와 확률을 병렬로 계산하는 의사결정 특화 모델입니다. 그래서 텍스트 생성은 못하지만 기존 LLM보다 20~200배 빠르고 40~400배 저렴하다고 합니다.\n\n입력 100만 토큰당 $0.042이며 출력 비용은 무료입니다. \n예를 들어 이메일의 긴급도, 사람 검토 필요 여부처럼 소프트웨어 내부에서 반복적으로 내려야 하는 판단을 빠르게 처리하는 용도입니다.\n\n또 각 판단에 신뢰도를 함께 제공해 낮은 확률의 결과만 사람에게 넘기는 방식으로 활용할 수도 있습니다.",
-   "likes": 31,
+   "likes": 36,
    "cmts": 1,
    "time": 1789529455,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/808192836_3934203636721257_8733512367566865679_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk4NzE4NDUyMDg1NTY1ODY3MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=yjWd9nf087IQ7kNvwFl5aDv&_nc_oc=AdrEIFIUjJSxew0AZUUpjbVoe754doTGNgT_XGPDO2NNbdEv2M11I5Mh-Zud_j4jVbA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Av6CBBSL2tJ_pJ3de__1Xg&_nc_ss=7a22e&oh=00_AQJhMIf-WGwrSjIeN7yviTzKArIvKWgm9Ize0YI53YjkUQ&oe=6AAFEE06",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/808192836_3934203636721257_8733512367566865679_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk4NzE4NDUyMDg1NTY1ODY3MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=yjWd9nf087IQ7kNvwFl5aDv&_nc_oc=AdrEIFIUjJSxew0AZUUpjbVoe754doTGNgT_XGPDO2NNbdEv2M11I5Mh-Zud_j4jVbA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=S2bgbbIKBX_Tl6IM0pHr6g&_nc_ss=7a22e&oh=00_AQJ_q04Mtl4DdW71KLqnfxdznPysCyOO5jS7WAdSyovmHQ&oe=6AAFEE06",
    "url": "https://www.threads.com/@choi.openai/post/DdVUzJbiaCv",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "자세히 알아보기 :\nhttps://blog.google/innovation-and-ai/products/gemini-notebook/new-study-tools-september-2026/",
-   "likes": 8,
-   "cmts": 0,
-   "time": 1789524069,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DdVKhnmCm4l",
    "region": "kr"
   },
   {
@@ -110,14 +110,14 @@
    "likes": 11,
    "cmts": 1,
    "time": 1789489901,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/811616489_1068684825905374_7026673071397655448_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk4Njg1MjQ4NzIxNzg4MDYyNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=HX_wX-AzlX4Q7kNvwGpiMbn&_nc_oc=AdqIVfEMB97sBRJysI-4dWX9zccihRZbGxIpjVQFZU8v94xEga8LUGUkbh5rGOvgNGA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=YdF_spBUYyIZyFBwltksVA&_nc_ss=7a22e&oh=00_AQIDJqKO0gCXC41bxbpg_d9QDeo1WD839g3kSB1sW_Vg1g&oe=6AAFF5E0",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/811616489_1068684825905374_7026673071397655448_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk4Njg1MjQ4NzIxNzg4MDYyNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=HX_wX-AzlX4Q7kNvwGpiMbn&_nc_oc=AdqIVfEMB97sBRJysI-4dWX9zccihRZbGxIpjVQFZU8v94xEga8LUGUkbh5rGOvgNGA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=jpujxhVTPlvLMRrMePXLMA&_nc_ss=7a22e&oh=00_AQLw8KjD0SMAhmZMzt2zQKI-LefqX8o6Ddt_psnRpG6o6g&oe=6AAFF5E0",
    "url": "https://www.threads.com/@kopp/post/DdUJTbAgR4y",
    "region": "kr"
   },
   {
    "account": "kopp",
    "text": "I’m 29, currently in Copenhagen\n\nlooking to connect with more founders + builders :)",
-   "likes": 30,
+   "likes": 31,
    "cmts": 14,
    "time": 1789478204,
    "thumb": "",
@@ -136,12 +136,12 @@
   },
   {
    "account": "choi.openai",
-   "text": "구글이 Gemini Notebook에 학습 기능을 대거 추가합니다.\n\n모바일 앱에서 노트 내용을 바탕으로 거의 100개 언어로 실시간 음성 대화가 가능해지고, 다음 주부터는 강의나 아이디어를 직접 녹음해 노트 자료로 활용할 수 있습니다.\n\n또 요약·인포그래픽·퀴즈·플래시카드를 묶은 대화형 학습 자료를 만들 수 있으며, 단답형·복수선택·빈칸 채우기 퀴즈도 지원합니다.\n\n복잡한 개념은 약 60초 분량의 Short Video Overview로 만들어 공유할 수 있습니다.",
-   "likes": 59,
-   "cmts": 4,
-   "time": 1789524048,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/800143596_3668027506693909_1440185888269468178_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&ig_cache_key=Mzk4NzEzOTE2NDQ0OTIwMDEyMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=S3Hw-1OqABEQ7kNvwFQwMI_&_nc_oc=AdrmQvtVUuUf5oPMYZVyyxWkFtJUHd1jjTVQ9C2vNj9ZDyVxCDraNylKqzkuZF-UCVo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Av6CBBSL2tJ_pJ3de__1Xg&_nc_ss=7a22e&oh=00_AQKxyOkVrZxWWRAZI-EImUm0kuvY0a56abfdkQgnX39l6Q&oe=6AAFF3D9",
-   "url": "https://www.threads.com/@choi.openai/post/DdVKfH_Ctf4",
+   "text": "자세히 알아보기 :\nhttps://blog.google/innovation-and-ai/products/gemini-notebook/new-study-tools-september-2026/",
+   "likes": 12,
+   "cmts": 0,
+   "time": 1789524069,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DdVKhnmCm4l",
    "region": "kr"
   },
   {
@@ -170,8 +170,18 @@
    "likes": 16,
    "cmts": 1,
    "time": 1789464469,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/810868165_2633195793763689_1526037349492201315_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&ig_cache_key=Mzk4NjYzOTEzMzY4NjIzNDEwMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=A5ihfNuA26EQ7kNvwF2v3Rc&_nc_oc=AdqtSQlG2iq5sUAy4PW3pfN3sgJP4kj2jhi80xpJTR9sypJy4IvfS6xetkuN2nr8Sqk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=YdF_spBUYyIZyFBwltksVA&_nc_ss=7a22e&oh=00_AQJUDrqz6fXeR8gikE2ZSuxf2deZ7DlJEy8WS7uwK9mQZw&oe=6AB008A1",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/810868165_2633195793763689_1526037349492201315_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&ig_cache_key=Mzk4NjYzOTEzMzY4NjIzNDEwMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=A5ihfNuA26EQ7kNvwF2v3Rc&_nc_oc=AdqtSQlG2iq5sUAy4PW3pfN3sgJP4kj2jhi80xpJTR9sypJy4IvfS6xetkuN2nr8Sqk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=jpujxhVTPlvLMRrMePXLMA&_nc_ss=7a22e&oh=00_AQK5FABnTrNYRS--IKDLIUHSCDcLdv--yJluj9fKyXPMWw&oe=6AB008A1",
    "url": "https://www.threads.com/@kopp/post/DdTYyuDCfv0",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "구글이 Gemini Notebook에 학습 기능을 대거 추가합니다.\n\n모바일 앱에서 노트 내용을 바탕으로 거의 100개 언어로 실시간 음성 대화가 가능해지고, 다음 주부터는 강의나 아이디어를 직접 녹음해 노트 자료로 활용할 수 있습니다.\n\n또 요약·인포그래픽·퀴즈·플래시카드를 묶은 대화형 학습 자료를 만들 수 있으며, 단답형·복수선택·빈칸 채우기 퀴즈도 지원합니다.\n\n복잡한 개념은 약 60초 분량의 Short Video Overview로 만들어 공유할 수 있습니다.",
+   "likes": 65,
+   "cmts": 4,
+   "time": 1789524048,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/800143596_3668027506693909_1440185888269468178_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&ig_cache_key=Mzk4NzEzOTE2NDQ0OTIwMDEyMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=S3Hw-1OqABEQ7kNvwFQwMI_&_nc_oc=AdrmQvtVUuUf5oPMYZVyyxWkFtJUHd1jjTVQ9C2vNj9ZDyVxCDraNylKqzkuZF-UCVo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=S2bgbbIKBX_Tl6IM0pHr6g&_nc_ss=7a22e&oh=00_AQI6H8vPBhW0Em8XIvoHgGJfk0CdLA7JhNeXWi9VQZV7Tg&oe=6AAFF3D9",
+   "url": "https://www.threads.com/@choi.openai/post/DdVKfH_Ctf4",
    "region": "kr"
   },
   {
@@ -182,16 +192,6 @@
    "time": 1789519822,
    "thumb": "",
    "url": "https://www.threads.com/@daily_ai_star/post/DdVCafUmRGj",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "발표내용 :\nhttps://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-8-live-gemini-3-8-live-extended-thinking/",
-   "likes": 4,
-   "cmts": 0,
-   "time": 1789519041,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DdVA734DxTq",
    "region": "kr"
   },
   {
@@ -206,12 +206,12 @@
   },
   {
    "account": "choi.openai",
-   "text": "구글이 Gemini 3.8 Live와 Extended Thinking을 공개했습니다.\n\n음성·영상·텍스트를 실시간으로 이해하며 97개 언어 자동 전환, 대화 중 끼어들기, 백그라운드 도구 호출을 지원합니다.\n\n특히 Extended Thinking은 대화하면서 동시에 추론해 복잡한 여러 단계의 작업까지 처리합니다.\n\nArtificial Analysis에 따르면 Extended Thinking은 Speech to Speech Index 82.6, Tau Voice 68.6%를 기록했습니다.",
-   "likes": 30,
-   "cmts": 1,
-   "time": 1789519036,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/812400530_2085487598995992_2697923699709848721_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk4NzA5NjY5MTY2MTgwNDAxMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=uzTc4bOQAd8Q7kNvwHiIyRZ&_nc_oc=Adr3SA8n_G0-N1AvuigMU37RlMNWuzZCblkzqtk6xYDGomwmwz-euLRKQLjBYxG5ZGc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Av6CBBSL2tJ_pJ3de__1Xg&_nc_ss=7a22e&oh=00_AQL74KwVjf58VUrS-OOZKdZKMEWSu00xi3BCGimzAch_UQ&oe=6AAFDDD5",
-   "url": "https://www.threads.com/@choi.openai/post/DdVA1EHoxHt",
+   "text": "발표내용 :\nhttps://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-8-live-gemini-3-8-live-extended-thinking/",
+   "likes": 5,
+   "cmts": 0,
+   "time": 1789519041,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DdVA734DxTq",
    "region": "kr"
   }
  ],
@@ -222,7 +222,7 @@
    "views": 618500,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0CGAI6ooFCAPECAEqED63ffIARmgNxjBUg0zR~tplv-tiktokx-origin.image?dr=14575&x-expires=1789704000&x-signature=HyceJ6%2B3QU0YRr5kZme1xQUDu1o%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0CGAI6ooFCAPECAEqED63ffIARmgNxjBUg0zR~tplv-tiktokx-origin.image?dr=14575&x-expires=1789707600&x-signature=kLdkA9P6HPsDuoIGsMALuRsgiHk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=sg1",
    "time": 1788879730,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7683179938026900754",
    "region": "kr"
@@ -233,7 +233,7 @@
    "views": 303300,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4ECXepekgFVLDAPQbcqjSdGAIaIofEozvI9Qh~tplv-tiktokx-origin.image?dr=14575&x-expires=1789704000&x-signature=Zo9hPLe1EAZCS52Du6uZ3LPJlqw%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4ECXepekgFVLDAPQbcqjSdGAIaIofEozvI9Qh~tplv-tiktokx-origin.image?dr=14575&x-expires=1789707600&x-signature=6H3UyhMMBPCo1kQ%2FV5wm4e3WddA%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=sg1",
    "time": 1787831518,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7678677903122369800",
    "region": "kr"
@@ -244,7 +244,7 @@
    "views": 295500,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1789704000&x-signature=xS0XegqknffdRL6eE4OGLsHSnOU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oo3uu7PEZDREBImI2BFqA9xDgeU4OBKCfvbEjs~tplv-tiktokx-origin.image?dr=14575&x-expires=1789707600&x-signature=Fzp2%2FykWZcx32Y35yEjtLVc8ymY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=sg1",
    "time": 1785656353,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7669335640793763079",
    "region": "kr"
@@ -255,7 +255,7 @@
    "views": 150300,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0IAB7tvQACi105Ea6znpBOc0ViIPUiYBqIYi~tplv-tiktokx-origin.image?dr=14575&x-expires=1789704000&x-signature=9OG9Lk92N2FfWk2HPqT8tOCLpwk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0IAB7tvQACi105Ea6znpBOc0ViIPUiYBqIYi~tplv-tiktokx-origin.image?dr=14575&x-expires=1789707600&x-signature=8acdDHC5dXeUGfcVqaqZe%2BwaSuw%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=sg1",
    "time": 1788662081,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7682245141595229448",
    "region": "kr"
@@ -263,10 +263,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Salam aleýkum Türkmenistan! 🇰🇷🇹🇲 #투르크메니스탄 #turkmenistan #Türkmenistan",
-   "views": 103400,
+   "views": 104600,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4iB0bDrFU5kqzoDSRupABvEWftIIUEfgqMaiE~tplv-tiktokx-origin.image?dr=14575&x-expires=1789704000&x-signature=kRcwV5O%2BMhq7v0vO239mhtHiP0M%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4iB0bDrFU5kqzoDSRupABvEWftIIUEfgqMaiE~tplv-tiktokx-origin.image?dr=14575&x-expires=1789707600&x-signature=wsTM3yiq3I8dSq9SqQPb44AS%2FV8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=sg1",
    "time": 1789447594,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685618898128915730",
    "region": "kr"
@@ -277,7 +277,7 @@
    "views": 37100,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIqB6INciK7CI3iw10LAp5vfZO6IAlCTdIAI06~tplv-tiktokx-origin.image?dr=14575&x-expires=1789704000&x-signature=lDHW2qvfQZ%2B%2BY7lEiuOC07aRdCM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIqB6INciK7CI3iw10LAp5vfZO6IAlCTdIAI06~tplv-tiktokx-origin.image?dr=14575&x-expires=1789707600&x-signature=ATtxlzxZinrmuwOTMLDd7Zjr9kk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=sg1",
    "time": 1788733294,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7682551001663982855",
    "region": "kr"
@@ -285,10 +285,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Assalomu alaykum, O‘zbekiston!🇺🇿🇰🇷 #이재명 #우즈베키스탄 #Uzbekistan",
-   "views": 36000,
+   "views": 36100,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAUOEAPEroYfNoFaeAAfZQATIAiVPvDB5WhDFE~tplv-tiktokx-origin.image?dr=14575&x-expires=1789704000&x-signature=88%2BVU0yme6kHiIlBAPQr7%2Fclh6k%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAUOEAPEroYfNoFaeAAfZQATIAiVPvDB5WhDFE~tplv-tiktokx-origin.image?dr=14575&x-expires=1789707600&x-signature=mJlr6R75Beq5RUVZYLP%2BeTdPTgg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=sg1",
    "time": 1789393470,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685386435158887688",
    "region": "kr"
@@ -299,7 +299,7 @@
    "views": 35700,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/okJSEtbnglnRAQHtqOQ1UIFeETBEUtfhBKGkDV~tplv-tiktokx-origin.image?dr=14575&x-expires=1789704000&x-signature=378TsueFYC8qVg4xPJaQIlCzPCI%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okJSEtbnglnRAQHtqOQ1UIFeETBEUtfhBKGkDV~tplv-tiktokx-origin.image?dr=14575&x-expires=1789707600&x-signature=7QNsAyZ%2FIXoI5tiODVTh1r0hhgk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=sg1",
    "time": 1788795259,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7682817137672555794",
    "region": "kr"
@@ -307,10 +307,10 @@
   {
    "account": "jaemyung_lee",
    "title": "빛으로 담아내는, 제7의 예술🎥",
-   "views": 34800,
+   "views": 34900,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oMMIdnnHDI6bTifTAPFDcDRbtBfWqzBIEDgvEo~tplv-tiktokx-origin.image?dr=14575&x-expires=1789704000&x-signature=aP62feKLq6DcIR1H%2Fl1z6HyV0QU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oMMIdnnHDI6bTifTAPFDcDRbtBfWqzBIEDgvEo~tplv-tiktokx-origin.image?dr=14575&x-expires=1789707600&x-signature=Yp%2BLfC9sEKPljIi1MtFXIHuumGg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=sg1",
    "time": 1789031851,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7683833293816614151",
    "region": "kr"
@@ -318,34 +318,12 @@
   {
    "account": "jaemyung_lee",
    "title": "Қош келдіңіз, Қазақстан!🇰🇿🇰🇷 #이재명 #대통령 #카자흐스탄 #Қазақстан #Kazakhstan",
-   "views": 13400,
+   "views": 13700,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4AeKl0yGICLqpfFAVLAoFr7LEeoVADEIKAdEU~tplv-tiktokx-origin.image?dr=14575&x-expires=1789704000&x-signature=SvISBL1Z3LRpqSBssxBpW3%2Br8mg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4AeKl0yGICLqpfFAVLAoFr7LEeoVADEIKAdEU~tplv-tiktokx-origin.image?dr=14575&x-expires=1789707600&x-signature=c4XWJJgH%2BpojkATBA9HX1MK%2BdBo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=sg1",
    "time": 1789473921,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685731970453638407",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "정수정, 시선 사로잡는 냉미모 / 랄프 로렌(RALPH LAUREN) 이벤트 포토콜 세계적으로 찬사를 받은 패션 아이콘 랄프 로렌의 삶을 조명한 HBO 다큐멘터리 ‘베리 랄프(Very Ralph)’의 스크리닝 이벤트",
-   "views": 2970,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okLBFiZBwYABkaDifA1KAAAwEgpiSVITJUnCFK~tplv-tiktokx-origin.image?dr=14575&x-expires=1789704000&x-signature=c%2FyNutsPLUFnZi82%2BvhPoNb9Kus%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
-   "time": 1789465968,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7685697810284465415",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "엔하이픈(ENHYPEN) 제이, 시크한 매력으로 시선 집중 / 랄프 로렌(RALPH LAUREN) 이벤트 포토콜 세계적으로 찬사를 받은 패션 아이콘 랄프 로렌의 삶을 조명한 HBO 다큐멘터리 ‘베리 랄프(Very R",
-   "views": 863,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oseLtEETExroCrATveJopIleVWALBGkVUAIAAD~tplv-tiktokx-origin.image?dr=14575&x-expires=1789704000&x-signature=AVXCjHihA5Q8wiStt%2FnBogpPrsc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
-   "time": 1789465966,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7685697801585495303",
    "region": "kr"
   }
  ],
@@ -396,6 +374,15 @@
    "url": "https://www.reddit.com/r/MoralityScaling/comments/1wh7506/morality_of_breaking_up_with_a_gffiance_over/"
   },
   {
+   "sub": "okbuddycinephile",
+   "title": "Actors who ruined their world tour in under a day?",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/b2j6u44ndsph1.jpeg?width=640&crop=smart&auto=webp&s=2079d2a4065fd4b0a0f9c543be855300725f4740",
+   "time": 1789522662,
+   "url": "https://www.reddit.com/r/okbuddycinephile/comments/1whjeyg/actors_who_ruined_their_world_tour_in_under_a_day/"
+  },
+  {
    "sub": "news",
    "title": "Four supporting acts quit Ed Sheeran’s tour after Macklemore is dropped over Palestine comments",
    "score": 0,
@@ -405,13 +392,13 @@
    "url": "https://www.reddit.com/r/news/comments/1whc1n3/four_supporting_acts_quit_ed_sheerans_tour_after/"
   },
   {
-   "sub": "okbuddycinephile",
-   "title": "Actors who ruined their world tour in under a day?",
+   "sub": "meirl",
+   "title": "Meirl",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/b2j6u44ndsph1.jpeg?width=640&crop=smart&auto=webp&s=2079d2a4065fd4b0a0f9c543be855300725f4740",
-   "time": 1789522662,
-   "url": "https://www.reddit.com/r/okbuddycinephile/comments/1whjeyg/actors_who_ruined_their_world_tour_in_under_a_day/"
+   "thumb": "https://preview.redd.it/smovgpbxyrph1.jpeg?width=640&crop=smart&auto=webp&s=dc827ebeb64f05709abb1c156b57e101dc84d789",
+   "time": 1789517713,
+   "url": "https://www.reddit.com/r/meirl/comments/1whhk7y/meirl/"
   },
   {
    "sub": "Music",
@@ -432,6 +419,15 @@
    "url": "https://www.reddit.com/r/AmIOverreacting/comments/1whaeca/am_i_overreacting_my_mom_wants_to_wear_my_prom/"
   },
   {
+   "sub": "Damnthatsinteresting",
+   "title": "The U.S. Geological Survey shows what visitors leave behind in Yellowstone National Park",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/9xh073fcgsph1.jpg?width=140&height=105&auto=webp&s=dae39ab7d5d82be682068e07a44aa85a9adc3fd9",
+   "time": 1789523627,
+   "url": "https://www.reddit.com/r/Damnthatsinteresting/comments/1whjrpd/the_us_geological_survey_shows_what_visitors/"
+  },
+  {
    "sub": "shittymoviedetails",
    "title": "In Obsession (2026), why didn't bear just wish \"I wish I had a loving and healthy relationship with nikki\"? Am I stupid?",
    "score": 0,
@@ -441,22 +437,31 @@
    "url": "https://www.reddit.com/r/shittymoviedetails/comments/1wh633g/in_obsession_2026_why_didnt_bear_just_wish_i_wish/"
   },
   {
-   "sub": "Fauxmoi",
-   "title": "Ed Sheeran's spineless \"response\" to Macklemore",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/tul0odfybpph1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=c12346767767f47a1b6d28b3bb39fd4a6a1f5df3",
-   "time": 1789485783,
-   "url": "https://www.reddit.com/r/Fauxmoi/comments/1wh3el3/ed_sheerans_spineless_response_to_macklemore/"
-  },
-  {
-   "sub": "AskReddit",
-   "title": "Anesthesiologist, what's the strangest thing you've heard from a patient when putting them under/waking up from sedation?",
+   "sub": "worldnews",
+   "title": "/r/WorldNews Live Thread: Russian Invasion of Ukraine Day 1666, Part 1 (Thread #1813)",
    "score": 0,
    "cmts": 0,
    "thumb": "",
-   "time": 1789498748,
-   "url": "https://www.reddit.com/r/AskReddit/comments/1wh9fq3/anesthesiologist_whats_the_strangest_thing_youve/"
+   "time": 1789531355,
+   "url": "https://www.reddit.com/r/worldnews/comments/1whmhfu/rworldnews_live_thread_russian_invasion_of/"
+  },
+  {
+   "sub": "worldnews",
+   "title": "The Trump administration is preparing a $2.8 billion sale of 2,000-pound bombs to Israel, the largest single sale of the controversial munitions in recent years, a U.S. official told The Post.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/21spW7ko3LvBN5oskZPqOeFreqdHlqhluRUXv0f1UpU.jpeg?width=640&crop=smart&auto=webp&s=db5079d21513b280c3915a7c516ccb7b8bf30a95",
+   "time": 1789501775,
+   "url": "https://www.reddit.com/r/worldnews/comments/1whau6b/the_trump_administration_is_preparing_a_28/"
+  },
+  {
+   "sub": "worldnews",
+   "title": "Skyrocketing fuel prices spark protests around the globe",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/gxC89wXlk2xF-INRku5XsLHvqkfmh773SRiNfqCvbgU.jpeg?width=640&crop=smart&auto=webp&s=70d589705066cb756619a186e76b64ff653e16d3",
+   "time": 1789511624,
+   "url": "https://www.reddit.com/r/worldnews/comments/1whf4zi/skyrocketing_fuel_prices_spark_protests_around/"
   }
  ],
  "disaster": [],
@@ -472,16 +477,19 @@
     "takepage_"
    ],
    "tiktok": [
-    "jaemyung_lee",
-    "tictok_ent"
+    "jaemyung_lee"
    ]
   },
-  "why": {},
+  "why": {
+   "tiktok": {
+    "tictok_ent": 503
+   }
+  },
   "landing": {
-   "at": "2026-09-16T13:05:21",
+   "at": "2026-09-16T13:31:26",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-09-16T13:31:24.278091+09:00"
+ "updated": "2026-09-16T14:02:06.431260+09:00"
 }
