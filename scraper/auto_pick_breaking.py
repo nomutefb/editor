@@ -39,7 +39,7 @@ KST = dt.timezone(dt.timedelta(hours=9))
 
 FAST_MAX_H = 4                                                        # 최신만(푸시·토스트와 동일 단일상수 정신)
 MIN_GRADE = int(os.environ.get("AUTOPICK_MIN_GRADE", "3"))           # 자동 요약 = g3만(운영자 260821 문턱 분리 — 배지·웹푸시 g2 는 뷰어·push_send 몫 · 구 260728 단일 문턱 2). 롤백 = 이 값 "2"
-MIN_CROSS = int(os.environ.get("AUTOPICK_MIN_CROSS", "3"))           # 다매체 검증(오발 가드 · push 정신 · push_send PUSH_MIN_CROSS 와 짝 = 2→3 운영자 260917). 롤백 = env AUTOPICK_MIN_CROSS=2
+MIN_CROSS = int(os.environ.get("AUTOPICK_MIN_CROSS", "2"))           # 다매체 검증(오발 가드 · push 정신 · push_send PUSH_MIN_CROSS 와 짝 = 3→2 복귀 운영자 260917 «cross 의존도를 낮춘다»). 조이려면 env AUTOPICK_MIN_CROSS=3
 MAX_PER_RUN = int(os.environ.get("AUTOPICK_MAX_PER_RUN", "2"))       # 런당 상한(버스트 캡)
 MAX_PER_DAY = int(os.environ.get("AUTOPICK_MAX_PER_DAY", "8"))       # 일 상한(안전밸브 · KST 기준)
 DRY = "--dry-run" in sys.argv
