@@ -252,6 +252,7 @@ jobs:
       - name: 긴급 웹푸시 발송 (pywebpush)
         if: steps.chk.outputs.pending != '0' || github.event.inputs.test_push == 'true' || github.event.inputs.preview == 'true'
         env:
+          ISS_PUSH: '0'   # ⚡이슈 푸시 OFF(운영자 260917 «뒤늦게 이슈 관련해서 긴급처럼 알림 오는게 있는데 그거 꺼줘, 의미가 없네») — 긴급(속보) 푸시·화면 ⚡이슈 배지는 무접촉. 되돌리기 = 이 줄 제거(push_send 기본값 ON).
           VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
           VAPID_SUBJECT: ${{ secrets.VAPID_SUBJECT }}
           # AI 사건중복 심판(_ai_same_event · Q437)용 구독 OAuth 4계정 체인 — 자동픽 스텝과 동일 배선(평의회2 260722:
