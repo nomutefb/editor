@@ -400,9 +400,10 @@ def main():
                 ai_calls += 1
                 # ⚠ 비교 대상은 **긴급 발송분만**(k != "iss") — 이슈 발송분까지 넣으면 이슈로 먼저 알린 사건이
                 #   나중에 속보로 승격됐을 때 "이미 다룬 사건"으로 억제돼 **진짜 긴급을 놓친다**(비싼 방향의 오류).
-                dup = _ai_same_event(c.get("title") or "", [e.get("title", "") for e in sent_events if e.get("k") != "iss"])
+                _brk_pool = [e for e in sent_events if e.get("k") != "iss"]   # 심판 대상 목록 = 로그 짝 목록(같은 인덱스 — 260917 실측: 억제는 맞는데 로그가 무관한 이슈 제목을 짝으로 찍던 인덱스 어긋남)
+                dup = _ai_same_event(c.get("title") or "", [e.get("title", "") for e in _brk_pool])
                 if dup is not None:
-                    print(f"  ⊘ 사건중복 억제(AI): {(c.get('title') or '')[:34]} ≈ {str(sent_events[dup].get('title', ''))[:28]}", file=sys.stderr)
+                    print(f"  ⊘ 사건중복 억제(AI): {(c.get('title') or '')[:34]} ≈ {str(_brk_pool[dup].get('title', ''))[:28]}", file=sys.stderr)
                     suppressed_keys.extend(ks)
                     continue
             msgs.append({"keys": ks, "ev_title": c.get("title") or "", "title": "News", "body": ("(긴급) " + disp_title(c))[:120], "url": brk_url(c), "tag": "nomute-breaking-" + hashlib.md5((ks[0] if ks else "").encode("utf-8")).hexdigest()[:10], "kind": "brk", "icon": notif_icon("brk", "sig") or ""})   # 제목="News"(고정·OS 볼드) · 본문="(긴급) 헤드라인"(외신=번역 제목) · url=해당 건 딥링크(요약완료=요약창/미완료=메이저링크 · 운영자 260622)
