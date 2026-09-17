@@ -27,6 +27,16 @@
  "threads": [
   {
    "account": "choi.openai",
+   "text": "Claude가 이제 하나의 대화에서 여러 작업을 병렬로 진행할 수 있게 됩니다.\n\nClaude Projects가 개편돼 요청을 여러 스레드로 나눠 처리하고, 노트북을 꺼도 클라우드에서 계속 작업합니다.\n\n각 스레드는 프로젝트 메모리와 파일을 공유하며, 사용자는 휴대폰에서도 진행 상황을 확인하고 개입할 수 있습니다.\n\n현재 일부 Pro·Max 사용자에게 베타로 제공되며, 이후 전체 사용자로 확대될 예정입니다.",
+   "likes": 1,
+   "cmts": 0,
+   "time": 1789682418,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/814319919_937384272755860_5795127012067016374_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk4ODQ2NzY2NzI4MzI3OTY3OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=QkaNxmJVcZoQ7kNvwFHVAm5&_nc_oc=AdoK2_rIw6LIhysOAfbu_KNToLUS5EY3gJpG1EZ_eR-6mLLeot5e7Pag0nSHARHHzqg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=WygGqok1Q6IrcOjIoX899A&_nc_ss=7a22e&oh=00_AQJmqw7ryjJl4jvPokqy01txNCv6hDsj2oGWsQlnGpKAwA&oe=6AB250E4",
+   "url": "https://www.threads.com/@choi.openai/post/DdZ4jYqjP8_",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
    "text": "발표내용 :\nhttps://www.figure.ai/news/helix-2-5-zero-shot-30-home-generalization",
    "likes": 3,
    "cmts": 0,
@@ -38,21 +48,11 @@
   {
    "account": "choi.openai",
    "text": "Figure가 휴머노이드 로봇용 Helix 2.5를 공개했습니다.\n\n로봇을 사전 학습에 없던 베이 지역 30개 가정에 투입했는데, 추가 학습 없이 방 정리·수건 접기·침대 정리를 수행했습니다.\n\n특히 Index 사전학습 적용 시 성공률이 9%에서 56%로 올랐고, 기존 Helix 02 대비 절반의 작업 데이터만 사용했습니다.\n\n이제 로봇도 장소마다 다시 배우는 방식에서 벗어나기 시작한 모습입니다.",
-   "likes": 5,
+   "likes": 7,
    "cmts": 1,
    "time": 1789677007,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/814926210_2085427995448284_3112791816889903968_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk4ODQyMjI3NDM0NDMyMzY3Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Wjd8sawaoaoQ7kNvwFbYvnO&_nc_oc=AdpPzqOft69nZEb4xi6ea4W4UsBsryBUpil02R6Ya8NHVvfubAklZFzqw7l4fgSochs&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=3sk9P2zO-P4mbLM8SyldgA&_nc_ss=7a22e&oh=00_AQKoPmzr8HcTpRzHWnq8wVePr7iMSmRLxFlug5Eaxl0j0A&oe=6AB23CC2",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/814926210_2085427995448284_3112791816889903968_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk4ODQyMjI3NDM0NDMyMzY3Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Wjd8sawaoaoQ7kNvwFbYvnO&_nc_oc=AdpPzqOft69nZEb4xi6ea4W4UsBsryBUpil02R6Ya8NHVvfubAklZFzqw7l4fgSochs&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=WygGqok1Q6IrcOjIoX899A&_nc_ss=7a22e&oh=00_AQL2MiUmaD-QH7PhPDaRBFGgeW11pBExdBeL14yjLBRbbQ&oe=6AB23CC2",
    "url": "https://www.threads.com/@choi.openai/post/DdZuO1MjIpZ",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "기사 :\nhttps://www.theinformation.com/newsletters/ai-agenda/openai-close-solving-another-millennium-prize-math-problem",
-   "likes": 2,
-   "cmts": 0,
-   "time": 1789671630,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DdZj-aVCSEn",
    "region": "kr"
   },
   {
@@ -137,12 +137,12 @@
   },
   {
    "account": "choi.openai",
-   "text": "🚨 오픈AI가 밀레니엄 문제를 하나 더 풀 가능성이 있다는 보도가 나왔습니다.\n\nThe Information에 따르면 이번 문제는 호지 추측(Hodge Conjecture)로, 오픈AI 내부 연구진은 증명 완성에 가까워졌다고 보고 있습니다. 앞서 나비에-스토크스(Navier–Stokes) 문제에는 차세대 사전학습 모델의 변형인 코드명 “Doug”가 활용됐다고 전해졌습니다.\n\n오픈AI가 수학에 집중하는 이유는 AI 연구 자동화와 연결됩니다. 수학 능력을 높여 새로운 AI 기술을 찾고, 향후 모델 개발 과정까지 AI가 맡도록 하는 것이 목표라고 합니다.",
-   "likes": 10,
-   "cmts": 1,
-   "time": 1789671621,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/794093411_17987590905112832_2600276546683568217_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk4ODM3NzA4OTc0NDY4MDExMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuODc0LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=st-x5-e24iEQ7kNvwHUrRwP&_nc_oc=AdpmZXSJyvSH871DABFZoMLEj2rSdb9BlEqIUj5LYA5BDl9qS1zf1KjEhu8ZZFkYyaQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=3sk9P2zO-P4mbLM8SyldgA&_nc_ss=7a22e&oh=00_AQJQerSJIF896_7akFBBouSswWWTwhTQWH_meehbWSJ1vg&oe=6AB22DA2",
-   "url": "https://www.threads.com/@choi.openai/post/DdZj9TwibSw",
+   "text": "기사 :\nhttps://www.theinformation.com/newsletters/ai-agenda/openai-close-solving-another-millennium-prize-math-problem",
+   "likes": 2,
+   "cmts": 0,
+   "time": 1789671630,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DdZj-aVCSEn",
    "region": "kr"
   },
   {
@@ -167,12 +167,12 @@
   },
   {
    "account": "choi.openai",
-   "text": "3/ 그다음에는 전략을 개발하는 에이전트가 탐색을 관리하는 코드를 수정합니다.\n\n‘이 가지를 조금 일찍 멈췄다면’, ‘여러 시도를 한꺼번에 진행했다면’ 어떤 결과가 나왔을지 과거 기록 위에서 재생해 보는 건데요.\n\n각 시도의 결과가 이미 저장돼 있어 코딩 에이전트와 평가기를 다시 실행할 필요가 없습니다. 연구진은 이 과정을 ‘꿈꾸기’라고 부릅니다.\n\n한 번의 비싼 탐색으로 여러 전략을 저렴하게 비교하고, 성능과 탐색량을 함께 고려해 좋은 전략을 다음 실제 실행에 투입하는 것입니다.\n\n전략을 고치는 AI의 추론과 새로운 실험에는 비용이 들지만, 같은 실험을 반복 실행하는 부담은 줄어듭니다.",
-   "likes": 3,
+   "text": "🚨 오픈AI가 밀레니엄 문제를 하나 더 풀 가능성이 있다는 보도가 나왔습니다.\n\nThe Information에 따르면 이번 문제는 호지 추측(Hodge Conjecture)로, 오픈AI 내부 연구진은 증명 완성에 가까워졌다고 보고 있습니다. 앞서 나비에-스토크스(Navier–Stokes) 문제에는 차세대 사전학습 모델의 변형인 코드명 “Doug”가 활용됐다고 전해졌습니다.\n\n오픈AI가 수학에 집중하는 이유는 AI 연구 자동화와 연결됩니다. 수학 능력을 높여 새로운 AI 기술을 찾고, 향후 모델 개발 과정까지 AI가 맡도록 하는 것이 목표라고 합니다.",
+   "likes": 14,
    "cmts": 1,
-   "time": 1789666993,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/813428774_17987535849112832_2060454897579348995_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk4ODMzODI3NDU4MjEwMzIwMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuODU1LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=cHVjmlGRbHwQ7kNvwHGwmGf&_nc_oc=AdpTGd45GkbzwOKVKWLTR4C13x0dtA4NFwbSy_R3KWqTzgBjdM7U2HDSj6LEiBMLZB8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=3sk9P2zO-P4mbLM8SyldgA&_nc_ss=7a22e&oh=00_AQJ2OIrbAvPCWWXcr8CTB2wrzNntPAe22h4LQAPjYOuwUw&oe=6AB22A19",
-   "url": "https://www.threads.com/@choi.openai/post/DdZbIeUj4Sj",
+   "time": 1789671621,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/794093411_17987590905112832_2600276546683568217_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk4ODM3NzA4OTc0NDY4MDExMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuODc0LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=st-x5-e24iEQ7kNvwHUrRwP&_nc_oc=AdpmZXSJyvSH871DABFZoMLEj2rSdb9BlEqIUj5LYA5BDl9qS1zf1KjEhu8ZZFkYyaQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=WygGqok1Q6IrcOjIoX899A&_nc_ss=7a22e&oh=00_AQIw8ll8y1UE4uP3jzpzHO19HmSVNff4aNOE11sOFGdNNA&oe=6AB22DA2",
+   "url": "https://www.threads.com/@choi.openai/post/DdZj9TwibSw",
    "region": "kr"
   },
   {
@@ -197,21 +197,21 @@
   },
   {
    "account": "choi.openai",
-   "text": "2/ AI에게 더 빠른 프로그램을 만들라고 하면, 코드를 쓰고 실행한 뒤 결과를 보며 수정하는 과정이 반복됩니다.\n\n이때 성능이 좋아진 후보를 더 고칠지, 다른 방향을 열어볼지 결정해야 하는데, 그 선택이 좋은지 알아보려면 실험을 여러 번 진행해야 하므로, 탐색 방법을 비교하는 데도 비용이 듭니다.\n\nDream-RSI는 여기서 이미 끝낸 탐색 기록을 활용합니다. 어떤 코드에서 출발했고, 무엇을 수정했으며, 어디서 실패하고 얼마나 개선됐는지를 나뭇가지처럼 연결해 저장합니다.\n\n연구진이 ‘Discovery Tree’라고 부르는 이 기록이 다음 전략을 시험할 환경이 됩니다.",
-   "likes": 2,
+   "text": "3/ 그다음에는 전략을 개발하는 에이전트가 탐색을 관리하는 코드를 수정합니다.\n\n‘이 가지를 조금 일찍 멈췄다면’, ‘여러 시도를 한꺼번에 진행했다면’ 어떤 결과가 나왔을지 과거 기록 위에서 재생해 보는 건데요.\n\n각 시도의 결과가 이미 저장돼 있어 코딩 에이전트와 평가기를 다시 실행할 필요가 없습니다. 연구진은 이 과정을 ‘꿈꾸기’라고 부릅니다.\n\n한 번의 비싼 탐색으로 여러 전략을 저렴하게 비교하고, 성능과 탐색량을 함께 고려해 좋은 전략을 다음 실제 실행에 투입하는 것입니다.\n\n전략을 고치는 AI의 추론과 새로운 실험에는 비용이 들지만, 같은 실험을 반복 실행하는 부담은 줄어듭니다.",
+   "likes": 3,
    "cmts": 1,
-   "time": 1789666984,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/813959198_17987535834112832_7425279701854983566_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk4ODMzODE5NTUyNzg3MjY3MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIyMi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=uWY3VJKE0aIQ7kNvwEMimwf&_nc_oc=Ado3SCemj7xmUPD5JtS00YNqI779LHCEUsxYZHutC3yAzpoYIkt93qlJ3CzigE1KPI0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=3sk9P2zO-P4mbLM8SyldgA&_nc_ss=7a22e&oh=00_AQKw-8hQzF9IFF0-GgofFGe9PdEL4_P7x9GMCNb0-wnViQ&oe=6AB21F30",
-   "url": "https://www.threads.com/@choi.openai/post/DdZbHUsj7Cf",
+   "time": 1789666993,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/813428774_17987535849112832_2060454897579348995_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk4ODMzODI3NDU4MjEwMzIwMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuODU1LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=cHVjmlGRbHwQ7kNvwHGwmGf&_nc_oc=AdpTGd45GkbzwOKVKWLTR4C13x0dtA4NFwbSy_R3KWqTzgBjdM7U2HDSj6LEiBMLZB8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=WygGqok1Q6IrcOjIoX899A&_nc_ss=7a22e&oh=00_AQJpi-Umlbvm0M_IxNjA3MMDefghq0kCbUGLyqMeJlbIEA&oe=6AB22A19",
+   "url": "https://www.threads.com/@choi.openai/post/DdZbIeUj4Sj",
    "region": "kr"
   },
   {
    "account": "takepage_",
    "text": "서울대 출신 변호사 임현서 님의 유튜브를 보다가\n모교 서울대에 강연을 갔는데 학생들에게\n\n\"아스트라 혹은 페이블 써보신 분\" 질문 했을 떄 \n단 한 명도 손을 들지 않았다. \n심지어 무슨 말을 하는지도 잘 모른다\n\n첫쨰로는 저 똑똑한 친구들도 안써본 게 신기하고,\n둘쨰로는 기회비용을 열심히 써야겠다",
-   "likes": 258,
-   "cmts": 35,
+   "likes": 267,
+   "cmts": 37,
    "time": 1789646047,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/813765497_17937208650362958_7713552211689244654_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk4ODE2MjU2NTM2NDc0MjIzMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIzMS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=FRHAL8x2_esQ7kNvwGt0I3X&_nc_oc=AdqHAygXybbDgWi_JewlvuBlFrz9xXq_GpCX3tDBoWtGiqkxi8-GeUNiVHedLCuRG8E&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=0FD5u91E1zIqOvlxKGEKAw&_nc_ss=7a22e&oh=00_AQJm72p8ImgI7iScVPO7EgpmsIUEgOU3DWMduWbAZ711Lw&oe=6AB2306F",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/813765497_17937208650362958_7713552211689244654_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk4ODE2MjU2NTM2NDc0MjIzMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIzMS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=FRHAL8x2_esQ7kNvwGt0I3X&_nc_oc=AdqHAygXybbDgWi_JewlvuBlFrz9xXq_GpCX3tDBoWtGiqkxi8-GeUNiVHedLCuRG8E&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=QULlIkw7YAyD-cetWPd_3Q&_nc_ss=7a22e&oh=00_AQITTmArKb4zjryoqKQYw3DlpIyDjzg_nUhtNNfNlRBnWw&oe=6AB2306F",
    "url": "https://www.threads.com/@takepage_/post/DdYzLkXE3hX",
    "region": "kr"
   },
@@ -233,7 +233,7 @@
    "views": 626900,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0CGAI6ooFCAPECAEqED63ffIARmgNxjBUg0zR~tplv-tiktokx-origin.image?dr=14575&x-expires=1789851600&x-signature=BeCA%2FVILfunpW7d7KL1exmSRZvk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0CGAI6ooFCAPECAEqED63ffIARmgNxjBUg0zR~tplv-tiktokx-origin.image?dr=14575&x-expires=1789855200&x-signature=8bbUZlXgjCHRQqKfvtlzOOu2bS4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1788879730,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7683179938026900754",
    "region": "kr"
@@ -241,10 +241,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Саламатсызбы, Кыргызстан! 🇰🇷🇰🇬 #키르기스스탄 #Kyrgyzstan #кыргызстан",
-   "views": 337000,
+   "views": 337500,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ossWcFAWqdBeFM1UB9FEguDtEqARxSGQQyfuUi~tplv-tiktokx-origin.image?dr=14575&x-expires=1789851600&x-signature=gTtEXdrpwNX6Zx4tCxPoU2REClc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ossWcFAWqdBeFM1UB9FEguDtEqARxSGQQyfuUi~tplv-tiktokx-origin.image?dr=14575&x-expires=1789855200&x-signature=hE26Kwt8w3uJwduQGP9PcCVch2M%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789537496,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7686005021397273863",
    "region": "kr"
@@ -252,10 +252,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Salam aleýkum Türkmenistan! 🇰🇷🇹🇲 #투르크메니스탄 #turkmenistan #Türkmenistan",
-   "views": 183200,
+   "views": 183300,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4iB0bDrFU5kqzoDSRupABvEWftIIUEfgqMaiE~tplv-tiktokx-origin.image?dr=14575&x-expires=1789851600&x-signature=xobCk7A0d4FF6mQ24GFmyoCrE9E%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4iB0bDrFU5kqzoDSRupABvEWftIIUEfgqMaiE~tplv-tiktokx-origin.image?dr=14575&x-expires=1789855200&x-signature=L1WN%2F5cGuAS8k6OU0gk1SrqYVMc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789447594,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685618898128915730",
    "region": "kr"
@@ -263,10 +263,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Ассалому алайкум, Тоҷикистон! 🇰🇷🇹🇯 #타지키스탄#Тоҷикистон",
-   "views": 138400,
+   "views": 139000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okxPtEHAgIY0AAlC9gAoxAMiBqToaAKBiFulq~tplv-tiktokx-origin.image?dr=14575&x-expires=1789851600&x-signature=VzYNQCBw486YU6FeI2rtr%2FBbWcw%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okxPtEHAgIY0AAlC9gAoxAMiBqToaAKBiFulq~tplv-tiktokx-origin.image?dr=14575&x-expires=1789855200&x-signature=9Ay5QtBPC4XwfixzdXM7l2dy1R0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789536283,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685999812356934930",
    "region": "kr"
@@ -277,7 +277,7 @@
    "views": 49600,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAUOEAPEroYfNoFaeAAfZQATIAiVPvDB5WhDFE~tplv-tiktokx-origin.image?dr=14575&x-expires=1789851600&x-signature=X%2B4XgTj5HhNdxPqJZQ%2FesZgGVXQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAUOEAPEroYfNoFaeAAfZQATIAiVPvDB5WhDFE~tplv-tiktokx-origin.image?dr=14575&x-expires=1789855200&x-signature=jmI%2BC3AxukdtwnN2LenXXyy%2BDUU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789393470,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685386435158887688",
    "region": "kr"
@@ -288,7 +288,7 @@
    "views": 41500,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oMMIdnnHDI6bTifTAPFDcDRbtBfWqzBIEDgvEo~tplv-tiktokx-origin.image?dr=14575&x-expires=1789851600&x-signature=ejC3jTUMKpgaY8dIy%2BrGCE367ZQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oMMIdnnHDI6bTifTAPFDcDRbtBfWqzBIEDgvEo~tplv-tiktokx-origin.image?dr=14575&x-expires=1789855200&x-signature=25U2JPJ2qqlvRXFxatzSbg8nj8E%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789031851,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7683833293816614151",
    "region": "kr"
@@ -299,7 +299,7 @@
    "views": 40600,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIqB6INciK7CI3iw10LAp5vfZO6IAlCTdIAI06~tplv-tiktokx-origin.image?dr=14575&x-expires=1789851600&x-signature=kgGy4K6WuWAybduMK24LO1uM2GI%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIqB6INciK7CI3iw10LAp5vfZO6IAlCTdIAI06~tplv-tiktokx-origin.image?dr=14575&x-expires=1789855200&x-signature=ZLbltbOPORntPYY6cE%2By0fGgB5Y%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1788733294,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7682551001663982855",
    "region": "kr"
@@ -310,7 +310,7 @@
    "views": 39600,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okJSEtbnglnRAQHtqOQ1UIFeETBEUtfhBKGkDV~tplv-tiktokx-origin.image?dr=14575&x-expires=1789851600&x-signature=Li8KtR7Hp9A34CMRS57LjpltsHw%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okJSEtbnglnRAQHtqOQ1UIFeETBEUtfhBKGkDV~tplv-tiktokx-origin.image?dr=14575&x-expires=1789855200&x-signature=rCS3yB9dYC2nIwGJcintWjzZjRU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1788795259,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7682817137672555794",
    "region": "kr"
@@ -321,7 +321,7 @@
    "views": 31700,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4AeKl0yGICLqpfFAVLAoFr7LEeoVADEIKAdEU~tplv-tiktokx-origin.image?dr=14575&x-expires=1789851600&x-signature=IqC%2FJ7gk2qTm8m9KSe4Zxucwnl0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4AeKl0yGICLqpfFAVLAoFr7LEeoVADEIKAdEU~tplv-tiktokx-origin.image?dr=14575&x-expires=1789855200&x-signature=xwghl2eu9a7oig4FsYmAwT2iLi8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789473921,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685731970453638407",
    "region": "kr"
@@ -329,10 +329,10 @@
   {
    "account": "jaemyung_lee",
    "title": "<초국가범죄, 반드시 뿌리 뽑겠습니다> ‘외국에 있으면 안 잡히겠지?’  그런 생각은 이제 버리십시오. 대한민국 국민을 상대로 한 범죄는 세계 어느 곳에 숨어 있든, 끝까지 추적해 처벌합니다. 대규모 보이스피싱 조직",
-   "views": 16400,
+   "views": 16500,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oU9rIZjq1EKACAAxNBVioCpiI2BAtmA28wfcPR~tplv-tiktokx-origin.image?dr=14575&x-expires=1789851600&x-signature=6LrpMud%2BX6BMveYlnyhjCvBfouY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oU9rIZjq1EKACAAxNBVioCpiI2BAtmA28wfcPR~tplv-tiktokx-origin.image?dr=14575&x-expires=1789855200&x-signature=%2F7TecPd%2FoXzAO%2BzdJMJ31C0Utng%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789605105,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7686295400835239175",
    "region": "kr"
@@ -340,10 +340,10 @@
   {
    "account": "tictok_ent",
    "title": "정수정, 시선 사로잡는 냉미모 / 랄프 로렌(RALPH LAUREN) 이벤트 포토콜 세계적으로 찬사를 받은 패션 아이콘 랄프 로렌의 삶을 조명한 HBO 다큐멘터리 ‘베리 랄프(Very Ralph)’의 스크리닝 이벤트",
-   "views": 3931,
+   "views": 3933,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okLBFiZBwYABkaDifA1KAAAwEgpiSVITJUnCFK~tplv-tiktokx-origin.image?dr=14575&x-expires=1789851600&x-signature=f5XUWJZM%2Fg9fNwYQsBVUPupmcoc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okLBFiZBwYABkaDifA1KAAAwEgpiSVITJUnCFK~tplv-tiktokx-origin.image?dr=14575&x-expires=1789855200&x-signature=8MKN1wTIovBz0%2Bjy%2FgAdehpCD9U%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789465968,
    "url": "https://www.tiktok.com/@tictok_ent/video/7685697810284465415",
    "region": "kr"
@@ -351,25 +351,16 @@
   {
    "account": "tictok_ent",
    "title": "엔하이픈(ENHYPEN) 제이, 시크한 매력으로 시선 집중 / 랄프 로렌(RALPH LAUREN) 이벤트 포토콜 세계적으로 찬사를 받은 패션 아이콘 랄프 로렌의 삶을 조명한 HBO 다큐멘터리 ‘베리 랄프(Very R",
-   "views": 997,
+   "views": 1000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oseLtEETExroCrATveJopIleVWALBGkVUAIAAD~tplv-tiktokx-origin.image?dr=14575&x-expires=1789851600&x-signature=U6MgG5Ho%2BtPYCAtAdhdcfzjFBRw%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oseLtEETExroCrATveJopIleVWALBGkVUAIAAD~tplv-tiktokx-origin.image?dr=14575&x-expires=1789855200&x-signature=8SGhSVcZt1jisId4iymhU%2Fzyfu4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789465966,
    "url": "https://www.tiktok.com/@tictok_ent/video/7685697801585495303",
    "region": "kr"
   }
  ],
  "reddit": [
-  {
-   "sub": "AskReddit",
-   "title": "Which movie was so emotionally exhausting or disturbing that it was a masterpiece, but you will never, ever watch it again?",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "",
-   "time": 1789646165,
-   "url": "https://www.reddit.com/r/AskReddit/comments/1wirx4x/which_movie_was_so_emotionally_exhausting_or/"
-  },
   {
    "sub": "meirl",
    "title": "meirl",
@@ -378,6 +369,15 @@
    "thumb": "https://preview.redd.it/pxn5gm6iv4qh1.jpeg?width=320&crop=smart&auto=webp&s=c699fc6f444db6552d568cd2d60becba7045b5bc",
    "time": 1789673952,
    "url": "https://www.reddit.com/r/meirl/comments/1wj40oo/meirl/"
+  },
+  {
+   "sub": "AskReddit",
+   "title": "Which movie was so emotionally exhausting or disturbing that it was a masterpiece, but you will never, ever watch it again?",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1789646165,
+   "url": "https://www.reddit.com/r/AskReddit/comments/1wirx4x/which_movie_was_so_emotionally_exhausting_or/"
   },
   {
    "sub": "Unexpected",
@@ -396,6 +396,24 @@
    "thumb": "https://external-preview.redd.it/hCJzCqcx2cNXI80ree0gbr38OW8j9IeEhueeYSRM9G0.jpeg?width=640&crop=smart&auto=webp&s=4d620428dcbb5b1e816fd82bbadb5ad399e71cf2",
    "time": 1789651945,
    "url": "https://www.reddit.com/r/politics/comments/1wiu4a0/the_quiet_campaign_to_stop_kamala_2028_is_growing/"
+  },
+  {
+   "sub": "cats",
+   "title": "My cat (17) will be euthanized next week and I‘m in shambles. Can you guys post your cats as well so she can make friends on the rainbow road?",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/bfj2kwlom4qh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=46e12247a4ca751740be73093e914d530c1a37b2",
+   "time": 1789670987,
+   "url": "https://www.reddit.com/r/cats/comments/1wj2nyr/my_cat_17_will_be_euthanized_next_week_and_im_in/"
+  },
+  {
+   "sub": "gaming",
+   "title": "Japanese companies like Nintendo, Capcom, and Konami are healthier because they have smaller teams, don't have frequent layoffs, and don't pay executives $30 million, says expert",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/cBkUY_Itz-N2NINgEgJzt7C3uZUT4RLgX1q64qT203g.jpeg?width=640&crop=smart&auto=webp&s=046140bdf44e5084be1448094555044eeb22a109",
+   "time": 1789673065,
+   "url": "https://www.reddit.com/r/gaming/comments/1wj3mib/japanese_companies_like_nintendo_capcom_and/"
   },
   {
    "sub": "whatisit",
@@ -434,15 +452,6 @@
    "url": "https://www.reddit.com/r/mildlyinteresting/comments/1witk8k/apparently_i_have_elf_ears/"
   },
   {
-   "sub": "interestingasfuck",
-   "title": "In 1991, a Nigerian prophet by name Daniel Abodunrin felt inspired by the story of Daniel in the bible and decided to recreate the story. He went into a cage in a zoo where Lions were kept with the be",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/c0rf7f9nk2qh1.jpeg?width=640&crop=smart&auto=webp&s=ba82686b164fb805722f0a0c11b72046697f20a7",
-   "time": 1789646091,
-   "url": "https://www.reddit.com/r/interestingasfuck/comments/1wirw6s/in_1991_a_nigerian_prophet_by_name_daniel/"
-  },
-  {
    "sub": "Fauxmoi",
    "title": "Ms Rachel is matching Macklemore’s 1 Million donation to the Palestinian Children’s Relief Fund",
    "score": 0,
@@ -450,15 +459,6 @@
    "thumb": "https://preview.redd.it/epjknkt4e4qh1.jpeg?width=640&crop=smart&auto=webp&s=327fd71c5e2589f57693f29947bdd24d5d6bd971",
    "time": 1789668110,
    "url": "https://www.reddit.com/r/Fauxmoi/comments/1wj1d95/ms_rachel_is_matching_macklemores_1_million/"
-  },
-  {
-   "sub": "cats",
-   "title": "My cat (17) will be euthanized next week and I‘m in shambles. Can you guys post your cats as well so she can make friends on the rainbow road?",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/bfj2kwlom4qh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=46e12247a4ca751740be73093e914d530c1a37b2",
-   "time": 1789670987,
-   "url": "https://www.reddit.com/r/cats/comments/1wj2nyr/my_cat_17_will_be_euthanized_next_week_and_im_in/"
   },
   {
    "sub": "SipsTea",
@@ -473,6 +473,10 @@
  "disaster": [],
  "_cover": {
   "ok": {
+   "x": [
+    "awaken_eyes",
+    "jajaja7878uu"
+   ],
    "threads": [
     "aicoffeechat",
     "aipeekme",
@@ -487,12 +491,21 @@
     "tictok_ent"
    ]
   },
-  "why": {},
+  "why": {
+   "x": {
+    "64bitcoinkr": 429,
+    "economysniper0": 429,
+    "kyunghyang": 429,
+    "freedom_73x": 429,
+    "marionawfal": 429,
+    "globalbrief_now": 429
+   }
+  },
   "landing": {
-   "at": "2026-09-18T06:01:18",
+   "at": "2026-09-18T06:31:24",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-09-18T06:31:17.401581+09:00"
+ "updated": "2026-09-18T07:04:51.661274+09:00"
 }
