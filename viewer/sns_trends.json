@@ -7336,8 +7336,14 @@
   {
    "query": "봉누도2",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/178f7e76a9.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/029/0003047826",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-18T02:00:00+09:00",
    "isNew": true,
@@ -7608,10 +7614,8 @@
  ],
  "gtrends_pool_updated": "2026-09-18T03:35:21+09:00",
  "_trend_img": {
-  "tried": "2026-09-18T02:06:06+09:00",
-  "fail": {
-   "thời tiết ngày mai": "2026-09-18T00:36:23+09:00"
-  }
+  "tried": "2026-09-18T03:35:21+09:00",
+  "fail": {}
  },
  "gtrends_gl": [
   {
@@ -16808,7 +16812,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-18T03:35:21+09:00"
+    "first_seen": "2026-09-18T03:35:21+09:00",
+    "kw": "Dream-RSI, 전략 재생, 탐색 기록",
+    "sum": "연구진이 과거 시도를 재생해 저비용으로 전략을 비교하는 꿈꾸기 과정을 설명했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -16823,7 +16830,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-09-18T03:35:21+09:00"
+    "first_seen": "2026-09-18T03:35:21+09:00",
+    "kw": "Dream-RSI, Discovery Tree, 탐색 비용",
+    "sum": "계정이 Dream-RSI가 과거 탐색 기록을 나무 구조로 저장해 활용한다고 설명했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -16838,7 +16848,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-09-18T03:35:21+09:00"
+    "first_seen": "2026-09-18T03:35:21+09:00",
+    "kw": "Dream-RSI, 재귀적 자기개선, 구글 딥마인드",
+    "sum": "구글과 딥마인드 등 연구진이 탐색 전략을 개선하는 Dream-RSI 논문을 발표했다",
+    "sv": 1
    },
    {
     "account": "takepage_",
@@ -17077,7 +17090,10 @@
     "rh": [
      12
     ],
-    "first_seen": "2026-09-18T03:35:21+09:00"
+    "first_seen": "2026-09-18T03:35:21+09:00",
+    "kw": "Dream-RSI, 구글, AI 복기",
+    "sum": "계정이 AI가 시행착오를 복기해 스스로 개선하는 구글 논문을 소개했다",
+    "sv": 1
    },
    {
     "account": "takepage_",
