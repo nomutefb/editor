@@ -16,6 +16,36 @@
  "threads": [
   {
    "account": "daily_ai_star",
+   "text": "GitHub Copilot의 예산 증액 요청 기능이 9월 16일 정식 제공됐습니다.\n\n이제 AI 크레딧을 모두 쓴 구성원은 기능이 막힌 화면에서 바로 추가 예산을 요청할 수 있습니다. 조직 소유자·엔터프라이즈 소유자·청구 관리자는 설정 화면에서 요청을 승인하거나, 금액을 조정하거나, 거절할 수 있습니다. 승인하면 구성원의 예산이 즉시 바뀌고 크레딧을 다시 쓸 수 있습니다.\n\n대상은 사용량 기반 과금의 Copilot Business와 Enterprise입니다.\n\n에이전트 비용 관리는 한도를 정하는 일이 아니라, 작업이 멈춘 순간 누가 얼마를 더 허용할지 결정하는 운영 절차가 됐습니다.\n\nhttps://github.blog/changelog/2026-09-16-copilot-budget-increase-requests-are-generally-available/",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1789606229,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdXnOTqGSYu",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "주소 :\nhttps://andonlabs.com/pion",
+   "likes": 1,
+   "cmts": 0,
+   "time": 1789605053,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DdXk_bTE5kY",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "AI가 이제 업무를 돕는 수준을 넘어 회사 전체를 운영하기 시작했습니다.\n\nAndon Labs가 사람의 개입 없이 회사를 운영하는 AI 에이전트 플랫폼 Pion을 공개했습니다.\n이메일·전화·브라우저·은행·결제까지 연결해 고객 응대부터 직원 관리, 재고 구매, 가격 결정, 마케팅까지 에이전트가 계속 처리합니다.\n\n이미 자판기뿐 아니라 샌프란시스코의 Andon Market, 카페, 라디오 방송국을 1년 넘게 운영하며 검증해왔는데요.\n매장에서는 Luna가 Slack으로 직원을 지시하고 재고를 주문하며, 라디오에서는 선곡·청취자 응대·결제·데이터 분석까지 맡습니다.\n\n사용자는 Andonos라는 관리 에이전트에게 “매출을 늘려라” 같은 큰 방향만 전달하면 됩니다.\n\nAI 에이전트가 직원이 되는 것을 넘어 사장과 경영진 역할까지 맡는 실험이 현실에서 시작됐습니다.",
+   "likes": 19,
+   "cmts": 3,
+   "time": 1789605043,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/811501527_1440159694874502_3691471833847519579_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk4NzgxODU5OTY3MDg2MTQ5MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=oBLoyTtYSvMQ7kNvwEQHjKZ&_nc_oc=Adr7C-88eZ_cQItBN1QbaG3Po-3zCV9Zf6HJaL-RsHJrCI_PkWyxfXxYwLU-vRV7Jfs&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=_LGgAjIhsAquRr4fTN194Q&_nc_ss=7a22e&oh=00_AQKGCdyUGfyjdm4DtMFIaaffqIfXvhWihSJSLU0XTPONRw&oe=6AB10A47",
+   "url": "https://www.threads.com/@choi.openai/post/DdXk-NWE86z",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
    "text": "GitHub의 9월 16일 공개 프리뷰 변경입니다.\n\nhttps://github.blog/changelog/2026-09-16-code-scanning-ai-scan-no-longer-requires-codeql-default-setup/",
    "likes": 0,
    "cmts": 0,
@@ -35,16 +65,6 @@
    "region": "kr"
   },
   {
-   "account": "daily_ai_star",
-   "text": "GitHub AI Scan이 9월 16일 CodeQL default setup이 없는 저장소에서도 pull request 보안 취약점을 찾기 시작했습니다.\n\n기존에는 CodeQL default setup이 켜진 저장소에서만 AI Scan이 동작했습니다. 이제 GitHub Advanced Security 고객의 github.com 조직·개인 저장소에서는 CodeQL 기본 설정 여부와 관계없이 대상 저장소를 더 넓게 검사합니다.\n\n다만 code scanning과 AI Scan은 저장소·조직·엔터프라이즈 수준에서 별도로 활성화해야 합니다. GitHub Enterprise Server는 이번 공개 프리뷰 대상이 아닙니다.\n\n보안 검사의 기준이 CodeQL을 켰는가에서, 어떤 저장소에 AI Scan을 적용할 것인가로 이동했습니다.",
-   "likes": 0,
-   "cmts": 2,
-   "time": 1789604737,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdXkYXbk6qP",
-   "region": "kr"
-  },
-  {
    "account": "choi.openai",
    "text": "상세내용 :\nhttps://claude.com/blog/cowork-is-now-claude",
    "likes": 1,
@@ -55,39 +75,19 @@
    "region": "kr"
   },
   {
-   "account": "choi.openai",
-   "text": "Claude가 이제 질문에 답하는 챗봇과 업무를 대신 처리하는 에이전트를 하나로 합칩니다.\n\nClaude Chat과 Cowork가 통합돼 짧은 질문부터 보고서 작성 같은 장기 작업까지 같은 화면에서 처리할 수 있고, 노트북을 닫아도 작업은 계속됩니다.\n\nClaude Docs·Slides·Design도 대화 안에 들어와 문서 작성→슬라이드 변환→디자인 제작까지 이어서 할 수 있습니다.\n\nPro·Max부터 순차 적용되며, Docs·Slides·Design은 모든 유료 플랜에서 베타로 제공됩니다.",
-   "likes": 40,
-   "cmts": 2,
-   "time": 1789599618,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/813832224_1103093288732655_8180466591535921188_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk4Nzc3MzA4OTE2NDM3NDE2OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=SbzjjfEVi1oQ7kNvwHesT_p&_nc_oc=AdpzngWxajJa4mqeQDa1O1gUCtX7QhbzUD_2nbauyGi_mFSkVMpMNqxxwRzOnDYfKXI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=LuZk6DB6_J4gqOc5rL-ADg&_nc_ss=7a22e&oh=00_AQJ-nr6mWCon2Ty1TcIbtzvCxcTq6FkVF1FLDev0l7-PPA&oe=6AB117DD",
-   "url": "https://www.threads.com/@choi.openai/post/DdXan8YgTCZ",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "깃허브 :\nhttps://github.com/Tencent/BrowserSkill",
-   "likes": 15,
-   "cmts": 0,
-   "time": 1789594265,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DdXQai5EeXm",
-   "region": "kr"
-  },
-  {
    "account": "aipeekme",
    "text": "개발자 코디시코가 AI 기반 철도 선로 모니터링 시스템인 레일 트랙 비전을 공개했습니다.\n컴퓨터 비전 기술을 활용해 철도 선로의 이미지와 영상 프레임을 분석하는 방식인데요.\n균열이나 손상된 구간은 물론이고 선로 위의 장애물이나 불규칙한 상태를 식별해냅니다.\n선로의 잠재적인 결함과 비정상적인 조건을 파악하도록 설계되었습니다.\n철도 선로 모니터링과 결함 식별을 위해 AI와 컴퓨터 비전 기술을 결합했다는 점이 주목할 만합니다.\n다만 실제 현장의 다양한 환경 속에서도 정확도를 유지할 수 있을지는 더 지켜봐야 합니다.\n개인적으로는 철도 안전 분야에서 비용을 얼마나 줄일 수 있을지가 관건이라고 봅니다.",
    "likes": 1,
    "cmts": 0,
    "time": 1789563190,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/793351382_1715450759514073_6598872421451118939_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk4NzQ2NzMwOTM3OTUzMTgxMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Z2T1PqNLO-IQ7kNvwGDv_Nb&_nc_oc=Adq_HWeitiXZdXQZExfTWeE9uOHPfYbiMkEYtfzCcUPAbj74Kg_OqgV-hSToBr6zdyw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=evwLH0lFGfvV3gLamlEQjA&_nc_ss=7a22e&oh=00_AQJwQ3fWqQr5QRwuP4n4TdQ_Vbq3t3cK_A3ZH5C8NI5D2Q&oe=6AB115CF",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/793351382_1715450759514073_6598872421451118939_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk4NzQ2NzMwOTM3OTUzMTgxMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Z2T1PqNLO-IQ7kNvwF9e67c&_nc_oc=Ado91MOG2VuilSTk3wb4wQ3-ms_xjzYpJGKzlCO5-afrlr0yHmj8kXRHFFTGk7IiHsk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=x3tvAfxiRPD5gtoGS-kmcA&_nc_ss=7a22e&oh=00_AQKLpkmXh145uNqZ2DzMWNNvJKrxUgd4x4M5cEBEeAFdgg&oe=6AB115CF",
    "url": "https://www.threads.com/@aipeekme/post/DdWVGQxDLQk",
    "region": "kr"
   },
   {
    "account": "kopp",
    "text": "been collecting everything in one place: https://www.details.so/vault",
-   "likes": 8,
+   "likes": 10,
    "cmts": 1,
    "time": 1789539371,
    "thumb": "",
@@ -97,10 +97,10 @@
   {
    "account": "kopp",
    "text": "can't stop playing with this nav 😵‍💫",
-   "likes": 617,
-   "cmts": 12,
+   "likes": 639,
+   "cmts": 13,
    "time": 1789539357,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/796416207_1074067668348049_1593036284309064250_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk4NzI2NzMzNjAyMTU2NzkwNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=HulGyVtn70IQ7kNvwEKaPMe&_nc_oc=AdoLJTSVOqiFw5xGYaWb6VzsXsQEjBHVPcV0wLTDxHjmDYBAlUVQngWPhGzlztX42tU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=rl-D1qdd5dRW51FVi6Zi8g&_nc_ss=7a22e&oh=00_AQIuRm9pidVD6v1ZojxYzIO_-NtqWnYGVdje6eQTnmAphg&oe=6AB11694",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/796416207_1074067668348049_1593036284309064250_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk4NzI2NzMzNjAyMTU2NzkwNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=HulGyVtn70IQ7kNvwGKcsV7&_nc_oc=AdoydH6pWAFhU7tHbDLjxsPbuHQNAh8L3FZKmoZ-V9Ut0l9yCS1cZgztlQlgO0YLFho&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=-rfeFg6mC2Mqa9mwMPTyjQ&_nc_ss=7a22e&oh=00_AQI9hpi3-ZVz0zwcdyUx4TPjT-a6MIqj7HvQ2La-zGE1BA&oe=6AB11694",
    "url": "https://www.threads.com/@kopp/post/DdVnoREFWmg",
    "region": "kr"
   },
@@ -115,23 +115,23 @@
    "region": "kr"
   },
   {
-   "account": "aipeekme",
-   "text": "🔗 원문·자세히 보기\nhttps://github.com/heygen-com/hyperframes",
+   "account": "daily_ai_star",
+   "text": "GitHub AI Scan이 9월 16일 CodeQL default setup이 없는 저장소에서도 pull request 보안 취약점을 찾기 시작했습니다.\n\n기존에는 CodeQL default setup이 켜진 저장소에서만 AI Scan이 동작했습니다. 이제 GitHub Advanced Security 고객의 github.com 조직·개인 저장소에서는 CodeQL 기본 설정 여부와 관계없이 대상 저장소를 더 넓게 검사합니다.\n\n다만 code scanning과 AI Scan은 저장소·조직·엔터프라이즈 수준에서 별도로 활성화해야 합니다. GitHub Enterprise Server는 이번 공개 프리뷰 대상이 아닙니다.\n\n보안 검사의 기준이 CodeQL을 켰는가에서, 어떤 저장소에 AI Scan을 적용할 것인가로 이동했습니다.",
    "likes": 0,
-   "cmts": 0,
-   "time": 1789519093,
+   "cmts": 2,
+   "time": 1789604737,
    "thumb": "",
-   "url": "https://www.threads.com/@aipeekme/post/DdVBBkbnw4f",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdXkYXbk6qP",
    "region": "kr"
   },
   {
-   "account": "aipeekme",
-   "text": "헤이젠이 HTML과 미디어를 영상으로 변환하는 오픈소스 프레임워크인 하이퍼프레임스를 공개했습니다.\n하이퍼프레임스는 HTML, CSS, 미디어, 그리고 탐색 가능한 애니메이션을 결정론적인 MP4 영상으로 변환하는 오픈소스 프레임워크입니다.\n코드를 이용해 정해진 결과물을 내는 MP4 영상으로 렌더링하는 도구입니다.\n에이전트 환경에서 명령어를 실행해 필요한 기능을 설치하고 영상을 제작할 수 있습니다.\n하이퍼프레임스는 총 20개의 스킬을 제공하며, 라우터인 /hyperframes가 요청에 맞는 워크플로를 선택합니다.\n로컬 환경에서는 명령줄 인터페이스를 통해 직접 구동하는 방식입니다.\n기존에는 별도의 편집 도구를 거쳐야 했던 과정을 코드로 처리한다는 점이 특징입니다.\n클로드 코드, 커서, 제미나이 CLI, 코덱 등 스킬을 지원하는 코딩 에이전트와 함께 작동합니다.\n영상 제작 과정을 자동화하려는 개발 환경에서 쓰임새가 있을 것 같습니다.",
-   "likes": 1,
-   "cmts": 1,
-   "time": 1789519082,
-   "thumb": "",
-   "url": "https://www.threads.com/@aipeekme/post/DdVBAXYnyAf",
+   "account": "choi.openai",
+   "text": "Claude가 이제 질문에 답하는 챗봇과 업무를 대신 처리하는 에이전트를 하나로 합칩니다.\n\nClaude Chat과 Cowork가 통합돼 짧은 질문부터 보고서 작성 같은 장기 작업까지 같은 화면에서 처리할 수 있고, 노트북을 닫아도 작업은 계속됩니다.\n\nClaude Docs·Slides·Design도 대화 안에 들어와 문서 작성→슬라이드 변환→디자인 제작까지 이어서 할 수 있습니다.\n\nPro·Max부터 순차 적용되며, Docs·Slides·Design은 모든 유료 플랜에서 베타로 제공됩니다.",
+   "likes": 43,
+   "cmts": 2,
+   "time": 1789599618,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/813832224_1103093288732655_8180466591535921188_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk4Nzc3MzA4OTE2NDM3NDE2OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=SbzjjfEVi1oQ7kNvwGBJEM-&_nc_oc=Adr6RApnG9Y72SiF8EMXC7QV3lTbPRdjObyXeuglfF9_K0muViQeWn72lJfwjWLyeVQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=_LGgAjIhsAquRr4fTN194Q&_nc_ss=7a22e&oh=00_AQLS-TOIK9rowuB8To5cxMoLOhea2mFYGw69cncab9jm1g&oe=6AB117DD",
+   "url": "https://www.threads.com/@choi.openai/post/DdXan8YgTCZ",
    "region": "kr"
   },
   {
@@ -146,22 +146,12 @@
   },
   {
    "account": "choi.openai",
-   "text": "AI 에이전트가 이제 새 브라우저를 띄우는 대신, 이미 로그인된 내 브라우저 탭을 그대로 사용할 수 있습니다.\n\nTencent가 BrowserSkill을 오픈소스로 공개했습니다.\n\n기존 브라우저 에이전트는 로그인과 인증을 다시 해야 하는 경우가 많았지만, BrowserSkill은 현재 로그인 상태를 그대로 활용합니다.\nCAPTCHA나 확인 창이 뜨면 사용자에게 넘겼다가 다시 이어서 작업합니다.\n\nCLI 방식이라 Cursor, Claude Code, Codex 등 셸 명령을 실행할 수 있는 에이전트에서 사용할 수 있고, 모든 작업은 로컬에서 실행됩니다.\n\n또 에이전트가 탭을 빌리기 전 사용자 승인을 요구하도록 설계됐으며 MIT 라이선스로 공개됐습니다.",
-   "likes": 82,
-   "cmts": 1,
-   "time": 1789594254,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/812991274_1102807162438814_1830280846725681403_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk4NzcyODA5Mjk5MDkxMzQ2Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Fat4eWbxrZIQ7kNvwHercqX&_nc_oc=Adq9LWOVUptA5gfAWdsKdg2tT2CnbtVi1QYvMHOHANdd0niB2q54rv5a-bPNuumLnus&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=LuZk6DB6_J4gqOc5rL-ADg&_nc_ss=7a22e&oh=00_AQL8D8YRAnuxGczFDlgX-3HH6hiHI07VT4AmiELqVQ310w&oe=6AB0F76B",
-   "url": "https://www.threads.com/@choi.openai/post/DdXQZKbkbu7",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
-   "text": "🔗 원문·자세히 보기\nhttps://github.com/THU-MAIC/OpenMAIC",
-   "likes": 0,
+   "text": "깃허브 :\nhttps://github.com/Tencent/BrowserSkill",
+   "likes": 16,
    "cmts": 0,
-   "time": 1789519066,
+   "time": 1789594265,
    "thumb": "",
-   "url": "https://www.threads.com/@aipeekme/post/DdVA-Wjn2Hq",
+   "url": "https://www.threads.com/@choi.openai/post/DdXQai5EeXm",
    "region": "kr"
   },
   {
@@ -176,22 +166,12 @@
   },
   {
    "account": "choi.openai",
-   "text": "주소 :\nhttps://www.vidu.com/ko/vidu-stream",
-   "likes": 2,
-   "cmts": 0,
-   "time": 1789588823,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DdXGCLkD4MW",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
-   "text": "칭화대학교 AI 연구팀이 오픈소스 멀티에이전트 교육 플랫폼 OpenMAIC v1.0.0을 공개했습니다.\n프롬프트 하나만 입력하면 전체 강의 코스를 자동으로 생성하는 기능이 핵심입니다.\n이번 버전에는 전문가용 작업대가 추가되어 에이전트와 대화하며 커리큘럼을 수정할 수 있습니다.\n문서와 오디오, 영상 자료를 업로드하면 이를 바탕으로 강의 콘텐츠를 구축합니다.\n서버 백엔드 기반으로 세션이 유지되어 중간에 중단되더라도 언제든 재개할 수 있습니다.\n슬라이드와 퀴즈 등 내장된 스킬을 활용해 강의 페이지를 직접 완성합니다.\n에이전트가 생성한 결과물을 사람이 얼마나 개입해 수정해야 효율적일지 궁금합니다.\n단순히 자료를 넣어주는 것을 넘어 실무 수준의 교육 과정을 만들 수 있을지는 좀 더 지켜봐야겠습니다.",
-   "likes": 0,
+   "text": "AI 에이전트가 이제 새 브라우저를 띄우는 대신, 이미 로그인된 내 브라우저 탭을 그대로 사용할 수 있습니다.\n\nTencent가 BrowserSkill을 오픈소스로 공개했습니다.\n\n기존 브라우저 에이전트는 로그인과 인증을 다시 해야 하는 경우가 많았지만, BrowserSkill은 현재 로그인 상태를 그대로 활용합니다.\nCAPTCHA나 확인 창이 뜨면 사용자에게 넘겼다가 다시 이어서 작업합니다.\n\nCLI 방식이라 Cursor, Claude Code, Codex 등 셸 명령을 실행할 수 있는 에이전트에서 사용할 수 있고, 모든 작업은 로컬에서 실행됩니다.\n\n또 에이전트가 탭을 빌리기 전 사용자 승인을 요구하도록 설계됐으며 MIT 라이선스로 공개됐습니다.",
+   "likes": 86,
    "cmts": 1,
-   "time": 1789519056,
-   "thumb": "",
-   "url": "https://www.threads.com/@aipeekme/post/DdVA9AuH_-R",
+   "time": 1789594254,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/812991274_1102807162438814_1830280846725681403_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk4NzcyODA5Mjk5MDkxMzQ2Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Fat4eWbxrZIQ7kNvwFeX1f2&_nc_oc=AdqAXL3g4_jWSoczAaqTTE7vRb4Ko4kb5X4WWkLfI7RdVQArYMuwJ22H7HzRs7mZPvk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=_LGgAjIhsAquRr4fTN194Q&_nc_ss=7a22e&oh=00_AQIsWt1PK8Zbxiogb6hGVv2qqOhftERd701Umy5hZgkC9A&oe=6AB0F76B",
+   "url": "https://www.threads.com/@choi.openai/post/DdXQZKbkbu7",
    "region": "kr"
   },
   {
@@ -206,11 +186,31 @@
   },
   {
    "account": "choi.openai",
+   "text": "주소 :\nhttps://www.vidu.com/ko/vidu-stream",
+   "likes": 2,
+   "cmts": 0,
+   "time": 1789588823,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DdXGCLkD4MW",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
+   "text": "cloudflare/security-audit-skill이 9월 16일 하루 +1,249개로 올랐습니다.\n\n오늘의 3개: cloudflare/security-audit-skill · abue-ammar/tinycast · jamiepine/voicebox\n\n보안 감사, 운영체제 생산성, 음성 입출력이 각각 에이전트의 작업면을 넓히고 있습니다. 깃허브에서 별이 붙는 대상이 모델 자체보다 에이전트가 일할 환경으로 이동하고 있습니다. ⭐",
+   "likes": 0,
+   "cmts": 3,
+   "time": 1789603225,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdXhf4VEydL",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
    "text": "Shengshu Technology의 Jintao Zhang 연구팀이 실시간 영상 생성·편집 모델 Vidu S2를 공개했습니다.\n\nS2-Avatar는 “모자를 써줘”, “춤춰줘”처럼 음성이나 이미지로 지시하면 캐릭터가 720p, 25~42FPS로 실시간 반응합니다.\n\nS2-Editing은 원본 움직임을 유지하면서 옷, 캐릭터, 배경, 영상 스타일을 즉시 바꿀 수 있습니다.\n\n논문 벤치마크에서는 두 모델 모두 최고 수준의 성능을 기록했으며, 실시간 편집 모델이 일부 오프라인 편집 모델보다 높은 성능을 보였다고 합니다.",
-   "likes": 25,
+   "likes": 27,
    "cmts": 1,
    "time": 1789588812,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/795182441_2106934876882960_5561140170657757518_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk4NzY4MjQ0Mzk5Nzk0MzkyOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=vFFRYZ-39-0Q7kNvwHeJfws&_nc_oc=AdqV95hSwQRzIwpH2fV7ZfN0ONkNUIpC7f8cAmAzgziPa7XvP1EaQ7Lt_piLkwHP4p8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=LuZk6DB6_J4gqOc5rL-ADg&_nc_ss=7a22e&oh=00_AQI5q3ywO9X4ADEHPef3GvuAE5ozMVKZ7B0NhIEgviskkQ&oe=6AB10DBD",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/795182441_2106934876882960_5561140170657757518_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk4NzY4MjQ0Mzk5Nzk0MzkyOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=vFFRYZ-39-0Q7kNvwGI061Y&_nc_oc=AdrbSVPagongyI5nf5YypQKSjXc0jZ2LSNcWce-ZHvD75pQ2W9pyhXQ8DBf6WS-5lR4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=_LGgAjIhsAquRr4fTN194Q&_nc_ss=7a22e&oh=00_AQIdg1dBUi79qkFzEOmOi-9Qttp0Rt_HIHEqQ2RN1vCBww&oe=6AB10DBD",
    "url": "https://www.threads.com/@choi.openai/post/DdXGA4fjxh4",
    "region": "kr"
   }
@@ -222,7 +222,7 @@
    "views": 623200,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0CGAI6ooFCAPECAEqED63ffIARmgNxjBUg0zR~tplv-tiktokx-origin.image?dr=14575&x-expires=1789776000&x-signature=I6XavA4W4etD0hGijJwm%2BScK%2BVM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0CGAI6ooFCAPECAEqED63ffIARmgNxjBUg0zR~tplv-tiktokx-origin.image?dr=14575&x-expires=1789779600&x-signature=5svCzaLKM9%2FkjqEV9aMzPFl4DI8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1788879730,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7683179938026900754",
    "region": "kr"
@@ -230,10 +230,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Саламатсызбы, Кыргызстан! 🇰🇷🇰🇬 #키르기스스탄 #Kyrgyzstan #кыргызстан",
-   "views": 175300,
+   "views": 177100,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ossWcFAWqdBeFM1UB9FEguDtEqARxSGQQyfuUi~tplv-tiktokx-origin.image?dr=14575&x-expires=1789776000&x-signature=q09IzQVnfuwiAynfoz27m9bscXM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ossWcFAWqdBeFM1UB9FEguDtEqARxSGQQyfuUi~tplv-tiktokx-origin.image?dr=14575&x-expires=1789779600&x-signature=eFOJjmnEOr1ejNh1Ha5nE9e%2BVSA%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789537496,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7686005021397273863",
    "region": "kr"
@@ -241,32 +241,21 @@
   {
    "account": "jaemyung_lee",
    "title": "Salam aleýkum Türkmenistan! 🇰🇷🇹🇲 #투르크메니스탄 #turkmenistan #Türkmenistan",
-   "views": 153300,
+   "views": 153600,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4iB0bDrFU5kqzoDSRupABvEWftIIUEfgqMaiE~tplv-tiktokx-origin.image?dr=14575&x-expires=1789776000&x-signature=URvClxd2nL8ltW29JBubc7docAU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4iB0bDrFU5kqzoDSRupABvEWftIIUEfgqMaiE~tplv-tiktokx-origin.image?dr=14575&x-expires=1789779600&x-signature=PTfE8alagspssBHcTFl6hRh2OUU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789447594,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685618898128915730",
    "region": "kr"
   },
   {
    "account": "jaemyung_lee",
-   "title": "다녀오겠습니다 🇫🇷 🎬 뤼미에르 서밋 2026.09.06.~07. 🇫🇷 국빈방문 2026.09.07.~09. #이재명 #France #SommetLumière",
-   "views": 152300,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0IAB7tvQACi105Ea6znpBOc0ViIPUiYBqIYi~tplv-tiktokx-origin.image?dr=14575&x-expires=1789776000&x-signature=XW%2Fdmy7O%2FVfNKt10DbGw1OpK5Us%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
-   "time": 1788662081,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7682245141595229448",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
    "title": "Assalomu alaykum, O‘zbekiston!🇺🇿🇰🇷 #이재명 #우즈베키스탄 #Uzbekistan",
-   "views": 43500,
+   "views": 43600,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAUOEAPEroYfNoFaeAAfZQATIAiVPvDB5WhDFE~tplv-tiktokx-origin.image?dr=14575&x-expires=1789776000&x-signature=8RLGGCPiDKHb2a3%2B6331ZaO4HHU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAUOEAPEroYfNoFaeAAfZQATIAiVPvDB5WhDFE~tplv-tiktokx-origin.image?dr=14575&x-expires=1789779600&x-signature=uV0CJuaDJsPNwBugf75AU8pzqwA%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789393470,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685386435158887688",
    "region": "kr"
@@ -274,10 +263,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Ассалому алайкум, Тоҷикистон! 🇰🇷🇹🇯 #타지키스탄#Тоҷикистон",
-   "views": 39600,
+   "views": 40400,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/okxPtEHAgIY0AAlC9gAoxAMiBqToaAKBiFulq~tplv-tiktokx-origin.image?dr=14575&x-expires=1789776000&x-signature=CRkeU4C6XsCtm%2BLQfvnNl73%2F%2BLo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okxPtEHAgIY0AAlC9gAoxAMiBqToaAKBiFulq~tplv-tiktokx-origin.image?dr=14575&x-expires=1789779600&x-signature=McIMECise4SsHY4uQWq%2FEPbfm2k%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789536283,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685999812356934930",
    "region": "kr"
@@ -285,10 +274,10 @@
   {
    "account": "jaemyung_lee",
    "title": "새로운 영감과 끝없는 도전을 위해 🇰🇷🇫🇷 뤼미에르 서밋 레디, 액션 #Korea #France #Lumiere",
-   "views": 38900,
+   "views": 39000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIqB6INciK7CI3iw10LAp5vfZO6IAlCTdIAI06~tplv-tiktokx-origin.image?dr=14575&x-expires=1789776000&x-signature=3Iscyv76tcXUhEowTksqxMPIUqU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIqB6INciK7CI3iw10LAp5vfZO6IAlCTdIAI06~tplv-tiktokx-origin.image?dr=14575&x-expires=1789779600&x-signature=DnuqU3V4%2FfoOKWqENOEpMOdWMFQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1788733294,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7682551001663982855",
    "region": "kr"
@@ -299,7 +288,7 @@
    "views": 38200,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oMMIdnnHDI6bTifTAPFDcDRbtBfWqzBIEDgvEo~tplv-tiktokx-origin.image?dr=14575&x-expires=1789776000&x-signature=o4OM86oXWfEZeHN2mbu6In2Pqyk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oMMIdnnHDI6bTifTAPFDcDRbtBfWqzBIEDgvEo~tplv-tiktokx-origin.image?dr=14575&x-expires=1789779600&x-signature=OEalEBPLPn9hNFzjFwUnpajyw8g%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789031851,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7683833293816614151",
    "region": "kr"
@@ -310,7 +299,7 @@
    "views": 37700,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okJSEtbnglnRAQHtqOQ1UIFeETBEUtfhBKGkDV~tplv-tiktokx-origin.image?dr=14575&x-expires=1789776000&x-signature=Tq4RiOrCzwKwOWBBnnKvXsmVzlA%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okJSEtbnglnRAQHtqOQ1UIFeETBEUtfhBKGkDV~tplv-tiktokx-origin.image?dr=14575&x-expires=1789779600&x-signature=endjONolkc0XLBCWYYTHX4eoRxw%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1788795259,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7682817137672555794",
    "region": "kr"
@@ -318,10 +307,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Қош келдіңіз, Қазақстан!🇰🇿🇰🇷 #이재명 #대통령 #카자흐스탄 #Қазақстан #Kazakhstan",
-   "views": 23500,
+   "views": 23600,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4AeKl0yGICLqpfFAVLAoFr7LEeoVADEIKAdEU~tplv-tiktokx-origin.image?dr=14575&x-expires=1789776000&x-signature=qc4YgmdM2hiOWSqJxAlq4%2B2P1c0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4AeKl0yGICLqpfFAVLAoFr7LEeoVADEIKAdEU~tplv-tiktokx-origin.image?dr=14575&x-expires=1789779600&x-signature=jCiErWFpBiQmkQeamoZBMwgEIb4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789473921,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685731970453638407",
    "region": "kr"
@@ -329,54 +318,38 @@
   {
    "account": "tictok_ent",
    "title": "정수정, 시선 사로잡는 냉미모 / 랄프 로렌(RALPH LAUREN) 이벤트 포토콜 세계적으로 찬사를 받은 패션 아이콘 랄프 로렌의 삶을 조명한 HBO 다큐멘터리 ‘베리 랄프(Very Ralph)’의 스크리닝 이벤트",
-   "views": 3611,
+   "views": 3612,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okLBFiZBwYABkaDifA1KAAAwEgpiSVITJUnCFK~tplv-tiktokx-origin.image?dr=14575&x-expires=1789776000&x-signature=ZNAUCSCiIsRSzC7r7SkpeWu%2B3Pc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okLBFiZBwYABkaDifA1KAAAwEgpiSVITJUnCFK~tplv-tiktokx-origin.image?dr=14575&x-expires=1789779600&x-signature=86qIIZbHmtvTZ4a%2BmRyuLBkjTkI%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789465968,
    "url": "https://www.tiktok.com/@tictok_ent/video/7685697810284465415",
    "region": "kr"
   },
   {
-   "account": "tictok_ent",
-   "title": "마크, 분위기까지 완벽한 랄프 로렌 스타일 / 랄프 로렌(RALPH LAUREN) 이벤트 포토콜 세계적으로 찬사를 받은 패션 아이콘 랄프 로렌의 삶을 조명한 HBO 다큐멘터리 ‘베리 랄프(Very Ralph)’의 스",
-   "views": 926,
+   "account": "jaemyung_lee",
+   "title": "<초국가범죄, 반드시 뿌리 뽑겠습니다> ‘외국에 있으면 안 잡히겠지?’  그런 생각은 이제 버리십시오. 대한민국 국민을 상대로 한 범죄는 세계 어느 곳에 숨어 있든, 끝까지 추적해 처벌합니다. 대규모 보이스피싱 조직",
+   "views": 2054,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oYfVEC0f927DCAupVlCvItALgAFTBqASq1DUAE~tplv-tiktokx-origin.image?dr=14575&x-expires=1789776000&x-signature=sUB4BpFED0mDQvHJdPQeAtGLBjY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
-   "time": 1789465967,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7685697807512046855",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oU9rIZjq1EKACAAxNBVioCpiI2BAtmA28wfcPR~tplv-tiktokx-origin.image?dr=14575&x-expires=1789779600&x-signature=pLcg0GQvuvKFq9mxHBZB8qhltw8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "time": 1789605105,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7686295400835239175",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "엔하이픈(ENHYPEN) 제이, 시크한 매력으로 시선 집중 / 랄프 로렌(RALPH LAUREN) 이벤트 포토콜 세계적으로 찬사를 받은 패션 아이콘 랄프 로렌의 삶을 조명한 HBO 다큐멘터리 ‘베리 랄프(Very R",
+   "views": 928,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oseLtEETExroCrATveJopIleVWALBGkVUAIAAD~tplv-tiktokx-origin.image?dr=14575&x-expires=1789779600&x-signature=oyHWIBsjgO1%2B3LwVrcCrp6Pkd7I%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "time": 1789465966,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7685697801585495303",
    "region": "kr"
   }
  ],
  "reddit": [
-  {
-   "sub": "news",
-   "title": "Macklemore pledges his $1m Ed Sheeran tour salary to Palestine",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "",
-   "time": 1789597395,
-   "url": "https://www.reddit.com/r/news/comments/1wibsxg/macklemore_pledges_his_1m_ed_sheeran_tour_salary/"
-  },
-  {
-   "sub": "Music",
-   "title": "Macklemore says he will donate $1 million of his net earnings from Ed Sheeran's \"LOOP Tour\" to six organizations supporting the Palestinian-people",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "",
-   "time": 1789590476,
-   "url": "https://www.reddit.com/r/Music/comments/1wi8ts9/macklemore_says_he_will_donate_1_million_of_his/"
-  },
-  {
-   "sub": "Fauxmoi",
-   "title": "Macklemore releases new statement saying his earnings from Ed Sheeran’s The Loop Tour will be donated to Palestinian organisations",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/iyihodbnuxph1.jpg?width=140&height=140&auto=webp&s=47869c5ac28631b5b2a22078d24fdf184811e743",
-   "time": 1789588916,
-   "url": "https://www.reddit.com/r/Fauxmoi/comments/1wi84hl/macklemore_releases_new_statement_saying_his/"
-  },
   {
    "sub": "videogames",
    "title": "Title",
@@ -385,6 +358,15 @@
    "thumb": "https://preview.redd.it/yxioriw9zwph1.jpeg?width=320&crop=smart&auto=webp&s=5b2be4f78e5edf608fb6632d752255ddc127674a",
    "time": 1789578373,
    "url": "https://www.reddit.com/r/videogames/comments/1wi36ir/title/"
+  },
+  {
+   "sub": "news",
+   "title": "Macklemore pledges his $1m Ed Sheeran tour salary to Palestine",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1789597395,
+   "url": "https://www.reddit.com/r/news/comments/1wibsxg/macklemore_pledges_his_1m_ed_sheeran_tour_salary/"
   },
   {
    "sub": "AskReddit",
@@ -405,13 +387,13 @@
    "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1whyxnv/casually_smoking_crack_by_the_police_station/"
   },
   {
-   "sub": "politics",
-   "title": "Confused Mitch McConnell, 84, Has to Be Told How to Vote",
+   "sub": "Music",
+   "title": "Macklemore says he will donate $1 million of his net earnings from Ed Sheeran's \"LOOP Tour\" to six organizations supporting the Palestinian-people",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/RUWJqGLFVc8lAm1WDCN3_ue8ByRb2kwC9FfNv2mTOdE.jpeg?width=640&crop=smart&auto=webp&s=35f378358e68f6a14a201ccf0c85cff83bd6ae5b",
-   "time": 1789596625,
-   "url": "https://www.reddit.com/r/politics/comments/1wibhtx/confused_mitch_mcconnell_84_has_to_be_told_how_to/"
+   "thumb": "",
+   "time": 1789590476,
+   "url": "https://www.reddit.com/r/Music/comments/1wi8ts9/macklemore_says_he_will_donate_1_million_of_his/"
   },
   {
    "sub": "interestingasfuck",
@@ -432,13 +414,13 @@
    "url": "https://www.reddit.com/r/popculturechat/comments/1whyhl1/lena_dunham_has_welcomed_her_first_child_with/"
   },
   {
-   "sub": "TikTokDiscuss",
-   "title": "She was simply too cool for any of these guys.",
+   "sub": "politics",
+   "title": "Confused Mitch McConnell, 84, Has to Be Told How to Vote",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/YTl4MHpjMnU2d3BoMYbuG8RnWrbH3yJwr3T9gJCaMl4ZF_Ox-bEH2WMghu3b.png?width=640&crop=smart&auto=webp&s=88462d9283812ad3e2f53fad77ca744a761aba04",
-   "time": 1789568822,
-   "url": "https://www.reddit.com/r/TikTokDiscuss/comments/1whysbv/she_was_simply_too_cool_for_any_of_these_guys/"
+   "thumb": "https://external-preview.redd.it/RUWJqGLFVc8lAm1WDCN3_ue8ByRb2kwC9FfNv2mTOdE.jpeg?width=640&crop=smart&auto=webp&s=35f378358e68f6a14a201ccf0c85cff83bd6ae5b",
+   "time": 1789596625,
+   "url": "https://www.reddit.com/r/politics/comments/1wibhtx/confused_mitch_mcconnell_84_has_to_be_told_how_to/"
   },
   {
    "sub": "dashcams",
@@ -457,11 +439,35 @@
    "thumb": "https://preview.redd.it/5ipulymdkyph1.png?width=140&height=140&crop=1:1,smart&auto=webp&s=9068c82f69e84c09334c96b57b732e9432557c40",
    "time": 1789597663,
    "url": "https://www.reddit.com/r/comics/comments/1wibwra/the_boy_from_venus_12/"
+  },
+  {
+   "sub": "DangerousNightsCrew",
+   "title": "Oh, yeah!",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/in37qkhmruph1.jpeg?width=640&crop=smart&auto=webp&s=85ad2a406327fd35e1af71ada1c88f0b2598df90",
+   "time": 1789551578,
+   "url": "https://www.reddit.com/r/DangerousNightsCrew/comments/1whsiyd/oh_yeah/"
+  },
+  {
+   "sub": "Music",
+   "title": "Thousands of Ed Sheeran Tickets Remain Unsold for Singer's Tour, With Prices Down to $65 Online",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1789577793,
+   "url": "https://www.reddit.com/r/Music/comments/1wi2wfi/thousands_of_ed_sheeran_tickets_remain_unsold_for/"
   }
  ],
  "disaster": [],
  "_cover": {
   "ok": {
+   "x": [
+    "64bitcoinkr",
+    "awaken_eyes",
+    "economysniper0",
+    "jajaja7878uu"
+   ],
    "threads": [
     "aicoffeechat",
     "aipeekme",
@@ -476,12 +482,19 @@
     "tictok_ent"
    ]
   },
-  "why": {},
+  "why": {
+   "x": {
+    "kyunghyang": 429,
+    "freedom_73x": 429,
+    "marionawfal": 429,
+    "globalbrief_now": 429
+   }
+  },
   "landing": {
-   "at": "2026-09-17T09:01:20",
+   "at": "2026-09-17T09:31:27",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-09-17T09:31:24.108611+09:00"
+ "updated": "2026-09-17T10:05:10.698587+09:00"
 }
