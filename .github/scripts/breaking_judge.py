@@ -23,6 +23,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]   # .github/scripts → repo root
 sys.path.insert(0, str(ROOT / "shared"))
 from claude_py import run_claude   # 쿼터 한도 시 대체 계정 자동 전환(account failover · SSOT)  # noqa: E402
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from brk_gates import gate_reason   # 결정적 후처리 게이트 3축(인명 문턱·연예·사법 · 운영자 260917 · 정본 = brk_gates.py)  # noqa: E402
 CAND = ROOT / "viewer" / "candidates.json"
 MODEL = os.environ.get("BREAKING_MODEL", "claude-opus-5")
 EFFORT = os.environ.get("BREAKING_EFFORT", "").strip()   # 이진 속보 판정엔 추론 불필요 = effort 미사용 기본(불필요 thinking 토큰·쿼터 차단 + sonnet effort 비호환 원천차단). 필요시 env로 부여(하위호환). 260630 평의회 — breaking은 sonnet-5 운영.
@@ -565,12 +567,23 @@ def main():
     # EXCLUDE는 RUBRIC 해시 밖 = 재판정 트리거 불가라 이 스윕이 유일한 소급 경로). 도장은 안 건드림 =
     # 재급증 시 재판정 경로 불변 · breaking=True → False 강등만(보수 방향).
     swept = 0
+    gated = 0
     for c in cands:
         if c.get("breaking") and is_excluded(c.get("title", "")):
             c["breaking"] = False
             swept += 1
+        elif c.get("breaking"):
+            # 결정적 게이트 소급(EXCLUDE 스윕과 같은 층 · 운영자 260917) — 루브릭 해시 밖이라 기확정분에도 즉시 먹는다.
+            _g = gate_reason(c.get("title", ""), c.get("cat"), c.get("cross"))
+            if _g:
+                c["breaking"] = False
+                gated += 1
+                print(f"  ⊘ 게이트 소급 X: {(c.get('title') or '')[:40]} — {_g}")
     if swept:
         print(f"EXCLUDE 스윕: 기확정 breaking {swept}건 강제 해제(운영자 제외 키워드 소급)")
+    if gated:
+        print(f"게이트 스윕: 기확정 breaking {gated}건 X 강등(brk_gates 소급)")
+        swept += gated   # 아래 '스윕만 있어도 반영' 분기 공유
 
     if not pending:
         if swept:
@@ -611,11 +624,16 @@ def main():
             continue  # lb 행만 누락 = 반쪽 도장 금지(다음 런 두 행 재판정)
         if is_excluded(c.get("title", "")):
             rv = False                     # 운영자 제외 키워드(김건희 등) → AI가 YES여도 긴급 강제 차단
+        elif rv:
+            _g = gate_reason(c.get("title", ""), c.get("cat"), c.get("cross"))   # 결정적 게이트(인명 문턱·연예·사법 · 260917)
+            if _g:
+                print(f"  ⊘ 게이트 X: {(c.get('title') or '')[:40]} — {_g}")
+                rv = False
         lb = _lb_of(c)
         rep_title = c.get("title") or ""   # 스왑 전 대표 제목(기록용)
         v, swapped, flipped = apply_lb(c, rv, lv, LB_LIVE)
-        if swapped and is_excluded(c.get("title", "")):
-            v = False
+        if swapped and (is_excluded(c.get("title", "")) or gate_reason(c.get("title", ""), c.get("cat"), c.get("cross"))):
+            v = False   # 스왑된 새 제목도 같은 하드가드·게이트
         if i in lb_row:
             shadow.append({"ts": datetime.now(timezone(timedelta(hours=9))).strftime("%Y-%m-%dT%H:%M:%S%z"),
                            "mode": "live" if LB_LIVE else "shadow", "url": c.get("url"), "rep_title": rep_title,

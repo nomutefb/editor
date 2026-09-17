@@ -34,7 +34,7 @@ ALERT_KINDS = {"brk", "iss", "make", "sys", "trend", "kw"}
 VIBRATE = [200, 100, 200]   # 짧게-쉬고-짧게 = 문자 알림과 같은 결(긴 진동은 손목에서 과하다)
 PAYLOAD_MAX = 3900   # 웹푸시 페이로드 실효 한도 4KB — 초과분은 아이콘을 떼고 보낸다(알림 자체가 사라지는 것보다 낫다)
 FAST_MAX_H = 4   # 최신 긴급만 푸시(뷰어 토스트와 동일 단일상수 정신)
-PUSH_MIN_CROSS = int(os.environ.get("PUSH_MIN_CROSS", "2"))   # 푸시 최소 교차매체(다매체 검증 = 오발송 가드 · MIN_CROSS 바뀌어도 푸시 하한 고정)
+PUSH_MIN_CROSS = int(os.environ.get("PUSH_MIN_CROSS", "3"))   # 푸시 최소 교차매체(다매체 검증 = 오발송 가드 · MIN_CROSS 바뀌어도 푸시 하한 고정). 2→3(운영자 260917 «기준 타이트하게» · 실측 260907~0917: 속보 O 80건 중 cross 2 = 67건이라 수집 하한(2)과 같은 값은 필터가 아니었다 · cross≥3 = 13건). 롤백 = env PUSH_MIN_CROSS=2
 PUSH_PUB_MAX_H = float(os.environ.get("PUSH_PUB_MAX_H", "8"))   # 발행 나이 상한 — 24→8h 조임(운영자 260722 · 실측: 재수집 뒷북 3발[발행 19.5~24h·first_seen 방금]이 24h 캡을 통과해 오발송 — 8h = 구주석 '8~12h 조임' 하단 = 관측 오발 전부 차단 + syndication 지연(4h+) 2배 완충). first_seen 전환의 뒷북 완충. ⚠️ 입력 = 현재 rep 기사 발행 나이(사건 나이 아님 · 검4-3)
 SENT_TTL_H = float(os.environ.get("PUSH_SENT_TTL_H", "48"))   # 발송 원장 TTL — 무기한이면 '北 미사일 발사'류 템플릿 반복 헤드라인의 *별개 새 사건*이 제목해시 충돌로 영구 오억제(분신술 260710 검증6 · autopick.json 48h 정리와 대칭)
 SENT_EV = ROOT / "push" / "sent_events.json"   # 발송 사건 시그니처 [{ts,title,key}] — 사건 단위 dedup(같은 실제 사건의 *다른 후속 기사* 재푸시 차단 · Q437 운영자 260722 "같은 사건이면 한 번만" · autopick_events.json 쌍둥이). 창 = SENT_TTL_H 재사용.

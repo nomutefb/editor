@@ -117,6 +117,13 @@ def _get_matcher():
 _HAN = re.compile(r"^[가-힣]+$")
 
 
+def _gtitle(c):
+    """묶기용 제목 — 외신은 번역 제목(title_ko · 원문 일치 도장만 유효) 우선. 260917 실측: 속보 O 영문 9건 전부 국문 짝이
+    있었는데 group_id 0 = 토큰 매칭이 언어 벽에 막혀 같은 사건이 화면·판정에 2~3번 섰다(가자 붕괴 3·남아공 3·칠레 2)."""
+    ko = c.get("title_ko")
+    return ko if (ko and c.get("title_ko_of") == c.get("title")) else (c.get("title") or "")
+
+
 def _han_sorted(tk):
     """토큰셋 → 정렬 한글 토큰 리스트(핫루프 밖 1회 사전계산용 — 평의회3: 쌍마다 재계산이 비용의 전부[27배]였음)."""
     return [t for t in sorted(tk) if _HAN.match(t)]
@@ -231,7 +238,7 @@ def _name_window_comps(cands, in_comp, ok):
     pool = [c for c in cands if ok(c) and id(c) not in in_comp and _pub_ts(c) is not None]
     byname = {}
     for c in pool:
-        for w in _proper_names(c.get("title"), sur):
+        for w in _proper_names(_gtitle(c), sur):
             byname.setdefault(w, []).append(c)
     out, used = [], set()
     for w in sorted(byname, key=lambda x: (-len(byname[x]), x)):   # 큰 묶음 먼저 · 동률은 이름순 = 결정적
@@ -273,7 +280,7 @@ def build_groups(cands):
     # ── 1패스: 앵커(cross≥MIN_CROSS)끼리 = 종전 same_topic(정확일치) union-find '그대로' — 기존 판정 그룹 구조 불변 보장
     #   (부분어를 앵커 간에도 쓰면 클린 그룹이 >MAX_SIZE 블롭에 삼켜져 판정권 상실 = 순손실 실측 13그룹 — 평의회2 260723) ──
     anchors = [c for c in cands if (c.get("cross") or 0) >= MIN_CROSS and ok(c)]
-    atoks = [tokenize(c.get("title") or "") for c in anchors]
+    atoks = [tokenize(_gtitle(c)) for c in anchors]
     comps = [[(anchors[i], atoks[i], _han_sorted(atoks[i])) for i in cc]
              for cc in _components(anchors, atoks, same_topic)]
     # ── 2패스: 저cross 후속 속보 부착 — 각 아이템은 '최강 매칭 단일' 컴포넌트에만 편입(컴포넌트 간 union 구조적 불가 =
@@ -281,7 +288,7 @@ def build_groups(cands):
     if MIN_ATTACH < MIN_CROSS:
         low = sorted((c for c in cands if MIN_ATTACH <= (c.get("cross") or 0) < MIN_CROSS and ok(c)),
                      key=lambda c: (-(c.get("cross") or 0), c.get("url") or ""))
-        ltoks = [tokenize(c.get("title") or "") for c in low]
+        ltoks = [tokenize(_gtitle(c)) for c in low]
         lhan = [_han_sorted(tk) for tk in ltoks]
         left = [i for i in range(len(low)) if ltoks[i]]
         for _ in range(3):
@@ -331,7 +338,7 @@ def build_groups(cands):
     # ── 4패스: 고유명사 동일 + 시간 창(260817) — 계약 전문 = NAME_WIN_H 주석. 가산 전용(1~3패스 컴포넌트 미접촉) ──
     _in_comp = {id(m) for mem in comps for m, _, _ in mem}
     for _chunk in _name_window_comps(cands, _in_comp, ok):
-        comps.append([(c, tokenize(c.get("title") or ""), _han_sorted(tokenize(c.get("title") or ""))) for c in _chunk])
+        comps.append([(c, tokenize(_gtitle(c)), _han_sorted(tokenize(_gtitle(c)))) for c in _chunk])
     # ── 리프 방출(앵커 1패스 발원 + 앵커리스 3패스 — 저cross끼리는 3패스 컴포넌트로만 · 2~MAX_SIZE 한정) ──
     leaves = []
     for mem in comps:
@@ -370,7 +377,7 @@ def judge(groups):
     """배치 1콜 판정 → {그룹인덱스: True/False}. 파서 엄격(G<n>: YES/NO만 인정 — 그 외 = 미판정 스킵)."""
     lines = []
     for i, (_, g) in enumerate(groups, 1):
-        titles = "\n".join(f"  - {(m.get('title') or '').strip()[:90]}" for m in g)   # MAX_SIZE≤8이라 전 멤버 제시(부분 제시 오판 차단)
+        titles = "\n".join(f"  - {_gtitle(m).strip()[:90]}" for m in g)   # MAX_SIZE≤8이라 전 멤버 제시(부분 제시 오판 차단)
         lines.append(f"G{i}:\n{titles}")
     prompt = RUBRIC + "\n\n" + "\n".join(lines)
     cmd = ["claude", "-p"]   # ⚠️ 첫 요소 = 실행파일(run_claude가 subprocess.run(args)로 그대로 실행 — gate_judge 패턴 · 카나리아 2차서 누락 실측 FileNotFoundError '--model')
