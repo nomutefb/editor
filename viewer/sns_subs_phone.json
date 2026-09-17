@@ -16,32 +16,32 @@
  "threads": [
   {
    "account": "daily_ai_star",
-   "text": "2/ abue-ammar/tinycast — 하루 +1,076⭐\n\nSwiftUI와 AppKit으로 만든 네이티브 macOS 런처입니다.\n\n앱 실행, 클립보드 기록, 파일 검색, 단축키, 스니펫, 셸 명령, Raycast 확장을 한 팔레트에 넣었습니다. Electron과 서드파티 의존성 없이 동작하고, AI 기능은 기본으로 꺼져 있습니다.\n\n누적 별 5,500개, 포크 258개.\n\nhttps://github.com/abue-ammar/tinycast",
+   "text": "GitHub의 9월 16일 공개 프리뷰 변경입니다.\n\nhttps://github.blog/changelog/2026-09-16-code-scanning-ai-scan-no-longer-requires-codeql-default-setup/",
    "likes": 0,
    "cmts": 0,
-   "time": 1789603247,
+   "time": 1789604760,
    "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdXhiWQky6q",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdXka_ZE9Jx",
    "region": "kr"
   },
   {
    "account": "daily_ai_star",
-   "text": "1/ cloudflare/security-audit-skill — 하루 +1,249⭐\n\n코딩 에이전트를 다단계 보안 감사 도구로 바꾸는 스킬입니다.\n\n정찰, 커버리지 기반 탐색, 후보 검증, 독립 기록 확인을 거칩니다. 발견한 에이전트와 검증하는 에이전트를 분리하고, 확인되지 않은 결과는 취약점으로 확정하지 않습니다.\n\n누적 별 6,098개, 포크 363개.\n\nhttps://github.com/trending",
+   "text": "코딩 에이전트가 만든 PR을 검토할 때 코드 분석 파이프라인과 AI 기반 보안 검사를 같은 조건으로 묶을 필요가 줄었습니다.",
    "likes": 0,
    "cmts": 1,
-   "time": 1789603235,
+   "time": 1789604747,
    "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdXhg1MkyGv",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdXkZSHk4ha",
    "region": "kr"
   },
   {
    "account": "daily_ai_star",
-   "text": "cloudflare/security-audit-skill이 9월 16일 하루 +1,249개로 올랐습니다.\n\n오늘의 3개: cloudflare/security-audit-skill · abue-ammar/tinycast · jamiepine/voicebox\n\n보안 감사, 운영체제 생산성, 음성 입출력이 각각 에이전트의 작업면을 넓히고 있습니다. 깃허브에서 별이 붙는 대상이 모델 자체보다 에이전트가 일할 환경으로 이동하고 있습니다. ⭐",
+   "text": "GitHub AI Scan이 9월 16일 CodeQL default setup이 없는 저장소에서도 pull request 보안 취약점을 찾기 시작했습니다.\n\n기존에는 CodeQL default setup이 켜진 저장소에서만 AI Scan이 동작했습니다. 이제 GitHub Advanced Security 고객의 github.com 조직·개인 저장소에서는 CodeQL 기본 설정 여부와 관계없이 대상 저장소를 더 넓게 검사합니다.\n\n다만 code scanning과 AI Scan은 저장소·조직·엔터프라이즈 수준에서 별도로 활성화해야 합니다. GitHub Enterprise Server는 이번 공개 프리뷰 대상이 아닙니다.\n\n보안 검사의 기준이 CodeQL을 켰는가에서, 어떤 저장소에 AI Scan을 적용할 것인가로 이동했습니다.",
    "likes": 0,
    "cmts": 2,
-   "time": 1789603225,
+   "time": 1789604737,
    "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdXhf4VEydL",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdXkYXbk6qP",
    "region": "kr"
   },
   {
@@ -57,10 +57,10 @@
   {
    "account": "choi.openai",
    "text": "Claude가 이제 질문에 답하는 챗봇과 업무를 대신 처리하는 에이전트를 하나로 합칩니다.\n\nClaude Chat과 Cowork가 통합돼 짧은 질문부터 보고서 작성 같은 장기 작업까지 같은 화면에서 처리할 수 있고, 노트북을 닫아도 작업은 계속됩니다.\n\nClaude Docs·Slides·Design도 대화 안에 들어와 문서 작성→슬라이드 변환→디자인 제작까지 이어서 할 수 있습니다.\n\nPro·Max부터 순차 적용되며, Docs·Slides·Design은 모든 유료 플랜에서 베타로 제공됩니다.",
-   "likes": 36,
+   "likes": 40,
    "cmts": 2,
    "time": 1789599618,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/813832224_1103093288732655_8180466591535921188_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk4Nzc3MzA4OTE2NDM3NDE2OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=SbzjjfEVi1oQ7kNvwHesT_p&_nc_oc=AdpzngWxajJa4mqeQDa1O1gUCtX7QhbzUD_2nbauyGi_mFSkVMpMNqxxwRzOnDYfKXI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=W2J048fp01J1yz-jnVI2YQ&_nc_ss=7a22e&oh=00_AQI5bNZ_Ol6qv-SRCEpIh-NiGIqvB-LdfCDIUsF8rQvFcg&oe=6AB117DD",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/813832224_1103093288732655_8180466591535921188_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk4Nzc3MzA4OTE2NDM3NDE2OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=SbzjjfEVi1oQ7kNvwHesT_p&_nc_oc=AdpzngWxajJa4mqeQDa1O1gUCtX7QhbzUD_2nbauyGi_mFSkVMpMNqxxwRzOnDYfKXI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=LuZk6DB6_J4gqOc5rL-ADg&_nc_ss=7a22e&oh=00_AQJ-nr6mWCon2Ty1TcIbtzvCxcTq6FkVF1FLDev0l7-PPA&oe=6AB117DD",
    "url": "https://www.threads.com/@choi.openai/post/DdXan8YgTCZ",
    "region": "kr"
   },
@@ -80,14 +80,14 @@
    "likes": 1,
    "cmts": 0,
    "time": 1789563190,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/793351382_1715450759514073_6598872421451118939_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk4NzQ2NzMwOTM3OTUzMTgxMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Z2T1PqNLO-IQ7kNvwGDv_Nb&_nc_oc=Adq_HWeitiXZdXQZExfTWeE9uOHPfYbiMkEYtfzCcUPAbj74Kg_OqgV-hSToBr6zdyw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=MCiIADjFa0YxScE96mnMGQ&_nc_ss=7a22e&oh=00_AQLM_qtehjUARvNlQlXlaW8zwNL6WEE1guTt8jhHFMMI_w&oe=6AB115CF",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/793351382_1715450759514073_6598872421451118939_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk4NzQ2NzMwOTM3OTUzMTgxMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Z2T1PqNLO-IQ7kNvwGDv_Nb&_nc_oc=Adq_HWeitiXZdXQZExfTWeE9uOHPfYbiMkEYtfzCcUPAbj74Kg_OqgV-hSToBr6zdyw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=evwLH0lFGfvV3gLamlEQjA&_nc_ss=7a22e&oh=00_AQJwQ3fWqQr5QRwuP4n4TdQ_Vbq3t3cK_A3ZH5C8NI5D2Q&oe=6AB115CF",
    "url": "https://www.threads.com/@aipeekme/post/DdWVGQxDLQk",
    "region": "kr"
   },
   {
    "account": "kopp",
    "text": "been collecting everything in one place: https://www.details.so/vault",
-   "likes": 7,
+   "likes": 8,
    "cmts": 1,
    "time": 1789539371,
    "thumb": "",
@@ -97,10 +97,10 @@
   {
    "account": "kopp",
    "text": "can't stop playing with this nav 😵‍💫",
-   "likes": 594,
+   "likes": 617,
    "cmts": 12,
    "time": 1789539357,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/796416207_1074067668348049_1593036284309064250_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk4NzI2NzMzNjAyMTU2NzkwNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=HulGyVtn70IQ7kNvwEKaPMe&_nc_oc=AdoLJTSVOqiFw5xGYaWb6VzsXsQEjBHVPcV0wLTDxHjmDYBAlUVQngWPhGzlztX42tU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=vG0K5Lc4gl9eQZc5OEyJWQ&_nc_ss=7a22e&oh=00_AQJZ7Fa87vCWVT-mxtoSPovB2lSXcKqg2I1UpkWHDEGp5A&oe=6AB11694",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/796416207_1074067668348049_1593036284309064250_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk4NzI2NzMzNjAyMTU2NzkwNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=HulGyVtn70IQ7kNvwEKaPMe&_nc_oc=AdoLJTSVOqiFw5xGYaWb6VzsXsQEjBHVPcV0wLTDxHjmDYBAlUVQngWPhGzlztX42tU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=rl-D1qdd5dRW51FVi6Zi8g&_nc_ss=7a22e&oh=00_AQIuRm9pidVD6v1ZojxYzIO_-NtqWnYGVdje6eQTnmAphg&oe=6AB11694",
    "url": "https://www.threads.com/@kopp/post/DdVnoREFWmg",
    "region": "kr"
   },
@@ -135,23 +135,23 @@
    "region": "kr"
   },
   {
-   "account": "choi.openai",
-   "text": "AI 에이전트가 이제 새 브라우저를 띄우는 대신, 이미 로그인된 내 브라우저 탭을 그대로 사용할 수 있습니다.\n\nTencent가 BrowserSkill을 오픈소스로 공개했습니다.\n\n기존 브라우저 에이전트는 로그인과 인증을 다시 해야 하는 경우가 많았지만, BrowserSkill은 현재 로그인 상태를 그대로 활용합니다.\nCAPTCHA나 확인 창이 뜨면 사용자에게 넘겼다가 다시 이어서 작업합니다.\n\nCLI 방식이라 Cursor, Claude Code, Codex 등 셸 명령을 실행할 수 있는 에이전트에서 사용할 수 있고, 모든 작업은 로컬에서 실행됩니다.\n\n또 에이전트가 탭을 빌리기 전 사용자 승인을 요구하도록 설계됐으며 MIT 라이선스로 공개됐습니다.",
-   "likes": 70,
-   "cmts": 1,
-   "time": 1789594254,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/812991274_1102807162438814_1830280846725681403_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk4NzcyODA5Mjk5MDkxMzQ2Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Fat4eWbxrZIQ7kNvwHercqX&_nc_oc=Adq9LWOVUptA5gfAWdsKdg2tT2CnbtVi1QYvMHOHANdd0niB2q54rv5a-bPNuumLnus&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=W2J048fp01J1yz-jnVI2YQ&_nc_ss=7a22e&oh=00_AQJsqBeAcwYfLYeEqaGFdFVOBZHl3kbGRU_pK-UKpSYWFQ&oe=6AB0F76B",
-   "url": "https://www.threads.com/@choi.openai/post/DdXQZKbkbu7",
+   "account": "daily_ai_star",
+   "text": "3/ jamiepine/voicebox — 하루 +409⭐\n\n로컬에서 음성 복제·생성·받아쓰기를 처리하는 오픈소스 스튜디오입니다.\n\n7개 TTS 엔진과 23개 언어를 지원하고, MCP 서버를 통해 Claude Code·Cursor·Cline 같은 에이전트에도 음성을 붙일 수 있습니다. 모델과 음성 데이터가 기기 밖으로 나가지 않는 구조입니다.\n\n누적 별 54,165개, 포크 6,776개.\n\nhttps://github.com/jamiepine/voicebox",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1789603261,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdXhj-EEznm",
    "region": "kr"
   },
   {
-   "account": "daily_ai_star",
-   "text": "Origin은 유료 플랜에 초기 베타로 제공되며, 엔터프라이즈 조직은 관리자가 제외할 수 있습니다.\n\n중요한 변화는 저장소 하나가 더 생겼다는 데 있지 않습니다. 에이전트의 실행 환경, 작업 기록, 풀 리퀘스트, 배포 연결을 한 제품 안에서 묶을 수 있게 됐다는 점입니다.\n\nGitHub를 계속 기준으로 둘지, 에이전트에 맞춘 호스팅 계층으로 옮길지 선택해야 하는 시점입니다 ⭐\n\nhttps://cursor.com/changelog",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1789522843,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdVILfWGUts",
+   "account": "choi.openai",
+   "text": "AI 에이전트가 이제 새 브라우저를 띄우는 대신, 이미 로그인된 내 브라우저 탭을 그대로 사용할 수 있습니다.\n\nTencent가 BrowserSkill을 오픈소스로 공개했습니다.\n\n기존 브라우저 에이전트는 로그인과 인증을 다시 해야 하는 경우가 많았지만, BrowserSkill은 현재 로그인 상태를 그대로 활용합니다.\nCAPTCHA나 확인 창이 뜨면 사용자에게 넘겼다가 다시 이어서 작업합니다.\n\nCLI 방식이라 Cursor, Claude Code, Codex 등 셸 명령을 실행할 수 있는 에이전트에서 사용할 수 있고, 모든 작업은 로컬에서 실행됩니다.\n\n또 에이전트가 탭을 빌리기 전 사용자 승인을 요구하도록 설계됐으며 MIT 라이선스로 공개됐습니다.",
+   "likes": 82,
+   "cmts": 1,
+   "time": 1789594254,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/812991274_1102807162438814_1830280846725681403_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk4NzcyODA5Mjk5MDkxMzQ2Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Fat4eWbxrZIQ7kNvwHercqX&_nc_oc=Adq9LWOVUptA5gfAWdsKdg2tT2CnbtVi1QYvMHOHANdd0niB2q54rv5a-bPNuumLnus&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=LuZk6DB6_J4gqOc5rL-ADg&_nc_ss=7a22e&oh=00_AQL8D8YRAnuxGczFDlgX-3HH6hiHI07VT4AmiELqVQ310w&oe=6AB0F76B",
+   "url": "https://www.threads.com/@choi.openai/post/DdXQZKbkbu7",
    "region": "kr"
   },
   {
@@ -165,6 +165,16 @@
    "region": "kr"
   },
   {
+   "account": "daily_ai_star",
+   "text": "2/ abue-ammar/tinycast — 하루 +1,076⭐\n\nSwiftUI와 AppKit으로 만든 네이티브 macOS 런처입니다.\n\n앱 실행, 클립보드 기록, 파일 검색, 단축키, 스니펫, 셸 명령, Raycast 확장을 한 팔레트에 넣었습니다. Electron과 서드파티 의존성 없이 동작하고, AI 기능은 기본으로 꺼져 있습니다.\n\n누적 별 5,500개, 포크 258개.\n\nhttps://github.com/abue-ammar/tinycast",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1789603247,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdXhiWQky6q",
+   "region": "kr"
+  },
+  {
    "account": "choi.openai",
    "text": "주소 :\nhttps://www.vidu.com/ko/vidu-stream",
    "likes": 2,
@@ -172,16 +182,6 @@
    "time": 1789588823,
    "thumb": "",
    "url": "https://www.threads.com/@choi.openai/post/DdXGCLkD4MW",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "Cursor Origin이 8월 17일 베타로 출시됐습니다.\n\nCursor 안에서 저장소를 만들고, 코드를 탐색하고, 풀 리퀘스트를 열고, 에이전트에게 변경을 맡길 수 있습니다. Origin에 만든 저장소는 GitHub를 거치지 않고 Cursor가 코드의 기준 저장소가 됩니다.\n\n반대로 GitHub 저장소를 연결하면 GitHub가 기준으로 남고, Cursor는 복사본을 실시간으로 동기화합니다.\n\n코딩 에이전트의 선택 기준이 모델과 편집기를 넘어, 에이전트가 작업하고 코드가 최종적으로 머무는 호스팅 계층까지 넓어지고 있습니다.",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1789522835,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdVIKY1GYpx",
    "region": "kr"
   },
   {
@@ -195,23 +195,23 @@
    "region": "kr"
   },
   {
-   "account": "choi.openai",
-   "text": "Shengshu Technology의 Jintao Zhang 연구팀이 실시간 영상 생성·편집 모델 Vidu S2를 공개했습니다.\n\nS2-Avatar는 “모자를 써줘”, “춤춰줘”처럼 음성이나 이미지로 지시하면 캐릭터가 720p, 25~42FPS로 실시간 반응합니다.\n\nS2-Editing은 원본 움직임을 유지하면서 옷, 캐릭터, 배경, 영상 스타일을 즉시 바꿀 수 있습니다.\n\n논문 벤치마크에서는 두 모델 모두 최고 수준의 성능을 기록했으며, 실시간 편집 모델이 일부 오프라인 편집 모델보다 높은 성능을 보였다고 합니다.",
-   "likes": 23,
+   "account": "daily_ai_star",
+   "text": "1/ cloudflare/security-audit-skill — 하루 +1,249⭐\n\n코딩 에이전트를 다단계 보안 감사 도구로 바꾸는 스킬입니다.\n\n정찰, 커버리지 기반 탐색, 후보 검증, 독립 기록 확인을 거칩니다. 발견한 에이전트와 검증하는 에이전트를 분리하고, 확인되지 않은 결과는 취약점으로 확정하지 않습니다.\n\n누적 별 6,098개, 포크 363개.\n\nhttps://github.com/trending",
+   "likes": 0,
    "cmts": 1,
-   "time": 1789588812,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/795182441_2106934876882960_5561140170657757518_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk4NzY4MjQ0Mzk5Nzk0MzkyOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=vFFRYZ-39-0Q7kNvwHeJfws&_nc_oc=AdqV95hSwQRzIwpH2fV7ZfN0ONkNUIpC7f8cAmAzgziPa7XvP1EaQ7Lt_piLkwHP4p8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=W2J048fp01J1yz-jnVI2YQ&_nc_ss=7a22e&oh=00_AQIO-HJFc3L7HkT6wJSRzzvod6OVu1t01RB0DKf-iYHpvA&oe=6AB10DBD",
-   "url": "https://www.threads.com/@choi.openai/post/DdXGA4fjxh4",
+   "time": 1789603235,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdXhg1MkyGv",
    "region": "kr"
   },
   {
-   "account": "daily_ai_star",
-   "text": "에이전트가 만든 변경을 검토할 때 확인할 대상이 코드와 PR에서 보안 설정의 최종 권한자까지 넓어졌습니다.\n\n팀별 예외를 허용할지보다 먼저, 엔터프라이즈 정책이 어떤 저장소와 조직에 강제되는지 기록해야 하는 구조입니다.\n\nhttps://github.blog/changelog/2026-09-15-enforce-github-advanced-security-configurations/",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1789521328,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdVFSWdmf4y",
+   "account": "choi.openai",
+   "text": "Shengshu Technology의 Jintao Zhang 연구팀이 실시간 영상 생성·편집 모델 Vidu S2를 공개했습니다.\n\nS2-Avatar는 “모자를 써줘”, “춤춰줘”처럼 음성이나 이미지로 지시하면 캐릭터가 720p, 25~42FPS로 실시간 반응합니다.\n\nS2-Editing은 원본 움직임을 유지하면서 옷, 캐릭터, 배경, 영상 스타일을 즉시 바꿀 수 있습니다.\n\n논문 벤치마크에서는 두 모델 모두 최고 수준의 성능을 기록했으며, 실시간 편집 모델이 일부 오프라인 편집 모델보다 높은 성능을 보였다고 합니다.",
+   "likes": 25,
+   "cmts": 1,
+   "time": 1789588812,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/795182441_2106934876882960_5561140170657757518_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk4NzY4MjQ0Mzk5Nzk0MzkyOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=vFFRYZ-39-0Q7kNvwHeJfws&_nc_oc=AdqV95hSwQRzIwpH2fV7ZfN0ONkNUIpC7f8cAmAzgziPa7XvP1EaQ7Lt_piLkwHP4p8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=LuZk6DB6_J4gqOc5rL-ADg&_nc_ss=7a22e&oh=00_AQI5q3ywO9X4ADEHPef3GvuAE5ozMVKZ7B0NhIEgviskkQ&oe=6AB10DBD",
+   "url": "https://www.threads.com/@choi.openai/post/DdXGA4fjxh4",
    "region": "kr"
   }
  ],
@@ -219,7 +219,7 @@
   {
    "account": "jaemyung_lee",
    "title": "Aux Champs-Élysées #이재명 #France #macron #fyp",
-   "views": 623100,
+   "views": 623200,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0CGAI6ooFCAPECAEqED63ffIARmgNxjBUg0zR~tplv-tiktokx-origin.image?dr=14575&x-expires=1789776000&x-signature=I6XavA4W4etD0hGijJwm%2BScK%2BVM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
@@ -230,7 +230,7 @@
   {
    "account": "jaemyung_lee",
    "title": "Саламатсызбы, Кыргызстан! 🇰🇷🇰🇬 #키르기스스탄 #Kyrgyzstan #кыргызстан",
-   "views": 173800,
+   "views": 175300,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ossWcFAWqdBeFM1UB9FEguDtEqARxSGQQyfuUi~tplv-tiktokx-origin.image?dr=14575&x-expires=1789776000&x-signature=q09IzQVnfuwiAynfoz27m9bscXM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
@@ -241,7 +241,7 @@
   {
    "account": "jaemyung_lee",
    "title": "Salam aleýkum Türkmenistan! 🇰🇷🇹🇲 #투르크메니스탄 #turkmenistan #Türkmenistan",
-   "views": 153200,
+   "views": 153300,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4iB0bDrFU5kqzoDSRupABvEWftIIUEfgqMaiE~tplv-tiktokx-origin.image?dr=14575&x-expires=1789776000&x-signature=URvClxd2nL8ltW29JBubc7docAU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
@@ -263,10 +263,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Assalomu alaykum, O‘zbekiston!🇺🇿🇰🇷 #이재명 #우즈베키스탄 #Uzbekistan",
-   "views": 43400,
+   "views": 43500,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAUOEAPEroYfNoFaeAAfZQATIAiVPvDB5WhDFE~tplv-tiktokx-origin.image?dr=14575&x-expires=1789776000&x-signature=4yLqj9T%2Bfz0%2FsIjQMpKcQGVUg4k%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAUOEAPEroYfNoFaeAAfZQATIAiVPvDB5WhDFE~tplv-tiktokx-origin.image?dr=14575&x-expires=1789776000&x-signature=8RLGGCPiDKHb2a3%2B6331ZaO4HHU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
    "time": 1789393470,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685386435158887688",
    "region": "kr"
@@ -274,10 +274,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Ассалому алайкум, Тоҷикистон! 🇰🇷🇹🇯 #타지키스탄#Тоҷикистон",
-   "views": 39100,
+   "views": 39600,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okxPtEHAgIY0AAlC9gAoxAMiBqToaAKBiFulq~tplv-tiktokx-origin.image?dr=14575&x-expires=1789776000&x-signature=IzVDZYuF2mmxr3tqJd2QYjOgEkg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/okxPtEHAgIY0AAlC9gAoxAMiBqToaAKBiFulq~tplv-tiktokx-origin.image?dr=14575&x-expires=1789776000&x-signature=CRkeU4C6XsCtm%2BLQfvnNl73%2F%2BLo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
    "time": 1789536283,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685999812356934930",
    "region": "kr"
@@ -296,10 +296,10 @@
   {
    "account": "jaemyung_lee",
    "title": "빛으로 담아내는, 제7의 예술🎥",
-   "views": 38100,
+   "views": 38200,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oMMIdnnHDI6bTifTAPFDcDRbtBfWqzBIEDgvEo~tplv-tiktokx-origin.image?dr=14575&x-expires=1789776000&x-signature=JPBA2mSVDrpej5xy6MMieXr4HsI%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oMMIdnnHDI6bTifTAPFDcDRbtBfWqzBIEDgvEo~tplv-tiktokx-origin.image?dr=14575&x-expires=1789776000&x-signature=o4OM86oXWfEZeHN2mbu6In2Pqyk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
    "time": 1789031851,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7683833293816614151",
    "region": "kr"
@@ -310,7 +310,7 @@
    "views": 37700,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/okJSEtbnglnRAQHtqOQ1UIFeETBEUtfhBKGkDV~tplv-tiktokx-origin.image?dr=14575&x-expires=1789776000&x-signature=LTxcdX42zPV6PuuxDVbJ2KBu0GE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okJSEtbnglnRAQHtqOQ1UIFeETBEUtfhBKGkDV~tplv-tiktokx-origin.image?dr=14575&x-expires=1789776000&x-signature=Tq4RiOrCzwKwOWBBnnKvXsmVzlA%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
    "time": 1788795259,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7682817137672555794",
    "region": "kr"
@@ -318,10 +318,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Қош келдіңіз, Қазақстан!🇰🇿🇰🇷 #이재명 #대통령 #카자흐스탄 #Қазақстан #Kazakhstan",
-   "views": 23400,
+   "views": 23500,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4AeKl0yGICLqpfFAVLAoFr7LEeoVADEIKAdEU~tplv-tiktokx-origin.image?dr=14575&x-expires=1789776000&x-signature=IN4DYUDhiUK9oHq3HMngkBqLL4k%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4AeKl0yGICLqpfFAVLAoFr7LEeoVADEIKAdEU~tplv-tiktokx-origin.image?dr=14575&x-expires=1789776000&x-signature=qc4YgmdM2hiOWSqJxAlq4%2B2P1c0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
    "time": 1789473921,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685731970453638407",
    "region": "kr"
@@ -329,7 +329,7 @@
   {
    "account": "tictok_ent",
    "title": "정수정, 시선 사로잡는 냉미모 / 랄프 로렌(RALPH LAUREN) 이벤트 포토콜 세계적으로 찬사를 받은 패션 아이콘 랄프 로렌의 삶을 조명한 HBO 다큐멘터리 ‘베리 랄프(Very Ralph)’의 스크리닝 이벤트",
-   "views": 3601,
+   "views": 3611,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okLBFiZBwYABkaDifA1KAAAwEgpiSVITJUnCFK~tplv-tiktokx-origin.image?dr=14575&x-expires=1789776000&x-signature=ZNAUCSCiIsRSzC7r7SkpeWu%2B3Pc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
@@ -351,6 +351,33 @@
  ],
  "reddit": [
   {
+   "sub": "news",
+   "title": "Macklemore pledges his $1m Ed Sheeran tour salary to Palestine",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1789597395,
+   "url": "https://www.reddit.com/r/news/comments/1wibsxg/macklemore_pledges_his_1m_ed_sheeran_tour_salary/"
+  },
+  {
+   "sub": "Music",
+   "title": "Macklemore says he will donate $1 million of his net earnings from Ed Sheeran's \"LOOP Tour\" to six organizations supporting the Palestinian-people",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1789590476,
+   "url": "https://www.reddit.com/r/Music/comments/1wi8ts9/macklemore_says_he_will_donate_1_million_of_his/"
+  },
+  {
+   "sub": "Fauxmoi",
+   "title": "Macklemore releases new statement saying his earnings from Ed Sheeran’s The Loop Tour will be donated to Palestinian organisations",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/iyihodbnuxph1.jpg?width=140&height=140&auto=webp&s=47869c5ac28631b5b2a22078d24fdf184811e743",
+   "time": 1789588916,
+   "url": "https://www.reddit.com/r/Fauxmoi/comments/1wi84hl/macklemore_releases_new_statement_saying_his/"
+  },
+  {
    "sub": "videogames",
    "title": "Title",
    "score": 0,
@@ -369,15 +396,6 @@
    "url": "https://www.reddit.com/r/AskReddit/comments/1whzlg1/what_911_fact_should_people_be_more_aware_of/"
   },
   {
-   "sub": "Music",
-   "title": "Macklemore says he will donate $1 million of his net earnings from Ed Sheeran's \"LOOP Tour\" to six organizations supporting the Palestinian-people",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "",
-   "time": 1789590476,
-   "url": "https://www.reddit.com/r/Music/comments/1wi8ts9/macklemore_says_he_will_donate_1_million_of_his/"
-  },
-  {
    "sub": "mildlyinfuriating",
    "title": "Casually smoking crack by the police station",
    "score": 0,
@@ -385,6 +403,15 @@
    "thumb": "https://preview.redd.it/w0n9qiwv7wph1.jpeg?width=640&crop=smart&auto=webp&s=665fa31d15203fcc868d02c4b8b5f2cc956e91fb",
    "time": 1789569154,
    "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1whyxnv/casually_smoking_crack_by_the_police_station/"
+  },
+  {
+   "sub": "politics",
+   "title": "Confused Mitch McConnell, 84, Has to Be Told How to Vote",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/RUWJqGLFVc8lAm1WDCN3_ue8ByRb2kwC9FfNv2mTOdE.jpeg?width=640&crop=smart&auto=webp&s=35f378358e68f6a14a201ccf0c85cff83bd6ae5b",
+   "time": 1789596625,
+   "url": "https://www.reddit.com/r/politics/comments/1wibhtx/confused_mitch_mcconnell_84_has_to_be_told_how_to/"
   },
   {
    "sub": "interestingasfuck",
@@ -396,15 +423,6 @@
    "url": "https://www.reddit.com/r/interestingasfuck/comments/1whqwlj/nbc_news_helicopter_crashes_during_live_shot_of/"
   },
   {
-   "sub": "news",
-   "title": "Macklemore pledges his $1m Ed Sheeran tour salary to Palestine",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "",
-   "time": 1789597395,
-   "url": "https://www.reddit.com/r/news/comments/1wibsxg/macklemore_pledges_his_1m_ed_sheeran_tour_salary/"
-  },
-  {
    "sub": "popculturechat",
    "title": "Lena Dunham has welcomed her first child with husband Luis Felber via Surrogate",
    "score": 0,
@@ -412,15 +430,6 @@
    "thumb": "https://preview.redd.it/gfv0tc1u4wph1.jpeg?width=640&crop=smart&auto=webp&s=57b75e03c6c95c86d037b375ab874682dff7b7e8",
    "time": 1789568162,
    "url": "https://www.reddit.com/r/popculturechat/comments/1whyhl1/lena_dunham_has_welcomed_her_first_child_with/"
-  },
-  {
-   "sub": "Fauxmoi",
-   "title": "Macklemore releases new statement saying his earnings from Ed Sheeran’s The Loop Tour will be donated to Palestinian organisations",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/iyihodbnuxph1.jpg?width=140&height=140&auto=webp&s=47869c5ac28631b5b2a22078d24fdf184811e743",
-   "time": 1789588916,
-   "url": "https://www.reddit.com/r/Fauxmoi/comments/1wi84hl/macklemore_releases_new_statement_saying_his/"
   },
   {
    "sub": "TikTokDiscuss",
@@ -441,22 +450,13 @@
    "url": "https://www.reddit.com/r/dashcams/comments/1whzonn/hey_look_another_reason_to_hate_cops/"
   },
   {
-   "sub": "LivestreamFail",
-   "title": "54 year old live streamer claims I made thousands of dollars by posting him on this subreddit yestarday. Labels me a thief and calls for my arrest.",
+   "sub": "comics",
+   "title": "The Boy From Venus 12",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/MG9ncjR1NjlueHBoMYP-qP_abxmq2z0bD354ujfnsPvA56ZuXWsGZbm3QuJ2.jpeg?width=640&crop=smart&auto=webp&s=e4fc61d796f557d3f925da44607f9c5730dc90a0",
-   "time": 1789586453,
-   "url": "https://www.reddit.com/r/LivestreamFail/comments/1wi6zz3/54_year_old_live_streamer_claims_i_made_thousands/"
-  },
-  {
-   "sub": "politics",
-   "title": "Confused Mitch McConnell, 84, Has to Be Told How to Vote",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/RUWJqGLFVc8lAm1WDCN3_ue8ByRb2kwC9FfNv2mTOdE.jpeg?width=640&crop=smart&auto=webp&s=35f378358e68f6a14a201ccf0c85cff83bd6ae5b",
-   "time": 1789596625,
-   "url": "https://www.reddit.com/r/politics/comments/1wibhtx/confused_mitch_mcconnell_84_has_to_be_told_how_to/"
+   "thumb": "https://preview.redd.it/5ipulymdkyph1.png?width=140&height=140&crop=1:1,smart&auto=webp&s=9068c82f69e84c09334c96b57b732e9432557c40",
+   "time": 1789597663,
+   "url": "https://www.reddit.com/r/comics/comments/1wibwra/the_boy_from_venus_12/"
   }
  ],
  "disaster": [],
@@ -478,10 +478,10 @@
   },
   "why": {},
   "landing": {
-   "at": "2026-09-17T08:35:01",
+   "at": "2026-09-17T09:01:20",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-09-17T09:01:17.846591+09:00"
+ "updated": "2026-09-17T09:31:24.108611+09:00"
 }
