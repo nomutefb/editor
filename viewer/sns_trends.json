@@ -7781,8 +7781,14 @@
   {
    "query": "김서현",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/77d6b3dcfb.png",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/016/0002699165",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-09-18T06:40:00+09:00",
    "delta": -8,
@@ -7873,8 +7879,14 @@
   {
    "query": "부산날씨",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/d112d08e4c.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/119/0003134059",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-18T06:00:00+09:00",
    "isNew": true,
@@ -7901,8 +7913,14 @@
   {
    "query": "부사관",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/8a1d784298.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/023/0003999045",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-18T08:00:00+09:00",
    "isNew": true,
@@ -8161,10 +8179,8 @@
  ],
  "gtrends_pool_updated": "2026-09-18T09:38:44+09:00",
  "_trend_img": {
-  "tried": "2026-09-18T08:40:38+09:00",
+  "tried": "2026-09-18T09:38:44+09:00",
   "fail": {
-   "크리스털 팰리스 대 레흐 포즈난": "2026-09-18T07:10:14+09:00",
-   "man city đấu với norwich": "2026-09-18T07:10:14+09:00",
    "김혜수": "2026-09-18T08:09:36+09:00",
    "연금": "2026-09-18T08:09:36+09:00",
    "반도체": "2026-09-18T08:09:36+09:00",
@@ -8177,7 +8193,9 @@
    "에이치엘비": "2026-09-18T08:09:36+09:00",
    "참여연대": "2026-09-18T08:09:36+09:00",
    "유도": "2026-09-18T08:42:31+09:00",
-   "디에고 시메오네": "2026-09-18T08:42:31+09:00"
+   "디에고 시메오네": "2026-09-18T08:42:31+09:00",
+   "하주연": "2026-09-18T09:40:32+09:00",
+   "블레이크 스넬": "2026-09-18T09:40:32+09:00"
   }
  },
  "gtrends_gl": [
@@ -16548,7 +16566,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-18T09:38:44+09:00"
+    "first_seen": "2026-09-18T09:38:44+09:00",
+    "kw": "GitHub Copilot, Rust 이식, 검증 방식",
+    "sum": "계정이 코파일럿 런타임 이식에서 검증 방식이 핵심이라고 설명했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -16563,7 +16584,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-09-18T09:38:44+09:00"
+    "first_seen": "2026-09-18T09:38:44+09:00",
+    "kw": "GitHub Copilot, Rust 런타임, SDK",
+    "sum": "계정이 코파일럿 런타임의 Rust 전환 과정과 릴리스 현황을 정리했다",
+    "sv": 1
    },
    {
     "account": "daily_ai_star",
@@ -16578,7 +16602,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-09-18T09:38:44+09:00"
+    "first_seen": "2026-09-18T09:38:44+09:00",
+    "kw": "GitHub Copilot, AI 에이전트, 대형 리라이트",
+    "sum": "계정이 AI 에이전트가 코파일럿 런타임 83만줄을 Rust로 재작성했다고 전했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -16593,7 +16620,10 @@
     "rh": [
      4
     ],
-    "first_seen": "2026-09-18T09:38:44+09:00"
+    "first_seen": "2026-09-18T09:38:44+09:00",
+    "kw": "OpenAI, Astra for Law",
+    "sum": "계정이 오픈AI의 Astra for Law 발표 링크를 공유했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -16608,7 +16638,10 @@
     "rh": [
      5
     ],
-    "first_seen": "2026-09-18T09:38:44+09:00"
+    "first_seen": "2026-09-18T09:38:44+09:00",
+    "kw": "OpenAI, Astra for Law, 법률 AI",
+    "sum": "계정이 오픈AI의 법률 특화 서비스 Astra for Law를 소개했다",
+    "sv": 1
    },
    {
     "account": "aipeekme",
@@ -16713,7 +16746,10 @@
     "rh": [
      10
     ],
-    "first_seen": "2026-09-18T09:38:44+09:00"
+    "first_seen": "2026-09-18T09:38:44+09:00",
+    "kw": "Agent-Reach, 오픈소스, 깃허브 스타",
+    "sum": "계정이 에이전트용 플랫폼 연동 CLI Agent-Reach를 소개했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -16784,7 +16820,10 @@
     "rh": [
      13
     ],
-    "first_seen": "2026-09-18T09:38:44+09:00"
+    "first_seen": "2026-09-18T09:38:44+09:00",
+    "kw": "OpenViking, 오픈소스, 에이전트 메모리",
+    "sum": "계정이 에이전트 컨텍스트 DB 프로젝트 OpenViking을 소개했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -16822,7 +16861,10 @@
     "rh": [
      15
     ],
-    "first_seen": "2026-09-18T09:38:44+09:00"
+    "first_seen": "2026-09-18T09:38:44+09:00",
+    "kw": "OpenResearch, 오픈소스, 연구 에이전트",
+    "sum": "계정이 코딩 에이전트를 연구 에이전트로 바꾸는 OpenResearch를 소개했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -16862,7 +16904,10 @@
     "rh": [
      17
     ],
-    "first_seen": "2026-09-18T09:38:44+09:00"
+    "first_seen": "2026-09-18T09:38:44+09:00",
+    "kw": "OpenResearch, 깃허브 트렌드, 에이전트",
+    "sum": "계정이 9월17일 깃허브 스타 급상승 3개 프로젝트를 정리했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
