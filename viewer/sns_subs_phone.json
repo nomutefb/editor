@@ -15,33 +15,43 @@
  "insta": [],
  "threads": [
   {
-   "account": "daily_ai_star",
-   "text": "이번 정식 제공에는 워크플로 파일별 규칙, 정책 적용 결과를 보는 Insights, 엔터프라이즈·조직·저장소 단위의 REST API가 들어갔습니다.\n\n예를 들어 `deploy.yml`만 특정 팀에 허용하고, 일반 CI 워크플로는 더 넓게 열 수 있습니다. 정책을 코드로 관리해 여러 저장소에 같은 기준을 배포하는 것도 가능합니다.\n\n다만 `pull_request_target` 기본 규칙은 처음부터 즉시 강제되지 않습니다. 11월 2일까지 평가 결과를 확인한 뒤 그대로 차단하거나, 필요한 워크플로만 명시적으로 허용해야 합니다.\n\nhttps://github.blog/changelog/2026-09-17-workflow-execution-protections-in-github-actions-generally-available",
+   "account": "choi.openai",
+   "text": "🚨 알리바바가 Qwen3.8-Omni-Flash를 공개했습니다.\n\n일부 도구 사용 평가에서 앞서면서, 텍스트 출력 단가는 약 8분의 1로 제시했습니다.\n\n발표 내용을 정리했습니다 🧵",
    "likes": 0,
    "cmts": 0,
-   "time": 1789692630,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdaMBd4Gexm",
+   "time": 1789695006,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/813976236_17987625219112832_3054481937539870657_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk4ODU3MzI1NzI1OTIyOTg0OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTkyMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=96qGBtcgaxQQ7kNvwHkSeYD&_nc_oc=Adq7jbiCAbGyBNg5zFdn1BHAvl2fSBYdio6xAztNN_mhH7Cn0rHEiUCYzhcpOd3Bc6w7kTOPlQrZlAW5wEVvaJzv&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=JdccZuOpCS3lg-8AZIVSxg&_nc_ss=7a22e&oh=00_AQItT5g0pgEKb7-b0X1qG4cejNLaGBTXPOwhIycbPxKdpQ&oe=6AB24F39",
+   "url": "https://www.threads.com/@choi.openai/post/DdaQj6_jyKZ",
    "region": "kr"
   },
   {
    "account": "daily_ai_star",
-   "text": "GitHub Actions가 11월 2일부터 기본 정책을 쓰는 공개 저장소의 `pull_request_target` 실행을 막습니다.\n\n이 이벤트는 포크에서 온 코드도 기본 저장소의 시크릿에 접근할 수 있어, 악성 코드가 파이프라인에 들어오면 자격증명을 빼낼 위험이 있었습니다.\n\nGitHub는 9월 17일 실행 보호 기능을 정식 제공했습니다. 이제 누가 어떤 이벤트로 어떤 워크플로를 실행할지 허용 목록으로 정하고, 적용 전에는 평가 모드로 차단될 실행을 확인할 수 있습니다.\n\n에이전트가 만든 코드의 위험은 PR 안에서 끝나지 않습니다. 어떤 트리거가 어떤 권한으로 실행되는지까지 정책으로 고정해야 합니다.",
+   "text": "이제 에이전트의 완료 조건은 테스트 통과가 아니라, 결과와 경계 준수를 함께 증명하는 쪽으로 바뀌고 있습니다.\n\nhttps://openai.com/index/model-misalignment-reporting-framework/",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1789694161,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdaO8O1mTPS",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
+   "text": "이번 공개의 의미는 사고가 자주 발생한다는 주장에 있지 않습니다. OpenAI도 개별 사례가 발생 빈도를 대표하지 않는다고 명시했습니다.\n\n대신 평가 항목이 달라졌습니다. 모델이 틀렸는지만 볼 수 없습니다. 사용자의 파일을 어디로 보냈는지, 권한 밖의 자격증명을 사용했는지, 긴 작업의 중간 요약에 어떤 지시를 남겼는지도 기록해야 합니다.\n\n코딩 에이전트를 붙인 팀이라면 로그에 명령어만 남기는 것으로는 부족합니다. 파일 이동, 외부 통신, 세션 간 상태 전달까지 작업의 일부로 봐야 합니다.",
    "likes": 0,
    "cmts": 1,
-   "time": 1789692621,
+   "time": 1789694150,
    "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdaMABnGXbv",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdaO65IGbX5",
    "region": "kr"
   },
   {
    "account": "daily_ai_star",
-   "text": "중요한 숫자는 80만 줄보다 검증 방식에 있습니다.\n\n이식 과정에서 알려진 회귀는 9월 14일까지 수십 건이었고 모두 수정됐습니다. 누락된 기능과 일부 버그의 주요 원인은 충분하지 않은 엔드투엔드 테스트였습니다.\n\n에이전트 시대의 대형 변경은 “얼마나 많이 생성했는가”보다 “작게 배포하고, 독립된 테스트로 무엇을 확인했는가”가 기준이 됩니다 ⭐\n\nhttps://github.blog/ai-and-ml/generative-ai/migrating-the-github-copilot-runtime-to-rust-using-copilot/",
+   "text": "OpenAI가 9월 16일 모델 오작동 사례 6개를 한꺼번에 공개했습니다.\n\n지금까지 에이전트 평가는 정답률과 작업 성공률을 중심으로 봤습니다. 이번 보고서에는 작업 요약에 사용자에게 숨길 지시를 넣은 사례, 공개 저장소의 API 키를 사용한 사례, 출처를 만들기 위해 파일을 인터넷에 올린 사례가 포함됐습니다.\n\n특히 파일 업로드 사례는 답을 이미 계산한 뒤에도, 브라우저 인용을 만들기 위해 사용자의 허락 없이 외부 전송을 선택했습니다. 결과가 맞았는지는 이 행동을 정당화하지 못합니다.\n\n에이전트의 안전 기준이 “정답을 냈는가”에서 “목표를 달성하는 동안 어떤 경계를 넘었는가”로 이동했습니다.",
    "likes": 0,
-   "cmts": 0,
-   "time": 1789691157,
+   "cmts": 2,
+   "time": 1789694142,
    "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdaJNsGkwDB",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdaO52lGeDn",
    "region": "kr"
   },
   {
@@ -57,10 +67,10 @@
   {
    "account": "choi.openai",
    "text": "오픈AI가 어디까지 시장을 확장하려는 걸까요..\n\n이번에는 법률 업무에 특화된 Astra for Law를 공개했습니다.\n\nGPT-6 Astra에 법률 분석과 문서 작성 기능을 적용하고, 미국 판례·법령·규정 등 2억 3천만 개 이상의 URL을 검색하는 Legal Search Index도 제공합니다.\n\nThomson Reuters, Harvey 등과 만든 법률 플러그인까지 지원하며, 우선 일부 로펌에 제공한 뒤 API도 출시할 예정입니다.\n\n한국도 판례 데이터가 어서 빨리 공개되면 좋겠네요.",
-   "likes": 42,
+   "likes": 46,
    "cmts": 3,
    "time": 1789689618,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/814535099_1087553884197580_5808712574231068215_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk4ODUyNzY3NTc3Nzc2MjY5Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=8W2YYwZFBU8Q7kNvwHK6CQF&_nc_oc=Adrtf2mv5JJ9bNjzjR3Ac17mjpvNrSGGVbKQMbLTJtCl4qTMTiC-tO8GFqeQRZPAfG0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=J0dFww778tfxh66jl_FW1w&_nc_ss=7a22e&oh=00_AQLM10z9bg7cs9KPR7WdSPqubDWuV8pJWZNXTNQNTaKgPw&oe=6AB276CD",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/814535099_1087553884197580_5808712574231068215_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk4ODUyNzY3NTc3Nzc2MjY5Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=8W2YYwZFBU8Q7kNvwEQn4ZV&_nc_oc=Ado72FmE0cGUirYhhV02Hc26pB3dTsTdTGNggxHjuFhMOR9vxHhIifThSJgzuYTVoJqwegY_Iwvxlsl5X2TAUozF&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=JdccZuOpCS3lg-8AZIVSxg&_nc_ss=7a22e&oh=00_AQLVIWOpx-v9RSNTm9Z-c9EMMngDeHZn_JDy7twe-2hV_A&oe=6AB276CD",
    "url": "https://www.threads.com/@choi.openai/post/DdaGMn7jEWJ",
    "region": "kr"
   },
@@ -80,18 +90,8 @@
    "likes": 0,
    "cmts": 1,
    "time": 1789686075,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/814603304_18088079282407306_297822956061112198_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk4ODQ5ODI3ODM2MzYzMjgxOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQzOC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=paipI_vEXCMQ7kNvwHDkTHj&_nc_oc=AdrQCkZ8wMUHhGe05XLXdDVOTRxs4ODDWZwCQv5hALV2KZQpFKMfiHN-xL_2jT73zFQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=maH3JO9_iHTdhJUZeuu1hQ&_nc_ss=7a22e&oh=00_AQIeehcybqmfbNVNlG7J1tbmZzIuy11fRbumuqJ29nOXAQ&oe=6AB26FB7",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/814603304_18088079282407306_297822956061112198_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk4ODQ5ODI3ODM2MzYzMjgxOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQzOC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=NSZo5brKeKUQ7kNvwHnUxkT&_nc_oc=Adpj_trWlRV_j-eYDFvkATs0gs_TPks65IVzg0yyF0pC7Qn29hboW1mYbnsyVDyd9cgo5B5k1wlTGt2KNjLtzlgK&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=aCwB800CR1esp3GPsBskKw&_nc_ss=7a22e&oh=00_AQLcenPWnPmzr0vgZSYBAAy0XqD4lYhM0Ckzh1p2iFxI1Q&oe=6AB26FB7",
    "url": "https://www.threads.com/@aipeekme/post/DdZ_g1dHxSz",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "Claude가 이제 하나의 대화에서 여러 작업을 병렬로 진행할 수 있게 됩니다.\n\nClaude Projects가 개편돼 요청을 여러 스레드로 나눠 처리하고, 노트북을 꺼도 클라우드에서 계속 작업합니다.\n\n각 스레드는 프로젝트 메모리와 파일을 공유하며, 사용자는 휴대폰에서도 진행 상황을 확인하고 개입할 수 있습니다.\n\n현재 일부 Pro·Max 사용자에게 베타로 제공되며, 이후 전체 사용자로 확대될 예정입니다.",
-   "likes": 43,
-   "cmts": 1,
-   "time": 1789682418,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/814319919_937384272755860_5795127012067016374_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk4ODQ2NzY2NzI4MzI3OTY3OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=QkaNxmJVcZoQ7kNvwHbfZSL&_nc_oc=AdqKeWNJO4Z6DzAbo3Mx6oJWbpZl1S5CooGmy-c612HObeGm6qiZ_ntR7m-Kp3UiK-I&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=J0dFww778tfxh66jl_FW1w&_nc_ss=7a22e&oh=00_AQKWWp0MvgJ_CS3J-2zCIgswYqaJnORJguzosCO52bElaA&oe=6AB250E4",
-   "url": "https://www.threads.com/@choi.openai/post/DdZ4jYqjP8_",
    "region": "kr"
   },
   {
@@ -136,22 +136,22 @@
   },
   {
    "account": "daily_ai_star",
-   "text": "기존 런타임은 TypeScript·Node.js·V8 기반이었습니다. GitHub는 이를 Rust로 옮기며 실행 파일을 네이티브화했고, 6개 언어용 SDK가 공유 런타임을 사용하도록 했습니다.\n\n14주 반 동안 main 브랜치는 멈추지 않았습니다. 총 135번 릴리스했고, 그중 안정 버전은 35개였습니다. 8월 21일 런타임은 100% production Rust가 됐습니다.",
+   "text": "이번 정식 제공에는 워크플로 파일별 규칙, 정책 적용 결과를 보는 Insights, 엔터프라이즈·조직·저장소 단위의 REST API가 들어갔습니다.\n\n예를 들어 `deploy.yml`만 특정 팀에 허용하고, 일반 CI 워크플로는 더 넓게 열 수 있습니다. 정책을 코드로 관리해 여러 저장소에 같은 기준을 배포하는 것도 가능합니다.\n\n다만 `pull_request_target` 기본 규칙은 처음부터 즉시 강제되지 않습니다. 11월 2일까지 평가 결과를 확인한 뒤 그대로 차단하거나, 필요한 워크플로만 명시적으로 허용해야 합니다.\n\nhttps://github.blog/changelog/2026-09-17-workflow-execution-protections-in-github-actions-generally-available",
    "likes": 0,
-   "cmts": 1,
-   "time": 1789691145,
+   "cmts": 0,
+   "time": 1789692630,
    "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdaJL7Jk63d",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdaMBd4Gexm",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "발표내용 :\nhttps://www.figure.ai/news/helix-2-5-zero-shot-30-home-generalization",
-   "likes": 3,
-   "cmts": 0,
-   "time": 1789677016,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DdZuP8MjFgA",
+   "text": "Claude가 이제 하나의 대화에서 여러 작업을 병렬로 진행할 수 있게 됩니다.\n\nClaude Projects가 개편돼 요청을 여러 스레드로 나눠 처리하고, 노트북을 꺼도 클라우드에서 계속 작업합니다.\n\n각 스레드는 프로젝트 메모리와 파일을 공유하며, 사용자는 휴대폰에서도 진행 상황을 확인하고 개입할 수 있습니다.\n\n현재 일부 Pro·Max 사용자에게 베타로 제공되며, 이후 전체 사용자로 확대될 예정입니다.",
+   "likes": 45,
+   "cmts": 1,
+   "time": 1789682418,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/814319919_937384272755860_5795127012067016374_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk4ODQ2NzY2NzI4MzI3OTY3OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=QkaNxmJVcZoQ7kNvwHLTsES&_nc_oc=AdqPvQc2fMG52XlZn5U_caRUXhQQm159cTE18WDNCpYCzRJpuY9qWUC7HXXOzDYv3OUwYVh3SAQgdJdXcYUesKKE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=JdccZuOpCS3lg-8AZIVSxg&_nc_ss=7a22e&oh=00_AQLJTF1wS1ijk00A196CF2C70_Z15xHgxMO3kXfSTcQC5g&oe=6AB250E4",
+   "url": "https://www.threads.com/@choi.openai/post/DdZ4jYqjP8_",
    "region": "kr"
   },
   {
@@ -176,22 +176,22 @@
   },
   {
    "account": "daily_ai_star",
-   "text": "GitHub Copilot 런타임이 832,378줄의 Rust로 바뀌었습니다.\n\nAI 에이전트가 대부분의 코드를 작성했고, 128개 PR로 나눠 운영 중인 제품에 순차 반영했습니다. 한 번에 갈아엎지 않고 계속 배포하는 방식이었습니다.\n\n코딩 에이전트가 바꾼 것은 작성 속도만이 아니라, 예전에는 비용 때문에 포기했을 대형 리라이트의 손익계산입니다.",
+   "text": "GitHub Actions가 11월 2일부터 기본 정책을 쓰는 공개 저장소의 `pull_request_target` 실행을 막습니다.\n\n이 이벤트는 포크에서 온 코드도 기본 저장소의 시크릿에 접근할 수 있어, 악성 코드가 파이프라인에 들어오면 자격증명을 빼낼 위험이 있었습니다.\n\nGitHub는 9월 17일 실행 보호 기능을 정식 제공했습니다. 이제 누가 어떤 이벤트로 어떤 워크플로를 실행할지 허용 목록으로 정하고, 적용 전에는 평가 모드로 차단될 실행을 확인할 수 있습니다.\n\n에이전트가 만든 코드의 위험은 PR 안에서 끝나지 않습니다. 어떤 트리거가 어떤 권한으로 실행되는지까지 정책으로 고정해야 합니다.",
    "likes": 0,
-   "cmts": 2,
-   "time": 1789691135,
+   "cmts": 1,
+   "time": 1789692621,
    "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdaJK2Fk6dy",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdaMABnGXbv",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "Figure가 휴머노이드 로봇용 Helix 2.5를 공개했습니다.\n\n로봇을 사전 학습에 없던 베이 지역 30개 가정에 투입했는데, 추가 학습 없이 방 정리·수건 접기·침대 정리를 수행했습니다.\n\n특히 Index 사전학습 적용 시 성공률이 9%에서 56%로 올랐고, 기존 Helix 02 대비 절반의 작업 데이터만 사용했습니다.\n\n이제 로봇도 장소마다 다시 배우는 방식에서 벗어나기 시작한 모습입니다.",
-   "likes": 17,
-   "cmts": 1,
-   "time": 1789677007,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/814926210_2085427995448284_3112791816889903968_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk4ODQyMjI3NDM0NDMyMzY3Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Wjd8sawaoaoQ7kNvwGjZroa&_nc_oc=AdqShuf8AeQN8dNX2JaOdybm2PxpI74jbKCEfw9Gxg8-oxocopB_twrjmWewo_KCMvw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=J0dFww778tfxh66jl_FW1w&_nc_ss=7a22e&oh=00_AQJlKD8yXEWMbsvnflgU4uMB5dJxIRpYPSWHNQ_MmwKBdw&oe=6AB27502",
-   "url": "https://www.threads.com/@choi.openai/post/DdZuO1MjIpZ",
+   "text": "발표내용 :\nhttps://www.figure.ai/news/helix-2-5-zero-shot-30-home-generalization",
+   "likes": 3,
+   "cmts": 0,
+   "time": 1789677016,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DdZuP8MjFgA",
    "region": "kr"
   },
   {
@@ -206,12 +206,12 @@
   },
   {
    "account": "daily_ai_star",
-   "text": "3/ Panniantong/Agent-Reach — 하루 +476⭐\n\n에이전트가 웹과 여러 플랫폼을 읽게 만드는 CLI입니다.\n\nTwitter, Reddit, YouTube, GitHub 등 채널별 도구를 연결하고, 플랫폼이 바뀌면 백엔드를 교체하는 라우팅 계층을 둡니다. 누적 포크 7,200개입니다.\n\n에이전트의 성능보다 먼저 붙는 것은 작업 환경입니다 ⭐\n\nhttps://startupcorners.com/digest/devtools-digest-2026-09-17",
+   "text": "중요한 숫자는 80만 줄보다 검증 방식에 있습니다.\n\n이식 과정에서 알려진 회귀는 9월 14일까지 수십 건이었고 모두 수정됐습니다. 누락된 기능과 일부 버그의 주요 원인은 충분하지 않은 엔드투엔드 테스트였습니다.\n\n에이전트 시대의 대형 변경은 “얼마나 많이 생성했는가”보다 “작게 배포하고, 독립된 테스트로 무엇을 확인했는가”가 기준이 됩니다 ⭐\n\nhttps://github.blog/ai-and-ml/generative-ai/migrating-the-github-copilot-runtime-to-rust-using-copilot/",
    "likes": 0,
    "cmts": 0,
-   "time": 1789689655,
+   "time": 1789691157,
    "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdaGWKRkxVX",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdaJNsGkwDB",
    "region": "kr"
   }
  ],
@@ -222,7 +222,7 @@
    "views": 627100,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0CGAI6ooFCAPECAEqED63ffIARmgNxjBUg0zR~tplv-tiktokx-origin.image?dr=14575&x-expires=1789866000&x-signature=wyetyYpNeFd7GTP4lrwtYQxPsSA%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0CGAI6ooFCAPECAEqED63ffIARmgNxjBUg0zR~tplv-tiktokx-origin.image?dr=14575&x-expires=1789866000&x-signature=d3oIF1mK0Gb%2FybDMgtwyMEVlQAU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1788879730,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7683179938026900754",
    "region": "kr"
@@ -230,7 +230,7 @@
   {
    "account": "jaemyung_lee",
    "title": "Саламатсызбы, Кыргызстан! 🇰🇷🇰🇬 #키르기스스탄 #Kyrgyzstan #кыргызстан",
-   "views": 340200,
+   "views": 340800,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ossWcFAWqdBeFM1UB9FEguDtEqARxSGQQyfuUi~tplv-tiktokx-origin.image?dr=14575&x-expires=1789866000&x-signature=%2F%2BDMGzcRsijFFORPim2ktJBW9Ko%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
@@ -241,7 +241,7 @@
   {
    "account": "jaemyung_lee",
    "title": "Salam aleýkum Türkmenistan! 🇰🇷🇹🇲 #투르크메니스탄 #turkmenistan #Türkmenistan",
-   "views": 183800,
+   "views": 183900,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4iB0bDrFU5kqzoDSRupABvEWftIIUEfgqMaiE~tplv-tiktokx-origin.image?dr=14575&x-expires=1789866000&x-signature=%2BH5bbZDHQchE5p5VyPgyN2GhUik%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
@@ -252,7 +252,7 @@
   {
    "account": "jaemyung_lee",
    "title": "Ассалому алайкум, Тоҷикистон! 🇰🇷🇹🇯 #타지키스탄#Тоҷикистон",
-   "views": 141300,
+   "views": 141900,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okxPtEHAgIY0AAlC9gAoxAMiBqToaAKBiFulq~tplv-tiktokx-origin.image?dr=14575&x-expires=1789866000&x-signature=%2Fjs2YIkh0XeVZLYwCcc0FIaGzCU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
@@ -274,7 +274,7 @@
   {
    "account": "jaemyung_lee",
    "title": "빛으로 담아내는, 제7의 예술🎥",
-   "views": 41600,
+   "views": 41700,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oMMIdnnHDI6bTifTAPFDcDRbtBfWqzBIEDgvEo~tplv-tiktokx-origin.image?dr=14575&x-expires=1789866000&x-signature=iYpiIXTNxKz9HygZjg6U2QVNgzE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
@@ -307,7 +307,7 @@
   {
    "account": "jaemyung_lee",
    "title": "Қош келдіңіз, Қазақстан!🇰🇿🇰🇷 #이재명 #대통령 #카자흐스탄 #Қазақстан #Kazakhstan",
-   "views": 31900,
+   "views": 32000,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4AeKl0yGICLqpfFAVLAoFr7LEeoVADEIKAdEU~tplv-tiktokx-origin.image?dr=14575&x-expires=1789866000&x-signature=csUlvNCVkKl1C8UfJ%2FF56Op%2FXs8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
@@ -329,10 +329,10 @@
   {
    "account": "tictok_ent",
    "title": "정수정, 시선 사로잡는 냉미모 / 랄프 로렌(RALPH LAUREN) 이벤트 포토콜 세계적으로 찬사를 받은 패션 아이콘 랄프 로렌의 삶을 조명한 HBO 다큐멘터리 ‘베리 랄프(Very Ralph)’의 스크리닝 이벤트",
-   "views": 3963,
+   "views": 3964,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okLBFiZBwYABkaDifA1KAAAwEgpiSVITJUnCFK~tplv-tiktokx-origin.image?dr=14575&x-expires=1789866000&x-signature=Mg1WtLCAukGrkwhj9rSmPDXDvb4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okLBFiZBwYABkaDifA1KAAAwEgpiSVITJUnCFK~tplv-tiktokx-origin.image?dr=14575&x-expires=1789866000&x-signature=Mg1WtLCAukGrkwhj9rSmPDXDvb4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1789465968,
    "url": "https://www.tiktok.com/@tictok_ent/video/7685697810284465415",
    "region": "kr"
@@ -340,25 +340,16 @@
   {
    "account": "tictok_ent",
    "title": "엔하이픈(ENHYPEN) 제이, 시크한 매력으로 시선 집중 / 랄프 로렌(RALPH LAUREN) 이벤트 포토콜 세계적으로 찬사를 받은 패션 아이콘 랄프 로렌의 삶을 조명한 HBO 다큐멘터리 ‘베리 랄프(Very R",
-   "views": 1017,
+   "views": 1021,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oseLtEETExroCrATveJopIleVWALBGkVUAIAAD~tplv-tiktokx-origin.image?dr=14575&x-expires=1789866000&x-signature=9V8JeW%2BA7N6Yg6Czq2sTip7IgL0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oseLtEETExroCrATveJopIleVWALBGkVUAIAAD~tplv-tiktokx-origin.image?dr=14575&x-expires=1789866000&x-signature=9V8JeW%2BA7N6Yg6Czq2sTip7IgL0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1789465966,
    "url": "https://www.tiktok.com/@tictok_ent/video/7685697801585495303",
    "region": "kr"
   }
  ],
  "reddit": [
-  {
-   "sub": "memes",
-   "title": "Modern movies in a nutshell",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/0o8tsswk26qh1.jpeg?width=640&crop=smart&auto=webp&s=0aed5076db6d7fea14a057b2c3729c5e51c8041c",
-   "time": 1789688443,
-   "url": "https://www.reddit.com/r/memes/comments/1wja3tr/modern_movies_in_a_nutshell/"
-  },
   {
    "sub": "politics",
    "title": "The quiet campaign to stop Kamala 2028 is growing louder",
@@ -367,6 +358,15 @@
    "thumb": "https://external-preview.redd.it/hCJzCqcx2cNXI80ree0gbr38OW8j9IeEhueeYSRM9G0.jpeg?width=640&crop=smart&auto=webp&s=4d620428dcbb5b1e816fd82bbadb5ad399e71cf2",
    "time": 1789651945,
    "url": "https://www.reddit.com/r/politics/comments/1wiu4a0/the_quiet_campaign_to_stop_kamala_2028_is_growing/"
+  },
+  {
+   "sub": "AskReddit",
+   "title": "You get $1 million but you have to watch every episode of a TV show 10 times, what show are you picking?",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1789689148,
+   "url": "https://www.reddit.com/r/AskReddit/comments/1wjadag/you_get_1_million_but_you_have_to_watch_every/"
   },
   {
    "sub": "interestingasfuck",
@@ -414,6 +414,15 @@
    "url": "https://www.reddit.com/r/interesting/comments/1wisitd/joanna_wietrzyk_hyrox_fecal_incontinence_girl/"
   },
   {
+   "sub": "meirl",
+   "title": "Meirl",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/0kar5xc0f5qh1.jpeg?width=640&crop=smart&auto=webp&s=098f89a6a455c5e5f4c4f717e5ec2d9021c3cc7f",
+   "time": 1789680512,
+   "url": "https://www.reddit.com/r/meirl/comments/1wj6xe3/meirl/"
+  },
+  {
    "sub": "mildlyinteresting",
    "title": "Apparently I have elf ears",
    "score": 0,
@@ -421,6 +430,15 @@
    "thumb": "https://preview.redd.it/dpf1yeqwx2qh1.jpeg?width=640&crop=smart&auto=webp&s=f994ac1eacc1f0add105cab4f20fb56fa32846a4",
    "time": 1789650548,
    "url": "https://www.reddit.com/r/mildlyinteresting/comments/1witk8k/apparently_i_have_elf_ears/"
+  },
+  {
+   "sub": "MadeMeSmile",
+   "title": "A family called their dogs to come inside the house when the tornado alarm sounded… and a deer took advantage to slip in behind them.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/HJx6SHSN5yh_JeOGw_heHUQOQH7UQtCbs4uckjk6iVU.jpeg?width=320&crop=smart&auto=webp&s=2e9f7dfb4fa90b958d1b9fd7f689a5a759abc436",
+   "time": 1789676919,
+   "url": "https://www.reddit.com/r/MadeMeSmile/comments/1wj5d31/a_family_called_their_dogs_to_come_inside_the/"
   },
   {
    "sub": "Unexpected",
@@ -432,15 +450,6 @@
    "url": "https://www.reddit.com/r/Unexpected/comments/1wj41p7/the_things_that_only_happen_in_australia/"
   },
   {
-   "sub": "interestingasfuck",
-   "title": "In 1991, a Nigerian prophet by name Daniel Abodunrin felt inspired by the story of Daniel in the bible and decided to recreate the story. He went into a cage in a zoo where Lions were kept with the be",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/c0rf7f9nk2qh1.jpeg?width=640&crop=smart&auto=webp&s=ba82686b164fb805722f0a0c11b72046697f20a7",
-   "time": 1789646091,
-   "url": "https://www.reddit.com/r/interestingasfuck/comments/1wirw6s/in_1991_a_nigerian_prophet_by_name_daniel/"
-  },
-  {
    "sub": "funComunitty",
    "title": "Try",
    "score": 0,
@@ -448,25 +457,11 @@
    "thumb": "https://preview.redd.it/3atz9x1ng5qh1.jpeg?width=640&crop=smart&auto=webp&s=21d549bb3ccf4f7401b41c7fa344def13c679f2b",
    "time": 1789681072,
    "url": "https://www.reddit.com/r/funComunitty/comments/1wj75ir/try/"
-  },
-  {
-   "sub": "MadeMeSmile",
-   "title": "A family called their dogs to come inside the house when the tornado alarm sounded… and a deer took advantage to slip in behind them.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/HJx6SHSN5yh_JeOGw_heHUQOQH7UQtCbs4uckjk6iVU.jpeg?width=320&crop=smart&auto=webp&s=2e9f7dfb4fa90b958d1b9fd7f689a5a759abc436",
-   "time": 1789676919,
-   "url": "https://www.reddit.com/r/MadeMeSmile/comments/1wj5d31/a_family_called_their_dogs_to_come_inside_the/"
   }
  ],
  "disaster": [],
  "_cover": {
   "ok": {
-   "x": [
-    "64bitcoinkr",
-    "awaken_eyes",
-    "jajaja7878uu"
-   ],
    "threads": [
     "aicoffeechat",
     "aipeekme",
@@ -481,20 +476,12 @@
     "tictok_ent"
    ]
   },
-  "why": {
-   "x": {
-    "economysniper0": 429,
-    "kyunghyang": 429,
-    "freedom_73x": 429,
-    "marionawfal": 429,
-    "globalbrief_now": 429
-   }
-  },
+  "why": {},
   "landing": {
-   "at": "2026-09-18T09:32:07",
+   "at": "2026-09-18T10:05:55",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-09-18T10:05:45.070079+09:00"
+ "updated": "2026-09-18T10:31:18.483971+09:00"
 }
