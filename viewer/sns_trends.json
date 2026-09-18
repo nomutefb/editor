@@ -7731,8 +7731,14 @@
   {
    "query": "수면내시경",
    "traffic": "5000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/6803bade93.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/055/0001389297",
+     "source": ""
+    }
+   ],
    "vol": 5000,
    "started": "2026-09-18T14:00:00+09:00",
    "delta": -6,
@@ -7745,8 +7751,14 @@
   {
    "query": "창",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/6f044b0874.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/001/0016316684",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-09-18T14:10:00+09:00",
    "delta": -10,
@@ -7780,8 +7792,14 @@
   {
    "query": "역주행",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/edf52c1bca.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/008/0005414932",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-09-18T13:50:00+09:00",
    "delta": -7,
@@ -7794,8 +7812,14 @@
   {
    "query": "하 주연",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/d84b8c7586.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/439/0000033351",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-09-18T14:00:00+09:00",
    "delta": -9,
@@ -7808,8 +7832,14 @@
   {
    "query": "제주항공",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/caa7eeeaad.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/052/0002408628",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-09-18T14:10:00+09:00",
    "delta": -13,
@@ -7866,8 +7896,14 @@
   {
    "query": "기소",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/b601bb777f.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/079/0004191015",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-18T14:40:00+09:00",
    "isNew": true,
@@ -7879,8 +7915,14 @@
   {
    "query": "여명학교",
    "traffic": "500+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/3ec624aa74.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/001/0016319291",
+     "source": ""
+    }
+   ],
    "vol": 500,
    "started": "2026-09-18T13:00:00+09:00",
    "delta": -11,
@@ -7930,8 +7972,14 @@
   {
    "query": "코로나 바이러스",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/643cf606d7.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/001/0016317490",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-18T14:10:00+09:00",
    "delta": -19,
@@ -8139,7 +8187,7 @@
  ],
  "gtrends_pool_updated": "2026-09-18T16:11:34+09:00",
  "_trend_img": {
-  "tried": "2026-09-18T15:37:28+09:00",
+  "tried": "2026-09-18T16:11:34+09:00",
   "fail": {
    "한혜진": "2026-09-18T15:39:34+09:00"
   }
@@ -16215,7 +16263,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-18T16:11:34+09:00"
+    "first_seen": "2026-09-18T16:11:34+09:00",
+    "kw": "어그리게이터, chat API, 안정성",
+    "sum": "작성자가 어그리게이터 chat API 불안정성을 지적했다",
+    "sv": 1
    },
    {
     "account": "aipeekme",
@@ -16230,7 +16281,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-09-18T16:11:34+09:00"
+    "first_seen": "2026-09-18T16:11:34+09:00",
+    "kw": "큐엠, 깃허브",
+    "sum": "계정이 큐엠 관련 원문 링크를 공유했다",
+    "sv": 1
    },
    {
     "account": "aipeekme",
@@ -16245,7 +16299,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-09-18T16:11:34+09:00"
+    "first_seen": "2026-09-18T16:11:34+09:00",
+    "kw": "와이씨 소프트웨어, 큐엠, 멀티에이전트",
+    "sum": "와이씨 소프트웨어가 직원별 독립 작업공간을 갖춘 에이전트 큐엠을 공개했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
