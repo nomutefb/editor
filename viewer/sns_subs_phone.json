@@ -27,12 +27,32 @@
  "threads": [
   {
    "account": "choi.openai",
-   "text": "🚨 이건 정말 충격적인 내용인데요.\n\n연구자 세 명이 Claude를 이용해 오픈AI 내부 저장소에 접근한 사건이 공개됐습니다.",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1789705801,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/814873602_17987639673112832_8691301226570877819_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk4ODY2MzgxODUzMjM5ODUyNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTE0Ni5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=1JeHD9XbKqMQ7kNvwGlcLKI&_nc_oc=AdoPlLzQ3cievAvQsG2M9R88wnpTDSYEy6st5CBtHZ7zVQwvTAPIcII6DN_bHjayM_4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=XA75xY0s1UntbgsN9S8Gww&_nc_ss=7a22e&oh=00_AQLP4CeIrubBTl8vDf_3pV1oyh4upSp93AtOio1SLQKnFA&oe=6AB28AEC",
-   "url": "https://www.threads.com/@choi.openai/post/DdalJwwE6W9",
+   "text": "3/ AI가 도운 작업은 발견한 결함을 실제 침입에 쓸 수 있는 공격 코드로 만드는 일이었습니다.\n\n연구팀에 따르면 Claude Opus 4.8이 여러 차례 시도해도 해결하지 못했던 문제를 Opus 5는 몇 시간 만에 풀었습니다. \n\n여러 기업을 대상으로 두 달간 진행한 전체 연구에서 AI 사용료에 해당하는 토큰 비용은 3,000달러 미만이었다고 합니다.\n\n숙련된 연구자의 지도는 여전히 필요했지만, 세 명이 수행할 수 있는 작업량이 크게 늘어난 겁니다.\n\n다만 이번에 사용한 모델이 사이버 제한을 완전히 푼 내부 버전인지는 확인되지 않았습니다.\n\n공개 원문에는 Claude가 공격 요청을 거절한 기록도 남아 있습니다.",
+   "likes": 1,
+   "cmts": 1,
+   "time": 1789705837,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/813878405_17987639190112832_4015751265601276054_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk4ODY2NDExNTY0ODUwMjc5MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNzc2LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=cQY1IuT4pEkQ7kNvwFvhdcS&_nc_oc=AdpiKpDC__bvvfDIu-dAHunaHJKkh8OL9D2JfFdfqo9YZqm5UMYW9QSoqP5JQ7y4CsU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=KrN0jb5kkNXrz4ufNX7pMQ&_nc_ss=7a22e&oh=00_AQK9DSPMsR3kYRGatK9uyItlCuojHhXXeR51Iz7kYhYifw&oe=6AB299F2",
+   "url": "https://www.threads.com/@choi.openai/post/DdalOFdk5wG",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "2/ 직원 계정까지 들어간 출발점은 오픈AI의 커뮤니티 게시판이었습니다.\n\n게시판에 올라온 이미지를 읽고 변환하는 프로그램에 결함이 있어, 조작된 이미지 파일을 올리면 서버에서 명령을 실행할 수 있었습니다.\n\n여기에 여러 서비스를 같은 계정으로 이용하게 해주는 오픈AI의 통합 로그인에도 별도의 결함이 있었습니다.\n\n두 문제가 겹치면서 게시판을 뚫은 연구팀이 이용자의 ChatGPT와 Codex 계정까지 접근할 수 있게 된 겁니다.\n\n앞서 본 직원은 Codex에 회사 코드 저장소를 연결해둬서 내부 작업 권한까지 노출됐습니다.\n\n연구팀에 따르면 오픈AI 측 문제는 최초 신고 후 약 14시간 만에 수정됐습니다.",
+   "likes": 1,
+   "cmts": 1,
+   "time": 1789705825,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/813747653_17987639172112832_5894054391937874244_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk4ODY2NDAxNjI0MzUxODc1Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNzc2LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=glo-z2TwVzQQ7kNvwEMyBfH&_nc_oc=Adpm6tydtxV01sSPFIFjDE_L9SeSAeYPAK4FkQEbsqo4xSafuABgLjTAX4zRuT3ncag&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=KrN0jb5kkNXrz4ufNX7pMQ&_nc_ss=7a22e&oh=00_AQJ9ck6kjoS5B_kTMwBItOp0ehO9ElUQsh2yBwfxyi5sxA&oe=6AB29F6F",
+   "url": "https://www.threads.com/@choi.openai/post/DdalMo4k-0l",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "1/ 보안 연구팀 Hacktron이 공개한 보고서에서, 지난 7월 오픈AI 직원 계정을 거쳐 비공개 코드 저장소에 접근했다고 밝혔습니다.\n\n최초 발견부터 접근까지 걸린 시간은 72시간 미만이었는데요.\n\n연구팀이 접근한 직원 계정에는 코딩 도구인 Codex가 연결돼 있었고, 이 도구는 오픈AI의 비공개 코드 저장소에 작업을 제출할 권한을 갖고 있었습니다.\n\n연구팀은 Codex에 서비스에 영향을 주지 않는 테스트용 수정안을 만들어 그 저장소에 제출하도록 요청했습니다.\n\n개발자가 “이렇게 코드를 바꾸려고 하니 검토해 달라”고 올리는 ‘풀 리퀘스트(PR)’가 실제로 생성된 겁니다.\n\n직원 계정 하나를 통해 회사 내부 저장소에 변경 제안까지 올릴 수 있다는 사실을 확인한 연구팀은 여기서 추가 테스트를 멈췄습니다.\n\n이후 앞서 오픈AI에 접수한 취약점 신고에 이 결과를 덧붙였습니다.\n\n공개된 확인 범위는 여기까지이며, 모델 가중치에 접근하거나 이를 유출했다는 증거는 제시되지 않았습니다.",
+   "likes": 3,
+   "cmts": 1,
+   "time": 1789705813,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/814222772_17987639133112832_7063598576372169159_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk4ODY2MzkxNDg3NTU1NTY4NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjE4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=yR-63Q6RBsUQ7kNvwGqF5rc&_nc_oc=AdorEs2KGfxc5tJ2wkeDlYdD3-REFBtQ9gk8UwjopePPXC6GduKluNzyhMCu_8kYFNo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=KrN0jb5kkNXrz4ufNX7pMQ&_nc_ss=7a22e&oh=00_AQIiPblXcmUlef9kZ2SJN_GBFLn1dwWWVRU5o2rb7kqf0g&oe=6AB2A183",
+   "url": "https://www.threads.com/@choi.openai/post/DdalLKek49k",
    "region": "kr"
   },
   {
@@ -51,28 +71,8 @@
    "likes": 0,
    "cmts": 1,
    "time": 1789702296,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/814749953_18088112762407306_7160611530929008702_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=105&ig_cache_key=Mzk4ODYzNDM1MDMwMTE2NjE3Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNDgwLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=0BOSF5jiSqUQ7kNvwEs_bhQ&_nc_oc=Adp2YZv3Wdz5bji7O5_ChhBL0hRa4qSqd8ij4skFOWY97Fs0328C1YSgYCuI8syOsFk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=bF813JcFcVDl85Alihb9Tw&_nc_ss=7a22e&oh=00_AQIj4O15RXakkrRuHIL1tjeF5S5E8Rc-cc1q8u3cdCkkBQ&oe=6AB2A668",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/814749953_18088112762407306_7160611530929008702_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=105&ig_cache_key=Mzk4ODYzNDM1MDMwMTE2NjE3Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNDgwLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=0BOSF5jiSqUQ7kNvwEs_bhQ&_nc_oc=Adp2YZv3Wdz5bji7O5_ChhBL0hRa4qSqd8ij4skFOWY97Fs0328C1YSgYCuI8syOsFk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=G-qoFFA_qmx0qfg_k7oEwg&_nc_ss=7a22e&oh=00_AQJswlsy6zoxdlfQ7MvN3ovNSTmaSXjfaxXFvSoRqixidw&oe=6AB2A668",
    "url": "https://www.threads.com/@aipeekme/post/Ddaec8Unzpc",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "3/ ‘AI가 주도한다’는 말을 고장 난 데이터 처리 프로그램을 고치는 상황으로 풀어보면 쉽습니다.\n\n사람이 Claude에게 장애 알림을 넘기면, Claude가 로그를 읽고 원인을 찾아 코드를 고칩니다. 중간에 새 문제가 생겨도 처리하고, 복사한 데이터로 다시 실행해 결과를 비교한 뒤 수정 내용을 보고합니다.\n\n실제 서비스에 반영할지는 사람이 결정합니다.\n이것이 이번 26%에 해당하는 단계인데요.\n\n장애를 스스로 발견하고 수정·검증·서비스 반영까지 사람 없이 끝내는 완전 자율 단계와는 사람에게 남겨 둔 권한이 다릅니다.",
-   "likes": 2,
-   "cmts": 1,
-   "time": 1789700437,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/813755908_17987624367112832_6179446190460691314_n.jpg?stp=cp6_dst-jpg_e35_tt6&_nc_cat=106&ig_cache_key=Mzk4ODU1MzczMzA3MDQyOTU0MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuNjM4LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=qBhKktx3xUcQ7kNvwFe6Qhb&_nc_oc=AdqjRpVB-J4wnSMBPAjPJu4kAIaElL9ChRnIXysJRsg12kmfMbyJ3sZpQpSh2QbARC8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=XA75xY0s1UntbgsN9S8Gww&_nc_ss=7a22e&oh=00_AQKq62MUJi-p1bL8K_9cMgo7NrYAbRKhv6L9sGA4mPJq3w&oe=6AB291D9",
-   "url": "https://www.threads.com/@choi.openai/post/Ddaa66cj7Oe",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "2/ 가장 눈에 띄는 수치는 Claude가 ‘주도하는’ AI 연구개발의 비중입니다.\n\n올해 2월에는 1% 미만이었는데 8월에는 26%까지 올라왔습니다.\n사람이 방향을 제시하면 AI가 업무 대부분을 끝까지 수행하고, 사람이 감독하는 수준입니다.\n\n사람이 구체적으로 지시하며 AI와 협업하는 일까지 합치면 비중은 90%를 넘습니다. \n\n앤트로픽의 측정 대상 중 사람의 관여 없이 완전히 자율적으로 돌아가는 업무는 아직 없습니다.\n\n그 사이에서 사람이 계속 붙어 있지 않아도 맡길 수 있는 업무가 빠르게 늘고 있는 것입니다.",
-   "likes": 3,
-   "cmts": 1,
-   "time": 1789700429,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/814603200_17987624343112832_4509862452334960973_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk4ODYxODc1MDcwMjA4NDEwNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTkyMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=6Myaks1iHbsQ7kNvwF_NVm8&_nc_oc=AdoA_KzWgZENtvWf41OrVA8Fh2V433_N_EhGkZj19xkpNb1AwRj5hcCqnLnqrL1Vopg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=XA75xY0s1UntbgsN9S8Gww&_nc_ss=7a22e&oh=00_AQK3ls66WBaLonUsm-zUKJ2HbWRIxs-h9LslK4S9qcn8ag&oe=6AB2A7A1",
-   "url": "https://www.threads.com/@choi.openai/post/Ddaa58ED2AL",
    "region": "kr"
   },
   {
@@ -147,12 +147,12 @@
   },
   {
    "account": "choi.openai",
-   "text": "1/ 앤트로픽이 자사 내부에서 AI 개발이 어떻게 진행되는지 보여주는 세 가지 측정치를 공개했습니다.\n\nAI가 다음 AI를 만드는 일을 얼마나 맡는지, 에이전트의 행동을 얼마나 감독하는지, 컴퓨트라 부르는 연산 자원을 어디에 쓰는지입니다.\n\n외부에서도 연구소 안의 변화를 추적할 수 있게 하겠다는 취지인데요.\n\n발표에는 측정 방법과 함께 실제 내부 수치가 담겼습니다.\n\n연구 자동화와 에이전트 감독은 8월 기준, 연산 배분은 7월 중 일주일을 조사한 결과입니다.",
-   "likes": 4,
-   "cmts": 1,
-   "time": 1789700418,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/813698296_17987624328112832_8203880034186482925_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=104&ig_cache_key=Mzk4ODYxODY1ODE1MDU2NDM1OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjg5LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=hdfr9OXGkEUQ7kNvwFegTy-&_nc_oc=AdrdM7l6xvlYvlR-jnJ8TwXh9Bx1jNF79dloYr7CrLqKvDhv0dERmTBQiRp_u1Rk48c&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=XA75xY0s1UntbgsN9S8Gww&_nc_ss=7a22e&oh=00_AQKD7oggkF8ckisn7U7FT35y-6Yc5rZslJL_AXUnKQ9gOQ&oe=6AB296F3",
-   "url": "https://www.threads.com/@choi.openai/post/Ddaa4l3j0IG",
+   "text": "🚨 이건 정말 충격적인 내용인데요.\n\n연구자 세 명이 Claude를 이용해 오픈AI 내부 저장소에 접근한 사건이 공개됐습니다.",
+   "likes": 28,
+   "cmts": 7,
+   "time": 1789705801,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/814873602_17987639673112832_8691301226570877819_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk4ODY2MzgxODUzMjM5ODUyNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTE0Ni5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=1JeHD9XbKqMQ7kNvwGlcLKI&_nc_oc=AdoPlLzQ3cievAvQsG2M9R88wnpTDSYEy6st5CBtHZ7zVQwvTAPIcII6DN_bHjayM_4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=KrN0jb5kkNXrz4ufNX7pMQ&_nc_ss=7a22e&oh=00_AQIcd1tl58mJNbFKJkQdFZABb8SajYqtQ1jCpPHL5kW1HA&oe=6AB28AEC",
+   "url": "https://www.threads.com/@choi.openai/post/DdalJwwE6W9",
    "region": "kr"
   },
   {
@@ -161,7 +161,7 @@
    "likes": 0,
    "cmts": 1,
    "time": 1789695072,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/815038003_18088095473407306_7268184752540481742_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk4ODU3Mzc0NzI4MDgxNDkwMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=0rpx2wgFySMQ7kNvwHfP8aW&_nc_oc=Adrl470CVqFSTBoX7bRLCqyxEClsbNpEVbLjyk7h23v9tKnuyW5Rg-NMtROfuZuATBk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=bF813JcFcVDl85Alihb9Tw&_nc_ss=7a22e&oh=00_AQJgGnCucWqYaBgCiHGjKvuhQUG5UderGVGJMfl_TOsK1Q&oe=6AB29559",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/815038003_18088095473407306_7268184752540481742_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk4ODU3Mzc0NzI4MDgxNDkwMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=-m0Us6DSM8wQ7kNvwGpSxAU&_nc_oc=AdqjTjV3-MzUwvRVJIXBAQIHx_hDRW5TNE_rkZY-SKdJf_WIX1xutoKMZxfBTxUt1jQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=G-qoFFA_qmx0qfg_k7oEwg&_nc_ss=7a22e&oh=00_AQIFHbhDo__pvx_-eJvFXAe2OWfwHqZ04ljsqb15Vc3jMQ&oe=6AB29559",
    "url": "https://www.threads.com/@aipeekme/post/DdaQrDXHyM2",
    "region": "kr"
   },
@@ -187,12 +187,12 @@
   },
   {
    "account": "choi.openai",
-   "text": "앤트로픽이 AI 연구개발의 26%를 Claude가 주도한다고 밝혔습니다.\n\n반년 전에는 1%도 되지 않았는데요.\n\n다음 AI를 만드는 속도까지 AI가 바꾸기 시작했습니다. 🧵",
-   "likes": 30,
-   "cmts": 13,
-   "time": 1789700413,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/806298807_17987624577112832_5065868082393703022_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk4ODYxODYyMDk1NTQ4NzU5MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTkyMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Fd_ZxMxADmIQ7kNvwF_Ypr9&_nc_oc=AdqeFck3TZL2jgMRzZYTJoogYM4Rc3RX-3Y3C0cXpgNAgloQtF9pyCiFO1PSnpv_vf8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=XA75xY0s1UntbgsN9S8Gww&_nc_ss=7a22e&oh=00_AQIA4zO1w716oHibyN8lhiQpFyIq5OEUkTl4cdrPzRg0HA&oe=6AB27D9D",
-   "url": "https://www.threads.com/@choi.openai/post/Ddaa4DOj21m",
+   "text": "3/ ‘AI가 주도한다’는 말을 고장 난 데이터 처리 프로그램을 고치는 상황으로 풀어보면 쉽습니다.\n\n사람이 Claude에게 장애 알림을 넘기면, Claude가 로그를 읽고 원인을 찾아 코드를 고칩니다. 중간에 새 문제가 생겨도 처리하고, 복사한 데이터로 다시 실행해 결과를 비교한 뒤 수정 내용을 보고합니다.\n\n실제 서비스에 반영할지는 사람이 결정합니다.\n이것이 이번 26%에 해당하는 단계인데요.\n\n장애를 스스로 발견하고 수정·검증·서비스 반영까지 사람 없이 끝내는 완전 자율 단계와는 사람에게 남겨 둔 권한이 다릅니다.",
+   "likes": 2,
+   "cmts": 1,
+   "time": 1789700437,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/813755908_17987624367112832_6179446190460691314_n.jpg?stp=cp6_dst-jpg_e35_tt6&_nc_cat=106&ig_cache_key=Mzk4ODU1MzczMzA3MDQyOTU0MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuNjM4LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=qBhKktx3xUcQ7kNvwFe6Qhb&_nc_oc=AdqjRpVB-J4wnSMBPAjPJu4kAIaElL9ChRnIXysJRsg12kmfMbyJ3sZpQpSh2QbARC8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=KrN0jb5kkNXrz4ufNX7pMQ&_nc_ss=7a22e&oh=00_AQIne1qAuQYU1NV0x5mSzq5Jzqee-L84ZCYkKctCje_iXA&oe=6AB291D9",
+   "url": "https://www.threads.com/@choi.openai/post/Ddaa66cj7Oe",
    "region": "kr"
   },
   {
@@ -230,10 +230,10 @@
   {
    "account": "tictok_ent",
    "title": "정수정, 시선 사로잡는 냉미모 / 랄프 로렌(RALPH LAUREN) 이벤트 포토콜 세계적으로 찬사를 받은 패션 아이콘 랄프 로렌의 삶을 조명한 HBO 다큐멘터리 ‘베리 랄프(Very Ralph)’의 스크리닝 이벤트",
-   "views": 4033,
+   "views": 4041,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okLBFiZBwYABkaDifA1KAAAwEgpiSVITJUnCFK~tplv-tiktokx-origin.image?dr=14575&x-expires=1789876800&x-signature=uqsng%2FlckwBPnGtDWhwETZnp4%2BE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=sg1",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okLBFiZBwYABkaDifA1KAAAwEgpiSVITJUnCFK~tplv-tiktokx-origin.image?dr=14575&x-expires=1789880400&x-signature=yGlAsgW0zK06iXK6KGeriOT2XE0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789465968,
    "url": "https://www.tiktok.com/@tictok_ent/video/7685697810284465415",
    "region": "kr"
@@ -241,10 +241,10 @@
   {
    "account": "tictok_ent",
    "title": "엔하이픈(ENHYPEN) 제이, 시크한 매력으로 시선 집중 / 랄프 로렌(RALPH LAUREN) 이벤트 포토콜 세계적으로 찬사를 받은 패션 아이콘 랄프 로렌의 삶을 조명한 HBO 다큐멘터리 ‘베리 랄프(Very R",
-   "views": 1035,
+   "views": 1037,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oseLtEETExroCrATveJopIleVWALBGkVUAIAAD~tplv-tiktokx-origin.image?dr=14575&x-expires=1789876800&x-signature=9RK%2BfuMW%2BYhV11ANwf9IC1IXJ0w%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=sg1",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oseLtEETExroCrATveJopIleVWALBGkVUAIAAD~tplv-tiktokx-origin.image?dr=14575&x-expires=1789880400&x-signature=0DopDZtuooLIq0GPsvfIAf1jUqc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789465966,
    "url": "https://www.tiktok.com/@tictok_ent/video/7685697801585495303",
    "region": "kr"
@@ -252,10 +252,10 @@
   {
    "account": "tictok_ent",
    "title": "이진욱, 댄디한 매력 물씬 / 랄프 로렌(RALPH LAUREN) 이벤트 포토콜 세계적으로 찬사를 받은 패션 아이콘 랄프 로렌의 삶을 조명한 HBO 다큐멘터리 ‘베리 랄프(Very Ralph)’의 스크리닝 이벤트가 ",
-   "views": 976,
+   "views": 978,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oYUAWEIlinGArdAloeAILeSDenoAFVQEWDIvbK~tplv-tiktokx-origin.image?dr=14575&x-expires=1789876800&x-signature=tCw3f4LYbHxDA8EL6wMM2AH7A2I%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=sg1",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oYUAWEIlinGArdAloeAILeSDenoAFVQEWDIvbK~tplv-tiktokx-origin.image?dr=14575&x-expires=1789880400&x-signature=4d48g7Ix7qZfPEWchXEI%2FCnAyrc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789465966,
    "url": "https://www.tiktok.com/@tictok_ent/video/7685697804781620487",
    "region": "kr"
@@ -263,10 +263,10 @@
   {
    "account": "tictok_ent",
    "title": "마크, 분위기까지 완벽한 랄프 로렌 스타일 / 랄프 로렌(RALPH LAUREN) 이벤트 포토콜 세계적으로 찬사를 받은 패션 아이콘 랄프 로렌의 삶을 조명한 HBO 다큐멘터리 ‘베리 랄프(Very Ralph)’의 스",
-   "views": 964,
+   "views": 965,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oYfVEC0f927DCAupVlCvItALgAFTBqASq1DUAE~tplv-tiktokx-origin.image?dr=14575&x-expires=1789876800&x-signature=dR%2BNvy3Khtcn4exlQ%2FlqPi0H65M%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=sg1",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oYfVEC0f927DCAupVlCvItALgAFTBqASq1DUAE~tplv-tiktokx-origin.image?dr=14575&x-expires=1789880400&x-signature=qD47T4VFH%2FofH5jdGhEACwu33WE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789465967,
    "url": "https://www.tiktok.com/@tictok_ent/video/7685697807512046855",
    "region": "kr"
@@ -277,7 +277,7 @@
    "views": 922,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ocAPJiawAXhKxB7wIyLAfyAyCYiBV1IKwABpE5~tplv-tiktokx-origin.image?dr=14575&x-expires=1789876800&x-signature=gJu8ON8zWcBeRVagf3vT7Dijwto%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=sg1",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ocAPJiawAXhKxB7wIyLAfyAyCYiBV1IKwABpE5~tplv-tiktokx-origin.image?dr=14575&x-expires=1789880400&x-signature=I4M6PSVjncDC9MKNzC%2Fq8ih33J4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789465963,
    "url": "https://www.tiktok.com/@tictok_ent/video/7685697789942156551",
    "region": "kr"
@@ -285,10 +285,10 @@
   {
    "account": "tictok_ent",
    "title": "김도연, 우아한 비주얼로 시선 강탈 / 랄프 로렌(RALPH LAUREN) 이벤트 포토콜 #김도연 #랄프로렌 #RALPHLAUREN",
-   "views": 864,
+   "views": 866,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oUICSFq0SCAFBsDjQfeMAUAgErWHuq1MEF1AVp~tplv-tiktokx-origin.image?dr=14575&x-expires=1789876800&x-signature=RXsBIukDDoD7q%2FK6OixQbumALjY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=sg1",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oUICSFq0SCAFBsDjQfeMAUAgErWHuq1MEF1AVp~tplv-tiktokx-origin.image?dr=14575&x-expires=1789880400&x-signature=sSdSvPpH3RY8RId7tJppCAaqBeo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789465967,
    "url": "https://www.tiktok.com/@tictok_ent/video/7685697809139404039",
    "region": "kr"
@@ -299,7 +299,7 @@
    "views": 674,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ogHUDxeGoEW5r3VEeLFfCUplpEaArItALAADIA~tplv-tiktokx-origin.image?dr=14575&x-expires=1789876800&x-signature=UGcJzLSa3ZNvfVrtFSRailpoHXg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=sg1",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ogHUDxeGoEW5r3VEeLFfCUplpEaArItALAADIA~tplv-tiktokx-origin.image?dr=14575&x-expires=1789880400&x-signature=w2ue9t%2F5zK5CshEYkqcuLXG45VY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789465967,
    "url": "https://www.tiktok.com/@tictok_ent/video/7685697808812264711",
    "region": "kr"
@@ -307,12 +307,23 @@
   {
    "account": "tictok_ent",
    "title": "수지, 시민들의 욕을 부르는 미모 / 아누아(Anua) 포토월 더파운더즈의 글로벌 뷰티 브랜드 아누아(Anua)의 'PDRN 라인 팝업스토어' 오픈을 기념하는 포토행사가 18일 오전 서울 성동구 성수동에 위치한 올리",
-   "views": 342,
+   "views": 462,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ow8gANS3AmQCK2UqVEUCB50sGEQeIAFZAFArfD~tplv-tiktokx-origin.image?dr=14575&x-expires=1789876800&x-signature=CqDox9Q6y3mrIG47RCfyJolMavI%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=sg1",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ow8gANS3AmQCK2UqVEUCB50sGEQeIAFZAFArfD~tplv-tiktokx-origin.image?dr=14575&x-expires=1789880400&x-signature=H8HQftpkhDVhZFFE38%2FTgy4dlWo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789699186,
    "url": "https://www.tiktok.com/@tictok_ent/video/7686699475406015762",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "제로베이스원(ZEROBASEONE) 성한빈, 기억에 남을 눈부신 비주얼 / 원더바스(WONDERBATH) 팝업스토어 CSA 코스믹의 스킨케어 브랜드 원더바스(WONDERBATH)가 신제품 슬라이스 세럼 출시를 기념한",
+   "views": 311,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ogtsrSezVEoAEADSlEWW8C3QIVMADdAevA88ve~tplv-tiktokx-origin.image?dr=14575&x-expires=1789880400&x-signature=N3NGQcwiPR0uVlWG3aRkIviU5zk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "time": 1789695807,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7686684961272892679",
    "region": "kr"
   },
   {
@@ -321,24 +332,22 @@
    "views": 304,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ocPAcitIAAApiYkjFxlZCaYLR9AqEAAl2Bskd~tplv-tiktokx-origin.image?dr=14575&x-expires=1789876800&x-signature=xNVAsJy7uDYKfYf8KkVSuc7PUq4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=sg1",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ocPAcitIAAApiYkjFxlZCaYLR9AqEAAl2Bskd~tplv-tiktokx-origin.image?dr=14575&x-expires=1789880400&x-signature=lRzAteiSzuhvMq%2BhUZ1UosZ6nXo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789465961,
    "url": "https://www.tiktok.com/@tictok_ent/video/7685697783063530759",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "제로베이스원(ZEROBASEONE) 성한빈, 기억에 남을 눈부신 비주얼 / 원더바스(WONDERBATH) 팝업스토어 CSA 코스믹의 스킨케어 브랜드 원더바스(WONDERBATH)가 신제품 슬라이스 세럼 출시를 기념한",
-   "views": 243,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ogtsrSezVEoAEADSlEWW8C3QIVMADdAevA88ve~tplv-tiktokx-origin.image?dr=14575&x-expires=1789876800&x-signature=1oGKjyYvGWPKXZIfO3aoobG9NJM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=sg1",
-   "time": 1789695807,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7686684961272892679",
    "region": "kr"
   }
  ],
  "reddit": [
+  {
+   "sub": "AnimalsBeingDerps",
+   "title": "This is my candle! Get your own!",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/emdiaTg2bjlkNnFoMQihWwAT9I5floKQW_smbPdFg1Y3qZb3c09OqTOMEXxu.jpeg?width=640&crop=smart&auto=webp&s=79948a542e492629cd6552f35eac2f531aed0a9d",
+   "time": 1789692034,
+   "url": "https://www.reddit.com/r/AnimalsBeingDerps/comments/1wjbg8q/this_is_my_candle_get_your_own/"
+  },
   {
    "sub": "AskReddit",
    "title": "You get $1 million but you have to watch every episode of a TV show 10 times, what show are you picking?",
@@ -358,13 +367,13 @@
    "url": "https://www.reddit.com/r/whoathatsinteresting/comments/1wj6nmn/ed_sheerans_tour_is_now_on_track_to_be_cancelled/"
   },
   {
-   "sub": "AnimalsBeingDerps",
-   "title": "This is my candle! Get your own!",
+   "sub": "PeterExplainsTheJoke",
+   "title": "Petah?",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/emdiaTg2bjlkNnFoMQihWwAT9I5floKQW_smbPdFg1Y3qZb3c09OqTOMEXxu.jpeg?width=640&crop=smart&auto=webp&s=79948a542e492629cd6552f35eac2f531aed0a9d",
-   "time": 1789692034,
-   "url": "https://www.reddit.com/r/AnimalsBeingDerps/comments/1wjbg8q/this_is_my_candle_get_your_own/"
+   "thumb": "https://preview.redd.it/0y6pcmph87qh1.jpeg?width=640&crop=smart&auto=webp&s=77d9a2f3d41eb9ecd25324c7c67c05980f629396",
+   "time": 1789702535,
+   "url": "https://www.reddit.com/r/PeterExplainsTheJoke/comments/1wjf6cv/petah/"
   },
   {
    "sub": "BlackPeopleTwitter",
@@ -374,6 +383,15 @@
    "thumb": "https://preview.redd.it/p1xiqnfyr6qh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=04543f2e8a8f03c35976d69adbb0f14691f795f0",
    "time": 1789696975,
    "url": "https://www.reddit.com/r/BlackPeopleTwitter/comments/1wjd7r0/going_band_for_band/"
+  },
+  {
+   "sub": "MadeMeSmile",
+   "title": "😂 a good boy 🐶",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/anFwbmltMW96NnFoMXGH8Ft-gJlQ7qSnjCguPPd8nTf8FdntCa7Y6so9AoeF.png?width=320&crop=smart&auto=webp&s=0b7db057a68dd0419d1f31d77764d6e37f73502f",
+   "time": 1789699567,
+   "url": "https://www.reddit.com/r/MadeMeSmile/comments/1wje52x/a_good_boy/"
   },
   {
    "sub": "politics",
@@ -394,24 +412,6 @@
    "url": "https://www.reddit.com/r/cats/comments/1wj2nyr/my_cat_17_will_be_euthanized_next_week_and_im_in/"
   },
   {
-   "sub": "funComunitty",
-   "title": "Try",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/3atz9x1ng5qh1.jpeg?width=640&crop=smart&auto=webp&s=21d549bb3ccf4f7401b41c7fa344def13c679f2b",
-   "time": 1789681072,
-   "url": "https://www.reddit.com/r/funComunitty/comments/1wj75ir/try/"
-  },
-  {
-   "sub": "interestingasfuck",
-   "title": "Americans and Canadians Play Catch Across the US-Canada Border",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/MHBuM3QzcHRyNnFoMWj9aN23zhRQM5Q6_MkG3n1ojzB2cXg5AgtL2c_q1S8O.png?width=320&crop=smart&auto=webp&s=717b8758190737555261a277bcfc2b8e0258e4a2",
-   "time": 1789696929,
-   "url": "https://www.reddit.com/r/interestingasfuck/comments/1wjd76k/americans_and_canadians_play_catch_across_the/"
-  },
-  {
    "sub": "interesting",
    "title": "Joanna Wietrzyk (HYROX fecal incontinence girl) apologies only 7 hours after losing PUMA clothing line sponsorship",
    "score": 0,
@@ -419,15 +419,6 @@
    "thumb": "https://preview.redd.it/45yy1pp7o2qh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=3ce6012cfd5e64f53ba7b4fca4d53d4a25d455cb",
    "time": 1789647827,
    "url": "https://www.reddit.com/r/interesting/comments/1wisitd/joanna_wietrzyk_hyrox_fecal_incontinence_girl/"
-  },
-  {
-   "sub": "meirl",
-   "title": "Meirl",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/0kar5xc0f5qh1.jpeg?width=640&crop=smart&auto=webp&s=098f89a6a455c5e5f4c4f717e5ec2d9021c3cc7f",
-   "time": 1789680512,
-   "url": "https://www.reddit.com/r/meirl/comments/1wj6xe3/meirl/"
   },
   {
    "sub": "mildlyinteresting",
@@ -439,13 +430,22 @@
    "url": "https://www.reddit.com/r/mildlyinteresting/comments/1witk8k/apparently_i_have_elf_ears/"
   },
   {
-   "sub": "todayilearned",
-   "title": "TIL that modern GLP1 drugs trace back to taxpayer-funded research on Gila monster venom at a VA hospital. The VA declined to patent the initial discovery by Dr. John Eng, giving up potential pricing l",
+   "sub": "interestingasfuck",
+   "title": "Americans and Canadians Play Catch Across the US-Canada Border",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/kDO1lgDVy-xp8JlKmbbNRZOWIGulRib6rd67oh-ciug.jpeg?width=640&crop=smart&auto=webp&s=cd3e91b0cd8767a6fe3b0c1f9f6b57fcb9e33932",
-   "time": 1789695656,
-   "url": "https://www.reddit.com/r/todayilearned/comments/1wjcqz8/til_that_modern_glp1_drugs_trace_back_to/"
+   "thumb": "https://external-preview.redd.it/MHBuM3QzcHRyNnFoMWj9aN23zhRQM5Q6_MkG3n1ojzB2cXg5AgtL2c_q1S8O.png?width=320&crop=smart&auto=webp&s=717b8758190737555261a277bcfc2b8e0258e4a2",
+   "time": 1789696929,
+   "url": "https://www.reddit.com/r/interestingasfuck/comments/1wjd76k/americans_and_canadians_play_catch_across_the/"
+  },
+  {
+   "sub": "HolUp",
+   "title": "Shaker!",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/a204aDI1dm42N3FoMRApoTioKZsnipZFIo02SHgahpYQqPr5hQzxn-emhxri.jpeg?width=640&crop=smart&auto=webp&s=c6a11b81d24ed69caecc0353b9a69bae79b6fca4",
+   "time": 1789701926,
+   "url": "https://www.reddit.com/r/HolUp/comments/1wjeyjf/shaker/"
   }
  ],
  "disaster": [],
@@ -470,10 +470,10 @@
    }
   },
   "landing": {
-   "at": "2026-09-18T13:05:18",
+   "at": "2026-09-18T13:31:21",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-09-18T13:31:18.819200+09:00"
+ "updated": "2026-09-18T14:01:21.257592+09:00"
 }
