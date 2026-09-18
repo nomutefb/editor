@@ -6848,8 +6848,14 @@
   {
    "query": "kfa",
    "traffic": "100+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/4ad5798b8d.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/001/0016309198",
+     "source": ""
+    }
+   ],
    "vol": 100,
    "started": "2026-09-18T18:50:00+09:00",
    "isNew": true,
@@ -7054,8 +7060,14 @@
   {
    "query": "삼성 대 한화",
    "traffic": "10000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/027bc3ff52.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/008/0005415670",
+     "source": ""
+    }
+   ],
    "vol": 10000,
    "started": "2026-09-18T17:40:00+09:00",
    "delta": -6,
@@ -7068,8 +7080,14 @@
   {
    "query": "lg 대 kt",
    "traffic": "5000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/2a8892e48d.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/030/0003466944",
+     "source": ""
+    }
+   ],
    "vol": 5000,
    "started": "2026-09-18T17:40:00+09:00",
    "delta": -6,
@@ -7103,8 +7121,14 @@
   {
    "query": "키움 대 두산",
    "traffic": "5000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/22f7098107.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/011/0004663283",
+     "source": ""
+    }
+   ],
    "vol": 5000,
    "started": "2026-09-18T17:40:00+09:00",
    "delta": -7,
@@ -7258,8 +7282,14 @@
   {
    "query": "항공모함",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/c044097c48.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/421/0009179413",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-09-18T17:10:00+09:00",
    "isNew": true,
@@ -7580,9 +7610,8 @@
  ],
  "gtrends_pool_updated": "2026-09-18T20:06:34+09:00",
  "_trend_img": {
-  "tried": "2026-09-18T19:10:47+09:00",
+  "tried": "2026-09-18T20:06:34+09:00",
   "fail": {
-   "우주소녀": "2026-09-18T17:43:01+09:00",
    "đội tuyển bóng đá u-23 quốc gia philippines đấu với u-23 việt nam": "2026-09-18T18:18:53+09:00"
   }
  },
@@ -16481,7 +16510,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-09-18T20:06:34+09:00"
+    "first_seen": "2026-09-18T20:06:34+09:00",
+    "kw": "PrismML, Bonsai 2 27B, 블로그",
+    "sum": "계정이 Bonsai 2 27B 관련 블로그 글을 공유했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -16496,7 +16528,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-09-18T20:06:34+09:00"
+    "first_seen": "2026-09-18T20:06:34+09:00",
+    "kw": "PrismML, Bonsai 2 27B, 경량화",
+    "sum": "PrismML이 27B 모델을 5.9GB로 경량화하며 성능 98.2%를 유지했다",
+    "sv": 1
    },
    {
     "account": "aipeekme",
