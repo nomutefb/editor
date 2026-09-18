@@ -1,22 +1,11 @@
 {
  "x": [
   {
-   "account": "MarioNawfal",
-   "text": "🇺🇸🇮🇷 One tanker ETF is up 3,600 percent this year, which tells you everything about who is actually getting paid in this war...\n\nBreakwave's fund does nothing but hold shipping freight futures.\n\nIt has gained more than thirty-six times its value since January, and when oil dipped",
-   "likes": 168,
-   "rts": 21,
-   "cmts": 17,
-   "views": 0,
-   "time": "Thu Sep 17 22:55:38 +0000 2026",
-   "url": "https://x.com/MarioNawfal/status/2100720361725923429",
-   "region": "kr"
-  },
-  {
    "account": "64bitcoinkr",
    "text": "오늘자 르세라핌 사쿠라\n\n미국 투어 공연중 https://t.co/GcKj66re84",
-   "likes": 23665,
-   "rts": 1528,
-   "cmts": 105,
+   "likes": 24029,
+   "rts": 1546,
+   "cmts": 108,
    "views": 0,
    "time": "Thu Sep 17 06:26:35 +0000 2026",
    "url": "https://x.com/64bitcoinkr/status/2100471459487547766",
@@ -27,32 +16,32 @@
  "threads": [
   {
    "account": "daily_ai_star",
+   "text": "이번 정식 제공에는 워크플로 파일별 규칙, 정책 적용 결과를 보는 Insights, 엔터프라이즈·조직·저장소 단위의 REST API가 들어갔습니다.\n\n예를 들어 `deploy.yml`만 특정 팀에 허용하고, 일반 CI 워크플로는 더 넓게 열 수 있습니다. 정책을 코드로 관리해 여러 저장소에 같은 기준을 배포하는 것도 가능합니다.\n\n다만 `pull_request_target` 기본 규칙은 처음부터 즉시 강제되지 않습니다. 11월 2일까지 평가 결과를 확인한 뒤 그대로 차단하거나, 필요한 워크플로만 명시적으로 허용해야 합니다.\n\nhttps://github.blog/changelog/2026-09-17-workflow-execution-protections-in-github-actions-generally-available",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1789692630,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdaMBd4Gexm",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
+   "text": "GitHub Actions가 11월 2일부터 기본 정책을 쓰는 공개 저장소의 `pull_request_target` 실행을 막습니다.\n\n이 이벤트는 포크에서 온 코드도 기본 저장소의 시크릿에 접근할 수 있어, 악성 코드가 파이프라인에 들어오면 자격증명을 빼낼 위험이 있었습니다.\n\nGitHub는 9월 17일 실행 보호 기능을 정식 제공했습니다. 이제 누가 어떤 이벤트로 어떤 워크플로를 실행할지 허용 목록으로 정하고, 적용 전에는 평가 모드로 차단될 실행을 확인할 수 있습니다.\n\n에이전트가 만든 코드의 위험은 PR 안에서 끝나지 않습니다. 어떤 트리거가 어떤 권한으로 실행되는지까지 정책으로 고정해야 합니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1789692621,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdaMABnGXbv",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
    "text": "중요한 숫자는 80만 줄보다 검증 방식에 있습니다.\n\n이식 과정에서 알려진 회귀는 9월 14일까지 수십 건이었고 모두 수정됐습니다. 누락된 기능과 일부 버그의 주요 원인은 충분하지 않은 엔드투엔드 테스트였습니다.\n\n에이전트 시대의 대형 변경은 “얼마나 많이 생성했는가”보다 “작게 배포하고, 독립된 테스트로 무엇을 확인했는가”가 기준이 됩니다 ⭐\n\nhttps://github.blog/ai-and-ml/generative-ai/migrating-the-github-copilot-runtime-to-rust-using-copilot/",
    "likes": 0,
    "cmts": 0,
    "time": 1789691157,
    "thumb": "",
    "url": "https://www.threads.com/@daily_ai_star/post/DdaJNsGkwDB",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "기존 런타임은 TypeScript·Node.js·V8 기반이었습니다. GitHub는 이를 Rust로 옮기며 실행 파일을 네이티브화했고, 6개 언어용 SDK가 공유 런타임을 사용하도록 했습니다.\n\n14주 반 동안 main 브랜치는 멈추지 않았습니다. 총 135번 릴리스했고, 그중 안정 버전은 35개였습니다. 8월 21일 런타임은 100% production Rust가 됐습니다.",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1789691145,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdaJL7Jk63d",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "GitHub Copilot 런타임이 832,378줄의 Rust로 바뀌었습니다.\n\nAI 에이전트가 대부분의 코드를 작성했고, 128개 PR로 나눠 운영 중인 제품에 순차 반영했습니다. 한 번에 갈아엎지 않고 계속 배포하는 방식이었습니다.\n\n코딩 에이전트가 바꾼 것은 작성 속도만이 아니라, 예전에는 비용 때문에 포기했을 대형 리라이트의 손익계산입니다.",
-   "likes": 0,
-   "cmts": 2,
-   "time": 1789691135,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdaJK2Fk6dy",
    "region": "kr"
   },
   {
@@ -68,10 +57,10 @@
   {
    "account": "choi.openai",
    "text": "오픈AI가 어디까지 시장을 확장하려는 걸까요..\n\n이번에는 법률 업무에 특화된 Astra for Law를 공개했습니다.\n\nGPT-6 Astra에 법률 분석과 문서 작성 기능을 적용하고, 미국 판례·법령·규정 등 2억 3천만 개 이상의 URL을 검색하는 Legal Search Index도 제공합니다.\n\nThomson Reuters, Harvey 등과 만든 법률 플러그인까지 지원하며, 우선 일부 로펌에 제공한 뒤 API도 출시할 예정입니다.\n\n한국도 판례 데이터가 어서 빨리 공개되면 좋겠네요.",
-   "likes": 29,
+   "likes": 42,
    "cmts": 3,
    "time": 1789689618,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/814535099_1087553884197580_5808712574231068215_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk4ODUyNzY3NTc3Nzc2MjY5Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=8W2YYwZFBU8Q7kNvwHK6CQF&_nc_oc=Adrtf2mv5JJ9bNjzjR3Ac17mjpvNrSGGVbKQMbLTJtCl4qTMTiC-tO8GFqeQRZPAfG0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=FboS0CWeFMcPp_2qCehMDw&_nc_ss=7a22e&oh=00_AQK3AaNmHWtk0V_8gtGntwdnmjdIpJz1g8SQ2rTYqVoeww&oe=6AB23E8D",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/814535099_1087553884197580_5808712574231068215_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk4ODUyNzY3NTc3Nzc2MjY5Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=8W2YYwZFBU8Q7kNvwHK6CQF&_nc_oc=Adrtf2mv5JJ9bNjzjR3Ac17mjpvNrSGGVbKQMbLTJtCl4qTMTiC-tO8GFqeQRZPAfG0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=J0dFww778tfxh66jl_FW1w&_nc_ss=7a22e&oh=00_AQLM10z9bg7cs9KPR7WdSPqubDWuV8pJWZNXTNQNTaKgPw&oe=6AB276CD",
    "url": "https://www.threads.com/@choi.openai/post/DdaGMn7jEWJ",
    "region": "kr"
   },
@@ -91,18 +80,48 @@
    "likes": 0,
    "cmts": 1,
    "time": 1789686075,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/814603304_18088079282407306_297822956061112198_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk4ODQ5ODI3ODM2MzYzMjgxOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQzOC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=paipI_vEXCMQ7kNvwHDkTHj&_nc_oc=AdrQCkZ8wMUHhGe05XLXdDVOTRxs4ODDWZwCQv5hALV2KZQpFKMfiHN-xL_2jT73zFQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=b85hwYfSUzQ7zZ8yiGFs7A&_nc_ss=7a22e&oh=00_AQKBzb9u9wLdFliY_4AL3Xi4_SgbbSQdURle82RUWWOgSA&oe=6AB26FB7",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/814603304_18088079282407306_297822956061112198_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk4ODQ5ODI3ODM2MzYzMjgxOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQzOC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=paipI_vEXCMQ7kNvwHDkTHj&_nc_oc=AdrQCkZ8wMUHhGe05XLXdDVOTRxs4ODDWZwCQv5hALV2KZQpFKMfiHN-xL_2jT73zFQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=maH3JO9_iHTdhJUZeuu1hQ&_nc_ss=7a22e&oh=00_AQIeehcybqmfbNVNlG7J1tbmZzIuy11fRbumuqJ29nOXAQ&oe=6AB26FB7",
    "url": "https://www.threads.com/@aipeekme/post/DdZ_g1dHxSz",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "Claude가 이제 하나의 대화에서 여러 작업을 병렬로 진행할 수 있게 됩니다.\n\nClaude Projects가 개편돼 요청을 여러 스레드로 나눠 처리하고, 노트북을 꺼도 클라우드에서 계속 작업합니다.\n\n각 스레드는 프로젝트 메모리와 파일을 공유하며, 사용자는 휴대폰에서도 진행 상황을 확인하고 개입할 수 있습니다.\n\n현재 일부 Pro·Max 사용자에게 베타로 제공되며, 이후 전체 사용자로 확대될 예정입니다.",
-   "likes": 38,
+   "likes": 43,
    "cmts": 1,
    "time": 1789682418,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/814319919_937384272755860_5795127012067016374_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk4ODQ2NzY2NzI4MzI3OTY3OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=QkaNxmJVcZoQ7kNvwHbfZSL&_nc_oc=AdqKeWNJO4Z6DzAbo3Mx6oJWbpZl1S5CooGmy-c612HObeGm6qiZ_ntR7m-Kp3UiK-I&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=FboS0CWeFMcPp_2qCehMDw&_nc_ss=7a22e&oh=00_AQKn74Hbte31ILdKTBSMFAMc57Q_B3suMzG1zGgjl94Wvw&oe=6AB250E4",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/814319919_937384272755860_5795127012067016374_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk4ODQ2NzY2NzI4MzI3OTY3OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=QkaNxmJVcZoQ7kNvwHbfZSL&_nc_oc=AdqKeWNJO4Z6DzAbo3Mx6oJWbpZl1S5CooGmy-c612HObeGm6qiZ_ntR7m-Kp3UiK-I&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=J0dFww778tfxh66jl_FW1w&_nc_ss=7a22e&oh=00_AQKWWp0MvgJ_CS3J-2zCIgswYqaJnORJguzosCO52bElaA&oe=6AB250E4",
    "url": "https://www.threads.com/@choi.openai/post/DdZ4jYqjP8_",
+   "region": "kr"
+  },
+  {
+   "account": "takepage_",
+   "text": "전 이렇게 생각합니다. \n\nAI를 레버리지로 쓴다는 건\n내가 원래 하던 100의 업무를 \nAI에게 40을 주고 내가 60만 하게되면\n\n남은 40으로 새로운 걸 시도해보는겁니다.\n\n이 과정을 처음부터 AI와 함께 하는 게 절대 아닙니다.\n\n적어도 한 사이클은 내 손으로 돌려보고,\n\n역량에 따라 느낌이 빨리 잡히면\n그만큼 빨리, 늦게 잡히면 천천히 \nAI를 도입해보시는 걸 추천드려봅니다.",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1789658045,
+   "thumb": "",
+   "url": "https://www.threads.com/@takepage_/post/DdZKEFjE-LE",
+   "region": "kr"
+  },
+  {
+   "account": "takepage_",
+   "text": "반대로 1주만 사용하시는 분들도 공통점이 있습니다.\n대부분 AI로 새로운 걸 시도해보는 분들입니다.\n\n- 영상 편집을 해보지 않은 사람의 쇼츠 자동화\n- 블로그를 안써본 사람의 블로그 자동화\n- 쓰레드로 팔로워를 모아보지 않은 사람의 쓰레드 자동화\n- 스토어를 막 시작한 사람의 소싱 자동화\n\n물론 처음부터 좋은 자동화, AI라는 도구를 가지고\n시작하여 개선해나가며 성공하는 케이스도 분명히 있습니다.\n\n하지만 대부분 전과정이 100% 자동화로 돌아가기를 원하시고\n그만큼의 제작 난이도, 비용이 올라가게 됩니다.\n\n그렇게 만들고 나면 정작 구독자, 블로그 방문자수, 쓰레드 팔로워는\n절대 그 콘텐츠들을 보거나 상품을 소비하지 않습니다.\n\n그러면 결국 그 자동화는 오히려 API비용만 나가는 애물단지가 되고\n차라리 안쓰는게 낫다는 생각으로 멀리하게 됩니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1789658039,
+   "thumb": "",
+   "url": "https://www.threads.com/@takepage_/post/DdZKDbOEyUZ",
+   "region": "kr"
+  },
+  {
+   "account": "takepage_",
+   "text": "먼저 몇개월 내내 사용하시는 분들은\n공통적으로 원래하던 내 업무에 자동화를 \n적용하시는 분들입니다.\n\n이 분들은 100% 자동화 라는 환상도 없습니다.\n\n대부분 문의를 주실 떄\n\n\"이런이런 업무를 하고 있는데,\n이런 부분, 이 정도는 AI가 해줄 수 있지 않을까요?\"\n\n라며 옵니다.\n\n나와야 하는 결과가 명확하니 AI가 어떤 부분에서\n어떻게 도움을 주면 좋을지, 내가 어디서는 검수를 해야할지\n판단이 됩니다.\n\n예를들어 SNS 콘텐츠 자동화 라고 해보면,\n이미 본인이 운영중인 채널, 주제가 명확히 있고\n그 채널의 관리, 콘텐츠 생산의 단계를 부분적으로\n자동화 하기 위해 요청하십니다.\n\n절대로 모든 걸 다 AI에게 맡기고 \n자동화 하고 싶다고 말하지 않습니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1789658035,
+   "thumb": "",
+   "url": "https://www.threads.com/@takepage_/post/DdZKC5_k5Dv",
    "region": "kr"
   },
   {
@@ -117,12 +136,12 @@
   },
   {
    "account": "daily_ai_star",
-   "text": "3/ Panniantong/Agent-Reach — 하루 +476⭐\n\n에이전트가 웹과 여러 플랫폼을 읽게 만드는 CLI입니다.\n\nTwitter, Reddit, YouTube, GitHub 등 채널별 도구를 연결하고, 플랫폼이 바뀌면 백엔드를 교체하는 라우팅 계층을 둡니다. 누적 포크 7,200개입니다.\n\n에이전트의 성능보다 먼저 붙는 것은 작업 환경입니다 ⭐\n\nhttps://startupcorners.com/digest/devtools-digest-2026-09-17",
+   "text": "기존 런타임은 TypeScript·Node.js·V8 기반이었습니다. GitHub는 이를 Rust로 옮기며 실행 파일을 네이티브화했고, 6개 언어용 SDK가 공유 런타임을 사용하도록 했습니다.\n\n14주 반 동안 main 브랜치는 멈추지 않았습니다. 총 135번 릴리스했고, 그중 안정 버전은 35개였습니다. 8월 21일 런타임은 100% production Rust가 됐습니다.",
    "likes": 0,
-   "cmts": 0,
-   "time": 1789689655,
+   "cmts": 1,
+   "time": 1789691145,
    "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdaGWKRkxVX",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdaJL7Jk63d",
    "region": "kr"
   },
   {
@@ -133,6 +152,16 @@
    "time": 1789677016,
    "thumb": "",
    "url": "https://www.threads.com/@choi.openai/post/DdZuP8MjFgA",
+   "region": "kr"
+  },
+  {
+   "account": "takepage_",
+   "text": "30명의 대표님께 자동화를 만들어 드리고나니\n대부분 이렇게 나뉘더라구요.\n\n- 자동화를 몇개월 내내 지속적으로 사용하시는 분\n- 1주만 사용하고 그 이후로는 손도 안대시는 분\n\n이 둘의 차이점은 정말 명확합니다.",
+   "likes": 0,
+   "cmts": 3,
+   "time": 1789658032,
+   "thumb": "",
+   "url": "https://www.threads.com/@takepage_/post/DdZKCh0k2vL",
    "region": "kr"
   },
   {
@@ -147,12 +176,12 @@
   },
   {
    "account": "daily_ai_star",
-   "text": "2/ volcengine/OpenViking — 하루 +276⭐\n\n에이전트의 메모리·지식 검색·스킬을 하나의 컨텍스트 데이터베이스로 묶습니다.\n\n가상 파일시스템 구조로 필요한 맥락만 단계적으로 읽고, 세션에서 얻은 정보를 다음 작업의 기억으로 남깁니다. 누적 포크 2,900개입니다.\n\nhttps://startupcorners.com/digest/devtools-digest-2026-09-17",
+   "text": "GitHub Copilot 런타임이 832,378줄의 Rust로 바뀌었습니다.\n\nAI 에이전트가 대부분의 코드를 작성했고, 128개 PR로 나눠 운영 중인 제품에 순차 반영했습니다. 한 번에 갈아엎지 않고 계속 배포하는 방식이었습니다.\n\n코딩 에이전트가 바꾼 것은 작성 속도만이 아니라, 예전에는 비용 때문에 포기했을 대형 리라이트의 손익계산입니다.",
    "likes": 0,
-   "cmts": 1,
-   "time": 1789689643,
+   "cmts": 2,
+   "time": 1789691135,
    "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdaGUsNk7Zo",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdaJK2Fk6dy",
    "region": "kr"
   },
   {
@@ -161,79 +190,149 @@
    "likes": 17,
    "cmts": 1,
    "time": 1789677007,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/814926210_2085427995448284_3112791816889903968_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk4ODQyMjI3NDM0NDMyMzY3Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Wjd8sawaoaoQ7kNvwGjZroa&_nc_oc=AdqShuf8AeQN8dNX2JaOdybm2PxpI74jbKCEfw9Gxg8-oxocopB_twrjmWewo_KCMvw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=FboS0CWeFMcPp_2qCehMDw&_nc_ss=7a22e&oh=00_AQJ16IAvmEGnNGYsCRMry5T_2jYiIi1PGT2vSNrdBDG3Mg&oe=6AB23CC2",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/814926210_2085427995448284_3112791816889903968_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk4ODQyMjI3NDM0NDMyMzY3Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Wjd8sawaoaoQ7kNvwGjZroa&_nc_oc=AdqShuf8AeQN8dNX2JaOdybm2PxpI74jbKCEfw9Gxg8-oxocopB_twrjmWewo_KCMvw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=J0dFww778tfxh66jl_FW1w&_nc_ss=7a22e&oh=00_AQJlKD8yXEWMbsvnflgU4uMB5dJxIRpYPSWHNQ_MmwKBdw&oe=6AB27502",
    "url": "https://www.threads.com/@choi.openai/post/DdZuO1MjIpZ",
    "region": "kr"
   },
   {
-   "account": "daily_ai_star",
-   "text": "1/ alphaXiv/OpenResearch — 하루 +1,017⭐\n\n코딩 에이전트를 연구 에이전트로 바꾸는 오픈소스 프로젝트입니다.\n\n논문 탐색과 가설 검토처럼 긴 작업을 에이전트가 수행하도록 연구용 실행 계층을 제공합니다. 9월 17일 기준 누적 별 5,038개, 포크 297개입니다.\n\nhttps://startupcorners.com/digest/devtools-digest-2026-09-17",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1789689623,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdaGSP1E5xW",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "기사 :\nhttps://www.theinformation.com/newsletters/ai-agenda/openai-close-solving-another-millennium-prize-math-problem",
+   "account": "takepage_",
+   "text": "크롬만 쓰던 크붕이의 aside 후기\n\n- 센프란시스코 탭 스타일로는 열어둔 탭이 밀려 영영 못볼까봐 \n얼른 뉴욕으로 바꾸고 사이드 탭 스타일에 적응중이다.\n\n- 그럼에도 탭 관리는 사실 크롬이 훨씬 편한 느낌이다. \n익숙해서 그렇겠지\n\n- new chat으로 ask 모드로 쓰는 것도 좋지만 ask aside로 메인 창의\n사이드에서 작업하는 게 뭔가 더 집중도가 좋았다.\n\n- 서브에이전트 캐릭터가 아주 귀요미다\n\n- 리서치나 브라우저 조작 정도만 하다보니 토큰이 빨리 닳는다는 느낌은 없다. 코딩 작업은 아직 코덱스에서 따로 한다.\n\n- 뭔가 브라우저 및 리서치 단계가 더 고지능이 필요할거란 막연한 생각에\nAstra high를 메인으로 쓰고 있었는데, 다른 사람들은 이렇게 안 쓰는 것 같아\nluna max를 메인으로 바꿔서 작업도 해봐야겠다",
    "likes": 3,
    "cmts": 0,
-   "time": 1789671630,
+   "time": 1789651465,
    "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DdZj-aVCSEn",
+   "url": "https://www.threads.com/@takepage_/post/DdY9g3MExYn",
    "region": "kr"
   },
   {
    "account": "daily_ai_star",
-   "text": "OpenResearch가 9월 17일 하루 +1,017개로 가장 빠르게 올랐습니다.\n\n오늘의 3개: alphaXiv/OpenResearch · volcengine/OpenViking · Panniantong/Agent-Reach\n\n별이 붙는 곳이 모델 자체보다 에이전트의 조사·기억·접속 계층으로 내려가고 있습니다. ⭐",
-   "likes": 0,
-   "cmts": 3,
-   "time": 1789689614,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdaGRatk6Y3",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "🚨 오픈AI가 밀레니엄 문제를 하나 더 풀 가능성이 있다는 보도가 나왔습니다.\n\nThe Information에 따르면 이번 문제는 호지 추측(Hodge Conjecture)로, 오픈AI 내부 연구진은 증명 완성에 가까워졌다고 보고 있습니다. 앞서 나비에-스토크스(Navier–Stokes) 문제에는 차세대 사전학습 모델의 변형인 코드명 “Doug”가 활용됐다고 전해졌습니다.\n\n오픈AI가 수학에 집중하는 이유는 AI 연구 자동화와 연결됩니다. 수학 능력을 높여 새로운 AI 기술을 찾고, 향후 모델 개발 과정까지 AI가 맡도록 하는 것이 목표라고 합니다.",
-   "likes": 28,
-   "cmts": 1,
-   "time": 1789671621,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/794093411_17987590905112832_2600276546683568217_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk4ODM3NzA4OTc0NDY4MDExMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuODc0LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=st-x5-e24iEQ7kNvwEOM-Hs&_nc_oc=AdqwU2LdpbDsX5qN1bN8AD9iIg42TXfvTUXdQ1OiqjxsoeO40M6DLm5cYwFAzYhKjMQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=FboS0CWeFMcPp_2qCehMDw&_nc_ss=7a22e&oh=00_AQJnP7YYj_ngGBQ2FHL1OTAJoe0uxfl3LLi9i4TouBnWPg&oe=6AB265E2",
-   "url": "https://www.threads.com/@choi.openai/post/DdZj9TwibSw",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "이 기능은 GitHub Copilot Business와 Enterprise의 사용량 기반 과금에서 제공됩니다.\n\n관리자가 보게 되는 것은 월말 사용량만이 아닙니다. 어떤 작업이 예산을 소진했고, 누가 추가 실행을 요청했으며, 그 요청을 어떤 기준으로 승인했는지가 운영 기록에 남습니다.\n\n에이전트 비용 정책의 기준이 “얼마를 배정할까”에서 “멈춘 작업을 어떤 조건에서 다시 열까”로 바뀌었습니다.\n\nhttps://github.blog/changelog/2026-09-16-copilot-budget-increase-requests-are-generally-available/",
+   "text": "3/ Panniantong/Agent-Reach — 하루 +476⭐\n\n에이전트가 웹과 여러 플랫폼을 읽게 만드는 CLI입니다.\n\nTwitter, Reddit, YouTube, GitHub 등 채널별 도구를 연결하고, 플랫폼이 바뀌면 백엔드를 교체하는 라우팅 계층을 둡니다. 누적 포크 7,200개입니다.\n\n에이전트의 성능보다 먼저 붙는 것은 작업 환경입니다 ⭐\n\nhttps://startupcorners.com/digest/devtools-digest-2026-09-17",
    "likes": 0,
    "cmts": 0,
-   "time": 1789609240,
+   "time": 1789689655,
    "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdXs94eGU-R",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "GitHub Copilot이 9월 16일 예산 초과를 중단이 아니라 승인 요청으로 바꿨습니다.\n\n기존에는 사용자가 배정된 AI 크레딧을 모두 쓰면 크레딧을 소비하는 Copilot 기능이 막혔습니다. 이제 사용자는 한도에 도달한 순간 추가 예산을 요청할 수 있습니다.\n\n조직 소유 예산은 조직 설정으로, 엔터프라이즈 소유 예산은 엔터프라이즈 설정으로 자동 전달됩니다. 소유자와 결제 관리자는 요청을 승인·조정·거부할 수 있고, 승인하면 새 예산이 즉시 적용됩니다.\n\n코딩 에이전트의 비용 통제가 고정 한도에서 작업 중단을 다루는 운영 흐름으로 이동했습니다.",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1789609232,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdXs9GrmeDF",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdaGWKRkxVX",
    "region": "kr"
   }
  ],
  "tiktok": [
   {
-   "account": "tictok_ent",
-   "title": "정수정, 시선 사로잡는 냉미모 / 랄프 로렌(RALPH LAUREN) 이벤트 포토콜 세계적으로 찬사를 받은 패션 아이콘 랄프 로렌의 삶을 조명한 HBO 다큐멘터리 ‘베리 랄프(Very Ralph)’의 스크리닝 이벤트",
-   "views": 3958,
+   "account": "jaemyung_lee",
+   "title": "Aux Champs-Élysées #이재명 #France #macron #fyp",
+   "views": 627100,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okLBFiZBwYABkaDifA1KAAAwEgpiSVITJUnCFK~tplv-tiktokx-origin.image?dr=14575&x-expires=1789862400&x-signature=w4H0KPkAVVkd%2FcyRHozxYLXO%2Flw%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0CGAI6ooFCAPECAEqED63ffIARmgNxjBUg0zR~tplv-tiktokx-origin.image?dr=14575&x-expires=1789866000&x-signature=wyetyYpNeFd7GTP4lrwtYQxPsSA%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1788879730,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7683179938026900754",
+   "region": "kr"
+  },
+  {
+   "account": "jaemyung_lee",
+   "title": "Саламатсызбы, Кыргызстан! 🇰🇷🇰🇬 #키르기스스탄 #Kyrgyzstan #кыргызстан",
+   "views": 340200,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ossWcFAWqdBeFM1UB9FEguDtEqARxSGQQyfuUi~tplv-tiktokx-origin.image?dr=14575&x-expires=1789866000&x-signature=%2F%2BDMGzcRsijFFORPim2ktJBW9Ko%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1789537496,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7686005021397273863",
+   "region": "kr"
+  },
+  {
+   "account": "jaemyung_lee",
+   "title": "Salam aleýkum Türkmenistan! 🇰🇷🇹🇲 #투르크메니스탄 #turkmenistan #Türkmenistan",
+   "views": 183800,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4iB0bDrFU5kqzoDSRupABvEWftIIUEfgqMaiE~tplv-tiktokx-origin.image?dr=14575&x-expires=1789866000&x-signature=%2BH5bbZDHQchE5p5VyPgyN2GhUik%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1789447594,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7685618898128915730",
+   "region": "kr"
+  },
+  {
+   "account": "jaemyung_lee",
+   "title": "Ассалому алайкум, Тоҷикистон! 🇰🇷🇹🇯 #타지키스탄#Тоҷикистон",
+   "views": 141300,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okxPtEHAgIY0AAlC9gAoxAMiBqToaAKBiFulq~tplv-tiktokx-origin.image?dr=14575&x-expires=1789866000&x-signature=%2Fjs2YIkh0XeVZLYwCcc0FIaGzCU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1789536283,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7685999812356934930",
+   "region": "kr"
+  },
+  {
+   "account": "jaemyung_lee",
+   "title": "Assalomu alaykum, O‘zbekiston!🇺🇿🇰🇷 #이재명 #우즈베키스탄 #Uzbekistan",
+   "views": 49900,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAUOEAPEroYfNoFaeAAfZQATIAiVPvDB5WhDFE~tplv-tiktokx-origin.image?dr=14575&x-expires=1789866000&x-signature=xEs0Q%2BOABmy3C21cDBp0hsRipFk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1789393470,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7685386435158887688",
+   "region": "kr"
+  },
+  {
+   "account": "jaemyung_lee",
+   "title": "빛으로 담아내는, 제7의 예술🎥",
+   "views": 41600,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oMMIdnnHDI6bTifTAPFDcDRbtBfWqzBIEDgvEo~tplv-tiktokx-origin.image?dr=14575&x-expires=1789866000&x-signature=iYpiIXTNxKz9HygZjg6U2QVNgzE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1789031851,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7683833293816614151",
+   "region": "kr"
+  },
+  {
+   "account": "jaemyung_lee",
+   "title": "새로운 영감과 끝없는 도전을 위해 🇰🇷🇫🇷 뤼미에르 서밋 레디, 액션 #Korea #France #Lumiere",
+   "views": 40700,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIqB6INciK7CI3iw10LAp5vfZO6IAlCTdIAI06~tplv-tiktokx-origin.image?dr=14575&x-expires=1789866000&x-signature=iuTJ4ewjEk%2B3ETiyGk0QoEPN8%2BQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1788733294,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7682551001663982855",
+   "region": "kr"
+  },
+  {
+   "account": "jaemyung_lee",
+   "title": "Bonjour, Lumière #France #lumière #fyp",
+   "views": 39700,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okJSEtbnglnRAQHtqOQ1UIFeETBEUtfhBKGkDV~tplv-tiktokx-origin.image?dr=14575&x-expires=1789866000&x-signature=TDVaBLnFW2u1gP%2FWnMpDEINlC6I%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1788795259,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7682817137672555794",
+   "region": "kr"
+  },
+  {
+   "account": "jaemyung_lee",
+   "title": "Қош келдіңіз, Қазақстан!🇰🇿🇰🇷 #이재명 #대통령 #카자흐스탄 #Қазақстан #Kazakhstan",
+   "views": 31900,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4AeKl0yGICLqpfFAVLAoFr7LEeoVADEIKAdEU~tplv-tiktokx-origin.image?dr=14575&x-expires=1789866000&x-signature=csUlvNCVkKl1C8UfJ%2FF56Op%2FXs8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1789473921,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7685731970453638407",
+   "region": "kr"
+  },
+  {
+   "account": "jaemyung_lee",
+   "title": "<초국가범죄, 반드시 뿌리 뽑겠습니다> ‘외국에 있으면 안 잡히겠지?’  그런 생각은 이제 버리십시오. 대한민국 국민을 상대로 한 범죄는 세계 어느 곳에 숨어 있든, 끝까지 추적해 처벌합니다. 대규모 보이스피싱 조직",
+   "views": 17000,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oU9rIZjq1EKACAAxNBVioCpiI2BAtmA28wfcPR~tplv-tiktokx-origin.image?dr=14575&x-expires=1789866000&x-signature=EznNvt984K2kyWD0xh58U2mftnE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1789605105,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7686295400835239175",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "정수정, 시선 사로잡는 냉미모 / 랄프 로렌(RALPH LAUREN) 이벤트 포토콜 세계적으로 찬사를 받은 패션 아이콘 랄프 로렌의 삶을 조명한 HBO 다큐멘터리 ‘베리 랄프(Very Ralph)’의 스크리닝 이벤트",
+   "views": 3963,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okLBFiZBwYABkaDifA1KAAAwEgpiSVITJUnCFK~tplv-tiktokx-origin.image?dr=14575&x-expires=1789866000&x-signature=Mg1WtLCAukGrkwhj9rSmPDXDvb4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789465968,
    "url": "https://www.tiktok.com/@tictok_ent/video/7685697810284465415",
    "region": "kr"
@@ -241,112 +340,24 @@
   {
    "account": "tictok_ent",
    "title": "엔하이픈(ENHYPEN) 제이, 시크한 매력으로 시선 집중 / 랄프 로렌(RALPH LAUREN) 이벤트 포토콜 세계적으로 찬사를 받은 패션 아이콘 랄프 로렌의 삶을 조명한 HBO 다큐멘터리 ‘베리 랄프(Very R",
-   "views": 1009,
+   "views": 1017,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oseLtEETExroCrATveJopIleVWALBGkVUAIAAD~tplv-tiktokx-origin.image?dr=14575&x-expires=1789862400&x-signature=tz4TMVf%2F6vBS9oPzVUSKZ2Bojyk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oseLtEETExroCrATveJopIleVWALBGkVUAIAAD~tplv-tiktokx-origin.image?dr=14575&x-expires=1789866000&x-signature=9V8JeW%2BA7N6Yg6Czq2sTip7IgL0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789465966,
    "url": "https://www.tiktok.com/@tictok_ent/video/7685697801585495303",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "김우빈, 훤칠한 비주얼 / 랄프 로렌(RALPH LAUREN) 이벤트 포토콜 세계적으로 찬사를 받은 패션 아이콘 랄프 로렌의 삶을 조명한 HBO 다큐멘터리 ‘베리 랄프(Very Ralph)’의 스크리닝 이벤트가 15",
-   "views": 976,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQAASIAPpyqAQW9Le2EZCFqCVBcDKg3UOEfCjo~tplv-tiktokx-origin.image?dr=14575&x-expires=1789862400&x-signature=qqQ%2Fanpr5EfRGiDUlXPFVvzq73w%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
-   "time": 1789465965,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7685697801166032146",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "마크, 분위기까지 완벽한 랄프 로렌 스타일 / 랄프 로렌(RALPH LAUREN) 이벤트 포토콜 세계적으로 찬사를 받은 패션 아이콘 랄프 로렌의 삶을 조명한 HBO 다큐멘터리 ‘베리 랄프(Very Ralph)’의 스",
-   "views": 960,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oYfVEC0f927DCAupVlCvItALgAFTBqASq1DUAE~tplv-tiktokx-origin.image?dr=14575&x-expires=1789862400&x-signature=Wksyc5QX%2FrCBmk0U1ZGRAgTupds%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
-   "time": 1789465967,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7685697807512046855",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "이진욱, 댄디한 매력 물씬 / 랄프 로렌(RALPH LAUREN) 이벤트 포토콜 세계적으로 찬사를 받은 패션 아이콘 랄프 로렌의 삶을 조명한 HBO 다큐멘터리 ‘베리 랄프(Very Ralph)’의 스크리닝 이벤트가 ",
-   "views": 935,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oYUAWEIlinGArdAloeAILeSDenoAFVQEWDIvbK~tplv-tiktokx-origin.image?dr=14575&x-expires=1789862400&x-signature=P1gdxlkihghsbMRty1qIzzg%2FgAI%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
-   "time": 1789465966,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7685697804781620487",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "메기강, 감독님의 특별한 나들이 / 랄프 로렌(RALPH LAUREN) 이벤트 포토콜 세계적으로 찬사를 받은 패션 아이콘 랄프 로렌의 삶을 조명한 HBO 다큐멘터리 ‘베리 랄프(Very Ralph)’의 스크리닝 이벤",
-   "views": 914,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ocAPJiawAXhKxB7wIyLAfyAyCYiBV1IKwABpE5~tplv-tiktokx-origin.image?dr=14575&x-expires=1789862400&x-signature=ktxUOo89E1iHHvaZQ9Rnv4p%2BgNM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
-   "time": 1789465963,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7685697789942156551",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "김도연, 우아한 비주얼로 시선 강탈 / 랄프 로렌(RALPH LAUREN) 이벤트 포토콜 #김도연 #랄프로렌 #RALPHLAUREN",
-   "views": 842,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oUICSFq0SCAFBsDjQfeMAUAgErWHuq1MEF1AVp~tplv-tiktokx-origin.image?dr=14575&x-expires=1789862400&x-signature=2q2G2CWnD1Gu7MhoY8oSvujNkzA%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
-   "time": 1789465967,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7685697809139404039",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "이혜영, 변함없는 스타일 아이콘 / 랄프 로렌(RALPH LAUREN) 이벤트 포토콜 세계적으로 찬사를 받은 패션 아이콘 랄프 로렌의 삶을 조명한 HBO 다큐멘터리 ‘베리 랄프(Very Ralph)’의 스크리닝 이벤",
-   "views": 656,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ogHUDxeGoEW5r3VEeLFfCUplpEaArItALAADIA~tplv-tiktokx-origin.image?dr=14575&x-expires=1789862400&x-signature=4%2Bxv74Q8%2FIN0LHRpqcxduCXeENY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
-   "time": 1789465967,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7685697808812264711",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "유태오, 깊어진 가을 남자의 매력 / 베리 랄프 스크리닝 이벤트 포토콜 세계적으로 찬사를 받은 패션 아이콘 랄프 로렌의 삶을 조명한 HBO 다큐멘터리 ‘베리 랄프(Very Ralph)’의 스크리닝 이벤트가 15일 오",
-   "views": 470,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/osCjZ2EgUyAFpESLCaVe8qfrA2DXBCAIMAbq0p~tplv-tiktokx-origin.image?dr=14575&x-expires=1789862400&x-signature=3jnFlK4SE8tEtkikGMlF0vi2L1Q%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
-   "time": 1789465966,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7685697802768239880",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "윤상, 감각적인 스타일 / 랄프 로렌(RALPH LAUREN) 이벤트 포토콜 #윤상 #랄프로렌 #RALPHLAUREN",
-   "views": 302,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ocPAcitIAAApiYkjFxlZCaYLR9AqEAAl2Bskd~tplv-tiktokx-origin.image?dr=14575&x-expires=1789862400&x-signature=Dkec6ejcFmhs14Q5L5w5%2B2sX7Dg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
-   "time": 1789465961,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7685697783063530759",
    "region": "kr"
   }
  ],
  "reddit": [
   {
-   "sub": "AskReddit",
-   "title": "Which movie was so emotionally exhausting or disturbing that it was a masterpiece, but you will never, ever watch it again?",
+   "sub": "memes",
+   "title": "Modern movies in a nutshell",
    "score": 0,
    "cmts": 0,
-   "thumb": "",
-   "time": 1789646165,
-   "url": "https://www.reddit.com/r/AskReddit/comments/1wirx4x/which_movie_was_so_emotionally_exhausting_or/"
+   "thumb": "https://preview.redd.it/0o8tsswk26qh1.jpeg?width=640&crop=smart&auto=webp&s=0aed5076db6d7fea14a057b2c3729c5e51c8041c",
+   "time": 1789688443,
+   "url": "https://www.reddit.com/r/memes/comments/1wja3tr/modern_movies_in_a_nutshell/"
   },
   {
    "sub": "politics",
@@ -358,31 +369,13 @@
    "url": "https://www.reddit.com/r/politics/comments/1wiu4a0/the_quiet_campaign_to_stop_kamala_2028_is_growing/"
   },
   {
-   "sub": "whatisit",
-   "title": "What kind of caterpillar is this?",
+   "sub": "interestingasfuck",
+   "title": "Seth MacFarlane was booked on American Airlines Flight 11 on September 11, 2001. He missed it by about 10 minutes.",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/Y2wzeTB1d2FiMXFoMRbp62CLf6CFqrzT8boLnavHtGRDgT4jTzU2XdARMmAH.png?width=640&crop=smart&auto=webp&s=d1550f862355adcf325f4090a974a1c52b65fb10",
-   "time": 1789630887,
-   "url": "https://www.reddit.com/r/whatisit/comments/1wind0p/what_kind_of_caterpillar_is_this/"
-  },
-  {
-   "sub": "interesting",
-   "title": "Joanna Wietrzyk (HYROX fecal incontinence girl) apologies only 7 hours after losing PUMA clothing line sponsorship",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/45yy1pp7o2qh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=3ce6012cfd5e64f53ba7b4fca4d53d4a25d455cb",
-   "time": 1789647827,
-   "url": "https://www.reddit.com/r/interesting/comments/1wisitd/joanna_wietrzyk_hyrox_fecal_incontinence_girl/"
-  },
-  {
-   "sub": "cats",
-   "title": "My cat (17) will be euthanized next week and I‘m in shambles. Can you guys post your cats as well so she can make friends on the rainbow road?",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/bfj2kwlom4qh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=46e12247a4ca751740be73093e914d530c1a37b2",
-   "time": 1789670987,
-   "url": "https://www.reddit.com/r/cats/comments/1wj2nyr/my_cat_17_will_be_euthanized_next_week_and_im_in/"
+   "thumb": "https://preview.redd.it/74kxj0z4f5qh1.jpeg?width=640&crop=smart&auto=webp&s=b3943f48200f50b37831a6ed2549e7422a47a10c",
+   "time": 1789680556,
+   "url": "https://www.reddit.com/r/interestingasfuck/comments/1wj6y12/seth_macfarlane_was_booked_on_american_airlines/"
   },
   {
    "sub": "whoathatsinteresting",
@@ -394,6 +387,33 @@
    "url": "https://www.reddit.com/r/whoathatsinteresting/comments/1wj6nmn/ed_sheerans_tour_is_now_on_track_to_be_cancelled/"
   },
   {
+   "sub": "whatisit",
+   "title": "What kind of caterpillar is this?",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/Y2wzeTB1d2FiMXFoMRbp62CLf6CFqrzT8boLnavHtGRDgT4jTzU2XdARMmAH.png?width=640&crop=smart&auto=webp&s=d1550f862355adcf325f4090a974a1c52b65fb10",
+   "time": 1789630887,
+   "url": "https://www.reddit.com/r/whatisit/comments/1wind0p/what_kind_of_caterpillar_is_this/"
+  },
+  {
+   "sub": "cats",
+   "title": "My cat (17) will be euthanized next week and I‘m in shambles. Can you guys post your cats as well so she can make friends on the rainbow road?",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/bfj2kwlom4qh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=46e12247a4ca751740be73093e914d530c1a37b2",
+   "time": 1789670987,
+   "url": "https://www.reddit.com/r/cats/comments/1wj2nyr/my_cat_17_will_be_euthanized_next_week_and_im_in/"
+  },
+  {
+   "sub": "interesting",
+   "title": "Joanna Wietrzyk (HYROX fecal incontinence girl) apologies only 7 hours after losing PUMA clothing line sponsorship",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/45yy1pp7o2qh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=3ce6012cfd5e64f53ba7b4fca4d53d4a25d455cb",
+   "time": 1789647827,
+   "url": "https://www.reddit.com/r/interesting/comments/1wisitd/joanna_wietrzyk_hyrox_fecal_incontinence_girl/"
+  },
+  {
    "sub": "mildlyinteresting",
    "title": "Apparently I have elf ears",
    "score": 0,
@@ -401,42 +421,6 @@
    "thumb": "https://preview.redd.it/dpf1yeqwx2qh1.jpeg?width=640&crop=smart&auto=webp&s=f994ac1eacc1f0add105cab4f20fb56fa32846a4",
    "time": 1789650548,
    "url": "https://www.reddit.com/r/mildlyinteresting/comments/1witk8k/apparently_i_have_elf_ears/"
-  },
-  {
-   "sub": "interestingasfuck",
-   "title": "In 1991, a Nigerian prophet by name Daniel Abodunrin felt inspired by the story of Daniel in the bible and decided to recreate the story. He went into a cage in a zoo where Lions were kept with the be",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/c0rf7f9nk2qh1.jpeg?width=640&crop=smart&auto=webp&s=ba82686b164fb805722f0a0c11b72046697f20a7",
-   "time": 1789646091,
-   "url": "https://www.reddit.com/r/interestingasfuck/comments/1wirw6s/in_1991_a_nigerian_prophet_by_name_daniel/"
-  },
-  {
-   "sub": "Whatcouldgowrong",
-   "title": "High Speed cornering",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/Y3FzcjhnYTl1MnFoMY4EQSDzGLThbYldUoYdSiOohgZ0JX_vvXUF_c1tDkQp.png?width=640&crop=smart&auto=webp&s=568bb49e09bbd7b2ae09f67c704addfa1e167ec4",
-   "time": 1789649377,
-   "url": "https://www.reddit.com/r/Whatcouldgowrong/comments/1wit3pw/high_speed_cornering/"
-  },
-  {
-   "sub": "worldnews",
-   "title": "Russian military jets violate Lithuanian airspace, Italian fighters scrambled",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/pHX4YpayiZiDK7ItYlvBs0Htph17bIj35GEgHcNAiOo.jpeg?width=640&crop=smart&auto=webp&s=207c04e31bf55c30df95900d071e73a6f1ef662e",
-   "time": 1789668793,
-   "url": "https://www.reddit.com/r/worldnews/comments/1wj1ogn/russian_military_jets_violate_lithuanian_airspace/"
-  },
-  {
-   "sub": "interestingasfuck",
-   "title": "Seth MacFarlane was booked on American Airlines Flight 11 on September 11, 2001. He missed it by about 10 minutes.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/74kxj0z4f5qh1.jpeg?width=640&crop=smart&auto=webp&s=b3943f48200f50b37831a6ed2549e7422a47a10c",
-   "time": 1789680556,
-   "url": "https://www.reddit.com/r/interestingasfuck/comments/1wj6y12/seth_macfarlane_was_booked_on_american_airlines/"
   },
   {
    "sub": "Unexpected",
@@ -448,61 +432,69 @@
    "url": "https://www.reddit.com/r/Unexpected/comments/1wj41p7/the_things_that_only_happen_in_australia/"
   },
   {
-   "sub": "worldnews",
-   "title": "/r/WorldNews Live Thread: Russian Invasion of Ukraine Day 1667, Part 1 (Thread #1814)",
+   "sub": "interestingasfuck",
+   "title": "In 1991, a Nigerian prophet by name Daniel Abodunrin felt inspired by the story of Daniel in the bible and decided to recreate the story. He went into a cage in a zoo where Lions were kept with the be",
    "score": 0,
    "cmts": 0,
-   "thumb": "",
-   "time": 1789617786,
-   "url": "https://www.reddit.com/r/worldnews/comments/1wijd4w/rworldnews_live_thread_russian_invasion_of/"
+   "thumb": "https://preview.redd.it/c0rf7f9nk2qh1.jpeg?width=640&crop=smart&auto=webp&s=ba82686b164fb805722f0a0c11b72046697f20a7",
+   "time": 1789646091,
+   "url": "https://www.reddit.com/r/interestingasfuck/comments/1wirw6s/in_1991_a_nigerian_prophet_by_name_daniel/"
   },
   {
-   "sub": "worldnews",
-   "title": "Trump threatens to stop trading with EU over ‘laughable’ membership offer to Canada",
+   "sub": "funComunitty",
+   "title": "Try",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/EODUoqA7Xvr8nacGRp2NH3ZHA_3vaCnrVM8vRN09EJ4.jpeg?width=640&crop=smart&auto=webp&s=229cd41474b973832005883b1e5398ec8f8d87ea",
-   "time": 1789661218,
-   "url": "https://www.reddit.com/r/worldnews/comments/1wiy74q/trump_threatens_to_stop_trading_with_eu_over/"
+   "thumb": "https://preview.redd.it/3atz9x1ng5qh1.jpeg?width=640&crop=smart&auto=webp&s=21d549bb3ccf4f7401b41c7fa344def13c679f2b",
+   "time": 1789681072,
+   "url": "https://www.reddit.com/r/funComunitty/comments/1wj75ir/try/"
   },
   {
-   "sub": "worldnews",
-   "title": "Carney says Canada will decide its own partnerships after Trump calls EU proposal ‘laughable’",
+   "sub": "MadeMeSmile",
+   "title": "A family called their dogs to come inside the house when the tornado alarm sounded… and a deer took advantage to slip in behind them.",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/KpgxfJuANEd1CS5ecdohwyNvabwK6dZK7ehZ3EC7214.jpeg?width=640&crop=smart&auto=webp&s=407f2d8b440ea297a575f215d769c27e09f5fe02",
-   "time": 1789644952,
-   "url": "https://www.reddit.com/r/worldnews/comments/1wirifp/carney_says_canada_will_decide_its_own/"
+   "thumb": "https://external-preview.redd.it/HJx6SHSN5yh_JeOGw_heHUQOQH7UQtCbs4uckjk6iVU.jpeg?width=320&crop=smart&auto=webp&s=2e9f7dfb4fa90b958d1b9fd7f689a5a759abc436",
+   "time": 1789676919,
+   "url": "https://www.reddit.com/r/MadeMeSmile/comments/1wj5d31/a_family_called_their_dogs_to_come_inside_the/"
   }
  ],
  "disaster": [],
  "_cover": {
   "ok": {
+   "x": [
+    "64bitcoinkr",
+    "awaken_eyes",
+    "jajaja7878uu"
+   ],
    "threads": [
     "aicoffeechat",
     "aipeekme",
     "choi.openai",
     "daily_ai_star",
     "kopp",
-    "promppy_com"
+    "promppy_com",
+    "takepage_"
    ],
    "tiktok": [
+    "jaemyung_lee",
     "tictok_ent"
    ]
   },
   "why": {
-   "threads": {
-    "takepage_": "alien"
-   },
-   "tiktok": {
-    "jaemyung_lee": "err"
+   "x": {
+    "economysniper0": 429,
+    "kyunghyang": 429,
+    "freedom_73x": 429,
+    "marionawfal": 429,
+    "globalbrief_now": 429
    }
   },
   "landing": {
-   "at": "2026-09-18T09:01:20",
+   "at": "2026-09-18T09:32:07",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-09-18T09:32:05.110614+09:00"
+ "updated": "2026-09-18T10:05:45.070079+09:00"
 }
