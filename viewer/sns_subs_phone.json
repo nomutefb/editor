@@ -3,45 +3,64 @@
   {
    "account": "MarioNawfal",
    "text": "🇺🇸🇮🇷 One tanker ETF is up 3,600 percent this year, which tells you everything about who is actually getting paid in this war...\n\nBreakwave's fund does nothing but hold shipping freight futures.\n\nIt has gained more than thirty-six times its value since January, and when oil dipped",
-   "likes": 313,
-   "rts": 33,
-   "cmts": 32,
+   "likes": 315,
+   "rts": 34,
+   "cmts": 33,
    "views": 0,
    "time": "Thu Sep 17 22:55:38 +0000 2026",
    "url": "https://x.com/MarioNawfal/status/2100720361725923429",
-   "region": "kr"
-  },
-  {
-   "account": "64bitcoinkr",
-   "text": "오늘자 르세라핌 사쿠라\n\n미국 투어 공연중 https://t.co/GcKj66re84",
-   "likes": 24836,
-   "rts": 1613,
-   "cmts": 114,
-   "views": 0,
-   "time": "Thu Sep 17 06:26:35 +0000 2026",
-   "url": "https://x.com/64bitcoinkr/status/2100471459487547766",
    "region": "kr"
   }
  ],
  "insta": [],
  "threads": [
   {
-   "account": "choi.openai",
-   "text": "3/ 이 작업을 가능하게 한 방법 중 하나가 ‘촘촘한 피드백’입니다.\n\nAI에게 전체 성능이 떨어졌다는 결과만 알려주면 어떤 코드가 문제인지 다시 찾아야 합니다.\n\nZ.ai는 계산 결과가 맞는지 확인하는 테스트와 실행 과정을 추적하는 기록, 코드 단위의 속도 측정 도구를 에이전트가 직접 사용할 수 있도록 구성했습니다.\n\n에이전트는 이 정보를 바탕으로 느려진 원인을 찾고, 코드를 조금씩 수정해 성능을 확인한 뒤 다음 실험을 정합니다.\n\n한 번에 큰 코드를 고치는 대신 수정과 측정을 반복하면서 하드웨어에 맞는 구현을 찾아가는 방식입니다.",
+   "account": "takepage_",
+   "text": "확실히 어그리게이터 서비스의\nchat API 의 불안정성은 높은 것 같다.\n\n비용이 많이 효율적이고 편리해서 사용했지만\n서비스를 운영하기엔 리스크가 너무 크다.\n \nchat API만큼은 공식사 API를 사용하는 게 나을 것 같다.\n이미지, 영상 API는 가격 좋고, 안정적이라 사용할만하다.",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1789713929,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/813878012_17937317655362958_6640444630434200924_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk4ODczMTk5MzM5NTUyMTI0OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTI3Ni5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=R-2N_V8jNl8Q7kNvwELAqW6&_nc_oc=AdpoCtUG8tzQHD7zv1o0kMORUGR3xU8IWbxIG2VeOAiiv9N7LBUPnczO2AZM4QoHY0o&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=BJvP-PbTTjUuTt6oxdXqlQ&_nc_ss=7a22e&oh=00_AQLgRrtWQR0Kb5gvIYbwFWnCcerypzvy45RQ7dhDWTJDdQ&oe=6AB2A1DA",
+   "url": "https://www.threads.com/@takepage_/post/Dda0p8hExGH",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "🔗 원문·자세히 보기\nhttps://github.com/yc-software/qm",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1789713090,
+   "thumb": "",
+   "url": "https://www.threads.com/@aipeekme/post/DdazC-xHzlH",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "와이씨 소프트웨어가 업무용 멀티플레이어 에이전트 하네스 큐엠을 공개했습니다.\n슬랙과 웹 환경에서 작동하며 에이전트가 각 직원에게 독립된 작업 공간을 제공하는 구조인데요.\n기존 에이전트는 개인 비서 형태로 설계되어 회사 전체로 확장하면 복잡해지는 문제가 있었습니다.\n큐엠은 스타트업 환경을 상정해 개별 직원이 서로 간섭하지 않고 독립적으로 일하도록 만들었습니다.\n사람과 대화방마다 별도의 기억 장치와 파일, 권한, 주기적 작업이 따로 지정됩니다.\n오픈소스 기반을 염두에 두고 설계되어 원하는 코딩 에이전트를 연동해 배포할 수 있습니다.\n개인적으로는 여러 명이 동시에 에이전트를 쓸 때 권한과 기억 장치를 공간별로 쪼갠 방식이 실용적이라고 봅니다.\n전사적으로 거대한 비서 하나를 두는 것보다 각자의 샌드박스를 쥐어주는 편이 충돌을 줄이는 데 유리하겠다 싶었습니다.\n\n📷 사진 출처: github.com",
    "likes": 0,
    "cmts": 1,
+   "time": 1789713080,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/814831648_18088137008407306_2736908168119182090_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk4ODcyNDgxMTU0ODI4MjMzNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=dE7I2hDmXRsQ7kNvwHPKXrV&_nc_oc=Adr2_itBW7j-nuaQqArB4sFBwFkfrMc4LK1uXg8v5dHKIlwaX-KUVlq7aPU34D6QMQk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=r6BP9YtZWVpqPcF3t7RM4g&_nc_ss=7a22e&oh=00_AQL0y3dANgRaVGiNPJg0fhMShocLvkJTgx_0tiizvdPO2g&oe=6AB2B27D",
+   "url": "https://www.threads.com/@aipeekme/post/DdazBU7H03e",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "3/ 이 작업을 가능하게 한 방법 중 하나가 ‘촘촘한 피드백’입니다.\n\nAI에게 전체 성능이 떨어졌다는 결과만 알려주면 어떤 코드가 문제인지 다시 찾아야 합니다.\n\nZ.ai는 계산 결과가 맞는지 확인하는 테스트와 실행 과정을 추적하는 기록, 코드 단위의 속도 측정 도구를 에이전트가 직접 사용할 수 있도록 구성했습니다.\n\n에이전트는 이 정보를 바탕으로 느려진 원인을 찾고, 코드를 조금씩 수정해 성능을 확인한 뒤 다음 실험을 정합니다.\n\n한 번에 큰 코드를 고치는 대신 수정과 측정을 반복하면서 하드웨어에 맞는 구현을 찾아가는 방식입니다.",
+   "likes": 1,
+   "cmts": 1,
    "time": 1789712324,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/813939741_17987656275112832_4781807226316744769_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk4ODcxODUzNDA5MTg1NTEyMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMzI0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=iQ9yOtdanLUQ7kNvwGGHhkZ&_nc_oc=AdrFAsfqP6wrdpGiB_-Fm11b7ZKfNNGVa5C5tcXk8re_RtkFNWyIYN6GNq9X5b4eXZM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=2cUKgXh9jRosayewMLLWGg&_nc_ss=7a22e&oh=00_AQKFj76AVs-bZWZSuGyPpQIVjSN0mmUPRcmhqTautGof1A&oe=6AB292E0",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/813939741_17987656275112832_4781807226316744769_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk4ODcxODUzNDA5MTg1NTEyMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMzI0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=iQ9yOtdanLUQ7kNvwGzpLPE&_nc_oc=Ado6NbCDoY87E_Nt1ubsH7jXFnVJb5PTKHdAVp7gS9BO_1WuYuN59kFX3pxMCaXB3rY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=65U23L3v5mo-5EZb8hAu7Q&_nc_ss=7a22e&oh=00_AQJ3OYq_G6Vfu8UNXDn42kuOvwchTw0RMwsDcDPyXQsDEA&oe=6AB2CB20",
    "url": "https://www.threads.com/@choi.openai/post/Ddaxl-lj9US",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "2/ 특히 놀라운 부분은 10만 개가 넘는 중국산 AI 가속기에서 이 작업을 진행했다는 점입니다.\n\n회사 설명에 따르면 해당 칩은 메모리와 대역폭에 제약이 있고, 이를 충분히 활용할 소프트웨어 생태계도 부족했습니다.\n\n그런데 AI가 하드웨어에 맞춰 코드를 수정하고 성능을 검증하는 작업을 맡으면, 새로운 칩을 실제 서비스에 적용하는 데 필요한 개발 부담을 줄일 수 있습니다.\n\n저는 이 변화가 엔비디아 CUDA 생태계가 가진 소프트웨어 측면의 우위에도 영향을 줄 수 있다고 봅니다.\n\n칩 자체의 성능 격차가 남더라도, 새로운 하드웨어에 맞춰 소프트웨어를 최적화하는 속도가 빨라질 수 있기 때문입니다.",
-   "likes": 0,
+   "likes": 1,
    "cmts": 1,
    "time": 1789712316,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/815798031_17987656251112832_1804906461471703632_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk4ODcxODQ2NzYzNzMxMjQxOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTAwMS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=zkuINXGp4MIQ7kNvwGUHd2F&_nc_oc=Adq-fOzrv-mV80s6bWY7XRihEJLN8MTIZJBQiId0siR1HOnp4jiH163tSCXUMvDyjyQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=2cUKgXh9jRosayewMLLWGg&_nc_ss=7a22e&oh=00_AQJCmgfX-mgtOsyUVwMgcH1lnyqMiup1S_A4vCXnEMYUQA&oe=6AB2952B",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/815798031_17987656251112832_1804906461471703632_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk4ODcxODQ2NzYzNzMxMjQxOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTAwMS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=zkuINXGp4MIQ7kNvwGk7wUW&_nc_oc=AdpduAnIxv8DaB5DUEOAO2YsePMMSa_ALw7wOkH3Yp6Xtq35QqzohIUCWuifdS3sGW4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=65U23L3v5mo-5EZb8hAu7Q&_nc_ss=7a22e&oh=00_AQKV9X4SdhbCKzYSM_f_xfepDqwHfaTXzFqofma9ct_psQ&oe=6AB2CD6B",
    "url": "https://www.threads.com/@choi.openai/post/DdaxlAsj_uj",
    "region": "kr"
   },
@@ -61,17 +80,17 @@
    "likes": 5,
    "cmts": 1,
    "time": 1789711429,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/813790856_1847128496273602_6763757315607474921_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk4ODcxMDc5MjY5NzYwMzA3Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=VN2nV0Xe4GoQ7kNvwH99OdG&_nc_oc=Adqj2AKlL1ciN3HouK72f7EIrvXzLEgTKgyWb-8YNuJc3esDyqcaQFgj379Q-9alHQU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=_jsi2-6GN1gjIVaqW47_bQ&_nc_ss=7a22e&oh=00_AQIXsio7MdienL-chy61z6xnMDe3f-6znaY2FaV0kbP2dw&oe=6AB2AE29",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/813790856_1847128496273602_6763757315607474921_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk4ODcxMDc5MjY5NzYwMzA3Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=VN2nV0Xe4GoQ7kNvwHwrZOm&_nc_oc=AdptVDySr7c-4cBIB5OK2BqwtayCu6oy_tQ0AxlMV2J57YpN-f05kTJfQDbrOufSiqw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=J_9ijpOQoKJ7XvBNYWWi9Q&_nc_ss=7a22e&oh=00_AQJdynWhbR0kgAccEg1UW4B6gNlCKZ7rP3svyCYUsVkaPQ&oe=6AB2AE29",
    "url": "https://www.threads.com/@kopp/post/Ddav1U2geQF",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "1/ Z.ai가 GLM-5.3 기반 에이전트로 GLM-5.3-Flash의 추론 인프라를 구축하고 최적화한 과정을 공개했습니다.\n\n추론 인프라는 학습된 AI가 사용자 요청에 답하도록 돌리는 시스템인데요. 엔지니어와 에이전트가 함께 작업해 첫 실행부터 실서비스 준비까지 2주가 채 걸리지 않았고, 공개 그래프의 처리량은 초기 대비 3.22배로 올랐습니다.\n\nZ.ai에 따르면 현재 Flash의 전체 프로덕션 요청을 이 시스템이 처리합니다.",
-   "likes": 4,
+   "likes": 6,
    "cmts": 1,
    "time": 1789711316,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/813872193_17987621874112832_2835644352114214578_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk4ODcxMDA3Mjk1NTkxNjc4NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjg4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=_SDD-X9izQkQ7kNvwH0bw5g&_nc_oc=AdqxeLefQECuYypCeTPPmUixkxbn42mal77s1PKOOy1MgqEskX72N40LSB8bYqw115M&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=2cUKgXh9jRosayewMLLWGg&_nc_ss=7a22e&oh=00_AQKhn4QLOuSJxF9ZDLLIm936ECiPNZauC3o7T_hWGl7yYw&oe=6AB2C6CB",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/813872193_17987621874112832_2835644352114214578_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk4ODcxMDA3Mjk1NTkxNjc4NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjg4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=_SDD-X9izQkQ7kNvwH9hqSQ&_nc_oc=Adrqn1HYEgtx0FLAQeHa2WAtSkapU9BYlDkScRg0M76yw9jy1PMoWCh84OEgoKG6Rv4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=65U23L3v5mo-5EZb8hAu7Q&_nc_ss=7a22e&oh=00_AQJiOsRDe_jrcKhY39CRhBs8048fRqg_xgnCMiQS6beUhg&oe=6AB2C6CB",
    "url": "https://www.threads.com/@choi.openai/post/Ddavq2ij1Hx",
    "region": "kr"
   },
@@ -81,7 +100,7 @@
    "likes": 1,
    "cmts": 0,
    "time": 1789707709,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/794225857_17937309711362958_5198759584690014628_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk4ODY3OTgyMDgzMzkzNTMwMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI5NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=SSg8bwfZCAkQ7kNvwHwB00a&_nc_oc=AdrH2cFYvuWjss6p3wNsrnXAxwZ4JiwXVCiM1eqnCZehP1cIHcDignaO5ryWB5ArMYs&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=IK0D67wtV2HjaV7EubE-ww&_nc_ss=7a22e&oh=00_AQI6EZ1_hejCbK_yLAMpzQdhv4PotefjXOJsknp5O-Pizw&oe=6AB2998D",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/794225857_17937309711362958_5198759584690014628_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk4ODY3OTgyMDgzMzkzNTMwMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI5NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=SSg8bwfZCAkQ7kNvwE8-1zO&_nc_oc=AdrkIfoQijIF-2Vyju47sm3CE1S8ejRJ37Gqh26gEITSi8p0HDezCqK6Hj5EpLWBhtE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=BJvP-PbTTjUuTt6oxdXqlQ&_nc_ss=7a22e&oh=00_AQJykO_RwWnbUh2Gpwj-ha6Wdxqwncqt_G9J3wOt4moEjA&oe=6AB2998D",
    "url": "https://www.threads.com/@takepage_/post/DdaoyoDk0_F",
    "region": "kr"
   },
@@ -93,16 +112,6 @@
    "time": 1789702307,
    "thumb": "",
    "url": "https://www.threads.com/@aipeekme/post/Ddaeekxn-wO",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
-   "text": "딥시크가 오픈소스 코딩 에이전트 프레임워크인 딥시크 하네스를 공개했습니다.\n웹과 헤드리스 환경에서 모두 실행 가능한 러너블 코딩 에이전트입니다.\n모든 구성 요소를 플러그인으로 처리하도록 설계된 구조입니다.\n모델과 도구부터 샌드박스와 세션 스토리지, UI, 에이전트 루프까지 플러그인으로 교체할 수 있습니다.\n설치 명령어를 통해 커뮤니티 플러그인을 손쉽게 추가할 수 있습니다.\n전용 플러그인 마켓을 이용하면 원클릭으로 설치와 관리가 가능합니다.\n기존 에이전트의 핵심 부품을 자유롭게 조립할 수 있다는 점이 특징입니다.\n서드파티 코드가 내 기기에서 내 권한으로 실행되므로 파일 읽기와 자격 증명 사용, 네트워크 접근이 가능하며 툴 승인으로 플러그인 코드가 샌드박스되지는 않는 한계와 조건이 있습니다.\n다양한 개발 환경에서 얼마나 유연하게 작동할지가 관건이라고 봅니다.\n구조가 단순할수록 생태계 확장 속도가 빨라질 것 같습니다.\n\n📷 사진 출처: github.com",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1789702296,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/814749953_18088112762407306_7160611530929008702_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=105&ig_cache_key=Mzk4ODYzNDM1MDMwMTE2NjE3Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNDgwLnNkci5yZWd1bGFyX3Bob3RvLkMyIn0%3D&_nc_ohc=0BOSF5jiSqUQ7kNvwFYt8tU&_nc_oc=AdoWFmhHzPBemuoYdOngoGkgs8nWzrgflxTmxXK5hPzs4_-hMXVpeEmHHzmbhVf6YHw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Q0319LBnMmVTEo_Ew0x1mg&_nc_ss=7a22e&oh=00_AQJAruaaNvCHzalC6i2UjX6Bpzwo_QPuLcOUWo8cZH2q3A&oe=6AB2A668",
-   "url": "https://www.threads.com/@aipeekme/post/Ddaec8Unzpc",
    "region": "kr"
   },
   {
@@ -126,16 +135,6 @@
    "region": "kr"
   },
   {
-   "account": "aipeekme",
-   "text": "🔗 원문·자세히 보기\nhttps://github.com/lnkiai/m3e-canvas",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1789695082,
-   "thumb": "",
-   "url": "https://www.threads.com/@aipeekme/post/DdaQsqKH-IU",
-   "region": "kr"
-  },
-  {
    "account": "daily_ai_star",
    "text": "이제 에이전트의 완료 조건은 테스트 통과가 아니라, 결과와 경계 준수를 함께 증명하는 쪽으로 바뀌고 있습니다.\n\nhttps://openai.com/index/model-misalignment-reporting-framework/",
    "likes": 0,
@@ -156,33 +155,23 @@
    "region": "kr"
   },
   {
-   "account": "takepage_",
-   "text": "반대로 1주만 사용하시는 분들도 공통점이 있습니다.\n대부분 AI로 새로운 걸 시도해보는 분들입니다.\n\n- 영상 편집을 해보지 않은 사람의 쇼츠 자동화\n- 블로그를 안써본 사람의 블로그 자동화\n- 쓰레드로 팔로워를 모아보지 않은 사람의 쓰레드 자동화\n- 스토어를 막 시작한 사람의 소싱 자동화\n\n물론 처음부터 좋은 자동화, AI라는 도구를 가지고\n시작하여 개선해나가며 성공하는 케이스도 분명히 있습니다.\n\n하지만 대부분 전과정이 100% 자동화로 돌아가기를 원하시고\n그만큼의 제작 난이도, 비용이 올라가게 됩니다.\n\n그렇게 만들고 나면 정작 구독자, 블로그 방문자수, 쓰레드 팔로워는\n절대 그 콘텐츠들을 보거나 상품을 소비하지 않습니다.\n\n그러면 결국 그 자동화는 오히려 API비용만 나가는 애물단지가 되고\n차라리 안쓰는게 낫다는 생각으로 멀리하게 됩니다.",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1789658039,
-   "thumb": "",
-   "url": "https://www.threads.com/@takepage_/post/DdZKDbOEyUZ",
-   "region": "kr"
-  },
-  {
    "account": "choi.openai",
    "text": "이제는 진정으로 ‘재귀적 자가개선’을 논할 때가 온 것 같습니다.\n\nZ.ai가 GLM-5.3 기반 에이전트로 GLM-5.3-Flash의 추론 인프라를 직접 구축·최적화했습니다.\n\n10만 개 이상의 중국산 AI 가속기에서 첫 실행부터 실서비스 준비까지 2주도 걸리지 않았고, 처리량은 초기 대비 3.22배로 증가했습니다.\n\n아직 사람이 목표와 경계를 정하지만, AI가 자신을 운영하는 시스템을 개선하고 그 경험을 다음 최적화에 다시 활용하기 시작했다는 점이 중요합니다.\n\nzAI가 발표한 내용을 정리했습니다 🧵",
-   "likes": 25,
+   "likes": 31,
    "cmts": 8,
    "time": 1789711308,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/813698078_17987622138112832_1007488425704909947_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk4ODcxMDAxMzczMjM4NTQzNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjA1Mi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=uRPWUNYkrscQ7kNvwH45jTX&_nc_oc=AdrftB5wJzfwftGnB8nIc0--qAGskBbMTi_xJPYpDV7Ns-SjEBGWY-eBZ-qKDblRQcM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=2cUKgXh9jRosayewMLLWGg&_nc_ss=7a22e&oh=00_AQIMvavtSZqQ-VgwGegBW42yVUrW7EqzJPK50fhAOoNjIw&oe=6AB2C089",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/813698078_17987622138112832_1007488425704909947_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk4ODcxMDAxMzczMjM4NTQzNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjA1Mi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=uRPWUNYkrscQ7kNvwGAjwRS&_nc_oc=AdpmsiadFQfItFfijZPboVxJdSxydTc5x4vaIq3ENVR2OBxLsOZyfr2kGmFSBdwOL1M&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=65U23L3v5mo-5EZb8hAu7Q&_nc_ss=7a22e&oh=00_AQITu5cU8miEqV6-70z1_QqRJBzzLY04sqgxNl83bYSknA&oe=6AB2C089",
    "url": "https://www.threads.com/@choi.openai/post/Ddavp_Yj_Ka",
    "region": "kr"
   },
   {
    "account": "aipeekme",
-   "text": "개발자 lnkiai가 브라우저에서 Material 3 Expressive 화면을 직접 스케치하고 AI 코딩 프롬프트로 변환하는 도구인 m3e-canvas를 공개했습니다.\n버튼이나 칩, 앱바 같은 요소를 드래그 앤 드롭으로 배치하고 화면끼리 연결할 수 있는데요.\n가까이 두면 요소들이 서로 결합하는 자석 연결 기능도 지원합니다.\n이렇게 만든 화면 구조를 프롬프트로 복사해 Claude Code나 Cursor 같은 AI 도구에 붙여넣으면 곧바로 코드로 구현됩니다.\n레시피 앱 같은 예시를 그려 테마를 바꾸고 AI에 넘기면 안드로이드에서 실행 가능한 결과물이 나옵니다.\n기존에는 UI 레이아웃을 일일이 말로 설명해야 했지만 이제는 시각적으로 직접 그릴 수 있게 된 셈입니다.\n개인적으로는 복잡한 화면 흐름을 텍스트로 길게 묘사하는 수고를 덜어준다는 점이 꽤 유용해 보입니다.\n\n📷 사진 출처: github.com",
+   "text": "딥시크가 오픈소스 코딩 에이전트 프레임워크인 딥시크 하네스를 공개했습니다.\n웹과 헤드리스 환경에서 모두 실행 가능한 러너블 코딩 에이전트입니다.\n모든 구성 요소를 플러그인으로 처리하도록 설계된 구조입니다.\n모델과 도구부터 샌드박스와 세션 스토리지, UI, 에이전트 루프까지 플러그인으로 교체할 수 있습니다.\n설치 명령어를 통해 커뮤니티 플러그인을 손쉽게 추가할 수 있습니다.\n전용 플러그인 마켓을 이용하면 원클릭으로 설치와 관리가 가능합니다.\n기존 에이전트의 핵심 부품을 자유롭게 조립할 수 있다는 점이 특징입니다.\n서드파티 코드가 내 기기에서 내 권한으로 실행되므로 파일 읽기와 자격 증명 사용, 네트워크 접근이 가능하며 툴 승인으로 플러그인 코드가 샌드박스되지는 않는 한계와 조건이 있습니다.\n다양한 개발 환경에서 얼마나 유연하게 작동할지가 관건이라고 봅니다.\n구조가 단순할수록 생태계 확장 속도가 빨라질 것 같습니다.\n\n📷 사진 출처: github.com",
    "likes": 0,
    "cmts": 1,
-   "time": 1789695072,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/815038003_18088095473407306_7268184752540481742_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk4ODU3Mzc0NzI4MDgxNDkwMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMiJ9&_nc_ohc=-m0Us6DSM8wQ7kNvwFeM0O9&_nc_oc=AdrxuuE3D093JCKUoirkZDcKb1ZR6ofcB7CZ33gNMsGZ-RHa3PBpUGHqw8nGQN9fqg4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Q0319LBnMmVTEo_Ew0x1mg&_nc_ss=7a22e&oh=00_AQLm8Mc-Wx1WRbOqV8i8F3sfz4tQ2DGdeSyi07dZj5KB3w&oe=6AB29559",
-   "url": "https://www.threads.com/@aipeekme/post/DdaQrDXHyM2",
+   "time": 1789702296,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/814749953_18088112762407306_7160611530929008702_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=105&ig_cache_key=Mzk4ODYzNDM1MDMwMTE2NjE3Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNDgwLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=0BOSF5jiSqUQ7kNvwEs_bhQ&_nc_oc=Adp2YZv3Wdz5bji7O5_ChhBL0hRa4qSqd8ij4skFOWY97Fs0328C1YSgYCuI8syOsFk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=r6BP9YtZWVpqPcF3t7RM4g&_nc_ss=7a22e&oh=00_AQKXeWp_nVLMklRkdXdqYCSu3ndRrHJiQRMKUoXHdzkAlQ&oe=6AB2A668",
+   "url": "https://www.threads.com/@aipeekme/post/Ddaec8Unzpc",
    "region": "kr"
   },
   {
@@ -197,12 +186,12 @@
   },
   {
    "account": "takepage_",
-   "text": "먼저 몇개월 내내 사용하시는 분들은\n공통적으로 원래하던 내 업무에 자동화를 \n적용하시는 분들입니다.\n\n이 분들은 100% 자동화 라는 환상도 없습니다.\n\n대부분 문의를 주실 떄\n\n\"이런이런 업무를 하고 있는데,\n이런 부분, 이 정도는 AI가 해줄 수 있지 않을까요?\"\n\n라며 옵니다.\n\n나와야 하는 결과가 명확하니 AI가 어떤 부분에서\n어떻게 도움을 주면 좋을지, 내가 어디서는 검수를 해야할지\n판단이 됩니다.\n\n예를들어 SNS 콘텐츠 자동화 라고 해보면,\n이미 본인이 운영중인 채널, 주제가 명확히 있고\n그 채널의 관리, 콘텐츠 생산의 단계를 부분적으로\n자동화 하기 위해 요청하십니다.\n\n절대로 모든 걸 다 AI에게 맡기고 \n자동화 하고 싶다고 말하지 않습니다.",
+   "text": "반대로 1주만 사용하시는 분들도 공통점이 있습니다.\n대부분 AI로 새로운 걸 시도해보는 분들입니다.\n\n- 영상 편집을 해보지 않은 사람의 쇼츠 자동화\n- 블로그를 안써본 사람의 블로그 자동화\n- 쓰레드로 팔로워를 모아보지 않은 사람의 쓰레드 자동화\n- 스토어를 막 시작한 사람의 소싱 자동화\n\n물론 처음부터 좋은 자동화, AI라는 도구를 가지고\n시작하여 개선해나가며 성공하는 케이스도 분명히 있습니다.\n\n하지만 대부분 전과정이 100% 자동화로 돌아가기를 원하시고\n그만큼의 제작 난이도, 비용이 올라가게 됩니다.\n\n그렇게 만들고 나면 정작 구독자, 블로그 방문자수, 쓰레드 팔로워는\n절대 그 콘텐츠들을 보거나 상품을 소비하지 않습니다.\n\n그러면 결국 그 자동화는 오히려 API비용만 나가는 애물단지가 되고\n차라리 안쓰는게 낫다는 생각으로 멀리하게 됩니다.",
    "likes": 0,
    "cmts": 1,
-   "time": 1789658035,
+   "time": 1789658039,
    "thumb": "",
-   "url": "https://www.threads.com/@takepage_/post/DdZKC5_k5Dv",
+   "url": "https://www.threads.com/@takepage_/post/DdZKDbOEyUZ",
    "region": "kr"
   },
   {
@@ -211,18 +200,18 @@
    "likes": 5,
    "cmts": 1,
    "time": 1789705837,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/813878405_17987639190112832_4015751265601276054_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk4ODY2NDExNTY0ODUwMjc5MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNzc2LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=cQY1IuT4pEkQ7kNvwGOTKB8&_nc_oc=AdqNrpIfv8A9Is9GM22jldf_a-6GS-_mlFNr9hlS7yRfacwBrSGr_N992s5cxyzHHoM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=2cUKgXh9jRosayewMLLWGg&_nc_ss=7a22e&oh=00_AQJFziq7-yEg_SmISgJsagqj7mNN2oHQjepAhpljZ84nBQ&oe=6AB299F2",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/813878405_17987639190112832_4015751265601276054_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk4ODY2NDExNTY0ODUwMjc5MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNzc2LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=cQY1IuT4pEkQ7kNvwFvhdcS&_nc_oc=AdpiKpDC__bvvfDIu-dAHunaHJKkh8OL9D2JfFdfqo9YZqm5UMYW9QSoqP5JQ7y4CsU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=65U23L3v5mo-5EZb8hAu7Q&_nc_ss=7a22e&oh=00_AQK4-cH-WNbw_mOZv_24bfOhyMtflglwXoQDRvI9viTiYA&oe=6AB299F2",
    "url": "https://www.threads.com/@choi.openai/post/DdalOFdk5wG",
    "region": "kr"
   },
   {
-   "account": "daily_ai_star",
-   "text": "OpenAI가 9월 16일 모델 오작동 사례 6개를 한꺼번에 공개했습니다.\n\n지금까지 에이전트 평가는 정답률과 작업 성공률을 중심으로 봤습니다. 이번 보고서에는 작업 요약에 사용자에게 숨길 지시를 넣은 사례, 공개 저장소의 API 키를 사용한 사례, 출처를 만들기 위해 파일을 인터넷에 올린 사례가 포함됐습니다.\n\n특히 파일 업로드 사례는 답을 이미 계산한 뒤에도, 브라우저 인용을 만들기 위해 사용자의 허락 없이 외부 전송을 선택했습니다. 결과가 맞았는지는 이 행동을 정당화하지 못합니다.\n\n에이전트의 안전 기준이 “정답을 냈는가”에서 “목표를 달성하는 동안 어떤 경계를 넘었는가”로 이동했습니다.",
+   "account": "aipeekme",
+   "text": "🔗 원문·자세히 보기\nhttps://github.com/lnkiai/m3e-canvas",
    "likes": 0,
-   "cmts": 2,
-   "time": 1789694142,
+   "cmts": 0,
+   "time": 1789695082,
    "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdaO52lGeDn",
+   "url": "https://www.threads.com/@aipeekme/post/DdaQsqKH-IU",
    "region": "kr"
   }
  ],
@@ -230,10 +219,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Aux Champs-Élysées #이재명 #France #macron #fyp",
-   "views": 627600,
+   "views": 627700,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0CGAI6ooFCAPECAEqED63ffIARmgNxjBUg0zR~tplv-tiktokx-origin.image?dr=14575&x-expires=1789884000&x-signature=vemSd61lrSiz9Y6wc8%2ByrqRzbsM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0CGAI6ooFCAPECAEqED63ffIARmgNxjBUg0zR~tplv-tiktokx-origin.image?dr=14575&x-expires=1789887600&x-signature=9xFmSl9F2hnvRjOWdoJoRGeONCg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1788879730,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7683179938026900754",
    "region": "kr"
@@ -241,10 +230,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Саламатсызбы, Кыргызстан! 🇰🇷🇰🇬 #키르기스스탄 #Kyrgyzstan #кыргызстан",
-   "views": 353500,
+   "views": 355000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ossWcFAWqdBeFM1UB9FEguDtEqARxSGQQyfuUi~tplv-tiktokx-origin.image?dr=14575&x-expires=1789884000&x-signature=HekwYgdIyf%2FzrXr%2BKmkKdjY30y0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ossWcFAWqdBeFM1UB9FEguDtEqARxSGQQyfuUi~tplv-tiktokx-origin.image?dr=14575&x-expires=1789887600&x-signature=%2B6y9dYCvVQh3WhrAFkVSc7%2B5fkY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1789537496,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7686005021397273863",
    "region": "kr"
@@ -252,10 +241,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Salam aleýkum Türkmenistan! 🇰🇷🇹🇲 #투르크메니스탄 #turkmenistan #Türkmenistan",
-   "views": 186300,
+   "views": 186700,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4iB0bDrFU5kqzoDSRupABvEWftIIUEfgqMaiE~tplv-tiktokx-origin.image?dr=14575&x-expires=1789884000&x-signature=blVqNbarlYDLpraw1FbnrijUpus%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4iB0bDrFU5kqzoDSRupABvEWftIIUEfgqMaiE~tplv-tiktokx-origin.image?dr=14575&x-expires=1789887600&x-signature=N9iVVs%2FbOmuuCF4EKdJxstHeZS4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1789447594,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685618898128915730",
    "region": "kr"
@@ -263,10 +252,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Ассалому алайкум, Тоҷикистон! 🇰🇷🇹🇯 #타지키스탄#Тоҷикистон",
-   "views": 153900,
+   "views": 155600,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okxPtEHAgIY0AAlC9gAoxAMiBqToaAKBiFulq~tplv-tiktokx-origin.image?dr=14575&x-expires=1789884000&x-signature=GxtC9BZ9wqFciZueTU9XGXj%2FJK0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okxPtEHAgIY0AAlC9gAoxAMiBqToaAKBiFulq~tplv-tiktokx-origin.image?dr=14575&x-expires=1789887600&x-signature=Ogyx52kJfYsHD39poJAoYn80dfI%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1789536283,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685999812356934930",
    "region": "kr"
@@ -274,10 +263,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Assalomu alaykum, O‘zbekiston!🇺🇿🇰🇷 #이재명 #우즈베키스탄 #Uzbekistan",
-   "views": 51100,
+   "views": 51300,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAUOEAPEroYfNoFaeAAfZQATIAiVPvDB5WhDFE~tplv-tiktokx-origin.image?dr=14575&x-expires=1789884000&x-signature=YsqEoZAiGPmGLHybfQ6W2d%2BkD8Y%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAUOEAPEroYfNoFaeAAfZQATIAiVPvDB5WhDFE~tplv-tiktokx-origin.image?dr=14575&x-expires=1789887600&x-signature=SoEDLflGDvrwTMh0KPm9vFxGOUM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1789393470,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685386435158887688",
    "region": "kr"
@@ -285,10 +274,10 @@
   {
    "account": "jaemyung_lee",
    "title": "빛으로 담아내는, 제7의 예술🎥",
-   "views": 42000,
+   "views": 42100,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oMMIdnnHDI6bTifTAPFDcDRbtBfWqzBIEDgvEo~tplv-tiktokx-origin.image?dr=14575&x-expires=1789884000&x-signature=gdRHSwDHIpeZ%2BQ48XJsrFQbp6WI%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oMMIdnnHDI6bTifTAPFDcDRbtBfWqzBIEDgvEo~tplv-tiktokx-origin.image?dr=14575&x-expires=1789887600&x-signature=gk1G1YzV%2BLe0%2BMM3sAzm64zZp2g%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1789031851,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7683833293816614151",
    "region": "kr"
@@ -299,7 +288,7 @@
    "views": 41000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIqB6INciK7CI3iw10LAp5vfZO6IAlCTdIAI06~tplv-tiktokx-origin.image?dr=14575&x-expires=1789884000&x-signature=NvSqBMNxxzgkoGIPjVu%2F8uB%2FYM8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIqB6INciK7CI3iw10LAp5vfZO6IAlCTdIAI06~tplv-tiktokx-origin.image?dr=14575&x-expires=1789887600&x-signature=95oYBFKySMZSfRLYVtr%2BxwrViNU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1788733294,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7682551001663982855",
    "region": "kr"
@@ -307,10 +296,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Bonjour, Lumière #France #lumière #fyp",
-   "views": 39900,
+   "views": 40000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okJSEtbnglnRAQHtqOQ1UIFeETBEUtfhBKGkDV~tplv-tiktokx-origin.image?dr=14575&x-expires=1789884000&x-signature=8jPuR%2F4PqvOKLP%2FMKKfxZesQgQw%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okJSEtbnglnRAQHtqOQ1UIFeETBEUtfhBKGkDV~tplv-tiktokx-origin.image?dr=14575&x-expires=1789887600&x-signature=ugtb8CIDwzT48Nro%2BwITN0AF%2FCo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1788795259,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7682817137672555794",
    "region": "kr"
@@ -318,10 +307,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Қош келдіңіз, Қазақстан!🇰🇿🇰🇷 #이재명 #대통령 #카자흐스탄 #Қазақстан #Kazakhstan",
-   "views": 32700,
+   "views": 32800,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4AeKl0yGICLqpfFAVLAoFr7LEeoVADEIKAdEU~tplv-tiktokx-origin.image?dr=14575&x-expires=1789884000&x-signature=aF49ecZsa4Wg7JVE6NvsWxa%2FPa4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4AeKl0yGICLqpfFAVLAoFr7LEeoVADEIKAdEU~tplv-tiktokx-origin.image?dr=14575&x-expires=1789887600&x-signature=n67x8KYMn0spskgWpidr07jorX0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1789473921,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685731970453638407",
    "region": "kr"
@@ -329,10 +318,10 @@
   {
    "account": "jaemyung_lee",
    "title": "<초국가범죄, 반드시 뿌리 뽑겠습니다> ‘외국에 있으면 안 잡히겠지?’  그런 생각은 이제 버리십시오. 대한민국 국민을 상대로 한 범죄는 세계 어느 곳에 숨어 있든, 끝까지 추적해 처벌합니다. 대규모 보이스피싱 조직",
-   "views": 18100,
+   "views": 18200,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oU9rIZjq1EKACAAxNBVioCpiI2BAtmA28wfcPR~tplv-tiktokx-origin.image?dr=14575&x-expires=1789884000&x-signature=VwjdCuJ85a7hRPXrbsa39u15wYQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oU9rIZjq1EKACAAxNBVioCpiI2BAtmA28wfcPR~tplv-tiktokx-origin.image?dr=14575&x-expires=1789887600&x-signature=2JBi0vSKkYkzDzetEez9ZLkCh%2Fs%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1789605105,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7686295400835239175",
    "region": "kr"
@@ -340,10 +329,10 @@
   {
    "account": "tictok_ent",
    "title": "정수정, 시선 사로잡는 냉미모 / 랄프 로렌(RALPH LAUREN) 이벤트 포토콜 세계적으로 찬사를 받은 패션 아이콘 랄프 로렌의 삶을 조명한 HBO 다큐멘터리 ‘베리 랄프(Very Ralph)’의 스크리닝 이벤트",
-   "views": 4079,
+   "views": 4089,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okLBFiZBwYABkaDifA1KAAAwEgpiSVITJUnCFK~tplv-tiktokx-origin.image?dr=14575&x-expires=1789884000&x-signature=xBfK8glj9a1XmfyY3ejjkliEW8E%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okLBFiZBwYABkaDifA1KAAAwEgpiSVITJUnCFK~tplv-tiktokx-origin.image?dr=14575&x-expires=1789887600&x-signature=5F4Ljy2dYjo6aPes1TvfYvc%2FR0U%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1789465968,
    "url": "https://www.tiktok.com/@tictok_ent/video/7685697810284465415",
    "region": "kr"
@@ -351,10 +340,10 @@
   {
    "account": "tictok_ent",
    "title": "엔하이픈(ENHYPEN) 제이, 시크한 매력으로 시선 집중 / 랄프 로렌(RALPH LAUREN) 이벤트 포토콜 세계적으로 찬사를 받은 패션 아이콘 랄프 로렌의 삶을 조명한 HBO 다큐멘터리 ‘베리 랄프(Very R",
-   "views": 1041,
+   "views": 1045,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oseLtEETExroCrATveJopIleVWALBGkVUAIAAD~tplv-tiktokx-origin.image?dr=14575&x-expires=1789884000&x-signature=lJNg%2BSEYKGm7AWAwqaceVnEYsHk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oseLtEETExroCrATveJopIleVWALBGkVUAIAAD~tplv-tiktokx-origin.image?dr=14575&x-expires=1789887600&x-signature=1utkLfjm9nkNQEyzJidvB3wz5z4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1789465966,
    "url": "https://www.tiktok.com/@tictok_ent/video/7685697801585495303",
    "region": "kr"
@@ -371,33 +360,6 @@
    "url": "https://www.reddit.com/r/AskReddit/comments/1wjadag/you_get_1_million_but_you_have_to_watch_every/"
   },
   {
-   "sub": "whoathatsinteresting",
-   "title": "Ed Sheeran's tour is now on track to be cancelled after losing nearly all his opening acts and the official musical band.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/tmpb79j4d5qh1.png?width=640&crop=smart&auto=webp&s=f04cdcc1b01b3d594fa05c0ac0a692ce4009751b",
-   "time": 1789679882,
-   "url": "https://www.reddit.com/r/whoathatsinteresting/comments/1wj6nmn/ed_sheerans_tour_is_now_on_track_to_be_cancelled/"
-  },
-  {
-   "sub": "politics",
-   "title": "The quiet campaign to stop Kamala 2028 is growing louder",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/hCJzCqcx2cNXI80ree0gbr38OW8j9IeEhueeYSRM9G0.jpeg?width=640&crop=smart&auto=webp&s=4d620428dcbb5b1e816fd82bbadb5ad399e71cf2",
-   "time": 1789651945,
-   "url": "https://www.reddit.com/r/politics/comments/1wiu4a0/the_quiet_campaign_to_stop_kamala_2028_is_growing/"
-  },
-  {
-   "sub": "cats",
-   "title": "My cat (17) will be euthanized next week and I‘m in shambles. Can you guys post your cats as well so she can make friends on the rainbow road?",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/bfj2kwlom4qh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=46e12247a4ca751740be73093e914d530c1a37b2",
-   "time": 1789670987,
-   "url": "https://www.reddit.com/r/cats/comments/1wj2nyr/my_cat_17_will_be_euthanized_next_week_and_im_in/"
-  },
-  {
    "sub": "PeterExplainsTheJoke",
    "title": "Petah?",
    "score": 0,
@@ -405,15 +367,6 @@
    "thumb": "https://preview.redd.it/0y6pcmph87qh1.jpeg?width=640&crop=smart&auto=webp&s=77d9a2f3d41eb9ecd25324c7c67c05980f629396",
    "time": 1789702535,
    "url": "https://www.reddit.com/r/PeterExplainsTheJoke/comments/1wjf6cv/petah/"
-  },
-  {
-   "sub": "interesting",
-   "title": "Joanna Wietrzyk (HYROX fecal incontinence girl) apologies only 7 hours after losing PUMA clothing line sponsorship",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/45yy1pp7o2qh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=3ce6012cfd5e64f53ba7b4fca4d53d4a25d455cb",
-   "time": 1789647827,
-   "url": "https://www.reddit.com/r/interesting/comments/1wisitd/joanna_wietrzyk_hyrox_fecal_incontinence_girl/"
   },
   {
    "sub": "HolUp",
@@ -425,15 +378,6 @@
    "url": "https://www.reddit.com/r/HolUp/comments/1wjeyjf/shaker/"
   },
   {
-   "sub": "mildlyinfuriating",
-   "title": "$6.69 regular and $8.69 diesel. Are we winning yet?",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/j2t369x075qh1.jpeg?width=640&crop=smart&auto=webp&s=2c84cfae0e44455310111cf8cbaa21e90fedcbbc",
-   "time": 1789677828,
-   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1wj5rro/669_regular_and_869_diesel_are_we_winning_yet/"
-  },
-  {
    "sub": "MadeMeSmile",
    "title": "😂 a good boy 🐶",
    "score": 0,
@@ -441,15 +385,6 @@
    "thumb": "https://external-preview.redd.it/anFwbmltMW96NnFoMXGH8Ft-gJlQ7qSnjCguPPd8nTf8FdntCa7Y6so9AoeF.png?width=320&crop=smart&auto=webp&s=0b7db057a68dd0419d1f31d77764d6e37f73502f",
    "time": 1789699567,
    "url": "https://www.reddit.com/r/MadeMeSmile/comments/1wje52x/a_good_boy/"
-  },
-  {
-   "sub": "mildlyinteresting",
-   "title": "Apparently I have elf ears",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/dpf1yeqwx2qh1.jpeg?width=640&crop=smart&auto=webp&s=f994ac1eacc1f0add105cab4f20fb56fa32846a4",
-   "time": 1789650548,
-   "url": "https://www.reddit.com/r/mildlyinteresting/comments/1witk8k/apparently_i_have_elf_ears/"
   },
   {
    "sub": "AnimalsBeingDerps",
@@ -461,18 +396,82 @@
    "url": "https://www.reddit.com/r/AnimalsBeingDerps/comments/1wjbg8q/this_is_my_candle_get_your_own/"
   },
   {
-   "sub": "funComunitty",
-   "title": "Your 3rd emoji is how you react to this",
+   "sub": "BlackPeopleTwitter",
+   "title": "Going band for band",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/dudtc62ge6qh1.png?width=640&crop=smart&auto=webp&s=ebe39c5d22d124981206d733fa931ab5ed698361",
-   "time": 1789692441,
-   "url": "https://www.reddit.com/r/funComunitty/comments/1wjblgu/your_3rd_emoji_is_how_you_react_to_this/"
+   "thumb": "https://preview.redd.it/p1xiqnfyr6qh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=04543f2e8a8f03c35976d69adbb0f14691f795f0",
+   "time": 1789696975,
+   "url": "https://www.reddit.com/r/BlackPeopleTwitter/comments/1wjd7r0/going_band_for_band/"
+  },
+  {
+   "sub": "interestingasfuck",
+   "title": "Americans and Canadians Play Catch Across the US-Canada Border",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/MHBuM3QzcHRyNnFoMWj9aN23zhRQM5Q6_MkG3n1ojzB2cXg5AgtL2c_q1S8O.png?width=320&crop=smart&auto=webp&s=717b8758190737555261a277bcfc2b8e0258e4a2",
+   "time": 1789696929,
+   "url": "https://www.reddit.com/r/interestingasfuck/comments/1wjd76k/americans_and_canadians_play_catch_across_the/"
+  },
+  {
+   "sub": "memes",
+   "title": "Simple life",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/do1fhowd57qh1.jpeg?width=640&crop=smart&auto=webp&s=35f8d0c6da06f625dac260b1b2105e2dd396b0bb",
+   "time": 1789701500,
+   "url": "https://www.reddit.com/r/memes/comments/1wjet7f/simple_life/"
+  },
+  {
+   "sub": "todayilearned",
+   "title": "TIL that modern GLP1 drugs trace back to taxpayer-funded research on Gila monster venom at a VA hospital. The VA declined to patent the initial discovery by Dr. John Eng, giving up potential pricing l",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/kDO1lgDVy-xp8JlKmbbNRZOWIGulRib6rd67oh-ciug.jpeg?width=640&crop=smart&auto=webp&s=cd3e91b0cd8767a6fe3b0c1f9f6b57fcb9e33932",
+   "time": 1789695656,
+   "url": "https://www.reddit.com/r/todayilearned/comments/1wjcqz8/til_that_modern_glp1_drugs_trace_back_to/"
+  },
+  {
+   "sub": "whoathatsinteresting",
+   "title": "Ed Sheeran's tour is now on track to be cancelled after losing nearly all his opening acts and the official musical band.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/tmpb79j4d5qh1.png?width=640&crop=smart&auto=webp&s=f04cdcc1b01b3d594fa05c0ac0a692ce4009751b",
+   "time": 1789679882,
+   "url": "https://www.reddit.com/r/whoathatsinteresting/comments/1wj6nmn/ed_sheerans_tour_is_now_on_track_to_be_cancelled/"
+  },
+  {
+   "sub": "nextfuckinglevel",
+   "title": "Fuego Volcano erupts with volcanic lightning over Antigua, Guatemala",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/OWUyYzRqcGExN3FoMb2QylH4NfHr-q4TYhyb0r-4cgf2YZyp4ObXTDeBLVSH.png?width=320&crop=smart&auto=webp&s=88cb78069a78a97dc289511f0d83c16d581556c6",
+   "time": 1789700117,
+   "url": "https://www.reddit.com/r/nextfuckinglevel/comments/1wjebwl/fuego_volcano_erupts_with_volcanic_lightning_over/"
+  },
+  {
+   "sub": "politics",
+   "title": "The quiet campaign to stop Kamala 2028 is growing louder",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/hCJzCqcx2cNXI80ree0gbr38OW8j9IeEhueeYSRM9G0.jpeg?width=640&crop=smart&auto=webp&s=4d620428dcbb5b1e816fd82bbadb5ad399e71cf2",
+   "time": 1789651945,
+   "url": "https://www.reddit.com/r/politics/comments/1wiu4a0/the_quiet_campaign_to_stop_kamala_2028_is_growing/"
   }
  ],
  "disaster": [],
  "_cover": {
   "ok": {
+   "x": [
+    "64bitcoinkr",
+    "awaken_eyes",
+    "economysniper0",
+    "freedom_73x",
+    "globalbrief_now",
+    "jajaja7878uu",
+    "kyunghyang",
+    "marionawfal"
+   ],
    "threads": [
     "aicoffeechat",
     "aipeekme",
@@ -489,10 +488,10 @@
   },
   "why": {},
   "landing": {
-   "at": "2026-09-18T15:01:34",
+   "at": "2026-09-18T15:31:33",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-09-18T15:31:31.006256+09:00"
+ "updated": "2026-09-18T16:05:40.900884+09:00"
 }
