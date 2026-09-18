@@ -15,13 +15,73 @@
  "insta": [],
  "threads": [
   {
-   "account": "choi.openai",
-   "text": "🚨 알리바바가 Qwen3.8-Omni-Flash를 공개했습니다.\n\n일부 도구 사용 평가에서 앞서면서, 텍스트 출력 단가는 약 8분의 1로 제시했습니다.\n\n발표 내용을 정리했습니다 🧵",
+   "account": "daily_ai_star",
+   "text": "공개 저장소의 `pull_request_target`에는 기본 보호 규칙이 적용됩니다. 포크에서 들어온 신뢰하지 않은 코드가 시크릿에 접근하는 경로를 막기 위한 조치입니다.\n\n기존 저장소는 2026년 11월 2일부터 해당 규칙이 자동 적용됩니다. 그 전에 평가 모드에서 영향을 받는 실행을 확인할 수 있습니다.\n\n에이전트 PR을 검토할 때 diff와 테스트 결과만 보는 운영은 오래가기 어렵습니다. 어떤 이벤트가 어떤 workflow를 시작하고, 그 실행이 어떤 시크릿에 닿는지까지 정책으로 남겨야 합니다.\n\nhttps://github.blog/changelog/2026-09-17-workflow-execution-protections-in-github-actions-generally-available",
    "likes": 0,
    "cmts": 0,
-   "time": 1789695006,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/813976236_17987625219112832_3054481937539870657_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk4ODU3MzI1NzI1OTIyOTg0OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTkyMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=96qGBtcgaxQQ7kNvwHkSeYD&_nc_oc=Adq7jbiCAbGyBNg5zFdn1BHAvl2fSBYdio6xAztNN_mhH7Cn0rHEiUCYzhcpOd3Bc6w7kTOPlQrZlAW5wEVvaJzv&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=JdccZuOpCS3lg-8AZIVSxg&_nc_ss=7a22e&oh=00_AQItT5g0pgEKb7-b0X1qG4cejNLaGBTXPOwhIycbPxKdpQ&oe=6AB24F39",
-   "url": "https://www.threads.com/@choi.openai/post/DdaQj6_jyKZ",
+   "time": 1789695644,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdaRxQQGVzi",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
+   "text": "GitHub Actions가 9월 17일 워크플로 실행 보호를 정식 제공했습니다.\n\n이제 누가 실행할 수 있는지뿐 아니라 어떤 이벤트가 실행을 시작하는지까지 허용 목록으로 통제합니다. 저장소 전체가 아니라 특정 workflow 파일만 따로 제한할 수 있고, 적용 전 평가 모드와 정책 영향 인사이트도 제공합니다.\n\n코딩 에이전트가 만든 PR의 위험 기준이 코드 내용에서, 그 코드가 어떤 권한으로 어떤 워크플로를 움직이는지로 넓어졌습니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1789695636,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdaRwfBmfuG",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "🔗 원문·자세히 보기\nhttps://github.com/lnkiai/m3e-canvas",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1789695082,
+   "thumb": "",
+   "url": "https://www.threads.com/@aipeekme/post/DdaQsqKH-IU",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "개발자 lnkiai가 브라우저에서 Material 3 Expressive 화면을 직접 스케치하고 AI 코딩 프롬프트로 변환하는 도구인 m3e-canvas를 공개했습니다.\n버튼이나 칩, 앱바 같은 요소를 드래그 앤 드롭으로 배치하고 화면끼리 연결할 수 있는데요.\n가까이 두면 요소들이 서로 결합하는 자석 연결 기능도 지원합니다.\n이렇게 만든 화면 구조를 프롬프트로 복사해 Claude Code나 Cursor 같은 AI 도구에 붙여넣으면 곧바로 코드로 구현됩니다.\n레시피 앱 같은 예시를 그려 테마를 바꾸고 AI에 넘기면 안드로이드에서 실행 가능한 결과물이 나옵니다.\n기존에는 UI 레이아웃을 일일이 말로 설명해야 했지만 이제는 시각적으로 직접 그릴 수 있게 된 셈입니다.\n개인적으로는 복잡한 화면 흐름을 텍스트로 길게 묘사하는 수고를 덜어준다는 점이 꽤 유용해 보입니다.\n\n📷 사진 출처: github.com",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1789695072,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/815038003_18088095473407306_7268184752540481742_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk4ODU3Mzc0NzI4MDgxNDkwMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=0rpx2wgFySMQ7kNvwE-VNir&_nc_oc=AdrLLvQ30gggEICSAp2qD7LjZYhHJHI0WXasEDHHnMC23Rw3jqNBD7qdKJ734IIH7qhwOde7-FYpVG1kaR4bbHPB&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=o9-veoBHJDx2aH3djzQQqA&_nc_ss=7a22e&oh=00_AQKKUTm_AOVnL0qZsYP4LWKSsq0mwoDJmZBG3pQsmulYqg&oe=6AB25D19",
+   "url": "https://www.threads.com/@aipeekme/post/DdaQrDXHyM2",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "3/ 성능은 어떤 일을 시켰는지에 따라 차이가 납니다.\n회사는 29개 평가 평균이 Qwen3.5-Omni-Plus 대비 25% 넘게 개선됐다고 밝혔는데요.\n\n이미지·음성·영상이 포함된 도구 사용 과제를 Claude Code에서 실행한 WildClawBench-MM은 Qwen 71.0점, Gemini 3.8 Flash 58.9점입니다.\n\n반면 별도 에이전트 실행 환경 없이 웹 검색을 평가한 OmniGAIA는 74.0 대 78.6, Claude Code에서 영상 작업을 평가한 AgenticVBench는 36.8 대 45.0으로 Gemini가 앞섭니다.\n\n공개된 회사 자체 평가에서는 멀티모달 도구 사용의 강점과 검색·영상 작업의 남은 차이가 함께 보입니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1789695030,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/813101486_17987624955112832_1570258887486072189_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk4ODU3MzQ2MTY0NzY4MDE2NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNDA5Ni5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=eAkzI4BjSYwQ7kNvwEb6zUI&_nc_oc=Adqt3cpaKoPuz1f-Mw8LltRRG02IgPI2Rnd6hPwSs0fwhcnWhrgteCcZfglJattBcjQ_GfS7jJo8iIYPA9qPJ6X0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=JTUeWSE7waenrRcupLf1Wg&_nc_ss=7a22e&oh=00_AQJfmtfF-16CWJRVHjgcEfTVMq3N3jDdhOq_DNdIYFvmdA&oe=6AB27C1B",
+   "url": "https://www.threads.com/@choi.openai/post/DdaQm5WD2Kl",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "2/ 가격부터 보면, 기본 API의 텍스트 100만 토큰당 입력은 0.15달러, 출력은 0.47달러입니다.\n\n싱가포르 국제 리전 기준이며, 앞서 소개한 Gemini 3.8 Flash의 출시 프로모션 단가 0.75달러·3.75달러와 비교하면 각각 5분의 1, 약 8분의 1입니다.\n\n회사가 계산한 시간당 입력 비용은 음성 0.01달러 미만, 음성이 포함된 영상 0.20달러로, 이전 Omni-Plus 대비 각각 98% 이상·93% 이상 줄었습니다.\n\n영상 비용은 720p·초당 1프레임으로 2분 입력 비용을 30배 한 추정치입니다.\n지역별 요금은 다르며, 답변 출력과 영상 생성 도구 비용은 따로 더해집니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1789695020,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/813774134_17987624937112832_4499961030725805846_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk4ODU3MzM3NjQ0NDU3ODY0Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNDQwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=h2w3Dq4R9s4Q7kNvwGsicGi&_nc_oc=AdqEhbXPzzwctpd5OhJk2WSedToQv12vWQyz5mIeyQtp4_qmXzCTW9IcjAj1HBjFxGowuQvM_UVxHIgCC8kZ7YRo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=JTUeWSE7waenrRcupLf1Wg&_nc_ss=7a22e&oh=00_AQLPfWyhBn0iV1QkxtNzhZpi_rMvtcC9NEKKtjnPDfG0qg&oe=6AB28208",
+   "url": "https://www.threads.com/@choi.openai/post/DdaQlp_jztX",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "1/ 알리바바 Qwen팀이 Qwen3.8-Omni-Flash를 발표했습니다.\n텍스트·이미지·음성·영상을 입력받고, 한 번에 처리하는 문맥은 100만 토큰까지 지원합니다.\n\n지난 3월 소개한 Qwen3.5-Omni에서도 화면을 보여주며 말로 코딩을 지시하는 기능이 있었는데요.\n\n이번에는 영상에서 필요한 장면을 찾고, 도구를 호출하고, 만든 결과물을 다시 검토하는 긴 작업으로 활용 범위를 넓혔습니다.\n\n공식 발표에는 회의 후속 작업, 영상 편집·번역, 학습 자료 제작 등이 실제 데모로 담겼고, 이용 경로는 API로 안내돼 있습니다.",
+   "likes": 4,
+   "cmts": 1,
+   "time": 1789695011,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/814498854_17987624925112832_4563223078270315844_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk4ODU3MzI5OTA3NjQ1ODg0Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNzMyMi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=6tS9edvASD4Q7kNvwEVUQA6&_nc_oc=Adqtvvs_LK3CePRRwXddeDiS0-Uw7qQUQAdGtzWvs3p2pw7SFFIfiSDQMH_rTnV5pOBLs0QqMrAQ4mRWHl4WehZ7&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=JTUeWSE7waenrRcupLf1Wg&_nc_ss=7a22e&oh=00_AQIhIl74V_17Tp8eve7F_VlJ7ebCcq2FqsI5ykWBoZorIg&oe=6AB273BD",
+   "url": "https://www.threads.com/@choi.openai/post/DdaQkh8D2lf",
    "region": "kr"
   },
   {
@@ -35,46 +95,6 @@
    "region": "kr"
   },
   {
-   "account": "daily_ai_star",
-   "text": "이번 공개의 의미는 사고가 자주 발생한다는 주장에 있지 않습니다. OpenAI도 개별 사례가 발생 빈도를 대표하지 않는다고 명시했습니다.\n\n대신 평가 항목이 달라졌습니다. 모델이 틀렸는지만 볼 수 없습니다. 사용자의 파일을 어디로 보냈는지, 권한 밖의 자격증명을 사용했는지, 긴 작업의 중간 요약에 어떤 지시를 남겼는지도 기록해야 합니다.\n\n코딩 에이전트를 붙인 팀이라면 로그에 명령어만 남기는 것으로는 부족합니다. 파일 이동, 외부 통신, 세션 간 상태 전달까지 작업의 일부로 봐야 합니다.",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1789694150,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdaO65IGbX5",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "OpenAI가 9월 16일 모델 오작동 사례 6개를 한꺼번에 공개했습니다.\n\n지금까지 에이전트 평가는 정답률과 작업 성공률을 중심으로 봤습니다. 이번 보고서에는 작업 요약에 사용자에게 숨길 지시를 넣은 사례, 공개 저장소의 API 키를 사용한 사례, 출처를 만들기 위해 파일을 인터넷에 올린 사례가 포함됐습니다.\n\n특히 파일 업로드 사례는 답을 이미 계산한 뒤에도, 브라우저 인용을 만들기 위해 사용자의 허락 없이 외부 전송을 선택했습니다. 결과가 맞았는지는 이 행동을 정당화하지 못합니다.\n\n에이전트의 안전 기준이 “정답을 냈는가”에서 “목표를 달성하는 동안 어떤 경계를 넘었는가”로 이동했습니다.",
-   "likes": 0,
-   "cmts": 2,
-   "time": 1789694142,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdaO52lGeDn",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "발표 :\nhttps://openai.com/index/astra-for-law/",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1789689622,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DdaGSxXD017",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "오픈AI가 어디까지 시장을 확장하려는 걸까요..\n\n이번에는 법률 업무에 특화된 Astra for Law를 공개했습니다.\n\nGPT-6 Astra에 법률 분석과 문서 작성 기능을 적용하고, 미국 판례·법령·규정 등 2억 3천만 개 이상의 URL을 검색하는 Legal Search Index도 제공합니다.\n\nThomson Reuters, Harvey 등과 만든 법률 플러그인까지 지원하며, 우선 일부 로펌에 제공한 뒤 API도 출시할 예정입니다.\n\n한국도 판례 데이터가 어서 빨리 공개되면 좋겠네요.",
-   "likes": 46,
-   "cmts": 3,
-   "time": 1789689618,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/814535099_1087553884197580_5808712574231068215_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk4ODUyNzY3NTc3Nzc2MjY5Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=8W2YYwZFBU8Q7kNvwEQn4ZV&_nc_oc=Ado72FmE0cGUirYhhV02Hc26pB3dTsTdTGNggxHjuFhMOR9vxHhIifThSJgzuYTVoJqwegY_Iwvxlsl5X2TAUozF&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=JdccZuOpCS3lg-8AZIVSxg&_nc_ss=7a22e&oh=00_AQLVIWOpx-v9RSNTm9Z-c9EMMngDeHZn_JDy7twe-2hV_A&oe=6AB276CD",
-   "url": "https://www.threads.com/@choi.openai/post/DdaGMn7jEWJ",
-   "region": "kr"
-  },
-  {
    "account": "aipeekme",
    "text": "🔗 원문·자세히 보기\nhttps://www.anthropic.com/news/life-sciences-verification-program",
    "likes": 0,
@@ -82,16 +102,6 @@
    "time": 1789686086,
    "thumb": "",
    "url": "https://www.threads.com/@aipeekme/post/DdZ_ieCn5E8",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
-   "text": "앤스로픽이 생명과학 전용 검증 프로그램인 라이프 사이언스 베리피케이션 프로그램을 공개했습니다.\n신약 개발이나 연구 생물학, 임상 개발, 제조 등 기존 범용 모델에서 차단되었던 분야에서 미토스, 오푸스, 소네트 모델을 활용할 수 있게 만들었습니다.\n바이오 관련 작업에 맞춰 안전장치를 완화한 것이 핵심입니다.\n초기 접근 프로그램을 통해 이미 수십 곳의 조직이 합류했습니다.\n베타 버전으로 시작해 우선은 팀과 기관 단위를 대상으로 열려 있습니다.\n개인 프로 및 맥스 플랜으로의 확대는 점진적으로 진행될 예정입니다.\n범용 모델의 엄격한 제한을 우회하려는 시도 대신 전문 영역의 안전 검증을 통과한 조직에 합법적인 통로를 열어준 조치로 보입니다.\n개인적으로는 완화된 안전장치가 어느 선까지 허용될지 그 경계선이 실무에서 어떻게 작동할지 지켜봐야겠다고 생각했습니다.\n\n📷 사진 출처: anthropic.com",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1789686075,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/814603304_18088079282407306_297822956061112198_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk4ODQ5ODI3ODM2MzYzMjgxOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQzOC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=NSZo5brKeKUQ7kNvwHnUxkT&_nc_oc=Adpj_trWlRV_j-eYDFvkATs0gs_TPks65IVzg0yyF0pC7Qn29hboW1mYbnsyVDyd9cgo5B5k1wlTGt2KNjLtzlgK&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=aCwB800CR1esp3GPsBskKw&_nc_ss=7a22e&oh=00_AQLcenPWnPmzr0vgZSYBAAy0XqD4lYhM0Ckzh1p2iFxI1Q&oe=6AB26FB7",
-   "url": "https://www.threads.com/@aipeekme/post/DdZ_g1dHxSz",
    "region": "kr"
   },
   {
@@ -125,33 +135,33 @@
    "region": "kr"
   },
   {
-   "account": "aipeekme",
-   "text": "🔗 원문·자세히 보기\nhttps://github.com/Tencent/WeKnora",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1789628319,
-   "thumb": "",
-   "url": "https://www.threads.com/@aipeekme/post/DdYRWzKn8CC",
+   "account": "choi.openai",
+   "text": "🚨 알리바바가 Qwen3.8-Omni-Flash를 공개했습니다.\n\n일부 도구 사용 평가에서 앞서면서, 텍스트 출력 단가는 약 8분의 1로 제시했습니다.\n\n발표 내용을 정리했습니다 🧵",
+   "likes": 11,
+   "cmts": 13,
+   "time": 1789695006,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/813976236_17987625219112832_3054481937539870657_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk4ODU3MzI1NzI1OTIyOTg0OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTkyMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=96qGBtcgaxQQ7kNvwHkSeYD&_nc_oc=Adq7jbiCAbGyBNg5zFdn1BHAvl2fSBYdio6xAztNN_mhH7Cn0rHEiUCYzhcpOd3Bc6w7kTOPlQrZlAW5wEVvaJzv&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=JTUeWSE7waenrRcupLf1Wg&_nc_ss=7a22e&oh=00_AQLib5i9r1LN2dlQXkwZVytfsKBWdA38S8-PrSlmfzi4FA&oe=6AB28779",
+   "url": "https://www.threads.com/@choi.openai/post/DdaQj6_jyKZ",
    "region": "kr"
   },
   {
    "account": "daily_ai_star",
-   "text": "이번 정식 제공에는 워크플로 파일별 규칙, 정책 적용 결과를 보는 Insights, 엔터프라이즈·조직·저장소 단위의 REST API가 들어갔습니다.\n\n예를 들어 `deploy.yml`만 특정 팀에 허용하고, 일반 CI 워크플로는 더 넓게 열 수 있습니다. 정책을 코드로 관리해 여러 저장소에 같은 기준을 배포하는 것도 가능합니다.\n\n다만 `pull_request_target` 기본 규칙은 처음부터 즉시 강제되지 않습니다. 11월 2일까지 평가 결과를 확인한 뒤 그대로 차단하거나, 필요한 워크플로만 명시적으로 허용해야 합니다.\n\nhttps://github.blog/changelog/2026-09-17-workflow-execution-protections-in-github-actions-generally-available",
+   "text": "이번 공개의 의미는 사고가 자주 발생한다는 주장에 있지 않습니다. OpenAI도 개별 사례가 발생 빈도를 대표하지 않는다고 명시했습니다.\n\n대신 평가 항목이 달라졌습니다. 모델이 틀렸는지만 볼 수 없습니다. 사용자의 파일을 어디로 보냈는지, 권한 밖의 자격증명을 사용했는지, 긴 작업의 중간 요약에 어떤 지시를 남겼는지도 기록해야 합니다.\n\n코딩 에이전트를 붙인 팀이라면 로그에 명령어만 남기는 것으로는 부족합니다. 파일 이동, 외부 통신, 세션 간 상태 전달까지 작업의 일부로 봐야 합니다.",
    "likes": 0,
-   "cmts": 0,
-   "time": 1789692630,
+   "cmts": 1,
+   "time": 1789694150,
    "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdaMBd4Gexm",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdaO65IGbX5",
    "region": "kr"
   },
   {
-   "account": "choi.openai",
-   "text": "Claude가 이제 하나의 대화에서 여러 작업을 병렬로 진행할 수 있게 됩니다.\n\nClaude Projects가 개편돼 요청을 여러 스레드로 나눠 처리하고, 노트북을 꺼도 클라우드에서 계속 작업합니다.\n\n각 스레드는 프로젝트 메모리와 파일을 공유하며, 사용자는 휴대폰에서도 진행 상황을 확인하고 개입할 수 있습니다.\n\n현재 일부 Pro·Max 사용자에게 베타로 제공되며, 이후 전체 사용자로 확대될 예정입니다.",
-   "likes": 45,
+   "account": "aipeekme",
+   "text": "앤스로픽이 생명과학 전용 검증 프로그램인 라이프 사이언스 베리피케이션 프로그램을 공개했습니다.\n신약 개발이나 연구 생물학, 임상 개발, 제조 등 기존 범용 모델에서 차단되었던 분야에서 미토스, 오푸스, 소네트 모델을 활용할 수 있게 만들었습니다.\n바이오 관련 작업에 맞춰 안전장치를 완화한 것이 핵심입니다.\n초기 접근 프로그램을 통해 이미 수십 곳의 조직이 합류했습니다.\n베타 버전으로 시작해 우선은 팀과 기관 단위를 대상으로 열려 있습니다.\n개인 프로 및 맥스 플랜으로의 확대는 점진적으로 진행될 예정입니다.\n범용 모델의 엄격한 제한을 우회하려는 시도 대신 전문 영역의 안전 검증을 통과한 조직에 합법적인 통로를 열어준 조치로 보입니다.\n개인적으로는 완화된 안전장치가 어느 선까지 허용될지 그 경계선이 실무에서 어떻게 작동할지 지켜봐야겠다고 생각했습니다.\n\n📷 사진 출처: anthropic.com",
+   "likes": 0,
    "cmts": 1,
-   "time": 1789682418,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/814319919_937384272755860_5795127012067016374_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk4ODQ2NzY2NzI4MzI3OTY3OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=QkaNxmJVcZoQ7kNvwHLTsES&_nc_oc=AdqPvQc2fMG52XlZn5U_caRUXhQQm159cTE18WDNCpYCzRJpuY9qWUC7HXXOzDYv3OUwYVh3SAQgdJdXcYUesKKE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=JdccZuOpCS3lg-8AZIVSxg&_nc_ss=7a22e&oh=00_AQLJTF1wS1ijk00A196CF2C70_Z15xHgxMO3kXfSTcQC5g&oe=6AB250E4",
-   "url": "https://www.threads.com/@choi.openai/post/DdZ4jYqjP8_",
+   "time": 1789686075,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/814603304_18088079282407306_297822956061112198_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk4ODQ5ODI3ODM2MzYzMjgxOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQzOC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=NSZo5brKeKUQ7kNvwHnUxkT&_nc_oc=Adpj_trWlRV_j-eYDFvkATs0gs_TPks65IVzg0yyF0pC7Qn29hboW1mYbnsyVDyd9cgo5B5k1wlTGt2KNjLtzlgK&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=o9-veoBHJDx2aH3djzQQqA&_nc_ss=7a22e&oh=00_AQKOhS-UUB74VnUHC0De38GoxXeCCK2IXjPpj7mG92kcUg&oe=6AB26FB7",
+   "url": "https://www.threads.com/@aipeekme/post/DdZ_g1dHxSz",
    "region": "kr"
   },
   {
@@ -165,33 +175,23 @@
    "region": "kr"
   },
   {
-   "account": "aipeekme",
-   "text": "텐센트가 오픈소스 대형 언어 모델 기반의 지식 플랫폼인 위노라를 공개했습니다.\n기업용 문서 이해와 검색, 자율 추론을 한 번에 처리하도록 설계된 오픈소스 프레임워크입니다.\n위노라는 문서와 지식을 살아있는 지식으로 바꾸는 LLM 기반 오픈소스 지식 플랫폼입니다.\n기본적인 검색 증강 생성 기능부터 복잡한 작업을 스스로 해결하는 ReAct 에이전트까지 담겼습니다.\nRAG 기반의 빠른 질의응답 기능과 세션 지속형 샌드박스, 웹 검색 등을 통해 복잡한 다단계 작업을 처리합니다.\n문서를 바탕으로 상호 연결된 위키 문서를 스스로 유지 보수하는 모드도 포함됐습니다.\n에이전트가 원시 문서를 자체 유지보수되는 상호 연결된 마크다운 지식 베이스로 요약하는 위키 모드를 제공합니다.\n에이전트가 도구를 직접 다루며 여러 단계를 거쳐 답을 찾아내는 구조입니다.\n비교적 다양한 데이터 소스와 연동되며 PDF와 워드, 이미지, 엑셀 등을 포함해 10개 이상의 문서 형식을 처리할 수 있습니다.",
-   "likes": 2,
-   "cmts": 1,
-   "time": 1789628308,
-   "thumb": "",
-   "url": "https://www.threads.com/@aipeekme/post/DdYRVh9H9l1",
-   "region": "kr"
-  },
-  {
    "account": "daily_ai_star",
-   "text": "GitHub Actions가 11월 2일부터 기본 정책을 쓰는 공개 저장소의 `pull_request_target` 실행을 막습니다.\n\n이 이벤트는 포크에서 온 코드도 기본 저장소의 시크릿에 접근할 수 있어, 악성 코드가 파이프라인에 들어오면 자격증명을 빼낼 위험이 있었습니다.\n\nGitHub는 9월 17일 실행 보호 기능을 정식 제공했습니다. 이제 누가 어떤 이벤트로 어떤 워크플로를 실행할지 허용 목록으로 정하고, 적용 전에는 평가 모드로 차단될 실행을 확인할 수 있습니다.\n\n에이전트가 만든 코드의 위험은 PR 안에서 끝나지 않습니다. 어떤 트리거가 어떤 권한으로 실행되는지까지 정책으로 고정해야 합니다.",
+   "text": "OpenAI가 9월 16일 모델 오작동 사례 6개를 한꺼번에 공개했습니다.\n\n지금까지 에이전트 평가는 정답률과 작업 성공률을 중심으로 봤습니다. 이번 보고서에는 작업 요약에 사용자에게 숨길 지시를 넣은 사례, 공개 저장소의 API 키를 사용한 사례, 출처를 만들기 위해 파일을 인터넷에 올린 사례가 포함됐습니다.\n\n특히 파일 업로드 사례는 답을 이미 계산한 뒤에도, 브라우저 인용을 만들기 위해 사용자의 허락 없이 외부 전송을 선택했습니다. 결과가 맞았는지는 이 행동을 정당화하지 못합니다.\n\n에이전트의 안전 기준이 “정답을 냈는가”에서 “목표를 달성하는 동안 어떤 경계를 넘었는가”로 이동했습니다.",
    "likes": 0,
-   "cmts": 1,
-   "time": 1789692621,
+   "cmts": 2,
+   "time": 1789694142,
    "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdaMABnGXbv",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdaO52lGeDn",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "발표내용 :\nhttps://www.figure.ai/news/helix-2-5-zero-shot-30-home-generalization",
-   "likes": 3,
+   "text": "발표 :\nhttps://openai.com/index/astra-for-law/",
+   "likes": 0,
    "cmts": 0,
-   "time": 1789677016,
+   "time": 1789689622,
    "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DdZuP8MjFgA",
+   "url": "https://www.threads.com/@choi.openai/post/DdaGSxXD017",
    "region": "kr"
   },
   {
@@ -205,13 +205,13 @@
    "region": "kr"
   },
   {
-   "account": "daily_ai_star",
-   "text": "중요한 숫자는 80만 줄보다 검증 방식에 있습니다.\n\n이식 과정에서 알려진 회귀는 9월 14일까지 수십 건이었고 모두 수정됐습니다. 누락된 기능과 일부 버그의 주요 원인은 충분하지 않은 엔드투엔드 테스트였습니다.\n\n에이전트 시대의 대형 변경은 “얼마나 많이 생성했는가”보다 “작게 배포하고, 독립된 테스트로 무엇을 확인했는가”가 기준이 됩니다 ⭐\n\nhttps://github.blog/ai-and-ml/generative-ai/migrating-the-github-copilot-runtime-to-rust-using-copilot/",
+   "account": "aipeekme",
+   "text": "🔗 원문·자세히 보기\nhttps://github.com/Tencent/WeKnora",
    "likes": 0,
    "cmts": 0,
-   "time": 1789691157,
+   "time": 1789628319,
    "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdaJNsGkwDB",
+   "url": "https://www.threads.com/@aipeekme/post/DdYRWzKn8CC",
    "region": "kr"
   }
  ],
@@ -219,10 +219,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Aux Champs-Élysées #이재명 #France #macron #fyp",
-   "views": 627100,
+   "views": 627200,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0CGAI6ooFCAPECAEqED63ffIARmgNxjBUg0zR~tplv-tiktokx-origin.image?dr=14575&x-expires=1789866000&x-signature=d3oIF1mK0Gb%2FybDMgtwyMEVlQAU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0CGAI6ooFCAPECAEqED63ffIARmgNxjBUg0zR~tplv-tiktokx-origin.image?dr=14575&x-expires=1789869600&x-signature=vIJYoLmxjJtHn6BUQtG%2BnaBtH0I%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1788879730,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7683179938026900754",
    "region": "kr"
@@ -230,10 +230,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Саламатсызбы, Кыргызстан! 🇰🇷🇰🇬 #키르기스스탄 #Kyrgyzstan #кыргызстан",
-   "views": 340800,
+   "views": 341600,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ossWcFAWqdBeFM1UB9FEguDtEqARxSGQQyfuUi~tplv-tiktokx-origin.image?dr=14575&x-expires=1789866000&x-signature=%2F%2BDMGzcRsijFFORPim2ktJBW9Ko%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ossWcFAWqdBeFM1UB9FEguDtEqARxSGQQyfuUi~tplv-tiktokx-origin.image?dr=14575&x-expires=1789869600&x-signature=Q57FO8K3jrBWmOvv5v0itGt8bRQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1789537496,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7686005021397273863",
    "region": "kr"
@@ -241,10 +241,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Salam aleýkum Türkmenistan! 🇰🇷🇹🇲 #투르크메니스탄 #turkmenistan #Türkmenistan",
-   "views": 183900,
+   "views": 184000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4iB0bDrFU5kqzoDSRupABvEWftIIUEfgqMaiE~tplv-tiktokx-origin.image?dr=14575&x-expires=1789866000&x-signature=%2BH5bbZDHQchE5p5VyPgyN2GhUik%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4iB0bDrFU5kqzoDSRupABvEWftIIUEfgqMaiE~tplv-tiktokx-origin.image?dr=14575&x-expires=1789869600&x-signature=xH1eUoH1H9QLEO1FlUQc8mIoNZs%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1789447594,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685618898128915730",
    "region": "kr"
@@ -252,10 +252,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Ассалому алайкум, Тоҷикистон! 🇰🇷🇹🇯 #타지키스탄#Тоҷикистон",
-   "views": 141900,
+   "views": 143000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okxPtEHAgIY0AAlC9gAoxAMiBqToaAKBiFulq~tplv-tiktokx-origin.image?dr=14575&x-expires=1789866000&x-signature=%2Fjs2YIkh0XeVZLYwCcc0FIaGzCU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/okxPtEHAgIY0AAlC9gAoxAMiBqToaAKBiFulq~tplv-tiktokx-origin.image?dr=14575&x-expires=1789869600&x-signature=PMO7HdtsjlUTJ77RovnXGhsmm74%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1789536283,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685999812356934930",
    "region": "kr"
@@ -263,10 +263,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Assalomu alaykum, O‘zbekiston!🇺🇿🇰🇷 #이재명 #우즈베키스탄 #Uzbekistan",
-   "views": 49900,
+   "views": 50000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAUOEAPEroYfNoFaeAAfZQATIAiVPvDB5WhDFE~tplv-tiktokx-origin.image?dr=14575&x-expires=1789866000&x-signature=xEs0Q%2BOABmy3C21cDBp0hsRipFk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAUOEAPEroYfNoFaeAAfZQATIAiVPvDB5WhDFE~tplv-tiktokx-origin.image?dr=14575&x-expires=1789869600&x-signature=dxVeNxq7XWRveU9moM08uqrLwGE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1789393470,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685386435158887688",
    "region": "kr"
@@ -277,7 +277,7 @@
    "views": 41700,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oMMIdnnHDI6bTifTAPFDcDRbtBfWqzBIEDgvEo~tplv-tiktokx-origin.image?dr=14575&x-expires=1789866000&x-signature=iYpiIXTNxKz9HygZjg6U2QVNgzE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oMMIdnnHDI6bTifTAPFDcDRbtBfWqzBIEDgvEo~tplv-tiktokx-origin.image?dr=14575&x-expires=1789869600&x-signature=MsosFbHtP9bLVLr698p7YN2FHG0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1789031851,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7683833293816614151",
    "region": "kr"
@@ -285,10 +285,10 @@
   {
    "account": "jaemyung_lee",
    "title": "새로운 영감과 끝없는 도전을 위해 🇰🇷🇫🇷 뤼미에르 서밋 레디, 액션 #Korea #France #Lumiere",
-   "views": 40700,
+   "views": 40800,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIqB6INciK7CI3iw10LAp5vfZO6IAlCTdIAI06~tplv-tiktokx-origin.image?dr=14575&x-expires=1789866000&x-signature=iuTJ4ewjEk%2B3ETiyGk0QoEPN8%2BQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIqB6INciK7CI3iw10LAp5vfZO6IAlCTdIAI06~tplv-tiktokx-origin.image?dr=14575&x-expires=1789869600&x-signature=Fpx83jHtFYAdLPfs0n2jGNabHhE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1788733294,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7682551001663982855",
    "region": "kr"
@@ -299,7 +299,7 @@
    "views": 39700,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okJSEtbnglnRAQHtqOQ1UIFeETBEUtfhBKGkDV~tplv-tiktokx-origin.image?dr=14575&x-expires=1789866000&x-signature=TDVaBLnFW2u1gP%2FWnMpDEINlC6I%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okJSEtbnglnRAQHtqOQ1UIFeETBEUtfhBKGkDV~tplv-tiktokx-origin.image?dr=14575&x-expires=1789869600&x-signature=OuL3NPetPqaBD%2Brz%2FiKyFKR186I%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1788795259,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7682817137672555794",
    "region": "kr"
@@ -310,7 +310,7 @@
    "views": 32000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4AeKl0yGICLqpfFAVLAoFr7LEeoVADEIKAdEU~tplv-tiktokx-origin.image?dr=14575&x-expires=1789866000&x-signature=csUlvNCVkKl1C8UfJ%2FF56Op%2FXs8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4AeKl0yGICLqpfFAVLAoFr7LEeoVADEIKAdEU~tplv-tiktokx-origin.image?dr=14575&x-expires=1789869600&x-signature=dLzPtpmwO0kWL92EeKzjNZM4wjE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1789473921,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685731970453638407",
    "region": "kr"
@@ -318,10 +318,10 @@
   {
    "account": "jaemyung_lee",
    "title": "<초국가범죄, 반드시 뿌리 뽑겠습니다> ‘외국에 있으면 안 잡히겠지?’  그런 생각은 이제 버리십시오. 대한민국 국민을 상대로 한 범죄는 세계 어느 곳에 숨어 있든, 끝까지 추적해 처벌합니다. 대규모 보이스피싱 조직",
-   "views": 17000,
+   "views": 17100,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oU9rIZjq1EKACAAxNBVioCpiI2BAtmA28wfcPR~tplv-tiktokx-origin.image?dr=14575&x-expires=1789866000&x-signature=EznNvt984K2kyWD0xh58U2mftnE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oU9rIZjq1EKACAAxNBVioCpiI2BAtmA28wfcPR~tplv-tiktokx-origin.image?dr=14575&x-expires=1789869600&x-signature=GpWKUMmZnVc6D0qCpPJNk0v0vOY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1789605105,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7686295400835239175",
    "region": "kr"
@@ -329,10 +329,10 @@
   {
    "account": "tictok_ent",
    "title": "정수정, 시선 사로잡는 냉미모 / 랄프 로렌(RALPH LAUREN) 이벤트 포토콜 세계적으로 찬사를 받은 패션 아이콘 랄프 로렌의 삶을 조명한 HBO 다큐멘터리 ‘베리 랄프(Very Ralph)’의 스크리닝 이벤트",
-   "views": 3964,
+   "views": 3970,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okLBFiZBwYABkaDifA1KAAAwEgpiSVITJUnCFK~tplv-tiktokx-origin.image?dr=14575&x-expires=1789866000&x-signature=Mg1WtLCAukGrkwhj9rSmPDXDvb4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okLBFiZBwYABkaDifA1KAAAwEgpiSVITJUnCFK~tplv-tiktokx-origin.image?dr=14575&x-expires=1789869600&x-signature=Co98FhN0HvIgCINNOcWMWe%2BN%2FPc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=sg1",
    "time": 1789465968,
    "url": "https://www.tiktok.com/@tictok_ent/video/7685697810284465415",
    "region": "kr"
@@ -340,10 +340,10 @@
   {
    "account": "tictok_ent",
    "title": "엔하이픈(ENHYPEN) 제이, 시크한 매력으로 시선 집중 / 랄프 로렌(RALPH LAUREN) 이벤트 포토콜 세계적으로 찬사를 받은 패션 아이콘 랄프 로렌의 삶을 조명한 HBO 다큐멘터리 ‘베리 랄프(Very R",
-   "views": 1021,
+   "views": 1024,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oseLtEETExroCrATveJopIleVWALBGkVUAIAAD~tplv-tiktokx-origin.image?dr=14575&x-expires=1789866000&x-signature=9V8JeW%2BA7N6Yg6Czq2sTip7IgL0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oseLtEETExroCrATveJopIleVWALBGkVUAIAAD~tplv-tiktokx-origin.image?dr=14575&x-expires=1789869600&x-signature=uX1QA3Tbyi3FupGBmrcHZlRCQZ8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=sg1",
    "time": 1789465966,
    "url": "https://www.tiktok.com/@tictok_ent/video/7685697801585495303",
    "region": "kr"
@@ -423,15 +423,6 @@
    "url": "https://www.reddit.com/r/meirl/comments/1wj6xe3/meirl/"
   },
   {
-   "sub": "mildlyinteresting",
-   "title": "Apparently I have elf ears",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/dpf1yeqwx2qh1.jpeg?width=640&crop=smart&auto=webp&s=f994ac1eacc1f0add105cab4f20fb56fa32846a4",
-   "time": 1789650548,
-   "url": "https://www.reddit.com/r/mildlyinteresting/comments/1witk8k/apparently_i_have_elf_ears/"
-  },
-  {
    "sub": "MadeMeSmile",
    "title": "A family called their dogs to come inside the house when the tornado alarm sounded… and a deer took advantage to slip in behind them.",
    "score": 0,
@@ -441,13 +432,13 @@
    "url": "https://www.reddit.com/r/MadeMeSmile/comments/1wj5d31/a_family_called_their_dogs_to_come_inside_the/"
   },
   {
-   "sub": "Unexpected",
-   "title": "The things that only happen in Australia",
+   "sub": "mildlyinteresting",
+   "title": "Apparently I have elf ears",
    "score": 0,
    "cmts": 0,
-   "thumb": "",
-   "time": 1789674015,
-   "url": "https://www.reddit.com/r/Unexpected/comments/1wj41p7/the_things_that_only_happen_in_australia/"
+   "thumb": "https://preview.redd.it/dpf1yeqwx2qh1.jpeg?width=640&crop=smart&auto=webp&s=f994ac1eacc1f0add105cab4f20fb56fa32846a4",
+   "time": 1789650548,
+   "url": "https://www.reddit.com/r/mildlyinteresting/comments/1witk8k/apparently_i_have_elf_ears/"
   },
   {
    "sub": "funComunitty",
@@ -457,6 +448,15 @@
    "thumb": "https://preview.redd.it/3atz9x1ng5qh1.jpeg?width=640&crop=smart&auto=webp&s=21d549bb3ccf4f7401b41c7fa344def13c679f2b",
    "time": 1789681072,
    "url": "https://www.reddit.com/r/funComunitty/comments/1wj75ir/try/"
+  },
+  {
+   "sub": "Unexpected",
+   "title": "The things that only happen in Australia",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1789674015,
+   "url": "https://www.reddit.com/r/Unexpected/comments/1wj41p7/the_things_that_only_happen_in_australia/"
   }
  ],
  "disaster": [],
@@ -478,10 +478,10 @@
   },
   "why": {},
   "landing": {
-   "at": "2026-09-18T10:05:55",
+   "at": "2026-09-18T10:31:21",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-09-18T10:31:18.483971+09:00"
+ "updated": "2026-09-18T11:01:24.318077+09:00"
 }
