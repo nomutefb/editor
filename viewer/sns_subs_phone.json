@@ -15,12 +15,22 @@
  "insta": [],
  "threads": [
   {
+   "account": "choi.openai",
+   "text": "Jev는 미래 LLM의 초고속 추론을 먼저 경험시켜준 것 같다.\n\ndLLM이 생성속도의 가능성을 보여줬듯이, 고성능 LLM의 판단이 이 정도로 빠르고 저렴해졌을 때 에이전트가 어떻게 달라질지 너무 기대가 됩니다.\n\n당장 현재 서비스되고 있는 에이전트 도구들에 Jev-like 모델을 판단 레이어로 붙이는 것만으로도 속도와 비용, 한 작업에서 가능한 판단 횟수, 실행 방식까지 몇 단계가 올라갈 것으로 보입니다.\n\n과거 Groq으로 소형모델을 통해 초고속 필터 시스템을 만들어봤을때 그런 임팩트가 다시 찾아오는 것 같습니다.\n\n물론 Jev도 성능을 끌어올리면서 지금과 같은 가격과 속도의 우위를 유지한다면 별도의 영역을 만들어갈 가능성도 있어 보입니다.\n\n개인적으로는 Jev의 성능이 어디까지 올라갈지도 궁금하지만, 이 정도 가격과 속도를 보여주는 TypeSafe AI를 결국 누가 인수하게 될지도 궁금하네요.",
+   "likes": 19,
+   "cmts": 2,
+   "time": 1789808418,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/Dddo4NiDiUx",
+   "region": "kr"
+  },
+  {
    "account": "takepage_",
    "text": "오늘은 친구 만나서 aside 영업하고\n취업준비 할 수 있게 에이전트 짜줌\n\nAI라고는 채팅만 이용하거나 자소서saas 이런것만\n쓰다보니 프로젝트 개념부터 이해시키는데 오래걸림 ㅠ\n\n그래도 신세계라며 좋아하니 보람차네요잉",
-   "likes": 1,
-   "cmts": 1,
+   "likes": 0,
+   "cmts": 0,
    "time": 1789804985,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/814925765_17937476604362958_7055430953537419176_n.webp?stp=dst-webp_s640x640_sh2.08&_nc_cat=101&ig_cache_key=Mzk4OTQ5NTgyODA1NDIxNDUzMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjk5Mi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=0NTR_zh2wTsQ7kNvwEEPjS5&_nc_oc=AdrPupuMu6UncpcHamhGA6gLKYNAolPShBHjOPnW1P4yqgKCANfLn6f3rzowxPw9ffE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=7zLxaLbuOFCsbgg1ae_TLA&_nc_ss=7a22e&oh=00_AQLarvB1RamUYfhFVa4Ys82ztpAJqt906X5x59KK5VNnnA&oe=6AB40FFA",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/814925765_17937476604362958_7055430953537419176_n.webp?stp=dst-webp_s640x640_sh2.08&_nc_cat=101&ig_cache_key=Mzk4OTQ5NTgyODA1NDIxNDUzMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjk5Mi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=0NTR_zh2wTsQ7kNvwEEPjS5&_nc_oc=AdrPupuMu6UncpcHamhGA6gLKYNAolPShBHjOPnW1P4yqgKCANfLn6f3rzowxPw9ffE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=nL1Lkbgr2AWCi9u9NoTZlg&_nc_ss=7a22e&oh=00_AQI50fAjcl61xdQEBeusdIwMx-wr_m9bg5HF1k7yxWOz7A&oe=6AB40FFA",
    "url": "https://www.threads.com/@takepage_/post/DddiVGAEweD",
    "region": "kr"
   },
@@ -37,31 +47,21 @@
   {
    "account": "choi.openai",
    "text": "Meta가 SAM 3.1을 Meta Model API에서 공식 제공하기 시작했습니다.\n\n짧은 문장으로 대상을 지정하면 이미지·영상에서 객체 탐지, 픽셀 단위 분할, 동일 객체 추적까지 한 번의 API 호출로 처리합니다.\n\n가격은 이미지 1,000장당 $2.50, 영상 1,000프레임당 $0.20인데요.\n\n비전 기능을 서비스에 붙이려는 개발자들에게 꽤 실용적인 선택지가 될 것 같습니다.",
-   "likes": 10,
+   "likes": 12,
    "cmts": 1,
    "time": 1789804859,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/816087426_1403834981247043_2562570129742197072_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk4OTQ5NDc3MTY1OTQ5MzkxNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=RFYwNs0bHlAQ7kNvwHoMrII&_nc_oc=AdrLSHCBFDH1bgo-oN21_a_vLE-s4qQoTxtC5eT9BonE7s8__E3aNNnHsp5A9c2CWzY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=szjuQDuxu0A_t2oTuCf8Hg&_nc_ss=7a22e&oh=00_AQL1rCet1Z2N2MuIEhDhGWsLbdXxcP0EEiH718FzInmS1Q&oe=6AB43D7A",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/816087426_1403834981247043_2562570129742197072_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk4OTQ5NDc3MTY1OTQ5MzkxNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=RFYwNs0bHlAQ7kNvwHoMrII&_nc_oc=AdrLSHCBFDH1bgo-oN21_a_vLE-s4qQoTxtC5eT9BonE7s8__E3aNNnHsp5A9c2CWzY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=U0RR1FuqLazCFpTjGMVX2w&_nc_ss=7a22e&oh=00_AQKNp3Mp_WjZHNn3UxoQqv0uhw9FXYHsmuIqhBTE6-ik5A&oe=6AB43D7A",
    "url": "https://www.threads.com/@choi.openai/post/DddiFuKCtIc",
    "region": "kr"
   },
   {
    "account": "aipeekme",
    "text": "나 따라 오지마!!\n\n프롬프트 하단👇",
-   "likes": 5,
+   "likes": 7,
    "cmts": 3,
    "time": 1789803777,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/809201573_1376076140946121_7772143144254030333_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk4OTQ4NTU2MjI0MzU1MDE0MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=R8XmSy8Smh8Q7kNvwHfH_AK&_nc_oc=AdojvNa1kHWYBHHRsc5EfpwJbMPBojHJVMmadRhZfRjC1RKlMAPKNurAIMWGuXyrWPk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Tv0M7JPjWMhFfOdlnZoxgg&_nc_ss=7a22e&oh=00_AQJJ0LCegWewpr4O1ixHZ4LinEOl-049ru-sd8HwGyC3Hw&oe=6AB41D5A",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/809201573_1376076140946121_7772143144254030333_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk4OTQ4NTU2MjI0MzU1MDE0MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=R8XmSy8Smh8Q7kNvwHfH_AK&_nc_oc=AdojvNa1kHWYBHHRsc5EfpwJbMPBojHJVMmadRhZfRjC1RKlMAPKNurAIMWGuXyrWPk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=5VUrsAJkU1hYVdwnZEjEnw&_nc_ss=7a22e&oh=00_AQJ7py_PMbB8QCN0lr--oxbLoCnzBoipl39y96NtL3ZbeA&oe=6AB41D5A",
    "url": "https://www.threads.com/@aipeekme/post/Dddf_tOE4u8",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "블로그 :\nhttps://qwen.ai/blog?id=qwen3.8-livetranslate",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1789803051,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DddepCNCCjz",
    "region": "kr"
   },
   {
@@ -80,7 +80,7 @@
    "likes": 0,
    "cmts": 1,
    "time": 1789799475,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/814637199_18088357730407306_7146501062034093456_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk4OTQ0OTUyODYxNzk2NzEwOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=FqJ9Yt54lgsQ7kNvwE9Kk9q&_nc_oc=AdrKWGY9W5i8Y2a6xIygXV1cn-4weZruE6ATOyXJ42fN3er9JFeY2aQN2p3CGr0cMYg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Tv0M7JPjWMhFfOdlnZoxgg&_nc_ss=7a22e&oh=00_AQL0DRZYyhwNOHTzL585tR1GjXjboxpb8ZWVBOBzzcAsLg&oe=6AB41695",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/814637199_18088357730407306_7146501062034093456_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk4OTQ0OTUyODYxNzk2NzEwOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=FqJ9Yt54lgsQ7kNvwE9Kk9q&_nc_oc=AdrKWGY9W5i8Y2a6xIygXV1cn-4weZruE6ATOyXJ42fN3er9JFeY2aQN2p3CGr0cMYg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=5VUrsAJkU1hYVdwnZEjEnw&_nc_ss=7a22e&oh=00_AQIXG1aFS_xb7wWJGlvLZK_w2AmN65zOODBuGCbv8z704Q&oe=6AB41695",
    "url": "https://www.threads.com/@aipeekme/post/DddXzWSn54E",
    "region": "kr"
   },
@@ -137,21 +137,21 @@
   {
    "account": "kopp",
    "text": "the best designers don’t start from a blank canvas.\r\n\r\nthey find good ideas, take what they like and turn them into something new.\r\n\r\nso now you can do just that in Details:\r\n\r\n- see something you like\r\n- hit Remix\r\n- tell your AI what you like about it\r\n- make it fit your project\r\n- mix it with other ideas\r\n\r\nyour AI already understands how every reference works.\r\n\r\nyou just decide what you want to do with it.",
-   "likes": 31,
+   "likes": 32,
    "cmts": 2,
    "time": 1789734218,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/815468813_1465323948782731_2935597761908359973_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&ig_cache_key=Mzk4ODkwMTk0ODk2NzA5OTgzMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=BOpYaqdjuJUQ7kNvwE98XvG&_nc_oc=AdovPcAN9GkkmGBt9xacxO6JjTjkOCYgXZbBbF7jrOWeW25aIjraq-VTQYjLU2--lz4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=9iRrigVyR8pMN5cwyQLlyA&_nc_ss=7a22e&oh=00_AQK3EiO2nlauK0EgzDn98o51rRMxnCHl8Deqgmx_OJA0Aw&oe=6AB435DE",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/815468813_1465323948782731_2935597761908359973_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&ig_cache_key=Mzk4ODkwMTk0ODk2NzA5OTgzMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=BOpYaqdjuJUQ7kNvwE98XvG&_nc_oc=AdovPcAN9GkkmGBt9xacxO6JjTjkOCYgXZbBbF7jrOWeW25aIjraq-VTQYjLU2--lz4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=L-D6KNRTacKQBESiM-WNzA&_nc_ss=7a22e&oh=00_AQKGsidlbWv6gqTgpuSVdF9KOLij9_XAJi3TPFd-3FgFaw&oe=6AB435DE",
    "url": "https://www.threads.com/@kopp/post/DdbbTBADB23",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "1/ 성능도 크게 개선됐는데요.\n\nQwen 측 평가에 따르면 FLEURS 70개 언어 방향에서 이전 세대와 주요 실시간 통역 시스템보다 번역 품질, 지연시간, 음성 인식 정확도, 음성 합성 품질에서 높은 성능을 기록했습니다.\n\n또한 음성과 텍스트를 하나의 흐름으로 처리하는 Interleave 아키텍처를 적용해 이미 들은 음성과 생성한 번역을 캐시하고 재사용합니다.\n\nQwenCloud API로도 이용할 수 있어 실시간 회의, 영상통화, 라이브 방송처럼 통역이 필요한 서비스에 직접 연결할 수 있습니다.\n\n실시간 AI 통역도 이제 번역 정확도만이 아니라 지연시간, 화자 구분, 목소리 유지, 긴 대화의 맥락까지 함께 처리하는 단계로 가고 있습니다.",
-   "likes": 4,
-   "cmts": 2,
-   "time": 1789803031,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/818172119_17987811711112832_4261058121599031714_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk4OTQ3OTQzNzc4NzIxMzczOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMzI2NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=vfkNE4fcLWEQ7kNvwEW7Xi5&_nc_oc=AdriFfcXoSbbTE3PKiuBzRjVSG2Tt93ADxisHjer5Jf7d_7bPqnCJKWhlIsaOOHJH8c&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=szjuQDuxu0A_t2oTuCf8Hg&_nc_ss=7a22e&oh=00_AQK7b2XWBUcylMiXOHwHhVSWwhwzI_DHdaUx7wZftMK_Ww&oe=6AB4167D",
-   "url": "https://www.threads.com/@choi.openai/post/DddemlYCC-q",
+   "text": "블로그 :\nhttps://qwen.ai/blog?id=qwen3.8-livetranslate",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1789803051,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DddepCNCCjz",
    "region": "kr"
   },
   {
@@ -180,18 +180,18 @@
    "likes": 0,
    "cmts": 0,
    "time": 1789743779,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/817176628_17937372243362958_232263884601720804_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk4ODk4MjM5NzU3MjE3ODM0Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=hFKEdQFlA48Q7kNvwFsR1Gt&_nc_oc=AdomdeO5sKjdJbgEJWsvuDd0dhGd52njw78_PPgE7TX6-H8OZX7PCGCGHRCTHrBB42M&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=7zLxaLbuOFCsbgg1ae_TLA&_nc_ss=7a22e&oh=00_AQJMiVYJ38S7sb7Ck97rcm7sULFTAMC9affpIdMCLSY1aQ&oe=6AB414DD",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/817176628_17937372243362958_232263884601720804_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk4ODk4MjM5NzU3MjE3ODM0Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=hFKEdQFlA48Q7kNvwFsR1Gt&_nc_oc=AdomdeO5sKjdJbgEJWsvuDd0dhGd52njw78_PPgE7TX6-H8OZX7PCGCGHRCTHrBB42M&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=nL1Lkbgr2AWCi9u9NoTZlg&_nc_ss=7a22e&oh=00_AQKUMUcKdGGUiWOwHOM_51OeBCQ_gEd2_j-V-TcbNFKAkA&oe=6AB414DD",
    "url": "https://www.threads.com/@takepage_/post/Ddbtlsmk2Gr",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "🚨 Qwen이 차세대 실시간 동시통역 모델 Qwen3.8-LiveTranslate를 공개했습니다.\n\n60개 언어의 음성을 텍스트로 통역할 수 있고, 한국어를 포함한 29개 언어는 번역된 음성까지 바로 생성합니다.\n\n평균 통역 지연시간(LAAL)은 이전 세대 2.8초에서 2.3초로 줄었습니다.\n\n여러 명이 대화해도 화자를 실시간으로 구분하고, 번역 음성에서도 각 화자의 목소리를 유지합니다.\n\n원문과 번역문을 동시에 표시하며 이전 대화까지 참고해 사람 이름이나 전문 용어도 일관되게 번역할 수 있습니다.",
-   "likes": 18,
-   "cmts": 4,
-   "time": 1789803014,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/818132866_944238922060408_7533298054136242278_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk4OTQ3OTI5Njc2NjM0MTEwMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=60pcpVZrqFMQ7kNvwGwGBl-&_nc_oc=AdokGopcF5HCexDQTG43kZJc7Lq9F_omInLKdzbZGi5pBSkFmdPUqDxChx3uWgjzIPU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=szjuQDuxu0A_t2oTuCf8Hg&_nc_ss=7a22e&oh=00_AQJKItS4UEo3pBVZpIPs-rcZQRvrz94nQoxzTlswwSAaRQ&oe=6AB42E68",
-   "url": "https://www.threads.com/@choi.openai/post/DddekiCiG_t",
+   "text": "1/ 성능도 크게 개선됐는데요.\n\nQwen 측 평가에 따르면 FLEURS 70개 언어 방향에서 이전 세대와 주요 실시간 통역 시스템보다 번역 품질, 지연시간, 음성 인식 정확도, 음성 합성 품질에서 높은 성능을 기록했습니다.\n\n또한 음성과 텍스트를 하나의 흐름으로 처리하는 Interleave 아키텍처를 적용해 이미 들은 음성과 생성한 번역을 캐시하고 재사용합니다.\n\nQwenCloud API로도 이용할 수 있어 실시간 회의, 영상통화, 라이브 방송처럼 통역이 필요한 서비스에 직접 연결할 수 있습니다.\n\n실시간 AI 통역도 이제 번역 정확도만이 아니라 지연시간, 화자 구분, 목소리 유지, 긴 대화의 맥락까지 함께 처리하는 단계로 가고 있습니다.",
+   "likes": 5,
+   "cmts": 2,
+   "time": 1789803031,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/818172119_17987811711112832_4261058121599031714_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk4OTQ3OTQzNzc4NzIxMzczOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMzI2NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=vfkNE4fcLWEQ7kNvwEW7Xi5&_nc_oc=AdriFfcXoSbbTE3PKiuBzRjVSG2Tt93ADxisHjer5Jf7d_7bPqnCJKWhlIsaOOHJH8c&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=U0RR1FuqLazCFpTjGMVX2w&_nc_ss=7a22e&oh=00_AQIFPZ2gdoKfb4QGbewjbdIlMXE2E-Vc7oNetQpr6V6mzA&oe=6AB4167D",
+   "url": "https://www.threads.com/@choi.openai/post/DddemlYCC-q",
    "region": "kr"
   },
   {
@@ -200,7 +200,7 @@
    "likes": 0,
    "cmts": 1,
    "time": 1789788678,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/815920234_18088330328407306_1675282024360826267_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk4OTM1ODk3NDI4MjQzNTcyMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=xTvVA4PXkM8Q7kNvwEo7yD-&_nc_oc=AdpdB5cxmyFHNaQ6a_SfFYKV8tQAhrwkKyo9Omf7qfMMNrqeqT5U13UhQ0OthdpkbEw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Tv0M7JPjWMhFfOdlnZoxgg&_nc_ss=7a22e&oh=00_AQIBU8PIcR6AL1Cr7ZLL3qhJoF3DlSYPaVQ79sVZ0-GKtw&oe=6AB42212",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/815920234_18088330328407306_1675282024360826267_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk4OTM1ODk3NDI4MjQzNTcyMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=xTvVA4PXkM8Q7kNvwEo7yD-&_nc_oc=AdpdB5cxmyFHNaQ6a_SfFYKV8tQAhrwkKyo9Omf7qfMMNrqeqT5U13UhQ0OthdpkbEw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=5VUrsAJkU1hYVdwnZEjEnw&_nc_ss=7a22e&oh=00_AQKfbmf73JK-1R7bkK8UgsCeVlDyrVPgJrrmOQZgdBZJ_w&oe=6AB42212",
    "url": "https://www.threads.com/@aipeekme/post/DddDNm_nwyI",
    "region": "kr"
   },
@@ -219,7 +219,7 @@
   {
    "account": "jaemyung_lee",
    "title": "Aux Champs-Élysées #이재명 #France #macron #fyp",
-   "views": 630700,
+   "views": 630800,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0CGAI6ooFCAPECAEqED63ffIARmgNxjBUg0zR~tplv-tiktokx-origin.image?dr=14575&x-expires=1789981200&x-signature=eJzozEXLOpVyhmD9xucGLkDPRNw%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
@@ -230,7 +230,7 @@
   {
    "account": "jaemyung_lee",
    "title": "Саламатсызбы, Кыргызстан! 🇰🇷🇰🇬 #키르기스스탄 #Kyrgyzstan #кыргызстан",
-   "views": 425600,
+   "views": 426600,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ossWcFAWqdBeFM1UB9FEguDtEqARxSGQQyfuUi~tplv-tiktokx-origin.image?dr=14575&x-expires=1789981200&x-signature=XjTb0rEyPacFs%2FlI0GkUtkaUjIM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
@@ -241,7 +241,7 @@
   {
    "account": "jaemyung_lee",
    "title": "Ассалому алайкум, Тоҷикистон! 🇰🇷🇹🇯 #타지키스탄#Тоҷикистон",
-   "views": 204200,
+   "views": 205000,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okxPtEHAgIY0AAlC9gAoxAMiBqToaAKBiFulq~tplv-tiktokx-origin.image?dr=14575&x-expires=1789981200&x-signature=2pj56CSx7PFKL2ytceGDSPRPwhs%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
@@ -252,7 +252,7 @@
   {
    "account": "jaemyung_lee",
    "title": "Salam aleýkum Türkmenistan! 🇰🇷🇹🇲 #투르크메니스탄 #turkmenistan #Türkmenistan",
-   "views": 197900,
+   "views": 198100,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4iB0bDrFU5kqzoDSRupABvEWftIIUEfgqMaiE~tplv-tiktokx-origin.image?dr=14575&x-expires=1789981200&x-signature=bDaYgVLc6AetmHufxrZF7VgyUV0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
@@ -263,7 +263,7 @@
   {
    "account": "jaemyung_lee",
    "title": "Assalomu alaykum, O‘zbekiston!🇺🇿🇰🇷 #이재명 #우즈베키스탄 #Uzbekistan",
-   "views": 57000,
+   "views": 57100,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAUOEAPEroYfNoFaeAAfZQATIAiVPvDB5WhDFE~tplv-tiktokx-origin.image?dr=14575&x-expires=1789981200&x-signature=Z1P9MwM3iIJ2DgIY%2BdLRdY6BYII%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
@@ -274,7 +274,7 @@
   {
    "account": "jaemyung_lee",
    "title": "빛으로 담아내는, 제7의 예술🎥",
-   "views": 43900,
+   "views": 44000,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oMMIdnnHDI6bTifTAPFDcDRbtBfWqzBIEDgvEo~tplv-tiktokx-origin.image?dr=14575&x-expires=1789981200&x-signature=60qHoiS5eUTZWfTEOTUodElh%2FYo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
@@ -307,10 +307,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Қош келдіңіз, Қазақстан!🇰🇿🇰🇷 #이재명 #대통령 #카자흐스탄 #Қазақстан #Kazakhstan",
-   "views": 36400,
+   "views": 36500,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4AeKl0yGICLqpfFAVLAoFr7LEeoVADEIKAdEU~tplv-tiktokx-origin.image?dr=14575&x-expires=1789981200&x-signature=rJv%2BN1RDZS7awl9Xqw2KIWRNhrQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4AeKl0yGICLqpfFAVLAoFr7LEeoVADEIKAdEU~tplv-tiktokx-origin.image?dr=14575&x-expires=1789981200&x-signature=t1Dp4qoQuGAYcRYEpHVzNDKryd4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1789473921,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685731970453638407",
    "region": "kr"
@@ -318,10 +318,10 @@
   {
    "account": "jaemyung_lee",
    "title": "<초국가범죄, 반드시 뿌리 뽑겠습니다> ‘외국에 있으면 안 잡히겠지?’  그런 생각은 이제 버리십시오. 대한민국 국민을 상대로 한 범죄는 세계 어느 곳에 숨어 있든, 끝까지 추적해 처벌합니다. 대규모 보이스피싱 조직",
-   "views": 23000,
+   "views": 23100,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oU9rIZjq1EKACAAxNBVioCpiI2BAtmA28wfcPR~tplv-tiktokx-origin.image?dr=14575&x-expires=1789981200&x-signature=NHU3bEcH2xJvjI4OK6x4vScCwSc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oU9rIZjq1EKACAAxNBVioCpiI2BAtmA28wfcPR~tplv-tiktokx-origin.image?dr=14575&x-expires=1789981200&x-signature=YpeWdMnHUbjP%2BEl2yb8RWy2PO%2B0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1789605105,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7686295400835239175",
    "region": "kr"
@@ -329,7 +329,7 @@
   {
    "account": "tictok_ent",
    "title": "정수정, 시선 사로잡는 냉미모 / 랄프 로렌(RALPH LAUREN) 이벤트 포토콜 세계적으로 찬사를 받은 패션 아이콘 랄프 로렌의 삶을 조명한 HBO 다큐멘터리 ‘베리 랄프(Very Ralph)’의 스크리닝 이벤트",
-   "views": 4204,
+   "views": 4206,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okLBFiZBwYABkaDifA1KAAAwEgpiSVITJUnCFK~tplv-tiktokx-origin.image?dr=14575&x-expires=1789981200&x-signature=jYEFHVofxJDRRPbmxX9yOEu8zOo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
@@ -340,7 +340,7 @@
   {
    "account": "tictok_ent",
    "title": "수지, 시민들의 욕을 부르는 미모 / 아누아(Anua) 포토월 더파운더즈의 글로벌 뷰티 브랜드 아누아(Anua)의 'PDRN 라인 팝업스토어' 오픈을 기념하는 포토행사가 18일 오전 서울 성동구 성수동에 위치한 올리",
-   "views": 2476,
+   "views": 2515,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ow8gANS3AmQCK2UqVEUCB50sGEQeIAFZAFArfD~tplv-tiktokx-origin.image?dr=14575&x-expires=1789981200&x-signature=D46G25O1FIyqHy6xG4BcVu7j0ak%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
@@ -369,15 +369,6 @@
    "url": "https://www.reddit.com/r/AskReddit/comments/1wkav2m/you_suddenly_receive_1000_of_the_last_thing_you/"
   },
   {
-   "sub": "videogames",
-   "title": "The speaker buzz right before your phone started ringing.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/a0fybmdt7bqh1.jpeg?width=640&crop=smart&auto=webp&s=9b48df51fc347fbad8d68fbf39f6f73f74ac8f5c",
-   "time": 1789750736,
-   "url": "https://www.reddit.com/r/videogames/comments/1wjvsec/the_speaker_buzz_right_before_your_phone_started/"
-  },
-  {
    "sub": "mildlyinfuriating",
    "title": "Goodbye work party for last day of 3 years. I’m vegetarian.",
    "score": 0,
@@ -385,15 +376,6 @@
    "thumb": "https://preview.redd.it/fwr6v02jxbqh1.jpeg?width=640&crop=smart&auto=webp&s=3e3645d969d18eb51f7d470aaa5f1210c51084ef",
    "time": 1789759384,
    "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1wjzqnu/goodbye_work_party_for_last_day_of_3_years_im/"
-  },
-  {
-   "sub": "interestingasfuck",
-   "title": "This young female bear named Veronica seized the time to take a nap on a large rock that gets submerged at high tide. (Shot by Martin Gregus Jr)",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/cHh5dzYzYTNmZXFoMXVuQnDjr1btnoGBn1mGCq-2ayQEMSvkJYIVO9NXeyQd.png?width=640&crop=smart&auto=webp&s=b1c8b5c905118bd1cd2a000cb38f0d9e2c07565e",
-   "time": 1789789533,
-   "url": "https://www.reddit.com/r/interestingasfuck/comments/1wkbf4e/this_young_female_bear_named_veronica_seized_the/"
   },
   {
    "sub": "SipsTea",
@@ -405,15 +387,6 @@
    "url": "https://www.reddit.com/r/SipsTea/comments/1wk95i8/whole_family_in_alabama_arrested_for_running_a/"
   },
   {
-   "sub": "Damnthatsinteresting",
-   "title": "A rainbow in waves 🌈🌊",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/aHh3d2dnejVrZnFoMZF7LU2qB13CsqRQu9W7ziCmZQ4kI_6IQh14uDmoZlJm.png?width=320&crop=smart&auto=webp&s=fcc39458a49367705df65fdf869ee2e4246f39a2",
-   "time": 1789803335,
-   "url": "https://www.reddit.com/r/Damnthatsinteresting/comments/1wkfpxu/a_rainbow_in_waves/"
-  },
-  {
    "sub": "AmericansInCanada",
    "title": "Carney doing \"Trump hands\"",
    "score": 0,
@@ -421,15 +394,6 @@
    "thumb": "https://external-preview.redd.it/dncwcmVscmEzY3FoMfyvWaUJMViIDHDCzFE8CudXNShXIsllFAWxBNTtU68D.png?width=640&crop=smart&auto=webp&s=cc388305d794865058c5bfbcfa2bd331de9f87cd",
    "time": 1789761345,
    "url": "https://www.reddit.com/r/AmericansInCanada/comments/1wk0lst/carney_doing_trump_hands/"
-  },
-  {
-   "sub": "todayilearned",
-   "title": "TIL that there are so few Imax 70mm screens because many of the parts needed to build them no longer exist, along with the plans being lost. Between Oppenheimer and the Odyssey, Imax attempted to repa",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/mZ9i6xBiWUI9s7-F11RUu563yVXLV0LwfZ-_ou5tup4.png?width=640&crop=smart&auto=webp&s=e27b9e957da5939a210bb2b6f3f5bd585f2e39fe",
-   "time": 1789789823,
-   "url": "https://www.reddit.com/r/todayilearned/comments/1wkbijw/til_that_there_are_so_few_imax_70mm_screens/"
   },
   {
    "sub": "MadeMeSmile",
@@ -457,6 +421,69 @@
    "thumb": "https://external-preview.redd.it/azZ3ZGN5M3g1YXFoMU2fvUgw9t-FVGQY2WfWJKpjS9zZrWf0miRRaoOFM8j-.png?width=640&crop=smart&auto=webp&s=60f2825f2aa27058c1d67571e987bf687d1338e0",
    "time": 1789738043,
    "url": "https://www.reddit.com/r/MoralityScaling/comments/1wjq7d7/morality_of_disciplining_a_child_without_ever/"
+  },
+  {
+   "sub": "Damnthatsinteresting",
+   "title": "A rainbow in waves 🌈🌊",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/aHh3d2dnejVrZnFoMZF7LU2qB13CsqRQu9W7ziCmZQ4kI_6IQh14uDmoZlJm.png?width=320&crop=smart&auto=webp&s=fcc39458a49367705df65fdf869ee2e4246f39a2",
+   "time": 1789803335,
+   "url": "https://www.reddit.com/r/Damnthatsinteresting/comments/1wkfpxu/a_rainbow_in_waves/"
+  },
+  {
+   "sub": "interestingasfuck",
+   "title": "This young female bear named Veronica seized the time to take a nap on a large rock that gets submerged at high tide. (Shot by Martin Gregus Jr)",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/cHh5dzYzYTNmZXFoMXVuQnDjr1btnoGBn1mGCq-2ayQEMSvkJYIVO9NXeyQd.png?width=640&crop=smart&auto=webp&s=b1c8b5c905118bd1cd2a000cb38f0d9e2c07565e",
+   "time": 1789789533,
+   "url": "https://www.reddit.com/r/interestingasfuck/comments/1wkbf4e/this_young_female_bear_named_veronica_seized_the/"
+  },
+  {
+   "sub": "badassanimals",
+   "title": "Hippo Crushes Buck That's Stuck in Mud After Wild Dogs Chased It!",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/OWo5enpmZWlxYXFoMRzo-JdiXEc_cusPL1oY6SVP3WfFVJX_aU2JBa9OhEUK.png?width=640&crop=smart&auto=webp&s=5f6b248a8f796d833d895b517aea02c96971394f",
+   "time": 1789745410,
+   "url": "https://www.reddit.com/r/badassanimals/comments/1wjtdoj/hippo_crushes_buck_thats_stuck_in_mud_after_wild/"
+  },
+  {
+   "sub": "cringereels",
+   "title": "To Assault The Bouncer Without Consequences.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/NnlnMmIycWduYnFoMeIVYQeN9Dpebw5HCP-KJYbwebB5-mStpPji3Reu7l65.png?width=320&crop=smart&auto=webp&s=c4fe753f856f10f4d1578558547366c1913f9afa",
+   "time": 1789756010,
+   "url": "https://www.reddit.com/r/cringereels/comments/1wjy7bz/to_assault_the_bouncer_without_consequences/"
+  },
+  {
+   "sub": "worldnews",
+   "title": "/r/WorldNews Live Thread: Russian Invasion of Ukraine Day 1669, Part 1 (Thread #1816)",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1789790581,
+   "url": "https://www.reddit.com/r/worldnews/comments/1wkbrp5/rworldnews_live_thread_russian_invasion_of/"
+  },
+  {
+   "sub": "worldnews",
+   "title": "‘Almost Started a War’: US Military Nearly Boarded a Chinese Ship Based on Bad Intel From AI",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/evJHP0oZIL9VwmxQYSMo-LjNqnbXXitWVL6vJDkTeWg.jpeg?width=640&crop=smart&auto=webp&s=98a979f239c8e4a1d799e2eeed2e9ea8179baef1",
+   "time": 1789785029,
+   "url": "https://www.reddit.com/r/worldnews/comments/1wk9w0i/almost_started_a_war_us_military_nearly_boarded_a/"
+  },
+  {
+   "sub": "worldnews",
+   "title": "Trump claims deal struck to give U.S. security control over Greenland | CBC News",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/3-cc8ZtHPSDj2_YdR6ZKeHGrkGs1Hbpf2AW_Gfbxd7Q.jpeg?width=320&crop=smart&auto=webp&s=bdbe8aa182bc0687e228cb06879c050d701cb3cf",
+   "time": 1789767235,
+   "url": "https://www.reddit.com/r/worldnews/comments/1wk35oz/trump_claims_deal_struck_to_give_us_security/"
   }
  ],
  "disaster": [],
@@ -478,10 +505,10 @@
   },
   "why": {},
   "landing": {
-   "at": "2026-09-19T17:35:11",
+   "at": "2026-09-19T18:01:27",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-09-19T18:01:23.583005+09:00"
+ "updated": "2026-09-19T18:32:02.984824+09:00"
 }
