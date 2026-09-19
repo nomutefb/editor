@@ -7060,8 +7060,14 @@
   {
    "query": "아시안게임",
    "traffic": "200+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/a18e20fc5c.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/001/0016322182",
+     "source": ""
+    }
+   ],
    "vol": 200,
    "started": "2026-09-19T18:10:00+09:00",
    "isNew": true,
@@ -7100,10 +7106,8 @@
  ],
  "gtrends_pool_updated": "2026-09-19T20:06:13+09:00",
  "_trend_img": {
-  "tried": "2026-09-19T17:39:33+09:00",
-  "fail": {
-   "서효림": "2026-09-19T17:09:03+09:00"
-  }
+  "tried": "2026-09-19T20:06:13+09:00",
+  "fail": {}
  },
  "gtrends_gl": [
   {
