@@ -3,9 +3,9 @@
   {
    "account": "MarioNawfal",
    "text": "🇺🇸🇮🇷 Iran may not need to defeat America militarily if it can simply outlast it\n\nWashington is still getting significant amounts of oil through Hormuz under military protection, but the bigger question is whether it can keep doing it.\n\nThe U.S. Navy is burning through readiness h",
-   "likes": 408,
-   "rts": 49,
-   "cmts": 44,
+   "likes": 422,
+   "rts": 53,
+   "cmts": 46,
    "views": 0,
    "time": "Sat Sep 19 19:39:34 +0000 2026",
    "url": "https://x.com/MarioNawfal/status/2101395794981183889",
@@ -14,6 +14,36 @@
  ],
  "insta": [],
  "threads": [
+  {
+   "account": "choi.openai",
+   "text": "내용 :\nhttps://saweis.net/posts/rsa-896.html",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1789882215,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/Ddf1oqcD7Z7",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "물론 “Claude가 새로운 수학 공식을 발견해 RSA 암호를 깼다”는 의미는 아닙니다.\n\n사용된 인수분해 방법은 수십 년 동안 개발돼 온 기존 알고리즘이고, Claude는 이를 GPU에서 대규모로 실행할 수 있도록 코드를 수정하고 계산 자원을 관리하는 역할을 했습니다.\n\nSteve Weis 역시 새로운 인수분해 알고리즘을 발견한 것이 아니며 현재 사용되는 암호키에 새로운 위협이 생긴 것도 아니라고 설명했습니다.\n\n주목할 부분은 AI의 역할입니다. 사람이 직접 코드를 옮기고 수천 개 GPU의 작업을 관리해야 했던 과정을 Claude가 상당 부분 맡았습니다.\n\n최근 공개 인수분해 기록이 829비트에서 862비트, 다시 896비트까지 올라오면서 AI가 답변을 생성하는 것을 넘어 대규모 계산과 연구 작업을 실제로 수행하는 도구로 사용되는 사례가 나오고 있습니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1789882210,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/Ddf1oCjD-El",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "Claude의 도움으로 RSA-896이라는 거대한 숫자를 두 소수의 곱으로 분해하는 데 성공했습니다.\n\nRSA 암호는 아주 큰 두 소수를 곱하기는 쉽지만, 결과만 보고 원래 두 숫자를 다시 찾기는 매우 어렵다는 성질을 이용합니다. RSA-896은 이런 인수분해 기술을 시험하기 위해 만들어진 896비트 크기의 숫자입니다.\n\n앤트로픽 엔지니어 Steve Weis는 Claude에게 기존 인수분해 프로그램 CADO-NFS를 GPU에서 돌아가도록 수정하게 했습니다. 이후 Claude가 여러 GPU에 계산 작업을 나누고 실행하는 과정도 조율했습니다.\n\n최대 2,048개의 GPU가 투입됐고 약 10일 만에 RSA-896을 구성하는 두 숫자를 찾아냈습니다.",
+   "likes": 4,
+   "cmts": 2,
+   "time": 1789882205,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/796328476_17987946708112832_1170432728549816052_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk5MDE0MzYwMTEyODQ4NzgxNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=S6tRSvnU6I0Q7kNvwHEmYyq&_nc_oc=AdpM1wP6ZoYCFfXoKHvpfMkSTdOe4JSeeFtfROpEHkOKAgb9gHQYb9uXK6fwmeuZkI8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=xQrhiLyJ_xNxNS6WmCO-3A&_nc_ss=7a22e&oh=00_AQJKalmiZ4KrRifyREC6T3SnzxiR3FmDhJF6Zg8cKwupTg&oe=6AB5373A",
+   "url": "https://www.threads.com/@choi.openai/post/Ddf1nbsD7uJ",
+   "region": "kr"
+  },
   {
    "account": "aipeekme",
    "text": "🔗 원문·자세히 보기\nhttps://github.com/browser-use/jev-ultrafast",
@@ -30,7 +60,7 @@
    "likes": 0,
    "cmts": 1,
    "time": 1789879068,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/797418570_18088555721407306_4224185167436156633_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk5MDExNzIxMDAzMTg3Njg1Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=v2ZibyXzfr4Q7kNvwHnWW9G&_nc_oc=AdqKRO2VHXCwYazW-DbsyydmX-RMniLWv7HLT4mCAB-60Jm-aissdNoCGgW6I37gArI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=0GXxnal7B6CHf-RN3bULWA&_nc_ss=7a22e&oh=00_AQJngtVY2qN0tjoGonK2CrbPnpzpVTUMJudiSS2zUSMqGw&oe=6AB52968",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/797418570_18088555721407306_4224185167436156633_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk5MDExNzIxMDAzMTg3Njg1Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=v2ZibyXzfr4Q7kNvwHnWW9G&_nc_oc=AdqKRO2VHXCwYazW-DbsyydmX-RMniLWv7HLT4mCAB-60Jm-aissdNoCGgW6I37gArI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=I2DeO9aVs1a7lLlP2oHzKw&_nc_ss=7a22e&oh=00_AQI6O2D1Ts0qLt3lN0OBcacari3hwXmu-sHlp_MX2RkOtw&oe=6AB52968",
    "url": "https://www.threads.com/@aipeekme/post/DdfvnZEH2r5",
    "region": "kr"
   },
@@ -42,16 +72,6 @@
    "time": 1789878998,
    "thumb": "",
    "url": "https://www.threads.com/@aipeekme/post/DdfvfQVH0zc",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "구글 검색이 이제 검색창에 질문하고 결과를 읽는 방식에서, AI와 실시간으로 대화하는 형태로 바뀌고 있습니다.\n\n구글이 Search Live에 최신 음성 모델 Gemini 3.8 Live를 적용했습니다.\n검색하면서 음성으로 질문을 이어가고, 앞서 나눈 대화의 맥락을 유지하며 추가 질문을 할 수 있습니다.\n\n검색 결과를 보고 다시 검색어를 입력하는 대신, 궁금한 내용을 바로 말하면서 답을 좁혀가는 방식인데요.\n\n구글 검색 자체가 점점 ‘검색 결과를 보여주는 서비스’에서 ‘검색 결과를 바탕으로 대화하는 AI’로 바뀌고 있습니다.",
-   "likes": 12,
-   "cmts": 0,
-   "time": 1789876855,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/814926224_1571863113984330_705819290636136279_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk5MDA5ODcxODQ0MzIwNTU0Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=25C3hTvdXYYQ7kNvwHKLznl&_nc_oc=Adr5e03dFKYi4X458h6ahsId5HrLoYn5kNhP89XmaFAhdf7lppIr547onqq7k5-WMCw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=sP5guBQtDH1L_h-gbsoKCA&_nc_ss=7a22e&oh=00_AQKIrdUwbQzUbAsr57bayiv19JByfg-8dXhIOPwsX5Ipfw&oe=6AB5386C",
-   "url": "https://www.threads.com/@choi.openai/post/DdfraTbjHOq",
    "region": "kr"
   },
   {
@@ -85,32 +105,12 @@
    "region": "kr"
   },
   {
-   "account": "choi.openai",
-   "text": "3/ Jev가 교통 상황을 보고 주행 행동을 결정하는 Tesla FSD 형태의 자율주행 시뮬레이션이 만들어졌습니다.\n\n1시간 이내에 구현했으며, Jev가 각 행동의 선택 확률까지 반환해 주행 판단에 활용합니다.\n\nx@jpschroeder",
-   "likes": 7,
-   "cmts": 2,
-   "time": 1789870213,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/818785200_29101161139490543_1673121950937647360_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk5MDAzNzk4MzM3MDUyOTk3OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=OOgVb3pmmMcQ7kNvwHNmneR&_nc_oc=Adp4M2SZ6ii7g_aWUJryKK7uTeasmPoLHKoHfENlcojVMLjQCmHiPn5KoOET99NiEIo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=sP5guBQtDH1L_h-gbsoKCA&_nc_ss=7a22e&oh=00_AQKlIOnwvMOFSGwvxhgTGrVglYlk8EqlPFWUAnCirBvI2Q&oe=6AB523BC",
-   "url": "https://www.threads.com/@choi.openai/post/DdfdmffHcy7",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "2/ Jev로 League of Legends 경기의 승리 확률과 영향력이 큰 선수, 역전 가능성을 실시간으로 분석하는 시스템이 만들어졌습니다.\n\n매초 전체 게임 상태를 분석해 약 280ms 만에 판단하며, 한 경기 약 2,000회 호출에 비용은 0.20달러였습니다.\n\nx@filicroval",
-   "likes": 18,
-   "cmts": 1,
-   "time": 1789870205,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/796640980_1624177482448524_3799819365808184856_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk5MDAzNzMwMTg3ODY3MzAyMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=hI5RkQ4egoUQ7kNvwHPkTD2&_nc_oc=AdqF7dxt9AlKYUFhjMzzVh-lVh9bpKCVpkJRm0LLpY3YlYDqWllhn0-1ixrt7DsnNBU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=sP5guBQtDH1L_h-gbsoKCA&_nc_ss=7a22e&oh=00_AQIoubPwMZ8Q8YKez54Ya8FlYZkyQ1RgUPKk_9DYQVg0jw&oe=6AB529BD",
-   "url": "https://www.threads.com/@choi.openai/post/DdfdckzCU58",
-   "region": "kr"
-  },
-  {
    "account": "kopp",
    "text": "new components i made this week",
-   "likes": 475,
+   "likes": 488,
    "cmts": 13,
    "time": 1789817013,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/807684740_2292473014631816_657212440640914747_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk4OTU5NTUyNDMxOTE2Nzg2Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=vJ3KujaJUHwQ7kNvwFQqOfK&_nc_oc=Adq2T7rjlRcN_TufeSOvpLw0mTfc2bJFINI7_c8aimC6hVE1jAyc81Q_l8Dbpc4_ARU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=-UA0HKvMhh4opgrIwRHO9g&_nc_ss=7a22e&oh=00_AQJgnKaq02CFT0pdHoCckTYwt--8aO8B9K-bpy0YNRQUBQ&oe=6AB5430C",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/807684740_2292473014631816_657212440640914747_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk4OTU5NTUyNDMxOTE2Nzg2Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=vJ3KujaJUHwQ7kNvwFQqOfK&_nc_oc=Adq2T7rjlRcN_TufeSOvpLw0mTfc2bJFINI7_c8aimC6hVE1jAyc81Q_l8Dbpc4_ARU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=76fr6VDJ0jfwxNZCikpdkg&_nc_ss=7a22e&oh=00_AQJu9fMRe2Hw9JAKjRHazVoTPFk5m0a3WYEuz1X4B6VycA&oe=6AB5430C",
    "url": "https://www.threads.com/@kopp/post/Ddd5Q1gDgvB",
    "region": "kr"
   },
@@ -120,7 +120,7 @@
    "likes": 2,
    "cmts": 0,
    "time": 1789804985,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/814925765_17937476604362958_7055430953537419176_n.webp?stp=dst-webp_s640x640_sh2.08&_nc_cat=101&ig_cache_key=Mzk4OTQ5NTgyODA1NDIxNDUzMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjk5Mi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=JQUKctQKkOAQ7kNvwHn6NDw&_nc_oc=AdogA-In86W9JN7Fo_IdDreVjwhlBlY8k7NDFI05MNGs1F8H5xuSg5KxP3KUTqgVYC0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Fnvs6PtdzTDI9S6mjS9VpA&_nc_ss=7a22e&oh=00_AQJl9GsBUYDpUZuCyUkrMIcHeDmv12xUw8t2V-SNcPKJdQ&oe=6AB5293A",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/814925765_17937476604362958_7055430953537419176_n.webp?stp=dst-webp_s640x640_sh2.08&_nc_cat=101&ig_cache_key=Mzk4OTQ5NTgyODA1NDIxNDUzMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjk5Mi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=JQUKctQKkOAQ7kNvwHn6NDw&_nc_oc=AdogA-In86W9JN7Fo_IdDreVjwhlBlY8k7NDFI05MNGs1F8H5xuSg5KxP3KUTqgVYC0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=9B85c-Br8q23IQpEqLUb8w&_nc_ss=7a22e&oh=00_AQJUrDtf8_VNhh8pJGt6rdbxlHSrO-PX196gnj8TQvKtJg&oe=6AB5293A",
    "url": "https://www.threads.com/@takepage_/post/DddiVGAEweD",
    "region": "kr"
   },
@@ -130,8 +130,18 @@
    "likes": 0,
    "cmts": 1,
    "time": 1789878987,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/795068861_18088555550407306_3143108084084605841_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk5MDExNjUyOTYyMzUwNjQ2Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=odE0gyrTjzoQ7kNvwFo-JmK&_nc_oc=AdrMN8bsZwZsbcppdpnJ3PIxnljNqDi3jn5MN7VynkUZRSApy_3ZsQh2KatBBD4qlI8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=0GXxnal7B6CHf-RN3bULWA&_nc_ss=7a22e&oh=00_AQKotbYFicvF_w43tf02JSXQy__roJjcfC5uN9yGWuFeSg&oe=6AB54CC3",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/795068861_18088555550407306_3143108084084605841_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk5MDExNjUyOTYyMzUwNjQ2Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=odE0gyrTjzoQ7kNvwFo-JmK&_nc_oc=AdrMN8bsZwZsbcppdpnJ3PIxnljNqDi3jn5MN7VynkUZRSApy_3ZsQh2KatBBD4qlI8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=I2DeO9aVs1a7lLlP2oHzKw&_nc_ss=7a22e&oh=00_AQLkBo9BOpPr8h-GmXSDjRR2P2vJeJvEOH_02wM3GTZXew&oe=6AB54CC3",
    "url": "https://www.threads.com/@aipeekme/post/DdfvdfYn54f",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "구글 검색이 이제 검색창에 질문하고 결과를 읽는 방식에서, AI와 실시간으로 대화하는 형태로 바뀌고 있습니다.\n\n구글이 Search Live에 최신 음성 모델 Gemini 3.8 Live를 적용했습니다.\n검색하면서 음성으로 질문을 이어가고, 앞서 나눈 대화의 맥락을 유지하며 추가 질문을 할 수 있습니다.\n\n검색 결과를 보고 다시 검색어를 입력하는 대신, 궁금한 내용을 바로 말하면서 답을 좁혀가는 방식인데요.\n\n구글 검색 자체가 점점 ‘검색 결과를 보여주는 서비스’에서 ‘검색 결과를 바탕으로 대화하는 AI’로 바뀌고 있습니다.",
+   "likes": 19,
+   "cmts": 0,
+   "time": 1789876855,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/814926224_1571863113984330_705819290636136279_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk5MDA5ODcxODQ0MzIwNTU0Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=25C3hTvdXYYQ7kNvwHKLznl&_nc_oc=Adr5e03dFKYi4X458h6ahsId5HrLoYn5kNhP89XmaFAhdf7lppIr547onqq7k5-WMCw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=xQrhiLyJ_xNxNS6WmCO-3A&_nc_ss=7a22e&oh=00_AQJAa599ETlmvfNfSyezacMgwVCjZ3pN-pv6JVkxxgD6RA&oe=6AB5386C",
+   "url": "https://www.threads.com/@choi.openai/post/DdfraTbjHOq",
    "region": "kr"
   },
   {
@@ -145,33 +155,23 @@
    "region": "kr"
   },
   {
-   "account": "choi.openai",
-   "text": "1/ Jev로 말하는 내용과 현재 입은 옷을 바탕으로 옷장에서 다음 코디를 골라주는 가상 피팅 사례가 공개됐습니다.\n\n옷에 저장된 메타데이터를 활용해 약 620ms마다 코디를 결정했으며, 결정당 비용은 0.0011달러였습니다.\n\nx@nailthy62",
-   "likes": 58,
-   "cmts": 1,
-   "time": 1789870196,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/818479231_2113567679521249_3396981603553012050_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk5MDAzNjgxNjM4OTI5Mzc5Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=-N1ToxhnEGMQ7kNvwEFaRUa&_nc_oc=AdpQxlwspoi5bkXlapZiQWxtwBUJmM6OWLNKjYI3aIGQVkzncAbZaQKcz76_9aYvVBU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=sP5guBQtDH1L_h-gbsoKCA&_nc_ss=7a22e&oh=00_AQIxSxXgvA8j7FnBnsB8BKs8snTDY5Yv7fB4sE2NQLbdqw&oe=6AB53DC6",
-   "url": "https://www.threads.com/@choi.openai/post/DdfdVgpnUbg",
-   "region": "kr"
-  },
-  {
    "account": "aipeekme",
    "text": "스타트업 타입세이프 AI가 빠른 의사결정에 특화된 새로운 인공지능 모델 제브를 공개했습니다.\n입력된 맥락과 가능한 행동을 바탕으로 확률과 신뢰도를 계산해 가장 적절한 선택을 도출하는 방식인데요.\n응답 속도는 70에서 500밀리초 수준이며 입력 토큰 백만 개당 40센트대의 비용이 소요됩니다.\n출력은 별도의 비용이 들지 않는다고 밝혔습니다.\n공개된 시연 영상에서는 게임 속에서 매 순간 이동과 조준 여부를 판단하며 초당 열 번의 결정을 내리는 모습을 보여주었습니다.\n체력이나 적의 위치 같은 구조화된 상황 정보를 입력받아 실시간으로 판단을 수행하는 구조입니다.",
    "likes": 0,
    "cmts": 0,
    "time": 1789878698,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/817191560_1954479128553821_3170713026863237924_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk5MDExMzgwNTg1NzIwNTE2MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=PvnLV9A8OP8Q7kNvwF9ilMC&_nc_oc=AdodjrWIqI9oH8xNpfw4UMR1MnwMKUBURfGZeCHq3uXS1t9N6cogrRmK7xI7g4oFnmI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=0GXxnal7B6CHf-RN3bULWA&_nc_ss=7a22e&oh=00_AQJoixIQO5tBuVWBYjTp3gtTLhcxNgi75uDb9onFZnbi8Q&oe=6AB53F75",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/817191560_1954479128553821_3170713026863237924_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk5MDExMzgwNTg1NzIwNTE2MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=PvnLV9A8OP8Q7kNvwF9ilMC&_nc_oc=AdodjrWIqI9oH8xNpfw4UMR1MnwMKUBURfGZeCHq3uXS1t9N6cogrRmK7xI7g4oFnmI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=I2DeO9aVs1a7lLlP2oHzKw&_nc_ss=7a22e&oh=00_AQLdmFmACT14nUgtIVxBH9mW6MuFGdgcxHy-72C1iSAyzA&oe=6AB53F75",
    "url": "https://www.threads.com/@aipeekme/post/Ddfu12rgCup",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "Jev가 출시된지 겨우 4일밖에 지나지 않았습니다.\n\n실시간 가상 피팅부터 회계, 로봇팔 제어, 게임 레벨 생성까지 별별 것들을 다 시도하고 있는데요.\n\nJev로 만든 놀라운 사례 20가지를 정리했습니다🧵",
-   "likes": 212,
-   "cmts": 23,
-   "time": 1789870191,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/Ddfes41D9DE",
+   "text": "3/ Jev가 교통 상황을 보고 주행 행동을 결정하는 Tesla FSD 형태의 자율주행 시뮬레이션이 만들어졌습니다.\n\n1시간 이내에 구현했으며, Jev가 각 행동의 선택 확률까지 반환해 주행 판단에 활용합니다.\n\nx@jpschroeder",
+   "likes": 7,
+   "cmts": 2,
+   "time": 1789870213,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/818785200_29101161139490543_1673121950937647360_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk5MDAzNzk4MzM3MDUyOTk3OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=OOgVb3pmmMcQ7kNvwHNmneR&_nc_oc=Adp4M2SZ6ii7g_aWUJryKK7uTeasmPoLHKoHfENlcojVMLjQCmHiPn5KoOET99NiEIo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=xQrhiLyJ_xNxNS6WmCO-3A&_nc_ss=7a22e&oh=00_AQLShLQM0BTr7cpQh1Ui5zprVcpzAMvEd_j8QyrO2yFl4Q&oe=6AB55BFC",
+   "url": "https://www.threads.com/@choi.openai/post/DdfdmffHcy7",
    "region": "kr"
   },
   {
@@ -196,12 +196,12 @@
   },
   {
    "account": "choi.openai",
-   "text": "주소 :\nhttps://robbietilton.com/compositor",
-   "likes": 31,
+   "text": "2/ Jev로 League of Legends 경기의 승리 확률과 영향력이 큰 선수, 역전 가능성을 실시간으로 분석하는 시스템이 만들어졌습니다.\n\n매초 전체 게임 상태를 분석해 약 280ms 만에 판단하며, 한 경기 약 2,000회 호출에 비용은 0.20달러였습니다.\n\nx@filicroval",
+   "likes": 18,
    "cmts": 1,
-   "time": 1789866026,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DdfWwdcDKMt",
+   "time": 1789870205,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/796640980_1624177482448524_3799819365808184856_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk5MDAzNzMwMTg3ODY3MzAyMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=hI5RkQ4egoUQ7kNvwHPkTD2&_nc_oc=AdqF7dxt9AlKYUFhjMzzVh-lVh9bpKCVpkJRm0LLpY3YlYDqWllhn0-1ixrt7DsnNBU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=xQrhiLyJ_xNxNS6WmCO-3A&_nc_ss=7a22e&oh=00_AQIbAKtaEECoBvZv_ROmabeaLtEVEA7zmMNaGNf6RsnhaQ&oe=6AB529BD",
+   "url": "https://www.threads.com/@choi.openai/post/DdfdckzCU58",
    "region": "kr"
   },
   {
@@ -219,10 +219,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Aux Champs-Élysées #이재명 #France #macron #fyp",
-   "views": 632400,
+   "views": 632500,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0CGAI6ooFCAPECAEqED63ffIARmgNxjBUg0zR~tplv-tiktokx-origin.image?dr=14575&x-expires=1790053200&x-signature=7pI4ys71b8SUz7Gpj0fv51Aw%2BpQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0CGAI6ooFCAPECAEqED63ffIARmgNxjBUg0zR~tplv-tiktokx-origin.image?dr=14575&x-expires=1790053200&x-signature=7pI4ys71b8SUz7Gpj0fv51Aw%2BpQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=sg1",
    "time": 1788879730,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7683179938026900754",
    "region": "kr"
@@ -230,10 +230,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Саламатсызбы, Кыргызстан! 🇰🇷🇰🇬 #키르기스스탄 #Kyrgyzstan #кыргызстан",
-   "views": 453100,
+   "views": 454300,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ossWcFAWqdBeFM1UB9FEguDtEqARxSGQQyfuUi~tplv-tiktokx-origin.image?dr=14575&x-expires=1790053200&x-signature=dzbFlmd0UKvt5Qbv8TZACo32duc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ossWcFAWqdBeFM1UB9FEguDtEqARxSGQQyfuUi~tplv-tiktokx-origin.image?dr=14575&x-expires=1790053200&x-signature=dzbFlmd0UKvt5Qbv8TZACo32duc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=sg1",
    "time": 1789537496,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7686005021397273863",
    "region": "kr"
@@ -241,10 +241,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Ассалому алайкум, Тоҷикистон! 🇰🇷🇹🇯 #타지키스탄#Тоҷикистон",
-   "views": 223600,
+   "views": 224100,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okxPtEHAgIY0AAlC9gAoxAMiBqToaAKBiFulq~tplv-tiktokx-origin.image?dr=14575&x-expires=1790053200&x-signature=Kp2wTMY5qWh%2Fv0qK42hYb2wxYSU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okxPtEHAgIY0AAlC9gAoxAMiBqToaAKBiFulq~tplv-tiktokx-origin.image?dr=14575&x-expires=1790053200&x-signature=Kp2wTMY5qWh%2Fv0qK42hYb2wxYSU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=sg1",
    "time": 1789536283,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685999812356934930",
    "region": "kr"
@@ -252,10 +252,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Salam aleýkum Türkmenistan! 🇰🇷🇹🇲 #투르크메니스탄 #turkmenistan #Türkmenistan",
-   "views": 203800,
+   "views": 204000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4iB0bDrFU5kqzoDSRupABvEWftIIUEfgqMaiE~tplv-tiktokx-origin.image?dr=14575&x-expires=1790053200&x-signature=3wtTsfUo85sufP3X%2FEmkBJbATOg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4iB0bDrFU5kqzoDSRupABvEWftIIUEfgqMaiE~tplv-tiktokx-origin.image?dr=14575&x-expires=1790053200&x-signature=3wtTsfUo85sufP3X%2FEmkBJbATOg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=sg1",
    "time": 1789447594,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685618898128915730",
    "region": "kr"
@@ -263,10 +263,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Assalomu alaykum, O‘zbekiston!🇺🇿🇰🇷 #이재명 #우즈베키스탄 #Uzbekistan",
-   "views": 59500,
+   "views": 59600,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAUOEAPEroYfNoFaeAAfZQATIAiVPvDB5WhDFE~tplv-tiktokx-origin.image?dr=14575&x-expires=1790053200&x-signature=pGrhNAYv59eTnBE2JYFlAOdX6Os%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAUOEAPEroYfNoFaeAAfZQATIAiVPvDB5WhDFE~tplv-tiktokx-origin.image?dr=14575&x-expires=1790053200&x-signature=pGrhNAYv59eTnBE2JYFlAOdX6Os%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=sg1",
    "time": 1789393470,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685386435158887688",
    "region": "kr"
@@ -274,10 +274,10 @@
   {
    "account": "jaemyung_lee",
    "title": "빛으로 담아내는, 제7의 예술🎥",
-   "views": 44900,
+   "views": 45000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oMMIdnnHDI6bTifTAPFDcDRbtBfWqzBIEDgvEo~tplv-tiktokx-origin.image?dr=14575&x-expires=1790053200&x-signature=UxEyRF1ThrF76gfN%2BwUmkwTxJYQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oMMIdnnHDI6bTifTAPFDcDRbtBfWqzBIEDgvEo~tplv-tiktokx-origin.image?dr=14575&x-expires=1790053200&x-signature=UxEyRF1ThrF76gfN%2BwUmkwTxJYQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=sg1",
    "time": 1789031851,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7683833293816614151",
    "region": "kr"
@@ -288,7 +288,7 @@
    "views": 42800,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIqB6INciK7CI3iw10LAp5vfZO6IAlCTdIAI06~tplv-tiktokx-origin.image?dr=14575&x-expires=1790053200&x-signature=ycOQ1lHSSev3T6pXcxs5XMQHkQo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIqB6INciK7CI3iw10LAp5vfZO6IAlCTdIAI06~tplv-tiktokx-origin.image?dr=14575&x-expires=1790053200&x-signature=ycOQ1lHSSev3T6pXcxs5XMQHkQo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=sg1",
    "time": 1788733294,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7682551001663982855",
    "region": "kr"
@@ -299,7 +299,7 @@
    "views": 41500,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okJSEtbnglnRAQHtqOQ1UIFeETBEUtfhBKGkDV~tplv-tiktokx-origin.image?dr=14575&x-expires=1790053200&x-signature=vMoFFayNr9E9%2FLMAgAoFnU2So9M%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okJSEtbnglnRAQHtqOQ1UIFeETBEUtfhBKGkDV~tplv-tiktokx-origin.image?dr=14575&x-expires=1790053200&x-signature=vMoFFayNr9E9%2FLMAgAoFnU2So9M%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=sg1",
    "time": 1788795259,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7682817137672555794",
    "region": "kr"
@@ -310,7 +310,7 @@
    "views": 38100,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4AeKl0yGICLqpfFAVLAoFr7LEeoVADEIKAdEU~tplv-tiktokx-origin.image?dr=14575&x-expires=1790053200&x-signature=aB%2FVGxK2Ri4dFNuxfAHuT3dYPtI%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4AeKl0yGICLqpfFAVLAoFr7LEeoVADEIKAdEU~tplv-tiktokx-origin.image?dr=14575&x-expires=1790053200&x-signature=cwHR45NUr9qFHvPyGdl6dM80qQU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=sg1",
    "time": 1789473921,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685731970453638407",
    "region": "kr"
@@ -318,10 +318,10 @@
   {
    "account": "jaemyung_lee",
    "title": "<초국가범죄, 반드시 뿌리 뽑겠습니다> ‘외국에 있으면 안 잡히겠지?’  그런 생각은 이제 버리십시오. 대한민국 국민을 상대로 한 범죄는 세계 어느 곳에 숨어 있든, 끝까지 추적해 처벌합니다. 대규모 보이스피싱 조직",
-   "views": 25700,
+   "views": 25800,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oU9rIZjq1EKACAAxNBVioCpiI2BAtmA28wfcPR~tplv-tiktokx-origin.image?dr=14575&x-expires=1790053200&x-signature=MJaJTr6xYtHKhFPqh%2FYoDhf2cHc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oU9rIZjq1EKACAAxNBVioCpiI2BAtmA28wfcPR~tplv-tiktokx-origin.image?dr=14575&x-expires=1790053200&x-signature=MJaJTr6xYtHKhFPqh%2FYoDhf2cHc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=sg1",
    "time": 1789605105,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7686295400835239175",
    "region": "kr"
@@ -340,10 +340,10 @@
   {
    "account": "tictok_ent",
    "title": "수지, 시민들의 욕을 부르는 미모 / 아누아(Anua) 포토월 더파운더즈의 글로벌 뷰티 브랜드 아누아(Anua)의 'PDRN 라인 팝업스토어' 오픈을 기념하는 포토행사가 18일 오전 서울 성동구 성수동에 위치한 올리",
-   "views": 3388,
+   "views": 3417,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/ow8gANS3AmQCK2UqVEUCB50sGEQeIAFZAFArfD~tplv-tiktokx-origin.image?dr=14575&x-expires=1790053200&x-signature=GUK9%2FGsTK1lyQa6QWh6NmWAC7R4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ow8gANS3AmQCK2UqVEUCB50sGEQeIAFZAFArfD~tplv-tiktokx-origin.image?dr=14575&x-expires=1790053200&x-signature=Z9UVYB2A0WgOpZWFQ1Uf3%2FHv%2Fk0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1789699186,
    "url": "https://www.tiktok.com/@tictok_ent/video/7686699475406015762",
    "region": "kr"
@@ -360,15 +360,6 @@
    "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1wkqthk/was_wearing_this_tshirt_when_i_picked_up_my_4th/"
   },
   {
-   "sub": "Music",
-   "title": "Ed Sheeran cries onstage at solo concert after support acts quit amid Macklemore controversy",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "",
-   "time": 1789869176,
-   "url": "https://www.reddit.com/r/Music/comments/1wl40cr/ed_sheeran_cries_onstage_at_solo_concert_after/"
-  },
-  {
    "sub": "AskReddit",
    "title": "What is a game you loved that died?",
    "score": 0,
@@ -376,6 +367,15 @@
    "thumb": "",
    "time": 1789863658,
    "url": "https://www.reddit.com/r/AskReddit/comments/1wl232p/what_is_a_game_you_loved_that_died/"
+  },
+  {
+   "sub": "Music",
+   "title": "Ed Sheeran cries onstage at solo concert after support acts quit amid Macklemore controversy",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1789869176,
+   "url": "https://www.reddit.com/r/Music/comments/1wl40cr/ed_sheeran_cries_onstage_at_solo_concert_after/"
   },
   {
    "sub": "interestingasfuck",
@@ -405,15 +405,6 @@
    "url": "https://www.reddit.com/r/oddlysatisfying/comments/1wl0z6q/smooth_circular_welding/"
   },
   {
-   "sub": "MMA",
-   "title": "[SPOILER] Gable Steveson vs. Sean Sharaf",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "",
-   "time": 1789870084,
-   "url": "https://www.reddit.com/r/MMA/comments/1wl4b91/spoiler_gable_steveson_vs_sean_sharaf/"
-  },
-  {
    "sub": "mildlyinfuriating",
    "title": "TSA let me take a very sharp knife on a plane",
    "score": 0,
@@ -441,13 +432,22 @@
    "url": "https://www.reddit.com/r/KidsAreFuckingStupid/comments/1wkx6kn/goose_vs_kid/"
   },
   {
-   "sub": "Fauxmoi",
-   "title": "Ms Rachel posts this as Ed Sheeran is about to take the stage in Philadelphia",
+   "sub": "MMA",
+   "title": "[SPOILER] Gable Steveson vs. Sean Sharaf",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/qxbf79m0gkqh1.jpeg?width=640&crop=smart&auto=webp&s=ce89d9ced2d5ac6079db2d0fe53f53d77ee26649",
-   "time": 1789862454,
-   "url": "https://www.reddit.com/r/Fauxmoi/comments/1wl1nin/ms_rachel_posts_this_as_ed_sheeran_is_about_to/"
+   "thumb": "",
+   "time": 1789870084,
+   "url": "https://www.reddit.com/r/MMA/comments/1wl4b91/spoiler_gable_steveson_vs_sean_sharaf/"
+  },
+  {
+   "sub": "technology",
+   "title": "Disney+ changes subscriber agreement to allow ads on every plan",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/4WEQUZ6YfZJUK94xc0XrfZTMsQCPbm2R7VIfbg0Oc8g.jpeg?width=640&crop=smart&auto=webp&s=cf270113d50043337baf020842d83c47d40d8d33",
+   "time": 1789832671,
+   "url": "https://www.reddit.com/r/technology/comments/1wkpix4/disney_changes_subscriber_agreement_to_allow_ads/"
   },
   {
    "sub": "todayilearned",
@@ -457,38 +457,21 @@
    "thumb": "",
    "time": 1789867756,
    "url": "https://www.reddit.com/r/todayilearned/comments/1wl3iu0/til_jehovahs_witnesses_believe_that_only_144000/"
-  },
-  {
-   "sub": "worldnews",
-   "title": "/r/WorldNews Live Thread: Russian Invasion of Ukraine Day 1670, Part 1 (Thread #1817)",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "",
-   "time": 1789876973,
-   "url": "https://www.reddit.com/r/worldnews/comments/1wl6kqj/rworldnews_live_thread_russian_invasion_of/"
-  },
-  {
-   "sub": "worldnews",
-   "title": "Pentagon investigators have discovered that flawed intelligence and an overreliance on AI contributed to a missile strike that killed 123 Iranian school children",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/hp1HBHmbzXPwncMG6h9iXaZB7NbPZudj-OU2Wzqu-vM.jpeg?width=640&crop=smart&auto=webp&s=5c8c1b57d8c9f8d042fb17a4bd362d67dc0bca92",
-   "time": 1789829217,
-   "url": "https://www.reddit.com/r/worldnews/comments/1wko4v6/pentagon_investigators_have_discovered_that/"
-  },
-  {
-   "sub": "worldnews",
-   "title": "Houthis say they targeted Saudi capital with ballistic missiles",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/lFjb665Cmumq5iGE4aYVnfGHryPZAfwZx0iqSR1e2FM.jpeg?width=640&crop=smart&auto=webp&s=b3ef5b05a5e45b4a9b97f4c4dcaac972bb9c080e",
-   "time": 1789867220,
-   "url": "https://www.reddit.com/r/worldnews/comments/1wl3cdj/houthis_say_they_targeted_saudi_capital_with/"
   }
  ],
  "disaster": [],
  "_cover": {
   "ok": {
+   "x": [
+    "64bitcoinkr",
+    "awaken_eyes",
+    "economysniper0",
+    "freedom_73x",
+    "globalbrief_now",
+    "jajaja7878uu",
+    "kyunghyang",
+    "marionawfal"
+   ],
    "threads": [
     "aicoffeechat",
     "aipeekme",
@@ -505,10 +488,10 @@
   },
   "why": {},
   "landing": {
-   "at": "2026-09-20T13:32:08",
+   "at": "2026-09-20T14:02:06",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-09-20T14:02:04.256777+09:00"
+ "updated": "2026-09-20T14:36:12.563278+09:00"
 }
