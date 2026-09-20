@@ -27,10 +27,10 @@
   {
    "account": "choi.openai",
    "text": "Jev와 비슷한 결정을 텍스트 디퓨전 모델로 처리하는 방식까지 등장했습니다.\n\nGoogle Gemma가 소개한 \"DiffusionGemma as Jev\"는 선택지를 토큰 단위로 하나씩 생성하지 않고, 여러 선택지를 병렬로 평가합니다.\n\nDGX Spark에서 약 0.2초 만에 처리됐으며, Matt Mastracci의 Jev 비교에서는 판단 성능도 대체로 비슷한 수준을 보였다고 합니다.\n\nDiffusionGemma는 양방향 Attention으로 전체 문맥과 선택지를 함께 보고 확률을 계산하며, Gemma 4의 비전 기능도 활용할 수 있어 이미지가 포함된 판단까지 가능합니다.\n\n텍스트 디퓨전이 빠른 생성에만 사용되는 게 아니라, Jev 같은 에이전트의 결정 레이어에도 활용되기 시작했습니다.\n\n앞으로 에이전트의 수많은 작은 판단을 어떤 구조가 가장 빠르고 저렴하게 처리할지 경쟁이 붙을 것 같습니다.",
-   "likes": 5,
+   "likes": 10,
    "cmts": 1,
    "time": 1789925449,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/818654878_1708536371282148_426709973182528562_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk5MDUwNjM1OTE4MjQxNjM3OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=3GOMJ0jP-GQQ7kNvwG3BK4N&_nc_oc=Adq_znY0ms6gaoq6tjikpQ0lCw41Is23161J8yBbmtty6JciB3ZVAXsePUkamP_LOzk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=cMtZuZK-UQKxwsDZo14KgA&_nc_ss=7a22e&oh=00_AQIF77saZ0nCh9WxzeVHVAHnLr8vwIytCCuPu5zt9T2CpA&oe=6AB5EBB1",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/818654878_1708536371282148_426709973182528562_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk5MDUwNjM1OTE4MjQxNjM3OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=3GOMJ0jP-GQQ7kNvwG3BK4N&_nc_oc=Adq_znY0ms6gaoq6tjikpQ0lCw41Is23161J8yBbmtty6JciB3ZVAXsePUkamP_LOzk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=GmI7lKheP7Pd0U-JpXSGvw&_nc_ss=7a22e&oh=00_AQK7zwYYm3AKjzEGYFdZPoPy9YvtwiXf1miSOFLgK8rYGQ&oe=6AB5EBB1",
    "url": "https://www.threads.com/@choi.openai/post/DdhIGQdAVn6",
    "region": "kr"
   },
@@ -60,17 +60,17 @@
    "likes": 0,
    "cmts": 1,
    "time": 1789905695,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/817551849_18088623212407306_7182036330263286405_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk5MDM0MDU3MzIzNzA1MTY4Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=ogFsTg4elwsQ7kNvwEOfSBF&_nc_oc=Adpj-fclNyP5vzaZmVZM8zJc246AT0pxnjNP-idJkEq7N4wMtb_i0tV2X3TDucj_jqg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=mFyGElc9Jtgw4LYeWd2n7A&_nc_ss=7a22e&oh=00_AQLq-WwF3NlaNhEu0cFORBt-GC_GGuDiIhLya1jwtDVY-g&oe=6AB5DCC3",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/817551849_18088623212407306_7182036330263286405_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk5MDM0MDU3MzIzNzA1MTY4Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=ogFsTg4elwsQ7kNvwEOfSBF&_nc_oc=Adpj-fclNyP5vzaZmVZM8zJc246AT0pxnjNP-idJkEq7N4wMtb_i0tV2X3TDucj_jqg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=R-qRER0H3VVV0BcO6NzQ0A&_nc_ss=7a22e&oh=00_AQLQSDFLgsoMbLHAQZV0nZxOEL_teHwL_Svz3I6oIREHsA&oe=6AB61503",
    "url": "https://www.threads.com/@aipeekme/post/DdgiZwQn4En",
    "region": "kr"
   },
   {
    "account": "takepage_",
    "text": "현재 핫한 JEV를 무료로 사용할 수 있습니다.\nVERCEL에서 9월25일까지 무료 이벤트를 진행중입니다.\n\nVERCEL에서 배포한 사이트 에서 쓰는 방식이 아닌 \nAI gateway를 통해 호출할 수 있는 거라 꼭 한 번 사용해보세요\n\n저도 예전엔 새로운 모델, 기술들이 나오면 귀찮기도 하고\n내가 활용할 게 있겠어? 하고 넘겼는데 \n이제는 웬만하면 다 써보려고 합니다.\n\n써봐야 쓸만한지 알 수 있고, 남들이 아무리 좋다한들\n포모도 안오고 휘둘리지 않을수도 있으니까요.\n\n저도 한 번 써보고 현실적으로 어떻게 써볼 수 있을지\n활용법에 대해 쉽게 정리해서 가져오겠씁니다!",
-   "likes": 3,
+   "likes": 4,
    "cmts": 0,
    "time": 1789904020,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/805579587_17937657975362958_304065300171150873_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk5MDMyNjU5NjMwNTQxMTI5MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTU5MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=D7FtIaRyR50Q7kNvwHGwN5C&_nc_oc=AdrY-vxRCa95UengGXjzxnLFuuGPaZdUxvjCbKHNbNfzYuAKPy-hwlOdLhAdm3VI8kg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=xSm_3oCGJxABz7uLhdYQoQ&_nc_ss=7a22e&oh=00_AQKxp48fqVjTJcasCQzipAOXj9V-QIjtL2hM6_6plQHM0w&oe=6AB60D4B",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/805579587_17937657975362958_304065300171150873_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk5MDMyNjU5NjMwNTQxMTI5MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTU5MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=D7FtIaRyR50Q7kNvwHGwN5C&_nc_oc=AdrY-vxRCa95UengGXjzxnLFuuGPaZdUxvjCbKHNbNfzYuAKPy-hwlOdLhAdm3VI8kg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=KQykK6eGXdg2aI1fNmvWhQ&_nc_ss=7a22e&oh=00_AQKQKoG7HN8z5ddvC1Y-FuLePd9nHQ3VPYRlkbTDIWt1ug&oe=6AB60D4B",
    "url": "https://www.threads.com/@takepage_/post/DdgfOXOk9zb",
    "region": "kr"
   },
@@ -117,10 +117,10 @@
   {
    "account": "choi.openai",
    "text": "Jev의 오픈소스 대안 Nimble까지 등장했습니다.\n\nBespoke Labs가 Qwen3.5-9B를 미세 조정해 만든 Bespoke-Nimble-9B로, Jev처럼 문장을 생성하지 않고 주어진 선택지의 확률을 바로 계산해 결정을 내립니다.\n\n3,880개의 사람 라벨 데이터로 비교한 공개 벤치마크에서는 Nimble 정확도 75.9%, Jev 77.3%로 Jev가 소폭 앞섰습니다. 별도의 324개 합성 평가에서도 Nimble 90.1%, Jev 93.2%였습니다.\n\n반면 H100에서 Nimble의 응답시간 중앙값은 106ms, Jev API는 246.7ms였습니다. 다만 로컬 실행과 API 호출을 비교한 수치라 동일한 환경의 속도 비교는 아닙니다.\n\nNimble은 모델뿐 아니라 학습 데이터와 학습 방법까지 공개됐으며 Apple Silicon Mac이나 NVIDIA GPU에서 직접 실행할 수 있습니다.\n\nJev 공개 이후 며칠 만에 비슷한 결정 모델들이 계속 등장하고 있습니다.",
-   "likes": 32,
+   "likes": 33,
    "cmts": 2,
    "time": 1789920010,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/795182569_17987921316112832_3845101914840555306_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk5MDQ2MDczMTk2NzA3NTQ2Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=GlRVGSClNIQQ7kNvwE29810&_nc_oc=AdqBqKKH7wlCJsIOQAxkq4ngiYzNmi5K5CawLWUkQ8I0Rlea74ePhej6IdZtWkljh1c&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=cMtZuZK-UQKxwsDZo14KgA&_nc_ss=7a22e&oh=00_AQIqTpXEPWRLh10yBAarflsPU0LWNPk_rp-ZfT-baf2c2A&oe=6AB5E7F5",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/795182569_17987921316112832_3845101914840555306_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk5MDQ2MDczMTk2NzA3NTQ2Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=GlRVGSClNIQQ7kNvwE29810&_nc_oc=AdqBqKKH7wlCJsIOQAxkq4ngiYzNmi5K5CawLWUkQ8I0Rlea74ePhej6IdZtWkljh1c&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=GmI7lKheP7Pd0U-JpXSGvw&_nc_ss=7a22e&oh=00_AQKCB5H1KyxQjn2GtKqBaYe8CHYsJVDGuUAieKgrXxYW9A&oe=6AB5E7F5",
    "url": "https://www.threads.com/@choi.openai/post/Ddg9uSzCvSK",
    "region": "kr"
   },
@@ -130,7 +130,7 @@
    "likes": 1,
    "cmts": 1,
    "time": 1789896689,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/814908061_18088597592407306_5410512459679065540_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk5MDI2NTAzNjYxNTQ0OTQ4NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=GAqPAQBoBjAQ7kNvwF4pg6h&_nc_oc=AdrEvwhMpSwPMIyDTqo3_zx_kHWcOSBuAU0GSCvkOmvf0PL42lgvgTdHUHQCqKJjduw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=mFyGElc9Jtgw4LYeWd2n7A&_nc_ss=7a22e&oh=00_AQKJlAWk4FVSH50cezZSYZK5U5FE1RlH2actbf_nMFjDDA&oe=6AB60B09",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/814908061_18088597592407306_5410512459679065540_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk5MDI2NTAzNjYxNTQ0OTQ4NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=GAqPAQBoBjAQ7kNvwF4pg6h&_nc_oc=AdrEvwhMpSwPMIyDTqo3_zx_kHWcOSBuAU0GSCvkOmvf0PL42lgvgTdHUHQCqKJjduw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=R-qRER0H3VVV0BcO6NzQ0A&_nc_ss=7a22e&oh=00_AQJg2b4WrSJT5RMDr4RH1mj0GwtSJfkfJFe4Rz00I-OAsA&oe=6AB60B09",
    "url": "https://www.threads.com/@aipeekme/post/DdgROjTH_uN",
    "region": "kr"
   },
@@ -177,10 +177,10 @@
   {
    "account": "choi.openai",
    "text": "세계적인 수학자 테렌스 타오(Terence Tao) 교수는 현재의 AI 가속화 속도에 대해 강력한 경고를 던졌습니다.\n\n“AI 속도를 늦춰야 합니다. 지금의 속도는 비정상적이며, 이렇게까지 빠를 이유는 전혀 없습니다.”\n\n그는 ‘조금 유용하니 10배, 100배로 확장하면 무조건 더 좋아질 것’이라는 1차원적 낙관론을 정면으로 반박했습니다.\n\n속도전 끝에 AI 생성 데이터가 범람하면 전반적인 지식의 질이 떨어지고 데이터 오염이 일어나는 심각한 역효과가 발생할 수 있습니다.\n\n타오 교수는 “그 이후에 무슨 일이 벌어질지도 모른 채 모든 것을 바꾸려 드는 우리의 태도가 놀라울 따름”이라며, 기술과 산업의 통제력을 잃기 전에 속도 조절과 체계적인 검증이 선행되어야 한다고 강조했습니다.",
-   "likes": 42,
-   "cmts": 5,
+   "likes": 44,
+   "cmts": 6,
    "time": 1789914621,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/818251072_1065370933226099_1941120053510240920_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk5MDQxNTUyMjUwMzYxMjE4MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=e0x0MepVmTUQ7kNvwG9VVIw&_nc_oc=AdrL2Pw5Jw-q9nXCXJmaUHoJoaoxWX5TcTAy4MggNu0NG-gE2iV51GkSTqHpfUPg_oA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=cMtZuZK-UQKxwsDZo14KgA&_nc_ss=7a22e&oh=00_AQJW28Ukr8f1dzElKusZ-nj3x6fdn7ODw08Rw0xNRkccMw&oe=6AB60599",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/818251072_1065370933226099_1941120053510240920_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk5MDQxNTUyMjUwMzYxMjE4MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=e0x0MepVmTUQ7kNvwG9VVIw&_nc_oc=AdrL2Pw5Jw-q9nXCXJmaUHoJoaoxWX5TcTAy4MggNu0NG-gE2iV51GkSTqHpfUPg_oA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=GmI7lKheP7Pd0U-JpXSGvw&_nc_ss=7a22e&oh=00_AQJs8xPETJXxeeJoZloOo-0kcJR3sQNctW_k-JdHfrWRlg&oe=6AB60599",
    "url": "https://www.threads.com/@choi.openai/post/DdgzcaNCFcU",
    "region": "kr"
   },
@@ -190,7 +190,7 @@
    "likes": 0,
    "cmts": 1,
    "time": 1789885893,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/817117920_18088574078407306_1543902628204970014_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk5MDE3NDQ2MDQ5NDY3ODg5Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=GvPeB_ask6AQ7kNvwF9KkpR&_nc_oc=AdozzzDl3_CjL_jLVf34qYB81QtaGfekt3vjX7Ls8-yK-LpGS3T927q5I0ErMP5JYUc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=mFyGElc9Jtgw4LYeWd2n7A&_nc_ss=7a22e&oh=00_AQI4KojMwQghWGLCdSrLqOb70t8dj1cAhqKYn5jGccWQzQ&oe=6AB5E374",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/817117920_18088574078407306_1543902628204970014_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk5MDE3NDQ2MDQ5NDY3ODg5Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=GvPeB_ask6AQ7kNvwF9KkpR&_nc_oc=AdozzzDl3_CjL_jLVf34qYB81QtaGfekt3vjX7Ls8-yK-LpGS3T927q5I0ErMP5JYUc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=R-qRER0H3VVV0BcO6NzQ0A&_nc_ss=7a22e&oh=00_AQKqTfeHY5oUc5gbyzOgSpqGG90Lx8SfSGHtMuFCt2XZ3g&oe=6AB5E374",
    "url": "https://www.threads.com/@aipeekme/post/Ddf8oftnwtt",
    "region": "kr"
   },
@@ -210,7 +210,7 @@
    "likes": 6,
    "cmts": 1,
    "time": 1789911035,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/809423006_17987944869112832_2769728771159745557_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk5MDM4NTQ0MTAxNDUyMzczNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4NS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=et5eUn9bfyIQ7kNvwEZVm6e&_nc_oc=Adpr2zWpScbLe7ozCx7XuF8oYU0zaPlaqUT3kX7AuoIsBdM7iLa2CuGxK967O_e7UvA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=cMtZuZK-UQKxwsDZo14KgA&_nc_ss=7a22e&oh=00_AQJVHUHfe7IIAYXE9BaFHcLKaLYR9dbThZ8QACuj3119tw&oe=6AB5EBC4",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/809423006_17987944869112832_2769728771159745557_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk5MDM4NTQ0MTAxNDUyMzczNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4NS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=et5eUn9bfyIQ7kNvwEZVm6e&_nc_oc=Adpr2zWpScbLe7ozCx7XuF8oYU0zaPlaqUT3kX7AuoIsBdM7iLa2CuGxK967O_e7UvA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=GmI7lKheP7Pd0U-JpXSGvw&_nc_ss=7a22e&oh=00_AQLdPhasnWHxEEmJQOl37hCG9V0cjbc3QT0PRPFkSC6kAg&oe=6AB5EBC4",
    "url": "https://www.threads.com/@choi.openai/post/Ddgsmqoj6dW",
    "region": "kr"
   }
@@ -230,7 +230,7 @@
   {
    "account": "jaemyung_lee",
    "title": "Саламатсызбы, Кыргызстан! 🇰🇷🇰🇬 #키르기스스탄 #Kyrgyzstan #кыргызстан",
-   "views": 470200,
+   "views": 470500,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ossWcFAWqdBeFM1UB9FEguDtEqARxSGQQyfuUi~tplv-tiktokx-origin.image?dr=14575&x-expires=1790100000&x-signature=f0EhjEgT8V8vd3hIbZybwEdCPC0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -241,7 +241,7 @@
   {
    "account": "jaemyung_lee",
    "title": "Ассалому алайкум, Тоҷикистон! 🇰🇷🇹🇯 #타지키스탄#Тоҷикистон",
-   "views": 236100,
+   "views": 236400,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okxPtEHAgIY0AAlC9gAoxAMiBqToaAKBiFulq~tplv-tiktokx-origin.image?dr=14575&x-expires=1790100000&x-signature=ldBBs%2BZCxoiyiq%2Ft63cm8eAmyEc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -252,7 +252,7 @@
   {
    "account": "jaemyung_lee",
    "title": "Salam aleýkum Türkmenistan! 🇰🇷🇹🇲 #투르크메니스탄 #turkmenistan #Türkmenistan",
-   "views": 207400,
+   "views": 207500,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4iB0bDrFU5kqzoDSRupABvEWftIIUEfgqMaiE~tplv-tiktokx-origin.image?dr=14575&x-expires=1790100000&x-signature=u9M4k2zhuUA5eyCNQc5%2Fxlx7IaE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -266,7 +266,7 @@
    "views": 61200,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAUOEAPEroYfNoFaeAAfZQATIAiVPvDB5WhDFE~tplv-tiktokx-origin.image?dr=14575&x-expires=1790100000&x-signature=jirEE15zUI%2BTEWBSB64jbvXAS0U%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAUOEAPEroYfNoFaeAAfZQATIAiVPvDB5WhDFE~tplv-tiktokx-origin.image?dr=14575&x-expires=1790100000&x-signature=proHafX1Ri5JTaT65GgY9XemUwE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789393470,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685386435158887688",
    "region": "kr"
@@ -318,7 +318,7 @@
   {
    "account": "jaemyung_lee",
    "title": "<초국가범죄, 반드시 뿌리 뽑겠습니다> ‘외국에 있으면 안 잡히겠지?’  그런 생각은 이제 버리십시오. 대한민국 국민을 상대로 한 범죄는 세계 어느 곳에 숨어 있든, 끝까지 추적해 처벌합니다. 대규모 보이스피싱 조직",
-   "views": 27800,
+   "views": 27900,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oU9rIZjq1EKACAAxNBVioCpiI2BAtmA28wfcPR~tplv-tiktokx-origin.image?dr=14575&x-expires=1790100000&x-signature=7Ca368Qv0YaL4sFxmzrfsih8BOA%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -340,7 +340,7 @@
   {
    "account": "tictok_ent",
    "title": "수지, 시민들의 욕을 부르는 미모 / 아누아(Anua) 포토월 더파운더즈의 글로벌 뷰티 브랜드 아누아(Anua)의 'PDRN 라인 팝업스토어' 오픈을 기념하는 포토행사가 18일 오전 서울 성동구 성수동에 위치한 올리",
-   "views": 3952,
+   "views": 3963,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ow8gANS3AmQCK2UqVEUCB50sGEQeIAFZAFArfD~tplv-tiktokx-origin.image?dr=14575&x-expires=1790100000&x-signature=ewnT6XrxCR0N5Cl5CxNceu4OzDg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -360,13 +360,13 @@
    "url": "https://www.reddit.com/r/MoralityScaling/comments/1wlh4w8/morality_of_eating_meat_infront_of_vegan/"
   },
   {
-   "sub": "popculturechat",
-   "title": "Ed Sheeran opens solo concert in Philadelphia with comments about Gaza, says what's happening is 'catastrophic and unjustifiable.'",
+   "sub": "AbsoluteUnits",
+   "title": "of a Toddler",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/amY1MmE1b2Fua3FoMQvvK78RAae7uDru41lQccaSoltbXrEmyNnODPjXEvw1.jpeg?width=640&crop=smart&auto=webp&s=258e937f4fbe90d649cf179fdb0d45098dc2db53",
-   "time": 1789864907,
-   "url": "https://www.reddit.com/r/popculturechat/comments/1wl2ixh/ed_sheeran_opens_solo_concert_in_philadelphia/"
+   "thumb": "https://external-preview.redd.it/Z3l5b3l4MnlqbHFoMWQ6r058XqH2nZwFDNINniJljIknQtrwRDCv27w9ZQgh.jpeg?width=320&crop=smart&auto=webp&s=181f27c1ece4eab039d7a30bebb15710fb19880f",
+   "time": 1789875884,
+   "url": "https://www.reddit.com/r/AbsoluteUnits/comments/1wl67vx/of_a_toddler/"
   },
   {
    "sub": "pics",
@@ -378,6 +378,15 @@
    "url": "https://www.reddit.com/r/pics/comments/1wlj82e/had_8_brain_tumors_removed_yesterday_bringing_my/"
   },
   {
+   "sub": "CFB",
+   "title": "[Postgame Thread] Ole Miss Defeats LSU 32-24",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1789875160,
+   "url": "https://www.reddit.com/r/CFB/comments/1wl5zi9/postgame_thread_ole_miss_defeats_lsu_3224/"
+  },
+  {
    "sub": "MadeMeSmile",
    "title": "You are Loved!",
    "score": 0,
@@ -387,13 +396,31 @@
    "url": "https://www.reddit.com/r/MadeMeSmile/comments/1wllfvx/you_are_loved/"
   },
   {
-   "sub": "SipsTea",
-   "title": "The biggest snowflake ever to hold office banned an entire news network from the White House because he was too afraid of one woman!",
+   "sub": "mildlyinfuriating",
+   "title": "TSA let me take a very sharp knife on a plane",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/mg5i7kpqioqh1.jpeg?width=640&crop=smart&auto=webp&s=7f7626dfdf1705475644b5a17f9e4dfb10b48394",
-   "time": 1789911797,
-   "url": "https://www.reddit.com/r/SipsTea/comments/1wlhgbt/the_biggest_snowflake_ever_to_hold_office_banned/"
+   "thumb": "https://preview.redd.it/b29a1hqhalqh1.jpeg?width=640&crop=smart&auto=webp&s=8aaa688ba6f57ca9f53d7328d7b2e09e2ec4b57b",
+   "time": 1789872703,
+   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1wl56g5/tsa_let_me_take_a_very_sharp_knife_on_a_plane/"
+  },
+  {
+   "sub": "anime",
+   "title": "Mushoku Tensei: Jobless Reincarnation Season 3 • Mushoku Tensei III: Isekai Ittara Honki Dasu - Episode 13 discussion",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1789916532,
+   "url": "https://www.reddit.com/r/anime/comments/1wljcy8/mushoku_tensei_jobless_reincarnation_season_3/"
+  },
+  {
+   "sub": "meirl",
+   "title": "Meirl",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/5cfsnbsfmpqh1.jpeg?width=640&crop=smart&auto=webp&s=d6be5c45048534c931d26b8a8eeb644fc843791f",
+   "time": 1789925148,
+   "url": "https://www.reddit.com/r/meirl/comments/1wln32i/meirl/"
   },
   {
    "sub": "PoursTea",
@@ -405,58 +432,31 @@
    "url": "https://www.reddit.com/r/PoursTea/comments/1wlkpsk/theyre_having_the_day_they_voted_for/"
   },
   {
-   "sub": "AnimalsBeingDerps",
-   "title": "Pup discovers himself on the video monitor",
+   "sub": "SipsTea",
+   "title": "Gen Alpha has already started roasting Gen Z 😂😭",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/N2Nta2xzOW9hb3FoMSh4I1cEmpq2IV1r8xGYSRcy72LBwFowuI0s4Fhj91n7.png?width=640&crop=smart&auto=webp&s=5264c5a28a466052e4fe3ca05d1322bfc9b202bc",
-   "time": 1789909185,
-   "url": "https://www.reddit.com/r/AnimalsBeingDerps/comments/1wlggx4/pup_discovers_himself_on_the_video_monitor/"
+   "thumb": "https://external-preview.redd.it/ZGhyaXU1a2l4b3FoMe-_3jAe8Al__tCJN5Qp9bUR0EaQRmysZU1KlYYLk0Fe.png?width=640&crop=smart&auto=webp&s=82ac005911fd5f2c9b66662320aac11d449cd39d",
+   "time": 1789916871,
+   "url": "https://www.reddit.com/r/SipsTea/comments/1wlji5m/gen_alpha_has_already_started_roasting_gen_z/"
   },
   {
-   "sub": "AbsoluteUnits",
-   "title": "of a Toddler",
+   "sub": "SipsTea",
+   "title": "First gameplay trailer for \"Holdout Juror Simulator.\"",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/Z3l5b3l4MnlqbHFoMWQ6r058XqH2nZwFDNINniJljIknQtrwRDCv27w9ZQgh.jpeg?width=320&crop=smart&auto=webp&s=181f27c1ece4eab039d7a30bebb15710fb19880f",
-   "time": 1789875884,
-   "url": "https://www.reddit.com/r/AbsoluteUnits/comments/1wl67vx/of_a_toddler/"
+   "thumb": "https://external-preview.redd.it/NnZhYjF4MnRibHFoMSDGuiARV02RGuODYXiqzqw8VfivVESH-wNgaU1kaHzO.png?width=640&crop=smart&auto=webp&s=91374793d67e28f587d2a1220a1105d69e598f8a",
+   "time": 1789873151,
+   "url": "https://www.reddit.com/r/SipsTea/comments/1wl5bm8/first_gameplay_trailer_for_holdout_juror_simulator/"
   },
   {
-   "sub": "cats",
-   "title": "My sweet beloved cat passed away this morning. RIP Beezy. 🐝",
+   "sub": "interestingasfuck",
+   "title": "NASA has released these new photos from the surface of Mars 🔭",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/0xtyltyd9pqh1.jpg?width=140&height=105&auto=webp&s=de8d3dda64655a2fceb2939a2f370d1963300263",
-   "time": 1789920808,
-   "url": "https://www.reddit.com/r/cats/comments/1wll6oz/my_sweet_beloved_cat_passed_away_this_morning_rip/"
-  },
-  {
-   "sub": "CFB",
-   "title": "[Postgame Thread] Ole Miss Defeats LSU 32-24",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "",
-   "time": 1789875160,
-   "url": "https://www.reddit.com/r/CFB/comments/1wl5zi9/postgame_thread_ole_miss_defeats_lsu_3224/"
-  },
-  {
-   "sub": "aww",
-   "title": "After only taking in feral kittens, I'm not used to having one this friendly and well socialized from day one. 😂❤️ I love her.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/bGpmY3M2dndvb3FoMSVLbZWAXal7QizoAnWK-rpUEEpJ2eSU8KJCobjzz6uo.png?width=320&crop=smart&auto=webp&s=772340ac3fc50cf9525435b8248650dda980e2d5",
-   "time": 1789913875,
-   "url": "https://www.reddit.com/r/aww/comments/1wlia8k/after_only_taking_in_feral_kittens_im_not_used_to/"
-  },
-  {
-   "sub": "mildlyinfuriating",
-   "title": "TSA let me take a very sharp knife on a plane",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/b29a1hqhalqh1.jpeg?width=640&crop=smart&auto=webp&s=8aaa688ba6f57ca9f53d7328d7b2e09e2ec4b57b",
-   "time": 1789872703,
-   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1wl56g5/tsa_let_me_take_a_very_sharp_knife_on_a_plane/"
+   "thumb": "https://preview.redd.it/hi7kztxgvmqh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=a3a72cccfaf54de7dd379f0d7c87932bc75d1a34",
+   "time": 1789891868,
+   "url": "https://www.reddit.com/r/interestingasfuck/comments/1wlb5ct/nasa_has_released_these_new_photos_from_the/"
   }
  ],
  "disaster": [],
@@ -478,10 +478,10 @@
   },
   "why": {},
   "landing": {
-   "at": "2026-09-21T02:34:59",
+   "at": "2026-09-21T03:01:21",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-09-21T03:01:18.811688+09:00"
+ "updated": "2026-09-21T03:31:15.054278+09:00"
 }
