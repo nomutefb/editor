@@ -15,6 +15,56 @@
  "insta": [],
  "threads": [
   {
+   "account": "daily_ai_star",
+   "text": "다만 고객이 직접 만든 이름은 개인정보 보호를 위해 보고서에서 `other`로 묶입니다. MCP 서버도 실제 도구 호출 횟수가 아니라 연결·재연결 시도 횟수를 셉니다.\n\n그래서 이 지표는 생산성 점수라기보다, 팀이 어떤 에이전트 기능에 의존하기 시작했는지 보여주는 운영 기록에 가깝습니다. 많이 쓰는 도구와 실제로 가치가 있는 도구가 같은지는 별도로 확인해야 합니다 ⭐\n\nhttps://github.blog/changelog/2026-09-17-agentic-cli-customizations-now-in-the-usage-metrics-api/",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1789870400,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdffFtkmVEt",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
+   "text": "GitHub Copilot CLI가 9월 17일 에이전트 커스터마이징 사용량을 API 지표에 넣었습니다.\n\n이제 기업·조직 관리자는 skills, custom agents, MCP 서버, slash commands, plugins가 얼마나 쓰였는지 볼 수 있습니다. 각 항목은 최대 5개까지 상위 사용량과 호출 횟수를 보여주고, 서로 다른 항목의 개수도 따로 집계합니다.\n\n에이전트 도입의 측정 기준이 모델 사용량에서 작업을 구성하는 도구의 사용 패턴으로 이동했습니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1789870390,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdffEyFGX_N",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "3/ Jev가 교통 상황을 보고 주행 행동을 결정하는 Tesla FSD 형태의 자율주행 시뮬레이션이 만들어졌습니다.\n\n1시간 이내에 구현했으며, Jev가 각 행동의 선택 확률까지 반환해 주행 판단에 활용합니다.\n\nx@jpschroeder",
+   "likes": 3,
+   "cmts": 1,
+   "time": 1789870213,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/818785200_29101161139490543_1673121950937647360_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk5MDAzNzk4MzM3MDUyOTk3OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=OOgVb3pmmMcQ7kNvwHNmneR&_nc_oc=Adp4M2SZ6ii7g_aWUJryKK7uTeasmPoLHKoHfENlcojVMLjQCmHiPn5KoOET99NiEIo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=I_BPlrlpTk9jRbHTnPVL0A&_nc_ss=7a22e&oh=00_AQKmtS_1Ui8bFj5QT4v02rSAAo63HYzW_kmaEHulSgyhMg&oe=6AB523BC",
+   "url": "https://www.threads.com/@choi.openai/post/DdfdmffHcy7",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "2/ Jev로 League of Legends 경기의 승리 확률과 영향력이 큰 선수, 역전 가능성을 실시간으로 분석하는 시스템이 만들어졌습니다.\n\n매초 전체 게임 상태를 분석해 약 280ms 만에 판단하며, 한 경기 약 2,000회 호출에 비용은 0.20달러였습니다.\n\nx@filicroval",
+   "likes": 2,
+   "cmts": 1,
+   "time": 1789870205,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/796640980_1624177482448524_3799819365808184856_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk5MDAzNzMwMTg3ODY3MzAyMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=hI5RkQ4egoUQ7kNvwHPkTD2&_nc_oc=AdqF7dxt9AlKYUFhjMzzVh-lVh9bpKCVpkJRm0LLpY3YlYDqWllhn0-1ixrt7DsnNBU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=I_BPlrlpTk9jRbHTnPVL0A&_nc_ss=7a22e&oh=00_AQInkVYo4qRHkFPfOqhKx47ugpH8cqd-mAJIwH8Vvcqmpg&oe=6AB529BD",
+   "url": "https://www.threads.com/@choi.openai/post/DdfdckzCU58",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "1/ Jev로 말하는 내용과 현재 입은 옷을 바탕으로 옷장에서 다음 코디를 골라주는 가상 피팅 사례가 공개됐습니다.\n\n옷에 저장된 메타데이터를 활용해 약 620ms마다 코디를 결정했으며, 결정당 비용은 0.0011달러였습니다.\n\nx@nailthy62",
+   "likes": 12,
+   "cmts": 1,
+   "time": 1789870196,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/818479231_2113567679521249_3396981603553012050_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk5MDAzNjgxNjM4OTI5Mzc5Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=-N1ToxhnEGMQ7kNvwEFaRUa&_nc_oc=AdpQxlwspoi5bkXlapZiQWxtwBUJmM6OWLNKjYI3aIGQVkzncAbZaQKcz76_9aYvVBU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=I_BPlrlpTk9jRbHTnPVL0A&_nc_ss=7a22e&oh=00_AQL61mw1ZQzRKI96wfDacx8PhliTYyFWaKZIpG9deSj9Jg&oe=6AB50586",
+   "url": "https://www.threads.com/@choi.openai/post/DdfdVgpnUbg",
+   "region": "kr"
+  },
+  {
    "account": "aipeekme",
    "text": "🔗 원문·자세히 보기\nhttps://huggingface.co/XingChen-AGI/Xing4.0-29B-A4B",
    "likes": 0,
@@ -30,28 +80,8 @@
    "likes": 0,
    "cmts": 1,
    "time": 1789867878,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/794958756_18088526891407306_4343574207132121849_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk5MDAyMzMzNDMxOTM1MTMyNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=o9aopxiPgn8Q7kNvwHvUxCU&_nc_oc=AdqKKhSuToEQ3y8N8ACt1uUVWTbxpFOR2JII3hlMzvlVQJr9IotVgMulcPaZHRSvhVc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=3rW6RmC_QWbib0hESaz30Q&_nc_ss=7a22e&oh=00_AQJhN027Yn2CDVIAdPuHorsliqrsN-PiAof4_IQr81jJQA&oe=6AB500C2",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/794958756_18088526891407306_4343574207132121849_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk5MDAyMzMzNDMxOTM1MTMyNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMiJ9&_nc_ohc=o9aopxiPgn8Q7kNvwHvUxCU&_nc_oc=AdqKKhSuToEQ3y8N8ACt1uUVWTbxpFOR2JII3hlMzvlVQJr9IotVgMulcPaZHRSvhVc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=iGZqAUI75DxapeQfALskow&_nc_ss=7a22e&oh=00_AQIkvPw7PaVLqtTQigA3qjqLAorwaMCJxuJMzECdl_ms1A&oe=6AB500C2",
    "url": "https://www.threads.com/@aipeekme/post/DdfaRUfn-Yc",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "주소 :\nhttps://robbietilton.com/compositor",
-   "likes": 13,
-   "cmts": 1,
-   "time": 1789866026,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DdfWwdcDKMt",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "무료 포토샵 떳다!!\n\n포토샵 구독료가 아까워 직접 이미지 편집기를 만들어버린 개발자가 있습니다.\n\nRobbie Tilton이 Photoshop과 비슷한 이미지 편집기 Compositor를 무료 오픈소스로 공개했습니다.\n\n이미지 합성에 필요한 기능들을 담았는데 앱 용량은 12MB에 불과합니다.\n\n처음에는 본인이 Adobe 구독을 끊기 위해 만들었고, GPT-6 Astra와 기능을 설계하며 개발했다고 하는데요.\n\nAI가 아직 픽셀 단위의 세밀한 편집을 완전히 대신하지 못하는 만큼, 이런 작고 무료인 편집 도구가 오히려 필요한 자리를 채우고 있습니다.",
-   "likes": 106,
-   "cmts": 6,
-   "time": 1789866019,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/808847496_997990623311212_4597821637175177959_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&ig_cache_key=Mzk5MDAwNzgyMDY2OTcyMDUzMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=UgWv_rhFqycQ7kNvwEoSYpF&_nc_oc=AdqG4GiIbN60432cxLLXafT1HH8zBKghln07Jd9clhIfwVd03nwygHtk2KCiAMSrfrM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=rindk6f-YnnB5eqYHpsdlw&_nc_ss=7a22e&oh=00_AQI1wtE_4nqAWoQcNOeAr70KG6budBphST3OG1b7pi7O6w&oe=6AB5121F",
-   "url": "https://www.threads.com/@choi.openai/post/DdfWvkSDJfU",
    "region": "kr"
   },
   {
@@ -65,6 +95,46 @@
    "region": "kr"
   },
   {
+   "account": "aipeekme",
+   "text": "🔗 원문·출처\nhttps://github.com/zenbu-labs/terminal-browser/tree/main/claude-code-plugin",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1789860980,
+   "thumb": "",
+   "url": "https://www.threads.com/@aipeekme/post/DdfNH2ynzwH",
+   "region": "kr"
+  },
+  {
+   "account": "kopp",
+   "text": "new components i made this week",
+   "likes": 422,
+   "cmts": 12,
+   "time": 1789817013,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/807684740_2292473014631816_657212440640914747_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk4OTU5NTUyNDMxOTE2Nzg2Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=vJ3KujaJUHwQ7kNvwFQqOfK&_nc_oc=Adq2T7rjlRcN_TufeSOvpLw0mTfc2bJFINI7_c8aimC6hVE1jAyc81Q_l8Dbpc4_ARU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=lSB2nu1927RminRzbu_yYg&_nc_ss=7a22e&oh=00_AQIrI1d0W0t_UplBY7zxaRhEEme2YxkyxWvUaK0cBVE7Zw&oe=6AB50ACC",
+   "url": "https://www.threads.com/@kopp/post/Ddd5Q1gDgvB",
+   "region": "kr"
+  },
+  {
+   "account": "takepage_",
+   "text": "오늘은 친구 만나서 aside 영업하고\n취업준비 할 수 있게 에이전트 짜줌\n\nAI라고는 채팅만 이용하거나 자소서saas 이런것만\n쓰다보니 프로젝트 개념부터 이해시키는데 오래걸림 ㅠ\n\n그래도 신세계라며 좋아하니 보람차네요잉",
+   "likes": 2,
+   "cmts": 0,
+   "time": 1789804985,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/814925765_17937476604362958_7055430953537419176_n.webp?stp=dst-webp_s640x640_sh2.08&_nc_cat=101&ig_cache_key=Mzk4OTQ5NTgyODA1NDIxNDUzMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjk5Mi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=0NTR_zh2wTsQ7kNvwEEPjS5&_nc_oc=AdrPupuMu6UncpcHamhGA6gLKYNAolPShBHjOPnW1P4yqgKCANfLn6f3rzowxPw9ffE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=hX9gqjg-1tDM3rtnBcoyvw&_nc_ss=7a22e&oh=00_AQLDyAsRGfkvNyioyM9esdV-jCgOo2SzAi1kT4n_bVn2tA&oe=6AB5293A",
+   "url": "https://www.threads.com/@takepage_/post/DddiVGAEweD",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "Jev가 출시된지 겨우 4일밖에 지나지 않았습니다.\n\n실시간 가상 피팅부터 회계, 로봇팔 제어, 게임 레벨 생성까지 별별 것들을 다 시도하고 있는데요.\n\nJev로 만든 놀라운 사례 20가지를 정리했습니다🧵",
+   "likes": 35,
+   "cmts": 20,
+   "time": 1789870191,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/Ddfes41D9DE",
+   "region": "kr"
+  },
+  {
    "account": "daily_ai_star",
    "text": "npm이 2027년 1월 직접 배포 토큰을 없애는 방향으로 바뀌고 있습니다.\n\n9월 18일 GitHub는 자동화 워크플로가 패키지 버전을 바로 배포하지 못하게 하는 Read and write (stage only) 토큰을 공개했습니다. 워크플로는 `npm stage publish`로 버전을 올리고, 메인테이너가 2FA로 승인해야 합니다.\n\n이 토큰으로 `npm publish`를 실행하면 거부됩니다. 기존 토큰은 그대로 유지되므로, 이번 변경은 강제가 아니라 마이그레이션 경로입니다.\n\n패키지 배포의 기준이 “CI에 쓰기 권한을 줄 것인가”에서 “CI가 준비만 하고 사람이 최종 승인할 것인가”로 이동했습니다.",
    "likes": 0,
@@ -72,6 +142,26 @@
    "time": 1789864591,
    "thumb": "",
    "url": "https://www.threads.com/@daily_ai_star/post/DdfUAngmQFw",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "젠부 랩스는 터미널 브라우저를 클로드 코드에서 실행할 수 있는 플러그인을 공개했습니다.\n이 플러그인은 키티 그래픽스 프로토콜을 사용해 실제 브라우저가 생성한 픽셀을 터미널 안의 텍스트 위치에 이미지 형태로 렌더링하는 도구입니다.\n클로드 코드의 새로운 함수 훅스 API를 활용해 터미널의 TTY로 메모리 위치의 픽셀 정보를 초당 여러 번 전달함으로써 일반 그래픽 응용 프로그램처럼 반응성 있게 작동합니다.\n설정 파일에 환경 변수를 추가한 뒤 마켓플레이스를 통해 플러그인을 설치하는 방식입니다.\n클로드 코드 안에서 슬래시 브라우저 명령어를 입력하면 브라우저가 열립니다.\n다른 클로드 코드 플러그인 안에서 API를 사용하여 프로그래밍 방식으로 브라우저를 열고 URL을 로드할 수도 있으며, 이를 통해 분할 창에서 tldraw를 열거나 현재 작업 중인 브랜치와 연관된 PR을 여는 등의 유용한 플러그인을 구축할 수 있습니다.\n현재는 실험 단계이며 일부 알려진 제한 사항이 존재합니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1789860967,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/818016091_3650317931811304_3812175046753502182_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&ig_cache_key=Mzk4OTk2NTIyMzkxNDMyOTQ2Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=lIUqtP3gE1YQ7kNvwF8fxFS&_nc_oc=Adq72kAg64ih4H0eJrEHdLFu1qUacdNjW7LuJrdG167BogNlK44kz5ZWN06is3Y97jw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=iGZqAUI75DxapeQfALskow&_nc_ss=7a22e&oh=00_AQLZQNf3hHcDI1hppt6ej99Sv_k929S7Os_rzoRtQwlYcQ&oe=6AB51891",
+   "url": "https://www.threads.com/@aipeekme/post/DdfNDs9k1V7",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "주소 :\nhttps://robbietilton.com/compositor",
+   "likes": 14,
+   "cmts": 1,
+   "time": 1789866026,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DdfWwdcDKMt",
    "region": "kr"
   },
   {
@@ -86,42 +176,22 @@
   },
   {
    "account": "aipeekme",
-   "text": "🔗 원문·출처\nhttps://github.com/zenbu-labs/terminal-browser/tree/main/claude-code-plugin",
+   "text": "🔗 원문·자세히 보기\nhttps://github.com/JailbrokenAI/wallbreaker",
    "likes": 0,
    "cmts": 0,
-   "time": 1789860980,
+   "time": 1789860362,
    "thumb": "",
-   "url": "https://www.threads.com/@aipeekme/post/DdfNH2ynzwH",
+   "url": "https://www.threads.com/@aipeekme/post/DdfL8ZnH8dW",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "깃허브 :\nhttps://github.com/zenbu-labs/terminal-browser/tree/main/claude-code-plugin",
-   "likes": 8,
-   "cmts": 0,
-   "time": 1789860672,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DdfMi7QiPFa",
-   "region": "kr"
-  },
-  {
-   "account": "kopp",
-   "text": "new components i made this week",
-   "likes": 411,
-   "cmts": 12,
-   "time": 1789817013,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/807684740_2292473014631816_657212440640914747_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk4OTU5NTUyNDMxOTE2Nzg2Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=vJ3KujaJUHwQ7kNvwFQqOfK&_nc_oc=Adq2T7rjlRcN_TufeSOvpLw0mTfc2bJFINI7_c8aimC6hVE1jAyc81Q_l8Dbpc4_ARU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=iko6KZ9Zw6zV-8urBrR71g&_nc_ss=7a22e&oh=00_AQK_gPI7FCHbas93DvuBAAyl4wGqsBMR5VJKbIedPythCw&oe=6AB50ACC",
-   "url": "https://www.threads.com/@kopp/post/Ddd5Q1gDgvB",
-   "region": "kr"
-  },
-  {
-   "account": "takepage_",
-   "text": "오늘은 친구 만나서 aside 영업하고\n취업준비 할 수 있게 에이전트 짜줌\n\nAI라고는 채팅만 이용하거나 자소서saas 이런것만\n쓰다보니 프로젝트 개념부터 이해시키는데 오래걸림 ㅠ\n\n그래도 신세계라며 좋아하니 보람차네요잉",
-   "likes": 2,
-   "cmts": 0,
-   "time": 1789804985,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/814925765_17937476604362958_7055430953537419176_n.webp?stp=dst-webp_s640x640_sh2.08&_nc_cat=101&ig_cache_key=Mzk4OTQ5NTgyODA1NDIxNDUzMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjk5Mi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=0NTR_zh2wTsQ7kNvwEEPjS5&_nc_oc=AdrPupuMu6UncpcHamhGA6gLKYNAolPShBHjOPnW1P4yqgKCANfLn6f3rzowxPw9ffE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=WMl9TQQvIsv8HkwJi9apxw&_nc_ss=7a22e&oh=00_AQIVN8f-6q_y8uS2yxKalnZNPq8LjruocxmlccoLRhTDuQ&oe=6AB5293A",
-   "url": "https://www.threads.com/@takepage_/post/DddiVGAEweD",
+   "text": "무료 포토샵 떳다!!\n\n포토샵 구독료가 아까워 직접 이미지 편집기를 만들어버린 개발자가 있습니다.\n\nRobbie Tilton이 Photoshop과 비슷한 이미지 편집기 Compositor를 무료 오픈소스로 공개했습니다.\n\n이미지 합성에 필요한 기능들을 담았는데 앱 용량은 12MB에 불과합니다.\n\n처음에는 본인이 Adobe 구독을 끊기 위해 만들었고, GPT-6 Astra와 기능을 설계하며 개발했다고 하는데요.\n\nAI가 아직 픽셀 단위의 세밀한 편집을 완전히 대신하지 못하는 만큼, 이런 작고 무료인 편집 도구가 오히려 필요한 자리를 채우고 있습니다.",
+   "likes": 143,
+   "cmts": 10,
+   "time": 1789866019,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/808847496_997990623311212_4597821637175177959_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&ig_cache_key=Mzk5MDAwNzgyMDY2OTcyMDUzMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=UgWv_rhFqycQ7kNvwEoSYpF&_nc_oc=AdqG4GiIbN60432cxLLXafT1HH8zBKghln07Jd9clhIfwVd03nwygHtk2KCiAMSrfrM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=I_BPlrlpTk9jRbHTnPVL0A&_nc_ss=7a22e&oh=00_AQLZgroIz3SmCg8EIwwhw0pl2JrrdGiOvgAPMzPAYiOF2Q&oe=6AB5121F",
+   "url": "https://www.threads.com/@choi.openai/post/DdfWvkSDJfU",
    "region": "kr"
   },
   {
@@ -136,90 +206,130 @@
   },
   {
    "account": "aipeekme",
-   "text": "젠부 랩스는 터미널 브라우저를 클로드 코드에서 실행할 수 있는 플러그인을 공개했습니다.\n이 플러그인은 키티 그래픽스 프로토콜을 사용해 실제 브라우저가 생성한 픽셀을 터미널 안의 텍스트 위치에 이미지 형태로 렌더링하는 도구입니다.\n클로드 코드의 새로운 함수 훅스 API를 활용해 터미널의 TTY로 메모리 위치의 픽셀 정보를 초당 여러 번 전달함으로써 일반 그래픽 응용 프로그램처럼 반응성 있게 작동합니다.\n설정 파일에 환경 변수를 추가한 뒤 마켓플레이스를 통해 플러그인을 설치하는 방식입니다.\n클로드 코드 안에서 슬래시 브라우저 명령어를 입력하면 브라우저가 열립니다.\n다른 클로드 코드 플러그인 안에서 API를 사용하여 프로그래밍 방식으로 브라우저를 열고 URL을 로드할 수도 있으며, 이를 통해 분할 창에서 tldraw를 열거나 현재 작업 중인 브랜치와 연관된 PR을 여는 등의 유용한 플러그인을 구축할 수 있습니다.\n현재는 실험 단계이며 일부 알려진 제한 사항이 존재합니다.",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1789860967,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/818016091_3650317931811304_3812175046753502182_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&ig_cache_key=Mzk4OTk2NTIyMzkxNDMyOTQ2Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=lIUqtP3gE1YQ7kNvwF8fxFS&_nc_oc=Adq72kAg64ih4H0eJrEHdLFu1qUacdNjW7LuJrdG167BogNlK44kz5ZWN06is3Y97jw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=3rW6RmC_QWbib0hESaz30Q&_nc_ss=7a22e&oh=00_AQIqxFUe8oho-ymtiYmj6oREGdwQLZMnL9sALE_7li74Kg&oe=6AB51891",
-   "url": "https://www.threads.com/@aipeekme/post/DdfNDs9k1V7",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "이제 Claude Code 터미널 안에서 웹 브라우저까지 직접 열 수 있습니다.\n\nZenbu Labs가 terminal-browser용 Claude Code 플러그인을 공개했는데요.\n개발자가 터미널을 벗어나지 않고 웹페이지를 직접 확인하거나 브라우저 작업을 진행할 수 있습니다.\n\nterminal-browser CLI를 통한 브라우저 제어도 지원하며, Claude Chrome 확장 프로그램 연동도 준비 중이라고 합니다.",
-   "likes": 47,
-   "cmts": 3,
-   "time": 1789860655,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/814754744_27959670050381294_357281883571455332_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk4OTk2MjgyMzk1ODAzNDE0MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=f51--sHHWdcQ7kNvwHCBQtm&_nc_oc=AdouXSTc7xZKbskfIh1fSwspdoXw57fqkkYtsUC_uFgBlBi_tStHFpuycMGDHpCZtq4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=rindk6f-YnnB5eqYHpsdlw&_nc_ss=7a22e&oh=00_AQI24x5hPMzTSrBcR5lJS9giDtNRk_R3SXplaVXSlVO6RQ&oe=6AB4FA88",
-   "url": "https://www.threads.com/@choi.openai/post/DdfMgx1CHbc",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "1/ affaan-m/ECC — 하루 +958⭐\n\nClaude Code, Codex, OpenCode, Cursor 등에 skills·agents·commands·hooks를 배포하는 에이전트 작업 시스템입니다.\n\n68개 에이전트, 292개 스킬, 94개 명령을 제공합니다. 누적 별 26.2만, 포크 3.93만 개입니다.\n\nhttps://www.kyleyu.dev/posts/2026-09-19-github-trending-daily/",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1789862423,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdfP4Bkk_WK",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
-   "text": "🔗 원문·자세히 보기\nhttps://github.com/JailbrokenAI/wallbreaker",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1789860362,
-   "thumb": "",
-   "url": "https://www.threads.com/@aipeekme/post/DdfL8ZnH8dW",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "풀영상 :\nhttps://www.youtube.com/watch?v=4qV5WWgFTS8",
-   "likes": 1,
-   "cmts": 0,
-   "time": 1789855232,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DdfCK3IjhxY",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "ECC가 9월 19일 깃허브 트렌딩 4위에 올랐습니다.\n\n하루 +958개로, 새로 진입한 세 레포 중 증가폭이 가장 컸습니다. 오늘의 3개: affaan-m/ECC · TencentCloud/Octop · Fission-AI/OpenSpec\n\n별이 붙는 곳이 에이전트 모델보다 에이전트의 작업 규칙과 실행 환경으로 내려가고 있습니다. ⭐",
-   "likes": 0,
-   "cmts": 3,
-   "time": 1789862412,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdfP2mlEw9A",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
    "text": "깃허브에 대규모 언어 모델 레드팀 테스트를 위한 터미널 도구 월브레이커가 공개됐습니다.\n클로드 코드 형태의 인터페이스를 갖추고 있으며 반복적으로 도구를 호출하며 추론을 수행합니다.\n백엔드가 유연하게 설정되어 OpenRouter나 Z.AI GLM 코딩 플랜 등 다양한 호환 API를 지원합니다.\n내부에는 파셀통 변환 엔진과 L1B3RT4S 탈옥 라이브러리 등이 포함되어 있습니다.\n자동 공격 루프와 멀티모달 이미지 편집 공격 채널도 함께 제공됩니다.\n다양한 자동화 공격 기법을 하나의 터미널 환경에서 통합적으로 다룰 수 있다는 점이 눈에 띕니다.\n실제 보안 점검 과정에서 얼마나 복잡한 시나리오를 소화할 수 있을지 궁금합니다.\n도구 자체의 확장성보다 실제 공격 성공률을 높이는 정교함이 더 중요할 것 같습니다.\n\n📷 사진 출처: github.com",
    "likes": 0,
    "cmts": 1,
    "time": 1789860352,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/814875051_18088514879407306_8775305029135261421_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk4OTk2MDIxMTg0NzY5MDE4Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=v6_4TeR80IEQ7kNvwFrKLc3&_nc_oc=AdqJ6hDbo5vPNCxmMZHEYAvIDcJFE8VY1NZn8lCMaslV7ONJvzDf61iw9rPcwRhCF8E&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=3rW6RmC_QWbib0hESaz30Q&_nc_ss=7a22e&oh=00_AQLyYOSby8BhpvQupJeefYk5e-_GkuNvW9FI4HgjzEdBYA&oe=6AB50826",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/814875051_18088514879407306_8775305029135261421_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk4OTk2MDIxMTg0NzY5MDE4Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMiJ9&_nc_ohc=v6_4TeR80IEQ7kNvwFrKLc3&_nc_oc=AdqJ6hDbo5vPNCxmMZHEYAvIDcJFE8VY1NZn8lCMaslV7ONJvzDf61iw9rPcwRhCF8E&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=iGZqAUI75DxapeQfALskow&_nc_ss=7a22e&oh=00_AQLNQj_hhRP1QApS4_Z7T-e5tc7VNlFE-JdeCGkO66T3hw&oe=6AB50826",
    "url": "https://www.threads.com/@aipeekme/post/DdfL6xHH7fL",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "영화 ‘빅쇼트’의 실제 주인공인 유명 투자자 스티브 아이스먼(Steve Eisman)은 최근 실리콘밸리가 주장하는 AI 종말론과 AGI 담론을 향해 “완전한 헛소리”라고 일축했습니다.\n\n그는 AI가 범용인공지능(AGI)에 도달했다는 어떤 증거도 없으며, 터미네이터 같은 위협은 허상에 불과하다고 지적했습니다.\n현재 벌어지는 본질은 ‘기술 발전의 한계’와 ‘빅테크의 독점 욕망’이라는 분석입니다.\n\n오픈 가중치(오픈소스) 모델이 빠르게 시장 점유율을 잠식하자, 자체 해자(Moat)가 사라진 폐쇄형 AI 기업들이 극도의 불안감에 빠졌다는 것입니다.\n그는 “기업들이 인위적으로 위기를 조장해 규제를 만들고, 이를 입맛대로 조작해 자신들만의 복점(Duopoly) 해자를 구축하려 한다”고 비판했습니다.\n\n즉, AI 실존적 위협론의 실체는 인류 구원이 아닌, 오픈소스와의 경쟁을 차단하고 시장 지배력을 유지하려는 빅테크의 영악한 경제적 전략이라는 꼬집음입니다.",
-   "likes": 31,
-   "cmts": 4,
-   "time": 1789855223,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/815061361_2211239743149261_503179343732581219_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk4OTkxNzI2MDg3MzM1Nzk2Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=VCHWLgBEHwcQ7kNvwGw1xlN&_nc_oc=Adoe_IPW1SOEuMQ1ho3v3LKNteixHRVJ5AyWA0BbRS6e0lrzF2q5DGnifAOhc8oK8MM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=rindk6f-YnnB5eqYHpsdlw&_nc_ss=7a22e&oh=00_AQJ6fHY5rRarT48HLbl3hEYu_I031vufHBBDs15zM8Gjhg&oe=6AB50F9D",
-   "url": "https://www.threads.com/@choi.openai/post/DdfCJv5jlqL",
    "region": "kr"
   }
  ],
  "tiktok": [
   {
+   "account": "jaemyung_lee",
+   "title": "Aux Champs-Élysées #이재명 #France #macron #fyp",
+   "views": 632200,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0CGAI6ooFCAPECAEqED63ffIARmgNxjBUg0zR~tplv-tiktokx-origin.image?dr=14575&x-expires=1790042400&x-signature=d3OpqpCRoTFimzf9eLHoaJ%2FZVfU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1788879730,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7683179938026900754",
+   "region": "kr"
+  },
+  {
+   "account": "jaemyung_lee",
+   "title": "Саламатсызбы, Кыргызстан! 🇰🇷🇰🇬 #키르기스스탄 #Kyrgyzstan #кыргызстан",
+   "views": 450300,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ossWcFAWqdBeFM1UB9FEguDtEqARxSGQQyfuUi~tplv-tiktokx-origin.image?dr=14575&x-expires=1790042400&x-signature=Z4IO20hgpo%2BDI%2FBpZL2zyslhcto%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1789537496,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7686005021397273863",
+   "region": "kr"
+  },
+  {
+   "account": "jaemyung_lee",
+   "title": "Ассалому алайкум, Тоҷикистон! 🇰🇷🇹🇯 #타지키스탄#Тоҷикистон",
+   "views": 222200,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okxPtEHAgIY0AAlC9gAoxAMiBqToaAKBiFulq~tplv-tiktokx-origin.image?dr=14575&x-expires=1790042400&x-signature=IPahho9Tk7TtvJg8sEzulwI8K3I%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1789536283,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7685999812356934930",
+   "region": "kr"
+  },
+  {
+   "account": "jaemyung_lee",
+   "title": "Salam aleýkum Türkmenistan! 🇰🇷🇹🇲 #투르크메니스탄 #turkmenistan #Türkmenistan",
+   "views": 203400,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4iB0bDrFU5kqzoDSRupABvEWftIIUEfgqMaiE~tplv-tiktokx-origin.image?dr=14575&x-expires=1790042400&x-signature=B6UfLSaOkdWJeatNuahEh%2FljGGk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1789447594,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7685618898128915730",
+   "region": "kr"
+  },
+  {
+   "account": "jaemyung_lee",
+   "title": "Assalomu alaykum, O‘zbekiston!🇺🇿🇰🇷 #이재명 #우즈베키스탄 #Uzbekistan",
+   "views": 59200,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAUOEAPEroYfNoFaeAAfZQATIAiVPvDB5WhDFE~tplv-tiktokx-origin.image?dr=14575&x-expires=1790042400&x-signature=aTS4pkS4thpyECVMoKa7F0B9w%2F8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1789393470,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7685386435158887688",
+   "region": "kr"
+  },
+  {
+   "account": "jaemyung_lee",
+   "title": "빛으로 담아내는, 제7의 예술🎥",
+   "views": 44800,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oMMIdnnHDI6bTifTAPFDcDRbtBfWqzBIEDgvEo~tplv-tiktokx-origin.image?dr=14575&x-expires=1790042400&x-signature=mNZewzrutQBOSMpVZ%2FXh338lZWA%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1789031851,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7683833293816614151",
+   "region": "kr"
+  },
+  {
+   "account": "jaemyung_lee",
+   "title": "새로운 영감과 끝없는 도전을 위해 🇰🇷🇫🇷 뤼미에르 서밋 레디, 액션 #Korea #France #Lumiere",
+   "views": 42700,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIqB6INciK7CI3iw10LAp5vfZO6IAlCTdIAI06~tplv-tiktokx-origin.image?dr=14575&x-expires=1790042400&x-signature=M9raR6wIj1GdVFuW3o5GMNe7elA%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1788733294,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7682551001663982855",
+   "region": "kr"
+  },
+  {
+   "account": "jaemyung_lee",
+   "title": "Bonjour, Lumière #France #lumière #fyp",
+   "views": 41400,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okJSEtbnglnRAQHtqOQ1UIFeETBEUtfhBKGkDV~tplv-tiktokx-origin.image?dr=14575&x-expires=1790042400&x-signature=fc3KfEbZj5aLAZ0XX7%2BpWILtIQU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1788795259,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7682817137672555794",
+   "region": "kr"
+  },
+  {
+   "account": "jaemyung_lee",
+   "title": "Қош келдіңіз, Қазақстан!🇰🇿🇰🇷 #이재명 #대통령 #카자흐스탄 #Қазақстан #Kazakhstan",
+   "views": 37800,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4AeKl0yGICLqpfFAVLAoFr7LEeoVADEIKAdEU~tplv-tiktokx-origin.image?dr=14575&x-expires=1790042400&x-signature=eFr209e%2FVw2DC4Ss6KiWPFdZ%2FWE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1789473921,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7685731970453638407",
+   "region": "kr"
+  },
+  {
+   "account": "jaemyung_lee",
+   "title": "<초국가범죄, 반드시 뿌리 뽑겠습니다> ‘외국에 있으면 안 잡히겠지?’  그런 생각은 이제 버리십시오. 대한민국 국민을 상대로 한 범죄는 세계 어느 곳에 숨어 있든, 끝까지 추적해 처벌합니다. 대규모 보이스피싱 조직",
+   "views": 25300,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oU9rIZjq1EKACAAxNBVioCpiI2BAtmA28wfcPR~tplv-tiktokx-origin.image?dr=14575&x-expires=1790042400&x-signature=UfIbYzsnu9h0lWI9px65%2F074PBQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1789605105,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7686295400835239175",
+   "region": "kr"
+  },
+  {
    "account": "tictok_ent",
    "title": "정수정, 시선 사로잡는 냉미모 / 랄프 로렌(RALPH LAUREN) 이벤트 포토콜 세계적으로 찬사를 받은 패션 아이콘 랄프 로렌의 삶을 조명한 HBO 다큐멘터리 ‘베리 랄프(Very Ralph)’의 스크리닝 이벤트",
-   "views": 4251,
+   "views": 4254,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okLBFiZBwYABkaDifA1KAAAwEgpiSVITJUnCFK~tplv-tiktokx-origin.image?dr=14575&x-expires=1790042400&x-signature=BRy4Ds0VN%2Fbw%2FDphpluvOdKQKv0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
@@ -230,100 +340,12 @@
   {
    "account": "tictok_ent",
    "title": "수지, 시민들의 욕을 부르는 미모 / 아누아(Anua) 포토월 더파운더즈의 글로벌 뷰티 브랜드 아누아(Anua)의 'PDRN 라인 팝업스토어' 오픈을 기념하는 포토행사가 18일 오전 서울 성동구 성수동에 위치한 올리",
-   "views": 3256,
+   "views": 3266,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ow8gANS3AmQCK2UqVEUCB50sGEQeIAFZAFArfD~tplv-tiktokx-origin.image?dr=14575&x-expires=1790042400&x-signature=UxCeTzQJvmjl6UHILalBEanygGc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1789699186,
    "url": "https://www.tiktok.com/@tictok_ent/video/7686699475406015762",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "트와이스(twice) 나연, 청담동 밝힌 러블리 미모 / 로카(ROCCA) 포토월 다미아니 그룹(Damiani Group) 산하의 이탈리아 럭셔리 주얼리 & 워치 멀티브랜드 체인 ‘로카(ROCCA)’의 국내 첫 플래",
-   "views": 1540,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0FxEzEVDAAIkCjkAIj3eA7AtzsGWLe7hoWDfI~tplv-tiktokx-origin.image?dr=14575&x-expires=1790042400&x-signature=ABmr0%2BcAA7%2FsyFqsd2f0bdwm8Zk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1789726612,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7686817268889636103",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "이진욱, 댄디한 매력 물씬 / 랄프 로렌(RALPH LAUREN) 이벤트 포토콜 세계적으로 찬사를 받은 패션 아이콘 랄프 로렌의 삶을 조명한 HBO 다큐멘터리 ‘베리 랄프(Very Ralph)’의 스크리닝 이벤트가 ",
-   "views": 1196,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oYUAWEIlinGArdAloeAILeSDenoAFVQEWDIvbK~tplv-tiktokx-origin.image?dr=14575&x-expires=1790042400&x-signature=OE1kVkbxRO7rYakuuG41ljXrb6U%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1789465966,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7685697804781620487",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "제로베이스원(ZEROBASEONE) 성한빈, 기억에 남을 눈부신 비주얼 / 원더바스(WONDERBATH) 팝업스토어 CSA 코스믹의 스킨케어 브랜드 원더바스(WONDERBATH)가 신제품 슬라이스 세럼 출시를 기념한",
-   "views": 1193,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ogtsrSezVEoAEADSlEWW8C3QIVMADdAevA88ve~tplv-tiktokx-origin.image?dr=14575&x-expires=1790042400&x-signature=dWO9pBNwRpdQAhOhGdsAzzvY8XA%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1789695807,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7686684961272892679",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "엔하이픈(ENHYPEN) 제이, 시크한 매력으로 시선 집중 / 랄프 로렌(RALPH LAUREN) 이벤트 포토콜 세계적으로 찬사를 받은 패션 아이콘 랄프 로렌의 삶을 조명한 HBO 다큐멘터리 ‘베리 랄프(Very R",
-   "views": 1109,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oseLtEETExroCrATveJopIleVWALBGkVUAIAAD~tplv-tiktokx-origin.image?dr=14575&x-expires=1790042400&x-signature=Z1pypKZhbULhMI6P4OcqSGWmT6o%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1789465966,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7685697801585495303",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "마크, 분위기까지 완벽한 랄프 로렌 스타일 / 랄프 로렌(RALPH LAUREN) 이벤트 포토콜 세계적으로 찬사를 받은 패션 아이콘 랄프 로렌의 삶을 조명한 HBO 다큐멘터리 ‘베리 랄프(Very Ralph)’의 스",
-   "views": 1004,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oYfVEC0f927DCAupVlCvItALgAFTBqASq1DUAE~tplv-tiktokx-origin.image?dr=14575&x-expires=1790042400&x-signature=rmIeVhZ%2BJNjtKhpl1ZXJw1cAnRw%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1789465967,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7685697807512046855",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "고수, 럭셔리한 남자의 품격 / 로카(ROCCA) 포토월 다미아니 그룹(Damiani Group) 산하의 이탈리아 럭셔리 주얼리 & 워치 멀티브랜드 체인 ‘로카(ROCCA)’의 국내 첫 플래그십 스토어 ‘로카 청담(",
-   "views": 943,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oEADA88tE3VIfEXAzCDhfEBOoWDjEfFAAMFIbq~tplv-tiktokx-origin.image?dr=14575&x-expires=1790042400&x-signature=u3AZGpu%2F576%2FAhY1OPzQasL1gtc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1789726676,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7686817544891567378",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "김도연, 우아한 비주얼로 시선 강탈 / 랄프 로렌(RALPH LAUREN) 이벤트 포토콜 #김도연 #랄프로렌 #RALPHLAUREN",
-   "views": 939,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oUICSFq0SCAFBsDjQfeMAUAgErWHuq1MEF1AVp~tplv-tiktokx-origin.image?dr=14575&x-expires=1790042400&x-signature=vwG%2BM60ogW9OOj6Dt2Jpcda%2BXIE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1789465967,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7685697809139404039",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "그레이, 힙한 럭셔리의 정석 / 로카(ROCCA) 포토월 다미아니 그룹(Damiani Group) 산하의 이탈리아 럭셔리 주얼리 & 워치 멀티브랜드 체인 ‘로카(ROCCA)’의 국내 첫 플래그십 스토어 ‘로카 청담(",
-   "views": 652,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okEAtVeIWEhAcAjJruIACLID6DGa2WAmKeeT0o~tplv-tiktokx-origin.image?dr=14575&x-expires=1790042400&x-signature=ljDk850939Dd31nL8DmniKYPRk8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1789726541,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7686816965582687496",
    "region": "kr"
   }
  ],
@@ -338,6 +360,15 @@
    "url": "https://www.reddit.com/r/mildlyinteresting/comments/1wkzj28/my_doctors_office_has_a_stool_sample_in_one_of/"
   },
   {
+   "sub": "meirl",
+   "title": "meirl",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/yvl9prrhskqh1.png?width=640&crop=smart&auto=webp&s=55985178db94329ff6fd848a07658c60f5ec9200",
+   "time": 1789866657,
+   "url": "https://www.reddit.com/r/meirl/comments/1wl35dr/meirl/"
+  },
+  {
    "sub": "oddlysatisfying",
    "title": "Smooth circular welding",
    "score": 0,
@@ -345,6 +376,15 @@
    "thumb": "https://external-preview.redd.it/Nml5eGJmeGlha3FoMdL_J152Sx1pOJ3YbFxh34oTD7Kg8r7FKTuEGx2aw6JS.png?width=320&crop=smart&auto=webp&s=cbc2ec5a2ce32f7e9051dd58911a590d9fe8f40e",
    "time": 1789860615,
    "url": "https://www.reddit.com/r/oddlysatisfying/comments/1wl0z6q/smooth_circular_welding/"
+  },
+  {
+   "sub": "Fauxmoi",
+   "title": "Ms Rachel posts this as Ed Sheeran is about to take the stage in Philadelphia",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/qxbf79m0gkqh1.jpeg?width=640&crop=smart&auto=webp&s=ce89d9ced2d5ac6079db2d0fe53f53d77ee26649",
+   "time": 1789862454,
+   "url": "https://www.reddit.com/r/Fauxmoi/comments/1wl1nin/ms_rachel_posts_this_as_ed_sheeran_is_about_to/"
   },
   {
    "sub": "mildlyinfuriating",
@@ -365,15 +405,6 @@
    "url": "https://www.reddit.com/r/interestingasfuck/comments/1wkq19a/being_a_woman_in_afghanistan/"
   },
   {
-   "sub": "meirl",
-   "title": "meirl",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/ze3wyamuajqh1.jpeg?width=640&crop=smart&auto=webp&s=f21679009e6c947597269de5b21a68c4ca635c1b",
-   "time": 1789848609,
-   "url": "https://www.reddit.com/r/meirl/comments/1wkw8ly/meirl/"
-  },
-  {
    "sub": "AskReddit",
    "title": "What is a movie plot that could be entirely solved in under 5 minutes if the main character just used common sense?",
    "score": 0,
@@ -381,24 +412,6 @@
    "thumb": "",
    "time": 1789829414,
    "url": "https://www.reddit.com/r/AskReddit/comments/1wko7pl/what_is_a_movie_plot_that_could_be_entirely/"
-  },
-  {
-   "sub": "KidsAreFuckingStupid",
-   "title": "Goose vs kid",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/dnZwZjZoMW5oanFoMcx1Qxg-C1RJDoeuqnRueFIZ9TdSMZjc2nbIvGUBxCzR.jpeg?width=320&crop=smart&auto=webp&s=40c72f6447d1d4c06e4b261b996b36a3bd2c6a45",
-   "time": 1789850896,
-   "url": "https://www.reddit.com/r/KidsAreFuckingStupid/comments/1wkx6kn/goose_vs_kid/"
-  },
-  {
-   "sub": "cringereels",
-   "title": "Student slaps teacher because she took his vape.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/eHBreDN1YzQ1anFoMePMHT94S9EPZy_FJEAa4YycYGsd8B_hyDR-ikiHmU5C.png?width=216&crop=smart&auto=webp&s=47c90bc7f2f8bab6ffacedbbc763f5a549fa618c",
-   "time": 1789846733,
-   "url": "https://www.reddit.com/r/cringereels/comments/1wkvg70/student_slaps_teacher_because_she_took_his_vape/"
   },
   {
    "sub": "todayilearned",
@@ -419,27 +432,41 @@
    "url": "https://www.reddit.com/r/Snorkblot/comments/1wkvu8d/and_he_wifed_her/"
   },
   {
-   "sub": "SipsTea",
-   "title": "He has a tattoo of his ex",
+   "sub": "KidsAreFuckingStupid",
+   "title": "Goose vs kid",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/mmbd1hjiljqh1.jpeg?width=640&crop=smart&auto=webp&s=d5e3468c0076f6953828b967996f7293b50799c5",
-   "time": 1789852202,
-   "url": "https://www.reddit.com/r/SipsTea/comments/1wkxpy4/he_has_a_tattoo_of_his_ex/"
+   "thumb": "https://external-preview.redd.it/dnZwZjZoMW5oanFoMcx1Qxg-C1RJDoeuqnRueFIZ9TdSMZjc2nbIvGUBxCzR.jpeg?width=320&crop=smart&auto=webp&s=40c72f6447d1d4c06e4b261b996b36a3bd2c6a45",
+   "time": 1789850896,
+   "url": "https://www.reddit.com/r/KidsAreFuckingStupid/comments/1wkx6kn/goose_vs_kid/"
   },
   {
-   "sub": "technology",
-   "title": "Disney+ changes subscriber agreement to allow ads on every plan",
+   "sub": "cringereels",
+   "title": "Student slaps teacher because she took his vape.",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/4WEQUZ6YfZJUK94xc0XrfZTMsQCPbm2R7VIfbg0Oc8g.jpeg?width=640&crop=smart&auto=webp&s=cf270113d50043337baf020842d83c47d40d8d33",
-   "time": 1789832671,
-   "url": "https://www.reddit.com/r/technology/comments/1wkpix4/disney_changes_subscriber_agreement_to_allow_ads/"
+   "thumb": "https://external-preview.redd.it/eHBreDN1YzQ1anFoMePMHT94S9EPZy_FJEAa4YycYGsd8B_hyDR-ikiHmU5C.png?width=216&crop=smart&auto=webp&s=47c90bc7f2f8bab6ffacedbbc763f5a549fa618c",
+   "time": 1789846733,
+   "url": "https://www.reddit.com/r/cringereels/comments/1wkvg70/student_slaps_teacher_because_she_took_his_vape/"
+  },
+  {
+   "sub": "pcmasterrace",
+   "title": "Nice gains",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/ps6zjrac8kqh1.jpeg?width=640&crop=smart&auto=webp&s=9dc76e76d9edb527152bc391ccad1910b76514e3",
+   "time": 1789859873,
+   "url": "https://www.reddit.com/r/pcmasterrace/comments/1wl0p8u/nice_gains/"
   }
  ],
  "disaster": [],
  "_cover": {
   "ok": {
+   "x": [
+    "64bitcoinkr",
+    "awaken_eyes",
+    "jajaja7878uu"
+   ],
    "threads": [
     "aicoffeechat",
     "aipeekme",
@@ -450,19 +477,24 @@
     "takepage_"
    ],
    "tiktok": [
+    "jaemyung_lee",
     "tictok_ent"
    ]
   },
   "why": {
-   "tiktok": {
-    "jaemyung_lee": 503
+   "x": {
+    "economysniper0": 429,
+    "kyunghyang": 429,
+    "freedom_73x": 429,
+    "marionawfal": 429,
+    "globalbrief_now": 429
    }
   },
   "landing": {
-   "at": "2026-09-20T10:31:58",
+   "at": "2026-09-20T11:01:58",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-09-20T11:01:55.788389+09:00"
+ "updated": "2026-09-20T11:35:57.271690+09:00"
 }
