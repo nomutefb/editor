@@ -34,6 +34,21 @@ ALERT_KINDS = {"brk", "iss", "make", "sys", "trend", "kw"}
 VIBRATE = [200, 100, 200]   # 짧게-쉬고-짧게 = 문자 알림과 같은 결(긴 진동은 손목에서 과하다)
 PAYLOAD_MAX = 3900   # 웹푸시 페이로드 실효 한도 4KB — 초과분은 아이콘을 떼고 보낸다(알림 자체가 사라지는 것보다 낫다)
 FAST_MAX_H = 4   # 최신 긴급만 푸시(뷰어 토스트와 동일 단일상수 정신)
+# ── 발송 보존 시간(TTL)·긴급도(Urgency) — 운영자 260921 «강훈식 사의 긴급 알림이 안 왔다» ──
+# ⚠ 실측 = 서버 발송 성공(5/5 · 오류 0)·구독 생존인데 폰 무착. pywebpush 기본 ttl=0 = 「지금 아니면 버림」
+#    (RFC 8030 §5.2: 기기가 그 순간 닿지 않으면 푸시 서비스가 저장 없이 즉시 폐기) → 폰이 도즈·화면 꺼짐으로
+#    잠깐 안 닿는 순간에 쏜 알림이 통째로 사라지고 서버 로그엔 성공만 남는다.
+#    보존 = 긴급 4h창(FAST_MAX_H)과 같은 길이 — 그 뒤는 배지도 꺼지는 묵은 건이라 늦게 도착해도 의미 없다.
+# ⚠ Urgency(RFC 8030 §5.3) = 긴급·이슈는 high(시간 민감 = 절전 중 기기도 깨움 요청) · 나머지는 normal(표준 기본).
+#    되돌리기 = env PUSH_TTL_S=0(종전 동작).
+PUSH_TTL_S = int(os.environ.get("PUSH_TTL_S", str(FAST_MAX_H * 3600)))
+URGENT_KINDS = {"brk", "iss"}
+
+
+def push_opts(kind):
+    """webpush() 추가 인자 — 보존 시간 + 긴급도 헤더. kind 미지정(구 발송 경로) = 긴급 취급(payload 축과 동형)."""
+    urgency = "high" if (kind or "brk") in URGENT_KINDS else "normal"
+    return {"ttl": PUSH_TTL_S, "headers": {"Urgency": urgency}}
 PUSH_MIN_CROSS = int(os.environ.get("PUSH_MIN_CROSS", "2"))   # 푸시 최소 교차매체(다매체 검증 = 오발송 가드 · MIN_CROSS 바뀌어도 푸시 하한 고정). 3→2 복귀(운영자 260917 «breaking·grade≥2·cross 2여도 긴급 요건 · cross 의존도를 낮춘다 · 타이트하게 쪼이는 건 다른 축[brk_gates·루브릭]에서» — 같은 날 2→3 상향은 화면 🚨는 켜졌는데 3번째 매체가 붙을 때까지 푸시가 최대 4h 밀리는 시차를 만들었다[실측 260917 우주소녀 건 15:05 감지·16:40 발송]). 조이려면 env PUSH_MIN_CROSS=3
 PUSH_PUB_MAX_H = float(os.environ.get("PUSH_PUB_MAX_H", "8"))   # 발행 나이 상한 — 24→8h 조임(운영자 260722 · 실측: 재수집 뒷북 3발[발행 19.5~24h·first_seen 방금]이 24h 캡을 통과해 오발송 — 8h = 구주석 '8~12h 조임' 하단 = 관측 오발 전부 차단 + syndication 지연(4h+) 2배 완충). first_seen 전환의 뒷북 완충. ⚠️ 입력 = 현재 rep 기사 발행 나이(사건 나이 아님 · 검4-3)
 SENT_TTL_H = float(os.environ.get("PUSH_SENT_TTL_H", "48"))   # 발송 원장 TTL — 무기한이면 '北 미사일 발사'류 템플릿 반복 헤드라인의 *별개 새 사건*이 제목해시 충돌로 영구 오억제(분신술 260710 검증6 · autopick.json 48h 정리와 대칭)
@@ -484,7 +499,7 @@ def main():
             if (s or {}).get("off"):   # 화면에서 끈 기기 = 발송 제외(운영자 260819 «비활성화 시키면 그쪽에는 푸시를 안하는거로») · 구독은 목록에 남는다(다시 켜면 그대로 복귀)
                 continue
             try:
-                webpush(subscription_info=s, data=payload, vapid_private_key=pem_path, vapid_claims={"sub": subj})
+                webpush(subscription_info=s, data=payload, vapid_private_key=pem_path, vapid_claims={"sub": subj}, **push_opts(m.get("kind")))   # ttl·Urgency = push_opts 정본(기본 ttl=0 폐기 축 봉합 260921)
                 ok_any = True
             except WebPushException as e:
                 code = getattr(getattr(e, "response", None), "status_code", None)
