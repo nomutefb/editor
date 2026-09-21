@@ -27,31 +27,11 @@
   {
    "account": "choi.openai",
    "text": "Cactus Compute가 8~29MB 크기의 초소형 자동화 모델 Needle 3를 공개했습니다.\n\n대화 대신 사용자의 요청을 보고 필요한 기능을 선택하고 실행에 필요한 값을 채워주는 모델입니다. Raspberry Pi 5에서도 초당 최대 4,000토큰으로 실행됩니다.\n\nCactus 측 평가에서 모바일 명령 정확도 86.0을 기록해 LFM2.5 1.2B의 82.4를 앞섰으며, 특정 작업에 파인튜닝한 29M 모델은 DroidCall에서 DeepSeek V4 Flash를 넘어섰다고 합니다.\n\n다만 별도 Jev 비교에서는 성능과 속도 모두 Jev보다 낮았습니다.\n\n스마트폰, 워치, 로봇 등에서 서버 없이 직접 실행할 수 있다는 점이 Needle 3의 특징입니다.",
-   "likes": 5,
+   "likes": 12,
    "cmts": 1,
    "time": 1789963203,
-   "thumb": "https://scontent-nrt1-2.cdninstagram.com/v/t51.71878-15/795430675_951007244192643_2669559117595165970_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk5MDgyMzA2MzU3MDUzNjQyMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=ohASOhM0aIYQ7kNvwFJY0eh&_nc_oc=AdqtB5N_PZGOZ09CwXGky1b-w1h2C5Cisitn3TWvpszHI1btUyCNEtdDUI9RrzxGEb4NAPEVQXD0jlE7mtqkV4Gp&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt1-2.cdninstagram.com&_nc_gid=1Y5_sryw8RQ0GzvmA-iF_g&_nc_ss=7a22e&oh=00_AQLOXqE_PsPS3qx7TCbIUxlnQ2QvQGDD4P_A5JxYBe_t-Q&oe=6AB66917",
+   "thumb": "https://scontent-nrt1-2.cdninstagram.com/v/t51.71878-15/795430675_951007244192643_2669559117595165970_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk5MDgyMzA2MzU3MDUzNjQyMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=ohASOhM0aIYQ7kNvwFJY0eh&_nc_oc=AdqtB5N_PZGOZ09CwXGky1b-w1h2C5Cisitn3TWvpszHI1btUyCNEtdDUI9RrzxGEb4NAPEVQXD0jlE7mtqkV4Gp&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt1-2.cdninstagram.com&_nc_gid=KGloEFXAfPPmd5fFpi4WZQ&_nc_ss=7a22e&oh=00_AQK09Bh7BQUofehI5jP88qXCaBIr3k9EagINTWlYTwd8CA&oe=6AB6A157",
    "url": "https://www.threads.com/@choi.openai/post/DdiQG6Zjtfn",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "이 변화에서 중요한 것은 기능 수가 아닙니다.\n\nGitHub는 각 기능을 한 번 눌렀는지가 아니라, 28일 안에 서로 다른 이틀 이상 사용했는지를 engagement로 잡습니다. 조직은 이제 “몇 명이 써봤나”보다 “어떤 방식이 팀의 습관이 됐나”를 비교하게 됩니다.\n\n에이전트 도입을 평가할 때도 활성 사용자 한 줄만 보면 안 됩니다. 코드 완성 사용자와 cloud agent·CLI 사용자를 같은 집단으로 세는 순간, 전환 속도가 사라집니다 ⭐\n\nhttps://github.blog/changelog/2026-09-17-copilot-impact-dashboard-now-shows-feature-engagement/",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1789962943,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdiPmgbmSFu",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "GitHub Copilot이 9월 17일부터 사용자를 ‘활성’ 하나로 세지 않습니다.\n\n새 impact dashboard는 지난 28일 동안 7개 기능 중 하나를 이틀 이상 쓴 사용자를 기능별로 보여줍니다. 코드 완성, agent edit, 수동·자동 코드 리뷰, cloud agent, CLI, Copilot app입니다.\n\n한 사용자가 여러 기능에 잡힐 수 있어 합산하면 안 됩니다. 숫자를 키우는 대시보드가 아니라, 코드 완성에서 에이전트로 넘어간 사람이 실제로 늘었는지 보는 장치입니다.\n\nAI 도입의 기준이 좌석 수에서 반복되는 작업 흐름으로 이동했습니다.",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1789962934,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdiPlZHGY2e",
    "region": "kr"
   },
   {
@@ -70,24 +50,14 @@
    "likes": 0,
    "cmts": 1,
    "time": 1789961513,
-   "thumb": "https://scontent-nrt1-1.cdninstagram.com/v/t51.82787-15/814229697_18088760375407306_6218934849333384242_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk5MDgwODgwOTk5Mjg3ODg5Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=v6FGFZ_6AwcQ7kNvwHi4Cr-&_nc_oc=AdohF217Nu5QBliBeC6Fnv4dXkLkbMtlu0V-OQECMhrYtR5fwApHAt2_NuKupOcWMwrGeMojpgA8poMWUUkM2yco&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt1-1.cdninstagram.com&_nc_gid=KeHIN6jkp4wmabhFSCBmLQ&_nc_ss=7a22e&oh=00_AQKIJBSkAe-c_jANzgftCGrtdSJvEil0VApeMHunpyJuow&oe=6AB6765D",
+   "thumb": "https://scontent-nrt1-1.cdninstagram.com/v/t51.82787-15/814229697_18088760375407306_6218934849333384242_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk5MDgwODgwOTk5Mjg3ODg5Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=v6FGFZ_6AwcQ7kNvwHi4Cr-&_nc_oc=AdohF217Nu5QBliBeC6Fnv4dXkLkbMtlu0V-OQECMhrYtR5fwApHAt2_NuKupOcWMwrGeMojpgA8poMWUUkM2yco&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt1-1.cdninstagram.com&_nc_gid=INWHWawbeKzXLJpyQvqGrQ&_nc_ss=7a22e&oh=00_AQLespQemiO7kg4uW5919gLlWrDiKoXVMzA7pzugORyBjg&oe=6AB6765D",
    "url": "https://www.threads.com/@aipeekme/post/DdiM3fuH_st",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "Cursor는 Slack 스레드 감시, PR 추적, 예약 실행도 지원한다고 설명합니다. 이제 에이전트는 호출할 때만 일하는 도구가 아니라, 사건을 감지하고 작업을 다시 시작하는 운영 계층에 가까워졌습니다.\n\n먼저 확인할 것은 모델 성능보다 공유 컨텍스트의 품질과 로컬 실행이 필요한 지점입니다.\n\nhttps://cursor.com/changelog",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1789958148,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdiGdJpGRbV",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "주소 :\nhttps://aitmpl.com/component/mod/productivity/jev-model-router",
-   "likes": 5,
+   "likes": 8,
    "cmts": 0,
    "time": 1789957822,
    "thumb": "",
@@ -120,7 +90,7 @@
    "likes": 21,
    "cmts": 1,
    "time": 1789949635,
-   "thumb": "https://scontent-nrt1-2.cdninstagram.com/v/t51.71878-15/797725346_1328134675900768_9176469642637372593_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk5MDcwNzAxODgyMTkyODY2Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=7HgYwoyzAv4Q7kNvwEEeOzV&_nc_oc=AdrbviqMYD9kM9iOz3zNXLns6anKj3qSG3HOBX5qiPrwKnVLM_C1Qpe7ZdU8Fb8SqPov4epcVHjpYmkVe9OX-O-s&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt1-2.cdninstagram.com&_nc_gid=c2m4pFDbnGuqCUFkFtAiAQ&_nc_ss=7a22e&oh=00_AQIvqMACVS1PbFmBokucitDngO3Olc4i4xQrSIGnG3CNUQ&oe=6AB69945",
+   "thumb": "https://scontent-nrt1-2.cdninstagram.com/v/t51.71878-15/797725346_1328134675900768_9176469642637372593_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk5MDcwNzAxODgyMTkyODY2Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=7HgYwoyzAv4Q7kNvwEEeOzV&_nc_oc=AdrbviqMYD9kM9iOz3zNXLns6anKj3qSG3HOBX5qiPrwKnVLM_C1Qpe7ZdU8Fb8SqPov4epcVHjpYmkVe9OX-O-s&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt1-2.cdninstagram.com&_nc_gid=jLjm68Hu-QoIRiOiOQomPQ&_nc_ss=7a22e&oh=00_AQI19EfDLw_A_TYUGS1bdder8p6ts3_ImdN64ATKlhy1eA&oe=6AB69945",
    "url": "https://www.threads.com/@aicoffeechat/post/Ddh1uPTigbW",
    "region": "kr"
   },
@@ -140,27 +110,17 @@
    "likes": 5,
    "cmts": 0,
    "time": 1789904020,
-   "thumb": "https://scontent-nrt1-1.cdninstagram.com/v/t51.82787-15/805579587_17937657975362958_304065300171150873_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk5MDMyNjU5NjMwNTQxMTI5MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTU5MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=D7FtIaRyR50Q7kNvwFdu__j&_nc_oc=AdpVZjT6QqykzGDZmVWwcZooQ8VEO_bHlfk1YJyjpsTVaa3ISfPR3yKrwQoU-y-yE-nqsVJFv6zmPNSP2VRIwBpp&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt1-1.cdninstagram.com&_nc_gid=5aN7hpYXPgEBfNDMoKGjEQ&_nc_ss=7a22e&oh=00_AQJVE-3tCQW5sukuzTkxse8qoIyqWpvb2e1DqJO_qfCOuA&oe=6AB67DCB",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/805579587_17937657975362958_304065300171150873_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk5MDMyNjU5NjMwNTQxMTI5MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTU5MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=D7FtIaRyR50Q7kNvwHGwN5C&_nc_oc=AdrY-vxRCa95UengGXjzxnLFuuGPaZdUxvjCbKHNbNfzYuAKPy-hwlOdLhAdm3VI8kg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=G-exggmJH2udaNGQJtrE_w&_nc_ss=7a22e&oh=00_AQJ6pqTMQTjwOzinXLqOfbU_ZfR9ulfMU2iarFOs3EXjTQ&oe=6AB67DCB",
    "url": "https://www.threads.com/@takepage_/post/DdgfOXOk9zb",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "Cursor Projects가 9월 10일 공개됐습니다.\n\n기능 하나를 고치는 에이전트가 아니라, 기능·마이그레이션·앱 전체를 프로젝트로 묶고 코디네이터가 작업을 나눠 여러 에이전트에 맡깁니다. 프로젝트는 클라우드 컴퓨터에서 계속 실행되고, 필요한 순간에는 로컬 에이전트를 불러 테스트합니다.\n\n각 에이전트가 남긴 연구 자료와 코드베이스 지식은 프로젝트의 공유 컨텍스트로 쌓입니다. 한 번 알아낸 실행 방법을 다음 작업에서 다시 설명할 필요가 줄어드는 구조입니다.\n\n코딩 에이전트의 기준이 “이번 프롬프트를 얼마나 잘 처리했는가”에서 “프로젝트가 다음 작업까지 기억하고 계속 움직이는가”로 옮겨가고 있습니다.",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1789958139,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdiGcEnGRPT",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "Jev가 Claude Code의 모델 선택까지 맡기기 시작했습니다.\n\nDaniel San이 공개한 Jev Model Router는 Claude Code에 요청을 보낼 때마다 Jev가 작업을 분류해 어떤 subagent 모델을 사용할지, 어느 정도의 effort를 줄지 결정합니다.\n\n메인 모델도 Jev가 선택하지만 캐시가 깨지는 것을 막기 위해 세션 시작 시 한 번만 결정합니다. Jev는 TypeSafe API나 Vercel AI Gateway를 통해 연결할 수 있습니다.\n\n결국 비싼 모델을 모든 작업에 동일하게 사용하는 대신, Jev가 요청의 난이도와 종류를 보고 적절한 모델과 추론량을 배정하는 구조입니다.\n\nJev가 에이전트의 행동을 결정하는 것을 넘어, 어떤 AI 모델을 언제 얼마나 사용할지 결정하는 라우터 역할로도 빠르게 확장되고 있습니다.",
-   "likes": 37,
-   "cmts": 3,
+   "likes": 45,
+   "cmts": 4,
    "time": 1789957813,
-   "thumb": "https://scontent-nrt1-2.cdninstagram.com/v/t51.71878-15/817679310_1665068291952099_1195472876825771237_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk5MDc3Nzg0NzA3Nzg2ODU5NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Y6PYhOTEgf4Q7kNvwHnj1pH&_nc_oc=AdoEUL0RGztNAfSQmCfHIXlt8fE1K1u60Df-p-dNG8NmdzHTXtbhfxLvIuYrNWngRPXne4Bmaohr39lL985GQLP8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt1-2.cdninstagram.com&_nc_gid=1Y5_sryw8RQ0GzvmA-iF_g&_nc_ss=7a22e&oh=00_AQL_ziCpQu3S13GZHJy-jJAukP6YGK_si0uL9_Zu3PqlzA&oe=6AB687E3",
+   "thumb": "https://scontent-nrt1-2.cdninstagram.com/v/t51.71878-15/817679310_1665068291952099_1195472876825771237_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk5MDc3Nzg0NzA3Nzg2ODU5NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Y6PYhOTEgf4Q7kNvwHnj1pH&_nc_oc=AdoEUL0RGztNAfSQmCfHIXlt8fE1K1u60Df-p-dNG8NmdzHTXtbhfxLvIuYrNWngRPXne4Bmaohr39lL985GQLP8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt1-2.cdninstagram.com&_nc_gid=KGloEFXAfPPmd5fFpi4WZQ&_nc_ss=7a22e&oh=00_AQI6cTEUIsCXLDmRi3S1-RoWcW4WU8OC7MjiOVFA9f1VEQ&oe=6AB687E3",
    "url": "https://www.threads.com/@choi.openai/post/DdiF07QkxQy",
    "region": "kr"
   },
@@ -170,17 +130,17 @@
    "likes": 0,
    "cmts": 1,
    "time": 1789954271,
-   "thumb": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/809184114_18088742240407306_6123768854700956205_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk5MDc0ODA1ODgwNDUwNjY1Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=g8jGRQpSRL0Q7kNvwEIVx54&_nc_oc=Adr9F8AI3WVrYS_9dtASpBa1Xgv3yNYp10imq86QOnFhOsK7fJbJfk7jEblO8hmSsOKFnIHnF78oG03PANfcU-hX&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=KeHIN6jkp4wmabhFSCBmLQ&_nc_ss=7a22e&oh=00_AQJg9cvgc3mOQPRYsdpjOFoHwP6PXqkUmHBvnYffLEcKLA&oe=6AB67DE6",
+   "thumb": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/809184114_18088742240407306_6123768854700956205_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk5MDc0ODA1ODgwNDUwNjY1Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=g8jGRQpSRL0Q7kNvwEIVx54&_nc_oc=Adr9F8AI3WVrYS_9dtASpBa1Xgv3yNYp10imq86QOnFhOsK7fJbJfk7jEblO8hmSsOKFnIHnF78oG03PANfcU-hX&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=INWHWawbeKzXLJpyQvqGrQ&_nc_ss=7a22e&oh=00_AQI2-Q8IrrlVK1AmM6qt77MhkPsWVSz0xa8E7EXis5ysaA&oe=6AB67DE6",
    "url": "https://www.threads.com/@aipeekme/post/Ddh_DcxH1Ad",
    "region": "kr"
   },
   {
    "account": "aicoffeechat",
    "text": "Jev의 유용한 새로운 찾기(⌘+F) 방식\n\n일치하는 키워드가 아니라, 의도한 내용을 찾는 방식입니다. 정말 빠르고 거의 실시간으로 작동합니다. 크롬 확장 프로그램으로 \"무료\"로 공유되고 있어요.\n\n너무 익숙해서 아무도 의심하지 않던 것을 다시 보는 데서 새로운 활용이 시작되는 것 같다. 단축어를 바꾸어서 사용을 해봐도 좋을듯하네요",
-   "likes": 34,
+   "likes": 36,
    "cmts": 1,
    "time": 1789946018,
-   "thumb": "https://scontent-nrt6-1.cdninstagram.com/v/t51.71878-15/818453794_1771677747373593_7797269017099905819_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk5MDY3Njc3MDY1MDc4MTIxOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=IySpJo7_w9sQ7kNvwFPNH8Y&_nc_oc=Adp41jZpx1QmQ40ao0bbAswRXeQMQmvXj1fN4w1vEsaOSHYeQ8HLFp2tZfTUbhFkr-9qLTpFNmcuuBRVpjdsAaXH&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=c2m4pFDbnGuqCUFkFtAiAQ&_nc_ss=7a22e&oh=00_AQKrNnJKLkQYt4EqmmTv7b65NG1liL8HKlil2O1zepk6sg&oe=6AB68F80",
+   "thumb": "https://scontent-nrt6-1.cdninstagram.com/v/t51.71878-15/818453794_1771677747373593_7797269017099905819_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk5MDY3Njc3MDY1MDc4MTIxOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=IySpJo7_w9sQ7kNvwFPNH8Y&_nc_oc=Adp41jZpx1QmQ40ao0bbAswRXeQMQmvXj1fN4w1vEsaOSHYeQ8HLFp2tZfTUbhFkr-9qLTpFNmcuuBRVpjdsAaXH&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=jLjm68Hu-QoIRiOiOQomPQ&_nc_ss=7a22e&oh=00_AQI39bfMY9e9U7C607kjNgc83PkorxI2AYQQwFgorZ0Csg&oe=6AB68F80",
    "url": "https://www.threads.com/@aicoffeechat/post/Ddhu2EgCvYj",
    "region": "kr"
   },
@@ -195,16 +155,6 @@
    "region": "kr"
   },
   {
-   "account": "daily_ai_star",
-   "text": "이 변화는 AI 리뷰를 사람의 첫 검토를 대신하는 댓글 생성기로 보기 어렵게 만듭니다.\n\n에이전트는 코드를 한 번 읽고 끝나는 것이 아니라, 커밋이 추가될 때 이전 판단을 다시 확인합니다. 사람이 확인할 목록도 전체 댓글이 아니라 아직 닫히지 않은 문제 중심으로 줄어듭니다.\n\n다만 자동 종료가 곧 해결의 증명은 아닙니다. 어떤 커밋이 문제를 고쳤는지와 실제 테스트가 통과했는지는 별도로 남겨야 합니다.\n\nhttps://github.blog/changelog/2026-09-18-copilot-code-review-an-improved-review-experience/",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1789954902,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdiAQ-4mboU",
-   "region": "kr"
-  },
-  {
    "account": "aipeekme",
    "text": "🔗 원문·자세히 보기\nhttps://github.com/JailbrokenAI/wallbreaker",
    "likes": 0,
@@ -212,6 +162,56 @@
    "time": 1789948340,
    "thumb": "",
    "url": "https://www.threads.com/@aipeekme/post/Ddhzv7Pn3z6",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "ZCode가 최근 불거진 보안 문제에 대해 공식 사과하고 ZCode 전체 코드를 오픈소스로 공개했습니다.\n\n논란은 Repo Wiki 기능이 사용자 로컬 저장소의 스냅샷을 생성해 Alibaba Cloud OSS로 업로드하는 경로가 발견되면서 시작됐습니다. 코드가 외부 서버로 전송될 수 있었다는 점에서 사용자들의 우려가 커졌습니다.\n\nZCode는 v3.14.0에서 Repo Wiki와 관련 생성·업로드 기능을 제거했고, 기존 OSS 데이터와 버킷도 삭제했다고 밝혔습니다. 또한 전송됐던 코드 데이터는 현재 보관하지 않으며 모델 학습에도 사용한 적이 없다고 설명했습니다.\n\nCAICT와 NSFOCUS의 보안 점검도 진행됐으며, 앞으로 취약점 신고 및 보상 제도를 운영하고 전체 보안 평가 보고서도 공개할 예정입니다.",
+   "likes": 17,
+   "cmts": 1,
+   "time": 1789955944,
+   "thumb": "https://scontent-nrt1-2.cdninstagram.com/v/t51.82787-15/792146825_17988069873112832_8967595696293156479_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk5MDc2MjE2NTM2MzUyNzUzMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTc2Mi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=N6Pff5YdzjQQ7kNvwGqcxxu&_nc_oc=Adrm4L9cjYgp46uUuzVNlrYnlhRxCTDKQrGDBBYFahE0yh4hG9W9Xvm3cWy2XVeesEz2qsuT-PEfs2Pd1EnwtotE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt1-2.cdninstagram.com&_nc_gid=KGloEFXAfPPmd5fFpi4WZQ&_nc_ss=7a22e&oh=00_AQI52AawUuA5M68pwabpxfd9jITz7qm5ycdthO7JGElK2w&oe=6AB683E0",
+   "url": "https://www.threads.com/@choi.openai/post/DdiCQuhj89s",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "제일브로큰AI가 엘엘엠 모의해킹을 위한 터미널 도구 월브레이커를 공개했습니다.\n클로드 코드와 유사한 인터페이스로 구동되며 스스로 판단하고 도구를 호출하는 구조입니다.\n백엔드가 유연하게 설계되어 오픈라우터나 지아이 코딩 플랜 같은 외부 에이피아이를 자유롭게 연결할 수 있습니다.\n파슬통 기술과 리베르타스 탈옥 라이브러리 등이 포함된 보안 검증 도구 모음을 기본으로 탑재했습니다.\n페어와 크레센도 같은 자동 공격 루프와 멀티모달 이미지 편집 공격 채널도 함께 지원합니다.\n승인된 보안 테스트 용도로만 사용하도록 제한을 두었습니다.\n보안 점검을 자동화하려는 시도 자체는 흥미롭지만, 이런 공격 도구가 실제 현장에서 얼마나 실효성이 있을지는 의문입니다.\n단순히 도구의 자동화 수준을 높이는 것보다 실제 복잡한 시스템 환경에서 예외를 얼마나 잘 잡아낼지가 더 중요하다고 봅니다.\n\n📷 사진 출처: github.com",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1789948329,
+   "thumb": "https://scontent-nrt1-2.cdninstagram.com/v/t51.82787-15/818611928_18088731497407306_3566435355238952236_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk5MDY5ODIyMjA3NTk3NTkwNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=SqDYPLgXPJoQ7kNvwHuTZMx&_nc_oc=AdooIVUaX7LX6r_sOKvu54Pf_lNmMAHIbEGzvkY-eiLAilkasIQf-26ahVxBQkApdH8xmzc95Wsn1i6iIeTCU5tN&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt1-2.cdninstagram.com&_nc_gid=INWHWawbeKzXLJpyQvqGrQ&_nc_ss=7a22e&oh=00_AQJMWmqKmPOeimOVbeuh6YJ5_wZFLjceP21R1gjwasrztw&oe=6AB6862D",
+   "url": "https://www.threads.com/@aipeekme/post/DdhzuOsnxji",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "주소 :\nhttps://jevable.com/",
+   "likes": 2,
+   "cmts": 0,
+   "time": 1789952452,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/Ddh7mgOkmRa",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "🔗 원문·자세히 보기\nhttps://github.com/amagine-ai/Amagine3D",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1789945284,
+   "thumb": "",
+   "url": "https://www.threads.com/@aipeekme/post/Ddht680Ehlv",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "Jev 데모만 모아놓은 사이트까지 등장했습니다.\n\nJevable은 X에 올라오는 Jev 활용 사례를 한곳에 모아 카테고리별로 볼 수 있는 사이트인데요. 직접 만든 프로젝트도 추가할 수 있습니다.\n\nComputer Use부터 게임 속 NPC 행동 결정, X 게시물 분류까지 Jev가 공개된 지 며칠 만에 다양한 활용법이 쏟아지고 있습니다.\n\n모델 하나가 나오자마자 활용 사례를 모으는 사이트까지 생기는 걸 보면, Jev에 대한 개발자들의 관심이 어느 정도인지 체감됩니다.",
+   "likes": 61,
+   "cmts": 3,
+   "time": 1789952440,
+   "thumb": "https://scontent-nrt1-2.cdninstagram.com/v/t51.82787-15/818062278_17987804343112832_2466054924762482870_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk5MDczMjc3MjIzNDkyMTE5Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjgyMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=-wk0qWeLz3MQ7kNvwF_xIIZ&_nc_oc=Adq_qr5VtpfzHQ7kmmAw8KBzgwGKqYXbNygVjeXfhf4AfMb4Pc43IFv6ImPfJbhd7QqvqGmIR64xL4VQgmzZ5blO&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt1-2.cdninstagram.com&_nc_gid=KGloEFXAfPPmd5fFpi4WZQ&_nc_ss=7a22e&oh=00_AQI1-SqR9ZLsM9rNYutd-wYYx3lgv3Qz8rPUYT0ED4AEYA&oe=6AB67FD4",
+   "url": "https://www.threads.com/@choi.openai/post/Ddh7lACkoTs",
    "region": "kr"
   }
  ],
@@ -227,15 +227,6 @@
    "url": "https://www.reddit.com/r/MoralityScaling/comments/1wlh4w8/morality_of_eating_meat_infront_of_vegan/"
   },
   {
-   "sub": "anime",
-   "title": "Mushoku Tensei: Jobless Reincarnation Season 3 • Mushoku Tensei III: Isekai Ittara Honki Dasu - Episode 13 discussion",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "",
-   "time": 1789916532,
-   "url": "https://www.reddit.com/r/anime/comments/1wljcy8/mushoku_tensei_jobless_reincarnation_season_3/"
-  },
-  {
    "sub": "MurderedByWords",
    "title": "EXTREMELY supportive husband.",
    "score": 0,
@@ -243,6 +234,15 @@
    "thumb": "https://preview.redd.it/a4s12y31jrqh1.jpeg?width=640&crop=smart&auto=webp&s=3cba934ae97f56b4b4fb51bf940b0269c669bf9b",
    "time": 1789948215,
    "url": "https://www.reddit.com/r/MurderedByWords/comments/1wlwtix/extremely_supportive_husband/"
+  },
+  {
+   "sub": "anime",
+   "title": "Mushoku Tensei: Jobless Reincarnation Season 3 • Mushoku Tensei III: Isekai Ittara Honki Dasu - Episode 13 discussion",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1789916532,
+   "url": "https://www.reddit.com/r/anime/comments/1wljcy8/mushoku_tensei_jobless_reincarnation_season_3/"
   },
   {
    "sub": "cringereels",
@@ -254,15 +254,6 @@
    "url": "https://www.reddit.com/r/cringereels/comments/1wlm400/streamer_ishowspeed_got_bitten_by_dog_for/"
   },
   {
-   "sub": "SipsTea",
-   "title": "“Patrick told me no resting b*tch face”",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/a2ZxeDhrOTZlcnFoMYIykfwoxocGIHozJDRmns1_vf-Y9sJOWddLHi71E2Lt.png?width=640&crop=smart&auto=webp&s=db691981a78e30b4020bb0b81303b10326ec7dff",
-   "time": 1789946586,
-   "url": "https://www.reddit.com/r/SipsTea/comments/1wlw7lb/patrick_told_me_no_resting_btch_face/"
-  },
-  {
    "sub": "hatethissmug",
    "title": "I HATE how people are ok with the new Harry Potter series",
    "score": 0,
@@ -270,6 +261,15 @@
    "thumb": "https://preview.redd.it/an2ebx6e1rqh1.png?width=640&crop=smart&auto=webp&s=1fa269ecd2d66fd8072f2e797e70b9d34ca8119d",
    "time": 1789942285,
    "url": "https://www.reddit.com/r/hatethissmug/comments/1wlujv2/i_hate_how_people_are_ok_with_the_new_harry/"
+  },
+  {
+   "sub": "SipsTea",
+   "title": "“Patrick told me no resting b*tch face”",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/a2ZxeDhrOTZlcnFoMYIykfwoxocGIHozJDRmns1_vf-Y9sJOWddLHi71E2Lt.png?width=640&crop=smart&auto=webp&s=db691981a78e30b4020bb0b81303b10326ec7dff",
+   "time": 1789946586,
+   "url": "https://www.reddit.com/r/SipsTea/comments/1wlw7lb/patrick_told_me_no_resting_btch_face/"
   },
   {
    "sub": "worldnews",
@@ -288,6 +288,15 @@
    "thumb": "https://external-preview.redd.it/ZjlvZWoyeHU3cHFoMZk-Gnwkg6daqgcO1llWHLyMOy72zJh_fpMs-VLBASE2.png?width=640&crop=smart&auto=webp&s=40214d452d5337087c92f5fc63c76ea546fdc93c",
    "time": 1789920471,
    "url": "https://www.reddit.com/r/interestingasfuck/comments/1wll1ix/crew_members_film_the_moment_the_panamaflagged/"
+  },
+  {
+   "sub": "pics",
+   "title": "OC Price of gas in Deadhorse, Alaska September, 2026",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/y8yt5cxg6sqh1.jpeg?width=640&crop=smart&auto=webp&s=d7c9e15d8f679acc6b5e84eff41666b45380dfc3",
+   "time": 1789956100,
+   "url": "https://www.reddit.com/r/pics/comments/1wlzp95/oc_price_of_gas_in_deadhorse_alaska_september_2026/"
   },
   {
    "sub": "pics",
@@ -315,51 +324,34 @@
    "thumb": "https://external-preview.redd.it/NGlmajY5MjBhb3FoMY1TTnR-u5a1j-LCRknzww_NWqXYYzt76ELGgeX5oZk8.png?width=320&crop=smart&auto=webp&s=168ea840d861df2e0a35aa59e119363ddab1ccb3",
    "time": 1789908859,
    "url": "https://www.reddit.com/r/LoveTrash/comments/1wlgcpo/through_the_years/"
-  },
-  {
-   "sub": "nottheonion",
-   "title": "Logan Paul Gives A Speech To United States Military At The Pentagon",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/3QFeWihatnclsCrNSnEnuXIJSGsJOxoRMsmbIBaG9jY.jpeg?width=640&crop=smart&auto=webp&s=2687bb0045cc17bad7cc407a44e800100895380d",
-   "time": 1789938580,
-   "url": "https://www.reddit.com/r/nottheonion/comments/1wlt120/logan_paul_gives_a_speech_to_united_states/"
   }
  ],
  "disaster": [],
  "_cover": {
   "ok": {
-   "x": [
-    "64bitcoinkr",
-    "awaken_eyes",
-    "economysniper0",
-    "freedom_73x",
-    "globalbrief_now",
-    "jajaja7878uu",
-    "kyunghyang",
-    "marionawfal"
-   ],
    "threads": [
     "aicoffeechat",
     "aipeekme",
     "choi.openai",
-    "daily_ai_star",
     "kopp",
     "promppy_com",
     "takepage_"
    ]
   },
   "why": {
+   "threads": {
+    "daily_ai_star": "err"
+   },
    "tiktok": {
-    "jaemyung_lee": "err",
+    "jaemyung_lee": 503,
     "tictok_ent": 503
    }
   },
   "landing": {
-   "at": "2026-09-21T12:31:34",
+   "at": "2026-09-21T13:05:22",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-09-21T13:05:13.803477+09:00"
+ "updated": "2026-09-21T13:31:18.233674+09:00"
 }
