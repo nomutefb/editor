@@ -16,22 +16,72 @@
  "threads": [
   {
    "account": "choi.openai",
-   "text": "주소 :\nhttps://jevable.com/",
+   "text": "깃허브 :\nhttps://github.com/zai-org/ZCode",
    "likes": 0,
    "cmts": 0,
-   "time": 1789952452,
+   "time": 1789955949,
    "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/Ddh7mgOkmRa",
+   "url": "https://www.threads.com/@choi.openai/post/DdiCRVOD-Ug",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "Jev 데모만 모아놓은 사이트까지 등장했습니다.\n\nJevable은 X에 올라오는 Jev 활용 사례를 한곳에 모아 카테고리별로 볼 수 있는 사이트인데요. 직접 만든 프로젝트도 추가할 수 있습니다.\n\nComputer Use부터 게임 속 NPC 행동 결정, X 게시물 분류까지 Jev가 공개된 지 며칠 만에 다양한 활용법이 쏟아지고 있습니다.\n\n모델 하나가 나오자마자 활용 사례를 모으는 사이트까지 생기는 걸 보면, Jev에 대한 개발자들의 관심이 어느 정도인지 체감됩니다.",
-   "likes": 22,
+   "text": "ZCode가 최근 불거진 보안 문제에 대해 공식 사과하고 ZCode 전체 코드를 오픈소스로 공개했습니다.\n\n논란은 Repo Wiki 기능이 사용자 로컬 저장소의 스냅샷을 생성해 Alibaba Cloud OSS로 업로드하는 경로가 발견되면서 시작됐습니다. 코드가 외부 서버로 전송될 수 있었다는 점에서 사용자들의 우려가 커졌습니다.\n\nZCode는 v3.14.0에서 Repo Wiki와 관련 생성·업로드 기능을 제거했고, 기존 OSS 데이터와 버킷도 삭제했다고 밝혔습니다. 또한 전송됐던 코드 데이터는 현재 보관하지 않으며 모델 학습에도 사용한 적이 없다고 설명했습니다.\n\nCAICT와 NSFOCUS의 보안 점검도 진행됐으며, 앞으로 취약점 신고 및 보상 제도를 운영하고 전체 보안 평가 보고서도 공개할 예정입니다.",
+   "likes": 0,
    "cmts": 1,
-   "time": 1789952440,
-   "thumb": "https://scontent-nrt1-2.cdninstagram.com/v/t51.82787-15/818062278_17987804343112832_2466054924762482870_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk5MDczMjc3MjIzNDkyMTE5Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjgyMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=-wk0qWeLz3MQ7kNvwF_xIIZ&_nc_oc=Adq_qr5VtpfzHQ7kmmAw8KBzgwGKqYXbNygVjeXfhf4AfMb4Pc43IFv6ImPfJbhd7QqvqGmIR64xL4VQgmzZ5blO&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt1-2.cdninstagram.com&_nc_gid=tAPJ8MO_uN9jBbg6MKm7XA&_nc_ss=7a22e&oh=00_AQKtDReNKZwLLV1ATqwEINemmuOFxdoiBrYtMO5zuKtqQg&oe=6AB64794",
-   "url": "https://www.threads.com/@choi.openai/post/Ddh7lACkoTs",
+   "time": 1789955944,
+   "thumb": "https://scontent-nrt1-2.cdninstagram.com/v/t51.82787-15/792146825_17988069873112832_8967595696293156479_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk5MDc2MjE2NTM2MzUyNzUzMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTc2Mi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=N6Pff5YdzjQQ7kNvwGqcxxu&_nc_oc=Adrm4L9cjYgp46uUuzVNlrYnlhRxCTDKQrGDBBYFahE0yh4hG9W9Xvm3cWy2XVeesEz2qsuT-PEfs2Pd1EnwtotE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt1-2.cdninstagram.com&_nc_gid=fKchKP6nVv-7uQkjyjkfcA&_nc_ss=7a22e&oh=00_AQJ2Pf2FUREX4sbzqYTWV3YxNCk9ZHuLE-rCapXo98NMug&oe=6AB64BA0",
+   "url": "https://www.threads.com/@choi.openai/post/DdiCQuhj89s",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
+   "text": "이 변화는 AI 리뷰를 사람의 첫 검토를 대신하는 댓글 생성기로 보기 어렵게 만듭니다.\n\n에이전트는 코드를 한 번 읽고 끝나는 것이 아니라, 커밋이 추가될 때 이전 판단을 다시 확인합니다. 사람이 확인할 목록도 전체 댓글이 아니라 아직 닫히지 않은 문제 중심으로 줄어듭니다.\n\n다만 자동 종료가 곧 해결의 증명은 아닙니다. 어떤 커밋이 문제를 고쳤는지와 실제 테스트가 통과했는지는 별도로 남겨야 합니다.\n\nhttps://github.blog/changelog/2026-09-18-copilot-code-review-an-improved-review-experience/",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1789954902,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdiAQ-4mboU",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
+   "text": "GitHub Copilot 코드 리뷰가 9월 18일 리뷰 코멘트의 상태를 직접 관리하기 시작했습니다.\n\n이전 리뷰에서 지적한 문제가 다음 커밋에서 수정되면 코멘트를 자동으로 닫고, 남은 문제는 열린 상태로 둡니다. 리뷰 결과도 새 발견, 해결된 문제, 뒤늦게 찾은 문제로 나눠 보여줍니다.\n\nLite 리뷰는 여러 에이전트의 결과를 합칩니다. GitHub의 실험에서는 높은 심각도 발견의 처리율이 47%, 중간 심각도가 31%, 낮은 심각도가 11% 늘었고 비용은 약 8% 줄었습니다.\n\n리뷰의 기준이 “문제를 얼마나 많이 찾았나”에서 “수정된 문제와 남은 문제를 얼마나 정확히 구분하나”로 이동했습니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1789954894,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdiAP8iGRM_",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "🔗 원문·자세히 보기\nhttps://huggingface.co/Qwen/Qwen-Image-2.1",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1789954281,
+   "thumb": "",
+   "url": "https://www.threads.com/@aipeekme/post/Ddh_FLYH-YU",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "알리바바가 텍스트 기반 이미지 생성과 편집을 통합한 오픈소스 모델 큐웬 이미지 2.1을 공개했습니다. 시각 생성 부문에서 70억 파라미터 규모의 32개 단일 스트림 디퓨전 트랜스포머 레이어를 사용했는데요. 혼합 세분성 어텐션과 프리픽스 키-밸류 캐시 재사용 구조를 적용해 연산 비용을 낮췄습니다. 텍스트만으로 일반 이미지와 투명 배경의 알지비에이 이미지를 동시에 생성하고 편집할 수 있습니다. 최대 10장의 참조 이미지를 지원하며 동그라미나 브러시 주석으로 특정 영역을 국소 수정하는 기능도 들어갔습니다. 기존 모델들과 비교해 투명 레이어 처리나 다중 이미지 참조 같은 기능이 하나의 구조 안에 얼마나 매끄럽게 녹아들었을지 궁금해집니다. 개인적으로는 다양한 편집 기능을 가벼운 파라미터로 구현했다고 하니 실제 작업에서 속도가 얼마나 빠를지가 가장 눈여겨볼 부분이라고 봅니다.\n\n📷 사진 출처: huggingface.co",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1789954271,
+   "thumb": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/809184114_18088742240407306_6123768854700956205_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk5MDc0ODA1ODgwNDUwNjY1Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=g8jGRQpSRL0Q7kNvwEIVx54&_nc_oc=Adr9F8AI3WVrYS_9dtASpBa1Xgv3yNYp10imq86QOnFhOsK7fJbJfk7jEblO8hmSsOKFnIHnF78oG03PANfcU-hX&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=eIkNmYND9Ej7Ye0WMZ9MpQ&_nc_ss=7a22e&oh=00_AQKUd2dQ_p95aPVrTZhpldc9GXClG1awhbp8kYVBxbj7kw&oe=6AB67DE6",
+   "url": "https://www.threads.com/@aipeekme/post/Ddh_DcxH1Ad",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "주소 :\nhttps://jevable.com/",
+   "likes": 1,
+   "cmts": 0,
+   "time": 1789952452,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/Ddh7mgOkmRa",
    "region": "kr"
   },
   {
@@ -45,19 +95,9 @@
    "region": "kr"
   },
   {
-   "account": "daily_ai_star",
-   "text": "GitHub Copilot이 10월 19일 6개 모델을 폐기합니다.\n\n대상은 Gemini 3.7 Flash, GPT-5.5, GPT-5.4, GPT-5.4 mini, GPT-5 mini, Grok 4.5입니다. 대체 모델은 각각 Gemini 3.8 Flash, GPT-5.6 Sol, GPT-5.6 Luna, Grok 4.6으로 제시됐습니다.\n\nCopilot Chat뿐 아니라 인라인 편집, ask·agent 모드, 코드 완성에도 같은 날짜가 적용됩니다.\n\n모델 선택이 개인 설정이 아니라 저장소와 자동화의 변경 관리 대상이 됐습니다.",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1789949727,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/Ddh2ZKNk1mT",
-   "region": "kr"
-  },
-  {
    "account": "aicoffeechat",
    "text": "내일 맥앱 프로덕트로 푼다고 합니다.\n\n링크: https://x.com/marcus_lowe/status/2101476399488160013",
-   "likes": 2,
+   "likes": 4,
    "cmts": 0,
    "time": 1789949640,
    "thumb": "",
@@ -67,10 +107,10 @@
   {
    "account": "aicoffeechat",
    "text": "UX 관점에서 되게 좋다 \n\n복사, 붙여넣기에 AI(Jev)를 결합한 스마트 클립보드 사례인데요. 정보가 담겨있는 문서를 참조시켜 채워야하는 항목들을 클립보드에 넣어 빠르게 채우는 형태입니다. \n\n동일한 기술이여도 UX을 어떻게 푸냐에 따라 제품은 완전히 달라진다.",
-   "likes": 12,
+   "likes": 15,
    "cmts": 1,
    "time": 1789949635,
-   "thumb": "https://scontent-nrt1-2.cdninstagram.com/v/t51.71878-15/797725346_1328134675900768_9176469642637372593_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk5MDcwNzAxODgyMTkyODY2Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=7HgYwoyzAv4Q7kNvwEEeOzV&_nc_oc=AdrbviqMYD9kM9iOz3zNXLns6anKj3qSG3HOBX5qiPrwKnVLM_C1Qpe7ZdU8Fb8SqPov4epcVHjpYmkVe9OX-O-s&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt1-2.cdninstagram.com&_nc_gid=Dn84PtPd3Tt6rfi8NQX0qQ&_nc_ss=7a22e&oh=00_AQJ40dIhfwmh7P5oJ2OzW3qu1lq-Z6zY7B4PKQkZQJdccQ&oe=6AB66105",
+   "thumb": "https://scontent-nrt1-2.cdninstagram.com/v/t51.71878-15/797725346_1328134675900768_9176469642637372593_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk5MDcwNzAxODgyMTkyODY2Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=7HgYwoyzAv4Q7kNvwEEeOzV&_nc_oc=AdrbviqMYD9kM9iOz3zNXLns6anKj3qSG3HOBX5qiPrwKnVLM_C1Qpe7ZdU8Fb8SqPov4epcVHjpYmkVe9OX-O-s&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt1-2.cdninstagram.com&_nc_gid=I32pPukveSAdniGGZu53mA&_nc_ss=7a22e&oh=00_AQINshP-MTlZlHm4DzmCmbqacZ_SFC7dJnPvcWkBWVSpxQ&oe=6AB66105",
    "url": "https://www.threads.com/@aicoffeechat/post/Ddh1uPTigbW",
    "region": "kr"
   },
@@ -85,13 +125,63 @@
    "region": "kr"
   },
   {
+   "account": "aicoffeechat",
+   "text": "링크: https://github.com/Shubhamsaboo/awesome-llm-apps",
+   "likes": 2,
+   "cmts": 0,
+   "time": 1789946022,
+   "thumb": "",
+   "url": "https://www.threads.com/@aicoffeechat/post/DdhvVi6kx7i",
+   "region": "kr"
+  },
+  {
+   "account": "takepage_",
+   "text": "현재 핫한 JEV를 무료로 사용할 수 있습니다.\nVERCEL에서 9월25일까지 무료 이벤트를 진행중입니다.\n\nVERCEL에서 배포한 사이트 에서 쓰는 방식이 아닌 \nAI gateway를 통해 호출할 수 있는 거라 꼭 한 번 사용해보세요\n\n저도 예전엔 새로운 모델, 기술들이 나오면 귀찮기도 하고\n내가 활용할 게 있겠어? 하고 넘겼는데 \n이제는 웬만하면 다 써보려고 합니다.\n\n써봐야 쓸만한지 알 수 있고, 남들이 아무리 좋다한들\n포모도 안오고 휘둘리지 않을수도 있으니까요.\n\n저도 한 번 써보고 현실적으로 어떻게 써볼 수 있을지\n활용법에 대해 쉽게 정리해서 가져오겠씁니다!",
+   "likes": 5,
+   "cmts": 0,
+   "time": 1789904020,
+   "thumb": "https://scontent-nrt1-1.cdninstagram.com/v/t51.82787-15/805579587_17937657975362958_304065300171150873_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk5MDMyNjU5NjMwNTQxMTI5MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTU5MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=D7FtIaRyR50Q7kNvwFdu__j&_nc_oc=AdpVZjT6QqykzGDZmVWwcZooQ8VEO_bHlfk1YJyjpsTVaa3ISfPR3yKrwQoU-y-yE-nqsVJFv6zmPNSP2VRIwBpp&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt1-1.cdninstagram.com&_nc_gid=FIl6ekWp3SZgUfAPlJBT5g&_nc_ss=7a22e&oh=00_AQIuE7_Wy58p-R79flI1xgofCHsFXAjn7CBQB0x07OKOjg&oe=6AB67DCB",
+   "url": "https://www.threads.com/@takepage_/post/DdgfOXOk9zb",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "Jev 데모만 모아놓은 사이트까지 등장했습니다.\n\nJevable은 X에 올라오는 Jev 활용 사례를 한곳에 모아 카테고리별로 볼 수 있는 사이트인데요. 직접 만든 프로젝트도 추가할 수 있습니다.\n\nComputer Use부터 게임 속 NPC 행동 결정, X 게시물 분류까지 Jev가 공개된 지 며칠 만에 다양한 활용법이 쏟아지고 있습니다.\n\n모델 하나가 나오자마자 활용 사례를 모으는 사이트까지 생기는 걸 보면, Jev에 대한 개발자들의 관심이 어느 정도인지 체감됩니다.",
+   "likes": 37,
+   "cmts": 2,
+   "time": 1789952440,
+   "thumb": "https://scontent-nrt1-2.cdninstagram.com/v/t51.82787-15/818062278_17987804343112832_2466054924762482870_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk5MDczMjc3MjIzNDkyMTE5Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjgyMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=-wk0qWeLz3MQ7kNvwF_xIIZ&_nc_oc=Adq_qr5VtpfzHQ7kmmAw8KBzgwGKqYXbNygVjeXfhf4AfMb4Pc43IFv6ImPfJbhd7QqvqGmIR64xL4VQgmzZ5blO&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt1-2.cdninstagram.com&_nc_gid=fKchKP6nVv-7uQkjyjkfcA&_nc_ss=7a22e&oh=00_AQIbtcLqtgWy9HhimW8YJwUtCp1QkqVDpQgCCISp4Mp0Ig&oe=6AB64794",
+   "url": "https://www.threads.com/@choi.openai/post/Ddh7lACkoTs",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
+   "text": "GitHub Copilot이 10월 19일 6개 모델을 폐기합니다.\n\n대상은 Gemini 3.7 Flash, GPT-5.5, GPT-5.4, GPT-5.4 mini, GPT-5 mini, Grok 4.5입니다. 대체 모델은 각각 Gemini 3.8 Flash, GPT-5.6 Sol, GPT-5.6 Luna, Grok 4.6으로 제시됐습니다.\n\nCopilot Chat뿐 아니라 인라인 편집, ask·agent 모드, 코드 완성에도 같은 날짜가 적용됩니다.\n\n모델 선택이 개인 설정이 아니라 저장소와 자동화의 변경 관리 대상이 됐습니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1789949727,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/Ddh2ZKNk1mT",
+   "region": "kr"
+  },
+  {
    "account": "aipeekme",
    "text": "제일브로큰AI가 엘엘엠 모의해킹을 위한 터미널 도구 월브레이커를 공개했습니다.\n클로드 코드와 유사한 인터페이스로 구동되며 스스로 판단하고 도구를 호출하는 구조입니다.\n백엔드가 유연하게 설계되어 오픈라우터나 지아이 코딩 플랜 같은 외부 에이피아이를 자유롭게 연결할 수 있습니다.\n파슬통 기술과 리베르타스 탈옥 라이브러리 등이 포함된 보안 검증 도구 모음을 기본으로 탑재했습니다.\n페어와 크레센도 같은 자동 공격 루프와 멀티모달 이미지 편집 공격 채널도 함께 지원합니다.\n승인된 보안 테스트 용도로만 사용하도록 제한을 두었습니다.\n보안 점검을 자동화하려는 시도 자체는 흥미롭지만, 이런 공격 도구가 실제 현장에서 얼마나 실효성이 있을지는 의문입니다.\n단순히 도구의 자동화 수준을 높이는 것보다 실제 복잡한 시스템 환경에서 예외를 얼마나 잘 잡아낼지가 더 중요하다고 봅니다.\n\n📷 사진 출처: github.com",
    "likes": 0,
    "cmts": 1,
    "time": 1789948329,
-   "thumb": "https://scontent-nrt1-2.cdninstagram.com/v/t51.82787-15/818611928_18088731497407306_3566435355238952236_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk5MDY5ODIyMjA3NTk3NTkwNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=SqDYPLgXPJoQ7kNvwHuTZMx&_nc_oc=AdooIVUaX7LX6r_sOKvu54Pf_lNmMAHIbEGzvkY-eiLAilkasIQf-26ahVxBQkApdH8xmzc95Wsn1i6iIeTCU5tN&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt1-2.cdninstagram.com&_nc_gid=C2vhLq95WlN4k_3DPsvggA&_nc_ss=7a22e&oh=00_AQLhTLAidUdj7gIMm08UBlxdN6dCNNowHmbSS8CF_U2FoA&oe=6AB64DED",
+   "thumb": "https://scontent-nrt1-2.cdninstagram.com/v/t51.82787-15/818611928_18088731497407306_3566435355238952236_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk5MDY5ODIyMjA3NTk3NTkwNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=SqDYPLgXPJoQ7kNvwHuTZMx&_nc_oc=AdooIVUaX7LX6r_sOKvu54Pf_lNmMAHIbEGzvkY-eiLAilkasIQf-26ahVxBQkApdH8xmzc95Wsn1i6iIeTCU5tN&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt1-2.cdninstagram.com&_nc_gid=eIkNmYND9Ej7Ye0WMZ9MpQ&_nc_ss=7a22e&oh=00_AQKwuHnI5LN_9gvmbWQUM63jtauPusB4ZAd7zGDXMxVQlA&oe=6AB64DED",
    "url": "https://www.threads.com/@aipeekme/post/DdhzuOsnxji",
+   "region": "kr"
+  },
+  {
+   "account": "aicoffeechat",
+   "text": "Jev의 유용한 새로운 찾기(⌘+F) 방식\n\n일치하는 키워드가 아니라, 의도한 내용을 찾는 방식입니다. 정말 빠르고 거의 실시간으로 작동합니다. 크롬 확장 프로그램으로 \"무료\"로 공유되고 있어요.\n\n너무 익숙해서 아무도 의심하지 않던 것을 다시 보는 데서 새로운 활용이 시작되는 것 같다. 단축어를 바꾸어서 사용을 해봐도 좋을듯하네요",
+   "likes": 31,
+   "cmts": 1,
+   "time": 1789946018,
+   "thumb": "https://scontent-nrt6-1.cdninstagram.com/v/t51.71878-15/818453794_1771677747373593_7797269017099905819_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk5MDY3Njc3MDY1MDc4MTIxOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=IySpJo7_w9sQ7kNvwFPNH8Y&_nc_oc=Adp41jZpx1QmQ40ao0bbAswRXeQMQmvXj1fN4w1vEsaOSHYeQ8HLFp2tZfTUbhFkr-9qLTpFNmcuuBRVpjdsAaXH&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=I32pPukveSAdniGGZu53mA&_nc_ss=7a22e&oh=00_AQIkWxjE33NionIjUmSMqegFc9iU0tj2wuezmMzLzQ18sg&oe=6AB65740",
+   "url": "https://www.threads.com/@aicoffeechat/post/Ddhu2EgCvYj",
    "region": "kr"
   },
   {
@@ -100,18 +190,8 @@
    "likes": 4,
    "cmts": 1,
    "time": 1789947083,
-   "thumb": "https://scontent-nrt1-1.cdninstagram.com/v/t51.82787-15/811170280_17988057711112832_1923190274138608500_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk5MDY4NzgzMjI4MDYzOTU3Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTUxMi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=AXYwOOf7SZQQ7kNvwFg5ZVE&_nc_oc=AdrGe8i-8FPmRUDuvwvlkZu8eznFVttBlGXQZLWnwjYG8dI0nEoRfQNVItwXU98AkHYnZN8CC9YPm_HXQXx__4zB&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt1-1.cdninstagram.com&_nc_gid=tAPJ8MO_uN9jBbg6MKm7XA&_nc_ss=7a22e&oh=00_AQKQEma8GNOsH_WXFmWRfhY7YOb_8lH9ywPkw6geipo6QQ&oe=6AB666A3",
+   "thumb": "https://scontent-nrt1-1.cdninstagram.com/v/t51.82787-15/811170280_17988057711112832_1923190274138608500_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk5MDY4NzgzMjI4MDYzOTU3Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTUxMi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=AXYwOOf7SZQQ7kNvwFg5ZVE&_nc_oc=AdrGe8i-8FPmRUDuvwvlkZu8eznFVttBlGXQZLWnwjYG8dI0nEoRfQNVItwXU98AkHYnZN8CC9YPm_HXQXx__4zB&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt1-1.cdninstagram.com&_nc_gid=fKchKP6nVv-7uQkjyjkfcA&_nc_ss=7a22e&oh=00_AQKDBVq54pEVh9PmggY5NUAxCTOCUEo0LAIqpoVUP0hfgQ&oe=6AB666A3",
    "url": "https://www.threads.com/@choi.openai/post/DdhxXCcj6hY",
-   "region": "kr"
-  },
-  {
-   "account": "aicoffeechat",
-   "text": "링크: https://github.com/Shubhamsaboo/awesome-llm-apps",
-   "likes": 1,
-   "cmts": 0,
-   "time": 1789946022,
-   "thumb": "",
-   "url": "https://www.threads.com/@aicoffeechat/post/DdhvVi6kx7i",
    "region": "kr"
   },
   {
@@ -125,16 +205,6 @@
    "region": "kr"
   },
   {
-   "account": "takepage_",
-   "text": "현재 핫한 JEV를 무료로 사용할 수 있습니다.\nVERCEL에서 9월25일까지 무료 이벤트를 진행중입니다.\n\nVERCEL에서 배포한 사이트 에서 쓰는 방식이 아닌 \nAI gateway를 통해 호출할 수 있는 거라 꼭 한 번 사용해보세요\n\n저도 예전엔 새로운 모델, 기술들이 나오면 귀찮기도 하고\n내가 활용할 게 있겠어? 하고 넘겼는데 \n이제는 웬만하면 다 써보려고 합니다.\n\n써봐야 쓸만한지 알 수 있고, 남들이 아무리 좋다한들\n포모도 안오고 휘둘리지 않을수도 있으니까요.\n\n저도 한 번 써보고 현실적으로 어떻게 써볼 수 있을지\n활용법에 대해 쉽게 정리해서 가져오겠씁니다!",
-   "likes": 5,
-   "cmts": 0,
-   "time": 1789904020,
-   "thumb": "https://scontent-nrt1-1.cdninstagram.com/v/t51.82787-15/805579587_17937657975362958_304065300171150873_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk5MDMyNjU5NjMwNTQxMTI5MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTU5MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=D7FtIaRyR50Q7kNvwFdu__j&_nc_oc=AdpVZjT6QqykzGDZmVWwcZooQ8VEO_bHlfk1YJyjpsTVaa3ISfPR3yKrwQoU-y-yE-nqsVJFv6zmPNSP2VRIwBpp&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt1-1.cdninstagram.com&_nc_gid=UZdVg-HhWi9jG3IwWE9X7A&_nc_ss=7a22e&oh=00_AQIdlsV9HTUbZMTQciW_wxL3vmtr8RtvFDUhQputBa-Asg&oe=6AB6458B",
-   "url": "https://www.threads.com/@takepage_/post/DdgfOXOk9zb",
-   "region": "kr"
-  },
-  {
    "account": "daily_ai_star",
    "text": "공개 베타에는 추가 사용료가 없고, 토큰과 도구 사용량만 과금됩니다. 하네스가 표준화될수록 팀이 직접 검증해야 할 대상은 모델 호출 코드보다 실행 환경과 권한 설계가 됩니다.\n\nhttps://openai.com/index/introducing-the-agents-api/",
    "likes": 0,
@@ -142,76 +212,6 @@
    "time": 1789875685,
    "thumb": "",
    "url": "https://www.threads.com/@daily_ai_star/post/DdfpK3TmbqF",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "2/ Qwen이 발표한 Qwen-Image-Bench 결과를 살펴보면, ‘나노바나나급’이라고 불러도 과언이 아닌데요.\n\n생성 이미지의 품질·미감·지시 반영 등을 채점하는 이 평가에서 Qwen-Image-2.1은 60.28점, Nano Banana 2.0은 59.82점, Nano Banana Pro는 59.45점을 기록했습니다.",
-   "likes": 4,
-   "cmts": 1,
-   "time": 1789947075,
-   "thumb": "https://scontent-nrt1-2.cdninstagram.com/v/t51.82787-15/817742258_17988057489112832_2225728616490754919_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk5MDY4Nzc2NzM5NDc2NTIxNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMzMzMy5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=81ckR1pkFW8Q7kNvwE8Uk90&_nc_oc=Adruj7QM2yH8F6QCSL6yDeYDDhM3KUaf2owzvQtL07Yiq2XM6ufvZ_FyLHiy3oNZ6dW2FLnvJRnJuahjdLkU7cr2&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt1-2.cdninstagram.com&_nc_gid=tAPJ8MO_uN9jBbg6MKm7XA&_nc_ss=7a22e&oh=00_AQKq6-wGu3aXcE95saU0RUPDiC31XUPwV3QL6HQYCroz6g&oe=6AB66514",
-   "url": "https://www.threads.com/@choi.openai/post/DdhxWGBD8me",
-   "region": "kr"
-  },
-  {
-   "account": "aicoffeechat",
-   "text": "Jev의 유용한 새로운 찾기(⌘+F) 방식\n\n일치하는 키워드가 아니라, 의도한 내용을 찾는 방식입니다. 정말 빠르고 거의 실시간으로 작동합니다. 크롬 확장 프로그램으로 \"무료\"로 공유되고 있어요.\n\n너무 익숙해서 아무도 의심하지 않던 것을 다시 보는 데서 새로운 활용이 시작되는 것 같다. 단축어를 바꾸어서 사용을 해봐도 좋을듯하네요",
-   "likes": 29,
-   "cmts": 1,
-   "time": 1789946018,
-   "thumb": "https://scontent-nrt6-1.cdninstagram.com/v/t51.71878-15/818453794_1771677747373593_7797269017099905819_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk5MDY3Njc3MDY1MDc4MTIxOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=IySpJo7_w9sQ7kNvwFPNH8Y&_nc_oc=Adp41jZpx1QmQ40ao0bbAswRXeQMQmvXj1fN4w1vEsaOSHYeQ8HLFp2tZfTUbhFkr-9qLTpFNmcuuBRVpjdsAaXH&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=Dn84PtPd3Tt6rfi8NQX0qQ&_nc_ss=7a22e&oh=00_AQLy7ul5SdmToNbBcyDtq3P6wjpr4lNvKVNBJX9WanE6Dg&oe=6AB65740",
-   "url": "https://www.threads.com/@aicoffeechat/post/Ddhu2EgCvYj",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
-   "text": "아마진이 하드웨어 제작을 위한 오픈소스 삼차원 기능 레이어 Amagine3D를 공개했습니다.\n제품 설명과 참고 이미지 그리고 주요 치수를 입력하면 내부 부품에 맞춘 외장 케이스와 조립 구조를 설계해 줍니다.\n단순히 형태만 만드는 것이 아니라 수정할 수 있는 소스 코드를 함께 생성하는 방식입니다.\n필요에 따라 스텝 파일이나 에스티엘 그리고 삼디에프 파일로 내보낼 수 있습니다.\n설계 과정은 내부 부품 배치에서 시작해 마운트와 인터페이스를 정리한 뒤 외장과 제어 구조를 만듭니다.\n현재는 출력 가능한 스마트 하드웨어 외장과 관련 구조물 제작에 집중하고 있습니다.\n구조 설계를 자동화하는 과정에서 사람이 일일이 수정해야 하는 번거로움을 얼마나 줄여줄지가 궁금합니다.\n수정 가능한 소스코드를 내보낸다고는 하지만 실제 제조 공정에 곧바로 적용하기에는 아직 세부적인 공차 조절이나 강도 검증 부분이 미덥지 않습니다.\n\n📷 사진 출처: github.com",
-   "likes": 1,
-   "cmts": 1,
-   "time": 1789945275,
-   "thumb": "https://scontent-nrt1-2.cdninstagram.com/v/t51.82787-15/795644363_18088725698407306_2330325606711345462_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk5MDY3MjYwOTQwNjc4ODY0NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=OfpH6-tcwaYQ7kNvwFB-d7M&_nc_oc=AdrLQYrnwa0UiPRcK1OgXEEO0q0sU8mbvV_0e-MD9eSiUmj6Z5NjIcZOgsnPD9tpqTyt-LxwX8JQTYWZ9b9CswiI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt1-2.cdninstagram.com&_nc_gid=C2vhLq95WlN4k_3DPsvggA&_nc_ss=7a22e&oh=00_AQJhuJSV12L83urIbcMz-FWkeUvzGz3QOdrw5VNZNUZETw&oe=6AB65D0A",
-   "url": "https://www.threads.com/@aipeekme/post/Ddht5hCkqQl",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "OpenAI Agents API가 9월 10일 공개 베타로 나왔습니다.\n\n에이전트의 작업, 모델, 도구, 실행 환경을 한 번의 API 호출로 만들 수 있습니다. OpenAI가 Codex에서 쓰던 하네스를 관리하고, 개발자는 OpenAI 샌드박스·자체 인프라·파트너 샌드박스 중 하나를 고릅니다.\n\n긴 세션의 맥락 압축, 필요한 도구만 불러오는 tool search, 여러 subagent의 병렬 실행도 하네스에 포함됩니다.\n\n에이전트 개발의 기준이 “루프를 직접 짜는가”에서 “어떤 환경과 권한을 연결하는가”로 이동했습니다.",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1789875676,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdfpJutma1U",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "1/ 알리바바 Qwen 팀이 9월 20일 이미지 생성과 편집을 하나로 묶은 Qwen-Image-2.1을 공개했습니다.\n\n모델 가중치를 허깅페이스와 모델스코프에서 내려받아 직접 실행할 수 있는데요.\n\n문장을 입력해 새 이미지를 만들거나, 기존 사진을 넣고 원하는 부분을 바꾸는 작업을 같은 모델로 처리합니다.\n\n2K 해상도를 지원하며, 인물의 조명과 질감, 글자 표현도 개선했다고 설명합니다.",
-   "likes": 23,
-   "cmts": 1,
-   "time": 1789947067,
-   "thumb": "https://scontent-nrt1-2.cdninstagram.com/v/t51.82787-15/810996607_17988057186112832_5620510354462792807_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk5MDY4NzcwMDA2Nzc3MTA1NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=NHwPMTnt_hEQ7kNvwGBeAkk&_nc_oc=Adoma75I3cB0AkpuBmQNtl12lw7gjgoFMa2pltdeVW_Q1IXTFKFqLZCZZivIQL_j78pr73gHpF6RkEskYkdlBdY3&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt1-2.cdninstagram.com&_nc_gid=tAPJ8MO_uN9jBbg6MKm7XA&_nc_ss=7a22e&oh=00_AQLaCuNbHlIfa6-L6w_4GT_NaNpdGls1Ntt6URNq-XRrQw&oe=6AB66463",
-   "url": "https://www.threads.com/@choi.openai/post/DdhxVHUD2Kv",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
-   "text": "🔗 원문·자세히 보기\nhttps://huggingface.co/internlm/Atria-Dawn-Preview",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1789905705,
-   "thumb": "",
-   "url": "https://www.threads.com/@aipeekme/post/DdgibgZH-Oj",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "다만 고객이 직접 만든 이름은 개인정보 보호를 위해 보고서에서 `other`로 묶입니다. MCP 서버도 실제 도구 호출 횟수가 아니라 연결·재연결 시도 횟수를 셉니다.\n\n그래서 이 지표는 생산성 점수라기보다, 팀이 어떤 에이전트 기능에 의존하기 시작했는지 보여주는 운영 기록에 가깝습니다. 많이 쓰는 도구와 실제로 가치가 있는 도구가 같은지는 별도로 확인해야 합니다 ⭐\n\nhttps://github.blog/changelog/2026-09-17-agentic-cli-customizations-now-in-the-usage-metrics-api/",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1789870400,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdffFtkmVEt",
    "region": "kr"
   }
  ],
@@ -222,7 +222,7 @@
    "views": 633800,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0CGAI6ooFCAPECAEqED63ffIARmgNxjBUg0zR~tplv-tiktokx-origin.image?dr=14575&x-expires=1790125200&x-signature=p54IH6ZpFNx1BC5MoxaRqqDuiic%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0CGAI6ooFCAPECAEqED63ffIARmgNxjBUg0zR~tplv-tiktokx-origin.image?dr=14575&x-expires=1790128800&x-signature=y5nu7JSap6zb3g9E0PEEy0xHmEk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1788879730,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7683179938026900754",
    "region": "kr"
@@ -230,10 +230,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Саламатсызбы, Кыргызстан! 🇰🇷🇰🇬 #키르기스스탄 #Kyrgyzstan #кыргызстан",
-   "views": 472900,
+   "views": 473100,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ossWcFAWqdBeFM1UB9FEguDtEqARxSGQQyfuUi~tplv-tiktokx-origin.image?dr=14575&x-expires=1790125200&x-signature=vlbtgRbFAxNRy9HlAMx9iFiau7c%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ossWcFAWqdBeFM1UB9FEguDtEqARxSGQQyfuUi~tplv-tiktokx-origin.image?dr=14575&x-expires=1790128800&x-signature=imPwKjQdQWpNqQpWaMyeAO5IdR4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1789537496,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7686005021397273863",
    "region": "kr"
@@ -241,10 +241,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Ассалому алайкум, Тоҷикистон! 🇰🇷🇹🇯 #타지키스탄#Тоҷикистон",
-   "views": 238600,
+   "views": 238700,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/okxPtEHAgIY0AAlC9gAoxAMiBqToaAKBiFulq~tplv-tiktokx-origin.image?dr=14575&x-expires=1790125200&x-signature=BPAos1tp%2F6wenZPHutcb6utJHzo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/okxPtEHAgIY0AAlC9gAoxAMiBqToaAKBiFulq~tplv-tiktokx-origin.image?dr=14575&x-expires=1790128800&x-signature=KDofgSrqn%2B0yvPq%2Fbog35dJsOc4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1789536283,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685999812356934930",
    "region": "kr"
@@ -252,10 +252,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Salam aleýkum Türkmenistan! 🇰🇷🇹🇲 #투르크메니스탄 #turkmenistan #Türkmenistan",
-   "views": 208600,
+   "views": 208700,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4iB0bDrFU5kqzoDSRupABvEWftIIUEfgqMaiE~tplv-tiktokx-origin.image?dr=14575&x-expires=1790125200&x-signature=vpTYkSyGEE8neOCf%2FlhlqHjVQEQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4iB0bDrFU5kqzoDSRupABvEWftIIUEfgqMaiE~tplv-tiktokx-origin.image?dr=14575&x-expires=1790128800&x-signature=8OMe51dMNli9yDgZ%2BCa%2F8VEGwic%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1789447594,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685618898128915730",
    "region": "kr"
@@ -266,7 +266,7 @@
    "views": 61600,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAUOEAPEroYfNoFaeAAfZQATIAiVPvDB5WhDFE~tplv-tiktokx-origin.image?dr=14575&x-expires=1790125200&x-signature=Sri7ez9c3aJwAsvRWsMEgsiGnu8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAUOEAPEroYfNoFaeAAfZQATIAiVPvDB5WhDFE~tplv-tiktokx-origin.image?dr=14575&x-expires=1790128800&x-signature=fooNZ9xYll5Chz32v6ygzn1bHrg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1789393470,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685386435158887688",
    "region": "kr"
@@ -277,7 +277,7 @@
    "views": 45800,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oMMIdnnHDI6bTifTAPFDcDRbtBfWqzBIEDgvEo~tplv-tiktokx-origin.image?dr=14575&x-expires=1790125200&x-signature=Hc9gkl8g4mWGTY6gUE%2FQQxO5O3w%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oMMIdnnHDI6bTifTAPFDcDRbtBfWqzBIEDgvEo~tplv-tiktokx-origin.image?dr=14575&x-expires=1790128800&x-signature=o4xbSB%2Ba9P%2F73BzrGhxegJgfe%2Bc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1789031851,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7683833293816614151",
    "region": "kr"
@@ -288,7 +288,7 @@
    "views": 43500,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIqB6INciK7CI3iw10LAp5vfZO6IAlCTdIAI06~tplv-tiktokx-origin.image?dr=14575&x-expires=1790125200&x-signature=73o3bfG0aFpuSHV1boq9JgUsbMQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIqB6INciK7CI3iw10LAp5vfZO6IAlCTdIAI06~tplv-tiktokx-origin.image?dr=14575&x-expires=1790128800&x-signature=Q4lC6fJpdHIJRMRvnQnabtXb6D0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1788733294,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7682551001663982855",
    "region": "kr"
@@ -299,7 +299,7 @@
    "views": 41900,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okJSEtbnglnRAQHtqOQ1UIFeETBEUtfhBKGkDV~tplv-tiktokx-origin.image?dr=14575&x-expires=1790125200&x-signature=FEgS73JTyttbboRl0yIcaO3lLDU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okJSEtbnglnRAQHtqOQ1UIFeETBEUtfhBKGkDV~tplv-tiktokx-origin.image?dr=14575&x-expires=1790128800&x-signature=owTHdjPTSfmFw8Gews%2BK8zRVdrY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1788795259,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7682817137672555794",
    "region": "kr"
@@ -307,10 +307,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Қош келдіңіз, Қазақстан!🇰🇿🇰🇷 #이재명 #대통령 #카자흐스탄 #Қазақстан #Kazakhstan",
-   "views": 39300,
+   "views": 39400,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4AeKl0yGICLqpfFAVLAoFr7LEeoVADEIKAdEU~tplv-tiktokx-origin.image?dr=14575&x-expires=1790125200&x-signature=2lsvtu5IZ2krT6HWL2iec6AvIg8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4AeKl0yGICLqpfFAVLAoFr7LEeoVADEIKAdEU~tplv-tiktokx-origin.image?dr=14575&x-expires=1790128800&x-signature=4ihbc1feiAa7z4RBggY%2BdL9Ayiw%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1789473921,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685731970453638407",
    "region": "kr"
@@ -318,10 +318,10 @@
   {
    "account": "jaemyung_lee",
    "title": "<초국가범죄, 반드시 뿌리 뽑겠습니다> ‘외국에 있으면 안 잡히겠지?’  그런 생각은 이제 버리십시오. 대한민국 국민을 상대로 한 범죄는 세계 어느 곳에 숨어 있든, 끝까지 추적해 처벌합니다. 대규모 보이스피싱 조직",
-   "views": 28500,
+   "views": 28600,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oU9rIZjq1EKACAAxNBVioCpiI2BAtmA28wfcPR~tplv-tiktokx-origin.image?dr=14575&x-expires=1790125200&x-signature=A3QDdgfhOWJ0zLhucL4JnZRbE7A%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oU9rIZjq1EKACAAxNBVioCpiI2BAtmA28wfcPR~tplv-tiktokx-origin.image?dr=14575&x-expires=1790128800&x-signature=S%2BXGvNVel8BUqxcqt0lyBDsxKU8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1789605105,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7686295400835239175",
    "region": "kr"
@@ -332,7 +332,7 @@
    "views": 4290,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okLBFiZBwYABkaDifA1KAAAwEgpiSVITJUnCFK~tplv-tiktokx-origin.image?dr=14575&x-expires=1790125200&x-signature=gcWh4uBIthO7BR9ybrUyIEeRs9M%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okLBFiZBwYABkaDifA1KAAAwEgpiSVITJUnCFK~tplv-tiktokx-origin.image?dr=14575&x-expires=1790128800&x-signature=N%2B7SjeYjzI5boq%2BJxKO2Ct%2B%2F7Vk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1789465968,
    "url": "https://www.tiktok.com/@tictok_ent/video/7685697810284465415",
    "region": "kr"
@@ -340,10 +340,10 @@
   {
    "account": "tictok_ent",
    "title": "수지, 시민들의 욕을 부르는 미모 / 아누아(Anua) 포토월 더파운더즈의 글로벌 뷰티 브랜드 아누아(Anua)의 'PDRN 라인 팝업스토어' 오픈을 기념하는 포토행사가 18일 오전 서울 성동구 성수동에 위치한 올리",
-   "views": 4270,
+   "views": 4287,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ow8gANS3AmQCK2UqVEUCB50sGEQeIAFZAFArfD~tplv-tiktokx-origin.image?dr=14575&x-expires=1790125200&x-signature=mBdBPXK7RnBwL63vfZfXxycE6lQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ow8gANS3AmQCK2UqVEUCB50sGEQeIAFZAFArfD~tplv-tiktokx-origin.image?dr=14575&x-expires=1790128800&x-signature=dgk8JFgQoqoM4WoD4mGEKvbNlJ0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1789699186,
    "url": "https://www.tiktok.com/@tictok_ent/video/7686699475406015762",
    "region": "kr"
@@ -369,22 +369,22 @@
    "url": "https://www.reddit.com/r/anime/comments/1wljcy8/mushoku_tensei_jobless_reincarnation_season_3/"
   },
   {
-   "sub": "PoursTea",
-   "title": "MTG calls out MAGA",
+   "sub": "BlackPeopleTwitter",
+   "title": "After the NFL fined Azeez Al-Shaair $11,941 for writing Hind Rajab’s name on his eye black, he is sending a message again.",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/5kma1ydllqqh1.jpeg?width=640&crop=smart&auto=webp&s=ff64f5f8e2c71f362f1adcc9035a1bd0175f3284",
-   "time": 1789936971,
-   "url": "https://www.reddit.com/r/PoursTea/comments/1wlsbxq/mtg_calls_out_maga/"
+   "thumb": "https://preview.redd.it/c488okc1trqh1.jpeg?width=640&crop=smart&auto=webp&s=837ad322d5a42a32013881e52f53eccb967b8691",
+   "time": 1789951581,
+   "url": "https://www.reddit.com/r/BlackPeopleTwitter/comments/1wly32m/after_the_nfl_fined_azeez_alshaair_11941_for/"
   },
   {
-   "sub": "OldSchoolCool",
-   "title": "My mom as a Northwest Airlines flight attendant in the 1980s.",
+   "sub": "MurderedByWords",
+   "title": "EXTREMELY supportive husband.",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/3yknloc1wqqh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=3a5758f6d369c4950ff2f63a746ac517f05f1224",
-   "time": 1789940783,
-   "url": "https://www.reddit.com/r/OldSchoolCool/comments/1wltxth/my_mom_as_a_northwest_airlines_flight_attendant/"
+   "thumb": "https://preview.redd.it/a4s12y31jrqh1.jpeg?width=640&crop=smart&auto=webp&s=3cba934ae97f56b4b4fb51bf940b0269c669bf9b",
+   "time": 1789948215,
+   "url": "https://www.reddit.com/r/MurderedByWords/comments/1wlwtix/extremely_supportive_husband/"
   },
   {
    "sub": "cringereels",
@@ -423,24 +423,6 @@
    "url": "https://www.reddit.com/r/interestingasfuck/comments/1wlb5ct/nasa_has_released_these_new_photos_from_the/"
   },
   {
-   "sub": "nottheonion",
-   "title": "Logan Paul Gives A Speech To United States Military At The Pentagon",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/3QFeWihatnclsCrNSnEnuXIJSGsJOxoRMsmbIBaG9jY.jpeg?width=640&crop=smart&auto=webp&s=2687bb0045cc17bad7cc407a44e800100895380d",
-   "time": 1789938580,
-   "url": "https://www.reddit.com/r/nottheonion/comments/1wlt120/logan_paul_gives_a_speech_to_united_states/"
-  },
-  {
-   "sub": "oddlysatisfying",
-   "title": "Laying and smoothing down resin-bound gravel",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/OGZ3NnppeXk4cnFoMa5LI6x-A11oL1Dlfvjxbaod-kWR7FcQFmiZX9wfn823.jpeg?width=320&crop=smart&auto=webp&s=b3e2fea0094c7eb43ab793329c1b8b1305e5d0d1",
-   "time": 1789944854,
-   "url": "https://www.reddit.com/r/oddlysatisfying/comments/1wlvjk1/laying_and_smoothing_down_resinbound_gravel/"
-  },
-  {
    "sub": "pics",
    "title": "Had 8 brain tumors removed yesterday, bringing my 3-year total to 13 tumors",
    "score": 0,
@@ -448,6 +430,24 @@
    "thumb": "https://preview.redd.it/rn86j54wvoqh1.jpeg?width=640&crop=smart&auto=webp&s=44b6b2719b3bbb5fd7014ecb44fed1493ecd0bcb",
    "time": 1789916220,
    "url": "https://www.reddit.com/r/pics/comments/1wlj82e/had_8_brain_tumors_removed_yesterday_bringing_my/"
+  },
+  {
+   "sub": "PoursTea",
+   "title": "MTG calls out MAGA",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/5kma1ydllqqh1.jpeg?width=640&crop=smart&auto=webp&s=ff64f5f8e2c71f362f1adcc9035a1bd0175f3284",
+   "time": 1789936971,
+   "url": "https://www.reddit.com/r/PoursTea/comments/1wlsbxq/mtg_calls_out_maga/"
+  },
+  {
+   "sub": "OldSchoolCool",
+   "title": "My mom as a Northwest Airlines flight attendant in the 1980s.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/3yknloc1wqqh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=3a5758f6d369c4950ff2f63a746ac517f05f1224",
+   "time": 1789940783,
+   "url": "https://www.reddit.com/r/OldSchoolCool/comments/1wltxth/my_mom_as_a_northwest_airlines_flight_attendant/"
   },
   {
    "sub": "LoveTrash",
@@ -478,10 +478,10 @@
   },
   "why": {},
   "landing": {
-   "at": "2026-09-21T10:05:17",
+   "at": "2026-09-21T10:31:29",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-09-21T10:31:25.993236+09:00"
+ "updated": "2026-09-21T11:01:32.386157+09:00"
 }
