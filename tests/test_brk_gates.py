@@ -99,18 +99,26 @@ class JudicialGate(unittest.TestCase):
                   "'이종섭 호주도피' 윤석열 오늘 1심 선고…특검, 징역 5년 구형"]:
             self.assertIsNotNone(G.judicial_gate(t, 3), t)
 
-    def test_verdict_pass(self):
+    def test_verdict_x(self):   # 운영자 260921 «항소심 선고 이런 관련된거는 다 긴급 안오게» — 결과(선고·판결)도 X
         for t in ["[속보] ‘이종섭 도피 의혹’ 윤석열, 1심 무죄", "‘특수부대 기밀 누설’ 문상호 前정보사령관 1심서 무죄",
                   "3세 원아 12명 114차례 학대… 어린이집 교사 2명 1심서 법정 구속",
-                  "뜨거운 물 붓고 폭행해 친딸 살해 40대 女가수, 사형 구형",   # 사형 예외 = 구형이어도 O
+                  "[속보] 법원 “‘연락사무소 폭파’ 北, 정부에 446억원 배상해야”",
+                  "'오송참사 부실 제방' 1심 법정최고형 금호건설·감리사 항소",
+                  "‘계엄 문건’ 김용현, 항소심서 징역 5년 선고", "대법원, 김건희 상고 기각…징역 2년 확정",
+                  "[속보] 윤석열 내란 혐의 2심 선고…무기징역"]:
+            self.assertIsNotNone(G.judicial_gate(t, 3), t)
+            self.assertIsNotNone(G.judicial_gate(t, 20), t)   # 매체가 몰려도 X(cross 통과 폐지)
+
+    def test_exceptions_pass(self):
+        for t in ["뜨거운 물 붓고 폭행해 친딸 살해 40대 女가수, 사형 구형",   # 사형 예외 = 구형이어도 O(260831)
                   "방글라데시 법원, 반정부 시위 유혈 진압한 전 장관 등 7명 사형 판결",
-                  "[속보] 법원 “‘연락사무소 폭파’ 北, 정부에 446억원 배상해야”"]:
+                  "[속보] 헌재, 윤석열 대통령 탄핵 인용…파면 선고"]:   # 탄핵 = 정치 사태 축
             self.assertIsNone(G.judicial_gate(t, 3), t)
 
-    def test_mass_coverage_passes(self):
+    def test_mass_coverage_still_x(self):
         t = "선관위 특검, 중앙·지방선관위 등 9개소 압수수색"
         self.assertIsNotNone(G.judicial_gate(t, 3))
-        self.assertIsNone(G.judicial_gate(t, 12))   # 매체가 몰린 건 = 전국적 사건
+        self.assertIsNotNone(G.judicial_gate(t, 12))   # 구판 「매체 몰림 = 통과」 폐지(260921)
 
 
 class Switch(unittest.TestCase):
