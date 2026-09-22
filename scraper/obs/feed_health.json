@@ -1,6 +1,6 @@
 {
- "ok": 153,
- "dead": 16,
+ "ok": 150,
+ "dead": 19,
  "dead_feeds": [
   {
    "publisher": "국민일보",
@@ -48,6 +48,16 @@
    "url": "http://rss.kmib.co.kr/data/kmibRssAll.xml"
   },
   {
+   "publisher": "뉴시스",
+   "title": "국제",
+   "url": "https://newsis.com/RSS/international.xml"
+  },
+  {
+   "publisher": "뉴시스",
+   "title": "금융",
+   "url": "https://newsis.com/RSS/bank.xml"
+  },
+  {
    "publisher": "시사저널",
    "title": "Health",
    "url": "http://www.sisajournal.com/rss/S2N106.xml"
@@ -56,6 +66,16 @@
    "publisher": "시사저널",
    "title": "Culture",
    "url": "http://www.sisajournal.com/rss/S2N107.xml"
+  },
+  {
+   "publisher": "한겨레신문",
+   "title": "사회",
+   "url": "https://www.hani.co.kr/rss/society/"
+  },
+  {
+   "publisher": "한겨레신문",
+   "title": "국제",
+   "url": "https://www.hani.co.kr/rss/international/"
   },
   {
    "publisher": "한국경제",
@@ -71,11 +91,6 @@
    "publisher": "노컷뉴스",
    "title": "전체기사",
    "url": "https://www.nocutnews.co.kr/rss/news"
-  },
-  {
-   "publisher": "머니투데이",
-   "title": "전체기사",
-   "url": "https://rss.mt.co.kr/mt_news.xml"
   },
   {
    "publisher": "스포티비뉴스",
