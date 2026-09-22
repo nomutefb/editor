@@ -57,7 +57,8 @@ def _load_news_cat():
     """뉴스 주제 분류기(CAT_KW 222개 · scraper/to_candidates.py) 재사용 — 텍스트 파싱(모듈 실행 회피 ·
     단방향 의존 = 큐레이션 무접촉 · 운영자 260713 "이미 있는 주제 분류기 찾아서 보완"). 실패 = 빈 사전."""
     try:
-        src = open(os.path.join(DATA, '..', '..', '..', 'scraper', 'to_candidates.py'), encoding='utf-8').read()
+        with open(os.path.join(DATA, '..', '..', '..', 'scraper', 'to_candidates.py'), encoding='utf-8') as source:
+            src = source.read()
         m = re.search(r'CAT_KW\s*=\s*(\{.*?\n\})', src, re.S)
         return __import__('ast').literal_eval(m.group(1)) if m else {}
     except Exception:

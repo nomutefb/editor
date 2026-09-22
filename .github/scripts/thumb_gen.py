@@ -823,7 +823,8 @@ def dry_run(argv):
 
 # ── queue md 파싱: frontmatter title + 본문 h1(에디토리얼 헤드라인) + 한줄요약 ──
 def parse_md(path):
-    raw = open(path, encoding="utf-8").read()
+    with open(path, encoding="utf-8") as source:
+        raw = source.read()
     fm = {}
     m = re.search(r"^---\s*$(.*?)^---\s*$", raw, re.M | re.S)
     body = raw

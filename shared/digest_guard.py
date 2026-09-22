@@ -100,7 +100,7 @@ def derive_check(path):
     2방향(누락·날조)은 같은 축의 앞뒤다 — 누락 = 있던 게 사라짐 · 날조 = 없던 게 생김.
     ⚠️ 비차단(경고 전용) — 정당한 축약이 섞이므로 하드면 파이프가 언다."""
     try:
-        body = open(path, encoding="utf-8").read()
+        body = Path(path).read_text(encoding="utf-8")
     except Exception as e:
         print("ℹ️ derive: 읽기 실패 %s" % e)
         return 0
