@@ -16,6 +16,16 @@
  "threads": [
   {
    "account": "choi.openai",
+   "text": "바이브 코딩에 이어 이제는 ‘바이브 모델링’까지 나오고 있습니다.\n\nHyper3D가 자연어로 3D 모델을 만들고 계속 수정할 수 있는 Agentic Mode를 공개했습니다.\n\n“지붕을 높이고 집을 넓혀줘”라고 말하면 기존 3D 모델의 크기와 비율을 수정하고, 여러 각도의 사진을 하나의 물체로 이해해 3D 모델로 만들 수도 있습니다.\n\n생성된 결과는 편집 가능한 N-GONS 형태이며 애니메이션도 추가할 수 있습니다.\n\n코딩처럼 3D 제작도 직접 툴을 다루는 것보다 AI에게 원하는 결과를 설명하고 수정시키는 방식으로 바뀌고 있습니다.",
+   "likes": 3,
+   "cmts": 0,
+   "time": 1790105442,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/820017008_28201814586184401_7001227983899345948_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk5MjAxNjI0NjE3ODc5NjE3NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=TyNMoI-FQjgQ7kNvwG3UTYR&_nc_oc=AdqK90UH3-qhuO6TUkoOLWs9e_JIV3-5xtc3O5lc18tCkVGetVcxYXPjtCUyoO-lmHg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=PySSlwrzsLfnhrH658Rc1w&_nc_ss=7a22e&oh=00_AQKZ2K919X6gCNBqPz5a68-ZZj4kDnRcRIjC5CiiTpDOWw&oe=6AB8B6D2",
+   "url": "https://www.threads.com/@choi.openai/post/DdmfaATE1KO",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
    "text": "발표내용 :\nhttps://www.aikido.dev/blog/aikido-altar-open-weight-ai-sovereign-security",
    "likes": 0,
    "cmts": 0,
@@ -27,21 +37,11 @@
   {
    "account": "choi.openai",
    "text": "에이키도가 보안 작업에 맞춘 첫 오픈웨이트 모델 Altar-1을 공개했습니다.\n\nGLM-5.3을 기반으로 보안 테스트 기록과 다국어 데이터를 활용해 필요한 전문가를 선별하고, 1.51TB 모델을 328GB까지 줄였습니다.\n별도 보안 파인튜닝을 한 모델은 아닙니다.\n\n32개 실제 취약점 평가에서 Altar-1은 23개를 찾아 원본 GLM-5.3이 찾은 25개 중 92%를 유지했고, 평균 탐지율은 60.4%로 원본 65.6%와 비교해 5.2%p 낮았습니다. 이미 실제 고객 펜테스트에서도 치명적 취약점을 발견했다고 합니다.\n\n가중치가 공개돼 자체 서버나 폐쇄망에서도 운영할 수 있으며 4개의 H200으로 구동 가능합니다.",
-   "likes": 1,
+   "likes": 2,
    "cmts": 2,
    "time": 1790100039,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/820432203_1821329772634820_2997686299944769684_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk5MTk3MDkyMzQ5NDQzNDI5Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=K7uVTmk88EEQ7kNvwHOdZJl&_nc_oc=AdpFJOWP0IPdjiiyAyYiyJqAdf7Yue55Mkaemd1g7fcgcHS5DDX8gCqUR-exaj1UR5U&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=vQ_JNs9vVpJM13_KedRwGw&_nc_ss=7a22e&oh=00_AQLPzNY-B5XS26Jm5kw5I-SOaoJo6OSXeFGiPzdVV9-ixA&oe=6AB8BC46",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/820432203_1821329772634820_2997686299944769684_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk5MTk3MDkyMzQ5NDQzNDI5Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=K7uVTmk88EEQ7kNvwHOdZJl&_nc_oc=AdpFJOWP0IPdjiiyAyYiyJqAdf7Yue55Mkaemd1g7fcgcHS5DDX8gCqUR-exaj1UR5U&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=PySSlwrzsLfnhrH658Rc1w&_nc_ss=7a22e&oh=00_AQItuXJgvvVlAQZtK270YKb86cxpleldP9PmF4EsXRQ32w&oe=6AB8BC46",
    "url": "https://www.threads.com/@choi.openai/post/DdmVGeQkuX4",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "허깅페이스 :\nhttps://huggingface.co/XGENlabs/XGEN-JING",
-   "likes": 1,
-   "cmts": 0,
-   "time": 1790094637,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DdmKzAvDd6x",
    "region": "kr"
   },
   {
@@ -60,7 +60,7 @@
    "likes": 0,
    "cmts": 1,
    "time": 1790078480,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/796641175_18089028254407306_4420814293171980517_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk5MTc4OTk5ODg3MDMyNzQ3MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=1fwlojZion4Q7kNvwGpWcCM&_nc_oc=AdoPurFhXQqPEvJAc_SqdcUuhZlcEmPjNwMbY_1L96KErHTXgUXlB4ppk9HxJSp3Tw4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=U541utXHAzIzuOFBqIivVQ&_nc_ss=7a22e&oh=00_AQIZGrm8UswI2OeL1Ov6YsYcztIXM0pXpXSci0UA-cnfKg&oe=6AB8C0C2",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/796641175_18089028254407306_4420814293171980517_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk5MTc4OTk5ODg3MDMyNzQ3MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=1fwlojZion4Q7kNvwGpWcCM&_nc_oc=AdoPurFhXQqPEvJAc_SqdcUuhZlcEmPjNwMbY_1L96KErHTXgUXlB4ppk9HxJSp3Tw4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=CsXL33nOqLSBiSdLpBhTzw&_nc_ss=7a22e&oh=00_AQK8_mOa0iXbqgLEHdsloYUbhuY2Yi_1iERsKZNCifIsKQ&oe=6AB8C0C2",
    "url": "https://www.threads.com/@aipeekme/post/Ddlr9rEn3Cv",
    "region": "kr"
   },
@@ -80,7 +80,7 @@
    "likes": 1,
    "cmts": 0,
    "time": 1790066667,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/820409386_17937933756362958_3616705906274467283_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk5MTY5MDk4MDUyMDg2NTg0OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuODk1LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=prfRWY8ZEkEQ7kNvwEiEvlK&_nc_oc=Ado5BzoCLOpqPXDoiltW60Q9KpqOs3bytNkUh3EvaWZd78mzbePBCC5E5EgKzYgnPO4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=31lCu54JnuP02fX3Hi0w-A&_nc_ss=7a22e&oh=00_AQId0Jdakx8Mpp_FB1x50SuWnzk3MrPCsrwBEFXsz41YrQ&oe=6AB8B198",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/820409386_17937933756362958_3616705906274467283_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk5MTY5MDk4MDUyMDg2NTg0OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuODk1LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=prfRWY8ZEkEQ7kNvwEiEvlK&_nc_oc=Ado5BzoCLOpqPXDoiltW60Q9KpqOs3bytNkUh3EvaWZd78mzbePBCC5E5EgKzYgnPO4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=14LDLyVY6Zfa7i3dQz1Zgg&_nc_ss=7a22e&oh=00_AQIxpt1fkoOe7gMeLE45GQ_Y_kFKcyM4eAXRirAHpEfT1Q&oe=6AB8B198",
    "url": "https://www.threads.com/@takepage_/post/DdlVcxDE7A5",
    "region": "kr"
   },
@@ -100,7 +100,7 @@
    "likes": 7,
    "cmts": 1,
    "time": 1790059326,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/790225792_1589502259579093_5097897215633516640_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk5MTYyOTE1MzIzMzY2Nzc1OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=XN63oQ-ZXSkQ7kNvwHrUGLT&_nc_oc=AdoeC8QiS-BsGDoT15PbRbx69nDYBmnSuXFVtRLjJbSr_35_QUbF8EgvKgFB1xR5ru0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=BEnZrmLY03xitqFeHXOWNg&_nc_ss=7a22e&oh=00_AQLntPncCFqwHR2zme8mbksgbVDk5koz97y0zR-ZJAcgpg&oe=6AB8C13C",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/790225792_1589502259579093_5097897215633516640_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk5MTYyOTE1MzIzMzY2Nzc1OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=XN63oQ-ZXSkQ7kNvwHrUGLT&_nc_oc=AdoeC8QiS-BsGDoT15PbRbx69nDYBmnSuXFVtRLjJbSr_35_QUbF8EgvKgFB1xR5ru0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=vwttxDmHjNGq-qgjyVTUTQ&_nc_ss=7a22e&oh=00_AQJqOg9h758KuronbEVB2uxa8ZEXE9HYuJ_ZFEie2tSlNw&oe=6AB8C13C",
    "url": "https://www.threads.com/@kopp/post/DdlHZD5lgav",
    "region": "kr"
   },
@@ -110,7 +110,7 @@
    "likes": 27,
    "cmts": 1,
    "time": 1790056551,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/808786708_17958409119232485_3311240371714756849_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk5MTYwNjEyMDY0OTMwMDQ4Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjc2Mi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=bjM-7os-PCgQ7kNvwE7QJiG&_nc_oc=Ado0ON-H_UWG5kaSeqVOzdwopBK6OajG-sk7_N59OvEUWMIDtu8yTuW8GqJOMBoXjro&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=VYWQbdANzRXPmWmSw27cOA&_nc_ss=7a22e&oh=00_AQK41eJ-er8yKSVcbMmsdTA2lPB3pyvJLjUb3pxlycVKmg&oe=6AB8B09B",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/808786708_17958409119232485_3311240371714756849_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk5MTYwNjEyMDY0OTMwMDQ4Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjc2Mi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=bjM-7os-PCgQ7kNvwE7QJiG&_nc_oc=Ado0ON-H_UWG5kaSeqVOzdwopBK6OajG-sk7_N59OvEUWMIDtu8yTuW8GqJOMBoXjro&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=CcOu9kd1BDn8mDi6XQnyAg&_nc_ss=7a22e&oh=00_AQLjsZOWuRolaCDOhOyk5BjTP9AnPT4F0Ks8DUKsIAngTQ&oe=6AB8B09B",
    "url": "https://www.threads.com/@aicoffeechat/post/DdlCJ5Ik5oH",
    "region": "kr"
   },
@@ -120,7 +120,7 @@
    "likes": 17,
    "cmts": 5,
    "time": 1790052732,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/796903118_17937913797362958_2979104767274304568_n.webp?stp=dst-webp_s640x640_sh2.08&_nc_cat=101&ig_cache_key=Mzk5MTU3NDA4MjU5MjQzNjIyMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=GNtO4tVWBFkQ7kNvwHwKQjF&_nc_oc=Adp_L0wrSzUXHyqw_0HyuxpzpUbtYKiUzHAbaK2GVGD6ov2Tjerk3yZy35blplZpqZc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=31lCu54JnuP02fX3Hi0w-A&_nc_ss=7a22e&oh=00_AQLFDV41xWPKNN0N9AM3BzYpgO_hCk56C3hFU975zeBbYg&oe=6AB8C1B1",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/796903118_17937913797362958_2979104767274304568_n.webp?stp=dst-webp_s640x640_sh2.08&_nc_cat=101&ig_cache_key=Mzk5MTU3NDA4MjU5MjQzNjIyMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=GNtO4tVWBFkQ7kNvwHwKQjF&_nc_oc=Adp_L0wrSzUXHyqw_0HyuxpzpUbtYKiUzHAbaK2GVGD6ov2Tjerk3yZy35blplZpqZc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=14LDLyVY6Zfa7i3dQz1Zgg&_nc_ss=7a22e&oh=00_AQKhFipORiGg3Yye1seOVp8C0v4Cdf9Ptad4AhlEZFWRaA&oe=6AB8C1B1",
    "url": "https://www.threads.com/@takepage_/post/Ddk63rXk-_9",
    "region": "kr"
   },
@@ -170,18 +170,18 @@
    "likes": 53,
    "cmts": 2,
    "time": 1790031565,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/818598496_1444586104244769_5329842086962139358_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk5MTM5MzYwMjA1OTc3Njg2Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=j6gUtuNel-8Q7kNvwGfyMvT&_nc_oc=Adptqkz2F05mGlzpqzTsNdPiPl-BbON9lVvRJ8zQUOkT92yWDVtyRtwTTERutSr60j8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=VYWQbdANzRXPmWmSw27cOA&_nc_ss=7a22e&oh=00_AQJ2Iuuyv6HJmv1ypb61m9BvIa0zypXtBaVdkVcfbgY-9A&oe=6AB89CBF",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/818598496_1444586104244769_5329842086962139358_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk5MTM5MzYwMjA1OTc3Njg2Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=j6gUtuNel-8Q7kNvwGfyMvT&_nc_oc=Adptqkz2F05mGlzpqzTsNdPiPl-BbON9lVvRJ8zQUOkT92yWDVtyRtwTTERutSr60j8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=CcOu9kd1BDn8mDi6XQnyAg&_nc_ss=7a22e&oh=00_AQIX-v1wzfOMTdms3ygrHimp3fk5Omjjox3otq4Urx0gMQ&oe=6AB89CBF",
    "url": "https://www.threads.com/@aicoffeechat/post/DdkR1VxijNj",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "XGEN Labs가 상호작용할 수 있는 월드 모델 JING을 공개했습니다.\n\nJING은 사용자의 행동과 참고 이미지, 이전 상황을 바탕으로 다음 장면을 실시간으로 만들어냅니다.\n\n카메라를 움직여 공간을 돌아다니거나 물체와 상호작용하고, 등장인물과 대화할 수도 있는데요. 이 과정에서 영상과 오디오를 함께 생성합니다.\n\n앞서 XGEN Labs는 JING이 개인의 경험을 생성하고 DAO가 여러 사람이 공유하는 세계의 상태와 변화를 관리하는 Generative World Simulation 구조도 공개했는데요.\n\n이번에는 그중 JING의 모델과 추론 코드를 공개했으며 허깅페이스에서 이용할 수 있습니다.",
-   "likes": 8,
-   "cmts": 2,
-   "time": 1790094626,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/820017010_3428192364026037_3350701868468668260_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk5MTkyNTUxODE5ODc1MjA4NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=c-iRz683L5oQ7kNvwH1DTP9&_nc_oc=AdrvCGb2Wr0LBzp4uw4lEPnuTXHWMBFtlbGiRGWvRRWBYrUbg_szw6cs7b4mphTYB3g&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=vQ_JNs9vVpJM13_KedRwGw&_nc_ss=7a22e&oh=00_AQKBezwEcGOY_9n8L6NBFKDD5XGwUdgVHPEEyDndUBcnBg&oe=6AB8BC8A",
-   "url": "https://www.threads.com/@choi.openai/post/DdmKxvSDcNU",
+   "text": "허깅페이스 :\nhttps://huggingface.co/XGENlabs/XGEN-JING",
+   "likes": 1,
+   "cmts": 0,
+   "time": 1790094637,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DdmKzAvDd6x",
    "region": "kr"
   },
   {
@@ -190,7 +190,7 @@
    "likes": 0,
    "cmts": 1,
    "time": 1790069473,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/795704557_18089006870407306_4054363265031410580_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk5MTcxNDQ0ODgyNjkwMTY2OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=7eJOKnUkZ0oQ7kNvwGYtQpm&_nc_oc=Adqoexk3L1KQAzlL2m1A-zZWtebvcibTFuib7MeKqaTd_oKaXzM96IiE7HBHgjgplZo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=U541utXHAzIzuOFBqIivVQ&_nc_ss=7a22e&oh=00_AQLTzYfNBRfTHN6uIdN7fyfbgBE0oksi1GVNkjDh4SnUew&oe=6AB89FE5",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/795704557_18089006870407306_4054363265031410580_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk5MTcxNDQ0ODgyNjkwMTY2OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=7eJOKnUkZ0oQ7kNvwGYtQpm&_nc_oc=Adqoexk3L1KQAzlL2m1A-zZWtebvcibTFuib7MeKqaTd_oKaXzM96IiE7HBHgjgplZo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=CsXL33nOqLSBiSdLpBhTzw&_nc_ss=7a22e&oh=00_AQLO6sL_rLVo9OEWNAlsuwVcDyoAUe-btmYmwJjXNMLWaA&oe=6AB89FE5",
    "url": "https://www.threads.com/@aipeekme/post/DdlayRnHySk",
    "region": "kr"
   },
@@ -206,12 +206,12 @@
   },
   {
    "account": "choi.openai",
-   "text": "발표내용 :\nhttps://devin.ai/blog/devin-cloud-in-your-terminal",
-   "likes": 2,
-   "cmts": 0,
-   "time": 1790089232,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DdmAfTRANXC",
+   "text": "XGEN Labs가 상호작용할 수 있는 월드 모델 JING을 공개했습니다.\n\nJING은 사용자의 행동과 참고 이미지, 이전 상황을 바탕으로 다음 장면을 실시간으로 만들어냅니다.\n\n카메라를 움직여 공간을 돌아다니거나 물체와 상호작용하고, 등장인물과 대화할 수도 있는데요. 이 과정에서 영상과 오디오를 함께 생성합니다.\n\n앞서 XGEN Labs는 JING이 개인의 경험을 생성하고 DAO가 여러 사람이 공유하는 세계의 상태와 변화를 관리하는 Generative World Simulation 구조도 공개했는데요.\n\n이번에는 그중 JING의 모델과 추론 코드를 공개했으며 허깅페이스에서 이용할 수 있습니다.",
+   "likes": 8,
+   "cmts": 2,
+   "time": 1790094626,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/820017010_3428192364026037_3350701868468668260_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk5MTkyNTUxODE5ODc1MjA4NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=c-iRz683L5oQ7kNvwH1DTP9&_nc_oc=AdrvCGb2Wr0LBzp4uw4lEPnuTXHWMBFtlbGiRGWvRRWBYrUbg_szw6cs7b4mphTYB3g&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=PySSlwrzsLfnhrH658Rc1w&_nc_ss=7a22e&oh=00_AQIoOPfGJqffm06msJM9DJJSqzPcTYM-eXq8QM_7LRQ0jA&oe=6AB8BC8A",
+   "url": "https://www.threads.com/@choi.openai/post/DdmKxvSDcNU",
    "region": "kr"
   }
  ],
@@ -219,10 +219,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Aux Champs-Élysées #이재명 #France #macron #fyp",
-   "views": 636300,
+   "views": 636400,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0CGAI6ooFCAPECAEqED63ffIARmgNxjBUg0zR~tplv-tiktokx-origin.image?dr=14575&x-expires=1790276400&x-signature=FNu%2B9p9YxxGFX5TcDhc9F13ebws%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0CGAI6ooFCAPECAEqED63ffIARmgNxjBUg0zR~tplv-tiktokx-origin.image?dr=14575&x-expires=1790280000&x-signature=IxAWEPnqQsy5N9H1LXQ%2F5btdl%2FI%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1788879730,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7683179938026900754",
    "region": "kr"
@@ -230,10 +230,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Саламатсызбы, Кыргызстан! 🇰🇷🇰🇬 #키르기스스탄 #Kyrgyzstan #кыргызстан",
-   "views": 489000,
+   "views": 489100,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ossWcFAWqdBeFM1UB9FEguDtEqARxSGQQyfuUi~tplv-tiktokx-origin.image?dr=14575&x-expires=1790276400&x-signature=s6h%2BhgTn3P88tVkbqLw6Gsg3%2BuM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ossWcFAWqdBeFM1UB9FEguDtEqARxSGQQyfuUi~tplv-tiktokx-origin.image?dr=14575&x-expires=1790280000&x-signature=zIJVGvZm9jQcppn8qKEUyQ5yNPs%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789537496,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7686005021397273863",
    "region": "kr"
@@ -241,10 +241,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Ассалому алайкум, Тоҷикистон! 🇰🇷🇹🇯 #타지키스탄#Тоҷикистон",
-   "views": 252300,
+   "views": 252400,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okxPtEHAgIY0AAlC9gAoxAMiBqToaAKBiFulq~tplv-tiktokx-origin.image?dr=14575&x-expires=1790276400&x-signature=3PabwiCOZx%2BrMLrVW45fQrPbfww%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okxPtEHAgIY0AAlC9gAoxAMiBqToaAKBiFulq~tplv-tiktokx-origin.image?dr=14575&x-expires=1790280000&x-signature=DbDgj79zHhVMCLjdY4zlCgUe%2Bjk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789536283,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685999812356934930",
    "region": "kr"
@@ -252,10 +252,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Salam aleýkum Türkmenistan! 🇰🇷🇹🇲 #투르크메니스탄 #turkmenistan #Türkmenistan",
-   "views": 213100,
+   "views": 213200,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4iB0bDrFU5kqzoDSRupABvEWftIIUEfgqMaiE~tplv-tiktokx-origin.image?dr=14575&x-expires=1790276400&x-signature=97li18wFjWsjgL2iXG2jDN%2BznHo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4iB0bDrFU5kqzoDSRupABvEWftIIUEfgqMaiE~tplv-tiktokx-origin.image?dr=14575&x-expires=1790280000&x-signature=JvyX%2BNYucR3mxErL%2BgwYQ93F0JQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789447594,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685618898128915730",
    "region": "kr"
@@ -263,10 +263,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Assalomu alaykum, O‘zbekiston!🇺🇿🇰🇷 #이재명 #우즈베키스탄 #Uzbekistan",
-   "views": 64900,
+   "views": 65000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAUOEAPEroYfNoFaeAAfZQATIAiVPvDB5WhDFE~tplv-tiktokx-origin.image?dr=14575&x-expires=1790276400&x-signature=N7mGYFe7kZAuP1MmL%2FkMjUtcLqs%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAUOEAPEroYfNoFaeAAfZQATIAiVPvDB5WhDFE~tplv-tiktokx-origin.image?dr=14575&x-expires=1790280000&x-signature=ZJUkRVFqzsqpbaYVL4bT0FTCpMk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789393470,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685386435158887688",
    "region": "kr"
@@ -277,7 +277,7 @@
    "views": 47100,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oMMIdnnHDI6bTifTAPFDcDRbtBfWqzBIEDgvEo~tplv-tiktokx-origin.image?dr=14575&x-expires=1790276400&x-signature=Z0xPL85axl1Gzk2e%2FInEs0%2FQBCI%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oMMIdnnHDI6bTifTAPFDcDRbtBfWqzBIEDgvEo~tplv-tiktokx-origin.image?dr=14575&x-expires=1790280000&x-signature=tF0WHtv%2FNioGOcpy70fTJE9%2B31I%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789031851,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7683833293816614151",
    "region": "kr"
@@ -288,7 +288,7 @@
    "views": 41100,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4AeKl0yGICLqpfFAVLAoFr7LEeoVADEIKAdEU~tplv-tiktokx-origin.image?dr=14575&x-expires=1790276400&x-signature=IK1auzzYZ3Vp5Uki6Z0sfC2qOiw%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4AeKl0yGICLqpfFAVLAoFr7LEeoVADEIKAdEU~tplv-tiktokx-origin.image?dr=14575&x-expires=1790280000&x-signature=OEdBVhDb9eNmIFDlJz0ACraTIK0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789473921,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685731970453638407",
    "region": "kr"
@@ -299,7 +299,7 @@
    "views": 31700,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oU9rIZjq1EKACAAxNBVioCpiI2BAtmA28wfcPR~tplv-tiktokx-origin.image?dr=14575&x-expires=1790276400&x-signature=ctMXDrfSVA6z802CcsVuSoOYMYY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oU9rIZjq1EKACAAxNBVioCpiI2BAtmA28wfcPR~tplv-tiktokx-origin.image?dr=14575&x-expires=1790280000&x-signature=Ti3x1vt6oxMz4CwQHHhJFPKFxHY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789605105,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7686295400835239175",
    "region": "kr"
@@ -307,10 +307,10 @@
   {
    "account": "jaemyung_lee",
    "title": "미국 뉴욕타임즈와 인터뷰를 가졌습니다. Urging Pivot on North Korea, South’s Leader Calls for Easing Sanctions https://blog.naver.com/jaem",
-   "views": 31000,
+   "views": 31100,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIBVEyCAEfPFpCCAvAhEZlCAjHXfDDAjIf8IR4~tplv-tiktokx-origin.image?dr=14575&x-expires=1790276400&x-signature=eAocZSsPVV8rKz9tsj0v9S54%2FtY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIBVEyCAEfPFpCCAvAhEZlCAjHXfDDAjIf8IR4~tplv-tiktokx-origin.image?dr=14575&x-expires=1790280000&x-signature=9AVu4NdOgdnbiNczFRhBaCriXZQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1790052600,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7688217377795788039",
    "region": "kr"
@@ -318,10 +318,10 @@
   {
    "account": "jaemyung_lee",
    "title": "다녀오겠습니다 🇺🇳🇲🇽 🇺🇳UN총회 9월 21일~23일 🇲🇽멕시코 국빈방문 9월 23일~26일 #이재명 #UNGA #mexico",
-   "views": 17600,
+   "views": 17700,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o8hqfADsO8SBzFR3qsnOMDUEgQTwBkvQerxPE0~tplv-tiktokx-origin.image?dr=14575&x-expires=1790276400&x-signature=%2FO2sXIM80q0Ho%2F5anJykLVyaLk4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o8hqfADsO8SBzFR3qsnOMDUEgQTwBkvQerxPE0~tplv-tiktokx-origin.image?dr=14575&x-expires=1790280000&x-signature=LLtKlaFykfXDlv5%2FqKL26Hg2d14%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789981488,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7687911952084978951",
    "region": "kr"
@@ -329,10 +329,10 @@
   {
    "account": "tictok_ent",
    "title": "올데이프로젝트(ALLDAY PROJECT) 애니, 가을 여신의 완성 / ‘클리오 - 풍년다방 팝업 스토어’ 포토월 클리오의 K뷰티 No.1 메이크업 브랜드 클리오가 26FW 시즌을 맞아 풍년다방 에디션을 새롭게 출시",
-   "views": 8483,
+   "views": 8616,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooyVfsECyAObdyUAC9AHMGgEDfAwFBAocCAqjI~tplv-tiktokx-origin.image?dr=14575&x-expires=1790276400&x-signature=IkWzElQYnfH51b%2B9A%2FnbeDWLYoo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooyVfsECyAObdyUAC9AHMGgEDfAwFBAocCAqjI~tplv-tiktokx-origin.image?dr=14575&x-expires=1790280000&x-signature=X8ly56udvQd4Vw0gLmash9qkP%2Fo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1790062603,
    "url": "https://www.tiktok.com/@tictok_ent/video/7688260337883270407",
    "region": "kr"
@@ -340,10 +340,10 @@
   {
    "account": "tictok_ent",
    "title": "수지, 시민들의 욕을 부르는 미모 / 아누아(Anua) 포토월 더파운더즈의 글로벌 뷰티 브랜드 아누아(Anua)의 'PDRN 라인 팝업스토어' 오픈을 기념하는 포토행사가 18일 오전 서울 성동구 성수동에 위치한 올리",
-   "views": 6813,
+   "views": 6828,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ow8gANS3AmQCK2UqVEUCB50sGEQeIAFZAFArfD~tplv-tiktokx-origin.image?dr=14575&x-expires=1790276400&x-signature=UPL81XEeSfCGhKnxZwYbcUn887U%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ow8gANS3AmQCK2UqVEUCB50sGEQeIAFZAFArfD~tplv-tiktokx-origin.image?dr=14575&x-expires=1790280000&x-signature=b4Z2%2FPw86xT13W41NsZ2F1bM%2BFY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789699186,
    "url": "https://www.tiktok.com/@tictok_ent/video/7686699475406015762",
    "region": "kr"
@@ -351,22 +351,31 @@
  ],
  "reddit": [
   {
-   "sub": "lotrmemes",
-   "title": "🎉🎊🥳🎊🎉Today is Bilbo's and Frodo's birthdays!🎉🎊🥳🎊🎉",
+   "sub": "AskReddit",
+   "title": "Which YouTuber that you used to watch all the time slowly started becoming unwatchable?",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/qz6gu9kuk3rh1.jpeg?width=640&crop=smart&auto=webp&s=f2784fbc2b5377165729b5cd46ab594f4e90879c",
-   "time": 1790094196,
-   "url": "https://www.reddit.com/r/lotrmemes/comments/1wne4xt/today_is_bilbos_and_frodos_birthdays/"
+   "thumb": "",
+   "time": 1790090564,
+   "url": "https://www.reddit.com/r/AskReddit/comments/1wnchjw/which_youtuber_that_you_used_to_watch_all_the/"
   },
   {
-   "sub": "PoursTea",
-   "title": "Another win thanks to Mamdani",
+   "sub": "generationology",
+   "title": "Zoomers when they see a 33-year-old dating a 31-year-old",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/ov3l6nsoo3rh1.jpeg?width=640&crop=smart&auto=webp&s=6f38a953db537475d75569e47e16e8595a212921",
-   "time": 1790095401,
-   "url": "https://www.reddit.com/r/PoursTea/comments/1wneoqt/another_win_thanks_to_mamdani/"
+   "thumb": "https://preview.redd.it/ezyqoqci62rh1.jpeg?width=320&crop=smart&auto=webp&s=c08ceceb0f5a44f917ccd8ebf99b2c7782445882",
+   "time": 1790077180,
+   "url": "https://www.reddit.com/r/generationology/comments/1wn73ea/zoomers_when_they_see_a_33yearold_dating_a/"
+  },
+  {
+   "sub": "interestingasfuck",
+   "title": "Chinese hospitals",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/a2M3M3AyeHVmMHJoMbTZdwxnUvH15ifrXMHjHZr6TKI2Bn-4dzQ5qXU0Xyua.png?width=640&crop=smart&auto=webp&s=b20931100c2c7289c08aee79081f36940b488e44",
+   "time": 1790056116,
+   "url": "https://www.reddit.com/r/interestingasfuck/comments/1wn0znk/chinese_hospitals/"
   },
   {
    "sub": "pics",
@@ -387,51 +396,6 @@
    "url": "https://www.reddit.com/r/Fauxmoi/comments/1wndl4b/zohran_mamdani_doordash_had_underpaid_more_than/"
   },
   {
-   "sub": "interestingasfuck",
-   "title": "Chinese hospitals",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/a2M3M3AyeHVmMHJoMbTZdwxnUvH15ifrXMHjHZr6TKI2Bn-4dzQ5qXU0Xyua.png?width=640&crop=smart&auto=webp&s=b20931100c2c7289c08aee79081f36940b488e44",
-   "time": 1790056116,
-   "url": "https://www.reddit.com/r/interestingasfuck/comments/1wn0znk/chinese_hospitals/"
-  },
-  {
-   "sub": "generationology",
-   "title": "Zoomers when they see a 33-year-old dating a 31-year-old",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/ezyqoqci62rh1.jpeg?width=320&crop=smart&auto=webp&s=c08ceceb0f5a44f917ccd8ebf99b2c7782445882",
-   "time": 1790077180,
-   "url": "https://www.reddit.com/r/generationology/comments/1wn73ea/zoomers_when_they_see_a_33yearold_dating_a/"
-  },
-  {
-   "sub": "meirl",
-   "title": "meirl",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/pceqsvos23rh1.png?width=640&crop=smart&auto=webp&s=44c774c94401b1da62bbff4d2d2e2fa32ea6925c",
-   "time": 1790088039,
-   "url": "https://www.reddit.com/r/meirl/comments/1wnbd1u/meirl/"
-  },
-  {
-   "sub": "SipsTea",
-   "title": "They could’ve just given the coworker the raise.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/zr1sn1azp2rh1.jpeg?width=640&crop=smart&auto=webp&s=80f5cce386c02e66d646d7053d7dc9bf5052eac1",
-   "time": 1790083728,
-   "url": "https://www.reddit.com/r/SipsTea/comments/1wn9jd7/they_couldve_just_given_the_coworker_the_raise/"
-  },
-  {
-   "sub": "AskReddit",
-   "title": "Which YouTuber that you used to watch all the time slowly started becoming unwatchable?",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "",
-   "time": 1790090564,
-   "url": "https://www.reddit.com/r/AskReddit/comments/1wnchjw/which_youtuber_that_you_used_to_watch_all_the/"
-  },
-  {
    "sub": "mildlyinfuriating",
    "title": "My stepdad keeps putting these things all over the house",
    "score": 0,
@@ -439,6 +403,15 @@
    "thumb": "https://preview.redd.it/4f3iaf63pzqh1.jpeg?width=640&crop=smart&auto=webp&s=7c4c5a864b220f85975e6430e49dc7f3c7965ffd",
    "time": 1790047108,
    "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1wmy4ix/my_stepdad_keeps_putting_these_things_all_over/"
+  },
+  {
+   "sub": "lotrmemes",
+   "title": "🎉🎊🥳🎊🎉Today is Bilbo's and Frodo's birthdays!🎉🎊🥳🎊🎉",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/qz6gu9kuk3rh1.jpeg?width=640&crop=smart&auto=webp&s=f2784fbc2b5377165729b5cd46ab594f4e90879c",
+   "time": 1790094196,
+   "url": "https://www.reddit.com/r/lotrmemes/comments/1wne4xt/today_is_bilbos_and_frodos_birthdays/"
   },
   {
    "sub": "formula1",
@@ -450,6 +423,24 @@
    "url": "https://www.reddit.com/r/formula1/comments/1wnc4cu/mclaren_unveils_a_new_logo_across_its_automotive/"
   },
   {
+   "sub": "comics",
+   "title": "\"Job Security\"",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/srub3asj74rh1.png?width=640&crop=smart&auto=webp&s=baaed1f676175f38d41b5c92bbe553844f212d5e",
+   "time": 1790101967,
+   "url": "https://www.reddit.com/r/comics/comments/1wnhrf0/job_security/"
+  },
+  {
+   "sub": "TikTokCringe",
+   "title": "There’s a husband out there that’s about to have a bad day",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/ZmQ3Njh5azJsMnJoMUK3qnsrDVrPaxHfk6utWp794El1TJ-STHwqu8Leiu_A.png?width=640&crop=smart&auto=webp&s=4ec90fd858783f197e6ae9e95bb5bceb824f48d1",
+   "time": 1790082115,
+   "url": "https://www.reddit.com/r/TikTokCringe/comments/1wn8w1s/theres_a_husband_out_there_thats_about_to_have_a/"
+  },
+  {
    "sub": "worldnews",
    "title": "Houthis move to seize strategic terrain after Trump calls off airstrikes at last minute",
    "score": 0,
@@ -457,6 +448,15 @@
    "thumb": "https://external-preview.redd.it/YI5iP2qjor5s4G9m_r43hdbHsLo9HEulK0lWfSmMo8Y.jpeg?width=640&crop=smart&auto=webp&s=e06e1073bc0771c0fb8ad492d63bbcd431d5f109",
    "time": 1790050515,
    "url": "https://www.reddit.com/r/worldnews/comments/1wmz9i0/houthis_move_to_seize_strategic_terrain_after/"
+  },
+  {
+   "sub": "dashcams",
+   "title": "Despite popular belief, when you’re in the left turn lane, you’re supposed to commit to turning left.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/dTB0djJlZTE1M3JoMUEtGiTxVheaaVq1Lk9PxSXaqYrvOt0-EqSqTz3JBy9P.jpeg?width=640&crop=smart&auto=webp&s=a99379318c840b38dc0a88666742254adb62ce7d",
+   "time": 1790088833,
+   "url": "https://www.reddit.com/r/dashcams/comments/1wnbpjx/despite_popular_belief_when_youre_in_the_left/"
   }
  ],
  "disaster": [],
@@ -478,10 +478,10 @@
   },
   "why": {},
   "landing": {
-   "at": "2026-09-23T04:05:11",
+   "at": "2026-09-23T04:31:20",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-09-23T04:31:18.071115+09:00"
+ "updated": "2026-09-23T05:01:14.812826+09:00"
 }
