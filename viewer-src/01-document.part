@@ -23,3 +23,30 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', heal);
   else heal();
 })();
+/* Access 세션 만료 자가치유(260923 실사고 · 운영자 «화면은 뜨는데 내용이 안 나오고 버튼도 안 된다») — Access 세션이 무효면
+   sw.js가 캐시 셸을 서빙해 화면은 뜨지만 외부 스크립트(nm-clip.js 등)·데이터·API가 전부 로그인 페이지로 튕긴다 → 본체 스크립트가
+   attachCopyPaste 미정의로 즉사하고, 그 안에 있던 nm-auth-stale 리스너도 같이 죽었다. sw.js 통지는 새 문서가 클라이언트로 잡히기 전에
+   발사돼 유실되기도 한다(로컬 재현 실측) = 기기가 빈 화면에 갇힘. 그래서 외부 스크립트보다 앞(head)에서:
+   ① SW가 서빙한 진입(controller ∧ nosw 아님)이면 스스로 세션 확인 — nm-sync.js ② 프로브 계승(/manifest.json · redirect:'manual')
+   ② sw.js nm-auth-stale 통지 수신. 만료 확정 = ?nosw=1 재진입(SW 우회 → 로그인 화면).
+   루프 가드 = sessionStorage nmAuthKick 세션 1회(nosw 착지 = 재무장) · 회선 사망(fetch reject) = 재진입 무익 → 무동작. */
+(function () {
+  var sw = navigator.serviceWorker;
+  if (!sw) return;
+  var nosw = false;
+  try { nosw = new URLSearchParams(location.search).has('nosw'); } catch (_) {}
+  if (nosw) { try { sessionStorage.removeItem('nmAuthKick'); } catch (_) {} }   // 재로그인 복귀 착지 = 가드 재무장(같은 탭 재만료 대비)
+  function kick() {
+    try { if (sessionStorage.getItem('nmAuthKick')) return; sessionStorage.setItem('nmAuthKick', '1'); } catch (_) { return; }   // 세션 1회 · 저장 불가 = 포기
+    window._nmAuthKicked = true;   // 새 버전 적용(applyShellUpdate) reload가 이 replace를 밟지 않게 하는 표식
+    try { var u = new URL(location.href); u.searchParams.set('nosw', '1'); location.replace(u.href); } catch (_) {}
+  }
+  try { sw.addEventListener('message', function (e) { if (e.data && e.data.type === 'nm-auth-stale') kick(); }); } catch (_) {}
+  if (nosw || !sw.controller) return;   // 네트워크 진입 = 문서가 방금 Access를 통과함
+  try { if (sessionStorage.getItem('nmAuthKick')) return; } catch (_) { return; }
+  try {
+    fetch('/manifest.json?_=' + Date.now(), { redirect: 'manual', cache: 'no-store' }).then(function (r) {
+      if (r.type === 'opaqueredirect' || r.status === 401 || r.status === 403 || (r.status >= 300 && r.status < 400)) kick();
+    }, function () {});
+  } catch (_) {}
+})();

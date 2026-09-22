@@ -48,6 +48,9 @@ def fetch(url, tries=3):
     return None, last
 
 STAMP_RE = re.compile(r"const BUILD_STAMP = '[^']*';")
+# Access 로그인 페이지(urllib가 302를 따라가 200으로 받음) — 우리 셸이 아니라 러너가 Access에 막힌 것 = 인프라축.
+# 260923 실측: 이걸 C1 「센티널 실종」 코드 회귀로 셌다가 자가 롤백 카운터가 올라갔다(코드 변경 0인데 롤백 대기).
+ACCESS_RE = re.compile(r"<title>[^<]*Cloudflare Access|cloudflareaccess\.com/cdn-cgi/access/", re.I)
 CF_RE = re.compile(r"<script\b[^>]*>[\s\S]*?</script>", re.I)
 
 def norm_pair(live, repo):
@@ -106,6 +109,9 @@ def main():
         bad("C1 index", f"fetch 실패 — {err}")   # 인프라축(CF 순단·러너 egress) = 롤백 부적용
         return finish(False)
     live = raw.decode("utf-8", "replace")
+    if ACCESS_RE.search(live):
+        bad("C1 index", "Cloudflare Access 로그인 페이지가 옴 — 러너가 Access에 막힘(코드 무관 · Access 정책의 러너 통과 규칙·서비스 토큰 확인)")
+        return finish(False)   # 이후 대조·부속·articles도 전부 같은 로그인 페이지 = 추가 판정 무의미
     if not re.search(r"</html>\s*$", live):
         bad("C1 index", f"꼬리 </html> 없음(절단 의심 · {len(raw)}B)", code=True)
     elif 'id="nm-eod"' not in live or "nmShellHeal" not in live:
