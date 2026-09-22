@@ -2,6 +2,7 @@
 수집·정체(stale)·커버 알림·화면 섹션이 전부 `acc[plat]` 빈 목록 게이트를 타므로, 로더 한 곳만 검증하면 축이 닫힌다."""
 import json
 import os
+from pathlib import Path as _FilePath
 import sys
 import tempfile
 import unittest
@@ -46,7 +47,7 @@ class SnsAccountsOff(unittest.TestCase):
     def test_live_registry_insta_is_off(self):
         acc, _ = st._load_accounts()
         self.assertEqual(acc["insta"], [], "운영자 260913 지시 = 인스타 구독 숨김")
-        raw = json.load(open(st.ACC, encoding="utf-8"))
+        raw = json.loads(_FilePath(st.ACC).read_text(encoding="utf-8"))
         self.assertTrue(raw["insta"]["kr"], "목록은 삭제가 아니라 보존")
 
 

@@ -11,3 +11,6 @@ docs/작업이력.md merge=union
 *.sh text eol=lf
 scripts/*.command text eol=lf
 scripts/*.bat text eol=crlf
+
+# Embedded base64 payload must match the source bytes on every checkout.
+scripts/threads_plugin_update.ps1 text eol=lf

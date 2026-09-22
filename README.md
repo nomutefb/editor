@@ -7,6 +7,8 @@
 
 Node 24, Python 3.11 이상, Git, Bash 4 이상을 사용한다. 화면 검사는 Chromium이 필요하다.
 검사 의존성은 `python3 -m pip install PyYAML Pillow`로 설치한다.
+Windows에서는 `python3 -m pip install tzdata`도 필요하다. 검사 실행 시 `PYTHONUTF8=1`을 설정하고 Git Bash와 Python을 PATH에 둔다.
+Windows 검증에는 Node 24.19.0을 사용했다. Node 24.14.1에서는 셸 빌드 테스트의 디렉터리 복사 중 프로세스가 비정상 종료되어 최신 24.x 사용을 권장한다.
 
 ```sh
 git config core.hooksPath .githooks

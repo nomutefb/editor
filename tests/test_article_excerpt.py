@@ -29,12 +29,17 @@ Path(args[args.index('-D') + 1]).write_text('Content-Type: text/html; charset=ut
 Path(args[args.index('-o') + 1]).write_bytes(Path(os.environ['ARTICLE_FIXTURE']).read_bytes())
 with open(os.environ['ARTICLE_FETCH_LOG'], 'a') as log:
     log.write('fetch\\n')
-''', encoding='utf-8')
+''', encoding='utf-8', newline='\n')
             curl.chmod(0o755)
             calls = root / 'fetch.log'
             env = dict(os.environ, PATH=str(root) + os.pathsep + os.environ['PATH'],
-                       ARTICLE_FIXTURE=str(fixture), ARTICLE_FETCH_LOG=str(calls))
-            result = subprocess.run(['bash', str(SCRIPT), 'https://fixture.invalid/story'],
+                       ARTICLE_FIXTURE=str(fixture), ARTICLE_FETCH_LOG=str(calls), ARTICLE_FIXTURE_BIN=str(root))
+            command = ['bash', str(SCRIPT), 'https://fixture.invalid/story']
+            if os.name == 'nt':
+                command = ['bash', '-c',
+                           'export PATH="$(cygpath -u "$ARTICLE_FIXTURE_BIN"):$PATH"; exec bash "$1" "$2"',
+                           'article-test', SCRIPT.as_posix(), 'https://fixture.invalid/story']
+            result = subprocess.run(command,
                                     env=env, text=True, capture_output=True, timeout=10, check=True)
             self.assertEqual(calls.read_text(), 'fetch\n', 'No extra source requests are needed')
             return result.stdout

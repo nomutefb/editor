@@ -4,11 +4,13 @@ from pathlib import Path
 import subprocess
 import tempfile
 import unittest
+from unittest.mock import patch
 
 HELPER = Path(__file__).resolve().parents[1] / '.github/scripts/git_land.sh'
 
 class LandTests(unittest.TestCase):
     def setUp(self):
+        self.enterContext(patch.dict(os.environ, GIT_CONFIG_GLOBAL=os.devnull, GIT_CONFIG_NOSYSTEM='1'))
         self.tmp = tempfile.TemporaryDirectory()
         self.addCleanup(self.tmp.cleanup)
         self.root = Path(self.tmp.name)

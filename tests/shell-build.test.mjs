@@ -13,7 +13,7 @@ test('version workflow stamps authored source and survives rebuilding', () => {
     cpSync(join(root, 'viewer-src'), join(dir, 'viewer-src'), {recursive: true});
     mkdirSync(join(dir, 'shared')); mkdirSync(join(dir, 'viewer'));
     cpSync(join(root, 'shared/build_shell.mjs'), join(dir, 'shared/build_shell.mjs'));
-    const workflow = readFileSync(join(root, '.github/workflows/stamp-version.yml'), 'utf8');
+    const workflow = readFileSync(join(root, '.github/workflows/stamp-version.yml'), 'utf8').replace(/\r\n/g, '\n');
     const fn = workflow.match(/          stamp_once\(\) \{[\s\S]*?\n          \}/)?.[0];
     assert.ok(fn, 'stamping function exists');
     execFileSync('bash', ['-eu', '-c', `${fn}\nstamp_once`], {

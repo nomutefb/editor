@@ -227,8 +227,8 @@ class Gate(unittest.TestCase):
 
     def _mut(self, d, rel, fn):
         p = os.path.join(d, rel)
-        t = open(p, encoding="utf-8").read()
-        open(p, "w", encoding="utf-8").write(fn(t))
+        t = Path(p).read_text(encoding="utf-8")
+        Path(p).write_text(fn(t), encoding="utf-8")
 
     def test_gate_green_then_kills(self):
         d = self._tmp_root()

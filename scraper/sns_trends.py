@@ -64,6 +64,7 @@ import html
 import http.cookiejar   # 스레드 302 챌린지 추적(_th_fetch · 260729)
 import json
 import os
+from pathlib import Path as _FilePath
 import re
 import ssl
 import subprocess   # 맞춤 추천 = 쿠키 사다리(.github/scripts/ytdlp_try.sh) 경유 호출 — 쿠키 처리 사본 0(yt_reco)
@@ -592,7 +593,7 @@ def _load_accounts():
     reg = {k: {} for k in out}
     SUB_OFF.clear()
     try:
-        j = json.load(open(ACC, encoding="utf-8"))
+        j = json.loads(_FilePath(ACC).read_text(encoding="utf-8"))
         if not isinstance(j, dict):
             j = {}
         for k in out:
@@ -2460,7 +2461,7 @@ def main():
     prev = {}
     if os.path.exists(OUT):
         try:
-            prev = json.load(open(OUT, encoding="utf-8")) or {}
+            prev = json.loads(_FilePath(OUT).read_text(encoding="utf-8")) or {}
         except Exception:
             prev = {}
     # 유튜브 핸들→채널ID 캐시 계승(260731) — 한 번 해석한 계정은 다음 런부터 해석 콜 자체가 없다(쿼터 0 · www 봇월 노출 0).
@@ -2472,7 +2473,7 @@ def main():
         pass
     # 유튜브 큐레이션 config(운영자 260723 하드코딩 해체) — sns_accounts.json "youtube" 키에서 쇼츠·AI영상 키워드·뉴스 카테고리를 읽되 현재 하드코딩값 = 기본 폴백(설정 미도입/파손 = 종전 동작 · 채널 스코프 = kr/gl 계정과 동거 · _load_accounts는 kr/gl만 읽어 무충돌)
     try:
-        _ytc = (json.load(open(ACC, encoding="utf-8")) or {}).get("youtube") or {} if os.path.exists(ACC) else {}
+        _ytc = (json.loads(_FilePath(ACC).read_text(encoding="utf-8")) or {}).get("youtube") or {} if os.path.exists(ACC) else {}
     except Exception:  # noqa: BLE001
         _ytc = {}
     _sh_q = _ytc.get("shorts") if (isinstance(_ytc.get("shorts"), list) and _ytc.get("shorts")) else IT_QUERIES
@@ -2666,8 +2667,7 @@ def main():
         #   폰이 스테일이면 종전대로 러너가 시도 = 공급 공백 0(fail-soft). 스레드가 이미 []인 선례와 동형.
         _ph_fresh = False
         try:
-            _phm = (datetime.now(KST) - datetime.fromisoformat(str((json.load(open(
-                os.path.join(ROOT, "viewer", "sns_subs_phone.json"), encoding="utf-8")) or {}).get("updated")))).total_seconds() / 60
+            _phm = (datetime.now(KST) - datetime.fromisoformat(str((json.loads(_FilePath(os.path.join(ROOT, "viewer", "sns_subs_phone.json")).read_text(encoding="utf-8")) or {}).get("updated")))).total_seconds() / 60
             _ph_fresh = -5 <= _phm <= PHONE_FRESH
         except Exception:  # noqa: BLE001 — 파일 없음·파손 = 폰 없음 취급(러너가 종전대로 시도)
             pass
@@ -2697,7 +2697,7 @@ def main():
         # 폰 수집 우선 채택(운영자 260712 "ㄱ") — X·인스타 = 러너 IP 429 로터리라 폰(가정 IP · scripts/phone_subs.sh 크론)이
         # 밀어넣은 sns_subs_phone.json이 신선(기본 90분 · env PHONE_FRESH_MIN)하면 그 두 축만 교체. 파일 없음/파손/스테일 = 러너 수집분 그대로(fail-soft).
         try:
-            _ph = json.load(open(os.path.join(ROOT, "viewer", "sns_subs_phone.json"), encoding="utf-8"))
+            _ph = json.loads(_FilePath(os.path.join(ROOT, "viewer", "sns_subs_phone.json")).read_text(encoding="utf-8"))
             _pm = (datetime.now(KST) - datetime.fromisoformat(str(_ph.get("updated")))).total_seconds() / 60
             if -5 <= _pm <= PHONE_FRESH:   # 하한 -5분 = 폰 시계가 조금 앞서도 폰 전용 축(스레드·인스타·틱톡·레딧·재난)이 통째로 러너 폴백되지 않게(260730 검증 B-F8)
                 _pc = _ph.get("_cover") if isinstance(_ph.get("_cover"), dict) else {}   # 폰이 실어 보낸 계정별 성공·사유(260728 — 데이터는 폰, 사유는 러너였던 주체 불일치 봉합)
@@ -2918,7 +2918,7 @@ def main():
     # 폰 하트비트(평의회 260723 #5a) — 폰 파일 나이를 채택 게이트 무관하게 항상 기록(스테일이어도) → 워치독 check_phone·뷰어 스테일 필이 폰 죽음 감지(threads/insta/reddit/재난 = 폰 전용 축이라 폰 죽어도 러너 updated는 신선 = 2일 무경보 공백 근원 봉합). 자립 재읽기(채택 블록 _pm 스코프 비의존).
     _phh = {"ok": False, "age_min": None, "updated": ""}
     try:
-        _phj = json.load(open(os.path.join(ROOT, "viewer", "sns_subs_phone.json"), encoding="utf-8"))
+        _phj = json.loads(_FilePath(os.path.join(ROOT, "viewer", "sns_subs_phone.json")).read_text(encoding="utf-8"))
         _pha = (datetime.now(KST) - datetime.fromisoformat(str(_phj.get("updated")))).total_seconds() / 60
         _phh = {"ok": bool(-5 <= _pha <= PHONE_FRESH), "age_min": round(_pha), "updated": str(_phj.get("updated") or "")}
     except Exception:  # noqa: BLE001
@@ -2958,7 +2958,8 @@ def main():
     }
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     # errors=replace = 상류 lone-surrogate가 encode 크래시로 런 전체를 버리는 엣지 차단(평의회6 — 극귀·해당 문자만 ? 치환)
-    json.dump(data, open(OUT, "w", encoding="utf-8", errors="replace"), ensure_ascii=False, indent=1)
+    with open(OUT, "w", encoding="utf-8", errors="replace") as output:
+        json.dump(data, output, ensure_ascii=False, indent=1)
     tk_n = len((data["tiktok"] or {}).get("videos") or (data["tiktok"] or {}).get("hashtags") or [])
     sb = data["subs"] or {}
     sb_msg = " · ".join("%s %d" % (k, len(sb.get(k) or [])) for k in ("x", "tiktok", "insta", "youtube", "threads")) if sb else "OFF"

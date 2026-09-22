@@ -19,6 +19,7 @@ import ast
 import bisect
 import hashlib as _hashlib
 import os
+from pathlib import Path as _FilePath
 import re
 import datetime
 import sys
@@ -30,6 +31,11 @@ import subprocess
 import tempfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+def _repo_relpath(path, start=ROOT):
+    """Repository rule keys always use forward slashes, including on Windows."""
+    return os.path.relpath(path, start).replace('\\', '/')
 
 # 훅 자동 활성화(260725) — clone·기기마다 `git config core.hooksPath .githooks`를 손으로 치는 걸
 # 잊으면 게이트가 "조용히 미실행"되고 통과한 줄 착각한다. 실행기가 스스로 켠다(최초 1회).
@@ -75,7 +81,7 @@ def md_files():
     seen = []
     for g in SCAN_GLOBS:
         for p in glob.glob(os.path.join(ROOT, g), recursive=True):
-            if os.path.relpath(p, ROOT).startswith('_versions'):
+            if _repo_relpath(p, ROOT).startswith('_versions'):
                 continue
             seen.append(p)
     return sorted(set(seen))
@@ -84,11 +90,11 @@ def md_files():
 def check_paths():
     fails = []
     for md in md_files():
-        rel_md = os.path.relpath(md, ROOT)
+        rel_md = _repo_relpath(md, ROOT)
         if rel_md.startswith('_versions'):
             continue
         try:
-            text = open(md, encoding='utf-8').read()
+            text = _FilePath(md).read_text(encoding='utf-8')
         except OSError:
             continue
         for span in BACKTICK.findall(text):
@@ -107,12 +113,13 @@ def check_paths():
 def check_versions():
     fails = []
     for p in glob.glob(os.path.join(ROOT, 'apps', '**', '*_v*.md'), recursive=True):
-        rel = os.path.relpath(p, ROOT)
+        rel = _repo_relpath(p, ROOT)
         name_tok = VTOKEN.findall(os.path.basename(p))
         if not name_tok:
             continue
         try:
-            head = open(p, encoding='utf-8').readline()
+            with open(p, encoding='utf-8') as source:
+                head = source.readline()
         except OSError:
             continue
         head_toks = VTOKEN.findall(head)
@@ -167,7 +174,7 @@ _FWD_UNUSED = {
 def _new_dead_tokens(rel='viewer/index.html'):
     """viewer :root 정의 토큰 중 var() 미사용 & baseline 밖 = 새 죽은 토큰(접두사 오탐 가드)."""
     try:
-        s = open(os.path.join(ROOT, rel), encoding='utf-8').read()
+        s = _FilePath(os.path.join(ROOT, rel)).read_text(encoding='utf-8')
     except Exception:
         return []
     m = _ROOT_BLOCK.search(s)
@@ -202,7 +209,7 @@ def check_viewer_js():
     rc = 0
     for rel in VIEWERS_ALL:   # Q165 nb·sb 편입 → Q169 뷰어 목록 SSOT 상수화
         try:
-            html = open(os.path.join(ROOT, rel), encoding='utf-8').read()
+            html = _FilePath(os.path.join(ROOT, rel)).read_text(encoding='utf-8')
         except Exception:
             continue
         js = '\n;\n'.join(_SCRIPT_RE.findall(html))
@@ -241,11 +248,11 @@ def check_functions_js():
         for fn in sorted(files):
             if not fn.endswith('.js'):
                 continue
-            p = os.path.join(dirpath, fn); rel = os.path.relpath(p, ROOT); n += 1
+            p = os.path.join(dirpath, fn); rel = _repo_relpath(p, ROOT); n += 1
             tmp = None
             try:
                 with tempfile.NamedTemporaryFile('w', suffix='.mjs', delete=False, encoding='utf-8') as f:
-                    f.write(open(p, encoding='utf-8').read()); tmp = f.name
+                    f.write(_FilePath(p).read_text(encoding='utf-8')); tmp = f.name
                 r = subprocess.run([node, '--check', tmp], capture_output=True, text=True, timeout=30)
             finally:
                 if tmp and os.path.exists(tmp):
@@ -266,13 +273,13 @@ def check_icon_ssot():
     nm = os.path.join(ROOT, 'viewer/nm-svg.js')
     if not os.path.exists(nm):
         print('⚠️ nm-svg.js 없음 — 아이콘 SSOT 게이트 스킵'); return 0
-    shared = set(_ICON_DECL_RE.findall(open(nm, encoding='utf-8').read()))
+    shared = set(_ICON_DECL_RE.findall(_FilePath(nm).read_text(encoding='utf-8')))
     if not shared:
         print('⚠️ nm-svg.js에 공유 상수 0 — 게이트 스킵'); return 0
     rc = 0
     for rel in VIEWERS_ALL:   # Q165 nb·sb 편입 → Q169 뷰어 목록 SSOT 상수화
         try:
-            html = open(os.path.join(ROOT, rel), encoding='utf-8').read()
+            html = _FilePath(os.path.join(ROOT, rel)).read_text(encoding='utf-8')
         except Exception:
             continue
         loads = 'nm-svg.js' in html
@@ -295,7 +302,7 @@ def check_design():
     warns, hard = [], []
     for rel, base in _DESIGN_BASELINE.items():
         try:
-            s = open(os.path.join(ROOT, rel), encoding='utf-8').read()
+            s = _FilePath(os.path.join(ROOT, rel)).read_text(encoding='utf-8')
         except Exception:
             continue
         s = _ROOT_BLOCK.sub('', s, count=1)   # :root = 토큰 SSOT 정의 자리 → 카운트 제외(D5 화이트리스트)
@@ -337,7 +344,7 @@ _COLOR_VAL = re.compile(r'^(#[0-9A-Fa-f]{3,8}|rgba?\([^)]*\)|\d[\d,\s.]*)$')
 
 def _root_tokens(rel):
     """뷰어의 모든 :root 블록에서 {name: value}(첫 정의 우선). :root{} 안만 = JS `--x:` 오탐 배제."""
-    s = open(os.path.join(ROOT, rel), encoding='utf-8').read()
+    s = _FilePath(os.path.join(ROOT, rel)).read_text(encoding='utf-8')
     d = {}
     for mo in _ROOT_BLOCK.finditer(s):
         for m in re.finditer(r'(--[a-z0-9-]+)\s*:\s*([^;]+);', mo.group(0)):
@@ -395,7 +402,7 @@ def check_inject_dividers():
                 with open(path, encoding='utf-8') as fh:
                     for n, line in enumerate(fh, 1):
                         if _DIVIDER_RE.match(line):
-                            rel = os.path.relpath(path, ROOT)
+                            rel = _repo_relpath(path, ROOT)
                             fails.append("주입 지침 본문에 '----- ... -----' 줄(%s:%d) — R6 해시서 제외돼 드리프트 미탐 위험. 다른 표기로 바꿔라." % (rel, n))
             except Exception:
                 continue
@@ -410,12 +417,12 @@ def check_inject_markers():
     for g in _INJECT_GLOBS:
         for path in glob.glob(os.path.join(ROOT, g)):
             try:
-                txt = open(path, encoding='utf-8').read()
+                txt = _FilePath(path).read_text(encoding='utf-8')
             except Exception:
                 continue
             s, e = txt.count('INJECT-SKIP-START'), txt.count('INJECT-SKIP-END')
             if s != e:
-                fails.append("INJECT-SKIP 마커 불균형(%s: START %d ≠ END %d) — 미종결 마커는 그 뒤 주입 내용을 통째 누락시킴." % (os.path.relpath(path, ROOT), s, e))
+                fails.append("INJECT-SKIP 마커 불균형(%s: START %d ≠ END %d) — 미종결 마커는 그 뒤 주입 내용을 통째 누락시킴." % (_repo_relpath(path, ROOT), s, e))
     return fails
 
 
@@ -425,7 +432,7 @@ def check_sens_vocab():
     (이 게이트 부재가 5↔7 드리프트·'장면 검열 없음' stale의 구조적 원인 — 기계로 닫음.)"""
     def _rd(p):
         try:
-            return open(os.path.join(ROOT, p), encoding='utf-8').read()
+            return _FilePath(os.path.join(ROOT, p)).read_text(encoding='utf-8')
         except Exception:
             return ''
     rc = 0
@@ -463,8 +470,8 @@ def check_curation_constants():
     viewer 리터럴(CROSS_POW·FOLLOW_W·BREAKING_RANK_BOOST·GRADE_W grade0 floor)을 §★ 인용값과 대조."""
     rc = 0
     try:
-        v = open(os.path.join(ROOT, 'viewer', 'index.html'), encoding='utf-8').read()
-        d = open(os.path.join(ROOT, 'docs', 'curation-algorithm.md'), encoding='utf-8').read()
+        v = _FilePath(os.path.join(ROOT, 'viewer', 'index.html')).read_text(encoding='utf-8')
+        d = _FilePath(os.path.join(ROOT, 'docs', 'curation-algorithm.md')).read_text(encoding='utf-8')
     except Exception as e:
         print('⚠️ check_curation_constants 스킵(파일):', e); return 0
     star = next((ln for ln in d.splitlines() if '누적 랭킹' in ln and 'cross^' in ln), '')
@@ -493,7 +500,7 @@ def check_curation_constants():
             bad.append('%s: viewer=%s ≠ §★문서=%s (코드↔문서 드리프트/자기-revert 의심)' % (name, code_v, doc_v))
     # FRESH_KEEP_H(scraper/to_candidates.py) ↔ §신규 레인 아사 봉합 "기본 Nh" 정합(평의회9 260716) — 신설 상수가 기계 대조 사각이 되지 않게 같은 게이트에 편입(스크레이퍼 상수 1호).
     try:
-        s = open(os.path.join(ROOT, 'scraper', 'to_candidates.py'), encoding='utf-8').read()
+        s = _FilePath(os.path.join(ROOT, 'scraper', 'to_candidates.py')).read_text(encoding='utf-8')
         code_f = re.search(r'CAND_FRESH_KEEP_H",\s*"(\d+)"', s)
         doc_f = re.search(r'FRESH_KEEP_H`\(기본 (\d+)h', d)
         if code_f and doc_f:
@@ -528,8 +535,8 @@ def check_fast_max_h_parity():
     유지 = 파이썬이 viewer를 못 읽어서·값만 기계 대조). check_curation_constants 안에 두면 §★ 줄 리워딩의
     조기 return(문서 의존)이 이 코드↔코드 검사까지 조용히 꺼버려 독립 함수로 분리. fail-closed."""
     try:
-        v = open(os.path.join(ROOT, 'viewer', 'index.html'), encoding='utf-8').read()
-        ap = open(os.path.join(ROOT, 'scraper', 'auto_pick_breaking.py'), encoding='utf-8').read()
+        v = _FilePath(os.path.join(ROOT, 'viewer', 'index.html')).read_text(encoding='utf-8')
+        ap = _FilePath(os.path.join(ROOT, 'scraper', 'auto_pick_breaking.py')).read_text(encoding='utf-8')
     except Exception as e:
         print('❌ check_fast_max_h_parity 파일 읽기 실패(fail-closed):', e); return 1
     mv = re.search(r'const FAST_MAX_H\s*=\s*(\d+)', v)
@@ -550,8 +557,8 @@ def check_follow_enters_parity():
     daily_health 안에만 손복사 3벌(_dominance·긴급부스트 신선창·묻힘 계측)이었고 패리티 게이트가 없었다 =
     뷰어만 고치면 조용히 갈라지던 사각(260805 실측 발견). 추출 실패 = fail-closed."""
     try:
-        v = open(os.path.join(ROOT, 'viewer', 'index.html'), encoding='utf-8').read()
-        dh = open(os.path.join(ROOT, 'scraper', 'daily_health.py'), encoding='utf-8').read()
+        v = _FilePath(os.path.join(ROOT, 'viewer', 'index.html')).read_text(encoding='utf-8')
+        dh = _FilePath(os.path.join(ROOT, 'scraper', 'daily_health.py')).read_text(encoding='utf-8')
     except Exception as e:
         print('❌ check_follow_enters_parity 파일 읽기 실패(fail-closed):', e); return 1
     m_cr = re.search(r'FOLLOW_CROSS_MIN\s*=\s*(\d+)', v)
@@ -596,7 +603,7 @@ def check_sc_ts_contract():
     if not node:
         print('⚠️ scTs 계약 게이트 스킵(node 없음)'); return 0
     try:
-        v = open(os.path.join(ROOT, 'viewer', 'index.html'), encoding='utf-8').read()
+        v = _FilePath(os.path.join(ROOT, 'viewer', 'index.html')).read_text(encoding='utf-8')
     except Exception as e:
         print('❌ check_sc_ts_contract 파일 읽기 실패(fail-closed):', e); return 1
     m_fn = re.search(r'const scTs = c => \{.*?\n\};', v, re.S)
@@ -657,8 +664,8 @@ def check_shell_cache_parity():
     activate가 지우는 죽은 캐시에 쓰고 형제 키 갱신도 무효 = '두 곳 동시 갱신' 주석 규율을 커밋 시점 기계
     게이트로 승격). index에 다른 용도 caches.open이 생기면 이 게이트가 fail = 그때 축 분리 갱신. fail-closed."""
     try:
-        v = open(os.path.join(ROOT, 'viewer', 'index.html'), encoding='utf-8').read()
-        sw = open(os.path.join(ROOT, 'viewer', 'sw.js'), encoding='utf-8').read()
+        v = _FilePath(os.path.join(ROOT, 'viewer', 'index.html')).read_text(encoding='utf-8')
+        sw = _FilePath(os.path.join(ROOT, 'viewer', 'sw.js')).read_text(encoding='utf-8')
     except Exception as e:
         print('❌ check_shell_cache_parity 파일 읽기 실패(fail-closed):', e); return 1
     ms = re.search(r"const SHELL_CACHE\s*=\s*'([^']+)'", sw)
@@ -684,9 +691,9 @@ def check_thumb_chain():
     vp = os.path.join(ROOT, 'viewer', 'index.html')
     fp = os.path.join(ROOT, '.github', 'scripts', 'insta_fetch.py')
     try:
-        s = open(sp, encoding='utf-8').read()
-        v = open(vp, encoding='utf-8').read()
-        f = open(fp, encoding='utf-8').read()
+        s = _FilePath(sp).read_text(encoding='utf-8')
+        v = _FilePath(vp).read_text(encoding='utf-8')
+        f = _FilePath(fp).read_text(encoding='utf-8')
     except Exception as e:
         print('❌ check_thumb_chain 읽기 실패(fail-closed):', e); return 1
     miss = []
@@ -717,7 +724,7 @@ def check_thumb_chain():
             miss.append('insta_signals.py: %s (%s)' % (tok, why))
     yp = os.path.join(ROOT, '.github', 'workflows', 'insta-fetch.yml')
     try:
-        y = open(yp, encoding='utf-8').read()
+        y = _FilePath(yp).read_text(encoding='utf-8')
     except Exception as e:
         print('❌ check_thumb_chain insta-fetch.yml 읽기 실패(fail-closed):', e); return 1
     land = [ln for ln in y.splitlines() if 'git_land.sh' in ln and not ln.lstrip().startswith('#')]
@@ -756,7 +763,7 @@ def check_thumb_chain():
     if "mm['thumb_src'] = 'pub'" not in f:
         miss.append("insta_fetch.py: 공개경로 회수분 출처 표식(편입 뒤엔 thumbnail_url과 구분 불가)")
     try:
-        wf = open(os.path.join(ROOT, '.github', 'workflows', 'insta-fetch.yml'), encoding='utf-8').read()
+        wf = _FilePath(os.path.join(ROOT, '.github', 'workflows', 'insta-fetch.yml')).read_text(encoding='utf-8')
     except Exception:
         wf = ''
     for line in [l for l in wf.splitlines() if 'git_land.sh "insta: 계정 인사이트' in l]:
@@ -811,7 +818,7 @@ def check_idle_timer_guard():
     ⚠ 주석 줄 제외(주석 처리 우회 차단) · 정적(렌더·LLM·네트워크 0)."""
     path = os.path.join(ROOT, 'viewer', 'index.html')
     try:
-        src = open(path, encoding='utf-8').read()
+        src = _FilePath(path).read_text(encoding='utf-8')
     except Exception as e:
         print('❌ check_idle_timer_guard 읽기 실패(fail-closed):', e); return 1
     lines = src.split('\n')
@@ -865,8 +872,8 @@ def check_boot_bg_parity():
     잊히는 것만 막는다(승인 후 값 통일 → 하드 승격 후보). ⓑ는 현행 일치라 하드."""
     import json as _json
     try:
-        mf = _json.load(open(os.path.join(ROOT, 'viewer', 'manifest.json'), encoding='utf-8'))
-        idx = open(os.path.join(ROOT, 'viewer', 'index.html'), encoding='utf-8').read()
+        mf = _json.loads(_FilePath(os.path.join(ROOT, 'viewer', 'manifest.json')).read_text(encoding='utf-8'))
+        idx = _FilePath(os.path.join(ROOT, 'viewer', 'index.html')).read_text(encoding='utf-8')
     except Exception as e:
         print('❌ check_boot_bg_parity 추출 실패(fail-closed):', e); return 1
     m_bg = (mf.get('background_color') or '').strip().lower()
@@ -896,7 +903,7 @@ def check_shell_put_integrity():
     검출 = `caches.open('<셸명>')`/`caches.open(SHELL_CACHE)` 상행 25줄 근접 휴리스틱(PREF 캐시·IDB put 비대상).
     put 지점 0곳 추출 = 게이트 자멸(선언 형태 변경) 방지 fail-closed."""
     try:
-        sw = open(os.path.join(ROOT, 'viewer', 'sw.js'), encoding='utf-8').read()
+        sw = _FilePath(os.path.join(ROOT, 'viewer', 'sw.js')).read_text(encoding='utf-8')
         shell = re.search(r"const SHELL_CACHE\s*=\s*'([^']+)'", sw).group(1)
     except Exception as e:
         print('❌ check_shell_put_integrity 추출 실패(fail-closed):', e); return 1
@@ -908,7 +915,7 @@ def check_shell_put_integrity():
     total, bad = 0, []
     for rel in targets:
         try:
-            lines = open(os.path.join(ROOT, rel), encoding='utf-8').read().splitlines()
+            lines = _FilePath(os.path.join(ROOT, rel)).read_text(encoding='utf-8').splitlines()
         except Exception:
             continue
         ctx = [i for i, l in enumerate(lines) if ("caches.open('%s')" % shell) in l or 'caches.open(SHELL_CACHE)' in l]
@@ -947,7 +954,7 @@ def check_workflow_amend():
     bad = []
     for f in files:
         try:
-            lines = open(os.path.join(wdir, f), encoding='utf-8').read().splitlines()
+            lines = _FilePath(os.path.join(wdir, f)).read_text(encoding='utf-8').splitlines()
         except Exception as e:
             print('❌ check_workflow_amend 읽기 실패(fail-closed): %s — %s' % (f, e)); return 1
         for i, l in enumerate(lines, 1):
@@ -1010,7 +1017,7 @@ def check_push_send_checkout():
                 if not name.endswith(('.sh', '.py')) or name in ('push_send.py', 'check_refs.py', 'build_notif_icons.py'):
                     continue
                 try:
-                    sl = open(os.path.join(dp, name), encoding='utf-8').read().splitlines()
+                    sl = _FilePath(os.path.join(dp, name)).read_text(encoding='utf-8').splitlines()
                 except Exception:
                     continue
                 if any('push_send.py' in l and not l.lstrip().startswith('#') for l in sl):
@@ -1018,7 +1025,7 @@ def check_push_send_checkout():
     bad, noicon, seen = [], [], 0
     for f in files:
         try:
-            lines = open(os.path.join(wdir, f), encoding='utf-8').read().splitlines()
+            lines = _FilePath(os.path.join(wdir, f)).read_text(encoding='utf-8').splitlines()
         except Exception as e:
             print('❌ check_push_send_checkout 읽기 실패(fail-closed): %s — %s' % (f, e)); return 1
         live = [l for l in lines if not l.lstrip().startswith('#')]
@@ -1085,7 +1092,7 @@ def check_roster_checkout():
     ⚠ 주석 줄 제외 = 이 처방문이 판정 문자열을 그대로 인용하므로 원문으로 보면 코드를 지워도 주석만으로 통과한다(자기적발 차단)."""
     bj = os.path.join(ROOT, '.github', 'scripts', 'breaking_judge.py')
     try:
-        src = open(bj, encoding='utf-8').read()
+        src = _FilePath(bj).read_text(encoding='utf-8')
     except Exception as e:
         print('❌ check_roster_checkout 판정기 읽기 실패(fail-closed):', e); return 1
     code = '\n'.join(l for l in src.splitlines() if not l.lstrip().startswith('#'))
@@ -1109,7 +1116,7 @@ def check_roster_checkout():
     bad, seen = [], 0
     for f in files:
         try:
-            lines = open(os.path.join(wdir, f), encoding='utf-8').read().splitlines()
+            lines = _FilePath(os.path.join(wdir, f)).read_text(encoding='utf-8').splitlines()
         except Exception as e:
             print('❌ check_roster_checkout 읽기 실패(fail-closed): %s — %s' % (f, e)); return 1
         live = [l for l in lines if not l.lstrip().startswith('#')]
@@ -1177,7 +1184,7 @@ def check_settings_checkout():
             if not n.endswith('.sh'):
                 continue
             try:
-                src = open(os.path.join(d, n), encoding='utf-8').read()
+                src = _FilePath(os.path.join(d, n)).read_text(encoding='utf-8')
             except Exception as e:
                 print('❌ check_settings_checkout 읽기 실패(fail-closed): %s — %s' % (n, e)); return 1
             live = [l for l in src.splitlines() if not l.lstrip().startswith('#')]
@@ -1200,7 +1207,7 @@ def check_settings_checkout():
     bad, seen = [], 0
     for f in files:
         try:
-            lines = open(os.path.join(wdir, f), encoding='utf-8').read().splitlines()
+            lines = _FilePath(os.path.join(wdir, f)).read_text(encoding='utf-8').splitlines()
         except Exception as e:
             print('❌ check_settings_checkout 읽기 실패(fail-closed): %s — %s' % (f, e)); return 1
         live = [l for l in lines if not l.lstrip().startswith('#')]
@@ -1249,7 +1256,7 @@ def check_claim_before_consume():
     import re
     p = '.github/scripts/analyze.sh'
     try:
-        lines = open(p, encoding='utf-8').read().split('\n')
+        lines = _FilePath(p).read_text(encoding='utf-8').split('\n')
     except Exception as e:
         print('❌ check_claim_before_consume 읽기 실패(fail-closed):', e); return 1
     def code(l):
@@ -1313,7 +1320,7 @@ def check_claim_before_consume():
     # P4
     try:
         import yaml
-        y = yaml.safe_load(open('.github/workflows/news-analyze.yml', encoding='utf-8'))
+        y = yaml.safe_load(_FilePath('.github/workflows/news-analyze.yml').read_text(encoding='utf-8'))
         job = y['jobs']['analyze']; steps = job['steps']
         stp = next((x for x in steps if str(x.get('name', '')).startswith('Analyze pending')), {})
         env = stp.get('env') or {}
@@ -1366,7 +1373,7 @@ def check_guidelines_checkout():
     코드를 지워도 주석만으로 통과한다(자기적발 차단 · check_settings_checkout 관례 계승)."""
     inj = os.path.join(ROOT, 'shared', 'inject_guidelines.sh')
     try:
-        isrc = open(inj, encoding='utf-8').read()
+        isrc = _FilePath(inj).read_text(encoding='utf-8')
     except Exception as e:
         print('❌ check_guidelines_checkout 주입기 읽기 실패(fail-closed):', e); return 1
     ilive = [l for l in isrc.splitlines() if not l.lstrip().startswith('#')]
@@ -1389,7 +1396,7 @@ def check_guidelines_checkout():
             if not n.endswith('.sh') or n == 'inject_guidelines.sh':
                 continue
             try:
-                src = open(os.path.join(d, n), encoding='utf-8').read()
+                src = _FilePath(os.path.join(d, n)).read_text(encoding='utf-8')
             except Exception as e:
                 print('❌ check_guidelines_checkout 읽기 실패(fail-closed): %s — %s' % (n, e)); return 1
             live = [l for l in src.splitlines() if not l.lstrip().startswith('#')]
@@ -1406,7 +1413,7 @@ def check_guidelines_checkout():
     bad, seen = [], 0
     for f in files:
         try:
-            lines = open(os.path.join(wdir, f), encoding='utf-8').read().splitlines()
+            lines = _FilePath(os.path.join(wdir, f)).read_text(encoding='utf-8').splitlines()
         except Exception as e:
             print('❌ check_guidelines_checkout 읽기 실패(fail-closed): %s — %s' % (f, e)); return 1
         live = [l for l in lines if not l.lstrip().startswith('#')]
@@ -1461,7 +1468,7 @@ def check_push_abs_url():
     정적 · 렌더·LLM·네트워크 0 · **면책표 없이 하드 0**."""
     p = os.path.join(ROOT, '.github', 'scripts', 'push_send.py')
     try:
-        src = open(p, encoding='utf-8').read()
+        src = _FilePath(p).read_text(encoding='utf-8')
     except Exception as e:
         print('❌ check_push_abs_url 읽기 실패(fail-closed):', e); return 1
     code = [l for l in src.splitlines() if not l.lstrip().startswith('#')]
@@ -1486,7 +1493,7 @@ def check_push_abs_url():
         bad.append('abs_url 표식 부착부 부재 — 표식 상수만 있고 주소에 안 붙는다(해시 앞 부착·중복 방지 포함)')
     swp = os.path.join(ROOT, 'viewer', 'sw.js')
     try:
-        swsrc = open(swp, encoding='utf-8').read()
+        swsrc = _FilePath(swp).read_text(encoding='utf-8')
     except Exception as e:
         bad.append('viewer/sw.js 읽기 실패(fail-closed): %s' % e); swsrc = ''
     swcode = '\n'.join(l for l in swsrc.splitlines() if not l.lstrip().startswith('//'))
@@ -1616,11 +1623,11 @@ def check_prompt_literal_quoting():
     bad = []
     for f in files:
         try:
-            src = open(f, encoding='utf-8').read()
+            src = _FilePath(f).read_text(encoding='utf-8')
         except Exception as e:
             print('❌ check_prompt_literal_quoting 읽기 실패(fail-closed): %s — %s' % (f, e)); return 1
         for var, ln, ctx in _shell_literal_leak(src):
-            bad.append((os.path.relpath(f, ROOT), ln, var, ctx))
+            bad.append((_repo_relpath(f, ROOT), ln, var, ctx))
     if bad:
         print('❌ 프롬프트 리터럴 인용 무결성 — 다중라인 문자열이 중간에서 닫혀 본문이 셸 토큰으로 샌다 %d건'
               '(= 변수 미할당 → claude 빈 stdin → 그 경로 요청 전건 실패):' % len(bad))
@@ -1641,25 +1648,25 @@ def check_prompt_literal_quoting():
 #     auto-pick·조기 반영(운영자 체감 즉시축). 확장 = 사유와 함께 이 목록에 1줄(평의회② 260803: 토큰은
 #     [CF-Pages-Skip]만 — [CI Skip]류는 GitHub [ci skip]과 충돌 위험 = push 발화 사망).
 _PAGES_SKIP_ALLOW = {
-    os.path.join('.github', 'scripts', 'git_land.sh'),        # 공용 헬퍼(sns-trends·insta·fb·lucy 4워크플로) — 접두 로직 정본
-    os.path.join('.github', 'workflows', 'sns-trends.yml'),   # ↓ 4개 = git_land 호출자: 접두 실배선은 헬퍼 안 · 이 파일들엔 킬스위치 env 주석 리터럴만
-    os.path.join('.github', 'workflows', 'insta-fetch.yml'),
-    os.path.join('.github', 'workflows', 'fb-fetch.yml'),
-    os.path.join('.github', 'workflows', 'lucy-threads.yml'),
-    os.path.join('.github', 'workflows', 'social-scan.yml'),
-    os.path.join('.github', 'workflows', 'breaking-judge.yml'),  # 경중 grade 갱신 커밋만(조기 반영·auto-pick 줄 금지 = 아래 부정 검사)
-    os.path.join('.github', 'workflows', 'metrics-rollup.yml'),
-    os.path.join('.github', 'workflows', 'watchdog.yml'),
-    os.path.join('.github', 'workflows', 'rate.yml'),
-    os.path.join('.github', 'workflows', 'run-steps-ledger.yml'),   # 스텝 소요 원장(260808) — 착지물 = scraper/obs/run_steps.jsonl(뷰어 표면 아님 = Pages 무관 churn)
+    '.github/scripts/git_land.sh',         # 공용 헬퍼(sns-trends·insta·fb·lucy 4워크플로) — 접두 로직 정본
+    '.github/workflows/sns-trends.yml',    # ↓ 4개 = git_land 호출자: 접두 실배선은 헬퍼 안 · 이 파일들엔 킬스위치 env 주석 리터럴만
+    '.github/workflows/insta-fetch.yml',
+    '.github/workflows/fb-fetch.yml',
+    '.github/workflows/lucy-threads.yml',
+    '.github/workflows/social-scan.yml',
+    '.github/workflows/breaking-judge.yml',   # 경중 grade 갱신 커밋만(조기 반영·auto-pick 줄 금지 = 아래 부정 검사)
+    '.github/workflows/metrics-rollup.yml',
+    '.github/workflows/watchdog.yml',
+    '.github/workflows/rate.yml',
+    '.github/workflows/run-steps-ledger.yml',    # 스텝 소요 원장(260808) — 착지물 = scraper/obs/run_steps.jsonl(뷰어 표면 아님 = Pages 무관 churn)
     # 쿠키 생사 감시(260804) — 착지물 = push/ 원장 + messages/ 알림. insta-fetch와 **같은 모양**(하루 2회 봇 churn +
     #   알림)이라 같은 판정: 화면에 수 분 늦게 떠도 되는 축이다(쿠키는 ~2주 주기로 죽고 운영자는 알림함을 안 놓친다).
     #   ⚠ viewer/*.json 착지 0 = 짝 게이트(check_coalesce_pair) 대상 아님 — 라이브 서빙 짝이 필요한 화면 표면을 안 만든다.
-    os.path.join('.github', 'workflows', 'yt-cookie-health.yml'),
+    '.github/workflows/yt-cookie-health.yml',
     # 받기 결과(260804) — 뷰어가 api/vidlout(빌드 우회 라이브 서빙)로 직접 읽으므로 빌드 불요 = 짝 조건 충족.
     #   받기 1건 = 최대 3판 = 커밋 3개가 CF 풀빌드 큐를 먹어 **코드 배포를 밀어내던** 축을 제거(같은 날 실측 20~40분 지연).
     #   ⚠ viewer/*.json 최상위 착지 0(중첩 vidl_out/<id>/) = check_coalesce_pair 자동발견 대상 아님 — 짝은 api/vidlout.js가 이미 담당.
-    os.path.join('.github', 'workflows', 'vidl-make.yml'),
+    '.github/workflows/vidl-make.yml',
 }
 
 
@@ -1682,10 +1689,10 @@ def check_pages_skip():
             if not os.path.isfile(p):
                 continue
             try:
-                txt = open(p, encoding='utf-8').read()
+                txt = _FilePath(p).read_text(encoding='utf-8')
             except Exception:
                 continue
-            rel = os.path.relpath(p, ROOT)
+            rel = _repo_relpath(p, ROOT)
             if lit in txt:
                 if rel in _PAGES_SKIP_ALLOW:
                     seen_allow.add(rel)
@@ -1694,7 +1701,7 @@ def check_pages_skip():
     # ② 헬퍼 가드 실존 — 접두는 항상 킬스위치(PAGES_COALESCE=0) 뒤에 있어야 한다(무조건 접두 = 롤백 1줄 계약 파기)
     gl = os.path.join(ROOT, '.github', 'scripts', 'git_land.sh')
     try:
-        gtxt = open(gl, encoding='utf-8').read()
+        gtxt = _FilePath(gl).read_text(encoding='utf-8')
         if lit in gtxt and 'PAGES_COALESCE' not in gtxt:
             bad.append('git_land.sh → 접두에 킬스위치(PAGES_COALESCE) 가드 부재')
     except Exception as e:
@@ -1702,7 +1709,7 @@ def check_pages_skip():
     # ③ breaking-judge 금지 줄 부정 검사 — PFX 변수가 즉시축 커밋에 번지면 조용한 지연(운영자 체감 직격)
     bj = os.path.join(ROOT, '.github', 'workflows', 'breaking-judge.yml')
     try:
-        for i, l in enumerate(open(bj, encoding='utf-8').read().splitlines(), 1):
+        for i, l in enumerate(_FilePath(bj).read_text(encoding='utf-8').splitlines(), 1):
             if 'git commit' in l and '${PFX}' in l and ('조기 반영' in l or 'auto-pick' in l or '발송 원장' in l):
                 bad.append('breaking-judge.yml:%d → 즉시축 커밋에 접두 금지(경중 grade 갱신만 허용)' % i)
     except Exception as e:
@@ -1743,7 +1750,7 @@ def check_coalesce_pair():
             continue
         p = os.path.join(ROOT, rel)
         try:
-            txt = open(p, encoding='utf-8').read()
+            txt = _FilePath(p).read_text(encoding='utf-8')
         except Exception:
             continue   # 파일 부재 = check_pages_skip 관할(중복 실패 안 냄)
         for line in txt.splitlines():
@@ -1764,7 +1771,7 @@ def check_coalesce_pair():
     for n in sorted(os.listdir(vdir)):
         if n.endswith('.html'):
             try:
-                vtxt += open(os.path.join(vdir, n), encoding='utf-8').read()
+                vtxt += _FilePath(os.path.join(vdir, n)).read_text(encoding='utf-8')
             except Exception:
                 pass
     if not vtxt:
@@ -1776,7 +1783,7 @@ def check_coalesce_pair():
     for n in sorted(os.listdir(fdir)):
         if n.endswith('.js'):
             try:
-                raw = open(os.path.join(fdir, n), encoding='utf-8').read()
+                raw = _FilePath(os.path.join(fdir, n)).read_text(encoding='utf-8')
             except Exception:
                 continue
             atxt += '\n'.join(re.sub(r'(?<!:)//.*$', '', l) for l in raw.splitlines())
@@ -1791,7 +1798,7 @@ def check_coalesce_pair():
         if not n.endswith('.js'):
             continue
         try:
-            raw = open(os.path.join(fdir, n), encoding='utf-8').read()
+            raw = _FilePath(os.path.join(fdir, n)).read_text(encoding='utf-8')
         except Exception:
             continue
         code = '\n'.join(re.sub(r'(?<!:)//.*$', '', l) for l in raw.splitlines())
@@ -1861,8 +1868,8 @@ def check_cat_kw():
     근본(260628 C9 분신술 10인). 버킷별 토큰집합 일치 + 버킷충돌(같은 토큰·다른 버킷) 둘 다 검사."""
     rc = 0
     try:
-        py = open(os.path.join(ROOT, 'scraper', 'to_candidates.py'), encoding='utf-8').read()
-        js = open(os.path.join(ROOT, 'viewer', 'index.html'), encoding='utf-8').read()
+        py = _FilePath(os.path.join(ROOT, 'scraper', 'to_candidates.py')).read_text(encoding='utf-8')
+        js = _FilePath(os.path.join(ROOT, 'viewer', 'index.html')).read_text(encoding='utf-8')
     except Exception as e:
         print('⚠️ check_cat_kw 스킵(파일):', e); return 0
     P = _parse_cat_kw(py); J = _parse_cat_kw(js)
@@ -1900,8 +1907,8 @@ def check_issue_badge_parity():
     ⚠️ fail-closed: 파일을 못 읽으면 통과 아닌 실패(게이트가 조용히 무력화되던 fail-open 봉합·260710)."""
     rc = 0
     try:
-        js = open(os.path.join(ROOT, 'viewer', 'index.html'), encoding='utf-8').read()
-        bv = open(os.path.join(ROOT, 'build-viewer.mjs'), encoding='utf-8').read()
+        js = _FilePath(os.path.join(ROOT, 'viewer', 'index.html')).read_text(encoding='utf-8')
+        bv = _FilePath(os.path.join(ROOT, 'build-viewer.mjs')).read_text(encoding='utf-8')
     except Exception as e:
         print('❌ check_issue_badge_parity 파일 읽기 실패(fail-closed — 게이트 무력화 방지):', e); return 1
     bad = []
@@ -1942,7 +1949,7 @@ def check_issue_badge_parity():
     #   검출기가 된다(insta-thumb-miss·brk_misfire 동축). 별도 게이트를 안 만든 이유 = 같은 축이라 손 목록이
     #   두 벌이 되면 그 둘이 또 갈린다(이 레포 최빈 드리프트).
     try:
-        ps = open(os.path.join(ROOT, '.github', 'scripts', 'push_send.py'), encoding='utf-8').read()
+        ps = _FilePath(os.path.join(ROOT, '.github', 'scripts', 'push_send.py')).read_text(encoding='utf-8')
     except Exception as e:
         bad.append('push_send.py 읽기 실패(fail-closed): %s' % e); ps = None
     if ps is not None:
@@ -1983,8 +1990,8 @@ def check_force_parity():
     한쪽만 고치면 수집 데이터(cat)와 화면 라벨(articleCat)이 갈라져 오분류가 화면·데이터 따로 남(송성문 MLB 국제 오분류 교정 260704 계기)."""
     rc = 0
     try:
-        py = open(os.path.join(ROOT, 'scraper', 'to_candidates.py'), encoding='utf-8').read()
-        js = open(os.path.join(ROOT, 'viewer', 'index.html'), encoding='utf-8').read()
+        py = _FilePath(os.path.join(ROOT, 'scraper', 'to_candidates.py')).read_text(encoding='utf-8')
+        js = _FilePath(os.path.join(ROOT, 'viewer', 'index.html')).read_text(encoding='utf-8')
     except Exception as e:
         print('⚠️ check_force_parity 스킵(파일):', e); return 0
     bad = []
@@ -2014,9 +2021,9 @@ def check_k_models():
     칩 값에 `]`·작은따옴표 금지(정규식 절단). 구조를 리팩터하면 이 게이트 정규식도 동반 갱신."""
     rc = 0
     try:
-        kh = open(os.path.join(ROOT, 'viewer', 'k.html'), encoding='utf-8').read()
-        aj = open(os.path.join(ROOT, 'functions', 'api', 'k.js'), encoding='utf-8').read()
-        pf = open(os.path.join(ROOT, 'apps', 'k', '01_모델프로필_영상엔진.md'), encoding='utf-8').read()
+        kh = _FilePath(os.path.join(ROOT, 'viewer', 'k.html')).read_text(encoding='utf-8')
+        aj = _FilePath(os.path.join(ROOT, 'functions', 'api', 'k.js')).read_text(encoding='utf-8')
+        pf = _FilePath(os.path.join(ROOT, 'apps', 'k', '01_모델프로필_영상엔진.md')).read_text(encoding='utf-8')
     except Exception as e:
         # fail-closed(감사7·8): 이 3파일은 /k 모델 분기의 하드 의존 — 부재/리네임 = 게이트 무성 무력화가 아니라 커밋 차단
         print('❌ /k 모델·설정 패리티: 필수 파일 못 엶(부재/리네임?) —', e); return 1
@@ -2062,7 +2069,7 @@ def check_autocomplete():
     rc = 0
     for rel in VIEWERS_ALL:   # Q169 뷰어 목록 SSOT 상수화 — nb·sb 동반 편입
         try:
-            s = open(os.path.join(ROOT, rel), encoding='utf-8').read()
+            s = _FilePath(os.path.join(ROOT, rel)).read_text(encoding='utf-8')
         except Exception:
             continue
         for m in _INPUT_RE.finditer(s):
@@ -2135,7 +2142,7 @@ def check_clip_coverage():
     n_ok = n_ex = 0
     for rel in VIEWERS_ALL + ('viewer/tr.html',):
         try:
-            s = open(os.path.join(ROOT, rel), encoding='utf-8').read()
+            s = _FilePath(os.path.join(ROOT, rel)).read_text(encoding='utf-8')
         except Exception:
             continue
         decls = [(m.start(), m.group(0), 'input') for m in _INPUT_RE.finditer(s)]
@@ -2248,8 +2255,8 @@ def _nmin_rules(s):
 def check_input_canon():
     rc = 0
     try:
-        ssot = open(os.path.join(ROOT, _INCANON_SSOT), encoding='utf-8').read()
-        src = open(os.path.join(ROOT, _INCANON_SRC), encoding='utf-8').read()
+        ssot = _FilePath(os.path.join(ROOT, _INCANON_SSOT)).read_text(encoding='utf-8')
+        src = _FilePath(os.path.join(ROOT, _INCANON_SRC)).read_text(encoding='utf-8')
     except Exception as e:
         print('❌ 스튜디오 입력칸 정본 게이트 — 정본/SSOT 파일 열기 실패:', e)
         return 1
@@ -2283,7 +2290,7 @@ def check_input_canon():
     n_ok = n_ex = 0
     for rel in _INCANON_WIRED:
         try:
-            s = open(os.path.join(ROOT, rel), encoding='utf-8').read()
+            s = _FilePath(os.path.join(ROOT, rel)).read_text(encoding='utf-8')
         except Exception:
             continue
         if not re.search(r'<link[^>]+href="nm-input\.css"', s):   # 문자열 언급이 아니라 **실제 link 태그** — 주석에 파일명만 적혀도 통과하던 구멍(260804 킬테스트 검출)
@@ -2345,7 +2352,7 @@ def check_url_placeholder():
     rc = 0
     for rel in VIEWERS_ALL:
         try:
-            s = open(os.path.join(ROOT, rel), encoding='utf-8').read()
+            s = _FilePath(os.path.join(ROOT, rel)).read_text(encoding='utf-8')
         except Exception:
             continue
         for m in _INPUT_RE.finditer(s):
@@ -2379,7 +2386,7 @@ def check_x_char():
     warns = []
     for rel in VIEWERS_ALL:   # Q169 뷰어 목록 SSOT 상수화 — nb·sb 동반 편입
         try:
-            s = open(os.path.join(ROOT, rel), encoding='utf-8').read()
+            s = _FilePath(os.path.join(ROOT, rel)).read_text(encoding='utf-8')
         except Exception:
             continue
         s2 = re.sub(r'<!--.*?-->', '', s, flags=re.S)   # 주석 제거(오탐 차단)
@@ -2407,7 +2414,7 @@ def check_tokens_link():
     rc = 0
     for rel in VIEWERS_TOOLS:   # Q169 뷰어 목록 SSOT 상수화 — nb·sb 동반 편입(둘 다 tokens.css 링크 실측)
         try:
-            html = open(os.path.join(ROOT, rel), encoding='utf-8').read()
+            html = _FilePath(os.path.join(ROOT, rel)).read_text(encoding='utf-8')
         except Exception:
             continue
         if not re.search(r'<link[^>]+href=["\']tokens\.css["\']', html):
@@ -2434,10 +2441,10 @@ def check_dangling_var():
     try:
         tkp = os.path.join(ROOT, 'viewer', 'tokens.css')
         _strip = lambda t: re.sub(r'/\*.*?\*/', '', t, flags=re.S)   # 블록 주석 제거 후 수집(주석 속 '--x:'를 정의로 오인해 실깨짐을 가리는 틈 봉합 · W-A 노트 → Q176) — // 라인 주석은 URL(http://) 오폭 위험이라 보존, defs·uses 동일 스트립본이라 정합
-        tk_defs = set(_VAR_DEF_ANY.findall(_strip(open(tkp, encoding='utf-8').read()))) if os.path.exists(tkp) else set()
+        tk_defs = set(_VAR_DEF_ANY.findall(_strip(_FilePath(tkp).read_text(encoding='utf-8')))) if os.path.exists(tkp) else set()
         for rel in VIEWERS_ALL:
             try:
-                s = _strip(open(os.path.join(ROOT, rel), encoding='utf-8').read())
+                s = _strip(_FilePath(os.path.join(ROOT, rel)).read_text(encoding='utf-8'))
             except Exception:
                 continue
             defs = set(_VAR_DEF_ANY.findall(s)) | set(_VAR_DEF_SETP.findall(s))
@@ -2461,7 +2468,7 @@ def check_soremeori():
     rc = 0
     # 정본(index) 소머리 = .cref-lbl(텍스트 흰색800) + ::before/p.lbl::before(형광 블릿700) — 정본도 검사(옛 '무변경 정본' 사각지대 제거: 감사서 리터럴 13/800 드리프트 발견 → 토큰화 후 게이트로 고정)
     try:
-        idx = open(os.path.join(ROOT, 'viewer', 'index.html'), encoding='utf-8').read()
+        idx = _FilePath(os.path.join(ROOT, 'viewer', 'index.html')).read_text(encoding='utf-8')
         ml = re.search(r'\.cref-lbl\s*\{([^}]*)\}', idx)
         if not ml or 'var(--fg)' not in ml.group(1) or 'var(--fw-x)' not in ml.group(1):
             print('❌ 소머리 게이트 — index .cref-lbl 텍스트가 흰색(--fg)·800(--fw-x) 토큰 아님(리터럴 재드리프트·§📐 정본)'); rc = 1
@@ -2476,7 +2483,7 @@ def check_soremeori():
     # 블록 소머리 label.fl = 텍스트 흰색(--fg)·800(--fw-x) + ::before 형광(--accent)·700(--fw-b)
     for rel in VIEWERS_TOOLS:   # Q169 뷰어 목록 SSOT 상수화(구 순서 thumb·k·ly… = 동일 집합) — nb·sb 동반 편입
         try:
-            css = open(os.path.join(ROOT, rel), encoding='utf-8').read()
+            css = _FilePath(os.path.join(ROOT, rel)).read_text(encoding='utf-8')
         except Exception:
             continue
         m = re.search(r'label\.fl\s*\{([^}]*)\}', css)
@@ -2489,7 +2496,7 @@ def check_soremeori():
             print('❌ 소머리 게이트 — %s label.fl::before 블릿이 형광(--accent)·700(--fw-b) 아님(블릿 누락/색오류·§📐)' % rel); rc = 1
     # flex 소머리 thumb .csec = 텍스트 흰색800 + ::before 형광700 · .hist-bul = 특수 보라
     try:
-        t = open(os.path.join(ROOT, 'viewer', 'thumb.html'), encoding='utf-8').read()
+        t = _FilePath(os.path.join(ROOT, 'viewer', 'thumb.html')).read_text(encoding='utf-8')
         mc = re.search(r'\.csec\s*\{([^}]*)\}', t)
         if not mc or 'var(--fg)' not in mc.group(1) or 'var(--fw-x)' not in mc.group(1):
             print('❌ 소머리 게이트 — thumb .csec 텍스트가 흰색(--fg)·800(--fw-x) 아님(§📐)'); rc = 1
@@ -2498,7 +2505,7 @@ def check_soremeori():
             print('❌ 소머리 게이트 — thumb .csec::before 블릿이 형광(--accent)·700(--fw-b) 아님(§📐)'); rc = 1
         # .hist-bul 정본 = nm-hist.css(운영자 260802 일맥상통 — thumb 인라인 → 공유 링크 SSOT 승격 · tr.html 동승) · 파일 소실 = t_hist '' = 게이트 실패(정본 증발 검출)
         try:
-            t_hist = open(os.path.join(ROOT, 'viewer', 'nm-hist.css'), encoding='utf-8').read()
+            t_hist = _FilePath(os.path.join(ROOT, 'viewer', 'nm-hist.css')).read_text(encoding='utf-8')
         except OSError:
             t_hist = ''
         mh = re.search(r'\.hist-bul\s*\{([^}]*)\}', t + t_hist)
@@ -2537,7 +2544,7 @@ def check_claude_failover():
             continue
         for n in names:
             try:
-                txt = open(os.path.join(sdir, n), encoding='utf-8').read()
+                txt = _FilePath(os.path.join(sdir, n)).read_text(encoding='utf-8')
             except Exception:
                 continue
             if not INVOKE.search(txt):
@@ -2567,7 +2574,7 @@ def check_judge_bare():
 
     def _read(p):
         try:
-            return open(os.path.join(ROOT, p), encoding='utf-8').read()
+            return _FilePath(os.path.join(ROOT, p)).read_text(encoding='utf-8')
         except Exception:
             return ''
 
@@ -2669,7 +2676,7 @@ def check_conflict_markers():
             with open(path, encoding='utf-8') as f:
                 for i, ln in enumerate(f, 1):
                     if ln.startswith(l7) or ln.startswith(r7):
-                        bad.append('%s:%d 병합 충돌 마커 잔존 — 양측 내용 보존 후 마커만 제거하라' % (os.path.relpath(path, ROOT), i))
+                        bad.append('%s:%d 병합 충돌 마커 잔존 — 양측 내용 보존 후 마커만 제거하라' % (_repo_relpath(path, ROOT), i))
         except Exception:
             pass
     return bad
@@ -2732,9 +2739,9 @@ def check_workflow_yaml():
         _yaml = None
     warn = []
     for p in files:
-        rel = os.path.relpath(p, ROOT)
+        rel = _repo_relpath(p, ROOT)
         try:
-            src = open(p, encoding='utf-8').read()
+            src = _FilePath(p).read_text(encoding='utf-8')
         except Exception as e:
             bad.append('%s 읽기 실패 — %s' % (rel, e))
             continue
@@ -2807,9 +2814,9 @@ def check_git_idiom():
                    + _g.glob(os.path.join(ROOT, '.github', 'scripts', '*.sh')))
     n_pull = 0
     for p in files:
-        rel = os.path.relpath(p, ROOT)
+        rel = _repo_relpath(p, ROOT)
         try:
-            lines = open(p, encoding='utf-8').read().split('\n')
+            lines = _FilePath(p).read_text(encoding='utf-8').split('\n')
         except Exception as e:
             bad.append('%s 읽기 실패 — %s' % (rel, e))
             continue
@@ -2817,7 +2824,7 @@ def check_git_idiom():
             s = ln.strip()
             if s.startswith('#'):
                 continue
-            code = re.split(r'\s+#', s, 1)[0]   # 행끝 주석 제거(주석 속 관용구 인용 = 오탐 차단)
+            code = re.split(r'\s+#', s, maxsplit=1)[0]   # 행끝 주석 제거(주석 속 관용구 인용 = 오탐 차단)
             if 'git pull --rebase' in code:
                 n_pull += 1
                 if '--autostash' not in code:
@@ -2845,7 +2852,7 @@ def check_git_idiom():
     for rel, pat, fix in _inv:
         p = os.path.join(ROOT, rel)
         try:
-            body = open(p, encoding='utf-8').read()
+            body = _FilePath(p).read_text(encoding='utf-8')
         except Exception as e:
             bad.append('%s 읽기 실패 — %s' % (rel, e))
             continue
@@ -2865,7 +2872,7 @@ def check_qledger_unique():
     — 확정(커밋) 직전 fetch+재기점이 짝이다(260718 규칙 6: 착수 중 = Q?? 스텁 → 커밋 직전 파일 최대+1 확정).
     면책 30종(260718 기준) 이후 _QDUP_BASE 증가 = 규칙 실패 신호(평의회 위원6 기준선). fail-closed(원장 못 읽으면 차단)."""
     try:
-        lines = open(os.path.join(ROOT, 'docs', '요구사항_큐.md'), encoding='utf-8').read().splitlines()
+        lines = _FilePath(os.path.join(ROOT, 'docs', '요구사항_큐.md')).read_text(encoding='utf-8').splitlines()
     except Exception as e:
         print('❌ check_qledger_unique 원장 읽기 실패(fail-closed):', e); return 1
     # (260718 경합 소멸 · 운영자 승인) 착수 중 임시 행 = 'Q??(세션 꼬리표)·' 스텁 — 커밋 전 파일 최대+1 실번호로 확정 필수.
@@ -2915,7 +2922,7 @@ def fix_qnum_reassign():
         return 1
     base_lines = set(base.stdout.splitlines())
     try:
-        raw = open(path, encoding='utf-8').read()
+        raw = _FilePath(path).read_text(encoding='utf-8')
     except Exception as e:
         print('❌ --fix-qnum 원장 읽기 실패:', e)
         return 1
@@ -2961,7 +2968,7 @@ def fix_qnum_reassign():
         print('✅ --fix-qnum 할 일 없음 — Q?? 스텁 0 · 신규 중복 0(현재 최대 Q%d · 다음 부여 = Q%d).' % (max(cnt), max(cnt) + 1))
         return 0
     if stubbed or changed:
-        open(path, 'w', encoding='utf-8').write('\n'.join(lines) + ('\n' if raw.endswith('\n') else ''))
+        _FilePath(path).write_text('\n'.join(lines) + ('\n' if raw.endswith('\n') else ''), encoding='utf-8')
         for n in stubbed:
             print('🔧 --fix-qnum 스텁 확정 Q?? → Q%d (착수 중 스텁 → 커밋 직전 실번호 · 큐 헤더 규칙 6)' % n)
         for a, b in changed:
@@ -2994,7 +3001,7 @@ def check_anchor_liveness():
     texts = {}
     try:
         for p in set(FILES) | set(DOCMAP.values()):
-            texts[p] = open(os.path.join(ROOT, p), encoding='utf-8').read()
+            texts[p] = _FilePath(os.path.join(ROOT, p)).read_text(encoding='utf-8')
     except Exception as e:
         print('❌ check_anchor_liveness 기틀 파일 읽기 실패(fail-closed):', e); return 1
     bad = []
@@ -3030,7 +3037,7 @@ def check_html_charset():
         except OSError:
             continue
         if b'charset' not in head.lower():
-            bad.append(os.path.relpath(p, ROOT)); rc = 1
+            bad.append(_repo_relpath(p, ROOT)); rc = 1
     if bad:
         print('❌ HTML charset 게이트 — 첫 1KB 안 <meta charset="utf-8"> 없음 %d건(폰 열람 깨짐): %s' % (len(bad), ', '.join(bad[:5])))
     else:
@@ -3045,8 +3052,8 @@ def check_fp_parity():
     ③ persons 정규화 상한(÷10 캡) py↔js 동일. 미러 드리프트 = 시운전(py)과 라이브(js) 점수 괴리 사고원."""
     rc = 0
     try:
-        v = open(os.path.join(ROOT, 'viewer', 'index.html'), encoding='utf-8').read()
-        g = open(os.path.join(ROOT, 'scraper', 'fp_culture_dict.py'), encoding='utf-8').read()
+        v = _FilePath(os.path.join(ROOT, 'viewer', 'index.html')).read_text(encoding='utf-8')
+        g = _FilePath(os.path.join(ROOT, 'scraper', 'fp_culture_dict.py')).read_text(encoding='utf-8')
     except Exception as e:
         print('⚠️ check_fp_parity 스킵(파일):', e); return 0
     m1 = re.search(r'const FP_CROSS_RE = /(.+?)/;', v)
@@ -3055,8 +3062,8 @@ def check_fp_parity():
         print('❌ fp 크로스어 패리티 — viewer FP_CROSS_RE ≠ scraper CROSS_RE (문자열 동일 유지 필수)'); rc = 1
     try:
         import json as _json
-        a = _json.load(open(os.path.join(ROOT, 'viewer', 'fp_dict.json'), encoding='utf-8'))
-        b = _json.load(open(os.path.join(ROOT, 'apps', 'insta', 'data', 'fp_culture_dict.json'), encoding='utf-8'))
+        a = _json.loads(_FilePath(os.path.join(ROOT, 'viewer', 'fp_dict.json')).read_text(encoding='utf-8'))
+        b = _json.loads(_FilePath(os.path.join(ROOT, 'apps', 'insta', 'data', 'fp_culture_dict.json')).read_text(encoding='utf-8'))
         if a != b:
             print('❌ fp 사전 사본 불일치 — viewer/fp_dict.json ≠ apps/insta/data/fp_culture_dict.json (python3 scraper/fp_culture_dict.py 재실행으로 동기)'); rc = 1
     except Exception as e:
@@ -3095,7 +3102,7 @@ def check_launch_spec():
     rc = 0; n = 0
     for rel, sels in _LAUNCH_BTNS.items():
         try:
-            css = open(os.path.join(ROOT, rel), encoding='utf-8').read()
+            css = _FilePath(os.path.join(ROOT, rel)).read_text(encoding='utf-8')
         except Exception:
             continue
         css = re.sub(r'/\*.*?\*/', '', css, flags=re.S)   # 주석 제거(주석 속 셀렉터 오탐 차단)
@@ -3140,7 +3147,7 @@ def check_imgstudio_dock_spec():
     rc = 0; ns = 0; nb = 0
     for rel, ids in _DOCK_READBACK_STRIPS.items():
         try:
-            html = open(os.path.join(ROOT, rel), encoding='utf-8').read()
+            html = _FilePath(os.path.join(ROOT, rel)).read_text(encoding='utf-8')
         except Exception:
             continue
         for sid in ids:
@@ -3153,7 +3160,7 @@ def check_imgstudio_dock_spec():
                 print('❌ 이미지 스튜디오 도크 규격 이탈 — %s #%s 값에 정적 .on %d개 = 기본값 강조 금지(기본 mut·변경만 accent = updateGoSpec 정본 문법 · 부팅 색이 편집 탭과 불일치)' % (rel, sid, len(bad))); rc = 1
     for rel, ids in _DOCK_ACTIVE_BTNS.items():
         try:
-            html = open(os.path.join(ROOT, rel), encoding='utf-8').read()
+            html = _FilePath(os.path.join(ROOT, rel)).read_text(encoding='utf-8')
         except Exception:
             continue
         for bid in ids:
@@ -3218,7 +3225,7 @@ def _trail_surfaces():
     for path in sorted(glob.glob(os.path.join(ROOT, 'viewer', '*.html'))):
         rel = 'viewer/' + os.path.basename(path)
         try:
-            html = open(path, encoding='utf-8').read()
+            html = _FilePath(path).read_text(encoding='utf-8')
         except Exception:
             continue
         if re.search(r'class="trail[ "]|class="trail\b', html):
@@ -3241,9 +3248,9 @@ def check_track_parity():
     """자간 판정 = advance 단일 기준 + 한도 상수 py↔js 동일(운영자 260802 3차). 이탈 = rc=1."""
     rc = 0
     try:
-        js = open(os.path.join(ROOT, 'viewer', 'thumb.html'), encoding='utf-8').read()
-        yml = open(os.path.join(ROOT, '.github', 'workflows', 'thumb-make.yml'), encoding='utf-8').read()
-        ov = open(os.path.join(ROOT, 'apps', 'thumbnail', 'nomute_overlay.py'), encoding='utf-8').read()
+        js = _FilePath(os.path.join(ROOT, 'viewer', 'thumb.html')).read_text(encoding='utf-8')
+        yml = _FilePath(os.path.join(ROOT, '.github', 'workflows', 'thumb-make.yml')).read_text(encoding='utf-8')
+        ov = _FilePath(os.path.join(ROOT, 'apps', 'thumbnail', 'nomute_overlay.py')).read_text(encoding='utf-8')
     except Exception as e:
         print('❌ 자간 기준 게이트 — 파일 열기 실패: %s' % e); return 1
     if 'measureText' not in js:
@@ -3259,14 +3266,14 @@ def check_track_parity():
         if not m or m.group(1) != 'adv':
             print("❌ 자간 기준 게이트 — HDR.%s basis=%s ≠ 서버 축(adv · 헤더 = reels2 font.getlength)" % (ax, m.group(1) if m else '없음')); rc = 1
     try:
-        r2 = open(os.path.join(ROOT, 'apps', 'thumbnail', 'nomute_reels2.py'), encoding='utf-8').read()
+        r2 = _FilePath(os.path.join(ROOT, 'apps', 'thumbnail', 'nomute_reels2.py')).read_text(encoding='utf-8')
         if 'getlength' not in r2:
             print('❌ 자간 기준 게이트 — nomute_reels2가 getlength(advance) 축을 안 쓴다 = 헤더 basis 선언(adv)과 어긋남'); rc = 1
     except Exception:
         pass
     jj = ''
     try:
-        jj = open(os.path.join(ROOT, 'apps', 'thumbnail', 'nomute_jinjja.py'), encoding='utf-8').read()
+        jj = _FilePath(os.path.join(ROOT, 'apps', 'thumbnail', 'nomute_jinjja.py')).read_text(encoding='utf-8')
     except Exception:
         pass
     if jj and 'getbbox' not in jj:
@@ -3409,7 +3416,7 @@ def check_result_rail_parity():
     for f in sorted(_g.glob(_os.path.join(ROOT, 'viewer', '*.html'))):
         name = _os.path.basename(f)
         try:
-            raw = open(f, encoding='utf-8').read()
+            raw = _FilePath(f).read_text(encoding='utf-8')
         except Exception:
             continue
         t = _strip(raw)
@@ -3472,7 +3479,8 @@ def check_cap_rail_land():
     DEMOTE = _re.compile(r'!\s*_m\b|!\s*mine\s*\(\s*\)')   # 강등 분기 = 「지금은 내가 화면 주인이 아니다」 판정
     surfaces, bad = [], []
     for p in sorted(_g.glob('viewer/*.html')):
-        try: t = open(p, encoding='utf-8').read()
+        p = p.replace('\\', '/')
+        try: t = _FilePath(p).read_text(encoding='utf-8')
         except Exception: continue
         tag = ''
         for s in _re.findall(r'<script[^>]*>', t):
@@ -3545,7 +3553,7 @@ def check_trail_spec():
     rc = 0; n = 0
     for rel in _TRAIL_SURFACES:
         try:
-            css = open(os.path.join(ROOT, rel), encoding='utf-8').read()
+            css = _FilePath(os.path.join(ROOT, rel)).read_text(encoding='utf-8')
         except Exception:
             continue
         css = re.sub(r'/\*.*?\*/', '', css, flags=re.S)   # 주석 제거(주석 속 셀렉터·값 오탐 차단 · check_launch_spec 동문)
@@ -3587,9 +3595,9 @@ def check_prev_center():
     import glob as _g
     rc = 0; n = 0; surf = 0
     for fp in sorted(_g.glob(os.path.join(ROOT, 'viewer', '*.html'))):
-        rel = os.path.relpath(fp, ROOT)
+        rel = _repo_relpath(fp, ROOT)
         try:
-            html = open(fp, encoding='utf-8').read()
+            html = _FilePath(fp).read_text(encoding='utf-8')
         except Exception:
             continue
         hit = False
@@ -3663,9 +3671,9 @@ def check_geni_scope():
     bad = []
     files = sorted(_g.glob(os.path.join(ROOT, 'viewer', '*.html')) + _g.glob(os.path.join(ROOT, 'viewer', '*.js')))
     for fp in files:
-        rel = os.path.relpath(fp, ROOT)
+        rel = _repo_relpath(fp, ROOT)
         try:
-            src = open(fp, encoding='utf-8').read()
+            src = _FilePath(fp).read_text(encoding='utf-8')
         except Exception:
             continue
         for m in _GENI_ENTRY_RE.finditer(src):
@@ -3704,9 +3712,9 @@ def check_onoff_literal():
     import glob as _g
     rc = 0; total = 0
     for fp in sorted(_g.glob(os.path.join(ROOT, 'viewer', '*.html'))):
-        rel = os.path.relpath(fp, ROOT)
+        rel = _repo_relpath(fp, ROOT)
         try:
-            html = open(fp, encoding='utf-8').read()
+            html = _FilePath(fp).read_text(encoding='utf-8')
         except Exception:
             continue
         n = len(re.findall(r'<[^>]*aria-pressed[^>]*>\s*(?:ON|OFF)\s*<', html)) \
@@ -3759,9 +3767,9 @@ def check_axis_chip_home():
     import glob as _g
     rc = 0; n_surf = 0; axes_all = []
     for fp in sorted(_g.glob(os.path.join(ROOT, 'viewer', '*.html'))):
-        rel = os.path.relpath(fp, ROOT)
+        rel = _repo_relpath(fp, ROOT)
         try:
-            src = open(fp, encoding='utf-8').read()
+            src = _FilePath(fp).read_text(encoding='utf-8')
         except Exception:
             continue
         if 'function cardHtml(' not in src or 'hdChips' not in src:
@@ -3827,7 +3835,7 @@ def check_trail_decl_parity():
     정본 = viewer/index.html · 표면 = `class="trail` 보유 파일 자동 발견(check_trail_spec 동축 = 새 탭이 조용히 못 빠진다)."""
     import glob as _g
     try:
-        base_src = open(os.path.join(ROOT, 'viewer', 'index.html'), encoding='utf-8').read()
+        base_src = _FilePath(os.path.join(ROOT, 'viewer', 'index.html')).read_text(encoding='utf-8')
     except Exception:
         print('⚠️ 정본 규칙 상속 대조 — index.html 미독출(스킵)')
         return 0
@@ -3836,11 +3844,11 @@ def check_trail_decl_parity():
         if fp.endswith('index.html'):
             continue
         try:
-            s = open(fp, encoding='utf-8').read()
+            s = _FilePath(fp).read_text(encoding='utf-8')
         except Exception:
             continue
         if 'class="trail' in s:
-            surf.append((os.path.relpath(fp, ROOT), s))
+            surf.append((_repo_relpath(fp, ROOT), s))
     rc = 0
     checked = 0
     for part in _DECL_PARTS:
@@ -3905,9 +3913,9 @@ def check_affordance_inherit():
     rc = 0
     tot = 0
     for fp in sorted(_g.glob(os.path.join(ROOT, 'viewer', '*.html'))):
-        rel = os.path.relpath(fp, ROOT)
+        rel = _repo_relpath(fp, ROOT)
         try:
-            src = open(fp, encoding='utf-8').read()
+            src = _FilePath(fp).read_text(encoding='utf-8')
         except Exception:
             continue
         # <style> 블록만(인라인 style 속성·JS 문자열 제외)
@@ -3984,9 +3992,9 @@ def _debt_scan():
     out = {}
     files = [os.path.join(ROOT, 'shared', 'check_refs.py')] + sorted(_g.glob(os.path.join(ROOT, 'shared', 'smoke_*.js')))
     for fp in files:
-        rel = os.path.relpath(fp, ROOT)
+        rel = _repo_relpath(fp, ROOT)
         try:
-            src = open(fp, encoding='utf-8').read()
+            src = _FilePath(fp).read_text(encoding='utf-8')
         except Exception:
             continue
         for m in _DEBT_SYM.finditer(src):
@@ -4065,7 +4073,7 @@ def check_debt_ratchet(sync=False):
     sig = {k: v[1] for k, v in scan.items()}
     tot = sum(cur.values())
     try:
-        led = json.load(open(_DEBT_LEDGER, encoding='utf-8'))
+        led = json.loads(_FilePath(_DEBT_LEDGER).read_text(encoding='utf-8'))
     except Exception:
         led = {'tables': {}, 'open_items': []}
     # 원장 2세대 호환 — 구판 `{"표": 개수}` / 신판 `{"표": {"count": n, "sig": "…"}}`
@@ -4141,7 +4149,7 @@ def check_model_names():
     rc = 0
     # 0) 사전 파싱(fail-closed — 사전이 깨지면 뷰어 모델 라벨이 통째로 undefined)
     try:
-        nm_src = open(os.path.join(ROOT, 'viewer', 'nm-models.js'), encoding='utf-8').read()
+        nm_src = _FilePath(os.path.join(ROOT, 'viewer', 'nm-models.js')).read_text(encoding='utf-8')
     except Exception as e:
         print('❌ 모델 표시명 SSOT — viewer/nm-models.js 못 엶(부재/리네임 = sb·k 모델 라벨 전면 사망):', e); return 1
     nm = dict(re.findall(r"^\s*([a-z_0-9]+): '([^']*)'", nm_src, re.M))
@@ -4150,9 +4158,9 @@ def check_model_names():
         print('❌ 모델 표시명 SSOT — 사전 필수 키 누락/빈 값:', miss); return 1
     # ⓐ 음차·변형 래칫
     for fp in sorted(_g.glob(os.path.join(ROOT, 'viewer', '*.html')) + _g.glob(os.path.join(ROOT, 'functions', 'api', '*.js'))):
-        rel = os.path.relpath(fp, ROOT)
+        rel = _repo_relpath(fp, ROOT)
         try:
-            txt = open(fp, encoding='utf-8').read()
+            txt = _FilePath(fp).read_text(encoding='utf-8')
         except Exception:
             continue
         n = len(_MODEL_NM_RE.findall(txt))
@@ -4163,14 +4171,14 @@ def check_model_names():
                   '주석 인용 등 정당 사유면 _MODEL_NM_BASE[%r] 상향 + 사유(운영자 260803 "모델명 항상 통일")' % (rel, n, base, hits, rel)); rc = 1
     # ⓑ 리터럴 표면 동기(하드)
     try:
-        sbj = open(os.path.join(ROOT, 'functions', 'api', 'sb.js'), encoding='utf-8').read()
+        sbj = _FilePath(os.path.join(ROOT, 'functions', 'api', 'sb.js')).read_text(encoding='utf-8')
         m = re.search(r"const DIRECTOR_NM = \{ fable: '([^']+)', opus: '([^']+)', gpt: '([^']+)' \}", sbj)
         if not m:
             print('❌ 모델 표시명 SSOT — api/sb.js DIRECTOR_NM 리터럴 못 찾음(구조 재포맷 시 이 게이트 정규식 동반 갱신)'); rc = 1
         elif (m.group(1), m.group(2), m.group(3)) != (nm['fable'], nm['opus'], nm['gpt']):
             print('❌ 모델 표시명 SSOT — api/sb.js DIRECTOR_NM ≠ 사전: %s vs %s(서버는 사전 import 불가 = 손 동기 · 사전 값으로 맞춰라)'
                   % (m.groups(), (nm['fable'], nm['opus'], nm['gpt']))); rc = 1
-        idx = open(os.path.join(ROOT, 'viewer', 'index.html'), encoding='utf-8').read()
+        idx = _FilePath(os.path.join(ROOT, 'viewer', 'index.html')).read_text(encoding='utf-8')
         m2 = re.search(r"const GENI_ENG_ICO = \{ gemini: \['([^']+)'[^\]]*\], gpt: \['([^']+)'", idx)
         if not m2:
             print('❌ 모델 표시명 SSOT — index GENI_ENG_ICO 리터럴 못 찾음(재포맷 시 정규식 동반 갱신)'); rc = 1
@@ -4178,10 +4186,10 @@ def check_model_names():
             print('❌ 모델 표시명 SSOT — index GENI_ENG_ICO ≠ 사전: %s vs %s' % (m2.groups(), (nm['gemini'], nm['gpt_image']))); rc = 1
         for rel, pat, what in (('viewer/sb.html', r'src="nm-models\.js"', '사전 로드 줄'),
                                ('viewer/k.html', r'src="nm-models\.js"', '사전 로드 줄')):
-            t = open(os.path.join(ROOT, rel), encoding='utf-8').read()
+            t = _FilePath(os.path.join(ROOT, rel)).read_text(encoding='utf-8')
             if not re.search(pat, t):
                 print('❌ 모델 표시명 SSOT — %s에 %s 없음(NM_MODELS 참조가 미로드 = 라벨 undefined)' % (rel, what)); rc = 1
-        kh = open(os.path.join(ROOT, 'viewer', 'k.html'), encoding='utf-8').read()
+        kh = _FilePath(os.path.join(ROOT, 'viewer', 'k.html')).read_text(encoding='utf-8')
         m3 = re.search(r'<span class="eng">([^<]+)</span>', kh)
         if m3 and m3.group(1) != nm['gemini']:
             print('❌ 모델 표시명 SSOT — k 참조 라벨(.eng) %r ≠ 사전 %r' % (m3.group(1), nm['gemini'])); rc = 1
@@ -4203,9 +4211,9 @@ def check_twocol_breakpoint():
     import glob as _g
     vals = {}
     for fp in sorted(_g.glob(os.path.join(ROOT, 'viewer', '*.html'))):
-        rel = os.path.relpath(fp, ROOT)
+        rel = _repo_relpath(fp, ROOT)
         try:
-            html = open(fp, encoding='utf-8').read()
+            html = _FilePath(fp).read_text(encoding='utf-8')
         except Exception:
             continue
         for m in re.finditer(r'@media\s*\(min-width:(\d+)px\)\s*\{', html):
@@ -4254,9 +4262,9 @@ def check_layout_transition():
     import glob as _g
     cur, det = {}, {}
     for fp in sorted(_g.glob(os.path.join(ROOT, 'viewer', '*.html')) + _g.glob(os.path.join(ROOT, 'viewer', '*.css'))):
-        rel = os.path.relpath(fp, ROOT).replace(os.sep, '/')
+        rel = _repo_relpath(fp, ROOT).replace(os.sep, '/')
         try:
-            txt = open(fp, encoding='utf-8').read()
+            txt = _FilePath(fp).read_text(encoding='utf-8')
         except Exception:
             continue
         lines = txt.splitlines()
@@ -4347,7 +4355,7 @@ def check_comment_seam():
     import glob as _g
     bad = []
     for fp in sorted(_g.glob(os.path.join(ROOT, 'viewer', '*.html')) + _g.glob(os.path.join(ROOT, 'viewer', '*.css'))):
-        rel = os.path.relpath(fp, ROOT).replace(os.sep, '/')
+        rel = _repo_relpath(fp, ROOT).replace(os.sep, '/')
         try:
             with open(fp, encoding='utf-8') as _f:
                 src = _f.read()
@@ -4396,9 +4404,9 @@ def check_keyframes_dup():
     import glob as _g
     cur, det = {}, {}
     for fp in sorted(_g.glob(os.path.join(ROOT, 'viewer', '*.html')) + _g.glob(os.path.join(ROOT, 'viewer', '*.css'))):
-        rel = os.path.relpath(fp, ROOT).replace(os.sep, '/')
+        rel = _repo_relpath(fp, ROOT).replace(os.sep, '/')
         try:
-            src = open(fp, encoding='utf-8').read()
+            src = _FilePath(fp).read_text(encoding='utf-8')
         except Exception:
             continue
         seen = {}
@@ -4554,9 +4562,9 @@ def check_css_dead_state():
     import glob as _g
     cur, det = {}, {}
     for fp in sorted(_g.glob(os.path.join(ROOT, 'viewer', '*.html')) + _g.glob(os.path.join(ROOT, 'viewer', '*.css'))):
-        rel = os.path.relpath(fp, ROOT).replace(os.sep, '/')
+        rel = _repo_relpath(fp, ROOT).replace(os.sep, '/')
         try:
-            src = open(fp, encoding='utf-8').read()
+            src = _FilePath(fp).read_text(encoding='utf-8')
         except Exception:
             continue
         toggled = set(_CSS_TOGGLE.findall(src))
@@ -4733,8 +4741,8 @@ def check_preview_perf():
     hist_css = os.path.join(vdir, 'nm-hist.css')
     shared_css = os.path.join(vdir, 'nm-shared.css')
     try:
-        hist_src = _strip_css_comments(open(hist_css, encoding='utf-8').read())
-        shared_src = _strip_css_comments(open(shared_css, encoding='utf-8').read())
+        hist_src = _strip_css_comments(_FilePath(hist_css).read_text(encoding='utf-8'))
+        shared_src = _strip_css_comments(_FilePath(shared_css).read_text(encoding='utf-8'))
     except Exception as e:
         print('❌ 미리보기 부담 게이트 — 정본 CSS 미열람:', e)
         return 1
@@ -4763,7 +4771,7 @@ def check_preview_perf():
     miss = []
     for f in sorted(glob.glob(os.path.join(vdir, '*.html'))):
         try:
-            src = open(f, encoding='utf-8').read()
+            src = _FilePath(f).read_text(encoding='utf-8')
         except Exception:
             continue
         if 'cpv-bg' not in src and 'vstage' not in src:
@@ -4799,7 +4807,7 @@ def check_cpv_paint_quiet():
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     p = os.path.join(root, 'viewer', 'thumb.html')
     try:
-        src = open(p, encoding='utf-8').read()
+        src = _FilePath(p).read_text(encoding='utf-8')
     except OSError as e:
         print('❌ cpv 페인트 정숙 게이트: viewer/thumb.html 읽기 실패 —', e)
         return 1
@@ -4826,7 +4834,7 @@ def check_shared_canon():
     if not os.path.exists(path):
         print('❌ 공용 CSS SSOT 게이트 — 정본 %s 가 없다.' % _SHARED_CSS)
         return 1
-    css = open(path, encoding='utf-8').read()
+    css = _FilePath(path).read_text(encoding='utf-8')
     sels = _shared_sels(css)
     if len(sels) < 5:
         print('❌ 공용 CSS SSOT 게이트 — 정본 규칙이 %d종뿐이다(사본 시대로 회귀 · 하한 5).' % len(sels))
@@ -4840,8 +4848,8 @@ def check_shared_canon():
     # 승격분이 뷰어 인라인으로 되돌아왔는가(noscript 폴백은 조건부 정본 = 대상 밖)
     dup, nolink = [], []
     for p in sorted(glob.glob(os.path.join(ROOT, 'viewer', '*.html'))):
-        rel = os.path.relpath(p, ROOT).replace(os.sep, '/')
-        src = open(p, encoding='utf-8').read()
+        rel = _repo_relpath(p, ROOT).replace(os.sep, '/')
+        src = _FilePath(p).read_text(encoding='utf-8')
         body = re.sub(r'<noscript[^>]*>.*?</noscript>', ' ', src, flags=re.S)
         # ⚠ 단독 규칙 판정 — bare substring이면 `#geniOut::-webkit-scrollbar {` 가
         #   `::-webkit-scrollbar {` 로 잡혀 위양성이 난다(첫 실행 실측 · _anchor_menu_block 문법 계승).
@@ -4903,15 +4911,15 @@ def check_clip_canon():
     if not os.path.exists(css_path):
         print('❌ 클립 SSOT 게이트 — 정본 %s 가 없다.' % css_rel)
         return 1
-    css = open(css_path, encoding='utf-8').read()
+    css = _FilePath(css_path).read_text(encoding='utf-8')
     # ① 그룹 셀렉터 실존
     if _CLIP_CANON_SEL + ' {' not in css:
         bad.append('SSOT 그룹 소실 — `%s` 셀렉터가 %s 에 없다(그룹 해체·이름 변경 = 4문법이 다시 갈라진다).'
                    % (_CLIP_CANON_SEL, css_rel))
     # ②·③ 표면 자동 발견
     for path in sorted(glob.glob(os.path.join(ROOT, 'viewer', '*.html'))):
-        rel = os.path.relpath(path, ROOT).replace(os.sep, '/')
-        src = open(path, encoding='utf-8').read()
+        rel = _repo_relpath(path, ROOT).replace(os.sep, '/')
+        src = _FilePath(path).read_text(encoding='utf-8')
         owns = [m for m in _CLIP_CANON_MEMBERS if m + ' ' in src or m + '"' in src or m + "'" in src]
         if not owns:
             continue
@@ -4942,7 +4950,7 @@ def check_clip_canon():
 def check_anchor_menu_canon():
     """앵커 메뉴 문법 = 한 벌(위 주석). rc=1 = 커밋 차단."""
     rel = 'viewer/index.html'
-    src = open(os.path.join(ROOT, rel), encoding='utf-8').read()
+    src = _FilePath(os.path.join(ROOT, rel)).read_text(encoding='utf-8')
     bad = []
     for sel, label in ((_ANCHOR_MENU_SHELL_SEL, '셸 기하'), (_ANCHOR_MENU_ITEM_SEL, '항목 행')):
         if sel + ' {' not in src and sel + ' {\n' not in src and (sel + ' {') not in src.replace('\n  ', ' '):
@@ -4991,7 +4999,8 @@ def check_component_lock():
     changed = set()
     for cmd in ('git diff --name-only origin/main...HEAD', 'git diff --name-only', 'git diff --name-only --cached'):
         try:
-            changed |= {l.strip() for l in os.popen(cmd).read().splitlines() if l.strip()}
+            with os.popen(cmd) as output:
+                changed |= {l.strip() for l in output.read().splitlines() if l.strip()}
         except Exception:
             pass
     me = _lock.session_id()
@@ -5026,9 +5035,10 @@ def check_label_fill():
     bad = []
     for fp in sorted(_g.glob(os.path.join(ROOT, 'viewer', '*.html'))):
         try:
-            for i, ln in enumerate(open(fp, encoding='utf-8'), 1):
-                if rx.search(ln) and not grad.search(ln):
-                    bad.append('%s:%d %s' % (os.path.basename(fp), i, ln.strip()[:80]))
+            with open(fp, encoding='utf-8') as source:
+                for i, ln in enumerate(source, 1):
+                    if rx.search(ln) and not grad.search(ln):
+                        bad.append('%s:%d %s' % (os.path.basename(fp), i, ln.strip()[:80]))
         except Exception as e:
             print('⚠️ check_label_fill 스킵(%s): %s' % (os.path.basename(fp), e)); return 0
     if bad:
@@ -5052,11 +5062,12 @@ def check_loader_ssot():
         for fp in sorted(_g.glob(os.path.join(ROOT, 'viewer', '*.html'))):
             if os.path.basename(fp) == 'tokens.html':   # 토큰 레퍼런스 데모(nm-loader 미로드) = 라이브 로더 아님 · 스코프 밖
                 continue
-            for i, ln in enumerate(open(fp, encoding='utf-8'), 1):
-                if 'gdots"><i>' in ln and 'nmLoader' not in ln and '@keyframes' not in ln and '.gdots' not in ln:
-                    raw.append('%s:%d gdots' % (os.path.basename(fp), i))
-                if 'class="nmld"' in ln and '.nmld' not in ln.split('class="nmld"')[0][-3:]:
-                    raw.append('%s:%d nmld' % (os.path.basename(fp), i))
+            with open(fp, encoding='utf-8') as source:
+                for i, ln in enumerate(source, 1):
+                    if 'gdots"><i>' in ln and 'nmLoader' not in ln and '@keyframes' not in ln and '.gdots' not in ln:
+                        raw.append('%s:%d gdots' % (os.path.basename(fp), i))
+                    if 'class="nmld"' in ln and '.nmld' not in ln.split('class="nmld"')[0][-3:]:
+                        raw.append('%s:%d nmld' % (os.path.basename(fp), i))
     except Exception as e:
         print('⚠️ check_loader_ssot 스킵:', e); return 0
     if len(raw) > BASELINE:
@@ -5116,10 +5127,10 @@ def check_model_ids():
     bad = []
     for path in _model_scan_files(reg):
         try:
-            src = open(path, encoding='utf-8').read()
+            src = _FilePath(path).read_text(encoding='utf-8')
         except (OSError, UnicodeDecodeError):
             continue
-        rel = os.path.relpath(path, ROOT)
+        rel = _repo_relpath(path, ROOT)
         for lit in sorted(set(_MODEL_ID_RE.findall(src))):
             if lit not in ids:
                 bad.append('%s: 미등재 모델 ID `%s` (정본 = %s)' % (rel, lit, ' · '.join(sorted(ids))))
@@ -5192,7 +5203,7 @@ def _ssot_resolve(p):
     for cur, dirs, files in os.walk(ROOT):
         dirs[:] = [d for d in dirs if d not in _SSOT_SKIPDIR]
         if base in files:
-            hits.append(os.path.relpath(os.path.join(cur, base), ROOT))
+            hits.append(_repo_relpath(os.path.join(cur, base), ROOT))
     return hits[0] if len(hits) == 1 else None
 
 
@@ -5205,7 +5216,7 @@ def check_ssot_coverage():
     왜: 이 레포의 게이트 4종(팔레트·로더·탭 캐시·모델 ID)이 전부 *사고 후에* 붙었고, 사고 전 상태는 매번 똑같이
     「문서엔 정본 선언 있음 + 기계 없음」이었다. 그 상태를 사고 전에 목록으로 뽑는 게 이 게이트다.
     ⚠️ 산문(.md) 정본은 기계 대조 대상이 아니라 제외 · 게이트를 새로 못 붙일 축은 베이스라인 추가(= diff로 가시화)."""
-    src = open(os.path.join(ROOT, 'shared', 'check_refs.py'), encoding='utf-8').read()
+    src = _FilePath(os.path.join(ROOT, 'shared', 'check_refs.py')).read_text(encoding='utf-8')
     # ⚠️ 베이스라인 리터럴은 대조에서 뺀다 — 안 빼면 면책 목록에 적힌 경로가 스스로 '게이트가 언급함'이 되어
     #    영원히 초록으로 보이는 자기무력화가 된다(신설 첫 런 실측 = 미보유 9축이 0으로 둔갑).
     src = re.sub(r'_SSOT_BASELINE = frozenset\(\{.*?\}\)', '', src, flags=re.S)
@@ -5214,7 +5225,7 @@ def check_ssot_coverage():
         p = os.path.join(ROOT, d)
         if not os.path.exists(p):
             continue
-        for m in _SSOT_DECL.finditer(open(p, encoding='utf-8').read()):
+        for m in _SSOT_DECL.finditer(_FilePath(p).read_text(encoding='utf-8')):
             raw = m.group(1).strip().split()[0].rstrip('·,)')
             if not (raw.endswith(_SSOT_EXT) or os.path.basename(raw) == '_headers'):
                 continue
@@ -5277,7 +5288,7 @@ def check_drive_move_bundle():
             rc = 1
             continue
         try:
-            txt = open(bat, 'rb').read().decode('ascii')
+            txt = _FilePath(bat).read_bytes().decode('ascii')
         except UnicodeDecodeError:
             print('❌ %s 번들 게이트 — .bat에 비ASCII 바이트(cmd OEM 949에서 깨진다) → 재생성하라.' % label)
             rc = 1
@@ -5288,7 +5299,7 @@ def check_drive_move_bundle():
             print('❌ %s 번들 게이트 — base64 페이로드 복원 실패(%s) → 재생성하라.' % (label, e))
             rc = 1
             continue
-        want = open(ps1, 'rb').read()
+        want = _FilePath(ps1).read_bytes()
         if payload != want:
             print('❌ %s 번들 게이트 — .bat 안 페이로드 ≠ scripts/%s (운영자 PC에 옛 코드가 깔린다)'
                   ' → `python3 scripts/%s` 로 재생성하라.' % (label, ps1n, gen))
@@ -5310,12 +5321,12 @@ def check_font_shorthand():
     교정 정본 = `font-family:inherit; font-size:…; font-weight:…` 분해형(viewer/sb.html `.geni-opt`)."""
     bad = []
     for rel in sorted(glob.glob(os.path.join(ROOT, 'viewer', '*.html'))):
-        txt = _strip_css_comments(open(rel, encoding='utf-8').read())
+        txt = _strip_css_comments(_FilePath(rel).read_text(encoding='utf-8'))
         for m in _FONT_SHORTHAND_RE.finditer(txt):
             val = m.group(1).strip()
             if val == 'inherit':
                 continue   # `font:inherit` 단독 = 합법(전역 키워드가 축약 전체에 적용) · 무효는 다른 값과 섞였을 때뿐
-            bad.append((os.path.relpath(rel, ROOT), txt[:m.start()].count('\n') + 1, m.group(0)[:70]))
+            bad.append((_repo_relpath(rel, ROOT), txt[:m.start()].count('\n') + 1, m.group(0)[:70]))
     if bad:
         print('❌ 활자 무효축약 게이트 — `font:` 축약형 안 `inherit`(=선언 전체 무효 · 조용한 body 상속):')
         for f, ln, frag in bad:
@@ -5334,11 +5345,11 @@ def check_form_font_inherit():
         p = os.path.join(ROOT, rel)
         if not os.path.exists(p):
             miss.append((rel, '파일 없음')); continue
-        src = open(p, encoding='utf-8').read()
+        src = _FilePath(p).read_text(encoding='utf-8')
         # 260807 = 이 규칙이 nm-shared.css 공용 SSOT로 승격됐다 → **link 상속도 보유로 인정**한다.
         #   (인라인만 인정하면 SSOT 이관 자체를 게이트가 막는 자기모순 = check_clip_canon 선례와 동축)
         if 'href="nm-shared.css"' in src and _FORM_FONT_RE.search(
-                open(os.path.join(ROOT, 'viewer', 'nm-shared.css'), encoding='utf-8').read()):
+                _FilePath(os.path.join(ROOT, 'viewer', 'nm-shared.css')).read_text(encoding='utf-8')):
             continue
         if not _FORM_FONT_RE.search(src):
             miss.append((rel, '리셋 규칙 없음'))
@@ -5403,7 +5414,7 @@ def check_nm_jobs():
     if not os.path.exists(mp):
         print('❌ 동시 작업 추적 게이트 — viewer/nm-jobs.js 부재(SSOT 소실)')
         return 1
-    msrc = open(mp, encoding='utf-8').read()
+    msrc = _FilePath(mp).read_text(encoding='utf-8')
     for lit in ('add:', 'list:', 'drop:', 'hold:', 'free:', 'count:', 'window.nmJobs'):
         if lit not in msrc:
             bad.append('nm-jobs.js 골격 소실: ' + lit)
@@ -5416,7 +5427,7 @@ def check_nm_jobs():
         if not os.path.exists(p2):
             bad.append(f + ' 부재(고정 표면)')
             continue
-        src = open(p2, encoding='utf-8').read()
+        src = _FilePath(p2).read_text(encoding='utf-8')
         if 'src="nm-jobs.js"' not in src:
             bad.append(f + ' — nm-jobs.js 미상속')
         # ⚠ **여러 줄 블록 주석을 먼저 지운다**(길이 보존 공백 마스킹 = css_hoist 관례) — 줄 단위로만 보면 블록 주석
@@ -5449,7 +5460,7 @@ def check_nm_sync():
     vdir = os.path.join(ROOT, 'viewer')
     bad = []
     try:
-        msrc = open(os.path.join(vdir, 'nm-sync.js'), encoding='utf-8').read()
+        msrc = _FilePath(os.path.join(vdir, 'nm-sync.js')).read_text(encoding='utf-8')
     except Exception:
         print('❌ 동기화 생명선 게이트 — viewer/nm-sync.js 부재(SSOT 소실)')
         return 1
@@ -5460,7 +5471,7 @@ def check_nm_sync():
     for f in os.listdir(vdir):
         if f.endswith('.html'):
             try:
-                if 'window.nmRefresh' in open(os.path.join(vdir, f), encoding='utf-8').read():
+                if 'window.nmRefresh' in _FilePath(os.path.join(vdir, f)).read_text(encoding='utf-8'):
                     surf.add(f)
             except Exception:
                 continue
@@ -5469,7 +5480,7 @@ def check_nm_sync():
         if not os.path.exists(p):
             bad.append(f + ' 부재(고정 표면)')
             continue
-        if 'src="nm-sync.js"' not in open(p, encoding='utf-8').read():
+        if 'src="nm-sync.js"' not in _FilePath(p).read_text(encoding='utf-8'):
             bad.append(f + ' — nm-sync.js 미상속')
     if bad:
         print('❌ 동기화 생명선 게이트 — 상속 누락/골격 소실:')
@@ -5491,9 +5502,9 @@ def check_brk_misfire_chain():
     y = os.path.join(ROOT, '.github', 'workflows', 'rate.yml')
     bad = []
     try:
-        vt = open(v, encoding='utf-8').read()
-        st = open(s, encoding='utf-8').read()
-        yt = open(y, encoding='utf-8').read()
+        vt = _FilePath(v).read_text(encoding='utf-8')
+        st = _FilePath(s).read_text(encoding='utf-8')
+        yt = _FilePath(y).read_text(encoding='utf-8')
     except Exception as e:
         print('❌ 긴급 오발 신고 체인 게이트 — 파일 열기 실패: %s' % e)
         return 1
@@ -5507,7 +5518,7 @@ def check_brk_misfire_chain():
         bad.append('소비기 예약키 불일치 — scraper/brk_misfire.py REASON_KEY')
     if 'MSG_PY' not in st or 'shared' not in st:
         bad.append('소비기 알림 경로 결손 — msg.py 호출')
-    if "'brkno'" not in open(os.path.join(ROOT, 'build-viewer.mjs'), encoding='utf-8').read():
+    if "'brkno'" not in _FilePath(os.path.join(ROOT, 'build-viewer.mjs')).read_text(encoding='utf-8'):
         bad.append('트리아지 제외 결손 — build-viewer.mjs 가 brkno 행을 최신행 승리에서 안 뺀다(확인✓ 소실→긴급 재토스트)')
     # ⚠️ 실행줄만 인정 — 평문 substring 이면 `# python3 scraper/brk_misfire.py` 처럼 **주석 처리해도 통과**한다
     #    (check_refs 자신이 1585행에서 "평문 needle = self-match 함정"이라 명시한 패턴).
@@ -5515,7 +5526,7 @@ def check_brk_misfire_chain():
         bad.append('워크플로 소비 스텝 결손 — .github/workflows/rate.yml 실행줄')
     if 'git add -A messages' not in yt or 'git add scraper/brk_misfire.json' not in yt:
         bad.append('워크플로 커밋 결손 — messages/·원장이 커밋 안 되면 알림이 배포에 안 실린다')
-    if 'brk_misfire.py' not in open(os.path.join(ROOT, '.github', 'workflows', 'watchdog.yml'), encoding='utf-8').read():
+    if 'brk_misfire.py' not in _FilePath(os.path.join(ROOT, '.github', 'workflows', 'watchdog.yml')).read_text(encoding='utf-8'):
         bad.append('TTL 상시 갱신 결손 — watchdog.yml(운영자가 별점을 안 누르면 알림이 24h 뒤 조용히 소멸)')
     # inputs 상한(10) 초과 방지 — 초과 시 dispatch 자체가 400(평점·신고 레일 동시 사망)
     m = re.search(r'workflow_dispatch:\s*\n\s*inputs:\s*\n((?:\s{6,}\S.*\n|\s*\n)+?)\s{0,4}concurrency:', yt)
@@ -5557,7 +5568,7 @@ def check_vote_btn_canon():
       비대상(`check_clip_coverage` 템플릿 배제 선례)."""
     idx = os.path.join(ROOT, 'viewer', 'index.html')
     try:
-        it = open(idx, encoding='utf-8').read()
+        it = _FilePath(idx).read_text(encoding='utf-8')
     except Exception as e:
         print('❌ 투표 부품 게이트 — viewer/index.html 열기 실패(fail-closed): %s' % e)
         return 1
@@ -5575,7 +5586,7 @@ def check_vote_btn_canon():
     for path in sorted(glob.glob(os.path.join(ROOT, 'viewer', '*.html'))):
         name = os.path.basename(path)
         try:
-            t = open(path, encoding='utf-8').read()
+            t = _FilePath(path).read_text(encoding='utf-8')
         except Exception:
             continue
         for i, ln in enumerate(t.split('\n'), 1):
@@ -5618,7 +5629,7 @@ def check_cloud_action_chain():
     keyhtml = os.path.join(ROOT, 'scripts', '노뮤트_열쇠입력.html')
     for p in (wrap, setup, bat, cmdf, lane, keyhtml):
         if not os.path.exists(p):
-            print('❌ [cloud-action] 파일 소실: %s' % os.path.relpath(p, ROOT)); rc = 1
+            print('❌ [cloud-action] 파일 소실: %s' % _repo_relpath(p, ROOT)); rc = 1
     if rc:
         return rc
     def _rd(p):
@@ -5689,8 +5700,8 @@ def check_secret_coverage_chain():
         print('❌ 빈 칸 점검 게이트 — 정본 .github/scripts/secret_coverage.py 없음(fail-closed)'); return 1
     if not os.path.exists(p_yml):
         print('❌ 빈 칸 점검 게이트 — 레인 .github/workflows/secret-coverage.yml 없음(fail-closed)'); return 1
-    py = open(p_py, encoding='utf-8').read()
-    yml = open(p_yml, encoding='utf-8').read()
+    py = _FilePath(p_py).read_text(encoding='utf-8')
+    yml = _FilePath(p_yml).read_text(encoding='utf-8')
     # 주석 줄 제외 = 처방문·사고 기록이 배선으로 오인되는 것 차단(check_nm_jobs 관례 계승).
     py_code = '\n'.join(l for l in py.splitlines() if not l.lstrip().startswith('#'))
     yml_code = '\n'.join(l for l in yml.splitlines() if not l.lstrip().startswith('#'))
@@ -5767,7 +5778,7 @@ def check_land_share():
     p_gl = os.path.join(ROOT, '.github', 'scripts', 'git_land.sh')
     if not os.path.exists(p_gl):
         print('❌ 공유 착지 게이트 — 정본 .github/scripts/git_land.sh 없음(fail-closed)'); return 1
-    raw = open(p_gl, encoding='utf-8', errors='replace').read()
+    raw = _FilePath(p_gl).read_text(encoding='utf-8', errors='replace')
     code = '\n'.join(l for l in raw.splitlines() if not l.lstrip().startswith('#'))
     bad = []
     if 'BASE="$(git rev-parse HEAD' not in code:
@@ -5911,7 +5922,7 @@ def check_land_xours():
         if not fn.endswith(('.yml', '.yaml')):
             continue
         try:
-            d = _yaml.safe_load(open(os.path.join(wf_dir, fn), encoding='utf-8'))
+            d = _yaml.safe_load(_FilePath(os.path.join(wf_dir, fn)).read_text(encoding='utf-8'))
         except Exception:  # noqa: BLE001
             continue
         for job in (d.get('jobs') or {}).values():
@@ -5938,7 +5949,7 @@ def check_land_xours():
             if not fn.endswith('.sh'):
                 continue
             try:
-                raw = open(os.path.join(mac_dir, fn), encoding='utf-8', errors='replace').read()
+                raw = _FilePath(os.path.join(mac_dir, fn)).read_text(encoding='utf-8', errors='replace')
             except OSError:
                 continue
             code = '\n'.join(l for l in raw.splitlines() if not l.lstrip().startswith('#'))
@@ -6013,7 +6024,7 @@ def check_land_silence():
         if not fn.endswith(('.yml', '.yaml')):
             continue
         try:
-            d = _yaml.safe_load(open(os.path.join(wf_dir, fn), encoding='utf-8'))
+            d = _yaml.safe_load(_FilePath(os.path.join(wf_dir, fn)).read_text(encoding='utf-8'))
         except Exception:  # noqa: BLE001
             continue
         for job in (d.get('jobs') or {}).values():
@@ -6065,7 +6076,7 @@ def check_land_silence():
             if not fn.endswith('.sh') or fn == 'git_land.sh':
                 continue
             try:
-                raw = open(os.path.join(d, fn), encoding='utf-8', errors='replace').read()
+                raw = _FilePath(os.path.join(d, fn)).read_text(encoding='utf-8', errors='replace')
             except OSError:
                 continue
             code = '\n'.join(l for l in raw.splitlines() if not l.lstrip().startswith('#'))
@@ -6133,10 +6144,10 @@ def check_land_precommit():
     hits = []
     for p in sorted(glob.glob(os.path.join(ROOT, '.github', 'workflows', '*.yml'))):
         try:
-            lines = open(p, encoding='utf-8').read().split('\n')
+            lines = _FilePath(p).read_text(encoding='utf-8').split('\n')
         except Exception:
             continue
-        rel = os.path.relpath(p, ROOT)
+        rel = _repo_relpath(p, ROOT)
         for i, ln in enumerate(lines):
             st = ln.strip()
             if st.startswith('#') or 'git_land.sh' not in st.split('#')[0]:
@@ -6186,7 +6197,7 @@ def check_trend_alert_scope():
     tw_p = os.path.join(ROOT, '.github', 'scripts', 'trend_watch.py')
     vw_p = os.path.join(ROOT, 'viewer', 'index.html')
     try:
-        tw = open(tw_p, encoding='utf-8').read()
+        tw = _FilePath(tw_p).read_text(encoding='utf-8')
     except Exception as e:  # noqa: BLE001
         print('❌ check_trend_alert_scope 판정 대상 읽기 실패(fail-closed):', e); return 1
     tw_code = '\n'.join(l for l in tw.split('\n') if not l.strip().startswith('#'))
@@ -6209,7 +6220,7 @@ def check_trend_alert_scope():
             bad.append('.github/scripts/trend_watch.py — gtrends_pool 순회가 후보를 신설한다(put 3번째 인자가 False 가 아니다)')
     # ④ RANK_CAP == 뷰어 화면 컷(사본 드리프트 차단)
     try:
-        vw = open(vw_p, encoding='utf-8').read()
+        vw = _FilePath(vw_p).read_text(encoding='utf-8')
     except Exception as e:  # noqa: BLE001
         print('❌ check_trend_alert_scope 뷰어 읽기 실패(fail-closed):', e); return 1
     lane = _re.search(r"lane\('구글',\s*'gg',\s*gt,\s*(\d+)", vw)
@@ -6231,7 +6242,7 @@ def check_trend_alert_scope():
               '알림 목적지가 쿼리 딥링크(/?tab=)가 아니다 = 마지막 보던 탭(채널 요약)으로 착지한다'))
     for f, pat, lit, why in _LAND:
         try:
-            src = open(os.path.join(ROOT, f), encoding='utf-8').read()
+            src = _FilePath(os.path.join(ROOT, f)).read_text(encoding='utf-8')
         except Exception as e:  # noqa: BLE001
             print('❌ check_trend_alert_scope 읽기 실패(fail-closed): %s — %s' % (f, e)); return 1
         code = '\n'.join(l for l in src.split('\n') if not l.strip().startswith('#'))
@@ -6244,7 +6255,7 @@ def check_trend_alert_scope():
     # ⑥ 남의 사이트는 **새 창**(운영자 260819 «새창으로») — 이 분기가 없으면 아래 「열린 탭 이동」이 받아서
     #    열려 있던 우리 앱 탭이 구글로 **갈아치워진다**(앱이 사라진다 = 화면 증상이 「앱이 없어짐」 하나뿐).
     try:
-        sw = open(os.path.join(ROOT, 'viewer/sw.js'), encoding='utf-8').read()
+        sw = _FilePath(os.path.join(ROOT, 'viewer/sw.js')).read_text(encoding='utf-8')
     except Exception as e:  # noqa: BLE001
         print('❌ check_trend_alert_scope 읽기 실패(fail-closed): viewer/sw.js — %s' % e); return 1
     swc = '\n'.join(l for l in sw.split('\n') if not l.strip().startswith('//'))
@@ -6293,7 +6304,7 @@ def check_workflow_step_refs():
         if not fn.endswith(('.yml', '.yaml')):
             continue
         try:
-            d = _yaml.safe_load(open(os.path.join(wf_dir, fn), encoding='utf-8'))
+            d = _yaml.safe_load(_FilePath(os.path.join(wf_dir, fn)).read_text(encoding='utf-8'))
         except Exception:  # noqa: BLE001
             continue   # 문법 = check_workflow_yaml 관할(중복 실패 안 냄)
         if not isinstance(d, dict):
@@ -6394,7 +6405,7 @@ def check_canon_host():
             continue
         ap = os.path.join(ROOT, rel)
         try:
-            raw = open(ap, encoding='utf-8', errors='replace').read()
+            raw = _FilePath(ap).read_text(encoding='utf-8', errors='replace')
         except Exception:
             continue
         if not pat.search(raw):
@@ -6436,7 +6447,7 @@ def check_pc_lane_stages():
     txt = {}
     for k, p in paths.items():
         if not os.path.exists(p):
-            print('❌ [pc-lane] 파일 소실: %s' % os.path.relpath(p, ROOT)); return 1
+            print('❌ [pc-lane] 파일 소실: %s' % _repo_relpath(p, ROOT)); return 1
         with open(p, encoding='utf-8', errors='replace') as f:
             txt[k] = f.read()
     lane = txt['lane']
@@ -6534,7 +6545,7 @@ def check_sens_mask():
     py = os.path.join(ROOT, 'shared', 'sens_mask.py')
     if not os.path.exists(py):
         print('❌ check_sens_mask: 정본 shared/sens_mask.py 없음'); return 1
-    src = open(py, encoding='utf-8').read()
+    src = _FilePath(py).read_text(encoding='utf-8')
     # ① 정본 표 — 소스에서 실제로 읽는다(사본 0)
     ns = {}
     try:
@@ -6547,7 +6558,7 @@ def check_sens_mask():
     if not pairs:
         print('❌ check_sens_mask: MASK_PAIRS 비어 있음(마스킹 무효)'); rc = 1
     # ② 뷰어 사본 표 == 정본 표(순서까지 — 치환은 순차 적용이라 순서가 곧 결과)
-    vt = open(os.path.join(ROOT, 'viewer', 'thumb.html'), encoding='utf-8').read()
+    vt = _FilePath(os.path.join(ROOT, 'viewer', 'thumb.html')).read_text(encoding='utf-8')
     m = re.search(r"const\s+SENS_MASK\s*=\s*\[(.*?)\]\s*;", vt, re.S)
     if not m:
         print('❌ check_sens_mask: viewer/thumb.html 에 SENS_MASK 표 없음(fail-closed)'); return 1
@@ -6562,7 +6573,7 @@ def check_sens_mask():
     ]
     for rel, needle, why in wires:
         f = os.path.join(ROOT, rel)
-        if not os.path.exists(f) or not _has_exec_line(open(f, encoding='utf-8').read(), needle):
+        if not os.path.exists(f) or not _has_exec_line(_FilePath(f).read_text(encoding='utf-8'), needle):
             print(f'❌ check_sens_mask: {rel} 배선 소실 — {why}({needle})'); rc = 1
     if not re.search(r"const\s+esc\s*=\s*s\s*=>\s*sensMask\(s\)", vt):
         print('❌ check_sens_mask: 뷰어 미리보기 관문(esc)이 sensMask 를 안 탄다 — 화면만 원문으로 되돌아간다'); rc = 1
@@ -6593,11 +6604,11 @@ def check_grade_fix_chain():
     → scraper/grade_votes.jsonl → grade_fix_report.py(12h 스윕 · rate.yml+watchdog 동행) → grade_fix_reports.jsonl 내부 축적(260808 알림 제거)."""
     rc = 0
     try:
-        vw = open(os.path.join(ROOT, 'viewer', 'index.html'), encoding='utf-8').read()
-        rr = open(os.path.join(ROOT, '.github', 'scripts', 'rate_record.py'), encoding='utf-8').read()
-        ry = open(os.path.join(ROOT, '.github', 'workflows', 'rate.yml'), encoding='utf-8').read()
-        wd = open(os.path.join(ROOT, '.github', 'workflows', 'watchdog.yml'), encoding='utf-8').read()
-        rp = open(os.path.join(ROOT, 'scraper', 'grade_fix_report.py'), encoding='utf-8').read()
+        vw = _FilePath(os.path.join(ROOT, 'viewer', 'index.html')).read_text(encoding='utf-8')
+        rr = _FilePath(os.path.join(ROOT, '.github', 'scripts', 'rate_record.py')).read_text(encoding='utf-8')
+        ry = _FilePath(os.path.join(ROOT, '.github', 'workflows', 'rate.yml')).read_text(encoding='utf-8')
+        wd = _FilePath(os.path.join(ROOT, '.github', 'workflows', 'watchdog.yml')).read_text(encoding='utf-8')
+        rp = _FilePath(os.path.join(ROOT, 'scraper', 'grade_fix_report.py')).read_text(encoding='utf-8')
     except Exception as e:
         print('❌ grade 교정 체인 게이트 — 층 파일 결손:', e)
         return 1
@@ -6743,7 +6754,7 @@ def check_seal_completeness():
             for f in fam:
                 if f not in cache:
                     try:
-                        cache[f] = open(os.path.join(ROOT, f), encoding='utf-8', errors='replace').read()
+                        cache[f] = _FilePath(os.path.join(ROOT, f)).read_text(encoding='utf-8', errors='replace')
                     except OSError:
                         cache[f] = ''
                 if probe in cache[f]:
@@ -6788,9 +6799,9 @@ def check_thumb_merge_canvas():
     api = os.path.join(ROOT, 'functions', 'api', 'thumb.js')
     for p in (wf, api):
         if not os.path.exists(p):
-            bad.append(f'{os.path.relpath(p, ROOT)}: 파일 없음(앵커 소실 = fail-closed)')
+            bad.append(f'{_repo_relpath(p, ROOT)}: 파일 없음(앵커 소실 = fail-closed)')
     if not bad:
-        w = open(wf, encoding='utf-8').read()
+        w = _FilePath(wf).read_text(encoding='utf-8')
         seg = w[w.find("_cr = params.get('copyright')"):]
         seg = seg[:seg.find('MERGED copyright')] if 'MERGED copyright' in seg else seg[:6000]
         code = '\n'.join(ln.split('#', 1)[0] for ln in seg.splitlines())   # 주석 제외(사고 기록의 거처)
@@ -6803,7 +6814,7 @@ def check_thumb_merge_canvas():
         if re.search(r'fmtc\s*=\s*params\.get\(.fmt.\)', code):
             bad.append('thumb-make.yml 합성 블록: 구판 `fmtc = params.get(\'fmt\')` 부활 — 노뮤트 릴스에서 4:5 레이어가 만들어져 통째로 스킵된다')
         # ② 안내문 독립 — guide 를 읽는 줄이 copyright 조건 블록 안쪽이면 저작권 OFF 시 유실
-        a = open(api, encoding='utf-8').read()
+        a = _FilePath(api).read_text(encoding='utf-8')
         m = re.search(r'^(\s*)if \(p\.copyright && typeof p\.copyright', a, re.M)
         g = re.search(r'^(\s*)const guide = cleanLines\(p\.guide\)', a, re.M)
         if not g:
@@ -6847,14 +6858,14 @@ def check_orig_title_restore():
     pr = os.path.join(ROOT, 'prompts', 'news-analysis.md')
     for p in (rs, an, dg, pr):
         if not os.path.isfile(p):
-            bad.append('파일 없음: ' + os.path.relpath(p, ROOT))
+            bad.append('파일 없음: ' + _repo_relpath(p, ROOT))
     if bad:
         print('❌ 원문 제목 복원 체인 —', ' / '.join(bad))
         return 1
-    rt = open(rs, encoding='utf-8').read()
-    at = open(an, encoding='utf-8').read()
-    dt = open(dg, encoding='utf-8').read()
-    pt = open(pr, encoding='utf-8').read()
+    rt = _FilePath(rs).read_text(encoding='utf-8')
+    at = _FilePath(an).read_text(encoding='utf-8')
+    dt = _FilePath(dg).read_text(encoding='utf-8')
+    pt = _FilePath(pr).read_text(encoding='utf-8')
 
     # ① 복원 도장이 analyze 산출 경로에 **실행줄로** 배선(주석 처리 우회 차단 = _has_exec_line 계승).
     if not _has_exec_line(at, 'restore_orig_title.py'):
@@ -6916,11 +6927,11 @@ def check_focus_contract():
     ak = os.path.join(ROOT, '.github', 'scripts', 'ask.sh')
     for p in (pr, an, ak):
         if not os.path.isfile(p):
-            bad.append('파일 없음: ' + os.path.relpath(p, ROOT))
+            bad.append('파일 없음: ' + _repo_relpath(p, ROOT))
     if bad:
         print('❌ 관점 축 계약 —', ' / '.join(bad))
         return 1
-    pt = open(pr, encoding='utf-8').read()
+    pt = _FilePath(pr).read_text(encoding='utf-8')
     # ① 정본(공유 프롬프트) — 계약 머리 + 사건 동일성 술어 + 검색 절약 술어가 다 살아 있어야 한다.
     for needle, why in (('관점의 축', '정본 계약 머리(전문 = 사실의 축이자 관점의 축)'),
                         ('인물+시점+장소', '사건 동일성 술어(고유명사만 같은 딴 사건 차단)'),
@@ -6929,7 +6940,7 @@ def check_focus_contract():
             bad.append('① prompts/news-analysis.md 계약 문구 소실: ' + why)
     # ②③ 두 경로의 재진술 — 프롬프트를 각자 다시 쓰는 지시부라 정본만으론 못 덮는다(실행줄 판정 = 주석 위장 차단).
     for p, label in ((an, '② analyze.sh(픽·붙여넣기 지시부)'), (ak, '③ ask.sh(요약요청 1) 블록)')):
-        t = open(p, encoding='utf-8').read()
+        t = _FilePath(p).read_text(encoding='utf-8')
         for needle in ('관점 축 4계약', '인물+시점+장소'):
             if not _has_exec_line(t, needle):
                 bad.append(label + ' 계약 문구 소실(실행줄): ' + needle)
@@ -6966,14 +6977,14 @@ def check_paste_url_stamp():
     vw = os.path.join(ROOT, 'viewer', 'index.html')
     for p in (rs, an, pj, vw):
         if not os.path.isfile(p):
-            bad.append('파일 없음: ' + os.path.relpath(p, ROOT))
+            bad.append('파일 없음: ' + _repo_relpath(p, ROOT))
     if bad:
         print('❌ 전문 원문 주소 체인 —', ' / '.join(bad))
         return 1
-    rt = open(rs, encoding='utf-8').read()
-    at = open(an, encoding='utf-8').read()
-    jt = open(pj, encoding='utf-8').read()
-    vt = open(vw, encoding='utf-8').read()
+    rt = _FilePath(rs).read_text(encoding='utf-8')
+    at = _FilePath(an).read_text(encoding='utf-8')
+    jt = _FilePath(pj).read_text(encoding='utf-8')
+    vt = _FilePath(vw).read_text(encoding='utf-8')
 
     # ① 도장이 analyze 산출 경로에 **실행줄로** 배선(주석 처리 우회 차단 = _has_exec_line 계승).
     if not _has_exec_line(at, 'restore_paste_url.py'):
@@ -7042,7 +7053,7 @@ def check_wrap_fence_strip():
         return 1
     for sh in ('analyze.sh', 'ask.sh'):
         p = os.path.join(ROOT, '.github', 'scripts', sh)
-        if not _has_exec_line(open(p, encoding='utf-8').read(), 'strip_wrap_fence.py'):
+        if not _has_exec_line(_FilePath(p).read_text(encoding='utf-8'), 'strip_wrap_fence.py'):
             print('❌ 랩퍼 펜스 — .github/scripts/%s 에 정본 호출 실행줄 없음(그 경로만 랩퍼가 안 벗겨진다)' % sh)
             rc = 1
     sys.path.insert(0, os.path.join(ROOT, '.github', 'scripts'))
@@ -7111,8 +7122,8 @@ def check_yt_cookie_slot_name():
     sec_re = re.compile(r'^\s*(YT_COOKIES(?:_[23])?):\s*\$\{\{\s*secrets\.([A-Za-z0-9_]+)\s*\}\}', re.M)
     nm_re = re.compile(r'^\s*(YT_COOKIES(?:_[23])?)_NAME:\s*([A-Za-z0-9_]+)', re.M)
     for f in sorted(_g.glob(os.path.join(ROOT, '.github', 'workflows', '*.yml'))):
-        rel = os.path.relpath(f, ROOT)
-        txt = open(f, encoding='utf-8').read()
+        rel = _repo_relpath(f, ROOT)
+        txt = _FilePath(f).read_text(encoding='utf-8')
         pairs = sec_re.findall(txt)
         if not pairs:
             continue
@@ -7128,7 +7139,7 @@ def check_yt_cookie_slot_name():
         if not os.path.exists(p):
             bad.append(f'{rel}: 파일 없음(앵커 소실 = fail-closed)')
             continue
-        src = open(p, encoding='utf-8').read()
+        src = _FilePath(p).read_text(encoding='utf-8')
         # 독스트링·삼중따옴표 블록 = 설명문(사고 기록의 거처) → **길이 보존 공백 마스킹**(줄 번호가 안 어긋난다).
         #   ⚠ 이 마스킹이 없으면 봉합 주석 자신이 위반으로 잡힌다(첫 실행 실측 = 4건 위양성).
         src = re.sub(r'("""|\'\'\')(?:.|\n)*?\1',
@@ -7178,9 +7189,9 @@ def check_claude_cli_install():
     for p in surfaces:
         if not os.path.isfile(p):
             continue
-        rel = os.path.relpath(p, ROOT)
+        rel = _repo_relpath(p, ROOT)
         try:
-            src = open(p, encoding='utf-8', errors='ignore').read()
+            src = _FilePath(p).read_text(encoding='utf-8', errors='ignore')
         except OSError:
             continue
         for i, ln in enumerate(src.splitlines(), 1):
@@ -7215,9 +7226,9 @@ def check_smoke_chromium_path():
        (주석 처리 우회 차단 · check_thumb_redo_append 관용구) · **면책표 없이 하드 0**(부채 원장 증가 0)."""
     bad = []
     for p in sorted(glob.glob(os.path.join(ROOT, 'shared', 'smoke_*.js'))):
-        rel = os.path.relpath(p, ROOT)
+        rel = _repo_relpath(p, ROOT)
         try:
-            src = open(p, encoding='utf-8').read()
+            src = _FilePath(p).read_text(encoding='utf-8')
         except OSError:
             continue
         for i, ln in enumerate(src.splitlines(), 1):
@@ -7597,7 +7608,7 @@ def check_grok_sb_chain():
     #   자동 발견 = 그 비밀값을 env 로 받는 워크플로 전부(새 워크플로가 조용히 빠질 자리가 없다).
     import glob as _g4
     for _wf in sorted(_g4.glob(os.path.join(ROOT, ".github", "workflows", "*.yml"))):
-        _wt = _t(os.path.relpath(_wf, ROOT))
+        _wt = _t(_repo_relpath(_wf, ROOT))
         _keys = [k for k in ("XAI_REFRESH_TOKEN", "HIGGSFIELD_REFRESH_TOKEN")
                  if re.search(r"^\s*[A-Z_]+:\s*\$\{\{\s*secrets\." + k, _wt, re.M)]
         if not _keys:
@@ -8026,8 +8037,8 @@ def check_fail_reason_visible():
     rc = 0
     for runner, wr, view, rd, label in _FAIL_REASON_LINKS:
         try:
-            rsrc = open(os.path.join(ROOT, runner), encoding='utf-8').read()
-            vsrc = open(os.path.join(ROOT, view), encoding='utf-8').read()
+            rsrc = _FilePath(os.path.join(ROOT, runner)).read_text(encoding='utf-8')
+            vsrc = _FilePath(os.path.join(ROOT, view)).read_text(encoding='utf-8')
         except Exception as e:
             print('❌ 실패 사유 표시 게이트 — %s 층 파일 결손: %s' % (label, e))
             rc = 1
@@ -8057,12 +8068,12 @@ def check_edit_track_chain():
     ⑤ = 크로마키 강도 단위 회귀 차단(실측 사고 = 뷰어 1~50%를 0.01~0.5로 클램프해 전 구간 0.5 = 화면 전체 소거)."""
     rc = 0
     try:
-        vw = open(os.path.join(ROOT, 'viewer', 'edit.html'), encoding='utf-8').read()
-        ae = open(os.path.join(ROOT, 'functions', 'api', 'edit.js'), encoding='utf-8').read()
-        at = open(os.path.join(ROOT, 'functions', 'api', 'track.js'), encoding='utf-8').read()
-        et = open(os.path.join(ROOT, '.github', 'scripts', 'edit_track.py'), encoding='utf-8').read()
-        wf = open(os.path.join(ROOT, '.github', 'workflows', 'edit-make.yml'), encoding='utf-8').read()
-        lb = open(os.path.join(ROOT, '.github', 'scripts', 'ly_burn.py'), encoding='utf-8').read()
+        vw = _FilePath(os.path.join(ROOT, 'viewer', 'edit.html')).read_text(encoding='utf-8')
+        ae = _FilePath(os.path.join(ROOT, 'functions', 'api', 'edit.js')).read_text(encoding='utf-8')
+        at = _FilePath(os.path.join(ROOT, 'functions', 'api', 'track.js')).read_text(encoding='utf-8')
+        et = _FilePath(os.path.join(ROOT, '.github', 'scripts', 'edit_track.py')).read_text(encoding='utf-8')
+        wf = _FilePath(os.path.join(ROOT, '.github', 'workflows', 'edit-make.yml')).read_text(encoding='utf-8')
+        lb = _FilePath(os.path.join(ROOT, '.github', 'scripts', 'ly_burn.py')).read_text(encoding='utf-8')
     except Exception as e:
         print('❌ 편집 자동 가림 체인 게이트 — 층 파일 결손:', e)
         return 1
@@ -8136,8 +8147,8 @@ def check_smoke_obs_chain():
     w = os.path.join(ROOT, 'scraper', 'watchdog.py')
     bad = []
     try:
-        yt = open(y, encoding='utf-8').read()
-        wt = open(w, encoding='utf-8').read()
+        yt = _FilePath(y).read_text(encoding='utf-8')
+        wt = _FilePath(w).read_text(encoding='utf-8')
         if not os.path.exists(o):
             raise FileNotFoundError(o)
     except Exception as e:   # noqa: BLE001 — 앵커 파일 소실 = fail-closed
@@ -8294,10 +8305,10 @@ def check_thumb_vote_chain():
     y = os.path.join(ROOT, '.github', 'workflows', 'rate.yml')
     bad = []
     try:
-        vt = open(v, encoding='utf-8').read()
-        rt = open(rr, encoding='utf-8').read()
-        pt = open(rp, encoding='utf-8').read()
-        yt = open(y, encoding='utf-8').read()
+        vt = _FilePath(v).read_text(encoding='utf-8')
+        rt = _FilePath(rr).read_text(encoding='utf-8')
+        pt = _FilePath(rp).read_text(encoding='utf-8')
+        yt = _FilePath(y).read_text(encoding='utf-8')
     except Exception as e:
         print('❌ 썸네일 투표 체인 게이트 — 파일 열기 실패(fail-closed): %s' % e)
         return 1
@@ -8357,7 +8368,7 @@ def check_img_upsize():
     """
     tg = os.path.join(ROOT, '.github', 'scripts', 'thumb_gen.py')
     try:
-        t = open(tg, encoding='utf-8').read()
+        t = _FilePath(tg).read_text(encoding='utf-8')
     except Exception as e:
         print('❌ 화질 승격 게이트 — 파일 읽기 실패:', e)
         return 1
@@ -8395,9 +8406,9 @@ def check_img_upsize():
     mi = os.path.join(ROOT, '.github', 'scripts', 'more_images.py')
     yml = os.path.join(ROOT, '.github', 'workflows', 'moreimg.yml')
     try:
-        mt = '\n'.join(l for l in open(mi, encoding='utf-8').read().splitlines()
+        mt = '\n'.join(l for l in _FilePath(mi).read_text(encoding='utf-8').splitlines()
                        if l.strip() and not l.strip().startswith('#'))
-        yt = open(yml, encoding='utf-8').read()
+        yt = _FilePath(yml).read_text(encoding='utf-8')
     except Exception as e:
         bad.append('보충 라운드 체인 파일 읽기 실패: {}'.format(str(e)[:50]))
     else:
@@ -8457,9 +8468,9 @@ def check_thumb_redo_append():
     v = os.path.join(ROOT, 'viewer', 'index.html')
     bad = []
     try:
-        gt = open(tg, encoding='utf-8').read()
-        at = open(api, encoding='utf-8').read()
-        vt = open(v, encoding='utf-8').read()
+        gt = _FilePath(tg).read_text(encoding='utf-8')
+        at = _FilePath(api).read_text(encoding='utf-8')
+        vt = _FilePath(v).read_text(encoding='utf-8')
     except Exception as e:
         print('❌ 썸네일 수정 누적 게이트 — 파일 읽기 실패:', e)
         return 1
@@ -8544,8 +8555,8 @@ def check_ask_img_legible():
     a = os.path.join(ROOT, '.github', 'scripts', 'ask.sh')
     bad = []
     try:
-        vt = open(v, encoding='utf-8').read()
-        at = open(a, encoding='utf-8').read()
+        vt = _FilePath(v).read_text(encoding='utf-8')
+        at = _FilePath(a).read_text(encoding='utf-8')
     except Exception as e:
         print('❌ 요약요청 첨부 판독 게이트 — 파일 열기 실패: %s' % e)
         return 1
@@ -8619,9 +8630,9 @@ def check_ask_srcimg_chain():
     o = os.path.join(ROOT, '.github', 'scripts', 'ask_srcocr.py')
     bad = []
     try:
-        at = open(a, encoding='utf-8').read()
-        pt = open(p, encoding='utf-8').read()
-        ot = open(o, encoding='utf-8').read()
+        at = _FilePath(a).read_text(encoding='utf-8')
+        pt = _FilePath(p).read_text(encoding='utf-8')
+        ot = _FilePath(o).read_text(encoding='utf-8')
     except Exception as e:
         print('❌ 출처 본문 이미지 수확 체인 게이트 — 파일 열기 실패: %s' % e)
         return 1
@@ -8691,7 +8702,7 @@ def check_ask_srcimg_chain():
         bad.append('ask.sh 링크 레일 해제 결손 — 같은 URL 이 링크칸으로 들어오면 그 입구만 사고 재발(입구별 분기 금지)')
     fa = os.path.join(ROOT, '.github', 'scripts', 'fetch_article.sh')
     try:
-        fat = open(fa, encoding='utf-8').read()
+        fat = _FilePath(fa).read_text(encoding='utf-8')
     except Exception:
         fat = ''
     if 'mainFrame' not in fat or 'location(?:' not in fat:
@@ -8701,7 +8712,7 @@ def check_ask_srcimg_chain():
     #    같은 도메인 14일 2회 재발 = 인수인계 진단서 승격. 이 층이 빠지면 알림이 조용히 구판(한 줄)으로 퇴행.
     fp_ = os.path.join(ROOT, '.github', 'scripts', 'ask_fail_probe.py')
     try:
-        fpt = open(fp_, encoding='utf-8').read()
+        fpt = _FilePath(fp_).read_text(encoding='utf-8')
     except Exception:
         fpt = ''
     for sym, why in (('import ask_srcimg', '취득·해제 정본 재사용(별도 fetch 창작 금지)'),
@@ -8719,7 +8730,7 @@ def check_ask_srcimg_chain():
     #    술어 = rc≠0 ∧ 출력 0 = 모델이 답한 적이 없다. 두 경로(ask·analyze) 동시 보유가 계약 — 한쪽만
     #    고치면 나머지 경로가 조용히 구 문구로 남는다(가장 흔한 미러 드리프트).
     try:
-        _ant = open(os.path.join(ROOT, '.github', 'scripts', 'analyze.sh'), encoding='utf-8').read()
+        _ant = _FilePath(os.path.join(ROOT, '.github', 'scripts', 'analyze.sh')).read_text(encoding='utf-8')
     except Exception:
         _ant = ''
     for _p, _t in (('ask.sh', at), ('analyze.sh', _ant)):
@@ -8746,7 +8757,7 @@ def check_subs_author_scope():
       '전건 성공'으로 보고했다(화면은 남의 글, 게이트는 무경보 = 가장 조용한 실패)."""
     p = os.path.join(ROOT, 'scraper', 'sns_trends.py')
     try:
-        t = open(p, encoding='utf-8').read()
+        t = _FilePath(p).read_text(encoding='utf-8')
     except Exception as e:
         print('❌ 구독 작성자 검문 게이트 — 읽기 실패(fail-closed):', e)
         return 1
@@ -8815,7 +8826,7 @@ def check_rpt_origin_coverage():
     if not os.path.exists(p):
         print('❌ 리포트 출처표 게이트 — viewer/index.html 없음(fail-closed).')
         return 1
-    src = open(p, encoding='utf-8').read()
+    src = _FilePath(p).read_text(encoding='utf-8')
     prods = sorted(set(re.findall(r"id:\s*'(sys:[^']*)'", src)))
     branches = sorted(set(re.findall(r"startsWith\('(sys:[^']*)'\)", src)))
     if not prods:
@@ -8855,7 +8866,7 @@ def check_fail_msg_todo():
     if not os.path.exists(idx):
         print('❌ 실패알림 조치주체 게이트 — viewer/index.html 없음(판정 술어 원천 부재).')
         return 1
-    vt = open(idx, encoding='utf-8', errors='ignore').read()
+    vt = _FilePath(idx).read_text(encoding='utf-8', errors='ignore')
     m_cc = re.search(r'_RPT_CC_RE\s*=\s*/([^/\n]+)/', vt)
     m_auto = re.search(r'test\(todo\)\s*\?\s*.auto.\s*:', vt) and re.search(r'/(\^없[^/\n]*)/\.test\(todo\)', vt)
     if not m_cc or not m_auto:
@@ -8864,13 +8875,13 @@ def check_fail_msg_todo():
     cc_re, auto_re = re.compile(m_cc.group(1)), re.compile(m_auto.group(1))
     # 표면 자동 발견 = `_fk` 4분류를 가진 실패 알림 생산자(새 경로가 조용히 못 빠진다 · 스냅샷 제외)
     surf = [p for p in sorted(glob.glob(os.path.join(ROOT, '.github', 'scripts', '*.sh')))
-            if '_versions' not in p and _has_exec_line(open(p, encoding='utf-8', errors='ignore').read(), '_fk=')]
+            if '_versions' not in p and _has_exec_line(_FilePath(p).read_text(encoding='utf-8', errors='ignore'), '_fk=')]
     if len(surf) < 2:
         print('❌ 실패알림 조치주체 게이트 — 생산자 %d종(하한 2 · 탐지 실패 = 게이트 무력화 · fail-closed).' % len(surf))
         return 1
     bad = []
     for p in surf:
-        rel, txt = os.path.relpath(p, ROOT), open(p, encoding='utf-8', errors='ignore').read()
+        rel, txt = _repo_relpath(p, ROOT), _FilePath(p).read_text(encoding='utf-8', errors='ignore')
         todo_lines = [ln for ln in txt.split('\n')
                       if '👉' in ln and ln.strip() and not ln.strip().startswith('#')]
         for kind in _FAILMSG_OP_KINDS:
@@ -8901,7 +8912,7 @@ def check_disaster_landmark_sign():
     if not os.path.exists(p):
         print('❌ 랜드마크 서명 게이트 — scraper/sns_trends.py 없음(fail-closed).')
         return 1
-    src = open(p, encoding='utf-8').read()
+    src = _FilePath(p).read_text(encoding='utf-8')
     bad = []
     # ① 서명 컷 심볼 실존 — 지워지면 오탐이 통째로 부활한다(주석만 남고 코드가 사라지는 회귀 차단).
     for sym in ('DIS_SIGN_RE', '_dis_body'):
@@ -8954,7 +8965,7 @@ def check_disaster_lm_stale():
     if not os.path.exists(v):
         print('❌ 랜드마크 박제 게이트 — viewer/index.html 없음(fail-closed).')
         return 1
-    src = open(v, encoding='utf-8').read()
+    src = _FilePath(v).read_text(encoding='utf-8')
     # ① 뷰어 2층 검문 실존(하드) — 심볼 + fireMsgs 본문 배선 둘 다. 심볼만 남고 배선이 빠지면 무력화된다.
     for sym in ('DIS_SIGN_TAIL', 'function disBody('):
         if sym not in src:
@@ -9028,13 +9039,13 @@ def check_rubric_regress():
     mod = _ilu.module_from_spec(spec)
     spec.loader.exec_module(mod)
     try:
-        cases = json.loads(open(cs_p, encoding='utf-8').read())['cases']
+        cases = json.loads(_FilePath(cs_p).read_text(encoding='utf-8'))['cases']
         assert cases and all(c.get('t') and c.get('expect') in ('YES', 'NO') for c in cases)
     except Exception as e:
         print('❌ 루브릭 회귀 게이트 — 케이스 원장 파손/누락(%s): %s' % (os.path.basename(cs_p), e))
         return 1
     try:
-        st = json.loads(open(st_p, encoding='utf-8').read())
+        st = json.loads(_FilePath(st_p).read_text(encoding='utf-8'))
     except Exception:
         st = {}
     # ⚠️ 케이스 **개수**도 함께 본다(평의회2 260803 실측 지적) — rubric_ver 만 보면 「케이스만 추가하고 회귀는
@@ -9102,7 +9113,7 @@ def check_style_ratchet():
     gaps = []
     for fn in files:
         try:
-            t = open(os.path.join(qd, fn), encoding='utf-8').read()
+            t = _FilePath(os.path.join(qd, fn)).read_text(encoding='utf-8')
         except Exception:
             continue
         ig = _blk(t, 'IG')
@@ -9162,13 +9173,13 @@ def check_grade_regress():
     mod = _ilu.module_from_spec(spec)
     spec.loader.exec_module(mod)
     try:
-        cases = json.loads(open(cs_p, encoding='utf-8').read())['cases']
+        cases = json.loads(_FilePath(cs_p).read_text(encoding='utf-8'))['cases']
         assert cases and all(c.get('t') and c.get('expect') in (0, 1, 2, 3) for c in cases)
     except Exception as e:
         print('❌ grade 회귀 게이트 — 케이스 원장 파손/누락(%s): %s' % (os.path.basename(cs_p), e))
         return 1
     try:
-        st = json.loads(open(st_p, encoding='utf-8').read())
+        st = json.loads(_FilePath(st_p).read_text(encoding='utf-8'))
     except Exception:
         st = {}
     # 케이스 **개수**도 함께 본다(check_rubric_regress 평의회2 260803 교훈 계승) — ver만 보면 「케이스만 추가하고
@@ -9186,13 +9197,13 @@ def check_grade_regress():
 
 
 def check_gate_docs():
-    src = open(os.path.join(ROOT, 'shared', 'check_refs.py'), encoding='utf-8').read()
+    src = _FilePath(os.path.join(ROOT, 'shared', 'check_refs.py')).read_text(encoding='utf-8')
     gates = re.findall(r'^def (check_[a-z_]+)\(', src, re.M)
     canon = ''
     for d in _GATE_DOC_CANON:
         p = os.path.join(ROOT, d)
         if os.path.exists(p):
-            canon += open(p, encoding='utf-8').read()
+            canon += _FilePath(p).read_text(encoding='utf-8')
     missing = [g for g in gates if g not in canon and g not in _GATE_DOC_BASELINE]
     if missing:
         print('❌ 게이트 문서화 메타 게이트 — 신규 게이트가 정본 문서 미등재("만들어놓고 안 봄" 차단 · 260723 Q468):')
@@ -9214,7 +9225,7 @@ def check_ssot_linkage():
     txt = {}
     for d in idx:
         try:
-            txt[d] = open(os.path.join(ROOT, d), encoding='utf-8').read()
+            txt[d] = _FilePath(os.path.join(ROOT, d)).read_text(encoding='utf-8')
         except Exception:
             txt[d] = ''
     parts = sorted(_g.glob(os.path.join(ROOT, 'viewer', 'nm-*.js')))
@@ -9240,8 +9251,8 @@ def check_tabs_headers():
     index.html THUMB_TABS·CAP_TABS·ASK_TABS의 모든 스튜디오 /x.html이 viewer/_headers에 /x·/x.html 두 경로
     no-cache로 등재됐는지 대조 — 신설 스튜디오가 캐시 계약을 빠뜨리면(tr 260721·song/nb/sb 과거 드리프트 선례)
     새 배포가 하드새로고침 없이 반영 안 되던 사각을 커밋 단계서 차단(게이트 문서화 메타 게이트와 동일 철학 = '만들고 등재 안 함' 봉쇄)."""
-    idx = open(os.path.join(ROOT, 'viewer', 'index.html'), encoding='utf-8').read()
-    hdr = open(os.path.join(ROOT, 'viewer', '_headers'), encoding='utf-8').read()
+    idx = _FilePath(os.path.join(ROOT, 'viewer', 'index.html')).read_text(encoding='utf-8')
+    hdr = _FilePath(os.path.join(ROOT, 'viewer', '_headers')).read_text(encoding='utf-8')
     srcs = set()
     for m in re.finditer(r'const (?:THUMB_TABS|CAP_TABS|ASK_TABS)\s*=\s*(\[.*?\]);', idx, re.S):
         srcs.update(re.findall(r"src:\s*'/([a-z0-9_-]+)\.html'", m.group(1)))
@@ -9268,7 +9279,7 @@ def check_tabs_headers():
     parts, users = set(), {}
     for vp in sorted(glob.glob(os.path.join(ROOT, 'viewer', '*.html'))):
         try:
-            vt = open(vp, encoding='utf-8').read()
+            vt = _FilePath(vp).read_text(encoding='utf-8')
         except Exception:
             continue
         for p in re.findall(r'(?:src|href)="(nm-[a-z0-9_-]+\.(?:js|css))"', vt):
@@ -9471,7 +9482,7 @@ def check_thumb_prompt_sanity():
     stale, seen = {}, 0
     for pf in sorted(glob.glob(os.path.join(ROOT, 'cards', '*', 'thumbs', 'prompts.json')))[-120:]:
         try:
-            recs = json.load(open(pf, encoding='utf-8'))
+            recs = json.loads(_FilePath(pf).read_text(encoding='utf-8'))
         except Exception:
             continue
         if not isinstance(recs, dict):
@@ -9532,7 +9543,7 @@ def check_ytdlp_aac():
             continue
         p = os.path.join(ROOT, rel)
         try:
-            src = open(p, encoding='utf-8', errors='replace').read()   # .bat = CP949 · 셀렉터는 전부 ASCII라 무손실
+            src = _FilePath(p).read_text(encoding='utf-8', errors='replace')   # .bat = CP949 · 셀렉터는 전부 ASCII라 무손실
         except OSError:
             continue
         if 'bv*' not in src or '+ba' not in src:
@@ -9690,7 +9701,7 @@ def check_image_format():
             continue
         p = os.path.join(ROOT, rel)
         try:
-            src = open(p, encoding='utf-8').read()
+            src = _FilePath(p).read_text(encoding='utf-8')
         except Exception:
             continue
         if not any(k in src for k in ('toBlob(', 'toDataURL(', '.save(', 'imencode(', 'imwrite(')):
@@ -9779,7 +9790,7 @@ def check_contract_anchors():
        「달아놓고 강제가 없는 것」과 「강제가 사라졌는데 선언만 남은 것」이다. 씨앗 = 6주 드리프트가
        실제로 났던 그 줄들부터(gen_image·thumb_gen·tr·card_news·img_mosaic·yt-dlp)."""
     import subprocess as _sp
-    gsrc = open(os.path.join(ROOT, 'shared', 'check_refs.py'), encoding='utf-8').read()
+    gsrc = _FilePath(os.path.join(ROOT, 'shared', 'check_refs.py')).read_text(encoding='utf-8')
     defined = set(re.findall(r'^def (check_[a-z_0-9]+)\(', gsrc, re.M))
     wired = {g for g in defined if re.search(r'(?<!def )\b%s\s*\(' % re.escape(g), gsrc)}
 
@@ -9808,7 +9819,7 @@ def check_contract_anchors():
             continue
         p = os.path.join(ROOT, rel)
         try:
-            src = open(p, encoding='utf-8').read()
+            src = _FilePath(p).read_text(encoding='utf-8')
         except Exception:
             continue
         if 'CONTRACT:' not in src:
@@ -9877,21 +9888,22 @@ def _gate_hits_read():
         p = os.path.join(ROOT, _GATE_HITS_PATH)
         if not os.path.exists(p):
             return None, {}
-        for ln in open(p, encoding='utf-8'):
-            ln = ln.strip()
-            if not ln:
-                continue
-            try:
-                o = json.loads(ln)
-            except Exception:
-                continue
-            if '_meta' in o:
+        with open(p, encoding='utf-8') as source:
+            for ln in source:
+                ln = ln.strip()
+                if not ln:
+                    continue
                 try:
-                    since = datetime.datetime.fromisoformat(o['_meta'].get('since', ''))
+                    o = json.loads(ln)
                 except Exception:
-                    since = None
-            elif o.get('gate'):
-                hits[o['gate']] = hits.get(o['gate'], 0) + 1
+                    continue
+                if '_meta' in o:
+                    try:
+                        since = datetime.datetime.fromisoformat(o['_meta'].get('since', ''))
+                    except Exception:
+                        since = None
+                elif o.get('gate'):
+                    hits[o['gate']] = hits.get(o['gate'], 0) + 1
     except Exception:
         return None, {}
     return since, hits
@@ -9961,7 +9973,7 @@ def check_gate_hits():
     if not _gate_hits_on():
         print('⏸️ 게이트 실효성 원장 — 킬스위치(GATE_HITS=0)로 비활성.')
         return 0
-    gsrc = open(os.path.join(ROOT, 'shared', 'check_refs.py'), encoding='utf-8').read()
+    gsrc = _FilePath(os.path.join(ROOT, 'shared', 'check_refs.py')).read_text(encoding='utf-8')
     gates = set(re.findall(r'^def (check_[a-z_0-9]+)\(', gsrc, re.M))
     since, hits = _gate_hits_read()
     fired = sum(hits.values())
@@ -10015,7 +10027,7 @@ def check_brief_lib():
 
     def _read(rel):
         try:
-            return open(os.path.join(ROOT, rel), encoding='utf-8').read()
+            return _FilePath(os.path.join(ROOT, rel)).read_text(encoding='utf-8')
         except Exception:
             return ''
 
@@ -10184,7 +10196,7 @@ def check_cover_title_chain():
     """
     def _read(rel):
         try:
-            return open(os.path.join(ROOT, rel), encoding='utf-8').read()
+            return _FilePath(os.path.join(ROOT, rel)).read_text(encoding='utf-8')
         except Exception:
             return ''
 
@@ -10280,13 +10292,13 @@ def check_algo_ledger():
         p = os.path.join(ROOT, rel)
         if not os.path.exists(p):
             continue   # 스캐폴드 이전 = 무대상(게이트가 도입을 강제하진 않음)
-        src = open(p, encoding='utf-8').read()
+        src = _FilePath(p).read_text(encoding='utf-8')
         for b in _BAN:
             if b in src:
                 fails.append('원장 금지 심볼: %s 에 `%s` — 네트워크·LLM·외부 프로세스 0 계약 위반' % (rel, b))
     wf = os.path.join(ROOT, '.github/workflows/insta-fetch.yml')
     if os.path.exists(os.path.join(ROOT, '.github/scripts/algo_ledger.py')) and os.path.exists(wf):
-        lines = open(wf, encoding='utf-8').read().splitlines()
+        lines = _FilePath(wf).read_text(encoding='utf-8').splitlines()
         idx = [i for i, ln in enumerate(lines) if 'algo_ledger.py' in ln]
         if not idx:
             fails.append('원장 스텝 부재: insta-fetch.yml 에 algo_ledger.py 호출이 없다(작성기만 있고 배선 0)')
@@ -10299,7 +10311,7 @@ def check_algo_ledger():
         for f in os.listdir(os.path.join(ROOT, '.github/workflows')):
             if not f.endswith('.yml'):
                 continue
-            if 'apps/insta/data' in open(os.path.join(ROOT, '.github/workflows', f), encoding='utf-8').read():
+            if 'apps/insta/data' in _FilePath(os.path.join(ROOT, '.github/workflows', f)).read_text(encoding='utf-8'):
                 owners.append(f)
         if sorted(owners) != ['insta-fetch.yml']:
             fails.append('원장 기록자 유일성 위반: apps/insta/data 를 만지는 워크플로 = %s (insta-fetch.yml 단독이어야 함)' % owners)
@@ -10330,7 +10342,7 @@ def check_ko_tone_ssot():
       ①′ 구간 순서 + 프로필 스코프(NEWS-CAP ⊂ profile=card 스킵 · POLISH ⊂ profile=summary 스킵) — 개수만 세면 스코프 이탈이 초록(260908 리뷰)"""
     rules = os.path.join(ROOT, 'shared', 'ko_tone_rules.md')
     try:
-        rtxt = open(rules, encoding='utf-8').read()
+        rtxt = _FilePath(rules).read_text(encoding='utf-8')
     except Exception as e:
         print('❌ check_ko_tone_ssot 정본 없음(shared/ko_tone_rules.md · fail-closed):', e); return 1
     bad = []
@@ -10361,7 +10373,7 @@ def check_ko_tone_ssot():
         bad.append('정본 [윤문 추가축](POLISH) 이 profile=summary 스킵 안에 없다 — 요약 주입에 윤문 추가축이 새어 들어간다')
     def _live(p):
         try:
-            return [l for l in open(os.path.join(ROOT, p), encoding='utf-8').read().splitlines() if not l.lstrip().startswith('#')]
+            return [l for l in _FilePath(os.path.join(ROOT, p)).read_text(encoding='utf-8').splitlines() if not l.lstrip().startswith('#')]
         except Exception:
             return None
     inj = _live('shared/inject_guidelines.sh')
@@ -10393,7 +10405,7 @@ def check_ko_tone_ssot():
         return any(f in t for f in finger)
     for p in ('shared/tone_block.sh', 'prompts/polish-korean.md'):
         try:
-            t = open(os.path.join(ROOT, p), encoding='utf-8').read()
+            t = _FilePath(os.path.join(ROOT, p)).read_text(encoding='utf-8')
         except Exception:
             t = ''
         if _rule_copy(t):
@@ -10402,7 +10414,7 @@ def check_ko_tone_ssot():
         return [int(x) if x.isdigit() else x for x in re.split(r'(\d+)', os.path.basename(p))]
     g01 = sorted(glob.glob(os.path.join(ROOT, 'apps', 'news', '01_지침_에디터_뉴스_*.md')), key=_vkey)
     if g01:
-        t01 = open(g01[-1], encoding='utf-8').read()
+        t01 = _FilePath(g01[-1]).read_text(encoding='utf-8')
         m = re.search(r'\*\*\[한국어 결 — AI 번역투 소거\]\*\*.*?(?=\n\*\*\[|\Z)', t01, re.S)
         if not m:
             bad.append('01_지침 [한국어 결] 절 부재(정본 포인터 절이 사라짐)')

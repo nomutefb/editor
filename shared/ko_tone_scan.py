@@ -144,7 +144,7 @@ def _jeok_hits(s):
 
 def _is_cleft(rem):
     """'~것은/것이' 뒤가 명사 서술('속도다'·'차 모씨다'·'22일이었다')이면 분열문 = 정본 유지 조건."""
-    rem = re.split(r'[.!?\n]', rem, 1)[0].strip()
+    rem = re.split(r'[.!?\n]', rem, maxsplit=1)[0].strip()
     return bool(rem) and rem.endswith('다') and not VERBISH_RE.search(rem)
 
 

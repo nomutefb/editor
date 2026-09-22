@@ -5,6 +5,7 @@
 사다리 바닥(medium)이면 종전 계정 1회 전환 · 본선 기본 노력도 high · 분량 가드 보정 콜 기본 high.
 """
 import json
+import shutil
 import os
 import subprocess
 import tempfile
@@ -63,24 +64,32 @@ class AskTimeoutRetryTests(unittest.TestCase):
         self.sb = Path(self.tmp.name) / 'sandbox'
         self.sb.mkdir()
         for name in ('.github', 'shared', 'prompts', 'apps', 'PROJECT_MEMORY.md'):
-            (self.sb / name).symlink_to(REPO / name)
+            source, target = REPO / name, self.sb / name
+            if os.name == 'nt':
+                if source.is_dir():
+                    subprocess.run(['cmd', '/c', 'mklink', '/J', str(target), str(source)],
+                                   check=True, capture_output=True)
+                else:
+                    shutil.copy2(source, target)
+            else:
+                target.symlink_to(source)
         for d in ('asks', 'queue', 'metrics', 'messages', 'settings', 'runner_tmp'):
             (self.sb / d).mkdir()
         subprocess.run(['git', 'init', '-q'], cwd=self.sb, check=True)
         self.bin = self.sb / 'bin'
         self.bin.mkdir()
         fake = self.bin / 'claude'
-        fake.write_text(FAKE_CLAUDE)
+        fake.write_text(FAKE_CLAUDE, encoding='utf-8', newline='\n')
         fake.chmod(0o755)
         self.log = self.sb / 'fake_claude.log'
         self.body = self.sb / 'fake_body.md'
-        self.body.write_text(DIGEST)
+        self.body.write_text(DIGEST, encoding='utf-8', newline='\n')
 
     def env(self, plan, **extra):
         env = {k: v for k, v in os.environ.items()
                if k not in ('GITHUB_ACTIONS', 'PIPE_SEARCH_EFFORT', 'SUMMARY_LEN_GUARD', 'SUMMARY_POLISH',
                             'SUMMARY_REPAIR_EFFORT', 'METER_OFF', 'ASK_TIMEOUT')}
-        env.update(PATH=f'{self.bin}:{env.get("PATH", "")}', FAKE_LOG=str(self.log), FAKE_PLAN=plan,
+        env.update(PATH=str(self.bin) + os.pathsep + env.get('PATH', ''), FAKE_LOG=str(self.log), FAKE_PLAN=plan, FAKE_BIN=str(self.bin),
                    FAKE_BODY=str(self.body), RUNNER_TEMP=str(self.sb / 'runner_tmp'),
                    CLAUDE_CODE_OAUTH_TOKEN='tok-primary', CLAUDE_CODE_OAUTH_TOKEN_ALT='tok-alt1',
                    CLAUDE_CODE_OAUTH_TOKEN_ALT2='tok-alt2', ASK_SRCIMG='0', ASK_SRCOCR='0', ASK_FAIL_DIAG='0')
@@ -89,7 +98,11 @@ class AskTimeoutRetryTests(unittest.TestCase):
 
     def run_ask(self, plan, **extra):
         (self.sb / 'asks' / f'{ASK_BASE}.json').write_text(json.dumps({'text': '테스트 요약 요청문', 'images': []}))
-        r = subprocess.run(['bash', '.github/scripts/ask.sh'], cwd=self.sb, env=self.env(plan, **extra),
+        command = ['bash', '.github/scripts/ask.sh']
+        if os.name == 'nt':
+            command = ['bash', '-c',
+                       'export PATH="$(cygpath -u "$FAKE_BIN"):$PATH"; exec bash .github/scripts/ask.sh']
+        r = subprocess.run(command, cwd=self.sb, env=self.env(plan, **extra),
                            text=True, capture_output=True, timeout=300)
         self.assertEqual(r.returncode, 0, r.stdout[-3000:] + r.stderr[-3000:])
         return r.stdout
