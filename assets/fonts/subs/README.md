@@ -9,6 +9,6 @@
 
 ## 새 폰트를 선택자로 올리는 절차(4곳 각 1줄)
 1. 폰트 파일을 이 폴더에 커밋(패밀리명 = `fc-scan <파일> | grep family` **실측** — 추측 금지).
-2. `.github/scripts/ly_burn.py` — `FONT_FAMILY`에 `"키": "실측 패밀리명"` + `REPO_FONT_KEYS`에 키.
+2. `.github/scripts/ly_burn.py` — `FONT_FAMILY`에 `"키": "실측 패밀리명"` + `REPO_FONT_KEYS`에 키 + `BOX_K`에 키(박스 중심 보정 · 산정법 = `BOX_K` 주석).
 3. `functions/api/edit.js`·`functions/api/ly.js` — font 화이트리스트 배열에 키.
-4. `viewer/edit.html` — `FONT_PV`에 `{lbl,fam,ff,lf,lw}` 1줄 + '글자 형태' 배열에 키 / `viewer/ly.html` — 폰트 행 버튼 1줄.
+4. `viewer/edit.html` — `FONT_PV`에 `{lbl,lh,dsc,bk,fam,ff,lf,lw}` 1줄(lh·dsc = **러너가 고르는 이 파일**의 OS/2 윈 수치 · bk = `BOX_K`와 같은 값 — `tests/test_ly_burn_subs.py`가 bk 동일성 + 이 폴더 파일의 lh·dsc 를 대조) + '글자 형태' 배열에 키 / `viewer/ly.html` — 폰트 행 버튼 1줄.
