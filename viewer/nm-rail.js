@@ -79,7 +79,7 @@
         return fetch(o.srvstat + encodeURIComponent(id), { cache: 'no-store' })
           .then(function (r) { return r.ok ? r.json() : null; })
           .then(function (v) { if (v && v.url) addSrv(scope, { id: id, url: v.url, ts: Date.parse(v.ts || '') || 0, cap: v.cap || '' }); })
-          .catch(function () { });
+          .catch(function () { delete srvSeen[scope][id]; });   // reject(로그인 만료 302→CORS·회선) = 조회 못 함 → 표시 해제(260923 — 재로그인 뒤 다음 폴이 다시 조회 · 서버 답(404 등)은 종전대로 조회 완료)
       }));
     }).catch(function () { }).then(function () {
       srvBusy[scope] = 0;

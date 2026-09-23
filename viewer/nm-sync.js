@@ -14,7 +14,7 @@
   'use strict';
   let visTs = Date.now();          // 마지막 열림·복귀 시각 — 자가치유 발동 창(15s)의 기준
   let lastKick = 0;                // 복귀 처리 코얼레싱(visibilitychange+focus+pageshow 동시 발화 = 1회 처리)
-  let probing = false, bootTag = null, tagInflight = false;
+  let bootTag = null, tagInflight = false;
   const TAG = r => (r && (r.headers.get('etag') || r.headers.get('last-modified'))) || '';   // 배포 감지 앵커 — Pages 정적 서빙 ETag(내용 바뀌면 반드시 변함)
   async function selfTag() {   // 자기 문서 HEAD — 부팅 기준값 채집·복귀 대조 공용(경로 = 쿼리 제거 자기 자신 · v=Date.now() 버스트와 무관하게 같은 파일)
     try { const r = await fetch(location.pathname, { method: 'HEAD', cache: 'no-store' }); return r.ok ? TAG(r) : null; } catch (_) { return null; }
@@ -23,22 +23,29 @@
     try { if (typeof window.nmSyncBusy === 'function' && window.nmSyncBusy()) return true; } catch (_) {}
     const a = document.activeElement; return !!(a && (a.tagName === 'INPUT' || a.tagName === 'TEXTAREA' || a.isContentEditable));
   };
-  async function probeNow() {   // ② 로그인 만료 판별 + 자동 재진입(thumb 3차 인라인의 SSOT 승격 — 프로브 = 벽 뒤 정적 파일 HEAD = 서버 연산 0)
-    if (probing) return; probing = true;
-    try {
-      const r = await fetch('/nm-sync.js?_=' + Date.now(), { method: 'HEAD', redirect: 'manual', cache: 'no-store' });   // 프로브 = Access 벽 뒤 정적 파일(우회 경로면 만료여도 200 = 사문)
-      if (r.type === 'opaqueredirect' || r.status === 401 || r.status === 403 || (r.status >= 300 && r.status < 400)) {   // 3xx 명시 = 인터셉트 환경(스모크) 겸용
-        let last = 0; try { last = +sessionStorage.getItem('nm_sync_heal') || 0; } catch (_) {}
-        if (Date.now() - visTs < 15e3 && Date.now() - last > 180e3) {
-          try { sessionStorage.setItem('nm_sync_heal', String(Date.now())); } catch (_) {}
-          console.log('[nm-sync] 자가치유 — 로그인 만료 감지 · 최상위 재진입(?nosw=1)');   // 계측(CLAUDE.md [관측])
-          try { window.top.location.href = '/?nosw=1'; } catch (_) { location.reload(); }
-          return;
+  let probeP = null;
+  function probeNow() {   // ② 로그인 만료 판별 + 자동 재진입(thumb 3차 인라인의 SSOT 승격 — 프로브 = 벽 뒤 정적 파일 HEAD = 서버 연산 0)
+    // 반환 = Promise<'auth'|'srv'|'net'|'ok'>(260923 — 실패 지점이 원인별 안내를 고르게 · 비행 중 재호출 = 같은 결과 공유 · 종전 호출부는 무시해도 무해)
+    if (probeP) return probeP;
+    probeP = (async () => {
+      try {
+        const r = await fetch('/nm-sync.js?_=' + Date.now(), { method: 'HEAD', redirect: 'manual', cache: 'no-store' });   // 프로브 = Access 벽 뒤 정적 파일(우회 경로면 만료여도 200 = 사문)
+        if (r.type === 'opaqueredirect' || r.status === 401 || r.status === 403 || (r.status >= 300 && r.status < 400)) {   // 3xx 명시 = 인터셉트 환경(스모크) 겸용
+          let last = 0; try { last = +sessionStorage.getItem('nm_sync_heal') || 0; } catch (_) {}
+          if (Date.now() - visTs < 15e3 && Date.now() - last > 180e3) {
+            try { sessionStorage.setItem('nm_sync_heal', String(Date.now())); } catch (_) {}
+            console.log('[nm-sync] 자가치유 — 로그인 만료 감지 · 최상위 재진입(?nosw=1)');   // 계측(CLAUDE.md [관측])
+            try { window.top.location.href = '/?nosw=1'; } catch (_) { location.reload(); }
+            return 'auth';
+          }
+          try { if (typeof window.nmSyncWarn === 'function') window.nmSyncWarn('auth'); } catch (_) {}   // 가드에 걸림 = 페이지 경고줄 폴백
+          return 'auth';
         }
-        try { if (typeof window.nmSyncWarn === 'function') window.nmSyncWarn('auth'); } catch (_) {}   // 가드에 걸림 = 페이지 경고줄 폴백
-      } else if (!r.ok && r.status) { try { if (typeof window.nmSyncWarn === 'function') window.nmSyncWarn('srv'); } catch (_) {} }
-    } catch (_) { try { if (typeof window.nmSyncWarn === 'function') window.nmSyncWarn('net'); } catch (_) {} /* 회선 사망 = 재진입 무익 */ }
-    finally { probing = false; }
+        if (!r.ok && r.status) { try { if (typeof window.nmSyncWarn === 'function') window.nmSyncWarn('srv'); } catch (_) {} return 'srv'; }
+        return 'ok';
+      } catch (_) { try { if (typeof window.nmSyncWarn === 'function') window.nmSyncWarn('net'); } catch (_) {} return 'net'; /* 회선 사망 = 재진입 무익 */ }
+    })().finally(() => { probeP = null; });
+    return probeP;
   }
   function softReload() {   // 부드러운 재탑재(운영자 260821 «업데이트 때 화면이 너무 심하게 번쩍여 · 흰색이라 오류같음» — 셸 softShellReenter 의 프레임판)
     // 왜 = 프레임 문서 리로드도 문서 교체 사이 브라우저 기본 캔버스가 드러난다(폰 = 흰색) → 그 문서의 배경색 베일을 .5s 페이드로

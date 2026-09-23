@@ -5541,7 +5541,8 @@ def check_nm_sync():
         if lit not in msrc:
             bad.append('nm-sync.js 골격 소실: ' + lit)
     # 만료 프로브가 Access 우회 경로를 찌르면 만료여도 200 = 자가치유 사문(260923 실측: manifest.json·sw.js·favicon.ico 우회)
-    for pf, psrc in (('viewer/nm-sync.js', msrc), ('viewer-src/01-document.part', _FilePath(os.path.join(ROOT, 'viewer-src', '01-document.part')).read_text(encoding='utf-8'))):
+    for pf, psrc in (('viewer/nm-sync.js', msrc), ('viewer-src/01-document.part', _FilePath(os.path.join(ROOT, 'viewer-src', '01-document.part')).read_text(encoding='utf-8')),
+                     ('viewer/upload.js', _FilePath(os.path.join(vdir, 'upload.js')).read_text(encoding='utf-8'))):
         if re.search(r"fetch\(\s*'/(?:manifest\.json|sw\.js|favicon\.ico)", psrc):
             bad.append(pf + ' 만료 프로브가 Access 우회 경로(manifest.json·sw.js·favicon.ico)를 찌름 = 만료 감지 불가')
     surf = set(core)

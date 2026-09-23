@@ -230,7 +230,7 @@ async function loadQueue() {
     if (g !== qGen) return;
     if (!r.ok) { box.innerHTML = '<div class="qempty">대기열 조회 실패 (' + r.status + ')</div>'; return; }
     const j = await r.json(); items = qCxlFilter(qOptMerge(j.items || []));   // 접수분(서버 미착지) 병합 → 취소분 제외(qCancelTap 기록 · 운영자 260728) · ⚠ 순서 = 병합이 먼저 — qCxlFilter 의 '서버서 사라진 id 정리'가 낙관 id 를 죽은 것으로 읽어 취소를 되살리는 것 차단
-  } catch { if (g === qGen) box.innerHTML = '<div class="qempty">네트워크 오류 — 다시 시도</div>'; return; }
+  } catch { if (g !== qGen) return; const k = await nmAuthNote(); if (g === qGen) box.innerHTML = '<div class="qempty">' + (k === 'auth' ? AUTH_EXPIRED_TXT : '네트워크 오류 — 다시 시도') + '</div>'; return; }   // reject = 만료(302→CORS)·회선 — 프로브로 갈라 안내
   if (g !== qGen) return;
   let cut = 0; try { cut = +localStorage.getItem('nomute_q_cleared') || 0; } catch {}
   // 발견성 배지(진행중 건수)도 이 응답으로 즉시 동기화 — 리스트 열 때 별도 폴 안 기다리고 배지 최신화(stale 불일치 방지·추가 fetch 0·운영자 260701). status 기준(loadPending과 동일 = 파이프라인 처리중 = 어디서 세든 같은 값).

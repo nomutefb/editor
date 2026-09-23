@@ -398,6 +398,27 @@ function syncStaleMsg() {   // 상태 변화에서만 배지·목록 갱신(매 
   try { renderMsgBadge(); } catch {}   // 프로필 상태·카운트 갱신
   try { const mp = $('#msgpop'); if (mp && !mp.hidden) renderMsgList(); } catch {}   // 메시지함 열려있으면 즉시 목록 반영
 }
+// 로그인 만료(260923) = 메시지함 항목 — 문법 = 바로 위 staleDataMsg() 그대로(_health 계열·클라 전용·id 없음·삭제불가) + action='relogin'.
+//   왜 — 만료 중 같은 출처 fetch는 Access 302 → 교차 출처라 CORS TypeError로 reject되는데, 실패 지점마다 'articles.json 없음'·'네트워크 오류'로
+//   오분류하거나(원인 은폐) 알림 목록을 비워 경고까지 숨겼다. 판별 = head 가드 window.nmAuthCheck(/nm-sync.js HEAD 프로브 SSOT · 01-document.part).
+let _authStale = false, _authWhen = 0;
+function authMsg() {
+  if (!_authStale) return null;
+  return { _health: true, _auth: true, action: 'relogin', t: _authWhen || undefined,
+           text: '로그인이 만료됐어요 — 새 내용 조회·저장이 막혀 있어요. 다시 로그인하면 이어서 쓸 수 있어요.' };
+}
+function setAuthStale(bad) {   // 상태 변화에서만 배지·목록 갱신 — syncStaleMsg 문법 계승
+  if (bad === _authStale) return;
+  _authStale = bad; if (bad) _authWhen = Date.now();
+  try { renderMsgBadge(); } catch {}
+  try { const mp = $('#msgpop'); if (mp && !mp.hidden) renderMsgList(); } catch {}
+}
+function nmAuthNote() {   // fetch reject 지점 공용 — 원인 확정('auth'·'net'·'srv'·'ok') + 만료면 메시지함 항목 점등(자동 재로그인 판단은 head 가드 몫)
+  const f = window.nmAuthCheck;
+  if (typeof f !== 'function') return Promise.resolve('net');
+  return f().then(k => { if (k === 'auth') setAuthStale(true); return k; }, () => 'net');
+}
+const AUTH_EXPIRED_TXT = '로그인이 만료됐어 — 다시 로그인해줘';
 // 수집 고장(서버 축) = 알림메세지 항목(운영자 260725 "설정에 알림메세지 만들고 이런 시스템 에러메세지 수집되게 · 체크 표시 누르면 없어지고, 그 전까지는 설정 픽토그램이 극보수 색") —
 //   문법 = 바로 위 staleDataMsg() **그대로**(클라 생성·구분 '시스템'). 다른 건 딱 하나 = **id 부여** → ✓(확인)로 치울 수 있고 계정 md축(msgDismiss)으로 전 기기 동기.
 //   소스 = sns_trends.json `health.subs.stale`(260713부터 이미 쌓이던 "등록 계정은 있는데 이번 런 0건" 목록 · 새 수집·새 데이터 축 0 = 있는 걸 화면에 꺼낸 것뿐).

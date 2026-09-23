@@ -5,10 +5,23 @@
 // XHR 사용 이유 = fetch는 업로드 진행 이벤트가 없음(조각별 %가 UX 핵심). 조각당 1회 재시도 = 일시 네트워크 흔들림 흡수.
 (function () {
   let armed = null;
+  // 실패 원인(260923) — 만료 중 api/upload는 Access 302 → 교차 출처라 CORS TypeError로 reject되는데, 폼이 그걸 'R2 바인딩 필요'·'영상이 너무 큼'으로
+  //   오분류했다. reject 때만 벽 뒤 정적 파일 HEAD(nm-sync.js ② 프로브 SSOT · 상속 탭은 nmSync.probeNow 위임)로 갈라 nmUpArm.why에 남긴다:
+  //   'auth'(로그인 만료)·'net'·'srv'·'ok' · 확정 응답(가용/미설정)은 'off'/'' · 3s 상한 = 행이 첨부를 붙잡지 않게.
+  function authWhy() {
+    let p;
+    try {
+      p = (window.nmSync && typeof window.nmSync.probeNow === 'function') ? Promise.resolve(window.nmSync.probeNow())
+        : fetch('/nm-sync.js?_=' + Date.now(), { method: 'HEAD', redirect: 'manual', cache: 'no-store' })
+          .then(r => (r.type === 'opaqueredirect' || r.status === 401 || r.status === 403 || (r.status >= 300 && r.status < 400)) ? 'auth' : (r.ok ? 'ok' : 'srv'));
+    } catch (e) { return Promise.resolve('net'); }
+    return Promise.race([p.then(k => k || 'net', () => 'net'), new Promise(r => setTimeout(() => r('net'), 3000))]);
+  }
   window.nmUpArm = async function () {
     if (armed !== null) return armed;
-    try { const r = await fetch('api/upload', { signal: AbortSignal.timeout(4000) }); const j = await r.json(); armed = !!(r.ok && j.ok); return armed; }
-    catch (e) { return false; }   // ⚠ 네트워크 실패·4s 타임아웃은 **캐시하지 않는다**(구 `armed = false`) — 첫 첨부 순간 회선이 잠깐 흔들리면(폰 LTE↔WiFi 전환 등) 그 탭이 살아있는 내내 false로 굳어, 이후 500MB 영상에 "30MB 초과 — 대용량 저장 미설정(R2 바인딩 필요)"라는 **거짓 원인**을 띄웠다(R2는 멀쩡한데 사용자는 자기 잘못이 아니라 해결 불가 · 평의회2 260731). 확정 응답(가용/미설정)만 캐시 = 다음 첨부가 자동 재핑
+    window.nmUpArm.why = '';
+    try { const r = await fetch('api/upload', { signal: AbortSignal.timeout(4000) }); const j = await r.json(); armed = !!(r.ok && j.ok); window.nmUpArm.why = armed ? '' : 'off'; return armed; }
+    catch (e) { window.nmUpArm.why = await authWhy(); return false; }   // ⚠ 네트워크 실패·4s 타임아웃은 **캐시하지 않는다**(구 `armed = false`) — 첫 첨부 순간 회선이 잠깐 흔들리면(폰 LTE↔WiFi 전환 등) 그 탭이 살아있는 내내 false로 굳어, 이후 500MB 영상에 "30MB 초과 — 대용량 저장 미설정(R2 바인딩 필요)"라는 **거짓 원인**을 띄웠다(R2는 멀쩡한데 사용자는 자기 잘못이 아니라 해결 불가 · 평의회2 260731). 확정 응답(가용/미설정)만 캐시 = 다음 첨부가 자동 재핑
   };
   window.nmUpDrop = function (key) {
     if (!key) return;

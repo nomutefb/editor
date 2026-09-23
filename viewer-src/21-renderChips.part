@@ -17,7 +17,11 @@ async function load() {
     DATA = j.articles || [];
     FEED_GEN = j.generated || '';   // 이 피드가 만들어진 배포본 시각 — 대기열 lag 행이 '어디까지 반영됐나'를 그 자리서 말한다(배포 적체 진단 · 260803)
     dateHead(j.count || DATA.length);
-  } catch(e) { if (_g !== LOAD_SEQ) return; if (!DATA_LOADED) DATA = []; const d = $('#dhCnt'); if (d) d.textContent = 'articles.json 없음'; }   // last-good 유지(분신8 260706): 60s 폴 중 네트워크 blip 1회에 피드 전체가 '결과 없음'으로 비워지던 것 차단 — 첫 로드 실패만 빈 상태
+    setAuthStale(false);   // 조회 성공 = 세션 유효(다른 탭 재로그인 등) → 만료 항목 소등
+  } catch(e) {
+    if (_g !== LOAD_SEQ) return; if (!DATA_LOADED) DATA = []; const d = $('#dhCnt'); if (d) d.textContent = 'articles.json 없음';
+    if (e instanceof TypeError) nmAuthNote().then(k => { if (k === 'auth' && _g === LOAD_SEQ) { const d2 = $('#dhCnt'); if (d2) d2.textContent = '로그인 만료'; } });   // fetch reject = Access 만료(302→CORS)일 수 있음 → 원인 확정 후 문구 교정('없음' 오분류 차단)
+  }   // last-good 유지(분신8 260706): 60s 폴 중 네트워크 blip 1회에 피드 전체가 '결과 없음'으로 비워지던 것 차단 — 첫 로드 실패만 빈 상태
   const _firstLoad = !DATA_LOADED; DATA_LOADED = true;   // 첫 로드 완료 표시
   render();
   if (_firstLoad && CURTAB === 'scrap' && SCRAP_LOADED) renderScrap();   // 첫 DATA 도착 = 수집함 1회 재렌더(pickInFeed 정확·Picking 깜빡 보정)

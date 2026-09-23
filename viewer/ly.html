@@ -824,7 +824,7 @@ $('#file').onchange = async e => {
       await readB64(f, f.name); setBadge('음성', f.name); return;
     }
     if (f.size > 2 * 1024 * 1024 * 1024) { clearFile(`영상이 너무 큼 — ${(f.size / 1048576).toFixed(0)}MB (한계 2GB). URL로 시도해줘.`, true); return; }   // R2 직업로드 절대 상한(api/upload 계약 · 260722)
-    if (f.size > FILE_HARD && !(LY_OPTS.burn && window.nmUpArm && await nmUpArm())) { clearFile(`영상이 너무 큼 — ${(f.size / 1048576).toFixed(0)}MB (한계 ${Math.round(FILE_HARD / 1048576)}MB). URL로 시도해줘.`, true); return; }   // 250MB 캡 = 브라우저 추출(wasm OOM) 한정 — 합성 ON + R2 가용은 원본 직업로드라 2GB까지(260722)
+    if (f.size > FILE_HARD && !(LY_OPTS.burn && window.nmUpArm && await nmUpArm())) { clearFile((LY_OPTS.burn && window.nmUpArm && nmUpArm.why === 'auth') ? '로그인이 만료됐어 — 새로고침해서 다시 로그인해줘' : `영상이 너무 큼 — ${(f.size / 1048576).toFixed(0)}MB (한계 ${Math.round(FILE_HARD / 1048576)}MB). URL로 시도해줘.`, true); return; }   // 만료(302→CORS reject) = 크기 탓 아님(260923 오분류 봉합 · 판별 = upload.js nmUpArm.why)   // 250MB 캡 = 브라우저 추출(wasm OOM) 한정 — 합성 ON + R2 가용은 원본 직업로드라 2GB까지(260722)
     FILE_RAW = f;   // 원본 보존 — 이후 '자막 붙이기' 토글 변화 시 lyFileSync가 업로드 형태 재결정(260721)
     await lyVideoUpload(f);
   } catch (err) {   // 파일 읽기 실패(f.text·FileReader 등) = 잠금·게이지 풀고 안내(고착 차단)

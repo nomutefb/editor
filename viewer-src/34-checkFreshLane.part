@@ -536,23 +536,61 @@ function scDedup(arr) {   // 같은 제목 + 시간근접(<12h) = 같은 기사 
 // ── 수집함 병합(merge·운영자 260625) ── 토큰 클러스터링서 갈라진 같은 사건을 운영자가 수동으로 묶음(롱프레스→체크→병합).
 //   저장 = localStorage(이 기기·앵커 candId → 멤버 candId들). fold = applyMerges가 멤버를 접고 앵커에 cluster_members·cross 합산.
 //   🔑 우아함 = cluster_members 확장 하나로 pickAlt(→api/pick alt 종합요약)·pickInFeed·cross·픽상태가 전부 기존 메커니즘 재사용(파이프라인·알고리즘 0 변경 = 뷰어 소비만).
-const MERGE_KEY = 'nm_merges', MERGE_TS_KEY = 'nm_merges_ts';
+const MERGE_KEY = 'nm_merges', MERGE_TS_KEY = 'nm_merges_ts', MERGE_PEND_KEY = 'nm_merges_pend';
 const mergesAll = () => { try { return JSON.parse(localStorage.getItem(MERGE_KEY) || '{}'); } catch { return {}; } };
-const saveMerges = (m, delta) => {   // bool 반환 = 저장 실패(quota·시크릿) 시 거짓 성공 토스트 차단(분신술7·9) · delta = {set,del} 계정 동기(운영자 260717 "경계도 ㄱ" — 폰 병합 = PC도 접힘 · fail-soft)
+// 미동기 패치 큐(260923 — 구판 POST 실패가 무음(.catch)이라 로그인 만료·회선 끊김 중 병합은 5분 뒤 loadMergesSrv가 서버 구본으로 통째 덮어 유실) =
+//   서버가 받았다고 답할 때까지 {set,del} 패치를 기기에 보관 · 적재 = 서버본 위에 미동기 패치를 얹는 병합(낡은 전체 목록으로 덮기 금지 · CLAUDE.md 설정 병합 룰 동축).
+const mergePend = () => {
+  try {
+    const p = JSON.parse(localStorage.getItem(MERGE_PEND_KEY) || 'null') || {};
+    return { set: (p.set && typeof p.set === 'object' && !Array.isArray(p.set)) ? p.set : {}, del: Array.isArray(p.del) ? p.del.filter(k => typeof k === 'string' && k) : [] };
+  } catch { return { set: {}, del: [] }; }
+};
+const mergePendSave = p => {
+  try { if (!Object.keys(p.set).length && !p.del.length) localStorage.removeItem(MERGE_PEND_KEY); else localStorage.setItem(MERGE_PEND_KEY, JSON.stringify(p)); return true; } catch { return false; }
+};
+const mergeOverlay = (base, p) => { const out = { ...base }; p.del.forEach(k => delete out[k]); Object.entries(p.set).forEach(([k, v]) => { out[k] = v; }); return out; };   // set·del은 큐에서 상호배타(saveMerges가 유지)라 적용 순서 무관
+let _mergeFlushP = null, _mergeFlushAgain = false;
+function flushMerges() {   // 큐 → api/mapsync(패치 의미론 = 서버가 최신본에 재적용) · 성공 응답(ok)에서만 보낸 항목 소거 · 실패 = 보관(다음 60s 폴·재로그인 뒤 재시도)
+  if (_mergeFlushP) { _mergeFlushAgain = true; return _mergeFlushP; }
+  const p = mergePend(), setE = Object.entries(p.set).slice(0, 50), del = p.del.slice(0, 50);   // 1회 상한 = api/mapsync 50·50과 동치(넘치면 성공 후 이어서)
+  if (!setE.length && !del.length) return Promise.resolve(true);
+  _mergeFlushP = fetch('api/mapsync', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ file: 'merges', set: Object.fromEntries(setE), del }) })
+    .then(async r => { const j = await r.json().catch(() => null); return (r.ok && j && j.ok) ? 'ok' : (r.status === 400 ? 'drop' : 'keep'); }, () => 'keep')   // reject = Access 만료(302→CORS)·회선 = 보관 · 400 = 서버가 영구 거절(무한 재시도 차단)
+    .then(res => {
+      if (res === 'keep') return false;
+      const cur = mergePend();   // 비행 중 새 편집 보존 = 보낸 값과 같은 항목만 소거
+      setE.forEach(([k, v]) => { if (k in cur.set && JSON.stringify(cur.set[k]) === JSON.stringify(v)) delete cur.set[k]; });
+      cur.del = cur.del.filter(k => !del.includes(k));
+      mergePendSave(cur);
+      if (res === 'ok') { try { localStorage.setItem(MERGE_TS_KEY, String(Date.now())); } catch {} }   // 서버 착지 시각 = 배포 지연 유예 기준(늦은 착지를 구본 적재가 되감지 않게)
+      if (Object.keys(cur.set).length || cur.del.length) _mergeFlushAgain = true;   // 상한 초과분 이어서
+      return true;
+    })
+    .finally(() => { _mergeFlushP = null; if (_mergeFlushAgain) { _mergeFlushAgain = false; flushMerges(); } });
+  return _mergeFlushP;
+}
+const saveMerges = (m, delta) => {   // bool 반환 = 저장 실패(quota·시크릿) 시 거짓 성공 토스트 차단(분신술7·9) · delta = {set,del} 계정 동기(운영자 260717 "경계도 ㄱ" — 폰 병합 = PC도 접힘 · 미동기 큐 경유)
   let ok = true; try { localStorage.setItem(MERGE_KEY, JSON.stringify(m)); } catch { ok = false; }
   if (ok && delta && ((delta.set && Object.keys(delta.set).length) || (delta.del && delta.del.length))) {
     try { localStorage.setItem(MERGE_TS_KEY, String(Date.now())); } catch {}
-    fetch('api/mapsync', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ file: 'merges', ...delta }) }).catch(() => {});
+    const p = mergePend();
+    Object.entries(delta.set || {}).forEach(([k, v]) => { p.set[k] = v; p.del = p.del.filter(x => x !== k); });
+    (delta.del || []).forEach(k => { delete p.set[k]; if (!p.del.includes(k)) p.del.push(k); });
+    if (mergePendSave(p)) flushMerges();
+    else fetch('api/mapsync', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ file: 'merges', ...delta }) }).catch(() => {});   // 큐 저장 불가(quota) = 종전 1회 전송 폴백
   }
   return ok;
 };
-async function loadMergesSrv() {   // 계정 병합 적재(60s 폴 편승) — 로컬 최근 편집(5분 유예 = 배포 지연 1~2분 창에서 서버 구본이 내 편집을 되감는 것 차단) 없을 때만 서버 = 정본 채택
+async function loadMergesSrv() {   // 계정 병합 적재(60s 폴 편승) — 미동기 큐 재전송 + 로컬 최근 편집(5분 유예 = 배포 지연 1~2분 창에서 서버 구본이 내 편집을 되감는 것 차단) 없을 때 서버본 ⊕ 미동기 패치 채택
   try {
+    const p0 = mergePend(); if (Object.keys(p0.set).length || p0.del.length) flushMerges();
     if (Date.now() - (+localStorage.getItem(MERGE_TS_KEY) || 0) < 300e3) return;
     const r = await fetch('merges.json?_=' + Date.now()); if (!r.ok) return;
     const d = await r.json(); if (!d || typeof d !== 'object' || Array.isArray(d)) return;
-    if (JSON.stringify(d) === JSON.stringify(mergesAll())) return;
-    try { localStorage.setItem(MERGE_KEY, JSON.stringify(d)); } catch {}
+    const next = mergeOverlay(d, mergePend());   // 서버에 아직 없는 내 병합·해제 = 보존(덮어쓰기 아님)
+    if (JSON.stringify(next) === JSON.stringify(mergesAll())) return;
+    try { localStorage.setItem(MERGE_KEY, JSON.stringify(next)); } catch {}
     if (CURTAB === 'scrap') renderScrap();
   } catch { /* 없으면 로컬만 */ }
 }
