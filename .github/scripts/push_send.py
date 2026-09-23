@@ -367,6 +367,9 @@ def payload_of(m):
     if m.get("icon"): pl["icon"] = m["icon"]     # 직접 지정 = 최우선(구 SW 호환 검증 경로 · 정식 발송은 비움 = 테마짝 유지)
     if m.get("kind") in PICK_KINDS and "?brk=" in m["url"]:   # 긴급·이슈 = 알림에 PICK 버튼(운영자 260924 · 본문 탭 = 종전 분기 그대로)
         pl["actions"] = [{"action": "pick", "title": "PICK"}]   # 목적지는 SW가 url 에 act=pick 을 붙여 만든다(주소 중복 0 = 페이로드 절약) · 구 SW = 키 무시(버튼 없음)
+    elif "?brk=" in (m.get("pick_url") or ""):   # 본문 목적지가 따로인 알림(급상승 = 구글 검색)에 관련 뉴스 PICK(운영자 260924 ⑦)
+        pl["pick"] = abs_url(m["pick_url"])
+        pl["actions"] = [{"action": "pick", "title": "PICK"}]
     payload = json.dumps(pl, ensure_ascii=False)
     if len(payload.encode("utf-8")) > PAYLOAD_MAX and pl.pop("icon", None):   # 한도 초과 = 아이콘만 포기(알림은 반드시 뜬다)
         payload = json.dumps(pl, ensure_ascii=False)
@@ -419,6 +422,11 @@ def main():
         k = sys.argv.index("--tag")
         if len(sys.argv) > k + 1 and sys.argv[k + 1]:
             notify_tag = sys.argv[k + 1]
+    notify_pick = ""
+    if "--pick-url" in sys.argv:                       # 관련 뉴스 PICK 딥링크(급상승 알림 · 본문 목적지와 별개)
+        k = sys.argv.index("--pick-url")
+        if len(sys.argv) > k + 1:
+            notify_pick = sys.argv[k + 1] or ""
     if "--notify" in sys.argv:                       # 임의 알림(제작완료 등) — 구독자 전원(=프로필 ON) · dedup 미기록
         i = sys.argv.index("--notify")
         notify = (sys.argv[i + 1] if len(sys.argv) > i + 1 else "🖼 News",
@@ -442,7 +450,7 @@ def main():
     elif notify:
         # 제작완료/요약완료 등 = 전용 tag(긴급 속보와 안 덮어씀) · url=대상 화면(notify_url) · tag=notify_tag(건별 고유면 누적)
         msgs = [{"keys": [f"notify-{int(time.time())}"], "title": notify[0], "body": notify[1], "url": notify_url, "tag": notify_tag,
-                 "kind": notify_kind, "icon": notify_icon}]
+                 "kind": notify_kind, "icon": notify_icon, **({"pick_url": notify_pick} if notify_pick else {})}]
     else:
         cands = jload(CAND, [])
         _raw = jload(SENT, {})

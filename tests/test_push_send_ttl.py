@@ -60,6 +60,20 @@ class PickActionTest(unittest.TestCase):
 
 
 
+class TrendPickTest(unittest.TestCase):
+    """급상승 알림 관련 뉴스 PICK(운영자 260924 ⑦) — 본문 목적지(구글)는 그대로 · PICK 딥링크는 따로 · 절대 주소."""
+
+    def test_notify_with_pick_url(self):
+        import json
+        m = _load()
+        d = json.loads(m.payload_of({"title": "📈 급상승", "body": "b", "url": "https://www.google.com/search?q=x", "kind": "trend",
+                                     "pick_url": "/?brk=https%3A%2F%2Fx.kr%2F1"}))
+        self.assertEqual(d["url"], "https://www.google.com/search?q=x")
+        self.assertTrue(d["pick"].startswith("https://edit.nomute.kr/?brk="))
+        self.assertEqual(d["actions"], [{"action": "pick", "title": "PICK"}])
+        self.assertNotIn("actions", json.loads(m.payload_of({"title": "t", "body": "b", "url": "https://g/x", "kind": "trend"})))
+
+
 class ExclusivePushTest(unittest.TestCase):
     """[단독] 대형 알림(운영자 260924 «승리 CCTV 같은 건 항상 먼저 알림») — 경중 3 · 매체 수 무관 · 긴급 축과 2중 발송 0."""
 

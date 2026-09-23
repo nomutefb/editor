@@ -42,6 +42,54 @@ ROOT = Path(__file__).resolve().parent.parent.parent
 SNS = ROOT / "viewer" / "sns_trends.json"
 LEDGER = ROOT / "push" / "trend_sent.json"
 PUSH = ROOT / ".github" / "scripts" / "push_send.py"
+CANDS = ROOT / "viewer" / "candidates.json"
+# ── 관련 뉴스 PICK(운영자 260924 「추천 순서대로」 ⑦ SNS·뉴스 따로 놀던 것) — 급상승어와 맞는 수집함 후보가 있으면
+#    같은 알림에 PICK 버튼을 단다(본문 탭 = 종전 구글 검색 · 운영자 260819 · PICK = 그 뉴스 바로 요약 발사 · 사유 = 대세픽).
+#    매칭 = 뷰어 snsBuzz 규칙 사본(4자↑·공백 포함 = 포함 · 짧은 말 = 낱말 일치 또는 조사 꼬리) — 짧은 말 substring 오탐("로제"↔"프로젝트") 차단.
+#    대상 = 수집 24h 내 후보 · 여럿이면 교차 큰 것 → 최신. 못 찾으면 종전 알림 그대로(버튼 없음).
+REL_MAX_H = float(os.environ.get("TREND_REL_MAX_H", "24"))
+_JOSA = set("이가은는을를의와과도만에서부터께랑님씨측")
+
+
+def kw_hit(k, title):
+    k, t = str(k or "").strip(), str(title or "")
+    if not k:
+        return False
+    if len(k) >= 4 or " " in k:
+        return k in t
+    for w in re.findall(r"[가-힣A-Za-z0-9]+", t):
+        if w == k or (len(w) <= len(k) + 2 and w.startswith(k) and all(ch in _JOSA for ch in w[len(k):])):
+            return True
+    return False
+
+
+def related(q, cands, now=None):
+    """급상승어 q 와 맞는 수집함 후보 1건(없으면 None)."""
+    import datetime as _dt
+    now = now or _dt.datetime.now(_dt.timezone.utc)
+    best = None
+    for c in cands if isinstance(cands, list) else []:
+        if not isinstance(c, dict) or not (c.get("url") and kw_hit(q, c.get("title"))):
+            continue
+        try:
+            t = _dt.datetime.fromisoformat(str(c.get("first_seen") or c.get("published")).replace("Z", "+00:00"))
+            if t.tzinfo is None:
+                t = t.replace(tzinfo=_dt.timezone.utc)
+            if (now - t).total_seconds() / 3600 > REL_MAX_H:
+                continue
+        except Exception:  # noqa: BLE001 — 시각 미상 = 제외(오래된 사건에 PICK 버튼 금지)
+            continue
+        k = (c.get("cross") or 0, str(c.get("first_seen") or ""))
+        if best is None or k > best[0]:
+            best = (k, c)
+    return best[1] if best else None
+
+
+def pick_url(c):
+    bp = c.get("breaking_pick") or {}
+    key_ = (c.get("event_key") or c.get("url") or "").strip()
+    bl = (bp.get("url") or c.get("url") or "").strip()
+    return "/?brk=" + urllib.parse.quote(key_, safe="") + ("&bl=" + urllib.parse.quote(bl, safe="") if bl else "")
 
 MIN_VOL = int(os.environ.get("TREND_MIN_VOL", "15000"))   # 운영자 260818 지정 = 구글 검색 1.5만회
 # ⚠ 260819 실측 = 관측 창을 4시간으로 좁힌 뒤 그 창의 최대 검색량이 2,000이었다(같은 시각 24시간 창은 100,000).
@@ -175,7 +223,7 @@ def hot():
     return out
 
 
-def send(q, vol, where=None):
+def send(q, vol, where=None, rel=None):
     """발송 = push_send.py --notify 재사용(kw_watch send 문법 그대로 · 종류 trend = 초록 지구본).
     ⚠ 숫자는 구글이 준 **원값**을 쓴다(가점은 발사 여부만 정한다) · 겹친 곳은 꼬리에 붙여 왜 왔는지 보이게."""
     tail = (" · " + "·".join(where) + "에도 떠 있어요") if where else ""
@@ -188,12 +236,16 @@ def send(q, vol, where=None):
     #   ⚠ 절대 주소라 push_send.abs_url 은 그대로 통과한다(스킴 보유 = 이중 접두 0 · check_push_abs_url 계약).
     goto = "https://www.google.com/search?q=" + urllib.parse.quote(str(q))
     body = f"«{q}» 가 검색 {vol:,}회로 급상승 중이에요{tail}"
+    extra = []
+    if rel:   # 관련 뉴스 = PICK 버튼(목적지는 우리 화면 딥링크 · 본문 탭 목적지는 위 구글 그대로)
+        body += f" · 관련 기사 「{str(rel.get('title') or '')[:30]}」"
+        extra = ["--pick-url", pick_url(rel)]
     if DRY:
         print(f"  [드라이런] 발송 생략 — {body}")
         return True
     try:
         r = subprocess.run([sys.executable, str(PUSH), "--notify", "📈 급상승", body,
-                            "--url", goto, "--tag", "nomute-trend-" + key(q), "--kind", "trend"],   # 묶음표 = **급상승어별 고유**(운영자 260819) — 고정이면 뒤에 뜬 말이 앞엣것을 덮는다
+                            "--url", goto, "--tag", "nomute-trend-" + key(q), "--kind", "trend", *extra],   # 묶음표 = **급상승어별 고유**(운영자 260819) — 고정이면 뒤에 뜬 말이 앞엣것을 덮는다
                            # ⚠ 목적지 = **쿼리**(`?tab=`)여야 실제로 그 화면이 열린다(운영자 260819 «랜딩이 채널 요약으로 감»).
                            #   구판 `/#trend` 는 뷰어에서 `?qa=1` 일 때만 해석되는 QA 전용 배선(index.html 18306행)이라
                            #   일반 진입에선 해시가 통째로 무시되고 마지막에 보던 탭(nomute_tab)이 복원됐다 = 채널 요약 랜딩의 실체.
@@ -243,7 +295,7 @@ def main():
             continue
         fired += 1
         print(f"  📈 «{q}» 검색 {vol:,}회" + (f" ×{eff/max(1,vol):.2f}({'·'.join(where)}) → {eff:,}" if where else "") + " — 푸시")
-        send(q, vol)
+        send(q, vol, rel=related(q, jload(CANDS, [])))
 
     if (stamped or fired) and not DRY:     # ⚠ 드라이런은 원장을 안 남긴다(남기면 진짜 첫 발송이 영영 스킵)
         LEDGER.parent.mkdir(parents=True, exist_ok=True)

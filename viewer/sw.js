@@ -161,7 +161,7 @@ self.addEventListener('push', event => {
     badge: d.badge || '/assets/brand/badge-260723.png',   // 상태바 배지 = 흑백+투명 실루엣(N) — 불투명 컬러는 안드로이드가 흰 네모로 칠함 · 버전도장(260723) = immutable 캐시 편입
 
     tag: d.tag || 'nomute-breaking',          // 같은 tag = 교체(중복 알림 안 쌓임)
-    data: { url: d.url || '/', kind: d.kind || '' },   // kind = PICK 사유(긴급/이슈) 판별용
+    data: { url: d.url || '/', kind: d.kind || '', pick: d.pick || '' },   // kind = PICK 사유(긴급/이슈/급상승) 판별용 · pick = 본문 목적지와 별개인 PICK 딥링크(급상승 = 본문 구글·PICK 관련 뉴스)
     lang: 'ko',
   };
   // 소리·진동(운영자 260819 «웹 푸시는 오는데 소리나 진동이 안 나는건» · 발송기가 긴급·이슈에만 실어 보낸다).
@@ -189,14 +189,16 @@ self.addEventListener('notificationclick', event => {
   event.notification.close();
   const raw = (event.notification.data && event.notification.data.url) || '/';
   const target = new URL(raw, self.location.origin);   // 알림이 가리키는 화면(제작완료=/thumb.html#done · 긴급=/)
-  if (event.action === 'pick' && target.origin === self.location.origin && target.searchParams.has('brk')) {   // PICK 버튼 = 요청 보관 → 앱이 가져가 발사
-    const d0 = event.notification.data || {};
+  const d0 = event.notification.data || {};
+  let pt = null;
+  if (event.action === 'pick') { try { pt = d0.pick ? new URL(d0.pick, self.location.origin) : target; } catch (_) { pt = null; } }
+  if (pt && pt.origin === self.location.origin && pt.searchParams.has('brk')) {   // PICK 버튼 = 요청 보관 → 앱이 가져가 발사
     event.waitUntil((async () => {
-      await savePickReq({ brk: target.searchParams.get('brk'), bl: target.searchParams.get('bl') || '', kind: d0.kind || '', ts: Date.now() });
+      await savePickReq({ brk: pt.searchParams.get('brk'), bl: pt.searchParams.get('bl') || '', kind: d0.kind || '', ts: Date.now() });
       const list = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
       const app = list.find(c => { try { const u = new URL(c.url); return u.origin === self.location.origin && SHELL_PATHS.includes(u.pathname); } catch (_) { return false; } });
       if (app) { try { app.postMessage({ type: 'nm-pickreq' }); } catch (_) {} if ('focus' in app) return app.focus(); }   // 열린 앱 = 새로고침 없이 처리(작업 중 입력·도구 보존)
-      if (self.clients.openWindow) return self.clients.openWindow(target.origin + '/?act=pick');
+      if (self.clients.openWindow) return self.clients.openWindow(pt.origin + '/?act=pick');
     })());
     return;
   }

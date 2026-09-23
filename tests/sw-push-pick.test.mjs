@@ -72,3 +72,16 @@ test('본문 탭·남의 사이트·긴급 아닌 알림은 act 를 안 붙인�
     assert.equal(new URL(h.opened[0]).searchParams.get('act'), null, url);
   }
 });
+
+test('급상승 알림 = 본문 탭 구글(종전) · PICK = 관련 뉴스 딥링크(data.pick) 보관', async () => {
+  const data = {url: 'https://www.google.com/search?q=%EC%8A%B9%EB%A6%AC', kind: 'trend', pick: 'https://edit.nomute.kr/?brk=https%3A%2F%2Fx.kr%2F1&nmv=1'};
+  const h = boot();
+  await fire(h, 'notificationclick', {action: '', notification: {close() {}, data}});
+  assert.equal(new URL(h.opened[0]).hostname, 'www.google.com');
+  assert.equal(h.store.size, 0);
+  const h2 = boot();
+  await fire(h2, 'notificationclick', {action: 'pick', notification: {close() {}, data}});
+  assert.equal(h2.store.size, 1);
+  const req = JSON.parse([...h2.store.values()][0]);
+  assert.equal(JSON.stringify([req.brk, req.kind]), JSON.stringify(['https://x.kr/1', 'trend']));
+});

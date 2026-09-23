@@ -17938,7 +17938,7 @@ function findPushCand(key, bl) {
   return pool.length ? 'ambig' : null;
 }
 // 알림 PICK 버튼(운영자 260924 «푸시에서 바로 PICK») — SW가 보관한 요청만 발사(주소 쿼리만으로는 발사 0 = 외부 링크 무확인 과금 차단).
-//   수집함 PICK 과 같은 발사(applyTriage) · 사유 = 알림 종류(긴급 = 속보/사건 · 이슈 = 토픽/논란) · 이미 요약 = 요약창 · 이미 PICK = 안내만.
+//   수집함 PICK 과 같은 발사(applyTriage) · 사유 = 알림 종류(긴급 = 속보/사건 · 이슈 = 토픽/논란 · 급상승 = 대세픽) · 이미 요약 = 요약창 · 이미 PICK = 안내만.
 let _pickReqBusy = false;
 async function takePickReqs() {
   const sw = navigator.serviceWorker && navigator.serviceWorker.controller;
@@ -17973,7 +17973,7 @@ function pickFromPush(c, kind) {
   if (ps) { qFlash('이미 PICK한 기사야'); return; }
   const el = [...document.querySelectorAll('.sc-item')].find(x => x.dataset.cid === candId(c)) || null;
   if (el) el.scrollIntoView({ block: 'center' });
-  applyTriage('pick', c, el, kind === 'iss' ? '토픽/논란' : '속보/사건', '');
+  applyTriage('pick', c, el, kind === 'iss' ? '토픽/논란' : kind === 'trend' ? '대세픽' : '속보/사건', '');   // 급상승 알림의 관련 뉴스 PICK = 대세픽(TRIAGE 정본 사유)
   qFlash('PICK 보내는 중…');   // 접수 ≠ 실행(CLAUDE.md) — 서버 거절·로그인 만료는 applyTriage 가 되돌리고 알린다
 }
 
