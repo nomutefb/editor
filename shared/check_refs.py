@@ -550,7 +550,16 @@ def check_fast_max_h_parity():
         print('❌ FAST_MAX_H 크로스랭귀지 드리프트: viewer=%s ≠ auto_pick_breaking.py=%s (칼럼 경계↔자동픽 나이 게이트 불일치)' % (mv.group(1), mp.group(1))); return 1
     if mv.group(1) != mt.group(1):
         print('❌ FAST_MAX_H 크로스랭귀지 드리프트: viewer=%s ≠ to_candidates.py=%s (칼럼 경계↔CAP 컷 3단 경계 불일치)' % (mv.group(1), mt.group(1))); return 1
-    print('✅ FAST_MAX_H 패리티 — viewer(%s) = auto_pick_breaking.py(%s) = to_candidates.py(%s) 크로스랭귀지 동일.' % (mv.group(1), mp.group(1), mt.group(1)))
+    # 누적 랭킹 근사 상수(260924 평의회4-1 · CAP 컷 2단 안 순서) — viewer CROSS_POW·ACC_T_HALF·ACC_T_POW 사본
+    vr = [re.search(r'const CROSS_POW\s*=\s*([\d.]+)', v), re.search(r'const ACC_T_HALF\s*=\s*([\d.]+),\s*ACC_T_POW\s*=\s*([\d.]+)', v)]
+    tr = re.search(r'^RANK_CROSS_POW, RANK_ACC_T_HALF, RANK_ACC_T_POW\s*=\s*([\d.]+),\s*([\d.]+),\s*([\d.]+)', tc, re.M)
+    if not (vr[0] and vr[1] and tr):
+        print('❌ 누적 랭킹 근사 상수 추출 실패(viewer CROSS_POW/ACC_T_* · to_candidates RANK_*) — 선언 형태 변경 시 이 게이트도 갱신'); return 1
+    vv = tuple(float(x) for x in (vr[0].group(1), vr[1].group(1), vr[1].group(2)))
+    tv = tuple(float(x) for x in tr.groups())
+    if vv != tv:
+        print('❌ 누적 랭킹 근사 드리프트: viewer(CROSS_POW·ACC_T_HALF·ACC_T_POW)=%s ≠ to_candidates RANK_*=%s (CAP 컷 2단 순서가 화면 순위와 갈림)' % (vv, tv)); return 1
+    print('✅ FAST_MAX_H 패리티 — viewer(%s) = auto_pick_breaking.py(%s) = to_candidates.py(%s) 크로스랭귀지 동일 · 누적 랭킹 근사 상수 %s 동일.' % (mv.group(1), mp.group(1), mt.group(1), vv))
     return 0
 
 

@@ -44,6 +44,9 @@ CUT_VISIBLE = os.environ.get("CAND_CUT_VISIBLE", "1").strip().lower() not in ("0
 # 2단 나이 상한(평의회4-3 260924) — 누적 자격이어도 CUM_KEEP_H 넘은 건 시간 감쇠로 칼럼 바닥(48h 감쇠 ~.02)이라 사실상 안 보인다.
 #   2단 무제한이면 3~10일 된 건이 예산 180~320KB 를 쥔다(구조한 cross≥8 컷의 71% 가 24h↑) → 0.5단(1단 아래 · 0단 위)으로.
 CUM_KEEP_H = float(os.environ.get("CAND_CUM_KEEP_H", "48"))
+# 2단 **안** 순서 = 뷰어 누적 랭킹 근사(보도량^CROSS_POW × 시간 가속 감쇠 · 병합 그룹은 합산 cross 로 형제 한 점수) — 평의회4-1 260924:
+#   raw cross 순이면 2단이 넘치는 아침에 화면 상위의 신선 연속보도(cross 4~7)·병합 저cross 형제가 먼저 잘리고 며칠 된 cross 8 이 남았다.
+RANK_CROSS_POW, RANK_ACC_T_HALF, RANK_ACC_T_POW = 1.3, 13, 3.0   # = viewer CROSS_POW·ACC_T_HALF·ACC_T_POW 사본(패리티 = check_refs check_fast_max_h_parity)
 # ── 속보(velocity·태그) 1차 게이트 — burst(15분 내 동시 매체) OR [속보] 제목 태그. 2차 내용판정은 별도(Claude breaking_judge). ──
 BREAKING_BURST = int(os.environ.get("BREAKING_BURST", "3"))          # 속보 후보: burst 이 값 이상(다수 동시 보도)
 # 제목 태그([속보]·[상보]·[긴급]·[1보]·(1보)) = 1~2매체여도 속보 후보 → AI 내용검증(언론고시 기자 = 낚시 안 씀) · 정본 = scraper/brk_tag.py
@@ -653,9 +656,10 @@ def main():
         return 1 if age is not None and -10 <= age < FRESH_KEEP_H else 0   # -10h 하한 = 선의 KST+00 스큐(≤9h 미래)만 신선 허용 — 임의 미래값(2099 등)이 TTL(10일)까지 1군 영구 점유하는 슬롯 고갈 벡터 차단(평의회6) · 양측 결측·전부 파싱실패 = 구군(보수 — 옛 nowiso 폴백의 '불멸 1군' 구멍 폐쇄 · 평의회1·4)
     try:
         vis = cum_visible_ids(kept)
+        gsum = {x.get("group_id"): (x.get("cross") or 0) for x in screen_merge(kept) if x.get("_mergeCount") and x.get("group_id")} if screen_merge else {}
     except Exception as e:  # noqa: BLE001 — 미러 런타임 실패(이상 필드 등)가 수집함 갱신을 멈추면 안 된다 = 종전 순서로(평의회7)
         print(f"⚠️ 누적 미러 런타임 실패 — 컷 순서 종전 2군: {type(e).__name__}", file=sys.stderr)
-        vis = None
+        vis, gsum = None, {}
 
     def cut_band(c):   # 컷 순서 4단(높을수록 늦게 잘림) — 정본 주석 = 위 CUT_VISIBLE
         ft = fresh_tier(c)
@@ -672,7 +676,22 @@ def main():
     band = {id(c): cut_band(c) for c in kept} if (_cum_enter is not None and vis is not None) else {}   # 계기판은 레버와 무관하게 산출(레버 OFF 날 누적 자격 컷도 보이게)
     visible_order = CUT_VISIBLE and (bool(band) or not kept)   # 빈 풀 = 순서 무의미(종전 폴백 표기 안 함)
     rank = band if visible_order else {id(c): fresh_tier(c) for c in kept}   # 레버 OFF·미러 부재 = 종전 2군 키 그대로
-    kept.sort(key=lambda c: (rank[id(c)], c.get("cross") or 0, c.get("published") or ""), reverse=True)   # 단 안에서는 종전 cross·발행 내림차 — CAP 컷·바이트 트림은 꼬리(0단 → 1단 → 2단 순)부터 침
+    within = {}   # 2단 안 순서 키(뷰어 누적 랭킹 근사 · 레버 OFF = 비움 = 종전 키 그대로)
+    if visible_order:
+        def _proxy(c):
+            a = _age_h_first(c.get("published"), c.get("first_seen"))
+            a = max(0.0, a) if a is not None else 0.0
+            cr = max(c.get("cross") or 0, gsum.get(c.get("group_id"), 0) if c.get("group_id") else 0)
+            return (cr ** RANK_CROSS_POW) / (1 + (a / RANK_ACC_T_HALF) ** RANK_ACC_T_POW)
+        within = {id(c): _proxy(c) for c in kept if band.get(id(c)) == 2}
+        gmax = {}
+        for c in kept:
+            if id(c) in within and c.get("group_id"):
+                gmax[c["group_id"]] = max(gmax.get(c["group_id"], 0.0), within[id(c)])
+        for c in kept:
+            if id(c) in within and c.get("group_id"):
+                within[id(c)] = gmax[c["group_id"]]   # 병합 형제 = 한 점수(하나만 잘려 합산이 깨지는 것 차단)
+    kept.sort(key=lambda c: (rank[id(c)], within.get(id(c), c.get("cross") or 0), c.get("published") or ""), reverse=True)   # 단 안에서는 종전 cross·발행 내림차 — CAP 컷·바이트 트림은 꼬리(0단 → 1단 → 2단 순)부터 침
 
     def _cuts(seq):   # (누적급 cross≥8 · 누적 자격(2단) · 비노출 4~6h 신선(1단)) 컷 수
         return (sum(1 for c in seq if (c.get("cross") or 0) >= 8),

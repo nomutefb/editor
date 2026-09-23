@@ -118,6 +118,23 @@ class CapTierTest(unittest.TestCase):
         kept, _ = self.run_tc(pool, env={"CAND_CAP": "2", "CAND_CUM_KEEP_H": "240"})
         self.assertEqual(set(kept), {"old", "cum"})   # 레버 = 종전(무제한)
 
+    def test_band2_orders_by_viewer_rank_not_raw_cross(self):
+        # 평의회4-1 260924: 2단이 넘치면 raw cross 순은 화면 상위의 신선 연속보도를 먼저 자르고 며칠 된 cross 8 을 남겼다
+        pool = [ent("old9", cross=9, pub_h=30), ent("fol", cross=5, pub_h=6, rc=6)]
+        kept, _ = self.run_tc(pool, env={"CAND_CAP": "1"})
+        self.assertEqual(set(kept), {"fol"})
+
+    def test_merged_group_siblings_cut_together(self):
+        # 그룹(합산 9 · 8h) 형제는 한 점수 — 저cross 형제만 잘려 합산이 깨지면 앵커가 누적서 빠진다
+        pool = [ent("a", cross=6, pub_h=8, group_id="a"), ent("b", cross=3, pub_h=8, group_id="a"), ent("c", cross=9, pub_h=20)]
+        kept, _ = self.run_tc(pool, env={"CAND_CAP": "2"})
+        self.assertEqual(set(kept), {"a", "b"})
+
+    def test_fresh_group_beats_days_old_lone_cross8(self):
+        pool = [ent("a", cross=5, pub_h=4.5, group_id="a"), ent("b", cross=3, pub_h=4.5, group_id="a"), ent("old8", cross=8, pub_h=216)]
+        kept, _ = self.run_tc(pool, env={"CAND_CAP": "2"})
+        self.assertEqual(set(kept), {"a", "b"})
+
     def test_low_grade_breaking_is_not_top(self):
         # 평의회4-2 260924: 경중 0·1 긴급은 뷰어 isBreaking 거짓 = 어느 칼럼에도 안 보임 → 누적 노출분보다 먼저 잘린다
         pool = [ent("brk1", cross=2, pub_h=30, breaking=True, grade=1), ent("cum", cross=9, pub_h=10)]
