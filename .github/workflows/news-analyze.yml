@@ -203,6 +203,8 @@ jobs:
         env:
           VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
           VAPID_SUBJECT: ${{ secrets.VAPID_SUBJECT }}
+          CF_ACCESS_CLIENT_ID: ${{ secrets.CF_ACCESS_CLIENT_ID }}           # 배포 반영 폴(articles.json) = Access 벽 뒤(260923) — 서비스 토큰
+          CF_ACCESS_CLIENT_SECRET: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}
         run: bash .github/scripts/notify_summary.sh
 
       # 수집 실패 알림 — '내용이 안 들어와 대기열 미등록'을 준비된 시점에 웹푸시(탭→메시지함 실패 메시지).

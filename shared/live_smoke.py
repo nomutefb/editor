@@ -26,11 +26,18 @@
 #   ⚠ 옛 화면 apps.nomute.kr 은 옛 계정 배포라 새 저장소 커밋을 영영 안 받는다 → 그쪽을 보면 도장이 고정값에
 #     멈춰 있어 **모든 코드 푸시가 「배포 미수렴」 거짓 실패**가 된다(260816 실측 = 옛 d2a9e98 고정 ↔ 새 24e7e1b 정상).
 #   --sha = 이 배포가 수렴해야 할 BUILD_STAMP 커밋(코드 푸시 트리거가 줌 · 도장 불일치 = FAIL)
+#   env CF_ACCESS_CLIENT_ID·CF_ACCESS_CLIENT_SECRET = Access 서비스 토큰(없으면 Access 벽 = MARK ACCESS=notoken 판정 보류)
 # ═══════════════════════════════════════════════════════════════════════════════
 import argparse, json, os, re, sys, time, urllib.request
 from pathlib import Path
 
 UA = {"User-Agent": "nomute-live-smoke/1.0"}
+# Access 서비스 토큰(260923) — edit.nomute.kr 전체가 Cloudflare Access 벽 뒤라 러너는 토큰 없이는 로그인 화면만 받는다.
+#   GitHub 비밀값 CF_ACCESS_CLIENT_ID·CF_ACCESS_CLIENT_SECRET(Access 앱 정책 = Service Auth)이 있으면 모든 GET에 싣는다.
+ACCESS_ID = os.environ.get("CF_ACCESS_CLIENT_ID", "").strip()
+ACCESS_SECRET = os.environ.get("CF_ACCESS_CLIENT_SECRET", "").strip()
+if ACCESS_ID and ACCESS_SECRET:
+    UA.update({"CF-Access-Client-Id": ACCESS_ID, "CF-Access-Client-Secret": ACCESS_SECRET})
 SUBRES = ["cscroll.js", "draft.js", "marked.min.js", "marquee.js", "marquee_pet.js",
           "nm-loader.js", "nm-svg.js", "purify.min.js", "nm-cards.css", "sw.js", "manifest.json"]   # index 부팅 사슬 + 셸 한 쌍(260802 사고 축) — viewer/index.html 참조 목록과 동기(추가 시 여기도) · 실행 시 레포 트리 부재 파일은 자동 스킵(평의회 260802 L3: 정식 폐기 커밋이 라이브 404로 영구 FAIL → 의도된 삭제를 오롤백하는 축 차단)
 
@@ -98,8 +105,9 @@ def main():
         if code:
             code_fail["v"] = True
 
-    def finish(compare_ran):
-        print(f"MARK VERIFIED={'full' if compare_ran else 'partial'} CODEFAIL={1 if code_fail['v'] else 0}")   # 기계 판독(live-smoke.yml → live_rollback.py) — full = 바이트 대조 실제 수행(앵커 자격 · 평의회 L5/L7/L8)
+    def finish(compare_ran, access=""):
+        print(f"MARK VERIFIED={'full' if compare_ran else 'partial'} CODEFAIL={1 if code_fail['v'] else 0}"
+              + (f" ACCESS={access}" if access else ""))   # 기계 판독(live-smoke.yml → live_rollback.py) — full = 바이트 대조 실제 수행(앵커 자격 · 평의회 L5/L7/L8) · ACCESS = Access 벽 판정(notoken = 검문 불가 중립 · denied = 토큰 거부 알림)
         print("\n요약: " + (" · ".join(fails) if fails else "라이브 검문 전부 통과"))
         return 1 if fails else 0
 
@@ -110,8 +118,13 @@ def main():
         return finish(False)
     live = raw.decode("utf-8", "replace")
     if ACCESS_RE.search(live):
-        bad("C1 index", "Cloudflare Access 로그인 페이지가 옴 — 러너가 Access에 막힘(코드 무관 · Access 정책의 러너 통과 규칙·서비스 토큰 확인)")
-        return finish(False)   # 이후 대조·부속·articles도 전부 같은 로그인 페이지 = 추가 판정 무의미
+        # 이후 대조·부속·articles도 전부 같은 로그인 페이지 = 추가 판정 무의미 · 코드 무관(롤백 카운터 무가산)
+        if not UA.get("CF-Access-Client-Id"):
+            # 토큰 미설정 = 검문 자체가 불가(판정 보류) — 워크플로가 중립 스킵으로 받는다(코드 푸시마다 같은 경보 반복 차단 · 260923)
+            bad("C1 index", "Access 벽 — 서비스 토큰 미설정이라 검문 불가(비밀값 CF_ACCESS_CLIENT_ID·CF_ACCESS_CLIENT_SECRET 등록 필요)")
+            return finish(False, "notoken")
+        bad("C1 index", "Access가 서비스 토큰을 거부 — Access 앱 정책의 Service Auth 규칙·토큰 만료·비밀값 확인(코드 무관)")
+        return finish(False, "denied")
     if not re.search(r"</html>\s*$", live):
         bad("C1 index", f"꼬리 </html> 없음(절단 의심 · {len(raw)}B)", code=True)
     elif 'id="nm-eod"' not in live or "nmShellHeal" not in live:

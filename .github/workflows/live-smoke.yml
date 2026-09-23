@@ -47,6 +47,9 @@ jobs:
     if: ${{ github.event_name != 'push' || github.event.head_commit.author.name != 'nomute-bot' }}   # 도장·롤백 커밋(nomute-bot) 재트리거 차단(stamp-version 검증된 작성자 가드)
     runs-on: ubuntu-latest
     timeout-minutes: 28        # 수렴 대기(≤12) + 검문 + 롤백·수렴 검증(≤6) + 여유
+    env:                       # Access 서비스 토큰(260923) — 라이브 전체가 Access 벽 뒤라 토큰 없이는 로그인 화면만 온다(수렴 curl·live_smoke 공용)
+      CF_ACCESS_CLIENT_ID: ${{ secrets.CF_ACCESS_CLIENT_ID }}
+      CF_ACCESS_CLIENT_SECRET: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}
     steps:
       - uses: actions/checkout@v4   # push = 트리거 커밋(코드 정본) · schedule/dispatch = main 최신
         with:
@@ -58,8 +61,12 @@ jobs:
           EXPECT="${GITHUB_SHA::7}"
           echo "기대 도장 = $EXPECT"
           LIVE=""
+          AH=(); [ -n "$CF_ACCESS_CLIENT_ID" ] && [ -n "$CF_ACCESS_CLIENT_SECRET" ] && AH=(-H "CF-Access-Client-Id: $CF_ACCESS_CLIENT_ID" -H "CF-Access-Client-Secret: $CF_ACCESS_CLIENT_SECRET")
           for i in $(seq 1 72); do   # 10s×72 = 최대 12분 — 코드 빌드→도장 빌드 2연속 배포가 CF 큐에서 직렬 처리(260802 런#13 실측: 6분 창을 수 분 초과 도착 = 오MISS)라 여유 2배
-            LIVE=$(curl -sS --max-time 20 "${LIVE_BASE:-https://edit.nomute.kr}/?nosw=1" | grep -o "BUILD_STAMP = '[0-9a-f]\{7\}" | grep -o "[0-9a-f]\{7\}$")
+            PAGE=$(curl -sSL --max-time 20 "${AH[@]}" "${LIVE_BASE:-https://edit.nomute.kr}/?nosw=1")
+            # Access 로그인 화면 = 기다려도 도장이 안 보인다(12분 헛대기 · 260923) — 대기 생략, 판정은 검문 단계(live_smoke ACCESS 마크)
+            echo "$PAGE" | grep -qiE 'cloudflareaccess\.com/cdn-cgi/access/|<title>[^<]*Cloudflare Access' && { echo "Access 벽 — 수렴 대기 생략(검문 단계가 판정)"; exit 0; }
+            LIVE=$(echo "$PAGE" | grep -o "BUILD_STAMP = '[0-9a-f]\{7\}" | grep -o "[0-9a-f]\{7\}$")
             [ "$LIVE" = "$EXPECT" ] && { echo "수렴(${i}0s 내) ✓"; echo "SHA=$EXPECT" >> "$GITHUB_ENV"; exit 0; }
             sleep 10
           done
@@ -89,9 +96,15 @@ jobs:
             python3 shared/live_smoke.py ${SHA:+--sha "$SHA"} | tee live_smoke.log; RC=${PIPESTATUS[0]}
             grep '^요약:' live_smoke.log | sed 's/^요약: //' > smoke_fail.txt
           fi
-          MARKS=$(grep '^MARK ' live_smoke.log | tail -1 | sed 's/^MARK //')   # VERIFIED=full|partial CODEFAIL=0|1
+          MARKS=$(grep '^MARK ' live_smoke.log | tail -1 | sed 's/^MARK //')   # VERIFIED=full|partial CODEFAIL=0|1 [ACCESS=notoken|denied]
           for kv in $MARKS; do echo "$kv" >> "$GITHUB_ENV"; done
           echo "RC=$RC" >> "$GITHUB_ENV"
+          if echo " $MARKS " | grep -q ' ACCESS=notoken '; then
+            # 토큰 미설정 = 검문 불가(판정 보류) — 원장·롤백·웹푸시·적색 전부 생략(코드 푸시마다 같은 경보가 폰에 반복되던 축 · 260923)
+            #   토큰 등록(비밀값 CF_ACCESS_CLIENT_ID·CF_ACCESS_CLIENT_SECRET) 즉시 전문 검문 자동 복귀 · 등록 후에도 막히면 ACCESS=denied = 알림
+            echo "::warning::라이브 검문 보류 — Access 서비스 토큰 미설정(러너가 로그인 화면만 받음). 비밀값 CF_ACCESS_CLIENT_ID·CF_ACCESS_CLIENT_SECRET 등록 시 자동 복귀"
+            echo "SKIP=1" >> "$GITHUB_ENV"
+          fi
           exit 0
       - name: 연속성 원장 + 자가 롤백 판정(live_rollback.py — 레일 = 코드축 연속2·1회 래치·킬스위치·full 앵커·tip 재구축)
         if: ${{ env.SKIP != '1' && env.DEPLOYMISS != '1' }}

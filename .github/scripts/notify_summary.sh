@@ -52,8 +52,11 @@ DEPLOY_POLL="${PUSH_DEPLOY_POLL:-8}"     # 폴 간격(초).
 EXPECT_SHA="${EXPECT_SHA:-}"
 [ -n "$EXPECT_SHA" ] || EXPECT_SHA="$(git rev-parse HEAD 2>/dev/null || true)"
 
+AH=()   # Access 서비스 토큰(260923 · 라이브 전체가 Access 벽 뒤) — 없으면 로그인 화면(JSON 아님) = 매번 DEPLOY_WAIT 헛대기 후 발송
+[ -n "${CF_ACCESS_CLIENT_ID:-}" ] && [ -n "${CF_ACCESS_CLIENT_SECRET:-}" ] \
+  && AH=(-H "CF-Access-Client-Id: $CF_ACCESS_CLIENT_ID" -H "CF-Access-Client-Secret: $CF_ACCESS_CLIENT_SECRET")
 live_commit() {   # 라이브 articles.json 의 빌드 커밋 SHA(없으면 빈문자열)
-  curl -fsS --max-time 12 "${AJSON}?_=$(date +%s)" 2>/dev/null \
+  curl -fsS --max-time 12 ${AH[@]+"${AH[@]}"} "${AJSON}?_=$(date +%s)" 2>/dev/null \
     | python3 -c "import json,sys;print((json.load(sys.stdin).get('commit') or '').strip())" 2>/dev/null
 }
 deployed() {   # 라이브 빌드가 이번 분석(EXPECT_SHA)을 포함하면 0

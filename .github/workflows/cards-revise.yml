@@ -105,6 +105,8 @@ jobs:
         env:
           VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
           VAPID_SUBJECT: ${{ secrets.VAPID_SUBJECT }}
+          CF_ACCESS_CLIENT_ID: ${{ secrets.CF_ACCESS_CLIENT_ID }}           # 배포 반영 폴(articles.json) = Access 벽 뒤(260923) — 서비스 토큰
+          CF_ACCESS_CLIENT_SECRET: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}
           VIEWER_BASE: https://edit.nomute.kr
           FILE: ${{ inputs.file }}
           NOTIFY_TITLE: 카드 수정 완료

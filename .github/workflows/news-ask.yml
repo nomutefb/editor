@@ -208,6 +208,8 @@ jobs:
         env:
           VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
           VAPID_SUBJECT: ${{ secrets.VAPID_SUBJECT }}
+          CF_ACCESS_CLIENT_ID: ${{ secrets.CF_ACCESS_CLIENT_ID }}           # 배포 반영 폴(articles.json) = Access 벽 뒤(260923) — 서비스 토큰
+          CF_ACCESS_CLIENT_SECRET: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}
         run: bash .github/scripts/notify_summary.sh
 
       # 요약 요청 실패 푸시 — ask.sh 가 /tmp/analyzed_fail_msgs.txt 에 적재한 실패 base 를 통지(탭→메시지함 실패 메시지). news-analyze 와 동일 패턴(운영자 260629 ask 경로 푸시 통일).
