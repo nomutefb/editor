@@ -230,6 +230,16 @@ class Flow(unittest.TestCase):
         rc, out = self.gate()
         self.assertEqual(rc, 0, out)
 
+    def test_rollback_with_follower_warns(self):
+        self.run_am("opus", "claude-opus-5-5", "Opus 5.5", "오퍼스 5.5")
+        self.run_am("fable", "--follow", "opus")
+        with contextlib.redirect_stdout(io.StringIO()) as out:
+            rc = AM.main(["apply_models.py", "opus", "claude-opus-5", "Opus 5", "오퍼스 5", "--dry"])
+        self.assertEqual(rc, 0)
+        self.assertIn("롤백", out.getvalue())
+        self.assertEqual(AM.version_of("claude-opus-5-5"), (5, 5))
+        self.assertLess(AM.version_of("claude-opus-5"), AM.version_of("claude-opus-5-5"))
+
     def test_unknown_flag_is_refused_without_writing(self):
         before = self.f("shared/model_env.sh")
         self.assertEqual(self.run_am("opus", "claude-opus-6", "Opus 6", "오퍼스 6", "--dry-run"), 2)

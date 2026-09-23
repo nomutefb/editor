@@ -66,6 +66,11 @@ def keyed_label_rx(tier):
     return re.compile(r"(\b%s:\s*')([^'\n]*)(')" % re.escape(tier))
 
 
+def version_of(model_id):
+    """`claude-opus-5-5` → (5, 5) · `claude-opus-6` → (6,) — 같은 계열 안의 올림/내림 판정용(날짜 접미사는 버전 뒤 숫자로 취급)."""
+    return tuple(int(x) for x in re.findall(r'(?<=-)[0-9]+', model_id))
+
+
 def load():
     with open(REG, encoding='utf-8') as f:
         return json.load(f)
@@ -245,6 +250,9 @@ def promote(reg, tier, old, new, dry):
     files, hits = rewrite(sorted(set(scan_files(reg)) | set(keyed_paths(reg))), pairs, dry)
     if followers:
         print('   대행 티어 동기: %s (대행 자리 값이 같아 위 치환에 포함)' % ', '.join(followers))
+        if version_of(new['id']) < version_of(old['id']):   # 롤백 = 막지는 않는다(긴급 되돌림) · 대행 티어가 같이 내려감을 알린다
+            print('   ⚠️ 내리는 승격(롤백) — 대행 중인 [%s]도 %s로 같이 내려간다. 원치 않으면 먼저 그 티어를 자기 모델로 복귀시켜라'
+                  '(python3 shared/apply_models.py <티어> <ID> "<표시명>" "<한글명>").' % (', '.join(followers), new['id']))
     if dry:
         print('— 미리보기 끝: %d파일 %d곳(파일 미변경 · 정본 미갱신).' % (files, hits))
         return 0
