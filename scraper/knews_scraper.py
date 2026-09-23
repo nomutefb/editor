@@ -83,6 +83,17 @@ STOPWORDS = {
     "실적", "역대", "최대", "최고", "기록", "발표", "증가", "감소", "흑자",
     "적자", "전년", "대비", "규모", "달성",
 }
+# 영문 기능어(260923 · 외신 균형 확충 전제) — 구판은 한국어 불용어만 있어 영문 제목끼리 "in·the·of" 3개만 겹쳐도 같은 사건으로
+#   묶였다(라이브 영문 105건 스냅샷에서 기능어 위주 연결 26쌍 실측 = 무관 외신이 한 덩어리). 영문 토큰은 소문자로 맞춘 뒤 거른다
+#   (NYT 제목식 대문자 표기와 소문자 표기가 서로 안 맞던 것도 함께 해소). "us" 는 미국(US)과 겹쳐 일부러 뺐다.
+EN_STOPWORDS = {
+    "a", "an", "the", "in", "on", "at", "of", "to", "for", "from", "by", "with", "and", "or", "as", "is", "are",
+    "was", "were", "be", "been", "it", "its", "this", "that", "these", "those", "after", "over", "into", "amid",
+    "says", "say", "said", "will", "would", "could", "can", "may", "has", "have", "had", "not", "but", "up",
+    "out", "new", "how", "why", "what", "who", "when", "where", "we", "he", "she", "they", "his", "her", "their",
+    "you", "your", "our", "than", "more", "about", "before", "under", "against", "between", "during", "off",
+    "all", "no", "if", "so", "just", "now", "get", "gets", "set", "near", "via", "per", "vs",
+}
 
 FEED_DELAY = 0.4    # 피드 간 딜레이(초) — 서버 매너(같은 호스트 안에서만 · 아래 FETCH_HOSTS)
 REQ_TIMEOUT = 10    # 요청 타임아웃(초)
@@ -109,6 +120,17 @@ NET_FAILS = set()   # 이번 회차 네트워크 계열 실패(연결·시간 �
 MIN_TOKEN_OVERLAP = int(os.environ.get("CLUSTER_MIN_OVERLAP", "3"))
 # 겹침이 1개뿐일 때 보조로 쓰는 자카드 임계값(짧은 제목 보정)
 JACCARD_BACKUP = float(os.environ.get("CLUSTER_JACCARD", "0.5"))
+# 영문 제목끼리(양쪽 다 한글 토큰 0)는 문턱을 올린다(260923): 영문 헤드라인은 길고 Trump·US·Iran·UN 같은 화제어를 흔히 공유해
+#   겹침 3개 단일 연결이 무관 기사를 사슬로 잇는다(라이브 실측 = 23~28건 덩어리 · 대표 제목이 「현대차 실적」인 교차 6 사건).
+#   4개 겹침 또는 3개 겹침 ∧ 자카드 0.3 이상 → 덩어리 28→7 · 실제 사건(스리랑카 판결 5매체·남아공 총격 3·허리케인 폴로 3·그린란드 2) 보존.
+#   한글이 한쪽이라도 있으면 종전 규칙 그대로(국내 클러스터 무영향). 롤백 = env CLUSTER_EN_MIN_OVERLAP=3 · CLUSTER_EN_JACCARD3=9.
+EN_MIN_OVERLAP = int(os.environ.get("CLUSTER_EN_MIN_OVERLAP", "4") or 4)
+EN_JACCARD3 = float(os.environ.get("CLUSTER_EN_JACCARD3", "0.3") or 0.3)
+_HANGUL = re.compile(r"[가-힣]")
+
+
+def _en_only(toks):
+    return not any(_HANGUL.search(t) for t in toks)
 
 
 def log(msg):
@@ -182,7 +204,16 @@ def tokenize(title):
     # 한글/영문/숫자를 각각 분리 추출 — "2500선"이 "2500"+"선"으로 갈려
     # 매체 간 숫자 공통 토큰(예: 코스피 '2500')이 제대로 매칭된다. 1글자는 버림.
     tokens = re.findall(r"[가-힣]{2,}|[A-Za-z]{2,}|[0-9]{2,}", title)
-    return {t for t in tokens if t not in STOPWORDS}
+    out = set()
+    for t in tokens:
+        if t in STOPWORDS:
+            continue
+        if t.isascii() and t.isalpha():
+            t = t.lower()
+            if t in EN_STOPWORDS:
+                continue
+        out.add(t)
+    return out
 
 
 def jaccard(a, b):
@@ -207,6 +238,10 @@ def same_topic(ta, tb):
     if all(t.isdigit() for t in shared):
         return False
     inter = len(shared)
+    if _en_only(ta) and _en_only(tb):
+        if inter >= EN_MIN_OVERLAP or (inter >= 3 and jaccard(ta, tb) >= EN_JACCARD3):
+            return True
+        return jaccard(ta, tb) >= JACCARD_BACKUP
     if inter >= MIN_TOKEN_OVERLAP:
         return True
     return jaccard(ta, tb) >= JACCARD_BACKUP
