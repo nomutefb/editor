@@ -9,7 +9,7 @@ PROMPT_FILE="prompts/sb-make.md"
 source "$ROOT/shared/model_env.sh"   # 모델 단일 원천(PIPE_MODEL — 감독 미지정 폴백)
 case "${DIRECTOR:-}" in
   opus) MODEL="claude-opus-5-5" ;;    # 감독 = 오퍼스 5.5(정적·감성·가성비)
-  fable) MODEL="claude-fable-5" ;;    # 감독 = 페이블 5(역동·서사·재생성 절약)
+  fable) MODEL="$FABLE_MODEL" ;;    # 감독 = 페이블 티어(역동·서사·재생성 절약 · 모델 = model_env.sh FABLE_MODEL)
   *) MODEL="$PIPE_MODEL" ;;
 esac
 source "$ROOT/shared/claude_transient.sh"  # is_quota()/claude_failover()/is_transient() SSOT — 쿼터 한도 시 4계정 자동 로테이션·일시 과부하 재시도(kmake와 통일·§📰)

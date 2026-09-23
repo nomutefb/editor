@@ -7,7 +7,7 @@
 set -uo pipefail
 ROOT="$(git rev-parse --show-toplevel)"; cd "$ROOT"
 source "$ROOT/shared/model_env.sh"   # 모델 단일 원천(PIPE_MODEL — 생성/창작 = opus 유지 · §모델 d)
-MODEL="${SONG_MODEL:-claude-fable-5}"   # 음원 프롬프트 = Fable 5 기본(운영자 260722 · 생각 많이·품질 차이 · 창작 티어) — 토글 SONG_MODEL=claude-opus-5-5
+MODEL="${SONG_MODEL:-$FABLE_MODEL}"   # 음원 프롬프트 = 페이블 티어(모델 = model_env.sh FABLE_MODEL · 운영자 260722 · 생각 많이·품질 차이 · 창작 티어) — 토글 SONG_MODEL=claude-opus-5-5
 source "$ROOT/shared/claude_transient.sh"  # is_quota()/claude_failover()/is_transient() SSOT — 4계정 로테이션(§📰)
 source "$ROOT/shared/claude_meter.sh"      # claude_meter() SSOT — 토큰 계측
 INLINE_TRIES="${INLINE_TRIES:-4}"   # 쿼터 폴오버 체인 깊이(4계정)와 동수 — clipmake 동일

@@ -20,7 +20,16 @@
       "id": "claude-fable-5",
       "en": "Fable 5",
       "ko": "페이블 5",
-      "축": "창작 티어 기본(kmake·trauto·songmake·sbmake·clipmake·gen_image) — 실패 시 opus 1회 폴백"
+      "축": "페이블 티어 = 중요 창작(품질 차이가 큰 일 · 운영자 260721~22): AI 이미지 프롬프트(gen_image)·클링(kmake)·음원(songmake)·번역카드(trauto)·콘티 감독 fable(sbmake)·쇼츠 컷(clipmake)·테이크(takemake). 호출처는 FABLE_MODEL 변수만(sites · 게이트 강제) — 실패 시 오퍼스 티어 1회 폴백(같은 모델이면 스크립트가 자동 생략)",
+      "sites": [
+        ".github/scripts/gen_image.py",
+        ".github/scripts/kmake.sh",
+        ".github/scripts/songmake.sh",
+        ".github/scripts/trauto.sh",
+        ".github/scripts/clipmake.sh",
+        ".github/scripts/takemake.sh",
+        ".github/scripts/sbmake.sh"
+      ]
     },
     "haiku": {
       "id": "claude-haiku-4-5-20251001",

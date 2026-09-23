@@ -8,7 +8,7 @@ set -uo pipefail
 ROOT="$(git rev-parse --show-toplevel)"; cd "$ROOT"
 PROMPT_FILE="prompts/take-make.md"
 source "$ROOT/shared/model_env.sh"   # 모델 단일 원천(PIPE_MODEL · §모델)
-MODEL="${TAKE_MODEL:-claude-fable-5}"   # 클리퍼(구간선정)와 같은 티어 = 판단형 · 폴백 = Opus
+MODEL="${TAKE_MODEL:-$FABLE_MODEL}"   # 클리퍼(구간선정)와 같은 티어 = 판단형(페이블 티어 · 모델 = model_env.sh FABLE_MODEL) · 폴백 = Opus
 source "$ROOT/shared/claude_transient.sh"  # is_quota()/claude_failover()/is_transient() SSOT
 source "$ROOT/shared/claude_meter.sh"      # claude_meter() SSOT — 토큰 계측
 INLINE_TRIES="${INLINE_TRIES:-4}"
