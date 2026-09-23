@@ -552,6 +552,7 @@ def main():
         age = _age_h_first(c.get("published"), c.get("first_seen"))
         return 1 if age is not None and -10 <= age < FRESH_KEEP_H else 0   # -10h 하한 = 선의 KST+00 스큐(≤9h 미래)만 신선 허용 — 임의 미래값(2099 등)이 TTL(10일)까지 1군 영구 점유하는 슬롯 고갈 벡터 차단(평의회6) · 양측 결측·전부 파싱실패 = 구군(보수 — 옛 nowiso 폴백의 '불멸 1군' 구멍 폐쇄 · 평의회1·4)
     kept.sort(key=lambda c: (fresh_tier(c), c.get("cross") or 0, c.get("published") or ""), reverse=True)   # 1군(신선·긴급) 먼저 생존 → 2군 = 종전 cross·발행 내림차(누적 상위 유지 불변) — CAP 컷은 2군 꼬리만 침
+    cut_cum = sum(1 for c in kept[CAP:] if (c.get("cross") or 0) >= 8)   # 누적 칼럼 진입선(뷰어 CROSS_MIN=8)급이 잘린 수 — 신선 1군 보호가 누적 노출분을 밀어내는 붐빔 날 계기판(평의회2-5)
     kept = kept[:CAP]
     # 바이트 하드예산(평의회2·8 독립 수렴 260716): 건수 CAP 통과해도 직렬화가 MAX_BYTES 초과면 정렬 꼬리(2군 저cross)부터 기계적 제거 —
     #   api/candidates 1MB 초과 = 빈[] = 수집함 전체 텅빔(260714 사고)의 재발을 쓰기 지점이 직접 봉쇄(check_refs 1MB 가드 = WARN-only + 스크랩 자동커밋은 게이트 밖 = 이빨 없음 실측).
@@ -561,6 +562,7 @@ def main():
     while kept and len(blob.encode("utf-8")) > MAX_BYTES:
         over = len(blob.encode("utf-8")) - MAX_BYTES
         drop = max(1, over // 1600)   # 평균 엔트리 ~1.3KB — 보수 나눔(1.6KB)으로 과컷 방지 · 부족분은 재실측 루프가 마저 컷
+        cut_cum += sum(1 for c in kept[-drop:] if (c.get("cross") or 0) >= 8)
         del kept[-drop:]
         trimmed += drop
         blob = json.dumps(kept, ensure_ascii=False)
@@ -578,7 +580,8 @@ def main():
     print(f"수집함: 사건 {len(kept)}건 (신규 {len(fresh)} · 기존 {len(existing)}) · "
           f"보관한도 {CAP} · 보관기간 {TTL_HOURS}h(약 {TTL_HOURS // 24}일) · 교차≥{MIN_CROSS} · "
           f"🚨속보후보(burst≥{BREAKING_BURST}) {nbreak}건 · 단독1보 입장 {solo_in}건(보유 {sum(1 for c in kept if is_solo(c))}) · "
-          f"신선1군 {len(t1)}건(최소 cross {t1min}) · 바이트예산 {len(blob.encode('utf-8'))}B/{MAX_BYTES}B 트림 {trimmed}건")
+          f"신선1군 {len(t1)}건(최소 cross {t1min}) · 바이트예산 {len(blob.encode('utf-8'))}B/{MAX_BYTES}B 트림 {trimmed}건"
+          + (f" · ⚠️ 누적급(cross≥8) 컷 {cut_cum}건" if cut_cum else ""))
 
 
 if __name__ == "__main__":

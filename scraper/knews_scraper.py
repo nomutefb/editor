@@ -97,7 +97,7 @@ EN_STOPWORDS = {
     "you", "your", "our", "than", "more", "about", "before", "under", "against", "between", "during", "off",
     "all", "no", "if", "so", "just", "now", "get", "gets", "set", "near", "via", "per", "vs",
     # 관용구·라이브블로그 꼬리(평의회2-1 실측 — "for the first time since"·"– US politics live"가 4개 겹침 경로로 무관 외신을 이었다)
-    "first", "since", "time", "live", "updates", "latest",
+    "first", "since", "time", "live", "updates", "latest", "happened",
 }
 
 FEED_DELAY = 0.4    # 피드 간 딜레이(초) — 서버 매너(같은 호스트 안에서만 · 아래 FETCH_HOSTS)
@@ -128,9 +128,17 @@ JACCARD_BACKUP = float(os.environ.get("CLUSTER_JACCARD", "0.5"))
 # 영문 제목끼리(양쪽 다 한글 토큰 0)는 문턱을 올린다(260923): 영문 헤드라인은 길고 Trump·US·Iran·UN 같은 화제어를 흔히 공유해
 #   겹침 3개 단일 연결이 무관 기사를 사슬로 잇는다(라이브 실측 = 23~28건 덩어리 · 대표 제목이 「현대차 실적」인 교차 6 사건).
 #   4개 겹침 또는 3개 겹침 ∧ 자카드 0.3 이상 → 덩어리 28→7 · 실제 사건(스리랑카 판결 5매체·남아공 총격 3·허리케인 폴로 3·그린란드 2) 보존.
-#   한글이 한쪽이라도 있으면 종전 규칙 그대로(국내 클러스터 무영향). 롤백 = env CLUSTER_EN_MIN_OVERLAP=3 · CLUSTER_EN_JACCARD3=9.
-EN_MIN_OVERLAP = int(os.environ.get("CLUSTER_EN_MIN_OVERLAP", "4") or 4)
-EN_JACCARD3 = float(os.environ.get("CLUSTER_EN_JACCARD3", "0.3") or 0.3)
+#   한글이 한쪽이라도 있으면 종전 규칙 그대로(국내 클러스터 무영향). 문턱만 되돌리기 = env CLUSTER_EN_MIN_OVERLAP=3 · CLUSTER_EN_JACCARD3=9
+#   (기능어 필터·소문자화까지 되돌리려면 git revert).
+def _env_num(name, default, cast):
+    try:
+        return cast(os.environ.get(name, "") or default)
+    except ValueError:
+        return default
+
+
+EN_MIN_OVERLAP = _env_num("CLUSTER_EN_MIN_OVERLAP", 4, int)
+EN_JACCARD3 = _env_num("CLUSTER_EN_JACCARD3", 0.3, float)
 _HANGUL = re.compile(r"[가-힣]")
 
 
@@ -169,6 +177,7 @@ def load_feeds(csv_path, categories):
 _TRACKING_PARAMS = {
     "utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content",
     "fbclid", "gclid", "igshid", "spm", "ref", "ref_src", "cid", "ncid",
+    "maca",   # DW RSS 추적 꼬리(maca=en-rss-…) · 260923 외신 추가분
 }
 
 
@@ -457,14 +466,25 @@ BURST_WINDOW_MIN = 15
 # 풀텍스트지만 종합지·지상파 다음(군소보단 위). 미등재 매체는 _pick_rank 가 최하(len) → 자동 후순위.
 # ⚠️ url/dedup/event_key/cross/클러스터링은 불변 — 이 순위는 '대표 표시·원문 링크' 픽에만 영향(주변부).
 # ⚠️ 중앙일보·한국일보 = 현재 '유령'(feeds.csv 피드 0개 — 중앙 RSS는 공식 종료 페이지 실측·한국일보 RSS 미확인 = 260702).
+#   260923 = 한국경제(폰·러너 모두 실패)·이데일리·노컷뉴스도 피드 0개(정리 사유 = scraper/README 소스 현황).
 #   수집 0이라 픽 매칭도 0(무해 dead entry). 목록엔 유지 — 미래 재수집(신규 피드·네이버API 등) 시 순위 자동 복원.
 PICK_PRIORITY = [
     "조선일보", "동아일보", "중앙일보", "세계일보", "국민일보",   # 보수 메이저(종합·풀텍스트)
     "한국일보", "서울신문", "한겨레신문", "경향신문",            # 중도·중진보 메이저(종합·풀텍스트)
     "한국경제", "매일경제", "이데일리",                          # 경제 메이저
-    "SBS", "MBC", "노컷뉴스",                                   # 지상파·방송
-    "연합뉴스", "뉴시스",                                       # 통신사(풀텍스트 통신 — 종합지·지상파 다음)
+    "서울경제",                                                 # 경제 메이저(260923 추가 피드)
+    "SBS", "MBC", "JTBC", "MBN", "노컷뉴스",                    # 지상파·방송(JTBC·MBN = 260923 추가 피드)
+    "연합뉴스", "뉴시스", "연합뉴스TV",                         # 통신사(풀텍스트 통신 — 종합지·지상파 다음)
 ]
+
+
+# 교차(cross)·burst 셈에서 같은 보도국으로 보는 매체(260923 평의회2-5 · 연합뉴스TV = 연합 계열 재송출 · MBN = 매일경제 계열).
+#   표시·원문 링크·건강 원장은 피드 이름 그대로 — 「몇 개 언론사가 썼나」 셈만 합친다(같은 계열 두 피드가 교차 +1 을 만들던 것).
+CROSS_ALIAS = {"연합뉴스TV": "연합뉴스", "MBN": "매일경제"}
+
+
+def _cross_pub(pub):
+    return CROSS_ALIAS.get(pub, pub)
 
 
 def _pick_rank(pub):
@@ -479,7 +499,7 @@ def _burst(members, articles):
         if not p:
             continue
         try:
-            pts.append((datetime.fromisoformat(p), articles[m]["publisher"]))
+            pts.append((datetime.fromisoformat(p), _cross_pub(articles[m]["publisher"])))
         except ValueError:
             continue
     pts.sort(key=lambda x: x[0])
@@ -525,7 +545,7 @@ def score_crosspost(articles):
         clusters[find(i)].append(i)
 
     for members in clusters.values():
-        pubs = {articles[m]["publisher"] for m in members}
+        pubs = {_cross_pub(articles[m]["publisher"]) for m in members}
         score = len(pubs)  # 몇 개 매체에 떴나 = 주요도
         # 클러스터 대표 = 가장 먼저 보도한 기사(최초 발) — 빈 시각은 뒤로
         rep = min(members, key=lambda m: (articles[m]["published"] is None,

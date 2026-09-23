@@ -47,7 +47,7 @@ class EnglishClusterTest(unittest.TestCase):
         self.assertTrue(same("Hurricane Polo intensifies into rare category 5 storm off the coast of Mexico",
                              "Hurricane Polo churns off Mexico"))   # 짧은 제목 = 3개 겹침 ∧ 자카드 0.3
 
-    def test_korean_rule_unchanged(self):
+    def test_korean_clustering_unchanged_except_lowercase(self):
         self.assertTrue(same("강훈식 비서실장 사의 표명…이 대통령 수용 여부 주목", "[속보] 강훈식 비서실장 사의 표명"))
         self.assertEqual(K.tokenize("[속보] 이재명 대통령 AI 기본법 서명"), {"이재명", "대통령", "ai", "기본법", "서명"})
 
@@ -66,6 +66,15 @@ class EnglishClusterTest(unittest.TestCase):
         # 평의회2-1: "for the first time since" 로 무관 외신이 4개 겹침 경로를 탔다
         self.assertFalse(same("Trump meets US-backed Venezuelan president for first time since Maduro seized",
                               "Live: Pezeshkian set to address UN for the first time since US strikes"))
+
+
+class CrossAliasTest(unittest.TestCase):
+    def test_affiliated_outlets_count_once(self):
+        # 평의회2-5: 연합뉴스TV(연합 계열)·MBN(매경 계열)이 같은 사건 교차를 +1 부풀리던 것
+        arts = [{"title": "남아공 총격 11명 사망 파티장", "link": u, "publisher": p, "published": "2026-09-23T07:2%d:00+00:00" % i}
+                for i, (u, p) in enumerate([("a", "연합뉴스"), ("b", "연합뉴스TV"), ("c", "MBN")])]
+        K.score_crosspost(arts)
+        self.assertEqual({a["cross_score"] for a in arts}, {2})
 
 
 class GroupJudgeEnglishTest(unittest.TestCase):
