@@ -87,15 +87,16 @@ async function directPlan(env, lines, ctx) {
     },
     body: JSON.stringify({
       model: 'claude-opus-5-5',
-      max_tokens: 2048,
+      max_tokens: 16000,   // 생각도 max_tokens를 먹는다(5.5 = 생각 항상 켜짐) — 2048이면 생각이 다 쓰고 JSON이 잘릴 수 있다
       system: TR_RULES,
       messages: [{ role: 'user', content }],
-      output_config: { effort: 'high', format: { type: 'json_schema', schema: PLAN_SCHEMA } },   // effort = Opus 5.5 기본 medium(한 세대 전 기본은 high) → high 명시 = 종전 깊이 유지
+      output_config: { effort: 'high', format: { type: 'json_schema', schema: PLAN_SCHEMA } },   // effort = 같은 단계(high) 유지(5.5 기본 = medium) · 5.5는 같은 단계에서 한 세대 전보다 더 깊게 생각하고 생각도 max_tokens를 먹는다
     }),
   });
-  if (!r.ok) throw new Error(`anthropic ${r.status}`);
+  if (!r.ok) throw new Error(`anthropic ${r.status} ${(await r.text()).slice(0, 200)}`);   // 본문 = 모델 부재·권한·한도 사유(로그 판독용)
   const m = await r.json();
   if (m.stop_reason === 'refusal') throw new Error('refusal');
+  if (m.stop_reason !== 'end_turn') throw new Error(`stop ${m.stop_reason}`);   // max_tokens 잘림 = 반쪽 JSON 파싱 전에 사유를 분명히(러너 폴백)
   const txt = ((m.content || []).find(b => b.type === 'text') || {}).text || '';
   const plan = JSON.parse(txt);   // structured outputs = 스키마 유효 JSON 보장
   if (!Array.isArray(plan.hl) || !plan.hl.length || !Array.isArray(plan.chips) || !plan.chips.length) throw new Error('빈 플랜');
@@ -125,7 +126,7 @@ export async function onRequestPost({ request, env }) {
 
   // ① 즉답 경로(키 있을 때만 · 실패 = 조용히 폴백 — fail-soft)
   if (env.ANTHROPIC_API_KEY) {
-    try { return json({ plan: await directPlan(env, lines, ctx) }); } catch (_) { /* 폴백 계속 */ }
+    try { return json({ plan: await directPlan(env, lines, ctx) }); } catch (e) { console.warn('tr 즉답 실패 → 워크플로 폴백:', String((e && e.message) || e)); }   // 폴백은 조용히 · 사유는 로그에(잘림·거절·한도 판독)
   }
 
   // ② 워크플로 폴백(구독 OAuth 무료 · 2~4분) — api/k.js 패턴 그대로

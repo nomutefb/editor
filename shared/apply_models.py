@@ -40,6 +40,8 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 REG = os.path.join(ROOT, 'shared', 'models.json')
 # 표시명 뒤 = 인원 접미사(인·명) · 버전 연장(`Opus 5` ⊂ `Opus 5.5`·`Opus 50`) → 모델명 아님
 NAME_GUARD = r'(?![인명0-9]|\.[0-9])'
+# 소수 버전(`Opus 5.5`·`Haiku 4.5`) = 인원일 수 없다 → 인·명 가드 없이 버전 연장만(`Opus 5.5인데`도 치환·검사 대상)
+NAME_GUARD_DEC = r'(?![0-9]|\.[0-9])'
 # ID 뒤 = 버전 연장(`claude-opus-5` ⊂ `claude-opus-5-5`·`claude-opus-5.1`·`claude-opus-50`) → 다른 모델 · 문장 끝 마침표·따옴표·괄호는 경계
 ID_GUARD = r'(?![0-9a-z]|[-.][0-9a-z])'
 # ID 본체 = 끝의 `.`·`-`는 ID가 아니다(문장 끝 마침표 `claude-opus-5.` = 경계 — ID_GUARD와 같은 규약)
@@ -51,7 +53,7 @@ def id_rx(model_id):
 
 
 def name_rx(name):
-    return re.compile(re.escape(name) + NAME_GUARD)
+    return re.compile(re.escape(name) + (NAME_GUARD_DEC if re.search(r'[0-9]\.[0-9]', name) else NAME_GUARD))
 
 
 def keyed_id_rx(tier):
@@ -102,11 +104,37 @@ def scan_files(reg):
     return sorted(set(out))
 
 
+def keyed_spec(reg, kind):
+    """models.json `keyed.<kind>` = {파일: [그 파일에 반드시 있어야 할 티어 키]} (목록 형식 = 요구 티어 없음)."""
+    spec = reg.get('keyed', {}).get(kind, {})
+    return spec if isinstance(spec, dict) else {p: [] for p in spec}
+
+
 def keyed_paths(reg, kind=None):
-    """키 기준 치환 자리(models.json `keyed.ids`·`keyed.labels`) 절대경로 — kind 생략 = 둘 다."""
-    kd = reg.get('keyed', {})
+    """키 기준 치환 자리 절대경로 — kind 생략 = ids·labels 둘 다."""
     kinds = [kind] if kind else ['ids', 'labels']
-    return sorted({os.path.join(ROOT, p) for k in kinds for p in kd.get(k, [])})
+    return sorted({os.path.join(ROOT, p) for k in kinds for p in keyed_spec(reg, k)})
+
+
+def keyed_shortfall(reg, tier):
+    """이 티어 키 자리가 있어야 할 파일인데 0건인 곳 — 모양이 바뀌면 키 치환이 조용히 빠진다(fail-closed용)."""
+    out = []
+    for kind, rx in (('ids', keyed_id_rx(tier)), ('labels', keyed_label_rx(tier))):
+        for rel, need in keyed_spec(reg, kind).items():
+            src = read(os.path.join(ROOT, rel))
+            if tier in need and (src is None or not rx.search(src)):
+                out.append('%s (%s)' % (rel, kind))
+    return out
+
+
+def tier_values(t):
+    """티어가 지금 쓰는 값 = ID + 표시명 3변형 + 한글명(은퇴 등재 제외 대상)."""
+    vals = {t['id']}
+    if t.get('en'):
+        vals |= set(name_variants(t['en']))
+    if t.get('ko'):
+        vals.add(t['ko'])
+    return vals
 
 
 def name_variants(en):
@@ -152,9 +180,13 @@ def rewrite(paths, subs, dry):
 
 
 def retire(reg, values):
-    retired = list(reg.get('retired', []))
+    """티어 갱신 **뒤에** 부른다 — 지금 어느 티어든 쓰는 값은 은퇴 목록에서 빼고(복귀 허용), 안 쓰는 옛 값만 더한다."""
+    use = set()
+    for t in reg['tiers'].values():
+        use |= tier_values(t)
+    retired = [r for r in reg.get('retired', []) if r not in use]
     for v in values:
-        if v and v not in retired:
+        if v and v not in retired and v not in use:
             retired.append(v)
     reg['retired'] = retired
     return len(retired)
@@ -198,6 +230,13 @@ def promote(reg, tier, old, new, dry):
         print('❌ 새 ID %s는 [%s] 티어가 이미 쓴다 — 같은 모델을 쓰게 하려면 `python3 shared/apply_models.py %s --follow %s`(대행).'
               % (new['id'], ', '.join(taken), tier, taken[0]))
         return 2
+    for key in ('en', 'ko'):   # 표시명도 같다 — 다른 티어가 쓰는 이름을 글자 치환하면 그 티어 산문·라벨까지 바뀐다
+        o, n = old.get(key), new.get(key)
+        users = [k for k, t in tiers.items() if k != tier and k not in followers and o and t.get(key) == o]
+        if o and n and o != n and users:
+            print('❌ 옛 표시명 %r를 [%s] 티어도 쓴다 — 글자 치환이 그 티어까지 바꾼다(정본 %s 값 먼저 정리).'
+                  % (o, ', '.join(users), key))
+            return 2
 
     pairs = build_pairs(old, new)
     print('승격: [%s] %s → %s  ·  표시명 %s → %s / %s → %s%s'
@@ -214,7 +253,12 @@ def promote(reg, tier, old, new, dry):
     tiers[tier] = new
     for k in followers:
         tiers[k] = dict(tiers[k], id=new['id'], en=new.get('en'), ko=new.get('ko'))
-    n = retire(reg, [old['id']] + (name_variants(old['en']) if old.get('en') else []) + [old.get('ko')])
+    gone = [old['id']] if old['id'] != new['id'] else []
+    if old.get('en') and old.get('en') != new.get('en'):
+        gone += name_variants(old['en'])
+    if old.get('ko') and old.get('ko') != new.get('ko'):
+        gone.append(old['ko'])
+    n = retire(reg, gone)   # 실제로 바뀐 값만(ID만 승격 = 표시명은 계속 쓰는 중)
     save(reg)
     print('✅ %d파일 %d곳 치환 + 정본 갱신(구세대 %d종 은퇴 등재).' % (files, hits, n))
     print('   다음: git diff 확인 → python3 shared/check_refs.py (rc=0) → 커밋')
@@ -234,16 +278,25 @@ def follow(reg, tier, target, dry):
         print('❌ [%s]를 대행 중인 티어가 있다 — 대행 티어를 또 대행시키면 연쇄가 된다' % tier)
         return 2
     cur, lead = tiers[tier], tiers[target]
-    if cur.get('follow') == target:
+    same = (cur['id'], cur.get('en'), cur.get('ko')) == (lead['id'], lead.get('en'), lead.get('ko'))
+    spots = [m.group(2) for p in keyed_paths(reg, 'ids') for m in keyed_id_rx(tier).finditer(read(p) or '')] + \
+            [m.group(2) for p in keyed_paths(reg, 'labels') for m in keyed_label_rx(tier).finditer(read(p) or '')]
+    if cur.get('follow') == target and same and all(v in (lead['id'], lead.get('en')) for v in spots):
         print('변경 없음 — [%s]는 이미 [%s] 대행(%s)' % (tier, target, cur['id']))
         return 0
+    short = keyed_shortfall(reg, tier)
+    if short:
+        print('❌ 대행 불가 — [%s] 키 자리가 없다(한 줄 `%s_MODEL` 기본값·`%s: \'표시명\'` 꼴이어야 키 치환이 닿는다): %s'
+              % (tier, tier.upper(), tier, ', '.join(short)))
+        return 2
     subs_id = [(keyed_id_rx(tier), lambda m: m.group(1) + lead['id'])]
     subs_lb = [(keyed_label_rx(tier), lambda m: m.group(1) + lead['en'] + m.group(3))] if lead.get('en') else []
 
     # 호출처가 옛 ID를 아직 직접 쓰면 대행 불가 — 글자 치환을 안 하므로 그 호출처만 옛 모델에 남는다
+    # (이미 대행 중이면 cur ID = 옛 대상 티어의 ID라 그쪽 호출처가 정당하게 쓴다 → 검사 생략)
     ids_paths = keyed_paths(reg, 'ids')
     old_rx, left = id_rx(cur['id']), []
-    for path in sorted(set(scan_files(reg)) | set(keyed_paths(reg))):
+    for path in ([] if cur.get('follow') else sorted(set(scan_files(reg)) | set(keyed_paths(reg)))):
         src = read(path)
         if src is None:
             continue
@@ -286,8 +339,13 @@ def unfollow(reg, tier, new, dry):
     if new['id'] == tiers[lead]['id']:
         print('변경 없음 — [%s]는 이미 [%s] 대행으로 %s를 쓴다' % (tier, lead, new['id']))
         return 0
-    if not new.get('en') or new.get('en') == cur.get('en'):
-        print('❌ 대행 해제엔 새 표시명이 필요 — 예: python3 shared/apply_models.py %s %s "Fable 6" "페이블 6"' % (tier, new['id']))
+    if not new.get('en') or new.get('en') == cur.get('en') or not new.get('ko') or new.get('ko') == cur.get('ko'):
+        print('❌ 대행 해제엔 새 표시명·한글명이 둘 다 필요(안 주면 대상 티어 이름을 물려받아 다음 승격 때 그 티어 글자까지 바뀐다) — '
+              '예: python3 shared/apply_models.py %s %s "Fable 6" "페이블 6"' % (tier, new['id']))
+        return 2
+    short = keyed_shortfall(reg, tier)
+    if short:
+        print('❌ 대행 해제 불가 — [%s] 키 자리가 없다: %s' % (tier, ', '.join(short)))
         return 2
     taken = [k for k, t in tiers.items() if k != tier and t['id'] == new['id']]
     if taken:
@@ -303,11 +361,14 @@ def unfollow(reg, tier, new, dry):
         print('— 미리보기 끝: 대행 자리 %d곳 · 라벨 %d곳(파일 미변경 · 정본 미갱신).' % (h1, h2))
         return 0
     t = {k: v for k, v in cur.items() if k not in ('follow', '원래')}
-    t.update(id=new['id'], en=new['en'], ko=new.get('ko') or cur.get('ko'))
+    t.update(id=new['id'], en=new['en'], ko=new['ko'])
     tiers[tier] = t
+    retire(reg, [])   # 새로 쓰게 된 값(예: 예전에 은퇴한 이름으로 복귀)은 은퇴 목록에서 뺀다
     save(reg)
     print('✅ 대행 자리 %d곳 · 라벨 %d곳 + 정본 갱신. 공유하던 옛 값(%s)은 [%s] 티어가 계속 쓰므로 은퇴 등재 안 함.'
           % (h1, h2, cur['id'], lead))
+    for item in cur.get('복귀점검', []):
+        print('   ☐ 복귀 점검:', item)
     print('   산문 속 대행 서술("현재 … 대행")은 손으로 정리 — 후보 파일:')
     for path in scan_files(reg):
         src = read(path)
@@ -317,6 +378,10 @@ def unfollow(reg, tier, new, dry):
 
 
 def main(argv):
+    unknown = [a for a in argv[1:] if a.startswith('--') and a not in ('--dry', '--follow')]
+    if unknown:
+        print('❌ 모르는 옵션: %s — 쓸 수 있는 옵션 = --dry · --follow <티어>' % ' '.join(unknown))
+        return 2
     dry = '--dry' in argv
     if '--follow' in argv:
         i = argv.index('--follow')

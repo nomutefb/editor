@@ -35,14 +35,14 @@ REG = {
     },
     "vendors": {},
     "retired": [],
-    "keyed": {"ids": ["shared/model_env.sh", "src/gen.py"], "labels": ["src/nm.js"]},
+    "keyed": {"ids": {"shared/model_env.sh": ["fable"], "src/gen.py": ["fable"]}, "labels": {"src/nm.js": ["fable", "opus"]}},
     "scan": {"include": ["src/*", "shared/*.sh"], "exclude": []},
 }
 FILES = {
     "shared/model_env.sh": 'PIPE_MODEL="${PIPE_MODEL:-claude-opus-5}"\nFABLE_MODEL="${FABLE_MODEL:-claude-fable-5}"\n',
-    "src/kmake.sh": ('MODEL="${K_MODEL:-$FABLE_MODEL}"\nK_MODEL_FB="${K_MODEL_FB:-claude-opus-5}"\n'
+    "src/kmake.sh": ('MODEL="${K_MODEL:-$FABLE_MODEL}"   # 페이블 티어(모델 = model_env.sh FABLE_MODEL)\nK_MODEL_FB="${K_MODEL_FB:-claude-opus-5}"\n'
                      '# 운영자 "opus 5.0 high로 항상" · 오퍼스 5명 참석 · claude-opus-5.\n'),
-    "src/gen.py": ('MODEL = os.environ.get("FABLE_MODEL", "claude-fable-5")\n'
+    "src/gen.py": ('MODEL = os.environ.get("FABLE_MODEL") or "claude-fable-5"\n'
                    'MODEL_FB = os.environ.get("PIPE_MODEL_FB", "claude-opus-5")\n# 운영자 "품질 차이 FABLE 5"\n'),
     "src/nm.js": "window.NM = {\n  fable: 'Fable 5',\n  opus: 'Opus 5',\n};\n",
     "src/judge.py": 'MODEL = os.environ.get("GATE_MODEL", "claude-opus-5")   # Opus 5 max\n',
@@ -64,6 +64,9 @@ class Guards(unittest.TestCase):
         self.assertIsNone(AM.name_rx("오퍼스 5").search("오퍼스 5명"))
         self.assertIsNotNone(AM.name_rx("Opus 5").search("(Opus 5)"))
         self.assertIsNotNone(AM.name_rx("Opus 5").search("Opus 5."))
+        self.assertIsNotNone(AM.name_rx("Opus 5.5").search("Opus 5.5인데"))     # 소수 버전 = 인원 아님
+        self.assertIsNotNone(AM.name_rx("오퍼스 5.5").search("오퍼스 5.5인지"))
+        self.assertIsNone(AM.name_rx("Opus 5.5").search("Opus 5.55"))
 
     def test_keyed_label_ignores_array_of_keys(self):
         # api/sb.js `SB_DIRECTORS = ['fable', 'opus']`는 라벨이 아니다 — 키 라벨은 `fable: '...'` 꼴만
@@ -124,7 +127,7 @@ class Flow(unittest.TestCase):
         self.run_am("opus", "claude-opus-5-5", "Opus 5.5", "오퍼스 5.5")
         self.assertEqual(self.run_am("fable", "--follow", "opus"), 0)
         self.assertIn('FABLE_MODEL="${FABLE_MODEL:-claude-opus-5-5}"', self.f("shared/model_env.sh"))
-        self.assertIn('os.environ.get("FABLE_MODEL", "claude-opus-5-5")', self.f("src/gen.py"))
+        self.assertIn('os.environ.get("FABLE_MODEL") or "claude-opus-5-5"', self.f("src/gen.py"))
         self.assertIn('"품질 차이 FABLE 5"', self.f("src/gen.py"))   # 도입 이유(산문) = 보존
         self.assertIn("fable: 'Opus 5.5'", self.f("src/nm.js"))
         fb = self.reg()["tiers"]["fable"]
@@ -171,10 +174,66 @@ class Flow(unittest.TestCase):
         Path(self.tmp, "src", "nm.js").write_text(nm.replace("fable: 'Opus 5'", "fable: 'Fable 5'"), encoding="utf-8")
         self.assertEqual(self.gate()[0], 1)                   # 라벨 손 수정 = 정본 불일치
         Path(self.tmp, "src", "nm.js").write_text(nm, encoding="utf-8")
-        Path(self.tmp, "src", "kmake.sh").write_text('MODEL="${K_MODEL:-claude-opus-5}"\n', encoding="utf-8")
+        Path(self.tmp, "src", "kmake.sh").write_text('MODEL="${K_MODEL:-claude-opus-5}"   # 모델 = model_env.sh FABLE_MODEL\n', encoding="utf-8")
         rc, out = self.gate()
-        self.assertEqual(rc, 1)                               # 호출처가 티어 변수를 버리고 ID를 박음
+        self.assertEqual(rc, 1)                               # 주석에 이름만 남기고 코드는 ID를 박음 = 차단
         self.assertIn("FABLE_MODEL", out)
+
+    def test_gate_and_tool_fail_closed_on_missing_keyed_spot(self):
+        Path(self.tmp, "src", "gen.py").write_text('MODEL = pick_fable()   # 한 줄 꼴이 깨짐\n', encoding="utf-8")
+        self.assertEqual(self.gate()[0], 1)                   # 요구 티어 키 자리 0건 = 차단(조용한 건너뜀 금지)
+        self.assertEqual(self.run_am("fable", "--follow", "opus"), 2)
+        self.assertNotIn("follow", self.reg()["tiers"]["fable"])
+
+    def test_gate_blocks_tier_var_override_outside_keyed(self):
+        Path(self.tmp, "src", "flow.yml").write_text("env:\n  FABLE_MODEL: claude-fable-5\n", encoding="utf-8")
+        rc, out = self.gate()
+        self.assertEqual(rc, 1)
+        self.assertIn("keyed.ids", out)
+
+    def test_unfollow_requires_both_names_and_shared_name_is_refused(self):
+        self.run_am("opus", "claude-opus-5-5", "Opus 5.5", "오퍼스 5.5")
+        self.run_am("fable", "--follow", "opus")
+        self.assertEqual(self.run_am("fable", "claude-fable-7", "Fable 7"), 2)      # 한글명 누락 = 오퍼스 이름 상속 차단
+        self.assertEqual(self.reg()["tiers"]["fable"]["follow"], "opus")
+        # 정본을 손으로 어긋나게(대행 아닌데 한글명 공유) → 승격이 공유 이름 글자 치환을 거부
+        reg = self.reg(); fb = reg["tiers"]["fable"]
+        fb.pop("follow"); fb.pop("원래"); fb.update(id="claude-fable-7", en="Fable 7")
+        Path(self.tmp, "shared", "models.json").write_text(json.dumps(reg, ensure_ascii=False), encoding="utf-8")
+        before = {r: self.f(r) for r in FILES}
+        self.assertEqual(self.run_am("fable", "claude-fable-8", "Fable 8", "페이블 8"), 2)
+        self.assertEqual({r: self.f(r) for r in FILES}, before)             # 거부 = 아무 파일도 안 바뀜
+        self.assertEqual(self.reg()["tiers"]["fable"]["id"], "claude-fable-7")
+
+    def test_id_only_promotion_keeps_names_and_return_unretires(self):
+        self.assertEqual(self.run_am("sonnet", "claude-sonnet-6"), 0)             # 표시명은 그대로 = 은퇴 금지
+        self.assertNotIn("Sonnet 5", self.reg()["retired"])
+        self.assertEqual(self.gate()[0], 0)
+        self.run_am("fable", "--follow", "opus")
+        self.assertIn("claude-fable-5", self.reg()["retired"])
+        self.assertEqual(self.run_am("fable", "claude-fable-5", "Fable 5", "페이블 5"), 0)   # 원래 모델로 복귀
+        self.assertNotIn("claude-fable-5", self.reg()["retired"])                # 다시 쓰는 값 = 은퇴 해제
+        rc, out = self.gate()
+        self.assertEqual(rc, 0, out)
+
+    def test_follow_resyncs_and_switches_target(self):
+        self.run_am("fable", "--follow", "opus")
+        reg = self.reg(); reg["tiers"]["fable"]["en"] = "손 수정"
+        Path(self.tmp, "shared", "models.json").write_text(json.dumps(reg, ensure_ascii=False), encoding="utf-8")
+        self.assertEqual(self.gate()[0], 1)
+        self.assertEqual(self.run_am("fable", "--follow", "opus"), 0)            # 같은 대상 재실행 = 재동기
+        self.assertEqual(self.gate()[0], 0)
+        self.assertEqual(self.run_am("fable", "--follow", "sonnet"), 0)          # 대상 교체 = 옛 대상 호출처 검사 안 함
+        fb = self.reg()["tiers"]["fable"]
+        self.assertEqual((fb["id"], fb["follow"], fb["원래"]["id"]), ("claude-sonnet-5", "sonnet", "claude-fable-5"))
+        self.assertIn("fable: 'Sonnet 5'", self.f("src/nm.js"))
+        rc, out = self.gate()
+        self.assertEqual(rc, 0, out)
+
+    def test_unknown_flag_is_refused_without_writing(self):
+        before = self.f("shared/model_env.sh")
+        self.assertEqual(self.run_am("opus", "claude-opus-6", "Opus 6", "오퍼스 6", "--dry-run"), 2)
+        self.assertEqual(self.f("shared/model_env.sh"), before)
 
 
 if __name__ == "__main__":

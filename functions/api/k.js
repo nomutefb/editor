@@ -85,7 +85,7 @@ export async function onRequestPost({ request, env }) {
   //    키 있고 레퍼런스 이미지 미포함(Gemini·R2 = 러너 전용 스텝)이면 Anthropic 직결 → {md} 즉시 반환.
   //    지침 3파일 + k-make.md는 GitHub raw로 동봉(러너의 런타임 Read 등가) · 실패 = 조용히 ② 폴백(fail-soft).
   if (env.ANTHROPIC_API_KEY && refimage !== 'true') {
-    try { const md = await directK(env, scene); if (md) return json({ ok: true, md }); } catch (_) { /* 폴백 계속 */ }
+    try { const md = await directK(env, scene); if (md) return json({ ok: true, md }); } catch (e) { console.warn('k 즉답 실패 → 워크플로 폴백:', String((e && e.message) || e)); }   // 폴백은 조용히 · 사유는 로그에(잘림·거절·한도 판독)
   }
 
   // ② 워크플로 폴백(구독 OAuth 무료 · 1~3분) — 종전 그대로
@@ -128,11 +128,12 @@ async function directK(env, scene) {
   const r = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
     headers: { 'content-type': 'application/json', 'x-api-key': env.ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01' },
-    body: JSON.stringify({ model: 'claude-opus-5-5', max_tokens: 8192, output_config: { effort: 'high' }, system, messages: [{ role: 'user', content: scene }] }),   // effort = Opus 5.5 기본 medium(한 세대 전 기본은 high) → high 명시 = 종전 깊이 유지
+    body: JSON.stringify({ model: 'claude-opus-5-5', max_tokens: 16000, output_config: { effort: 'high' }, system, messages: [{ role: 'user', content: scene }] }),   // effort = 같은 단계(high) 유지(5.5 기본 = medium) · 5.5는 같은 단계에서 한 세대 전보다 더 깊게 생각하고 생각도 max_tokens를 먹는다 → 16000 여유(과금 = 실제 사용분)
   });
-  if (!r.ok) throw new Error(`anthropic ${r.status}`);
+  if (!r.ok) throw new Error(`anthropic ${r.status} ${(await r.text()).slice(0, 200)}`);   // 본문 = 모델 부재·권한·한도 사유(로그 판독용)
   const m = await r.json();
   if (m.stop_reason === 'refusal') throw new Error('refusal');
+  if (m.stop_reason !== 'end_turn') throw new Error(`stop ${m.stop_reason}`);   // max_tokens 잘림 = 반쪽 md를 성공으로 내보내지 않는다(러너 폴백)
   const txt = ((m.content || []).filter(b => b.type === 'text').map(b => b.text).join('')) || '';
   if (/^KMAKE_FAILED/m.test(txt)) throw new Error('kmake-failed');   // 막다른길 신호 = kmake.sh와 동일 판정
   const lines = txt.split('\n'); const ix = lines.findIndex(l => l.startsWith('#'));   // 모델 사족 방어 — 첫 '#'(제목)부터(kmake.sh sed 동일)

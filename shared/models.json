@@ -36,7 +36,11 @@
         "en": "Fable 5",
         "ko": "페이블 5"
       },
-      "규칙": "운영자 260923: 페이블 5.1과 오퍼스 5.5 중엔 오퍼스 5.5(동급 이상 · 싸다) → 오퍼스 티어 대행(follow). 새 페이블 티어(5.1 다음)가 나오면 비용이 높아도 페이블로 복귀 = python3 shared/apply_models.py fable <새 페이블 ID> \"Fable X\" \"페이블 X\". 대행 중 오퍼스 승격 = 이 티어도 같이 따라감."
+      "규칙": "운영자 260923 \"지금 성능이 페이블하고 동급이 되었기때문에 덮어씌우는거지 원래는 중요하기때문에 페이블을 쓴거거든\" · \"페이블 5.1 과 오퍼스 5.5 중에는 5.5를 쓰면 되고 페이블 새로운 티어나오면 페이블 새로운 티어를 쓰면됨\" → 오퍼스 티어 대행(follow). 새 페이블 티어가 나오면 비용이 높아도 복귀 = python3 shared/apply_models.py fable <새 페이블 ID> \"Fable X\" \"페이블 X\". 대행 중 오퍼스 승격 = 이 티어도 같이 따라감.",
+      "복귀점검": [
+        "viewer-src/22-thumbSec.part · viewer/index.html — AI 이미지 버튼 툴팁 '… 작성·Gemini 렌더'의 모델명(키 자리 아님 = 손으로)",
+        "대행 서술 주석('지금은 … 대행') — apply_models.py 해제가 '대행' 포함 파일을 목록으로 출력"
+      ]
     },
     "haiku": {
       "id": "claude-haiku-4-5-20251001",
@@ -100,16 +104,29 @@
     "claude-fable-5"
   ],
   "keyed": {
-    "_": "티어 키로 값을 찾는 자리(대행·복귀 때 글자 치환 대신 키 기준 치환 · check_model_ids가 정본 값과 문자 대조). ids = `<티어>_MODEL` 변수의 ID 기본값 · labels = `<티어>: '표시명'` 라벨.",
-    "ids": [
-      "shared/model_env.sh",
-      ".github/scripts/gen_image.py"
-    ],
-    "labels": [
-      "viewer/nm-models.js",
-      "functions/api/sb.js",
-      "viewer/edit.html"
-    ]
+    "_": "티어 키로 값을 찾는 자리 = {파일: [그 파일에 반드시 있어야 할 티어]}(0건 = check_model_ids 차단 · 모양이 바뀌면 키 치환이 조용히 빠지므로). 대행·복귀 때 글자 치환 대신 키 기준 치환 · 값은 정본과 문자 대조. ids = `<티어>_MODEL` 변수의 ID 기본값(한 줄) · labels = `<티어>: '표시명'` 라벨.",
+    "ids": {
+      "shared/model_env.sh": [
+        "fable"
+      ],
+      ".github/scripts/gen_image.py": [
+        "fable"
+      ]
+    },
+    "labels": {
+      "viewer/nm-models.js": [
+        "fable",
+        "opus"
+      ],
+      "functions/api/sb.js": [
+        "fable",
+        "opus"
+      ],
+      "viewer/edit.html": [
+        "fable",
+        "opus"
+      ]
+    }
   },
   "scan": {
     "include": [
@@ -128,7 +145,11 @@
       "docs/실행계약_전문.md",
       "디자인기틀/디자인기틀_SSOT.md",
       "docs/news-pipeline.md",
-      "docs/sns_지문사전.md"
+      "docs/sns_지문사전.md",
+      "scripts/*.sh",
+      "scripts/*.py",
+      "scripts/mac/*.sh",
+      "shared/*.py"
     ],
     "exclude": [
       "shared/apply_models.py",

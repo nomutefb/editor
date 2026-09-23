@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""뷰어 '+N장 더' (검색 이미지 카러셀) — 기사 요약·시사점을 읽고 Claude(Opus 5.5·effort high)가
+"""뷰어 '+N장 더' (검색 이미지 카러셀) — 기사 요약·시사점을 읽고 Claude(Sonnet 5·effort high · MOREIMG_MODEL)가
 **오버레이 뒤 후킹용 카드뉴스 배경**으로 가장 효과적인 관련 뉴스이미지 소스를 *기존과 중복 없이*
 더 제안 → og:image 추출(thumb_gen 재사용·R2 재호스팅) → cards/<stem>/thumbs/search.json **앞쪽**에 append.
 
