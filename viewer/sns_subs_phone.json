@@ -3,9 +3,9 @@
   {
    "account": "MarioNawfal",
    "text": "🇮🇷 Something extraordinary is happening in the Strait of Hormuz\n\nIran is still attacking ships, yet roughly 10.3 MILLION barrels of crude oil per day now appear to be making it through\n\nAt the same time, according to TankerTrackers founder Samir Madani, Iran's own major crude htt",
-   "likes": 586,
-   "rts": 72,
-   "cmts": 68,
+   "likes": 676,
+   "rts": 96,
+   "cmts": 82,
    "views": 0,
    "time": "Wed Sep 23 19:44:34 +0000 2026",
    "url": "https://x.com/MarioNawfal/status/2102846607309869111",
@@ -14,6 +14,26 @@
  ],
  "insta": [],
  "threads": [
+  {
+   "account": "aipeekme",
+   "text": "🔗 원문·자세히 보기\nhttps://deepmind.google/blog/advancing-private-ai-compute-with-secure-server-side-memory/",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1790204510,
+   "thumb": "",
+   "url": "https://www.threads.com/@aipeekme/post/DdpcWoFn_PZ",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "구글 딥마인드가 기기 간에 지속되는 프라이빗 AI 메모리를 구현하는 서버 측 아키텍처를 공개했습니다.\n이 기술은 개인 데이터가 클라우드에 저장되더라도 암호화된 전용 저장소에 봉인되며, 암호화 키는 개인 기기에만 보관되어 구글조차 접근할 수 없는 보안 시스템입니다.\n그동안 AI 비서가 기억력을 유지하려면 개인정보 보호 문제를 감수해야 하는 딜레마가 있었습니다.\n기존의 프라이빗 AI 컴퓨팅 기술은 하드웨어 격리 클라우드 엔클레이브에서 복잡한 작업을 처리해 왔으나, 업계의 유사 솔루션과 마찬가지로 상태가 없는 상태인 스테이트리스(stateless) 방식으로 작동하는 한계가 있었습니다.\n이번 구조는 기기 내 수준의 보안 기준을 지키면서도 서버 측에서 메모리를 안전하게 보존합니다.\n하드웨어로 강제되는 보안 엔클레이브, 암호화된 채널, 기기 유래 암호화 키로 보호되는 사용자별 데이터베이스를 결합한 아키텍처입니다.\n\n📷 사진 출처: deepmind.google",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1790204499,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/819741563_18089375099407306_1795480125214215014_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk5Mjg0NzEzMDg3Mjk4Nzc3MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=PKS7L1yNiJgQ7kNvwFTS-cn&_nc_oc=AdpJ-SWT0KTk6v-3v7vXJ5RMtp_OTsrTEWzAANbYcscZY8uPWEqub3udgsm7o8xvnnQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=B9tm-ZZbgwf2vjkwyKcLPw&_nc_ss=7a22e&oh=00_AQKmgggjYqTDLeUiC5cpHu8nrl8eyzwUJr1U0eRi55267A&oe=6ABA27A9",
+   "url": "https://www.threads.com/@aipeekme/post/DdpcU9-H0B7",
+   "region": "kr"
+  },
   {
    "account": "aicoffeechat",
    "text": "3. $100, $250 크레딧은 구독 할당량과 다릅니다.\n\n기존 구독자에게 주는 크레딧은 Pro가 $100, Max가 $250인데요. 한 계정에 한 번, 클라우드 세션에만 쓸 수 있습니다.\n\n이 크레딧은 평소 쓰는 사용 한도와 별개예요. 요금제 위에 얹어주는 금액이라 크레딧을 써도 원래 한도는 줄지 않습니다.\n\n받아두면 클라우드 세션을 시작할 때 자동으로 빠져나갑니다.\n\n받는 법은 두 가지입니다. 원문 링크에서 신청하거나, CLI에 /claim-credit을 입력하면 됩니다.\n\n신청은 미국 태평양 시간 10월 7일 밤 11시 59분까지, 크레딧은 11월 4일 밤 11시 59분에 사라집니다.\n\n(미국 태평양 시간 2026년 10월 7일 밤 11:59 → 한국 시간 10월 8일 오후 3:59)\n(미국 태평양 시간 2026년 11월 4일 밤 11:59 → 한국 시간 11월 5일 오후 4:59)",
@@ -27,7 +47,7 @@
   {
    "account": "aicoffeechat",
    "text": "2. 켜는 곳은 네 군데입니다\n\n웹에서는 claude.ai/code에 들어가면 되고, Claude 모바일 앱의 Code 탭과 데스크톱 앱에서도 시작할 수 있습니다. 개발자분들은 CLI에서 claude --cloud 한 줄로 켭니다.\n\n조건이 하나 있는데요. GitHub 계정을 연결해야 세션을 시작할 수 있어요.\n\n초보자분들은 claude.ai/code에 들어가서 GitHub 연결부터 끝내두세요. 크레딧을 받아도 연결이 안 돼 있으면 세션을 켤 수 없습니다.",
-   "likes": 0,
+   "likes": 1,
    "cmts": 1,
    "time": 1790202594,
    "thumb": "",
@@ -37,7 +57,7 @@
   {
    "account": "aicoffeechat",
    "text": "1. 퇴근길 가방 속에서도 작업이 돌아갑니다\n\n지금까지 Claude Code를 내 노트북에서 돌리면, 노트북을 덮는 순간 작업도 같이 멈췄죠. 긴 작업을 걸어둔 날엔 화면을 켜둔 채 자리를 지켜야 했습니다.\n\n이젠 클라우드 세션은 Anthropic이 운영하는 서버에서 돌아갑니다. 내 컴퓨터가 꺼져 있어도 Claude Code는 서버에서 하던 일을 이어가요.\n\n퇴근해도 됩니다. 저녁에 맡겨두고 아침에 결과를 확인하는 방식이 이제 공식 기능이 됐습니다.",
-   "likes": 0,
+   "likes": 1,
    "cmts": 1,
    "time": 1790202589,
    "thumb": "",
@@ -47,7 +67,7 @@
   {
    "account": "choi.openai",
    "text": "주소 :\nhttps://grokbot-icon-studio.serio-ai.chatgpt.site/",
-   "likes": 4,
+   "likes": 7,
    "cmts": 0,
    "time": 1790200855,
    "thumb": "",
@@ -57,17 +77,17 @@
   {
    "account": "choi.openai",
    "text": "이 프롬프트 해외에서 화제입니다.\n\nX의 Multi_Serio_Ai가 공유한 프롬프트로, 원하는 캐릭터 이미지를 넣으면 Grokbot 스타일의 작은 캐릭터 아이콘으로 바꿔주는데요.\n\n댓글 주소에 접속하여 프롬프트를 복사해 ChatGPT 이미지 생성에 바로 사용할 수 있습니다.\n\n현재 500만 회 이상 조회되었는데 정말 귀엽게 잘 만들어주는 것 같네요.",
-   "likes": 28,
-   "cmts": 20,
+   "likes": 44,
+   "cmts": 26,
    "time": 1790200844,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/796497694_17988342747112832_4243369307815876435_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk5MjgxNjUzODA4NzMzOTMyMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI1NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=gchKxlvFIH4Q7kNvwGGWK1N&_nc_oc=AdpNTin6KdFHhPf4bEedh99D2jrvRAn4EGt44_fCeK0_TEXyjF6j0I-oRMLu_LcLCnE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=5VZAnIFKUgWpIWTfHm4X5g&_nc_ss=7a22e&oh=00_AQLSu-931-R1C5Ju125puq8OxtUxd6ck-l4bb91EHujTMA&oe=6ABA20B5",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/796497694_17988342747112832_4243369307815876435_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk5MjgxNjUzODA4NzMzOTMyMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI1NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=gchKxlvFIH4Q7kNvwGGWK1N&_nc_oc=AdpNTin6KdFHhPf4bEedh99D2jrvRAn4EGt44_fCeK0_TEXyjF6j0I-oRMLu_LcLCnE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=TpS7wB87CpKk7Uf289Cxmw&_nc_ss=7a22e&oh=00_AQJJXJCeDTsLuRZJMpKeXrulDaGlHpueGpVExKAZNQGYEQ&oe=6ABA20B5",
    "url": "https://www.threads.com/@choi.openai/post/DdpVXyOADU7",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "주소 :\nhttps://www.incredible.one/",
-   "likes": 1,
+   "likes": 4,
    "cmts": 0,
    "time": 1790197263,
    "thumb": "",
@@ -82,16 +102,6 @@
    "time": 1790164964,
    "thumb": "",
    "url": "https://www.threads.com/@aipeekme/post/DdoQ7ScHw4t",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
-   "text": "인클루전AI가 텍스트 중심의 시각 디자인에 특화된 60억 파라미터 규모의 이미지 생성 모델 Ming-Image-0.1-Design을 공개했습니다.\nUI 화면이나 인포그래픽, 포스터처럼 글자와 레이아웃이 중요한 작업물에서 전체적인 시각 구성을 완성도 있게 만들어내는 것이 특징인데요.\n특히 투명한 배경을 지원하는 RGBA 출력이 가능해 디자인 작업에서 유용하게 쓰일 수 있을 것 같습니다.\n프롬프트 확장 기능에는 링-3.0-플래시-브이엘이나 큐원 모델을 활용하도록 설계되어 있습니다.\n깃허브 저장소를 통해 설치 코드가 제공되고 있어 실제 환경에서 바로 테스트해 보는 것이 가능합니다.\n다만 텍스트를 정교하게 배치해야 하는 실무 디자인 영역에서 기존 툴을 얼마나 대체할 수 있을지는 직접 돌려봐야 알 수 있겠습니다.\n결과물의 완성도를 가르는 프롬프트 작성 방식이 실제 작업 공수와 맞물려 어떻게 효율을 낼지 지켜보려고 합니다.\n\n📷 사진 출처: huggingface.co",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1790164954,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/819383913_18089262779407306_6849720232204740509_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk5MjUxNTM4MDYzNjUzODA0NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=tf_A7nzLli4Q7kNvwFoZcOy&_nc_oc=AdqBiZ6cJqFLeHq9VC3JX6DFW68Q-GOcgtIwUdb65QhCGe0M6Zl84Ld8rBrGK6NhQ7Y&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=qmGo3Q0Z-Rl-etxN3NuQnw&_nc_ss=7a22e&oh=00_AQII_F6ptZDG-RD77Gb8hR4whuXL7wHZ_yCVB8iTXazhxg&oe=6ABA1854",
-   "url": "https://www.threads.com/@aipeekme/post/DdoQ5XfH9S9",
    "region": "kr"
   },
   {
@@ -110,18 +120,8 @@
    "likes": 27,
    "cmts": 1,
    "time": 1790163563,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/822807426_848088868331800_3522288446426960579_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk5MjUwMzU0ODAyNTMxMzQ5MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=dQUY7avaKRAQ7kNvwFmxgf0&_nc_oc=Adpt7efBrL8fTH92pkcOQLGcxIy7GQ-HR1vPcyAVC8n68bgYb4nR-Lx5cb-Y6voa_lI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Ohb9WRri48LknQy7ZjO81w&_nc_ss=7a22e&oh=00_AQKVuLCtzPGOO4LHMhocpHy9upHrNmaawniS21G5JN329w&oe=6ABA3202",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/822807426_848088868331800_3522288446426960579_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk5MjUwMzU0ODAyNTMxMzQ5MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=dQUY7avaKRAQ7kNvwFmxgf0&_nc_oc=Adpt7efBrL8fTH92pkcOQLGcxIy7GQ-HR1vPcyAVC8n68bgYb4nR-Lx5cb-Y6voa_lI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=zOy9V2zDHqH6DzfHSr85OA&_nc_ss=7a22e&oh=00_AQKlgmkaNOESSGUI2ei_VulQmmI_Kg4XWkdtpKqV1QD8KA&oe=6ABA3202",
    "url": "https://www.threads.com/@kopp/post/DdoONLgiRjT",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
-   "text": "60억 파라미터 규모의 오픈소스 모델인 ming-image-0.1-design이 UI/UX 디자인 리더보드에서 1위를 차지했습니다. 블라인드 투표 방식으로 사람들이 선호하는 디자인을 선택한 결과입니다. 노트북에서도 구동될 수 있는 규모입니다.\n리더보드 순위를 보면 ming-image-0.1-design이 1082점으로 1위를 기록했고 ideogram 4.0 quality와 ideogram 4.0, hunyuanimage 3.0, flux.2 dev 등이 그 뒤를 이었습니다. 2위와는 30점 차이를 보였습니다.\n이 모델은 오픈소스로 공개되었으며 ming-image-0.1-design, 6b와 ming-image-0.1-design-layer, 6b 버전이 함께 나왔습니다. 또한 UI 디자인 스킬과 이미지-투-에디터블-파워포인트 스킬 등 두 가지 에이전트 스킬도 포함되었습니다.\n\n📷 사진 출처: threads.com",
-   "likes": 2,
-   "cmts": 0,
-   "time": 1790158662,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/818016219_18089241722407306_6273294018170164853_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk5MjQ2MjYyODYxNTA0NjE4Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuOTY4LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=eVrI_Birhd0Q7kNvwFDovLd&_nc_oc=AdqMCkx6lGOd5EojFsfpMeWlYmt1ZPvnieDonsFnUC_LpNu_wFDu2BNEH3WsFFnc9Jg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=qmGo3Q0Z-Rl-etxN3NuQnw&_nc_ss=7a22e&oh=00_AQJrRhvbz4_ZDyghha9GgzswAqi-PIgKCoiAXU9XTgbAdw&oe=6ABA20BA",
-   "url": "https://www.threads.com/@aipeekme/post/DdoE5uVn0Qn",
    "region": "kr"
   },
   {
@@ -157,31 +157,31 @@
   {
    "account": "aicoffeechat",
    "text": "노트북을 덮어도 Claude Code는 계속 일합니다.\n\nClaude Code 클라우드 세션을 정식발표 했는데요. 그동안 시험용으로만 돌던 기능입니다.\n\n기존 Pro·Max 구독자에게는 한 번 쓰는 크레딧도 나옵니다. 신청 기한이 10월 7일까지라서 꼭 신청하세요. \n\n$250 크레딧 놓치지 말고 꼭 받아가세요. 링크 아래에 공유했어요.",
-   "likes": 11,
+   "likes": 21,
    "cmts": 5,
    "time": 1790202582,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/819616219_17958685434232485_3800610096206576023_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk5MjgzMTExNzY0ODY3MjQ4Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjA0OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=c5-Ly54pSNoQ7kNvwFGrCRN&_nc_oc=AdpRDXNgjHIgElM5-DbSUNXYjwo3NftADcb_xAdVNf6zsmrtOBz2zxwDzxDFQmQlhAg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=9lgIObchQVF_W1pQ95m04w&_nc_ss=7a22e&oh=00_AQJMQhlZiy3m1ov7hoI6hR_UAxIRYGBOnerPKemzQtpC2A&oe=6ABA25EC",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/819616219_17958685434232485_3800610096206576023_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk5MjgzMTExNzY0ODY3MjQ4Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjA0OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=c5-Ly54pSNoQ7kNvwFGrCRN&_nc_oc=AdpRDXNgjHIgElM5-DbSUNXYjwo3NftADcb_xAdVNf6zsmrtOBz2zxwDzxDFQmQlhAg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=FWA5ArnKR-TSGlUiyKwpdw&_nc_ss=7a22e&oh=00_AQJm7cjRZCj-4T8A31349QF9j5iWBget1rkZlLMWmvI6ng&oe=6ABA25EC",
    "url": "https://www.threads.com/@aicoffeechat/post/DdpYr8fkzbj",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "키보드와 마우스 없이 말로 컴퓨터를 조작하는 서비스가 나왔습니다.\n\nIncredible은 “금요일 저녁 4명 식당을 예약하고 팀원들을 초대해줘”처럼 말하면 앱을 열고, 웹사이트를 탐색하고, 클릭·입력까지 직접 수행합니다.\n\n브라우저뿐 아니라 파일을 다루고 3,000개 이상의 앱과 연결할 수 있으며 Mac과 Windows를 지원합니다.\n\nAI와 대화하는 단계를 넘어, 컴퓨터 자체를 AI에게 말로 조작시키는 방식이 나오고 있습니다.",
-   "likes": 15,
+   "likes": 22,
    "cmts": 1,
    "time": 1790197244,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/821196067_2224366404796826_9059365466706895298_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk5Mjc4NjM0MDg2MDgwMjEyMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=vuuDMSk2jFwQ7kNvwFzCA6v&_nc_oc=AdojST2PehtlOQhPuJXc0o-KgnDpnsI4ieB-KoYYFDN8xg-EsSq-WjsZBed4pytfZg8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=5VZAnIFKUgWpIWTfHm4X5g&_nc_ss=7a22e&oh=00_AQJsiB3sh_7wcyY57JizcBSk-Apjh0vXq6PUzD8_1P9hfA&oe=6ABA25BE",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/821196067_2224366404796826_9059365466706895298_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk5Mjc4NjM0MDg2MDgwMjEyMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=vuuDMSk2jFwQ7kNvwFzCA6v&_nc_oc=AdojST2PehtlOQhPuJXc0o-KgnDpnsI4ieB-KoYYFDN8xg-EsSq-WjsZBed4pytfZg8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=TpS7wB87CpKk7Uf289Cxmw&_nc_ss=7a22e&oh=00_AQJcGA1lUFlP5NX0WvrDAIjgna75KgA3BACu419vFm0dsQ&oe=6ABA25BE",
    "url": "https://www.threads.com/@choi.openai/post/DdpOgW3CjRL",
    "region": "kr"
   },
   {
    "account": "aipeekme",
-   "text": "🔗 원문·자세히 보기\nhttps://github.com/XiaoDuoYa/codex-with-chatgpt",
+   "text": "인클루전AI가 텍스트 중심의 시각 디자인에 특화된 60억 파라미터 규모의 이미지 생성 모델 Ming-Image-0.1-Design을 공개했습니다.\nUI 화면이나 인포그래픽, 포스터처럼 글자와 레이아웃이 중요한 작업물에서 전체적인 시각 구성을 완성도 있게 만들어내는 것이 특징인데요.\n특히 투명한 배경을 지원하는 RGBA 출력이 가능해 디자인 작업에서 유용하게 쓰일 수 있을 것 같습니다.\n프롬프트 확장 기능에는 링-3.0-플래시-브이엘이나 큐원 모델을 활용하도록 설계되어 있습니다.\n깃허브 저장소를 통해 설치 코드가 제공되고 있어 실제 환경에서 바로 테스트해 보는 것이 가능합니다.\n다만 텍스트를 정교하게 배치해야 하는 실무 디자인 영역에서 기존 툴을 얼마나 대체할 수 있을지는 직접 돌려봐야 알 수 있겠습니다.\n결과물의 완성도를 가르는 프롬프트 작성 방식이 실제 작업 공수와 맞물려 어떻게 효율을 낼지 지켜보려고 합니다.\n\n📷 사진 출처: huggingface.co",
    "likes": 0,
-   "cmts": 0,
-   "time": 1790155887,
-   "thumb": "",
-   "url": "https://www.threads.com/@aipeekme/post/Ddn_nTCH_xP",
+   "cmts": 1,
+   "time": 1790164954,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/819383913_18089262779407306_6849720232204740509_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk5MjUxNTM4MDYzNjUzODA0NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=tf_A7nzLli4Q7kNvwFoZcOy&_nc_oc=AdqBiZ6cJqFLeHq9VC3JX6DFW68Q-GOcgtIwUdb65QhCGe0M6Zl84Ld8rBrGK6NhQ7Y&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=B9tm-ZZbgwf2vjkwyKcLPw&_nc_ss=7a22e&oh=00_AQJ0PKq2AmRDZ68KBI9Ar34Dy3CCkFHXHx0BqJrT_pWykg&oe=6ABA5094",
+   "url": "https://www.threads.com/@aipeekme/post/DdoQ5XfH9S9",
    "region": "kr"
   },
   {
@@ -197,21 +197,21 @@
   {
    "account": "choi.openai",
    "text": "3/ Mobile Creative Agent는 한 문장의 요청을 실제 사용할 수 있는 콘텐츠로 만드는 역할입니다.\n\nQwen은 이미지 생성에 약 3초가 걸리며 비교 대상이 된 주요 모델보다 약 2배 빠르다고 설명합니다.\n\nQwen은 이와 함께 계획 능력을 평가하는 MobilePA-Bench, 여러 앱 실행을 평가하는 MobileWorld, 실제 기기 환경의 MobileWorld-Real, 안전성을 평가하는 MobileWorld-Safety도 공개했습니다.\n\n스마트폰 AI가 질문에 답하는 비서에서 계획 → 앱 실행 → 결과물 제작까지 맡는 에이전트로 바뀌고 있습니다.",
-   "likes": 1,
+   "likes": 2,
    "cmts": 1,
    "time": 1790193686,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/820266025_17988440832112832_8616919459038177974_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk5Mjc1NjQ5MDE0OTYzODMxMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTM5MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=xBhwHNaEYHwQ7kNvwHUJVnr&_nc_oc=AdoeAN0qWIl3dc3TjtrW0Mp6zAkITu5YFqZ73PkFifCiPDZzlAd2juNx9bX3qwIqMB8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=5VZAnIFKUgWpIWTfHm4X5g&_nc_ss=7a22e&oh=00_AQKfIeOo_QQmTRP4X3MEocBDft-bqFrs92fgmr0ot57IRQ&oe=6ABA1925",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/820266025_17988440832112832_8616919459038177974_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk5Mjc1NjQ5MDE0OTYzODMxMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTM5MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=xBhwHNaEYHwQ7kNvwHUJVnr&_nc_oc=AdoeAN0qWIl3dc3TjtrW0Mp6zAkITu5YFqZ73PkFifCiPDZzlAd2juNx9bX3qwIqMB8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=TpS7wB87CpKk7Uf289Cxmw&_nc_ss=7a22e&oh=00_AQJY--cUwrumXAbUQ1bur7qopJm2vzbjfz3-sXViBVUsWQ&oe=6ABA1925",
    "url": "https://www.threads.com/@choi.openai/post/DdpHt-OATCn",
    "region": "kr"
   },
   {
    "account": "aipeekme",
-   "text": "개발자가 이미 구독 중인 웹 버전 지피티를 코딩 에이전트의 두뇌로 쓰는 오픈소스 프로젝트를 공개했습니다. 지피티가 계획과 검토를 맡고 코덱스가 실행을 담당하는 구조인데요. 비싼 API 토큰을 아끼기 위해 웹 버전의 남는 할당량을 활용하는 방식입니다. 공식 웹 UI와 읽기 전용 모델 맥락 프로토콜 브리지를 결합해 별도의 API 키나 역방향 프록시가 필요 없습니다. 지피티는 오직 보안이 유지된 연결을 통해 작업 중인 코드의 필요한 부분만 읽어옵니다. 사용자의 저장소가 통째로 업로드되지 않는 점을 강조하고 있습니다. 에이전트 사용량이 늘어날수록 구독 기반의 웹 연동 방식이 실질적인 대안이 될 것 같습니다. 개인적으로는 웹 인터페이스와 에이전트 간의 통신 속도 지연이 실제 개발 흐름에 얼마나 영향을 줄지 궁금합니다.\n\n📷 사진 출처: github.com",
+   "text": "60억 파라미터 규모의 오픈소스 모델인 ming-image-0.1-design이 UI/UX 디자인 리더보드에서 1위를 차지했습니다. 블라인드 투표 방식으로 사람들이 선호하는 디자인을 선택한 결과입니다. 노트북에서도 구동될 수 있는 규모입니다.\n리더보드 순위를 보면 ming-image-0.1-design이 1082점으로 1위를 기록했고 ideogram 4.0 quality와 ideogram 4.0, hunyuanimage 3.0, flux.2 dev 등이 그 뒤를 이었습니다. 2위와는 30점 차이를 보였습니다.\n이 모델은 오픈소스로 공개되었으며 ming-image-0.1-design, 6b와 ming-image-0.1-design-layer, 6b 버전이 함께 나왔습니다. 또한 UI 디자인 스킬과 이미지-투-에디터블-파워포인트 스킬 등 두 가지 에이전트 스킬도 포함되었습니다.\n\n📷 사진 출처: threads.com",
    "likes": 2,
-   "cmts": 1,
-   "time": 1790155877,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/821339289_18089236208407306_7291559422013607120_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk5MjQzOTI1MjQ2NzAwOTE2Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=dprSDtGMs2gQ7kNvwHbC4mU&_nc_oc=Ado-O49Wzi0AvV1H8PdL9CiRTRPPlEYdFY5U5gVjjUZ98Q41J_RhOGEl69HedIg_7Lg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=qmGo3Q0Z-Rl-etxN3NuQnw&_nc_ss=7a22e&oh=00_AQJ5AQplknJA4VB9WIJrGwe87x3kk5u2YS5B2B7pMcUYSw&oe=6ABA2157",
-   "url": "https://www.threads.com/@aipeekme/post/Ddn_ljmn0aL",
+   "cmts": 0,
+   "time": 1790158662,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/818016219_18089241722407306_6273294018170164853_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk5MjQ2MjYyODYxNTA0NjE4Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuOTY4LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=eVrI_Birhd0Q7kNvwFDovLd&_nc_oc=AdqMCkx6lGOd5EojFsfpMeWlYmt1ZPvnieDonsFnUC_LpNu_wFDu2BNEH3WsFFnc9Jg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=B9tm-ZZbgwf2vjkwyKcLPw&_nc_ss=7a22e&oh=00_AQKQDl8oBhRMBLLdB3vCRtCDPAbcCi1nPAJAe7WZ7eehXQ&oe=6ABA20BA",
+   "url": "https://www.threads.com/@aipeekme/post/DdoE5uVn0Qn",
    "region": "kr"
   }
  ],
@@ -241,7 +241,7 @@
   {
    "account": "jaemyung_lee",
    "title": "Ассалому алайкум, Тоҷикистон! 🇰🇷🇹🇯 #타지키스탄#Тоҷикистон",
-   "views": 257000,
+   "views": 257100,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okxPtEHAgIY0AAlC9gAoxAMiBqToaAKBiFulq~tplv-tiktokx-origin.image?dr=14575&x-expires=1790377200&x-signature=PcE66rtfBYmndVQR2Fyb%2BMBUl2A%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -255,7 +255,7 @@
    "views": 215900,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4iB0bDrFU5kqzoDSRupABvEWftIIUEfgqMaiE~tplv-tiktokx-origin.image?dr=14575&x-expires=1790377200&x-signature=Dk9brxOMIdvLNWUe47EE6EgFXcY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4iB0bDrFU5kqzoDSRupABvEWftIIUEfgqMaiE~tplv-tiktokx-origin.image?dr=14575&x-expires=1790377200&x-signature=o4G59%2BL%2Bwiryenf2p7poVgESQvk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789447594,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685618898128915730",
    "region": "kr"
@@ -285,7 +285,7 @@
   {
    "account": "jaemyung_lee",
    "title": "미국 뉴욕타임즈와 인터뷰를 가졌습니다. Urging Pivot on North Korea, South’s Leader Calls for Easing Sanctions https://blog.naver.com/jaem",
-   "views": 44700,
+   "views": 44900,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIBVEyCAEfPFpCCAvAhEZlCAjHXfDDAjIf8IR4~tplv-tiktokx-origin.image?dr=14575&x-expires=1790377200&x-signature=O%2B4usUe3j4esXUvRksBkmOrz%2FkQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -310,7 +310,7 @@
    "views": 32600,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oU9rIZjq1EKACAAxNBVioCpiI2BAtmA28wfcPR~tplv-tiktokx-origin.image?dr=14575&x-expires=1790377200&x-signature=EUgfeD56hfW%2FRs%2BIF5eBVBZgvBw%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oU9rIZjq1EKACAAxNBVioCpiI2BAtmA28wfcPR~tplv-tiktokx-origin.image?dr=14575&x-expires=1790377200&x-signature=mrb25Ev0KUjLPazgTLwaGzHBDOo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789605105,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7686295400835239175",
    "region": "kr"
@@ -340,7 +340,7 @@
   {
    "account": "tictok_ent",
    "title": "수지, 시민들의 욕을 부르는 미모 / 아누아(Anua) 포토월 더파운더즈의 글로벌 뷰티 브랜드 아누아(Anua)의 'PDRN 라인 팝업스토어' 오픈을 기념하는 포토행사가 18일 오전 서울 성동구 성수동에 위치한 올리",
-   "views": 8077,
+   "views": 8092,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ow8gANS3AmQCK2UqVEUCB50sGEQeIAFZAFArfD~tplv-tiktokx-origin.image?dr=14575&x-expires=1790377200&x-signature=f0BxOejHuBbSmeJnYMmGYohkkgQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -350,33 +350,6 @@
   }
  ],
  "reddit": [
-  {
-   "sub": "news",
-   "title": "167,639 Pounds of Meat Recalled After Bypassing USDA Inspection",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "",
-   "time": 1790195679,
-   "url": "https://www.reddit.com/r/news/comments/1wohg7n/167639_pounds_of_meat_recalled_after_bypassing/"
-  },
-  {
-   "sub": "technology",
-   "title": "DoorDash Spent $1.4 Million Trying to Stop Mamdani From Becoming Mayor. Now We Know Why.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/Vm2vO05RJN-HMZSWUh1mmQZ04wZIhA7k-1iLx0UEkXU.jpeg?width=640&crop=smart&auto=webp&s=4e713c48aa96d0886883a35b9d5471b968d7edf8",
-   "time": 1790186316,
-   "url": "https://www.reddit.com/r/technology/comments/1wod97k/doordash_spent_14_million_trying_to_stop_mamdani/"
-  },
-  {
-   "sub": "pics",
-   "title": "President Zelensky entering the UN headquarters",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/kmt16ocambrh1.jpeg?width=640&crop=smart&auto=webp&s=d86488875d8fbe822cc6f14468f0f69b590c6b21",
-   "time": 1790191456,
-   "url": "https://www.reddit.com/r/pics/comments/1wofl6e/president_zelensky_entering_the_un_headquarters/"
-  },
   {
    "sub": "mildlyinfuriating",
    "title": "78$ sushi arrived like this:",
@@ -396,6 +369,33 @@
    "url": "https://www.reddit.com/r/Warframe/comments/1woalh6/gifting_narin_bundle/"
   },
   {
+   "sub": "pics",
+   "title": "President Zelensky entering the UN headquarters",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/kmt16ocambrh1.jpeg?width=640&crop=smart&auto=webp&s=d86488875d8fbe822cc6f14468f0f69b590c6b21",
+   "time": 1790191456,
+   "url": "https://www.reddit.com/r/pics/comments/1wofl6e/president_zelensky_entering_the_un_headquarters/"
+  },
+  {
+   "sub": "news",
+   "title": "167,639 Pounds of Meat Recalled After Bypassing USDA Inspection",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1790195679,
+   "url": "https://www.reddit.com/r/news/comments/1wohg7n/167639_pounds_of_meat_recalled_after_bypassing/"
+  },
+  {
+   "sub": "technology",
+   "title": "DoorDash Spent $1.4 Million Trying to Stop Mamdani From Becoming Mayor. Now We Know Why.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/Vm2vO05RJN-HMZSWUh1mmQZ04wZIhA7k-1iLx0UEkXU.jpeg?width=640&crop=smart&auto=webp&s=4e713c48aa96d0886883a35b9d5471b968d7edf8",
+   "time": 1790186316,
+   "url": "https://www.reddit.com/r/technology/comments/1wod97k/doordash_spent_14_million_trying_to_stop_mamdani/"
+  },
+  {
    "sub": "politics",
    "title": "Senator says “furry” pilots are taking over airlines because of trans people: “We’re sitting ducks!”. Sen. Tommy Tuberville (R-AL) claimed doctors are performing secret surgeries on trans kids & that ",
    "score": 0,
@@ -405,40 +405,13 @@
    "url": "https://www.reddit.com/r/politics/comments/1wo9gw5/senator_says_furry_pilots_are_taking_over/"
   },
   {
-   "sub": "Unexpected",
-   "title": "Can I See You In My Office?",
+   "sub": "Damnthatsinteresting",
+   "title": "Two for flinching",
    "score": 0,
    "cmts": 0,
-   "thumb": "",
-   "time": 1790187404,
-   "url": "https://www.reddit.com/r/Unexpected/comments/1wodqxv/can_i_see_you_in_my_office/"
-  },
-  {
-   "sub": "videogames",
-   "title": "I work at an Amazon warehouse. Amazon ordered us to send many video game discs and music albums to destroy.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/3u2cmgdr87rh1.jpeg?width=640&crop=smart&auto=webp&s=36df9b3de5b70101b382b6d94af26a7309a65028",
-   "time": 1790138474,
-   "url": "https://www.reddit.com/r/videogames/comments/1wnw7qa/i_work_at_an_amazon_warehouse_amazon_ordered_us/"
-  },
-  {
-   "sub": "SipsTea",
-   "title": "Group Project actually made more sense",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/bm0fxftjubrh1.jpeg?width=640&crop=smart&auto=webp&s=71e0520a2667057842b7010861a1594afb5b75b1",
-   "time": 1790194228,
-   "url": "https://www.reddit.com/r/SipsTea/comments/1wogtfb/group_project_actually_made_more_sense/"
-  },
-  {
-   "sub": "comics",
-   "title": "I think",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/qi2756rifbrh1.jpeg?width=640&crop=smart&auto=webp&s=eb776d1290b7de818ef906245933fe67e3c53eda",
-   "time": 1790189181,
-   "url": "https://www.reddit.com/r/comics/comments/1woejll/i_think/"
+   "thumb": "https://external-preview.redd.it/enEwdHFzNGg5Y3JoMZEDJgaeYYvJ3TdoC-L0XeNonTXSMWrkXxHT2lbzN7sK.jpeg?width=320&crop=smart&auto=webp&s=c6827e766846ee36ee8e050aaf8a58d6b3ca003d",
+   "time": 1790199257,
+   "url": "https://www.reddit.com/r/Damnthatsinteresting/comments/1woiytd/two_for_flinching/"
   },
   {
    "sub": "classicwow",
@@ -457,11 +430,74 @@
    "thumb": "https://external-preview.redd.it/aDlkNmwwOHpuOHJoMWswwsSxChcXHaEGMGRfzYcOIHlAbvA_uPLFaVl3q4Di.png?width=320&crop=smart&auto=webp&s=5947f0a07b335de2d7f4d7571cfb5f8cf7fc16fa",
    "time": 1790155711,
    "url": "https://www.reddit.com/r/interestingasfuck/comments/1wo15g7/how_many_plates_does_it_take_to_stop_a_bullet/"
+  },
+  {
+   "sub": "Unexpected",
+   "title": "Can I See You In My Office?",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1790187404,
+   "url": "https://www.reddit.com/r/Unexpected/comments/1wodqxv/can_i_see_you_in_my_office/"
+  },
+  {
+   "sub": "MadeMeSmile",
+   "title": "My friends won’t stop gifting me banana themed tools but I don’t even like bananas",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/s89j42s597rh1.jpeg?width=640&crop=smart&auto=webp&s=939fb03d3f9e5d4e0e6d9f19d41e233069c27a74",
+   "time": 1790138606,
+   "url": "https://www.reddit.com/r/MadeMeSmile/comments/1wnw93p/my_friends_wont_stop_gifting_me_banana_themed/"
+  },
+  {
+   "sub": "AskReddit",
+   "title": "What is something that is basically on life-support and we don’t realize it yet?",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1790177717,
+   "url": "https://www.reddit.com/r/AskReddit/comments/1wo9c0b/what_is_something_that_is_basically_on/"
+  },
+  {
+   "sub": "korea",
+   "title": "'There are gay people in schools, too': Teachers form 1st LGBTQ+ committee",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/VkuI0xjRUmcEKayo0HcGdmrH2UtqS-9EtF0IlITNnu8.jpeg?width=640&crop=smart&auto=webp&s=0219a47e1ca76846177e2342fec79445951e83d9",
+   "time": 1790170396,
+   "url": "https://www.reddit.com/r/korea/comments/1wo659u/there_are_gay_people_in_schools_too_teachers_form/"
+  },
+  {
+   "sub": "korea",
+   "title": "South Korea's Births Surge 11.1% in July, Highest Growth in 19 Years, Continues 25-Month Consecutive Increase. Marriages Up 9.3% From the Same Month Last Year",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/0KvcnhlozIk2SexPKiXEzsz-gK5PCQG9dVaTBxpf6j8.jpeg?width=640&crop=smart&auto=webp&s=f40d896f4ae3f1c2d39e198ce2e39835388d8d05",
+   "time": 1790133012,
+   "url": "https://www.reddit.com/r/korea/comments/1wnufge/south_koreas_births_surge_111_in_july_highest/"
+  },
+  {
+   "sub": "korea",
+   "title": "Falling through the cracks: Grandfather raising rape survivor's baby gets no welfare support",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/LdIUqa7sZcDEMnK0wvQW9iPmXcCFf8nuX7puPAkUMqs.jpeg?width=640&crop=smart&auto=webp&s=76c54d23b4c78c77cd1f7a34dd9b6b88e09283c4",
+   "time": 1790145659,
+   "url": "https://www.reddit.com/r/korea/comments/1wnyd8v/falling_through_the_cracks_grandfather_raising/"
   }
  ],
  "disaster": [],
  "_cover": {
   "ok": {
+   "x": [
+    "64bitcoinkr",
+    "awaken_eyes",
+    "economysniper0",
+    "freedom_73x",
+    "globalbrief_now",
+    "kyunghyang",
+    "marionawfal"
+   ],
    "threads": [
     "aicoffeechat",
     "aipeekme",
@@ -476,12 +512,16 @@
     "tictok_ent"
    ]
   },
-  "why": {},
+  "why": {
+   "x": {
+    "jajaja7878uu": 429
+   }
+  },
   "landing": {
-   "at": "2026-09-24T07:31:22",
+   "at": "2026-09-24T08:01:22",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-09-24T08:01:19.762084+09:00"
+ "updated": "2026-09-24T08:35:06.628831+09:00"
 }
