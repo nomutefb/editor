@@ -41,6 +41,9 @@ FAST_MAX_H = 4   # 신규↔누적 칼럼 경계(h) = 뷰어 FAST_MAX_H 값 사�
 #   1 = 종전 1군 잔여(발행 FAST_MAX_H~FRESH_KEEP_H 신선 중 2 아닌 것) · 0 = 나머지.
 # 롤백 = 아래 기본값 "1"→"0"(액션·폰·PC 레인 공통) 또는 CAND_CUT_VISIBLE=0 = 종전 2군 순서(바이트 동일). 미러 import 실패도 종전 순서로 폴백.
 CUT_VISIBLE = os.environ.get("CAND_CUT_VISIBLE", "1").strip().lower() not in ("0", "false", "no", "off")
+# 2단 나이 상한(평의회4-3 260924) — 누적 자격이어도 CUM_KEEP_H 넘은 건 시간 감쇠로 칼럼 바닥(48h 감쇠 ~.02)이라 사실상 안 보인다.
+#   2단 무제한이면 3~10일 된 건이 예산 180~320KB 를 쥔다(구조한 cross≥8 컷의 71% 가 24h↑) → 0.5단(1단 아래 · 0단 위)으로.
+CUM_KEEP_H = float(os.environ.get("CAND_CUM_KEEP_H", "48"))
 # ── 속보(velocity·태그) 1차 게이트 — burst(15분 내 동시 매체) OR [속보] 제목 태그. 2차 내용판정은 별도(Claude breaking_judge). ──
 BREAKING_BURST = int(os.environ.get("BREAKING_BURST", "3"))          # 속보 후보: burst 이 값 이상(다수 동시 보도)
 # 제목 태그([속보]·[상보]·[긴급]·[1보]·(1보)) = 1~2매체여도 속보 후보 → AI 내용검증(언론고시 기자 = 낚시 안 씀) · 정본 = scraper/brk_tag.py
@@ -663,7 +666,8 @@ def main():
             if age is not None and age < FAST_MAX_H:   # fresh_tier 가 이미 -10h 하한·FRESH_KEEP_H 상한을 걸었다
                 return 3
         if id(c) in vis:
-            return 2
+            a2 = _age_h_first(c.get("published"), c.get("first_seen"))
+            return 2 if (a2 is None or a2 < CUM_KEEP_H) else 0.5   # 오래된 누적 자격 = 1단(4~6h 신선) 아래
         return 1 if ft else 0
     band = {id(c): cut_band(c) for c in kept} if (_cum_enter is not None and vis is not None) else {}   # 계기판은 레버와 무관하게 산출(레버 OFF 날 누적 자격 컷도 보이게)
     visible_order = CUT_VISIBLE and (bool(band) or not kept)   # 빈 풀 = 순서 무의미(종전 폴백 표기 안 함)
