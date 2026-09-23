@@ -140,7 +140,7 @@ function renderScrap() {
   document.querySelectorAll('.sc-rsn').forEach(closeRsn);
   if (_scIO) _scIO.disconnect();   // 교체될 옛 센티널 관찰 해제(detached 노드 참조 누적 방지)
   host.classList.add('scrap-cols');
-  host.classList.toggle('no-anim', _searchRender);   // 커밋 = 구성이 실제로 바뀐 경우뿐 → 새 카드·삭제 촤르륵 유지 · 검색 타이핑만 스태거 생략(동일 구성 케이스는 위 스킵이 흡수 · 분신술 A2 계승)
+  host.classList.toggle('no-anim', _searchRender || _scAutoRender);   // 자동 반영(라이브 폴) = 스태거 없이 교체(1분마다 목록 전체 촤르륵 금지)   // 커밋 = 구성이 실제로 바뀐 경우뿐 → 새 카드·삭제 촤르륵 유지 · 검색 타이핑만 스태거 생략(동일 구성 케이스는 위 스킵이 흡수 · 분신술 A2 계승)
   host.replaceChildren(...neo.childNodes);
   _scrapSig = _scSig;
   if (_scIO) _sents.forEach(s => _scIO.observe(s));

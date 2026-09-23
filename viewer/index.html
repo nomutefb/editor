@@ -11667,6 +11667,29 @@ const scRelTime = iso => {   // published(ISO) → 상대시각(렌더 시점 �
   return d + '일 전';
 };
 let SCRAP_LOADING = false;
+// 수집함 자동 반영(운영자 260924 「새 후보가 탭을 옮겨야 보임」 봉합) — 라이브 폴(1분)이 받은 새 후보를 보던 목록에 반영한다.
+//   ⚠ 누르려던 카드가 밀려 엉뚱한 카드를 PICK 하는 오탭이 종전 quiet(무반영)의 이유였다 → 반영은 **손을 뗀 지 SC_IDLE_MS 뒤**에만,
+//   사유 메뉴·실패 메뉴·병합 모드·입력칸·작성 모달·요약 리더가 열려 있으면 미룬다. 반영 = 스태거 없이(no-anim) 교체 + 보던 첫 카드 화면 위치 고정.
+//   구성이 같으면 renderScrap 시그니처 스킵이 DOM 무접촉(깜빡임 0)이라 1분마다 불러도 실변경 때만 그려진다.
+const SC_IDLE_MS = 6000;
+let _scLastInput = 0, _scAutoT = 0, _scAutoRender = false;
+['pointerdown', 'touchstart', 'wheel', 'keydown', 'scroll'].forEach(t => addEventListener(t, () => { _scLastInput = Date.now(); }, { passive: true, capture: true }));
+function scrapAutoBusy() {
+  const ae = document.activeElement;
+  return MERGE_MODE || !!document.querySelector('.sc-rsn') || !($('#failmenu') || { hidden: true }).hidden || isComposingModalOpen()
+    || !!($('#dlg') && $('#dlg').open) || !!(ae && /^(INPUT|TEXTAREA|SELECT)$/.test(ae.tagName));
+}
+function scrapAutoRefresh() {
+  clearTimeout(_scAutoT);
+  if (CURTAB !== 'scrap' || !SCRAP_LOADED || document.visibilityState !== 'visible') return;
+  const wait = SC_IDLE_MS - (Date.now() - _scLastInput);
+  if (wait > 0 || scrapAutoBusy()) { _scAutoT = setTimeout(scrapAutoRefresh, Math.max(wait, 3000)); return; }
+  const vis = [...document.querySelectorAll('#scrapList .sc-item')].find(x => x.getBoundingClientRect().bottom > 0);   // 화면 맨 위에 걸친 카드 = 읽던 자리
+  const cid = vis && vis.dataset.cid, top0 = vis ? vis.getBoundingClientRect().top : 0;
+  _scAutoRender = true;
+  try { renderScrap(); } finally { _scAutoRender = false; }
+  if (cid) { const nv = [...document.querySelectorAll('#scrapList .sc-item')].find(x => x.dataset.cid === cid); if (nv) { const d = nv.getBoundingClientRect().top - top0; if (Math.abs(d) > 1) window.scrollBy(0, d); } }
+}
 async function loadCandidates(quiet) {   // quiet=라이브 폴링: CANDS·속보감지만 갱신, 목록 재렌더 안 함(재애니 깜빡임 방지)
   if (SCRAP_LOADING) return; SCRAP_LOADING = true;   // 동기 가드 — eager 부트 + 탭 진입 + 라이브폴 중복 fetch 방지
   if (!quiet) ratedKeep.clear();   // 갱신(새로고침/부트/탭 첫 진입) = 별점 매긴 카드 리스트서 비움(라이브폴은 유지)
@@ -11676,7 +11699,7 @@ async function loadCandidates(quiet) {   // quiet=라이브 폴링: CANDS·속�
       try {
         const sig = (typeof AbortSignal !== 'undefined' && AbortSignal.timeout) ? AbortSignal.timeout(12000) : null;   // 12s 상한 = loadTrends(11244행) 관용구 그대로(새 규칙 창작 0 · 기능검출 가드 동일). 없으면 **매달린 소켓이 SCRAP_LOADING을 영구 점유**한다 — 그 상태에선 재진입 가드(9725행)가 이후 모든 폴을 즉시 return시키고, 그 return엔 finally가 안 붙어 checkFreshLane·syncStaleMsg가 **아예 안 돈다** = 서버가 회복돼도 빨강 기어·상주 토스트가 스스로 못 꺼진다(260725 "자가 소등 불능" 봉합의 재발 경로 · 모바일 백그라운드 전환 중 소켓 정지가 실제 트리거). 12s 초과 = 죽은 요청이라 폴 주기(60s·15345행) 안에서 다음 시도가 정상 재개
         const r = await fetch(u, sig ? { signal: sig } : undefined);
-        if (r.ok) { const d = await r.json(); if (Array.isArray(d) && d.length) { CANDS = d; CAND_LIVE = (u === 'api/candidates'); CAND_TS = Date.now(); SCRAP_LOADED = true; detectBreaking(); detectPickFail(); if (!quiet && CURTAB === 'scrap') renderScrap(); return; } }   // &&d.length: api/candidates가 GitHub 서빙 실패 시 빈 [](HTTP 200)을 뱉으면 그걸 유효응답으로 수용해 정적 폴백을 건너뛰고 수집함이 통째로 비던 SPOF 봉합(260714) — 빈 배열이면 다음 소스(정적 candidates.json)로 폴백. 실뉴스 0건은 현실적 부재라 [] = 서빙실패 신호
+        if (r.ok) { const d = await r.json(); if (Array.isArray(d) && d.length) { CANDS = d; CAND_LIVE = (u === 'api/candidates'); CAND_TS = Date.now(); SCRAP_LOADED = true; detectBreaking(); detectPickFail(); if (quiet) scrapAutoRefresh(); if (!quiet && CURTAB === 'scrap') renderScrap(); return; } }   // &&d.length: api/candidates가 GitHub 서빙 실패 시 빈 [](HTTP 200)을 뱉으면 그걸 유효응답으로 수용해 정적 폴백을 건너뛰고 수집함이 통째로 비던 SPOF 봉합(260714) — 빈 배열이면 다음 소스(정적 candidates.json)로 폴백. 실뉴스 0건은 현실적 부재라 [] = 서빙실패 신호
       } catch { /* 다음 소스 */ }
     }
     if (!SCRAP_LOADED) CANDS = []; SCRAP_LOADED = true; if (!quiet && CURTAB === 'scrap') renderScrap();   // last-good 유지(분신8 — loadSocial 실패 처리와 패턴 통일 260706)
@@ -12679,7 +12702,7 @@ function renderScrap() {
   document.querySelectorAll('.sc-rsn').forEach(closeRsn);
   if (_scIO) _scIO.disconnect();   // 교체될 옛 센티널 관찰 해제(detached 노드 참조 누적 방지)
   host.classList.add('scrap-cols');
-  host.classList.toggle('no-anim', _searchRender);   // 커밋 = 구성이 실제로 바뀐 경우뿐 → 새 카드·삭제 촤르륵 유지 · 검색 타이핑만 스태거 생략(동일 구성 케이스는 위 스킵이 흡수 · 분신술 A2 계승)
+  host.classList.toggle('no-anim', _searchRender || _scAutoRender);   // 자동 반영(라이브 폴) = 스태거 없이 교체(1분마다 목록 전체 촤르륵 금지)   // 커밋 = 구성이 실제로 바뀐 경우뿐 → 새 카드·삭제 촤르륵 유지 · 검색 타이핑만 스태거 생략(동일 구성 케이스는 위 스킵이 흡수 · 분신술 A2 계승)
   host.replaceChildren(...neo.childNodes);
   _scrapSig = _scSig;
   if (_scIO) _sents.forEach(s => _scIO.observe(s));
