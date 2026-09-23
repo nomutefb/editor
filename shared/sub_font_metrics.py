@@ -4,7 +4,12 @@
   lh  = (usWinAscent + usWinDescent) / unitsPerEm   — libass 는 자막 크기를 이 줄 높이로 정규화한다(글자 본체 = 크기 ÷ lh)
   dsc = usWinDescent / (usWinAscent + usWinDescent)  — 기준선 = 줄 상자 아랫변에서 dsc × 크기 위
   bk  = ((윈어센트 − 잉크 위) − (윈디센트 − 잉크 아래)) / (2 × 줄 높이) — 줄 상자 가운데 대비 한글 잉크 가운데(+ = 아래)
-        잉크 = KS X 1001 상용 한글 2,350자 글리프 윗변·아랫변의 90% 분위(자막 한 줄 8~13자 ≈ 줄마다 가장 높은·낮은 글자)
+        잉크 = KS X 1001 상용 한글 2,350자 글리프 윗변·아랫변의 75% 분위 — 실제 자막(viewer/ly_out 1,674줄 · 러너 청킹 뒤 한 줄 3~10자)의
+        줄별 값 중앙값과 전 폰트 ≤0.12px@1920(90% 분위 = 긴 줄 편향 ≤0.66px · 260923 평의회 2 대조) · 폰트 파일만으로 재현(말뭉치 불요)
+  emb = 1/(128 × lh) — 굵은 면이 없어 libass 가 합성 굵게를 거는 폰트(usWeightClass + 150 < 700)만: FreeType 굵게(em/64)는 윗변만 올려
+        잉크 가운데가 em/128 위로 간다(실렌더 윗변 −0.9~−1.0px@fs72 · 아랫변 0) → 러너 BOX_K 에서만 뺀다(크롬 합성 굵게는 위아래 대칭 = 미리보기 bk 는 그대로)
+  lf  = (영문 하강부 g·j·p·q·y 최대 깊이 ÷ 줄 높이) − dsc — 끝 줄에 하강부 글자가 있으면 러너가 박스 오프셋을 lf × 크기 아래로 막는다
+        (= 박스 아랫변 ≥ 하강부 + pad/2 · 한글 중심 보정이 박스를 올리는 폰트에서 g·p·y 가 아랫변에 닿지 않게 · ly_burn.LAT_K)
 
 폰트 파일 = **러너가 실제로 고르는 파일**(libass fontselect 로그로 대조 · 굵은 면이 없는 폰트는 러너도 그 파일에 합성 굵게).
 사용: python3 shared/sub_font_metrics.py [키=폰트파일[#ttc번호] ...] [--check]
@@ -44,7 +49,7 @@ def ks_hangul():
     return out
 
 
-def metrics(path, index=0, q=0.9):
+def metrics(path, index=0, q=0.75):
     from fontTools.pens.boundsPen import BoundsPen
     from fontTools.ttLib import TTFont
     f = TTFont(path, fontNumber=index)
@@ -65,7 +70,18 @@ def metrics(path, index=0, q=0.9):
     tops.sort()
     bots.sort()
     t, b = tops[int(len(tops) * q)], bots[int(len(bots) * q)]
-    return {"lh": round(a + d, 3), "dsc": round(d / (a + d), 4), "bk": round(((a - t) - (d - b)) / (2 * (a + d)), 4)}
+    lat = []
+    for ch in "gjpqy":
+        g = cmap.get(ord(ch))
+        if g:
+            pen = BoundsPen(gs)
+            gs[g].draw(pen)
+            if pen.bounds:
+                lat.append(-pen.bounds[1] / upem)
+    ld = max(lat) if lat else 0.0
+    syn = os2.usWeightClass + 150 < 700   # libass 합성 굵게 조건(요청 700 > 면 굵기 + 150)
+    return {"lh": round(a + d, 3), "dsc": round(d / (a + d), 4), "bk": round(((a - t) - (d - b)) / (2 * (a + d)), 4),
+            "lf": round(ld / (a + d) - d / (a + d), 4), "emb": round(1 / (128 * (a + d)), 4) if syn else 0.0}
 
 
 def repo_values():
@@ -77,7 +93,7 @@ def repo_values():
         html = fh.read()
     pv = {k: {"lh": float(a), "dsc": float(b), "bk": float(c)}
           for k, a, b, c in re.findall(r"\n  (\w+):\{lbl:'[^']*',lh:([0-9.]+),dsc:([0-9.]+),bk:(-?[0-9.]+),", html)}
-    return ly_burn.BOX_K, pv
+    return ly_burn.BOX_K, ly_burn.EMB_K, ly_burn.LAT_K, pv
 
 
 def main(argv):
@@ -94,15 +110,21 @@ def main(argv):
             print("  %-10s 건너뜀(파일 없음: %s)" % (k, path))
             continue
         got[k] = metrics(path, idx)
-        print("  %-10s lh=%.3f dsc=%.4f bk=%+.4f" % (k, got[k]["lh"], got[k]["dsc"], got[k]["bk"]))
+        print("  %-10s lh=%.3f dsc=%.4f bk=%+.4f emb=%.4f lf=%+.4f" % (k, got[k]["lh"], got[k]["dsc"], got[k]["bk"], got[k]["emb"], got[k]["lf"]))
     print("BOX_K = {%s}" % ", ".join('"%s": %s' % (k, v["bk"]) for k, v in got.items()))
+    print("EMB_K = {%s}" % ", ".join('"%s": %s' % (k, v["emb"]) for k, v in got.items() if v["emb"]))
+    print("LAT_K = {%s}" % ", ".join('"%s": %s' % (k, v["lf"]) for k, v in got.items()))
     if not check:
         return 0
-    box_k, pv = repo_values()
+    box_k, emb_k, lat_k, pv = repo_values()
     bad = []
     for k, v in got.items():
         if k in box_k and abs(box_k[k] - v["bk"]) > 0.0005:
             bad.append("BOX_K[%s] %s ≠ %s" % (k, box_k[k], v["bk"]))
+        if abs(emb_k.get(k, 0.0) - v["emb"]) > 0.0005:
+            bad.append("EMB_K[%s] %s ≠ %s" % (k, emb_k.get(k, 0.0), v["emb"]))
+        if k in lat_k and abs(lat_k[k] - v["lf"]) > 0.0005:
+            bad.append("LAT_K[%s] %s ≠ %s" % (k, lat_k[k], v["lf"]))
         for m in ("lh", "dsc", "bk"):
             if k in pv and abs(pv[k][m] - v[m]) > 0.0005:
                 bad.append("FONT_PV.%s.%s %s ≠ %s" % (k, m, pv[k][m], v[m]))

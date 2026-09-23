@@ -151,12 +151,15 @@ function chk(name, pass, detail) { R.push({ name, pass, detail }); console.log((
         const cs = getComputedStyle(sp), fs = bx.height * P.size / 1000, f = FONT_PV[P.font] || {}, r = sp.getBoundingClientRect();
         const g = sp.style.background || '', grad = g.includes('gradient');   // 보이는 박스 = 요소 − 그라데 위·아래 투명 구간(브라우저가 transparent 를 rgba(0, 0, 0, 0) 로 정규화)
         const cT = grad ? parseFloat((g.match(/\) ([0-9.]+)px,/) || [0, 0])[1]) : 0, cB = grad ? parseFloat((g.match(/calc\(100% - ([0-9.]+)px\)/) || [0, 0])[1]) : 0;
+        const z = document.createElement('i'); z.style.cssText = 'display:inline-block;width:0;height:0;vertical-align:baseline'; sp.appendChild(z);
+        const base = z.getBoundingClientRect().top; z.remove();   // 기준선 = 러너 자리(#pvSub 아랫변 = 러너 줄 상자 아랫변 − dsc×fs · 정수 px)
+        const baseWant = Math.round(document.getElementById('pvSub').getBoundingClientRect().bottom - (f.dsc || 0) * fs);
         return res({ font: P.font, fs: +fs.toFixed(3), px: parseFloat(cs.fontSize), lh: f.lh, fw: cs.fontWeight, kw: kw ? getComputedStyle(kw).fontWeight : '',
-          boxH: +(r.height - cT - cB).toFixed(2), want: +(fs * (1 + P.sh / 1000)).toFixed(2) });
+          boxH: +(r.height - cT - cB).toFixed(2), want: +(fs * (1 + P.sh / 1000)).toFixed(2), base: +base.toFixed(2), baseWant });
       }, 400)); });
-    chk('C10 자막 미리보기 = 러너 미러(글자 = fs÷lh ±0.05 · 굵기 700 = 강조어 · 박스 높이 fs×(1+pad) ±1px)',
-      !!sub && sub.lh > 1 && Math.abs(sub.px - sub.fs / sub.lh) <= 0.05 && sub.fw === '700' && sub.kw === sub.fw && Math.abs(sub.boxH - sub.want) <= 1,
-      sub ? (sub.font + ' · font-size ' + sub.px + ' (기대 ' + (sub.fs / sub.lh).toFixed(2) + ') · 굵기 ' + sub.fw + '/강조 ' + sub.kw + ' · 박스 ' + sub.boxH + ' (기대 ' + sub.want + ')') : '자막 미리보기 없음');
+    chk('C10 자막 미리보기 = 러너 미러(글자 = fs÷lh ±0.05 · 굵기 700 = 강조어 · 박스 높이 fs×(1+pad) ±1px · 기준선 = 러너 자리 ±0.5)',
+      !!sub && sub.lh > 1 && Math.abs(sub.px - sub.fs / sub.lh) <= 0.05 && sub.fw === '700' && sub.kw === sub.fw && Math.abs(sub.boxH - sub.want) <= 1 && Math.abs(sub.base - sub.baseWant) <= 0.5,
+      sub ? (sub.font + ' · font-size ' + sub.px + ' (기대 ' + (sub.fs / sub.lh).toFixed(2) + ') · 굵기 ' + sub.fw + '/강조 ' + sub.kw + ' · 박스 ' + sub.boxH + ' (기대 ' + sub.want + ') · 기준선 ' + sub.base + ' (기대 ' + sub.baseWant + ')') : '자막 미리보기 없음');
 
     // C6 비율 칩 → 미리보기 리사이즈(9:16 → 1:1) — 260728 재편: 순환값(data-cyc) → 칩 상시 나열(data-p="ar:…" · 이미지 스튜디오 형식) = 조작만 칩 클릭으로
     const arPick = async v => { await pg.click('[data-p="ar:' + v + '"]'); await pg.waitForTimeout(350);

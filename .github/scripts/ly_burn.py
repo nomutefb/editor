@@ -69,12 +69,22 @@ REPO_FONT_KEYS = {"paper", "pretendard", "plex", "jua", "gowun"}   # barun = apt
 #   한글 글자(잉크)가 줄 상자 안 어디에 앉는지는 폰트마다 다르다: 본고딕은 260812 기하(윗변 = 어센트선 · 아랫변 = 디센트 + pad)로 마침 위아래가 같았지만
 #   (1080×1920 · 38‰ 실굽기 위 16 / 아래 17px) 프리텐다드 9/16 · 주아 4/20 · 바른고딕 4/17 = 아래가 두꺼웠다.
 #   → 박스 높이(fs×(1+pad))는 그대로, 박스 가운데를 **한글 잉크 가운데**로: 값 = (잉크 중심 − 줄 상자 중심) ÷ 줄 높이(+ = 잉크가 아래).
-#   잉크 = KS X 1001 상용 한글 2,350자 윗변·아랫변 90% 분위(자막 한 줄 8~13자 ≈ 줄마다 가장 높은·낮은 글자 · 실제 문장 3,000줄 줄별 중앙값과 ≤0.4px@1920 차)
+#   잉크 = KS X 1001 상용 한글 2,350자 윗변·아랫변 75% 분위(실제 자막 viewer/ly_out 1,674줄 줄별 중앙값과 전 폰트 ≤0.12px@1920 · 90% 분위는 긴 줄 편향 ≤0.66px)
 #   = 생성 코드 shared/sub_font_metrics.py 출력(러너가 실제로 고르는 파일 = libass fontselect 로그 대조 · 나눔 2종 = apt fonts-nanum(-extra) · --check = 저장소 값 대조).
 #   손글씨(pen)는 글자마다 위아래 편차가 커서 문장에 따라 1~4px 남을 수 있다(샘플 '자막 위치 미리보기' 13/21 · '오늘은 날씨가 정말 좋네요' 10/11).
 #   뷰어 edit.html FONT_PV.bk 와 같은 값(미리보기 = 같은 산식) · 새 폰트 = 여기와 FONT_PV 에 함께 추가(키·값 동일성 = tests/test_ly_burn_subs.py).
-BOX_K = {"gothic": 0.0425, "serif": 0.0442, "nanum": 0.0299, "pen": 0.0230, "paper": -0.0061,
-         "pretendard": 0.0006, "barun": -0.0383, "plex": 0.0173, "jua": -0.0521, "gowun": 0.0439}
+BOX_K = {"gothic": 0.0425, "serif": 0.0421, "nanum": 0.0274, "pen": 0.0132, "paper": 0.0005,
+         "pretendard": 0.0006, "barun": -0.0404, "plex": 0.0157, "jua": -0.0476, "gowun": 0.0404}
+# 합성 굵게 보정(260923 평의회 1·2) — 굵은 면이 없는 폰트(usWeightClass + 150 < 700)는 libass 가 FreeType 굵게(em/64)를 거는데 **윗변만** 올라가
+#   잉크 가운데가 em/128 위로 간다(실렌더 윗변 −0.9~−1.0px@fs72 · 아랫변 0) → 러너 박스 오프셋에서만 1/(128·lh) 를 뺀다.
+#   미리보기는 크롬 합성 굵게가 위아래 대칭이라 FONT_PV.bk 에 넣지 않는다(= BOX_K 그대로).
+EMB_K = {"paper": 0.0066, "pen": 0.0068, "jua": 0.0070, "gowun": 0.0054}
+# 영문 하강부 하한(260923 평의회 1·6) — 끝 줄에 g·j·p·q·y 가 있으면 박스 오프셋 ≥ LAT_K × 크기 = 박스 아랫변 ≥ 하강부 + pad/2.
+#   한글 중심 보정이 박스를 올리는 폰트(주아·바른고딕·페이퍼)에서 하강부가 아랫변에 닿던 것(주아 7→0px) 방지 · 한글만인 줄은 무접촉.
+#   값 = (g·j·p·q·y 최대 깊이 ÷ 줄 높이) − 윈 디센트 비(sub_font_metrics.py lf) · 미리보기 샘플('자막 위치 미리보기')은 한글뿐이라 해당 없음.
+LAT_K = {"gothic": -0.0311, "serif": -0.0104, "nanum": -0.0061, "pen": -0.0704, "paper": 0.0179,
+         "pretendard": -0.0262, "barun": -0.0090, "plex": -0.1353, "jua": -0.0018, "gowun": -0.1195}
+LAT_DESC = frozenset("gjpqy")
 GIT_FALLBACK_MAX = 30 * 1024 * 1024   # R2 미설정 시 git 커밋 상한(레포 비대 방지)
 MAX_DUR = 600                    # 릴스/쇼츠 도구 — 10분 초과 영상은 번인 거절(러너 시간 보호)
 OVL_MAX_SEC = 600                # 자막 오버레이(투명 WebM) 산출 상한 — VP9 알파 인코딩 예산 보호(운영자 260731 · 릴스/쇼츠 주사용 ≤ 수 분이라 실사용 전량 커버)
@@ -1041,7 +1051,8 @@ def _shad_y(v):
 def _box_lines(plain, hp, dy):
     """박스 레이어 줄별 태그(260913 · 260923 중심 보정) — 쌓인 박스 = 종전 [첫 줄 어센트선, 끝 줄 디센트 + pad] 모양 그대로 (pad/2 − dy) 만큼 위로.
     한 줄 = 선두 태그(pad/2 보더 + 그림자 dy)만. 여러 줄 = 앞 줄들은 [어센트, 디센트] 상자(보더 0)의 그림자를 dy − pad/2 로, 마지막 줄만 pad/2 보더 그림자를 dy 로.
-    libass 줄 전진 = fs = 어센트+디센트(LINE_F 1.0 실측)라 앞 줄 아랫변과 다음 줄 윗변이 종전처럼 맞닿는다(모두 같은 양만큼 옮기므로 이음새 불변) —
+    libass 줄 전진 = fs = 어센트+디센트(LINE_F 1.0 실측) · 단 libass 는 세로 보더 0 도 **최소 1px** 로 그려 앞 줄 상자가 위아래 1px 씩 커진다
+    = 이음새 1px(앞 줄끼리 2px) 겹침 = 반투명 배경에서 가는 진한 선(종전과 동일 · 중심 보정은 모든 줄을 같은 양만큼 옮기므로 이음새 불변) —
     전 줄에 pad/2 보더를 걸면 앞 줄 그림자(디센트+pad)가 다음 줄 박스 위로 pad 만큼 겹쳐 반투명 배경에 줄 사이 진한 띠가 남는다(실측 1,822px)."""
     parts = plain.split("\\N")
     if len(parts) <= 1:
@@ -1118,7 +1129,8 @@ def build_ass(segs, w, h, opts):
     #   box 가 아닌 모양(획·그림자·기본)은 종전 단일 이벤트 그대로(박스 자체가 없다) · 원문(dual) 줄의 얇은 박스는 글자 레이어가 종전처럼 그린다.
     box_mode = shtype == "box"
     _hp = ass_px(fs * pad / 2.0)
-    _bk = BOX_K.get(opts.get("font") or "gothic", BOX_K["gothic"])   # 박스 중심 보정 계수 — 폰트 키 해석 = 아래 스타일 Fontname 과 같은 규칙(미지·결측 = 고딕 · run() 미설치 폴백 뒤 opts)
+    _fk = opts.get("font") if opts.get("font") in BOX_K else "gothic"   # 폰트 키 해석 = 아래 스타일 Fontname 과 같은 규칙(미지·결측 = 고딕 · run() 미설치 폴백 뒤 opts)
+    _bk, _lk = BOX_K[_fk] - EMB_K.get(_fk, 0.0), LAT_K[_fk]   # 박스 중심 보정(합성 굵게 보정 포함) · 영문 하강부 하한
     box_l0 = "{\\ybord%s\\xshad0\\yshad%s\\3a&HFF&\\1a&HFF&}"   # 박스 레이어 = 글자 투명 + 박스 투명 + 그림자(=박스)만 · 오프셋은 조각마다(축소 조각 = 그 크기 기준)
     txt_l1 = "{\\bord0\\shad0}" if box_mode else ""                                                # 글자 레이어 = 박스·그림자 없음(색·크기·카라오케 태그 자유)
     # 자막 스타일 3택(운영자 260810 "가라오케 | 강조 | 툭 튀어나오기 · 셋 다 안 고르면 일반 자막") — 셋 다 상호배타.
@@ -1207,12 +1219,14 @@ def build_ass(segs, w, h, opts):
             #   좁은 검정 다리(실측 260812 · 폭 = 공백 1칸). \bord0 = 그 줄만 박스 미생성 → 두 박스가 완전히 분리된다.
             #   box가 아닌 모양(획·그림자·기본)에선 이 줄에 애초에 박스가 없고 \bord0은 무해 = 종전 렌더 바이트 동일.
             gap_tag = ("{\\fs" + str(max(1, gap)) + "\\bord0}\\h{\\r}\\N") if gap > 0 else ""
+            gap_ghost = ("{\\fs" + str(max(1, gap)) + "\\bord0\\shad0}\\h{\\r}\\N") if gap > 0 else ""   # 박스 레이어용 = 그림자도 0(260923 평의회 1·6) — 박스 레이어는 그림자가 곧 박스라
+            #   스페이서 \h 의 1px 하한 상자가 앞 줄 \yshad 를 물려받아 두 박스 사이 가운데에 검정 '다리'(구 3행 → 중심 보정 뒤 6~9행)를 그렸다 · \shad0 = 0행(실렌더)
             # 원문 줄 = 색·그림자 **고정** 축(운영자 260729 "영문은 항상 흰색 고정에, 그림자 조금 줘서 항상 고정으로") —
             #   글자색(fg)·음영색(oc)·배경(bg)·음영 크기(outline/pad)·글로우 어느 것도 안 따른다. 뷰어 .pvsub-tr 고정 스타일과 짝.
             #   {\r} = 본선이 남긴 카라오케·팝·키워드 태그 리셋 → {\1c 흰} {\3c 검정 외곽선} {\4c 검정 그림자} {\bord 얇게} {\shad 1} {\blur0}.
             src_fx = ("{\\r}{\\fs" + str(small) + "}{\\1c&HFFFFFF&}{\\3c&H000000&}{\\4c&H000000&}{\\bord" + ("%.1f" % max(1.0, small * 0.04)) + "}{\\shad1}{\\blur0}{\\1a&H00&}{\\3a&H00&}{\\4a&H60&}")
             src_suf = "\\N" + gap_tag + src_fx + src_txt + "{\\r}"
-            src_ghost = "\\N" + gap_tag + src_fx + "{\\1a&HFF&\\3a&HFF&\\4a&HFF&}" + src_txt + "{\\r}"   # 박스 레이어용 원문 줄 = 같은 배치(줄 수·크기)에 전부 투명(원문 박스는 글자 레이어가 그린다 = 이중 없음 · 260913)
+            src_ghost = "\\N" + gap_ghost + src_fx + "{\\1a&HFF&\\3a&HFF&\\4a&HFF&}" + src_txt + "{\\r}"   # 박스 레이어용 원문 줄 = 같은 배치(줄 수·크기)에 전부 투명(원문 박스는 글자 레이어가 그린다 = 이중 없음 · 260913)
             block_px += len(src_chunks) * small * LINE_F + gap * LINE_F
         # 중앙 불변 배치(운영자 260707 "1줄/2줄 중앙점 동일선"): 하단 앵커는 위로만 자라 줄이 늘면 블록 중심이 떠오름 →
         #   초과 높이의 절반만큼 MarginV를 내려 블록 세로중심 고정(1줄 = 보정 0 = 종전·캡처 그대로). 패딩은 전 이벤트 동일이라 상쇄.
@@ -1237,6 +1251,8 @@ def build_ass(segs, w, h, opts):
             lines.append("Dialogue: {},{},{},nomute,,0,0,{},,{}".format(_lay, ass_time(s), ass_time(e), mv_e, _lead + main + src_suf))
         if box_mode and t_end > s:
             _dy = m_fs * _bk   # 이 조각의 잉크 중심 − 줄 상자 중심(px)
+            if LAT_DESC & set(plain_main.split("\\N")[-1]):
+                _dy = max(_dy, m_fs * _lk)   # 끝 줄 영문 하강부 = 박스 아랫변 ≥ 하강부 + pad/2
             lines.append("Dialogue: 0,{},{},nomute,,0,0,{},,{}".format(ass_time(s), ass_time(t_end), mv_e,
                          glow_tag + box_l0 % (_hp, _shad_y(_dy)) + _box_lines(plain_main, _hp, _dy) + src_ghost))
     return head + "\n" + "\n".join(lines) + "\n"

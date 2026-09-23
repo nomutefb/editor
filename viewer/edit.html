@@ -914,13 +914,13 @@ const FONT_PV={   /* 러너(libass) 줄 배치 미러 3값(운영자 260923 "한
   // 폰트 = 러너 설치 패밀리(fc-scan 실측)와 동명 웹폰트 지연 로드(고를 때만) = 미리보기 실체 정합 · 기본 = 프리텐다드(260923 — UI 본문 폰트 재사용 = 평상시 외부요청 0 · 구 기본 본고딕은 첫 미리보기에 구글 웹폰트를 받았다)
   pretendard:{lbl:'프리텐다드',lh:1.193,dsc:0.2022,bk:0.0006,ff:'"Pretendard Variable","Pretendard",sans-serif'},   // (260923 운영자 "프리텐다드 기본 · 바로 선택") = 애플고딕(Apple SD 산돌고딕 Neo) 대체용 오픈 폰트 · 미리보기 = 이 파일 15행 UI 본문 @font-face(assets/fonts/pretendard.woff2)와 같은 폰트 = **추가 로드 0** · 번인 = 레포 동봉 Pretendard-Bold.otf(REPO_FONT_KEYS)
   gothic:{lbl:'본고딕',lh:1.448,dsc:0.1989,bk:0.0425,ff:'"Noto Sans KR","Noto Sans CJK KR",sans-serif',gf:'Noto+Sans+KR:wght@700'},   // 본고딕 명시(운영자 260731 19차 "본고딕·본명조만") — 구 시스템 근사(ff:'')는 기기마다 달라 러너(Noto 계열)와 미리보기가 갈렸다
-  serif:{lbl:'명조',lh:1.437,dsc:0.199,bk:0.0442,ff:'"Noto Serif KR","Noto Serif CJK KR",serif',gf:'Noto+Serif+KR:wght@700'},
-  paper:{lbl:'페이퍼',lh:1.178,dsc:0.1698,bk:-0.0061,fam:'Paperlogy',ff:'"Paperlogy","페이퍼로지",sans-serif',lf:'assets/fonts/subs/Paperlogy-5Medium.ttf',lw:'500'},   // 페이퍼로지 5 Medium(운영자 260805 "깃에 넣을테니 선택가능하게 · 줄임말") — 레포 동봉 자기 서빙(정본 = 루트 assets/fonts/subs → build-viewer cpSync가 viewer/assets로 복사 = pretendard 동축 · 외부요청 0) · 패밀리 = TTF name표 실측(nid16 "Paperlogy" · 한글 별칭 "페이퍼로지") · 러너 짝 = ly_burn REPO_FONT_KEYS 등록(fc-cache)
-  pen:{lbl:'손글씨',lh:1.15,dsc:0.2,bk:0.023,ff:'"Nanum Pen Script",cursive',gf:'Nanum+Pen+Script'},   // (260923) 수치 = 러너 apt NanumPen.ttf(윈 0.92/0.23) — 구글 웹폰트판(윈 0.8/0.21 · lh 1.011)과 글자 윤곽은 같고 줄 높이만 달라 러너 값을 쓴다
-  barun:{lbl:'바른고딕',lh:1.15,dsc:0.2609,bk:-0.0383,fam:'NanumBarunGothic',ff:'"NanumBarunGothic",sans-serif',lf:'https://hangeul.pstatic.net/hangeul_static/webfont/NanumBarunGothic/NanumBarunGothicWebBold.woff2',lw:'700 900'},   // (260923) 나눔바른고딕 = 번인은 러너 apt(fonts-nanum 계열 · 설치 0) · 미리보기 = 네이버 공식 웹폰트 Bold(CORS * 실측 · 고를 때만 1회 1.4MB) · lw 700~900 = 굵은 파일을 굵기 칸에 등록 = 700(--fw-b) 요청에 가짜 굵게 0(번인 실 Bold와 정합)
-  plex:{lbl:'IBM',lh:1.5,dsc:0.2767,bk:0.0173,ff:'"IBM Plex Sans KR",sans-serif',gf:'IBM+Plex+Sans+KR:wght@700'},   // (260923) IBM Plex Sans KR Bold — 미리보기 = 구글 웹폰트(글자 조각만 · 샘플 33KB) · 번인 = 레포 동봉 TTF
-  jua:{lbl:'주아',lh:1.113,dsc:0.2147,bk:-0.0521,ff:'"Jua",sans-serif',gf:'Jua'},   // (260923) 배민 주아(굵기 1종 = 미리보기·번인 둘 다 합성 굵게 = 서로 정합) · 구글 웹폰트 샘플 64KB · 번인 = 레포 동봉 TTF
-  gowun:{lbl:'고운돋움',lh:1.448,dsc:0.1989,bk:0.0439,ff:'"Gowun Dodum",sans-serif',gf:'Gowun+Dodum'},   // (260923) 고운돋움(굵기 1종 = 합성 굵게 정합) · 구글 웹폰트 샘플 51KB · 번인 = 레포 동봉 TTF
+  serif:{lbl:'명조',lh:1.437,dsc:0.199,bk:0.0421,ff:'"Noto Serif KR","Noto Serif CJK KR",serif',gf:'Noto+Serif+KR:wght@700'},
+  paper:{lbl:'페이퍼',lh:1.178,dsc:0.1698,bk:0.0005,fam:'Paperlogy',ff:'"Paperlogy","페이퍼로지",sans-serif',lf:'assets/fonts/subs/Paperlogy-5Medium.ttf',lw:'500'},   // 페이퍼로지 5 Medium(운영자 260805 "깃에 넣을테니 선택가능하게 · 줄임말") — 레포 동봉 자기 서빙(정본 = 루트 assets/fonts/subs → build-viewer cpSync가 viewer/assets로 복사 = pretendard 동축 · 외부요청 0) · 패밀리 = TTF name표 실측(nid16 "Paperlogy" · 한글 별칭 "페이퍼로지") · 러너 짝 = ly_burn REPO_FONT_KEYS 등록(fc-cache)
+  pen:{lbl:'손글씨',lh:1.15,dsc:0.2,bk:0.0132,ff:'"Nanum Pen Script",cursive',gf:'Nanum+Pen+Script'},   // (260923) 수치 = 러너 apt NanumPen.ttf(윈 0.92/0.23) — 구글 웹폰트판(윈 0.8/0.21 · lh 1.011)과 글자 윤곽은 같고 줄 높이만 달라 러너 값을 쓴다
+  barun:{lbl:'바른고딕',lh:1.15,dsc:0.2609,bk:-0.0404,fam:'NanumBarunGothic',ff:'"NanumBarunGothic",sans-serif',lf:'https://hangeul.pstatic.net/hangeul_static/webfont/NanumBarunGothic/NanumBarunGothicWebBold.woff2',lw:'700 900'},   // (260923) 나눔바른고딕 = 번인은 러너 apt(fonts-nanum 계열 · 설치 0) · 미리보기 = 네이버 공식 웹폰트 Bold(CORS * 실측 · 고를 때만 1회 1.4MB) · lw 700~900 = 굵은 파일을 굵기 칸에 등록 = 700(--fw-b) 요청에 가짜 굵게 0(번인 실 Bold와 정합)
+  plex:{lbl:'IBM',lh:1.5,dsc:0.2767,bk:0.0157,ff:'"IBM Plex Sans KR",sans-serif',gf:'IBM+Plex+Sans+KR:wght@700'},   // (260923) IBM Plex Sans KR Bold — 미리보기 = 구글 웹폰트(글자 조각만 · 샘플 33KB) · 번인 = 레포 동봉 TTF
+  jua:{lbl:'주아',lh:1.113,dsc:0.2147,bk:-0.0476,ff:'"Jua",sans-serif',gf:'Jua'},   // (260923) 배민 주아(굵기 1종 = 미리보기·번인 둘 다 합성 굵게 · 세기는 다름: libass em/64 윗변만 · 크롬은 더 굵고 위아래 대칭 = 박스 중심 보정은 러너 EMB_K 만) · 구글 웹폰트 샘플 64KB · 번인 = 레포 동봉 TTF
+  gowun:{lbl:'고운돋움',lh:1.448,dsc:0.1989,bk:0.0404,ff:'"Gowun Dodum",sans-serif',gf:'Gowun+Dodum'},   // (260923) 고운돋움(굵기 1종 = 합성 굵게 · 세기 차이는 주아 줄과 같음) · 구글 웹폰트 샘플 51KB · 번인 = 레포 동봉 TTF
 };
 const _ocRGB={};
 function ocRGB(k){   // 음영 색 키 → 'r,g,b'(계산 스타일 실측 = var 토큰값 이중관리 0 · 색당 1회 메모) · 실패 = 검정
@@ -1008,6 +1008,20 @@ function inkBotEqTop(el){   /* ★ 원문(외국어) 줄 음영 = **아래 여�
   el.style.paddingBottom=px1(Math.max(0, cur+((i.top-b.top)-(b.bottom-i.bottom))))+'px';
 }
 try{ document.fonts.addEventListener('loadingdone',()=>{ const v=document.getElementById('pv'); if(v&&!v.hidden) pvSync(); }); }catch(e){}   // 웹폰트(본고딕 등)가 늦게 도착하면 기준선·잉크 자리가 바뀐다 → 한 번 다시 맞춤(대체 글꼴 기준 배치가 남지 않게)
+function runBottom(bh, fs, ext, dual){   /* 한국어 줄 상자 아랫변(캔버스 바닥에서 px) = 러너 ly_burn build_ass 배치 그대로(260923 평의회 4 — 캡·하한 누락 시 위치 0·95~100 가장자리에서 0.6~1.4%p 어긋남):
+  margin_v = min(H×(0.02+0.0082×pos), H − fs×(dual 4.9 · 한 줄 3.1)) → 덩어리(한국어 fs + ext = 간격 + 원문 줄) 세로 중심 고정 = margin_v − ext/2
+  → 상단 캡 min(·, H − 덩어리 − H×1%) · 바닥 하한 max(H×1%, ·) → 한국어 줄 아랫변 = 그 값 + ext. (러너의 int 절삭·원문 줄바꿈은 생략 = 1 출력px 이하 · 샘플 원문은 1줄) */
+  const M=Math.min(bh*(0.02+0.0082*P.pos), Math.max(0, bh-fs*(dual?4.9:3.1))), fl=bh*0.01;
+  return Math.max(fl, Math.min(M-ext/2, Math.max(fl, bh-fs-ext-fl)))+ext;
+}
+function srcLineMirror(tl, A, gap, tfs, f){   /* 외국어 줄 기준선 = 러너 자리(260923 평의회 4) — 원문 줄 상자 윗변 = 한국어 줄 상자 아랫변(A) + 간격 · 기준선 = 그 아래 (1−dsc)×tfs(정수 px)
+  subLineMirror ① 과 같은 0크기 표식 방식 · 이 줄은 top 앵커라 margin-top 으로 옮긴다(글자·박스 같이 · 아래 여백 맞춤 inkBotEqTop 은 그 뒤) */
+  const z=document.createElement('i'); z.style.cssText='display:inline-block;width:0;height:0;vertical-align:baseline'; tl.appendChild(z);
+  const b=z.getBoundingClientRect().top, h=tl.getBoundingClientRect().height; z.remove();
+  if(!(h>0)) return;
+  const want=Math.round(A+gap+(1-((f&&f.dsc)||0))*tfs);
+  tl.style.marginTop=(Math.round(((parseFloat(tl.style.marginTop)||0)+want-b)*1000)/1000)+'px';
+}
 function subLineMirror(el, fs, f, box){   /* ★ 한국어 줄 = 러너(libass) 줄 배치 미러(운영자 260923 "한 수 ㄱㄱ 미리보기 글자 크기 맞춰줘" · 구 inkTopEqBot 대체)
   fs = 러너 자막 크기(= 줄 높이) 미리보기 px · f = FONT_PV[폰트](dsc·bk) · box = {padc, col}(음영 네모) | null(획·그림자·기본 = 기준선만).
   ① 기준선 = 러너 자리: libass 는 줄 상자(윈 어센트~디센트 = fs)의 아랫변을 앵커에 두고 그 위 dsc×fs 에 기준선을 놓는다. 브라우저는 글꼴마다 기준선을 다르게 놓으므로
@@ -1337,7 +1351,7 @@ function pvSync(){
     const sub=$('#pvSub');
     if(!ON.sub){ sub.hidden=true; return; }
     const fs=Math.max(3, bh*(P.size/1000));   // (260729) 하한 9→3 — 운영자 "크기가 맨 좌측이 제일 작게인데, 그 전에 이미 제일 작게가 되어버려": 미리보기 캔버스(bh≈250)에선 9px 하한이 20~36‰ 구간을 통째로 같은 크기로 뭉개 게이지 왼쪽 절반이 무반응이었다(실번인은 h=1080 기준이라 하한 미접촉 = 결과는 정상이었고 미리보기만 거짓말)   // (260729) sub.hidden 해제는 이 블록 **끝**으로 이동 — 크기·색·배경 인라인이 다 붙은 뒤에 보이게(구 = 여기서 먼저 노출 → 스타일 전 상태가 한 프레임 노출되던 통로)
-    sub.style.bottom=(bh*(0.02+0.0082*P.pos))+'px'; sub.style.left='7.4%'; sub.style.right='7.4%';
+    sub.style.bottom=runBottom(bh, fs, 0, false)+'px'; sub.style.left='7.4%'; sub.style.right='7.4%';   // (260923) 한 줄 = 러너 margin_v(상단 캡 3.1fs · 하한 1%) 미러 · 2줄은 아래 외국어 줄 분기가 다시 세운다
     const sp=$('#pvSubTx');
     const lhR=(FONT_PV[P.font]&&FONT_PV[P.font].lh)||1;   // (260923) 글자 본체 = 크기 ÷ 폰트 줄 높이 비(libass 미러) — fs 는 계속 '러너 크기(줄 높이) px' = 위치·여백·간격·획 산식은 그대로 fs 기준
     sp.style.fontSize=(fs/lhR)+'px'; sp.style.lineHeight=String(lhR);   // 구 fs 그대로 = 미리보기 글자가 실제보다 본고딕 1.45배·프리텐다드 1.19배 컸다(실렌더 대조) · 줄 높이 lh = 줄 상자 fs = 러너 줄 상자(구 1.15 = 폰트마다 0.77~1.14fs · 기준선 자리는 노출 뒤 subLineMirror)
@@ -1358,21 +1372,24 @@ function pvSync(){
     }
     else if(P.shtype==='shadow'){ const d=px1(fs*0.05*om), bl=px1(fs*0.07*om);
       sp.style.textShadow=d+'px '+d+'px '+bl+'px rgba('+oc+',.85)'; }   // 그림자 = 우하 오프셋 1겹(러너 ASS Shadow 미러 · 세기 = 같은 sh 게이지)
+    let trnGap=0, trnFs=0;   // 외국어 줄 기준선 보정(노출 뒤 srcLineMirror)에 넘길 간격·원문 크기
     const tl=document.getElementById('pvSubTr');   // 원문 줄 미러(운영자 260728 Q06 — 50% 작게 · 260729 순서 반전으로 자막 **아래** · 줄간격 유지 = 러너 dual 레이아웃 · fs×0.18 = 그 사이 스페이서)
     if(tl){ if(ON.trn){ tl.hidden=false;   /* ★ 원문 줄 노출 = **번역 토글 단독**(운영자 260812 "번역 꺼지면 번역 관련 선택자는 다 꺼져야 맞음") — 구 조건 `ON.trn||P.lang==='dual'` 은 260803 8차에 P.lang 이 'dual' **고정**이 되면서 **항상 참**이 됐다: 번역을 꺼도 미리보기에 영문 줄이 그대로 떠 있었고(운영자 캡처 2건), 발사 페이로드도 늘 dual 이라 결과물에도 원문이 박혔다 = 토글이 이름만 남고 아무것도 안 끄던 상태. lang 은 아래 P 기본값을 'ko'(한글만)로 되돌려 이 토글이 유일한 주인이 된다 */   // (구 260729) 조건에 lang='dual' 합류 — 운영자 "영문을 추가할 때만 미리보기에 영문 부분이 나오게, 그 외에는 한국문 단일만": 구 코드는 번역 토글만 봐서 「언어 = 원문+한글」을 골라도 원문 줄이 안 뜨고, 반대로 한글만·자동에서도 이 줄이 남아 보이던 축이 어긋나 있었다(자동·한글만·원문만 = 한 줄 = 종전 그대로)
       const tfs=Math.max(3, fs*srcRatio());   // 크기 = 한국어 줄 × 상대비(운영자 260729 게이지 · 0% = 1.0 동일 크기 · -75% = 0.25) · 하한 3 = 캔버스가 작아도 비율 왜곡 최소(구 5)
       tl.style.fontSize=(tfs/lhR)+'px'; tl.style.lineHeight=String(lhR);   // 외국어 줄도 같은 비(러너 원문 줄 = 같은 스타일 폰트) · 줄 상자 = tfs = 러너 원문 줄 높이
-      const gap=fs*(P.lgap||0)/100, tpad=P.shtype==='box'?px1(Math.max(1,tfs*0.04)):0;   // 간격 = 러너 스페이서 줄 높이(fs×lgap) · tpad = 아래 원문 박스 padding(같은 산식)
+      const gap=fs*(P.lgap||0)/100, tpad=P.shtype==='box'?px1(tfs*0.04):0;   // 간격 = 러너 스페이서 줄 높이(fs×lgap) · tpad = 원문 박스 padding = 러너 \bord small×0.04(260923 — 구 하한 1 CSS px 는 러너 하한 1 **출력** px 의 약 7배라 미리보기 원문 박스가 실제의 1.27배였다 · 평의회 4)
+      trnGap=gap; trnFs=tfs;
       tl.style.top='100%'; tl.style.marginTop=(Math.round((gap-tpad)*10)/10)+'px';   // (260923) 원문 줄 상자 윗변 = 한국어 줄 상자 아랫변 + 간격(러너 = 스페이서 줄 바로 아래 줄 · 박스 padding 은 그 바깥으로 = 음수 가능)   // ★ 줄간격은 **한국어 fs 기준 고정**(운영자 260729 "줄간격은 유지") — 원문 크기를 키워도 간격은 그대로 · 덩어리 중심은 고정이라 원문이 커지면 한국어는 위로·원문은 아래로 반씩(260923 러너 미러 = 바로 아래 sub.bottom) · top:100% = 한국어 줄 바로 아래(CSS absolute 앵커 짝) · 값 fs×0.18 = 러너 스페이서와 동값
-      sub.style.bottom=(bh*(0.02+0.0082*P.pos)+(gap+tfs)/2)+'px';   /* (260923) 외국어 줄 위치 = 러너 「중앙 불변 배치」 그대로(운영자 "한 수 ㄱㄱ 외국어 줄 위치 맞춰줘"): ly_burn 은 덩어리(한국어 줄 fs + 간격 + 원문 줄)의
-        세로 중심을 1줄 기준 중심(MarginV + fs/2)에 고정 = 한국어 줄 상자 아랫변이 MarginV + (간격 + 원문 줄)/2 · 구 = 화면 상자 높이(패딩 포함) 실측으로 근사 */
+      sub.style.bottom=runBottom(bh, fs, gap+tfs, true)+'px';   /* (260923) 외국어 줄 위치 = 러너 「중앙 불변 배치」 그대로(운영자 "한 수 ㄱㄱ 외국어 줄 위치 맞춰줘"): ly_burn 은 덩어리(한국어 줄 fs + 간격 + 원문 줄)의
+        세로 중심을 1줄 기준 중심(MarginV + fs/2)에 고정 = 한국어 줄 상자 아랫변이 MarginV + (간격 + 원문 줄)/2 · 상단 캡·바닥 하한까지 runBottom 이 미러 · 구 = 화면 상자 높이(패딩 포함) 실측으로 근사 */
       tl.style.fontFamily=sp.style.fontFamily;
       tl.style.background='transparent'; tl.style.padding='0';   // 원문 줄 = 색·그림자 고정 축(운영자 260729 "영문은 항상 흰색 고정에, 그림자 조금 줘서 항상 고정으로") — 글자색(fg)·음영색(shc)·배경(bg)·음영 크기(sh)·글로우 어느 것도 안 따른다. 실제 색·그림자는 CSS .pvsub-tr가 전담(인라인으로 덮지 않는다 = 게이지를 만져도 원문 줄은 불변)
       if(P.shtype==='box'){ tl.style.background='rgba('+oc+','+(Math.max(1,P.bg)/100)+')'; tl.style.padding=tpad+'px'; }   // 아래 여백 맞춤(inkBotEqTop)은 노출 뒤(숨김 상태에선 못 잰다 · 구 = 첫 갱신에선 무동작이었다)   /* (260812 3차) 여백 산식은 러너 원문 줄 값 그대로 두고, **아래만 위에 맞춘다**(운영자 "외국어 음영 윗부분에 기준해서 아랫부분을 윗부분 길이에 맞춰서") — 실측상 위 0 · 아래 1.44 로 아래가 두툼해 줄이 밑으로 처져 보였다(글꼴이 가진 아래쪽 빈칸이 padding 위에 더 얹힌다) */   // ★ 음영이 '네모'일 때만 원문 줄에도 자기 폭 박스(운영자 260812 "각각 글자들 뒤에만 음영이 각각") — 러너 BorderStyle 3 미러 · 패딩 = 러너 원문 줄 \bord(max(1, small×0.04)) 동값 산식(한국어 줄 fs×padc보다 얇은 위계도 그대로) · 다른 음영 종류(획·그림자·기본)에선 위 고정 축 그대로 = 종전 화면 불변
     } else { tl.hidden=true; } }   // 한 줄 모드 = 외국어 줄 숨김(한국어 줄 margin 은 subLineMirror 가 매번 다시 세운다)
     sub.hidden=false;   // ★ 노출은 맨 끝 — 크기·색·배경·두 줄 배치가 전부 확정된 뒤라야 한다(운영자 260729 "처음에 들어갈때 흰색으로 길게" = 스타일 전 상태가 노출되던 통로 차단 · CSS .pvsub-tr font-size 폴백과 이중 방어)
     subLineMirror(sp, fs, FONT_PV[P.font], P.shtype==='box'?{padc:padc, col:sp.style.background}:null);   // (260923) 한국어 줄 = 러너 기준선·박스(운영자 "미리보기 글자 크기 맞춰줘" · 구 inkTopEqBot = 위 여백만 아래에 맞춤) · 노출 직후 = 같은 프레임 안(그리기 전)이라 깜빡임 0
-    if(tl&&ON.trn&&!tl.hidden&&P.shtype==='box') inkBotEqTop(tl);   // 원문 박스 아래 여백 = 위 여백(260812 3차 계약 · top 앵커라 글자 불변)
+    if(tl&&ON.trn&&!tl.hidden){ srcLineMirror(tl, sub.getBoundingClientRect().bottom, trnGap, trnFs, FONT_PV[P.font]);   // 외국어 줄 기준선 = 러너 자리
+      if(P.shtype==='box') inkBotEqTop(tl); }   // 원문 박스 아래 여백 = 위 여백(260812 3차 계약 · top 앵커라 글자 불변)
   });
 }
 function pvBlurBg(vv){   // 여백(블러) 선택 시 = 현재 프레임 스냅샷을 블러 배경으로(이중 비디오 디코드 회피 = 폰 부담 0 · 실물은 움직이는 블러 — 질감·배치 연출 목적 · 운영자 260712)

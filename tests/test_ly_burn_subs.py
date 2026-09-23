@@ -80,48 +80,68 @@ class BoxLayers(unittest.TestCase):
             self.assertIn(w, box)
 
     def test_half_pad_shadow_geometry(self):
-        """박스 = pad/2 보더 박스(투명)의 그림자(단일 합성) · 높이 fs×(1+pad) · 그림자 오프셋 = 글자 크기 × BOX_K(한글 잉크 가운데 · 260923)."""
-        fs = max(18, int(960 * 0.05))
-        half = ly_burn.ass_px(fs * 0.16 / 2.0)
-        for font in ("gothic", "pretendard", "jua"):
-            a = ly_burn.build_ass(SEG, 540, 960, dict(BOX, hi=True, font=font))
-            box = text_of([l for l in dialogues(a) if layer(l) == 0][0])
-            dy = ly_burn._shad_y(fs * ly_burn.BOX_K[font])
-            self.assertIn("{\\ybord%s\\xshad0\\yshad%s\\3a&HFF&\\1a&HFF&}" % (half, dy), box, font)
-        a = ly_burn.build_ass(SEG, 540, 960, dict(BOX, hi=True, font="nope"))
-        self.assertIn("\\yshad%s\\3a" % ly_burn._shad_y(fs * ly_burn.BOX_K["gothic"]), a, "미지 폰트 = 고딕 폴백(스타일 Fontname 과 같은 규칙)")
+        """박스 = pad/2 보더 박스(투명)의 그림자(단일 합성) · 높이 fs×(1+pad) · 그림자 오프셋 = 글자 크기 × (BOX_K − EMB_K)(한글 잉크 가운데 · 260923).
+        기대값 = 리터럴(540×960 · fs48 · pad .16 → hp 3.8): 고딕 48×0.0425 = 2.0 · 주아 48×(−0.0476−0.0070) = −2.6 · 미지 폰트 = 고딕."""
+        one = [{"s": 0.0, "e": 2.0, "ko": "Hello world"}]   # 한 줄 · 영문 하강부 없음(하한 비대상)
+        for font, want in (("gothic", "2.0"), ("jua", "-2.6"), ("nope", "2.0")):
+            box = text_of([l for l in dialogues(ly_burn.build_ass(one, 540, 960, dict(BOX, font=font))) if layer(l) == 0][0])
+            self.assertTrue(box.startswith("{\\ybord3.8\\xshad0\\yshad%s\\3a&HFF&\\1a&HFF&}Hello world" % want), (font, box))
 
     def test_shadow_offset_never_zero(self):
-        """libass 는 그림자 오프셋 (0,0) 이면 그림자를 안 그린다(실측 260923 = 박스 증발) → 0 으로 반올림되면 0.1."""
+        """libass 는 그림자 오프셋 (0,0) 이면 그림자를 안 그린다(실측 260923 = 박스 증발) → 박스 레이어의 모든 \\yshad ≠ 0.
+        폰트 10종 × 여백 0~0.2(0.002 간격) × 한 줄/여러 줄 전수 — 가드가 없으면 0 으로 반올림되는 조합이 여럿 섞인다."""
+        import re
         for v in (0.0, 0.04, -0.04, -0.0):
             self.assertEqual(ly_burn._shad_y(v), 0.1)
         self.assertEqual(ly_burn._shad_y(-3.75), -3.8, "음수(위로) 그대로")
-        self.assertEqual(ly_burn._shad_y(3.6), 3.6)
-        a = ly_burn.build_ass(SEG, 540, 960, dict(BOX, pad=0.0, font="pretendard"))
-        self.assertNotIn("\\yshad0\\", a.replace("\\yshad0.", "x"), "오프셋 0 태그 금지")
+        segs = ([{"s": 0.0, "e": 2.0, "ko": "Hello world"}], [{"s": 0.0, "e": 2.0, "ko": "가나다라 마바사아 자차카타 파하가나 다라마바 사아자차 카타파하"}])
+        n = 0
+        for font in ly_burn.BOX_K:
+            for i in range(0, 101):
+                for seg in segs:
+                    a = ly_burn.build_ass(seg, 540, 960, dict(BOX, pad=i * 0.002, karaoke=False, font=font))
+                    box = text_of([l for l in dialogues(a) if layer(l) == 0][0])
+                    for v in re.findall(r"\\yshad(-?[0-9.]+)", box):
+                        n += 1
+                        self.assertNotEqual(float(v), 0.0, (font, i * 0.002, box[:60]))
+        self.assertGreater(n, 3000)
 
     def test_multiline_box_keeps_seams_and_shifts_together(self):
-        """여러 줄 = 앞 줄 [어센트, 디센트] 상자 그림자(dy − pad/2) + 끝 줄 pad/2 보더 그림자(dy) · 박스(\\3a)는 끝까지 투명."""
+        """여러 줄 = 앞 줄 [어센트, 디센트] 상자 그림자(dy − pad/2) + 끝 줄 pad/2 보더 그림자(dy) · 박스(\\3a)는 끝까지 투명.
+        축소 조각({\\fs29}) = dy 도 그 크기 기준 · 기대값 리터럴: 주아 29×(−0.0546) = −1.6 · 앞 줄 −1.58−3.8 = −5.4 / 고딕 1.2 · −2.6."""
         long_ko = "가나다라 마바사아 자차카타 파하가나 다라마바 사아자차 카타파하"
-        fs = max(18, int(960 * 0.05))
-        half = ly_burn.ass_px(fs * 0.16 / 2.0)
-        a = ly_burn.build_ass([{"s": 0.0, "e": 2.0, "ko": long_ko}], 540, 960, dict(BOX, karaoke=False, font="pretendard"))
-        box = text_of([l for l in dialogues(a) if layer(l) == 0][0])
-        self.assertIn("\\N", box, "검사 전제 = 2줄 이상")
-        m_fs = fs
-        for tag in box.split("}"):
-            if "\\fs" in tag:
-                m_fs = int(tag.split("\\fs")[1].split("\\")[0])
-        dy = m_fs * ly_burn.BOX_K["pretendard"]
-        self.assertIn("{\\ybord0\\yshad%s}" % ly_burn._shad_y(dy - half), box)
-        self.assertIn("\\N{\\ybord%s\\yshad%s}" % (half, ly_burn._shad_y(dy)), box)
-        self.assertEqual(box.count("\\3a&H"), 1, "박스 투명(\\3a&HFF&) 한 번뿐 = 박스 자체는 어느 줄에서도 안 보인다(그림자만)")
+        for font, front, last in (("jua", "-5.4", "-1.6"), ("gothic", "-2.6", "1.2")):
+            a = ly_burn.build_ass([{"s": 0.0, "e": 2.0, "ko": long_ko}], 540, 960, dict(BOX, karaoke=False, font=font))
+            box = text_of([l for l in dialogues(a) if layer(l) == 0][0])
+            self.assertIn("{\\ybord0\\yshad%s}{\\fs29}" % front, box, font)
+            self.assertIn("\\N{\\ybord3.8\\yshad%s}" % last, box, font)
+            self.assertEqual(box.count("\\3a&H"), 1, "박스 투명(\\3a&HFF&) 한 번뿐 = 박스 자체는 어느 줄에서도 안 보인다(그림자만)")
+
+    def test_latin_descender_floor_only_when_needed(self):
+        """끝 줄에 g·j·p·q·y 가 있으면 박스 아랫변 ≥ 하강부 + pad/2(LAT_K 하한) · 한글만인 줄은 무접촉(260923 평의회 1·6 — 주아 하강부 여백 7→0px 봉합)."""
+        def lead(ko, font):
+            a = ly_burn.build_ass([{"s": 0.0, "e": 2.0, "ko": ko}], 540, 960, dict(BOX, karaoke=False, font=font))
+            return text_of([l for l in dialogues(a) if layer(l) == 0][0]).split("}")[0]
+        self.assertIn("\\yshad-0.1", lead("갤럭시 page 공개", "jua"), "하강부 = 하한 48×(−0.0018)")
+        self.assertIn("\\yshad-2.6", lead("갤럭시 공개", "jua"), "한글만 = 중심 보정 그대로")
+        self.assertEqual(lead("갤럭시 page 공개", "gothic"), lead("갤럭시 공개", "gothic"), "하강부가 이미 여유 있는 폰트 = 무변화")
+
+    def test_dual_ghost_spacer_draws_no_shadow(self):
+        """박스 레이어의 스페이서 줄 = \\shad0(앞 줄 \\yshad 상속 차단 = 두 박스 사이 검정 다리 0) · 글자 레이어 스페이서는 종전 바이트 그대로."""
+        a = ly_burn.build_ass(SEG_DUAL, 540, 960, dict(BOX, hi=True, lang="dual", dual_small=0.5, dual_gap=0.18))
+        ev = dialogues(a)
+        self.assertIn("{\\fs8\\bord0\\shad0}\\h{\\r}\\N", text_of([l for l in ev if layer(l) == 0][0]))
+        self.assertTrue(all("{\\fs8\\bord0}\\h{\\r}\\N" in text_of(l) for l in ev if layer(l) == 1))
 
     def test_box_k_matches_fonts_and_viewer(self):
         """BOX_K = 러너 폰트 집합과 같은 키 · 뷰어 FONT_PV.bk 와 같은 값(미리보기 = 같은 산식)."""
         import re
         self.assertEqual(set(ly_burn.BOX_K), set(ly_burn.FONT_FAMILY))
-        html = open(os.path.join(ROOT, 'viewer', 'edit.html'), encoding='utf-8').read()
+        self.assertEqual(set(ly_burn.LAT_K), set(ly_burn.FONT_FAMILY))
+        self.assertLessEqual(set(ly_burn.EMB_K), set(ly_burn.FONT_FAMILY))
+        with open(os.path.join(ROOT, 'viewer', 'edit.html'), encoding='utf-8') as fh:
+            html = fh.read()
+        html = html[html.index('const FONT_PV={'):html.index('\n};', html.index('const FONT_PV={'))]   # FONT_PV 블록만
         pv = dict((k, float(v)) for k, v in re.findall(r"\n  (\w+):\{lbl:'[^']*',lh:[0-9.]+,dsc:[0-9.]+,bk:(-?[0-9.]+),", html))
         entries = re.findall(r"\n  (\w+):\{lbl:", html)
         self.assertGreaterEqual(len(pv), 9, pv)
@@ -129,12 +149,14 @@ class BoxLayers(unittest.TestCase):
         for k, v in pv.items():
             self.assertIn(k, ly_burn.BOX_K, k)
             self.assertAlmostEqual(v, ly_burn.BOX_K[k], places=4, msg=k)
+        self.assertEqual(set(ly_burn.BOX_K) - set(pv), {"nanum"}, "러너에만 있는 폰트 = 나눔고딕(뷰어 선택지 없음 · 구 값 호환)뿐")
 
     def test_viewer_line_metrics_match_repo_fonts(self):
         """FONT_PV.lh·dsc = 러너 폰트 파일의 OS/2 윈 수치(레포 동봉 5종 = 의존성 0 · struct 파싱)."""
         import re
         import struct
-        html = open(os.path.join(ROOT, 'viewer', 'edit.html'), encoding='utf-8').read()
+        with open(os.path.join(ROOT, 'viewer', 'edit.html'), encoding='utf-8') as fh:
+            html = fh.read()
         pv = dict((k, (float(a), float(b))) for k, a, b in re.findall(r"\n  (\w+):\{lbl:'[^']*',lh:([0-9.]+),dsc:([0-9.]+),", html))
         files = {"pretendard": "Pretendard-Bold.otf", "paper": "Paperlogy-5Medium.ttf", "plex": "IBMPlexSansKR-Bold.ttf",
                  "jua": "Jua-Regular.ttf", "gowun": "GowunDodum-Regular.ttf"}
@@ -246,30 +268,31 @@ class ResolutionCap(unittest.TestCase):
         self.assertNotIn("dict(_RES_LADDER, src=0).get", src, "'src' 를 0 으로 두면 `or None` 에서 결측과 합쳐진다(구 결함 코드형)")
 
 
-def _render(ass_path, t, w=540, h=960):
+def _render(ass_path, t, w=540, h=960, fontsdir=None):
+    vf = "ass={}".format(ass_path) if not fontsdir else "ass=filename={}:fontsdir={}".format(ass_path, fontsdir)
     raw = subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "lavfi",
                           "-i", "color=c=gray:s={}x{}:r=30:d=2,format=yuv420p".format(w, h),   # d=2 = SEG 전체(0~2s) 커버
-                          "-vf", "ass={}".format(ass_path), "-ss", str(t), "-frames:v", "1",
+                          "-vf", vf, "-ss", str(t), "-frames:v", "1",
                           "-pix_fmt", "rgb24", "-f", "rawvideo", "-"], capture_output=True, check=True).stdout
     return raw
 
 
-def _ink_mask(raw, w=540, h=960):
-    """글자(흰·강조색) 잉크와 그 1px 둘레 — 밝거나 색이 있는 픽셀(회색 배경 128 제외)."""
-    ink = set()
-    for y in range(h // 2, h):
-        row = raw[y * w * 3:(y + 1) * w * 3]
-        for x in range(w):
-            r, g, b = row[3 * x], row[3 * x + 1], row[3 * x + 2]
-            if (r, g, b) != (128, 128, 128) and (r >= 120 or abs(r - g) >= 4 or abs(g - b) >= 4):
-                ink.update((x + dx, y + dy) for dx in (-1, 0, 1) for dy in (-1, 0, 1))
-    return ink
+def _clear_text(ass):
+    """글자 채움만 완전 투명(스타일 PrimaryColour 알파 FF) — 박스 레이어·글자 레이어 박스는 그대로 보인다(260923 평의회 7).
+    \\1c 강조는 색만 바꾸고 \\r 은 스타일로 복귀하므로 끝까지 투명 = 강조 창이 바뀌어도 픽셀이 결정적 → 박스만 정확히 잰다
+    (중심 보정으로 줄 이음새가 글자 가장자리와 겹쳐도 글자 안티에일리어싱이 섞이지 않는다)."""
+    out = []
+    for line in ass.splitlines():
+        if line.startswith("Style: "):
+            f = line.split(",")
+            f[3] = "&HFF" + f[3][4:]
+            line = ",".join(f)
+        out.append(line)
+    return "\n".join(out) + "\n"
 
 
-def _box_profile(raw, w=540, h=960, mask=frozenset()):
-    """(열별 박스 윗변 y, 이중 합성 픽셀 수, 박스 픽셀 수) — 배경 회색(128) 위 반투명 박스 44% = 71(1중) · 40(2중).
-    mask = 이중 합성 집계에서 뺄 자리(전 프레임 글자 잉크 합집합 · 260923) — 박스 중심 보정으로 줄 이음새가 글자 가장자리와 겹치면 그 안티에일리어싱 픽셀이
-    강조 색(흰↔그린)에 따라 어두운 회색으로 잡혔다 안 잡혔다 했다(실측 540×960: 이음새 행 2픽셀 · 박스 자체는 프레임 간 동일). 프레임 공통 마스크라 비교가 공정하다."""
+def _box_profile(raw, w=540, h=960):
+    """(열별 박스 윗변 y, 이중 합성 픽셀 수, 박스 픽셀 수) — 배경 회색(128) 위 반투명 박스 44% = 71(1중) · 40(2중)."""
     top, dbl, box = {}, 0, 0
     for y in range(h // 2, h):
         row = raw[y * w * 3:(y + 1) * w * 3]
@@ -280,7 +303,7 @@ def _box_profile(raw, w=540, h=960, mask=frozenset()):
             top.setdefault(x, y)
             if abs(r - g) < 4 and abs(g - b) < 4 and r < 120:
                 box += 1
-                if r < 55 and (x, y) not in mask:
+                if r < 55:
                     dbl += 1
     return top, dbl, box
 
@@ -291,20 +314,50 @@ class BoxRender(unittest.TestCase):
         d = tempfile.mkdtemp()
         p = os.path.join(d, 't.ass')
         with open(p, 'w', encoding='utf-8') as f:
-            f.write(ly_burn.build_ass(SEG, 540, 960, dict(BOX, hi=True)))
+            f.write(_clear_text(ly_burn.build_ass(SEG, 540, 960, dict(BOX, hi=True))))
         profiles, dbls, boxes = [], [], []
-        raws = [_render(p, t) for t in (0.1, 0.9, 1.7)]
-        mask = set().union(*(_ink_mask(r) for r in raws))
-        for raw in raws:
-            top, dbl, box = _box_profile(raw, mask=mask)
+        for t in (0.1, 0.9, 1.7):
+            top, dbl, box = _box_profile(_render(p, t))
             profiles.append(top); dbls.append(dbl); boxes.append(box)
         if not profiles[0]:
             self.skipTest('libass 가 쓸 폰트가 없는 환경(렌더 픽셀 0) — 구조 검사는 위 BoxLayers 가 담당')
         self.assertEqual(profiles[0], profiles[1], '강조 어절이 바뀌어도 박스 윗변은 열마다 동일해야 한다(260913 계단 재발 금지)')
         self.assertEqual(profiles[1], profiles[2])
         self.assertEqual(len(set(dbls)), 1, '강조 위치에 따라 진해지는 자리가 있으면 안 된다(런 경계 줄무늬 재발 금지): %r' % (dbls,))
-        # 2줄 텍스트 = 줄 경계 반올림 1행(pad/2 그림자 3.8+3.8 vs 7.7)만 허용 — 런 경계 줄무늬·박스+그림자 전면 겹침(구 24~69%)은 이 상한을 크게 넘는다
+        # 2줄 텍스트 = 줄 이음새 1행(libass 가 \\ybord0 도 최소 1px 로 그려 앞 줄 상자가 1px 겹침)만 허용 — 런 경계 줄무늬·박스+그림자 전면 겹침(구 24~69%)은 이 상한을 크게 넘는다
         self.assertLess(dbls[0], boxes[0] * 0.02, '반투명 박스 이중 합성 픽셀 %d / 박스 %d' % (dbls[0], boxes[0]))
+
+
+    def test_dual_boxes_have_no_bridge(self):
+        """2줄(외국어)+박스 = 한국어 박스와 원문 박스 사이에 좁은 검정 '다리' 0행(박스 레이어 스페이서 \\shad0 · 260923 평의회 1·4·6 · 구 3행 → 보정 뒤 6~9행이던 것)."""
+        d = tempfile.mkdtemp()
+        p = os.path.join(d, 't.ass')
+        with open(p, 'w', encoding='utf-8') as f:
+            f.write(ly_burn.build_ass([{"s": 0.0, "e": 2.0, "ko": "자막 위치 미리보기", "src": "Subtitles pop right here"}], 540, 960,
+                                      dict(BOX, bg=100, pad=0.1, size=0.038, font="jua", lang="dual", dual_small=0.5, dual_gap=0.18)))
+        raw = _render(p, 1.0, fontsdir=os.path.join(ROOT, 'assets', 'fonts', 'subs'))
+        rows = [sum(1 for x in range(540) if max(raw[(y * 540 + x) * 3:(y * 540 + x) * 3 + 3]) < 40) for y in range(960)]
+        ys = [y for y, n in enumerate(rows) if n]
+        if not ys:
+            self.skipTest('박스 픽셀 0(폰트 없는 환경)')
+        narrow = [y for y in range(ys[0], ys[-1] + 1) if 0 < rows[y] < 40]
+        self.assertEqual(narrow, [], '두 박스 사이 좁은 검정 행(다리) %r' % (narrow,))
+
+    def test_latin_descender_clears_box_bottom(self):
+        """영문 하강부(g·p·y)와 박스 아랫변 사이 ≥ pad/2 − 1px(LAT_K 하한 · 주아 = 한글 중심 보정만이면 0px)."""
+        d = tempfile.mkdtemp()
+        p = os.path.join(d, 't.ass')
+        opts = dict(BOX, bg=100, pad=0.16, font="jua", karaoke=False)
+        with open(p, 'w', encoding='utf-8') as f:
+            f.write(ly_burn.build_ass([{"s": 0.0, "e": 2.0, "ko": "갤럭시 page 공개"}], 540, 960, opts))
+        raw = _render(p, 1.0, fontsdir=os.path.join(ROOT, 'assets', 'fonts', 'subs'))
+        px = lambda x, y: raw[(y * 540 + x) * 3:(y * 540 + x) * 3 + 3]
+        box = [y for y in range(960) if sum(1 for x in range(0, 540, 2) if max(px(x, y)) < 40) > 8]
+        ink = [y for y in range(960) if any(min(px(x, y)) > 200 for x in range(540))]
+        if not box or not ink:
+            self.skipTest('렌더 픽셀 0(폰트 없는 환경)')
+        hp = ly_burn.ass_px(max(18, int(960 * 0.05)) * 0.16 / 2.0)
+        self.assertGreaterEqual(box[-1] - ink[-1], hp - 1, '하강부 여백 %d px(pad/2 = %.1f)' % (box[-1] - ink[-1], hp))
 
 
 @unittest.skipUnless(shutil.which('ffmpeg') and shutil.which('ffprobe'), 'ffmpeg 없음')
