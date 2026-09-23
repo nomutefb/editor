@@ -63,7 +63,10 @@ SOLO_MAX_H = float(os.environ.get("CAND_SOLO_MAX_H", "6"))
 #   [단독] 단독분은 발행 SOLO_MAX_H(6h) 에 정리(긴급 확정분 제외 · 24h 보존은 속보 태그 몫 = 피드 배지 역전 차단).
 #   롤백 = CAND_SOLO_EXC=0(속보 태그 단독은 그대로 · 남은 [단독] 단독분은 다음 회차 정리).
 SOLO_EXC_ON = os.environ.get("CAND_SOLO_EXC", "1").strip().lower() not in ("0", "false", "no", "off")
-SOLO_EXC_MAX = int(os.environ.get("CAND_SOLO_EXC_MAX", "8"))
+SOLO_EXC_MAX = int(os.environ.get("CAND_SOLO_EXC_MAX", "12"))
+# 만석 규칙(평의회4-8 260924): 선착순 거절은 저녁 피크에 **새 특종을 막았다**(승리 +42분 · 33건 중 4건 미입장 시뮬) →
+#   경중 0·1 채점분은 다음 회차에 바로 자리를 비우고(뷰어도 이미 숨김), 만석이면 **발행이 더 새로운** 신참이 가장 오래된 비긴급 좌석을 밀어낸다.
+#   밀려난 건 더 새것들이 자리를 쥔 동안 재입장 불가(자기보다 새것을 못 밀어냄) = 회전 0.
 # 경중 채점까지 받은 단독은 배지 소멸선(24h = 뷰어 BADGE_MAX_AGE_H)까지 보존 — 먼저 지우면 피드 빌드가 원장에서 못 찾아 제목 [속보]만 보고
 #   ⚡이슈를 거꾸로 켠다(평의회4 재현 · build-viewer feedBrk). 미채점은 SOLO_MAX_H 에 정리.
 SOLO_JUDGED_H = float(os.environ.get("CAND_SOLO_JUDGED_H", "24"))
@@ -369,9 +372,13 @@ def main():
     fresh = {}
     solo_in = 0
     solo_urls = set()
-    exc_live = {u for u, e in existing.items() if is_exc_solo(e)
-                and (_solo_age_h(e.get("published"), e.get("first_seen"), now) or 99) < SOLO_MAX_H}   # 지금 살아 있는 [단독] 단독분(좌석 상한 = 입장 시점)
-    exc_skip = 0
+    exc_live = {}   # url → 발행 나이(h) = 지금 좌석을 쥔 [단독] 단독분(비긴급 · 경중 0·1 채점분 제외 = 곧 정리)
+    for u, e in existing.items():
+        if is_exc_solo(e) and not _urgent(e) and not ((e.get("grade") is not None) and e.get("grade") < 2):
+            ea = _solo_age_h(e.get("published"), e.get("first_seen"), now)
+            if ea is not None and ea < SOLO_MAX_H:
+                exc_live[u] = ea
+    exc_skip, exc_evict = 0, set()
     covered = set()   # 기존 다매체 후보(단독 아님)의 대표·멤버 기사 — 불변식 ⓐ
     for e in existing.values():
         if not is_solo(e):
@@ -399,11 +406,15 @@ def main():
             sa = _solo_age_h(a.get("published"), prev0.get("first_seen"), now)
             if sa is None or sa >= SOLO_MAX_H:
                 continue
-            if exc_only and url not in exc_live:   # 새 [단독] = 좌석 남을 때만(이미 들어온 건 유지 = 회전 0)
+            if exc_only and url not in exc_live:   # 새 [단독] = 좌석 남거나, 가장 오래된 좌석보다 새것일 때만(밀어내기)
                 if len(exc_live) >= SOLO_EXC_MAX:
-                    exc_skip += 1
-                    continue
-                exc_live.add(url)
+                    old_u = max(exc_live, key=lambda k: exc_live[k])
+                    if exc_live[old_u] <= sa:
+                        exc_skip += 1
+                        continue
+                    del exc_live[old_u]
+                    exc_evict.add(old_u)
+                exc_live[url] = sa
             solo_in += 1
             solo_urls.add(url)
         burst = a.get("burst") or 0
@@ -601,8 +612,8 @@ def main():
         if not SOLO_TAG_ON:
             return True
         exc = is_exc_solo(c)
-        if exc and not SOLO_EXC_ON:
-            return True   # [단독] 롤백 = 남은 단독분 즉시 정리(긴급 확정분은 위에서 이미 제외)
+        if exc and (not SOLO_EXC_ON or c.get("url") in exc_evict or (c.get("grade") is not None and c.get("grade") < 2)):
+            return True   # [단독] 롤백·만석 밀려남·경중 0·1 채점분 = 즉시 정리(긴급 확정분은 위에서 이미 제외 · 뷰어도 경중 0·1 은 숨김)
         sa = _solo_age_h(c.get("published"), c.get("first_seen"), now)
         long_keep = c.get("grade") is not None and not exc   # 24h 보존 = 채점된 속보 단독(배지 역전 차단 · 평의회4) · [단독]은 6h(소비처 없음 · 평의회4 260924)
         return sa is None or sa >= (SOLO_JUDGED_H if long_keep else SOLO_MAX_H)
@@ -691,7 +702,7 @@ def main():
     t1min = min(((c.get("cross") or 0) for c in t1), default=0)
     print(f"수집함: 사건 {len(kept)}건 (신규 {len(fresh)} · 기존 {len(existing)}) · "
           f"보관한도 {CAP} · 보관기간 {TTL_HOURS}h(약 {TTL_HOURS // 24}일) · 교차≥{MIN_CROSS} · "
-          f"🚨속보후보(burst≥{BREAKING_BURST}) {nbreak}건 · 단독1보 입장 {solo_in}건(보유 {sum(1 for c in kept if is_solo(c))}{(' · [단독] 만석 보류 ' + str(exc_skip)) if exc_skip else ''}) · "
+          f"🚨속보후보(burst≥{BREAKING_BURST}) {nbreak}건 · 단독1보 입장 {solo_in}건(보유 {sum(1 for c in kept if is_solo(c))}{(' · [단독] 만석 보류 ' + str(exc_skip)) if exc_skip else ''}{(' · [단독] 밀어냄 ' + str(len(exc_evict))) if exc_evict else ''}) · "
           f"신선1군 {len(t1)}건(최소 cross {t1min}) · 바이트예산 {len(blob.encode('utf-8'))}B/{MAX_BYTES}B 트림 {trimmed}건"
           + (f" · 비노출 {FAST_MAX_H}~{FRESH_KEEP_H}h 신선 컷 {cut_46}건" if cut_46 else "")
           + (f" · ⚠️ 누적급(cross≥8) 컷 {cut_cum}건" if cut_cum else "")

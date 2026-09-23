@@ -144,6 +144,24 @@ class ToCandidatesSoloTest(unittest.TestCase):
         again = self.run_tc(arts, list(out.values()), env={"CAND_SOLO_EXC_MAX": "8"})
         self.assertEqual({u for u in again if u.startswith("e")}, {u for u in out if u.startswith("e")})   # 다음 회차 = 같은 8건 유지(밀어내기·재입장 0)
 
+    def test_full_seats_newest_scoop_evicts_oldest_without_churn(self):
+        # 평의회4-8 260924: 선착순 거절은 저녁 피크에 새 특종(승리 20:45)을 42분 막았다 → 더 새것이 가장 오래된 좌석을 밀어낸다
+        env = {"CAND_SOLO_EXC_MAX": "3"}
+        olds = [art("o%d" % i, "[단독] 옛 특종 %d" % i, pub_h=3 + i, media="JTBC") for i in range(3)]
+        first = self.run_tc(olds, env=env)
+        self.assertEqual({u for u in first if u.startswith("o")}, {"o0", "o1", "o2"})
+        new = art("n", "[단독] '소주병 집어든' 승리…CCTV 입수", pub_h=0.1, media="JTBC")
+        second = self.run_tc(olds + [new], list(first.values()), env=env)
+        self.assertEqual({u for u in second if u[0] in "on"}, {"n", "o0", "o1"})    # 가장 오래된 o2 밀려남
+        third = self.run_tc(olds + [new], list(second.values()), env=env)
+        self.assertEqual({u for u in third if u[0] in "on"}, {"n", "o0", "o1"})     # o2 재입장 0(자기보다 새것을 못 밀어냄)
+
+    def test_graded_low_exclusive_frees_seat_next_run(self):
+        base = {"cross": 1, "solo": 1, "published": _iso(0.5), "first_seen": _kst(0.4), "arts": 1}
+        out = self.run_tc([], [{**base, "id": "x", "url": "x", "title": "[단독] PR성 특종", "cluster_members": ["x"], "grade": 1},
+                               {**base, "id": "y", "url": "y", "title": "[단독] 사건 특종", "cluster_members": ["y"], "grade": 2}])
+        self.assertEqual(set(out), {"y"})
+
     def test_exclusive_lever_off_purges_exclusive_but_keeps_breaking_solo(self):
         base = {"cross": 1, "solo": 1, "published": _iso(0.5), "first_seen": _kst(0.4), "arts": 1}
         out = self.run_tc([], [{**base, "id": "x", "url": "x", "title": "[단독] 특종", "cluster_members": ["x"]},
