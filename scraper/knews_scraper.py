@@ -289,15 +289,55 @@ def fetch_feed(feed):
             return None
 
 
+# 표준 파서(feedparser)가 못 읽는 국내 RSS 날짜 표기(260923 라이브 실측 · 평의회2-7):
+#   세계일보·파이낸셜뉴스 = "Wed,23 Sep 2026 21:00:00 +0900"(쉼표 뒤 공백 없음 → 수집 기사 14%가 발행시각 없이 들어왔다)
+#   노컷뉴스 = "Wed, 23 09 2026 21:14:11 +0900"(월이 숫자) + dc:date "0001-01-01"(이걸 발행으로 읽어 전 기사가 24h 창 밖 = 죽은 피드로 보였다)
+#   압축형 = "20260923213257+0900". 표준 파서가 읽은 값이 있으면(2000년 이후) 종전 그대로 = 정상 피드 무영향. 시간대 없음 = 한국시각.
+_MON = {m: i for i, m in enumerate(("jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"), 1)}
+_RAW_RFC = re.compile(r"^\s*(?:[A-Za-z]{3},?\s*)?(\d{1,2})\s+([A-Za-z]{3}|\d{1,2})\s+(\d{4})\s+(\d{1,2}):(\d{2})(?::(\d{2}))?\s*([+-]\d{4}|GMT|UTC|Z)?\s*$")
+_RAW_COMPACT = re.compile(r"^\s*(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})\s*([+-]\d{4})?\s*$")
+
+
+def _raw_date(s):
+    s = str(s or "")
+    m = _RAW_RFC.match(s)
+    if m:
+        d, mon, y, hh, mm, ss, tz = m.groups()
+        mo = int(mon) if mon.isdigit() else _MON.get(mon.lower())
+        parts = (int(y), mo, int(d), int(hh), int(mm), int(ss or 0))
+    else:
+        m = _RAW_COMPACT.match(s)
+        if not m:
+            return None
+        parts = tuple(int(x) for x in m.groups()[:6])
+        tz = m.group(7)
+    if not parts[1]:
+        return None
+    if tz in (None, ""):
+        off = timedelta(hours=9)
+    elif tz in ("GMT", "UTC", "Z"):
+        off = timedelta(0)
+    else:
+        off = timedelta(hours=int(tz[1:3]), minutes=int(tz[3:5])) * (1 if tz[0] == "+" else -1)
+    try:
+        return (datetime(*parts, tzinfo=timezone.utc) - off) if parts[0] >= 2000 else None
+    except ValueError:
+        return None
+
+
 def parse_time(entry):
-    """발행시각 → aware datetime(UTC). 없으면 None."""
+    """발행시각 → aware datetime(UTC). 없으면 None. 2000년 이전 값 = 무효(노컷 0001년 자리표시)."""
     for key in ("published_parsed", "updated_parsed"):
         t = entry.get(key)
-        if t:
+        if t and t[0] >= 2000:
             try:
                 return datetime(*t[:6], tzinfo=timezone.utc)
             except (ValueError, TypeError):
                 continue
+    for key in ("published", "updated"):
+        t = _raw_date(entry.get(key))
+        if t:
+            return t
     return None
 
 
@@ -480,7 +520,7 @@ PICK_PRIORITY = [
 
 # 교차(cross)·burst 셈에서 같은 보도국으로 보는 매체(260923 평의회2-5 · 연합뉴스TV = 연합 계열 재송출 · MBN = 매일경제 계열).
 #   표시·원문 링크·건강 원장은 피드 이름 그대로 — 「몇 개 언론사가 썼나」 셈만 합친다(같은 계열 두 피드가 교차 +1 을 만들던 것).
-CROSS_ALIAS = {"연합뉴스TV": "연합뉴스", "MBN": "매일경제"}
+CROSS_ALIAS = {"연합뉴스TV": "연합뉴스", "MBN": "매일경제", "스포츠조선": "조선일보", "IT조선": "조선일보", "스포츠경향": "경향신문"}
 
 
 def _cross_pub(pub):
