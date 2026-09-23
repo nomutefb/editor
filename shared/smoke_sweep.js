@@ -8,10 +8,10 @@
 //   · CLAUDE.md [4-1] 문법 자동게이트 비채택 판례 준수 — 여긴 정본 주석이 명시한 계약만 조인다).
 //
 // 담당 표면(이 표면 변경 시 커밋 전 실행 rc=0 필수):
-//   viewer/index.html {#totop(픽토 4분할) · .qpop/.qh-xcell/.qrow/.qact(대기열·발행본·메시지함 R-라인)}
+//   viewer/index.html {#totop(픽토 4분할) · .qpop/.qh-xcell/.qrow/.qact(대기열·메시지함 R-라인)}
 //   viewer/thumb.html {.csec 소머리 좌변(같은 컨텍스트 그룹 내 균일) · .sbtn(R8 결합 문법 S8)}
 // 코어 7종: S1 index 부팅 에러 0 · S2 #totop 픽토 4분할 |dx|,|dy|≤0.5(계약 3-4) · S3 대기열 X셀↔행
-//   qact 우변·중심 R-라인 Δ≤0.5(운영자 260712 정본) · S4 발행본·메시지함 동일 프로브 Δ≤0.5 ·
+//   qact 우변·중심 R-라인 Δ≤0.5(운영자 260712 정본) · S4 메시지함 동일 프로브 Δ≤0.5 ·
 //   S5 thumb 부팅 에러 0 · S6 .csec 좌변 그룹 내 균일 Δ≤0.5(페이지군·카드(.scard)군 각각 — 두 군 '간'
 //   16↔17 통일은 Q256 운영자 문답 대기라 그룹 간은 비판정) · S7 2런 결정론(기하값 동일).
 //   S8 .sbtn R8 결합 문법(합성 프로브 · 운영자 260721 Q345 · 평의회 Q329 채택 ⑤): 아이콘 버튼 베이스 =
@@ -72,14 +72,14 @@ async function startServer() {
 
 const KILL_ANIM = () => { const st = document.createElement('style'); st.id = '__noanim'; st.textContent = '*{animation:none!important;transition:none!important;scroll-behavior:auto!important}'; document.head.appendChild(st); };
 
-// index 측정 — totop 4분할 + 3팝업 R-라인(합성 행 프로브)
+// index 측정 — totop 4분할 + 2팝업 R-라인(합성 행 프로브)
 const MEASURE_INDEX = () => {
   const R = el => { const r = el.getBoundingClientRect(); return { l: r.left, r: r.right, cx: (r.left + r.right) / 2, cy: (r.top + r.bottom) / 2, w: r.width }; };
   const out = {};
   // totop: fixed 버튼 — 스크롤 상태 무관하게 기하 존재(가시성 클래스는 opacity축이라 rect 유효)
   const tt = document.querySelector('#totop'), ts = tt && tt.querySelector('svg');
   out.totop = (tt && ts) ? { dx: +(R(ts).cx - R(tt).cx).toFixed(2), dy: +(R(ts).cy - R(tt).cy).toFixed(2) } : null;
-  out.pops = ['qpop', 'pubpop', 'msgpop'].map(id => {
+  out.pops = ['qpop', 'msgpop'].map(id => {
     const p = document.getElementById(id); if (!p) return { id, err: '팝업 없음' };
     const list = p.querySelector('.qlist'); const xc = p.querySelector('.qh-xcell');
     if (!list || !xc) return { id, err: '.qlist/.qh-xcell 없음' };
@@ -125,7 +125,7 @@ const MEASURE_THUMB = () => {
     const q = m1.pops.find(p => p.id === 'qpop');
     put(!!q && !q.err && Math.abs(q.dRight) <= TOL && Math.abs(q.dCenter) <= TOL, 'S3 대기열 X셀↔행 qact R-라인 Δ≤0.5', q ? (q.err || `dRight ${q.dRight} dCenter ${q.dCenter} (goW ${q.goW})`) : '측정 실패');
     const others = m1.pops.filter(p => p.id !== 'qpop');
-    put(others.every(p => !p.err && Math.abs(p.dRight) <= TOL && Math.abs(p.dCenter) <= TOL), 'S4 발행본·메시지함 R-라인 Δ≤0.5', others.map(p => p.id + (p.err ? ':' + p.err : `:dR ${p.dRight}/dC ${p.dCenter}`)).join(' · '));
+    put(others.every(p => !p.err && Math.abs(p.dRight) <= TOL && Math.abs(p.dCenter) <= TOL), 'S4 메시지함 R-라인 Δ≤0.5', others.map(p => p.id + (p.err ? ':' + p.err : `:dR ${p.dRight}/dC ${p.dCenter}`)).join(' · '));
     put(JSON.stringify(m1) === JSON.stringify(m2), 'S7a index 결정론(재측정 동일)', JSON.stringify(m1) === JSON.stringify(m2) ? '동일' : 'm1≠m2');
     // ── thumb ──
     errs.length = 0;

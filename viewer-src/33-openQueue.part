@@ -31,7 +31,6 @@ window.addEventListener('popstate', () => {   // 폰 뒤로가기 = 대기열 �
   if ((LBOX && LBOX.open) || isComposingModalOpen() || (_td && _td.open)) return;   // ⚠️ 상위 모달(라이트박스·작성·도구)이 떠 있으면 이 뒤로가기는 그 모달 몫 → 대기열까지 같이 닫히던 over-close 차단(평의회 G4 · 260628)
   if (!sovl.hidden) { if (_wasDlgClosing) return; const _dlg = $('#dlg'); if (!(_dlg && _dlg.open)) { _sovPop = true; closeSearch(); } return; }   // 검색 오버레이 = 자기 몫 소비(260706 5차) — 리더(#dlg)가 오버레이 *위*에 열릴 수 있음: 백버튼 닫기 = _dlg.open 아직 true라 검색 유지 / X·ESC·백드롭 닫기 = _dlgClosing가 그 back을 리더 몫으로 표식(검색 과닫힘·{sov} 누수 차단 · 평의회3 260710) · 다음 back이 검색 닫음
   if (!qpop.hidden && !qpop.classList.contains('closing')) { _qPop = true; closeQueueUser(); }
-  if (!pubpop.hidden && !pubpop.classList.contains('closing')) { _pubPop = true; closePubUser(); }
 });
 const qEsc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 function qAgo(t) {

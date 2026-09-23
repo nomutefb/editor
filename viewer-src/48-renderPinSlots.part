@@ -17,17 +17,17 @@ function renderPinSlots(slotsEl, value, opts) {
     el.classList.remove('cur'); el.classList.add('on'); el.textContent = '';   // CSS 전이(원 스케일-인)로 자연 접힘
   }, 2000);
 }
-// 눈(전체 표시) 버튼 배선 — 3표면 공유(설정 #pinboxes·발행 #pubSlots·화면잠금 #lkSlots). 아이콘 = EYE_SVG(nm-svg SSOT) 주입 · on=강조색.
+// 눈(전체 표시) 버튼 배선 — 2표면 공유(PIN 다이얼로그 #pinboxes·화면잠금 #lkSlots). 아이콘 = EYE_SVG(nm-svg SSOT) 주입 · on=강조색.
 document.querySelectorAll('.pin-eye').forEach(b => {
   b.innerHTML = EYE_SVG;
-  const slots = b.parentElement.querySelector('.pin-slots,.pub-slots,.lk-slots'); if (!slots) return;
+  const slots = b.parentElement.querySelector('.pin-slots,.lk-slots'); if (!slots) return;
   b.addEventListener('pointerdown', e => e.preventDefault());   // 오버레이 input 포커스 유지 = OS 키패드 안 닫힘(어색함 방지)
   b.addEventListener('click', e => { e.stopPropagation(); pinEyeSet(slots, !slots._see); });
 });
 function pinEyeSet(slotsEl, on) {   // 토글 + 재렌더(저장된 값) — 열 때 리셋에도 사용
   if (!slotsEl) return;
   slotsEl._see = !!on;
-  const wrap = slotsEl.closest('.pin-boxwrap,.pin-fs,.lk-slotwrap'), b = wrap && wrap.querySelector('.pin-eye');
+  const wrap = slotsEl.closest('.pin-boxwrap,.lk-slotwrap'), b = wrap && wrap.querySelector('.pin-eye');
   if (b) { b.classList.toggle('on', slotsEl._see); b.setAttribute('aria-pressed', String(slotsEl._see)); }
   renderPinSlots(slotsEl, slotsEl._v || '', slotsEl._opts);
   if (!slotsEl._see) {   // 눈 OFF = 전부 점 즉시(마지막 숫자 재노출 quirk 차단 — 2초 타이머 안 기다림)
@@ -35,52 +35,6 @@ function pinEyeSet(slotsEl, on) {   // 토글 + 재렌더(저장된 값) — 열
     const c = slotsEl.querySelector('span.cur'); if (c) { c.classList.remove('cur'); c.classList.add('on'); c.textContent = ''; }
   }
 }
-function renderPubSlots() { renderPinSlots($('#pubSlots'), ($('#pubPin') && $('#pubPin').value) || ''); }   // 발행 어댑터 = wrapper(호출부·2단 상태머신 유지)
-function pubPinBad() { const s = $('#pubSlots'); if (!s) return; s.classList.remove('shake'); void s.offsetWidth; s.classList.add('bad', 'shake'); setTimeout(() => s.classList.remove('bad', 'shake'), 480); }
-function pubPinReset() { _pubStage = 1; _pubPin1 = ''; _pubPinOK = false; if ($('#pubPin')) $('#pubPin').value = ''; const lg = $('#pubPinLeg'); if (lg) lg.textContent = '잠금 설정 (PIN)'; renderPubSlots(); pinEyeSet($('#pubSlots'), false); }   // 리셋 = 눈 OFF 복귀(260705)
-if ($('#pubPin')) $('#pubPin').addEventListener('input', () => {
-  const raw = $('#pubPin').value, clean = raw.replace(/\D/g, '').slice(0, 6);
-  if (clean !== raw) { $('#pubPin').value = clean; pubPinBad(); }   // 숫자 외/6자리 초과 = 흔들림+붉게
-  _pubPinOK = false; renderPubSlots();
-  if ($('#pubPin').value.length !== 6) return;
-  if (_pubStage === 1) {                                              // 1차 6자리 완료 → 잠깐 노출 후 2차 재입력으로
-    _pubPin1 = $('#pubPin').value;
-    setTimeout(() => { if (_pubStage === 1 && $('#pubPin').value === _pubPin1) { _pubStage = 2; $('#pubPin').value = ''; const lg = $('#pubPinLeg'); if (lg) lg.textContent = '다시 입력'; renderPubSlots(); } }, 520);
-  } else {                                                            // 2차: 1차와 일치 = 확정(강조 유지) / 불일치 = 흔들림+처음부터
-    if ($('#pubPin').value === _pubPin1) { _pubPinOK = true; const lg = $('#pubPinLeg'); if (lg) lg.textContent = '잠금 설정 완료'; }
-    else { pubPinBad(); setTimeout(pubPinReset, 500); }
-  }
-});
-$('#pubdlgX').addEventListener('click', () => pubdlg.close());
-pubdlg.addEventListener('click', e => { if (e.target === pubdlg) pubdlg.close(); });
-pubdlg.addEventListener('close', () => { pubdlg.style.maxHeight = ''; pubdlg.style.marginTop = ''; });   // geniVV 키보드 클램프 원복(gdlg close 미러 — 잔존 시 다음 열림이 stale 위치 · 감사 260718)
-$('#pubGo').addEventListener('click', async () => {
-  if (_pubBusy || !CUR_A) return;
-  const go = $('#pubGo'), st = $('#pubStatus'), pin = _pubPinOK ? ($('#pubPin').value || '').trim() : '';   // 2단 확정(_pubPinOK) 시만 잠금 PIN 전송 · 미확정/미입력 = 잠금 없이 발행
-  const fail = (msg) => { gaugeClear(go); go.classList.add('shake'); setTimeout(() => go.classList.remove('shake'), 420); go.disabled = false; st.textContent = msg; st.classList.add('err'); };
-  if (pin && !/^\d{6}$/.test(pin)) { fail('PIN은 숫자 6자리로'); return; }
-  _pubBusy = true; go.disabled = true; st.classList.remove('err'); st.textContent = '';
-  gaugeStart(go);   // 발행 즉시 게이지 = html 생성·업로드 응답까지 진행(옛 pickGauge 0.72s는 업로드 길면 꽉 찬 채 멈춤 · 운영자 260702)
-  try {
-    const html = await buildSummaryHtml($('#dlFull') && $('#dlFull').checked, { embedFont: false });   // 폰트 CDN링크(발행 크기↓·600KB초과 방지) · 나머지 자기완결(API호출0=우회차단)
-    const title = (CUR_A && CUR_A.title) || '뉴스 요약';
-    const r = await fetch('api/publish', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ file: CUR, title, html, scope: _pubScope, days: 3, pin }) });
-    const d = await r.json().catch(() => ({}));
-    if (r.ok && d.ok && d.slug) {
-      if (pin) try { localStorage.setItem('nm_pub_pin', pin); } catch (e2) {}   // 발행 확정 PIN = 고정 PIN으로 기억(다음 발행 프리필 · 운영자 260707)
-      await copyText(location.origin + '/s/' + d.slug);   // ?p=핀 미포함 = PIN 잠금 무력화 방지(검증3·7·1). PIN은 별도 전달.
-      go.classList.remove('done'); void go.offsetWidth; go.classList.add('done'); gaugeDone(go);   // settle 팝 + 게이지 현위치→100% 급속 = 전송/수정 버튼과 동일 메커니즘(askShowCheck·.ack·운영자 "다른 버튼과 동일")
-      setTimeout(() => askShowCheck(go), 300);   // 게이지 채움완료(gdone .3s)와 물려 ✓ 팝(멈칫 제거·운영자 260703)
-      qFlash(pin ? ('발행 및 링크 복사 완료 · PIN ' + pin + ' 별도 전달') : '발행 및 링크 복사 완료');   // 성공 안내 = 전경 토스트(팝업 내 상태문자열 폐지 · 운영자 260720 "문자열 말고 포스트 알림") — 모달이 1.5s 뒤 닫혀도 close 캡처가 body 귀환시켜 잔여 표시 보존 = 복사됐다는 사실이 화면에 남음(운영자 260801 "발행본을 찾아가야 한다") · ✓ 자체는 발행 버튼 .ack SVG 담당(§🔒 3-1)
-      setTimeout(() => { pubdlg.close(); gaugeClear(go); go.classList.remove('done'); askHideCheck(go); go.disabled = false; loadPub(); }, 1500);   // ✓ 노출 시간 확보 후 닫기(askSend 계승)
-    } else { fail((d && d.error) ? String(d.error).slice(0, 90) : '발행 실패 — 다시'); }
-  } catch { fail('네트워크 오류 — 다시'); }
-  finally { _pubBusy = false; }
-});
-
-let PUBITEMS = [], PUBPAGE = 0, _pubCloseTimer = 0, _pubPushed = false, _pubPop = false;
-const _pubBtnEl = $('#pubBtn'); if (_pubBtnEl) _pubBtnEl.addEventListener('click', e => { e.stopPropagation(); openPub(); });   // stopPropagation = #msgbtn 패턴(pmenu 안 버튼이라 안 하면 열자마자 바깥클릭 닫힘·검증8·9)
-
 /* SNS 2차 아코디언(_snsToggle) 삭제 — Home·SNS 링크 메뉴 제거(운영자 260705) · 설정 아코디언(_setToggle)이 동일 패턴 정본 */
 const _setToggle = $('#setToggle'); if (_setToggle) _setToggle.addEventListener('click', e => {   // 설정 2차 아코디언(알림·잠금) 펼침/접힘 = SNS 패턴 계승(pmenu 안 유지·운영자 260703)
   e.stopPropagation();
@@ -114,124 +68,13 @@ const _setToggle = $('#setToggle'); if (_setToggle) _setToggle.addEventListener(
   });
 });
 const _pmenuX = $('#pmenuX'); if (_pmenuX) _pmenuX.addEventListener('click', e => { e.stopPropagation(); hidePmenu(); });   // 헤더 X = 프로필 메뉴 닫기(촤르륵 접힘 popOut 재사용 · 운영자 260704)
-function placePubpop() { placePopNearMenu(pubpop); }   // 발행본 팝업 위치 = 메시지함 공용(placePopNearMenu) — 링크 메뉴(linkfab) 위 앵커(운영자 260707 "열린 메뉴 가까이" · 구 프로필 앵커 폐지)
-function openPub() {   // 발행본 팝업 열기 — 메시지함 UI/UX 계승(글래스·msgUnfold·앵커)
-  closeOverlays('pubpop');
-  clearTimeout(_pubCloseTimer); pubpop.classList.remove('closing');
-  pubpop.hidden = false;
-  placePubpop();   // hidden 해제 후 배치(placePopNearMenu 폭 측정 요건)
-  if (!_pubPushed) { history.pushState({ pubpop: true }, ''); _pubPushed = true; }
-  loadPub();
-}
-function closePubUser() {   // 닫힘 = 즉시 hidden(메시지함 msgpop 동일 · 옛 popOut 슬라이드 폐지)
-  if (pubpop.hidden) return;
-  pubpop.hidden = true; pubpop.classList.remove('closing'); clearTimeout(_pubCloseTimer);
-  if (_pubPushed) { _pubPushed = false; if (_pubPop) _pubPop = false; else if (history.state && history.state.pubpop) history.back(); }
-}
-['resize', 'orientationchange'].forEach(ev => window.addEventListener(ev, () => { if (!pubpop.hidden) placePubpop(); }, { passive: true }));   // 회전·리사이즈 재배치(placeMsgpop 대칭)
-$('#pubpopX').addEventListener('click', e => { e.stopPropagation(); closePubUser(); linkpop.hidden = false; placeHeadPop(linkpop, $('#profile')); });   // 세부(발행본) X 닫힘 → 전단계 설정메뉴(linkpop) 되띄움 · stopPropagation = 버블 click이 linkpop 바깥클릭 가드(L6939)에 닿아 방금 되띄운 걸 즉시 닫는 것 차단(msgclose 동일 패턴) · 발행본은 linkpop 단일 진입이라 무조건 복원(바깥클릭·백버튼 공유 closePubUser엔 안 넣음 = 그건 전부닫기 · 운영자 260710)
-const _LOCKSVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
-const _LOCKOPENSVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 7.5-1.3"/></svg>';   // 열린 자물쇠(고리 젖혀짐) — 미잠금
 const _TRASHSVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m2 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>';
-function _pubAgeLabel(it) {   // 대기열 표기 완전 통일(운영자 260702): D-N 폐지 → qAgo(qRowHtml과 동일 함수 = 분 정밀도 포함)·색도 대기열과 동일 경계(≤60분 qt-new·≤240분 qt-mid)
-  const t = it.created ? qAgo(it.created) : '방금';
-  const am = it.created ? (Date.now() - it.created) / 60000 : 1e9;
-  const c = am <= 60 ? 'qt-new' : (am <= 240 ? 'qt-mid' : '');
-  return { t, c };
-}
-function pubRowHtml(it) {   // qRowHtml 미러: N시간 전 | 제목 | 잠금토글 | 공유 | 삭제 · 행 클릭=새 탭 열기+링크 자동복사(운영자 260702)
-  const al = _pubAgeLabel(it);
-  const ttl = it.title || '(제목 없음)', cp = [...ttl], ttlS = cp.length > 40 ? cp.slice(0, 40).join('') + '…' : ttl;
-  const pin = '<span class="pinmark ' + (it.pinned ? 'locked' : 'open') + '" data-slug="' + qEsc(it.slug) + '" role="button" tabindex="0" title="' + (it.pinned ? '잠금됨 · 눌러서 해제' : '눌러서 잠금') + '">' + (it.pinned ? _LOCKSVG : _LOCKOPENSVG) + '</span>';   // 잠금 = 클릭 토글(옛 롱프레스 600ms 폐지 · 운영자 260704 "클릭만 해도 동작")
-  const share = it.expired ? '<button class="pub-ico pub-share" type="button" disabled title="만료됨">' + SHARE_SVG + '</button>'
-    : '<button class="pub-ico pub-share" type="button" data-motion="share" title="공유">' + SHARE_SVG + '</button>';   // 공유 = navigator.share(폴백 복사) · 도형없는 픽토그램(PR 1377 복원) · 누름 = 별자리 훑기(data-motion share → ic-share · 옛 rise 대체 · 운영자 260703)
-  const rm = '<button class="pub-ico pub-rm" type="button" title="발행 취소(삭제)">' + _TRASHSVG + '</button>';   // 삭제 = 도형없는 픽토그램(무채색·hover만 빨강·:active scale 유지)
-  return '<div class="qrow' + (it.expired ? ' exp' : ' pub-open') + '"' + (it.expired ? '' : ' title="눌러서 새 탭 열기 · 링크 복사"') + '><span class="qt ' + al.c + '">' + qEsc(al.t) + '</span><span class="qmain" title="' + qEsc(ttl) + '">' + qEsc(ttlS) + '</span><span class="qact">' + pin + '</span><span class="qact">' + share + '</span><span class="qact">' + rm + '</span></div>';   // 대기열 표 미러: 시간 | 제목(…축약) | 잠금 | 공유 | 삭제 — 액션 3개 = 동일 고정폭 셀(.qact 30px=--btn-sm·가운데 정렬·행 gap 10)로 등간격·공유가 정중간(옛 .pub-acts 묶음 폐지 · 운영자 260704 "공유 중간·간격 동일") · 삭제(최우측) = 헤더 X와 세로 일직선(qh-xcell width30·qh pr14·qrow pr0 정합 · 운영자 260712)
-}
-function renderPubPage() {   // renderQueuePage 미러
-  const box = $('#pubpopList'), pg = $('#pubpopPage'); if (!box) return;
-  if (!PUBITEMS.length) { box.innerHTML = '<div class="qempty">현재 발행본 없음</div>'; if (pg) pg.innerHTML = ''; return; }
-  const pages = Math.ceil(PUBITEMS.length / QPER);
-  PUBPAGE = Math.min(Math.max(0, PUBPAGE), pages - 1);
-  const slice = PUBITEMS.slice(PUBPAGE * QPER, PUBPAGE * QPER + QPER);
-  box.innerHTML = slice.map(pubRowHtml).join('');
-  slice.forEach((it, i) => {
-    const row = box.children[i]; if (!row) return;
-    const url = location.origin + '/s/' + it.slug;
-    if (!it.expired) row.onclick = (e) => {   // 행 클릭 = 링크 새 탭 열기 + 클립보드 자동복사(버튼·잠금토글 클릭은 제외)
-      if (e.target.closest('button, .pinmark')) return;
-      copyText(url);                           // 새 탭이 포커스 뺏기 전 먼저 복사(clipboard.writeText는 포커스 필요)
-      failOpen({ url });                       // 앵커클릭 새 탭(모바일 빈모달 회피 · qGo 패턴 계승)
-      miniToast('링크를 복사했어 · 새 탭에서 열림');
-    };
-    const sbtn = row.querySelector('.pub-share'); if (sbtn) sbtn.onclick = async (e) => {   // 공유 = navigator.share, 미지원/취소 폴백=클립보드 복사+✓플래시
-      e.stopPropagation();
-      try { if (navigator.share) { await navigator.share({ title: it.title || '노뮤트 뉴스', url }); return; } }
-      catch (err) { if (err && err.name === 'AbortError') return; }   // 공유 취소 = 정상(폴백 안 함)
-      copyText(url).then(() => setTimeout(() => { sbtn.innerHTML = CHECK_SVG; sbtn.classList.add('ok'); setTimeout(() => { sbtn.innerHTML = SHARE_SVG; sbtn.classList.remove('ok'); }, 1200); }, 560));   // ✓ 교체는 별자리 훑기(≈.54s) 완주 직후 — 모션 중단 방지(운영자 260703)
-    };
-    const rbtn = row.querySelector('.pub-rm'); if (rbtn) rbtn.onclick = (e) => { e.stopPropagation(); _pubRemove(it, rbtn); };
-    const pm = row.querySelector('.pinmark'); if (pm) wirePinToggle(pm, it);   // 잠금 토글 = 클릭 → PIN 입력(운영자 260704)
-  });
-  if (pg) { pg.innerHTML = pagerHtml(pages, PUBPAGE); pg.querySelectorAll('[data-pg]').forEach(b => b.onclick = (e) => { e.stopPropagation(); PUBPAGE = +b.dataset.pg; setTimeout(renderPubPage, 0); }); }
-}
-async function _pubRemove(it, btn) {
-  if (it.pinned) return _pubRemoveLocked(it, btn);   // 잠긴 발행본 = 기존 PIN 확인 후 삭제(아래 · 운영자 260702)
-  if (btn) btn.disabled = true;
-  try {
-    const r = await fetch('api/unpublish', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ slug: it.slug }) });
-    const d = await r.json().catch(() => ({}));
-    if (r.ok && d.ok) { animateRowOut(btn && btn.closest('.qrow'), () => { PUBITEMS = PUBITEMS.filter(x => x.slug !== it.slug); renderPubPage(); _updatePubBadge(); }); }
-    else if (btn) btn.disabled = false;
-  } catch { if (btn) btn.disabled = false; }
-}
-// 잠긴 발행본 삭제 — #pindlg로 기존 PIN 확인 → api/unpublish(pin 동봉·서버 pinHash 검증). 불일치=흔들기 재입력. lockToggle 패턴 계승. ⚠️ 서버(unpublish.js)도 pinHash면 pin 필수 = 클라 우회 시에도 방어(운영자 260702).
-async function _pubRemoveLocked(it, btn) {
-  if ($('#pindlg').open) return;   // 재진입 가드(다른 PIN 흐름 진행 중)
-  openPinDlg('잠금 삭제', 'PIN 6자리 입력');
-  while (true) {
-    const pin = await _awaitPin();
-    if (pin == null) return;   // 취소(X·ESC·백드롭·폰 뒤로가기)
-    _pinBusy(true);   // 변경중 오버레이(네트워크 2~3초)
-    let d = null, ok = false;
-    try {
-      const r = await fetch('api/unpublish', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ slug: it.slug, pin }) });
-      d = await r.json().catch(() => ({}));
-      ok = r.ok && d && d.ok;
-    } catch { /* 네트워크 오류 → 아래 흔들기 */ }
-    _pinBusy(false);
-    if (ok) {
-      PUBITEMS = PUBITEMS.filter(x => x.slug !== it.slug);
-      $('#pindlg').close(); renderPubPage(); _updatePubBadge();
-      return;
-    }
-    if (!$('#pindlg').open) return;   // in-flight 중 사용자가 닫음 → 좀비 await 방지(lockToggle 패턴)
-    _pinShake(d && d.mismatch ? 'PIN이 틀렸어. 다시.' : ((d && d.error) ? String(d.error).slice(0, 40) : '실패 — 다시'));
-  }
-}
-let _pubGen = 0;
-async function loadPub() {   // loadQueue 미러(api/published)
-  const g = ++_pubGen, box = $('#pubpopList'); if (!box) return;
-  box.innerHTML = '<div class="qempty">' + (window.nmLoader?nmLoader('loading','Now loading…'):'Now loading…') + '</div>'; const pg = $('#pubpopPage'); if (pg) pg.innerHTML = '';
-  try {
-    const r = await fetch('api/published?_=' + Date.now());
-    if (g !== _pubGen) return;
-    if (!r.ok) { box.innerHTML = '<div class="qempty">네트워크 오류</div>'; return; }
-    const j = await r.json(); PUBITEMS = (j.items || []).sort((a, b) => (b.created || 0) - (a.created || 0));   // 누적은 클라가 활성 개수로 계산(j.total 미사용·운영자 260702 재정의)
-  } catch { if (g === _pubGen) box.innerHTML = '<div class="qempty">네트워크 오류</div>'; return; }
-  if (g !== _pubGen) return;
-  PUBPAGE = 0; renderPubPage(); _updatePubBadge();
-}
-function _updatePubBadge() { const c = $('#pubBtnCnt'); if (c) c.textContent = ''; }   // '발행본 (N)' 개수·괄호 폐지(운영자 260702) — 프로필 버튼엔 라벨만
-let _pubBadgeInit = false;
-function loadPubBadge() { if (_pubBadgeInit) return; _pubBadgeInit = true; (async () => { try { const r = await fetch('api/published'); const j = await r.json(); PUBITEMS = j.items || []; _updatePubBadge(); } catch {} })(); }   // 배지 = 프로필 메뉴 첫 열림 시 1회 로드(매 페이지로드 41콜 PAT 경합 방지·검증9)
-
-// ── 발행본 잠금 토글 — 자물쇠 픽토그램 롱프레스(600ms) → #pindlg PIN 입력 → api/relock(실제 공개링크 PIN 보호 토글). 잠금=새 PIN 설정 / 해제=기존 PIN 정확히(불일치=흔들기 재입력). qFeedBtn 롱프레스 패턴 계승. 운영자 260702. ──
+// ── #pindlg PIN 입력 흐름(화면잠금 PIN 설정·변경·확인이 사용) — openPinDlg로 열고 _awaitPin으로 값 대기 · 불일치=_pinShake 재입력. 운영자 260702. ──
 function _awaitPin() { return new Promise(res => { _pinResolve = res; }); }   // 6자리 채우면 resolve(값)·닫히면 resolve(null) — 기존 #pindlg 배선 재사용
 function openPinDlg(title, sub, len) {
   _wirePin();
   _pinRiseClear();   // 이전 '방금 PIN' 힌트 잔상 제거(stale·평문 소거 · 평의회 감사5·10)
-  _pinLen = len || 6;   // 표면별 자리수(발행본 기본 6 · 화면잠금 4 = 운영자 260706 전환)
+  _pinLen = len || 6;   // 표면별 자리수(호출부가 지정 · 화면잠금 = LK_LEN 4 · 운영자 260706 전환)
   const tt = $('#pinTitleTxt'); if (tt) tt.textContent = title;
   const ss = $('#pinSub'); if (ss) ss.textContent = sub;
   const er = $('#pinerr'); if (er) er.textContent = '';
@@ -247,50 +90,12 @@ function openPinDlg(title, sub, len) {
   if (!$('#pindlg').open) openComposeDlg($('#pindlg'));   // showModal + 폰 뒤로가기 스택(다른 모달과 동일 · #pindlg는 isComposingModalOpen 등재로 over-close 차단) · 이미 열림이면 슬롯·타이틀만 리셋(화면잠금 2단 설정 재호출용·260704)
   // focus() 제거 = OS 숫자키보드 안 띄움(입력=커스텀 키패드 .pin-pad · 운영자 260707 "키보드 입력말고 메인 화면 입력 계승")
 }
-function _pinBusy(on) {   // 변경중(잠금/해제/삭제 2~3초 · 네트워크 왕복) — 타이틀 옆 인라인 '변경중 gdots' 표시 + 입력칸 흐림·잠금
+function _pinBusy(on) {   // 변경중(네트워크 왕복 대기용 · 현재 호출부는 열 때 해제만) — 타이틀 옆 인라인 '변경중 gdots' 표시 + 입력칸 흐림·잠금
   const b = $('#pinBusy'); if (b) b.hidden = !on;
   const boxes = $('#pinboxes'); if (boxes) boxes.classList.toggle('busy', on);   // 슬롯 흐림
   const el = _pinInput(); if (el) el.style.pointerEvents = on ? 'none' : '';     // 오버레이 재입력 차단(변경중)
 }
-{ const _px = $('#pinX'); if (_px) _px.addEventListener('click', () => $('#pindlg').close()); }   // 헤더 X = 닫기 → 뒤 발행본 팝업으로 복귀(pubpop은 뒤에 유지됨)
-function _paintPinmark(pm, pinned) {   // 같은 노드 제자리 갱신 = 색 CSS transition 살림(겉면 자연 스위칭·재렌더로 노드 파괴 안 함)
-  if (!pm) return;
-  pm.classList.toggle('locked', pinned); pm.classList.toggle('open', !pinned);
-  pm.innerHTML = pinned ? _LOCKSVG : _LOCKOPENSVG;
-  const t = pinned ? '잠금됨 · 눌러서 해제' : '눌러서 잠금';   // 클릭 토글 문구(롱프레스 폐지 · 운영자 260704)
-  pm.title = t; pm.setAttribute('aria-label', t);
-}
-async function lockToggle(it, pm) {
-  if ($('#pindlg').open) return;   // 재진입 가드(키 리핏·이중 발동 → showModal 재호출 InvalidStateError 방지)
-  const locked = !!it.pinned;
-  openPinDlg(locked ? '잠금 해제' : '잠금 설정', 'PIN 6자리 입력');
-  while (true) {
-    const pin = await _awaitPin();
-    if (pin == null) return;   // 취소(X·ESC·백드롭·폰 뒤로가기)
-    _pinBusy(true);   // 변경중 오버레이(네트워크 2~3초)
-    let d = null, ok = false;
-    try {
-      const r = await fetch('api/relock', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ slug: it.slug, pin }) });
-      d = await r.json().catch(() => ({}));
-      ok = r.ok && d && d.ok;
-    } catch { /* 네트워크 오류 → 아래 흔들기 */ }
-    _pinBusy(false);
-    if (ok) {
-      it.pinned = !!d.pinned;
-      if (pm && pm.isConnected) _paintPinmark(pm, it.pinned); else renderPubPage();   // 노드 유지=색 트윈 / 소실 시 폴백
-      $('#pindlg').close();
-      return;
-    }
-    if (!$('#pindlg').open) return;   // in-flight 중 사용자가 닫음 → 숨은 다이얼로그에 흔들기·좀비 await 방지(평의회 260702)
-    _pinShake(d && d.mismatch ? 'PIN이 틀렸어. 다시.' : ((d && d.error) ? String(d.error).slice(0, 40) : '실패 — 다시'));
-  }
-}
-// 롱프레스 타이머 = 단일 공유(한 번에 하나만) + window 취소는 *모듈 1회 등록*(행마다 등록하면 window 리스너 누수 — qFeedBtn 단일등록 패턴 계승·평의회 260702)
-function wirePinToggle(el, it) {   // 잠금/해제 = 클릭 즉시 토글(옛 롱프레스 600ms 폐지 · 운영자 260704 "클릭만 해도 동작") · 키보드 Enter/Space 동일
-  el.addEventListener('click', e => { e.stopPropagation(); e.preventDefault(); lockToggle(it, el); });   // stopPropagation = 행 클릭(새 탭 열기)과 분리 유지
-  el.addEventListener('contextmenu', e => e.preventDefault());   // 모바일 길게누름 시 iOS/안드 컨텍스트 메뉴 억제(관성 롱프레스 오발 방지)
-  el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); lockToggle(it, el); } });
-}
+{ const _px = $('#pinX'); if (_px) _px.addEventListener('click', () => $('#pindlg').close()); }   // 헤더 X = 닫기
 $('#revX').addEventListener('click', () => revdlg.close());
 revdlg.addEventListener('click', e => { if (e.target === revdlg) revdlg.close(); });   // 바깥(백드롭) 클릭 닫기
 revdlg.addEventListener('close', () => { resetRevSend(); updateRevFab(); if (!revdlg._minimizing) draftClear('#revText', updateRevClip); });   // 닫으면 재확인 해제 + FAB 재평가 + 초안 폐기(운영자 260727 — 구 "재진입 복원" 보존 규칙 철회 · 최소화만 보존)
@@ -590,7 +395,7 @@ loadPending();      // eager — 대기열 처리중 건수 배지 초기 표시
 // 🔧 유지보수 규칙(필수): 새 폴링·자동갱신·setTimeout/setInterval·render 경로가 *모달 뒤 DOM*을 건드리면 반드시 이 가드로 감쌀 것
 //                  (moreImgGo tick의 thumbsec 교체도 이 가드 적용 = 분신술7 발견분). 새 작성 모달 만들면 id를 아래 목록에 추가. (정본=이 주석 + docs/작업이력.md §2)
 function isComposingModalOpen() {
-  return ['#revdlg', '#crevdlg', '#tredodlg', '#askdlg', '#pastedlg', '#editdlg', '#pubdlg', '#pindlg', '#genidlg', '#snsaccdlg', '#trviewdlg', '#trefdlg', '#tooldlg', '#dlgrab', '#chdaydlg', '#chpostdlg'].some(s => { const d = $(s); return !!(d && d.open); });   // #pindlg=발행본 잠금 PIN(pubpop 위 top-layer) → 폰 뒤로가기 시 pindlg만 닫고 pubpop 유지·over-close 차단(평의회 260702) · #genidlg=이미지 생성 팝업(옵션 고르는 중 배경 재렌더 보류 · 260707) · #snsaccdlg=구독 계정 모달(누락 시 시계·폴 갱신마다 ::backdrop 재샘플 셔머 — 평의회 260711) · #tooldlg=제작 도구 셸(Image/Video Studio · 운영자 260727 "화면마다 번쩍번쩍" 실측 진범 — 셸이 ::backdrop blur7을 상속하는데 가드 미등재라 스튜디오 여는 내내 뒤 시계가 초당 1회 innerHTML 교체 → 매초 재샘플 셔머{헤드리스 12s/12건 실측} · 최소화(minimizeTool=close)·닫기 = .open false로 폴 즉시 재개) · #dlgrab=다운로드 모달(주소 입력 = 작성 계열) · #chdaydlg·#chpostdlg=채널 일별 상세·게시물 탐색(동일 누락 · 읽는 중 뒤 갱신 셔머)
+  return ['#revdlg', '#crevdlg', '#tredodlg', '#askdlg', '#pastedlg', '#editdlg', '#pindlg', '#genidlg', '#snsaccdlg', '#trviewdlg', '#trefdlg', '#tooldlg', '#dlgrab', '#chdaydlg', '#chpostdlg'].some(s => { const d = $(s); return !!(d && d.open); });   // #pindlg=PIN 입력(화면잠금 설정 · top-layer) → 폰 뒤로가기 시 pindlg만 닫고 뒤 메뉴 유지·over-close 차단(평의회 260702) · #genidlg=이미지 생성 팝업(옵션 고르는 중 배경 재렌더 보류 · 260707) · #snsaccdlg=구독 계정 모달(누락 시 시계·폴 갱신마다 ::backdrop 재샘플 셔머 — 평의회 260711) · #tooldlg=제작 도구 셸(Image/Video Studio · 운영자 260727 "화면마다 번쩍번쩍" 실측 진범 — 셸이 ::backdrop blur7을 상속하는데 가드 미등재라 스튜디오 여는 내내 뒤 시계가 초당 1회 innerHTML 교체 → 매초 재샘플 셔머{헤드리스 12s/12건 실측} · 최소화(minimizeTool=close)·닫기 = .open false로 폴 즉시 재개) · #dlgrab=다운로드 모달(주소 입력 = 작성 계열) · #chdaydlg·#chpostdlg=채널 일별 상세·게시물 탐색(동일 누락 · 읽는 중 뒤 갱신 셔머)
 }
 // 요약 리더(#dlg) 폰 뒤로가기 = 모달 먼저 닫기(lbox/tooldlg/merge 패턴 계승·§🎨·260630 QA ③). 상위 오버레이(컴포즈·라이트박스·도구·대기열·병합)·컴포즈 자기칸 회수 back은 그쪽 몫 → #dlg over-close 차단.
 window.addEventListener('popstate', () => {

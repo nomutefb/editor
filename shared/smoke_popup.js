@@ -6,7 +6,7 @@
 //   → 이 스모크가 커밋 전 자동 판정 = 스크린샷·수동 스윕 불요화. smoke_dlclip 합성 프로브 parity 문법 계승.
 //
 // 담당 표면: viewer/index.html 앵커 팝업 셸 SSOT(index.html :root 위 .pmenu 그룹 · 정본 = 그 셀렉터 규칙)
-//   = {.pmenu · .filterpop · .pubpop · #linkpop · .min-pick · .failmenu} (.sc-rsn 이탈 260805 → C2b 불투명 정본 전용 축)
+//   = {.pmenu · .filterpop · #linkpop · .min-pick · .failmenu} (.sc-rsn 이탈 260805 → C2b 불투명 정본 전용 축)
 //   셸 글래스 = 배경(--modal-glass-anchor) · 프로스트 blur · 테두리 · 그림자(SSOT 관장 4속성 · radius·padding·
 //   위치·애니는 각 팝업 개별이라 parity 밖). + index 전역 불투명 글래스 로그 스캔(화이트리스트 밖 = 신규 고아 경보).
 // 원커맨드:  node shared/smoke_popup.js            (종료코드 0 = 코어 전부 PASS)
@@ -67,9 +67,9 @@ async function startServer() {
 }
 
 // ── 앵커 팝업 셸 SSOT 그룹(index.html :root 위 셀렉터와 1:1 · 팝업 추가 시 함께 갱신) ──
-const GROUP = ['.pmenu', '.filterpop', '.pubpop', '#linkpop', '.min-pick', '.failmenu'];
+const GROUP = ['.pmenu', '.filterpop', '#linkpop', '.min-pick', '.failmenu'];
 // .msgpop 이탈(운영자 260725 "메세지함이 더 불투명해야 돼 · 대기열에 있는 함 그대로 가져와서 써") — 알림메세지는 앵커 메뉴가 아니라
-//   **헤더형 함(대기열·발행본) 가족**으로 재소속. 감시는 사라지지 않고 아래 SHELL(C1b)로 이관 = 계약 축만 갈아탄 것.
+//   **헤더형 함(대기열) 가족**으로 재소속. 감시는 사라지지 않고 아래 SHELL(C1b)로 이관 = 계약 축만 갈아탄 것.
 // .sc-rsn 이탈(운영자 260805 "메뉴 토글 메뉴 색 이거 아니였는데 · 이전으로") — 글래스 .42는 뒤 밝은 카드 위에서 회색으로 떠서
 //   260708 이전 불투명 정본(rgba(20,20,20,.94)) 복원. 감시는 사라지지 않고 아래 RSN(C2b)로 이관 = msgpop 선례 동문.
 const SHELL = ['.bpop.qpop', '.qpop.msgpop'];   // 대기열 함(실물 = class="bpop qpop") ↔ 알림메세지 함 셸 대조축
@@ -124,7 +124,7 @@ async function runOnce(br, port) {
 }
 
 // ── 행 기하 패리티(운영자 260726 "대기열 기존 제약들을 그대로 적용 · 버튼 2개까지 · 낱낱히") ─────────────
-//   함 가족(대기열·발행본·키워드·알림메세지)이 공유하는 행 계약을 기계 판정. 행은 **각 함의 실제 빌더**로
+//   함 가족(대기열·키워드·알림메세지)이 공유하는 행 계약을 기계 판정. 행은 **각 함의 실제 빌더**로
 //   생성(합성 마크업 창작 0) · 열림 애니(scale .82~) 정지 후 안착 기하만 측정.
 //   계약 = ① 최우측 액션 중심 = 헤더 X 중심(세로 일직선 · 운영자 260712 정본) ② .qact 폭 = --btn-sm(30)
 //          ③ 다중 액션 간격 = .qrow gap(10) ④ **액션 0개 행 금지**(빈 셀은 버튼 높이 34를 못 만들어 행이
@@ -136,7 +136,6 @@ async function rowGeo(pg) {
     const R = e => { const r = e.getBoundingClientRect(); return { l: r.left, r: r.right, w: r.width, h: r.height, cx: r.left + r.width / 2 }; };
     const open = (id, listId, html) => { const p = document.getElementById(id); if (!p) return; p.hidden = false; const l = document.getElementById(listId); if (l && html != null) l.innerHTML = html; };
     try { open('qpop', 'qpopList', qRowHtml({ id: 'sm1', t: T0, status: 'succ', title: '스모크 표본 제목', url: 'https://example.com/a' })); } catch (_) {}
-    try { open('pubpop', 'pubpopList', pubRowHtml({ slug: 'sm1', title: '스모크 표본 제목', created: T0, pinned: false, expired: false })); } catch (_) {}
     try {   // 키워드 = 행 마크업 미러(renderKwList 본문 문법 · 원본은 localStorage 의존이라 주입 대신 동형 행)
       open('kwpop', 'kwpopList', '<div class="qrow kwrow" data-i="0"><label class="ed-match kw-chk"><input type="checkbox"><span class="ed-cbx"></span></label>'
         + '<span class="qmain">스모크 키워드</span><span class="qst kwst kws-wait">대기</span>'
@@ -176,7 +175,7 @@ async function rowGeo(pg) {
       return { dCenter: +dCenter.toFixed(2), actW: [...actW], gaps: [...gaps], minActs,
                rowHSpread: +(Math.max(...hs) - Math.min(...hs)).toFixed(2), shift, dCenter2: dCenter2 == null ? null : +dCenter2.toFixed(2) };
     };
-    return { 대기열: pack('#qpop', '#qpopList'), 발행본: pack('#pubpop', '#pubpopList'),
+    return { 대기열: pack('#qpop', '#qpopList'),
              키워드: pack('#kwpop', '#kwpopList'), 알림메세지: pack('#msgpop', '#msglist') };
   });
 }

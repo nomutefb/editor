@@ -74,7 +74,7 @@ export async function onRequestGet({ env }) {
 
 export async function onRequestPost({ request, env }) {
   const json = (o, s = 200) => new Response(JSON.stringify(o), { status: s, headers: { 'content-type': 'application/json', 'cache-control': 'no-store' } });
-  if (!originOk(request)) return json({ error: '허용되지 않은 출처' }, 403);   // CSRF 방어(settings/publish 계승)
+  if (!originOk(request)) return json({ error: '허용되지 않은 출처' }, 403);   // CSRF 방어(settings 계승)
   if (!env.GH_TOKEN) return json({ error: '서버 미설정 — GH_TOKEN 필요' }, 500);
   let body; try { body = await request.json(); } catch { return json({ error: '잘못된 요청' }, 400); }
   const patch = body && typeof body.patch === 'object' && body.patch ? pickPatch(body.patch) : null;
@@ -112,7 +112,7 @@ export async function onRequestPost({ request, env }) {
   return json({ error: '경합 — 재시도 실패' }, 409);
 }
 
-function originOk(request) {   // 상태변경 POST = 동일출처만(settings/publish/push 동일)
+function originOk(request) {   // 상태변경 POST = 동일출처만(settings·spellcheck 동일)
   const o = request.headers.get('origin');
   if (!o) return false;
   try { const h = new URL(o).hostname; return h === 'apps.nomute.kr' || h.endsWith('.nomute.kr') || h === 'editor-6dw.pages.dev' || h.endsWith('.editor-6dw.pages.dev'); } catch { return false; }

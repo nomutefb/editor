@@ -13,7 +13,7 @@
 #   bash scripts/migrate_account.sh --dry-run       # 바꿀 자리만 세어보고 실제로는 안 건드림
 #
 # 안전:
-#   · 스냅샷·산출물 폴더는 대상 밖(_versions·docs·cards·published·node_modules·.git)
+#   · 스냅샷·산출물 폴더는 대상 밖(_versions·docs·cards·node_modules·.git)
 #     = 그때 있었던 일의 기록이라 갈아끼우면 역사가 거짓이 된다.
 #   · CLAUDE.md·AGENTS.md 도 대상 밖(사고 기록에 옛 이름이 그대로 남아야 다음 세션이 추적한다).
 #   · 치환 후 잔여 개수를 다시 세서 0이 아니면 rc≠0 으로 멈춘다(성공을 실패로/실패를 성공으로 오판 금지).
@@ -36,7 +36,7 @@ OLD_VAPID='BORNTh3cNd05vsxi2fZ-BykxM0NwKGTvIETz81g757RVFL6cDu29aAv5I7uit0WbGOmiZ
 #   `fatal: Unimplemented pathspec magic '_'` 로 목록이 통째로 0이 된다(260815 실측 = 첫 판이
 #   전 항목 0건을 내고 「깨끗함」처럼 보였다 = 가장 조용한 실패). 반드시 `:(exclude)` 표기.
 EXCLUDES=(':(exclude)_versions/**' ':(exclude)docs/**' ':(exclude)cards/**'
-          ':(exclude)published/**' ':(exclude)node_modules/**'
+          ':(exclude)node_modules/**'
           ':(exclude)CLAUDE.md' ':(exclude)AGENTS.md'
           ':(exclude)scripts/migrate_account.sh' ':(exclude)*.jsonl')
 

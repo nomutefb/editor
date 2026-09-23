@@ -484,7 +484,6 @@ async function open(a) {
   _editKeptKey = null;   // 기사 이동 = 이전 기사 카드의 보존 편집 폐기(다른 기사 카드에 복원 누수 차단·운영자 260628)
   resetRevSend(); updateRevClip();   // 버튼 재확인(arm) 상태·클립(붙여넣기/복사) 아이콘도 원복
   { const _tt = $('#tredoText'); if (_tt) _tt.value = ''; if (typeof resetTredoSend === 'function') resetTredoSend(); if (typeof updateTredoClip === 'function') updateTredoClip(); TREDO_SID = ''; TREDO_LAST = ''; }   // 이미지 재생성 코멘트도 기사 이동 시 리셋(이전 기사 지시 누수·오발사 차단 · 평의회 엣지 ❌ 픽스 · crev 패턴)
-  const _dlf = $('#dlFull'); if (_dlf) { _dlf.checked = false; const _dlb = $('#dlbox'); if (_dlb) _dlb.classList.remove('full'); }   // 새 기사 = 요약 '전체 포함' 체크 기본 해제(이전 기사 체크 잔상 제거 · 운영자 260622)
   applyReviseMarks();   // 이 기사가 변경 중이면 IG/Thread 소주제 '(변경 중)' + 연필 FAB 물결
   setupScrub();   // 모달 헤더 = 스크롤 위치 스크러버(게이지 + 요약·프롬프트·카드 틱 + 클릭 점프)
   // 원문 버튼 = 항상 표시. url 있으면 이동 / 없으면(전문 붙여넣기 등) .off = 흐리게+빗금·클릭 불가(운영자 260704)

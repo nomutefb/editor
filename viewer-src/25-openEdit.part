@@ -684,7 +684,7 @@ function cancelVote(card, vote, fig, file, btn) {
 // confirm/prompt 대체. #pindlg 슬롯 6개(동그라미)를 단일 투명 오버레이(.pin-in-h)로 받아 Promise로 돌려준다.
 // 입력→슬롯 시각화(방금 자리 숫자·이전 mut원), 6자리 채우면 엔터 없이 자동 resolve. 취소=null.
 // 숫자만(비숫자 무시)·6자리 상한(붙여넣기도 이 필터 통과). ⚠️ PIN은 세션/로컬에 저장 안 함(매번 입력).
-let _pinWired = false, _pinResolve = null, _pinLen = 6;   // _pinLen = 표면별 자리수(발행본 6 · 화면잠금 4 — openPinDlg 3번째 인자·운영자 260706)
+let _pinWired = false, _pinResolve = null, _pinLen = 6;   // _pinLen = 표면별 자리수(화면잠금 4 = LK_LEN — openPinDlg 3번째 인자·운영자 260706)
 function _pinInput() { return $('#pinInput'); }
 function _pinValue() { const el = _pinInput(); return el ? el.value : ''; }   // 단일 오버레이 input이 값의 원천(옛 6칸 join 폐지)
 function _pinPaint() { const boxes = $('#pinboxes'); if (boxes) renderPinSlots(boxes, _pinValue()); }   // 슬롯 시각화 = 발행 정본(방금 자리 숫자·나머지 동그라미)
@@ -717,13 +717,13 @@ function lkRiseHint(pin) {                     // '방금 PIN'이 슬롯 위로 
   el.classList.remove('go'); void el.offsetWidth; el.classList.add('go');
   clearTimeout(el._t); el._t = setTimeout(_pinRiseClear, 1200);   // 애니 후 정리(잔상·평문 소거)
 }
-function _wirePin() {                          // 입력 배선(1회만) — 발행 pubPin 핸들러 계승(단일 오버레이 input·자동이동/paste분배 불필요)
+function _wirePin() {                          // 입력 배선(1회만) — 단일 오버레이 input(자동이동/paste분배 불필요)
   if (_pinWired) return;
   const dlg = $('#pindlg'), el = _pinInput(), boxes = $('#pinboxes');
   if (!el || !boxes) return;                   // DOM 미준비면 다음 open 때 재시도(_pinWired 미설정)
   _pinWired = true;
   el.addEventListener('input', () => {
-    const raw = el.value, clean = raw.replace(/\D/g, '').slice(0, _pinLen);   // 숫자만·자리수 상한 = 표면별 가변(_pinLen · 발행본 6 / 화면잠금 4 = 운영자 260706 전환 · type=text라 붙여넣기도 이 필터를 통과)
+    const raw = el.value, clean = raw.replace(/\D/g, '').slice(0, _pinLen);   // 숫자만·자리수 상한 = 표면별 가변(_pinLen · 화면잠금 4 = 운영자 260706 전환 · type=text라 붙여넣기도 이 필터를 통과)
     if (clean !== raw) el.value = clean;
     boxes.classList.remove('bad', 'shake');
     renderPinSlots(boxes, el.value);
@@ -808,7 +808,7 @@ attachCopyPaste($('#geniWish'), true);   // AI 생성 주문칸 = 같은 부품(
 attachCopyPaste($('#dgUrl'), true);
 // ── 「모든 텍스트 입력창 = 클립」 공식화(운영자 260803 "붙어있어야돼 · 공식처럼가야함") — 아래는 그 전수 부착분 ──
 //   면제 = 숫자칩(.geni-ar-in/.rsz-ar-in/.opa-in = 1~2자리 값 선택 UI · 생김새가 칩이라 클립 비대상)과
-//   PIN(#pinInput readonly · #pubPin 숫자 키패드) 뿐 — 그 경계는 check_refs.check_clip_coverage가 지킨다.
+//   PIN(#pinInput readonly · 커스텀 키패드) 뿐 — 그 경계는 check_refs.check_clip_coverage가 지킨다.
 attachCopyPaste($('#mmIn'), true);        // 구독 메모(4000자 textarea) = 첨부 이미지와 같은 넓은 글칸
 attachCopyPaste($('#kwIn'), true);        // 키워드 추가(120자)
 attachCopyPaste($('#marqKwIn'), true);    // 흐름 문구(5자)

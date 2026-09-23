@@ -166,7 +166,7 @@ const pmenu = $('#pmenu');
 const msgpop = $('#msgpop');
 // 프로필 메뉴 = 다른 부분 활성화 시 popOut(촤르륵)으로 닫힘 — hidden 즉시 대신 애니 후 hidden(reduced-motion이면 즉시).
 let pmTimer = null;
-function showPmenu(){ clearTimeout(pmTimer); pmenu.classList.remove('closing'); ['position','left','right','top','bottom','maxHeight','overflowY','transformOrigin'].forEach(p => { pmenu.style[p] = ''; }); pmenu.hidden = false; loadPubBadge(); $('#profile').classList.add('on'); }   // 메뉴 열림 = 기어 강조색 on-state(vh-fbtn.on 패턴 계승 · 260706) · 인라인 위치 리셋 = 링크 메뉴 경유(fixed 하단 앵커) 잔상이 헤더 앵커 오픈에 안 새게(운영자 260706 튀어나감 버그 수리 짝가드)
+function showPmenu(){ clearTimeout(pmTimer); pmenu.classList.remove('closing'); ['position','left','right','top','bottom','maxHeight','overflowY','transformOrigin'].forEach(p => { pmenu.style[p] = ''; }); pmenu.hidden = false; $('#profile').classList.add('on'); }   // 메뉴 열림 = 기어 강조색 on-state(vh-fbtn.on 패턴 계승 · 260706) · 인라인 위치 리셋 = 링크 메뉴 경유(fixed 하단 앵커) 잔상이 헤더 앵커 오픈에 안 새게(운영자 260706 튀어나감 버그 수리 짝가드)
 function hidePmenu(){
   $('#profile').classList.remove('on');   // 기어 on-state 해제(어느 닫힘 경로든)
   if (pmenu.hidden || pmenu.classList.contains('closing')) return;
@@ -186,7 +186,6 @@ function closeOverlays(keep) {
   if (keep !== 'mmpop') { const _mm = $('#mmpop'); if (_mm) _mm.hidden = true; }   // 메모함도 동일(kwpop 형제)
   if (keep !== 'devpop') { const _dv = $('#devpop'); if (_dv) _dv.hidden = true; }   // 구독 기기함도 동일(kwpop 형제)
   if (keep !== 'qpop') closeQueueUser();
-  if (keep !== 'pubpop') closePubUser();
   if (keep !== 'search') closeSearch();
   if (keep !== 'filterpop') closeFilterPop(true);   // 필터 오버레이 = 프로필 팝업 등과 상호배타(전환=즉시 닫힘·촤르륵 생략 · 운영자 260627·260629)
   if (keep !== 'merge' && MERGE_MODE) exitMerge();   // 병합모드도 정리(다른 화면전환 시 잔존·z누수 차단·분신술4) — exitMerge가 pushState 칸도 회수
@@ -196,7 +195,7 @@ let _menuToMsg = null;
 let _msgFromMenu = false;   // 메시지함이 설정메뉴(linkpop) 안 버튼으로 열렸는지 — X로 닫을 때 상위 linkpop 복원 여부(딥링크 진입은 false = 복원 안 함 · 운영자 260710 "세부 닫히면 전단계 메뉴 떠야")
 $('#profile').addEventListener('click', e => {
   e.stopPropagation();
-  // 설정 톱니바퀴(운영자 260710 재활성) = 설정 메뉴(linkpop) 헤더 아래 우측 촤르륵 · pmenu(도먼트)→linkpop 전환 · 채널·필터·메시지·발행본·기본값 한 메뉴
+  // 설정 톱니바퀴(운영자 260710 재활성) = 설정 메뉴(linkpop) 헤더 아래 우측 촤르륵 · pmenu(도먼트)→linkpop 전환 · 채널·필터·메시지·기본값 한 메뉴
   const willOpen = linkpop.hidden;
   closeOverlays('linkpop'); clearTimeout(_menuToMsg);
   if (willOpen) { linkpop.hidden = false; placeHeadPop(linkpop, $('#profile')); pushRefresh(); }
@@ -209,7 +208,7 @@ document.addEventListener('click', e => {
 document.addEventListener('click', e => {
   if (pmenu.hidden || pmenu.classList.contains('closing')) return;
   if (pmenu.contains(e.target) || $('#profile').contains(e.target)) return;
-  if ($('#pindlg') && $('#pindlg').open) return;   // PIN 모달(#pindlg) 입력 중이면 메뉴 유지 — 입력칸 탭(모달 안=pmenu 밖)에 메뉴가 닫혀 설정 완료 후 토글 갱신이 안 보이던 것 차단(lockpop/pubpop 동일 관용구 · 평의회5 260705)
+  if ($('#pindlg') && $('#pindlg').open) return;   // PIN 모달(#pindlg) 입력 중이면 메뉴 유지 — 입력칸 탭(모달 안=pmenu 밖)에 메뉴가 닫혀 설정 완료 후 토글 갱신이 안 보이던 것 차단(lockpop 동일 관용구 · 평의회5 260705)
   hidePmenu();
 }, true);
 // 스크롤·휠 등 다른 액션 활성화 = 프로필(·메시지) 메뉴 자동 닫힘(운영자 260621: 켜진 채 스크롤하면 거슬림). 메뉴 항목 탭은 페이지 스크롤 아님 → 안 닫힘.
@@ -225,9 +224,9 @@ document.addEventListener('click', e => {
 $('#refresh').addEventListener('click', () => { hidePmenu(); load(); loadMessages(); loadCandidates(); loadPickFails(); loadHealth(true); });
 $('#topRefresh').addEventListener('click', () => { setTimeout(hardReload, 420); });   // 강제 하드 새로고침(코드+데이터 · SW 셸 캐시 우회 = 진짜 최신 셸 · 탭은 localStorage 복원). 위임 ic-spin(누름 회전)이 한 바퀴 보이고 리로드 — 즉시 reload면 스핀이 안 보임(운영자 260629·260619 · 260713 hardReload=nosw 우회로 강제화).
 // (🚨 긴급 확인 버튼 핸들러 폐지 — 운영자 260620: 프로필 긴급 점등·확인 루틴 제거. 토스트 재알림 de-dup은 수집함 진입(showTab scrap)으로 이전.)
-// 메시지·발행본·잠금 팝업 위치 = 링크 메뉴(#linkfab) 위 앵커(운영자 260707 "열린 메뉴 가까이" — 진입로가 linkpop으로 이관됐는데 앵커만 구 프로필에 남아 딴 데서 뜨던 것 교정)
+// 메시지·잠금 팝업 위치 = 링크 메뉴(#linkfab) 위 앵커(운영자 260707 "열린 메뉴 가까이" — 진입로가 linkpop으로 이관됐는데 앵커만 구 프로필에 남아 딴 데서 뜨던 것 교정)
 function vhAnchor() { const p = $('#profile'); return (p && p.getClientRects().length) ? p : $('#searchToggle'); }   // 구 프로필 앵커 = linkfab 부재 시 최후 폴백으로만 잔존(기어 도먼트 260706 3차)
-function placePopNearMenu(pop) {   // 설정 안 팝업(메시지·발행본·잠금·전광판) = 설정 톱니(#profile) 아래 우변 촤르륵(운영자 260710 요구5 "검색 외 모든 창 우측 상단 모서리가 픽토에 고정" · 구 linkfab 하단 앵커 폐지) · ⚠️ 호출 전 pop.hidden 해제 필수(폭 측정)
+function placePopNearMenu(pop) {   // 설정 안 팝업(메시지·잠금·전광판) = 설정 톱니(#profile) 아래 우변 촤르륵(운영자 260710 요구5 "검색 외 모든 창 우측 상단 모서리가 픽토에 고정" · 구 linkfab 하단 앵커 폐지) · ⚠️ 호출 전 pop.hidden 해제 필수(폭 측정)
   pop.classList.remove('anch-b');   // 구 bottom 앵커(msgUnfoldUp) 해제 → head-pop = top 앵커(msgUnfold 우상단 원점)
   placeHeadPop(pop, $('#profile') || $('#queueBtn') || $('#searchToggle'));
 }
@@ -235,7 +234,7 @@ function placeMsgpop() { placePopNearMenu(msgpop); }
 ['resize', 'orientationchange'].forEach(ev => window.addEventListener(ev, () => { if (!msgpop.hidden) placeMsgpop(); }, { passive: true }));
 ['resize', 'orientationchange'].forEach(ev => window.addEventListener(ev, () => { if (!qpop.hidden && !qpop.classList.contains('closing')) placeQpop(); }, { passive: true }));   // 대기열도 창 크기 바뀌면 재배치(PC 버튼 위 앵커·좌우 클램프 유지 = 창 좁혀도 안 짤림 · 운영자 260705)
 $('#msgbtn').addEventListener('click', e => { e.stopPropagation(); _msgFromMenu = true; openMsgbox(); });   // 설정메뉴 안 버튼 진입 = X 닫힘 시 linkpop 복원 대상
-const _accBtnEl = $('#accBtn'); if (_accBtnEl) _accBtnEl.addEventListener('click', e => { e.stopPropagation(); openSnsAcc(); });   // SNS 구독 계정(운영자 260713 헤더→설정 이관) · linkpop 안 버튼 = msgbtn/pubBtn 패턴(stopPropagation) · 모달(snsaccdlg) top-layer로 위에
+const _accBtnEl = $('#accBtn'); if (_accBtnEl) _accBtnEl.addEventListener('click', e => { e.stopPropagation(); openSnsAcc(); });   // SNS 구독 계정(운영자 260713 헤더→설정 이관) · linkpop 안 버튼 = msgbtn 패턴(stopPropagation) · 모달(snsaccdlg) top-layer로 위에
 
 // ── 설정 ▸ 다운로드(#dlgrab · 링크 자료수집) — 이식 원본 = muteno/yeulmaru-promo lg-* 블록(운영자 260721 이식 패키지 §3 유닛 A) ──
 //  URL 붙여넣기 → /api/linkgrab 전수 스캔 → 종류별 섹션(사진 1:1 그리드 · 영상 · 문서 · 음성 · 압축 · 기타) → 골라서 [선택 받기].

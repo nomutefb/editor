@@ -279,7 +279,7 @@ try {
 } catch (_) {}
 // 백드롭 클릭 닫기 폐지(운영자 260729) — 스튜디오(이미지·영상)는 창 밖을 눌러도 안 닫힌다. 퇴장은 −(최소화·폼 보존)·X(닫기) 두 버튼만 = PC에서 여백 오클릭 한 번에 제작 내역이 통째로 날아가던 유실 차단(모바일 동일 경로 = 같은 click 이벤트라 한 줄로 양쪽 커버). ESC·폰 뒤로가기는 명시적 조작이라 존치.
 bindToolFrameLoad($('#toolframe'));   // 원본 도구 iframe load 배선(복제 프레임은 activateToolFrame이 동일 배선) · 페이드인(frame-ready)+ESC 브릿지
-if (window.visualViewport) { window.visualViewport.addEventListener('resize', vvSchedule); window.visualViewport.addEventListener('scroll', vvSchedule); }   // 4핸들러(toolVV·geniVV × resize·scroll) → **1스케줄러**로 합침(운영자 260803 아이디어 적용) — 구 배선은 키보드 상승 한 번에 두 함수가 각각 수십 번 돌며 dialog 인라인 스타일을 갈아써 창이 계단식으로 떨렸다 · vvSchedule이 프레임당 1회 toolVV+geniVV를 호출하므로 **호출 대상·순서·결과는 종전과 동일**하고 횟수만 줄어든다   // 스튜디오 셸 키보드 클램프 = 톱레벨 상시 배선(⚠️ geniInit 안에 두면 프롬프팅 첫 진입 전 미등록 — geniVV도 동일 사유로 합류: pubdlg가 geniInit 이전에 열려도 클램프 도달 + scroll 청취(키보드 뜬 채 vv.offsetTop 이동 추적 · 구 resize 단독의 반쪽 보완 · 감사 260718) · geniInit 내 기존 등록은 동일 참조라 중복 무해)
+if (window.visualViewport) { window.visualViewport.addEventListener('resize', vvSchedule); window.visualViewport.addEventListener('scroll', vvSchedule); }   // 4핸들러(toolVV·geniVV × resize·scroll) → **1스케줄러**로 합침(운영자 260803 아이디어 적용) — 구 배선은 키보드 상승 한 번에 두 함수가 각각 수십 번 돌며 dialog 인라인 스타일을 갈아써 창이 계단식으로 떨렸다 · vvSchedule이 프레임당 1회 toolVV+geniVV를 호출하므로 **호출 대상·순서·결과는 종전과 동일**하고 횟수만 줄어든다   // 스튜디오 셸 키보드 클램프 = 톱레벨 상시 배선(⚠️ geniInit 안에 두면 프롬프팅 첫 진입 전 미등록 — geniVV도 동일 사유로 합류 + scroll 청취(키보드 뜬 채 vv.offsetTop 이동 추적 · 구 resize 단독의 반쪽 보완 · 감사 260718) · geniInit 내 기존 등록은 동일 참조라 중복 무해)
 $('#askX').addEventListener('click', () => askdlg.close());
 if ($('#askMin')) $('#askMin').addEventListener('click', () => minimizeAsk());   // 뉴스요약 최소화(영상/tooldlg와 동일 ▲ 복원·운영자 260627)
 // 작성 모달 최소화 — 일반 minimizeComposeDlg (▲ 복원·2개+ picker · 운영자 260628)

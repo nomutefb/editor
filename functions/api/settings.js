@@ -3,8 +3,8 @@ import { mergeItems } from '../_settings-merge.js';
 // 목적 = 설정을 특정 기기(localStorage)가 아니라 서버에 두어, 어느 기기로 접속해도 동일(운영자 1인 전역 귀속 · 요구1·2). push.js 저장 패턴 계승.
 //   GET  → { lockOn, lockPinHash, lockLen, lockMin, genImgOn }   (settings/app.json 없으면 기본값 · no-store)
 //   POST → { patch:{...} } 부분 갱신(기존 읽고 허용 키만 머지 → 커밋 · 409 경합 재시도). 상태변경이라 동일출처(originOk)만.
-// ⚠️ 성격 = 클라 검증 사생활 가림막(발행본 pinHash와 동일 등급 · DevTools 우회 가능) — 접근 보안 자체는 CF Access. lockPinHash = sha256(pin+':nmlock') 클라 계산분(평문 미저장).
-// env: GH_TOKEN = fine-grained PAT(Contents:read+write · publish/push/published 동일 토큰).
+// ⚠️ 성격 = 클라 검증 사생활 가림막(DevTools 우회 가능) — 접근 보안 자체는 CF Access. lockPinHash = sha256(pin+':nmlock') 클라 계산분(평문 미저장).
+// env: GH_TOKEN = fine-grained PAT(Contents:read+write · push 등 동일 토큰).
 const REPO = 'nomutefb/editor', FILE = 'settings/app.json';
 const DEFAULTS = { lockOn: true, lockPinHash: '', lockLen: 4, lockMin: 2, genImgOn: true, kwAlertOn: false, kwItems: [], memos: [] };
 const KW_CAP = 40;   // 등록 키워드 상한(계정 1인 · 오염·비대 차단)
@@ -82,7 +82,7 @@ export async function onRequestGet({ env }) {
 
 export async function onRequestPost({ request, env }) {
   const json = (o, s = 200) => new Response(JSON.stringify(o), { status: s, headers: { 'content-type': 'application/json', 'cache-control': 'no-store' } });
-  if (!originOk(request)) return json({ error: '허용되지 않은 출처' }, 403);   // CSRF 방어(publish/relock originOk 계승)
+  if (!originOk(request)) return json({ error: '허용되지 않은 출처' }, 403);   // CSRF 방어(동일출처 originOk)
   if (!env.GH_TOKEN) return json({ error: '서버 미설정 — GH_TOKEN 필요' }, 500);
   let body; try { body = await request.json(); } catch { return json({ error: '잘못된 요청' }, 400); }
   const patch = body && typeof body.patch === 'object' && body.patch ? pickPatch(body.patch) : null;
@@ -122,12 +122,12 @@ export async function onRequestPost({ request, env }) {
   return json({ error: '경합 — 재시도 실패' }, 409);
 }
 
-function originOk(request) {   // 상태변경 POST = 동일출처만(publish/relock/push 동일)
+function originOk(request) {   // 상태변경 POST = 동일출처만(snsacc·spellcheck 동일)
   const o = request.headers.get('origin');
   if (!o) return false;
   try { const h = new URL(o).hostname; return h === 'apps.nomute.kr' || h.endsWith('.nomute.kr') || h === 'editor-6dw.pages.dev' || h.endsWith('.editor-6dw.pages.dev'); } catch { return false; }
 }
-function b64utf8(str) {   // UTF-8 안전 base64(publish.js 동일 — Workers엔 unescape 없음)
+function b64utf8(str) {   // UTF-8 안전 base64(submit.js 동일 — Workers엔 unescape 없음)
   const bytes = new TextEncoder().encode(str);
   let bin = '';
   for (const b of bytes) bin += String.fromCharCode(b);

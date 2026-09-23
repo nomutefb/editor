@@ -281,7 +281,7 @@
      빨강 = 그 파랑 지구본을 캔버스에서 --danger(#e23b2a = accent-3 "빨강 = danger · 강보수") 한 값으로 틴트
      (회색조 → multiply → destination-in 알파 복원 = 지구본 결·투명 배경 보존).
      ⚠ CSS가 아니라 캔버스인 이유 = 파비콘은 독립 문서라 var() 도달 0 → 토큰 **값 복사 계승**
-     (레포 self-contained 관례 = SUMMARY_TPL·meta theme-color와 같은 축).
+     (레포 self-contained 관례 = meta theme-color와 같은 축).
    · 우선순위 = 알림(빨강) > 작업중(파랑) > 평소(원본 태그 복귀).
      "변해 있게만" = 알림은 작업 유무와 무관하게 상주 = 구판처럼 작업이 끝나면 꺼지는 축이 아니다.
    · 알림 판정 = 기어 픽토가 이미 쓰는 **DOM 클래스 재사용**(renderMsgBadge hasmsg/haswarn ·

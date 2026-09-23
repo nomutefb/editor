@@ -222,10 +222,10 @@ function vvSet(dlg, mh, mt) {   // 동일값 재대입 금지 — style 문자�
   if (dlg.style.maxHeight !== mh) dlg.style.maxHeight = mh;
   if (dlg.style.marginTop !== mt) dlg.style.marginTop = mt;
 }
-function geniVV() {   // 키보드로 축소된 visual viewport에 팝업 높이 맞춤(적대검증C: dialog top-layer는 키보드에 안 줄어듦 → 수동 클램프 → 입력이 키보드 위로) · toolVV 완성 패턴 이식(감사 260718: maxHeight만으론 마진 auto가 layout viewport 중앙 = 키보드 위 아님 — 괴리 게이트·marginTop·원복 3종 동일) + 형제 컴팩트 모달 #pubdlg 합류(pubPin = OS 숫자 키보드 실물 · VV 클램프 부재였음)
+function geniVV() {   // 키보드로 축소된 visual viewport에 팝업 높이 맞춤(적대검증C: dialog top-layer는 키보드에 안 줄어듦 → 수동 클램프 → 입력이 키보드 위로) · toolVV 완성 패턴 이식(감사 260718: maxHeight만으론 마진 auto가 layout viewport 중앙 = 키보드 위 아님 — 괴리 게이트·marginTop·원복 3종 동일) 
   if (!window.visualViewport) return;
   const vv = window.visualViewport;
-  [$('#genidlg'), $('#pubdlg')].forEach(dlg => {
+  [$('#genidlg')].forEach(dlg => {
     if (!dlg || !dlg.open) return;
     if (vv.height < window.innerHeight - 60) {   /* raw-ok: 60 = toolVV 4826 게이트 상수 문자 계승(JS 키보드 괴리 임계 · CSS 토큰 비대상) */   // 시각 뷰포트 < 레이아웃 −60px = 키보드류 괴리일 때만(평시·PC = 인라인 0 = 현행 CSS 그대로 → 출렁 0)
       vvSet(dlg, Math.round(vv.height * 0.92) + 'px',   /* raw-ok: vv 기하 산식 = toolVV 4828 문자 계승(런타임 픽셀 계산 · CSS 토큰 비대상) */   // 보이는 영역 상단 기준 배치 · top만 오버라이드 = 좌우 중앙 유지

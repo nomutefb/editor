@@ -102,7 +102,7 @@
 <button class="totop" id="totop" aria-label="맨 위로" title="맨 위로"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V6M6 12l6-6 6 6"/></svg></button>
 
 <dialog id="dlg">
-  <div class="dlg-h"><div class="dlg-top"><span class="dlbox" id="dlbox"><button id="pdfBtn" class="dlg-pdf" type="button" data-motion="share" title="공개 링크로 발행" aria-label="공개 링크로 발행"><svg class="dl-ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path pathLength="1" d="M15.4 6.5l-6.8 4"/><path pathLength="1" d="M8.6 13.5l6.8 4"/></svg></button></span><a id="src" target="_blank" rel="noopener" title="원문 열기" aria-label="원문 열기"><svg class="src-ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path class="src-base" pathLength="1" d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><g class="src-arrow"><path class="src-shaft" pathLength="1" d="M10 14 21 3"/><path class="src-tip" d="M15 3h6v6"/></g></svg></a></div><div class="dlg-prog" id="dlgprog"></div><button class="tool-x dlg-x" onclick="dlg.close()" aria-label="닫기" title="닫기"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6 18 18M18 6 6 18"/></svg></button></div>
+  <div class="dlg-h"><div class="dlg-top"><a id="src" target="_blank" rel="noopener" title="원문 열기" aria-label="원문 열기"><svg class="src-ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path class="src-base" pathLength="1" d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><g class="src-arrow"><path class="src-shaft" pathLength="1" d="M10 14 21 3"/><path class="src-tip" d="M15 3h6v6"/></g></svg></a></div><div class="dlg-prog" id="dlgprog"></div><button class="tool-x dlg-x" onclick="dlg.close()" aria-label="닫기" title="닫기"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6 18 18M18 6 6 18"/></svg></button></div>
   <!-- ⚠️ dlgprog(스크럽바 컨테이너) = setupScrub/updateScrub가 querySelector로 채움. cc276cd(PR 1619) 헤더 개편 시 CSS(.dlg-prog·.scrub)·JS는 넣고 이 HTML 요소를 빠뜨려 → 두 함수 early return → 스크럽바 + 요약/카드 수정 FAB 스크롤 갱신 전부 죽어있던 회귀 복구(운영자 260705) -->
   <div class="dlg-body" id="dlgbody">
   <details class="phase" id="ph-sum" open>
@@ -250,24 +250,9 @@
 </dialog>
 
 <!-- 요약 수정 팝업 — FAB(우·중하단)에서 좌측으로 펼침. 지시대로 재작성(재요약 X·api/revise). askdlg 클론·.sbtn 클립 계승. 1차 클릭=재확인→2차=전송 -->
-<!-- 공개 발행 확인 — 요약창 헤더 '공유' 버튼으로 열림. 공개범위(누구나/비공개 토글)·만료(3일 ~mm/dd)·PIN(cron식 fieldset) → '발행'. 발행 버튼=.asksend 글래스+.revsend 게이지(발행>게이지>체크) 계승·컴팩트 중앙 모달(#pindlg) 계승. -->
-<dialog id="pubdlg">
-  <div class="dlg-h"><div class="dlg-top"><b class="pub-title">공개 링크로 발행</b></div><button class="tool-x dlg-x" id="pubdlgX" type="button" aria-label="닫기" title="닫기"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6 18 18M18 6 6 18"/></svg></button></div>
-  <div class="pub-body">
-    <div class="pub-row"><span class="pub-l">공개 범위</span><button type="button" class="pub-vis" id="pubVis" data-scope="public">누구나</button></div>
-    <div class="pub-row"><span class="pub-l">만료</span><span class="pub-v" id="pubExp">3일</span></div>
-    <fieldset class="pin-fs">
-      <legend id="pubPinLeg">잠금 설정 (PIN)</legend>
-      <div class="pub-slots" id="pubSlots" aria-hidden="true"><span class="pub-slot"></span><span class="pub-slot"></span><span class="pub-slot"></span><span class="pub-slot"></span><span class="pub-slot"></span><span class="pub-slot"></span></div>
-      <input id="pubPin" class="pin-in-h" type="text" inputmode="numeric" maxlength="6" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="PIN 6자리 입력"><button class="pin-eye" type="button" aria-label="PIN 표시" title="PIN 표시" aria-pressed="false"></button>
-    </fieldset>
-    <button id="pubGo" class="asksend revsend pub-go" type="button"><span>발행</span></button>
-    <div class="pub-status" id="pubStatus"></div>
-  </div>
-</dialog>
 <!-- 이미지 생성 팝업 — 검색 카러셀 + 버튼으로 열림. 운영자가 버튼으로 옵션을 고르면 그게 곧 프롬프팅:
      api/genimg → imggen 워크플로{Opus 5·effort max가 기사 요약·시사점+옵션으로 프롬프트 작성 → 제미나이(종량제) 렌더 → R2 → search.json '생성' prepend}.
-     칩은 JS(GENI_DICT)가 채움 · 셸=pubdlg 계승 · 운영자 260707 -->
+     칩은 JS(GENI_DICT)가 채움 · 셸=컴팩트 중앙 모달(#pindlg 계승) · 운영자 260707 -->
 <dialog id="genidlg">
   <div class="dlg-h"><div class="dlg-top"><b class="pub-title">이미지 생성</b></div><button class="tool-x dlg-x" id="geniX" type="button" aria-label="닫기" title="닫기"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6 18 18M18 6 6 18"/></svg></button></div>
   <!-- ★ 상단 고정 리드(운영자 260713 재배치 "주문을 맨 위 고정 NAV로 · 스크롤 내려도 따라옴"): 내용{주문} + 우측하단 선택요약 + 생성. flex:none = tooldlg flex column 고정 문법 계승(구 geni-foot의 고정을 상단으로 이전) · 구분선(border-bottom --line2)이 아래 스크롤과 분리 -->
@@ -464,9 +449,8 @@
     <!-- 카드만 토글(#cardonlyBtn) 삭제 — 운영자 260713 "설정 메뉴에서 카드 없애" · #cardonly hidden checkbox + render/syncCardBtn null 가드는 잔존(cardonly=false 고정 = 전체 표시·기능 무해 소거) -->
     <div class="chipbar" id="chips"></div><!-- 카테고리 칩(id 유지 = renderChips 그대로) -->
   </div>
-  <button id="msgbtn" class="lp-btn">알림메세지 <span id="msgbtncnt"></span></button><!-- 메시지·발행본·설정 아코디언 = pmenu서 이관(운영자 260707) · id 유지 = openMsgbox/openPub/_setToggle 핸들러 그대로 -->
-  <button id="pubBtn" class="lp-btn">발행본 <span id="pubBtnCnt"></span></button>
-  <button id="memoBtn" class="lp-btn">메모</button><!-- 설정 ▸ 메모 = 작업 기록(운영자 260801 "work to do 기록 · 메모장처럼") → #mmpop 팝업 · 즉발 액션이라 흰색 lp-btn(CII 「설정 메뉴 항목 색 위계」 2분법) · 바인딩 = msgbtn/pubBtn 패턴 -->
+  <button id="msgbtn" class="lp-btn">알림메세지 <span id="msgbtncnt"></span></button><!-- 메시지·설정 아코디언 = pmenu서 이관(운영자 260707) · id 유지 = openMsgbox/_setToggle 핸들러 그대로 -->
+  <button id="memoBtn" class="lp-btn">메모</button><!-- 설정 ▸ 메모 = 작업 기록(운영자 260801 "work to do 기록 · 메모장처럼") → #mmpop 팝업 · 즉발 액션이라 흰색 lp-btn(CII 「설정 메뉴 항목 색 위계」 2분법) · 바인딩 = msgbtn 패턴 -->
   <button id="dgBtn" class="lp-btn">다운로드</button><!-- 설정 ▸ 다운로드 = 링크 자료수집(운영자 260721 "설정 > 다운로드로") → #dlgrab 모달 · 바인딩 = accBtn(계정→snsaccdlg) 선례 미러 -->
   <a id="lucyBtn" class="lp-btn" href="lucy.html">루시봇</a><!-- 설정 ▸ 루시봇 = 스레드 자동운영 관리 화면(운영자 260727 배치 승인 "별도 파일로 두고 설정 안에 파일로 하나") → viewer/lucy.html · 모양 = lp-btn 형제(edBtn) 그대로 · 같은 창 네비 = 채널 a 관례(target 없음 · 260705) · JS 바인딩 불요(순수 네비) -->
   <a id="edBtn" class="lp-btn" href="https://claude.ai/code">에디터</a><!-- 설정 ▸ 에디터 = 클로드 코드 진입(운영자 260721 "설정-에디터 누르면 앱이 확 뜨게") — 모양 = lp-btn 형제(dgBtn) 그대로 · 외부 이동 = 채널 a 관례(같은 창·target 없음 · 260705) = 폰은 클로드 앱(유니버설 링크)·PC는 웹, PWA는 인앱 시트+뒤로가기 복귀 · JS 바인딩 불요(순수 네비) -->
@@ -515,13 +499,6 @@
     <div class="md-body" id="mmBody"></div>
   </div>
   <div class="pushrow mm-add" hidden><span class="lk-grp"><textarea class="askta mm-in" id="mmIn" maxlength="4000" placeholder="" autocapitalize="off" autocorrect="off" spellcheck="false"></textarea></span><button class="pushbtn mm-addbtn" id="mmAddBtn" type="button" aria-label="메모 저장">저장</button></div>
-</div>
-
-<!-- 발행본 — 프로필 '발행본' 버튼으로 열림. 공개 발행한 요약 목록(만료 D-N·링크복사·삭제). 대기열(qpop) 스타일·행 레이아웃·페이저 그대로 계승. -->
-<div class="bpop qpop pubpop" id="pubpop" hidden>
-  <div class="qh"><b>발행본</b><span class="qh-xcell"><button class="tool-x" id="pubpopX" type="button" aria-label="닫기" title="닫기"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6 18 18M18 6 6 18"/></svg></button></span></div>
-  <div class="qlist" id="pubpopList"></div>
-  <div class="qpage" id="pubpopPage"></div>
 </div>
 
 <!-- Failed 칩 컨텍스트 메뉴 — 길게 누르거나(480ms) 우클릭. 실패 사유(진단 MD 다운로드) · 내용 입력(전문 붙여넣기 재분석). 앵커 팝업 셸 SSOT 프로스트 계승. -->

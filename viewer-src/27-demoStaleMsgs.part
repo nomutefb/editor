@@ -153,7 +153,7 @@ const MSG_READ_KEY = 'nomute_msg_read';
 function msgReadSet() { try { const s = new Set(JSON.parse(localStorage.getItem(MSG_READ_KEY) || '[]')); TF_SRV.mr.forEach(id => s.add(id)); return s; } catch { return new Set(TF_SRV.mr); } }   // 로컬 ∪ 계정(mr축 — 폰에서 읽으면 PC 배지도 소등 · 260717)
 function msgMarkAllRead() { const dis = msgDismissed(), read = msgReadSet(); const fresh = []; allMsgs().forEach(m => { if (m.id && !dis.has(String(m.id)) && !read.has(String(m.id))) fresh.push(String(m.id)); if (m.id && !dis.has(String(m.id))) read.add(String(m.id)); }); try { localStorage.setItem(MSG_READ_KEY, JSON.stringify([...read])); } catch {} postSeenIds('mr', fresh); }
 function unreadCount() { const dis = msgDismissed(), read = msgReadSet(); return allMsgs().filter(m => m.id && !dis.has(String(m.id)) && !read.has(String(m.id))).length; }   // 안 읽은 메시지 수(프로필 클릭 시 메뉴→메시지함 촤르륵 판정 · 운영자 260704)
-// 리스트 행 삭제 = 접힘+페이드 후 실제 제거(운영자 260704: 확 사라지지 말고 자연스럽게·.24s). reduced-motion=즉시. 발행본·메시지함·향후 다른 삭제 버튼 공용(.qrow).
+// 리스트 행 삭제 = 접힘+페이드 후 실제 제거(운영자 260704: 확 사라지지 말고 자연스럽게·.24s). reduced-motion=즉시. 메시지함·향후 다른 삭제 버튼 공용(.qrow).
 function animateRowOut(row, done) {
   if (!row || (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) { done(); return; }
   row.style.maxHeight = row.offsetHeight + 'px';   // 현재 높이 고정(접힘 기준)
@@ -166,12 +166,12 @@ function msgKind(m) {   // 알림구분 라벨(운영자 260704 '알림구분' �
   if (m.level === 'warn' || String(m.id || '').startsWith('fail-')) return { t: '경고', c: 'mk-warn' };
   return { t: '알림', c: 'mk-info' };
 }
-function msgAgo(m) {   // 대기열·발행본과 동일 상대시간(qAgo) — t(ms) 우선, 없으면 ts 문자열 KST 파싱
+function msgAgo(m) {   // 대기열과 동일 상대시간(qAgo) — t(ms) 우선, 없으면 ts 문자열 KST 파싱
   if (m.t) return qAgo(m.t);
   if (m.ts) { const s = String(m.ts).replace(' ', 'T'); const p = Date.parse(s + (/([+-]\d{2}:?\d{2}|Z)$/i.test(s) ? '' : '+09:00')); return isNaN(p) ? String(m.ts) : qAgo(p); }   // 오프셋 판정 = **형태 전체**([+-]HH:MM∥HHMM∥Z · 260725 봉인) — 구 `/[+Z]$/`는 끝 글자만 봐서 "…+09:00"의 마지막 '0'에 걸려 "타임존 없음"으로 오판 → +09:00을 한 번 더 붙여 NaN → 원문 ISO가 시간 칸에 그대로 노출되던 버그(Q552 실측) · 날짜만("2026-07-25")은 종전대로 미매치 = 동작 불변
   return '';
 }
-// 메시지함 = 대기열·발행본 표 미러(운영자 260704): 시간 | 구분 | 내용(…축약) | 삭제(헤더 X 아래 중앙정렬)
+// 메시지함 = 대기열 표 미러(운영자 260704): 시간 | 구분 | 내용(…축약) | 삭제(헤더 X 아래 중앙정렬)
 function renderMsgList() {
   const dis = msgDismissed();
   const msgs = allMsgs().filter(m => !(m.id && dis.has(String(m.id))));
@@ -182,9 +182,9 @@ function renderMsgList() {
   list.innerHTML = msgs.map(m => {
     const k = msgKind(m), body = m.text || '', cp = [...body], bodyS = cp.length > 60 ? cp.slice(0, 60).join('') + '…' : body;
     const canDel = !!m.id && !m._health;   // 시스템·id없는 알림 = 삭제 불가
-    // 액션 = **버튼마다 .qact 고정폭 셀**(발행본 pubRowHtml 정본 문법 그대로 = 잠금|공유|삭제 3셀) — 배열이라 2개 이상도 무수정 정합:
+    // 액션 = **버튼마다 .qact 고정폭 셀**(함 행 정본 문법) — 배열이라 2개 이상도 무수정 정합:
     //   실측(260725 4함 감사) = 액션 2개 합성 시 최우측 버튼 중심이 헤더 X 중심과 Δ0.00 유지 · 셀 간격 10 · 제목 우변만 정확히 40(30+10) 좌측으로 밀림.
-    //   ⚠ 삭제 불가 행도 **빈 셀 금지** = 비활성 버튼(발행본 만료 행 `pub-share disabled` 문법 계승) — 빈 셀은 버튼 높이(34)를 못 만들어 행이 51→36px로 주저앉아 표 리듬·5행 캡(max-height 5*51)이 깨진다(실측).
+    //   ⚠ 삭제 불가 행도 **빈 셀 금지** = 비활성 버튼(`.pub-ico:disabled` 문법) — 빈 셀은 버튼 높이(34)를 못 만들어 행이 51→36px로 주저앉아 표 리듬·5행 캡(max-height 5*51)이 깨진다(실측).
     const acts = [canDel
       ? '<button class="pub-ico ' + (m._sys ? 'msg-ok' : 'pub-rm') + ' msg-del" type="button" title="' + (m._sys ? '확인' : '삭제') + '" data-id="' + qEsc(String(m.id)) + '">' + (m._sys ? CHECK_SVG : _TRASHSVG) + '</button>'   // 수집 고장 알림 = ✓(확인 · 운영자 260725 "체크 표시 누르면 없어지고") — 버튼 부품·자리·애니(animateRowOut)는 삭제 버튼 100% 계승, 픽토만 CHECK_SVG(nm-svg 정본) · 색축만 분기 = ✓는 msg-ok(rest 무채·hover accent·press 그대로), 휴지통은 pub-rm(상시 danger) 불변(운영자 260725 "체크 보수색일 필요 없고")
       : '<button class="pub-ico pub-rm" type="button" disabled title="상주 알림 — 해결되면 저절로 사라져요">' + _TRASHSVG + '</button>'];   // 비활성 = .qpop .pub-ico:disabled(무채·opacity .4·cursor default·누름 없음) 정본 그대로 = "왜 못 지우나"까지 어포던스로 설명

@@ -2110,8 +2110,7 @@ _URL_PH_EXEMPT = {
 #   면제 = ⓐ 숫자칩(값 선택 UI · 생김새가 칩이라 클립 비대상) ⓑ PIN(잠금 입력) 뿐 — 늘리려면 사유와 함께 1줄.
 _CLIP_EXEMPT_CLS = ('geni-ar-in', 'rsz-ar-in', 'opa-in', 'pin-in-h')   # N:N 비율칩·OPA 값칩·PIN 칸
 _CLIP_EXEMPT_ID = {
-    ('viewer/index.html', 'pinInput'),   # 발행본 잠금 PIN 표시칸(readonly = 붙여넣기 대상 아님)
-    ('viewer/index.html', 'pubPin'),     # 발행본 PIN 입력(숫자 키패드 · 클립보드 경유 = 잠금 취지에 반함)
+    ('viewer/index.html', 'pinInput'),   # #pindlg PIN 표시칸(readonly · 커스텀 키패드 = 붙여넣기 대상 아님)
 }
 _CLIP_WIRE = ('attachCopyPaste', 'scnclip', 'urlclip', 'askclip', 'iobtn')
 _TA_RE = re.compile(r'<textarea\b[^>]*>', re.I)
@@ -9302,7 +9301,7 @@ def check_tabs_headers():
 _AAC_SEL_RE = re.compile(r'bv\*[^\s"\'`]*')   # 리터럴 `bv*` 앵커 = O(매치수) · 여는-괄호-앞 와일드카드 금지 규율 준수
 _AAC_SKIP_MARK = ('--skip-download', '--print')   # 미디어를 0바이트도 안 받는 호출 = 병합 없음 = 축 비대상
 _AAC_EXT = ('.yml', '.yaml', '.py', '.sh', '.bat', '.command', '.js', '.mjs', '.ps1')
-_AAC_SKIP_DIR = ('_versions/', 'docs/reports/', 'published/', 'node_modules/')
+_AAC_SKIP_DIR = ('_versions/', 'docs/reports/', 'node_modules/')
 
 
 def _aac_strip_py_docstrings(src):

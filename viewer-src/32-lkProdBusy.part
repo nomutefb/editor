@@ -144,7 +144,7 @@ function closeLockPop() {   // 닫힘 = popOut 촤르륵 접힘(qpop.closing 패
   lp.classList.add('closing'); clearTimeout(_lockPopT);
   _lockPopT = setTimeout(() => { lp.hidden = true; lp.classList.remove('closing'); }, 190);   // .18s 애니 + 버퍼(hidePmenu 동일)
 }
-['resize', 'orientationchange'].forEach(ev => window.addEventListener(ev, () => { if (!lockpop.hidden && !lockpop.classList.contains('closing')) placePopNearMenu(lockpop); }, { passive: true }));   // 회전·리사이즈 재배치 = msgpop·pubpop·qpop과 파리티(평의회3·10 260707 — 누락이면 회전 시 stale 좌표)
+['resize', 'orientationchange'].forEach(ev => window.addEventListener(ev, () => { if (!lockpop.hidden && !lockpop.classList.contains('closing')) placePopNearMenu(lockpop); }, { passive: true }));   // 회전·리사이즈 재배치 = msgpop·qpop과 파리티(평의회3·10 260707 — 누락이면 회전 시 stale 좌표)
 $('#lockBtn').addEventListener('click', e => { e.stopPropagation(); openLockPop(); });
 $('#lockpopX').addEventListener('click', e => { e.stopPropagation(); closeLockPop(); });
 lockpop.addEventListener('click', e => e.stopPropagation());
@@ -537,7 +537,7 @@ function popAt(pop, btn) {        // 팝업을 버튼 위에 띄움(좌우 화�
   const w = pop.offsetWidth || 200, cx = r.left + r.width / 2;
   pop.style.left = Math.round(Math.max(8, Math.min(cx - w / 2, window.innerWidth - w - 8))) + 'px';
 }
-function placeHeadPop(pop, btn) {   // 헤더 픽토그램 아래 우변 앵커 촤르륵(운영자 260710 요구5 "우측 상단 모서리가 픽토에 고정 · 7시방향") · 검색 외 헤더 팝업(설정 linkpop·메시지·발행본) 공통 = qpop head 모드 미러
+function placeHeadPop(pop, btn) {   // 헤더 픽토그램 아래 우변 앵커 촤르륵(운영자 260710 요구5 "우측 상단 모서리가 픽토에 고정 · 7시방향") · 검색 외 헤더 팝업(설정 linkpop·메시지) 공통 = qpop head 모드 미러
   if (!pop || !btn) return;
   const r = btn.getBoundingClientRect();
   const w = pop.offsetWidth || Math.min(window.innerWidth * 0.94, 320);
@@ -573,16 +573,15 @@ $('#bnav').addEventListener('click', e => {
 //   팝업이 오발 닫히던 버그 차단(폰 웹뷰선 타깃 탈락 시 stopPropagation 도 불안정). pointerdown 은 재렌더 전이라 타깃이 붙어있어 판정 정확(운영자 260622).
 let _popDownInside = false;
 ['pointerdown', 'mousedown'].forEach(ev => document.addEventListener(ev, e => {
-  _popDownInside = !!(e.target && e.target.closest && e.target.closest('#bpop, #linkpop, #qpop, #pubpop, #pindlg'));   // #pindlg = pubpop 위 top-layer 모달 — 그 안 클릭이 pubpop 바깥클릭 닫힘을 오발동 안 하게(평의회 260702)
+  _popDownInside = !!(e.target && e.target.closest && e.target.closest('#bpop, #linkpop, #qpop, #pindlg'));   // #pindlg = 메뉴 위 top-layer 모달 — 그 안 클릭이 뒤 팝업 바깥클릭 닫힘을 오발동 안 하게(평의회 260702)
 }, true));
 document.addEventListener('click', e => {
   if (_popDownInside) return;   // 팝업 내부에서 시작한 클릭 = 안 닫음(타깃 탈락 무관)
   if (!bpop.hidden && !bpop.contains(e.target) && !$('#bnav').contains(e.target)) { bpop.hidden = true; bpop.classList.remove('open'); const _tf = $('#toolfab'); if (_tf) _tf.classList.remove('open'); }
   if (!linkpop.hidden && !linkpop.contains(e.target) && !$('#bnav').contains(e.target)) linkpop.hidden = true;
   if (!qpop.hidden && !qpop.contains(e.target) && !$('#bnav').contains(e.target)) closeQueueUser();
-  if (!pubpop.hidden && !pubpop.contains(e.target) && !$('#profile').contains(e.target) && !($('#pindlg') && $('#pindlg').open)) closePubUser();   // pindlg(잠금 PIN) 열려 있으면 pubpop 유지(평의회 260702)
 });
-// 설정 = #linkpop 안 setToggle 아코디언으로 그 자리 펼침(운영자 260707 "설정 눌러도 딴 창 안 뜨고 그 아래 세부") — 옛 lpSettings→showPmenu 별도창 오픈 핸들러 폐지 · 메시지·발행본·설정 전부 linkpop 이관 = _setToggle(아코디언)/openMsgbox/openPub가 linkpop 안에서 그대로 작동(id 유지) · linkpop 바깥클릭 가드가 setToggle 보호(linkpop.contains + _popDownInside)
+// 설정 = #linkpop 안 setToggle 아코디언으로 그 자리 펼침(운영자 260707 "설정 눌러도 딴 창 안 뜨고 그 아래 세부") — 옛 lpSettings→showPmenu 별도창 오픈 핸들러 폐지 · 메시지·설정 전부 linkpop 이관 = _setToggle(아코디언)/openMsgbox가 linkpop 안에서 그대로 작동(id 유지) · linkpop 바깥클릭 가드가 setToggle 보호(linkpop.contains + _popDownInside)
 
 // ── 대기열(뉴스요약 = 롱프레스 600ms · 연달아 두번 탭 · 우클릭 · 배지 → 열기 / 떠있을 때 한번 더 탭 → 닫기) — 분석 대기/중(pending/) 기사 개요. api/pending 라이브 조회(파이프라인 0 변경·읽기전용). ──
 const qFeedBtn = $('#bnav .bnav-i[data-tab="feed"]');
