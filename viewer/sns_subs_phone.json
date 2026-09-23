@@ -15,33 +15,73 @@
  "insta": [],
  "threads": [
   {
-   "account": "aipeekme",
-   "text": "알찬 하루!!\n\n프롬프트 하단!!",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1790123468,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/821123735_1578292726818364_4537059313913004693_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk5MjE2NzM1NzIyOTUxMjMxMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Fbffzu3UJ-YQ7kNvwGlu-6l&_nc_oc=AdqsAvr3WhUgEOBbxKSf1YNu1zbJ7k3bnRaEakAHEQSf7LTcBI15VyZyp3h3ZbMW0TE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=PyzdhcyGJFXteOPDlag_WA&_nc_ss=7a22e&oh=00_AQJU_CDzHCf529QvAD6D8k5IKby9Wn92G-_V1OSKScSStQ&oe=6AB8EFBA",
-   "url": "https://www.threads.com/@aipeekme/post/DdnBw9bkzZ3",
+   "account": "choi.openai",
+   "text": "3/ 끝낼 시점을 모델이 판단하듯, 얼마나 생각할지도 이제 모델이 정합니다.\n그래서 “think carefully”, “think step by step” 같은 문장은 프롬프트와 저장된 지시문에서 지우라고 권합니다.\n\nOpus 5.5는 답하기 전에 항상 생각하고, 생각의 양도 스스로 조절합니다.\n앤트로픽이 채팅 제품에서 시험해 보니 이 문구를 지웠을 때 응답이 더 빨리 시작됐고 품질 저하는 뚜렷하지 않았다고 합니다.\n\n간단한 질문에 곧바로 답을 받고 싶다면 “바로 답해줘”라고 쓰면 됩니다.\nClaude Code에서 생각량 자체를 바꾸려면 effort 설정을 조정합니다.\n\n작업 도중 빠뜨린 조건이 떠오르면 멈추지 말고 그대로 입력하면 되는데요.\n실행 중에 메시지를 치고 Enter를 누르면 반영됩니다. 작업이 길어진 만큼 처음부터 다시 돌리는 비용이 커졌기 때문입니다.",
+   "likes": 1,
+   "cmts": 1,
+   "time": 1790125249,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/821441585_17988339162112832_3796428658888408991_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk5MjE4MjM5NzczNDk1OTM4Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTE4OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=fTJcd0ks3k0Q7kNvwFBPRLm&_nc_oc=AdoM3-49EriAHKlbPVmrdkYNvlAD7sI6KQOTvlVBkqTiL0rwku2tGhnc2BncthJUxA-Y53v1ReggHBXFzJg15Krd&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=CqJ-4X26_pCR7XzU1zvxeg&_nc_ss=7a22e&oh=00_AQKVhKtxOIwIEvyK2WQ-3t5NNA2XuSVGubiT-u3Ign8Shg&oe=6AB8E391",
+   "url": "https://www.threads.com/@choi.openai/post/DdnFL0_jzkX",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "2/ 가이드가 가장 먼저 권하는 방식은 작업 전체를 한 메시지로 넘기는 것입니다.\n\n여기에 확인 가능한 완료 기준을 붙입니다. “테스트가 통과한다”, “모든 엔드포인트를 옮겼다” 같은 상태입니다.\n\n공식 예시는 세 줄로 되어 있습니다. \n\n결제 엔드포인트를 옛 클라이언트에서 새 클라이언트로 옮길 것.\n모든 엔드포인트가 새 클라이언트를 쓰고, 옛 클라이언트가 삭제되고, 테스트가 통과하면 완료.\n설명할 수 없는 이유로 테스트가 실패할 때만 멈춰서 물어볼 것.\n\n앤트로픽은 Opus 5.5가 이전 Opus 대비 여러 단계 작업을 끝까지 이어가는 능력에서 가장 크게 좋아졌다고 밝혔습니다.\n\n초기 테스터들은 긴 코딩 작업을 거의 감독 없이 몇 시간씩 돌렸고, 완료 기준이 분명할수록 모델이 스스로 끝낼 시점을 압니다.",
+   "likes": 1,
+   "cmts": 1,
+   "time": 1790125239,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/817903419_17988339147112832_1850494182324835611_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk5MjE4MjMyMTE4ODkzMzY0Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ5Ny5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=-ht3dwtVR_AQ7kNvwFVRlpp&_nc_oc=Adrs-IfMDRBaNP8WeL5z5-mDG4-YolTwAyr5PbaeMmqcAApvmJ4GKsbSsyO7VUOiTmcxTIdFlvl_1zpFxSOszBB7&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=CqJ-4X26_pCR7XzU1zvxeg&_nc_ss=7a22e&oh=00_AQKltyk7uhlyrncFKHBhg4Xf9zocWApuEyns7rwSI8oacQ&oe=6AB912E5",
+   "url": "https://www.threads.com/@choi.openai/post/DdnFKttD5AP",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "1/ 바쁘신 분들을 위해 핵심 내용만 정리해드립니다.\n\n1. 작업 전체를 한 메시지로 주고, 완료 조건과 멈출 조건을 함께 적음\n2. “think carefully” 같은 문구는 삭제함. 모델이 매번 스스로 생각량을 정함\n3. 디자인 요청은 빼고 싶은 스타일을 구체적으로 나열함\n4. CLAUDE.md에 계속 진행할 때와 멈춰서 물어볼 때를 규칙으로 적어둠\n5. 대규모 감사·마이그레이션은 서브에이전트로 나누고, 각 보고의 근거를 검증하게 함\n6. 긴 작업이 끝나면 나에게 요청한 결정부터 읽음\n7. 안전장치에 걸려 이전 모델로 전환되면 모델 선택기나 /model로 복귀함",
+   "likes": 3,
+   "cmts": 1,
+   "time": 1790125233,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/808265745_17988339132112832_2986651690117646502_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk5MjE4MjI2MjYxOTY3NDg2MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQxOC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=qsH-IzuO_LEQ7kNvwEsms3V&_nc_oc=Ado83zFTZR6MBqfVtDx3T20f8lVk7OHAslQgpM0V62_kfSpRcZ6SLx_rtO_CNwStNWT7CO-xwcbaNA_i2BT9eaM8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=CqJ-4X26_pCR7XzU1zvxeg&_nc_ss=7a22e&oh=00_AQJ5owxC_a7pN7GwumpQNI73L5IXxfZRZpPXzuB0SA7LdA&oe=6AB8F0CC",
+   "url": "https://www.threads.com/@choi.openai/post/DdnFJ3KD5js",
    "region": "kr"
   },
   {
    "account": "daily_ai_star",
-   "text": "보안 검사는 코드만 고정한다고 재현되지 않습니다. 검사기가 어디서 실행되는지도 빌드의 일부가 됐습니다.\n\nhttps://github.blog/changelog/2026-09-22-deprecation-notice-all-platform-codeql-bundle/",
+   "text": "3/ google/ax — 하루 +86⭐\n\nGoogle의 오픈 에이전트 오케스트레이터입니다. 실패 뒤 자동 재개, 격리된 컨테이너 실행, Kubernetes 배포를 지원해 단일 에이전트보다 오래 실행되는 작업의 상태 관리를 다룹니다.\n\n누적 별 6,637개, 포크 316개.\n\n오늘 별이 붙은 위치가 모델보다 실행 계층에 가깝습니다 ⭐\n\nhttps://www.gitgenius.co/repos/google/ax",
    "likes": 0,
    "cmts": 0,
-   "time": 1790123135,
+   "time": 1790124659,
    "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdnBJOIkyyc",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdnEDMFmTyS",
    "region": "kr"
   },
   {
    "account": "daily_ai_star",
-   "text": "CodeQL CLI 2.27.0부터 all-platform 번들이 폐기 절차에 들어갑니다.\n\n지금까지는 `codeql-bundle.tar.gz`나 `codeql-bundle.tar.zst` 하나에 지원 플랫폼의 바이너리가 함께 들어 있었습니다. GitHub는 2027년 3월 중순 이 묶음을 삭제하고, 운영체제와 아키텍처에 맞는 플랫폼별 번들만 받도록 바꿉니다.\n\nLinux ARM64 바이너리는 이제 all-platform 번들에 포함되지 않습니다.\n\n보안 검사의 재현성 기준이 “같은 CodeQL 버전인가”에서 “같은 플랫폼용 번들을 실행했는가”까지 넓어졌습니다.\n\nCI에서 최신 번들을 자동으로 내려받는 설정과 에이전트가 작성한 워크플로를 그대로 두면, 2027년 3월 이후 실패 원인이 분석 규칙이 아니라 다운로드 경로가 될 수 있습니다. 특히 ARM64 러너를 쓰는 저장소는 플랫폼 판별과 버전 고정을 함께 남겨야 합니다.",
+   "text": "2/ agent-substrate/substrate — 하루 +450⭐\n\nKubernetes에서 상태를 가진 AI 에이전트를 배포·관리하는 런타임입니다. 유휴 상태의 에이전트 여러 개를 더 적은 물리 워커에 다중화해 실행하는 구조를 내세웁니다.\n\n누적 별 2,456개, 포크 349개.\n\nhttps://topairepos.com/repos/agent-substrate/substrate",
    "likes": 0,
    "cmts": 1,
-   "time": 1790123126,
+   "time": 1790124643,
    "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdnBIHtEwLQ",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdnEBQAmTfM",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
+   "text": "1/ anthropics/financial-services — 하루 +260⭐\n\n재무 분석과 금융기관 업무를 위한 에이전트 플러그인 모음입니다. DCF, LBO, 3-statement, Excel 감사부터 KYC 문서 처리까지 작업별 스킬과 데이터 커넥터를 파일 기반으로 제공합니다.\n\n누적 별 35.6k, 포크 5.3k.\n\nhttps://gitdiscover.org/repositories/anthropics/financial-services",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1790124626,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdnD_LcGfo1",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "알찬 하루!!\n\n프롬프트 하단!!",
+   "likes": 2,
+   "cmts": 1,
+   "time": 1790123468,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/821123735_1578292726818364_4537059313913004693_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk5MjE2NzM1NzIyOTUxMjMxMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Fbffzu3UJ-YQ7kNvwG-koJK&_nc_oc=Adq-_ibphnRipHZWRFricHOG-C5RpIy5kpOyHgVvxCB7fSyAJ_YR5nrFFwKXKZQee40dY_P-vUlBmacnDc3aRyWX&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=RQMhc17ztotbkUupP9a6uw&_nc_ss=7a22e&oh=00_AQL0s12ynNOyeThNE1Inc7MdUQdGWlUD-ka-UnOyuC23Og&oe=6AB8EFBA",
+   "url": "https://www.threads.com/@aipeekme/post/DdnBw9bkzZ3",
    "region": "kr"
   },
   {
@@ -50,7 +90,7 @@
    "likes": 0,
    "cmts": 1,
    "time": 1790122953,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/799590615_18089156630407306_1499094010523004797_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk5MjE2MzA3NDkyOTgyMTg3Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI3Mi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=M3WKFcwg8AUQ7kNvwH1x7Jh&_nc_oc=AdoLaYh2nbDge9FsPQoE3DV6NW2dt7RAO-EYKXr9JrZh8L55kLPKihbZYmPNMeHoJ4c&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=PyzdhcyGJFXteOPDlag_WA&_nc_ss=7a22e&oh=00_AQLf_LNVYlJh0LIsNFNGvfNqoeG_2x8CfZveUC7fBrzz1Q&oe=6AB8EC14",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/799590615_18089156630407306_1499094010523004797_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk5MjE2MzA3NDkyOTgyMTg3Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI3Mi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=M3WKFcwg8AUQ7kNvwFEUciO&_nc_oc=Ado1MCfueXfBTjHDw9z8ExY_ygy0kwXV_JKAVkxDPV1b8ON24PXvDwKbrOXfrbZI9Vhx6N3Hl94rC0eP-v7LVNDK&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=RQMhc17ztotbkUupP9a6uw&_nc_ss=7a22e&oh=00_AQLbu7djPzAFdzI3a9n3oCHnNs3DJpXpDgfnXNgbc20ejw&oe=6AB8EC14",
    "url": "https://www.threads.com/@aipeekme/post/DdnAypOn4ix",
    "region": "kr"
   },
@@ -60,48 +100,8 @@
    "likes": 0,
    "cmts": 1,
    "time": 1790122936,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/815396844_18089156483407306_5908167466523797021_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk5MjE2MjkyMzkzNDg1NDQzNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI3Mi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=AsZK2VySot8Q7kNvwFK55Sj&_nc_oc=AdoWF3uo0wb5A4djgB8t2apgOKspYZrzmdbRWotTZQNYA6tHFC7nVdaAXNZaHpdq3Qo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=PyzdhcyGJFXteOPDlag_WA&_nc_ss=7a22e&oh=00_AQL66vIHUR9zKp16TUXr5TCJhplIiVSEVeOMbEFG_TANDg&oe=6AB8D95F",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/815396844_18089156483407306_5908167466523797021_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk5MjE2MjkyMzkzNDg1NDQzNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI3Mi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=AsZK2VySot8Q7kNvwE5mVxo&_nc_oc=AdqWtm89q74_D9-7JOh2kO_BMMG0ohgRBpEK0LvT0EpOkVTw_yCFli8N6bBgakwBE9tJaHMRYzLIDupCUQyZ8xim&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=RQMhc17ztotbkUupP9a6uw&_nc_ss=7a22e&oh=00_AQLo66hETvbAule5w9lFYbqvMncc4HbKfEdCYlIlQKlDhA&oe=6AB9119F",
    "url": "https://www.threads.com/@aipeekme/post/DdnAwcmny0i",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "3/ zai-org/ZCode — 하루 +1,514⭐\n\nZ.ai의 코딩 에이전트 작업 공간입니다.\n\nElectron 데스크톱, 브라우저, 터미널 Agent CLI와 런타임을 한 저장소에 묶었습니다. 모델을 호출하는 화면보다 실행 환경을 함께 배포하는 구조에 가깝습니다. 누적 별 2.0k, 포크 488개입니다. ⭐\n\nhttps://github.com/zai-org/ZCode",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1790121663,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/Ddm-Vg_Ewd_",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "3/ 독립 평가기관 Artificial Analysis의 결과도 같은 방향입니다.\n10개 평가를 합친 Intelligence Index에서 Opus 5.5는 max 강도로 58점을 받았습니다.\n\n직전 1위였던 Fable 5.1과 GPT-6 Astra가 53점, Opus 5가 51점이니 5점을 한 번에 벌렸습니다. 10개 중 6개에서 1위인데요.\n\nHumanity's Last Exam은 61.4%로 Fable 5.1의 59.1%를 넘었고, 지식 노동 평가인 AA-Briefcase는 1822 Elo로 Fable보다 143점 높습니다.\n\n반대로 물리 연구 문제 CritPt, 긴 문맥 추론 AA-LCR, PDF 문서 처리 GDP.pdf에서는 조금 뒤졌습니다.",
-   "likes": 2,
-   "cmts": 1,
-   "time": 1790119993,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/819728283_17988336090112832_3066558623942401301_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk5MjEzODMwNjYzMjU0Nzc0Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTU2OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=S4xnRNXqeGkQ7kNvwEXaQn5&_nc_oc=Adopc-N8xjwOwjM3wsyqzOiETeOh2MAtvkczT9l-AB7vVSlFv0u0rFszYCYR5bBvbhU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=bKH_Ae3o6VbKqMXTD1ECqA&_nc_ss=7a22e&oh=00_AQIHUpeGV5CnoF0FbJWOr6SVyM1HXMJ-Tnzzs7UzIB1SSg&oe=6AB8FF90",
-   "url": "https://www.threads.com/@choi.openai/post/Ddm7KN9D_2j",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "2/ 공개된 표에서 Opus 5.5는 9개 평가 중 7개에서 가장 높은 점수를 기록했습니다.\n\nTerminal-Bench 4.0은 66.4%로 Fable 5.1의 55.8%, GPT-6 Astra의 57.9%를 앞섰고, 44개 직업의 실무를 평가하는 GDPval-AA에서는 1,846 Elo로 Fable보다 111점 높았습니다.\n\nAstra에 뒤진 평가는 AutomationBench 40.0% 대 41.4%, Terminal-Bench-Science 58.7% 대 64.6%였습니다.\n\n다만 평가는 보안장치를 켠 상태로 진행됐습니다.\n장치가 개입하면 사이버 과제는 Opus 4.8, 생물학은 Opus 5가 대신 수행했고, AutomationBench에서는 개입을 실패로 처리했습니다.\n\n앤트로픽도 실제 사용에서 Fable 5.1과의 차이는 벤치마크 점수보다 작다고 설명했습니다.",
-   "likes": 2,
-   "cmts": 1,
-   "time": 1790119985,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/818902230_17988336072112832_3748169131494998737_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk5MjEzODI0NDM4OTA2MjcwMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIzMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=DEtZjOLAwRsQ7kNvwEbFrQf&_nc_oc=AdqO41XeRzdofnjkj_Mxo5uhTd5EkPu9FLdyxVN5Jubk7la2jZWJtYaARSXVhbRX5Bg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=bKH_Ae3o6VbKqMXTD1ECqA&_nc_ss=7a22e&oh=00_AQJnJTktkaegC_2xIMBh6_c5eOh_rlpOsqWrfwsUAhptkQ&oe=6AB8DEDD",
-   "url": "https://www.threads.com/@choi.openai/post/Ddm7JT_D8gu",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "1/ 앤트로픽이 Claude Opus 5.5를 공개했습니다.\n\nClaude 5.5 세대의 첫 모델이고, Sonnet 5.5와 Haiku 5.5가 몇 주 안에 뒤따릅니다. \n\n앤트로픽의 설명은 대부분의 작업에서 Fable 5.1 수준이면서 같은 일에 드는 비용이 Opus 5보다 40% 적다는 것입니다.\n\n가격은 100만 토큰당 입력 4달러, 출력 20달러입니다. Opus 5의 5달러, 25달러에서 20% 내렸고, 캐시 읽기는 0.5달러에서 0.2달러로 60% 내렸습니다.\n\n추론 강도는 low부터 max까지 5단계이고, Pro, Max, Team 요금제의 Claude Code와 앱에서는 기본 모델이 되었습니다. 기본 강도는 medium입니다.\n\n그리고 한 시간 반쯤 뒤 오픈AI가 GPT-6 Sol과 Luna를 내놓으며 API 가격을 절반으로 내렸습니다.\n\n가격이 이만큼 내려간 근거로 앤트로픽은 벤치마크 표와 추론 강도별 비용 곡선을 같이 내놨습니다.",
-   "likes": 9,
-   "cmts": 1,
-   "time": 1790119977,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/817297653_17988336054112832_4042836052902666970_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk5MjEzODE3OTUyODMzNDc2OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTMzOC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=xfMQWePZOmIQ7kNvwFwQ4BE&_nc_oc=AdokBBPDqo95brwKXgKaeGqCWEww1gImgmNEsquXhOcQ5Q7ygHJVoCwM3LO2ipw6oCE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=bKH_Ae3o6VbKqMXTD1ECqA&_nc_ss=7a22e&oh=00_AQKgy_XgizyMmxEQKX9BwoMeIWdv3m4W2Z5yDVEFRthURA&oe=6AB8E626",
-   "url": "https://www.threads.com/@choi.openai/post/Ddm7IXlD52x",
    "region": "kr"
   },
   {
@@ -110,7 +110,7 @@
    "likes": 1,
    "cmts": 0,
    "time": 1790066667,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/820409386_17937933756362958_3616705906274467283_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk5MTY5MDk4MDUyMDg2NTg0OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuODk1LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=prfRWY8ZEkEQ7kNvwEk7fjw&_nc_oc=AdrZP8_0A35fissCA1OrXp7xJFGbkNwqArKlvFs2-OYnWKgZV8tljF7epTH6U39CzlQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=lA7CdqI9EiTjipDWuVSh8w&_nc_ss=7a22e&oh=00_AQJgOBnvVYspjOph1rJPU9ZYsrhNrZ0anJ7HUtoLGi_kFw&oe=6AB8E9D8",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/820409386_17937933756362958_3616705906274467283_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk5MTY5MDk4MDUyMDg2NTg0OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuODk1LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=prfRWY8ZEkEQ7kNvwGleY11&_nc_oc=AdrUbAFdrDCxyFyV9OSFQ4E9GqWlrpuj3lSMCV7WElFBfka1SgCa30MBpj2bR6MJLNwOStvYMg1eo8eTvvog8qE-&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=bWTIWg_su6OUPg6sAYBKNA&_nc_ss=7a22e&oh=00_AQJywBEzHjc4BXxcJ-9g8OKSz4GVjgwp7QNc67MyiLdXSg&oe=6AB8E9D8",
    "url": "https://www.threads.com/@takepage_/post/DdlVcxDE7A5",
    "region": "kr"
   },
@@ -130,7 +130,7 @@
    "likes": 10,
    "cmts": 1,
    "time": 1790059326,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/790225792_1589502259579093_5097897215633516640_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk5MTYyOTE1MzIzMzY2Nzc1OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=XN63oQ-ZXSkQ7kNvwEcDh0w&_nc_oc=AdorijfuP_JVP6io4-qkkSsc8ovsyCqMR3xy_8yVX_VICXnMvzEDgFMO3Bm7aXC4UeU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=eg2jaFGZ15heHBRphVpWlw&_nc_ss=7a22e&oh=00_AQJPT6s1d03KCy0puQKKIT1WQOhxLUMyttVK1niQAgYbHQ&oe=6AB8F97C",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/790225792_1589502259579093_5097897215633516640_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk5MTYyOTE1MzIzMzY2Nzc1OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=XN63oQ-ZXSkQ7kNvwFXryQb&_nc_oc=AdpEr1fSz9XxhldLXU0XDwrZYmVdakmZ3u9euphRSqSyjfsFBUXnu7CbVShYqsBzVBsvtYCg0mzpjea4u8-q1tU1&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=rriE_hTWpiviAcCuNEBIvQ&_nc_ss=7a22e&oh=00_AQL4Wb5XRs649i4Y5Km9wqN2Vf-Psr0cOsGq5mPeKCwJsg&oe=6AB8F97C",
    "url": "https://www.threads.com/@kopp/post/DdlHZD5lgav",
    "region": "kr"
   },
@@ -140,7 +140,7 @@
    "likes": 30,
    "cmts": 1,
    "time": 1790056551,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/808786708_17958409119232485_3311240371714756849_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk5MTYwNjEyMDY0OTMwMDQ4Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjc2Mi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=bjM-7os-PCgQ7kNvwEN9QQO&_nc_oc=Adq7R3FBjwcdHDlrM-V3sGD4pdNOw-xdFY_pV4010ji84yEpQq5j7ZbKS3UI7AxUsy4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=kg6HUEtQb8a9rdCa2tpstw&_nc_ss=7a22e&oh=00_AQIfXg4D6O51UXf-L5DJWROXFW2cpo86xws0SpqPnzPx9w&oe=6AB8E8DB",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/808786708_17958409119232485_3311240371714756849_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk5MTYwNjEyMDY0OTMwMDQ4Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjc2Mi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=bjM-7os-PCgQ7kNvwEFzV4v&_nc_oc=AdpSwi-hBMxYpnxeDSBAkx19mMAg0MeTck6VLzz_M8Sf8otT0_ILIYpq0rd1dvK59xurZJnM19n_hjLUcIejdrFE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=WjqPsf3aSwWNlRQmHK06Vw&_nc_ss=7a22e&oh=00_AQJAycYRKedKe3UPg_wsDIehI8Ce2BUTtk03cw2U6aOULQ&oe=6AB8E8DB",
    "url": "https://www.threads.com/@aicoffeechat/post/DdlCJ5Ik5oH",
    "region": "kr"
   },
@@ -150,38 +150,48 @@
    "likes": 17,
    "cmts": 5,
    "time": 1790052732,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/796903118_17937913797362958_2979104767274304568_n.webp?stp=dst-webp_s640x640_sh2.08&_nc_cat=101&ig_cache_key=Mzk5MTU3NDA4MjU5MjQzNjIyMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=GNtO4tVWBFkQ7kNvwF8QoGb&_nc_oc=AdoSdtJ42wxSwecLHUogPxGdQcu17XWRaDuyaqBld_3aBco6XV1GZ4XDUZCjaLl1gMQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=lA7CdqI9EiTjipDWuVSh8w&_nc_ss=7a22e&oh=00_AQKJZ8pazMe6ftTrjCFnHG-pjzj-Ij542aYFLhHhbSifHg&oe=6AB8F9F1",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/796903118_17937913797362958_2979104767274304568_n.webp?stp=dst-webp_s640x640_sh2.08&_nc_cat=101&ig_cache_key=Mzk5MTU3NDA4MjU5MjQzNjIyMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=GNtO4tVWBFkQ7kNvwFGl8tm&_nc_oc=Adq1imVTIq6KC4OLelVf9XOtcTFKRRuBGIkc3JsoAaFMFrkPF1hpc6dKWAm5N8bE59a1Ve31Ndk3knGhd03Zyfqa&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=bWTIWg_su6OUPg6sAYBKNA&_nc_ss=7a22e&oh=00_AQIIqC5hdU_bLknnQJaM_o4BiQ5FZkkgLiHLvFDiyBIi-g&oe=6AB8F9F1",
    "url": "https://www.threads.com/@takepage_/post/Ddk63rXk-_9",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "앤트로픽이 Opus 5.5 사용법을 공개했습니다.\n\n이전 Opus보다 긴 작업을 스스로 이어가는 능력이 좋아져, 완료 조건과 중단 시점만 정해주고 맡기는 방식을 권장합니다.\n\n또한 “think carefully” 같은 문구는 필요 없으며, 대규모 작업은 서브에이전트로 나눠 진행하고 마지막에 결과를 검토하는 방식이 권장되는데요.\n\n이번 가이드를 정리했습니다 🧵",
+   "likes": 4,
+   "cmts": 13,
+   "time": 1790125229,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DdnFJbfj6G4",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
+   "text": "anthropics/financial-services가 9월 22일 깃허브 트렌딩 1위에 올랐습니다. 하루 +260개입니다. 오늘의 3개: anthropics/financial-services · agent-substrate/substrate · google/ax\n\n금융 업무, 에이전트 런타임, 오케스트레이션이 각각 별을 받고 있습니다.\n\n에이전트 경쟁의 중심이 모델 호출에서 업무와 실행 환경을 묶는 계층으로 내려가고 있습니다. ⭐",
+   "likes": 0,
+   "cmts": 3,
+   "time": 1790124616,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdnD915mWrS",
    "region": "kr"
   },
   {
    "account": "aipeekme",
    "text": "1/ 무엇이 공개됐나 — 이번에 나온 모델은 GPT-6 솔과 루나 두 가지입니다. 먼저 솔은 입력 토큰 100만 개당 2달러, 출력 토큰 100만 개당 10달러로 책정됐고 직전 버전인 지피티 5.6 솔 프로모션 가격과 비교하면 반값으로 내려갔습니다. 루나는 입력 0.10달러, 출력 0.50달러로 이 역시 50퍼센트 저렴해졌습니다. 상위 모델인 아스트라의 기술을 이어받아 가성비를 높인 라인업입니다.",
-   "likes": 0,
+   "likes": 1,
    "cmts": 1,
    "time": 1790122916,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/821051599_18089156447407306_1376899349296984671_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk5MjE2Mjc2MDYyNTQ1MDEwNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI3Mi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=6B_j7GIIZDgQ7kNvwHM5lWp&_nc_oc=AdoFvmaKrIJs12_VGHjTh8vAUDJYEJw9ErLOP89Bqd4sejJ24EA4pxxDrsCTmLOaXpc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=PyzdhcyGJFXteOPDlag_WA&_nc_ss=7a22e&oh=00_AQIgK253wXfaQMzXlwGjUvdt5L2lcmnrEVlR86bTiyOlIA&oe=6AB8E187",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/821051599_18089156447407306_1376899349296984671_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk5MjE2Mjc2MDYyNTQ1MDEwNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI3Mi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=6B_j7GIIZDgQ7kNvwGah3DI&_nc_oc=AdpDDoSDp4fFVbZP34tdW73we0vn1rFCxAM5Xnassqni3UYz4cjxbJyd0dUAw2chIlpuCN9mag8LNKe8RCx_TpZM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=RQMhc17ztotbkUupP9a6uw&_nc_ss=7a22e&oh=00_AQJEQ1QOuCSWgIGdXu8wtsqy7LAubCizc5ugh-4gY01cLA&oe=6AB8E187",
    "url": "https://www.threads.com/@aipeekme/post/DdnAuEgn2x6",
    "region": "kr"
   },
   {
    "account": "daily_ai_star",
-   "text": "2/ jaredpalmer/kev — 하루 +1,139⭐\n\nQwen 기반 소형 모델에 LoRA와 readout head를 붙인 결정 모델입니다.\n\n예·아니오, 객관식, 점수 질문을 한 요청에 묶고 텍스트를 생성하지 않고 확률을 반환합니다. 0.8B·4B·9B 모델을 제공하며 누적 별 2.6k, 포크 132개입니다.\n\nhttps://github.com/jaredpalmer/kev",
+   "text": "보안 검사는 코드만 고정한다고 재현되지 않습니다. 검사기가 어디서 실행되는지도 빌드의 일부가 됐습니다.\n\nhttps://github.blog/changelog/2026-09-22-deprecation-notice-all-platform-codeql-bundle/",
    "likes": 0,
-   "cmts": 1,
-   "time": 1790121653,
+   "cmts": 0,
+   "time": 1790123135,
    "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/Ddm-UTok8go",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "🚨 와 진짜 미친 하루다.. 앤트로픽도 Claude Opus 5.5를 공개했습니다.\n\n대부분의 작업에서 Fable 5.1 수준이라면서 가격은 100만 토큰당 입력 4달러, 출력 20달러로 Fable의 40%입니다.\n\nFable 보다 뛰어난 Opus 5.5.. 이번 발표를 정리했습니다 🧵",
-   "likes": 87,
-   "cmts": 13,
-   "time": 1790119974,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/820479697_2210831812826783_6615963220984521281_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk5MjEzMDE0NzcyMjY3MTc4NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=im3Xt9-Dyr8Q7kNvwFkv8bg&_nc_oc=AdqVqsm1Ro7p5flWdrEXGG8j1O6QDhBOf9rx624C3V7_ATpKahHZgsJq5-qrZ9aQDLs&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=bKH_Ae3o6VbKqMXTD1ECqA&_nc_ss=7a22e&oh=00_AQJwGk9b2P--citfGSuG96akzpRZPvp6H0nEZ1sxjCvS2w&oe=6AB8E722",
-   "url": "https://www.threads.com/@choi.openai/post/Ddm5TfYIzao",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdnBJOIkyyc",
    "region": "kr"
   },
   {
@@ -190,28 +200,18 @@
    "likes": 0,
    "cmts": 8,
    "time": 1790122901,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/819616185_18089156423407306_6725871763189608087_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk5MjE2MjYzODMzNjM0MzUyMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=hZ1ySil-sCMQ7kNvwFtV83d&_nc_oc=AdrIxFbE1jwvtAJraKMsb4HTbEkLsD0qjgiqicuFyOAb9BH1NYi8yvJCoaqyBeovfuQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=PyzdhcyGJFXteOPDlag_WA&_nc_ss=7a22e&oh=00_AQLd28lM4h_WF8AXDeqbbNn4CV3j3sR3juw4MJGcEsAdEA&oe=6AB8E87B",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/819616185_18089156423407306_6725871763189608087_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk5MjE2MjYzODMzNjM0MzUyMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=hZ1ySil-sCMQ7kNvwFH7gZE&_nc_oc=AdrQlrkHfsfXDG1A8fwF8F_VGrFyLsSDk8f7MdrKxgvFmi_s_YM1myRp6RcYcF00A_dzz4nITZLsL8XoJCh3C0db&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=RQMhc17ztotbkUupP9a6uw&_nc_ss=7a22e&oh=00_AQKpTD6mYFkrCCTq7_BhJkLdLZlhDmUvcvFTu91T33G-Ug&oe=6AB8E87B",
    "url": "https://www.threads.com/@aipeekme/post/DdnAsSnn73h",
    "region": "kr"
   },
   {
-   "account": "daily_ai_star",
-   "text": "1/ NandhaKishorM/laya — 하루 +4,256⭐\n\n텍스트를 길게 생성하지 않고, 문서·티켓·JSON을 한 번 읽은 뒤 선택·점수·참거짓 확률을 반환하는 결정 엔진입니다.\n\n라우터가 입력에 맞는 체크포인트를 고르고, 단일 forward pass로 답을 냅니다. 누적 별 9.8k, 포크 808개입니다.\n\nhttps://github.com/NandhaKishorM/laya",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1790121641,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/Ddm-S5Uk0n5",
-   "region": "kr"
-  },
-  {
    "account": "choi.openai",
-   "text": "3/ 가격 다음으로 오픈AI가 앞에 내세운 결과는 업무 자동화 평가입니다.\n\nAutomationBench는 영업, 재무, 인사 업무를 47개 도구로 끝까지 해내는지 보는 평가인데요. GPT-6 Sol은 xhigh 설정에서 33.2%를 과제당 0.27달러에 냈습니다.\n\nOpus 5의 최고 설정 26.9%보다 높으면서 비용은 9%이고, Astra의 낮은 설정 30.3%도 4분의 1 비용으로 넘었습니다.\n\nFable 5.1은 31.4%인데, 표시된 비용은 과제의 약 40%에서 Opus 5로 넘긴 작업의 비용이 빠진 수치입니다.\n\nLuna도 5.4%p 오르며 비용은 58% 줄었습니다.\n\n55개 산업의 장시간 업무를 재는 Agents' Last Exam에서는 Sol이 최대 설정 56.4%로 Opus 5의 최고 점수를 60% 낮은 비용으로 넘었습니다.\n\n비교 대상은 다 Opus 5인데, 같은 날 나온 Opus 5.5는 앤트로픽 발표 기준 40.0%로 Astra의 41.4%에 가깝습니다.",
-   "likes": 4,
+   "text": "3/ 독립 평가기관 Artificial Analysis의 결과도 같은 방향입니다.\n10개 평가를 합친 Intelligence Index에서 Opus 5.5는 max 강도로 58점을 받았습니다.\n\n직전 1위였던 Fable 5.1과 GPT-6 Astra가 53점, Opus 5가 51점이니 5점을 한 번에 벌렸습니다. 10개 중 6개에서 1위인데요.\n\nHumanity's Last Exam은 61.4%로 Fable 5.1의 59.1%를 넘었고, 지식 노동 평가인 AA-Briefcase는 1822 Elo로 Fable보다 143점 높습니다.\n\n반대로 물리 연구 문제 CritPt, 긴 문맥 추론 AA-LCR, PDF 문서 처리 GDP.pdf에서는 조금 뒤졌습니다.",
+   "likes": 3,
    "cmts": 1,
-   "time": 1790119426,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/794414088_17988335331112832_1767080073321806118_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk5MjEzMjY2Mzc1Nzc2OTkzMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA2OS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=XthJsKfj8UQQ7kNvwHp-XsF&_nc_oc=AdqaSQn-1o8X9yP-9Wb67vqMl_u6ZKWWLvBNUGg3ZfdpG4vrltRgx_BlqoZ_xiSdEQ8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=bKH_Ae3o6VbKqMXTD1ECqA&_nc_ss=7a22e&oh=00_AQKgjQJWqC-b8yPqh7IGaidPGeESIvZb0UpORrQnpIk6Qw&oe=6AB8F39D",
-   "url": "https://www.threads.com/@choi.openai/post/Ddm6FArD2V_",
+   "time": 1790119993,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/819728283_17988336090112832_3066558623942401301_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk5MjEzODMwNjYzMjU0Nzc0Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTU2OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=S4xnRNXqeGkQ7kNvwGNjPnW&_nc_oc=Adq1XENdwippoIwWCQbq9rCOfGYCzJGPgKHOc9um6aGR8swsYIzsW6fJckAMNARfrP7_ircLkRbFSV46nlAd-YVt&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=CqJ-4X26_pCR7XzU1zvxeg&_nc_ss=7a22e&oh=00_AQJTm6KKVhB8UVdaf4CHNlv2KBG2Bqc-sUpc9-Nq7c5raQ&oe=6AB8FF90",
+   "url": "https://www.threads.com/@choi.openai/post/Ddm7KN9D_2j",
    "region": "kr"
   }
  ],
@@ -222,7 +222,7 @@
    "views": 636500,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0CGAI6ooFCAPECAEqED63ffIARmgNxjBUg0zR~tplv-tiktokx-origin.image?dr=14575&x-expires=1790294400&x-signature=bEFDX3qO%2B7WX6YVV8RenpaN21Fg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0CGAI6ooFCAPECAEqED63ffIARmgNxjBUg0zR~tplv-tiktokx-origin.image?dr=14575&x-expires=1790298000&x-signature=6EuK8uNffaczJiF0XpPRdPEzAGY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1788879730,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7683179938026900754",
    "region": "kr"
@@ -230,10 +230,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Саламатсызбы, Кыргызстан! 🇰🇷🇰🇬 #키르기스스탄 #Kyrgyzstan #кыргызстан",
-   "views": 489600,
+   "views": 489700,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ossWcFAWqdBeFM1UB9FEguDtEqARxSGQQyfuUi~tplv-tiktokx-origin.image?dr=14575&x-expires=1790294400&x-signature=CZ05zGCLSqu7oYPuHeX6i%2FS9tu8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ossWcFAWqdBeFM1UB9FEguDtEqARxSGQQyfuUi~tplv-tiktokx-origin.image?dr=14575&x-expires=1790298000&x-signature=52LBnlTiEzebzA1KKy%2FmYx1mtN0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789537496,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7686005021397273863",
    "region": "kr"
@@ -241,10 +241,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Ассалому алайкум, Тоҷикистон! 🇰🇷🇹🇯 #타지키스탄#Тоҷикистон",
-   "views": 252800,
+   "views": 252900,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/okxPtEHAgIY0AAlC9gAoxAMiBqToaAKBiFulq~tplv-tiktokx-origin.image?dr=14575&x-expires=1790294400&x-signature=V5vDqVsknBnLU5QV4QQNVxq9TH8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okxPtEHAgIY0AAlC9gAoxAMiBqToaAKBiFulq~tplv-tiktokx-origin.image?dr=14575&x-expires=1790298000&x-signature=KFBToPKS5e25Jfh2HvWgSXiI1aM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789536283,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685999812356934930",
    "region": "kr"
@@ -255,7 +255,7 @@
    "views": 213500,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4iB0bDrFU5kqzoDSRupABvEWftIIUEfgqMaiE~tplv-tiktokx-origin.image?dr=14575&x-expires=1790294400&x-signature=TBQtiEDsu%2BTo%2BCnmt3D%2B0hZEUTc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4iB0bDrFU5kqzoDSRupABvEWftIIUEfgqMaiE~tplv-tiktokx-origin.image?dr=14575&x-expires=1790298000&x-signature=UEVkXsIaTS8GdGqwn6kvxl2rJuI%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789447594,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685618898128915730",
    "region": "kr"
@@ -266,7 +266,7 @@
    "views": 65100,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAUOEAPEroYfNoFaeAAfZQATIAiVPvDB5WhDFE~tplv-tiktokx-origin.image?dr=14575&x-expires=1790294400&x-signature=pGbFkGL5deWJ%2FmAT%2BROyrONM6%2Fs%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAUOEAPEroYfNoFaeAAfZQATIAiVPvDB5WhDFE~tplv-tiktokx-origin.image?dr=14575&x-expires=1790298000&x-signature=7qKDzp%2BhdEUGsS9plFDzjrWT5qo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789393470,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685386435158887688",
    "region": "kr"
@@ -277,7 +277,7 @@
    "views": 47200,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oMMIdnnHDI6bTifTAPFDcDRbtBfWqzBIEDgvEo~tplv-tiktokx-origin.image?dr=14575&x-expires=1790294400&x-signature=YDYoiaXKCf0rKYzXI3I1dKOr1hw%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oMMIdnnHDI6bTifTAPFDcDRbtBfWqzBIEDgvEo~tplv-tiktokx-origin.image?dr=14575&x-expires=1790298000&x-signature=RGpOWf9Q8pDKeGukovyUTG%2FKjEA%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789031851,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7683833293816614151",
    "region": "kr"
@@ -288,7 +288,7 @@
    "views": 41200,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4AeKl0yGICLqpfFAVLAoFr7LEeoVADEIKAdEU~tplv-tiktokx-origin.image?dr=14575&x-expires=1790294400&x-signature=XWRkQq95RI2QFoE5U8a%2FkHfl%2FzE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4AeKl0yGICLqpfFAVLAoFr7LEeoVADEIKAdEU~tplv-tiktokx-origin.image?dr=14575&x-expires=1790298000&x-signature=qKp6Tm5taogrOANorTGKXeIme%2BI%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789473921,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685731970453638407",
    "region": "kr"
@@ -296,10 +296,10 @@
   {
    "account": "jaemyung_lee",
    "title": "미국 뉴욕타임즈와 인터뷰를 가졌습니다. Urging Pivot on North Korea, South’s Leader Calls for Easing Sanctions https://blog.naver.com/jaem",
-   "views": 33600,
+   "views": 34000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIBVEyCAEfPFpCCAvAhEZlCAjHXfDDAjIf8IR4~tplv-tiktokx-origin.image?dr=14575&x-expires=1790294400&x-signature=XoOXfujHl3SQ%2F%2FI6lSM7E3Or4kI%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIBVEyCAEfPFpCCAvAhEZlCAjHXfDDAjIf8IR4~tplv-tiktokx-origin.image?dr=14575&x-expires=1790298000&x-signature=CeqaQsDYtxPHH3Bg%2FqRErc87tqk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1790052600,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7688217377795788039",
    "region": "kr"
@@ -307,10 +307,10 @@
   {
    "account": "jaemyung_lee",
    "title": "<초국가범죄, 반드시 뿌리 뽑겠습니다> ‘외국에 있으면 안 잡히겠지?’  그런 생각은 이제 버리십시오. 대한민국 국민을 상대로 한 범죄는 세계 어느 곳에 숨어 있든, 끝까지 추적해 처벌합니다. 대규모 보이스피싱 조직",
-   "views": 31800,
+   "views": 31900,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oU9rIZjq1EKACAAxNBVioCpiI2BAtmA28wfcPR~tplv-tiktokx-origin.image?dr=14575&x-expires=1790294400&x-signature=rp%2BrUIpkyds2JF%2F3x2i8IXiZI0o%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oU9rIZjq1EKACAAxNBVioCpiI2BAtmA28wfcPR~tplv-tiktokx-origin.image?dr=14575&x-expires=1790298000&x-signature=IzLa3kQbgYHexjWR4TF8OjpuaMk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789605105,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7686295400835239175",
    "region": "kr"
@@ -321,7 +321,7 @@
    "views": 18100,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o8hqfADsO8SBzFR3qsnOMDUEgQTwBkvQerxPE0~tplv-tiktokx-origin.image?dr=14575&x-expires=1790294400&x-signature=zAgnU%2FhctGlP6prou48i%2FpJIOeA%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o8hqfADsO8SBzFR3qsnOMDUEgQTwBkvQerxPE0~tplv-tiktokx-origin.image?dr=14575&x-expires=1790298000&x-signature=WRHBQ0NAO%2BSJxxWR9ZuHxrIVi2E%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789981488,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7687911952084978951",
    "region": "kr"
@@ -329,10 +329,10 @@
   {
    "account": "tictok_ent",
    "title": "올데이프로젝트(ALLDAY PROJECT) 애니, 가을 여신의 완성 / ‘클리오 - 풍년다방 팝업 스토어’ 포토월 클리오의 K뷰티 No.1 메이크업 브랜드 클리오가 26FW 시즌을 맞아 풍년다방 에디션을 새롭게 출시",
-   "views": 9248,
+   "views": 9307,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooyVfsECyAObdyUAC9AHMGgEDfAwFBAocCAqjI~tplv-tiktokx-origin.image?dr=14575&x-expires=1790294400&x-signature=VyWODTGqtKfW7fxgEp6aTbppbNg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooyVfsECyAObdyUAC9AHMGgEDfAwFBAocCAqjI~tplv-tiktokx-origin.image?dr=14575&x-expires=1790298000&x-signature=Pv6RSikHx2USC48JczDdhrwAutk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1790062603,
    "url": "https://www.tiktok.com/@tictok_ent/video/7688260337883270407",
    "region": "kr"
@@ -340,25 +340,16 @@
   {
    "account": "tictok_ent",
    "title": "수지, 시민들의 욕을 부르는 미모 / 아누아(Anua) 포토월 더파운더즈의 글로벌 뷰티 브랜드 아누아(Anua)의 'PDRN 라인 팝업스토어' 오픈을 기념하는 포토행사가 18일 오전 서울 성동구 성수동에 위치한 올리",
-   "views": 6970,
+   "views": 7000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ow8gANS3AmQCK2UqVEUCB50sGEQeIAFZAFArfD~tplv-tiktokx-origin.image?dr=14575&x-expires=1790294400&x-signature=xtKyG4lrP%2BMjpqI0s2uCkC2FjHQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ow8gANS3AmQCK2UqVEUCB50sGEQeIAFZAFArfD~tplv-tiktokx-origin.image?dr=14575&x-expires=1790298000&x-signature=8eoCvI2kOfVNnp65bDG8RenN9JQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789699186,
    "url": "https://www.tiktok.com/@tictok_ent/video/7686699475406015762",
    "region": "kr"
   }
  ],
  "reddit": [
-  {
-   "sub": "MadeMeSmile",
-   "title": "Rosemary Harris (Aunt May in the original Spider-Man movies) celebrates her 99th birthday",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/7k6iimtvx4rh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=7061d16bb833d6f1dfc5e182d47a5080937e0903",
-   "time": 1790110601,
-   "url": "https://www.reddit.com/r/MadeMeSmile/comments/1wnlrpz/rosemary_harris_aunt_may_in_the_original/"
-  },
   {
    "sub": "AskReddit",
    "title": "Which YouTuber that you used to watch all the time slowly started becoming unwatchable?",
@@ -369,6 +360,33 @@
    "url": "https://www.reddit.com/r/AskReddit/comments/1wnchjw/which_youtuber_that_you_used_to_watch_all_the/"
   },
   {
+   "sub": "MadeMeSmile",
+   "title": "Rosemary Harris (Aunt May in the original Spider-Man movies) celebrates her 99th birthday",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/7k6iimtvx4rh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=7061d16bb833d6f1dfc5e182d47a5080937e0903",
+   "time": 1790110601,
+   "url": "https://www.reddit.com/r/MadeMeSmile/comments/1wnlrpz/rosemary_harris_aunt_may_in_the_original/"
+  },
+  {
+   "sub": "classicwow",
+   "title": "Unsure what class to main for Forever? Allow me to pick it for you from my magical Taco Bell Sorting Hat",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/vz95sui7c5rh1.jpeg?width=640&crop=smart&auto=webp&s=a660184d417393222e718a4ffb0d6c7b123c0c74",
+   "time": 1790115420,
+   "url": "https://www.reddit.com/r/classicwow/comments/1wnnteg/unsure_what_class_to_main_for_forever_allow_me_to/"
+  },
+  {
+   "sub": "MurderedByWords",
+   "title": "An absolute outrage",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/1sd164sdk5rh1.jpeg?width=640&crop=smart&auto=webp&s=9754deeb9a1f0b11fd9f45625ab95c3c3bd52820",
+   "time": 1790118167,
+   "url": "https://www.reddit.com/r/MurderedByWords/comments/1wnowzd/an_absolute_outrage/"
+  },
+  {
    "sub": "pics",
    "title": "(OC) Last year, my mom Linda reading comments after going viral on Reddit. Today she’s in remission!",
    "score": 0,
@@ -376,15 +394,6 @@
    "thumb": "https://preview.redd.it/q91pmpa834rh1.jpg?width=140&height=122&auto=webp&s=571e4920f2f28c09dc1df5ec711b8194900a6f24",
    "time": 1790100291,
    "url": "https://www.reddit.com/r/pics/comments/1wngzrj/oc_last_year_my_mom_linda_reading_comments_after/"
-  },
-  {
-   "sub": "WorkReform",
-   "title": "Wow you guys, communist sharia law fucking rules",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/z0ufbzhdo4rh1.png?width=640&crop=smart&auto=webp&s=529f7285c5bd44cf753869729927dc9dce9b8c59",
-   "time": 1790107451,
-   "url": "https://www.reddit.com/r/WorkReform/comments/1wnkbxc/wow_you_guys_communist_sharia_law_fucking_rules/"
   },
   {
    "sub": "TikTokCringe",
@@ -405,15 +414,6 @@
    "url": "https://www.reddit.com/r/formula1/comments/1wnc4cu/mclaren_unveils_a_new_logo_across_its_automotive/"
   },
   {
-   "sub": "comics",
-   "title": "\"Job Security\"",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/srub3asj74rh1.png?width=640&crop=smart&auto=webp&s=baaed1f676175f38d41b5c92bbe553844f212d5e",
-   "time": 1790101967,
-   "url": "https://www.reddit.com/r/comics/comments/1wnhrf0/job_security/"
-  },
-  {
    "sub": "dashcams",
    "title": "Despite popular belief, when you’re in the left turn lane, you’re supposed to commit to turning left.",
    "score": 0,
@@ -421,15 +421,6 @@
    "thumb": "https://external-preview.redd.it/dTB0djJlZTE1M3JoMUEtGiTxVheaaVq1Lk9PxSXaqYrvOt0-EqSqTz3JBy9P.jpeg?width=640&crop=smart&auto=webp&s=a99379318c840b38dc0a88666742254adb62ce7d",
    "time": 1790088833,
    "url": "https://www.reddit.com/r/dashcams/comments/1wnbpjx/despite_popular_belief_when_youre_in_the_left/"
-  },
-  {
-   "sub": "classicwow",
-   "title": "Unsure what class to main for Forever? Allow me to pick it for you from my magical Taco Bell Sorting Hat",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/vz95sui7c5rh1.jpeg?width=640&crop=smart&auto=webp&s=a660184d417393222e718a4ffb0d6c7b123c0c74",
-   "time": 1790115420,
-   "url": "https://www.reddit.com/r/classicwow/comments/1wnnteg/unsure_what_class_to_main_for_forever_allow_me_to/"
   },
   {
    "sub": "halo",
@@ -441,6 +432,15 @@
    "url": "https://www.reddit.com/r/halo/comments/1wnag3z/activision_is_taking_over_halo_as_part_of_a/"
   },
   {
+   "sub": "aww",
+   "title": "Copito when I found her and copito now",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/ydt5fc2835rh1.jpg?width=140&height=140&auto=webp&s=a64c79b266c8f7baa22e86876e11baa580feeff3",
+   "time": 1790112396,
+   "url": "https://www.reddit.com/r/aww/comments/1wnmkb5/copito_when_i_found_her_and_copito_now/"
+  },
+  {
    "sub": "movies",
    "title": "Hayden Panettiere Cause of Death Revealed as Toxic Effects of Fentanyl and More; Death Ruled an Accident",
    "score": 0,
@@ -450,45 +450,27 @@
    "url": "https://www.reddit.com/r/movies/comments/1wnaqs0/hayden_panettiere_cause_of_death_revealed_as/"
   },
   {
-   "sub": "mildlyinfuriating",
-   "title": "Someone is vandalizing the murals that kids painted during a street art event",
+   "sub": "todayilearned",
+   "title": "TIL that scientists reintroduced the Whooping Crane to an extinct migration route by guiding them through the air with an ultralight airplane they imprinted on. The pilot had to wear a crane costume t",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/i021zsgt34rh1.png?width=140&height=52&auto=webp&s=bdc5c764a58dca058f24418a6b1141b9c06577a7",
-   "time": 1790100783,
-   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1wnh7xl/someone_is_vandalizing_the_murals_that_kids/"
-  },
-  {
-   "sub": "worldnews",
-   "title": "/r/WorldNews Live Thread: Russian Invasion of Ukraine Day 1672, Part 1 (Thread #1819)",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "",
-   "time": 1790049773,
-   "url": "https://www.reddit.com/r/worldnews/comments/1wmz110/rworldnews_live_thread_russian_invasion_of/"
-  },
-  {
-   "sub": "worldnews",
-   "title": "Trump says US to keep buying potash from Canada",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "",
-   "time": 1790110990,
-   "url": "https://www.reddit.com/r/worldnews/comments/1wnly6t/trump_says_us_to_keep_buying_potash_from_canada/"
-  },
-  {
-   "sub": "worldnews",
-   "title": "Trump stared down as he threatens to 'drive Iran into hell with no chance of survival’",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/AVW6gNWERlzbyaA68tukzyGSq-3bQPNvjzKHPMrXwMg.jpeg?width=640&crop=smart&auto=webp&s=d616c48717610c2884511e9be2b1756a8bcc8508",
-   "time": 1790093283,
-   "url": "https://www.reddit.com/r/worldnews/comments/1wndq30/trump_stared_down_as_he_threatens_to_drive_iran/"
+   "thumb": "https://external-preview.redd.it/CjtNZ1iss4WDaz_2JgzSwPTg5DJVvJ0VKlPaQLanor0.jpeg?width=640&crop=smart&auto=webp&s=43694e65d1efeb2c3a3f6c75edc60c3cfa379127",
+   "time": 1790114401,
+   "url": "https://www.reddit.com/r/todayilearned/comments/1wnne9o/til_that_scientists_reintroduced_the_whooping/"
   }
  ],
  "disaster": [],
  "_cover": {
   "ok": {
+   "x": [
+    "64bitcoinkr",
+    "economysniper0",
+    "freedom_73x",
+    "globalbrief_now",
+    "jajaja7878uu",
+    "kyunghyang",
+    "marionawfal"
+   ],
    "threads": [
     "aicoffeechat",
     "aipeekme",
@@ -503,12 +485,16 @@
     "tictok_ent"
    ]
   },
-  "why": {},
+  "why": {
+   "x": {
+    "awaken_eyes": "err"
+   }
+  },
   "landing": {
-   "at": "2026-09-23T09:01:56",
+   "at": "2026-09-23T09:32:07",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-09-23T09:32:04.888161+09:00"
+ "updated": "2026-09-23T10:05:16.138141+09:00"
 }
