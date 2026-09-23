@@ -145,6 +145,15 @@ class ToCandidatesSoloTest(unittest.TestCase):
         out = self.run_tc([art("m", "총격", cross=3, pub_h=0.7, members=["a", "m", "z"])], [a, z])
         self.assertEqual(out["m"]["event_key"], "z")
 
+    def test_solo_protected_seats_are_capped(self):
+        # 평의회6: CAP 상시 포화 → 1군 단독 = 2군 1건 밀어냄. 좌석 상한 넘는 단독은 꼬리로 가서 먼저 잘린다
+        old = [{"id": f"o{i}", "url": f"o{i}", "title": f"기사{i}", "cross": 2, "published": _iso(20), "first_seen": _kst(20),
+                "last_report": _kst(1), "cluster_members": [f"o{i}", f"p{i}"], "arts": 2} for i in range(3)]
+        solos = [art(f"s{i}", f"[속보] 서로 다른 사건 {i}호 발생", pub_h=0.1 * (i + 1)) for i in range(3)]
+        out = self.run_tc(solos, old, env={"CAND_SOLO_T1_MAX": "1", "CAND_CAP": "4"})
+        self.assertEqual(sum(1 for u in out if u.startswith("s")), 1)   # 1석만 보호 · 나머지 단독은 컷
+        self.assertEqual(sum(1 for u in out if u.startswith("o")), 3)   # 다매체 후보는 안 밀려남
+
     def test_far_future_publish_not_admitted(self):
         self.assertEqual(self.run_tc([art("u1", "[속보] 쓰레기 시각", pub_h=-48)]), {})
 

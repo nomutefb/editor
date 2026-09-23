@@ -42,6 +42,9 @@ SOLO_MAX_H = float(os.environ.get("CAND_SOLO_MAX_H", "6"))
 # 경중 채점까지 받은 단독은 배지 소멸선(24h = 뷰어 BADGE_MAX_AGE_H)까지 보존 — 먼저 지우면 피드 빌드가 원장에서 못 찾아 제목 [속보]만 보고
 #   ⚡이슈를 거꾸로 켠다(평의회4 재현 · build-viewer feedBrk). 미채점은 SOLO_MAX_H 에 정리.
 SOLO_JUDGED_H = float(os.environ.get("CAND_SOLO_JUDGED_H", "24"))
+# CAP 1군(컷 면제) 좌석 상한 — candidates.json 은 CAP·바이트 예산이 상시 포화라 1군 단독 1건 = 2군(오래된 저cross) 1건 밀어냄(평의회6 실측 1:1).
+#   1군 자격 = 미채점 SOLO_MAX_H · 채점·긴급 SOLO_JUDGED_H 안 + 최근 본 순 SOLO_T1_MAX 건까지. 넘치면 2군(cross 1 = 꼬리 = 먼저 잘림).
+SOLO_T1_MAX = int(os.environ.get("CAND_SOLO_T1_MAX", "12"))
 MEGA_MEMBERS = int(os.environ.get("BREAKING_MEGA_MEMBERS", "40"))    # 멤버 이상 = over-merge 의심 → 속보 제외
 MEGA_CROSS = int(os.environ.get("BREAKING_MEGA_CROSS", "18"))        # 누적 매체 이상 = over-merge 의심 → 속보 제외
 # grade3(대형 경중) 신선건 속보후보 승격 — burst<3 저속 새사고(어린이집 황화수소 등) 구제. 첫등장 N시간 내만.
@@ -532,7 +535,18 @@ def main():
                 continue
         return None
 
+    solo_t1 = []
+    for c in kept:
+        if is_solo(c):
+            sa = _solo_age_h(c.get("published"), c.get("first_seen"), now)
+            lim = SOLO_JUDGED_H if (_urgent(c) or c.get("grade") is not None) else SOLO_MAX_H
+            if sa is not None and sa < lim:
+                solo_t1.append((str(c.get("first_seen") or ""), c.get("url")))
+    solo_t1 = {u for _, u in sorted(solo_t1, reverse=True)[:SOLO_T1_MAX]}
+
     def fresh_tier(c):   # CAP 컷 1군(=1) = 발행 FRESH_KEEP_H 내 신선건 + 확정 긴급 — cross 낮아도(2~5) 컷 면제해 '신규<4h' 레인 공급 보장(260716 아사 봉합: CAP 800 상시포화 + cross 단독컷 = 하한 6 → 신규 즉시 탈락이던 회귀). 기준 = published(뷰어 scTs 동축) → first_seen 순차 폴백.
+        if is_solo(c):          # 단독 1보 = 좌석 상한 안에서만 1군(위 SOLO_T1_MAX · 평의회6)
+            return 1 if c.get("url") in solo_t1 else 0
         if c.get("breaking"):   # 확정 긴급(AI 도장)은 cross<8·비신선이어도 CAP 컷 면제 — "긴급이었던 건 누적 합류 보장"(운영자 260617 기틀)이 TTL 경로(325행)에만 있고 CAP 경로에 없던 구멍 봉합(평의회3 · 현존 4건 = 슬롯 비용 ≈0).
             return 1
         age = _age_h_first(c.get("published"), c.get("first_seen"))
@@ -559,7 +573,7 @@ def main():
     with os.fdopen(_fd, "w", encoding="utf-8") as _f:
         _f.write(blob)   # 위 바이트 예산 루프가 실측한 직렬화 그대로(재직렬화 = 예산 검증 무효화 금지)
     os.replace(_tmp, DST)
-    t1 = [c for c in kept if fresh_tier(c)]   # 1군 발효 계기판(평의회7): 신선 1군 건수·최소 cross — 아사 봉합 발효(min<5)와 침묵 회귀(env 오버라이드)를 원장 로그에서 즉시 감지.
+    t1 = [c for c in kept if fresh_tier(c) and not is_solo(c)]   # 단독 제외(cross 1 이 늘 최소값을 가려 계기판 무력화 · 평의회6) · 1군 발효 계기판(평의회7): 신선 1군 건수·최소 cross — 아사 봉합 발효(min<5)와 침묵 회귀(env 오버라이드)를 원장 로그에서 즉시 감지.
     t1min = min(((c.get("cross") or 0) for c in t1), default=0)
     print(f"수집함: 사건 {len(kept)}건 (신규 {len(fresh)} · 기존 {len(existing)}) · "
           f"보관한도 {CAP} · 보관기간 {TTL_HOURS}h(약 {TTL_HOURS // 24}일) · 교차≥{MIN_CROSS} · "
