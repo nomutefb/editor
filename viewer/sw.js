@@ -209,7 +209,8 @@ self.addEventListener('pushsubscriptionchange', event => {
   event.waitUntil((async () => {
     try {
       const sub = await self.registration.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: b64ToU8(VAPID_PUB) });
-      await fetch('api/push', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ action: 'subscribe', subscription: sub.toJSON() }) });
+      const r = await fetch('api/push', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ action: 'subscribe', subscription: sub.toJSON() }) }).catch(() => null);
+      if (!r || !r.ok) { await sub.unsubscribe().catch(() => {}); return; }   // 서버 무등록 구독을 남기면 pushHeal이 「살아있음」으로 오판 = 알림 영구 무착(260923 · 앱 닫힘 중 발화 = Access 만료 확률 최고) → 지워야 다음 진입 heal이 재구독
       const old = event.oldSubscription;   // 옛 endpoint = 서버에서 정리(죽은 구독 잔존 방지 · 미지원 브라우저면 undefined = 스킵)
       if (old) await fetch('api/push', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ action: 'unsubscribe', subscription: old.toJSON() }) }).catch(() => {});
     } catch (e) { /* 재구독 실패(권한 회수 등) = 다음 앱 진입 시 pushHeal이 재시도 */ }

@@ -146,6 +146,8 @@ PY
       elif [ "$drc" -eq 9 ]; then
         S3 -X DELETE "$B/$K" >/dev/null 2>&1
         echo "[job] $(date '+%H:%M:%S') thumb 구식 잡 → 함수 재접수(새 형식 큐로)"
+      elif [ "$drc" -eq 7 ]; then
+        echo "[job] $(date '+%H:%M:%S') thumb 재접수 실패 — 큐 보존(다음 틱 재시도)"
       else
         S3 -X PUT "$B/queue/failed/$(basename "$K")" --data-binary "@$J" >/dev/null 2>&1; S3 -X DELETE "$B/$K" >/dev/null 2>&1
         echo "[job] $(date '+%H:%M:%S') thumb 실패 — failed/ 이동"

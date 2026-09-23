@@ -27,8 +27,13 @@ PY
 eval "$PREP"
 if [ "${MODE:-}" = repost ]; then
   # 260816 계정 이관 잔재 봉합: 옛 화면 apps.nomute.kr 은 옛 계정 배포 = 재접수 잡이 옛 저장소로 새서 이 레인에 영영 안 돌아온다(레버 = LIVE_BASE · live-smoke.yml 문법 사본)
-  curl -s --max-time 40 -X POST "${LIVE_BASE:-https://edit.nomute.kr}/api/edit" -H 'Content-Type: application/json' --data @/tmp/edit_repost.json >/dev/null 2>&1
-  exit 9
+  AH=(); [ -n "${CF_ACCESS_CLIENT_ID:-}" ] && [ -n "${CF_ACCESS_CLIENT_SECRET:-}" ] && AH=(-H "CF-Access-Client-Id: $CF_ACCESS_CLIENT_ID" -H "CF-Access-Client-Secret: $CF_ACCESS_CLIENT_SECRET")
+  # 260923: 화면 전체가 Access 벽 뒤 — 토큰 없으면 302(로그인)인데 curl은 rc0 → 구판은 무조건 exit 9 = 워커가 큐에서 삭제 = 잡 무음 유실.
+  #   이제 2xx만 재접수 성공(9) · 그 외(302 벽·4xx·5xx·회선 000) = 7(큐 보존 · 다음 틱 재시도) · 토큰 = 맥 ~/nomute-action/환경변수.txt
+  code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 40 ${AH[@]+"${AH[@]}"} -X POST "${LIVE_BASE:-https://edit.nomute.kr}/api/edit" -H 'Content-Type: application/json' --data @/tmp/edit_repost.json 2>/dev/null)
+  case "$code" in 2??) exit 9;; esac
+  echo "재접수 실패 HTTP ${code:-000}(302 = Access 벽 · 서비스 토큰 확인) — 큐 보존"
+  exit 7
 fi
 
 # ── env 준비(워크플로 job/step env 동형) ────────────────────────────────

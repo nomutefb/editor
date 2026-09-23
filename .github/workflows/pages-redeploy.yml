@@ -53,9 +53,15 @@ jobs:
           fi
 
       - name: 라이브 도장 수렴 관측(최대 12분)
+        env:                   # 260923: pages.dev = 정본 301 → Access 벽(로그인 화면) = 도장 영영 공란 → 12분 헛대기 뒤 「빌드 Cancel 후 Retry」 오진 → 정본 + 서비스 토큰
+          CF_ACCESS_CLIENT_ID: ${{ secrets.CF_ACCESS_CLIENT_ID }}
+          CF_ACCESS_CLIENT_SECRET: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}
         run: |
-          stamp() { curl -fsSL -m 20 "https://editor-6dw.pages.dev/?p=$RANDOM" 2>/dev/null | grep -o "BUILD_STAMP = '[^']*'" | head -1 | sed "s/BUILD_STAMP = '//;s/'$//"; }
+          AH=(); [ -n "$CF_ACCESS_CLIENT_ID" ] && [ -n "$CF_ACCESS_CLIENT_SECRET" ] && AH=(-H "CF-Access-Client-Id: $CF_ACCESS_CLIENT_ID" -H "CF-Access-Client-Secret: $CF_ACCESS_CLIENT_SECRET")
+          [ ${#AH[@]} -gt 0 ] || { echo "::warning::라이브 도장 관측 생략 — Access 서비스 토큰 미설정(러너는 로그인 화면만 받음 · 비밀값 CF_ACCESS_CLIENT_ID·CF_ACCESS_CLIENT_SECRET 등록 시 자동 복귀) · 재빌드 발사 자체는 위 스텝에서 완료"; exit 0; }
+          stamp() { curl -fsSL -m 20 "${AH[@]}" "${LIVE_BASE:-https://edit.nomute.kr}/?nosw=1&p=$RANDOM" 2>/dev/null | grep -o "BUILD_STAMP = '[^']*'" | head -1 | sed "s/BUILD_STAMP = '//;s/'$//"; }
           BEFORE="$(stamp)"; echo "발사 직전 라이브 도장 = ${BEFORE:-?}"
+          [ -n "$BEFORE" ] || { echo "::warning::라이브 도장 판독 불가(Access 토큰 거부·회선) — 관측 생략(CF 큐 정체로 오진 금지)"; exit 0; }
           for i in $(seq 1 72); do    # 10s×72 = 12분(live-smoke 동값)
             sleep 10
             NOW="$(stamp)"

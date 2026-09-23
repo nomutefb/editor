@@ -115,8 +115,8 @@ async function pushToggle() {
       const perm = await Notification.requestPermission();
       if (perm !== 'granted') { await pushRefresh(); return; }
       const sub = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: b64ToU8(VAPID_PUB) });
-      const r = await fetch('api/push', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ action: 'subscribe', subscription: sub.toJSON(), hint: await nmDevHint() }) });
-      if (!r.ok) { await sub.unsubscribe().catch(() => {}); throw new Error('구독 저장 실패(' + r.status + ')'); }
+      const r = await fetch('api/push', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ action: 'subscribe', subscription: sub.toJSON(), hint: await nmDevHint() }) }).catch(() => null);   // reject(로그인 만료 = Access 302 → CORS·회선) 도 실패 — 260923: 구판은 reject면 기기 구독만 남아 ON 표시 · 서버 무등록 = 알림 영구 무착
+      if (!r || !r.ok) { await sub.unsubscribe().catch(() => {}); throw new Error('구독 저장 실패(' + (r ? r.status : '네트워크·로그인 만료') + ')'); }
       try { localStorage.setItem('nm_push_want', '1'); } catch (e2) {}   // 의도 = ON(구독 증발 시 pushHeal 재구독 기준)
     }
   } catch (e) {
@@ -150,8 +150,8 @@ function pushHeal() {   // 자가치유(운영자 260707 "ON 해놔도 어느 �
       const reg = await navigator.serviceWorker.register('sw.js'); await navigator.serviceWorker.ready;
       if (await reg.pushManager.getSubscription()) { _healCool = Date.now() + 3e3; await pushRefresh(); return; }   // 살아있음 = 표시만 동기화(pushState 일시 null로 OFF 그려진 경우 교정)
       const sub = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: b64ToU8(VAPID_PUB) });
-      const r = await fetch('api/push', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ action: 'subscribe', subscription: sub.toJSON(), hint: await nmDevHint() }) });
-      if (!r.ok) { await sub.unsubscribe().catch(() => {}); _healCool = Date.now() + 60e3; return; }
+      const r = await fetch('api/push', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ action: 'subscribe', subscription: sub.toJSON(), hint: await nmDevHint() }) }).catch(() => null);   // reject도 실패(위 켜기와 동일 · 기기 구독만 남기면 다음 heal이 「살아있음」으로 오판)
+      if (!r || !r.ok) { await sub.unsubscribe().catch(() => {}); _healCool = Date.now() + 60e3; return; }
       _healCool = Date.now() + 3e3;
       await pushRefresh();   // ON 표시 복구
     } catch (e) { _healCool = Date.now() + 60e3; /* 조용 — 쿨다운 후 재시도 */ }
