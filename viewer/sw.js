@@ -12,7 +12,7 @@
 //    fetch(비내비게이션)라 SW 불간섭 = 기사 내용 '항상 최신' 불변.
 // 가드 3중: ⓐ res.type==='basic' && ok && !redirected만 캐시 = Cloudflare Access 로그인/리다이렉트 오염 차단
 //          ⓑ ?nosw=1 = 캐시 전면 우회 탈출구(순수 네트워크)
-//          ⓒ 재검증이 리다이렉트/401·403 감지 시 만료 표식(AUTH_FLAG) 적재 + 클라이언트에 nm-auth-stale 통지 → 페이지가 ?nosw=1 재진입
+//          ⓒ 재검증이 리다이렉트/401·403 감지 시 클라이언트에 nm-auth-stale 통지 → 페이지가 ?nosw=1 재진입
 //             = Access 세션 만료 시 '깨진 앱'에 안 갇히고 로그인 화면으로 자가치유(index 리스너와 한 쌍).
 // 롤백 런북(평의회 4): sw.js *삭제(404) 금지* — 삭제해도 브라우저는 기존 SW를 언레지스터하지 않고 캐시 서빙
 //    계속함. 반드시 '무해화 sw.js 배포'(fetch 핸들러 제거 + activate에서 nm-shell-* *전량* delete)로 되돌릴 것.
@@ -49,12 +49,6 @@ async function selfDestructIfStale() {
 
 const SHELL_CACHE = 'nm-shell-v2';   // v1→v2(260802 2차 재발) — activate 청소가 구 v1(절단 오염 사본 포함)을 전 기기에서 원격 소각
 const SHELL_PATHS = ['/', '/index.html'];   // 캐시 화이트리스트 — 여기 없는 HTML은 SW가 손 안 댐
-// 만료 표식(260923) — nm-auth-stale 통지는 새 문서가 클라이언트로 잡히기 전이면 matchAll에 안 잡혀 유실된다 → PREF_CACHE에 시각을 남겨
-//   index head 가드(viewer-src/01-document.part AUTH_FLAG)가 부팅 때 읽는다 · 라이브 셸 수신 성공·nosw 착지 = 소거(낡은 표식 오발 차단).
-const AUTH_FLAG = '/__nm_auth_stale';
-function authFlag(on) {
-  return caches.open(PREF_CACHE).then(c => on ? c.put(AUTH_FLAG, new Response(String(Date.now()))) : c.delete(AUTH_FLAG)).then(() => {}, () => {});
-}
 
 self.addEventListener('fetch', event => {
   const req = event.request;
@@ -75,7 +69,6 @@ self.addEventListener('fetch', event => {
     if (cachedRaw && !cachedOk) event.waitUntil(cache.delete(key).catch(() => {}));   // 오염 사본 소각(다음 진입 = 순수 네트워크)
     const netP = fetch(req).then(async res => {
       if (res.ok && !res.redirected && res.type === 'basic') {
-        await authFlag(false);   // Access 통과 확인 = 만료 표식 소거
         // ── 절단 검문(260802 '상단만 렌더' 사고) — 라이브 index 응답은 content-length 없는 청크 스트림이라(실측)
         //    전송 중 절단이 '정상 EOF'로 보여 res.ok 그대로다. 잘린 셸을 put하면 SWR이 그걸 매 진입 서빙 = 기기 감금.
         //    본문 꼬리가 </html>인 것만 캐시 자격(아니면 기존 정상 사본 보존·서빙은 그대로 = 페이지 쪽 head 자가치유 가드가 탈출 담당).
@@ -92,8 +85,7 @@ self.addEventListener('fetch', event => {
         return res;
       }
       if (cached && (res.redirected || res.type === 'opaqueredirect' || res.status === 401 || res.status === 403)) {
-        // Access 세션 만료 추정 — 캐시는 안 덮고(로그인 페이지 오염 방지) 표식 적재 후 열린 페이지에 통지(표식 = 통지 유실 창 백스톱)
-        await authFlag(true);
+        // Access 세션 만료 추정 — 캐시는 안 덮고(로그인 페이지 오염 방지) 열린 페이지에 통지
         self.clients.matchAll({ type: 'window' }).then(list => list.forEach(c => c.postMessage({ type: 'nm-auth-stale' })));
       }
       return res;

@@ -8,7 +8,7 @@
 //   ③ 신규 배포 자동 탑재 — 자기 문서 HEAD의 ETag/Last-Modified를 부팅값과 대조, 달라졌으면(=이 툴 파일이 재배포됨) 한가할 때 location.reload().
 //      한가 판정 = 입력 포커스 없음 + window.nmSyncBusy?.() 아님(페이지별 훅 · thumb = 진행 중 잡). 바쁘면 다음 복귀로 이월(강제 이탈 0).
 //      → 운영자 질문 "이게 되면 신규 개발분 반영(수동 재열기)도 없어도 되는가?" = 예(스튜디오 툴 한정 · index 셸은 기존 SW 토스트 계약 유지).
-// 부하 = 복귀당 정적 요청 2건(manifest 프로브 + 자기 HEAD · 합계 수 KB)뿐 · 5s 코얼레싱 가드로 vis/focus/pageshow 연타 흡수 = 비활성화 타이밍 조정 불요.
+// 부하 = 복귀당 정적 요청 2건(/nm-sync.js 프로브 + 자기 HEAD · 합계 수 KB)뿐 · 5s 코얼레싱 가드로 vis/focus/pageshow 연타 흡수 = 비활성화 타이밍 조정 불요.
 // 가드 3중: 열림·복귀 15s 창(입력 중 강제 이탈 방지) · sessionStorage 3분(재진입 루프 차단) · 리로드는 버전 실변경+한가 시만.
 (function () {
   'use strict';

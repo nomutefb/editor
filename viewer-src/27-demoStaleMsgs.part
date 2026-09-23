@@ -130,7 +130,7 @@ async function loadMessages() {
     const cut = Date.now() - 24 * 3600e3;   // 24h 지난 항목 숨김(운영자 260623 · 파일 정리는 msg.py prune·표시는 여기서 즉시)
     MSGS = MSGS.filter(m => m && (m.t == null || m.t >= cut));
   } catch (e) {
-    if (e instanceof TypeError) nmAuthNote();   // fetch reject(만료 302→CORS·회선) = 직전 목록 유지(경고 숨김 차단 · load() last-good 동축) + 원인 판별
+    if (e instanceof TypeError) { const cut = Date.now() - 24 * 3600e3; MSGS = MSGS.filter(m => m && (m.t == null || m.t >= cut)); nmAuthNote(); }   // fetch reject(만료 302→CORS·회선) = 직전 목록 유지(경고 숨김 차단 · load() last-good 동축 · 24h 컷은 계속) + 원인 판별
     else MSGS = [];   // 파일 없음·형식 깨짐 = 조용히 빈 배열(배지·테두리 숨김)
   }
   renderMsgBadge();
@@ -329,7 +329,7 @@ function _rptSrc(m) {
     cmd: 'python3 -c "import json;[print(x[\'kind\'],x[\'time\'],repr(x.get(\'lm\')),x[\'text\'][:40]) for x in json.load(open(\'viewer/sns_trends.json\'))[\'disaster\']]"' };
   if (id.startsWith('sys:quake:')) return { fn: 'viewer/index.html quakeMsgs()', src: 'TRENDS.disaster[] 규모 ≥ quakeMinMag(d) (국내 QUAKE_MIN_KR / 해외 QUAKE_MIN_INTL · 규모 미상 = fail-open)', up: 'scraper/sns_trends.py disaster_label()/disaster_intl() → intl 필드',
     cmd: 'python3 -c "import json;[print(x[\'kind\'],x[\'time\'],x.get(\'intl\'),x[\'title\']) for x in json.load(open(\'viewer/sns_trends.json\'))[\'disaster\'] if x[\'kind\']==\'지진\']"' };
-  // _health 계열은 3종(새버전·갱신실패·맞춤법)이 같은 플래그를 공유 → 플래그별로 갈라야 한다. 뭉치면 "새 버전" 알림에 CAND_LIVE가 찍혀
+  // _health 계열은 4종(새버전·갱신실패·맞춤법·로그인만료)이 같은 플래그를 공유 → 플래그별로 갈라야 한다. 뭉치면 "새 버전" 알림에 CAND_LIVE가 찍혀
   //   세션이 없는 고장(진단 스냅샷 후보라이브=true인데 적재 실패라고 지목)을 쫓는다(실증 260730 리포트 1번 항목).
   // 콘티 영상 실패 = 러너가 발행한다(뷰어 생산 아님). 폴백으로 두면 상류가 scraper/msg.py 로 잘못 찍혀
   //   세션이 진짜 생산자(.github/scripts/grok_sb_video.py notify())를 못 찾는다 — sys:fire: 오귀속과 같은 축.

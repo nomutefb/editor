@@ -22,8 +22,8 @@ function applyMerges(pool) {
   const liveId = new Set(CANDS.map(candId));
   let pruned = false;
   const _prunedKeys = [];
-  for (const a of Object.keys(M)) { if (!liveId.has(a) && !_mems(a).some(m => liveId.has(m))) { delete M[a]; _prunedKeys.push(a); pruned = true; } }
-  if (pruned) saveMerges(M, { del: _prunedKeys });   // GC도 계정 동기 — 전 기기 동일 결정(liveId 기반 결정적이라 어느 기기가 먼저 지워도 같은 결과)
+  if (CAND_LIVE && CANDS.length) for (const a of Object.keys(M)) { if (!liveId.has(a) && !_mems(a).some(m => liveId.has(m))) { delete M[a]; _prunedKeys.push(a); pruned = true; } }   // 라이브 후보에서만 판정(260923 평의회 — 오프라인·만료 부팅의 빈 CANDS·낡은 정적 폴백으로 전 병합을 '죽음' 판정하던 것 차단)
+  if (pruned) saveMerges(M, { del: _prunedKeys }, true);   // GC도 계정 동기 — 전 기기 동일 결정(liveId 기반 결정적이라 어느 기기가 먼저 지워도 같은 결과) · once = 큐 밖 1회 전송
   const byId = new Map(pool.map(c => [candId(c), c]));
   const anchorSet = new Set(Object.keys(M).filter(a => byId.has(a)));   // pool에 실존하는 앵커만 = 앵커 부재면 멤버 안 접음(그룹 통째 실종 방지)
   const memberOf = new Map();   // 멤버 candId → 앵커 candId

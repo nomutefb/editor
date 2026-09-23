@@ -114,6 +114,11 @@ function restoreTool(key) {
 // ── 다중 최소화 레지스트리 + 뉴스요약 최소화 + 선택 picker (운영자 260627) ──────────────────
 // ▲ 복원 버튼은 공유. 최소화된 게 1개면 ▲ 탭=바로 복원 / 2개+면 ▲ 탭=어느 걸 펼칠지 선택 picker.
 const MIN_REG = new Map();   // id → { label, restore } · 최소화된 모달 추적
+window.nmAuthBusy = () => {   // head 가드 자동 재로그인 보류 판정(260923 평의회) — updBusy(입력·열린 모달) + 최소화 도구(프레임 입력·진행 작업 생존)·프레임 nmSyncBusy = 이동 금지 · 안내 항목만
+  try { if (updBusy() || MIN_REG.size) return true; } catch {}
+  for (const f of document.querySelectorAll('iframe')) { try { const w = f.contentWindow; if (w && typeof w.nmSyncBusy === 'function' && w.nmSyncBusy()) return true; } catch {} }
+  return false;
+};
 function minRegRefresh() {    // ▲ 위 배지 = ⓐ 최소화 2개+ 개수(종전) · ⓑ 접어둔 다운로드의 「받는 중」 건수(운영자 260803 "그거는 진행 ㄱ")
   const b = $('#toolRestore'); if (!b) return;
   const run = MIN_REG.has('dlgrab') ? _dgRunN() : 0;                              // 접어둔 다운로드 창이 지금 몇 건 받고 있나

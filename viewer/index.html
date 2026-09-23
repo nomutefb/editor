@@ -33,15 +33,13 @@
    발사돼 유실되기도 한다(로컬 재현 실측) = 기기가 빈 화면에 갇힘. 그래서 외부 스크립트보다 앞(head)에서:
    ① SW가 서빙한 진입(controller ∧ nosw 아님)이면 스스로 세션 확인 — nm-sync.js ② 프로브 계승(/nm-sync.js HEAD · redirect:'manual' ·
       ⚠ manifest.json·sw.js·favicon.ico는 Access 우회 경로라 만료여도 200 = 프로브 사문 · 260923 실측)
-   ② sw.js nm-auth-stale 통지 수신 + 통지 유실 대비 Cache 표식(nm-pref-v1 /__nm_auth_stale · 10분 신선도) 부팅 판독. 만료 확정 = ?nosw=1 재진입(SW 우회 → 로그인 화면).
+   ② sw.js nm-auth-stale 통지 수신(유실돼도 ①이 같은 부팅에서 만료를 본다). 만료 확정 = ?nosw=1 재진입(SW 우회 → 로그인 화면).
    루프 가드 = sessionStorage nmAuthKick 세션 1회(nosw 착지 = 재무장) · 회선 사망(fetch reject) = 재진입 무익 → 무동작. */
 (function () {
   var sw = navigator.serviceWorker;
   var nosw = false;
   try { nosw = new URLSearchParams(location.search).has('nosw'); } catch (_) {}
   if (nosw) { try { sessionStorage.removeItem('nmAuthKick'); } catch (_) {} }   // 재로그인 복귀 착지 = 가드 재무장(같은 탭 재만료 대비)
-  var AUTH_CACHE = 'nm-pref-v1', AUTH_FLAG = '/__nm_auth_stale';   // sw.js 만료 표식(PREF_CACHE·AUTH_FLAG와 한 쌍) — 통지 유실 대비 부팅 판독
-  if (nosw) { try { caches.open(AUTH_CACHE).then(function (c) { return c.delete(AUTH_FLAG); }).catch(function () {}); } catch (_) {} }   // 네트워크 진입 = Access 통과 확정 = 표식 소거
   function go() {
     window._nmAuthKicked = true;   // 새 버전 적용(applyShellUpdate) reload가 이 replace를 밟지 않게 하는 표식
     try { var u = new URL(location.href); u.searchParams.set('nosw', '1'); location.replace(u.href); } catch (_) {}
@@ -52,23 +50,29 @@
   }
   function expired(r) { return r.type === 'opaqueredirect' || r.status === 401 || r.status === 403 || (r.status >= 300 && r.status < 400); }
   function probe() { return fetch('/nm-sync.js?_=' + Date.now(), { method: 'HEAD', redirect: 'manual', cache: 'no-store' }); }
+  function probeCapped() {   // 판별용 3s 상한(upload.js authWhy 동축) — 매달린 소켓이 공유 프로브를 붙잡아 대기열이 로딩에 갇히지 않게 · 시간 초과 = 'net'
+    return new Promise(function (res) {
+      var t = setTimeout(function () { res('net'); }, 3000);
+      probe().then(function (r) { clearTimeout(t); res(expired(r) ? 'auth' : (r.ok ? 'ok' : 'srv')); }, function () { clearTimeout(t); res('net'); });
+    });
+  }
   /* 본체 실패 지점 공용 판별(260923) — 만료 중 같은 출처 fetch는 Access 302 → 교차 출처라 CORS TypeError로 reject된다. 그걸 'articles.json 없음'·
      '네트워크 오류'로 오분류하던 지점이 같은 프로브로 원인을 확정한다: 'auth'(만료)·'net'(회선)·'srv'(서버 오류)·'ok'.
-     자동 재로그인 = nm-sync.js ② 계승 — 열림·복귀 15s 창 안 + 입력 중 아님일 때만(입력 중 강제 이탈 방지) · 나머지는 페이지가 안내(다시 로그인 버튼). */
+     자동 재로그인 = nm-sync.js ② 계승 — 열림·복귀 15s 창 안 + 입력 중 아님 + 도구 작업 없음(nmAuthBusy)일 때만(강제 이탈 방지) · 나머지는 페이지가 안내(다시 로그인 버튼). */
   var visTs = Date.now(), ckP = null, ckAt = 0, ckRes = '';
   function seen() { visTs = Date.now(); }
-  document.addEventListener('visibilitychange', function () { if (!document.hidden) seen(); });
-  window.addEventListener('focus', seen);
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) seen(); });   // focus는 제외 = 프레임·파일 선택창에서 돌아올 때마다 창이 다시 열리지 않게
   window.addEventListener('pageshow', function (e) { if (e.persisted) seen(); });
   window.nmAuthCheck = function () {
     if (ckP) return ckP;
     if (ckRes && Date.now() - ckAt < 10e3) return Promise.resolve(ckRes);   // 동시 다발 실패(폴 한 바퀴) = 프로브 1회
-    ckP = probe().then(function (r) { return expired(r) ? 'auth' : (r.ok ? 'ok' : 'srv'); }, function () { return 'net'; }).then(function (k) {
+    ckP = probeCapped().then(function (k) {
       ckP = null; ckAt = Date.now(); ckRes = k;
       if (k === 'auth' && Date.now() - visTs < 15e3) {
-        var a = document.activeElement, last = 0;
+        var a = document.activeElement, last = 0, busy = false;
         try { last = +sessionStorage.getItem('nmAuthAuto') || 0; } catch (_) {}
-        if (!(a && (a.tagName === 'INPUT' || a.tagName === 'TEXTAREA' || a.isContentEditable)) && Date.now() - last > 180e3) {   // 3분 가드 = nosw 착지가 nmAuthKick을 재무장해도 오판 프로브로 재진입 루프 안 돌게(nm-sync nm_sync_heal 동축)
+        try { busy = typeof window.nmAuthBusy === 'function' && !!window.nmAuthBusy(); } catch (_) {}   // 도구 창 열림·최소화·프레임 진행 작업 = 보류(본체가 정의 · 프레임 안 입력은 부모에서 IFRAME으로만 보임)
+        if (!busy && !(a && (a.tagName === 'INPUT' || a.tagName === 'TEXTAREA' || a.tagName === 'IFRAME' || a.isContentEditable)) && Date.now() - last > 180e3) {   // 3분 가드 = nosw 착지가 nmAuthKick을 재무장해도 오판 프로브로 재진입 루프 안 돌게(nm-sync nm_sync_heal 동축)
           try { sessionStorage.setItem('nmAuthAuto', String(Date.now())); } catch (_) {}
           kick();
         }
@@ -82,11 +86,6 @@
   try { sw.addEventListener('message', function (e) { if (e.data && e.data.type === 'nm-auth-stale') kick(); }); } catch (_) {}
   if (nosw || !sw.controller) return;   // 네트워크 진입 = 문서가 방금 Access를 통과함
   try { if (sessionStorage.getItem('nmAuthKick')) return; } catch (_) { return; }
-  try {
-    caches.open(AUTH_CACHE).then(function (c) { return c.match(AUTH_FLAG); }).then(function (r) { return r ? r.text() : ''; }).then(function (t) {
-      if (t && Date.now() - (+t || 0) < 600e3) kick();   // sw.js가 이 문서가 클라이언트로 잡히기 전에 만료를 봤다(통지 유실 창) · 10분 신선도 = 낡은 표식 무시
-    }).catch(function () {});
-  } catch (_) {}
   try {
     probe().then(function (r) { if (expired(r)) kick(); }, function () {});
   } catch (_) {}
@@ -4500,7 +4499,7 @@ async function load() {
     setAuthStale(false);   // 조회 성공 = 세션 유효(다른 탭 재로그인 등) → 만료 항목 소등
   } catch(e) {
     if (_g !== LOAD_SEQ) return; if (!DATA_LOADED) DATA = []; const d = $('#dhCnt'); if (d) d.textContent = 'articles.json 없음';
-    if (e instanceof TypeError) nmAuthNote().then(k => { if (k === 'auth' && _g === LOAD_SEQ) { const d2 = $('#dhCnt'); if (d2) d2.textContent = '로그인 만료'; } });   // fetch reject = Access 만료(302→CORS)일 수 있음 → 원인 확정 후 문구 교정('없음' 오분류 차단)
+    if (e instanceof TypeError) nmAuthNote().then(k => { if ((k === 'auth' || k === 'net') && _g === LOAD_SEQ) { const d2 = $('#dhCnt'); if (d2) d2.textContent = k === 'auth' ? '로그인 만료' : '연결 끊김'; } });   // fetch reject = Access 만료(302→CORS)·회선 → 원인 확정 후 문구 교정('없음' 오분류 차단)
   }   // last-good 유지(분신8 260706): 60s 폴 중 네트워크 blip 1회에 피드 전체가 '결과 없음'으로 비워지던 것 차단 — 첫 로드 실패만 빈 상태
   const _firstLoad = !DATA_LOADED; DATA_LOADED = true;   // 첫 로드 완료 표시
   render();
@@ -8392,7 +8391,7 @@ function setAuthStale(bad) {   // 상태 변화에서만 배지·목록 갱신 �
 function nmAuthNote() {   // fetch reject 지점 공용 — 원인 확정('auth'·'net'·'srv'·'ok') + 만료면 메시지함 항목 점등(자동 재로그인 판단은 head 가드 몫)
   const f = window.nmAuthCheck;
   if (typeof f !== 'function') return Promise.resolve('net');
-  return f().then(k => { if (k === 'auth') setAuthStale(true); return k; }, () => 'net');
+  return f().then(k => { if (k === 'auth') setAuthStale(true); else if (k === 'ok' || k === 'srv') setAuthStale(false); return k; }, () => 'net');   // 'net' = 판단 불가 → 현 상태 유지
 }
 const AUTH_EXPIRED_TXT = '로그인이 만료됐어 — 다시 로그인해줘';
 // 수집 고장(서버 축) = 알림메세지 항목(운영자 260725 "설정에 알림메세지 만들고 이런 시스템 에러메세지 수집되게 · 체크 표시 누르면 없어지고, 그 전까지는 설정 픽토그램이 극보수 색") —
@@ -8861,7 +8860,7 @@ async function loadMessages() {
     const cut = Date.now() - 24 * 3600e3;   // 24h 지난 항목 숨김(운영자 260623 · 파일 정리는 msg.py prune·표시는 여기서 즉시)
     MSGS = MSGS.filter(m => m && (m.t == null || m.t >= cut));
   } catch (e) {
-    if (e instanceof TypeError) nmAuthNote();   // fetch reject(만료 302→CORS·회선) = 직전 목록 유지(경고 숨김 차단 · load() last-good 동축) + 원인 판별
+    if (e instanceof TypeError) { const cut = Date.now() - 24 * 3600e3; MSGS = MSGS.filter(m => m && (m.t == null || m.t >= cut)); nmAuthNote(); }   // fetch reject(만료 302→CORS·회선) = 직전 목록 유지(경고 숨김 차단 · load() last-good 동축 · 24h 컷은 계속) + 원인 판별
     else MSGS = [];   // 파일 없음·형식 깨짐 = 조용히 빈 배열(배지·테두리 숨김)
   }
   renderMsgBadge();
@@ -9060,7 +9059,7 @@ function _rptSrc(m) {
     cmd: 'python3 -c "import json;[print(x[\'kind\'],x[\'time\'],repr(x.get(\'lm\')),x[\'text\'][:40]) for x in json.load(open(\'viewer/sns_trends.json\'))[\'disaster\']]"' };
   if (id.startsWith('sys:quake:')) return { fn: 'viewer/index.html quakeMsgs()', src: 'TRENDS.disaster[] 규모 ≥ quakeMinMag(d) (국내 QUAKE_MIN_KR / 해외 QUAKE_MIN_INTL · 규모 미상 = fail-open)', up: 'scraper/sns_trends.py disaster_label()/disaster_intl() → intl 필드',
     cmd: 'python3 -c "import json;[print(x[\'kind\'],x[\'time\'],x.get(\'intl\'),x[\'title\']) for x in json.load(open(\'viewer/sns_trends.json\'))[\'disaster\'] if x[\'kind\']==\'지진\']"' };
-  // _health 계열은 3종(새버전·갱신실패·맞춤법)이 같은 플래그를 공유 → 플래그별로 갈라야 한다. 뭉치면 "새 버전" 알림에 CAND_LIVE가 찍혀
+  // _health 계열은 4종(새버전·갱신실패·맞춤법·로그인만료)이 같은 플래그를 공유 → 플래그별로 갈라야 한다. 뭉치면 "새 버전" 알림에 CAND_LIVE가 찍혀
   //   세션이 없는 고장(진단 스냅샷 후보라이브=true인데 적재 실패라고 지목)을 쫓는다(실증 260730 리포트 1번 항목).
   // 콘티 영상 실패 = 러너가 발행한다(뷰어 생산 아님). 폴백으로 두면 상류가 scraper/msg.py 로 잘못 찍혀
   //   세션이 진짜 생산자(.github/scripts/grok_sb_video.py notify())를 못 찾는다 — sys:fire: 오귀속과 같은 축.
@@ -12414,54 +12413,87 @@ const MERGE_KEY = 'nm_merges', MERGE_TS_KEY = 'nm_merges_ts', MERGE_PEND_KEY = '
 const mergesAll = () => { try { return JSON.parse(localStorage.getItem(MERGE_KEY) || '{}'); } catch { return {}; } };
 // 미동기 패치 큐(260923 — 구판 POST 실패가 무음(.catch)이라 로그인 만료·회선 끊김 중 병합은 5분 뒤 loadMergesSrv가 서버 구본으로 통째 덮어 유실) =
 //   서버가 받았다고 답할 때까지 {set,del} 패치를 기기에 보관 · 적재 = 서버본 위에 미동기 패치를 얹는 병합(낡은 전체 목록으로 덮기 금지 · CLAUDE.md 설정 병합 룰 동축).
+//   base = 키별 '편집 직전 내가 본 값'(첫 미동기 편집 기준 고정) → api/mapsync가 서버 현재값과 대조해 다르면 건너뜀(conflicts) = 늦게 도착한 옛 패치가 다른 기기의 새 편집을 덮지 않는다.
 const mergePend = () => {
   try {
     const p = JSON.parse(localStorage.getItem(MERGE_PEND_KEY) || 'null') || {};
-    return { set: (p.set && typeof p.set === 'object' && !Array.isArray(p.set)) ? p.set : {}, del: Array.isArray(p.del) ? p.del.filter(k => typeof k === 'string' && k) : [] };
-  } catch { return { set: {}, del: [] }; }
+    const obj = o => (o && typeof o === 'object' && !Array.isArray(o)) ? o : {};
+    return { set: obj(p.set), del: Array.isArray(p.del) ? p.del.filter(k => typeof k === 'string' && k) : [], base: obj(p.base), fails: +p.fails || 0, retryAt: +p.retryAt || 0 };
+  } catch { return { set: {}, del: [], base: {}, fails: 0, retryAt: 0 }; }
 };
 const mergePendSave = p => {
-  try { if (!Object.keys(p.set).length && !p.del.length) localStorage.removeItem(MERGE_PEND_KEY); else localStorage.setItem(MERGE_PEND_KEY, JSON.stringify(p)); return true; } catch { return false; }
+  try {
+    Object.keys(p.base).forEach(k => { if (!(k in p.set) && !p.del.includes(k)) delete p.base[k]; });   // 끝난 키의 base 정리
+    if (!Object.keys(p.set).length && !p.del.length) localStorage.removeItem(MERGE_PEND_KEY); else localStorage.setItem(MERGE_PEND_KEY, JSON.stringify(p));
+    return true;
+  } catch { return false; }
 };
 const mergeOverlay = (base, p) => { const out = { ...base }; p.del.forEach(k => delete out[k]); Object.entries(p.set).forEach(([k, v]) => { out[k] = v; }); return out; };   // set·del은 큐에서 상호배타(saveMerges가 유지)라 적용 순서 무관
+const _mergeSame = (a, b) => JSON.stringify(a == null ? null : a) === JSON.stringify(b == null ? null : b);
 let _mergeFlushP = null, _mergeFlushAgain = false;
-function flushMerges() {   // 큐 → api/mapsync(패치 의미론 = 서버가 최신본에 재적용) · 성공 응답(ok)에서만 보낸 항목 소거 · 실패 = 보관(다음 60s 폴·재로그인 뒤 재시도)
+function flushMerges(force) {   // 큐 → api/mapsync(base 조건부 패치) · 성공 응답(ok)에서만 보낸 항목 소거 · 실패 = 보관(다음 60s 폴·재로그인 뒤 재시도)
   if (_mergeFlushP) { _mergeFlushAgain = true; return _mergeFlushP; }
-  const p = mergePend(), setE = Object.entries(p.set).slice(0, 50), del = p.del.slice(0, 50);   // 1회 상한 = api/mapsync 50·50과 동치(넘치면 성공 후 이어서)
+  const p = mergePend();
+  if (!force && Date.now() < p.retryAt) return Promise.resolve(false);   // 서버가 답한 실패(GitHub 502·경합 소진)의 백오프 창 — 새 편집(force)은 즉시
+  const setE = Object.entries(p.set).slice(0, 50), del = p.del.slice(0, 50);   // 1회 상한 = api/mapsync 50·50과 동치(넘치면 성공 후 이어서)
   if (!setE.length && !del.length) return Promise.resolve(true);
-  _mergeFlushP = fetch('api/mapsync', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ file: 'merges', set: Object.fromEntries(setE), del }) })
-    .then(async r => { const j = await r.json().catch(() => null); return (r.ok && j && j.ok) ? 'ok' : (r.status === 400 ? 'drop' : 'keep'); }, () => 'keep')   // reject = Access 만료(302→CORS)·회선 = 보관 · 400 = 서버가 영구 거절(무한 재시도 차단)
-    .then(res => {
-      if (res === 'keep') return false;
-      const cur = mergePend();   // 비행 중 새 편집 보존 = 보낸 값과 같은 항목만 소거
-      setE.forEach(([k, v]) => { if (k in cur.set && JSON.stringify(cur.set[k]) === JSON.stringify(v)) delete cur.set[k]; });
-      cur.del = cur.del.filter(k => !del.includes(k));
-      mergePendSave(cur);
+  const base = {}; [...setE.map(([k]) => k), ...del].forEach(k => { if (k in p.base) base[k] = p.base[k]; });
+  const sig = (typeof AbortSignal !== 'undefined' && AbortSignal.timeout) ? AbortSignal.timeout(12000) : undefined;   // 매달린 소켓이 _mergeFlushP를 영구 점유하지 않게(loadCandidates 12s 관용구)
+  _mergeFlushP = fetch('api/mapsync', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ file: 'merges', set: Object.fromEntries(setE), del, base }), signal: sig })
+    .then(async r => { const j = await r.json().catch(() => null); return { res: (r.ok && j && j.ok) ? 'ok' : (r.status === 400 ? 'drop' : 'keep'), srv: true, conflicts: (j && Array.isArray(j.conflicts)) ? j.conflicts : [] }; }, () => ({ res: 'keep', srv: false, conflicts: [] }))   // reject = Access 만료(302→CORS)·회선·시간 초과 = 보관(엣지에서 끊겨 비용 0 = 백오프 없음) · 400 = 서버가 영구 거절(무한 재시도 차단)
+    .then(({ res, srv, conflicts }) => {
+      if (res === 'keep') {
+        if (srv) { const c = mergePend(); c.fails = Math.min((c.fails || 0) + 1, 6); c.retryAt = Date.now() + 60e3 * 2 ** c.fails; mergePendSave(c); }   // 서버 답 실패 = 2·4·…·64분 백오프(함수·GitHub 호출 매분 반복 차단)
+        return false;
+      }
+      const cur = mergePend(), lost = new Set(res === 'ok' ? conflicts : []);
+      cur.fails = 0; cur.retryAt = 0;   // 비행 중 새 편집 보존 = 보낸 값과 같은 항목만 소거 · 착지한 항목의 후속 편집은 base를 방금 보낸 값으로 전진
+      setE.forEach(([k, v]) => {
+        if (k in cur.set && _mergeSame(cur.set[k], v)) delete cur.set[k];
+        else if (res === 'ok' && !lost.has(k) && (k in cur.set || cur.del.includes(k))) cur.base[k] = v;
+      });
+      del.forEach(k => {
+        if (cur.del.includes(k)) cur.del = cur.del.filter(x => x !== k);
+        else if (res === 'ok' && !lost.has(k) && k in cur.set) cur.base[k] = null;
+      });
+      if (!mergePendSave(cur)) return false;   // 큐 저장 불가 = 이어 보내기 중단(같은 항목 무한 재전송 차단)
       if (res === 'ok') { try { localStorage.setItem(MERGE_TS_KEY, String(Date.now())); } catch {} }   // 서버 착지 시각 = 배포 지연 유예 기준(늦은 착지를 구본 적재가 되감지 않게)
+      if (lost.size) { try { qFlash('다른 기기에서 먼저 바뀐 병합 ' + lost.size + '건은 그쪽 기준으로 맞췄어.'); } catch {} }   // 충돌 = 서버(다른 기기) 우선 · 유예 뒤 적재가 로컬을 서버본으로 수렴 · 조용히 버리지 않고 알림
       if (Object.keys(cur.set).length || cur.del.length) _mergeFlushAgain = true;   // 상한 초과분 이어서
       return true;
     })
     .finally(() => { _mergeFlushP = null; if (_mergeFlushAgain) { _mergeFlushAgain = false; flushMerges(); } });
   return _mergeFlushP;
 }
-const saveMerges = (m, delta) => {   // bool 반환 = 저장 실패(quota·시크릿) 시 거짓 성공 토스트 차단(분신술7·9) · delta = {set,del} 계정 동기(운영자 260717 "경계도 ㄱ" — 폰 병합 = PC도 접힘 · 미동기 큐 경유)
+const _mergePost = delta => fetch('api/mapsync', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ file: 'merges', ...delta }) }).catch(() => {});   // 1회 전송(큐 밖) = GC·큐 저장 불가 폴백
+const saveMerges = (m, delta, once) => {   // bool 반환 = 저장 실패(quota·시크릿) 시 거짓 성공 토스트 차단(분신술7·9) · delta = {set,del} 계정 동기(운영자 260717 "경계도 ㄱ" — 폰 병합 = PC도 접힘 · 미동기 큐 경유)
+  //   once = lazy GC 삭제 = 큐에 안 넣고 1회 전송(260923 평의회 — 빈·낡은 후보로 내린 GC 판정이 큐에 남아 재접속 뒤 전 기기 병합을 지우던 경로 차단 · 결정적이라 기기마다 스스로 재판정)
+  const prev = once ? null : mergesAll();   // 편집 직전 로컬 = 사용자가 본 기준(base)
   let ok = true; try { localStorage.setItem(MERGE_KEY, JSON.stringify(m)); } catch { ok = false; }
   if (ok && delta && ((delta.set && Object.keys(delta.set).length) || (delta.del && delta.del.length))) {
     try { localStorage.setItem(MERGE_TS_KEY, String(Date.now())); } catch {}
     const p = mergePend();
-    Object.entries(delta.set || {}).forEach(([k, v]) => { p.set[k] = v; p.del = p.del.filter(x => x !== k); });
-    (delta.del || []).forEach(k => { delete p.set[k]; if (!p.del.includes(k)) p.del.push(k); });
-    if (mergePendSave(p)) flushMerges();
-    else fetch('api/mapsync', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ file: 'merges', ...delta }) }).catch(() => {});   // 큐 저장 불가(quota) = 종전 1회 전송 폴백
+    if (once) {
+      (delta.del || []).forEach(k => { delete p.set[k]; p.del = p.del.filter(x => x !== k); });   // GC가 치운 키 = 미동기 패치도 폐기(오버레이 부활·재GC 반복 차단)
+      mergePendSave(p); _mergePost(delta);
+      return ok;
+    }
+    const keep = k => { if (!(k in p.base)) p.base[k] = (k in prev) ? prev[k] : null; };   // 첫 미동기 편집의 기준 고정
+    Object.entries(delta.set || {}).forEach(([k, v]) => { keep(k); p.set[k] = v; p.del = p.del.filter(x => x !== k); });
+    (delta.del || []).forEach(k => { keep(k); delete p.set[k]; if (!p.del.includes(k)) p.del.push(k); });
+    if (mergePendSave(p)) flushMerges(true);
+    else _mergePost(delta);   // 큐 저장 불가(quota) = 종전 1회 전송 폴백
   }
   return ok;
 };
 async function loadMergesSrv() {   // 계정 병합 적재(60s 폴 편승) — 미동기 큐 재전송 + 로컬 최근 편집(5분 유예 = 배포 지연 1~2분 창에서 서버 구본이 내 편집을 되감는 것 차단) 없을 때 서버본 ⊕ 미동기 패치 채택
   try {
-    const p0 = mergePend(); if (Object.keys(p0.set).length || p0.del.length) flushMerges();
-    if (Date.now() - (+localStorage.getItem(MERGE_TS_KEY) || 0) < 300e3) return;
+    const p0 = mergePend(); if (Object.keys(p0.set).length || p0.del.length) await flushMerges();   // 전송 결과 확정 후 판정(비행 중 착지가 적재와 엇갈려 방금 보낸 편집을 되감는 창 차단)
+    const ts0 = +localStorage.getItem(MERGE_TS_KEY) || 0;
+    if (Date.now() - ts0 < 300e3) return;
     const r = await fetch('merges.json?_=' + Date.now()); if (!r.ok) return;
     const d = await r.json(); if (!d || typeof d !== 'object' || Array.isArray(d)) return;
+    if (_mergeFlushP || (+localStorage.getItem(MERGE_TS_KEY) || 0) !== ts0) return;   // 적재 중 새 편집·전송 = 이번 판은 낡음(다음 폴에서)
     const next = mergeOverlay(d, mergePend());   // 서버에 아직 없는 내 병합·해제 = 보존(덮어쓰기 아님)
     if (JSON.stringify(next) === JSON.stringify(mergesAll())) return;
     try { localStorage.setItem(MERGE_KEY, JSON.stringify(next)); } catch {}
@@ -12519,8 +12551,8 @@ function applyMerges(pool) {
   const liveId = new Set(CANDS.map(candId));
   let pruned = false;
   const _prunedKeys = [];
-  for (const a of Object.keys(M)) { if (!liveId.has(a) && !_mems(a).some(m => liveId.has(m))) { delete M[a]; _prunedKeys.push(a); pruned = true; } }
-  if (pruned) saveMerges(M, { del: _prunedKeys });   // GC도 계정 동기 — 전 기기 동일 결정(liveId 기반 결정적이라 어느 기기가 먼저 지워도 같은 결과)
+  if (CAND_LIVE && CANDS.length) for (const a of Object.keys(M)) { if (!liveId.has(a) && !_mems(a).some(m => liveId.has(m))) { delete M[a]; _prunedKeys.push(a); pruned = true; } }   // 라이브 후보에서만 판정(260923 평의회 — 오프라인·만료 부팅의 빈 CANDS·낡은 정적 폴백으로 전 병합을 '죽음' 판정하던 것 차단)
+  if (pruned) saveMerges(M, { del: _prunedKeys }, true);   // GC도 계정 동기 — 전 기기 동일 결정(liveId 기반 결정적이라 어느 기기가 먼저 지워도 같은 결과) · once = 큐 밖 1회 전송
   const byId = new Map(pool.map(c => [candId(c), c]));
   const anchorSet = new Set(Object.keys(M).filter(a => byId.has(a)));   // pool에 실존하는 앵커만 = 앵커 부재면 멤버 안 접음(그룹 통째 실종 방지)
   const memberOf = new Map();   // 멤버 candId → 앵커 candId
@@ -16455,6 +16487,11 @@ function restoreTool(key) {
 // ── 다중 최소화 레지스트리 + 뉴스요약 최소화 + 선택 picker (운영자 260627) ──────────────────
 // ▲ 복원 버튼은 공유. 최소화된 게 1개면 ▲ 탭=바로 복원 / 2개+면 ▲ 탭=어느 걸 펼칠지 선택 picker.
 const MIN_REG = new Map();   // id → { label, restore } · 최소화된 모달 추적
+window.nmAuthBusy = () => {   // head 가드 자동 재로그인 보류 판정(260923 평의회) — updBusy(입력·열린 모달) + 최소화 도구(프레임 입력·진행 작업 생존)·프레임 nmSyncBusy = 이동 금지 · 안내 항목만
+  try { if (updBusy() || MIN_REG.size) return true; } catch {}
+  for (const f of document.querySelectorAll('iframe')) { try { const w = f.contentWindow; if (w && typeof w.nmSyncBusy === 'function' && w.nmSyncBusy()) return true; } catch {} }
+  return false;
+};
 function minRegRefresh() {    // ▲ 위 배지 = ⓐ 최소화 2개+ 개수(종전) · ⓑ 접어둔 다운로드의 「받는 중」 건수(운영자 260803 "그거는 진행 ㄱ")
   const b = $('#toolRestore'); if (!b) return;
   const run = MIN_REG.has('dlgrab') ? _dgRunN() : 0;                              // 접어둔 다운로드 창이 지금 몇 건 받고 있나

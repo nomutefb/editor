@@ -343,7 +343,7 @@ $('#fFile').addEventListener('change',async e=>{
   try{
     if(f.size>FILE_MAX){
       const armed=await nmUpArm();
-      if(!armed){ st.innerHTML=WARN_SVG+' 20MB 초과 파일은 대용량 저장(R2) 설정이 필요해 — 더 작은 파일이나 URL로 해줘'; st.classList.add('err'); return; }
+      if(!armed){ st.innerHTML=WARN_SVG+' '+(nmUpWhyMsg()||'20MB 초과 파일은 대용량 저장(R2) 설정이 필요해 — 더 작은 파일이나 URL로 해줘'); st.classList.add('err'); return; }   // 만료·회선 ≠ 설정 부재(260923 · upload.js nmUpWhyMsg)
       pickT('올리는 중… 0%');
       const r=await nmUpload(f,p=>pickT('올리는 중… '+p+'%'));
       FILE_R2=r.key;

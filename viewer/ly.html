@@ -779,7 +779,7 @@ async function lyVideoUpload(f) {   // 영상 첨부 → 업로드 형태 결정
     if (blob.size > FILE_MAX) { clearFile(`추출 음성도 커(${(blob.size / 1048576).toFixed(1)}MB) — URL로.`, true); return; }
     await readB64(blob, f.name.replace(/\.[^.]+$/, '') + '.mp3');
     setBadge('영상', f.name);
-    st.innerHTML = OK_SVG + ` 음성 추출 완료 (${(blob.size / 1048576).toFixed(1)}MB) — 자막 생성 가능` + (LY_OPTS.burn ? ' · 20MB 초과라 합성은 URL 입력만' : '');
+    st.innerHTML = OK_SVG + ` 음성 추출 완료 (${(blob.size / 1048576).toFixed(1)}MB) — 자막 생성 가능` + (LY_OPTS.burn ? ' · ' + ((window.nmUpWhyMsg && nmUpWhyMsg()) || '20MB 초과라 합성은 URL 입력만') : '');   // 합성 불가 사유 = 만료·회선이면 그쪽(260923)
   } catch (err) {
     if (f.size <= FILE_MAX) {                            // 추출 실패 + 작은 영상 → 그대로 업로드(러너가 추출)
       await readB64(f, f.name); setBadge('영상', f.name);
@@ -797,7 +797,7 @@ async function lyFileSync() {   // '자막 붙이기'가 첨부 뒤 켜졌을 �
   return '';
 }
 function lyBurnOnSync() {   // burn OFF→ON 공용 후크(칩·게이지·프리셋) — 재전환 시도 + 초과분 정직 고지
-  lyFileSync().then(r => { if (r === 'big') { const st = $('#status'); st.classList.remove('err'); st.innerHTML = WARN_SVG + ' 영상이 20MB 넘어 합성은 안 돼(이대로면 자막 텍스트만) — 합성하려면 URL로'; } });
+  lyFileSync().then(r => { if (r === 'big') { const st = $('#status'); st.classList.remove('err'); st.innerHTML = WARN_SVG + ' ' + ((window.nmUpWhyMsg && nmUpWhyMsg()) || '영상이 20MB 넘어 합성은 안 돼(이대로면 자막 텍스트만) — 합성하려면 URL로'); } });
 }
 $('#file').onchange = async e => {
   const f = e.target.files[0]; if (!f) return;
@@ -824,7 +824,7 @@ $('#file').onchange = async e => {
       await readB64(f, f.name); setBadge('음성', f.name); return;
     }
     if (f.size > 2 * 1024 * 1024 * 1024) { clearFile(`영상이 너무 큼 — ${(f.size / 1048576).toFixed(0)}MB (한계 2GB). URL로 시도해줘.`, true); return; }   // R2 직업로드 절대 상한(api/upload 계약 · 260722)
-    if (f.size > FILE_HARD && !(LY_OPTS.burn && window.nmUpArm && await nmUpArm())) { clearFile((LY_OPTS.burn && window.nmUpArm && nmUpArm.why === 'auth') ? '로그인이 만료됐어 — 새로고침해서 다시 로그인해줘' : `영상이 너무 큼 — ${(f.size / 1048576).toFixed(0)}MB (한계 ${Math.round(FILE_HARD / 1048576)}MB). URL로 시도해줘.`, true); return; }   // 만료(302→CORS reject) = 크기 탓 아님(260923 오분류 봉합 · 판별 = upload.js nmUpArm.why)   // 250MB 캡 = 브라우저 추출(wasm OOM) 한정 — 합성 ON + R2 가용은 원본 직업로드라 2GB까지(260722)
+    if (f.size > FILE_HARD && !(LY_OPTS.burn && window.nmUpArm && await nmUpArm())) { clearFile((LY_OPTS.burn && window.nmUpWhyMsg && nmUpWhyMsg()) || `영상이 너무 큼 — ${(f.size / 1048576).toFixed(0)}MB (한계 ${Math.round(FILE_HARD / 1048576)}MB). URL로 시도해줘.`, true); return; }   // 만료(302→CORS reject) = 크기 탓 아님(260923 오분류 봉합 · 판별 = upload.js nmUpArm.why)   // 250MB 캡 = 브라우저 추출(wasm OOM) 한정 — 합성 ON + R2 가용은 원본 직업로드라 2GB까지(260722)
     FILE_RAW = f;   // 원본 보존 — 이후 '자막 붙이기' 토글 변화 시 lyFileSync가 업로드 형태 재결정(260721)
     await lyVideoUpload(f);
   } catch (err) {   // 파일 읽기 실패(f.text·FileReader 등) = 잠금·게이지 풀고 안내(고착 차단)
@@ -984,7 +984,7 @@ $('#go').onclick = async () => {
   if (!url && !SRT_TEXT && FILE_B64) {   // 발사 직전 최종 동기(260721) — 합성 ON인데 추출 mp3만 올라간 첨부 = 원본 영상으로 스왑 · 20MB 초과+R2 미가용 = 정직 차단(9분 헛런 뒤 '자막만' 방지)
     const fsr = await lyFileSync();
     if (fsr === 'fail') return;
-    if (fsr === 'big') { status.innerHTML = WARN_SVG + ' 이 영상은 20MB 초과 — 자막 합성은 URL 입력만 돼. 자막 텍스트만 원하면 \'자막 붙이기\'를 꺼줘.'; status.classList.add('err'); return errStatus('영상 20MB 초과'); }
+    if (fsr === 'big') { const um = window.nmUpWhyMsg ? nmUpWhyMsg() : ''; status.innerHTML = WARN_SVG + ' ' + (um || '이 영상은 20MB 초과 — 자막 합성은 URL 입력만 돼. 자막 텍스트만 원하면 \'자막 붙이기\'를 꺼줘.'); status.classList.add('err'); return errStatus(um ? nmUpWhyMsg(1) : '영상 20MB 초과'); }   // R2 불가 사유가 만료·회선이면 그쪽(260923)
   }
   if (!url && !SRT_TEXT && !FILE_B64 && !FILE_R2 && FILE_RAW) {   // 키가 없을 때만 재업로드(260810 = 만료·정리·URL 전환 뒤 · 정상 연속 작업은 키가 살아 있어 이 경로를 안 탄다 · 파일은 브라우저에 남아 재선택 불필요)
     try { await lyVideoUpload(FILE_RAW); } catch (err) { clearFile('파일 처리 실패 — 다시 선택해줘 (' + ((err && err.message) ? err.message.slice(0, 120) : 'error') + ')', true); return; }

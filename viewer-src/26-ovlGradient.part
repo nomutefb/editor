@@ -416,7 +416,7 @@ function setAuthStale(bad) {   // 상태 변화에서만 배지·목록 갱신 �
 function nmAuthNote() {   // fetch reject 지점 공용 — 원인 확정('auth'·'net'·'srv'·'ok') + 만료면 메시지함 항목 점등(자동 재로그인 판단은 head 가드 몫)
   const f = window.nmAuthCheck;
   if (typeof f !== 'function') return Promise.resolve('net');
-  return f().then(k => { if (k === 'auth') setAuthStale(true); return k; }, () => 'net');
+  return f().then(k => { if (k === 'auth') setAuthStale(true); else if (k === 'ok' || k === 'srv') setAuthStale(false); return k; }, () => 'net');   // 'net' = 판단 불가 → 현 상태 유지
 }
 const AUTH_EXPIRED_TXT = '로그인이 만료됐어 — 다시 로그인해줘';
 // 수집 고장(서버 축) = 알림메세지 항목(운영자 260725 "설정에 알림메세지 만들고 이런 시스템 에러메세지 수집되게 · 체크 표시 누르면 없어지고, 그 전까지는 설정 픽토그램이 극보수 색") —

@@ -5527,7 +5527,7 @@ def check_nm_sync():
     """동기화 생명선 상속 게이트(운영자 260803 4차 "다른 스튜디오 탭에도 전부 상속") — `viewer/nm-sync.js` SSOT(복귀 자동 재동기 ·
     로그인 만료 자가치유 · 새 배포 자동 리로드)를 스튜디오 전 탭이 `<script src="nm-sync.js">`로 상속하는지 정적 강제.
     표면 = 고정 7(thumb·tr·edit·sb·k·song·vd) + 자동 발견(`window.nmRefresh` 훅 보유 = 동기화 생태계 참여 선언 → 상속 의무 —
-    새 탭이 조용히 빠질 수 없다 · check_trail_spec 자동발견 동축). 모듈 자체도 3축 골격(manifest 프로브 · /?nosw=1 재진입 ·
+    새 탭이 조용히 빠질 수 없다 · check_trail_spec 자동발견 동축). 모듈 자체도 3축 골격(/nm-sync.js 프로브 · /?nosw=1 재진입 ·
     HEAD ETag 대조)을 잃으면 FAIL = 속을 비우는 조용한 무력화 차단."""
     core = ['thumb.html', 'tr.html', 'edit.html', 'sb.html', 'k.html', 'song.html', 'vd.html']
     vdir = os.path.join(ROOT, 'viewer')
@@ -5541,8 +5541,13 @@ def check_nm_sync():
         if lit not in msrc:
             bad.append('nm-sync.js 골격 소실: ' + lit)
     # 만료 프로브가 Access 우회 경로를 찌르면 만료여도 200 = 자가치유 사문(260923 실측: manifest.json·sw.js·favicon.ico 우회)
-    for pf, psrc in (('viewer/nm-sync.js', msrc), ('viewer-src/01-document.part', _FilePath(os.path.join(ROOT, 'viewer-src', '01-document.part')).read_text(encoding='utf-8')),
-                     ('viewer/upload.js', _FilePath(os.path.join(vdir, 'upload.js')).read_text(encoding='utf-8'))):
+    probe_srcs = [('viewer/nm-sync.js', msrc)]
+    for pf in ('viewer-src/01-document.part', 'viewer/upload.js'):   # 부재 = FAIL(예외로 게이트 전체가 스킵되는 조용한 무력화 차단)
+        try:
+            probe_srcs.append((pf, _FilePath(os.path.join(ROOT, pf)).read_text(encoding='utf-8')))
+        except Exception:
+            bad.append(pf + ' 부재(만료 프로브 표면)')
+    for pf, psrc in probe_srcs:
         if re.search(r"fetch\(\s*'/(?:manifest\.json|sw\.js|favicon\.ico)", psrc):
             bad.append(pf + ' 만료 프로브가 Access 우회 경로(manifest.json·sw.js·favicon.ico)를 찌름 = 만료 감지 불가')
     surf = set(core)

@@ -366,7 +366,7 @@ $('#file').addEventListener('change',async()=>{
   FILE_B64=''; FILE_NAME=''; FILE_R2=''; _lastFile=null;   // 새 선택 즉시 이전 파일 무효화 — 읽는 중 발사 = 옛 파일 전송 레이스 차단(평의회5)
   if(f.size>2*1024*1024*1024){ $('#file').value=''; $('#fileLab').classList.remove('has'); $('#fileTxt').innerHTML=FILE_ICON; trkPvHide(); return errStatus('파일은 2GB까지 — 큰 영상은 URL로'); }
   const r2on=window.nmUpArm&&await nmUpArm();   // R2 직업로드 가용(문서당 1회 핑 · 4s 타임아웃) — 미가용 = 종전 30MB 경로 폴백(edit 동문 · 260722)
-  if(!r2on&&f.size>30*1024*1024){ $('#file').value=''; $('#fileLab').classList.remove('has'); $('#fileTxt').innerHTML=FILE_ICON; trkPvHide(); return errStatus('파일은 ≤30MB — 큰 영상은 URL로'); }
+  if(!r2on&&f.size>30*1024*1024){ $('#file').value=''; $('#fileLab').classList.remove('has'); $('#fileTxt').innerHTML=FILE_ICON; trkPvHide(); return errStatus((window.nmUpWhyMsg&&nmUpWhyMsg())||'파일은 ≤30MB — 큰 영상은 URL로'); }   // R2 불가 사유가 만료·회선이면 그쪽(260923)
   FILE_NAME=f.name; trkPvShow(f);   // 영상 미리보기 즉시 표시(업로드와 독립)
   const btn=$('#analyze'); btn.disabled=true;   // 전송 준비 동안 발사 잠금(불완전 전송 차단)
   _lastFile=f;

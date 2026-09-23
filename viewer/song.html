@@ -1123,7 +1123,7 @@ $('#vFile').addEventListener('change',async e=>{
   VR2=''; VRAW=null;
   if(f.size>2*1024*1024*1024){ e.target.value=''; return btnErr($('#trainGo'),'파일은 2GB까지'); }   // api/upload 계약 절대캡
   const r2on=window.nmUpArm&&await nmUpArm();   // R2 직업로드 1순위(전 크기 · edit 동문 "작은 파일도 R2, b64 = 예비역" · 운영자 260722 단일화) — 미가용 = 종전 20MB 캡 폴백
-  if(!r2on&&f.size>20*1024*1024){ e.target.value=''; return btnErr($('#trainGo'),'파일은 ≤20MB — 1~5분 mp3/m4a'); }
+  if(!r2on&&f.size>20*1024*1024){ e.target.value=''; return btnErr($('#trainGo'),(window.nmUpWhyMsg&&nmUpWhyMsg(1))||'파일은 ≤20MB — 1~5분 mp3/m4a'); }   // R2 불가 사유가 만료·회선이면 그쪽(260923)
   if(r2on){
     VRAW=f;
     try{

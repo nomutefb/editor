@@ -280,7 +280,7 @@ $('#file').addEventListener('change',async()=>{
   FILE_URL='';
   if(f.size>2*1024*1024*1024){ fileSlotClear(); $('#convGo').disabled=false; return errStatus('파일은 2GB까지 — 구간을 잘라서 올려줘'); }   // 거절 = 버튼 복구(직전 업로드가 잠근 상태 고착 방지 · 평의회7 F1)
   const r2on=await nmUpArm();   // R2 직업로드 가용(문서당 1회 핑 · 4s 타임아웃) — 미가용 = 종전 30MB 경로 폴백
-  if(!r2on&&f.size>30*1024*1024){ fileSlotClear(); $('#convGo').disabled=false; return errStatus(nmUpArm.why==='auth' ? '로그인이 만료됐어 — 새로고침해서 다시 로그인해줘' : '30MB 초과 — 대용량 저장 미설정(R2 바인딩 필요). URL로 해줘'); }   // 만료(302→CORS reject) ≠ 설정 부재(260923 오분류 봉합 · 판별 = upload.js nmUpArm.why)
+  if(!r2on&&f.size>30*1024*1024){ fileSlotClear(); $('#convGo').disabled=false; return errStatus(nmUpWhyMsg()||'30MB 초과 — 대용량 저장 미설정(R2 바인딩 필요). URL로 해줘'); }   // 만료·회선 ≠ 설정 부재(260923 오분류 봉합 · 사유 = upload.js nmUpWhyMsg)
   FILE_NAME=f.name; FILE_URL=URL.createObjectURL(f);
   { const vw=$('#vwrap'); if(vw&&!vw.hidden){ if(_curStop)_curStop(); vw.hidden=true; vw.innerHTML=''; $('#dlVid').hidden=true; } }   // 새 소스 = 이전 결과 정리(미리보기 자리 확보 · 폴 중이면 중단 · 260722 이식)
   convPvSync();   // 첨부 즉시 미리보기(치수 전 = 16:9 근사 · onloadedmetadata가 실비율 갱신)

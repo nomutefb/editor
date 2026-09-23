@@ -2018,7 +2018,7 @@ $('#file').addEventListener('change',async()=>{
   FILE_URL=''; render();   // 크롭 미리보기 버튼 즉시 소거(열린 비율 카드 · conv 이식 260711)
   if(f.size>2*1024*1024*1024){ fileSlotClear(); $('#editGo').disabled=false; return errStatus('용량 초과'); }   // 거절 = 버튼 복구(직전 업로드가 잠근 상태 고착 방지 · 평의회7 F1)
   const r2on=await nmUpArm();   // R2 직업로드 가용(문서당 1회 핑 · 4s 타임아웃) — 미가용 = 종전 30MB 경로 폴백
-  if(!r2on&&f.size>B64_MAX){ fileSlotClear(); $('#editGo').disabled=false; return errStatus('용량 초과'); }   // 문구 = 실한도 표기(구 "30MB"는 서버 실한도 28.6MiB와 어긋나 29MB 파일이 "30MB까지 된다"는 안내를 받고도 거절당했다)
+  if(!r2on&&f.size>B64_MAX){ fileSlotClear(); $('#editGo').disabled=false; return errStatus(nmUpWhyMsg(1)||'용량 초과'); }   // R2 불가 사유가 만료·회선이면 그쪽(260923 · upload.js nmUpWhyMsg)   // 문구 = 실한도 표기(구 "30MB"는 서버 실한도 28.6MiB와 어긋나 29MB 파일이 "30MB까지 된다"는 안내를 받고도 거절당했다)
   segsReset();   // 새 소스 = 옛 구간 무효(평의회⑤ 260728 — 60초 영상 구간이 10초 영상에 그대로 발사되던 사고 차단) · ⚠ **첨부가 확정된 뒤**에 비운다(재검⑤ 260728 — 크기 거절 앞에 두면 첨부는 거절됐는데 기존 구간만 날아가 복구 불가)
   FILE_NAME=f.name; FILE_URL=URL.createObjectURL(f); render();   // 미리보기 버튼 노출(objectURL = 업로드 완료 전에도 로컬 프리뷰 가능)
   lrTiltApply(f);   // 좌우 쏠림 자동 감지(운영자 260810) — await 안 한다: 업로드·발사 흐름을 막지 않고, 측정이 끝나면 스스로 render()로 반영(fail-soft = 못 재면 무변화)

@@ -21,7 +21,14 @@
     if (armed !== null) return armed;
     window.nmUpArm.why = '';
     try { const r = await fetch('api/upload', { signal: AbortSignal.timeout(4000) }); const j = await r.json(); armed = !!(r.ok && j.ok); window.nmUpArm.why = armed ? '' : 'off'; return armed; }
-    catch (e) { window.nmUpArm.why = await authWhy(); return false; }   // ⚠ 네트워크 실패·4s 타임아웃은 **캐시하지 않는다**(구 `armed = false`) — 첫 첨부 순간 회선이 잠깐 흔들리면(폰 LTE↔WiFi 전환 등) 그 탭이 살아있는 내내 false로 굳어, 이후 500MB 영상에 "30MB 초과 — 대용량 저장 미설정(R2 바인딩 필요)"라는 **거짓 원인**을 띄웠다(R2는 멀쩡한데 사용자는 자기 잘못이 아니라 해결 불가 · 평의회2 260731). 확정 응답(가용/미설정)만 캐시 = 다음 첨부가 자동 재핑
+    catch (e) { const w = await authWhy(); if (armed === null) window.nmUpArm.why = w; return false; }   // 동시 호출이 먼저 확정(armed)했으면 늦은 판별로 덮지 않음   // ⚠ 네트워크 실패·4s 타임아웃은 **캐시하지 않는다**(구 `armed = false`) — 첫 첨부 순간 회선이 잠깐 흔들리면(폰 LTE↔WiFi 전환 등) 그 탭이 살아있는 내내 false로 굳어, 이후 500MB 영상에 "30MB 초과 — 대용량 저장 미설정(R2 바인딩 필요)"라는 **거짓 원인**을 띄웠다(R2는 멀쩡한데 사용자는 자기 잘못이 아니라 해결 불가 · 평의회2 260731). 확정 응답(가용/미설정)만 캐시 = 다음 첨부가 자동 재핑
+  };
+  window.nmUpWhyMsg = function (short) {   // nmUpArm()=false의 실제 사유 문구 — '' = 확정 미설정('off')·사유 없음 → 호출부 종전 문구(용량·R2) 그대로
+    const w = window.nmUpArm && window.nmUpArm.why;
+    if (w === 'auth') return short ? '로그인 만료' : '로그인이 만료됐어 — 새로고침해서 다시 로그인해줘';
+    if (w === 'net') return short ? '연결 끊김' : '연결이 끊겨 대용량 업로드 준비 실패 — 연결 확인 후 다시 해줘';
+    if (w === 'srv' || w === 'ok') return short ? '업로드 준비 실패' : '대용량 업로드 준비 실패 — 잠시 뒤 다시 해줘';
+    return '';
   };
   window.nmUpDrop = function (key) {
     if (!key) return;
