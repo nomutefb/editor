@@ -355,13 +355,16 @@ function failRetry(c, opts) {   // ↻ 재시도 — ① 재분석 재발사(대
   if (!c) return;
   const alt = pickAlt(c);   // 같은 사건 타매체(메이저 우선·가까운 관련기사)
   if (c.url) {   // ① 재분석 재발사(body 없이 → fetch 재시도 · alt 동반) = 다시 대기열(pending)로 · Failed→Picking(pfResubActive)
-    const id = candId(c); saveRating(id, { picked: true, pickedAt: Date.now() }); pfAddResub(id);
+    const id = candId(c); const _prev = ratingsAll()[id] || {}; saveRating(id, { picked: true, pickedAt: Date.now() }); pfAddResub(id);   // _prev = 만료 회수 때 재시도 직전 상태 복원용
     fetch('api/pick', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ url: c.url, title: c.title || '', alt, event_key: c.event_key || '' }) })
       .then(async r => { if (r.ok) return;   // 서버 거절(GH_TOKEN 회귀·429 등) = 낙관 Picking 회수 + 표면화(무통보 유실 차단 · pickCard 8624 패턴 · 평의회 260713 ⑦)
         const j = await r.json().catch(() => ({}));
         saveRating(id, { picked: false }); pfRemoveResub(id); if (CURTAB === 'scrap' && SCRAP_LOADED) renderScrap();
         alert('재시도 발사 실패 — 다시 시도해줘\n' + (j.error || ('HTTP ' + r.status))); })
-      .catch(() => {});   // 네트워크 예외 = 종전대로 조용히(오프라인 순간 등 — 타임아웃 감시가 Failed 복귀 커버)
+      .catch(async e => {   // 네트워크 예외 = 종전대로 조용히(오프라인 순간 등 — 타임아웃 감시가 Failed 복귀 커버) — 단 로그인 만료 확정은 즉시 회수·안내(260923)
+        if ((await netMsg(e)) !== AUTH_EXPIRED_TXT) return;
+        saveRating(id, { picked: !!_prev.picked, pickedAt: _prev.pickedAt }); pfRemoveResub(id); if (CURTAB === 'scrap' && SCRAP_LOADED) renderScrap();   // 재시도 직전 상태로(Failed 트레이 유지 · picked:false 로 떨구면 실패 기록 억제가 풀려 카드가 엉뚱한 상태)
+        alert('재시도 발사 실패\n' + AUTH_EXPIRED_TXT); });
   }
   if (!(opts && opts.noOpen)) {   // ② 가까운 관련기사 원문 새 탭 — 토스트 재시도만(칩 재시도는 생략 = 대기열만 · 원문은 제목 탭)
     const go = alt[0] || c.url;

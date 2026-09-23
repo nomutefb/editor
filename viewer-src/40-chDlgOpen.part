@@ -198,7 +198,8 @@ function frWatch(fr, src) {   // src 있으면 1회 재로드 대상(없으면 �
 }
 function bindToolFrameLoad(fr) {   // load = 페이드인(frame-ready)+ESC 브릿지. 복제 프레임에도 필수(없으면 opacity:0로 안 보임).
   fr.addEventListener('load', () => {
-    let _blank = false; try { _blank = fr.contentWindow.location.href === 'about:blank'; } catch (_) {}
+    let _blank = false, _xo = false; try { _blank = fr.contentWindow.location.href === 'about:blank'; } catch (_) { _xo = true; }
+    if (_xo) nmAuthNote().then(k => { if (k === 'auth' && fr.classList.contains('active')) qFlash('로그인이 만료됐어 — 도구 닫고 다시 로그인해줘'); });   // 교차 출처 착지 = 도구 문서가 Access 로그인으로 튕김(frame-ancestors 백지) — 구판은 이유 없는 빈 창(260923) · 도구 창 안 = 당김 새로고침 차단·헤더 ↻ 는 입력 초기화 → '도구 닫고' · qFlash = 열린 dialog 안 이주
     if (!_blank) { clearTimeout(fr._wd); fr._wdRetried = false; }   // 실 콘텐츠 도착 = 워치독 해제·재시도권 원복(다음 로드용)
     if (!_blank) fr.classList.add('ready');   // 한수(운영자 260724 · frame-ready 전역클래스 → 프레임별 상태 승격): 이 프레임 실 콘텐츠 로드 = 리빌 준비 완료. CSS 리빌 게이트 = .toolfr.active.ready(전역 frame-ready 의존 제거) → 타 프레임 load가 로딩중 활성 프레임을 빈 채 조기 노출하던 부류(번역 탭 "안 떠" #2930) 구조적 재발불가. 활성 무관 = 프리로드(tr 예열) 프레임도 로드시 결속(활성화 시 즉시 표시). _blank(about:blank) 가드 = 프리로드 공백 자기노출 방어. cross-origin = fail-safe 실페이지 취급(구 동작)
     if (!_blank && fr.classList.contains('active')) tooldlg.classList.add('frame-ready');   // 전역 frame-ready = 이제 리빌 아닌 보조 신호(재클릭 멱등 가드·trWarm 예열 판정) · 활성 프레임 실 load시만 = "활성 콘텐츠 표시중" 의미 유지(#2930 활성 게이트 존속)

@@ -5776,8 +5776,30 @@ const CONFUSE_PAIRS = [
 //    오타교정 형태(같은 음절수 · 자모거리 1~2)만 학습 = 본인이 실제 교정한 것만 → 오탐 0. 비-LLM·무과금.
 const _LEARN_KEY = 'nomute_spell_learned', _LEARN_CAP = 400, _SPELL_FIELDS = ['lines', 'cSub', 'cTitle', 'cLines', 'warnLines'];
 function loadLearned() { try { const o = JSON.parse(localStorage.getItem(_LEARN_KEY) || '{}'); return (o && typeof o === 'object') ? o : {}; } catch { return {}; } }
-function saveLearned(m, delta) { try { const e = Object.entries(m); localStorage.setItem(_LEARN_KEY, JSON.stringify(e.length > _LEARN_CAP ? Object.fromEntries(e.slice(e.length - _LEARN_CAP)) : m)); } catch {} if (delta && Object.keys(delta).length) fetch('api/mapsync', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ file: 'spell', set: delta }) }).catch(() => {}); }   // delta = 계정 자산화(운영자 260717 "학습사전 ㄱ" — 폰에서 배운 교정이 PC에도·기기 초기화 소실 방지 · fire-and-forget fail-soft)
-(async () => { try { const r = await fetch('spell-learned.json?_=' + Date.now()); if (!r.ok) return; const srv = await r.json(); if (!srv || typeof srv !== 'object' || Array.isArray(srv)) return; const local = loadLearned(); const merged = { ...srv, ...local }; if (JSON.stringify(merged) !== JSON.stringify(local)) saveLearned(merged); } catch { /* 없으면 로컬만 */ } })();   // 부팅 1회 계정 사전 합류(서버 ∪ 로컬·로컬 우선 = 이 기기 최신 학습 보존 · POST 없음 = 에코 차단)
+function saveLearned(m, delta) { try { const e = Object.entries(m); localStorage.setItem(_LEARN_KEY, JSON.stringify(e.length > _LEARN_CAP ? Object.fromEntries(e.slice(e.length - _LEARN_CAP)) : m)); } catch {} if (delta && Object.keys(delta).length) { const p = learnPend(); Object.keys(delta).forEach(k => { delete p[k]; p[k] = delta[k]; }); const ks = Object.keys(p); if (ks.length > _LEARN_CAP) ks.slice(0, ks.length - _LEARN_CAP).forEach(k => { delete p[k]; }); if (learnPendSave(p)) flushLearned(); else fetch('api/mapsync', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ file: 'spell', set: delta }) }).catch(() => {}); } }   // 원장 상한 = 사전 상한(_LEARN_CAP · 오래된 것부터 탈락) · 원장 기록 실패(저장 공간) = 구판 직송 1회 폴백   // delta = 계정 자산화(운영자 260717 "학습사전 ㄱ" — 폰에서 배운 교정이 PC에도·기기 초기화 소실 방지) · 전송 = 미전송 원장 경유(아래)
+// 미전송 원장(260923 운영자 «남은 거(mapsync·오류 문구)도 지금 고쳐줘») — 구판 fire-and-forget(.catch 무시)은 로그인 만료·회선에 걸린 학습을 영영 다른 기기로 못 보냈다
+//   (로컬엔 남아 이 기기만 앎) → 성공 응답(ok)까지 원장 보존 · 부팅·학습·회선 복귀 때 재전송(서버 = set 패치 의미론이라 재전송 멱등).
+const _LEARN_PEND_KEY = 'nomute_spell_pend';
+function learnPend() { try { const o = JSON.parse(localStorage.getItem(_LEARN_PEND_KEY) || '{}'); return (o && typeof o === 'object' && !Array.isArray(o)) ? o : {}; } catch { return {}; } }
+function learnPendSave(p) { try { localStorage.setItem(_LEARN_PEND_KEY, JSON.stringify(p)); return true; } catch { return false; } }
+let _learnFlushing = false;
+async function flushLearned() {   // 호출당 1요청(≤50키 = api/mapsync 상한 = 1커밋 · 나머지는 다음 부팅·학습·online) — 커밋 폭주로 CF 빌드 큐가 밀리지 않게
+  if (_learnFlushing) return; _learnFlushing = true;
+  try {
+    const p = learnPend(), keys = Object.keys(p).slice(0, 50);
+    if (!keys.length) return;
+    const set = {}; keys.forEach(k => { set[k] = p[k]; });
+    const sig = (typeof AbortSignal !== 'undefined' && AbortSignal.timeout) ? AbortSignal.timeout(12000) : null;   // 12s 상한(매달린 소켓이 _learnFlushing 을 영구 점유 = 이 탭 동기 정지 차단 · 평의회 260923)
+    let r, j;
+    try { r = await fetch('api/mapsync', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ file: 'spell', set }), ...(sig ? { signal: sig } : {}) }); j = await r.json().catch(() => ({})); }
+    catch { return; }   // 회선·로그인 만료·시간 초과 = 보존(다음 부팅·학습·online 재시도)
+    const perm = !r.ok && r.status >= 400 && r.status < 500 && r.status !== 401 && r.status !== 403 && r.status !== 408 && r.status !== 409 && r.status !== 429;   // 형식 거절 = 재전송 무의미 → 원장에서 뺌(로컬 사전엔 그대로)
+    if (!(r.ok && j && j.ok) && !perm) return;
+    const cur = learnPend(); keys.forEach(k => { if (cur[k] === set[k]) delete cur[k]; }); learnPendSave(cur);   // 전송 중 같은 키 재학습 = 남김(다음 호출)
+  } finally { _learnFlushing = false; }
+}
+window.addEventListener('online', () => flushLearned());
+(async () => { try { const r = await fetch('spell-learned.json?_=' + Date.now()); if (!r.ok) return; const srv = await r.json(); if (!srv || typeof srv !== 'object' || Array.isArray(srv)) return; const local = loadLearned(); const merged = { ...srv, ...local }; if (JSON.stringify(merged) !== JSON.stringify(local)) saveLearned(merged); } catch { /* 없으면 로컬만 */ } finally { flushLearned(); } })();   // 부팅 1회 계정 사전 합류(서버 ∪ 로컬·로컬 우선 = 이 기기 최신 학습 보존 · 합류 자체는 POST 없음 = 에코 차단) + 미전송 원장 재전송
 function spellPairs() { const L = loadLearned(); return CONFUSE_PAIRS.concat(Object.keys(L).map(k => [k, L[k]])); }   // 시드 + 학습 누적
 function _jamo(s) { const out = []; for (const ch of s) { const o = ch.charCodeAt(0) - 0xAC00; out.push((o >= 0 && o < 11172) ? [Math.floor(o / 588), Math.floor((o % 588) / 28), o % 28] : [ch]); } return out; }
 function _jamoDist(a, b) { if (a.length !== b.length) return 9; const ja = _jamo(a), jb = _jamo(b); let d = 0; for (let i = 0; i < ja.length; i++) { const x = ja[i], y = jb[i]; if (x.length !== 3 || y.length !== 3) { if (x[0] !== y[0]) d += 2; } else { for (let k = 0; k < 3; k++) if (x[k] !== y[k]) d++; } } return d; }
@@ -6230,7 +6252,7 @@ window.addEventListener('focus', () => { pollServerHist(); pollR2Recent(); });
 window.addEventListener('pageshow', e => { if (e.persisted) { _syncFails = 0; pollServerHist(); pollR2Recent(); } });   // iOS PWA bfcache 복귀 = visibilitychange 미발화 경로 보강(운영자 260803 2차) · 자가치유는 nm-sync.js pageshow 리스너가 동반 처리(4차)
 setInterval(() => { pollServerHist(); pollR2Recent(); _syncCheck(); }, 10000);   // raw-ok: 폴 주기(ms — 지속시간 토큰 아님) · 10s 주기 재폴링(visible일 때만 · 구 90s → 운영자 260731 "동기화가 십초 단위로" 승격) — Pages 이력 + R2 즉시 발견 2축(즉시 축 = 배포 랙 없이 10~20s 수신 · 운영자 260731 "즉시 경로 얹기") · 무변경 = sig·known 게이트가 재렌더 억제(깜빡임 0) · _syncCheck = 동기화 생명선 경고(260803 2차)
 pollR2Recent();   // 부팅 1회 = 열자마자 최근 창 즉시 수신(10s 첫 틱 대기 없이)
-window.nmRefresh = () => { pollR2Recent(); return pollServerHist(); };   // 부모 셸 헤더 새로고침(#toolRf · 운영자 260731) 훅 — 즉시(R2)·정식(Pages) 두 축 동시 재fetch · nm-sync.js 복귀 자동 재동기도 이 훅을 호출(4차)
+window.nmRefresh = () => { pollR2Recent(); try { flushLearned(); } catch {} return pollServerHist(); };   // + 맞춤법 원장 재전송(복귀 = 로그인 복구 직후일 수 있음 · 평의회 260923)   // 부모 셸 헤더 새로고침(#toolRf · 운영자 260731) 훅 — 즉시(R2)·정식(Pages) 두 축 동시 재fetch · nm-sync.js 복귀 자동 재동기도 이 훅을 호출(4차)
 // nm-sync 새 배포 자동 리로드의 한가 판정 — 진행 중 잡 있으면 리로드 이월(4차)
 //   ⚠ 260816 확장(운영자 «그 원래 삽입문구들이 싹 날라가버리는 증상 · 목적은 ai 합성을 사진 베이스로 해서 포스트를 완성하는 거임»)
 //   AI 합성은 러너가 **main에 커밋**해야 끝난다 → 그 커밋이 Pages 재배포를 부르고, 재배포는 이 문서의 ETag를 바꾼다

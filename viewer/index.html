@@ -7681,7 +7681,7 @@ function fireEdit() {
         $('#editdlg').close();          // 보던 캐러셀 그대로(스크롤 유지)
         pollWhilePending();
       } else { alert(j.error || `실패 (${ok ? 'ok' : 'err'})`); }
-    }).catch(e => { reset(); alert('요청 실패: ' + e.message); });
+    }).catch(e => { reset(); netMsg(e).then(m => alert('요청 실패: ' + (m || e.message))); });
 }
 function markReshooting(n, textOnly) {
   const s = $(`#feedsec .slide[data-card="${n}"]`); if (!s) return;
@@ -7748,7 +7748,7 @@ function submitFeedback(p, fb, slideEl) {
         setTimeout(() => askShowCheck(save), 300);   // 게이지 채움완료(gdone .3s)와 물려 ✓ 팝(멈칫 제거·시안2·운영자 260703)
         setTimeout(() => fb.remove(), 1500);                                                             // ✓ 보여주고 패널 닫음
       } else { gaugeClear(save); save.classList.add('shake'); setTimeout(() => save.classList.remove('shake'), 420); save.disabled = false; alert(j.error || '실패'); }
-    }).catch(e => { gaugeClear(save); save.classList.add('shake'); setTimeout(() => save.classList.remove('shake'), 420); save.disabled = false; alert('요청 실패: ' + e.message); });
+    }).catch(e => { gaugeClear(save); save.classList.add('shake'); setTimeout(() => save.classList.remove('shake'), 420); save.disabled = false; netMsg(e).then(m => alert('요청 실패: ' + (m || e.message))); });
 }
 // ── 투표 상태(1카드 1표·localStorage) — 기록하면 반대쪽 잠금, 같은 쪽 재탭=취소(DB 삭제) ──
 function getVote(file, card) { try { return (JSON.parse(localStorage.getItem('nomute_fb') || '{}'))[`${file}#${card}`] || null; } catch { return null; } }
@@ -7791,7 +7791,7 @@ function cancelVote(card, vote, fig, file, btn) {
       if (btn) { btn.disabled = false; disarmThumb(btn); }
       if (ok && j.ok) { setVote(file, card.n, null); applyVoteState(fig, file, card.n); }   // 성공 = 투표 제거 + 썸 원복(아이콘·활성)
       else alert(j.error || '취소 실패');
-    }).catch(e => { if (btn) { btn.disabled = false; disarmThumb(btn); } alert('요청 실패: ' + e.message); });
+    }).catch(e => { if (btn) { btn.disabled = false; disarmThumb(btn); } netMsg(e).then(m => alert('요청 실패: ' + (m || e.message))); });
 }
 // ── PIN 입력 UI (PIN 슬롯 정본 · stage-2 260703) ──
 // confirm/prompt 대체. #pindlg 슬롯 6개(동그라미)를 단일 투명 오버레이(.pin-in-h)로 받아 Promise로 돌려준다.
@@ -7911,7 +7911,7 @@ async function makeCards(target, btn, mode) {
     if (btn) { gaugeClear(btn); btn.classList.remove('okdone', 'checking'); btn.style.pointerEvents = ''; }
     alert(j.error || `실패 (${r.status})`);
     return false;
-  } catch (e) { if (btn) { gaugeClear(btn); btn.classList.remove('okdone', 'checking'); btn.style.pointerEvents = ''; } alert('요청 실패: ' + e.message); return false; }
+  } catch (e) { if (btn) { gaugeClear(btn); btn.classList.remove('okdone', 'checking'); btn.style.pointerEvents = ''; } netMsg(e).then(m => alert('요청 실패: ' + (m || e.message))); return false; }
 }
 // (입력칸 클립 = nm-clip.js로 SSOT 승격 · 운영자 260803 "공식처럼가야함" — ERASE_UNDO_MS·clipCopy·clipPasteText·clipPasteFallback·attachCopyPaste 전부 그 파일이 정본 · 인라인 사본 금지 · 로드는 head의 nm-clip.js 1줄)
 attachCopyPaste($('#revText'), true); attachCopyPaste($('#crevText'), true);   // 기사 요약 수정·카드 프롬프트 수정 = [복사][붙여넣기][지우개/되돌리기] (이미지 제작 동일)
@@ -8394,6 +8394,13 @@ function nmAuthNote() {   // fetch reject 지점 공용 — 원인 확정('auth'
   return f().then(k => { if (k === 'auth') setAuthStale(true); else if (k === 'ok' || k === 'srv') setAuthStale(false); return k; }, () => 'net');   // 'net' = 판단 불가 → 현 상태 유지
 }
 const AUTH_EXPIRED_TXT = '로그인이 만료됐어 — 다시 로그인해줘';
+// fetch reject 판별·문구(260923 후속 — 위 nmAuthNote 를 안 거치던 실패 지점 보강) · isNetErr = 브라우저 3종 fetch reject 문구만
+//   (Chromium 'Failed to fetch' · Safari 'Load failed' · Firefox 'NetworkError…') = 코드 오류 TypeError('x is not a function' 등)를 회선·만료로 가리지 않는다.
+function isNetErr(e) { return !!e && e.name === 'TypeError' && /^(failed to fetch|load failed|networkerror when attempting to fetch resource)/i.test(String(e.message || '')); }
+async function netMsg(e) {   // '' = fetch reject 아님(호출부 기존 문구) · 만료 = AUTH_EXPIRED_TXT(+ 메시지함 '다시 로그인' 점등 = nmAuthNote) · 그 외 = 회선
+  if (!isNetErr(e)) return '';
+  return (await nmAuthNote()) === 'auth' ? AUTH_EXPIRED_TXT : '네트워크 오류 — 다시 시도';
+}
 // 수집 고장(서버 축) = 알림메세지 항목(운영자 260725 "설정에 알림메세지 만들고 이런 시스템 에러메세지 수집되게 · 체크 표시 누르면 없어지고, 그 전까지는 설정 픽토그램이 극보수 색") —
 //   문법 = 바로 위 staleDataMsg() **그대로**(클라 생성·구분 '시스템'). 다른 건 딱 하나 = **id 부여** → ✓(확인)로 치울 수 있고 계정 md축(msgDismiss)으로 전 기기 동기.
 //   소스 = sns_trends.json `health.subs.stale`(260713부터 이미 쌓이던 "등록 계정은 있는데 이번 런 0건" 목록 · 새 수집·새 데이터 축 0 = 있는 걸 화면에 꺼낸 것뿐).
@@ -8944,7 +8951,7 @@ async function snsRecollect(btn) {   // SNS 트렌드 정체(wd-sns) → sns-tre
     const d = await r.json().catch(() => ({}));
     if (r.ok && d.ok) { btn.classList.add('ok'); if (span) span.textContent = '요청됨 · 1~2분 뒤 갱신돼'; }   // 재수집은 러너 스핀업+수집+커밋 = ~1~2분(즉시 갱신 아님 = 정직 고지)
     else { if (span) span.textContent = (d.error || '요청 실패 — 잠시 뒤 다시'); btn.disabled = false; }
-  } catch { if (span) span.textContent = '네트워크 오류 — 다시'; btn.disabled = false; }
+  } catch (e) { if (span) span.textContent = (await netMsg(e)) === AUTH_EXPIRED_TXT ? '로그인 만료 — 다시 로그인' : '네트워크 오류 — 다시'; btn.disabled = false; }   // 만료 = 재요청으로 안 풀림(260923 · 버튼 폭 = 짧은 문구 · 메시지함 '다시 로그인' 항목은 netMsg→nmAuthNote 가 점등)
 }
 async function shellApply(btn) {   // 새 버전 반영 = 최신 셸 재확보 후 새로고침(applyShellUpdate 재사용 · 토스트 버전과 동일 경로)
   if (btn) { btn.disabled = true; const s = btn.querySelector('span'); if (s) s.textContent = '반영중…'; }
@@ -10359,7 +10366,7 @@ async function _dgGo() {   // 영상 게시물이 아닌 주소 = 그 페이지 
     const d = await r.json().catch(() => ({ error: '응답 해석 실패' }));
     if (!r.ok || d.error) throw new Error(d.error || ('HTTP ' + r.status));
     _dg.res = d;
-  } catch (e2) { _dg.res = null; _dg.err = '가져오기 실패 — ' + ((e2 && e2.message) || '네트워크 오류'); }
+  } catch (e2) { _dg.res = null; const _m = await netMsg(e2); _dg.err = _m === AUTH_EXPIRED_TXT ? _m : '가져오기 실패 — ' + (_m || (e2 && e2.message) || '네트워크 오류'); }   // 만료 = 'Failed to fetch' 대신 로그인 안내(260923)
   _dg.busy = false;
   _dgPaintPic();
   _dgRenderBody();
@@ -12228,13 +12235,16 @@ function failRetry(c, opts) {   // ↻ 재시도 — ① 재분석 재발사(대
   if (!c) return;
   const alt = pickAlt(c);   // 같은 사건 타매체(메이저 우선·가까운 관련기사)
   if (c.url) {   // ① 재분석 재발사(body 없이 → fetch 재시도 · alt 동반) = 다시 대기열(pending)로 · Failed→Picking(pfResubActive)
-    const id = candId(c); saveRating(id, { picked: true, pickedAt: Date.now() }); pfAddResub(id);
+    const id = candId(c); const _prev = ratingsAll()[id] || {}; saveRating(id, { picked: true, pickedAt: Date.now() }); pfAddResub(id);   // _prev = 만료 회수 때 재시도 직전 상태 복원용
     fetch('api/pick', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ url: c.url, title: c.title || '', alt, event_key: c.event_key || '' }) })
       .then(async r => { if (r.ok) return;   // 서버 거절(GH_TOKEN 회귀·429 등) = 낙관 Picking 회수 + 표면화(무통보 유실 차단 · pickCard 8624 패턴 · 평의회 260713 ⑦)
         const j = await r.json().catch(() => ({}));
         saveRating(id, { picked: false }); pfRemoveResub(id); if (CURTAB === 'scrap' && SCRAP_LOADED) renderScrap();
         alert('재시도 발사 실패 — 다시 시도해줘\n' + (j.error || ('HTTP ' + r.status))); })
-      .catch(() => {});   // 네트워크 예외 = 종전대로 조용히(오프라인 순간 등 — 타임아웃 감시가 Failed 복귀 커버)
+      .catch(async e => {   // 네트워크 예외 = 종전대로 조용히(오프라인 순간 등 — 타임아웃 감시가 Failed 복귀 커버) — 단 로그인 만료 확정은 즉시 회수·안내(260923)
+        if ((await netMsg(e)) !== AUTH_EXPIRED_TXT) return;
+        saveRating(id, { picked: !!_prev.picked, pickedAt: _prev.pickedAt }); pfRemoveResub(id); if (CURTAB === 'scrap' && SCRAP_LOADED) renderScrap();   // 재시도 직전 상태로(Failed 트레이 유지 · picked:false 로 떨구면 실패 기록 억제가 풀려 카드가 엉뚱한 상태)
+        alert('재시도 발사 실패\n' + AUTH_EXPIRED_TXT); });
   }
   if (!(opts && opts.noOpen)) {   // ② 가까운 관련기사 원문 새 탭 — 토스트 재시도만(칩 재시도는 생략 = 대기열만 · 원문은 제목 탭)
     const go = alt[0] || c.url;
@@ -13187,7 +13197,8 @@ async function pickCard(c) {
     qOptDrop(c.url);   // 접수 실패 = 낙관 행 회수(아래 로컬·서버 원장 롤백과 한 묶음 = 유령 대기열 항목 0)
     saveRating(id, { picked: false }); renderScrap();
     postRate({ id, url: c.url, title: c.title || '', score: cur.score || 0, picked: false });   // 서버 원장도 롤백(로컬만 되돌리면 영구 불일치)
-    alert('큐레이션 발동 실패 — 다시 시도해줘\n' + (e.message || e));
+    const m = await netMsg(e);   // 만료 = 「Failed to fetch」 대신 로그인 안내 · '다시 시도해줘' 머리 제거(재시도로 안 풀림 = 지시 충돌 · 260923)
+    alert(m === AUTH_EXPIRED_TXT ? '큐레이션 발동 실패\n' + m : '큐레이션 발동 실패 — 다시 시도해줘\n' + (m || e.message || e));
   }
 }
 // 👎 관심없음 = 별점 1점 미만(취향 부정신호) → dismissed 기록(이유=메모) → 풀에서 제외. DB(ratings.jsonl)에 누적.
@@ -13328,7 +13339,11 @@ function applyTriage(act, c, el, reason, text) {
         saveRating(id, { picked: false }); postRate({ id, url: c.url || '', title: c.title || '', score: cur.score || 0, picked: false });
         if (CURTAB === 'scrap' && SCRAP_LOADED) renderScrap();
         alert('큐레이션 발동 실패 — 다시 시도해줘\n' + why); })
-      .catch(() => {});   // 네트워크 예외 = 종전대로 조용히(pickTimedOut 감시가 Failed 복귀 커버)
+      .catch(async e => {   // 네트워크 예외 = 종전대로 조용히(pickTimedOut 감시가 Failed 복귀 커버) — 단 로그인 만료 확정은 즉시 회수·안내(260923: 10분 Picking… 뒤 Failed로만 드러남 · Access가 함수 앞에서 막아 서버 미접수 확정)
+        if ((await netMsg(e)) !== AUTH_EXPIRED_TXT) return;
+        saveRating(id, { picked: false });
+        if (CURTAB === 'scrap' && SCRAP_LOADED) renderScrap();
+        alert('큐레이션 발동 실패\n' + AUTH_EXPIRED_TXT); });
   }
   if (act === 'pick') {   // 픽 = 사라지지 말고 제자리서 초록 게이지→✓ 체크→'Picking…'(분석 중) → 피드 진입 시 PICKED (운영자 260702·재시도 패턴 계승 · api/pick은 위서 이미 발사=모션 순수 시각)
     if (el) {
@@ -16073,7 +16088,8 @@ function frWatch(fr, src) {   // src 있으면 1회 재로드 대상(없으면 �
 }
 function bindToolFrameLoad(fr) {   // load = 페이드인(frame-ready)+ESC 브릿지. 복제 프레임에도 필수(없으면 opacity:0로 안 보임).
   fr.addEventListener('load', () => {
-    let _blank = false; try { _blank = fr.contentWindow.location.href === 'about:blank'; } catch (_) {}
+    let _blank = false, _xo = false; try { _blank = fr.contentWindow.location.href === 'about:blank'; } catch (_) { _xo = true; }
+    if (_xo) nmAuthNote().then(k => { if (k === 'auth' && fr.classList.contains('active')) qFlash('로그인이 만료됐어 — 도구 닫고 다시 로그인해줘'); });   // 교차 출처 착지 = 도구 문서가 Access 로그인으로 튕김(frame-ancestors 백지) — 구판은 이유 없는 빈 창(260923) · 도구 창 안 = 당김 새로고침 차단·헤더 ↻ 는 입력 초기화 → '도구 닫고' · qFlash = 열린 dialog 안 이주
     if (!_blank) { clearTimeout(fr._wd); fr._wdRetried = false; }   // 실 콘텐츠 도착 = 워치독 해제·재시도권 원복(다음 로드용)
     if (!_blank) fr.classList.add('ready');   // 한수(운영자 260724 · frame-ready 전역클래스 → 프레임별 상태 승격): 이 프레임 실 콘텐츠 로드 = 리빌 준비 완료. CSS 리빌 게이트 = .toolfr.active.ready(전역 frame-ready 의존 제거) → 타 프레임 load가 로딩중 활성 프레임을 빈 채 조기 노출하던 부류(번역 탭 "안 떠" #2930) 구조적 재발불가. 활성 무관 = 프리로드(tr 예열) 프레임도 로드시 결속(활성화 시 즉시 표시). _blank(about:blank) 가드 = 프리로드 공백 자기노출 방어. cross-origin = fail-safe 실페이지 취급(구 동작)
     if (!_blank && fr.classList.contains('active')) tooldlg.classList.add('frame-ready');   // 전역 frame-ready = 이제 리빌 아닌 보조 신호(재클릭 멱등 가드·trWarm 예열 판정) · 활성 프레임 실 load시만 = "활성 콘텐츠 표시중" 의미 유지(#2930 활성 게이트 존속)
@@ -17591,8 +17607,8 @@ $('#crevSend').addEventListener('click', async () => {
     } else {
       gaugeClear(btn); btn.disabled = false; qFlash((d && d.error) ? String(d.error).slice(0, 80) : '전송 실패 — 다시');
     }
-  } catch {
-    gaugeClear(btn); btn.disabled = false; qFlash('네트워크 오류 — 다시');
+  } catch (e) {
+    gaugeClear(btn); btn.disabled = false; qFlash((await netMsg(e)) || '네트워크 오류 — 다시');   // 만료 = 로그인 안내(260923 · 카드 편집 4곳 형제)
   }
 });
 loadCardRevising();

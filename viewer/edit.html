@@ -2017,8 +2017,8 @@ $('#file').addEventListener('change',async()=>{
   if(FILE_URL&&!_pollLive){ try{ URL.revokeObjectURL(FILE_URL); }catch(e){} }
   FILE_URL=''; render();   // 크롭 미리보기 버튼 즉시 소거(열린 비율 카드 · conv 이식 260711)
   if(f.size>2*1024*1024*1024){ fileSlotClear(); $('#editGo').disabled=false; return errStatus('용량 초과'); }   // 거절 = 버튼 복구(직전 업로드가 잠근 상태 고착 방지 · 평의회7 F1)
-  const r2on=await nmUpArm();   // R2 직업로드 가용(문서당 1회 핑 · 4s 타임아웃) — 미가용 = 종전 30MB 경로 폴백
-  if(!r2on&&f.size>B64_MAX){ fileSlotClear(); $('#editGo').disabled=false; return errStatus(nmUpWhyMsg(1)||'용량 초과'); }   // R2 불가 사유가 만료·회선이면 그쪽(260923 · upload.js nmUpWhyMsg)   // 문구 = 실한도 표기(구 "30MB"는 서버 실한도 28.6MiB와 어긋나 29MB 파일이 "30MB까지 된다"는 안내를 받고도 거절당했다)
+  const r2on=await nmUpArm(); if($('#file').files[0]!==f) return;   // 확인 대기 중 다른 파일 선택 = 낡은 처리 중단(260923) · R2 직업로드 가용(문서당 1회 핑 · 4s 타임아웃) — 미가용 = 종전 30MB 경로 폴백
+  if(!r2on&&f.size>B64_MAX){ fileSlotClear(); $('#editGo').disabled=false; const _w=nmUpWhyMsg(1); return errStatus(_w==='로그인 만료'?'재로그인':(_w||'용량 초과')); }   // 70px 버튼 = 한 줄 4음절('용량 초과' 폭) — '로그인 만료'(5음절)는 단어 중간 2줄로 끊겨 만료 = '재로그인'(다음 행동 · 260923)   // R2 불가 사유가 만료·회선이면 그쪽(260923 · upload.js nmUpWhyMsg)   // 문구 = 실한도 표기(구 "30MB"는 서버 실한도 28.6MiB와 어긋나 29MB 파일이 "30MB까지 된다"는 안내를 받고도 거절당했다)
   segsReset();   // 새 소스 = 옛 구간 무효(평의회⑤ 260728 — 60초 영상 구간이 10초 영상에 그대로 발사되던 사고 차단) · ⚠ **첨부가 확정된 뒤**에 비운다(재검⑤ 260728 — 크기 거절 앞에 두면 첨부는 거절됐는데 기존 구간만 날아가 복구 불가)
   FILE_NAME=f.name; FILE_URL=URL.createObjectURL(f); render();   // 미리보기 버튼 노출(objectURL = 업로드 완료 전에도 로컬 프리뷰 가능)
   lrTiltApply(f);   // 좌우 쏠림 자동 감지(운영자 260810) — await 안 한다: 업로드·발사 흐름을 막지 않고, 측정이 끝나면 스스로 render()로 반영(fail-soft = 못 재면 무변화)
@@ -3416,7 +3416,7 @@ $('#ftGo').addEventListener('click', async e=>{
         }).catch(()=>setTimeout(tick, 7000));
       })();
     })
-    .catch(err=>{ const _to=(err&&(err.name==='TimeoutError'||err.name==='AbortError')); fail(_to?'접수가 응답이 없어 — 회선 확인하고 다시':'네트워크 오류 — 다시 눌러줘'); });   // 키 보존(구 `FILE_R2=''`) = 네트워크 실패는 키가 죽은 게 아니라 재업로드만 강요했다 · 문구 = 메인 발사 타임아웃 계승
+    .catch(async err=>{ const _to=(err&&(err.name==='TimeoutError'||err.name==='AbortError')); const _au=(!_to&&err&&err.name==='TypeError'&&/^(failed to fetch|load failed|networkerror when attempting to fetch resource)/i.test(String(err.message||''))&&window.nmSync&&nmSync.probeNow)?(await nmSync.probeNow())==='auth':false; fail(_to?'접수가 응답이 없어 — 회선 확인하고 다시':(_au?'로그인 만료 — 도구 닫고 다시 로그인':'네트워크 오류 — 다시 눌러줘')); });   // fetch reject 중 만료 분리(260923)   // 키 보존(구 `FILE_R2=''`) = 네트워크 실패는 키가 죽은 게 아니라 재업로드만 강요했다 · 문구 = 메인 발사 타임아웃 계승
 });
 function ftRender(d){
   const res=$('#ftRes'); res.innerHTML='';

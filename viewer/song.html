@@ -655,7 +655,7 @@ async function fireApi(gb, url, payload, onAccept){
     if(!res.ok||j.error){ goIdle(gb); const _m=String(j.error||('서버 오류 '+res.status+' — 재시도')); status.innerHTML=WARN_SVG+' '+esc(_m); status.classList.add('err'); return _m; }
     onAccept(j, t0);   // 접수 성공 — 버튼은 goFire 시퀀스가 ✓→전송됨→원복 · 대기는 상태줄(statusWait — 폴이 켬)
     return '';
-  }catch(e){ goIdle(gb); status.innerHTML=WARN_SVG+' 요청 실패 — 재시도 ('+esc(e.message)+')'; status.classList.add('err'); return ''; }   // 네트워크 실패 = 키가 죽은 게 아니다 = 빈 문자열(보존)
+  }catch(e){ goIdle(gb); const _au=(e&&e.name==='TypeError'&&/^(failed to fetch|load failed|networkerror when attempting to fetch resource)/i.test(String(e.message||''))&&window.nmSync&&nmSync.probeNow)?(await nmSync.probeNow())==='auth':false; status.innerHTML=WARN_SVG+' '+(_au?'로그인이 만료됐어 — 도구 닫고 다시 로그인해줘':'요청 실패 — 재시도 ('+esc(e.message)+')'); status.classList.add('err'); return ''; }   // fetch reject 중 만료 분리(260923)   // 네트워크 실패 = 키가 죽은 게 아니다 = 빈 문자열(보존)
 }
 function fire(mode, gb){
   const story=$('#story').value.trim();
@@ -1122,7 +1122,7 @@ $('#vFile').addEventListener('change',async e=>{
   if(VR2&&window.nmUpDrop) nmUpDrop(VR2);   // 이전 R2 키 고아 정리(대체 선택 · edit 평의회7 F2 계승)
   VR2=''; VRAW=null;
   if(f.size>2*1024*1024*1024){ e.target.value=''; return btnErr($('#trainGo'),'파일은 2GB까지'); }   // api/upload 계약 절대캡
-  const r2on=window.nmUpArm&&await nmUpArm();   // R2 직업로드 1순위(전 크기 · edit 동문 "작은 파일도 R2, b64 = 예비역" · 운영자 260722 단일화) — 미가용 = 종전 20MB 캡 폴백
+  const r2on=window.nmUpArm&&await nmUpArm(); if(e.target.files&&e.target.files[0]!==f) return;   // 확인 대기 중 다른 파일 선택 = 낡은 처리 중단(260923) · R2 직업로드 1순위(전 크기 · edit 동문 "작은 파일도 R2, b64 = 예비역" · 운영자 260722 단일화) — 미가용 = 종전 20MB 캡 폴백
   if(!r2on&&f.size>20*1024*1024){ e.target.value=''; return btnErr($('#trainGo'),(window.nmUpWhyMsg&&nmUpWhyMsg(1))||'파일은 ≤20MB — 1~5분 mp3/m4a'); }   // R2 불가 사유가 만료·회선이면 그쪽(260923)
   if(r2on){
     VRAW=f;

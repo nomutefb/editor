@@ -214,7 +214,7 @@ async function snsRecollect(btn) {   // SNS 트렌드 정체(wd-sns) → sns-tre
     const d = await r.json().catch(() => ({}));
     if (r.ok && d.ok) { btn.classList.add('ok'); if (span) span.textContent = '요청됨 · 1~2분 뒤 갱신돼'; }   // 재수집은 러너 스핀업+수집+커밋 = ~1~2분(즉시 갱신 아님 = 정직 고지)
     else { if (span) span.textContent = (d.error || '요청 실패 — 잠시 뒤 다시'); btn.disabled = false; }
-  } catch { if (span) span.textContent = '네트워크 오류 — 다시'; btn.disabled = false; }
+  } catch (e) { if (span) span.textContent = (await netMsg(e)) === AUTH_EXPIRED_TXT ? '로그인 만료 — 다시 로그인' : '네트워크 오류 — 다시'; btn.disabled = false; }   // 만료 = 재요청으로 안 풀림(260923 · 버튼 폭 = 짧은 문구 · 메시지함 '다시 로그인' 항목은 netMsg→nmAuthNote 가 점등)
 }
 async function shellApply(btn) {   // 새 버전 반영 = 최신 셸 재확보 후 새로고침(applyShellUpdate 재사용 · 토스트 버전과 동일 경로)
   if (btn) { btn.disabled = true; const s = btn.querySelector('span'); if (s) s.textContent = '반영중…'; }

@@ -568,7 +568,7 @@ function fireEdit() {
         $('#editdlg').close();          // 보던 캐러셀 그대로(스크롤 유지)
         pollWhilePending();
       } else { alert(j.error || `실패 (${ok ? 'ok' : 'err'})`); }
-    }).catch(e => { reset(); alert('요청 실패: ' + e.message); });
+    }).catch(e => { reset(); netMsg(e).then(m => alert('요청 실패: ' + (m || e.message))); });
 }
 function markReshooting(n, textOnly) {
   const s = $(`#feedsec .slide[data-card="${n}"]`); if (!s) return;
@@ -635,7 +635,7 @@ function submitFeedback(p, fb, slideEl) {
         setTimeout(() => askShowCheck(save), 300);   // 게이지 채움완료(gdone .3s)와 물려 ✓ 팝(멈칫 제거·시안2·운영자 260703)
         setTimeout(() => fb.remove(), 1500);                                                             // ✓ 보여주고 패널 닫음
       } else { gaugeClear(save); save.classList.add('shake'); setTimeout(() => save.classList.remove('shake'), 420); save.disabled = false; alert(j.error || '실패'); }
-    }).catch(e => { gaugeClear(save); save.classList.add('shake'); setTimeout(() => save.classList.remove('shake'), 420); save.disabled = false; alert('요청 실패: ' + e.message); });
+    }).catch(e => { gaugeClear(save); save.classList.add('shake'); setTimeout(() => save.classList.remove('shake'), 420); save.disabled = false; netMsg(e).then(m => alert('요청 실패: ' + (m || e.message))); });
 }
 // ── 투표 상태(1카드 1표·localStorage) — 기록하면 반대쪽 잠금, 같은 쪽 재탭=취소(DB 삭제) ──
 function getVote(file, card) { try { return (JSON.parse(localStorage.getItem('nomute_fb') || '{}'))[`${file}#${card}`] || null; } catch { return null; } }
@@ -678,7 +678,7 @@ function cancelVote(card, vote, fig, file, btn) {
       if (btn) { btn.disabled = false; disarmThumb(btn); }
       if (ok && j.ok) { setVote(file, card.n, null); applyVoteState(fig, file, card.n); }   // 성공 = 투표 제거 + 썸 원복(아이콘·활성)
       else alert(j.error || '취소 실패');
-    }).catch(e => { if (btn) { btn.disabled = false; disarmThumb(btn); } alert('요청 실패: ' + e.message); });
+    }).catch(e => { if (btn) { btn.disabled = false; disarmThumb(btn); } netMsg(e).then(m => alert('요청 실패: ' + (m || e.message))); });
 }
 // ── PIN 입력 UI (PIN 슬롯 정본 · stage-2 260703) ──
 // confirm/prompt 대체. #pindlg 슬롯 6개(동그라미)를 단일 투명 오버레이(.pin-in-h)로 받아 Promise로 돌려준다.
@@ -798,7 +798,7 @@ async function makeCards(target, btn, mode) {
     if (btn) { gaugeClear(btn); btn.classList.remove('okdone', 'checking'); btn.style.pointerEvents = ''; }
     alert(j.error || `실패 (${r.status})`);
     return false;
-  } catch (e) { if (btn) { gaugeClear(btn); btn.classList.remove('okdone', 'checking'); btn.style.pointerEvents = ''; } alert('요청 실패: ' + e.message); return false; }
+  } catch (e) { if (btn) { gaugeClear(btn); btn.classList.remove('okdone', 'checking'); btn.style.pointerEvents = ''; } netMsg(e).then(m => alert('요청 실패: ' + (m || e.message))); return false; }
 }
 // (입력칸 클립 = nm-clip.js로 SSOT 승격 · 운영자 260803 "공식처럼가야함" — ERASE_UNDO_MS·clipCopy·clipPasteText·clipPasteFallback·attachCopyPaste 전부 그 파일이 정본 · 인라인 사본 금지 · 로드는 head의 nm-clip.js 1줄)
 attachCopyPaste($('#revText'), true); attachCopyPaste($('#crevText'), true);   // 기사 요약 수정·카드 프롬프트 수정 = [복사][붙여넣기][지우개/되돌리기] (이미지 제작 동일)

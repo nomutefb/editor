@@ -70,7 +70,8 @@ async function pickCard(c) {
     qOptDrop(c.url);   // 접수 실패 = 낙관 행 회수(아래 로컬·서버 원장 롤백과 한 묶음 = 유령 대기열 항목 0)
     saveRating(id, { picked: false }); renderScrap();
     postRate({ id, url: c.url, title: c.title || '', score: cur.score || 0, picked: false });   // 서버 원장도 롤백(로컬만 되돌리면 영구 불일치)
-    alert('큐레이션 발동 실패 — 다시 시도해줘\n' + (e.message || e));
+    const m = await netMsg(e);   // 만료 = 「Failed to fetch」 대신 로그인 안내 · '다시 시도해줘' 머리 제거(재시도로 안 풀림 = 지시 충돌 · 260923)
+    alert(m === AUTH_EXPIRED_TXT ? '큐레이션 발동 실패\n' + m : '큐레이션 발동 실패 — 다시 시도해줘\n' + (m || e.message || e));
   }
 }
 // 👎 관심없음 = 별점 1점 미만(취향 부정신호) → dismissed 기록(이유=메모) → 풀에서 제외. DB(ratings.jsonl)에 누적.
@@ -211,7 +212,11 @@ function applyTriage(act, c, el, reason, text) {
         saveRating(id, { picked: false }); postRate({ id, url: c.url || '', title: c.title || '', score: cur.score || 0, picked: false });
         if (CURTAB === 'scrap' && SCRAP_LOADED) renderScrap();
         alert('큐레이션 발동 실패 — 다시 시도해줘\n' + why); })
-      .catch(() => {});   // 네트워크 예외 = 종전대로 조용히(pickTimedOut 감시가 Failed 복귀 커버)
+      .catch(async e => {   // 네트워크 예외 = 종전대로 조용히(pickTimedOut 감시가 Failed 복귀 커버) — 단 로그인 만료 확정은 즉시 회수·안내(260923: 10분 Picking… 뒤 Failed로만 드러남 · Access가 함수 앞에서 막아 서버 미접수 확정)
+        if ((await netMsg(e)) !== AUTH_EXPIRED_TXT) return;
+        saveRating(id, { picked: false });
+        if (CURTAB === 'scrap' && SCRAP_LOADED) renderScrap();
+        alert('큐레이션 발동 실패\n' + AUTH_EXPIRED_TXT); });
   }
   if (act === 'pick') {   // 픽 = 사라지지 말고 제자리서 초록 게이지→✓ 체크→'Picking…'(분석 중) → 피드 진입 시 PICKED (운영자 260702·재시도 패턴 계승 · api/pick은 위서 이미 발사=모션 순수 시각)
     if (el) {

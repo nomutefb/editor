@@ -889,7 +889,7 @@ go.addEventListener('click', async () => {
     if (fired) { ctxPay.redo = 1; if (note) ctxPay.note = note; }
     const imgKey = await trUpSrc();   // 원본 사진 → R2(모델이 직접 볼 소스) · 실패 = 빈 문자열 = 종전 텍스트 전용 경로(악화 0)
     const r = await fetch('/api/tr', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ lines: ocrLines.map(l => ({ i: l.i, t: l.t })), imgKey, ctx: ctxPay }), signal: AbortSignal.timeout(150000) })   /* 무응답 상한(운영자 260725) = 즉답 경로 최장(Opus 플랜 산출) 여유 · 초과 = 무한 대기 대신 실패 표기 */
-      .catch(e => { throw new Error(e && e.name === 'TimeoutError' ? '서버 응답 지연 — 재시도' : '네트워크 오류 — 연결 확인 후 재시도'); });
+      .catch(async e => { if (e && e.name === 'TimeoutError') throw new Error('서버 응답 지연 — 재시도'); const au = (e && e.name === 'TypeError' && /^(failed to fetch|load failed|networkerror when attempting to fetch resource)/i.test(String(e.message || '')) && window.nmSync && nmSync.probeNow) ? (await nmSync.probeNow()) === 'auth' : false; throw new Error(au ? '로그인 만료 — 도구 닫고 다시 로그인' : '네트워크 오류 — 연결 확인 후 재시도'); });   // fetch reject 중 만료 분리(260923)
     const j = await r.json().catch(() => ({}));
     if (!r.ok || j.error) throw new Error(j.error || ('서버 오류 ' + r.status));
     if (j.plan) plan = j.plan; else jid = j.id;   // 즉답 경로(유료 API 직결 · 운영자 260721 승인) · 없으면 워크플로 폴링 폴백(구독 무료)

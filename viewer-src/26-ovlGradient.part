@@ -419,6 +419,13 @@ function nmAuthNote() {   // fetch reject 지점 공용 — 원인 확정('auth'
   return f().then(k => { if (k === 'auth') setAuthStale(true); else if (k === 'ok' || k === 'srv') setAuthStale(false); return k; }, () => 'net');   // 'net' = 판단 불가 → 현 상태 유지
 }
 const AUTH_EXPIRED_TXT = '로그인이 만료됐어 — 다시 로그인해줘';
+// fetch reject 판별·문구(260923 후속 — 위 nmAuthNote 를 안 거치던 실패 지점 보강) · isNetErr = 브라우저 3종 fetch reject 문구만
+//   (Chromium 'Failed to fetch' · Safari 'Load failed' · Firefox 'NetworkError…') = 코드 오류 TypeError('x is not a function' 등)를 회선·만료로 가리지 않는다.
+function isNetErr(e) { return !!e && e.name === 'TypeError' && /^(failed to fetch|load failed|networkerror when attempting to fetch resource)/i.test(String(e.message || '')); }
+async function netMsg(e) {   // '' = fetch reject 아님(호출부 기존 문구) · 만료 = AUTH_EXPIRED_TXT(+ 메시지함 '다시 로그인' 점등 = nmAuthNote) · 그 외 = 회선
+  if (!isNetErr(e)) return '';
+  return (await nmAuthNote()) === 'auth' ? AUTH_EXPIRED_TXT : '네트워크 오류 — 다시 시도';
+}
 // 수집 고장(서버 축) = 알림메세지 항목(운영자 260725 "설정에 알림메세지 만들고 이런 시스템 에러메세지 수집되게 · 체크 표시 누르면 없어지고, 그 전까지는 설정 픽토그램이 극보수 색") —
 //   문법 = 바로 위 staleDataMsg() **그대로**(클라 생성·구분 '시스템'). 다른 건 딱 하나 = **id 부여** → ✓(확인)로 치울 수 있고 계정 md축(msgDismiss)으로 전 기기 동기.
 //   소스 = sns_trends.json `health.subs.stale`(260713부터 이미 쌓이던 "등록 계정은 있는데 이번 런 0건" 목록 · 새 수집·새 데이터 축 0 = 있는 걸 화면에 꺼낸 것뿐).

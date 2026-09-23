@@ -393,7 +393,7 @@ async function _dgGo() {   // 영상 게시물이 아닌 주소 = 그 페이지 
     const d = await r.json().catch(() => ({ error: '응답 해석 실패' }));
     if (!r.ok || d.error) throw new Error(d.error || ('HTTP ' + r.status));
     _dg.res = d;
-  } catch (e2) { _dg.res = null; _dg.err = '가져오기 실패 — ' + ((e2 && e2.message) || '네트워크 오류'); }
+  } catch (e2) { _dg.res = null; const _m = await netMsg(e2); _dg.err = _m === AUTH_EXPIRED_TXT ? _m : '가져오기 실패 — ' + (_m || (e2 && e2.message) || '네트워크 오류'); }   // 만료 = 'Failed to fetch' 대신 로그인 안내(260923)
   _dg.busy = false;
   _dgPaintPic();
   _dgRenderBody();

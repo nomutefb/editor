@@ -123,8 +123,8 @@ $('#crevSend').addEventListener('click', async () => {
     } else {
       gaugeClear(btn); btn.disabled = false; qFlash((d && d.error) ? String(d.error).slice(0, 80) : '전송 실패 — 다시');
     }
-  } catch {
-    gaugeClear(btn); btn.disabled = false; qFlash('네트워크 오류 — 다시');
+  } catch (e) {
+    gaugeClear(btn); btn.disabled = false; qFlash((await netMsg(e)) || '네트워크 오류 — 다시');   // 만료 = 로그인 안내(260923 · 카드 편집 4곳 형제)
   }
 });
 loadCardRevising();
