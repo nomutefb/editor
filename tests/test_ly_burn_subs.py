@@ -80,12 +80,71 @@ class BoxLayers(unittest.TestCase):
             self.assertIn(w, box)
 
     def test_half_pad_shadow_geometry(self):
-        """윗변 = 어센트선 · 아랫변 = 디센트 + pad 를 pad/2 보더 + pad/2 그림자로(단일 합성) — 260812 기하 보존."""
-        a = ly_burn.build_ass(SEG, 540, 960, dict(BOX, hi=True))
-        box = text_of([l for l in dialogues(a) if layer(l) == 0][0])
+        """박스 = pad/2 보더 박스(투명)의 그림자(단일 합성) · 높이 fs×(1+pad) · 그림자 오프셋 = 글자 크기 × BOX_K(한글 잉크 가운데 · 260923)."""
         fs = max(18, int(960 * 0.05))
         half = ly_burn.ass_px(fs * 0.16 / 2.0)
-        self.assertIn("{\\ybord%s\\xshad0\\yshad%s\\3a&HFF&\\1a&HFF&}" % (half, half), box)
+        for font in ("gothic", "pretendard", "jua"):
+            a = ly_burn.build_ass(SEG, 540, 960, dict(BOX, hi=True, font=font))
+            box = text_of([l for l in dialogues(a) if layer(l) == 0][0])
+            dy = ly_burn._shad_y(fs * ly_burn.BOX_K[font])
+            self.assertIn("{\\ybord%s\\xshad0\\yshad%s\\3a&HFF&\\1a&HFF&}" % (half, dy), box, font)
+        a = ly_burn.build_ass(SEG, 540, 960, dict(BOX, hi=True, font="nope"))
+        self.assertIn("\\yshad%s\\3a" % ly_burn._shad_y(fs * ly_burn.BOX_K["gothic"]), a, "미지 폰트 = 고딕 폴백(스타일 Fontname 과 같은 규칙)")
+
+    def test_shadow_offset_never_zero(self):
+        """libass 는 그림자 오프셋 (0,0) 이면 그림자를 안 그린다(실측 260923 = 박스 증발) → 0 으로 반올림되면 0.1."""
+        for v in (0.0, 0.04, -0.04, -0.0):
+            self.assertEqual(ly_burn._shad_y(v), 0.1)
+        self.assertEqual(ly_burn._shad_y(-3.75), -3.8, "음수(위로) 그대로")
+        self.assertEqual(ly_burn._shad_y(3.6), 3.6)
+        a = ly_burn.build_ass(SEG, 540, 960, dict(BOX, pad=0.0, font="pretendard"))
+        self.assertNotIn("\\yshad0\\", a.replace("\\yshad0.", "x"), "오프셋 0 태그 금지")
+
+    def test_multiline_box_keeps_seams_and_shifts_together(self):
+        """여러 줄 = 앞 줄 [어센트, 디센트] 상자 그림자(dy − pad/2) + 끝 줄 pad/2 보더 그림자(dy) · 박스(\\3a)는 끝까지 투명."""
+        long_ko = "가나다라 마바사아 자차카타 파하가나 다라마바 사아자차 카타파하"
+        fs = max(18, int(960 * 0.05))
+        half = ly_burn.ass_px(fs * 0.16 / 2.0)
+        a = ly_burn.build_ass([{"s": 0.0, "e": 2.0, "ko": long_ko}], 540, 960, dict(BOX, karaoke=False, font="pretendard"))
+        box = text_of([l for l in dialogues(a) if layer(l) == 0][0])
+        self.assertIn("\\N", box, "검사 전제 = 2줄 이상")
+        m_fs = fs
+        for tag in box.split("}"):
+            if "\\fs" in tag:
+                m_fs = int(tag.split("\\fs")[1].split("\\")[0])
+        dy = m_fs * ly_burn.BOX_K["pretendard"]
+        self.assertIn("{\\ybord0\\yshad%s}" % ly_burn._shad_y(dy - half), box)
+        self.assertIn("\\N{\\ybord%s\\yshad%s}" % (half, ly_burn._shad_y(dy)), box)
+        self.assertEqual(box.count("\\3a&H"), 1, "박스 투명(\\3a&HFF&) 한 번뿐 = 박스 자체는 어느 줄에서도 안 보인다(그림자만)")
+
+    def test_box_k_matches_fonts_and_viewer(self):
+        """BOX_K = 러너 폰트 집합과 같은 키 · 뷰어 FONT_PV.bk 와 같은 값(미리보기 = 같은 산식)."""
+        import re
+        self.assertEqual(set(ly_burn.BOX_K), set(ly_burn.FONT_FAMILY))
+        html = open(os.path.join(ROOT, 'viewer', 'edit.html'), encoding='utf-8').read()
+        pv = dict((k, float(v)) for k, v in re.findall(r"\n  (\w+):\{lbl:'[^']*',lh:[0-9.]+,dsc:[0-9.]+,bk:(-?[0-9.]+),", html))
+        self.assertGreaterEqual(len(pv), 9, pv)
+        for k, v in pv.items():
+            self.assertIn(k, ly_burn.BOX_K, k)
+            self.assertAlmostEqual(v, ly_burn.BOX_K[k], places=4, msg=k)
+
+    def test_viewer_line_metrics_match_repo_fonts(self):
+        """FONT_PV.lh·dsc = 러너 폰트 파일의 OS/2 윈 수치(레포 동봉 5종 = 의존성 0 · struct 파싱)."""
+        import re
+        import struct
+        html = open(os.path.join(ROOT, 'viewer', 'edit.html'), encoding='utf-8').read()
+        pv = dict((k, (float(a), float(b))) for k, a, b in re.findall(r"\n  (\w+):\{lbl:'[^']*',lh:([0-9.]+),dsc:([0-9.]+),", html))
+        files = {"pretendard": "Pretendard-Bold.otf", "paper": "Paperlogy-5Medium.ttf", "plex": "IBMPlexSansKR-Bold.ttf",
+                 "jua": "Jua-Regular.ttf", "gowun": "GowunDodum-Regular.ttf"}
+        for k, fn in files.items():
+            with open(os.path.join(ROOT, 'assets', 'fonts', 'subs', fn), 'rb') as fh:
+                data = fh.read()
+            n = struct.unpack('>H', data[4:6])[0]
+            tab = {data[12 + 16 * i:16 + 16 * i].decode('latin-1'): struct.unpack('>I', data[20 + 16 * i:24 + 16 * i])[0] for i in range(n)}
+            upem = struct.unpack('>H', data[tab['head'] + 18:tab['head'] + 20])[0]
+            wa, wd = struct.unpack('>HH', data[tab['OS/2'] + 74:tab['OS/2'] + 78])
+            self.assertAlmostEqual(pv[k][0], (wa + wd) / upem, places=3, msg=k + " lh")
+            self.assertAlmostEqual(pv[k][1], wd / (wa + wd), places=3, msg=k + " dsc")
 
     def test_pop_scale_only_in_text_layer(self):
         a = ly_burn.build_ass(SEG, 540, 960, dict(BOX, pop=True))
@@ -178,8 +237,22 @@ def _render(ass_path, t, w=540, h=960):
     return raw
 
 
-def _box_profile(raw, w=540, h=960):
-    """(열별 박스 윗변 y, 이중 합성 픽셀 수, 박스 픽셀 수) — 배경 회색(128) 위 반투명 박스 44% = 71(1중) · 40(2중)."""
+def _ink_mask(raw, w=540, h=960):
+    """글자(흰·강조색) 잉크와 그 1px 둘레 — 밝거나 색이 있는 픽셀(회색 배경 128 제외)."""
+    ink = set()
+    for y in range(h // 2, h):
+        row = raw[y * w * 3:(y + 1) * w * 3]
+        for x in range(w):
+            r, g, b = row[3 * x], row[3 * x + 1], row[3 * x + 2]
+            if (r, g, b) != (128, 128, 128) and (r >= 120 or abs(r - g) >= 4 or abs(g - b) >= 4):
+                ink.update((x + dx, y + dy) for dx in (-1, 0, 1) for dy in (-1, 0, 1))
+    return ink
+
+
+def _box_profile(raw, w=540, h=960, mask=frozenset()):
+    """(열별 박스 윗변 y, 이중 합성 픽셀 수, 박스 픽셀 수) — 배경 회색(128) 위 반투명 박스 44% = 71(1중) · 40(2중).
+    mask = 이중 합성 집계에서 뺄 자리(전 프레임 글자 잉크 합집합 · 260923) — 박스 중심 보정으로 줄 이음새가 글자 가장자리와 겹치면 그 안티에일리어싱 픽셀이
+    강조 색(흰↔그린)에 따라 어두운 회색으로 잡혔다 안 잡혔다 했다(실측 540×960: 이음새 행 2픽셀 · 박스 자체는 프레임 간 동일). 프레임 공통 마스크라 비교가 공정하다."""
     top, dbl, box = {}, 0, 0
     for y in range(h // 2, h):
         row = raw[y * w * 3:(y + 1) * w * 3]
@@ -190,7 +263,7 @@ def _box_profile(raw, w=540, h=960):
             top.setdefault(x, y)
             if abs(r - g) < 4 and abs(g - b) < 4 and r < 120:
                 box += 1
-                if r < 55:
+                if r < 55 and (x, y) not in mask:
                     dbl += 1
     return top, dbl, box
 
@@ -203,8 +276,10 @@ class BoxRender(unittest.TestCase):
         with open(p, 'w', encoding='utf-8') as f:
             f.write(ly_burn.build_ass(SEG, 540, 960, dict(BOX, hi=True)))
         profiles, dbls, boxes = [], [], []
-        for t in (0.1, 0.9, 1.7):
-            top, dbl, box = _box_profile(_render(p, t))
+        raws = [_render(p, t) for t in (0.1, 0.9, 1.7)]
+        mask = set().union(*(_ink_mask(r) for r in raws))
+        for raw in raws:
+            top, dbl, box = _box_profile(raw, mask=mask)
             profiles.append(top); dbls.append(dbl); boxes.append(box)
         if not profiles[0]:
             self.skipTest('libass 가 쓸 폰트가 없는 환경(렌더 픽셀 0) — 구조 검사는 위 BoxLayers 가 담당')
