@@ -878,6 +878,7 @@ let ON={sub:true,trn:true,bgm:false,cut:false,trim:false,screen:false,res:false,
 let SCAN_ONCE=false;   // 다음 발사 1회를 '컷 미리보기 스캔'으로(버튼이 세움 · buildOpts가 읽고 즉시 내림 · 260727 ③)
 let CUT_REF=null;      // 승인 컷 참조 {id, off:[뺀 인덱스]} — 발사 성공 시 소진
 const CLIP_NM={fable:'Opus 5.5',opus:'Opus 5.5'};   // 클리퍼 감독 표시명 = 티어 키 라벨(models.json keyed.labels — 대행·복귀 때 apply_models.py가 키로 옮김 · 손 수정 = check_model_ids 차단)
+const clipDup=k=>k==='opus'&&CLIP_NM.opus===CLIP_NM.fable;   // 대행 중 두 감독 = 같은 모델 → 1개만(fable 쪽 · 복귀하면 자동으로 둘 다 · sb.html sbDirDup 동형)
 let CLIP_SAVE=null;   // 클리퍼 진입 직전 ON 스냅샷(운영자 260722 "도중에 누르면 다른 옵션값이 날아가 — 방지") — P값은 원래 보존이라 ON 플래그만 저장·복원
 function clipSnap(){ if(!ON.clip) CLIP_SAVE={...ON}; for(const kk in ON) ON[kk]=false; ON.clip=true; }   // 배타 진입 = 스냅샷 후 전축 off(발사 계약 불변 — buildOpts는 여전히 {clip:true} 단독)
 function clipRelease(){ if(!ON.clip) return; ON.clip=false; if(CLIP_SAVE){ for(const kk in CLIP_SAVE){ if(kk!=='clip') ON[kk]=CLIP_SAVE[kk]; } CLIP_SAVE=null; } }   // 배타 해제 = 스냅샷 복원(직후 탭한 축이 이겨야 하므로 호출측은 복원 뒤 자기 축 세팅)   // 음량 통일 = 기본 ON(운영자 260712 "음향 기본값 = 보정") — 나머지 축은 '원본/그대로/끔' 기본 유지 · 발사 게이트도 이 기본으로 통과(맨 발사 = 보정만 적용)
@@ -1032,7 +1033,7 @@ function prm(k){
   if(k==='res') return segs('res',[['off','원본 유지']].concat(RES_LADDER.map(a=>[a[0],a[2]])),ON.res?P.res:'off');   // src = 원본 유지(긴 변 3840 캡 · 4K는 180초 게이트 — 운영자 260711) · 라벨 = CYL과 동일 통일(260712 5차)
   if(k==='fps') return segs('fps',[['off','원본'],['60i','60fps 보간'],['30','30']],ON.fps?P.fps:'off');   // 24fps 삭제(운영자 260712 통일 5문법)
   if(k==='clip') return segs('clip',[['off','OFF'],['on','후보 스캔 3~5개 (단독 실행)']],ON.clip?'on':'off')
-    +(ON.clip?('<div class="plbl plbl-nm">감독</div><div class="prow">'+Object.entries(CLIP_NM).map(a=>pc('clipmdl',a[0],P.clipmdl===a[0],false,a[1])).join('')+'</div>'):'');   // 클리퍼 감독 모델(운영자 260722 · sb 감독 선택기 개념 미러 · edit .plbl/.prow/.pc 네이티브 계승) → 발사 opts.clip_model
+    +(ON.clip?('<div class="plbl plbl-nm">감독</div><div class="prow">'+Object.entries(CLIP_NM).filter(a=>!clipDup(a[0])).map(a=>pc('clipmdl',a[0],(clipDup(P.clipmdl)?'fable':P.clipmdl)===a[0],false,a[1])).join('')+'</div>'):'');   // 클리퍼 감독 모델(운영자 260722 · sb 감독 선택기 개념 미러 · edit .plbl/.prow/.pc 네이티브 계승) → 발사 opts.clip_model
   if(k==='bgm') return segs('bgm',[['off','OFF'],['on','목소리만 남김']],ON.bgm?'on':'off');
   if(k==='anorm') return segs('anorm',[['off','OFF'],['on','음량 강도 · 좌우 밸런스 보정']],ON.anorm?'on':'off');
   return '';

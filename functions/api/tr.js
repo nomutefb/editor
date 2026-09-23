@@ -90,7 +90,7 @@ async function directPlan(env, lines, ctx) {
       max_tokens: 2048,
       system: TR_RULES,
       messages: [{ role: 'user', content }],
-      output_config: { format: { type: 'json_schema', schema: PLAN_SCHEMA } },
+      output_config: { effort: 'high', format: { type: 'json_schema', schema: PLAN_SCHEMA } },   // effort = Opus 5.5 기본 medium(한 세대 전 기본은 high) → high 명시 = 종전 깊이 유지
     }),
   });
   if (!r.ok) throw new Error(`anthropic ${r.status}`);

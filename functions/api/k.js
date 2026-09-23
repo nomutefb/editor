@@ -128,7 +128,7 @@ async function directK(env, scene) {
   const r = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
     headers: { 'content-type': 'application/json', 'x-api-key': env.ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01' },
-    body: JSON.stringify({ model: 'claude-opus-5-5', max_tokens: 8192, system, messages: [{ role: 'user', content: scene }] }),
+    body: JSON.stringify({ model: 'claude-opus-5-5', max_tokens: 8192, output_config: { effort: 'high' }, system, messages: [{ role: 'user', content: scene }] }),   // effort = Opus 5.5 기본 medium(한 세대 전 기본은 high) → high 명시 = 종전 깊이 유지
   });
   if (!r.ok) throw new Error(`anthropic ${r.status}`);
   const m = await r.json();

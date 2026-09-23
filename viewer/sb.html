@@ -659,6 +659,9 @@ const SB_DIRECTORS = [   // 표시명 = NM_MODELS 사전 참조(운영자 260803
   { id: 'opus', nm: NM_MODELS.opus, hint: '잔잔·광고' },
   { id: 'gpt', nm: NM_MODELS.gpt, hint: '완급·액션 — API 종량' }
 ];
+// 대행(운영자 260923 · models.json tiers.fable.follow) = fable 티어가 opus 모델을 대신 쓰는 동안 두 감독 버튼이 같은 모델 → 1개만(fable 쪽 = 기본값·중요 티어).
+// 새 Fable로 복귀하면 사전 값이 갈라져 자동으로 둘 다 다시 보인다(서버 SB_DIRECTORS는 그대로 = 옛 입력 'opus'도 발사 가능).
+const sbDirDup = id => id === 'opus' && NM_MODELS.opus === NM_MODELS.fable;
 const SB_SHOOTS = [
   // 표기 = 운영자 260813 「Grok │ SD 2.5 · 2.0」 — 셋 다 각각 누르는 칸이다.
   // ⚠ 쪼개기 칸은 뺐다(운영자 「시댄스는 일단 안 쪼개는 걸 우선 · 콘티를 개선할 예정」) —
@@ -763,6 +766,7 @@ function sbPayload() {   // go 핸들러 페이로드(서버 api/sb.js가 화이
   try {
     const s = JSON.parse(localStorage.getItem(KEY) || '{}');
     if (SB_DIRECTORS.some(x => x.id === s.d && !x.wip)) sbDirector = s.d;   // wip(배선 대기) 복원 차단 — 발사 불능 상태 영속 방지
+    if (sbDirDup(sbDirector)) sbDirector = 'fable';   // 대행 중 숨긴 버튼 복원 = 보이는 쪽(같은 모델)으로
     if (SB_SHOOTS.some(x => x.id === s.sh)) sbShoot = s.sh;
     if (s.set && typeof s.set === 'object') Object.keys(SB_VALS).forEach(k => { const v = s.set[k]; if (SB_VALS[k].includes(v) || (k === '비율' && v === 'custom')) sbSet[k] = v; });   // 'custom' = 직접 상태(SB_VALS 밖 · k 「길이」 '직접' 복원 선례 동문법)
     if (typeof s.arW === 'string' && /^[1-9][0-9]?$/.test(s.arW)) sbArW = s.arW;
@@ -887,7 +891,7 @@ function sbPayload() {   // go 핸들러 페이로드(서버 api/sb.js가 화이
   });
   function render() {
     dg.innerHTML = '';
-    SB_DIRECTORS.forEach(m => { const b = optBtn(m.nm, sbDirector === m.id, () => { sbDirector = m.id; render(); }); b.title = m.hint; if (m.wip) { b.disabled = true; b.title = m.hint + ' — OpenAI API 키 배선 후 활성(설계확정 §2-1)'; } dg.appendChild(b); });
+    SB_DIRECTORS.forEach(m => { if (sbDirDup(m.id)) return; const b = optBtn(m.nm, sbDirector === m.id, () => { sbDirector = m.id; render(); }); b.title = m.hint; if (m.wip) { b.disabled = true; b.title = m.hint + ' — OpenAI API 키 배선 후 활성(설계확정 §2-1)'; } dg.appendChild(b); });
     sg.innerHTML = '';
     SB_SHOOTS.forEach(m => { const b = optBtn(m.nm, sbShoot === m.id, () => { sbShoot = m.id; render(); }); b.title = m.hint; sg.appendChild(b); });
     axR.innerHTML = '';
