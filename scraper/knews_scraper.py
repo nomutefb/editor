@@ -286,15 +286,57 @@ def prefetch(feeds):
     return out
 
 
+# ── 발행시각 KST 오기록 보정(260923 · 평의회7) ── 일부 CMS(시사저널·일간스포츠·프레시안·에이블뉴스·여성신문·미디어오늘·
+#   매일노동뉴스·통일뉴스·일다 = 260923 라이브 실측 9호스트 · 전부 같은 계열 CMS)가 한국시각을 +00:00(UTC)로 박아 기사가 최대 9시간
+#   **미래**로 보인다. 그대로 두면 ① 클러스터 대표(최초 보도) 선정·burst(15분 동시성)가 9시간 어긋나고 ② 단독 1보가 만료 뒤
+#   「방금 기사」로 재입장해 9시간 늦은 푸시가 나갈 수 있었다(평의회7 재현). 판정 = **호스트 단위**: 그 서버의 어느 피드든
+#   「지금보다 10분~9시간10분 미래」 항목이 하나라도 있으면 그 서버 전 항목을 -9h. 같은 스냅샷에서 정상 호스트 29곳의 미래 항목 = 0건.
+#   보정 뒤에도 미래인 항목 = 시각 미상(None) 처리(쓰레기 시각이 창·나이 판정을 오염시키지 않게).
+#   한계 = 그 서버가 9시간 넘게 새 기사를 안 내면 판정 근거가 없어 종전(보정 없음)대로 간다. 롤백 = env KNEWS_KST_FIX=0.
+KST_FIX = os.environ.get("KNEWS_KST_FIX", "1").strip() not in ("0", "false", "no", "off")
+KST_SKEW = timedelta(hours=9)
+SKEW_TOL = timedelta(minutes=10)
+
+
+def kst_skew_hosts(feeds, parsed_list, now):
+    hosts = set()
+    if not KST_FIX:
+        return hosts
+    for feed, parsed in zip(feeds, parsed_list):
+        host = urlsplit(feed["url"]).netloc.lower()
+        if parsed is None or host in hosts:
+            continue
+        for e in parsed.entries:
+            pt = parse_time(e)
+            if pt and SKEW_TOL < pt - now <= KST_SKEW + SKEW_TOL:
+                hosts.add(host)
+                break
+    return hosts
+
+
+def fix_time(pt, skewed, now):
+    if pt is None:
+        return None
+    if skewed:
+        pt = pt - KST_SKEW
+    return None if KST_FIX and pt - now > SKEW_TOL else pt
+
+
 def collect(feeds, hours):
     """모든 피드를 긁어 기사 리스트 생성 (시간필터 + 중복제거). 피드별 건강(health) 원장도 함께 반환."""
-    cutoff = datetime.now(timezone.utc) - timedelta(hours=hours)
+    now = datetime.now(timezone.utc)
+    cutoff = now - timedelta(hours=hours)
     seen = set()
     articles = []
     ok, dead = 0, 0
     health = []   # 피드별 {publisher,title,url,ok,n} — 죽은 피드가 stderr로만 사라지던 무음 드리프트 방지(260702)
 
-    for feed, parsed in zip(feeds, prefetch(feeds)):
+    parsed_list = prefetch(feeds)
+    skewed = kst_skew_hosts(feeds, parsed_list, now)
+    if skewed:
+        log(f"발행시각 KST 오기록 보정(-9h): {', '.join(sorted(skewed))}")
+    for feed, parsed in zip(feeds, parsed_list):
+        sk = urlsplit(feed["url"]).netloc.lower() in skewed
         if parsed is None:
             dead += 1
             health.append({"publisher": feed["publisher"], "title": feed["title"],
@@ -305,11 +347,12 @@ def collect(feeds, hours):
         # 실증: JTBC fs.jtbc RSS가 응답·형식 유효인데 2024-10에서 멈춰 수집 기여 0(260702 실측).
         fresh = 0
         for e in parsed.entries:
-            pt = parse_time(e)
+            pt = fix_time(parse_time(e), sk, now)
             if pt is None or pt >= cutoff:
                 fresh += 1
         health.append({"publisher": feed["publisher"], "title": feed["title"],
-                       "url": feed["url"], "ok": True, "n": len(parsed.entries), "fresh": fresh})
+                       "url": feed["url"], "ok": True, "n": len(parsed.entries), "fresh": fresh,
+                       **({"kst_fix": True} if sk else {})})
         for e in parsed.entries:
             link = normalize_link(e.get("link", ""))
             if not link or link in seen:
@@ -317,7 +360,7 @@ def collect(feeds, hours):
             title = strip_tags(e.get("title", ""))
             if is_excluded_title(title):   # 증권/시황 노이즈 = 수집 제외(stock_filter SSOT · 운영자 260701)
                 continue
-            pub = parse_time(e)
+            pub = fix_time(parse_time(e), sk, now)
             if pub and pub < cutoff:
                 continue
             seen.add(link)

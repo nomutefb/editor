@@ -1,13 +1,19 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # 속보 제목 태그 — SSOT (운영자 260923 «속보로 뜨는 게 늦어버리는 점 = 제일 우선순위»)
-# 소비처 = scraper/to_candidates.py(1차 후보·단독 입장) · .github/scripts/push_send.py(단독 푸시 허용).
-# 뷰어 사본 = viewer-src/35-applyAutoGroups.part BRK_TAG_RE(언어 경계라 사본 불가피) — 동기 = tests/test_solo_breaking.py.
+# 소비처 = scraper/to_candidates.py(1차 후보·단독 입장 → 엔트리 "solo" 표식) · .github/scripts/push_send.py(단독 푸시 허용).
+# 뷰어는 정규식을 복제하지 않고 "solo" 표식만 읽는다(사본 0). lb_member.LB_TAG 는 목적이 다른 별도 집합(최신 국면 멤버 선택 · [2보] 포함).
 # 뉴시스는 첫 보도를 제목 끝 "(1보)"로도 낸다(260923 라이브 피드 실측) — 대괄호형만 보던 구판이 놓치던 형식.
 import re
 
 BREAKING_TAG = re.compile(r"\[\s*(속보|상보|긴급|1보)\s*\]|\(\s*1보\s*\)")
+# 단독 푸시용 = 첫 보도 태그만([상보]는 이미 나간 사건의 상세 후속이라 제외 — 수집함 입장·판정은 BREAKING_TAG 그대로 · 평의회3 260923).
+FIRST_REPORT_TAG = re.compile(r"\[\s*(속보|긴급|1보)\s*\]|\(\s*1보\s*\)")
 
 
 def has_breaking_tag(*titles):
     return any(BREAKING_TAG.search(t or "") for t in titles)
+
+
+def has_first_report_tag(*titles):
+    return any(FIRST_REPORT_TAG.search(t or "") for t in titles)

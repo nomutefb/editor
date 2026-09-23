@@ -54,16 +54,24 @@ PUSH_MIN_CROSS = int(os.environ.get("PUSH_MIN_CROSS", "2"))   # 푸시 최소 �
 #   발송 후보 — 나머지 문턱(속보 판정 YES ∧ 경중 채점 ≥2 ∧ 4h/8h 창 ∧ 사건 dedup)은 그대로 = AI 두 겹 + 기자 태그. 두 번째 매체를 기다리던
 #   시차(실측 발행→푸시 154·229분 2건)의 구조 원인 제거. 롤백 = env PUSH_SOLO_TAG=0(종전 = cross≥PUSH_MIN_CROSS만).
 PUSH_SOLO_TAG = os.environ.get("PUSH_SOLO_TAG", "1").strip().lower() not in ("0", "false", "no", "off")
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent / "scraper"))
-from brk_tag import has_breaking_tag  # noqa: E402
 
 
 def push_cross_ok(c):
-    """다매체 검증 문턱 — cross≥PUSH_MIN_CROSS, 또는 속보 태그 단독 1보(PUSH_SOLO_TAG)."""
+    """다매체 검증 문턱 — cross≥PUSH_MIN_CROSS, 또는 첫 보도 태그 단독 1보(PUSH_SOLO_TAG).
+    ⚠ 태그 정본 import 는 **여기서만 지연** — 이 스크립트는 완료 알림(--notify)으로 scraper/ 없는 희소 체크아웃 12레인에서도
+      돈다. 모듈 머리에서 import 하면 그 레인 전부가 ModuleNotFoundError 로 조용히 알림을 잃는다(평의회3 260923 실측 · 260816 사고 동형).
+      못 읽으면 종전 규칙(다매체만) = 보수."""
     cr = c.get("cross") or 0
     if cr >= PUSH_MIN_CROSS:
         return True
-    return PUSH_SOLO_TAG and cr >= 1 and has_breaking_tag(c.get("title"), (c.get("breaking_pick") or {}).get("title"))
+    if not (PUSH_SOLO_TAG and cr >= 1):
+        return False
+    try:
+        sys.path.insert(0, str(ROOT / "scraper"))
+        from brk_tag import has_first_report_tag
+    except ImportError:
+        return False
+    return has_first_report_tag(c.get("title"), (c.get("breaking_pick") or {}).get("title"))
 
 
 PUSH_PUB_MAX_H = float(os.environ.get("PUSH_PUB_MAX_H", "8"))   # 발행 나이 상한 — 24→8h 조임(운영자 260722 · 실측: 재수집 뒷북 3발[발행 19.5~24h·first_seen 방금]이 24h 캡을 통과해 오발송 — 8h = 구주석 '8~12h 조임' 하단 = 관측 오발 전부 차단 + syndication 지연(4h+) 2배 완충). first_seen 전환의 뒷북 완충. ⚠️ 입력 = 현재 rep 기사 발행 나이(사건 나이 아님 · 검4-3)
@@ -424,14 +432,19 @@ def main():
             ks = dedup_keys(c)
             if not ks or any(k in sent for k in ks):     # event_key·제목해시·group_id 중 하나라도 보냄 = 스킵(중복 차단)
                 continue
+            if any(str(m) in sent for m in (c.get("cluster_members") or [])):   # 이 묶음의 기사 하나가 이미 긴급으로 나갔다(단독 1보가 먼저 나간 뒤 다매체 묶음이 따로 뜬 경우 · 평의회3 260923) = 같은 사건
+                suppressed_keys.extend(ks)
+                continue
             # 사건 단위 dedup(Q437 · 운영자 260722 "같은 사건이면 한 번만") — 키가 다 달라도(다른 후속 기사)
             # 최근 발송 사건과 *같은 실제 사건*이면 억제. AI 단독 심판(fail-open=발송 · 콜 상한) — 쿠팡 화재
             # 3연발(기사키 상이·group_id 미도장) 클래스가 표적. 억제 키는 원장 도장 = 이후 런 AI 0콜 스킵.
-            if sent_events and ai_calls < MAX_AI_DEDUP:
+            # ⚠ 비교 대상 = 최근 긴급 발송분 + **이번 런에서 방금 담은 긴급**(평의회3 260923 — 같은 사건 단독 1보 둘이 한 런에 뜨면 둘 다 나가던 구멍 · 이슈 루프 478행과 같은 짝)
+            _run_brk = [{"title": m.get("ev_title") or ""} for m in msgs if m.get("kind", "brk") != "iss"]
+            if (sent_events or _run_brk) and ai_calls < MAX_AI_DEDUP:
                 ai_calls += 1
                 # ⚠ 비교 대상은 **긴급 발송분만**(k != "iss") — 이슈 발송분까지 넣으면 이슈로 먼저 알린 사건이
                 #   나중에 속보로 승격됐을 때 "이미 다룬 사건"으로 억제돼 **진짜 긴급을 놓친다**(비싼 방향의 오류).
-                _brk_pool = [e for e in sent_events if e.get("k") != "iss"]   # 심판 대상 목록 = 로그 짝 목록(같은 인덱스 — 260917 실측: 억제는 맞는데 로그가 무관한 이슈 제목을 짝으로 찍던 인덱스 어긋남)
+                _brk_pool = [e for e in sent_events if e.get("k") != "iss"] + _run_brk   # 심판 대상 목록 = 로그 짝 목록(같은 인덱스 — 260917 실측: 억제는 맞는데 로그가 무관한 이슈 제목을 짝으로 찍던 인덱스 어긋남)
                 dup = _ai_same_event(c.get("title") or "", [e.get("title", "") for e in _brk_pool])
                 if dup is not None:
                     print(f"  ⊘ 사건중복 억제(AI): {(c.get('title') or '')[:34]} ≈ {str(_brk_pool[dup].get('title', ''))[:28]}", file=sys.stderr)

@@ -32,10 +32,16 @@ BREAKING_BURST = int(os.environ.get("BREAKING_BURST", "3"))          # 속보 �
 # 교차 게이트(MIN_CROSS)가 태그 판별보다 먼저 걸려 한 매체만 쓴 1보는 두 번째 매체가 받아쓸 때까지 수집함에 못 들어왔다
 #   (실측 260923 = 속보 판정 32건 발행→첫등장 중앙 57분·꼬리 229분 · 남아공 총격 연합 16:18 → 수집함 18:49).
 # → 태그가 있고 발행 SOLO_MAX_H 안이면 cross 미달이어도 입장. 거르기는 기존 AI 라인 그대로(breaking_candidate → 속보 판정·경중 채점).
-# 발행 SOLO_MAX_H 가 지나도 두 번째 매체가 안 붙고 판정도 긴급이 아니면 폐기(수집함 누적 칼럼·CAP 예산 무접촉).
-# 롤백 = CAND_SOLO_TAG=0(다음 회차에 미확정 단독분 정리 · 확정 긴급분은 종전 긴급 보존 규칙대로 남음).
+# 발행 SOLO_MAX_H 가 지나도 두 번째 매체가 안 붙고 판정도 긴급이 아니면 폐기(누적 칼럼 무접촉 · 살아 있는 동안은 신선 1군이라 CAP 꼬리 1칸씩 밀어냄).
+# 표식 = 엔트리 "solo":1(교차가 MIN_CROSS 로 자라면 제거) — cross 값으로 추정하지 않는다(CAND_MIN_CROSS 가 바뀌어도 종전 다매체 엔트리를 단독으로 오인 0 · 평의회1 260923).
+# 불변식(평의회1·2 260923): ⓐ 기존 다매체 후보의 멤버 기사는 단독으로 재입장 불가(대표 기사가 RSS 창에서 빠진 회차에 다매체 후보를 흡수·폐기하던 구멍)
+#   ⓑ 긴급 확정 단독은 흡수·회수·만료 대상 아님(푸시가 이미 나간 🚨 신호 소실 차단 — 같은 사건 중복 푸시는 push_send 가 묶음 멤버로 막는다).
+# 롤백 = 아래 기본값 "1"→"0"(코드 = 액션·폰 두 레인 동시 적용) 또는 CAND_SOLO_TAG=0(그 레인만) — 다음 회차에 미확정 단독분 정리 · 확정 긴급분은 종전 긴급 보존 규칙대로 남음.
 SOLO_TAG_ON = os.environ.get("CAND_SOLO_TAG", "1").strip().lower() not in ("0", "false", "no", "off")
 SOLO_MAX_H = float(os.environ.get("CAND_SOLO_MAX_H", "6"))
+# 경중 채점까지 받은 단독은 배지 소멸선(24h = 뷰어 BADGE_MAX_AGE_H)까지 보존 — 먼저 지우면 피드 빌드가 원장에서 못 찾아 제목 [속보]만 보고
+#   ⚡이슈를 거꾸로 켠다(평의회4 재현 · build-viewer feedBrk). 미채점은 SOLO_MAX_H 에 정리.
+SOLO_JUDGED_H = float(os.environ.get("CAND_SOLO_JUDGED_H", "24"))
 MEGA_MEMBERS = int(os.environ.get("BREAKING_MEGA_MEMBERS", "40"))    # 멤버 이상 = over-merge 의심 → 속보 제외
 MEGA_CROSS = int(os.environ.get("BREAKING_MEGA_CROSS", "18"))        # 누적 매체 이상 = over-merge 의심 → 속보 제외
 # grade3(대형 경중) 신선건 속보후보 승격 — burst<3 저속 새사고(어린이집 황화수소 등) 구제. 첫등장 N시간 내만.
@@ -68,24 +74,30 @@ def _lb_age_h(iso, now):
 
 
 def _solo_age_h(published, first_seen, now):
-    """단독 입장 나이(h) = 발행 기준. 발행이 미래(매체 TZ 오기록 — 프레시안 등 KST를 +00:00로 박음)면 뷰어 scTs와 같게
-    first_seen(없으면 지금=0h)으로 대체. 발행 결측·파싱 실패 = None(입장 안 함 = 보수 · 옛 기사 재수집 위장 차단)."""
+    """단독 입장 나이(h) = 발행 기준. 발행이 미래(매체 TZ 오기록 잔여 — 원천 보정은 knews_scraper.collect)면 뷰어 scTs와 같게
+    first_seen(없으면 지금=0h)으로 대체. 발행 결측·파싱 실패·10h 넘는 미래(쓰레기) = None(입장 안 함·만료 = 보수 · 무한 재입장 차단 · 평의회1·7)."""
     if not published:
         return None
     age = _lb_age_h(published, now)
-    if age == float("inf"):
+    if age == float("inf") or age < -10:
         return None
     if age >= -0.1:
         return age
     if not first_seen:
         return 0.0
-    fa = _lb_age_h(str(first_seen).replace("+0900", "+09:00"), now)
-    return 0.0 if fa == float("inf") else max(0.0, fa)
+    fa = _lb_age_h(str(first_seen), now)
+    return None if fa == float("inf") else max(0.0, fa)
 
 
 def is_solo(c):
-    """단독 입장분 = 교차 MIN_CROSS 미달 엔트리(구판에선 존재 불가 — 태그 단독 입장만이 만든다)."""
-    return (c.get("cross") or 0) < MIN_CROSS
+    """단독 입장분 = 표식 보유 엔트리(태그 단독 입장만이 찍는다)."""
+    return bool(c.get("solo"))
+
+
+def _urgent(c):
+    """화면·푸시가 긴급으로 다루는 것 = 뷰어 isBreaking 과 같은 술어(breaking ∧ (미채점 ∨ 경중≥2))."""
+    g = c.get("grade")
+    return bool(c.get("breaking")) and (g is None or g >= 2)
 
 
 def carry_lb(prev, c, entry, now):
@@ -283,6 +295,13 @@ def main():
     # 신규 = 클러스터 대표 + (교차 MIN_CROSS 이상 OR 속보 태그 단독 1보[SOLO_TAG_ON · 발행 SOLO_MAX_H 내])
     fresh = {}
     solo_in = 0
+    solo_urls = set()
+    covered = set()   # 기존 다매체 후보(단독 아님)의 대표·멤버 기사 — 불변식 ⓐ
+    for e in existing.values():
+        if not is_solo(e):
+            covered.update(e.get("cluster_members") or [])
+            covered.add(e.get("url") or "")
+    covered.discard("")
     for a in arts:
         if not a.get("is_cluster_rep"):
             continue
@@ -298,10 +317,13 @@ def main():
             prev0 = existing.get(url) or {}
             if prev0 and not is_solo(prev0):
                 continue
+            if url in covered or covered.intersection(a.get("cluster_members") or []):   # 불변식 ⓐ
+                continue
             sa = _solo_age_h(a.get("published"), prev0.get("first_seen"), now)
             if sa is None or sa >= SOLO_MAX_H:
                 continue
             solo_in += 1
+            solo_urls.add(url)
         burst = a.get("burst") or 0
         cross = a.get("cross_score") or 0
         size = a.get("cluster_size") or 0
@@ -320,6 +342,8 @@ def main():
             "breaking_pick": a.get("breaking_pick") or None,
             "cluster_members": a.get("cluster_members") or [],   # 별칭승계 입력(rep url 점프 추적)
         }
+        if url in solo_urls:
+            fresh[url]["solo"] = 1
         if LB_ON and isinstance(a.get("lb"), dict) and a["lb"].get("t"):
             fresh[url]["lb"] = a["lb"]   # 최신 국면 멤버(lb_member.pick_lb) — 있는 클러스터만 키를 박는다(없으면 키 자체 없음 = 예산)
 
@@ -345,8 +369,9 @@ def main():
         for u, e in alias_pool:
             if u == self_url or u in fresh or u in claimed:   # 자기·살아있는 rep·이미 흡수 제외
                 continue
-            if is_solo(e) and u in cm:
-                solo_hits.append(u)   # 종전 별칭 후보 뒤에 붙임 = 기존 승계 우선순위 불변 · 단독뿐이면 1보의 first_seen·event_key 승계(푸시 중복 차단)
+            if is_solo(e):
+                if u in cm and not _urgent(e):   # 불변식 ⓑ = 긴급 확정 단독은 흡수 안 함(자기 카드 유지)
+                    solo_hits.append((str(e.get("first_seen") or ""), u))   # 가장 먼저 본 1보부터(승계 대상 = 최초 보도 · 평의회1 #5)
                 continue
             shared = len(cm & _members(e))
             if shared < ALIAS_MIN_SHARED:
@@ -356,7 +381,7 @@ def main():
                 continue
             hits.append((jac, u))
         hits.sort(key=lambda t: (-t[0], t[1]))    # jac 내림차·url 사전 = 결정적
-        out = [u for _, u in hits] + sorted(solo_hits)
+        out = [u for _, u in hits] + [u for _, u in sorted(solo_hits)]
         claimed.update(out)
         return out
 
@@ -388,10 +413,16 @@ def main():
         if not c.get("cat") and prev.get("cat"):
             c["cat"] = prev["cat"]
         entry = {**prev, **c}                     # prev의 grade/breaking 도장 등 보존 + c가 최신 덮음
+        if not c.get("solo"):
+            entry.pop("solo", None)               # 두 번째 매체가 붙음 = 단독 표식 해제(다매체 규칙으로 전환)
         carry_lb(prev, c, entry, now)             # lb 캐리·스왑 고정(260913 · 위 carry_lb 정본)
         if is_alias:                              # 별칭=다른 url(제목 다를 수 있음) → AI rubric 비워 재판정 유도(stale 도장 전파 차단)
             entry.pop("grade_rubric", None)
             entry.pop("breaking_rubric", None)
+            if is_solo(prev):                     # 단독 1보의 묶기 도장은 새 다매체 묶음에 안 물려준다(단독끼리 묶인 그룹이 영구 병합으로 굳는 것 차단 · 평의회2 #2)
+                entry.pop("group_id", None)
+                entry.pop("group_rubric", None)
+                entry.pop("group_no", None)
         merged[url] = entry
         for au in aliases:                        # 임계 통과한 옛 엔트리 전부 회수(merge 잔류·부활 중복 제거)
             superseded[au] = url
@@ -402,12 +433,12 @@ def main():
             merged.pop(old_url, None)
 
     # 단독 1보가 *기존* 다매체 후보에 합류(rep url 이 이미 있던 것 = 위 별칭 경로 밖) — 같은 기사가 두 카드로 남지 않게 회수.
-    #   발생 1보 제목은 knews lb(최신 국면 멤버)로 그 클러스터 판정 입력에 실린다(260913 정본) = 긴급 신호 소실 없음.
+    #   긴급 확정 단독은 회수하지 않는다(불변식 ⓑ — lb 는 shadow 기본이라 묶음 판정이 1보 신호를 대신 못 싣는다 · 평의회1·2).
     member_of = set()
     for url, c in fresh.items():
         if not _is_mega(c):
             member_of.update(m for m in _members(c) if m != url)
-    for u in [u for u, e in merged.items() if u not in fresh and is_solo(e) and u in member_of]:
+    for u in [u for u, e in merged.items() if u not in fresh and is_solo(e) and not _urgent(e) and u in member_of]:   # 불변식 ⓑ
         merged.pop(u, None)
 
     def _ts(s):   # 관용 타임스탬프 파서(260710) — Z 접미·naive(KST 가정 = 자기 기록분) 허용 + strptime %z 폴백.
@@ -480,13 +511,13 @@ def main():
             return 0.0   # 실패 = 나이 0 = 보존 방향(의도적) — 만료 방향(999)이면 파서 전면 고장 시 풀 전체가 한 런에 증발.
                          #   개별 손상 엔트리의 영생은 CAP(cross 정렬 상위 유지)이 바운드 · _ts 관용화가 실패 확률 자체를 축소(260710).
 
-    def solo_expired(c):   # 단독 1보 = 발행 SOLO_MAX_H 안에 두 번째 매체가 안 붙고 긴급 확정도 아니면 폐기(롤백 레버 OFF = 미확정 단독 즉시 정리)
-        if not is_solo(c) or c.get("breaking"):
+    def solo_expired(c):   # 단독 1보 = 두 번째 매체가 안 붙고 긴급도 아니면 폐기 — 미채점 SOLO_MAX_H · 채점분 SOLO_JUDGED_H(롤백 레버 OFF = 미확정 단독 즉시 정리)
+        if not is_solo(c) or _urgent(c):
             return False
         if not SOLO_TAG_ON:
             return True
         sa = _solo_age_h(c.get("published"), c.get("first_seen"), now)
-        return sa is None or sa >= SOLO_MAX_H
+        return sa is None or sa >= (SOLO_JUDGED_H if c.get("grade") is not None else SOLO_MAX_H)
 
     kept = [c for c in merged.values()
             if age_h(c) <= TTL_HOURS and not is_excluded_title(c.get("title") or "")   # 증권/시황 노이즈 = 기존 수집분도 정리(운영자 260701)
