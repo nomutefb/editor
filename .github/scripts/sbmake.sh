@@ -100,7 +100,7 @@ if [ "${DIRECTOR:-}" = "gpt" ]; then
 $(cat .claude/skills/storyboard-v1/SKILL.md)
 === .claude/skills/master-sheet-v2/SKILL.md 전문 ===
 $(cat .claude/skills/master-sheet-v2/SKILL.md)"
-  out="$(printf '%s' "$prompt" | OPENAI_MODEL="${OPENAI_MODEL:-gpt-5.6-sol}" python3 .github/scripts/sb_gpt.py 2> "${OUTDIR}/stderr.log")"
+  out="$(printf '%s' "$prompt" | OPENAI_MODEL="${OPENAI_MODEL:-gpt-6-astra}" python3 .github/scripts/sb_gpt.py 2> "${OUTDIR}/stderr.log")"
   rc=$?
 else
 # 허용 도구 = Read/Glob/Grep(스킬 런타임 로드) + WebFetch/WebSearch(리서치).

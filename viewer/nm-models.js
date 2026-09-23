@@ -5,7 +5,7 @@
 window.NM_MODELS = {
   fable: 'Opus 5.5',            // 감독(연출 LLM) — 감성·서사 마감
   opus: 'Opus 5.5',              // 감독 — 잔잔·광고
-  gpt: 'GPT 5.6 Sol',          // 감독 — 완급·액션(풀네임 = 설계확정 260714 문서·api DIRECTOR_NM 정본)
+  gpt: 'GPT 6 Astra',          // 감독 — 완급·액션(운영자 260923 GPT 5.6 Sol → GPT 6 Astra · api DIRECTOR_NM과 문자 동기)
   kling: 'Kling 3.0 Omni',     // 비디오 엔진(콘티 촬영·프롬프팅 공통)
   veo: 'Veo 3.1',              // 비디오 엔진(프롬프팅 · 초안)
   seedance: 'Seedance 2.0',    // 비디오 엔진 — 버전 = 운영자 260803 5차 확정 "2.0이 맞고"(구 2.5 초안 표기 회수 · 2.5 승격 = 가용성 실측 후 여기 1줄)

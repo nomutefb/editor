@@ -3,7 +3,7 @@
 stdin = 프롬프트 전문(sb-make.md + 스킬 인라인 + 이야기) → stdout = 콘티 본문.
 재시도 3회(429/5xx·네트워크) · usage 계측은 stderr 러너 로그(클로드 레인의 계측 셸 SSOT와 별개 경량 대응 — 이 파일은 OpenAI 호출만·클로드 호출 0 = 폴오버 게이트 비대상).
 인증 = env OPENAI_API_KEY(레포 Actions 시크릿 · 계정 단위 키 = 이미지용 발급분 재사용 가능 · 설계확정 §0-2).
-모델 = env OPENAI_MODEL(기본 gpt-5.6-sol — 미가용 계정이면 시크릿과 함께 vars로 교체)."""
+모델 = env OPENAI_MODEL(기본 gpt-6-astra — 미가용 계정이면 시크릿과 함께 vars로 교체)."""
 import json
 import os
 import sys
@@ -12,7 +12,7 @@ import urllib.error
 import urllib.request
 
 prompt = sys.stdin.read()
-model = os.environ.get("OPENAI_MODEL", "gpt-5.6-sol")
+model = os.environ.get("OPENAI_MODEL", "gpt-6-astra")
 key = os.environ.get("OPENAI_API_KEY", "")
 if not key:
     sys.stderr.write("OPENAI_API_KEY 미설정 — 레포 Actions 시크릿 등록 필요\n")

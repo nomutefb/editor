@@ -36,7 +36,7 @@
         "en": "Fable 5",
         "ko": "페이블 5"
       },
-      "규칙": "운영자 260923 \"지금 성능이 페이블하고 동급이 되었기때문에 덮어씌우는거지 원래는 중요하기때문에 페이블을 쓴거거든\" · \"페이블 5.1 과 오퍼스 5.5 중에는 5.5를 쓰면 되고 페이블 새로운 티어나오면 페이블 새로운 티어를 쓰면됨\" → 오퍼스 티어 대행(follow). 새 페이블 티어가 나오면 비용이 높아도 복귀 = python3 shared/apply_models.py fable <새 페이블 ID> \"Fable X\" \"페이블 X\". (도구 동작) 대행 중 오퍼스 값이 바뀌면 이 티어도 같이 바뀐다 — 내리는 롤백이면 apply_models.py가 경고(먼저 복귀 가능).",
+      "규칙": "운영자 260923 \"지금 성능이 페이블하고 동급이 되었기때문에 덮어씌우는거지 원래는 중요하기때문에 페이블을 쓴거거든\" · \"페이블 5.1 과 오퍼스 5.5 중에는 5.5를 쓰면 되고 페이블 새로운 티어나오면 페이블 새로운 티어를 쓰면됨\" · 260923 \"페이블 5 안쓰고 페이블 5.1 쓸거임\" → 오퍼스 티어 대행(follow) · 페이블 기준 = Fable 5.1(claude-fable-5-1) · Fable 5는 안 씀(은퇴). 새 페이블 티어가 나오면 비용이 높아도 복귀 = python3 shared/apply_models.py fable <새 페이블 ID> \"Fable X\" \"페이블 X\". (도구 동작) 대행 중 오퍼스 값이 바뀌면 이 티어도 같이 바뀐다 — 내리는 롤백이면 apply_models.py가 경고(먼저 복귀 가능).",
       "복귀점검": [
         "viewer-src/22-thumbSec.part · viewer/index.html — AI 이미지 버튼 툴팁 '… 작성·Gemini 렌더'의 모델명(키 자리 아님 = 손으로)",
         "대행 서술 주석('지금은 … 대행') — apply_models.py 해제가 '대행' 포함 파일을 목록으로 출력"
@@ -64,12 +64,9 @@
       "축": "음원 곡 생성 = `song_lyria.py` env `LYRIA_MODEL` 기본값 · 곡당 ~$0.08 · clip(30s) 변형 = allow"
     },
     "gpt_sb": {
-      "id": "gpt-5.6-sol",
+      "id": "gpt-6-astra",
       "family": "gpt-[0-9][0-9a-z.-]*",
-      "allow": [
-        "gpt-5.6"
-      ],
-      "축": "콘티 감독 3축 중 GPT = `sb_gpt.py` env `OPENAI_MODEL` 기본 + `sbmake.sh` 셸 기본 = **2곳 동기 필수**(드리프트 실위험) · allow = Sol 알리아스"
+      "축": "콘티 감독 3축 중 GPT = `sb_gpt.py` env `OPENAI_MODEL` 기본 + `sbmake.sh` 셸 기본 = **2곳 동기 필수**(드리프트 실위험) · 운영자 260923 \"gpt 5.6 관련 내용도 선택에서 없애 gpt 6 astra로\" → GPT 6 Astra(Chat Completions 지원 · $10/$50 per 1M · 레포 변수 OPENAI_MODEL이 비어 있어야 기본값이 먹는다)"
     },
     "rvc_train": {
       "id": "replicate/train-rvc-model",

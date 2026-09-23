@@ -65,7 +65,7 @@
   .geni-ar-in::selection { background:rgba(var(--accent-rgb),.26); color:var(--accent); }
   .geni-ar-c { color:var(--mut); font-weight:var(--fw-x); font-size:var(--fs-label); }
   .geni-opt.on { color:var(--accent); font-weight:var(--fw-x); }
-  .geni-opt[data-num] { font-variant-numeric:tabular-nums; }  .geni-opt:disabled { opacity:.28; pointer-events:none; }   /* 배선 대기 칩(GPT 5.6 — OpenAI 키 미배선) = index .geni-nav[disabled] 동일값 계승 */
+  .geni-opt[data-num] { font-variant-numeric:tabular-nums; }  .geni-opt:disabled { opacity:.28; pointer-events:none; }   /* 배선 대기 칩(GPT 감독 — OpenAI 키 미배선) = index .geni-nav[disabled] 동일값 계승 */
   /* ══ 상단 도크 = 편집(edit) 정본 100% 계승(운영자 260725 "미리보기·아래 옵션까지 편집이랑 통일") — 미리보기+선택 요약 스트립(.optstrip)+발사바(.firebar 생성) 한 sticky 블록([4-2] 강제 골격 ①) ══ */
   .topdock { position:sticky; top:0; z-index:6; margin:0 -16px; padding:16px 16px var(--sp-2); background:#121212; }   /* raw-ok: 전 값 = edit .topdock 정본 그대로(#121212 전폭{-16 = .wrap padding-x 상쇄}·padding 16/16/--sp-2·z6) */
   .topdock::after { content:''; position:absolute; top:100%; left:0; right:0; height:14px; pointer-events:none; background:linear-gradient(180deg, rgba(18,18,18,.7), rgba(18,18,18,0)); }   /* raw-ok: 하단 페이드 스커트 = edit .topdock::after 동일 미러(h14·18,18,18) */

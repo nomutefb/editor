@@ -91,7 +91,7 @@
   .lenrule-hit button { position:absolute; top:0; bottom:0; padding:0; background:none; border:0; color:inherit; font:inherit; cursor:pointer; -webkit-tap-highlight-color:transparent; }
   .lenrule-hit button:active { transform:scale(var(--press-pico)); }   /* 눌림 = 최소 사다리(자 눈금은 미세 요소 — 가이드북 --press-* 사다리 계승) */
   .lenrule-v { flex:none; min-width:8ch /* 값 폭 고정 = thumb `.cyrow .cyv{min-width:3ch}` 관용구 계승(「5s · 6컷」↔「15s · 12컷」 전환에 자 폭이 안 흔들린다) */; text-align:right; color:var(--accent); font-weight:var(--fw-x); font-size:var(--fs-label); font-variant-numeric:tabular-nums; }   /* = edit `.grow .v` 정본 문법(우측·accent·tabular) */
-  .geni-opt:disabled { opacity:.28; pointer-events:none; }   /* 배선 대기 칩(GPT 5.6 — OpenAI 키 미배선) = index .geni-nav[disabled] 동일값 계승 */
+  .geni-opt:disabled { opacity:.28; pointer-events:none; }   /* 배선 대기 칩(GPT 감독 — OpenAI 키 미배선) = index .geni-nav[disabled] 동일값 계승 */
 
   /* ── 기사 고르기 창 = **설정 대기열 창(index .bpop.qpop) 그대로**(운영자 260814 「광학-렌즈 단위로
        일치하게 · 그 서식과 동일하게」). 값은 한 글자도 안 고쳤다 — 키워드 알림 창이 같은 껍데기를
@@ -653,7 +653,7 @@ const SB_FREE_RE = /^###\s*\[\s*자유요약[^\]]*\]\s*$([\s\S]*?)(?=^###\s|^##\
 })();
 // 감독×촬영 2축 + 설정(운영자 260714 확정 — 감독 = 연출 LLM · 촬영 = 생성 엔진 · 항상 스토리보드 경유)
 // 값 2면 동기: 이 표 = functions/api/sb.js SB_DIRECTORS/SB_SHOOTS/SB_SET.
-// 감독 3인 체제(운영자 260714 3차 — AI_Director_Audition 6라운드 근거): 페이블 = 감성·서사 마감 / GPT 5.6 = 완급·액션(OpenAI API 종량 · sbmake.sh 분기 배선 260714) / 오퍼스 = 잔잔·광고(구독 무료).
+// 감독 3인 체제(운영자 260714 3차 — AI_Director_Audition 6라운드 근거): 페이블 = 감성·서사 마감 / GPT(당시 5.6 Sol · 현 6 Astra) = 완급·액션(OpenAI API 종량 · sbmake.sh 분기 배선 260714) / 오퍼스 = 잔잔·광고(구독 무료).
 const SB_DIRECTORS = [   // 표시명 = NM_MODELS 사전 참조(운영자 260803 5차 "아이디어도 배선" — 문자열 N벌 관리 폐지 · 사전 = viewer/nm-models.js 단일정본)
   { id: 'fable', nm: NM_MODELS.fable, hint: '감성·서사 마감' },
   { id: 'opus', nm: NM_MODELS.opus, hint: '잔잔·광고' },
