@@ -421,10 +421,23 @@ def prefetch(feeds):
 #   「방금 기사」로 재입장해 9시간 늦은 푸시가 나갈 수 있었다(평의회7 재현). 판정 = **호스트 단위**: 그 서버의 어느 피드든
 #   「지금보다 10분~9시간10분 미래」 항목이 하나라도 있으면 그 서버 전 항목을 -9h. 같은 스냅샷에서 정상 호스트 29곳의 미래 항목 = 0건.
 #   보정 뒤에도 미래인 항목 = 시각 미상(None) 처리(쓰레기 시각이 창·나이 판정을 오염시키지 않게).
-#   한계 = 그 서버가 9시간 넘게 새 기사를 안 내면 판정 근거가 없어 종전(보정 없음)대로 간다. 롤백 = env KNEWS_KST_FIX=0.
+#   + 국내 매체(한글 이름)가 시각 뒤에 시간대를 안 적으면(과반·3건↑) 미래 항목 없이도 보정(평의회3-6) — 밤새 새 기사가 끊겨
+#     미래 항목이 사라지면 보정이 풀려 8h50m 전 기사가 「방금」으로 보이던 것(늦은 푸시 재입장 경로 재개방). 라이브 실측 = 두 규칙 같은 9곳.
+#   롤백 = env KNEWS_KST_FIX=0.
 KST_FIX = os.environ.get("KNEWS_KST_FIX", "1").strip() not in ("0", "false", "no", "off")
 KST_SKEW = timedelta(hours=9)
 SKEW_TOL = timedelta(minutes=10)
+
+
+_TZLESS = re.compile(r"(?<![+\-\d])\d{1,2}:\d{2}(?::\d{2}(?:\.\d+)?)?\s*$")   # 시각으로 끝남 = 뒤에 시간대 없음(+09:00 꼬리는 시간대)
+
+
+def _tzless_kr(feed, parsed):
+    if not _HANGUL.search(feed.get("publisher") or ""):
+        return False   # 외신 = 시간대 없는 현지 시각일 수 있어 KST 가정 금지
+    raws = [str(e.get("published") or e.get("updated") or "").strip() for e in parsed.entries]
+    raws = [r for r in raws if r]
+    return len(raws) >= 3 and 2 * sum(1 for r in raws if _TZLESS.search(r)) > len(raws)
 
 
 def kst_skew_hosts(feeds, parsed_list, now):
@@ -434,6 +447,9 @@ def kst_skew_hosts(feeds, parsed_list, now):
     for feed, parsed in zip(feeds, parsed_list):
         host = _host(feed["url"])
         if parsed is None or host in hosts:
+            continue
+        if _tzless_kr(feed, parsed):
+            hosts.add(host)
             continue
         for e in parsed.entries:
             pt = parse_time(e)
@@ -521,7 +537,7 @@ BURST_WINDOW_MIN = 15
 # 풀텍스트지만 종합지·지상파 다음(군소보단 위). 미등재 매체는 _pick_rank 가 최하(len) → 자동 후순위.
 # ⚠️ url/dedup/event_key/cross/클러스터링은 불변 — 이 순위는 '대표 표시·원문 링크' 픽에만 영향(주변부).
 # ⚠️ 중앙일보·한국일보 = 현재 '유령'(feeds.csv 피드 0개 — 중앙 RSS는 공식 종료 페이지 실측·한국일보 RSS 미확인 = 260702).
-#   260923 = 한국경제(폰·러너 모두 실패)·이데일리·노컷뉴스도 피드 0개(정리 사유 = scraper/README 소스 현황).
+#   260923 = 한국경제(폰·러너 모두 실패)·이데일리도 피드 0개(정리 사유 = scraper/README 소스 현황 · 노컷뉴스는 신주소로 복귀).
 #   수집 0이라 픽 매칭도 0(무해 dead entry). 목록엔 유지 — 미래 재수집(신규 피드·네이버API 등) 시 순위 자동 복원.
 PICK_PRIORITY = [
     "조선일보", "동아일보", "중앙일보", "세계일보", "국민일보",   # 보수 메이저(종합·풀텍스트)

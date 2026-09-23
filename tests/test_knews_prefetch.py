@@ -137,6 +137,19 @@ class KstSkewTest(unittest.TestCase):
         now = datetime.now(timezone.utc)
         self.assertEqual(m.kst_skew_hosts([{"url": "https://ok.kr/a.xml"}], [self.entries(0.05, -1)], now), set())
 
+    def test_timezone_less_korean_host_stays_fixed_overnight(self):
+        # 평의회3-6: 미래 항목만 근거로 삼으면 밤새 새 기사가 끊겼을 때 보정이 풀려 8h50m 전 기사가 「방금」이 됐다
+        m = _load()
+        now = datetime.now(timezone.utc)
+        raw = lambda *xs: types.SimpleNamespace(entries=[{"published": x} for x in xs])
+        feeds = [{"publisher": "프레시안", "url": "https://p.kr/a.xml"},
+                 {"publisher": "경향신문", "url": "https://k.kr/a.xml"},
+                 {"publisher": "Foreign", "url": "https://f.com/a.xml"}]
+        parsed = [raw("2026-09-23 03:00:00", "2026-09-23 02:10:00", "2026-09-22 23:00:00"),
+                  raw("2026-09-23T03:00:00+09:00", "2026-09-23T02:00:00+09:00", "2026-09-23T01:00:00+09:00"),
+                  raw("2026-09-23 03:00:00", "2026-09-23 02:10:00", "2026-09-22 23:00:00")]
+        self.assertEqual(m.kst_skew_hosts(feeds, parsed, now), {"p.kr"})   # 외신 = 현지 시각일 수 있어 KST 가정 금지
+
     @mock.patch.dict("os.environ", {"KNEWS_KST_FIX": "0"})
     def test_rollback_lever(self):
         m = _load()

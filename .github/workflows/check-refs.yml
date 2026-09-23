@@ -48,7 +48,7 @@ jobs:
         with:
           node-version: '24'
       - name: Validation dependencies
-        run: python3 -m pip install 'PyYAML==6.0.2' 'Pillow==11.3.0'
+        run: python3 -m pip install 'PyYAML==6.0.2' 'Pillow==11.3.0' 'feedparser==6.0.*'   # feedparser = 수집 날짜 파서 실경로 회귀(tests/test_knews_dates.py)
       - name: check_refs (경로·버전·디자인거울·JS 구문)
         run: python3 shared/check_refs.py
       - name: Regression tests
