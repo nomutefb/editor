@@ -261,14 +261,14 @@ async function openDeepLink(tries = 0) {
 //   요약 완료 = 그 요약창 / 미완료 = 스크랩 기사 중 가장 메이저 링크(breaking_pick)로 이동(웹앱 먼저 뜬 뒤 이동).
 //   ⚠️ 요약을 *기다리지 않음* = 누른 그 순간 기준(요약 안 됐으면 즉시 메이저 원문). 후보(candidates) 못 찾을 때만
 //   짧게 재시도(스크랩 랙) 후 bl 폴백→수집함. ?a=(요약완료 알림)와 별개 핸들러(그건 요약 전용·장기 재시도).
-async function openBreakingDeepLink(tries = 0, key = null, bl = null) {
+async function openBreakingDeepLink(tries = 0, key = null, bl = null, act = null) {
   if (tries === 0) {
-    try { const sp = new URLSearchParams(location.search); key = sp.get('brk'); bl = sp.get('bl'); } catch (_) {}
+    try { const sp = new URLSearchParams(location.search); key = sp.get('brk'); bl = sp.get('bl'); act = sp.get('act'); } catch (_) {}
     if (!key && !bl) return;
     if (bl && !/^https?:\/\//i.test(bl)) bl = null;   // bl 스킴 가드 — URL 쿼리서 raw로 들어오므로 javascript:/data: 차단(분신술3·10)
     // 딥링크 파라미터를 *먼저* URL서 제거(replaceState) = 새로고침 재진입 방지(+동일탭 폴백 시 BACK 무한루프 차단).
     //   key/bl은 지역변수로 잡아 재시도 재귀에 인자로 넘김(URL 비워도 유지 · 분신술1·4).
-    try { const u = new URL(location.href); u.searchParams.delete('brk'); u.searchParams.delete('bl'); history.replaceState(history.state, '', u.pathname + u.search + u.hash); } catch (_) {}
+    try { const u = new URL(location.href); u.searchParams.delete('brk'); u.searchParams.delete('bl'); u.searchParams.delete('act'); history.replaceState(history.state, '', u.pathname + u.search + u.hash); } catch (_) {}
   }
   if (!key && !bl) return;
   // 후보(candidates.json) 적재 대기 — eager loadCandidates()가 in-flight면 SCRAP_LOADING 가드로 즉시 반환되므로
@@ -276,14 +276,26 @@ async function openBreakingDeepLink(tries = 0, key = null, bl = null) {
   for (let i = 0; i < 12 && !SCRAP_LOADED; i++) { try { await loadCandidates(true); } catch (_) {} if (!SCRAP_LOADED) await new Promise(r => setTimeout(r, 200)); }
   const nk = key ? _normU(key) : '';
   const c = key ? CANDS.find(x => x && (x.event_key === key || x.url === key || (x.url && _normU(x.url) === nk) || (x.event_key && _normU(x.event_key) === nk))) : null;
-  if (c) { goBreaking(c, bl); return; }   // 요약 완료?→요약창 / 미완료→가장 메이저 원문(새 탭·앱 보존)
+  if (c) { if (act === 'pick') pickFromPush(c); else goBreaking(c, bl); return; }   // PICK 버튼 = 바로 PICK / 본문 탭 = 요약 완료?→요약창 · 미완료→가장 메이저 원문(새 탭·앱 보존)
   if (tries >= 8) {   // 후보 못 찾음(스크랩 랙·만료) — bl(서버 계산 메이저링크) 폴백, 없으면 수집함
+    if (act === 'pick') { showTab('scrap'); if (typeof qFlash === 'function') qFlash('PICK 실패 — 수집함에서 이 기사를 못 찾았어'); return; }   // PICK 버튼인데 원문으로 튀면 픽이 안 된 걸 모른다
     if (bl) { openExt(bl); return; }
     showTab('scrap'); if (typeof qFlash === 'function') qFlash('긴급 기사 불러오는 중…'); return;
   }
   await new Promise(r => setTimeout(r, Math.min(1200 + tries * 600, 4500)));   // 후보 적재 짧은 백오프(요약을 기다리는 게 아님)
   try { await loadCandidates(true); } catch (_) {}
-  return openBreakingDeepLink(tries + 1, key, bl);
+  return openBreakingDeepLink(tries + 1, key, bl, act);
+}
+// 알림 PICK 버튼(운영자 260924 «푸시에서 바로 PICK») — 수집함 PICK 과 같은 발사(applyTriage) · 사유 = 알림 종류(긴급 = 속보/사건 · 이슈 = 토픽/논란).
+//   이미 요약 완료 = 요약창 · 이미 PICK 진행 = 중복 발사 없이 안내만(파이프라인 과금 2중 방지).
+function pickFromPush(c) {
+  if (scFeedArticle(c)) { showTab('feed'); pickedOpen(c); return; }
+  showTab('scrap');
+  if (pickState(c)) { qFlash('이미 PICK한 기사야'); return; }
+  const el = [...document.querySelectorAll('.sc-item')].find(x => x.dataset.cid === candId(c)) || null;
+  if (el) el.scrollIntoView({ block: 'center' });
+  applyTriage('pick', c, el, isBreaking(c) ? '속보/사건' : '토픽/논란', '알림 PICK');
+  qFlash('PICK 접수 — 요약 시작');
 }
 
 // 수집 실패 알림 딥링크 — 푸시(/?msg=fail-…) 탭 시 메시지함 열고 해당 메시지 강조(운영자 260623).

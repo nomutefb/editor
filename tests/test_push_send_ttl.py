@@ -42,5 +42,22 @@ class PushOptsTest(unittest.TestCase):
         self.assertIn("**push_opts(", calls[0])
 
 
+
+class PickActionTest(unittest.TestCase):
+    """알림 PICK 버튼(운영자 260924) — 긴급·이슈 딥링크에만 싣고, 목적지는 SW가 만든다(주소 중복 0)."""
+
+    def test_breaking_and_issue_carry_pick_button(self):
+        import json
+        m = _load()
+        c = {"event_key": "https://x.kr/1", "url": "https://x.kr/1", "breaking_pick": {"url": "https://y.kr/2"}}
+        for kind in ("brk", "iss"):
+            d = json.loads(m.payload_of({"title": "News", "body": "b", "url": m.brk_url(c), "kind": kind}))
+            self.assertEqual(d["actions"], [{"action": "pick", "title": "PICK"}])
+            self.assertTrue(d["url"].startswith("https://edit.nomute.kr/?brk="))
+        for msg in ({"title": "t", "body": "b", "url": "/thumb.html#done", "kind": "make"},
+                    {"title": "t", "body": "b", "url": "/", "kind": "brk"}):   # 제작완료 · 딥링크 없는 긴급(키 결측) = 버튼 없음
+            self.assertNotIn("actions", json.loads(m.payload_of(msg)))
+
+
 if __name__ == "__main__":
     unittest.main()

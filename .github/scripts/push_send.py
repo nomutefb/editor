@@ -32,6 +32,7 @@ ALERT_KINDS = {"brk", "iss", "make", "sys", "trend", "kw"}
 # ⚠️ 시스템(파이프라인·검문·수집실패)은 **일부러 고정 유지** — 같은 정체가 30분마다 반복되는 상태 알림이라
 #    고유화하면 같은 말이 하루 수십 개 쌓인다(그쪽은 덮는 게 이득 = 성격이 다른 축).
 VIBRATE = [200, 100, 200]   # 짧게-쉬고-짧게 = 문자 알림과 같은 결(긴 진동은 손목에서 과하다)
+PICK_KINDS = ("brk", "iss")   # 알림 PICK 버튼 대상(운영자 260924 «푸시에서 바로 PICK») — 제작완료·시스템·트렌드는 대상 밖
 PAYLOAD_MAX = 3900   # 웹푸시 페이로드 실효 한도 4KB — 초과분은 아이콘을 떼고 보낸다(알림 자체가 사라지는 것보다 낫다)
 FAST_MAX_H = 4   # 최신 긴급만 푸시(뷰어 토스트와 동일 단일상수 정신)
 # ── 발송 보존 시간(TTL)·긴급도(Urgency) — 운영자 260921 «강훈식 사의 긴급 알림이 안 왔다» ──
@@ -335,6 +336,23 @@ def abs_url(u):
     return head + sep + frag
 
 
+def payload_of(m):
+    """발송 메시지 1건 → 웹푸시 페이로드(JSON 문자열)."""
+    pl = {"title": m["title"], "body": m["body"], "url": abs_url(m["url"]), "tag": m.get("tag", "nomute-breaking")}
+    if m.get("kind"): pl["kind"] = m["kind"]     # SW가 종류→아이콘 매핑(신 SW) · 미지정 = 브랜드 기본
+    if (m.get("kind") or "brk") in ALERT_KINDS:  # 전 종류 소리·진동(위 계약) — 구 SW는 모르는 키를 무시하므로 회귀 0 · 종류 미지정(구 발송 경로)도 포함
+        pl["vibrate"] = VIBRATE
+        pl["renotify"] = True                    # 같은 묶음표로 교체돼도 다시 울린다(뒤 긴급을 조용히 덮는 것 차단)
+    if m.get("icon"): pl["icon"] = m["icon"]     # 직접 지정 = 최우선(구 SW 호환 검증 경로 · 정식 발송은 비움 = 테마짝 유지)
+    if m.get("kind") in PICK_KINDS and "?brk=" in m["url"]:   # 긴급·이슈 = 알림에 PICK 버튼(운영자 260924 · 본문 탭 = 종전 분기 그대로)
+        pl["actions"] = [{"action": "pick", "title": "PICK"}]   # 목적지는 SW가 url 에 act=pick 을 붙여 만든다(주소 중복 0 = 페이로드 절약) · 구 SW = 키 무시(버튼 없음)
+    payload = json.dumps(pl, ensure_ascii=False)
+    if len(payload.encode("utf-8")) > PAYLOAD_MAX and pl.pop("icon", None):   # 한도 초과 = 아이콘만 포기(알림은 반드시 뜬다)
+        payload = json.dumps(pl, ensure_ascii=False)
+        print(f"  ⚠ 페이로드 한도 초과 — 아이콘 생략하고 발송({m.get('kind') or '기본'})", file=sys.stderr)
+    return payload
+
+
 def notif_icon(kind, theme):
     """종류 → 알림 아이콘 **data URL**. URL 대신 이미지를 통째로 실어보내는 이유(실측 260727):
     payload에 아이콘 *주소*를 주면 폰이 그 이미지를 받아오지 못해(Access 벽/미배포 404) 안드로이드가
@@ -510,16 +528,7 @@ def main():
     pem_path = vapid_pem(priv)
     dead, sent_keys, sent_evs = set(), [], []
     for m in msgs:
-        pl = {"title": m["title"], "body": m["body"], "url": abs_url(m["url"]), "tag": m.get("tag", "nomute-breaking")}
-        if m.get("kind"): pl["kind"] = m["kind"]     # SW가 종류→아이콘 매핑(신 SW) · 미지정 = 브랜드 기본
-        if (m.get("kind") or "brk") in ALERT_KINDS:  # 전 종류 소리·진동(위 계약) — 구 SW는 모르는 키를 무시하므로 회귀 0 · 종류 미지정(구 발송 경로)도 포함
-            pl["vibrate"] = VIBRATE
-            pl["renotify"] = True                    # 같은 묶음표로 교체돼도 다시 울린다(뒤 긴급을 조용히 덮는 것 차단)
-        if m.get("icon"): pl["icon"] = m["icon"]     # 직접 지정 = 최우선(구 SW 호환 검증 경로 · 정식 발송은 비움 = 테마짝 유지)
-        payload = json.dumps(pl, ensure_ascii=False)
-        if len(payload.encode("utf-8")) > PAYLOAD_MAX and pl.pop("icon", None):   # 한도 초과 = 아이콘만 포기(알림은 반드시 뜬다)
-            payload = json.dumps(pl, ensure_ascii=False)
-            print(f"  ⚠ 페이로드 한도 초과 — 아이콘 생략하고 발송({m.get('kind') or '기본'})", file=sys.stderr)
+        payload = payload_of(m)
         ok_any = False
         for s in subs:
             ep = (s or {}).get("endpoint")

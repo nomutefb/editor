@@ -151,6 +151,8 @@ self.addEventListener('push', event => {
   // ⚠ 이건 요청이지 보장이 아니다 — 안드로이드 알림 채널이 무음·중요도 낮음이면 그쪽이 이긴다.
   if (Array.isArray(d.vibrate) && d.vibrate.length) opts.vibrate = d.vibrate;
   if (d.renotify) opts.renotify = true;
+  // 알림 PICK 버튼(운영자 260924 «푸시에서 바로 PICK») — 발송기가 긴급·이슈에만 싣는다 · 버튼 미지원 기기(iOS 등)는 무시 = 본문 탭 종전대로.
+  if (Array.isArray(d.actions)) opts.actions = d.actions.filter(a => a && a.action === 'pick' && typeof a.title === 'string').slice(0, 1);
   event.waitUntil((async () => {
     opts.icon = d.icon || iconFor(d.kind, await readThemeDark());   // 페이로드 icon 지정이 최우선 · 없으면 {종류 × 저장된 테마} 짝 선택
     return self.registration.showNotification(title, opts);
@@ -167,6 +169,7 @@ self.addEventListener('notificationclick', event => {
   event.notification.close();
   const raw = (event.notification.data && event.notification.data.url) || '/';
   const target = new URL(raw, self.location.origin);   // 알림이 가리키는 화면(제작완료=/thumb.html#done · 긴급=/)
+  if (event.action === 'pick' && target.origin === self.location.origin && target.searchParams.has('brk')) target.searchParams.set('act', 'pick');   // PICK 버튼 = 같은 딥링크 + act=pick → 뷰어가 그 후보를 바로 PICK(openBreakingDeepLink)
   event.waitUntil((async () => {
     // 0) 남의 사이트(우리 화면이 아닌 곳)면 **무조건 새 창**(운영자 260819 «검색한 구글 창으로 · 새창으로»).
     //    ⚠ 아래 2)를 그대로 타면 열려 있던 우리 앱 탭이 그 주소로 **갈아치워진다** = 앱이 사라진다.
