@@ -51,6 +51,47 @@ class EnglishClusterTest(unittest.TestCase):
         self.assertTrue(same("강훈식 비서실장 사의 표명…이 대통령 수용 여부 주목", "[속보] 강훈식 비서실장 사의 표명"))
         self.assertEqual(K.tokenize("[속보] 이재명 대통령 AI 기본법 서명"), {"이재명", "대통령", "ai", "기본법", "서명"})
 
+    def test_all_caps_acronyms_are_not_function_words(self):
+        # 평의회2-2 F3: WHO·IT 같은 약어가 기능어(who·it)로 지워지던 것
+        self.assertIn("who", K.tokenize("WHO, 엠폭스 국제 비상사태 선언"))
+        self.assertIn("it", K.tokenize("IT 업계 감원 칼바람"))
+        self.assertNotIn("who", K.tokenize("Who is running the country now"))
+        self.assertIn("at", K.tokenize("aT, 하반기 신입직원 66명 공개채용"))   # 한글 제목 속 영문은 기능어 필터 비대상(평의회2-1)
+
+    def test_dotted_acronyms_normalized(self):
+        self.assertIn("us", K.tokenize("Trump Set to Sign Deal on U.S. Presence in Greenland"))
+        self.assertIn("un", K.tokenize("U.N. Live Updates: Iran’s President to Address World Leaders"))
+
+    def test_stock_phrases_do_not_link(self):
+        # 평의회2-1: "for the first time since" 로 무관 외신이 4개 겹침 경로를 탔다
+        self.assertFalse(same("Trump meets US-backed Venezuelan president for first time since Maduro seized",
+                              "Live: Pezeshkian set to address UN for the first time since US strikes"))
+
+
+class GroupJudgeEnglishTest(unittest.TestCase):
+    """평의회2-2 F2: 묶기 판정의 부분어 보강(3개 겹침)이 영문 쌍을 다시 붙여 정본 문턱을 무효로 만들던 것."""
+
+    def test_event_score_does_not_rescue_english_pairs(self):
+        spec = importlib.util.spec_from_file_location("gj", ROOT / ".github" / "scripts" / "group_judge.py")
+        gj = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(gj)
+        tok, st = gj._get_matcher()
+        a = tok("Trump defends actions in Iran and Venezuela in UN General Assembly address")
+        b = tok("Iran's president tells UN Trump strikes were illegal under international law")
+        self.assertEqual(gj._event_score(a, b, st), 0)
+        ka, kb = tok("강훈식 비서실장 사의 표명"), tok("[속보] 강훈식 비서실장 사의 표명")
+        self.assertEqual(gj._event_score(ka, kb, st), 3)
+
+    def test_group_judge_uses_canonical_matcher_without_feedparser(self):
+        # 평의회2-2 F1: feedparser 없는 판정 레인이 폴백 미러로 떨어져 수집 레인과 다른 규칙으로 묶던 것
+        import subprocess
+        code = ("import sys; sys.modules['feedparser']=None; sys.modules['requests']=None; "
+                "import importlib.util as u; s=u.spec_from_file_location('g', %r); m=u.module_from_spec(s); s.loader.exec_module(m); "
+                "t,st=m._get_matcher(); print(st.__module__)") % str(ROOT / ".github" / "scripts" / "group_judge.py")
+        r = subprocess.run([sys.executable, "-c", code], capture_output=True, text=True, cwd=str(ROOT))
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertEqual(r.stdout.strip(), "knews_scraper")
+
 
 if __name__ == "__main__":
     unittest.main()

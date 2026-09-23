@@ -84,7 +84,7 @@ RUBRIC = """너는 한국 뉴스 데스크의 사건 동일성 판정자다. 아
 출력은 각 그룹당 정확히 한 줄, `G<번호>: YES` 또는 `G<번호>: NO` 형식만. 다른 텍스트 금지."""
 RUBRIC_VER = hashlib.sha256(RUBRIC.encode("utf-8")).hexdigest()[:12]
 
-# ── tokenize/same_topic — knews_scraper 정본 우선, 폴백 미러(daily_health._get_tokenizer 선례 · feedparser 없는 환경 대비) ──
+# ── tokenize/same_topic — knews_scraper 정본 우선(260923부터 feedparser 없이도 import 된다 = 수집·판정 레인 같은 규칙) · 폴백 미러는 정본 import 자체가 깨졌을 때만 ──
 def _get_matcher():
     try:
         sys.path.insert(0, str(ROOT / "scraper"))
@@ -115,6 +115,7 @@ def _get_matcher():
 
 
 _HAN = re.compile(r"^[가-힣]+$")
+_HAN_ANY = re.compile(r"[가-힣]")
 
 
 def _gtitle(c):
@@ -154,11 +155,17 @@ def _sub_match(ta, tb, ha=None, hb=None):
     return n
 
 
+def _en_pair(ta, tb):
+    """양쪽 다 한글 토큰 0 = 영문 제목끼리(정본 knews_scraper._en_only 와 같은 술어)."""
+    return not any(_HAN_ANY.search(t) for t in ta) and not any(_HAN_ANY.search(t) for t in tb)
+
+
 def _event_score(ta, tb, same_topic, ha=None, hb=None):
-    """부착 랭킹용 매칭 강도(0 = 다른 사건 · 1~3 캡): same_topic(정본 유지) 통과 = 3 · 실패 시에만 부분어 보강 — 임계 동일(3개 또는 자카드 0.5)."""
+    """부착 랭킹용 매칭 강도(0 = 다른 사건 · 1~3 캡): same_topic(정본 유지) 통과 = 3 · 실패 시에만 부분어 보강 — 임계 동일(3개 또는 자카드 0.5).
+    영문끼리는 보강 없음 — 정본이 영문 쌍 문턱을 올렸는데(260923 · Trump·US·Iran 화제어 사슬) 여기서 3개 겹침으로 다시 붙이면 그 봉합이 무효(평의회2-2)."""
     if same_topic(ta, tb):
         return 3
-    if not SUBTOK:
+    if not SUBTOK or _en_pair(ta, tb):
         return 0
     n = _sub_match(ta, tb, ha, hb)
     if n >= 3:
@@ -325,6 +332,8 @@ def build_groups(cands):
                 ia = oidx[a]
                 for b in range(a + 1, len(oidx)):
                     ib = oidx[b]
+                    if _en_pair(ltoks[ia], ltoks[ib]):
+                        continue   # 영문끼리는 완화 매칭 제외(위 _event_score 와 같은 이유)
                     n = (_sub_match(ltoks[ia], ltoks[ib], lhan[ia], lhan[ib])
                          if SUBTOK else len(ltoks[ia] & ltoks[ib]))
                     if n >= ORPHAN_SHARED:

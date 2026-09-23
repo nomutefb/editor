@@ -41,8 +41,11 @@ from datetime import datetime, timezone, timedelta
 from pathlib import Path
 from urllib.parse import urlsplit, urlunsplit, parse_qsl, urlencode
 
-import requests
-import feedparser
+try:   # 수집 의존성은 fetch 에서만 쓴다 — 토큰화·같은 사건 판정만 쓰는 소비자(group_judge·daily_health·social_burst)가 feedparser 없는
+    import requests   # 러너에서도 정본을 import 하게(없으면 각자 폴백 미러로 떨어져 수집 레인과 판정 레인이 다른 규칙으로 묶던 것 · 평의회2-2 260923)
+    import feedparser
+except ImportError:
+    requests = feedparser = None
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from stock_filter import is_excluded_title  # 증권/시황 노이즈 수집 제외(SSOT · 운영자 260701)
@@ -93,6 +96,8 @@ EN_STOPWORDS = {
     "out", "new", "how", "why", "what", "who", "when", "where", "we", "he", "she", "they", "his", "her", "their",
     "you", "your", "our", "than", "more", "about", "before", "under", "against", "between", "during", "off",
     "all", "no", "if", "so", "just", "now", "get", "gets", "set", "near", "via", "per", "vs",
+    # 관용구·라이브블로그 꼬리(평의회2-1 실측 — "for the first time since"·"– US politics live"가 4개 겹침 경로로 무관 외신을 이었다)
+    "first", "since", "time", "live", "updates", "latest",
 }
 
 FEED_DELAY = 0.4    # 피드 간 딜레이(초) — 서버 매너(같은 호스트 안에서만 · 아래 FETCH_HOSTS)
@@ -201,6 +206,8 @@ def tokenize(title):
     """제목 → 핵심 토큰 집합 (교차등장 유사도용)."""
     title = re.sub(r"\[[^\]]*\]", " ", title)   # [속보] 같은 머리표 제거
     title = re.sub(r"<[^>]+>", " ", title)
+    title = re.sub(r"\b(?:[A-Za-z]\.){2,}", lambda m: m.group(0).replace(".", ""), title)   # U.S.·U.N. → US·UN(NYT 표기 · 평의회2-1)
+    en_title = not _HANGUL.search(title)   # 영문 기능어는 영문 제목에만 — 한글 제목 속 영문(aT·WHO·IT)은 종전대로 보존(평의회2-1·2-2)
     # 한글/영문/숫자를 각각 분리 추출 — "2500선"이 "2500"+"선"으로 갈려
     # 매체 간 숫자 공통 토큰(예: 코스피 '2500')이 제대로 매칭된다. 1글자는 버림.
     tokens = re.findall(r"[가-힣]{2,}|[A-Za-z]{2,}|[0-9]{2,}", title)
@@ -209,9 +216,10 @@ def tokenize(title):
         if t in STOPWORDS:
             continue
         if t.isascii() and t.isalpha():
-            t = t.lower()
-            if t in EN_STOPWORDS:
+            low = t.lower()
+            if en_title and low in EN_STOPWORDS and not t.isupper():   # 전부 대문자 = 약어(WHO·IT·AS) = 기능어 아님
                 continue
+            t = low
         out.add(t)
     return out
 
