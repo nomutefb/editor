@@ -8,13 +8,24 @@ function renderChips() {
 }
 
 let LOAD_SEQ = 0;   // load() 세대 토큰 — 복귀 핸들러·60s 폴·탭전환이 겹칠 때 늦게 도착한 옛 응답이 새 DATA를 덮는 out-of-order 차단(QA7 선존 지적 260706)
+// 빌드 전 새 요약(운영자 260924 ⑥ — 요약 커밋 뒤 재배포 1~2.5분을 기다려야 목록에 뜨던 것) = api/feedlive 가 정적 인덱스에 없는 새 요약만 준다.
+//   정적 인덱스와 **병렬**로 받아 덧붙인다(늦게 오면 이번 렌더는 정적만 · 실패 = 빈 목록 = 종전 동작). 빌드가 따라잡으면 서버가 자동 제외.
+const fetchFeedLive = () => fetch('api/feedlive').then(r => r.ok ? r.json() : null).then(d => (d && Array.isArray(d.rows)) ? d.rows : []).catch(() => []);
 async function load() {
   const _g = ++LOAD_SEQ;
+  const _liveP = fetchFeedLive();
   try {
     const r = await fetch('articles.json?_=' + Date.now());
     const j = await r.json();
     if (_g !== LOAD_SEQ) return;   // stale 응답 폐기 — 더 새 load가 떠 있음(그쪽이 렌더)
     DATA = j.articles || [];
+    const _live = await Promise.race([_liveP, new Promise(res => setTimeout(() => res([]), 4000))]);   // 4s 상한 = 정적 렌더를 붙잡지 않는다
+    if (_g !== LOAD_SEQ) return;
+    if (_live.length) {
+      const _have = new Set(DATA.map(a => a.file));
+      const _add = _live.filter(x => x && x.file && !_have.has(x.file));
+      if (_add.length) DATA = [..._add, ...DATA].sort((a, b) => (a.file < b.file ? 1 : a.file > b.file ? -1 : 0));   // 빌드와 같은 최신순(파일명 YYMMDD-HHMM)
+    }
     FEED_GEN = j.generated || '';   // 이 피드가 만들어진 배포본 시각 — 대기열 lag 행이 '어디까지 반영됐나'를 그 자리서 말한다(배포 적체 진단 · 260803)
     dateHead(j.count || DATA.length);
     setAuthStale(false);   // 조회 성공 = 세션 유효(다른 탭 재로그인 등) → 만료 항목 소등
@@ -446,6 +457,7 @@ async function ensureDetail(a) {
   if (!a || !a.file) return;
   const ver = (a.rev || 0) + '.' + ((a.cards && a.cards.rev) || 0) + '.' + ((a.cards && a.cards.updated) || '');
   if (a._detVer === ver && a.body != null) return;   // 이 버전 이미 로드됨
+  if (a._live && a.body != null) { a._detVer = ver; return; }   // 빌드 전 라이브 행 = 본문 동봉(정적 detail 아직 없음)
   try {
     const r = await fetch('detail/' + encodeURIComponent(a.file) + '.json?v=' + encodeURIComponent(ver));
     const d = await r.json();

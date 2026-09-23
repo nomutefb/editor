@@ -106,7 +106,7 @@
 - **폰(Termux)**: 기사 URL 공유 → `pending/*.txt` push → Actions(`news-analyze`)가 분석 → `queue/`. (구독 OAuth 헤드리스)
 - **클로드 코드 세션**: `/q` 스킬 — 이 세션에 붙인 기사(URL/전문)를 같은 다이제스트 형식으로 만들어 `queue/`에 직접 커밋(GitHub MCP). Actions 안 거침 → 붙여넣은 전문·nate처럼 헤드리스 fetch 막히는 매체도 처리. 정본=`.claude/skills/q`.
 - **RSS 자동 수집(scrape)**: `.github/workflows/scrape.yml`(수동/cron) — `scraper/knews_scraper.py`가 한국 주요 언론 RSS를 긁어 교차등장 상위 기사만 추려 `scraper/to_pending.py`가 `pending/`에 적재(중복 스킵=`scraper/seen_urls.txt` 원장) → 곧바로 news-analyze 디스패치. **무인 자동 입구**(폰·세션 없이 수집→분석). `GITHUB_TOKEN` push는 트리거 안 되므로 명시 디스패치. cron은 기본 꺼둠(비용 노브 — 켜면 무인 토큰 소비).
-- 셋 다 종착 = `queue/` → Pages 재빌드 → 뷰어 누적(같은 카드 UI).
+- 셋 다 종착 = `queue/` → Pages 재빌드 → 뷰어 누적(같은 카드 UI). 재빌드 전 새 요약은 `functions/api/feedlive.js`가 저장소 main에서 바로 읽어 뷰어가 덧붙인다(260924 · 해석기 한 벌 = `shared/article_parse.mjs` · 빌드가 따라잡으면 자동 제외) → 요약 완료 알림도 전부 신규면 배포 대기 생략(`notify_summary.sh` · `PUSH_FAST_NEW=0` 롤백).
 
 ## 폴더
 | 경로 | 용도 |

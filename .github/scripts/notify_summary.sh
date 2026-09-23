@@ -68,6 +68,25 @@ deployed() {   # 라이브 빌드가 이번 분석(EXPECT_SHA)을 포함하면 0
   git merge-base --is-ancestor "$EXPECT_SHA" "$live" 2>/dev/null   # EXPECT 가 live 의 조상 = 이번 분석이 그 빌드에 들어감
 }
 
+# ⚡ 새 파일만이면 배포를 안 기다린다(운영자 260924 ⑥) — 빌드 전 새 요약은 뷰어가 api/feedlive 로 바로 띄우므로(탭 = 즉시 열림)
+#    배포 대기(1~2.5분)가 알림만 늦췄다. 판정 = 이번 요약 파일이 **지금 라이브 인덱스에 하나도 없다**(= 전부 신규).
+#    재분석(같은 파일명 = 라이브 행 비대상 · 탭하면 옛 요약)이 섞였거나 인덱스를 못 읽으면(2) 종전대로 대기. 롤백 = PUSH_FAST_NEW=0.
+live_new_only() {   # 0 = 전부 신규 · 1 = 재분석 섞임 · 2 = 판정 불가
+  curl -fsS --max-time 12 ${AH[@]+"${AH[@]}"} "${AJSON}?_=$(date +%s)" 2>/dev/null \
+    | FL="$FL" python3 -c "
+import json, os, sys
+try:
+    have = {a.get('file') for a in json.load(sys.stdin).get('articles', [])}
+except Exception:
+    sys.exit(2)
+fs = [l.strip() for l in open(os.environ['FL'], encoding='utf-8') if l.strip()]
+sys.exit(0 if have and fs and not any(f in have for f in fs) else 1)" 2>/dev/null
+}
+if [ "${PUSH_FAST_NEW:-1}" != "0" ] && live_new_only; then
+  echo "전부 신규 요약 — 배포 대기 생략(뷰어 라이브 요약 api/feedlive 가 즉시 띄움) · 발송 진행"
+  DEPLOY_WAIT=0
+fi
+
 if [ -n "$EXPECT_SHA" ]; then
   echo "배포 반영 대기 — EXPECT=${EXPECT_SHA:0:12} / 최대 ${DEPLOY_WAIT}s (${AJSON})"
 else
@@ -75,7 +94,9 @@ else
 fi
 DEADLINE=$(( $(date +%s) + DEPLOY_WAIT ))
 while ! deployed && [ "$(date +%s)" -lt "$DEADLINE" ]; do sleep "$DEPLOY_POLL"; done
-if deployed; then
+if [ "$DEPLOY_WAIT" = "0" ]; then
+  :   # 신규 전용 = 대기 생략(위)
+elif deployed; then
   echo "배포 반영 확인(이번 분석 포함) — 발송 진행"
 else
   echo "::warning::배포 반영 대기 타임아웃 — 그래도 발송(뷰어 재시도 폴백 의존)"
