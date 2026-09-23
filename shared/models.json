@@ -17,9 +17,9 @@
       "축": "기계 분류 운영(GATE_MODEL·BREAKING_MODEL 워크플로 env)·트렌드 이미지 · effort 미부여"
     },
     "fable": {
-      "id": "claude-fable-5",
-      "en": "Fable 5",
-      "ko": "페이블 5",
+      "id": "claude-opus-5-5",
+      "en": "Opus 5.5",
+      "ko": "오퍼스 5.5",
       "축": "페이블 티어 = 중요 창작(품질 차이가 큰 일 · 운영자 260721~22): AI 이미지 프롬프트(gen_image)·클링(kmake)·음원(songmake)·번역카드(trauto)·콘티 감독 fable(sbmake)·쇼츠 컷(clipmake)·테이크(takemake). 호출처는 FABLE_MODEL 변수만(sites · 게이트 강제) — 실패 시 오퍼스 티어 1회 폴백(같은 모델이면 스크립트가 자동 생략)",
       "sites": [
         ".github/scripts/gen_image.py",
@@ -29,7 +29,14 @@
         ".github/scripts/clipmake.sh",
         ".github/scripts/takemake.sh",
         ".github/scripts/sbmake.sh"
-      ]
+      ],
+      "follow": "opus",
+      "원래": {
+        "id": "claude-fable-5",
+        "en": "Fable 5",
+        "ko": "페이블 5"
+      },
+      "규칙": "운영자 260923: 페이블 5.1과 오퍼스 5.5 중엔 오퍼스 5.5(동급 이상 · 싸다) → 오퍼스 티어 대행(follow). 새 페이블 티어(5.1 다음)가 나오면 비용이 높아도 페이블로 복귀 = python3 shared/apply_models.py fable <새 페이블 ID> \"Fable X\" \"페이블 X\". 대행 중 오퍼스 승격 = 이 티어도 같이 따라감."
     },
     "haiku": {
       "id": "claude-haiku-4-5-20251001",
@@ -89,7 +96,8 @@
     "Opus 5",
     "opus 5",
     "OPUS 5",
-    "오퍼스 5"
+    "오퍼스 5",
+    "claude-fable-5"
   ],
   "keyed": {
     "_": "티어 키로 값을 찾는 자리(대행·복귀 때 글자 치환 대신 키 기준 치환 · check_model_ids가 정본 값과 문자 대조). ids = `<티어>_MODEL` 변수의 ID 기본값 · labels = `<티어>: '표시명'` 라벨.",

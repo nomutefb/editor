@@ -32,7 +32,7 @@ sys.path.insert(0, str(ROOT / "shared"))
 import thumb_gen as tg   # __main__ 가드 있음 = import 안전. gemini_image·r2_upload·parse_md·R2_ON 재사용.  # noqa: E402
 from claude_py import run_claude   # 쿼터 한도 시 대체 계정 자동 전환(account failover · SSOT)  # noqa: E402
 
-MODEL = os.environ.get("FABLE_MODEL", "claude-fable-5")    # 프롬프트 작성 = 페이블 티어(운영자 260721 "AI 이미지 생성은 품질이 많이 차이나니까 FABLE 5" — 그 전엔 오퍼스) · 값 = models.json tiers.fable(대행·복귀는 apply_models.py가 키로 옮김) · env 오버라이드 유지
+MODEL = os.environ.get("FABLE_MODEL", "claude-opus-5-5")    # 프롬프트 작성 = 페이블 티어(운영자 260721 "AI 이미지 생성은 품질이 많이 차이나니까 FABLE 5" — 그 전엔 오퍼스) · 값 = models.json tiers.fable(대행·복귀는 apply_models.py가 키로 옮김) · env 오버라이드 유지
 MODEL_FB = os.environ.get("PIPE_MODEL_FB", "claude-opus-5-5")   # Fable 실패(안전거절·오류·형식이탈) 시 1회 한정 폴백 = 구 정본 모델(연료 방어: 결정형 폴백行 전에 지능 1단 방파제 · 루프 없음)
 EFFORT = os.environ.get("PIPE_EFFORT", "high")            # 연료 방어(운영자 260721 "낭비 새는 구간 없게"): Fable 5 max = 과사고·장시간 낭비 위험 — high도 구 Opus max 이상 품질(모델 카드 정본) · 구 "opus 5.5 --effort max"의 Fable 등가
 KST = datetime.timezone(datetime.timedelta(hours=9))      # §📐 시각 = KST
