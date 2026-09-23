@@ -87,10 +87,21 @@ STOPWORDS = {
 FEED_DELAY = 0.4    # 피드 간 딜레이(초) — 서버 매너(같은 호스트 안에서만 · 아래 FETCH_HOSTS)
 REQ_TIMEOUT = 10    # 요청 타임아웃(초)
 # 호스트 병렬 수집(260923 · 운영자 «속보로 뜨는 게 늦어버리는 점 = 제일 우선순위»): 169피드를 한 줄로 0.4초씩 쉬며 받아
-#   수집 한 바퀴가 슬롯 뒤 커밋까지 중앙 326초였다(실측 git 600회). 매너(FEED_DELAY)는 **같은 서버 안에서만** 지키고
-#   서로 다른 언론사 서버는 동시에 받는다 = 서버별 부하 불변 · 전체 벽시계 ≈ 가장 긴 한 호스트 줄(동아 17피드).
+#   수집 한 바퀴가 슬롯 뒤 커밋까지 중앙 326초였다(실측 git 600회 · 평의회5 같은 피드 A/B = 수집 306.5s → 20.2s · 산출 해시 동일).
+#   매너(FEED_DELAY)는 **같은 호스트 이름 안에서** 지키고 서로 다른 언론사는 동시에 받는다 · 전체 벽시계 ≈ 가장 긴 한 호스트 줄.
+#   ⚠ 호스트 이름이 달라도 같은 서버인 곳이 있다(시사인·시사저널·여성신문 = 같은 IP 실측) → 그 서버엔 최대 3개가 동시에 간다(허용).
+#   막힌 서버 한 곳이 줄 전체를 붙잡지 않게 = 연결 오류·시간 초과가 2피드 연속이면 그 줄의 나머지는 이번 회차 죽음 처리(NET_SKIP_AFTER).
 #   기사 순서·중복제거·건강 원장은 feeds.csv 순서 그대로 조립(결과 결정성 불변). 롤백 = env KNEWS_FETCH_HOSTS=1(= 종전 직렬).
-FETCH_HOSTS = max(1, int(os.environ.get("KNEWS_FETCH_HOSTS", "16")))
+def _env_int(name, default):
+    try:
+        return int(os.environ.get(name, "") or default)
+    except ValueError:
+        return default
+
+
+FETCH_HOSTS = max(1, _env_int("KNEWS_FETCH_HOSTS", 16))
+NET_SKIP_AFTER = _env_int("KNEWS_NET_SKIP_AFTER", 2)   # 0 = 끔
+NET_FAILS = set()   # 이번 회차 네트워크 계열 실패(연결·시간 초과) url — HTTP 404·파싱 불가는 빠르게 끝나므로 제외
 # 교차등장 판정: 핵심 명사 교집합이 이 개수 이상이면 같은 토픽으로 본다.
 # 2→3 (260616): inter=2 단일링크가 정치 공통어(이란·선관위·국힘…)로 무관 기사를 transitive
 # chaining → 거대블롭(실측 980개=45%·cross20). 3 요구하면 블롭 980→126·cross20→16, 후보는
@@ -221,6 +232,8 @@ def fetch_feed(feed):
                 time.sleep(1.5)
                 continue
             log(f"  ✗ 실패({type(e).__name__}): {feed['publisher']} {feed['title']} — {url}")
+            if isinstance(e, (requests.ConnectionError, requests.Timeout)):
+                NET_FAILS.add(url)
             return None
 
 
@@ -267,19 +280,32 @@ def extract_image(entry):
     return None
 
 
+def _host(url):
+    """호스트 이름(소문자) — 잘못 적힌 주소 한 줄이 런 전체를 죽이지 않게 실패 = 주소 그대로(그 피드만 죽음 처리 · 평의회5)."""
+    try:
+        return urlsplit(url).netloc.lower()
+    except ValueError:
+        return url
+
+
 def prefetch(feeds):
     """피드를 호스트별 줄로 나눠(줄 안 = 종전 직렬 + FEED_DELAY) 줄끼리 동시에 받는다. 반환 = feeds 순서의 parsed(None=실패)."""
     from concurrent.futures import ThreadPoolExecutor
     lanes = {}
     for i, feed in enumerate(feeds):
-        lanes.setdefault(urlsplit(feed["url"]).netloc.lower(), []).append(i)
+        lanes.setdefault(_host(feed["url"]), []).append(i)
     out = [None] * len(feeds)
 
     def run(idx):
+        streak = 0
         for k, i in enumerate(idx):
+            if NET_SKIP_AFTER and streak >= NET_SKIP_AFTER:
+                log(f"  ✗ 건너뜀(같은 서버 연결 불가 {streak}연속): {feeds[i]['publisher']} {feeds[i]['title']} — {feeds[i]['url']}")
+                continue
             if k:
                 time.sleep(FEED_DELAY)
             out[i] = fetch_feed(feeds[i])
+            streak = streak + 1 if feeds[i]["url"] in NET_FAILS else 0
 
     with ThreadPoolExecutor(max_workers=FETCH_HOSTS) as ex:
         list(ex.map(run, lanes.values()))
@@ -303,7 +329,7 @@ def kst_skew_hosts(feeds, parsed_list, now):
     if not KST_FIX:
         return hosts
     for feed, parsed in zip(feeds, parsed_list):
-        host = urlsplit(feed["url"]).netloc.lower()
+        host = _host(feed["url"])
         if parsed is None or host in hosts:
             continue
         for e in parsed.entries:
@@ -336,7 +362,7 @@ def collect(feeds, hours):
     if skewed:
         log(f"발행시각 KST 오기록 보정(-9h): {', '.join(sorted(skewed))}")
     for feed, parsed in zip(feeds, parsed_list):
-        sk = urlsplit(feed["url"]).netloc.lower() in skewed
+        sk = _host(feed["url"]) in skewed
         if parsed is None:
             dead += 1
             health.append({"publisher": feed["publisher"], "title": feed["title"],

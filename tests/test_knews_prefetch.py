@@ -69,6 +69,42 @@ class PrefetchTest(unittest.TestCase):
         for (s1, e1), (s2, _) in zip(spans, spans[1:]):
             self.assertGreaterEqual(s2, e1)
 
+    def test_dead_server_lane_is_cut_after_two_network_failures(self):
+        # 평의회5: 막힌 서버 한 곳(동아 17피드 × 21.5s)이 줄 전체를 붙잡아 런이 종전보다 느려지던 것
+        m = _load()
+        m.FEED_DELAY = 0
+        feeds = [{"publisher": "D", "title": str(i), "url": f"https://dead.kr/{i}.xml"} for i in range(5)] + \
+                [{"publisher": "O", "title": "ok", "url": "https://ok.kr/a.xml"}]
+        tried = []
+
+        def fake(feed):
+            tried.append(feed["url"])
+            if "dead.kr" in feed["url"]:
+                m.NET_FAILS.add(feed["url"])
+                return None
+            return "P"
+        with mock.patch.object(m, "fetch_feed", fake):
+            out = m.prefetch(feeds)
+        self.assertEqual(sum(1 for u in tried if "dead.kr" in u), 2)
+        self.assertEqual(out, [None] * 5 + ["P"])
+
+    def test_http_errors_do_not_cut_the_lane(self):
+        m = _load()
+        m.FEED_DELAY = 0
+        feeds = [{"publisher": "S", "title": str(i), "url": f"https://s.kr/{i}.xml"} for i in range(4)]
+        with mock.patch.object(m, "fetch_feed", lambda f: None if f["url"].endswith(("0.xml", "1.xml")) else "P"):
+            self.assertEqual(m.prefetch(feeds), [None, None, "P", "P"])   # 404 두 섹션 뒤 살아있는 전체기사는 받아야 한다
+
+    def test_malformed_url_does_not_crash_run(self):
+        m = _load()
+        feeds = [{"publisher": "X", "title": "bad", "url": "http://[www.khan.co.kr/rss"}]
+        with mock.patch.object(m, "fetch_feed", lambda f: None):
+            self.assertEqual(m.prefetch(feeds), [None])
+
+    @mock.patch.dict("os.environ", {"KNEWS_FETCH_HOSTS": ""})
+    def test_blank_env_falls_back(self):
+        self.assertEqual(_load().FETCH_HOSTS, 16)
+
 
 class KstSkewTest(unittest.TestCase):
     """평의회7: 한국시각을 +00:00 으로 박는 CMS → 기사가 9h 미래 → 대표 선정·burst 어긋남 + 단독 1보 만료 후 재입장(9h 늦은 푸시)."""
