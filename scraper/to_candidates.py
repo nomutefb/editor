@@ -693,11 +693,12 @@ def main():
                 within[id(c)] = gmax[c["group_id"]]   # 병합 형제 = 한 점수(하나만 잘려 합산이 깨지는 것 차단)
     kept.sort(key=lambda c: (rank[id(c)], within.get(id(c), c.get("cross") or 0), c.get("published") or ""), reverse=True)   # 단 안에서는 종전 cross·발행 내림차 — CAP 컷·바이트 트림은 꼬리(0단 → 1단 → 2단 순)부터 침
 
-    def _cuts(seq):   # (누적급 cross≥8 · 누적 자격(2단) · 비노출 4~6h 신선(1단)) 컷 수
-        return (sum(1 for c in seq if (c.get("cross") or 0) >= 8),
+    def _cuts(seq):   # (누적급 cross≥8 · 누적 자격(2단) · 비노출 4~6h 신선(1단) · 48h+ 누적 정리(0.5단)) 컷 수
+        return (sum(1 for c in seq if (c.get("cross") or 0) >= 8 and band.get(id(c)) != 0.5),
                 sum(1 for c in seq if band.get(id(c)) == 2),
-                sum(1 for c in seq if band.get(id(c)) == 1))
-    cut_cum, cut_vis, cut_46 = _cuts(kept[CAP:])   # cut_cum = 누적 칼럼 진입선(뷰어 CROSS_MIN=8)급이 잘린 수(평의회2-5 계기판 · 종전 정의 유지) · cut_vis = 병합·연속보도 진입분까지 포함한 누적 자격 컷
+                sum(1 for c in seq if band.get(id(c)) == 1),
+                sum(1 for c in seq if band.get(id(c)) == 0.5))
+    cut_cum, cut_vis, cut_46, cut_old = _cuts(kept[CAP:])   # cut_cum = 누적 칼럼 진입선(뷰어 CROSS_MIN=8)급이 잘린 수(평의회2-5 계기판) — 48h+ 정리분(0.5단 = 의도된 대가)은 cut_old 로 분리(평의회4-1: 섞으면 매 런 ⚠️ 가 떠 진짜 증발 신호를 가림) · cut_vis = 병합·연속보도 진입분까지 포함한 누적 자격 컷
     kept = kept[:CAP]
     # 바이트 하드예산(평의회2·8 독립 수렴 260716): 건수 CAP 통과해도 직렬화가 MAX_BYTES 초과면 정렬 꼬리(2군 저cross)부터 기계적 제거 —
     #   api/candidates 1MB 초과 = 빈[] = 수집함 전체 텅빔(260714 사고)의 재발을 쓰기 지점이 직접 봉쇄(check_refs 1MB 가드 = WARN-only + 스크랩 자동커밋은 게이트 밖 = 이빨 없음 실측).
@@ -707,8 +708,8 @@ def main():
     while kept and len(blob.encode("utf-8")) > MAX_BYTES:
         over = len(blob.encode("utf-8")) - MAX_BYTES
         drop = max(1, over // 1600)   # 평균 엔트리 ~1.3KB — 보수 나눔(1.6KB)으로 과컷 방지 · 부족분은 재실측 루프가 마저 컷
-        a, b, f = _cuts(kept[-drop:])
-        cut_cum, cut_vis, cut_46 = cut_cum + a, cut_vis + b, cut_46 + f
+        a, b, f, o = _cuts(kept[-drop:])
+        cut_cum, cut_vis, cut_46, cut_old = cut_cum + a, cut_vis + b, cut_46 + f, cut_old + o
         del kept[-drop:]
         trimmed += drop
         blob = json.dumps(kept, ensure_ascii=False)
@@ -730,6 +731,7 @@ def main():
           + (f" · 비노출 {FAST_MAX_H}~{FRESH_KEEP_H}h 신선 컷 {cut_46}건" if cut_46 else "")
           + (f" · ⚠️ 누적급(cross≥8) 컷 {cut_cum}건" if cut_cum else "")
           + (f" · ⚠️ 누적 자격 컷 {cut_vis}건" if cut_vis else "")
+          + (f" · {CUM_KEEP_H:g}h+ 누적 정리 {cut_old}건" if cut_old else "")
           + ("" if visible_order else " · 컷 순서=종전 2군(" + ("레버 OFF" if not CUT_VISIBLE else "누적 미러 부재·실패") + ")"))
 
 

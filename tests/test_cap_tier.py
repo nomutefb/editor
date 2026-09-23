@@ -113,8 +113,10 @@ class CapTierTest(unittest.TestCase):
     def test_old_cumulative_ranks_below_fresh_4_6h(self):
         # 평의회4-3 260924: 48h 넘은 누적 자격 = 시간 감쇠로 칼럼 바닥 → 4~6h 신선 아래(0.5단) · 48h 안은 종전 2단
         pool = [ent("old", cross=12, pub_h=60), ent("mid", cross=2, pub_h=5), ent("cum", cross=9, pub_h=30)]
-        kept, _ = self.run_tc(pool, env={"CAND_CAP": "2"})
+        kept, log = self.run_tc(pool, env={"CAND_CAP": "2"})
         self.assertEqual(set(kept), {"cum", "mid"})
+        self.assertNotIn("누적급", log)            # 48h+ 정리 = 의도된 대가 → ⚠️ 증발 계기판과 분리(평의회4-1)
+        self.assertIn("48h+ 누적 정리 1건", log)
         kept, _ = self.run_tc(pool, env={"CAND_CAP": "2", "CAND_CUM_KEEP_H": "240"})
         self.assertEqual(set(kept), {"old", "cum"})   # 레버 = 종전(무제한)
 
