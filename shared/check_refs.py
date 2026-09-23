@@ -5084,8 +5084,14 @@ def check_loader_ssot():
 # 모델 ID가 20+ 호출처에 리터럴로 흩어져 있어 승격(260725 Opus 4.8→5 = 22곳 실측)마다 전수 grep = 빠뜨림.
 # 런타임 결합(호출처가 json을 읽게)은 Cloudflare Functions·정적 뷰어에 파일 접근이 없어 불가 → 「정본 1곳 +
 # 기계 치환(shared/apply_models.py) + 이 게이트」 3점. 치환기가 놓친 한 곳을 여기서 커밋 차단한다.
-_MODEL_ID_RE = re.compile(r'claude-[a-z]+-[0-9][0-9a-z.-]*')
-_MODEL_NAME_GUARD = '(?![인명])'   # `Opus 5인/5명`(인원) = 모델명 아님 — apply_models.py NAME_GUARD와 동일 규약
+def _apply_models_mod():
+    """경계 가드(인원 접미사·버전 연장)·키 기준 정규식의 단일 정본 = shared/apply_models.py — 사본을 두면 치환기와 게이트가
+    갈라진다(260923 실측: 가드가 `(?![인명])`뿐이라 `claude-opus-5` 은퇴 뒤 `claude-opus-5-5`·`Opus 5.5` 전부를 잔존으로 오판)."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location('apply_models', os.path.join(os.path.dirname(os.path.abspath(__file__)), 'apply_models.py'))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
 
 
 def _model_registry():
@@ -5117,9 +5123,14 @@ def check_model_ids():
         reg = _model_registry()
     except Exception as e:
         print('❌ 모델 ID 게이트: shared/models.json 못 읽음(부재/문법?) —', e); return 1   # fail-closed = 정본 소실 무성 무력화 차단
-    ids = {t['id'] for t in reg['tiers'].values()}
-    retired = [(r, re.compile(re.escape(r) + (_MODEL_NAME_GUARD if not r.startswith('claude-') else '')))
-               for r in reg.get('retired', [])]
+    try:
+        am = _apply_models_mod()
+    except Exception as e:
+        print('❌ 모델 ID 게이트: shared/apply_models.py 못 불러옴(경계 가드 정본) —', e); return 1
+    tiers = reg['tiers']
+    ids = {t['id'] for t in tiers.values()}
+    id_re = re.compile(am.ID_PAT)   # 끝의 `.`·`-` 제외 = 문장 끝 마침표를 ID로 읽던 오탐 차단(apply_models 정본)
+    retired = [(r, am.id_rx(r) if r.startswith('claude-') else am.name_rx(r)) for r in reg.get('retired', [])]
     # 벤더(비-Claude · 종량제) = 표시명 없이 ID만 · family 정규식으로 '그 계열의 다른 버전이 섞였나'를 본다
     vendors = [(k, v['id'], re.compile(v['family']), set(v.get('allow', [])))
                for k, v in reg.get('vendors', {}).items() if v.get('family')]
@@ -5130,7 +5141,7 @@ def check_model_ids():
         except (OSError, UnicodeDecodeError):
             continue
         rel = _repo_relpath(path, ROOT)
-        for lit in sorted(set(_MODEL_ID_RE.findall(src))):
+        for lit in sorted(set(id_re.findall(src))):
             if lit not in ids:
                 bad.append('%s: 미등재 모델 ID `%s` (정본 = %s)' % (rel, lit, ' · '.join(sorted(ids))))
         for key, vid, rx, allow in vendors:
@@ -5142,13 +5153,50 @@ def check_model_ids():
             n = len(rx.findall(src))
             if n:
                 bad.append('%s: 구세대 표기 `%s` %d곳 잔존 — `python3 shared/apply_models.py` 재실행 or 수동 교체' % (rel, raw, n))
+    # 대행(follow) = 값이 대상 티어와 같아야 하고 1단만(연쇄 대행 = 승격 때 동기가 끊긴다)
+    for k, t in tiers.items():
+        f = t.get('follow')
+        if not f:
+            continue
+        lead = tiers.get(f)
+        if not lead or lead.get('follow'):
+            bad.append('models.json: [%s] 대행 대상 `%s` 부재 또는 연쇄 대행(1단만 허용)' % (k, f))
+        elif (t['id'], t.get('en'), t.get('ko')) != (lead['id'], lead.get('en'), lead.get('ko')):
+            bad.append('models.json: [%s] 대행인데 값 %s ≠ [%s] %s — `python3 shared/apply_models.py %s --follow %s` 재실행'
+                       % (k, (t['id'], t.get('en')), f, (lead['id'], lead.get('en')), k, f))
+        if not t.get('원래'):
+            bad.append('models.json: [%s] 대행인데 `원래`(복귀 전 모델) 기록 없음 — 왜 이 티어가 따로 있는지가 사라진다' % k)
+    # 키 기준 자리(대행 티어 값이 사는 곳) = 정본 값과 문자 일치 · 티어 호출처 = `<티어>_MODEL` 변수만(ID 직접 박기 금지)
+    kd = reg.get('keyed', {})
+    for kind, rx_of, want in (('ids', am.keyed_id_rx, 'id'), ('labels', am.keyed_label_rx, 'en')):
+        for relp in kd.get(kind, []):
+            try:
+                src = _FilePath(os.path.join(ROOT, relp)).read_text(encoding='utf-8')
+            except OSError:
+                bad.append('%s: models.json keyed.%s 등재 파일 부재(리네임 시 등재 동반 갱신)' % (relp, kind)); continue
+            for k, t in tiers.items():
+                for m in rx_of(k).finditer(src):
+                    if t.get(want) and m.group(2) != t[want]:
+                        bad.append('%s: [%s] 키 자리 `%s` ≠ 정본 `%s` — apply_models.py로 옮겨라(손 수정 = 대행·복귀 추적 끊김)'
+                                   % (relp, k, m.group(2), t[want]))
+    for k, t in tiers.items():
+        var = re.compile(r'\b%s_MODEL\b' % k.upper())
+        for relp in t.get('sites', []):
+            try:
+                src = _FilePath(os.path.join(ROOT, relp)).read_text(encoding='utf-8')
+            except OSError:
+                bad.append('%s: [%s] 티어 호출처(models.json sites) 부재 — 리네임 시 등재 동반 갱신' % (relp, k)); continue
+            if not var.search(src):
+                bad.append('%s: [%s] 티어 호출처인데 `%s_MODEL` 미사용 — 모델 ID를 직접 박으면 대행·복귀 때 이 자리만 남는다'
+                           % (relp, k, k.upper()))
     if bad:
         print('❌ 모델 ID 게이트 — 정본(shared/models.json) 드리프트:')
         for b in bad: print('   -', b)
         return 1
-    print('✅ 모델 ID 게이트 — %d티어(%s) + 벤더 %d종(%s) 정본 일치 · 구세대 %d종 잔존 0(스캔 %d파일 · 승격 = apply_models.py).'
-          % (len(ids), ' · '.join(t['id'] for t in reg['tiers'].values()), len(vendors),
-             ' · '.join(k for k, *_ in vendors), len(retired), len(_model_scan_files(reg))))
+    fol = ['%s→%s' % (k, t['follow']) for k, t in tiers.items() if t.get('follow')]
+    print('✅ 모델 ID 게이트 — %d티어(%s) + 벤더 %d종(%s) 정본 일치 · 구세대 %d종 잔존 0 · 대행 %s(스캔 %d파일 · 승격 = apply_models.py).'
+          % (len(tiers), ' · '.join(t['id'] for t in tiers.values()), len(vendors),
+             ' · '.join(k for k, *_ in vendors), len(retired), ' · '.join(fol) or '없음', len(_model_scan_files(reg))))
     return 0
 
 

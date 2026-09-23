@@ -2,6 +2,7 @@
   "_": "모델 ID·표시명 정본(SSOT · 운영자 260725 한 수). 승격 = `python3 shared/apply_models.py <티어> <새ID> \"<새 표시명>\" \"<새 한글명>\"` → 전 호출처 일괄 치환 + 이 파일 자동 갱신 → `python3 shared/check_refs.py`(rc=0) → 커밋. 손으로 고치지 마라(빠뜨림 = check_model_ids 차단).",
   "_런타임": "호출처는 이 파일을 읽지 않는다(리터럴 유지) — Cloudflare Functions·정적 뷰어는 런타임 파일 접근이 없고, 20+ 스크립트의 모델 해석을 바꾸는 건 고위험. 대신 '정본 1곳 + 기계 치환 + 드리프트 게이트' 3점 세트로 같은 효과를 낸다.",
   "_비클로드": "공급사 다른 모델은 `vendors` 절에 등재 — 종량제(과금 직결)라 ID가 어긋나면 곧장 실패·오과금이 된다. 구독 축(claude)과 달리 표시명이 없어 ID만 관리한다.",
+  "_대행": "티어가 다른 티어의 모델을 대신 쓰는 상태 = `follow`(운영자 260923: 페이블 5.1보다 오퍼스 5.5가 나아 페이블 티어를 오퍼스가 대행 · 새 페이블 티어가 나오면 비용이 높아도 페이블로 복귀). 같은 ID를 두 티어가 공유하면 글자 치환으로 한쪽만 못 고르므로 대행 티어 값은 `keyed` 자리에만 두고 호출처(`sites`)는 `<티어>_MODEL` 변수만 쓴다. 시작 = `apply_models.py <티어> --follow <대상>` · 해제 = `apply_models.py <티어> <새ID> \"<표시명>\" \"<한글명>\"`.",
   "tiers": {
     "opus": {
       "id": "claude-opus-5",
@@ -76,6 +77,18 @@
     "OPUS 4.8",
     "오퍼스 4.8"
   ],
+  "keyed": {
+    "_": "티어 키로 값을 찾는 자리(대행·복귀 때 글자 치환 대신 키 기준 치환 · check_model_ids가 정본 값과 문자 대조). ids = `<티어>_MODEL` 변수의 ID 기본값 · labels = `<티어>: '표시명'` 라벨.",
+    "ids": [
+      "shared/model_env.sh",
+      ".github/scripts/gen_image.py"
+    ],
+    "labels": [
+      "viewer/nm-models.js",
+      "functions/api/sb.js",
+      "viewer/edit.html"
+    ]
+  },
   "scan": {
     "include": [
       ".github/scripts/*",
@@ -85,6 +98,7 @@
       "functions/api/*.js",
       "viewer/*.html",
       "viewer-src/*.part",
+      "viewer/nm-models.js",
       "prompts/*.md",
       "apps/**/*.md",
       "CLAUDE.md",
