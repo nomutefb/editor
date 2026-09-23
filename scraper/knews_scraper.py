@@ -292,10 +292,12 @@ def fetch_feed(feed):
 # 표준 파서(feedparser)가 못 읽는 국내 RSS 날짜 표기(260923 라이브 실측 · 평의회2-7):
 #   세계일보·파이낸셜뉴스 = "Wed,23 Sep 2026 21:00:00 +0900"(쉼표 뒤 공백 없음 → 수집 기사 14%가 발행시각 없이 들어왔다)
 #   노컷뉴스 = "Wed, 23 09 2026 21:14:11 +0900"(월이 숫자) + dc:date "0001-01-01"(이걸 발행으로 읽어 전 기사가 24h 창 밖 = 죽은 피드로 보였다)
-#   압축형 = "20260923213257+0900". 표준 파서가 읽은 값이 있으면(2000년 이후) 종전 그대로 = 정상 피드 무영향. 시간대 없음 = 한국시각.
+#   압축형 = "20260923213257+0900"(표준 파서는 날짜만 읽고 시각을 버려 자정이 된다 → 이 형식만은 폴백 우선).
+#   표준 파서가 읽은 값이 있으면(2000년 이후) 종전 그대로 = 정상 피드 무영향. 시간대 없음 = UTC(표준 파서와 같은 해석 — 한국시각을
+#   UTC로 쓴 호스트는 collect 의 호스트 단위 -9h 보정이 한 번만 잡는다 · 이중 보정 차단 · 평의회3-1).
 _MON = {m: i for i, m in enumerate(("jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"), 1)}
-_RAW_RFC = re.compile(r"^\s*(?:[A-Za-z]{3},?\s*)?(\d{1,2})\s+([A-Za-z]{3}|\d{1,2})\s+(\d{4})\s+(\d{1,2}):(\d{2})(?::(\d{2}))?\s*([+-]\d{4}|GMT|UTC|Z)?\s*$")
-_RAW_COMPACT = re.compile(r"^\s*(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})\s*([+-]\d{4})?\s*$")
+_RAW_RFC = re.compile(r"^\s*(?:[A-Za-z]{3},?\s*)?(\d{1,2})\s+([A-Za-z]{3}|\d{1,2})\s+(\d{4})\s+(\d{1,2}):(\d{2})(?::(\d{2}))?\s*([+-]\d{2}:?\d{2}|GMT|UTC|Z)?\s*$", re.I)
+_RAW_COMPACT = re.compile(r"^\s*(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})\s*([+-]\d{2}:?\d{2})?\s*$")
 
 
 def _raw_date(s):
@@ -313,12 +315,14 @@ def _raw_date(s):
         tz = m.group(7)
     if not parts[1]:
         return None
-    if tz in (None, ""):
-        off = timedelta(hours=9)
-    elif tz in ("GMT", "UTC", "Z"):
+    tz = (tz or "").upper().replace(":", "")
+    if tz in ("", "GMT", "UTC", "Z"):
         off = timedelta(0)
     else:
-        off = timedelta(hours=int(tz[1:3]), minutes=int(tz[3:5])) * (1 if tz[0] == "+" else -1)
+        hh, mm = int(tz[1:3]), int(tz[3:5])
+        if hh > 14 or mm > 59:
+            return None
+        off = timedelta(hours=hh, minutes=mm) * (1 if tz[0] == "+" else -1)
     try:
         return (datetime(*parts, tzinfo=timezone.utc) - off) if parts[0] >= 2000 else None
     except ValueError:
@@ -327,15 +331,19 @@ def _raw_date(s):
 
 def parse_time(entry):
     """발행시각 → aware datetime(UTC). 없으면 None. 2000년 이전 값 = 무효(노컷 0001년 자리표시)."""
-    for key in ("published_parsed", "updated_parsed"):
-        t = entry.get(key)
+    for key in ("published", "updated"):   # 발행 먼저(표준→폴백) · 그다음 수정 시각(표준→폴백)
+        raw = entry.get(key)
+        if raw and _RAW_COMPACT.match(str(raw)):
+            t = _raw_date(raw)
+            if t:
+                return t
+        t = entry.get(key + "_parsed")
         if t and t[0] >= 2000:
             try:
                 return datetime(*t[:6], tzinfo=timezone.utc)
             except (ValueError, TypeError):
-                continue
-    for key in ("published", "updated"):
-        t = _raw_date(entry.get(key))
+                pass
+        t = _raw_date(raw)
         if t:
             return t
     return None
