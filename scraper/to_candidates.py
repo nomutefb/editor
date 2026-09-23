@@ -141,7 +141,8 @@ def cum_visible_ids(kept):
     나이는 보지 않는다(<4h 는 3단이 먼저 잡고, 곧 누적으로 넘어갈 그룹 형제도 지금 지켜야 합산이 산다). 미러 부재 = 빈 집합."""
     if _cum_enter is None or screen_merge is None:
         return set()
-    out = {id(c) for c in kept if _cum_enter(c)}
+    out = {id(c) for c in kept if _cum_enter(c)
+           or ((c.get("cross") or 0) >= 4 and (c.get("report_count") or 0) >= 3)}   # + 강지문 완화로 상위집합(cross≥4 ∧ rc≥3 · 뷰어 fpScore 는 사전이 필요해 미러 밖 · 평의회4-2 260924)
     fam = {}
     for c in kept:
         if c.get("group_id"):
@@ -644,7 +645,7 @@ def main():
 
     def cut_band(c):   # 컷 순서 4단(높을수록 늦게 잘림) — 정본 주석 = 위 CUT_VISIBLE
         ft = fresh_tier(c)
-        if ft and (is_solo(c) or c.get("breaking")):
+        if ft and (is_solo(c) or _urgent(c)):   # 경중 0·1 긴급은 뷰어 isBreaking 거짓 = 안 보임 → 3단 아님(평의회4-2)
             return 3
         if ft:
             age = _age_h_first(c.get("published"), c.get("first_seen"))

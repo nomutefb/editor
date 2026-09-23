@@ -82,7 +82,7 @@ class CapTierTest(unittest.TestCase):
         kept, _ = self.run_tc(pool, env={"CAND_CUT_VISIBLE": "0"})
         self.assertEqual(kept, ["mid", "fresh", "brk", "cum", "x7", "fol"])
         kept, _ = self.run_tc(pool)
-        self.assertEqual(kept, ["fresh", "brk", "cum", "fol", "mid", "x7"])   # 신규: 3단(신선·긴급) → 2단(누적 자격) → 1단(4~6h) → 0단
+        self.assertEqual(kept, ["fresh", "cum", "fol", "mid", "brk", "x7"])   # 신규: 3단(신선·긴급) → 2단(누적 자격) → 1단(4~6h · 경중 0·1 긴급 = 화면 비노출) → 0단
 
     def test_follow_enters_mirror_outranks_higher_cross_invisible(self):
         pool = [ent("fresh", pub_h=1), ent("fol", cross=4, pub_h=9, rc=6), ent("x7", cross=7, pub_h=9, rc=2)]
@@ -104,11 +104,23 @@ class CapTierTest(unittest.TestCase):
         self.assertEqual(set(kept), {"f0", "f1", "f2"})
 
     def test_breaking_and_solo_seat_stay_top(self):
-        pool = [ent("brk", cross=2, pub_h=30, breaking=True, grade=1),   # 확정 긴급 도장 = 종전처럼 무조건 최상단
+        pool = [ent("brk", cross=2, pub_h=30, breaking=True, grade=2),   # 확정 긴급(뷰어 isBreaking = 경중≥2) = 최상단
                 ent("solo", cross=1, pub_h=0.5, solo=1, title="[속보] 단독 1보"),
                 ent("cum", cross=9, pub_h=10)]
         kept, _ = self.run_tc(pool, env={"CAND_CAP": "2"})
         self.assertEqual(set(kept), {"brk", "solo"})
+
+    def test_low_grade_breaking_is_not_top(self):
+        # 평의회4-2 260924: 경중 0·1 긴급은 뷰어 isBreaking 거짓 = 어느 칼럼에도 안 보임 → 누적 노출분보다 먼저 잘린다
+        pool = [ent("brk1", cross=2, pub_h=30, breaking=True, grade=1), ent("cum", cross=9, pub_h=10)]
+        kept, _ = self.run_tc(pool, env={"CAND_CAP": "1"})
+        self.assertEqual(set(kept), {"cum"})
+
+    def test_fp_relax_superset_is_protected(self):
+        # 강지문 완화로(cross≥4 ∧ rc≥3) 누적 카드 = 상위집합으로 2단(평의회4-2 · 뷰어 fpScore 사전은 미러 밖)
+        pool = [ent("fp", cross=4, pub_h=9, rc=3), ent("x7", cross=7, pub_h=9, rc=1)]
+        kept, _ = self.run_tc(pool, env={"CAND_CAP": "1"})
+        self.assertEqual(set(kept), {"fp"})
 
     def test_fresh_keep_h_lever_still_applies(self):
         pool = [ent("fresh", pub_h=1), ent("p35", cross=3, pub_h=3.5), ent("cum", cross=9, pub_h=10)]
