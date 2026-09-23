@@ -1,5 +1,5 @@
 {
- "updated": "2026-09-23T06:35:24+09:00",
+ "updated": "2026-09-24T06:46:20+09:00",
  "rc": 0,
  "fail": "",
  "jobs": {
@@ -22,6 +22,7 @@
   "smoke_preview": "0",
   "smoke_rank": "0",
   "smoke_sbflow": "0",
+  "smoke_scraplive": "0",
   "smoke_studioshell": "0",
   "smoke_sweep": "0",
   "smoke_tabdz": "0",
@@ -34,10 +35,12 @@
   "smoke_wip": "0"
  },
  "failed": [],
- "flaky": [],
+ "flaky": [
+  "smoke_studioshell"
+ ],
  "details": [],
  "run": {
-  "id": "35786986237",
-  "url": "https://github.com/nomutefb/editor/actions/runs/35786986237"
+  "id": "35923460818",
+  "url": "https://github.com/nomutefb/editor/actions/runs/35923460818"
  }
 }
