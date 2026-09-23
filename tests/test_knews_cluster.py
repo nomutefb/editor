@@ -68,13 +68,58 @@ class EnglishClusterTest(unittest.TestCase):
                               "Live: Pezeshkian set to address UN for the first time since US strikes"))
 
 
+def _arts(*pairs, title="남아공 총격 11명 사망 파티장"):
+    out = []
+    for i, (u, p, *src) in enumerate(pairs):
+        a = {"title": title, "link": u, "publisher": p, "published": "2026-09-23T07:2%d:00+00:00" % i}
+        if src:
+            a["src"] = src[0]
+        out.append(a)
+    return out
+
+
 class CrossAliasTest(unittest.TestCase):
-    def test_affiliated_outlets_count_once(self):
-        # 평의회2-5: 연합뉴스TV(연합 계열)·MBN(매경 계열)이 같은 사건 교차를 +1 부풀리던 것
-        arts = [{"title": "남아공 총격 11명 사망 파티장", "link": u, "publisher": p, "published": "2026-09-23T07:2%d:00+00:00" % i}
-                for i, (u, p) in enumerate([("a", "연합뉴스"), ("b", "연합뉴스TV"), ("c", "MBN")])]
+    def test_rebroadcast_counts_once_but_sister_newsroom_counts(self):
+        # 평의회2-5: 연합뉴스TV(연합 재송출)가 교차 +1 을 부풀리던 것
+        # 평의회3-7: MBN↔매경은 같은 그룹이어도 같은 제목 0건 = 별개 보도국 → 따로 센다
+        arts = _arts(("a", "연합뉴스"), ("b", "연합뉴스TV"), ("c", "MBN"), ("d", "매일경제"))
         K.score_crosspost(arts)
-        self.assertEqual({a["cross_score"] for a in arts}, {2})
+        self.assertEqual({a["cross_score"] for a in arts}, {3})
+
+    def test_chosun_reprint_counts_as_original_newsroom(self):
+        # 평의회3-7: 조선일보 연예 피드 = OSEN 80·스포츠조선 15·뉴시스 5(author 칸) — 원 보도국으로 센다
+        arts = _arts(("a", "스포츠조선"), ("b", "조선일보", "스포츠조선"), ("c", "조선일보", "OSEN"), ("d", "뉴시스"), ("e", "조선일보", "뉴시스"))
+        K.score_crosspost(arts)
+        self.assertEqual({a["cross_score"] for a in arts}, {3})   # 스포츠조선 · OSEN · 뉴시스
+        self.assertEqual({a["burst"] for a in arts}, {3})
+
+    def test_reprint_source_is_exact_author_on_listed_feed_only(self):
+        self.assertEqual(K._reprint_src("조선일보", " OSEN "), "OSEN")
+        self.assertIsNone(K._reprint_src("조선일보", "Rosen"))           # 부분 일치 = 영문 인명 오인
+        self.assertIsNone(K._reprint_src("조선일보", "김경필 기자"))
+        self.assertIsNone(K._reprint_src("NYT", "OSEN"))
+        self.assertIsNone(K._reprint_src("조선일보", None))
+
+    def test_collect_stamps_src_from_author(self):
+        from datetime import datetime, timezone
+        now = datetime.now(timezone.utc).strftime("%a, %d %b %Y %H:%M:%S +0000")
+        feeds = [{"publisher": "조선일보", "title": "연예", "categories": "entertainment", "url": "https://c.kr/e.xml"}]
+        parsed = [types.SimpleNamespace(entries=[
+            {"title": "가수 A 컴백", "link": "https://c.kr/1", "published": now, "author": "OSEN"},
+            {"title": "배우 B 수상", "link": "https://c.kr/2", "published": now, "author": "김기자"}])]
+        from unittest import mock
+        with mock.patch.object(K, "prefetch", lambda f: parsed):
+            arts, _ = K.collect(feeds, 24)
+        self.assertEqual([a.get("src") for a in arts], ["OSEN", None])
+        self.assertEqual({a["publisher"] for a in arts}, {"조선일보"})   # 표시·링크는 피드 이름 그대로
+
+    def test_strip_tags_drops_bom(self):
+        self.assertEqual(K.strip_tags("\ufeff콜라겐 다음은"), "콜라겐 다음은")
+
+    def test_gossip_stock_phrase_does_not_link(self):
+        # 평의회3-3: {sns, 알고, 보니} 만 겹친 사회 단독과 연예 기사가 한 사건이 되던 것
+        self.assertFalse(same("[단독] '한우 싸게' SNS 광고…알고 보니 '가짜 계정'",
+                              "송혜교 SNS에 올린 김치…알고 보니 '박솔미 김치'"))
 
 
 class GroupJudgeEnglishTest(unittest.TestCase):

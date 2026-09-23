@@ -40,7 +40,7 @@ def cluster(arts, link):
 
 def stats(cl, arts, label):
     sizes = [len(m) for m in cl.values()]
-    crosses = [len({arts[m]["publisher"] for m in mem}) for mem in cl.values()]
+    crosses = [len({K._cross_key(arts[m]) for m in mem}) for mem in cl.values()]
     cand = sum(1 for c in crosses if c >= 2)
     mega = sum(1 for c in crosses if c > 12)
     print(f"  {label:34s} 클러스터 {len(cl):4d} · 최대size {max(sizes):3d} · "
@@ -65,7 +65,7 @@ def main():
 
     # 최대 블롭 덤프 + 브릿지 토큰 진단
     big = max(cl0.values(), key=len)
-    pubs = len({arts[m]["publisher"] for m in big})
+    pubs = len({K._cross_key(arts[m]) for m in big})
     print(f"\n[최대 블롭] {len(big)}개 기사 · {pubs}매체 (= 무관 기사 chaining 의심)")
     for m in sorted(big, key=lambda m: arts[m].get("published") or "")[:14]:
         print(f"     {arts[m]['publisher']:9s} {arts[m]['title'][:52]}")

@@ -7,6 +7,7 @@ import json
 import os
 import re
 import sys
+from collections import Counter
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -236,8 +237,27 @@ def cat_force(title):
     return None
 
 
-def cat_of(category, title, media=""):
-    c = cat_ko(category)
+def cluster_sec(a, sec_by_url):
+    """묶음 섹션 = 멤버 피드 섹션 다수결(260923 평의회3-5) — 대표(최초 발행) 섹션 하나가 묶음 분류를 정하던 것.
+    테크지·스포츠지 섹션 피드가 먼저 올리면 경제 5건 묶음이 「테크」, 사회 단독이 「문화」로 떴다(씨티은행장·가짜 계정 실측).
+    대표가 섹션 없는 피드(_all_)면 종전대로 빈 값 = 키워드·AI 판정 몫(AI 분류 보존 경로 불변). 동률 = 픽 → 대표 섹션."""
+    rep = cat_ko(a.get("category"))
+    if not rep:
+        return ""
+    votes = Counter(sec_by_url.get(u) for u in a.get("cluster_members") or [])
+    votes.pop("", None)
+    votes.pop(None, None)
+    if not votes:
+        return rep
+    top = max(votes.values())
+    for pref in (sec_by_url.get((a.get("breaking_pick") or {}).get("url")), rep):
+        if pref and votes.get(pref) == top:
+            return pref
+    return min(k for k, v in votes.items() if v == top)
+
+
+def cat_of(category, title, media="", sec=None):
+    c = cat_ko(category) if sec is None else sec
     t = title or ""
     forced = cat_force(t)   # 바이오 임상=경제·노벨 시상=국제 강제(최우선 · gate_judge AI 직후와 동일 · 운영자 260629)
     if forced:
@@ -289,6 +309,7 @@ def load_json(p, default):
 
 def main():
     arts = load_json(SRC, [])
+    sec_by_url = {a.get("link"): cat_ko(a.get("category")) for a in arts if isinstance(a, dict)}
     now = datetime.now(KST)
     nowiso = now.strftime("%Y-%m-%dT%H:%M:%S%z")
 
@@ -335,7 +356,8 @@ def main():
             "id": url, "url": url,
             "title": bp.get("title") or a.get("title") or "",
             "media": bp.get("media") or a.get("publisher") or "",
-            "cat": cat_of(a.get("category"), bp.get("title") or a.get("title") or "", bp.get("media") or a.get("publisher") or ""),
+            "cat": cat_of(a.get("category"), bp.get("title") or a.get("title") or "", bp.get("media") or a.get("publisher") or "",
+                          cluster_sec(a, sec_by_url)),
             "cross": cross,
             "published": a.get("published") or "",
             "burst": burst,
@@ -419,9 +441,10 @@ def main():
         if not c.get("solo"):
             entry.pop("solo", None)               # 두 번째 매체가 붙음 = 단독 표식 해제(다매체 규칙으로 전환)
         carry_lb(prev, c, entry, now)             # lb 캐리·스왑 고정(260913 · 위 carry_lb 정본)
-        if is_alias:                              # 별칭=다른 url(제목 다를 수 있음) → AI rubric 비워 재판정 유도(stale 도장 전파 차단)
-            entry.pop("grade_rubric", None)
-            entry.pop("breaking_rubric", None)
+        if is_alias and entry.get("title") != prev.get("title"):   # 별칭 + 제목 바뀜 → AI rubric 비워 재판정 유도(stale 도장 전파 차단)
+            entry.pop("grade_rubric", None)                         # 제목 같음 = 판정 입력 동일 → 도장 유지(평의회3-2 · 대표만 바뀐 묶음
+            entry.pop("breaking_rubric", None)                      #   절반이 같은 제목이라 재판정 콜 낭비 · 속보 도장은 제목 지문을 품어 자체 재판정)
+        if is_alias:
             if is_solo(prev):                     # 단독 1보의 묶기 도장은 새 다매체 묶음에 안 물려준다(단독끼리 묶인 그룹이 영구 병합으로 굳는 것 차단 · 평의회2 #2)
                 entry.pop("group_id", None)
                 entry.pop("group_rubric", None)

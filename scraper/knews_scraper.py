@@ -85,6 +85,8 @@ STOPWORDS = {
     "매출", "영업이익", "영업익", "억원", "조원", "분기", "상반기", "하반기",
     "실적", "역대", "최대", "최고", "기록", "발표", "증가", "감소", "흑자",
     "적자", "전년", "대비", "규모", "달성",
+    # 가십 정형구(260923 평의회3-3) — 「SNS…알고 보니」 만 공유한 사회 단독·연예 기사가 3개 겹침으로 한 사건이 되던 것.
+    "알고", "보니",
 }
 # 영문 기능어(260923 · 외신 균형 확충 전제) — 구판은 한국어 불용어만 있어 영문 제목끼리 "in·the·of" 3개만 겹쳐도 같은 사건으로
 #   묶였다(라이브 영문 105건 스냅샷에서 기능어 위주 연결 26쌍 실측 = 무관 외신이 한 덩어리). 영문 토큰은 소문자로 맞춘 뒤 거른다
@@ -208,6 +210,7 @@ def strip_tags(s):
     s = re.sub(r"<[^>]+>", " ", s or "")     # 태그 제거
     s = _BARE_ENTITY.sub(r"&\1;", s)          # 깨진 엔티티 '&' 복원
     s = html.unescape(s)                       # 엔티티 → 실제 문자(" " ' ' … · 등)
+    s = s.replace("\ufeff", "")                # 제목 앞 BOM(IT조선 · 평의회3-3) = 보이지 않는 글자로 카드 제목에 남던 것
     return re.sub(r"\s+", " ", s).strip()
 
 
@@ -490,7 +493,7 @@ def collect(feeds, hours):
             if pub and pub < cutoff:
                 continue
             seen.add(link)
-            articles.append({
+            art = {
                 "title": title,
                 "link": link,
                 "publisher": feed["publisher"],
@@ -498,7 +501,11 @@ def collect(feeds, hours):
                 "published": pub.isoformat() if pub else None,
                 "summary": strip_tags(e.get("summary", ""))[:200],
                 "image": extract_image(e),
-            })
+            }
+            src = _reprint_src(feed["publisher"], e.get("author"))
+            if src:
+                art["src"] = src   # 교차 셈 전용(원 보도국) · 표시·링크는 publisher 그대로
+            articles.append(art)
 
     log(f"피드 결과: 성공 {ok} / 죽음 {dead} / 수집 수 {len(articles)}건")
     return articles, health
@@ -526,12 +533,24 @@ PICK_PRIORITY = [
 ]
 
 
-# 교차(cross)·burst 셈에서 같은 보도국으로 보는 매체(260923 평의회2-5 · 연합뉴스TV = 연합 계열 재송출 · MBN = 매일경제 계열).
-#   표시·원문 링크·건강 원장은 피드 이름 그대로 — 「몇 개 언론사가 썼나」 셈만 합친다(같은 계열 두 피드가 교차 +1 을 만들던 것).
-CROSS_ALIAS = {"연합뉴스TV": "연합뉴스", "MBN": "매일경제", "스포츠조선": "조선일보", "IT조선": "조선일보", "스포츠경향": "경향신문"}
+# 교차(cross)·burst 셈에서 같은 보도국으로 보는 매체 — 기준 = 「같은 기사를 재송출하는가」(소유 관계 아님).
+#   표시·원문 링크·건강 원장은 피드 이름 그대로 — 「몇 개 언론사가 썼나」 셈만 합친다.
+#   연합뉴스TV = 연합 기사 재송출(평의회2-5) · NYT코리아 = NYT 한국 토픽 피드(같은 보도국 두 이름).
+#   ⚠ 같은 그룹이라도 기자·기사가 따로면 별개 보도국(평의회3-7 실측: MBN↔매경·IT조선↔조선·스포츠경향↔경향 = 같은 제목 0건).
+CROSS_ALIAS = {"연합뉴스TV": "연합뉴스", "NYT코리아": "NYT"}
+# 기사 단위 원 보도국(평의회3-7) — 조선일보 연예·스포츠·전체 피드는 대부분 OSEN·스포츠조선·뉴시스 기사를 그대로 싣고 author 칸에
+#   원 매체명을 적는다(연예 100건 중 OSEN 80 · 스포츠조선 15 · 뉴시스 5 실측). 교차 셈은 이 원 매체로 → 원본과 재송출이 +1 을
+#   만들지 않고, OSEN 같은 별개 보도국이 조선일보 이름에 묻히지도 않는다. author 가 정확히 이 이름일 때만(부분 일치 = 영문 인명 오인).
+REPRINT_AUTHOR = {"조선일보": frozenset({"OSEN", "스포츠조선", "뉴시스"})}
 
 
-def _cross_pub(pub):
+def _reprint_src(publisher, author):
+    a = (author or "").strip()
+    return a if a in REPRINT_AUTHOR.get(publisher, ()) else None
+
+
+def _cross_key(art):
+    pub = art.get("src") or art["publisher"]
     return CROSS_ALIAS.get(pub, pub)
 
 
@@ -547,7 +566,7 @@ def _burst(members, articles):
         if not p:
             continue
         try:
-            pts.append((datetime.fromisoformat(p), _cross_pub(articles[m]["publisher"])))
+            pts.append((datetime.fromisoformat(p), _cross_key(articles[m])))
         except ValueError:
             continue
     pts.sort(key=lambda x: x[0])
@@ -593,7 +612,7 @@ def score_crosspost(articles):
         clusters[find(i)].append(i)
 
     for members in clusters.values():
-        pubs = {_cross_pub(articles[m]["publisher"]) for m in members}
+        pubs = {_cross_key(articles[m]) for m in members}
         score = len(pubs)  # 몇 개 매체에 떴나 = 주요도
         # 클러스터 대표 = 가장 먼저 보도한 기사(최초 발) — 빈 시각은 뒤로
         rep = min(members, key=lambda m: (articles[m]["published"] is None,

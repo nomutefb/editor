@@ -49,7 +49,7 @@ def iso(s):
 
 def max_burst(members, arts):
     """멤버 발행시각을 WINDOW_MIN 슬라이딩 윈도우로 훑어 동시 매체(distinct) 최대치."""
-    pts = sorted((t, arts[m]["publisher"]) for m in members
+    pts = sorted((t, K._cross_key(arts[m])) for m in members
                  if (t := iso(arts[m].get("published"))))
     best, best_at = 0, None
     for i, (t0, _) in enumerate(pts):
@@ -92,7 +92,7 @@ def main():
     rows = []
     for members in clusters.values():
         b, at, pts = max_burst(members, arts)
-        total_media = len({arts[m]["publisher"] for m in members})
+        total_media = len({K._cross_key(arts[m]) for m in members})   # 교차 셈 = 수집기 정본(계열·재송출 합산)
         rows.append((b, total_media, at, members, pts))
     rows.sort(key=lambda r: (r[0], r[1]), reverse=True)
 
