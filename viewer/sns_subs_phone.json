@@ -16,32 +16,32 @@
  "threads": [
   {
    "account": "choi.openai",
-   "text": "주소 :\nhttps://www.firecrawl.dev/alexandria",
+   "text": "3/ Mobile Creative Agent는 한 문장의 요청을 실제 사용할 수 있는 콘텐츠로 만드는 역할입니다.\n\nQwen은 이미지 생성에 약 3초가 걸리며 비교 대상이 된 주요 모델보다 약 2배 빠르다고 설명합니다.\n\nQwen은 이와 함께 계획 능력을 평가하는 MobilePA-Bench, 여러 앱 실행을 평가하는 MobileWorld, 실제 기기 환경의 MobileWorld-Real, 안전성을 평가하는 MobileWorld-Safety도 공개했습니다.\n\n스마트폰 AI가 질문에 답하는 비서에서 계획 → 앱 실행 → 결과물 제작까지 맡는 에이전트로 바뀌고 있습니다.",
    "likes": 0,
-   "cmts": 0,
-   "time": 1790190043,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DdpAxRtgliR",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "AI 에이전트가 웹 검색 대신 대규모 데이터베이스를 직접 뒤질 수 있게 됩니다.\n\nFirecrawl이 7,500만 달러 투자를 유치하며 Alexandria를 공개했습니다.\n논문·코드 문서부터 부동산, 채용, 상품 가격까지 100개 이상의 데이터 제공처를 하나의 인터페이스로 연결합니다.\n\n예를 들어 “연봉 15만 달러 이상 직장과 월세 4천 달러 이하 집을 찾아줘”라고 하면 일부 검색 결과가 아니라 전체 데이터에서 조건에 맞는 항목을 비교할 수 있습니다.",
-   "likes": 6,
    "cmts": 1,
-   "time": 1790190021,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/821248105_1438692464817034_3664040460617188368_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk5MjcyNTc0MzM1MTI5ODY3Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=hYiQY2ICd1QQ7kNvwFfrDkY&_nc_oc=AdpKT4TYb5BM7zlAKdHdj88zxDIakkH4cbg6qLYoGXTKvUj47_ROPzcpOmgO6Ywy36I&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=eZj4DJg9EtCUAQ3x9B6sWQ&_nc_ss=7a22e&oh=00_AQImy85VFZm8ZYDrpRgoPz4_6ocAc--NTwI9UknK7KRzgQ&oe=6AB9FAA8",
-   "url": "https://www.threads.com/@choi.openai/post/DdpAujCAvp0",
+   "time": 1790193686,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/820266025_17988440832112832_8616919459038177974_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk5Mjc1NjQ5MDE0OTYzODMxMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTM5MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=xBhwHNaEYHwQ7kNvwHUJVnr&_nc_oc=AdoeAN0qWIl3dc3TjtrW0Mp6zAkITu5YFqZ73PkFifCiPDZzlAd2juNx9bX3qwIqMB8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=jHFEapo4L8TOYPb_WWvIcg&_nc_ss=7a22e&oh=00_AQIpmcRKbgZQ6FelVqCF63zuzLmCYONazlXPXP4QgOVxrA&oe=6ABA1925",
+   "url": "https://www.threads.com/@choi.openai/post/DdpHt-OATCn",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "모드 안내 :\nhttps://console.byteplus.com/ark/region:ap-southeast-1/experience/gen_video?model=dreamina-seedance-2-5-260628",
-   "likes": 2,
-   "cmts": 0,
-   "time": 1790186415,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/Ddo52d8EW6W",
+   "text": "2/ Mobile-Use Agent는 계획한 작업을 스마트폰에서 실제로 실행합니다.\n\n가능하면 API를 먼저 사용하고, API로 처리할 수 없으면 화면을 직접 조작하는 GUI 방식으로 전환합니다.\n\nQwen이 공개한 결과는 MobileWorld 82.1, MobileWorld-Real 92.2, AndroidDaily 97.2이며 전체 작업을 처음부터 끝까지 완료한 성공률은 90%라고 합니다.\n\n앱을 열고 버튼을 누르는 것만이 아니라 API와 화면 조작을 함께 사용하는 구조입니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1790193674,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/819524138_1061872916831088_1318370085504624120_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk5Mjc1NjM5Mzc5ODA3ODg0Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=DsU9qXUPesYQ7kNvwGTU5IX&_nc_oc=AdqB48n-emv7D6RZ0tLY3AVtm73WLaddQ0edS-ZRg6hYb5exbBJukeHRcw3pDwYCXa0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=jHFEapo4L8TOYPb_WWvIcg&_nc_ss=7a22e&oh=00_AQJXnz4SiAWgSgA9n39NoPqxFlgWhEVHvAq88WbeCqaH8Q&oe=6AB9F508",
+   "url": "https://www.threads.com/@choi.openai/post/DdpHskfARF-",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "1/ Mobile Planner Agent는 사용자의 요청을 실제로 실행할 수 있도록 계획하는 역할을 합니다.\n\n복잡한 작업을 여러 단계로 나누고 어떤 순서로 처리할지 결정하며, 필요한 에이전트를 조율합니다.\n\nQwen에 따르면 MobilePA-Bench와 Business, Memory 평가에서 모두 1위를 기록했습니다. 스마트폰 AI가 한 번의 명령을 수행하는 것을 넘어 여러 단계의 작업을 스스로 계획하는 역할까지 맡는 방식입니다.",
+   "likes": 3,
+   "cmts": 1,
+   "time": 1790193663,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/821405233_17988440733112832_5232033811152742756_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk5Mjc1NjI5NDkyOTk0NjkyNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNDE5MS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=SYRf-cxVbT4Q7kNvwEra6mB&_nc_oc=AdoU-aQQEqSi7DykVhmaJrkMH10mNsLArXpj64zEUTfjntkx_uZY491Ravpx6ss-X6w&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=jHFEapo4L8TOYPb_WWvIcg&_nc_ss=7a22e&oh=00_AQJraNlNvkdcljIEbqAfMGyaw24PiEehJRWQZfKckPIP9g&oe=6ABA0155",
+   "url": "https://www.threads.com/@choi.openai/post/DdpHrIaARkt",
    "region": "kr"
   },
   {
@@ -60,7 +60,7 @@
    "likes": 0,
    "cmts": 1,
    "time": 1790164954,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/819383913_18089262779407306_6849720232204740509_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk5MjUxNTM4MDYzNjUzODA0NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=tf_A7nzLli4Q7kNvwFoZcOy&_nc_oc=AdqBiZ6cJqFLeHq9VC3JX6DFW68Q-GOcgtIwUdb65QhCGe0M6Zl84Ld8rBrGK6NhQ7Y&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=MzsuPoFUr1MrA_jgAiZupQ&_nc_ss=7a22e&oh=00_AQJkTNtFpkrD9zCW7qXhzDHcpCCydFyVmE-We3DJuCCyig&oe=6ABA1854",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/819383913_18089262779407306_6849720232204740509_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk5MjUxNTM4MDYzNjUzODA0NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=tf_A7nzLli4Q7kNvwFoZcOy&_nc_oc=AdqBiZ6cJqFLeHq9VC3JX6DFW68Q-GOcgtIwUdb65QhCGe0M6Zl84Ld8rBrGK6NhQ7Y&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=TtVmFRlYjMQCOVs1l3c7OQ&_nc_ss=7a22e&oh=00_AQIA-_mS1MzmXf-y_FC2QjM9Hh-KNRUvquwYmEz2sJwpyQ&oe=6ABA1854",
    "url": "https://www.threads.com/@aipeekme/post/DdoQ5XfH9S9",
    "region": "kr"
   },
@@ -77,10 +77,10 @@
   {
    "account": "kopp",
    "text": "made the navigation appear behind the website 😵‍💫",
-   "likes": 24,
+   "likes": 25,
    "cmts": 1,
    "time": 1790163563,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/822807426_848088868331800_3522288446426960579_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk5MjUwMzU0ODAyNTMxMzQ5MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=dQUY7avaKRAQ7kNvwFmxgf0&_nc_oc=Adpt7efBrL8fTH92pkcOQLGcxIy7GQ-HR1vPcyAVC8n68bgYb4nR-Lx5cb-Y6voa_lI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Gh3TjBvK4V7q07JxswSdjw&_nc_ss=7a22e&oh=00_AQKf5l26XE2F9NEAPjHo0H3PNjcF9F5TxxujpOTB0u6srg&oe=6AB9F9C2",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/822807426_848088868331800_3522288446426960579_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk5MjUwMzU0ODAyNTMxMzQ5MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=dQUY7avaKRAQ7kNvwFmxgf0&_nc_oc=Adpt7efBrL8fTH92pkcOQLGcxIy7GQ-HR1vPcyAVC8n68bgYb4nR-Lx5cb-Y6voa_lI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=3F3_VDaboc6D41DSlA7-3g&_nc_ss=7a22e&oh=00_AQKLS3tlPJGoSDUL-V11MJ5J6DALU2c9NrYSDtLvZ-9KLA&oe=6AB9F9C2",
    "url": "https://www.threads.com/@kopp/post/DdoONLgiRjT",
    "region": "kr"
   },
@@ -90,7 +90,7 @@
    "likes": 2,
    "cmts": 0,
    "time": 1790158662,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/818016219_18089241722407306_6273294018170164853_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk5MjQ2MjYyODYxNTA0NjE4Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuOTY4LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=eVrI_Birhd0Q7kNvwFDovLd&_nc_oc=AdqMCkx6lGOd5EojFsfpMeWlYmt1ZPvnieDonsFnUC_LpNu_wFDu2BNEH3WsFFnc9Jg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=MzsuPoFUr1MrA_jgAiZupQ&_nc_ss=7a22e&oh=00_AQLUxUfBA95KeFFRcfnbkwJdkgNbDuIoGncS-jyUB4BJew&oe=6AB9E87A",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/818016219_18089241722407306_6273294018170164853_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk5MjQ2MjYyODYxNTA0NjE4Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuOTY4LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=eVrI_Birhd0Q7kNvwFDovLd&_nc_oc=AdqMCkx6lGOd5EojFsfpMeWlYmt1ZPvnieDonsFnUC_LpNu_wFDu2BNEH3WsFFnc9Jg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=TtVmFRlYjMQCOVs1l3c7OQ&_nc_ss=7a22e&oh=00_AQIbDnHLfK_Ty4OcGhGjC98xbHtotaUXyDmcuY2kUGrX2w&oe=6ABA20BA",
    "url": "https://www.threads.com/@aipeekme/post/DdoE5uVn0Qn",
    "region": "kr"
   },
@@ -126,12 +126,12 @@
   },
   {
    "account": "choi.openai",
-   "text": "BytePlus가 Seedance 2.5에 Draft Mode를 추가했습니다.\n\n처음부터 1080p 영상을 여러 번 생성하는 대신, 저렴한 480p로 원하는 장면이 나올 때까지 테스트한 뒤 선택한 결과를 기반으로 1080p 영상을 생성합니다.\n\n단순 업스케일링이 아니라 구도와 움직임을 유지하면서 새로 생성하는 방식입니다.\n\nBytePlus에 따르면 5초 영상 기준 여러 번 시도할수록 비용을 최대 77%까지 줄일 수 있습니다.\n\n이제 영상 생성도 초안을 여러 개 뽑고 마지막 결과에만 비용을 쓰는 방식으로 바뀌고 있습니다.",
-   "likes": 10,
-   "cmts": 1,
-   "time": 1790186407,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/819524113_1033676543035651_3132880149518620439_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk5MjY5NTQyOTk3NjM2NDI0Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=4Shd2dKsLD4Q7kNvwGZuVYS&_nc_oc=AdpCxa0LK2ik4mV0z6L4inP19gErE3b0p5yqwNqMbH0vR-WWYkcqFLe4LkOE_JusuK8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=eZj4DJg9EtCUAQ3x9B6sWQ&_nc_ss=7a22e&oh=00_AQJIdN5ZFiz5gLCCryjzN0XWESVsMiFllR7b7el0cwZh8Q&oe=6ABA0A80",
-   "url": "https://www.threads.com/@choi.openai/post/Ddo51bgERTW",
+   "text": "스마트폰을 직접 사용하는 AI 에이전트 경쟁이 본격적으로 시작되고 있습니다.\n\nQwen이 모바일용 AI 시스템 Qwen Intelligence를 공개했습니다. 하나의 모델이 모든 일을 처리하는 방식이 아니라 Mobile Planner Agent, Mobile-Use Agent, Mobile Creative Agent 3개가 각각 계획·실행·콘텐츠 제작을 담당합니다.\n\n복잡한 요청을 계획하고 여러 앱을 직접 조작한 뒤 필요한 결과물까지 만드는 구조입니다.",
+   "likes": 6,
+   "cmts": 5,
+   "time": 1790193653,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/821487904_17988440871112832_1839132652985263929_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk5Mjc1NjIxNDIxNDc5MzcxNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=fxyxM791PSAQ7kNvwFHV1sU&_nc_oc=AdoVuw2i2QUHctqzu09paub5k8coDSQaF_NuBrlEXA26foWzFdgRj-B2XoyH9UZ3etc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=jHFEapo4L8TOYPb_WWvIcg&_nc_ss=7a22e&oh=00_AQI-mdRQ3RaDfWhPlbOHMjMM-6Yz9E0GbOcZwE8cAR73TQ&oe=6ABA15D6",
+   "url": "https://www.threads.com/@choi.openai/post/DdpHp9PAZnz",
    "region": "kr"
   },
   {
@@ -156,12 +156,12 @@
   },
   {
    "account": "choi.openai",
-   "text": "아..",
-   "likes": 32,
-   "cmts": 2,
-   "time": 1790184624,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/818931902_17988452967112832_1436968315275802796_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk5MjY4MDQ3NDczOTg0NzQ2MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTM4OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=DUzzSUsVyREQ7kNvwGPqZHY&_nc_oc=AdrvPsfPYEa107MV_A5Roft9EN1IbnGM1WwzFKVCNlYdb9ukZzMiFYndcoLhK-1CUVo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=eZj4DJg9EtCUAQ3x9B6sWQ&_nc_ss=7a22e&oh=00_AQJIwHy1bJp6a4WQPGJI8nvUk9ssQ-D3IsQG3YMcr8MHZA&oe=6ABA0645",
-   "url": "https://www.threads.com/@choi.openai/post/Ddo2bzWgbEl",
+   "text": "주소 :\nhttps://www.firecrawl.dev/alexandria",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1790190043,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DdpAxRtgliR",
    "region": "kr"
   },
   {
@@ -170,7 +170,7 @@
    "likes": 2,
    "cmts": 1,
    "time": 1790155877,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/821339289_18089236208407306_7291559422013607120_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk5MjQzOTI1MjQ2NzAwOTE2Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=dprSDtGMs2gQ7kNvwHbC4mU&_nc_oc=Ado-O49Wzi0AvV1H8PdL9CiRTRPPlEYdFY5U5gVjjUZ98Q41J_RhOGEl69HedIg_7Lg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=MzsuPoFUr1MrA_jgAiZupQ&_nc_ss=7a22e&oh=00_AQJLeEdxTyhfRJXQUu6vfrOpvgI5wC3TqIm5GdHHZPAl2g&oe=6AB9E917",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/821339289_18089236208407306_7291559422013607120_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk5MjQzOTI1MjQ2NzAwOTE2Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=dprSDtGMs2gQ7kNvwHbC4mU&_nc_oc=Ado-O49Wzi0AvV1H8PdL9CiRTRPPlEYdFY5U5gVjjUZ98Q41J_RhOGEl69HedIg_7Lg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=TtVmFRlYjMQCOVs1l3c7OQ&_nc_ss=7a22e&oh=00_AQJyUKpFOinbKEGEv6BYRRi5noZcMTeOB5aUgul2UBNy5g&oe=6ABA2157",
    "url": "https://www.threads.com/@aipeekme/post/Ddn_ljmn0aL",
    "region": "kr"
   },
@@ -186,12 +186,12 @@
   },
   {
    "account": "choi.openai",
-   "text": "주소 :\nhttps://mirage.app/tesseract",
-   "likes": 13,
-   "cmts": 0,
-   "time": 1790182865,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DdozFGNgfLD",
+   "text": "AI 에이전트가 웹 검색 대신 대규모 데이터베이스를 직접 뒤질 수 있게 됩니다.\n\nFirecrawl이 7,500만 달러 투자를 유치하며 Alexandria를 공개했습니다.\n논문·코드 문서부터 부동산, 채용, 상품 가격까지 100개 이상의 데이터 제공처를 하나의 인터페이스로 연결합니다.\n\n예를 들어 “연봉 15만 달러 이상 직장과 월세 4천 달러 이하 집을 찾아줘”라고 하면 일부 검색 결과가 아니라 전체 데이터에서 조건에 맞는 항목을 비교할 수 있습니다.",
+   "likes": 7,
+   "cmts": 1,
+   "time": 1790190021,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/821248105_1438692464817034_3664040460617188368_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk5MjcyNTc0MzM1MTI5ODY3Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=hYiQY2ICd1QQ7kNvwFfrDkY&_nc_oc=AdpKT4TYb5BM7zlAKdHdj88zxDIakkH4cbg6qLYoGXTKvUj47_ROPzcpOmgO6Ywy36I&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=jHFEapo4L8TOYPb_WWvIcg&_nc_ss=7a22e&oh=00_AQI4s29tnjeJ2nMnw1_zUdEHuBkPLqCkKeKD7kkXJu6i-w&oe=6AB9FAA8",
+   "url": "https://www.threads.com/@choi.openai/post/DdpAujCAvp0",
    "region": "kr"
   },
   {
@@ -241,7 +241,7 @@
   {
    "account": "jaemyung_lee",
    "title": "Ассалому алайкум, Тоҷикистон! 🇰🇷🇹🇯 #타지키스탄#Тоҷикистон",
-   "views": 256800,
+   "views": 256900,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okxPtEHAgIY0AAlC9gAoxAMiBqToaAKBiFulq~tplv-tiktokx-origin.image?dr=14575&x-expires=1790366400&x-signature=3Wj63wMzY3IXo%2FXZaM4XqiJo%2Bh0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -285,7 +285,7 @@
   {
    "account": "jaemyung_lee",
    "title": "미국 뉴욕타임즈와 인터뷰를 가졌습니다. Urging Pivot on North Korea, South’s Leader Calls for Easing Sanctions https://blog.naver.com/jaem",
-   "views": 43800,
+   "views": 43900,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIBVEyCAEfPFpCCAvAhEZlCAjHXfDDAjIf8IR4~tplv-tiktokx-origin.image?dr=14575&x-expires=1790366400&x-signature=cfUpWIbVOZu7p7M9Qs9yD%2B747WQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -340,25 +340,16 @@
   {
    "account": "tictok_ent",
    "title": "수지, 시민들의 욕을 부르는 미모 / 아누아(Anua) 포토월 더파운더즈의 글로벌 뷰티 브랜드 아누아(Anua)의 'PDRN 라인 팝업스토어' 오픈을 기념하는 포토행사가 18일 오전 서울 성동구 성수동에 위치한 올리",
-   "views": 7957,
+   "views": 7972,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/ow8gANS3AmQCK2UqVEUCB50sGEQeIAFZAFArfD~tplv-tiktokx-origin.image?dr=14575&x-expires=1790366400&x-signature=AWDPmsYD84Sty%2FecSSWfUJ0XjyU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ow8gANS3AmQCK2UqVEUCB50sGEQeIAFZAFArfD~tplv-tiktokx-origin.image?dr=14575&x-expires=1790366400&x-signature=C4KVT8b1QhaCPAbqQ3ptvCgZLtk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789699186,
    "url": "https://www.tiktok.com/@tictok_ent/video/7686699475406015762",
    "region": "kr"
   }
  ],
  "reddit": [
-  {
-   "sub": "technology",
-   "title": "DoorDash Spent $1.4 Million Trying to Stop Mamdani From Becoming Mayor. Now We Know Why.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/Vm2vO05RJN-HMZSWUh1mmQZ04wZIhA7k-1iLx0UEkXU.jpeg?width=640&crop=smart&auto=webp&s=4e713c48aa96d0886883a35b9d5471b968d7edf8",
-   "time": 1790186316,
-   "url": "https://www.reddit.com/r/technology/comments/1wod97k/doordash_spent_14_million_trying_to_stop_mamdani/"
-  },
   {
    "sub": "mildlyinfuriating",
    "title": "78$ sushi arrived like this:",
@@ -378,24 +369,6 @@
    "url": "https://www.reddit.com/r/Warframe/comments/1woalh6/gifting_narin_bundle/"
   },
   {
-   "sub": "funnyvideos",
-   "title": "Can I See You In My Office?",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/emJsMHI1ZjZuYXJoMfLMbA5O8c_oCZ7QzXDcxY_Xi2ubh18ybi-VEOm-QzKy.png?width=320&crop=smart&auto=webp&s=e9f90d5bb38be6a3154fd952ffd703caa03ffa40",
-   "time": 1790179648,
-   "url": "https://www.reddit.com/r/funnyvideos/comments/1woa7kn/can_i_see_you_in_my_office/"
-  },
-  {
-   "sub": "todayilearned",
-   "title": "TIL Elizabeth Holmes’ boyfriend founded a blood-testing startup in 2024 with eerily similar claims to Theranos. Holmes reportedly advises him from prison",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/EoYZwv-7KyXlxyKNEYBV5-14maxOYU2BD4fKYj3lZ2E.jpeg?width=640&crop=smart&auto=webp&s=671eedf80d67417823939b949af7dabc4ec85733",
-   "time": 1790182013,
-   "url": "https://www.reddit.com/r/todayilearned/comments/1wobazi/til_elizabeth_holmes_boyfriend_founded_a/"
-  },
-  {
    "sub": "videogames",
    "title": "I work at an Amazon warehouse. Amazon ordered us to send many video game discs and music albums to destroy.",
    "score": 0,
@@ -403,6 +376,15 @@
    "thumb": "https://preview.redd.it/3u2cmgdr87rh1.jpeg?width=640&crop=smart&auto=webp&s=36df9b3de5b70101b382b6d94af26a7309a65028",
    "time": 1790138474,
    "url": "https://www.reddit.com/r/videogames/comments/1wnw7qa/i_work_at_an_amazon_warehouse_amazon_ordered_us/"
+  },
+  {
+   "sub": "technology",
+   "title": "DoorDash Spent $1.4 Million Trying to Stop Mamdani From Becoming Mayor. Now We Know Why.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/Vm2vO05RJN-HMZSWUh1mmQZ04wZIhA7k-1iLx0UEkXU.jpeg?width=640&crop=smart&auto=webp&s=4e713c48aa96d0886883a35b9d5471b968d7edf8",
+   "time": 1790186316,
+   "url": "https://www.reddit.com/r/technology/comments/1wod97k/doordash_spent_14_million_trying_to_stop_mamdani/"
   },
   {
    "sub": "politics",
@@ -414,22 +396,22 @@
    "url": "https://www.reddit.com/r/politics/comments/1wo9gw5/senator_says_furry_pilots_are_taking_over/"
   },
   {
-   "sub": "Breadit",
-   "title": "Overnight fermented dough got a little excited..",
+   "sub": "funnyvideos",
+   "title": "Can I See You In My Office?",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/7d3cw2cmqarh1.jpeg?width=640&crop=smart&auto=webp&s=705444c1e1f349b447be0f47ffe967d208d3f176",
-   "time": 1790180799,
-   "url": "https://www.reddit.com/r/Breadit/comments/1woaqiw/overnight_fermented_dough_got_a_little_excited/"
+   "thumb": "https://external-preview.redd.it/emJsMHI1ZjZuYXJoMfLMbA5O8c_oCZ7QzXDcxY_Xi2ubh18ybi-VEOm-QzKy.png?width=320&crop=smart&auto=webp&s=e9f90d5bb38be6a3154fd952ffd703caa03ffa40",
+   "time": 1790179648,
+   "url": "https://www.reddit.com/r/funnyvideos/comments/1woa7kn/can_i_see_you_in_my_office/"
   },
   {
-   "sub": "interestingasfuck",
-   "title": "Efficiency of some trade workers in USA",
+   "sub": "pics",
+   "title": "President Zelensky entering the UN headquarters",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/Y3ZmMGFoZ2ZsYXJoMfgC5CMtdPaCV4HHZQ_JWI4u1Q01aKUPQL3W586m9Reg.png?width=320&crop=smart&auto=webp&s=680c776ca4ffead89bbe32211ff29384f6c2be26",
-   "time": 1790179060,
-   "url": "https://www.reddit.com/r/interestingasfuck/comments/1wo9xo8/efficiency_of_some_trade_workers_in_usa/"
+   "thumb": "https://preview.redd.it/kmt16ocambrh1.jpeg?width=640&crop=smart&auto=webp&s=d86488875d8fbe822cc6f14468f0f69b590c6b21",
+   "time": 1790191456,
+   "url": "https://www.reddit.com/r/pics/comments/1wofl6e/president_zelensky_entering_the_un_headquarters/"
   },
   {
    "sub": "classicwow",
@@ -450,18 +432,72 @@
    "url": "https://www.reddit.com/r/MadeMeSmile/comments/1wnw93p/my_friends_wont_stop_gifting_me_banana_themed/"
   },
   {
-   "sub": "HolUp",
-   "title": "Mamdani digging deep",
+   "sub": "todayilearned",
+   "title": "TIL Elizabeth Holmes’ boyfriend founded a blood-testing startup in 2024 with eerily similar claims to Theranos. Holmes reportedly advises him from prison",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/d7eakuvv0brh1.jpeg?width=640&crop=smart&auto=webp&s=57b0e292e3d5835ab1734c2095b7da80053ef6e1",
-   "time": 1790184251,
-   "url": "https://www.reddit.com/r/HolUp/comments/1wocc44/mamdani_digging_deep/"
+   "thumb": "https://external-preview.redd.it/EoYZwv-7KyXlxyKNEYBV5-14maxOYU2BD4fKYj3lZ2E.jpeg?width=640&crop=smart&auto=webp&s=671eedf80d67417823939b949af7dabc4ec85733",
+   "time": 1790182013,
+   "url": "https://www.reddit.com/r/todayilearned/comments/1wobazi/til_elizabeth_holmes_boyfriend_founded_a/"
+  },
+  {
+   "sub": "interestingasfuck",
+   "title": "How many plates does it take to Stop a bullet?",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/aDlkNmwwOHpuOHJoMWswwsSxChcXHaEGMGRfzYcOIHlAbvA_uPLFaVl3q4Di.png?width=320&crop=smart&auto=webp&s=5947f0a07b335de2d7f4d7571cfb5f8cf7fc16fa",
+   "time": 1790155711,
+   "url": "https://www.reddit.com/r/interestingasfuck/comments/1wo15g7/how_many_plates_does_it_take_to_stop_a_bullet/"
+  },
+  {
+   "sub": "nottheonion",
+   "title": "\"The refrigerator is dead\": Samsung's AI fridges shut down after update, sparking outrage",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/JW6u6CSGsgY7LBh_9h2b8N34oU-X4WvrnqlhWXinKiI.jpeg?width=640&crop=smart&auto=webp&s=b47bb04db7f8ea0a62251260e94c8aacfbb8cae1",
+   "time": 1790152392,
+   "url": "https://www.reddit.com/r/nottheonion/comments/1wo08tv/the_refrigerator_is_dead_samsungs_ai_fridges_shut/"
+  },
+  {
+   "sub": "korea",
+   "title": "'There are gay people in schools, too': Teachers form 1st LGBTQ+ committee",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/VkuI0xjRUmcEKayo0HcGdmrH2UtqS-9EtF0IlITNnu8.jpeg?width=640&crop=smart&auto=webp&s=0219a47e1ca76846177e2342fec79445951e83d9",
+   "time": 1790170396,
+   "url": "https://www.reddit.com/r/korea/comments/1wo659u/there_are_gay_people_in_schools_too_teachers_form/"
+  },
+  {
+   "sub": "korea",
+   "title": "South Korea's Births Surge 11.1% in July, Highest Growth in 19 Years, Continues 25-Month Consecutive Increase. Marriages Up 9.3% From the Same Month Last Year",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/0KvcnhlozIk2SexPKiXEzsz-gK5PCQG9dVaTBxpf6j8.jpeg?width=640&crop=smart&auto=webp&s=f40d896f4ae3f1c2d39e198ce2e39835388d8d05",
+   "time": 1790133012,
+   "url": "https://www.reddit.com/r/korea/comments/1wnufge/south_koreas_births_surge_111_in_july_highest/"
+  },
+  {
+   "sub": "korea",
+   "title": "Looking forward to my first meal in Korea!!",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/13xtm9by96rh1.jpeg?width=640&crop=smart&auto=webp&s=0e9dcbaf600397b43631ddb654498a35744f3feb",
+   "time": 1790126767,
+   "url": "https://www.reddit.com/r/korea/comments/1wns63x/looking_forward_to_my_first_meal_in_korea/"
   }
  ],
  "disaster": [],
  "_cover": {
   "ok": {
+   "x": [
+    "64bitcoinkr",
+    "awaken_eyes",
+    "economysniper0",
+    "freedom_73x",
+    "globalbrief_now",
+    "kyunghyang",
+    "marionawfal"
+   ],
    "threads": [
     "aicoffeechat",
     "aipeekme",
@@ -476,12 +512,16 @@
     "tictok_ent"
    ]
   },
-  "why": {},
+  "why": {
+   "x": {
+    "jajaja7878uu": 429
+   }
+  },
   "landing": {
-   "at": "2026-09-24T04:31:24",
+   "at": "2026-09-24T05:01:27",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-09-24T05:01:25.231103+09:00"
+ "updated": "2026-09-24T05:35:08.375062+09:00"
 }
