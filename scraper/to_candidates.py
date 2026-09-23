@@ -12,7 +12,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from stock_filter import is_excluded_title  # 증권/시황 노이즈 제외(SSOT · 운영자 260701)
-from brk_tag import BREAKING_TAG  # 속보 제목 태그(SSOT · push_send·뷰어 BRK_TAG_RE와 공용 · 260923)
+from brk_tag import BREAKING_TAG  # 속보 제목 태그(SSOT · push_send 공용 · 뷰어는 solo 표식만 읽음 · 260923)
 
 ROOT = Path(__file__).resolve().parent.parent
 SRC = Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT / "scraper" / "out" / "articles.json"
