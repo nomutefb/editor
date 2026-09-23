@@ -882,7 +882,7 @@ const clipDup=k=>k==='opus'&&CLIP_NM.opus===CLIP_NM.fable;   // 대행 중 두 �
 let CLIP_SAVE=null;   // 클리퍼 진입 직전 ON 스냅샷(운영자 260722 "도중에 누르면 다른 옵션값이 날아가 — 방지") — P값은 원래 보존이라 ON 플래그만 저장·복원
 function clipSnap(){ if(!ON.clip) CLIP_SAVE={...ON}; for(const kk in ON) ON[kk]=false; ON.clip=true; }   // 배타 진입 = 스냅샷 후 전축 off(발사 계약 불변 — buildOpts는 여전히 {clip:true} 단독)
 function clipRelease(){ if(!ON.clip) return; ON.clip=false; if(CLIP_SAVE){ for(const kk in CLIP_SAVE){ if(kk!=='clip') ON[kk]=CLIP_SAVE[kk]; } CLIP_SAVE=null; } }   // 배타 해제 = 스냅샷 복원(직후 탭한 축이 이겨야 하므로 호출측은 복원 뒤 자기 축 세팅)   // 음량 통일 = 기본 ON(운영자 260712 "음향 기본값 = 보정") — 나머지 축은 '원본/그대로/끔' 기본 유지 · 발사 게이트도 이 기본으로 통과(맨 발사 = 보정만 적용)
-let P={lang:'ko',tone:'lit',   /* ★ 언어 = 'ko'(한글만) 기본 · 원문 병기는 **번역 토글이 켜질 때만**(운영자 260812 "번역은 당연히 켜져있어야하고 켜져있어야 직역 등을 선택할 수 있는건데 · 번역 꺼지면 번역 관련 선택자는 다 꺼져야 맞음") — 260803 8차의 'dual' 고정은 같은 화면의 번역 토글과 정면으로 어긋나 있었다: 토글을 꺼도 이 값이 dual 이라 미리보기·발사 양쪽에 원문 줄이 상시 붙었고(= 토글이 아무것도 안 끔) 번역 세부 선택자도 상시 노출됐다. 이제 buildOpts 가 `ON.trn` 일 때만 dual 로 올린다(그 줄은 260728 Q06 부터 이미 있었다 = 신규 로직 0) · 'ko' = ly.html LY_OPT_DEF 기본값 동값(260729 "기본은 항상 한글만") = 값 창작 0 */   /* (구) 언어·톤 = **고정값**(운영자 260803 8차 "톤 > 의역 고정 · 언어 > 원문 포함 고정") — 선택 UI(자막 세부 언어·톤 행)는 삭제하고 이 두 값이 상시 발사된다(buildOpts o.lang/o.tone·lyOptsNow 경로 무접촉) · 톤 = 'plain'(직역) → 'sns'(의역) 변경분 · 언어 = 'dual'(원문 포함) 종전 유지 · 구 260731 19차 「기본값 최좌측」 나열 계약은 두 축에 한해 종료(칩 자체가 없어짐) · P는 영속 저장 안 함 = 매 진입 이 값 */filler:true,style:'clean',karaoke:true,hi:false,pop:false,keyword:false,clipmdl:'fable',pos:57,size:44,bg:100,   // ★ 자막 기본 = 직역·가라오케·크기 44‰(운영자 260923 "기본 자막 사이즈 조금 작아 · 외국어랑 함께 25% 키우고 · 기본을 직역 · 가라오케로") — tone sns→lit · karaoke false→true · size 35→44(+25%) · 외국어 줄은 한국어 줄 대비 상대비(srcsz −50%)라 따로 안 바꿔도 같이 +25%
+let P={lang:'ko',tone:'lit',   /* ★ 언어 = 'ko'(한글만) 기본 · 원문 병기는 **번역 토글이 켜질 때만**(운영자 260812 "번역은 당연히 켜져있어야하고 켜져있어야 직역 등을 선택할 수 있는건데 · 번역 꺼지면 번역 관련 선택자는 다 꺼져야 맞음") — 260803 8차의 'dual' 고정은 같은 화면의 번역 토글과 정면으로 어긋나 있었다: 토글을 꺼도 이 값이 dual 이라 미리보기·발사 양쪽에 원문 줄이 상시 붙었고(= 토글이 아무것도 안 끔) 번역 세부 선택자도 상시 노출됐다. 이제 buildOpts 가 `ON.trn` 일 때만 dual 로 올린다(그 줄은 260728 Q06 부터 이미 있었다 = 신규 로직 0) · 'ko' = ly.html LY_OPT_DEF 기본값 동값(260729 "기본은 항상 한글만") = 값 창작 0 */   /* (구) 언어·톤 = **고정값**(운영자 260803 8차 "톤 > 의역 고정 · 언어 > 원문 포함 고정") — 선택 UI(자막 세부 언어·톤 행)는 삭제하고 이 두 값이 상시 발사된다(buildOpts o.lang/o.tone·lyOptsNow 경로 무접촉) · 톤 = 'plain'(직역) → 'sns'(의역) 변경분 · 언어 = 'dual'(원문 포함) 종전 유지 · 구 260731 19차 「기본값 최좌측」 나열 계약은 두 축에 한해 종료(칩 자체가 없어짐) · P는 영속 저장 안 함 = 매 진입 이 값 */filler:true,style:'clean',karaoke:true,hi:false,pop:false,keyword:false,clipmdl:'fable',pos:38,size:44,bg:100,   // ★ 자막 기본 = 직역·가라오케·크기 44‰·위치 38%(운영자 260923 "기본 자막 사이즈 조금 작아 · 외국어랑 함께 25% 키우고 · 기본을 직역 · 가라오케로" + "조금 더 낮게 · 지금이 5면 6.5 · 피사체가 항상 중심부") — tone sns→lit · karaoke false→true · size 35→44(+25%) · 외국어 줄은 한국어 줄 대비 상대비(srcsz −50%)라 따로 안 바꿔도 같이 +25% · pos 57→38 = 러너 중앙 불변 배치 기준 자막 덩어리 중심이 위에서 49%→65%(ly_burn margin_v = h×(0.02+0.0082×pos) + 본선 1줄 절반)
   shtype:'box',   // 음영 종류(운영자 260729 "지금은 무조건 네모인데, 획·그림자 등 다른것도 · 기본값은 음영인데 기본도 있어야") — none 기본(효과 없음) | box 음영(네모 = 종전 동작·디폴트) | stroke 획(글자 외곽선) | shadow 그림자
   lgap:18,     // 한국어↔외국어 줄간격 %(한국어 글자 높이 기준 · 운영자 260729 게이지 승격 · 18 = 구 하드코딩 fs×0.18 동값 = 기본 렌더 불변) · 러너 dual_gap 짝
   srcsz:-50,   // 원문(외국어) 줄 크기 = 한국어 줄 대비 상대 %(운영자 260729 "한글 자막 기준해서 -50% 크기를 기준으로, -75%~00%까지") · 0 = 한글과 동일 · -75 = 한글의 25% · 러너 dual_small = (100+srcsz)/100
@@ -994,6 +994,38 @@ function inkBotEqTop(el){   /* ★ 원문(외국어) 줄 음영 = **아래 여�
   if(!(i.height>0)||!(b.height>0)) return;   // 안 보이는 줄 = 잴 게 없다(종전 여백 유지)
   const cur=parseFloat(getComputedStyle(el).paddingBottom)||0;
   el.style.paddingBottom=px1(Math.max(0, cur+((i.top-b.top)-(b.bottom-i.bottom))))+'px';
+}
+let _inkCx=null;
+try{ document.fonts.addEventListener('loadingdone',()=>{ const v=document.getElementById('pv'); if(v&&!v.hidden) pvSync(); }); }catch(e){}   // 웹폰트(본고딕 등)가 늦게 도착하면 잉크 치수가 바뀐다 → 한 번 다시 맞춤(대체 글꼴 기준 여백이 남지 않게)
+function inkTopEqBot(el, col){   /* ★ 한국어 줄 음영 = **위 여백을 아래 여백에 맞춘다**(운영자 260923 "한글자막 위에 음영이 더 과하게 · 아래 부분하고 같아야 · 미리보기라서 그런건지")
+  실측 = 실제 굽기(libass)는 한글 잉크가 박스 한가운데다(1080×1920 · 위 19px / 아래 20px) = 결과물은 이미 같다. 미리보기만 위가 최대 1.3px 두꺼웠다.
+  원인(412폭 · 위치 7곳 실측) = 크롬이 **박스 위·아래 테두리와 글자 기준선을 각각 가장 가까운 정수 px로 반올림**해서 그린다 → 자리마다 위−아래가 −1.1~+1.5px 요동
+    (배치 단계 수치로는 위아래가 이미 같다 = 글꼴 수치 모델로 고치면 과보정 · Chromium 실측 1.4px).
+  → 그려질 자리(반올림 뒤)로 계산한다: 아래 여백 = 반올림 아랫변 − (반올림 기준선 + 잉크 아래) · 위 테두리를 그 값이 나오는 정수 px에 세운다(남는 오차 ≤ 0.5px).
+  ⚠ 기준은 아래쪽이다 — 아래 여백·좌우 여백 무접촉(inkBotEqTop 의 거울 · 260812 「사방 한 값」 원복 계약 유지). 요소는 아래 앵커라 위 padding 만 바꾸면 윗변만 움직인다.
+  ⚠ 재는 법 = 잉크는 canvas measureText actualBoundingBox(큰 크기에서 재고 비례 환산) · 기준선은 0크기 표식을 줄 처음·끝에 끼워 브라우저가 놓은 자리를 읽는다(여러 줄 = 첫 줄/끝 줄).
+  위 padding 을 0까지 내려도 모자라면 배경만 그만큼 위에서 잘라낸다(그라데 경계 = 글자는 절대 안 잘린다 · 요소 크기 불변 = 외국어 줄 앵커 무접촉). */
+  const t=el.textContent||''; if(!t.trim()) return;
+  const cs=getComputedStyle(el), fs=parseFloat(cs.fontSize)||0;
+  if(!(fs>0)) return;
+  try{ _inkCx=_inkCx||document.createElement('canvas').getContext('2d'); }catch(e){ return; }
+  if(!_inkCx) return;
+  _inkCx.font=cs.fontStyle+' '+cs.fontWeight+' 100px '+cs.fontFamily; const mi=_inkCx.measureText(t);   /* raw-ok: 100px = 측정용 캔버스 크기(화면 값 아님) */   // 작은 크기로 재면 정수로 뭉개진다
+  const k=fs/100, iA=mi.actualBoundingBoxAscent*k, iD=mi.actualBoundingBoxDescent*k;
+  if(!(iA>0)) return;   // 구형 엔진 = 종전 여백 유지
+  const mk=()=>{ const i=document.createElement('i'); i.style.cssText='display:inline-block;width:0;height:0;vertical-align:baseline'; return i; };
+  const a=mk(), z=mk(); el.insertBefore(a, el.firstChild); el.appendChild(z);
+  const r=el.getBoundingClientRect(), b0=a.getBoundingClientRect().top, b1=z.getBoundingClientRect().top;   // 0크기 표식의 윗변 = 그 줄의 기준선
+  a.remove(); z.remove();
+  const R=Math.round, bot=R(r.bottom)-(R(b1)+iD);   // 그려질 아래 여백(기준 · 불변)
+  if(!(bot>=0)) return;   // 잉크가 박스 밖으로 넘친 글꼴 = 손대지 않는다
+  const tTop=R(R(b0)-iA-bot);                        // 위 여백 = 아래 여백이 되는 윗변(정수 px로 그려짐)
+  const top0=r.top+(parseFloat(cs.paddingTop)||0);   // 위 padding 0 일 때의 윗변
+  const pT=top0-tTop;
+  if(pT>=0){ el.style.paddingTop=px1(pT)+'px'; return; }
+  el.style.paddingTop='0px';
+  const cut=tTop-R(top0);        // padding 0 으로도 남는 위 여백 = 배경만 잘라낸다(정수 px = 경계 선명)
+  if(cut>0) el.style.background='linear-gradient(transparent '+cut+'px, '+col+' '+cut+'px)';
 }
 const gvTxt=(k,v,u)=>v+u;   // (260729) 구 'sh 100% = 기본' 특례 폐지 — 운영자 "딱딱 끊겨서 조절되는 게 아니라 자연스럽게": 숫자가 도중에 낱말로 바뀌면 연속 조절이 끊겨 보인다 → 전 게이지 숫자 단일 · 기준선 안내는 게이지 title로 이관
 function gauge(k, lbl, min, max, val, unit, tip){ return '<div class="grow"><span class="k">'+lbl+'</span><input type="range" min="'+min+'" max="'+max+'" step="1" value="'+val+'" data-g="'+k+'" aria-label="'+lbl+(tip?(' — '+tip):'')+'"'+(tip?(' title="'+esc(tip)+'"'):'')+'><span class="v">'+gvTxt(k,val,unit)+'</span></div>'; }   // tip = 기준선 안내(260729 — 구 값칸 낱말 치환 대체)
@@ -1302,13 +1334,13 @@ function pvSync(){
     sp.style.fontFamily=(FONT_PV[P.font]&&FONT_PV[P.font].ff)||'';   // 폰트 미러(기본 고딕 = 상속 · 비기본 = 동명 구글 웹폰트 지연 로드 · 260711)
     loadPvFont(P.font);
     const om=P.sh/100, padc=Math.min(.5,Math.max(0,P.sh/1000)), oc=ocRGB(P.shc);   // 음영 크기 배율·박스 패딩 계수(서버 coef 클램프 미러)·음영 색 — 100%·검정 = 종전 산식 그대로(260711) · (260729) 패딩 하한 .02→0 = 음영 0% 도달(게이지 하한 0 짝 · 서버 coef min도 동행)
-    sub.style.setProperty('--pvkw', (P.keyword||P.karaoke||P.hi||P.pop)?('rgb('+ocRGB(P.kwc||'green')+')'):((P.fg&&P.fg!=='white')?('rgb('+ocRGB(P.fg)+')'):'#fff'));   // 강조색 미러(운영자 260804) — 키워드 강조가 꺼져 있으면(프리셋 담백체·감성 네온) 낱말도 **글자색과 같은 색** = 안 칠해질 것을 칠해 보이지 않는다 · ⚠ `inherit`/`currentColor`를 넣으면 var() 치환 뒤 `color:inherit`이 자기 자신을 가리켜 무효 → 폴백(그린)으로 되돌아온다(실측 260804) = 글자색 실값을 직접 실어야 한다
+    sub.style.setProperty('--pvkw', (P.keyword||P.karaoke||P.hi||P.pop)?('rgb('+ocRGB(P.kwc||'green')+')'):((P.fg&&P.fg!=='white')?('rgb('+ocRGB(P.fg)+')'):OC_DEF.white));   // (260923) 흰 = 콘텐츠 색 상수 OC_DEF.white 참조(값 동일 · 리터럴 hex 1개 회수 = 편집 파일 raw hex 기준선 복귀)   // 강조색 미러(운영자 260804) — 키워드 강조가 꺼져 있으면(프리셋 담백체·감성 네온) 낱말도 **글자색과 같은 색** = 안 칠해질 것을 칠해 보이지 않는다 · ⚠ `inherit`/`currentColor`를 넣으면 var() 치환 뒤 `color:inherit`이 자기 자신을 가리켜 무효 → 폴백(그린)으로 되돌아온다(실측 260804) = 글자색 실값을 직접 실어야 한다
     sp.style.color=(P.fg&&P.fg!=='white')?('rgb('+ocRGB(P.fg)+')'):'';   // 글자색 미러(운영자 260721 — 기본 흰 = 상속 = 종전)
     const gpx=P.glow>0?Math.round(fs*0.0025*P.glow*10)/10:0;   // 글로우 = 번인 blur px 산식 동일(fs×0.0025×glow — 프리뷰 fs가 곧 스케일)
     // 음영 종류 분기(운영자 260729) — 구 'bg>0이면 네모 / 아니면 획' 암묵 결정을 명시 선택(P.shtype)으로 대체.
     //   none 기본(아무것도 안 그림) · box 음영(줄박스 = 종전 bg>0 경로 그대로) · stroke 획(글리프 외곽선 = 종전 bg=0 경로) · shadow 그림자(오프셋 드롭)
     sp.style.background='transparent'; sp.style.padding='0'; sp.style.textShadow='none';
-    if(P.shtype==='box'){ sp.style.background='rgba('+oc+','+(Math.max(1,P.bg)/100)+')'; sp.style.padding=px1(fs*padc)+'px'; }   // (260812 3차) 한국어 줄 = 종전 여백 그대로 원복(운영자 "고치기 전이 맞고, 다시 돌리고" — 2차의 사방 잉크 정합 판 회수)   // 배경 알파는 bg 게이지 유지 · 하한 1 = '음영'을 골랐는데 bg 0이라 아무것도 안 보이는 죽은 조합 차단
+    if(P.shtype==='box'){ sp.style.background='rgba('+oc+','+(Math.max(1,P.bg)/100)+')'; sp.style.padding=px1(fs*padc)+'px'; }   // (260923) 위 여백 교정은 노출 직후(맨 끝 inkTopEqBot — 숨김 상태에선 위치를 못 잰다)   // (260812 3차) 한국어 줄 = 종전 여백 그대로 원복(운영자 "고치기 전이 맞고, 다시 돌리고" — 2차의 사방 잉크 정합 판 회수)   // 배경 알파는 bg 게이지 유지 · 하한 1 = '음영'을 골랐는데 bg 0이라 아무것도 안 보이는 죽은 조합 차단
     else if(P.shtype==='stroke'){
       const o=px1(fs*(P.style==='bold'?0.064:0.032)*om);
       sp.style.textShadow='-'+o+'px 0 0 rgba('+oc+',1), '+o+'px 0 0 rgba('+oc+',1), 0 -'+o+'px 0 rgba('+oc+',1), 0 '+o+'px 0 rgba('+oc+',1)'+(P.style==='bold'?(', '+o+'px '+o+'px 0 rgba('+oc+',1)'):'')
@@ -1327,6 +1359,7 @@ function pvSync(){
       if(P.shtype==='box'){ tl.style.background='rgba('+oc+','+(Math.max(1,P.bg)/100)+')'; tl.style.padding=px1(Math.max(1,tfs*0.04))+'px'; inkBotEqTop(tl); }   /* (260812 3차) 여백 산식은 러너 원문 줄 값 그대로 두고, **아래만 위에 맞춘다**(운영자 "외국어 음영 윗부분에 기준해서 아랫부분을 윗부분 길이에 맞춰서") — 실측상 위 0 · 아래 1.44 로 아래가 두툼해 줄이 밑으로 처져 보였다(글꼴이 가진 아래쪽 빈칸이 padding 위에 더 얹힌다) */   // ★ 음영이 '네모'일 때만 원문 줄에도 자기 폭 박스(운영자 260812 "각각 글자들 뒤에만 음영이 각각") — 러너 BorderStyle 3 미러 · 패딩 = 러너 원문 줄 \bord(max(1, small×0.04)) 동값 산식(한국어 줄 fs×padc보다 얇은 위계도 그대로) · 다른 음영 종류(획·그림자·기본)에선 위 고정 축 그대로 = 종전 화면 불변
     } else { tl.hidden=true; sp.style.marginBottom='0'; } }   // 한 줄 모드 = 간격 회수
     sub.hidden=false;   // ★ 노출은 맨 끝 — 크기·색·배경·두 줄 배치가 전부 확정된 뒤라야 한다(운영자 260729 "처음에 들어갈때 흰색으로 길게" = 스타일 전 상태가 노출되던 통로 차단 · CSS .pvsub-tr font-size 폴백과 이중 방어)
+    if(P.shtype==='box') inkTopEqBot(sp, sp.style.background);   // (260923) 한국어 줄 위 여백 = 아래 여백(운영자 "한글자막 위 음영 과함" — 실굽기는 위아래 같음 = 미리보기만 교정 · 좌우·아래 무접촉) · 노출 직후 = 같은 프레임 안(그리기 전)이라 깜빡임 0
   });
 }
 function pvBlurBg(vv){   // 여백(블러) 선택 시 = 현재 프레임 스냅샷을 블러 배경으로(이중 비디오 디코드 회피 = 폰 부담 0 · 실물은 움직이는 블러 — 질감·배치 연출 목적 · 운영자 260712)
