@@ -933,7 +933,7 @@ function ocRGB(k){   // 음영 색 키 → 'r,g,b'(계산 스타일 실측 = var
 let _gfPre=false;
 function loadPvFont(k){   // 미리보기 폰트 지연 로드(기본 고딕 = 로드 0 · 선택 시 1회) — 구글 웹폰트(gf) 또는 레포 동봉 파일(lf) · 실패/오프라인 = 폴백 스택 표시(근사 · 번인은 러너 실폰트라 무해)
   const f=FONT_PV[k]; if(!f||!(f.gf||f.lf)||f._l) return; f._l=true;
-  if(f.lf){ try{ const face=new FontFace(f.fam,'url('+f.lf+')',{weight:f.lw||'400',display:'swap'}); face.load().then(x=>document.fonts.add(x)).catch(()=>{}); }catch(e){} return; }   // 레포 동봉 축(페이퍼로지) = FontFace 직로드(외부요청 0 · 실패 fail-soft = 구글 축과 동일 계약 · 260805)
+  if(f.lf){ try{ const face=new FontFace(f.fam,'url('+f.lf+')',{weight:f.lw||'400',display:'swap'}); face.load().then(x=>{ document.fonts.add(x); const v=document.getElementById('pv'); if(v&&!v.hidden) pvSync(); }).catch(()=>{});   /* (260923 평의회 3) 직로드 FontFace 는 집합 밖에서 로드돼 loadingdone 이 안 뜬다 → 도착 즉시 한 번 다시 맞춤(바른고딕 첫 선택 위/아래 1:4 잔류 봉합) */ }catch(e){} return; }   // 레포 동봉 축(페이퍼로지) = FontFace 직로드(외부요청 0 · 실패 fail-soft = 구글 축과 동일 계약 · 260805)
   if(!_gfPre){ _gfPre=true; [['https://fonts.googleapis.com',''],['https://fonts.gstatic.com','anonymous']].forEach(([h,co])=>{   // 첫 선택 시 preconnect = DNS+TLS 선행
     const p=document.createElement('link'); p.rel='preconnect'; p.href=h; if(co)p.crossOrigin=co; document.head.appendChild(p); }); }
   const l=document.createElement('link'); l.rel='stylesheet'; l.href='https://fonts.googleapis.com/css2?family='+f.gf+'&display=swap'; document.head.appendChild(l);
@@ -1030,6 +1030,7 @@ function subLineMirror(el, fs, f, box){   /* ★ 한국어 줄 = 러너(libass) 
      ⚠ 크롬은 요소 테두리와 글자 기준선을 **정수 CSS px** 에 그린다(260923 실측: DPR 3 에서도 top 10.2→10 · 10.6→11 · 기준선 36.5→37) — 미리보기 글자는 10px 안팎이라
      테두리로 박스를 그리면 높이 11.08px 이 10 이나 12 가 되고 위아래도 1px 씩 어긋난다(구 inkTopEqBot 한계). → 테두리는 박스를 덮는 정수 px 로만 두고 **보이는 박스 경계는
      배경 그라데 경계**(기기 픽셀 = 1/3px 정밀도)로 그린다 · 글자는 반올림된 기준선에 그려지므로 박스도 같은 만큼 따라 옮긴다 = 글자 대비 박스 = 러너 그대로(잉크 측정 불요). */
+  if(!el.getClientRects().length) return;   // 숨김(조상 display:none) = 잴 게 없다 — 초기화 전에 나가 이전 배치를 그대로 둔다(평의회 3 방어)
   el.style.marginBottom='0px'; el.style.paddingTop='0px'; el.style.paddingBottom='0px';
   if(!(el.textContent||'').trim()) return;
   const z=document.createElement('i'); z.style.cssText='display:inline-block;width:0;height:0;vertical-align:baseline'; el.appendChild(z);
