@@ -5,6 +5,7 @@
 //   ② 폴백: 키 없음·API 실패 시 기존 tr-auto.yml 워크플로 발사 → {id} 반환(폼이 tr_out/<id>/plan.json 폴링 · 2~4분 · 구독 OAuth 무료).
 // 프롬프트 규칙 = prompts/tr-auto.md 정본 미러(동조 수정 — 러너 폴백과 동일 계약).
 // v2(운영자 260721 재편): ctx{art(참고 기사 스탠스)·note(재생성 지시)·redo} = 두 경로 공통 관통 + band(밴드 문구) 산출.
+import { claudeMessages } from './_claude.js';   // Anthropic 직결 공용(거절 대비 서버 폴백 · 운영자 260923)
 const REPO = 'nomutefb/editor';
 const REF = 'main';
 const GH = (token, path, method, body) => fetch(`https://api.github.com/repos/${REPO}/${path}`, {
@@ -78,23 +79,13 @@ function ctxBlocks(ctx) {   // 컨텍스트 → 프롬프트 블록(trauto.sh CT
 async function directPlan(env, lines, ctx) {
   // Anthropic Messages API 직결(Opus 5.5) — temperature 등 샘플링 파라미터 금지(400) · structured outputs로 JSON 강제
   const content = [lines.map(l => `[${l.i}] ${l.t}`).join('\n')].concat(ctxBlocks(ctx)).join('\n\n');
-  const r = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'content-type': 'application/json',
-      'x-api-key': env.ANTHROPIC_API_KEY,
-      'anthropic-version': '2023-06-01',
-    },
-    body: JSON.stringify({
-      model: 'claude-opus-5-5',
-      max_tokens: 16000,   // 생각도 max_tokens를 먹는다(5.5 = 생각 항상 켜짐) — 2048이면 생각이 다 쓰고 JSON이 잘릴 수 있다
-      system: TR_RULES,
-      messages: [{ role: 'user', content }],
-      output_config: { effort: 'high', format: { type: 'json_schema', schema: PLAN_SCHEMA } },   // effort = 같은 단계(high) 유지(5.5 기본 = medium) · 5.5는 같은 단계에서 한 세대 전보다 더 깊게 생각하고 생각도 max_tokens를 먹는다
-    }),
+  const m = await claudeMessages(env, {   // 거절 대비 서버 폴백·HTTP 오류 사유 = _claude.js
+    model: 'claude-opus-5-5',
+    max_tokens: 16000,   // 생각도 max_tokens를 먹는다(5.5 = 생각 항상 켜짐) — 2048이면 생각이 다 쓰고 JSON이 잘릴 수 있다
+    system: TR_RULES,
+    messages: [{ role: 'user', content }],
+    output_config: { effort: 'high', format: { type: 'json_schema', schema: PLAN_SCHEMA } },   // effort = 같은 단계(high) 유지(5.5 기본 = medium) · 5.5는 같은 단계에서 한 세대 전보다 더 깊게 생각하고 생각도 max_tokens를 먹는다
   });
-  if (!r.ok) throw new Error(`anthropic ${r.status} ${(await r.text()).slice(0, 200)}`);   // 본문 = 모델 부재·권한·한도 사유(로그 판독용)
-  const m = await r.json();
   if (m.stop_reason === 'refusal') throw new Error('refusal');
   if (m.stop_reason !== 'end_turn') throw new Error(`stop ${m.stop_reason}`);   // max_tokens 잘림 = 반쪽 JSON 파싱 전에 사유를 분명히(러너 폴백)
   const txt = ((m.content || []).find(b => b.type === 'text') || {}).text || '';

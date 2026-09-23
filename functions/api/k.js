@@ -3,6 +3,7 @@
 //        → viewer/k_out/<id>/prompt.md 커밋 → 폼이 폴링해 렌더(샷별 복사 버튼).
 // env: GH_TOKEN = comp/make-cards와 동일 PAT. 인증·생성은 러너의 구독 OAuth(무료). 이미지 무관(텍스트만).
 import { dispatchWf } from './_fire.js';   // (260820) 발사 재시도 SSOT — thumb 발사 유실 실사고 형제 이식(1발 즉실패 → 큐행 = 조용한 유실 봉합)
+import { claudeMessages } from './_claude.js';   // Anthropic 직결 공용(거절 대비 서버 폴백 · 운영자 260923)
 const REPO = 'nomutefb/editor';
 const REF = 'main';   // 통합 완료(PR #173 머지)
 const GH = (token, path, method, body) => fetch(`https://api.github.com/repos/${REPO}/${path}`, {
@@ -125,13 +126,7 @@ async function directK(env, scene) {
     + '\n## apps/k/00_지침_에디터_클링.md\n' + g0
     + '\n\n## apps/k/01_모델프로필_영상엔진.md\n' + g1
     + '\n\n## apps/k/MEMORY.md\n' + mem;
-  const r = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: { 'content-type': 'application/json', 'x-api-key': env.ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01' },
-    body: JSON.stringify({ model: 'claude-opus-5-5', max_tokens: 16000, output_config: { effort: 'high' }, system, messages: [{ role: 'user', content: scene }] }),   // effort = 같은 단계(high) 유지(5.5 기본 = medium) · 5.5는 같은 단계에서 한 세대 전보다 더 깊게 생각하고 생각도 max_tokens를 먹는다 → 16000 여유(과금 = 실제 사용분)
-  });
-  if (!r.ok) throw new Error(`anthropic ${r.status} ${(await r.text()).slice(0, 200)}`);   // 본문 = 모델 부재·권한·한도 사유(로그 판독용)
-  const m = await r.json();
+  const m = await claudeMessages(env, { model: 'claude-opus-5-5', max_tokens: 16000, output_config: { effort: 'high' }, system, messages: [{ role: 'user', content: scene }] });   // effort = 같은 단계(high) 유지(5.5 기본 = medium) · 5.5는 같은 단계에서 한 세대 전보다 더 깊게 생각하고 생각도 max_tokens를 먹는다 → 16000 여유(과금 = 실제 사용분) · 거절 대비 서버 폴백·HTTP 오류 사유 = _claude.js
   if (m.stop_reason === 'refusal') throw new Error('refusal');
   if (m.stop_reason !== 'end_turn') throw new Error(`stop ${m.stop_reason}`);   // max_tokens 잘림 = 반쪽 md를 성공으로 내보내지 않는다(러너 폴백)
   const txt = ((m.content || []).filter(b => b.type === 'text').map(b => b.text).join('')) || '';
