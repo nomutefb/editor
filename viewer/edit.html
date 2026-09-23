@@ -909,17 +909,18 @@ const FONT_PV={   /* 러너(libass) 줄 배치 미러 3값(운영자 260923 "한
      lh  = 줄 높이 ÷ 글자 본체(OS/2 usWinAscent+usWinDescent ÷ unitsPerEm) — libass는 자막 크기를 **줄 높이**로 잡아 글자 본체 = 크기 ÷ lh, 브라우저는 font-size = 글자 본체라
            lh 로 나눠야 미리보기 글자 = 실제 영상 글자(win 채택 = 주아 실렌더로 검증: win 1.113 ≈ 실측 1.115 · hhea 1.0 아님)
      dsc = 윈 디센트 ÷ 줄 높이 — libass 기준선 = 줄 상자 아랫변(앵커)에서 dsc×크기 위(subLineMirror 가 브라우저 기준선을 이 자리로 옮긴다)
-     bk  = 줄박스 중심 보정(한글 잉크 중심 − 줄 상자 중심 ÷ 줄 높이) = ly_burn BOX_K 와 같은 값(키·값 동일성 = tests/test_ly_burn_subs.py) */
+     bk  = 줄박스 중심 보정(한글 잉크 중심 − 줄 상자 중심 ÷ 줄 높이) = ly_burn BOX_K 와 같은 값(키·값 동일성 = tests/test_ly_burn_subs.py)
+     생성 코드 = shared/sub_font_metrics.py(세 값 모두 · 새 폰트 = 그 출력으로 추가) */
   // 폰트 = 러너 설치 패밀리(fc-scan 실측)와 동명 웹폰트 지연 로드(고를 때만) = 미리보기 실체 정합 · 기본 = 프리텐다드(260923 — UI 본문 폰트 재사용 = 평상시 외부요청 0 · 구 기본 본고딕은 첫 미리보기에 구글 웹폰트를 받았다)
-  pretendard:{lbl:'프리텐다드',lh:1.193,dsc:0.2022,bk:0.0014,ff:'"Pretendard Variable","Pretendard",sans-serif'},   // (260923 운영자 "프리텐다드 기본 · 바로 선택") = 애플고딕(Apple SD 산돌고딕 Neo) 대체용 오픈 폰트 · 미리보기 = 이 파일 15행 UI 본문 @font-face(assets/fonts/pretendard.woff2)와 같은 폰트 = **추가 로드 0** · 번인 = 레포 동봉 Pretendard-Bold.otf(REPO_FONT_KEYS)
+  pretendard:{lbl:'프리텐다드',lh:1.193,dsc:0.2022,bk:0.0006,ff:'"Pretendard Variable","Pretendard",sans-serif'},   // (260923 운영자 "프리텐다드 기본 · 바로 선택") = 애플고딕(Apple SD 산돌고딕 Neo) 대체용 오픈 폰트 · 미리보기 = 이 파일 15행 UI 본문 @font-face(assets/fonts/pretendard.woff2)와 같은 폰트 = **추가 로드 0** · 번인 = 레포 동봉 Pretendard-Bold.otf(REPO_FONT_KEYS)
   gothic:{lbl:'본고딕',lh:1.448,dsc:0.1989,bk:0.0425,ff:'"Noto Sans KR","Noto Sans CJK KR",sans-serif',gf:'Noto+Sans+KR:wght@700'},   // 본고딕 명시(운영자 260731 19차 "본고딕·본명조만") — 구 시스템 근사(ff:'')는 기기마다 달라 러너(Noto 계열)와 미리보기가 갈렸다
-  serif:{lbl:'명조',lh:1.437,dsc:0.199,bk:0.0435,ff:'"Noto Serif KR","Noto Serif CJK KR",serif',gf:'Noto+Serif+KR:wght@700'},
-  paper:{lbl:'페이퍼',lh:1.178,dsc:0.1698,bk:-0.0005,fam:'Paperlogy',ff:'"Paperlogy","페이퍼로지",sans-serif',lf:'assets/fonts/subs/Paperlogy-5Medium.ttf',lw:'500'},   // 페이퍼로지 5 Medium(운영자 260805 "깃에 넣을테니 선택가능하게 · 줄임말") — 레포 동봉 자기 서빙(정본 = 루트 assets/fonts/subs → build-viewer cpSync가 viewer/assets로 복사 = pretendard 동축 · 외부요청 0) · 패밀리 = TTF name표 실측(nid16 "Paperlogy" · 한글 별칭 "페이퍼로지") · 러너 짝 = ly_burn REPO_FONT_KEYS 등록(fc-cache)
-  pen:{lbl:'손글씨',lh:1.15,dsc:0.2,bk:0.02,ff:'"Nanum Pen Script",cursive',gf:'Nanum+Pen+Script'},   // (260923) 수치 = 러너 apt NanumPen.ttf(윈 0.92/0.23) — 구글 웹폰트판(윈 0.8/0.21 · lh 1.011)과 글자 윤곽은 같고 줄 높이만 달라 러너 값을 쓴다
-  barun:{lbl:'바른고딕',lh:1.15,dsc:0.2609,bk:-0.04,fam:'NanumBarunGothic',ff:'"NanumBarunGothic",sans-serif',lf:'https://hangeul.pstatic.net/hangeul_static/webfont/NanumBarunGothic/NanumBarunGothicWebBold.woff2',lw:'700 900'},   // (260923) 나눔바른고딕 = 번인은 러너 apt(fonts-nanum 계열 · 설치 0) · 미리보기 = 네이버 공식 웹폰트 Bold(CORS * 실측 · 고를 때만 1회 1.4MB) · lw 700~900 = 굵은 파일을 굵기 칸에 등록 = 800 요청에 가짜 굵게 0(번인 실 Bold와 정합)
-  plex:{lbl:'IBM',lh:1.5,dsc:0.2767,bk:0.0167,ff:'"IBM Plex Sans KR",sans-serif',gf:'IBM+Plex+Sans+KR:wght@700'},   // (260923) IBM Plex Sans KR Bold — 미리보기 = 구글 웹폰트(글자 조각만 · 샘플 33KB) · 번인 = 레포 동봉 TTF
-  jua:{lbl:'주아',lh:1.113,dsc:0.2147,bk:-0.0525,ff:'"Jua",sans-serif',gf:'Jua'},   // (260923) 배민 주아(굵기 1종 = 미리보기·번인 둘 다 합성 굵게 = 서로 정합) · 구글 웹폰트 샘플 64KB · 번인 = 레포 동봉 TTF
-  gowun:{lbl:'고운돋움',lh:1.448,dsc:0.1989,bk:0.0404,ff:'"Gowun Dodum",sans-serif',gf:'Gowun+Dodum'},   // (260923) 고운돋움(굵기 1종 = 합성 굵게 정합) · 구글 웹폰트 샘플 51KB · 번인 = 레포 동봉 TTF
+  serif:{lbl:'명조',lh:1.437,dsc:0.199,bk:0.0442,ff:'"Noto Serif KR","Noto Serif CJK KR",serif',gf:'Noto+Serif+KR:wght@700'},
+  paper:{lbl:'페이퍼',lh:1.178,dsc:0.1698,bk:-0.0061,fam:'Paperlogy',ff:'"Paperlogy","페이퍼로지",sans-serif',lf:'assets/fonts/subs/Paperlogy-5Medium.ttf',lw:'500'},   // 페이퍼로지 5 Medium(운영자 260805 "깃에 넣을테니 선택가능하게 · 줄임말") — 레포 동봉 자기 서빙(정본 = 루트 assets/fonts/subs → build-viewer cpSync가 viewer/assets로 복사 = pretendard 동축 · 외부요청 0) · 패밀리 = TTF name표 실측(nid16 "Paperlogy" · 한글 별칭 "페이퍼로지") · 러너 짝 = ly_burn REPO_FONT_KEYS 등록(fc-cache)
+  pen:{lbl:'손글씨',lh:1.15,dsc:0.2,bk:0.023,ff:'"Nanum Pen Script",cursive',gf:'Nanum+Pen+Script'},   // (260923) 수치 = 러너 apt NanumPen.ttf(윈 0.92/0.23) — 구글 웹폰트판(윈 0.8/0.21 · lh 1.011)과 글자 윤곽은 같고 줄 높이만 달라 러너 값을 쓴다
+  barun:{lbl:'바른고딕',lh:1.15,dsc:0.2609,bk:-0.0383,fam:'NanumBarunGothic',ff:'"NanumBarunGothic",sans-serif',lf:'https://hangeul.pstatic.net/hangeul_static/webfont/NanumBarunGothic/NanumBarunGothicWebBold.woff2',lw:'700 900'},   // (260923) 나눔바른고딕 = 번인은 러너 apt(fonts-nanum 계열 · 설치 0) · 미리보기 = 네이버 공식 웹폰트 Bold(CORS * 실측 · 고를 때만 1회 1.4MB) · lw 700~900 = 굵은 파일을 굵기 칸에 등록 = 700(--fw-b) 요청에 가짜 굵게 0(번인 실 Bold와 정합)
+  plex:{lbl:'IBM',lh:1.5,dsc:0.2767,bk:0.0173,ff:'"IBM Plex Sans KR",sans-serif',gf:'IBM+Plex+Sans+KR:wght@700'},   // (260923) IBM Plex Sans KR Bold — 미리보기 = 구글 웹폰트(글자 조각만 · 샘플 33KB) · 번인 = 레포 동봉 TTF
+  jua:{lbl:'주아',lh:1.113,dsc:0.2147,bk:-0.0521,ff:'"Jua",sans-serif',gf:'Jua'},   // (260923) 배민 주아(굵기 1종 = 미리보기·번인 둘 다 합성 굵게 = 서로 정합) · 구글 웹폰트 샘플 64KB · 번인 = 레포 동봉 TTF
+  gowun:{lbl:'고운돋움',lh:1.448,dsc:0.1989,bk:0.0439,ff:'"Gowun Dodum",sans-serif',gf:'Gowun+Dodum'},   // (260923) 고운돋움(굵기 1종 = 합성 굵게 정합) · 구글 웹폰트 샘플 51KB · 번인 = 레포 동봉 TTF
 };
 const _ocRGB={};
 function ocRGB(k){   // 음영 색 키 → 'r,g,b'(계산 스타일 실측 = var 토큰값 이중관리 0 · 색당 1회 메모) · 실패 = 검정
@@ -997,7 +998,7 @@ function swrow(){
 const srcRatio=()=>Math.max(.25, Math.min(1, (100+(+P.srcsz||0))/100));   // 원문 줄 상대 크기 계수(운영자 260729 게이지 srcsz −75~0 → 0.25~1.0) — 미리보기 tfs·러너 dual_small 공용 단일 산식(두 곳이 갈리면 미리보기≠결과)
 const px1=v=>Math.max(0, Math.round(v*10)/10);   // 음영 px = 0.1 단위 연속(260729) — 구 Math.max(1,Math.round(…)) 정수 반올림이 게이지 여러 칸을 같은 1px에 뭉개 계단처럼 튀던 것(운영자 "딱딱 끊겨서 조절되는 게 아니라") + 하한 1px 탓에 0%에서도 외곽선이 남던 것 동시 해소
 function inkBotEqTop(el){   /* ★ 원문(외국어) 줄 음영 = **아래 여백을 위 여백에 맞춘다**(운영자 260812 3차 "외국어 음영 윗부분에 기준해서 아랫부분을 윗부분 길이에 맞춰서 광학 잉크 단위로")
-  ⚠ 기준은 위쪽이다 — 위 여백은 건드리지 않고 아래만 그 값으로 내린다(구 260812 2차 「사방 한 값」 판은 운영자 판단으로 원복 = 한국어 줄은 종전 여백 그대로).
+  ⚠ 기준은 위쪽이다 — 위 여백은 건드리지 않고 아래만 그 값으로 내린다(구 260812 2차 「사방 한 값」 판은 운영자 판단으로 원복 · 한국어 줄 박스는 260923부터 러너 박스 미러 = subLineMirror).
   ⚠ 재는 단위는 상자가 아니라 **글자 잉크**다(§3-4-1 광학-잉크 계약) — 줄 높이·글꼴이 가진 위아래 빈칸이 상자와 잉크 사이에 끼어 있어 padding 값만 봐서는 눈에 보이는 여백을 알 수 없다.
   ⚠ 이 줄은 한국어 줄 바로 아래에 top 으로 매달려 있어(위 .pvsub-tr 앵커) 아래 여백을 바꿔도 글자는 안 움직인다 = 위치 계약 무접촉. */
   const rg=document.createRange(); rg.selectNodeContents(el);
@@ -1349,7 +1350,7 @@ function pvSync(){
     // 음영 종류 분기(운영자 260729) — 구 'bg>0이면 네모 / 아니면 획' 암묵 결정을 명시 선택(P.shtype)으로 대체.
     //   none 기본(아무것도 안 그림) · box 음영(줄박스 = 종전 bg>0 경로 그대로) · stroke 획(글리프 외곽선 = 종전 bg=0 경로) · shadow 그림자(오프셋 드롭)
     sp.style.background='transparent'; sp.style.padding='0'; sp.style.textShadow='none';
-    if(P.shtype==='box'){ sp.style.background='rgba('+oc+','+(Math.max(1,P.bg)/100)+')'; sp.style.padding='0 '+px1(fs*padc)+'px'; }   // (260923) 좌우 = fs×pad(러너 가로 보더) · 위아래 = 러너 박스(높이 fs×(1+pad) · 한글 잉크 가운데)를 노출 직후 subLineMirror 가 세운다(숨김 상태에선 위치를 못 잰다)   // (260812 3차) 한국어 줄 = 종전 여백 그대로 원복(운영자 "고치기 전이 맞고, 다시 돌리고" — 2차의 사방 잉크 정합 판 회수)   // 배경 알파는 bg 게이지 유지 · 하한 1 = '음영'을 골랐는데 bg 0이라 아무것도 안 보이는 죽은 조합 차단
+    if(P.shtype==='box'){ sp.style.background='rgba('+oc+','+(Math.max(1,P.bg)/100)+')'; sp.style.padding='0 '+px1(fs*padc)+'px'; }   // (260923) 좌우 = fs×pad(러너 가로 보더) · 위아래 = 러너 박스(높이 fs×(1+pad) · 한글 잉크 가운데)를 노출 직후 subLineMirror 가 세운다(숨김 상태에선 위치를 못 잰다)   // (260923 대체) 한국어 줄 세로 여백 = 러너 박스 미러(운영자 "아래 부분하고 같아야" · 구 260812 3차 「종전 여백 원복」 폐기)   // 배경 알파는 bg 게이지 유지 · 하한 1 = '음영'을 골랐는데 bg 0이라 아무것도 안 보이는 죽은 조합 차단
     else if(P.shtype==='stroke'){
       const o=px1(fs*(P.style==='bold'?0.064:0.032)*om);
       sp.style.textShadow='-'+o+'px 0 0 rgba('+oc+',1), '+o+'px 0 0 rgba('+oc+',1), 0 -'+o+'px 0 rgba('+oc+',1), 0 '+o+'px 0 rgba('+oc+',1)'+(P.style==='bold'?(', '+o+'px '+o+'px 0 rgba('+oc+',1)'):'')

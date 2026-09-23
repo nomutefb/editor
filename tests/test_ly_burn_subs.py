@@ -123,7 +123,9 @@ class BoxLayers(unittest.TestCase):
         self.assertEqual(set(ly_burn.BOX_K), set(ly_burn.FONT_FAMILY))
         html = open(os.path.join(ROOT, 'viewer', 'edit.html'), encoding='utf-8').read()
         pv = dict((k, float(v)) for k, v in re.findall(r"\n  (\w+):\{lbl:'[^']*',lh:[0-9.]+,dsc:[0-9.]+,bk:(-?[0-9.]+),", html))
+        entries = re.findall(r"\n  (\w+):\{lbl:", html)
         self.assertGreaterEqual(len(pv), 9, pv)
+        self.assertEqual(sorted(pv), sorted(entries), "FONT_PV 모든 항목 = {lbl,lh,dsc,bk,…} 순서로 세 값 보유(빠지면 미리보기가 lh 1·bk 0 으로 조용히 틀어진다)")
         for k, v in pv.items():
             self.assertIn(k, ly_burn.BOX_K, k)
             self.assertAlmostEqual(v, ly_burn.BOX_K[k], places=4, msg=k)
@@ -136,6 +138,7 @@ class BoxLayers(unittest.TestCase):
         pv = dict((k, (float(a), float(b))) for k, a, b in re.findall(r"\n  (\w+):\{lbl:'[^']*',lh:([0-9.]+),dsc:([0-9.]+),", html))
         files = {"pretendard": "Pretendard-Bold.otf", "paper": "Paperlogy-5Medium.ttf", "plex": "IBMPlexSansKR-Bold.ttf",
                  "jua": "Jua-Regular.ttf", "gowun": "GowunDodum-Regular.ttf"}
+        self.assertEqual(set(files), set(ly_burn.REPO_FONT_KEYS), "레포 동봉 폰트를 늘리면 여기 파일명도 1줄(= lh·dsc 대조 대상)")
         for k, fn in files.items():
             with open(os.path.join(ROOT, 'assets', 'fonts', 'subs', fn), 'rb') as fh:
                 data = fh.read()
@@ -145,6 +148,20 @@ class BoxLayers(unittest.TestCase):
             wa, wd = struct.unpack('>HH', data[tab['OS/2'] + 74:tab['OS/2'] + 78])
             self.assertAlmostEqual(pv[k][0], (wa + wd) / upem, places=3, msg=k + " lh")
             self.assertAlmostEqual(pv[k][1], wd / (wa + wd), places=3, msg=k + " dsc")
+
+    def test_generator_reproduces_repo_values(self):
+        """BOX_K·FONT_PV = shared/sub_font_metrics.py 출력(생성 코드 = 정본) — fontTools·폰트 파일이 있는 환경에서만(CI 밖 = 건너뜀)."""
+        try:
+            import fontTools  # noqa: F401
+        except ImportError:
+            self.skipTest('fontTools 없음(개발용 생성기)')
+        sys.path.insert(0, os.path.join(ROOT, 'shared'))
+        import sub_font_metrics
+        import contextlib
+        import io
+        with contextlib.redirect_stdout(io.StringIO()) as out:
+            rc = sub_font_metrics.main(['--check'])
+        self.assertEqual(rc, 0, out.getvalue())
 
     def test_pop_scale_only_in_text_layer(self):
         a = ly_burn.build_ass(SEG, 540, 960, dict(BOX, pop=True))

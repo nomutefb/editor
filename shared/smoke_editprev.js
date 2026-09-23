@@ -12,7 +12,7 @@
 //   · 생성버튼 ✓ 단계 높이 동결(게이지 튐 0 · Q402)
 //
 // 원커맨드:  node shared/smoke_editprev.js          (종료코드 0 = 코어 전부 PASS)
-// 티어: 코어 9종 단일(대기 티어 없음 — 전건 오늘 계약)
+// 티어: 코어 10종 단일(대기 티어 없음 — 전건 오늘 계약 · C10 자막 미리보기 러너 미러 = 260923)
 // 리스크 통제: 기하(rect)+computedStyle+이벤트(filechooser)만 — 스크린샷 베이스라인 diff 금지 ·
 //   첨부 픽스처 = 브라우저 내 캔버스 녹화 webm(외부 파일·ffmpeg 의존 0 = 환경 무관 결정론) ·
 //   라이브 코드 무접촉(DataTransfer 주입 = 실 change 파이프 그대로) · 서버 자체 종료(잔류 0)
@@ -141,6 +141,22 @@ function chk(name, pass, detail) { R.push({ name, pass, detail }); console.log((
     chk('C5 첨부 → 미리보기 스왑(빈 상태 숨김·교체/삭제 노출·원본비 재현 ±0.03)',
       att.pv && att.pe && att.sw && att.dl && att.badge && Math.abs(att.ar - 320 / 568) <= 0.03,
       'pv ' + att.pv + ' · 배지 ' + att.badge + ' · AR ' + att.ar + ' (기대 ' + (320 / 568).toFixed(3) + ')');
+
+    // C10 자막 미리보기 = 러너 미러(운영자 260923 "미리보기 글자 크기 맞춰줘") — 글자 = 크기 ÷ 폰트 줄 높이 비(libass 윈 정규화) · 굵기 = 러너 Bold ·
+    //   강조어 = 줄과 같은 굵기 · 박스 = 높이 fs×(1+pad)(보이는 경계 = 그라데 잘라낸 뒤) — 구 산식(font-size = fs · 800)으로 돌아가면 여기서 잡힌다
+    const sub = await pg.evaluate(() => { P.shtype = 'box'; P.sh = 100; ON.sub = true; ON.trn = false; render();   // seal-ok: C10 단독 계측(자막 미리보기 = 이 스모크 담당 표면 · 형제 스모크에 옮길 수정 아님)
+      return new Promise(res => setTimeout(() => {   // seal-ok: 렌더 뒤 rAF 여유 대기(C10 단독)
+        const bx = document.getElementById('pvBox').getBoundingClientRect(), sp = document.getElementById('pvSubTx'), kw = sp && sp.querySelector('.kw');
+        if (!sp || sp.closest('[hidden]')) return res(null);
+        const cs = getComputedStyle(sp), fs = bx.height * P.size / 1000, f = FONT_PV[P.font] || {}, r = sp.getBoundingClientRect();
+        const g = sp.style.background || '', grad = g.includes('gradient');   // 보이는 박스 = 요소 − 그라데 위·아래 투명 구간(브라우저가 transparent 를 rgba(0, 0, 0, 0) 로 정규화)
+        const cT = grad ? parseFloat((g.match(/\) ([0-9.]+)px,/) || [0, 0])[1]) : 0, cB = grad ? parseFloat((g.match(/calc\(100% - ([0-9.]+)px\)/) || [0, 0])[1]) : 0;
+        return res({ font: P.font, fs: +fs.toFixed(3), px: parseFloat(cs.fontSize), lh: f.lh, fw: cs.fontWeight, kw: kw ? getComputedStyle(kw).fontWeight : '',
+          boxH: +(r.height - cT - cB).toFixed(2), want: +(fs * (1 + P.sh / 1000)).toFixed(2) });
+      }, 400)); });
+    chk('C10 자막 미리보기 = 러너 미러(글자 = fs÷lh ±0.05 · 굵기 700 = 강조어 · 박스 높이 fs×(1+pad) ±1px)',
+      !!sub && sub.lh > 1 && Math.abs(sub.px - sub.fs / sub.lh) <= 0.05 && sub.fw === '700' && sub.kw === sub.fw && Math.abs(sub.boxH - sub.want) <= 1,
+      sub ? (sub.font + ' · font-size ' + sub.px + ' (기대 ' + (sub.fs / sub.lh).toFixed(2) + ') · 굵기 ' + sub.fw + '/강조 ' + sub.kw + ' · 박스 ' + sub.boxH + ' (기대 ' + sub.want + ')') : '자막 미리보기 없음');
 
     // C6 비율 칩 → 미리보기 리사이즈(9:16 → 1:1) — 260728 재편: 순환값(data-cyc) → 칩 상시 나열(data-p="ar:…" · 이미지 스튜디오 형식) = 조작만 칩 클릭으로
     const arPick = async v => { await pg.click('[data-p="ar:' + v + '"]'); await pg.waitForTimeout(350);
