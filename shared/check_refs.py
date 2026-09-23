@@ -533,19 +533,24 @@ def check_fast_max_h_parity():
     """FAST_MAX_H 크로스랭귀지 패리티(260710 · 검증6R FP-C로 분리) — viewer "단일출처" 주장과 달리
     auto_pick_breaking.py에 값 사본 존재(칼럼 경계·자동픽 나이 게이트가 갈리면 배지↔자동픽 불일치 · 사본
     유지 = 파이썬이 viewer를 못 읽어서·값만 기계 대조). check_curation_constants 안에 두면 §★ 줄 리워딩의
-    조기 return(문서 의존)이 이 코드↔코드 검사까지 조용히 꺼버려 독립 함수로 분리. fail-closed."""
+    조기 return(문서 의존)이 이 코드↔코드 검사까지 조용히 꺼버려 독립 함수로 분리. fail-closed.
+    260923 = to_candidates.py 사본 편입(CAP 컷 순서 3단 = 신규 칼럼 공급분 경계 — 갈리면 신규 칼럼에 보일 건이 컷 꼬리로 밀린다)."""
     try:
         v = _FilePath(os.path.join(ROOT, 'viewer', 'index.html')).read_text(encoding='utf-8')
         ap = _FilePath(os.path.join(ROOT, 'scraper', 'auto_pick_breaking.py')).read_text(encoding='utf-8')
+        tc = _FilePath(os.path.join(ROOT, 'scraper', 'to_candidates.py')).read_text(encoding='utf-8')
     except Exception as e:
         print('❌ check_fast_max_h_parity 파일 읽기 실패(fail-closed):', e); return 1
     mv = re.search(r'const FAST_MAX_H\s*=\s*(\d+)', v)
     mp = re.search(r'^FAST_MAX_H\s*=\s*(\d+)', ap, re.M)
-    if not mv or not mp:
-        print('❌ FAST_MAX_H 선언 추출 실패(viewer=%s·auto_pick=%s) — 선언 형태 변경 시 이 게이트도 갱신' % (bool(mv), bool(mp))); return 1
+    mt = re.search(r'^FAST_MAX_H\s*=\s*(\d+)', tc, re.M)
+    if not mv or not mp or not mt:
+        print('❌ FAST_MAX_H 선언 추출 실패(viewer=%s·auto_pick=%s·to_candidates=%s) — 선언 형태 변경 시 이 게이트도 갱신' % (bool(mv), bool(mp), bool(mt))); return 1
     if mv.group(1) != mp.group(1):
         print('❌ FAST_MAX_H 크로스랭귀지 드리프트: viewer=%s ≠ auto_pick_breaking.py=%s (칼럼 경계↔자동픽 나이 게이트 불일치)' % (mv.group(1), mp.group(1))); return 1
-    print('✅ FAST_MAX_H 패리티 — viewer(%s) = auto_pick_breaking.py(%s) 크로스랭귀지 동일.' % (mv.group(1), mp.group(1)))
+    if mv.group(1) != mt.group(1):
+        print('❌ FAST_MAX_H 크로스랭귀지 드리프트: viewer=%s ≠ to_candidates.py=%s (칼럼 경계↔CAP 컷 3단 경계 불일치)' % (mv.group(1), mt.group(1))); return 1
+    print('✅ FAST_MAX_H 패리티 — viewer(%s) = auto_pick_breaking.py(%s) = to_candidates.py(%s) 크로스랭귀지 동일.' % (mv.group(1), mp.group(1), mt.group(1)))
     return 0
 
 

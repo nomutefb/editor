@@ -14,6 +14,10 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from stock_filter import is_excluded_title  # 증권/시황 노이즈 제외(SSOT · 운영자 260701)
 from brk_tag import BREAKING_TAG  # 속보 제목 태그(SSOT · push_send 공용 · 뷰어는 solo 표식만 읽음 · 260923)
+try:   # 누적 칼럼 진입 술어·화면 병합의 단일 파이썬 미러(손복사 금지 = followEnters 패리티 게이트 대상) — CAP 컷 순서용(260923 · 아래 CUT_VISIBLE)
+    from daily_health import _cum_enter, screen_merge
+except Exception:  # noqa: BLE001  미러를 못 읽으면 컷 순서만 종전 2군으로 폴백(수집·쓰기는 그대로 = 수집 중단 없음)
+    _cum_enter = screen_merge = None
 
 ROOT = Path(__file__).resolve().parent.parent
 SRC = Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT / "scraper" / "out" / "articles.json"
@@ -26,6 +30,17 @@ CAP = int(os.environ.get("CAND_CAP", "800"))              # 보관한도: 수집
 MIN_CROSS = int(os.environ.get("CAND_MIN_CROSS", "2"))    # 교차등장 최소 매체 수(2=2개 이상 매체에 뜬 것만 = 뉴스성)
 FRESH_KEEP_H = int(os.environ.get("CAND_FRESH_KEEP_H", "6"))  # CAP 컷 1군 보호창(h): 발행 N시간 내 신선건은 cross 낮아도 컷 면제 — 신규<4h 레인 공급 보장(4h 창 + 판정·전이 여유 2h · 260716 신규 아사 봉합).
 MAX_BYTES = int(os.environ.get("CAND_MAX_BYTES", str(950 * 1024)))  # 직렬화 바이트 하드예산: api/candidates 1MB(MiB) 서빙 한도 방어(초과 = 빈[] = 수집함 전체 텅빔 260714). CAP(건수)와 별개 축 — 실측 800건 = 0.99MiB(잔여 1%↓)·신선건이 평균 +210B 무거워(cluster_members 상시 보유) 건수 불변에도 돌파 가능(평의회2 260716) → 컷 후 예산 초과분은 정렬 꼬리(2군 저cross)부터 기계적 제거.
+FAST_MAX_H = 4   # 신규↔누적 칼럼 경계(h) = 뷰어 FAST_MAX_H 값 사본(파이썬이 viewer 를 못 읽어서 · 레버 아님 · 패리티 = check_refs check_fast_max_h_parity 하드게이트)
+# ── CAP 컷 순서 = 화면 노출 기준 4단(260923 · 9/21 새벽 누적급 cross≥8 사건이 3시간에 127건 증발 실측 — 평시 런당 ~2건) ──
+# 종전 2군(1군 = 발행 FRESH_KEEP_H 내 + 확정 긴급 + 단독 좌석)은 발행 4~6h·cross<8·비긴급·연속보도 미달 건을 누적 노출분보다 먼저 살렸다.
+#   그 건은 신규(<4h)도 누적(≥4h ∧ 자격)도 아니라 두 칼럼 어디에도 안 보인다. 포화 날 잘리는 순서를 「안 보이는 것 먼저」로 바꾼다
+#   (높을수록 늦게 잘림 · 단 안에서는 종전 cross·발행 내림차 그대로):
+#   3 = 종전 1군 중 발행 <FAST_MAX_H 신선 · 확정 긴급 · 단독 좌석 = 신규 칼럼 공급분(불변)
+#   2 = 누적 칼럼 자격 = daily_health._cum_enter(cross≥8 ∨ 긴급 ∨ cross≥4∧rc≥6) — 화면 병합(screen_merge, group_id 형제 cross 합산)으로
+#       통과한 그룹은 형제 전원(하나가 잘리면 합산이 깨져 앵커가 칼럼에서 빠짐). 미러 밖 = 강지문 완화로·픽 상태·수동 병합(기기 저장소).
+#   1 = 종전 1군 잔여(발행 FAST_MAX_H~FRESH_KEEP_H 신선 중 2 아닌 것) · 0 = 나머지.
+# 롤백 = 아래 기본값 "1"→"0"(액션·폰·PC 레인 공통) 또는 CAND_CUT_VISIBLE=0 = 종전 2군 순서(바이트 동일). 미러 import 실패도 종전 순서로 폴백.
+CUT_VISIBLE = os.environ.get("CAND_CUT_VISIBLE", "1").strip().lower() not in ("0", "false", "no", "off")
 # ── 속보(velocity·태그) 1차 게이트 — burst(15분 내 동시 매체) OR [속보] 제목 태그. 2차 내용판정은 별도(Claude breaking_judge). ──
 BREAKING_BURST = int(os.environ.get("BREAKING_BURST", "3"))          # 속보 후보: burst 이 값 이상(다수 동시 보도)
 # 제목 태그([속보]·[상보]·[긴급]·[1보]·(1보)) = 1~2매체여도 속보 후보 → AI 내용검증(언론고시 기자 = 낚시 안 씀) · 정본 = scraper/brk_tag.py
@@ -102,6 +117,22 @@ def _urgent(c):
     """화면·푸시가 긴급으로 다루는 것 = 뷰어 isBreaking 과 같은 술어(breaking ∧ (미채점 ∨ 경중≥2))."""
     g = c.get("grade")
     return bool(c.get("breaking")) and (g is None or g >= 2)
+
+
+def cum_visible_ids(kept):
+    """누적 칼럼 자격 엔트리의 id() 집합(CAP 컷 순서 2단 · 위 CUT_VISIBLE). 원자료 _cum_enter 통과분 + 화면 병합 후 통과한 그룹의 형제 전원.
+    나이는 보지 않는다(<4h 는 3단이 먼저 잡고, 곧 누적으로 넘어갈 그룹 형제도 지금 지켜야 합산이 산다). 미러 부재 = 빈 집합."""
+    if _cum_enter is None or screen_merge is None:
+        return set()
+    out = {id(c) for c in kept if _cum_enter(c)}
+    fam = {}
+    for c in kept:
+        if c.get("group_id"):
+            fam.setdefault(c["group_id"], []).append(c)
+    for x in screen_merge(kept):
+        if x.get("_mergeCount") and _cum_enter(x):
+            out.update(id(c) for c in fam.get(x.get("group_id"), ()))
+    return out
 
 
 def carry_lb(prev, c, entry, now):
@@ -574,8 +605,29 @@ def main():
             return 1
         age = _age_h_first(c.get("published"), c.get("first_seen"))
         return 1 if age is not None and -10 <= age < FRESH_KEEP_H else 0   # -10h 하한 = 선의 KST+00 스큐(≤9h 미래)만 신선 허용 — 임의 미래값(2099 등)이 TTL(10일)까지 1군 영구 점유하는 슬롯 고갈 벡터 차단(평의회6) · 양측 결측·전부 파싱실패 = 구군(보수 — 옛 nowiso 폴백의 '불멸 1군' 구멍 폐쇄 · 평의회1·4)
-    kept.sort(key=lambda c: (fresh_tier(c), c.get("cross") or 0, c.get("published") or ""), reverse=True)   # 1군(신선·긴급) 먼저 생존 → 2군 = 종전 cross·발행 내림차(누적 상위 유지 불변) — CAP 컷은 2군 꼬리만 침
-    cut_cum = sum(1 for c in kept[CAP:] if (c.get("cross") or 0) >= 8)   # 누적 칼럼 진입선(뷰어 CROSS_MIN=8)급이 잘린 수 — 신선 1군 보호가 누적 노출분을 밀어내는 붐빔 날 계기판(평의회2-5)
+    vis = cum_visible_ids(kept)
+
+    def cut_band(c):   # 컷 순서 4단(높을수록 늦게 잘림) — 정본 주석 = 위 CUT_VISIBLE
+        ft = fresh_tier(c)
+        if ft and (is_solo(c) or c.get("breaking")):
+            return 3
+        if ft:
+            age = _age_h_first(c.get("published"), c.get("first_seen"))
+            if age is not None and age < FAST_MAX_H:   # fresh_tier 가 이미 -10h 하한·FRESH_KEEP_H 상한을 걸었다
+                return 3
+        if id(c) in vis:
+            return 2
+        return 1 if ft else 0
+    band = {id(c): cut_band(c) for c in kept} if _cum_enter is not None else {}   # 계기판은 레버와 무관하게 산출(레버 OFF 날 누적 자격 컷도 보이게)
+    visible_order = CUT_VISIBLE and _cum_enter is not None
+    rank = band if visible_order else {id(c): fresh_tier(c) for c in kept}   # 레버 OFF·미러 부재 = 종전 2군 키 그대로
+    kept.sort(key=lambda c: (rank[id(c)], c.get("cross") or 0, c.get("published") or ""), reverse=True)   # 단 안에서는 종전 cross·발행 내림차 — CAP 컷·바이트 트림은 꼬리(0단 → 1단 → 2단 순)부터 침
+
+    def _cuts(seq):   # (누적급 cross≥8 · 누적 자격(2단) · 비노출 4~6h 신선(1단)) 컷 수
+        return (sum(1 for c in seq if (c.get("cross") or 0) >= 8),
+                sum(1 for c in seq if band.get(id(c)) == 2),
+                sum(1 for c in seq if band.get(id(c)) == 1))
+    cut_cum, cut_vis, cut_46 = _cuts(kept[CAP:])   # cut_cum = 누적 칼럼 진입선(뷰어 CROSS_MIN=8)급이 잘린 수(평의회2-5 계기판 · 종전 정의 유지) · cut_vis = 병합·연속보도 진입분까지 포함한 누적 자격 컷
     kept = kept[:CAP]
     # 바이트 하드예산(평의회2·8 독립 수렴 260716): 건수 CAP 통과해도 직렬화가 MAX_BYTES 초과면 정렬 꼬리(2군 저cross)부터 기계적 제거 —
     #   api/candidates 1MB 초과 = 빈[] = 수집함 전체 텅빔(260714 사고)의 재발을 쓰기 지점이 직접 봉쇄(check_refs 1MB 가드 = WARN-only + 스크랩 자동커밋은 게이트 밖 = 이빨 없음 실측).
@@ -585,7 +637,8 @@ def main():
     while kept and len(blob.encode("utf-8")) > MAX_BYTES:
         over = len(blob.encode("utf-8")) - MAX_BYTES
         drop = max(1, over // 1600)   # 평균 엔트리 ~1.3KB — 보수 나눔(1.6KB)으로 과컷 방지 · 부족분은 재실측 루프가 마저 컷
-        cut_cum += sum(1 for c in kept[-drop:] if (c.get("cross") or 0) >= 8)
+        a, b, f = _cuts(kept[-drop:])
+        cut_cum, cut_vis, cut_46 = cut_cum + a, cut_vis + b, cut_46 + f
         del kept[-drop:]
         trimmed += drop
         blob = json.dumps(kept, ensure_ascii=False)
@@ -604,7 +657,10 @@ def main():
           f"보관한도 {CAP} · 보관기간 {TTL_HOURS}h(약 {TTL_HOURS // 24}일) · 교차≥{MIN_CROSS} · "
           f"🚨속보후보(burst≥{BREAKING_BURST}) {nbreak}건 · 단독1보 입장 {solo_in}건(보유 {sum(1 for c in kept if is_solo(c))}) · "
           f"신선1군 {len(t1)}건(최소 cross {t1min}) · 바이트예산 {len(blob.encode('utf-8'))}B/{MAX_BYTES}B 트림 {trimmed}건"
-          + (f" · ⚠️ 누적급(cross≥8) 컷 {cut_cum}건" if cut_cum else ""))
+          + (f" · 비노출 {FAST_MAX_H}~{FRESH_KEEP_H}h 신선 컷 {cut_46}건" if cut_46 else "")
+          + (f" · ⚠️ 누적급(cross≥8) 컷 {cut_cum}건" if cut_cum else "")
+          + (f" · ⚠️ 누적 자격 컷 {cut_vis}건" if cut_vis else "")
+          + ("" if visible_order else " · 컷 순서=종전 2군(" + ("레버 OFF" if not CUT_VISIBLE else "누적 미러 import 실패") + ")"))
 
 
 if __name__ == "__main__":
