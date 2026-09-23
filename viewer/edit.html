@@ -1342,7 +1342,10 @@ function pvSync(){
     if(pv.hidden) return;
     const srcW=vv.videoWidth||16, srcH=vv.videoHeight||9, srcAr=srcW/srcH;
     const ar = ON.screen? (AR_NUM[P.ar]||srcAr) : srcAr;
-    const box=$('#pvBox'), maxW=pv.clientWidth||300, maxH=Math.min(Math.round(window.innerHeight*.29), 300);   // 높이 캡 = 쉘 정본 min(29svh,300px) 미러(CII 「합성 미리보기 쉘」 · 운영자 260716 — 구 .46 무상한 = thumb 46svh/340 시절 짝) · innerHeight = JS의 svh 근사(주소창 변동분은 sticky라 체감 미미)
+    /* (260923) 창 안 높이 캡 추가(운영자 "한 수 ㄱㄱ 폰 미리보기 잘림 고쳐줘") — 미리보기 창(.cpprev-box)은 폭 = min(52%, 29svh, 300px) 정사각이라 폰에선 52% 가 먼저 걸려
+       창이 29svh 보다 작아진다(412폭 창 198 vs 캔버스 265 = 위아래 34.7px 잘림 · 위치 0 자막 0% 보임). 캔버스 높이를 창 안 높이(슬롯 − 스테이지 테두리)로도 막는다 = 창 모양(카드 제작 정본 1:1)은 그대로
+       · 슬롯이 0(접힘 등)이면 종전 캡만 · 돋보기(창 확대)는 창이 종전 캡보다 커서 무변화 */
+    const box=$('#pvBox'), maxW=pv.clientWidth||300, fitH=Math.floor(slot.getBoundingClientRect().height)-(pv.offsetHeight-pv.clientHeight), maxH=Math.min(Math.round(window.innerHeight*.29), 300, fitH>0?fitH:Infinity);   // 높이 캡 = 쉘 정본 min(29svh,300px) 미러(CII 「합성 미리보기 쉘」 · 운영자 260716 — 구 .46 무상한 = thumb 46svh/340 시절 짝) · innerHeight = JS의 svh 근사(주소창 변동분은 sticky라 체감 미미)
     const bw=Math.max(80, Math.min(maxW, Math.round(maxH*ar))), bh=Math.max(80, Math.round(bw/ar));
     box.style.width=bw+'px'; box.style.height=bh+'px';
     const pp=document.getElementById('pvPre'); if(pp) pp.style.left=Math.max(0, Math.round((pv.clientWidth-bw)/2))+12+'px';   // 프리셋 오버레이 = 영상(캔버스) 좌변+12px 정렬(운영자 260712 2차 "영상 테두리와 마진 유지·딱 붙이지 마" — 캔버스 중앙정렬 잔여폭/2 + --sp-2 동값)

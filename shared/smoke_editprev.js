@@ -12,7 +12,7 @@
 //   · 생성버튼 ✓ 단계 높이 동결(게이지 튐 0 · Q402)
 //
 // 원커맨드:  node shared/smoke_editprev.js          (종료코드 0 = 코어 전부 PASS)
-// 티어: 코어 10종 단일(대기 티어 없음 — 전건 오늘 계약 · C10 자막 미리보기 러너 미러 = 260923)
+// 티어: 코어 11종 단일(대기 티어 없음 — 전건 오늘 계약 · C10 자막 미리보기 러너 미러 · C11 폰 캔버스 잘림 0 = 260923)
 // 리스크 통제: 기하(rect)+computedStyle+이벤트(filechooser)만 — 스크린샷 베이스라인 diff 금지 ·
 //   첨부 픽스처 = 브라우저 내 캔버스 녹화 webm(외부 파일·ffmpeg 의존 0 = 환경 무관 결정론) ·
 //   라이브 코드 무접촉(DataTransfer 주입 = 실 change 파이프 그대로) · 서버 자체 종료(잔류 0)
@@ -141,6 +141,12 @@ function chk(name, pass, detail) { R.push({ name, pass, detail }); console.log((
     chk('C5 첨부 → 미리보기 스왑(빈 상태 숨김·교체/삭제 노출·원본비 재현 ±0.03)',
       att.pv && att.pe && att.sw && att.dl && att.badge && Math.abs(att.ar - 320 / 568) <= 0.03,
       'pv ' + att.pv + ' · 배지 ' + att.badge + ' · AR ' + att.ar + ' (기대 ' + (320 / 568).toFixed(3) + ')');
+
+    // C11 캔버스 = 미리보기 창 안(운영자 260923 "폰 미리보기 잘림 고쳐줘") — 412폭 = 창(정사각 min(52%,29svh,300px))이 29svh 보다 작아지는 폰 폭 · 구 = 9:16 캔버스 위아래 34.7px 잘림
+    const fit = await pg.evaluate(() => { const w = document.querySelector('.cpprev-box').getBoundingClientRect(), c = document.getElementById('pvBox').getBoundingClientRect();   // seal-ok: C11 단독 계측(이 스모크 담당 표면)
+      return { top: +(w.top + 1 - c.top).toFixed(2), bot: +(c.bottom - (w.bottom - 1)).toFixed(2), cw: +c.width.toFixed(1), ch: +c.height.toFixed(1), wh: +w.height.toFixed(1) }; });
+    chk('C11 미리보기 캔버스 = 창 안(412폭 · 위아래 잘림 ≤0.5px)', fit.top <= 0.5 && fit.bot <= 0.5,
+      '캔버스 ' + fit.cw + '×' + fit.ch + ' · 창 ' + fit.wh + ' · 넘침 위 ' + fit.top + ' / 아래 ' + fit.bot);
 
     // C10 자막 미리보기 = 러너 미러(운영자 260923 "미리보기 글자 크기 맞춰줘") — 글자 = 크기 ÷ 폰트 줄 높이 비(libass 윈 정규화) · 굵기 = 러너 Bold ·
     //   강조어 = 줄과 같은 굵기 · 박스 = 높이 fs×(1+pad)(보이는 경계 = 그라데 잘라낸 뒤) — 구 산식(font-size = fs · 800)으로 돌아가면 여기서 잡힌다
