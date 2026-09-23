@@ -288,7 +288,11 @@ const BADGE_MAX_AGE_H = 24;   // 배지(⚡이슈)·OUT 완화 공용 소멸선(
 const CROSS_MIN = 8;   // 누적 진입선 = 8개 매체 이상(운영자 260617: 5→8 엄선 — 어중간한 건 컷·DB엔 잔존). renderScrap(진입·OUT 통계)·fbJunk veto 공용 — 함수 로컬이던 것을 top-level 승격해 fbJunk의 맨 리터럴 8 제거(의미 같은 값 이중 정의 봉합·분신술 260710). 조정 가능.
 const FRESH_UNFOLD_H = 1.5;   // 신선 접기 면제 나이(h) — 이보다 어린 기사는 검증대기 접기 비대상(운영자 260710 "30분 전 기사" 실시간성 · 조정 가능)
 const FAST_MAX_H = 4, FAST_HALF_H = 2;   // ⏱ 신규↔누적 칼럼 경계 = 발생 4h(운영자 정본 260617: 최신=나이<4h=화면 '3시간 전'까지 / 누적=나이≥4h='4시간 전'부터). 자리(칼럼)=신규·누적 / 사건(배지)=긴급=속보[breaking] = 별개 축 — 긴급 사건은 나이 들면 *자리만* 신규→누적로 이동(개념 불변). 이 한 상수가 최신진입·누적진입·속보핀·토스트·배지(🚨긴급↔⚡이슈)를 전부 결정 = 단일출처(드리프트 차단). FAST_HALF_H=하강 반감기. 조정 가능.
-const scFast = c => isBreaking(c) || ((c.cross || 0) >= 2 && !fbJunk(c));   // 신규 진입 = 구조 신호만(cross≥2 + fbJunk 잡음컷). grade 거부권 폐지(운영자 260720 "일단 모든 게 다 나오는 게 맞고 grade는 긴급용" — grade0이 월드컵 결승·영화 흥행 등 문화 전면 차단하던 사각 해소·구 260628 grade0 제외 조항 폐기). grade0 정리 = 검증대기 접기(cross≤3 접힘)+랭킹 가중(×0.5)이 담당 · 긴급 축(isBreaking g≥2)은 원목적(중대 속보 감지) 그대로.
+// 속보 1보 단독(운영자 260923 «속보로 뜨는 게 늦어버리는 점 = 제일 우선순위 · 혹시 아닐지라도 우선순위 요건에 들어가는 게 맞다») — 수집이 태그 단독 1보를 cross 1로 싣는다(정본 scraper/to_candidates.py SOLO_TAG_ON).
+//   판정 전이거나 긴급 아님으로 나와도 신규에 노출(핀·🚨은 종전대로 isBreaking만) · 정규식 = scraper/brk_tag.py BREAKING_TAG 사본(언어 경계 · 동기 = tests/test_solo_breaking.py).
+const BRK_TAG_RE = /\[\s*(속보|상보|긴급|1보)\s*\]|\(\s*1보\s*\)/;
+const soloTag = c => (c.cross || 0) < 2 && BRK_TAG_RE.test(c.title || '') && !fbJunk(c);
+const scFast = c => isBreaking(c) || ((c.cross || 0) >= 2 && !fbJunk(c)) || soloTag(c);   // 신규 진입 = 구조 신호만(cross≥2 + fbJunk 잡음컷). grade 거부권 폐지(운영자 260720 "일단 모든 게 다 나오는 게 맞고 grade는 긴급용" — grade0이 월드컵 결승·영화 흥행 등 문화 전면 차단하던 사각 해소·구 260628 grade0 제외 조항 폐기). grade0 정리 = 검증대기 접기(cross≤3 접힘)+랭킹 가중(×0.5)이 담당 · 긴급 축(isBreaking g≥2)은 원목적(중대 속보 감지) 그대로.
 const FOLLOW_W = 0.5;   // 연속보도 가점 가중 — 또 보도될수록↑(0.2→0.5·260628 Stage2 보름치 검증: §★ '연속보도 제일 무겁게'가 cross^POW에 묻히던 것 교정 — rank×연속보도 상관 0.098→0.162·호르무즈 선박 cr5·rc16이 26→12위). 조정 가능.
 // 연속보도 가점 = report_count(arts=기사 수 증가 사이클 = '또 보도됨', 같은 매체 1곳이여도 +1). seen_count(12h 윈도우 존재만으로도 올라 결함) 대체. 보도 끊기면 안 오름 → 시간 decay에 밀림(보도자료 자연 침몰).
 const scFollow = c => 1 + FOLLOW_W * Math.log2(1 + (c.report_count || 0));

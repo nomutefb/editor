@@ -1,7 +1,7 @@
 {
   "_doc": "수집함 상태 고정 픽스처(운영자 260803 승인) — 라이브 데이터에 '지금' 없는 상태(긴급<4h·Failed·Picking 등)를 렌더·캡처하려고 검증자가 매번 가짜 DOM을 손으로 심던 것을 대체한다. 실측 사고 = 260803 Failed 칩 검증에서 임시 span 을 심어 캡처했더니 정본(폭 전체 빗금 Failed + ✓)과 생김새가 달랐다. ⚠️ 이건 기계산출물이 아니라 **사람이 쓴 테스트 자산** = 손편집 정상(값 바꾸면 그게 곧 새 시나리오).",
   "_usage": "node shared/fixture_shot.js  → docs/_shots/fixture/*.png + 상태별 렌더 판정표",
-  "_states": "brk(긴급<4h) · iss(이슈) · failed(Failed+✓) · picking(Picking…) · settled(PICKED) · plain(트리아지 PASS/PICK)",
+  "_states": "brk(긴급<4h) · iss(이슈) · failed(Failed+✓) · picking(Picking…) · settled(PICKED) · plain(트리아지 PASS/PICK) · solo(속보 태그 단독 1보·판정 전 = 매체 1곳 · 260923)",
   "candidates": [
     {
       "_state": "brk",
@@ -106,6 +106,19 @@
       "grade": 3,
       "report_count": 5,
       "_ageH": 6
+    },
+    {
+      "_state": "solo",
+      "id": "https://fixture.local/solo1",
+      "url": "https://fixture.local/solo1",
+      "title": "[속보] 삼척 덕풍계곡서 버섯 채취 간 2명 미귀가…구조대 출동",
+      "media": "연합뉴스",
+      "cat": "사회",
+      "cross": 1,
+      "burst": 1,
+      "arts": 1,
+      "breaking_candidate": true,
+      "_ageH": 0.2
     }
   ],
   "picksFailed": [

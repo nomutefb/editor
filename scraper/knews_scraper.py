@@ -84,8 +84,13 @@ STOPWORDS = {
     "적자", "전년", "대비", "규모", "달성",
 }
 
-FEED_DELAY = 0.4    # 피드 간 딜레이(초) — 서버 매너
+FEED_DELAY = 0.4    # 피드 간 딜레이(초) — 서버 매너(같은 호스트 안에서만 · 아래 FETCH_HOSTS)
 REQ_TIMEOUT = 10    # 요청 타임아웃(초)
+# 호스트 병렬 수집(260923 · 운영자 «속보로 뜨는 게 늦어버리는 점 = 제일 우선순위»): 169피드를 한 줄로 0.4초씩 쉬며 받아
+#   수집 한 바퀴가 슬롯 뒤 커밋까지 중앙 326초였다(실측 git 600회). 매너(FEED_DELAY)는 **같은 서버 안에서만** 지키고
+#   서로 다른 언론사 서버는 동시에 받는다 = 서버별 부하 불변 · 전체 벽시계 ≈ 가장 긴 한 호스트 줄(동아 17피드).
+#   기사 순서·중복제거·건강 원장은 feeds.csv 순서 그대로 조립(결과 결정성 불변). 롤백 = env KNEWS_FETCH_HOSTS=1(= 종전 직렬).
+FETCH_HOSTS = max(1, int(os.environ.get("KNEWS_FETCH_HOSTS", "16")))
 # 교차등장 판정: 핵심 명사 교집합이 이 개수 이상이면 같은 토픽으로 본다.
 # 2→3 (260616): inter=2 단일링크가 정치 공통어(이란·선관위·국힘…)로 무관 기사를 transitive
 # chaining → 거대블롭(실측 980개=45%·cross20). 3 요구하면 블롭 980→126·cross20→16, 후보는
@@ -262,6 +267,25 @@ def extract_image(entry):
     return None
 
 
+def prefetch(feeds):
+    """피드를 호스트별 줄로 나눠(줄 안 = 종전 직렬 + FEED_DELAY) 줄끼리 동시에 받는다. 반환 = feeds 순서의 parsed(None=실패)."""
+    from concurrent.futures import ThreadPoolExecutor
+    lanes = {}
+    for i, feed in enumerate(feeds):
+        lanes.setdefault(urlsplit(feed["url"]).netloc.lower(), []).append(i)
+    out = [None] * len(feeds)
+
+    def run(idx):
+        for k, i in enumerate(idx):
+            if k:
+                time.sleep(FEED_DELAY)
+            out[i] = fetch_feed(feeds[i])
+
+    with ThreadPoolExecutor(max_workers=FETCH_HOSTS) as ex:
+        list(ex.map(run, lanes.values()))
+    return out
+
+
 def collect(feeds, hours):
     """모든 피드를 긁어 기사 리스트 생성 (시간필터 + 중복제거). 피드별 건강(health) 원장도 함께 반환."""
     cutoff = datetime.now(timezone.utc) - timedelta(hours=hours)
@@ -270,9 +294,7 @@ def collect(feeds, hours):
     ok, dead = 0, 0
     health = []   # 피드별 {publisher,title,url,ok,n} — 죽은 피드가 stderr로만 사라지던 무음 드리프트 방지(260702)
 
-    for feed in feeds:
-        parsed = fetch_feed(feed)
-        time.sleep(FEED_DELAY)
+    for feed, parsed in zip(feeds, prefetch(feeds)):
         if parsed is None:
             dead += 1
             health.append({"publisher": feed["publisher"], "title": feed["title"],

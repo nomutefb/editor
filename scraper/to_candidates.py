@@ -12,6 +12,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from stock_filter import is_excluded_title  # 증권/시황 노이즈 제외(SSOT · 운영자 260701)
+from brk_tag import BREAKING_TAG  # 속보 제목 태그(SSOT · push_send·뷰어 BRK_TAG_RE와 공용 · 260923)
 
 ROOT = Path(__file__).resolve().parent.parent
 SRC = Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT / "scraper" / "out" / "articles.json"
@@ -26,7 +27,15 @@ FRESH_KEEP_H = int(os.environ.get("CAND_FRESH_KEEP_H", "6"))  # CAP 컷 1군 보
 MAX_BYTES = int(os.environ.get("CAND_MAX_BYTES", str(950 * 1024)))  # 직렬화 바이트 하드예산: api/candidates 1MB(MiB) 서빙 한도 방어(초과 = 빈[] = 수집함 전체 텅빔 260714). CAP(건수)와 별개 축 — 실측 800건 = 0.99MiB(잔여 1%↓)·신선건이 평균 +210B 무거워(cluster_members 상시 보유) 건수 불변에도 돌파 가능(평의회2 260716) → 컷 후 예산 초과분은 정렬 꼬리(2군 저cross)부터 기계적 제거.
 # ── 속보(velocity·태그) 1차 게이트 — burst(15분 내 동시 매체) OR [속보] 제목 태그. 2차 내용판정은 별도(Claude breaking_judge). ──
 BREAKING_BURST = int(os.environ.get("BREAKING_BURST", "3"))          # 속보 후보: burst 이 값 이상(다수 동시 보도)
-BREAKING_TAG = re.compile(r"\[\s*(속보|상보|긴급)\s*\]")             # 제목 태그 = 1~2매체여도 속보 후보 → AI 내용검증(언론고시 기자 = 낚시 안 씀)
+# 제목 태그([속보]·[상보]·[긴급]·[1보]·(1보)) = 1~2매체여도 속보 후보 → AI 내용검증(언론고시 기자 = 낚시 안 씀) · 정본 = scraper/brk_tag.py
+# ── 속보 1보 단독 입장(운영자 260923 «속보로 뜨는 게 늦어버리는 점 = 제일 우선순위 · 혹시 아닐지라도 우선순위 요건에 들어가는 게 맞다») ──
+# 교차 게이트(MIN_CROSS)가 태그 판별보다 먼저 걸려 한 매체만 쓴 1보는 두 번째 매체가 받아쓸 때까지 수집함에 못 들어왔다
+#   (실측 260923 = 속보 판정 32건 발행→첫등장 중앙 57분·꼬리 229분 · 남아공 총격 연합 16:18 → 수집함 18:49).
+# → 태그가 있고 발행 SOLO_MAX_H 안이면 cross 미달이어도 입장. 거르기는 기존 AI 라인 그대로(breaking_candidate → 속보 판정·경중 채점).
+# 발행 SOLO_MAX_H 가 지나도 두 번째 매체가 안 붙고 판정도 긴급이 아니면 폐기(수집함 누적 칼럼·CAP 예산 무접촉).
+# 롤백 = CAND_SOLO_TAG=0(다음 회차에 미확정 단독분 정리 · 확정 긴급분은 종전 긴급 보존 규칙대로 남음).
+SOLO_TAG_ON = os.environ.get("CAND_SOLO_TAG", "1").strip().lower() not in ("0", "false", "no", "off")
+SOLO_MAX_H = float(os.environ.get("CAND_SOLO_MAX_H", "6"))
 MEGA_MEMBERS = int(os.environ.get("BREAKING_MEGA_MEMBERS", "40"))    # 멤버 이상 = over-merge 의심 → 속보 제외
 MEGA_CROSS = int(os.environ.get("BREAKING_MEGA_CROSS", "18"))        # 누적 매체 이상 = over-merge 의심 → 속보 제외
 # grade3(대형 경중) 신선건 속보후보 승격 — burst<3 저속 새사고(어린이집 황화수소 등) 구제. 첫등장 N시간 내만.
@@ -56,6 +65,27 @@ def _lb_age_h(iso, now):
     if t.tzinfo is None:
         t = t.replace(tzinfo=timezone.utc)
     return (now - t).total_seconds() / 3600
+
+
+def _solo_age_h(published, first_seen, now):
+    """단독 입장 나이(h) = 발행 기준. 발행이 미래(매체 TZ 오기록 — 프레시안 등 KST를 +00:00로 박음)면 뷰어 scTs와 같게
+    first_seen(없으면 지금=0h)으로 대체. 발행 결측·파싱 실패 = None(입장 안 함 = 보수 · 옛 기사 재수집 위장 차단)."""
+    if not published:
+        return None
+    age = _lb_age_h(published, now)
+    if age == float("inf"):
+        return None
+    if age >= -0.1:
+        return age
+    if not first_seen:
+        return 0.0
+    fa = _lb_age_h(str(first_seen).replace("+0900", "+09:00"), now)
+    return 0.0 if fa == float("inf") else max(0.0, fa)
+
+
+def is_solo(c):
+    """단독 입장분 = 교차 MIN_CROSS 미달 엔트리(구판에선 존재 불가 — 태그 단독 입장만이 만든다)."""
+    return (c.get("cross") or 0) < MIN_CROSS
 
 
 def carry_lb(prev, c, entry, now):
@@ -250,22 +280,32 @@ def main():
     # 기존 후보(url → entry) — first_seen(등장시각) 보존해 TTL 누적
     existing = {c["url"]: c for c in load_json(DST, []) if isinstance(c, dict) and c.get("url")}
 
-    # 신규 = 클러스터 대표 + 교차 MIN_CROSS 이상
+    # 신규 = 클러스터 대표 + (교차 MIN_CROSS 이상 OR 속보 태그 단독 1보[SOLO_TAG_ON · 발행 SOLO_MAX_H 내])
     fresh = {}
+    solo_in = 0
     for a in arts:
         if not a.get("is_cluster_rep"):
-            continue
-        if (a.get("cross_score") or 0) < MIN_CROSS:
             continue
         url = a.get("link") or ""
         if not url:
             continue
+        bp = a.get("breaking_pick") or {}   # 메이저 픽(PICK_PRIORITY 조선>…>연합) — 다수 보도 시 제일 메이저를 대표 표시(미디어오늘 등 군소 대신). url/dedup 은 최초보도 유지.
+        has_breaking_tag = bool(BREAKING_TAG.search((a.get("title") or "") + " " + (bp.get("title") or "")))   # 제목 [속보]/[상보]/긴급 = 속보 확률↑(언론고시 기자는 낚시 안 씀) → breaking 후보로 AI 내용검증
+        if (a.get("cross_score") or 0) < MIN_CROSS:
+            # 단독 1보 입장 — 태그 + 신선만. 이미 다매체로 본 사건(prev cross≥MIN)이 클러스터 재분할로 1이 된 경우는 종전대로 건너뜀(cross 역행 방지).
+            if not (SOLO_TAG_ON and has_breaking_tag):
+                continue
+            prev0 = existing.get(url) or {}
+            if prev0 and not is_solo(prev0):
+                continue
+            sa = _solo_age_h(a.get("published"), prev0.get("first_seen"), now)
+            if sa is None or sa >= SOLO_MAX_H:
+                continue
+            solo_in += 1
         burst = a.get("burst") or 0
         cross = a.get("cross_score") or 0
         size = a.get("cluster_size") or 0
         mega = size > MEGA_MEMBERS or cross > MEGA_CROSS   # over-merge 의심(대표 신뢰 불가)
-        bp = a.get("breaking_pick") or {}   # 메이저 픽(PICK_PRIORITY 조선>…>연합) — 다수 보도 시 제일 메이저를 대표 표시(미디어오늘 등 군소 대신). url/dedup 은 최초보도 유지.
-        has_breaking_tag = bool(BREAKING_TAG.search((a.get("title") or "") + " " + (bp.get("title") or "")))   # 제목 [속보]/[상보]/긴급 = 속보 확률↑(언론고시 기자는 낚시 안 씀) → breaking 후보로 AI 내용검증
         fresh[url] = {
             "id": url, "url": url,
             "title": bp.get("title") or a.get("title") or "",
@@ -301,8 +341,12 @@ def main():
         if not cm or _is_mega(c):
             return []
         hits = []
+        solo_hits = []   # 단독 1보 흡수(260923): 멤버 1~소수라 공유≥ALIAS_MIN_SHARED 를 구조적으로 못 넘음 → 자기 url 이 새 클러스터 멤버면 같은 사건.
         for u, e in alias_pool:
             if u == self_url or u in fresh or u in claimed:   # 자기·살아있는 rep·이미 흡수 제외
+                continue
+            if is_solo(e) and u in cm:
+                solo_hits.append(u)   # 종전 별칭 후보 뒤에 붙임 = 기존 승계 우선순위 불변 · 단독뿐이면 1보의 first_seen·event_key 승계(푸시 중복 차단)
                 continue
             shared = len(cm & _members(e))
             if shared < ALIAS_MIN_SHARED:
@@ -312,9 +356,9 @@ def main():
                 continue
             hits.append((jac, u))
         hits.sort(key=lambda t: (-t[0], t[1]))    # jac 내림차·url 사전 = 결정적
-        for _, u in hits:
-            claimed.add(u)
-        return [u for _, u in hits]
+        out = [u for _, u in hits] + sorted(solo_hits)
+        claimed.update(out)
+        return out
 
     merged = dict(existing)
     superseded = {}   # 흡수된 옛 url → 살아남는 url(회수 대상)
@@ -356,6 +400,15 @@ def main():
     for old_url in superseded:
         if old_url not in fresh:
             merged.pop(old_url, None)
+
+    # 단독 1보가 *기존* 다매체 후보에 합류(rep url 이 이미 있던 것 = 위 별칭 경로 밖) — 같은 기사가 두 카드로 남지 않게 회수.
+    #   발생 1보 제목은 knews lb(최신 국면 멤버)로 그 클러스터 판정 입력에 실린다(260913 정본) = 긴급 신호 소실 없음.
+    member_of = set()
+    for url, c in fresh.items():
+        if not _is_mega(c):
+            member_of.update(m for m in _members(c) if m != url)
+    for u in [u for u, e in merged.items() if u not in fresh and is_solo(e) and u in member_of]:
+        merged.pop(u, None)
 
     def _ts(s):   # 관용 타임스탬프 파서(260710) — Z 접미·naive(KST 가정 = 자기 기록분) 허용 + strptime %z 폴백.
         s = str(s)                     # 실데이터 지배 포맷 = '+0900' 무콜론(9,000개 전수 실측): fromisoformat은 3.11+ 전용 문법이라
@@ -427,8 +480,17 @@ def main():
             return 0.0   # 실패 = 나이 0 = 보존 방향(의도적) — 만료 방향(999)이면 파서 전면 고장 시 풀 전체가 한 런에 증발.
                          #   개별 손상 엔트리의 영생은 CAP(cross 정렬 상위 유지)이 바운드 · _ts 관용화가 실패 확률 자체를 축소(260710).
 
+    def solo_expired(c):   # 단독 1보 = 발행 SOLO_MAX_H 안에 두 번째 매체가 안 붙고 긴급 확정도 아니면 폐기(롤백 레버 OFF = 미확정 단독 즉시 정리)
+        if not is_solo(c) or c.get("breaking"):
+            return False
+        if not SOLO_TAG_ON:
+            return True
+        sa = _solo_age_h(c.get("published"), c.get("first_seen"), now)
+        return sa is None or sa >= SOLO_MAX_H
+
     kept = [c for c in merged.values()
-            if age_h(c) <= TTL_HOURS and not is_excluded_title(c.get("title") or "")]   # 증권/시황 노이즈 = 기존 수집분도 정리(운영자 260701)
+            if age_h(c) <= TTL_HOURS and not is_excluded_title(c.get("title") or "")   # 증권/시황 노이즈 = 기존 수집분도 정리(운영자 260701)
+            and not solo_expired(c)]
     def _age_h_first(*cands):   # 첫 '파싱 성공' 후보의 나이(h) — 빈값·쓰레기 포맷은 다음 후보로 넘어가 폴백을 살림(평의회1 260716: truthy 쓰레기 published가 or-체인에서 first_seen 폴백을 차단하던 구멍). 전부 실패 = None.
         for v in cands:
             if not v:
@@ -470,7 +532,7 @@ def main():
     t1min = min(((c.get("cross") or 0) for c in t1), default=0)
     print(f"수집함: 사건 {len(kept)}건 (신규 {len(fresh)} · 기존 {len(existing)}) · "
           f"보관한도 {CAP} · 보관기간 {TTL_HOURS}h(약 {TTL_HOURS // 24}일) · 교차≥{MIN_CROSS} · "
-          f"🚨속보후보(burst≥{BREAKING_BURST}) {nbreak}건 · "
+          f"🚨속보후보(burst≥{BREAKING_BURST}) {nbreak}건 · 단독1보 입장 {solo_in}건(보유 {sum(1 for c in kept if is_solo(c))}) · "
           f"신선1군 {len(t1)}건(최소 cross {t1min}) · 바이트예산 {len(blob.encode('utf-8'))}B/{MAX_BYTES}B 트림 {trimmed}건")
 
 

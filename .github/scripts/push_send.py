@@ -50,6 +50,22 @@ def push_opts(kind):
     urgency = "high" if (kind or "brk") in URGENT_KINDS else "normal"
     return {"ttl": PUSH_TTL_S, "headers": {"Urgency": urgency}}
 PUSH_MIN_CROSS = int(os.environ.get("PUSH_MIN_CROSS", "2"))   # 푸시 최소 교차매체(다매체 검증 = 오발송 가드 · MIN_CROSS 바뀌어도 푸시 하한 고정). 3→2 복귀(운영자 260917 «breaking·grade≥2·cross 2여도 긴급 요건 · cross 의존도를 낮춘다 · 타이트하게 쪼이는 건 다른 축[brk_gates·루브릭]에서» — 같은 날 2→3 상향은 화면 🚨는 켜졌는데 3번째 매체가 붙을 때까지 푸시가 최대 4h 밀리는 시차를 만들었다[실측 260917 우주소녀 건 15:05 감지·16:40 발송]). 조이려면 env PUSH_MIN_CROSS=3
+# 단독 1보 푸시(운영자 260923 «속보로 뜨는 게 늦어버리는 점 = 제일 우선순위»): 교차 미달이어도 제목 속보 태그(정본 scraper/brk_tag.py)면
+#   발송 후보 — 나머지 문턱(속보 판정 YES ∧ 경중 채점 ≥2 ∧ 4h/8h 창 ∧ 사건 dedup)은 그대로 = AI 두 겹 + 기자 태그. 두 번째 매체를 기다리던
+#   시차(실측 발행→푸시 154·229분 2건)의 구조 원인 제거. 롤백 = env PUSH_SOLO_TAG=0(종전 = cross≥PUSH_MIN_CROSS만).
+PUSH_SOLO_TAG = os.environ.get("PUSH_SOLO_TAG", "1").strip().lower() not in ("0", "false", "no", "off")
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent / "scraper"))
+from brk_tag import has_breaking_tag  # noqa: E402
+
+
+def push_cross_ok(c):
+    """다매체 검증 문턱 — cross≥PUSH_MIN_CROSS, 또는 속보 태그 단독 1보(PUSH_SOLO_TAG)."""
+    cr = c.get("cross") or 0
+    if cr >= PUSH_MIN_CROSS:
+        return True
+    return PUSH_SOLO_TAG and cr >= 1 and has_breaking_tag(c.get("title"), (c.get("breaking_pick") or {}).get("title"))
+
+
 PUSH_PUB_MAX_H = float(os.environ.get("PUSH_PUB_MAX_H", "8"))   # 발행 나이 상한 — 24→8h 조임(운영자 260722 · 실측: 재수집 뒷북 3발[발행 19.5~24h·first_seen 방금]이 24h 캡을 통과해 오발송 — 8h = 구주석 '8~12h 조임' 하단 = 관측 오발 전부 차단 + syndication 지연(4h+) 2배 완충). first_seen 전환의 뒷북 완충. ⚠️ 입력 = 현재 rep 기사 발행 나이(사건 나이 아님 · 검4-3)
 SENT_TTL_H = float(os.environ.get("PUSH_SENT_TTL_H", "48"))   # 발송 원장 TTL — 무기한이면 '北 미사일 발사'류 템플릿 반복 헤드라인의 *별개 새 사건*이 제목해시 충돌로 영구 오억제(분신술 260710 검증6 · autopick.json 48h 정리와 대칭)
 SENT_EV = ROOT / "push" / "sent_events.json"   # 발송 사건 시그니처 [{ts,title,key}] — 사건 단위 dedup(같은 실제 사건의 *다른 후속 기사* 재푸시 차단 · Q437 운영자 260722 "같은 사건이면 한 번만" · autopick_events.json 쌍둥이). 창 = SENT_TTL_H 재사용.
@@ -397,7 +413,7 @@ def main():
         for c in cands:
             if not is_breaking(c):
                 continue
-            if (c.get("cross") or 0) < PUSH_MIN_CROSS:   # 다매체 검증 미달 = 오발송 가드(푸시는 회수 불가)
+            if not push_cross_ok(c):   # 다매체 검증 미달(단독 1보 태그 예외 · 260923) = 오발송 가드(푸시는 회수 불가)
                 continue
             a = age_h(c)
             if a is None or a < 0 or a >= FAST_MAX_H:   # a<0 = 미래스탬프(소스 TZ 오기록) → 음수나이가 4h창 통과해 비가역 오발송하던 구멍 차단(뷰어 scTs 미래가드와 짝)
