@@ -261,9 +261,9 @@ async function openDeepLink(tries = 0) {
 //   요약 완료 = 그 요약창 / 미완료 = 스크랩 기사 중 가장 메이저 링크(breaking_pick)로 이동(웹앱 먼저 뜬 뒤 이동).
 //   ⚠️ 요약을 *기다리지 않음* = 누른 그 순간 기준(요약 안 됐으면 즉시 메이저 원문). 후보(candidates) 못 찾을 때만
 //   짧게 재시도(스크랩 랙) 후 bl 폴백→수집함. ?a=(요약완료 알림)와 별개 핸들러(그건 요약 전용·장기 재시도).
-async function openBreakingDeepLink(tries = 0, key = null, bl = null, act = null) {
+async function openBreakingDeepLink(tries = 0, key = null, bl = null) {
   if (tries === 0) {
-    try { const sp = new URLSearchParams(location.search); key = sp.get('brk'); bl = sp.get('bl'); act = sp.get('act'); } catch (_) {}
+    try { const sp = new URLSearchParams(location.search); key = sp.get('brk'); bl = sp.get('bl'); } catch (_) {}
     if (!key && !bl) return;
     if (bl && !/^https?:\/\//i.test(bl)) bl = null;   // bl 스킴 가드 — URL 쿼리서 raw로 들어오므로 javascript:/data: 차단(분신술3·10)
     // 딥링크 파라미터를 *먼저* URL서 제거(replaceState) = 새로고침 재진입 방지(+동일탭 폴백 시 BACK 무한루프 차단).
@@ -274,28 +274,65 @@ async function openBreakingDeepLink(tries = 0, key = null, bl = null, act = null
   // 후보(candidates.json) 적재 대기 — eager loadCandidates()가 in-flight면 SCRAP_LOADING 가드로 즉시 반환되므로
   //   SCRAP_LOADED 플립까지 짧게 폴(분신술2·3·7 = 첫 탭 ~1.2s 헛 백오프 제거).
   for (let i = 0; i < 12 && !SCRAP_LOADED; i++) { try { await loadCandidates(true); } catch (_) {} if (!SCRAP_LOADED) await new Promise(r => setTimeout(r, 200)); }
-  const nk = key ? _normU(key) : '';
-  const c = key ? CANDS.find(x => x && (x.event_key === key || x.url === key || (x.url && _normU(x.url) === nk) || (x.event_key && _normU(x.event_key) === nk))) : null;
-  if (c) { if (act === 'pick') pickFromPush(c); else goBreaking(c, bl); return; }   // PICK 버튼 = 바로 PICK / 본문 탭 = 요약 완료?→요약창 · 미완료→가장 메이저 원문(새 탭·앱 보존)
+  const c = key ? findPushCand(key, bl) : null;
+  if (c === 'ambig') { goBreaking(null, bl); return; }   // 같은 키 후보 여럿 = 엉뚱한 요약창 대신 서버가 짚은 메이저 원문
+  if (c) { goBreaking(c, bl); return; }   // 요약 완료?→요약창 / 미완료→가장 메이저 원문(새 탭·앱 보존)
   if (tries >= 8) {   // 후보 못 찾음(스크랩 랙·만료) — bl(서버 계산 메이저링크) 폴백, 없으면 수집함
-    if (act === 'pick') { showTab('scrap'); if (typeof qFlash === 'function') qFlash('PICK 실패 — 수집함에서 이 기사를 못 찾았어'); return; }   // PICK 버튼인데 원문으로 튀면 픽이 안 된 걸 모른다
     if (bl) { openExt(bl); return; }
     showTab('scrap'); if (typeof qFlash === 'function') qFlash('긴급 기사 불러오는 중…'); return;
   }
   await new Promise(r => setTimeout(r, Math.min(1200 + tries * 600, 4500)));   // 후보 적재 짧은 백오프(요약을 기다리는 게 아님)
   try { await loadCandidates(true); } catch (_) {}
-  return openBreakingDeepLink(tries + 1, key, bl, act);
+  return openBreakingDeepLink(tries + 1, key, bl);
 }
-// 알림 PICK 버튼(운영자 260924 «푸시에서 바로 PICK») — 수집함 PICK 과 같은 발사(applyTriage) · 사유 = 알림 종류(긴급 = 속보/사건 · 이슈 = 토픽/논란).
-//   이미 요약 완료 = 요약창 · 이미 PICK 진행 = 중복 발사 없이 안내만(파이프라인 과금 2중 방지).
-function pickFromPush(c) {
+// 알림 딥링크 키 → 후보 1건(검토 260924: 한 번의 find 가 event_key·url 을 같이 보면 event_key 를 공유한 **다른 사건**이 먼저 걸렸다 —
+//   본문 탭은 엉뚱한 기사를 열 뿐이지만 PICK 은 엉뚱한 기사에 과금 분석을 건다). url 유일 일치 우선 → event_key → 둘 이상이면 bl(메이저 링크)로 좁힘 → 그래도 여럿 = 'ambig'.
+function findPushCand(key, bl) {
+  const nk = _normU(key);
+  const byUrl = CANDS.filter(x => x && (x.url === key || (x.url && _normU(x.url) === nk)));
+  const pool = byUrl.length ? byUrl : CANDS.filter(x => x && (x.event_key === key || (x.event_key && _normU(x.event_key) === nk)));
+  if (pool.length === 1) return pool[0];
+  if (pool.length > 1 && bl) { const b = pool.filter(x => scLinkUrl(x) === bl || (x.breaking_pick && x.breaking_pick.url === bl)); if (b.length === 1) return b[0]; }
+  return pool.length ? 'ambig' : null;
+}
+// 알림 PICK 버튼(운영자 260924 «푸시에서 바로 PICK») — SW가 보관한 요청만 발사(주소 쿼리만으로는 발사 0 = 외부 링크 무확인 과금 차단).
+//   수집함 PICK 과 같은 발사(applyTriage) · 사유 = 알림 종류(긴급 = 속보/사건 · 이슈 = 토픽/논란) · 이미 요약 = 요약창 · 이미 PICK = 안내만.
+let _pickReqBusy = false;
+async function takePickReqs() {
+  const sw = navigator.serviceWorker && navigator.serviceWorker.controller;
+  if (!sw || typeof MessageChannel === 'undefined') return [];
+  return new Promise(res => {
+    const ch = new MessageChannel(); const t = setTimeout(() => res([]), 4000);
+    ch.port1.onmessage = e => { clearTimeout(t); res(Array.isArray(e.data) ? e.data : []); };
+    try { sw.postMessage({ type: 'nm-pickreq-take' }, [ch.port2]); } catch (_) { clearTimeout(t); res([]); }
+  });
+}
+async function processPickReqs() {
+  if (_pickReqBusy) return; _pickReqBusy = true;
+  try { for (const r of await takePickReqs()) await pickFromReq(r); } catch (_) {} finally { _pickReqBusy = false; }
+}
+async function pickFromReq(r, tries = 0) {
+  for (let i = 0; i < 12 && !SCRAP_LOADED; i++) { try { await loadCandidates(true); } catch (_) {} if (!SCRAP_LOADED) await new Promise(z => setTimeout(z, 200)); }
+  const c = findPushCand(r.brk, r.bl || '');
+  if (c === 'ambig') { showTab('scrap'); qFlash('PICK 보류 — 같은 사건 후보가 여럿이라 수집함에서 직접 골라줘'); return; }
+  if (!c) {
+    if (tries < 8) { await new Promise(z => setTimeout(z, Math.min(1200 + tries * 600, 4500))); try { await loadCandidates(true); } catch (_) {} return pickFromReq(r, tries + 1); }
+    showTab('scrap');
+    qFlash(!CAND_LIVE ? 'PICK 못 함 — 수집함 최신 목록을 못 받았어(접속 확인 뒤 수집함에서 PICK)' : 'PICK 못 함 — 수집함에 아직 없어(수집 지연 · 잠시 뒤 수집함에서 PICK)');
+    return;
+  }
+  pickFromPush(c, r.kind);
+}
+function pickFromPush(c, kind) {
   if (scFeedArticle(c)) { showTab('feed'); pickedOpen(c); return; }
   showTab('scrap');
-  if (pickState(c)) { qFlash('이미 PICK한 기사야'); return; }
+  const ps = pickState(c);
+  if (ps === 'failed') { qFlash('이 기사 PICK이 실패 상태야 — 수집함 카드에서 다시 시도해줘'); return; }
+  if (ps) { qFlash('이미 PICK한 기사야'); return; }
   const el = [...document.querySelectorAll('.sc-item')].find(x => x.dataset.cid === candId(c)) || null;
   if (el) el.scrollIntoView({ block: 'center' });
-  applyTriage('pick', c, el, isBreaking(c) ? '속보/사건' : '토픽/논란', '알림 PICK');
-  qFlash('PICK 접수 — 요약 시작');
+  applyTriage('pick', c, el, kind === 'iss' ? '토픽/논란' : '속보/사건', '');
+  qFlash('PICK 보내는 중…');   // 접수 ≠ 실행(CLAUDE.md) — 서버 거절·로그인 만료는 applyTriage 가 되돌리고 알린다
 }
 
 // 수집 실패 알림 딥링크 — 푸시(/?msg=fail-…) 탭 시 메시지함 열고 해당 메시지 강조(운영자 260623).
@@ -317,7 +354,9 @@ const _bannerReady = new Promise(res => {
   if (!im || im.complete) { res(); return; }
   im.addEventListener('load', res, { once: true }); im.addEventListener('error', res, { once: true });
 });
-const _firstLoad = load().then(() => { openDeepLink(); openBreakingDeepLink(); });   // 첫 로드 후 딥링크 — ?a=(요약완료)→요약창 · ?brk=(긴급)→요약완료?분기
+const _firstLoad = load().then(() => { openDeepLink(); openBreakingDeepLink(); processPickReqs(); });
+try { const _u = new URL(location.href); if (_u.searchParams.has('act')) { _u.searchParams.delete('act'); history.replaceState(history.state, '', _u.pathname + _u.search + _u.hash); } } catch (_) {}   // act = SW 새 창 표식일 뿐(발사 근거 아님)
+try { navigator.serviceWorker && navigator.serviceWorker.addEventListener('message', e => { if (e.data && e.data.type === 'nm-pickreq') processPickReqs(); }); } catch (_) {}   // 열린 앱 = 새로고침 없이 보관 요청 처리   // 첫 로드 후 딥링크 — ?a=(요약완료)→요약창 · ?brk=(긴급)→요약완료?분기
 Promise.allSettled([_firstLoad, _bannerReady]).then(_bootReveal);   // 피드·배너 준비되면 즉시 노출(실패해도 allSettled로 진행 · render는 load 안에서 동기 완료라 rAF 불필요·백그라운드 탭서 rAF 멈춰도 안전)
 // 검색·필터(viewhead) = *지금 보이는 탭*의 실제 콘텐츠와 동시 등장(운영자 260707 "미리 마중나오지 마" · 260710 "실제 내용하고 동시에 출력").
 //   구판 구멍 2개 봉합(260710 스샷 = 레거시 빈 화면에 검색만 선등장): ① 세 컨테이너 아무거나 감지 — 부팅 load()가 숨은 피드(#list)를 먼저 채우면

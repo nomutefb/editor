@@ -206,7 +206,7 @@ function applyTriage(act, c, el, reason, text) {
     // alt = 같은 사건 다른 매체 url(cluster_members) — 원매체가 막힌 매체(403)면 분석기가 접근 가능한
     // 대체매체로 본문 확보(item3). 원 url 제외·정규화 중복제거·최대 8개(dispatch 페이로드 절제).
     const alt = pickAlt(c).slice(0, 8);
-    fetch('api/pick', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ url: c.url, title: c.title || '', alt, event_key: c.event_key || '' }) })
+    fetch('api/pick', { method: 'POST', keepalive: true, headers: { 'content-type': 'application/json' }, body: JSON.stringify({ url: c.url, title: c.title || '', alt, event_key: c.event_key || '' }) })   // keepalive = 발사 직후 화면 이동·새로고침이 요청을 끊지 않게(260924 검토)
       .then(async r => { if (r.ok) return;   // 서버 거절 = 낙관 Picking 회수 + 표면화(시크릿 회귀 시 전 픽 무통보 유실 차단 · pickCard 패턴 · 평의회 260713 ⑦)
         const why = await failWhy(r);   // 사유 유실 0(JSON error → 본문 앞머리 → 상태코드 항상 동봉 · 260728)
         saveRating(id, { picked: false }); postRate({ id, url: c.url || '', title: c.title || '', score: cur.score || 0, picked: false });

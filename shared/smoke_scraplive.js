@@ -3,13 +3,13 @@
 // smoke_scraplive.js — 수집함 라이브 반영 · 알림 PICK 딥링크 상비 스모크 (운영자 260924 「추천 순서대로 ㄱㄱ」)
 //
 // 담당 표면(변경 시 커밋 전 rc=0): viewer-src/33-openQueue.part scrapAutoRefresh·loadCandidates(quiet) ·
-//   viewer-src/35-applyAutoGroups.part renderScrap no-anim · viewer-src/48-renderPinSlots.part openBreakingDeepLink·pickFromPush
+//   viewer-src/35-applyAutoGroups.part renderScrap no-anim · viewer-src/48-renderPinSlots.part openBreakingDeepLink·findPushCand·pickFromReq·pickFromPush
 //
 // 무엇을 검증하나:
 //   A1 라이브 폴(1분)이 받은 새 후보가 탭 이동 없이 목록에 뜬다(종전 = quiet 폴이라 탭을 옮겨야 보였다)
 //   A2 손대는 중(방금 탭)이면 반영을 미룬다(누르려던 카드가 밀리는 오탭 차단) → A3 손 뗀 뒤 반영
-//   P1 /?brk=키&act=pick = api/pick 1발 · 카드 Picking… · act 쿼리 제거(새로고침 재발사 차단)
-//   P2 act 없는 본문 탭 = 픽 0발(종전 분기 불변)
+//   P1 SW 보관 요청 = api/pick 1발 · 카드 Picking… · P2 재처리 = 중복 0 · P3 같은 묶음표 후보 여럿 = 보류
+//   P4 주소 쿼리 act=pick 만으로는 발사 0(외부 링크 무확인 과금 차단)
 //   C1 페이지 에러 0
 // 원커맨드:  node shared/smoke_scraplive.js   (종료코드 0 = 전부 PASS)
 // 리스크 통제: 네트워크 0(api·후보 전부 route 스텁) · 라이브 데이터 무관(합성 후보) · 포트대 8940~8944.
@@ -103,19 +103,27 @@ const mk = (i, t, h, cross, extra = {}) => ({ id: 'https://x.kr/' + i, url: 'htt
     await page.waitForTimeout(7500);
     ok('A3 손 뗀 뒤 = 반영', (await titles()).some(x => x.includes('인천공항')));
 
-    // ── P: 알림 PICK 딥링크 ──
+    // ── P: 알림 PICK(SW 보관 요청 → pickFromReq) — nosw 스모크라 SW 대신 보관 요청을 직접 넘긴다 ──
     const key = 'https://x.kr/3';
-    await page.goto('http://127.0.0.1:' + s.port + '/?nosw=1&brk=' + encodeURIComponent(key) + '&bl=' + encodeURIComponent(key) + '&act=pick');   // seal-ok: 브라우저 스모크 표준 하네스(smoke_chan 계승) — thumbapi·sbflow 는 브라우저 비기동 스모크라 비대상
-    await page.waitForFunction(() => document.querySelector('#scrapList .sc-item .sc-got.picking, #scrapList .sc-item .sc-got.firing, #scrapList .sc-item .sc-got.okdone'), null, { timeout: 15000 }).catch(() => {});
-    await page.waitForTimeout(800);
-    const st = await page.evaluate(() => ({ q: location.search, got: [...document.querySelectorAll('#scrapList .sc-item')].filter(x => x.querySelector('.sc-got')).map(x => x.dataset.cid) }));   // seal-ok: 브라우저 스모크 표준 하네스(smoke_chan 계승) — 브라우저 비기동 형제(thumbapi·sbflow·favtab)는 비대상
-    ok('P1 act=pick = api/pick 1발 · 그 카드 픽 진행 · act 쿼리 제거', picks.length === 1 && picks[0].url === key && st.got.includes(key) && !/act=/.test(st.q), `picks=${picks.length} got=${st.got.join(',')} q=${st.q}`);
+    data = [...data, mk(7, '[속보] 같은 묶음표 A', 0.2, 2, { event_key: 'https://x.kr/E' }), mk(8, '[속보] 같은 묶음표 B', 0.3, 2, { event_key: 'https://x.kr/E' })];
+    await page.goto('http://127.0.0.1:' + s.port + '/?nosw=1&tab=scrap');   // seal-ok: 브라우저 스모크 표준 하네스(smoke_chan 계승) — 브라우저 비기동 형제(thumbapi·sbflow·favtab)는 비대상
+    await page.waitForFunction(() => document.querySelectorAll('#scrapList .sc-item').length >= 3, null, { timeout: 15000 });
+    await page.evaluate(k => pickFromReq({ brk: k, bl: k, kind: 'brk', ts: Date.now() }), key);   // seal-ok: 브라우저 스모크 표준 하네스(smoke_chan 계승) — 브라우저 비기동 형제(thumbapi·sbflow·favtab)는 비대상
+    await page.waitForTimeout(1200);
+    const got = await page.evaluate(() => [...document.querySelectorAll('#scrapList .sc-item')].filter(x => x.querySelector('.sc-got')).map(x => x.dataset.cid));   // seal-ok: 브라우저 스모크 표준 하네스(smoke_chan 계승) — 브라우저 비기동 형제(thumbapi·sbflow·favtab)는 비대상
+    ok('P1 보관 요청 = api/pick 1발 · 그 카드 픽 진행', picks.length === 1 && picks[0].url === key && got.includes(key), `picks=${picks.length} got=${got.join(',')}`);
+    await page.evaluate(k => pickFromReq({ brk: k, bl: k, kind: 'brk', ts: Date.now() }), key);   // seal-ok: 브라우저 스모크 표준 하네스(smoke_chan 계승) — 브라우저 비기동 형제(thumbapi·sbflow·favtab)는 비대상
+    await page.waitForTimeout(600);
+    ok('P2 같은 요청 재처리 = 중복 발사 0(이미 PICK 안내)', picks.length === 1, 'picks=' + picks.length);
     picks.length = 0;
+    await page.evaluate(() => pickFromReq({ brk: 'https://x.kr/E', bl: '', kind: 'brk', ts: Date.now() }));   // seal-ok: 브라우저 스모크 표준 하네스(smoke_chan 계승) — 브라우저 비기동 형제(thumbapi·sbflow·favtab)는 비대상
+    await page.waitForTimeout(600);
+    ok('P3 같은 묶음표 후보 여럿 = 발사 보류(엉뚱한 기사 과금 차단)', picks.length === 0, 'picks=' + picks.length);
     const p2 = await ctx.newPage();   // seal-ok: 브라우저 스모크 표준 하네스(smoke_chan 계승) — 브라우저 비기동 형제(thumbapi·sbflow·favtab)는 비대상
     p2.on('pageerror', e => errs.push(String(e.message || e).slice(0, 160)));
-    await p2.goto('http://127.0.0.1:' + s.port + '/?nosw=1&brk=' + encodeURIComponent('https://x.kr/1') + '&bl=' + encodeURIComponent('https://x.kr/1'));   // seal-ok: 브라우저 스모크 표준 하네스(smoke_chan 계승) — thumbapi·sbflow 는 브라우저 비기동 스모크라 비대상
+    await p2.goto('http://127.0.0.1:' + s.port + '/?nosw=1&brk=' + encodeURIComponent('https://x.kr/1') + '&bl=' + encodeURIComponent('https://x.kr/1') + '&act=pick');   // seal-ok: 브라우저 스모크 표준 하네스(smoke_chan 계승) — 브라우저 비기동 형제(thumbapi·sbflow·favtab)는 비대상
     await p2.waitForTimeout(3500);
-    ok('P2 본문 탭(act 없음) = 픽 0발(종전 분기 불변)', picks.length === 0, 'picks=' + picks.length);
+    ok('P4 주소 쿼리만(act=pick) = 발사 0(외부 링크 무확인 과금 차단) · act 제거', picks.length === 0 && !/act=/.test(await p2.evaluate(() => location.search)), 'picks=' + picks.length);   // seal-ok: 브라우저 스모크 표준 하네스(smoke_chan 계승) — 브라우저 비기동 형제(thumbapi·sbflow·favtab)는 비대상
     ok('C1 페이지 에러 0', errs.length === 0, errs.length ? errs.slice(0, 3).join(' · ') : '콘솔 pageerror 0건');
   } catch (e) {
     R.push({ n: 'ABORT', c: false, d: String(e.message).slice(0, 200) });

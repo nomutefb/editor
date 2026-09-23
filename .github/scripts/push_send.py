@@ -324,7 +324,7 @@ def abs_url(u):
       = 어떤 경우에도 새 화면이 열린다. 남의 사이트(급상승 = 구글 검색 절대 주소)는 무접촉(위 스킴 분기에서 반환).
     ⚠ 짝 = `viewer/sw.js` 1단계 비교가 이 표식을 **빼고** 대조한다 — 안 그러면 새 화면에서도 매번 불일치가 나
       「불필요한 새로고침 방지」 계약(260706)이 깨진다. 두 자리가 한 벌(`check_push_abs_url`이 함께 감시).
-    ⚠ 이름 충돌 0 = 뷰어가 읽는 쿼리 실측 목록(nosw·a·brk·bl·msg·vidl·dis·tab·qa) 밖 · 셸 캐시 키는 쿼리를
+    ⚠ 이름 충돌 0 = 뷰어가 읽는 쿼리 실측 목록(nosw·a·brk·bl·msg·vidl·dis·tab·qa·act) 밖 · 셸 캐시 키는 쿼리를
       제거 정규화하므로(`sw.js` key) 캐시가 늘지도 갈리지도 않는다 · 미들웨어는 쿼리를 안 본다(실측 0건)."""
     u = str(u or "/")
     if u.startswith("http://") or u.startswith("https://"):

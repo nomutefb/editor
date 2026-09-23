@@ -90,7 +90,7 @@ self.addEventListener('fetch', event => {
       }
       return res;
     });
-    if (cached && (req.cache === 'no-cache' || req.cache === 'reload')) {   // 명시적 새로고침(Ctrl+R·당겨서 새로고침) = 네트워크 우선 3s 캡(운영자 260720 평의회 F6 — "머지했는데 안 보임" 구조 봉합: SWR이 매 진입 직전판 셸을 먼저 서빙 · 새로고침 제스처만 "즉시 새 셸" 계약 신설 · 일반 진입 = 아래 SWR 유지 = 스플래시 최단화 계약 불변)
+    if (cached && (req.cache === 'no-cache' || req.cache === 'reload' || url.searchParams.has('act'))) {   // + 알림 PICK 진입(act) = 새 셸 우선(옛 캐시 셸은 보관 요청을 못 읽는다 · 260924 검토)   // 명시적 새로고침(Ctrl+R·당겨서 새로고침) = 네트워크 우선 3s 캡(운영자 260720 평의회 F6 — "머지했는데 안 보임" 구조 봉합: SWR이 매 진입 직전판 셸을 먼저 서빙 · 새로고침 제스처만 "즉시 새 셸" 계약 신설 · 일반 진입 = 아래 SWR 유지 = 스플래시 최단화 계약 불변)
       const winner = await Promise.race([netP.catch(() => null), new Promise(r => setTimeout(() => r(null), 3000))]);
       if (winner) return winner;                                            // 3s 내 도착 = 새 셸 즉시(netP가 캐시 put·통지까지 수행)
       event.waitUntil(netP.catch(() => {})); return cached;                 // 미도착(오프라인·지연) = 캐시 폴백(깨진 앱 방지 · 갱신은 백그라운드 지속)
@@ -125,11 +125,31 @@ async function readThemeDark() {
 }
 self.addEventListener('message', event => {
   const d = event.data || {};
+  if (d.type === 'nm-pickreq-take') { event.waitUntil(takePickReqs().then(list => { try { event.ports[0].postMessage(list); } catch (_) {} })); return; }
   if (d.type !== 'nm-theme') return;
   event.waitUntil(caches.open(PREF_CACHE)
     .then(c => c.put(THEME_KEY, new Response(d.dark ? 'dark' : 'light')))
     .catch(() => {}));
 });
+
+// ── 알림 PICK 요청 보관(운영자 260924 «푸시에서 바로 PICK» · 검토 반영) — 요청을 탭 주소에만 실으면 앱이 뜨는 사이
+//    다른 알림 탭·당겨서 새로고침이 그 탭을 갈아치워 PICK이 조용히 사라진다. SW가 요청을 캐시에 적재하고 페이지가 가져간다
+//    (가져가며 지움 = 두 탭 이중 발사 0). 페이지는 주소 쿼리만으로는 절대 발사하지 않는다(외부 링크 무확인 과금 차단).
+const PICK_REQ = '/__nm_pickreq/', PICK_REQ_TTL = 4 * 3600e3;
+async function savePickReq(r) {
+  const c = await caches.open(PREF_CACHE);
+  await c.put(PICK_REQ + Date.now() + '-' + Math.random().toString(36).slice(2, 8), new Response(JSON.stringify(r)));
+}
+async function takePickReqs() {
+  const c = await caches.open(PREF_CACHE), out = [];
+  for (const k of await c.keys()) {
+    if (!new URL(k.url).pathname.startsWith(PICK_REQ)) continue;
+    const res = await c.match(k);
+    if (!(await c.delete(k)) || !res) continue;
+    try { const r = await res.json(); if (r && r.brk && Date.now() - (r.ts || 0) < PICK_REQ_TTL) out.push(r); } catch (_) {}
+  }
+  return out;
+}
 
 self.addEventListener('push', event => {
   if (!isCanonHost()) { event.waitUntil(selfDestructIfStale()); return; }   // 좀비 SW = 알림 억제 + 자기소멸(중복 차단)
@@ -141,7 +161,7 @@ self.addEventListener('push', event => {
     badge: d.badge || '/assets/brand/badge-260723.png',   // 상태바 배지 = 흑백+투명 실루엣(N) — 불투명 컬러는 안드로이드가 흰 네모로 칠함 · 버전도장(260723) = immutable 캐시 편입
 
     tag: d.tag || 'nomute-breaking',          // 같은 tag = 교체(중복 알림 안 쌓임)
-    data: { url: d.url || '/' },
+    data: { url: d.url || '/', kind: d.kind || '' },   // kind = PICK 사유(긴급/이슈) 판별용
     lang: 'ko',
   };
   // 소리·진동(운영자 260819 «웹 푸시는 오는데 소리나 진동이 안 나는건» · 발송기가 긴급·이슈에만 실어 보낸다).
@@ -169,7 +189,17 @@ self.addEventListener('notificationclick', event => {
   event.notification.close();
   const raw = (event.notification.data && event.notification.data.url) || '/';
   const target = new URL(raw, self.location.origin);   // 알림이 가리키는 화면(제작완료=/thumb.html#done · 긴급=/)
-  if (event.action === 'pick' && target.origin === self.location.origin && target.searchParams.has('brk')) target.searchParams.set('act', 'pick');   // PICK 버튼 = 같은 딥링크 + act=pick → 뷰어가 그 후보를 바로 PICK(openBreakingDeepLink)
+  if (event.action === 'pick' && target.origin === self.location.origin && target.searchParams.has('brk')) {   // PICK 버튼 = 요청 보관 → 앱이 가져가 발사
+    const d0 = event.notification.data || {};
+    event.waitUntil((async () => {
+      await savePickReq({ brk: target.searchParams.get('brk'), bl: target.searchParams.get('bl') || '', kind: d0.kind || '', ts: Date.now() });
+      const list = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+      const app = list.find(c => { try { const u = new URL(c.url); return u.origin === self.location.origin && SHELL_PATHS.includes(u.pathname); } catch (_) { return false; } });
+      if (app) { try { app.postMessage({ type: 'nm-pickreq' }); } catch (_) {} if ('focus' in app) return app.focus(); }   // 열린 앱 = 새로고침 없이 처리(작업 중 입력·도구 보존)
+      if (self.clients.openWindow) return self.clients.openWindow(target.origin + '/?act=pick');
+    })());
+    return;
+  }
   event.waitUntil((async () => {
     // 0) 남의 사이트(우리 화면이 아닌 곳)면 **무조건 새 창**(운영자 260819 «검색한 구글 창으로 · 새창으로»).
     //    ⚠ 아래 2)를 그대로 타면 열려 있던 우리 앱 탭이 그 주소로 **갈아치워진다** = 앱이 사라진다.
