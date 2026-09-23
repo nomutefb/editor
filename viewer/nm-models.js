@@ -4,7 +4,7 @@
 // 로드 = nm-svg.js 관례(뷰어 head/본문 <script src="nm-models.js"> 1줄 · 동기 로드 = 아래 인라인 스크립트보다 항상 먼저).
 window.NM_MODELS = {
   fable: 'Fable 5',            // 감독(연출 LLM) — 감성·서사 마감
-  opus: 'Opus 5',              // 감독 — 잔잔·광고
+  opus: 'Opus 5.5',              // 감독 — 잔잔·광고
   gpt: 'GPT 5.6 Sol',          // 감독 — 완급·액션(풀네임 = 설계확정 260714 문서·api DIRECTOR_NM 정본)
   kling: 'Kling 3.0 Omni',     // 비디오 엔진(콘티 촬영·프롬프팅 공통)
   veo: 'Veo 3.1',              // 비디오 엔진(프롬프팅 · 초안)

@@ -11,7 +11,7 @@
       │  Termux(queue-news) → pending/YYMMDD-HHMMSS.txt (URL 한 줄) → git push (main)
       ▼
 [GitHub Actions: news-analyze]   (트리거 = pending/** push)
-      │  1) Claude Code 헤드리스(claude -p, claude-opus-5)로 각 URL 분석
+      │  1) Claude Code 헤드리스(claude -p, claude-opus-5-5)로 각 URL 분석
       │     - 분석 기준 = prompts/news-analysis.md (→ apps/news 에디터 지침에 종속)
       │  2) 결과 md → queue/YYMMDD-HHMM-기사ID.md (파일명 ASCII 한정 — 한글 제목은 frontmatter)
       │  3) 처리한 pending 삭제 / 실패는 pending/failed/ 로 격리(+.log)
@@ -219,7 +219,7 @@ Cloudflare Pages → **Create project → Connect to Git → 이 레포** 선택
 - **출처 봇월 통과(cupid.js)**: 이슈링크 류는 본문을 JS 쿠키 챌린지 뒤에 둔다 — 평문 GET은 797B 껍데기(본문 0자)라 **본선의 WebFetch 도 같이 막힌다**. 감지·복호 정본 = `shared/cupid_wall.py` 1곳(`scraper/social_burst.py` 260625 로직 이동). ⚠ **전송계층이 통과 여부를 가른다** — 같은 쿠키 값이라도 urllib 단발 Cookie 헤더 재요청은 1/8 만 통과하고(재요청이 새 챌린지를 받아 되돌아온다) `requests.Session` 은 30/30 통과했다(260912 2차 실측 · 통과 체인이 `?ckattempt=1`→307→302 를 타며 csrfc·d 를 더 쌓는다 · 개별 헤더 흉내로는 안정화 실패). 그래서 두 호출부 모두 세션 전송을 쓴다: social_burst = `requests.Session` · `ask_srcimg.py` = `_cupid_session_get`(requests 미설치면 urllib 폴백 = 도입 전 동작 보존). 의존성은 `pycryptodome`(복호) + `requests`(전송) **둘 다** 필요하다 — 하나만 깔면 복호는 되는데 통과가 안 되는 반쪽이 된다. 통과 뒤 ⓐ 최종 리다이렉트 주소(실제 커뮤니티 글 = 봇월 없는 주소)를 `final` 로 올려 🔓 블록에 싣고 ⓑ 본문을 `fetch_article.sh` 선별 정본(한글 20자 미만 줄 버림·중복 제거·40줄·6,000자)으로 정제해 **📄 전문 블록**으로 본선에 직접 준다(= 제목만으로 검색하던 1-2 폴백을 타지 않는다). 의존성 = `pycryptodome`(news-ask.yml·social-scan.yml 설치 · 미설치는 fail-soft 종전 동작). 전문 주입은 **봇월 축에만** 발동 = 평범한 기사 경로 무접촉. 실측 봉합 = 260912 fail-2026-09-12-0926(본문 0자 → 제목 검색 → 600s 2연속 초과 = 21분 실패 · 통과 후 재현 = 34,563자·전문 2,158자). 회귀 = `tests/test_srcwall.py`(로컬 봇월 서버 재현 · 외부 네트워크 0).
 - **실패 알림(타임아웃) 2분류**: 봇월 차단이 동반됐으면 「출처 본문 확보 실패」로 적고 조치문도 인수인계로 보낸다 · 그 외는 「제한 시간 초과(노력도 하향 + 검색 1회 재시도까지 쓰고도)」. ⚠ 구판 「시간이 넘어서 끊긴 거라 코드가 고칠 자리는 없어」는 실사고에서 **틀린 안내**였다(원인이 정확히 코드 자리였다) → 소거. 자동진단서(`ask_fail_probe.py`)도 봇월 축을 ⓪순위로 판정한다(구판은 같은 껍데기를 「새 셸 문법 의심」으로 오진).
 - **인증**: 구독 OAuth 토큰(API 키 미사용). 계정은 `ACTIVE_ACCOUNT` 변수(기본 NOMUTEFB)로 동적 선택, 쿼터 한도 시 서브1→서브2 2단 폴오버(sticky) — 위 [계정 전환]. **타임아웃(rc=124)**: analyze = 계정 1회 강제전환(그 스왑은 기사마다 `claude_reset_force_swap`이 되돌려 쿼터 체인 예산을 잠식하지 않음 · 260704) / ask = **같은 계정에서 노력도 한 단계 하향(`claude_effort_down` max→high→medium) 1회 재시도**(260912 · 입력바운드 타임아웃에 계정 전환은 무효 = 260912 실사고 21분 2연속 초과 · 사다리 바닥이면 종전 계정 전환 폴백).
-- **모델**: `claude-opus-5` 고정(생성/하드작업 유지). **effort: analyze = max**(260810 · 900s 상한) · **ask = high**(260912 운영자 지시 · env `PIPE_SEARCH_EFFORT` = repo 변수 `ASK_EFFORT` · 실측 ask 181건 = max 중앙값 476s/p90 564s vs high 212s/241s · 600s 타임아웃 실패 전건 max 기간 · 롤백 = `ASK_EFFORT=max`), 나머지 생성경로는 max. 분량 가드 보정 콜(`shared/summary_repair.sh` · analyze·ask 공용) = **high**(260912 · repo 변수 `SUMMARY_REPAIR_EFFORT` · 롤백 = `max`). 분석 도구는 `WebFetch,WebSearch`만 허용.
+- **모델**: `claude-opus-5-5` 고정(생성/하드작업 유지). **effort: analyze = max**(260810 · 900s 상한) · **ask = high**(260912 운영자 지시 · env `PIPE_SEARCH_EFFORT` = repo 변수 `ASK_EFFORT` · 실측 ask 181건 = max 중앙값 476s/p90 564s vs high 212s/241s · 600s 타임아웃 실패 전건 max 기간 · 롤백 = `ASK_EFFORT=max`), 나머지 생성경로는 max. 분량 가드 보정 콜(`shared/summary_repair.sh` · analyze·ask 공용) = **high**(260912 · repo 변수 `SUMMARY_REPAIR_EFFORT` · 롤백 = `max`). 분석 도구는 `WebFetch,WebSearch`만 허용.
 - **품질 추종**: 분석 프롬프트가 워크플로에 하드코딩돼 있지 않고 `apps/news/`의 최신 에디터 지침을 읽어 쓰므로, 에디터가 개선되면 큐레이션 품질도 따라간다.
 
 ## 테스트 (E2E 1회)

@@ -189,7 +189,7 @@ function thumbStatic(label, items, kind, href, usage, kwData) {
       + '</span>'
     : '';
   const dlAll = '';   // 전체저장 = 섹션 제목 라인(.thumbsec-h)으로 이관 = 검색+AI생성 통합 1버튼(운영자 260622)
-  const moreBtn = _moreFile ? '<button type="button" class="sbtn cref-more cref-gen" title="AI 이미지 생성·더 가져오기 — 버튼 옵션 프롬프팅(Opus 5 작성·Gemini 렌더) 또는 관련 실사진 재검색(1~2분)" aria-label="AI 이미지 생성·더 가져오기"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg><span class="cref-dllbl">AI</span></button>' : '';   // + AI = 이미지 생성 팝업(#genidlg · 기존 실사진 재검색 = 팝업 보조 버튼으로 보존 · 운영자 260707) · 'AI' 라벨 = 운영자 260801(픽토만으론 발사 버튼 식별 불가 — .cref-dlall 문법 계승)
+  const moreBtn = _moreFile ? '<button type="button" class="sbtn cref-more cref-gen" title="AI 이미지 생성·더 가져오기 — 버튼 옵션 프롬프팅(Opus 5.5 작성·Gemini 렌더) 또는 관련 실사진 재검색(1~2분)" aria-label="AI 이미지 생성·더 가져오기"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg><span class="cref-dllbl">AI</span></button>' : '';   // + AI = 이미지 생성 팝업(#genidlg · 기존 실사진 재검색 = 팝업 보조 버튼으로 보존 · 운영자 260707) · 'AI' 라벨 = 운영자 260801(픽토만으론 발사 버튼 식별 불가 — .cref-dlall 문법 계승)
   const acts = (hbtn || kwbox || moreBtn) ? '<span class="cref-acts">' + moreBtn + hbtn + kwbox + '</span>' : '';   // 전체(dlAll)는 키워드와 함께 cref-kwrow 한 줄(우측정렬·세로중앙 · 운영자 260622)
   const bucket = usage ? (kind === 'gen' ? usage.gen : kind === 'search' ? usage.search : null) : null;
   const kwHtml = hasKw ? '<span class="cref-kw"></span>' : '';   // 키워드 칩(검정 글래스) — 텍스트·색은 언어따라 JS가 채움

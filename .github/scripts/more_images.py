@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""뷰어 '+N장 더' (검색 이미지 카러셀) — 기사 요약·시사점을 읽고 Claude(Opus 5·effort high)가
+"""뷰어 '+N장 더' (검색 이미지 카러셀) — 기사 요약·시사점을 읽고 Claude(Opus 5.5·effort high)가
 **오버레이 뒤 후킹용 카드뉴스 배경**으로 가장 효과적인 관련 뉴스이미지 소스를 *기존과 중복 없이*
 더 제안 → og:image 추출(thumb_gen 재사용·R2 재호스팅) → cards/<stem>/thumbs/search.json **앞쪽**에 append.
 
@@ -20,7 +20,7 @@ STEM = os.environ.get("MOREIMG_STEM", "").strip()
 WANT = max(1, min(10, int(os.environ.get("MOREIMG_WANT", "5") or "5")))
 ROUND = max(1, min(9, int(os.environ.get("MOREIMG_ROUND", "1") or "1")))      # 보충 세대(1 = 첫 발사)
 MAX_ROUND = max(1, min(9, int(os.environ.get("MOREIMG_MAX_ROUND", "3") or "3")))  # 상한 = Claude 콜 상한(비용 바운드)
-MODEL = os.environ.get("MOREIMG_MODEL") or "claude-sonnet-5"   # 이미지 보충 검색 = 소넷 5(운영자 260905 «자유요약-인스타-스레드가 제일 중요 · 이미지는 계륵» — 사진 후보 주소 찾기에 요약 본체보다 비싼 오퍼스를 쓰던 축 회수 · 원장 실측 2주 176회 $754) · 되돌리기 = 레포 변수 MOREIMG_MODEL=claude-opus-5 · 구 PIPE_MODEL 키 공유 폐지(본선 모델을 올리면 이 레인도 딸려 오르던 결합 해소)
+MODEL = os.environ.get("MOREIMG_MODEL") or "claude-sonnet-5"   # 이미지 보충 검색 = 소넷 5(운영자 260905 «자유요약-인스타-스레드가 제일 중요 · 이미지는 계륵» — 사진 후보 주소 찾기에 요약 본체보다 비싼 오퍼스를 쓰던 축 회수 · 원장 실측 2주 176회 $754) · 되돌리기 = 레포 변수 MOREIMG_MODEL=claude-opus-5-5 · 구 PIPE_MODEL 키 공유 폐지(본선 모델을 올리면 이 레인도 딸려 오르던 결합 해소)
 
 
 def die(msg, code=1):

@@ -34,7 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 65
     env:
-      BREAKING_MODEL: claude-opus-5
+      BREAKING_MODEL: claude-opus-5-5
       BREAKING_EFFORT: max
       BREAKING_TIMEOUT: '900'
       BREAKING_SAFE: '1'

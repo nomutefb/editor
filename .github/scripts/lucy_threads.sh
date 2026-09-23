@@ -4,7 +4,7 @@
 # 원료 = viewer/sns_trends.json(30분 크론 산출 · hackernews=해외 AI 원문 / aivid=국내 AI 소식) — **읽기만**(D2-1).
 # 게이트 4중: ① LUCY_ON=1(= 설정 on/off · repo Variables) ② THREADS_ACCESS_TOKEN 등록 ③ 페르소나 카드 투입
 #            ④ 새 소재 존재 — 어느 하나라도 미충족 = **claude 호출 전 exit 0**(LLM 쿼터 0 · sns_brief.sh 게이트 관용구 계승).
-# 모델 = PIPE_MODEL(claude-opus-5) · --effort high 고정(운영자 260726 "글·답글 둘 다 opus 5.0 high로 항상").
+# 모델 = PIPE_MODEL(claude-opus-5-5) · --effort high 고정(운영자 260726 "글·답글 둘 다 opus 5.0 high로 항상").
 # 폴오버 = claude_failover 4계정 체인(§📰-f SSOT 경유 · --bare 절대 금지 = OAuth 즉사).
 # 롤백 = LUCY_ON=0(즉시 정지) 또는 파일 삭제(lucy-threads.yml 동반) · 발행분은 스레드에 잔존.
 set -u

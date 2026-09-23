@@ -143,7 +143,7 @@ jobs:
       - name: 속보 판정 (claude -p)
         if: steps.chk.outputs.pending != '0'
         env:
-          BREAKING_MODEL: claude-opus-5   # **운영자 260810 "속보 판정도 오퍼스 5 노력도 max로 가자 어쩔수없다"** — 경중 채점(GATE)에 이어 속보 이진 판정도 260630 sonnet 강등을 되돌린다. 사유 = 이 판정이 **폰 긴급알림·자동요약의 유일한 문지기**라 오탐·누락 비용이 랭킹 오차보다 비싸다(경중은 순위가 좀 틀리는 것, 속보는 안 울려야 할 때 울리거나 울려야 할 때 안 울리는 것). ⚠️ 대가 = 쿼터 소모 복귀 · 롤백 = 이 값을 claude-sonnet-5 로.
+          BREAKING_MODEL: claude-opus-5-5   # **운영자 260810 "속보 판정도 오퍼스 5.5 노력도 max로 가자 어쩔수없다"** — 경중 채점(GATE)에 이어 속보 이진 판정도 260630 sonnet 강등을 되돌린다. 사유 = 이 판정이 **폰 긴급알림·자동요약의 유일한 문지기**라 오탐·누락 비용이 랭킹 오차보다 비싸다(경중은 순위가 좀 틀리는 것, 속보는 안 울려야 할 때 울리거나 울려야 할 때 안 울리는 것). ⚠️ 대가 = 쿼터 소모 복귀 · 롤백 = 이 값을 claude-sonnet-5 로.
           BREAKING_EFFORT: max   # 운영자 260810 지정. 구 주석의 "이진 판정엔 추론 불필요"는 이번 지시로 무효 — 실제 판정은 게이트 8종(해외 군사·개별 강력범죄·증시·수사 절차·연예·기상·발행 12h·영문 문체)의 **우선순위 대조**라 추론이 듣는 자리다. ⚠️ 아래 BREAKING_TIMEOUT 동반 필수.
           BREAKING_TIMEOUT: "900"   # 콜당 상한 300→900s(260810) — effort max 는 추론 토큰이 붙어 300s 를 넘길 수 있고, 초과하면 rc≠0 = 미도장 = 다음 런 재시도라 **증상 없이 영원히 재시도만 도는** 상태로 굳는다(gate GATE_TIMEOUT 과 동일 사유·동일 값).
           BREAKING_SAFE: '1'   # 승격 완료(260701 카나리아 실측 rc=0·OAuth 정상·cache_creation 53,855→1,512 −97.2%): 자동/예약 judge 런도 --safe-mode(CLAUDE.md 로드 스킵). 롤백=이 줄을 ''
@@ -187,7 +187,7 @@ jobs:
       - name: 경중 채점 (claude -p · AI 게이트 · 외신 번역 편승)
         if: steps.chk.outputs.pending != '0'
         env:
-          GATE_MODEL: claude-opus-5   # **운영자 260810 "채점 소넷5가 아니라 오퍼스5 max로 해라"** — 260630 평의회의 sonnet 강등(쿼터 50~65% 절감)을 정면 되돌린다. 사유 = 그 강등의 전제였던 「다층 보정이 경계오차를 흡수한다」가 실사례로 깨졌다(운영자 지목 = 트와이스 전속계약 cross8이 grade **3** · 룰북 명문은 「이적 = [0]」 · 3점이 1.7배가 된 뒤엔 이 오차가 랭킹 최상단을 직접 오염). ⚠️ 대가 = 쿼터 소모가 강등 전 수준으로 복귀(gate = LLM 콜의 최대 축) · 롤백 = 이 값을 claude-sonnet-5 로.
+          GATE_MODEL: claude-opus-5-5   # **운영자 260810 "채점 소넷5가 아니라 오퍼스5 max로 해라"** — 260630 평의회의 sonnet 강등(쿼터 50~65% 절감)을 정면 되돌린다. 사유 = 그 강등의 전제였던 「다층 보정이 경계오차를 흡수한다」가 실사례로 깨졌다(운영자 지목 = 트와이스 전속계약 cross8이 grade **3** · 룰북 명문은 「이적 = [0]」 · 3점이 1.7배가 된 뒤엔 이 오차가 랭킹 최상단을 직접 오염). ⚠️ 대가 = 쿼터 소모가 강등 전 수준으로 복귀(gate = LLM 콜의 최대 축) · 롤백 = 이 값을 claude-sonnet-5 로.
           GATE_EFFORT: max   # 운영자 260810 지정. 구 주석의 "분류엔 추론 불필요"는 **이번 지시로 무효**(경계 판정 = 룰북 예외 조항 대조라 추론이 실제로 듣는 자리). ⚠️ effort 부여 = 콜당 시간·토큰 증가 → 아래 GATE_TIMEOUT·MAX_PER_RUN 동반 조정이 필수(안 하면 콜 타임아웃 → 미도장 → 조용한 무한 재시도).
           TRANS_ON: ${{ inputs.trans_canary && '1' || env.TRANS_ON }}   # 외신 제목 번역 편승(같은 콜 · 번역도 sonnet 급 = 운영자 260703 "번역도 소넷"). 카나리아 = trans_canary 1런.
           GATE_MAX_PER_RUN: "120"   # 200→120(260810) — opus+effort max 는 콜당 시간이 sonnet의 배 이상이라 200(5청크)은 job timeout 을 넘긴다. 120 = 3청크 · 15분 주기 × 120 = 시간당 480건이라 실유입(회차당 수십)엔 충분하고 백로그도 몇 회차면 소진. 롤백=이 줄 제거(코드 기본 80).
@@ -208,7 +208,7 @@ jobs:
 
       # 사건 묶기 판정 — 토큰 클러스터링서 갈라진 같은 사건을 AI가 확정(YES→group_id → 뷰어 자동 병합·mergeDecorate 파이프).
       # ⚠️ 카나리아 OFF 기본(§📰 라이브 플래그 절차): dispatch inputs.group_canary=true 단건 실측 → 통과 시 env GROUP_ON: '1' 승격.
-      # 모델 = opus 5(사건 동일성 = 정밀 판정·autopick _ai_same 선례 · 운영자 260702 "탄탄하게") · 도장 캐시 = 같은 그룹 재판정 0.
+      # 모델 = opus 5.5(사건 동일성 = 정밀 판정·autopick _ai_same 선례 · 운영자 260702 "탄탄하게") · 도장 캐시 = 같은 그룹 재판정 0.
       - name: 사건 묶기 판정 (claude -p · group_judge)
         if: steps.chk.outputs.pending != '0' && (inputs.group_canary || env.GROUP_ON == '1')
         env:

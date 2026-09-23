@@ -154,7 +154,7 @@ def _ai_same(title, recent_titles):
     #   롤백 = env AUTOPICK_SAFE=0 1줄.
     _safe = [] if os.environ.get("AUTOPICK_SAFE", "1").strip() == "0" else ["--safe-mode"]
     p, rc, err = run_claude(
-        ["claude", "-p", "--model", os.environ.get("AUTOPICK_MODEL", "claude-opus-5"), "--effort", "high"] + _safe +
+        ["claude", "-p", "--model", os.environ.get("AUTOPICK_MODEL", "claude-opus-5-5"), "--effort", "high"] + _safe +
         ["--disallowedTools", "Write,Edit,NotebookEdit,Bash,Task,WebFetch,WebSearch,Read,Glob,Grep",
          "--max-turns", "1"],
         prompt, timeout=120, source="autopick")

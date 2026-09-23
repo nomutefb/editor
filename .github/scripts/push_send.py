@@ -199,7 +199,7 @@ def _ai_same_event(title, recent_titles):
     #   --bare 아님 · 롤백 = env PUSH_DEDUP_SAFE=0 1줄.
     _safe = [] if os.environ.get("PUSH_DEDUP_SAFE", "1").strip() == "0" else ["--safe-mode"]
     p, rc, err = run_claude(
-        ["claude", "-p", "--model", os.environ.get("PUSH_DEDUP_MODEL", "claude-opus-5"), "--effort", "high"] + _safe +
+        ["claude", "-p", "--model", os.environ.get("PUSH_DEDUP_MODEL", "claude-opus-5-5"), "--effort", "high"] + _safe +
         ["--disallowedTools", "Write,Edit,NotebookEdit,Bash,Task,WebFetch,WebSearch,Read,Glob,Grep",
          "--max-turns", "1"],
         prompt, timeout=120, source="pushdedup")

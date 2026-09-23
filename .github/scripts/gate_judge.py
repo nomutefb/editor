@@ -37,7 +37,7 @@ sys.path.insert(0, str(ROOT / "scraper"))
 from claude_py import run_claude   # 쿼터 한도 시 대체 계정 자동 전환(account failover · SSOT)  # noqa: E402
 from to_candidates import cat_force   # AI 이후 키워드 이차검증(바이오 임상=경제·노벨 시상=국제 · 정본=to_candidates)  # noqa: E402
 CAND = ROOT / "viewer" / "candidates.json"
-MODEL = os.environ.get("GATE_MODEL", "claude-opus-5")
+MODEL = os.environ.get("GATE_MODEL", "claude-opus-5-5")
 EFFORT = os.environ.get("GATE_EFFORT", "").strip()   # 기계적 룰북 분류엔 추론 불필요 = effort 미사용 기본(불필요 thinking 토큰·쿼터 차단 + sonnet effort 비호환 원천차단). 필요시 env로 부여(하위호환). 260630 평의회 — gate는 sonnet-5 운영.
 SAFE = os.environ.get("GATE_SAFE", "0").strip().lower() not in ("0", "false", "no", "")   # --safe-mode: CLAUDE.md·skills·plugins·hooks·MCP 등 커스터마이징 비활성 = 분류에 안 쓰이는 라우터 99KB(~40k토큰) 컨텍스트 제거 → cache_w ~95%↓. ⚠️ --bare 아님(bare는 OAuth 안 읽어[strictly ANTHROPIC_API_KEY] 이 파이프라인선 인증 즉사 + built-in 도구 축소로 --disallowedTools 충돌 = 260701 사고). safe-mode는 Auth·built-in 도구·permissions 정상 유지. RUBRIC은 stdin이라 판정 무영향. 기본 OFF·카나리아 후 승격(§📰). 롤백=env GATE_SAFE=0.
 GATE_MIN_CROSS = int(os.environ.get("GATE_MIN_CROSS", "2"))   # grade 채점 대상: cross 이 값 이상. **3→2(운영자 260810 "무조건 수집된 이상 미채점이 떠있으면 안 되게")** = 수집 하한(to_candidates CAND_MIN_CROSS 2)과 동값 → 수집된 전건이 채점 대상 = 화면 G–(미채점) 구조적 소멸. ⚠️ 구 3의 사유(cross-2는 grade 미기록 = 소프트뉴스가 0/1로 박제돼 랭킹·접힘서 침몰 방지)는 **이미 만료**됐다 — 그 침몰 경로였던 scFast grade 거부권이 260720에 폐지됐고 gradeW floor도 0.05→0.5라 곱셈 지배가 없다(구 주석이 스스로 "구 scFast 차단 — 260720 게이트 개정 후 진입은 grade 무관"이라 적어둔 그대로). ⚠️ 대가 = 미채점(1.0배 중립)이던 매체 2곳 카드가 실제 등급(대부분 0·1 = 0.5·0.7배)을 받아 **전반적으로 순위가 내려간다**(= 잡음 정리 방향 · 의도된 결과) + AI 콜 대상이 늘어난다(실측 800건 중 노출권 526 → 800).

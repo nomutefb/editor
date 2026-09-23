@@ -26,7 +26,7 @@ from claude_py import run_claude   # 쿼터 한도 시 대체 계정 자동 전�
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from brk_gates import gate_reason   # 결정적 후처리 게이트 3축(인명 문턱·연예·사법 · 운영자 260917 · 정본 = brk_gates.py)  # noqa: E402
 CAND = ROOT / "viewer" / "candidates.json"
-MODEL = os.environ.get("BREAKING_MODEL", "claude-opus-5")
+MODEL = os.environ.get("BREAKING_MODEL", "claude-opus-5-5")
 EFFORT = os.environ.get("BREAKING_EFFORT", "").strip()   # 이진 속보 판정엔 추론 불필요 = effort 미사용 기본(불필요 thinking 토큰·쿼터 차단 + sonnet effort 비호환 원천차단). 필요시 env로 부여(하위호환). 260630 평의회 — breaking은 sonnet-5 운영.
 SAFE = os.environ.get("BREAKING_SAFE", "0").strip().lower() not in ("0", "false", "no", "")   # --safe-mode: CLAUDE.md·skills·plugins·hooks·MCP 등 커스터마이징 비활성 = 분류에 안 쓰이는 라우터 99KB(~40k토큰) 컨텍스트 제거 → cache_w ~95%↓. ⚠️ --bare 아님(bare는 OAuth 안 읽어[strictly ANTHROPIC_API_KEY] 이 파이프라인선 인증 즉사 + built-in 도구 축소로 --disallowedTools 충돌 = 260701 사고). safe-mode는 Auth·built-in 도구·permissions 정상 유지. RUBRIC은 stdin이라 판정 무영향. 기본 OFF·카나리아 후 승격(§📰). 롤백=env BREAKING_SAFE=0.
 TIMEOUT_S = int(os.environ.get("BREAKING_TIMEOUT", "300"))      # 콜당 상한(s) — **opus + effort max 운영(260810)에서는 반드시 상향**(sonnet 기준 300은 추론 붙은 콜에 짧다 · 초과 = rc≠0 = 미도장 = 다음 런 재시도라 증상 없이 재시도만 도는 상태로 굳는다). gate_judge GATE_TIMEOUT 과 짝 · 워크플로 env 로 부여.

@@ -52,7 +52,7 @@ export async function onRequestPost({ request, env }) {
                   '누아르', '네온', '35mm', '표현주의', '리소', '페이퍼', '애니', '레트로80',
                   '클레이', '로우폴리', '디오라마', '라인', '청사진'],   // 자(ruler) 축 = **10초 눈금 6칸 = 1~6컷**(운영자 260812 「컷 1개 = 10초 고정 · 10*n 개수로」) — 구 5~15s 1초 눈금 폐지(1초 눈금이면 10의 배수 아닌 값이 골라져 보드가 10초로 안 쪼개진다) · 컷수 = 길이 ÷ 10(뷰어 sbCutN · prompts/sb-make.md 동기)
   };
-  const DIRECTOR_NM = { fable: 'Fable 5', opus: 'Opus 5', gpt: 'GPT 5.6 Sol' };   // 표시명 = 정식 모델명 단일화(운영자 260803 4차 · 뷰어 SB_DIRECTORS nm 2면 동기)
+  const DIRECTOR_NM = { fable: 'Fable 5', opus: 'Opus 5.5', gpt: 'GPT 5.6 Sol' };   // 표시명 = 정식 모델명 단일화(운영자 260803 4차 · 뷰어 SB_DIRECTORS nm 2면 동기)
   const director = SB_DIRECTORS.includes(body.director) ? body.director : 'fable';
   const shoot = SB_SHOOTS.includes(body.shoot) ? body.shoot : 'grok';
   story += '\n\n[감독: ' + DIRECTOR_NM[director] + ']';   // 에코용 마커(모델 스위치는 워크플로 director 입력이 전담)

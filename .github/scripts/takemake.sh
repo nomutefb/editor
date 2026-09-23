@@ -25,7 +25,7 @@ ${SUBS}"
 
 inline_delay=15
 rc=1
-TAKE_MODEL_FB="${TAKE_MODEL_FB:-claude-opus-5}"; _mfb_tried=0; _eff=high
+TAKE_MODEL_FB="${TAKE_MODEL_FB:-claude-opus-5-5}"; _mfb_tried=0; _eff=high
 for attempt in $(seq 1 "$INLINE_TRIES"); do
   out="$(printf '%s' "$prompt" | METER_SRC=take METER_REF="$ID" METER_MODEL="$MODEL" METER_EFFORT="$_eff" claude_meter 600 \
         --model "$MODEL" \

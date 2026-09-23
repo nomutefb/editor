@@ -85,7 +85,7 @@ jobs:
           R2_PUBLIC_BASE: ${{ secrets.R2_PUBLIC_BASE }}
           R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
           R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
-          MOREIMG_MODEL: ${{ vars.MOREIMG_MODEL || 'claude-sonnet-5' }}   # 이미지 보충 검색 모델(운영자 260905 · 소넷 5 기본 · 되돌리기 = 이 변수에 claude-opus-5)
+          MOREIMG_MODEL: ${{ vars.MOREIMG_MODEL || 'claude-sonnet-5' }}   # 이미지 보충 검색 모델(운영자 260905 · 소넷 5 기본 · 되돌리기 = 이 변수에 claude-opus-5-5)
           MOREIMG_STEM: ${{ github.event.inputs.stem }}
           MOREIMG_WANT: ${{ github.event.inputs.want || '5' }}
           MOREIMG_ROUND: ${{ github.event.inputs.round || '1' }}
