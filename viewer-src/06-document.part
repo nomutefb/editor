@@ -228,7 +228,7 @@
   .pushrow .lk-open:hover { color:var(--accent); }
   .pushrow .lk-open.lk-dim, .pushrow .lk-open.lk-dim:hover { opacity:.45; color:var(--mut); cursor:default; }
   /* ── 화면 잠금(응답없음 lock · 운영자 260703·260705) — 유휴 N분(기본 2) 후 오션 물결(#wavebg 승격) 배경 + 옅은 블루-딤 전면 오버레이 + PIN 키패드.
-     키패드 = 발행본 /s/ pinForm 정본 이식(lk- 프리픽스 · 고정 정상배열 1-9·0·숫자픽·명조 * 마스킹·빨강 3초·5회=10분·마스터 통일).
+     키패드 = 구 발행본 PIN 폼에서 이식 · 현 정본 = 31 조각 lk-*(lk- 프리픽스 · 고정 정상배열 1-9·0·숫자픽·명조 * 마스킹·빨강 3초·5회=10분·마스터 통일).
      설정 팝업 = msgpop 계승 · 행 = pushrow/pushbtn 계승(토글 동일 구성). ⚠️ 사생활 가림막(클라 로컬) — 접근 보안은 CF Access가 담당. */
   #lockpop .mh + .pushrow, #marqpop .mh + .pushrow { border-top:none; }   /* 헤더(.mh) border-bottom과 이중선 방지 · :first-of-type은 첫 div가 .mh라 첫 pushrow에 안 걸려 죽은 셀렉터였음 → 인접형제(.mh + .pushrow)로 교정 + marqpop도 포함(평의회 260704) */
   .pushrow .lk-in { flex:none; width:96px; text-align:center; font:inherit; font-size:13px; font-weight:700; color:var(--fg);
@@ -803,7 +803,7 @@
   .tgroup-h { transition:margin-bottom .32s var(--ease); }   /* 헤더 하단 간격도 동반 슬라이드(펼침 14→0 스냅 방지) */
   @media (prefers-reduced-motion:reduce) { .tgroup::details-content, .trend-sec::details-content, .tgroup-h { transition:none; } }
   .tgroup-h .tdash-time { margin-left:var(--sp-2); margin-right:auto; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }   /* 수집시각 = 타이틀 옆 유지 · 체브론(ml:auto)과 공존 = 시각이 좌측군 · 협폭 = 말줄임(우측 칩 예약 패딩(--chu-r)에 밀릴 때 겹침 대신 축약 · 운영자 260717) */
-  .tgroup-h .fin-hotdot { width:7px; height:7px; border-radius:50%; background:var(--accent-4); box-shadow:0 0 8px rgba(var(--accent-4-rgb),.7); flex:none; display:inline-block; }   /* raw-ok: 7px 원·글로우 8 = .nm-dot(뉴스요약 말머리 점) 도형 문법 그대로 계승 · 색만 UI 팔레트 골드레몬 — ⑬ 금융 임계 초과(fin-hot) 존재 신호 배지(운영자 260723 "ㅇㅋ 핫핫" 승인 · 헤더 상주 = 접힘에도 노출 · 간격 = 헤더 flex gap 7 자동 · 급변 0 = 미등장) */
+  .tgroup-h .fin-hotdot { width:7px; height:7px; border-radius:50%; background:var(--accent-4); box-shadow:0 0 8px rgba(var(--accent-4-rgb),.7); flex:none; display:inline-block; }   /* raw-ok: 7px 원·글로우 8 = 구 .nm-dot(요약 템플릿 말머리 점 · 260923 삭제) 도형 문법 계승 · 현 정본 = 이 규칙 · 색만 UI 팔레트 골드레몬 — ⑬ 금융 임계 초과(fin-hot) 존재 신호 배지(운영자 260723 "ㅇㅋ 핫핫" 승인 · 헤더 상주 = 접힘에도 노출 · 간격 = 헤더 flex gap 7 자동 · 급변 0 = 미등장) */
   .tgroup-h .fin-upd { margin:0 0 0 var(--sp-1); color:var(--fg); transform:translateY(1px); }   /* raw-ok: translateY 1 = 광학 보정(Q471 DPR3 정수 스테이지 잉크 실측 −1.0 상편심 → 도형 수평선 스냅 · 페인트 레벨 = smoke_rank 정본 · 레이아웃 불변) */
   .fin-upd .fin-chk { color:var(--cat-tech); display:inline-block; transform:translateY(-1px); }   /* raw-ok: translateY -1 = 부모 칩 보정(+1 · 시간 텍스트 잉크용)의 상쇄(Q471 — 괄호 글리프 잉크는 원래 정중앙이라 칩 보정에 +0.67 하편심 → 원복 · inline-block = 인라인 span transform 적용 통로 · 페인트 레벨) */   /* 수집 65분+ = "(점검 필요)" 라벨(운영자 260723-4 · 임계 = .tdash-time.stale 65분 동률) — 색 = 팔레트 유일 형광 보라 네온바이올렛 --cat-tech(#setToggle '기본값' 보라 선례 계승) · 시간 본문은 흰색 유지 · 판정·부착 = finUpdHtml · ⚠ 태그 = span 고정(i 금지 — .tgroup-h i 24px 순번 배지 룰에 걸려 겹침·조기 말줄임 실사고 260723 운영자 스샷) */   /* 금융 갱신시각("nn분 전") = 타이틀에서 헤더 gap(7)에 근접 토큰 sp-1 가산 우측(운영자 260723-2 "조금만 더 우측" — 구 margin 0 = 순수 gap 승계[운영자 260723 "두 글자 간격만큼"]) · 흰색 --fg(운영자 260723-2 "흰색으로" — .tdash-time --mut 대체 · stale 마킹은 fin-upd 미부여라 무충돌) · 서체·말줄임 = .tdash-time 계승 · 우측 밀기 = 체브론 ml:auto 종전 */
   .tgroup-h i { flex:none; display:inline-flex; align-items:center; justify-content:center; width:24px; height:24px; font-style:normal; font-size:var(--fs-sm); font-weight:var(--fw-b); color:var(--accent); font-variant-numeric:tabular-nums; transform:translateY(.8px); }   /* raw-ok: translateY .8 = 광학 보정(운영자 260723 "4분할 일직선 확인" — DPR3 잉크 실측 숫자 잉크 중심 −0.83px 상편심 → 도형(.tgroup-h 박스) 4분할 수평선 스냅 · 페인트 레벨 transform = 세로 잉크 보정 정본(smoke_rank 260717 실측 · 레이아웃 불변) · 전 그룹 순번 배지 공통 적용 = 형제 균일) */   /* 단위 순번 = 원 배지 탈피·숫자만(운영자 260715 "동그라미 안 숫자 다 빼고 그냥 숫자로") — 24px 박스 유지 = 타이틀 좌측 정렬선·픽토(.gpic) 형제 정렬 보존 · 색 = 강조색(.trend-rank 계승) */
@@ -3094,7 +3094,7 @@
   .asklinkrow .iobtn-edge { top:auto; bottom:0; transform:translateY(50%); backdrop-filter:none; -webkit-backdrop-filter:none; }   /* 링크칸 클립 = 우하단(클립 2케이스 '우하단' · `.revdlg .iobtn-edge` 문법 그대로) — 기본 상단걸침이면 바로 위 본문 입력칸의 하단걸침 클립과 같은 높이에서 충돌(실렌더 캡처 실측 260731) */
   .asklinkrow .iobtn-edge:active { transform:translateY(50%) scale(var(--press-s,.85)); }
   /* 링크 경로 리드백(운영자 260731) — [● 자막][● 전사 large-v3] 2칸. 실제로 탈 경로만 점등(--accent), 나머지는 디밍.
-     동그라미 = .nm-dot 정본(7px 원) 계승 · 점등/소등 톤 = 리드백 정본 `.gs-v(.on)` 문법(accent ↔ mut) · 디밍 = .dim(op .45) 문법 공유. */
+     동그라미 = .fin-hotdot 정본(7px 원) 계승 · 점등/소등 톤 = 리드백 정본 `.gs-v(.on)` 문법(accent ↔ mut) · 디밍 = .dim(op .45) 문법 공유. */
   .alk-st { display:flex; align-items:center; gap:var(--sp-3); margin-top:var(--sp-2); padding-left:var(--sp-2); font-size:var(--fs-xs); font-weight:var(--fw-b); }
   .alk-st .alk-i { display:inline-flex; align-items:center; gap:var(--sp-1); color:var(--mut); opacity:.45; transition:opacity var(--dur-fast), color var(--dur-fast); }   /* 기본 = 디밍(안 타는 경로) */
   .alk-st .alk-dot { width:7px; height:7px /* raw-ok: 7px 원 = `.fin-hotdot` 도형 문법 사본(실렌더 실측 260731) */; border-radius:50%; background:currentColor; display:inline-block; flex:none; }   /* 점 색 = 그 칸 글자색 추종(점등 accent / 디밍 mut) */

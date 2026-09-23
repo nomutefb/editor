@@ -136,10 +136,9 @@ async function rowGeo(pg) {
     const R = e => { const r = e.getBoundingClientRect(); return { l: r.left, r: r.right, w: r.width, h: r.height, cx: r.left + r.width / 2 }; };
     const open = (id, listId, html) => { const p = document.getElementById(id); if (!p) return; p.hidden = false; const l = document.getElementById(listId); if (l && html != null) l.innerHTML = html; };
     try { open('qpop', 'qpopList', qRowHtml({ id: 'sm1', t: T0, status: 'succ', title: '스모크 표본 제목', url: 'https://example.com/a' })); } catch (_) {}
-    try {   // 키워드 = 행 마크업 미러(renderKwList 본문 문법 · 원본은 localStorage 의존이라 주입 대신 동형 행)
-      open('kwpop', 'kwpopList', '<div class="qrow kwrow" data-i="0"><label class="ed-match kw-chk"><input type="checkbox"><span class="ed-cbx"></span></label>'
-        + '<span class="qmain">스모크 키워드</span><span class="qst kwst kws-wait">대기</span>'
-        + '<span class="qact"><button class="pub-ico pub-rm kw-del" type="button"></button></span></div>');
+    try {   // 키워드 = 실제 빌더(renderKwList) · 저장소 의존만 표본으로 대체(kwGetItems) = 2칸 액션(kw-a1 수정 + 삭제) 행 = 다중 액션 간격 실측 표본
+      kwGetItems = () => [{ kw: '스모크 키워드', ts: T0 }, { kw: '스모크 키워드 둘', ts: T0 }]; kwPurgeDone = () => {};
+      renderKwList(); open('kwpop', null, null);
     } catch (_) {}
     try { MSGS = [{ id: 'smoke-msg', t: T0, text: '스모크 표본 알림' }]; renderMsgList(); open('msgpop', null, null); } catch (_) {}
     void document.body.offsetHeight;
@@ -225,7 +224,7 @@ function assess(r) {
   const all = (f) => got.every(k => f(G[k]));
   const det = (f) => got.map(k => k + ':' + f(G[k])).join(' · ') + (miss.length ? ' | 미수집 ' + miss.join(',') : '');
   C('C4 최우측 액션 중심 = 헤더 X 중심(Δ≤0.5px · 함 ' + got.length + '종)', got.length >= 3 && all(g => g.dCenter <= 0.5), det(g => g.dCenter + 'px'));
-  C('C5 .qact 폭 = --btn-sm(30) · 다중 액션 간격 = qrow gap(10)', got.length >= 3 && all(g => g.actW.every(w => Math.abs(w - 30) <= 0.5) && g.gaps.every(x => Math.abs(x - 10) <= 0.5)), det(g => 'w' + g.actW.join('/') + ' gap' + (g.gaps.join('/') || '-')));
+  C('C5 .qact 폭 = --btn-sm(30) · 다중 액션 간격 = qrow gap(10)', got.length >= 3 && got.some(k => G[k].gaps.length) && all(g => g.actW.every(w => Math.abs(w - 30) <= 0.5) && g.gaps.every(x => Math.abs(x - 10) <= 0.5)), det(g => 'w' + g.actW.join('/') + ' gap' + (g.gaps.join('/') || '-')));
   C('C6 액션 0개 행 0 + 함 안 행높이 균일(≤1.5px · 빈 셀 = 행 51→36 붕괴 차단)', got.length >= 3 && all(g => g.minActs >= 1 && g.rowHSpread <= 1.5), det(g => '최소액션' + g.minActs + ' 높이편차' + g.rowHSpread));
   C('C7 액션 +1 = 제목 우변만 40px(30+10) 좌측 · 최우측 중심 불변', got.length >= 3 && all(g => Math.abs(g.shift - 40) <= 0.5 && g.dCenter2 <= 0.5), det(g => '밀림' + g.shift + ' Δ중심' + g.dCenter2));
   return core;

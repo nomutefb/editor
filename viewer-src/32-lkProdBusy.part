@@ -57,7 +57,7 @@ function lkBuildPad() {
   lkPadEl.innerHTML = h; lkKds = lkPadEl.querySelectorAll('.kd');
 }
 function lkApply() { const o = lkA; for (let i = 0; i < 10; i++) { lkKds[i].querySelector('.lk-d').textContent = o[i]; lkKds[i].setAttribute('data-d', o[i]); } }   // 단판 고정 — 구 "앞 2/3 판A·뒤 판B" 4번째 자리 전환 삭제(운영자 260706 3차 e "그냥 삭제") · 숫자 = 전용 스팬(.lk-d)만 갱신(잔상 .lk-fx 보존 260706)
-function lkFill() { renderPinSlots(lkSlotsEl, lkReal); }   // 슬롯 시각 = stage-2/발행 정본 공유(방금 자리 숫자 노출·이전·미입력 모두 mut 동그라미) · 옛 * 마스킹+peek 0.7s → 동그라미 통일(운영자 260704) · 입력/검증/셔플 로직은 불변
+function lkFill() { renderPinSlots(lkSlotsEl, lkReal); }   // 슬롯 시각 = stage-2 정본(renderPinSlots) 공유(방금 자리 숫자 노출·이전·미입력 모두 mut 동그라미) · 옛 * 마스킹+peek 0.7s → 동그라미 통일(운영자 260704) · 입력/검증/셔플 로직은 불변
 function lkFlash(el, d) {
   if (!el) return; el.classList.remove('hit'); void el.offsetWidth; el.classList.add('hit'); clearTimeout(el._ht); el._ht = setTimeout(() => el.classList.remove('hit'), 260);
   try { navigator.vibrate && navigator.vibrate(15); } catch {}   // 진동 = PIN 키패드 전용(숫자·백스페이스 공통 진입점 · 운영자 260706 5차 "PIN 입력 빼고 진동 제거" — 전역 버튼 햅틱은 폐지·중간 강도 15ms만 여기 유지)
@@ -75,10 +75,10 @@ function lkPress(d) {
 function lkBack() { if (lkBusy || !isLocked() || !lkReal.length) return; lkFlash(lkPadEl.querySelector('.back')); lkUnbad(); lkReal = lkReal.slice(0, -1); lkFill(); lkApply(); }
 async function lkFire() {
   if (lkBusy || lkReal.length !== LK_LEN) return;
-  lkBusy = true; lkFill();   // 검증 진입 = 슬롯 갱신(stage-2 정본 · 방금 자리 노출 상태 = 발행/조회 동일)
+  lkBusy = true; lkFill();   // 검증 진입 = 슬롯 갱신(stage-2 정본 · 방금 자리 노출 상태 = 조회 동일)
   let h = ''; try { h = await lkHash(lkReal); } catch {}
   const master = h === LK_MASTER_H;
-  if (master || (h && h === lkPinH() && !lkOutLeft())) {   // 마스터 = 5회 잠금도 즉시 해제(발행본 동일)
+  if (master || (h && h === lkPinH() && !lkOutLeft())) {   // 마스터 = 5회 잠금도 즉시 해제
     const okw = lkSlotsEl.closest('.lk-slotwrap');   // 성공 = 플레이트 테두리 스윕 1바퀴 후 해제(운영자 260706 4차 l "지금은 그냥 사라져서 엥?" — 인증 느낌) · lkBusy는 유지(스윕 중 재입력 차단 · 다음 lockNow가 리셋)
     if (okw) { okw.classList.remove('ok'); void okw.offsetWidth; okw.classList.add('ok'); }
     const _rm = matchMedia('(prefers-reduced-motion:reduce)').matches;

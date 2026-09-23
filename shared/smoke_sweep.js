@@ -79,7 +79,7 @@ const MEASURE_INDEX = () => {
   // totop: fixed 버튼 — 스크롤 상태 무관하게 기하 존재(가시성 클래스는 opacity축이라 rect 유효)
   const tt = document.querySelector('#totop'), ts = tt && tt.querySelector('svg');
   out.totop = (tt && ts) ? { dx: +(R(ts).cx - R(tt).cx).toFixed(2), dy: +(R(ts).cy - R(tt).cy).toFixed(2) } : null;
-  out.pops = ['qpop', 'msgpop'].map(id => {
+  out.pops = ['qpop', 'msgpop', 'kwpop', 'devpop', 'mmpop'].map(id => {
     const p = document.getElementById(id); if (!p) return { id, err: '팝업 없음' };
     const list = p.querySelector('.qlist'); const xc = p.querySelector('.qh-xcell');
     if (!list || !xc) return { id, err: '.qlist/.qh-xcell 없음' };
@@ -125,7 +125,7 @@ const MEASURE_THUMB = () => {
     const q = m1.pops.find(p => p.id === 'qpop');
     put(!!q && !q.err && Math.abs(q.dRight) <= TOL && Math.abs(q.dCenter) <= TOL, 'S3 대기열 X셀↔행 qact R-라인 Δ≤0.5', q ? (q.err || `dRight ${q.dRight} dCenter ${q.dCenter} (goW ${q.goW})`) : '측정 실패');
     const others = m1.pops.filter(p => p.id !== 'qpop');
-    put(others.every(p => !p.err && Math.abs(p.dRight) <= TOL && Math.abs(p.dCenter) <= TOL), 'S4 메시지함 R-라인 Δ≤0.5', others.map(p => p.id + (p.err ? ':' + p.err : `:dR ${p.dRight}/dC ${p.dCenter}`)).join(' · '));
+    put(others.every(p => !p.err && Math.abs(p.dRight) <= TOL && Math.abs(p.dCenter) <= TOL), 'S4 메시지함·키워드·구독기기·메모 R-라인 Δ≤0.5', others.map(p => p.id + (p.err ? ':' + p.err : `:dR ${p.dRight}/dC ${p.dCenter}`)).join(' · '));
     put(JSON.stringify(m1) === JSON.stringify(m2), 'S7a index 결정론(재측정 동일)', JSON.stringify(m1) === JSON.stringify(m2) ? '동일' : 'm1≠m2');
     // ── thumb ──
     errs.length = 0;

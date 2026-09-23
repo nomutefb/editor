@@ -680,14 +680,14 @@ function cancelVote(card, vote, fig, file, btn) {
       else alert(j.error || '취소 실패');
     }).catch(e => { if (btn) { btn.disabled = false; disarmThumb(btn); } alert('요청 실패: ' + e.message); });
 }
-// ── PIN 입력 UI (발행 슬롯 정본 계승 · stage-2 260703) ──
+// ── PIN 입력 UI (PIN 슬롯 정본 · stage-2 260703) ──
 // confirm/prompt 대체. #pindlg 슬롯 6개(동그라미)를 단일 투명 오버레이(.pin-in-h)로 받아 Promise로 돌려준다.
 // 입력→슬롯 시각화(방금 자리 숫자·이전 mut원), 6자리 채우면 엔터 없이 자동 resolve. 취소=null.
 // 숫자만(비숫자 무시)·6자리 상한(붙여넣기도 이 필터 통과). ⚠️ PIN은 세션/로컬에 저장 안 함(매번 입력).
 let _pinWired = false, _pinResolve = null, _pinLen = 6;   // _pinLen = 표면별 자리수(화면잠금 4 = LK_LEN — openPinDlg 3번째 인자·운영자 260706)
 function _pinInput() { return $('#pinInput'); }
 function _pinValue() { const el = _pinInput(); return el ? el.value : ''; }   // 단일 오버레이 input이 값의 원천(옛 6칸 join 폐지)
-function _pinPaint() { const boxes = $('#pinboxes'); if (boxes) renderPinSlots(boxes, _pinValue()); }   // 슬롯 시각화 = 발행 정본(방금 자리 숫자·나머지 동그라미)
+function _pinPaint() { const boxes = $('#pinboxes'); if (boxes) renderPinSlots(boxes, _pinValue()); }   // 슬롯 시각화 = PIN 슬롯 정본(방금 자리 숫자·나머지 동그라미)
 function _pinReset() {                        // 값 비우고 오버레이 포커스(도먼트 · 재도입 대비 슬롯식)
   const el = _pinInput(); if (el) el.value = '';
   const boxes = $('#pinboxes'); if (boxes) boxes.classList.remove('bad', 'shake');

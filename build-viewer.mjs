@@ -26,7 +26,7 @@ const MSG_OUT = 'viewer/messages.json';
 // 브랜드 자산(정본 assets/brand/) → 뷰어 서빙 경로 복사(Pages output = viewer 한정)
 try { cpSync('assets/brand', 'viewer/assets/brand', { recursive: true }); } catch { /* 자산 없음 */ }
 try { cpSync('assets/media', 'viewer/assets/media', { recursive: true }); } catch { /* 미디어 없음 */ }   // 펫 영상 등
-try { cpSync('assets/fonts', 'viewer/assets/fonts', { recursive: true }); } catch { /* 폰트 없음 */ }   // Pretendard woff2 — 요약 HTML 다운로드에 임베드(로컬·인터넷 무관)
+try { cpSync('assets/fonts', 'viewer/assets/fonts', { recursive: true }); } catch { /* 폰트 없음 */ }   // Pretendard woff2 — 본문 @font-face 자체호스팅(viewer-src/03 조각) · 스모크 공용
 try { cpSync('apps/k/assets', 'viewer/assets/k', { recursive: true }); } catch { /* /k 오버레이 없음 */ }   // AI 표기 오버레이 PNG — k.html 결과 화면 동봉 노출(정본 = apps/k/assets · 운영자 260708)
 try { cpSync('assets/geni-styles', 'viewer/assets/geni-styles', { recursive: true }); } catch { /* 화풍 예시 없음 */ }   // AI 생성 화풍별 예시 webp — 미리보기 스테이지 표시(정본 = assets/geni-styles · 운영자 260719)
 

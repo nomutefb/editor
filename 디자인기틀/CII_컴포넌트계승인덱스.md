@@ -70,7 +70,7 @@
 | 잡 카드 실패 재시도 | `.job .jretry`(실패 잡 전용) | 필 999px·패딩 6/11·svg 12 | danger 틴트 `rgba(40,12,12,.5)`+`--danger-rgb`.36 테두리+blur10 | `scale(var(--press-l))`·발사 중 `disabled` 가드 | `RETRY_SVG`(↻ 회전화살 · 문자 금지) | 실패 잡 카드 내 라벨 우측(`.jst` 앞) | flex:none | `title="같은 설정으로 다시 제작"` | thumb `renderJob` — **재발사 = 같은 설정·같은 행 in-place**(reuse=job · 배치=`dispatchBatch`·리사이즈=`rszRefire`·생성=`genRefire` 응답형식별 분기 · 운영자 260710 축10 "재시도 = 기존 정본 계승") — 새 실패 UI도 이 행 계승(재설계 금지) | — |
 | 아이콘 누름 모션 | 위임 click(캡처·1핸들러) | — | — | — | `ic-spin`(회전·기본)·`ic-bounce`(↓다운로드/저장)·`ic-rise`(↗이동 7시→2시 상승)·`ic-check`(✓팝) · 버튼 `data-motion="rise/check"` 우선(없으면 다운로드=bounce/그외=spin) | — | — | reduced-motion 무효 | index 위임핸들러(§🎨) | ◐smoke_winnav(#src ic-src 배선 실존) |
 | 드롭다운 등장 모션 | 정본 구현 = vd `.vpop`(`vpopDrop`/`vpopFold` keyframes + `transform-origin:top left`) — 앵커형 팝업(메뉴·드롭다운)의 **등장 모션 2벌 SSOT** | — | — | — | — | 앵커 아래(top:100% 계열) | — | `prefers-reduced-motion:reduce` = `animation:none` 동반 필수 | **예울마루 프로모 상단 메뉴(navigation-01 이식분) 원문 사본 — 운영자 260803 5차 "누르면 촤르르 아래에 메뉴 · 프로모 상단 메뉴 참고(모션만)" 승인 → 260804 "드롭다운 정본 ㄱ" 등재. 값(창작 0 · 출처 = yeulmaru-promo index.html `acctDrop`/`ddFold`)**: 데스크탑 = `from{opacity:0; transform:translateY(-10px) scale(.95)}` `.22s cubic-bezier(.26,1.2,.5,1)`(스프링 팝) / 모바일 `@media (max-width:768px)` = `from{opacity:0; clip-path:inset(0 0 100% 0)}` `.55s cubic-bezier(.215,.61,.355,1)`(커튼 = 위→아래 촤르르 · 분기점 768도 프로모 원문) · **모션만 이 행** — 유리·그림자·패딩은 각 팝업 종전 스킨 계승(팝업 골격 = ly `.lypop` 계열 행 별개 축) · 새 드롭다운 = keyframes 2벌 + `animation` 선언 + reduce 가드 복사(재창작 금지) · 기존 통일 후보(승인 대기) = index `.qpop`·ly `.lypop` | — |
-| 픽토그램-온리 액션(함 행) | `.qpop .pub-ico`(삭제 `.pub-rm` · 메시지 확인 `.msg-ok` · 키워드 `.kw-go`/`.kw-edit` · 메모 `.mm-edit` · 구독 기기 `.dev-bell` — `pub-` 접두 = 태생 이름 유지) | `--btn-sm`(30)×34(히트 `::before -6px`=42) | **무도형**(배경·테두리 0) · 삭제 = 상시 `--danger` · 그 외 rest `--mut`(행별 의미색 오버라이드) | `:active` scale `--press-xs` | `_TRASHSVG` 등 | 버튼마다 `.qact` 고정폭 셀 · 최우측 = 헤더 X 아래 중앙 | svg 18px(휴지통 16) | disabled=`--mut` 40% · 삭제 불가 행도 빈 셀 금지(비활성 버튼) | index `.qpop .pub-ico` | ✅smoke_popup C4~C7 |
+| 픽토그램-온리 액션(함 행) | `.qpop .pub-ico`(삭제 `.pub-rm` · 메시지 확인 `.msg-ok` · 키워드 `.kw-go`/`.kw-edit` · 메모 `.mm-edit` · 구독 기기 `.dev-bell` — `pub-` 접두 = 태생 이름 유지) | `--btn-sm`(30)×34(히트 `::before -6px`=42) | **무도형**(배경·테두리 0) · 삭제 = 상시 `--danger` · 그 외 rest `--mut`(행별 의미색 오버라이드) | `:active` scale `--press-xs` | `_TRASHSVG` 등 | 버튼마다 `.qact` 고정폭 셀 · 최우측 = 헤더 X 아래 중앙 | svg 18px(휴지통 16 · 키워드·메모 픽토 14) | disabled=`--mut` 40% · 삭제 불가 행도 빈 셀 금지(비활성 버튼) | index `.qpop .pub-ico` | ✅smoke_popup C4~C7 |
 | 캐러셀 | scroll-snap 트랙 | — | — | — | — | — | — | — | `feed-ui`/`cardRefCarousel` | — |
 | 게이지 슬라이더(범위 입력) | `input[type=range]` — ly `.lypv-row`(자막 크기 `#lyFs` 원조)·`.lyopt-row`(위치 `#lyPos`·배경 `#lyBg` · 260707) | flex:1(행 내) · `.lyopt-row`판만 min-width:60px(wrap 행 붕괴 방지 raw — 원조는 0) | 네이티브 + `accent-color:var(--accent)` · 번인 OFF dim=`.dim`(op .45 = 칩 문법 공유) | — | — | 축 라벨(`.lyopt-k`) 우측 · 끝 방향 라벨 = `.lyopt-e`(mut·`--fs-xs` · 위치 게이지 '하단/상단') | gap 6(행 상속) | `aria-label`에 축·방향 명시(`0 = 하단 · 100 = 상단`) · readout `.lypv-fs`(11px 모노·우정렬 %) 병행 | ly.html — 연속 값 축(위치·투명도·크기)은 칩 대신 이 패턴 계승(재설계 금지) · 드래그 input = 렌더 실시간·저장 200ms 디바운스+change 확정 | — |
 | 게이지 슬라이더(양극 -2..+2) | `#genidlg .geni-gg input[type=range]` — 이미지 생성 무드 게이지 4축(긴장도·정서·온도·격앙 · 260710) | 행 grid `34px\|1fr\|34px`(축간 패딩 9px 균일 = 운영자 "간격 유지") · 히트 h22(가시 트랙 4px) | `appearance:none` 풀커스텀 — 트랙 흰`.12` + **중앙 눈금 흰`.35`**(중립 0 기준선 · 기하 예외) · thumb 15px `--fg` → 값≠0 = `--accent`(`.set` = 상태색) | 제외(press 화이트리스트 게이지 축 동일 · line18) | — | 축명 `.geni-gg-name` + 값 `.geni-gg-val`(tabular·set=accent) 상단 행 · 양끝 기준 라벨 `.geni-gg-end`(mut·`--fs-xs`) | 축간 9px 균일 | `aria-label`에 축·양끝 명시(`긴장도 (차분 ↔ 긴장)`) · 값 readout 병행 | index `.geni-gg` — **단극 연속축(0..100)은 위 행 네이티브 `accent-color` 정본 유지** · 양극(중립 0 중심 ±단계·중앙 눈금)만 이 패턴 계승(네이티브 accent-color론 중앙 눈금 불가 = 커스텀 정당 · 평의회6 등재 260710) | — |
@@ -99,7 +99,7 @@
 ## 🧮 버튼 N개 행-액션 레이아웃 교과서 (팝업 행 우측 액션 · 운영자 260704 · 추후 변경도 준수)
 > 팝업(qpop 계열) 행의 우측 액션 버튼은 **개수(1·2·3)와 무관하게 최우측 버튼이 헤더 X와 세로 일직선**. 새 팝업·버튼 추가/변경도 이 라인을 그대로 따른다(제각각 창작 금지).
 
-**공통 불변:** 모든 액션 버튼·헤더 X = `--btn-sm`(30) 등폭 · **최우측 버튼 우변 = 행 우변 3px 인셋 = 헤더 X 우변(= "X열")** · 버튼 여럿이면 왼쪽으로 **30px씩(gap 0)** 확장 · 헤더 X셀(`.qh-xcell`)도 30 center라 **모든 팝업 X·모든 행 끝버튼 우변이 한 세로선**.
+**공통 불변:** 모든 액션 버튼·헤더 X = `--btn-sm`(30) 등폭 · **최우측 버튼 우변 = 행 우변 3px 인셋 = 헤더 X 우변(= "X열")** · 버튼 여럿이면 왼쪽으로 **40px씩(30 + `.qrow` gap 10)** 확장 · 헤더 X셀(`.qh-xcell`)도 30 center라 **모든 팝업 X·모든 행 끝버튼 우변이 한 세로선**.
 
 | 버튼 수 | 구조 | 배치 | 실측 예 |
 |---|---|---|---|
@@ -107,7 +107,7 @@
 | **2개** | `.qact` 셀 ×2 | 최우측=X열 · 그 왼쪽 셀 | 키워드 이동/수정+삭제 · 메모 수정+삭제 (Δ0) |
 | **3개** | `.qact` 셀 ×3 | 최우측=X열 · 왼쪽으로 셀 연장 | 현 사용처 없음 |
 
-- **4개 이상**은 미도입(현 최대 2) — 필요 시 같은 규칙(최우측=X열·30px씩 왼쪽) 연장, 단 행폭·제목 잠식 커지면 운영자 확인.
+- **4개 이상**은 미도입(현 최대 2) — 필요 시 같은 규칙(최우측=X열·40px씩 왼쪽) 연장, 단 행폭·제목 잠식 커지면 운영자 확인.
 - 정본 셀렉터 = `.qpop .qh-xcell`·`.qrow .qact`(위 「팝업 행-액션 정렬」 행). 시각 정본 = 없음(구 등재 경로 `260704_메시지함_팝업정렬_교과서.html` = git 전 이력 0 실측 260718 — 커밋된 적 없는 유령 경로라 참조 철거 · 규칙 실체 = 좌기 정본 셀렉터 + 게이트). 강제 = `check_refs check_design`(raw px baseline).
 
 ## 🧩 상호작용→정본 부품 표 (운영자 260717 · 평의회 7:1 — CLAUDE.md [4-1] 완료선의 계승 앵커)

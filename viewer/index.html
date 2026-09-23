@@ -80,7 +80,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="뉴스 큐레이션 : News Curation">
 <meta name="twitter:image" content="https://edit.nomute.kr/assets/brand/og-card-260723.jpg">
-<style>@font-face{font-family:'Pretendard Variable';font-weight:45 920;font-style:normal;font-display:swap;src:local('Pretendard Variable'),url(assets/fonts/pretendard.woff2) format('woff2-variations')}</style><!-- 본문 폰트 = 자체호스팅 비차단(분신1·6 260706 — 구 jsdelivr dynamic-subset CSS가 유일한 렌더 차단 교차출처(SPOF·marked/purify 자체호스팅과 불일치) → 로컬 woff2 + swap = 첫 페인트 무차단·시스템 한글 폴백 후 스왑 · 경로는 요약 다운로드(nmFontFace)와 동일 자산) -->
+<style>@font-face{font-family:'Pretendard Variable';font-weight:45 920;font-style:normal;font-display:swap;src:local('Pretendard Variable'),url(assets/fonts/pretendard.woff2) format('woff2-variations')}</style><!-- 본문 폰트 = 자체호스팅 비차단(분신1·6 260706 — 구 jsdelivr dynamic-subset CSS가 유일한 렌더 차단 교차출처(SPOF·marked/purify 자체호스팅과 불일치) → 로컬 woff2 + swap = 첫 페인트 무차단·시스템 한글 폴백 후 스왑) -->
 <!-- 상태 타이포 = Pretendard로 통일(Orbitron 폐지·운영자 260621). -->
 <!-- 배너 preload 일시 해제(슬림 헤더 260706 — 배너 숨김 상태라 377KB 선다운로드 낭비 · 배너 복귀 시 아래 줄 원복): <link rel="preload" as="image" href="assets/brand/main_background.jpg?v=260705t" fetchpriority="high"> --><!-- 헤더 CI 로고 preload 제거(260706 운영자 "좌상단 CI 없애줘" — 워드마크는 PGSans 임베드라 fetch 0) -->
 <script defer src="marked.min.js"></script><!-- self-host(옛 jsdelivr CDN → 레포 번들 · 운영자 260705 "시작 시 멈춤" 진단: CDN SPOF 제거) · defer = 첫 피드 렌더는 textContent라 marked 불필요(상세 열 때만) → 파싱 비차단으로 부팅 가속 · setOptions는 window.marked 가드로 defer 늦어도 안전(parse는 open() 시점=로드 완료) -->
@@ -316,7 +316,7 @@
   .pushrow .lk-open:hover { color:var(--accent); }
   .pushrow .lk-open.lk-dim, .pushrow .lk-open.lk-dim:hover { opacity:.45; color:var(--mut); cursor:default; }
   /* ── 화면 잠금(응답없음 lock · 운영자 260703·260705) — 유휴 N분(기본 2) 후 오션 물결(#wavebg 승격) 배경 + 옅은 블루-딤 전면 오버레이 + PIN 키패드.
-     키패드 = 발행본 /s/ pinForm 정본 이식(lk- 프리픽스 · 고정 정상배열 1-9·0·숫자픽·명조 * 마스킹·빨강 3초·5회=10분·마스터 통일).
+     키패드 = 구 발행본 PIN 폼에서 이식 · 현 정본 = 31 조각 lk-*(lk- 프리픽스 · 고정 정상배열 1-9·0·숫자픽·명조 * 마스킹·빨강 3초·5회=10분·마스터 통일).
      설정 팝업 = msgpop 계승 · 행 = pushrow/pushbtn 계승(토글 동일 구성). ⚠️ 사생활 가림막(클라 로컬) — 접근 보안은 CF Access가 담당. */
   #lockpop .mh + .pushrow, #marqpop .mh + .pushrow { border-top:none; }   /* 헤더(.mh) border-bottom과 이중선 방지 · :first-of-type은 첫 div가 .mh라 첫 pushrow에 안 걸려 죽은 셀렉터였음 → 인접형제(.mh + .pushrow)로 교정 + marqpop도 포함(평의회 260704) */
   .pushrow .lk-in { flex:none; width:96px; text-align:center; font:inherit; font-size:13px; font-weight:700; color:var(--fg);
@@ -891,7 +891,7 @@
   .tgroup-h { transition:margin-bottom .32s var(--ease); }   /* 헤더 하단 간격도 동반 슬라이드(펼침 14→0 스냅 방지) */
   @media (prefers-reduced-motion:reduce) { .tgroup::details-content, .trend-sec::details-content, .tgroup-h { transition:none; } }
   .tgroup-h .tdash-time { margin-left:var(--sp-2); margin-right:auto; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }   /* 수집시각 = 타이틀 옆 유지 · 체브론(ml:auto)과 공존 = 시각이 좌측군 · 협폭 = 말줄임(우측 칩 예약 패딩(--chu-r)에 밀릴 때 겹침 대신 축약 · 운영자 260717) */
-  .tgroup-h .fin-hotdot { width:7px; height:7px; border-radius:50%; background:var(--accent-4); box-shadow:0 0 8px rgba(var(--accent-4-rgb),.7); flex:none; display:inline-block; }   /* raw-ok: 7px 원·글로우 8 = .nm-dot(뉴스요약 말머리 점) 도형 문법 그대로 계승 · 색만 UI 팔레트 골드레몬 — ⑬ 금융 임계 초과(fin-hot) 존재 신호 배지(운영자 260723 "ㅇㅋ 핫핫" 승인 · 헤더 상주 = 접힘에도 노출 · 간격 = 헤더 flex gap 7 자동 · 급변 0 = 미등장) */
+  .tgroup-h .fin-hotdot { width:7px; height:7px; border-radius:50%; background:var(--accent-4); box-shadow:0 0 8px rgba(var(--accent-4-rgb),.7); flex:none; display:inline-block; }   /* raw-ok: 7px 원·글로우 8 = 구 .nm-dot(요약 템플릿 말머리 점 · 260923 삭제) 도형 문법 계승 · 현 정본 = 이 규칙 · 색만 UI 팔레트 골드레몬 — ⑬ 금융 임계 초과(fin-hot) 존재 신호 배지(운영자 260723 "ㅇㅋ 핫핫" 승인 · 헤더 상주 = 접힘에도 노출 · 간격 = 헤더 flex gap 7 자동 · 급변 0 = 미등장) */
   .tgroup-h .fin-upd { margin:0 0 0 var(--sp-1); color:var(--fg); transform:translateY(1px); }   /* raw-ok: translateY 1 = 광학 보정(Q471 DPR3 정수 스테이지 잉크 실측 −1.0 상편심 → 도형 수평선 스냅 · 페인트 레벨 = smoke_rank 정본 · 레이아웃 불변) */
   .fin-upd .fin-chk { color:var(--cat-tech); display:inline-block; transform:translateY(-1px); }   /* raw-ok: translateY -1 = 부모 칩 보정(+1 · 시간 텍스트 잉크용)의 상쇄(Q471 — 괄호 글리프 잉크는 원래 정중앙이라 칩 보정에 +0.67 하편심 → 원복 · inline-block = 인라인 span transform 적용 통로 · 페인트 레벨) */   /* 수집 65분+ = "(점검 필요)" 라벨(운영자 260723-4 · 임계 = .tdash-time.stale 65분 동률) — 색 = 팔레트 유일 형광 보라 네온바이올렛 --cat-tech(#setToggle '기본값' 보라 선례 계승) · 시간 본문은 흰색 유지 · 판정·부착 = finUpdHtml · ⚠ 태그 = span 고정(i 금지 — .tgroup-h i 24px 순번 배지 룰에 걸려 겹침·조기 말줄임 실사고 260723 운영자 스샷) */   /* 금융 갱신시각("nn분 전") = 타이틀에서 헤더 gap(7)에 근접 토큰 sp-1 가산 우측(운영자 260723-2 "조금만 더 우측" — 구 margin 0 = 순수 gap 승계[운영자 260723 "두 글자 간격만큼"]) · 흰색 --fg(운영자 260723-2 "흰색으로" — .tdash-time --mut 대체 · stale 마킹은 fin-upd 미부여라 무충돌) · 서체·말줄임 = .tdash-time 계승 · 우측 밀기 = 체브론 ml:auto 종전 */
   .tgroup-h i { flex:none; display:inline-flex; align-items:center; justify-content:center; width:24px; height:24px; font-style:normal; font-size:var(--fs-sm); font-weight:var(--fw-b); color:var(--accent); font-variant-numeric:tabular-nums; transform:translateY(.8px); }   /* raw-ok: translateY .8 = 광학 보정(운영자 260723 "4분할 일직선 확인" — DPR3 잉크 실측 숫자 잉크 중심 −0.83px 상편심 → 도형(.tgroup-h 박스) 4분할 수평선 스냅 · 페인트 레벨 transform = 세로 잉크 보정 정본(smoke_rank 260717 실측 · 레이아웃 불변) · 전 그룹 순번 배지 공통 적용 = 형제 균일) */   /* 단위 순번 = 원 배지 탈피·숫자만(운영자 260715 "동그라미 안 숫자 다 빼고 그냥 숫자로") — 24px 박스 유지 = 타이틀 좌측 정렬선·픽토(.gpic) 형제 정렬 보존 · 색 = 강조색(.trend-rank 계승) */
@@ -3182,7 +3182,7 @@
   .asklinkrow .iobtn-edge { top:auto; bottom:0; transform:translateY(50%); backdrop-filter:none; -webkit-backdrop-filter:none; }   /* 링크칸 클립 = 우하단(클립 2케이스 '우하단' · `.revdlg .iobtn-edge` 문법 그대로) — 기본 상단걸침이면 바로 위 본문 입력칸의 하단걸침 클립과 같은 높이에서 충돌(실렌더 캡처 실측 260731) */
   .asklinkrow .iobtn-edge:active { transform:translateY(50%) scale(var(--press-s,.85)); }
   /* 링크 경로 리드백(운영자 260731) — [● 자막][● 전사 large-v3] 2칸. 실제로 탈 경로만 점등(--accent), 나머지는 디밍.
-     동그라미 = .nm-dot 정본(7px 원) 계승 · 점등/소등 톤 = 리드백 정본 `.gs-v(.on)` 문법(accent ↔ mut) · 디밍 = .dim(op .45) 문법 공유. */
+     동그라미 = .fin-hotdot 정본(7px 원) 계승 · 점등/소등 톤 = 리드백 정본 `.gs-v(.on)` 문법(accent ↔ mut) · 디밍 = .dim(op .45) 문법 공유. */
   .alk-st { display:flex; align-items:center; gap:var(--sp-3); margin-top:var(--sp-2); padding-left:var(--sp-2); font-size:var(--fs-xs); font-weight:var(--fw-b); }
   .alk-st .alk-i { display:inline-flex; align-items:center; gap:var(--sp-1); color:var(--mut); opacity:.45; transition:opacity var(--dur-fast), color var(--dur-fast); }   /* 기본 = 디밍(안 타는 경로) */
   .alk-st .alk-dot { width:7px; height:7px /* raw-ok: 7px 원 = `.fin-hotdot` 도형 문법 사본(실렌더 실측 260731) */; border-radius:50%; background:currentColor; display:inline-block; flex:none; }   /* 점 색 = 그 칸 글자색 추종(점등 accent / 디밍 mut) */
@@ -3987,7 +3987,7 @@ try {
       <button id="refresh" class="pmenu-rf" aria-label="새로고침" title="새로고침"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><path d="M21 12a9 9 0 1 1-3-6.7M21 4v5h-5"/></svg></button>
       <button id="pmenuX" class="pmenu-x" aria-label="닫기" title="닫기"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><path d="M6 6 18 18M18 6 6 18"/></svg></button>
     </div><!-- X = 최우측 · 새로고침은 그 좌측 · 노뮤트 로고 삭제(운영자 260705 "프로필 부분 로고 없애줘" — 옛 260629 '로고는 유지' 뒤집음) · Home·SNS 링크 삭제(운영자 260705 "홈페이지랑 SNS 이동하는 것도 없애줘") -->
-    <!-- 메시지·발행본·설정 아코디언(알림·잠금) = #linkpop으로 이관(운영자 260707 통합) → pmenu는 도먼트(헤더만 · 진입로 lpSettings 핸들러 제거) · showPmenu/hidePmenu는 openMsgbox 등서 참조 유지(빈 껍데기 토글 안전) · 재분리 시 위 4줄 복원 · 전광판은 marqpop 도먼트 보존 -->
+    <!-- 메시지·설정 아코디언(알림·잠금) = #linkpop으로 이관(운영자 260707 통합) → pmenu는 도먼트(헤더만 · 진입로 lpSettings 핸들러 제거) · showPmenu/hidePmenu는 openMsgbox 등서 참조 유지(빈 껍데기 토글 안전) · 재분리 시 위 4줄 복원 · 전광판은 marqpop 도먼트 보존 -->
   </div>
 </div>
 
@@ -7753,14 +7753,14 @@ function cancelVote(card, vote, fig, file, btn) {
       else alert(j.error || '취소 실패');
     }).catch(e => { if (btn) { btn.disabled = false; disarmThumb(btn); } alert('요청 실패: ' + e.message); });
 }
-// ── PIN 입력 UI (발행 슬롯 정본 계승 · stage-2 260703) ──
+// ── PIN 입력 UI (PIN 슬롯 정본 · stage-2 260703) ──
 // confirm/prompt 대체. #pindlg 슬롯 6개(동그라미)를 단일 투명 오버레이(.pin-in-h)로 받아 Promise로 돌려준다.
 // 입력→슬롯 시각화(방금 자리 숫자·이전 mut원), 6자리 채우면 엔터 없이 자동 resolve. 취소=null.
 // 숫자만(비숫자 무시)·6자리 상한(붙여넣기도 이 필터 통과). ⚠️ PIN은 세션/로컬에 저장 안 함(매번 입력).
 let _pinWired = false, _pinResolve = null, _pinLen = 6;   // _pinLen = 표면별 자리수(화면잠금 4 = LK_LEN — openPinDlg 3번째 인자·운영자 260706)
 function _pinInput() { return $('#pinInput'); }
 function _pinValue() { const el = _pinInput(); return el ? el.value : ''; }   // 단일 오버레이 input이 값의 원천(옛 6칸 join 폐지)
-function _pinPaint() { const boxes = $('#pinboxes'); if (boxes) renderPinSlots(boxes, _pinValue()); }   // 슬롯 시각화 = 발행 정본(방금 자리 숫자·나머지 동그라미)
+function _pinPaint() { const boxes = $('#pinboxes'); if (boxes) renderPinSlots(boxes, _pinValue()); }   // 슬롯 시각화 = PIN 슬롯 정본(방금 자리 숫자·나머지 동그라미)
 function _pinReset() {                        // 값 비우고 오버레이 포커스(도먼트 · 재도입 대비 슬롯식)
   const el = _pinInput(); if (el) el.value = '';
   const boxes = $('#pinboxes'); if (boxes) boxes.classList.remove('bad', 'shake');
@@ -10577,14 +10577,14 @@ document.addEventListener('visibilitychange', () => {
   _setSyncLast = Date.now(); loadSettings();
 });
 // ── 화면 잠금(응답없음 lock) — 운영자 260703. 유휴 N분(기본 2) → 챠콜 90% 모피즘 전면 오버레이 + PIN 키패드.
-//    키패드 = 발행본 /s/ pinForm 정본 이식(고정 정상배열 1-9·0·숫자픽·명조 *·빨강 3초·오류 5회=10분 잠금·마스터 통일).
+//    키패드 = 구 발행본 PIN 폼에서 이식 · 현 정본 = 이 파일(고정 정상배열 1-9·0·숫자픽·명조 *·빨강 3초·오류 5회=10분 잠금·마스터 통일).
 //    설정 저장 = 서버 SSOT(NM_SET · lockOn/lockPinHash/lockLen/lockMin). 기기별 상태(현재 잠김·활동·오류)만 로컬(nm_locked/_last/_fails/_until).
-//    ⚠️ 성격 = 사생활 가림막(클라 검증·DevTools로 우회 가능) — 접근 보안 자체는 CF Access 담당(발행본 서버 검증과 별개).
-const LK_MASTER_H = '19bd473e8747c6ac41e3477aac557468f2010b7d9d2205a3fd6e7e0cc8eef2eb';   // sha256('898900:nmlock') = 발행본 마스터(898900) 통일·평문 미노출
-const LK_MAX = 5, LK_OUT_MS = 600000;   // 오류 5회 = 10분(발행본 LOCK_MAX·LOCK_TTL 정본 동일)
+//    ⚠️ 성격 = 사생활 가림막(클라 검증·DevTools로 우회 가능) — 접근 보안 자체는 CF Access 담당.
+const LK_MASTER_H = '19bd473e8747c6ac41e3477aac557468f2010b7d9d2205a3fd6e7e0cc8eef2eb';   // 잠금 마스터 해시(6자리) · 잠금 입력 상한이 4자리라 현재 입력 경로 없음(260923 공유 기능 삭제로 서버 마스터 소멸)
+const LK_MAX = 5, LK_OUT_MS = 600000;   // 오류 5회 = 10분(현 정본 = 이 값)
 const lkOn = () => NM_SET.lockOn !== false;   // 잠금 활성 플래그(서버 설정) — PIN과 독립축(요구4: on/off는 PIN 1회 인증 토글, PIN은 유지). 실효 잠금 = lkActive.
 const lkPinH = () => NM_SET.lockPinHash || '';   // 잠금 PIN 해시(서버 설정) — 'PIN 변경' 항목이 수명 소유(요구6). 잠금 on/off와 분리.
-const LK_LEN = 4;   // 잠금 PIN 자리수 = 4(운영자 260706 · 발행본 PIN 6자리는 별개 불변). 구 6자리 마이그레이션은 _setBoot가 처리(승계 제외).
+const LK_LEN = 4;   // 잠금 PIN 자리수 = 4(운영자 260706). 구 6자리 마이그레이션은 _setBoot가 처리(승계 제외).
 const lkActive = () => lkOn() && !!lkPinH();   // 실효 잠금 = 활성 플래그 ON + PIN 존재 = 자동 발동·토글 표시 단일 진리(260710 재구성: lockOn·PIN 독립축 — 끄면 PIN 유지, 다음 켜기는 1회 인증)
 const LK_STEPS = [1, 2, 3, 4, 5, 10, 15, 30, 60];   // 자동잠금 분 스텝(운영자 260705 · 1 최소 · 60 최대)
 function lkMinRaw() {                                // 자동잠금 분 = 서버 설정(NM_SET.lockMin · 전역 1개 · PC/모바일 통일 · 운영자 260705 "하나만")
@@ -10656,7 +10656,7 @@ function lkBuildPad() {
   lkPadEl.innerHTML = h; lkKds = lkPadEl.querySelectorAll('.kd');
 }
 function lkApply() { const o = lkA; for (let i = 0; i < 10; i++) { lkKds[i].querySelector('.lk-d').textContent = o[i]; lkKds[i].setAttribute('data-d', o[i]); } }   // 단판 고정 — 구 "앞 2/3 판A·뒤 판B" 4번째 자리 전환 삭제(운영자 260706 3차 e "그냥 삭제") · 숫자 = 전용 스팬(.lk-d)만 갱신(잔상 .lk-fx 보존 260706)
-function lkFill() { renderPinSlots(lkSlotsEl, lkReal); }   // 슬롯 시각 = stage-2/발행 정본 공유(방금 자리 숫자 노출·이전·미입력 모두 mut 동그라미) · 옛 * 마스킹+peek 0.7s → 동그라미 통일(운영자 260704) · 입력/검증/셔플 로직은 불변
+function lkFill() { renderPinSlots(lkSlotsEl, lkReal); }   // 슬롯 시각 = stage-2 정본(renderPinSlots) 공유(방금 자리 숫자 노출·이전·미입력 모두 mut 동그라미) · 옛 * 마스킹+peek 0.7s → 동그라미 통일(운영자 260704) · 입력/검증/셔플 로직은 불변
 function lkFlash(el, d) {
   if (!el) return; el.classList.remove('hit'); void el.offsetWidth; el.classList.add('hit'); clearTimeout(el._ht); el._ht = setTimeout(() => el.classList.remove('hit'), 260);
   try { navigator.vibrate && navigator.vibrate(15); } catch {}   // 진동 = PIN 키패드 전용(숫자·백스페이스 공통 진입점 · 운영자 260706 5차 "PIN 입력 빼고 진동 제거" — 전역 버튼 햅틱은 폐지·중간 강도 15ms만 여기 유지)
@@ -10674,10 +10674,10 @@ function lkPress(d) {
 function lkBack() { if (lkBusy || !isLocked() || !lkReal.length) return; lkFlash(lkPadEl.querySelector('.back')); lkUnbad(); lkReal = lkReal.slice(0, -1); lkFill(); lkApply(); }
 async function lkFire() {
   if (lkBusy || lkReal.length !== LK_LEN) return;
-  lkBusy = true; lkFill();   // 검증 진입 = 슬롯 갱신(stage-2 정본 · 방금 자리 노출 상태 = 발행/조회 동일)
+  lkBusy = true; lkFill();   // 검증 진입 = 슬롯 갱신(stage-2 정본 · 방금 자리 노출 상태 = 조회 동일)
   let h = ''; try { h = await lkHash(lkReal); } catch {}
   const master = h === LK_MASTER_H;
-  if (master || (h && h === lkPinH() && !lkOutLeft())) {   // 마스터 = 5회 잠금도 즉시 해제(발행본 동일)
+  if (master || (h && h === lkPinH() && !lkOutLeft())) {   // 마스터 = 5회 잠금도 즉시 해제
     const okw = lkSlotsEl.closest('.lk-slotwrap');   // 성공 = 플레이트 테두리 스윕 1바퀴 후 해제(운영자 260706 4차 l "지금은 그냥 사라져서 엥?" — 인증 느낌) · lkBusy는 유지(스윕 중 재입력 차단 · 다음 lockNow가 리셋)
     if (okw) { okw.classList.remove('ok'); void okw.offsetWidth; okw.classList.add('ok'); }
     const _rm = matchMedia('(prefers-reduced-motion:reduce)').matches;
