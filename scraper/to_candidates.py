@@ -57,9 +57,13 @@ SOLO_TAG_ON = os.environ.get("CAND_SOLO_TAG", "1").strip().lower() not in ("0", 
 SOLO_MAX_H = float(os.environ.get("CAND_SOLO_MAX_H", "6"))
 # [단독] 특종 단독 입장(운영자 260924 «승리 CCTV 같은 건 항상 먼저 알림 · 이슈 터졌을 때 바로») — 한 매체 특종은 두 번째 매체가 받아쓰고
 #   제목이 묶일 때까지 못 들어왔다(JTBC 단독 20:45 → 수집함 23:16 · 두 매체 제목 겹침 2어뿐). 입장 = 속보 태그와 같은 단독 규칙(좌석 SOLO_T1_MAX ·
-#   불변식 ⓐⓑ) · 거르기 = 경중 채점(gate_judge 가 [단독]을 이미 채점 대상에 둔다) · 경중 0·1 은 SOLO_MAX_H 에 정리(24h 보존은 속보·경중≥2만).
-#   하루 약 40건(24h 실측 41 · 한 매체 38). 롤백 = CAND_SOLO_EXC=0(속보 태그 단독은 그대로).
+#   불변식 ⓐⓑ) · 거르기 = 경중 채점(gate_judge 가 [단독]을 이미 채점 대상에 둔다) · 폰 알림 = 긴급 축(push_send.push_cross_ok 태그 예외).
+#   하루 약 33건 입장(24h 실측 · 평의회4). ⚠ 좌석은 속보 단독과 **따로**(SOLO_EXC_MAX · 평의회4 260924 = 저녁 [단독] 몰림이 12석을 넘겨
+#   [속보] 1보를 밀어내고, 좌석 밖 [단독]이 잘렸다 다음 회차 재입장하는 회전[도장 소실·재판정 ~70회/저녁]을 실측) → 입장부터 상한으로 막는다.
+#   [단독] 단독분은 발행 SOLO_MAX_H(6h) 에 정리(긴급 확정분 제외 · 24h 보존은 속보 태그 몫 = 피드 배지 역전 차단).
+#   롤백 = CAND_SOLO_EXC=0(속보 태그 단독은 그대로 · 남은 [단독] 단독분은 다음 회차 정리).
 SOLO_EXC_ON = os.environ.get("CAND_SOLO_EXC", "1").strip().lower() not in ("0", "false", "no", "off")
+SOLO_EXC_MAX = int(os.environ.get("CAND_SOLO_EXC_MAX", "8"))
 # 경중 채점까지 받은 단독은 배지 소멸선(24h = 뷰어 BADGE_MAX_AGE_H)까지 보존 — 먼저 지우면 피드 빌드가 원장에서 못 찾아 제목 [속보]만 보고
 #   ⚡이슈를 거꾸로 켠다(평의회4 재현 · build-viewer feedBrk). 미채점은 SOLO_MAX_H 에 정리.
 SOLO_JUDGED_H = float(os.environ.get("CAND_SOLO_JUDGED_H", "24"))
@@ -116,6 +120,14 @@ def _solo_age_h(published, first_seen, now):
 def is_solo(c):
     """단독 입장분 = 표식 보유 엔트리(태그 단독 입장만이 찍는다)."""
     return bool(c.get("solo"))
+
+
+def is_exc_solo(c):
+    """[단독] 태그로만 들어온 단독분(속보 태그 없음) — 좌석·보존·롤백을 속보 단독과 따로 센다."""
+    if not is_solo(c):
+        return False
+    ts = (c.get("title") or "", (c.get("breaking_pick") or {}).get("title") or "")
+    return has_exclusive_tag(*ts) and not any(BREAKING_TAG.search(x) for x in ts)
 
 
 def _urgent(c):
@@ -356,6 +368,9 @@ def main():
     fresh = {}
     solo_in = 0
     solo_urls = set()
+    exc_live = {u for u, e in existing.items() if is_exc_solo(e)
+                and (_solo_age_h(e.get("published"), e.get("first_seen"), now) or 99) < SOLO_MAX_H}   # 지금 살아 있는 [단독] 단독분(좌석 상한 = 입장 시점)
+    exc_skip = 0
     covered = set()   # 기존 다매체 후보(단독 아님)의 대표·멤버 기사 — 불변식 ⓐ
     for e in existing.values():
         if not is_solo(e):
@@ -372,7 +387,8 @@ def main():
         has_breaking_tag = bool(BREAKING_TAG.search((a.get("title") or "") + " " + (bp.get("title") or "")))   # 제목 [속보]/[상보]/긴급 = 속보 확률↑(언론고시 기자는 낚시 안 씀) → breaking 후보로 AI 내용검증
         if (a.get("cross_score") or 0) < MIN_CROSS:
             # 단독 1보 입장 — 태그 + 신선만. 이미 다매체로 본 사건(prev cross≥MIN)이 클러스터 재분할로 1이 된 경우는 종전대로 건너뜀(cross 역행 방지).
-            if not (SOLO_TAG_ON and (has_breaking_tag or (SOLO_EXC_ON and has_exclusive_tag(a.get("title"), bp.get("title"))))):
+            exc_only = not has_breaking_tag and SOLO_EXC_ON and has_exclusive_tag(a.get("title"), bp.get("title"))
+            if not (SOLO_TAG_ON and (has_breaking_tag or exc_only)):
                 continue
             prev0 = existing.get(url) or {}
             if prev0 and not is_solo(prev0):
@@ -382,6 +398,11 @@ def main():
             sa = _solo_age_h(a.get("published"), prev0.get("first_seen"), now)
             if sa is None or sa >= SOLO_MAX_H:
                 continue
+            if exc_only and url not in exc_live:   # 새 [단독] = 좌석 남을 때만(이미 들어온 건 유지 = 회전 0)
+                if len(exc_live) >= SOLO_EXC_MAX:
+                    exc_skip += 1
+                    continue
+                exc_live.add(url)
             solo_in += 1
             solo_urls.add(url)
         burst = a.get("burst") or 0
@@ -578,9 +599,11 @@ def main():
             return False
         if not SOLO_TAG_ON:
             return True
+        exc = is_exc_solo(c)
+        if exc and not SOLO_EXC_ON:
+            return True   # [단독] 롤백 = 남은 단독분 즉시 정리(긴급 확정분은 위에서 이미 제외)
         sa = _solo_age_h(c.get("published"), c.get("first_seen"), now)
-        g = c.get("grade")
-        long_keep = g is not None and (bool(BREAKING_TAG.search(c.get("title") or "")) or g >= 2)   # 24h 보존 = 속보 태그(배지 역전 차단) · 경중≥2 [단독] — 경중 0·1 [단독]은 6h
+        long_keep = c.get("grade") is not None and not exc   # 24h 보존 = 채점된 속보 단독(배지 역전 차단 · 평의회4) · [단독]은 6h(소비처 없음 · 평의회4 260924)
         return sa is None or sa >= (SOLO_JUDGED_H if long_keep else SOLO_MAX_H)
 
     kept = [c for c in merged.values()
@@ -602,8 +625,9 @@ def main():
             sa = _solo_age_h(c.get("published"), c.get("first_seen"), now)
             lim = SOLO_JUDGED_H if (_urgent(c) or c.get("grade") is not None) else SOLO_MAX_H
             if sa is not None and sa < lim:
-                solo_t1.append((str(c.get("first_seen") or ""), c.get("url")))
-    solo_t1 = {u for _, u in sorted(solo_t1, reverse=True)[:SOLO_T1_MAX]}
+                solo_t1.append((is_exc_solo(c) and not _urgent(c), sa, c.get("url")))
+    solo_t1 = ({u for _, _, u in sorted(x for x in solo_t1 if not x[0])[:SOLO_T1_MAX]}          # 속보 단독(+긴급 확정) = 종전 12석 · 최신 발행순
+               | {u for _, _, u in sorted(x for x in solo_t1 if x[0])[:SOLO_EXC_MAX]})         # [단독] 단독분 = 따로 SOLO_EXC_MAX 석(속보 1보를 못 밀어낸다 · 평의회4)
 
     def fresh_tier(c):   # CAP 컷 1군(=1) = 발행 FRESH_KEEP_H 내 신선건 + 확정 긴급 — cross 낮아도(2~5) 컷 면제해 '신규<4h' 레인 공급 보장(260716 아사 봉합: CAP 800 상시포화 + cross 단독컷 = 하한 6 → 신규 즉시 탈락이던 회귀). 기준 = published(뷰어 scTs 동축) → first_seen 순차 폴백.
         if is_solo(c):          # 단독 1보 = 좌석 상한 안에서만 1군(위 SOLO_T1_MAX · 평의회6)
@@ -612,7 +636,11 @@ def main():
             return 1
         age = _age_h_first(c.get("published"), c.get("first_seen"))
         return 1 if age is not None and -10 <= age < FRESH_KEEP_H else 0   # -10h 하한 = 선의 KST+00 스큐(≤9h 미래)만 신선 허용 — 임의 미래값(2099 등)이 TTL(10일)까지 1군 영구 점유하는 슬롯 고갈 벡터 차단(평의회6) · 양측 결측·전부 파싱실패 = 구군(보수 — 옛 nowiso 폴백의 '불멸 1군' 구멍 폐쇄 · 평의회1·4)
-    vis = cum_visible_ids(kept)
+    try:
+        vis = cum_visible_ids(kept)
+    except Exception as e:  # noqa: BLE001 — 미러 런타임 실패(이상 필드 등)가 수집함 갱신을 멈추면 안 된다 = 종전 순서로(평의회7)
+        print(f"⚠️ 누적 미러 런타임 실패 — 컷 순서 종전 2군: {type(e).__name__}", file=sys.stderr)
+        vis = None
 
     def cut_band(c):   # 컷 순서 4단(높을수록 늦게 잘림) — 정본 주석 = 위 CUT_VISIBLE
         ft = fresh_tier(c)
@@ -625,8 +653,8 @@ def main():
         if id(c) in vis:
             return 2
         return 1 if ft else 0
-    band = {id(c): cut_band(c) for c in kept} if _cum_enter is not None else {}   # 계기판은 레버와 무관하게 산출(레버 OFF 날 누적 자격 컷도 보이게)
-    visible_order = CUT_VISIBLE and _cum_enter is not None
+    band = {id(c): cut_band(c) for c in kept} if (_cum_enter is not None and vis is not None) else {}   # 계기판은 레버와 무관하게 산출(레버 OFF 날 누적 자격 컷도 보이게)
+    visible_order = CUT_VISIBLE and (bool(band) or not kept)   # 빈 풀 = 순서 무의미(종전 폴백 표기 안 함)
     rank = band if visible_order else {id(c): fresh_tier(c) for c in kept}   # 레버 OFF·미러 부재 = 종전 2군 키 그대로
     kept.sort(key=lambda c: (rank[id(c)], c.get("cross") or 0, c.get("published") or ""), reverse=True)   # 단 안에서는 종전 cross·발행 내림차 — CAP 컷·바이트 트림은 꼬리(0단 → 1단 → 2단 순)부터 침
 
@@ -662,12 +690,12 @@ def main():
     t1min = min(((c.get("cross") or 0) for c in t1), default=0)
     print(f"수집함: 사건 {len(kept)}건 (신규 {len(fresh)} · 기존 {len(existing)}) · "
           f"보관한도 {CAP} · 보관기간 {TTL_HOURS}h(약 {TTL_HOURS // 24}일) · 교차≥{MIN_CROSS} · "
-          f"🚨속보후보(burst≥{BREAKING_BURST}) {nbreak}건 · 단독1보 입장 {solo_in}건(보유 {sum(1 for c in kept if is_solo(c))}) · "
+          f"🚨속보후보(burst≥{BREAKING_BURST}) {nbreak}건 · 단독1보 입장 {solo_in}건(보유 {sum(1 for c in kept if is_solo(c))}{(' · [단독] 만석 보류 ' + str(exc_skip)) if exc_skip else ''}) · "
           f"신선1군 {len(t1)}건(최소 cross {t1min}) · 바이트예산 {len(blob.encode('utf-8'))}B/{MAX_BYTES}B 트림 {trimmed}건"
           + (f" · 비노출 {FAST_MAX_H}~{FRESH_KEEP_H}h 신선 컷 {cut_46}건" if cut_46 else "")
           + (f" · ⚠️ 누적급(cross≥8) 컷 {cut_cum}건" if cut_cum else "")
           + (f" · ⚠️ 누적 자격 컷 {cut_vis}건" if cut_vis else "")
-          + ("" if visible_order else " · 컷 순서=종전 2군(" + ("레버 OFF" if not CUT_VISIBLE else "누적 미러 import 실패") + ")"))
+          + ("" if visible_order else " · 컷 순서=종전 2군(" + ("레버 OFF" if not CUT_VISIBLE else "누적 미러 부재·실패") + ")"))
 
 
 if __name__ == "__main__":

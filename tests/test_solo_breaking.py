@@ -126,12 +126,30 @@ class ToCandidatesSoloTest(unittest.TestCase):
     def test_exclusive_lever_off(self):
         self.assertEqual(self.run_tc([art("u1", "[단독] 특종")], env={"CAND_SOLO_EXC": "0"}), {})
 
-    def test_low_grade_exclusive_expires_at_6h_but_weighty_keeps_24h(self):
+    def test_exclusive_solo_expires_at_6h_regardless_of_grade(self):
+        # 평의회4 260924: [단독] 24h 보존은 소비처가 없고 좌석 경쟁만 늘린다 → 6h(긴급 확정분만 보존) · 속보 태그 채점분은 24h(배지 역전 차단)
         def e(u, h, t, **kw):
             return {"id": u, "url": u, "title": t, "cross": 1, "solo": 1, "published": _iso(h),
                     "first_seen": _kst(h), "cluster_members": [u], "arts": 1, **kw}
-        out = self.run_tc([], [e("x0", 7, "[단독] 경미", grade=0), e("x3", 7, "[단독] 대형", grade=3), e("b1", 7, "[속보] 경미", grade=1)])
-        self.assertEqual(set(out), {"x3", "b1"})   # 속보 태그는 경중 무관 24h(배지 역전 차단 · 평의회4)
+        out = self.run_tc([], [e("x0", 7, "[단독] 경미", grade=0), e("x3", 7, "[단독] 대형", grade=3),
+                               e("xb", 7, "[단독] 긴급", grade=2, breaking=True), e("b1", 7, "[속보] 경미", grade=1)])
+        self.assertEqual(set(out), {"xb", "b1"})
+
+    def test_exclusive_seats_are_separate_and_capped(self):
+        # 평의회4 260924: 저녁 [단독] 몰림이 12석을 넘겨 [속보] 1보를 밀어내고 좌석 밖 [단독]이 잘렸다 재입장하는 회전
+        arts = [art("e%d" % i, "[단독] 특종 %d 제보" % i, pub_h=0.1 + i * 0.1, media="JTBC") for i in range(12)]
+        out = self.run_tc(arts + [art("b1", "[속보] 남아공 총격 11명 사망", pub_h=2.0)], env={"CAND_SOLO_EXC_MAX": "8"})
+        self.assertIn("b1", out)
+        self.assertEqual(sum(1 for u in out if u.startswith("e")), 8)   # 입장 자체를 상한에서 끊는다(회전 0)
+        again = self.run_tc(arts, list(out.values()), env={"CAND_SOLO_EXC_MAX": "8"})
+        self.assertEqual({u for u in again if u.startswith("e")}, {u for u in out if u.startswith("e")})   # 다음 회차 = 같은 8건 유지(밀어내기·재입장 0)
+
+    def test_exclusive_lever_off_purges_exclusive_but_keeps_breaking_solo(self):
+        base = {"cross": 1, "solo": 1, "published": _iso(0.5), "first_seen": _kst(0.4), "arts": 1}
+        out = self.run_tc([], [{**base, "id": "x", "url": "x", "title": "[단독] 특종", "cluster_members": ["x"]},
+                               {**base, "id": "b", "url": "b", "title": "[속보] 1보", "cluster_members": ["b"]}],
+                          env={"CAND_SOLO_EXC": "0"})
+        self.assertEqual(set(out), {"b"})
 
     def test_solo_flag_set_on_admission(self):
         self.assertEqual(self.run_tc([art("u1", "[속보] 1보")])["u1"].get("solo"), 1)

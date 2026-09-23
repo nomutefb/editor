@@ -133,7 +133,17 @@ class CapTierTest(unittest.TestCase):
             m.screen_merge = None
         kept, log = self.run_tc(self.base(), env={"CAND_CAP": "2"}, patch=broken)
         self.assertEqual(set(kept), {"fresh", "mid"})
-        self.assertIn("누적 미러 import 실패", log)
+        self.assertIn("누적 미러 부재·실패", log)
+
+    def test_mirror_runtime_failure_falls_back_to_old_order(self):
+        # 평의회7 260924: 미러 **런타임** 예외(이상 필드 등)가 수집함 갱신 전체를 멈추면 안 된다 = 종전 순서로
+        def boom(m):
+            def bad(kept):
+                raise TypeError("unhashable")
+            m.cum_visible_ids = bad
+        kept, log = self.run_tc(self.base(), env={"CAND_CAP": "2"}, patch=boom)
+        self.assertEqual(set(kept), {"fresh", "mid"})
+        self.assertIn("누적 미러 부재·실패", log)
 
     def test_imports_single_python_mirror(self):
         # followEnters 파이썬 사본은 daily_health._cum_enter 한 벌(패리티 게이트 대상) — 새 사본을 만들지 않는다

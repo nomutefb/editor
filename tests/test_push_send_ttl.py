@@ -74,26 +74,22 @@ class TrendPickTest(unittest.TestCase):
         self.assertNotIn("actions", json.loads(m.payload_of({"title": "t", "body": "b", "url": "https://g/x", "kind": "trend"})))
 
 
-class ExclusivePushTest(unittest.TestCase):
-    """[단독] 대형 알림(운영자 260924 «승리 CCTV 같은 건 항상 먼저 알림») — 경중 3 · 매체 수 무관 · 긴급 축과 2중 발송 0."""
+class ExclusiveCrossGateTest(unittest.TestCase):
+    """[단독] = 긴급 축 한 매체 예외(운영자 260924 · 평의회4) — 문턱은 긴급 축 그대로, 매체 수 예외만 추가."""
 
-    def test_predicate(self):
+    def test_exclusive_tag_passes_cross_gate(self):
         m = _load()
-        base = {"title": "[단독] '소주병 집어든' 승리…당시 CCTV 입수", "cross": 1, "grade": 3}
-        self.assertTrue(m.is_exclusive(base))
-        self.assertFalse(m.is_exclusive({**base, "grade": 2}))                        # 경중 3 미만 = 화면만
-        self.assertFalse(m.is_exclusive({**base, "grade": None}))                     # 미채점 = 보류(비가역 보수)
-        self.assertFalse(m.is_exclusive({**base, "title": "승리 CCTV 입수"}))          # 태그 없음
-        self.assertFalse(m.is_exclusive({**base, "breaking": True, "cross": 3}))      # 긴급 축이 부를 건 = 제외
-        self.assertTrue(m.is_exclusive({**base, "breaking": True, "cross": 1}))       # 한 매체 긴급 [단독] = 긴급 축 cross 문턱에 막히므로 여기서
-        self.assertTrue(m.is_exclusive({**base, "title": "승리 CCTV", "breaking_pick": {"title": "[단독] 승리 CCTV"}}))
+        self.assertTrue(m.push_cross_ok({"title": "[단독] 승리 CCTV 입수", "cross": 1}))
+        self.assertTrue(m.push_cross_ok({"title": "승리 CCTV", "cross": 1, "breaking_pick": {"title": "[단독] 승리 CCTV"}}))
+        self.assertFalse(m.push_cross_ok({"title": "승리 CCTV 입수", "cross": 1}))
+        self.assertFalse(m.push_cross_ok({"title": "[상보] 승리 CCTV", "cross": 1}))
 
-    def test_kill_switch(self):
-        os.environ["EXC_PUSH"] = "0"
+    def test_lever_off(self):
+        os.environ["PUSH_SOLO_EXC"] = "0"
         try:
-            self.assertFalse(_load().is_exclusive({"title": "[단독] x", "cross": 1, "grade": 3}))
+            self.assertFalse(_load().push_cross_ok({"title": "[단독] 승리 CCTV 입수", "cross": 1}))
         finally:
-            os.environ.pop("EXC_PUSH", None)
+            os.environ.pop("PUSH_SOLO_EXC", None)
 
 
 if __name__ == "__main__":

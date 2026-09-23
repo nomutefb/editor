@@ -55,6 +55,11 @@ PUSH_MIN_CROSS = int(os.environ.get("PUSH_MIN_CROSS", "2"))   # 푸시 최소 �
 #   발송 후보 — 나머지 문턱(속보 판정 YES ∧ 경중 채점 ≥2 ∧ 4h/8h 창 ∧ 사건 dedup)은 그대로 = AI 두 겹 + 기자 태그. 두 번째 매체를 기다리던
 #   시차(실측 발행→푸시 154·229분 2건)의 구조 원인 제거. 롤백 = env PUSH_SOLO_TAG=0(종전 = cross≥PUSH_MIN_CROSS만).
 PUSH_SOLO_TAG = os.environ.get("PUSH_SOLO_TAG", "1").strip().lower() not in ("0", "false", "no", "off")
+# [단독] 특종도 한 매체 긴급 푸시 허용(운영자 260924 «승리 CCTV 같은 건 항상 먼저 알림») — 별도 알림 축을 새로 만들지 않고 **긴급 축 그대로**
+#   (속보 판정 YES ∧ 경중≥2 ∧ brk_gates 연예·재판 게이트 ∧ 제외어 ∧ 발행 PUSH_PUB_MAX_H ∧ 사건 dedup)를 태운다 = 이미 검증된 문턱.
+#   평의회4 260924: 별도 「(단독)」 축은 이슈 푸시 OFF(260917)에 갇혀 죽어 있었고, 승리 건은 경중 2라 경중 3 문턱도 못 넘었다.
+#   롤백 = env PUSH_SOLO_EXC=0.
+PUSH_SOLO_EXC = os.environ.get("PUSH_SOLO_EXC", "1").strip().lower() not in ("0", "false", "no", "off")
 
 
 def push_cross_ok(c):
@@ -69,10 +74,11 @@ def push_cross_ok(c):
         return False
     try:
         sys.path.insert(0, str(ROOT / "scraper"))
-        from brk_tag import has_first_report_tag
+        from brk_tag import has_first_report_tag, has_exclusive_tag
     except ImportError:
         return False
-    return has_first_report_tag(c.get("title"), (c.get("breaking_pick") or {}).get("title"))
+    ts = (c.get("title"), (c.get("breaking_pick") or {}).get("title"))
+    return has_first_report_tag(*ts) or (PUSH_SOLO_EXC and has_exclusive_tag(*ts))
 
 
 PUSH_PUB_MAX_H = float(os.environ.get("PUSH_PUB_MAX_H", "8"))   # 발행 나이 상한 — 24→8h 조임(운영자 260722 · 실측: 재수집 뒷북 3발[발행 19.5~24h·first_seen 방금]이 24h 캡을 통과해 오발송 — 8h = 구주석 '8~12h 조임' 하단 = 관측 오발 전부 차단 + syndication 지연(4h+) 2배 완충). first_seen 전환의 뒷북 완충. ⚠️ 입력 = 현재 rep 기사 발행 나이(사건 나이 아님 · 검4-3)
@@ -124,27 +130,6 @@ _BJ_PR = re.compile(r"^(?!.*(대통령|방사청|국방부|방산|잠수함|전�
 def _badge_junk(t):
     t = t or ""
     return bool((_BJ_MKT.search(t) and not _BJ_CRASH.search(t)) or _BJ_HEAD.search(t) or _BJ_PR.search(t))
-
-
-EXC_PUSH = (os.environ.get("EXC_PUSH", "1").strip() != "0")   # [단독] 대형 알림 킬스위치(이슈 푸시 축 안 · 0 = 끔)
-EXC_MIN_GRADE = 3                                             # 경중 3(대형·엄중)만 — [단독]은 하루 ~40건이라 폰까지 울릴 건 AI 경중이 거른다
-EXC_MAX_H = 4.0                                               # 신선할 때만(= 신규 칼럼 창 FAST_MAX_H 사본) — 특종 알림은 「지금 터졌다」가 목적
-_EXC_TAG = re.compile(r"\[\s*단독\s*\]")                      # = scraper/brk_tag.EXCLUSIVE_TAG 사본(희소 체크아웃 레인 = scraper/ 없음 · push_cross_ok 지연 import 사유와 같음)
-
-
-def is_exclusive(c):
-    """[단독] 대형 = 매체 수 무관 알림(운영자 260924 «승리 CCTV 같은 건 항상 먼저 알림»).
-    ⚠ 긴급 축이 다매체 검증을 통과해 이미 부를 건은 제외(같은 사건 2번 금지) — 한 매체 긴급 [단독]은 긴급 축이 cross 문턱에 막히므로 여기서 부른다."""
-    if not EXC_PUSH:
-        return False
-    g = c.get("grade")
-    if g is None or g < EXC_MIN_GRADE:
-        return False
-    if not (_EXC_TAG.search(c.get("title") or "") or _EXC_TAG.search((c.get("breaking_pick") or {}).get("title") or "")):
-        return False
-    if is_breaking(c) and push_cross_ok(c):
-        return False
-    return not _badge_junk(c.get("title") or "")
 
 
 def is_issue(c):
@@ -512,14 +497,12 @@ def main():
                 if iss_seeded and iss_n >= ISS_DAY_CAP:   # 상한은 **발송분에만** — 첫 회차 도장은 전건 찍어야 다음 회차가 조용하다
                     print(f"이슈 하루 상한 {ISS_DAY_CAP} 도달 — 나머지 생략", file=sys.stderr)
                     break
-                iss = is_issue(c)
-                exc = not iss and is_exclusive(c)           # [단독] 대형 = 매체 수 무관(이슈 자격이면 이슈로 부른다)
-                if not (iss or exc):
+                if not is_issue(c):
                     continue
                 a = age_h(c)
-                if a is None or a < 0 or a >= (EXC_MAX_H if exc else ISS_MAX_H):   # 미래스탬프·배지 소멸선 밖 = 제외(긴급 축과 같은 가드) · 특종 = 신선할 때만
+                if a is None or a < 0 or a >= ISS_MAX_H:   # 미래스탬프·배지 소멸선 밖 = 제외(긴급 축과 같은 가드)
                     continue
-                if iss and not iss_push_ok(c, a):          # 배지는 붙어도 폰까지 울릴 급인지는 별도 문턱(운영자 260818)
+                if not iss_push_ok(c, a):                  # 배지는 붙어도 폰까지 울릴 급인지는 별도 문턱(운영자 260818)
                     continue
                 base = dedup_keys(c)
                 if not base:
@@ -545,7 +528,7 @@ def main():
                         print(f"  ⊘ 이슈 사건중복 억제(AI): {_cand_t[:34]} ≈ {str(_pool[_d])[:28]}", file=sys.stderr)
                         suppressed_keys.extend(ks)
                         continue
-                msgs.append({"keys": ks, "ev_title": _cand_t, "title": "News", "body": (("(단독) " + _EXC_TAG.sub("", disp_title(c), count=1).strip()) if exc else ("(이슈) " + disp_title(c)))[:120],
+                msgs.append({"keys": ks, "ev_title": _cand_t, "title": "News", "body": ("(이슈) " + disp_title(c))[:120],
                              "url": brk_url(c), "tag": "nomute-issue-" + hashlib.md5((ks[0] if ks else "").encode("utf-8")).hexdigest()[:10], "kind": "iss",
                              "icon": notif_icon("iss", "sig") or ""})   # 노랑 지구본 = 화면 ⚡이슈 배지와 같은 색(운영자 260818)
                 iss_n += 1
