@@ -60,8 +60,11 @@ OC_BGR = {"black": "000000", "white": "FFFFFF", "green": "02FD0F", "mint": "D2EE
 #   (한글 별칭 "페이퍼로지" 동일 파일) · 등록 = REPO_FONT_KEYS 요청 시 register_repo_fonts()가 체크아웃의 폰트를 사용자 fontconfig에 편입(fc-cache).
 FONT_FAMILY = {"gothic": "Noto Sans CJK KR", "serif": "Noto Serif CJK KR",
                "nanum": "NanumGothic", "pen": "Nanum Pen Script",
-               "paper": "Paperlogy"}
-REPO_FONT_KEYS = {"paper"}   # 레포 동봉 축(assets/fonts/subs) — 새 깃 폰트 추가 절차는 assets/fonts/subs/README.md
+               "paper": "Paperlogy",
+               # (260923 운영자 "프리텐다드 기본 · 나눔바른고딕 · IBM · 배민주아 · 고운돋움까지") — 패밀리 = fc-scan 실측(assets/fonts/subs · 라이선스 = licenses/)
+               "pretendard": "Pretendard", "barun": "NanumBarunGothic", "plex": "IBM Plex Sans KR",
+               "jua": "Jua", "gowun": "Gowun Dodum"}
+REPO_FONT_KEYS = {"paper", "pretendard", "plex", "jua", "gowun"}   # barun = apt 나눔 계열(설치 완료 · 동봉 불필요)   # 레포 동봉 축(assets/fonts/subs) — 새 깃 폰트 추가 절차는 assets/fonts/subs/README.md
 GIT_FALLBACK_MAX = 30 * 1024 * 1024   # R2 미설정 시 git 커밋 상한(레포 비대 방지)
 MAX_DUR = 600                    # 릴스/쇼츠 도구 — 10분 초과 영상은 번인 거절(러너 시간 보호)
 OVL_MAX_SEC = 600                # 자막 오버레이(투명 WebM) 산출 상한 — VP9 알파 인코딩 예산 보호(운영자 260731 · 릴스/쇼츠 주사용 ≤ 수 분이라 실사용 전량 커버)

@@ -886,7 +886,8 @@ let P={lang:'ko',tone:'lit',   /* ★ 언어 = 'ko'(한글만) 기본 · 원문 
   shtype:'box',   // 음영 종류(운영자 260729 "지금은 무조건 네모인데, 획·그림자 등 다른것도 · 기본값은 음영인데 기본도 있어야") — none 기본(효과 없음) | box 음영(네모 = 종전 동작·디폴트) | stroke 획(글자 외곽선) | shadow 그림자
   lgap:18,     // 한국어↔외국어 줄간격 %(한국어 글자 높이 기준 · 운영자 260729 게이지 승격 · 18 = 구 하드코딩 fs×0.18 동값 = 기본 렌더 불변) · 러너 dual_gap 짝
   srcsz:-50,   // 원문(외국어) 줄 크기 = 한국어 줄 대비 상대 %(운영자 260729 "한글 자막 기준해서 -50% 크기를 기준으로, -75%~00%까지") · 0 = 한글과 동일 · -75 = 한글의 25% · 러너 dual_small = (100+srcsz)/100
-  sh:100,shc:'black',font:'gothic',fg:'white',kwc:'green',glow:0,   // kwc = 키워드 강조색(운영자 260804 "강조색도 있어야겠다 · 음영, 자막 처럼 옆에 강조라고 나오게") — 축 자체는 260711부터 러너(ly_burn KW 슬롯)·ly.js에 있었고 **편집 탭에만 선택자가 없어** 그린 고정이었다 · 기본 green = 종전 렌더 바이트 동일   // 음영 크기 %(100 = 종전 편집기 렌더 그대로 = 기존 기능 불변 · 50 = ly 캡션 기본 파리티)·음영 색·폰트 — 운영자 260711 3축 · fg 글자색(프리셋 전용 · 기본 흰 = 종전)·glow 네온 번짐 %(운영자 260721 · 기본 0 = 종전)
+  sh:100,shc:'black',font:'pretendard',fg:'white',kwc:'green',glow:0,   // font 기본 = 프리텐다드(운영자 260923 "기본을 프리텐다드로" · 구 gothic 본고딕)
+    // kwc = 키워드 강조색(운영자 260804 "강조색도 있어야겠다 · 음영, 자막 처럼 옆에 강조라고 나오게") — 축 자체는 260711부터 러너(ly_burn KW 슬롯)·ly.js에 있었고 **편집 탭에만 선택자가 없어** 그린 고정이었다 · 기본 green = 종전 렌더 바이트 동일   // 음영 크기 %(100 = 종전 편집기 렌더 그대로 = 기존 기능 불변 · 50 = ly 캡션 기본 파리티)·음영 색·폰트 — 운영자 260711 3축 · fg 글자색(프리셋 전용 · 기본 흰 = 종전)·glow 네온 번짐 %(운영자 260721 · 기본 0 = 종전)
   cutlv:'std',cutfill:false,take:false,t0:'',t1:'',segs:[{s:'',e:''}],xfade:20,ar:'9:16',fit:'blur',vpos:50,res:'1080',fps:'60i'};   // segs = n구간(운영자 260728 "1구간, 2구간 n구간" — [{s,e}] 문자열 · t0/t1 = 구 단일 구간 도먼트 보존) · xfade = 이음매 디졸브 강도 %(0=딱 붙임 · 발사 vid_xfade)   // cutfill=필러 컷·take=반복 테이크 감지(운영자 260727 ①④ — 컷 카드 종속 서브 토글)   // fit 기본 = 여백(블러)(운영자 260711 fitDef)   // 자막 기본 = ly LY_OPT_DEF 계승(캡션형)
 let OPEN='';
 const SUBPRE={   // 자막 스타일 프리셋(운영자 260711 배치 승인 — 자막 카드 최상단 칩) · 기존 축 조합만 원탭 점등(신규 렌더 축 0)
@@ -904,11 +905,16 @@ const preOn=k=>Object.entries(SUBPRE[k]).every(([p,v])=>p==='nm'||P[p]===v);
 /* ── 자막 음영 색·폰트 축 상수(운영자 260711 · 러너 ly_burn OC_BGR·FONT_FAMILY와 1:1 짝) ── */
 const OC_DEF={black:'#000',white:'#fff',green:'var(--accent-5)',mint:'var(--accent)',sky:'var(--bias-l1)',pink:'var(--accent-6)',yellow:'var(--warn)'};   // (260804 4차) 블루(--bias-l2)·레드(--danger) 이탈 — 운영자 "짙은 파랑이랑 짙은 빨강 동그라미는 없애도될듯 잘 안쓸거같아" · 화면 선택지에서만 뺀다(러너 ly_burn OC_BGR·api 화이트리스트는 무접촉 = 과거 산출물 재현·구 값으로 저장된 재입히기 호환 유지)   // 콘텐츠 산출물 색(§핵심명령 3-b-1) — 순수 흑/백만 리터럴·나머지 var 계승 · (260729) 민트·스카이 2색 증설(운영자 "색 토글 더 여러개로") = 기존 토큰 계승만(신규 hex 0) · 7색 = 폰 390 한 줄 여유(구 9색 상한 실측치에서 2칸 회수 = 라벨 자리 확보)
 const OC_LBL={black:'검정',white:'흰',green:'그린',mint:'민트',sky:'스카이',pink:'핑크',yellow:'레몬'};   // OC_DEF와 1:1(블루·레드 동반 이탈 · 260804 4차)
-const FONT_PV={   // 폰트 = 러너 설치 패밀리(fc-scan 실측)와 동명 구글 웹폰트 지연 로드 = 미리보기 실체 정합 · 기본 고딕만 = 시스템 폰트 근사(안드로이드 = Noto 계열 실질 동일 · 평상시 외부요청 0)
-  gothic:{lbl:'고딕',ff:'"Noto Sans KR","Noto Sans CJK KR",sans-serif',gf:'Noto+Sans+KR:wght@700;800'},   // 본고딕 명시(운영자 260731 19차 "본고딕·본명조만") — 구 시스템 근사(ff:'')는 기기마다 달라 러너(Noto 계열)와 미리보기가 갈렸다
+const FONT_PV={   // 폰트 = 러너 설치 패밀리(fc-scan 실측)와 동명 웹폰트 지연 로드(고를 때만) = 미리보기 실체 정합 · 기본 = 프리텐다드(260923 — UI 본문 폰트 재사용 = 평상시 외부요청 0 · 구 기본 본고딕은 첫 미리보기에 구글 웹폰트를 받았다)
+  pretendard:{lbl:'프리텐다드',ff:'"Pretendard Variable","Pretendard",sans-serif'},   // (260923 운영자 "프리텐다드 기본 · 바로 선택") = 애플고딕(Apple SD 산돌고딕 Neo) 대체용 오픈 폰트 · 미리보기 = 이 파일 15행 UI 본문 @font-face(assets/fonts/pretendard.woff2)와 같은 폰트 = **추가 로드 0** · 번인 = 레포 동봉 Pretendard-Bold.otf(REPO_FONT_KEYS)
+  gothic:{lbl:'본고딕',ff:'"Noto Sans KR","Noto Sans CJK KR",sans-serif',gf:'Noto+Sans+KR:wght@700;800'},   // 본고딕 명시(운영자 260731 19차 "본고딕·본명조만") — 구 시스템 근사(ff:'')는 기기마다 달라 러너(Noto 계열)와 미리보기가 갈렸다
   serif:{lbl:'명조',ff:'"Noto Serif KR","Noto Serif CJK KR",serif',gf:'Noto+Serif+KR:wght@700'},
   paper:{lbl:'페이퍼',fam:'Paperlogy',ff:'"Paperlogy","페이퍼로지",sans-serif',lf:'assets/fonts/subs/Paperlogy-5Medium.ttf',lw:'500'},   // 페이퍼로지 5 Medium(운영자 260805 "깃에 넣을테니 선택가능하게 · 줄임말") — 레포 동봉 자기 서빙(정본 = 루트 assets/fonts/subs → build-viewer cpSync가 viewer/assets로 복사 = pretendard 동축 · 외부요청 0) · 패밀리 = TTF name표 실측(nid16 "Paperlogy" · 한글 별칭 "페이퍼로지") · 러너 짝 = ly_burn REPO_FONT_KEYS 등록(fc-cache)
   pen:{lbl:'손글씨',ff:'"Nanum Pen Script",cursive',gf:'Nanum+Pen+Script'},
+  barun:{lbl:'바른고딕',fam:'NanumBarunGothic',ff:'"NanumBarunGothic",sans-serif',lf:'https://hangeul.pstatic.net/hangeul_static/webfont/NanumBarunGothic/NanumBarunGothicWebBold.woff2',lw:'700 900'},   // (260923) 나눔바른고딕 = 번인은 러너 apt(fonts-nanum 계열 · 설치 0) · 미리보기 = 네이버 공식 웹폰트 Bold(CORS * 실측 · 고를 때만 1회 1.4MB) · lw 700~900 = 굵은 파일을 굵기 칸에 등록 = 800 요청에 가짜 굵게 0(번인 실 Bold와 정합)
+  plex:{lbl:'IBM',ff:'"IBM Plex Sans KR",sans-serif',gf:'IBM+Plex+Sans+KR:wght@700'},   // (260923) IBM Plex Sans KR Bold — 미리보기 = 구글 웹폰트(글자 조각만 · 샘플 33KB) · 번인 = 레포 동봉 TTF
+  jua:{lbl:'주아',ff:'"Jua",sans-serif',gf:'Jua'},   // (260923) 배민 주아(굵기 1종 = 미리보기·번인 둘 다 합성 굵게 = 서로 정합) · 구글 웹폰트 샘플 64KB · 번인 = 레포 동봉 TTF
+  gowun:{lbl:'고운돋움',ff:'"Gowun Dodum",sans-serif',gf:'Gowun+Dodum'},   // (260923) 고운돋움(굵기 1종 = 합성 굵게 정합) · 구글 웹폰트 샘플 51KB · 번인 = 레포 동봉 TTF
 };
 const _ocRGB={};
 function ocRGB(k){   // 음영 색 키 → 'r,g,b'(계산 스타일 실측 = var 토큰값 이중관리 0 · 색당 1회 메모) · 실패 = 검정
@@ -928,7 +934,7 @@ function loadPvFont(k){   // 미리보기 폰트 지연 로드(기본 고딕 = �
 }
 
 function sum(k){
-  if(k==='sub') return ({bold:'기본',clean:'깔끔',box:'박스'})[P.style]+(P.karaoke?'·가라오케':P.hi?'·강조':P.pop?'·툭 튀어나오기':'')+(P.keyword?'·강조':'')+(P.font!=='gothic'?'·'+((FONT_PV[P.font]||{}).lbl||''):'')+' · '+P.pos+'%';
+  if(k==='sub') return ({bold:'기본',clean:'깔끔',box:'박스'})[P.style]+(P.karaoke?'·가라오케':P.hi?'·강조':P.pop?'·툭 튀어나오기':'')+(P.keyword?'·강조':'')+(P.font!=='pretendard'?'·'+((FONT_PV[P.font]||{}).lbl||''):'')+' · '+P.pos+'%';
   if(k==='cut') return ({soft:'살짝',std:'기본',hard:'많이'})[P.cutlv]+(P.cutfill?'·필러':'')+(P.take?'·테이크':'');
   if(k==='trim') return (P.t0||0)+'~'+(P.t1||'끝')+'초';
   if(k==='screen') return P.ar+(P.fit==='pad'?' 검정 여백':P.fit==='blur'?' 블러 여백':' 자르기');   // 개명 동기(운영자 260712 3차)
@@ -1037,7 +1043,8 @@ function prm(k){
     +'<div class="scard cyc"><div class="hd st" title="ON = 원문이 50% 작게 위 · 한국어 자막이 아래(원문+한글 동시 표기)">'+cyv('trn','번역')+'</div></div>'   // 번역 = 자막 **안** 첫 카드로 이주(운영자 260803 7차 "어짜피 자막에 포함되어 있는거니까 없애고 자막 안으로 삽입") — 부품·워딩·핸들러 = 구 hl3 3분할 행 tg3 그대로(생김새 창작 0 · 워드 점등 정본) · 축 계약 불변(setAxis trn: ON = 자막 자동 ON · 자막 OFF = 번역 동반 OFF)
     /* 언어 행 = 폐지 유지(운영자 260803 8차 "언어 > 원문 포함 고정") — lang은 P 기본값 'dual' 상시 고정 · setAxis('lang') 핸들러·발사 경로는 도먼트 보존(복원 = 이 자리 srow 한 줄) */
     +(ON.trn?C(srow('의역', [['lit','직역'],['plain','기본'],['sns','의역'],['mz','MZ어']].map(a=>pc('tone',a[0],P.tone===a[0],false,a[1])))):'')   /* ★ 번역 OFF = 이 줄 자체가 없다(운영자 260812 "번역 꺼지면 번역 관련 선택자는 다 꺼져야 맞음 · 외국어 자막 디자인 설정부터 의역 설정까지") — 톤은 러너 lymake.sh 에서 **외국어 소스 전용**으로 못박혀 있어(그 파일 63행 "위 톤 지시는 외국어 소스 전용") 번역을 안 켜면 고를 수 있어도 아무 데도 안 쓰인다 = 죽은 선택자였다 */   /* ⚠배치 = 자막 카드 안 '번역' 바로 아래(운영자 260812 "의역의 강도를 좀 더 창의적으로, 사람이 말하는것 처럼 변환할 수 잇는 강도를 조정") — 260803 8차에 「의역 고정」으로 없앤 톤 행의 **복원 + 한 단 증설**: 그때 고정한 건 'sns'(기본 의역)였고 그보다 센 단이 아예 없었다 · 부품·문법 = 같은 카드의 '음영' 행 srow+pc 값 사본(생김새 창작 0) · 핸들러 = setAxis 일반 폴백 P[k]=v(신규 로직 0) · 값 = lymake.sh 프롬프트 3분기와 1:1 */
-    +C(srow('글자 형태', ['gothic','serif','paper'].map(f=>pc('font',f,P.font===f,false,FONT_PV[f].lbl))))   // 운영자 260805 "기본은 본고딕 · 명조랑 페이퍼 줄임말로 고를수있게" — 고딕(본고딕·기본)·명조(본명조)·페이퍼(페이퍼로지 5 Medium · 레포 동봉) 3종 · 나눔고딕(260731 19차)·손글씨(260805) = 도먼트(러너 화이트리스트 불변 · 복원 = 배열에 키 한 줄)
+    +C(srow('글자 형태', ['pretendard','gothic','serif','paper'].map(f=>pc('font',f,P.font===f,false,FONT_PV[f].lbl)))
+       +srow('', ['barun','plex','jua','gowun'].map(f=>pc('font',f,P.font===f,false,FONT_PV[f].lbl))))   // (260923) 8종 = 2줄 — 둘째 줄 = 라벨 없는 행(칩 우측 정렬 · swdefrow 문법 계승 · 신규 부품 0) · 폰 390 한 줄 4칩 실측   // 운영자 260805 "기본은 본고딕 · 명조랑 페이퍼 줄임말로 고를수있게" — 고딕(본고딕·기본)·명조(본명조)·페이퍼(페이퍼로지 5 Medium · 레포 동봉) 3종 · 나눔고딕(260731 19차)·손글씨(260805) = 도먼트(러너 화이트리스트 불변 · 복원 = 배열에 키 한 줄)
     /* 모양 행 = 폐지 잔존(운영자 260731 19차 "모양-강조 없애자 · 모양 = 깔끔(기본)으로 가고 나머진 다 숨김") — style 기본값 'clean' 고정 · pop·keyword 축은 도먼트 보존 */
     /* (260808 복원 · 운영자 «강조점이 이동하는 기능, 그리고 의성어 같은거 쳐내기 onoff 가 있었는데 없어짐») 두 축을 화면에 되돌린다.
        ⚠ 축은 죽은 적이 없다 — `functions/api/edit.js` 화이트리스트(karaoke·filler)·러너 `ly_burn.build_line(karaoke…)`·재입히기 `lyOptsNow()`가 셋 다 상시 통과시켜 왔고,
