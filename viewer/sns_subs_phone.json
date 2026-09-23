@@ -15,6 +15,26 @@
  "insta": [],
  "threads": [
   {
+   "account": "aipeekme",
+   "text": "🔗 원문·자세히 보기\nhttps://github.com/XiaoDuoYa/codex-with-chatgpt",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1790155887,
+   "thumb": "",
+   "url": "https://www.threads.com/@aipeekme/post/Ddn_nTCH_xP",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "개발자가 이미 구독 중인 웹 버전 지피티를 코딩 에이전트의 두뇌로 쓰는 오픈소스 프로젝트를 공개했습니다. 지피티가 계획과 검토를 맡고 코덱스가 실행을 담당하는 구조인데요. 비싼 API 토큰을 아끼기 위해 웹 버전의 남는 할당량을 활용하는 방식입니다. 공식 웹 UI와 읽기 전용 모델 맥락 프로토콜 브리지를 결합해 별도의 API 키나 역방향 프록시가 필요 없습니다. 지피티는 오직 보안이 유지된 연결을 통해 작업 중인 코드의 필요한 부분만 읽어옵니다. 사용자의 저장소가 통째로 업로드되지 않는 점을 강조하고 있습니다. 에이전트 사용량이 늘어날수록 구독 기반의 웹 연동 방식이 실질적인 대안이 될 것 같습니다. 개인적으로는 웹 인터페이스와 에이전트 간의 통신 속도 지연이 실제 개발 흐름에 얼마나 영향을 줄지 궁금합니다.\n\n📷 사진 출처: github.com",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1790155877,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/821339289_18089236208407306_7291559422013607120_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk5MjQzOTI1MjQ2NzAwOTE2Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=dprSDtGMs2gQ7kNvwHbC4mU&_nc_oc=Ado-O49Wzi0AvV1H8PdL9CiRTRPPlEYdFY5U5gVjjUZ98Q41J_RhOGEl69HedIg_7Lg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=hcKlXrvNzA3juxIwpCD7Nw&_nc_ss=7a22e&oh=00_AQIxKSx2WnnCw64c7LnY49UmNkWF94l6aHN_wvIm8yeP3A&oe=6AB97897",
+   "url": "https://www.threads.com/@aipeekme/post/Ddn_ljmn0aL",
+   "region": "kr"
+  },
+  {
    "account": "choi.openai",
    "text": "상세내용 :\nhttps://unreallabs.ai/blog/unreal-agent/",
    "likes": 0,
@@ -27,17 +47,17 @@
   {
    "account": "choi.openai",
    "text": "AI 에이전트는 사용하는 모델만큼 어떤 방식으로 도구를 다루느냐도 중요해지고 있습니다.\n\nUnreal Labs가 오픈소스 에이전트 하네스 Unreal Agent를 공개했습니다.\n도구 실행을 기다리지 않고 백그라운드에서 비동기로 처리하면서 AI는 다른 작업을 계속하는 방식입니다.\n\nTerminal-Bench 4.0에서 GPT-6 Astra를 사용했을 때 Codex와 동일한 57.9% 성공률을 기록하면서 비용은 2,350달러에서 1,428달러로 약 39% 줄였습니다.\n\n모델을 바꾸지 않아도 에이전트 구조를 어떻게 설계하느냐에 따라 비용과 작업 효율이 크게 달라질 수 있다는 사례입니다.",
-   "likes": 12,
+   "likes": 16,
    "cmts": 2,
    "time": 1790154035,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/819002807_17988344550112832_4539035955536208530_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk5MjQyMzg3MjI0NjY1NzE1MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=1gulFLvfeSAQ7kNvwEV4NR3&_nc_oc=AdpRi4ntL9i9rDdNNpCN-EnVBxAg1GGpYKzUXbSijHEYCnvbHz02rvYNKb1A78-iDNQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=H5WPSwAFEKIe8NaJPNXUjA&_nc_ss=7a22e&oh=00_AQL30o4H-LrT6JnnsOSp6k7Dspz9R3tYkXZa_VzkBeZX-A&oe=6AB97801",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/819002807_17988344550112832_4539035955536208530_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk5MjQyMzg3MjI0NjY1NzE1MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=1gulFLvfeSAQ7kNvwEV4NR3&_nc_oc=AdpRi4ntL9i9rDdNNpCN-EnVBxAg1GGpYKzUXbSijHEYCnvbHz02rvYNKb1A78-iDNQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=z-bpUydq2rgaXC3NXFkHPQ&_nc_ss=7a22e&oh=00_AQJq03OUD3OoP2OTPq4c6qWcNF6l2SO_ZzN_WYc1BKKeiQ&oe=6AB97801",
    "url": "https://www.threads.com/@choi.openai/post/Ddn8FvqDTB-",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "Opus 5.5는 신이다.",
-   "likes": 129,
+   "likes": 161,
    "cmts": 29,
    "time": 1790152217,
    "thumb": "",
@@ -55,16 +75,6 @@
    "region": "kr"
   },
   {
-   "account": "aipeekme",
-   "text": "multimodalart가 Jev Decision Index를 공개했습니다. 해당 공간에서는 대규모 의사결정 테스트 스위트를 바탕으로 모델별 성능을 확인할 수 있습니다. 구체적인 모델 크기와 아키텍처에 따른 필터링 기능을 제공하는 형태입니다. 최근 다양한 오픈소스 진영에서 시스템 원 기반의 의사결정 모델 재구현이 이어지는 흐름과 맞물려 있습니다. 텍스트 생성 대신 확률 분포를 직접 다루는 구조적 모델들이 늘어나는 추세인데요. 이런 인덱스가 실제 워크플로에서 쓸만한 모델을 고르는 기준을 얼마나 명확히 보여줄지는 지켜봐야 합니다. 개인적으로는 다양한 모델의 성능 수치를 한곳에 모아둔 것 자체보다 실무 적용 시의 지표로 유효할지가 궁금합니다.\n\n📷 사진 출처: huggingface.co",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1790145115,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/817191717_18089209643407306_7537784815564710559_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk5MjM0ODk4NDE1NzkwOTYyNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=p0lxnMD7DBcQ7kNvwGmubjz&_nc_oc=Adr1OkBH00OIZLowDpYl1NcbGvCMUioL5Y4fTRLtoutl8_hh7PSIj5DVhMsyE_kQxyA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=jTKCzUwDCT8xv47wKZ_FOA&_nc_ss=7a22e&oh=00_AQLacBbxi1RJ3E7wWat2jgy-FRKLo3_1lk0homS_DripNA&oe=6AB98ADA",
-   "url": "https://www.threads.com/@aipeekme/post/DdnrD-sH7J5",
-   "region": "kr"
-  },
-  {
    "account": "kopp",
    "text": "been collecting everything in one place: https://www.details.so/vault",
    "likes": 1,
@@ -77,21 +87,11 @@
   {
    "account": "kopp",
    "text": "made this nav even more satisfying",
-   "likes": 1,
+   "likes": 2,
    "cmts": 1,
    "time": 1790142708,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/819097508_2253126432147791_4000566436485041439_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk5MjMyODYxOTYzNjUwMzc4Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=QTKJsa50iLUQ7kNvwHu5Pac&_nc_oc=Adp0uhhDwM_bHDLeRCj9SHY-U_84WDdvkG6Hx65DYt0rsUQuvV15ESnoVPEHcwBRa4A&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Fbarf7kCdUjpcS6cCMl1eA&_nc_ss=7a22e&oh=00_AQJ4MSoULAxTT_OTLmFgW7rv4fWaCPjXZ0H9i-sxf0MGcw&oe=6AB97F58",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/819097508_2253126432147791_4000566436485041439_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk5MjMyODYxOTYzNjUwMzc4Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=QTKJsa50iLUQ7kNvwHu5Pac&_nc_oc=Adp0uhhDwM_bHDLeRCj9SHY-U_84WDdvkG6Hx65DYt0rsUQuvV15ESnoVPEHcwBRa4A&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=dpT73WUxkAcIViojWP7FnA&_nc_ss=7a22e&oh=00_AQLHsTJPT1Dzk7zgyZcquykRZIPuTA3U7PvpqR179f9slg&oe=6AB97F58",
    "url": "https://www.threads.com/@kopp/post/DdnmbowDzTm",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
-   "text": "🔗 원문·자세히 보기\nhttps://huggingface.co/spaces/convaiinnovations/laya-demo",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1790134283,
-   "thumb": "",
-   "url": "https://www.threads.com/@aipeekme/post/DdnWZ_DH4hH",
    "region": "kr"
   },
   {
@@ -127,7 +127,7 @@
   {
    "account": "choi.openai",
    "text": "허깅페이스 :\nhttps://huggingface.co/akhilaaa3/Jev-Omni",
-   "likes": 1,
+   "likes": 2,
    "cmts": 0,
    "time": 1790150435,
    "thumb": "",
@@ -136,12 +136,12 @@
   },
   {
    "account": "aipeekme",
-   "text": "컨베이이노베이션스가 허깅페이스 스페이스를 통해 라야 데모를 공개했습니다. 원문 자료에 따르면 이 스페이스에는 151개의 에이전트가 제로 환경에서 실행 중인 것으로 나타납니다. 텍스트나 제이슨 상태를 받아 정형화된 질문에 답하는 시스템 모델인 라야는 직접 텍스트를 생성하지 않고 단일 포워드 패스를 통해 확률값을 계산하도록 설계되었습니다. 토큰 생성 과정이 없어 오류를 줄이고, 다양한 언어와 스크립트를 자동 감지해 최적화된 체크포인트로 분기하는 라우터 기능을 지원합니다. 백본으로 모던비이알티를 채택해 다국어 환경에서 빠른 속도로 작동하며, 텍스트 생성 중심의 거대언어모델과 달리 빠르고 단순한 분류 및 판단 업무를 대체하기 위해 만들어졌습니다. 실제 서비스에서 복잡한 문맥 파악보다는 단순 분기 처리가 필요한 구간에 효율적일 것 같습니다.\n\n📷 사진 출처: huggingface.co",
-   "likes": 1,
+   "text": "multimodalart가 Jev Decision Index를 공개했습니다. 해당 공간에서는 대규모 의사결정 테스트 스위트를 바탕으로 모델별 성능을 확인할 수 있습니다. 구체적인 모델 크기와 아키텍처에 따른 필터링 기능을 제공하는 형태입니다. 최근 다양한 오픈소스 진영에서 시스템 원 기반의 의사결정 모델 재구현이 이어지는 흐름과 맞물려 있습니다. 텍스트 생성 대신 확률 분포를 직접 다루는 구조적 모델들이 늘어나는 추세인데요. 이런 인덱스가 실제 워크플로에서 쓸만한 모델을 고르는 기준을 얼마나 명확히 보여줄지는 지켜봐야 합니다. 개인적으로는 다양한 모델의 성능 수치를 한곳에 모아둔 것 자체보다 실무 적용 시의 지표로 유효할지가 궁금합니다.\n\n📷 사진 출처: huggingface.co",
+   "likes": 0,
    "cmts": 1,
-   "time": 1790134271,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/815367591_18089183306407306_7116840774075995498_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk5MjI1ODAyNDkyMTA2ODUzMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=gB8Ks_cqZWgQ7kNvwEhm0hw&_nc_oc=AdpD830bntI4GcX7V1Y3rnYBc9epapOfxj_WZwZWIrRGFzBUz-AcyWOGZISloq99wgA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=jTKCzUwDCT8xv47wKZ_FOA&_nc_ss=7a22e&oh=00_AQJ45VZ0nvZcrJ7xAtpi7KbaMouYQftArr2U1YRaghkQBg&oe=6AB98565",
-   "url": "https://www.threads.com/@aipeekme/post/DdnWYWTH3Pz",
+   "time": 1790145115,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/817191717_18089209643407306_7537784815564710559_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk5MjM0ODk4NDE1NzkwOTYyNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=p0lxnMD7DBcQ7kNvwGmubjz&_nc_oc=Adr1OkBH00OIZLowDpYl1NcbGvCMUioL5Y4fTRLtoutl8_hh7PSIj5DVhMsyE_kQxyA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=hcKlXrvNzA3juxIwpCD7Nw&_nc_ss=7a22e&oh=00_AQIbcarmEkf41yyIidfnvFsq8kahni-Q5e6CRTSy-n8Lkg&oe=6AB98ADA",
+   "url": "https://www.threads.com/@aipeekme/post/DdnrD-sH7J5",
    "region": "kr"
   },
   {
@@ -157,21 +157,21 @@
   {
    "account": "choi.openai",
    "text": "Jev의 멀티모달 버전까지 등장했습니다.\n\n개발자 Akhila가 개인 프로젝트로 Jev-Omni를 공개했습니다.\nGemma 4 12B를 기반으로 텍스트뿐 아니라 이미지·음성·영상까지 보고 선택지별 확률을 판단하는 의사결정 모델입니다.\n\nH200 기준 텍스트 약 83ms, 이미지 26ms, 13초 음성 31ms로 처리하며 Apache 2.0으로 공개됐습니다.\n\n아직 Jev보다 성능이 낮다고 개발자도 밝혔지만, AI 에이전트의 빠른 판단 영역이 텍스트를 넘어 영상과 음성까지 확장되고 있습니다.",
-   "likes": 55,
+   "likes": 64,
    "cmts": 2,
    "time": 1790150428,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/819785118_4666035613722802_5877801328619303594_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk5MjM5MzYyMTQ2NjcxMDEyMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Ex8XAs_0SNgQ7kNvwFMp8Yz&_nc_oc=AdrSlX_5RfpUpS7I1VwC6GE3qu23DxsilGrDVI4smlgjYtXo3A4vvShZzA5oUCWHelM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=H5WPSwAFEKIe8NaJPNXUjA&_nc_ss=7a22e&oh=00_AQIxXGXhOubkezv1vf4J8xiBVyvPrNzYuCo2gQeP3_fmSA&oe=6AB97DFC",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/819785118_4666035613722802_5877801328619303594_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk5MjM5MzYyMTQ2NjcxMDEyMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Ex8XAs_0SNgQ7kNvwFMp8Yz&_nc_oc=AdrSlX_5RfpUpS7I1VwC6GE3qu23DxsilGrDVI4smlgjYtXo3A4vvShZzA5oUCWHelM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=z-bpUydq2rgaXC3NXFkHPQ&_nc_ss=7a22e&oh=00_AQJQzmt9MbP4k2yqvtjUsxaK0PnKNSrKcqKbQbheqqq8IQ&oe=6AB97DFC",
    "url": "https://www.threads.com/@choi.openai/post/Ddn1NibDwBp",
    "region": "kr"
   },
   {
    "account": "aipeekme",
-   "text": "아 겁내 웃기노 \n현실 고증 ㅋㅋ",
-   "likes": 7,
+   "text": "🔗 원문·자세히 보기\nhttps://huggingface.co/spaces/convaiinnovations/laya-demo",
+   "likes": 0,
    "cmts": 0,
-   "time": 1790130886,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/818854975_2187344521852468_1210583866406072364_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk5MjIyOTUxOTA4ODEyNzg5MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=JV36TtACgxsQ7kNvwHdJ-Hq&_nc_oc=Adr7JleTuHJKZ4dtghofwnOFH-oAyA803CKhgedo4wj-J4f8IfSH5hbLesK9gX8z_qk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=jTKCzUwDCT8xv47wKZ_FOA&_nc_ss=7a22e&oh=00_AQIfji-2PPqXgIn-PB-uorgLQ1Bn5Nc-YU6ipbaMqQimuw&oe=6AB98891",
-   "url": "https://www.threads.com/@aipeekme/post/DdnP5iLE4-T",
+   "time": 1790134283,
+   "thumb": "",
+   "url": "https://www.threads.com/@aipeekme/post/DdnWZ_DH4hH",
    "region": "kr"
   },
   {
@@ -196,12 +196,12 @@
   },
   {
    "account": "aipeekme",
-   "text": "🔗 원문·자세히 보기\nhttps://huggingface.co/fastino/gliner2.5-multi-v1",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1790127080,
-   "thumb": "",
-   "url": "https://www.threads.com/@aipeekme/post/DdnIqsOH92l",
+   "text": "컨베이이노베이션스가 허깅페이스 스페이스를 통해 라야 데모를 공개했습니다. 원문 자료에 따르면 이 스페이스에는 151개의 에이전트가 제로 환경에서 실행 중인 것으로 나타납니다. 텍스트나 제이슨 상태를 받아 정형화된 질문에 답하는 시스템 모델인 라야는 직접 텍스트를 생성하지 않고 단일 포워드 패스를 통해 확률값을 계산하도록 설계되었습니다. 토큰 생성 과정이 없어 오류를 줄이고, 다양한 언어와 스크립트를 자동 감지해 최적화된 체크포인트로 분기하는 라우터 기능을 지원합니다. 백본으로 모던비이알티를 채택해 다국어 환경에서 빠른 속도로 작동하며, 텍스트 생성 중심의 거대언어모델과 달리 빠르고 단순한 분류 및 판단 업무를 대체하기 위해 만들어졌습니다. 실제 서비스에서 복잡한 문맥 파악보다는 단순 분기 처리가 필요한 구간에 효율적일 것 같습니다.\n\n📷 사진 출처: huggingface.co",
+   "likes": 1,
+   "cmts": 1,
+   "time": 1790134271,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/815367591_18089183306407306_7116840774075995498_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk5MjI1ODAyNDkyMTA2ODUzMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=gB8Ks_cqZWgQ7kNvwEhm0hw&_nc_oc=AdpD830bntI4GcX7V1Y3rnYBc9epapOfxj_WZwZWIrRGFzBUz-AcyWOGZISloq99wgA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=hcKlXrvNzA3juxIwpCD7Nw&_nc_ss=7a22e&oh=00_AQJsoQrsu0F76N8fNeVM3V5jSvBJ1qJ3Ri48AMo7UvYvDQ&oe=6AB98565",
+   "url": "https://www.threads.com/@aipeekme/post/DdnWYWTH3Pz",
    "region": "kr"
   },
   {
@@ -219,10 +219,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Aux Champs-Élysées #이재명 #France #macron #fyp",
-   "views": 636900,
+   "views": 637000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0CGAI6ooFCAPECAEqED63ffIARmgNxjBUg0zR~tplv-tiktokx-origin.image?dr=14575&x-expires=1790326800&x-signature=Dahqm6ecrtEmtJbnSmWLVRElrh8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0CGAI6ooFCAPECAEqED63ffIARmgNxjBUg0zR~tplv-tiktokx-origin.image?dr=14575&x-expires=1790330400&x-signature=aG2RXaTLq62nAdtP9PhUwx2K4uE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1788879730,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7683179938026900754",
    "region": "kr"
@@ -230,10 +230,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Саламатсызбы, Кыргызстан! 🇰🇷🇰🇬 #키르기스스탄 #Kyrgyzstan #кыргызстан",
-   "views": 491700,
+   "views": 491900,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ossWcFAWqdBeFM1UB9FEguDtEqARxSGQQyfuUi~tplv-tiktokx-origin.image?dr=14575&x-expires=1790326800&x-signature=za4wBSy6pfaNCQJHb3XXiu3FTfI%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ossWcFAWqdBeFM1UB9FEguDtEqARxSGQQyfuUi~tplv-tiktokx-origin.image?dr=14575&x-expires=1790330400&x-signature=hbRnrXvCJFDzta28hZ%2FX5W5CW3w%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789537496,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7686005021397273863",
    "region": "kr"
@@ -241,10 +241,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Ассалому алайкум, Тоҷикистон! 🇰🇷🇹🇯 #타지키스탄#Тоҷикистон",
-   "views": 254200,
+   "views": 254300,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okxPtEHAgIY0AAlC9gAoxAMiBqToaAKBiFulq~tplv-tiktokx-origin.image?dr=14575&x-expires=1790326800&x-signature=DjbPSZVPMk0qhHa5vBWHDbBTkuw%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okxPtEHAgIY0AAlC9gAoxAMiBqToaAKBiFulq~tplv-tiktokx-origin.image?dr=14575&x-expires=1790330400&x-signature=BXwUhs0t%2BVZog7TvCadnaPDmxV0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789536283,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685999812356934930",
    "region": "kr"
@@ -252,10 +252,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Salam aleýkum Türkmenistan! 🇰🇷🇹🇲 #투르크메니스탄 #turkmenistan #Türkmenistan",
-   "views": 214600,
+   "views": 214700,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4iB0bDrFU5kqzoDSRupABvEWftIIUEfgqMaiE~tplv-tiktokx-origin.image?dr=14575&x-expires=1790326800&x-signature=RfiDsWnwh1yLbUl7uIwTW7ie%2FU4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4iB0bDrFU5kqzoDSRupABvEWftIIUEfgqMaiE~tplv-tiktokx-origin.image?dr=14575&x-expires=1790330400&x-signature=2GBg7E47k0Tj7K0a0fMx1kdRCIo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789447594,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685618898128915730",
    "region": "kr"
@@ -266,7 +266,7 @@
    "views": 65700,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAUOEAPEroYfNoFaeAAfZQATIAiVPvDB5WhDFE~tplv-tiktokx-origin.image?dr=14575&x-expires=1790326800&x-signature=s5cPc8Ev%2Fzewm0%2BL5Yf3IOc3ehY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAUOEAPEroYfNoFaeAAfZQATIAiVPvDB5WhDFE~tplv-tiktokx-origin.image?dr=14575&x-expires=1790330400&x-signature=frKQ%2F%2B1sD60xgQg8WmCzDDVmij8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789393470,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685386435158887688",
    "region": "kr"
@@ -277,7 +277,7 @@
    "views": 47400,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oMMIdnnHDI6bTifTAPFDcDRbtBfWqzBIEDgvEo~tplv-tiktokx-origin.image?dr=14575&x-expires=1790326800&x-signature=BSkkvx890wUCu9VtdM28AbEioGc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oMMIdnnHDI6bTifTAPFDcDRbtBfWqzBIEDgvEo~tplv-tiktokx-origin.image?dr=14575&x-expires=1790330400&x-signature=Iyfv2xKDLIiyR3F%2FVMY7k8zbcaM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789031851,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7683833293816614151",
    "region": "kr"
@@ -285,10 +285,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Қош келдіңіз, Қазақстан!🇰🇿🇰🇷 #이재명 #대통령 #카자흐스탄 #Қазақстан #Kazakhstan",
-   "views": 41400,
+   "views": 41500,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4AeKl0yGICLqpfFAVLAoFr7LEeoVADEIKAdEU~tplv-tiktokx-origin.image?dr=14575&x-expires=1790326800&x-signature=OuIWk8pTl87pU7ufCZANQ6SP8Do%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4AeKl0yGICLqpfFAVLAoFr7LEeoVADEIKAdEU~tplv-tiktokx-origin.image?dr=14575&x-expires=1790330400&x-signature=63tFPfO8sm8WIDn3XcrB75T8Gd8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789473921,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685731970453638407",
    "region": "kr"
@@ -296,10 +296,10 @@
   {
    "account": "jaemyung_lee",
    "title": "미국 뉴욕타임즈와 인터뷰를 가졌습니다. Urging Pivot on North Korea, South’s Leader Calls for Easing Sanctions https://blog.naver.com/jaem",
-   "views": 39600,
+   "views": 39800,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIBVEyCAEfPFpCCAvAhEZlCAjHXfDDAjIf8IR4~tplv-tiktokx-origin.image?dr=14575&x-expires=1790326800&x-signature=9BveEM3T7B2oyjycZhoFEQXJ6Fo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIBVEyCAEfPFpCCAvAhEZlCAjHXfDDAjIf8IR4~tplv-tiktokx-origin.image?dr=14575&x-expires=1790330400&x-signature=QihNwgA5pMDwGJlU74rzwYB3z%2Bg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1790052600,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7688217377795788039",
    "region": "kr"
@@ -307,10 +307,10 @@
   {
    "account": "jaemyung_lee",
    "title": "<초국가범죄, 반드시 뿌리 뽑겠습니다> ‘외국에 있으면 안 잡히겠지?’  그런 생각은 이제 버리십시오. 대한민국 국민을 상대로 한 범죄는 세계 어느 곳에 숨어 있든, 끝까지 추적해 처벌합니다. 대규모 보이스피싱 조직",
-   "views": 32100,
+   "views": 32200,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oU9rIZjq1EKACAAxNBVioCpiI2BAtmA28wfcPR~tplv-tiktokx-origin.image?dr=14575&x-expires=1790326800&x-signature=xixad%2FFQJ7RgRf4frMNSMTZis7A%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oU9rIZjq1EKACAAxNBVioCpiI2BAtmA28wfcPR~tplv-tiktokx-origin.image?dr=14575&x-expires=1790330400&x-signature=kSn1Ol32Gtuvv29i18Dzq4us%2FvU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789605105,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7686295400835239175",
    "region": "kr"
@@ -318,10 +318,10 @@
   {
    "account": "jaemyung_lee",
    "title": "다녀오겠습니다 🇺🇳🇲🇽 🇺🇳UN총회 9월 21일~23일 🇲🇽멕시코 국빈방문 9월 23일~26일 #이재명 #UNGA #mexico",
-   "views": 19000,
+   "views": 19100,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o8hqfADsO8SBzFR3qsnOMDUEgQTwBkvQerxPE0~tplv-tiktokx-origin.image?dr=14575&x-expires=1790326800&x-signature=xRHdIw2brsJEKZycK7BNfKgLqiU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o8hqfADsO8SBzFR3qsnOMDUEgQTwBkvQerxPE0~tplv-tiktokx-origin.image?dr=14575&x-expires=1790330400&x-signature=pYxpTikmB7Iq2SlD8%2Fqk%2FpcWdVA%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789981488,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7687911952084978951",
    "region": "kr"
@@ -329,10 +329,10 @@
   {
    "account": "tictok_ent",
    "title": "올데이프로젝트(ALLDAY PROJECT) 애니, 가을 여신의 완성 / ‘클리오 - 풍년다방 팝업 스토어’ 포토월 클리오의 K뷰티 No.1 메이크업 브랜드 클리오가 26FW 시즌을 맞아 풍년다방 에디션을 새롭게 출시",
-   "views": 10100,
+   "views": 10200,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooyVfsECyAObdyUAC9AHMGgEDfAwFBAocCAqjI~tplv-tiktokx-origin.image?dr=14575&x-expires=1790326800&x-signature=o1Pw78Q6qwZehLoWuO63GSwBQ1A%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooyVfsECyAObdyUAC9AHMGgEDfAwFBAocCAqjI~tplv-tiktokx-origin.image?dr=14575&x-expires=1790330400&x-signature=AiDur6IJca0KJ6k%2Fo2rz%2FEp5v0M%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1790062603,
    "url": "https://www.tiktok.com/@tictok_ent/video/7688260337883270407",
    "region": "kr"
@@ -340,25 +340,16 @@
   {
    "account": "tictok_ent",
    "title": "수지, 시민들의 욕을 부르는 미모 / 아누아(Anua) 포토월 더파운더즈의 글로벌 뷰티 브랜드 아누아(Anua)의 'PDRN 라인 팝업스토어' 오픈을 기념하는 포토행사가 18일 오전 서울 성동구 성수동에 위치한 올리",
-   "views": 7710,
+   "views": 7731,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ow8gANS3AmQCK2UqVEUCB50sGEQeIAFZAFArfD~tplv-tiktokx-origin.image?dr=14575&x-expires=1790326800&x-signature=Pp5SRnKLGJCkuYGigw9tvvYXvps%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ow8gANS3AmQCK2UqVEUCB50sGEQeIAFZAFArfD~tplv-tiktokx-origin.image?dr=14575&x-expires=1790330400&x-signature=hbDkjceOo5TGFHOsVVRTrr6FKCY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789699186,
    "url": "https://www.tiktok.com/@tictok_ent/video/7686699475406015762",
    "region": "kr"
   }
  ],
  "reddit": [
-  {
-   "sub": "classicwow",
-   "title": "Unsure what class to main for Forever? Allow me to pick it for you from my magical Taco Bell Sorting Hat",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/vz95sui7c5rh1.jpeg?width=640&crop=smart&auto=webp&s=a660184d417393222e718a4ffb0d6c7b123c0c74",
-   "time": 1790115420,
-   "url": "https://www.reddit.com/r/classicwow/comments/1wnnteg/unsure_what_class_to_main_for_forever_allow_me_to/"
-  },
   {
    "sub": "cats",
    "title": "What's the weirdest angle your cat was ever in?",
@@ -378,13 +369,13 @@
    "url": "https://www.reddit.com/r/interesting/comments/1wnxuxt/arm_wrestler_is_going_viral_after_letting_dad_win/"
   },
   {
-   "sub": "formula1",
-   "title": "Mclaren unveils a new logo across its automotive and racing divisions",
+   "sub": "classicwow",
+   "title": "Unsure what class to main for Forever? Allow me to pick it for you from my magical Taco Bell Sorting Hat",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/vp9g8dmu73rh1.jpeg?width=640&crop=smart&auto=webp&s=087c86780646f659cc4fcb12c0867e583ae1a036",
-   "time": 1790089739,
-   "url": "https://www.reddit.com/r/formula1/comments/1wnc4cu/mclaren_unveils_a_new_logo_across_its_automotive/"
+   "thumb": "https://preview.redd.it/vz95sui7c5rh1.jpeg?width=640&crop=smart&auto=webp&s=a660184d417393222e718a4ffb0d6c7b123c0c74",
+   "time": 1790115420,
+   "url": "https://www.reddit.com/r/classicwow/comments/1wnnteg/unsure_what_class_to_main_for_forever_allow_me_to/"
   },
   {
    "sub": "MadeMeSmile",
@@ -396,13 +387,13 @@
    "url": "https://www.reddit.com/r/MadeMeSmile/comments/1wnw93p/my_friends_wont_stop_gifting_me_banana_themed/"
   },
   {
-   "sub": "AskReddit",
-   "title": "You get $5 million, but you have to permanently change your first name to a food. What are you choosing?",
+   "sub": "formula1",
+   "title": "Mclaren unveils a new logo across its automotive and racing divisions",
    "score": 0,
    "cmts": 0,
-   "thumb": "",
-   "time": 1790139727,
-   "url": "https://www.reddit.com/r/AskReddit/comments/1wnwlhv/you_get_5_million_but_you_have_to_permanently/"
+   "thumb": "https://preview.redd.it/vp9g8dmu73rh1.jpeg?width=640&crop=smart&auto=webp&s=087c86780646f659cc4fcb12c0867e583ae1a036",
+   "time": 1790089739,
+   "url": "https://www.reddit.com/r/formula1/comments/1wnc4cu/mclaren_unveils_a_new_logo_across_its_automotive/"
   },
   {
    "sub": "SipsTea",
@@ -423,6 +414,15 @@
    "url": "https://www.reddit.com/r/nextfuckinglevel/comments/1wnu2vg/comedian_karl_porters_slowmo_goal_celebration/"
   },
   {
+   "sub": "AskReddit",
+   "title": "You get $5 million, but you have to permanently change your first name to a food. What are you choosing?",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1790139727,
+   "url": "https://www.reddit.com/r/AskReddit/comments/1wnwlhv/you_get_5_million_but_you_have_to_permanently/"
+  },
+  {
    "sub": "Whatcouldgowrong",
    "title": "Speeding with an e bike in the neighbour",
    "score": 0,
@@ -430,15 +430,6 @@
    "thumb": "https://external-preview.redd.it/NnlycHBuN216MnJoMdVNrgS1VPUbSs-jkKnwgsqKKyZDDAf5NhGYR9ITE_FW.png?width=640&crop=smart&auto=webp&s=79caf1827c5ee8dc762dc46ce401b52f53b29bb5",
    "time": 1790087012,
    "url": "https://www.reddit.com/r/Whatcouldgowrong/comments/1wnawwa/speeding_with_an_e_bike_in_the_neighbour/"
-  },
-  {
-   "sub": "meirl",
-   "title": "meirl",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/yusbxao1b6rh1.jpeg?width=640&crop=smart&auto=webp&s=eff7c3dd736711e5c9c8b641efeef0f339250fc5",
-   "time": 1790127133,
-   "url": "https://www.reddit.com/r/meirl/comments/1wnsb1y/meirl/"
   },
   {
    "sub": "movies",
@@ -450,18 +441,37 @@
    "url": "https://www.reddit.com/r/movies/comments/1wnaqs0/hayden_panettiere_cause_of_death_revealed_as/"
   },
   {
-   "sub": "mildlyinfuriating",
-   "title": "Someone is vandalizing the murals that kids painted during a street art event",
+   "sub": "meirl",
+   "title": "meirl",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/i021zsgt34rh1.png?width=140&height=52&auto=webp&s=bdc5c764a58dca058f24418a6b1141b9c06577a7",
-   "time": 1790100783,
-   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1wnh7xl/someone_is_vandalizing_the_murals_that_kids/"
+   "thumb": "https://preview.redd.it/yusbxao1b6rh1.jpeg?width=640&crop=smart&auto=webp&s=eff7c3dd736711e5c9c8b641efeef0f339250fc5",
+   "time": 1790127133,
+   "url": "https://www.reddit.com/r/meirl/comments/1wnsb1y/meirl/"
+  },
+  {
+   "sub": "whatisit",
+   "title": "Found in now ex-coworkers desk. Condoms with zip ties and some type of basket reed holding it together. We used gloves to handle it. No smell. We work at an engineering office",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/o6kk74mrf5rh1.jpeg?width=640&crop=smart&auto=webp&s=4886bd89d15361125a3c81f15762e29071d725a9",
+   "time": 1790116614,
+   "url": "https://www.reddit.com/r/whatisit/comments/1wnoawu/found_in_now_excoworkers_desk_condoms_with_zip/"
   }
  ],
  "disaster": [],
  "_cover": {
   "ok": {
+   "x": [
+    "64bitcoinkr",
+    "awaken_eyes",
+    "economysniper0",
+    "freedom_73x",
+    "globalbrief_now",
+    "jajaja7878uu",
+    "kyunghyang",
+    "marionawfal"
+   ],
    "threads": [
     "aicoffeechat",
     "aipeekme",
@@ -478,10 +488,10 @@
   },
   "why": {},
   "landing": {
-   "at": "2026-09-23T18:01:22",
+   "at": "2026-09-23T18:31:20",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-09-23T18:31:17.981886+09:00"
+ "updated": "2026-09-23T19:05:08.945595+09:00"
 }
