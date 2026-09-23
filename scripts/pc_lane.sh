@@ -298,13 +298,13 @@ if _haveclaude; then
   ng="$("$PY" .github/scripts/gate_judge.py --count 2>/dev/null || echo 0)"
   _noapikey
   if [ "${nb:-0}" != "0" ] && [ "$(_left)" -ge 240 ]; then
-    BREAKING_MODEL="${BREAKING_MODEL:-claude-opus-5-5}" BREAKING_EFFORT="${BREAKING_EFFORT:-max}" \
+    BREAKING_MODEL="${BREAKING_MODEL:-claude-opus-5-5}" BREAKING_EFFORT="${BREAKING_EFFORT:-high}" \
     BREAKING_TIMEOUT="${BREAKING_TIMEOUT:-900}" BREAKING_SAFE="${BREAKING_SAFE:-1}" \
     "$PY" .github/scripts/breaking_judge.py || _land "judge-b-fail" "breaking_judge rc≠0(로그인·쿼터)"
     _push "AI 판정: 속보 breaking 조기 반영" viewer/candidates.json
   fi
   if [ "${ng:-0}" != "0" ] && [ "$(_left)" -ge 420 ]; then
-    GATE_MODEL="${GATE_MODEL:-claude-opus-5-5}" GATE_EFFORT="${GATE_EFFORT:-max}" \
+    GATE_MODEL="${GATE_MODEL:-claude-opus-5-5}" GATE_EFFORT="${GATE_EFFORT:-high}" \
     GATE_MAX_PER_RUN="${GATE_MAX_PER_RUN:-120}" GATE_REGRADE_QUOTA="${GATE_REGRADE_QUOTA:-20}" \
     GATE_TIMEOUT="${GATE_TIMEOUT:-900}" GATE_CAT_QUOTA="${GATE_CAT_QUOTA:-80}" GATE_SAFE="${GATE_SAFE:-1}" \
     "$PY" .github/scripts/gate_judge.py || _land "judge-g-fail" "gate_judge rc≠0(로그인·쿼터)"

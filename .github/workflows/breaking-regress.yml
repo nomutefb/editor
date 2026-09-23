@@ -35,7 +35,7 @@ jobs:
     timeout-minutes: 65
     env:
       BREAKING_MODEL: claude-opus-5-5
-      BREAKING_EFFORT: max
+      BREAKING_EFFORT: high   # 라이브 breaking-judge.yml 과 동값(운영자 260923 high)
       BREAKING_TIMEOUT: '900'
       BREAKING_SAFE: '1'
       REGRESS_RUNS: '3'

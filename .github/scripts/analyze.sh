@@ -10,7 +10,7 @@ PROMPT_FILE="prompts/news-analysis.md"
 source "$ROOT/shared/model_env.sh"   # 모델 단일 원천(PIPE_MODEL · 260702 SYS-08)
 MODEL="$PIPE_MODEL"
 INLINE_TRIES=4          # 인라인 재시도 횟수 = 4계정 폴오버 체인 깊이(서브3 EMS1130M까지 단일 잡서 실호출) + 일시 과부하(529/5xx)·타임아웃(rc=124) 흡수(260622·4계정 확장 3→4)
-EFFORT="${PIPE_SEARCH_EFFORT:-max}"   # 검색·요약 추론깊이 — max 상향(운영자 260810 2차 지시 · A/B로 노력도↑=품질↑ 실증 후 확대). ⚠ 구 max→high 하향(260704)의 원인이던 이미지 다수검색은 IMG_SPLIT(260728)로 본선에서 분리됨 = 재도전 조건. 타임아웃 재발 시 롤백 = env PIPE_SEARCH_EFFORT(high/medium).
+EFFORT="${PIPE_SEARCH_EFFORT:-high}"   # 검색·요약 추론깊이 — high(운영자 260923 「5.5 high로 · 다른 것도 마찬가지」 — 오퍼스 5.5는 같은 노력도에서 5.0보다 추론이 길다 · 5.5 max = 본선 900s 초과 실패 · A/B 같은 기사 5.0 max 471s vs 5.5 high 117s 품질 대등). 롤백 = env PIPE_SEARCH_EFFORT=max(+ANALYZE_TIMEOUT 상향 동반).
 IMG_SPLIT="${IMG_SPLIT:-1}"              # 관련이미지 수집 병렬 분리(운영자 260728 "소넷5 한명 붙여서 병렬") — '0' = 사진로봇 발사 안 함(image_sources 빈 채 → moreimg·og:image 백필만 = 무해 강하 · 롤백 레버)
 IMG_MODEL="${IMG_MODEL:-claude-sonnet-5}"   # 사진로봇 티어 = 소넷(구독 저부담)
 IMG_EFFORT="${IMG_EFFORT:-high}"            # 명시 지명(운영자 260823 «없음으로 하지 말고 높음으로 지명» — 구 「--effort 미부여 관례」 폐지 · sonnet-5 는 노력도 지원 = sns_sum 상시 high 실증 · 미지정 = CLI 기본이 높음 상당이라 동작 동일)

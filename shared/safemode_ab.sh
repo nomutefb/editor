@@ -19,7 +19,7 @@ source shared/inject_guidelines.sh
 source shared/claude_meter.sh
 
 MODEL="${PIPE_MODEL:-claude-opus-5-5}"
-EFFORT="${CARD_EFFORT:-max}"          # 카드 본콜 기본과 동일(운영자 260812 「카드 = 최대 노력도 맞음」 확정)
+EFFORT="${CARD_EFFORT:-high}"         # 카드 본콜 기본과 동일(cardmake.sh CARD_EFFORT · 운영자 260923 high)
 PROMPT_FILE="prompts/card-make.md"
 GBLOCK="$(guidelines_block card)"
 SYSF="$(mktemp /tmp/card_sys.XXXXXX)"

@@ -5,7 +5,7 @@
 #
 # 동작:
 #   out="$(printf '%s' "$prompt" | METER_SRC=analyze METER_REF="$base" \
-#          claude_meter 900 --model "$MODEL" --effort max --allowedTools ... --disallowedTools ... --max-turns 40 \
+#          claude_meter 900 --model "$MODEL" --effort high --allowedTools ... --disallowedTools ... --max-turns 40 \
 #          2> "$errfile")"
 #   rc=$?
 #   → claude -p 를 --output-format json 으로 돌려 .result(=원래 plain text 출력)만 stdout 으로 흘리고,

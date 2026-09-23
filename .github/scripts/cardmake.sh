@@ -31,10 +31,10 @@ CARD_TIMEOUT="${CARD_TIMEOUT:-1500}"
 # 카드 프롬프팅 추론 강도 = high 기본(운영자 260726 — 기사 요약(analyze/ask) 제외 opus 호출 전면 high · 구 max 정책 대체).
 #   노브는 4개 호출부(본생성·lint재생성·cov회수·edit) effort 단일 정본으로만 존치(흩어진 하드코딩 통합).
 #   ⚠️ 토큰 안전(CARD_BUDGET_SEC 25분 하드캡·CARD_FAIL_RETRY_MAX 0·타임아웃 재시도 봉인)은 effort와 무관하게 유지 = 별개 축.
-CARD_EFFORT="${CARD_EFFORT:-max}"
+CARD_EFFORT="${CARD_EFFORT:-high}"   # 본콜·edit = high(운영자 260923 「5.5 high로 · 다른 것도 마찬가지」 — 오퍼스 5.5는 같은 노력도에서 5.0보다 추론이 길다 · 5.0 max도 CARD_TIMEOUT 근접 실패 다발). 롤백 = env CARD_EFFORT=max.
 # 교정·회수 전용 노력도(평의회 260812 권고5) — 린트 재통과(out2)·cov 회수(out3)는 「지적된 줄만 고쳐 재출력」하는
 #   기계 작업인데 본콜과 같은 노브(CARD_EFFORT)에 묶여 260810 max 승격에 편승했다(원장 실측 = 재통과 콜당 $1.92
-#   ≈ 본콜 $2.04 = 사실상 전면 재작성 비용). 본콜 max는 유지하고 교정·회수만 high로 분리 — 품질 바닥은 동일 린트
+#   ≈ 본콜 $2.04 = 사실상 전면 재작성 비용). 당시 본콜 max 유지 · 교정·회수만 high로 분리(260923부터 본콜도 high) — 품질 바닥은 동일 린트
 #   게이트 재검·6중 채택 게이트가 잡는다(불변). 가드 = 채택률 전후 대조 · 하락 시 CARD_FIX_EFFORT=max 원복 1줄.
 CARD_FIX_EFFORT="${CARD_FIX_EFFORT:-high}"
 # 지침문서 스킵 카나리아(평의회 260812 조건부④ · 캐시 프로브 run 31550098261 실측 근거) — 프로브 실측 = 같은 잡

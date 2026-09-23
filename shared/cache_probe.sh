@@ -21,7 +21,7 @@ source shared/inject_guidelines.sh
 source shared/claude_meter.sh
 
 MODEL="${PIPE_MODEL:-claude-opus-5-5}"
-EFFORT="${CARD_EFFORT:-max}"          # 카드 본콜 기본과 동일(cardmake.sh:34) — effort가 프리픽스에 실리는 축이어도 등가 유지
+EFFORT="${CARD_EFFORT:-high}"         # 카드 본콜 기본과 동일(cardmake.sh CARD_EFFORT) — effort가 프리픽스에 실리는 축이어도 등가 유지
 PROMPT_FILE="prompts/card-make.md"
 GBLOCK="$(guidelines_block card)"
 
