@@ -13,7 +13,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from stock_filter import is_excluded_title  # 증권/시황 노이즈 제외(SSOT · 운영자 260701)
-from brk_tag import BREAKING_TAG  # 속보 제목 태그(SSOT · push_send 공용 · 뷰어는 solo 표식만 읽음 · 260923)
+from brk_tag import BREAKING_TAG, has_exclusive_tag  # 속보 제목 태그(SSOT · push_send 공용 · 뷰어는 solo 표식만 읽음 · 260923)
 try:   # 누적 칼럼 진입 술어·화면 병합의 단일 파이썬 미러(손복사 금지 = followEnters 패리티 게이트 대상) — CAP 컷 순서용(260923 · 아래 CUT_VISIBLE)
     from daily_health import _cum_enter, screen_merge
 except Exception:  # noqa: BLE001  미러를 못 읽으면 컷 순서만 종전 2군으로 폴백(수집·쓰기는 그대로 = 수집 중단 없음)
@@ -55,6 +55,11 @@ BREAKING_BURST = int(os.environ.get("BREAKING_BURST", "3"))          # 속보 �
 # 롤백 = 아래 기본값 "1"→"0"(코드 = 액션·폰 두 레인 동시 적용) 또는 CAND_SOLO_TAG=0(그 레인만) — 다음 회차에 미확정 단독분 정리 · 확정 긴급분은 종전 긴급 보존 규칙대로 남음.
 SOLO_TAG_ON = os.environ.get("CAND_SOLO_TAG", "1").strip().lower() not in ("0", "false", "no", "off")
 SOLO_MAX_H = float(os.environ.get("CAND_SOLO_MAX_H", "6"))
+# [단독] 특종 단독 입장(운영자 260924 «승리 CCTV 같은 건 항상 먼저 알림 · 이슈 터졌을 때 바로») — 한 매체 특종은 두 번째 매체가 받아쓰고
+#   제목이 묶일 때까지 못 들어왔다(JTBC 단독 20:45 → 수집함 23:16 · 두 매체 제목 겹침 2어뿐). 입장 = 속보 태그와 같은 단독 규칙(좌석 SOLO_T1_MAX ·
+#   불변식 ⓐⓑ) · 거르기 = 경중 채점(gate_judge 가 [단독]을 이미 채점 대상에 둔다) · 경중 0·1 은 SOLO_MAX_H 에 정리(24h 보존은 속보·경중≥2만).
+#   하루 약 40건(24h 실측 41 · 한 매체 38). 롤백 = CAND_SOLO_EXC=0(속보 태그 단독은 그대로).
+SOLO_EXC_ON = os.environ.get("CAND_SOLO_EXC", "1").strip().lower() not in ("0", "false", "no", "off")
 # 경중 채점까지 받은 단독은 배지 소멸선(24h = 뷰어 BADGE_MAX_AGE_H)까지 보존 — 먼저 지우면 피드 빌드가 원장에서 못 찾아 제목 [속보]만 보고
 #   ⚡이슈를 거꾸로 켠다(평의회4 재현 · build-viewer feedBrk). 미채점은 SOLO_MAX_H 에 정리.
 SOLO_JUDGED_H = float(os.environ.get("CAND_SOLO_JUDGED_H", "24"))
@@ -367,7 +372,7 @@ def main():
         has_breaking_tag = bool(BREAKING_TAG.search((a.get("title") or "") + " " + (bp.get("title") or "")))   # 제목 [속보]/[상보]/긴급 = 속보 확률↑(언론고시 기자는 낚시 안 씀) → breaking 후보로 AI 내용검증
         if (a.get("cross_score") or 0) < MIN_CROSS:
             # 단독 1보 입장 — 태그 + 신선만. 이미 다매체로 본 사건(prev cross≥MIN)이 클러스터 재분할로 1이 된 경우는 종전대로 건너뜀(cross 역행 방지).
-            if not (SOLO_TAG_ON and has_breaking_tag):
+            if not (SOLO_TAG_ON and (has_breaking_tag or (SOLO_EXC_ON and has_exclusive_tag(a.get("title"), bp.get("title"))))):
                 continue
             prev0 = existing.get(url) or {}
             if prev0 and not is_solo(prev0):
@@ -574,7 +579,9 @@ def main():
         if not SOLO_TAG_ON:
             return True
         sa = _solo_age_h(c.get("published"), c.get("first_seen"), now)
-        return sa is None or sa >= (SOLO_JUDGED_H if c.get("grade") is not None else SOLO_MAX_H)
+        g = c.get("grade")
+        long_keep = g is not None and (bool(BREAKING_TAG.search(c.get("title") or "")) or g >= 2)   # 24h 보존 = 속보 태그(배지 역전 차단) · 경중≥2 [단독] — 경중 0·1 [단독]은 6h
+        return sa is None or sa >= (SOLO_JUDGED_H if long_keep else SOLO_MAX_H)
 
     kept = [c for c in merged.values()
             if age_h(c) <= TTL_HOURS and not is_excluded_title(c.get("title") or "")   # 증권/시황 노이즈 = 기존 수집분도 정리(운영자 260701)

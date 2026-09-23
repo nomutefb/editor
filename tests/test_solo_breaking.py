@@ -116,6 +116,23 @@ class ToCandidatesSoloTest(unittest.TestCase):
         out = self.run_tc([art("u1", "[속보] 새 1보")], existing, env={"CAND_SOLO_TAG": "0"})
         self.assertEqual(out, {})
 
+    def test_exclusive_single_outlet_enters_without_breaking_candidate(self):
+        # 운영자 260924 «승리 CCTV 같은 건 항상 먼저» — JTBC [단독] 20:45 → 두 번째 매체·묶음 대기로 수집함 23:16
+        out = self.run_tc([art("u1", "[단독] '소주병 집어든' 승리, 말리는 일행…당시 CCTV 입수", media="JTBC")])
+        self.assertIn("u1", out)
+        self.assertEqual(out["u1"].get("solo"), 1)
+        self.assertFalse(out["u1"]["breaking_candidate"])   # 특종 ≠ 속보 후보(속보 판정은 전건 판정이 따로 한다)
+
+    def test_exclusive_lever_off(self):
+        self.assertEqual(self.run_tc([art("u1", "[단독] 특종")], env={"CAND_SOLO_EXC": "0"}), {})
+
+    def test_low_grade_exclusive_expires_at_6h_but_weighty_keeps_24h(self):
+        def e(u, h, t, **kw):
+            return {"id": u, "url": u, "title": t, "cross": 1, "solo": 1, "published": _iso(h),
+                    "first_seen": _kst(h), "cluster_members": [u], "arts": 1, **kw}
+        out = self.run_tc([], [e("x0", 7, "[단독] 경미", grade=0), e("x3", 7, "[단독] 대형", grade=3), e("b1", 7, "[속보] 경미", grade=1)])
+        self.assertEqual(set(out), {"x3", "b1"})   # 속보 태그는 경중 무관 24h(배지 역전 차단 · 평의회4)
+
     def test_solo_flag_set_on_admission(self):
         self.assertEqual(self.run_tc([art("u1", "[속보] 1보")])["u1"].get("solo"), 1)
 

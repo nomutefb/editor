@@ -59,5 +59,28 @@ class PickActionTest(unittest.TestCase):
             self.assertNotIn("actions", json.loads(m.payload_of(msg)))
 
 
+
+class ExclusivePushTest(unittest.TestCase):
+    """[단독] 대형 알림(운영자 260924 «승리 CCTV 같은 건 항상 먼저 알림») — 경중 3 · 매체 수 무관 · 긴급 축과 2중 발송 0."""
+
+    def test_predicate(self):
+        m = _load()
+        base = {"title": "[단독] '소주병 집어든' 승리…당시 CCTV 입수", "cross": 1, "grade": 3}
+        self.assertTrue(m.is_exclusive(base))
+        self.assertFalse(m.is_exclusive({**base, "grade": 2}))                        # 경중 3 미만 = 화면만
+        self.assertFalse(m.is_exclusive({**base, "grade": None}))                     # 미채점 = 보류(비가역 보수)
+        self.assertFalse(m.is_exclusive({**base, "title": "승리 CCTV 입수"}))          # 태그 없음
+        self.assertFalse(m.is_exclusive({**base, "breaking": True, "cross": 3}))      # 긴급 축이 부를 건 = 제외
+        self.assertTrue(m.is_exclusive({**base, "breaking": True, "cross": 1}))       # 한 매체 긴급 [단독] = 긴급 축 cross 문턱에 막히므로 여기서
+        self.assertTrue(m.is_exclusive({**base, "title": "승리 CCTV", "breaking_pick": {"title": "[단독] 승리 CCTV"}}))
+
+    def test_kill_switch(self):
+        os.environ["EXC_PUSH"] = "0"
+        try:
+            self.assertFalse(_load().is_exclusive({"title": "[단독] x", "cross": 1, "grade": 3}))
+        finally:
+            os.environ.pop("EXC_PUSH", None)
+
+
 if __name__ == "__main__":
     unittest.main()

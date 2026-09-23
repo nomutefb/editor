@@ -126,6 +126,27 @@ def _badge_junk(t):
     return bool((_BJ_MKT.search(t) and not _BJ_CRASH.search(t)) or _BJ_HEAD.search(t) or _BJ_PR.search(t))
 
 
+EXC_PUSH = (os.environ.get("EXC_PUSH", "1").strip() != "0")   # [단독] 대형 알림 킬스위치(이슈 푸시 축 안 · 0 = 끔)
+EXC_MIN_GRADE = 3                                             # 경중 3(대형·엄중)만 — [단독]은 하루 ~40건이라 폰까지 울릴 건 AI 경중이 거른다
+EXC_MAX_H = 4.0                                               # 신선할 때만(= 신규 칼럼 창 FAST_MAX_H 사본) — 특종 알림은 「지금 터졌다」가 목적
+_EXC_TAG = re.compile(r"\[\s*단독\s*\]")                      # = scraper/brk_tag.EXCLUSIVE_TAG 사본(희소 체크아웃 레인 = scraper/ 없음 · push_cross_ok 지연 import 사유와 같음)
+
+
+def is_exclusive(c):
+    """[단독] 대형 = 매체 수 무관 알림(운영자 260924 «승리 CCTV 같은 건 항상 먼저 알림»).
+    ⚠ 긴급 축이 다매체 검증을 통과해 이미 부를 건은 제외(같은 사건 2번 금지) — 한 매체 긴급 [단독]은 긴급 축이 cross 문턱에 막히므로 여기서 부른다."""
+    if not EXC_PUSH:
+        return False
+    g = c.get("grade")
+    if g is None or g < EXC_MIN_GRADE:
+        return False
+    if not (_EXC_TAG.search(c.get("title") or "") or _EXC_TAG.search((c.get("breaking_pick") or {}).get("title") or "")):
+        return False
+    if is_breaking(c) and push_cross_ok(c):
+        return False
+    return not _badge_junk(c.get("title") or "")
+
+
 def is_issue(c):
     """⚡이슈 = 속보 판정은 아닌데 매체가 몰린 건(화면 이슈 배지와 같은 술어)."""
     if c.get("breaking"):
@@ -483,12 +504,14 @@ def main():
                 if iss_seeded and iss_n >= ISS_DAY_CAP:   # 상한은 **발송분에만** — 첫 회차 도장은 전건 찍어야 다음 회차가 조용하다
                     print(f"이슈 하루 상한 {ISS_DAY_CAP} 도달 — 나머지 생략", file=sys.stderr)
                     break
-                if not is_issue(c):
+                iss = is_issue(c)
+                exc = not iss and is_exclusive(c)           # [단독] 대형 = 매체 수 무관(이슈 자격이면 이슈로 부른다)
+                if not (iss or exc):
                     continue
                 a = age_h(c)
-                if a is None or a < 0 or a >= ISS_MAX_H:   # 미래스탬프·배지 소멸선 밖 = 제외(긴급 축과 같은 가드)
+                if a is None or a < 0 or a >= (EXC_MAX_H if exc else ISS_MAX_H):   # 미래스탬프·배지 소멸선 밖 = 제외(긴급 축과 같은 가드) · 특종 = 신선할 때만
                     continue
-                if not iss_push_ok(c, a):                  # 배지는 붙어도 폰까지 울릴 급인지는 별도 문턱(운영자 260818)
+                if iss and not iss_push_ok(c, a):          # 배지는 붙어도 폰까지 울릴 급인지는 별도 문턱(운영자 260818)
                     continue
                 base = dedup_keys(c)
                 if not base:
@@ -514,7 +537,7 @@ def main():
                         print(f"  ⊘ 이슈 사건중복 억제(AI): {_cand_t[:34]} ≈ {str(_pool[_d])[:28]}", file=sys.stderr)
                         suppressed_keys.extend(ks)
                         continue
-                msgs.append({"keys": ks, "ev_title": _cand_t, "title": "News", "body": ("(이슈) " + disp_title(c))[:120],
+                msgs.append({"keys": ks, "ev_title": _cand_t, "title": "News", "body": (("(단독) " + _EXC_TAG.sub("", disp_title(c), count=1).strip()) if exc else ("(이슈) " + disp_title(c)))[:120],
                              "url": brk_url(c), "tag": "nomute-issue-" + hashlib.md5((ks[0] if ks else "").encode("utf-8")).hexdigest()[:10], "kind": "iss",
                              "icon": notif_icon("iss", "sig") or ""})   # 노랑 지구본 = 화면 ⚡이슈 배지와 같은 색(운영자 260818)
                 iss_n += 1
