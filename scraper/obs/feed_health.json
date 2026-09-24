@@ -1,31 +1,16 @@
 {
- "ok": 172,
- "dead": 5,
+ "ok": 175,
+ "dead": 2,
  "dead_feeds": [
-  {
-   "publisher": "SBS",
-   "title": "사회",
-   "url": "https://news.sbs.co.kr/news/SectionRssFeed.do?sectionId=03&plink=RSSREADER"
-  },
-  {
-   "publisher": "SBS",
-   "title": "연예",
-   "url": "https://ent.sbs.co.kr/news/xml/RSSFeed.do"
-  },
-  {
-   "publisher": "SBS",
-   "title": "헤드라인",
-   "url": "https://news.sbs.co.kr/news/headlineRssFeed.do?plink=RSSREADER"
-  },
-  {
-   "publisher": "SBS",
-   "title": "속보",
-   "url": "https://news.sbs.co.kr/news/newsflashRssFeed.do?plink=RSSREADER"
-  },
   {
    "publisher": "머니투데이",
    "title": "전체기사",
    "url": "https://rss.mt.co.kr/mt_news.xml"
+  },
+  {
+   "publisher": "전자신문",
+   "title": "IT·산업전반",
+   "url": "https://rss.etnews.com/Section901.xml"
   }
  ],
  "zombie_feeds": [
@@ -56,6 +41,11 @@
   },
   {
    "publisher": "동아일보",
+   "title": "사람속으로",
+   "url": "https://rss.donga.com/inmul.xml"
+  },
+  {
+   "publisher": "동아일보",
    "title": "레져",
    "url": "https://rss.donga.com/leisure.xml"
   },
@@ -63,6 +53,11 @@
    "publisher": "동아일보",
    "title": "도서",
    "url": "https://rss.donga.com/book.xml"
+  },
+  {
+   "publisher": "동아일보",
+   "title": "공연",
+   "url": "https://rss.donga.com/show.xml"
   },
   {
    "publisher": "동아일보",
