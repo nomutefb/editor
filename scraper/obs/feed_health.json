@@ -1,7 +1,48 @@
 {
- "ok": 177,
- "dead": 0,
- "dead_feeds": [],
+ "ok": 169,
+ "dead": 8,
+ "dead_feeds": [
+  {
+   "publisher": "프레시안",
+   "title": "세계",
+   "url": "https://www.pressian.com/api/v3/site/rss/section/65"
+  },
+  {
+   "publisher": "프레시안",
+   "title": "정치",
+   "url": "https://www.pressian.com/api/v3/site/rss/section/66"
+  },
+  {
+   "publisher": "프레시안",
+   "title": "경제",
+   "url": "https://www.pressian.com/api/v3/site/rss/section/67"
+  },
+  {
+   "publisher": "프레시안",
+   "title": "사회",
+   "url": "https://www.pressian.com/api/v3/site/rss/section/68"
+  },
+  {
+   "publisher": "프레시안",
+   "title": "문화",
+   "url": "https://www.pressian.com/api/v3/site/rss/section/69"
+  },
+  {
+   "publisher": "프레시안",
+   "title": "스포츠",
+   "url": "https://www.pressian.com/api/v3/site/rss/section/70"
+  },
+  {
+   "publisher": "프레시안",
+   "title": "최신 기사",
+   "url": "https://www.pressian.com/api/v3/site/rss/news"
+  },
+  {
+   "publisher": "아시아경제",
+   "title": "전체기사",
+   "url": "https://www.asiae.co.kr/rss/all.htm"
+  }
+ ],
  "zombie_feeds": [
   {
    "publisher": "동아일보",
@@ -70,11 +111,6 @@
   },
   {
    "publisher": "통일뉴스",
-   "title": "정부정당",
-   "url": "https://www.tongilnews.com/rss/S1N6.xml"
-  },
-  {
-   "publisher": "통일뉴스",
    "title": "해외동포",
    "url": "https://www.tongilnews.com/rss/S1N7.xml"
   },
@@ -87,16 +123,6 @@
    "publisher": "통일뉴스",
    "title": "동북아외신",
    "url": "https://www.tongilnews.com/rss/S1N18.xml"
-  },
-  {
-   "publisher": "프레시안",
-   "title": "문화",
-   "url": "https://www.pressian.com/api/v3/site/rss/section/69"
-  },
-  {
-   "publisher": "프레시안",
-   "title": "스포츠",
-   "url": "https://www.pressian.com/api/v3/site/rss/section/70"
   },
   {
    "publisher": "NYT코리아",
