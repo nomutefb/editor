@@ -16,6 +16,26 @@
  "threads": [
   {
    "account": "daily_ai_star",
+   "text": "기본값은 꺼져 있고, 새 세션부터 적용됩니다. 이미 실행 중인 세션은 재시작해야 설정이 반영됩니다.\n\n로컬 샌드박스는 클라우드 샌드박스나 원격 호스트 세션과도 별도로 관리됩니다. 같은 Copilot이라도 실행 위치에 따라 보안 정책을 따로 봐야 한다는 뜻입니다.\n\n에이전트 도입을 검토할 때 이제 확인할 항목은 모델 이름만이 아닙니다. 프로젝트별 허용 경로, 네트워크 범위, Git 자격증명의 사용 조건이 실제 작업 단위로 남아 있는지도 기준이 됩니다.\n\nhttps://github.blog/changelog/2026-09-23-local-sandboxing-in-the-github-copilot-app/",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1790212528,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdprpTEGYWZ",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
+   "text": "GitHub Copilot 앱이 9월 23일 로컬 샌드박싱을 공개했습니다.\n\n프로젝트별로 파일시스템, 외부·로컬 네트워크, Git·GitHub CLI 자격증명의 접근 범위를 따로 설정합니다. 조직 정책이 있으면 사용자 설정보다 더 제한적으로 적용됩니다.\n\n운영체제가 정책을 강제하지 못하면 샌드박스 없이 명령을 실행하지 않고 세션 자체가 실패합니다.\n\n코딩 에이전트의 권한 기준이 “터미널을 열 수 있는가”에서 “어떤 파일과 네트워크와 자격증명까지 닿는가”로 바뀌었습니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1790212518,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdproMSGXHF",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
    "text": "Cursor가 9월 23일 배포 뒤의 운영까지 맡는 봇 2개를 공개했습니다.\n\nRollouts는 모든 풀 리퀘스트의 배포를 지켜보며 환경별로 정상·회귀·판단 불가를 나눠 보고합니다. 변경 diff와 연결된 시스템을 읽고, 위험·의도한 효과·확인할 신호·계측 공백을 모니터링 계획으로 남깁니다.\n\n스테이징에서 정상이어도 프로덕션에서 다시 문제로 표시할 수 있습니다. Security Review는 모든 풀 리퀘스트에서 악용 가능한 버그를 찾아 심각도·공격 경로·수정안을 한 코멘트로 냅니다.\n\n코딩 에이전트의 완료 기준이 “코드를 작성하고 병합했는가”에서 “배포 후 의도한 효과를 확인했는가”로 이동하고 있습니다.\n\nhttps://cursor.com/en-US/changelog",
    "likes": 0,
    "cmts": 0,
@@ -25,52 +45,32 @@
    "region": "kr"
   },
   {
-   "account": "daily_ai_star",
-   "text": "이 변화는 승인 팝업 하나를 추가한 것이 아닙니다.\n\nCopilot 에이전트의 권한 검토 단위가 계정이나 저장소에서 프로젝트의 실행 세션으로 내려왔습니다. 어떤 폴더를 읽고 쓸 수 있는지, 외부망과 사내망을 어디까지 열지, 어떤 Git 자격증명을 전달할지를 함께 정해야 합니다.\n\n설정 변경은 새 세션이나 재시작 뒤 적용됩니다. 클라우드 샌드박스와 원격 호스트 세션에는 적용되지 않습니다.\n\n로컬 코딩 에이전트의 안전성은 모델보다 먼저 실행 경계가 결정하게 됐습니다.\n\nhttps://github.blog/changelog/2026-09-23-local-sandboxing-in-the-github-copilot-app/",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1790209739,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdpmU7ZE8lU",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "GitHub Copilot 앱이 9월 23일 로컬 샌드박스를 공개했습니다.\n\n프로젝트별로 파일 접근, 네트워크, 자격증명을 제한합니다. 파일은 추가 읽기·쓰기, 추가 읽기 전용, 차단 폴더로 나누고, 네트워크는 외부 인터넷과 로컬 네트워크를 따로 설정합니다. Git 인증과 GitHub CLI 인증도 정책에 넣을 수 있습니다.\n\n기본값은 꺼져 있습니다. 운영체제가 정책을 강제하지 못하면 명령을 실행하지 않고 셸 세션 자체를 실패시킵니다.",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1790209729,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdpmTpEk0B5",
-   "region": "kr"
-  },
-  {
    "account": "choi.openai",
    "text": "3/ Claude Opus 5.5로 일본 풍경을 배경으로 배를 직접 운전하는 Three.js 게임을 제작한 사례가 공개됐습니다.\n\n날씨와 낮·밤 조명, 물 반사와 물리 효과까지 구현했으며, 3D 캐릭터는 Higgsfield로 별도 제작했습니다.\n\nx@MengTo",
-   "likes": 8,
+   "likes": 10,
    "cmts": 1,
    "time": 1790208539,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/799440402_1637619191146399_5305302205112861088_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk5Mjg3NTA1Mzg1NDg2NzY0Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=zXafLtpQZbAQ7kNvwHmqLLG&_nc_oc=AdrJ6z_b7zOatzsyTbzGwh09F0qCmQIJsosIk83fS4wv3A_VJy7F8raJ8xxRk2yAlZg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=0Ax8Ex-yW1zNy2XCTzY4ZQ&_nc_ss=7a22e&oh=00_AQIq99tkAXTQf1jXdzp2aBveZ3tpcCbo7lRDZPWyaI8I7g&oe=6ABA4E61",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/799440402_1637619191146399_5305302205112861088_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk5Mjg3NTA1Mzg1NDg2NzY0Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=zXafLtpQZbAQ7kNvwHmqLLG&_nc_oc=AdrJ6z_b7zOatzsyTbzGwh09F0qCmQIJsosIk83fS4wv3A_VJy7F8raJ8xxRk2yAlZg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=aRuWCuBUdit4-ICQukymaA&_nc_ss=7a22e&oh=00_AQIp2X9oXEkpsNndPGWQy0gHq-MUXrI0HevfbAuKYljMrA&oe=6ABA4E61",
    "url": "https://www.threads.com/@choi.openai/post/DdpirTRicC-",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "2/ Claude Opus 5.5로 팝펑크 노래와 뮤직비디오를 JavaScript 코드만으로 제작한 사례가 공개됐습니다.\n\n샘플이나 외부 라이브러리 없이 보컬과 연주, 밴드 멤버들의 프레임별 연주 애니메이션까지 코드로 구현했습니다.\n\nx@aj_dev_smith",
-   "likes": 6,
+   "likes": 8,
    "cmts": 1,
    "time": 1790208531,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/818685589_2049523952365116_2468159430436360208_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk5Mjg3NTkyNjg5MTAyOTAyNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=aGtHDgEWWiYQ7kNvwFcG2vS&_nc_oc=AdqUzKkmUGykBMs0Dk4nm_Ftoon4yVUTs3JzNtnk1zfFfN1RAJVQLbyYR-EEzn82BxY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=0Ax8Ex-yW1zNy2XCTzY4ZQ&_nc_ss=7a22e&oh=00_AQIrI7raJpavg9NVC6D5wJnHc6Fjtz79R-MnaZxCbpO5Dg&oe=6ABA38EC",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/818685589_2049523952365116_2468159430436360208_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk5Mjg3NTkyNjg5MTAyOTAyNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=aGtHDgEWWiYQ7kNvwFcG2vS&_nc_oc=AdqUzKkmUGykBMs0Dk4nm_Ftoon4yVUTs3JzNtnk1zfFfN1RAJVQLbyYR-EEzn82BxY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=aRuWCuBUdit4-ICQukymaA&_nc_ss=7a22e&oh=00_AQKRA-CBqkXpRIirXjncmGT3G8VdceCD271jqf0XAdCARw&oe=6ABA38EC",
    "url": "https://www.threads.com/@choi.openai/post/Ddpi4AWjGIj",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "1/ Claude Opus 5.5에 약 5분간 음성으로 한 번 지시한 뒤, 12시간 동안 스스로 작업하게 해 뮤직비디오를 만든 사례가 공개됐습니다.\n\nSD2.5·ElevenLabs·참고 자료와 기존 코드 저장소를 제공하고, 영상 제작 전 과정을 Opus 5.5에 맡겼습니다.\n\nx@donaldjewkes",
-   "likes": 31,
+   "likes": 38,
    "cmts": 1,
    "time": 1790208522,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/820251143_1057008447338336_5451487520993465740_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk5Mjg4MDEyNDA3MzQwNTc0Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=BNH03g0NcNMQ7kNvwH4T5S_&_nc_oc=Adpdtpvc2fuMM4tDlFroQTw7cOCTAz9Yq4SR3xU4LGQFywTGXV3XOxeMIdrP9AS4nBk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=0Ax8Ex-yW1zNy2XCTzY4ZQ&_nc_ss=7a22e&oh=00_AQKzQ6FRlG-5xDyTTn0BsgUZR5WJYLGkMcJ6hn_HRFpiKA&oe=6ABA5FD9",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/820251143_1057008447338336_5451487520993465740_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk5Mjg4MDEyNDA3MzQwNTc0Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=BNH03g0NcNMQ7kNvwH4T5S_&_nc_oc=Adpdtpvc2fuMM4tDlFroQTw7cOCTAz9Yq4SR3xU4LGQFywTGXV3XOxeMIdrP9AS4nBk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=aRuWCuBUdit4-ICQukymaA&_nc_ss=7a22e&oh=00_AQIOa98OllpzeDPL_vqGt5hRJi2g2kCMkK2fSiGzPl0_gA&oe=6ABA5FD9",
    "url": "https://www.threads.com/@choi.openai/post/Ddpj1FSHO0y",
    "region": "kr"
   },
@@ -80,7 +80,7 @@
    "likes": 0,
    "cmts": 0,
    "time": 1790207328,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/818988014_1399529315108599_2830973521089275432_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk5Mjg3MDcyOTMxMDA2NjUzMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=rv3QcOv6KnAQ7kNvwHxtQRt&_nc_oc=AdqIhMLIAcLbwRmh12vbW7ZkvloRqyC45AQXNBUF8wgxwJWYEs-r-ze47A-Rq3YKFj8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=bLSDdZDPPJlOx1XTNYXBHQ&_nc_ss=7a22e&oh=00_AQI5I8Zjg3NB67QqLIOkL5UvxVWKdHPfUNrw0ug8hltypA&oe=6ABA3EC0",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/818988014_1399529315108599_2830973521089275432_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk5Mjg3MDcyOTMxMDA2NjUzMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=rv3QcOv6KnAQ7kNvwHxtQRt&_nc_oc=AdqIhMLIAcLbwRmh12vbW7ZkvloRqyC45AQXNBUF8wgxwJWYEs-r-ze47A-Rq3YKFj8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=g94SE13emUkqy0aZBQ3kww&_nc_ss=7a22e&oh=00_AQInt4yh4NAF0cP8VMQ52JNIzt5zyZMtn8yOXQ-nr0n5QQ&oe=6ABA3EC0",
    "url": "https://www.threads.com/@aipeekme/post/DdphsXulNdk",
    "region": "kr"
   },
@@ -100,14 +100,14 @@
    "likes": 0,
    "cmts": 1,
    "time": 1790204499,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/819741563_18089375099407306_1795480125214215014_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk5Mjg0NzEzMDg3Mjk4Nzc3MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMiJ9&_nc_ohc=PKS7L1yNiJgQ7kNvwFTS-cn&_nc_oc=AdpJ-SWT0KTk6v-3v7vXJ5RMtp_OTsrTEWzAANbYcscZY8uPWEqub3udgsm7o8xvnnQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=bLSDdZDPPJlOx1XTNYXBHQ&_nc_ss=7a22e&oh=00_AQIKcYdSqlIeP9DhalrZRIFdZKZuW64wmGWm6xuMVl0lEA&oe=6ABA5FE9",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/819741563_18089375099407306_1795480125214215014_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk5Mjg0NzEzMDg3Mjk4Nzc3MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=PKS7L1yNiJgQ7kNvwFTS-cn&_nc_oc=AdpJ-SWT0KTk6v-3v7vXJ5RMtp_OTsrTEWzAANbYcscZY8uPWEqub3udgsm7o8xvnnQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=g94SE13emUkqy0aZBQ3kww&_nc_ss=7a22e&oh=00_AQKK2CivuvToOhPFyKNqAIdc5r_W5WUPfESLpWafTC0zuw&oe=6ABA5FE9",
    "url": "https://www.threads.com/@aipeekme/post/DdpcU9-H0B7",
    "region": "kr"
   },
   {
    "account": "aicoffeechat",
    "text": "3. $100, $250 크레딧은 구독 할당량과 다릅니다.\n\n기존 구독자에게 주는 크레딧은 Pro가 $100, Max가 $250인데요. 한 계정에 한 번, 클라우드 세션에만 쓸 수 있습니다.\n\n이 크레딧은 평소 쓰는 사용 한도와 별개예요. 요금제 위에 얹어주는 금액이라 크레딧을 써도 원래 한도는 줄지 않습니다.\n\n받아두면 클라우드 세션을 시작할 때 자동으로 빠져나갑니다.\n\n받는 법은 두 가지입니다. 원문 링크에서 신청하거나, CLI에 /claim-credit을 입력하면 됩니다.\n\n신청은 미국 태평양 시간 10월 7일 밤 11시 59분까지, 크레딧은 11월 4일 밤 11시 59분에 사라집니다.\n\n(미국 태평양 시간 2026년 10월 7일 밤 11:59 → 한국 시간 10월 8일 오후 3:59)\n(미국 태평양 시간 2026년 11월 4일 밤 11:59 → 한국 시간 11월 5일 오후 4:59)",
-   "likes": 1,
+   "likes": 2,
    "cmts": 1,
    "time": 1790202599,
    "thumb": "",
@@ -117,7 +117,7 @@
   {
    "account": "aicoffeechat",
    "text": "2. 켜는 곳은 네 군데입니다\n\n웹에서는 claude.ai/code에 들어가면 되고, Claude 모바일 앱의 Code 탭과 데스크톱 앱에서도 시작할 수 있습니다. 개발자분들은 CLI에서 claude --cloud 한 줄로 켭니다.\n\n조건이 하나 있는데요. GitHub 계정을 연결해야 세션을 시작할 수 있어요.\n\n초보자분들은 claude.ai/code에 들어가서 GitHub 연결부터 끝내두세요. 크레딧을 받아도 연결이 안 돼 있으면 세션을 켤 수 없습니다.",
-   "likes": 1,
+   "likes": 2,
    "cmts": 1,
    "time": 1790202594,
    "thumb": "",
@@ -127,7 +127,7 @@
   {
    "account": "aicoffeechat",
    "text": "1. 퇴근길 가방 속에서도 작업이 돌아갑니다\n\n지금까지 Claude Code를 내 노트북에서 돌리면, 노트북을 덮는 순간 작업도 같이 멈췄죠. 긴 작업을 걸어둔 날엔 화면을 켜둔 채 자리를 지켜야 했습니다.\n\n이젠 클라우드 세션은 Anthropic이 운영하는 서버에서 돌아갑니다. 내 컴퓨터가 꺼져 있어도 Claude Code는 서버에서 하던 일을 이어가요.\n\n퇴근해도 됩니다. 저녁에 맡겨두고 아침에 결과를 확인하는 방식이 이제 공식 기능이 됐습니다.",
-   "likes": 1,
+   "likes": 2,
    "cmts": 1,
    "time": 1790202589,
    "thumb": "",
@@ -150,14 +150,24 @@
    "likes": 28,
    "cmts": 1,
    "time": 1790163563,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/822807426_848088868331800_3522288446426960579_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk5MjUwMzU0ODAyNTMxMzQ5MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=dQUY7avaKRAQ7kNvwFmxgf0&_nc_oc=Adpt7efBrL8fTH92pkcOQLGcxIy7GQ-HR1vPcyAVC8n68bgYb4nR-Lx5cb-Y6voa_lI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=UoZ5qqZYOVtrcfGCu6II2w&_nc_ss=7a22e&oh=00_AQJPfmIlIINh-hORWiT3T5AXIivaK6HHB4vzZIyt1PAGzA&oe=6ABA3202",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/822807426_848088868331800_3522288446426960579_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk5MjUwMzU0ODAyNTMxMzQ5MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=dQUY7avaKRAQ7kNvwFmxgf0&_nc_oc=Adpt7efBrL8fTH92pkcOQLGcxIy7GQ-HR1vPcyAVC8n68bgYb4nR-Lx5cb-Y6voa_lI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=A_fFGuMPAvpoknq-hRt5Jg&_nc_ss=7a22e&oh=00_AQKN49gYd4B-m5vtSDTmloeroSuMq99VECgLo_P_W3Y84Q&oe=6ABA6A42",
    "url": "https://www.threads.com/@kopp/post/DdoONLgiRjT",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
+   "text": "이 변화는 승인 팝업 하나를 추가한 것이 아닙니다.\n\nCopilot 에이전트의 권한 검토 단위가 계정이나 저장소에서 프로젝트의 실행 세션으로 내려왔습니다. 어떤 폴더를 읽고 쓸 수 있는지, 외부망과 사내망을 어디까지 열지, 어떤 Git 자격증명을 전달할지를 함께 정해야 합니다.\n\n설정 변경은 새 세션이나 재시작 뒤 적용됩니다. 클라우드 샌드박스와 원격 호스트 세션에는 적용되지 않습니다.\n\n로컬 코딩 에이전트의 안전성은 모델보다 먼저 실행 경계가 결정하게 됐습니다.\n\nhttps://github.blog/changelog/2026-09-23-local-sandboxing-in-the-github-copilot-app/",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1790209739,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdpmU7ZE8lU",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "와.. 진짜 AI 속도 감속론이 왜 나오는지 알 것 같습니다.\n\nOpus 5.5 하나만으로 게임, 3D 월드, 애니메이션, 음악까지 코드로 만들어내고 있습니다.\n\n심지어 연구소 내부에는 이보다 1~2세대 앞선 모델이 존재한다는게 놀라운데요.\n\n놀라운 사례 20가지를 정리했습니다🧵",
-   "likes": 72,
+   "likes": 90,
    "cmts": 23,
    "time": 1790208519,
    "thumb": "",
@@ -165,22 +175,12 @@
    "region": "kr"
   },
   {
-   "account": "daily_ai_star",
-   "text": "Cursor가 9월 23일 배포 이후를 감시하는 에이전트 봇 2개를 내놨습니다.\n\nRollouts는 모든 풀 리퀘스트의 배포를 따라가며 환경별 상태를 ‘정상’, ‘회귀’, ‘판단 불가’로 보고합니다. Security Review는 모든 풀 리퀘스트에서 인젝션, 인증 우회, SSRF, 비밀정보 노출, 취약한 의존성을 찾고 공격 경로와 수정안을 남깁니다.\n\n둘 다 Teams·Enterprise용입니다.\n\n코딩 에이전트의 완료 기준이 코드를 만들고 리뷰하는 데서, 배포된 변경이 실제 환경에서 건강한지 확인하는 데까지 넓어졌습니다.\n\nhttps://cursor.com/en-US/changelog",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1790208045,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdpjF_Jk-GV",
-   "region": "kr"
-  },
-  {
    "account": "aicoffeechat",
    "text": "노트북을 덮어도 Claude Code는 계속 일합니다.\n\nClaude Code 클라우드 세션을 정식발표 했는데요. 그동안 시험용으로만 돌던 기능입니다.\n\n기존 Pro·Max 구독자에게는 한 번 쓰는 크레딧도 나옵니다. 신청 기한이 10월 7일까지라서 꼭 신청하세요. \n\n$250 크레딧 놓치지 말고 꼭 받아가세요. 링크 아래에 공유했어요.",
-   "likes": 38,
+   "likes": 43,
    "cmts": 5,
    "time": 1790202582,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/819616219_17958685434232485_3800610096206576023_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk5MjgzMTExNzY0ODY3MjQ4Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjA0OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=c5-Ly54pSNoQ7kNvwFGrCRN&_nc_oc=AdpRDXNgjHIgElM5-DbSUNXYjwo3NftADcb_xAdVNf6zsmrtOBz2zxwDzxDFQmQlhAg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=IoJBI9JuHSrwQM5rXxbxWA&_nc_ss=7a22e&oh=00_AQLsGYc0ZB3jW-t6Ud0CErtv8Ajlcsv0Vfs4-NYjs0rgaQ&oe=6ABA5E2C",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/819616219_17958685434232485_3800610096206576023_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk5MjgzMTExNzY0ODY3MjQ4Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjA0OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=c5-Ly54pSNoQ7kNvwFGrCRN&_nc_oc=AdpRDXNgjHIgElM5-DbSUNXYjwo3NftADcb_xAdVNf6zsmrtOBz2zxwDzxDFQmQlhAg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=T1KfkJ7a2pIX3KTmI2n4Xg&_nc_ss=7a22e&oh=00_AQKSOHgDe2d5a_qHoVZ1y55-zL4l4W-HkQ9voiTIDzPIBQ&oe=6ABA5E2C",
    "url": "https://www.threads.com/@aicoffeechat/post/DdpYr8fkzbj",
    "region": "kr"
   },
@@ -195,23 +195,23 @@
    "region": "kr"
   },
   {
+   "account": "daily_ai_star",
+   "text": "GitHub Copilot 앱이 9월 23일 로컬 샌드박스를 공개했습니다.\n\n프로젝트별로 파일 접근, 네트워크, 자격증명을 제한합니다. 파일은 추가 읽기·쓰기, 추가 읽기 전용, 차단 폴더로 나누고, 네트워크는 외부 인터넷과 로컬 네트워크를 따로 설정합니다. Git 인증과 GitHub CLI 인증도 정책에 넣을 수 있습니다.\n\n기본값은 꺼져 있습니다. 운영체제가 정책을 강제하지 못하면 명령을 실행하지 않고 셸 세션 자체를 실패시킵니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1790209729,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdpmTpEk0B5",
+   "region": "kr"
+  },
+  {
    "account": "choi.openai",
    "text": "주소 :\nhttps://grokbot-icon-studio.serio-ai.chatgpt.site/",
-   "likes": 14,
+   "likes": 15,
    "cmts": 0,
    "time": 1790200855,
    "thumb": "",
    "url": "https://www.threads.com/@choi.openai/post/DdpVZLYAJty",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
-   "text": "인클루전AI가 텍스트 중심의 시각 디자인에 특화된 60억 파라미터 규모의 이미지 생성 모델 Ming-Image-0.1-Design을 공개했습니다.\nUI 화면이나 인포그래픽, 포스터처럼 글자와 레이아웃이 중요한 작업물에서 전체적인 시각 구성을 완성도 있게 만들어내는 것이 특징인데요.\n특히 투명한 배경을 지원하는 RGBA 출력이 가능해 디자인 작업에서 유용하게 쓰일 수 있을 것 같습니다.\n프롬프트 확장 기능에는 링-3.0-플래시-브이엘이나 큐원 모델을 활용하도록 설계되어 있습니다.\n깃허브 저장소를 통해 설치 코드가 제공되고 있어 실제 환경에서 바로 테스트해 보는 것이 가능합니다.\n다만 텍스트를 정교하게 배치해야 하는 실무 디자인 영역에서 기존 툴을 얼마나 대체할 수 있을지는 직접 돌려봐야 알 수 있겠습니다.\n결과물의 완성도를 가르는 프롬프트 작성 방식이 실제 작업 공수와 맞물려 어떻게 효율을 낼지 지켜보려고 합니다.\n\n📷 사진 출처: huggingface.co",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1790164954,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/819383913_18089262779407306_6849720232204740509_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk5MjUxNTM4MDYzNjUzODA0NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMiJ9&_nc_ohc=tf_A7nzLli4Q7kNvwFoZcOy&_nc_oc=AdqBiZ6cJqFLeHq9VC3JX6DFW68Q-GOcgtIwUdb65QhCGe0M6Zl84Ld8rBrGK6NhQ7Y&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=bLSDdZDPPJlOx1XTNYXBHQ&_nc_ss=7a22e&oh=00_AQIMvQxHAWq_6wzrqhlZtoaDWQ7vQ_euZ456QTiezUp0dQ&oe=6ABA5094",
-   "url": "https://www.threads.com/@aipeekme/post/DdoQ5XfH9S9",
    "region": "kr"
   }
  ],
@@ -222,7 +222,7 @@
    "views": 637800,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0CGAI6ooFCAPECAEqED63ffIARmgNxjBUg0zR~tplv-tiktokx-origin.image?dr=14575&x-expires=1790384400&x-signature=mEdI14AgFkWz0vhug9jqrhxpXbE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0CGAI6ooFCAPECAEqED63ffIARmgNxjBUg0zR~tplv-tiktokx-origin.image?dr=14575&x-expires=1790384400&x-signature=BMJ6rvtl7U20l656wiCmB2wy3tM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1788879730,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7683179938026900754",
    "region": "kr"
@@ -263,7 +263,7 @@
   {
    "account": "jaemyung_lee",
    "title": "Assalomu alaykum, O‘zbekiston!🇺🇿🇰🇷 #이재명 #우즈베키스탄 #Uzbekistan",
-   "views": 66300,
+   "views": 66400,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAUOEAPEroYfNoFaeAAfZQATIAiVPvDB5WhDFE~tplv-tiktokx-origin.image?dr=14575&x-expires=1790384400&x-signature=EaLREdyxYnKUVoZyGxp3M4XBCIY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -285,7 +285,7 @@
   {
    "account": "jaemyung_lee",
    "title": "미국 뉴욕타임즈와 인터뷰를 가졌습니다. Urging Pivot on North Korea, South’s Leader Calls for Easing Sanctions https://blog.naver.com/jaem",
-   "views": 45600,
+   "views": 45900,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIBVEyCAEfPFpCCAvAhEZlCAjHXfDDAjIf8IR4~tplv-tiktokx-origin.image?dr=14575&x-expires=1790384400&x-signature=Sh1cU%2BsJFMl4xvUBzCJrW80SiOQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -318,7 +318,7 @@
   {
    "account": "jaemyung_lee",
    "title": "다녀오겠습니다 🇺🇳🇲🇽 🇺🇳UN총회 9월 21일~23일 🇲🇽멕시코 국빈방문 9월 23일~26일 #이재명 #UNGA #mexico",
-   "views": 20700,
+   "views": 20800,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o8hqfADsO8SBzFR3qsnOMDUEgQTwBkvQerxPE0~tplv-tiktokx-origin.image?dr=14575&x-expires=1790384400&x-signature=dkTeFYLzlnirgswufzFvyZhTWvc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -332,7 +332,7 @@
    "views": 11100,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooyVfsECyAObdyUAC9AHMGgEDfAwFBAocCAqjI~tplv-tiktokx-origin.image?dr=14575&x-expires=1790384400&x-signature=xP7Zv4cFrV6Sz1xiFnhdiAVtvaE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooyVfsECyAObdyUAC9AHMGgEDfAwFBAocCAqjI~tplv-tiktokx-origin.image?dr=14575&x-expires=1790384400&x-signature=Wk9JmKZ5fLUDYYkxeKVcGjdFR7Y%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1790062603,
    "url": "https://www.tiktok.com/@tictok_ent/video/7688260337883270407",
    "region": "kr"
@@ -340,7 +340,7 @@
   {
    "account": "tictok_ent",
    "title": "수지, 시민들의 욕을 부르는 미모 / 아누아(Anua) 포토월 더파운더즈의 글로벌 뷰티 브랜드 아누아(Anua)의 'PDRN 라인 팝업스토어' 오픈을 기념하는 포토행사가 18일 오전 서울 성동구 성수동에 위치한 올리",
-   "views": 8118,
+   "views": 8123,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ow8gANS3AmQCK2UqVEUCB50sGEQeIAFZAFArfD~tplv-tiktokx-origin.image?dr=14575&x-expires=1790384400&x-signature=GBGCSIDc%2Fz33BZBruqDEZfAsqyQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -360,6 +360,15 @@
    "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1wo51kr/78_sushi_arrived_like_this/"
   },
   {
+   "sub": "AskReddit",
+   "title": "Which hobby has ended more relationships than people realize?",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1790200511,
+   "url": "https://www.reddit.com/r/AskReddit/comments/1wojhni/which_hobby_has_ended_more_relationships_than/"
+  },
+  {
    "sub": "Damnthatsinteresting",
    "title": "Two for flinching",
    "score": 0,
@@ -369,24 +378,6 @@
    "url": "https://www.reddit.com/r/Damnthatsinteresting/comments/1woiytd/two_for_flinching/"
   },
   {
-   "sub": "pics",
-   "title": "[OC] Found on Lansing Gas Station",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/gf6aosv7wbrh1.jpeg?width=640&crop=smart&auto=webp&s=0f9881da8ddcbeef833d148f2f201d0df4e51301",
-   "time": 1790194789,
-   "url": "https://www.reddit.com/r/pics/comments/1woh28x/oc_found_on_lansing_gas_station/"
-  },
-  {
-   "sub": "Warframe",
-   "title": "Gifting Narin Bundle!",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/mq1zymfpparh1.jpeg?width=640&crop=smart&auto=webp&s=2f61c8dcbbdda921182b5fb5ba32c9cc979db108",
-   "time": 1790180491,
-   "url": "https://www.reddit.com/r/Warframe/comments/1woalh6/gifting_narin_bundle/"
-  },
-  {
    "sub": "politics",
    "title": "Senator says “furry” pilots are taking over airlines because of trans people: “We’re sitting ducks!”. Sen. Tommy Tuberville (R-AL) claimed doctors are performing secret surgeries on trans kids & that ",
    "score": 0,
@@ -394,24 +385,6 @@
    "thumb": "https://external-preview.redd.it/LLtUjj099UfheoZMzkHQ79K4fwwJ1z7LqHRaXrPEe-g.jpeg?width=640&crop=smart&auto=webp&s=dc5bbf813c4bca033a35da9ae9b0a42baef10813",
    "time": 1790178021,
    "url": "https://www.reddit.com/r/politics/comments/1wo9gw5/senator_says_furry_pilots_are_taking_over/"
-  },
-  {
-   "sub": "news",
-   "title": "167,639 Pounds of Meat Recalled After Bypassing USDA Inspection",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "",
-   "time": 1790195679,
-   "url": "https://www.reddit.com/r/news/comments/1wohg7n/167639_pounds_of_meat_recalled_after_bypassing/"
-  },
-  {
-   "sub": "AskReddit",
-   "title": "Which hobby has ended more relationships than people realize?",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "",
-   "time": 1790200511,
-   "url": "https://www.reddit.com/r/AskReddit/comments/1wojhni/which_hobby_has_ended_more_relationships_than/"
   },
   {
    "sub": "SipsTea",
@@ -432,13 +405,31 @@
    "url": "https://www.reddit.com/r/classicwow/comments/1wo2y9f/blizzard_developer_weighs_in_on_the_battle_of_who/"
   },
   {
-   "sub": "cats",
-   "title": "My poor baby, went to get fixed. Never got to come home",
+   "sub": "pics",
+   "title": "[OC] Found on Lansing Gas Station",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/4xvkornqmcrh1.jpeg?width=640&crop=smart&auto=webp&s=98cf239adabdb7fbcb07fa6bb05248f698fc6587",
-   "time": 1790203708,
-   "url": "https://www.reddit.com/r/cats/comments/1wokr30/my_poor_baby_went_to_get_fixed_never_got_to_come/"
+   "thumb": "https://preview.redd.it/gf6aosv7wbrh1.jpeg?width=640&crop=smart&auto=webp&s=0f9881da8ddcbeef833d148f2f201d0df4e51301",
+   "time": 1790194789,
+   "url": "https://www.reddit.com/r/pics/comments/1woh28x/oc_found_on_lansing_gas_station/"
+  },
+  {
+   "sub": "news",
+   "title": "167,639 Pounds of Meat Recalled After Bypassing USDA Inspection",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1790195679,
+   "url": "https://www.reddit.com/r/news/comments/1wohg7n/167639_pounds_of_meat_recalled_after_bypassing/"
+  },
+  {
+   "sub": "SipsTea",
+   "title": "I know they take a lot to constructing at first, but wouldn’t bullet trains be more environmentally friendly & make travel easier?",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/p6lwfj38rcrh1.jpeg?width=640&crop=smart&auto=webp&s=9d7c88b9f947668f99c44257264232b2c264a13a",
+   "time": 1790205216,
+   "url": "https://www.reddit.com/r/SipsTea/comments/1wolc2s/i_know_they_take_a_lot_to_constructing_at_first/"
   },
   {
    "sub": "WorkReform",
@@ -450,55 +441,27 @@
    "url": "https://www.reddit.com/r/WorkReform/comments/1wod20s/trump_supporter_who_voted_for_mass_deportation_is/"
   },
   {
-   "sub": "interestingasfuck",
-   "title": "How many plates does it take to Stop a bullet?",
+   "sub": "cats",
+   "title": "My poor baby, went to get fixed. Never got to come home",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/aDlkNmwwOHpuOHJoMWswwsSxChcXHaEGMGRfzYcOIHlAbvA_uPLFaVl3q4Di.png?width=320&crop=smart&auto=webp&s=5947f0a07b335de2d7f4d7571cfb5f8cf7fc16fa",
-   "time": 1790155711,
-   "url": "https://www.reddit.com/r/interestingasfuck/comments/1wo15g7/how_many_plates_does_it_take_to_stop_a_bullet/"
+   "thumb": "https://preview.redd.it/4xvkornqmcrh1.jpeg?width=640&crop=smart&auto=webp&s=98cf239adabdb7fbcb07fa6bb05248f698fc6587",
+   "time": 1790203708,
+   "url": "https://www.reddit.com/r/cats/comments/1wokr30/my_poor_baby_went_to_get_fixed_never_got_to_come/"
   },
   {
-   "sub": "worldnews",
-   "title": "/r/WorldNews Live Thread: Russian Invasion of Ukraine Day 1673, Part 1 (Thread #1820)",
+   "sub": "MadeMeSmile",
+   "title": "My friends won’t stop gifting me banana themed tools but I don’t even like bananas",
    "score": 0,
    "cmts": 0,
-   "thumb": "",
-   "time": 1790136188,
-   "url": "https://www.reddit.com/r/worldnews/comments/1wnvhw5/rworldnews_live_thread_russian_invasion_of/"
-  },
-  {
-   "sub": "worldnews",
-   "title": "China Took Possession of Diverted F-35 Stealth Fighter Parts Diverted to Hong Kong",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/T0Ms3yNYxZoX1vDMWTIE6E8UIEv4w-bBGpfbeArgFmk.jpeg?width=640&crop=smart&auto=webp&s=5159ed92e7bd24540e4bc81a7687d8cbff5a7fe7",
-   "time": 1790198873,
-   "url": "https://www.reddit.com/r/worldnews/comments/1woit78/china_took_possession_of_diverted_f35_stealth/"
-  },
-  {
-   "sub": "worldnews",
-   "title": "US delegation storms out as Iranian president holds up images of slain children",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/gYwWFpcqtBCkeNdUW0HoERGU0Hlv_CiZxkjlJtyCT9Y.jpeg?width=640&crop=smart&auto=webp&s=3ea4967938bb3143ed712d365edbdf532b0157e7",
-   "time": 1790180194,
-   "url": "https://www.reddit.com/r/worldnews/comments/1woaghl/us_delegation_storms_out_as_iranian_president/"
+   "thumb": "https://preview.redd.it/s89j42s597rh1.jpeg?width=640&crop=smart&auto=webp&s=939fb03d3f9e5d4e0e6d9f19d41e233069c27a74",
+   "time": 1790138606,
+   "url": "https://www.reddit.com/r/MadeMeSmile/comments/1wnw93p/my_friends_wont_stop_gifting_me_banana_themed/"
   }
  ],
  "disaster": [],
  "_cover": {
   "ok": {
-   "x": [
-    "64bitcoinkr",
-    "awaken_eyes",
-    "economysniper0",
-    "freedom_73x",
-    "globalbrief_now",
-    "jajaja7878uu",
-    "kyunghyang",
-    "marionawfal"
-   ],
    "threads": [
     "aicoffeechat",
     "aipeekme",
@@ -515,10 +478,10 @@
   },
   "why": {},
   "landing": {
-   "at": "2026-09-24T09:31:25",
+   "at": "2026-09-24T10:05:11",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-09-24T10:05:04.136503+09:00"
+ "updated": "2026-09-24T10:31:17.695924+09:00"
 }
