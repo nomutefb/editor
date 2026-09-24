@@ -1,16 +1,12 @@
 {
- "ok": 159,
- "dead": 18,
- "dead_feeds": [
+ "ok": 177,
+ "dead": 0,
+ "dead_feeds": [],
+ "zombie_feeds": [
   {
-   "publisher": "동아일보",
-   "title": "정치",
-   "url": "https://rss.donga.com/politics.xml"
-  },
-  {
-   "publisher": "동아일보",
-   "title": "사회",
-   "url": "https://rss.donga.com/national.xml"
+   "publisher": "경향신문",
+   "title": "스포츠",
+   "url": "http://www.khan.co.kr/rss/rssdata/kh_sports.xml"
   },
   {
    "publisher": "동아일보",
