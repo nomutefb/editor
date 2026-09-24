@@ -1,7 +1,13 @@
 {
- "ok": 177,
- "dead": 0,
- "dead_feeds": [],
+ "ok": 176,
+ "dead": 1,
+ "dead_feeds": [
+  {
+   "publisher": "머니투데이",
+   "title": "전체기사",
+   "url": "https://rss.mt.co.kr/mt_news.xml"
+  }
+ ],
  "zombie_feeds": [
   {
    "publisher": "경향신문",
@@ -24,6 +30,31 @@
    "url": "https://www.kmib.co.kr/rss/data/kmibColRss.xml"
   },
   {
+   "publisher": "동아일보",
+   "title": "사설칼럼",
+   "url": "https://rss.donga.com/editorials.xml"
+  },
+  {
+   "publisher": "동아일보",
+   "title": "사람속으로",
+   "url": "https://rss.donga.com/inmul.xml"
+  },
+  {
+   "publisher": "동아일보",
+   "title": "레져",
+   "url": "https://rss.donga.com/leisure.xml"
+  },
+  {
+   "publisher": "동아일보",
+   "title": "도서",
+   "url": "https://rss.donga.com/book.xml"
+  },
+  {
+   "publisher": "동아일보",
+   "title": "여성",
+   "url": "https://rss.donga.com/woman.xml"
+  },
+  {
    "publisher": "매일노동뉴스",
    "title": "전체",
    "url": "https://www.labortoday.co.kr/rss/allArticle.xml"
@@ -42,11 +73,6 @@
    "publisher": "미디어오늘",
    "title": "오피니언",
    "url": "https://www.mediatoday.co.kr/rss/S1N8.xml"
-  },
-  {
-   "publisher": "시사인",
-   "title": "전체기사",
-   "url": "https://cdn.sisain.co.kr/rss/gns_allArticle.xml"
   },
   {
    "publisher": "시사저널",
