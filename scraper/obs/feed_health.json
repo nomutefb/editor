@@ -1,7 +1,18 @@
 {
- "ok": 177,
- "dead": 0,
- "dead_feeds": [],
+ "ok": 175,
+ "dead": 2,
+ "dead_feeds": [
+  {
+   "publisher": "머니투데이",
+   "title": "전체기사",
+   "url": "https://rss.mt.co.kr/mt_news.xml"
+  },
+  {
+   "publisher": "전자신문",
+   "title": "IT·산업전반",
+   "url": "https://rss.etnews.com/Section901.xml"
+  }
+ ],
  "zombie_feeds": [
   {
    "publisher": "동아일보",
@@ -82,6 +93,16 @@
    "publisher": "통일뉴스",
    "title": "동북아외신",
    "url": "https://www.tongilnews.com/rss/S1N18.xml"
+  },
+  {
+   "publisher": "프레시안",
+   "title": "문화",
+   "url": "https://www.pressian.com/api/v3/site/rss/section/69"
+  },
+  {
+   "publisher": "프레시안",
+   "title": "스포츠",
+   "url": "https://www.pressian.com/api/v3/site/rss/section/70"
   }
  ]
 }
