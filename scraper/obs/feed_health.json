@@ -3,9 +3,9 @@
  "dead": 1,
  "dead_feeds": [
   {
-   "publisher": "머니투데이",
+   "publisher": "아시아경제",
    "title": "전체기사",
-   "url": "https://rss.mt.co.kr/mt_news.xml"
+   "url": "https://www.asiae.co.kr/rss/all.htm"
   }
  ],
  "zombie_feeds": [
@@ -126,6 +126,11 @@
   },
   {
    "publisher": "여성신문",
+   "title": "세계",
+   "url": "http://www.womennews.co.kr/rss/S1N3.xml"
+  },
+  {
+   "publisher": "여성신문",
    "title": "경제",
    "url": "http://www.womennews.co.kr/rss/S1N4.xml"
   },
@@ -148,11 +153,6 @@
    "publisher": "여성신문",
    "title": "IT/과학",
    "url": "http://www.womennews.co.kr/rss/S1N39.xml"
-  },
-  {
-   "publisher": "조선일보",
-   "title": "오피니언",
-   "url": "https://www.chosun.com/arc/outboundfeeds/rss/category/opinion/?outputType=xml"
   },
   {
    "publisher": "통일뉴스",
