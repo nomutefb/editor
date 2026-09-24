@@ -1,7 +1,13 @@
 {
- "ok": 177,
- "dead": 0,
- "dead_feeds": [],
+ "ok": 176,
+ "dead": 1,
+ "dead_feeds": [
+  {
+   "publisher": "머니투데이",
+   "title": "전체기사",
+   "url": "https://rss.mt.co.kr/mt_news.xml"
+  }
+ ],
  "zombie_feeds": [
   {
    "publisher": "동아일보",
@@ -32,6 +38,11 @@
    "publisher": "미디어오늘",
    "title": "오피니언",
    "url": "https://www.mediatoday.co.kr/rss/S1N8.xml"
+  },
+  {
+   "publisher": "시사저널",
+   "title": "경제",
+   "url": "http://www.sisajournal.com/rss/S1N54.xml"
   },
   {
    "publisher": "시사저널",
