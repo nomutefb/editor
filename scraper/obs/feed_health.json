@@ -1,7 +1,33 @@
 {
- "ok": 177,
- "dead": 0,
- "dead_feeds": [],
+ "ok": 172,
+ "dead": 5,
+ "dead_feeds": [
+  {
+   "publisher": "SBS",
+   "title": "사회",
+   "url": "https://news.sbs.co.kr/news/SectionRssFeed.do?sectionId=03&plink=RSSREADER"
+  },
+  {
+   "publisher": "SBS",
+   "title": "연예",
+   "url": "https://ent.sbs.co.kr/news/xml/RSSFeed.do"
+  },
+  {
+   "publisher": "SBS",
+   "title": "헤드라인",
+   "url": "https://news.sbs.co.kr/news/headlineRssFeed.do?plink=RSSREADER"
+  },
+  {
+   "publisher": "SBS",
+   "title": "속보",
+   "url": "https://news.sbs.co.kr/news/newsflashRssFeed.do?plink=RSSREADER"
+  },
+  {
+   "publisher": "머니투데이",
+   "title": "전체기사",
+   "url": "https://rss.mt.co.kr/mt_news.xml"
+  }
+ ],
  "zombie_feeds": [
   {
    "publisher": "경향신문",
@@ -17,6 +43,11 @@
    "publisher": "국민일보",
    "title": "연예",
    "url": "https://www.kmib.co.kr/rss/data/kmibEntRss.xml"
+  },
+  {
+   "publisher": "국민일보",
+   "title": "사설/칼럼",
+   "url": "https://www.kmib.co.kr/rss/data/kmibColRss.xml"
   },
   {
    "publisher": "동아일보",
