@@ -3,14 +3,14 @@
  "dead": 2,
  "dead_feeds": [
   {
+   "publisher": "일다",
+   "title": "전체",
+   "url": "https://www.ildaro.com/rss/rss_news.php"
+  },
+  {
    "publisher": "머니투데이",
    "title": "전체기사",
    "url": "https://rss.mt.co.kr/mt_news.xml"
-  },
-  {
-   "publisher": "전자신문",
-   "title": "IT·산업전반",
-   "url": "https://rss.etnews.com/Section901.xml"
   }
  ],
  "zombie_feeds": [
@@ -73,11 +73,6 @@
    "publisher": "여성신문",
    "title": "IT/과학",
    "url": "http://www.womennews.co.kr/rss/S1N39.xml"
-  },
-  {
-   "publisher": "일다",
-   "title": "전체",
-   "url": "https://www.ildaro.com/rss/rss_news.php"
   },
   {
    "publisher": "통일뉴스",
