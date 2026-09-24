@@ -16,32 +16,32 @@
  "threads": [
   {
    "account": "choi.openai",
+   "text": "블로그 :\nhttps://cursor.com/ko/blog/rollouts-and-security-reviewer",
+   "likes": 1,
+   "cmts": 0,
+   "time": 1790251265,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/Ddq1ioXE45k",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "Cursor가 코딩을 넘어 배포 이후까지 AI가 확인하는 Rollouts를 공개했습니다.\n\n코드 변경사항을 배포하기 전에 모니터링 계획을 만들고, 실제 배포가 시작되면 문제가 생기는지 계속 확인합니다.\n이상이 발견되면 사용자가 문제를 겪기 전에 회귀 오류를 찾아내는 방식입니다.\n\nSecurity Reviewer도 업데이트돼 평균 검사 시간이 4.8분에서 3.8분으로 21% 줄었습니다.\n\n두 기능은 현재 Teams와 Enterprise에서 이용할 수 있습니다.",
+   "likes": 14,
+   "cmts": 2,
+   "time": 1790251254,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/819652784_17988529530112832_6904197206357278958_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk5MzIzOTQwODI0NTY5NzEzNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTAyNC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Li2j0-8o2UQQ7kNvwFm_hpm&_nc_oc=Adqot_KMqDLZQsTqIHJSJgKsj9opN9OBipY5imTV7K9J0VZhyxUbIde3tm8OwIvEudY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=qp4SKu_hTYh5qIns0-sW4A&_nc_ss=7a20f&oh=00_AQKZi1HctgxCjGseZToFstI9BITCPKbn7r9DY7u3pi0T1g&oe=6ABAD708",
+   "url": "https://www.threads.com/@choi.openai/post/Ddq1hWvk2pu",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
    "text": "블로그 :\nhttps://huggingface.co/blog/nvidia/nemotron-diarization",
-   "likes": 2,
+   "likes": 4,
    "cmts": 0,
    "time": 1790247654,
    "thumb": "",
    "url": "https://www.threads.com/@choi.openai/post/Ddqup4ODx9Y",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "여러 명이 동시에 말해도 누가 언제 말했는지 구분하는 모델이 나왔습니다.\n\nNVIDIA가 Nemotron 3 Diarization을 공개했습니다.\n최대 8명의 화자를 구분하고, 서로 말이 겹치는 상황도 처리할 수 있습니다.\n\n모델 크기는 100M이며 VoiceArena 초기 벤치마크에서 14.72% 오류율로 1위를 기록했습니다. 기존 2위보다 오류율이 약 24% 낮았습니다.\n\n허깅페이스에서 바로 사용할 수 있고, 실시간 회의·통화·팟캐스트처럼 화자 구분이 중요한 음성 작업에 활용할 수 있습니다.",
-   "likes": 36,
-   "cmts": 2,
-   "time": 1790247643,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/820431675_2110093789897411_8551049869539761741_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk5MzIwOTExODg2MTAxNjAxOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=VRU5y4zhJjwQ7kNvwHQ6C9R&_nc_oc=Ado_xei_jEiK_DWVccGofZpFBJCItIOpZYreCdBppen8ktsNA3WaBoG5FVD-JkqagOg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=w9XuJ5tCvmFiQ1ZmbvSyUw&_nc_ss=7a20f&oh=00_AQJncLrFLB8MPTRJGxuB3zWHLKd7hTEJJ-v7CwOQQZu8TQ&oe=6ABAD380",
-   "url": "https://www.threads.com/@choi.openai/post/Ddquoljj7vS",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "내용 :\nhttps://www.anthropic.com/news/claude-discovers-novel-enzyme-system",
-   "likes": 1,
-   "cmts": 0,
-   "time": 1790244036,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DdqnwQrgWiJ",
    "region": "kr"
   },
   {
@@ -60,7 +60,7 @@
    "likes": 4,
    "cmts": 1,
    "time": 1790228618,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/818195190_1459711722716289_7299790243150015838_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk5MzA0OTI3ODc4NDA5Mzk5NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=iznjYDGXCDoQ7kNvwF3apZI&_nc_oc=AdqqlrUSg7lUVP4YoqAnY1xfvDMBJRhlwfyYXuJexq0J1LqQyt62TUOxkkjV5IvuoEo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=pbxtf3fMnWu27q16R5u70Q&_nc_ss=7a20f&oh=00_AQKDci-xGXhgLO6buao2TaJT7ZbnRr3GYDBXFv1_DtevOg&oe=6ABAF92E",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/818195190_1459711722716289_7299790243150015838_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk5MzA0OTI3ODc4NDA5Mzk5NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=iznjYDGXCDoQ7kNvwF3apZI&_nc_oc=AdqqlrUSg7lUVP4YoqAnY1xfvDMBJRhlwfyYXuJexq0J1LqQyt62TUOxkkjV5IvuoEo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=JMQfHt16d-2Wsx2fVaazxQ&_nc_ss=7a20f&oh=00_AQLWGHuPUm4u8rdu3VTw0-41V2blMYnRazL5vsQAetzYcw&oe=6ABAF92E",
    "url": "https://www.threads.com/@kopp/post/DdqKSm4jj8q",
    "region": "kr"
   },
@@ -80,7 +80,7 @@
    "likes": 0,
    "cmts": 1,
    "time": 1790220674,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/821597953_18089409902407306_3804756069353730907_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk5Mjk4MjgxNTQ0MTQwNDcyOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTMwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=oZBjIHROGbAQ7kNvwF5ns8k&_nc_oc=AdqGAjD7-ad0nRZ0Hk4Pqi8-4j_7XQezfBVP1_LeKFeJNZf60lczCLMIT47lN6FgriE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=pBojBEhD6xGJT5_lhOIDGA&_nc_ss=7a20f&oh=00_AQKp-i-XVXqPT1-ijlFqvBPtryK8DOkF_l5QN8THhTalnw&oe=6ABAE877",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/821597953_18089409902407306_3804756069353730907_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk5Mjk4MjgxNTQ0MTQwNDcyOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTMwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=oZBjIHROGbAQ7kNvwF5ns8k&_nc_oc=AdqGAjD7-ad0nRZ0Hk4Pqi8-4j_7XQezfBVP1_LeKFeJNZf60lczCLMIT47lN6FgriE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=I28FxXMt6iTgSWPYO82B9g&_nc_ss=7a20f&oh=00_AQJmoGiONoAarudbNaRSIeK6mD1x0zfYvorvh6NUr3hqfg&oe=6ABAE877",
    "url": "https://www.threads.com/@aipeekme/post/Ddp7LcEn8M4",
    "region": "kr"
   },
@@ -156,12 +156,12 @@
   },
   {
    "account": "choi.openai",
-   "text": "Claude가 기존에 알려지지 않았던 효소 시스템 ART를 발견했습니다.\n\n앤트로픽은 약 950개의 Claude 에이전트로 21시간 동안 DNA 데이터를 분석했습니다.\n\n20만 개 이상의 역전사효소(RT)를 조사해 3,500개 후보를 찾았고, 이 과정에서 박테리오파지 DNA에서 CRISPR와 비슷한 반복 구조를 발견했습니다.\n\n아직 ART가 정확히 무엇을 하는지는 밝혀지지 않았습니다. 다만 비슷한 특징을 가진 기존 시스템들은 DNA를 자르고 복사하거나 붙이는 기능을 갖고 있어 추가 연구가 진행 중입니다.\n\nAI가 논문을 요약하는 수준을 넘어 직접 데이터를 뒤져 과학자가 실험할 새로운 후보를 찾아내는 단계로 넘어가고 있습니다.",
-   "likes": 25,
-   "cmts": 1,
-   "time": 1790244028,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/817985698_1698381754583420_7131967534452675516_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk5MzE3ODc4OTM0NDU2NTU2Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=Bz-6ZwxlR-MQ7kNvwGp7XvH&_nc_oc=AdqwsxUl0JyJdxeGUMw3b8RiXfDJKeMgntNc1E4sptei6PoB_xJuHhz_ZZNzDZE4vMM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=w9XuJ5tCvmFiQ1ZmbvSyUw&_nc_ss=7a20f&oh=00_AQJMJhqWLiC-lxznP0oW_aHAI7IrQaw_ZNkViCdWTm5byQ&oe=6ABACF43",
-   "url": "https://www.threads.com/@choi.openai/post/DdqnvO_gdk6",
+   "text": "여러 명이 동시에 말해도 누가 언제 말했는지 구분하는 모델이 나왔습니다.\n\nNVIDIA가 Nemotron 3 Diarization을 공개했습니다.\n최대 8명의 화자를 구분하고, 서로 말이 겹치는 상황도 처리할 수 있습니다.\n\n모델 크기는 100M이며 VoiceArena 초기 벤치마크에서 14.72% 오류율로 1위를 기록했습니다. 기존 2위보다 오류율이 약 24% 낮았습니다.\n\n허깅페이스에서 바로 사용할 수 있고, 실시간 회의·통화·팟캐스트처럼 화자 구분이 중요한 음성 작업에 활용할 수 있습니다.",
+   "likes": 49,
+   "cmts": 2,
+   "time": 1790247643,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/820431675_2110093789897411_8551049869539761741_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk5MzIwOTExODg2MTAxNjAxOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=VRU5y4zhJjwQ7kNvwHQ6C9R&_nc_oc=Ado_xei_jEiK_DWVccGofZpFBJCItIOpZYreCdBppen8ktsNA3WaBoG5FVD-JkqagOg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=qp4SKu_hTYh5qIns0-sW4A&_nc_ss=7a20f&oh=00_AQK1CQNDy-9t7BIwItNkpR8Gr98fPy602ZMd1nCyCW43sw&oe=6ABAD380",
+   "url": "https://www.threads.com/@choi.openai/post/Ddquoljj7vS",
    "region": "kr"
   },
   {
@@ -170,7 +170,7 @@
    "likes": 0,
    "cmts": 1,
    "time": 1790213475,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/821138617_18089392946407306_1266950707108978386_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk5MjkyMjQyMzMxMDY2ODU1NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=YAQlle8TuG8Q7kNvwHnBf6B&_nc_oc=AdoscH16VK2worxZjOjFieG-I7MVP-bxd1sUyO3YKozw2IjlwrDRNh59acq-2zQ1VHI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=pBojBEhD6xGJT5_lhOIDGA&_nc_ss=7a20f&oh=00_AQKoVoGa8zgiEkMN44IWtCTFtqWnegQDhPYIIcB0-6YCzw&oe=6ABAD0C1",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/821138617_18089392946407306_1266950707108978386_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk5MjkyMjQyMzMxMDY2ODU1NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=YAQlle8TuG8Q7kNvwHnBf6B&_nc_oc=AdoscH16VK2worxZjOjFieG-I7MVP-bxd1sUyO3YKozw2IjlwrDRNh59acq-2zQ1VHI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=I28FxXMt6iTgSWPYO82B9g&_nc_ss=7a20f&oh=00_AQIsDRlLqlen22dloUtsc9JZACYh_QAwL9aUVY20HeIXog&oe=6ABAD0C1",
    "url": "https://www.threads.com/@aipeekme/post/DdptcnhH9MK",
    "region": "kr"
   },
@@ -190,18 +190,18 @@
    "likes": 71,
    "cmts": 5,
    "time": 1790202582,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/819616219_17958685434232485_3800610096206576023_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk5MjgzMTExNzY0ODY3MjQ4Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjA0OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=c5-Ly54pSNoQ7kNvwFGrCRN&_nc_oc=AdpRDXNgjHIgElM5-DbSUNXYjwo3NftADcb_xAdVNf6zsmrtOBz2zxwDzxDFQmQlhAg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=tW3Wfe2kRtEjs8wtDd3RUg&_nc_ss=7a20f&oh=00_AQKUL3uHwxprDv5wl4T-1zK3DC2NOOYF-fingN3gTV07Bg&oe=6ABACEAC",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/819616219_17958685434232485_3800610096206576023_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk5MjgzMTExNzY0ODY3MjQ4Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjA0OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=c5-Ly54pSNoQ7kNvwFGrCRN&_nc_oc=AdpRDXNgjHIgElM5-DbSUNXYjwo3NftADcb_xAdVNf6zsmrtOBz2zxwDzxDFQmQlhAg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=7KmE34PAAzZwPKUuOhnDgA&_nc_ss=7a20f&oh=00_AQIE3SFaFIm75RJBKpz-870DY_5-9ij_uTWtdU0P7-EF5g&oe=6ABACEAC",
    "url": "https://www.threads.com/@aicoffeechat/post/DdpYr8fkzbj",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "내용 :\nhttps://transluce.org/agent-activity",
-   "likes": 3,
+   "text": "내용 :\nhttps://www.anthropic.com/news/claude-discovers-novel-enzyme-system",
+   "likes": 2,
    "cmts": 0,
-   "time": 1790240424,
+   "time": 1790244036,
    "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/Ddqg3RADaSD",
+   "url": "https://www.threads.com/@choi.openai/post/DdqnwQrgWiJ",
    "region": "kr"
   },
   {
@@ -219,7 +219,7 @@
   {
    "account": "jaemyung_lee",
    "title": "Саламатсызбы, Кыргызстан! 🇰🇷🇰🇬 #키르기스스탄 #Kyrgyzstan #кыргызстан",
-   "views": 497800,
+   "views": 498000,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ossWcFAWqdBeFM1UB9FEguDtEqARxSGQQyfuUi~tplv-tiktokx-origin.image?dr=14575&x-expires=1790424000&x-signature=mC8%2FATpeicvDUV978vyS3xFQHxk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -241,7 +241,7 @@
   {
    "account": "jaemyung_lee",
    "title": "Salam aleýkum Türkmenistan! 🇰🇷🇹🇲 #투르크메니스탄 #turkmenistan #Türkmenistan",
-   "views": 217000,
+   "views": 217100,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4iB0bDrFU5kqzoDSRupABvEWftIIUEfgqMaiE~tplv-tiktokx-origin.image?dr=14575&x-expires=1790424000&x-signature=G74T%2BgxzUYnQA04TEOSlMAgYKlM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -252,7 +252,7 @@
   {
    "account": "jaemyung_lee",
    "title": "Assalomu alaykum, O‘zbekiston!🇺🇿🇰🇷 #이재명 #우즈베키스탄 #Uzbekistan",
-   "views": 66900,
+   "views": 67000,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAUOEAPEroYfNoFaeAAfZQATIAiVPvDB5WhDFE~tplv-tiktokx-origin.image?dr=14575&x-expires=1790424000&x-signature=zOgU7CZOtc9%2Bu%2BnEH8Q933A2PuY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -263,7 +263,7 @@
   {
    "account": "jaemyung_lee",
    "title": "미국 뉴욕타임즈와 인터뷰를 가졌습니다. Urging Pivot on North Korea, South’s Leader Calls for Easing Sanctions https://blog.naver.com/jaem",
-   "views": 51100,
+   "views": 51300,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIBVEyCAEfPFpCCAvAhEZlCAjHXfDDAjIf8IR4~tplv-tiktokx-origin.image?dr=14575&x-expires=1790424000&x-signature=Ak7753Zza9XQzryZfyOQI1Q%2FkYI%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -274,7 +274,7 @@
   {
    "account": "jaemyung_lee",
    "title": "빛으로 담아내는, 제7의 예술🎥",
-   "views": 48100,
+   "views": 48200,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oMMIdnnHDI6bTifTAPFDcDRbtBfWqzBIEDgvEo~tplv-tiktokx-origin.image?dr=14575&x-expires=1790424000&x-signature=V%2FsOk3eYOMoDQdObRxVuWhwqv2c%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -285,7 +285,7 @@
   {
    "account": "jaemyung_lee",
    "title": "Қош келдіңіз, Қазақстан!🇰🇿🇰🇷 #이재명 #대통령 #카자흐스탄 #Қазақстан #Kazakhstan",
-   "views": 42300,
+   "views": 42400,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4AeKl0yGICLqpfFAVLAoFr7LEeoVADEIKAdEU~tplv-tiktokx-origin.image?dr=14575&x-expires=1790424000&x-signature=xJhjHHl0LCdRnLyQunIy3LeSOM0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -318,7 +318,7 @@
   {
    "account": "jaemyung_lee",
    "title": "이번 정류장은 멕시코입니다🇲🇽🇰🇷 #이재명 #대통령 #Mexico",
-   "views": 13000,
+   "views": 14000,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o06n1AI0RABAw2AYEHCCB6l0bOiLIWti2AndfA~tplv-tiktokx-origin.image?dr=14575&x-expires=1790424000&x-signature=zwMGSYMPM8lzuRD53XnzhEst1fg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -329,7 +329,7 @@
   {
    "account": "tictok_ent",
    "title": "올데이프로젝트(ALLDAY PROJECT) 애니, 가을 여신의 완성 / ‘클리오 - 풍년다방 팝업 스토어’ 포토월 클리오의 K뷰티 No.1 메이크업 브랜드 클리오가 26FW 시즌을 맞아 풍년다방 에디션을 새롭게 출시",
-   "views": 11700,
+   "views": 11800,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooyVfsECyAObdyUAC9AHMGgEDfAwFBAocCAqjI~tplv-tiktokx-origin.image?dr=14575&x-expires=1790424000&x-signature=GLFMRHXSCvSAtHEhe0nckEAT6fo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -340,7 +340,7 @@
   {
    "account": "tictok_ent",
    "title": "수지, 시민들의 욕을 부르는 미모 / 아누아(Anua) 포토월 더파운더즈의 글로벌 뷰티 브랜드 아누아(Anua)의 'PDRN 라인 팝업스토어' 오픈을 기념하는 포토행사가 18일 오전 서울 성동구 성수동에 위치한 올리",
-   "views": 8239,
+   "views": 8241,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ow8gANS3AmQCK2UqVEUCB50sGEQeIAFZAFArfD~tplv-tiktokx-origin.image?dr=14575&x-expires=1790424000&x-signature=b1Edug7YnRmvJqYo%2FCdheQP6cVw%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -351,15 +351,6 @@
  ],
  "reddit": [
   {
-   "sub": "todayilearned",
-   "title": "TIL in Norway everyone's income, net wealth and tax paid are published online and anyone can search them. But you have to log in, the person you look up can see your name in their search history withi",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "",
-   "time": 1790243630,
-   "url": "https://www.reddit.com/r/todayilearned/comments/1woxer8/til_in_norway_everyones_income_net_wealth_and_tax/"
-  },
-  {
    "sub": "AskReddit",
    "title": "Which hobby has ended more relationships than people realize?",
    "score": 0,
@@ -367,6 +358,15 @@
    "thumb": "",
    "time": 1790200511,
    "url": "https://www.reddit.com/r/AskReddit/comments/1wojhni/which_hobby_has_ended_more_relationships_than/"
+  },
+  {
+   "sub": "todayilearned",
+   "title": "TIL in Norway everyone's income, net wealth and tax paid are published online and anyone can search them. But you have to log in, the person you look up can see your name in their search history withi",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1790243630,
+   "url": "https://www.reddit.com/r/todayilearned/comments/1woxer8/til_in_norway_everyones_income_net_wealth_and_tax/"
   },
   {
    "sub": "SipsTea",
@@ -387,15 +387,6 @@
    "url": "https://www.reddit.com/r/worldnews/comments/1woit78/china_took_possession_of_diverted_f35_stealth/"
   },
   {
-   "sub": "cats",
-   "title": "Walking your cat is Important",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/Nm51d3V5OHF0ZXJoMTbjWiA7gY15c44xB_1xvGQtTHkH5saJdVO5EDSqfW69.png?width=320&crop=smart&auto=webp&s=63b6a43180c60bb47ec4ecfd14ce6ea4c939f2ed",
-   "time": 1790230275,
-   "url": "https://www.reddit.com/r/cats/comments/1wotu64/walking_your_cat_is_important/"
-  },
-  {
    "sub": "okbuddycinephile",
    "title": "What happened to Orlando Bloom?",
    "score": 0,
@@ -405,13 +396,13 @@
    "url": "https://www.reddit.com/r/okbuddycinephile/comments/1wop7o6/what_happened_to_orlando_bloom/"
   },
   {
-   "sub": "OneOrangeBraincell",
-   "title": "Only Orange Brain can do...",
+   "sub": "interestingasfuck",
+   "title": "Little Chimpanzee playing alone with some straw",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/dGk3d2p1eGNkZnJoMeNDQ5BppUR_PgQsQES9wtRIW3MS10-N0i0WhwUXcq4P.png?width=320&crop=smart&auto=webp&s=bc471398a149ee8ef2d1fd62972d90a962d06c72",
-   "time": 1790236880,
-   "url": "https://www.reddit.com/r/OneOrangeBraincell/comments/1wovo8o/only_orange_brain_can_do/"
+   "thumb": "https://external-preview.redd.it/Y2szdGRtYzYzZ3JoMdMWKO48HdeWABEnUGxEClcJ8OJI8qOn5ZNy2yg3sRAD.png?width=320&crop=smart&auto=webp&s=d6c5b4ed80a35e4aba2344c904cbfdbc286c134c",
+   "time": 1790245559,
+   "url": "https://www.reddit.com/r/interestingasfuck/comments/1woxymi/little_chimpanzee_playing_alone_with_some_straw/"
   },
   {
    "sub": "SipsTea",
@@ -432,13 +423,22 @@
    "url": "https://www.reddit.com/r/whatisit/comments/1woojqu/whats_coming_out_of_the_exaust_pipe/"
   },
   {
-   "sub": "politics",
-   "title": "Senator says “furry” pilots are taking over airlines because of trans people: “We’re sitting ducks!”. Sen. Tommy Tuberville (R-AL) claimed doctors are performing secret surgeries on trans kids & that ",
+   "sub": "cats",
+   "title": "Walking your cat is Important",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/LLtUjj099UfheoZMzkHQ79K4fwwJ1z7LqHRaXrPEe-g.jpeg?width=640&crop=smart&auto=webp&s=dc5bbf813c4bca033a35da9ae9b0a42baef10813",
-   "time": 1790178021,
-   "url": "https://www.reddit.com/r/politics/comments/1wo9gw5/senator_says_furry_pilots_are_taking_over/"
+   "thumb": "https://external-preview.redd.it/Nm51d3V5OHF0ZXJoMTbjWiA7gY15c44xB_1xvGQtTHkH5saJdVO5EDSqfW69.png?width=320&crop=smart&auto=webp&s=63b6a43180c60bb47ec4ecfd14ce6ea4c939f2ed",
+   "time": 1790230275,
+   "url": "https://www.reddit.com/r/cats/comments/1wotu64/walking_your_cat_is_important/"
+  },
+  {
+   "sub": "OneOrangeBraincell",
+   "title": "Only Orange Brain can do...",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/dGk3d2p1eGNkZnJoMeNDQ5BppUR_PgQsQES9wtRIW3MS10-N0i0WhwUXcq4P.png?width=320&crop=smart&auto=webp&s=bc471398a149ee8ef2d1fd62972d90a962d06c72",
+   "time": 1790236880,
+   "url": "https://www.reddit.com/r/OneOrangeBraincell/comments/1wovo8o/only_orange_brain_can_do/"
   },
   {
    "sub": "meirl",
@@ -450,13 +450,13 @@
    "url": "https://www.reddit.com/r/meirl/comments/1womyjv/meirl/"
   },
   {
-   "sub": "interestingasfuck",
-   "title": "Little Chimpanzee playing alone with some straw",
+   "sub": "politics",
+   "title": "Senator says “furry” pilots are taking over airlines because of trans people: “We’re sitting ducks!”. Sen. Tommy Tuberville (R-AL) claimed doctors are performing secret surgeries on trans kids & that ",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/Y2szdGRtYzYzZ3JoMdMWKO48HdeWABEnUGxEClcJ8OJI8qOn5ZNy2yg3sRAD.png?width=320&crop=smart&auto=webp&s=d6c5b4ed80a35e4aba2344c904cbfdbc286c134c",
-   "time": 1790245559,
-   "url": "https://www.reddit.com/r/interestingasfuck/comments/1woxymi/little_chimpanzee_playing_alone_with_some_straw/"
+   "thumb": "https://external-preview.redd.it/LLtUjj099UfheoZMzkHQ79K4fwwJ1z7LqHRaXrPEe-g.jpeg?width=640&crop=smart&auto=webp&s=dc5bbf813c4bca033a35da9ae9b0a42baef10813",
+   "time": 1790178021,
+   "url": "https://www.reddit.com/r/politics/comments/1wo9gw5/senator_says_furry_pilots_are_taking_over/"
   }
  ],
  "disaster": [],
@@ -478,10 +478,10 @@
   },
   "why": {},
   "landing": {
-   "at": "2026-09-24T20:35:14",
+   "at": "2026-09-24T21:01:36",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-09-24T21:01:28.520723+09:00"
+ "updated": "2026-09-24T21:31:21.243978+09:00"
 }
