@@ -1,7 +1,13 @@
 {
- "ok": 177,
- "dead": 0,
- "dead_feeds": [],
+ "ok": 176,
+ "dead": 1,
+ "dead_feeds": [
+  {
+   "publisher": "서울경제",
+   "title": "전체기사",
+   "url": "https://www.sedaily.com/rss/newsall"
+  }
+ ],
  "zombie_feeds": [
   {
    "publisher": "경향신문",
