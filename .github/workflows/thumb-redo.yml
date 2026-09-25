@@ -68,6 +68,7 @@ jobs:
           WISH: ${{ inputs.wish }}
           THUMB_GATE: ${{ inputs.gate }}
           THUMB_REF: ${{ inputs.ref }}
+          GNEWS_IMG: ${{ vars.GNEWS_IMG || '1' }}   # 구글 뉴스 검색이미지 레인(LLM 0 · 260925) 끄기 스위치 동기(news-analyze·news-ask·moreimg 와 같은 변수)
           DRY: ${{ inputs.dry }}
         run: |
           if [ "${DRY}" = "1" ]; then   # 프롬프트 4종만(운영자 260908 Q1680) — 키·Pillow·R2 불요 · Gemini 0 · 결정론 합성기(compose_all)

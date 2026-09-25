@@ -71,7 +71,7 @@ while IFS='|' read -r stem pattern; do
     extra=()
     [ "$arm" = "S" ] && extra=(ANALYZE_SAFE_MODE=1)
     t0=$(date +%s)
-    env ANALYZE_LAND_EACH=0 IMG_SPLIT="${IMG_SPLIT:-1}" "${extra[@]}" bash .github/scripts/analyze.sh > "$STAGE/$art/${tag}.log" 2>&1
+    env ANALYZE_LAND_EACH=0 IMG_SPLIT="${IMG_SPLIT:-0}" "${extra[@]}" bash .github/scripts/analyze.sh > "$STAGE/$art/${tag}.log" 2>&1
     rc=$?; t1=$(date +%s)
     # 산출 회수 = 이 arm 이 만들거나 덮어쓴 queue 파일(force 재생성 = 기존 스템 덮어쓰기)
     out_md="$(git status --porcelain -- queue | awk '{print $2}' | head -1)"

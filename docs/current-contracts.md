@@ -114,6 +114,7 @@
 | `check_wrap_fence_strip` | 산출 랩퍼 코드펜스 = 두 요약 경로가 같은 정본으로 벗긴다(하드 · 260817 실사고 봉합). |
 | `check_yt_cookie_slot_name` | 유튜브 쿠키 = 알림이 말하는 칸 이름이 실제 배선과 같다(하드 · 260812 실사고 봉합). |
 | `check_claude_cli_install` | 클로드 도구 설치 = postinstall 허용 동반(하드 · 260820 실사고 봉합). |
+| `check_thumb_pillow` | 검색이미지 러너 = Pillow 동반(하드 · 260925 실사고 봉합 · 화질 판정 불가 = 검색이미지 전량 컷 방지). |
 | `check_smoke_chromium_path` | 스모크 크로미엄 경로 = 폴백 해석기 경유(하드 · 260808 실사고 봉합 · check_smoke_obs_chain 의 짝). |
 | `check_grok_sb_chain` | 콘티 그록 레인 = 5층 생존(운영자 260811 「진행해보자」). |
 | `check_fail_reason_visible` | 실패 사유가 화면까지 오는가(하드 · 260816 실사고의 일반화). |

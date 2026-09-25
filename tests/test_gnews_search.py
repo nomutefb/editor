@@ -111,17 +111,23 @@ class ParserTest(unittest.TestCase):
 class QueryTest(unittest.TestCase):
     def test_domestic_ladder_iq_then_title(self):
         qs = gn.build_queries(MD_DOMESTIC)
-        self.assertEqual(qs[0], ('창원지법 밀양지원 소주 분유 아동학대', 'ko'))
+        self.assertEqual(qs[0], ('창원지법 밀양지원 소주 분유', 'ko'))            # 4어절 컷(길수록 0건)
+        self.assertEqual(qs[-1], ('창원지법 밀양지원 소주', 'ko'))                # 마지막 = 앞 3어절로 넓힘
         self.assertEqual(qs[1][1], 'ko')
         self.assertNotIn('‘', qs[1][0])
         self.assertTrue(all(lang == 'ko' for _, lang in qs))
 
     def test_foreign_ladder_english_first_and_backslash_clean(self):
         qs = gn.build_queries(MD_FOREIGN)
-        self.assertEqual(qs[0], ('Xi Jinping BRICS summit New Delhi Wang Yi', 'en'))
+        self.assertEqual(qs[0], ('Xi Jinping BRICS summit New Delhi', 'en'))    # 영문 6어절 컷
         self.assertEqual(qs[1], ('시진핑 브릭스 정상회의', 'ko'))
         self.assertNotIn('\\', qs[2][0])          # frontmatter 이스케이프(\") 잔재 제거
         self.assertIn('건강 이상설', qs[2][0])      # title_ko 우선
+
+    def test_non_latin_english_query_is_skipped(self):
+        md = '---\nimage_query: "이시바 사임"\nimage_query_en: "石破茂 辞任 東京"\n---\n'
+        self.assertEqual([l for _, l in gn.build_queries(md)], ['ko'])
+        self.assertFalse(gn.relevant('石破茂 辞任 東京', '전혀 무관한 기사', 'en'))   # 대조 어절 0 = 무관 취급
 
     def test_example_value_and_empty(self):
         self.assertEqual(gn.build_queries('---\nimage_query: "삼성전자 반도체 평택공장"\n---\n'), [])
@@ -136,6 +142,14 @@ class QueryTest(unittest.TestCase):
         self.assertFalse(gn.relevant('소주 분유 먹이고 친딸 성추행한 아빠 징역형에 불복', '아빠 복귀전 스포츠'))
         self.assertTrue(gn.relevant('Xi Jinping BRICS summit New Delhi Wang Yi', 'Xi skips BRICS dinner, Wang Yi attends', 'en'))
         self.assertFalse(gn.relevant('Xi Jinping BRICS summit New Delhi Wang Yi', "Xi Jinping's trip to U.S. marks first state visit", 'en'))
+
+    def test_relevance_prefix_stopwords_headtags(self):
+        self.assertTrue(gn.relevant('시진핑 브릭스 정상회의', '시진핑, 브릭스에 AI협력 제안 - 연합뉴스'))          # 조사 흡수
+        self.assertTrue(gn.relevant('Lake Tanganyika boat capsize Kalemie', 'Dozens dead as ship capsizes in Lake Tanganyika', 'en'))
+        self.assertFalse(gn.relevant('US airstrike Iran Strait of Hormuz', 'Oil tanker traffic resumes through Strait of Hormuz', 'en'))
+        self.assertFalse(gn.relevant('단독 해외 출장마다 배우자 동행 숨긴 선관위', '[단독] 선관위 다른 사건 인사 논란'))
+        self.assertEqual(gn.clean_query('[단독][포토] 한강 대교'), '한강 대교')
+        self.assertEqual(gn.norm_title('소주 분유 아빠…징역형 불복 - 다음'), '소주 분유 아빠 징역형 불복')
 
     def test_ref_ts_uses_article_date(self):
         self.assertAlmostEqual(gn.ref_ts(MD_DOMESTIC), NOW, delta=1)
@@ -153,10 +167,46 @@ class SearchTest(unittest.TestCase):
         self.assertFalse(any('/rss/articles/A6' in c for c in calls))
         self.assertFalse(any('/rss/articles/A7' in c for c in calls))
 
+    def test_portal_and_same_title_copies_skipped(self):
+        rss = '<rss>' + _item('소주 분유 친부 원문 제목 - 다음', 'A1', 'https://v.daum.net') \
+            + _item('소주 분유 친부 원문 제목 - 서울신문', 'A3', 'https://amp.seoul.co.kr') \
+            + _item('소주 분유 친부 다른 각도 - 뉴시스', 'A4', 'https://www.newsis.com') + '</rss>'
+        base = fake_http()
+
+        def http(url, data=None, headers=None, timeout=12):
+            return rss if '/rss/search' in url else base(url, data, headers, timeout)
+        gn._RSS_CACHE.clear()
+        urls = gn.search_urls([('소주 분유 친부 사본', 'ko')], http=http, pause=0, now_ts=NOW,
+                              self_titles=['소주 분유 친부 원문 제목'])
+        self.assertEqual(urls, ['https://www.newsis.com/view/?id=4'])   # 포털 사본·원문과 같은 제목(전재) 제외
+        gn._RSS_CACHE.clear()
+
     def test_limit_and_network_failure_is_empty(self):
         self.assertEqual(len(gn.search_urls([('소주 분유 친부', 'ko')], limit=1, http=fake_http(), pause=0, now_ts=NOW)), 1)
         gn._RSS_CACHE.clear()
         self.assertEqual(gn.search_urls([('다른 검색어', 'ko')], http=lambda *a, **k: '', pause=0), [])
+
+    def test_unsafe_decoded_url_rejected(self):
+        self.assertEqual(gn.parse_batch(BATCH.replace('@URL@', 'https://ex.com/a\\n::error::x')), '')
+        self.assertEqual(gn.parse_batch(BATCH.replace('@URL@', 'https://ex.com/a b')), '')
+
+    def test_consecutive_decode_failures_stop(self):
+        calls = []
+
+        def http(url, data=None, headers=None, timeout=12):
+            calls.append(url)
+            return RSS if '/rss/search' in url else ''
+        gn._RSS_CACHE.clear()
+        self.assertEqual(gn.search_urls([('소주 분유 친부 다른', 'ko')], http=http, pause=0, now_ts=NOW), [])
+        self.assertLessEqual(sum('/rss/articles/' in c for c in calls), 3)
+
+    def test_blocked_stats(self):
+        with patch.dict(gn.STATS, {'ok': 0, 'fail': 3}):
+            self.assertTrue(gn.blocked())
+        with patch.dict(gn.STATS, {'ok': 1, 'fail': 3}):
+            self.assertFalse(gn.blocked())
+        with patch.dict(gn.STATS, {'ok': 0, 'fail': 0}):
+            self.assertFalse(gn.blocked())
 
     def test_gate_env(self):
         with patch.dict(os.environ, {'GNEWS_IMG': '0'}):

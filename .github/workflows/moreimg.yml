@@ -28,6 +28,10 @@ on:
         description: '라운드 상한(자동 보충 = 1 · 수동 기본 3)'
         default: '3'
         type: string
+      gnews:
+        description: '1단계 구글 뉴스 검색(1 = 켬 · 자동 보충 = 0 — thumb_gen 이 방금 같은 검색을 돌림)'
+        default: '1'
+        type: string
       account:
         description: '구독 OAuth 계정'
         type: choice
@@ -96,6 +100,7 @@ jobs:
           MOREIMG_ROUND: ${{ github.event.inputs.round || '1' }}
           MOREIMG_MAX_ROUND: ${{ github.event.inputs.max_round || '3' }}   # 자동 보충(thumb_gen 뒤 디스패치) = 1 = 연쇄 없음(운영자 260925 비용 바운드) · 수동 '+N장 더' = 3(종전)
           GNEWS_IMG: ${{ vars.GNEWS_IMG || '1' }}   # 1단계 구글 뉴스 검색(LLM 0 · 운영자 260925) — 목표를 채우면 Claude 콜 0 · 끄기 = repo 변수 GNEWS_IMG=0
+          MOREIMG_GNEWS: ${{ github.event.inputs.gnews || '1' }}   # 자동 보충 = '0'(반복 검색 생략 · 260925 평의회)
         run: |
           echo "활성 계정: ${ACTIVE_ACCOUNT} · stem=${MOREIMG_STEM} · want=${MOREIMG_WANT}"
           if [ -z "${CLAUDE_CODE_OAUTH_TOKEN}" ]; then

@@ -7306,6 +7306,48 @@ def check_claude_cli_install():
     return 0
 
 
+def check_thumb_pillow():
+    """검색이미지 러너 = Pillow 동반(하드 · 260925 실사고 봉합 · check_claude_cli_install 의 형제).
+
+    계약 = 「thumb_gen.py·more_images.py·trend_images.py(thumb_gen 을 import)를 실행하는 워크플로 스텝은
+       같은 run 안에 Pillow 설치를 갖는다 · 면제 = env THUMB_UPSIZE: '0'(화질 판정 자체를 끈 스텝)」.
+    ⚠️ 신설 사유 = news-ask.yml thumb_gen 스텝만 Pillow 설치가 빠져 있었다. thumb_gen._dim_probe 는 PIL 없이
+       세로를 못 재 「미상 = 컷(fail-closed)」으로 검색이미지를 **전량** 버렸고(요약 요청 8건 중 7건 0장 ·
+       run 35496215361 「화질 컷(유사 세로 미상 < 600)」), 스텝은 초록이라 아무도 몰랐다.
+    판정 = 정적(YAML 파싱 · 네트워크 0) · 표면 자동 발견 · 면책표 없이 하드 0."""
+    try:
+        import yaml
+    except Exception:
+        print('⚠️ Pillow 동반 게이트 스킵(PyYAML 없음)')
+        return 0
+    bad = []
+    targets = ('thumb_gen.py', 'more_images.py', 'trend_images.py')
+    for p in sorted(glob.glob(os.path.join(ROOT, '.github', 'workflows', '*.yml'))):
+        rel = _repo_relpath(p, ROOT)
+        try:
+            doc = yaml.safe_load(_FilePath(p).read_text(encoding='utf-8')) or {}
+        except Exception:
+            continue
+        for jn, job in ((doc.get('jobs') or {}).items()):
+            for st in (job or {}).get('steps') or []:
+                run = (st or {}).get('run') or ''
+                code = '\n'.join(l for l in run.splitlines() if not l.strip().startswith('#'))
+                if not re.search(r'python3?\s+\S*(?:%s)' % '|'.join(re.escape(t) for t in targets), code):
+                    continue   # 주석 언급·실행 없음 = 대상 밖(실행 줄만)
+                env = (st or {}).get('env') or {}
+                if str(env.get('THUMB_UPSIZE', '')).strip() == '0':
+                    continue
+                if 'Pillow' not in run:
+                    bad.append('%s  잡 %s · 스텝 「%s」 — Pillow 설치 없음 → 화질 판정 불가 = 검색이미지 0장' % (rel, jn, (st.get('name') or '?')[:40]))
+    if bad:
+        print('[FAIL] 검색이미지 러너 Pillow 누락 %d건' % len(bad))
+        for b in bad:
+            print('   ·', b)
+        print("   처방 = 그 run 앞에 pip install --quiet Pillow 2>/dev/null || pip3 install --quiet Pillow (news-analyze thumb_gen 스텝 문법)")
+        return 1
+    return 0
+
+
 def check_smoke_chromium_path():
     """스모크 크로미엄 경로 = 폴백 해석기 경유(하드 · 260808 실사고 봉합 · check_smoke_obs_chain 의 짝).
 
@@ -8515,7 +8557,7 @@ def check_img_upsize():
             bad.append('보충 라운드 상한·세대(MAX_ROUND·MOREIMG_ROUND) 소실 — 정지 조건이 없으면 무한 발사')
         if 'moreimg_again.txt' not in yt or 'workflows/moreimg.yml/dispatches' not in yt:
             bad.append('moreimg.yml 다음 라운드 재발사 스텝 소실 — 예약만 되고 아무도 안 쏜다')
-        if 'round:' not in yt:
+        if not re.search(r'^\s+round:', yt, re.M):   # 줄머리 앵커 = max_round: 만 남아도 통과하던 부분일치 구멍 봉합(260925 평의회)
             bad.append('moreimg.yml round 입력 소실 — 세대가 안 실려 라운드 상한이 영영 1에 머문다')
 
     # ③ 수집 문턱 = img_sizes SSOT 경유(값은 운영자가 바꾼다 — 게이트는 '한 곳에서 오는가'만 본다)
@@ -10678,6 +10720,8 @@ def main():
         if check_smoke_obs_chain() != 0:   # UI 스모크 경보가 사유를 갖고 나가는가(운영자 260807 — 사유 0자 경보가 8일 연속 무증상으로 살아 운영자가 조치할 수 없던 실사고 봉합 · 웹푸시 면제·메시지함 진단서 점등 동반 강제)
             rc = 1
         if check_claude_cli_install() != 0:   # 모델을 부르는 도구가 러너에 실제로 깔리는가(260820 — npm 11.17 postinstall 기본 차단으로 설치 스텝은 초록인데 native binary 가 안 와서 요약이 전 레인에서 죽은 실사고)
+            rc = 1
+        if check_thumb_pillow() != 0:   # 검색이미지 러너에 Pillow 가 있는가(260925 — news-ask thumb_gen 만 빠져 화질 판정 불가 = 요약 요청 검색이미지 전량 컷인데 스텝은 초록이던 실사고)
             rc = 1
         if check_smoke_chromium_path() != 0:   # 그 스모크가 러너에서 뜨기는 하는가(260808 — 260807 봉합이 같은 병 2종 중 1종만 고쳐 다음 나이틀리도 그대로 붉었는데 아무 게이트도 안 울린 축)
             rc = 1

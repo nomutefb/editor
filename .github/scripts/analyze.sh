@@ -367,8 +367,8 @@ for f in "${files[@]}"; do
   pub_meta="$(printf '%s\n' "$extracted" | grep -m1 '^발행시각(페이지 메타): ' | sed 's/^발행시각(페이지 메타): //' | tr -d '\r\n')"
   [ -n "${pub_meta// }" ] && echo "  발행시각 메타 확보: $pub_meta"   # 가시성(Actions 로그)
   # 고정부(프롬프트 + 강제 주입 지침 + image_sources 오버라이드) → 가변부(기사) 순서 = 캐시 prefix 안정화.
-  #   오버라이드 = analyze 경로 한정(운영자 260728 병렬 분리) — 프롬프트 정본(news-analysis.md)은 ask.sh 와
-  #   공유라 무접촉(ask 의 og 프리셋 "image_sources 2~3개" 규칙과 충돌 0). 이 경로만 소넷 사진로봇이 대체.
+  #   오버라이드 = 공용 프롬프트(news-analysis.md image_sources = 전 경로 빈 값 · 260925)와 같은 방향의 재확인 —
+  #   사진은 요약 착지 뒤 thumb_gen 구글 뉴스 레인이 찾는다(IMG_SPLIT=1 롤백 시에만 아래 소넷 로봇이 주입).
   prompt="$(cat "$PROMPT_FILE")
 
 ${GBLOCK}
@@ -426,7 +426,7 @@ ${extracted}"
   inline_delay=15
   claude_reset_force_swap 2>/dev/null || true   # 앞 기사가 타임아웃으로 강제전환(force)한 계정을 쿼터 확정 위치로 복원 → 쿼터 4계정 체인 예산 보존(평의회 260704 Q5)
   claude_preflight "$MODEL" 2>/dev/null || true # 본선(≤900s) 직전 60s 핑으로 산 계정 선탑승 — 죽은 활성계정 침묵 행이 본선 timeout(최대 900s)을 통째로 태우던 공회전 소거(preflight SSOT를 브리프→본선으로 확장 배선 260717 · reset 후 호출 = 계정 복원 뒤 산 계정 선별 · fail-soft: 전 계정 무응답이면 마지막 계정으로 그대로 강행)
-  # 병렬 사진로봇 발사(운영자 260728) — 관련이미지 소스 수집을 오퍼스 본선에서 떼어 *동시에* 소넷으로.
+  # 병렬 사진로봇 발사(운영자 260728 · 260925부터 기본 OFF = IMG_SPLIT=1 일 때만) — 관련이미지 소스 수집을 오퍼스 본선에서 떼어 *동시에* 소넷으로.
   #   (픽 경로 지배 항이던 이미지용 웹검색 7~10회가 오퍼스 턴에서 소거 — 프롬프트 image_sources ⛔ 지시와 한 쌍.)
   #   소넷 = --effort 미부여 관례 · --safe-mode(내장 WebSearch/WebFetch 유지·CLAUDE.md 비주입 · trend_images 동형).
   #   실패·빈 결과·타임아웃 = 무주입(moreimg·og:image 백필 커버 = fail-soft) · preflight *뒤* 발사 = 산 계정 상속.

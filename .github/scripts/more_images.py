@@ -75,9 +75,10 @@ body = re.sub(r'```.*?```', '', body, flags=re.S).strip()[:3500]
 gn_cand, gn_links = [], []
 try:
     import gnews_search as gn
-    if gn.enabled():
+    if gn.enabled() and os.environ.get("MOREIMG_GNEWS", "1").strip() != "0":   # 자동 보충 = '0'(thumb_gen 이 방금 같은 검색을 돌렸다 = 반복 무의미 · 260925 평의회)
         _gq = gn.build_queries(md)
-        gn_links = [u for u in gn.search_urls(_gq, exclude=exclude_srcs, limit=WANT * 3, now_ts=gn.ref_ts(md) or None) if tg._url_ok(u)]
+        gn_links = [u for u in gn.search_urls(_gq, exclude=exclude_srcs, limit=WANT * 3, now_ts=gn.ref_ts(md) or None,
+                                              self_titles=[gn._fm(md, "title"), gn._fm(md, "title_ko")]) if tg._url_ok(u)]
         if gn_links:
             _seen = set(existing_urls)
             for c in tg.fetch_article_images(None, image_sources=gn_links, want=WANT):
@@ -89,9 +90,11 @@ try:
         print("구글 뉴스 검색(LLM 0) — 검색어 {}개 → 기사 {}건 → 새 사진 {}장".format(len(_gq), len(gn_links), len(gn_cand)), flush=True)
 except Exception as e:  # noqa: BLE001
     print("::warning::구글 뉴스 레인 실패(무시 · Claude 단계로 진행): {}".format(str(e)[:160]), flush=True)
-exclude_srcs |= {u.rstrip("/") for u in gn_links}   # Claude 가 같은 기사를 다시 고르지 않게
+prompt_excl = sorted(exclude_srcs)[:30]   # 프롬프트엔 종전 제외 목록만 — 구글 링크는 외부 매체가 정한 경로 문자열이라 프롬프트에 날것으로 싣지 않는다(주입 표면 · 260925 평의회)
+exclude_srcs |= {u.rstrip("/") for u in gn_links}   # 코드 필터(아래 Claude 산출 거르기)엔 포함 = 같은 기사 재채택 0
 LLM_ON = os.environ.get("MOREIMG_LLM", "1").strip() != "0"   # '0' = 구글 레인만(Claude 콜 0)
-need_llm = LLM_ON and (need_url or len(gn_cand) < WANT)
+IMG_ASK = max(0, WANT - len(gn_cand)) * 3   # Claude 에 청할 이미지 소스 수 = 구글이 채우고 남은 몫만(구 = 항상 WANT×3)
+need_llm = LLM_ON and (need_url or IMG_ASK > 0)
 
 prompt = """다음은 한 뉴스기사의 큐레이션 요약·시사점이다. 이 기사의 **카드뉴스 썸네일 배경 이미지**로 쓸 관련 사진을 더 찾아라.
 
@@ -118,8 +121,8 @@ prompt = """다음은 한 뉴스기사의 큐레이션 요약·시사점이다. 
 - 2순위 = 그 다음에, 관련된 후보가 더 있다면 **넉넉히** 내라. 받아온 뒤 **세로 720px 미만은 전량 폐기**되기 때문이다
   (실측상 언론사 대표사진의 절반 가까이가 그 문턱에서 잘린다). {ask}개는 상한이지 채워야 할 할당량이 아니다.
 - 동률이면 사진이 큰 매체를 우선하라(통신사·종합일간지 원본 사진 기사).""".format(
-    head=head, body=body, excl=("\n".join(sorted(exclude_srcs)[:30]) or "(없음)"), want=WANT,
-    ask=WANT * 3,
+    head=head, body=body, excl=("\n".join(prompt_excl) or "(없음)"), want=WANT,
+    ask=max(1, IMG_ASK),
     urltask=("" if not need_url else """
 [추가 임무 — 이 기사의 원문 URL 찾기(지금 원문 링크가 비어 있다)]
 - 단서: 매체="{m}" · 기자="{r}" · 제목="{t}". WebSearch(매체+기자명+제목 핵심어 조합)로 **그 매체 공식 사이트의 바로 그 기사** URL을 찾아라.
@@ -127,6 +130,15 @@ prompt = """다음은 한 뉴스기사의 큐레이션 요약·시사점이다. 
 - 원 매체에서 못 찾으면 포털(네이버/다음) 재게재본 URL 허용(원 매체 우선). 그래도 없으면 '없음'.
 """.format(m=fm_media or "미상", r=fm_reporter or "미상", t=fm_title or head)),
     urlfmt=("" if not need_url else " 단, **출력 맨 첫 줄**은 원문 URL 임무의 결과로 `ORIG_URL: <URL>` 한 줄(못 찾았으면 `ORIG_URL: 없음`) — 이미지 소스 URL들은 그 다음 줄부터."))
+
+if need_url and IMG_ASK == 0:   # 사진은 구글 레인이 채웠다 = 원문 URL 임무만(이미지 검색 0 · 콜 크기 축소 · 260925 평의회)
+    prompt = """다음 뉴스기사의 원문 URL 한 개만 찾아라(사진 찾기는 하지 마라).
+[추가 임무 — 이 기사의 원문 URL 찾기(지금 원문 링크가 비어 있다)]
+- 단서: 매체="{m}" · 기자="{r}" · 제목="{t}". WebSearch(매체+기자명+제목 핵심어 조합)로 **그 매체 공식 사이트의 바로 그 기사** URL을 찾아라.
+- 봇차단 매체라 WebFetch가 403이어도 **검색 결과에 실제로 나온 URL이면 충분**(내용 접근 불필요). 검색 결과에 없는 URL 지어내기 금지(사실 무결성).
+- 원 매체에서 못 찾으면 포털(네이버/다음) 재게재본 URL 허용(원 매체 우선).
+[출력 형식 — 엄수] 한 줄만: `ORIG_URL: <URL>` (못 찾았으면 `ORIG_URL: 없음`). 다른 텍스트 금지.""".format(
+        m=fm_media or "미상", r=fm_reporter or "미상", t=fm_title or head)
 
 out = ""
 if not need_llm:
@@ -188,10 +200,12 @@ if not urls and not gn_cand:
 cand = list(gn_cand)
 if urls or orig_url:
     _gs = {tg._norm_key(c.get("src", "")) for c in cand}
+    _lead = []   # 방금 찾은 원문의 대표사진은 맨 앞(종전 순서 · 구글 후보보다 원문이 우선)
     for c in tg.fetch_article_images(orig_url or None, alt_urls=None, image_sources=urls, want=max(1, WANT - len(cand))):
         if tg._norm_key(c.get("src", "")) not in _gs:
             _gs.add(tg._norm_key(c.get("src", "")))
-            cand.append(c)
+            (_lead if orig_url and c.get("link") == orig_url else cand).append(c)
+    cand = _lead + cand
 new_items = []
 for i, c in enumerate(cand):
     if tg._norm_key(c.get("src", "")) in existing_urls:

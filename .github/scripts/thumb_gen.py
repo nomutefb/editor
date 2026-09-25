@@ -1536,15 +1536,20 @@ def _load_gen(tdir):
     except Exception:
         return []
 
-def _load_ref_face(tdir):
+def _load_ref_face(tdir, trusted=None):
     """search.json 대표(label=='') og:image를 bytes로 fetch — 참조 체이닝용(THUMB_REF · 운영자 260703).
-    대표 = 그 기사 인물 실사진. http_image(SSRF·매직바이트 가드) 재사용. 실패·부재=None(fail-soft = 텍스트 전용 회귀)."""
+    대표 = 그 기사 인물 실사진. http_image(SSRF·매직바이트 가드) 재사용. 실패·부재=None(fail-soft = 텍스트 전용 회귀).
+    ⚠ trusted(원문 url·요약 소스) 가 주어지면 대표 출처가 그 안일 때만 쓴다(260925 평의회) — 구글 뉴스 레인은 제목 어절
+      겹침으로 고른 타매체 사진이라 인물이 다를 수 있다 = 엉뚱한 얼굴을 「실제 얼굴」로 Gemini 에 넘기지 않는다."""
     try:
         items = json.load(open(os.path.join(tdir, "search.json"), encoding="utf-8"))
     except Exception:
         return None
     rep = next((x for x in items if not x.get("label")), None) or (items[0] if items else None)
     if not rep or not rep.get("url"):
+        return None
+    if trusted is not None and (rep.get("link") or "").rstrip("/") not in {(u or "").rstrip("/") for u in trusted if u}:
+        print("  · 참조 얼굴 생략 — 대표 사진이 원문·요약 소스 밖(구글 레인 후보) = 인물 불일치 위험")
         return None
     b, _ct, _ext = http_image(rep["url"])
     if b:
@@ -1565,6 +1570,14 @@ def _gn_ready(md):
         return False
 
 
+def _gn_blocked():
+    try:
+        import gnews_search as gn
+        return gn.enabled() and gn.blocked()
+    except Exception:
+        return False
+
+
 def gnews_topup(md, cand, exclude=(), want=7):
     """검색이미지가 want 미만이면 구글 뉴스 검색(LLM 0)으로 같은 사건 타매체 기사를 찾아 og:image 를 보탠다
     (운영자 260925 «요약이 완료된 이후에 이미지를 찾게» · «구글 검색만»). 추출·화질 컷·dedup = fetch_article_images 그대로.
@@ -1581,9 +1594,13 @@ def gnews_topup(md, cand, exclude=(), want=7):
         if not qs:
             return cand
         t0 = time.time()
-        urls = [u for u in gn.search_urls(qs, exclude=list(exclude) + [c.get("link", "") for c in cand], limit=want * 2,
-                                          now_ts=gn.ref_ts(_txt) or None) if _url_ok(u)]
+        urls = [u for u in gn.search_urls(qs, exclude=list(exclude) + [c.get("link", "") for c in cand],
+                                          limit=max(4, (want - len(cand)) * 2),   # 모자란 장수의 2배(화질 컷 ~절반 감안)
+                                          now_ts=gn.ref_ts(_txt) or None,
+                                          self_titles=[gn._fm(_txt, "title"), gn._fm(_txt, "title_ko")]) if _url_ok(u)]
         print("  🔎 구글 뉴스 검색(LLM 0) — 검색어 {}개 → 기사 {}건 ({:.0f}s)".format(len(qs), len(urls), time.time() - t0), flush=True)
+        if gn.blocked():   # 응답 성공 0 = 차단·형식 변경 의심 — 「결과 0건」과 구분해 표면화(조용히 LLM 보충으로 새지 않게 · 아래 마커 생략)
+            print("::warning::구글 뉴스 응답 성공 0건(요청 {}회 실패) — 차단·형식 변경 의심 · 이번 런 LLM 자동 보충 생략(수동 '+N장 더'는 가능)".format(gn.STATS["fail"]), flush=True)
         if not urls:
             return cand
         seen = {_norm_key(c.get("src", "")) for c in cand}
@@ -1612,7 +1629,7 @@ def process_one(md, stem, redo_new=""):
     tdir = os.path.join("cards", stem, "thumbs")
     os.makedirs(tdir, exist_ok=True)
     search_written = False
-    # 검색(관련)이미지 = 원기사 og:image + AI 관련소스(image_sources, 분석단계 WebSearch 유추) + 클러스터 — Google CSE 死 대체.
+    # 검색(관련)이미지 = 원기사 og:image + 관련소스(image_sources · 260925부터 기본 빈 값) + 클러스터 + 모자라면 구글 뉴스 검색(gnews_topup) — Google CSE 死 대체.
     # ⚠️ 소스 무관(운영자 260620): art_url 또는 image_sources 있고 아직 없을 때 채움 → paste·차단매체도 관련이미지 확보.
     # 대표=라벨'' / 유사='유사'. R2 재호스팅(핫링크 0)·매직바이트 검증, 실패 시 외부 핫링크 폴백.
     if (art_url or image_sources or _gn_ready(md)) and not os.path.exists(os.path.join(tdir, "search.json")):
@@ -1642,7 +1659,7 @@ def process_one(md, stem, redo_new=""):
         # ⚠ 260925 = 문턱 하향(운영자 «요약이 완료된 이후에 이미지를 찾게» 재활성) — 구글 뉴스 레인(LLM 0)이 먼저 채우므로
         #   LLM 보충은 그 뒤에도 TOPUP_FLOOR(3) 미만인 기사만. 구 「7장 미달 또는 원문 url 부재면 무조건」은 콜당 소넷 ~$1.1 이
         #   거의 매 기사 붙었다(실측 7일 76콜). 원문 url 백필만 필요한 기사는 수동 '+N장 더'가 같은 임무를 겸한다.
-        if len(items) < TOPUP_FLOOR:
+        if len(items) < TOPUP_FLOOR and not _gn_blocked():   # 구글 차단 의심이면 자동 LLM 보충도 생략(fail-closed = 비용 폭주 차단 · 260925 평의회)
             try:
                 _tp = os.path.join(os.environ.get("RUNNER_TEMP") or "/tmp", "thumb_topup.txt")
                 with open(_tp, "a", encoding="utf-8") as f:
@@ -1667,7 +1684,7 @@ def process_one(md, stem, redo_new=""):
         existing = {g.get("sid"): g for g in _load_gen(tdir) if g.get("sid")}
         gen = []
         prompts_rec = {}   # sid → 실제 발사 프롬프트(역추적용 · 운영자 260703 "합격점 되면 역추적해서 프롬프트를 뽑아낼 수 있게")
-        ref_face = _load_ref_face(tdir) if REF_ON else None   # 참조 얼굴(극화·수채 = 실제 얼굴 재현 · THUMB_REF)
+        ref_face = _load_ref_face(tdir, trusted=[art_url] + list(image_sources or [])) if REF_ON else None   # 참조 얼굴(극화·수채 = 실제 얼굴 재현 · THUMB_REF)
         # 발사·보존 목록 = STYLES(원본 화풍) + 기존 수정 파생(보존) + 이번 수정 파생 1건(신규 발사).
         # ⚠️ 이 루프는 STYLES만 순회하며 gen.json을 **재조립**한다 → 파생 sid를 여기 넣지 않으면 리스트에 안 실려
         #    다음 실행(검색 이미지 보충 등 배치 경로 포함)에서 **소리 없이 사라진다**(78행 '자동 드롭' 메커니즘).
@@ -1844,7 +1861,7 @@ def main():
         tdir = os.path.join("cards", stem, "thumbs")
         # AI_OFF(전역) 또는 no_thumb(이 기사·뷰어 '이미지' 토글 OFF)면 AI는 '완료'로 간주(생성 안 함) → 검색만 끝나면 skip(매 런 불필요 재순회·신규픽 슬롯잠식 방지·운영자 260702).
         ai_done = AI_OFF or _md_no_thumb(md) or ({g.get("sid") for g in _load_gen(tdir)} >= target_sids)
-        # url 또는 image_sources(AI 관련소스) 있는데 search.json 없으면 검색이미지 백필 대상에 포함.
+        # url 또는 image_sources(AI 관련소스) 또는 구글 뉴스 검색어(_gn_ready · 260925) 있는데 search.json 없으면 검색이미지 백필 대상에 포함.
         # ⚠️ process_one 게이트가 `(art_url or image_sources)`이므로 여기 백필 판정도 동일해야 paste 기사(url無·image_sources有)가 누락 안 됨(앵글3·J ISSUE-1).
         # AI 완료분은 process_one이 기존 sid 보존 → Gemini 0회, 검색이미지만 채움(추가 과금 없음).
         search_pending = (bool(_md_url(md)) or _md_has_imgsrc(md) or _gn_ready(md)) and not os.path.exists(os.path.join(tdir, "search.json"))   # _gn_ready = process_one 게이트와 같은 술어(260925 구글 레인)

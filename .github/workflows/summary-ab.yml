@@ -68,13 +68,7 @@ jobs:
         with:
           node-version: '24'
 
-      - name: npm 캐시 (셋업 단축)
-        uses: actions/cache@v4
-        with:
-          path: ~/.npm
-          key: npm-claude-code-${{ runner.os }}-${{ github.run_id }}
-          restore-keys: |
-            npm-claude-code-${{ runner.os }}-
+      # (260925 제거) npm 캐시 스텝 — news-analyze 와 같은 키 축이라 3.5GB 누적 캐시를 복원·재저장했다(설치 3~5s 보다 느림).
 
       - name: Install Claude Code CLI
         run: npm install -g --allow-scripts=@anthropic-ai/claude-code @anthropic-ai/claude-code

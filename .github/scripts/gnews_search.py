@@ -31,9 +31,15 @@ _TITLE_RE = re.compile(r"<title>(.*?)</title>", re.S)
 _LINK_RE = re.compile(r"<link>(https://news\.google\.com/rss/articles/[^<\s]+)</link>")
 _SRC_RE = re.compile(r'<source url="([^"]*)"')
 _PUB_RE = re.compile(r"<pubDate>(.*?)</pubDate>", re.S)
+_HEADTAG_RE = re.compile(r"^\s*(?:[\[【<(（][^\]】>)）]{1,12}[\]】>)）]|\S{1,4}\))\s*")   # [단독]·[포토]·<속보>·(종합)·속보) 머리말
+_SRC_TAIL_RE = re.compile(r"\s+-\s+[^-]{1,40}$")   # RSS 제목 끝 「 - 매체명」
+_STOP = {"the", "a", "an", "of", "in", "on", "at", "to", "for", "and", "with", "by", "from", "as", "after", "over", "into", "amid"}
+# 포털 재게재(다음·네이트·네이버) = 원문과 같은 사진의 사본 — 원문 매체 결과와 겹쳐 자리만 먹는다(실측 260925)
+_PORTAL_HOSTS = ("v.daum.net", "news.nate.com", "m.news.nate.com", "sports.news.nate.com", "n.news.naver.com", "m.news.naver.com")
+_SAFE_URL_RE = re.compile(r"https?://[^\s\x00-\x1f\x7f\"'<>`]{1,2048}")
 _SIG_RE = re.compile(r'data-n-a-sg="([^"]+)"')
 _TS_RE = re.compile(r'data-n-a-ts="([^"]+)"')
-_FLASH_RE = re.compile(r"^\s*[\[【(]\s*(속보|단독\s*속보|1보|2보|breaking)\s*[\]】)]", re.I)   # 속보 플래시 = og 가 배너(thumb_gen _is_breaking_article 과 같은 축)
+_FLASH_RE = re.compile(r"^\s*[\[【(<]\s*(속보|단독\s*속보|1보|2보|breaking)\s*[\]】)>]", re.I)   # 속보 플래시 = og 가 배너(thumb_gen _is_breaking_article 과 같은 축)
 _PUNCT_RE = re.compile(r"[\[\]【】「」『』‘’“”\"'…·|<>()\\]")   # 역슬래시 = frontmatter 이스케이프(\") 잔재
 _EXAMPLE_IQ = ("삼성전자 반도체 평택공장",)   # 프롬프트 예시값 베낌 = 무시(thumb_gen.parse_md 가드와 대칭)
 # 러너·봇 요청을 거의 항상 막는 매체(실측 260925 = 401/403) — 해제 요청 2회 + 본문 fetch 1회를 헛쓰고 자리만 먹는다.
@@ -80,8 +86,14 @@ def _pub_ts(s):
 
 
 def _tokens(s):
-    """관련성 대조용 토큰 — 2자 이상 어절(소문자 · 조사 흔한 끝 1자 제거 안 함 = 과잉 설계 금지)."""
-    return {w for w in re.findall(r"[0-9A-Za-z가-힣]{2,}", (s or "").lower())}
+    """관련성 대조용 토큰 — 2자 이상 어절(소문자) · 영문 불용어·4자리 연도 제외(of·in 만으로 다른 사건 통과 = 실측 260925)."""
+    return {w for w in re.findall(r"[0-9A-Za-z가-힣]{2,}", (s or "").lower())
+            if w not in _STOP and not re.fullmatch(r"(19|20)\d\d", w)}
+
+
+def norm_title(t):
+    """RSS 제목 정규화 — 끝 「 - 매체」·머리말·기호 제거(같은 기사 사본 판정·관련성 대조 공용)."""
+    return clean_query(_SRC_TAIL_RE.sub("", t or "")).lower()
 
 
 def relevant(query, title, lang="ko"):
@@ -91,9 +103,11 @@ def relevant(query, title, lang="ko"):
        국문은 조사가 붙어 어절 일치가 덜 나오므로(분유를·분유) 2개 유지 — 올리면 같은 사건 기사까지 떨어진다."""
     qt = _tokens(query)
     if not qt:
-        return True
+        return False   # 대조 어절 0(비라틴·1자 어절뿐) = 판정 불가 → 무관 취급(구 True = 필터가 꺼져 무관 사진 통과 · 260925 평의회)
     need = 3 if (lang == "en" and len(qt) >= 5) else 2
-    return len(qt & _tokens(title)) >= min(need, len(qt))
+    tt = _tokens(norm_title(title))
+    hit = sum(1 for q in qt if any(t.startswith(q) for t in tt))   # 접두 일치 = 조사·어형 흡수(브릭스에·capsizes · 실측 누락 18/100 봉합)
+    return hit >= min(need, len(qt))
 
 
 def article_id(link):
@@ -123,20 +137,34 @@ def parse_batch(text):
         for row in rows:
             if isinstance(row, list) and len(row) > 2 and row[0] == "wrb.fr" and row[2]:
                 u = json.loads(row[2])[1]
-                if isinstance(u, str) and u.startswith("http"):
+                if isinstance(u, str) and _SAFE_URL_RE.fullmatch(u):   # 공백·제어문자·따옴표 섞인 URL 거부(로그 명령 주입·파서 혼동 · 260925 평의회)
                     return u
     except Exception:  # noqa: BLE001
         pass
     return ""
 
 
+STATS = {"ok": 0, "fail": 0}   # 구글 응답 성패 집계(프로세스 누적) — 전부 실패 = 차단 의심(호출부가 경고·LLM 보충 생략)
+
+
+def blocked():
+    """구글 요청을 했는데 성공이 0건 = 차단·형식 변경 의심(결과 0건과 구분)."""
+    return STATS["fail"] > 0 and STATS["ok"] == 0
+
+
 def _http(url, data=None, headers=None, timeout=12):
+    r = _http_raw(url, data, headers, timeout)
+    STATS["ok" if r else "fail"] += 1
+    return r
+
+
+def _http_raw(url, data=None, headers=None, timeout=12):
     h = dict(_UA)
     h.update(headers or {})
     try:
         with urllib.request.urlopen(urllib.request.Request(url, data=data, headers=h), timeout=timeout) as r:
-            if r.status != 200:
-                return ""
+            if r.status != 200 or (urllib.parse.urlparse(r.geturl()).hostname or "") != "news.google.com":
+                return ""   # 리다이렉트로 구글 밖(동의 페이지·타 호스트)에 닿으면 버린다 = 이 모듈은 news.google.com 만 말한다
             return r.read(2_000_000).decode("utf-8", "ignore")
     except Exception:  # noqa: BLE001
         return ""
@@ -162,10 +190,19 @@ def _fm(md_text, key):
 
 def clean_query(q):
     """검색어 정리 — 괄호·따옴표·말줄임 제거 · 공백 정규화 · 속보 머리 제거(너무 긴 제목은 앞 12어절)."""
-    q = _FLASH_RE.sub(" ", q or "")
+    q = q or ""
+    for _ in range(3):   # 머리말 여러 개([단독][포토]) 연쇄 제거
+        q2 = _HEADTAG_RE.sub("", q)
+        if q2 == q:
+            break
+        q = q2
     q = _PUNCT_RE.sub(" ", q)
     words = q.split()
     return " ".join(words[:12])
+
+
+def _cap(q, n):
+    return " ".join(q.split()[:n])
 
 
 def build_queries(md_text):
@@ -179,12 +216,14 @@ def build_queries(md_text):
     iqe = _fm(md_text, "image_query_en")
     title = _fm(md_text, "title_ko") or _fm(md_text, "title")
     ladder = []
-    if iqe:
-        ladder.append((clean_query(iqe), "en"))
+    if iqe and re.search(r"[A-Za-z]{2,}", iqe):          # 영문판 검색은 로마자만(비라틴 = US판 0건·관련성 대조 불가 · 실측 4/354건)
+        ladder.append((_cap(clean_query(iqe), 6), "en"))
     if iq:
-        ladder.append((clean_query(iq), "ko"))
+        ladder.append((_cap(clean_query(iq), 4), "ko"))   # 길수록 0건(실측 = 12어절 0건 · 3어절 10건 · 기존 905건 중 590건이 5어절+)
     if title:
         ladder.append((clean_query(title), "ko"))
+    if iq and len(clean_query(iq).split()) > 3:
+        ladder.append((_cap(clean_query(iq), 3), "ko"))   # 마지막 = 더 넓게(앞 3어절)
     seen, out = set(), []
     for q, lang in ladder:
         k = (q.strip(), lang)
@@ -199,7 +238,10 @@ def _blocked(host):
 
 
 def _host(u):
-    h = (urllib.parse.urlparse(u).hostname or "").lower()
+    try:
+        h = (urllib.parse.urlparse(u).hostname or "").lower()
+    except ValueError:   # 'http://[abc' 류 = 그 항목만 무시(레인 전체 중단 금지)
+        return ""
     for p in ("www.", "m.", "mobile.", "amp."):
         if h.startswith(p):
             h = h[len(p):]
@@ -207,6 +249,8 @@ def _host(u):
 
 
 MAX_AGE_D = float(os.environ.get("GNEWS_MAX_AGE_D", "10") or "10")   # 이보다 오래된 결과 = 다른(옛) 사건일 확률이 높아 제외
+MAX_DECODE = 24          # 기사당 해제 시도 상한(요청 2회/건) — 실패가 limit 에 안 잡혀 요청이 늘어지는 것 차단
+BUDGET_S = float(os.environ.get("GNEWS_BUDGET_S", "60") or "60")   # 기사당 검색·해제 시간 상한(초) — 넘으면 모은 만큼만
 
 
 def ref_ts(md_text):
@@ -224,7 +268,7 @@ def ref_ts(md_text):
         return 0
 
 
-def search_urls(queries, exclude=(), limit=10, http=_http, pause=0.25, now_ts=None):
+def search_urls(queries, exclude=(), limit=10, http=_http, pause=0.25, now_ts=None, self_titles=()):
     """검색어 사다리 → 원문 기사 URL 목록(최대 limit · 매체당 1건 · exclude·속보 제외 · 검색 순서 유지).
 
     매체당 1건 = 같은 매체 연속 기사는 대개 같은 사진이라 자리만 먹는다(다른 매체 = 다른 각도 사진 확률 ↑).
@@ -234,13 +278,15 @@ def search_urls(queries, exclude=(), limit=10, http=_http, pause=0.25, now_ts=No
     ex = {(u or "").rstrip("/") for u in exclude if u}
     ex_hosts = {_host(u) for u in ex if _host(u)}   # 이미 쓴 매체 = 같은 사진 재사용 확률이 높아 다른 매체부터
     now = time.time() if now_ts is None else now_ts
-    out, tried = [], set()
+    t_end = time.time() + BUDGET_S
+    out, tried, fails = [], set(), 0
+    seen_titles = {norm_title(t) for t in self_titles if t}   # 원문과 같은 제목 = 같은 기사 사본(같은 사진) → 제외
     for q, lang in queries:
-        if len(out) >= limit:
+        if len(out) >= limit or len(tried) >= MAX_DECODE or time.time() > t_end:
             break
         items = parse_rss(_http_cached(rss_url(q, lang), http))
         for it in items:
-            if len(out) >= limit:
+            if len(out) >= limit or len(tried) >= MAX_DECODE or time.time() > t_end:
                 break
             if it["link"] in tried or _FLASH_RE.search(it["title"]):
                 continue
@@ -250,16 +296,24 @@ def search_urls(queries, exclude=(), limit=10, http=_http, pause=0.25, now_ts=No
                 continue
             tried.add(it["link"])
             src_host = _host(it["source"])
-            if src_host and (src_host in ex_hosts or _blocked(src_host)):
+            if src_host and (src_host in ex_hosts or _blocked(src_host) or src_host in _PORTAL_HOSTS):
+                continue
+            nt = norm_title(it["title"])
+            if nt and nt in seen_titles:   # 통신사 전재·포털 사본 = 같은 제목 = 같은 사진
                 continue
             u = decode(it["link"], http=http)
             if pause:
                 time.sleep(pause)
+            fails = 0 if u else fails + 1
+            if fails >= 3:   # 연속 3회 해제 실패 = 차단·형식 변경 의심 → 더 두드리지 않는다
+                return out
             if not u or u.rstrip("/") in ex:
                 continue
             h = _host(u)
-            if h in ex_hosts or _blocked(h):
+            if h in ex_hosts or _blocked(h) or h in _PORTAL_HOSTS:
                 continue
+            if nt:
+                seen_titles.add(nt)
             ex_hosts.add(h)
             if src_host:
                 ex_hosts.add(src_host)
@@ -272,6 +326,9 @@ _RSS_CACHE = {}
 
 
 def _http_cached(url, http):
-    if url not in _RSS_CACHE:
-        _RSS_CACHE[url] = http(url)
-    return _RSS_CACHE[url]
+    if url in _RSS_CACHE:
+        return _RSS_CACHE[url]
+    r = http(url)
+    if r:   # 실패('')는 캐시하지 않는다(같은 프로세스 다음 기사에서 재시도)
+        _RSS_CACHE[url] = r
+    return r
