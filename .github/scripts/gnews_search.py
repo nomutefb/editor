@@ -1,0 +1,277 @@
+#!/usr/bin/env python3
+"""구글 뉴스 검색 리졸버(LLM 0 · 키 0) — 요약이 뽑은 검색어(image_query·image_query_en·제목)로 **같은 사건을 다룬
+다른 매체 기사 URL**을 찾는다. 그 기사들의 대표사진(og:image)이 곧 검색이미지 후보다(추출·화질 컷 = thumb_gen 재사용).
+
+운영자 260925 «요약이 완료된 이후에 이미지를 찾게» + «구글 검색만 · 어떻게 검색해야 효과적일지» —
+  구판 = 요약 본선(오퍼스)·병렬 사진로봇(소넷)·보충(moreimg, 소넷 WebSearch 콜당 약 138만 토큰)이 전부 LLM 웹검색이었다.
+  「키워드 → 같은 사건 기사 URL」은 판단이 아니라 검색이라 LLM 이 필요 없다(trend_images.py 260909 선례와 같은 결론).
+
+파이프: ① news.google.com/rss/search(검색 RSS · 서버 렌더) → 기사 링크 = 구글 리다이렉트 ID
+        ② 기사 ID 페이지(news.google.com/rss/articles/<id>)의 서명(data-n-a-sg)·시각(data-n-a-ts)
+        ③ batchexecute(Fbv4je · garturlreq) 로 원문 URL 해제 — 세 단계 모두 공개 웹 요청.
+검색어 사다리(효과 순 · 실측 260925 = 최근 기사 4건 × 방식별 단독 검색 → 화질 컷 통과 장수):
+  해외 사건 = 영문(image_query_en · US판) 4·4장 > 국문 image_query 2·2장 > 제목 2·3장 → 영문 먼저.
+  국내 사건 = image_query 0~2장 · 제목 1~3장(음역이 특이한 image_query 는 0건 = 제목이 구제) → image_query 다음 제목.
+  「최근 7일(when:7d)」 제한은 결과만 줄었다(0~2장) = 안 쓴다(구글 뉴스 정렬이 이미 최신 우선). 사다리는 목표 개수에 차면 멈춘다.
+안전 = 전부 fail-soft(차단·형식 변경·타임아웃 = 빈 목록 → 호출부가 기존 경로·LLM 보충으로 폴백). 해제된 URL 은 호출부가
+  thumb_gen._url_ok(SSRF 게이트)로 다시 거른다. 파서는 순수 함수(tests/test_gnews_search.py 오프라인 회귀).
+"""
+import json
+import os
+import re
+import time
+import urllib.parse
+import urllib.request
+
+_UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36",
+       "Accept-Language": "ko-KR,ko;q=0.9,en;q=0.8"}
+_LOCALE = {"ko": "hl=ko&gl=KR&ceid=KR:ko", "en": "hl=en-US&gl=US&ceid=US:en"}
+_ITEM_RE = re.compile(r"<item>(.*?)</item>", re.S)
+_TITLE_RE = re.compile(r"<title>(.*?)</title>", re.S)
+_LINK_RE = re.compile(r"<link>(https://news\.google\.com/rss/articles/[^<\s]+)</link>")
+_SRC_RE = re.compile(r'<source url="([^"]*)"')
+_PUB_RE = re.compile(r"<pubDate>(.*?)</pubDate>", re.S)
+_SIG_RE = re.compile(r'data-n-a-sg="([^"]+)"')
+_TS_RE = re.compile(r'data-n-a-ts="([^"]+)"')
+_FLASH_RE = re.compile(r"^\s*[\[【(]\s*(속보|단독\s*속보|1보|2보|breaking)\s*[\]】)]", re.I)   # 속보 플래시 = og 가 배너(thumb_gen _is_breaking_article 과 같은 축)
+_PUNCT_RE = re.compile(r"[\[\]【】「」『』‘’“”\"'…·|<>()\\]")   # 역슬래시 = frontmatter 이스케이프(\") 잔재
+_EXAMPLE_IQ = ("삼성전자 반도체 평택공장",)   # 프롬프트 예시값 베낌 = 무시(thumb_gen.parse_md 가드와 대칭)
+# 러너·봇 요청을 거의 항상 막는 매체(실측 260925 = 401/403) — 해제 요청 2회 + 본문 fetch 1회를 헛쓰고 자리만 먹는다.
+_BLOCKED_HOSTS = ("reuters.com", "apnews.com", "bloomberg.com", "wsj.com", "ft.com", "nytimes.com", "ndtv.com")
+
+
+def enabled():
+    """게이트 GNEWS_IMG(기본 ON · '0' = 구글 뉴스 레인 끔 = 종전 동작 100% 복귀)."""
+    return os.environ.get("GNEWS_IMG", "1").strip() != "0"
+
+
+def rss_url(query, lang="ko"):
+    return "https://news.google.com/rss/search?q={}&{}".format(urllib.parse.quote(query), _LOCALE.get(lang, _LOCALE["ko"]))
+
+
+def _unescape(s):
+    import html as _h
+    s = re.sub(r"^<!\[CDATA\[(.*)\]\]>$", r"\1", (s or "").strip(), flags=re.S)
+    return _h.unescape(s).strip()
+
+
+def parse_rss(xml):
+    """검색 RSS → [{title, link, source}] (검색 순서 유지 · 링크 없는 항목 제외)."""
+    out = []
+    for it in _ITEM_RE.findall(xml or ""):
+        lm = _LINK_RE.search(it)
+        if not lm:
+            continue
+        tm = _TITLE_RE.search(it)
+        sm = _SRC_RE.search(it)
+        pm = _PUB_RE.search(it)
+        out.append({"title": _unescape(tm.group(1)) if tm else "", "link": lm.group(1),
+                    "source": _unescape(sm.group(1)) if sm else "", "pub": _pub_ts(pm.group(1)) if pm else 0})
+    return out
+
+
+def _pub_ts(s):
+    """RSS pubDate(RFC 822) → epoch 초(파싱 실패 = 0 = 나이 판정 보류)."""
+    try:
+        from email.utils import parsedate_to_datetime
+        return parsedate_to_datetime(s.strip()).timestamp()
+    except Exception:  # noqa: BLE001
+        return 0
+
+
+def _tokens(s):
+    """관련성 대조용 토큰 — 2자 이상 어절(소문자 · 조사 흔한 끝 1자 제거 안 함 = 과잉 설계 금지)."""
+    return {w for w in re.findall(r"[0-9A-Za-z가-힣]{2,}", (s or "").lower())}
+
+
+def relevant(query, title, lang="ko"):
+    """검색 결과 제목이 검색어 핵심 어절을 충분히 공유하나(= 같은 사건).
+    ⚠️ 제목 검색은 흔한 단어(소주·아빠·징역형)만으로도 다른 사건을 끌어온다(실측 260925 = 9/2 스포츠 기사) → 겹침 2개.
+    ⚠️ 영문 긴 검색어(5어절+)는 인물 이름 2어절(Xi Jinping)만으로 다른 사건(방미)이 통과했다(실측 260925) → 겹침 3개.
+       국문은 조사가 붙어 어절 일치가 덜 나오므로(분유를·분유) 2개 유지 — 올리면 같은 사건 기사까지 떨어진다."""
+    qt = _tokens(query)
+    if not qt:
+        return True
+    need = 3 if (lang == "en" and len(qt) >= 5) else 2
+    return len(qt & _tokens(title)) >= min(need, len(qt))
+
+
+def article_id(link):
+    """구글 뉴스 링크 → 기사 ID(없으면 '')."""
+    m = re.search(r"/articles/([A-Za-z0-9_-]+)", link or "")
+    return m.group(1) if m else ""
+
+
+def extract_sig(html):
+    """기사 ID 페이지 → (서명, 시각) 또는 None."""
+    s, t = _SIG_RE.search(html or ""), _TS_RE.search(html or "")
+    return (s.group(1), t.group(1)) if s and t else None
+
+
+def batch_body(gid, ts, sig):
+    """batchexecute 요청 본문(form-urlencoded bytes)."""
+    inner = ('["garturlreq",[["X","X",["X","X"],null,null,1,1,"US:en",null,1,null,null,null,null,null,0,1],'
+             '"X","X",1,[1,1,1],1,1,null,0,0,null,0],"{}",{},"{}"]').format(gid, ts, sig)
+    return urllib.parse.urlencode({"f.req": json.dumps([[["Fbv4je", inner, None, "generic"]]])}).encode()
+
+
+def parse_batch(text):
+    """batchexecute 응답 → 원문 URL('' = 해제 실패). 응답 = )]}' 머리 + 빈 줄 + JSON 배열."""
+    try:
+        chunk = (text or "").split("\n\n", 1)[1]
+        rows = json.loads(chunk)
+        for row in rows:
+            if isinstance(row, list) and len(row) > 2 and row[0] == "wrb.fr" and row[2]:
+                u = json.loads(row[2])[1]
+                if isinstance(u, str) and u.startswith("http"):
+                    return u
+    except Exception:  # noqa: BLE001
+        pass
+    return ""
+
+
+def _http(url, data=None, headers=None, timeout=12):
+    h = dict(_UA)
+    h.update(headers or {})
+    try:
+        with urllib.request.urlopen(urllib.request.Request(url, data=data, headers=h), timeout=timeout) as r:
+            if r.status != 200:
+                return ""
+            return r.read(2_000_000).decode("utf-8", "ignore")
+    except Exception:  # noqa: BLE001
+        return ""
+
+
+def decode(link, http=_http):
+    """구글 뉴스 링크 → 원문 URL('' = 실패). 요청 2회(ID 페이지 + batchexecute)."""
+    gid = article_id(link)
+    if not gid:
+        return ""
+    sig = extract_sig(http("https://news.google.com/rss/articles/" + gid))
+    if not sig:
+        return ""
+    return parse_batch(http("https://news.google.com/_/DotsSplashUi/data/batchexecute",
+                            data=batch_body(gid, sig[1], sig[0]),
+                            headers={"Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"}))
+
+
+def _fm(md_text, key):
+    m = re.search(r'^{}:\s*"(.*)"\s*$'.format(re.escape(key)), md_text or "", re.M)
+    return (m.group(1) if m else "").strip()
+
+
+def clean_query(q):
+    """검색어 정리 — 괄호·따옴표·말줄임 제거 · 공백 정규화 · 속보 머리 제거(너무 긴 제목은 앞 12어절)."""
+    q = _FLASH_RE.sub(" ", q or "")
+    q = _PUNCT_RE.sub(" ", q)
+    words = q.split()
+    return " ".join(words[:12])
+
+
+def build_queries(md_text):
+    """기사 md(frontmatter) → 검색어 사다리 [(query, lang)] (중복 제거 · 빈 값 제외 · 순서 = 실측 효과 순 · 모듈 docstring).
+
+    image_query = 요약 모델이 기사를 다 읽고 뽑은 「이 사건의 고유명사 2~4개」 → 같은 사건 기사를 가장 좁게 잡는다.
+    image_query_en = 해외 사건일 때만 채워진다(국내면 빈 값) → 채워져 있으면 외신 원본 사진(대개 고해상도)이 1순위."""
+    iq = _fm(md_text, "image_query")
+    if iq in _EXAMPLE_IQ:
+        iq = ""
+    iqe = _fm(md_text, "image_query_en")
+    title = _fm(md_text, "title_ko") or _fm(md_text, "title")
+    ladder = []
+    if iqe:
+        ladder.append((clean_query(iqe), "en"))
+    if iq:
+        ladder.append((clean_query(iq), "ko"))
+    if title:
+        ladder.append((clean_query(title), "ko"))
+    seen, out = set(), []
+    for q, lang in ladder:
+        k = (q.strip(), lang)
+        if q.strip() and k not in seen:
+            seen.add(k)
+            out.append(k)
+    return out
+
+
+def _blocked(host):
+    return any(host == b or host.endswith("." + b) for b in _BLOCKED_HOSTS)
+
+
+def _host(u):
+    h = (urllib.parse.urlparse(u).hostname or "").lower()
+    for p in ("www.", "m.", "mobile.", "amp."):
+        if h.startswith(p):
+            h = h[len(p):]
+    return h
+
+
+MAX_AGE_D = float(os.environ.get("GNEWS_MAX_AGE_D", "10") or "10")   # 이보다 오래된 결과 = 다른(옛) 사건일 확률이 높아 제외
+
+
+def ref_ts(md_text):
+    """기사 기준 시각(frontmatter date YYYY-MM-DD 정오 KST · 없거나 형식 불량 = 0 → 호출부가 현재 시각).
+    ⚠️ 나이 필터는 「오늘」이 아니라 「그 기사 날짜」 기준이어야 한다 — 옛 기사를 픽하면(실측 260925 = 2025-09-24 화재 기사)
+       오늘 기준으론 같은 사건 보도가 전부 1년 전이라 0건이 된다."""
+    m = re.search(r"(\d{4})-(\d{2})-(\d{2})", _fm(md_text, "date"))
+    if not m:
+        return 0
+    try:
+        import datetime as _dt
+        d = _dt.datetime(int(m.group(1)), int(m.group(2)), int(m.group(3)), 12, tzinfo=_dt.timezone(_dt.timedelta(hours=9)))
+        return d.timestamp()
+    except Exception:  # noqa: BLE001
+        return 0
+
+
+def search_urls(queries, exclude=(), limit=10, http=_http, pause=0.25, now_ts=None):
+    """검색어 사다리 → 원문 기사 URL 목록(최대 limit · 매체당 1건 · exclude·속보 제외 · 검색 순서 유지).
+
+    매체당 1건 = 같은 매체 연속 기사는 대개 같은 사진이라 자리만 먹는다(다른 매체 = 다른 각도 사진 확률 ↑).
+    관련성 = 결과 제목이 검색어 핵심 어절 공유(relevant) + 발행이 기준 시각(now_ts = 기사 날짜 · 없으면 지금) ±MAX_AGE_D(10일)
+      = 같은 사건만(옛 사건 사진 혼입 차단).
+    exclude =이미 쓴 원문·같은 사건 타매체(alt_urls)·기존 검색이미지 출처(끝 '/' 무시 비교)."""
+    ex = {(u or "").rstrip("/") for u in exclude if u}
+    ex_hosts = {_host(u) for u in ex if _host(u)}   # 이미 쓴 매체 = 같은 사진 재사용 확률이 높아 다른 매체부터
+    now = time.time() if now_ts is None else now_ts
+    out, tried = [], set()
+    for q, lang in queries:
+        if len(out) >= limit:
+            break
+        items = parse_rss(_http_cached(rss_url(q, lang), http))
+        for it in items:
+            if len(out) >= limit:
+                break
+            if it["link"] in tried or _FLASH_RE.search(it["title"]):
+                continue
+            if it["pub"] and abs(now - it["pub"]) > MAX_AGE_D * 86400:   # 기준 시각 ±MAX_AGE_D(기사 날짜 기준 · 호출부 now_ts)
+                continue
+            if not relevant(q, it["title"], lang):
+                continue
+            tried.add(it["link"])
+            src_host = _host(it["source"])
+            if src_host and (src_host in ex_hosts or _blocked(src_host)):
+                continue
+            u = decode(it["link"], http=http)
+            if pause:
+                time.sleep(pause)
+            if not u or u.rstrip("/") in ex:
+                continue
+            h = _host(u)
+            if h in ex_hosts or _blocked(h):
+                continue
+            ex_hosts.add(h)
+            if src_host:
+                ex_hosts.add(src_host)
+            ex.add(u.rstrip("/"))
+            out.append(u)
+    return out
+
+
+_RSS_CACHE = {}
+
+
+def _http_cached(url, http):
+    if url not in _RSS_CACHE:
+        _RSS_CACHE[url] = http(url)
+    return _RSS_CACHE[url]

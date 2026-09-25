@@ -1551,6 +1551,55 @@ def _load_ref_face(tdir):
         print("  🖼 참조 얼굴 확보(대표 og:image {}…)".format(rep["url"][-32:]))
     return b
 
+TOPUP_FLOOR = _int_env("THUMB_TOPUP_FLOOR", 3)   # LLM 보충(moreimg) 발사 문턱 — 구글 레인 뒤에도 이 장수 미만일 때만(운영자 260925 · 구 = 7장 미달·원문 url 부재면 무조건)
+
+
+def _gn_ready(md):
+    """구글 뉴스 레인을 돌릴 검색어가 있나(image_query·제목) — main 백필 판정과 process_one 게이트가 같은 술어를 쓴다
+    (두 게이트 판정 불일치 = 매 런 재적재 좀비 · _md_has_imgsrc 교훈)."""
+    try:
+        import gnews_search as gn
+        with open(md, encoding="utf-8") as f:
+            return gn.enabled() and bool(gn.build_queries(f.read(4000)))
+    except Exception:
+        return False
+
+
+def gnews_topup(md, cand, exclude=(), want=7):
+    """검색이미지가 want 미만이면 구글 뉴스 검색(LLM 0)으로 같은 사건 타매체 기사를 찾아 og:image 를 보탠다
+    (운영자 260925 «요약이 완료된 이후에 이미지를 찾게» · «구글 검색만»). 추출·화질 컷·dedup = fetch_article_images 그대로.
+    실패·게이트 OFF = cand 그대로(fail-soft = 종전 동작)."""
+    if len(cand) >= want:
+        return cand
+    try:
+        import gnews_search as gn
+        if not gn.enabled():
+            return cand
+        with open(md, encoding="utf-8") as f:
+            _txt = f.read(4000)
+        qs = gn.build_queries(_txt)
+        if not qs:
+            return cand
+        t0 = time.time()
+        urls = [u for u in gn.search_urls(qs, exclude=list(exclude) + [c.get("link", "") for c in cand], limit=want * 2,
+                                          now_ts=gn.ref_ts(_txt) or None) if _url_ok(u)]
+        print("  🔎 구글 뉴스 검색(LLM 0) — 검색어 {}개 → 기사 {}건 ({:.0f}s)".format(len(qs), len(urls), time.time() - t0), flush=True)
+        if not urls:
+            return cand
+        seen = {_norm_key(c.get("src", "")) for c in cand}
+        for m in fetch_article_images(None, image_sources=urls, want=want - len(cand)):
+            k = _norm_key(m.get("src", ""))
+            if k in seen:
+                continue
+            seen.add(k)
+            m["label"] = "" if not cand else "유사"
+            cand.append(m)
+        return cand
+    except Exception as e:  # noqa: BLE001 — 검색 레인 실패가 썸네일 잡을 깨면 안 된다
+        print("  ⚠️ 구글 뉴스 레인 실패(무시 · 기존 결과 유지): {}".format(str(e)[:120]), flush=True)
+        return cand
+
+
 def process_one(md, stem, redo_new=""):
     """기사 1건 = 검색이미지(기사 og:image + 유사) + AI 4화풍. 저장 = R2(공개 URL) 또는 git 폴백."""
     parsed = parse_for_prompts(md)
@@ -1566,8 +1615,9 @@ def process_one(md, stem, redo_new=""):
     # 검색(관련)이미지 = 원기사 og:image + AI 관련소스(image_sources, 분석단계 WebSearch 유추) + 클러스터 — Google CSE 死 대체.
     # ⚠️ 소스 무관(운영자 260620): art_url 또는 image_sources 있고 아직 없을 때 채움 → paste·차단매체도 관련이미지 확보.
     # 대표=라벨'' / 유사='유사'. R2 재호스팅(핫링크 0)·매직바이트 검증, 실패 시 외부 핫링크 폴백.
-    if (art_url or image_sources) and not os.path.exists(os.path.join(tdir, "search.json")):
+    if (art_url or image_sources or _gn_ready(md)) and not os.path.exists(os.path.join(tdir, "search.json")):
         cand = fetch_article_images(art_url, alt_urls=alt_urls, image_sources=image_sources, want=7)   # 3→7장(og:image fetch는 과금0 · dedup·필터 그대로 = 유사 컷 동일 · 한·외신 공통 · 운영자 260622)
+        cand = gnews_topup(md, cand, exclude=[art_url] + list(alt_urls or []) + list(image_sources or []), want=7)   # 모자라면 구글 뉴스 검색(LLM 0 · 운영자 260925)
         items = []
         for i, c in enumerate(cand):
             final = None
@@ -1589,7 +1639,10 @@ def process_one(md, stem, redo_new=""):
         # 7장 미달(want=7 목표 대비 소스 감모) 또는 원문 url 부재(moreimg가 URL 백필 겸무) = 보충 대상 마커(운영자 260726
         # "원래 7개" + "검색으로 원문 URL 공유에 링크"). 실제 moreimg 디스패치는 워크플로 후속 스텝이 커밋·push *뒤*에
         # 발사 — 스크립트 내 즉발이면 moreimg 체크아웃이 이 런의 미푸시 search.json을 못 봐 add/add 경합(-X 병합 한쪽 소실).
-        if len(items) < 7 or not art_url:
+        # ⚠ 260925 = 문턱 하향(운영자 «요약이 완료된 이후에 이미지를 찾게» 재활성) — 구글 뉴스 레인(LLM 0)이 먼저 채우므로
+        #   LLM 보충은 그 뒤에도 TOPUP_FLOOR(3) 미만인 기사만. 구 「7장 미달 또는 원문 url 부재면 무조건」은 콜당 소넷 ~$1.1 이
+        #   거의 매 기사 붙었다(실측 7일 76콜). 원문 url 백필만 필요한 기사는 수동 '+N장 더'가 같은 임무를 겸한다.
+        if len(items) < TOPUP_FLOOR:
             try:
                 _tp = os.path.join(os.environ.get("RUNNER_TEMP") or "/tmp", "thumb_topup.txt")
                 with open(_tp, "a", encoding="utf-8") as f:
@@ -1794,7 +1847,7 @@ def main():
         # url 또는 image_sources(AI 관련소스) 있는데 search.json 없으면 검색이미지 백필 대상에 포함.
         # ⚠️ process_one 게이트가 `(art_url or image_sources)`이므로 여기 백필 판정도 동일해야 paste 기사(url無·image_sources有)가 누락 안 됨(앵글3·J ISSUE-1).
         # AI 완료분은 process_one이 기존 sid 보존 → Gemini 0회, 검색이미지만 채움(추가 과금 없음).
-        search_pending = (bool(_md_url(md)) or _md_has_imgsrc(md)) and not os.path.exists(os.path.join(tdir, "search.json"))
+        search_pending = (bool(_md_url(md)) or _md_has_imgsrc(md) or _gn_ready(md)) and not os.path.exists(os.path.join(tdir, "search.json"))   # _gn_ready = process_one 게이트와 같은 술어(260925 구글 레인)
         if ai_done and not search_pending:
             continue
         todo.append((md, stem))

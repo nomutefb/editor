@@ -87,6 +87,20 @@ if [ "${PUSH_FAST_NEW:-1}" != "0" ] && live_new_only; then
   DEPLOY_WAIT=0
 fi
 
+# ⚡ Access 벽 감지(260925) — 서비스 토큰이 없거나 무효면 라이브가 로그인 벽(302 → cloudflareaccess · 401/403)이라 배포 판정이
+#    영영 참이 될 수 없다(실측 = 벽 설치 09-23 이후 매 런 240s 헛대기 후 「타임아웃 — 그래도 발송」 · run 36110672238).
+#    그 대기가 요약 알림과 뒤 잡(검색이미지 thumb_gen = needs 대기)을 매번 4분씩 늦췄다 → 판정 불가 확정이면 대기를 건너뛴다.
+#    결과 = 종전과 같은 「대기 없이 발송」을 4분 먼저(새 요약은 뷰어 api/feedlive 가 즉시 띄움). 토큰 등록 시 자동으로 종전 판정 복귀.
+access_walled() {
+  local r; r="$(curl -sS -o /dev/null -w '%{http_code} %{redirect_url}' --max-time 12 ${AH[@]+"${AH[@]}"} "${AJSON}?_=$(date +%s)" 2>/dev/null)"
+  case "$r" in 30[1278]*cloudflareaccess.com*|401*|403*) return 0;; esac
+  return 1
+}
+if [ "$DEPLOY_WAIT" != "0" ] && access_walled; then
+  echo "::warning::라이브가 Access 로그인 벽 뒤(서비스 토큰 CF_ACCESS_CLIENT_ID/SECRET 미설정·무효) — 배포 판정 불가라 대기 생략·발송 진행(토큰 등록 시 자동 복귀)"
+  DEPLOY_WAIT=0
+fi
+
 if [ -n "$EXPECT_SHA" ]; then
   echo "배포 반영 대기 — EXPECT=${EXPECT_SHA:0:12} / 최대 ${DEPLOY_WAIT}s (${AJSON})"
 else

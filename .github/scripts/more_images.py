@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-"""뷰어 '+N장 더' (검색 이미지 카러셀) — 기사 요약·시사점을 읽고 Claude(Sonnet 5·effort high · MOREIMG_MODEL)가
+"""뷰어 '+N장 더' (검색 이미지 카러셀) + 자동 보충 — **1단계 = 구글 뉴스 검색(LLM 0 · gnews_search.py · 운영자 260925)**이
+요약의 image_query·영문·제목으로 같은 사건 타매체 기사를 찾아 먼저 채우고, 목표(WANT)를 채우면 Claude 콜 없이 끝난다.
+**2단계**(모자랄 때·원문 url 백필 임무가 있을 때만 · MOREIMG_LLM=0 = 끔) = 기사 요약·시사점을 읽고 Claude(Sonnet 5·effort high · MOREIMG_MODEL)가
 **오버레이 뒤 후킹용 카드뉴스 배경**으로 가장 효과적인 관련 뉴스이미지 소스를 *기존과 중복 없이*
 더 제안 → og:image 추출(thumb_gen 재사용·R2 재호스팅) → cards/<stem>/thumbs/search.json **앞쪽**에 append.
 
@@ -67,6 +69,30 @@ exclude_srcs = set(existing_links) | set(
 body = md.split('---', 2)[-1] if md.count('---') >= 2 else md
 body = re.sub(r'```.*?```', '', body, flags=re.S).strip()[:3500]
 
+# ── 1단계 = 구글 뉴스 검색(LLM 0 · 운영자 260925 «구글 검색만») — 요약이 뽑은 image_query·영문·제목으로 같은 사건 타매체 기사를
+#   찾아 og:image 를 먼저 채운다. 목표(WANT)를 채우면 Claude 콜을 아예 안 한다(소넷 WebSearch 콜당 실측 ~$1.1 · 138만 토큰).
+#   모자라거나 원문 url 백필 임무가 있으면 2단계(아래 Claude)가 나머지만. 게이트 = GNEWS_IMG(기본 ON) · 실패 = 빈 목록(fail-soft).
+gn_cand, gn_links = [], []
+try:
+    import gnews_search as gn
+    if gn.enabled():
+        _gq = gn.build_queries(md)
+        gn_links = [u for u in gn.search_urls(_gq, exclude=exclude_srcs, limit=WANT * 3, now_ts=gn.ref_ts(md) or None) if tg._url_ok(u)]
+        if gn_links:
+            _seen = set(existing_urls)
+            for c in tg.fetch_article_images(None, image_sources=gn_links, want=WANT):
+                k = tg._norm_key(c.get("src", ""))
+                if k in _seen or (c.get("link") or "").rstrip("/") in existing_links:
+                    continue
+                _seen.add(k)
+                gn_cand.append(c)
+        print("구글 뉴스 검색(LLM 0) — 검색어 {}개 → 기사 {}건 → 새 사진 {}장".format(len(_gq), len(gn_links), len(gn_cand)), flush=True)
+except Exception as e:  # noqa: BLE001
+    print("::warning::구글 뉴스 레인 실패(무시 · Claude 단계로 진행): {}".format(str(e)[:160]), flush=True)
+exclude_srcs |= {u.rstrip("/") for u in gn_links}   # Claude 가 같은 기사를 다시 고르지 않게
+LLM_ON = os.environ.get("MOREIMG_LLM", "1").strip() != "0"   # '0' = 구글 레인만(Claude 콜 0)
+need_llm = LLM_ON and (need_url or len(gn_cand) < WANT)
+
 prompt = """다음은 한 뉴스기사의 큐레이션 요약·시사점이다. 이 기사의 **카드뉴스 썸네일 배경 이미지**로 쓸 관련 사진을 더 찾아라.
 
 [기준 — 매우 중요]
@@ -102,19 +128,23 @@ prompt = """다음은 한 뉴스기사의 큐레이션 요약·시사점이다. 
 """.format(m=fm_media or "미상", r=fm_reporter or "미상", t=fm_title or head)),
     urlfmt=("" if not need_url else " 단, **출력 맨 첫 줄**은 원문 URL 임무의 결과로 `ORIG_URL: <URL>` 한 줄(못 찾았으면 `ORIG_URL: 없음`) — 이미지 소스 URL들은 그 다음 줄부터."))
 
-print("Claude({}) 관련 뉴스이미지 소스 검색 — '{}'".format(MODEL, head[:40]), flush=True)
-_args = ["claude", "-p", "--model", MODEL, "--effort", "high",   # --bare 제거(OAuth 즉사 방지 · 260718) — 계정 로테이션은 폴오버 SSOT가 담당
-         "--allowedTools", "WebFetch,WebSearch",
-         "--disallowedTools", "Write,Edit,NotebookEdit,Bash,Task",
-         "--max-turns", "60"]   # 40→60(260726 Q583): 이미지 N개 접근검증 + 원문 URL 임무 겸무 후 40턴 소진 정황(3.5분 rc=1·부분산출 실측) — ask.sh 50턴 형제축 상회분 = 이중 임무 헤드룸
-# 폴오버 SSOT 경유 — 주계정 쿼터(주간한도) 시 백업 4계정 자동 전환(운영자 260718 "전사 적용" · 예외도 내부 처리 = fail-soft)
-res, rc, err = run_claude(_args, prompt, timeout=900, source="moreimg")
-out = (res.stdout if res else "") or ""
-if rc != 0:
-    # stdout head 동반 출력(260726 Q581) — 실패의 진짜 원인(쿼터·API 에러)은 --output-format json의 stdout에 실리고
-    # stderr는 trust류 무관 공지 노이즈뿐이라(cardmake.sh 27행 오진 선례) stderr만 찍으면 원인이 증발한다.
-    print("::warning::claude rc={} · stdout(head): {} · stderr(head): {}".format(
-        rc, (out or "").strip()[:300], (err or "")[:300]), flush=True)
+out = ""
+if not need_llm:
+    print("· Claude 생략 — {}".format("구글 레인이 목표 {}장 충족(LLM 0)".format(WANT) if LLM_ON else "MOREIMG_LLM=0(구글 레인만)"), flush=True)
+else:
+  print("Claude({}) 관련 뉴스이미지 소스 검색 — '{}' (구글 레인 {}장 뒤 나머지)".format(MODEL, head[:40], len(gn_cand)), flush=True)
+  _args = ["claude", "-p", "--model", MODEL, "--effort", "high",   # --bare 제거(OAuth 즉사 방지 · 260718) — 계정 로테이션은 폴오버 SSOT가 담당
+           "--allowedTools", "WebFetch,WebSearch",
+           "--disallowedTools", "Write,Edit,NotebookEdit,Bash,Task",
+           "--max-turns", "60"]   # 40→60(260726 Q583): 이미지 N개 접근검증 + 원문 URL 임무 겸무 후 40턴 소진 정황(3.5분 rc=1·부분산출 실측) — ask.sh 50턴 형제축 상회분 = 이중 임무 헤드룸
+  # 폴오버 SSOT 경유 — 주계정 쿼터(주간한도) 시 백업 4계정 자동 전환(운영자 260718 "전사 적용" · 예외도 내부 처리 = fail-soft)
+  res, rc, err = run_claude(_args, prompt, timeout=900, source="moreimg")
+  out = (res.stdout if res else "") or ""
+  if rc != 0:
+      # stdout head 동반 출력(260726 Q581) — 실패의 진짜 원인(쿼터·API 에러)은 --output-format json의 stdout에 실리고
+      # stderr는 trust류 무관 공지 노이즈뿐이라(cardmake.sh 27행 오진 선례) stderr만 찍으면 원인이 증발한다.
+      print("::warning::claude rc={} · stdout(head): {} · stderr(head): {}".format(
+          rc, (out or "").strip()[:300], (err or "")[:300]), flush=True)
 
 urls = []
 orig_url = ""
@@ -150,12 +180,18 @@ if need_url and orig_url:
 elif need_url:
     print("· 원문 URL 미발견(ORIG_URL 없음) — url 백필 스킵", flush=True)
 
-if not urls:
+if not urls and not gn_cand:
     print("새 소스 0 — 이미지 변경 없음 종료"); sys.exit(0)
 
 # og:image 추출(thumb_gen 재사용) — 원기사 URL(방금 백필분 포함)이 있으면 그 대표 og:image도 1순위로 시도
-# (차단매체면 fetch만 실패 = 무해), 없으면 종전대로 image_sources만(과금 0).
-cand = tg.fetch_article_images(orig_url or None, alt_urls=None, image_sources=urls, want=WANT)
+# (차단매체면 fetch만 실패 = 무해), 없으면 종전대로 image_sources만(과금 0). 구글 레인 후보(gn_cand)가 앞 = 먼저 채운 몫.
+cand = list(gn_cand)
+if urls or orig_url:
+    _gs = {tg._norm_key(c.get("src", "")) for c in cand}
+    for c in tg.fetch_article_images(orig_url or None, alt_urls=None, image_sources=urls, want=max(1, WANT - len(cand))):
+        if tg._norm_key(c.get("src", "")) not in _gs:
+            _gs.add(tg._norm_key(c.get("src", "")))
+            cand.append(c)
 new_items = []
 for i, c in enumerate(cand):
     if tg._norm_key(c.get("src", "")) in existing_urls:

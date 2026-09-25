@@ -333,11 +333,16 @@ jobs:
           THUMB_MAX_BATCH: '3'
           THUMB_SINCE: '260908'   # 활성화 기준일 — 4화풍 복귀(260908 운영자 "포토·극화·수채화·만평 네 개")부터. 260703~0907 백로그는 2화풍 완료분이라 main() 이 '미완성'으로 재판정 → 이 캡이 수채화·만평 소급 재과금을 막는다(원하면 날짜 내리기).
           THUMB_REF: '1'          # 참조 체이닝 승격(260703 카나리아 통과 — 극화·수채가 대표 실사진으로 실제 얼굴 재현). photo 제외·사인/피해자/미성년 익명 프롬프트 유지. 롤백=이 줄 제거.
+          GNEWS_IMG: ${{ vars.GNEWS_IMG || '1' }}   # 요약 착지 뒤 구글 뉴스 검색이미지 레인(LLM 0 · 운영자 260925 · gnews_search.py) · 끄기 = repo 변수 GNEWS_IMG=0
         run: |
           # AI_OFF면 키 없어도 검색이미지는 돌린다(검색=망 fetch·키 무관). 평소(AI on)엔 키 없으면 스캐폴드 no-op.
           if [ -z "${GEMINI_API_KEY}" ] && [ "${THUMB_AI_OFF}" != "1" ]; then
             echo "GEMINI_API_KEY 미설정 — 썸네일 생성 생략(스캐폴드)"; exit 0
           fi
+          # ⚠ 260925 봉합 — 이 잡만 Pillow 설치가 빠져 있었다(news-analyze 쌍둥이 스텝은 보유). thumb_gen 화질 판정(_dim_probe)이
+          #   PIL 없이는 세로를 못 재 「미상 = 컷(fail-closed)」으로 검색이미지를 전량 버렸다(실측 = 요약 요청 8건 중 7건 0장 ·
+          #   run 35496215361 「화질 컷(유사 세로 미상 < 600)」). 형제 문법 그대로.
+          pip install --quiet Pillow 2>/dev/null || pip3 install --quiet Pillow 2>/dev/null || echo "::warning::Pillow 설치 실패 — 화질 판정 불가 = 검색이미지 0장 위험"
           python3 .github/scripts/thumb_gen.py || echo "::warning::썸네일 생성 일부 실패(다이제스트·카드는 보존됨)"
       - name: Commit thumbnails
         if: always()
@@ -359,10 +364,12 @@ jobs:
       # 검색이미지 7장 미달·원문 url 부재 건 = moreimg 자동 보충(운영자 260726 "원래 7개" + "검색으로 원문 URL 공유에 링크").
       # 대상 = thumb_gen.py가 RUNNER_TEMP/thumb_topup.txt 마커로 지목(이번 런 신규 기록분만). 커밋·push *뒤* 발사 =
       # moreimg 체크아웃이 이번 search.json 포함(즉발이면 add/add 경합). 실패 = 경고만(수동 '+N장 더' 폴백 불변) · 중단 = 이 스텝 제거.
-      # ⏸ 자동 발사 기본 OFF(운영자 260909 «검색이미지 보충 거의 활용 안 함» — 실측 7일 76콜·콜당 182만tok·$1.56·하루 $20 = 전체 토큰 24%).
-      #   재개 = repo 변수 MOREIMG_AUTO=1(이 조건만 열린다 · 마커·dispatch 본문 무접촉) · 수동 '+N장 더'(functions/api/moreimg.js → moreimg.yml)는 이 게이트 밖 = 불변.
+      # ▶ 자동 발사 재개(운영자 260925 «요약이 완료된 이후에 이미지를 찾게» — 구 260909 OFF 사유 = 실측 7일 76콜·콜당 182만tok·$1.56·하루 $20 = 전체 토큰 24%).
+      #   재개 조건 = 비용 바운드 2중: ① 앞 스텝 thumb_gen 이 구글 뉴스 레인(LLM 0)으로 먼저 채우고 그래도 THUMB_TOPUP_FLOOR(3)장 미만인 기사만
+      #   마커에 오른다 ② max_round=1 = 연쇄 라운드 없음(구 = 7장까지 최대 3라운드). moreimg 안에서도 구글 레인이 먼저 돌아 Claude 는 모자란 몫만.
+      #   끄기 = repo 변수 MOREIMG_AUTO=0 · 수동 '+N장 더'(functions/api/moreimg.js → moreimg.yml)는 이 게이트 밖 = 불변.
       - name: 검색이미지 미달 자동 보충 (moreimg 디스패치)
-        if: ${{ always() && (vars.MOREIMG_AUTO || '0') == '1' }}
+        if: ${{ always() && (vars.MOREIMG_AUTO || '1') == '1' }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -373,7 +380,7 @@ jobs:
             curl -fsS -X POST -H "Authorization: Bearer ${GH_TOKEN}" \
               -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" \
               "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/workflows/moreimg.yml/dispatches" \
-              -d "{\"ref\":\"main\",\"inputs\":{\"stem\":\"${stem}\",\"want\":\"${want}\"}}" \
+              -d "{\"ref\":\"main\",\"inputs\":{\"stem\":\"${stem}\",\"want\":\"${want}\",\"max_round\":\"1\"}}" \
               && echo "↻ ${stem} 보충 발사(want=${want})" || echo "::warning::${stem} 보충 발사 실패(수동 '+N장 더' 폴백)"
           done
       - name: 큐레이션 즉시 전달 (Cloudflare 재빌드)

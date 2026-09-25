@@ -1,7 +1,8 @@
 name: moreimg
 
-# 뷰어 '검색 이미지 +N장 더'(functions/api/moreimg.js 디스패치) + thumb_gen 7장 미달 자동 보충(ask/analyze
-# 후속 스텝 디스패치 · 운영자 260726 "원래 7개") → Claude(Sonnet 5·effort high = more_images.py 실값 · 260905 운영자 «이미지는 계륵» 강등 · 구 Opus)가
+# 뷰어 '검색 이미지 +N장 더'(functions/api/moreimg.js 디스패치) + thumb_gen 3장 미달 자동 보충(ask/analyze
+# 후속 스텝 디스패치 · 운영자 260726 "원래 7개" · 260925 구글 레인 뒤 3장 미만만 · 1라운드) → 1단계 구글 뉴스 검색(LLM 0 · 목표 충족 시 Claude 생략)
+# → 2단계 Claude(Sonnet 5·effort high = more_images.py 실값 · 260905 운영자 «이미지는 계륵» 강등 · 구 Opus)가
 # 기사 요약·시사점을 읽고 오버레이 뒤 후킹용 카드뉴스 배경에 효과적인 관련 뉴스이미지 소스를
 # *기존과 중복없이* 더 찾아(WebSearch) og:image 추출(thumb_gen 재사용·R2) →
 # cards/<stem>/thumbs/search.json 앞쪽 append. Cloudflare가 push마다 build-viewer 재실행 → 뷰어 반영.
@@ -22,6 +23,10 @@ on:
       round:
         description: '보충 세대(1 = 첫 발사 · 상한 도달 시 자동 정지)'
         default: '1'
+        type: string
+      max_round:
+        description: '라운드 상한(자동 보충 = 1 · 수동 기본 3)'
+        default: '3'
         type: string
       account:
         description: '구독 OAuth 계정'
@@ -89,6 +94,8 @@ jobs:
           MOREIMG_STEM: ${{ github.event.inputs.stem }}
           MOREIMG_WANT: ${{ github.event.inputs.want || '5' }}
           MOREIMG_ROUND: ${{ github.event.inputs.round || '1' }}
+          MOREIMG_MAX_ROUND: ${{ github.event.inputs.max_round || '3' }}   # 자동 보충(thumb_gen 뒤 디스패치) = 1 = 연쇄 없음(운영자 260925 비용 바운드) · 수동 '+N장 더' = 3(종전)
+          GNEWS_IMG: ${{ vars.GNEWS_IMG || '1' }}   # 1단계 구글 뉴스 검색(LLM 0 · 운영자 260925) — 목표를 채우면 Claude 콜 0 · 끄기 = repo 변수 GNEWS_IMG=0
         run: |
           echo "활성 계정: ${ACTIVE_ACCOUNT} · stem=${MOREIMG_STEM} · want=${MOREIMG_WANT}"
           if [ -z "${CLAUDE_CODE_OAUTH_TOKEN}" ]; then
