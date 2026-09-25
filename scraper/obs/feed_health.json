@@ -1,41 +1,36 @@
 {
- "ok": 170,
- "dead": 7,
+ "ok": 171,
+ "dead": 6,
  "dead_feeds": [
   {
-   "publisher": "프레시안",
-   "title": "세계",
-   "url": "https://www.pressian.com/api/v3/site/rss/section/65"
+   "publisher": "머니투데이",
+   "title": "전체기사",
+   "url": "https://rss.mt.co.kr/mt_news.xml"
   },
   {
-   "publisher": "프레시안",
-   "title": "정치",
-   "url": "https://www.pressian.com/api/v3/site/rss/section/66"
+   "publisher": "전자신문",
+   "title": "IT·산업전반",
+   "url": "https://rss.etnews.com/Section901.xml"
   },
   {
-   "publisher": "프레시안",
-   "title": "경제",
-   "url": "https://www.pressian.com/api/v3/site/rss/section/67"
-  },
-  {
-   "publisher": "프레시안",
+   "publisher": "JTBC",
    "title": "사회",
-   "url": "https://www.pressian.com/api/v3/site/rss/section/68"
+   "url": "https://news-ex.jtbc.co.kr/v1/get/rss/section/society"
   },
   {
-   "publisher": "프레시안",
-   "title": "문화",
-   "url": "https://www.pressian.com/api/v3/site/rss/section/69"
+   "publisher": "JTBC",
+   "title": "연예",
+   "url": "https://news-ex.jtbc.co.kr/v1/get/rss/section/entertainment"
   },
   {
-   "publisher": "프레시안",
-   "title": "스포츠",
-   "url": "https://www.pressian.com/api/v3/site/rss/section/70"
+   "publisher": "JTBC",
+   "title": "속보",
+   "url": "https://news-ex.jtbc.co.kr/v1/get/rss/newsflesh"
   },
   {
-   "publisher": "프레시안",
-   "title": "최신 기사",
-   "url": "https://www.pressian.com/api/v3/site/rss/news"
+   "publisher": "JTBC",
+   "title": "주요",
+   "url": "https://news-ex.jtbc.co.kr/v1/get/rss/issue"
   }
  ],
  "zombie_feeds": [
@@ -178,6 +173,11 @@
    "publisher": "통일뉴스",
    "title": "동북아외신",
    "url": "https://www.tongilnews.com/rss/S1N18.xml"
+  },
+  {
+   "publisher": "프레시안",
+   "title": "스포츠",
+   "url": "https://www.pressian.com/api/v3/site/rss/section/70"
   }
  ]
 }
