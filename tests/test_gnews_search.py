@@ -261,6 +261,18 @@ class DupHashTest(unittest.TestCase):
         self.assertFalse(tg._dup_of('0000000000000001', ['0000000000000000']))  # 정보 부족(단색) = 보류
         self.assertFalse(tg._dup_of('', ['ffffffffffffffff']))                  # 지문 없음 = 보류
         self.assertEqual(tg._dhash(b'not an image'), '')
+        self.assertFalse(tg._dup_of('f0f0f0f0f0f0f0f0', ['0000000000000001']))  # 저장된 쪽 정보 부족 = 대조 제외(대칭)
+
+    def test_wide_flat_background_is_not_fingerprinted(self):
+        import io
+        from PIL import Image, ImageDraw
+        def shot(box, color):
+            im = Image.new('RGB', (900, 600), 'white')
+            ImageDraw.Draw(im).rectangle(box, fill=color)
+            b = io.BytesIO(); im.save(b, 'JPEG', quality=90); return b.getvalue()
+        # 흰 배경 제품컷 두 장(서로 다른 물건) = 지문 보류('') → 중복 오판 0 (실측 260925 저지 2장 거리 4 오판 봉합)
+        self.assertEqual(tg._dhash(shot((380, 220, 520, 380), (200, 20, 20))), '')
+        self.assertEqual(tg._dhash(shot((360, 200, 540, 420), (20, 20, 200))), '')
 
 
 class SourceCheckTest(unittest.TestCase):

@@ -1401,11 +1401,15 @@ def _dhash(img_bytes):
         import io
         from PIL import Image
         im = Image.open(io.BytesIO(img_bytes)).convert("L").resize((9, 8))
-        px = list(im.getdata())
-        bits = 0
+        px = im.tobytes()                       # getdata() = Pillow 14 제거 예정(평의회 260925) → 원시 바이트(1px = 1바이트 L)
+        bits, flat = 0, 0
         for r in range(8):
             for c in range(8):
-                bits = (bits << 1) | (1 if px[r * 9 + c] > px[r * 9 + c + 1] else 0)
+                a, b = px[r * 9 + c], px[r * 9 + c + 1]
+                bits = (bits << 1) | (1 if a > b else 0)
+                flat += 1 if abs(a - b) <= 2 else 0
+        if flat >= 16:                          # 평평한 칸이 많다 = 넓은 배경(흰 배경 제품컷·하늘) → 다른 사진도 지문이 비슷해진다
+            return ""                           #   = 판정 보류(실측 260925 = 흰 배경 저지 2장 거리 4 오판 · 이 컷으로 오판 0 · 실제 중복 87쌍 중 80쌍 유지)
         return "%016x" % bits
     except Exception:
         return ""
@@ -1423,7 +1427,10 @@ def _dup_of(h, seen_hashes):
         return False
     for o in seen_hashes:
         try:
-            if o and bin(v ^ int(o, 16)).count("1") <= _DUP_HAM:
+            ov = int(o, 16) if o else None
+            if ov is None or not 6 <= bin(ov).count("1") <= 58:   # 저장된 쪽도 같은 정보량 게이트(평의회 260925 = 비대칭 판정 봉합)
+                continue
+            if bin(v ^ ov).count("1") <= _DUP_HAM:
                 return True
         except (TypeError, ValueError):   # 손상된 dh 값(search.json 외부 편집 등) = 그 항목만 무시
             continue
