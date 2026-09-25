@@ -16,6 +16,26 @@
  "threads": [
   {
    "account": "daily_ai_star",
+   "text": "GitHub Copilot에서도 Opus 5.5는 에이전트 코딩과 장시간 작업에 제공됩니다. GitHub의 초기 테스트에서는 Opus 5와 비슷한 작업을 더 적은 단계와 토큰으로 처리했고, 여러 단계 작업의 오류에서도 빠르게 회복했다고 밝혔습니다.\n\n코딩 에이전트의 비용 기준이 요청 1회의 가격에서, 긴 작업을 끝낼 때까지 필요한 재읽기·재시도·토큰 수로 이동했습니다.\n\n이제 모델을 비교할 때 벤치마크 점수만으로는 부족합니다. 저장소를 오래 붙잡고 있을 때 컨텍스트를 얼마나 재사용하는지, 실패 뒤 몇 단계를 다시 밟는지도 비용표에 들어갑니다.\n\nhttps://www.anthropic.com/claude-opus-5-5",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1790295918,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdsKs2SAd1K",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
+   "text": "Claude Opus 5.5가 9월 22일 공개됐습니다.\n\nAnthropic은 Opus 5와 비슷한 작업 성능을 유지하면서 일반적인 작업 비용은 40% 낮아졌다고 설명합니다. 입력 토큰은 100만 개당 4달러, 출력 토큰은 20달러입니다. 캐시 읽기는 100만 개당 0.20달러로 60% 낮아졌습니다.\n\n코딩 에이전트에서 캐시 읽기는 긴 작업의 비용 대부분을 차지합니다. 모델을 한 번 호출하는 가격보다, 같은 저장소와 도구 결과를 여러 단계에서 다시 읽는 비용이 더 중요해진 이유입니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1790295909,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdsKr8gAZk_",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
    "text": "Cursor가 9월 23일 긴 에이전트 실행의 토큰 비용을 7% 낮췄다고 공개했습니다.\n\n모델을 바꾼 결과가 아닙니다. 시스템 프롬프트를 약 66% 줄이고, 자주 쓰지 않는 도구 설명은 필요할 때만 불러오도록 바꿨습니다. 내장 도구의 정적 컨텍스트 토큰은 60% 줄었습니다.\n\nMCP 도구를 호출한 세션에서는 전체 토큰이 46.9% 감소했고, 캐시 미스도 20% 줄었습니다. 파일을 읽을 때 모든 줄에 붙이던 줄 번호를 10줄마다 붙이는 방식으로 바꿔 캐시 읽기 토큰도 1.6% 줄였습니다.\n\n에이전트 비용의 기준이 모델 가격만이 아니라, 매 요청마다 무엇을 다시 읽히는가로 이동했습니다. 긴 작업일수록 모델 선택보다 하네스의 컨텍스트 관리가 먼저 보이게 됐습니다.\n\nhttps://cursor.com/blog/improved-token-efficiency",
    "likes": 0,
    "cmts": 0,
@@ -26,8 +46,18 @@
   },
   {
    "account": "choi.openai",
+   "text": "메타 요즘 폼 미쳤네..\n\n이번에는 스마트폰에서 프롬프트만으로 게임을 만드는 Horizon Create를 공개했습니다. 2D·3D 게임을 AI로 만들고 난이도, 아트 스타일, 멀티플레이 기능까지 설정할 수 있습니다.\n\n더 큰 변화는 배포 방식입니다. 만든 게임을 페이스북과 인스타그램에 바로 올릴 수 있고, 이용자는 별도 앱 설치 없이 피드에서 게임 영상을 누르면 바로 멀티플레이에 참여할 수 있습니다.\n\nAI 게임 제작부터 배포, 유저 확보까지 메타 생태계 안에서 연결하려는 모습입니다.",
+   "likes": 23,
+   "cmts": 0,
+   "time": 1790294412,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/824329624_1996598697559190_4236805853875169454_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk5MzYwMTQ0NzA2ODU2NzY4Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=2beB_4lcGFwQ7kNvwH5vXZH&_nc_oc=AdqckKvCOesBChYTdU8U92sKp2d44Lpygq5OTQtL1DeYd1KHmXpsFiP-R61POv6G_HdILnYmCFMjMjvt6kHZ298g&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=dB2P8zf5RmyfukTz-4IwoA&_nc_ss=7a20f&oh=00_AQIVpS3J_qxj8Bdtz4ubvv8s0ZDEyFMTUUz3RWeLFUT-Iw&oe=6ABB8FFC",
+   "url": "https://www.threads.com/@choi.openai/post/DdsH1trAgiC",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
    "text": "블로그 :\nhttps://odyssey.systems/introducing-agora-2",
-   "likes": 1,
+   "likes": 3,
    "cmts": 0,
    "time": 1790290872,
    "thumb": "",
@@ -37,21 +67,11 @@
   {
    "account": "choi.openai",
    "text": "와.. 정말 미래의 게임은 이런 모습일까요?\n\n오디세이가 다중 에이전트 월드 모델 Agora-2를 공개했습니다.\n\n게임 엔진 없이 AI가 실시간으로 세계를 만들고, 그 안에서 사람과 AI 에이전트 20명이 동시에 상호작용할 수 있는데요.\n\n현재 공개된 버전에서는 사람 4명이 AI 에이전트 16개와 함께 전투할 수 있으며, 참여자의 행동에 따라 월드 모델이 환경 변화를 실시간으로 생성합니다.\n\n오디세이는 AI 학습과 안전성 테스트, 로봇, 자율주행, 사이버보안, 게임 등에 이런 다중 에이전트 시뮬레이션을 활용할 수 있을 것으로 보고 있습니다.",
-   "likes": 26,
+   "likes": 34,
    "cmts": 1,
    "time": 1790290852,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/823697740_1397208008660872_468347898077422189_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk5MzU3MTU4MDgyMjI5NDIzNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=-hkkbVpI9N4Q7kNvwGY4Gyu&_nc_oc=Adqkt-t92F0dPTwySmNVl8jkkyKiyCU5KqP-cw84Wr42SEX3qoEGRBmJscyzLi1BERbNiYXfYVkD5vkb9YmsF32B&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=dFiAj8m5Evlj9PLxG7SJ3Q&_nc_ss=7a20f&oh=00_AQIzbsH1Ths8pxqStuXudQsTQWauoUpWeYCiA09XHtdp6g&oe=6ABB854A",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/823697740_1397208008660872_468347898077422189_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk5MzU3MTU4MDgyMjI5NDIzNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=-hkkbVpI9N4Q7kNvwGY4Gyu&_nc_oc=Adqkt-t92F0dPTwySmNVl8jkkyKiyCU5KqP-cw84Wr42SEX3qoEGRBmJscyzLi1BERbNiYXfYVkD5vkb9YmsF32B&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=dB2P8zf5RmyfukTz-4IwoA&_nc_ss=7a20f&oh=00_AQLWpBFmT8e_gmgbpk7ZCb3VqUkDiRTqHsvZRyt6FNChZw&oe=6ABB854A",
    "url": "https://www.threads.com/@choi.openai/post/DdsBDGkAg7a",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "내용 :\nhttps://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback#how-refusals-are-billed",
-   "likes": 2,
-   "cmts": 0,
-   "time": 1790287261,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/Ddr6MqMihTQ",
    "region": "kr"
   },
   {
@@ -70,7 +90,7 @@
    "likes": 4,
    "cmts": 1,
    "time": 1790228618,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/818195190_1459711722716289_7299790243150015838_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk5MzA0OTI3ODc4NDA5Mzk5NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=iznjYDGXCDoQ7kNvwFzJn_Y&_nc_oc=AdoEgsRvwBpvD_wkmbYRpb3JALHe5qHnvCMXeiFOB2pxpL4i02XZCXa5gm69PcLatrFvCjeCgvRrMd4Jk_m8cpwi&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=1iBaPzln7xbRau0yZAOe7w&_nc_ss=7a20f&oh=00_AQJp0ptg6bfs0rFDPYIslSg2SgQV7IZqXxKmKQfTILZ4eQ&oe=6ABBA1EE",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/818195190_1459711722716289_7299790243150015838_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk5MzA0OTI3ODc4NDA5Mzk5NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=iznjYDGXCDoQ7kNvwFzJn_Y&_nc_oc=AdoEgsRvwBpvD_wkmbYRpb3JALHe5qHnvCMXeiFOB2pxpL4i02XZCXa5gm69PcLatrFvCjeCgvRrMd4Jk_m8cpwi&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=2BQ-9u1UH8BOkzJtbdsj8Q&_nc_ss=7a20f&oh=00_AQKctwxugBGOaeLeD11V02-zCtODc9IaYXN4HU_SPf4fZQ&oe=6ABBA1EE",
    "url": "https://www.threads.com/@kopp/post/DdqKSm4jj8q",
    "region": "kr"
   },
@@ -90,28 +110,8 @@
    "likes": 0,
    "cmts": 1,
    "time": 1790220674,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/821597953_18089409902407306_3804756069353730907_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk5Mjk4MjgxNTQ0MTQwNDcyOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTMwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=oZBjIHROGbAQ7kNvwGgtazj&_nc_oc=Adp0gTPUc7TGsJNPo4r0LpOwJSMJhhzR6loBGUivEts357IcR3Cog_XognEqrnm24satH3IoKwl1-uYNidWk9ylA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=XdCL19QpiZ-6LfCPcyuBww&_nc_ss=7a20f&oh=00_AQJ-nMRAQoEtGfcWjmjAEq1sKQyIPL-a51lGaviv5NiYQA&oe=6ABB9137",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/821597953_18089409902407306_3804756069353730907_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk5Mjk4MjgxNTQ0MTQwNDcyOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTMwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=oZBjIHROGbAQ7kNvwGgtazj&_nc_oc=Adp0gTPUc7TGsJNPo4r0LpOwJSMJhhzR6loBGUivEts357IcR3Cog_XognEqrnm24satH3IoKwl1-uYNidWk9ylA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=PC4idNmSsFGClB1Q0gQWog&_nc_ss=7a20f&oh=00_AQJSOS5bEemlBlJXAHtPMz9jYUjbLQp-_l56YhiThGdTbw&oe=6ABB9137",
    "url": "https://www.threads.com/@aipeekme/post/Ddp7LcEn8M4",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "같은 업데이트에는 이전 메시지를 다시 편집하고, 그 시점의 대화와 파일 변경으로 되돌리는 기능도 들어갔습니다.\n\n에이전트가 잘못된 방향으로 간 뒤 새 지시를 덧붙이는 대신, 잘못된 출발점부터 다시 실행할 수 있게 된 셈입니다.\n\n자동 승인과 되감기는 따로 보이지만 같은 변화를 가리킵니다. 에이전트가 더 오래 실행될수록 중요한 것은 승인 횟수가 아니라, 위험한 행동을 어디서 멈추게 할지입니다 ⭐\n\nhttps://github.blog/changelog/2026-09-22-new-features-and-improvements-in-copilot-for-jetbrains/",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1790214038,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/Ddpuh1SmY9u",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "GitHub Copilot for JetBrains 1.18.0이 에이전트 승인 방식을 바꿨습니다.\n\n낮은 위험의 도구 호출은 자동 승인하고, 위험도가 높은 작업은 계속 사람의 결정을 기다립니다.\n\n에이전트가 명령을 실행할 때마다 누르던 승인 버튼을 없앤 것이 아닙니다. 위험도에 따라 승인 절차를 나눈 것입니다.\n\n코딩 에이전트의 권한 기준이 “모든 실행을 사람이 승인하는가”에서 “어떤 실행만 사람이 남겨두는가”로 이동했습니다.",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1790214030,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdpugYmmfXJ",
    "region": "kr"
   },
   {
@@ -126,12 +126,22 @@
   },
   {
    "account": "choi.openai",
-   "text": "앤트로픽이 Claude가 답변을 거부한 일부 요청에도 다시 비용을 부과합니다.\n\n대상은 생물학, 모델 추출 공격, 고성능 LLM 개발 관련 요청 중 안전장치가 사전에 차단한 경우입니다. 최근 몇 주간 조직적인 공격이 발생하면서 방어 수단으로 적용한다고 밝혔습니다.\n\n앤트로픽에 따르면 최근 테스트에서 Claude Code·Claude.ai·Cowork 계정의 99.7%는 해당 차단을 한 번도 겪지 않았고, 차단 시스템의 오탐률은 0.1% 미만입니다.\n\n즉 Claude가 답변을 생성하지 않아도 특정 보안 차단에 걸리면 사용량이 청구될 수 있습니다.",
-   "likes": 20,
-   "cmts": 1,
-   "time": 1790287239,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/823196735_17988601452112832_912017719652348540_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk5MzU0MTI3MzM2OTMyNjUzNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTE3Ni5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=GOn0Kr7eT68Q7kNvwGMrL9a&_nc_oc=AdoNoSsJLhDvKIclh_5mKuXkIrxQfr5B2GkvqOTEm0xPly7SSf2AlVPIiMv9p5nlMcKvq2M3Ia10aSc_YGIlr60r&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=dFiAj8m5Evlj9PLxG7SJ3Q&_nc_ss=7a20f&oh=00_AQKc5CbbeoeBoe3lqldldFDpJDTL0sHnb92GLuBwF-4nrw&oe=6ABB778D",
-   "url": "https://www.threads.com/@choi.openai/post/Ddr6KEjCjPH",
+   "text": "내용 :\nhttps://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback#how-refusals-are-billed",
+   "likes": 2,
+   "cmts": 0,
+   "time": 1790287261,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/Ddr6MqMihTQ",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
+   "text": "같은 업데이트에는 이전 메시지를 다시 편집하고, 그 시점의 대화와 파일 변경으로 되돌리는 기능도 들어갔습니다.\n\n에이전트가 잘못된 방향으로 간 뒤 새 지시를 덧붙이는 대신, 잘못된 출발점부터 다시 실행할 수 있게 된 셈입니다.\n\n자동 승인과 되감기는 따로 보이지만 같은 변화를 가리킵니다. 에이전트가 더 오래 실행될수록 중요한 것은 승인 횟수가 아니라, 위험한 행동을 어디서 멈추게 할지입니다 ⭐\n\nhttps://github.blog/changelog/2026-09-22-new-features-and-improvements-in-copilot-for-jetbrains/",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1790214038,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/Ddpuh1SmY9u",
    "region": "kr"
   },
   {
@@ -140,8 +150,38 @@
    "likes": 0,
    "cmts": 1,
    "time": 1790213475,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/821138617_18089392946407306_1266950707108978386_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk5MjkyMjQyMzMxMDY2ODU1NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=YAQlle8TuG8Q7kNvwFloXLj&_nc_oc=Adpg_-r8a6ZupehbYbQLqM2E0tZhTDgBEyf9t5Z37XrAQbPquh69IAZUdRbFnALBCdxI4XTzV7FGQNVQYiAE43j9&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=XdCL19QpiZ-6LfCPcyuBww&_nc_ss=7a20f&oh=00_AQK2VouOCgWU0hqjQet1ujgr6gVNejw5enDJjyNR3j403g&oe=6ABB7981",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/821138617_18089392946407306_1266950707108978386_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk5MjkyMjQyMzMxMDY2ODU1NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=YAQlle8TuG8Q7kNvwFloXLj&_nc_oc=Adpg_-r8a6ZupehbYbQLqM2E0tZhTDgBEyf9t5Z37XrAQbPquh69IAZUdRbFnALBCdxI4XTzV7FGQNVQYiAE43j9&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=PC4idNmSsFGClB1Q0gQWog&_nc_ss=7a20f&oh=00_AQI6M-aVsC87kA_YJSqSUJaCaIywILVXZ5_vCxaXZFNHRA&oe=6ABB7981",
    "url": "https://www.threads.com/@aipeekme/post/DdptcnhH9MK",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "앤트로픽이 Claude가 답변을 거부한 일부 요청에도 다시 비용을 부과합니다.\n\n대상은 생물학, 모델 추출 공격, 고성능 LLM 개발 관련 요청 중 안전장치가 사전에 차단한 경우입니다. 최근 몇 주간 조직적인 공격이 발생하면서 방어 수단으로 적용한다고 밝혔습니다.\n\n앤트로픽에 따르면 최근 테스트에서 Claude Code·Claude.ai·Cowork 계정의 99.7%는 해당 차단을 한 번도 겪지 않았고, 차단 시스템의 오탐률은 0.1% 미만입니다.\n\n즉 Claude가 답변을 생성하지 않아도 특정 보안 차단에 걸리면 사용량이 청구될 수 있습니다.",
+   "likes": 25,
+   "cmts": 1,
+   "time": 1790287239,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/823196735_17988601452112832_912017719652348540_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk5MzU0MTI3MzM2OTMyNjUzNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTE3Ni5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=GOn0Kr7eT68Q7kNvwGMrL9a&_nc_oc=AdoNoSsJLhDvKIclh_5mKuXkIrxQfr5B2GkvqOTEm0xPly7SSf2AlVPIiMv9p5nlMcKvq2M3Ia10aSc_YGIlr60r&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=dB2P8zf5RmyfukTz-4IwoA&_nc_ss=7a20f&oh=00_AQISWOD-SnjomadhhkUDFz7CD_f97z4dJWhJYWUvffdoQA&oe=6ABB778D",
+   "url": "https://www.threads.com/@choi.openai/post/Ddr6KEjCjPH",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
+   "text": "GitHub Copilot for JetBrains 1.18.0이 에이전트 승인 방식을 바꿨습니다.\n\n낮은 위험의 도구 호출은 자동 승인하고, 위험도가 높은 작업은 계속 사람의 결정을 기다립니다.\n\n에이전트가 명령을 실행할 때마다 누르던 승인 버튼을 없앤 것이 아닙니다. 위험도에 따라 승인 절차를 나눈 것입니다.\n\n코딩 에이전트의 권한 기준이 “모든 실행을 사람이 승인하는가”에서 “어떤 실행만 사람이 남겨두는가”로 이동했습니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1790214030,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdpugYmmfXJ",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "오픈AI가 Pro 윗등급 플랜을 준비중인 것으로 보입니다.",
+   "likes": 53,
+   "cmts": 10,
+   "time": 1790282448,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DdrxBNkE2rz",
    "region": "kr"
   },
   {
@@ -155,16 +195,6 @@
    "region": "kr"
   },
   {
-   "account": "choi.openai",
-   "text": "오픈AI가 Pro 윗등급 플랜을 준비중인 것으로 보입니다.",
-   "likes": 43,
-   "cmts": 9,
-   "time": 1790282448,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DdrxBNkE2rz",
-   "region": "kr"
-  },
-  {
    "account": "daily_ai_star",
    "text": "GitHub Copilot 앱이 9월 23일 로컬 샌드박싱을 공개했습니다.\n\n프로젝트별로 파일시스템, 외부·로컬 네트워크, Git·GitHub CLI 자격증명의 접근 범위를 따로 설정합니다. 조직 정책이 있으면 사용자 설정보다 더 제한적으로 적용됩니다.\n\n운영체제가 정책을 강제하지 못하면 샌드박스 없이 명령을 실행하지 않고 세션 자체가 실패합니다.\n\n코딩 에이전트의 권한 기준이 “터미널을 열 수 있는가”에서 “어떤 파일과 네트워크와 자격증명까지 닿는가”로 바뀌었습니다.",
    "likes": 0,
@@ -173,54 +203,13 @@
    "thumb": "",
    "url": "https://www.threads.com/@daily_ai_star/post/DdproMSGXHF",
    "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "기사 :\nhttps://www.politico.com/news/2026/09/24/white-house-asks-openai-and-anthropic-to-hold-new-models-from-uk-testers-until-u-s-review-01091769",
-   "likes": 2,
-   "cmts": 0,
-   "time": 1790280026,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DdrsZmDAMhR",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "Cursor가 9월 23일 배포 뒤의 운영까지 맡는 봇 2개를 공개했습니다.\n\nRollouts는 모든 풀 리퀘스트의 배포를 지켜보며 환경별로 정상·회귀·판단 불가를 나눠 보고합니다. 변경 diff와 연결된 시스템을 읽고, 위험·의도한 효과·확인할 신호·계측 공백을 모니터링 계획으로 남깁니다.\n\n스테이징에서 정상이어도 프로덕션에서 다시 문제로 표시할 수 있습니다. Security Review는 모든 풀 리퀘스트에서 악용 가능한 버그를 찾아 심각도·공격 경로·수정안을 한 코멘트로 냅니다.\n\n코딩 에이전트의 완료 기준이 “코드를 작성하고 병합했는가”에서 “배포 후 의도한 효과를 확인했는가”로 이동하고 있습니다.\n\nhttps://cursor.com/en-US/changelog",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1790211060,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/Ddpo2LtGbDh",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "미국 정부가 오픈AI와 앤트로픽에 새로운 AI 모델을 영국보다 먼저 미국 정부에 제공해 검사를 받으라고 요청했습니다.\n\nPOLITICO에 따르면 미국은 자국 시스템의 안전성을 먼저 확인한 뒤 영국 AI Security Institute 등 해외 기관에 모델을 공유하길 요구하고 있습니다.\n\n앤트로픽은 실제로 Claude Mythos 5.1을 미국 기관에만 우선 제공했고, 영국은 사전 테스트를 하지 못했습니다.\n\n최신 AI 모델의 출시 전 접근 권한까지 국가 간 AI 경쟁의 대상이 되고 있습니다.",
-   "likes": 10,
-   "cmts": 1,
-   "time": 1790280018,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/824653666_17988601485112832_5285924585205763256_n.jpg?stp=cp6_dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk5MzQ4MDY5NjIxMDQ0ODg1NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTMxOC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Ri1SqghCem4Q7kNvwHhVULL&_nc_oc=AdpXa4_Ms0cz5iIr8d0MAlYQmh7jWphgSANpn4rwvAIBRu0EYODHKnBhwt81fVkssI-XxvWF-Zd3mIGWdjSGK_ml&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=dFiAj8m5Evlj9PLxG7SJ3Q&_nc_ss=7a20f&oh=00_AQKQb8lOzlewzsR0F4u0JgWCaXlye9qqms8NQBv4RQlAPg&oe=6ABB984F",
-   "url": "https://www.threads.com/@choi.openai/post/DdrsYjrAOHW",
-   "region": "kr"
   }
  ],
  "tiktok": [
   {
    "account": "jaemyung_lee",
-   "title": "Саламатсызбы, Кыргызстан! 🇰🇷🇰🇬 #키르기스스탄 #Kyrgyzstan #кыргызстан",
-   "views": 505200,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ossWcFAWqdBeFM1UB9FEguDtEqARxSGQQyfuUi~tplv-tiktokx-origin.image?dr=14575&x-expires=1790467200&x-signature=Kb7GtvTQJ5%2Bp0mECaeR7Dr5rtss%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
-   "time": 1789537496,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7686005021397273863",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
    "title": "이번 정류장은 멕시코입니다🇲🇽🇰🇷 #이재명 #대통령 #Mexico",
-   "views": 473700,
+   "views": 558000,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o06n1AI0RABAw2AYEHCCB6l0bOiLIWti2AndfA~tplv-tiktokx-origin.image?dr=14575&x-expires=1790467200&x-signature=6B4JP5wKz0AfE%2FEvnW49t5wCRO0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -230,8 +219,19 @@
   },
   {
    "account": "jaemyung_lee",
+   "title": "Саламатсызбы, Кыргызстан! 🇰🇷🇰🇬 #키르기스스탄 #Kyrgyzstan #кыргызстан",
+   "views": 506100,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ossWcFAWqdBeFM1UB9FEguDtEqARxSGQQyfuUi~tplv-tiktokx-origin.image?dr=14575&x-expires=1790467200&x-signature=Kb7GtvTQJ5%2Bp0mECaeR7Dr5rtss%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "time": 1789537496,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7686005021397273863",
+   "region": "kr"
+  },
+  {
+   "account": "jaemyung_lee",
    "title": "Ассалому алайкум, Тоҷикистон! 🇰🇷🇹🇯 #타지키스탄#Тоҷикистон",
-   "views": 264000,
+   "views": 264600,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okxPtEHAgIY0AAlC9gAoxAMiBqToaAKBiFulq~tplv-tiktokx-origin.image?dr=14575&x-expires=1790467200&x-signature=WYIUe1Tkr%2FiObXnd%2BlWot0%2BwqKk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -242,7 +242,7 @@
   {
    "account": "jaemyung_lee",
    "title": "Salam aleýkum Türkmenistan! 🇰🇷🇹🇲 #투르크메니스탄 #turkmenistan #Türkmenistan",
-   "views": 220500,
+   "views": 220900,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4iB0bDrFU5kqzoDSRupABvEWftIIUEfgqMaiE~tplv-tiktokx-origin.image?dr=14575&x-expires=1790467200&x-signature=cUxfGtQrxRtirrVyFE6PHJV2p8k%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -253,7 +253,7 @@
   {
    "account": "jaemyung_lee",
    "title": "¡Hola! México! 🇰🇷🇲🇽 #이재명 #claudiasheinbaum #멕시코 #mexico",
-   "views": 145900,
+   "views": 179400,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/owyCEQreNr7VLDAaQ4uGjLkGAIQI4wGye9afQc~tplv-tiktokx-origin.image?dr=14575&x-expires=1790467200&x-signature=%2BMcwcHEY1r9ItR9%2F0fm4%2BHsdSF0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -264,10 +264,10 @@
   {
    "account": "jaemyung_lee",
    "title": "미국 뉴욕타임즈와 인터뷰를 가졌습니다. Urging Pivot on North Korea, South’s Leader Calls for Easing Sanctions https://blog.naver.com/jaem",
-   "views": 66600,
+   "views": 68600,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIBVEyCAEfPFpCCAvAhEZlCAjHXfDDAjIf8IR4~tplv-tiktokx-origin.image?dr=14575&x-expires=1790467200&x-signature=IiuFkHXMih%2BzZYQvpX7q8mdksi4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIBVEyCAEfPFpCCAvAhEZlCAjHXfDDAjIf8IR4~tplv-tiktokx-origin.image?dr=14575&x-expires=1790467200&x-signature=41Y2yza%2BMFoveDGPLT8ZmflmUtY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1790052600,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7688217377795788039",
    "region": "kr"
@@ -275,7 +275,7 @@
   {
    "account": "jaemyung_lee",
    "title": "Қош келдіңіз, Қазақстан!🇰🇿🇰🇷 #이재명 #대통령 #카자흐스탄 #Қазақстан #Kazakhstan",
-   "views": 45800,
+   "views": 46300,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4AeKl0yGICLqpfFAVLAoFr7LEeoVADEIKAdEU~tplv-tiktokx-origin.image?dr=14575&x-expires=1790467200&x-signature=Tvwjyy%2Bph4rbJYvHmJddm7at0Kk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -286,7 +286,7 @@
   {
    "account": "jaemyung_lee",
    "title": "<초국가범죄, 반드시 뿌리 뽑겠습니다> ‘외국에 있으면 안 잡히겠지?’  그런 생각은 이제 버리십시오. 대한민국 국민을 상대로 한 범죄는 세계 어느 곳에 숨어 있든, 끝까지 추적해 처벌합니다. 대규모 보이스피싱 조직",
-   "views": 40100,
+   "views": 41100,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oU9rIZjq1EKACAAxNBVioCpiI2BAtmA28wfcPR~tplv-tiktokx-origin.image?dr=14575&x-expires=1790467200&x-signature=LECEoD1c7vXCqJ4UW8BmEE%2BkAG4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -297,12 +297,23 @@
   {
    "account": "jaemyung_lee",
    "title": "다녀오겠습니다 🇺🇳🇲🇽 🇺🇳UN총회 9월 21일~23일 🇲🇽멕시코 국빈방문 9월 23일~26일 #이재명 #UNGA #mexico",
-   "views": 32800,
+   "views": 34400,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o8hqfADsO8SBzFR3qsnOMDUEgQTwBkvQerxPE0~tplv-tiktokx-origin.image?dr=14575&x-expires=1790467200&x-signature=99oeMJ9I6LJ99lZtrIq97sDg4I0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789981488,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7687911952084978951",
+   "region": "kr"
+  },
+  {
+   "account": "jaemyung_lee",
+   "title": "하나된 비전으로, 함께 열어갈 미래 #이재명 #대통령 #Mexico",
+   "views": 21200,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4GVECFMAFcjBkb1BADAIht8RNqguCCEAbEffz~tplv-tiktokx-origin.image?dr=14575&x-expires=1790467200&x-signature=a%2FL3mJRN6Dql6%2BLFTntwG45IYlk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "time": 1790294103,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7689254625827949842",
    "region": "kr"
   },
   {
@@ -319,23 +330,12 @@
   {
    "account": "tictok_ent",
    "title": "수지, 시민들의 욕을 부르는 미모 / 아누아(Anua) 포토월 더파운더즈의 글로벌 뷰티 브랜드 아누아(Anua)의 'PDRN 라인 팝업스토어' 오픈을 기념하는 포토행사가 18일 오전 서울 성동구 성수동에 위치한 올리",
-   "views": 8370,
+   "views": 8376,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ow8gANS3AmQCK2UqVEUCB50sGEQeIAFZAFArfD~tplv-tiktokx-origin.image?dr=14575&x-expires=1790467200&x-signature=1H2lmpvBt5IiWeRwVOaJP4hvKqo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789699186,
    "url": "https://www.tiktok.com/@tictok_ent/video/7686699475406015762",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "올데이프로젝트(ALLDAY PROJECT) 영서, 러블리 영서❤️ / ‘클리오 - 풍년다방 팝업 스토어’ 포토월 클리오의 K뷰티 No.1 메이크업 브랜드 클리오가 26FW 시즌을 맞아 풍년다방 에디션을 새롭게 출시하",
-   "views": 2430,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQie1A8qsAPFBAtAiykiCVLCUuyfI2JACYMgEB~tplv-tiktokx-origin.image?dr=14575&x-expires=1790467200&x-signature=S%2F%2F%2B%2BO%2FJ4k20HHUNgd2UZVgXo7g%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
-   "time": 1790062423,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7688259564650663175",
    "region": "kr"
   }
  ],
@@ -368,15 +368,6 @@
    "url": "https://www.reddit.com/r/food/comments/1wpe3dc/homemade_poached_beef_medallions_with_a_tomato/"
   },
   {
-   "sub": "technology",
-   "title": "McDonald's unveils $8.5 billion tech plan to fend off Burger King",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/T3BqK8u-YBBFYqHbFYfezPT7e_1iY7RFMyN7qx0SnuQ.jpeg?width=216&crop=smart&auto=webp&s=8231f9b4f6e5b8d594ec8a492f617cde79dbc668",
-   "time": 1790246824,
-   "url": "https://www.reddit.com/r/technology/comments/1woybnx/mcdonalds_unveils_85_billion_tech_plan_to_fend/"
-  },
-  {
    "sub": "news",
    "title": "Nolan Wells’ autopsy found no water in lungs; data was deleted from his phone the day he disappeared, experts say",
    "score": 0,
@@ -384,33 +375,6 @@
    "thumb": "",
    "time": 1790282458,
    "url": "https://www.reddit.com/r/news/comments/1wpczw3/nolan_wells_autopsy_found_no_water_in_lungs_data/"
-  },
-  {
-   "sub": "cats",
-   "title": "My cat said he wants to fight your cat. Photo replies only",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/cHl5cXBmeno3anJoMWtpcbnlIMvjRJy-CeWBxDZHZCwWkR0GZ5qKVHX0o7JH.jpeg?width=320&crop=smart&auto=webp&s=67d19a66ac7f605b24fadc33a2e86bfb45c0b851",
-   "time": 1790283503,
-   "url": "https://www.reddit.com/r/cats/comments/1wpdflr/my_cat_said_he_wants_to_fight_your_cat_photo/"
-  },
-  {
-   "sub": "SipsTea",
-   "title": "The sheer Audacity",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/9aajp9kwkfrh1.png?width=640&crop=smart&auto=webp&s=5d2692a0b3bc217e7165a18e01017c55266a71c6",
-   "time": 1790239412,
-   "url": "https://www.reddit.com/r/SipsTea/comments/1wowbhk/the_sheer_audacity/"
-  },
-  {
-   "sub": "PeterExplainsTheJoke",
-   "title": "Who's the lady? And what did she do? And what does any of it have to do with Jeffrey Epstien? Peter, help!",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/46zglof6ngrh1.jpeg?width=640&crop=smart&auto=webp&s=7399cbcca43d83db571dfca6d315e9d56597d787",
-   "time": 1790252282,
-   "url": "https://www.reddit.com/r/PeterExplainsTheJoke/comments/1wp038p/whos_the_lady_and_what_did_she_do_and_what_does/"
   },
   {
    "sub": "pics",
@@ -422,31 +386,67 @@
    "url": "https://www.reddit.com/r/pics/comments/1wpac1v/diplomats_walk_out_as_israeli_pm_benjamin/"
   },
   {
-   "sub": "dashcams",
-   "title": "She made a right turn from the center turn lane.",
+   "sub": "cats",
+   "title": "My cat said he wants to fight your cat. Photo replies only",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/ZTB0d3ZyZHhpZ3JoMTXD5X2iZRnzqhd0-vvmVp9345M96jpZyHUlyb1-JoaU.jpeg?width=640&crop=smart&auto=webp&s=440fe9d46722f75d463adf081a77382d7f0afd18",
-   "time": 1790250867,
-   "url": "https://www.reddit.com/r/dashcams/comments/1wozlgp/she_made_a_right_turn_from_the_center_turn_lane/"
+   "thumb": "https://external-preview.redd.it/cHl5cXBmeno3anJoMWtpcbnlIMvjRJy-CeWBxDZHZCwWkR0GZ5qKVHX0o7JH.jpeg?width=320&crop=smart&auto=webp&s=67d19a66ac7f605b24fadc33a2e86bfb45c0b851",
+   "time": 1790283503,
+   "url": "https://www.reddit.com/r/cats/comments/1wpdflr/my_cat_said_he_wants_to_fight_your_cat_photo/"
   },
   {
-   "sub": "ArcRaiders",
-   "title": "PvE Toggle Incoming",
+   "sub": "nextfuckinglevel",
+   "title": "Snake catcher in India calmly handles two massive cobras with his bare hands and a stick",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/hkyvbr32rhrh1.jpeg?width=640&crop=smart&auto=webp&s=01967866493a1d538fa9aa7b562ffc98e1c7d701",
-   "time": 1790265695,
-   "url": "https://www.reddit.com/r/ArcRaiders/comments/1wp5mcx/pve_toggle_incoming/"
+   "thumb": "https://external-preview.redd.it/MDNjY3F1MHd1aXJoMQUFyml5Vrcrt0C6oAr0WerFoq6WTD94oAqzaQ0UngXM.png?width=640&crop=smart&auto=webp&s=56f53b0a62af3239edb7237dc72444aaaec1b177",
+   "time": 1790279244,
+   "url": "https://www.reddit.com/r/nextfuckinglevel/comments/1wpbmh5/snake_catcher_in_india_calmly_handles_two_massive/"
   },
   {
-   "sub": "todayilearned",
-   "title": "TIL in Norway everyone's income, net wealth and tax paid are published online and anyone can search them. But you have to log in, the person you look up can see your name in their search history withi",
+   "sub": "technology",
+   "title": "McDonald's unveils $8.5 billion tech plan to fend off Burger King",
    "score": 0,
    "cmts": 0,
-   "thumb": "",
-   "time": 1790243630,
-   "url": "https://www.reddit.com/r/todayilearned/comments/1woxer8/til_in_norway_everyones_income_net_wealth_and_tax/"
+   "thumb": "https://external-preview.redd.it/T3BqK8u-YBBFYqHbFYfezPT7e_1iY7RFMyN7qx0SnuQ.jpeg?width=216&crop=smart&auto=webp&s=8231f9b4f6e5b8d594ec8a492f617cde79dbc668",
+   "time": 1790246824,
+   "url": "https://www.reddit.com/r/technology/comments/1woybnx/mcdonalds_unveils_85_billion_tech_plan_to_fend/"
+  },
+  {
+   "sub": "SipsTea",
+   "title": "The sheer Audacity",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/9aajp9kwkfrh1.png?width=640&crop=smart&auto=webp&s=5d2692a0b3bc217e7165a18e01017c55266a71c6",
+   "time": 1790239412,
+   "url": "https://www.reddit.com/r/SipsTea/comments/1wowbhk/the_sheer_audacity/"
+  },
+  {
+   "sub": "TikTokCringe",
+   "title": "Forgiven, but never forgotten",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/anl4M3RlbHozanJoMTkPJFBzTxK4y36AmAegBE0BpwRQkyzeOJ2ExpgSkwKG.jpeg?width=320&crop=smart&auto=webp&s=b4b9de0b7d9c6773b9c719e3849684225ad7567e",
+   "time": 1790282160,
+   "url": "https://www.reddit.com/r/TikTokCringe/comments/1wpcvik/forgiven_but_never_forgotten/"
+  },
+  {
+   "sub": "adhdmeme",
+   "title": "Currently there right now tbh",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/r4073w3q5jrh1.png?width=640&crop=smart&auto=webp&s=738e7da08ef54d2fd87f589f7b38ea6dfc346df9",
+   "time": 1790282737,
+   "url": "https://www.reddit.com/r/adhdmeme/comments/1wpd46d/currently_there_right_now_tbh/"
+  },
+  {
+   "sub": "PeterExplainsTheJoke",
+   "title": "Who's the lady? And what did she do? And what does any of it have to do with Jeffrey Epstien? Peter, help!",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/46zglof6ngrh1.jpeg?width=640&crop=smart&auto=webp&s=7399cbcca43d83db571dfca6d315e9d56597d787",
+   "time": 1790252282,
+   "url": "https://www.reddit.com/r/PeterExplainsTheJoke/comments/1wp038p/whos_the_lady_and_what_did_she_do_and_what_does/"
   }
  ],
  "disaster": [],
@@ -468,10 +468,10 @@
   },
   "why": {},
   "landing": {
-   "at": "2026-09-25T08:35:16",
+   "at": "2026-09-25T09:01:25",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-09-25T09:01:22.719110+09:00"
+ "updated": "2026-09-25T09:31:26.728955+09:00"
 }
