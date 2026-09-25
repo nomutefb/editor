@@ -1391,6 +1391,37 @@ def _vision_keep(rep_src, cand_src):
     return cand_src   # (점화 시: 대표와 동일 인물/장면이면 None 반환해 컷)
 
 
+_DUP_HAM = _int_env("THUMB_DUP_HAM", 6)   # 같은 사진 판정 해밍 거리 상한(64비트 dHash · 0 = 끔)
+
+
+def _dhash(img_bytes):
+    """이미지 bytes → 64비트 차분 해시(16진 16자 · 실패·PIL 부재 = '' = 판정 보류). 통신사 사진을 여러 매체가 재호스팅하면
+    URL 은 달라도 같은 사진이다(평의회 260925 실측 = AP 사진 재게재 해시 거리 0 쌍 2개) — URL dedup(_norm_key)이 못 잡는 축."""
+    try:
+        import io
+        from PIL import Image
+        im = Image.open(io.BytesIO(img_bytes)).convert("L").resize((9, 8))
+        px = list(im.getdata())
+        bits = 0
+        for r in range(8):
+            for c in range(8):
+                bits = (bits << 1) | (1 if px[r * 9 + c] > px[r * 9 + c + 1] else 0)
+        return "%016x" % bits
+    except Exception:
+        return ""
+
+
+def _dup_of(h, seen_hashes):
+    """h 가 이미 받은 사진과 같은 사진인가(해밍 ≤ _DUP_HAM). 빈 해시·게이트 0 = False(보류 = 종전 동작)."""
+    if not h or _DUP_HAM <= 0:
+        return False
+    v = int(h, 16)
+    for o in seen_hashes:
+        if o and bin(v ^ int(o, 16)).count("1") <= _DUP_HAM:
+            return True
+    return False
+
+
 def _is_logo_card(img_bytes):
     """솔리드 배경 + 텍스트 = 매체 로고/브랜딩 카드(예: '아시아경제' 빨강 og:image) 추정 → True(컷).
     이미지를 픽셀로 *직접 본다*(운영자 '일일이 안 봤다' 지적). PIL 없거나 판독 실패면 False(통과=무회귀).
@@ -1635,16 +1666,23 @@ def process_one(md, stem, redo_new=""):
     if (art_url or image_sources or _gn_ready(md)) and not os.path.exists(os.path.join(tdir, "search.json")):
         cand = fetch_article_images(art_url, alt_urls=alt_urls, image_sources=image_sources, want=7)   # 3→7장(og:image fetch는 과금0 · dedup·필터 그대로 = 유사 컷 동일 · 한·외신 공통 · 운영자 260622)
         cand = gnews_topup(md, cand, exclude=[art_url] + list(alt_urls or []) + list(image_sources or []), want=7)   # 모자라면 구글 뉴스 검색(LLM 0 · 운영자 260925)
-        items = []
+        items, hashes = [], []
         for i, c in enumerate(cand):
-            final = None
+            final, h = None, ""
             if R2_ON:
                 b, ctype, ext = http_image(c["src"])        # 매직바이트 검증된 안전 ctype·ext
                 if b and _is_logo_card(b):                  # 매체 로고/브랜딩 카드(솔리드+텍스트) = 픽셀 직접 검사 컷(운영자 260622)
                     print("  ⏭ 매체 로고/브랜딩 컷 ({}…)".format((c.get("link") or c["src"])[:42])); continue
+                h = _dhash(b) if b else ""
+                if _dup_of(h, hashes):                      # 같은 사진의 타매체 재게재(통신사 사진) = 자리만 먹는다(260925)
+                    print("  ⏭ 같은 사진 중복 컷 ({}…)".format((c.get("link") or c["src"])[:42])); continue
                 if b:
                     final = r2_upload(b, "thumbs/{}/search-{}.{}".format(stem, i, ext), ctype)
-            items.append({"url": final or c["src"], "link": c["link"], "label": c["label"]})
+            it = {"url": final or c["src"], "link": c["link"], "label": c["label"]}
+            if h:
+                it["dh"] = h                                # 보충(more_images)이 기존 사진과 대조하는 지문 · 빌드는 url·link·label 만 읽음
+                hashes.append(h)
+            items.append(it)
         # 빈 결과(차단매체·사진無)도 search.json=[] 1회 기록 → 매 런 재fetch(좀비 슬롯잠식) 차단(앵글7·10)
         json.dump(items, open(os.path.join(tdir, "search.json"), "w", encoding="utf-8"),
                   ensure_ascii=False, indent=2)

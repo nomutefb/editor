@@ -15,6 +15,7 @@ from unittest.mock import patch
 ROOT = Path(__file__).resolve().parents[1]
 os.environ.setdefault('GEMINI_API_KEY', 'test-noop')   # thumb_gen 모듈 상단 no-op 분기 회피(호출 0)
 sys.path.insert(0, str(ROOT / '.github' / 'scripts'))
+sys.path.insert(0, str(ROOT / 'shared'))
 gn = importlib.import_module('gnews_search')
 tg = importlib.import_module('thumb_gen')
 
@@ -213,6 +214,58 @@ class SearchTest(unittest.TestCase):
             self.assertFalse(gn.enabled())
         with patch.dict(os.environ, {'GNEWS_IMG': '1'}):
             self.assertTrue(gn.enabled())
+
+
+class FindOriginalTest(unittest.TestCase):
+    def _http(self, rss):
+        base = fake_http()
+
+        def http(url, data=None, headers=None, timeout=12):
+            return rss if '/rss/search' in url else base(url, data, headers, timeout)
+        return http
+
+    def test_same_title_and_media_is_taken(self):
+        rss = '<rss>' + _item('소주 분유 먹인 친부 징역 7년 - 다음', 'A1', 'https://v.daum.net') \
+            + '<item><title>소주 분유 먹인 친부 징역 7년 - 서울신문</title><link>https://news.google.com/rss/articles/A3?oc=5</link>' \
+              '<pubDate>Thu, 25 Sep 2026 01:00:00 GMT</pubDate><source url="https://amp.seoul.co.kr">서울신문</source></item></rss>'
+        gn._RSS_CACHE.clear()
+        self.assertEqual(gn.find_original('소주 분유 먹인 친부 징역 7년', '서울신문', http=self._http(rss), now_ts=NOW),
+                         'https://amp.seoul.co.kr/seoul/2')   # 포털 사본(다음) 건너뛰고 매체 일치 원문
+
+    def test_media_mismatch_or_other_title_is_rejected(self):
+        rss = '<rss><item><title>소주 분유 먹인 친부 징역 7년 - 서울신문</title><link>https://news.google.com/rss/articles/A3?oc=5</link>' \
+              '<pubDate>Thu, 25 Sep 2026 01:00:00 GMT</pubDate><source url="https://amp.seoul.co.kr">서울신문</source></item></rss>'
+        gn._RSS_CACHE.clear()
+        self.assertEqual(gn.find_original('소주 분유 먹인 친부 징역 7년', '헤럴드경제', http=self._http(rss), now_ts=NOW), '')
+        gn._RSS_CACHE.clear()
+        self.assertEqual(gn.find_original('전혀 다른 제목의 기사입니다', '서울신문', http=self._http(rss), now_ts=NOW), '')
+        gn._RSS_CACHE.clear()
+
+
+class DupHashTest(unittest.TestCase):
+    def test_dup_threshold(self):
+        self.assertTrue(tg._dup_of('ffffffffffffffff', ['fffffffffffffff0']))    # 거리 4 ≤ 6
+        self.assertFalse(tg._dup_of('ffffffffffffffff', ['0000000000000000']))
+        self.assertFalse(tg._dup_of('', ['ffffffffffffffff']))                  # 지문 없음 = 보류
+        self.assertEqual(tg._dhash(b'not an image'), '')
+
+
+class SourceCheckTest(unittest.TestCase):
+    def test_numbers_outside_source_and_fact_are_listed(self):
+        import io, contextlib
+        dg = importlib.import_module('digest_guard')
+        md = '---\ntitle: "t"\n---\n## 📰 Fact (확인된 사실)\n- 피해자 3명\n\n## 자유요약\n```text\n피해자 3명, 재산 피해 40억 원\n```\n'
+        with tempfile.TemporaryDirectory() as d:
+            mp, sp = os.path.join(d, 'a.md'), os.path.join(d, 's.txt')
+            Path(mp).write_text(md, encoding='utf-8')
+            Path(sp).write_text('원문: 피해자 3명이 나왔다', encoding='utf-8')
+            with patch.object(dg, '_blk', side_effect=lambda body, name: '피해자 3명, 재산 피해 40억 원' if name == '자유요약' else ''):
+                buf = io.StringIO()
+                with contextlib.redirect_stdout(buf):
+                    rc = dg.source_check(mp, sp)
+        self.assertEqual(rc, 0)
+        self.assertIn('숫자 1', buf.getvalue())
+        self.assertIn('40억', buf.getvalue())
 
 
 class ThumbLaneTest(unittest.TestCase):

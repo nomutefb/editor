@@ -30,6 +30,7 @@ _ITEM_RE = re.compile(r"<item>(.*?)</item>", re.S)
 _TITLE_RE = re.compile(r"<title>(.*?)</title>", re.S)
 _LINK_RE = re.compile(r"<link>(https://news\.google\.com/rss/articles/[^<\s]+)</link>")
 _SRC_RE = re.compile(r'<source url="([^"]*)"')
+_SRCNAME_RE = re.compile(r'<source url="[^"]*">(.*?)</source>', re.S)
 _PUB_RE = re.compile(r"<pubDate>(.*?)</pubDate>", re.S)
 _HEADTAG_RE = re.compile(r"^\s*(?:[\[【<(（][^\]】>)）]{1,12}[\]】>)）]|\S{1,4}\))\s*")   # [단독]·[포토]·<속보>·(종합)·속보) 머리말
 _SRC_TAIL_RE = re.compile(r"\s+-\s+[^-]{1,40}$")   # RSS 제목 끝 「 - 매체명」
@@ -71,8 +72,10 @@ def parse_rss(xml):
         tm = _TITLE_RE.search(it)
         sm = _SRC_RE.search(it)
         pm = _PUB_RE.search(it)
+        nm = _SRCNAME_RE.search(it)
         out.append({"title": _unescape(tm.group(1)) if tm else "", "link": lm.group(1),
-                    "source": _unescape(sm.group(1)) if sm else "", "pub": _pub_ts(pm.group(1)) if pm else 0})
+                    "source": _unescape(sm.group(1)) if sm else "", "pub": _pub_ts(pm.group(1)) if pm else 0,
+                    "sname": _unescape(nm.group(1)) if nm else ""})
     return out
 
 
@@ -332,3 +335,28 @@ def _http_cached(url, http):
     if r:   # 실패('')는 캐시하지 않는다(같은 프로세스 다음 기사에서 재시도)
         _RSS_CACHE[url] = r
     return r
+
+
+def find_original(title, media="", http=_http, now_ts=None):
+    """원문 URL 찾기(LLM 0 · 260925) — 요약 frontmatter url 이 빈 기사(요약 요청·차단 매체)의 **바로 그 기사** 주소.
+    판정 = 구글 뉴스 결과 제목(끝 「 - 매체」 제거·정규화)이 우리 제목과 같고, 매체명이 주어졌으면 결과 매체명과도 맞을 때만.
+    애매하면 '' (지어내기 0 · 호출부가 종전 Claude 임무로 폴백). 포털 사본은 원문이 아니라 제외."""
+    nt = norm_title(title)
+    if not nt or len(nt) < 8:
+        return ""
+    now = time.time() if now_ts is None else now_ts
+    med = re.sub(r"\s+", "", (media or "")).lower()
+    for it in parse_rss(_http_cached(rss_url(clean_query(title)), http))[:10]:
+        if it["pub"] and abs(now - it["pub"]) > MAX_AGE_D * 86400:
+            continue
+        if norm_title(it["title"]) != nt:
+            continue
+        sn = re.sub(r"\s+", "", it.get("sname", "")).lower()
+        if med and sn and med not in sn and sn not in med:
+            continue
+        if _host(it["source"]) in _PORTAL_HOSTS:
+            continue
+        u = decode(it["link"], http=http)
+        if u and _host(u) not in _PORTAL_HOSTS:
+            return u
+    return ""

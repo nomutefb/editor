@@ -20,6 +20,33 @@ ASK_SAFE_ARGS=()
 if [ "$ASK_SAFE_MODE" = "1" ]; then ASK_SAFE_ARGS=(--safe-mode); fi
 source "$ROOT/shared/summary_repair.sh"    # 분량 가드 SSOT — IG/Thread 과소 시 1회 보강(기본 OFF·SUMMARY_LEN_GUARD='1' · 260705)
 source "$ROOT/shared/summary_polish.sh"    # 한국어 윤문 SSOT — 요약 뒤 문체만 별도 1콜(운영자 260823 «프롬프트 무접촉·기능 분리» · 기본 OFF = summary_polish.sh 게이트 줄(SUMMARY_POLISH:-0) 정본 · 운영자 260908 «off» 확정 · SUMMARY_POLISH='1'로만 켬)
+# ── 건별 착지(운영자 260728 "원천 해결" · 260925 1차/2차 분리) — 레퍼런스 = ly-make.yml 조기 커밋 + Commit 스텝 pull 관용구 그대로.
+#   유실의 뿌리 = 산출물 보존이 런 끝 단일 커밋 1점(260727 실측: 요약 완성 4초 뒤 커밋 거부 = 완성본 통째 유실 →
+#   pending-sweep 크론 실측 62~140분 지연에 물려 회수까지 126분). 성공한 그 자리에서 {다이제스트 + 소비한 ask 삭제 +
+#   failed 격리 정리}를 즉시 커밋·푸시하면 유실 창이 런 전체(수십 분) → 건당 수 초로 봉인.
+#   ⓐ fail-soft — 미착지여도 런은 계속, 최종 Commit 스텝이 종전대로 줍는다(2중 방어 · 악화 경로 0).
+#   ⓑ 이 푸시의 asks/** 변경 = 소비 삭제뿐 → news-ask 재트리거는 ASK_ONLY diff-filter=AM no-op 분기가 즉시 종료(기설계 계승).
+#   ⓒ git_land.sh 미사용 사유 = reset --hard 재적층이 런 중간의 미커밋 상태(앞 기사 failed git mv 등)를 파괴 —
+#      유일 기록자 전제도 asks 공유 경로라 미충족. 조기 커밋+rebase 관용구(ly-make 정본)가 상태 보존형이라 적합.
+#   ⓓ 호출 2회(260925) = 보강 전 1차(요약 먼저 화면에) · 보강 뒤 2차(바뀐 경우만 · 스테이지 변경 0 = 커밋 0).
+ask_land() {
+  [ -n "${GITHUB_ACTIONS:-}" ] || return 0
+  local of="$1" b="$2" tag="$3" _landed=0 _i
+  git config user.name  "github-actions[bot]"
+  git config user.email "github-actions[bot]@users.noreply.github.com"
+  git add "$of" asks
+  git diff --cached --quiet && return 0
+  if git commit -q -m "ask: 요약 요청 큐레이션(${tag}) ${b}"; then
+    for _i in 1 2 3; do
+      if git pull --rebase --autostash -X theirs origin main && git push origin HEAD:main; then _landed=1; break; fi
+      git rebase --abort 2>/dev/null || true
+      sleep $((_i * 2))
+    done
+    if [ "$_landed" = 1 ]; then echo "  ${tag} 완료 → $of"
+    else echo "::warning::${tag} push 미완(${b}) — 로컬 커밋은 보존, 최종 Commit 스텝이 줍는다"; fi
+  fi
+  return 0
+}
 INLINE_TRIES=4   # 인라인 재시도 = 4계정 폴오버 체인 깊이(서브3까지 실호출) + 일시 과부하(529/5xx)·타임아웃(rc=124)·버스트 ✨요약요청 유실 차단(analyze와 동일·260622·4계정 3→4)
 EFFORT="${PIPE_SEARCH_EFFORT:-high}"   # 검색·요약 추론깊이 — high(운영자 260912 지시 · 구 max = 260810). 실측(metrics ask 181건) = max 54건 중앙값 476s·p90 564s vs high 11건 212s·p90 241s(출력 토큰 31k vs 13k = 사고 토큰이 시간) · 600s 타임아웃 실패 4건 전부 max 기간. 요약 요청 한 건 화면 도달 평균 11분 → 6분대 축. ⚠ analyze.sh 는 max 유지(900s 상한 · 별도 레인) = 비대칭 의도. 롤백 = repo 변수 ASK_EFFORT=max(news-ask.yml env → 이 값).
 ASK_TIMEOUT="${ASK_TIMEOUT:-600}"      # claude -p 타임아웃(초) — 요약요청은 요약만이라 10분이면 충분(검색완화 후). 초과 시 같은 계정에서 노력도 한 단계 하향(claude_effort_down) 1회 재시도 후 격리(260912 · 구 「계정 1회 전환」[운영자 260704]은 사다리 바닥(medium)일 때만 폴백 · 옛 900s는 배치 timeout 시 45분→워크플로 초과라 하향).
@@ -514,6 +541,12 @@ else:
   outfile="queue/${stamp}-${id}.md"
   n=2; while [ -e "$outfile" ]; do outfile="queue/${stamp}-${id}-${n}.md"; n=$((n+1)); done
   printf '%s\n' "$out" > "$outfile"
+  # 1차 착지 = 윤문·분량 보강 **전에** 요약부터 main 에 올린다(운영자 260925 «추가 아이디어 진행» · analyze 260905 동문 —
+  #   보강(최대 수 분)이 도는 동안 화면엔 이미 요약이 떠 있고, 끝나면 아래 2차 착지가 같은 파일을 최종본으로 덮는다).
+  #   소비(요청 파일 삭제·failed 정리)도 1차에 싣는다 = 보강 중 러너가 죽어도 스윕이 같은 요청을 재요약하는 중복 0.
+  rm -f "$f"
+  rm -f "asks/failed/${base}.json" "asks/failed/${base}.log"   # 성공이 격리를 이긴다 — 병렬 중복 런의 성공/실패 발산 시 '피드 성공+대기열 FAIL' 공존 차단(적대검증 B1 · git add asks 가 삭제도 스테이지)
+  ask_land "$outfile" "$base" "조기 착지"
   # 분량 가드(기본 OFF · SUMMARY_LEN_GUARD='1' 카나리아) — IG/Thread 과소 시 자유요약에서 1회 보강(잡 예산 내 · fail-soft · 260705 · repair ≤+480s는 다음-기사 헤드룸(2×600s) 내 = 잡 최악 무변·평의회8)
   # 순서 계약(260823) = 윤문 → 수선(analyze 동문)
   if [ "$SECONDS" -le "$ASK_JOB_DEADLINE" ]; then summary_polish "$outfile" ask-polish; fi
@@ -521,36 +554,11 @@ else:
   # 규격·자수 기계 린트(비차단 · analyze.sh 미러 · 분신술② NEW-1 · 260703) — ask 경로 다이제스트 사각지대 해소(검증4). 가드 뒤 = 최종본 실측.
   python3 shared/digest_guard.py "$outfile" 2>/dev/null | sed 's/^/  /' || true
   python3 shared/digest_guard.py --derive "$outfile" 2>/dev/null | sed 's/^/  /' || true   # 파생 무결성(자유요약→IG·Thread 소속 소실·무주어 개문·날조 수치) 비차단 경고 · 260810
-  rm -f "$f"
-  rm -f "asks/failed/${base}.json" "asks/failed/${base}.log"   # 성공이 격리를 이긴다 — 병렬 중복 런의 성공/실패 발산 시 '피드 성공+대기열 FAIL' 공존 차단(적대검증 B1 · git add asks 가 삭제도 스테이지)
   title="$(grep -m1 '^title:' <<<"$out" | sed -E 's/^title:[[:space:]]*//; s/^"//; s/"$//')"
   title_ko="$(grep -m1 '^title_ko:' <<<"$out" | sed -E 's/^title_ko:[[:space:]]*//; s/^"//; s/"$//')"   # 외신 한국어 번역 제목(완료 푸시 우선 · analyze.sh 미러 · 260703)
   echo "${title_ko:-${title:-$id}}" >> /tmp/analyzed_titles.txt
   basename "$outfile" >> /tmp/analyzed_files.txt   # 완료 푸시 딥링크용(요약 창 ?a=)
   echo "성공 → $outfile (${title:-$id})"
-  # ── 건별 조기 착지(운영자 260728 "원천 해결") — 레퍼런스 = ly-make.yml 조기 커밋 + Commit 스텝 pull 관용구 그대로.
-  #   유실의 뿌리 = 산출물 보존이 런 끝 단일 커밋 1점(260727 실측: 요약 완성 4초 뒤 커밋 거부 = 완성본 통째 유실 →
-  #   pending-sweep 크론 실측 62~140분 지연에 물려 회수까지 126분). 성공한 그 자리에서 {다이제스트 + 소비한 ask 삭제 +
-  #   failed 격리 정리}를 즉시 커밋·푸시하면 유실 창이 런 전체(수십 분) → 건당 수 초로 봉인 = 뒤 스텝·타 기사 실패·
-  #   러너 증발·push 전패 어느 방아쇠에도 완료분은 무사, 회수 크론 지연은 무해화.
-  #   ⓐ fail-soft — 미착지여도 런은 계속, 최종 Commit 스텝이 종전대로 줍는다(2중 방어 · 악화 경로 0).
-  #   ⓑ 이 푸시의 asks/** 변경 = 소비 삭제뿐 → news-ask 재트리거는 ASK_ONLY diff-filter=AM no-op 분기가 즉시 종료(기설계 계승).
-  #   ⓒ git_land.sh 미사용 사유 = reset --hard 재적층이 런 중간의 미커밋 상태(앞 기사 failed git mv 등)를 파괴 —
-  #      유일 기록자 전제도 asks 공유 경로라 미충족. 조기 커밋+rebase 관용구(ly-make 정본)가 상태 보존형이라 적합.
-  if [ -n "${GITHUB_ACTIONS:-}" ]; then
-    git config user.name  "github-actions[bot]"
-    git config user.email "github-actions[bot]@users.noreply.github.com"
-    git add "$outfile" asks
-    if git commit -q -m "ask: 요약 요청 큐레이션(조기 착지) ${base}"; then
-      _landed=0
-      for _i in 1 2 3; do
-        if git pull --rebase --autostash -X theirs origin main && git push origin HEAD:main; then _landed=1; break; fi
-        git rebase --abort 2>/dev/null || true
-        sleep $((_i * 2))
-      done
-      if [ "$_landed" = 1 ]; then echo "  조기 착지 완료 → $outfile"
-      else echo "::warning::조기 착지 push 미완(${base}) — 로컬 커밋은 보존, 최종 Commit 스텝이 줍는다"; fi
-    fi
-  fi
+  ask_land "$outfile" "$base" "보강본"   # 2차 착지 = 윤문·분량 보강으로 바뀐 경우만(변경 0 = 커밋 0 · analyze 2차 착지 동문)
   echo "::endgroup::"
 done

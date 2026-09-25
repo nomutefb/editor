@@ -94,7 +94,20 @@ prompt_excl = sorted(exclude_srcs)[:30]   # 프롬프트엔 종전 제외 목록
 exclude_srcs |= {u.rstrip("/") for u in gn_links}   # 코드 필터(아래 Claude 산출 거르기)엔 포함 = 같은 기사 재채택 0
 LLM_ON = os.environ.get("MOREIMG_LLM", "1").strip() != "0"   # '0' = 구글 레인만(Claude 콜 0)
 IMG_ASK = max(0, WANT - len(gn_cand)) * 3   # Claude 에 청할 이미지 소스 수 = 구글이 채우고 남은 몫만(구 = 항상 WANT×3)
-need_llm = LLM_ON and (need_url or IMG_ASK > 0)
+# 원문 URL 도 구글 먼저(LLM 0 · 260925) — 결과 제목이 우리 제목과 같고 매체명도 맞을 때만 채택(애매하면 '' = 종전 Claude 임무).
+gn_orig = ""
+if need_url:
+    try:
+        import gnews_search as gn
+        if gn.enabled():
+            gn_orig = gn.find_original(fm_title or head, fm_media, now_ts=gn.ref_ts(md) or None)
+            if gn_orig and not tg._url_ok(gn_orig):
+                gn_orig = ""
+            print("구글 뉴스 원문 URL 찾기(LLM 0) — {}".format("찾음" if gn_orig else "못 찾음(Claude 임무로)"), flush=True)
+    except Exception as e:  # noqa: BLE001
+        print("::warning::구글 원문 URL 찾기 실패(무시): {}".format(str(e)[:160]), flush=True)
+url_task = need_url and not gn_orig   # Claude 에 원문 URL 임무를 맡길지(구글이 찾았으면 안 맡김)
+need_llm = LLM_ON and (url_task or IMG_ASK > 0)
 
 prompt = """다음은 한 뉴스기사의 큐레이션 요약·시사점이다. 이 기사의 **카드뉴스 썸네일 배경 이미지**로 쓸 관련 사진을 더 찾아라.
 
@@ -123,15 +136,15 @@ prompt = """다음은 한 뉴스기사의 큐레이션 요약·시사점이다. 
 - 동률이면 사진이 큰 매체를 우선하라(통신사·종합일간지 원본 사진 기사).""".format(
     head=head, body=body, excl=("\n".join(prompt_excl) or "(없음)"), want=WANT,
     ask=max(1, IMG_ASK),
-    urltask=("" if not need_url else """
+    urltask=("" if not url_task else """
 [추가 임무 — 이 기사의 원문 URL 찾기(지금 원문 링크가 비어 있다)]
 - 단서: 매체="{m}" · 기자="{r}" · 제목="{t}". WebSearch(매체+기자명+제목 핵심어 조합)로 **그 매체 공식 사이트의 바로 그 기사** URL을 찾아라.
 - 봇차단 매체라 WebFetch가 403이어도 **검색 결과에 실제로 나온 URL이면 충분**(내용 접근 불필요). 검색 결과에 없는 URL 지어내기 금지(사실 무결성).
 - 원 매체에서 못 찾으면 포털(네이버/다음) 재게재본 URL 허용(원 매체 우선). 그래도 없으면 '없음'.
 """.format(m=fm_media or "미상", r=fm_reporter or "미상", t=fm_title or head)),
-    urlfmt=("" if not need_url else " 단, **출력 맨 첫 줄**은 원문 URL 임무의 결과로 `ORIG_URL: <URL>` 한 줄(못 찾았으면 `ORIG_URL: 없음`) — 이미지 소스 URL들은 그 다음 줄부터."))
+    urlfmt=("" if not url_task else " 단, **출력 맨 첫 줄**은 원문 URL 임무의 결과로 `ORIG_URL: <URL>` 한 줄(못 찾았으면 `ORIG_URL: 없음`) — 이미지 소스 URL들은 그 다음 줄부터."))
 
-if need_url and IMG_ASK == 0:   # 사진은 구글 레인이 채웠다 = 원문 URL 임무만(이미지 검색 0 · 콜 크기 축소 · 260925 평의회)
+if url_task and IMG_ASK == 0:   # 사진은 구글 레인이 채웠다 = 원문 URL 임무만(이미지 검색 0 · 콜 크기 축소 · 260925 평의회)
     prompt = """다음 뉴스기사의 원문 URL 한 개만 찾아라(사진 찾기는 하지 마라).
 [추가 임무 — 이 기사의 원문 URL 찾기(지금 원문 링크가 비어 있다)]
 - 단서: 매체="{m}" · 기자="{r}" · 제목="{t}". WebSearch(매체+기자명+제목 핵심어 조합)로 **그 매체 공식 사이트의 바로 그 기사** URL을 찾아라.
@@ -148,7 +161,7 @@ else:
   _args = ["claude", "-p", "--model", MODEL, "--effort", "high",   # --bare 제거(OAuth 즉사 방지 · 260718) — 계정 로테이션은 폴오버 SSOT가 담당
            "--allowedTools", "WebFetch,WebSearch",
            "--disallowedTools", "Write,Edit,NotebookEdit,Bash,Task",
-           "--max-turns", "60"]   # 40→60(260726 Q583): 이미지 N개 접근검증 + 원문 URL 임무 겸무 후 40턴 소진 정황(3.5분 rc=1·부분산출 실측) — ask.sh 50턴 형제축 상회분 = 이중 임무 헤드룸
+           "--max-turns", ("15" if (url_task and IMG_ASK == 0) else "60")]   # 원문 URL 전용 = 15(검색 몇 번이면 끝 · 260925) · 그 외 40→60(260726 Q583): 이미지 N개 접근검증 + 원문 URL 임무 겸무 후 40턴 소진 정황(3.5분 rc=1·부분산출 실측) — ask.sh 50턴 형제축 상회분 = 이중 임무 헤드룸
   # 폴오버 SSOT 경유 — 주계정 쿼터(주간한도) 시 백업 4계정 자동 전환(운영자 260718 "전사 적용" · 예외도 내부 처리 = fail-soft)
   res, rc, err = run_claude(_args, prompt, timeout=900, source="moreimg")
   out = (res.stdout if res else "") or ""
@@ -182,6 +195,8 @@ print("Claude 제안 신규 소스 {}개".format(len(urls)), flush=True)
 
 # 원문 URL 백필(운영자 260726) — frontmatter `url: ""` 를 찾은 URL로 교체. 이미지 0장이어도 이건 저장하고 나가야
 # 해서 아래 '새 소스 0' 종료보다 먼저. 커밋은 moreimg.yml 이 queue/ 도 add(치환 실패 = 경고만·fail-soft).
+if need_url and not orig_url and gn_orig:
+    orig_url = gn_orig   # Claude 를 안 불렀거나 못 찾았어도 구글이 찾은 원문을 쓴다(아래 백필·대표사진 경로 공용)
 if need_url and orig_url:
     md2 = re.sub(r'^url:\s*""\s*$', lambda _m: 'url: "{}"'.format(orig_url), md, count=1, flags=re.M)
     if md2 != md:
@@ -207,21 +222,29 @@ if urls or orig_url:
             (_lead if orig_url and c.get("link") == orig_url else cand).append(c)
     cand = _lead + cand
 new_items = []
+_hashes = [x.get("dh", "") for x in existing if x.get("dh")]   # 기존 사진 지문(thumb_gen 260925~ 기록분) — 같은 사진 재게재 컷 대조용
 for i, c in enumerate(cand):
     if tg._norm_key(c.get("src", "")) in existing_urls:
         continue
     if (c.get("link") or "").rstrip("/") in existing_links:
         continue
-    final = None
+    final, dh = None, ""
     if tg.R2_ON:
         b, ctype, ext = tg.http_image(c["src"])
         if b and tg._is_logo_card(b):   # 매체 로고/브랜딩 카드(솔리드+텍스트) = 픽셀 직접 검사 컷(운영자 260622)
             print("  ⏭ 매체 로고/브랜딩 컷 ({}…)".format((c.get("link") or c["src"])[:42])); continue
+        dh = tg._dhash(b) if b else ""
+        if tg._dup_of(dh, _hashes):   # 같은 사진의 타매체 재게재 = 이미 있는 사진(260925)
+            print("  ⏭ 같은 사진 중복 컷 ({}…)".format((c.get("link") or c["src"])[:42])); continue
         if b:
             h = hashlib.sha1((c["src"] or "").encode("utf-8")).hexdigest()[:10]   # src 해시 = 키 고유(런 반복·같은 len 덮어쓰기 방지·평의회 검증). 같은 이미지=같은 키=동일내용 덮어씀(무해)
             final = tg.r2_upload(b, "thumbs/{}/more-{}.{}".format(STEM, h, ext), ctype)
     url = final or c["src"]
-    new_items.append({"url": url, "link": c.get("link", ""), "label": "유사"})   # 신규 = '유사'(원본 대표 라벨 보존)
+    it = {"url": url, "link": c.get("link", ""), "label": "유사"}   # 신규 = '유사'(원본 대표 라벨 보존)
+    if dh:
+        it["dh"] = dh
+        _hashes.append(dh)
+    new_items.append(it)
     existing_urls.add(tg._norm_key(url))
 
 def _again(total, round_no, got):

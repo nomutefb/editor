@@ -14,6 +14,7 @@ from pathlib import Path
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "apps", "news"))
 from fact_guard import check as _number_check
+from fact_guard import quote_check as _quote_check
 sys.path.pop(0)
 
 _DISCLAIMER = re.compile(r"^⚠️ 본문 내용은.*$", re.M)   # 편향 가드 면책 한 줄(지침: 카운트 제외)
@@ -377,12 +378,47 @@ def splice(path, cand_path):
     print("SPLICE " + " · ".join(results))
     return 0
 
+def source_check(path, src_path):
+    """원문 대비 날조 후보(비차단 로그 · 260925 운영자 «추가 아이디어 진행») — 초안(자유요약·IG·Thread·시사점)의 숫자·인용이
+    원문(사전 추출 본문) + 📰 Fact 어디에도 없으면 후보로 센다. 구판 = A/B 하네스(summary_ab_eval F1·F2) 전용이라 운영 요약은
+    원문 방향 대조가 0이었다(derive_check = 자유요약→파생 방향만). ⚠️ 보강 검색으로 온 사실은 Fact 에 실리면 허용 · 안 실리면
+    후보로 잡히므로 경고가 아니라 참고(ℹ️) — 반복 패턴이 보이면 그때 표적 수선 트리거로 승격."""
+    try:
+        body = Path(path).read_text(encoding="utf-8")
+        src = Path(src_path).read_text(encoding="utf-8")
+    except Exception as e:
+        print("ℹ️ source: 읽기 실패 %s" % e)
+        return 0
+    if not src.strip():
+        return 0
+    free, ig, th = _blk(body, "자유요약"), _blk(body, "IG"), _blk(body, "Thread")
+    if not free:
+        return 0
+    m = re.search(r"^## 📰 Fact[^\n]*\n(.*?)(?=^## |\Z)", body, re.S | re.M)
+    fact = m.group(1) if m else ""
+    insight = body.split("### 💡 이 기사의 시사점", 1)[1] if "### 💡 이 기사의 시사점" in body else ""
+    draft = "\n".join(x or "" for x in (free, ig, th)) + "\n" + insight
+    allow = src + "\n" + fact
+    nums, quotes = _number_check(allow, draft), _quote_check(allow, draft)
+    if not nums and not quotes:
+        print("SRCCHK ✓ 초안 숫자·인용 = 원문·Fact 안")
+        return 0
+    print("SRCCHK ℹ️ 원문·Fact 에 없는 숫자 %d · 인용 %d (보강 검색분이면 무해 · 반복되면 확인)" % (len(nums), len(quotes)))
+    for n in nums[:8]:
+        print("    · 숫자 %s" % n)
+    for q in quotes[:4]:
+        print("    · 인용 「%s」" % q[:60])
+    return 0
+
+
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("사용: digest_guard.py [--repair-check|--splice <후보>] <queue/xxx.md>"); sys.exit(0)
+        print("사용: digest_guard.py [--repair-check|--splice <후보>|--derive|--source <md> <원문>] <queue/xxx.md>"); sys.exit(0)
     try:
         if sys.argv[1] == "--derive" and len(sys.argv) >= 3:
             sys.exit(derive_check(sys.argv[2]))
+        if sys.argv[1] == "--source" and len(sys.argv) >= 4:
+            sys.exit(source_check(sys.argv[2], sys.argv[3]))
         if sys.argv[1] == "--repair-check" and len(sys.argv) >= 3:
             sys.exit(repair_check(sys.argv[2]))
         if sys.argv[1] == "--splice" and len(sys.argv) >= 4:

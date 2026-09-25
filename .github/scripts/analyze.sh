@@ -453,10 +453,15 @@ ${extracted}"
   _to_tried=0                                   # 이 기사에서 타임아웃 계정전환을 이미 1회 했는지(무한 전환 차단)
   _empty_tried=0                                # 빈 출력/무프레임 1회 한정 재시도 플래그(전수감사 260713 — 모델 1회성 소화 실패가 즉시 격리되던 것)
   _cur_to="$ANALYZE_TIMEOUT"                    # 이 기사의 현재 타임아웃 — rc=124 강제전환 재시도부터는 절반 캡(ANALYZE_TIMEOUT_RETRY)으로 강하(평의회 260727 신규4)
+  _cur_eff="$EFFORT"                            # 이 기사의 현재 노력도 — rc=124 재시도부터 한 단계 하향(ask.sh 260912 사다리 이식 · 260925 운영자 «추가 아이디어 진행»)
+  _slim=""                                      # 재시도 조건 블록 — 평시 빈 값 = 프롬프트 바이트 무변경(회귀 0) · 킬스위치 ANALYZE_RETRY_SLIM=0
+  _slim_txt="
+
+[⏱ 재시도 조건(이 시도에만 적용 · 앞 시도가 제한 시간을 넘겨 중단됐다) — **위 검색 상한을 총 1회로 줄인다**. 검색을 더 돌려 빈 축을 채우려 하지 말고, **이미 확보된 재료**(사전 추출 본문·다른 매체 목록에서 이미 읽은 것)만으로 위 출력 포맷을 끝까지 채워라. 빈 축은 비워두거나 「미확정」으로 적는다. 완성이 보강보다 우선이다(ANALYSIS_FAILED 규칙은 그대로).]"
   for attempt in $(seq 1 "$INLINE_TRIES"); do
-    out="$(printf '%s' "$prompt" | METER_SRC=analyze METER_REF="$base" METER_MODEL="$MODEL" METER_EFFORT="$EFFORT" claude_meter "$_cur_to" \
+    out="$(printf '%s' "${prompt}${_slim}" | METER_SRC=analyze METER_REF="$base" METER_MODEL="$MODEL" METER_EFFORT="$_cur_eff" claude_meter "$_cur_to" \
           --model "$MODEL" \
-          --effort "$EFFORT" \
+          --effort "$_cur_eff" \
           --allowedTools "$ANALYZE_TOOLS" \
           --disallowedTools "$ANALYZE_DENY" \
           --max-turns 40 \
@@ -471,7 +476,18 @@ ${extracted}"
     if claude_failover "$out$(cat "/tmp/${base}.err" 2>/dev/null)"; then continue; fi
     # 타임아웃(rc=124 = ANALYZE_TIMEOUT 초과)은 출력이 비어 is_quota/is_transient 가 못 잡는 사각지대 → *딱 1회* 강제 계정 전환 후 재시도(ask.sh 와 동일 · 운영자 260704 "10분 넘으면 다른 계정").
     #   ⚠️ 1회 제한 = 타임아웃은 대개 입력바운드(계정 바꿔도 반복)라 무한 전환은 워크플로 시간·쿼터만 소진(평의회 260704). 그 1회도 claude_reset_force_swap 이 다음 기사서 되돌림.
-    if [ $rc -eq 124 ] && [ "$_to_tried" = "0" ] && claude_failover_force; then _to_tried=1; _cur_to="$ANALYZE_TIMEOUT_RETRY"; continue; fi   # 재시도분 = 절반 캡(입력바운드 반복에 풀 예산 재배정 차단)
+    #   260925 = ask 사다리 이식 — 입력바운드 타임아웃은 계정을 바꿔도 반복한다(위 자인 · ask 계측 181건 = 소요시간↔출력 토큰 상관 0.99).
+    #   먼저 같은 계정에서 노력도 한 단계 하향 + 검색 1회로 조건을 가볍게 하고, 더 내릴 단이 없을 때만 종전 계정 1회 전환.
+    if [ $rc -eq 124 ] && [ "$_to_tried" = "0" ]; then
+      _to_tried=1; _cur_to="$ANALYZE_TIMEOUT_RETRY"   # 재시도분 = 절반 캡(입력바운드 반복에 풀 예산 재배정 차단)
+      _nxt_eff="$(claude_effort_down "$_cur_eff")"
+      [ "${ANALYZE_RETRY_SLIM:-1}" != "0" ] && _slim="$_slim_txt"
+      if [ "$_nxt_eff" != "$_cur_eff" ]; then
+        echo "  ⏱ 시간초과(effort ${_cur_eff}) — 같은 계정에서 effort ${_nxt_eff} + 검색 1회로 1회 재시도(입력바운드 = 계정 전환 무효 · ask 260912 동문)"
+        _cur_eff="$_nxt_eff"; continue
+      fi
+      if claude_failover_force; then continue; fi   # 사다리 바닥 = 종전 폴백(계정 1회 전환 · 다음 기사서 claude_reset_force_swap 이 되돌림)
+    fi
     # 빈 출력·frontmatter 누락(rc=0·비transient) = 모델 1회성 소화 실패 가능 → *딱 1회* 백오프 재시도(전수감사 260713 — 종전 "빈출력은 재시도 안 함"의 사각지대 완화 · 상한은 기존 INLINE_TRIES 안 = 폭주 0. ANALYSIS_FAILED는 위 성공/실패신호 분기에서 이미 탈출).
     if [ $rc -eq 0 ] && { [ -z "${out// }" ] || ! grep -qm1 '^---' <<<"$out"; } && [ "$_empty_tried" = "0" ] && [ "$attempt" -lt "$INLINE_TRIES" ]; then
       _empty_tried=1
@@ -821,6 +837,12 @@ PY
   #   🔎 마커·⚡ 혼입·# 제목 [속보] 잔존을 Actions 로그로 가시화(자가 추정만 믿던 길이 룰의 기계 눈 · exit 항상 0).
   python3 shared/digest_guard.py "$outfile" 2>/dev/null | sed 's/^/  /' || true
   python3 shared/digest_guard.py --derive "$outfile" 2>/dev/null | sed 's/^/  /' || true   # 파생 무결성(자유요약→IG·Thread 소속 소실·무주어 개문·날조 수치) 비차단 경고 · 260810
+  # 원문 대비 날조 후보(비차단 참고 · 260925) — 초안 숫자·인용이 사전 추출 본문 + 📰 Fact 어디에도 없으면 로그(구판 = A/B 하네스 전용).
+  if [ -n "${extracted//[$' \t\r\n']/}" ]; then
+    printf '%s' "$extracted" > "/tmp/${base}.src"
+    python3 shared/digest_guard.py --source "$outfile" "/tmp/${base}.src" 2>/dev/null | sed 's/^/  /' || true
+    rm -f "/tmp/${base}.src"
+  fi
   rm -f "$f" "pending/${base}.claim"
   rm -f "pending/${base}.retry"   # 과부하 후 회복 성공 = 재시도 마커 정리(뷰어 '재시도 중' 해제)
   echo "${title_ko:-${title:-$id}}" >> /tmp/analyzed_titles.txt   # 완료 푸시 = 외신이면 번역 제목(title_ko 비면 원문 → id 폴백)
