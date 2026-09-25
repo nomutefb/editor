@@ -1416,6 +1416,8 @@ def _dup_of(h, seen_hashes):
     if not h or _DUP_HAM <= 0:
         return False
     v = int(h, 16)
+    if not 6 <= bin(v).count("1") <= 58:   # 정보 부족 지문(거의 단색·어두운 사진) = 서로 다른 사진도 0/ffff 근처로 몰린다 → 판정 보류
+        return False
     for o in seen_hashes:
         if o and bin(v ^ int(o, 16)).count("1") <= _DUP_HAM:
             return True

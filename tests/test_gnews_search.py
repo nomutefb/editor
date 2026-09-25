@@ -244,8 +244,9 @@ class FindOriginalTest(unittest.TestCase):
 
 class DupHashTest(unittest.TestCase):
     def test_dup_threshold(self):
-        self.assertTrue(tg._dup_of('ffffffffffffffff', ['fffffffffffffff0']))    # 거리 4 ≤ 6
-        self.assertFalse(tg._dup_of('ffffffffffffffff', ['0000000000000000']))
+        self.assertTrue(tg._dup_of('f0f0f0f0f0f0f0f0', ['f0f0f0f0f0f0f0f3']))    # 거리 2 ≤ 6
+        self.assertFalse(tg._dup_of('f0f0f0f0f0f0f0f0', ['0f0f0f0f0f0f0f0f']))
+        self.assertFalse(tg._dup_of('0000000000000001', ['0000000000000000']))  # 정보 부족(단색) = 보류
         self.assertFalse(tg._dup_of('', ['ffffffffffffffff']))                  # 지문 없음 = 보류
         self.assertEqual(tg._dhash(b'not an image'), '')
 
