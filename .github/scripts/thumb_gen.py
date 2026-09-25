@@ -1415,12 +1415,18 @@ def _dup_of(h, seen_hashes):
     """h 가 이미 받은 사진과 같은 사진인가(해밍 ≤ _DUP_HAM). 빈 해시·게이트 0 = False(보류 = 종전 동작)."""
     if not h or _DUP_HAM <= 0:
         return False
-    v = int(h, 16)
+    try:
+        v = int(h, 16)
+    except (TypeError, ValueError):
+        return False
     if not 6 <= bin(v).count("1") <= 58:   # 정보 부족 지문(거의 단색·어두운 사진) = 서로 다른 사진도 0/ffff 근처로 몰린다 → 판정 보류
         return False
     for o in seen_hashes:
-        if o and bin(v ^ int(o, 16)).count("1") <= _DUP_HAM:
-            return True
+        try:
+            if o and bin(v ^ int(o, 16)).count("1") <= _DUP_HAM:
+                return True
+        except (TypeError, ValueError):   # 손상된 dh 값(search.json 외부 편집 등) = 그 항목만 무시
+            continue
     return False
 
 

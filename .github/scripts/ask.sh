@@ -29,11 +29,22 @@ source "$ROOT/shared/summary_polish.sh"    # 한국어 윤문 SSOT — 요약 �
 #   ⓒ git_land.sh 미사용 사유 = reset --hard 재적층이 런 중간의 미커밋 상태(앞 기사 failed git mv 등)를 파괴 —
 #      유일 기록자 전제도 asks 공유 경로라 미충족. 조기 커밋+rebase 관용구(ly-make 정본)가 상태 보존형이라 적합.
 #   ⓓ 호출 2회(260925) = 보강 전 1차(요약 먼저 화면에) · 보강 뒤 2차(바뀐 경우만 · 스테이지 변경 0 = 커밋 0).
+#   ⓔ 4번째 인자(guard) = 1차 착지 때의 그 파일 blob — 2차 직전 main 의 blob 이 그와 다르면(보강 도는 사이 운영자 ✏️요약 수정
+#      등) 보강본으로 덮지 않고 main 판을 받는다(-X theirs 가 남의 수정을 조용히 이기는 축 차단 · 평의회 260925 샌드박스 재현).
 ask_land() {
   [ -n "${GITHUB_ACTIONS:-}" ] || return 0
-  local of="$1" b="$2" tag="$3" _landed=0 _i
+  local of="$1" b="$2" tag="$3" guard="${4:-}" _landed=0 _i _now
   git config user.name  "github-actions[bot]"
   git config user.email "github-actions[bot]@users.noreply.github.com"
+  git fetch -q --deepen=100 origin main 2>/dev/null || true   # 얕은 클론 경계 확장(형제 Commit 스텝 관용구 · merge-base 실종 = rebase 실패 차단)
+  if [ -n "$guard" ]; then
+    _now="$(git rev-parse -q --verify "origin/main:$of" 2>/dev/null || true)"
+    if [ -n "$_now" ] && [ "$_now" != "$guard" ]; then
+      echo "::warning::${tag} 생략(${b}) — 1차 착지 뒤 main 의 ${of} 가 바뀌었다(운영자 수정 등) · 보강본으로 덮지 않고 main 판 유지"
+      git checkout -q origin/main -- "$of" 2>/dev/null || true
+      return 0
+    fi
+  fi
   git add "$of" asks
   git diff --cached --quiet && return 0
   if git commit -q -m "ask: 요약 요청 큐레이션(${tag}) ${b}"; then
@@ -547,6 +558,7 @@ else:
   rm -f "$f"
   rm -f "asks/failed/${base}.json" "asks/failed/${base}.log"   # 성공이 격리를 이긴다 — 병렬 중복 런의 성공/실패 발산 시 '피드 성공+대기열 FAIL' 공존 차단(적대검증 B1 · git add asks 가 삭제도 스테이지)
   ask_land "$outfile" "$base" "조기 착지"
+  _v1_blob="$(git rev-parse -q --verify "HEAD:$outfile" 2>/dev/null || true)"   # 2차 착지 덮어쓰기 가드 기준(1차 판)
   # 분량 가드(기본 OFF · SUMMARY_LEN_GUARD='1' 카나리아) — IG/Thread 과소 시 자유요약에서 1회 보강(잡 예산 내 · fail-soft · 260705 · repair ≤+480s는 다음-기사 헤드룸(2×600s) 내 = 잡 최악 무변·평의회8)
   # 순서 계약(260823) = 윤문 → 수선(analyze 동문)
   if [ "$SECONDS" -le "$ASK_JOB_DEADLINE" ]; then summary_polish "$outfile" ask-polish; fi
@@ -559,6 +571,6 @@ else:
   echo "${title_ko:-${title:-$id}}" >> /tmp/analyzed_titles.txt
   basename "$outfile" >> /tmp/analyzed_files.txt   # 완료 푸시 딥링크용(요약 창 ?a=)
   echo "성공 → $outfile (${title:-$id})"
-  ask_land "$outfile" "$base" "보강본"   # 2차 착지 = 윤문·분량 보강으로 바뀐 경우만(변경 0 = 커밋 0 · analyze 2차 착지 동문)
+  ask_land "$outfile" "$base" "보강본" "$_v1_blob"   # 2차 착지 = 윤문·분량 보강으로 바뀐 경우만(변경 0 = 커밋 0 · analyze 2차 착지 동문)
   echo "::endgroup::"
 done

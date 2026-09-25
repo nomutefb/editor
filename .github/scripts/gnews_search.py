@@ -36,7 +36,8 @@ _HEADTAG_RE = re.compile(r"^\s*(?:[\[【<(（][^\]】>)）]{1,12}[\]】>)）]|\S
 _SRC_TAIL_RE = re.compile(r"\s+-\s+[^-]{1,40}$")   # RSS 제목 끝 「 - 매체명」
 _STOP = {"the", "a", "an", "of", "in", "on", "at", "to", "for", "and", "with", "by", "from", "as", "after", "over", "into", "amid"}
 # 포털 재게재(다음·네이트·네이버) = 원문과 같은 사진의 사본 — 원문 매체 결과와 겹쳐 자리만 먹는다(실측 260925)
-_PORTAL_HOSTS = ("v.daum.net", "news.nate.com", "m.news.nate.com", "sports.news.nate.com", "n.news.naver.com", "m.news.naver.com")
+_PORTAL_HOSTS = ("v.daum.net", "news.nate.com", "m.news.nate.com", "sports.news.nate.com", "n.news.naver.com", "m.news.naver.com",
+                 "news.naver.com", "news.daum.net")   # _host 가 m./www. 를 떼므로 뗀 형태도 등재(평의회 260925)
 _SAFE_URL_RE = re.compile(r"https?://[^\s\x00-\x1f\x7f\"'<>`]{1,2048}")
 _SIG_RE = re.compile(r'data-n-a-sg="([^"]+)"')
 _TS_RE = re.compile(r'data-n-a-ts="([^"]+)"')
@@ -339,24 +340,29 @@ def _http_cached(url, http):
 
 def find_original(title, media="", http=_http, now_ts=None):
     """원문 URL 찾기(LLM 0 · 260925) — 요약 frontmatter url 이 빈 기사(요약 요청·차단 매체)의 **바로 그 기사** 주소.
-    판정 = 구글 뉴스 결과 제목(끝 「 - 매체」 제거·정규화)이 우리 제목과 같고, 매체명이 주어졌으면 결과 매체명과도 맞을 때만.
+    채택 조건(평의회 260925 실측 = 통신사 제목 전재·같은 매체 같은 제목 다른 기사가 흔하다):
+      ① 매체명이 있어야 한다(없으면 같은 제목 중 누가 원문인지 모른다 = '')
+      ② 결과 제목(끝 「 - 매체」 제거·정규화) == 우리 제목 ③ 결과 매체명 == 우리 매체명(공백 무시 완전 일치 · 부분일치 금지 =
+         「연합뉴스TV」↔「연합뉴스」 오채택 차단) ④ 기사 날짜 ±1일 ⑤ 그 조건을 만족하는 결과가 **정확히 1건**(2건+ = 애매 = '')
     애매하면 '' (지어내기 0 · 호출부가 종전 Claude 임무로 폴백). 포털 사본은 원문이 아니라 제외."""
     nt = norm_title(title)
-    if not nt or len(nt) < 8:
+    med = re.sub(r"\s+", "", (media or "")).lower()
+    if not nt or len(nt) < 8 or not med:
         return ""
     now = time.time() if now_ts is None else now_ts
-    med = re.sub(r"\s+", "", (media or "")).lower()
-    for it in parse_rss(_http_cached(rss_url(clean_query(title)), http))[:10]:
-        if it["pub"] and abs(now - it["pub"]) > MAX_AGE_D * 86400:
+    lang = "ko" if re.search(r"[가-힣]", title or "") else "en"   # 영문 제목(외신) = 영문판 검색
+    hits = []
+    for it in parse_rss(_http_cached(rss_url(clean_query(title), lang), http))[:15]:
+        if it["pub"] and abs(now - it["pub"]) > 86400 * 1.5:   # 기사 날짜(정오 KST) ±1.5일 = 발행일 ±1일
             continue
         if norm_title(it["title"]) != nt:
             continue
-        sn = re.sub(r"\s+", "", it.get("sname", "")).lower()
-        if med and sn and med not in sn and sn not in med:
+        if re.sub(r"\s+", "", it.get("sname", "")).lower() != med:
             continue
         if _host(it["source"]) in _PORTAL_HOSTS:
             continue
-        u = decode(it["link"], http=http)
-        if u and _host(u) not in _PORTAL_HOSTS:
-            return u
-    return ""
+        hits.append(it)
+    if len(hits) != 1:
+        return ""
+    u = decode(hits[0]["link"], http=http)
+    return u if u and _host(u) not in _PORTAL_HOSTS else ""

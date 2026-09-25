@@ -240,6 +240,18 @@ class FindOriginalTest(unittest.TestCase):
         gn._RSS_CACHE.clear()
         self.assertEqual(gn.find_original('전혀 다른 제목의 기사입니다', '서울신문', http=self._http(rss), now_ts=NOW), '')
         gn._RSS_CACHE.clear()
+        self.assertEqual(gn.find_original('소주 분유 먹인 친부 징역 7년', '', http=self._http(rss), now_ts=NOW), '')      # 매체 없음 = 포기
+        gn._RSS_CACHE.clear()
+        self.assertEqual(gn.find_original('소주 분유 먹인 친부 징역 7년', '서울', http=self._http(rss), now_ts=NOW), '')   # 부분일치 금지
+        gn._RSS_CACHE.clear()
+
+    def test_ambiguous_same_media_same_title_is_rejected(self):
+        one = ('<item><title>소주 분유 먹인 친부 징역 7년 - 서울신문</title><link>https://news.google.com/rss/articles/{}?oc=5</link>'
+               '<pubDate>Thu, 25 Sep 2026 01:00:00 GMT</pubDate><source url="https://amp.seoul.co.kr">서울신문</source></item>')
+        rss = '<rss>' + one.format('A3') + one.format('A4') + '</rss>'
+        gn._RSS_CACHE.clear()
+        self.assertEqual(gn.find_original('소주 분유 먹인 친부 징역 7년', '서울신문', http=self._http(rss), now_ts=NOW), '')
+        gn._RSS_CACHE.clear()
 
 
 class DupHashTest(unittest.TestCase):

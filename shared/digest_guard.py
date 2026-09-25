@@ -397,6 +397,7 @@ def source_check(path, src_path):
     m = re.search(r"^## 📰 Fact[^\n]*\n(.*?)(?=^## |\Z)", body, re.S | re.M)
     fact = m.group(1) if m else ""
     insight = body.split("### 💡 이 기사의 시사점", 1)[1] if "### 💡 이 기사의 시사점" in body else ""
+    insight = re.split(r"^(?:---\s*$|## |Sources:)", insight, 1, flags=re.M)[0]   # 시사점 뒤 꼬리(구분선·정리 메모·Sources 링크) 제외 = 오탐 3배 차단(평의회 260925 실측 360→72)
     draft = "\n".join(x or "" for x in (free, ig, th)) + "\n" + insight
     allow = src + "\n" + fact
     nums, quotes = _number_check(allow, draft), _quote_check(allow, draft)
@@ -413,7 +414,7 @@ def source_check(path, src_path):
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("사용: digest_guard.py [--repair-check|--splice <후보>|--derive|--source <md> <원문>] <queue/xxx.md>"); sys.exit(0)
+        print("사용: digest_guard.py <queue/xxx.md> | --derive <md> | --repair-check <md> | --splice <md> <후보> | --source <md> <원문>"); sys.exit(0)
     try:
         if sys.argv[1] == "--derive" and len(sys.argv) >= 3:
             sys.exit(derive_check(sys.argv[2]))

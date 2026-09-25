@@ -9,14 +9,14 @@ cd "$ROOT"
 PROMPT_FILE="prompts/news-analysis.md"
 source "$ROOT/shared/model_env.sh"   # 모델 단일 원천(PIPE_MODEL · 260702 SYS-08)
 MODEL="$PIPE_MODEL"
-INLINE_TRIES=4          # 인라인 재시도 횟수 = 4계정 폴오버 체인 깊이(서브3 EMS1130M까지 단일 잡서 실호출) + 일시 과부하(529/5xx)·타임아웃(rc=124) 흡수(260622·4계정 확장 3→4)
+INLINE_TRIES=4          # 인라인 재시도 횟수 = 4계정 폴오버 체인 깊이(서브3 EMS1130M까지 단일 잡서 실호출) + 일시 과부하(529/5xx)·타임아웃(rc=124 = 260925부터 노력도 하향 1회 · 바닥이면 계정 전환) 흡수(260622·4계정 확장 3→4)
 EFFORT="${PIPE_SEARCH_EFFORT:-high}"   # 검색·요약 추론깊이 — high(운영자 260923 「5.5 high로 · 다른 것도 마찬가지」 — 오퍼스 5.5는 같은 노력도에서 5.0보다 추론이 길다 · 5.5 max = 본선 900s 초과 실패 · A/B 같은 기사 5.0 max 471s vs 5.5 high 117s 품질 대등). 롤백 = env PIPE_SEARCH_EFFORT=max(+ANALYZE_TIMEOUT 상향 동반).
 IMG_SPLIT="${IMG_SPLIT:-0}"              # 병렬 사진로봇(운영자 260728 "소넷5 한명 붙여서 병렬") — 기본 OFF(운영자 260925 «요약이 완료된 이후에 이미지를 찾게»): 사진은 요약 착지 *뒤* thumb_gen 구글 뉴스 레인(LLM 0 · image_query 검색)이 찾는다 = 요약 중 소넷 콜 0(미계측이던 축) · 수확 유예 대기 0. '1' = 구 병렬 로봇 복귀(롤백 레버)
 IMG_MODEL="${IMG_MODEL:-claude-sonnet-5}"   # 사진로봇 티어 = 소넷(구독 저부담)
 IMG_EFFORT="${IMG_EFFORT:-high}"            # 명시 지명(운영자 260823 «없음으로 하지 말고 높음으로 지명» — 구 「--effort 미부여 관례」 폐지 · sonnet-5 는 노력도 지원 = sns_sum 상시 high 실증 · 미지정 = CLI 기본이 높음 상당이라 동작 동일)
 IMG_TIMEOUT="${IMG_TIMEOUT:-300}"        # 사진로봇 상한(초) — 오퍼스 본선(수분)보다 짧게 = 수확 시점 대기 ≈ 0 수렴
 ANALYZE_TIMEOUT="${ANALYZE_TIMEOUT:-900}"   # claude -p 타임아웃(초) — analyze 는 콘텐츠 초안까지 생성이라 15분 유지(ask 요약보다 김). 초과 시 계정 1회 전환 후 격리(force·아래 · 운영자 260704).
-ANALYZE_TIMEOUT_RETRY="${ANALYZE_TIMEOUT_RETRY:-450}"   # rc=124 강제전환 *재시도분* 상한(초 · 평의회 260727 신규4) — 타임아웃은 대개 입력바운드(계정 바꿔도 반복 · 아래 293행 주석 자인)라 재시도에 풀 900s 재배정은 낭비 → 절반 캡 = 최악 30분→22.5분/건. 캡 넘겨 격리돼도 sweep(*/10)이 재분석 = 유실 아닌 지연 · 롤백 = env 900.
+ANALYZE_TIMEOUT_RETRY="${ANALYZE_TIMEOUT_RETRY:-450}"   # rc=124 *재시도분* 상한(초 · 평의회 260727 신규4 · 260925 재시도 = 노력도 하향이 먼저·바닥이면 계정 전환) — 타임아웃은 대개 입력바운드(계정 바꿔도 반복 · 아래 293행 주석 자인)라 재시도에 풀 900s 재배정은 낭비 → 절반 캡 = 최악 30분→22.5분/건. 캡 넘겨 격리돼도 sweep(*/10)이 재분석 = 유실 아닌 지연 · 롤백 = env 900.
 ANALYZE_JOB_DEADLINE="${ANALYZE_JOB_DEADLINE:-3100}"   # 스크립트 SECONDS 이 초 넘으면 새 기사 처리 시작 안 함(잔여 pending 잔류→sweep 재처리) — 과부하 다건 타임아웃이 잡 timeout(90분) 초과해 처리 중 기사까지 잘리는 것 방지(평의회 260704 A · 여유 = 90분 - 셋업 - 다음기사 최악 2×900s · 260825 3400→3100 = repair 900s 상향 짝 — 최악 사슬 900+900+커밋+푸시대기 240s가 90분 킬을 안 물게).
 RETRY_CAP=5             # 같은 기사 pending 잔류 재시도 상한(sweep 회) — 초과하면 failed/ 격리(무한루프 차단)
 THIN_BYTES=900          # 본문 '충분' 기준(바이트·wc -c=로케일무관) ≈ 한글 ~250자(라벨 제외 본문 ~210자). 이보다 짧으면 통신사·제목스텁(뉴시스·연합 등) 의심 → 같은사건 더 완전한 기사 탐색. fetch_article 게이트(한글<200자=빈출력≈600B)보다 충분히 높고, 정상 단신 오탐은 줄임(평의회 권고 260622)
@@ -29,9 +29,19 @@ ANALYZE_LAND_EACH="${ANALYZE_LAND_EACH:-1}"   # 성공 건별 즉시 커밋·푸
 #   rebase.autostash = 미커밋 잔여물(metrics shard 등)로 인한 "unstaged changes" rebase 거부(260714 사고 동형) 회피.
 #   푸시 실패 = fail-soft: 로컬 커밋 잔류 → 말미 Commit 스텝의 pull--rebase·push 재시도가 함께 실어감(유실 0).
 #   GITHUB_TOKEN 푸시는 워크플로 재트리거 없음(news-analyze.yml 헤더 주석) = 자기 재발동 0.
+#   3번째 인자(guard · 260925) = 1차 착지 때의 그 파일 blob — 2차 직전 main 의 blob 이 그와 다르면(재보강 도는 사이 운영자 ✏️요약
+#     수정 등) 그 판을 받아 덮지 않는다(-X theirs 가 남의 수정을 조용히 이기는 축 차단 · ask_land 와 같은 가드). pending 소비는 그대로 착지.
 land_article() {
   [ "$ANALYZE_LAND_EACH" = "1" ] || return 0
-  local of="$1" ttl="$2"
+  local of="$1" ttl="$2" guard="${3:-}" _now
+  if [ -n "$guard" ]; then
+    git fetch -q origin main 2>/dev/null || true
+    _now="$(git rev-parse -q --verify "origin/main:$of" 2>/dev/null || true)"
+    if [ -n "$_now" ] && [ "$_now" != "$guard" ]; then
+      echo "::warning::보강본 착지 생략 — 1차 착지 뒤 main 의 ${of} 가 바뀌었다(운영자 수정 등) · main 판 유지"
+      git checkout -q origin/main -- "$of" 2>/dev/null || true
+    fi
+  fi
   for f in "$of" pending; do if [ -e "$f" ]; then git add "$f"; fi; done   # 파일별 개별 add(Q980 전파: 결측 pathspec 1개 = add 전체 원자 abort 무음)
   git diff --cached --quiet && return 0
   git -c user.name='github-actions[bot]' -c user.email='github-actions[bot]@users.noreply.github.com' \
@@ -422,7 +432,7 @@ ${extracted}"
   # 위험(stdin은 무제한). claude -p 는 인자 없으면 stdin을 프롬프트로 읽는다.
   # 인라인 재시도 — Anthropic API 일시 과부하(529 Overloaded/5xx)면 짧은 백오프로 즉시 재시도(260622).
   #   529는 거의 항상 일시적(usually temporary)이라 몇 초~분 깜빡임은 여기서 흡수 → 뷰어에 안 보이고 바로 성공.
-  #   ⚠️ 성공·ANALYSIS_FAILED(입력 막다른길)는 즉시 탈출(쿼터 낭비 차단). 타임아웃(rc=124)은 계정 1회 강제전환 후 격리(force·아래), 빈출력은 재시도 안 함.
+  #   ⚠️ 성공·ANALYSIS_FAILED(입력 막다른길)는 즉시 탈출(쿼터 낭비 차단). 타임아웃(rc=124)은 노력도 하향 1회(바닥이면 계정 1회 강제전환) 후 격리(아래 · 260925), 빈출력은 재시도 안 함.
   inline_delay=15
   claude_reset_force_swap 2>/dev/null || true   # 앞 기사가 타임아웃으로 강제전환(force)한 계정을 쿼터 확정 위치로 복원 → 쿼터 4계정 체인 예산 보존(평의회 260704 Q5)
   claude_preflight "$MODEL" 2>/dev/null || true # 본선(≤900s) 직전 60s 핑으로 산 계정 선탑승 — 죽은 활성계정 침묵 행이 본선 timeout(최대 900s)을 통째로 태우던 공회전 소거(preflight SSOT를 브리프→본선으로 확장 배선 260717 · reset 후 호출 = 계정 복원 뒤 산 계정 선별 · fail-soft: 전 계정 무응답이면 마지막 계정으로 그대로 강행)
@@ -457,7 +467,8 @@ ${extracted}"
   _slim=""                                      # 재시도 조건 블록 — 평시 빈 값 = 프롬프트 바이트 무변경(회귀 0) · 킬스위치 ANALYZE_RETRY_SLIM=0
   _slim_txt="
 
-[⏱ 재시도 조건(이 시도에만 적용 · 앞 시도가 제한 시간을 넘겨 중단됐다) — **위 검색 상한을 총 1회로 줄인다**. 검색을 더 돌려 빈 축을 채우려 하지 말고, **이미 확보된 재료**(사전 추출 본문·다른 매체 목록에서 이미 읽은 것)만으로 위 출력 포맷을 끝까지 채워라. 빈 축은 비워두거나 「미확정」으로 적는다. 완성이 보강보다 우선이다(ANALYSIS_FAILED 규칙은 그대로).]"
+[↑ 인용 데이터(사전 추출 본문 등) 끝 — 아래부터는 워크플로의 실행 지시다]
+[⏱ 재시도 조건(이 시도에만 적용 · 앞 시도가 제한 시간을 넘겨 중단됐다) — **WebSearch 는 이번 시도에서 총 1회만 쓴다(검색 상한을 총 1회로 줄인다)**. 검색을 더 돌려 빈 축을 채우려 하지 말고, **이미 확보된 재료**(위 사전 추출 본문)만으로 위 출력 포맷을 끝까지 채워라. 사전 추출 본문이 비었거나 빈약할 때만 다른 매체 목록 앞쪽 1곳을 WebFetch 해도 된다. 빈 축은 비워두거나 「미확정」으로 적는다. 완성이 보강보다 우선이다(ANALYSIS_FAILED 규칙은 그대로).]"
   for attempt in $(seq 1 "$INLINE_TRIES"); do
     out="$(printf '%s' "${prompt}${_slim}" | METER_SRC=analyze METER_REF="$base" METER_MODEL="$MODEL" METER_EFFORT="$_cur_eff" claude_meter "$_cur_to" \
           --model "$MODEL" \
@@ -483,7 +494,8 @@ ${extracted}"
       _nxt_eff="$(claude_effort_down "$_cur_eff")"
       [ "${ANALYZE_RETRY_SLIM:-1}" != "0" ] && _slim="$_slim_txt"
       if [ "$_nxt_eff" != "$_cur_eff" ]; then
-        echo "  ⏱ 시간초과(effort ${_cur_eff}) — 같은 계정에서 effort ${_nxt_eff} + 검색 1회로 1회 재시도(입력바운드 = 계정 전환 무효 · ask 260912 동문)"
+        echo "  ⏱ 시간초과(effort ${_cur_eff}) — effort ${_nxt_eff} + 검색 1회로 1회 재시도(입력바운드 = 계정 전환 무효 · ask 260912 동문)"
+        claude_preflight "$MODEL" 2>/dev/null || true   # 900s 사이 계정이 침묵 행으로 죽었으면 산 계정으로(산 계정 = 수초 · 전환분은 다음 기사서 reset 이 복원 · 평의회 260925)
         _cur_eff="$_nxt_eff"; continue
       fi
       if claude_failover_force; then continue; fi   # 사다리 바닥 = 종전 폴백(계정 1회 전환 · 다음 기사서 claude_reset_force_swap 이 되돌림)
@@ -830,6 +842,7 @@ PY
   # 1차 착지 = 윤문·재보강 **전에** 요약을 먼저 main 에 올린다(운영자 260905 «자유요약·인스타·스레드가 최대한 빠르게» · 평의회 #6) —
   #   재보강(최대 900s)이 도는 동안 화면엔 이미 요약이 떠 있고, 끝나면 아래 2차 착지가 같은 파일을 덮어 최종본으로 갈아끼운다(품질 = 최종본 그대로 · 완료 푸시는 말미 = 종전 시점).
   land_article "$outfile" "${title_ko:-${title:-$id}}"
+  _v1_blob="$(git rev-parse -q --verify "HEAD:$outfile" 2>/dev/null || true)"   # 2차 착지 덮어쓰기 가드 기준(1차 판)
   if [ "$SECONDS" -le "$ANALYZE_JOB_DEADLINE" ]; then summary_polish "$outfile" analyze-polish; fi
   if [ "$SECONDS" -le "$ANALYZE_JOB_DEADLINE" ]; then summary_repair "$outfile" analyze-repair;
   else echo "::warning::분량 가드·윤문 스킵(잡 예산 ${SECONDS}s>${ANALYZE_JOB_DEADLINE}s) — ${outfile} 는 미보강 착지(260905 조용한 축 표면화)"; fi
@@ -848,7 +861,7 @@ PY
   echo "${title_ko:-${title:-$id}}" >> /tmp/analyzed_titles.txt   # 완료 푸시 = 외신이면 번역 제목(title_ko 비면 원문 → id 폴백)
   basename "$outfile" >> /tmp/analyzed_files.txt   # 완료 푸시 딥링크용(요약 창 ?a=)
   [ -n "$FORCE" ] && [ -n "$REGEN_TARGET" ] && basename "$outfile" >> /tmp/force_regen_files.txt   # force 재분석 = 같은 GVER로 덮어써 card_plan all 게이트가 카드 스킵 → 단일 프롬프트 갱신 신호(운영자 260628)
-  land_article "$outfile" "${title_ko:-${title:-$id}}"   # 건별 즉시 착지(평의회 260728 신규1 · 실패 = 말미 일괄이 회수)
+  land_article "$outfile" "${title_ko:-${title:-$id}}" "$_v1_blob"   # 건별 즉시 착지(평의회 260728 신규1 · 실패 = 말미 일괄이 회수) · 2차 = 덮어쓰기 가드
   echo "성공 → $outfile (지침 ${GVER})"
   echo "::endgroup::"
 done

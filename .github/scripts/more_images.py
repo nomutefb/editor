@@ -81,10 +81,19 @@ try:
                                               self_titles=[gn._fm(md, "title"), gn._fm(md, "title_ko")]) if tg._url_ok(u)]
         if gn_links:
             _seen = set(existing_urls)
+            _gh = [x.get("dh", "") for x in existing if x.get("dh")]   # 같은 사진 지문 선검사 = Claude 호출 판정(IMG_ASK)을 중복 컷 **뒤** 장수로(평의회 260925)
             for c in tg.fetch_article_images(None, image_sources=gn_links, want=WANT):
                 k = tg._norm_key(c.get("src", ""))
                 if k in _seen or (c.get("link") or "").rstrip("/") in existing_links:
                     continue
+                if tg.R2_ON:
+                    _b, _ct, _ext = tg.http_image(c["src"])
+                    _h = tg._dhash(_b) if _b else ""
+                    if tg._dup_of(_h, _gh):
+                        print("  ⏭ 같은 사진 중복 컷(구글 후보 · {}…)".format((c.get("link") or c["src"])[:42])); continue
+                    if _h:
+                        _gh.append(_h)
+                    c["_img"] = (_b, _ct, _ext, _h)   # 아래 업로드 루프가 재사용(재다운로드 0)
                 _seen.add(k)
                 gn_cand.append(c)
         print("구글 뉴스 검색(LLM 0) — 검색어 {}개 → 기사 {}건 → 새 사진 {}장".format(len(_gq), len(gn_links), len(gn_cand)), flush=True)
@@ -107,6 +116,8 @@ if need_url:
     except Exception as e:  # noqa: BLE001
         print("::warning::구글 원문 URL 찾기 실패(무시): {}".format(str(e)[:160]), flush=True)
 url_task = need_url and not gn_orig   # Claude 에 원문 URL 임무를 맡길지(구글이 찾았으면 안 맡김)
+if gn_orig:
+    exclude_srcs.add(gn_orig.rstrip("/"))   # 원문 자체를 이미지 소스로 다시 고르지 않게(대표사진은 아래 orig_url 경로가 맨 앞에 붙인다)
 need_llm = LLM_ON and (url_task or IMG_ASK > 0)
 
 prompt = """다음은 한 뉴스기사의 큐레이션 요약·시사점이다. 이 기사의 **카드뉴스 썸네일 배경 이미지**로 쓸 관련 사진을 더 찾아라.
@@ -157,7 +168,7 @@ out = ""
 if not need_llm:
     print("· Claude 생략 — {}".format("구글 레인이 목표 {}장 충족(LLM 0)".format(WANT) if LLM_ON else "MOREIMG_LLM=0(구글 레인만)"), flush=True)
 else:
-  print("Claude({}) 관련 뉴스이미지 소스 검색 — '{}' (구글 레인 {}장 뒤 나머지)".format(MODEL, head[:40], len(gn_cand)), flush=True)
+  print("Claude({}) {} — '{}' (구글 레인 {}장 뒤)".format(MODEL, "원문 URL 찾기" if (url_task and IMG_ASK == 0) else "관련 뉴스이미지 소스 검색", head[:40], len(gn_cand)), flush=True)
   _args = ["claude", "-p", "--model", MODEL, "--effort", "high",   # --bare 제거(OAuth 즉사 방지 · 260718) — 계정 로테이션은 폴오버 SSOT가 담당
            "--allowedTools", "WebFetch,WebSearch",
            "--disallowedTools", "Write,Edit,NotebookEdit,Bash,Task",
@@ -195,8 +206,8 @@ print("Claude 제안 신규 소스 {}개".format(len(urls)), flush=True)
 
 # 원문 URL 백필(운영자 260726) — frontmatter `url: ""` 를 찾은 URL로 교체. 이미지 0장이어도 이건 저장하고 나가야
 # 해서 아래 '새 소스 0' 종료보다 먼저. 커밋은 moreimg.yml 이 queue/ 도 add(치환 실패 = 경고만·fail-soft).
-if need_url and not orig_url and gn_orig:
-    orig_url = gn_orig   # Claude 를 안 불렀거나 못 찾았어도 구글이 찾은 원문을 쓴다(아래 백필·대표사진 경로 공용)
+if need_url and gn_orig:
+    orig_url = gn_orig   # 구글이 제목·매체 일치로 찾은 원문이 우선(요청 안 한 Claude ORIG_URL 이 덮어쓰지 않게 · 아래 백필·대표사진 경로 공용)
 if need_url and orig_url:
     md2 = re.sub(r'^url:\s*""\s*$', lambda _m: 'url: "{}"'.format(orig_url), md, count=1, flags=re.M)
     if md2 != md:
@@ -207,7 +218,7 @@ if need_url and orig_url:
 elif need_url:
     print("· 원문 URL 미발견(ORIG_URL 없음) — url 백필 스킵", flush=True)
 
-if not urls and not gn_cand:
+if not urls and not gn_cand and not orig_url:
     print("새 소스 0 — 이미지 변경 없음 종료"); sys.exit(0)
 
 # og:image 추출(thumb_gen 재사용) — 원기사 URL(방금 백필분 포함)이 있으면 그 대표 og:image도 1순위로 시도
@@ -230,7 +241,7 @@ for i, c in enumerate(cand):
         continue
     final, dh = None, ""
     if tg.R2_ON:
-        b, ctype, ext = tg.http_image(c["src"])
+        b, ctype, ext = (c["_img"][:3] if c.get("_img") else tg.http_image(c["src"]))
         if b and tg._is_logo_card(b):   # 매체 로고/브랜딩 카드(솔리드+텍스트) = 픽셀 직접 검사 컷(운영자 260622)
             print("  ⏭ 매체 로고/브랜딩 컷 ({}…)".format((c.get("link") or c["src"])[:42])); continue
         dh = tg._dhash(b) if b else ""
