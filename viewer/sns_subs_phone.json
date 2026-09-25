@@ -15,6 +15,16 @@
  "insta": [],
  "threads": [
   {
+   "account": "daily_ai_star",
+   "text": "Cursor가 9월 23일 긴 에이전트 실행의 토큰 비용을 7% 낮췄다고 공개했습니다.\n\n모델을 바꾼 결과가 아닙니다. 시스템 프롬프트를 약 66% 줄이고, 자주 쓰지 않는 도구 설명은 필요할 때만 불러오도록 바꿨습니다. 내장 도구의 정적 컨텍스트 토큰은 60% 줄었습니다.\n\nMCP 도구를 호출한 세션에서는 전체 토큰이 46.9% 감소했고, 캐시 미스도 20% 줄었습니다. 파일을 읽을 때 모든 줄에 붙이던 줄 번호를 10줄마다 붙이는 방식으로 바꿔 캐시 읽기 토큰도 1.6% 줄였습니다.\n\n에이전트 비용의 기준이 모델 가격만이 아니라, 매 요청마다 무엇을 다시 읽히는가로 이동했습니다. 긴 작업일수록 모델 선택보다 하네스의 컨텍스트 관리가 먼저 보이게 됐습니다.\n\nhttps://cursor.com/blog/improved-token-efficiency",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1790294422,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdsH2TEgapy",
+   "region": "kr"
+  },
+  {
    "account": "choi.openai",
    "text": "블로그 :\nhttps://odyssey.systems/introducing-agora-2",
    "likes": 1,
@@ -27,10 +37,10 @@
   {
    "account": "choi.openai",
    "text": "와.. 정말 미래의 게임은 이런 모습일까요?\n\n오디세이가 다중 에이전트 월드 모델 Agora-2를 공개했습니다.\n\n게임 엔진 없이 AI가 실시간으로 세계를 만들고, 그 안에서 사람과 AI 에이전트 20명이 동시에 상호작용할 수 있는데요.\n\n현재 공개된 버전에서는 사람 4명이 AI 에이전트 16개와 함께 전투할 수 있으며, 참여자의 행동에 따라 월드 모델이 환경 변화를 실시간으로 생성합니다.\n\n오디세이는 AI 학습과 안전성 테스트, 로봇, 자율주행, 사이버보안, 게임 등에 이런 다중 에이전트 시뮬레이션을 활용할 수 있을 것으로 보고 있습니다.",
-   "likes": 19,
+   "likes": 26,
    "cmts": 1,
    "time": 1790290852,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/823697740_1397208008660872_468347898077422189_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk5MzU3MTU4MDgyMjI5NDIzNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=-hkkbVpI9N4Q7kNvwFB-KRR&_nc_oc=Adppnw71B2aoroBhBK8xoaQixkaCALSv99f-8naUJy5WM6RT-PbI3dLM9gLVhsgHW74&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=roQ6zaMRd36RqU7uMN-PLw&_nc_ss=7a20f&oh=00_AQKqajs38CJ3BAkl4MGxMGK9dRciGXlVYqWXz-EPFRPUgw&oe=6ABB854A",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/823697740_1397208008660872_468347898077422189_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk5MzU3MTU4MDgyMjI5NDIzNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=-hkkbVpI9N4Q7kNvwGY4Gyu&_nc_oc=Adqkt-t92F0dPTwySmNVl8jkkyKiyCU5KqP-cw84Wr42SEX3qoEGRBmJscyzLi1BERbNiYXfYVkD5vkb9YmsF32B&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=dFiAj8m5Evlj9PLxG7SJ3Q&_nc_ss=7a20f&oh=00_AQIzbsH1Ths8pxqStuXudQsTQWauoUpWeYCiA09XHtdp6g&oe=6ABB854A",
    "url": "https://www.threads.com/@choi.openai/post/DdsBDGkAg7a",
    "region": "kr"
   },
@@ -60,7 +70,7 @@
    "likes": 4,
    "cmts": 1,
    "time": 1790228618,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/818195190_1459711722716289_7299790243150015838_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk5MzA0OTI3ODc4NDA5Mzk5NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=iznjYDGXCDoQ7kNvwF3apZI&_nc_oc=AdqqlrUSg7lUVP4YoqAnY1xfvDMBJRhlwfyYXuJexq0J1LqQyt62TUOxkkjV5IvuoEo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=x0UL_Tzk9Kj_v0tw4D9Jiw&_nc_ss=7a20f&oh=00_AQKsJgDhflZdLNa6q_agbCTU-n7u7mmWJAcAmIq991NIsg&oe=6ABBA1EE",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/818195190_1459711722716289_7299790243150015838_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk5MzA0OTI3ODc4NDA5Mzk5NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=iznjYDGXCDoQ7kNvwFzJn_Y&_nc_oc=AdoEgsRvwBpvD_wkmbYRpb3JALHe5qHnvCMXeiFOB2pxpL4i02XZCXa5gm69PcLatrFvCjeCgvRrMd4Jk_m8cpwi&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=1iBaPzln7xbRau0yZAOe7w&_nc_ss=7a20f&oh=00_AQJp0ptg6bfs0rFDPYIslSg2SgQV7IZqXxKmKQfTILZ4eQ&oe=6ABBA1EE",
    "url": "https://www.threads.com/@kopp/post/DdqKSm4jj8q",
    "region": "kr"
   },
@@ -80,7 +90,7 @@
    "likes": 0,
    "cmts": 1,
    "time": 1790220674,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/821597953_18089409902407306_3804756069353730907_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk5Mjk4MjgxNTQ0MTQwNDcyOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTMwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=oZBjIHROGbAQ7kNvwF5ns8k&_nc_oc=AdqGAjD7-ad0nRZ0Hk4Pqi8-4j_7XQezfBVP1_LeKFeJNZf60lczCLMIT47lN6FgriE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=pDhO_9h7uIVSEzvKFlChgg&_nc_ss=7a20f&oh=00_AQL_NRBs373u6huXJ064G5WvuN4s_rBfI5vxLbJ_1CPahg&oe=6ABB9137",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/821597953_18089409902407306_3804756069353730907_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk5Mjk4MjgxNTQ0MTQwNDcyOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTMwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=oZBjIHROGbAQ7kNvwGgtazj&_nc_oc=Adp0gTPUc7TGsJNPo4r0LpOwJSMJhhzR6loBGUivEts357IcR3Cog_XognEqrnm24satH3IoKwl1-uYNidWk9ylA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=XdCL19QpiZ-6LfCPcyuBww&_nc_ss=7a20f&oh=00_AQJ-nMRAQoEtGfcWjmjAEq1sKQyIPL-a51lGaviv5NiYQA&oe=6ABB9137",
    "url": "https://www.threads.com/@aipeekme/post/Ddp7LcEn8M4",
    "region": "kr"
   },
@@ -115,6 +125,26 @@
    "region": "kr"
   },
   {
+   "account": "choi.openai",
+   "text": "앤트로픽이 Claude가 답변을 거부한 일부 요청에도 다시 비용을 부과합니다.\n\n대상은 생물학, 모델 추출 공격, 고성능 LLM 개발 관련 요청 중 안전장치가 사전에 차단한 경우입니다. 최근 몇 주간 조직적인 공격이 발생하면서 방어 수단으로 적용한다고 밝혔습니다.\n\n앤트로픽에 따르면 최근 테스트에서 Claude Code·Claude.ai·Cowork 계정의 99.7%는 해당 차단을 한 번도 겪지 않았고, 차단 시스템의 오탐률은 0.1% 미만입니다.\n\n즉 Claude가 답변을 생성하지 않아도 특정 보안 차단에 걸리면 사용량이 청구될 수 있습니다.",
+   "likes": 20,
+   "cmts": 1,
+   "time": 1790287239,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/823196735_17988601452112832_912017719652348540_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk5MzU0MTI3MzM2OTMyNjUzNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTE3Ni5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=GOn0Kr7eT68Q7kNvwGMrL9a&_nc_oc=AdoNoSsJLhDvKIclh_5mKuXkIrxQfr5B2GkvqOTEm0xPly7SSf2AlVPIiMv9p5nlMcKvq2M3Ia10aSc_YGIlr60r&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=dFiAj8m5Evlj9PLxG7SJ3Q&_nc_ss=7a20f&oh=00_AQKc5CbbeoeBoe3lqldldFDpJDTL0sHnb92GLuBwF-4nrw&oe=6ABB778D",
+   "url": "https://www.threads.com/@choi.openai/post/Ddr6KEjCjPH",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "구글이 제미나이에 다양한 외부 앱을 직접 연결하는 새로운 기능을 순차적으로 배포하기 시작했습니다.\n탭을 여러 개 전환할 필요 없이 프로젝트 관리부터 디자인 자산 제작, 생활 정보 확인까지 한곳에서 처리할 수 있게 됐습니다.\n생산성 영역에서는 에어테이블, 리니어, 먼데이닷컴, 판다독, 위스프 AI, 조호가 포함되었습니다.\n창작 부문에는 어도비, 픽스아트, 스퀘어스페이스, 웹플로우가 연동되며 라이프스타일 카테고리도 확장됩니다.\n에어파트먼츠 닷컴이나 익스피리언 같은 서비스가 들어오면서 아파트 검색과 신용 관리까지 제미나이 화면 안에서 다루게 되었습니다.\n원래 구글은 자체 에코시스템 안에서 기능을 넓히는 데 집중해 왔습니다.\n이번 업데이트는 외부 서비스와의 경계를 허물고 작업 흐름을 한 화면에 묶으려는 시도로 보입니다.\n개인적으로는 다양한 앱이 한곳에 묶이는 편의성보다 실제 업무에서 얼마나 정확하게 연동되는지가 더 중요하다고 봅니다.\n\n📷 사진 출처: blog.google",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1790213475,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/821138617_18089392946407306_1266950707108978386_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk5MjkyMjQyMzMxMDY2ODU1NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=YAQlle8TuG8Q7kNvwFloXLj&_nc_oc=Adpg_-r8a6ZupehbYbQLqM2E0tZhTDgBEyf9t5Z37XrAQbPquh69IAZUdRbFnALBCdxI4XTzV7FGQNVQYiAE43j9&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=XdCL19QpiZ-6LfCPcyuBww&_nc_ss=7a20f&oh=00_AQK2VouOCgWU0hqjQet1ujgr6gVNejw5enDJjyNR3j403g&oe=6ABB7981",
+   "url": "https://www.threads.com/@aipeekme/post/DdptcnhH9MK",
+   "region": "kr"
+  },
+  {
    "account": "daily_ai_star",
    "text": "기본값은 꺼져 있고, 새 세션부터 적용됩니다. 이미 실행 중인 세션은 재시작해야 설정이 반영됩니다.\n\n로컬 샌드박스는 클라우드 샌드박스나 원격 호스트 세션과도 별도로 관리됩니다. 같은 Copilot이라도 실행 위치에 따라 보안 정책을 따로 봐야 한다는 뜻입니다.\n\n에이전트 도입을 검토할 때 이제 확인할 항목은 모델 이름만이 아닙니다. 프로젝트별 허용 경로, 네트워크 범위, Git 자격증명의 사용 조건이 실제 작업 단위로 남아 있는지도 기준이 됩니다.\n\nhttps://github.blog/changelog/2026-09-23-local-sandboxing-in-the-github-copilot-app/",
    "likes": 0,
@@ -126,22 +156,12 @@
   },
   {
    "account": "choi.openai",
-   "text": "앤트로픽이 Claude가 답변을 거부한 일부 요청에도 다시 비용을 부과합니다.\n\n대상은 생물학, 모델 추출 공격, 고성능 LLM 개발 관련 요청 중 안전장치가 사전에 차단한 경우입니다. 최근 몇 주간 조직적인 공격이 발생하면서 방어 수단으로 적용한다고 밝혔습니다.\n\n앤트로픽에 따르면 최근 테스트에서 Claude Code·Claude.ai·Cowork 계정의 99.7%는 해당 차단을 한 번도 겪지 않았고, 차단 시스템의 오탐률은 0.1% 미만입니다.\n\n즉 Claude가 답변을 생성하지 않아도 특정 보안 차단에 걸리면 사용량이 청구될 수 있습니다.",
-   "likes": 18,
-   "cmts": 1,
-   "time": 1790287239,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/823196735_17988601452112832_912017719652348540_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk5MzU0MTI3MzM2OTMyNjUzNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTE3Ni5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=GOn0Kr7eT68Q7kNvwHSGiRY&_nc_oc=AdpzYNN71fA9X6hM25ikaNhgiEBogrYfGRWJvvZ2OodPzIM7cYDv9I4zjRVVycAd2mI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=roQ6zaMRd36RqU7uMN-PLw&_nc_ss=7a20f&oh=00_AQIoCpVtN2zOBiQ8AhaxBAp9D_mft_YaC3ThA9m7wfcOtg&oe=6ABB778D",
-   "url": "https://www.threads.com/@choi.openai/post/Ddr6KEjCjPH",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
-   "text": "구글이 제미나이에 다양한 외부 앱을 직접 연결하는 새로운 기능을 순차적으로 배포하기 시작했습니다.\n탭을 여러 개 전환할 필요 없이 프로젝트 관리부터 디자인 자산 제작, 생활 정보 확인까지 한곳에서 처리할 수 있게 됐습니다.\n생산성 영역에서는 에어테이블, 리니어, 먼데이닷컴, 판다독, 위스프 AI, 조호가 포함되었습니다.\n창작 부문에는 어도비, 픽스아트, 스퀘어스페이스, 웹플로우가 연동되며 라이프스타일 카테고리도 확장됩니다.\n에어파트먼츠 닷컴이나 익스피리언 같은 서비스가 들어오면서 아파트 검색과 신용 관리까지 제미나이 화면 안에서 다루게 되었습니다.\n원래 구글은 자체 에코시스템 안에서 기능을 넓히는 데 집중해 왔습니다.\n이번 업데이트는 외부 서비스와의 경계를 허물고 작업 흐름을 한 화면에 묶으려는 시도로 보입니다.\n개인적으로는 다양한 앱이 한곳에 묶이는 편의성보다 실제 업무에서 얼마나 정확하게 연동되는지가 더 중요하다고 봅니다.\n\n📷 사진 출처: blog.google",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1790213475,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/821138617_18089392946407306_1266950707108978386_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk5MjkyMjQyMzMxMDY2ODU1NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=YAQlle8TuG8Q7kNvwHnBf6B&_nc_oc=AdoscH16VK2worxZjOjFieG-I7MVP-bxd1sUyO3YKozw2IjlwrDRNh59acq-2zQ1VHI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=pDhO_9h7uIVSEzvKFlChgg&_nc_ss=7a20f&oh=00_AQLlFdGH_uNGFIGWluXb3e_Cds93ilLDg5Nn6gXip8TxjQ&oe=6ABB7981",
-   "url": "https://www.threads.com/@aipeekme/post/DdptcnhH9MK",
+   "text": "오픈AI가 Pro 윗등급 플랜을 준비중인 것으로 보입니다.",
+   "likes": 43,
+   "cmts": 9,
+   "time": 1790282448,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DdrxBNkE2rz",
    "region": "kr"
   },
   {
@@ -156,12 +176,12 @@
   },
   {
    "account": "choi.openai",
-   "text": "오픈AI가 Pro 윗등급 플랜을 준비중인 것으로 보입니다.",
-   "likes": 38,
-   "cmts": 8,
-   "time": 1790282448,
+   "text": "기사 :\nhttps://www.politico.com/news/2026/09/24/white-house-asks-openai-and-anthropic-to-hold-new-models-from-uk-testers-until-u-s-review-01091769",
+   "likes": 2,
+   "cmts": 0,
+   "time": 1790280026,
    "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DdrxBNkE2rz",
+   "url": "https://www.threads.com/@choi.openai/post/DdrsZmDAMhR",
    "region": "kr"
   },
   {
@@ -175,42 +195,12 @@
    "region": "kr"
   },
   {
-   "account": "aipeekme",
-   "text": "오픈알티엠의 샘 알트먼이 인공지능에 대한 감정적 의존 문제를 최근 가장 큰 우려로 언급했습니다.\n일부 젊은 세대가 인생의 모든 결정을 챗지피티에 의존하며 그것이 시키는 대로 따르겠다고 말한다는 내용입니다.\n챗지피티가 인간 치료사보다 더 나은 조언을 주더라도 인공지능의 지시에 따라 삶을 살아가는 것은 위험하다고 지적했는데요.\n이에 대해 기술을 먼저 무분별하게 배포해 놓고 위험성은 나중에 걱정하는 태도가 아쉽다는 지적이 이어졌습니다.\n위험성에 대한 충분한 안내 없이 제품을 출시한 뒤에야 부작용을 말하는 것은 시기가 너무 늦었다는 비판입니다.\n인간보다 인공지능이 더 똑똑하다고 믿고 그대로 따르는 사용자들의 행동 양태는 쉽게 바뀌지 않을 것 같습니다.\n기술의 편의성 이면에 숨겨진 의존성과 주체성 상실의 문제를 다루는 방식이 다소 안일했다고 봅니다.\n@@",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1790207328,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/818988014_1399529315108599_2830973521089275432_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk5Mjg3MDcyOTMxMDA2NjUzMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=9psumoaAKmkQ7kNvwF8KjHH&_nc_oc=AdrFDQlslCZI7gxBqCPjkKaMr4-loh7OgxODYWNlh6ibWUMEKoOLu_UmMN9cjMoWhQY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=pDhO_9h7uIVSEzvKFlChgg&_nc_ss=7a20f&oh=00_AQI4tUFU3dY64jpxvzUu4XI7uS2rc8Z_qZh6l1RsZRZaHA&oe=6ABB9040",
-   "url": "https://www.threads.com/@aipeekme/post/DdphsXulNdk",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "기사 :\nhttps://www.politico.com/news/2026/09/24/white-house-asks-openai-and-anthropic-to-hold-new-models-from-uk-testers-until-u-s-review-01091769",
-   "likes": 1,
-   "cmts": 0,
-   "time": 1790280026,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DdrsZmDAMhR",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "이 변화는 승인 팝업 하나를 추가한 것이 아닙니다.\n\nCopilot 에이전트의 권한 검토 단위가 계정이나 저장소에서 프로젝트의 실행 세션으로 내려왔습니다. 어떤 폴더를 읽고 쓸 수 있는지, 외부망과 사내망을 어디까지 열지, 어떤 Git 자격증명을 전달할지를 함께 정해야 합니다.\n\n설정 변경은 새 세션이나 재시작 뒤 적용됩니다. 클라우드 샌드박스와 원격 호스트 세션에는 적용되지 않습니다.\n\n로컬 코딩 에이전트의 안전성은 모델보다 먼저 실행 경계가 결정하게 됐습니다.\n\nhttps://github.blog/changelog/2026-09-23-local-sandboxing-in-the-github-copilot-app/",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1790209739,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdpmU7ZE8lU",
-   "region": "kr"
-  },
-  {
    "account": "choi.openai",
    "text": "미국 정부가 오픈AI와 앤트로픽에 새로운 AI 모델을 영국보다 먼저 미국 정부에 제공해 검사를 받으라고 요청했습니다.\n\nPOLITICO에 따르면 미국은 자국 시스템의 안전성을 먼저 확인한 뒤 영국 AI Security Institute 등 해외 기관에 모델을 공유하길 요구하고 있습니다.\n\n앤트로픽은 실제로 Claude Mythos 5.1을 미국 기관에만 우선 제공했고, 영국은 사전 테스트를 하지 못했습니다.\n\n최신 AI 모델의 출시 전 접근 권한까지 국가 간 AI 경쟁의 대상이 되고 있습니다.",
-   "likes": 9,
+   "likes": 10,
    "cmts": 1,
    "time": 1790280018,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/824653666_17988601485112832_5285924585205763256_n.jpg?stp=cp6_dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk5MzQ4MDY5NjIxMDQ0ODg1NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTMxOC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Ri1SqghCem4Q7kNvwE3gpyq&_nc_oc=AdqF78sbop5-2qI1QL5VmepuOaQceQt9e43y_TQaEwbLHdJIVwuaa3VdkvewSu4inwI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=roQ6zaMRd36RqU7uMN-PLw&_nc_ss=7a20f&oh=00_AQJ-ur_RGULxCDimxJtlefJUhBat6cPr0FMTGAxbjNesVw&oe=6ABB984F",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/824653666_17988601485112832_5285924585205763256_n.jpg?stp=cp6_dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk5MzQ4MDY5NjIxMDQ0ODg1NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTMxOC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Ri1SqghCem4Q7kNvwHhVULL&_nc_oc=AdpXa4_Ms0cz5iIr8d0MAlYQmh7jWphgSANpn4rwvAIBRu0EYODHKnBhwt81fVkssI-XxvWF-Zd3mIGWdjSGK_ml&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=dFiAj8m5Evlj9PLxG7SJ3Q&_nc_ss=7a20f&oh=00_AQKQb8lOzlewzsR0F4u0JgWCaXlye9qqms8NQBv4RQlAPg&oe=6ABB984F",
    "url": "https://www.threads.com/@choi.openai/post/DdrsYjrAOHW",
    "region": "kr"
   }
@@ -219,10 +209,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Саламатсызбы, Кыргызстан! 🇰🇷🇰🇬 #키르기스스탄 #Kyrgyzstan #кыргызстан",
-   "views": 504500,
+   "views": 505200,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ossWcFAWqdBeFM1UB9FEguDtEqARxSGQQyfuUi~tplv-tiktokx-origin.image?dr=14575&x-expires=1790463600&x-signature=qflG2bLg%2FW5bBa81zOPYUqZHjWQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ossWcFAWqdBeFM1UB9FEguDtEqARxSGQQyfuUi~tplv-tiktokx-origin.image?dr=14575&x-expires=1790467200&x-signature=Kb7GtvTQJ5%2Bp0mECaeR7Dr5rtss%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789537496,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7686005021397273863",
    "region": "kr"
@@ -230,10 +220,10 @@
   {
    "account": "jaemyung_lee",
    "title": "이번 정류장은 멕시코입니다🇲🇽🇰🇷 #이재명 #대통령 #Mexico",
-   "views": 409600,
+   "views": 473700,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o06n1AI0RABAw2AYEHCCB6l0bOiLIWti2AndfA~tplv-tiktokx-origin.image?dr=14575&x-expires=1790463600&x-signature=tdnMOgShe5DQU7w5Mg8p4frnXi0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o06n1AI0RABAw2AYEHCCB6l0bOiLIWti2AndfA~tplv-tiktokx-origin.image?dr=14575&x-expires=1790467200&x-signature=6B4JP5wKz0AfE%2FEvnW49t5wCRO0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1790240939,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7689026284978031880",
    "region": "kr"
@@ -241,10 +231,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Ассалому алайкум, Тоҷикистон! 🇰🇷🇹🇯 #타지키스탄#Тоҷикистон",
-   "views": 263500,
+   "views": 264000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okxPtEHAgIY0AAlC9gAoxAMiBqToaAKBiFulq~tplv-tiktokx-origin.image?dr=14575&x-expires=1790463600&x-signature=wJx%2B8WlDVPrnimh9ewW8ymmw8os%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okxPtEHAgIY0AAlC9gAoxAMiBqToaAKBiFulq~tplv-tiktokx-origin.image?dr=14575&x-expires=1790467200&x-signature=WYIUe1Tkr%2FiObXnd%2BlWot0%2BwqKk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789536283,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685999812356934930",
    "region": "kr"
@@ -252,10 +242,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Salam aleýkum Türkmenistan! 🇰🇷🇹🇲 #투르크메니스탄 #turkmenistan #Türkmenistan",
-   "views": 220100,
+   "views": 220500,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4iB0bDrFU5kqzoDSRupABvEWftIIUEfgqMaiE~tplv-tiktokx-origin.image?dr=14575&x-expires=1790463600&x-signature=3IVa%2B68C4aDfyh2MYv8xRY5npmg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4iB0bDrFU5kqzoDSRupABvEWftIIUEfgqMaiE~tplv-tiktokx-origin.image?dr=14575&x-expires=1790467200&x-signature=cUxfGtQrxRtirrVyFE6PHJV2p8k%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789447594,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685618898128915730",
    "region": "kr"
@@ -263,32 +253,21 @@
   {
    "account": "jaemyung_lee",
    "title": "¡Hola! México! 🇰🇷🇲🇽 #이재명 #claudiasheinbaum #멕시코 #mexico",
-   "views": 121400,
+   "views": 145900,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/owyCEQreNr7VLDAaQ4uGjLkGAIQI4wGye9afQc~tplv-tiktokx-origin.image?dr=14575&x-expires=1790463600&x-signature=P%2FcDIVtiSOi4zujn2T9PF%2BZAMHk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/owyCEQreNr7VLDAaQ4uGjLkGAIQI4wGye9afQc~tplv-tiktokx-origin.image?dr=14575&x-expires=1790467200&x-signature=%2BMcwcHEY1r9ItR9%2F0fm4%2BHsdSF0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1790285661,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7689218364958395655",
    "region": "kr"
   },
   {
    "account": "jaemyung_lee",
-   "title": "Assalomu alaykum, O‘zbekiston!🇺🇿🇰🇷 #이재명 #우즈베키스탄 #Uzbekistan",
-   "views": 69300,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAUOEAPEroYfNoFaeAAfZQATIAiVPvDB5WhDFE~tplv-tiktokx-origin.image?dr=14575&x-expires=1790463600&x-signature=LSXpLRkbdWAtPKq15uvYY2hunJ4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
-   "time": 1789393470,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7685386435158887688",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
    "title": "미국 뉴욕타임즈와 인터뷰를 가졌습니다. Urging Pivot on North Korea, South’s Leader Calls for Easing Sanctions https://blog.naver.com/jaem",
-   "views": 64600,
+   "views": 66600,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIBVEyCAEfPFpCCAvAhEZlCAjHXfDDAjIf8IR4~tplv-tiktokx-origin.image?dr=14575&x-expires=1790463600&x-signature=zr650BH7LwaPvgxrLxtzNYsvC1g%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIBVEyCAEfPFpCCAvAhEZlCAjHXfDDAjIf8IR4~tplv-tiktokx-origin.image?dr=14575&x-expires=1790467200&x-signature=IiuFkHXMih%2BzZYQvpX7q8mdksi4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1790052600,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7688217377795788039",
    "region": "kr"
@@ -296,10 +275,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Қош келдіңіз, Қазақстан!🇰🇿🇰🇷 #이재명 #대통령 #카자흐스탄 #Қазақстан #Kazakhstan",
-   "views": 45300,
+   "views": 45800,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4AeKl0yGICLqpfFAVLAoFr7LEeoVADEIKAdEU~tplv-tiktokx-origin.image?dr=14575&x-expires=1790463600&x-signature=3zUx3KlQ2G3PJCcEJxP%2F%2F4GXuyk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4AeKl0yGICLqpfFAVLAoFr7LEeoVADEIKAdEU~tplv-tiktokx-origin.image?dr=14575&x-expires=1790467200&x-signature=Tvwjyy%2Bph4rbJYvHmJddm7at0Kk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789473921,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685731970453638407",
    "region": "kr"
@@ -307,10 +286,10 @@
   {
    "account": "jaemyung_lee",
    "title": "<초국가범죄, 반드시 뿌리 뽑겠습니다> ‘외국에 있으면 안 잡히겠지?’  그런 생각은 이제 버리십시오. 대한민국 국민을 상대로 한 범죄는 세계 어느 곳에 숨어 있든, 끝까지 추적해 처벌합니다. 대규모 보이스피싱 조직",
-   "views": 39200,
+   "views": 40100,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oU9rIZjq1EKACAAxNBVioCpiI2BAtmA28wfcPR~tplv-tiktokx-origin.image?dr=14575&x-expires=1790463600&x-signature=QNdNw0M9keNvQZkotiua7%2BBBXrE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oU9rIZjq1EKACAAxNBVioCpiI2BAtmA28wfcPR~tplv-tiktokx-origin.image?dr=14575&x-expires=1790467200&x-signature=LECEoD1c7vXCqJ4UW8BmEE%2BkAG4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789605105,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7686295400835239175",
    "region": "kr"
@@ -318,10 +297,10 @@
   {
    "account": "jaemyung_lee",
    "title": "다녀오겠습니다 🇺🇳🇲🇽 🇺🇳UN총회 9월 21일~23일 🇲🇽멕시코 국빈방문 9월 23일~26일 #이재명 #UNGA #mexico",
-   "views": 31500,
+   "views": 32800,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o8hqfADsO8SBzFR3qsnOMDUEgQTwBkvQerxPE0~tplv-tiktokx-origin.image?dr=14575&x-expires=1790463600&x-signature=5INJg9QE8G%2F0ya2TaORUsZHHII4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o8hqfADsO8SBzFR3qsnOMDUEgQTwBkvQerxPE0~tplv-tiktokx-origin.image?dr=14575&x-expires=1790467200&x-signature=99oeMJ9I6LJ99lZtrIq97sDg4I0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789981488,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7687911952084978951",
    "region": "kr"
@@ -332,7 +311,7 @@
    "views": 12100,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooyVfsECyAObdyUAC9AHMGgEDfAwFBAocCAqjI~tplv-tiktokx-origin.image?dr=14575&x-expires=1790463600&x-signature=2FSt47WuxG9oWSYnQWmHW%2F6BKrc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooyVfsECyAObdyUAC9AHMGgEDfAwFBAocCAqjI~tplv-tiktokx-origin.image?dr=14575&x-expires=1790467200&x-signature=CTJEj0Dej5t0L%2FrVTcl2ApIalEk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1790062603,
    "url": "https://www.tiktok.com/@tictok_ent/video/7688260337883270407",
    "region": "kr"
@@ -340,25 +319,27 @@
   {
    "account": "tictok_ent",
    "title": "수지, 시민들의 욕을 부르는 미모 / 아누아(Anua) 포토월 더파운더즈의 글로벌 뷰티 브랜드 아누아(Anua)의 'PDRN 라인 팝업스토어' 오픈을 기념하는 포토행사가 18일 오전 서울 성동구 성수동에 위치한 올리",
-   "views": 8366,
+   "views": 8370,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ow8gANS3AmQCK2UqVEUCB50sGEQeIAFZAFArfD~tplv-tiktokx-origin.image?dr=14575&x-expires=1790463600&x-signature=dYvIVgo4VgI2EZHD%2FYGfMtUTWEY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ow8gANS3AmQCK2UqVEUCB50sGEQeIAFZAFArfD~tplv-tiktokx-origin.image?dr=14575&x-expires=1790467200&x-signature=1H2lmpvBt5IiWeRwVOaJP4hvKqo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789699186,
    "url": "https://www.tiktok.com/@tictok_ent/video/7686699475406015762",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "올데이프로젝트(ALLDAY PROJECT) 영서, 러블리 영서❤️ / ‘클리오 - 풍년다방 팝업 스토어’ 포토월 클리오의 K뷰티 No.1 메이크업 브랜드 클리오가 26FW 시즌을 맞아 풍년다방 에디션을 새롭게 출시하",
+   "views": 2430,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQie1A8qsAPFBAtAiykiCVLCUuyfI2JACYMgEB~tplv-tiktokx-origin.image?dr=14575&x-expires=1790467200&x-signature=S%2F%2F%2B%2BO%2FJ4k20HHUNgd2UZVgXo7g%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "time": 1790062423,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7688259564650663175",
    "region": "kr"
   }
  ],
  "reddit": [
-  {
-   "sub": "meirl",
-   "title": "meirl",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/wy6yc5s0virh1.png?width=640&crop=smart&auto=webp&s=bebdc2a407063cc26a248b16e90fef2dce35d71f",
-   "time": 1790279134,
-   "url": "https://www.reddit.com/r/meirl/comments/1wpbks4/meirl/"
-  },
   {
    "sub": "mildlyinfuriating",
    "title": "Wife frequently complains that our dryer is not drying properly.",
@@ -369,22 +350,22 @@
    "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1wp84o1/wife_frequently_complains_that_our_dryer_is_not/"
   },
   {
-   "sub": "pics",
-   "title": "Diplomats walk out as Israeli PM Benjamin Netanyahu addresses the United Nations General Assembly",
+   "sub": "meirl",
+   "title": "meirl",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/2ewugve5mirh1.jpeg?width=640&crop=smart&auto=webp&s=56834e6b2f04b8a1be38519df8f85704afeb8372",
-   "time": 1790276252,
-   "url": "https://www.reddit.com/r/pics/comments/1wpac1v/diplomats_walk_out_as_israeli_pm_benjamin/"
+   "thumb": "https://preview.redd.it/wy6yc5s0virh1.png?width=640&crop=smart&auto=webp&s=bebdc2a407063cc26a248b16e90fef2dce35d71f",
+   "time": 1790279134,
+   "url": "https://www.reddit.com/r/meirl/comments/1wpbks4/meirl/"
   },
   {
-   "sub": "news",
-   "title": "Nolan Wells’ autopsy found no water in lungs; data was deleted from his phone the day he disappeared, experts say",
+   "sub": "food",
+   "title": "[homemade] Poached Beef Medallions with a Tomato and Corn Syrup Reduction and topped with Vinegar Infused with Ground Mustard Seed",
    "score": 0,
    "cmts": 0,
-   "thumb": "",
-   "time": 1790282458,
-   "url": "https://www.reddit.com/r/news/comments/1wpczw3/nolan_wells_autopsy_found_no_water_in_lungs_data/"
+   "thumb": "https://preview.redd.it/6fzmzdbpcjrh1.jpeg?width=640&crop=smart&auto=webp&s=a4ccbdf6e44ad3af54500ea720baa99a98a3d4f6",
+   "time": 1790285086,
+   "url": "https://www.reddit.com/r/food/comments/1wpe3dc/homemade_poached_beef_medallions_with_a_tomato/"
   },
   {
    "sub": "technology",
@@ -394,6 +375,15 @@
    "thumb": "https://external-preview.redd.it/T3BqK8u-YBBFYqHbFYfezPT7e_1iY7RFMyN7qx0SnuQ.jpeg?width=216&crop=smart&auto=webp&s=8231f9b4f6e5b8d594ec8a492f617cde79dbc668",
    "time": 1790246824,
    "url": "https://www.reddit.com/r/technology/comments/1woybnx/mcdonalds_unveils_85_billion_tech_plan_to_fend/"
+  },
+  {
+   "sub": "news",
+   "title": "Nolan Wells’ autopsy found no water in lungs; data was deleted from his phone the day he disappeared, experts say",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1790282458,
+   "url": "https://www.reddit.com/r/news/comments/1wpczw3/nolan_wells_autopsy_found_no_water_in_lungs_data/"
   },
   {
    "sub": "cats",
@@ -423,22 +413,13 @@
    "url": "https://www.reddit.com/r/PeterExplainsTheJoke/comments/1wp038p/whos_the_lady_and_what_did_she_do_and_what_does/"
   },
   {
-   "sub": "food",
-   "title": "[homemade] Poached Beef Medallions with a Tomato and Corn Syrup Reduction and topped with Vinegar Infused with Ground Mustard Seed",
+   "sub": "pics",
+   "title": "Diplomats walk out as Israeli PM Benjamin Netanyahu addresses the United Nations General Assembly",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/6fzmzdbpcjrh1.jpeg?width=640&crop=smart&auto=webp&s=a4ccbdf6e44ad3af54500ea720baa99a98a3d4f6",
-   "time": 1790285086,
-   "url": "https://www.reddit.com/r/food/comments/1wpe3dc/homemade_poached_beef_medallions_with_a_tomato/"
-  },
-  {
-   "sub": "nextfuckinglevel",
-   "title": "Snake catcher in India calmly handles two massive cobras with his bare hands and a stick",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/MDNjY3F1MHd1aXJoMQUFyml5Vrcrt0C6oAr0WerFoq6WTD94oAqzaQ0UngXM.png?width=640&crop=smart&auto=webp&s=56f53b0a62af3239edb7237dc72444aaaec1b177",
-   "time": 1790279244,
-   "url": "https://www.reddit.com/r/nextfuckinglevel/comments/1wpbmh5/snake_catcher_in_india_calmly_handles_two_massive/"
+   "thumb": "https://preview.redd.it/2ewugve5mirh1.jpeg?width=640&crop=smart&auto=webp&s=56834e6b2f04b8a1be38519df8f85704afeb8372",
+   "time": 1790276252,
+   "url": "https://www.reddit.com/r/pics/comments/1wpac1v/diplomats_walk_out_as_israeli_pm_benjamin/"
   },
   {
    "sub": "dashcams",
@@ -459,46 +440,18 @@
    "url": "https://www.reddit.com/r/ArcRaiders/comments/1wp5mcx/pve_toggle_incoming/"
   },
   {
-   "sub": "korea",
-   "title": "Lee says Ukraine breached non-disclosure agreement on 2 NK soldiers",
+   "sub": "todayilearned",
+   "title": "TIL in Norway everyone's income, net wealth and tax paid are published online and anyone can search them. But you have to log in, the person you look up can see your name in their search history withi",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/FhxJoZeFJCZVb_-Pl4gl9kE12xF7sER1jN7_Gs3s6z8.jpeg?width=640&crop=smart&auto=webp&s=a013178a278c86476ec9a12b511b7155c9bd4d12",
-   "time": 1790275397,
-   "url": "https://www.reddit.com/r/korea/comments/1wp9yl8/lee_says_ukraine_breached_nondisclosure_agreement/"
-  },
-  {
-   "sub": "korea",
-   "title": "Chuseok, Korea’s harvest festival, has begun. Many people have left Seoul to return to their hometowns, while those who remain in the city will enjoy a quieter Seoul. They may also head up to Dalmaji ",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/v1tdtgmp8frh1.jpg?width=140&height=78&auto=webp&s=6aa1721f2ebdf87c4d627d0455595b172369594e",
-   "time": 1790235477,
-   "url": "https://www.reddit.com/r/korea/comments/1wovagh/chuseok_koreas_harvest_festival_has_begun_many/"
-  },
-  {
-   "sub": "korea",
-   "title": "I’m not goot at English but…",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/q9i2yxzf9grh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=848acb32f7b6f3941c03c9623578aaa032015ff2",
-   "time": 1790247668,
-   "url": "https://www.reddit.com/r/korea/comments/1woyky3/im_not_goot_at_english_but/"
+   "thumb": "",
+   "time": 1790243630,
+   "url": "https://www.reddit.com/r/todayilearned/comments/1woxer8/til_in_norway_everyones_income_net_wealth_and_tax/"
   }
  ],
  "disaster": [],
  "_cover": {
   "ok": {
-   "x": [
-    "64bitcoinkr",
-    "awaken_eyes",
-    "economysniper0",
-    "freedom_73x",
-    "globalbrief_now",
-    "jajaja7878uu",
-    "kyunghyang",
-    "marionawfal"
-   ],
    "threads": [
     "aicoffeechat",
     "aipeekme",
@@ -515,10 +468,10 @@
   },
   "why": {},
   "landing": {
-   "at": "2026-09-25T08:01:20",
+   "at": "2026-09-25T08:35:16",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-09-25T08:35:08.753954+09:00"
+ "updated": "2026-09-25T09:01:22.719110+09:00"
 }
