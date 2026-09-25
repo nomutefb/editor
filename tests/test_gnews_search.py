@@ -366,6 +366,62 @@ class BlockedRetryTest(unittest.TestCase):
         self.assertEqual(self._why(side_effect=urllib.error.URLError(TimeoutError('timed out'))), 'timeout')
         self.assertEqual(self._why(return_value=_Resp('https://consent.google.com/ml?continue=x')), 'host:consent.google.com')
 
+    def test_more_reasons(self):
+        import socket
+        import urllib.error
+        self.assertEqual(self._why(return_value=_Resp('https://news.google.com/rss/search?q=a', body=b'')), 'empty')
+        self.assertEqual(self._why(side_effect=urllib.error.URLError(socket.gaierror(-2, 'Name or service not known'))),
+                         'URLError:gaierror')
+
+    def test_hard_block_stops_network(self):
+        """429·구글 밖 리다이렉트 = 확정 차단 → 같은 프로세스 뒤 요청은 네트워크 0(막힌 IP 연타 차단) · timeout 은 계속 시도."""
+        import urllib.error
+        sorry = urllib.error.HTTPError('https://www.google.com/sorry/index', 429, 'x', {}, None)
+        with patch.dict(gn.STATS, {'ok': 0, 'fail': 0, 'why': '', 'hard': False}), \
+                patch.object(gn.urllib.request, 'urlopen', side_effect=sorry) as uo:
+            for _ in range(4):
+                gn._http('https://news.google.com/rss/search?q=a')
+            self.assertEqual(uo.call_count, 1)
+            self.assertEqual(gn.STATS['fail'], 4)
+            self.assertTrue(gn.STATS['hard'])
+        self.assertFalse(gn.STATS['hard'])   # patch.dict 복원 = 다른 테스트 오염 0
+        with patch.dict(gn.STATS, {'ok': 0, 'fail': 0, 'why': '', 'hard': False}), \
+                patch.object(gn.urllib.request, 'urlopen', side_effect=TimeoutError('timed out')) as uo:
+            for _ in range(3):
+                gn._http('https://news.google.com/rss/search?q=a')
+            self.assertEqual(uo.call_count, 3)
+            self.assertFalse(gn.STATS['hard'])
+
+    def test_block_is_per_article(self):
+        """배치 1건째 성공 뒤 2건째만 막혀도 2건째는 차단(gnretry) — 프로세스 누적 STATS 로 보면 놓친다(평의회 260925)."""
+        tmp = []
+        try:
+            for _ in range(2):
+                fd, path = tempfile.mkstemp(suffix='.md')
+                with os.fdopen(fd, 'w', encoding='utf-8') as f:
+                    f.write(MD_DOMESTIC)
+                tmp.append(path)
+
+            def ok_search(*a, **k):
+                gn.STATS['ok'] += 1
+                return []
+
+            def dead_search(*a, **k):
+                gn.STATS['fail'] += 4
+                return []
+            with patch.dict(os.environ, {'GNEWS_IMG': '1'}), patch.dict(gn.STATS, {'ok': 0, 'fail': 0, 'why': '', 'hard': False}):
+                with patch.object(gn, 'search_urls', side_effect=ok_search):
+                    tg.gnews_topup(tmp[0], [])
+                with patch.object(gn, 'search_urls', side_effect=dead_search):
+                    tg.gnews_topup(tmp[1], [])
+                self.assertFalse(gn.blocked())            # 프로세스 누적으로는 「차단 아님」
+                self.assertFalse(tg._gn_blocked(tmp[0]))
+                self.assertTrue(tg._gn_blocked(tmp[1]))   # 기사 단위 = 차단 → gnretry
+        finally:
+            for path in tmp:
+                tg._GN_ART_BLOCKED.discard(path)
+                os.remove(path)
+
     def test_success_keeps_counts(self):
         with patch.dict(gn.STATS, {'ok': 0, 'fail': 0, 'why': ''}), \
                 patch.object(gn.urllib.request, 'urlopen', return_value=_Resp('https://news.google.com/rss/search?q=a')):

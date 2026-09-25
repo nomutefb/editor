@@ -29,7 +29,7 @@ on:
         default: '3'
         type: string
       gnews:
-        description: '1단계 구글 뉴스 검색(1 = 켬 · 자동 보충 = 0 — thumb_gen 이 방금 같은 검색을 돌림)'
+        description: '1단계 구글 뉴스 검색(1 = 켬 · 자동 보충 = 0 — thumb_gen 이 방금 같은 검색을 돌림 · 구글 차단 재시도 = 1)'
         default: '1'
         type: string
       llm:
@@ -60,6 +60,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
         with:
+          ref: main        # 잡 시작 시점 최신 main — 미지정 = 발사 시점 SHA(동시성 그룹에서 기다린 런이 앞 런 착지분을 못 보고 git_land 가 우리 스냅샷으로 덮는다 = 앞 런 사진 유실 · 평의회 260925)
           fetch-depth: 1   # 최신 main 기준   # 구 0 = 원격 브랜치 567개 전량 수신 = 실측 105s(260810)
           # ⚡ 260810 sparse-checkout(scrape 카나리아 실증 = 같은 잡 A/B 20s→9s · 삭제 커밋 0건) — 목록 = 이 잡이 실행줄에서 여는 폴더뿐.
           #   빠지는 대형 = _versions 437M · docs 90M · 자료 75M · _산출 74M(어느 잡도 안 연다) · ⚠ git add/rm 대상은 전건 포함 검문 통과분.
@@ -104,7 +105,7 @@ jobs:
           MOREIMG_ROUND: ${{ github.event.inputs.round || '1' }}
           MOREIMG_MAX_ROUND: ${{ github.event.inputs.max_round || '3' }}   # 자동 보충(thumb_gen 뒤 디스패치) = 1 = 연쇄 없음(운영자 260925 비용 바운드) · 수동 '+N장 더' = 3(종전)
           GNEWS_IMG: ${{ vars.GNEWS_IMG || '1' }}   # 1단계 구글 뉴스 검색(LLM 0 · 운영자 260925) — 목표를 채우면 Claude 콜 0 · 끄기 = repo 변수 GNEWS_IMG=0
-          MOREIMG_GNEWS: ${{ github.event.inputs.gnews || '1' }}   # 자동 보충 = '0'(반복 검색 생략 · 260925 평의회)
+          MOREIMG_GNEWS: ${{ github.event.inputs.gnews || '1' }}   # 자동 보충 = '0'(반복 검색 생략 · 260925 평의회) · 구글 차단 재시도(gnretry) = '1'
           MOREIMG_LLM: ${{ github.event.inputs.llm || '1' }}   # auto = 구글 차단 런 재시도(구글 응답 + 3장 미만일 때만 Claude · 또 막히면 LLM 0 · 260925)
         run: |
           echo "활성 계정: ${ACTIVE_ACCOUNT} · stem=${MOREIMG_STEM} · want=${MOREIMG_WANT}"

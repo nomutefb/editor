@@ -1616,10 +1616,16 @@ def _gn_ready(md):
         return False
 
 
-def _gn_blocked():
+_GN_ART_BLOCKED = set()   # 구글 차단 판정 = **기사 단위**(이 기사 검색 동안 응답 성공 0 · 실패 ≥1) — 프로세스 누적 STATS 로 보면
+#   배치(THUMB_MAX_BATCH=3) 1건째 성공 뒤 2·3건째가 막혀도 「차단 아님」이 되어 구글 재시도 없이 LLM 직행(평의회 260925)
+
+
+def _gn_blocked(md=None):
     try:
         import gnews_search as gn
-        return gn.enabled() and gn.blocked()
+        if not gn.enabled():
+            return False
+        return (md in _GN_ART_BLOCKED) if md is not None else gn.blocked()
     except Exception:
         return False
 
@@ -1647,14 +1653,16 @@ def gnews_topup(md, cand, exclude=(), want=7):
         if not qs:
             return cand
         t0 = time.time()
+        _ok0, _f0 = gn.STATS["ok"], gn.STATS["fail"]
         urls = [u for u in gn.search_urls(qs, exclude=list(exclude) + [c.get("link", "") for c in cand],
                                           limit=max(4, (want - len(cand)) * 2),   # 모자란 장수의 2배(화질 컷 ~절반 감안)
                                           now_ts=gn.ref_ts(_txt) or None,
                                           self_titles=[gn._fm(_txt, "title"), gn._fm(_txt, "title_ko")]) if _url_ok(u)]
         print("  🔎 구글 뉴스 검색(LLM 0) — 검색어 {}개 → 기사 {}건 ({:.0f}s)".format(len(qs), len(urls), time.time() - t0), flush=True)
-        if gn.blocked():   # 응답 성공 0 = 차단·형식 변경 의심 — 「결과 0건」과 구분해 표면화(LLM 직행 대신 process_one 마커 = gnretry · 다른 러너 재시도)
+        if gn.STATS["ok"] == _ok0 and gn.STATS["fail"] > _f0:   # 이 기사 응답 성공 0 = 차단·형식 변경 의심 — 「결과 0건」과 구분해 표면화(LLM 직행 대신 process_one 마커 = gnretry · 다른 러너 재시도)
+            _GN_ART_BLOCKED.add(md)
             print("::warning::구글 뉴스 응답 성공 0건(요청 {}회 실패 · 사유 {}) — 러너 IP 차단·형식 변경 의심 · 3장 미만이면 다른 러너에서 구글 1회 재시도(LLM은 거기서 구글이 응답할 때만)".format(
-                gn.STATS["fail"], gn.STATS.get("why") or "미상"), flush=True)
+                gn.STATS["fail"] - _f0, gn.STATS.get("why") or "미상"), flush=True)
         if not urls:
             return cand
         seen = {_norm_key(c.get("src", "")) for c in cand}
@@ -1723,7 +1731,7 @@ def process_one(md, stem, redo_new=""):
         #   구글 차단 의심(응답 성공 0)이면 LLM 직행 대신 「gnretry」 = moreimg 가 **다른 러너(다른 IP)**에서 구글부터 다시(llm=auto ·
         #   거기서도 막히면 LLM 0 = fail-closed 유지 · 260925 평의회). #352 성공(3s)·#354 전량 실패(28s)가 40분 간격 = 러너별 간헐 차단 실측.
         if len(items) < TOPUP_FLOOR:
-            _retry = _gn_blocked()
+            _retry = _gn_blocked(md)
             try:
                 _tp = os.path.join(os.environ.get("RUNNER_TEMP") or "/tmp", "thumb_topup.txt")
                 with open(_tp, "a", encoding="utf-8") as f:

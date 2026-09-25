@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """뷰어 '+N장 더' (검색 이미지 카러셀) + 자동 보충 — **1단계 = 구글 뉴스 검색(LLM 0 · gnews_search.py · 운영자 260925)**이
 요약의 image_query·영문·제목으로 같은 사건 타매체 기사를 찾아 먼저 채우고, 목표(WANT)를 채우면 Claude 콜 없이 끝난다.
-**2단계**(모자랄 때·원문 url 백필 임무가 있을 때만 · MOREIMG_LLM=0 = 끔) = 기사 요약·시사점을 읽고 Claude(Sonnet 5·effort high · MOREIMG_MODEL)가
+**2단계**(모자랄 때·원문 url 백필 임무가 있을 때만 · MOREIMG_LLM=0 = 끔 · auto = 이번 러너에서 구글이 응답하고도 3장 미만일 때만) = 기사 요약·시사점을 읽고 Claude(Sonnet 5·effort high · MOREIMG_MODEL)가
 **오버레이 뒤 후킹용 카드뉴스 배경**으로 가장 효과적인 관련 뉴스이미지 소스를 *기존과 중복 없이*
 더 제안 → og:image 추출(thumb_gen 재사용·R2 재호스팅) → cards/<stem>/thumbs/search.json **앞쪽**에 append.
 
@@ -19,9 +19,12 @@ sys.path.insert(0, os.path.normpath(os.path.join(os.path.dirname(os.path.abspath
 from claude_py import run_claude   # 폴오버 SSOT(쿼터 한도 시 백업계정 4체인 자동 전환 · breaking_judge·gate_judge 공용 · 운영자 260718 "전사 적용")
 
 STEM = os.environ.get("MOREIMG_STEM", "").strip()
-WANT = max(1, min(10, int(os.environ.get("MOREIMG_WANT", "5") or "5")))
+_w = re.match(r"\s*(\d+)", os.environ.get("MOREIMG_WANT", "") or "")   # 앞 숫자만(머지 전환기 옛 보충 스텝이 3칸 마커를 "5 gnretry" 로 실어도 죽지 않게 · 평의회 260925)
+WANT = max(1, min(10, int(_w.group(1)) if _w else 5))
 ROUND = max(1, min(9, int(os.environ.get("MOREIMG_ROUND", "1") or "1")))      # 보충 세대(1 = 첫 발사)
 MAX_ROUND = max(1, min(9, int(os.environ.get("MOREIMG_MAX_ROUND", "3") or "3")))  # 상한 = Claude 콜 상한(비용 바운드)
+if os.environ.get("MOREIMG_LLM", "").strip().lower() == "auto":
+    MAX_ROUND = 1   # auto(구글 차단 재시도) = 1라운드 고정 — 다음 라운드 재발사는 llm 입력을 안 실어 2라운드가 llm=1 로 풀린다(fail-closed 누수 · 평의회 260925)
 MODEL = os.environ.get("MOREIMG_MODEL") or "claude-sonnet-5"   # 이미지 보충 검색 = 소넷 5(운영자 260905 «자유요약-인스타-스레드가 제일 중요 · 이미지는 계륵» — 사진 후보 주소 찾기에 요약 본체보다 비싼 오퍼스를 쓰던 축 회수 · 원장 실측 2주 176회 $754) · 되돌리기 = 레포 변수 MOREIMG_MODEL=claude-opus-5-5 · 구 PIPE_MODEL 키 공유 폐지(본선 모델을 올리면 이 레인도 딸려 오르던 결합 해소)
 
 
@@ -75,7 +78,7 @@ body = re.sub(r'```.*?```', '', body, flags=re.S).strip()[:3500]
 gn_cand, gn_links, gn_ok = [], [], False
 try:
     import gnews_search as gn
-    if gn.enabled() and os.environ.get("MOREIMG_GNEWS", "1").strip() != "0":   # 자동 보충 = '0'(thumb_gen 이 방금 같은 검색을 돌렸다 = 반복 무의미 · 260925 평의회)
+    if gn.enabled() and os.environ.get("MOREIMG_GNEWS", "1").strip() != "0":   # 자동 보충 = '0'(thumb_gen 이 방금 같은 검색을 돌렸다 = 반복 무의미 · 260925 평의회) · 단 구글 차단 재시도(gnretry) = '1'
         _gq = gn.build_queries(md)
         gn_links = [u for u in gn.search_urls(_gq, exclude=exclude_srcs, limit=WANT * 3, now_ts=gn.ref_ts(md) or None,
                                               self_titles=[gn._fm(md, "title"), gn._fm(md, "title_ko")]) if tg._url_ok(u)]
@@ -170,10 +173,14 @@ if url_task and IMG_ASK == 0:   # 사진은 구글 레인이 채웠다 = 원문 
         m=fm_media or "미상", r=fm_reporter or "미상", t=fm_title or head)
 
 out = ""
+_gstats = getattr(sys.modules.get("gnews_search"), "STATS", {})   # 레인 import 실패여도 NameError 0(gn 미정의 경로)
 if not need_llm:
     print("· Claude 생략 — {}".format("구글 레인이 목표 {}장 충족(LLM 0)".format(WANT) if LLM_ON
           else "MOREIMG_LLM=0(구글 레인만)" if LLM_MODE != "auto"
-          else "재시도 모드 — 구글이 {}(LLM 0)".format("이번에도 무응답 = 차단 지속" if not gn_ok else "응답 · 합계 {}장 ≥ 문턱 {}".format(len(existing) + len(gn_cand), tg.TOPUP_FLOOR))), flush=True)
+          else "재시도 모드 — {}(LLM 0)".format(
+              "구글 응답 · 합계 {}장 ≥ 문턱 {}".format(len(existing) + len(gn_cand), tg.TOPUP_FLOOR) if gn_ok
+              else "구글 이번에도 무응답 = 차단 지속(사유 {})".format(_gstats.get("why") or "미상") if _gstats.get("fail")
+              else "구글 레인 미실행(꺼짐·검색어 없음·레인 예외)")), flush=True)
 else:
   print("Claude({}) {} — '{}' (구글 레인 {}장 뒤)".format(MODEL, "원문 URL 찾기" if (url_task and IMG_ASK == 0) else "관련 뉴스이미지 소스 검색", head[:40], len(gn_cand)), flush=True)
   _args = ["claude", "-p", "--model", MODEL, "--effort", "high",   # --bare 제거(OAuth 즉사 방지 · 260718) — 계정 로테이션은 폴오버 SSOT가 담당

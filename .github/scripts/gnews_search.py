@@ -13,7 +13,7 @@
   해외 사건 = 영문(image_query_en · US판) 4·4장 > 국문 image_query 2·2장 > 제목 2·3장 → 영문 먼저.
   국내 사건 = image_query 0~2장 · 제목 1~3장(음역이 특이한 image_query 는 0건 = 제목이 구제) → image_query 다음 제목.
   「최근 7일(when:7d)」 제한은 결과만 줄었다(0~2장) = 안 쓴다(구글 뉴스 정렬이 이미 최신 우선). 사다리는 목표 개수에 차면 멈춘다.
-안전 = 전부 fail-soft(차단·형식 변경·타임아웃 = 빈 목록 → 호출부가 기존 경로·LLM 보충으로 폴백). 해제된 URL 은 호출부가
+안전 = 전부 fail-soft(차단·형식 변경·타임아웃 = 빈 목록 → 호출부가 다른 러너 재시도 · LLM 은 구글이 응답할 때만). 해제된 URL 은 호출부가
   thumb_gen._url_ok(SSRF 게이트)로 다시 거른다. 파서는 순수 함수(tests/test_gnews_search.py 오프라인 회귀).
 """
 import json
@@ -149,8 +149,9 @@ def parse_batch(text):
     return ""
 
 
-STATS = {"ok": 0, "fail": 0, "why": ""}   # 구글 응답 성패 집계(프로세스 누적) — 전부 실패 = 차단 의심(호출부가 경고 · 다른 러너 재시도 발사)
-#   why = 마지막 실패 사유(http429·timeout·host:consent.google.com …) — 경고에 실어 차단·동의 페이지·망 지연을 가른다(260925 #354 실측 = 사유 무기록)
+STATS = {"ok": 0, "fail": 0, "why": "", "hard": False}   # 구글 응답 성패 집계(프로세스 누적) — 전부 실패 = 차단 의심(호출부가 경고 · 다른 러너 재시도 발사)
+#   why = 마지막 실패 사유(http429·timeout·host:consent.google.com·empty·URLError:gaierror …) — 경고에 실어 차단·동의 페이지·망 지연을 가른다(260925 #354 실측 = 사유 무기록)
+#   hard = 확정 차단(429·구글 밖 리다이렉트 = sorry·동의 페이지) — 이 프로세스는 구글을 더 두드리지 않는다(막힌 IP 연타 = 차단 연장 · 헛대기 · 평의회 260925)
 
 
 def blocked():
@@ -158,9 +159,18 @@ def blocked():
     return STATS["fail"] > 0 and STATS["ok"] == 0
 
 
+def _hard_block(why):
+    return why.startswith("http429") or "@" in why or why.startswith("host:")
+
+
 def _http(url, data=None, headers=None, timeout=12):
+    if STATS.get("hard"):   # 확정 차단 뒤 = 네트워크 0 · 실패로만 센다(기사별 차단 판정 = 호출부 스냅숏 대조)
+        STATS["fail"] += 1
+        return ""
     r = _http_raw(url, data, headers, timeout)
     STATS["ok" if r else "fail"] += 1
+    if not r and _hard_block(STATS.get("why") or ""):
+        STATS["hard"] = True
     return r
 
 
@@ -173,13 +183,18 @@ def _http_raw(url, data=None, headers=None, timeout=12):
             if r.status != 200 or host != "news.google.com":
                 STATS["why"] = "http%d" % r.status if host == "news.google.com" else "host:" + host
                 return ""   # 리다이렉트로 구글 밖(동의 페이지·타 호스트)에 닿으면 버린다 = 이 모듈은 news.google.com 만 말한다
-            return r.read(2_000_000).decode("utf-8", "ignore")
+            body = r.read(2_000_000).decode("utf-8", "ignore")
+            if not body:
+                STATS["why"] = "empty"
+            return body
     except urllib.error.HTTPError as e:
         host = urllib.parse.urlparse(e.geturl() or url).hostname or ""
         STATS["why"] = "http%d" % e.code + ("" if host == "news.google.com" else "@" + host)   # google.com/sorry = 429@www.google.com(IP 차단)
         return ""
     except Exception as e:  # noqa: BLE001
-        STATS["why"] = "timeout" if "timed out" in str(e) or isinstance(e, TimeoutError) else type(e).__name__
+        _r = getattr(e, "reason", None)   # URLError = DNS·연결 거부·SSL 을 한 겹 감싼다 → 속 원인 클래스명
+        STATS["why"] = ("timeout" if "timed out" in str(e) or isinstance(e, TimeoutError) or isinstance(_r, TimeoutError)
+                        else type(e).__name__ + (":" + type(_r).__name__ if isinstance(_r, BaseException) else ""))
         return ""
 
 
