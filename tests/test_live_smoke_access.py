@@ -41,10 +41,11 @@ def _serve(accept_token):
     return srv, seen
 
 
-def _run(base, token):
+def _run(base, token, raw=None):
     env = {k: v for k, v in os.environ.items() if not k.startswith("CF_ACCESS_")}
     if token:
-        env.update(CF_ACCESS_CLIENT_ID=ID, CF_ACCESS_CLIENT_SECRET=SECRET)
+        cid, sec = raw or (ID, SECRET)
+        env.update(CF_ACCESS_CLIENT_ID=cid, CF_ACCESS_CLIENT_SECRET=sec)
     r = subprocess.run([sys.executable, str(SMOKE), "--base", base], capture_output=True, text=True, env=env, timeout=120)
     mark = next((l for l in r.stdout.splitlines() if l.startswith("MARK ")), "")
     return r.returncode, mark, r.stdout
@@ -82,6 +83,28 @@ class LiveSmokeAccessTest(unittest.TestCase):
         self.assertEqual(rc, 0, out)                      # 벽 통과 = C1~C4 전문 검문 복귀
         self.assertIn("VERIFIED=full", mark)
         self.assertTrue(seen and all(a for _, a in seen), f"토큰 없이 나간 요청: {[p for p, a in seen if not a]}")
+
+    def test_copy_button_prefix_and_swap_still_pass(self):
+        # 260925 #192: 대시보드 복사 버튼 = 헤더 줄째 복사 → 비밀값에 앞말이 붙어 denied. 정규화(shared/access_token.py) 후 통과해야 한다.
+        for raw in ((f"CF-Access-Client-Id: {ID}", f"CF-Access-Client-Secret: {SECRET}\n"), (SECRET, ID)):
+            srv, seen = _serve(accept_token=True)
+            try:
+                rc, mark, out = _run(f"http://127.0.0.1:{srv.server_port}", token=True, raw=raw)
+            finally:
+                srv.shutdown(); srv.server_close()
+            self.assertNotIn("ACCESS=", mark, out)
+            self.assertEqual(rc, 0, out)
+            self.assertTrue(seen and all(a for _, a in seen), f"정규화 안 된 헤더로 나간 요청: {[p for p, a in seen if not a]}")
+
+    def test_denied_prints_shape_without_values(self):
+        srv, _ = _serve(accept_token=False)
+        try:
+            rc, mark, out = _run(f"http://127.0.0.1:{srv.server_port}", token=True)
+        finally:
+            srv.shutdown(); srv.server_close()
+        self.assertIn("ACCESS_SHAPE id_suffix=ok", out)   # 거부 원인 좁히기(오입력 vs 정책) — 값은 절대 출력 금지
+        self.assertNotIn(SECRET, out)
+        self.assertNotIn(ID, out)
 
 
 if __name__ == "__main__":

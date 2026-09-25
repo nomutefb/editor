@@ -10,7 +10,7 @@
 #   그 뒤 라이브 도장(BUILD_STAMP)이 실제로 전진하는지 최대 12분 관측해 결과를 로그로 못박는다
 #   (관측 창 12분 = live-smoke.yml 동값 계승 — 코드 빌드→도장 빌드 2연속이 CF 큐에서 직렬 처리되는 실측 근거).
 #
-# 안전 = 쓰기 권한 0(contents: read) · 레포 파일 무접촉 · 실패해도 fail-soft(훅 미설정 = 안내 후 정상 종료).
+# 안전 = 쓰기 권한 0(contents: read) · 레포 파일 쓰기 무접촉(읽기 = 비밀값 정규화 정본 1파일) · 실패해도 fail-soft(훅 미설정 = 안내 후 정상 종료).
 # 끄는 법 = 이 파일 삭제(다른 워크플로 무영향) · 로그 = Actions → 이 워크플로 런.
 name: pages-redeploy
 
@@ -52,11 +52,17 @@ jobs:
             echo "::warning::훅 호출 실패 — CF 대시보드에서 수동 Retry 필요"; exit 0
           fi
 
+      - uses: actions/checkout@v4   # 비밀값 정규화 정본 1파일만(읽기 전용 · 260925)
+        with:
+          sparse-checkout: shared/access_token.py
+          sparse-checkout-cone-mode: false
+
       - name: 라이브 도장 수렴 관측(최대 12분)
         env:                   # 260923: pages.dev = 정본 301 → Access 벽(로그인 화면) = 도장 영영 공란 → 12분 헛대기 뒤 「빌드 Cancel 후 Retry」 오진 → 정본 + 서비스 토큰
           CF_ACCESS_CLIENT_ID: ${{ secrets.CF_ACCESS_CLIENT_ID }}
           CF_ACCESS_CLIENT_SECRET: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}
         run: |
+          eval "$(python3 shared/access_token.py --shell 2>/dev/null)" || true   # 비밀값 정규화(헤더 앞말·공백·뒤바뀜 · 260925)
           AH=(); [ -n "$CF_ACCESS_CLIENT_ID" ] && [ -n "$CF_ACCESS_CLIENT_SECRET" ] && AH=(-H "CF-Access-Client-Id: $CF_ACCESS_CLIENT_ID" -H "CF-Access-Client-Secret: $CF_ACCESS_CLIENT_SECRET")
           [ ${#AH[@]} -gt 0 ] || { echo "::warning::라이브 도장 관측 생략 — Access 서비스 토큰 미설정(러너는 로그인 화면만 받음 · 비밀값 CF_ACCESS_CLIENT_ID·CF_ACCESS_CLIENT_SECRET 등록 시 자동 복귀) · 재빌드 발사 자체는 위 스텝에서 완료"; exit 0; }
           stamp() { curl -fsSL -m 20 "${AH[@]}" "${LIVE_BASE:-https://edit.nomute.kr}/?nosw=1&p=$RANDOM" 2>/dev/null | grep -o "BUILD_STAMP = '[^']*'" | head -1 | sed "s/BUILD_STAMP = '//;s/'$//"; }

@@ -400,9 +400,11 @@ def check_deploy():
     try:
         import urllib.request
         hdr = {"user-agent": "nomute-watchdog", "cache-control": "no-cache"}
-        cid, csec = os.environ.get("CF_ACCESS_CLIENT_ID", "").strip(), os.environ.get("CF_ACCESS_CLIENT_SECRET", "").strip()
-        if cid and csec:   # 라이브 전체가 Access 벽 뒤(260923) — 서비스 토큰 없으면 로그인 화면(JSON 아님) = 이 지표가 조용히 None
-            hdr.update({"CF-Access-Client-Id": cid, "CF-Access-Client-Secret": csec})
+        # 라이브 전체가 Access 벽 뒤(260923) — 서비스 토큰 없으면 로그인 화면(JSON 아님) = 이 지표가 조용히 None
+        # 비밀값 정규화 정본 = shared/access_token.py(헤더 앞말·공백·ID/Secret 뒤바뀜 · 260925)
+        sys.path.insert(0, os.path.join(ROOT, "shared"))
+        import access_token
+        hdr.update(access_token.headers())
         req = urllib.request.Request(LIVE_FEED + ("&" if "?" in LIVE_FEED else "?") + "_wd=1", headers=hdr)
         with urllib.request.urlopen(req, timeout=15) as r:
             live = json.loads(r.read().decode("utf-8"))

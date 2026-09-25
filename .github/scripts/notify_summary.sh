@@ -53,6 +53,7 @@ EXPECT_SHA="${EXPECT_SHA:-}"
 [ -n "$EXPECT_SHA" ] || EXPECT_SHA="$(git rev-parse HEAD 2>/dev/null || true)"
 
 AH=()   # Access 서비스 토큰(260923 · 라이브 전체가 Access 벽 뒤) — 없으면 로그인 화면(JSON 아님) = 매번 DEPLOY_WAIT 헛대기 후 발송
+eval "$(python3 "$(dirname "${BASH_SOURCE[0]}")/../../shared/access_token.py" --shell 2>/dev/null)" || true   # 비밀값 정규화(헤더 앞말·공백·ID/Secret 뒤바뀜 · 260925) — 실패 = 원값 유지
 [ -n "${CF_ACCESS_CLIENT_ID:-}" ] && [ -n "${CF_ACCESS_CLIENT_SECRET:-}" ] \
   && AH=(-H "CF-Access-Client-Id: $CF_ACCESS_CLIENT_ID" -H "CF-Access-Client-Secret: $CF_ACCESS_CLIENT_SECRET")
 live_commit() {   # 라이브 articles.json 의 빌드 커밋 SHA(없으면 빈문자열)

@@ -31,13 +31,13 @@
 import argparse, json, os, re, sys, time, urllib.request
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import access_token  # noqa: E402 — 비밀값 정규화 정본(헤더 앞말·공백·ID/Secret 뒤바뀜 · 260925)
+
 UA = {"User-Agent": "nomute-live-smoke/1.0"}
 # Access 서비스 토큰(260923) — edit.nomute.kr 전체가 Cloudflare Access 벽 뒤라 러너는 토큰 없이는 로그인 화면만 받는다.
 #   GitHub 비밀값 CF_ACCESS_CLIENT_ID·CF_ACCESS_CLIENT_SECRET(Access 앱 정책 = Service Auth)이 있으면 모든 GET에 싣는다.
-ACCESS_ID = os.environ.get("CF_ACCESS_CLIENT_ID", "").strip()
-ACCESS_SECRET = os.environ.get("CF_ACCESS_CLIENT_SECRET", "").strip()
-if ACCESS_ID and ACCESS_SECRET:
-    UA.update({"CF-Access-Client-Id": ACCESS_ID, "CF-Access-Client-Secret": ACCESS_SECRET})
+UA.update(access_token.headers())
 SUBRES = ["cscroll.js", "draft.js", "marked.min.js", "marquee.js", "marquee_pet.js",
           "nm-loader.js", "nm-svg.js", "purify.min.js", "nm-cards.css", "sw.js", "manifest.json"]   # index 부팅 사슬 + 셸 한 쌍(260802 사고 축) — viewer/index.html 참조 목록과 동기(추가 시 여기도) · 실행 시 레포 트리 부재 파일은 자동 스킵(평의회 260802 L3: 정식 폐기 커밋이 라이브 404로 영구 FAIL → 의도된 삭제를 오롤백하는 축 차단)
 
@@ -123,6 +123,7 @@ def main():
             # 토큰 미설정 = 검문 자체가 불가(판정 보류) — 워크플로가 중립 스킵으로 받는다(코드 푸시마다 같은 경보 반복 차단 · 260923)
             bad("C1 index", "Access 벽 — 서비스 토큰 미설정이라 검문 불가(비밀값 CF_ACCESS_CLIENT_ID·CF_ACCESS_CLIENT_SECRET 등록 필요)")
             return finish(False, "notoken")
+        print(access_token.shape())   # 값 없이 모양만(ID 꼬리·길이·고친 종류) — 비밀값 오입력 vs 정책 문제 구분용
         bad("C1 index", "Access가 서비스 토큰을 거부 — Access 앱 정책의 Service Auth 규칙·토큰 만료·비밀값 확인(코드 무관)")
         return finish(False, "denied")
     if not re.search(r"</html>\s*$", live):
