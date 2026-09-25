@@ -1,36 +1,16 @@
 {
- "ok": 171,
- "dead": 6,
+ "ok": 175,
+ "dead": 2,
  "dead_feeds": [
+  {
+   "publisher": "일다",
+   "title": "전체",
+   "url": "https://www.ildaro.com/rss/rss_news.php"
+  },
   {
    "publisher": "머니투데이",
    "title": "전체기사",
    "url": "https://rss.mt.co.kr/mt_news.xml"
-  },
-  {
-   "publisher": "전자신문",
-   "title": "IT·산업전반",
-   "url": "https://rss.etnews.com/Section901.xml"
-  },
-  {
-   "publisher": "JTBC",
-   "title": "사회",
-   "url": "https://news-ex.jtbc.co.kr/v1/get/rss/section/society"
-  },
-  {
-   "publisher": "JTBC",
-   "title": "연예",
-   "url": "https://news-ex.jtbc.co.kr/v1/get/rss/section/entertainment"
-  },
-  {
-   "publisher": "JTBC",
-   "title": "속보",
-   "url": "https://news-ex.jtbc.co.kr/v1/get/rss/newsflesh"
-  },
-  {
-   "publisher": "JTBC",
-   "title": "주요",
-   "url": "https://news-ex.jtbc.co.kr/v1/get/rss/issue"
   }
  ],
  "zombie_feeds": [
@@ -150,11 +130,6 @@
    "url": "http://www.womennews.co.kr/rss/S1N39.xml"
   },
   {
-   "publisher": "일다",
-   "title": "전체",
-   "url": "https://www.ildaro.com/rss/rss_news.php"
-  },
-  {
    "publisher": "통일뉴스",
    "title": "남북관계",
    "url": "https://www.tongilnews.com/rss/S1N4.xml"
@@ -163,11 +138,6 @@
    "publisher": "통일뉴스",
    "title": "해외동포",
    "url": "https://www.tongilnews.com/rss/S1N7.xml"
-  },
-  {
-   "publisher": "통일뉴스",
-   "title": "오피니언",
-   "url": "https://www.tongilnews.com/rss/S1N9.xml"
   },
   {
    "publisher": "통일뉴스",
