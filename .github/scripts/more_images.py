@@ -72,7 +72,7 @@ body = re.sub(r'```.*?```', '', body, flags=re.S).strip()[:3500]
 # ── 1단계 = 구글 뉴스 검색(LLM 0 · 운영자 260925 «구글 검색만») — 요약이 뽑은 image_query·영문·제목으로 같은 사건 타매체 기사를
 #   찾아 og:image 를 먼저 채운다. 목표(WANT)를 채우면 Claude 콜을 아예 안 한다(소넷 WebSearch 콜당 실측 ~$1.1 · 138만 토큰).
 #   모자라거나 원문 url 백필 임무가 있으면 2단계(아래 Claude)가 나머지만. 게이트 = GNEWS_IMG(기본 ON) · 실패 = 빈 목록(fail-soft).
-gn_cand, gn_links = [], []
+gn_cand, gn_links, gn_ok = [], [], False
 try:
     import gnews_search as gn
     if gn.enabled() and os.environ.get("MOREIMG_GNEWS", "1").strip() != "0":   # 자동 보충 = '0'(thumb_gen 이 방금 같은 검색을 돌렸다 = 반복 무의미 · 260925 평의회)
@@ -96,12 +96,17 @@ try:
                     c["_img"] = (_b, _ct, _ext, _h)   # 아래 업로드 루프가 재사용(재다운로드 0)
                 _seen.add(k)
                 gn_cand.append(c)
-        print("구글 뉴스 검색(LLM 0) — 검색어 {}개 → 기사 {}건 → 새 사진 {}장".format(len(_gq), len(gn_links), len(gn_cand)), flush=True)
+        gn_ok = gn.STATS["ok"] > 0
+        print("구글 뉴스 검색(LLM 0) — 검색어 {}개 → 기사 {}건 → 새 사진 {}장{}".format(len(_gq), len(gn_links), len(gn_cand),
+              "" if gn_ok or not gn.STATS["fail"] else " · ⚠ 응답 성공 0(요청 {}회 실패 · 사유 {})".format(gn.STATS["fail"], gn.STATS.get("why") or "미상")), flush=True)
 except Exception as e:  # noqa: BLE001
     print("::warning::구글 뉴스 레인 실패(무시 · Claude 단계로 진행): {}".format(str(e)[:160]), flush=True)
 prompt_excl = sorted(exclude_srcs)[:30]   # 프롬프트엔 종전 제외 목록만 — 구글 링크는 외부 매체가 정한 경로 문자열이라 프롬프트에 날것으로 싣지 않는다(주입 표면 · 260925 평의회)
 exclude_srcs |= {u.rstrip("/") for u in gn_links}   # 코드 필터(아래 Claude 산출 거르기)엔 포함 = 같은 기사 재채택 0
-LLM_ON = os.environ.get("MOREIMG_LLM", "1").strip() != "0"   # '0' = 구글 레인만(Claude 콜 0)
+LLM_MODE = os.environ.get("MOREIMG_LLM", "1").strip().lower()   # '1' = 켬 · '0' = 구글 레인만(Claude 콜 0) · 'auto' = 아래
+# auto = thumb_gen 이 구글 차단(응답 0)으로 넘긴 다른 러너 재시도(gnretry) — 여기서 구글이 응답했고 그래도 문턱(3장) 미만일 때만 Claude
+#   (차단 아닌 런의 자동 보충 조건과 같은 술어 = tg.topup_llm_auto · 또 막히면 LLM 0 = fail-closed · 260925)
+LLM_ON = tg.topup_llm_auto(gn_ok, len(existing) + len(gn_cand)) if LLM_MODE == "auto" else LLM_MODE != "0"
 IMG_ASK = max(0, WANT - len(gn_cand)) * 3   # Claude 에 청할 이미지 소스 수 = 구글이 채우고 남은 몫만(구 = 항상 WANT×3)
 # 원문 URL 도 구글 먼저(LLM 0 · 260925) — 결과 제목이 우리 제목과 같고 매체명도 맞을 때만 채택(애매하면 '' = 종전 Claude 임무).
 gn_orig = ""
@@ -166,7 +171,9 @@ if url_task and IMG_ASK == 0:   # 사진은 구글 레인이 채웠다 = 원문 
 
 out = ""
 if not need_llm:
-    print("· Claude 생략 — {}".format("구글 레인이 목표 {}장 충족(LLM 0)".format(WANT) if LLM_ON else "MOREIMG_LLM=0(구글 레인만)"), flush=True)
+    print("· Claude 생략 — {}".format("구글 레인이 목표 {}장 충족(LLM 0)".format(WANT) if LLM_ON
+          else "MOREIMG_LLM=0(구글 레인만)" if LLM_MODE != "auto"
+          else "재시도 모드 — 구글이 {}(LLM 0)".format("이번에도 무응답 = 차단 지속" if not gn_ok else "응답 · 합계 {}장 ≥ 문턱 {}".format(len(existing) + len(gn_cand), tg.TOPUP_FLOOR))), flush=True)
 else:
   print("Claude({}) {} — '{}' (구글 레인 {}장 뒤)".format(MODEL, "원문 URL 찾기" if (url_task and IMG_ASK == 0) else "관련 뉴스이미지 소스 검색", head[:40], len(gn_cand)), flush=True)
   _args = ["claude", "-p", "--model", MODEL, "--effort", "high",   # --bare 제거(OAuth 즉사 방지 · 260718) — 계정 로테이션은 폴오버 SSOT가 담당

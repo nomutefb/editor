@@ -386,6 +386,7 @@ jobs:
       # ▶ 자동 발사 재개(운영자 260925 «요약이 완료된 이후에 이미지를 찾게» — 구 260909 OFF 사유 = 실측 7일 76콜·콜당 182만tok·$1.56·하루 $20 = 전체 토큰 24%).
       #   재개 조건 = 비용 바운드 2중: ① 앞 스텝 thumb_gen 이 구글 뉴스 레인(LLM 0)으로 먼저 채우고 그래도 THUMB_TOPUP_FLOOR(3)장 미만인 기사만
       #   마커에 오른다 ② max_round=1 = 연쇄 라운드 없음(구 = 7장까지 최대 3라운드). moreimg 안에서도 구글 레인이 먼저 돌아 Claude 는 모자란 몫만.
+      #   구글 차단 런(응답 0 · 러너별 간헐 = 260925 #352 성공·#354 실패)은 마커 3번째 칸 gnretry = 다른 러너에서 구글 재시도(llm=auto).
       #   끄기 = repo 변수 MOREIMG_AUTO=0 · 수동 '+N장 더'(functions/api/moreimg.js → moreimg.yml)는 이 게이트 밖 = 불변.
       - name: 검색이미지 미달 자동 보충 (moreimg 디스패치)
         if: ${{ success() && (vars.MOREIMG_AUTO || '1') == '1' }}   # success = 썸네일 push 성공 때만(실패 시 search.json 이 main 에 없어 다음 런마다 재발사 = LLM 반복 과금 · 260925 평의회)
@@ -394,13 +395,15 @@ jobs:
         run: |
           F="${RUNNER_TEMP:-/tmp}/thumb_topup.txt"
           [ -s "$F" ] || { echo "보충 대상 없음"; exit 0; }
-          sort -u "$F" | while read -r stem want; do
+          sort -u "$F" | while read -r stem want mode; do
             [ -n "$stem" ] || continue
+            # gnretry = 이 러너에서 구글 전량 실패(차단 의심) → moreimg 가 다른 러너에서 구글부터 다시 · LLM 은 거기서 구글이 응답할 때만(auto · 260925)
+            if [ "$mode" = "gnretry" ]; then GN=1; LLM=auto; else GN=0; LLM=1; fi
             curl -fsS -X POST -H "Authorization: Bearer ${GH_TOKEN}" \
               -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" \
               "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/workflows/moreimg.yml/dispatches" \
-              -d "{\"ref\":\"main\",\"inputs\":{\"stem\":\"${stem}\",\"want\":\"${want}\",\"max_round\":\"1\",\"gnews\":\"0\"}}" \
-              && echo "↻ ${stem} 보충 발사(want=${want})" || echo "::warning::${stem} 보충 발사 실패(수동 '+N장 더' 폴백)"
+              -d "{\"ref\":\"main\",\"inputs\":{\"stem\":\"${stem}\",\"want\":\"${want}\",\"max_round\":\"1\",\"gnews\":\"${GN}\",\"llm\":\"${LLM}\"}}" \
+              && echo "↻ ${stem} 보충 발사(want=${want}${mode:+ · $mode})" || echo "::warning::${stem} 보충 발사 실패(수동 '+N장 더' 폴백)"
           done
       - name: 큐레이션 즉시 전달 (Cloudflare 재빌드)
         if: always() && needs.analyze.outputs.did_work == '1'   # 빈 런(선점 0)은 배포 훅 생략(260905 평의회 #3 — 빈 런 1개 = 빌드 2회 낭비)

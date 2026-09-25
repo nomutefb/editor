@@ -332,5 +332,78 @@ class ThumbLaneTest(unittest.TestCase):
             self.assertEqual(tg.gnews_topup(self.md, []), [])
 
 
+class _Resp:
+    def __init__(self, url, status=200, body=b'<rss/>'):
+        self._u, self.status, self._b = url, status, body
+
+    def geturl(self):
+        return self._u
+
+    def read(self, n=-1):
+        return self._b
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *a):
+        return False
+
+
+class BlockedRetryTest(unittest.TestCase):
+    """구글 차단 런(응답 0) → 사유 기록 · 다른 러너 재시도(gnretry → moreimg gnews=1·llm=auto) · 또 막히면 LLM 0(260925 #354)."""
+
+    def _why(self, **kw):
+        with patch.dict(gn.STATS, {'ok': 0, 'fail': 0, 'why': ''}), patch.object(gn.urllib.request, 'urlopen', **kw):
+            self.assertEqual(gn._http('https://news.google.com/rss/search?q=a'), '')
+            self.assertTrue(gn.blocked())
+            return gn.STATS['why']
+
+    def test_failure_reason_recorded(self):
+        import urllib.error
+        sorry = urllib.error.HTTPError('https://www.google.com/sorry/index?continue=x', 429, 'Too Many Requests', {}, None)
+        self.assertEqual(self._why(side_effect=sorry), 'http429@www.google.com')
+        self.assertEqual(self._why(side_effect=urllib.error.HTTPError('https://news.google.com/rss/search?q=a', 503, 'x', {}, None)), 'http503')
+        self.assertEqual(self._why(side_effect=urllib.error.URLError(TimeoutError('timed out'))), 'timeout')
+        self.assertEqual(self._why(return_value=_Resp('https://consent.google.com/ml?continue=x')), 'host:consent.google.com')
+
+    def test_success_keeps_counts(self):
+        with patch.dict(gn.STATS, {'ok': 0, 'fail': 0, 'why': ''}), \
+                patch.object(gn.urllib.request, 'urlopen', return_value=_Resp('https://news.google.com/rss/search?q=a')):
+            self.assertEqual(gn._http('https://news.google.com/rss/search?q=a'), '<rss/>')
+            self.assertFalse(gn.blocked())
+
+    def test_llm_auto_gate(self):
+        self.assertFalse(tg.topup_llm_auto(False, 0))                      # 재시도 러너도 막힘 = LLM 0(fail-closed)
+        self.assertTrue(tg.topup_llm_auto(True, tg.TOPUP_FLOOR - 1))       # 구글 응답 + 문턱 미만 = 차단 아닌 런과 같은 보충
+        self.assertFalse(tg.topup_llm_auto(True, tg.TOPUP_FLOOR))          # 문턱 채움 = LLM 0
+
+    def test_dispatch_step_modes(self):
+        """두 워크플로 보충 스텝을 가짜 curl 로 실제 실행 — 마커 3번째 칸이 발사 입력으로 가는가 + 선언 입력 안인가."""
+        import json
+        import subprocess
+        import yaml
+        decl = set(yaml.safe_load((ROOT / '.github/workflows/moreimg.yml').read_text(encoding='utf-8'))[True]
+                   ['workflow_dispatch']['inputs'])
+        for wf in ('news-analyze.yml', 'news-ask.yml'):
+            y = yaml.safe_load((ROOT / '.github/workflows' / wf).read_text(encoding='utf-8'))
+            run = next(st['run'] for j in y['jobs'].values() for st in j.get('steps', [])
+                       if 'moreimg 디스패치' in st.get('name', ''))
+            with tempfile.TemporaryDirectory() as td:
+                Path(td, 'thumb_topup.txt').write_text('stemA 5\nstemB 7 gnretry\n', encoding='utf-8')
+                bindir = Path(td, 'bin'); bindir.mkdir()
+                fake = bindir / 'curl'
+                fake.write_text('#!/usr/bin/env bash\nwhile [ $# -gt 0 ]; do [ "$1" = "-d" ] && printf "%s\\n" "$2" >> "$RUNNER_TEMP/bodies"; shift; done\n')
+                fake.chmod(0o755)
+                env = dict(os.environ, RUNNER_TEMP=td, GH_TOKEN='x', GITHUB_REPOSITORY='o/r',
+                           PATH=str(bindir) + os.pathsep + os.environ.get('PATH', ''))
+                r = subprocess.run(['bash', '-e', '-c', run], env=env, capture_output=True, text=True)
+                self.assertEqual(r.returncode, 0, wf + r.stderr)
+                bodies = [json.loads(l)['inputs'] for l in Path(td, 'bodies').read_text().splitlines()]
+            got = {b['stem']: (b['gnews'], b['llm'], b['max_round']) for b in bodies}
+            self.assertEqual(got, {'stemA': ('0', '1', '1'), 'stemB': ('1', 'auto', '1')}, wf)
+            for b in bodies:
+                self.assertLessEqual(set(b), decl, wf)   # 미선언 입력 = 422
+
+
 if __name__ == '__main__':
     unittest.main()

@@ -1624,6 +1624,13 @@ def _gn_blocked():
         return False
 
 
+def topup_llm_auto(google_ok, have):
+    """moreimg MOREIMG_LLM=auto(구글 차단 런이 다른 러너로 넘긴 재시도 · 260925 #354 실측 = 러너별 간헐 차단) —
+    이번 러너에서 구글이 응답했고(google_ok) 그래도 TOPUP_FLOOR 미만일 때만 Claude. = 차단 아닌 런의 자동 보충 조건과 같은 술어
+    (마커 = TOPUP_FLOOR 미만) · 또 막히면 LLM 0(fail-closed 유지 = 형식 변경·장기 차단에도 비용 폭주 0)."""
+    return bool(google_ok) and have < TOPUP_FLOOR
+
+
 def gnews_topup(md, cand, exclude=(), want=7):
     """검색이미지가 want 미만이면 구글 뉴스 검색(LLM 0)으로 같은 사건 타매체 기사를 찾아 og:image 를 보탠다
     (운영자 260925 «요약이 완료된 이후에 이미지를 찾게» · «구글 검색만»). 추출·화질 컷·dedup = fetch_article_images 그대로.
@@ -1645,8 +1652,9 @@ def gnews_topup(md, cand, exclude=(), want=7):
                                           now_ts=gn.ref_ts(_txt) or None,
                                           self_titles=[gn._fm(_txt, "title"), gn._fm(_txt, "title_ko")]) if _url_ok(u)]
         print("  🔎 구글 뉴스 검색(LLM 0) — 검색어 {}개 → 기사 {}건 ({:.0f}s)".format(len(qs), len(urls), time.time() - t0), flush=True)
-        if gn.blocked():   # 응답 성공 0 = 차단·형식 변경 의심 — 「결과 0건」과 구분해 표면화(조용히 LLM 보충으로 새지 않게 · 아래 마커 생략)
-            print("::warning::구글 뉴스 응답 성공 0건(요청 {}회 실패) — 차단·형식 변경 의심 · 이번 런 LLM 자동 보충 생략(수동 '+N장 더'는 가능)".format(gn.STATS["fail"]), flush=True)
+        if gn.blocked():   # 응답 성공 0 = 차단·형식 변경 의심 — 「결과 0건」과 구분해 표면화(LLM 직행 대신 process_one 마커 = gnretry · 다른 러너 재시도)
+            print("::warning::구글 뉴스 응답 성공 0건(요청 {}회 실패 · 사유 {}) — 러너 IP 차단·형식 변경 의심 · 3장 미만이면 다른 러너에서 구글 1회 재시도(LLM은 거기서 구글이 응답할 때만)".format(
+                gn.STATS["fail"], gn.STATS.get("why") or "미상"), flush=True)
         if not urls:
             return cand
         seen = {_norm_key(c.get("src", "")) for c in cand}
@@ -1712,13 +1720,17 @@ def process_one(md, stem, redo_new=""):
         # ⚠ 260925 = 문턱 하향(운영자 «요약이 완료된 이후에 이미지를 찾게» 재활성) — 구글 뉴스 레인(LLM 0)이 먼저 채우므로
         #   LLM 보충은 그 뒤에도 TOPUP_FLOOR(3) 미만인 기사만. 구 「7장 미달 또는 원문 url 부재면 무조건」은 콜당 소넷 ~$1.1 이
         #   거의 매 기사 붙었다(실측 7일 76콜). 원문 url 백필만 필요한 기사는 수동 '+N장 더'가 같은 임무를 겸한다.
-        if len(items) < TOPUP_FLOOR and not _gn_blocked():   # 구글 차단 의심이면 자동 LLM 보충도 생략(fail-closed = 비용 폭주 차단 · 260925 평의회)
+        #   구글 차단 의심(응답 성공 0)이면 LLM 직행 대신 「gnretry」 = moreimg 가 **다른 러너(다른 IP)**에서 구글부터 다시(llm=auto ·
+        #   거기서도 막히면 LLM 0 = fail-closed 유지 · 260925 평의회). #352 성공(3s)·#354 전량 실패(28s)가 40분 간격 = 러너별 간헐 차단 실측.
+        if len(items) < TOPUP_FLOOR:
+            _retry = _gn_blocked()
             try:
                 _tp = os.path.join(os.environ.get("RUNNER_TEMP") or "/tmp", "thumb_topup.txt")
                 with open(_tp, "a", encoding="utf-8") as f:
-                    f.write("{} {}\n".format(stem, max(1, 7 - len(items))))
+                    f.write("{} {}{}\n".format(stem, max(1, 7 - len(items)), " gnretry" if _retry else ""))
                 print("  ↻ 보충 대상 등록({}장 → moreimg want={}{})".format(
-                    len(items), max(1, 7 - len(items)), "" if art_url else " · 원문URL 백필 겸"))
+                    len(items), max(1, 7 - len(items)),
+                    " · 구글 차단 = 다른 러너 재시도(LLM은 구글 응답 시만)" if _retry else ("" if art_url else " · 원문URL 백필 겸")))
             except Exception as e:
                 print("  ⚠️ 보충 마커 기록 실패(수동 '+N장 더' 폴백): {}".format(e))
     # AI 생성 4화풍(260703 재편) — THUMB_AI_OFF(전역) 또는 no_thumb(이 기사·뷰어 '이미지' 토글 OFF)면 통째 생략(검색이미지만 채움).

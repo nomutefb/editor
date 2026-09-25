@@ -8559,6 +8559,27 @@ def check_img_upsize():
             bad.append('moreimg.yml 다음 라운드 재발사 스텝 소실 — 예약만 되고 아무도 안 쏜다')
         if not re.search(r'^\s+round:', yt, re.M):   # 줄머리 앵커 = max_round: 만 남아도 통과하던 부분일치 구멍 봉합(260925 평의회)
             bad.append('moreimg.yml round 입력 소실 — 세대가 안 실려 라운드 상한이 영영 1에 머문다')
+        # ②-d 발사 입력 ⊆ moreimg.yml 선언 입력 — 미선언 키 1개 = 디스패치 422(발사 전량 실패 · 경고 한 줄만 남고 보충 0 · 260925 llm 입력 추가 계기)
+        try:
+            import yaml as _yaml
+            _on = _yaml.safe_load(yt) or {}
+            _on = _on.get('on', _on.get(True)) or {}
+            _decl = set(((_on.get('workflow_dispatch') or {}).get('inputs') or {}).keys())
+            for _rel in ('.github/workflows/news-analyze.yml', '.github/workflows/news-ask.yml',
+                         '.github/workflows/moreimg.yml', 'functions/api/moreimg.js'):
+                _t = _FilePath(os.path.join(ROOT, _rel)).read_text(encoding='utf-8')
+                for _seg in _t.split('moreimg.yml/dispatches')[1:]:
+                    _m = (re.search(r'\\"inputs\\":\{(.*?)\}\}', _seg[:600])   # 셸 본문 끝 = }} (값 속 ${stem} 의 } 에서 끊기지 않게)
+                          or re.search(r'inputs:\s*\{([^}]*)\}', _seg[:600]))
+                    if not _m:
+                        bad.append('{} moreimg 발사 입력을 못 읽음 — 계약 검사 불가(형식 확인)'.format(_rel)); continue
+                    _keys = set(re.findall(r'\\"(\w+)\\":', _m.group(1))) or {
+                        k.split(':')[0].strip() for k in _m.group(1).split(',') if k.strip()}
+                    _miss = sorted(k for k in _keys if k not in _decl)
+                    if _miss:
+                        bad.append('{} → moreimg 발사 입력 {} 이(가) moreimg.yml inputs 에 없다 — 디스패치 422(보충 전량 실패)'.format(_rel, _miss))
+        except Exception as e:
+            bad.append('moreimg 발사 입력 계약 검사 실패: {}'.format(str(e)[:60]))
 
     # ③ 수집 문턱 = img_sizes SSOT 경유(값은 운영자가 바꾼다 — 게이트는 '한 곳에서 오는가'만 본다)
     if 'from img_sizes import COLLECT_MIN_H' not in body or '_MIN_H' not in body:

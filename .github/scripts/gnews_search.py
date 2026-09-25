@@ -20,6 +20,7 @@ import json
 import os
 import re
 import time
+import urllib.error
 import urllib.parse
 import urllib.request
 
@@ -148,7 +149,8 @@ def parse_batch(text):
     return ""
 
 
-STATS = {"ok": 0, "fail": 0}   # 구글 응답 성패 집계(프로세스 누적) — 전부 실패 = 차단 의심(호출부가 경고·LLM 보충 생략)
+STATS = {"ok": 0, "fail": 0, "why": ""}   # 구글 응답 성패 집계(프로세스 누적) — 전부 실패 = 차단 의심(호출부가 경고 · 다른 러너 재시도 발사)
+#   why = 마지막 실패 사유(http429·timeout·host:consent.google.com …) — 경고에 실어 차단·동의 페이지·망 지연을 가른다(260925 #354 실측 = 사유 무기록)
 
 
 def blocked():
@@ -167,10 +169,17 @@ def _http_raw(url, data=None, headers=None, timeout=12):
     h.update(headers or {})
     try:
         with urllib.request.urlopen(urllib.request.Request(url, data=data, headers=h), timeout=timeout) as r:
-            if r.status != 200 or (urllib.parse.urlparse(r.geturl()).hostname or "") != "news.google.com":
+            host = urllib.parse.urlparse(r.geturl()).hostname or ""
+            if r.status != 200 or host != "news.google.com":
+                STATS["why"] = "http%d" % r.status if host == "news.google.com" else "host:" + host
                 return ""   # 리다이렉트로 구글 밖(동의 페이지·타 호스트)에 닿으면 버린다 = 이 모듈은 news.google.com 만 말한다
             return r.read(2_000_000).decode("utf-8", "ignore")
-    except Exception:  # noqa: BLE001
+    except urllib.error.HTTPError as e:
+        host = urllib.parse.urlparse(e.geturl() or url).hostname or ""
+        STATS["why"] = "http%d" % e.code + ("" if host == "news.google.com" else "@" + host)   # google.com/sorry = 429@www.google.com(IP 차단)
+        return ""
+    except Exception as e:  # noqa: BLE001
+        STATS["why"] = "timeout" if "timed out" in str(e) or isinstance(e, TimeoutError) else type(e).__name__
         return ""
 
 
