@@ -1,12 +1,7 @@
 {
- "ok": 175,
- "dead": 2,
+ "ok": 176,
+ "dead": 1,
  "dead_feeds": [
-  {
-   "publisher": "머니투데이",
-   "title": "전체기사",
-   "url": "https://rss.mt.co.kr/mt_news.xml"
-  },
   {
    "publisher": "전자신문",
    "title": "IT·산업전반",
@@ -80,11 +75,6 @@
    "url": "https://rss.donga.com/travel.xml"
   },
   {
-   "publisher": "동아일보",
-   "title": "생활정보",
-   "url": "https://rss.donga.com/lifeinfo.xml"
-  },
-  {
    "publisher": "매일노동뉴스",
    "title": "전체",
    "url": "https://www.labortoday.co.kr/rss/allArticle.xml"
@@ -108,6 +98,11 @@
    "publisher": "시사저널",
    "title": "경제",
    "url": "http://www.sisajournal.com/rss/S1N54.xml"
+  },
+  {
+   "publisher": "시사저널",
+   "title": "LIFE",
+   "url": "http://www.sisajournal.com/rss/S1N56.xml"
   },
   {
    "publisher": "시사저널",
