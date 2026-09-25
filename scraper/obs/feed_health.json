@@ -1,7 +1,13 @@
 {
- "ok": 177,
- "dead": 0,
- "dead_feeds": [],
+ "ok": 176,
+ "dead": 1,
+ "dead_feeds": [
+  {
+   "publisher": "머니투데이",
+   "title": "전체기사",
+   "url": "https://rss.mt.co.kr/mt_news.xml"
+  }
+ ],
  "zombie_feeds": [
   {
    "publisher": "경향신문",
@@ -12,6 +18,11 @@
    "publisher": "경향신문",
    "title": "오피니언",
    "url": "https://www.khan.co.kr/rss/rssdata/opinion_news.xml"
+  },
+  {
+   "publisher": "경향신문",
+   "title": "과학",
+   "url": "https://www.khan.co.kr/rss/rssdata/science_news.xml"
   },
   {
    "publisher": "국민일보",
