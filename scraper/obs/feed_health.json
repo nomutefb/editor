@@ -1,7 +1,28 @@
 {
- "ok": 177,
- "dead": 0,
- "dead_feeds": [],
+ "ok": 173,
+ "dead": 4,
+ "dead_feeds": [
+  {
+   "publisher": "JTBC",
+   "title": "사회",
+   "url": "https://news-ex.jtbc.co.kr/v1/get/rss/section/society"
+  },
+  {
+   "publisher": "JTBC",
+   "title": "연예",
+   "url": "https://news-ex.jtbc.co.kr/v1/get/rss/section/entertainment"
+  },
+  {
+   "publisher": "JTBC",
+   "title": "속보",
+   "url": "https://news-ex.jtbc.co.kr/v1/get/rss/newsflesh"
+  },
+  {
+   "publisher": "JTBC",
+   "title": "주요",
+   "url": "https://news-ex.jtbc.co.kr/v1/get/rss/issue"
+  }
+ ],
  "zombie_feeds": [
   {
    "publisher": "경향신문",
