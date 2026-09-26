@@ -1,31 +1,41 @@
 {
- "ok": 172,
- "dead": 5,
+ "ok": 170,
+ "dead": 7,
  "dead_feeds": [
-  {
-   "publisher": "SBS",
-   "title": "사회",
-   "url": "https://news.sbs.co.kr/news/SectionRssFeed.do?sectionId=03&plink=RSSREADER"
-  },
-  {
-   "publisher": "SBS",
-   "title": "연예",
-   "url": "https://ent.sbs.co.kr/news/xml/RSSFeed.do"
-  },
-  {
-   "publisher": "SBS",
-   "title": "헤드라인",
-   "url": "https://news.sbs.co.kr/news/headlineRssFeed.do?plink=RSSREADER"
-  },
-  {
-   "publisher": "SBS",
-   "title": "속보",
-   "url": "https://news.sbs.co.kr/news/newsflashRssFeed.do?plink=RSSREADER"
-  },
   {
    "publisher": "머니투데이",
    "title": "전체기사",
    "url": "https://rss.mt.co.kr/mt_news.xml"
+  },
+  {
+   "publisher": "전자신문",
+   "title": "IT·산업전반",
+   "url": "https://rss.etnews.com/Section901.xml"
+  },
+  {
+   "publisher": "아시아경제",
+   "title": "전체기사",
+   "url": "https://www.asiae.co.kr/rss/all.htm"
+  },
+  {
+   "publisher": "JTBC",
+   "title": "사회",
+   "url": "https://news-ex.jtbc.co.kr/v1/get/rss/section/society"
+  },
+  {
+   "publisher": "JTBC",
+   "title": "연예",
+   "url": "https://news-ex.jtbc.co.kr/v1/get/rss/section/entertainment"
+  },
+  {
+   "publisher": "JTBC",
+   "title": "속보",
+   "url": "https://news-ex.jtbc.co.kr/v1/get/rss/newsflesh"
+  },
+  {
+   "publisher": "JTBC",
+   "title": "주요",
+   "url": "https://news-ex.jtbc.co.kr/v1/get/rss/issue"
   }
  ],
  "zombie_feeds": [
@@ -183,6 +193,11 @@
    "publisher": "NYT코리아",
    "title": "South Korea(영문)",
    "url": "https://www.nytimes.com/svc/collections/v1/publish/https://www.nytimes.com/topic/destination/south-korea/rss.xml"
+  },
+  {
+   "publisher": "SBS",
+   "title": "연예",
+   "url": "https://ent.sbs.co.kr/news/xml/RSSFeed.do"
   }
  ]
 }
