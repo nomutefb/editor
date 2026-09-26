@@ -1,7 +1,13 @@
 {
- "ok": 177,
- "dead": 0,
- "dead_feeds": [],
+ "ok": 176,
+ "dead": 1,
+ "dead_feeds": [
+  {
+   "publisher": "머니투데이",
+   "title": "전체기사",
+   "url": "https://rss.mt.co.kr/mt_news.xml"
+  }
+ ],
  "zombie_feeds": [
   {
    "publisher": "경향신문",
@@ -162,6 +168,11 @@
    "publisher": "NYT코리아",
    "title": "South Korea(영문)",
    "url": "https://www.nytimes.com/svc/collections/v1/publish/https://www.nytimes.com/topic/destination/south-korea/rss.xml"
+  },
+  {
+   "publisher": "SBS",
+   "title": "연예",
+   "url": "https://ent.sbs.co.kr/news/xml/RSSFeed.do"
   }
  ]
 }
