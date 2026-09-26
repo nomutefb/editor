@@ -15,6 +15,8 @@
  *   B2 같은 기기 = 완료 후 「2/2장」 · 최근 제작(nomute_thumb_last) 2장 · 로컬 이력 2건(중복 0) · 서버 done 통보 = 두 id 전부
  *   B3 새로고침(발사 뒤 화면 이탈) = 영속 슬롯에서 **한 잡(0/2장)** 으로 재개 → 완료 2/2장
  *   B4 다른 기기(빈 저장소) = 서버 원장의 형제 2건(같은 bid)이 **한 잡**으로 합류(0/2장 · 이름표 합성) → 완료 2/2장
+ *   T  낱개 진행 줄(운영자 260926 «3/3으로 퉁으로 나오는데 동작으로 세분화») = 진행 중 행에 역할 이름 줄(헤더·OVL(60)) ·
+ *      같은 기기(B1)와 다른 기기 합류(B4)가 **같은 이름** · 완료 뒤엔 접힌다(요약 한 줄 복귀)
  *
  * 원커맨드:  node shared/smoke_thumbbatch.js        (종료코드 0 = 전부 PASS)
  * 담당 표면: viewer/thumb.html(dispatchBatch·pollJob·pendPut/pendCut·restorePending) · viewer/nm-jobs.js(sync thids·absorb·bid)
@@ -98,6 +100,7 @@ function serve() {
 
 const state = page => page.evaluate(() => ({   // 화면 상태 = 잡 행·슬롯·최근 제작·이력(전부 사용자 눈에 닿는 축)
   rows: [...document.querySelectorAll('#jobs .job')].map(r => r.textContent.replace(/\s+/g, ' ').trim()),
+  tasks: [...document.querySelectorAll('#jobs .job .jtask')].map(d => d.querySelector('.jtask-tx').textContent),   // 낱개 진행 줄 이름(상태 무관 · 260926)
   pend: (() => { try { return JSON.parse(localStorage.getItem('nm_thumb_pend') || '[]').map(p => ({ id: p.id, thids: p.thids || null, outs: (p.outs || []).length, remote: !!p._remote })); } catch (e) { return []; } })(),
   last: (() => { try { const v = JSON.parse(localStorage.getItem('nomute_thumb_last') || 'null'); return v && v.items ? v.items.map(i => i.url.split('/').pop()) : null; } catch (e) { return null; } })(),
   hist: (() => { try { return JSON.parse(localStorage.getItem('nomute_thumb_hist') || '[]').map(e => String(e.url || '').split('/').pop().split('?')[0]); } catch (e) { return []; } })(),
@@ -124,6 +127,7 @@ const until = async (page, ms, pred) => { const t0 = Date.now(); let st; while (
     await fire(page);
     let st = await state(page);
     ok('B1-0 발사 = 잡 행 1개(0/2장)', st.rows.length === 1 && /0\/2장/.test(st.rows[0]), JSON.stringify(st.rows));
+    ok('T1 같은 기기 낱개 줄 = 헤더·OVL(60) 2줄(태그+변형 라벨 「헤더 흰칸」도 역할 이름으로)', JSON.stringify(st.tasks) === '["헤더","OVL(60)"]', JSON.stringify(st.tasks));
     ok('B1-1 발사 = 영속 슬롯 1개가 형제 id 2개(thids)', st.pend.length === 1 && Array.isArray(st.pend[0].thids) && st.pend[0].thids.length === 2, JSON.stringify(st.pend));
     await page.evaluate(() => window.nmJobs && nmJobs.sync()); await page.waitForTimeout(900);   // 기기 간 동기 강제(실제 = 20s 주기 + 복귀)
     st = await state(page);
@@ -133,6 +137,7 @@ const until = async (page, ms, pred) => { const t0 = Date.now(); let st; while (
     await page.evaluate(() => window.nmJobs && nmJobs.sync()); await page.waitForTimeout(900);   // 완료 뒤 동기 = 끝난 형제를 「제작중」으로 되살리지 않는다
     st = await state(page);
     ok('B2-0 완료 = 「2/2장」 잡 행 1개', st.rows.length === 1 && /2\/2장/.test(st.rows[0]), JSON.stringify(st.rows));
+    ok('T2 완료 = 낱개 줄 접힘 · 좌하단 요약 한 줄 복귀', st.tasks.length === 0 && /헤더·(오버레이|OVL)\((OPA)?60\)/.test(st.rows[0]), JSON.stringify({ tasks: st.tasks, rows: st.rows }));
     ok('B2-1 최근 제작 스냅샷 = 2장(헤더+자막)', st.last && st.last.length === 2 && st.last.some(f => f === 'box.jpg') && st.last.some(f => /^opa\d+\.png$/.test(f)), JSON.stringify(st.last));
     ok('B2-2 로컬 이력 = 2건(중복 0)', st.hist.length === 2, JSON.stringify(st.hist));
     ok('B2-3 서버 done 통보 = 두 id 전부', dones.length >= 2 && new Set(dones).size >= 2 && Object.keys(live).length === 0, JSON.stringify({ dones, live: Object.keys(live) }));
@@ -160,7 +165,7 @@ const until = async (page, ms, pred) => { const t0 = Date.now(); let st; while (
     await page.evaluate(() => window.nmJobs && nmJobs.sync()); await page.waitForTimeout(1200);
     let st = await state(page);
     ok('B4-0 다른 기기 = 형제 2건이 한 잡(0/2장)으로 합류', st.rows.length === 1 && /0\/2장|1\/2장/.test(st.rows[0]), JSON.stringify(st.rows));
-    ok('B4-1 합류 이름표 = 발사 기기와 같은 얼굴(헤더·오버레이(60) = 「릴스 헤더·자막(OPA60)」 분해)', st.rows.length === 1 && /헤더·(오버레이|OVL)\((OPA)?60\)/.test(st.rows[0]), JSON.stringify(st.rows));
+    ok('B4-1 합류 이름표 = 발사 기기와 같은 얼굴(헤더·오버레이(60) = 「릴스 헤더·자막(OPA60)」 분해 · 진행 중엔 낱개 줄이 그 나열을 대신 = T1과 같은 이름)', st.rows.length === 1 && JSON.stringify(st.tasks) === '["헤더","OVL(60)"]', JSON.stringify({ rows: st.rows, tasks: st.tasks }));
     st = await until(page, 20000, s => s.rows.length && /2\/2장/.test(s.rows[0]));
     ok('B4-2 합류 잡 완료 = 2/2장 · 최근 제작 2장', st.rows.length === 1 && /2\/2장/.test(st.rows[0]) && st.last && st.last.length === 2, JSON.stringify({ rows: st.rows, last: st.last }));
     await ctx.close();

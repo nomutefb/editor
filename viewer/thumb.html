@@ -3916,10 +3916,11 @@ function renderJob(job) {   // 잡 로그 행 갱신(없으면 생성, 최신이
      ⚠ 자리가 계약 = `row.innerHTML` **직전** — 위 pendCut·jobDurPush·saveLastResult·wipSync 부작용은 이미 다 실행된 뒤라 무손실.
      ⚠ 대상 노드 = `.jst > .nm-shim`(run 이면 항상 존재 = 위 두 분기 모두 shim 보유) — `.jst > span` 으로 잡으면
         **첫 매치가 오브(.nm-orb)** 라 도트를 갈아엎는다(그러면 이 봉합이 무의미해진다). */
-  const _rskel = job.status === 'run' ? ('run|' + (job._queued ? 1 : 0) + '|' + (job._cxArm ? 1 : 0) + '|' + String(job.label || '')) : '';   // 라벨도 골격 지문(260913) — 기기 간 묶음 합류(restorePending host 합류)가 진행 중 잡의 이름표를 「릴스 헤더」→「릴스 헤더·자막(OPA60)」로 바꾸는데, 글자만 갈아끼우는 경로는 라벨을 안 건드려 완료 전까지 옛 이름이 남았다
+  const tasks = jobTasks(job);   // 낱개 진행 줄(260926) — 2개 이상일 때만 · 진행 중 전용 · 골격 판정(아래)보다 먼저
+  const _rskel = job.status === 'run' ? ('run|' + (job._queued ? 1 : 0) + '|' + (job._cxArm ? 1 : 0) + '|' + String(job.label || '') + '|' + jobTasksSig(tasks)) : '';   // 낱개 줄 목록(이름·개수)도 골격 — 줄 상태(진행→✓)는 아래 제자리 갱신이라 골격이 아니다   // 라벨도 골격 지문(260913) — 기기 간 묶음 합류(restorePending host 합류)가 진행 중 잡의 이름표를 「릴스 헤더」→「릴스 헤더·자막(OPA60)」로 바꾸는데, 글자만 갈아끼우는 경로는 라벨을 안 건드려 완료 전까지 옛 이름이 남았다
   if (_rskel && row._rskel === _rskel) {
     const _tn = row.querySelector('.jst > .nm-shim');
-    if (_tn) { _tn.innerHTML = tx; return; }   // tx = 위에서 조립된 같은 HTML(사용자 조각은 esc 통과분뿐 = 주입 안전성 종전 동일)
+    if (_tn) { _tn.innerHTML = tx; jobTasksSync(row, job, tasks); return; }   // tx = 위에서 조립된 같은 HTML(사용자 조각은 esc 통과분뿐 = 주입 안전성 종전 동일) · 낱개 줄 = 바뀐 줄의 아이콘·클래스만 갈아끼운다(다른 줄 로더는 안 되감김)
   }
   row._rskel = _rskel;
   row.innerHTML = '';
@@ -3945,7 +3946,7 @@ function renderJob(job) {   // 잡 로그 행 갱신(없으면 생성, 최신이
     else if (face.ratio) _parts.push('#' + face.ratio);
     if (face.ai) { const _ai = document.createElement('span'); _ai.className = 'jai'; _ai.textContent = '#AI'; _parts.push(_ai); }
     _parts.forEach((p, i) => { if (i) lab.append(' '); lab.append(p); });   // textContent 조각 조립 = 주입 여지 0(고정 리터럴 + 번호 숫자뿐)
-    _labDesc = face.pieces;
+    _labDesc = tasks.length ? face.cmp : face.pieces;   // 낱개 줄이 뜨면 좌하단 「헤더·OVL·저작권」 한 줄은 그 줄들이 대신한다(같은 말 두 번 X) — 합성 출처(배경/AI)만 남긴다
   } else if (_jtplLbl) {   // 미분해 라벨 + 템플릿 = 종전 접두 문법 유지(운영자 260729 강조색 · .tplnm/.tpljj 정본 · textContent 조립 = 주입 여지 0)
     const _tp = document.createElement('span'); _tp.className = _jtpl === 'jinjja' ? 'tpljj' : (_jmut ? 'tplmut' : 'tplnm'); _tp.textContent = '#' + _jtplLbl;
     lab.append(_tp, ' #' + job.label + (job._restored ? '' : jobNo(job)));
@@ -4050,6 +4051,73 @@ function renderJob(job) {   // 잡 로그 행 갱신(없으면 생성, 최신이
   if (vs && svRow) { const grid = document.createElement('div'); grid.className = 'jgrid'; grid.append(vs, svRow); row.append(grid); }
   else { if (svRow) row.append(svRow); if (vs) row.append(vs); }
   if (dsc && !svRow) { const dl = document.createElement('div'); dl.className = 'jvars'; dl.appendChild(dsc); row.append(dl); }
+  if (tasks.length) row.append(jobTasksEl(job, tasks));   // 낱개 진행 줄 = 행 맨 아래 전폭(.jvars 열 계승)
+}
+/* ── 낱개 진행 줄(운영자 260926 «헤더·저작권·오버레이 이렇게 나눠지면 3/3으로 퉁으로 나오는데, 그걸 동작으로 세분화 — 영상처럼») ──
+   묶음 제작은 원래 낱개마다 따로 발사·따로 착지한다(dispatchBatch = 요청 N개 · pollJob = 낱개 done[i]) — 화면만 「n/m장」 한 줄로 합쳐 보였다.
+   그 낱개 상태를 줄마다 그린다 = 새 판정 0(done[i]·batch·발사 실패 태그를 그대로 읽는다).
+     접수(wait) = 발사 응답 전 · 로더 + 흐린 글자 / 제작중(run) = 로더 + 흰 글자 / 완료(ok) = ✓ 팝 + 빗금·mut / 실패(err) = 경고 + 위험색.
+   진행 중 전용 = 끝나면 좌하단 한 줄 요약(종전)으로 접힌다 · 2개 이상일 때만(1개는 상태줄 「0/1장」이 이미 같은 말).
+   이름 = 역할(헤더·오버레이·저작권·안내문) — 좌하단 요약과 **같은 규칙**(자막/OPA → stripOpa = nmCap 정본) = 한 결과가 두 이름으로 안 갈린다.
+     ⚠ 역할 판정 1순위 = 산출 파일명(api/thumb.js 가 정한 box·nobg/opa{N}/out 고정 경로) — 라벨은 발사 기기에선 「헤더 흰칸」(태그+변형)인데
+       기기 간 합류분(원장 최소 상태)은 태그 없이 「흰칸」·저작권 이름만 와서, 라벨만 보면 같은 결과가 기기마다 다른 이름이 된다(smoke_thumbbatch B4 실측). */
+const TASK_ROLE = /^(헤더|자막|오버레이|저작권|안내문)(?=\s|$)/;
+function taskLbl(o, i, job) {
+  const raw = String((o && o.label) || '').trim();
+  const f = String((o && o.path) || '').split('?')[0].split('/').pop();
+  const tg = TASK_ROLE.exec(raw);
+  let m;
+  if (/^(box|nobg)\.(jpe?g|png)$/.test(f)) return '헤더';   // 흰칸(box)·기본(nobg)·진짜예요(box.png)
+  if ((m = /^opa(\d+)\.(jpe?g|png)$/.exec(f))) return stripOpa('오버레이(OPA' + m[1] + ')');
+  if (f === 'out.png' && !tg) {   // 저작권·안내문 공용 파일명 + 태그 없는 합류분 = 잡 이름표로 가른다
+    const L = String((job && job.label) || ''), c = /저작권/.test(L), g = /안내문/.test(L);
+    return c && !g ? '저작권' : g && !c ? '안내문' : raw ? '저작권' : '안내문';   // 둘 다/둘 다 아님 = 서버 계약(저작권만 이름 라벨 · 안내문 무라벨)
+  }
+  if (tg) return stripOpa(tg[1] === '자막' ? '오버레이' : tg[1]) + (/^(자막|오버레이)\s+(OPA[\d·]+)$/.test(raw) ? '(' + stripOpa(raw.replace(TASK_ROLE, '').trim()) + ')' : '');
+  if (!raw) return '이미지 ' + (i + 1);   // AI 생성 N장 = 서버 라벨 없음 → 순번
+  return stripOpa(/^OPA[\d·]+$/.test(raw) ? '오버레이(' + raw + ')' : raw);   // 그 밖 레인(카드뉴스 등) = 라벨 그대로
+}
+function jobTasks(job) {
+  if (job.status !== 'run') return [];
+  if (job._tkT0 !== job.t0) { job._tkT0 = job.t0; job._tkPop = {}; job._tkSig = ''; }   // 재시도(같은 잡 재사용 = t0 갱신) = ✓ 팝·등장 기록 리셋
+  const outs = job.outs || [], t = [];
+  if (outs.length) outs.forEach((o, i) => t.push({ lb: taskLbl(o, i, job), v: String((o && o.label) || '').replace(TASK_ROLE, '').trim(), st: job.done[i] ? 'ok' : 'run', k: i }));
+  else if (job.batch && job.batch.length > 1) job.batch.forEach((it, i) => t.push({ lb: taskLbl({ label: it && (it.tag || it.label) }, i, job), st: 'wait' }));   // 발사 응답 전 = 묶음 항목을 접수 상태로 먼저 세운다
+  (job.errTags || []).forEach((tg, i) => t.push({ lb: taskLbl({ label: tg }, i, job), st: 'err' }));   // 발사에서 떨어진 낱개(부분 실패) = 줄로 남긴다(구판 = 분모에서 조용히 빠졌다)
+  const cnt = {}; t.forEach(x => { cnt[x.lb] = (cnt[x.lb] || 0) + 1; });
+  t.forEach(x => { if (cnt[x.lb] > 1 && x.v && !/^OPA/.test(x.v)) x.lb += '(' + x.v + ')'; });   // 같은 역할 2장(헤더 흰칸+기본 동시 등) = 서버 변형 이름으로 가른다
+  return t.length > 1 ? t : [];
+}
+const jobTasksSig = tasks => tasks.map(t => t.lb + (t.st === 'err' ? '!' : '')).join('\u0001');
+function jobTaskSet(job, d, t) {   // 한 줄 상태 반영 — 같은 상태면 무접촉(로더 되감김 0)
+  if (d.dataset.st === t.st) return;
+  d.dataset.st = t.st; d.className = 'jvar jtask ' + t.st + (d.classList.contains('tkin') ? ' tkin' : '');
+  const kind = t.st === 'ok' ? 'ok' : t.st === 'err' ? 'err' : 'orb';
+  if (d.dataset.ic === kind) return;   // 접수→제작중 = 같은 로더 유지
+  d.dataset.ic = kind;
+  const pop = kind === 'ok' && t.k != null && !job._tkPop[t.k];
+  if (pop) job._tkPop[t.k] = 1;   // ✓ 팝 = 낱개당 1회(행 재구성 때 다시 안 튄다)
+  const ic = document.createElement('span'); ic.className = 'jtask-ic' + (pop ? ' pop' : '');
+  ic.innerHTML = kind === 'ok' ? CHECK_SVG : kind === 'err' ? WARN_SVG : (window.nmOrbHTML ? nmOrbHTML('solving', 12) : SPIN_SVG);   // 상수 SVG뿐 = 주입 여지 0
+  d.replaceChild(ic, d.firstChild);
+}
+function jobTasksEl(job, tasks) {
+  const box = document.createElement('div'); box.className = 'jvars jtasks'; box.setAttribute('aria-label', '낱개 진행');
+  const seen = new Set(String(job._tkSig || '').split('\u0001')); job._tkSig = jobTasksSig(tasks);
+  let nw = 0;
+  tasks.forEach(t => {
+    const d = document.createElement('span'); d.className = 'jvar jtask';
+    if (!seen.has(t.lb + (t.st === 'err' ? '!' : ''))) { d.classList.add('tkin'); d.style.setProperty('--i', nw++); }   // 새로 생긴 줄만 차례로 등장(영상처럼) — 재구성·재렌더로는 안 튄다
+    d.append(document.createElement('span'), document.createElement('span'));
+    d.lastChild.className = 'jtask-tx'; d.lastChild.textContent = t.lb;   // textContent = 라벨 주입 여지 0
+    jobTaskSet(job, d, t);
+    box.appendChild(d);
+  });
+  return box;
+}
+function jobTasksSync(row, job, tasks) {
+  const box = row.querySelector('.jtasks'); if (!box) return;
+  tasks.forEach((t, i) => { const d = box.children[i]; if (d) jobTaskSet(job, d, t); });
 }
 /* ── 대기열 미러 = 부모(AI 생성 탭)로 상태 push(운영자 260821 «생성버튼을 눌러도 대기열 큐에 안들어가는데») ──
    ⚠ 왜 AI 생성 탭만 대기열이 안 보였나 = 그 탭은 부모(index)가 폼을 직접 그리면서 **이 문서를 통째로 숨긴다**
@@ -4158,7 +4226,7 @@ function jobFace(job) {
   pieces = pieces.replace(/자막\(/g, '오버레이(').replace(/(^|·)자막(·|$)/g, '$1오버레이$2');
   const cmp = (job.src && job.src.aiBg) ? 'AI 합성' : (job.src && job.src.bg) ? '배경 합성' : '';   // 합성 출처 낱개(운영자 260818 9차 «ai랑 합성했을 때랑, 배경 합성했을때, 가 나와야할듯») — 사슬 카드는 bg 도장도 같이 찍히므로 AI 우선
   if (cmp) pieces = cmp + (pieces ? '·' + pieces : '');
-  return { ratio, ai, pieces: stripOpa(pieces) };   // 표기에서 OPA 낱말 제거 = 이 한 자리가 세 화면(제작 박스 좌하단·결과 박스 좌상단·이전 제작 타일 좌상단)을 함께 덮는다
+  return { ratio, ai, pieces: stripOpa(pieces), cmp: stripOpa(cmp) };   // cmp = 합성 출처만(낱개 진행 줄이 좌하단 낱개 나열을 대신할 때 남는 몫 · 260926) · 표기에서 OPA 낱말 제거 = 이 한 자리가 세 화면(제작 박스 좌하단·결과 박스 좌상단·이전 제작 타일 좌상단)을 함께 덮는다
 }
 /* 이력·결과 항목(타일·미리보기 슬라이드)의 얼굴 = **잡 행과 같은 분해기**(운영자 260818 10차 «제작 중 또는 완료 대기열 박스에 기록된 글자를 미리보기 대형 칸이나 작업물 미리보기에 쓰이는 글자에 박히게»).
    항목이 든 것 = 저장 라벨(cap = 「포스트 OPA60」)과 제작 조건 스냅샷(src = aiBg·bg·jn 도장)뿐인데, 그 둘이 정확히 jobFace의 입력이라
@@ -5701,7 +5769,7 @@ function dispatchBatch(items, batchLabel, src, reuse) {
   if (items.some(it => it && it.payload && it.payload.imageB64)) src.bg = 1;   // 묶음도 동일 도장(사진 실은 아이템 하나라도 있으면 = 그 제작에 배경 합성이 들어갔다)   // 한 번의 '생성' = 한 묶음 그룹키(운영자 260728 "버튼 한 번 = 동시 제작건 1/2·2/2") — 배치는 서버에 요청 N개로 나가 작업 id가 N개 발급된다(api/thumb가 요청마다 발급) → 세션 메모리(JOBS·THUMB_LAST_KEY)에선 한 잡이지만, 이력(thumb-hist.json)·알림 진입·타 기기에선 id가 유일한 묶음 단서라 낱장으로 갈렸다. bid를 src(_src.json → 서버 이력 e.src)에 실어 보내 어디서 읽어도 같은 묶음으로 복원(파이프 무접촉 = api·워크플로·빌더 무수정 · src는 이미 통째 왕복하는 값)
   goFire(_spellApplied); clearRestored();
   let job;
-  if (reuse) { job = reuse; Object.assign(job, { t0: Date.now(), outs: [], done: [], status: 'run', msg: '', batch: items, src, thids: [], bid: src.bid }); delete job._queued; delete job.partErr; delete job._next; job._ready = {}; job.saves = []; renderJob(job); }   // 재시도 = 기존 잡 재사용(같은 #n·같은 행 · 운영자 260630) · 폴 누산기(_next/_ready/saves) 리셋 = 부분완료 재시도 시 변형 유실·다운로드 혼합 차단(실측 260720) · thids 리셋(260913) = 새 발사 id 집합으로 다시 채운다
+  if (reuse) { job = reuse; Object.assign(job, { t0: Date.now(), outs: [], done: [], status: 'run', msg: '', batch: items, src, thids: [], bid: src.bid }); delete job._queued; delete job.partErr; delete job.errTags; delete job._next; job._ready = {}; job.saves = []; renderJob(job); }   // 재시도 = 기존 잡 재사용(같은 #n·같은 행 · 운영자 260630) · 폴 누산기(_next/_ready/saves) 리셋 = 부분완료 재시도 시 변형 유실·다운로드 혼합 차단(실측 260720) · thids 리셋(260913) = 새 발사 id 집합으로 다시 채운다
   else { job = { n: jobSeqIssue(), label: batchLabel, t0: Date.now(), outs: [], done: [], status: 'run', msg: '', batch: items, src, thids: [], bid: src.bid }; JOBS.unshift(job); renderJob(job); }   // batch = 실패 시 같은 묶음 재발사용 · 번호 = 전 잡 공용 일련(dispatchJob 짝 · 260818 6차) · thids·bid(260913) = 이 잡이 쥘 작업 id 전부·묶음키(응답마다 채움 → 동기·재개 게이트가 형제 id를 이 잡 것으로 읽는다)
   if (!reuse) scrollQueue();   // 묶음 발사도 동일 착지(dispatchJob 짝 · 재시도 제자리)
   (async () => {
@@ -5725,6 +5793,7 @@ function dispatchBatch(items, batchLabel, src, reuse) {
     job.thid = job.thids[0] || thIdOf((job.outs[0] || {}).path) || '';
     job.done = job.outs.map(() => false);
     if (!job.outs.length) { job.status = 'err'; job.msg = errs.join(' · ') || '출력 경로 없음'; renderJob(job); return; }   // 전부 실패 = 잡 실패(재시도 버튼=배치 재발사)
+    job.errTags = items.filter((it, bi) => groups[bi] && groups[bi].err).map(it => it.tag || it.label);   // 떨어진 낱개 이름 = 진행 중 낱개 줄에 실패로 남긴다(260926)
     if (errs.length) job.partErr = errs.join(' · ');   // 일부만 실패 = 성공분은 폴링·진행, 행에 '일부 실패' 표식
     pendPut(job);   // (260913) 묶음도 영속 슬롯에 **한 잡**으로 적재(dispatchJob 짝 · 구판은 묶음만 빠져 있어 새로고침·기기 간 동기가 형제 id를 낱개 작업으로 되살렸다) · thids 동봉 = 재개도 2/2 한 잡 · 형제 낱개 슬롯 흡수
     pollJob(job);   // 전 변형 outs 확정 후 1회 폴링(인덱스 고정 = 도착순 무관 1번부터 노출)
