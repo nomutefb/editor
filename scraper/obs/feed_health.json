@@ -1,7 +1,13 @@
 {
- "ok": 177,
- "dead": 0,
- "dead_feeds": [],
+ "ok": 176,
+ "dead": 1,
+ "dead_feeds": [
+  {
+   "publisher": "머니투데이",
+   "title": "전체기사",
+   "url": "https://rss.mt.co.kr/mt_news.xml"
+  }
+ ],
  "zombie_feeds": [
   {
    "publisher": "경향신문",
@@ -80,6 +86,11 @@
   },
   {
    "publisher": "시사저널",
+   "title": "사회",
+   "url": "http://www.sisajournal.com/rss/S1N47.xml"
+  },
+  {
+   "publisher": "시사저널",
    "title": "경제",
    "url": "http://www.sisajournal.com/rss/S1N54.xml"
   },
@@ -87,11 +98,6 @@
    "publisher": "시사저널",
    "title": "OPINION",
    "url": "http://www.sisajournal.com/rss/S1N57.xml"
-  },
-  {
-   "publisher": "시사저널",
-   "title": "국제",
-   "url": "http://www.sisajournal.com/rss/S1N59.xml"
   },
   {
    "publisher": "에이블뉴스",
@@ -130,6 +136,11 @@
   },
   {
    "publisher": "여성신문",
+   "title": "정치",
+   "url": "http://www.womennews.co.kr/rss/S1N1.xml"
+  },
+  {
+   "publisher": "여성신문",
    "title": "사회",
    "url": "http://www.womennews.co.kr/rss/S1N2.xml"
   },
@@ -162,6 +173,11 @@
    "publisher": "여성신문",
    "title": "IT/과학",
    "url": "http://www.womennews.co.kr/rss/S1N39.xml"
+  },
+  {
+   "publisher": "여성신문",
+   "title": "전체기사",
+   "url": "http://www.womennews.co.kr/rss/allArticle.xml"
   },
   {
    "publisher": "일다",
