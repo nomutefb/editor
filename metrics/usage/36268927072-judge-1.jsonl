@@ -1,0 +1,2 @@
+{"ts": "2026-09-27T05:16:30+09:00", "src": "breaking", "ref": "", "model": "claude-opus-5-5", "effort": "high", "in": 2, "out": 169, "cache_r": 7794, "cache_w": 25728, "cost": 0.2107708, "turns": 1, "dur_ms": 3252, "run": "36268927072", "job": "judge", "wf": "breaking-judge", "rc": 0}
+{"ts": "2026-09-27T05:16:40+09:00", "src": "gate", "ref": "", "model": "claude-opus-5-5", "effort": "high", "in": 2, "out": 528, "cache_r": 7794, "cache_w": 19652, "cost": 0.1693428, "turns": 1, "dur_ms": 6458, "run": "36268927072", "job": "judge", "wf": "breaking-judge", "rc": 0}
