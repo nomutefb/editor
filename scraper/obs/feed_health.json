@@ -1,7 +1,13 @@
 {
- "ok": 177,
- "dead": 0,
- "dead_feeds": [],
+ "ok": 176,
+ "dead": 1,
+ "dead_feeds": [
+  {
+   "publisher": "머니투데이",
+   "title": "전체기사",
+   "url": "https://rss.mt.co.kr/mt_news.xml"
+  }
+ ],
  "zombie_feeds": [
   {
    "publisher": "경향신문",
@@ -84,11 +90,6 @@
    "url": "https://www.mediatoday.co.kr/rss/S1N8.xml"
   },
   {
-   "publisher": "시사인",
-   "title": "전체기사",
-   "url": "https://cdn.sisain.co.kr/rss/gns_allArticle.xml"
-  },
-  {
    "publisher": "시사저널",
    "title": "경제",
    "url": "http://www.sisajournal.com/rss/S1N54.xml"
@@ -137,6 +138,11 @@
    "publisher": "에이블뉴스",
    "title": "전체기사",
    "url": "https://www.ablenews.co.kr/rss/allArticle.xml"
+  },
+  {
+   "publisher": "여성신문",
+   "title": "사회",
+   "url": "http://www.womennews.co.kr/rss/S1N2.xml"
   },
   {
    "publisher": "여성신문",
