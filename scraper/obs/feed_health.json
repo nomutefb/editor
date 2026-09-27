@@ -1,7 +1,13 @@
 {
- "ok": 177,
- "dead": 0,
- "dead_feeds": [],
+ "ok": 176,
+ "dead": 1,
+ "dead_feeds": [
+  {
+   "publisher": "아시아경제",
+   "title": "전체기사",
+   "url": "https://www.asiae.co.kr/rss/all.htm"
+  }
+ ],
  "zombie_feeds": [
   {
    "publisher": "동아일보",
@@ -90,6 +96,11 @@
   },
   {
    "publisher": "여성신문",
+   "title": "정치",
+   "url": "http://www.womennews.co.kr/rss/S1N1.xml"
+  },
+  {
+   "publisher": "여성신문",
    "title": "경제",
    "url": "http://www.womennews.co.kr/rss/S1N4.xml"
   },
@@ -137,11 +148,6 @@
    "publisher": "프레시안",
    "title": "스포츠",
    "url": "https://www.pressian.com/api/v3/site/rss/section/70"
-  },
-  {
-   "publisher": "NYT코리아",
-   "title": "South Korea(영문)",
-   "url": "https://www.nytimes.com/svc/collections/v1/publish/https://www.nytimes.com/topic/destination/south-korea/rss.xml"
   },
   {
    "publisher": "SBS",
