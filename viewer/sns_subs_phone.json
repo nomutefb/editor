@@ -16,22 +16,32 @@
  "threads": [
   {
    "account": "daily_ai_star",
+   "text": "https://github.blog/changelog/2026-09-25-usage-metrics-api-adds-pull-request-review-stages",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1790468987,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdxUzeDAUZ9",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
+   "text": "GitHub Copilot 사용량 API가 9월 25일 풀 리퀘스트 리뷰 시간을 세 구간으로 나눠 기록하기 시작했습니다.\n\nPR이 리뷰 준비 상태가 된 뒤 첫 리뷰까지, 첫 리뷰부터 최종 리뷰까지, 최종 리뷰부터 병합까지입니다. 각 구간에 중앙값과 90백분위도 함께 제공합니다.\n\n기존에는 PR 하나가 병합될 때까지 얼마나 걸렸는지만 보였습니다. 이제 지연이 리뷰어를 기다린 것인지, 리뷰 간 조율 때문인지, 승인 뒤 병합되지 않은 것인지 구분할 수 있습니다.\n\n사람이 작성하고 다른 사람이 리뷰한 PR만 집계하며, Copilot code review와 봇 리뷰는 시간 측정에서 빠집니다. 9월 21일 이전에 리뷰 준비가 된 PR은 소급되지 않습니다.\n\n코드 리뷰의 기준이 평균 병합 시간에서, 어느 구간에서 시간이 멈추는지로 이동했습니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1790468977,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdxUyGngZKb",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
    "text": "중요한 변화는 애플리케이션이 에이전트의 내부 루프를 직접 조립하지 않아도 된다는 점입니다.\n\nAgents API는 긴 세션의 이전 맥락을 자동으로 압축하고, 필요한 도구 정의만 불러오며, 여러 서브에이전트를 나눠 실행합니다. MCP·사용자 함수·웹 검색도 연결할 수 있습니다.\n\n다만 공개 베타입니다. 하네스를 OpenAI가 계속 바꾸는 구조라, 팀이 고정해야 할 것은 프롬프트만이 아닙니다. 실행 환경, 권한, 비용, 복구 시점까지 제품 설계에 들어갑니다.\n\nhttps://openai.com/index/introducing-the-agents-api/",
    "likes": 0,
    "cmts": 0,
    "time": 1790467228,
    "thumb": "",
    "url": "https://www.threads.com/@daily_ai_star/post/DdxRcxigR59",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "OpenAI Agents API가 9월 10일 공개 베타로 나왔습니다.\n\n새 모델을 하나 더 파는 API가 아닙니다. Codex 뒤에서 돌아가던 하네스를 개발자에게 내놓은 것입니다.\n\n세션 관리, 컨텍스트 압축, 도구 호출, 서브에이전트 병렬화, 복구를 API가 맡습니다. 실행 환경은 OpenAI 호스티드 샌드박스, 자체 인프라, 파트너 샌드박스 중에서 고를 수 있습니다.\n\n코딩 에이전트의 경쟁 기준이 모델 호출에서, 며칠짜리 작업을 끊기지 않게 운영하는 하네스로 이동했습니다.",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1790467218,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdxRbeeAdpg",
    "region": "kr"
   },
   {
@@ -47,10 +57,10 @@
   {
    "account": "choi.openai",
    "text": "마이크로소프트 CEO 사티아 나델라(Satya Nadella)는 AI 인프라 경쟁에서 결국 경제적 수익화가 핵심이 될 것이라고 강조했습니다.\n\n그는 “궁극적으로는 추론(inference)이 지배적이어야 한다. 그렇지 않다면 도대체 무엇을 위해 훈련(training)하는 것인가?”라며 의문을 던졌습니다.\n모델 훈련은 결국 R&D 비용일 뿐이며, 손익계산서상 매출을 견인하는 진짜 엔진은 추론이라는 분석입니다.\n\n또한 나델라는 “우리 모두는 결국 손익계산서라는 물리 법칙의 지배를 받는다”고 지적했습니다.\n\n일시적으로 막대한 자본을 쏟아부어 모델을 학습시키고 구축할 수는 있지만, 장기적으로는 추론으로 발생한 매출의 일정 비율만이 훈련(R&D)에 재투자되는 냉혹한 경제적 지속 가능성의 법칙을 벗어날 수 없다고 설명했습니다.",
-   "likes": 28,
+   "likes": 29,
    "cmts": 1,
    "time": 1790454650,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/825276946_2964111840600203_3510464385731052018_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk5NDk0NTYxNjg2MTc3NTQ3Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=5_noygZVR0MQ7kNvwFPkbQy&_nc_oc=AdrM7feTHfFt9tH-Ws6lr70OPykv5HbT5r1czpkashJpTsQ7_fa4kDOxmL6eBTpV8jwWJSNG7keuY6LEi8s8q01A&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Z2NBc13ydESt_0r3AE55xw&_nc_ss=7a20f&oh=00_AQJO_6aKbctSNt2CdmaButa--SASubYiLbl9m7gqYTnuaA&oe=6ABE3C43",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/825276946_2964111840600203_3510464385731052018_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk5NDk0NTYxNjg2MTc3NTQ3Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=5_noygZVR0MQ7kNvwFd3F1Q&_nc_oc=AdoGT-whc0aMliH0H7uppVL0mfmuzbOJGuWt2_UPIA-pjsaDury-z5HNfX2CBuxYdLtSNdK6ujILsIGCESWfDVi5&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=1-uT_K4-BGUWT8HEfGI5XA&_nc_ss=7a20f&oh=00_AQJ_xwI8rDP8gTwhDDB6-ogAgVl7mw4zlJ73baVykgAgag&oe=6ABE3C43",
    "url": "https://www.threads.com/@choi.openai/post/Ddw5d9WDMZ1",
    "region": "kr"
   },
@@ -80,7 +90,7 @@
    "likes": 12,
    "cmts": 1,
    "time": 1790422496,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/825324332_1733895501057161_5152725163349484706_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk5NDY3NDk2Nzg5NTg5MDUzMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=rg4iljZHb1wQ7kNvwH-9KGq&_nc_oc=AdpNyVD074zjan0YUKFx5v5UCxtruSMK4v2R_99YMsgBfqvEtG6jIHT7HopaGUKSvDUJaqJptQwcGa38WEw5o320&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=wLZQv7ldvxI5ErgvrET3xw&_nc_ss=7a20f&oh=00_AQJQRqh1q9U1bkDVkRRcfeHRyKkMblkRal668ShN_6YJng&oe=6ABE1AB1",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/825324332_1733895501057161_5152725163349484706_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk5NDY3NDk2Nzg5NTg5MDUzMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=rg4iljZHb1wQ7kNvwEbxVzV&_nc_oc=AdqVhs3tIs7fUIWR_xbNu_Q0kcFXufB_z_HSZtNJxBxY28Xu8diGIHm23OMqzzB5EqAEQnL7xwvLDjtsRsD5ZVp2&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=QHZcp9l3NbQQQfylyy2Kyw&_nc_ss=7a20f&oh=00_AQIk-3ID98iv87-QjI8IpzDsZvkkfFfOboE1ccDAsd10IA&oe=6ABE1AB1",
    "url": "https://www.threads.com/@kopp/post/Ddv8H9fCBB-",
    "region": "kr"
   },
@@ -90,7 +100,7 @@
    "likes": 0,
    "cmts": 1,
    "time": 1790407445,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/825324140_17938518132362958_256855648210941543_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk5NDU0OTYzMjUxMjQ5OTQ2NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuOTAwLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=BL6zax7mST4Q7kNvwFnZkKX&_nc_oc=AdpRgrcrRpxkSA0Pg74P3tjDhZ4xqmQM2-n1svhFNB_7cZ_a41sdcG5LNYm29AsA8l5aqvjMUwM_kf1velV-V3X5&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=_MPXAX6f5RfsocqnucmfLA&_nc_ss=7a20f&oh=00_AQLlsEet_cuGuK7NKsjZdYVkTRJn05YbT_B6IRjcFvjP7A&oe=6ABE49DB",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/825324140_17938518132362958_256855648210941543_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk5NDU0OTYzMjUxMjQ5OTQ2NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuOTAwLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=BL6zax7mST4Q7kNvwGJiPOO&_nc_oc=AdoF8w53o7mZLxAwtipHuSt8mwKFPZrKnnmOxCVLn5dS7iUa-CDKrtubSxrbL0zYcKCRMx-zlpljEJL3QVehEGQV&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=24OITY4Czx7EIV6Q_ynOAQ&_nc_ss=7a20f&oh=00_AQI3r5t1vCR6uvin1M6g400SJ2HEvqzEc_Xh5GV2N17Nxw&oe=6ABE49DB",
    "url": "https://www.threads.com/@takepage_/post/DdvfboLkx8I",
    "region": "kr"
   },
@@ -100,7 +110,7 @@
    "likes": 0,
    "cmts": 1,
    "time": 1790407319,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/825326185_17938518072362958_8411771162574237957_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk5NDU0ODU3NzgxMjg2NDA2Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuOTAwLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=x_GmbUiyEI8Q7kNvwErsc1L&_nc_oc=Adoyqp3EQdVBIGcQvak52TVc8mA1l1SUOsha-AI7RzPA2rNXzN28Fzn0lR_sZjRDJZMLK2A8AfWIR-QM_IxlYNSQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=_MPXAX6f5RfsocqnucmfLA&_nc_ss=7a20f&oh=00_AQJ0RUBLByIhsCtu5ZmNWMiUAP35RB85mOHF9G1uMFFr-w&oe=6ABE4A51",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/825326185_17938518072362958_8411771162574237957_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk5NDU0ODU3NzgxMjg2NDA2Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuOTAwLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=x_GmbUiyEI8Q7kNvwFTnmEy&_nc_oc=AdpyesFTk4hlqnEJao8cwEdHj5Vf-gqO-4i9k6CmXUfo7lkQAM4E4B9EtfCADfpNI5bLQ7_NVz4Y0_BCow92vj6F&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=24OITY4Czx7EIV6Q_ynOAQ&_nc_ss=7a20f&oh=00_AQKkvm2pGDXD946KU8ACfz8AyKtlm3BnxFDgY18TEVk9kQ&oe=6ABE4A51",
    "url": "https://www.threads.com/@takepage_/post/DdvfMR6k9xD",
    "region": "kr"
   },
@@ -110,18 +120,8 @@
    "likes": 1,
    "cmts": 1,
    "time": 1790407310,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/825323907_17938518045362958_414522776183243470_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk5NDU0ODQ5NjY0NDY3MDY0Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuOTAwLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=ojoYHo1vQ4QQ7kNvwF1B_rf&_nc_oc=AdojxkD37a559A7daQ_dfWkerV3MVcuZX6ELJAbm2ttjB98J-E1FAanAaxOqluOkOax2yZHVsHNxcG9GbJSRzdGa&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=_MPXAX6f5RfsocqnucmfLA&_nc_ss=7a20f&oh=00_AQLZYIXF5GdaxznPGK5t5G8Af6GsJZdEug9q271enorPdg&oe=6ABE1C63",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/825323907_17938518045362958_414522776183243470_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk5NDU0ODQ5NjY0NDY3MDY0Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuOTAwLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=ojoYHo1vQ4QQ7kNvwGQq8St&_nc_oc=AdofDuyJujuiOaYU6XQIMT_UbjU_lJozkX5kaPZVL46mxnBrXMpxmHKOmAC2aWDBFh4wltvY1Vfike8y_M5k73Nz&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=24OITY4Czx7EIV6Q_ynOAQ&_nc_ss=7a20f&oh=00_AQKcypikLWvlTElAoXWq5-gtG4Z8GZnmfl3Y2_RdVxMsdQ&oe=6ABE1C63",
    "url": "https://www.threads.com/@takepage_/post/DdvfLGUk4S3",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "CodeQL 2.27.1은 GitHub.com 코드 스캐닝 사용자에게 자동 배포됩니다. GHES 3.24에도 포함될 예정입니다.\n\nhttps://github.blog/changelog/2026-09-25-codeql-2-27-1-adds-c-and-c-query-and-kotlin-2-4-20-support/",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1790392911,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdvDsuxmQMA",
    "region": "kr"
   },
   {
@@ -130,7 +130,7 @@
    "likes": 3,
    "cmts": 1,
    "time": 1790384429,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/825276621_17958990576232485_2493708225279099687_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk5NDM1NjU2MzMyMjI5MTg3MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjA0OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=RqPqvH-NQfEQ7kNvwGaq96O&_nc_oc=AdpGpgVU4Z71LpuADuSm3geLnGnv_UGPGqbTGB7_f6IcS1kAbLzGqUz5oPo1HuZqepcYOz5X31UtJVg_YCm6UYL3&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=NKGl1AvBfnkPl6M2o2v27g&_nc_ss=7a20f&oh=00_AQJc6N85udAgj0BUH2BN2omf0aAQ2y4tPicqJ1tkuGP4hA&oe=6ABE1B43",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/825276621_17958990576232485_2493708225279099687_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk5NDM1NjU2MzMyMjI5MTg3MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjA0OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=RqPqvH-NQfEQ7kNvwHHC_NZ&_nc_oc=Adr9vzlLGBc4x7moAE6VdWTM-196LW87d2IiFrE33OxBlTcMzKkzIrE68Hs8jb4clmTo7swAelvpWFMtHD5rhh8N&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=D8ScASTQr_1994-2EELBfg&_nc_ss=7a20f&oh=00_AQICI0QAXjOSZ0JE2g4A4yv9WgbsycluFaMO7knywaxO3A&oe=6ABE1B43",
    "url": "https://www.threads.com/@aicoffeechat/post/DduziGfE0ae",
    "region": "kr"
   },
@@ -140,7 +140,7 @@
    "likes": 3,
    "cmts": 1,
    "time": 1790384419,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/825277297_17958990546232485_2523109331826366796_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk5NDM1NjQ3NjE3MzA0MDM1OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjA0OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=d9oYjK-h3T0Q7kNvwHZMT8t&_nc_oc=AdqS6URgVxSKR41t9qmyLrXlAiuA-qOzeqE7HF2hsWNkXuFu4LFTyYb-r4w-j4aDDioGh952vmS4q6MPrtrqGLQn&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=NKGl1AvBfnkPl6M2o2v27g&_nc_ss=7a20f&oh=00_AQK3hQBcvAD4qjhSO7IJSGv4sK6FLHx-VrzdhzCMNZTI9A&oe=6ABE3610",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/825277297_17958990546232485_2523109331826366796_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk5NDM1NjQ3NjE3MzA0MDM1OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjA0OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=d9oYjK-h3T0Q7kNvwGKRQxj&_nc_oc=Adppukfx3oALA6R7Won1k9S_zTKHvaF4n3-lhZsuZlJwl7Zyjr8mqwEyZrP3xhD0ePbKqNhrEFJgLcTwiJIG8Ueg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=D8ScASTQr_1994-2EELBfg&_nc_ss=7a20f&oh=00_AQKqa8dowxBmpFaGwhuflTnIgITPlqq4MyeZosJ1ortxWA&oe=6ABE3610",
    "url": "https://www.threads.com/@aicoffeechat/post/Dduzg1Ukzrm",
    "region": "kr"
   },
@@ -150,17 +150,27 @@
    "likes": 2,
    "cmts": 1,
    "time": 1790384409,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/825276530_17958990534232485_7461313321613729994_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk5NDM1NjM5MjEzNTk4MzQyOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQzMi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=p4tPwpEZgSQQ7kNvwE0ERzV&_nc_oc=Adpl3v7MhhHlrfj0_YdQhm_aIYuIGXNNWsOaYT83ND1N0Od5ZI8T_77PZzV9df1qrweoySxeBeKbMlW96fu8GE7y&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=NKGl1AvBfnkPl6M2o2v27g&_nc_ss=7a20f&oh=00_AQL0kBKLMxOTyZ0otEtT6zGEwMRMm8uE1_kqMG5WI5laOQ&oe=6ABE186D",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/825276530_17958990534232485_7461313321613729994_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk5NDM1NjM5MjEzNTk4MzQyOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQzMi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=p4tPwpEZgSQQ7kNvwHBjoyi&_nc_oc=Adqw3A2YKP80zA-BieiXzMk6BBvnG4aFPPw5aYuxwBfZm_6jp-XW4m5xrVO1ECNFRxqBcvuDowjovAuBuJsgHcUz&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=D8ScASTQr_1994-2EELBfg&_nc_ss=7a20f&oh=00_AQL-q6Nu0HvDW_qTtvS1M-h6r8Qy5xFa2RxSrvXcqZVZug&oe=6ABE50AD",
    "url": "https://www.threads.com/@aicoffeechat/post/DduzfnDk4FE",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
+   "text": "OpenAI Agents API가 9월 10일 공개 베타로 나왔습니다.\n\n새 모델을 하나 더 파는 API가 아닙니다. Codex 뒤에서 돌아가던 하네스를 개발자에게 내놓은 것입니다.\n\n세션 관리, 컨텍스트 압축, 도구 호출, 서브에이전트 병렬화, 복구를 API가 맡습니다. 실행 환경은 OpenAI 호스티드 샌드박스, 자체 인프라, 파트너 샌드박스 중에서 고를 수 있습니다.\n\n코딩 에이전트의 경쟁 기준이 모델 호출에서, 며칠짜리 작업을 끊기지 않게 운영하는 하네스로 이동했습니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1790467218,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdxRbeeAdpg",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "수천 개의 웹 자료를 동시에 조사하는 딥리서치 AI Agent Ultra가 공개됐습니다.\n\n엑사가 공개한 Agent Ultra는 여러 AI 에이전트를 동시에 투입해 자료를 찾고, 코드를 실행하며, 결과를 하나로 정리합니다.\n특히 기업 목록이나 시장 조사처럼 빠짐없이 대상을 찾아야 하는 작업에 맞춰져 있습니다.\n\n엑사 자체 평가에서 WANDR은 Opus 5.5보다 12.6%, DeepSearchQA는 GPT-6 Astra보다 10.1% 높은 성능을 기록했습니다.\n\n예를 들어 유럽의 배터리 재활용 기업을 전부 찾고 창업자·투자금·고객까지 조사하거나, 특정 기술을 구현한 논문과 코드 저장소를 한꺼번에 찾는 식입니다.",
-   "likes": 29,
+   "likes": 31,
    "cmts": 2,
    "time": 1790449246,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/825466943_17988798255112832_6047912743657575456_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk5NDkwMDI4NTAxNzQ4Nzk4OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=VoCMubGqaRwQ7kNvwFOG9OQ&_nc_oc=Ado-ZnZ0oSGt8pilIjP9KM0fA9faDiv25FK-SBKNgmdskMB58V0YPaMaaaj93lcpnKJIGrOJhmgX4id_f2oY45gd&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Z2NBc13ydESt_0r3AE55xw&_nc_ss=7a20f&oh=00_AQKYs-ne5fiMaVnnVNkxtw74m5vWDq5uVJPhqYM-kVeKpw&oe=6ABE166B",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/825466943_17988798255112832_6047912743657575456_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk5NDkwMDI4NTAxNzQ4Nzk4OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=VoCMubGqaRwQ7kNvwH-wxrl&_nc_oc=AdqLxxBRnRYmjh-9Xa2ybFaYhvjMu93efJkoekHDz8goazG0j09PjZVXG-cqGta4ALZPhuOOnCKzXu52fxnEWKbJ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=1-uT_K4-BGUWT8HEfGI5XA&_nc_ss=7a20f&oh=00_AQIZO8qxHYeytHknpsiT44775jqxW2arj4VYlTbY2Os-Dw&oe=6ABE4EAB",
    "url": "https://www.threads.com/@choi.openai/post/DdwvKSxkvp0",
    "region": "kr"
   },
@@ -170,18 +180,8 @@
    "likes": 1,
    "cmts": 6,
    "time": 1790407303,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/825326209_17938517991362958_147748243490513539_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk5NDU0ODQ0MzIwOTIyNTY2MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuODk0LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=iTxPy8h-niQQ7kNvwE8AcJS&_nc_oc=AdpDZMtsXl2O6C0m4VMh-xOLqvYJ_TLAX46RtYsscD5iNJFwQPEgYA2rP5r_Ot4Psu0HONapW776IsZGoGg-xSwR&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=_MPXAX6f5RfsocqnucmfLA&_nc_ss=7a20f&oh=00_AQLHsfyl_cjRTDoSbMMrBDZRRvIrNuj2UqgyCtIN0-rqEw&oe=6ABE3D18",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/825326209_17938517991362958_147748243490513539_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk5NDU0ODQ0MzIwOTIyNTY2MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuODk0LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=iTxPy8h-niQQ7kNvwEy4lY5&_nc_oc=AdrhsKJZTZUC7X-5PzmKK9-6tiCUkpByC8QAEcCdmkX__oXyd2KiyMhirIPxjLM3yPMIQ41cb6lUbPjOpugIPtbN&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=24OITY4Czx7EIV6Q_ynOAQ&_nc_ss=7a20f&oh=00_AQKKcsJ6jcjhCJyTcDx35vdnRuvvx5RUZ_pv7vuZs8jg2g&oe=6ABE3D18",
    "url": "https://www.threads.com/@takepage_/post/DdvfKUjk1W9",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "CodeQL 2.27.1이 9월 25일 공개됐습니다.\n\nC/C++와 C# 쿼리가 추가됐고, Kotlin 2.4.20을 지원합니다. Go 1.27 표준 라이브러리와 Rust의 데이터 흐름 모델도 보강됐습니다.\n\n변경은 기능 추가에 그치지 않습니다. Fastify 체인형 설정과 ASP.NET Core 전역 antiforgery 필터를 더 정확히 인식하고, GitHub Actions의 고정 태그 검사도 예외 규칙을 반영합니다.\n\n코드 스캐닝의 기준선이 “같은 분석기를 쓰는가”에서 “최신 언어·프레임워크 모델을 반영하는가”로 이동했습니다.\n\nAI 에이전트가 만든 코드가 늘수록, 생성 속도보다 분석기가 새 코드 구조를 놓치지 않는지가 배포 전 검토의 기준이 됩니다.",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1790392900,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/DdvDrWmGYlv",
    "region": "kr"
   },
   {
@@ -190,7 +190,7 @@
    "likes": 50,
    "cmts": 18,
    "time": 1790384404,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/825276767_17958990525232485_3279234496838232313_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk5NDM1NjM0NzA0NzIyMjA0MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI2MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=D4MHVFvstskQ7kNvwHmf6BS&_nc_oc=AdrZaN51_0bCYOlt2D0SW4iwD53PaKokV3LMS_1zSiOP_pMXw4AkwrNYNh8K23NWxv3QwkguN3yQpyS2v6YlIgkn&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=NKGl1AvBfnkPl6M2o2v27g&_nc_ss=7a20f&oh=00_AQKT9HDNE65ckhH3yPEuq_XHTmr-OMQU2rj_5_dz4BLsTQ&oe=6ABE2CD0",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/825276767_17958990525232485_3279234496838232313_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk5NDM1NjM0NzA0NzIyMjA0MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI2MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=D4MHVFvstskQ7kNvwF66q4V&_nc_oc=AdoHgDlONi8fcTnwiBo05jhGBRLTB0MHZYu2mmF5YqtlCk3gjKfsz1MAk-OwTLMgTw2JakeT73qcwNWAYC8DMbv-&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=D8ScASTQr_1994-2EELBfg&_nc_ss=7a20f&oh=00_AQLVlNpp0sigcyJsV-BwxlVeZiiTV8AZQfMtrNag_l3LfQ&oe=6ABE2CD0",
    "url": "https://www.threads.com/@aicoffeechat/post/Dduze9EE5sZ",
    "region": "kr"
   },
@@ -206,12 +206,12 @@
   },
   {
    "account": "daily_ai_star",
-   "text": "이 변화에서 중요한 것은 autofix의 정확도만이 아닙니다.\n\n어떤 수정이 승인됐고, 어떤 패턴이 반복해서 통했는지가 다음 에이전트의 출발점으로 남습니다. 팀의 보안 규칙을 문서로 설명하는 단계에서, 실제 수정 결과를 에이전트가 다시 사용하는 단계로 넘어간 셈입니다.\n\n다만 공개 프리뷰이므로 저장되는 메모리의 범위와 검토 절차는 따로 확인해야 합니다.\n\nhttps://github.blog/changelog/2026-09-25-agentic-autofix-now-uses-copilot-memory",
+   "text": "CodeQL 2.27.1은 GitHub.com 코드 스캐닝 사용자에게 자동 배포됩니다. GHES 3.24에도 포함될 예정입니다.\n\nhttps://github.blog/changelog/2026-09-25-codeql-2-27-1-adds-c-and-c-query-and-kotlin-2-4-20-support/",
    "likes": 0,
    "cmts": 0,
-   "time": 1790385347,
+   "time": 1790392911,
    "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/Ddu1RagmdL1",
+   "url": "https://www.threads.com/@daily_ai_star/post/DdvDsuxmQMA",
    "region": "kr"
   }
  ],
@@ -222,7 +222,7 @@
    "views": 3100000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o06n1AI0RABAw2AYEHCCB6l0bOiLIWti2AndfA~tplv-tiktokx-origin.image?dr=14575&x-expires=1790640000&x-signature=d7PyG6gFP1vA4FfwC3ldc2yiPuU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o06n1AI0RABAw2AYEHCCB6l0bOiLIWti2AndfA~tplv-tiktokx-origin.image?dr=14575&x-expires=1790640000&x-signature=d7PyG6gFP1vA4FfwC3ldc2yiPuU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1790240939,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7689026284978031880",
    "region": "kr"
@@ -233,7 +233,7 @@
    "views": 1000000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4GVECFMAFcjBkb1BADAIht8RNqguCCEAbEffz~tplv-tiktokx-origin.image?dr=14575&x-expires=1790640000&x-signature=FHHpPve6snosdH%2BLrtZv%2FCOgEP8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4GVECFMAFcjBkb1BADAIht8RNqguCCEAbEffz~tplv-tiktokx-origin.image?dr=14575&x-expires=1790640000&x-signature=FHHpPve6snosdH%2BLrtZv%2FCOgEP8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1790294103,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7689254625827949842",
    "region": "kr"
@@ -241,10 +241,10 @@
   {
    "account": "jaemyung_lee",
    "title": "¡Hola! México! 🇰🇷🇲🇽 #이재명 #claudiasheinbaum #멕시코 #mexico",
-   "views": 734500,
+   "views": 737000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/owyCEQreNr7VLDAaQ4uGjLkGAIQI4wGye9afQc~tplv-tiktokx-origin.image?dr=14575&x-expires=1790640000&x-signature=%2BLHvfosQJRl0av71Eox6%2BPVKTuE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/owyCEQreNr7VLDAaQ4uGjLkGAIQI4wGye9afQc~tplv-tiktokx-origin.image?dr=14575&x-expires=1790640000&x-signature=%2BLHvfosQJRl0av71Eox6%2BPVKTuE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1790285661,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7689218364958395655",
    "region": "kr"
@@ -252,10 +252,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Саламатсызбы, Кыргызстан! 🇰🇷🇰🇬 #키르기스스탄 #Kyrgyzstan #кыргызстан",
-   "views": 540700,
+   "views": 540800,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ossWcFAWqdBeFM1UB9FEguDtEqARxSGQQyfuUi~tplv-tiktokx-origin.image?dr=14575&x-expires=1790640000&x-signature=Ar5%2BFS5ahDS7OUy1tp3dVhqPKqM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ossWcFAWqdBeFM1UB9FEguDtEqARxSGQQyfuUi~tplv-tiktokx-origin.image?dr=14575&x-expires=1790640000&x-signature=Ar5%2BFS5ahDS7OUy1tp3dVhqPKqM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1789537496,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7686005021397273863",
    "region": "kr"
@@ -263,10 +263,10 @@
   {
    "account": "jaemyung_lee",
    "title": "행복한 추석 보내세요🥬 #이재명 #김혜경 #추석 #연기챌린지",
-   "views": 437400,
+   "views": 439600,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooVPakC3AEYIlPirdAEisLAT2kUAdA51BBYDY~tplv-tiktokx-origin.image?dr=14575&x-expires=1790640000&x-signature=RB2Jo9MaqCCNbJnAlgbaALuvXWQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooVPakC3AEYIlPirdAEisLAT2kUAdA51BBYDY~tplv-tiktokx-origin.image?dr=14575&x-expires=1790640000&x-signature=RB2Jo9MaqCCNbJnAlgbaALuvXWQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1790316395,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7689350366781050130",
    "region": "kr"
@@ -274,10 +274,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Ассалому алайкум, Тоҷикистон! 🇰🇷🇹🇯 #타지키스탄#Тоҷикистон",
-   "views": 288300,
+   "views": 288400,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okxPtEHAgIY0AAlC9gAoxAMiBqToaAKBiFulq~tplv-tiktokx-origin.image?dr=14575&x-expires=1790640000&x-signature=whI9J3HswxzDNj69gfKOA0Z7vB4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okxPtEHAgIY0AAlC9gAoxAMiBqToaAKBiFulq~tplv-tiktokx-origin.image?dr=14575&x-expires=1790640000&x-signature=whI9J3HswxzDNj69gfKOA0Z7vB4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1789536283,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685999812356934930",
    "region": "kr"
@@ -285,10 +285,10 @@
   {
    "account": "jaemyung_lee",
    "title": "랜플댄 하는 대통령🎶 #이재명 #mexico#KPOP",
-   "views": 137900,
+   "views": 139000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ogAvYYAPD3BIlYlFCACNLiI0OADrGiEaAcnAE~tplv-tiktokx-origin.image?dr=14575&x-expires=1790640000&x-signature=PZW2Z8DyeZF9bydQSBOrURB1U7k%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ogAvYYAPD3BIlYlFCACNLiI0OADrGiEaAcnAE~tplv-tiktokx-origin.image?dr=14575&x-expires=1790640000&x-signature=PZW2Z8DyeZF9bydQSBOrURB1U7k%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1790384214,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7689641649349070098",
    "region": "kr"
@@ -296,10 +296,10 @@
   {
    "account": "jaemyung_lee",
    "title": "미국 뉴욕타임즈와 인터뷰를 가졌습니다. Urging Pivot on North Korea, South’s Leader Calls for Easing Sanctions https://blog.naver.com/jaem",
-   "views": 124800,
+   "views": 125100,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIBVEyCAEfPFpCCAvAhEZlCAjHXfDDAjIf8IR4~tplv-tiktokx-origin.image?dr=14575&x-expires=1790640000&x-signature=Db%2B3iC0oFCK0v5iJTEqJGVtRxcA%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIBVEyCAEfPFpCCAvAhEZlCAjHXfDDAjIf8IR4~tplv-tiktokx-origin.image?dr=14575&x-expires=1790640000&x-signature=Db%2B3iC0oFCK0v5iJTEqJGVtRxcA%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1790052600,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7688217377795788039",
    "region": "kr"
@@ -307,10 +307,10 @@
   {
    "account": "jaemyung_lee",
    "title": "다녀오겠습니다 🇺🇳🇲🇽 🇺🇳UN총회 9월 21일~23일 🇲🇽멕시코 국빈방문 9월 23일~26일 #이재명 #UNGA #mexico",
-   "views": 79000,
+   "views": 79200,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o8hqfADsO8SBzFR3qsnOMDUEgQTwBkvQerxPE0~tplv-tiktokx-origin.image?dr=14575&x-expires=1790640000&x-signature=M648RlE%2BIfJ5m65Yz%2BES1we55yU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/o8hqfADsO8SBzFR3qsnOMDUEgQTwBkvQerxPE0~tplv-tiktokx-origin.image?dr=14575&x-expires=1790640000&x-signature=3zT7kD%2BxJjjcL%2Bm%2FBk7unb%2F66gM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1789981488,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7687911952084978951",
    "region": "kr"
@@ -318,10 +318,10 @@
   {
    "account": "jaemyung_lee",
    "title": "<초국가범죄, 반드시 뿌리 뽑겠습니다> ‘외국에 있으면 안 잡히겠지?’  그런 생각은 이제 버리십시오. 대한민국 국민을 상대로 한 범죄는 세계 어느 곳에 숨어 있든, 끝까지 추적해 처벌합니다. 대규모 보이스피싱 조직",
-   "views": 71200,
+   "views": 71300,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oU9rIZjq1EKACAAxNBVioCpiI2BAtmA28wfcPR~tplv-tiktokx-origin.image?dr=14575&x-expires=1790640000&x-signature=CqGmM9VUAwl7VHqCILgoI0Mn8Vk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oU9rIZjq1EKACAAxNBVioCpiI2BAtmA28wfcPR~tplv-tiktokx-origin.image?dr=14575&x-expires=1790640000&x-signature=CqGmM9VUAwl7VHqCILgoI0Mn8Vk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1789605105,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7686295400835239175",
    "region": "kr"
@@ -332,7 +332,7 @@
    "views": 13500,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooyVfsECyAObdyUAC9AHMGgEDfAwFBAocCAqjI~tplv-tiktokx-origin.image?dr=14575&x-expires=1790640000&x-signature=u5Pi7FSAghEmOyPTKIQ35nCKzlk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooyVfsECyAObdyUAC9AHMGgEDfAwFBAocCAqjI~tplv-tiktokx-origin.image?dr=14575&x-expires=1790640000&x-signature=u5Pi7FSAghEmOyPTKIQ35nCKzlk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1790062603,
    "url": "https://www.tiktok.com/@tictok_ent/video/7688260337883270407",
    "region": "kr"
@@ -340,25 +340,16 @@
   {
    "account": "tictok_ent",
    "title": "수지, 시민들의 욕을 부르는 미모 / 아누아(Anua) 포토월 더파운더즈의 글로벌 뷰티 브랜드 아누아(Anua)의 'PDRN 라인 팝업스토어' 오픈을 기념하는 포토행사가 18일 오전 서울 성동구 성수동에 위치한 올리",
-   "views": 8710,
+   "views": 8724,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ow8gANS3AmQCK2UqVEUCB50sGEQeIAFZAFArfD~tplv-tiktokx-origin.image?dr=14575&x-expires=1790640000&x-signature=IUKUBsVrGB62uHxVJu3zxRWLit4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ow8gANS3AmQCK2UqVEUCB50sGEQeIAFZAFArfD~tplv-tiktokx-origin.image?dr=14575&x-expires=1790640000&x-signature=IUKUBsVrGB62uHxVJu3zxRWLit4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1789699186,
    "url": "https://www.tiktok.com/@tictok_ent/video/7686699475406015762",
    "region": "kr"
   }
  ],
  "reddit": [
-  {
-   "sub": "meirl",
-   "title": "meirl",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/cxjpta8dmxrh1.jpeg?width=320&crop=smart&auto=webp&s=c8a13615441ed6b1dd471d2df83432907b4ea833",
-   "time": 1790457827,
-   "url": "https://www.reddit.com/r/meirl/comments/1wr21h8/meirl/"
-  },
   {
    "sub": "CriticalStateGlobal",
    "title": "[Law Proposal] Buying is owning, digital media you purchase cannot be taken from you.",
@@ -369,13 +360,13 @@
    "url": "https://www.reddit.com/r/CriticalStateGlobal/comments/1wqypod/law_proposal_buying_is_owning_digital_media_you/"
   },
   {
-   "sub": "pics",
-   "title": "Hmm the CEO of Flock likes his pivacy apparently",
+   "sub": "meirl",
+   "title": "meirl",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/5y05x3cisxrh1.jpeg?width=640&crop=smart&auto=webp&s=f824700094cbbb02ab3a6cf4fcbcda997381fa4b",
-   "time": 1790459939,
-   "url": "https://www.reddit.com/r/pics/comments/1wr2ugn/hmm_the_ceo_of_flock_likes_his_pivacy_apparently/"
+   "thumb": "https://preview.redd.it/cxjpta8dmxrh1.jpeg?width=320&crop=smart&auto=webp&s=c8a13615441ed6b1dd471d2df83432907b4ea833",
+   "time": 1790457827,
+   "url": "https://www.reddit.com/r/meirl/comments/1wr21h8/meirl/"
   },
   {
    "sub": "worldnews",
@@ -387,15 +378,6 @@
    "url": "https://www.reddit.com/r/worldnews/comments/1wqqn79/the_us_lays_groundwork_for_possible_military/"
   },
   {
-   "sub": "me_irl",
-   "title": "Me_irl",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/5fsc3ykpixrh1.png?width=640&crop=smart&auto=webp&s=31dd6a709e0c8c6f78ad4577bbf40436bb2d67e4",
-   "time": 1790456657,
-   "url": "https://www.reddit.com/r/me_irl/comments/1wr1l9m/me_irl/"
-  },
-  {
    "sub": "interestingasfuck",
    "title": "The smoothest escape you are going to see all year",
    "score": 0,
@@ -403,6 +385,33 @@
    "thumb": "https://external-preview.redd.it/cDlqMTFqeHpjdXJoMSaSDecKXfZTVBy-QYg9w47Ouwm4jcAUTgLHz_GeUakZ.jpeg?width=320&crop=smart&auto=webp&s=426fa2683d5e840572370f38baa9390198840f2b",
    "time": 1790418368,
    "url": "https://www.reddit.com/r/interestingasfuck/comments/1wqn41i/the_smoothest_escape_you_are_going_to_see_all_year/"
+  },
+  {
+   "sub": "pics",
+   "title": "Hmm the CEO of Flock likes his pivacy apparently",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/5y05x3cisxrh1.jpeg?width=640&crop=smart&auto=webp&s=f824700094cbbb02ab3a6cf4fcbcda997381fa4b",
+   "time": 1790459939,
+   "url": "https://www.reddit.com/r/pics/comments/1wr2ugn/hmm_the_ceo_of_flock_likes_his_pivacy_apparently/"
+  },
+  {
+   "sub": "interesting",
+   "title": "Michael Jordan once tipped a cocktail waitress a $5 chip for bringing him a drink. Wayne Gretzky stopped the waitress & gave the $5 chip back to Michael. He then grabbed a $100 chip from Michael’s sta",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/l3zuzzbgfvrh1.jpeg?width=320&crop=smart&auto=webp&s=f43c1bf20f28540e67b66ecb77a6d8e4f88f0faf",
+   "time": 1790432889,
+   "url": "https://www.reddit.com/r/interesting/comments/1wqrx6b/michael_jordan_once_tipped_a_cocktail_waitress_a/"
+  },
+  {
+   "sub": "me_irl",
+   "title": "Me_irl",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/5fsc3ykpixrh1.png?width=640&crop=smart&auto=webp&s=31dd6a709e0c8c6f78ad4577bbf40436bb2d67e4",
+   "time": 1790456657,
+   "url": "https://www.reddit.com/r/me_irl/comments/1wr1l9m/me_irl/"
   },
   {
    "sub": "baseball",
@@ -414,31 +423,22 @@
    "url": "https://www.reddit.com/r/baseball/comments/1wqyp3g/justin_verlanders_daughter_has_come_out_to_get/"
   },
   {
-   "sub": "AbsoluteUnits",
-   "title": "of an illegal flashlight beam",
+   "sub": "Gamingcirclejerk",
+   "title": "That's a necessity",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/Y3Y3dDJpMHhlc3JoMf2sRrJ1WSQBpkgYWmdSoAqE-o-VPXikakJXkMUPWon_.png?width=640&crop=smart&auto=webp&s=1e5f6e6b91e6bca9d57b6a404ad1384bc36dcab8",
-   "time": 1790394811,
-   "url": "https://www.reddit.com/r/AbsoluteUnits/comments/1wqgj0t/of_an_illegal_flashlight_beam/"
+   "thumb": "https://preview.redd.it/ydvg8mzr9urh1.jpeg?width=640&crop=smart&auto=webp&s=01e62777369178f0b490e893274d10f5ac223a25",
+   "time": 1790417273,
+   "url": "https://www.reddit.com/r/Gamingcirclejerk/comments/1wqmthm/thats_a_necessity/"
   },
   {
-   "sub": "Millennials",
-   "title": "My son’s friend “discovered” this “super cheap” liquor at the store and wanted to know if we heard of it and offered us a taste.",
+   "sub": "mildlyinfuriating",
+   "title": "My brother's new high rise penthouse apartment doesn't allow individual internet services.",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/6ezbzqq4lsrh1.jpeg?width=640&crop=smart&auto=webp&s=da5fc65dc53ecf340e43891e5a18237d20d083b5",
-   "time": 1790396877,
-   "url": "https://www.reddit.com/r/Millennials/comments/1wqh65v/my_sons_friend_discovered_this_super_cheap_liquor/"
-  },
-  {
-   "sub": "cats",
-   "title": "Let it be known he lived.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/6ls95dyc9xrh1.jpg?width=140&height=105&auto=webp&s=b68e75964626e12f6819f5928c3e67965eb2f3a5",
-   "time": 1790453459,
-   "url": "https://www.reddit.com/r/cats/comments/1wr0bve/let_it_be_known_he_lived/"
+   "thumb": "https://preview.redd.it/qan2qv77hvrh1.jpeg?width=640&crop=smart&auto=webp&s=970067fcfa276d3074a821a8685b0cf9db845967",
+   "time": 1790431875,
+   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1wqriyh/my_brothers_new_high_rise_penthouse_apartment/"
   },
   {
    "sub": "clevercomebacks",
@@ -450,13 +450,13 @@
    "url": "https://www.reddit.com/r/clevercomebacks/comments/1wr20c4/a_nyc_rabbi_responds_to_netanyahu/"
   },
   {
-   "sub": "interestingasfuck",
-   "title": "A man in Mexico risks his life to save someone, then casually goes back to work",
+   "sub": "AskReddit",
+   "title": "Divorce lawyers of Reddit - What's the most evil thing you've seen during a divorce?",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/cXB6bTZlNzdod3JoMeclfH0NBvTecFx_WGPNzmrcQZxd_Xb8kA6ukxKrg_uC.jpeg?width=640&crop=smart&auto=webp&s=fefb96b01271a5a24045ad8d87a4e7a21b546fdb",
-   "time": 1790443986,
-   "url": "https://www.reddit.com/r/interestingasfuck/comments/1wqwevc/a_man_in_mexico_risks_his_life_to_save_someone/"
+   "thumb": "",
+   "time": 1790439733,
+   "url": "https://www.reddit.com/r/AskReddit/comments/1wqungm/divorce_lawyers_of_reddit_whats_the_most_evil/"
   }
  ],
  "disaster": [],
@@ -478,10 +478,10 @@
   },
   "why": {},
   "landing": {
-   "at": "2026-09-27T08:35:06",
+   "at": "2026-09-27T09:01:40",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-09-27T09:01:32.744733+09:00"
+ "updated": "2026-09-27T09:31:24.898604+09:00"
 }
