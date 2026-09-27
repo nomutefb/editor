@@ -94,7 +94,8 @@ _P_MISS_EN = [re.compile(r"\b" + _EN_Q + r"\s+(?:people\s+)?missing\b", re.I)]
 # 숫자마다 집계 범위를 본다. 제목 전체를 누적 여부로 자르면 같은 제목의 신규 피해도 사라진다.
 # '사망자 35명으로 늘어' / 'death toll rises to 35'는 단일 사고일 수 있어 그 표현만으로 제외하지 않는다.
 _CUMULATIVE = re.compile(
-    r"누적|누계|통산|(?:올해|금년|작년|지난해|금월|이달|이번\s*달|지난달|올여름|올겨울)(?!\s*첫)|올\s*들어|"
+    r"누적(?!\s*(?:강수|강우|적설|강설|\d[\d,.]*\s*(?:㎜|mm|㎝|cm)))|누계|통산|"
+    r"(?:올해|금년|작년|지난해|금월|이달|이번\s*달|지난달|올여름|올겨울)(?!\s*첫)|올\s*들어|"
     r"(?:최근|지난)\s*(?:\d+|[한두세네])\s*(?:년|개월|달|주)(?:간|동안)?|\d+\s*(?:년간|개월간|주간)|"
     r"(?:개전|전쟁|내전|분쟁|발발|발생|시작|침공)(?:\s*(?:발발|시작))?\s*(?:이후|이래)|연간|월간|주간|"
     r"\b(?:cumulative|overall|so far|to date|this (?:year|month|week)|last (?:year|month)|"
@@ -119,7 +120,7 @@ def _cumulative_count(t, match, mentions):
     # '누적 강수량 300㎜…12명 사망'은 별도 수치가 있으므로 사망 수로 전파하지 않는다.
     if left and not re.search(r"\d", t[:left]):
         left = 0
-    before = t[left:end]
+    before = t[left:match.end()]
     cues = list(_CUMULATIVE.finditer(before))
     if cues:
         # '누적 집계 오늘 100명 사망'의 오늘은 신규 사건이 아니다. 시간어만으로 누적을 해제하지 않는다.

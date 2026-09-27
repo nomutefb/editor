@@ -60,6 +60,7 @@ class CasualtyCounts(unittest.TestCase):
             ("공습으로 12명 사망해 누적 100명", 12),
             ("누적 사망자 100명, 오늘 공습으로 12명 사망", 12),
             ("누적 사망자 100명 가운데 오늘 공습으로 12명 사망", 12),
+            ("누적 사망자 100명 가운데 공습으로 12명 추가 사망", 12),
             ("Airstrike kills 2; cumulative death toll reaches 1,000", 2),
             ("Since war began 1,000 killed; new airstrike kills 12", 12),
         ]:
@@ -72,6 +73,7 @@ class CasualtyCounts(unittest.TestCase):
         self.assertEqual(G.casualty_counts("Fire death toll rises to 10"), (10, None, None, None))
         self.assertEqual(G.casualty_counts("올해 첫 공장 화재로 3명 사망"), (3, None, None, None))
         self.assertEqual(G.casualty_counts("누적 강수량 300㎜…홍수로 12명 사망"), (12, None, None, None))
+        self.assertEqual(G.casualty_counts("누적 강수량 300㎜ 홍수로 12명 사망"), (12, None, None, None))
 
     def test_aggregate_combined_counts_cannot_bypass_gate(self):
         self.assertEqual(G.casualty_counts("올해 홍수 사망·실종자 7천 명"), (None, None, None, None))
