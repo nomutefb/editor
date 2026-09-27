@@ -1,51 +1,11 @@
 {
- "ok": 168,
- "dead": 9,
+ "ok": 176,
+ "dead": 1,
  "dead_feeds": [
-  {
-   "publisher": "프레시안",
-   "title": "세계",
-   "url": "https://www.pressian.com/api/v3/site/rss/section/65"
-  },
-  {
-   "publisher": "프레시안",
-   "title": "정치",
-   "url": "https://www.pressian.com/api/v3/site/rss/section/66"
-  },
-  {
-   "publisher": "프레시안",
-   "title": "경제",
-   "url": "https://www.pressian.com/api/v3/site/rss/section/67"
-  },
-  {
-   "publisher": "프레시안",
-   "title": "사회",
-   "url": "https://www.pressian.com/api/v3/site/rss/section/68"
-  },
-  {
-   "publisher": "프레시안",
-   "title": "문화",
-   "url": "https://www.pressian.com/api/v3/site/rss/section/69"
-  },
-  {
-   "publisher": "프레시안",
-   "title": "스포츠",
-   "url": "https://www.pressian.com/api/v3/site/rss/section/70"
-  },
-  {
-   "publisher": "프레시안",
-   "title": "최신 기사",
-   "url": "https://www.pressian.com/api/v3/site/rss/news"
-  },
   {
    "publisher": "머니투데이",
    "title": "전체기사",
    "url": "https://rss.mt.co.kr/mt_news.xml"
-  },
-  {
-   "publisher": "서울경제",
-   "title": "전체기사",
-   "url": "https://www.sedaily.com/rss/newsall"
   }
  ],
  "zombie_feeds": [
@@ -53,11 +13,6 @@
    "publisher": "경향신문",
    "title": "스포츠",
    "url": "http://www.khan.co.kr/rss/rssdata/kh_sports.xml"
-  },
-  {
-   "publisher": "경향신문",
-   "title": "오피니언",
-   "url": "https://www.khan.co.kr/rss/rssdata/opinion_news.xml"
   },
   {
    "publisher": "국민일보",
@@ -208,6 +163,21 @@
    "publisher": "통일뉴스",
    "title": "통일문화",
    "url": "https://www.tongilnews.com/rss/S1N10.xml"
+  },
+  {
+   "publisher": "프레시안",
+   "title": "경제",
+   "url": "https://www.pressian.com/api/v3/site/rss/section/67"
+  },
+  {
+   "publisher": "프레시안",
+   "title": "문화",
+   "url": "https://www.pressian.com/api/v3/site/rss/section/69"
+  },
+  {
+   "publisher": "프레시안",
+   "title": "스포츠",
+   "url": "https://www.pressian.com/api/v3/site/rss/section/70"
   },
   {
    "publisher": "NYT코리아",
