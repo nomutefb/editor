@@ -1,9 +1,15 @@
 """속보 판정 후처리 게이트(.github/scripts/brk_gates.py) 회귀 — 260907~0917 실측 제목이 정답지.
 루브릭 본문의 X 예시(스위스 버스 5명·프랑스 열차 44명 부상)가 O로 나오던 구멍을 코드가 막는지 고정한다."""
 import importlib.util
+import contextlib
+import io
+import json
 import os
+import sys
+import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 _P = Path(__file__).resolve().parents[1] / ".github" / "scripts" / "brk_gates.py"
 
@@ -32,6 +38,45 @@ class CasualtyCounts(unittest.TestCase):
         self.assertEqual(G.casualty_counts("At least 21 killed after Israeli-hit building in Gaza City collapses")[0], 21)
         self.assertEqual(G.casualty_counts("Passenger train derails in France leaving at least 44 injured")[1], 44)
         self.assertEqual(G.casualty_counts("Several dead, dozens missing after ferry fire in Philippines")[0], None)
+
+    def test_cumulative_deaths_are_not_current_casualties(self):
+        for t in ["가자 공습 누적 사망자 6만 명 넘어",
+                  "올해 산업재해로 500명 사망", "올 들어 교통사고 사망자 100명",
+                  "최근 3년간 화재로 300명 사망", "개전 이후 사망자 1만 명",
+                  "공습 사망자 1만 명으로 누적 집계", "사망자 누적 100명", "올해 교통사고…100명 사망",
+                  "누적 집계 오늘 100명 사망",
+                  "Gaza death toll passes 60,000 since war began",
+                  "Airstrikes have killed 1,000 people so far",
+                  "Floods killed 300 people since the new year",
+                  "Floods killed 300 people this year"]:
+            with self.subTest(title=t):
+                self.assertEqual(G.casualty_counts(t)[0], None)
+
+    def test_mixed_current_and_cumulative_counts(self):
+        for t, expected in [
+            ("서울 공장 화재 1명 사망…올해 누적 사망자 100명", 1),
+            ("올해 누적 사망자 100명…서울 공장 화재로 3명 사망", 3),
+            ("공습으로 2명 추가 사망해 누적 사망자 100명", 2),
+            ("공습으로 12명 사망해 누적 100명", 12),
+            ("누적 사망자 100명, 오늘 공습으로 12명 사망", 12),
+            ("누적 사망자 100명 가운데 오늘 공습으로 12명 사망", 12),
+            ("Airstrike kills 2; cumulative death toll reaches 1,000", 2),
+            ("Since war began 1,000 killed; new airstrike kills 12", 12),
+        ]:
+            with self.subTest(title=t):
+                self.assertEqual(G.casualty_counts(t)[0], expected)
+
+    def test_current_incident_total_and_other_numbers_survive(self):
+        self.assertEqual(G.casualty_counts("여객선 화재 사망자 35명으로 늘어…54명 실종 추정"),
+                         (35, None, 54, None))
+        self.assertEqual(G.casualty_counts("Fire death toll rises to 10"), (10, None, None, None))
+        self.assertEqual(G.casualty_counts("올해 첫 공장 화재로 3명 사망"), (3, None, None, None))
+        self.assertEqual(G.casualty_counts("누적 강수량 300㎜…홍수로 12명 사망"), (12, None, None, None))
+
+    def test_aggregate_combined_counts_cannot_bypass_gate(self):
+        self.assertEqual(G.casualty_counts("올해 홍수 사망·실종자 7천 명"), (None, None, None, None))
+        self.assertEqual(G.casualty_counts("전쟁 이후 누적 사망자 100명·부상자 500명·실종자 200명"),
+                         (None, None, None, None))
 
 
 class CasualtyGate(unittest.TestCase):
@@ -66,6 +111,22 @@ class CasualtyGate(unittest.TestCase):
         self.x("[속보] 부산 감천항서 선박 가스 누출로 2명 심정지", "사회")
         self.x("서울 성동구 일대 아파트 2시간 정전…승강기 갇힘 사고도", "사회")
         self.o("서울 공장 화재로 3명 사망…소방당국 조사", "사회")   # 루브릭 O 예시
+
+    def test_cumulative_counts_never_satisfy_threshold(self):
+        self.x("올해 산업재해 사망자 500명", "사회")
+        self.x("가자 공습 누적 사망자 6만 명", "국제")
+        self.x("전쟁 발발 이후 사망자 1만 명", "국제")
+        self.x("올해 홍수 사망·실종자 7천 명", "국제")
+        self.x("서울 공장 화재 1명 사망…올해 누적 사망자 100명", "사회")
+        self.x("공습으로 2명 추가 사망해 누적 사망자 100명", "국제")
+        self.x("Airstrike kills 2; cumulative death toll reaches 1,000")
+
+    def test_current_count_still_controls_threshold(self):
+        self.o("올해 누적 사망자 100명…서울 공장 화재로 3명 사망", "사회")
+        self.o("누적 사망자 100명, 오늘 공습으로 12명 사망", "국제")
+        self.o("Since war began 1,000 killed; new airstrike kills 12")
+        self.o("누적 사망자 100명…오늘 열차 탈선 50명 부상", "국제")
+        self.o("누적 사망자 100명…오늘 여객선 침몰 150명 실종", "국제")
 
     def test_out_of_scope(self):
         self.o("사우디·후티, 홍해 일대서 사실상 전면전... 500명 사망, 2만명 피란", "국제")   # 전면전 = 규모 자명
@@ -130,6 +191,44 @@ class Switch(unittest.TestCase):
             self.assertIsNone(_load().gate_reason("지상렬♥신보람 결별설", "문화", 2))   # 킬스위치 = 전 축 OFF
         finally:
             os.environ.pop("BRK_GATES", None)
+
+
+class JudgeIntegration(unittest.TestCase):
+    """AI의 YES, 기확정 데이터, 최신 멤버 스왑 모두 동일한 누적 제외 규칙을 적용한다."""
+    def run_judge(self, cands, pending=True, live=False):
+        spec = importlib.util.spec_from_file_location("cumulative_judge", _P.with_name("breaking_judge.py"))
+        bj = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(bj)
+        with tempfile.TemporaryDirectory() as d:
+            path = Path(d) / "candidates.json"
+            path.write_text(json.dumps(cands), encoding="utf-8")
+            with patch.object(bj, "CAND", path), patch.object(bj, "LB_LIVE", live), \
+                 patch.object(bj, "needs_judging", return_value=pending), \
+                 patch.object(bj, "judge", side_effect=lambda items: ({k: True for k, _ in items}, 0, "")), \
+                 patch.object(bj, "_shadow_log"), patch.object(sys, "argv", ["breaking_judge.py"]), \
+                 contextlib.redirect_stdout(io.StringIO()):
+                bj.main()
+            return json.loads(path.read_text(encoding="utf-8"))
+
+    def test_model_yes_is_overridden_only_for_aggregate(self):
+        result = self.run_judge([
+            {"title": "올해 산업재해 사망자 500명", "cat": "사회"},
+            {"title": "서울 공장 화재 3명 사망…올해 누적 사망자 100명", "cat": "사회"},
+        ])
+        self.assertEqual([c["breaking"] for c in result], [False, True])
+
+    def test_existing_breaking_is_demoted_without_model_call(self):
+        result = self.run_judge([
+            {"title": "공습 누적 사망자 1만 명", "cat": "국제", "breaking": True},
+        ], pending=False)
+        self.assertFalse(result[0]["breaking"])
+
+    def test_latest_member_cannot_reintroduce_cumulative_count(self):
+        result = self.run_judge([
+            {"title": "가자 공습 2명 사망", "cat": "국제",
+             "lb": {"t": "가자 공습 누적 사망자 1만 명", "u": "https://example.test/latest"}},
+        ], live=True)
+        self.assertFalse(result[0]["breaking"])
 
 
 if __name__ == "__main__":

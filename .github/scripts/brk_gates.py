@@ -11,6 +11,7 @@ AI 판정(RUBRIC)이 O를 줘도 아래 3축은 **제목만으로** 기계 판�
 
 ① 인명 문턱(casualty) — 재해·사고·군사행위 제목은 **명시된 확정 수**로만 통과.
    해외 = 사망≥10 ∨ 부상≥50 ∨ 실종≥150(각 독립 · 합산 금지) / 국내 = 사망≥3. 수 미상 = X.
+   누적·기간 집계는 문턱에 쓰지 않는다. 신규 피해와 함께 적히면 신규 수만 센다.
    사형·테러·한국인 피해·전면전·지진(규모 규칙)·대인 강력범죄(피해자 수 축)·사법 어휘(③이 담당)는 이 축 밖.
    합산 표기(사망·실종자 N명)는 비둘기집으로 어느 한 문턱을 반드시 넘는 N(해외 210↑)만 통과.
 ② 연예 관계·지위(celeb) — 열애·결혼·결별·이혼·소속사 이동·입대·컴백·근황 = X.
@@ -75,8 +76,8 @@ def _ko_num(n, unit):
 
 
 _KO_N = r"(\d[\d,]*)\s*(천|만)?\s*여?\s*명"
-_P_DEAD = [re.compile(_KO_N + r"(?:이|의|이나|가)?\s*(?:이상\s*)?(?:넘게\s*)?(?:사망|숨|목숨|참변|희생)"),
-           re.compile(r"(?:사망자|사망|희생자)(?:가|는|이|는)?\s*(?:최소\s*)?(?:현재\s*)?" + _KO_N)]
+_P_DEAD = [re.compile(_KO_N + r"(?:이|의|이나|가)?\s*(?:이상\s*)?(?:넘게\s*)?(?:추가로?\s*|새로\s*|더\s*)?(?:사망|숨|목숨|참변|희생)"),
+           re.compile(r"(?:사망자|사망|희생자)(?:가|는|이|는)?\s*(?:최소\s*)?(?:현재\s*)?(?:누적\s*)?" + _KO_N)]
 _P_INJ = [re.compile(_KO_N + r"(?:이|가)?\s*(?:이상\s*)?(?:부상|다쳐|다침)"),
           re.compile(r"부상(?:자)?(?:가|는|이)?\s*(?:최소\s*)?" + _KO_N)]
 _P_MISS = [re.compile(_KO_N + r"(?:이|가)?\s*(?:이상\s*)?실종"),
@@ -90,24 +91,51 @@ _P_INJ_EN = [re.compile(r"\b" + _EN_Q + r"\s+(?:people\s+)?(?:injured|hurt|wound
 _P_MISS_EN = [re.compile(r"\b" + _EN_Q + r"\s+(?:people\s+)?missing\b", re.I)]
 
 
-def _max_ko(pats, t):
-    best = None
-    for p in pats:
-        for m in p.finditer(t):
-            v = _ko_num(m.group(1), m.group(2))
-            if v is not None and (best is None or v > best):
-                best = v
-    return best
+# 숫자마다 집계 범위를 본다. 제목 전체를 누적 여부로 자르면 같은 제목의 신규 피해도 사라진다.
+# '사망자 35명으로 늘어' / 'death toll rises to 35'는 단일 사고일 수 있어 그 표현만으로 제외하지 않는다.
+_CUMULATIVE = re.compile(
+    r"누적|누계|통산|(?:올해|금년|작년|지난해|금월|이달|이번\s*달|지난달|올여름|올겨울)(?!\s*첫)|올\s*들어|"
+    r"(?:최근|지난)\s*(?:\d+|[한두세네])\s*(?:년|개월|달|주)(?:간|동안)?|\d+\s*(?:년간|개월간|주간)|"
+    r"(?:개전|전쟁|내전|분쟁|발발|발생|시작|침공)(?:\s*(?:발발|시작))?\s*(?:이후|이래)|연간|월간|주간|"
+    r"\b(?:cumulative|overall|so far|to date|this (?:year|month|week)|last (?:year|month)|"
+    r"since\b|(?:over|in|during) the (?:past|last)\s+(?:\d+|\w+)\s+(?:years?|months?|weeks?))", re.I)
+_CURRENT = re.compile(
+    r"(?:오늘|방금|이번|추가|새로)(?!\s*(?:까지|누적|집계))|"
+    r"\btoday\b|\b(?:new|latest|another)\s+(?:airstrike|attack|fire|crash|explosion|flood|collapse)\b", re.I)
+_CLAUSE = re.compile(r"…+|\.{2,}|[;；!?。\n]|(?<!\d),(?!\d)|,(?=\s)|\s[—–]\s")
 
 
-def _max_en(pats, t):
-    best = None
-    for p in pats:
-        for m in p.finditer(t):
-            v = _en_num(m.group(1))
-            if v is not None and (best is None or v > best):
-                best = v
-    return best
+def _cumulative_count(t, match, mentions):
+    """명시적 누적/기간 표현이 이 피해 수에 붙는가. 다른 절의 배경 누적 수는 전파하지 않는다."""
+    start, end = match.span(1)
+    left, right = 0, len(t)
+    for boundary in _CLAUSE.finditer(t):
+        if boundary.end() <= start:
+            left = boundary.end()
+        elif boundary.start() >= end:
+            right = boundary.start()
+            break
+    # '올해 교통사고…100명 사망'처럼 피해 숫자 전에 붙은 기간 표제도 적용.
+    # '누적 강수량 300㎜…12명 사망'은 별도 수치가 있으므로 사망 수로 전파하지 않는다.
+    if left and not re.search(r"\d", t[:left]):
+        left = 0
+    before = t[left:end]
+    cues = list(_CUMULATIVE.finditer(before))
+    if cues:
+        # '누적 집계 오늘 100명 사망'의 오늘은 신규 사건이 아니다. 시간어만으로 누적을 해제하지 않는다.
+        fresh = any(c.group() in ("추가", "새로") or _ACCIDENT.search(before[c.start():]) or
+                    _MILITARY.search(before[c.start():]) for c in _CURRENT.finditer(before, cues[-1].end()))
+        if not fresh:
+            return True
+    # 뒤에 붙은 집계 표현('100명 사망, 올해 누적'은 별도 절이므로 해당 없음).
+    # '2명 사망해 누적 사망자 100명'의 누적은 뒤의 100명에만 붙는다.
+    if not any(end <= other.start(1) < right for other in mentions):
+        after = t[end:right]
+        cue = _CUMULATIVE.search(after)
+        if cue and cue.group() in ("누적", "누계", "통산") and re.search(_KO_N, after[cue.end():]):
+            return False   # '12명 사망해 누적 100명': 뒤에서 생략된 사망 명사도 앞의 12명을 지우지 않는다.
+        return bool(cue)
+    return False
 
 
 def _is_english(t):
@@ -115,13 +143,30 @@ def _is_english(t):
     return latin > han * 2 and latin >= 8
 
 
-def casualty_counts(title):
-    """제목에 명시된 확정 (사망, 부상, 실종, 합산) — 없으면 None(수 미상). 심정지·이송·대피·매몰은 세지 않는다."""
+def _casualty_counts(title):
     t = title or ""
-    d = _max_ko(_P_DEAD, t); i = _max_ko(_P_INJ, t); m = _max_ko(_P_MISS, t); c = _max_ko(_P_COMB, t)
-    de, ie, me = _max_en(_P_DEAD_EN, t), _max_en(_P_INJ_EN, t), _max_en(_P_MISS_EN, t)
-    pick = lambda a, b: a if (b is None or (a is not None and a >= b)) else b
-    return pick(d, de), pick(i, ie), pick(m, me), c
+    mentions = []
+    for kind, ko, en in [(0, _P_DEAD, _P_DEAD_EN), (1, _P_INJ, _P_INJ_EN),
+                         (2, _P_MISS, _P_MISS_EN), (3, _P_COMB, [])]:
+        for pats, korean in [(ko, True), (en, False)]:
+            for pattern in pats:
+                for match in pattern.finditer(t):
+                    value = _ko_num(match.group(1), match.group(2)) if korean else _en_num(match.group(1))
+                    if value is not None:
+                        mentions.append((kind, value, match))
+    counts, excluded = [None] * 4, False
+    matches = [m for _, _, m in mentions]
+    for kind, value, match in mentions:
+        if _cumulative_count(t, match, matches):
+            excluded = True
+        elif counts[kind] is None or value > counts[kind]:
+            counts[kind] = value
+    return tuple(counts), excluded
+
+
+def casualty_counts(title):
+    """누적·기간 집계를 뺀 확정 (사망, 부상, 실종, 합산). 미상은 None. 피해 종류는 합치지 않는다."""
+    return _casualty_counts(title)[0]
 
 
 def casualty_gate(title, cat=None):
@@ -129,9 +174,9 @@ def casualty_gate(title, cat=None):
     if _SKIP.search(t) or _VERDICT_WORDS.search(t):
         return None
     mil = bool(_MILITARY.search(t))
-    if not (mil or _ACCIDENT.search(t)):
+    (d, i, m, comb), cumulative = _casualty_counts(t)
+    if not (mil or _ACCIDENT.search(t) or cumulative):
         return None
-    d, i, m, comb = casualty_counts(t)
     if (comb or 0) >= FOREIGN_DEAD + FOREIGN_INJ + FOREIGN_MISS:
         return None   # 합산 표기라도 비둘기집으로 어느 축이든 문턱을 넘는 규모(해외 210↑ · 국내는 당연) = 축 무관 통과
     foreign = mil or _is_english(t) or (cat or "") == "국제"
