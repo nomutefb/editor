@@ -11,10 +11,11 @@ test('유튜브 영상 주소만 통과', () => {
 });
 
 test('옵션 = 화이트리스트 밖이면 첫 값(기본)', () => {
-  assert.deepEqual(cleanOpts({ voice: 'eleven', stt: 'scribe', img: 'codex', len: '90', font: 'barun' }),
-    { voice: 'eleven', stt: 'scribe', img: 'codex', len: '90', font: 'barun' });
-  assert.deepEqual(cleanOpts({ voice: 'x', img: '../', len: 30, font: 'jua' }),
-    { voice: 'eleven', stt: 'scribe', img: 'codex', len: '60', font: 'pretendard' });   // 기본 = 60초·고급·정밀·맥 그림(운영자 260928)
+  assert.deepEqual(cleanOpts({ opts: { voice: 'edge', stt: 'subs', img: 'none', len: '90', font: 'barun', ratio: '16:9', subbg: 'off', subop: '40', el_voice: 'AbCdEfGhIjKlMnOpQrSt' } }),
+    { voice: 'edge', stt: 'subs', img: 'none', len: '90', font: 'barun', ratio: '16:9', subbg: 'off', subop: '40', el_voice: 'AbCdEfGhIjKlMnOpQrSt' });
+  // 기본 = 60초·고급·정밀·맥 그림·9:16·자막 배경 켬 100%(운영자 260928) · 옛 최상위 모양 하위호환 · 범위 밖 불투명도는 자름
+  assert.deepEqual(cleanOpts({ voice: 'x', img: '../', len: 30, font: 'jua', subop: 250, el_voice: 'bad id' }),
+    { voice: 'eleven', stt: 'scribe', img: 'codex', len: '60', font: 'pretendard', ratio: '9:16', subbg: 'on', subop: '100', el_voice: '' });
   assert.deepEqual(OPTS.font, ['pretendard', 'gothic', 'barun']);
 });
 
