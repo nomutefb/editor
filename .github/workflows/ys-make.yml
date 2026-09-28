@@ -350,6 +350,7 @@ jobs:
           python3 .github/scripts/ys_progress.py "$YS_ID" mgd run "Opus가 장면 연기 설계 중${ONLY:+ · 대체 장면 $ONLY}" "p=0.1"
           if bash .github/scripts/ys_motion.sh /tmp/ys "$YS_RATIO"; then
             python3 .github/scripts/ys_progress.py "$YS_ID" mgd done "$(python3 -c "import json;print(f\"장면 {len(json.load(open('/tmp/ys/motion.json'))['scenes'])}개 설계\")")"
+            cat /tmp/ys/motion_err.txt >> /tmp/ys_notes.txt 2>/dev/null || true   # 일부 조각 실패 = 성공이어도 사유를 남긴다
           else
             python3 .github/scripts/ys_progress.py "$YS_ID" mgd done "기본 도식으로 대체"
             cat /tmp/ys/motion_err.txt >> /tmp/ys_notes.txt 2>/dev/null || true

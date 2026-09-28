@@ -101,7 +101,7 @@ def normalize(j, target, allowed_voices=()):
         raise ValueError('JSON 객체가 아님')
     report = _s(j.get('report_md'), 12000)
     if len(report) < 300:
-        raise ValueError('보고서가 비었거나 너무 짧음')
+        raise ValueError(f'보고서가 비었거나 너무 짧음({len(report)}자 · 키 {",".join(sorted(j))[:80]})')
     scenes = []
     for sc in (j.get('scenes') or [])[:12]:
         if not isinstance(sc, dict):

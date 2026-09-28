@@ -263,6 +263,9 @@ class SceneModes(unittest.TestCase):
             self.assertNotIn(bad, css + html)
         self.assertIn('href="#ok"', html)                                                                   # 내부 참조는 유지
         self.assertEqual(ys_motion.canvas('9:16'), (1080, 1440))
+        self.assertEqual(ys_motion.chunks(range(7)), [[0, 1, 2, 3], [4, 5, 6]])                       # 병렬 조각 = 고르게 · ≤4
+        self.assertEqual([len(c) for c in ys_motion.chunks(range(11))], [4, 4, 3])
+        self.assertEqual(ys_motion.chunks([]), [])
 
     def test_grok_seconds(self):
         import ys_grok

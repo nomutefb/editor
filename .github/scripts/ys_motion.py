@@ -3,7 +3,8 @@
 (운영자 260928 «모션 그래픽 = 화면 글자 없이 · 화면을 넓게 · 액팅이 다채롭게 · 네온 단색 금지 · LLM 이 필요하면 opus 5.5 high»)
 
   ys_motion.py prompt <plan.json> <timing.json> <meta.json> <ratio 9:16|16:9>  → stdout = 지침 뒤에 붙일 [영상]·[캔버스]·[장면] 블록
-  ys_motion.py parse  <raw.txt> <outdir> <n_scenes>                          → outdir/motion.json {scenes:[{i, css, html}]} (검문 통과분만)
+  ys_motion.py parse  <raw.txt[,raw2…]> <outdir> <n_scenes>                  → outdir/motion.json {scenes:[{i, css, html}]} (검문 통과분만)
+  ys_motion.py chunks <n_scenes> [size]                                       → stdout = 병렬 콜 분할(줄마다 장면 번호 쉼표 목록)
 
 검문 = 신뢰 불가 산출(모델이 쓴 코드) → 금지 태그·속성·url(·@import·전환·레이아웃 애니메이션 제거 + 길이 상한.
 렌더 쪽 이중 방어 = 페이지 CSP(script-src 'none' · 네트워크 0) · 장면마다 따로 연 페이지(서로 간섭 0) · 실패 장면 = 기본 도식(ys_mg).
@@ -27,8 +28,12 @@ def canvas(ratio):
 def prompt_block(plan, timing, meta, ratio):
     w, h = canvas(ratio)
     out = [f"[영상] 제목: {meta.get('title', '')} · 채널: {meta.get('channel', '')} · 숏폼 제목: {plan.get('short_title') or plan.get('title', '')}",
-           f"[캔버스] W={w} H={h} · 비율 {ratio}", '[장면]']
-    only = {int(x) for x in re.findall(r'\d+', os.environ.get('YS_MOTION_ONLY', ''))}   # 맥·그록이 못 채운 장면만(비면 전부)
+           f"[캔버스] W={w} H={h} · 비율 {ratio}"]
+    only = {int(x) for x in re.findall(r'\d+', os.environ.get('YS_MOTION_ONLY', ''))}   # 이번 콜이 맡은 장면(비면 전부 · 병렬 분할·맥/그록 대체분)
+    if only:   # 나눠 맡을 때 = 전체 흐름을 한 줄씩 보여 준다(도형 문법·동작 언어가 다른 콜과 겹치지 않게)
+        out.append('[전체 흐름] (참고만 · 아래 [장면]에 있는 i 만 만든다)')
+        out += ['- i=%d: %s' % (i, re.sub(r'\s+', ' ', str(sc.get('vo') or ''))[:70]) for i, sc in enumerate(plan['scenes'])]
+    out.append('[장면]')
     for i, sc in enumerate(plan['scenes']):
         if only and i not in only:
             continue
@@ -89,7 +94,7 @@ def normalize(j, n):
     """검문 → [{i, css, html}] · 버린 장면 사유 목록. 계약 위반 장면은 버린다(렌더가 기본 도식으로 채움)."""
     keep, drop = [], []
     seen = set()
-    for sc in (j.get('scenes') or [])[:24]:
+    for sc in (j.get('scenes') or [])[:36]:
         if not isinstance(sc, dict):
             continue
         try:
@@ -114,18 +119,46 @@ def normalize(j, n):
     return sorted(keep, key=lambda x: x['i']), drop
 
 
+def chunks(ids, size=4):
+    """장면 번호 → 병렬 콜 묶음(고르게 · 묶음당 ≤size). 260928 실측 = 7장면 1콜 667초 → 묶음당 ≤4 = 약 6분."""
+    ids = list(ids)
+    if not ids:
+        return []
+    k = -(-len(ids) // size)
+    q, r = divmod(len(ids), k)
+    out, at = [], 0
+    for c in range(k):
+        n = q + (1 if c < r else 0)
+        out.append(ids[at:at + n])
+        at += n
+    return out
+
+
 def main(argv):
+    if len(argv) >= 3 and argv[1] == 'chunks':
+        only = [int(x) for x in re.findall(r'\d+', os.environ.get('YS_MOTION_ONLY', ''))]
+        ids = sorted(set(only)) if only else list(range(int(argv[2])))
+        for c in chunks(ids, int(argv[3]) if len(argv) > 3 else 4):
+            print(','.join(map(str, c)))
+        return 0
     if len(argv) >= 6 and argv[1] == 'prompt':
         plan, timing, meta = (json.load(open(p, encoding='utf-8')) for p in argv[2:5])
         print(prompt_block(plan, timing, meta, argv[5]))
         return 0
-    if len(argv) >= 5 and argv[1] == 'parse':
-        raw = open(argv[2], encoding='utf-8', errors='replace').read()
-        j = extract(raw)
-        if not isinstance(j, dict):
-            print('산출에서 JSON을 찾지 못함', file=sys.stderr)
+    if len(argv) >= 5 and argv[1] == 'parse':   # raw 여러 개(병렬 분할 콜) = 쉼표로 잇는다 · 깨진 조각은 그 조각만 버린다
+        scenes = []
+        for path in argv[2].split(','):
+            try:
+                j = extract(open(path, encoding='utf-8', errors='replace').read())
+            except OSError:
+                j = None
+            if isinstance(j, dict):
+                scenes += [x for x in (j.get('scenes') or []) if isinstance(x, dict)]
+            else:
+                print(f'산출에서 JSON을 찾지 못함({os.path.basename(path)})', file=sys.stderr)
+        if not scenes:
             return 1
-        keep, drop = normalize(j, int(argv[4]))
+        keep, drop = normalize({'scenes': scenes}, int(argv[4]))
         json.dump({'scenes': keep, 'dropped': [{'i': i, 'why': w} for i, w in drop]},
                   open(f'{argv[3]}/motion.json', 'w', encoding='utf-8'), ensure_ascii=False)
         print(f'모션 디자인: 장면 {len(keep)}개 통과 · 버림 {len(drop)}')

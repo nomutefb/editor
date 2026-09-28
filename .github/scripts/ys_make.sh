@@ -36,37 +36,51 @@ prompt="$prompt
 ${body}"
 
 MARK='"scenes"'
-inline_delay=15
-rc=1; out=""
-for attempt in $(seq 1 "$INLINE_TRIES"); do
-  out="$(printf '%s' "$prompt" | METER_SRC="ys-make" METER_REF="${YS_ID:-}" METER_MODEL="$MODEL" METER_EFFORT="$YS_EFFORT" claude_meter 900 \
-        --model "$MODEL" \
-        --effort "$YS_EFFORT" \
-        --disallowedTools "Read,Glob,Grep,Write,Edit,NotebookEdit,Bash,Task,WebFetch,WebSearch" \
-        --max-turns 1 \
-        2> "${OUTDIR}/stderr.log")"
-  rc=$?
-  if [ $rc -eq 0 ] && [ -n "${out// }" ] && { grep -qm1 "$MARK" <<<"$out" || grep -qm1 '^TRANSCRIPT_FAILED' <<<"$out"; }; then
+call_claude() {   # 인라인 재시도(쿼터 폴오버·일시 과부하) = 전역 out·rc 갱신
+  local attempt inline_delay=15
+  rc=1; out=""
+  for attempt in $(seq 1 "$INLINE_TRIES"); do
+    out="$(printf '%s' "$prompt" | METER_SRC="ys-make" METER_REF="${YS_ID:-}" METER_MODEL="$MODEL" METER_EFFORT="$YS_EFFORT" claude_meter 900 \
+          --model "$MODEL" \
+          --effort "$YS_EFFORT" \
+          --disallowedTools "Read,Glob,Grep,Write,Edit,NotebookEdit,Bash,Task,WebFetch,WebSearch" \
+          --max-turns 1 \
+          2> "${OUTDIR}/stderr.log")"
+    rc=$?
+    if [ $rc -eq 0 ] && [ -n "${out// }" ] && { grep -qm1 "$MARK" <<<"$out" || grep -qm1 '^TRANSCRIPT_FAILED' <<<"$out"; }; then
+      break
+    fi
+    if claude_failover "$out$(cat "${OUTDIR}/stderr.log" 2>/dev/null)"; then continue; fi   # 쿼터 한도 → 대체 계정(SSOT)
+    if [ "$attempt" -lt "$INLINE_TRIES" ] && is_transient "$out$(cat "${OUTDIR}/stderr.log" 2>/dev/null)"; then
+      echo "  ⏳ API 일시 과부하 추정(인라인 ${attempt}/${INLINE_TRIES}, rc=$rc) — ${inline_delay}s 후 재시도"
+      sleep "$inline_delay"; inline_delay=$((inline_delay * 2)); continue
+    fi
     break
-  fi
-  if claude_failover "$out$(cat "${OUTDIR}/stderr.log" 2>/dev/null)"; then continue; fi   # 쿼터 한도 → 대체 계정(SSOT)
-  if [ "$attempt" -lt "$INLINE_TRIES" ] && is_transient "$out$(cat "${OUTDIR}/stderr.log" 2>/dev/null)"; then
-    echo "  ⏳ API 일시 과부하 추정(인라인 ${attempt}/${INLINE_TRIES}, rc=$rc) — ${inline_delay}s 후 재시도"
-    sleep "$inline_delay"; inline_delay=$((inline_delay * 2)); continue
-  fi
-  break
-done
+  done
+}
 
-if grep -qm1 '^TRANSCRIPT_FAILED' <<<"$out"; then   # 모델의 정직한 실패 선언 = 그대로 표면화(날조 방지)
-  printf '%s\n' "$out" | grep -m1 '^TRANSCRIPT_FAILED' | sed 's/^TRANSCRIPT_FAILED: *//' | sed 's/^/전사로 내용을 파악하지 못했어 — /' > "$OUTDIR/error.log"
-  rm -f "${OUTDIR}/stderr.log"; exit 1
-fi
-if [ $rc -ne 0 ] || [ -z "${out// }" ] || ! grep -qm1 "$MARK" <<<"$out"; then
-  echo "인사이트 정리(Claude)가 실패했어 — 잠시 후 다시 해줘. (rc=$rc)" > "$OUTDIR/error.log"
-  { echo "---- stderr ----"; cat "${OUTDIR}/stderr.log" 2>/dev/null; echo "---- stdout(head) ----"; printf '%s\n' "$out" | head -n 10; } >&2
-  rm -f "${OUTDIR}/stderr.log"; exit 1
-fi
-rm -f "${OUTDIR}/stderr.log"
-printf '%s' "$out" > /tmp/ys_raw.txt
-python3 .github/scripts/ys_plan.py parse /tmp/ys_raw.txt "$LEN" "$OUTDIR" 2> /tmp/ys_parse_err.txt \
-  || { echo "인사이트 정리 결과 형식이 깨졌어 — 다시 해줘. ($(head -c 120 /tmp/ys_parse_err.txt))" > "$OUTDIR/error.log"; exit 1; }
+# 형식 이탈(보고서 칸 비움 등) = 사유를 붙여 1회만 다시 쓰게 한다(260928 실측 = 같은 영상·같은 지침에서 확률적 이탈 1/2).
+for fmt in 1 2; do
+  call_claude
+  if grep -qm1 '^TRANSCRIPT_FAILED' <<<"$out"; then   # 모델의 정직한 실패 선언 = 그대로 표면화(날조 방지)
+    printf '%s\n' "$out" | grep -m1 '^TRANSCRIPT_FAILED' | sed 's/^TRANSCRIPT_FAILED: *//' | sed 's/^/전사로 내용을 파악하지 못했어 — /' > "$OUTDIR/error.log"
+    rm -f "${OUTDIR}/stderr.log"; exit 1
+  fi
+  if [ $rc -ne 0 ] || [ -z "${out// }" ] || ! grep -qm1 "$MARK" <<<"$out"; then
+    echo "인사이트 정리(Claude)가 실패했어 — 잠시 후 다시 해줘. (rc=$rc)" > "$OUTDIR/error.log"
+    { echo "---- stderr ----"; cat "${OUTDIR}/stderr.log" 2>/dev/null; echo "---- stdout(head) ----"; printf '%s\n' "$out" | head -n 10; } >&2
+    rm -f "${OUTDIR}/stderr.log"; exit 1
+  fi
+  rm -f "${OUTDIR}/stderr.log"
+  printf '%s' "$out" > /tmp/ys_raw.txt
+  python3 .github/scripts/ys_plan.py parse /tmp/ys_raw.txt "$LEN" "$OUTDIR" 2> /tmp/ys_parse_err.txt && break
+  why="$(head -c 160 /tmp/ys_parse_err.txt)"
+  echo "::warning::인사이트 정리 형식 이탈(${fmt}/2) — ${why} · 앞머리: $(head -c 200 /tmp/ys_raw.txt | tr '\n' ' ')"
+  if [ "$fmt" -ge 2 ]; then
+    echo "인사이트 정리 결과 형식이 깨졌어 — 다시 해줘. (${why:0:120})" > "$OUTDIR/error.log"; exit 1
+  fi
+  prompt="$prompt
+
+[형식 교정] 직전 출력이 형식 검사에 걸렸다: ${why}
+위 「출력 = JSON 하나만」 규격대로 다시 낸다 — 보고서 전문은 반드시 report_md 문자열 안에(줄바꿈 = \\n) 넣고, JSON 밖에 글을 쓰지 않는다."
+done
