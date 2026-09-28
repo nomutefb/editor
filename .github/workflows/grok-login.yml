@@ -1,0 +1,51 @@
+name: grok-login
+
+# 그록 다시 로그인(운영자 260928 «토큰 받아서 손으로 옮기는 과정을 버튼 하나로»)
+#   러너가 1회용 로그인 주소·코드를 R2 grok_login/<id>.json 에 게시 → 운영자가 그 주소에서 승인
+#   → 새 갱신 열쇠를 비밀칸(기본 XAI_SECRET_PAT = 이관 때 운영자가 정한 이름)에 봉인 저장. 열쇠는 로그·파일 어디에도 안 남는다.
+# ⚠ 이 레포는 공개 = Actions 로그도 공개 → 주소·코드도 로그에 찍지 않는다(R2 게시분만).
+# ⚠ 그록 열쇠는 쓸 때마다 바뀌는 회전형 → 그록을 쓰는 판(ys-make 그록·sb-make 그록)과 같은 줄(nm-grok-key)에 선다.
+on:
+  workflow_dispatch:
+    inputs:
+      id:
+        description: '로그인 id(타임스탬프-hex6 · R2 grok_login/<id>.json)'
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: nm-grok-key
+  cancel-in-progress: false
+
+jobs:
+  login:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: 입력 검문
+        env:
+          IN_ID: ${{ inputs.id }}
+        run: |
+          case "$IN_ID" in ''|*[!0-9a-f-]*) echo "::error::잘못된 id"; exit 1;; esac
+
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            shared
+            .github/scripts
+
+      - name: 그록 로그인 (주소 게시 → 승인 대기 → 비밀칸 저장)
+        env:
+          IN_ID: ${{ inputs.id }}
+          GROK_LOGIN_SECRET: XAI_SECRET_PAT
+          # 비밀칸 쓰기 권한 = 개인 토큰(grok_api._persist_secret 이 읽는 이름 · ys-make·sb-make 되쓰기와 같은 문법)
+          XAI_SECRET_PAT: ${{ secrets.GH_TOKEN }}
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ secrets.R2_BUCKET }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+        run: |
+          pip install --quiet pynacl || echo "::warning::pynacl 설치 실패 — 비밀칸 봉인 저장이 안 될 수 있음"
+          python3 .github/scripts/grok_login.py "$IN_ID"
