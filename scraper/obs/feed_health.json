@@ -1,31 +1,21 @@
 {
- "ok": 172,
- "dead": 5,
+ "ok": 174,
+ "dead": 3,
  "dead_feeds": [
+  {
+   "publisher": "이투데이",
+   "title": "전체기사",
+   "url": "http://rss.etoday.co.kr/eto/etoday_news_all.xml"
+  },
   {
    "publisher": "머니투데이",
    "title": "전체기사",
    "url": "https://rss.mt.co.kr/mt_news.xml"
   },
   {
-   "publisher": "JTBC",
-   "title": "사회",
-   "url": "https://news-ex.jtbc.co.kr/v1/get/rss/section/society"
-  },
-  {
-   "publisher": "JTBC",
-   "title": "연예",
-   "url": "https://news-ex.jtbc.co.kr/v1/get/rss/section/entertainment"
-  },
-  {
-   "publisher": "JTBC",
-   "title": "속보",
-   "url": "https://news-ex.jtbc.co.kr/v1/get/rss/newsflesh"
-  },
-  {
-   "publisher": "JTBC",
-   "title": "주요",
-   "url": "https://news-ex.jtbc.co.kr/v1/get/rss/issue"
+   "publisher": "전자신문",
+   "title": "IT·산업전반",
+   "url": "https://rss.etnews.com/Section901.xml"
   }
  ],
  "zombie_feeds": [
@@ -108,16 +98,6 @@
    "publisher": "에이블뉴스",
    "title": "정치/정책",
    "url": "https://www.ablenews.co.kr/rss/S1N11.xml"
-  },
-  {
-   "publisher": "에이블뉴스",
-   "title": "전체기사",
-   "url": "https://www.ablenews.co.kr/rss/allArticle.xml"
-  },
-  {
-   "publisher": "여성신문",
-   "title": "정치",
-   "url": "http://www.womennews.co.kr/rss/S1N1.xml"
   },
   {
    "publisher": "여성신문",
