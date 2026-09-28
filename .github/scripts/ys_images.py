@@ -90,10 +90,13 @@ def main(argv):
         msg = (f'{head} 첫 프레임 그림 0/{total}장. (' + why + ')') if os.environ.get('YS_IMG') == 'grok' \
             else f'{head} 모션 그래픽으로 만들었어. (' + why + ')'   # 그록 = 사실(첫 그림 수)만 · 최종 결과 문구는 ys_grok 몫
         return done(outdir, 0, msg, total)
-    scenes = [{'i': i, 'prompt': clean(f"{clean(sc.get('img') or sc.get('head'))}. {STYLE}")}
+    # 방향 = 영상 비율 그대로(운영자 260928 «GPT 도 화면 전체 · 처음부터 9:16 으로 제작») — 9:16 = 세로 2:3 · 16:9 = 가로 3:2
+    #   세로 구도 = 주인공을 위 2/3 에 · 아래 1/5 은 차분하게(자막 자리) — 그림이 곧 화면 전체라 자막과 겹치지 않게
+    orient = 'portrait' if os.environ.get('YS_RATIO', '9:16') == '9:16' else 'landscape'
+    frame = 'subject in upper two thirds, calm lower fifth' if orient == 'portrait' else 'calm lower fifth'
+    room = 300 - len(frame) - len(STYLE) - 4   # 300자 상한(clean·맥 드라이버 동값) 안에서 화풍·「no text」 꼬리가 잘리지 않게 장면 묘사를 먼저 줄인다
+    scenes = [{'i': i, 'prompt': clean(f"{clean(sc.get('img') or sc.get('head'))[:room].rstrip()}. {frame}. {STYLE}")}
               for i, sc in enumerate(plan['scenes']) if clean(sc.get('img') or sc.get('head'))]
-    # 방향 = 쓰이는 자리에 맞춘다: 그록 9:16 = 세로(첫 프레임 = 전면 영상) · 그 밖 = 가로 3:2(장면 그림 칸 ≈ 1.24:1)
-    orient = 'portrait' if os.environ.get('YS_IMG') == 'grok' and os.environ.get('YS_RATIO', '9:16') == '9:16' else 'landscape'
     job = {'kind': 'ysimg', 'id': id_, 'ts': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
            'deadline': int(time.time()) + WAIT, 'orient': orient, 'scenes': scenes}
     with tempfile.NamedTemporaryFile('w', suffix='.json', delete=False, encoding='utf-8') as f:

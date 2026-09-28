@@ -5,10 +5,10 @@
                [--ratio 9:16|16:9] [--subbg on|off] [--subop 0~100]
 
   산출 = outdir/short.mp4 · outdir/poster.jpg · outdir/infographic.png · outdir/render.json(집계)
-  장면 = 슬라이드 PNG(헤드리스 Chromium) + 느린 확대 + 문장 자막 오버레이 + 장면 나레이션 → 장면 클립 → 이어붙이기.
-  장면 화면 = 3방식(운영자 260928 «모션 그래픽 · GPT · 그록»):
-    --vid-dir 에 s{i}.mp4 가 있으면 = 그록 영상 전면(9:16 꽉 채움 · 태그·자막만 얹고 큰 글자는 첫 2초만)
-    --img-dir 에 s{i}.png|jpg 가 있으면 = 위쪽 칸에 그림(맥 Codex) + 아래 글자 · --depth on 이면 그 그림을 2.5D 입체 시차 영상으로(ys_depth.py)
+  장면 = 화면 층(헤드리스 Chromium) + 문장 자막 오버레이 + 장면 나레이션 → 장면 클립 → 이어붙이기.
+  장면 화면 = 전부 화면 전체 + 자막만(운영자 260928 «GPT 도 화면 전체 · 9:16 로 제작 · 화면 안 멘트 안 쓰게» — 태그·큰 글자·칩·쪽수 없음):
+    --vid-dir 에 s{i}.mp4 가 있으면 = 그록 영상 전면(꽉 채움)
+    --img-dir 에 s{i}.png|jpg 가 있으면 = 맥 Codex 그림 전면 + 느린 확대 · --depth on 이면 그 그림을 전면 2.5D 입체 시차 영상으로(ys_depth.py)
     둘 다 없으면 = 모션 그래픽 = 화면 글자 없이 자막 위 무대 전체(운영자 260928) — --motion motion.json(Opus 모션 디자이너) 장면이면 그 코드,
       없거나 검문 실패면 틀 도식(ys_mg · 장면 mg 사양)
 
@@ -82,89 +82,31 @@ html,body{{width:{W}px;font-family:{FAMILY},'Noto Sans CJK KR',sans-serif;color:
 """
 
 
-def box_rect(L):
-    """layout 의 pic 문자열(left·right·top·height px) → (x, y, w, h) — 모션 그래픽 겹칠 자리."""
-    d = dict((k, int(v)) for k, v in re.findall(r'(left|right|top|height):(\d+)px', L['pic']))
-    return d['left'], d['top'], W - d['left'] - d['right'], d['height']
+def _shade(credit):
+    """전면 장면 공용 층(css, body) = 아래 어둠막(자막 가독) + 마지막 장면만 위 출처 한 줄.
+    화면 문구(태그·큰 글자·보조·칩·쪽수) 없음(운영자 260928 «GPT 도 화면 전체 · 화면 안 멘트 안 쓰게»)."""
+    css = (f".st{{position:absolute;left:0;right:0;top:0;height:{int(H * .14)}px;background:linear-gradient(180deg,rgba(0,0,0,.5),transparent)}}"
+           f".sb{{position:absolute;left:0;right:0;bottom:0;height:{int(H * .36)}px;background:linear-gradient(0deg,rgba(0,0,0,.66),transparent)}}"
+           f".credit{{position:absolute;right:80px;top:{70 if LAND else 110}px;font-size:28px;line-height:1.3;color:var(--fg);opacity:.8;"
+           f"max-width:{'1200' if LAND else '900'}px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:right}}")
+    body = '<div class=sb></div>' + (f'<div class=st></div><div class=credit>{esc(credit)}</div>' if credit else '')
+    return css, body
 
 
-def layout(img):
-    """장면 배치(px) — 세로 9:16 = 위 그림·아래 글자 / 가로 16:9 = 왼쪽 글자·오른쪽 그림.
-    글자는 한 덩이 세로 흐름(.txt = 큰 글자 → 보조 → 칩 → 출처)이라 줄 수가 늘어도 겹치지 않는다(고정 top 배치 폐기 · 16:9 실측 겹침 봉합).
-    txt = 글자 덩이 영역(위·아래 경계) · tw = 큰 글자 자동 맞춤 폭 · 자막 영역(세로 1480~ · 가로 900~)은 비워 둔다."""
-    if LAND:
-        if img:
-            return dict(top=70, pic='left:1000px;right:80px;top:170px;height:680px', txt='top:170px;bottom:230px;right:1000px',
-                        tw=840, big_cap=104, head_cap=60, just='center')
-        return dict(top=70, pic='', txt='top:170px;bottom:230px;right:80px', tw=1760, big_cap=150, head_cap=72, just='center')
-    if img:
-        return dict(top=120, pic='left:80px;right:80px;top:230px;height:740px', txt='top:1010px;bottom:470px;right:80px',
-                    tw=920, big_cap=110, head_cap=80, just='flex-start')
-    return dict(top=120, pic='', txt='top:360px;bottom:470px;right:80px', tw=920, big_cap=150, head_cap=84, just='center')
+def shade_html(tokens, credit=''):
+    """입체·그록 영상 위에 얹는 투명 층."""
+    css, body = _shade(credit)
+    return (f"<!doctype html><html><head><meta charset=utf-8><style>{base_css(tokens)}"
+            f"html,body{{height:{H}px;background:transparent;overflow:hidden}}{css}</style></head><body>{body}</body></html>")
 
 
-def slide_html(tokens, sc, idx, total, img=None, credit='', box=False):
-    tag = esc(sc.get('tag'))
-    step = f'{idx} / {total - 2}' if 0 < idx < total - 1 else ''
-    chips = ''.join(f'<span class=chip>{esc(c)}</span>' for c in sc.get('chips') or [])
-    big, head = sc.get('big') or '', sc.get('head') or ''
-    L = layout(img or box)   # box = 모션 그래픽 장면 = 그림 칸 배치 그대로(칸 안은 비워 두고 ffmpeg 가 겹친다)
-    vis = f"<div class=pic style=\"background-image:url('file://{img}')\"></div>" if img else ''
-    big_px, head_px = fit(big, L['big_cap'], L['tw']), fit(head, L['head_cap'], L['tw'])
-    step_or_credit = f'<span class=credit>{esc(credit)}</span>' if credit else f'<span class=step>{step}</span>'
-    return f"""<!doctype html><html><head><meta charset=utf-8><style>{base_css(tokens)}
-html,body{{height:{H}px;overflow:hidden;background:var(--bg)}}
-body{{background:radial-gradient(1200px 900px at {'30% 40%' if LAND else '50% 28%'},rgba(var(--accent-rgb),.13),transparent 60%),var(--bg)}}
-.top{{position:absolute;left:80px;right:80px;top:{L['top']}px;display:flex;justify-content:space-between;align-items:center}}
-.step{{font-size:34px;color:var(--mut);font-weight:600}}
-.pic{{position:absolute;{L['pic']};border-radius:28px;background-size:cover;background-position:center;border:1px solid var(--line)}}
-.pic::after{{content:'';position:absolute;inset:0;border-radius:28px;background:linear-gradient(180deg,transparent 55%,rgba(0,0,0,.55))}}
-.txt{{position:absolute;left:80px;{L['txt']};display:flex;flex-direction:column;justify-content:{L['just']};gap:36px;overflow:hidden}}
-.big{{font-size:{big_px}px;line-height:1.12;font-weight:800;letter-spacing:-.03em;color:var(--accent)}}
-.head{{font-size:{head_px}px;line-height:1.22;font-weight:800;letter-spacing:-.03em}}
-.credit{{font-size:28px;line-height:1.3;color:var(--mut);max-width:{'1200' if LAND else '620'}px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:right}}
-</style></head><body>
-<div class=top><span class=pill>{tag}</span>{step_or_credit}</div>
-{vis}<div class=txt><div class=big>{br(big)}</div><div class=head>{br(head)}</div><div class=chips>{chips}</div></div>
-</body></html>"""
-
-
-FIT_JS = """() => {
-  const t = document.querySelector('.txt'); if (!t) return 0;
-  const over = () => { const r = t.getBoundingClientRect(), k = [...t.children].filter(c => c.offsetHeight);
-    if (!k.length) return false; return k[0].getBoundingClientRect().top < r.top - 1 || k[k.length - 1].getBoundingClientRect().bottom > r.bottom + 1; };
-  let n = 0;
-  while (over() && n < 8) { for (const s of ['.big', '.head']) { const e = t.querySelector(s); if (e) e.style.fontSize = (parseFloat(getComputedStyle(e).fontSize) * 0.9) + 'px'; } n++; }
-  if (over()) { const c = t.querySelector('.chips'); if (c) c.style.display = 'none'; return 'chips'; }
-  return n;
-}"""
-
-
-def overlay_html(tokens, sc, idx, total, credit=''):
-    """그록 전면 영상 위에 얹는 층(투명) — 위 태그·쪽수(또는 출처) + 위·아래 어둠막(태그·자막 가독 · 영상 밝기와 무관)."""
-    step = f'{idx} / {total - 2}' if 0 < idx < total - 1 else ''
-    right = f'<span class=credit>{esc(credit)}</span>' if credit else f'<span class=step>{step}</span>'
-    return f"""<!doctype html><html><head><meta charset=utf-8><style>{base_css(tokens)}
-html,body{{height:{H}px;background:transparent;overflow:hidden}}
-.st{{position:absolute;left:0;right:0;top:0;height:{int(H * .2)}px;background:linear-gradient(180deg,rgba(0,0,0,.55),transparent)}}
-.sb{{position:absolute;left:0;right:0;bottom:0;height:{int(H * .42)}px;background:linear-gradient(0deg,rgba(0,0,0,.62),transparent)}}
-.top{{position:absolute;left:80px;right:80px;top:{70 if LAND else 120}px;display:flex;justify-content:space-between;align-items:center}}
-.pill{{background:rgba(0,0,0,.35)}}
-.step{{font-size:34px;color:var(--fg);font-weight:600;opacity:.8}}
-.credit{{font-size:28px;line-height:1.3;color:var(--fg);opacity:.8;max-width:{'1200' if LAND else '620'}px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:right}}
-</style></head><body><div class=st></div><div class=sb></div><div class=top><span class=pill>{esc(sc.get('tag'))}</span>{right}</div></body></html>"""
-
-
-def title_html(tokens, sc):
-    """그록 전면 영상 = 큰 글자·보조 글자를 장면 첫 2초만(운영자 260928 «9:16 전면 · 제목은 잠깐») · 그림자로 영상 위 가독."""
-    big, head = sc.get('big') or '', sc.get('head') or ''
-    tw = 1500 if LAND else 920
-    return f"""<!doctype html><html><head><meta charset=utf-8><style>{base_css(tokens)}
-html,body{{height:{H}px;background:transparent;overflow:hidden}}
-.t{{position:absolute;left:80px;right:80px;top:{int(H * (.3 if LAND else .36))}px;display:flex;flex-direction:column;gap:28px;align-items:{'center' if LAND else 'flex-start'};text-shadow:0 4px 18px rgba(0,0,0,.85),0 0 2px rgba(0,0,0,.9)}}
-.big{{font-size:{fit(big, 130 if LAND else 120, tw)}px;line-height:1.12;font-weight:800;letter-spacing:-.03em;color:var(--accent)}}
-.head{{font-size:{fit(head, 72, tw)}px;line-height:1.22;font-weight:800;letter-spacing:-.03em}}
-</style></head><body><div class=t><div class=big>{br(big)}</div><div class=head>{br(head)}</div></div></body></html>"""
+def full_html(tokens, img, credit=''):
+    """GPT 그림 전면 = 그림이 화면 전체(cover) + 공용 층 — 느린 확대는 ffmpeg 가 준다."""
+    css, body = _shade(credit)
+    return (f"<!doctype html><html><head><meta charset=utf-8><style>{base_css(tokens)}"
+            f"html,body{{height:{H}px;background:var(--bg);overflow:hidden}}{css}"
+            f".pic{{position:absolute;inset:0;background:url('file://{img}') center/cover no-repeat}}</style></head>"
+            f"<body><div class=pic></div>{body}</body></html>")
 
 
 def bg_html(tokens):
@@ -309,10 +251,6 @@ def main(argv):
         page.goto('file://' + str(f))
         page.evaluate('document.fonts.ready')
         page.wait_for_timeout(120)
-        if not full and not transparent:   # 장면 = 글자 덩이가 영역을 넘으면 큰 글자·보조 글자를 0.9배씩 줄이고(최대 8번) 그래도 넘치면 칩을 뺀다 = 조용한 잘림 0
-            r = page.evaluate(FIT_JS)
-            if r == 'chips':
-                print(f'::warning::{Path(path).stem} 글자가 많아 칩을 뺐어')
         page.screenshot(path=str(path), full_page=full, omit_background=transparent)
 
     caps_all = []
@@ -333,17 +271,16 @@ def main(argv):
                     if c.exists() and c.stat().st_size > 1024:
                         img = str(c)
                         break
+            # 그록·입체·그림 = 화면 전체 + 자막만(운영자 260928 «GPT 도 화면 전체 · 9:16 로 제작 · 화면 안 멘트 안 쓰게» · 모션 그래픽과 같은 원칙)
             if vid:
                 vids_used += 1
                 kinds.append(('vid', vid))
-                shot(pg, overlay_html(tokens, sc, i, len(scenes), credit if last else ''), work / f's{i}o.png', transparent=True)
-                shot(pg, title_html(tokens, sc), work / f's{i}t.png', transparent=True)
+                shot(pg, shade_html(tokens, credit if last else ''), work / f's{i}o.png', transparent=True)
                 mgcap.append(None)
-            elif img and depth:   # GPT 입체 = 그림 칸 배치 · 칸 안 = 깊이 시차 영상(둥근 모서리 가림막으로 겹침)
-                bx, by, bw, bh = box_rect(layout(True))
+            elif img and depth:   # GPT 입체 = 화면 전체 깊이 시차 영상 + 공용 층
                 try:   # 입체 도구(numpy·opencv·onnxruntime)가 없거나 깨져도 = 정지 그림으로 대체(렌더 전체는 산다)
                     import ys_depth
-                    ok, why = ys_depth.parallax_clip(img, work / f'dep{i}.mp4', bw, bh, d, dep_model)
+                    ok, why = ys_depth.parallax_clip(img, work / f'dep{i}.mp4', W, H, d, dep_model)
                 except Exception as e:  # noqa: BLE001
                     ok, why = False, f'입체 도구 없음({type(e).__name__})'
                 if ok:
@@ -352,18 +289,18 @@ def main(argv):
                     if why and why not in dep_notes:
                         dep_notes.append(why)
                     kinds.append(('dep', str(work / f'dep{i}.mp4')))
-                    shot(pg, slide_html(tokens, sc, i, len(scenes), None, credit if last else '', box=True), work / f's{i}.png')
-                    mgcap.append({'x': bx, 'y': by, 'w': bw, 'h': bh})
+                    shot(pg, shade_html(tokens, credit if last else ''), work / f's{i}.png', transparent=True)
+                    mgcap.append(None)
                 else:
                     dep_notes.append(f'장면 {i + 1} 입체 실패({why}) — 정지 그림으로 대체')
                     imgs_used += 1
                     kinds.append(('img', img))
-                    shot(pg, slide_html(tokens, sc, i, len(scenes), img, credit if last else ''), work / f's{i}.png')
+                    shot(pg, full_html(tokens, img, credit if last else ''), work / f's{i}.png')
                     mgcap.append(None)
             elif img:
                 imgs_used += 1
                 kinds.append(('img', img))
-                shot(pg, slide_html(tokens, sc, i, len(scenes), img, credit if last else ''), work / f's{i}.png')
+                shot(pg, full_html(tokens, img, credit if last else ''), work / f's{i}.png')
                 mgcap.append(None)
             else:   # 모션 그래픽 = 글자 없는 전체 무대(Opus 모션 디자이너 코드 → 검문 실패면 틀 도식)
                 mgs_used += 1
@@ -404,29 +341,20 @@ def main(argv):
         if kind == 'vid':
             vd = probe(src)
             slow = min(1.15, d / vd) if 0 < vd < d else 1.0   # 짧으면 1.15배까지만 늦추고 나머지는 마지막 프레임 멈춤(억지 보간 0)
-            ins = ['-i', src, '-i', wav, '-loop', '1', '-framerate', str(FPS), '-t', f'{d:.3f}', '-i', str(work / f's{i}o.png'),
-                   '-loop', '1', '-framerate', str(FPS), '-t', f'{d:.3f}', '-i', str(work / f's{i}t.png')]
+            ins = ['-i', src, '-i', wav, '-loop', '1', '-framerate', str(FPS), '-t', f'{d:.3f}', '-i', str(work / f's{i}o.png')]
             fc = (f"[0:v]scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},setsar=1,setpts={slow:.4f}*(PTS-STARTPTS),fps={FPS},"
                   f"tpad=stop_mode=clone:stop_duration={d:.3f},trim=duration={d:.3f},setpts=PTS-STARTPTS,format=rgba[bv]"
-                  f";[3:v]format=rgba,fade=t=in:st=0:d=0.3:alpha=1,fade=t=out:st=1.7:d=0.5:alpha=1[tt]"
-                  f";[bv][2:v]overlay=0:0[bo];[bo][tt]overlay=0:0:enable='lte(t,2.3)'[v0]")
-            base = 4
+                  f";[bv][2:v]overlay=0:0[v0]")
+            base = 3
         else:
             ins = ['-loop', '1', '-framerate', str(FPS), '-t', f'{d:.3f}', '-i', str(work / f's{i}.png'), '-i', wav]
             fc, base = '', 2
             src0 = '[0:v]'
-            if kind == 'dep':
-                m = mgcap[i]
-                mask = work / 'boxmask.png'
-                if not mask.exists():
-                    from PIL import Image, ImageDraw
-                    mk = Image.new('L', (m['w'], m['h']), 0)
-                    ImageDraw.Draw(mk).rounded_rectangle((0, 0, m['w'] - 1, m['h'] - 1), radius=28, fill=255)   # .pic 모서리 28 동값
-                    mk.save(mask)
-                ins += ['-i', src, '-loop', '1', '-t', f'{d:.3f}', '-i', str(mask)]
-                fc = (f"[2:v]format=rgba,tpad=stop_mode=clone:stop_duration={d:.3f},trim=duration={d:.3f}[dv];[3:v]format=gray,scale={m['w']}:{m['h']}[mk];"
-                      f"[dv][mk]alphamerge[dm];[0:v][dm]overlay={m['x']}:{m['y']}[bm];")
-                src0, base = '[bm]', 4
+            if kind == 'dep':   # 화면 전체 입체 영상 위에 공용 층(s{i}.png = 투명 어둠막·출처)을 얹는다
+                ins += ['-i', src]
+                fc = (f"[2:v]format=rgba,scale={W}:{H},setsar=1,tpad=stop_mode=clone:stop_duration={d:.3f},trim=duration={d:.3f}[dv];"
+                      f"[dv][0:v]overlay=0:0[bm];")
+                src0, base = '[bm]', 3
             if kind == 'mg':
                 m = mgcap[i]
                 ins += ['-framerate', str(FPS), '-i', str(m['dir'] / 'f%04d.jpg')]
@@ -464,10 +392,9 @@ def main(argv):
     if k0 == 'vid':   # 영상 1초 지점 + 얹는 층(자막·제목 없음)
         pin = ['-ss', '1', '-i', s0, '-i', str(work / 's0o.png')]
         pfc = f"[0:v]scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H}[b];[b][1:v]overlay=0:0,{pw_}"
-    elif k0 == 'dep':  # 입체 영상 1초 지점 한 장을 둥근 가림막으로 칸에 겹친다
-        m = mgcap[0]
-        pin = ['-i', str(work / 's0.png'), '-ss', '1', '-i', s0, '-i', str(work / 'boxmask.png')]
-        pfc = f"[1:v]format=rgba[dv];[2:v]format=gray[mk];[dv][mk]alphamerge[dm];[0:v][dm]overlay={m['x']}:{m['y']},{pw_}"
+    elif k0 == 'dep':  # 입체 영상 1초 지점 한 장 + 공용 층
+        pin = ['-ss', '1', '-i', s0, '-i', str(work / 's0.png')]
+        pfc = f"[0:v]scale={W}:{H},setsar=1[b];[b][1:v]overlay=0:0,{pw_}"
     elif k0 == 'mg':  # 등장이 끝난 모션 그래픽 한 장을 칸에 겹친다
         m = mgcap[0]
         fr = (min(m['n'], m['ef']) - 1) if m['ef'] else min(m['n'] - 1, 45)   # 틀 = 등장 끝 · 디자이너 장면 = 1.5초 지점

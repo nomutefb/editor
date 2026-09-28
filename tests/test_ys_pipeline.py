@@ -137,6 +137,19 @@ class RenderHelpers(unittest.TestCase):
         self.assertTrue(all(a < z for a, z, _t in parts))
         self.assertEqual(ys_render.split_caption('짧은 문장', 0, 1), [(0, 1, '짧은 문장')])
 
+    def test_fullscreen_layers_have_no_scene_text(self):
+        """그림·입체·그록 = 화면 전체 + 자막만(운영자 260928 «화면 안 멘트 안 쓰게») — 층에 장면 문구 자리 0 · 출처는 마지막 장면만."""
+        import ys_render
+        full = ys_render.full_html(':root{}', '/x/s0.png')
+        for cls in ('class=big', 'class=head', 'class=chip', 'class=pill', 'class=step', 'class=credit'):
+            self.assertNotIn(cls, full)
+        self.assertIn('inset:0', full)                                                 # 그림 = 화면 전체
+        self.assertIn('class=credit', ys_render.shade_html(':root{}', '원본 · 채널'))
+
+    def test_image_orient_follows_ratio(self):
+        src = (ROOT / '.github/scripts/ys_images.py').read_text(encoding='utf-8')
+        self.assertIn("orient = 'portrait' if os.environ.get('YS_RATIO', '9:16') == '9:16' else 'landscape'", src)   # 방식 무관 = 비율로 방향
+
     def test_fit_caps(self):
         import ys_render
         self.assertEqual(ys_render.fit('가나', 150), 150)
