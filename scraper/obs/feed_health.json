@@ -1,31 +1,11 @@
 {
- "ok": 172,
- "dead": 5,
+ "ok": 176,
+ "dead": 1,
  "dead_feeds": [
   {
-   "publisher": "SBS",
-   "title": "사회",
-   "url": "https://news.sbs.co.kr/news/SectionRssFeed.do?sectionId=03&plink=RSSREADER"
-  },
-  {
-   "publisher": "SBS",
-   "title": "연예",
-   "url": "https://ent.sbs.co.kr/news/xml/RSSFeed.do"
-  },
-  {
-   "publisher": "SBS",
-   "title": "헤드라인",
-   "url": "https://news.sbs.co.kr/news/headlineRssFeed.do?plink=RSSREADER"
-  },
-  {
-   "publisher": "SBS",
-   "title": "속보",
-   "url": "https://news.sbs.co.kr/news/newsflashRssFeed.do?plink=RSSREADER"
-  },
-  {
-   "publisher": "전자신문",
-   "title": "IT·산업전반",
-   "url": "https://rss.etnews.com/Section901.xml"
+   "publisher": "머니투데이",
+   "title": "전체기사",
+   "url": "https://rss.mt.co.kr/mt_news.xml"
   }
  ],
  "zombie_feeds": [
