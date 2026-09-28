@@ -22,6 +22,18 @@ ACC="$(get R2_ACCOUNT_ID)"; AK="$(get R2_ACCESS_KEY_ID)"; SK="$(get R2_SECRET_AC
 [ -n "$ACC" ] && [ -n "$AK" ] || exit 0
 B="https://$ACC.r2.cloudflarestorage.com/$BK"
 S3(){ curl -sS --max-time 60 --aws-sigv4 aws:amz:auto:s3 --user "$AK:$SK" "$@"; }
+[ -f "$HOME/nomute_ys_heartbeat.sh" ] && bash "$HOME/nomute_ys_heartbeat.sh" 2>/dev/null   # 유튜브 숏폼 맥 표시등(260928 · 자체 60초 스로틀 · 빈 큐에서도 갱신)
+# 유튜브 숏폼 장면 그림(260928) — 전용 접두 queue/ysimg/ = 본 큐(head -6)에 오래 남은 잡이 있어도 굶지 않는다 · 회차당 1잡
+#   드라이버가 R2 키·Codex 로그인을 스스로 읽는다(아래 키 주입·git pull 불요) · 실패 = failed/ 이동(워크플로는 글자 화면으로 진행)
+YK=$(S3 "$B?list-type=2&prefix=queue/ysimg/" 2>/dev/null | grep -o '<Key>[^<]*</Key>' | sed 's/<Key>//;s/<\/Key>//' | head -1)
+if [ -n "$YK" ] && [ -f "$HOME/nomute_ys_driver.sh" ]; then
+  YJ="/tmp/nomute_ysimg.json"
+  if S3 "$B/$YK" -o "$YJ" 2>/dev/null; then
+    S3 -X DELETE "$B/$YK" >/dev/null 2>&1   # 먼저 집는다 = 10초 서브폴 재진입이 같은 잡을 두 번 돌리지 않게(잠금과 이중 방어)
+    if timeout 3600 bash "$HOME/nomute_ys_driver.sh" "$YJ"; then echo "[job] $(date '+%H:%M:%S') ysimg 완료 ($YK)"
+    else S3 -X PUT "$B/queue/failed/$(basename "$YK")" --data-binary "@$YJ" >/dev/null 2>&1; echo "[job] $(date '+%H:%M:%S') ysimg 실패 — failed/ 이동"; fi
+  fi
+fi
 KEYS=$(S3 "$B?list-type=2&prefix=queue/jobs/" 2>/dev/null | grep -o '<Key>[^<]*</Key>' | sed 's/<Key>//;s/<\/Key>//' | head -6)
 [ -n "$KEYS" ] || exit 0
 # 키 주입(환경변수.txt 평문 KEY=VAL 전량 — genimg 축 = GEMINI·R2·OPENAI 폴백)

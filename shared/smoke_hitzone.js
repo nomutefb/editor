@@ -46,6 +46,7 @@ const SHELLS = [
     tabs: [
       { ko: '편집', src: '/edit.html' }, { ko: '콘티', src: '/sb.html' }, { ko: '프롬프팅', src: '/k.html' },
       { ko: '음원', src: '/song.html' }, { ko: '큐영상', src: '/vd.html' },
+      { ko: '유튜브', src: '/ys.html' },
     ] },
 ];
 const KEY = (s, t) => s.ko + '_' + t.ko;

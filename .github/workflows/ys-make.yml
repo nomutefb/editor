@@ -1,0 +1,379 @@
+name: ys-make
+
+# 영상 스튜디오 「유튜브」 탭(Pages Function /api/ys)이 발사 — 유튜브 숏폼(운영자 260928 · 기존 레인과 독립):
+#   유튜브 URL → 자막(yt-dlp) 또는 받아쓰기(Scribe·Whisper = ly 레일) → claude 1콜(인사이트 보고서·인포그래픽 문안·장면 대본)
+#   → 나레이션(edge 무료 | ElevenLabs) → 장면 그림(선택 · 맥 Codex 레인) → 렌더(9:16 mp4 + 인포그래픽 + 포스터)
+#   → R2 ys_res/<id>/ → viewer/ys_out/<id>/result.json 커밋.
+#   진행 = 단계마다 R2 ys_out/<id>/progress.json 게시(ys_progress.py) → 뷰어 Tasks 카드가 5초 폴링(functions/ys_out = r2live).
+#   골격 = nb-make(자막·STT·claude) + vd-make(R2·커밋) 미러. LLM = 영상당 1콜(구독 OAuth).
+on:
+  workflow_dispatch:
+    inputs:
+      id:
+        description: '작업 id(타임스탬프-hex6)'
+        type: string
+      url:
+        description: '유튜브 영상 URL(api/ys.js YT_RE 통과분)'
+        type: string
+      ask:
+        description: '운영자 지시(선택 · 관점·초점)'
+        type: string
+        default: ''
+      voice:
+        description: 'eleven(ElevenLabs · 기본) | edge(무료)'
+        type: string
+        default: 'eleven'
+      stt:
+        description: 'scribe(정밀 받아쓰기 · 기본) | subs(자막 우선)'
+        type: string
+        default: 'scribe'
+      img:
+        description: 'codex(맥 Codex 장면 그림 · 기본 · 맥 꺼짐 = 글자 화면) | none(글자 화면)'
+        type: string
+        default: 'codex'
+      len:
+        description: '목표 초 45 | 60 | 90'
+        type: string
+        default: '60'
+      font:
+        description: 'pretendard | gothic | barun'
+        type: string
+        default: 'pretendard'
+      el_voice:
+        description: 'ElevenLabs 목소리 id(빈 값 = 레포 변수 YS_EL_VOICE → 계정 한국어 목소리 자동)'
+        type: string
+        default: ''
+      account:
+        description: '이 실행에 쓸 계정(구독 OAuth)'
+        type: choice
+        default: EMS1130N
+        options:
+          - EMS1130N
+          - MUTENO
+          - EMS1130G
+
+concurrency:
+  group: ys-make-${{ inputs.id }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  ys:
+    runs-on: ubuntu-latest
+    timeout-minutes: 75   # 자막 ~3 + claude ~5 + 음성 ~3 + 그림 대기 ≤15 + 렌더 ~6 + 환경 ~8 + STT 폴백 백스톱
+    env:
+      YS_ID: ${{ inputs.id }}
+      R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+      R2_BUCKET: ${{ secrets.R2_BUCKET }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+          sparse-checkout: |
+            .github
+            .claude
+            shared
+            apps
+            prompts
+            assets/fonts
+            viewer
+            metrics
+
+      - name: 입력 검문 + 진행 시작
+        env:   # 입력은 env 로만 받는다(run 줄에 ${{ }} 직삽입 = 셸 인젝션 축)
+          IN_VOICE: ${{ inputs.voice }}
+          IN_STT: ${{ inputs.stt }}
+          IN_IMG: ${{ inputs.img }}
+          IN_LEN: ${{ inputs.len }}
+          IN_FONT: ${{ inputs.font }}
+        run: |
+          set -e
+          case "$YS_ID" in ''|*[!0-9a-f-]*) echo "::error::잘못된 id"; exit 1;; esac
+          # api/ys.js 화이트리스트 재검증(상류 신뢰 대신 최후 방어선 · vd/conv 선례) — 벗어나면 기본값
+          pick(){ case " $2 " in *" $1 "*) echo "$1";; *) echo "$3";; esac; }
+          IMG="$(pick "$IN_IMG" 'none codex' codex)"   # 기본 = 운영자 260928 «60초 고급 정밀 맥 그림»
+          { echo "YS_VOICE=$(pick "$IN_VOICE" 'edge eleven' eleven)"
+            echo "YS_STT=$(pick "$IN_STT" 'subs scribe' scribe)"
+            echo "YS_IMG=$IMG"
+            echo "YS_LEN=$(pick "$IN_LEN" '45 60 90' 60)"
+            echo "YS_FONT=$(pick "$IN_FONT" 'pretendard gothic barun' pretendard)"; } >> "$GITHUB_ENV"
+          mkdir -p "viewer/ys_out/${YS_ID}"
+          python3 .github/scripts/ys_progress.py "$YS_ID" init "img=$IMG"
+
+      - name: Setup Node (claude)
+        uses: actions/setup-node@v5
+        with:
+          node-version: '24'
+
+      - name: Install claude-code
+        run: npm install -g --allow-scripts=@anthropic-ai/claude-code @anthropic-ai/claude-code
+
+      - name: Setup Deno (yt-dlp JS 챌린지 솔버)
+        run: |
+          curl -fsSL https://deno.land/install.sh | timeout 120 sh 2>/dev/null || echo "::warning::Deno 설치 실패 — 순수 파이썬 solver 폴백"
+          echo "$HOME/.deno/bin" >> "$GITHUB_PATH"
+
+      - name: 영상 정보 + 자막 (yt-dlp — 영상 다운로드 없음)
+        timeout-minutes: 12
+        env:
+          URL: ${{ inputs.url }}
+          YT_COOKIES: ${{ secrets.YT_T_COOKIES }}
+          YT_COOKIES_NAME: YT_T_COOKIES
+          YS_MAX_SEC: ${{ vars.YS_MAX_SEC || 14400 }}
+        run: |
+          set -e
+          python3 .github/scripts/ys_progress.py "$YS_ID" meta run
+          printf '%s' "$URL" | grep -Eq '^https://((www\.|m\.)?youtube\.com/|youtu\.be/)' || { echo "유튜브 영상 주소가 아니야 — 링크를 확인해줘." > /tmp/ys_err.txt; exit 1; }
+          timeout 240 pip3 install -q -U --pre "yt-dlp[default]" || { sleep 3; timeout 240 pip3 install -q -U --pre "yt-dlp[default]"; }
+          if ! YTDLP_ERR=/tmp/ys_yterr.txt YTDLP_DIAG=/tmp/ys_diag.txt YTDLP_LABEL="메타" bash .github/scripts/ytdlp_try.sh \
+               --skip-download --no-playlist --dump-single-json "$URL" > /tmp/ys_yt.json; then
+            e="$(tail -c 600 /tmp/ys_yterr.txt | tr '\n' ' ')"
+            case "$e" in
+              *"Sign in to confirm"*|*"not a bot"*) m="유튜브가 로그인 확인을 요구했어(쿠키·무쿠키 4번 다 시도함). 잠시 후 다시 하거나 다른 영상으로 해줘.";;
+              *429*|*"Too Many Requests"*) m="유튜브 요청 과다(429) — 잠시 후 다시 해줘.";;
+              *"Private video"*|*removed*|*unavailable*) m="이 영상을 볼 수 없어 — 비공개·삭제·지역제한이거나 링크가 잘못됐어.";;
+              *) m="유튜브 정보 조회 실패 — $(printf '%s' "$e" | head -c 140)";;
+            esac
+            printf '%s\n' "$m" > /tmp/ys_err.txt; exit 1
+          fi
+          python3 - <<'PY'
+          import json, os
+          y = json.load(open("/tmp/ys_yt.json", encoding="utf-8"))
+          up = y.get("upload_date") or ""
+          meta = {"yt_id": y.get("id") or "", "url": y.get("webpage_url") or "", "title": (y.get("title") or "")[:300],
+                  "channel": (y.get("channel") or y.get("uploader") or "")[:100],
+                  "uploaded": f"{up[:4]}-{up[4:6]}-{up[6:8]}" if len(up) == 8 else "",
+                  "dur": int(y.get("duration") or 0), "lang": (y.get("language") or "")[:8]}
+          if y.get("is_live"):
+              open("/tmp/ys_err.txt", "w").write("라이브 방송 중이야 — 방송이 끝난 뒤(다시보기) 링크로 줘.\n")
+          cap = int(os.environ.get("YS_MAX_SEC", "14400"))
+          if meta["dur"] > cap:
+              open("/tmp/ys_err.txt", "w").write(f"영상이 {meta['dur'] // 60}분이라 상한({cap // 60}분)을 넘어 — 더 짧은 영상으로 해줘.\n")
+          json.dump(meta, open("/tmp/ys_meta.json", "w", encoding="utf-8"), ensure_ascii=False)
+          print("메타:", meta["title"][:60], "·", meta["dur"], "s")
+          PY
+          [ -s /tmp/ys_err.txt ] && exit 1
+          python3 .github/scripts/ys_progress.py "$YS_ID" meta done "$(python3 -c "import json;m=json.load(open('/tmp/ys_meta.json'));print(f\"{m['dur']//60}분 {m['dur']%60}초\")")"
+          python3 .github/scripts/ys_progress.py "$YS_ID" stt run "$([ "$YS_STT" = scribe ] && echo 정밀 받아쓰기 || echo 자막 찾는 중)"
+          if [ "$YS_STT" = "scribe" ]; then echo "YS_NEED_STT=1" >> "$GITHUB_ENV"; exit 0; fi
+          LANGP="$(python3 -c "import json;m=json.load(open('/tmp/ys_meta.json'));l=m.get('lang') or '';print((l+','+l.split('-')[0]+',' if l else '')+'ko,en')")"
+          mkdir -p /tmp/yssub_man /tmp/yssub_auto
+          YTDLP_ERR=/tmp/ys_yterr.txt YTDLP_DIAG=/tmp/ys_diag.txt YTDLP_LABEL="수동자막" bash .github/scripts/ytdlp_try.sh --skip-download --no-playlist \
+            --write-subs --no-write-auto-subs --sub-langs "$LANGP" --sub-format "vtt/srt/best" -o "/tmp/yssub_man/x.%(ext)s" "$URL" || true
+          python3 .github/scripts/nb_sub.py --vtt /tmp/yssub_man "$LANGP" subs > /tmp/ys_tr.json || echo '{"src":"","rows":[]}' > /tmp/ys_tr.json
+          ROWS="$(python3 -c "import json;print(len(json.load(open('/tmp/ys_tr.json')).get('rows') or []))")"
+          if [ "$ROWS" -lt 5 ]; then
+            YTDLP_ERR=/tmp/ys_yterr.txt YTDLP_DIAG=/tmp/ys_diag.txt YTDLP_LABEL="자동자막" bash .github/scripts/ytdlp_try.sh --skip-download --no-playlist \
+              --write-auto-subs --no-write-subs --sub-langs "$LANGP" --sub-format "vtt/srt/best" -o "/tmp/yssub_auto/x.%(ext)s" "$URL" || true
+            python3 .github/scripts/nb_sub.py --vtt /tmp/yssub_auto "$LANGP" subs-auto > /tmp/ys_tr.json || echo '{"src":"","rows":[]}' > /tmp/ys_tr.json
+            ROWS="$(python3 -c "import json;print(len(json.load(open('/tmp/ys_tr.json')).get('rows') or []))")"
+          fi
+          if [ "$ROWS" -lt 5 ]; then
+            echo "YS_NEED_STT=1" >> "$GITHUB_ENV"; echo "자막 없음 → 받아쓰기로"
+          else
+            python3 .github/scripts/ys_progress.py "$YS_ID" stt done "$(python3 -c "import json;t=json.load(open('/tmp/ys_tr.json'));print(('업로더 자막 ' if t.get('src')=='subs' else '자동 자막 ')+str(len(t.get('rows') or []))+'줄')")"
+          fi
+
+      - name: 받아쓰기 환경 (Scribe 우선 · Whisper 폴백)
+        if: ${{ env.YS_NEED_STT == '1' }}
+        timeout-minutes: 15
+        uses: ./.github/actions/runner-setup
+        with:
+          setup: apps/ly/setup.sh
+          whisper: ${{ (vars.LY_STT_ENGINE == 'whisper' || secrets.ELEVENLABS_API_KEY == '') && 'true' || 'false' }}
+          apt: ffmpeg
+
+      - name: 받아쓰기 (오디오만 → Scribe·Whisper)
+        if: ${{ env.YS_NEED_STT == '1' }}
+        timeout-minutes: 45
+        env:
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+          LY_STT_ENGINE: ${{ vars.LY_STT_ENGINE }}
+          URL: ${{ inputs.url }}
+          YT_COOKIES: ${{ secrets.YT_T_COOKIES }}
+          YT_COOKIES_NAME: YT_T_COOKIES
+          YS_STT_MAX_SEC: ${{ vars.YS_STT_MAX_SEC || 3600 }}
+        run: |
+          set -e
+          DUR="$(python3 -c "import json;print(json.load(open('/tmp/ys_meta.json')).get('dur') or 0)")"
+          if [ "$DUR" -gt "$YS_STT_MAX_SEC" ] 2>/dev/null; then
+            echo "받아쓰기는 $((YS_STT_MAX_SEC/60))분 이하 영상만 돼 — 자막 있는 영상이나 더 짧은 영상으로 해줘." > /tmp/ys_err.txt; exit 1
+          fi
+          python3 .github/scripts/ys_progress.py "$YS_ID" stt run "오디오 받는 중" "p=0.2"
+          YTDLP_ERR=/tmp/ys_yterr.txt YTDLP_DIAG=/tmp/ys_diag.txt YTDLP_LABEL="오디오" bash .github/scripts/ytdlp_try.sh \
+            -x --audio-format mp3 --postprocessor-args "ffmpeg:-ar 16000 -ac 1 -b:a 48k" --no-playlist -o "/tmp/ys_audio.%(ext)s" "$URL" \
+            || { echo "유튜브 오디오를 받지 못했어(쿠키·무쿠키 4번 시도) — 자막 있는 영상으로 해줘." > /tmp/ys_err.txt; exit 1; }
+          python3 .github/scripts/ys_progress.py "$YS_ID" stt run "받아쓰는 중" "p=0.5"
+          python3 .github/scripts/ly_stt.py /tmp/ys_audio.mp3 "" > /tmp/ys_stt.txt \
+            || { echo "받아쓰기 실패 — 소리가 또렷한 영상으로 다시 해줘." > /tmp/ys_err.txt; exit 1; }
+          python3 .github/scripts/nb_sub.py --stt /tmp/ys_stt.txt > /tmp/ys_tr.json
+          ROWS="$(python3 -c "import json;print(len(json.load(open('/tmp/ys_tr.json')).get('rows') or []))")"
+          [ "$ROWS" -ge 3 ] || { echo "받아쓰기 결과가 거의 비었어 — 말소리가 있는 영상인지 확인해줘." > /tmp/ys_err.txt; exit 1; }
+          python3 .github/scripts/ys_progress.py "$YS_ID" stt done "받아쓰기 ${ROWS}줄"
+
+      - name: 목소리 후보 (ElevenLabs 계정 목록 → AI 선택 재료 · 화면 선택지)
+        if: ${{ env.YS_VOICE == 'eleven' }}
+        timeout-minutes: 3
+        env:
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+        run: |
+          [ -n "$ELEVENLABS_API_KEY" ] || { echo "ElevenLabs 키 없음 — 목소리 목록 생략(음성 단계가 무료 음성으로 강하)"; exit 0; }
+          python3 .github/scripts/ys_tts.py --voices /tmp/ys_voices.json || { echo "::warning::목소리 목록 조회 실패(자동 선택으로 진행)"; exit 0; }
+          echo "YS_VOICES_JSON=/tmp/ys_voices.json" >> "$GITHUB_ENV"
+          [ -n "$R2_BUCKET" ] && AWS_DEFAULT_REGION=auto AWS_REQUEST_CHECKSUM_CALCULATION=when_required aws s3 cp /tmp/ys_voices.json "s3://$R2_BUCKET/ys_out/_voices.json" \
+            --content-type 'application/json; charset=utf-8' --cache-control no-store --endpoint-url "https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com" --only-show-errors \
+            || echo "::warning::목소리 목록 게시 실패(제작은 계속)"
+
+      - name: 인사이트 정리 (claude 1콜)
+        timeout-minutes: 25
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets[format('CLAUDE_CODE_OAUTH_TOKEN_{0}', inputs.account || vars.ACTIVE_ACCOUNT || 'EMS1130N')] }}
+          CLAUDE_CODE_OAUTH_TOKEN_ALT: ${{ (inputs.account || vars.ACTIVE_ACCOUNT || 'EMS1130N') == 'MUTENO' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_MUTENO }}
+          CLAUDE_CODE_OAUTH_TOKEN_ALT2: ${{ (inputs.account || vars.ACTIVE_ACCOUNT || 'EMS1130N') == 'EMS1130N' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130N }}
+          CLAUDE_CODE_OAUTH_TOKEN_ALT3: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130M }}
+          ACTIVE_ACCOUNT: ${{ inputs.account || vars.ACTIVE_ACCOUNT || 'EMS1130N' }}
+          YS_ASK: ${{ inputs.ask }}
+        run: |
+          [ -n "$CLAUDE_CODE_OAUTH_TOKEN" ] || { echo "서버 설정 문제(Claude 계정 토큰 없음) — 관리자 확인이 필요해." > /tmp/ys_err.txt; exit 1; }
+          unset ANTHROPIC_API_KEY ANTHROPIC_AUTH_TOKEN
+          python3 .github/scripts/ys_progress.py "$YS_ID" plan run "Claude가 보고서·대본 쓰는 중" "p=0.1"
+          if ! bash .github/scripts/ys_make.sh /tmp/ys; then
+            cp /tmp/ys/error.log /tmp/ys_err.txt 2>/dev/null || true; exit 1
+          fi
+          python3 .github/scripts/ys_progress.py "$YS_ID" plan done "$(python3 -c "import json;p=json.load(open('/tmp/ys/plan.json'));print(f\"장면 {len(p['scenes'])}개 · 용어 교정 {len(p['fixes'])}건\")")"
+
+      - name: Playwright 브라우저 캐시
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: nomute-pw-chromium-v1
+
+      - name: 렌더 환경 (Chromium + ffmpeg + 폰트 + edge-tts)
+        timeout-minutes: 12
+        uses: ./.github/actions/runner-setup
+        with:
+          setup: apps/mg/setup.sh
+          apt: fonts-noto-cjk fonts-nanum ffmpeg
+
+      - name: 목소리 입히기
+        timeout-minutes: 15
+        env:
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+          IN_EL_VOICE: ${{ inputs.el_voice }}
+          VAR_EL_VOICE: ${{ vars.YS_EL_VOICE }}
+        run: |
+          set -e
+          # 목소리 = 화면 선택(id 형식 검문) → AI 선택(plan.voice_id · 후보 목록 안에서만) → 레포 변수 → 계정 한국어 목소리 자동(ys_tts.el_voice)
+          V="$IN_EL_VOICE"; printf '%s' "$V" | grep -Eqx '[A-Za-z0-9]{16,32}' || V="$(python3 -c "import json;print(json.load(open('/tmp/ys/plan.json')).get('voice_id',''))")"
+          printf '%s' "$V" | grep -Eqx '[A-Za-z0-9]{16,32}' || V="$VAR_EL_VOICE"
+          printf '%s' "$V" | grep -Eqx '[A-Za-z0-9]{16,32}' || V=""
+          export YS_EL_VOICE="$V"
+          python3 .github/scripts/ys_progress.py "$YS_ID" voice run "$([ "$YS_VOICE" = eleven ] && echo 고급 음성 || echo 무료 음성)" "p=0.05"
+          python3 .github/scripts/ys_tts.py /tmp/ys/plan.json /tmp/ys/audio "$YS_VOICE" \
+            || { echo "목소리 합성에 실패했어 — 잠시 후 다시 해줘." > /tmp/ys_err.txt; exit 1; }
+          python3 .github/scripts/ys_progress.py "$YS_ID" voice done "$(python3 -c "import json;t=json.load(open('/tmp/ys/audio/timing.json'));print(f\"{t['total']:.0f}초 · \"+{'eleven':'고급 음성','edge':'무료 음성','mixed':'일부 무료 음성 대체'}[t['engine']])")"
+
+      - name: 장면 그림 (맥 Codex 레인)
+        if: ${{ env.YS_IMG == 'codex' }}
+        timeout-minutes: 20
+        env:
+          YS_IMG_WAIT: ${{ vars.YS_IMG_WAIT || 900 }}
+        run: python3 .github/scripts/ys_images.py "$YS_ID" /tmp/ys/plan.json /tmp/ys/img
+
+      - name: 영상 만들기
+        timeout-minutes: 20
+        run: |
+          set -e
+          python3 .github/scripts/ys_progress.py "$YS_ID" render run "슬라이드 그리는 중" "p=0.02"
+          IMGARG=""; [ -d /tmp/ys/img ] && IMGARG="--img-dir /tmp/ys/img"
+          python3 .github/scripts/ys_render.py /tmp/ys/plan.json /tmp/ys/audio/timing.json /tmp/ys_meta.json /tmp/ys/final --font "$YS_FONT" $IMGARG \
+            || { echo "영상 합치기에 실패했어 — 다시 해줘." > /tmp/ys_err.txt; exit 1; }
+          python3 .github/scripts/ys_progress.py "$YS_ID" render done "$(python3 -c "import json;r=json.load(open('/tmp/ys/final/render.json'));print(f\"{r['dur']:.0f}초 · 장면 {r['scenes']}개\")")"
+
+      - name: 올리기 (R2) → result.json
+        timeout-minutes: 8
+        run: |
+          set -e
+          python3 .github/scripts/ys_progress.py "$YS_ID" upload run
+          [ -n "$R2_BUCKET" ] || { echo "저장소(R2)가 설정 안 돼 있어 — 관리자 설정 후 다시." > /tmp/ys_err.txt; exit 1; }
+          export AWS_DEFAULT_REGION=auto AWS_REQUEST_CHECKSUM_CALCULATION=when_required AWS_RESPONSE_CHECKSUM_VALIDATION=when_required
+          EP="https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com"
+          cp /tmp/ys/report.md /tmp/ys/final/report.md
+          for f in short.mp4 poster.jpg infographic.png report.md; do
+            case "$f" in *.mp4) CT=video/mp4;; *.jpg) CT=image/jpeg;; *.png) CT=image/png;; *.md) CT='text/markdown; charset=utf-8';; esac
+            aws s3 cp "/tmp/ys/final/$f" "s3://$R2_BUCKET/ys_res/${YS_ID}/$f" --content-type "$CT" --endpoint-url "$EP" --only-show-errors \
+              || { echo "결과 업로드에 실패했어 — 다시 해줘." > /tmp/ys_err.txt; exit 1; }
+          done
+          python3 - <<'PY'
+          import json, os, time
+          base = f"{os.environ.get('R2_PUBLIC_BASE', '').rstrip('/')}/ys_res/{os.environ['YS_ID']}"
+          meta = json.load(open('/tmp/ys_meta.json', encoding='utf-8'))
+          plan = json.load(open('/tmp/ys/plan.json', encoding='utf-8'))
+          tim = json.load(open('/tmp/ys/audio/timing.json', encoding='utf-8'))
+          ren = json.load(open('/tmp/ys/final/render.json', encoding='utf-8'))
+          tr = json.load(open('/tmp/ys_tr.json', encoding='utf-8'))
+          img = {}
+          try:
+              img = json.load(open('/tmp/ys/img/img.json', encoding='utf-8'))
+          except Exception:
+              pass
+          notes = list(tim.get('notes') or []) + ([img['note']] if img.get('note') and not img.get('used') else [])
+          doc = {'id': os.environ['YS_ID'], 'generated': time.strftime('%Y-%m-%dT%H:%M:%S+09:00', time.gmtime(time.time() + 9 * 3600)),
+                 'title': plan.get('title') or meta.get('title'), 'short_title': plan.get('short_title', ''), 'one': plan.get('one', ''),
+                 'channel': meta.get('channel', ''), 'src_title': meta.get('title', ''), 'src_url': meta.get('url', ''), 'uploaded': meta.get('uploaded', ''),
+                 'dur': ren['dur'], 'scenes': ren['scenes'], 'voice': tim.get('engine'), 'img': os.environ.get('YS_IMG'), 'img_used': ren.get('img_used', 0),
+                 'font': os.environ.get('YS_FONT'), 'tr_src': tr.get('src', ''), 'fixes': plan.get('fixes', []), 'verify': plan.get('verify', []),
+                 'voice_name': tim.get('voice_name', ''), 'voice_why': plan.get('voice_why', '') if tim.get('voice_id') and tim.get('voice_id') == plan.get('voice_id') else '',
+                 'video': f'{base}/short.mp4', 'poster': f'{base}/poster.jpg', 'infographic': f'{base}/infographic.png', 'report': f'{base}/report.md',
+                 'notes': notes}
+          p = f"viewer/ys_out/{os.environ['YS_ID']}/result.json"
+          json.dump(doc, open(p + '.tmp', 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+          os.replace(p + '.tmp', p)
+          print(json.dumps(doc, ensure_ascii=False)[:400])
+          PY
+          aws s3 cp "viewer/ys_out/${YS_ID}/result.json" "s3://$R2_BUCKET/ys_out/${YS_ID}/result.json" --content-type 'application/json; charset=utf-8' \
+            --cache-control no-store --endpoint-url "$EP" --only-show-errors || echo "::warning::result.json 실시간 게시 실패(커밋 경로로 표시됨)"
+          python3 .github/scripts/ys_progress.py "$YS_ID" finish
+        env:
+          R2_PUBLIC_BASE: ${{ secrets.R2_PUBLIC_BASE }}
+
+      - name: 실패 기록 — 화면이 즉시 사유 표시
+        if: failure()
+        run: |
+          case "$YS_ID" in ''|*[!0-9a-f-]*) exit 0;; esac
+          mkdir -p "viewer/ys_out/${YS_ID}"
+          if [ -s /tmp/ys_err.txt ]; then MSG="$(head -c 400 /tmp/ys_err.txt)"; else MSG="만들기에 실패했어 — 다시 해줘. 반복되면 Actions 로그를 확인해야 해."; fi
+          [ -s /tmp/ys_diag.txt ] && MSG="$MSG"$'\n'"$(head -c 300 /tmp/ys_diag.txt)"
+          export MSG
+          python3 -c "import json,os;json.dump({'id':os.environ['YS_ID'],'error':os.environ['MSG']},open('viewer/ys_out/'+os.environ['YS_ID']+'/result.json','w',encoding='utf-8'),ensure_ascii=False,indent=1)"
+          python3 .github/scripts/ys_progress.py "$YS_ID" fail "$MSG" || true
+          if [ -n "$R2_BUCKET" ]; then
+            AWS_DEFAULT_REGION=auto AWS_REQUEST_CHECKSUM_CALCULATION=when_required aws s3 cp "viewer/ys_out/${YS_ID}/result.json" \
+              "s3://$R2_BUCKET/ys_out/${YS_ID}/result.json" --content-type 'application/json; charset=utf-8' --cache-control no-store \
+              --endpoint-url "https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com" --only-show-errors || true
+          fi
+          echo "error: $MSG"
+
+      - name: Commit output
+        if: always()
+        env:
+          BRANCH: ${{ github.ref_name }}
+        run: |
+          case "$YS_ID" in ''|*[!0-9a-f-]*) echo "잘못된 id — 커밋 스킵"; exit 0;; esac
+          git config user.name "nomute-bot"
+          git config user.email "bot@nomute.local"
+          git add "viewer/ys_out/${YS_ID}" 2>/dev/null || true
+          git add metrics 2>/dev/null || true
+          git commit -m "ys: ${YS_ID} 유튜브 숏폼" || { echo "커밋할 것 없음"; exit 0; }
+          pushed=0
+          for i in 1 2 3 4 5; do
+            git fetch --deepen=100 origin main 2>/dev/null || true
+            if git fetch origin "$BRANCH" && git rebase "origin/$BRANCH" && git push origin "HEAD:$BRANCH"; then pushed=1; break; fi
+            git rebase --abort 2>/dev/null || true; sleep $((i*3))
+          done
+          [ "$pushed" = 1 ] || { echo "::error::push ${BRANCH} 5회 실패 — 출력 유실"; exit 1; }

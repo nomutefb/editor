@@ -16,7 +16,7 @@
 import { rescueJobs } from './api/_fire.js';   // (260820) 발사 유실 봉합 — 잠든 큐 잡 회수(아래 200-ok 분기 주석 참조)
 const JOB_API = new Set(['pick', 'make-cards', 'genimg', 'moreimg', 'imgedit', 'thumbredo', 'thumb',
   'comp', 'compose', 'edit', 'vidl', 'vidlout', 'conv', 'k', 'resize', 'upscale', 'song', 'track', 'voice',
-  'sb', 'ly', 'nb', 'framethumb', 'revise', 'revise-cards', 'cards-revise', 'tr']);
+  'sb', 'ly', 'nb', 'framethumb', 'revise', 'revise-cards', 'cards-revise', 'tr', 'ys']);
 
 // ── 진행 중 작업 공유 원장(260817 · 운영자 "하드웨어를 바꾸든, 브라우저를 바꾸든 동시간에 들어가면 제작중인 내용이 동일하게 떠야")
 // 왜: 진행 중 슬롯이 **브라우저 로컬 저장소에만** 있었다(nm-jobs.js `nm_*_pend`) → 같은 사람이 폰에서 걸고 PC로 가면

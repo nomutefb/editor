@@ -18,6 +18,7 @@
  *   J6 음원 = 2건 동시 큐잉 생존 + 화면 주인 이동
  *   J7 콘티·프롬프팅 = 2건 동시 폴 생존
  *   J8 큐영상 = 진행 중 렌더 전건 재개(구판 `.find()` 단건)
+ *   J9 유튜브 = 진행 중 작업 전건 재개(vd 계승 · 260928)
  *
  * ⚠ 서버 동시 상한(functions/api/_rate.js rateGate cap=3)은 이 축의 대상이 아니다 — 그건 워크플로별 발사 제한이고,
  *   여기서 재는 건 「화면이 몇 개를 들고 있나」다. 서버가 3개를 받아주는데 화면이 1개만 들면 나머지가 유실된다.
@@ -157,6 +158,15 @@ async function open(browser, port, file, init) {
       await pg.waitForTimeout(600);
       const r = await pg.evaluate(() => nmJobs.count('vd_jobs'));
       ck('J8 큐영상 진행분 전건 재개', r === 2, 'polls=' + r);
+      await pg.close();
+    }
+    // ── J9 유튜브
+    {
+      const pg = await open(browser, port, 'ys.html', () => localStorage.setItem('ys_jobs', JSON.stringify([
+        { id: 'y1', out: 'ys_out/y1/result.json', status: 'run', t0: Date.now() }, { id: 'y2', out: 'ys_out/y2/result.json', status: 'run', t0: Date.now() }])));
+      await pg.waitForTimeout(600);
+      const r = await pg.evaluate(() => nmJobs.count('ys_jobs'));   // seal-ok: 새 탭 슬롯 조회 1줄 — favtab·thumbapi 스모크는 페이지 평가가 필요 없는 축
+      ck('J9 유튜브 진행분 전건 재개', r === 2, 'polls=' + r);
       await pg.close();
     }
   } catch (e) {

@@ -1,0 +1,917 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<!-- 유튜브 탭(영상 스튜디오 6탭째 · 260928) = 유튜브 주소 → 인사이트 리포트 + 인포그래픽 + 9:16 숏폼. 골격·배선 = viewer/vd.html(큐영상) 계승 -->
+<title>유튜브</title>
+<link rel="stylesheet" href="tokens.css">   <!-- 공유 구조토큰(index :root 파생·색 제외) · 인라인 :root가 팔레트 오버라이드 -->
+<link rel="stylesheet" href="nm-shared.css"><!-- 뷰어 공용 부품 CSS SSOT -->
+<link rel="stylesheet" href="nm-clip.css"><!-- 입력칸 클립 CSS SSOT -->
+<link rel="stylesheet" href="nm-input.css"><!-- 스튜디오 텍스트 입력칸 SSOT(.nmin) -->
+<link rel="stylesheet" href="nm-cards.css"><!-- 다운로드(.dlbtn) 색 SSOT -->
+<link rel="stylesheet" href="nm-job.css"><!-- 결과 요약 줄(.job) SSOT -->
+<link rel="stylesheet" href="nm-hist.css"><!-- 결과·이전 제작 레일 + 미리보기 다운로드 픽토(.imgdl) SSOT -->
+<style>
+  /* 공유 블록 = viewer/vd.html 1~183행 계승(값 동일 · 이 탭이 안 쓰는 규칙은 뺐다) */
+  :root { --well:#0e0f11; --bg:#121212; --pan:#16171a; --line:#2a2c31; --hist-accent:#FFE13D; --hist-rgb:255,225,61; --fg:#eef7f0; --mut:#8fa697; --accent:#00EED2; --accent-rgb:0,238,210;
+    --accent-4:#FFE13D; --accent-4-rgb:255,225,61;
+    --accent-5:#0FFD02; --accent-5-rgb:15,253,2; --info:var(--accent-5); --info-rgb:var(--accent-5-rgb);
+    --danger:#e23b2a; --danger-rgb:226,59,42; --warn:#FFE13D; --warn-rgb:255,225,61; --accent-dim:rgba(var(--accent-rgb),.13); --on-accent:#032322; --line2:rgba(255,255,255,.06);
+    --modal-glass-anchor:rgba(17,18,20,.42); --modal-head-bg:rgba(24,25,28,.85); --modal-tabs-bg:rgba(24,25,28,.5); }   /* raw-ok: 팔레트 = index :root 정본 동값 exact 계승(vd.html :root 사본 + 성공 초록 --accent-5/--info · 완료 알약·게이지 끝색 · 경고 --warn-rgb · 맥 표시등 로그인 필요) */
+  @media (prefers-reduced-motion:reduce){ :root{ --press-pico:1; --press-xs:1; --press-s:1; --press-m:1; --press-l:1; } }
+  * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  [hidden] { display:none !important; }  html .cscroll { display:none !important; }
+  html { scrollbar-width:none; -ms-overflow-style:none; scrollbar-color:rgba(255,255,255,.05) transparent; }  * { scrollbar-width:none; }
+  ::-webkit-scrollbar-track { background:transparent; }
+  ::-webkit-scrollbar-thumb { background:rgba(255,255,255,.05); border-radius:var(--r-pill); border:1px solid var(--bg); background-clip:padding-box; }
+  @font-face{font-family:'Pretendard Variable';font-weight:45 920;font-style:normal;font-display:swap;src:local('Pretendard Variable'),url(assets/fonts/pretendard.woff2) format('woff2-variations')}
+  body { margin:0; background:radial-gradient(125% 70% at 50% -8%, rgba(var(--accent-rgb),.06), transparent 55%) fixed, var(--bg); color:var(--fg); font:15px/1.6 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif; letter-spacing:-.2px /* raw-ok: 자간 = index body 정본 exact 계승 */; -webkit-font-smoothing:antialiased; }
+  label { display:block; font-size:var(--fs-label); color:var(--fg); margin:14px 0 var(--sp-1); }   /* raw-ok: vd·k label 동일값 계승(상단 14 행 리듬) */
+  label.fl { font-weight:var(--fw-x); color:var(--fg); }   /* 소머리 = 흰색·800(vd·k 계승 · check_soremeori) */
+  label.fl::before { content:'• '; color:var(--accent); font-weight:var(--fw-b); }
+  html.inmodal, html.inmodal body { background:transparent; }   /* 모달(iframe) 안 = 투명 → tooldlg 글래스 비침(vd 계승) */
+  .go { width:100%; margin-top:0; padding:var(--sp-1); background:rgba(255,255,255,.02); color:var(--accent); border:1px solid var(--line); border-radius:var(--r-m); font-weight:800; font-size:var(--fs-label); font-family:inherit; line-height:1; cursor:pointer; position:relative; overflow:hidden; -webkit-tap-highlight-color:transparent; -webkit-user-select:none; user-select:none; transition:transform var(--dur-fast) ease, background var(--dur) ease, border-color var(--dur) ease; }
+  .go:disabled { opacity:.5; cursor:default; transform:none; }
+  .go.shake { animation:ysshake .42s; }
+  @keyframes ysshake { 10%,90%{transform:translateX(-1px)} 30%,70%{transform:translateX(2px)} 50%{transform:translateX(-2px)} }   /* raw-ok: vd vdshake 동값(키프레임 이름만 탭 고유) */
+  @media (prefers-reduced-motion:reduce) { .go.shake { animation:none; } }
+  .go .goic { width:12px; height:12px; vertical-align:-2px; margin-right:3px; fill:none; stroke:currentColor; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; }   /* raw-ok: 발사 아이콘 = 레일 글리프 기준 12(check_refs _TRAIL_AXES 동값) · 획 2.2 = nm-svg ARROW_R 동값 · 모핑(morphicons) 대상 = 운영자 260928 */
+  .go.ok .goic { stroke:var(--accent); }
+  .go.bad { color:var(--danger); }
+  :where(.dock) .go { border-color:rgba(255,255,255,.2); }   /* raw-ok: thumb·vd 도크 발사 테두리 정본 동값 · :where = 상태 오버라이드가 이긴다(check_css_dead_state 계약) */
+  .trailwrap > .trail-fire { margin:0; }
+  .trailwrap > .trail-fire .go, .trailwrap > .trail-fire.go { margin:0; }
+  .dock #go, .dock .go { border-radius:var(--r-s); min-height:30px /* raw-ok: 발사 고정정본 높이(smoke_studioshell FIRE_CANON 30 · vd 동값) */; backdrop-filter:blur(var(--blur-s)); -webkit-backdrop-filter:blur(var(--blur-s)); }
+  /* 폼 문법 = Image Studio(#genidlg) 정본 계승(vd·sb 동값 — 소머리·항목 라벨·우측 워드칩) */
+  .cref-lbl { font-size:var(--fs-label); font-weight:var(--fw-x); color:var(--fg); }
+  .geni-row { display:flex; align-items:baseline; justify-content:space-between; gap:var(--sp-2); padding:8px 0; }   /* raw-ok: index .geni-row 동일값 계승(padding 8) */
+  .pub-l { font-size:var(--fs-label); font-weight:var(--fw-b); color:var(--fg); white-space:nowrap; }
+  .geni-opts { display:flex; flex-wrap:wrap; gap:3px 4px; justify-content:flex-end; min-width:0; }   /* raw-ok: index .geni-opts 동일값 계승 */
+  .geni-opt { background:none; border:none; padding:6px 7px; font-family:inherit; font-size:var(--fs-label); font-weight:var(--fw-b); color:var(--mut); cursor:pointer; white-space:nowrap; transition:color var(--dur); -webkit-tap-highlight-color:transparent; }   /* raw-ok: index .geni-opt 동일값 계승(padding 6·7) */
+  .geni-opt:active { transform:scale(var(--press-m)); }
+  .geni-opt.on { color:var(--accent); font-weight:var(--fw-x); }
+  .status { margin-top:var(--sp-1); font-size:var(--fs-xs); color:var(--mut); white-space:pre-wrap; line-height:var(--lh-base); }
+  .status:empty { display:none; }
+  .status.err { color:var(--danger); }
+  .status.warn { color:var(--warn); }
+  .status.ok { color:var(--fg); }
+</style>
+<script>if(window.self!==window.top)document.documentElement.classList.add('inmodal');</script>
+<noscript><style>html{scrollbar-width:thin}html::-webkit-scrollbar,body::-webkit-scrollbar{width:10px;height:10px;display:block}</style></noscript>
+<style>
+  /* ══ 워크스페이스 골격 = vd.html 「패널 도킹 탭」 계승(도크 = 프로그램 모니터 + 코너 레일 + 발사 · 본문 = 스크롤 패널) ══ */
+  html, body { height:100%; }
+  body { overflow:hidden; }
+  .ws { position:fixed; inset:0; display:flex; flex-direction:column; }
+  .dock { flex:none; position:sticky; top:0; z-index:6; margin-top:0; background:rgba(18,18,18,1) /* raw-ok: 카드 제작·vd 도크 정본 동값 */; border-bottom:1px solid rgba(var(--accent-rgb),.35); --line:rgba(255,255,255,.15) /* raw-ok: 도크 스코프 선 = thumb·vd 정본 동값 */; padding:var(--sp-2) 16px 0; }
+  .dock::after { content:none; }
+  .mon { position:relative; width:var(--pvw); margin-inline:auto; height:auto; aspect-ratio:1/1; contain:size; min-height:0; border:1px solid transparent; border-radius:var(--r-s); background:#121212 /* raw-ok: thumb .cpprev-box 필러 동값 */; container-type:size; display:grid; place-items:center; overflow:hidden; }
+  .monwrap { position:relative; }
+  .mon video { width:100%; height:auto; display:block; -webkit-tap-highlight-color:transparent; }
+  .mon .monplay { position:absolute; inset:0; margin:auto; width:var(--btn); height:var(--btn); display:grid; place-items:center; padding:0; border-radius:50%;
+    border:1px solid rgba(255,255,255,.17); background:rgba(26,28,26,.3); color:var(--fg); box-shadow:inset 0 1px 0 rgba(255,255,255,.2);
+    -webkit-backdrop-filter:blur(var(--blur-m)) saturate(1.3); backdrop-filter:blur(var(--blur-m)) saturate(1.3); pointer-events:none; }   /* raw-ok: vd .monplay 정본 동값(G1 글래스) */
+  .mon .monplay svg { width:16px; height:16px; transform:translateX(1px); }
+  .mon .monplay[hidden] { display:none; }
+  .mon .monseek { position:absolute; left:0; right:0; bottom:0; height:3px; background:rgba(255,255,255,.15); cursor:pointer; touch-action:none; -webkit-tap-highlight-color:transparent; }   /* raw-ok: vd .monseek 정본 동값 */
+  .mon .monseek::before { content:''; position:absolute; left:0; right:0; top:-9px; bottom:-3px; }
+  .mon .monseek i { position:absolute; left:0; top:0; bottom:0; width:0%; background:var(--accent); pointer-events:none; }
+  .mon:has(video) { aspect-ratio:auto; contain:layout; container-type:normal; height:auto; }
+  .mon .imgdl { z-index:3; }
+  .cpv-empty { position:absolute; inset:0; display:grid; place-items:center; background-color:inherit; }
+  .cpv-empty .cpv-stage { width:min(100%, calc(100cqh * 16 / 9)); aspect-ratio:16/9; background-color:inherit; display:grid; place-items:center; }
+  .cpv-photobtn { display:grid; place-items:center; width:var(--btn); height:var(--btn); padding:0; background:none; border:0; color:var(--accent); }   /* reuse-ok: thumb .cpv-photobtn 정본 외형 계승 · 이 탭은 누를 동작이 없는 표시 픽토 = 버튼 아님(span · 커서 비계승 — 빈 모니터가 「컨트롤 1개 캡슐」로 읽혀 히트존 면적 2.5% 면책을 늘리던 축을 코드로 해소) */
+  .cpv-photobtn svg { width:26px; height:26px; display:block; }
+  html.nm-menuopen .cpv-empty { opacity:0; }
+  /* ── 코너 옵션 레일 = thumb 정본 값 사본(vd 동일 · 드리프트 차단 = check_refs check_trail_spec) ── */
+  .monwrap { --pvw:min(52%, 29svh, 300px); margin:0 0 var(--sp-2); }
+  .dock.dockzoom .monwrap { --pvw:min(100%, 58svh, 620px); }
+  .monwrap .trailwrap { position:absolute; top:0; left:calc(50% + var(--pvw, 52%) / 2); margin-left:8px; z-index:2; display:flex; flex-direction:column; align-items:stretch; width:var(--trailw, 70px); gap:8px; }
+  .dock.dockzoom .monwrap .trailwrap { margin-left:0; transform:translateX(-100%); }
+  .monwrap .trail-v, .monwrap .trail-v .gospec { align-items:center; }
+  .monwrap #cpZoomRail { align-self:stretch; align-items:center; }
+  #cpZoom.on .cpz-v { display:none; }
+  .monwrap .trail { display:flex; flex-direction:column; flex-wrap:nowrap; gap:var(--sp-1); padding:5px 2px /* raw-ok: 레일 캡슐 정본 동값(thumb·vd .trail) */; border-radius:var(--r-s);
+    border:1px solid rgba(255,255,255,.14); background:rgba(8,15,11,.54) /* raw-ok: 정본 동값 */;
+    backdrop-filter:blur(var(--blur-s)); -webkit-backdrop-filter:blur(var(--blur-s)); }
+  .monwrap .trail-g { display:flex; flex-direction:column; flex-wrap:nowrap; gap:2px /* raw-ok: .trail-rg 정본 gap 동값 */; flex:none; align-self:stretch; }
+  .monwrap .trail-div { width:14px; height:1px; margin:1px 0; flex:none; background:rgba(255,255,255,.16); }   /* raw-ok: 레일 헤어라인 정본 동값(thumb·vd) */
+  .monwrap .trail-g:not(:has(button:not([hidden]))) { display:none; }
+  .monwrap .trail-g:not(:has(button:not([hidden]))) + .trail-div { display:none; }
+  .monwrap .trail:not(:has(button:not([hidden]))):not(:has(.trail-v:not(.none))) { display:none; }
+  .monwrap .trail-v { display:flex; flex-direction:column; gap:var(--sp-1); align-self:stretch; margin:0; padding:0; background:transparent; border:1px solid transparent; border-radius:0; font-size:10.5px /* raw-ok: 정본 .trail-i 활자 동값 */; line-height:1; text-align:center; }
+  .monwrap .trail-v.none { display:none; }
+  .monwrap .trail-v .gs-lbl, .monwrap .trail-v .gs-dot { display:none; }
+  .monwrap .trail-v .gs-sep { display:block; width:14px; height:1px; margin:1px auto; flex:none; background:rgba(255,255,255,.16); font-size:0; line-height:0; color:transparent; }   /* raw-ok: vd .gs-sep 헤어라인 동값 */
+  .monwrap .trail-v .gospec { display:flex; flex-direction:column; gap:var(--sp-1); margin:0; padding:0; font-size:10.5px; line-height:1; text-align:center; white-space:nowrap; overflow:visible; }   /* raw-ok: 정본 .trail-i 활자 10.5 동값(thumb·vd) */
+  .monwrap .trail-v .gs-v { position:relative /* reuse-ok: 기존 리드백 칩(.gs-v)에 정본 .trail-i 외형 스킨 */; display:grid; place-items:center; min-width:22px; height:22px; padding:0 5px; border:0; background:none; border-radius:var(--r-l); color:var(--mut); font-size:10.5px; font-weight:var(--fw-x); font-family:inherit; letter-spacing:-.2px; line-height:1; white-space:nowrap; -webkit-tap-highlight-color:transparent; transition:color var(--dur) ease; }   /* raw-ok: 값 칩 22·10.5 = 정본 .trail-i 외형 동값(check_refs _TRAIL_AXES) */
+  .monwrap .trail-v .gs-v, .monwrap .trail-v .ropt { place-items:center; text-align:center; }
+  .monwrap .trail-v .gs-v.on { color:var(--accent); font-weight:var(--fw-x); }
+  .monwrap .trail-i { position:relative; display:grid; place-items:center; width:22px; height:22px; padding:0; border:0; background:none; border-radius:50%; color:var(--mut); font-size:10.5px /* raw-ok: 정본 .trail-i 활자 동값 */; font-weight:var(--fw-x); font-family:inherit; cursor:pointer; -webkit-tap-highlight-color:transparent; }
+  .monwrap .trail-i::after { content:''; position:absolute; inset:-6px -4px; }   /* 히트패드 = 정본 .trail-i::after 동값(시각 22 · 실효 34×30) */
+  .monwrap #cpZoomRail .trail-i::after { left:calc((22px - var(--trailw, 70px)) / 2 + 1px); right:calc((22px - var(--trailw, 70px)) / 2 + 1px); }   /* 돋보기 캡슐 = 버튼이 캡슐 전체를 누른다(히트패드를 캡슐 안쪽 가로폭까지 = 캡슐 70 − 테두리 2 · 시각 무변동) — 보이는 캡슐 = 눌리는 캡슐(smoke_hitzone H1 · 면책 대신 코드 해소) */
+  .monwrap .trail-i:active { transform:scale(var(--press-m)); }
+  .monwrap .trail svg { width:12px; height:12px; display:block; }   /* ⭐ 레일 픽토 기준 크기 = 버튼 22 / 글리프 12(§3-5 · check_refs _TRAIL_AXES) */
+  .monwrap #cpRail:not(:has(.trail-g > button:not([hidden]))):not(:has(.trail-v:not(.none))) { display:none; }
+  .monwrap .trail-v .gs-v:active { transform:scale(var(--press-m)); }
+  /* ── 본문 패널 = vd .src 계승(도크 아래 첫 블록 = 소머리 블릿 · 잉크 18 = smoke_studioshell C9 정본) ── */
+  .src { flex:1 1 auto; min-height:0; overflow:auto; padding:16px; }   /* raw-ok: vd .src 동값(16 = 도크↔본문 박스 정본) */
+  .phead { display:flex; align-items:center; gap:6px /* raw-ok: thumb .csec gap 6 정본 동값 */; font-size:var(--fs-label); color:var(--fg); font-weight:var(--fw-x); line-height:var(--lh-base); }
+  .phead::before { content:'•'; color:var(--accent); font-weight:var(--fw-b); }
+  .phead .sp { margin-left:auto; color:var(--mut); font-weight:400; font-size:var(--fs-xs); font-variant-numeric:tabular-nums; }
+  .ysec { margin-top:var(--sp-4); }
+  .src .iowrap { margin-top:var(--sp-2); }
+  .opts { margin-top:var(--sp-1); }
+  .opts .geni-row + .geni-row { border-top:1px solid var(--line2); }
+  /* 맥 표시등(운영자 260928) = 장면 그림 옆 상태 점 · 전환 = opacity·box-shadow만(레이아웃 전이 0 = check_layout_transition) */
+  .macrow { display:flex; justify-content:flex-end; margin:-4px 0 var(--sp-1); }   /* raw-ok: -4 = 위 .geni-row 하단 패딩 8의 절반만 당겨 「장면」 줄에 붙인다(값 = geni-row 패딩 계승) */
+  .ysmac { position:relative; display:inline-flex; align-items:center; gap:var(--sp-1); font-size:var(--fs-xs); font-weight:var(--fw-b); color:var(--mut); text-decoration:none; line-height:var(--lh-base); transition:color var(--dur) ease; }
+  .ysmac::before { content:''; position:absolute; inset:-8px -4px; }   /* 히트슬롭 = .urlclip::before 계승 축(시각 불변) */
+  .ysmac-dot { width:8px; height:8px; flex:none; border-radius:50%; background:var(--mut); opacity:.35; box-shadow:0 0 0 0 rgba(var(--accent-rgb),0); transition:opacity var(--dur) ease, box-shadow var(--dur) ease, background-color var(--dur) ease; }   /* raw-ok: 점 8 = 운영자 지정 표시등(글자 fs-xs 11과 한 줄) · 꺼짐 .35 = 운영자 지정 */
+  .ysmac[data-st="on"] { color:var(--fg); }
+  .ysmac[data-st="on"] .ysmac-dot { background:var(--accent); opacity:1; box-shadow:0 0 8px rgba(var(--accent-rgb),.55); }   /* raw-ok: 은은한 글로우 = .tooltab.on 텍스트 글로우(11px .55) 계열 값 */
+  .ysmac[data-st="login"] { color:var(--warn); }
+  .ysmac[data-st="login"] .ysmac-dot { background:var(--warn); opacity:1; box-shadow:0 0 6px rgba(var(--warn-rgb),.4); }   /* raw-ok: 경고 톤 글로우 = 위 강조 글로우의 한 단 약한 판 */
+  /* ElevenLabs 목소리 목록(운영자 260928 «음성 임의 선택») = 고급 음성일 때만 · 행 = vd 기사 행(.vdrow) 기하·선택 문법 계승 · 많으면 목록 안 스크롤 */
+  .vlist { display:flex; flex-direction:column; gap:var(--sp-1); max-height:calc(var(--btn) * 5); overflow:auto; margin:0 0 var(--sp-1); overscroll-behavior:contain; }
+  .vrow { flex:none; display:flex; align-items:stretch; border-radius:var(--r-m); background:rgba(8,15,11,.34); border:1px solid var(--line); transition:border-color var(--dur), background var(--dur); }   /* raw-ok: vd .vdrow 면 동값 */
+  .vrow.on { border-color:rgba(var(--accent-rgb),.5); background:rgba(var(--accent-rgb),.06); }
+  .vpick { flex:1 1 auto; min-width:0; display:flex; align-items:baseline; gap:8px; padding:8px 11px; margin:0; background:none; border:0; color:var(--fg); font-family:inherit; font-size:var(--fs-xs); line-height:var(--lh-base); text-align:left; cursor:pointer; -webkit-tap-highlight-color:transparent; }   /* raw-ok: .job 행 여백 8/11 · 이름↔설명 8 = .vdrow gap 동값 */
+  .vpick b { flex:none; font-size:var(--fs-label); font-weight:var(--fw-b); white-space:nowrap; }
+  .vpick i { font-style:normal; min-width:0; color:var(--mut); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .vrow.on .vpick b { color:var(--accent); }
+  .vplay { flex:none; width:var(--btn); display:grid; place-items:center; padding:0; margin:0; background:none; border:0; border-left:1px solid var(--line); color:var(--mut); cursor:pointer; -webkit-tap-highlight-color:transparent; }
+  .vplay svg { width:12px; height:12px; display:block; fill:none; stroke:currentColor; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; }   /* raw-ok: 글리프 12 = 레일 픽토 기준 크기 동값 */
+  .vplay.on { color:var(--accent); }
+  .vpick:active, .vplay:active { transform:scale(var(--press-l,.95)); }
+  .ysmac .tk-orbit { width:10px; height:10px; border-width:1.5px; }   /* raw-ok: 맥 작업 중 = 점 옆 소형 오빗(운영자 지정 「작게」) */
+  @media (prefers-reduced-motion:reduce) { .ysmac, .ysmac-dot { transition:none; } }
+  /* ══ 진행 상황 카드(운영자 260928 · 레퍼런스 Tasks 카드) ══
+     면 = --pan + 우하단 강조색 저알파 빛번짐 · 행 = 상태 아이콘(대기 점선 원 / 진행 Orbit Spinner / 완료 강조색 체크 = morphicons 모핑 / 실패 danger) + 라벨 + note 칩.
+     높이 변화 = 행 등장 transform·opacity 한 번뿐(height 전이 금지 = _LAYOUT_TRANS_BASE 래칫). */
+  .tk { position:relative; margin-top:var(--sp-4); border:1px solid var(--line); border-radius:var(--r-l); overflow:hidden; isolation:isolate;
+    background:radial-gradient(120% 150% at 100% 100%, rgba(var(--accent-rgb),.16), rgba(var(--accent-rgb),0) 58%), var(--pan); }   /* raw-ok: 빛번짐 = 운영자 지정(레퍼런스 우하단 초록 번짐 → 강조색 저알파 radial) · .16/58% = body 상단 번짐(.06/55%)의 카드판 */
+  .tk-h { display:flex; align-items:center; gap:var(--sp-1); width:100%; padding:var(--sp-2) var(--sp-2) var(--sp-1); margin:0; background:none; border:0; color:var(--fg); font-family:inherit; font-size:var(--fs-label); font-weight:var(--fw-b); line-height:var(--lh-base); text-align:left; cursor:pointer; -webkit-tap-highlight-color:transparent; }
+  .tk-chev { width:14px; height:14px; flex:none; fill:none; stroke:var(--mut); stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; }   /* raw-ok: 획 2.2 = nm-svg CHEV 계열 동값 */
+  .tk-t { flex:1 1 auto; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .tk-pill { flex:none; display:inline-flex; align-items:center; padding:0 var(--sp-1); border-radius:var(--r-pill); border:1px solid var(--line); background:rgba(255,255,255,.05); color:var(--fg); font-size:var(--fs-xs); font-weight:var(--fw-b); line-height:var(--lh-base); font-variant-numeric:tabular-nums; white-space:nowrap; }   /* raw-ok: 알약 면 .05 = .job 계열 흰알파 사다리 */
+  .tk-n { flex:none; color:var(--fg); font-size:var(--fs-label); font-weight:var(--fw-b); font-variant-numeric:tabular-nums; }
+  .tk-pill.ok { color:var(--info); border-color:rgba(var(--info-rgb),.35); background:rgba(var(--info-rgb),.12); }   /* 완료 알약 = 성공 초록(--info = --accent-5) */
+  .tk-pill.bad { color:var(--danger); border-color:rgba(var(--danger-rgb),.4); background:rgba(var(--danger-rgb),.12); }
+  .tk-orbit { display:inline-block; flex:none; width:16px; height:16px; border-radius:50%; border:2px solid var(--line); border-top-color:var(--accent); border-right-color:var(--accent); animation:ysOrbit .8s linear infinite; }   /* raw-ok: Orbit Spinner(kinetics · 운영자 260928) = 원본 44px/4px → 줄 아이콘 16/2 축소 · 바탕 링 --line · 호 --accent · 회전 .8s 원본 동값 */
+  .tk-h .tk-orbit { width:18px; height:18px; }
+  @keyframes ysOrbit { to { transform:rotate(1turn); } }
+  @media (prefers-reduced-motion:reduce) { .tk-orbit { animation:none; } }   /* 정지 = 위·오른쪽 호만 남은 정지 프레임 */
+  .tk-body { padding:0 var(--sp-2) var(--sp-2); }
+  .tk.fold .tk-body { display:none; }
+  /* 전체 진행률 게이지(운영자 260928 · kinetics Confidence Settle) = scaleX 한 번 오버슈트(반복 0 · width 전이 0) */
+  .tk-bar { position:relative; height:4px; border-radius:var(--r-pill); background:var(--well); overflow:hidden; }   /* raw-ok: 가는 막대 4 = 운영자 지정(가는 둥근 막대) */
+  .tk-fill { position:absolute; inset:0; border-radius:inherit; background:linear-gradient(90deg, var(--accent), var(--info)); transform-origin:left center; transform:scaleX(0); transition:transform .9s cubic-bezier(.34,1.56,.64,1); }   /* raw-ok: 커브 = 원본 settle cubic-bezier(.34,1.56,.64,1) 동값 · .9s = 원본 2.8s 주기 중 첫 오버슈트 구간(0~55%) 근사 · 트랙 overflow:hidden이 넘침을 가둔다 */
+  .tk[data-st="done"] .tk-fill { background:var(--info); }
+  .tk[data-st="fail"] .tk-fill { background:var(--danger); }
+  @media (prefers-reduced-motion:reduce) { .tk-fill { transition:none; } }
+  .tk-gl { display:flex; justify-content:space-between; align-items:baseline; margin-top:var(--sp-1); font-size:var(--fs-xs); color:var(--mut); letter-spacing:.08em; }   /* raw-ok: 넓은 자간 = 운영자 지정(자간 넓은 대문자 톤) */
+  .tk-pct { color:var(--accent); font-weight:var(--fw-x); font-variant-numeric:tabular-nums; letter-spacing:0; }
+  .tk[data-st="done"] .tk-pct { color:var(--info); }
+  .tk[data-st="fail"] .tk-pct { color:var(--danger); }
+  .tk-rows { list-style:none; margin:var(--sp-2) 0 0; padding:0; display:flex; flex-direction:column; gap:0; }
+  .tk-row { display:flex; align-items:center; gap:10px; min-height:28px; font-size:var(--fs-label); color:var(--fg); animation:ysRowIn var(--dur-acc) ease both; transition:opacity var(--dur) ease; }   /* raw-ok: 아이콘↔라벨 10 = 레퍼런스 간격(칩 gap 사다리 8~12 사이) · 행 28 = 20px 아이콘 + 상하 4 */
+  @keyframes ysRowIn { from { opacity:0; transform:translateY(-4px); } to { opacity:1; transform:none; } }
+  @media (prefers-reduced-motion:reduce) { .tk-row { animation:none; transition:none; } }
+  .tk-ic { position:relative; width:20px; height:20px; flex:none; display:grid; place-items:center; }
+  .tk-ic > * { grid-area:1 / 1; transition:opacity var(--dur) ease; }
+  .tk-dash { width:16px; height:16px; fill:none; stroke:var(--mut); stroke-width:1.6; stroke-dasharray:2 3; opacity:.8; }   /* raw-ok: 대기 = 점선 원(레퍼런스) · 대시 2/3 */
+  .tk-mk { width:16px; height:16px; fill:none; stroke:var(--accent); stroke-width:2.6; stroke-linecap:round; stroke-linejoin:round; opacity:0; }   /* raw-ok: 획 2.6 = nm-svg CHECK_SVG 동값 */
+  .tk-row .tk-orbit { opacity:0; }
+  .tk-row[data-st="wait"] .tk-dash, .tk-row[data-st="skip"] .tk-dash { opacity:.8; }
+  .tk-row:not([data-st="wait"]):not([data-st="skip"]) .tk-dash { opacity:0; }
+  .tk-row[data-st="run"] .tk-orbit { opacity:1; }
+  .tk-row[data-st="done"] .tk-mk, .tk-row[data-st="fail"] .tk-mk { opacity:1; }
+  .tk-row[data-st="fail"] .tk-mk { stroke:var(--danger); }
+  .tk-l { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .tk-row[data-st="wait"] .tk-l { color:var(--mut); }
+  .tk-row[data-st="done"] { opacity:.5; }
+  .tk-row[data-st="done"] .tk-l { color:var(--mut); text-decoration:line-through; }
+  .tk-row[data-st="skip"] { opacity:.5; }
+  .tk-row[data-st="skip"] .tk-l { color:var(--mut); }
+  .tk-row[data-st="fail"] .tk-l { color:var(--danger); }
+  .tk-note { flex:0 1 auto; min-width:0; max-width:55%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; padding:0 var(--sp-1); border-radius:var(--r-pill); border:1px solid var(--line); background:rgba(255,255,255,.04); color:var(--mut); font-size:var(--fs-xs); line-height:var(--lh-base); }   /* raw-ok: 칩 면 .04 = .dl-cbox 흰알파 사다리 동값 */
+  .tk-note:empty { display:none; }
+  .tk-row[data-st="fail"] .tk-note { color:var(--danger); border-color:rgba(var(--danger-rgb),.4); background:rgba(var(--danger-rgb),.08); }
+  /* 결과(인사이트 리포트) = 요약 줄(.job · nm-job.css SSOT) + 인포그래픽 + 리포트 본문 */
+  .ystitle { margin:var(--sp-1) 0 0; font-size:var(--fs-h2); font-weight:var(--fw-x); color:var(--fg); line-height:1.45; word-break:keep-all; }   /* raw-ok: 제목 줄간 1.45 = 2줄 제목 밀도(본문 lh-base보다 한 단 좁게) */
+  .job .jopen { flex:none; color:var(--accent); font-weight:var(--fw-b); text-decoration:none; }
+  .job .jopen:active { transform:scale(var(--press-l,.95)); }
+  .job .jdl { flex:none; position:relative; display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; padding:0; border-radius:8px; border:1px solid transparent; cursor:pointer; text-decoration:none; }   /* raw-ok: vd .job .jdl 28·r8 정본 동값 */
+  .job .jdl svg { width:14px; height:14px; display:block; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+  .job .jdl:active { transform:scale(var(--press-s,.85)); }
+  .job .jst { margin-left:auto; color:var(--mut); white-space:nowrap; display:inline-flex; align-items:center; gap:5px; }   /* raw-ok: vd .jst gap5 동값 */
+  .job.err { border-color:rgba(var(--danger-rgb),.4); } .job.err .jst { color:var(--danger); }
+  .job.err .jvar { flex-basis:100%; color:var(--danger); white-space:normal; }
+  .job[role="button"] { cursor:pointer; }
+  .job[role="button"]:active { transform:scale(var(--press-l,.95)); }
+  .job .jdel { flex:none; display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; padding:0; color:rgba(255,255,255,.6); cursor:pointer; background:rgba(255,255,255,.05); border:1px solid var(--line); border-radius:8px; }   /* raw-ok: vd·thumb .jdel 동일값 계승 */
+  .job .jdel:active { transform:scale(var(--press-s,.85)); }
+  .job .jdel svg { display:block; width:14px; height:14px; }
+  .ysimg { margin:var(--sp-2) 0 0; }
+  .ysimg img { width:100%; border:1px solid var(--line); border-radius:10px; display:block; }   /* raw-ok: vd·k .ref img r10 동값 */
+  .md { margin-top:var(--sp-2); font-size:var(--fs-label); color:var(--mut); line-height:var(--lh-base); word-break:keep-all; overflow-wrap:anywhere; }
+  .md h1 { font-size:var(--fs-h1); color:var(--fg); margin:var(--sp-3) 0 var(--sp-1); line-height:1.4; }
+  .md h2 { font-size:var(--fs-h2); color:var(--accent); margin:var(--sp-3) 0 var(--sp-1); }
+  .md h3, .md h4 { font-size:var(--fs-h3); color:var(--fg); margin:var(--sp-2) 0 var(--sp-1); }
+  .md p { margin:var(--sp-1) 0; }
+  .md strong, .md b { color:var(--fg); }
+  .md a { color:var(--accent); }
+  .md ul, .md ol { margin:var(--sp-1) 0; padding-left:1.3em; }
+  .md li { margin:0; }
+  .md li::marker { color:var(--accent); }
+  .md blockquote { margin:var(--sp-1) 0; padding-left:var(--sp-2); border-left:2px solid var(--line); }
+  .md hr { border:0; border-top:1px solid var(--line2); margin:var(--sp-2) 0; }
+  .md code { font:12px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace; background:var(--well); border:1px solid var(--line); border-radius:4px; padding:0 4px; color:var(--fg); }   /* raw-ok: k .code pre 모노 스택 동값(인라인 12) */
+  .md pre { margin:var(--sp-1) 0; padding:var(--sp-2); background:var(--well); border:1px solid var(--line); border-radius:10px; overflow:auto; white-space:pre-wrap; }   /* raw-ok: k .code r10 동값 */
+  .md pre code { border:0; padding:0; background:none; }
+  .md .tbl { overflow-x:auto; margin:var(--sp-2) 0; }
+  .md table { border-collapse:collapse; width:100%; font-size:var(--fs-sm); }
+  .md th, .md td { border:1px solid var(--line); padding:var(--sp-1) 8px; text-align:left; vertical-align:top; color:var(--fg); }   /* raw-ok: 셀 좌우 8 = .job 행 사다리 */
+  .md th { background:rgba(255,255,255,.04); font-weight:var(--fw-b); }
+  .md img { max-width:100%; border-radius:var(--r-s); }
+  .ysnotes { margin:var(--sp-1) 0 0; padding-left:1.2em; font-size:var(--fs-xs); color:var(--warn); }   /* 강하 사유(맥 꺼짐 → 글자 화면 등) = 경고 톤 한 줄씩 */
+  .ysnotes:empty { display:none; }
+</style>
+</head>
+<body>
+<div class="ws">
+  <!-- 도크 = 프로그램 모니터(완성 숏폼 재생) + 코너 레일[돋보기][옵션 리드백][생성] · vd 정본 사본 -->
+  <div class="dock">
+    <div class="monwrap"><div class="mon" id="mon"><div class="cpv-empty"><div class="cpv-stage"><span class="cpv-photobtn" id="pvPick" role="img" aria-label="완성 숏폼이 여기에 나온다" title="완성 숏폼이 여기에 나온다"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"></rect><circle cx="8.5" cy="9.5" r="1.5"></circle><path d="M21 16l-5-5L5 20"></path></svg></span></div></div></div><div class="trailwrap" id="cpRailWrap"><nav class="trail" id="cpZoomRail" aria-label="미리보기 확대"><button type="button" class="trail-i" id="cpZoom" aria-pressed="false" aria-label="미리보기 확대" title="탭=미리보기 확대 · 다시 탭=원상복귀"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/><path d="M8 11h6"/><path class="cpz-v" d="M11 8v6"/></svg></button></nav><nav class="trail trail-opts" id="cpRail" aria-label="미리보기 옵션"><div class="gospec trail-v" id="spec" aria-live="polite"></div></nav><button class="go trail-fire" id="go" type="button"><svg class="goic" viewBox="0 0 24 24" aria-hidden="true"><path id="goP" d="M5 12h14M13 6l6 6-6 6"/></svg>생성</button></div></div>
+  </div>
+
+  <div class="src" id="src">
+    <div class="phead">유튜브 주소</div>
+    <input type="url" id="url" class="nmin" placeholder="https://…" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" name="nomute-yt-url" enterkeyhint="go" data-1p-ignore data-lpignore="true" data-form-type="other" aria-label="유튜브 주소">
+    <div class="status" id="urlMsg" aria-live="polite"></div>
+
+    <div class="ysec">
+      <div class="phead">옵션</div>
+      <div class="opts" id="opts">
+        <div class="geni-row"><span class="pub-l">목소리</span><span class="geni-opts" data-k="voice" role="group" aria-label="목소리"><button type="button" class="geni-opt" data-v="edge">무료 음성</button><button type="button" class="geni-opt" data-v="eleven" title="ElevenLabs">고급 음성</button></span></div>
+        <div id="elvBox" hidden><div class="vlist" id="elvList" role="radiogroup" aria-label="ElevenLabs 목소리"></div><div class="status" id="elvMsg"></div></div>
+        <div class="geni-row"><span class="pub-l">받아쓰기</span><span class="geni-opts" data-k="stt" role="group" aria-label="받아쓰기"><button type="button" class="geni-opt" data-v="subs">유튜브 자막 우선</button><button type="button" class="geni-opt" data-v="scribe" title="ElevenLabs Scribe">정밀 받아쓰기</button></span></div>
+        <div class="geni-row"><span class="pub-l">장면</span><span class="geni-opts" data-k="img" role="group" aria-label="장면"><button type="button" class="geni-opt" data-v="none">글자 화면</button><button type="button" class="geni-opt" data-v="codex" title="맥 Codex(ChatGPT 구독) — 맥이 꺼져 있으면 글자 화면으로 대체">장면 그림</button></span></div>
+        <div class="macrow"><a class="ysmac" id="mac" data-st="wait" href="/ys-mac-guide.html" target="_blank" rel="noopener" title="맥 설정 안내 열기"><i class="ysmac-dot" aria-hidden="true"></i><span class="tk-orbit" id="macSpin" hidden aria-hidden="true"></span><span id="macT">맥 확인 중…</span></a></div>
+        <div class="geni-row"><span class="pub-l">길이</span><span class="geni-opts" data-k="len" role="group" aria-label="길이"><button type="button" class="geni-opt" data-v="45" data-num="1">45초</button><button type="button" class="geni-opt" data-v="60" data-num="1">60초</button><button type="button" class="geni-opt" data-v="90" data-num="1">90초</button></span></div>
+        <div class="geni-row"><span class="pub-l">폰트</span><span class="geni-opts" data-k="font" role="group" aria-label="폰트" id="fontOpts"></span></div>
+      </div>
+      <div class="status" id="optMsg" aria-live="polite"></div>
+    </div>
+
+    <div class="ysec">
+      <div class="phead">관점·초점<span class="sp" id="askN"></span></div>
+      <div class="askbox"><textarea id="ask" class="nmin" rows="3" maxlength="300" placeholder="선택 · 이 관점으로 봐줘 한 줄" aria-label="관점·초점 요청"></textarea></div>
+    </div>
+
+    <div id="prog" hidden></div>
+    <div class="status" id="tkMsg" aria-live="polite"></div>
+
+    <div class="ysec" id="res" hidden>
+      <div class="phead">인사이트 리포트<span class="sp" id="resMeta"></span></div>
+      <div class="ystitle" id="resT"></div>
+      <div class="status" id="resVoice"></div>
+      <ul class="ysnotes" id="resNotes"></ul>
+      <div class="jobs" id="resRows"></div>
+      <div class="ysimg" id="resImg" hidden></div>
+      <div class="md" id="rep"></div>
+    </div>
+
+    <div class="jobs" id="errs" hidden></div>
+    <div id="ysRail"></div>
+  </div>
+</div>
+
+<script src="nm-svg.js"></script><!-- 공유 아이콘 SSOT -->
+<script src="nm-loader.js"></script><!-- 빛 스윕(.nm-shim) 도료 SSOT -->
+<script src="nm-clip.js"></script><!-- 입력칸 클립 SSOT(attachCopyPaste) -->
+<script src="nm-rail.js" data-scope="cap" data-dlname="short.mp4" data-anchor="#ysRail" data-jobkey="ys_jobs"></script><!-- 결과·이전 제작 레일 부품 SSOT(영상 5탭 공용 이력 nomute_cap_hist) -->
+<script src="nm-jobs.js"></script><!-- 여러 작업 동시 추적 SSOT -->
+
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const RM = () => { try { return matchMedia('(prefers-reduced-motion:reduce)').matches; } catch (e) { return false; } };
+/* 아이콘 d = nm-svg.js 공유 아이콘에서 뽑는다(아이콘 SSOT 우선) · 없는 모양만 Lucide(ISC) 원본 d */
+const svgD = (s, fb) => { const m = String(s || '').match(/<path d="([^"]+)"/g); return m ? m.map(x => x.slice(9, -1)).join('') : fb; };
+const D = {
+  check: svgD(window.CHECK_SVG, 'M5 13l4 4L19 7'),
+  x: svgD(window.ERR_SVG, 'M6 6 18 18M18 6 6 18'),
+  arrow: svgD(window.ARROW_R_SVG, 'M5 12h14M13 6l6 6-6 6'),
+  down: svgD(window.DOWNLOAD_SVG, 'M12 3v12M7 11l5 5 5-5M5 21h14'),
+  chevDown: 'm6 9 6 6 6-6',   // Lucide chevron-down(ISC)
+  chevUp: 'm18 15-6-6-6 6',   // Lucide chevron-up(ISC)
+  dot: 'M11 12h2',            // 모핑 출발점 = 짧은 획(스피너·점선 원 자리에서 체크로 자란다)
+  dash: 'M8 12h8',            // 건너뜀 = 가로 획
+};
+
+/* ── morphicons(MIT · viewer/vendor/morphicons) = 아이콘 모핑(운영자 260928) ──
+   동적 import = 인라인 <script type="module">의 정적 import는 check_refs check_viewer_js(node --check · CJS)가 구문 오류로 본다 → 고전 스크립트의 import()로 같은 모듈을 연다(ly.html 선례).
+   로드 전·실패 = d 즉시 교체(정적) · reduced-motion = reducedMotion:'user'(즉시 전환). rAF는 모핑 중에만 돈다(라이브러리 단일 틱 · 정착 시 자동 정지). */
+let MORPH = null;
+const morphReady = import('./vendor/morphicons/dom.js').then(m => (MORPH = m.createMorph)).catch(() => null);
+function mk(path, d) {
+  const o = { d: d, m: null,
+    to(nd) { if (!nd || o.d === nd) return; o.d = nd; if (o.m) { try { o.m.morphTo(nd, 'snappy'); return; } catch (e) {} } path.setAttribute('d', nd); },
+    set(nd) { if (!nd) return; o.d = nd; if (o.m) { try { o.m.set(nd); return; } catch (e) {} } path.setAttribute('d', nd); } };
+  path.setAttribute('d', d);
+  morphReady.then(fn => { if (fn && !o.m && path.isConnected) { try { o.m = fn(path, o.d, { reducedMotion: 'user' }); } catch (e) { o.m = null; } } });
+  return o;
+}
+
+/* ── 옵션(백엔드 계약 = POST /api/ys {url, voice, stt, img, len, ask, font, el_voice}) ── */
+const DEF = { voice: 'eleven', stt: 'scribe', img: 'codex', len: '60', font: 'pretendard' };   // 처음 기본값 = 운영자 260928(고급 음성·정밀 받아쓰기·장면 그림 · 백엔드 api/ys.js OPTS 첫 값과 같은 조합) · 저장된 선택(ys_opts)이 있으면 그쪽이 이긴다
+const OKV = { voice: ['edge', 'eleven'], stt: ['subs', 'scribe'], img: ['none', 'codex'], len: ['45', '60', '90'], font: ['pretendard', 'gothic', 'barun'] };
+/* 폰트 3종 = viewer/edit.html FONT_PV 해당 항목 정의(ff·gf·lf·fam·lw 동값) · 라벨 = 운영자 지정(260928) · 지연 로드 = edit loadPvFont 동문(고를 때만 = 평상시 외부 요청 0) */
+const FONTS = {
+  pretendard: { lbl: '프리텐다드', ff: '"Pretendard Variable","Pretendard",sans-serif' },
+  gothic: { lbl: '노토 산스', ff: '"Noto Sans KR","Noto Sans CJK KR",sans-serif', gf: 'Noto+Sans+KR:wght@700' },
+  barun: { lbl: '나눔바른고딕', fam: 'NanumBarunGothic', ff: '"NanumBarunGothic",sans-serif', lf: 'https://hangeul.pstatic.net/hangeul_static/webfont/NanumBarunGothic/NanumBarunGothicWebBold.woff2', lw: '700 900' },
+};
+let _gfPre = false;
+function loadPvFont(k) {
+  const f = FONTS[k]; if (!f || !(f.gf || f.lf) || f._l) return; f._l = true;
+  if (f.lf) { try { const face = new FontFace(f.fam, 'url(' + f.lf + ')', { weight: f.lw || '400', display: 'swap' }); face.load().then(x => document.fonts.add(x)).catch(() => {}); } catch (e) {} return; }
+  if (!_gfPre) { _gfPre = true; [['https://fonts.googleapis.com', ''], ['https://fonts.gstatic.com', 'anonymous']].forEach(([h, co]) => {
+    const p = document.createElement('link'); p.rel = 'preconnect'; p.href = h; if (co) p.crossOrigin = co; document.head.appendChild(p); }); }
+  const l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'https://fonts.googleapis.com/css2?family=' + f.gf + '&display=swap'; document.head.appendChild(l);
+}
+$('#fontOpts').innerHTML = OKV.font.map(k => '<button type="button" class="geni-opt" data-v="' + k + '" style="font-family:' + esc(FONTS[k].ff) + '">' + esc(FONTS[k].lbl) + '</button>').join('');
+const OKEY = 'ys_opts';   // 기기별 편의(마지막 고른 옵션) — 실패해도 기본값으로 선다
+let opts = Object.assign({}, DEF);
+const VID_RE = /^[A-Za-z0-9]{16,32}$/;   // ElevenLabs 목소리 id(백엔드 api/ys.js 검증과 같은 모양)
+let SAVED_VOICE = '';
+try { const s = JSON.parse(localStorage.getItem(OKEY) || '{}'); for (const k in OKV) if (OKV[k].includes(String(s[k]))) opts[k] = String(s[k]); if (VID_RE.test(String(s.el_voice || ''))) SAVED_VOICE = String(s.el_voice); } catch (e) {}
+opts.el_voice = '';   // 기본 = 자동(AI가 영상마다 계정 목소리 중 내용에 맞는 1개를 고른다) · 기억한 목소리는 목록에 실제로 있을 때만 되살린다
+function paintOpts() {
+  document.querySelectorAll('#opts .geni-opts').forEach(g => {
+    const k = g.dataset.k;
+    g.querySelectorAll('.geni-opt').forEach(b => { const on = b.dataset.v === opts[k]; b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on)); });
+  });
+  paintSpec(); paintImgNote(); paintVoices();
+}
+/* ── ElevenLabs 목소리 = /ys_out/_voices.json(R2 실시간 · 워크플로가 돌 때마다 계정 목소리로 갱신 · 첫 실행 전엔 없음) ── */
+let VOICES = [];
+const PLAY_D = 'M6 3l14 9-14 9z', STOP_D = 'M6 6h12v12H6z';   // Lucide play·square(ISC) → 모핑 대상 path
+async function loadVoices() {
+  const d = await getJSON('ys_out/_voices.json');
+  const a = d && Array.isArray(d.voices) ? d.voices : [];
+  VOICES = a.filter(v => v && VID_RE.test(String(v.id || '')) && v.name).slice(0, 200).map(v => ({
+    id: String(v.id), name: String(v.name).slice(0, 40),
+    sub: [v.lang, v.gender, v.desc].filter(x => x && typeof x === 'string').join(' · ').slice(0, 90),
+    preview: /^https:\/\//.test(String(v.preview || '')) ? String(v.preview) : '' }));
+  const want = opts.el_voice || SAVED_VOICE;
+  opts.el_voice = VOICES.some(v => v.id === want) ? want : '';
+  paintVoices(true);
+}
+const AUD = new Audio(); AUD.preload = 'none';
+let AUD_ID = '';
+function stopPreview() { try { AUD.pause(); } catch (e) {} AUD_ID = ''; document.querySelectorAll('#elvList .vplay.on').forEach(b => { b.classList.remove('on'); if (b._m) b._m.to(PLAY_D); b.setAttribute('aria-label', '미리듣기'); }); }
+AUD.addEventListener('ended', stopPreview); AUD.addEventListener('error', () => { stopPreview(); setMsg('#elvMsg', '미리듣기를 못 불러왔어 — 목소리 목록이 오래됐을 수 있어.', 'warn'); });
+let _vsig = '';
+function paintVoices(force) {
+  const box = $('#elvBox'), on = opts.voice === 'eleven';
+  box.hidden = !on;
+  if (!on) { stopPreview(); return; }
+  const sig = VOICES.map(v => v.id).join(',');
+  if (force || sig !== _vsig || !$('#elvList').children.length) {
+    _vsig = sig; stopPreview();
+    const rowH = (id, name, sub, prev) => '<div class="vrow" data-id="' + esc(id) + '"><button type="button" class="vpick" role="radio" aria-checked="false"><b>' + esc(name) + '</b><i>' + esc(sub) + '</i></button>'
+      + (prev ? '<button type="button" class="vplay" data-src="' + esc(prev) + '" aria-label="미리듣기" title="미리듣기"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="' + PLAY_D + '"/></svg></button>' : '') + '</div>';
+    $('#elvList').innerHTML = rowH('', '자동(AI가 영상에 맞게)', '계정 목소리 중 내용에 맞는 1개', '') + VOICES.map(v => rowH(v.id, v.name, v.sub, v.preview)).join('');
+    $('#elvList').querySelectorAll('.vplay path').forEach(pth => { pth.closest('.vplay')._m = mk(pth, PLAY_D); });
+  }
+  $('#elvList').querySelectorAll('.vrow').forEach(r => { const sel = r.dataset.id === opts.el_voice; r.classList.toggle('on', sel); r.querySelector('.vpick').setAttribute('aria-checked', String(sel)); });
+  if (!VOICES.length) setMsg('#elvMsg', '한 번 만들면 계정 목소리 목록이 채워져.');
+  else if ($('#elvMsg').className.indexOf('warn') < 0) setMsg('#elvMsg', '');
+}
+$('#elvList').addEventListener('click', e => {
+  const pl = e.target.closest('.vplay');
+  if (pl) {
+    const id = pl.closest('.vrow').dataset.id;
+    if (AUD_ID === id) { stopPreview(); return; }
+    stopPreview();
+    AUD.src = pl.dataset.src; AUD_ID = id;
+    pl.classList.add('on'); if (pl._m) pl._m.to(STOP_D); pl.setAttribute('aria-label', '미리듣기 정지');
+    const pr = AUD.play(); if (pr && pr.catch) pr.catch(() => { stopPreview(); setMsg('#elvMsg', '미리듣기 재생이 막혔어 — 한 번 더 눌러줘.', 'warn'); });
+    return;
+  }
+  const pk = e.target.closest('.vpick'); if (!pk) return;
+  opts.el_voice = pk.closest('.vrow').dataset.id || '';
+  SAVED_VOICE = opts.el_voice; saveOpts(); setMsg('#elvMsg', VOICES.length ? '' : '한 번 만들면 계정 목소리 목록이 채워져.');
+  paintVoices();
+});
+$('#opts').addEventListener('click', e => {
+  const b = e.target.closest('.geni-opt'); if (!b) return;
+  const k = b.closest('.geni-opts').dataset.k; if (!OKV[k] || !OKV[k].includes(b.dataset.v)) return;
+  opts[k] = b.dataset.v;
+  if (k === 'font') loadPvFont(opts.font);
+  saveOpts();
+  paintOpts();
+});
+function saveOpts() { try { localStorage.setItem(OKEY, JSON.stringify(opts)); } catch (e) {} }
+/* 레일 리드백 = 3칩(길이·목소리·장면) — 기본값 mut · 바꾼 값만 강조(도크 규격 = 정적 .on 0) · 3칩 = 폰 390에서 레일(돋보기+옵션+생성)이 모니터 높이 안에 서는 상한(4칩부터 생성 버튼이 도크 아래 본문을 덮는다 · 실측 260928) */
+const SPEC_LBL = { voice: { edge: '무료', eleven: '고급' }, img: { none: '글자', codex: '그림' } };
+function paintSpec() {
+  const chip = (k, t) => '<span class="gs-v' + (opts[k] !== DEF[k] ? ' on' : '') + '">' + esc(t) + '</span>';
+  $('#spec').innerHTML = [chip('len', opts.len + '초'), chip('voice', SPEC_LBL.voice[opts.voice]), chip('img', SPEC_LBL.img[opts.img])].join('<span class="gs-sep">·</span>');
+}
+
+/* ── 유튜브 주소 검증(youtube.com/watch · youtu.be · youtube.com/shorts · m.youtube.com) ── */
+function ytCheck(raw) {
+  const s = String(raw || '').trim();
+  if (!s) return { ok: false, msg: '유튜브 주소를 붙여넣어줘.' };
+  let u; try { u = new URL(/^https?:\/\//i.test(s) ? s : 'https://' + s); } catch (e) { u = null; }
+  const BAD = '유튜브 영상 주소가 아니야 — youtube.com/watch · youtu.be · youtube.com/shorts 주소만 돼.';
+  if (!u || !/^https?:$/.test(u.protocol)) return { ok: false, msg: BAD };
+  const h = u.hostname.toLowerCase().replace(/^www\./, '');
+  let id = '';
+  if (h === 'youtu.be') id = decodeURIComponent(u.pathname.split('/')[1] || '');
+  else if (h === 'youtube.com' || h === 'm.youtube.com') {
+    const sh = u.pathname.match(/^\/shorts\/([^/]+)/);
+    if (u.pathname === '/watch') id = u.searchParams.get('v') || '';
+    else if (sh) id = decodeURIComponent(sh[1]);
+    else return { ok: false, msg: '영상 하나의 주소가 필요해 — 채널·재생목록 주소는 안 돼.' };
+  } else return { ok: false, msg: BAD };
+  if (!/^[A-Za-z0-9_-]{11}$/.test(id)) return { ok: false, msg: '영상 ID가 빠졌거나 잘렸어 — 주소를 다시 복사해 붙여넣어줘.' };
+  return { ok: true, id: id, url: u.href };
+}
+function setMsg(sel, txt, kind) { const el = $(sel); el.textContent = txt || ''; el.className = 'status' + (kind ? ' ' + kind : ''); }
+function paintUrl(strict) {
+  const v = $('#url').value;
+  if (!v.trim()) { setMsg('#urlMsg', ''); return; }
+  const r = ytCheck(v);
+  if (r.ok) setMsg('#urlMsg', '영상 ID ' + r.id + ' 확인');
+  else if (strict) setMsg('#urlMsg', r.msg, 'err');
+  else setMsg('#urlMsg', '');
+}
+$('#url').addEventListener('input', () => paintUrl(false));
+$('#url').addEventListener('blur', () => paintUrl(true));
+$('#url').addEventListener('keydown', e => { if (e.key === 'Enter' && !e.isComposing) { e.preventDefault(); fire(); } });
+$('#ask').addEventListener('input', () => { const n = $('#ask').value.length; $('#askN').textContent = n ? n + '/300' : ''; });
+try { attachCopyPaste($('#url'), true); attachCopyPaste($('#ask'), true); } catch (e) {}
+
+/* ── 맥 표시등 = /ys_out/_mac/heartbeat.json(R2 실시간 · 맥 워커 1분 갱신) 30초 폴 · 가려지면 멈춘다(유휴 정숙) ──
+   켜짐 = ts 180초 이내 ∧ codex=='chatgpt' · 로그인 필요 = 180초 이내 ∧ 그 외 · 꺼짐 = 없음·만료 */
+const MAC = { st: 'wait', busy: false };
+async function macPoll() {
+  const h = await getJSON('ys_out/_mac/heartbeat.json');
+  let st = 'off', busy = false;
+  if (h && typeof h.ts === 'number') {
+    const ts = h.ts > 1e12 ? h.ts / 1000 : h.ts;
+    if (Date.now() / 1000 - ts <= 180) { st = h.codex === 'chatgpt' ? 'on' : 'login'; busy = !!h.busy; }
+  }
+  MAC.st = st; MAC.busy = busy; paintMac();
+}
+function paintMac() {
+  const a = $('#mac'), st = MAC.st;
+  a.dataset.st = st;
+  $('#macSpin').hidden = !(st === 'on' && MAC.busy);
+  $('#macT').textContent = st === 'on' ? (MAC.busy ? '맥 작업 중' : '맥 켜짐') : st === 'login' ? '맥 켜짐 · Codex 로그인 필요' : st === 'off' ? '맥 꺼짐 — 글자 화면으로 만들어져' : '맥 확인 중…';
+  paintImgNote();
+}
+function paintImgNote() {   // 장면 그림을 골랐는데 맥이 못 그리는 상태 = 막지 않고 한 줄만 알린다(운영자 260928)
+  if (opts.img === 'codex' && (MAC.st === 'off' || MAC.st === 'login')) setMsg('#optMsg', MAC.st === 'off' ? '맥이 꺼져 있어서 글자 화면으로 만들어져.' : '맥 Codex 로그인이 필요해서 지금은 글자 화면으로 만들어져.', 'warn');
+  else setMsg('#optMsg', '');
+}
+let _macT = null;
+function macArm() {
+  clearInterval(_macT); _macT = null;
+  if (document.hidden) return;
+  macPoll();
+  _macT = setInterval(() => { if (!document.hidden) macPoll(); }, 30000);
+}
+document.addEventListener('visibilitychange', macArm);
+
+/* ══ 작업 저장소 = localStorage `ys_jobs`(탭 자체 배열 · nm-rail data-jobkey가 진행 중 행으로 읽는다) ══
+   변경 = 매번 저장소를 새로 읽어 그 위에 적용(다른 탭의 추가를 낡은 목록으로 덮지 않는다) · 저장 실패 = 메모리로 진행하되 성공으로 말하지 않는다. */
+const JKEY = 'ys_jobs';
+let JOBS = [];
+function readJobs() {
+  try { const a = JSON.parse(localStorage.getItem(JKEY) || '[]'); return Array.isArray(a) ? a.filter(j => j && j.id) : []; }
+  catch (e) { return JOBS.slice(); }
+}
+let STORE_OK = true;
+function mutate(fn) {
+  const a = readJobs(); fn(a); JOBS = a.slice(0, 30);
+  try { localStorage.setItem(JKEY, JSON.stringify(JOBS)); STORE_OK = true; } catch (e) { STORE_OK = false; }
+  try { if (window.nmRail && typeof nmRail.refresh === 'function') nmRail.refresh(); } catch (e) {}
+  return STORE_OK;
+}
+JOBS = readJobs();
+const jobOf = id => JOBS.find(j => j.id === id) || null;
+const t0Of = j => +j.t0 || +j.ts || Date.now();
+window.addEventListener('storage', e => { if (e && e.key === JKEY) { JOBS = readJobs(); renderAll(); } });
+
+/* ── 진행 데이터 = /ys_out/<id>/progress.json(R2 실시간 · 5초) + 결과 = result.json(10초 · 진행이 끝나면 매 틱) ── */
+const STEPS = [
+  { k: 'meta', label: '영상 정보 확인', ing: '영상 정보 확인 중…' },
+  { k: 'stt', label: '받아쓰기', ing: '받아쓰는 중…' },
+  { k: 'plan', label: '인사이트 정리', ing: '인사이트 정리 중…' },
+  { k: 'voice', label: '목소리 입히기', ing: '목소리 입히는 중…' },
+  { k: 'img', label: '장면 그림', ing: '장면 그림 그리는 중…' },
+  { k: 'render', label: '영상 만들기', ing: '영상 만드는 중…' },
+  { k: 'upload', label: '올리기', ing: '올리는 중…' },
+];
+const ST_OK = ['wait', 'run', 'done', 'skip', 'fail'];
+const PROG = {};   // id → 마지막으로 읽은 progress.json(메모리)
+async function getJSON(u) {
+  try {
+    const r = await fetch(u + (u.indexOf('?') >= 0 ? '&' : '?') + 't=' + Date.now(), { cache: 'no-store' });
+    const ct = r.headers.get('content-type') || '';
+    if (!r.ok || ct.includes('text/html')) return null;   // 진행 전 404 · SPA 폴백 html = 아직 없음
+    return await r.json();
+  } catch (e) { return null; }
+}
+const POLL_MS = 5000, LIMIT_MS = 40 * 60e3;
+async function poll(id) {
+  let stop = false;
+  try { if (window.nmJobs && !nmJobs.hold(JKEY, id, () => { stop = true; })) return; } catch (e) {}
+  const base = 'ys_out/' + encodeURIComponent(id) + '/';
+  try {
+    for (let n = 0; !stop; n++) {
+      const j = jobOf(id); if (!j || j.status !== 'run') return;
+      const late = Date.now() - t0Of(j) > LIMIT_MS;
+      const p = await getJSON(base + 'progress.json');
+      if (p && typeof p === 'object' && Array.isArray(p.steps)) { PROG[id] = p; learn(id, p); if (FOCUS === id) paintCard(); }
+      const ended = !!(p && (p.state === 'done' || p.state === 'fail'));
+      if (n % 2 === 0 || ended || late) {
+        const d = await getJSON(j.out || base + 'result.json');
+        if (d && typeof d === 'object' && (d.error || d.video)) { land(id, d); return; }
+      }
+      if (p && p.state === 'fail') { failJob(id, failWhy(p), stepFailed(p)); return; }
+      if (late) { failJob(id, '40분이 넘도록 결과가 오지 않아 추적을 멈췄어.', 'timeout'); return; }
+      await sleep(POLL_MS);
+    }
+  } finally { try { if (window.nmJobs) nmJobs.free(JKEY, id); } catch (e) {} }
+}
+function stepFailed(p) { const s = (p.steps || []).find(x => x && x.st === 'fail'); return s ? String(s.k || '') : ''; }
+function failWhy(p) { const s = (p.steps || []).find(x => x && x.st === 'fail'); return String(p.error || (s && s.note) || '진행 중 실패(사유 미기재)'); }
+function compactSteps(p) { return p && Array.isArray(p.steps) ? p.steps.map(s => ({ k: s.k, st: s.st, note: s.note || '' })) : null; }
+function learn(id, p) {   // 진행에서 알게 된 제목 = 작업 이름표(레일 진행 중 행)로 올린다 · 바뀔 때만 저장
+  const t = p.title ? String(p.title).slice(0, 80) : '';
+  const j = jobOf(id); if (!j || !t || j.title === t) return;
+  mutate(a => { const x = a.find(y => y.id === id); if (x) { x.title = t; x.lbl = t; } });
+}
+function land(id, d) {
+  if (d.error) { failJob(id, String(d.error), stepFailed(PROG[id] || {})); return; }
+  const res = { title: d.title || '', channel: d.channel || '', src_url: d.src_url || '', dur: +d.dur || 0, video: d.video || '', poster: d.poster || '',
+    infographic: d.infographic || '', report: d.report || '', scenes: +d.scenes || 0, voice: d.voice || '', img: d.img || '', img_used: +d.img_used || 0,
+    voice_name: d.voice_name ? String(d.voice_name).slice(0, 60) : '', voice_why: d.voice_why ? String(d.voice_why).slice(0, 160) : '', tr_src: d.tr_src || '', notes: Array.isArray(d.notes) ? d.notes.slice(0, 12).map(String) : [], generated: d.generated || '' };
+  mutate(a => { const x = a.find(y => y.id === id); if (!x) return;
+    x.status = 'done'; x.t1 = Date.now(); x.res = res; if (res.title) { x.title = res.title.slice(0, 80); x.lbl = x.title; }
+    const p = PROG[id]; if (p) { x.steps = compactSteps(p); x.pct = 100; x.el = elapsedOf(x, p); } });
+  try { if (window.nmRail && res.video) nmRail.add({ url: res.video, poster: res.poster, cap: '유튜브', dlname: 'short.mp4' }); } catch (e) {}   /* 결과 레일 적재 = 영상 5탭 공용 이력(nomute_cap_hist) · 실패해도 이 화면 무손상 */
+  settleFocus(id); renderAll();
+}
+function failJob(id, why, step) {
+  mutate(a => { const x = a.find(y => y.id === id); if (!x) return;
+    x.status = 'err'; x.t1 = Date.now(); x.error = String(why || '실패'); x.errStep = step === 'timeout' ? '' : (step || ''); x.errKind = step === 'timeout' ? 'timeout' : '';
+    const p = PROG[id]; if (p) { x.steps = compactSteps(p); x.pct = pctOf(x, p); x.el = elapsedOf(x, p); } });
+  settleFocus(id); renderAll();
+}
+function nextAct(j) {   // 다음 행동 = 실패한 단계로 가른다(입력·외부 장애·코드 오류를 한 문장으로 뭉치지 않는다)
+  if (j.errKind === 'timeout') return 'GitHub Actions의 ys-make 실행 기록을 확인하고, 멈춰 있으면 다시 생성해줘.';
+  return ({ meta: '공개 영상 주소가 맞는지 확인하고 다시 생성해줘.', stt: '받아쓰기를 「정밀 받아쓰기」로 바꿔 다시 생성해줘.', voice: '목소리를 「무료 음성」으로 바꿔 다시 생성해줘.', img: '장면을 「글자 화면」으로 바꿔 다시 생성해줘.' }[j.errStep])
+    || '잠시 뒤 다시 생성해줘. 같은 사유가 반복되면 GitHub Actions의 ys-make 실행 기록을 확인해.';
+}
+
+/* ── 화면 주인(FOCUS) = 카드·결과·모니터가 보여 주는 작업 1건 · 기본 = 진행 중 최신 → 없으면 최신 ── */
+let FOCUS = null, SHOWURL = null;
+function pickFocus() {
+  if (FOCUS && jobOf(FOCUS)) return FOCUS;
+  const run = JOBS.find(j => j.status === 'run');
+  FOCUS = (run || JOBS[0] || {}).id || null;
+  return FOCUS;
+}
+function settleFocus(id) {   // 끝난 작업이 화면을 가져가는 건 지금 화면 주인이 진행 중이 아닐 때만(남의 진행 화면을 덮지 않는다)
+  const f = FOCUS && jobOf(FOCUS);
+  if (!f || f.id === id || f.status !== 'run') { FOCUS = id; SHOWURL = null; }
+}
+
+/* ── 프로그램 모니터 = 화면 주인 완성본(9:16) 재생 · 없으면 빈 상태(카드 제작 정본) ── */
+const EMPTY_MON = $('#mon').innerHTML;
+const DL_ICON = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="' + D.down + '"/></svg>';
+let _monSrc = '';
+function dlHref(u, name) { return /\/\/pub-[0-9a-fA-F]+\.r2\.dev\//.test(u) ? 'api/dl?u=' + encodeURIComponent(u) + '&n=' + encodeURIComponent(name) : u; }   // R2 교차출처 = api/dl 프록시 강제 저장(nm-rail dlBlob 동문)
+function paintMonitor() {
+  const mon = $('#mon');
+  const j = FOCUS && jobOf(FOCUS);
+  const url = SHOWURL || (j && j.status === 'done' && j.res && j.res.video) || '';
+  const poster = (!SHOWURL && j && j.res && j.res.poster) || '';
+  if (url === _monSrc) return;
+  _monSrc = url;
+  if (!url) { mon.innerHTML = EMPTY_MON; return; }
+  mon.innerHTML = '<video src="' + esc(url) + '"' + (poster ? ' poster="' + esc(poster) + '"' : '') + ' playsinline loop preload="metadata"></video>'
+    + '<button type="button" class="monplay" aria-label="재생 — 탭=재생/일시정지"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>'
+    + '<a class="imgdl dlbtn" href="' + esc(dlHref(url, 'short.mp4')) + '" download="short.mp4" aria-label="숏폼 내려받기" title="숏폼 내려받기">' + DL_ICON + '</a>'
+    + '<div class="monseek" role="slider" tabindex="0" aria-label="진행 위치 — 탭·드래그=이동" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i></i></div>';
+  const v = mon.querySelector('video'), pb = mon.querySelector('.monplay'), sk = mon.querySelector('.monseek'), fill = sk.querySelector('i');
+  v.onclick = () => { if (v.paused) v.play(); else v.pause(); };
+  v.onplay = () => { pb.hidden = true; }; v.onpause = () => { pb.hidden = false; };
+  v.ontimeupdate = () => { if (v.duration) { const p = v.currentTime / v.duration * 100; fill.style.width = p + '%'; sk.setAttribute('aria-valuenow', String(Math.round(p))); } };
+  const seek = p => { if (v.duration) { v.currentTime = Math.min(1, Math.max(0, p)) * v.duration; } };
+  sk.onpointerdown = ev => { ev.stopPropagation(); const at = e2 => { const r = sk.getBoundingClientRect(); seek((e2.clientX - r.left) / r.width); }; at(ev);
+    try { sk.setPointerCapture(ev.pointerId); } catch (e) {} sk.onpointermove = at; sk.onpointerup = () => { sk.onpointermove = null; sk.onpointerup = null; }; };
+  sk.onkeydown = ev => { if (!v.duration) return; if (ev.key === 'ArrowRight') { ev.preventDefault(); seek(v.currentTime / v.duration + .05); } else if (ev.key === 'ArrowLeft') { ev.preventDefault(); seek(v.currentTime / v.duration - .05); } };
+}
+
+/* ══ 진행 상황 카드 ══ DOM은 화면 주인이 바뀔 때만 새로 만든다(모핑 인스턴스·게이지 전이 유지) · 폴마다 = 상태만 갱신 */
+let CARD = null, _tick = null;
+const jobDur = s => s < 60 ? s + 's' : Math.floor(s / 60) + 'm ' + (s % 60) + 's';   // 경과 표기 = thumb·nm-rail jobDur 동문
+function normSteps(j, p) {
+  const src = (p && Array.isArray(p.steps)) ? p.steps : (Array.isArray(j.steps) ? j.steps : []);
+  const by = {}; src.forEach(s => { if (s && s.k) by[s.k] = s; });
+  const imgOff = ((j.opts && j.opts.img) || DEF.img) === 'none';
+  return STEPS.map(d => {
+    const s = by[d.k] || {};
+    let st = ST_OK.includes(s.st) ? s.st : 'wait';
+    if (!by[d.k] && d.k === 'img' && imgOff) st = 'skip';
+    if (j.status === 'done' && !by[d.k]) st = (d.k === 'img' && imgOff) ? 'skip' : 'done';
+    return { k: d.k, label: s.label || d.label, ing: d.ing, st: st, note: s.note ? String(s.note) : (st === 'skip' ? '건너뜀' : '') };
+  });
+}
+function cardState(j, p) {
+  if (j.status === 'err' || (p && p.state === 'fail')) return 'fail';
+  if (j.status === 'done' || (p && p.state === 'done')) return 'done';
+  return p ? 'run' : 'queue';
+}
+function pctOf(j, p, steps) {
+  if (j.status === 'done' || (p && p.state === 'done')) return 100;
+  if (p && typeof p.pct === 'number' && isFinite(p.pct)) return Math.max(0, Math.min(100, Math.round(p.pct)));
+  if (!p && typeof j.pct === 'number') return j.pct;
+  const ss = steps || normSteps(j, p), eff = ss.filter(s => s.st !== 'skip');
+  if (!eff.length) return 0;
+  const got = eff.reduce((n, s) => n + (s.st === 'done' ? 1 : s.st === 'run' ? .5 : 0), 0);
+  return Math.round(got / eff.length * 100);
+}
+function elapsedOf(j, p) {   // 초 · 진행 중 = 지금까지 · 끝 = 마지막 갱신까지
+  const t0 = p && +p.t0 ? +p.t0 * 1000 : t0Of(j);
+  const end = (j.status === 'run' && !(p && p.state !== 'run')) ? Date.now() : (p && +p.updated ? +p.updated * 1000 : (+j.t1 || Date.now()));
+  return Math.max(0, Math.round((end - t0) / 1000));
+}
+function buildCard(j) {
+  const host = $('#prog');
+  host.innerHTML = '<section class="tk" id="tk" data-st="queue">'
+    + '<button type="button" class="tk-h" id="tkH" aria-expanded="true" aria-controls="tkB"><svg class="tk-chev" viewBox="0 0 24 24" aria-hidden="true"><path/></svg>'
+    + '<span class="tk-orbit" id="tkSpin" aria-hidden="true"></span><span class="tk-t"><span id="tkT"></span></span>'
+    + '<span class="tk-pill" id="tkEl"></span><span class="tk-n" id="tkN"></span><span class="tk-pill" id="tkEnd" hidden></span></button>'
+    + '<div class="tk-body" id="tkB"><div class="tk-g"><div class="tk-bar"><i class="tk-fill" id="tkFill"></i></div>'
+    + '<div class="tk-gl"><span>전체 진행률</span><b class="tk-pct" id="tkPct">0%</b></div></div>'
+    + '<ol class="tk-rows">' + STEPS.map(d => '<li class="tk-row" data-k="' + d.k + '" data-st="wait"><span class="tk-ic" aria-hidden="true">'
+      + '<svg class="tk-dash" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/></svg><span class="tk-orbit"></span>'
+      + '<svg class="tk-mk" viewBox="0 0 24 24"><path/></svg></span><span class="tk-l">' + esc(d.label) + '</span><span class="tk-note"></span></li>').join('')
+    + '</ol></div></section>';
+  const card = { id: j.id, el: host.querySelector('.tk'), rows: {}, pct: -1, shown: 0, raf: 0, fold: j.status !== 'run',
+    chev: mk(host.querySelector('.tk-chev path'), D.chevDown) };
+  host.querySelectorAll('.tk-row').forEach(r => { card.rows[r.dataset.k] = { el: r, st: '', m: mk(r.querySelector('.tk-mk path'), D.dot) }; });
+  host.querySelector('#tkH').addEventListener('click', () => { card.fold = !card.fold; paintFold(card); });
+  CARD = card; paintFold(card);
+}
+function paintFold(c) {
+  c.el.classList.toggle('fold', c.fold);
+  c.el.querySelector('#tkH').setAttribute('aria-expanded', String(!c.fold));
+  c.chev.to(c.fold ? D.chevUp : D.chevDown);
+}
+function countTo(c, v) {   // 퍼센트 카운트업 = rAF 600ms · 값이 바뀔 때만 · reduced-motion = 즉시
+  const el = $('#tkPct'); if (!el) return;
+  cancelAnimationFrame(c.raf);
+  if (RM() || c.shown === v) { c.shown = v; el.textContent = v + '%'; return; }
+  const a = c.shown, t0 = performance.now(), dur = 600;
+  const step = t => { const k = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - k, 3); c.shown = Math.round(a + (v - a) * e); el.textContent = c.shown + '%'; if (k < 1) c.raf = requestAnimationFrame(step); };
+  c.raf = requestAnimationFrame(step);
+}
+function paintCard() {
+  const host = $('#prog'), j = FOCUS && jobOf(FOCUS);
+  if (!j || (j.status === 'done' && !j.steps && !PROG[j.id])) { host.hidden = true; host.innerHTML = ''; CARD = null; paintTkMsg(j); armTick(); return; }
+  host.hidden = false;
+  if (!CARD || CARD.id !== j.id || !CARD.el.isConnected) buildCard(j);
+  const c = CARD, p = PROG[j.id] || null, steps = normSteps(j, p), st = cardState(j, p);
+  c.el.dataset.st = st;
+  const eff = steps.filter(s => s.st !== 'skip'), nd = eff.filter(s => s.st === 'done').length;
+  const cur = steps.find(s => s.st === 'run');
+  const tt = $('#tkT');
+  const live = st === 'run' || st === 'queue';
+  tt.textContent = st === 'queue' ? '러너 대기 중…' : st === 'run' ? (cur ? cur.ing : '진행 중…') : '진행 상황';
+  tt.className = live ? 'nm-shim' : '';
+  $('#tkSpin').hidden = !live;
+  $('#tkN').textContent = nd + '/' + eff.length; $('#tkN').hidden = st === 'done';
+  const end = $('#tkEnd');
+  end.hidden = !(st === 'done' || st === 'fail');
+  end.textContent = st === 'done' ? '완료' : st === 'fail' ? '실패' : '';
+  end.className = 'tk-pill' + (st === 'done' ? ' ok' : st === 'fail' ? ' bad' : '');
+  $('#tkEl').textContent = jobDur(p || j.status !== 'run' ? (j.status !== 'run' && typeof j.el === 'number' && !p ? j.el : elapsedOf(j, p)) : elapsedOf(j, null));
+  steps.forEach(s => {
+    const r = c.rows[s.k]; if (!r) return;
+    const prev = r.st;
+    if (prev !== s.st) {
+      r.el.dataset.st = s.st;
+      const lab = r.el.querySelector('.tk-l'); lab.className = 'tk-l' + (s.st === 'run' ? ' nm-shim' : '');
+      const target = s.st === 'done' ? D.check : s.st === 'fail' ? D.x : D.dot;
+      if (!prev) r.m.set(target); else r.m.to(target);   // 첫 그림 = 즉시 · 상태 전환 = 모핑(스피너·점선 원이 빠지는 동안 짧은 획이 체크로 자란다)
+      r.st = s.st;
+    }
+    r.el.querySelector('.tk-l').textContent = s.label;
+    r.el.querySelector('.tk-note').textContent = s.note;
+  });
+  const pct = st === 'fail' ? (typeof j.pct === 'number' && !p ? j.pct : pctOf(j, p, steps)) : pctOf(j, p, steps);
+  if (pct !== c.pct) { c.pct = pct; $('#tkFill').style.transform = 'scaleX(' + (pct / 100) + ')'; countTo(c, pct); }
+  paintTkMsg(j);
+  armTick();
+}
+function paintTkMsg(j) {
+  if (!j) { setMsg('#tkMsg', ''); return; }
+  const p = PROG[j.id];
+  if (j.status === 'err') setMsg('#tkMsg', '실패 — ' + (j.error || '사유 미기재') + '\n다음: ' + nextAct(j), 'err');
+  else if (j.status === 'run' && p && p.state === 'done') setMsg('#tkMsg', '제작 완료 — 결과 파일이 올라오는 중이야(배포 반영 대기).');
+  else setMsg('#tkMsg', '');
+}
+function armTick() {   // 경과 1초 틱 = 화면 주인이 진행 중이고 보일 때만(유휴 정숙)
+  const j = FOCUS && jobOf(FOCUS);
+  const need = !!(j && j.status === 'run' && CARD && !document.hidden);
+  if (need && !_tick) _tick = setInterval(() => { const x = FOCUS && jobOf(FOCUS); if (!x || x.status !== 'run' || document.hidden) { clearInterval(_tick); _tick = null; return; }
+    const el = $('#tkEl'); if (el) el.textContent = jobDur(elapsedOf(x, PROG[x.id] || null)); }, 1000);
+  else if (!need && _tick) { clearInterval(_tick); _tick = null; }
+}
+document.addEventListener('visibilitychange', armTick);
+
+/* ── 결과 = 요약 줄 3개(숏폼·인포그래픽·리포트 · 열기 + 내려받기) + 인포그래픽 + 리포트 본문(Markdown) ── */
+let _resFor = '', REPORT = { id: '', text: '' };
+function loadScript(src) { return new Promise((ok, no) => { if (document.querySelector('script[data-lz="' + src + '"]')) { ok(); return; } const s = document.createElement('script'); s.src = src; s.dataset.lz = src; s.onload = () => ok(); s.onerror = () => no(new Error(src)); document.head.appendChild(s); }); }
+async function mdLib() {   // 레포 자체 호스팅 marked + DOMPurify(index 기사 본문과 같은 부품) = 결과를 열 때만 지연 로드
+  if (window.marked && window.DOMPurify) return true;
+  try { await loadScript('marked.min.js'); await loadScript('purify.min.js'); } catch (e) { return false; }
+  return !!(window.marked && window.DOMPurify);
+}
+async function fetchText(u) { try { const r = await fetch(u, { cache: 'no-store' }); const ct = r.headers.get('content-type') || ''; if (!r.ok || ct.includes('text/html')) return null; return await r.text(); } catch (e) { return null; } }
+function row(lab, meta, url, name, openLbl) {
+  return '<div class="job done"><span class="jlab">' + esc(lab) + '</span><span class="jvar">' + esc(meta) + '</span>'
+    + '<span class="jst"><a class="jopen" href="' + esc(url) + '" target="_blank" rel="noopener">' + esc(openLbl || '열기') + '</a>'
+    + '<button type="button" class="dlbtn jdl" data-u="' + esc(url) + '" data-n="' + esc(name) + '" aria-label="' + esc(lab) + ' 내려받기" title="' + esc(lab) + ' 내려받기"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="' + D.down + '"/></svg></button></span></div>';
+}
+const fmtDur = s => s ? Math.floor(s / 60) + ':' + String(Math.round(s % 60)).padStart(2, '0') : '';
+async function paintRes() {
+  const box = $('#res'), j = FOCUS && jobOf(FOCUS);
+  if (!j || j.status !== 'done' || !j.res) { box.hidden = true; _resFor = ''; return; }
+  box.hidden = false;
+  if (_resFor === j.id) return;
+  _resFor = j.id;
+  const r = j.res;
+  $('#resMeta').textContent = [r.channel, fmtDur(r.dur)].filter(Boolean).join(' · ');
+  $('#resT').textContent = r.title || j.title || '';
+  $('#resVoice').textContent = r.voice_name ? '목소리: ' + r.voice_name + (r.voice_why ? ' · ' + r.voice_why : '') : '';   // 실제 쓴 목소리 + AI가 고른 이유(있을 때)
+  const imgNote = r.img === 'codex' ? (r.img_used ? '장면 그림 ' + r.img_used + '장' : '글자 화면(맥 대체)') : '글자 화면';
+  $('#resRows').innerHTML = (r.video ? row('숏폼', '9:16 · ' + imgNote, r.video, 'short.mp4') : '')
+    + (r.infographic ? row('인포그래픽', 'PNG', r.infographic, 'infographic.png') : '')
+    + (r.report ? row('리포트', 'Markdown', r.report, 'report.md', '원문') : '');
+  $('#resRows').querySelectorAll('.jdl').forEach(b => { b._m = mk(b.querySelector('path'), D.down); });
+  const im = $('#resImg');
+  im.hidden = !r.infographic;
+  im.innerHTML = r.infographic ? '<img src="' + esc(r.infographic) + '" alt="인포그래픽" loading="lazy">' : '';
+  $('#resNotes').innerHTML = (r.notes || []).map(n => '<li>' + esc(n) + '</li>').join('');
+  const rep = $('#rep'); rep.innerHTML = '';
+  REPORT = { id: j.id, text: '' };
+  if (!r.report) return;
+  rep.textContent = '리포트 불러오는 중…';
+  /* 같은 출처 경로(/ys_out/<id>/report.md) 먼저 → R2 절대 URL(교차출처 = 버킷 CORS 필요) 순 */
+  const txt = (await fetchText('ys_out/' + encodeURIComponent(j.id) + '/report.md?t=' + Date.now())) || (await fetchText(r.report));
+  if (_resFor !== j.id) return;
+  if (txt == null) { rep.innerHTML = ''; rep.textContent = '리포트 본문을 못 불러왔어(파일 서버 교차출처 차단 또는 만료) — 위 「리포트 원문」으로 열어줘.'; return; }
+  REPORT = { id: j.id, text: txt };
+  if (await mdLib()) {
+    let html = '';
+    try { html = DOMPurify.sanitize(marked.parse(txt, { gfm: true, breaks: false })); } catch (e) { html = ''; }
+    if (_resFor !== j.id) return;
+    if (html) {
+      rep.innerHTML = html;
+      rep.querySelectorAll('a[href]').forEach(a => { a.target = '_blank'; a.rel = 'noopener noreferrer'; });
+      rep.querySelectorAll('table').forEach(t => { const w = document.createElement('div'); w.className = 'tbl'; t.parentNode.insertBefore(w, t); w.appendChild(t); });
+      return;
+    }
+  }
+  rep.innerHTML = '<pre></pre>'; rep.querySelector('pre').textContent = txt;   // 파서 부재 = 원문 그대로(이스케이프 = textContent)
+}
+async function dlCheck(b) {   // 내려받기 = 받기 실행 + 서버 확인(api/dl HEAD = 저장 성공 여부를 아는 유일한 통로) → 체크/엑스 모핑 · 실패를 성공으로 말하지 않는다
+  const u = b.dataset.u, n = b.dataset.n, m = b._m;
+  let ok = false;
+  if (/\.md(\?|$)/i.test(n) || /\.md(\?|$)/i.test(u)) {
+    const j = FOCUS && jobOf(FOCUS);
+    const txt = (REPORT.id === (j && j.id) && REPORT.text) ? REPORT.text : await fetchText(u);
+    if (txt != null) { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([txt], { type: 'text/markdown' })); a.download = n; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); ok = true; }
+  } else {
+    const href = dlHref(u, n);
+    const a = document.createElement('a'); a.href = href; a.download = n; document.body.appendChild(a); a.click(); a.remove();
+    if (href === u) ok = true;
+    else { try { const r = await fetch(href, { method: 'HEAD', cache: 'no-store' }); ok = r.ok; } catch (e) { ok = false; } }
+  }
+  if (m) m.to(ok ? D.check : D.x);
+  if (ok) b.classList.add('dl-done');
+  else setMsg('#tkMsg', '내려받기 실패 — 파일이 만료됐거나 서버가 못 가져왔어. 「열기」로 직접 열어 저장해줘.', 'err');
+  setTimeout(() => { if (m) m.to(D.down); }, 1200);
+}
+$('#resRows').addEventListener('click', e => { const b = e.target.closest('.jdl'); if (b) { e.preventDefault(); dlCheck(b); } });
+
+/* ── 실패 작업 목록 = 진행 중 행(레일)에서 빠진 실패분이 사라지지 않게 · 탭 = 그 작업 카드 열기 · × = 목록에서 지우기 ── */
+const X_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6 18 18M18 6 6 18"/></svg>';
+function paintErrs() {
+  const box = $('#errs'), a = JOBS.filter(j => j.status === 'err' && j.id !== FOCUS).slice(0, 6);
+  box.hidden = !a.length;
+  box.innerHTML = a.map(j => '<div class="job err" role="button" tabindex="0" data-jid="' + esc(j.id) + '" title="탭 = 이 작업 실패 사유 보기"><span class="jlab">' + esc(j.title || '유튜브') + '</span><span class="jst">실패</span>'
+    + '<button type="button" class="jdel" aria-label="목록에서 지우기" title="목록에서 지우기">' + X_SVG + '</button><span class="jvar">' + esc(j.error || '') + '</span></div>').join('');
+}
+$('#errs').addEventListener('click', e => {
+  const rw = e.target.closest('.job'); if (!rw) return;
+  const id = rw.dataset.jid;
+  if (e.target.closest('.jdel')) { mutate(a => { const i = a.findIndex(x => x.id === id); if (i >= 0) a.splice(i, 1); }); renderAll(); return; }
+  FOCUS = id; SHOWURL = null; renderAll(); scrollToCard();
+});
+$('#errs').addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('job')) { e.preventDefault(); FOCUS = e.target.dataset.jid; SHOWURL = null; renderAll(); scrollToCard(); } });
+function scrollToCard() { const el = $('#prog:not([hidden])') || $('#tkMsg'); if (el) { try { el.scrollIntoView({ behavior: RM() ? 'auto' : 'smooth', block: 'center' }); } catch (e) {} } }
+
+function renderAll() { JOBS = readJobs(); pickFocus(); paintSpec(); paintMonitor(); paintCard(); paintRes(); paintErrs(); }
+
+/* ── 진행 중 행 탭(레일) = 그 작업 카드로 · 완료 타일 탭 = 위 모니터에서 다시 보기(nm-rail 훅 계약) ── */
+window.nmJobOpen = function (id) {
+  const j = jobOf(id) || readJobs().find(x => x.id === id);
+  if (!j) return false;
+  FOCUS = id; SHOWURL = null;
+  try { if (j.status === 'run' && window.nmJobs && !nmJobs.busy(JKEY, id)) poll(id); } catch (e) {}
+  renderAll(); scrollToCard();
+  const c = $('#tk'); if (c) { c.classList.add('thfocus'); setTimeout(() => c.classList.remove('thfocus'), 2200); }
+  return true;
+};
+window.nmJobShow = function (url) {
+  const j = JOBS.find(x => x.res && x.res.video === url);
+  if (j) { FOCUS = j.id; SHOWURL = null; } else SHOWURL = url;
+  renderAll();
+};
+window.nmRefresh = () => { renderAll(); loadVoices(); };   // 부모 셸 헤더 새로고침·복귀 재동기 훅(nm-sync) · 목소리 목록도 다시 읽는다
+window.nmSyncBusy = () => !!$('#go').disabled;   // 발사 중 = 새 배포 자동 탑재 미룸
+
+/* ── 발사 ── */
+let GO_M = null;
+function goFlash(ok) {
+  if (!GO_M) return;
+  GO_M.to(ok ? D.check : D.x);
+  $('#go').classList.toggle('ok', ok); $('#go').classList.toggle('bad', !ok);
+  setTimeout(() => { GO_M.to(D.arrow); $('#go').classList.remove('ok', 'bad'); }, ok ? 1200 : 1600);
+}
+function shake() { const g = $('#go'); g.classList.remove('shake'); void g.offsetWidth; g.classList.add('shake'); setTimeout(() => g.classList.remove('shake'), 460); }
+async function fire() {
+  const go = $('#go'); if (go.disabled) return;
+  const v = ytCheck($('#url').value);
+  if (!v.ok) { shake(); goFlash(false); setMsg('#urlMsg', v.msg, 'err'); try { $('#url').focus(); } catch (e) {} return; }   // 입력 문제 = 요청 전에 막는다
+  const ask = $('#ask').value.trim().slice(0, 300);
+  const body = { url: v.url, voice: opts.voice, stt: opts.stt, img: opts.img, len: opts.len, ask: ask, font: opts.font, el_voice: opts.voice === 'eleven' && VID_RE.test(opts.el_voice || '') ? opts.el_voice : '' };
+  go.disabled = true;
+  setMsg('#urlMsg', '접수 중…');
+  let res = null, j = null;
+  try {
+    try { res = await fetch('/api/ys', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) }); }
+    catch (e) { setMsg('#urlMsg', '연결 실패 — 네트워크를 확인하고 다시 눌러줘.', 'err'); goFlash(false); return; }   // 외부(회선) 장애
+    try { j = await res.json(); } catch (e) { j = null; }
+    if (!res.ok || !j || !j.ok || !j.id) {
+      const why = (j && j.error) || ('서버 응답 ' + res.status);
+      setMsg('#urlMsg', (res.status >= 400 && res.status < 500 ? '접수 거절 — ' : '서버 오류 — ') + why + (res.status >= 500 ? '\n잠시 뒤 다시 눌러줘.' : ''), 'err');
+      goFlash(false); return;
+    }
+    const id = String(j.id);
+    const saved = mutate(a => { a.unshift({ id: id, out: j.out || ('ys_out/' + id + '/result.json'), status: 'run', t0: Date.now(), lbl: '유튜브 · ' + v.id, src: v.url, vid: v.id, opts: { voice: body.voice, stt: body.stt, img: body.img, len: body.len, font: body.font, el_voice: body.el_voice } }); });
+    FOCUS = id; SHOWURL = null;
+    goFlash(true);
+    setMsg('#urlMsg', saved ? '접수됨 — 진행 상황은 아래 카드에 나와.' : '접수됨 — 다만 이 기기 저장소가 막혀 새로고침하면 진행 추적이 끊겨.', saved ? 'ok' : 'warn');
+    renderAll(); poll(id); scrollToCard();
+  } finally { go.disabled = false; }
+}
+$('#go').addEventListener('click', fire);
+
+/* ── 부팅 ── */
+paintOpts(); paintMac(); macArm(); loadVoices();
+renderAll();
+morphReady.then(() => { if (!GO_M) GO_M = mk($('#goP'), D.arrow); });
+readJobs().filter(j => j && j.status === 'run' && j.id).forEach(j => poll(j.id));   // 진행 중 작업 전건 재개(vd 계승)
+// 미리보기 확대(돋보기) = vd·tr PVZOOM 정본 동문 사본
+const PVZOOM = { K: 'nm.pvzoom',
+  get() { try { return localStorage.getItem(this.K) === '1'; } catch (_) { return false; } },
+  set(on) { try { on ? localStorage.setItem(this.K, '1') : localStorage.removeItem(this.K); } catch (_) {} } };
+(function () {
+  const td = document.querySelector('.dock'), b = document.getElementById('cpZoom'); if (!td || !b) return;
+  const paint = on => { td.classList.toggle('dockzoom', on); b.classList.toggle('on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    b.setAttribute('aria-label', on ? '미리보기 원상복귀' : '미리보기 확대'); b.title = on ? '탭=원상복귀' : '탭=미리보기 확대 · 다시 탭=원상복귀'; };
+  paint(PVZOOM.get());
+  b.addEventListener('click', () => { const on = !td.classList.contains('dockzoom'); paint(on); PVZOOM.set(on); });
+})();
+</script>
+<script src="cscroll.js"></script><!-- 오버레이 스크롤바 SSOT(vd 동문) -->
+<script src="nm-sync.js"></script><!-- 동기화 생명선 SSOT(복귀 재동기·로그인 만료 자가치유·새 배포 자동 탑재) -->
+</body>
+</html>

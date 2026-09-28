@@ -49,6 +49,7 @@ const TABS = [
   { f: 'k.html', name: '프롬프팅' },
   { f: 'song.html', name: '음원' },
   { f: 'vd.html', name: '큐영상' },
+  { f: 'ys.html', name: '유튜브' },
 ];
 const CAP_KEY = 'nomute_cap_hist';
 

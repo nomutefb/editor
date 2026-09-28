@@ -13,7 +13,7 @@
 //
 // 담당 표면(이 파일 헤더 선언 = 변경 시 커밋 전 실행 rc=0):
 //   viewer/index.html #tooldlg.tool-full·activateToolFrame 토글 ↔ 스튜디오 2셸 10탭
-//   = 이미지 5{thumb app 2·7 / tr.html / thumb 6·sp} + 영상 5{edit·sb·k·song·vd}.html 의 .topdock/.dock
+//   = 이미지 5{thumb app 2·7 / tr.html / thumb 6·sp} + 영상 6{edit·sb·k·song·vd·ys}.html 의 .topdock/.dock
 // 어서션 축(= §3-5 「무조건 상속」의 런타임 몫):
 //   C1 전체창 = 10탭 전부 tool-full(창 폭 = 뷰포트 폭)      ← ① 재발 차단
 //   C2 도크 유리 = 도크 보유 탭 전부 bg·blur·하단선 1종      ← ② 재발 차단
@@ -61,6 +61,7 @@ const SHELLS = [
     tabs: [
       { ko: '편집', src: '/edit.html' }, { ko: '콘티', src: '/sb.html' }, { ko: '프롬프팅', src: '/k.html' },
       { ko: '음원', src: '/song.html' }, { ko: '큐영상', src: '/vd.html' },
+      { ko: '유튜브', src: '/ys.html' },
     ] },
 ];
 const KEY = (s, t) => s.ko + '_' + t.ko;

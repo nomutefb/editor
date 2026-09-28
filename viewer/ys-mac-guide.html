@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>맥 장면 그림 켜기</title>
+<link rel="stylesheet" href="tokens.css">
+<style>
+/* 유튜브 숏폼 「장면 그림」 맥 설정 안내(260928) — 색 = viewer/index.html :root 동값 · 간격·활자·모서리 = tokens.css 계승(창작 0) */
+:root{--bg:#121212;--fg:#eef7f0;--mut:#8fa697;--accent:#00EED2;--accent-rgb:0,238,210;--line:rgba(255,255,255,.08)}
+@font-face{font-family:NMP;src:url('assets/fonts/pretendard.woff2') format('woff2');font-weight:100 900;font-display:swap}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--fg);font-family:NMP,-apple-system,'Apple SD Gothic Neo',sans-serif;-webkit-font-smoothing:antialiased;word-break:keep-all}
+main{max-width:720px;margin:0 auto;padding:var(--sp-4) var(--sp-3) calc(var(--sp-4) * 2)}
+.pill{display:inline-block;padding:var(--sp-1) var(--sp-2);border-radius:var(--r-pill);border:1px solid rgba(var(--accent-rgb),.45);color:var(--accent);font-size:var(--fs-label);font-weight:var(--fw-b)}
+h1{margin-top:var(--sp-2);font-size:var(--fs-display);line-height:1.3;font-weight:var(--fw-x);letter-spacing:-.02em}
+h1 .sub{display:block;margin-top:var(--sp-1);font-size:var(--fs-h1);color:var(--mut)}
+.lead{margin-top:var(--sp-2);color:var(--mut);font-size:var(--fs-body);line-height:var(--lh-base)}
+.card{margin-top:var(--sp-3);padding:var(--sp-3);border:1px solid var(--line);border-radius:var(--r-l);background:rgba(255,255,255,.035)}
+.card h2{display:flex;align-items:center;gap:var(--sp-2);font-size:var(--fs-h1);font-weight:var(--fw-x)}
+.no{display:inline-flex;align-items:center;justify-content:center;width:calc(var(--sp-4) + 2px);height:calc(var(--sp-4) + 2px);border-radius:var(--r-pill);background:rgba(var(--accent-rgb),.14);color:var(--accent);font-size:var(--fs-label);font-weight:var(--fw-x);flex:0 0 auto}
+.card p,.card li{margin-top:var(--sp-1);font-size:var(--fs-body);line-height:var(--lh-base)}
+.card ul{padding-left:var(--sp-3)}
+.mut{color:var(--mut)}
+pre{margin-top:var(--sp-2);padding:var(--sp-2);border-radius:var(--r-m);background:rgba(0,0,0,.45);border:1px solid var(--line);font:var(--fs-h3)/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--fg);white-space:pre-wrap;word-break:break-all}
+.ok{color:var(--accent);font-weight:var(--fw-b)}
+table{width:100%;margin-top:var(--sp-2);border-collapse:collapse;font-size:var(--fs-h3)}
+td,th{padding:var(--sp-1);border-bottom:1px solid var(--line);text-align:left;vertical-align:top;line-height:1.5}
+th{color:var(--mut);font-weight:600}
+.warn{border-color:rgba(var(--accent-rgb),.35);background:rgba(var(--accent-rgb),.06)}
+.lamp{display:inline-block;width:var(--sp-2);height:var(--sp-2);border-radius:var(--r-pill);vertical-align:middle;margin-right:var(--sp-1)}
+.lamp.on{background:var(--accent);box-shadow:0 0 var(--sp-2) rgba(var(--accent-rgb),.8)}
+.lamp.off{background:var(--mut);opacity:.35}
+</style>
+</head>
+<body>
+<main>
+<span class="pill">유튜브 숏폼 · 장면 그림</span>
+<h1>맥에서 장면 그림 켜기<span class="sub">ChatGPT 구독으로 그림 그리기(Codex)</span></h1>
+<p class="lead">맥이 켜져 있고 Codex에 ChatGPT로 로그인돼 있으면, 유튜브 숏폼의 장면 그림을 <b>네 ChatGPT 구독</b>으로 그려. API 요금은 따로 안 나가. 맥이 꺼져 있으면 영상은 글자 화면으로 자동으로 만들어져. 한 번만 해두면 돼.</p>
+
+<div class="card">
+<h2><span class="no">1</span>Codex 설치</h2>
+<p>맥의 <b>터미널</b> 앱을 열고 아래 한 줄을 붙여넣어. 홈브루가 있으면 이게 제일 간단해.</p>
+<pre>brew install --cask codex</pre>
+<p class="mut">홈브루가 없고 Node가 있으면: <code>npm install -g @openai/codex</code></p>
+<p>설치 확인:</p>
+<pre>codex --version</pre>
+</div>
+
+<div class="card">
+<h2><span class="no">2</span>ChatGPT로 로그인</h2>
+<pre>codex login</pre>
+<p>브라우저가 열리면 <b>ChatGPT 계정</b>으로 로그인해. 확인:</p>
+<pre>codex login status</pre>
+<p><span class="ok">ChatGPT로 로그인됐다</span>는 문구가 나오면 성공이야. "API key"가 나오면 <code>codex logout</code> 후 다시 <code>codex login</code>.</p>
+</div>
+
+<div class="card">
+<h2><span class="no">3</span>두 번째 계정 (선택)</h2>
+<p>구독 계정이 2개면 두 번째 계정을 따로 로그인해 둬. 첫 계정 한도가 차면 자동으로 넘어가.</p>
+<pre>mkdir -p ~/.codex-2
+CODEX_HOME=~/.codex-2 codex login --device-auth</pre>
+<p>터미널에 나온 <b>주소와 코드</b>를 <b>시크릿 창</b>에서 열어 두 번째 계정으로 로그인해. 일반 창은 첫 계정으로 바로 들어가 버려. 확인:</p>
+<pre>CODEX_HOME=~/.codex-2 codex login status</pre>
+<p class="mut">폴더 이름은 <code>~/.codex-</code>로 시작하면 돼(3번째 = <code>~/.codex-3</code>).</p>
+</div>
+
+<div class="card">
+<h2><span class="no">4</span>그림 1장 시험</h2>
+<p>이번 업데이트가 맥에 자동 설치된 뒤(보통 몇 분 안)에 실행해:</p>
+<pre>bash ~/nomute_ys_driver.sh --selftest</pre>
+<p><span class="ok">✅ 성공</span>이 나오면 <code>~/nomute-ys/selftest/test.png</code>를 열어서 그림을 확인해. ❌가 나오면 그 줄을 그대로 알려줘.</p>
+</div>
+
+<div class="card">
+<h2><span class="no">5</span>표시등 확인</h2>
+<p>에디터 → 영상 스튜디오 → <b>유튜브</b> 탭의 "장면 그림" 옆 표시등:</p>
+<table>
+<tr><th>표시</th><th>뜻</th></tr>
+<tr><td><span class="lamp on"></span>맥 켜짐</td><td>그림을 그릴 수 있어. 1분마다 갱신돼.</td></tr>
+<tr><td><span class="lamp off"></span>맥 꺼짐</td><td>3분 넘게 신호가 없어. 이때 만들면 글자 화면으로 나와.</td></tr>
+<tr><td>로그인 필요</td><td>맥은 켜져 있는데 Codex가 ChatGPT로 로그인돼 있지 않아 → 2단계.</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h2><span class="no">6</span>맥이 잠들지 않게</h2>
+<p>맥이 잠자기에 들어가면 "꺼짐"으로 보여. 전원을 연결하고 시스템 설정의 에너지(배터리) 항목에서 <b>디스플레이가 꺼져도 자동으로 잠자지 않게</b> 켜 둬.</p>
+</div>
+
+<div class="card warn">
+<h2><span class="no">!</span>꼭 알아둘 것</h2>
+<ul>
+<li>로그인 정보는 맥의 <code>~/.codex/auth.json</code>에 저장돼. 비밀번호처럼 다뤄 — 채팅·메신저·깃에 절대 붙이지 마.</li>
+<li>그림은 글자 작업보다 구독 한도를 3~5배 빨리 써(OpenAI 공식 안내). 장면 7개 = 그림 7장.</li>
+<li>한 장면이 실패해도 영상은 나와. 그 장면만 글자 화면으로 채워져.</li>
+</ul>
+</div>
+</main>
+</body>
+</html>

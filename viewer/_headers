@@ -119,12 +119,24 @@
   Cache-Control: no-cache
 /vd.html
   Cache-Control: no-cache
+# 260928 ys(유튜브) 동일 계약 — CAP_TABS 6탭째 신설분(영상 스튜디오 「유튜브」) + 맥 설정 안내서(표시등 링크)
+/ys
+  Cache-Control: no-cache
+/ys.html
+  Cache-Control: no-cache
+/ys-mac-guide
+  Cache-Control: no-cache
+/ys-mac-guide.html
+  Cache-Control: no-cache
 
 # 260810 공유 부품 동일 계약 — ⚠ 실사고: 화면(html)만 no-cache라 **새 배포가 화면에만 반영되고 부품은 옛 판**으로 남았다.
 #   등재분(nm-svg·nm-loader·nm-cards·tokens)과 미등재분이 한 문서 안에 섞여 있어 "화면은 새것인데 동작·생김새는 옛것"이 되고,
 #   증상이 「고쳤다는데 그대로」 하나뿐이라 운영자 눈이 유일한 검출기였다(sb 260718 · tr 260723 · vd 260802에 이어 같은 누락 드리프트 4회째).
 #   ⚠ 특히 nm-sync.js = 새 배포 자동 반영 담당 부품 자신이 미등재였다 = 갱신기가 자기를 못 갱신하는 상태.
 #   강제 = check_refs 탭 헤더 게이트(뷰어가 실제로 물고 있는 nm-* 부품 자동 발견 = 새 부품이 조용히 못 빠진다).
+# 260928 벤더 모듈(morphicons · 유튜브 탭 동적 import) = 부품 축 동일 계약(버전 교체 시 옛 판 잔류 차단)
+/vendor/morphicons/*
+  Cache-Control: no-cache
 /nm-sync.js
   Cache-Control: no-cache
 /nm-rail.js

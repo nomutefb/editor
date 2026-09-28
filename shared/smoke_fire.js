@@ -21,7 +21,7 @@
 //   · 외부 호스트 요청은 전량 abort + 카운트 = 유출 0 검증.
 //
 // 원커맨드:  node shared/smoke_fire.js        (종료코드 0 = 코어 전부 PASS)
-// 담당 표면: viewer/{thumb,tr,edit,sb,k,song,vd}.html 도크 발사 버튼 ↔ functions/api/*
+// 담당 표면: viewer/{thumb,tr,edit,sb,k,song,vd,ys}.html 도크 발사 버튼 ↔ functions/api/*
 // ═══════════════════════════════════════════════════════════════════════════════
 'use strict';
 const path = require('path');
@@ -50,6 +50,7 @@ const SHELLS = [
       { ko: '프롬프팅', src: '/k.html', go: '#go', api: ['/api/k'] },
       { ko: '음원', src: '/song.html', go: '#optGo', api: ['/api/song', '/api/voice'] },
       { ko: '큐영상', src: '/vd.html', go: '#go', api: ['/api/vd'] },
+      { ko: '유튜브', src: '/ys.html', go: '#go', api: ['/api/ys'] },
     ] },
 ];
 const KEY = (s, t) => s.ko + '_' + t.ko;

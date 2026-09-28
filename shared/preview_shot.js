@@ -11,7 +11,7 @@
 //   만드셈" = §3-5 레일 무조건 상속의 관측 장치). 구판은 이미지 5탭만 찍어서, 영상 5탭이 뒤처져도(전체창 미적용·
 //   도크 순흑 잔류 = 260802 실측) 이 실측기에 **한 번도 안 걸렸다**. 그 사각을 닫는다.
 //     · 이미지 스튜디오(thumb) 5탭 = 카드생성·편집·번역·AI생성·특수
-//     · 영상 스튜디오(cap)   5탭 = 편집·콘티·프롬프팅·음원·큐영상
+//     · 영상 스튜디오(cap)   6탭 = 편집·콘티·프롬프팅·음원·큐영상·유튜브
 //
 // 원커맨드:
 //   node shared/preview_shot.js base                 ← 손대기 전에 1회(기준 저장 · 2셸 10탭)
@@ -60,6 +60,7 @@ const SHELLS = [
     tabs: [
       { ko: '편집', src: '/edit.html' }, { ko: '콘티', src: '/sb.html' }, { ko: '프롬프팅', src: '/k.html' },
       { ko: '음원', src: '/song.html' }, { ko: '큐영상', src: '/vd.html' },
+      { ko: '유튜브', src: '/ys.html' },
     ] },
 ];
 const PICKED = SHELLS.filter(s => SHELL_ARG === 'all' || SHELL_ARG === s.key || SHELL_ARG === s.ko);

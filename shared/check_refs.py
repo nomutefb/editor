@@ -194,7 +194,7 @@ def _new_dead_tokens(rel='viewer/index.html'):
 # 명시 면제(암묵 사각 금지 · Q165 §4 스코프 결정): viewer/tokens.html = 자체 :root 독립(index 주석
 #   '자체 :root라 무관' 명시 · 내부 데이터뷰) · viewer/enneagram/* = 자기완결 이식 앱(자체 팔레트·README)
 #   — baseline 강제 = 팔레트 예외 침해라 게이트 제외. 재편입 = 운영자 지시로만.
-VIEWERS_ALL = ('viewer/index.html', 'viewer/thumb.html', 'viewer/ly.html', 'viewer/k.html', 'viewer/track.html', 'viewer/conv.html', 'viewer/edit.html', 'viewer/song.html', 'viewer/nb.html', 'viewer/sb.html', 'viewer/lucy.html')
+VIEWERS_ALL = ('viewer/index.html', 'viewer/thumb.html', 'viewer/ly.html', 'viewer/k.html', 'viewer/track.html', 'viewer/conv.html', 'viewer/edit.html', 'viewer/song.html', 'viewer/nb.html', 'viewer/sb.html', 'viewer/lucy.html', 'viewer/ys.html')
 VIEWERS_TOOLS = tuple(v for v in VIEWERS_ALL if v != 'viewer/index.html')   # index 제외 게이트용(index = 값 SSOT 본체)
 
 # 머지 가산·복붙 중복 등으로 viewer 인라인 <script>에 SyntaxError(예: let 재선언)가 들어가면
@@ -2206,7 +2206,7 @@ def check_clip_coverage():
 #   면제 = check_clip_coverage와 같은 경계(_CLIP_EXEMPT_CLS 숫자칩·PIN) 재사용 = 손 목록 이중화 0.
 _INCANON_SSOT = 'viewer/nm-input.css'
 _INCANON_SRC = 'viewer/thumb.html'
-_INCANON_WIRED = ('viewer/tr.html', 'viewer/index.html')
+_INCANON_WIRED = ('viewer/tr.html', 'viewer/index.html', 'viewer/ys.html')
 _INCANON_IDS = {   # 셸 문서(뉴스 앱 동거)라 전수 스캔이 부적격한 표면의 계약 칸 — 늘리려면 사유와 함께 1줄
     ('viewer/index.html', 'geniWish'),   # AI 생성 「내용」 = 260804 활자·박스·창 3연속 드리프트의 그 칸
 }
@@ -3108,6 +3108,7 @@ _LAUNCH_BTNS = {   # 스튜디오 발사 버튼 레지스트리(selector → 규
     'viewer/song.html':  ['#optGo', '#sunoGo', '#lyriaGo', '#vApply'],
     'viewer/vd.html':    ['.go'],   # 큐영상 발사(id 규칙 없음 = 클래스 등재 · 260802 7차 — 미등재 탓에 height:var(--btn) 34 드리프트가 게이트 밖에 있었다)
     'viewer/sb.html':    ['.go'],   # 콘티 발사(동축 편입 260802 7차)
+    'viewer/ys.html':    ['.go'],   # 유튜브 발사(260928 · vd 동문 클래스 등재 — #go id 규칙은 도크 테두리 .2 :where 오버라이드를 특이도로 죽인다)
 }
 _CSS_RULE = re.compile(r'^([^\n{}]*?)\{([^{}]*)\}', re.M)   # 단일레벨 CSS 규칙(prelude{body}) — 발사 규칙은 전부 한 줄
 
@@ -3149,11 +3150,13 @@ _DOCK_READBACK_STRIPS = {   # file → [리드백 스트립 div id](정적 콘�
     'viewer/thumb.html': ['editSpec'],
     'viewer/tr.html':    ['trSpec'],
     'viewer/vd.html':    ['spec'],       # 큐영상 도크 편입(260802) — 정적 내용 0·리드백은 syncSpec 단독 생성
+    'viewer/ys.html':    ['spec'],       # 유튜브 도크(260928) — 정적 내용 0·리드백은 paintSpec 단독 생성
 }
 _DOCK_ACTIVE_BTNS = {   # file → [상시 활성 발사 버튼 id](입력-disabled 금지)
     'viewer/thumb.html': ['go'],
     'viewer/tr.html':    ['go'],
     'viewer/vd.html':    ['go'],         # 큐영상 발사 = 상시 활성(0건 클릭 = shake 안내)
+    'viewer/ys.html':    ['go'],         # 유튜브 발사 = 상시 활성(주소 미입력 클릭 = shake + 사유 안내)
 }
 
 def check_imgstudio_dock_spec():
@@ -3225,7 +3228,7 @@ _TRAIL_EMPTY_PRED = ':not(:has(.trail-g>button:not([hidden]))):not(:has(.trail-v
 #   게이트가 이 개정을 미추적해 main 적색이던 드리프트 봉합(260802) — 타 표면 = 직계 button 정본 유지.
 _TRAIL_EMPTY_PRED_BY = {'viewer/thumb.html': ':not(:has(.trail-g.cpv-tool:not([hidden]))):not(:has(.trail-v:not(.none))){display:none'}
 _TRAIL_SURFACES_DECL = ('viewer/thumb.html', 'viewer/tr.html', 'viewer/index.html',
-                        'viewer/edit.html', 'viewer/k.html', 'viewer/song.html', 'viewer/vd.html')
+                        'viewer/edit.html', 'viewer/k.html', 'viewer/song.html', 'viewer/vd.html', 'viewer/ys.html')
 
 
 def _trail_surfaces():
@@ -3389,7 +3392,7 @@ def check_result_rail_parity():
       E 영상 표면 손 목록이라 새 탭이 조용히 빠짐 F link href 실존 미검사 G `<template>` 격리 H **정적↔상속 이관이 위양성으로 막힘**(이 레포가 실제로 한 일)
     3차 = ⓐ 주석·template 제거 후 판정 ⓑ 클래스 토큰 집합 ⓒ script 태그 **안**에서 src∧data-scope 동시 ⓓ 문자 거리 폐기 → **형제 인접**(사이에 여는 태그 0)
       ⓔ 표면 자동발견 + **하한 고정**(이미지 3·영상 5 = 1개씩 빠지는 드리프트에 fail-closed) ⓕ link href 파일 실존."""
-    IMG_MIN, CAP_MIN = 3, 5   # 하한 = 현행 표면 수(1개씩 조용히 빠지는 드리프트 차단 · 신설 표면은 이 값을 올린다)
+    IMG_MIN, CAP_MIN = 3, 6   # 하한 = 현행 표면 수(1개씩 조용히 빠지는 드리프트 차단 · 신설 표면은 이 값을 올린다)
     def _strip(t):   # 주석·template = 런타임 미도달 = 판정 전 제거(형제 게이트 관례 계승)
         t = _re.sub(r'<!--.*?-->', '', t, flags=_re.S)
         return _re.sub(r'<template[^>]*>.*?</template>', '', t, flags=_re.S)
@@ -3487,7 +3490,7 @@ def check_cap_rail_land():
     """
     import glob as _g, re as _re
     rc = 0
-    CAP_MIN = 5   # 하한 = 현행 영상 탭 수(상속이 조용히 빠지면 fail-closed · 신설 탭은 이 값을 올린다)
+    CAP_MIN = 6   # 하한 = 현행 영상 탭 수(상속이 조용히 빠지면 fail-closed · 신설 탭은 이 값을 올린다)
     LAND = _re.compile(r'nmRail\.add\s*\(|(?<!function )\b[A-Za-z_$][\w$]*Land\s*\(')   # 착지 = 직접 적재 ∨ 착지 헬퍼 호출(sbLand·bgLand — 함수 **정의** 줄은 lookbehind로 제외)
     DEMOTE = _re.compile(r'!\s*_m\b|!\s*mine\s*\(\s*\)')   # 강등 분기 = 「지금은 내가 화면 주인이 아니다」 판정
     surfaces, bad = [], []
@@ -5494,7 +5497,7 @@ def check_nm_jobs():
     둘 다 화면 증상이 「아무 일도 안 일어남」뿐이라 렌더 스모크·정적 문자열 게이트가 전부 통과했고 운영자 눈이
     유일한 검출기였다. 런타임 짝 = `shared/smoke_jobsq.js`(2건 동시 생존 실렌더) — 정적·런타임 두 겹이라야
     새 탭이 조용히 빠질 구멍이 없다(check_nm_sync 자동발견 관례 계승 · 면책표 없이 하드 0)."""
-    core = ['edit.html', 'sb.html', 'k.html', 'song.html', 'vd.html']   # 영상 스튜디오 5탭 = 큐잉 표면
+    core = ['edit.html', 'sb.html', 'k.html', 'song.html', 'vd.html', 'ys.html']   # 영상 스튜디오 6탭 = 큐잉 표면
     vdir = os.path.join(ROOT, 'viewer')
     bad = []
     mp = os.path.join(vdir, 'nm-jobs.js')
@@ -5543,7 +5546,7 @@ def check_nm_sync():
     표면 = 고정 7(thumb·tr·edit·sb·k·song·vd) + 자동 발견(`window.nmRefresh` 훅 보유 = 동기화 생태계 참여 선언 → 상속 의무 —
     새 탭이 조용히 빠질 수 없다 · check_trail_spec 자동발견 동축). 모듈 자체도 3축 골격(/nm-sync.js 프로브 · /?nosw=1 재진입 ·
     HEAD ETag 대조)을 잃으면 FAIL = 속을 비우는 조용한 무력화 차단."""
-    core = ['thumb.html', 'tr.html', 'edit.html', 'sb.html', 'k.html', 'song.html', 'vd.html']
+    core = ['thumb.html', 'tr.html', 'edit.html', 'sb.html', 'k.html', 'song.html', 'vd.html', 'ys.html']
     vdir = os.path.join(ROOT, 'viewer')
     bad = []
     try:
