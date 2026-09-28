@@ -69,7 +69,7 @@ class RulesFile(unittest.TestCase):
 class Scanner(unittest.TestCase):
     RULE_CASES = [   # (id, 양성 표본, 기대 수, 음성 표본 — 정본 유지 조건)
         ("A1", "경찰에 의해 확인된 사실이 발생되어진다.", 2, "경찰이 확인한 사실이 발생한다."),
-        ("A2", "안전과 관련해 밝혔다. 데이터에 기반하여 정했다.", 2, "규제에 대해 논의했다. 절차를 통해 결정했다."),
+        ("A2", "규제에 대해 논의했다. 절차를 통해 결정했다.", 2, "규제를 논의했다."),
         ("A3", "경쟁력을 가지고 있다. 합의가 이루어졌다.", 2, "경쟁력이 강하다. 합의했다."),
         ("D1", "결론적으로 주목할 만하다.", 2, "결론은 표준화다."),
         ("G1", "오를 가능성이 있을 수 있다.", 1, "오른다."),
@@ -97,11 +97,8 @@ class Scanner(unittest.TestCase):
         self.assertEqual(kts.scan("오를 것으로 보인다. 내릴 것으로 보인다.")["G1"], 1)           # 2회째부터
         self.assertEqual(kts.scan("오를 것으로 보인다고 밝혔다. 내릴 것으로 보인다고 말했다.")["G1"], 0)   # 귀속 발화
         self.assertEqual(kts.scan("갈 수 있다. 올 수 있다.")["A4"], 2)
-        self.assertEqual(kts.score("갈 수 있다. 올 수 있다. 볼 수 있다는 말이다."), 0)   # A4 임계 = 4회째부터(260928 · 가능형 기본 보존)
-        self.assertEqual(kts.score("갈 수 있다. 올 수 있다. 볼 수 있다는 말이다. 살 수 있다고 한다."), 1)   # A4 초과 1 · 종결 변주라 R1 0
-        # A2 '에 대해/통해' = 사람이 더 쓰는 표현(260928) — 문단당 3회째부터 초과분만 · 빈 줄로 나뉜 문단은 따로 센다.
-        self.assertEqual(kts.scan("A에 대해 말했다. B에 대해 썼다. C를 통해 알렸다.")["A2"], 1)
-        self.assertEqual(kts.scan("A에 대해 말했다. B에 대해 썼다.\n\nC를 통해 알렸다. D를 통해 봤다.")["A2"], 0)
+        self.assertEqual(kts.score("갈 수 있다. 올 수 있다."), 0)                    # A4 임계 = 3회째부터
+        self.assertEqual(kts.score("갈 수 있다. 올 수 있다. 볼 수 있다는 말이다."), 1)   # A4 초과 1 · 종결 변주라 R1 0
         self.assertEqual(kts.scan("값이 높았다. 양이 많았다. 질이 좋았다.")["R1"], 1)   # 종결 '았다' 3연속
         self.assertEqual(kts.scan("값이 높았다. 양이 는다. 질이 좋았다.")["R1"], 0)
 
@@ -134,7 +131,7 @@ class Scanner(unittest.TestCase):
         md = ("---\ntitle: x\n---\n### [자유요약 — 약 100자]\n```text\n본문 A.\n```\n### [IG — 1/800자]\n```text\n본문 B.\n```\n"
               "### [Thread — 약 300자]\n```text\n헤드 라임 줄.\n\n📍 본문 T.\n```\n### 💡 이 기사의 시사점\n시사 C.\n<!-- rev 1 260908-1200: 에 대해 빼고 결론적으로 넣어 -->\n")
         lt = kts.lane_text(md)
-        self.assertEqual(lt, "본문 A.\n\n본문 B.\n\n📍 본문 T.\n\n시사 C.")   # 블록 사이 빈 줄 = A2 문단 밀집은 블록별
+        self.assertEqual(lt, "본문 A.\n본문 B.\n📍 본문 T.\n시사 C.")
         self.assertEqual(kts.score(lt), 0)              # 지시문(에 대해·결론적으로)이 채점되지 않는다
 
 

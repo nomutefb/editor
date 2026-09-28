@@ -9,7 +9,6 @@
 260908 리뷰 반영(queue 28건 실측: 점수의 ~80%가 정본이 '유지'로 적은 용례): 정본이 "연발·한 문장 3회+"로 적은 규칙은
   건당이 아니라 초과분만 센다 — S1(-적 한 문장 3회+ · 개념어 '법률·사·공' 추가) · H1(문두 접속사 연속 문장) ·
   I1(형식명사 종결 연속 + '라는 점에 있다') · G1(이중 완곡 건당 + 보인다/판단된다 2회째부터 · "~고 했다" 귀속 발화 제외).
-260928 im-not-ai v2.8 동기화: A2 의 '에 대해/통해'는 문단 3회+ 초과분만(사람이 더 쓰는 표현) · A4 는 4회째부터(가능형 기본 보존).
   S4 는 보도 관용·분열문("중요한 것은 속도다")·인용 사고("~이라는 것")를 뺀다. 레인 = summary(기본) | card —
   카드는 윤문체(정본 [윤문 추가축])라 S2·S3·S6 도 규칙으로 더한다(rule_ids(lane)).
   ⚠ 여전히 근사 측정기다: 판정 근거로 쓸 땐 반드시 표본을 사람이 다시 본다(히트 수 단독 판정 금지).
@@ -43,9 +42,9 @@ REPORT_VERB = r'(?:파악|알려|전해|보|집계|추정|확인|나타|분석|�
 
 RULES = [   # (id, label, regex|None, kind)  kind = rule(전 레인 규칙) | card(카드 레인만 규칙 · 요약은 관측) | obs(관측)
     ('A1', '이중 피동·에 의해', re.compile(r'에 의해|되어진|되어졌|되어지'), 'rule'),
-    ('A2', '와 관련/기반(건당) + 에 대해/통해(문단 3회+ 초과분)', re.compile(r'[와과] 관련(?:해|하여|된)|에 기반하여'), 'rule'),
+    ('A2', '~에 대해/와 관련/기반/통해', re.compile(r'에 대해(?:서)?(?=[ ,.]|$)|[와과] 관련(?:해|하여|된)|에 기반하여|[를을] 통해'), 'rule'),
     ('A3', '가지고 있다·이루어지다', re.compile(r'가지고 있|이루어지|이루어졌'), 'rule'),
-    ('A4', '~할 수 있다(4회+부터)', re.compile(r'수 있다'), 'rule'),
+    ('A4', '~할 수 있다(3회+부터)', re.compile(r'수 있다'), 'rule'),
     ('D1', 'AI 관용구', re.compile(r'결론적으로|시사하는 바|주목할 만|할 때입니다'), 'rule'),
     ('G1', '이중 완곡(건당) + 보인다/판단된다 2회째부터(귀속 발화 제외)', None, 'rule'),
     ('H1', '문두 접속사 연속 문장', None, 'rule'),
@@ -68,8 +67,6 @@ JEOK_RE = re.compile(r'([가-힣]{1,4})적(?:으로|인|이다|이며|이고|일
 CONJ_RE = re.compile(r'^(?:또한|따라서|즉|나아가|아울러|한편|그리고|그러나|하지만)[ ,]')
 NOMEND_RE = re.compile(r'(?:것이다|다는 뜻이다|라는 의미다|필요가 있다)[.!?"”’)\s]*$')
 POINT_RE = re.compile(r'라는 점에 있다')
-A4_FREE = 3   # '~할 수 있다' 무료 횟수 — 정본 [공용] = 같은 형태 4회+ 반복만(im-not-ai A-10 v2.4) · card_gate 행 표시도 이 값
-DENSE_A2_RE = re.compile(r'에 대해(?:서)?(?=[ ,.]|$)|[를을] 통해')   # 사람이 더 쓰는 표현(im-not-ai v2.6.1) = 문단 밀집만
 HEDGE_RE = re.compile(r'(?:것으로 보인다|로 판단된다)(?!고 (?:했|말했|밝혔|전했|설명했|덧붙였|봤|본다))')
 DOUBLE_HEDGE_RE = re.compile(r'가능성이 있을 수')
 VERBISH_RE = re.compile(r'(?:한다|된다|있다|없다|했다|됐다|않는다|않았다|린다|난다|진다|겠다)\s*$')
@@ -109,7 +106,7 @@ def lane_text(md):
             m = rx.search(md)
             if m:
                 parts.append(_drop_head(m.group(1)) if rx is TH_RE else m.group(1))
-    return '\n\n'.join(p.strip() for p in parts) if parts else md   # 블록 사이 빈 줄 = A2 문단 밀집을 블록별로
+    return '\n'.join(p.strip() for p in parts) if parts else md
 
 
 def _sentences(text):
@@ -189,9 +186,6 @@ def scan(text):
                     continue                       # 분열문 '중요한 것은 속도다'
                 n += 1
             out['S4'] = n
-        elif rid == 'A2':
-            dense = sum(max(0, len(DENSE_A2_RE.findall(p)) - 2) for p in re.split(r'\n\s*\n', t))
-            out['A2'] = len(rx.findall(t)) + dense     # 에 대해/통해 = 문단당 3회째부터(정본 [공용])
         elif rid == 'G1':
             out['G1'] = len(DOUBLE_HEDGE_RE.findall(t)) + max(0, len(HEDGE_RE.findall(t)) - 1)
         elif rid == 'H1':
@@ -213,13 +207,13 @@ def rule_ids(lane='summary'):
 
 
 def score(text, lane='summary'):
-    """규칙 축 합 — A4(수 있다)는 4회째부터, 나머지는 건당 1(연발 규칙은 scan 이 이미 초과분만 낸다)."""
+    """규칙 축 합 — A4(수 있다)는 3회째부터, 나머지는 건당 1(연발 규칙은 scan 이 이미 초과분만 낸다)."""
     s = scan(text)
     total = 0
     for rid in rule_ids(lane):
         v = s.get(rid, 0)
         if rid == 'A4':
-            v = max(0, v - A4_FREE)
+            v = max(0, v - 2)
         total += v
     return total
 
