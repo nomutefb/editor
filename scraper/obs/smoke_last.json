@@ -1,5 +1,5 @@
 {
- "updated": "2026-09-28T06:33:16+09:00",
+ "updated": "2026-09-29T08:29:59+09:00",
  "rc": 0,
  "fail": "",
  "jobs": {
@@ -35,10 +35,12 @@
   "smoke_wip": "0"
  },
  "failed": [],
- "flaky": [],
+ "flaky": [
+  "smoke_clickshield"
+ ],
  "details": [],
  "run": {
-  "id": "36351839008",
-  "url": "https://github.com/nomutefb/editor/actions/runs/36351839008"
+  "id": "36497723370",
+  "url": "https://github.com/nomutefb/editor/actions/runs/36497723370"
  }
 }
